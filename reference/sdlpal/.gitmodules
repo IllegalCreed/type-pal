@@ -1,0 +1,12 @@
+[submodule "3rd/googletest"]
+	path = 3rd/googletest
+	url = ../googletest
+[submodule "3rd/SDL"]
+	path = 3rd/SDL
+	url = ../SDL.git
+[submodule "3rd/mingw-std-threads"]
+	path = 3rd/mingw-std-threads
+	url = ../mingw-std-threads.git
+[submodule "scripts"]
+	path = scripts
+	url = ../scripts.git

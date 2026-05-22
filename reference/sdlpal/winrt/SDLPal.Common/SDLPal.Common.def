@@ -1,0 +1,27 @@
+LIBRARY
+EXPORTS
+	fopen=WRT_fopen
+	_wfopen=WRT_wfopen
+	fopen_s=WRT_fopen_s
+	fclose=WRT_fclose
+	fread=WRT_fread
+	fwrite=WRT_fwrite
+	feof=WRT_feof
+	_ftelli64=WRT_ftelli64
+	_fseeki64=WRT_fseeki64
+	fseek=WRT_fseek
+	ftell=WRT_ftell
+	fputc=WRT_fputc
+	fputs=WRT_fputs
+	fgetc=WRT_fgetc
+	fgets=WRT_fgets
+	access=WRT_access
+	_access=WRT_access
+	access_s=WRT_access
+	fgetpos=WRT_fgetpos
+	fsetpos=WRT_fsetpos
+	_fileno=WRT_fileno
+	_filelengthi64=WRT_filelengthi64
+
+	get_special_files_map
+	get_special_folders_map

@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.sdlpal.sdlpal.SettingsActivity"
+    tools:showIn="@layout/activity_settings">
+
+    <ScrollView
+        android:id="@+id/svParent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:focusable="true" 
+            android:focusableInTouchMode="true"
+            >
+
+            <TextView
+                android:id="@+id/autotext"
+                android:nextFocusUp="@id/autotext" 
+                android:nextFocusLeft="@id/autotext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_folder"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="-1dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/edFolder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textUri"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="16dp" />
+                <Button
+                    android:id="@+id/btnBrowseFolder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/action_browse" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swMsgFile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_usemsgfile"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="191dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/edMsgFile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textUri" />
+
+                <Button
+                    android:id="@+id/btnBrowseMsgFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/action_browse" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swFontFile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_usefontfile" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/edFontFile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:layout_weight="1"
+                    android:inputType="textUri" />
+                <Button
+                    android:id="@+id/btnBrowseFontFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/action_browse" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swTouch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_touch"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="228dp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swAVI"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_avi"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="228dp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swAspect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_aspect"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="269dp" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/texture_width" />
+
+            <EditText
+                android:id="@+id/edTextureWidth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/texture_height" />
+
+            <EditText
+                android:id="@+id/edTextureHeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swEnableGLSL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enable_glsl"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="228dp" />
+
+            <LinearLayout
+                android:id="@+id/glslBlock"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edShader"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:inputType="textUri" />
+
+                    <Button
+                        android:id="@+id/btnBrowseShader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/action_browse" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/swEnableHDR"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_hdr"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="228dp" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swStereo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_stereo"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="311dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_musvol" />
+
+            <SeekBar
+                android:id="@+id/sbMusVol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_sfxvol" />
+
+            <SeekBar
+                android:id="@+id/sbSFXVol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_quality" />
+
+            <SeekBar
+                android:id="@+id/sbQuality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="4" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_audrate" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spSample"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/audio_rate"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_bufsize" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spBuffer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/buffer_size" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_cdfmt" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spCDFmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/cd_format" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_musfmt" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spMusFmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/music_format" />
+
+            <LinearLayout
+                android:id="@+id/layoutOPL"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_oplrate" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spOPLRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/opl_rate" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_oplcore" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spOPLCore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/opl_core" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_oplchip" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spOPLChip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/opl_chip" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/swSurround"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/action_suropl" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_loglevel" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spLogLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/log_level" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swLogFile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_uselogfile" />
+
+            <EditText
+                android:id="@+id/edLogFile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textUri" />
+
+            <androidx.gridlayout.widget.GridLayout
+                app:columnCount="3"
+                app:rowCount="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btnDefault"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/action_default"
+                    app:layout_column="0"
+                    app:layout_columnWeight="1" />
+
+                <Button
+                    android:id="@+id/btnReset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/action_restore"
+                    app:layout_column="1"
+                    app:layout_columnWeight="1" />
+
+                <Button
+                    android:id="@+id/btnFinish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/action_finish"
+                    app:layout_column="2"
+                    app:layout_columnWeight="1" />
+            </androidx.gridlayout.widget.GridLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</android.widget.LinearLayout>

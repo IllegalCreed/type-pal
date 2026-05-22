@@ -1,0 +1,15 @@
+node_modules/
+dist/
+build/
+coverage/
+*.log
+.DS_Store
+.idea/
+.vscode/
+
+# 原版游戏数据(版权属于大宇/软星,不入库)
+data/raw/*
+!data/raw/README.md
+
+# pal-extract 的产出(由原始数据生成,不入库)
+data/extracted/

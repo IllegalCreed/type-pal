@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  SDLPal
+
+  Created by palxex on 2017/6/12.
+  Copyright © 2017年 SDLPAL team. All rights reserved.
+*/
+"Cannot find data file in the iTunes File Sharing directory" = "无法在iTunes共享文件夹中找到游戏数据文件";
+
+"NOTE: For copyright reasons data files required to run the game are NOT included." = "注意：由于版权问题，数据文件无法提供。请自行从Steam购买正版仙剑奇侠传并解压拷贝到手机中。";
+"Shader must be specified on GLSL enabled" = "在启用GLSL时必须选择Shader文件";
+
+"OPL Synthesizer" = "OPL核心";
+"MIDI Synthesizer" = "MIDI合成器";
+"OPL Chip" = "OPL芯片";
+"SoundBank" = "音色库";

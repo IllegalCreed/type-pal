@@ -1,0 +1,144 @@
+﻿<Page
+    x:Class="SDLPal.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SDLPal"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Loaded="Page_Loaded">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer HorizontalScrollMode="Disabled">
+            <StackPanel VerticalAlignment="Top" Margin="10,0,20,10">
+                <TextBlock Text="SDLPAL" FontSize="48" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Uid="Title" Text="设置模式" FontSize="28" VerticalAlignment="Center" Grid.Column="0" />
+                    <TextBlock x:Name="tbGitRevision" VerticalAlignment="Bottom" Grid.Column="1" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="tbGamePath" x:Uid="GamePath" Grid.Column="0" TextWrapping="Wrap" VerticalAlignment="Top" Header="游戏资源文件夹" IsReadOnly="True" PlaceholderText="未选择游戏资源文件夹"/>
+                    <Button x:Name="btnBrowseGame" x:Uid="ButtonBrowse" Grid.Column="1" Content="浏览" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="btnBrowseFolder_Click" />
+                </Grid>
+                <CheckBox x:Name="cbUseMsgFile" x:Uid="UseMessageFile" Content="自定义语言文件" Checked="cbUseFile_CheckChanged" Unchecked="cbUseFile_CheckChanged" />
+                <Grid x:Name="gridMsgFile">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="tbMsgFile" x:Uid="MessageFile" Grid.Column="0" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="无自定义语言文件" IsReadOnly="True"/>
+                    <Button x:Name="btnBrowseMsgFile" x:Uid="ButtonBrowse" Grid.Column="1" Content="浏览" HorizontalAlignment="Right" Click="btnBrowseFileOpen_Click" />
+                </Grid>
+                <CheckBox x:Name="cbUseFontFile" x:Uid="UseFontFile" Content="自定义字体文件" Checked="cbUseFile_CheckChanged" Unchecked="cbUseFile_CheckChanged" />
+                <Grid x:Name="gridFontFile">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="tbFontFile" x:Uid="FontFile" Grid.Column="0" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="无自定义字体文件" IsReadOnly="True"/>
+                    <Button x:Name="btnBrowseFontFile" x:Uid="ButtonBrowse" Grid.Column="1" Content="浏览" HorizontalAlignment="Right" Click="btnBrowseFileOpen_Click" />
+                </Grid>
+                <ToggleSwitch x:Name="tsTouchOverlay" x:Uid="TouchOverlay" Header="启用触屏辅助" OffContent="否" OnContent="是" />
+                <ToggleSwitch x:Name="tsKeepAspect" x:Uid="AspectRatio" Header="保持纵横比" OffContent="否" OnContent="是" />
+                <TextBox x:Name="tbWindowWidth" x:Uid="WindowWidth" TextWrapping="Wrap" VerticalAlignment="Top" Header="窗口宽度" PlaceholderText="640" InputScope="Number"/>
+                <TextBox x:Name="tbWindowHeight" x:Uid="WindowHeight" TextWrapping="Wrap" VerticalAlignment="Top" Header="窗口高度" PlaceholderText="400" InputScope="Number"/>
+                <TextBox x:Name="tbTextureWidth" x:Uid="TextureWidth" TextWrapping="Wrap" VerticalAlignment="Top" Header="纹理线宽" PlaceholderText="320" InputScope="Number"/>
+                <TextBox x:Name="tbTextureHeight" x:Uid="TextureHeight" TextWrapping="Wrap" VerticalAlignment="Top" Header="纹理线长" PlaceholderText="200" InputScope="Number"/>
+                <ToggleSwitch x:Name="tsEnableAVI" x:Uid="EnableAVI" Header="启用 AVI 过场动画" OffContent="否" OnContent="是" />
+                <CheckBox x:Name="cbEnableGLSL" x:Uid="EnableGLSL" Content="启用GLSL滤镜" Checked="cbEnableGLSL_CheckChanged" Unchecked="cbEnableGLSL_CheckChanged" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <Grid x:Name="gridGLSL">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBox x:Name="tbShaderFile" x:Uid="ShaderFile" Grid.Column="0" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="无自定义Shader" IsReadOnly="True"/>
+                    <Button x:Name="btnBrowseShaderFile" x:Uid="ButtonBrowse" Grid.Column="1" Content="浏览" HorizontalAlignment="Right" Click="btnBrowseFileOpen_Click" />
+                    <ToggleSwitch Grid.Row="1" x:Name="tsEnableHDR" x:Uid="EnableHDR" Header="启用HDR" OffContent="否" OnContent="是" />
+                </Grid>
+                <ToggleSwitch x:Name="tsStereo" x:Uid="Stereo" Header="立体声" OffContent="否" OnContent="是" />
+                <Slider x:Name="slMusicVolume" x:Uid="MusicVolume" Header="音乐音量" TickPlacement="Inline" TickFrequency="10" />
+                <Slider x:Name="slSoundVolume" x:Uid="SoundVolume" Header="音效音量" TickPlacement="Inline" TickFrequency="10" />
+                <Slider x:Name="slQuality" x:Uid="Quality" Header="音频质量" Maximum="4" LargeChange="1" TickFrequency="1" />
+                <ComboBox x:Name="cbSampleRate" x:Uid="Samplerate" HorizontalAlignment="Stretch" Header="音频输出采样率" PlaceholderText="选择音频输出采样率">
+                    <ComboBoxItem Content="11025"/>
+                    <ComboBoxItem Content="22050"/>
+                    <ComboBoxItem Content="44100"/>
+                </ComboBox>
+                <ComboBox x:Name="cbAudioBuffer" x:Uid="AudioBuffer" HorizontalAlignment="Stretch" Header="音频缓冲区大小" PlaceholderText="选择音频缓冲区大小">
+                    <ComboBoxItem Content="512"/>
+                    <ComboBoxItem Content="1024"/>
+                    <ComboBoxItem Content="2048"/>
+                    <ComboBoxItem Content="4096"/>
+                    <ComboBoxItem Content="8192"/>
+                </ComboBox>
+                <ComboBox x:Name="cbCD" x:Uid="CD" HorizontalAlignment="Stretch" Header="CD 音轨格式" PlaceholderText="选择 CD 音轨格式">
+                    <ComboBoxItem Content="None"/>
+                    <ComboBoxItem Content="MP3"/>
+                    <ComboBoxItem Content="OGG"/>
+                    <ComboBoxItem Content="OPUS"/>
+                </ComboBox>
+                <ComboBox x:Name="cbBGM" x:Uid="BGM" HorizontalAlignment="Stretch" Header="背景音乐格式" PlaceholderText="选择背景音乐格式" SelectionChanged="cbBGM_SelectionChanged">
+                    <ComboBoxItem Content="MIDI"/>
+                    <ComboBoxItem Content="RIX"/>
+                    <ComboBoxItem Content="MP3"/>
+                    <ComboBoxItem Content="OGG"/>
+                    <ComboBoxItem Content="OPUS"/>
+                </ComboBox>
+                <ComboBox x:Name="cbOPLCore" x:Uid="OPLCORE" HorizontalAlignment="Stretch" Header="OPL 模拟核心" PlaceholderText="选择 OPL 模拟核心">
+                    <ComboBoxItem Content="MAME"/>
+                    <ComboBoxItem Content="DBFLT"/>
+                    <ComboBoxItem Content="DBINT"/>
+                    <ComboBoxItem Content="NUKED"/>
+                </ComboBox>
+                <ComboBox x:Name="cbOPLChip" x:Uid="OPLCHIP" HorizontalAlignment="Stretch" Header="OPL 模拟芯片" PlaceholderText="选择 OPL 模拟芯片">
+                    <ComboBoxItem Content="OPL2"/>
+                    <ComboBoxItem Content="OPL3"/>
+                </ComboBox>
+                <ComboBox x:Name="cbOPLSR" x:Uid="OPLSR" HorizontalAlignment="Stretch" Header="OPL 模拟器采样率" PlaceholderText="选择 OPL 模拟器采样率">
+                    <ComboBoxItem Content="12429"/>
+                    <ComboBoxItem Content="24858"/>
+                    <ComboBoxItem Content="49716"/>
+                </ComboBox>
+                <ToggleSwitch x:Name="tsSurroundOPL" x:Uid="SurroundOPL" Header="环绕声 OPL" OffContent="否" OnContent="是" />
+                <ComboBox x:Name="cbLogLevel" x:Uid="LogLevel" HorizontalAlignment="Stretch" Header="日志记录级别" PlaceholderText="选择日志记录级别">
+                    <ComboBoxItem x:Uid="Verbose" Content="详细信息"/>
+                    <ComboBoxItem x:Uid="Debug" Content="调试信息"/>
+                    <ComboBoxItem x:Uid="Information" Content="运行信息"/>
+                    <ComboBoxItem x:Uid="Warning" Content="普通警告"/>
+                    <ComboBoxItem x:Uid="Error" Content="严重错误"/>
+                    <ComboBoxItem x:Uid="Fatal" Content="致命错误"/>
+                </ComboBox>
+                <CheckBox x:Name="cbUseLogFile" x:Uid="UseLogFile" Content="记录日志到文件" Checked="cbUseFile_CheckChanged" Unchecked="cbUseFile_CheckChanged" />
+                <Grid x:Name="gridLogFile">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="tbLogFile" x:Uid="LogFile" Grid.Column="0" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="无日志文件" IsReadOnly="True"/>
+                    <Button x:Name="btnBrowseLogFile" x:Uid="ButtonBrowse" Grid.Column="1" Content="浏览" HorizontalAlignment="Right" Click="btnBrowseFileSave_Click" />
+                </Grid>
+                <Grid VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnDefault" x:Uid="ButtonDefault" Grid.Column="0" Content="默认设置" HorizontalAlignment="Left" Click="btnDefault_Click" />
+                    <Button x:Name="btnReset" x:Uid="ButtonReset" Grid.Column="1" Content="还原设置" HorizontalAlignment="Center" Click="btnReset_Click" />
+                    <Button x:Name="btnFinish" x:Uid="ButtonFinish" Grid.Column="2" Content="完成设置" HorizontalAlignment="Right" Click="btnFinish_Click" />
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
