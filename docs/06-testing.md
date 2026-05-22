@@ -27,9 +27,17 @@ type-pal 是**忠实移植**(D3)。测试的主线不是凭空写期望值,而�
 
 战斗是公式最密、忠实风险最高的部分。差分测试:同一场景(队伍属性 + 敌队 + 固定 RNG 种子),在 sdlpal 和我们的 TS 各跑一遍,**逐回合比伤害数字**。
 
-- 编译 sdlpal:工具链已就绪(clang / SDL2 / make)。差分多半不需要带窗口的完整 sdlpal,而是给它的具体逻辑(战斗、解码)套**无头小程序**(headless,喂输入吐 JSON)。
-- **待做**:先做一个 sdlpal **构建 spike** 验证可编译,再建差分管线。
-- **待查**:sdlpal 自带的 `tests/` 目录、是否支持 demo 录制 / 回放。
+- **构建 spike 已完成**(2026-05-23):一行编出 `build/sdlpal/unix/sdlpal`(Mach-O arm64,5.8MB):
+
+  ```sh
+  brew install make sdl3   # 一次性
+  bash scripts/build-sdlpal.sh
+  ```
+
+  踩坑记录:① macOS 自带 GNU Make 3.81 太老,sdlpal 的 Makefile 模式变量优先级行为不对 → 需 GNU Make 4.x(`gmake`);② sdlpal master 已迁 SDL3;③ `sdl_compat/sdl_compat.h` 缺 `extern "C"` 守卫,导致 macOS unix Makefile 路径下 `native_midi.cpp` 链接报 `SDL_RWread` undefined —— 补丁在 `scripts/sdlpal-extern-c.patch`,构建脚本自动应用。
+
+- 差分管线多半不需要带窗口的完整 sdlpal,而是给它的具体逻辑(战斗、解码)套**无头小程序**(headless,喂输入吐 JSON)。M1 起按需做。
+- **待查**:sdlpal 自带的 `tests/` 目录(需要 `3rd/googletest` 子模块,目前是空的)、是否支持 demo 录制 / 回放。
 
 ## 渲染:截图快照
 
