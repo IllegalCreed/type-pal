@@ -1,0 +1,17 @@
+{
+  "name": "type-pal",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "pnpm -r run check",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "format": "biome format --write .",
+    "lint": "biome check ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.15",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.7"
+  }
+}

@@ -13,3 +13,6 @@ data/raw/*
 
 # pal-extract 的产出(由原始数据生成,不入库)
 data/extracted/
+
+# TypeScript 增量构建产物
+*.tsbuildinfo
