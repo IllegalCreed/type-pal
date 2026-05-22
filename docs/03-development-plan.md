@@ -9,8 +9,8 @@
 ## 里程碑
 
 ### M0 · 项目骨架与工具链
-- 建 pnpm workspace monorepo:`pal-extract` + `game` 两个 package。
-- TypeScript、Vite、Vitest 配好。基本 CI(类型检查 + 测试)。
+- 建 pnpm workspace monorepo:`pal-extract` / `game` / `shared` 三个 package(见 D19)。
+- TypeScript、Vite、Vitest、Biome 配好。一个本地 `pnpm check` 脚本(类型检查 + 测试)—— 不做 CI。
 - 仓库目录结构、README。
 
 ### M1 · pal-extract 打通最小链路
@@ -31,7 +31,7 @@
 
 ### M4 · 数据与脚本全量转换
 - `pal-extract` 覆盖所有 MKF 格式。
-- 字节码 → 结构化 `events.json` 转换器做全(含 goto 兜底)。
+- 字节码 → `events.json` 忠实转写器做全(见 D16、`05-events-schema.md`)。
 - 提取全部场景 / 物品 / 法术 / 怪物数据。
 
 ### M5 · 系统补全
@@ -40,7 +40,7 @@
 - 存档 / 读档(IndexedDB)。
 
 ### M6 · 体验补全
-- 音频:预转换的音乐 / 音效 / 语音接入。
+- 音频接入:CD 音轨(`TRACK*.ogg`)直接用;BGM(`.mid`)运行时 SpessaSynth 合成;音效从 `SOUNDS.MKF` 解包后接入。
 - AVI 过场转 mp4/webm 并接入。
 - 转场特效、调色板循环动画(水 / 火)。
 - 结局流程。
@@ -56,5 +56,10 @@
 
 ## 实现细节备注
 
-- **音频格式转换**:RIX 是 OPL FM 合成格式,ffmpeg 不直接认 —— 中间需要一个 OPL 渲染器先把 RIX 转成 wav,再转 ogg。属实现细节,到 M6 再处理。
+- **音频管线**(已按实际数据核对,见 `04-decisions.md` 数据核对结论):柔情版无 RIX,**不需要 OPL 渲染器**。
+  - AVI(msmpeg4v3 + mp3)→ ffmpeg 直接转 mp4/webm。
+  - CD 音轨 8 个 `.ogg`(Vorbis)→ 原样使用。
+  - BGM 86 个 `.mid` → 不预转换,原样进资源,运行时用 SpessaSynth 合成(见 D10),另配一个 SF3 音色库。
+  - 音效在 `SOUNDS.MKF` 内 → `pal-extract` 解包后再转 ogg。属实现细节,到 M6 再处理。
+- **测试基建**:测试策略见 `06-testing.md`。round-trip 验证随 events 转写器一起做;sdlpal 差分 harness、`.RPG` 解析、dev 调试面板、输入录制 / 回放 在 M1–M3 按需逐步搭。
 - 每个里程碑进入实现前,应单独写一份实现计划(plan),再编码。

@@ -10,11 +10,11 @@
 - **参考而非 fork**:sdlpal 的 C 源码作为引擎逻辑的"规格说明书"(战斗公式、脚本语义、数据格式),我们照着它用 TS 重写。
 - **个人自用**:自己游玩,不公开发布。
 
-## 当前状态(2026-05-22)
+## 当前状态(2026-05-23)
 
-处于**方案设计阶段**。可行性已确认,核心架构已定,详见 `docs/`。
+**方案设计阶段已完成。** 可行性、架构、渲染、表现/外壳层、events.json schema、技术栈、符号方案全部敲定,详见 `docs/`。原版数据已就位并核对。
 
-设计讨论尚未完全结束 —— 表现层/外壳层细节、事件 JSON 的精确 schema、技术栈细节待定。下一步:在本项目里新开对话继续细化方案,然后进入实现。
+下一步:进入实现,从 `docs/03-development-plan.md` 的 M0(项目骨架与工具链)开始。
 
 ## 仓库结构
 
@@ -22,10 +22,12 @@
   - `01-feasibility.md` 背景与可行性
   - `02-architecture.md` 架构设计
   - `03-development-plan.md` 开发计划 / 里程碑
-  - `04-decisions.md` 决策记录与待定问题
+  - `04-decisions.md` 决策记录(D1–D21)
+  - `05-events-schema.md` events.json 格式设计
+  - `06-testing.md` 测试策略
 - `reference/sdlpal/` —— sdlpal 源码,作为引擎逻辑参考(见 `reference/README.md`)
 - `data/raw/` —— 放原版 98 柔情版数据文件的地方(见 `data/raw/README.md`)
 
 ## 怎么继续
 
-在本目录新开一个对话,让 AI 先读 `docs/` 全部 4 个文件和 `reference/README.md`,即可接着设计/实现。
+在本目录新开一个对话,让 AI 先读 `docs/` 全部 6 个文件和 `reference/README.md`,即可接着实现。从 M0 开始。
