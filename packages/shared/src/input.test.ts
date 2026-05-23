@@ -1,0 +1,29 @@
+import { describe, it, expect, expectTypeOf } from 'vitest'
+import type { AbstractKey, InputSnapshot, InputSource } from './input.js'
+
+describe('input types', () => {
+  it('AbstractKey 联合', () => {
+    expectTypeOf<AbstractKey>().toEqualTypeOf<
+      'Up' | 'Down' | 'Left' | 'Right' | 'Confirm' | 'Cancel' | 'Menu'
+    >()
+  })
+
+  it('InputSnapshot 字段', () => {
+    const snap: InputSnapshot = {
+      held: new Set<AbstractKey>(),
+      pressed: new Set<AbstractKey>(['Confirm']),
+      frameNum: 42,
+    }
+    expect(snap.frameNum).toBe(42)
+    expect(snap.pressed.has('Confirm')).toBe(true)
+  })
+
+  it('InputSource 接口', () => {
+    const src: InputSource = {
+      nextSnapshot(frameNum: number): InputSnapshot {
+        return { held: new Set(), pressed: new Set(), frameNum }
+      },
+    }
+    expect(src.nextSnapshot(0).frameNum).toBe(0)
+  })
+})
