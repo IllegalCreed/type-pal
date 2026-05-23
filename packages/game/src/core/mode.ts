@@ -1,11 +1,11 @@
 /**
  * 顶层模式机分发(02 架构)。
- * M2 只两态:explore → tickSceneSystem,event → tickEventSystem。
- * 注:scene-system / event-system 由 Task 9 / 10 实现,本文件在 Task 8 提交时
- *     typecheck 仍会因缺失模块报错,属预期,Task 9 / 10 落地后即解。
+ * M2:explore → tickSceneSystem,event → tickEventSystem。
+ * M3 (T14):battle → tickBattle(T14 stub,T22 真实现)。
  */
 
 import type { InputSnapshot } from '@type-pal/shared'
+import { tickBattle } from './battle/battle-system.js'
 import type { CommandBus } from './command-bus.js'
 import type { GameState } from './game-state.js'
 import { tickEventSystem } from './event-system.js'
@@ -19,6 +19,9 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
       break
     case 'event':
       tickEventSystem(gs, input, bus)
+      break
+    case 'battle':
+      tickBattle(gs, input, bus)
       break
   }
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createInitialGameState, npcFromEventObject, type Facing, type GameState } from './game-state.js'
+import { createInitialGameState, npcFromEventObject, type Facing, type GameState, type Mode } from './game-state.js'
 import type { SceneEventObject } from '@type-pal/shared'
 
 describe('GameState', () => {
@@ -11,6 +11,22 @@ describe('GameState', () => {
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.currentDialogStyle).toBe('center')
     expect(gs.frameNum).toBe(0)
+  })
+
+  it('初始态:partyMembers / inventory 默认空数组,battleState 缺省', () => {
+    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    expect(gs.partyMembers).toEqual([])
+    expect(gs.inventory).toEqual([])
+    expect(gs.battleState).toBeUndefined()
+  })
+
+  it('Mode 三态(M3 加 battle)', () => {
+    const modes: Mode[] = ['explore', 'event', 'battle']
+    expect(modes).toHaveLength(3)
+    // 类型层面允许赋值 'battle'(若被收窄会编译失败,代守护)
+    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    gs.mode = 'battle'
+    expect(gs.mode).toBe('battle')
   })
 
   it('Facing 四向', () => {

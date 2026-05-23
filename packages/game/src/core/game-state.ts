@@ -1,13 +1,19 @@
 /**
- * GameState —— 探索 / 事件模式下的单一真相源(02 架构 + D6)。
- * M2 只覆盖 explore / event 两态:战斗 / 菜单 / 转场留给 M3+。
+ * GameState —— 探索 / 事件 / 战斗模式下的单一真相源(02 架构 + D6)。
+ * M2 覆盖 explore / event;M3 (T14) 加 battle option(tickBattle 真实现 T22)。
  */
 
 import type { Command, DialogBoxStyle, SceneEventObject } from '@type-pal/shared'
 
 export type Facing = 'up' | 'down' | 'left' | 'right'
 
-export type Mode = 'explore' | 'event'
+export type Mode = 'explore' | 'event' | 'battle'
+
+/** 队伍成员的 role id(MKFNUM_PLAYERROLES),原版 max 5 在 party 中。 */
+export interface InventoryEntry {
+  itemId: number
+  count: number
+}
 
 export interface NpcState {
   id: number
@@ -35,11 +41,17 @@ export interface GameState {
   /** 相机中心瓦片坐标;SceneSystem 每 tick 跟随 party,带地图边界 clamp。 */
   camera: { col: number; row: number }
   npcs: NpcState[]
+  /** 队伍成员 role id 列表(T14 占位,M3 dev fixture 决定默认填充)。 */
+  partyMembers: number[]
+  /** 持有物品(T21 item action 用),数量为 0 不剔除由 add/sub 命令决定。 */
+  inventory: InventoryEntry[]
   mode: Mode
   eventCursor?: EventCursor
   dialogBox?: DialogBoxState
   /** 由 setDialogStyle* 命令累积。默认 'center'。 */
   currentDialogStyle: DialogBoxStyle
+  /** 战斗状态;T16 给真类型,T14 占位 unknown 不污染 explore/event。 */
+  battleState?: unknown
   frameNum: number
 }
 
@@ -50,6 +62,8 @@ export function createInitialGameState(
     party: partyStart,
     camera: { col: partyStart.col, row: partyStart.row },
     npcs: [],
+    partyMembers: [],
+    inventory: [],
     mode: 'explore',
     currentDialogStyle: 'center',
     frameNum: 0,
