@@ -63,4 +63,12 @@ describe('dumpScene', () => {
     expect(result.eventObjects[0]?.triggerLabel).toBeUndefined()
     expect(result.eventObjects[0]?.autoLabel).toBeUndefined()
   })
+
+  it('末场景兜底:sceneId = scenes.length - 1 → toIdx = eventObjects.length', () => {
+    const result = dumpScene(2, fakeScenes, fakeEventObjects)
+    expect(result.sceneId).toBe(2)
+    expect(result.mapNum).toBe(13)
+    // scene[2].eventObjectIndex=2,末场景兜底走 eventObjects.length=2 → 0 个对象
+    expect(result.eventObjects).toHaveLength(0)
+  })
 })

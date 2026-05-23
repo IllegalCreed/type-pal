@@ -72,6 +72,7 @@ describe('disasm entry-ip labeling', () => {
 })
 
 describe('setDialogStyle round-trip', () => {
+  // 映射参照 opcodes.ts(以 sdlpal script.c:3389-3426 为准);plan Task 3 模板里的初版猜测顺序已废弃,opcodes.ts 是权威。
   function buildBytecode(opcodes: number[]): Uint8Array {
     const buf = new Uint8Array(opcodes.length * 8)
     const view = new DataView(buf.buffer)
