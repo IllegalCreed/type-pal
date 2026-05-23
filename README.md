@@ -12,9 +12,9 @@
 
 ## 当前状态(2026-05-23)
 
-**方案设计阶段已完成。** 可行性、架构、渲染、表现/外壳层、events.json schema、技术栈、符号方案全部敲定,详见 `docs/`。原版数据已就位并核对。
+**M0 完成** —— pnpm monorepo 三包(`pal-extract` / `game` / `shared`)+ TS + Vite + Vitest + Biome 就绪。`pnpm check` 跑通类型检查与测试。设计阶段全部敲定(详见 `docs/`)。原版数据已就位并核对;sdlpal 构建脚本就绪。
 
-下一步:进入实现,从 `docs/03-development-plan.md` 的 M0(项目骨架与工具链)开始。
+下一步:进入 **M1**(`pal-extract` 打通最小链路,见 [`docs/03-development-plan.md`](docs/03-development-plan.md))。
 
 ## 仓库结构
 
@@ -27,6 +27,22 @@
   - `06-testing.md` 测试策略
 - `reference/sdlpal/` —— sdlpal 源码,作为引擎逻辑参考(见 `reference/README.md`)
 - `data/raw/` —— 放原版 98 柔情版数据文件的地方(见 `data/raw/README.md`)
+
+## 开发(本地)
+
+```sh
+# 一次性
+brew install pnpm        # 若未装
+brew install make sdl3   # sdlpal 差分测试用,见 docs/06-testing.md
+
+# 项目本身
+pnpm install
+pnpm check               # 全部包的 typecheck + 测试
+pnpm --filter @type-pal/game dev  # 起网页游戏的 Vite 开发服务器
+
+# sdlpal(差分测试 oracle)
+bash scripts/build-sdlpal.sh
+```
 
 ## 怎么继续
 
