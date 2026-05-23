@@ -90,6 +90,7 @@ const MAGIC_OFF = {
 //
 // * = signed 语义(sdlpal fight.c:4634 `(SHORT)g_Battle.rgEnemy[i].e.wAttackStrength`)。
 //   声音 5 个字段也在 tagENEMY 中定义为 SHORT。
+// 实测 DATA.MKF chunk 1 = 10780 字节 / 70 = 154 条 enemy
 const ENEMY_SIZE = 70
 
 // ── OBJECT_ENEMY 字段偏移 (global.h tagOBJECT_ENEMY) ────────────────────
@@ -192,8 +193,9 @@ export function parseSpells(
  * - `elemResistance[5]` 拆 wind/thunder/water/fire/earth 5 个具名字段。
  *
  * **id 是什么**:`id` = 该 enemy 在 DATA.MKF chunk 1 数组里的索引,直接 = sdlpal
- * `OBJECT_ENEMY.wEnemyID` 指向的位置(1-based,index 0 是空 placeholder)。M3 战斗代码
- * 拿 `OBJECT_ENEMY.wEnemyID` 直接索引 `enemies[]` 即可。
+ * `OBJECT_ENEMY.wEnemyID` 指向的位置(直接索引,index 0 是空 placeholder,sdlpal 数据
+ * 从 index 1 起算 —— 见 fight.c:516 `lprgEnemy[obj.enemy.wEnemyID]`,没减 1)。
+ * M3 战斗代码拿 `OBJECT_ENEMY.wEnemyID` 直接索引 `enemies[]` 即可。
  *
  * **_name**:可选,反向通过 OBJECT_ENEMY 段 + WORD.DAT enemies 表填(本函数会做)。
  * 若没找到映射 → 留 undefined,引擎不读 `_name`,只是注释用。

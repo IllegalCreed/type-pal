@@ -136,6 +136,16 @@ describe('parseEnemies (M3 D28 全字段)', () => {
     expect(named).toBe(true)
   })
 
+  it('without objBuf/words:所有 _name 都是 undefined,其他字段照常解析', () => {
+    // parseEnemies 的 objBuf/words 是 optional;只传 enemyBuf 的代码路径覆盖。
+    const enemiesNoName = parseEnemies(enemyBuf)
+    expect(enemiesNoName).toHaveLength(154)
+    expect(enemiesNoName.every((e) => e._name === undefined)).toBe(true)
+    // 字段仍然正常 dump:至少一条 health > 0,signed 字段仍可为负
+    expect(enemiesNoName.some((e) => e.health > 0)).toBe(true)
+    expect(enemiesNoName.some((e) => e.attackStrength < 0)).toBe(true)
+  })
+
   it('完整 30+ 字段全部存在', () => {
     const e = enemies.find((x) => x.health > 0)!
     const keys = Object.keys(e).sort()
