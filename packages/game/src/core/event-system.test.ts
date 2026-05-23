@@ -1,8 +1,10 @@
 import { describe, it, expect, vi } from 'vitest'
 import type { Command, InputSnapshot, AbstractKey } from '@type-pal/shared'
-import { tickEventSystem, buildLabelMap } from './event-system.js'
+import { tickEventSystem, buildLabelMap, runScript, type BattleCtx } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
 import { createCommandBus } from './command-bus.js'
+import type { BattleState } from './battle/battle-state.js'
+import { createSeedableRng } from './rng.js'
 
 function snap(pressed: AbstractKey[] = [], frameNum = 0): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum }
@@ -104,6 +106,170 @@ describe('EventSystem', () => {
     loadEvent(gs, cmds)
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
     expect(() => tickEventSystem(gs, snap(), bus)).toThrow(/single-tick instruction limit/)
+    debugSpy.mockRestore()
+  })
+})
+
+/** 最小 BattleState fixture(T17 runScript 测试用;无需真实 enemy/player 数据)。 */
+function makeMinimalBattleCtx(): BattleCtx {
+  const state: BattleState = {
+    players: [],
+    enemies: [],
+    field: {
+      id: 0,
+      screenWave: 0,
+      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    },
+    isBoss: false,
+    phase: 'preBattle',
+    turn: 0,
+    actionQueue: [],
+    currentActionIndex: 0,
+    pendingActions: new Map(),
+    uiState: 'hidden',
+    uiCursor: 0,
+    expGained: 0,
+    cashGained: 0,
+    rng: createSeedableRng(1),
+    phaseStallTicks: 0,
+  }
+  return { state, caster: { type: 'player', idx: 0 } }
+}
+
+describe('runScript (M3 T17, battle mode)', () => {
+  it('runtimeMode=explore 不传 battleCtx 时 end 立即返回,不修改 GameState', () => {
+    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const before = JSON.stringify(gs)
+    const bus = createCommandBus()
+    runScript({
+      commands: [{ op: 'end' }],
+      ip: 0,
+      bus,
+      runtimeMode: 'explore',
+    })
+    expect(JSON.stringify(gs)).toBe(before) // GameState 完全不动
+    expect(bus.drain()).toEqual([])
+  })
+
+  it('runtimeMode=battle + showDialog → emit showBattleMessage(不阻塞,继续到 end)', () => {
+    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const before = JSON.stringify(gs)
+    const bus = createCommandBus()
+    runScript({
+      commands: [
+        { op: 'showDialog', messageIndex: 0, text: '受到攻击' },
+        { op: 'end' },
+      ],
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: makeMinimalBattleCtx(),
+    })
+    const drained = bus.drain()
+    expect(drained).toHaveLength(1)
+    expect(drained[0]?.cmd).toEqual({ op: 'showBattleMessage', text: '受到攻击' })
+    // 不改 GameState(不变量)
+    expect(JSON.stringify(gs)).toBe(before)
+    expect(gs.dialogBox).toBeUndefined()
+    expect(gs.eventCursor).toBeUndefined()
+  })
+
+  it('runtimeMode=battle + raw → console.debug 含 [event-system battle] 前缀 + ip++', () => {
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    const bus = createCommandBus()
+    runScript({
+      commands: [
+        { op: 'raw', opcode: 0x42, operands: [1, 2, 3] },
+        { op: 'raw', opcode: 0x99, operands: [0, 0, 0] },
+        { op: 'end' },
+      ],
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: makeMinimalBattleCtx(),
+    })
+    expect(debugSpy).toHaveBeenCalledTimes(2)
+    // 前缀含 battle 标记,方便 T20/T21 grep
+    const firstCall = debugSpy.mock.calls[0]?.[0] as string
+    expect(firstCall).toMatch(/\[event-system battle\]/)
+    expect(firstCall).toMatch(/opcode=66/) // 0x42 = 66
+    debugSpy.mockRestore()
+  })
+
+  it('runtimeMode=battle 缺 battleCtx 抛错', () => {
+    const bus = createCommandBus()
+    expect(() =>
+      runScript({
+        commands: [{ op: 'end' }],
+        ip: 0,
+        bus,
+        runtimeMode: 'battle',
+      }),
+    ).toThrow(/battleCtx/)
+  })
+
+  it('runtimeMode=explore 误传 battleCtx 抛错', () => {
+    const bus = createCommandBus()
+    expect(() =>
+      runScript({
+        commands: [{ op: 'end' }],
+        ip: 0,
+        bus,
+        runtimeMode: 'explore',
+        battleCtx: makeMinimalBattleCtx(),
+      }),
+    ).toThrow(/explore/)
+  })
+
+  it('goto 跳转在 battle mode 仍生效', () => {
+    const bus = createCommandBus()
+    runScript({
+      commands: [
+        { op: 'goto', to: 'target' },
+        { op: 'raw', opcode: 0, operands: [0, 0, 0] }, // 不应执行
+        { op: 'end', label: 'target' },
+      ],
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: makeMinimalBattleCtx(),
+    })
+    expect(bus.drain()).toEqual([]) // 没 emit 任何东西(raw 被跳过)
+  })
+
+  it('battle mode 下 setDialogStyle* 视为 no-op skip,不改 GameState', () => {
+    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const beforeStyle = gs.currentDialogStyle
+    const bus = createCommandBus()
+    runScript({
+      commands: [
+        { op: 'setDialogStyleTop' },
+        { op: 'setDialogStyleBottom' },
+        { op: 'end' },
+      ],
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: makeMinimalBattleCtx(),
+    })
+    // GameState.currentDialogStyle 完全不动(不变量)
+    expect(gs.currentDialogStyle).toBe(beforeStyle)
+  })
+
+  it('死循环防御:battle mode raw 链 > 256 条抛错', () => {
+    const bus = createCommandBus()
+    const cmds: Command[] = []
+    for (let i = 0; i < 1000; i++) cmds.push({ op: 'raw', opcode: 0, operands: [0, 0, 0] })
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    expect(() =>
+      runScript({
+        commands: cmds,
+        ip: 0,
+        bus,
+        runtimeMode: 'battle',
+        battleCtx: makeMinimalBattleCtx(),
+      }),
+    ).toThrow(/single-tick instruction limit/)
     debugSpy.mockRestore()
   })
 })
