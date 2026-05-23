@@ -17,7 +17,13 @@ export interface InputSnapshot {
   frameNum: number
 }
 
-/** 输入源抽象 —— 真键盘 / 回放 / 录制 都实现此接口。 */
+/**
+ * 输入源抽象 —— 真键盘 / 回放 / 录制 都实现此接口。
+ *
+ * `frameNum` 由主循环提供。实现者:
+ * - 真键盘源应将其原样写入返回的 InputSnapshot.frameNum
+ * - 回放源若已存有 snapshot,可直接返回存储的(其 frameNum 以存储值为准),主循环不做校验
+ */
 export interface InputSource {
   nextSnapshot(frameNum: number): InputSnapshot
 }

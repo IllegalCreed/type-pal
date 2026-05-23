@@ -26,4 +26,9 @@ describe('input types', () => {
     }
     expect(src.nextSnapshot(0).frameNum).toBe(0)
   })
+
+  it('InputSnapshot.held / pressed expose only ReadonlySet (no mutation)', () => {
+    expectTypeOf<InputSnapshot['held']>().toEqualTypeOf<ReadonlySet<AbstractKey>>()
+    expectTypeOf<InputSnapshot['pressed']>().toEqualTypeOf<ReadonlySet<AbstractKey>>()
+  })
 })
