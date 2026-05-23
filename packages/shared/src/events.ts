@@ -26,7 +26,8 @@ export interface GotoCommand {
 
 export interface ShowDialogCommand {
   op: 'showDialog'
-  box: 'top' | 'center' | 'bottom' | 'narration'
+  /** 对话框样式;由 0x003B-0x003E 设置,disasm 不产出此字段 */
+  box?: 'top' | 'center' | 'bottom' | 'narration'
   text: string              // 内联自 M.MSG
   label?: string
 }
