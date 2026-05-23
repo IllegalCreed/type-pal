@@ -4669,3 +4669,99 @@ T23 跑 5 个 sdlpal classic harness fixture 与 TS battle-system 对拍。**只
 - D4 影响所有真 enemy 战的真实平衡(D29 测试结果显示我方 damage 偏小可能是普遍现象);需 trace + 修。
 - D3 / D5 不影响游戏功能,只影响测试 oracle 设计。
 
+### 3. (T24) enemy 战斗 sprite 数据源是 ABC.MKF(不是 F.MKF),F.MKF 是队员
+
+T24 实施时阅读 sdlpal `battle.c:856 PAL_LoadBattleSprites`,真值是:
+- **队员战斗 sprite**:F.MKF chunk[PlayerRoles.rgwSpriteNumInBattle[i]](`PAL_GetPlayerBattleSprite`)
+- **敌方战斗 sprite**:**ABC.MKF**(非 F.MKF)chunk[OBJECT_ENEMY.wEnemyID] → 反查 enemies.json:`enemy.id == wEnemyID`
+
+原 plan 文字简化为「F.MKF chunk[spriteNumInBattle]」,易让 implementer 误以为敌方也在 F.MKF。T24 实施时核对 sdlpal 源码改对,cli.ts 双 MKF 读取(`F.MKF` 用 player kind,`ABC.MKF` 用 enemy kind),`extractBattleSprites` 用 `${kind}:${id}` 复合 key 避免不同 MKF 同 id chunk 冲突。**M3.5 / M5 不需重做**,sprite 加载链路已对。
+
+T24 另一发现:F.MKF / ABC.MKF chunk 可能压缩可能 raw,加 try YJ2 + fallback raw 防御模式(同 M2 sprite 装载策略),实测全部走 YJ2。**T24 implementer 同时已 flag**:cli 的 player sprite filter `> 0` 把李逍遥(spriteNumInBattle=0)跳过 — 推 T30 修(见 #5)。
+
+### 4. (T22) enemy id 映射简化决策 + T29 dev panel 上 surface 为 visual bug
+
+T22 实施 startBattle 时,对 enemyTeam.enemies 槽位的 id 解释**选了最简方案**:`enemies.find(e => e.id === slot)`。文件 doc 明确写道:
+> 当前 enemy-teams.json 中存的是 OBJECT 索引(D28 dumper),enemies.json 用 enemy id。本 task 简化方案:直接把 enemyTeam.enemies 当作 enemies.json 的 id 索引。T23 baseline 对拍发现真实映射不直接时再修。
+
+T23 baseline 对拍证实**不直接**(deviation #1)— 槽位是 OBJECT 绝对 index 398..550,enemies.json id 0..153。T23 用启发式 `objId - 398 + 1` 在 test 层兜底,但运行时(T29 dev panel 触发的真战斗)没修。**T29 dev panel 触发战斗后用户实测**:进入战斗界面 enemy 不显示(BattleState.enemies 长度 = 0,所有槽位都被 console.warn 'not in enemies.json' 跳过)。T30 必修(见 #5)。
+
+### 5. (T30) Bug 1 修复:enemy id 映射(OBJECT index → enemies.json id 反查 + dump 时翻译)
+
+T30 实施(本 task)选择 design doc 推荐方案 A:**pal-extract dump 时翻译**。在 `parsers/enemies.ts` 加 `buildObjectIndexToEnemyIdMap(objBuf)` —— 复用 `buildEnemyObjectNameMap` 同套 OBJECT_ENEMY 段遍历(`ENEMY_OBJ_START + i, i in [0..ENEMY_OBJ_COUNT)`)读 `wEnemyID` 字段(`ENEMY_OBJ_ID_OFF=0`),建 `objIndex → enemies.json id` 映射。`parseEnemyTeams` 第三参数接收此 map,启用翻译模式:槽位 0 / 0xFFFF 保留(空槽位语义),其他 OBJECT 索引 → 查 map 翻译,失映标 0xFFFF + warn。`cli.ts` 串接调用。
+
+**效果**:`data/extracted/data/enemy-teams.json` team 0 enemies 从 `[398, 398, 65535, ...]` → `[1, 1, 65535, ...]`;team 1 从 `[399, ...]` → `[2, ...]`。运行时 `enemies.find(e => e.id === slot)` 直接命中,BattleState.enemies 真展开,dev panel 触发战斗后敌人正确显示。
+
+**测试**:tables.test.ts 新加 4 个 case(纯翻译模式 + 失映兜底 + 真原版 map sanity + 端到端 enemy-teams 翻译后 id 在 [1..153])。所有 73 个 pal-extract 数据表测试 PASS。
+
+**baseline.test.ts 副作用**:test 内 `startBattleWithObjectIdMap` 的 shim 仍用启发式 `objId - 398 + 1`,但**第二条 fallback** `enemies.some(e => e.id === objId)` 现在直接命中(enemy-teams.json 槽位已翻译过),test 行为不变,3 PASS + 2 KNOWN_DEVIATION skip 保持。**M3.5 可清理 shim**:test 直接用 startBattle 即可。
+
+### 6. (T30) Bug 2 修复:player 战斗 sprite filter `> 0` 改 `>= 0`
+
+T24 在 cli.ts 写 player battle sprite 收集时用 `if (role.spriteNumInBattle > 0)`,把李逍遥(spriteNumInBattle=0)跳过。sdlpal `battle.c:856 PAL_LoadBattleSprites` 对 spriteNumInBattle=0 不 filter — F.MKF chunk 0 是有效的李逍遥战斗 sprite(实测 player roles[0] 真值 = 0,roles[1-5] = 1/2/3/4/8 也都有效)。
+
+修法:`if (role.spriteNumInBattle >= 0)`。`pnpm extract` 重跑后 `data/extracted/data/battle-sprite-player-0.json` + `images/battle-sprite-player-0-frame-*.png` 出现,T29 dev panel 触发战斗后队长 sprite 正确显示。
+
+### 7. (T30) E2E battle test 加入 + dev panel input wire 接受 limitation
+
+T30 写了 `packages/game/src/__tests__/e2e-battle.test.ts` 用真原版 `data/extracted/` 资源驱动一整场战斗:
+- attack-only 路径:enemyTeamId=1(1 只灯笼)+ 队长 lv10/atk100 + rngSeed=42 → 多回合 attack target=0 → won → mode='explore' + exp/cash 入账
+- flee 路径:fleeRate=9999 强 flee → fleed → mode='explore' + 无奖励
+
+测试**程序化填 pendingActions**(`state.pendingActions.set(idx, { type: 'attack', target: 0 })`)而非走 UI input wire。原因:T22 selectAction phase 的 UI input handling 是 stub(`tickSelectAction` 文件顶 doc 标 "本 task UI input 处理是 stub —— 真菜单交互延 T26 / T29")。T26 画了主菜单 / 二级菜单 / 目标光标,T29 dev panel 触发了战斗,但**没有 input → pendingActions 的 wire**(用户按 Up/Down 切 uiCursor / 按 Confirm 在 mainMenu 时填 pendingActions 的逻辑)。
+
+**T30 决策**:**接受 limitation**,M3.5 / M5 真做。理由:
+- dev 验证清单中"按 Up/Down 切菜单 / 按 Confirm 选 attack 推进战斗"是 UI 表现,与"战斗骨架是否跑通"正交
+- 战斗系统本身在 E2E test + baseline test + battle-system.test 中已覆盖(总计 50+ 个单测)
+- 真 UI input wire 需扩 tickSelectAction 处理 uiState=mainMenu/magicMenu/itemMenu/targetSelect 四个子状态机,scope 约 1.5 day 的工作量,M5 菜单系统大改时一起做更划算
+
+**dev 验证清单当前状态**(本 task):
+- ✅ scene 1 onEnter 跑完 → explore
+- ✅ 按 B → fixture-zh1 picker → 战斗界面
+- ✅ enemy sprite 显示(Bug 1 修复后)
+- ✅ 队长 sprite 显示(Bug 2 修复后)
+- ✅ 主菜单显示(攻击 / 法术 / 物品 / 防御 / 逃跑 5 项)
+- ✅ HP/MP 状态栏显示
+- ⚠️ 真用户按 Up/Down/Confirm 推进战斗:**不工作**,需 input → pendingActions wire(M3.5 / M5 真做)
+- ✅ F1 dump GameState 看 battleState 数字合理
+
+### M3 Phase 1 完成定义实际状态(2026-05-24)
+
+- [部分 / 接受 limitation] `pnpm dev` dev 验证清单:scene 1 onEnter / 探索 / B 调战斗 picker / fixture applyFixture / enemy + 队长 sprite 显示 / 主菜单显示 全 ✅;**真用户按键推进战斗** ⚠️ M3.5 / M5 接(input → pendingActions wire 缺)
+- ✅ `pnpm check` 退出 0:**407+ 单测 PASS + 2 KNOWN_DEVIATION skip**(shared 40 + pal-extract 163 + game 204)
+- ✅ `pnpm extract` 跑通:295 scenes round-trip + 235 items / 102 spells / 154 enemies / 60 enemy-teams(翻译后 id 校验通过)+ 158 battle sprites(含 player-0)
+- ✅ events round-trip 仍逐字节通过(43503 条指令)
+- ✅ D29 双基准:tilemap pixel diff PASS(`build/sdlpal-baseline/maps/map-12.png` 与我方 render-tilemap 输出 byte-级一致)+ battle baseline 5/5 中 **3 PASS / 2 KNOWN_DEVIATION skip**(b2-magic / b5-defend,详见 #2 中 D1-D5 deviation 报告)
+- ✅ 03 / README 状态同步到 M3 Phase 1 完工
+- ✅ 04 D30 / D31 已 commit(brainstorm commit `129855b`)
+- ✅ M3.5 plan 链路清晰(见下方准备清单)
+
+### M3.5 准备清单(给下一里程碑 implementer)
+
+按优先级:
+
+1. **战斗 UI input wire**(本 task #7 limitation):tickSelectAction 真处理 Up/Down/Confirm/Cancel + uiState 子状态机切换 +Confirm 在 mainMenu / magicMenu / itemMenu / targetSelect 时填 pendingActions。预计 1.5 day,与下面 #7 一起做可复用菜单 lib。
+
+2. **D29 战斗 baseline 5/5 全 PASS**(本 task #2 留的 deviation):
+   - D1 / D2 已被本 task #5 enemy id 翻译解决一半;**spell / item OBJECT→id 反查**(item 段 61-295、spell 段 296-397)同样可用 `buildObjectIndexToEnemyIdMap` 同套方案,parsers/items.ts + parsers/spells.ts 加翻译模式,fixture 中 `spell=326`(spell 段 = 326-296 = 30)与 `item=61`(item 段第 0 个 = 止血草)就能命中
+   - D4 物理攻击 damage 公式偏差:M3.5 前用 sdlpal classic harness 单步调试 trace wAttackStrength / wDefense / damage 真值,与 calcBaseDamage 中间值对一遍
+   - **M3.5 前必须达到**
+
+3. **~10 个 scene 切换 opcode 具名**:setPartyPos / setViewport / showFace / startBattle / loadScene / setBGM / etc(参考 sdlpal `script.c` 大 switch),让 scene 1 onEnter 真跑完(目前 raw skip 后队伍起始位置写死 col=32 row=24)
+
+4. **明雷怪机制**:`EventObject.triggerMode` 区分接触触发(明雷怪 / 传送点)vs Confirm 触发(NPC,M2 已建)— 玩家走进 trigger cell 即跑 trigger 段(sdlpal `play.c` `PAL_PartyWalk` 相关逻辑)
+
+5. **scene 切换链路**:`scene-system.ts` 扩 `loadScene(sceneId)` 卸 / 载场景资源 + 重置 GameState scene 字段;`assets/loader.ts` 加 scene-NN 增量加载(目前只 scene 1)
+
+6. **仙灵岛 + 其他 scene 资源 dump**:pal-extract 加 scene chain(盛漁村出门后 2-4 scene + 仙灵岛)的 tilemap / palette / sprite
+
+7. **战斗 baseline shim 清理**:test 内 `startBattleWithObjectIdMap` 启发式 shim 已可移除(本 task #5 解决),test 直接用 startBattle
+
+8. **dev panel limitation 修复**:本 task #7 接受的 input wire,M3.5 一并做
+
+### 备注:M3 期间未做但可在 M3.5 / M5 顺手补的事
+
+- T3 中 runtime tilemap 渲染链(`packages/game/src/present/draw-tilemap.ts`)仍有同 Bug A/C 残留(只 render-tilemap.ts 修了,游戏不修);M3.5 重渲染战斗 UI 时一并干
+- spell 326 / item 61 等 fixture 之所以在 D29 跑不通,根因是 spells.json / items.json 的 id 同样是 0-based,sdlpal harness 喂的 fixture id 是 OBJECT 绝对 index。M3.5 前补 spell / item OBJECT→id 翻译(同 #5 enemy 方案,代码模式可复用)
+- magic 326 = 灵儿玉佩(范围治疗)/ item 61 = 止血草。fixture 真值已在 sdlpal classic harness fixture KV 中
+
