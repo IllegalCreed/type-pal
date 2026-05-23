@@ -19,3 +19,4 @@ data/extracted/
 
 # vite dev/build 需要 fetch data/extracted/,用 symlink 暴露(不入库)
 packages/game/public/extracted
+sdlpal.cfg
