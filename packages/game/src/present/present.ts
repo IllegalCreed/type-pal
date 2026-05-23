@@ -1,5 +1,7 @@
 import type { Palette, Tilemap } from '@type-pal/shared'
+import type { BusEntry } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
+import type { BattlePresent, BattleAssets } from './battle/present-battle.js'
 import { type Framebuffer, SCREEN_W, SCREEN_H } from './framebuffer.js'
 import { drawTilemap, type TileImages } from './draw-tilemap.js'
 import { drawSprite, type SpriteImage } from './draw-sprite.js'
@@ -68,4 +70,30 @@ export function flushToCanvas(
 ): void {
   const img = fb.toImageData(palette)
   ctx2d.putImageData(img, 0, 0)
+}
+
+/**
+ * M3 T28 战斗一帧入口 —— 委托 BattlePresent.draw 装配。
+ *
+ * 注意:M2 explore / event 一帧由 `presentFrame` 处理(不消费 commands);
+ * 战斗一帧需消费 `commands`(showDamageNum 进 floating nums)。
+ *
+ * @param fb        屏幕 framebuffer
+ * @param gs        GameState(必须 gs.mode='battle' && gs.battleState 存在)
+ * @param battle    BattlePresent 实例(持有 floating nums 跨帧状态)
+ * @param assets    战斗资源(sprites / bgs / 表)
+ * @param commands  本帧 bus.drain() 命令列表
+ * @returns true 表示画了战斗帧;false 表示 gs 不是 battle 模式或缺 battleState(调用方应回落 presentFrame)
+ */
+export function presentBattleFrame(
+  fb: Framebuffer,
+  gs: GameState,
+  battle: BattlePresent,
+  assets: BattleAssets,
+  commands: BusEntry[],
+): boolean {
+  if (gs.mode !== 'battle' || !gs.battleState) return false
+  fb.clear()
+  battle.draw(fb, gs, gs.battleState, commands, assets, gs.frameNum)
+  return true
 }
