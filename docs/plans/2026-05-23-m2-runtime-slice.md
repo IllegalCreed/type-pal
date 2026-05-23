@@ -3371,6 +3371,16 @@ M2 改 `npcFromEventObject` 用 `Math.floor(eo.x / 32)` / `Math.floor(eo.y / 16)
 
 教训:**plan 字面里的"经验值"假设(`& 0xff`、"upper 覆盖 lower")在真数据面前要立即怀疑**,M3 重新写战斗 / 菜单这类 sdlpal 实现的对照转写时,坚持先 grep sdlpal 源码再写代码、再让 dev 视觉敲一遍。
 
+### 9. tilemap 还有 layer 1 顶层 + row 步进真值 = 16(用户继续视觉验证后揪出第二轮)
+
+#8 修完后用户再次 visual 验证(让我把整张 64×128 map 拼成 PNG 看),又看出两个新问题:
+
+- **Bug 3 — 缺 layer 1 顶层**:每个 u32 cell 实际编码 **两个** 9-bit tile id —— 低 16 bit = layer 0(地砖、墙基),高 16 bit = layer 1(门、柜子侧面、柱子),后者还要 `-1`(0 = 无)。sdlpal `map.c:244-258 PAL_MapGetTileBitmap` 按 `ucLayer` 参数从同一 d 取不同位。我们之前完全只画 layer 0,所以门 / 柜子侧面 / 柱子全部缺失,从俯视角看是"散落的房间"而不是"完整建筑"。修:`drawTilemap` 加 `layer: 0 | 1` 参数,`present.ts` 改成 4 个 pass:tilemap layer 0 → NPCs → party → tilemap layer 1 → dialog。Layer 1 在精灵之后画,可以做"走到柜子后面被遮挡"效果。
+
+- **Bug 4 — `ROW_Y_STEP` 该是 16 不是 8**:sdlpal `map.c:398-414` 真实公式 `for (y; y < dy; y++) { for (h = 0; h < 2; h++, yPos += 8) }` —— 每 outer y 循环步进 16 px(2 个 h 各 +8),不是每 row 步 8 px。我们之前把 sub-row 步当成了 row 步,整张图被纵向压扁 50%。同时去掉了 `(row & 1) * 16` 的 X 偏移 —— 那本来是 h sub-row 的 X 偏移(`h == 1` 时 +16),不是 row-parity 的偏移。
+
+Bug 3 + 4 一起 commit 22a1693。修后再渲染整张拼图,室内细节全出来了(柜子、桌子、门框、柱子)。
+
 ### 自检 checklist 实际状态
 
 - [x] `pnpm install` 干净跑通
