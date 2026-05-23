@@ -53,7 +53,7 @@ export function tickEventSystem(
   // 2) 循环跑直到撞 waitable / end / 越界 / 超限
   let stepCount = 0
   while (true) {
-    if (stepCount++ > SINGLE_TICK_LIMIT) {
+    if (++stepCount > SINGLE_TICK_LIMIT) {
       throw new Error(
         `event-system: single-tick instruction limit (${SINGLE_TICK_LIMIT}) exceeded at ip=${cursor.ip}`,
       )
@@ -89,6 +89,7 @@ export function tickEventSystem(
         gs.dialogBox = { text: cmd.text, style: gs.currentDialogStyle }
         cursor.waiting = 'dialog'
         bus.emit({ op: 'showDialogBox', text: cmd.text, style: gs.currentDialogStyle })
+        // ip 停在 showDialog 上,waiting 释放时(上面 cursor.ip++)才推进
         return
       }
 
@@ -124,6 +125,11 @@ export function tickEventSystem(
       case 'if':
       case 'choice':
         throw new Error(`event-system: 结构化 op ${cmd.op} M2 未实现`)
+
+      default: {
+        const _exhaustive: never = cmd
+        throw new Error(`event-system: unhandled op ${(_exhaustive as Command).op}`)
+      }
     }
   }
 }

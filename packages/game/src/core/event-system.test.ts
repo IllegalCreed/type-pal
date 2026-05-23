@@ -102,7 +102,8 @@ describe('EventSystem', () => {
     const cmds: Command[] = []
     for (let i = 0; i < 1000; i++) cmds.push({ op: 'raw', opcode: 0, operands: [0, 0, 0] })
     loadEvent(gs, cmds)
-    vi.spyOn(console, 'debug').mockImplementation(() => {})
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
     expect(() => tickEventSystem(gs, snap(), bus)).toThrow(/single-tick instruction limit/)
+    debugSpy.mockRestore()
   })
 })
