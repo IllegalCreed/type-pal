@@ -78,8 +78,11 @@ export function tickSceneSystem(
     }
   }
 
-  // 2) 相机跟随
-  gs.camera = { col: gs.party.col, row: gs.party.row }
+  // 2) 相机跟随 + 边界 clamp
+  gs.camera = {
+    col: Math.max(0, Math.min(ctx.tilemap.width - 1, gs.party.col)),
+    row: Math.max(0, Math.min(ctx.tilemap.height - 1, gs.party.row)),
+  }
 
   // 3) Confirm 触发 NPC
   if (input.pressed.has('Confirm')) {
@@ -102,8 +105,7 @@ export function tickSceneSystem(
     }
   }
 
-  // 4) 推进 frameNum
-  gs.frameNum++
+  // 注:gs.frameNum++ 由 tickByMode 统一推进(所有模式都计),不在此处做。
 
   void bus
 }

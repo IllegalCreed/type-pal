@@ -12,6 +12,7 @@ import { tickEventSystem } from './event-system.js'
 import { tickSceneSystem } from './scene-system.js'
 
 export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
+  gs.frameNum++ // 全局逻辑帧计数器(D13);所有模式都推进
   switch (gs.mode) {
     case 'explore':
       tickSceneSystem(gs, input, bus)
