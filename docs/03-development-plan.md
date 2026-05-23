@@ -59,7 +59,7 @@
 
 ## 实现细节备注
 
-- **音频管线**(已按实际数据核对,见 `04-decisions.md` 数据核对结论):柔情版无 RIX,**不需要 OPL 渲染器**。
+- **音频管线**(已按实际数据核对,见 `04-decisions.md` 数据核对结论):Win9x 版无 RIX,**不需要 OPL 渲染器**。
   - AVI(msmpeg4v3 + mp3)→ ffmpeg 直接转 mp4/webm。
   - CD 音轨 8 个 `.ogg`(Vorbis)→ 原样使用。
   - BGM 86 个 `.mid` → 不预转换,原样进资源,运行时用 SpessaSynth 合成(见 D10),另配一个 SF3 音色库。

@@ -222,7 +222,7 @@ Expected: FAIL —— `./mkf.js` 找不到。
 
 ```ts
 /**
- * MKF 归档 —— 仙剑原版打包格式。
+ * MKF 归档 —— 原版打包格式。
  * 头:N+1 个 u32 LE 偏移;[i] 是子文件 i 起点;子文件数 = head[0]/4 - 1。
  * 参考 reference/sdlpal/res.c。
  */
@@ -300,7 +300,7 @@ YJ1 流头(16 字节):4 字节 magic `"YJ_1"` + 4 字节 uncompressed length(LE)
 
 ```ts
 /**
- * YJ1 解压 —— 仙剑原版部分子文件压缩。
+ * YJ1 解压 —— 原版部分子文件压缩。
  * 参考 sdlpal yj1.c::YJ_Uncompress。
  * 流头:'YJ_1' + uncompLen(u32 LE) + compLen(u32 LE) + 4 字节 unused。
  * 后接 LZ-变体位流。
@@ -395,7 +395,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
 
 参考:`reference/sdlpal/video.c::PAL_RLEBlitToSurface` 中的 RLE 解码部分。
 
-RLE 格式(仙剑精灵):每帧头部含宽 × 高(u16 LE × 2),后跟解码指令流 —— 字节 `b`:
+RLE 格式(原版精灵):每帧头部含宽 × 高(u16 LE × 2),后跟解码指令流 —— 字节 `b`:
 - `b >= 0x80`:跳过 `b - 0x80` 个像素(留作透明)
 - 其他:接下来 `b` 个字节是直接像素值(调色板下标)
 
@@ -449,7 +449,7 @@ export interface RleFrame {
 }
 
 /**
- * RLE 精灵解码 —— 仙剑原版精灵格式。
+ * RLE 精灵解码 —— 原版精灵格式。
  * 帧头 = 宽 u16 LE + 高 u16 LE;后接指令流。
  * 指令字节 b:
  *   b >= 0x80 → 跳 b-0x80 个像素(留透明,填 0)
@@ -1314,7 +1314,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
 - Create: `packages/pal-extract/src/resources/map.ts`
 - Create: `packages/pal-extract/src/resources/map.test.ts`
 
-参考:sdlpal `map.c::PAL_LoadMap`。仙剑地图是固定网格 + 一个瓦片集 PNG。实施时按 `MAP_WIDTH` / `MAP_HEIGHT` 确认。
+参考:sdlpal `map.c::PAL_LoadMap`。原版地图是固定网格 + 一个瓦片集 PNG。实施时按 `MAP_WIDTH` / `MAP_HEIGHT` 确认。
 
 - [ ] **Step 11.1: 写最小集成测试**
 
