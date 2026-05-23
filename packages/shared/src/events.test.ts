@@ -1,5 +1,15 @@
-import { describe, it, expectTypeOf } from 'vitest'
-import type { Command, RawCommand, GotoCommand, ShowDialogCommand } from './events.js'
+import { describe, it, expect, expectTypeOf } from 'vitest'
+import type {
+  Command,
+  RawCommand,
+  GotoCommand,
+  ShowDialogCommand,
+  DialogBoxStyle,
+  SetDialogStyleTopCommand,
+  SetDialogStyleCenterCommand,
+  SetDialogStyleBottomCommand,
+  SetDialogStyleNarrationCommand,
+} from './events.js'
 
 describe('Command 联合类型', () => {
   it('RawCommand 有 op: "raw" + opcode + operands', () => {
@@ -21,5 +31,28 @@ describe('Command 联合类型', () => {
   it('Command 是联合', () => {
     const c: Command = { op: 'raw', opcode: 0, operands: [0, 0, 0] }
     expectTypeOf(c).toMatchTypeOf<Command>()
+  })
+})
+
+describe('SetDialogStyle commands', () => {
+  it('DialogBoxStyle 四个具名样式', () => {
+    expectTypeOf<DialogBoxStyle>().toEqualTypeOf<
+      'top' | 'center' | 'bottom' | 'narration'
+    >()
+  })
+
+  it('SetDialogStyleTopCommand 字段', () => {
+    const c: SetDialogStyleTopCommand = { op: 'setDialogStyleTop' }
+    expectTypeOf(c.op).toEqualTypeOf<'setDialogStyleTop'>()
+  })
+
+  it('四个 setDialogStyle 都在 Command 联合', () => {
+    const cs: Command[] = [
+      { op: 'setDialogStyleTop' },
+      { op: 'setDialogStyleCenter' },
+      { op: 'setDialogStyleBottom' },
+      { op: 'setDialogStyleNarration' },
+    ]
+    expect(cs).toHaveLength(4)
   })
 })

@@ -54,6 +54,29 @@ export interface StartBattleCommand {
   label?: string
 }
 
+/** 对话框样式 —— 由前置 opcode 0x003B-0x003E 设置(M2 新具名,见 D26)。 */
+export type DialogBoxStyle = 'top' | 'center' | 'bottom' | 'narration'
+
+export interface SetDialogStyleTopCommand {
+  op: 'setDialogStyleTop'
+  label?: string
+}
+
+export interface SetDialogStyleCenterCommand {
+  op: 'setDialogStyleCenter'
+  label?: string
+}
+
+export interface SetDialogStyleBottomCommand {
+  op: 'setDialogStyleBottom'
+  label?: string
+}
+
+export interface SetDialogStyleNarrationCommand {
+  op: 'setDialogStyleNarration'
+  label?: string
+}
+
 // 结构化子集(D17)—— 反汇编器不产出,新内容手写用
 export interface SequenceCommand {
   op: 'sequence'
@@ -83,6 +106,10 @@ export type Command =
   | ShowDialogCommand
   | GiveItemCommand
   | StartBattleCommand
+  | SetDialogStyleTopCommand
+  | SetDialogStyleCenterCommand
+  | SetDialogStyleBottomCommand
+  | SetDialogStyleNarrationCommand
   | SequenceCommand
   | IfCommand
   | ChoiceCommand
