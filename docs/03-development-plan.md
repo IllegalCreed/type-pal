@@ -46,12 +46,27 @@
 - **Dev panel**:`import.meta.env.DEV` gate 的 DOM 浮层,快捷键 B 调战斗(选 enemyTeam / battleField / 队伍预设),F1 dump GameState。
 - **完成定义** ✅:dev 入口能稳定跑 5 actions,won / lost / fleed 都通,exp 入账;D29 双基准对拍绿(tilemap 像素一致 + 5 个 battle fixture 中 3 个严格 PASS / 2 个 known deviation skip 见 plan 末「实施过程发现」)。
 
-#### M3.5 Phase 2(scene 切换 + 明雷怪 + 仙灵岛端到端 · 下一里程碑)
-- ~10 个 onEnter / 场景切换 opcode(`setPartyPos` / `setViewport` / `showFace` / 场景切换 / startBattle 等),让 scene 1 onEnter 真跑完进 explore + 支持跨 scene 跳转。
-- `scene-system.ts` 扩 `loadScene(sceneId)`:卸 / 载场景资源、重置 GameState scene 字段。
-- `pal-extract` 增量:盛漁村出门后 2-4 个场景 + 仙灵岛 tilemap / palette / sprite。
-- 明雷怪机制:`EventObject.triggerMode` 区分按键触发(M2,NPC)vs 接触触发(明雷怪 / 传送点)—— 玩家走进即跑 trigger 段。
-- 端到端验证:scene 1 onEnter → 走出客栈 → scene 链 → 仙灵岛 → 撞草妖 → 真打 → exp 入账。
+#### M3.5 Phase 2(scene 切换 + 明雷怪 + dev 跳仙灵岛端到端 · 下一里程碑)
+
+**关键简化(用户 2026-05-24 澄清,D34)**:真剧情链(scene 1 onEnter → 出客栈 → 盛漁村大地图 → 码头 → 上船 → 仙灵岛)scope 爆,**M3.5 不做真剧情**;用 dev panel 加 "跳 scene" 快捷键直接 jump 到仙灵岛入口,然后真实走 1-2 scene + 撞草妖 + 真战斗。
+
+6 件事:
+- **战斗 UI input wire** —— 修 M3 phase 1 接受的 limitation(让用户按 Up/Down/Confirm 真菜单推进 + 5 actions 都能调)
+- **scene 切换链路** —— `scene-system.ts` 扩 `loadScene(sceneId)`,assets/loader.ts 加 SceneAssetsCache lazy 加载(D33)
+- **明雷怪机制** —— `EventObject.triggerMode` 区分接触触发 vs Confirm 触发(D32);走进 trigger cell 自动 runScript
+- **scene 切换 opcode 具名** —— 只 `loadScene` 一个(其他 onEnter opcode 继续 raw skip,D26 兼容)
+- **仙灵岛码头 + 仙灵岛入口 资源 dump** —— pal-extract 2 个 scene 的 tilemap / palette / sprite + scene-NN.json(含 triggerMode 字段)
+- **dev panel "跳 scene" shortcut** —— 程序化 jump + 写 party 位置
+
+测试按功能域独立分组(D35):
+- **场景功能域**(`scene-system.test.ts`):loadScene / 角色移动 / 边界 clamp / SceneAssetsCache。M2 已建,M3.5 扩
+- **战斗功能域**(`battle-system.test.ts` 等):直接构造 BattleState 测 input wire / 5 actions / phase / 公式。M3 已建 50+ 测,M3.5 加 ~10 input wire 测;未来合体技能 / 觉醒 / 五行属性等在此组扩展
+- **明雷遇怪机制**(`scene-encounter.test.ts`):只测 party 走进 contact triggerMode 自动 runScript。**M3.5 新**
+- **探索对话**(M2 已建):NPC Confirm 触发 + 协程式 showDialog
+
+**M3.5 不做**:真实游戏流程的 automated E2E(跨功能域整链路)— 推全工程完工最后阶段。允许 manual dev smoke。
+
+详细设计 / 决策依据见 [`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md)。预计 ~12-15 task。
 
 #### 不在 M3 范围(推 M5 完整战斗)
 - scripted enemy AI(`wScriptOnTurnStart` / `wScriptOnReady`)
