@@ -1,0 +1,197 @@
+--- a/main.c
++++ b/main.c
+@@ -33,6 +33,16 @@
+ # undef PAL_GIT_REVISION
+ # include "generated.h"
+ #endif
++
++/* type-pal: headless full-map dumper (D29 visual baseline).
++ * Provides --dump-map N --out FILE [--palette P] CLI to write the
++ * complete map (both layers) to a PNG, bypassing window/renderer setup. */
++#define STB_IMAGE_WRITE_IMPLEMENTATION
++#include "stb_image_write.h"
++
++static int  g_dump_map_num     = -1;
++static int  g_dump_palette_num = 0;
++static const char *g_dump_out_path = NULL;
+ 
+ static jmp_buf g_exit_jmp_buf;
+ static int g_exit_code = 0;
+@@ -457,6 +467,136 @@
+ 
+ 
+ 
++/* type-pal: headless full-map dump.
++ * Loads map N, blits both layers to a 4096x1024 8-bit indexed surface,
++ * converts to RGBA using palette P (from pat.mkf), writes to PNG, exits.
++ * No SDL window/renderer/audio is created. Must be invoked from a cwd
++ * containing the game data (map.mkf, gop.mkf, pat.mkf, ...). */
++static void
++PAL_DumpMapToPng(int iMapNum, int iPaletteNum, const char *pszOutPath)
++{
++   FILE          *fpMAP = NULL, *fpGOP = NULL;
++   LPPALMAP       lpMap = NULL;
++   SDL_Surface   *pSurf = NULL;
++   SDL_Palette   *pPal  = NULL;
++   SDL_Color     *pColors = NULL;
++   unsigned char *pRGBA = NULL;
++   SDL_Rect       srcRect;
++   const int      W = 128 * 32;   /* full map: 128 cells x 32 px = 4096 */
++   const int      H = 64  * 16;   /* full map: 64 rows x 16 px = 1024 */
++   int            i;
++
++   /* PAL_LoadConfig has already set up gConfig (cwd = "./" by default
++    * unless --game-path / GamePath cfg sets otherwise). Init globals to
++    * open the MKF resource files (fpFBP/fpMGO/...; needed by PAL_LoadMap
++    * indirectly via PAL_IsWINVersion). */
++   if (PAL_InitGlobals() != 0)
++   {
++      fprintf(stderr, "[dump-map] PAL_InitGlobals failed\n");
++      exit(2);
++   }
++
++   /* Read scene palette (pat.mkf chunk iPaletteNum) before opening
++    * map/gop, so a bad palette idx fails fast. */
++   pColors = PAL_GetPalette(iPaletteNum, FALSE);
++   if (pColors == NULL)
++   {
++      fprintf(stderr, "[dump-map] PAL_GetPalette(%d) failed\n", iPaletteNum);
++      exit(3);
++   }
++
++   fpMAP = UTIL_OpenRequiredFile("map.mkf");
++   fpGOP = UTIL_OpenRequiredFile("gop.mkf");
++
++   lpMap = PAL_LoadMap(iMapNum, fpMAP, fpGOP);
++   if (lpMap == NULL)
++   {
++      fprintf(stderr, "[dump-map] PAL_LoadMap(%d) failed\n", iMapNum);
++      fclose(fpMAP);
++      fclose(fpGOP);
++      exit(4);
++   }
++
++   /* 8-bit indexed surface; PAL_RLEBlitToSurface writes palette indices. */
++   pSurf = SDL_CreateRGBSurface(0, W, H, 8, 0, 0, 0, 0);
++   if (pSurf == NULL)
++   {
++      fprintf(stderr, "[dump-map] SDL_CreateRGBSurface failed: %s\n",
++              SDL_GetError());
++      exit(5);
++   }
++
++   /* Attach palette so SDL_FillRect / clear is well-defined (the RLE
++    * blit itself doesn't need the dst palette, but creating the
++    * SDL_Palette also gives us a fast index lookup below). */
++#if SDL_VERSION_ATLEAST(3,0,0)
++   pPal = SDL_AllocPalette(256);
++   if (pPal != NULL)
++   {
++      SDL_SetPaletteColors(pPal, pColors, 0, 256);
++      SDL_SetSurfacePalette(pSurf, pPal);
++   }
++#else
++   SDL_SetColors(pSurf, pColors, 0, 256);
++#endif
++
++   /* Background = palette index 0 (matches sdlpal scene init). */
++   memset(pSurf->pixels, 0, (size_t)pSurf->pitch * pSurf->h);
++
++   /* Layer 0 (terrain) then layer 1 (overhang/foreground). Sprites are
++    * NOT drawn (this is a static-map baseline; sprites belong to the
++    * scene-event step we cover separately). */
++   srcRect.x = 0;
++   srcRect.y = 0;
++   srcRect.w = W;
++   srcRect.h = H;
++   PAL_MapBlitToSurface(lpMap, pSurf, &srcRect, 0);
++   PAL_MapBlitToSurface(lpMap, pSurf, &srcRect, 1);
++
++   /* Expand 8-bit indices -> RGBA (alpha=255 across). */
++   pRGBA = (unsigned char *)malloc((size_t)W * H * 4);
++   if (pRGBA == NULL)
++   {
++      fprintf(stderr, "[dump-map] malloc rgba failed\n");
++      exit(6);
++   }
++   {
++      const unsigned char *pSrc = (const unsigned char *)pSurf->pixels;
++      const int            iPitch = pSurf->pitch;
++      for (int y = 0; y < H; y++)
++      {
++         for (int x = 0; x < W; x++)
++         {
++            unsigned char idx = pSrc[y * iPitch + x];
++            unsigned char *dst = &pRGBA[(y * W + x) * 4];
++            dst[0] = pColors[idx].r;
++            dst[1] = pColors[idx].g;
++            dst[2] = pColors[idx].b;
++            dst[3] = 255;
++         }
++      }
++   }
++
++   if (stbi_write_png(pszOutPath, W, H, 4, pRGBA, W * 4) == 0)
++   {
++      fprintf(stderr, "[dump-map] stbi_write_png(%s) failed\n", pszOutPath);
++      exit(7);
++   }
++   fprintf(stderr, "[dump-map] wrote %s (%dx%d, palette=%d, map=%d)\n",
++           pszOutPath, W, H, iPaletteNum, iMapNum);
++
++   free(pRGBA);
++#if SDL_VERSION_ATLEAST(3,0,0)
++   if (pPal != NULL) SDL_FreePalette(pPal);
++#endif
++   SDL_FreeSurface(pSurf);
++   PAL_FreeMap(lpMap);
++   fclose(fpMAP);
++   fclose(fpGOP);
++   (void)i;
++   exit(0);
++}
++
+ int
+ main(
+    int      argc,
+@@ -484,6 +624,24 @@
+    strncpy(gExecutablePath, argv[0], PAL_MAX_PATH);
+ #endif
+ 
++   /* type-pal: parse --dump-map / --out / --palette before SDL init,
++    * so headless dump never opens a window. */
++   for (int i = 1; i < argc; i++)
++   {
++      if (strcmp(argv[i], "--dump-map") == 0 && i + 1 < argc)
++      {
++         g_dump_map_num = atoi(argv[++i]);
++      }
++      else if (strcmp(argv[i], "--out") == 0 && i + 1 < argc)
++      {
++         g_dump_out_path = argv[++i];
++      }
++      else if (strcmp(argv[i], "--palette") == 0 && i + 1 < argc)
++      {
++         g_dump_palette_num = atoi(argv[++i]);
++      }
++   }
++
+ #if PAL_HAS_PLATFORM_STARTUP
+    UTIL_Platform_Startup(argc,argv);
+ #endif
+@@ -509,6 +667,15 @@
+ 
+    PAL_LoadConfig(TRUE);
+ 
++   /* type-pal: if --dump-map + --out supplied, do headless map dump
++    * (PAL_DumpMapToPng exits, never returns). Runs after PAL_LoadConfig
++    * so gConfig.pszGamePath resolves, but before VIDEO/UI startup so
++    * no window opens. */
++   if (g_dump_map_num >= 0 && g_dump_out_path != NULL)
++   {
++      PAL_DumpMapToPng(g_dump_map_num, g_dump_palette_num, g_dump_out_path);
++   }
++
+    //
+    // Platform-specific initialization
+    //

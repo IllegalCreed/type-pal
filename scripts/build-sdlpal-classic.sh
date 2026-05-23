@@ -23,6 +23,7 @@ BUILD_DIR="$REPO_ROOT/build/sdlpal-classic"
 # PAL_CLASSIC patch 在 reference/sdlpal/patches/ 集中,M1 的 extern-c patch 留原位
 PATCHES=(
   "$SDLPAL_SRC/patches/pal-classic-on.patch"
+  "$SDLPAL_SRC/patches/headless-map-dump.patch"
   "$REPO_ROOT/scripts/sdlpal-extern-c.patch"
 )
 
@@ -37,12 +38,15 @@ fi
 pkg-config --modversion sdl3 >/dev/null 2>&1 \
   || { echo "缺 SDL3 (brew install sdl3)" >&2; exit 1; }
 
-# 幂等检测:用 common.h 里 PAL_CLASSIC define 探测 patch 是否生效
-# (不能只看目录在否,半成品目录上次 patch 失败后留下空壳会被 silently 编译)
-if ! grep -q '^#define PAL_CLASSIC' "$BUILD_DIR/common.h" 2>/dev/null; then
-  # 半成品目录(目录在但 patch 没生效)整个删掉重做,避免 extern-c.patch 也半 apply
+# 幂等检测:用 common.h 里 PAL_CLASSIC + main.c 里 PAL_DumpMapToPng 双探测
+# (任一 patch 缺失都视为半成品,整个 build dir 删除重做,避免 extern-c.patch
+# / dump-map patch 半 apply 状态)
+NEED_REBUILD=0
+grep -q '^#define PAL_CLASSIC' "$BUILD_DIR/common.h" 2>/dev/null || NEED_REBUILD=1
+grep -q 'PAL_DumpMapToPng' "$BUILD_DIR/main.c" 2>/dev/null || NEED_REBUILD=1
+if [ "$NEED_REBUILD" = "1" ]; then
   if [ -d "$BUILD_DIR" ]; then
-    echo "[0/3] 检测到未 patch 的 build/sdlpal-classic,删除重做"
+    echo "[0/3] 检测到未完整 patch 的 build/sdlpal-classic,删除重做"
     rm -rf "$BUILD_DIR"
   fi
 
@@ -56,9 +60,11 @@ if ! grep -q '^#define PAL_CLASSIC' "$BUILD_DIR/common.h" 2>/dev/null; then
     patch -p1 -d "$BUILD_DIR" < "$P"
   done
 
-  # sanity check:PAL_CLASSIC patch 真生效
+  # sanity check:PAL_CLASSIC + dump-map patch 都真生效
   grep -q '^#define PAL_CLASSIC' "$BUILD_DIR/common.h" \
     || { echo "PAL_CLASSIC patch 没生效" >&2; exit 1; }
+  grep -q 'PAL_DumpMapToPng' "$BUILD_DIR/main.c" \
+    || { echo "headless-map-dump patch 没生效" >&2; exit 1; }
 fi
 
 echo "[3/3] 编译"

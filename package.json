@@ -8,7 +8,8 @@
     "test": "pnpm -r run test",
     "format": "biome format --write .",
     "lint": "biome check .",
-    "extract": "pnpm --filter @type-pal/pal-extract run extract"
+    "extract": "pnpm --filter @type-pal/pal-extract run extract",
+    "extract-tilemap-baseline": "bash scripts/extract-tilemap-baseline.sh"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",
