@@ -17,12 +17,12 @@
  
  static jmp_buf g_exit_jmp_buf;
  static int g_exit_code = 0;
-@@ -457,6 +467,159 @@
+@@ -457,6 +467,167 @@
  
  
  
 +/* type-pal: headless full-map dump.
-+ * Loads map N, blits both layers to a 4096x1024 8-bit indexed surface,
++ * Loads map N, blits both layers to a 2064x2056 8-bit indexed surface,
 + * converts to RGBA using palette P (from pat.mkf), writes to PNG.
 + * Returns 0 on success, non-zero on failure (caller exits with the rc).
 + * No SDL window/renderer/audio is created. Must be invoked from a cwd
@@ -43,8 +43,16 @@
 +   SDL_Color     *pColors = NULL;
 +   unsigned char *pRGBA = NULL;
 +   SDL_Rect       srcRect;
-+   const int      W = 128 * 32;   /* full map: 128 cells x 32 px = 4096 */
-+   const int      H = 64  * 16;   /* full map: 64 rows x 16 px = 1024 */
++   /* PALMAP.Tiles 是 [128 行][64 列][2 层](见 map.h),
++    * sdlpal 全 PAL 系列 tilemap 尺寸固定 64w × 128h(对齐 M2 render-tilemap)。
++    * 像素尺寸公式跟 packages/pal-extract/scripts/render-tilemap.ts 一致:
++    *   W = cols * TILE_W + TILE_HALF_W = 64 * 32 + 16 = 2064
++    *   H = rows * ROW_Y_STEP + SUBROW_Y_STEP = 128 * 16 + 8 = 2056
++    * 末尾 +16/+8 是 sub-row 偏移,不加最后一格被裁(M2 踩过的坑)。
++    * 之前硬编码 W=4096 H=1024 是把 width / height 颠倒(用户视觉抓到第三排
++    * 房间被裁,右半全黑),M3 T2 修正。 */
++   const int      W = 64  * 32 + 16;  /* 64 cols x 32 px + sub-row half-tile = 2064 */
++   const int      H = 128 * 16 + 8;   /* 128 rows x 16 px + sub-row half-step = 2056 */
 +
 +   /* PAL_LoadConfig has already set up gConfig (cwd = "./" by default
 +    * unless --game-path / GamePath cfg sets otherwise). Init globals to
@@ -177,7 +185,7 @@
  int
  main(
     int      argc,
-@@ -484,6 +647,24 @@
+@@ -484,6 +655,24 @@
     strncpy(gExecutablePath, argv[0], PAL_MAX_PATH);
  #endif
  
@@ -202,7 +210,7 @@
  #if PAL_HAS_PLATFORM_STARTUP
     UTIL_Platform_Startup(argc,argv);
  #endif
-@@ -509,6 +690,22 @@
+@@ -509,6 +698,22 @@
  
     PAL_LoadConfig(TRUE);
  
