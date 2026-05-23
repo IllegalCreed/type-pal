@@ -12,9 +12,15 @@
 
 ## 当前状态(2026-05-23)
 
-**M0 完成** —— pnpm monorepo 三包(`pal-extract` / `game` / `shared`)+ TS + Vite + Vitest + Biome 就绪。`pnpm check` 跑通类型检查与测试。设计阶段全部敲定(详见 `docs/`)。原版数据已就位并核对;sdlpal 构建脚本就绪。
+**M1 完成** —— `pal-extract` 端到端打通。`pnpm extract` 一次性产出 `data/extracted/`:
+- 事件全量:295 scenes + shared.json + objects.json,**SSS.MKF 全量字节级 round-trip 通过**(43503 条指令)
+- 资源切片(scene 1 = 开局):tilemap + 323 tiles + 9 palette
+- 数据表全量:235 items / 102 spells / 153 enemies
+- `pnpm check` 全绿(91 个单测 + 类型检查)
 
-下一步:进入 **M1**(`pal-extract` 打通最小链路,见 [`docs/03-development-plan.md`](docs/03-development-plan.md))。
+**Task 20 sdlpal RLE 对拍 harness 推迟到 M3** —— M3 战斗差分本就需要 sdlpal headless 基建,统一做更划算。当前 RLE 验证靠手造单测 + 真实数据 extract 端到端通过。
+
+下一步:进入 **M2**(运行时垂直切片 · 探索),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
 
 ## 仓库结构
 

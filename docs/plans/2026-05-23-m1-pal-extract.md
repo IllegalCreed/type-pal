@@ -2684,3 +2684,80 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
 - [ ] `data/extracted/` 在 `.gitignore`,`git status` 不出现 untracked
 - [ ] `reference/sdlpal/` 未被改动(只读规格)
 - [ ] M2 起步时 `@type-pal/shared` 的 Command / Tilemap / Palette 类型可直接 import
+
+---
+
+## 实施过程发现 / 与本计划的偏离(2026-05-23 完工时整理)
+
+本计划在写时基于 sdlpal 的高层文档与设计推断;实施时多处与真实数据不符,记录如下供 M2+ 参考。**全部 commit 在 main 分支可追溯**。
+
+### 1. YJ1 → YJ2(全计划替换)
+
+1998 Win9x 版的 MKF 子文件压缩用 **YJ2**(`sdlpal global.c:202 fIsWIN95 ? YJ2 : YJ1`)。扫所有 14 个 MKF 找不到任何 YJ1 magic。计划里写 YJ1 之处一律是 YJ2;`io/yj1.ts` 删除,`io/yj2.ts` 1:1 port 自 `yj1.c::YJ2_Decompress`(算法 = 适配 Huffman + LZSS,无 magic)。
+
+### 2. YJ2 死循环防护
+
+YJ2 主循环只在 `pos === 0xfff` 时 break。MAP.MKF 的 chunk 没有这个哨兵,会无限循环写出界(Uint8Array 静默忽略)。补 `while (dst < uncompLen)` 出口。
+
+### 3. parseSpriteChunk 字节布局错(大坑)
+
+计划假设 "byte 0..1 = imagecount,offset 表从 byte 2 起"。实际(`palcommon.c:835/849`):**byte 0..1 是 imagecount 同时也是 frame 0 的 word-offset**(双重身份);offset 表从 byte 0 起,每条 u16 需 `<< 1` 才是字节偏移。直接影响 Task 10 / 11 / 19。修了 sprite.ts + 同步单测。
+
+### 4. WORD.DAT 在 Win9x 版无场景名
+
+D20 说"场景名在 WORD.DAT"。**Win9x 版的 `SCENE` struct 根本没 name 字段**,WORD.DAT 末尾 14 条是毒物 / 杂项名而非场景名。`io/word.ts.parseWordDat` 暂把那 14 条放进 `scenes: string[]`(占位);`events/annotate.ts` 的 `_scene` 注释**只**从 `symbols.json` 拿,不 fallback 到 WORD.DAT。
+
+### 5. items / spells / enemies 实际住在 SSS.MKF chunk 2(OBJECT 数组),不是 DATA.MKF
+
+`global.c:293/296/408` + 实测验证:OBJECT 数组在 SSS.MKF chunk 2,索引 0-60 = 角色 / 61-295 = items / 296-397 = spells / 398-550 = enemies。DATA.MKF chunk 1 + 4 分别是 ENEMY 详细 stats 和 MAGIC 详细 stats(补充结构,非主表)。
+
+`resources/tables.ts`:
+- `parseItems(objBytes, words)` — 从 OBJECT 数组切 items 索引段
+- `parseSpells(objBytes, magicBuf, words)` — items 索引段 + MAGIC stats 拼装
+- `parseEnemies(objBytes, enemyBuf, words)` — items 索引段 + ENEMY stats 拼装
+- `Enemy.mp` 字段始终为 0(sdlpal ENEMY struct 无 mp 字段)
+
+### 6. showDialog opcode 0xFFFF 只有 messageIndex,没有 box
+
+`script.c:3438` 揭示 box (top/center/bottom/narration) 由前置 opcode `0x003B-0x003E` 设置,**不是** 0xFFFF 的 operand[0]。`ShowDialogCommand.box` 改为 optional;disasm 不再读 box;recompile 写 0。
+
+### 7. EndCommand 子语义需保留 operand
+
+0x0002 (end reset) 的 operand[0] = resetTo(label)、operand[1] = idleFrames。实际数据有 513 条 0x0002 带非零 operand;原 disasm 把它们丢掉导致 round-trip 字节级失败。修:`EndCommand` 加 `resetTo?` / `idleFrames?` 字段。
+
+### 8. ShowDialogCommand 改 messageIndex 必填
+
+M.MSG 有 3349 条重复字符串;按 text dedupe 反查回 messageIndex 会错位。改 disasm 直存 messageIndex,`text` 降为可选注释。`recompile` 直接写 messageIndex。
+
+### 9. MAP.MKF 是 YJ2 压缩;GOP.MKF 是 raw sprite chunk
+
+`map.c:103` MAP.MKF 走 `Decompress`(YJ2 in Win9x);`map.c:142` GOP.MKF 走 `PAL_MKFReadChunk`(raw)。计划里"MAP.MKF 含 tile id + tileset"是错的:MAP 是 128×64×2 个 u32 LE 的 cell 数组(每 cell 2 层 lower/upper),tileset 在独立的 GOP.MKF 同 mapNum chunk。
+
+### 10. `Tilemap` schema 重写
+
+为支持 (1) 128×64 cell 网格 + (2) 每 cell 2 层,`@type-pal/shared::Tilemap` 改为:
+
+```ts
+interface TileCell { lower: number; upper: number }
+interface Tilemap {
+  width: number    // 64
+  height: number   // 128
+  cells: TileCell[][]
+  tilesetImage: string
+}
+```
+
+### 11. Task 20 sdlpal RLE 对拍 harness — 推迟到 M3
+
+需要编译 sdlpal C + 链接 video.c + 可能打补丁,基建较重。M3 战斗差分测试本就需要类似 sdlpal headless harness,统一在那时做。M1 内 RLE 验证依赖:rle.ts 3 个手造单测 + 真实 GOP.MKF chunk 12 通过 parseSpriteChunk → 323 帧成功解码 + extract 端到端跑完。
+
+### 自检 checklist 实际状态
+
+- [x] `pnpm install` 干净跑通
+- [x] `pnpm check` 退出码 0(3 包 typecheck + 91 个测试全过)
+- [x] `pnpm extract` 跑通,产出完整 `data/extracted/`
+- [x] events round-trip:不打印 ROUND-TRIP FAILED
+- [ ] ~~RLE 对拍~~(Task 20 推迟到 M3)
+- [x] `data/extracted/` 在 `.gitignore`
+- [x] `reference/sdlpal/` 未被改动
+- [x] `@type-pal/shared` 的 Command / Tilemap / Palette / Item 等类型 M2 可直接 import

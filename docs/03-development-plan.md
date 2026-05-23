@@ -13,12 +13,15 @@
 - TypeScript、Vite、Vitest、Biome 配好。一个本地 `pnpm check` 脚本(类型检查 + 测试)—— 不做 CI。
 - 仓库目录结构、README。
 
-### M1 · pal-extract 打通最小链路
-- **共享底层**:MKF 归档读取 + YJ1 解压 + RLE 解码。
-- **资源管线(切片)**:提取垂直切片(开局场景一带 · 余杭客栈 / 李宅)要用的 1 张地图、相关精灵、调色板、1 个场景的数据表条目。字库不要(见 D11)。
-- **事件管线(全量)**:字节码反汇编器骨架(双向 opcode 注册表 + disasm + recompile + 可达性切分 + 字符串内联 + WORD.DAT/`symbols.json` 注释)+ 全量 events round-trip 自动验证。~15 个 M2 切片要用的 opcode 给具名,其余走 `raw` 兜底。详见 D22。
-- 产出 `data/extracted/` 完整结构(资源切片 + 事件全量),供 M2 消费。
-- 详细设计见 [`plans/2026-05-23-m1-pal-extract-design.md`](plans/2026-05-23-m1-pal-extract-design.md)。
+### M1 · pal-extract 打通最小链路 ✅(2026-05-23 完成)
+- **共享底层**:MKF 归档读取 + **YJ2 解压**(Win9x 版用 YJ2 不是 YJ1)+ RLE 解码。
+- **资源管线(切片)**:开局 scene 1 = mapNum 12 的 tilemap(128×64×2 cells)+ 该地图的 323 个 tile bitmaps + 9 个 palette。字库不要(D11)。
+- **数据表(全量,顺手吃了原 M4 这条)**:235 items / 102 spells / 153 enemies。注:items / spells / enemies **实际住在 SSS.MKF chunk 2(OBJECT 数组)**,不是 DATA.MKF。
+- **事件管线(全量)**:字节码反汇编器(双向 opcode 注册表 ~15 个具名 + raw 兜底)+ 可达性切分(295 scenes + shared.json + objects.json)+ WORD.DAT/`symbols.json` 注释 + **全量 SSS.MKF chunk 4 byte-level round-trip(43503 条指令 ✅)**。
+- 产出 `data/extracted/` 在 `.gitignore` 中,由 `pnpm extract` 一次性生成,M2 直接消费。
+- 91 个单元 / 集成测试全过,`pnpm check` 绿。
+- 详细设计见 [`plans/2026-05-23-m1-pal-extract-design.md`](plans/2026-05-23-m1-pal-extract-design.md);实施过程发现 / 偏离见 [`plans/2026-05-23-m1-pal-extract.md`](plans/2026-05-23-m1-pal-extract.md) 末尾「实施过程发现」。
+- **Task 20 sdlpal RLE 对拍 harness 推迟到 M3**(战斗差分本就需要 sdlpal headless 基建,统一做)。
 
 ### M2 · 运行时垂直切片(探索)
 - 资源加载层、表现层最小渲染:显示一个场景,画地图 + 队伍精灵。
