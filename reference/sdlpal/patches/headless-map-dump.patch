@@ -17,16 +17,23 @@
  
  static jmp_buf g_exit_jmp_buf;
  static int g_exit_code = 0;
-@@ -457,6 +467,136 @@
+@@ -457,6 +467,159 @@
  
  
  
 +/* type-pal: headless full-map dump.
 + * Loads map N, blits both layers to a 4096x1024 8-bit indexed surface,
-+ * converts to RGBA using palette P (from pat.mkf), writes to PNG, exits.
++ * converts to RGBA using palette P (from pat.mkf), writes to PNG.
++ * Returns 0 on success, non-zero on failure (caller exits with the rc).
 + * No SDL window/renderer/audio is created. Must be invoked from a cwd
-+ * containing the game data (map.mkf, gop.mkf, pat.mkf, ...). */
-+static void
++ * containing the game data (map.mkf, gop.mkf, pat.mkf, ...).
++ *
++ * NOTE: palette correctness is caller's responsibility -- a scene's true
++ * palette is set by the setPalette script opcode at runtime, not stored
++ * statically with the map. Passing iPaletteNum=0 is safe for shape-level
++ * diff but may show wrong colors; use --palette N for color-accurate
++ * comparison once you know the scene's real palette index. */
++static int
 +PAL_DumpMapToPng(int iMapNum, int iPaletteNum, const char *pszOutPath)
 +{
 +   FILE          *fpMAP = NULL, *fpGOP = NULL;
@@ -38,7 +45,6 @@
 +   SDL_Rect       srcRect;
 +   const int      W = 128 * 32;   /* full map: 128 cells x 32 px = 4096 */
 +   const int      H = 64  * 16;   /* full map: 64 rows x 16 px = 1024 */
-+   int            i;
 +
 +   /* PAL_LoadConfig has already set up gConfig (cwd = "./" by default
 +    * unless --game-path / GamePath cfg sets otherwise). Init globals to
@@ -47,7 +53,7 @@
 +   if (PAL_InitGlobals() != 0)
 +   {
 +      fprintf(stderr, "[dump-map] PAL_InitGlobals failed\n");
-+      exit(2);
++      return 2;
 +   }
 +
 +   /* Read scene palette (pat.mkf chunk iPaletteNum) before opening
@@ -56,7 +62,7 @@
 +   if (pColors == NULL)
 +   {
 +      fprintf(stderr, "[dump-map] PAL_GetPalette(%d) failed\n", iPaletteNum);
-+      exit(3);
++      return 3;
 +   }
 +
 +   fpMAP = UTIL_OpenRequiredFile("map.mkf");
@@ -68,7 +74,7 @@
 +      fprintf(stderr, "[dump-map] PAL_LoadMap(%d) failed\n", iMapNum);
 +      fclose(fpMAP);
 +      fclose(fpGOP);
-+      exit(4);
++      return 4;
 +   }
 +
 +   /* 8-bit indexed surface; PAL_RLEBlitToSurface writes palette indices. */
@@ -77,7 +83,10 @@
 +   {
 +      fprintf(stderr, "[dump-map] SDL_CreateRGBSurface failed: %s\n",
 +              SDL_GetError());
-+      exit(5);
++      PAL_FreeMap(lpMap);
++      fclose(fpMAP);
++      fclose(fpGOP);
++      return 5;
 +   }
 +
 +   /* Attach palette so SDL_FillRect / clear is well-defined (the RLE
@@ -112,7 +121,14 @@
 +   if (pRGBA == NULL)
 +   {
 +      fprintf(stderr, "[dump-map] malloc rgba failed\n");
-+      exit(6);
++#if SDL_VERSION_ATLEAST(3,0,0)
++      if (pPal != NULL) SDL_FreePalette(pPal);
++#endif
++      SDL_FreeSurface(pSurf);
++      PAL_FreeMap(lpMap);
++      fclose(fpMAP);
++      fclose(fpGOP);
++      return 6;
 +   }
 +   {
 +      const unsigned char *pSrc = (const unsigned char *)pSurf->pixels;
@@ -134,7 +150,15 @@
 +   if (stbi_write_png(pszOutPath, W, H, 4, pRGBA, W * 4) == 0)
 +   {
 +      fprintf(stderr, "[dump-map] stbi_write_png(%s) failed\n", pszOutPath);
-+      exit(7);
++      free(pRGBA);
++#if SDL_VERSION_ATLEAST(3,0,0)
++      if (pPal != NULL) SDL_FreePalette(pPal);
++#endif
++      SDL_FreeSurface(pSurf);
++      PAL_FreeMap(lpMap);
++      fclose(fpMAP);
++      fclose(fpGOP);
++      return 7;
 +   }
 +   fprintf(stderr, "[dump-map] wrote %s (%dx%d, palette=%d, map=%d)\n",
 +           pszOutPath, W, H, iPaletteNum, iMapNum);
@@ -147,14 +171,13 @@
 +   PAL_FreeMap(lpMap);
 +   fclose(fpMAP);
 +   fclose(fpGOP);
-+   (void)i;
-+   exit(0);
++   return 0;
 +}
 +
  int
  main(
     int      argc,
-@@ -484,6 +624,24 @@
+@@ -484,6 +647,24 @@
     strncpy(gExecutablePath, argv[0], PAL_MAX_PATH);
  #endif
  
@@ -179,17 +202,24 @@
  #if PAL_HAS_PLATFORM_STARTUP
     UTIL_Platform_Startup(argc,argv);
  #endif
-@@ -509,6 +667,15 @@
+@@ -509,6 +690,22 @@
  
     PAL_LoadConfig(TRUE);
  
-+   /* type-pal: if --dump-map + --out supplied, do headless map dump
-+    * (PAL_DumpMapToPng exits, never returns). Runs after PAL_LoadConfig
-+    * so gConfig.pszGamePath resolves, but before VIDEO/UI startup so
-+    * no window opens. */
++   /* type-pal: if --dump-map + --out supplied, do headless map dump.
++    * Runs after PAL_LoadConfig so gConfig.pszGamePath resolves, but
++    * before VIDEO/UI startup so no window opens. PAL_DumpMapToPng
++    * returns 0 on success, non-zero rc on failure -- caller exits. */
 +   if (g_dump_map_num >= 0 && g_dump_out_path != NULL)
 +   {
-+      PAL_DumpMapToPng(g_dump_map_num, g_dump_palette_num, g_dump_out_path);
++      int rc;
++      if (g_dump_palette_num == 0)
++      {
++         fprintf(stderr, "[dump-map] WARNING: palette=0 is default, scene's "
++                         "true palette may differ. Use --palette N to override.\n");
++      }
++      rc = PAL_DumpMapToPng(g_dump_map_num, g_dump_palette_num, g_dump_out_path);
++      exit(rc);
 +   }
 +
     //
