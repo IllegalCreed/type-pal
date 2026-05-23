@@ -159,8 +159,9 @@ async function main(): Promise<void> {
   )
   writeJson(resolve(OUT, 'data', 'battle-fields.json'), parseBattleFields(fieldBuf))
   // M3 T8:PlayerRoles(DATA.MKF chunk 3)— M2 半解扩到 M3 战斗子集 dump。
-  // 注意:T8 不删 cli.ts 下面的 PARTY_LEADER_SPRITE=2 硬编码,T9 才重构(spec 明确)。
-  writeJson(resolve(OUT, 'data', 'player-roles.json'), parsePlayerRoles(loadFile('DATA.MKF'), words))
+  // T9:cli.ts 不再硬编码 leader sprite,改读 playerRoles.roles[0].spriteNum 真值用于切片。
+  const playerRoles = parsePlayerRoles(loadFile('DATA.MKF'), words)
+  writeJson(resolve(OUT, 'data', 'player-roles.json'), playerRoles)
 
   console.log('[pal-extract] data tables written')
 
@@ -229,14 +230,15 @@ async function main(): Promise<void> {
     `[pal-extract] scene-${SLICE_SCENE_ID}.json written (${sceneObjects.eventObjects.length} event objects)`,
   )
 
-  // 角色 / NPC 精灵切片(M2 新增 — D27)
+  // 角色 / NPC 精灵切片(M2 新增 — D27, M3 T9 改读真值)
   console.log(`[pal-extract] character sprites for scene ${SLICE_SCENE_ID} …`)
 
-  // 队长精灵号 —— 原版第一角色,实测查 DATA.MKF chunk 3 (PLAYERROLES.rgwSpriteNum) 得
-  // 6 个角色精灵号 = [2, 3, 7, 525, 5, 26]。M2 切片只装载队长 sprite=2。
-  // M3 多人队伍 / 角色切换时再扩。TODO(M3): 真正从 DATA.MKF chunk 3 解析 PlayerRoles。
-  const PARTY_LEADER_SPRITE = 2
-  const spriteIds = new Set<number>([PARTY_LEADER_SPRITE])
+  // 队长精灵号 —— 从上面 parsePlayerRoles 得到的真值取(roles[0].spriteNum,实测 = 2)。
+  // 6 个角色精灵号 = [2, 3, 7, 525, 5, 26]。M2 切片只装载队长一个 sprite,
+  // 多人队伍 / 角色切换的扩展留 M5。
+  const partyLeader = playerRoles.roles[0]
+  if (!partyLeader) throw new Error('cli: parsePlayerRoles 返回空 roles')
+  const spriteIds = new Set<number>([partyLeader.spriteNum])
   for (const eo of sceneObjects.eventObjects) {
     if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)
   }

@@ -1,6 +1,7 @@
 import type {
   EventFile,
   Palette,
+  PlayerRoles,
   SceneObjects,
   Tilemap,
 } from '@type-pal/shared'
@@ -28,17 +29,19 @@ export interface LoadedAssets {
   palette: Palette
   scene: SceneObjects
   events: EventFile
+  playerRoles: PlayerRoles
   tileImages: Map<number, IndexedImage>
   characterSprites: Map<number, { frames: IndexedImage[]; anchorX: number; anchorY: number }>
 }
 
 export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   const padded = sceneId.toString().padStart(3, '0')
-  const [tilemap, palette, scene, events] = await Promise.all([
+  const [tilemap, palette, scene, events, playerRoles] = await Promise.all([
     fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap-${sceneId}.json`),
     fetchJson<Palette>(`${BASE}/data/palette-0.json`),
     fetchJson<SceneObjects>(`${BASE}/data/scene-${sceneId}.json`),
     fetchJson<EventFile>(`${BASE}/events/scene-${padded}.json`),
+    fetchJson<PlayerRoles>(`${BASE}/data/player-roles.json`),
   ])
 
   const tileFiles = tilemap.tilesetFiles ?? []
@@ -51,9 +54,11 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     if (m) tileImages.set(Number(m[1]), tilePngs[i]!)
   })
 
-  // 队长精灵 = 2 (与 pal-extract cli.ts PARTY_LEADER_SPRITE 对齐, 取自 DATA.MKF chunk 3)。
-  // TODO(M3): 真解析 PlayerRoles + 多人队伍切换。
-  const spriteIds = new Set<number>([2])
+  // 队长精灵 —— 真解析自 player-roles.json (DATA.MKF chunk 3, PLAYERROLES.rgwSpriteNum[0])。
+  // M2 切片硬编码 = 2 已删,改读真值;多人队伍切换留 M5。
+  const leader = playerRoles.roles[0]
+  if (!leader) throw new Error('assets: player-roles.json roles[0] missing')
+  const spriteIds = new Set<number>([leader.spriteNum])
   for (const eo of scene.eventObjects) {
     if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)
   }
@@ -88,5 +93,5 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     }),
   )
 
-  return { tilemap, palette, scene, events, tileImages, characterSprites }
+  return { tilemap, palette, scene, events, playerRoles, tileImages, characterSprites }
 }

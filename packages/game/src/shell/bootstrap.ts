@@ -8,9 +8,6 @@ import { createFramebuffer } from '../present/framebuffer.js'
 import { presentFrame, flushToCanvas, type PresentContext } from '../present/present.js'
 
 const SCENE_ID = 1
-/** 队长精灵号 —— 真原版第一角色,实测取自 DATA.MKF chunk 3 (PLAYERROLES.rgwSpriteNum[0])。
- *  TODO(M3): 加 DATA.MKF chunk 3 真解析 + 多角色队伍切换,而非硬编码。 */
-const PARTY_LEADER_SPRITE = 2
 
 export function showError(canvas: HTMLCanvasElement, msg: string): void {
   const ctx = canvas.getContext('2d')
@@ -25,7 +22,14 @@ export function showError(canvas: HTMLCanvasElement, msg: string): void {
 export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   const assets = await loadAll(SCENE_ID)
 
-  const { tilemap, palette, scene, events, tileImages, characterSprites } = assets
+  const { tilemap, palette, scene, events, playerRoles, tileImages, characterSprites } = assets
+
+  // 队长精灵号 —— 从 player-roles.json (DATA.MKF chunk 3 真解) 取真值。
+  // M3 T9 之前 M2 硬编码 = 2,现在改读 PlayerRoles.roles[0].spriteNum(实测 = 2);
+  // 多人队伍切换留 M5。
+  const leader = playerRoles.roles[0]
+  if (!leader) throw new Error('bootstrap: playerRoles.roles[0] missing')
+  const partyLeaderSpriteId = leader.spriteNum
 
   // party 起始位置 —— 真原版起始由 onEnter 脚本 setPartyPos opcode 设;M2 raw skip 后不自动设。
   // 实施时若 dev 验证位置不对,改这两个数字。
@@ -48,8 +52,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   }
 
   // sprite 装配
-  const partyData = characterSprites.get(PARTY_LEADER_SPRITE)
-  if (!partyData) throw new Error(`队长 sprite (id ${PARTY_LEADER_SPRITE}) 加载失败`)
+  const partyData = characterSprites.get(partyLeaderSpriteId)
+  if (!partyData) throw new Error(`队长 sprite (id ${partyLeaderSpriteId}) 加载失败`)
   const partyFirst = partyData.frames[0]
   if (!partyFirst) throw new Error('队长 sprite 无 frame[0]')
   const partySprite = {
