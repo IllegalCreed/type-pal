@@ -4,6 +4,7 @@
  */
 
 import type { Command, DialogBoxStyle, SceneEventObject } from '@type-pal/shared'
+import type { BattleState } from './battle/battle-state.js'
 
 export type Facing = 'up' | 'down' | 'left' | 'right'
 
@@ -50,8 +51,8 @@ export interface GameState {
   dialogBox?: DialogBoxState
   /** 由 setDialogStyle* 命令累积。默认 'center'。 */
   currentDialogStyle: DialogBoxStyle
-  /** 战斗状态;T16 给真类型,T14 占位 unknown 不污染 explore/event。 */
-  battleState?: unknown
+  /** 战斗状态;T16 给真类型(BattleState),T14 已用 unknown 占位避免污染 explore/event。 */
+  battleState?: BattleState
   frameNum: number
 }
 
