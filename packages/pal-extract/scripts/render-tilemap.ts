@@ -1,24 +1,28 @@
 /**
  * Debug 工具:把 scene 1 整张 tilemap(64×128 cells, 2 layers × 2 sub-rows each)
  * 拼成 PNG。用我们 game/draw-tilemap.ts 的同一套渲染规则,作为 D29 流程里
- * "我们的渲染输出"那一侧 —— M3 sdlpal headless map dumper 写出来后跟这张
+ * "我们的渲染输出"那一侧 —— M3 原版 headless map dumper 写出来后跟这张
  * 像素 diff。
  *
  * 跑法(repo 根):pnpm -F @type-pal/pal-extract render-tilemap
  * 产物:build/scene-1-full.png (2064×2056)
+ *
+ * 也可作 module 被 import:Task M3.3 的 baseline pixel diff 测试就是这么用。
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PNG } from 'pngjs'
+import { openMkf, readChunk } from '../src/io/mkf.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 // scripts/ → packages/pal-extract/ → packages/ → repo root
 const REPO_ROOT = resolve(HERE, '../../..')
 const DATA = resolve(REPO_ROOT, 'data/extracted')
-const OUT_DIR = resolve(REPO_ROOT, 'build')
-const OUT_PATH = resolve(OUT_DIR, 'scene-1-full.png')
+const RAW = resolve(REPO_ROOT, 'data/raw')
+const DEFAULT_OUT_DIR = resolve(REPO_ROOT, 'build')
+const DEFAULT_OUT_PATH = resolve(DEFAULT_OUT_DIR, 'scene-1-full.png')
 
 const TILE_W = 32
 const TILE_H = 16
@@ -27,18 +31,53 @@ const TILE_HALF_W = 16
 const ROW_Y_STEP = TILE_H
 const SUBROW_Y_STEP = TILE_H / 2
 
-interface Cell { lower: number; upper: number }
-interface Tilemap { width: number; height: number; cells: Cell[][]; tilesetFiles: string[] }
-interface TileImage { width: number; height: number; indices: Uint8Array }
+interface Tilemap { width: number; height: number; cells: { lower: number; upper: number }[][] }
+interface TileImage {
+  width: number
+  height: number
+  indices: Uint8Array  // palette index per pixel
+  opaque: Uint8Array   // 0 = transparent (RLE skip), 1 = opaque (RLE written, even if index === 0)
+}
 
-function loadTilePng(filename: string): TileImage {
-  const buf = readFileSync(resolve(DATA, 'images', filename))
-  const png = PNG.sync.read(buf)
-  const indices = new Uint8Array(png.width * png.height)
-  for (let i = 0; i < indices.length; i++) {
-    indices[i] = png.data[i * 4]!
+/**
+ * 直接从 GOP.MKF 把 sprite chunk 内一帧解码为 (indices, opaque) 对。
+ *
+ * 这里**不能**复用现有 io/rle.ts —— 它把 RLE 透明跳过和 opaque-zero
+ * 合并成 indices[i] = 0,丢失透明 / 显式画 0 的区别。M3 T3 D29 像素 diff
+ * 揪出的第 3 个 bug:tile 37 在 (col=15, row=14) 是显式 opaque idx 0
+ * (RLE 走 opaque run 写了 0),会把 layer 0 已经画的 idx 180 给覆盖回 0。
+ * 我们的 game/draw-tilemap.ts + 现有 PNG 抽取链都没保留这信息,所以
+ * render-tilemap 看不到这覆盖。要做严格 sdlpal pixel 对拍 → 自己解 RLE。
+ */
+function decodeRleFrame(chunk: Uint8Array, frameIdx: number): TileImage | null {
+  const off = ((chunk[frameIdx * 2]! | (chunk[frameIdx * 2 + 1]! << 8)) << 1)
+  if (off === 0 || off + 4 > chunk.length) return null
+  let p = off
+  if (chunk[p] === 0x02 && chunk[p + 1] === 0x00 && chunk[p + 2] === 0x00 && chunk[p + 3] === 0x00) {
+    p += 4
   }
-  return { width: png.width, height: png.height, indices }
+  const width = chunk[p]! | (chunk[p + 1]! << 8)
+  const height = chunk[p + 2]! | (chunk[p + 3]! << 8)
+  p += 4
+  const indices = new Uint8Array(width * height)
+  const opaque = new Uint8Array(width * height)
+  const transThreshold = 0x80 + width
+  let dst = 0
+  while (dst < indices.length && p < chunk.length) {
+    const T = chunk[p++]!
+    // sdlpal palcommon.c:128 —— 透明 run 只在 (T & 0x80) && T <= 0x80 + uiWidth;
+    // 否则按 opaque run 长度 T 处理。run 长度可跨行。
+    if ((T & 0x80) && T <= transThreshold) {
+      dst += T - 0x80
+    } else {
+      for (let i = 0; i < T && dst < indices.length; i++) {
+        indices[dst] = chunk[p++]!
+        opaque[dst] = 1
+        dst++
+      }
+    }
+  }
+  return { width, height, indices, opaque }
 }
 
 /** sdlpal map.c:249 —— layer 0 tile id 从 d 低 16 bit 提取(9-bit 隔位拼接) */
@@ -52,28 +91,57 @@ function layer1Id(d: number): number {
   return ((hi & 0xff) | ((hi >> 4) & 0x100)) - 1
 }
 
-function main(): void {
-  console.log('[render-tilemap] loading tilemap-1.json...')
+export interface RenderTilemapOptions {
+  /** sceneId,M2 当前固定 1 = scene 1 / mapNum 12。 */
+  sceneId?: number
+  /** 调色板号,默认 0(M2 当前固定 0)。 */
+  paletteId?: number
+  /** 输出 PNG 路径。默认 <repo>/build/scene-1-full.png。 */
+  outPath?: string
+}
+
+export interface RenderTilemapResult {
+  outPath: string
+  width: number
+  height: number
+}
+
+export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapResult {
+  const sceneId = opts.sceneId ?? 1
+  const paletteId = opts.paletteId ?? 0
+  const outPath = opts.outPath ?? DEFAULT_OUT_PATH
+
   const tilemap = JSON.parse(
-    readFileSync(resolve(DATA, 'data/tilemap-1.json'), 'utf-8'),
+    readFileSync(resolve(DATA, `data/tilemap-${sceneId}.json`), 'utf-8'),
   ) as Tilemap
-  console.log(`[render-tilemap] ${tilemap.width}×${tilemap.height} cells, ${tilemap.tilesetFiles.length} tile PNGs`)
 
   const palette = JSON.parse(
-    readFileSync(resolve(DATA, 'data/palette-0.json'), 'utf-8'),
+    readFileSync(resolve(DATA, `data/palette-${paletteId}.json`), 'utf-8'),
   ) as { colors: [number, number, number][] }
 
+  // sdlpal palette.c:75-77 用 `byte << 2` 把 6-bit VGA 升 8-bit,丢低 2 bit;
+  // 我们的 extract 用 `(v<<2) | (v>>4)` 升到完整 0..255。这两条同源 6-bit
+  // 值会差 0~3。D29 baseline 由 sdlpal 出,所以这里 mask 低 2 bit 去对齐。
+  // 这是 M3 T3 找出的第二个 bug(第一个是 sub-row x/y 偏置错位)。
+  const sdlpalColors: [number, number, number][] = palette.colors.map(
+    ([r, g, b]) => [r & 0xfc, g & 0xfc, b & 0xfc] as [number, number, number],
+  )
+
+  // M3 T3 修正:不用 data/extracted/images/tile-scene-*-N.png(PNG 抽取丢
+  // 了 RLE 透明 / opaque-zero 区分),直接读 GOP.MKF 第 mapNum chunk 解 RLE。
+  // mapNum:M2 当前 scene 1 == mapNum 12(详见 scripts/extract-tilemap-baseline.sh)。
+  const mapNum = sceneId === 1 ? 12 : sceneId
+  const gop = openMkf(new Uint8Array(readFileSync(resolve(RAW, 'GOP.MKF'))))
+  const gopChunk = readChunk(gop, mapNum)
   const tileImages = new Map<number, TileImage>()
-  for (const fname of tilemap.tilesetFiles) {
-    const m = /tile-scene-\d+-(\d+)\.png/.exec(fname)
-    if (!m) continue
-    tileImages.set(Number(m[1]), loadTilePng(fname))
+  const tileFrameCount = gopChunk[0]! | (gopChunk[1]! << 8)
+  for (let f = 0; f < tileFrameCount; f++) {
+    const img = decodeRleFrame(gopChunk, f)
+    if (img !== null) tileImages.set(f, img)
   }
-  console.log(`[render-tilemap] loaded ${tileImages.size} tile bitmaps`)
 
   const W = tilemap.width * TILE_W + TILE_HALF_W
   const H = tilemap.height * ROW_Y_STEP + SUBROW_Y_STEP
-  console.log(`[render-tilemap] canvas: ${W}×${H} px`)
 
   const fb = new Uint8Array(W * H)
 
@@ -82,32 +150,42 @@ function main(): void {
       const py = dstY + y
       if (py < 0 || py >= H) continue
       for (let x = 0; x < tile.width; x++) {
-        const idx = tile.indices[y * tile.width + x]!
-        if (idx === 0) continue
+        const srcOff = y * tile.width + x
+        if (tile.opaque[srcOff] === 0) continue // RLE-skip:不写入
         const px = dstX + x
         if (px < 0 || px >= W) continue
-        fb[py * W + px] = idx
+        fb[py * W + px] = tile.indices[srcOff]!
       }
     }
   }
 
+  // sdlpal map.c:382-414 PAL_MapBlitToSurface 真实公式:
+  //   yPos = -8 + 16*y + 8*h   (h=0 排在 row baseline 上方 8 px;h=1 在 row baseline)
+  //   xPos = 32*x + 16*h - 16  (h=0 排在 col baseline 左 16 px;h=1 在 col baseline)
+  // 我们的 cell.lower = Tiles[y][x][0] = h=0 DWORD,cell.upper = Tiles[y][x][1] = h=1 DWORD。
+  // 早先版本把 cell.lower 当成 "下方/baseline" 处理 → 渲染整体偏 (+16, +8),
+  // M3 T3 D29 baseline pixel diff 把这暴露出来(rows 152-1294 全错位)。
+  //
+  // **迭代顺序** 也要照 sdlpal:外 y → 中 h → 内 x。这样 row 内 h=0 的全 x
+  // 先画完再轮 h=1,因为 h=0 (col c+1) 和 h=1 (col c) 在 col 方向上有 16 px 重叠,
+  // 顺序不同会因 opaque 互相覆盖产生不同 pixel。
   function drawPass(layerFn: (d: number) => number): void {
     for (let r = 0; r < tilemap.height; r++) {
+      // h=0 sub-row:所有 x。cell.lower → 左偏 16 / 上偏 8。
       const row = tilemap.cells[r]!
       for (let c = 0; c < tilemap.width; c++) {
-        const cell = row[c]!
-        const cellPxX = c * TILE_W
-        const rowPxY = r * ROW_Y_STEP
-
-        const lowerId = layerFn(cell.lower)
-        if (lowerId >= 0) {
-          const img = tileImages.get(lowerId)
-          if (img) blitTile(img, cellPxX, rowPxY)
+        const h0Id = layerFn(row[c]!.lower)
+        if (h0Id >= 0) {
+          const img = tileImages.get(h0Id)
+          if (img) blitTile(img, c * TILE_W - TILE_HALF_W, r * ROW_Y_STEP - SUBROW_Y_STEP)
         }
-        const upperId = layerFn(cell.upper)
-        if (upperId >= 0) {
-          const img = tileImages.get(upperId)
-          if (img) blitTile(img, cellPxX + TILE_HALF_W, rowPxY + SUBROW_Y_STEP)
+      }
+      // h=1 sub-row:所有 x。cell.upper → 不偏。
+      for (let c = 0; c < tilemap.width; c++) {
+        const h1Id = layerFn(row[c]!.upper)
+        if (h1Id >= 0) {
+          const img = tileImages.get(h1Id)
+          if (img) blitTile(img, c * TILE_W, r * ROW_Y_STEP)
         }
       }
     }
@@ -116,20 +194,24 @@ function main(): void {
   drawPass(layer0Id)
   drawPass(layer1Id)
 
-  console.log('[render-tilemap] encoding PNG...')
   const png = new PNG({ width: W, height: H })
   for (let i = 0; i < fb.length; i++) {
     const idx = fb[i]!
-    const c = palette.colors[idx] ?? [0, 0, 0]
+    const c = sdlpalColors[idx] ?? [0, 0, 0]
     png.data[i * 4] = c[0]
     png.data[i * 4 + 1] = c[1]
     png.data[i * 4 + 2] = c[2]
     png.data[i * 4 + 3] = 255
   }
 
-  mkdirSync(OUT_DIR, { recursive: true })
-  writeFileSync(OUT_PATH, PNG.sync.write(png))
-  console.log(`[render-tilemap] written → ${OUT_PATH}`)
+  mkdirSync(dirname(outPath), { recursive: true })
+  writeFileSync(outPath, PNG.sync.write(png))
+
+  return { outPath, width: W, height: H }
 }
 
-main()
+// CLI 薄壳:tsx 直接跑此文件时触发(import 时不触发)
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const r = renderTilemap()
+  console.log(`[render-tilemap] written → ${r.outPath} (${r.width}×${r.height})`)
+}

@@ -4618,3 +4618,23 @@ M3 Phase 1 完成意味着:
 
 下一里程碑(M3.5)从这条路径切入,不再 block 战斗系统的迭代。
 
+---
+
+## 实施过程发现(逐 task 累计,T30 时归档)
+
+### 1. (T3) D29 自动 pixel diff 一次性揪出 M2 渲染链 3 个隐藏 bug
+
+T3 把 sdlpal `--dump-map` 出的 baseline 跟我方 `render-tilemap.ts` 产物做 byte-级 diff,初版 fail 7.542%,debug 后逐个修:
+
+- **Bug A — sub-row x/y 偏置错位(+16, +8)**:`cell.lower` 实际是 `Tiles[y][x][0]` = h=0 sub-row DWORD,`cell.upper` 是 h=1 sub-row DWORD。sdlpal `map.c:382-414 PAL_MapBlitToSurface` 的真实公式是 `yPos = -8 + 16*y + 8*h`、`xPos = 32*x + 16*h - 16` —— **h=0 排在 row baseline 上方 8 px 且左偏 16 px**(off-canvas 左上半 tile),h=1 在 row baseline。我方 M2 render-tilemap 原代码把 lower 当 baseline 处理、upper 当 +(16,+8) 处理,等于整图右下偏移 1 个半 tile。D29 显示 baseline 首像素 (152, 606) 而我方首像素 (160, 622),delta = (+8, +16) 直接对上。
+- **Bug B — palette 升 8-bit 公式不同**:sdlpal `palette.c:75-77` 用 `byte << 2`(6-bit → 0..252),我方 `decodePalette` 用 `(v<<2) | (v>>4)`(6-bit → 0..255 保留白)。两条同源 6-bit 值差 0~3。fix:render-tilemap 输出前 mask 低 2 bit 对齐 sdlpal,**运行时游戏调色板保持原状(更高质量)**。
+- **Bug C — RLE 透明 vs opaque-zero 在 PNG 中被合并**:sdlpal RLE 区分"透明 run(skip 不写)"和"opaque run 写 0"(后者会覆盖前一层 opaque 像素)。例如 tile 37 (col=15, row=14) 是 opaque-0 → 把 layer 0 已经画好的 idx 180 覆盖为 0(背景黑)。我方现有 `io/rle.ts` + tile PNG 抽取链(R 通道=idx,无 alpha)把这两种情况都存成 idx=0,渲染时一律 skip。结果是 layer 1 透明区域应该"擦掉"layer 0 的某些像素,但没擦,造成多绘出 2709 像素的色差。fix:`render-tilemap.ts` **不再用抽好的 tile PNG**,直接读 `data/raw/GOP.MKF` 第 mapNum chunk,自带 RLE 解 → `(indices, opaque)` 二元组,blit 检查 opaque。
+- **副产 — 迭代顺序**:sdlpal 外层 y → 中层 h → 内层 x,我方原代码外层 r → 内层 c 时同时画 h=0/h=1。当相邻 cell 的 h=0(x=c+1)和 h=1(x=c)在 col 方向有 16 px 重叠时,顺序影响重叠像素由谁覆盖。修正到 `y → h → x`。
+
+**runtime game 影响**:
+- Bug A 也在 `packages/game/src/present/draw-tilemap.ts` 同样存在(同一公式),需后续 task 同步修 + 同步改 `draw-tilemap.test.ts` 的位置断言(测试当前断言的是错误公式)。
+- Bug B 不影响 runtime(浏览器调色板用 `(v<<2)|(v>>4)` 比 sdlpal 更准,不强求 mask)。
+- Bug C 是真 bug:runtime tile 抽取链丢了 RLE opacity 信息,layer 1 不能正确"擦"layer 0 的某些像素。fix 需要 (1) 改 `io/rle.ts` 同时返回 indices 和 opaque,(2) 改 `encodeIndexedPng` 把 opacity 进 PNG 的 alpha 通道,(3) 改 `draw-tilemap.ts` 用 alpha 判断而非 `idx === 0`。
+
+T3 commit 只改 render-tilemap.ts 自己(让 D29 自动测试通过),A/C 在 runtime 的同步修留作 follow-up(M3.5 或 M4 重渲染战斗时一并干)。
+
