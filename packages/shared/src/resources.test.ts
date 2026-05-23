@@ -1,6 +1,6 @@
 import { describe, it, expect, expectTypeOf } from 'vitest'
 import type { Tilemap, TileCell, Palette, SceneObjects, SceneEventObject } from './resources.js'
-import type { Enemy } from './tables.js'
+import type { Enemy, Item, ItemFlags } from './tables.js'
 
 describe('resources types', () => {
   it('Tilemap 有必要字段', () => {
@@ -94,6 +94,69 @@ describe('Enemy schema (M3 D28 扩)', () => {
     const json = JSON.stringify(e)
     const parsed = JSON.parse(json) as Enemy
     expect(parsed.attackStrength).toBe(-1)
+  })
+})
+
+describe('Item schema (M3 T5)', () => {
+  it('完整 Item 字段', () => {
+    const item: Item = {
+      id: 100,
+      _name: '止血草',
+      bitmap: 5,
+      price: 30,
+      scriptOnUse: 1234,
+      scriptOnEquip: 0,
+      scriptOnThrow: 0,
+      scriptDesc: 5678,
+      flags: {
+        usable: true,
+        equipable: false,
+        throwable: false,
+        consuming: true,
+        applyToAll: false,
+        sellable: true,
+        equipableBy: [false, false, false, false, false, false],
+      },
+    }
+    expect(item.flags.usable).toBe(true)
+    expect(item.flags.equipableBy).toHaveLength(6)
+  })
+
+  it('ItemFlags 类型有 7 个具名字段', () => {
+    expectTypeOf<ItemFlags>().toMatchTypeOf<{
+      usable: boolean
+      equipable: boolean
+      throwable: boolean
+      consuming: boolean
+      applyToAll: boolean
+      sellable: boolean
+      equipableBy: readonly boolean[]
+    }>()
+  })
+
+  it('Item 可 JSON 序列化(flags 拆位仍是 boolean)', () => {
+    const item: Item = {
+      id: 1,
+      bitmap: 0,
+      price: 0,
+      scriptOnUse: 0,
+      scriptOnEquip: 0,
+      scriptOnThrow: 0,
+      scriptDesc: 0,
+      flags: {
+        usable: false,
+        equipable: false,
+        throwable: false,
+        consuming: false,
+        applyToAll: false,
+        sellable: false,
+        equipableBy: [false, false, false, false, false, false],
+      },
+    }
+    const parsed = JSON.parse(JSON.stringify(item)) as Item
+    expect(parsed.id).toBe(1)
+    expect(parsed.flags.equipableBy).toHaveLength(6)
+    expect(typeof parsed.flags.usable).toBe('boolean')
   })
 })
 

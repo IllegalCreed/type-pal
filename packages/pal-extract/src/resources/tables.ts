@@ -19,7 +19,7 @@
  *   [551..564]毒素/杂项 (14)
  */
 
-import type { Enemy, Item, Spell } from '@type-pal/shared'
+import type { Enemy, Item, ItemFlags, Spell } from '@type-pal/shared'
 import type { Words } from '../io/word.js'
 
 // ── OBJECT 数组 (SSS.MKF chunk 2) ──────────────────────────────────────────
@@ -47,9 +47,31 @@ const ITEM_OFF = {
   scriptOnUse: 4,
   scriptOnEquip: 6,
   scriptOnThrow: 8,
-  // scriptDesc = 10 (unused in Item interface)
+  scriptDesc: 10,
   flags: 12,
 } as const
+
+// ── ITEMFLAG bitmask 拆位 (global.h tagITEMFLAG) ──────────────────────────
+// bit 0..5 = Usable / Equipable / Throwable / Consuming / ApplyToAll / Sellable
+// bit 6.. = EquipableByPlayerRole_First + N(MAX_PLAYER_ROLES=6,sdlpal palcommon.h:45)
+const PLAYER_ROLES = 6 // MAX_PLAYER_ROLES
+const ITEM_FLAG_EQUIPABLE_BY_PLAYER_ROLE_FIRST_BIT = 6
+
+function parseItemFlags(raw: number): ItemFlags {
+  const equipableBy: boolean[] = []
+  for (let i = 0; i < PLAYER_ROLES; i++) {
+    equipableBy.push(!!(raw & (1 << (ITEM_FLAG_EQUIPABLE_BY_PLAYER_ROLE_FIRST_BIT + i))))
+  }
+  return {
+    usable: !!(raw & (1 << 0)),
+    equipable: !!(raw & (1 << 1)),
+    throwable: !!(raw & (1 << 2)),
+    consuming: !!(raw & (1 << 3)),
+    applyToAll: !!(raw & (1 << 4)),
+    sellable: !!(raw & (1 << 5)),
+    equipableBy: equipableBy as ItemFlags['equipableBy'],
+  }
+}
 
 // ── OBJECT_MAGIC 字段偏移 (global.h tagOBJECT_MAGIC) ──────────────────────
 // wMagicNumber(0), wReserved1(2), wScriptOnSuccess(4), wScriptOnUse(6),
@@ -111,24 +133,35 @@ function s16(view: DataView, base: number, fieldOff: number): number {
 /**
  * 从 SSS.MKF chunk 2 的原始字节解析物品列表。
  *
+ * M3 T5 重构:flags 从 u16 raw 拆为 `ItemFlags` 具名 bool;`scriptDesc` 字段补齐;
+ * 名字改 `_name?`(可选,注释用,引擎不读)与 parseEnemies pattern 一致。
+ *
+ * **id 是什么**:`id` = 该 item 在 items.json 数组里的索引(0..234),
+ * 不是 OBJECT 数组里的绝对 index(那是 61..295)。M3 战斗 / dev panel
+ * 选物品时直接 `items[id]`。
+ *
  * @param objBuf SSS.MKF chunk 2 的原始字节(openMkf + readChunk 取出,不需要解压)
- * @param words  parseWordDat 解出的名称表
+ * @param words  可选;parseWordDat 解出的名称表,用于反向填 `_name`
  */
-export function parseItems(objBuf: Uint8Array, words: Words): Item[] {
+export function parseItems(objBuf: Uint8Array, words?: Words): Item[] {
   const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
   const out: Item[] = []
   for (let i = 0; i < ITEM_COUNT; i++) {
     const base = (ITEM_OBJ_START + i) * OBJ_SIZE
-    out.push({
+    if (base + OBJ_SIZE > objBuf.byteLength) break
+    const item: Item = {
       id: i,
-      name: words.items[i] ?? `_item_${i}`,
       bitmap: u16(view, base, ITEM_OFF.bitmap),
       price: u16(view, base, ITEM_OFF.price),
       scriptOnUse: u16(view, base, ITEM_OFF.scriptOnUse),
       scriptOnEquip: u16(view, base, ITEM_OFF.scriptOnEquip),
       scriptOnThrow: u16(view, base, ITEM_OFF.scriptOnThrow),
-      flags: u16(view, base, ITEM_OFF.flags),
-    })
+      scriptDesc: u16(view, base, ITEM_OFF.scriptDesc),
+      flags: parseItemFlags(u16(view, base, ITEM_OFF.flags)),
+    }
+    const nm = words?.items[i]
+    if (nm) item._name = nm
+    out.push(item)
   }
   return out
 }

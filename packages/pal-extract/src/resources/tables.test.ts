@@ -42,9 +42,8 @@ describe('parseItems', () => {
     expect(items).toHaveLength(235)
   })
 
-  it('第一条带名字', () => {
-    expect(items[0]!.name).toBeTruthy()
-    expect(items[0]!.name).not.toMatch(/^_item_/)
+  it('第一条带 _name(注释)', () => {
+    expect(items[0]!._name).toBeTruthy()
   })
 
   it('id 从 0 顺序递增', () => {
@@ -57,14 +56,59 @@ describe('parseItems', () => {
     expect(anyPriced).toBe(true)
   })
 
-  it('第一条物品价格为 150(筋斗云服)', () => {
-    // 实测:item[0] = 筋斗云服, price=150
+  it('第一条物品价格为 150(item[0])', () => {
+    // 实测:item[0].price=150
     expect(items[0]!.price).toBe(150)
   })
 
-  it('flags 字段有效(不全为 0)', () => {
-    const anyFlags = items.some((it) => it.flags !== 0)
-    expect(anyFlags).toBe(true)
+  it('flags 已拆为 ItemFlags 具名 bool', () => {
+    const it0 = items[0]!
+    expect(typeof it0.flags.usable).toBe('boolean')
+    expect(typeof it0.flags.equipable).toBe('boolean')
+    expect(it0.flags.equipableBy).toHaveLength(6)
+  })
+
+  it('至少一条 usable + scriptOnUse 非零(可用品)', () => {
+    const usableItems = items.filter((it) => it.flags.usable && it.scriptOnUse !== 0)
+    expect(usableItems.length).toBeGreaterThan(0)
+  })
+
+  it('scriptDesc 字段被解析(至少一条非零)', () => {
+    const anyDesc = items.some((it) => it.scriptDesc !== 0)
+    expect(anyDesc).toBe(true)
+  })
+
+  it('without words(不传 words)→ 所有 _name undefined,其他字段正常', () => {
+    const itemsNoName = parseItems(objBuf)
+    expect(itemsNoName).toHaveLength(235)
+    expect(itemsNoName.every((it) => it._name === undefined)).toBe(true)
+    // 字段仍正常 dump
+    expect(itemsNoName[0]!.price).toBe(150)
+  })
+
+  it('flag bit 顺序对(fake fixture:usable + equipable)', () => {
+    // 构造一片 fake bytes,在 ITEM_OBJ_START=61 位置写入特定 flags
+    const fake = new Uint8Array((61 + 1) * 14)
+    const view = new DataView(fake.buffer)
+    // bit 0 (usable) + bit 1 (equipable) = 0b0000_0011
+    view.setUint16(61 * 14 + 12, 0b0000_0011, true)
+    const fakeItems = parseItems(fake)
+    expect(fakeItems[0]!.id).toBe(0)
+    expect(fakeItems[0]!.flags.usable).toBe(true)
+    expect(fakeItems[0]!.flags.equipable).toBe(true)
+    expect(fakeItems[0]!.flags.throwable).toBe(false)
+    expect(fakeItems[0]!.flags.consuming).toBe(false)
+  })
+
+  it('equipableBy bit 6..11 对(fake fixture:全 6 个 role)', () => {
+    // bit 6 + 7 + 8 + 9 + 10 + 11 = 0b1111_1100_0000 = 0xFC0
+    const fake = new Uint8Array((61 + 1) * 14)
+    const view = new DataView(fake.buffer)
+    view.setUint16(61 * 14 + 12, 0xfc0, true)
+    const fakeItems = parseItems(fake)
+    expect(fakeItems[0]!.flags.equipableBy).toEqual([true, true, true, true, true, true])
+    // bit 0..5 都应为 false
+    expect(fakeItems[0]!.flags.usable).toBe(false)
   })
 })
 
