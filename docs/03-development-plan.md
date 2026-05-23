@@ -33,9 +33,11 @@
 - 180 个 Vitest 单测全过(M1 旧 91 + shared 20 + game 56 + pal-extract 增至 104),`pnpm check` 绿。`pnpm extract` 重跑产物完好(全量 events round-trip 仍逐字节通过,12 个 sprite / 75 帧)。
 
 ### M3 · 战斗垂直切片
-- 事件能触发一场战斗。
+- **第一个 task(D29 流程落地):sdlpal headless map dumper** —— patch + 重编 sdlpal,加 `--dump-map N --out FILE` 跳 SDL 窗口直接 dump 全图 PNG;然后跟我们 `scripts/render-tilemap.ts` 像素 diff,锁定 tilemap 渲染 100% 对(M2 视觉对照只到 camera-clipped,无法 program 化全图比对)。
+- 事件能触发一场战斗(顺手补 `setPartyPos` / `setViewport` / `showFace` 等 ~10 个 onEnter 用的 opcode,让 scene 1 真跑完进 explore)。
 - 最小回合制战斗:普通攻击、回合顺序、胜负判定、经验。
 - 战斗 UI 最小版。
+- Enemy schema 大改(D28:signed 语义 + 缺字段)。
 
 ### M4 · pal-extract 补全
 - 覆盖剩余 MKF 格式(M1 未碰到的:F / MGO / PAT / SOUNDS 中的非切片部分等)。
