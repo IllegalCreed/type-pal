@@ -24,6 +24,9 @@ importers:
         specifier: workspace:*
         version: link:../shared
     devDependencies:
+      '@types/node':
+        specifier: ^25.9.1
+        version: 25.9.1
       canvas:
         specifier: ^3.2.3
         version: 3.2.3

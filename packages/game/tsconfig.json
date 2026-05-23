@@ -4,7 +4,9 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "outDir": "dist",
     "rootDir": "src",
-    "types": []
+    // 主代码浏览器目标(types: []),__tests__ 下 D29 对拍要 node:fs / node:path —— 仅
+    // 让 node 类型对测试可用;运行时业务代码不应 import 'node:*'(rootDir 强制 src/)
+    "types": ["node"]
   },
   "include": ["src/**/*"]
 }
