@@ -1,73 +1,82 @@
-# M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛端到端 Design
+# M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Design
 
 > 这是 M3.5 的**设计文档**(brainstorming 产出),只讲"做什么 / 怎么组织 / 怎么验证"。
 > 配套的 step-by-step 实施计划由 writing-plans 阶段产出,落在 `docs/plans/2026-05-24-m3-5-scene-encounter.md`。
 
 ## 与全局文档的关系
 
-- 实现 `../03-development-plan.md` 的 **M3.5 Phase 2** 节(scene 切换 + 明雷怪 + dev 跳仙灵岛端到端)。
-- M3 Phase 1 完成定义留下的 8 项 follow-up(见 [`2026-05-23-m3-battle-vertical-slice.md`](2026-05-23-m3-battle-vertical-slice.md) 末尾「M3.5 准备清单」),M3.5 范围选 **缩范围 B'**:覆盖 6 项,推 2 项到 M5。
-- **关键简化(用户提议)**:不走真剧情链(scene 1 onEnter 真跑完 / 多 scene 间剧情 / 仙灵岛破阵 / 桃林 / 水月宫 全部不做);**dev shortcut 直接跳到仙灵岛码头 / 入口**,然后真实走 1-2 scene + 撞草妖 + 真战斗。
-- 架构 / 决策依据来自 `../02-architecture.md`(scene-system + EventSystem 协程式步进器)、`../04-decisions.md`(D26 raw skip / D29 双基准 / D30 PAL_CLASSIC build)、`../05-events-schema.md`(EventObject `triggerMode` 字段已在 M1 parse)。
-- 消费 M3 Phase 1 产物:战斗骨架(battle-system + 5 actions + UI)+ D29 双基准基建 + 数据 schema 完整版。
+- 实现 `../03-development-plan.md` 的 **M3.5 Phase 2** 节(scene 切换 + 明雷怪 + dev 跳仙灵岛端到端 + L2 一次性补齐)。
+- M3 Phase 1 完成定义留下的 8 项 follow-up(见 [`2026-05-23-m3-battle-vertical-slice.md`](2026-05-23-m3-battle-vertical-slice.md) 末尾「M3.5 准备清单」),M3.5 范围:
+  - 6 项功能改动(主体)
+  - **L2 视觉端到端 23 个 case 一次性补齐**(M1 → M3.5 累积所有功能点)
+- **关键简化(D34)**:不走真剧情链;**dev shortcut 直接跳到仙灵岛码头 / 入口**,然后真实走 1-2 scene + 撞草妖 + 真战斗。
+- **关键测试分层(D35)**:六层分类(L1a/b/c/d + L2 + L3),L2 / L3 是**用户视觉关注**的两层,L3 推 M7。
+- 架构 / 决策依据来自 `../02-architecture.md`、`../04-decisions.md`(D26 raw skip / D29 双基准 / D30 PAL_CLASSIC build / D32-D35)、`../05-events-schema.md`(EventObject `triggerMode` 字段已在 M1 parse)。
+- 消费 M3 Phase 1 产物:战斗骨架 + D29 双基准 + 数据 schema 完整版。
 - 参考资料:
   - `reference/sdlpal/play.c`(`PAL_PartyWalk` / scene 切换 / 明雷触发真行为)
   - `reference/sdlpal/script.c`(opcode 实施)
   - `reference/sdlpal/uibattle.c`(战斗菜单 UX 真行为,B5 input wire 参考)
   - `reference/walkthrough/flow.md`(玩家视角剧情顺序,§2 仙灵岛章节)
 
+---
+
 ## 1. 范围
 
-### 1.1 关键简化:dev shortcut 跳 scene,不走真剧情
+### 1.1 关键简化:dev shortcut 跳 scene,不走真剧情(D34)
 
-**用户提议(2026-05-24)**:走真剧情(scene 1 → 出客栈 → 盛漁村大地图 → 码头 → 上船 → 仙灵岛)需要补大量 onEnter opcode 具名 + 多 scene 间剧情 showDialog 链 + 上船过场,工作量爆,**M3.5 做不到**。
+走真剧情链(scene 1 onEnter → 出客栈 → 盛漁村大地图 → 码头 → 上船 → 仙灵岛)需补 ~30 个 onEnter opcode 真具名 + 大段 showDialog/showFace/setBGM 链,工作量爆,**M3.5 做不到**。改方向:dev panel 加 "跳 scene" 快捷键,真实走 1-2 scene + 撞草妖 + 真战斗。
 
-**改方向**:用 dev panel 加 "跳 scene" 快捷键 — 直接 jump 到仙灵岛码头 / 入口 scene,程序化写 party 位置;然后**真实走 1-2 scene + 撞草妖**(明雷)→ 真战斗。
+### 1.2 M3.5 主体 6 项功能(缩范围 B')
 
-### 1.2 M3.5 做的 6 项(缩范围 B')
+| 项 | 描述 |
+|---|---|
+| **F1 战斗 UI input wire** | tickSelectAction 真处理 Up/Down/Confirm/Cancel + uiState 子状态机(mainMenu → magicMenu / itemMenu / targetSelect)。修 M3 phase 1 接受的 limitation。 |
+| **F2 scene 切换链路** | `core/scene-system.ts` 扩 `loadScene(sceneId)` + `assets/loader.ts` 加 `SceneAssetsCache` lazy(D33)。 |
+| **F3 明雷怪机制** | `EventObject.triggerMode=contact` 自动 runScript(D32),对照 sdlpal `play.c::PAL_PartyWalk`。 |
+| **F4 scene 切换 opcode** | 只具名 `loadScene` 1 个;其他 onEnter opcode 继续 raw skip(D26)。 |
+| **F5 仙灵岛资源 dump** | pal-extract 加 2 个 scene(仙灵岛码头 + 仙灵岛入口)tilemap / palette / sprite + scene-NN.json(含 triggerMode 字段)。 |
+| **F6 dev panel "跳 scene"** | B 键 picker 加新 entries 跳到任意 scene + 写 party 位置。 |
 
-| 项 | 描述 | 工作量 |
-|---|---|---|
-| **#1 战斗 UI input wire** | tickSelectAction 真处理 Up/Down/Confirm/Cancel + uiState 子状态机(mainMenu → magicMenu / itemMenu / targetSelect)。M3 phase 1 接受的 limitation 在 M3.5 修。 | ~1 day |
-| **#3 scene 切换 opcode**(精简到 1-2 个)| 只具名 `loadScene` 一个 — 让 scene 切换链路在 EventSystem 里可执行。其他 onEnter opcode(setPartyPos / setViewport / setBGM 等)继续 raw skip(D26)。 | ~0.5 day |
-| **#4 明雷怪机制** | `EventObject.triggerMode` 区分接触触发(明雷 / 传送)vs Confirm 触发(NPC,M2 已建)。玩家走进 trigger cell 自动 runScript。对照 sdlpal `play.c::PAL_PartyWalk`。 | ~0.5 day |
-| **#5 scene 切换链路** | `core/scene-system.ts` 扩 `loadScene(sceneId)` 卸 / 载场景资源 + 重置 GameState scene 字段;`assets/loader.ts` 加 SceneAssetsCache lazy 加载。 | ~1 day |
-| **#6 仙灵岛 + 仙灵岛入口 scene 资源 dump** | pal-extract 加 2 个 scene(仙灵岛码头 + 仙灵岛入口,实施时按攻略 + scene-list 真值定 id)的 tilemap / palette / sprite + scene-NN.json(含 triggerMode 字段)。 | ~0.5 day |
-| **#7 dev panel "跳 scene" shortcut** | 在 B 键 picker 加新 entry "跳仙灵岛码头" + "跳仙灵岛入口" — 程序化写 GameState.party.col/row + sceneId + 调 loadScene。 | ~0.5 day |
-| **#8 baseline shim 清理** | T23 内启发式 shim 移除(M3 #5 enemy id 翻译已 done);test 直接用 startBattle。 | ~0.5 hour |
+### 1.3 M3.5 L2 视觉端到端 23 case 一次性补齐(用户关注核心)
 
-**总:~12-15 task,~4 day。**
+用户在 M3.5 之前**视觉看到的只有"一个场景六个房间"**(scene 1 客栈)。M3.5 一次填全 M1-M3.5 所有功能点的 L2 case,后续 milestone 不补历史。
 
-### 1.3 不在 M3.5 范围(推 M5)
+见 §5 测试策略 详细 case 列表。
 
-**M3 准备清单里的 #2 / #8**(D29 战斗 5/5 全亮 + draw-tilemap 残留)不做,理由跟原 design 一致。
+### 1.4 不在 M3.5 范围(推 M5 / M6 / M7)
 
-**新增推 M5 的**:
-- scene 1 onEnter 真跑完(继续硬编码起点 — M3 phase 1 已经这样)
-- 真剧情多 scene 间走完(出客栈 → 盛漁村大地图 → 码头 → 仙灵岛 — 各段 showDialog / showFace / setPartyPos / setBGM 等 ~30 个 opcode 真具名)
-- 仙灵岛剧情(破阵 / 桃林 / 水月宫)
+- D29 战斗 baseline 5/5 全亮(spell/item OBJECT→id 翻译 + D4 物理公式 trace):**推 M5**
+- runtime draw-tilemap.ts Bug A/C 残留修:**推 M5**
+- 真剧情链(出客栈 → 盛漁村大地图 → 码头 → 仙灵岛 + 仙灵岛剧情破阵 / 桃林 / 水月宫):**推 M5**
+- 状态效果完整集 / scripted enemy AI / battlefield 元素 buff / 合体技能 / 觉醒 / 装备:**推 M5**
+- 主菜单 / 大世界菜单(暂停 / inventory / 装备 / 状态 / 商店):**推 M5/M6**
+- 视频(AVI 过场):**推 M6**
+- 音频(BGM / 音效 / 战斗声音):**推 M6**
+- M3 历史 `e2e-battle.test.ts` 改造成 Playwright:**推 M7**
+- 完整游戏流程 E2E(Layer 3):**推 M7 通关验证**
 
-### 1.4 完成定义
+### 1.5 完成定义
 
-`pnpm dev` 浏览器:
-- scene 1 onEnter 跑完 → explore(M3 现状不动)
-- 按 B → picker 多了「跳仙灵岛入口」→ 程序化 loadScene + 写 party 位置
-- 玩家在仙灵岛入口 scene → 方向键走几步 → 撞草妖(明雷自动触发)
-- 真战斗界面打开 → 用户按 Up/Down/Confirm 真菜单
-- 5 actions(攻击 / 法术 / 物品 / 防御 / 逃跑)都能调
-- won / lost / fleed 全跑通 → 切回 explore(仍在仙灵岛入口)
+见 §7 完成定义。
 
-**关键不变量**:
-- D30 PAL_CLASSIC build 仍是战斗对照源
-- 不开 branch,直接 commit main
-- README / 公开文件 / 源码注释 不写原游戏名
-- 不破坏 M3 phase 1 测试(407 + 2 skip 至少不退,只增)
-- M2 探索不破坏
-- events round-trip 仍逐字节通过(新具名 `loadScene` opcode 必须严格 disasm/recompile 对偶)
+---
 
-## 2. 组件设计
+## 2. 关键不变量
 
-### 2.1 数据 schema 改动
+- **D30 PAL_CLASSIC build 仍是战斗对照源**
+- **不开 branch,直接 commit main**(memory:solo)
+- **README / 公开文件 / 源码注释 不写原游戏名**(版权)
+- **L2 baseline PNG 不入 git**(版权,本机生成存 `packages/game/e2e/baselines/`,加进 `.gitignore`)
+- 不破坏 M3 phase 1 测试(`pnpm check` 407 + 2 skip 至少不退,只增)
+- M2 探索功能不破坏
+- events round-trip 仍逐字节通过(`loadScene` 新具名 opcode 严格 disasm/recompile 对偶)
+
+---
+
+## 3. 组件设计
+
+### 3.1 数据 schema 改动
 
 #### `@type-pal/shared` `resources.ts`
 
@@ -93,15 +102,15 @@ export interface SceneEventObject {
 
 > `EventObject.triggerMode` 已经在 M1 `pal-extract/src/io/sss.ts` parse(M2 已 verify);M3.5 修补 dump SceneEventObject 时把这个字段也 dump,运行时 scene-system 用。
 
-### 2.2 pal-extract 增量(`packages/pal-extract/src/`)
+### 3.2 pal-extract 增量(`packages/pal-extract/src/`)
 
-- **`resources/scenes.ts`**(M2 已建):scene-N.json dump 时加 `triggerMode` 字段
-- **scene chain dump**:cli 加 2 个 scene(仙灵岛码头 + 仙灵岛入口)— 实施时按攻略 / scene-list 真值定 id;复用 M1/M2 tilemap / palette / sprite 提取管线
-- **`events/opcodes.ts`**:只具名 1 个 opcode — `loadScene`(实施时 grep sdlpal `script.c` 真 opcode 号 + operand 字段)
+- **`resources/parsers/scenes.ts`** (或 M2 实际位置):scene-N.json dump 时加 `triggerMode` 字段
+- **scene chain dump**:cli 加 2 个 scene(仙灵岛码头 + 仙灵岛入口)— 实施时按攻略 + scene-list 真值定 id
+- **`events/opcodes.ts`**:只具名 1 个 opcode — `loadScene`
 - **`events/disasm.ts` + `recompile.ts`**:对应 case
-- **其他 onEnter opcode 继续 raw skip**(D26 兼容,EventSystem 撞到 console.debug + ip++)
+- **其他 onEnter opcode 继续 raw skip**(D26)
 
-### 2.3 game runtime 扩展(`packages/game/src/`)
+### 3.3 game runtime 扩展(`packages/game/src/`)
 
 #### `core/scene-system.ts` 加 `loadScene` 函数
 
@@ -110,18 +119,13 @@ export interface SceneSwitchInput {
   gs: GameState
   sceneId: number
   assets: SceneAssetsCache
-  /** party 起点位置(loadScene 后写 GameState.party)。 */
   partyStart?: { col: number; row: number; facing?: Facing }
 }
 
-/**
- * 切场景:卸载当前 scene 资源 + 加载新 scene 资源 + 重置 GameState scene 字段。
- * @returns Promise (async fetch 资源)
- */
 export async function loadScene(input: SceneSwitchInput): Promise<void> {
-  // 1. 加载新 scene 资源(SceneAssetsCache lazy fetch)
+  // 1. SceneAssetsCache lazy fetch 新 scene 资源
   const newSceneAssets = await input.assets.loadScene(input.sceneId)
-  // 2. 重置 GameState scene 字段(sceneId / npcs / tilemap reference)
+  // 2. 重置 GameState scene 字段
   input.gs.scene.id = input.sceneId
   input.gs.scene.tilemap = newSceneAssets.tilemap
   input.gs.npcs = newSceneAssets.eventObjects.map(npcFromEventObject)
@@ -131,57 +135,36 @@ export async function loadScene(input: SceneSwitchInput): Promise<void> {
     input.gs.party.row = input.partyStart.row
     if (input.partyStart.facing) input.gs.party.facing = input.partyStart.facing
   }
-  // 4. 不自动跑 onEnter(M3.5 dev shortcut 跳 scene 模式不需要;真剧情走完 M5 才做)
+  // 4. 不自动跑 onEnter(M3.5 dev shortcut 模式不需要;真剧情链 M5 才做)
 }
 ```
 
 #### `core/scene-system.ts` 加明雷机制
 
-`tickSceneSystem` 在走路后检测 party 当前 cell 是否有 `triggerMode=contact` 的 EventObject:
-
 ```typescript
 export function tickSceneSystem(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
-  // M2 已有:走路 / 边界 clamp / Confirm 触发 NPC
-  // M3.5 加:每 tick 走路后,检测 party 当前 cell 上的 EventObject
+  // M2 已有:走路 / 边界 clamp / NPC Confirm 触发 / NPC 阻挡 / 相机 follow
+  // M3.5 加:每 tick 走路后,检测 party 当前 cell 上 EventObject:
   //   if triggerMode === CONTACT_TRIGGER_VALUE(sdlpal 真值实施时定):
   //     自动 runScript(EventObject.triggerScript),不需要 Confirm
-  //     EventSystem 撞 startBattle opcode → 进战斗
 }
 ```
 
-> `CONTACT_TRIGGER_VALUE` 实施时按 sdlpal `play.c::PAL_PartyWalk` 真值定。可能多种 triggerMode 值各有语义(明雷 / 传送 / Confirm)— design 阶段不定死,implementer 看真值。
+`CONTACT_TRIGGER_VALUE` 实施时按 sdlpal `play.c::PAL_PartyWalk` 真值定;可能多种 triggerMode 值各有语义(明雷 / 传送 / Confirm)。M3.5 简版按 binary 区分。
 
-#### `core/event-system.ts` 加 `loadScene` opcode handler
+#### `core/event-system.ts` `loadScene` opcode handler
 
-```typescript
-// 在 runScript switch 加:
-case 'loadScene': {
-  // EventSystem 跑到这个 opcode,emit "loadScene" 命令 → Shell / 主循环处理
-  // 因为 loadScene 是 async fetch,EventSystem 不直接 await — emit + waitable 命令
-  bus.emit({ op: 'loadScene', sceneId: cmd.sceneId })
-  // 设 waiting='loadScene' — Shell 处理完 loadScene 后 complete cmdId,EventSystem 才 ip++
-  state.waiting = 'loadScene'
-  break
-}
-```
+M3.5 选 **B 路线简单方案**:dev panel 直接调 `loadScene()` 函数;events.json 里 `loadScene` opcode 仍 raw skip(D26)。M5 真做剧情链时升级到 EventSystem 通过可等待命令 emit + Shell 处理(A 路线)。
 
-> 实施细节:loadScene 是 async,跨 EventSystem / Shell。M2 已建可等待命令机制(showDialog 用)— 复用同款 protocol。
-> 或更简单做法:M3.5 简版 loadScene 不走 EventSystem,直接由 dev panel 的"跳 scene"按钮调用 — scene 切换 opcode 在 events.json 里仍 raw skip(不影响 dev shortcut 路线)。
-> **实施时挑**:若想让 EventSystem 真消费 loadScene(为 M5 真剧情链做准备),走可等待命令机制;若只支持 dev shortcut,直接 dev panel 调 `loadScene()` 函数。**design 推荐后者(简单)**,M5 真做剧情链时再升级。
-
-#### `core/battle/battle-system.ts` 扩 tickSelectAction(B5 input wire)
-
-现 stub(等 pendingActions size 满)→ 真做按 uiState 处理 input:
+#### `core/battle/battle-system.ts` 扩 `tickSelectAction`(F1 input wire)
 
 ```typescript
 function tickSelectAction(state, gs, input, bus, res): void {
   const playerIdx = state.selectingPlayerIdx
   if (playerIdx === undefined) {
-    // 找下一个未填 pendingAction 的活队员;若全填好 → buildActionQueue + 切 performAction
-    return advanceOrSubmit(state, gs, res)
+    return advanceOrSubmit(state, gs, res)  // 推进下一队员或全填好 → performAction
   }
   
-  // 按 uiState 子状态机分支处理 input
   switch (state.uiState) {
     case 'mainMenu':
       handleMainMenuInput(state, input)
@@ -198,18 +181,15 @@ function tickSelectAction(state, gs, input, bus, res): void {
   }
 }
 
-// 各 handler 处理:
+// 各 handler:
 // - Up/Down: state.uiCursor 切
 // - Confirm: 推进 uiState 或填 pendingActions[playerIdx]
 // - Cancel: 退回上一级 uiState
-
-// 关键:uiCursor 在不同 uiState 下含义不同,需要存上一级 uiCursor 以便 Cancel 还原
-// 实施时考虑加 cursorStack: number[] 或 multiple cursor 字段
 ```
 
-> sdlpal `uibattle.c` 真菜单 UX(grep 实施时定):mainMenu 5 项 / magicMenu 列表 / itemMenu 列表 / targetSelect 左右切 — 整体 UX 跟原版对齐,但 M3.5 简版可有偏差,后续 M5 调优
+`uiCursor` 在不同 uiState 下含义不同,需要存上一级 uiCursor 以便 Cancel 还原(实施时考虑加 `cursorStack: number[]` 或 multiple cursor 字段)。
 
-### 2.4 `assets/loader.ts` 加 SceneAssetsCache
+### 3.4 `assets/loader.ts` 加 `SceneAssetsCache`
 
 ```typescript
 export class SceneAssetsCache {
@@ -217,13 +197,11 @@ export class SceneAssetsCache {
   
   async loadScene(sceneId: number): Promise<SceneAssets> {
     if (!this.cache.has(sceneId)) {
-      // fetch /extracted/data/scene-N.json + tilemap-N.json + palette-N.json + tile bitmaps + NPC sprites
       this.cache.set(sceneId, await this.fetchSceneAssets(sceneId))
     }
     return this.cache.get(sceneId)!
   }
-  
-  // 不做 LRU eviction(M3.5 简版只 2-3 scene,几 MB 可接受);M5 加
+  // M3.5 不做 LRU eviction(scope 小,< 10MB);M5 加
 }
 
 export interface SceneAssets {
@@ -234,19 +212,16 @@ export interface SceneAssets {
 }
 ```
 
-### 2.5 `shell/dev-panel.ts` 加 "跳 scene" 选项
-
-参考 M3 现有 battle picker 模式,加新选项:
+### 3.5 `shell/dev-panel.ts` 加 "跳 scene" 选项
 
 ```typescript
-// dev-panel.ts 现有 fixture picker 加 sceneJump section
 const SCENE_JUMPS = [
-  { id: 'scene-xiaoling-port', label: '跳仙灵岛码头', sceneId: ???, partyStart: { col: ?, row: ?, facing: 'down' } },
-  { id: 'scene-xiaoling-entry', label: '跳仙灵岛入口(撞草妖)', sceneId: ???, partyStart: { col: ?, row: ? } },
+  { id: 'scene-1', label: '跳 scene 1(客栈)', sceneId: 1, partyStart: { col: ???, row: ???, facing: 'down' } },
+  { id: 'scene-xiaoling-port', label: '跳仙灵岛码头', sceneId: ???, partyStart: { ... } },
+  { id: 'scene-xiaoling-entry', label: '跳仙灵岛入口(撞草妖)', sceneId: ???, partyStart: { ... } },
 ]
 // 实施时按攻略 + cat scene-NN.json 真值定 sceneId / partyStart
 
-// 选 jump → 调 loadScene + 写 party
 async function applySceneJump(deps, jump) {
   await loadScene({
     gs: deps.gs,
@@ -257,131 +232,152 @@ async function applySceneJump(deps, jump) {
 }
 ```
 
-## 3. 数据流
+---
 
-### 3.1 典型 — Dev shortcut 跳到仙灵岛入口 + 撞草妖
+## 4. 数据流
+
+### 4.1 典型 — Dev shortcut 跳到仙灵岛入口 + 撞草妖 + 真战斗
 
 ```
 [起点:M3 phase 1 已建,scene 1 explore mode]
 
 [玩家按 B → dev picker → 选「跳仙灵岛入口」]
-  → applySceneJump(jump):
-      await loadScene({ gs, sceneId: N, assets, partyStart: { col, row } })
-      → SceneAssetsCache.loadScene(N) fetch (tilemap + palette + sprite + scene-NN.json)
-      → gs.scene.id = N + npcs reset + party 写入
+  → applySceneJump:await loadScene({ gs, sceneId: N, assets, partyStart })
+  → SceneAssetsCache.loadScene(N) fetch
+  → gs.scene.id = N + npcs reset + party 写入
   → mode 仍 'explore',玩家在仙灵岛入口 scene
 
-[Frame T, 玩家按 Down 多次]
+[玩家按 Down 多次]
   → SceneSystem.tick → party.row++,撞到 cell
   → 检测 party 当前 cell 上 EventObject:
-      若 triggerMode = CONTACT(明雷)→ 自动 runScript(EventObject.triggerScript)
-  → 假设 trigger 段是 `startBattle(enemyTeamId=N)` opcode
-      → battle-system.startBattle 切 mode='battle'
-      → 战斗界面打开
+      若 triggerMode = CONTACT(明雷)→ 自动 runScript(triggerScript)
+  → triggerScript 是 startBattle 脚本 → mode='battle'
 
 [战斗 mainMenu:M3.5 真 input wire]
-  → 玩家按 Up/Down 切 uiCursor
-  → 按 Confirm 选 "攻击" → state.uiState='targetSelect' + uiCursor=0 + pendingActionDraft={type:'attack'}
-  → 按 Left/Right 切 target enemy(uiCursor)
-  → 按 Confirm → pendingActions[0] = { type:'attack', target: 0 } + advanceSelectingPlayer
+  → 按 Up/Down 切 uiCursor
+  → 按 Confirm 选 "攻击" → uiState='targetSelect' + pendingActionDraft={type:'attack'}
+  → 按 Left/Right 切 target enemy
+  → 按 Confirm → pendingActions[0] = { type:'attack', target } + advanceSelectingPlayer
   → 全队员填好 → phase='performAction'
   → tickPerformAction 跑 enemy AI + 队员 action → damage 数字
-  → tickPostAction 判 won → finalizeBattle
-  → mode='explore',仍在仙灵岛入口 scene
+  → 多回合 → won → finalizeBattle → mode='explore',仍在仙灵岛入口
 ```
 
-### 3.2 关于 loadScene 是否走 EventSystem
-
-**两种实现选择(implementer 决策)**:
-
-| 方式 | 优点 | 缺点 |
-|---|---|---|
-| **A. EventSystem 通过 emit 命令 + 可等待**(loadScene 作为可等待命令)| 与 M5 真剧情链铺路一致 | 复杂(async 跨 EventSystem / Shell + 协程挂起恢复)|
-| **B. dev panel 直接调 loadScene 函数,events.json 里 loadScene opcode 继续 raw skip** | 简单(M3.5 范围 dev shortcut 模式不需要 EventSystem 知道 loadScene)| M5 真剧情链时仍需要扩,本 M3.5 不算彻底 |
-
-**M3.5 推荐 B**(更简,scope 缩),M5 升级到 A。
-
-## 4. 错误处理
-
-- **scene 资源 fetch 失败**:loadScene 抛错,Shell 画红字 `scene N failed: <path>`,fallback 回原 scene
-- **EventObject.triggerMode 值未知**:`console.debug` 跳过,M3.5 不抛错(D26 类比)
-- **opcode 撞到未具名**:D26 raw skip(已建)
-- **input wire 跨 uiState 卡死**:phaseStallTicks 兜底(T22 已有)+ Cancel 总是回到合理 fallback uiState
-- **战斗结束 finalize**:不变(M3 phase 1)
+---
 
 ## 5. 测试策略
 
-### 5.0 测试组划分原则(用户 2026-05-24 关键澄清)
+### 5.0 六层测试分类(D35)
 
-测试**按功能域分组,各自独立维护**。每个功能域有自己的测试文件,验证该功能本身,**不验证跨功能域的整链路流程**。整链路流程测试(真实游戏跑完关卡)推**全工程都完工的最后阶段**做。
+| 层 | 名字 | 描述 | 工具 | 用户关注 |
+|---|---|---|---|---|
+| **L1a** | 纯单元测试 | 单函数 / 单 class,无依赖、纯算法 | Vitest(`pnpm check`)| ❌ |
+| **L1b** | 模块集成测试 | 多 module 联动跑某个功能模块,可能 mock 外部依赖 | Vitest | ❌ |
+| **L1c** | Headless 集成 / 流程 | 启动主循环但程序化喂 input,无真渲染 | Vitest | ❌ |
+| **L1d** | 数据 round-trip / 字节对拍 | 数据 / 资源 / 字节级 baseline,不跑 game | Vitest | ❌ |
+| **L2** | 独立功能点端到端 | dev server + Playwright 真浏览器 + 真 canvas 渲染。dev shortcut 跳进单一功能点 → 截图验证视觉 + 模拟 input 验证交互 | Playwright(`pnpm e2e`)| **✅ 关注** |
+| **L3** | 游戏完整流程端到端 | scene 1 onEnter 真开始 → 跑真剧情链 → 全程到结局 | Playwright + 长 ReplayInputSource | **✅ 关注,推 M7** |
 
-M3.5 之内 / 历史已建 / 后续里程碑会有的功能域测试组(按完成顺序):
+**M3.5 内做 L1a/b/c/d + L2;不做 L3**。M3 历史 `e2e-battle.test.ts` 归 L1c(M3.5 不改造,推 M7 一起改 Playwright)。
 
-| 测试组 | 关注点 | 状态 |
+### 5.1 L1a 纯单元测试(M3.5 增量)
+
+- `loadScene` 函数 mock 测试(纯调用 + 状态修改)
+- 明雷机制 helper 函数(triggerMode 解读 / 触发判定)
+- (M3 已有 50+ 测,保留)
+
+### 5.2 L1b 模块集成测试(M3.5 增量)
+
+- `scene-system.test.ts` 加:`loadScene` 切换(mock SceneAssetsCache + verify 资源切换 + GameState reset)
+- `scene-system.test.ts` 加:`SceneAssetsCache` lazy 行为(第一次 fetch,第二次 cache hit)
+- `scene-system.test.ts` 加:明雷机制(party 走进 contact cell → 自动 runScript)+ 反例(triggerMode 非 contact / state=hidden 跳过)
+- `battle-system.test.ts` 加:input wire ~10 测(mainMenu Up/Down/Confirm/Cancel + magicMenu / itemMenu / targetSelect + 多队员推进)
+- `event-system.test.ts` 加:`loadScene` opcode 单测(handler 行为)
+
+### 5.3 L1c Headless 集成(M3.5 不动)
+
+- M3 `e2e-battle.test.ts`(attack-to-won / flee-to-fleed,headless tick + 程序化喂 input):保留,不改造
+- 改造成 Playwright 推 M7 通关验证一起做
+
+### 5.4 L1d 数据 round-trip / 字节对拍(M3.5 增量)
+
+- `parsers/scenes.test.ts` 加:`triggerMode` 字段 dump 测试
+- `events/disasm.test.ts` 加:`loadScene` opcode round-trip 测试
+- baseline.test.ts shim 清理(M3 phase 1 `startBattleWithObjectIdMap` 启发式 → test 直接用 startBattle,enemy id 翻译已 done)
+- D29 视觉 baseline 多场景扩展:`scripts/extract-tilemap-baseline.sh` MAPS 数组加仙灵岛码头 + 仙灵岛入口 mapNum;`tilemap-baseline.test.ts` 多场景 pixel diff
+
+### 5.5 L2 独立功能点 Playwright E2E(用户关注 — 23 case 一次性补)
+
+**总览**:23 个 case,按用户视角分大类。每个 case 一个 spec 文件(或 spec 内多 test),都用 Playwright + dev server + canvas pixel diff(`pixelmatch`)。
+
+**baseline PNG 存储**:`packages/game/e2e/baselines/` —— **不入 git**(`packages/game/e2e/baselines/` 加进 `.gitignore`),本机首次跑 `pnpm e2e --update-baselines` 生成,后续 `pnpm e2e` pixel diff vs 本机 baseline。
+
+#### a 组 · 场景渲染 / 探索(9 case)
+
+| id | case | 验证 |
 |---|---|---|
-| **场景** | tilemap 加载 / 角色移动 / 边界 clamp / **loadScene 切换 / SceneAssetsCache** | M2 已建,M3.5 扩 |
-| **战斗** | 直接构造 BattleState 跑战斗,测 input wire / 5 actions / phase 状态机 / 公式 / **未来合体技能等** | M3 已建,M3.5 加 input wire |
-| **明雷遇怪机制** | party 走进 `triggerMode=contact` cell → 自动 runScript 触发 startBattle | **M3.5 新** |
-| **探索对话** | NPC.triggerScript Confirm 触发 + 协程式 showDialog | M2 已建 |
-| **拾取道具 / 开箱 / 触发机关 / 等** | EventObject 触发各种 sub-genre | 未来里程碑 |
+| **L2-a1** | tilemap 渲染像素一致 | scene 1 / 仙灵岛码头 / 仙灵岛入口 各跳进后截图,跟本机 baseline pixel diff;**只覆盖整图(camera-clipped viewport),不涉及 sdlpal classic baseline 那种全图 4096×2056** |
+| **L2-a2** | 队长 sprite 渲染 | bootstrap 完成后,party 在期望 cell + sprite 在期望像素区域;按 ArrowRight 后 facing='right' + 在新 cell |
+| **L2-a3** | NPC sprite 渲染 | scene 1 所有 NPC 都画出来(snapshot 列出 NPC 位置) |
+| **L2-a4** | 走路移动 | ArrowDown × 5 → party.row +5;ArrowUp × 5 → 回到原位 |
+| **L2-a5** | 边界 clamp | party 在地图边走 → 不动(snapshot 位置不变) |
+| **L2-a6** | 撞 NPC 阻挡 | party 走向 NPC 占的 cell → 不动(NPC cell 仍是 NPC,party 停在前一格) |
+| **L2-a7** | 相机 follow | party 走到地图右侧 → camera.col 增加,visual 看到 tilemap 滚 |
+| **L2-a8** | scene 切换(M3.5 新) | 跳 scene 1 vs 跳仙灵岛入口 → 截图 visual diff(预期不同 tilemap) |
+| **L2-a9** | 明雷遇怪(M3.5 新) | 跳仙灵岛入口 → 走到 contact cell → snapshot mode='battle'(画面是战斗界面) |
 
-**禁忌**:M3.5 **不做**真实游戏流程的 E2E 测试(`scene jump → 走入草妖 → 进战斗 → 任意打 → won → 回 explore` 这种端到端)— 那是所有功能域都完工之后的总验收。M3.5 只做各功能域**独立**测试。
+#### b 组 · 战斗(7 case)
 
-### 5.1 场景功能域测试组(M3.5 扩,`scene-system.test.ts`)
+| id | case | 验证 |
+|---|---|---|
+| **L2-b1** | 战斗背景渲染 | 跳 fixture → 截图战斗背景(FBP chunk),visual sanity |
+| **L2-b2** | 双方 sprite 渲染 | 截图含队员 + enemy sprite 位置 |
+| **L2-b3** | HP/MP 状态栏 | 截图含 HP / MP 数字(可 OCR 或 visual diff) |
+| **L2-b4** | 攻击数字弹幕 | perform attack → 截图含黄 / 蓝色数字飘上去 |
+| **L2-b5** | won 切回 explore | 战斗结束 → 截图变成 explore 界面 |
+| **L2-b6** | lost / fleed 切回 explore | 同上,fleed / lost 路径 |
+| **L2-b7** | dev panel 触发战斗 | B → picker visible → 选 fixture → 进战斗界面 |
 
-M2 已有走路 / 边界 clamp / NPC Confirm 触发 等。M3.5 加:
+#### c 组 · 菜单(6 case)
 
-- `loadScene` 切换:mock SceneAssetsCache + 调 loadScene → 验证旧 scene 资源卸载、新 scene 资源装入 GameState、party 起点正确写入
-- `SceneAssetsCache` lazy 行为:第一次 loadScene(N) fetch,第二次 cache hit(verify mock fetch 只被调用 1 次)
-- M3.5 不破坏 M2 走路 / 边界 clamp / Confirm NPC 触发(M2 测试集成回归)
+| id | case | 验证 |
+|---|---|---|
+| **L2-c1** | 对话框 4 style 区分 | M2 对话框 4 种 style(top / center / bottom / narration)各跳到对应 trigger,截图 visual diff |
+| **L2-c2** | 战斗主菜单 | 跳进战斗 → 截图主菜单 5 项可见 + Up/Down cursor 移动截图差异 |
+| **L2-c3** | 战斗法术二级菜单 | 主菜单选法术 → 截图法术列表 + Up/Down 切 + Cancel 回主菜单 |
+| **L2-c4** | 战斗物品二级菜单 | 同上,物品 |
+| **L2-c5** | 战斗目标选择光标 | magicMenu / itemMenu / attack → targetSelect → Left/Right 切 + 光标变化 |
+| **L2-c6** | dev panel picker DOM 浮层 | B → DOM 浮层弹出 + 3 fixture 项目可见 + Cancel 关闭 |
 
-### 5.2 战斗功能域测试组(M3 已建 + M3.5 加 input wire,`battle-system.test.ts` + `actions.test.ts` + 等)
+#### f 组 · dev 工具(1 case)
 
-M3 已有 50+ 个单测覆盖 phase 状态机 + 5 actions + 公式。M3.5 加 input wire:
+| id | case | 验证 |
+|---|---|---|
+| **L2-f1** | F1 dump GameState | 按 F1 → console message 含 GameState JSON dump |
 
-- mainMenu Up/Down 切 uiCursor 行为
-- mainMenu Confirm 选攻击 → uiState 切 targetSelect
-- mainMenu Confirm 选法术 → uiState 切 magicMenu
-- mainMenu Confirm 选物品 → uiState 切 itemMenu
-- mainMenu Confirm 选防御 / 逃跑 → 直接填 pendingActions + advanceSelectingPlayer
-- magicMenu Up/Down 切 + Confirm → 进 targetSelect
-- itemMenu Up/Down 切 + Confirm → 进 targetSelect
-- targetSelect Left/Right 切 target + Confirm → 填 pendingActions
-- **Cancel 退回**:targetSelect → 上一菜单;magicMenu / itemMenu → mainMenu
-- 多队员 select 推进:全填好 → buildActionQueue + 切 performAction
+**M3.5 L2 合计:a(9) + b(7) + c(6) + f(1) = 23 case**
 
-测试方式:**直接构造 BattleState** 喂 InputSnapshot 序列 → 断言 state.uiState / state.uiCursor / state.pendingActions 转换。不跑真渲染、不跨 scene。
+### 5.6 未来 L2 大类(M5 / M6,M3.5 不做但 design 标)
 
-**M3.5 不做(推 M5)**:合体技能(co-op magic)/ 觉醒 / Trance / Summon / 五行属性 / 状态效果。这些都在战斗功能域内,但实现工作量超 M3.5。
+| 大类 | 描述 | 推到 |
+|---|---|---|
+| **菜单扩展** | 标题画面 / 大世界菜单 / inventory / 装备 / 状态 / 商店 | M5 |
+| **视频** | AVI 过场 / 片头 / 片尾 / 剧情过场 | M6 |
+| **音频** | BGM(MIDI 合成)/ 音效 / 战斗声音 | M6 |
+| **探索 sub-genre** | 拾取道具 / 开箱 / 触发机关 / 等 | M5 |
 
-### 5.3 明雷遇怪机制功能域测试组(M3.5 新,`scene-encounter.test.ts`)
+### 5.7 测试跑法
 
-**只测机制**:party 走进 `triggerMode=contact` 的 EventObject cell → scene-system 自动调 runScript → mode 切到 battle。
+- `pnpm check` — Vitest(L1a/b/c/d 全跑,快)
+- `pnpm e2e` — Playwright(L2 全跑,慢,需 launch chromium + dev server)
+- 两者各自工作流;CI 跑 e2e 是未来 milestone 的事(本 milestone 主要本地用)
+- Baseline PNG 首次跑 `pnpm e2e --update-baselines` 生成,后续 pixel diff vs 本机 baseline。版权:**baseline 不入 git**,每个 dev 本机自己生成。
 
-- fixture:scene 含 1 个 triggerMode=contact 的 EventObject 在 (col, row) + triggerScript = N
-- 喂 ReplayInputSource 移动 party 到 (col, row) → 自动 runScript(N) → 假设 N 对应 startBattle 脚本 → mode='battle'
-- 反例 1:triggerMode 不是 contact → 走进不触发(等 Confirm 才行,M2 旧行为)
-- 反例 2:已经被 collide(state=hidden 等)的 EventObject → 走进不触发
+### 5.8 dev manual smoke(可选)
 
-**不测**(那是其他功能域的事):
-- 战斗本身怎么打(战斗组测)
-- 战斗结束后回 explore(战斗组的 finalizeBattle 测)
-- 完整 dev panel jump scene 跑通整链路(真实流程,推全工程完工)
+`pnpm dev` 手测 → B picker → 跳仙灵岛入口 → 自动 L2 覆盖外的手测。M3.5 L2 全覆盖后 manual smoke 主要做 sanity 用。
 
-### 5.4 pal-extract 其他单测
-
-- `scenes.test.ts` 加 triggerMode 字段 dump 测试
-- `events/disasm.test.ts` 加 loadScene opcode round-trip 测试
-- 现有 baseline.test.ts shim 清理(M3 #5 enemy id 翻译已 done):test 直接用 startBattle,移除 startBattleWithObjectIdMap 启发式
-
-### 5.5 D29 视觉 baseline 扩展
-
-- 仙灵岛码头 + 仙灵岛入口 mapNum 加入 `scripts/extract-tilemap-baseline.sh` MAPS 数组
-- `tilemap-baseline.test.ts` 多场景 pixel diff(M3 单 scene → M3.5 3 scene 自动迭代)
-
-### 5.6 dev manual smoke(可选,不作自动 E2E,只本人手测)
-
-跑 dev server 看视觉:`pnpm dev` → scene 1 onEnter → B picker → 跳仙灵岛入口 → 方向键走几步 → 自动进战斗 → 菜单 / 数字弹 visible → won → 回 explore。不写自动测试(D35 禁忌)。
+---
 
 ## 6. 模块组织
 
@@ -391,16 +387,60 @@ M3 已有 50+ 个单测覆盖 phase 状态机 + 5 actions + 公式。M3.5 加 in
 packages/game/src/
 ├── core/
 │   ├── scene-system.ts                  # 改:加 loadScene 函数 + 明雷机制
+│   ├── scene-system.test.ts             # 改:L1b 加 loadScene + 明雷机制单测
+│   ├── event-system.ts                  # 改:加 loadScene opcode handler(stub,M3.5 不主用)
 │   └── battle/
-│       └── battle-system.ts             # 改:tickSelectAction 真 input wire
+│       ├── battle-system.ts             # 改:tickSelectAction 真 input wire
+│       └── __tests__/
+│           └── battle-system.test.ts    # 改:L1b 加 input wire ~10 测
 ├── assets/
 │   └── loader.ts                        # 改:加 SceneAssetsCache lazy 加载
 ├── shell/
 │   └── dev-panel.ts                     # 改:加 "跳 scene" picker entries
-├── data/
-│   └── scene-jumps.json                 # 新:dev panel 跳 scene 预设(sceneId + partyStart)
-└── __tests__/
-    └── e2e-scene-encounter.test.ts      # 新:E2E
+└── data/
+    └── scene-jumps.json                 # 新:dev panel 跳 scene 预设(sceneId + partyStart)
+```
+
+### Playwright E2E(M3.5 新,L2)
+
+```
+packages/game/
+├── playwright.config.ts                 # 新
+├── e2e/
+│   ├── helpers/
+│   │   ├── bootstrap.ts                 # 新:复用 setup(启 server / 等 onEnter / dev panel hook)
+│   │   ├── pixel-diff.ts                # 新:pixelmatch wrapper
+│   │   └── snapshot.ts                  # 新:canvas → PNG → diff vs baseline
+│   ├── scene/                           # a 组 9 case
+│   │   ├── a1-tilemap-render.spec.ts
+│   │   ├── a2-leader-sprite.spec.ts
+│   │   ├── a3-npc-sprite.spec.ts
+│   │   ├── a4-walk.spec.ts
+│   │   ├── a5-boundary-clamp.spec.ts
+│   │   ├── a6-npc-block.spec.ts
+│   │   ├── a7-camera-follow.spec.ts
+│   │   ├── a8-scene-switch.spec.ts
+│   │   └── a9-encounter.spec.ts
+│   ├── battle/                          # b 组 7 case
+│   │   ├── b1-bg-render.spec.ts
+│   │   ├── b2-sprites.spec.ts
+│   │   ├── b3-hpmp-status.spec.ts
+│   │   ├── b4-damage-num.spec.ts
+│   │   ├── b5-won-to-explore.spec.ts
+│   │   ├── b6-lost-or-fleed.spec.ts
+│   │   └── b7-dev-trigger.spec.ts
+│   ├── menu/                            # c 组 6 case
+│   │   ├── c1-dialog-styles.spec.ts
+│   │   ├── c2-battle-main-menu.spec.ts
+│   │   ├── c3-battle-magic-menu.spec.ts
+│   │   ├── c4-battle-item-menu.spec.ts
+│   │   ├── c5-battle-target-select.spec.ts
+│   │   └── c6-dev-picker.spec.ts
+│   ├── dev/                             # f 组 1 case
+│   │   └── f1-dump-state.spec.ts
+│   └── baselines/                       # 本机生成,不入 git
+│       └── (baseline PNGs)
+└── package.json                         # 改:加 e2e script + @playwright/test + pixelmatch devDep
 ```
 
 ### `packages/pal-extract/src/`(M3.5 增量)
@@ -408,12 +448,12 @@ packages/game/src/
 ```
 packages/pal-extract/src/
 ├── resources/
-│   └── scenes.ts                        # 改:SceneEventObject 加 triggerMode + scene chain dump 加 2 个 scene
+│   └── parsers/scenes.ts                # 改:SceneEventObject 加 triggerMode + scene chain dump 加 2 个 scene
 ├── events/
 │   ├── opcodes.ts                       # 改:加 loadScene 1 个 opcode 具名
 │   ├── disasm.ts                        # 改:对应 case
 │   └── recompile.ts                     # 改:对应 case
-└── cli.ts                               # 改:总装 scene chain(scene 1 + 仙灵岛码头 + 仙灵岛入口)
+└── cli.ts                               # 改:总装 scene chain
 ```
 
 ### `packages/shared/src/`(M3.5 增量)
@@ -429,50 +469,80 @@ packages/shared/src/
 scripts/
 └── extract-tilemap-baseline.sh          # 改:MAPS 数组加仙灵岛码头 + 仙灵岛入口 mapNum
 
-build/sdlpal-baseline/
-└── maps/
-    ├── map-12.png                       # M3 已有
-    └── map-NN.png                       # M3.5 新:2 个 scene 各 baseline
+build/sdlpal-baseline/maps/              # M3.5 新增:仙灵岛 2 个 scene baseline
 ```
+
+### `.gitignore`(M3.5 增量)
+
+```
+# Playwright L2 baseline PNG(版权:含原版游戏画面,本机生成不入库)
+packages/game/e2e/baselines/
+```
+
+---
 
 ## 7. 完成定义
 
-1. ✅ 场景功能域测试组绿(§5.1:loadScene + SceneAssetsCache + M2 走路 / 边界 / Confirm NPC 回归)
-2. ✅ 战斗功能域测试组绿(§5.2:M3 已建 50+ 测 + M3.5 加 ~10 input wire 测)
-3. ✅ 明雷机制功能域测试组绿(§5.3:走进 contact cell 自动 runScript + 反例验证 triggerMode 区分 + state 区分)
-4. ✅ pal-extract 单测绿(§5.4:triggerMode 字段 + loadScene round-trip + baseline shim 清理)
-5. ✅ `pnpm extract` 跑通,产出含 scene chain(scene 1 + 仙灵岛码头 + 仙灵岛入口)+ SceneEventObject 含 triggerMode
-6. ✅ `pnpm check` 全过(M3 phase 1 = 407 + 2 skip;M3.5 ≥ 420 + 2 skip)
-7. ✅ events round-trip 仍逐字节通过(loadScene 新具名 opcode 必须严格对偶)
-8. ✅ D29 视觉 baseline 3 场景全过(scene 1 + 仙灵岛码头 + 仙灵岛入口 像素一致)
-9. ✅ M3 phase 1 input wire limitation 修(战斗功能域测试组验证)
-10. ✅ Dev 手测烟雾:`pnpm dev` → B 跳仙灵岛入口 → 走几步撞草妖 → 战斗界面 / 主菜单 / 数字弹幕 visible(visual smoke;**不是 automated E2E**)
-11. ✅ `../03-development-plan.md` 的 M3.5 状态更新到"已完成"
-12. ✅ M3.5 实施过程发现写在本 plan 末尾(implementation gap / sdlpal 真值偏差 / 改进建议)
+### Layer 1(`pnpm check`)— 我做,用户不关注具体 case
 
-> **注**:用户 2026-05-24 明确:真实游戏流程的 automated E2E(从 scene jump 到回 explore 全链路) **不做**,推全工程都完工的最后阶段。M3.5 只做各功能域独立单测 + dev manual smoke。
+1. ✅ L1a 纯单元单测(`loadScene` / 明雷 helper / 等)绿
+2. ✅ L1b 模块集成单测(scene-system loadScene + SceneAssetsCache + 明雷 / battle-system input wire ~10)绿
+3. ✅ L1c headless 集成(M3 `e2e-battle.test.ts` 不动)仍绿
+4. ✅ L1d 数据 round-trip(scenes triggerMode + loadScene opcode round-trip + tilemap baseline 多场景 + shim 清理)绿
+5. ✅ `pnpm extract` 跑通,scene chain 产出齐 + SceneEventObject 含 triggerMode
+6. ✅ `pnpm check` 全过(M3 phase 1 = 407 + 2 skip;M3.5 ≥ 430 + 2 skip)
+7. ✅ events round-trip 仍逐字节通过(loadScene 新具名 opcode 严格对偶)
+8. ✅ D29 视觉 baseline 3 场景全过(scene 1 + 仙灵岛码头 + 仙灵岛入口 像素一致)
+
+### Layer 2(`pnpm e2e`)— 用户关注
+
+9. ✅ Playwright + dev server setup 跑通
+10. ✅ a 组 9 case 全绿(scene 渲染 / sprite / 走路 / 边界 / 阻挡 / 相机 / scene 切换 / 明雷遇怪)
+11. ✅ b 组 7 case 全绿(战斗背景 / sprite / HP-MP / 数字弹幕 / won / lost-fleed / dev 触发)
+12. ✅ c 组 6 case 全绿(对话框 4 style / 战斗 4 菜单 / dev picker)
+13. ✅ f 组 1 case 全绿(F1 dump)
+
+### Layer 3 — 推 M7,本 milestone 不做
+
+### 其他
+
+14. ✅ M3 phase 1 input wire limitation 修(L1b 战斗 input wire 测 + L2 c2-c5 战斗菜单 E2E 覆盖)
+15. ✅ Dev manual smoke(`pnpm dev` 手测烟雾)
+16. ✅ `../03-development-plan.md` 的 M3.5 状态更新到"已完成"
+17. ✅ M3.5 实施过程发现写在本 plan 末尾
+
+---
 
 ## 8. 第三方依赖
 
-无新增。Vite / Vitest / TypeScript 已有。
+新增(M3.5):
+
+- `@playwright/test`(`packages/game` devDep,L2 Playwright runner)
+- `pixelmatch`(`packages/game` devDep,L2 pixel diff)
+
+不变:Vite / Vitest / TypeScript。
+
+---
 
 ## 9. 风险与缓解
 
 | 风险 | 缓解 |
 |---|---|
-| 仙灵岛码头 / 入口 scene id 错(攻略 + scene-list 真值需 verify)| 实施时 cat data/extracted/data/scene-list / scene-N.json + grep 攻略章节 verify 对应 sceneId,失误就改 |
-| 仙灵岛 tilemap / palette 解析与 scene 1 不同导致 D29 测试失败 | sdlpal headless dump 加新 mapNum baseline 对照,失败立即 visual diff |
-| 明雷机制 sdlpal `play.c::PAL_PartyWalk` 真行为复杂(triggerMode 多种值)| 实施时 grep 真值 + 简化为 binary `isContact`(M3.5 simplification) + 实施过程发现记录 |
-| input wire 子状态机比预想复杂(magic 二级菜单 + targetSelect 协调)| 本 design §2.3 已给 sketch + state 转换表;实施时按 sdlpal `uibattle.c` 真菜单 UX 对齐 |
-| loadScene async 跨 EventSystem(若选 A)| 推荐 B 路线 — dev panel 直接调 loadScene 函数,events 中 loadScene opcode 仍 raw skip,M5 真做剧情链时升级 |
-| 仙灵岛 enemyTeam(草妖)在 sdlpal 真值与我们能找到的不一致 | 实施时按 walkthrough §2 仙灵岛章节定真 enemyTeamId + cat enemy-teams.json verify(对照 _names 中"草妖" / "妖") |
-| 跨 scene 切换累计 SceneAssetsCache 内存爆 | M3.5 简版不做 eviction(只 3 scene,< 10MB);M5 加 LRU |
+| 仙灵岛码头 / 入口 scene id 错(攻略 + scene-list 真值需 verify)| 实施时 cat data/extracted/data/scene-N.json + grep 攻略章节 verify |
+| 仙灵岛 tilemap / palette 解析与 scene 1 不同导致 D29 测试失败 | sdlpal headless dump 加新 mapNum baseline 对照 |
+| 明雷机制 sdlpal `play.c::PAL_PartyWalk` 真行为复杂(triggerMode 多种值)| 实施时 grep 真值 + 简化为 binary `isContact` + 实施过程发现记录 |
+| input wire 子状态机比预想复杂 | design §3.3 已给 sketch + state 转换表;实施时按 sdlpal `uibattle.c` 真菜单 UX 对齐 |
+| 23 个 L2 case Playwright 工作量大(~25-30 task)| 大量 case 之间 helper 复用(bootstrap / pixel-diff / snapshot)— 实际 incremental 写每个 spec ~30 min;前 3 个 setup 重,后面快 |
+| baseline PNG 本机生成不入 git → 不同 dev / CI 看不到对方截图 | 接受 — 个人项目,本机为主;若未来要协作,改成截图入 git(版权由项目转 fair-use 范围处理) |
+| Playwright + dev server 跑很慢(每次起 chromium + vite)| `pnpm e2e` 不进 `pnpm check`;dev workflow 跑 vitest 快;e2e 只在 commit 大块或 milestone 验收时跑 |
+| 仙灵岛 enemyTeam(草妖)真值不一致 | 实施时按 walkthrough §2 仙灵岛章节定真 enemyTeamId + cat enemy-teams.json verify |
+| SceneAssetsCache 内存累积(多 scene 切换)| M3.5 简版不做 eviction(只 3 scene,< 10MB);M5 加 LRU |
 
-## 10. 决策同步进 04(已 commit:D32 / D33 / D34 / D35)
+---
 
-brainstorm 期间钉的决策已写进 `../04-decisions.md`:
+## 10. 决策同步进 04(已 commit:D32 / D33 / D34;D35 重写)
 
-- **D32 · 明雷怪机制 = `EventObject.triggerMode` 自动 runScript**
-- **D33 · scene chain 资源加载 lazy(SceneAssetsCache)**
-- **D34 · M3.5 dev shortcut 跳 scene,不走真剧情链**
-- **D35 · 测试按功能域独立分组,不做真实游戏流程 E2E(推全工程完工最后)**
+- **D32** · 明雷怪机制 = `EventObject.triggerMode` 自动 runScript
+- **D33** · scene chain 资源加载 lazy(SceneAssetsCache)
+- **D34** · M3.5 dev shortcut 跳 scene,不走真剧情链
+- **D35**(重写) · 测试六层分类:L1a/b/c/d + L2 Playwright + L3 完整流程

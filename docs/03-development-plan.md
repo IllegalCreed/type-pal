@@ -46,27 +46,37 @@
 - **Dev panel**:`import.meta.env.DEV` gate 的 DOM 浮层,快捷键 B 调战斗(选 enemyTeam / battleField / 队伍预设),F1 dump GameState。
 - **完成定义** ✅:dev 入口能稳定跑 5 actions,won / lost / fleed 都通,exp 入账;D29 双基准对拍绿(tilemap 像素一致 + 5 个 battle fixture 中 3 个严格 PASS / 2 个 known deviation skip 见 plan 末「实施过程发现」)。
 
-#### M3.5 Phase 2(scene 切换 + 明雷怪 + dev 跳仙灵岛端到端 · 下一里程碑)
+#### M3.5 Phase 2(scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 · 下一里程碑)
 
-**关键简化(用户 2026-05-24 澄清,D34)**:真剧情链(scene 1 onEnter → 出客栈 → 盛漁村大地图 → 码头 → 上船 → 仙灵岛)scope 爆,**M3.5 不做真剧情**;用 dev panel 加 "跳 scene" 快捷键直接 jump 到仙灵岛入口,然后真实走 1-2 scene + 撞草妖 + 真战斗。
+**关键简化(D34)**:真剧情链 scope 爆,M3.5 不做真剧情;用 dev panel 加 "跳 scene" 快捷键直接 jump 到仙灵岛入口,然后真实走 1-2 scene + 撞草妖 + 真战斗。
 
-6 件事:
-- **战斗 UI input wire** —— 修 M3 phase 1 接受的 limitation(让用户按 Up/Down/Confirm 真菜单推进 + 5 actions 都能调)
-- **scene 切换链路** —— `scene-system.ts` 扩 `loadScene(sceneId)`,assets/loader.ts 加 SceneAssetsCache lazy 加载(D33)
-- **明雷怪机制** —— `EventObject.triggerMode` 区分接触触发 vs Confirm 触发(D32);走进 trigger cell 自动 runScript
-- **scene 切换 opcode 具名** —— 只 `loadScene` 一个(其他 onEnter opcode 继续 raw skip,D26 兼容)
-- **仙灵岛码头 + 仙灵岛入口 资源 dump** —— pal-extract 2 个 scene 的 tilemap / palette / sprite + scene-NN.json(含 triggerMode 字段)
-- **dev panel "跳 scene" shortcut** —— 程序化 jump + 写 party 位置
+**主体 6 项功能**:
+- F1 **战斗 UI input wire**(修 M3 phase 1 limitation,Up/Down/Confirm 真菜单推进)
+- F2 **scene 切换链路**(`loadScene` + `SceneAssetsCache` lazy,D33)
+- F3 **明雷怪机制**(`triggerMode=contact` 自动 runScript,D32)
+- F4 **scene 切换 opcode**(只 `loadScene` 1 个,其他 raw skip)
+- F5 **仙灵岛码头 + 仙灵岛入口资源 dump**(2 个 scene tilemap/palette/sprite + scene-NN.json 含 triggerMode)
+- F6 **dev panel "跳 scene" shortcut**
 
-测试按功能域独立分组(D35):
-- **场景功能域**(`scene-system.test.ts`):loadScene / 角色移动 / 边界 clamp / SceneAssetsCache。M2 已建,M3.5 扩
-- **战斗功能域**(`battle-system.test.ts` 等):直接构造 BattleState 测 input wire / 5 actions / phase / 公式。M3 已建 50+ 测,M3.5 加 ~10 input wire 测;未来合体技能 / 觉醒 / 五行属性等在此组扩展
-- **明雷遇怪机制**(`scene-encounter.test.ts`):只测 party 走进 contact triggerMode 自动 runScript。**M3.5 新**
-- **探索对话**(M2 已建):NPC Confirm 触发 + 协程式 showDialog
+**测试六层分类(D35)**:
+- **L1a-d** Vitest(`pnpm check`):L1a 纯单元 / L1b 模块集成 / L1c Headless 集成 / L1d 数据 round-trip
+- **L2 Playwright 视觉 E2E**(`pnpm e2e`,**用户关注**)
+- **L3 完整流程 E2E**(推 M7)
 
-**M3.5 不做**:真实游戏流程的 automated E2E(跨功能域整链路)— 推全工程完工最后阶段。允许 manual dev smoke。
+**L2 一次性补齐 23 case**(M1-M3.5 所有功能点视觉资产):
+- a 组场景 / 探索(9):tilemap 渲染 / 队长 sprite / NPC sprite / 走路 / 边界 / NPC 阻挡 / 相机 / scene 切换(M3.5)/ 明雷遇怪(M3.5)
+- b 组战斗(7):战斗背景 / 双方 sprite / HP-MP / 数字弹幕 / won / lost-fleed / dev 触发
+- c 组菜单(6):对话框 4 style / 战斗主菜单 / 战斗法术菜单 / 战斗物品菜单 / 战斗目标光标 / dev picker
+- f 组 dev 工具(1):F1 dump GameState
 
-详细设计 / 决策依据见 [`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md)。预计 ~12-15 task。
+详细设计 / 决策依据见 [`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md)。预计 ~38 task(主体 12-15 + L2 23 + Playwright setup ~3)。
+
+#### 未来 L2 大类(M3.5 不做,design 标)
+
+- **菜单扩展**(M5):标题画面 / 大世界菜单 / inventory / 装备 / 状态 / 商店
+- **视频**(M6):AVI 过场 / 片头 / 片尾
+- **音频**(M6):BGM(MIDI 合成)/ 音效 / 战斗声音
+- **探索 sub-genre**(M5):拾取道具 / 开箱 / 触发机关
 
 #### 不在 M3 范围(推 M5 完整战斗)
 - scripted enemy AI(`wScriptOnTurnStart` / `wScriptOnReady`)
