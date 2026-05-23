@@ -10,6 +10,7 @@ describe('drawSprite', () => {
     expect(fb.indices[8 * 320 + 9]).toBe(1)
     expect(fb.indices[8 * 320 + 10]).toBe(2)
     expect(fb.indices[9 * 320 + 9]).toBe(3)
+    expect(fb.indices[9 * 320 + 10]).toBe(4)
   })
 
   it('索引 0 不覆盖底面', () => {
