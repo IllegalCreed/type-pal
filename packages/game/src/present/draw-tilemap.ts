@@ -45,15 +45,19 @@ export function drawTilemap(
       const cellPxX = c * TILE_W + (r & 1) * TILE_HALF_W + offsetX
       if (cellPxX + TILE_W <= 0 || cellPxX >= fb.width) continue
 
-      // M2 简化:lower / upper 都画在同一 cell 位置 (cellPxX, rowPxY)。
-      // sdlpal map.h 实际 Tiles[row][col][h] h=0/1 是子行,位置不同:
-      //   h=0 → (c*32, r*16)
-      //   h=1 → (c*32+16, r*16+8)
-      // 若 Task 22 dev 验证发现 tile 错位 / 重叠,upper 改画到 (cellPxX + 16, rowPxY + 8)。
-      const lowerImg = tiles.get(cell.lower & 0xff)
+      // sdlpal map.c:249 —— tile bitmap id 是 9-bit,中间隔位:
+      //   id = (d & 0xff) | ((d >> 4) & 0x100)
+      // (低 8 位 + bit 12 升到 bit 8)
+      const lowerId = (cell.lower & 0xff) | ((cell.lower >> 4) & 0x100)
+      const upperId = (cell.upper & 0xff) | ((cell.upper >> 4) & 0x100)
+      // sdlpal map.h Tiles[row][col][h] h=0/1 是两个子行,**不是同位置叠加**:
+      //   h=0 (lower) → (c*32,        r*16)
+      //   h=1 (upper) → (c*32 + 16,   r*16 + 8)
+      // 直接画 → upper 整体往右下错开半个 tile,与原版菱形排布一致。
+      const lowerImg = tiles.get(lowerId)
       if (lowerImg) blitTile(fb, lowerImg, cellPxX, rowPxY)
-      const upperImg = tiles.get(cell.upper & 0xff)
-      if (upperImg) blitTile(fb, upperImg, cellPxX, rowPxY)
+      const upperImg = tiles.get(upperId)
+      if (upperImg) blitTile(fb, upperImg, cellPxX + TILE_HALF_W, rowPxY + ROW_Y_STEP)
     }
   }
 }

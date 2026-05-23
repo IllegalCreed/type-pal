@@ -22,7 +22,7 @@ describe('drawTilemap', () => {
     expect(fb.indices[100 * 320 + 160]).toBe(1)
   })
 
-  it('upper 层覆盖 lower 层', () => {
+  it('upper (h=1) 画在 (+16,+8) 子行,与 lower (h=0) 不重叠', () => {
     const fb = createFramebuffer()
     const lower = new Uint8Array(4 * 4).fill(1)
     const upper = new Uint8Array(4 * 4).fill(2)
@@ -39,6 +39,27 @@ describe('drawTilemap', () => {
       tilesetImage: 'fake',
     }
     drawTilemap(fb, map, tiles, { col: 0, row: 0 })
-    expect(fb.indices[100 * 320 + 160]).toBe(2)
+    // lower 在屏幕中心 (160, 100);upper 偏移到 (176, 108)
+    expect(fb.indices[100 * 320 + 160]).toBe(1)
+    expect(fb.indices[108 * 320 + 176]).toBe(2)
+  })
+
+  it('9-bit tile id:(d & 0xff) | ((d >> 4) & 0x100) 拼出 0x100 高位', () => {
+    const fb = createFramebuffer()
+    const captured: number[] = []
+    const tiles: TileImages = {
+      get(idx) {
+        captured.push(idx)
+        return undefined // 不真画,只看 id 提取
+      },
+    }
+    // d = 0x1010 → low 8 bit = 0x10, (d>>4)&0x100 = (0x101)&0x100 = 0x100 → id = 0x110 = 272
+    const map: Tilemap = {
+      width: 1, height: 1,
+      cells: [[{ lower: 0x1010, upper: 0 }]],
+      tilesetImage: 'fake',
+    }
+    drawTilemap(fb, map, tiles, { col: 0, row: 0 })
+    expect(captured).toContain(0x110)
   })
 })
