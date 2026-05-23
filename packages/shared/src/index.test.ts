@@ -1,10 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  FPS_BATTLE,
-  FPS_EXPLORE,
-  FRAME_MS_BATTLE,
-  FRAME_MS_EXPLORE,
-} from './index.js'
+import { FPS_BATTLE, FPS_EXPLORE, FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from './index.js'
 
 describe('engine timing constants (D13)', () => {
   it('exploration 跑 10 fps(100ms/frame)', () => {
