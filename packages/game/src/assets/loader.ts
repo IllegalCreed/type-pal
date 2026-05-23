@@ -5,6 +5,8 @@ import type {
   SceneObjects,
   Tilemap,
 } from '@type-pal/shared'
+import type { BattleBgAsset } from '../present/battle/draw-battle-bg.js'
+import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { decodePngToIndices, type IndexedImage } from './png.js'
 
 const BASE = '/extracted'
@@ -32,6 +34,28 @@ export interface LoadedAssets {
   playerRoles: PlayerRoles
   tileImages: Map<number, IndexedImage>
   characterSprites: Map<number, { frames: IndexedImage[]; anchorX: number; anchorY: number }>
+  /** M3 T25:战斗精灵 — key = `${kind}-${id}`(kind = 'player' | 'enemy')。 */
+  battleSprites: Map<string, SpriteAsset>
+  /** M3 T25:战斗背景 — key = FBP chunk id(= BattleField.id)。 */
+  battleBgs: Map<number, BattleBgAsset>
+}
+
+interface BattleSpriteManifestEntry {
+  index: number
+  width: number
+  height: number
+}
+interface BattleSpriteMeta {
+  battleSpriteId: number
+  kind: 'player' | 'enemy'
+  frames: BattleSpriteManifestEntry[]
+}
+interface BattleSpritesManifest {
+  sprites: Array<{ kind: 'player' | 'enemy'; id: number }>
+}
+interface BattleBgsManifest {
+  count: number
+  ids: number[]
 }
 
 export async function loadAll(sceneId: number): Promise<LoadedAssets> {
@@ -93,5 +117,87 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     }),
   )
 
-  return { tilemap, palette, scene, events, playerRoles, tileImages, characterSprites }
+  // ── 战斗资源(M3 T25) ──────────────────────────────────────────
+  // 走 manifest:
+  //   - battle-sprites.json:列出 (kind, id) 集合,逐条加 battle-sprite-*.json + PNG
+  //   - battle-bgs.json:列出有效 FBP chunk id 集合,逐条加 battle-bg-NNN.png
+  // 失败的 entry warn + skip(不抛错,T28 整合时再修)。
+  const [battleSpritesManifest, battleBgsManifest] = await Promise.all([
+    fetchJson<BattleSpritesManifest>(`${BASE}/data/battle-sprites.json`).catch(
+      (err: unknown) => {
+        console.warn('assets: battle-sprites.json 缺失,跳过战斗精灵:', err)
+        return { sprites: [] }
+      },
+    ),
+    fetchJson<BattleBgsManifest>(`${BASE}/data/battle-bgs.json`).catch(
+      (err: unknown) => {
+        console.warn('assets: battle-bgs.json 缺失,跳过战斗背景:', err)
+        return { count: 0, ids: [] }
+      },
+    ),
+  ])
+
+  const battleSprites = new Map<string, SpriteAsset>()
+  await Promise.all(
+    battleSpritesManifest.sprites.map(async (entry) => {
+      try {
+        const meta = await fetchJson<BattleSpriteMeta>(
+          `${BASE}/data/battle-sprite-${entry.kind}-${entry.id}.json`,
+        )
+        const frames = await Promise.all(
+          meta.frames.map((f) =>
+            fetchPng(
+              `${BASE}/images/battle-sprite-${entry.kind}-${entry.id}-frame-${f.index
+                .toString()
+                .padStart(2, '0')}.png`,
+            ),
+          ),
+        )
+        battleSprites.set(`${entry.kind}-${entry.id}`, {
+          frames: frames.map((f) => ({
+            width: f.width,
+            height: f.height,
+            indices: f.indices,
+          })),
+        })
+      }
+      catch (err) {
+        console.warn(
+          `assets: battle sprite ${entry.kind}-${entry.id} load failed, skip:`,
+          err,
+        )
+      }
+    }),
+  )
+
+  const battleBgs = new Map<number, BattleBgAsset>()
+  await Promise.all(
+    battleBgsManifest.ids.map(async (id) => {
+      try {
+        const png = await fetchPng(
+          `${BASE}/images/battle-bg-${id.toString().padStart(3, '0')}.png`,
+        )
+        battleBgs.set(id, {
+          width: png.width,
+          height: png.height,
+          indices: png.indices,
+        })
+      }
+      catch (err) {
+        console.warn(`assets: battle bg ${id} load failed, skip:`, err)
+      }
+    }),
+  )
+
+  return {
+    tilemap,
+    palette,
+    scene,
+    events,
+    playerRoles,
+    tileImages,
+    characterSprites,
+    battleSprites,
+    battleBgs,
+  }
 }

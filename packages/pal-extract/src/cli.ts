@@ -27,7 +27,7 @@ import { extractBattleSprites } from './resources/battle-sprite.js'
 import { parseMap } from './resources/map.js'
 import { decodePalette } from './resources/palette.js'
 import { dumpScene } from './resources/scene.js'
-import { extractCharacterSprites } from './resources/sprite.js'
+import { encodeIndexedPng, extractCharacterSprites } from './resources/sprite.js'
 import {
   buildEnemyObjectNameMap,
   parseBattleFields,
@@ -370,6 +370,58 @@ async function main(): Promise<void> {
   console.log(
     `[pal-extract] battle sprites written: ${battleSprites.length} sprites, ` +
       `${battleSprites.reduce((sum, s) => sum + s.frames.length, 0)} frames total`,
+  )
+
+  // ── 战斗背景(M3 T25) ──────────────────────────────────────────
+  // FBP.MKF chunk[wNumBattleField] —— sdlpal `battle.c:982`
+  // `PAL_MKFDecompressChunk(buf, 320*200, wNumBattleField, fpFBP)`。
+  // 每 chunk YJ2 压缩,解后恰好 64000 字节 = 320×200 raw 8-bit indexed。
+  // M3 全量 dump 与 battle-fields.json 对齐(58 条);多出来的 chunk(实测 78)
+  // 也一并 dump,运行时按 BattleField.id 查表。
+  console.log('[pal-extract] battle backgrounds from FBP.MKF …')
+  const fbpMkf = openMkf(loadFile('FBP.MKF'))
+  const fbpChunkCount = chunkCount(fbpMkf)
+  const bgIds: number[] = []
+  for (let i = 0; i < fbpChunkCount; i++) {
+    const raw = readChunk(fbpMkf, i)
+    if (raw.byteLength === 0) continue // 空 chunk 跳过
+    let pixels: Uint8Array
+    try {
+      pixels = decompressYj2(raw)
+    } catch (err) {
+      console.warn(`[pal-extract] FBP chunk ${i} YJ2 fail, skip:`, err)
+      continue
+    }
+    if (pixels.byteLength !== 320 * 200) {
+      console.warn(
+        `[pal-extract] FBP chunk ${i}: 解压后 ${pixels.byteLength} bytes ≠ 64000,skip`,
+      )
+      continue
+    }
+    writeBinary(
+      resolve(OUT, 'images', `battle-bg-${i.toString().padStart(3, '0')}.png`),
+      encodeIndexedPng(320, 200, pixels),
+    )
+    bgIds.push(i)
+  }
+  // M3 T25:battle-bgs.json 直接列出所有有效 bg id —— loader 按列表加载,免 404。
+  writeJson(
+    resolve(OUT, 'data', 'battle-bgs.json'),
+    { count: fbpChunkCount, ids: bgIds },
+  )
+  console.log(
+    `[pal-extract] battle backgrounds written: ${bgIds.length} / ${fbpChunkCount} chunks`,
+  )
+
+  // ── 战斗精灵 manifest(M3 T25 loader 用) ─────────────────────────
+  // 列出 battle sprite 的 (kind, id) — loader 按 manifest 加载,避免 404 / 列目录。
+  const battleSpriteManifest = battleSprites.map((s) => ({
+    kind: s.kind,
+    id: s.battleSpriteId,
+  }))
+  writeJson(
+    resolve(OUT, 'data', 'battle-sprites.json'),
+    { sprites: battleSpriteManifest },
   )
 
   // ── lookup ──────────────────────────────────────────────────────
