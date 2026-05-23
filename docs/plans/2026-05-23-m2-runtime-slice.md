@@ -3360,6 +3360,17 @@ M2 改 `npcFromEventObject` 用 `Math.floor(eo.x / 32)` / `Math.floor(eo.y / 16)
 
 由于 scene 1 onEnter 是原版开局长引子(几十句对话),按 Space 数十次都还在 event 模式;走路 / 撞 NPC 触发 trigger 段对话的最后一步,需要等 onEnter 全跑完才能验,M3 真做 setPartyPos / setViewport 等 ~10 个 opcode 后整段才会变得可玩。这不算 M2 bug —— M2 端到端架构链路本身正确。
 
+### 8. tilemap 渲染两个隐藏 bug(用户视觉验证后揪出)
+
+第一版 dev 截图看起来"像 tile 素材按顺序排列",经用户提示后排查,实际是 **两个 bug 叠加** 让原版地图样貌完全看不出来:
+
+- **Bug 1 — 9-bit tile id 被砍成 8-bit**:`draw-tilemap.ts` 写 `cell.lower & 0xff`,但 sdlpal `map.c:249` 真正的提取式是 `(d & 0xff) | ((d >> 4) & 0x100)` —— 9-bit 索引,中间隔位(低 8 bit + bit 12 升到 bit 8)。Task 15 review 已提过 `& 0x1ff` 的猜测,实际是更怪的隔位拼接。导致 323 个 tile 只用上 89 个,大量 cell 显示成低位 id 的占位 tile。
+- **Bug 2 — h=0/h=1 sub-row 位置当成"同位置叠加"**:`map.h` 里 `Tiles[row][col][h]` 的 h=0 / h=1 是两个不同子行(`(c*32, r*16)` vs `(c*32+16, r*16+8)`),不是 lower/upper "层"。Task 15 review 也已提过并留 TODO 标注。第一版按 plan 字面把 upper 画在与 lower 同位置,菱形错排被破坏。
+
+两个 fix 合在一个 commit(fa0db6d)。修后视觉:scene 1 真实地图样貌出来了(红木门、木地板等),用户确认。
+
+教训:**plan 字面里的"经验值"假设(`& 0xff`、"upper 覆盖 lower")在真数据面前要立即怀疑**,M3 重新写战斗 / 菜单这类 sdlpal 实现的对照转写时,坚持先 grep sdlpal 源码再写代码、再让 dev 视觉敲一遍。
+
 ### 自检 checklist 实际状态
 
 - [x] `pnpm install` 干净跑通
