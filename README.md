@@ -44,6 +44,3 @@ pnpm --filter @type-pal/game dev  # 起网页游戏的 Vite 开发服务器
 bash scripts/build-sdlpal.sh
 ```
 
-## 怎么继续
-
-在本目录新开一个对话,让 AI 先读 `docs/` 全部 6 个文件和 `reference/README.md`,即可接着实现。从 M1 开始。
