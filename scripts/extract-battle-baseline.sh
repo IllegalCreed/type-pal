@@ -10,6 +10,10 @@
 # 跑法(repo 根):bash scripts/extract-battle-baseline.sh
 # 产物:build/sdlpal-baseline/battles/<fixtureId>-result.json
 #
+# 注:result.json 里 dead enemy 表示为 objectId=0 + hp=65504(sentinel,wHealth
+# uint16 underflow),不是 hp=0。TS oracle 对拍按 objectId===0 跳过死敌。
+# 详见 reference/sdlpal/patches/README.md "Result JSON 约定" 节。
+#
 # 依赖:
 #   - bash scripts/build-sdlpal-classic.sh 先跑过(出 build/sdlpal-classic/unix/sdlpal)
 #   - data/raw/ 有原版游戏资源文件(map.mkf, gop.mkf, ...)

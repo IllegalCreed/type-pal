@@ -493,7 +493,7 @@
 +   while (fgets(line, sizeof(line), fp))
 +   {
 +      int  tmp;
-+      char tystr[32];
++      char tystr[32] = {0};
 +      char *s = line;
 +      while (*s == ' ' || *s == '\t') s++;
 +      if (*s == '#' || *s == '\n' || *s == '\0' || *s == '\r') continue;

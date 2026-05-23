@@ -16,6 +16,14 @@ patch 路径均相对 sdlpal 根目录(以 `a/<file>` / `b/<file>` 起头),应�
 
 注:`scripts/sdlpal-extern-c.patch`(M1,macOS SDL3 链接修)留原位不迁移,`scripts/build-sdlpal*.sh` 同时引用。
 
+## Result JSON 约定(headless-battle-harness)
+
+`build/sdlpal-baseline/battles/<fixture>-result.json` 由 `headless-battle-harness.patch` 写出,M3 战斗系统(T12+)按字节级对拍。
+
+- 每个 `turns[i].enemies[j]` 含 `{objectId, hp}`。
+- **死敌识别**:`objectId === 0`(sdlpal 在敌人死亡瞬间把 `wObjectID` 清成 sentinel)。此时 `hp` 是 `wHealth` uint16 underflow 残留值(常见 `65504`),**不是** `0`。
+- TS oracle 对拍时应按 `objectId === 0` 跳过死敌,不要按 `hp <= 0` 判定。
+
 ## 用法
 
 不要手动 apply。`scripts/build-sdlpal*.sh` 走 copy → patch 流,patch 只动 `build/sdlpal*/`,`reference/sdlpal/` 源树始终干净。
