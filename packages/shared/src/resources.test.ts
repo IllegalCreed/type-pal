@@ -1,6 +1,6 @@
 import { describe, it, expect, expectTypeOf } from 'vitest'
 import type { Tilemap, TileCell, Palette, SceneObjects, SceneEventObject } from './resources.js'
-import type { Enemy, Item, ItemFlags } from './tables.js'
+import type { Enemy, Item, ItemFlags, Magic, MagicType, Spell, SpellFlags } from './tables.js'
 
 describe('resources types', () => {
   it('Tilemap 有必要字段', () => {
@@ -157,6 +157,124 @@ describe('Item schema (M3 T5)', () => {
     expect(parsed.id).toBe(1)
     expect(parsed.flags.equipableBy).toHaveLength(6)
     expect(typeof parsed.flags.usable).toBe('boolean')
+  })
+})
+
+describe('Spell schema (M3 T6)', () => {
+  it('完整 Spell 字段', () => {
+    const spell: Spell = {
+      id: 4,
+      _name: '雷神咒',
+      magicNumber: 12,
+      scriptOnSuccess: 0,
+      scriptOnUse: 9876,
+      scriptDesc: 0,
+      flags: {
+        usableOutsideBattle: false,
+        usableInBattle: true,
+        usableToEnemy: true,
+        applyToAll: false,
+      },
+    }
+    expect(spell.flags.usableInBattle).toBe(true)
+    expect(spell.flags.usableToEnemy).toBe(true)
+  })
+
+  it('SpellFlags 类型有 4 个具名字段', () => {
+    expectTypeOf<SpellFlags>().toMatchTypeOf<{
+      usableOutsideBattle: boolean
+      usableInBattle: boolean
+      usableToEnemy: boolean
+      applyToAll: boolean
+    }>()
+  })
+
+  it('Spell 可 JSON 序列化', () => {
+    const spell: Spell = {
+      id: 0,
+      magicNumber: 33,
+      scriptOnSuccess: 0,
+      scriptOnUse: 0,
+      scriptDesc: 0,
+      flags: {
+        usableOutsideBattle: false,
+        usableInBattle: true,
+        usableToEnemy: false,
+        applyToAll: false,
+      },
+    }
+    const parsed = JSON.parse(JSON.stringify(spell)) as Spell
+    expect(parsed.magicNumber).toBe(33)
+    expect(typeof parsed.flags.usableInBattle).toBe('boolean')
+  })
+})
+
+describe('Magic schema (M3 T6)', () => {
+  it('Magic detail stats', () => {
+    const magic: Magic = {
+      id: 12,
+      effect: 100,
+      type: 'normal',
+      xOffset: 0,
+      yOffset: 0,
+      special: 0,
+      speed: 4,
+      keepEffect: 0,
+      fireDelay: 0,
+      effectTimes: 1,
+      shake: 0,
+      wave: 0,
+      unknown: 0,
+      costMP: 10,
+      baseDamage: 50,
+      elemental: 2,
+      sound: 50,
+    }
+    expect(magic.type).toBe('normal')
+    expect(magic.costMP).toBe(10)
+  })
+
+  it('MagicType 联合值', () => {
+    const types: MagicType[] = [
+      'normal',
+      'attackAll',
+      'attackWhole',
+      'attackField',
+      'applyToPlayer',
+      'applyToParty',
+      'trance',
+      'summon',
+      'other',
+    ]
+    expect(types).toContain('normal')
+    expect(types).toContain('summon')
+    expect(types).toContain('other')
+    expect(types).toHaveLength(9)
+  })
+
+  it('Magic signed 字段保留负数(speed / sound)', () => {
+    const magic: Magic = {
+      id: 0,
+      effect: 0,
+      type: 'normal',
+      xOffset: 0,
+      yOffset: 0,
+      special: 0,
+      speed: -1,
+      keepEffect: 0,
+      fireDelay: 0,
+      effectTimes: 1,
+      shake: 0,
+      wave: 0,
+      unknown: 0,
+      costMP: 0,
+      baseDamage: 0,
+      elemental: 0,
+      sound: -1,
+    }
+    const parsed = JSON.parse(JSON.stringify(magic)) as Magic
+    expect(parsed.speed).toBe(-1)
+    expect(parsed.sound).toBe(-1)
   })
 })
 

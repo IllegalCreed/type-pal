@@ -17,7 +17,7 @@ import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { openMkf, readChunk } from '../io/mkf.js'
 import { parseWordDat } from '../io/word.js'
-import { parseEnemies, parseItems, parseSpells } from './tables.js'
+import { parseEnemies, parseItems, parseMagicTable, parseSpells } from './tables.js'
 
 const SSS_MKF = resolve(__dirname, '../../../../data/raw/SSS.MKF')
 const DATA_MKF = resolve(__dirname, '../../../../data/raw/DATA.MKF')
@@ -87,8 +87,8 @@ describe('parseItems', () => {
   })
 
   it('flag bit 顺序对(fake fixture:usable + equipable)', () => {
-    // 构造一片 fake bytes,在 ITEM_OBJ_START=61 位置写入特定 flags
-    const fake = new Uint8Array((61 + 1) * 14)
+    // 构造一片够大的 fake bytes(支持 235 条 item),在 ITEM_OBJ_START=61 位置写入特定 flags
+    const fake = new Uint8Array((61 + 235) * 14)
     const view = new DataView(fake.buffer)
     // bit 0 (usable) + bit 1 (equipable) = 0b0000_0011
     view.setUint16(61 * 14 + 12, 0b0000_0011, true)
@@ -102,7 +102,7 @@ describe('parseItems', () => {
 
   it('equipableBy bit 6..11 对(fake fixture:全 6 个 role)', () => {
     // bit 6 + 7 + 8 + 9 + 10 + 11 = 0b1111_1100_0000 = 0xFC0
-    const fake = new Uint8Array((61 + 1) * 14)
+    const fake = new Uint8Array((61 + 235) * 14)
     const view = new DataView(fake.buffer)
     view.setUint16(61 * 14 + 12, 0xfc0, true)
     const fakeItems = parseItems(fake)
@@ -110,18 +110,22 @@ describe('parseItems', () => {
     // bit 0..5 都应为 false
     expect(fakeItems[0]!.flags.usable).toBe(false)
   })
+
+  it('截断时 throw(T5 review #1 修:与 parseEnemies / parseMagicTable 一致)', () => {
+    const tiny = new Uint8Array(100)
+    expect(() => parseItems(tiny)).toThrow(/truncated/)
+  })
 })
 
-describe('parseSpells', () => {
-  const spells = parseSpells(objBuf, magicBuf, words)
+describe('parseSpells (M3 T6)', () => {
+  const spells = parseSpells(objBuf, words)
 
-  it('解出 102 条法术', () => {
+  it('解出 102 条法术 wrapper', () => {
     expect(spells).toHaveLength(102)
   })
 
-  it('第一条带名字', () => {
-    expect(spells[0]!.name).toBeTruthy()
-    expect(spells[0]!.name).not.toMatch(/^_spell_/)
+  it('第一条带 _name(注释)', () => {
+    expect(spells[0]!._name).toBeTruthy()
   })
 
   it('id 从 0 顺序递增', () => {
@@ -129,14 +133,158 @@ describe('parseSpells', () => {
     expect(spells[101]!.id).toBe(101)
   })
 
-  it('至少有一条 mp > 0', () => {
-    const anyMp = spells.some((s) => s.mp > 0)
+  it('flags 已拆为 SpellFlags 具名 bool', () => {
+    const s0 = spells[0]!
+    expect(typeof s0.flags.usableOutsideBattle).toBe('boolean')
+    expect(typeof s0.flags.usableInBattle).toBe('boolean')
+    expect(typeof s0.flags.usableToEnemy).toBe('boolean')
+    expect(typeof s0.flags.applyToAll).toBe('boolean')
+  })
+
+  it('第一条法术 magicNumber = 33(实测)', () => {
+    // spell[0].wMagicNumber=33 → MAGIC[33].wCostMP=6 (T5 之前用此值断言)
+    expect(spells[0]!.magicNumber).toBe(33)
+  })
+
+  it('至少一条 magicNumber > 0(指向 Magic table)', () => {
+    const anyLinked = spells.some((s) => s.magicNumber > 0)
+    expect(anyLinked).toBe(true)
+  })
+
+  it('without words(不传 words)→ 所有 _name undefined,其他字段正常', () => {
+    const spellsNoName = parseSpells(objBuf)
+    expect(spellsNoName).toHaveLength(102)
+    expect(spellsNoName.every((s) => s._name === undefined)).toBe(true)
+    // 字段仍正常 dump
+    expect(spellsNoName[0]!.magicNumber).toBe(33)
+  })
+
+  it('SpellFlags bit 顺序对(fake fixture)', () => {
+    // 构造一片够大的 fake bytes(支持 102 条 spell),在 SPELL_OBJ_START=296 位置写入特定 flags
+    // bit 0 (usableOutsideBattle) + bit 1 (usableInBattle) + bit 3 (usableToEnemy)
+    // = 0b0000_1011 = 0x0B (bit 2 跳了 — sdlpal MAGICFLAG 真值)
+    const fake = new Uint8Array((296 + 102) * 14)
+    const view = new DataView(fake.buffer)
+    view.setUint16(296 * 14 + 12, 0x0b, true)
+    const fakeSpells = parseSpells(fake)
+    expect(fakeSpells[0]!.flags.usableOutsideBattle).toBe(true)
+    expect(fakeSpells[0]!.flags.usableInBattle).toBe(true)
+    expect(fakeSpells[0]!.flags.usableToEnemy).toBe(true)
+    expect(fakeSpells[0]!.flags.applyToAll).toBe(false)
+  })
+
+  it('applyToAll bit 4(fake fixture)', () => {
+    // bit 4 = 0b0001_0000 = 0x10
+    const fake = new Uint8Array((296 + 102) * 14)
+    const view = new DataView(fake.buffer)
+    view.setUint16(296 * 14 + 12, 0x10, true)
+    const fakeSpells = parseSpells(fake)
+    expect(fakeSpells[0]!.flags.applyToAll).toBe(true)
+    expect(fakeSpells[0]!.flags.usableOutsideBattle).toBe(false)
+    expect(fakeSpells[0]!.flags.usableInBattle).toBe(false)
+    expect(fakeSpells[0]!.flags.usableToEnemy).toBe(false)
+  })
+
+  it('截断时 throw(与 parseEnemies / parseMagicTable 一致)', () => {
+    const tiny = new Uint8Array(100)
+    expect(() => parseSpells(tiny)).toThrow(/truncated/)
+  })
+})
+
+describe('parseMagicTable (M3 T6)', () => {
+  const magics = parseMagicTable(magicBuf)
+
+  it('从 DATA.MKF chunk 4 解出 N 条 Magic(每条 32B)', () => {
+    expect(magics.length).toBe(magicBuf.byteLength / 32)
+    expect(magics.length).toBeGreaterThan(0)
+  })
+
+  it('id 从 0 顺序递增', () => {
+    expect(magics[0]!.id).toBe(0)
+    expect(magics[magics.length - 1]!.id).toBe(magics.length - 1)
+  })
+
+  it('至少有一条 costMP > 0', () => {
+    const anyMp = magics.some((m) => m.costMP > 0)
     expect(anyMp).toBe(true)
   })
 
-  it('第一条法术 mp = 6(实测)', () => {
-    // spell[0].wMagicNumber=33 → MAGIC[33].wCostMP=6
-    expect(spells[0]!.mp).toBe(6)
+  it('Magic[33].costMP = 6(实测,spell[0] 引用)', () => {
+    // T5 之前 parseSpells 用 spell[0].wMagicNumber=33 → MAGIC[33].wCostMP=6 做断言。
+    // 现在 Magic 独立 dump,直接断言原值。
+    expect(magics[33]!.costMP).toBe(6)
+  })
+
+  it('type 字段是 MagicType 具名 string', () => {
+    const validTypes = new Set<string>([
+      'normal',
+      'attackAll',
+      'attackWhole',
+      'attackField',
+      'applyToPlayer',
+      'applyToParty',
+      'trance',
+      'summon',
+      'other',
+    ])
+    for (const m of magics) {
+      expect(validTypes.has(m.type)).toBe(true)
+    }
+  })
+
+  it('至少一条 type = "normal"(实测,大部分 Magic 默认 normal)', () => {
+    const anyNormal = magics.some((m) => m.type === 'normal')
+    expect(anyNormal).toBe(true)
+  })
+
+  it('完整 16 字段全部存在', () => {
+    const m = magics[33]!
+    const keys = Object.keys(m).sort()
+    expect(keys).toContain('effect')
+    expect(keys).toContain('type')
+    expect(keys).toContain('xOffset')
+    expect(keys).toContain('yOffset')
+    expect(keys).toContain('special')
+    expect(keys).toContain('speed')
+    expect(keys).toContain('keepEffect')
+    expect(keys).toContain('fireDelay')
+    expect(keys).toContain('effectTimes')
+    expect(keys).toContain('shake')
+    expect(keys).toContain('wave')
+    expect(keys).toContain('unknown')
+    expect(keys).toContain('costMP')
+    expect(keys).toContain('baseDamage')
+    expect(keys).toContain('elemental')
+    expect(keys).toContain('sound')
+  })
+
+  it('signed 字段(speed / sound)可负(fake fixture:0xFFFF → -1)', () => {
+    // 32B fake record,在 speed(offset 10) / sound(offset 30) 位置写入 0xFFFF
+    const fake = new Uint8Array(32)
+    const view = new DataView(fake.buffer)
+    view.setUint16(10, 0xffff, true) // speed
+    view.setUint16(30, 0xffff, true) // sound
+    const fakeMagics = parseMagicTable(fake)
+    expect(fakeMagics[0]!.speed).toBe(-1)
+    expect(fakeMagics[0]!.sound).toBe(-1)
+  })
+
+  it('type 6 / 7 / >9 → "other" 兜底(fake fixture)', () => {
+    const fake = new Uint8Array(32 * 3)
+    const view = new DataView(fake.buffer)
+    view.setUint16(0 * 32 + 2, 6, true) // type 6
+    view.setUint16(1 * 32 + 2, 7, true) // type 7
+    view.setUint16(2 * 32 + 2, 99, true) // type 99
+    const fakeMagics = parseMagicTable(fake)
+    expect(fakeMagics[0]!.type).toBe('other')
+    expect(fakeMagics[1]!.type).toBe('other')
+    expect(fakeMagics[2]!.type).toBe('other')
+  })
+
+  it('截断时 throw', () => {
+    // 非 32 倍数 → throw
+    const tiny = new Uint8Array(31)
+    expect(() => parseMagicTable(tiny)).toThrow(/不能被.*整除/)
   })
 })
 

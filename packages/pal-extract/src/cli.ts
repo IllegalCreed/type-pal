@@ -5,7 +5,7 @@
  *
  * 产出目录:data/extracted/
  *   events/   scene-NNN.json, shared.json, objects.json
- *   data/     items.json, spells.json, enemies.json, tilemap-N.json, palette-N.json
+ *   data/     items.json, spells.json, magic.json, enemies.json, tilemap-N.json, palette-N.json
  *   images/   tile-scene-N-NNNN.png
  *   lookup/   words.json, strings.json
  */
@@ -27,7 +27,7 @@ import { parseMap } from './resources/map.js'
 import { decodePalette } from './resources/palette.js'
 import { dumpScene } from './resources/scene.js'
 import { extractCharacterSprites } from './resources/sprite.js'
-import { parseEnemies, parseItems, parseSpells } from './resources/tables.js'
+import { parseEnemies, parseItems, parseMagicTable, parseSpells } from './resources/tables.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = resolve(HERE, '../../..')
@@ -132,7 +132,10 @@ async function main(): Promise<void> {
   const enemyBuf = readChunk(dataMkf, 1)
 
   writeJson(resolve(OUT, 'data', 'items.json'), parseItems(sssObjBuf, words))
-  writeJson(resolve(OUT, 'data', 'spells.json'), parseSpells(sssObjBuf, magicBuf, words))
+  // M3 T6:Spell wrapper(SSS chunk 2) + Magic 详细 stats(DATA chunk 4)分两个文件 dump。
+  // Spell.magicNumber 指向 magic[] 索引;运行时按需 join。
+  writeJson(resolve(OUT, 'data', 'spells.json'), parseSpells(sssObjBuf, words))
+  writeJson(resolve(OUT, 'data', 'magic.json'), parseMagicTable(magicBuf))
   writeJson(resolve(OUT, 'data', 'enemies.json'), parseEnemies(enemyBuf, sssObjBuf, words))
 
   console.log('[pal-extract] data tables written')

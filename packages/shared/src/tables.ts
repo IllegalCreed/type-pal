@@ -69,13 +69,135 @@ export interface Item {
   flags: ItemFlags
 }
 
+/**
+ * Spell flags 拆 bit(对照 sdlpal `global.h::tagMAGICFLAG`)。
+ *
+ * sdlpal 真值:
+ *   kMagicFlagUsableOutsideBattle = 1 << 0
+ *   kMagicFlagUsableInBattle      = 1 << 1
+ *   kMagicFlagUsableToEnemy       = 1 << 3   ← bit 2 跳了
+ *   kMagicFlagApplyToAll          = 1 << 4
+ */
+export interface SpellFlags {
+  /** kMagicFlagUsableOutsideBattle —— 战斗外可用(地图上 / 菜单)。 */
+  usableOutsideBattle: boolean
+  /** kMagicFlagUsableInBattle —— 战斗中可用。 */
+  usableInBattle: boolean
+  /** kMagicFlagUsableToEnemy —— 可对敌使用。 */
+  usableToEnemy: boolean
+  /** kMagicFlagApplyToAll —— 作用于全队 / 全体敌人。 */
+  applyToAll: boolean
+}
+
+/**
+ * 法术 wrapper。对照 sdlpal `global.h::tagOBJECT_MAGIC`(Win9x 版 = 7×WORD = 14 字节)。
+ *
+ * 数据源:SSS.MKF chunk 2(OBJECT 数组)索引 296..397,共 102 条。
+ *
+ * sdlpal 字段顺序(`tagOBJECT_MAGIC` Win9x 版):
+ *   wMagicNumber / wReserved1 / wScriptOnSuccess / wScriptOnUse /
+ *   wScriptDesc / wReserved2 / wFlags
+ *
+ * **`magicNumber` 指向 Magic 详细 stats 表的索引**(见下面 Magic interface)。
+ */
 export interface Spell {
+  /** 在 spells.json 数组里的索引(0..101),不是 OBJECT 数组里的绝对 index(那是 296..397)。 */
   id: number
-  name: string
-  mp: number
-  base: number
+  /** 名字注释(WORD.DAT;引擎不读,只为人读 JSON 时认得出)。 */
+  _name?: string
+  /** 指向 Magic 详细 stats 表(Magic[]) 的索引。0 = 占位。 */
+  magicNumber: number
+  /** 法术成功时跑的脚本 entry。 */
+  scriptOnSuccess: number
+  /** 使用法术时跑的脚本 entry。 */
+  scriptOnUse: number
+  /** 描述脚本(M3 不消费,留作 schema 完整)。 */
+  scriptDesc: number
+  /** 拆 bit 的 flags。 */
+  flags: SpellFlags
+}
+
+/**
+ * 法术详细 stats 中的 type 字段具名(对照 sdlpal `global.h::tagMAGIC_TYPE`)。
+ *
+ * sdlpal 真值:
+ *   kMagicTypeNormal        = 0
+ *   kMagicTypeAttackAll     = 1   // 对每个敌人单独绘制
+ *   kMagicTypeAttackWhole   = 2   // 对整个敌方队伍绘制
+ *   kMagicTypeAttackField   = 3   // 对战场绘制
+ *   kMagicTypeApplyToPlayer = 4   // 用在单个队友身上
+ *   kMagicTypeApplyToParty  = 5   // 用在全队
+ *   kMagicTypeTrance        = 8
+ *   kMagicTypeSummon        = 9
+ *
+ * `other` 兜底:type 6 / 7 / >9 等未在 sdlpal enum 内定义的值
+ * (实测数据偶有出现,M5 可能补全)。
+ */
+export type MagicType =
+  | 'normal'
+  | 'attackAll'
+  | 'attackWhole'
+  | 'attackField'
+  | 'applyToPlayer'
+  | 'applyToParty'
+  | 'trance'
+  | 'summon'
+  | 'other'
+
+/**
+ * 法术详细 stats。对照 sdlpal `global.h::tagMAGIC`(16×WORD = 32 字节)。
+ *
+ * 数据源:DATA.MKF chunk 4(sdlpal `global.c:296` LOAD_DATA fpDATA 4)。
+ *
+ * sdlpal 字段顺序:
+ *   wEffect / wType / wXOffset / wYOffset /
+ *   rgSpecific (union) / wSpeed (SHORT) / wKeepEffect / wFireDelay /
+ *   wEffectTimes / wShake / wWave / wUnknown /
+ *   wCostMP / wBaseDamage / wElemental / wSound (SHORT)
+ *
+ * **signed 字段**:`wSpeed` 与 `wSound` 在 sdlpal 是 SHORT。
+ */
+export interface Magic {
+  /** 在 magic.json 数组里的索引,等同 Spell.magicNumber。 */
+  id: number
+  /** 特效精灵编号(F.MKF)。 */
   effect: number
-  flags: number
+  /** 法术类型(对照 sdlpal `tagMAGIC_TYPE`)。 */
+  type: MagicType
+  xOffset: number
+  yOffset: number
+  /**
+   * rgSpecific 联合(原 `MAGIC_SPECIAL`):
+   * - summon 类型 → `wSummonEffect`(召唤特效精灵)
+   * - 其他类型 → `sLayerOffset`(SHORT,图层偏移)
+   *
+   * M3 不解(union 字段,raw u16 保存),M5 / 后续 task 按 type 解读。
+   */
+  special: number
+  /** SHORT(signed) —— 特效速度。 */
+  speed: number
+  keepEffect: number
+  /** 火属性 fire 阶段起始帧。 */
+  fireDelay: number
+  /** 特效总次数。 */
+  effectTimes: number
+  /** 震屏。 */
+  shake: number
+  /** 波纹。 */
+  wave: number
+  /** sdlpal 注释 FIXME:??? */
+  unknown: number
+  /** MP 消耗。 */
+  costMP: number
+  /** 基础伤害。 */
+  baseDamage: number
+  /**
+   * 元素属性:0 = 无属性,1..NUM_MAGIC_ELEMENTAL = 各属性,最后一个 = 毒。
+   * sdlpal `NUM_MAGIC_ELEMENTAL = 5` → 0 无 / 1 风 / 2 雷 / 3 水 / 4 火 / 5 土 / 6 毒。
+   */
+  elemental: number
+  /** SHORT(signed) —— 使用法术时播放的音效编号。 */
+  sound: number
 }
 
 /**
