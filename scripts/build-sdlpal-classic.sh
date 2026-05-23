@@ -37,7 +37,15 @@ fi
 pkg-config --modversion sdl3 >/dev/null 2>&1 \
   || { echo "缺 SDL3 (brew install sdl3)" >&2; exit 1; }
 
-if [ ! -d "$BUILD_DIR" ]; then
+# 幂等检测:用 common.h 里 PAL_CLASSIC define 探测 patch 是否生效
+# (不能只看目录在否,半成品目录上次 patch 失败后留下空壳会被 silently 编译)
+if ! grep -q '^#define PAL_CLASSIC' "$BUILD_DIR/common.h" 2>/dev/null; then
+  # 半成品目录(目录在但 patch 没生效)整个删掉重做,避免 extern-c.patch 也半 apply
+  if [ -d "$BUILD_DIR" ]; then
+    echo "[0/3] 检测到未 patch 的 build/sdlpal-classic,删除重做"
+    rm -rf "$BUILD_DIR"
+  fi
+
   echo "[1/3] 拷贝 reference/sdlpal → build/sdlpal-classic"
   mkdir -p build
   cp -R "$SDLPAL_SRC" "$BUILD_DIR"
