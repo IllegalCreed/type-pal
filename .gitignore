@@ -20,3 +20,6 @@ data/extracted/
 # vite dev/build 需要 fetch data/extracted/,用 symlink 暴露(不入库)
 packages/game/public/extracted
 sdlpal.cfg
+
+# 本地 brainstorm 参考资料 —— 含第三方版权内容(fan-made 攻略等),只本地用
+reference/walkthrough/

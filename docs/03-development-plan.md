@@ -32,12 +32,33 @@
 - 详细设计见 [`plans/2026-05-23-m2-runtime-slice-design.md`](plans/2026-05-23-m2-runtime-slice-design.md);实施过程发现 / 偏离见 [`plans/2026-05-23-m2-runtime-slice.md`](plans/2026-05-23-m2-runtime-slice.md) 末尾「实施过程发现」。
 - 180 个 Vitest 单测全过(M1 旧 91 + shared 20 + game 56 + pal-extract 增至 104),`pnpm check` 绿。`pnpm extract` 重跑产物完好(全量 events round-trip 仍逐字节通过,12 个 sprite / 75 帧)。
 
-### M3 · 战斗垂直切片
-- **第一个 task(D29 流程落地):sdlpal headless map dumper** —— patch + 重编 sdlpal,加 `--dump-map N --out FILE` 跳 SDL 窗口直接 dump 全图 PNG;然后跟我们 `scripts/render-tilemap.ts` 像素 diff,锁定 tilemap 渲染 100% 对(M2 视觉对照只到 camera-clipped,无法 program 化全图比对)。
-- 事件能触发一场战斗(顺手补 `setPartyPos` / `setViewport` / `showFace` 等 ~10 个 onEnter 用的 opcode,让 scene 1 真跑完进 explore)。
-- 最小回合制战斗:普通攻击、回合顺序、胜负判定、经验。
-- 战斗 UI 最小版。
-- Enemy schema 大改(D28:signed 语义 + 缺字段)。
+### M3 · 战斗垂直切片(分两里程碑)
+
+**M3 = Phase 1**(战斗骨架 + D29 双基准 + 5 actions 全集 + dev 入口);**M3.5 = Phase 2**(scene 切换 + 明雷怪 + 仙灵岛端到端)。brainstorm 阶段决策依据见 [`plans/2026-05-23-m3-battle-vertical-slice-design.md`](plans/2026-05-23-m3-battle-vertical-slice-design.md)。
+
+#### M3 Phase 1(战斗系统骨架 · 当前)
+- **第一刀:D29 双基准基建** —— ① sdlpal headless map dumper(`--dump-map N --out FILE` patch + 重编),与 `scripts/render-tilemap.ts` 像素 diff 锁定 tilemap;② **`scripts/build-sdlpal-classic.sh`** patch `common.h` 加 `#define PAL_CLASSIC 1` 编出 `build/sdlpal-classic/`(忠实原版战斗);③ headless battle harness(classic build,喂 fixture 队伍 + 敌队 + RNG seed → dump 每回合 JSON),供 M3 战斗系统逐回合差分对拍。见新 D30。
+- **数据 schema 大改(战斗完整版)**:Enemy 扩 30+ 字段(D28 signed + 元素抗等)+ 新增 Item / Spell / EnemyTeam / BattleField / PlayerRoles schema 提取;字段对照 sdlpal `global.h`。
+- **PARTY_LEADER 真查**(M2 遗债):从 DATA.MKF chunk 3 PLAYERROLES 真解析,删硬编码 spriteNum=2。
+- **PAL_CLASSIC 战斗骨架**:turn-queue 按 dexterity 每轮重排 / select-action → perform-action phase / 公式从 `fight.c` port(`calcBaseDamage` / `calcPhysicalAttackDamage` / `calcMagicDamage`,SHORT 语义保留)。
+- **5 actions 全集**:attack / defend / magic / item / flee。**magic / item 效果复用 EventSystem 跑 `wScriptOnUse` 脚本**(M2 已建,战斗 mode 加 ctx);战斗用 opcode 按需具名(D26 raw skip 兜底)。
+- **战斗 UI 最小版**:战场背景 + 队员 / 敌方 sprite + 主菜单 + magic / item 二级菜单 + 目标光标 + HP/MP 数字 + 伤害弹幕。`BATTLE_FPS=25` 切帧率。
+- **Dev panel**:`import.meta.env.DEV` gate 的 DOM 浮层,快捷键 B 调战斗(选 enemyTeam / battleField / 队伍预设),F1 dump GameState。
+- **完成定义**:dev 入口能稳定跑 5 actions,won / lost / fleed 都通,exp 入账;D29 双基准对拍绿(tilemap 像素一致 + 5 个 battle fixture 逐回合一致)。
+
+#### M3.5 Phase 2(scene 切换 + 明雷怪 + 仙灵岛端到端 · 下一里程碑)
+- ~10 个 onEnter / 场景切换 opcode(`setPartyPos` / `setViewport` / `showFace` / 场景切换 / startBattle 等),让 scene 1 onEnter 真跑完进 explore + 支持跨 scene 跳转。
+- `scene-system.ts` 扩 `loadScene(sceneId)`:卸 / 载场景资源、重置 GameState scene 字段。
+- `pal-extract` 增量:盛漁村出门后 2-4 个场景 + 仙灵岛 tilemap / palette / sprite。
+- 明雷怪机制:`EventObject.triggerMode` 区分按键触发(M2,NPC)vs 接触触发(明雷怪 / 传送点)—— 玩家走进即跑 trigger 段。
+- 端到端验证:scene 1 onEnter → 走出客栈 → scene 链 → 仙灵岛 → 撞草妖 → 真打 → exp 入账。
+
+#### 不在 M3 范围(推 M5 完整战斗)
+- scripted enemy AI(`wScriptOnTurnStart` / `wScriptOnReady`)
+- 五行属性 battle field 加成完整效果
+- 协力法术 / 觉醒 / 升级时 8 类属性 EXP 子项细分
+- 完整 status effects(M3 只识别 sleep / paralyzed / confused 三种最简)
+- Summon / Trance / 装备 / 物品投掷 / 商店
 
 ### M4 · pal-extract 补全
 - 覆盖剩余 MKF 格式(M1 未碰到的:F / MGO / PAT / SOUNDS 中的非切片部分等)。
