@@ -84,6 +84,26 @@ describe('opcode registry', () => {
     expect(lookupOpcode('giveItem')).toBe(0x001f)
   })
 
+  it('lookupVerb / lookupOpcode 双向(setDialogStyleCenter ↔ 0x003B)', () => {
+    expect(lookupVerb(0x003b)).toBe('setDialogStyleCenter')
+    expect(lookupOpcode('setDialogStyleCenter')).toBe(0x003b)
+  })
+
+  it('lookupVerb / lookupOpcode 双向(setDialogStyleTop ↔ 0x003C)', () => {
+    expect(lookupVerb(0x003c)).toBe('setDialogStyleTop')
+    expect(lookupOpcode('setDialogStyleTop')).toBe(0x003c)
+  })
+
+  it('lookupVerb / lookupOpcode 双向(setDialogStyleBottom ↔ 0x003D)', () => {
+    expect(lookupVerb(0x003d)).toBe('setDialogStyleBottom')
+    expect(lookupOpcode('setDialogStyleBottom')).toBe(0x003d)
+  })
+
+  it('lookupVerb / lookupOpcode 双向(setDialogStyleNarration ↔ 0x003E)', () => {
+    expect(lookupVerb(0x003e)).toBe('setDialogStyleNarration')
+    expect(lookupOpcode('setDialogStyleNarration')).toBe(0x003e)
+  })
+
   it('具名 opcode 的 named 标志为 true', () => {
     expect(opcodeTable[0x0003]?.named).toBe(true)
     expect(opcodeTable[0x0043]?.named).toBe(true)

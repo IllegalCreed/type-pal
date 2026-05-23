@@ -62,18 +62,13 @@ export interface StartBattleCommand {
 }
 
 /**
- * 对话框样式 setter —— 实际语义按 sdlpal script.c:3389+ 的 PAL_StartDialog 调用:
- *   0x003B kDialogCenter      → setDialogStyleCenter
- *     operand[0]=messageIndex(BYTE), operand[2]=playingRNG 标志
- *   0x003C kDialogUpper       → setDialogStyleTop
- *     operand[0]=objectId, operand[1]=messageIndex(BYTE), operand[2]=playingRNG
- *   0x003D kDialogLower       → setDialogStyleBottom
- *     operand[0]=objectId, operand[1]=messageIndex(BYTE), operand[2]=playingRNG
- *   0x003E kDialogCenterWindow → setDialogStyleNarration
- *     operand[0]=messageIndex(BYTE)
+ * 对话框样式 setter —— 对应 sdlpal 的 PAL_StartDialog 4 种 box 模式
+ * (0x003B kDialogCenter / 0x003C kDialogUpper / 0x003D kDialogLower /
+ *  0x003E kDialogCenterWindow;见 reference/sdlpal/script.c:3389-3426)。
  *
- * M2 运行时只用 box style 自身,operand 保留是为字节级 round-trip。
- * 运行时若需要,从 arg0/arg1/arg2 解读真实语义。
+ * arg0/arg1/arg2 = 原始 operand 三元组,**仅**用于字节级 round-trip;
+ * 各 operand 语义见上述 script.c 区段。M2 EventSystem 不读这些字段,
+ * 留待 M5+ 真有消费者时再做具名解析(避免现在锁定可能错的字段名)。
  */
 export interface SetDialogStyleTopCommand {
   op: 'setDialogStyleTop'
