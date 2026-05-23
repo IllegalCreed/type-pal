@@ -3,17 +3,18 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "main": "./src/main.ts",
-  "types": "./src/main.ts",
-  "exports": {
-    ".": "./src/main.ts"
-  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
     "check": "pnpm typecheck && pnpm test"
   },
   "dependencies": {
-    "@type-pal/shared": "workspace:*"
+    "@type-pal/shared": "workspace:*",
+    "iconv-lite": "^0.7.2",
+    "pngjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "@types/pngjs": "^6.0.5"
   }
 }
