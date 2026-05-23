@@ -32,21 +32,21 @@ function singleTick(ctx: LoopContext): void {
   ctx.onPresent(drained)
 }
 
-export function tickN(n: number, ctx: LoopContext): void {
+function applySceneContext(ctx: LoopContext): void {
   setSceneContext({
     tilemap: ctx.tilemap,
     eventCommands: ctx.eventCommands,
     labelMap: ctx.labelMap,
   })
+}
+
+export function tickN(n: number, ctx: LoopContext): void {
+  applySceneContext(ctx)
   for (let i = 0; i < n; i++) singleTick(ctx)
 }
 
 export function startRafLoop(ctx: LoopContext): () => void {
-  setSceneContext({
-    tilemap: ctx.tilemap,
-    eventCommands: ctx.eventCommands,
-    labelMap: ctx.labelMap,
-  })
+  applySceneContext(ctx)
   let last = performance.now()
   let raf = 0
   const loop = (now: number): void => {
