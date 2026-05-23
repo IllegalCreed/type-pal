@@ -218,14 +218,17 @@ async function main(): Promise<void> {
   for (const id of spriteIds) {
     if (id >= mgoChunkCount) {
       console.warn(`[pal-extract] sprite ${id} >= MGO chunk count ${mgoChunkCount}, skip`)
+      spriteIds.delete(id)
       continue
     }
     const raw = readChunk(mgoMkf, id)
     if (raw.byteLength === 0) {
       console.warn(`[pal-extract] sprite ${id}: MGO.MKF chunk 为空,skip`)
+      spriteIds.delete(id)
       continue
     }
-    // MGO.MKF chunk 是 YJ2 压缩(实测:首 4 字节是解压后长度 u32 LE)。
+    // MGO.MKF chunk 是 YJ2 压缩 —— 实测全部非空 chunk 首 4 字节均为
+    // 有效 u32 LE 解压长度,无一例外,故直接走 YJ2,无 raw→fallback 路径。
     mgoChunks.set(id, decompressYj2(raw))
   }
 

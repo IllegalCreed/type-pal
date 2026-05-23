@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { decodeRle } from '../io/rle.js'
 import { encodeIndexedPng, extractCharacterSprites, framesToOut, parseSpriteChunk } from './sprite.js'
 
@@ -71,7 +71,10 @@ describe('extractCharacterSprites', () => {
   })
 
   it('未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const result = extractCharacterSprites([999], new Map())
     expect(result).toHaveLength(0)
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('sprite 999'))
+    warnSpy.mockRestore()
   })
 })
