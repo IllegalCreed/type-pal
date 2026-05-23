@@ -15,6 +15,10 @@ import type {
   EndCommand,
   GiveItemCommand,
   GotoCommand,
+  SetDialogStyleBottomCommand,
+  SetDialogStyleCenterCommand,
+  SetDialogStyleNarrationCommand,
+  SetDialogStyleTopCommand,
   ShowDialogCommand,
 } from '@type-pal/shared'
 import { opcodeTable } from './opcodes.js'
@@ -94,6 +98,14 @@ function emitCommand(def: DefLike, operands: number[], messages: string[]): Comm
       return emitShowDialog(operands, messages)
     case 'giveItem':
       return emitGiveItem(operands)
+    case 'setDialogStyleTop':
+      return emitSetDialogStyle('setDialogStyleTop', operands)
+    case 'setDialogStyleCenter':
+      return emitSetDialogStyle('setDialogStyleCenter', operands)
+    case 'setDialogStyleBottom':
+      return emitSetDialogStyle('setDialogStyleBottom', operands)
+    case 'setDialogStyleNarration':
+      return emitSetDialogStyle('setDialogStyleNarration', operands)
     default:
       // 其余具名 opcode —— M1 落 raw 保证字节可逆
       return emitRawFallback(def, operands)
@@ -132,6 +144,34 @@ function emitShowDialog(operands: number[], messages: string[]): ShowDialogComma
     messageIndex,
     text: messages[messageIndex] ?? '',
   }
+}
+
+type SetDialogStyleOp =
+  | 'setDialogStyleTop'
+  | 'setDialogStyleCenter'
+  | 'setDialogStyleBottom'
+  | 'setDialogStyleNarration'
+
+type SetDialogStyleCommand =
+  | SetDialogStyleTopCommand
+  | SetDialogStyleCenterCommand
+  | SetDialogStyleBottomCommand
+  | SetDialogStyleNarrationCommand
+
+/**
+ * 输出 setDialogStyle Command;只在 operand 非 0 时附加 arg0/arg1/arg2,
+ * 让全 0 时形状仍是 `{ op }`(便于人工读 / 简化测试)。
+ * 非 0 时 recompile 必须按原样写回,确保 round-trip 字节一致。
+ */
+function emitSetDialogStyle(op: SetDialogStyleOp, operands: number[]): SetDialogStyleCommand {
+  const c: SetDialogStyleCommand = { op } as SetDialogStyleCommand
+  // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
+  if (operands[0]! !== 0) c.arg0 = operands[0]!
+  // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
+  if (operands[1]! !== 0) c.arg1 = operands[1]!
+  // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
+  if (operands[2]! !== 0) c.arg2 = operands[2]!
+  return c
 }
 
 function emitGiveItem(operands: number[]): GiveItemCommand {

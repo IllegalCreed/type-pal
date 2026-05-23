@@ -53,6 +53,26 @@ export function recompile(commands: Command[], _messages: string[]): Uint8Array 
       view.setUint16(off + 4, c.count, true)
       return
     }
+    if (
+      c.op === 'setDialogStyleCenter' ||
+      c.op === 'setDialogStyleTop' ||
+      c.op === 'setDialogStyleBottom' ||
+      c.op === 'setDialogStyleNarration'
+    ) {
+      const opcode =
+        c.op === 'setDialogStyleCenter'
+          ? 0x003b
+          : c.op === 'setDialogStyleTop'
+            ? 0x003c
+            : c.op === 'setDialogStyleBottom'
+              ? 0x003d
+              : 0x003e
+      view.setUint16(off, opcode, true)
+      view.setUint16(off + 2, c.arg0 ?? 0, true)
+      view.setUint16(off + 4, c.arg1 ?? 0, true)
+      view.setUint16(off + 6, c.arg2 ?? 0, true)
+      return
+    }
     // Structured commands (sequence / if / choice) should never reach here —
     // they're authored content and don't round-trip with the disassembler.
     // If they do, throw.

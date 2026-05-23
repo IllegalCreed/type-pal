@@ -158,6 +158,35 @@ export const opcodeTable: Record<number, OpcodeDef> = {
     named: true,
   },
 
+  // ── 对话框样式(M2 新具名,D26) ─────────────────────────────────────────
+  // 实际语义按 sdlpal script.c:3389+ 的 case 顺序;注意"top/center"在 0x003B 与
+  // 0x003C 上的指代,跟 M2 plan 字面映射相反 —— 实施时以 script.c 为准。
+  //
+  // 0x003B → kDialogCenter (script.c:3389) —— 屏幕中部对话
+  0x003b: {
+    name: 'setDialogStyleCenter',
+    fields: [VALUE, VALUE, VALUE],
+    named: true,
+  },
+  // 0x003C → kDialogUpper (script.c:3399) —— 屏幕上部对话(playingRNG 等参数)
+  0x003c: {
+    name: 'setDialogStyleTop',
+    fields: [VALUE, VALUE, VALUE],
+    named: true,
+  },
+  // 0x003D → kDialogLower (script.c:3409) —— 屏幕下部对话
+  0x003d: {
+    name: 'setDialogStyleBottom',
+    fields: [VALUE, VALUE, VALUE],
+    named: true,
+  },
+  // 0x003E → kDialogCenterWindow (script.c:3419) —— 屏幕中部窗口式叙述
+  0x003e: {
+    name: 'setDialogStyleNarration',
+    fields: [VALUE, VALUE, VALUE],
+    named: true,
+  },
+
   // ── 对话 ────────────────────────────────────────────────────────────────
 
   // 0xFFFF: Print dialog text (script.c:3438)
