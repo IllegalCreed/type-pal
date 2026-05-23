@@ -16,3 +16,6 @@ data/extracted/
 
 # TypeScript 增量构建产物
 *.tsbuildinfo
+
+# vite dev/build 需要 fetch data/extracted/,用 symlink 暴露(不入库)
+packages/game/public/extracted
