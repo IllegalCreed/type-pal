@@ -24,6 +24,7 @@ BUILD_DIR="$REPO_ROOT/build/sdlpal-classic"
 PATCHES=(
   "$SDLPAL_SRC/patches/pal-classic-on.patch"
   "$SDLPAL_SRC/patches/headless-map-dump.patch"
+  "$SDLPAL_SRC/patches/headless-battle-harness.patch"
   "$REPO_ROOT/scripts/sdlpal-extern-c.patch"
 )
 
@@ -38,12 +39,13 @@ fi
 pkg-config --modversion sdl3 >/dev/null 2>&1 \
   || { echo "缺 SDL3 (brew install sdl3)" >&2; exit 1; }
 
-# 幂等检测:用 common.h 里 PAL_CLASSIC + main.c 里 PAL_DumpMapToPng 双探测
-# (任一 patch 缺失都视为半成品,整个 build dir 删除重做,避免 extern-c.patch
-# / dump-map patch 半 apply 状态)
+# 幂等检测:三探测(PAL_CLASSIC + PAL_DumpMapToPng + PAL_HarnessRunFromFixture)
+# 任一 patch 缺失都视为半成品,整个 build dir 删除重做,避免 extern-c.patch
+# / dump-map / battle-harness patch 半 apply 状态。
 NEED_REBUILD=0
 grep -q '^#define PAL_CLASSIC' "$BUILD_DIR/common.h" 2>/dev/null || NEED_REBUILD=1
 grep -q 'PAL_DumpMapToPng' "$BUILD_DIR/main.c" 2>/dev/null || NEED_REBUILD=1
+grep -q 'PAL_HarnessRunFromFixture' "$BUILD_DIR/battle.c" 2>/dev/null || NEED_REBUILD=1
 if [ "$NEED_REBUILD" = "1" ]; then
   if [ -d "$BUILD_DIR" ]; then
     echo "[0/3] 检测到未完整 patch 的 build/sdlpal-classic,删除重做"
@@ -60,11 +62,13 @@ if [ "$NEED_REBUILD" = "1" ]; then
     patch -p1 -d "$BUILD_DIR" < "$P"
   done
 
-  # sanity check:PAL_CLASSIC + dump-map patch 都真生效
+  # sanity check:三 patch 都真生效
   grep -q '^#define PAL_CLASSIC' "$BUILD_DIR/common.h" \
     || { echo "PAL_CLASSIC patch 没生效" >&2; exit 1; }
   grep -q 'PAL_DumpMapToPng' "$BUILD_DIR/main.c" \
     || { echo "headless-map-dump patch 没生效" >&2; exit 1; }
+  grep -q 'PAL_HarnessRunFromFixture' "$BUILD_DIR/battle.c" \
+    || { echo "headless-battle-harness patch 没生效" >&2; exit 1; }
 fi
 
 echo "[3/3] 编译"

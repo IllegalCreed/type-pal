@@ -1,0 +1,700 @@
+--- a/util.h
++++ b/util.h
+@@ -100,6 +100,14 @@
+ void *
+ UTIL_malloc(
+    size_t               buffer_size
++);
++
++/* type-pal: seed the in-engine RNG deterministically for the headless
++ * battle harness (D29 numeric baseline). Wraps the file-local lsrand()
++ * so harness fixtures can pin RandomLong / RandomFloat output. */
++void
++PAL_HarnessSetRandomSeed(
++   unsigned int seed
+ );
+ 
+ void *
+--- a/util.c
++++ b/util.c
+@@ -163,7 +163,11 @@
+ //
+ // Our random number generator's seed.
+ //
+-static int glSeed = 0;
++// type-pal: NOT static -- PAL_HarnessSetRandomSeed (below in this
++// same TU) needs to overwrite it deterministically for D29 numeric
++// baseline runs.
++//
++int glSeed = 0;
+ 
+ static void
+ lsrand(
+@@ -245,6 +249,18 @@
+       return from;
+ 
+    return from + lrand() / (INT_MAX / (to - from + 1));
++}
++
++/* type-pal: deterministic RNG seed for headless battle harness.
++ * Matches lsrand() exactly (intentionally inlined -- we don't expose
++ * lsrand publicly). Keeps engine RNG semantics identical to a normal
++ * play session, so the same seed reproduces the same battle. */
++void
++PAL_HarnessSetRandomSeed(
++   unsigned int seed
++)
++{
++   glSeed = (int)(1664525L * seed + 1013904223L);
+ }
+ 
+ float
+--- a/main.c
++++ b/main.c
+@@ -43,6 +43,19 @@
+ static int  g_dump_map_num     = -1;
+ static int  g_dump_palette_num = 0;
+ static const char *g_dump_out_path = NULL;
++
++/* type-pal: headless battle harness CLI (D29 numeric baseline).
++ * --battle-harness FIXTURE --out-battle RESULT runs a deterministic
++ * battle from a fixture file, dumps per-turn JSON to RESULT, exits.
++ * The flag is --out-battle (not --out) so it won't collide with the
++ * map dumper's --out argv slot. Implementation in battle.c. */
++extern int
++PAL_HarnessRunFromFixture(
++   const char *fixture_path,
++   const char *out_path
++);
++static const char *g_harness_fixture = NULL;
++static const char *g_harness_out     = NULL;
+ 
+ static jmp_buf g_exit_jmp_buf;
+ static int g_exit_code = 0;
+@@ -670,7 +683,23 @@
+       else if (strcmp(argv[i], "--palette") == 0 && i + 1 < argc)
+       {
+          g_dump_palette_num = atoi(argv[++i]);
++      }
++      else if (strcmp(argv[i], "--battle-harness") == 0 && i + 1 < argc)
++      {
++         g_harness_fixture = argv[++i];
++      }
++      else if (strcmp(argv[i], "--out-battle") == 0 && i + 1 < argc)
++      {
++         g_harness_out = argv[++i];
+       }
++   }
++
++   /* type-pal: harness mode forces SDL dummy drivers so no window or
++    * audio device opens. Must be set BEFORE SDL_Init. */
++   if (g_harness_fixture != NULL)
++   {
++      setenv("SDL_VIDEODRIVER", "dummy", 1);
++      setenv("SDL_AUDIODRIVER", "dummy", 1);
+    }
+ 
+ #if PAL_HAS_PLATFORM_STARTUP
+@@ -720,6 +749,21 @@
+    if (UTIL_Platform_Init(argc, argv) != 0)
+ 	   return -1;
+ 
++   /* type-pal: headless battle harness. Runs after Platform_Init so
++    * gConfig is fully wired, but before the normal trademark/splash/
++    * GameMain path. PAL_Init brings up VIDEO/UI/text/audio (with the
++    * dummy SDL drivers set above so nothing visible/audible happens).
++    * PAL_HarnessRunFromFixture exits the process on its own. */
++   if (g_harness_fixture != NULL && g_harness_out != NULL)
++   {
++      int rc;
++      if (gConfig.pszLogFile)
++         UTIL_LogAddOutputCallback(UTIL_LogToFile, gConfig.iLogLevel);
++      PAL_Init();
++      rc = PAL_HarnessRunFromFixture(g_harness_fixture, g_harness_out);
++      exit(rc);
++   }
++
+    //
+    // Should launch setting?
+    // Generally, the condition should never be TRUE as the UTIL_Platform_Init is assumed
+--- a/fight.c
++++ b/fight.c
+@@ -22,6 +22,21 @@
+ #include "main.h"
+ #include <math.h>
+ 
++/* type-pal: headless battle harness hooks (D29 numeric baseline).
++ * When PAL_HarnessActive() returns TRUE, the select-action UI path in
++ * PAL_BattleStartFrame is bypassed: actions are pulled from the loaded
++ * fixture instead of waiting on PAL_BattleUIPlayerReady() input.
++ *
++ * Per-turn state dumps (HP/MP after) are emitted at the SelectAction
++ * boundary, one record per battle turn. The harness exits the process
++ * after PAL_StartBattle returns; cleanup paths after that point are
++ * intentionally not exercised. */
++extern int  PAL_HarnessActive(void);
++extern void PAL_HarnessFillTurnActions(void);
++extern void PAL_HarnessOnTurnEnd(void);
++extern int  PAL_HarnessCurrentTurn(void);
++extern int  PAL_HarnessMaxTurns(void);
++
+ //#define INVINCIBLE 1
+ extern WORD g_rgPlayerPos[3][3][2];
+ 
+@@ -1118,6 +1133,15 @@
+       //
+       // All enemies are cleared. Won the battle.
+       //
++      /* type-pal: harness final-turn dump. Without this, a fixture
++       * that wins (or loses) mid-action-queue would skip the last
++       * OnTurnEnd hook -- the queue-exhaust path in PerformAction
++       * never gets reached because fEnemyCleared early-returns us
++       * out of the next frame. */
++      if (PAL_HarnessActive())
++      {
++         PAL_HarnessOnTurnEnd();
++      }
+       g_Battle.BattleResult = kBattleResultWon;
+       AUDIO_PlaySound(0);
+       return;
+@@ -1147,6 +1171,11 @@
+          //
+          // All players are dead. Lost the battle.
+          //
++         /* type-pal: harness final-turn dump on lose. */
++         if (PAL_HarnessActive())
++         {
++            PAL_HarnessOnTurnEnd();
++         }
+          g_Battle.BattleResult = kBattleResultLost;
+          return;
+       }
+@@ -1383,6 +1412,35 @@
+       }
+    }
+ #else
++   /* type-pal: harness short-circuits the player-by-player UI ready
++    * loop. Fill ALL alive players' actions from the fixture in one
++    * pass and flip every fighter to kFighterAct, so the queue-build
++    * branch below (i > wMaxPartyMemberIndex) triggers this same call.
++    * Confused/sleep/paralyzed members are left in kFighterWait so the
++    * engine's auto-action override fires (matching normal play). */
++   if (PAL_HarnessActive() && g_Battle.Phase == kBattlePhaseSelectAction &&
++      g_Battle.UI.state == kBattleUIWait)
++   {
++      /* Turn-cap guard: bail out if fixture exhausted maxTurns. */
++      if (PAL_HarnessCurrentTurn() >= PAL_HarnessMaxTurns())
++      {
++         g_Battle.BattleResult = kBattleResultLost;
++         return;
++      }
++      PAL_HarnessFillTurnActions();
++      for (i = 0; i <= gpGlobals->wMaxPartyMemberIndex; i++)
++      {
++         wPlayerRole = gpGlobals->rgParty[i].wPlayerRole;
++         if (gpGlobals->g.PlayerRoles.rgwHP[wPlayerRole] == 0 ||
++            gpGlobals->rgPlayerStatus[wPlayerRole][kStatusSleep] ||
++            gpGlobals->rgPlayerStatus[wPlayerRole][kStatusConfused] ||
++            gpGlobals->rgPlayerStatus[wPlayerRole][kStatusParalyzed])
++         {
++            continue;
++         }
++         g_Battle.rgPlayer[i].state = kFighterAct;
++      }
++   }
+    if (g_Battle.Phase == kBattlePhaseSelectAction)
+    {
+       if (g_Battle.UI.state == kBattleUIWait)
+@@ -1697,6 +1755,16 @@
+          for (i = 0; i < MAX_INVENTORY; i++)
+          {
+             gpGlobals->rgInventory[i].nAmountInUse = 0;
++         }
++
++         //
++         // type-pal: harness turn-end hook. Fires once per turn at the
++         // moment we exhaust the action queue and prepare to loop back
++         // to SelectAction. Dumps HP/MP after to the result JSON.
++         //
++         if (PAL_HarnessActive())
++         {
++            PAL_HarnessOnTurnEnd();
+          }
+ 
+          //
+--- a/battle.c
++++ b/battle.c
+@@ -1855,4 +1855,473 @@
+    gpGlobals->wScreenWave = wPrevWaveLevel;
+ 
+    return i;
++}
++
++/* ==========================================================================
++ * type-pal: headless battle harness (D29 numeric baseline).
++ *
++ * Reads a KV-text fixture, overrides PlayerRoles + party + RNG seed,
++ * runs PAL_StartBattle with the chosen enemy team, dumps a per-turn
++ * JSON to the --out-battle path, then exits.
++ *
++ * The fight.c hooks (PAL_HarnessActive / FillTurnActions / OnTurnEnd /
++ * CurrentTurn / MaxTurns) consume state owned here. The harness is
++ * NOT thread-safe and is meant to be invoked once per process.
++ *
++ * Fixture format (one key=value per line, # for comment):
++ *   rng=12345
++ *   enemyTeamId=1
++ *   battleFieldId=0
++ *   maxTurns=20
++ *   player.0.id=0 level=10 hp=200 mp=30 attackStrength=80 ...
++ *   player.0.spell=37
++ *   player.0.item=148,3              (item_id, count)
++ *   action.turn=0 player=0 type=attack target=0
++ *   action.turn=0 player=0 type=magic target=0 id=37
++ *   action.turn=0 player=0 type=item target=0 id=148
++ *   ...
++ * Unrecognized lines are ignored (forward-compat).
++ * ========================================================================== */
++
++#include <ctype.h>
++
++#define HARNESS_MAX_ACTIONS  256
++#define HARNESS_MAX_SPELLS    16
++#define HARNESS_MAX_ITEMS     16
++
++typedef struct {
++   int turn;
++   int playerIdx;
++   char type[16];   /* attack | defend | magic | item | flee | pass */
++   int target;
++   int spellOrItem;
++} HarnessAction;
++
++typedef struct {
++   int id;
++   int level;
++   int hp;
++   int mp;
++   int maxHp;
++   int maxMp;
++   int attackStrength;
++   int magicStrength;
++   int defense;
++   int dexterity;
++   int fleeRate;
++   int spellsCount;
++   int spells[HARNESS_MAX_SPELLS];
++   int itemsCount;
++   int items[HARNESS_MAX_ITEMS][2]; /* [id, count] */
++   int active;
++} HarnessPlayer;
++
++static struct {
++   unsigned int rng;
++   int enemyTeamId;
++   int battleFieldId;
++   int maxTurns;
++   HarnessPlayer players[MAX_PLAYABLE_PLAYER_ROLES];
++   int actionsCount;
++   HarnessAction actions[HARNESS_MAX_ACTIONS];
++   int currentTurn;
++   FILE *outFp;
++   int wroteFirstTurn;
++   int active;
++   int turnDumped;  /* reset by FillTurnActions, set by OnTurnEnd / final-flush */
++} g_Harness = {0};
++
++/* --- Hooks called from fight.c ------------------------------------------ */
++
++int
++PAL_HarnessActive(void)
++{
++   return g_Harness.active;
++}
++
++int
++PAL_HarnessCurrentTurn(void)
++{
++   return g_Harness.currentTurn;
++}
++
++int
++PAL_HarnessMaxTurns(void)
++{
++   return g_Harness.maxTurns;
++}
++
++void
++PAL_HarnessFillTurnActions(void)
++{
++   int                i, a;
++   BATTLEACTIONTYPE   ty;
++
++   /* Mark this turn as not-yet-dumped. OnTurnEnd or the wrap-up flush
++    * in HarnessDumpFinalTurnIfMissing will set it once recorded. */
++   g_Harness.turnDumped = 0;
++
++   for (i = 0; i <= gpGlobals->wMaxPartyMemberIndex; i++)
++   {
++      /* Default to attack target=0 if the fixture has no entry for
++       * this (turn, player). Keeps state defined even on under-
++       * specified fixtures (won't crash on missing action). */
++      g_Battle.rgPlayer[i].action.ActionType = kBattleActionAttack;
++      g_Battle.rgPlayer[i].action.wActionID  = 0;
++      g_Battle.rgPlayer[i].action.sTarget    = 0;
++   }
++
++   for (a = 0; a < g_Harness.actionsCount; a++)
++   {
++      HarnessAction *act = &g_Harness.actions[a];
++      if (act->turn != g_Harness.currentTurn) continue;
++      if (act->playerIdx < 0 ||
++          act->playerIdx > gpGlobals->wMaxPartyMemberIndex) continue;
++
++      if      (strcmp(act->type, "attack") == 0) ty = kBattleActionAttack;
++      else if (strcmp(act->type, "defend") == 0) ty = kBattleActionDefend;
++      else if (strcmp(act->type, "magic")  == 0) ty = kBattleActionMagic;
++      else if (strcmp(act->type, "item")   == 0) ty = kBattleActionUseItem;
++      else if (strcmp(act->type, "flee")   == 0) ty = kBattleActionFlee;
++      else if (strcmp(act->type, "pass")   == 0) ty = kBattleActionPass;
++      else continue;
++
++      g_Battle.rgPlayer[act->playerIdx].action.ActionType = ty;
++      g_Battle.rgPlayer[act->playerIdx].action.wActionID  =
++         (WORD)act->spellOrItem;
++      g_Battle.rgPlayer[act->playerIdx].action.sTarget    =
++         (SHORT)act->target;
++
++      if (ty == kBattleActionFlee)
++      {
++         g_Battle.fFlee = TRUE;
++      }
++      else if (ty == kBattleActionUseItem)
++      {
++         /* Mirror PAL_BattleCommitAction's inventory amount-in-use
++          * bump so the consume-after-battle bookkeeping behaves. */
++         int w;
++         for (w = 0; w < MAX_INVENTORY; w++)
++         {
++            if (gpGlobals->rgInventory[w].wItem == act->spellOrItem)
++            {
++               gpGlobals->rgInventory[w].nAmountInUse++;
++               break;
++            }
++         }
++      }
++   }
+ }
++
++static void
++HarnessWriteTurnRecord(int turn)
++{
++   FILE *fp = g_Harness.outFp;
++   int   i;
++
++   if (fp == NULL) return;
++
++   if (g_Harness.wroteFirstTurn) fprintf(fp, ",\n");
++   g_Harness.wroteFirstTurn = 1;
++
++   fprintf(fp, "    {\"turn\": %d, \"players\": [", turn);
++   for (i = 0; i <= gpGlobals->wMaxPartyMemberIndex; i++)
++   {
++      WORD wRole = gpGlobals->rgParty[i].wPlayerRole;
++      if (i > 0) fprintf(fp, ", ");
++      fprintf(fp, "{\"role\": %u, \"hp\": %u, \"mp\": %u}",
++              (unsigned)wRole,
++              (unsigned)gpGlobals->g.PlayerRoles.rgwHP[wRole],
++              (unsigned)gpGlobals->g.PlayerRoles.rgwMP[wRole]);
++   }
++   fprintf(fp, "], \"enemies\": [");
++   for (i = 0; i <= g_Battle.wMaxEnemyIndex; i++)
++   {
++      if (i > 0) fprintf(fp, ", ");
++      fprintf(fp, "{\"objectId\": %u, \"hp\": %u}",
++              (unsigned)g_Battle.rgEnemy[i].wObjectID,
++              (unsigned)g_Battle.rgEnemy[i].e.wHealth);
++   }
++   fprintf(fp, "]}");
++   fflush(fp);
++}
++
++void
++PAL_HarnessOnTurnEnd(void)
++{
++   HarnessWriteTurnRecord(g_Harness.currentTurn);
++   g_Harness.currentTurn++;
++   g_Harness.turnDumped = 1;
++}
++
++/* Called from harness wrap after PAL_StartBattle returns. Catches
++ * the case where battle ended (flee/script-terminate/etc) without
++ * exercising any of the OnTurnEnd hook sites in fight.c. */
++static void
++HarnessDumpFinalTurnIfMissing(void)
++{
++   if (!g_Harness.turnDumped)
++   {
++      HarnessWriteTurnRecord(g_Harness.currentTurn);
++      g_Harness.currentTurn++;
++   }
++}
++
++/* --- KV fixture parser --------------------------------------------------- */
++
++static int
++HarnessParseKV(const char *line, const char *key, int *out)
++{
++   const char *p = strstr(line, key);
++   if (p == NULL) return 0;
++   if (p != line && !isspace((unsigned char)p[-1]) && p[-1] != '.') return 0;
++   p += strlen(key);
++   if (*p != '=') return 0;
++   *out = atoi(p + 1);
++   return 1;
++}
++
++static int
++HarnessParseKVStr(const char *line, const char *key, char *out, size_t outsz)
++{
++   const char *p = strstr(line, key);
++   const char *q;
++   size_t      n;
++   if (p == NULL) return 0;
++   if (p != line && !isspace((unsigned char)p[-1]) && p[-1] != '.') return 0;
++   p += strlen(key);
++   if (*p != '=') return 0;
++   p++;
++   q = p;
++   while (*q && !isspace((unsigned char)*q)) q++;
++   n = (size_t)(q - p);
++   if (n >= outsz) n = outsz - 1;
++   memcpy(out, p, n);
++   out[n] = '\0';
++   return 1;
++}
++
++static int
++HarnessLoadFixture(const char *path)
++{
++   FILE *fp = fopen(path, "r");
++   char  line[1024];
++   if (fp == NULL)
++   {
++      fprintf(stderr, "[battle-harness] cannot open fixture: %s\n", path);
++      return -1;
++   }
++
++   g_Harness.rng           = 1;
++   g_Harness.enemyTeamId   = 1;
++   g_Harness.battleFieldId = 0;
++   g_Harness.maxTurns      = 30;
++
++   while (fgets(line, sizeof(line), fp))
++   {
++      int  tmp;
++      char tystr[32];
++      char *s = line;
++      while (*s == ' ' || *s == '\t') s++;
++      if (*s == '#' || *s == '\n' || *s == '\0' || *s == '\r') continue;
++
++      if      (HarnessParseKV(s, "rng",           &tmp)) g_Harness.rng = (unsigned int)tmp;
++      else if (HarnessParseKV(s, "enemyTeamId",   &tmp)) g_Harness.enemyTeamId = tmp;
++      else if (HarnessParseKV(s, "battleFieldId", &tmp)) g_Harness.battleFieldId = tmp;
++      else if (HarnessParseKV(s, "maxTurns",      &tmp)) g_Harness.maxTurns = tmp;
++      else if (strncmp(s, "player.", 7) == 0)
++      {
++         int idx = atoi(s + 7);
++         if (idx < 0 || idx >= MAX_PLAYABLE_PLAYER_ROLES) continue;
++         g_Harness.players[idx].active = 1;
++         if (HarnessParseKV(s, "id",             &tmp)) g_Harness.players[idx].id = tmp;
++         if (HarnessParseKV(s, "level",          &tmp)) g_Harness.players[idx].level = tmp;
++         if (HarnessParseKV(s, "hp",             &tmp)) g_Harness.players[idx].hp = tmp;
++         if (HarnessParseKV(s, "mp",             &tmp)) g_Harness.players[idx].mp = tmp;
++         if (HarnessParseKV(s, "maxHp",          &tmp)) g_Harness.players[idx].maxHp = tmp;
++         if (HarnessParseKV(s, "maxMp",          &tmp)) g_Harness.players[idx].maxMp = tmp;
++         if (HarnessParseKV(s, "attackStrength", &tmp)) g_Harness.players[idx].attackStrength = tmp;
++         if (HarnessParseKV(s, "magicStrength",  &tmp)) g_Harness.players[idx].magicStrength = tmp;
++         if (HarnessParseKV(s, "defense",        &tmp)) g_Harness.players[idx].defense = tmp;
++         if (HarnessParseKV(s, "dexterity",      &tmp)) g_Harness.players[idx].dexterity = tmp;
++         if (HarnessParseKV(s, "fleeRate",       &tmp)) g_Harness.players[idx].fleeRate = tmp;
++         if (strstr(s, "spell=") &&
++             g_Harness.players[idx].spellsCount < HARNESS_MAX_SPELLS)
++         {
++            HarnessParseKV(s, "spell", &tmp);
++            g_Harness.players[idx].spells[g_Harness.players[idx].spellsCount++] = tmp;
++         }
++         if (strstr(s, "item=") &&
++             g_Harness.players[idx].itemsCount < HARNESS_MAX_ITEMS)
++         {
++            int itemId = 0, itemCount = 1;
++            const char *q = strstr(s, "item=");
++            if (q)
++            {
++               q += 5;
++               itemId = atoi(q);
++               while (*q && *q != ',' && !isspace((unsigned char)*q)) q++;
++               if (*q == ',') itemCount = atoi(q + 1);
++               g_Harness.players[idx].items[g_Harness.players[idx].itemsCount][0] = itemId;
++               g_Harness.players[idx].items[g_Harness.players[idx].itemsCount][1] = itemCount;
++               g_Harness.players[idx].itemsCount++;
++            }
++         }
++      }
++      else if (strncmp(s, "action.", 7) == 0)
++      {
++         HarnessAction *act;
++         if (g_Harness.actionsCount >= HARNESS_MAX_ACTIONS) continue;
++         act = &g_Harness.actions[g_Harness.actionsCount];
++         memset(act, 0, sizeof(*act));
++         HarnessParseKV(s, "turn",   &act->turn);
++         HarnessParseKV(s, "player", &act->playerIdx);
++         act->target = 0;
++         act->spellOrItem = 0;
++         HarnessParseKV(s, "target", &act->target);
++         HarnessParseKV(s, "id",     &act->spellOrItem);
++         HarnessParseKVStr(s, "type", tystr, sizeof(tystr));
++         strncpy(act->type, tystr, sizeof(act->type) - 1);
++         g_Harness.actionsCount++;
++      }
++   }
++
++   fclose(fp);
++   return 0;
++}
++
++/* --- Harness entry ------------------------------------------------------- */
++
++int
++PAL_HarnessRunFromFixture(
++   const char *fixture_path,
++   const char *out_path
++)
++{
++   int            i, p, partyCount;
++   BATTLERESULT   r;
++
++   if (HarnessLoadFixture(fixture_path) != 0) return 10;
++
++   /* Bring up baseline game state (loads PlayerRoles from DATA.MKF
++    * chunk 3, gives a clean save-slot-zero environment). */
++   PAL_InitGameData(0);
++
++   /* Override PlayerRoles fields from fixture. We patch only fields
++    * the fixture set (nonzero check) so unspecified fields fall back
++    * to the canonical default-game values. */
++   for (p = 0; p < MAX_PLAYABLE_PLAYER_ROLES; p++)
++   {
++      HarnessPlayer *hp = &g_Harness.players[p];
++      WORD          role;
++      if (!hp->active) continue;
++      role = (WORD)hp->id;
++      if (hp->level)          gpGlobals->g.PlayerRoles.rgwLevel[role]          = (WORD)hp->level;
++      if (hp->hp)             gpGlobals->g.PlayerRoles.rgwHP[role]             = (WORD)hp->hp;
++      if (hp->mp)             gpGlobals->g.PlayerRoles.rgwMP[role]             = (WORD)hp->mp;
++      if (hp->maxHp)          gpGlobals->g.PlayerRoles.rgwMaxHP[role]          = (WORD)hp->maxHp;
++      if (hp->maxMp)          gpGlobals->g.PlayerRoles.rgwMaxMP[role]          = (WORD)hp->maxMp;
++      if (hp->attackStrength) gpGlobals->g.PlayerRoles.rgwAttackStrength[role] = (WORD)hp->attackStrength;
++      if (hp->magicStrength)  gpGlobals->g.PlayerRoles.rgwMagicStrength[role]  = (WORD)hp->magicStrength;
++      if (hp->defense)        gpGlobals->g.PlayerRoles.rgwDefense[role]        = (WORD)hp->defense;
++      if (hp->dexterity)      gpGlobals->g.PlayerRoles.rgwDexterity[role]      = (WORD)hp->dexterity;
++      if (hp->fleeRate)       gpGlobals->g.PlayerRoles.rgwFleeRate[role]       = (WORD)hp->fleeRate;
++      for (i = 0; i < hp->spellsCount && i < MAX_PLAYER_MAGICS; i++)
++      {
++         gpGlobals->g.PlayerRoles.rgwMagic[i][role] = (WORD)hp->spells[i];
++      }
++      /* Inline inventory push -- equivalent to PAL_AddItemToInventory
++       * but doesn't require us to depend on its return-code contract. */
++      for (i = 0; i < hp->itemsCount; i++)
++      {
++         int s;
++         for (s = 0; s < MAX_INVENTORY; s++)
++         {
++            if (gpGlobals->rgInventory[s].wItem == 0)
++            {
++               gpGlobals->rgInventory[s].wItem = (WORD)hp->items[i][0];
++               gpGlobals->rgInventory[s].nAmount = (USHORT)hp->items[i][1];
++               gpGlobals->rgInventory[s].nAmountInUse = 0;
++               break;
++            }
++         }
++      }
++   }
++
++   /* Build party in fixture order. wMaxPartyMemberIndex is the LAST
++    * index, not the count (single-member party = 0, not 1). */
++   partyCount = 0;
++   for (p = 0; p < MAX_PLAYABLE_PLAYER_ROLES; p++)
++   {
++      if (!g_Harness.players[p].active) continue;
++      gpGlobals->rgParty[partyCount].wPlayerRole = (WORD)g_Harness.players[p].id;
++      partyCount++;
++   }
++   if (partyCount == 0)
++   {
++      gpGlobals->rgParty[0].wPlayerRole = 0;
++      partyCount = 1;
++   }
++   gpGlobals->wMaxPartyMemberIndex = (WORD)(partyCount - 1);
++
++   gpGlobals->wNumBattleField = (WORD)g_Harness.battleFieldId;
++   gpGlobals->wNumScene       = 1;
++   gpGlobals->fEnteringScene  = FALSE;
++   gpGlobals->fNeedToFadeIn   = FALSE;
++
++   /* Seed the engine RNG -- this makes the dump deterministic. */
++   PAL_HarnessSetRandomSeed(g_Harness.rng);
++
++   /* Open result JSON and write header. */
++   g_Harness.outFp = fopen(out_path, "w");
++   if (g_Harness.outFp == NULL)
++   {
++      fprintf(stderr, "[battle-harness] cannot open out: %s\n", out_path);
++      return 11;
++   }
++   fprintf(g_Harness.outFp,
++      "{\n"
++      "  \"fixture\": \"%s\",\n"
++      "  \"rng\": %u,\n"
++      "  \"enemyTeamId\": %d,\n"
++      "  \"battleFieldId\": %d,\n"
++      "  \"partyCount\": %d,\n"
++      "  \"turns\": [\n",
++      fixture_path, g_Harness.rng, g_Harness.enemyTeamId,
++      g_Harness.battleFieldId, partyCount);
++
++   g_Harness.active      = 1;
++   g_Harness.currentTurn = 0;
++   g_Harness.turnDumped  = 1;  /* skip dumping turn 0 until FillTurnActions resets */
++
++   r = PAL_StartBattle((WORD)g_Harness.enemyTeamId, FALSE);
++
++   /* Capture trailing turn if the battle ended outside the OnTurnEnd
++    * hook sites (e.g. flee path which doesn't pass through the win/
++    * lose early-return in PAL_BattleStartFrame). */
++   HarnessDumpFinalTurnIfMissing();
++
++   g_Harness.active = 0;
++
++   fprintf(g_Harness.outFp,
++      "\n  ],\n"
++      "  \"result\": \"%s\",\n"
++      "  \"resultCode\": %d,\n"
++      "  \"turnsRun\": %d,\n"
++      "  \"expGained\": %d,\n"
++      "  \"cashGained\": %d\n"
++      "}\n",
++      (r == kBattleResultWon)        ? "won"  :
++      (r == kBattleResultLost)       ? "lost" :
++      (r == kBattleResultFleed)      ? "fled" :
++      (r == kBattleResultTerminated) ? "terminated" : "other",
++      (int)r, g_Harness.currentTurn,
++      g_Battle.iExpGained, g_Battle.iCashGained);
++
++   fclose(g_Harness.outFp);
++   g_Harness.outFp = NULL;
++
++   fprintf(stderr, "[battle-harness] %s -> %s (result=%d, turns=%d)\n",
++           fixture_path, out_path, (int)r, g_Harness.currentTurn);
++   return 0;
++}
