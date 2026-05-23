@@ -17,7 +17,7 @@ describe('drawTilemap', () => {
       cells: [[{ lower: 1, upper: 0 }]],
       tilesetImage: 'fake',
     }
-    drawTilemap(fb, map, tiles, { col: 0, row: 0 })
+    drawTilemap(fb, map, tiles, { col: 0, row: 0 }, 0)
     // (0,0) cell 居中在屏幕中心 (160, 100);其内首像素就在 (160, 100)
     expect(fb.indices[100 * 320 + 160]).toBe(1)
   })
@@ -38,28 +38,44 @@ describe('drawTilemap', () => {
       cells: [[{ lower: 1, upper: 2 }]],
       tilesetImage: 'fake',
     }
-    drawTilemap(fb, map, tiles, { col: 0, row: 0 })
+    drawTilemap(fb, map, tiles, { col: 0, row: 0 }, 0)
     // lower 在屏幕中心 (160, 100);upper 偏移到 (176, 108)
     expect(fb.indices[100 * 320 + 160]).toBe(1)
     expect(fb.indices[108 * 320 + 176]).toBe(2)
   })
 
-  it('9-bit tile id:(d & 0xff) | ((d >> 4) & 0x100) 拼出 0x100 高位', () => {
+  it('layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)', () => {
     const fb = createFramebuffer()
     const captured: number[] = []
     const tiles: TileImages = {
-      get(idx) {
-        captured.push(idx)
-        return undefined // 不真画,只看 id 提取
-      },
+      get(idx) { captured.push(idx); return undefined },
     }
-    // d = 0x1010 → low 8 bit = 0x10, (d>>4)&0x100 = (0x101)&0x100 = 0x100 → id = 0x110 = 272
+    // d=0x1010 → low8=0x10, (d>>4)&0x100=0x100 → id=0x110
     const map: Tilemap = {
       width: 1, height: 1,
       cells: [[{ lower: 0x1010, upper: 0 }]],
       tilesetImage: 'fake',
     }
-    drawTilemap(fb, map, tiles, { col: 0, row: 0 })
+    drawTilemap(fb, map, tiles, { col: 0, row: 0 }, 0)
     expect(captured).toContain(0x110)
+  })
+
+  it('layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip', () => {
+    const fb = createFramebuffer()
+    const captured: number[] = []
+    const tiles: TileImages = {
+      get(idx) { captured.push(idx); return undefined },
+    }
+    // d=0x10100000:高 16 = 0x1010 → 同上算 id 0x110,再 -1 = 0x10F
+    const cellWithTop = { lower: 0x10100000, upper: 0 }
+    const cellNoTop = { lower: 0x10, upper: 0 } // 高 16 = 0 → id = -1 skip
+    const map: Tilemap = {
+      width: 2, height: 1,
+      cells: [[cellWithTop, cellNoTop]],
+      tilesetImage: 'fake',
+    }
+    drawTilemap(fb, map, tiles, { col: 0, row: 0 }, 1)
+    expect(captured).toContain(0x10f)
+    expect(captured).not.toContain(-1) // 跳过,不调 tiles.get
   })
 })
