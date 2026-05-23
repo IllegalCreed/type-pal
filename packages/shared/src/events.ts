@@ -28,10 +28,17 @@ export interface GotoCommand {
   label?: string
 }
 
+/** 对话框样式 —— 由前置 opcode 0x003B-0x003E 设置(M2 新具名,见 D26)。
+ *  注:M2 设计文档原把此类型归在 resources.ts,但因被 SetDialogStyleCommand
+ *  + ShowDialogCommand.box 直接使用,实施时提前放在 events.ts。Task 2 实施
+ *  resources.ts 时无需重复定义。
+ */
+export type DialogBoxStyle = 'top' | 'center' | 'bottom' | 'narration'
+
 export interface ShowDialogCommand {
   op: 'showDialog'
   /** 对话框样式;由 0x003B-0x003E 设置,disasm 不产出此字段 */
-  box?: 'top' | 'center' | 'bottom' | 'narration'
+  box?: DialogBoxStyle
   /** M.MSG 中的消息下标(原 operand[0]),round-trip 必须原样写回 */
   messageIndex: number
   /** 内联自 M.MSG 的可读文本;仅供人工阅读,recompile 不使用 */
@@ -53,9 +60,6 @@ export interface StartBattleCommand {
   _enemyTeam?: string
   label?: string
 }
-
-/** 对话框样式 —— 由前置 opcode 0x003B-0x003E 设置(M2 新具名,见 D26)。 */
-export type DialogBoxStyle = 'top' | 'center' | 'bottom' | 'narration'
 
 export interface SetDialogStyleTopCommand {
   op: 'setDialogStyleTop'
