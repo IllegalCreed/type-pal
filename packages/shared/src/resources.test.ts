@@ -8,6 +8,8 @@ import type {
   ItemFlags,
   Magic,
   MagicType,
+  PlayerRole,
+  PlayerRoles,
   Spell,
   SpellFlags,
 } from './tables.js'
@@ -353,6 +355,79 @@ describe('BattleField schema (M3 T7)', () => {
         earth: number
       }
     }>()
+  })
+})
+
+describe('PlayerRole schema (M3 T8)', () => {
+  it('完整 PlayerRole 字段(leader spriteNum=2 实证,M2 D# 5)', () => {
+    const role: PlayerRole = {
+      id: 0,
+      _name: '李逍遥',
+      avatar: 0,
+      spriteNumInBattle: 0,
+      spriteNum: 2, // M2 实施过程发现 #5 实证(DATA.MKF chunk 3 第 12 个 u16)
+      name: 0,
+      attackAll: 0,
+      level: 1,
+      maxHP: 100,
+      maxMP: 30,
+      hp: 100,
+      mp: 30,
+      attackStrength: 0,
+      magicStrength: 0,
+      defense: 0,
+      dexterity: 0,
+      fleeRate: 0,
+      poisonResistance: 0,
+      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      walkFrames: 0,
+      attackSound: 0,
+      weaponSound: 0,
+      criticalSound: 0,
+      magicSound: 0,
+      deathSound: 0,
+    }
+    expect(role.spriteNum).toBe(2)
+    expect(role.elemResistance.wind).toBe(0)
+  })
+
+  it('signed modifier 可为负(同 Enemy D28)', () => {
+    const role: PlayerRole = {
+      id: 1,
+      avatar: 0,
+      spriteNumInBattle: 0,
+      spriteNum: 3,
+      name: 0,
+      attackAll: 0,
+      level: 1,
+      maxHP: 1,
+      maxMP: 0,
+      hp: 1,
+      mp: 0,
+      attackStrength: -2,
+      magicStrength: -1,
+      defense: 0,
+      dexterity: -3,
+      fleeRate: 0,
+      poisonResistance: 0,
+      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      walkFrames: 0,
+      attackSound: -1,
+      weaponSound: -1,
+      criticalSound: -1,
+      magicSound: -1,
+      deathSound: -1,
+    }
+    const parsed = JSON.parse(JSON.stringify(role)) as PlayerRole
+    expect(parsed.attackStrength).toBe(-2)
+    expect(parsed.dexterity).toBe(-3)
+    expect(parsed.attackSound).toBe(-1)
+  })
+
+  it('PlayerRoles 含 roles 数组(M3 dump = 6 个 role)', () => {
+    const pr: PlayerRoles = { roles: [] }
+    expect(pr.roles).toEqual([])
+    expectTypeOf<PlayerRoles>().toMatchTypeOf<{ roles: PlayerRole[] }>()
   })
 })
 

@@ -333,3 +333,110 @@ export interface BattleField {
     earth: number
   }
 }
+
+/**
+ * 单个角色的战斗 + 探索属性子集(对照 sdlpal `global.h::tagPLAYERROLES`)。
+ *
+ * **数据布局是 SoA(struct of arrays)**:每个字段是 `PLAYERS = WORD[MAX_PLAYER_ROLES]`,
+ * 6 个角色的同名字段连续存放,然后下一个字段又一行 6 个角色。本 interface 是反 SoA
+ * 后的每条角色视图。
+ *
+ * **M3 dump 范围**(对照本 milestone dev panel 战斗需要):
+ * - 战斗 stats:level / hp / maxHP / mp / maxMP / attack* / magic* / defense / dexterity
+ * - 显示:avatar / spriteNumInBattle / spriteNum / name(WORD.DAT 索引)
+ * - 抗性:fleeRate / poisonResistance / elemResistance / 5 个 sound
+ * - 其他:attackAll / walkFrames
+ *
+ * **M3 不 dump**(留 M5):equipment / magic learned / coveredBy / cooperativeMagic /
+ * 6 个 sdlpal 注释 FIXME unknown / coverSound / dyingSound。
+ *
+ * **signed 字段**(同 Enemy D28,对照 sdlpal `fight.c` SHORT cast):
+ * `attackStrength / magicStrength / defense / dexterity` 是 stat modifier,可负。
+ * 5 个 sound 字段在 sdlpal `tagPLAYERROLES` 中也是 PLAYERS = WORD,但 `fight.c` /
+ * `sound.c` 实际播放时按 SHORT 处理(-1 = 无声音),与 Enemy 5 个 sound 行为一致。
+ */
+export interface PlayerRole {
+  /** 在 player-roles.json 数组里的索引(0..MAX_PLAYER_ROLES-1 = 0..5)。 */
+  id: number
+  /** 名字注释(WORD.DAT persons 段;引擎不读,只为人读 JSON 时认得出)。 */
+  _name?: string
+
+  /** rgwAvatar —— 状态界面头像编号(精灵)。 */
+  avatar: number
+  /** rgwSpriteNumInBattle —— 战斗中显示的精灵编号(F.MKF chunk)。 */
+  spriteNumInBattle: number
+  /** rgwSpriteNum —— 普通场景显示的精灵编号(MGO.MKF chunk;M2 leader=2 实证)。 */
+  spriteNum: number
+  /** rgwName —— 角色名在 WORD.DAT 中的索引(用作 strings 反查)。 */
+  name: number
+  /** rgwAttackAll —— 是否群体攻击。 */
+  attackAll: number
+
+  /** rgwLevel —— 等级。 */
+  level: number
+  /** rgwMaxHP —— 最大 HP。 */
+  maxHP: number
+  /** rgwMaxMP —— 最大 MP。 */
+  maxMP: number
+  /** rgwHP —— 当前 HP。 */
+  hp: number
+  /** rgwMP —— 当前 MP。 */
+  mp: number
+
+  /** rgwAttackStrength —— **signed** stat modifier。 */
+  attackStrength: number
+  /** rgwMagicStrength —— **signed** stat modifier。 */
+  magicStrength: number
+  /** rgwDefense —— **signed** stat modifier。 */
+  defense: number
+  /** rgwDexterity —— **signed** stat modifier。 */
+  dexterity: number
+
+  /** rgwFleeRate —— 逃跑成功率。 */
+  fleeRate: number
+  /** rgwPoisonResistance —— 中毒抗性。 */
+  poisonResistance: number
+
+  /**
+   * 5 元素抗性(原 `rgwElementalResistance[NUM_MAGIC_ELEMENTAL=5][MAX_PLAYER_ROLES]`,
+   * 拆具名)。元素顺序与 Enemy.elemResistance / BattleField.magicEffect 一致:
+   * wind / thunder / water / fire / earth。
+   */
+  elemResistance: {
+    wind: number
+    thunder: number
+    water: number
+    fire: number
+    earth: number
+  }
+
+  /** rgwWalkFrames —— 行走动画帧数。 */
+  walkFrames: number
+
+  /** rgwAttackSound —— **signed** 攻击音效(-1 = 无)。 */
+  attackSound: number
+  /** rgwWeaponSound —— **signed** 武器音效。 */
+  weaponSound: number
+  /** rgwCriticalSound —— **signed** 暴击音效。 */
+  criticalSound: number
+  /** rgwMagicSound —— **signed** 施法音效。 */
+  magicSound: number
+  /** rgwDeathSound —— **signed** 死亡音效。 */
+  deathSound: number
+}
+
+/**
+ * 角色组(对照 sdlpal `gpGlobals->g.PlayerRoles`)。
+ *
+ * 数据源:DATA.MKF chunk 3(sdlpal `global.c` `LOAD_DATA(... fpDATA 3)` 加载
+ * 整个 `PLAYERROLES` SoA 结构体)。M2 已经从此 chunk 第 12 个 u16(=
+ * `rgwSpriteNum[0]`)拿出 leader spriteNum = 2,T9 后接用本 dump 替代 M2 硬编码。
+ */
+export interface PlayerRoles {
+  /**
+   * 角色数组,索引 = playerRoleId(0..MAX_PLAYER_ROLES-1 = 0..5,对照 sdlpal
+   * `palcommon.h::MAX_PLAYER_ROLES=6`)。注意 sdlpal `MAX_PLAYABLE_PLAYER_ROLES=5`
+   * 是同时上场的最大队友数,这里 dump 的是全部 6 个 role 定义。
+   */
+  roles: PlayerRole[]
+}

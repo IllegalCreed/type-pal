@@ -24,6 +24,7 @@ import {
   parseEnemyTeams,
   parseItems,
   parseMagicTable,
+  parsePlayerRoles,
   parseSpells,
 } from './tables.js'
 
@@ -32,8 +33,9 @@ const DATA_MKF = resolve(__dirname, '../../../../data/raw/DATA.MKF')
 const WORD_DAT = resolve(__dirname, '../../../../data/raw/WORD.DAT')
 
 // 共享 fixture:只读一次文件
+const dataMkfBytes = new Uint8Array(readFileSync(DATA_MKF))
 const sssMkf = openMkf(new Uint8Array(readFileSync(SSS_MKF)))
-const dataMkf = openMkf(new Uint8Array(readFileSync(DATA_MKF)))
+const dataMkf = openMkf(dataMkfBytes)
 const words = parseWordDat(new Uint8Array(readFileSync(WORD_DAT)))
 
 // SSS.MKF chunk 2 = OBJECT 数组 (物品/法术/敌人均在此)
@@ -493,5 +495,145 @@ describe('parseBattleFields (M3 T7)', () => {
   it('截断时 throw(非 12 倍数)', () => {
     const tiny = new Uint8Array(11)
     expect(() => parseBattleFields(tiny)).toThrow(/不能被.*整除/)
+  })
+})
+
+describe('parsePlayerRoles (M3 T8)', () => {
+  const playerRoles = parsePlayerRoles(dataMkfBytes, words)
+
+  it('解出 6 个 role(MAX_PLAYER_ROLES=6)', () => {
+    expect(playerRoles.roles).toHaveLength(6)
+  })
+
+  it('id 从 0..5 顺序递增', () => {
+    expect(playerRoles.roles[0]!.id).toBe(0)
+    expect(playerRoles.roles[5]!.id).toBe(5)
+  })
+
+  it('leader spriteNum=2(M2 实施过程发现 #5 实证)', () => {
+    // M2 切片硬编码 PARTY_LEADER_SPRITE=2,实测 DATA.MKF chunk 3 第 12 个 u16(=
+    // rgwSpriteNum[0])= 2。T9 删 cli.ts 硬编码后接此 dump。
+    expect(playerRoles.roles[0]!.spriteNum).toBe(2)
+  })
+
+  it('6 个 spriteNum = [2, 3, 7, 525, 5, 26](实测,cli.ts 注释)', () => {
+    const sprites = playerRoles.roles.map((r) => r.spriteNum)
+    expect(sprites).toEqual([2, 3, 7, 525, 5, 26])
+  })
+
+  it('队长有合理 level / maxHP / maxMP(非全 0)', () => {
+    const leader = playerRoles.roles[0]!
+    expect(leader.level).toBeGreaterThan(0)
+    expect(leader.maxHP).toBeGreaterThan(0)
+    // maxMP 在游戏初始也应非 0(队长初始有法术)
+    expect(leader.maxMP).toBeGreaterThan(0)
+  })
+
+  it('elemResistance 是 5 个具名字段(wind/thunder/water/fire/earth)', () => {
+    const r = playerRoles.roles[0]!
+    expect(r.elemResistance).toHaveProperty('wind')
+    expect(r.elemResistance).toHaveProperty('thunder')
+    expect(r.elemResistance).toHaveProperty('water')
+    expect(r.elemResistance).toHaveProperty('fire')
+    expect(r.elemResistance).toHaveProperty('earth')
+  })
+
+  it('完整 25+ 字段全部存在(M3 dump 范围)', () => {
+    const r = playerRoles.roles[0]!
+    const keys = Object.keys(r).sort()
+    expect(keys).toContain('avatar')
+    expect(keys).toContain('spriteNumInBattle')
+    expect(keys).toContain('spriteNum')
+    expect(keys).toContain('name')
+    expect(keys).toContain('attackAll')
+    expect(keys).toContain('level')
+    expect(keys).toContain('maxHP')
+    expect(keys).toContain('maxMP')
+    expect(keys).toContain('hp')
+    expect(keys).toContain('mp')
+    expect(keys).toContain('attackStrength')
+    expect(keys).toContain('magicStrength')
+    expect(keys).toContain('defense')
+    expect(keys).toContain('dexterity')
+    expect(keys).toContain('fleeRate')
+    expect(keys).toContain('poisonResistance')
+    expect(keys).toContain('elemResistance')
+    expect(keys).toContain('walkFrames')
+    expect(keys).toContain('attackSound')
+    expect(keys).toContain('weaponSound')
+    expect(keys).toContain('criticalSound')
+    expect(keys).toContain('magicSound')
+    expect(keys).toContain('deathSound')
+  })
+
+  it('_name 通过 words.persons 反查填(at least one)', () => {
+    const named = playerRoles.roles.some((r) => r._name && r._name.length > 0)
+    expect(named).toBe(true)
+  })
+
+  it('without words(不传 words)→ 所有 _name undefined,其他字段正常', () => {
+    const prNoName = parsePlayerRoles(dataMkfBytes)
+    expect(prNoName.roles).toHaveLength(6)
+    expect(prNoName.roles.every((r) => r._name === undefined)).toBe(true)
+    // 字段仍正常 dump(leader spriteNum=2 仍对)
+    expect(prNoName.roles[0]!.spriteNum).toBe(2)
+  })
+
+  it('signed modifier 字段按 s16 解码(初始数据全正,与 Enemy 不同)', () => {
+    // 实测 DATA.MKF chunk 3 队员初始 stats 全是正值(队长 attackStrength=33 等),
+    // 与 Enemy(常有 -1 modifier)行为不同。验证 s16 解码保留:
+    // - 所有值都在 SHORT 范围(-32768..32767),且 dump 数值合理(非 65535+)。
+    for (const r of playerRoles.roles) {
+      expect(r.attackStrength).toBeGreaterThanOrEqual(-32768)
+      expect(r.attackStrength).toBeLessThan(32768)
+      expect(r.magicStrength).toBeGreaterThanOrEqual(-32768)
+      expect(r.magicStrength).toBeLessThan(32768)
+      expect(r.defense).toBeGreaterThanOrEqual(-32768)
+      expect(r.defense).toBeLessThan(32768)
+      expect(r.dexterity).toBeGreaterThanOrEqual(-32768)
+      expect(r.dexterity).toBeLessThan(32768)
+    }
+  })
+
+  it('signed modifier 解码逻辑(fake 0xFFFF → -1)', () => {
+    // 构造一个最小 fake DATA.MKF,chunk 3 = 900 字节,attackStrength[0] 位置写 0xFFFF。
+    // cursor: 11 PLAYERS = 132 + equipment(6*12=72) = 204 → attackStrength[0]
+    const tableSize = 5 * 4 // 4 个 chunk: 0..3 indices, table = (n+1)*4
+    const chunk3Size = 900
+    const fake = new Uint8Array(tableSize + chunk3Size)
+    const tableView = new DataView(fake.buffer)
+    tableView.setUint32(0, tableSize, true) // chunk 0 start
+    tableView.setUint32(4, tableSize, true) // chunk 1 start
+    tableView.setUint32(8, tableSize, true) // chunk 2 start
+    tableView.setUint32(12, tableSize, true) // chunk 3 start
+    tableView.setUint32(16, tableSize + chunk3Size, true) // chunk 3 end
+    const chunkView = new DataView(fake.buffer, tableSize, chunk3Size)
+    chunkView.setUint16(204, 0xffff, true) // attackStrength[0] = -1
+    chunkView.setUint16(204 + 12, 0xfffe, true) // magicStrength[0] = -2
+    // 5 个 sound 字段从 816 起。deathSound[0] 在 816。
+    chunkView.setUint16(816, 0xffff, true) // deathSound[0] = -1
+    const pr = parsePlayerRoles(fake)
+    expect(pr.roles[0]!.attackStrength).toBe(-1)
+    expect(pr.roles[0]!.magicStrength).toBe(-2)
+    expect(pr.roles[0]!.deathSound).toBe(-1)
+  })
+
+  it('chunk size ≠ 900 时 throw(对 fake .MKF 做 sanity check)', () => {
+    // 构造一个最小 fake .MKF,其 chunk 3 size != 900
+    // .MKF 格式:[offsetTable: (count+1)×u32] + [chunks...]
+    // 4 个 chunk: 0..3,只在 chunk 3 放 100 字节
+    const offsetTable = new Uint8Array(5 * 4) // count+1=5
+    const view = new DataView(offsetTable.buffer)
+    const tableSize = 5 * 4
+    view.setUint32(0, tableSize, true) // chunk 0 start
+    view.setUint32(4, tableSize, true) // chunk 1 start
+    view.setUint32(8, tableSize, true) // chunk 2 start
+    view.setUint32(12, tableSize, true) // chunk 3 start
+    view.setUint32(16, tableSize + 100, true) // chunk 3 end (size=100)
+    const fakeChunk = new Uint8Array(100)
+    const fake = new Uint8Array(tableSize + 100)
+    fake.set(offsetTable, 0)
+    fake.set(fakeChunk, tableSize)
+    expect(() => parsePlayerRoles(fake)).toThrow(/sizeof\(PLAYERROLES\)|cursor/)
   })
 })

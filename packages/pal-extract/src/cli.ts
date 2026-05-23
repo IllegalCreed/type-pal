@@ -34,6 +34,7 @@ import {
   parseEnemyTeams,
   parseItems,
   parseMagicTable,
+  parsePlayerRoles,
   parseSpells,
 } from './resources/tables.js'
 
@@ -157,6 +158,9 @@ async function main(): Promise<void> {
     parseEnemyTeams(teamBuf, enemyObjectNames),
   )
   writeJson(resolve(OUT, 'data', 'battle-fields.json'), parseBattleFields(fieldBuf))
+  // M3 T8:PlayerRoles(DATA.MKF chunk 3)— M2 半解扩到 M3 战斗子集 dump。
+  // 注意:T8 不删 cli.ts 下面的 PARTY_LEADER_SPRITE=2 硬编码,T9 才重构(spec 明确)。
+  writeJson(resolve(OUT, 'data', 'player-roles.json'), parsePlayerRoles(loadFile('DATA.MKF'), words))
 
   console.log('[pal-extract] data tables written')
 
