@@ -265,7 +265,7 @@ describe('SceneObjects', () => {
       id: 5,
       x: 10,
       y: 20,
-      sSpriteNum: 78,
+      spriteNum: 78,
       triggerLabel: 'L_59',
       autoLabel: 'L_71',
     }
@@ -283,7 +283,7 @@ describe('SceneObjects', () => {
   })
 
   it('triggerLabel / autoLabel 可缺', () => {
-    const eo: SceneEventObject = { id: 0, x: 0, y: 0, sSpriteNum: 0 }
+    const eo: SceneEventObject = { id: 0, x: 0, y: 0, spriteNum: 0 }
     expect(eo.triggerLabel).toBeUndefined()
   })
 })
@@ -306,7 +306,7 @@ export interface SceneEventObject {
   x: number
   y: number
   /** 精灵编号(原 EventObject.wSpriteNum) —— 对应 sprite-NNN.json。 */
-  sSpriteNum: number
+  spriteNum: number
   /** 玩家触发对话的入口标签;在 scene-001.json commands 里找该 label 的 index 即可入口。 */
   triggerLabel?: string
   /** NPC 待机行为(M2 不消费,留给 M5+)。 */
@@ -606,7 +606,7 @@ describe('dumpScene', () => {
     expect(result.onEnterLabel).toBe('L_5')
     expect(result.eventObjects).toHaveLength(2)
     expect(result.eventObjects[0]).toEqual({
-      id: 0, x: 10, y: 20, sSpriteNum: 78,
+      id: 0, x: 10, y: 20, spriteNum: 78,
       triggerLabel: 'L_59', autoLabel: undefined,
     })
     expect(result.eventObjects[1]?.triggerLabel).toBe('L_100')
@@ -669,7 +669,7 @@ export function dumpScene(
       id: i,
       x: eo.x,
       y: eo.y,
-      sSpriteNum: eo.spriteNum,
+      spriteNum: eo.spriteNum,
       triggerLabel: labelOf(eo.triggerScript),
       autoLabel: labelOf(eo.autoScript),
     })
@@ -703,7 +703,7 @@ import { dumpScene } from './resources/scene.js'
 `ls data/extracted/data/scene-1.json`
 `cat data/extracted/data/scene-1.json | head -30`
 
-记下输出中 `mapNum` 与 `eventObjects` 列表 —— Task 5 sprite 提取要用到这些 sSpriteNum。
+记下输出中 `mapNum` 与 `eventObjects` 列表 —— Task 5 sprite 提取要用到这些 spriteNum。
 
 - [ ] **Step 9: Commit**
 
@@ -726,11 +726,11 @@ import { dumpScene } from './resources/scene.js'
 > - **F.MKF** chunk N = 战斗角色(M2 不用)
 > - **GOP.MKF** = tile sprite,M1 已处理
 >
-> **具体 chunk 号**:Task 4 跑出来的 scene-1.json 给出每个 EventObject 的 sSpriteNum = MGO.MKF 的 chunk index。加上队长精灵号(原版第一角色,**M2 先硬编码队长 sprite = 0**,实施时按真实数据先 dump 验证,若不对再调)。
+> **具体 chunk 号**:Task 4 跑出来的 scene-1.json 给出每个 EventObject 的 spriteNum = MGO.MKF 的 chunk index。加上队长精灵号(原版第一角色,**M2 先硬编码队长 sprite = 0**,实施时按真实数据先 dump 验证,若不对再调)。
 
 - [ ] **Step 1: 看 Task 4 dump 出的 scene-1.json,确认需要的 sprite 号集合**
 
-`cat data/extracted/data/scene-1.json | grep sSpriteNum | sort -u`
+`cat data/extracted/data/scene-1.json | grep spriteNum | sort -u`
 
 记下输出:这些是 scene 1 需要的 NPC sprite 号。
 
@@ -775,7 +775,7 @@ export interface CharacterSpriteOut {
 
 /**
  * 从 MGO.MKF 提取一组指定 sprite id 的全部帧。
- * @param spriteIds —— 切片场景出现的 sprite 号集合(队长 + NPC.sSpriteNum 去重)
+ * @param spriteIds —— 切片场景出现的 sprite 号集合(队长 + NPC.spriteNum 去重)
  * @param mgoChunks —— sprite id → 该 chunk 原始字节(调用方负责从 MGO.MKF 读 / 解压)
  */
 export function extractCharacterSprites(
@@ -813,7 +813,7 @@ import { extractCharacterSprites } from './resources/sprite.js'
   const PARTY_LEADER_SPRITE = 0
   const spriteIds = new Set<number>([PARTY_LEADER_SPRITE])
   for (const eo of sceneObjects.eventObjects) {
-    if (eo.sSpriteNum > 0) spriteIds.add(eo.sSpriteNum)
+    if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)
   }
 
   const mgoMkf = openMkf(loadFile('MGO.MKF'))
@@ -1149,7 +1149,7 @@ export interface NpcState {
   id: number
   col: number
   row: number
-  sSpriteNum: number
+  spriteNum: number
   triggerLabel?: string
 }
 
@@ -1195,7 +1195,7 @@ export function npcFromEventObject(eo: SceneEventObject): NpcState {
     id: eo.id,
     col: eo.x,
     row: eo.y,
-    sSpriteNum: eo.sSpriteNum,
+    spriteNum: eo.spriteNum,
     triggerLabel: eo.triggerLabel,
   }
 }
@@ -1313,7 +1313,7 @@ describe('SceneSystem NPC 触发', () => {
 
   it('面前格有 NPC + Confirm → mode=event + eventCursor 装载', () => {
     const gs = createInitialGameState({ col: 5, row: 5, facing: 'right' })
-    gs.npcs = [{ id: 7, col: 6, row: 5, sSpriteNum: 78, triggerLabel: 'L_59' }]
+    gs.npcs = [{ id: 7, col: 6, row: 5, spriteNum: 78, triggerLabel: 'L_59' }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -2743,7 +2743,7 @@ export function presentFrame(
   drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera)
 
   for (const npc of gs.npcs) {
-    const sprite = ctx.npcSprites.get(npc.sSpriteNum)
+    const sprite = ctx.npcSprites.get(npc.spriteNum)
     if (!sprite) continue
     const { sx, sy } = cellToScreen(npc, gs.camera)
     drawSprite(fb, sprite, sx, sy)
@@ -2903,7 +2903,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
 
   const spriteIds = new Set<number>([0])
   for (const eo of scene.eventObjects) {
-    if (eo.sSpriteNum > 0) spriteIds.add(eo.sSpriteNum)
+    if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)
   }
   const characterSprites = new Map<
     number,
@@ -3146,7 +3146,7 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
       npcFromEventObject({
         id: 1,
         x: 8, y: 5,
-        sSpriteNum: 78,
+        spriteNum: 78,
         triggerLabel: 'L_2',
       }),
     ]
