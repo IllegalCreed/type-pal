@@ -29,6 +29,8 @@
 | D23 | **Win9x 版用 YJ2 解压,不是 YJ1** | M1 实施扫所有 14 个 MKF 找不到任何 YJ1 magic;`sdlpal/global.c:202 fIsWIN95 ? YJ2_Decompress : YJ1_Decompress`。YJ2 = 适配 Huffman + LZSS,无 magic,首 u32 是 uncompressed length;调用者按 MKF 类型决定是否解压。`io/yj2.ts` 1:1 port 自 `yj1.c::YJ2_Decompress`。 |
 | D24 | **D20 修正:Win9x 版 WORD.DAT 无场景名** | D20 说"场景名在 WORD.DAT"。**Win9x 版的 `SCENE` struct 没有 name 字段**,WORD.DAT 末尾 14 条是毒物 / 杂项名而非场景名。`_scene` 注释**仅**从 `symbols.json` 拿。若以后做支持 DOS 版,DOS 版可能不同。 |
 | D25 | **items / spells / enemies 数据在 SSS.MKF chunk 2(OBJECT 数组),不是 DATA.MKF** | 原 plan 假设这三表在 DATA.MKF。实际:SSS.MKF chunk 2 = OBJECT 数组(union),索引 0-60 角色 / 61-295 items / 296-397 spells / 398-550 enemies。DATA.MKF chunk 1 + 4 是 ENEMY / MAGIC 详细 stats(补充结构)。`Enemy.mp` 字段始终为 0(sdlpal ENEMY struct 无 mp)。 |
+| D26 | **运行时 EventSystem 对未具名 raw opcode = no-op skip + log,不抛错** | M1 disasm 把 ~80 个未具名 opcode 走 `op: "raw"` 兜底,M2 起每个里程碑按玩法增量具名一批。运行时事件系统消费 events.json 时撞到 raw 的策略:**默认 no-op skip + `console.debug(ip, opcode, operands)` + ip++**,而非抛错。理由:scene 1 onEnter 等段大量 raw 是无关紧要环境设定(setBGM / setPalette / 设事件对象初始状态),抛错会让任何场景寸步难行;skip 让流程往前走,卡到真正影响执行流的 op(死循环 / 进战斗 / 切场景)时,console log 里看到 opcode 号再具名追加。**此决策跨所有里程碑生效**(M2 探索、M3 战斗触发、M5 菜单都遵循同一策略),避免每个里程碑重复决策。在 M2 设计 [`plans/2026-05-23-m2-runtime-slice-design.md`](plans/2026-05-23-m2-runtime-slice-design.md) 中钉死。 |
+| D27 | **角色 / NPC 精灵提取从 M1 推到 M2** | M1 设计写过"该场景所用精灵的索引位图 PNG | 各精灵 MKF",M1 实施收窄到只做 tile bitmap;角色 / NPC sprite 在 M2 跨包顺手补上(队长 4 方向 + scene 1 NPC 待机帧)。**理由**:M2 的"端到端"目标要求"真原版数据",占位色块会跳过 D12 的「真索引位图 × 调色板查表 × anchor」 渲染路径,等于砍掉一段忠实度验证。复用 M1 已踩坑的 `parseSpriteChunk`,新增 `extractCharacterSprites(...)` + 新产物 `data/extracted/data/scene-1.json`(NPC 列表 + 入口 label 表)。**M4 不受影响**,其余非切片场景的 sprite 仍在 M4 全量补。 |
 
 ## 待定问题
 

@@ -24,10 +24,13 @@
 - **Task 20 sdlpal RLE 对拍 harness 推迟到 M3**(战斗差分本就需要 sdlpal headless 基建,统一做)。
 
 ### M2 · 运行时垂直切片(探索)
-- 资源加载层、表现层最小渲染:显示一个场景,画地图 + 队伍精灵。
+- 资源加载层、表现层最小渲染:显示 scene 1 真实地图 + 队伍精灵 + NPC 精灵。
 - 场景系统:队伍行走 + 瓦片碰撞 + 相机。
-- 事件系统最小集 + 消息框:走到 NPC 前触发一段对话。
-- **目标:整条架构链路端到端跑通。**
+- 事件系统最小集 + 对话框:消费真原版 scene-001.json,走到任一 NPC 前触发该 NPC 的 trigger 段对话。
+- 跨包顺手做:M1 漏的角色 / NPC 精灵提取、新产物 `data/extracted/data/scene-1.json`(事件对象 + 入口 label 表)、~10 个 opcode 具名扩展(`setDialogStyleTop/Center/Bottom/Narration` 等)。
+- EventSystem 对未具名 raw 走 **no-op skip + console.debug**,不抛错(scene 1 onEnter 段大量 raw 是无关紧要环境设定,M3+ 按玩法增量具名)。
+- **目标:整条架构链路端到端跑通(真原版数据,非占位)。**
+- 详细设计见 [`plans/2026-05-23-m2-runtime-slice-design.md`](plans/2026-05-23-m2-runtime-slice-design.md)。
 
 ### M3 · 战斗垂直切片
 - 事件能触发一场战斗。
