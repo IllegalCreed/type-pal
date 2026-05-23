@@ -43,7 +43,7 @@ describe('disasm', () => {
 
   it('showDialog(0xFFFF) 内联文本(messageIndex 是 operand[0])', () => {
     const cmds = disasm(instr(0xffff, 7, 0, 0), ['', '', '', '', '', '', '', '你好,客官。'])
-    expect(cmds).toEqual([{ op: 'showDialog', text: '你好,客官。' }])
+    expect(cmds).toEqual([{ op: 'showDialog', messageIndex: 7, text: '你好,客官。' }])
   })
 
   it('giveItem(0x001F)', () => {

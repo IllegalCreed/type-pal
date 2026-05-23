@@ -4,8 +4,11 @@ import { lookupOpcode } from './opcodes.js'
 /**
  * 命令清单 → 字节码。disasm 的逆操作,严格对偶。
  * round-trip 关键不变量:disasm(bc, msgs) → recompile(_, msgs) 必须字节相等。
+ *
+ * messages 参数保留以维持接口对称,recompile 不再使用它
+ * (showDialog 直接写回 messageIndex,不做 text→index 映射)。
  */
-export function recompile(commands: Command[], messages: string[]): Uint8Array {
+export function recompile(commands: Command[], _messages: string[]): Uint8Array {
   const buf = new Uint8Array(commands.length * 8)
   const view = new DataView(buf.buffer)
 
@@ -13,12 +16,6 @@ export function recompile(commands: Command[], messages: string[]): Uint8Array {
   const labels = new Map<string, number>()
   commands.forEach((c, i) => {
     if (c.label) labels.set(c.label, i)
-  })
-
-  // Pass 2: build text → message index map (first occurrence wins)
-  const textIndex = new Map<string, number>()
-  messages.forEach((m, i) => {
-    if (!textIndex.has(m)) textIndex.set(m, i)
   })
 
   commands.forEach((c, i) => {
@@ -33,7 +30,10 @@ export function recompile(commands: Command[], messages: string[]): Uint8Array {
     if (c.op === 'end') {
       const op = c.advance ? 0x0001 : c.reset ? 0x0002 : 0x0000
       view.setUint16(off, op, true)
-      // operands stay 0 (round-trip caveat for 0x0002, see disasm notes)
+      if (c.reset) {
+        view.setUint16(off + 2, c.resetTo ?? 0, true)
+        view.setUint16(off + 4, c.idleFrames ?? 0, true)
+      }
       return
     }
     if (c.op === 'goto') {
@@ -44,7 +44,7 @@ export function recompile(commands: Command[], messages: string[]): Uint8Array {
     }
     if (c.op === 'showDialog') {
       view.setUint16(off, lookupOpcode('showDialog'), true)
-      view.setUint16(off + 2, textIndex.get(c.text) ?? 0, true)
+      view.setUint16(off + 2, c.messageIndex, true)
       return
     }
     if (c.op === 'giveItem') {

@@ -14,12 +14,16 @@ export interface EndCommand {
   op: 'end'
   advance?: boolean
   reset?: boolean
+  /** 仅 reset=true 时有效:重置后跳转到的指令下标(原 operand[0]) */
+  resetTo?: number
+  /** 仅 reset=true 时有效:重置前等待帧数(原 operand[1]) */
+  idleFrames?: number
   label?: string
 }
 
 export interface GotoCommand {
   op: 'goto'
-  to: string                // 跳转目标标签名;跨文件用 "shared#L_X" / "objects#L_X"
+  to: string // 跳转目标标签名;跨文件用 "shared#L_X" / "objects#L_X"
   frameDelay?: number
   label?: string
 }
@@ -28,7 +32,10 @@ export interface ShowDialogCommand {
   op: 'showDialog'
   /** 对话框样式;由 0x003B-0x003E 设置,disasm 不产出此字段 */
   box?: 'top' | 'center' | 'bottom' | 'narration'
-  text: string              // 内联自 M.MSG
+  /** M.MSG 中的消息下标(原 operand[0]),round-trip 必须原样写回 */
+  messageIndex: number
+  /** 内联自 M.MSG 的可读文本;仅供人工阅读,recompile 不使用 */
+  text: string
   label?: string
 }
 

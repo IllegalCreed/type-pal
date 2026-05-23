@@ -87,7 +87,7 @@ type DefLike = {
 function emitCommand(def: DefLike, operands: number[], messages: string[]): Command {
   switch (def.name) {
     case 'end':
-      return emitEnd(def)
+      return emitEnd(def, operands)
     case 'goto':
       return emitGoto(operands)
     case 'showDialog':
@@ -100,10 +100,16 @@ function emitCommand(def: DefLike, operands: number[], messages: string[]): Comm
   }
 }
 
-function emitEnd(def: DefLike): EndCommand {
+function emitEnd(def: DefLike, operands: number[]): EndCommand {
   const c: EndCommand = { op: 'end' }
   if (def.endAdvance) c.advance = true
-  if (def.endReset) c.reset = true
+  if (def.endReset) {
+    c.reset = true
+    // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
+    c.resetTo = operands[0]!
+    // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
+    c.idleFrames = operands[1]!
+  }
   return c
 }
 
@@ -123,6 +129,7 @@ function emitShowDialog(operands: number[], messages: string[]): ShowDialogComma
   const messageIndex = operands[0]!
   return {
     op: 'showDialog',
+    messageIndex,
     text: messages[messageIndex] ?? '',
   }
 }

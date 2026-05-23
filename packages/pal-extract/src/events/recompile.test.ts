@@ -47,11 +47,19 @@ describe('recompile + round-trip', () => {
   })
 
   it('end advance / reset', () => {
-    const cmds = disasm(concat(instr(0x0001), instr(0x0002)), [])
+    const bc = concat(instr(0x0001), instr(0x0002, 42, 5))
+    const cmds = disasm(bc, [])
     const back = recompile(cmds, [])
-    // 0x0001 round-trips faithfully; 0x0002 loses operands per disasm design
+    // 0x0001 round-trips faithfully; 0x0002 preserves resetTo and idleFrames
     expect(back[0]).toBe(0x01)
     expect(back[1]).toBe(0x00)
     expect(back[8]).toBe(0x02)
+    expect(back[9]).toBe(0x00)
+    // operand[0] = 42 (resetTo)
+    expect(back[10]).toBe(42)
+    expect(back[11]).toBe(0x00)
+    // operand[1] = 5 (idleFrames)
+    expect(back[12]).toBe(5)
+    expect(back[13]).toBe(0x00)
   })
 })
