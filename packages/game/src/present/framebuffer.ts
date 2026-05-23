@@ -6,6 +6,7 @@ export const SCREEN_H = 200
 export interface Framebuffer {
   readonly width: number
   readonly height: number
+  /** 调试/测试用只读视图;写入只走 writePixel(以保证边界检查)。 */
   readonly indices: Uint8Array
   writePixel(x: number, y: number, index: number): void
   clear(): void
