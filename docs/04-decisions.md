@@ -25,6 +25,7 @@
 | D19 | 技术栈确认 | TS + Vite + Vitest + pnpm monorepo;**3 个包** `pal-extract` / `game` / `shared`(共用 JSON 类型);Biome 做格式化 + lint;**不做 CI**,用本地 `pnpm check`(类型检查 + 测试)代替。 |
 | D20 | 数字 ID 的可读名 | 游戏自带名(`WORD.DAT`:物品 / 法术 / 人物 / 敌人 / 地名)由 `pal-extract` 自动解析;无名的(场景 / 路人)配可选、增量的 `symbols.json`。名字以 `_` 前缀注释字段呈现,**数字保持真值**,引擎不读注释。 |
 | D21 | 测试走**重档**:sdlpal 差分自动化 | 利用「正确答案已存在」:events round-trip 全量验证 + RLE / 数据与 sdlpal 对拍 + 战斗逐回合差分 + 自主通关回放。完整策略见 `06-testing.md`。 |
+| D22 | **反汇编器骨架提前到 M1**(events schema 钉死时机) | 原 `03-development-plan.md` 把"字节码 → events.json 忠实转写器"放 M4,但 `05-events-schema.md` 一直暗示 M1 就要做(原话:"M1 垂直切片只需 ~15 个 opcode 具名;其余先走 raw,M4 填满")。两份文档冲突,按 05 对齐:**M1 完成**双向 opcode 注册表 + disasm + recompile + 可达性切分 + 字符串内联 + WORD.DAT 注释 + 全量 round-trip;~15 个常用 opcode 具名其余走 `raw` 兜底。**M4 削去事件部分**,只补剩余 MKF 格式、全场景资源、全数据表;剩余 ~80 opcode 具名由 M3 战斗 / M5 菜单等按玩法增量补。**理由**:M2 运行时事件系统要对着真 events.json 写,schema 形态若到 M4 才被真实数据敲打,M2 必返工。详细设计见 [`plans/2026-05-23-m1-pal-extract-design.md`](plans/2026-05-23-m1-pal-extract-design.md)。 |
 
 ## 待定问题
 
