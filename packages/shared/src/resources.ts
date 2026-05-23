@@ -40,3 +40,29 @@ export interface SpriteFrame {
 export interface SpriteSet {
   frames: SpriteFrame[]
 }
+
+/** 一个场景里的事件对象(NPC 或交互点) —— pal-extract 切片场景时 dump 出来。 */
+export interface SceneEventObject {
+  /** 在原 SSS.MKF EventObject 数组里的下标。 */
+  id: number
+  /** 瓦片坐标(原 EventObject.x / .y,以 tile 为单位)。 */
+  x: number
+  y: number
+  /** 精灵编号(原 EventObject.wSpriteNum) —— 对应 sprite-NNN.json。 */
+  sSpriteNum: number
+  /** 玩家触发对话的入口标签;在 scene-001.json commands 里找该 label 的 index 即可入口。 */
+  triggerLabel?: string
+  /** NPC 待机行为(M2 不消费,留给 M5+)。 */
+  autoLabel?: string
+}
+
+export interface SceneObjects {
+  sceneId: number
+  /** mapNum = MAP.MKF / GOP.MKF 的 chunk index(同 tilemap-N.json 的 N 不必相同;见 SSS.MKF chunk 1 SCENE 数组)。 */
+  mapNum: number
+  /** scene 进入即跑的脚本入口,作为 label 名;对应 SSS.MKF SCENE.scriptOnEnter ip。 */
+  onEnterLabel?: string
+  /** scriptOnTeleport(若存在);M2 不消费。 */
+  onTeleportLabel?: string
+  eventObjects: SceneEventObject[]
+}
