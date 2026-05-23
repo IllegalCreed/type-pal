@@ -22,7 +22,7 @@ describe('SceneObjects', () => {
       id: 5,
       x: 10,
       y: 20,
-      sSpriteNum: 78,
+      spriteNum: 78,
       triggerLabel: 'L_59',
       autoLabel: 'L_71',
     }
@@ -40,7 +40,7 @@ describe('SceneObjects', () => {
   })
 
   it('triggerLabel / autoLabel 可缺', () => {
-    const eo: SceneEventObject = { id: 0, x: 0, y: 0, sSpriteNum: 0 }
+    const eo: SceneEventObject = { id: 0, x: 0, y: 0, spriteNum: 0 }
     expect(eo.triggerLabel).toBeUndefined()
   })
 })

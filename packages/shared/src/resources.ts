@@ -47,9 +47,10 @@ export interface SceneEventObject {
   id: number
   /** 瓦片坐标(原 EventObject.x / .y,以 tile 为单位)。 */
   x: number
+  /** 同 x,以 tile 为单位。 */
   y: number
   /** 精灵编号(原 EventObject.wSpriteNum) —— 对应 sprite-NNN.json。 */
-  sSpriteNum: number
+  spriteNum: number
   /** 玩家触发对话的入口标签;在 scene-001.json commands 里找该 label 的 index 即可入口。 */
   triggerLabel?: string
   /** NPC 待机行为(M2 不消费,留给 M5+)。 */
