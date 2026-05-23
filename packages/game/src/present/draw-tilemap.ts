@@ -1,5 +1,5 @@
 import type { Tilemap } from '@type-pal/shared'
-import type { Framebuffer } from './framebuffer.js'
+import { SCREEN_W, SCREEN_H, type Framebuffer } from './framebuffer.js'
 
 const TILE_W = 32
 const TILE_H = 16
@@ -33,18 +33,23 @@ export function drawTilemap(
 ): void {
   const camPxX = cameraCell.col * TILE_W + (cameraCell.row & 1) * TILE_HALF_W
   const camPxY = cameraCell.row * ROW_Y_STEP
-  const offsetX = 160 - camPxX
-  const offsetY = 100 - camPxY
+  const offsetX = (SCREEN_W >> 1) - camPxX
+  const offsetY = (SCREEN_H >> 1) - camPxY
 
   for (let r = 0; r < map.height; r++) {
     const rowCells = map.cells[r]!
     const rowPxY = r * ROW_Y_STEP + offsetY
-    if (rowPxY + TILE_H < 0 || rowPxY > fb.height) continue
+    if (rowPxY + TILE_H <= 0 || rowPxY >= fb.height) continue
     for (let c = 0; c < map.width; c++) {
       const cell = rowCells[c]!
       const cellPxX = c * TILE_W + (r & 1) * TILE_HALF_W + offsetX
-      if (cellPxX + TILE_W < 0 || cellPxX > fb.width) continue
+      if (cellPxX + TILE_W <= 0 || cellPxX >= fb.width) continue
 
+      // M2 简化:lower / upper 都画在同一 cell 位置 (cellPxX, rowPxY)。
+      // sdlpal map.h 实际 Tiles[row][col][h] h=0/1 是子行,位置不同:
+      //   h=0 → (c*32, r*16)
+      //   h=1 → (c*32+16, r*16+8)
+      // 若 Task 22 dev 验证发现 tile 错位 / 重叠,upper 改画到 (cellPxX + 16, rowPxY + 8)。
       const lowerImg = tiles.get(cell.lower & 0xff)
       if (lowerImg) blitTile(fb, lowerImg, cellPxX, rowPxY)
       const upperImg = tiles.get(cell.upper & 0xff)
