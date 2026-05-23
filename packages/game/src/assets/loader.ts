@@ -1,8 +1,14 @@
 import type {
+  BattleField,
+  Enemy,
+  EnemyTeam,
   EventFile,
+  Item,
+  Magic,
   Palette,
   PlayerRoles,
   SceneObjects,
+  Spell,
   Tilemap,
 } from '@type-pal/shared'
 import type { BattleBgAsset } from '../present/battle/draw-battle-bg.js'
@@ -38,6 +44,13 @@ export interface LoadedAssets {
   battleSprites: Map<string, SpriteAsset>
   /** M3 T25:战斗背景 — key = FBP chunk id(= BattleField.id)。 */
   battleBgs: Map<number, BattleBgAsset>
+  /** M3 T29:战斗运行所需表 — dev panel / startBattle 用。 */
+  enemies: Enemy[]
+  enemyTeams: EnemyTeam[]
+  battleFields: BattleField[]
+  items: Item[]
+  spells: Spell[]
+  magics: Magic[]
 }
 
 interface BattleSpriteManifestEntry {
@@ -60,12 +73,21 @@ interface BattleBgsManifest {
 
 export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   const padded = sceneId.toString().padStart(3, '0')
-  const [tilemap, palette, scene, events, playerRoles] = await Promise.all([
+  const [
+    tilemap, palette, scene, events, playerRoles,
+    enemies, enemyTeams, battleFields, items, spells, magics,
+  ] = await Promise.all([
     fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap-${sceneId}.json`),
     fetchJson<Palette>(`${BASE}/data/palette-0.json`),
     fetchJson<SceneObjects>(`${BASE}/data/scene-${sceneId}.json`),
     fetchJson<EventFile>(`${BASE}/events/scene-${padded}.json`),
     fetchJson<PlayerRoles>(`${BASE}/data/player-roles.json`),
+    fetchJson<Enemy[]>(`${BASE}/data/enemies.json`),
+    fetchJson<EnemyTeam[]>(`${BASE}/data/enemy-teams.json`),
+    fetchJson<BattleField[]>(`${BASE}/data/battle-fields.json`),
+    fetchJson<Item[]>(`${BASE}/data/items.json`),
+    fetchJson<Spell[]>(`${BASE}/data/spells.json`),
+    fetchJson<Magic[]>(`${BASE}/data/magic.json`),
   ])
 
   const tileFiles = tilemap.tilesetFiles ?? []
@@ -199,5 +221,11 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     characterSprites,
     battleSprites,
     battleBgs,
+    enemies,
+    enemyTeams,
+    battleFields,
+    items,
+    spells,
+    magics,
   }
 }

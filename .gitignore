@@ -23,3 +23,6 @@ sdlpal.cfg
 
 # 本地 brainstorm 参考资料 —— 含第三方版权内容(fan-made 攻略等),只本地用
 reference/walkthrough/
+
+# Playwright MCP 临时缓存(快照 / 截图)
+.playwright-mcp/

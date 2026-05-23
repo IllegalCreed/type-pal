@@ -5,7 +5,20 @@ import { buildLabelMap } from '../core/event-system.js'
 import { KeyboardInputSource } from './input.js'
 import { startRafLoop, type LoopContext } from './main-loop.js'
 import { createFramebuffer } from '../present/framebuffer.js'
-import { presentFrame, flushToCanvas, type PresentContext } from '../present/present.js'
+import {
+  presentFrame,
+  presentBattleFrame,
+  flushToCanvas,
+  type PresentContext,
+} from '../present/present.js'
+import { BattlePresent, type BattleAssets } from '../present/battle/present-battle.js'
+import { setupDevPanel, type BattleFixturesData } from './dev-panel.js'
+import battleFixturesRaw from '../data/battle-fixtures.json' with { type: 'json' }
+
+// JSON 静态 import 的 TS 类型推断会把每条 fixture 推成具体 key 集合(eg. fixture-zh1
+// 没 "1" → 推 "1": undefined),与 BattleFixturesData 的 Record<string, ...> 不严格匹配。
+// 这里显式 cast —— battle-fixtures.json 的 schema 由 BattleFixture 定义,运行时合法。
+const battleFixtures = battleFixturesRaw as unknown as BattleFixturesData
 
 const SCENE_ID = 1
 
@@ -22,7 +35,10 @@ export function showError(canvas: HTMLCanvasElement, msg: string): void {
 export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   const assets = await loadAll(SCENE_ID)
 
-  const { tilemap, palette, scene, events, playerRoles, tileImages, characterSprites } = assets
+  const {
+    tilemap, palette, scene, events, playerRoles, tileImages, characterSprites,
+    battleSprites, battleBgs, enemies, enemyTeams, battleFields, items, spells, magics,
+  } = assets
 
   // 队长精灵号 —— 从 player-roles.json (DATA.MKF chunk 3 真解) 取真值。
   // M3 T9 之前 M2 硬编码 = 2,现在改读 PlayerRoles.roles[0].spriteNum(实测 = 2);
@@ -87,6 +103,17 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     npcSprites,
   }
 
+  // M3 T28/T29:战斗一帧装配 —— BattlePresent 持有 floating nums 跨帧状态;
+  // BattleAssets 注入资源表(sprites/bgs/items/spells/playerRoles)。
+  const battlePresent = new BattlePresent()
+  const battleAssets: BattleAssets = {
+    battleSprites,
+    battleBgs,
+    playerRoles,
+    spells,
+    items,
+  }
+
   const bus = createCommandBus()
   const input = new KeyboardInputSource(window)
 
@@ -97,11 +124,26 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     tilemap,
     eventCommands,
     labelMap,
-    onPresent: () => {
-      presentFrame(fb, gs, presentCtx)
+    onPresent: (drained) => {
+      // 按 gs.mode 路由 present:battle → presentBattleFrame(消费 commands 进 floating nums);
+      // 否则走 explore/event 路径 presentFrame(commands 由 M2 EventSystem 直接消费 GameState)
+      if (!presentBattleFrame(fb, gs, battlePresent, battleAssets, drained)) {
+        presentFrame(fb, gs, presentCtx)
+      }
       flushToCanvas(fb, canvasCtx, palette)
     },
   }
+
+  // M3 T29:dev panel(仅 DEV;生产构建 dead-code)。快捷键 B 弹 fixture picker → 启战。
+  setupDevPanel({
+    gs,
+    fixtures: battleFixtures,
+    resources: {
+      enemies, enemyTeams, battleFields,
+      playerRoles, items, spells, magics,
+      commands: eventCommands,
+    },
+  })
 
   startRafLoop(loopCtx)
   console.log('[bootstrap] scene', SCENE_ID, 'started')

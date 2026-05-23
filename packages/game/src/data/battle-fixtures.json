@@ -1,0 +1,38 @@
+{
+  "fixtures": [
+    {
+      "id": "fixture-zh1",
+      "label": "第一章开局(队长 lv10 vs 弱怪)",
+      "partyMembers": [0],
+      "playerOverrides": {
+        "0": { "level": 10, "hp": 200, "maxHP": 200, "mp": 30, "maxMP": 30 }
+      },
+      "inventory": [{ "itemId": 61, "count": 5 }],
+      "enemyTeamId": 1,
+      "battleFieldId": 0
+    },
+    {
+      "id": "fixture-zh2",
+      "label": "第二章中期(队长 lv20 + 林月如 vs 中等敌队)",
+      "partyMembers": [0, 1],
+      "playerOverrides": {
+        "0": { "level": 20, "hp": 400, "maxHP": 400, "mp": 80, "maxMP": 80 },
+        "1": { "level": 18, "hp": 350, "maxHP": 350, "mp": 50, "maxMP": 50 }
+      },
+      "inventory": [{ "itemId": 61, "count": 10 }],
+      "enemyTeamId": 5,
+      "battleFieldId": 1
+    },
+    {
+      "id": "fixture-end",
+      "label": "通关前(满级队伍 vs 强敌)",
+      "partyMembers": [0, 1, 2, 3],
+      "playerOverrides": {
+        "0": { "level": 99, "hp": 9999, "maxHP": 9999, "mp": 999, "maxMP": 999 }
+      },
+      "inventory": [{ "itemId": 61, "count": 99 }],
+      "enemyTeamId": 50,
+      "battleFieldId": 5
+    }
+  ]
+}
