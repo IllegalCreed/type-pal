@@ -5,13 +5,14 @@
  * BattleState 通过 makeState helper 最小构造,与 battle-state.test.ts 风格对齐。
  */
 
-import type { BattleField, Enemy, PlayerRole, PlayerRoles } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import type { BattleField, Command, Enemy, Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
+import { describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
 import { createSeedableRng } from '../../rng.js'
 import { performAttack } from '../actions/attack.js'
 import { performDefend } from '../actions/defend.js'
 import { performFlee } from '../actions/flee.js'
+import { performMagic, type RunScriptFn } from '../actions/magic.js'
 import type { BattleState } from '../battle-state.js'
 import type { ActionQueueItem } from '../turn-queue.js'
 
@@ -313,5 +314,296 @@ describe('performFlee', () => {
     })
     performFlee(state, 0, playerRoles)
     expect(state.phase).toBe('fleed')
+  })
+})
+
+// ============================================================================
+// performMagic (M3 T20)
+// ============================================================================
+
+function makeSpell(opts: Partial<Spell> = {}): Spell {
+  return {
+    id: 1,
+    _name: 'TestSpell',
+    magicNumber: 1,
+    scriptOnSuccess: 0,
+    scriptOnUse: 0,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: false,
+      usableInBattle: true,
+      usableToEnemy: true,
+      applyToAll: false,
+    },
+    ...opts,
+  }
+}
+
+function makeMagic(opts: Partial<Magic> = {}): Magic {
+  return {
+    id: 1,
+    effect: 0,
+    type: 'normal',
+    xOffset: 0,
+    yOffset: 0,
+    special: 0,
+    speed: 0,
+    keepEffect: 0,
+    fireDelay: 0,
+    effectTimes: 0,
+    shake: 0,
+    wave: 0,
+    unknown: 0,
+    costMP: 5,
+    baseDamage: 50,
+    elemental: 0,
+    sound: 0,
+    ...opts,
+  }
+}
+
+describe('performMagic', () => {
+  it('队员 cast,MP 足够 → 扣 MP + emit playMagicAnim + runScript 被调', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { mp: 30, maxMP: 30 },
+    })
+    const spell = makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 42 })
+    const magic = makeMagic({ id: 3, costMP: 8 })
+    const runScript: RunScriptFn = vi.fn()
+    const commands: Command[] = [{ op: 'end' }]
+
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [spell],
+      magics: [magic],
+      playerRoles,
+      bus,
+      commands,
+      runScript,
+    })
+
+    // 扣 MP
+    expect(playerRoles.roles[0]!.mp).toBe(22) // 30 - 8
+
+    // emit playMagicAnim
+    const cmds = bus.drain()
+    expect(cmds).toHaveLength(1)
+    expect(cmds[0]!.cmd).toEqual({
+      op: 'playMagicAnim',
+      magicId: 3,
+      casterType: 'player',
+      casterIdx: 0,
+      targetType: 'enemy',
+      targetIdx: 0,
+    })
+
+    // runScript 被调
+    expect(runScript).toHaveBeenCalledTimes(1)
+    const opts = (runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0]
+    expect(opts.ip).toBe(42)
+    expect(opts.runtimeMode).toBe('battle')
+    expect(opts.commands).toBe(commands)
+    expect(opts.battleCtx).toMatchObject({
+      state,
+      caster: { type: 'player', idx: 0 },
+      target: { type: 'enemy', idx: 0 },
+    })
+  })
+
+  it('队员 cast,MP 不足 → 不扣 + 不 emit + 不 runScript + console.warn', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { state, playerRoles, bus } = makeState({
+      role: { mp: 3 },
+    })
+    const spell = makeSpell({ id: 1, magicNumber: 1, scriptOnUse: 10 })
+    const magic = makeMagic({ id: 1, costMP: 10 })
+    const runScript: RunScriptFn = vi.fn()
+
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 1,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [spell],
+      magics: [magic],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    expect(playerRoles.roles[0]!.mp).toBe(3) // 不扣
+    expect(bus.drain()).toEqual([]) // 不 emit
+    expect(runScript).not.toHaveBeenCalled()
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('not enough MP'),
+    )
+    warnSpy.mockRestore()
+  })
+
+  it('敌人 cast → 不扣 MP(敌人不 track mp) + 仍 emit + 仍 runScript', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { mp: 30 },
+    })
+    const spell = makeSpell({ id: 5, magicNumber: 2, scriptOnUse: 88 })
+    const magic = makeMagic({ id: 2, costMP: 999 }) // 故意巨大,验证不扣
+    const runScript: RunScriptFn = vi.fn()
+
+    performMagic({
+      state,
+      casterIsEnemy: true,
+      casterIdx: 0,
+      spellId: 5,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      spells: [spell],
+      magics: [magic],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    // 队员 mp 不动
+    expect(playerRoles.roles[0]!.mp).toBe(30)
+    // 仍 emit
+    const cmds = bus.drain()
+    expect(cmds).toHaveLength(1)
+    expect(cmds[0]!.cmd).toMatchObject({
+      op: 'playMagicAnim',
+      casterType: 'enemy',
+      targetType: 'player',
+    })
+    // 仍 runScript
+    expect(runScript).toHaveBeenCalledTimes(1)
+    const opts = (runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0]
+    expect(opts.battleCtx.caster).toEqual({ type: 'enemy', idx: 0 })
+    expect(opts.battleCtx.target).toEqual({ type: 'player', idx: 0 })
+  })
+
+  it('spell id 不存在 → warn + 不 emit + 不 runScript', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { state, playerRoles, bus } = makeState()
+    const runScript: RunScriptFn = vi.fn()
+
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 999, // 不存在
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell({ id: 1 })],
+      magics: [makeMagic()],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    expect(bus.drain()).toEqual([])
+    expect(runScript).not.toHaveBeenCalled()
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('spell id 999 not found'),
+    )
+    warnSpy.mockRestore()
+  })
+
+  it('magic id(spell.magicNumber)不在 magics 表 → warn + 不 emit + 不 runScript', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { state, playerRoles, bus } = makeState()
+    const runScript: RunScriptFn = vi.fn()
+
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 1,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell({ id: 1, magicNumber: 99 })], // 指向不存在的 magic
+      magics: [makeMagic({ id: 1 })],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    expect(bus.drain()).toEqual([])
+    expect(runScript).not.toHaveBeenCalled()
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('magic 99'),
+    )
+    warnSpy.mockRestore()
+  })
+
+  it('target=\'all\' → battleCtx.target=undefined,仍 emit + 仍 runScript', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { mp: 30 },
+      enemies: [{}, {}, {}],
+    })
+    const spell = makeSpell({ id: 1, magicNumber: 1, scriptOnUse: 50 })
+    const magic = makeMagic({ id: 1, costMP: 5, type: 'attackAll' })
+    const runScript: RunScriptFn = vi.fn()
+
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 1,
+      targetIsEnemy: true,
+      targetIdx: 'all',
+      spells: [spell],
+      magics: [magic],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    // emit 时 targetIdx='all'
+    const cmds = bus.drain()
+    expect(cmds[0]!.cmd).toMatchObject({ op: 'playMagicAnim', targetIdx: 'all' })
+
+    // runScript 调用,battleCtx.target=undefined
+    expect(runScript).toHaveBeenCalledTimes(1)
+    const opts = (runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0]
+    expect(opts.battleCtx.target).toBeUndefined()
+    expect(opts.battleCtx.caster).toEqual({ type: 'player', idx: 0 })
+  })
+
+  it('scriptOnUse=0 → 不 runScript,但仍扣 MP + emit 动画(纯动画法术)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { mp: 30 },
+    })
+    const spell = makeSpell({ id: 1, magicNumber: 1, scriptOnUse: 0 }) // 关键
+    const magic = makeMagic({ id: 1, costMP: 7 })
+    const runScript: RunScriptFn = vi.fn()
+
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 1,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [spell],
+      magics: [magic],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    expect(playerRoles.roles[0]!.mp).toBe(23) // 仍扣 MP
+    expect(bus.drain()).toHaveLength(1) // 仍 emit 动画
+    expect(runScript).not.toHaveBeenCalled() // 但不 runScript
   })
 })
