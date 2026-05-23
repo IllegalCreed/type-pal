@@ -96,31 +96,55 @@ describe('parseSpells', () => {
   })
 })
 
-describe('parseEnemies', () => {
-  const enemies = parseEnemies(objBuf, enemyBuf, words)
+describe('parseEnemies (M3 D28 全字段)', () => {
+  const enemies = parseEnemies(enemyBuf, objBuf, words)
 
-  it('解出 153 条敌人', () => {
-    expect(enemies).toHaveLength(153)
-  })
-
-  it('第一条带名字', () => {
-    expect(enemies[0]!.name).toBeTruthy()
-    expect(enemies[0]!.name).not.toMatch(/^_enemy_/)
+  it('解出 154 条 ENEMY 记录(DATA.MKF chunk 1 / 70B)', () => {
+    // 实测:chunk 1 = 10780 字节 / 70 = 154 条(index 0 = 空 placeholder)
+    expect(enemies).toHaveLength(154)
   })
 
   it('id 从 0 顺序递增', () => {
     expect(enemies[0]!.id).toBe(0)
-    expect(enemies[152]!.id).toBe(152)
+    expect(enemies[153]!.id).toBe(153)
   })
 
-  it('至少有一条 hp > 0', () => {
-    const anyHp = enemies.some((e) => e.hp > 0)
+  it('至少有一条 health > 0', () => {
+    const anyHp = enemies.some((e) => e.health > 0)
     expect(anyHp).toBe(true)
   })
 
-  it('Enemy.mp 恒为 0 (ENEMY 结构体无 MP 字段)', () => {
-    // NOTED: Enemy 接口的 mp 字段无对应源字段,始终为 0
-    const allMpZero = enemies.every((e) => e.mp === 0)
-    expect(allMpZero).toBe(true)
+  it('elemResistance 是 5 个具名字段(wind/thunder/water/fire/earth)', () => {
+    const e = enemies.find((x) => x.health > 0)!
+    expect(e.elemResistance).toHaveProperty('wind')
+    expect(e.elemResistance).toHaveProperty('thunder')
+    expect(e.elemResistance).toHaveProperty('water')
+    expect(e.elemResistance).toHaveProperty('fire')
+    expect(e.elemResistance).toHaveProperty('earth')
+  })
+
+  it('signed 字段真能为负(0xFFFF → -1,modifier 语义)', () => {
+    // sdlpal fight.c:4634 把 wAttackStrength 强制 cast SHORT;
+    // M1 简化版误把这些当 unsigned dump,验证修复:至少一条 attackStrength < 0。
+    const negStr = enemies.some((e) => e.attackStrength < 0)
+    expect(negStr).toBe(true)
+  })
+
+  it('_name 可通过 OBJECT_ENEMY + words 反向填(对于战斗中真实出现的怪)', () => {
+    // 至少一条 enemy(被 OBJECT_ENEMY 引用的)有 _name
+    const named = enemies.some((e) => e._name && e._name.length > 0)
+    expect(named).toBe(true)
+  })
+
+  it('完整 30+ 字段全部存在', () => {
+    const e = enemies.find((x) => x.health > 0)!
+    const keys = Object.keys(e).sort()
+    // 关键字段抽查
+    expect(keys).toContain('idleFrames')
+    expect(keys).toContain('attackStrength')
+    expect(keys).toContain('elemResistance')
+    expect(keys).toContain('collectValue')
+    expect(keys).toContain('dualMove')
+    expect(keys).toContain('physicalResistance')
   })
 })

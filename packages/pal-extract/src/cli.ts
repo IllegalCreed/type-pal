@@ -133,7 +133,7 @@ async function main(): Promise<void> {
 
   writeJson(resolve(OUT, 'data', 'items.json'), parseItems(sssObjBuf, words))
   writeJson(resolve(OUT, 'data', 'spells.json'), parseSpells(sssObjBuf, magicBuf, words))
-  writeJson(resolve(OUT, 'data', 'enemies.json'), parseEnemies(sssObjBuf, enemyBuf, words))
+  writeJson(resolve(OUT, 'data', 'enemies.json'), parseEnemies(enemyBuf, sssObjBuf, words))
 
   console.log('[pal-extract] data tables written')
 
