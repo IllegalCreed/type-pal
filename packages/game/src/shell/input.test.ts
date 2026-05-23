@@ -36,20 +36,22 @@ describe('codeToAbstractKey', () => {
 describe('KeyboardInputSource', () => {
   it('keydown/keyup 维护 held;snapshot 后 pressed 清空', () => {
     const src = new KeyboardInputSource(window)
-    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight' }))
-    const s1 = src.nextSnapshot(0)
-    expect(s1.held.has('Right')).toBe(true)
-    expect(s1.pressed.has('Right')).toBe(true)
+    try {
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight' }))
+      const s1 = src.nextSnapshot(0)
+      expect(s1.held.has('Right')).toBe(true)
+      expect(s1.pressed.has('Right')).toBe(true)
 
-    const s2 = src.nextSnapshot(1)
-    expect(s2.held.has('Right')).toBe(true)
-    expect(s2.pressed.has('Right')).toBe(false)
+      const s2 = src.nextSnapshot(1)
+      expect(s2.held.has('Right')).toBe(true)
+      expect(s2.pressed.has('Right')).toBe(false)
 
-    window.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowRight' }))
-    const s3 = src.nextSnapshot(2)
-    expect(s3.held.has('Right')).toBe(false)
-
-    src.detach()
+      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowRight' }))
+      const s3 = src.nextSnapshot(2)
+      expect(s3.held.has('Right')).toBe(false)
+    } finally {
+      src.detach()
+    }
   })
 })
 
