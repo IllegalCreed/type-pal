@@ -1,0 +1,14 @@
+{
+  "name": "@type-pal/pal-extract",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "check": "pnpm typecheck && pnpm test"
+  },
+  "dependencies": {
+    "@type-pal/shared": "workspace:*"
+  }
+}

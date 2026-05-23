@@ -18,6 +18,14 @@ importers:
         specifier: ^4.1.7
         version: 4.1.7(vite@8.0.14)
 
+  packages/pal-extract:
+    dependencies:
+      '@type-pal/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/shared: {}
+
 packages:
 
   '@biomejs/biome@2.4.15':
