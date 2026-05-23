@@ -21,6 +21,7 @@ export interface EventCursor {
   commands: Command[]
   labelMap: Record<string, number>
   ip: number
+  /** EventSystem 暂停等待用户确认的原因;undefined = 非 waiting 状态。M2 只有 'dialog'。 */
   waiting?: 'dialog'
 }
 
@@ -31,6 +32,7 @@ export interface DialogBoxState {
 
 export interface GameState {
   party: { col: number; row: number; facing: Facing }
+  /** 相机中心瓦片坐标;SceneSystem 每 tick 跟随 party,带地图边界 clamp。 */
   camera: { col: number; row: number }
   npcs: NpcState[]
   mode: Mode
