@@ -1,0 +1,19 @@
+{
+  "name": "@type-pal/game",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "check": "pnpm typecheck && pnpm test"
+  },
+  "dependencies": {
+    "@type-pal/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "^8.0.14"
+  }
+}
