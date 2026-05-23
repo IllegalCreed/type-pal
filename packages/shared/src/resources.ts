@@ -1,11 +1,17 @@
+export interface TileCell {
+  /** 下层 tile bitmap 索引 + 属性位(从 u32 低 16 bit 切)*/
+  lower: number
+  /** 上层 tile bitmap 索引 + 属性位(从 u32 低 16 bit 切)*/
+  upper: number
+}
+
 export interface Tilemap {
-  width: number       // 单位:瓦片
+  /** 单位:逻辑格子。仙剑固定 64 列 × 128 行(实际渲染会做菱形错排)*/
+  width: number
   height: number
-  tileWidth: number   // 单位:像素
-  tileHeight: number
-  /** 一维 tile id 数组,长度 = width * height,行优先 */
-  tiles: number[]
-  /** 对应瓦片集 PNG 的文件名 */
+  /** [row][col] = TileCell;长度 = height × width 行 × width 列 */
+  cells: TileCell[][]
+  /** 对应 tileset PNG 的文件名(由 CLI 总装时填)*/
   tilesetImage: string
 }
 
