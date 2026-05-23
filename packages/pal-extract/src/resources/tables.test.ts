@@ -17,7 +17,15 @@ import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { openMkf, readChunk } from '../io/mkf.js'
 import { parseWordDat } from '../io/word.js'
-import { parseEnemies, parseItems, parseMagicTable, parseSpells } from './tables.js'
+import {
+  buildEnemyObjectNameMap,
+  parseBattleFields,
+  parseEnemies,
+  parseEnemyTeams,
+  parseItems,
+  parseMagicTable,
+  parseSpells,
+} from './tables.js'
 
 const SSS_MKF = resolve(__dirname, '../../../../data/raw/SSS.MKF')
 const DATA_MKF = resolve(__dirname, '../../../../data/raw/DATA.MKF')
@@ -34,6 +42,10 @@ const objBuf = readChunk(sssMkf, 2)
 const enemyBuf = readChunk(dataMkf, 1)
 // DATA.MKF chunk 4 = MAGIC 结构体 (global.c line 296)
 const magicBuf = readChunk(dataMkf, 4)
+// DATA.MKF chunk 2 = ENEMYTEAM 数组 (global.c line 294)
+const teamBuf = readChunk(dataMkf, 2)
+// DATA.MKF chunk 5 = BATTLEFIELD 数组 (global.c line 297)
+const fieldBuf = readChunk(dataMkf, 5)
 
 describe('parseItems', () => {
   const items = parseItems(objBuf, words)
@@ -348,5 +360,138 @@ describe('parseEnemies (M3 D28 全字段)', () => {
     expect(keys).toContain('collectValue')
     expect(keys).toContain('dualMove')
     expect(keys).toContain('physicalResistance')
+  })
+})
+
+describe('parseEnemyTeams (M3 T7)', () => {
+  const enemyNames = buildEnemyObjectNameMap(objBuf, words)
+  const teams = parseEnemyTeams(teamBuf, enemyNames)
+
+  it('从 DATA.MKF chunk 2 解出 N 条 EnemyTeam(每条 10B = 5 × WORD)', () => {
+    // chunk 2 size 必须可被 10 整除
+    expect(teamBuf.byteLength % 10).toBe(0)
+    expect(teams.length).toBe(teamBuf.byteLength / 10)
+    expect(teams.length).toBeGreaterThan(0)
+  })
+
+  it('id 从 0 顺序递增', () => {
+    expect(teams[0]!.id).toBe(0)
+    expect(teams[teams.length - 1]!.id).toBe(teams.length - 1)
+  })
+
+  it('每条 team 都是 5 个槽位 tuple', () => {
+    for (const t of teams) {
+      expect(t.enemies).toHaveLength(5)
+    }
+  })
+
+  it('至少有一条 team 含 0xFFFF 空槽位(对照 sdlpal battle.c:1602)', () => {
+    const anyEmpty = teams.some((t) => t.enemies.includes(0xffff))
+    expect(anyEmpty).toBe(true)
+  })
+
+  it('至少有一条 team 第一槽位非空(指向 OBJECT_ENEMY 段,398-550)', () => {
+    // OBJECT_ENEMY 段:398-550(ENEMY_OBJ_START=398, ENEMY_OBJ_COUNT=153)
+    const anyEnemy = teams.some(
+      (t) => t.enemies[0] !== 0 && t.enemies[0] !== 0xffff,
+    )
+    expect(anyEnemy).toBe(true)
+  })
+
+  it('至少一条 team 带 _names(反查成功)', () => {
+    const named = teams.some((t) => t._names && t._names.length > 0)
+    expect(named).toBe(true)
+  })
+
+  it('without enemyObjectNames:所有 _names 都是 undefined,enemies 仍正常', () => {
+    const teamsNoName = parseEnemyTeams(teamBuf)
+    expect(teamsNoName.length).toBe(teams.length)
+    expect(teamsNoName.every((t) => t._names === undefined)).toBe(true)
+    // enemies tuple 仍正常 dump
+    expect(teamsNoName[0]!.enemies).toHaveLength(5)
+  })
+
+  it('fake fixture:解出 5 槽位 + 0xFFFF 空位 + 名字反查', () => {
+    // 一条 team:slot 0 = 421(假设是某 OBJECT_ENEMY index), 其他 0xFFFF
+    const fake = new Uint8Array(10)
+    const view = new DataView(fake.buffer)
+    view.setUint16(0, 421, true)
+    view.setUint16(2, 0xffff, true)
+    view.setUint16(4, 0xffff, true)
+    view.setUint16(6, 0xffff, true)
+    view.setUint16(8, 0xffff, true)
+    const fakeNames = new Map<number, string>([[421, 'fake-enemy']])
+    const fakeTeams = parseEnemyTeams(fake, fakeNames)
+    expect(fakeTeams).toHaveLength(1)
+    expect(fakeTeams[0]!.enemies).toEqual([421, 0xffff, 0xffff, 0xffff, 0xffff])
+    expect(fakeTeams[0]!._names).toEqual(['fake-enemy'])
+  })
+
+  it('fake fixture:0 槽位也被 _names 反查跳过(对照 sdlpal battle.c:1602)', () => {
+    const fake = new Uint8Array(10)
+    const view = new DataView(fake.buffer)
+    view.setUint16(0, 0, true) // 0 = 跳过
+    view.setUint16(2, 0xffff, true)
+    view.setUint16(4, 0xffff, true)
+    view.setUint16(6, 0xffff, true)
+    view.setUint16(8, 0xffff, true)
+    const fakeNames = new Map<number, string>([[0, 'should-not-appear']])
+    const fakeTeams = parseEnemyTeams(fake, fakeNames)
+    expect(fakeTeams[0]!._names).toBeUndefined()
+  })
+
+  it('截断时 throw(非 10 倍数)', () => {
+    const tiny = new Uint8Array(9)
+    expect(() => parseEnemyTeams(tiny)).toThrow(/不能被.*整除/)
+  })
+})
+
+describe('parseBattleFields (M3 T7)', () => {
+  const fields = parseBattleFields(fieldBuf)
+
+  it('从 DATA.MKF chunk 5 解出 N 条 BattleField(每条 12B = WORD + SHORT × 5)', () => {
+    expect(fieldBuf.byteLength % 12).toBe(0)
+    expect(fields.length).toBe(fieldBuf.byteLength / 12)
+    expect(fields.length).toBeGreaterThan(0)
+  })
+
+  it('id 从 0 顺序递增', () => {
+    expect(fields[0]!.id).toBe(0)
+    expect(fields[fields.length - 1]!.id).toBe(fields.length - 1)
+  })
+
+  it('每条都含 5 元素 magicEffect(wind/thunder/water/fire/earth)', () => {
+    for (const f of fields) {
+      expect(f.magicEffect).toHaveProperty('wind')
+      expect(f.magicEffect).toHaveProperty('thunder')
+      expect(f.magicEffect).toHaveProperty('water')
+      expect(f.magicEffect).toHaveProperty('fire')
+      expect(f.magicEffect).toHaveProperty('earth')
+    }
+  })
+
+  it('signed 字段真能为负(fake fixture:0xFFFF → -1,对照 sdlpal SHORT)', () => {
+    // 12B record:wind(offset 2) = 0xFFFF → -1
+    const fake = new Uint8Array(12)
+    const view = new DataView(fake.buffer)
+    view.setUint16(0, 10, true) // screenWave
+    view.setUint16(2, 0xffff, true) // wind = -1
+    view.setUint16(4, 5, true) // thunder = 5
+    view.setUint16(6, 0xfffe, true) // water = -2
+    view.setUint16(8, 0, true) // fire
+    view.setUint16(10, 3, true) // earth
+    const fakeFields = parseBattleFields(fake)
+    expect(fakeFields).toHaveLength(1)
+    expect(fakeFields[0]!.screenWave).toBe(10)
+    expect(fakeFields[0]!.magicEffect.wind).toBe(-1)
+    expect(fakeFields[0]!.magicEffect.thunder).toBe(5)
+    expect(fakeFields[0]!.magicEffect.water).toBe(-2)
+    expect(fakeFields[0]!.magicEffect.fire).toBe(0)
+    expect(fakeFields[0]!.magicEffect.earth).toBe(3)
+  })
+
+  it('截断时 throw(非 12 倍数)', () => {
+    const tiny = new Uint8Array(11)
+    expect(() => parseBattleFields(tiny)).toThrow(/不能被.*整除/)
   })
 })

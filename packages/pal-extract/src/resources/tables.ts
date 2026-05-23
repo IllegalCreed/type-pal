@@ -20,7 +20,9 @@
  */
 
 import type {
+  BattleField,
   Enemy,
+  EnemyTeam,
   Item,
   ItemFlags,
   Magic,
@@ -177,6 +179,38 @@ const ENEMY_SIZE = 70
 // ── OBJECT_ENEMY 字段偏移 (global.h tagOBJECT_ENEMY) ────────────────────
 // wEnemyID(0) — 指向 DATA.MKF chunk 1 ENEMY 数组的 1-based 索引
 const ENEMY_OBJ_ID_OFF = 0
+
+// ── DATA.MKF chunk 2: ENEMYTEAM 数组 (global.h tagENEMYTEAM) ─────────────
+// sdlpal `global.c:294 LOAD_DATA(... fpDATA 2)`,每条 = MAX_ENEMIES_IN_TEAM × WORD
+// = 5 × 2 = 10 字节(palcommon.h:60 MAX_ENEMIES_IN_TEAM=5)。
+//
+// 槽位语义(battle.c:1602):
+//   w = lprgEnemyTeam[wEnemyTeam].rgwEnemy[j];
+//   if (w == 0xFFFF) continue;       ← 空槽位
+//   if (w != 0) { ... 装载 ... }    ← 0 也跳过,只是没显式判
+// 非空 slot 是 OBJECT 数组的绝对 index(指向 OBJECT_ENEMY 段)。
+const TEAM_SLOT_COUNT = 5 // MAX_ENEMIES_IN_TEAM
+const TEAM_RECORD_SIZE = TEAM_SLOT_COUNT * 2
+
+// ── DATA.MKF chunk 5: BATTLEFIELD 数组 (global.h tagBATTLEFIELD) ────────
+// sdlpal `global.c:297 LOAD_DATA(... fpDATA 5)`,每条 = WORD + SHORT × NUM_MAGIC_ELEMENTAL
+// = (1 + 5) × 2 = 12 字节(palcommon.h:57 NUM_MAGIC_ELEMENTAL=5)。
+//
+// 字段顺序(global.h:378-381):
+//   wScreenWave(0,WORD)
+//   rgsMagicEffect[5](2..10,SHORT × 5):wind(2), thunder(4), water(6), fire(8), earth(10)
+//
+// rgsMagicEffect 是 SHORT(signed)— 元素 buff 可正可负。
+const FIELD_RECORD_SIZE = (1 + 5) * 2 // = 12
+
+const FIELD_OFF = {
+  screenWave: 0,
+  wind: 2,
+  thunder: 4,
+  water: 6,
+  fire: 8,
+  earth: 10,
+} as const
 
 // ── 工具函数 ─────────────────────────────────────────────────────────────
 function u16(view: DataView, base: number, fieldOff: number): number {
@@ -417,6 +451,130 @@ export function parseEnemies(
     const nm = nameByEnemyId.get(i)
     if (nm) e._name = nm
     out.push(e)
+  }
+  return out
+}
+
+/**
+ * 反向索引:OBJECT 数组中的绝对 index(OBJECT_ENEMY 段)→ 敌人显示名。
+ * 给 parseEnemyTeams 做 `_names` 反查用。
+ *
+ * 实现:遍历 OBJECT_ENEMY 段(ENEMY_OBJ_START..),拿到该 OBJECT 的
+ * `wEnemyID`(指向 DATA.MKF chunk 1 ENEMY 数组),再去 words.enemies[i] 拿名字。
+ * 注意:返回的 Map key 是 OBJECT 数组的绝对 index(398..550),不是 enemyID。
+ *
+ * @param objBuf SSS.MKF chunk 2 原始字节
+ * @param words  parseWordDat 解出的名称表
+ */
+export function buildEnemyObjectNameMap(objBuf: Uint8Array, words: Words): Map<number, string> {
+  const map = new Map<number, string>()
+  const need = (ENEMY_OBJ_START + ENEMY_OBJ_COUNT) * OBJ_SIZE
+  if (objBuf.byteLength < need) return map
+  const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
+  for (let i = 0; i < ENEMY_OBJ_COUNT; i++) {
+    const objIndex = ENEMY_OBJ_START + i
+    const enemyId = u16(view, objIndex * OBJ_SIZE, ENEMY_OBJ_ID_OFF)
+    const nm = words.enemies[i]
+    if (enemyId > 0 && nm) {
+      map.set(objIndex, nm)
+    }
+  }
+  return map
+}
+
+/**
+ * 从 DATA.MKF chunk 2 解析敌队列表(ENEMYTEAM 数组)。
+ *
+ * 对照 sdlpal `global.h::tagENEMYTEAM`(5 × WORD = 10 字节 / 条),
+ * 由 sdlpal `global.c:294 LOAD_DATA(... fpDATA 2)` 加载。
+ *
+ * **id 是什么**:`id` = 该 team 在 enemy-teams.json 数组里的索引,
+ * = sdlpal `lprgEnemyTeam[wEnemyTeam]` 的下标。M3 dev panel 选战斗 fixture 直接 `teams[id]`。
+ *
+ * **enemies tuple 含义**(对照 sdlpal `battle.c:1602`):
+ * - `0xFFFF` = 空槽位
+ * - `0`      = 也跳过(sdlpal `if (w != 0)` 后才装载)
+ * - 其他    = OBJECT 数组的绝对 index(落在 OBJECT_ENEMY 段,实测 398-550)
+ *
+ * **_names 反查**:可选;传入 `enemyObjectNames` 时,对每个非空 / 非 0 槽位反查名字。
+ * 调 buildEnemyObjectNameMap(objBuf, words) 得这个 map。
+ *
+ * @param teamBuf          DATA.MKF chunk 2 原始字节(未压缩)
+ * @param enemyObjectNames 可选;OBJECT 绝对 index → 名字 的反向映射(buildEnemyObjectNameMap 产出)
+ */
+export function parseEnemyTeams(
+  teamBuf: Uint8Array,
+  enemyObjectNames?: Map<number, string>,
+): EnemyTeam[] {
+  if (teamBuf.byteLength % TEAM_RECORD_SIZE !== 0) {
+    throw new Error(
+      `parseEnemyTeams: DATA.MKF chunk 2 size ${teamBuf.byteLength} 不能被 TEAM_RECORD_SIZE=${TEAM_RECORD_SIZE} 整除`,
+    )
+  }
+  const view = new DataView(teamBuf.buffer, teamBuf.byteOffset, teamBuf.byteLength)
+  const count = teamBuf.byteLength / TEAM_RECORD_SIZE
+  const out: EnemyTeam[] = []
+  for (let i = 0; i < count; i++) {
+    const base = i * TEAM_RECORD_SIZE
+    const enemies: [number, number, number, number, number] = [
+      u16(view, base, 0),
+      u16(view, base, 2),
+      u16(view, base, 4),
+      u16(view, base, 6),
+      u16(view, base, 8),
+    ]
+    const team: EnemyTeam = { id: i, enemies }
+    if (enemyObjectNames) {
+      const names: string[] = []
+      for (const slot of enemies) {
+        // 0xFFFF = 空,0 = 跳过(对照 sdlpal battle.c:1602)
+        if (slot === 0 || slot === 0xffff) continue
+        const nm = enemyObjectNames.get(slot)
+        if (nm) names.push(nm)
+      }
+      if (names.length > 0) team._names = names
+    }
+    out.push(team)
+  }
+  return out
+}
+
+/**
+ * 从 DATA.MKF chunk 5 解析战场列表(BATTLEFIELD 数组)。
+ *
+ * 对照 sdlpal `global.h::tagBATTLEFIELD`(WORD + SHORT × 5 = 12 字节 / 条),
+ * 由 sdlpal `global.c:297 LOAD_DATA(... fpDATA 5)` 加载。
+ *
+ * **id 是什么**:`id` = 该 field 在 battle-fields.json 数组里的索引,
+ * = sdlpal `lprgBattleField[wBattleField]` 的下标。M3 dev panel 选战斗 fixture 时用。
+ *
+ * **signed 字段**:`magicEffect` 五维 是 SHORT(sdlpal `rgsMagicEffect[NUM_MAGIC_ELEMENTAL]`),
+ * 元素 buff 可正可负。
+ *
+ * @param fieldBuf DATA.MKF chunk 5 原始字节(未压缩)
+ */
+export function parseBattleFields(fieldBuf: Uint8Array): BattleField[] {
+  if (fieldBuf.byteLength % FIELD_RECORD_SIZE !== 0) {
+    throw new Error(
+      `parseBattleFields: DATA.MKF chunk 5 size ${fieldBuf.byteLength} 不能被 FIELD_RECORD_SIZE=${FIELD_RECORD_SIZE} 整除`,
+    )
+  }
+  const view = new DataView(fieldBuf.buffer, fieldBuf.byteOffset, fieldBuf.byteLength)
+  const count = fieldBuf.byteLength / FIELD_RECORD_SIZE
+  const out: BattleField[] = []
+  for (let i = 0; i < count; i++) {
+    const base = i * FIELD_RECORD_SIZE
+    out.push({
+      id: i,
+      screenWave: u16(view, base, FIELD_OFF.screenWave),
+      magicEffect: {
+        wind: s16(view, base, FIELD_OFF.wind),
+        thunder: s16(view, base, FIELD_OFF.thunder),
+        water: s16(view, base, FIELD_OFF.water),
+        fire: s16(view, base, FIELD_OFF.fire),
+        earth: s16(view, base, FIELD_OFF.earth),
+      },
+    })
   }
   return out
 }

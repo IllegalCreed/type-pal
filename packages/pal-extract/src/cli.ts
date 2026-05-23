@@ -27,7 +27,15 @@ import { parseMap } from './resources/map.js'
 import { decodePalette } from './resources/palette.js'
 import { dumpScene } from './resources/scene.js'
 import { extractCharacterSprites } from './resources/sprite.js'
-import { parseEnemies, parseItems, parseMagicTable, parseSpells } from './resources/tables.js'
+import {
+  buildEnemyObjectNameMap,
+  parseBattleFields,
+  parseEnemies,
+  parseEnemyTeams,
+  parseItems,
+  parseMagicTable,
+  parseSpells,
+} from './resources/tables.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = resolve(HERE, '../../..')
@@ -126,10 +134,14 @@ async function main(): Promise<void> {
   // SSS.MKF chunk 2 = OBJECT 数组原始字节(供 parseItems / parseSpells / parseEnemies)
   const sssObjBuf = loadMkfChunk('SSS.MKF', 2)
 
-  // DATA.MKF chunk 4 = MAGIC 法术细节;chunk 1 = ENEMY 敌人基础数据
+  // DATA.MKF chunk 1 = ENEMY 敌人基础数据;chunk 2 = ENEMYTEAM 敌队;
+  // chunk 4 = MAGIC 法术细节;chunk 5 = BATTLEFIELD 战场背景 + 元素 buff
+  // (对照 sdlpal global.c::PAL_LoadDefaultGame 的 LOAD_DATA 调用)
   const dataMkf = openMkf(loadFile('DATA.MKF'))
-  const magicBuf = readChunk(dataMkf, 4)
   const enemyBuf = readChunk(dataMkf, 1)
+  const teamBuf = readChunk(dataMkf, 2)
+  const magicBuf = readChunk(dataMkf, 4)
+  const fieldBuf = readChunk(dataMkf, 5)
 
   writeJson(resolve(OUT, 'data', 'items.json'), parseItems(sssObjBuf, words))
   // M3 T6:Spell wrapper(SSS chunk 2) + Magic 详细 stats(DATA chunk 4)分两个文件 dump。
@@ -137,6 +149,14 @@ async function main(): Promise<void> {
   writeJson(resolve(OUT, 'data', 'spells.json'), parseSpells(sssObjBuf, words))
   writeJson(resolve(OUT, 'data', 'magic.json'), parseMagicTable(magicBuf))
   writeJson(resolve(OUT, 'data', 'enemies.json'), parseEnemies(enemyBuf, sssObjBuf, words))
+  // M3 T7:EnemyTeam(DATA chunk 2) + BattleField(DATA chunk 5)dev panel 选 fixture 用。
+  // EnemyTeam._names 反查 — 用 OBJECT_ENEMY 段 + words 建 map。
+  const enemyObjectNames = buildEnemyObjectNameMap(sssObjBuf, words)
+  writeJson(
+    resolve(OUT, 'data', 'enemy-teams.json'),
+    parseEnemyTeams(teamBuf, enemyObjectNames),
+  )
+  writeJson(resolve(OUT, 'data', 'battle-fields.json'), parseBattleFields(fieldBuf))
 
   console.log('[pal-extract] data tables written')
 

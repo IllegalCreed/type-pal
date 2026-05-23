@@ -1,6 +1,16 @@
 import { describe, it, expect, expectTypeOf } from 'vitest'
 import type { Tilemap, TileCell, Palette, SceneObjects, SceneEventObject } from './resources.js'
-import type { Enemy, Item, ItemFlags, Magic, MagicType, Spell, SpellFlags } from './tables.js'
+import type {
+  BattleField,
+  Enemy,
+  EnemyTeam,
+  Item,
+  ItemFlags,
+  Magic,
+  MagicType,
+  Spell,
+  SpellFlags,
+} from './tables.js'
 
 describe('resources types', () => {
   it('Tilemap 有必要字段', () => {
@@ -275,6 +285,74 @@ describe('Magic schema (M3 T6)', () => {
     const parsed = JSON.parse(JSON.stringify(magic)) as Magic
     expect(parsed.speed).toBe(-1)
     expect(parsed.sound).toBe(-1)
+  })
+})
+
+describe('EnemyTeam schema (M3 T7)', () => {
+  it('EnemyTeam 5 个 enemy 槽位,0xFFFF = 空位', () => {
+    const t: EnemyTeam = {
+      id: 1,
+      enemies: [421, 421, 0xffff, 0xffff, 0xffff],
+      _names: ['苗人拳', '苗人拳'],
+    }
+    expect(t.enemies).toHaveLength(5)
+    expect(t.enemies[2]).toBe(0xffff)
+    expect(t.id).toBe(1)
+  })
+
+  it('EnemyTeam 可 JSON 序列化(enemies tuple 保留 5 位 + _names 可缺)', () => {
+    const t: EnemyTeam = {
+      id: 0,
+      enemies: [0xffff, 0xffff, 0xffff, 0xffff, 0xffff],
+    }
+    const parsed = JSON.parse(JSON.stringify(t)) as EnemyTeam
+    expect(parsed.enemies).toHaveLength(5)
+    expect(parsed._names).toBeUndefined()
+  })
+
+  it('EnemyTeam._names 可选(without-name 路径)', () => {
+    expectTypeOf<EnemyTeam>().toMatchTypeOf<{
+      id: number
+      enemies: readonly [number, number, number, number, number]
+      _names?: string[]
+    }>()
+  })
+})
+
+describe('BattleField schema (M3 T7)', () => {
+  it('BattleField 含 screenWave + 5 元素 effect(signed)', () => {
+    const f: BattleField = {
+      id: 0,
+      screenWave: 0,
+      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    }
+    expect(f.magicEffect.fire).toBe(0)
+    expect(Object.keys(f.magicEffect)).toHaveLength(5)
+  })
+
+  it('BattleField.magicEffect 可负(signed,对照 sdlpal SHORT)', () => {
+    const f: BattleField = {
+      id: 3,
+      screenWave: 10,
+      magicEffect: { wind: -2, thunder: 0, water: 3, fire: -1, earth: 0 },
+    }
+    const parsed = JSON.parse(JSON.stringify(f)) as BattleField
+    expect(parsed.magicEffect.wind).toBe(-2)
+    expect(parsed.magicEffect.fire).toBe(-1)
+  })
+
+  it('BattleField 元素字段顺序与 Enemy.elemResistance 一致(wind/thunder/water/fire/earth)', () => {
+    expectTypeOf<BattleField>().toMatchTypeOf<{
+      id: number
+      screenWave: number
+      magicEffect: {
+        wind: number
+        thunder: number
+        water: number
+        fire: number
+        earth: number
+      }
+    }>()
   })
 })
 

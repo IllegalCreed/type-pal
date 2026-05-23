@@ -262,3 +262,74 @@ export interface Enemy {
   dualMove: number
   collectValue: number
 }
+
+/**
+ * 一组敌人(对照 sdlpal `global.h::tagENEMYTEAM` + `palcommon.h::MAX_ENEMIES_IN_TEAM=5`)。
+ *
+ * 数据源:DATA.MKF chunk 2(sdlpal `global.c:294`
+ * `LOAD_DATA(p->lprgEnemyTeam, p->nEnemyTeam * sizeof(ENEMYTEAM), 2, fpDATA)`)。
+ *
+ * sdlpal 结构:
+ * ```c
+ * typedef struct tagENEMYTEAM {
+ *   WORD rgwEnemy[MAX_ENEMIES_IN_TEAM];  // 5 个槽位
+ * } ENEMYTEAM;
+ * ```
+ *
+ * **槽位含义(对照 `battle.c:1602`):**
+ * - `0xFFFF` = 空槽位(`if (w == 0xFFFF) continue;`)
+ * - `0`      = 也跳过(sdlpal 行内判 `if (w != 0)` 后才装载)
+ * - 其他    = OBJECT 数组的绝对 index(`gpGlobals->g.rgObject[w].enemy.wEnemyID`),
+ *             落在 OBJECT_ENEMY 段(实测 398-550)
+ */
+export interface EnemyTeam {
+  /** 在 enemy-teams.json 数组里的索引。 */
+  id: number
+  /**
+   * 5 个 slot,每个是 OBJECT 数组的绝对 index(指向 OBJECT_ENEMY 段)。
+   * `0xFFFF` = 空槽位,`0` = 也跳过(见 sdlpal `battle.c:1602`)。
+   */
+  enemies: [number, number, number, number, number]
+  /**
+   * 5 个槽位对应的敌人名注释(WORD.DAT;引擎不读,只为人读 JSON 时认得出)。
+   * 数组长度 ≤ 5;空槽位 / 找不到名字的 slot 不收入。可选。
+   */
+  _names?: string[]
+}
+
+/**
+ * 战场背景 + 元素 buff(对照 sdlpal `global.h::tagBATTLEFIELD` + `palcommon.h::NUM_MAGIC_ELEMENTAL=5`)。
+ *
+ * 数据源:DATA.MKF chunk 5(sdlpal `global.c:297`
+ * `LOAD_DATA(p->lprgBattleField, p->nBattleField * sizeof(BATTLEFIELD), 5, fpDATA)`)。
+ *
+ * sdlpal 结构:
+ * ```c
+ * typedef struct tagBATTLEFIELD {
+ *   WORD  wScreenWave;                          // 屏幕波纹强度
+ *   SHORT rgsMagicEffect[NUM_MAGIC_ELEMENTAL];  // 5 元素 buff(signed)
+ * } BATTLEFIELD;
+ * ```
+ *
+ * 每条 = 1 WORD + 5 SHORT = 6 u16 = 12 bytes。
+ *
+ * **signed**:`rgsMagicEffect` 是 SHORT,元素 buff 可正可负(`global.h:380`)。
+ */
+export interface BattleField {
+  /** 在 battle-fields.json 数组里的索引。 */
+  id: number
+  /** 屏幕波纹强度(sdlpal `wScreenWave`,WORD)。 */
+  screenWave: number
+  /**
+   * 5 元素 buff(对照 sdlpal `rgsMagicEffect[NUM_MAGIC_ELEMENTAL=5]`,SHORT)。
+   * 元素顺序与 Enemy.elemResistance 一致(对照 sdlpal `wElemResistance[5]`):
+   * wind / thunder / water / fire / earth。
+   */
+  magicEffect: {
+    wind: number
+    thunder: number
+    water: number
+    fire: number
+    earth: number
+  }
+}
