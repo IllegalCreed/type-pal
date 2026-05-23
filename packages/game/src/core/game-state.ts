@@ -56,11 +56,19 @@ export function createInitialGameState(
   }
 }
 
+/**
+ * 原版 EVENTOBJECT.x / .y 是**像素坐标**(见 sdlpal map.c::PAL_MapBlitToSurface
+ * 用 x/32 取 col、y/16 取 row,菱形错排,tile 32×16)。
+ * 运行时按瓦片格走路,故 NPC 装载时把 px → cell。
+ */
+const TILE_W = 32
+const TILE_H = 16
+
 export function npcFromEventObject(eo: SceneEventObject): NpcState {
   return {
     id: eo.id,
-    col: eo.x,
-    row: eo.y,
+    col: Math.floor(eo.x / TILE_W),
+    row: Math.floor(eo.y / TILE_H),
     spriteNum: eo.spriteNum,
     triggerLabel: eo.triggerLabel,
   }

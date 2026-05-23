@@ -44,14 +44,14 @@ describe('GameState', () => {
 })
 
 describe('npcFromEventObject', () => {
-  it('SceneEventObject → NpcState 字段映射', () => {
+  it('SceneEventObject 像素坐标 → cell 坐标(x/32, y/16),其它字段透传', () => {
     const eo: SceneEventObject = {
-      id: 3, x: 7, y: 12, spriteNum: 42, triggerLabel: 'L_59',
+      id: 3, x: 512, y: 800, spriteNum: 42, triggerLabel: 'L_59',
     }
     const npc = npcFromEventObject(eo)
     expect(npc.id).toBe(3)
-    expect(npc.col).toBe(7)
-    expect(npc.row).toBe(12)
+    expect(npc.col).toBe(16) // 512 / 32
+    expect(npc.row).toBe(50) // 800 / 16
     expect(npc.spriteNum).toBe(42)
     expect(npc.triggerLabel).toBe('L_59')
   })

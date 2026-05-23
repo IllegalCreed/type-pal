@@ -24,10 +24,11 @@ function snap(held: AbstractKey[] = [], pressed: AbstractKey[] = [], frameNum = 
 describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
   it('完整 NPC 触发流程,最终 mode=explore + dialogBox 已清', () => {
     const gs = createInitialGameState({ col: 5, row: 5, facing: 'right' })
+    // npcFromEventObject 收的是原版像素坐标(x/32 → col, y/16 → row),所以构造时 ×32 / ×16
     gs.npcs = [
       npcFromEventObject({
         id: 1,
-        x: 8, y: 5,
+        x: 8 * 32, y: 5 * 16,
         spriteNum: 78,
         triggerLabel: 'L_2',
       }),
