@@ -9,6 +9,7 @@ if (typeof globalThis.createImageBitmap === 'undefined') {
   globalThis.createImageBitmap = async (source: Blob) => {
     const buffer = Buffer.from(await source.arrayBuffer())
     const img = await loadImage(buffer)
-    return img as unknown as ImageBitmap
+    // canvas 的 Image 没有 close(),补个 no-op 让 png.ts 的 finally 不炸
+    return Object.assign(img, { close: () => {} }) as unknown as ImageBitmap
   }
 }

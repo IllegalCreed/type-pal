@@ -11,17 +11,26 @@ export interface IndexedImage {
 }
 
 export async function decodePngToIndices(source: Blob): Promise<IndexedImage> {
-  const bitmap = await createImageBitmap(source)
-  const canvas = document.createElement('canvas')
-  canvas.width = bitmap.width
-  canvas.height = bitmap.height
-  const ctx = canvas.getContext('2d')
-  if (!ctx) throw new Error('decodePngToIndices: 2d context unavailable')
-  ctx.drawImage(bitmap, 0, 0)
-  const img = ctx.getImageData(0, 0, canvas.width, canvas.height)
-  const indices = new Uint8Array(canvas.width * canvas.height)
-  for (let i = 0; i < indices.length; i++) {
-    indices[i] = img.data[i * 4]!
+  const bitmap = await createImageBitmap(source).catch((cause: unknown) => {
+    throw new Error(
+      `decodePngToIndices: failed to decode PNG blob (${source.size}B, type=${source.type})`,
+      { cause },
+    )
+  })
+  try {
+    const canvas = document.createElement('canvas')
+    canvas.width = bitmap.width
+    canvas.height = bitmap.height
+    const ctx = canvas.getContext('2d')
+    if (!ctx) throw new Error('decodePngToIndices: 2d context unavailable')
+    ctx.drawImage(bitmap, 0, 0)
+    const img = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    const indices = new Uint8Array(canvas.width * canvas.height)
+    for (let i = 0; i < indices.length; i++) {
+      indices[i] = img.data[i * 4]!
+    }
+    return { width: canvas.width, height: canvas.height, indices }
+  } finally {
+    bitmap.close()
   }
-  return { width: canvas.width, height: canvas.height, indices }
 }
