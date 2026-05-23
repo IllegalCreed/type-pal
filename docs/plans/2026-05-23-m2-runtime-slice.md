@@ -3311,3 +3311,61 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
 - [ ] `docs/03-development-plan.md` M2 标完成
 - [ ] `docs/04-decisions.md` D26 / D27 已写(brainstorming 阶段已 commit,验)
 - [ ] `docs/plans/2026-05-23-m2-runtime-slice.md` 末尾「实施过程发现」section 有内容(若 0 项偏离,写「无显著偏离」)
+
+---
+
+## 实施过程发现 / 与本计划的偏离(2026-05-23 完工时整理)
+
+本计划在 brainstorming + writing-plans 阶段基于 02 / 04 / 05 设计推断;实施时遇到的真实差异记录如下供 M3+ 参考。**全部 commit 在 main 分支可追溯**。
+
+### 1. setDialogStyle opcode 映射顺序按 sdlpal,不是计划字面顺序
+
+计划 Task 3 例子给的 0x003B→Top / 0x003C→Center 是位置猜测,实际查 sdlpal `script.c:3389+` 后按 sdlpal 真值映射;字面注释在 commit b87a7b2 中按实测对齐。M3 真核 dialog 样式语义时再对一遍即可。
+
+### 2. setDialogStyle opcode operands 非零,Command 扩 arg0/arg1/arg2
+
+原计划假设 4 个 setDialogStyle opcode 三个 operand 全 0,实测真实数据 operand[0] 频繁为 NPC objectId / messageIndex,字节级 round-trip 要求保留。Shared types `SetDialogStyleXxxCommand` 加 `arg0/arg1/arg2?: number`(optional);disasm 仅非零时输出,recompile `?? 0` fallback(commit cee1351)。
+
+### 3. SceneEventObject 字段去 Hungarian:sSpriteNum → spriteNum
+
+Task 2 计划字面 `sSpriteNum`,但 M1 sss.ts 已经 normalize 成 `spriteNum`(无前缀)。继续 Hungarian 会让 Schema 不一致。Task 2 review 后重命名;M2 plan 文件同步更新(commit 6cb1da8)。
+
+### 4. MGO.MKF chunk 是 YJ2 压缩
+
+Task 5 sprite 提取一开始按 plan 走 raw 路径,parseSpriteChunk 失败。Sniff 显示首 4 字节是有效 u32 LE 解压长度 —— 所有非空 chunk 一律 YJ2。改成 unconditional `decompressYj2`,无 raw fallback(commit a526244 + 99d0ae8 注释 + dedup warn)。
+
+### 5. MGO chunk 0 是空,PARTY_LEADER_SPRITE 真值取自 DATA.MKF chunk 3
+
+Task 5 计划字面把队长精灵硬编码 `PARTY_LEADER_SPRITE = 0`,实测 MGO.MKF chunk 0 大小 = 0,bootstrap 直接抛"队长 sprite (id 0) 加载失败"。
+
+实查 sdlpal `global.c:427` 是从 **DATA.MKF chunk 3** 读 PLAYERROLES,其中 `rgwSpriteNum` 偏移 12 个 u16(rgwAvatar 6w + rgwSpriteNumInBattle 6w)。dump 出来:`rgwSpriteNum = [2, 3, 7, 525, 5, 26]` —— 队长精灵号 = **2**(MGO chunk 2 = 4216 字节,正常加载)。
+
+M2 改 cli.ts + bootstrap.ts + loader.ts 三处硬编码为 2,加 TODO(M3)真解析 PlayerRoles + 多角色队伍切换(fix commit a87d074)。
+
+### 6. EVENTOBJECT.x / .y 是像素坐标,不是 cell 坐标
+
+`npcFromEventObject` 计划字面把 `eo.x` / `eo.y` 直接当 `col` / `row` 透传,但实测 scene-1.json 里这两个数值高达 1456 / 1288,远超 128×64 cells 地图。实查 sdlpal `map.c:391` 显示 `lpSrcRect->x / 32` 取 col、`y / 16` 取 row(菱形错排,tile 32×16)。
+
+M2 改 `npcFromEventObject` 用 `Math.floor(eo.x / 32)` / `Math.floor(eo.y / 16)` 转换,e2e 测试同步把构造数据放大到 px 单位(fix commit c96aa9f)。
+
+### 7. dev 验证现象
+
+`pnpm -F @type-pal/game dev` 浏览器打开看到:
+- ✅ 真原版 scene 1 地图(红色木质建筑墙 + 棕色地砖,菱形错排正确)
+- ✅ 真队长精灵渲染在画面中央(黑发 + 白色服饰,可辨认是原版角色)
+- ✅ Top 样式对话框,色块占位字 4 个 glyph(对应 onEnter 第一句对话)
+- ✅ 按 Space 推进对话(glyph 数变化,console.debug 显示 ip 推进 368→391→400...)
+- ✅ 控制台连续看到 raw opcode skip 日志(opcode 67/69/70/115/5/9/21 等),证明事件循环正常
+- ✅ 无 throw 红色 banner
+
+由于 scene 1 onEnter 是原版开局长引子(几十句对话),按 Space 数十次都还在 event 模式;走路 / 撞 NPC 触发 trigger 段对话的最后一步,需要等 onEnter 全跑完才能验,M3 真做 setPartyPos / setViewport 等 ~10 个 opcode 后整段才会变得可玩。这不算 M2 bug —— M2 端到端架构链路本身正确。
+
+### 自检 checklist 实际状态
+
+- [x] `pnpm install` 干净跑通
+- [x] `pnpm check` 退出码 0(180 个单测,M1 旧 91 + shared 20 + game 56 + pal-extract 104,无重叠)
+- [x] `pnpm extract` 跑通,产出含 sprite-2.json + sprite-21.json + sprite-29.json + ... 共 12 sprite / 75 帧 + scene-1.json
+- [x] events round-trip 仍逐字节通过(`[pal-extract] events round-trip OK`)
+- [x] `pnpm -F @type-pal/game dev` 跑通 dev 验证(见第 7 条)
+- [x] `data/extracted/` + `packages/game/public/extracted` 在 `.gitignore`
+- [x] 04 决策表 D26 / D27 / D28 已 commit

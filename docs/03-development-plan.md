@@ -23,14 +23,14 @@
 - 详细设计见 [`plans/2026-05-23-m1-pal-extract-design.md`](plans/2026-05-23-m1-pal-extract-design.md);实施过程发现 / 偏离见 [`plans/2026-05-23-m1-pal-extract.md`](plans/2026-05-23-m1-pal-extract.md) 末尾「实施过程发现」。
 - **Task 20 sdlpal RLE 对拍 harness 推迟到 M3**(战斗差分本就需要 sdlpal headless 基建,统一做)。
 
-### M2 · 运行时垂直切片(探索)
-- 资源加载层、表现层最小渲染:显示 scene 1 真实地图 + 队伍精灵 + NPC 精灵。
-- 场景系统:队伍行走 + 瓦片碰撞 + 相机。
-- 事件系统最小集 + 对话框:消费真原版 scene-001.json,走到任一 NPC 前触发该 NPC 的 trigger 段对话。
-- 跨包顺手做:M1 漏的角色 / NPC 精灵提取、新产物 `data/extracted/data/scene-1.json`(事件对象 + 入口 label 表)、~10 个 opcode 具名扩展(`setDialogStyleTop/Center/Bottom/Narration` 等)。
-- EventSystem 对未具名 raw 走 **no-op skip + console.debug**,不抛错(scene 1 onEnter 段大量 raw 是无关紧要环境设定,M3+ 按玩法增量具名)。
-- **目标:整条架构链路端到端跑通(真原版数据,非占位)。**
-- 详细设计见 [`plans/2026-05-23-m2-runtime-slice-design.md`](plans/2026-05-23-m2-runtime-slice-design.md)。
+### M2 · 运行时垂直切片(探索)✅(2026-05-23 完成)
+- ✅ 资源加载层、表现层最小渲染:scene 1 真实地图 + 真队长 / NPC 精灵
+- ✅ 场景系统:走路 + 边界 clamp(碰撞属性 M3 补)+ 相机
+- ✅ 事件系统最小集:消费真原版 scene-001.json,onEnter 自动播 + Confirm 推进对话;走到 NPC 前 Confirm 走 trigger 段
+- ✅ pal-extract 补:角色 / NPC sprite + scene-1.json + 4 个 setDialogStyle opcode 具名
+- ✅ EventSystem 对未具名 raw = no-op skip + console.debug
+- 详细设计见 [`plans/2026-05-23-m2-runtime-slice-design.md`](plans/2026-05-23-m2-runtime-slice-design.md);实施过程发现 / 偏离见 [`plans/2026-05-23-m2-runtime-slice.md`](plans/2026-05-23-m2-runtime-slice.md) 末尾「实施过程发现」。
+- 180 个 Vitest 单测全过(M1 旧 91 + shared 20 + game 56 + pal-extract 增至 104),`pnpm check` 绿。`pnpm extract` 重跑产物完好(全量 events round-trip 仍逐字节通过,12 个 sprite / 75 帧)。
 
 ### M3 · 战斗垂直切片
 - 事件能触发一场战斗。

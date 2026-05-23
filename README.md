@@ -12,15 +12,22 @@
 
 ## 当前状态(2026-05-23)
 
+**M2 完成** —— 运行时垂直切片打通。浏览器打开 `pnpm -F @type-pal/game dev` 看到:
+- 真原版 scene 1 地图(323 个 tile bitmap 菱形错排)
+- 真队长精灵 + NPC 精灵渲染(取自 MGO.MKF,索引位图 + palette 查表)
+- 走路 / 边界 clamp / NPC 触发对话(消费真原版 scene-001.json 的 commands)
+- 事件系统协程式步进器(loop-until-waitable + raw skip + 4 个 setDialogStyle 具名)
+- 一条 e2e Vitest 端到端验证(headless 主循环 + ReplayInputSource)
+
 **M1 完成** —— `pal-extract` 端到端打通。`pnpm extract` 一次性产出 `data/extracted/`:
 - 事件全量:295 scenes + shared.json + objects.json,**SSS.MKF 全量字节级 round-trip 通过**(43503 条指令)
-- 资源切片(scene 1 = 开局):tilemap + 323 tiles + 9 palette
+- 资源:scene 1 tilemap + 323 tiles + 9 palette;**M2 补**:scene 1 NPC / 队长 sprite + scene-1.json 入口表
 - 数据表全量:235 items / 102 spells / 153 enemies
-- `pnpm check` 全绿(91 个单测 + 类型检查)
+- `pnpm check` 全绿(180 个单测 + 类型检查)
 
 **Task 20 sdlpal RLE 对拍 harness 推迟到 M3** —— M3 战斗差分本就需要 sdlpal headless 基建,统一做更划算。当前 RLE 验证靠手造单测 + 真实数据 extract 端到端通过。
 
-下一步:进入 **M2**(运行时垂直切片 · 探索),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
+下一步:进入 **M3**(战斗垂直切片),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
 
 ## 仓库结构
 
