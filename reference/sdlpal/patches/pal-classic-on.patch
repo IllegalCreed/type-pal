@@ -1,0 +1,13 @@
+--- a/common.h
++++ b/common.h
+@@ -22,9 +22,7 @@
+ #ifndef _COMMON_H
+ #define _COMMON_H
+ 
+-#ifndef ENABLE_REVISIED_BATTLE
+-# define PAL_CLASSIC        1
+-#endif
++#define PAL_CLASSIC        1
+ 
+ #include "defines.h"
+ 
