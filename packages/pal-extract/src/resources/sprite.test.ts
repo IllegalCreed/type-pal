@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { decodeRle } from '../io/rle.js'
-import { encodeIndexedPng, framesToOut, parseSpriteChunk } from './sprite.js'
+import { encodeIndexedPng, extractCharacterSprites, framesToOut, parseSpriteChunk } from './sprite.js'
 
 describe('sprite', () => {
   it('encodeIndexedPng 产 PNG 字节流,以 PNG 魔数开头', () => {
@@ -54,5 +54,24 @@ describe('sprite', () => {
     expect(out[0]!.index).toBe(0)
     expect(out[0]!.width).toBe(2)
     expect(out[0]!.pngBytes[0]).toBe(0x89)
+  })
+})
+
+describe('extractCharacterSprites', () => {
+  it('给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧', () => {
+    const fakeMgoChunks = new Map<number, Uint8Array>()
+    const emptySpriteChunk = new Uint8Array(4)
+    new DataView(emptySpriteChunk.buffer).setUint16(0, 0, true) // frameCount=0
+    fakeMgoChunks.set(78, emptySpriteChunk)
+
+    const result = extractCharacterSprites([78], fakeMgoChunks)
+    expect(result).toHaveLength(1)
+    expect(result[0]?.spriteId).toBe(78)
+    expect(result[0]?.frames).toEqual([])
+  })
+
+  it('未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)', () => {
+    const result = extractCharacterSprites([999], new Map())
+    expect(result).toHaveLength(0)
   })
 })

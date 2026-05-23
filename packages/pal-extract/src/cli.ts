@@ -26,6 +26,7 @@ import { decompressYj2 } from './io/yj2.js'
 import { parseMap } from './resources/map.js'
 import { decodePalette } from './resources/palette.js'
 import { dumpScene } from './resources/scene.js'
+import { extractCharacterSprites } from './resources/sprite.js'
 import { parseEnemies, parseItems, parseSpells } from './resources/tables.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -201,9 +202,60 @@ async function main(): Promise<void> {
     `[pal-extract] scene-${SLICE_SCENE_ID}.json written (${sceneObjects.eventObjects.length} event objects)`,
   )
 
-  // 精灵切片:M1 暂不实现(缺少 sprite-membership-by-scene 逻辑)
+  // 角色 / NPC 精灵切片(M2 新增 — D27)
+  console.log(`[pal-extract] character sprites for scene ${SLICE_SCENE_ID} …`)
+
+  // 队长精灵号 —— 原版第一角色,M2 先硬编码 0;运行时验证后视情况调整。
+  const PARTY_LEADER_SPRITE = 0
+  const spriteIds = new Set<number>([PARTY_LEADER_SPRITE])
+  for (const eo of sceneObjects.eventObjects) {
+    if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)
+  }
+
+  const mgoMkf = openMkf(loadFile('MGO.MKF'))
+  const mgoChunkCount = chunkCount(mgoMkf)
+  const mgoChunks = new Map<number, Uint8Array>()
+  for (const id of spriteIds) {
+    if (id >= mgoChunkCount) {
+      console.warn(`[pal-extract] sprite ${id} >= MGO chunk count ${mgoChunkCount}, skip`)
+      continue
+    }
+    const raw = readChunk(mgoMkf, id)
+    if (raw.byteLength === 0) {
+      console.warn(`[pal-extract] sprite ${id}: MGO.MKF chunk 为空,skip`)
+      continue
+    }
+    // MGO.MKF chunk 是 YJ2 压缩(实测:首 4 字节是解压后长度 u32 LE)。
+    mgoChunks.set(id, decompressYj2(raw))
+  }
+
+  const sprites = extractCharacterSprites([...spriteIds], mgoChunks)
+
+  for (const sprite of sprites) {
+    const spriteJson = {
+      spriteId: sprite.spriteId,
+      frames: sprite.frames.map((f) => ({
+        index: f.index,
+        width: f.width,
+        height: f.height,
+      })),
+    }
+    writeJson(resolve(OUT, 'data', `sprite-${sprite.spriteId}.json`), spriteJson)
+    for (const f of sprite.frames) {
+      writeBinary(
+        resolve(
+          OUT,
+          'images',
+          `sprite-${sprite.spriteId}-frame-${f.index.toString().padStart(2, '0')}.png`,
+        ),
+        f.pngBytes,
+      )
+    }
+  }
+
   console.log(
-    `[pal-extract] TODO: per-scene sprite slicing — skipped in M1`,
+    `[pal-extract] sprites written: ${sprites.length} sprites, ` +
+      `${sprites.reduce((sum, s) => sum + s.frames.length, 0)} frames total`,
   )
 
   // ── lookup ──────────────────────────────────────────────────────

@@ -64,3 +64,30 @@ export function framesToOut(frames: RleFrame[]): SpriteFrameOut[] {
     pngBytes: encodeIndexedPng(f.width, f.height, f.pixels),
   }))
 }
+
+export interface CharacterSpriteOut {
+  spriteId: number
+  frames: SpriteFrameOut[]
+}
+
+/**
+ * 从 MGO.MKF 提取一组指定 sprite id 的全部帧。
+ * @param spriteIds —— 切片场景出现的 sprite 号集合(队长 + NPC.spriteNum 去重)
+ * @param mgoChunks —— sprite id → 该 chunk 原始字节(调用方负责从 MGO.MKF 读 / 解压)
+ */
+export function extractCharacterSprites(
+  spriteIds: number[],
+  mgoChunks: Map<number, Uint8Array>,
+): CharacterSpriteOut[] {
+  const result: CharacterSpriteOut[] = []
+  for (const id of spriteIds) {
+    const chunk = mgoChunks.get(id)
+    if (!chunk) {
+      console.warn(`[pal-extract] sprite ${id}: MGO.MKF chunk 未找到,skip`)
+      continue
+    }
+    const frames = parseSpriteChunk(chunk)
+    result.push({ spriteId: id, frames: framesToOut(frames) })
+  }
+  return result
+}
