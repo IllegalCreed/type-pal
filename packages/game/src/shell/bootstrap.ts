@@ -9,7 +9,7 @@ import { presentFrame, flushToCanvas, type PresentContext } from '../present/pre
 
 const SCENE_ID = 1
 
-function showError(canvas: HTMLCanvasElement, msg: string): void {
+export function showError(canvas: HTMLCanvasElement, msg: string): void {
   const ctx = canvas.getContext('2d')
   if (!ctx) return
   ctx.fillStyle = '#400'
@@ -20,13 +20,7 @@ function showError(canvas: HTMLCanvasElement, msg: string): void {
 }
 
 export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
-  let assets
-  try {
-    assets = await loadAll(SCENE_ID)
-  } catch (err) {
-    showError(canvas, `assets failed: ${err instanceof Error ? err.message : String(err)}`)
-    throw err
-  }
+  const assets = await loadAll(SCENE_ID)
 
   const { tilemap, palette, scene, events, tileImages, characterSprites } = assets
 
@@ -54,10 +48,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   const partyData = characterSprites.get(0)
   if (!partyData) throw new Error('队长 sprite (id 0) 加载失败')
   const partyFirst = partyData.frames[0]
+  if (!partyFirst) throw new Error('队长 sprite 无 frame[0]')
   const partySprite = {
-    width: partyFirst?.width ?? 16,
-    height: partyFirst?.height ?? 16,
-    indices: partyFirst?.indices ?? new Uint8Array(),
+    width: partyFirst.width,
+    height: partyFirst.height,
+    indices: partyFirst.indices,
     anchorX: partyData.anchorX,
     anchorY: partyData.anchorY,
   }
