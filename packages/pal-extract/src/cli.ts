@@ -30,6 +30,7 @@ import { dumpScene } from './resources/scene.js'
 import { encodeIndexedPng, extractCharacterSprites } from './resources/sprite.js'
 import {
   buildEnemyObjectNameMap,
+  buildObjectIndexToEnemyIdMap,
   parseBattleFields,
   parseEnemies,
   parseEnemyTeams,
@@ -155,9 +156,14 @@ async function main(): Promise<void> {
   // M3 T7:EnemyTeam(DATA chunk 2) + BattleField(DATA chunk 5)dev panel 选 fixture 用。
   // EnemyTeam._names 反查 — 用 OBJECT_ENEMY 段 + words 建 map。
   const enemyObjectNames = buildEnemyObjectNameMap(sssObjBuf, words)
+  // M3.30 Bug 1 修复:enemy-teams.json 槽位之前 dump 为 OBJECT 数组绝对 index(398-550),
+  // 与 enemies.json id 范围(0-153)不匹配,运行时 `find(e => e.id === slot)` 全 miss → enemy
+  // 不显示。修法:dump 时翻译 OBJECT index → enemies.json id(= OBJECT_ENEMY.wEnemyID),
+  // enemy-teams.json 槽位变 enemies.json id,运行时直接消费。
+  const objectIndexToEnemyId = buildObjectIndexToEnemyIdMap(sssObjBuf)
   writeJson(
     resolve(OUT, 'data', 'enemy-teams.json'),
-    parseEnemyTeams(teamBuf, enemyObjectNames),
+    parseEnemyTeams(teamBuf, enemyObjectNames, objectIndexToEnemyId),
   )
   writeJson(resolve(OUT, 'data', 'battle-fields.json'), parseBattleFields(fieldBuf))
   // M3 T8:PlayerRoles(DATA.MKF chunk 3)— M2 半解扩到 M3 战斗子集 dump。
@@ -304,7 +310,10 @@ async function main(): Promise<void> {
 
   const battleSpriteIds: Array<{ id: number; kind: 'enemy' | 'player' }> = []
   for (const role of playerRoles.roles) {
-    if (role.spriteNumInBattle > 0) {
+    // M3.30 Bug 2 修复:之前过滤 `> 0` 把李逍遥(spriteNumInBattle=0)跳过 → dev panel
+    // 选战斗时队长 sprite 不显示。sdlpal `battle.c:856` 对 spriteNumInBattle=0 不 filter
+    // (F.MKF chunk 0 是有效的李逍遥战斗 sprite,sdlpal extractor 同样会 dump)。改 `>= 0`。
+    if (role.spriteNumInBattle >= 0) {
       battleSpriteIds.push({ id: role.spriteNumInBattle, kind: 'player' })
     }
   }

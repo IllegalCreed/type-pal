@@ -161,3 +161,32 @@ export function buildEnemyObjectNameMap(objBuf: Uint8Array, words: Words): Map<n
   }
   return map
 }
+
+/**
+ * 反向索引:OBJECT 数组中的绝对 index(OBJECT_ENEMY 段)→ enemies.json 的 id(= wEnemyID)。
+ *
+ * 给 `parseEnemyTeams` 翻译 enemy-teams.json 槽位用 —— M3.30 Bug 1 修复(implementation discovery):
+ * enemy-teams.json 之前 dump 出来是 OBJECT 绝对 index(398-550),与 enemies.json 的 0..153 id
+ * 范围不匹配,运行时 `enemies.find(e => e.id === slot)` 全部 miss,导致 dev panel 触发战斗时
+ * enemy 不显示。修法:dump 时翻译 → enemy-teams.json 槽位变 enemies.json id。
+ *
+ * 实现与 `buildEnemyObjectNameMap` 同结构:遍历 OBJECT_ENEMY 段(ENEMY_OBJ_START + i,
+ * i in [0..ENEMY_OBJ_COUNT)),读该 OBJECT 的 `wEnemyID`(= OBJECT_ENEMY 字段 0),
+ * 建立 `objIndex → wEnemyID` 映射。
+ *
+ * @param objBuf SSS.MKF chunk 2 原始字节
+ */
+export function buildObjectIndexToEnemyIdMap(objBuf: Uint8Array): Map<number, number> {
+  const map = new Map<number, number>()
+  const need = (ENEMY_OBJ_START + ENEMY_OBJ_COUNT) * OBJ_SIZE
+  if (objBuf.byteLength < need) return map
+  const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
+  for (let i = 0; i < ENEMY_OBJ_COUNT; i++) {
+    const objIndex = ENEMY_OBJ_START + i
+    const enemyId = u16(view, objIndex * OBJ_SIZE, ENEMY_OBJ_ID_OFF)
+    if (enemyId > 0) {
+      map.set(objIndex, enemyId)
+    }
+  }
+  return map
+}

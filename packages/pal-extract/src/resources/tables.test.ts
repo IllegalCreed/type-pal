@@ -19,6 +19,7 @@ import { openMkf, readChunk } from '../io/mkf.js'
 import { parseWordDat } from '../io/word.js'
 import {
   buildEnemyObjectNameMap,
+  buildObjectIndexToEnemyIdMap,
   parseBattleFields,
   parseEnemies,
   parseEnemyTeams,
@@ -445,6 +446,59 @@ describe('parseEnemyTeams (M3 T7)', () => {
   it('截断时 throw(非 10 倍数)', () => {
     const tiny = new Uint8Array(9)
     expect(() => parseEnemyTeams(tiny)).toThrow(/不能被.*整除/)
+  })
+
+  it('M3.30 翻译模式:传入 objectIndexToEnemyId 时,enemies tuple 槽位变 enemies.json id', () => {
+    // 一条 team:slot 0 = 398(实际 OBJECT_ENEMY 段第一个),其他 0xFFFF
+    const fake = new Uint8Array(10)
+    const view = new DataView(fake.buffer)
+    view.setUint16(0, 398, true)
+    view.setUint16(2, 0xffff, true)
+    view.setUint16(4, 0xffff, true)
+    view.setUint16(6, 0xffff, true)
+    view.setUint16(8, 0xffff, true)
+    const indexMap = new Map<number, number>([[398, 7]]) // OBJECT 398 → enemy.id 7
+    const fakeTeams = parseEnemyTeams(fake, undefined, indexMap)
+    expect(fakeTeams[0]!.enemies).toEqual([7, 0xffff, 0xffff, 0xffff, 0xffff])
+  })
+
+  it('M3.30 翻译模式:OBJECT 索引不在 map 中 → 槽位标 0xFFFF + warn', () => {
+    const fake = new Uint8Array(10)
+    const view = new DataView(fake.buffer)
+    view.setUint16(0, 999, true) // 999 不在 map 中
+    view.setUint16(2, 0xffff, true)
+    view.setUint16(4, 0xffff, true)
+    view.setUint16(6, 0xffff, true)
+    view.setUint16(8, 0xffff, true)
+    const indexMap = new Map<number, number>()
+    const fakeTeams = parseEnemyTeams(fake, undefined, indexMap)
+    expect(fakeTeams[0]!.enemies[0]).toBe(0xffff)
+  })
+
+  it('M3.30 buildObjectIndexToEnemyIdMap:真原版 OBJECT_ENEMY 段映射非空 + wEnemyID 在 enemies.json 范围内', () => {
+    const map = buildObjectIndexToEnemyIdMap(objBuf)
+    expect(map.size).toBeGreaterThan(0)
+    // 所有 key 都在 398-550 范围
+    for (const [objIdx, enemyId] of map) {
+      expect(objIdx).toBeGreaterThanOrEqual(398)
+      expect(objIdx).toBeLessThanOrEqual(550)
+      // wEnemyID 应在 enemies.json 范围(0..153)— sdlpal `lprgEnemy[wEnemyID]` 直接索引
+      expect(enemyId).toBeGreaterThan(0)
+      expect(enemyId).toBeLessThan(154)
+    }
+  })
+
+  it('M3.30 端到端:用真原版 buildObjectIndexToEnemyIdMap 翻译 enemy-teams 后,所有非空槽位都在 enemies.json id 范围', () => {
+    const indexMap = buildObjectIndexToEnemyIdMap(objBuf)
+    const teamsTranslated = parseEnemyTeams(teamBuf, undefined, indexMap)
+    // enemies.json 实测 154 条;非空 / 非 0xFFFF 槽位都应在 [1..153]
+    for (const team of teamsTranslated) {
+      for (const slot of team.enemies) {
+        if (slot === 0 || slot === 0xffff) continue
+        expect(slot).toBeGreaterThan(0)
+        expect(slot).toBeLessThan(154)
+      }
+    }
   })
 })
 

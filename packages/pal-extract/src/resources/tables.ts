@@ -24,7 +24,11 @@
  */
 
 export { parseBattleFields } from './parsers/battle-fields.js'
-export { buildEnemyObjectNameMap, parseEnemies } from './parsers/enemies.js'
+export {
+  buildEnemyObjectNameMap,
+  buildObjectIndexToEnemyIdMap,
+  parseEnemies,
+} from './parsers/enemies.js'
 export { parseEnemyTeams } from './parsers/enemy-teams.js'
 export { parseItems } from './parsers/items.js'
 export { parsePlayerRoles } from './parsers/player-roles.js'
