@@ -37,7 +37,7 @@ export function createCommandBus(): CommandBus {
       return out
     },
     complete(_cmdId) {
-      // M2 内 no-op;M3 转场 / 视频时把异步资源跟 cmdId 关联,完成时调 complete。
+      // TODO(M3): 把异步资源跟 cmdId 关联,完成时调此回调;M2 内同步语义不需要。
     },
   }
 }

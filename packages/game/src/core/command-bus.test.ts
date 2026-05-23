@@ -35,4 +35,11 @@ describe('CommandBus', () => {
     const bus = createCommandBus()
     expect(() => bus.complete(999999)).not.toThrow()
   })
+
+  it('emit 返回的 cmdId 与 drain 出的 BusEntry.cmdId 配对', () => {
+    const bus = createCommandBus()
+    const id = bus.emit({ op: 'clearDialogBox' })
+    const [entry] = bus.drain()
+    expect(entry?.cmdId).toBe(id)
+  })
 })
