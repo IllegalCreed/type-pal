@@ -205,8 +205,10 @@ async function main(): Promise<void> {
   // 角色 / NPC 精灵切片(M2 新增 — D27)
   console.log(`[pal-extract] character sprites for scene ${SLICE_SCENE_ID} …`)
 
-  // 队长精灵号 —— 原版第一角色,M2 先硬编码 0;运行时验证后视情况调整。
-  const PARTY_LEADER_SPRITE = 0
+  // 队长精灵号 —— 原版第一角色,实测查 DATA.MKF chunk 3 (PLAYERROLES.rgwSpriteNum) 得
+  // 6 个角色精灵号 = [2, 3, 7, 525, 5, 26]。M2 切片只装载队长 sprite=2。
+  // M3 多人队伍 / 角色切换时再扩。TODO(M3): 真正从 DATA.MKF chunk 3 解析 PlayerRoles。
+  const PARTY_LEADER_SPRITE = 2
   const spriteIds = new Set<number>([PARTY_LEADER_SPRITE])
   for (const eo of sceneObjects.eventObjects) {
     if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)

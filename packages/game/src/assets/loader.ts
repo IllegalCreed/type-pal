@@ -51,7 +51,9 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     if (m) tileImages.set(Number(m[1]), tilePngs[i]!)
   })
 
-  const spriteIds = new Set<number>([0])
+  // 队长精灵 = 2 (与 pal-extract cli.ts PARTY_LEADER_SPRITE 对齐, 取自 DATA.MKF chunk 3)。
+  // TODO(M3): 真解析 PlayerRoles + 多人队伍切换。
+  const spriteIds = new Set<number>([2])
   for (const eo of scene.eventObjects) {
     if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)
   }

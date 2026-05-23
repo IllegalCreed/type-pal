@@ -8,6 +8,9 @@ import { createFramebuffer } from '../present/framebuffer.js'
 import { presentFrame, flushToCanvas, type PresentContext } from '../present/present.js'
 
 const SCENE_ID = 1
+/** 队长精灵号 —— 真原版第一角色,实测取自 DATA.MKF chunk 3 (PLAYERROLES.rgwSpriteNum[0])。
+ *  TODO(M3): 加 DATA.MKF chunk 3 真解析 + 多角色队伍切换,而非硬编码。 */
+const PARTY_LEADER_SPRITE = 2
 
 export function showError(canvas: HTMLCanvasElement, msg: string): void {
   const ctx = canvas.getContext('2d')
@@ -45,8 +48,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   }
 
   // sprite 装配
-  const partyData = characterSprites.get(0)
-  if (!partyData) throw new Error('队长 sprite (id 0) 加载失败')
+  const partyData = characterSprites.get(PARTY_LEADER_SPRITE)
+  if (!partyData) throw new Error(`队长 sprite (id ${PARTY_LEADER_SPRITE}) 加载失败`)
   const partyFirst = partyData.frames[0]
   if (!partyFirst) throw new Error('队长 sprite 无 frame[0]')
   const partySprite = {
