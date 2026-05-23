@@ -143,7 +143,7 @@ export function decompressYj2(src: Uint8Array): Uint8Array {
   const srcStart = 4 // 流头后的位流起点
   const tree = buildTree()
 
-  while (true) {
+  while (dst < uncompLen) {
     // Huffman 解码:从根(0x280)往下走,直到叶子(value ≤ 0x140)
     let nodeIdx = 0x280
     while (tree.node[nodeIdx]!.value > 0x140) {

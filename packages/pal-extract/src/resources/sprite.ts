@@ -6,17 +6,25 @@ import { PNG } from 'pngjs'
 import { decodeRle, type RleFrame } from '../io/rle.js'
 
 /**
- * 精灵 chunk 头:u16 LE 帧数 + (帧数 个 u16 LE offset to RLE data)。
- * 偏移从 chunk 开头算;offset = 0 表示帧空缺。
- * 参考 sdlpal sprite.c::PAL_LoadSprite。
+ * 精灵 chunk 头:byte 0..1 = u16 LE imagecount(同时充当 frame[0] 的 word-offset)。
+ * 偏移表在 byte 0..2*imagecount-2,每条 u16 word offset(乘 2 得字节偏移)。
+ * 参考 sdlpal palcommon.c::PAL_SpriteGetFrame:
+ *     imagecount = (lpSprite[0] | (lpSprite[1] << 8));
+ *     iFrameNum <<= 1;
+ *     offset = ((lpSprite[iFrameNum] | (lpSprite[iFrameNum + 1] << 8)) << 1);
+ *   → frame 0 的 offset 同 imagecount * 2(因为 byte 0..1 双重身份)
+ *   → frame i 的 offset = u16 at byte 2*i,左移 1
+ *
+ * offset = 0 表示帧空缺。
  */
 export function parseSpriteChunk(buf: Uint8Array): RleFrame[] {
   const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength)
   const frameCount = view.getUint16(0, true)
   const frames: RleFrame[] = []
   for (let i = 0; i < frameCount; i++) {
-    const offset = view.getUint16(2 + i * 2, true)
-    if (offset === 0) continue
+    const wordOffset = view.getUint16(i * 2, true)
+    const offset = wordOffset << 1
+    if (offset === 0 || offset >= buf.byteLength) continue
     frames.push(decodeRle(buf.subarray(offset)))
   }
   return frames

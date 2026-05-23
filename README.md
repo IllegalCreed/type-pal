@@ -26,7 +26,7 @@
   - `05-events-schema.md` events.json 格式设计
   - `06-testing.md` 测试策略
 - `reference/sdlpal/` —— sdlpal 源码,作为引擎逻辑参考(见 `reference/README.md`)
-- `data/raw/` —— 放原版 98 柔情版数据文件的地方(见 `data/raw/README.md`)
+- `data/raw/` —— 放原版数据文件的地方(见 `data/raw/README.md`)
 
 ## 开发(本地)
 
