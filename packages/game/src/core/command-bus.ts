@@ -9,6 +9,23 @@ import type { DialogBoxStyle } from '@type-pal/shared'
 export type PresentCommand =
   | { op: 'showDialogBox'; text: string; style: DialogBoxStyle }
   | { op: 'clearDialogBox' }
+  // M3 战斗 UI 命令(T15)
+  | { op: 'showBattleMessage'; text: string }
+  | { op: 'showDamageNum'; x: number; y: number; value: number; color: 'yellow' | 'blue' /* yellow=伤害, blue=治疗 */ }
+  | { op: 'flashEnemy'; enemyIdx: number; durationMs: number }
+  | { op: 'flashPlayer'; playerIdx: number; durationMs: number }
+  | { op: 'playEnemyAttack'; enemyIdx: number; targetPlayerIdx: number }
+  | { op: 'playPlayerAttack'; playerIdx: number; targetEnemyIdx: number }
+  | {
+      op: 'playMagicAnim'
+      magicId: number
+      casterType: 'enemy' | 'player'
+      casterIdx: number
+      targetType: 'enemy' | 'player'
+      targetIdx: number | 'all'
+    }
+  | { op: 'playEnemyDeath'; enemyIdx: number }
+  | { op: 'showBattleUI'; state: 'mainMenu' | 'magicMenu' | 'itemMenu' | 'targetSelect' | 'hidden' }
 
 export interface BusEntry {
   cmdId: number

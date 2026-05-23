@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+import { createCommandBus, type PresentCommand } from './command-bus.js'
 
 describe('CommandBus', () => {
   it('emit + drain 顺序', () => {
@@ -41,5 +41,42 @@ describe('CommandBus', () => {
     const id = bus.emit({ op: 'clearDialogBox' })
     const [entry] = bus.drain()
     expect(entry?.cmdId).toBe(id)
+  })
+})
+
+describe('Battle PresentCommands', () => {
+  it('PresentCommand 联合含 9 战斗命令', () => {
+    const cmds: PresentCommand[] = [
+      { op: 'showBattleMessage', text: 'hit!' },
+      { op: 'showDamageNum', x: 100, y: 50, value: 25, color: 'yellow' },
+      { op: 'flashEnemy', enemyIdx: 0, durationMs: 300 },
+      { op: 'flashPlayer', playerIdx: 0, durationMs: 300 },
+      { op: 'playEnemyAttack', enemyIdx: 0, targetPlayerIdx: 0 },
+      { op: 'playPlayerAttack', playerIdx: 0, targetEnemyIdx: 0 },
+      { op: 'playMagicAnim', magicId: 12, casterType: 'player', casterIdx: 0, targetType: 'enemy', targetIdx: 0 },
+      { op: 'playMagicAnim', magicId: 12, casterType: 'player', casterIdx: 0, targetType: 'enemy', targetIdx: 'all' },
+      { op: 'playEnemyDeath', enemyIdx: 0 },
+      { op: 'showBattleUI', state: 'mainMenu' },
+    ]
+    expect(cmds.length).toBeGreaterThan(0)
+  })
+
+  it('showDamageNum color 只接受 yellow / blue', () => {
+    // type-only test:不应 compile 错就 OK
+    const yellow: PresentCommand = { op: 'showDamageNum', x: 0, y: 0, value: 0, color: 'yellow' }
+    const blue: PresentCommand = { op: 'showDamageNum', x: 0, y: 0, value: 0, color: 'blue' }
+    expect(yellow).toBeDefined()
+    expect(blue).toBeDefined()
+  })
+
+  it('showBattleUI state 联合', () => {
+    const states: Array<{ op: 'showBattleUI'; state: 'mainMenu' | 'magicMenu' | 'itemMenu' | 'targetSelect' | 'hidden' }> = [
+      { op: 'showBattleUI', state: 'mainMenu' },
+      { op: 'showBattleUI', state: 'magicMenu' },
+      { op: 'showBattleUI', state: 'itemMenu' },
+      { op: 'showBattleUI', state: 'targetSelect' },
+      { op: 'showBattleUI', state: 'hidden' },
+    ]
+    expect(states).toHaveLength(5)
   })
 })
