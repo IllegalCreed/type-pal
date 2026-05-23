@@ -1,5 +1,5 @@
 /**
- * MKF 归档 —— 仙剑原版打包格式。
+ * MKF 归档 —— 原版打包格式。
  * 头:N+1 个 u32 LE 偏移;[i] 是子文件 i 起点;子文件数 = (head[0] - 4) / 4。
  * 参考 reference/sdlpal/palcommon.c::PAL_MKFGetChunkCount / PAL_MKFReadChunk。
  */

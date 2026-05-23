@@ -1,5 +1,5 @@
 /**
- * 双向 opcode 注册表 —— 仙剑奇侠传 1998 Win9x 字节码脚本系统。
+ * 双向 opcode 注册表 —— 目标游戏 1998 Win9x 字节码脚本系统。
  *
  * 每条指令 8 字节: u16 LE opcode + 3 × u16 LE 操作数。
  * 完整语义: reference/sdlpal/script.c 大 switch。

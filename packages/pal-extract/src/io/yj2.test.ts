@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { openMkf, readChunk } from './mkf.js'
 import { decompressYj2 } from './yj2.js'
 
-// 1998 柔情版 = Win9x = YJ2 解压。MGO.MKF / FBP.MKF / F.MKF / FIRE.MKF / PAT.MKF 等
+// 1998 Win9x 版 = Win9x = YJ2 解压。MGO.MKF / FBP.MKF / F.MKF / FIRE.MKF / PAT.MKF 等
 // 的 chunk 多为 YJ2 压缩;DATA.MKF / SSS.MKF / MAP.MKF / M.MSG / WORD.DAT 是裸数据。
 // 参考 sdlpal global.c:202(Decompress 函数指针选择)。
 

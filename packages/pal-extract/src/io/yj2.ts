@@ -1,8 +1,8 @@
 /**
- * YJ2 解压 —— 1998 柔情版(Win95/98)所用的 MKF 子文件压缩格式。
+ * YJ2 解压 —— 1998 Win9x 版(Win95/98)所用的 MKF 子文件压缩格式。
  * 算法 = 适配 Huffman 编码 + LZSS 回引。每解一个 symbol 后调整树权重。
  *
- * 1:1 port 自 reference/sdlpal/yj1.c::YJ2_Decompress(柔情版走 YJ2_Decompress,
+ * 1:1 port 自 reference/sdlpal/yj1.c::YJ2_Decompress(Win9x 版走 YJ2_Decompress,
  * 见 global.c:202 `Decompress = gConfig.fIsWIN95 ? YJ2_Decompress : YJ1_Decompress`)。
  *
  * 文件头:

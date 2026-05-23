@@ -1,5 +1,5 @@
 /**
- * MAP.MKF + GOP.MKF 解析 —— 仙剑 1998 柔情版瓦片地图。
+ * MAP.MKF + GOP.MKF 解析 —— 目标游戏 1998 Win9x 版瓦片地图。
  *
  * MAP.MKF chunk N:YJ2 压缩,解压后 = 128×64×2 个 u32 LE = 65536 字节固定。
  * GOP.MKF chunk N:sprite chunk(raw,不压缩),每帧 = 一个 tile bitmap。

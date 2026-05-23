@@ -1,5 +1,5 @@
 /**
- * RLE 精灵解码 —— 仙剑原版精灵格式。
+ * RLE 精灵解码 —— 原版精灵格式。
  * 参考 reference/sdlpal/palcommon.c::PAL_RLEBlitToSurfaceWithShadow。
  */
 

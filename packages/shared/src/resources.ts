@@ -6,7 +6,7 @@ export interface TileCell {
 }
 
 export interface Tilemap {
-  /** 单位:逻辑格子。仙剑固定 64 列 × 128 行(实际渲染会做菱形错排)*/
+  /** 单位:逻辑格子。目标游戏固定 64 列 × 128 行(实际渲染会做菱形错排)*/
   width: number
   height: number
   /** [row][col] = TileCell;长度 = height × width 行 × width 列 */

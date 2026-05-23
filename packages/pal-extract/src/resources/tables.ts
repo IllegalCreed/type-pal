@@ -9,7 +9,7 @@
  * 参考 reference/sdlpal/global.h (OBJECT_ITEM / OBJECT_MAGIC / OBJECT_ENEMY / ENEMY / MAGIC)
  * 与 reference/sdlpal/global.c::PAL_InitGameData / PAL_LoadDefaultGame。
  *
- * 对象索引段划分(实测 1998 柔情版 WIN95, 565 条对象):
+ * 对象索引段划分(实测 1998 Win9x 版 WIN95, 565 条对象):
  *   [0..35]   系统/UI 文字 (36)
  *   [36..41]  人物 (6)
  *   [42..60]  战斗 UI (19)
