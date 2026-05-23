@@ -11,8 +11,8 @@ export function renderBootMessage(): string {
  * 浏览器入口 —— 仅在浏览器执行(测试时不会进这条分支)。
  */
 if (typeof document !== 'undefined') {
-  const canvas = document.getElementById('screen') as HTMLCanvasElement | null
-  if (canvas) {
+  const canvas = document.getElementById('screen')
+  if (canvas instanceof HTMLCanvasElement) {
     const ctx = canvas.getContext('2d')
     if (ctx) {
       ctx.fillStyle = '#222'
