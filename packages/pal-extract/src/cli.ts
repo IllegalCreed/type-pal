@@ -25,6 +25,7 @@ import { parseWordDat } from './io/word.js'
 import { decompressYj2 } from './io/yj2.js'
 import { parseMap } from './resources/map.js'
 import { decodePalette } from './resources/palette.js'
+import { dumpScene } from './resources/scene.js'
 import { parseEnemies, parseItems, parseSpells } from './resources/tables.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -82,7 +83,19 @@ async function main(): Promise<void> {
 
   // ── 事件管线(全量) ─────────────────────────────────────────────
   console.log('[pal-extract] events …')
-  const rawCommands = disasm(sss.bytecode, messages)
+
+  // 收集所有入口 ip(可能未被任何跳转指向,但运行时要从此进入,需打 label)
+  const entryIps: number[] = []
+  for (const sc of sss.scenes) {
+    if (sc.scriptOnEnter > 0) entryIps.push(sc.scriptOnEnter)
+    if (sc.scriptOnTeleport > 0) entryIps.push(sc.scriptOnTeleport)
+  }
+  for (const eo of sss.eventObjects) {
+    if (eo.triggerScript > 0) entryIps.push(eo.triggerScript)
+    if (eo.autoScript > 0) entryIps.push(eo.autoScript)
+  }
+
+  const rawCommands = disasm(sss.bytecode, messages, entryIps)
 
   // round-trip 自检
   const verify = recompile(rawCommands, messages)
@@ -180,6 +193,13 @@ async function main(): Promise<void> {
     palWritten++
   }
   console.log(`[pal-extract] palette written (${palWritten} chunks)`)
+
+  // 场景对象切片:从切片场景 dump NPC/触发点列表(供运行时用)
+  const sceneObjects = dumpScene(SLICE_SCENE_ID, sss.scenes, sss.eventObjects)
+  writeJson(resolve(OUT, 'data', `scene-${SLICE_SCENE_ID}.json`), sceneObjects)
+  console.log(
+    `[pal-extract] scene-${SLICE_SCENE_ID}.json written (${sceneObjects.eventObjects.length} event objects)`,
+  )
 
   // 精灵切片:M1 暂不实现(缺少 sprite-membership-by-scene 逻辑)
   console.log(

@@ -62,6 +62,15 @@ describe('disasm', () => {
   })
 })
 
+describe('disasm entry-ip labeling', () => {
+  it('未被跳转的入口 ip 也会打 label', () => {
+    const bc = new Uint8Array(16) // 2 条指令,全 0 (= end)
+    const cmds = disasm(bc, [], [1])
+    expect(cmds[1]?.label).toBe('L_1')
+    expect(cmds[0]?.label).toBeUndefined()
+  })
+})
+
 describe('setDialogStyle round-trip', () => {
   function buildBytecode(opcodes: number[]): Uint8Array {
     const buf = new Uint8Array(opcodes.length * 8)

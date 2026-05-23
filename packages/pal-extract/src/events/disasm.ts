@@ -28,8 +28,14 @@ import { opcodeTable } from './opcodes.js'
  *
  * @param bytecode - 8 字节对齐的脚本字节序列
  * @param messages - M.MSG 字符串数组;showDialog 的 messageIndex 直接用作下标
+ * @param entryIps - 入口 ip 数组(EventObject.triggerScript / autoScript、Scene.scriptOnEnter / scriptOnTeleport)。
+ *                   这些 ip 本身未必被任何跳转指向,但运行时需要从此进入,所以也要打 label。
  */
-export function disasm(bytecode: Uint8Array, messages: string[]): Command[] {
+export function disasm(
+  bytecode: Uint8Array,
+  messages: string[],
+  entryIps: number[] = [],
+): Command[] {
   if (bytecode.byteLength % 8 !== 0) {
     throw new Error(`bytecode length not multiple of 8: ${bytecode.byteLength}`)
   }
@@ -68,8 +74,12 @@ export function disasm(bytecode: Uint8Array, messages: string[]): Command[] {
     commands.push(emitCommand(def, operands, messages))
   }
 
-  // 第 2 遍:对跳转目标指令打 label
-  for (const target of labelTargets) {
+  // 第 2 遍:对跳转目标 + entry ips 都打 label
+  const allLabelTargets = new Set<number>(labelTargets)
+  for (const ip of entryIps) {
+    allLabelTargets.add(ip)
+  }
+  for (const target of allLabelTargets) {
     if (target >= 0 && target < commands.length) {
       // biome-ignore lint/style/noNonNullAssertion: target < commands.length checked above
       commands[target] = { ...commands[target]!, label: `L_${target}` } as Command
