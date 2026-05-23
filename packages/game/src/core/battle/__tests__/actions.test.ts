@@ -5,13 +5,15 @@
  * BattleState 通过 makeState helper 最小构造,与 battle-state.test.ts 风格对齐。
  */
 
-import type { BattleField, Command, Enemy, Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
+import type { BattleField, Command, Enemy, Item, Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
+import type { GameState, InventoryEntry } from '../../game-state.js'
 import { createSeedableRng } from '../../rng.js'
 import { performAttack } from '../actions/attack.js'
 import { performDefend } from '../actions/defend.js'
 import { performFlee } from '../actions/flee.js'
+import { performItem } from '../actions/item.js'
 import { performMagic, type RunScriptFn } from '../actions/magic.js'
 import type { BattleState } from '../battle-state.js'
 import type { ActionQueueItem } from '../turn-queue.js'
@@ -605,5 +607,263 @@ describe('performMagic', () => {
     expect(playerRoles.roles[0]!.mp).toBe(23) // 仍扣 MP
     expect(bus.drain()).toHaveLength(1) // 仍 emit 动画
     expect(runScript).not.toHaveBeenCalled() // 但不 runScript
+  })
+})
+
+// ============================================================================
+// performItem (M3 T21)
+// ============================================================================
+
+function makeItem(opts: Partial<Item> = {}): Item {
+  return {
+    id: 1,
+    _name: 'TestItem',
+    bitmap: 0,
+    price: 0,
+    scriptOnUse: 0,
+    scriptOnEquip: 0,
+    scriptOnThrow: 0,
+    scriptDesc: 0,
+    flags: {
+      usable: true,
+      equipable: false,
+      throwable: false,
+      consuming: true,
+      applyToAll: false,
+      sellable: false,
+      equipableBy: [false, false, false, false, false, false],
+    },
+    ...opts,
+  }
+}
+
+/** 最小 GameState fixture(performItem 只看 .inventory)。 */
+function makeGameState(inventory: InventoryEntry[]): GameState {
+  return {
+    party: { col: 0, row: 0, facing: 'down' },
+    camera: { col: 0, row: 0 },
+    npcs: [],
+    partyMembers: [],
+    inventory,
+    mode: 'battle',
+    currentDialogStyle: 'center',
+    frameNum: 0,
+  }
+}
+
+describe('performItem', () => {
+  it('队员 use,inventory>0 → count-- + runScript 被调', () => {
+    const { state, playerRoles, bus } = makeState()
+    const gs = makeGameState([{ itemId: 7, count: 3 }])
+    const item = makeItem({ id: 7, scriptOnUse: 42 })
+    const runScript: RunScriptFn = vi.fn()
+    const commands: Command[] = [{ op: 'end' }]
+
+    performItem({
+      state,
+      gs,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      itemId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      items: [item],
+      playerRoles,
+      bus,
+      commands,
+      runScript,
+    })
+
+    // count--
+    expect(gs.inventory[0]!.count).toBe(2)
+
+    // runScript 被调
+    expect(runScript).toHaveBeenCalledTimes(1)
+    const opts = (runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0]
+    expect(opts.ip).toBe(42)
+    expect(opts.runtimeMode).toBe('battle')
+    expect(opts.commands).toBe(commands)
+    expect(opts.battleCtx).toMatchObject({
+      state,
+      caster: { type: 'player', idx: 0 },
+      target: { type: 'player', idx: 0 },
+    })
+  })
+
+  it('队员 use,inventory count=0 → 不扣 + 不 runScript + console.warn', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { state, playerRoles, bus } = makeState()
+    const gs = makeGameState([{ itemId: 3, count: 0 }])
+    const item = makeItem({ id: 3, scriptOnUse: 10 })
+    const runScript: RunScriptFn = vi.fn()
+
+    performItem({
+      state,
+      gs,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      itemId: 3,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      items: [item],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    expect(gs.inventory[0]!.count).toBe(0) // 不动
+    expect(runScript).not.toHaveBeenCalled()
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('no inventory for item 3'),
+    )
+    warnSpy.mockRestore()
+  })
+
+  it('队员 use,根本没该 item entry → warn + return', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { state, playerRoles, bus } = makeState()
+    const gs = makeGameState([{ itemId: 99, count: 5 }]) // 另一 item
+    const item = makeItem({ id: 3, scriptOnUse: 10 })
+    const runScript: RunScriptFn = vi.fn()
+
+    performItem({
+      state,
+      gs,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      itemId: 3,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      items: [item],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    expect(gs.inventory[0]!.count).toBe(5) // 不动
+    expect(runScript).not.toHaveBeenCalled()
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('no inventory for item 3'),
+    )
+    warnSpy.mockRestore()
+  })
+
+  it('item.scriptOnUse=0 → warn + 不扣 + 不 runScript', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { state, playerRoles, bus } = makeState()
+    const gs = makeGameState([{ itemId: 1, count: 5 }])
+    const item = makeItem({ id: 1, scriptOnUse: 0 }) // 关键
+    const runScript: RunScriptFn = vi.fn()
+
+    performItem({
+      state,
+      gs,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      itemId: 1,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      items: [item],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    expect(gs.inventory[0]!.count).toBe(5) // 不扣
+    expect(runScript).not.toHaveBeenCalled()
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('not usable'),
+    )
+    warnSpy.mockRestore()
+  })
+
+  it('item id 不在 items 表 → warn + return', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { state, playerRoles, bus } = makeState()
+    const gs = makeGameState([{ itemId: 1, count: 5 }])
+    const runScript: RunScriptFn = vi.fn()
+
+    performItem({
+      state,
+      gs,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      itemId: 999, // 不在
+      targetIsEnemy: false,
+      targetIdx: 0,
+      items: [makeItem({ id: 1, scriptOnUse: 10 })],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    expect(gs.inventory[0]!.count).toBe(5)
+    expect(runScript).not.toHaveBeenCalled()
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('item id 999 not found'),
+    )
+    warnSpy.mockRestore()
+  })
+
+  it('target=\'all\' → battleCtx.target=undefined,仍扣 inventory + 仍 runScript', () => {
+    const { state, playerRoles, bus } = makeState()
+    const gs = makeGameState([{ itemId: 5, count: 2 }])
+    const item = makeItem({ id: 5, scriptOnUse: 50 })
+    const runScript: RunScriptFn = vi.fn()
+
+    performItem({
+      state,
+      gs,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      itemId: 5,
+      targetIsEnemy: false,
+      targetIdx: 'all',
+      items: [item],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    expect(gs.inventory[0]!.count).toBe(1) // 扣
+    expect(runScript).toHaveBeenCalledTimes(1)
+    const opts = (runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0]
+    expect(opts.battleCtx.target).toBeUndefined()
+    expect(opts.battleCtx.caster).toEqual({ type: 'player', idx: 0 })
+  })
+
+  it('敌人 cast → 不扣 inventory(敌人不 track) + 仍 runScript', () => {
+    const { state, playerRoles, bus } = makeState()
+    const gs = makeGameState([{ itemId: 5, count: 2 }])
+    const item = makeItem({ id: 5, scriptOnUse: 88 })
+    const runScript: RunScriptFn = vi.fn()
+
+    performItem({
+      state,
+      gs,
+      casterIsEnemy: true,
+      casterIdx: 0,
+      itemId: 5,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      items: [item],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    // inventory 不动(敌人不 track)
+    expect(gs.inventory[0]!.count).toBe(2)
+    // 仍 runScript
+    expect(runScript).toHaveBeenCalledTimes(1)
+    const opts = (runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0]
+    expect(opts.battleCtx.caster).toEqual({ type: 'enemy', idx: 0 })
+    expect(opts.battleCtx.target).toEqual({ type: 'player', idx: 0 })
   })
 })
