@@ -23,6 +23,7 @@ import { parseMessages } from './io/msg.js'
 import { parseSss } from './io/sss.js'
 import { parseWordDat } from './io/word.js'
 import { decompressYj2 } from './io/yj2.js'
+import { extractBattleSprites } from './resources/battle-sprite.js'
 import { parseMap } from './resources/map.js'
 import { decodePalette } from './resources/palette.js'
 import { dumpScene } from './resources/scene.js'
@@ -149,7 +150,8 @@ async function main(): Promise<void> {
   // Spell.magicNumber 指向 magic[] 索引;运行时按需 join。
   writeJson(resolve(OUT, 'data', 'spells.json'), parseSpells(sssObjBuf, words))
   writeJson(resolve(OUT, 'data', 'magic.json'), parseMagicTable(magicBuf))
-  writeJson(resolve(OUT, 'data', 'enemies.json'), parseEnemies(enemyBuf, sssObjBuf, words))
+  const enemies = parseEnemies(enemyBuf, sssObjBuf, words)
+  writeJson(resolve(OUT, 'data', 'enemies.json'), enemies)
   // M3 T7:EnemyTeam(DATA chunk 2) + BattleField(DATA chunk 5)dev panel 选 fixture 用。
   // EnemyTeam._names 反查 — 用 OBJECT_ENEMY 段 + words 建 map。
   const enemyObjectNames = buildEnemyObjectNameMap(sssObjBuf, words)
@@ -290,6 +292,84 @@ async function main(): Promise<void> {
   console.log(
     `[pal-extract] sprites written: ${sprites.length} sprites, ` +
       `${sprites.reduce((sum, s) => sum + s.frames.length, 0)} frames total`,
+  )
+
+  // ── 战斗 sprite(M3 T24) ────────────────────────────────────────
+  // 数据源真值(reference/sdlpal/battle.c:856 PAL_LoadBattleSprites):
+  //   - 队员战斗 sprite:F.MKF chunk[spriteNumInBattle]
+  //   - 敌方战斗 sprite:**ABC.MKF**(非 F.MKF)chunk[wEnemyID]
+  //     反查 enemies.json:`enemy.id == wEnemyID`(parsers/enemies.ts 注释证实)
+  // M3 简化:敌方全提(154 条),M3.5 / M5 再按 fixture 收窄。
+  console.log('[pal-extract] battle sprites from F.MKF (player) + ABC.MKF (enemy) …')
+
+  const battleSpriteIds: Array<{ id: number; kind: 'enemy' | 'player' }> = []
+  for (const role of playerRoles.roles) {
+    if (role.spriteNumInBattle > 0) {
+      battleSpriteIds.push({ id: role.spriteNumInBattle, kind: 'player' })
+    }
+  }
+  // 敌方:enemies.json 的 id == wEnemyID;id=0 是 sdlpal 的空 placeholder 跳过
+  for (const enemy of enemies) {
+    if (enemy.id > 0) {
+      battleSpriteIds.push({ id: enemy.id, kind: 'enemy' })
+    }
+  }
+
+  const fMkf = openMkf(loadFile('F.MKF'))
+  const fChunkCount = chunkCount(fMkf)
+  const abcMkf = openMkf(loadFile('ABC.MKF'))
+  const abcChunkCount = chunkCount(abcMkf)
+  const battleChunks = new Map<string, Uint8Array>()
+  for (const { id, kind } of battleSpriteIds) {
+    const mkf = kind === 'player' ? fMkf : abcMkf
+    const total = kind === 'player' ? fChunkCount : abcChunkCount
+    const src = kind === 'player' ? 'F.MKF' : 'ABC.MKF'
+    if (id >= total) {
+      console.warn(
+        `[pal-extract] battle sprite ${id} (${kind}) >= ${src} chunk count ${total}, skip`,
+      )
+      continue
+    }
+    const raw = readChunk(mkf, id)
+    if (raw.byteLength === 0) continue // 空 chunk:对应 sdlpal `if (l <= 0) continue;`
+    // F.MKF / ABC.MKF chunk 通过 sdlpal `PAL_MKFDecompressChunk` 加载 → YJ2 压缩。
+    // 部分 chunk 可能 raw(未压缩)— try YJ2,失败回 raw(同 M2 sprite 防御模式)。
+    let decompressed: Uint8Array
+    try {
+      decompressed = decompressYj2(raw)
+    } catch {
+      decompressed = raw
+    }
+    battleChunks.set(`${kind}:${id}`, decompressed)
+  }
+
+  const battleSprites = extractBattleSprites(battleSpriteIds, battleChunks)
+
+  for (const sprite of battleSprites) {
+    const json = {
+      battleSpriteId: sprite.battleSpriteId,
+      kind: sprite.kind,
+      frames: sprite.frames.map((f) => ({ index: f.index, width: f.width, height: f.height })),
+    }
+    writeJson(
+      resolve(OUT, 'data', `battle-sprite-${sprite.kind}-${sprite.battleSpriteId}.json`),
+      json,
+    )
+    for (const f of sprite.frames) {
+      writeBinary(
+        resolve(
+          OUT,
+          'images',
+          `battle-sprite-${sprite.kind}-${sprite.battleSpriteId}-frame-${f.index.toString().padStart(2, '0')}.png`,
+        ),
+        f.pngBytes,
+      )
+    }
+  }
+
+  console.log(
+    `[pal-extract] battle sprites written: ${battleSprites.length} sprites, ` +
+      `${battleSprites.reduce((sum, s) => sum + s.frames.length, 0)} frames total`,
   )
 
   // ── lookup ──────────────────────────────────────────────────────
