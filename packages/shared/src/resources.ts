@@ -55,6 +55,13 @@ export interface SceneEventObject {
   triggerLabel?: string
   /** NPC 待机行为(M2 不消费,留给 M5+)。 */
   autoLabel?: string
+  /** 触发模式:对照 sdlpal `EventObject.wTriggerMode`(M1 parse,M3.5 真消费)。
+   *
+   * Raw u16,运行时 scene-system 解读:可能值含义(实施 T11 时按 sdlpal `play.c::PAL_PartyWalk` 真值定):
+   * - 0 = 不触发
+   * - N = 明雷接触触发 / Confirm 触发 / 传送 / 等
+   */
+  triggerMode: number
 }
 
 export interface SceneObjects {

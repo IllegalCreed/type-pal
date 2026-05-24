@@ -38,6 +38,7 @@ describe('SceneObjects', () => {
       spriteNum: 78,
       triggerLabel: 'L_59',
       autoLabel: 'L_71',
+      triggerMode: 0,
     }
     expect(eo.id).toBe(5)
   })
@@ -53,7 +54,7 @@ describe('SceneObjects', () => {
   })
 
   it('triggerLabel / autoLabel 可缺', () => {
-    const eo: SceneEventObject = { id: 0, x: 0, y: 0, spriteNum: 0 }
+    const eo: SceneEventObject = { id: 0, x: 0, y: 0, spriteNum: 0, triggerMode: 0 }
     expect(eo.triggerLabel).toBeUndefined()
   })
 })
@@ -428,6 +429,32 @@ describe('PlayerRole schema (M3 T8)', () => {
     const pr: PlayerRoles = { roles: [] }
     expect(pr.roles).toEqual([])
     expectTypeOf<PlayerRoles>().toMatchTypeOf<{ roles: PlayerRole[] }>()
+  })
+})
+
+describe('SceneEventObject triggerMode 字段(M3.5)', () => {
+  it('triggerMode 字段是 number(raw u16,运行时解读)', () => {
+    const eo: SceneEventObject = {
+      id: 0, x: 10, y: 20, spriteNum: 78,
+      triggerMode: 0,
+    }
+    expect(eo.triggerMode).toBe(0)
+    expect(typeof eo.triggerMode).toBe('number')
+  })
+
+  it('triggerMode 与其他字段共存,M2 字段不破坏', () => {
+    const eo: SceneEventObject = {
+      id: 5,
+      x: 10,
+      y: 20,
+      spriteNum: 78,
+      triggerLabel: 'L_59',
+      autoLabel: 'L_71',
+      triggerMode: 4, // 假设值,运行时按 sdlpal 真值
+    }
+    expect(eo.id).toBe(5)
+    expect(eo.triggerLabel).toBe('L_59')
+    expect(eo.triggerMode).toBe(4)
   })
 })
 
