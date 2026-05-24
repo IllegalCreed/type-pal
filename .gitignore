@@ -10,6 +10,8 @@ coverage/
 # 原版游戏数据(版权归原始权利人,不入库)
 data/raw/*
 !data/raw/README.md
+# OFL 字体 build asset,可入库
+!data/raw/unifont-cn.bdf
 
 # pal-extract 的产出(由原始数据生成,不入库)
 data/extracted/
