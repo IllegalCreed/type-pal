@@ -1,6 +1,6 @@
 /**
- * D29 视觉对拍自动测试:
- * 把我方 render-tilemap.ts 的 scene 1 渲染结果与 sdlpal-classic headless map
+ * D29 视觉对拍自动测试(多场景):
+ * 把我方 render-tilemap.ts 的各 scene 渲染结果与 sdlpal-classic headless map
  * dumper 出的 baseline PNG 逐像素 diff。
  *
  * - baseline 不存在 → skip + warn(开发机没编 sdlpal-classic 时,pnpm check 不 block)
@@ -20,49 +20,60 @@ import { renderTilemap } from '../../scripts/render-tilemap.js'
 const HERE = dirname(fileURLToPath(import.meta.url))
 // src/__tests__ → src → pal-extract → packages → repo root
 const REPO_ROOT = resolve(HERE, '../../../..')
-const BASELINE_PNG = resolve(REPO_ROOT, 'build/sdlpal-baseline/maps/map-12.png')
+const BASELINE_DIR = resolve(REPO_ROOT, 'build/sdlpal-baseline/maps')
 const OUR_OUT_DIR = resolve(REPO_ROOT, 'build/render-tilemap-test')
-const OUR_PNG = resolve(OUR_OUT_DIR, 'map-12.png')
 
-describe('D29 tilemap baseline pixel diff', () => {
-  it('scene 1 (mapNum 12) 与 sdlpal-classic baseline 逐像素一致', () => {
-    if (!existsSync(BASELINE_PNG)) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `[D29 skip] baseline missing: ${BASELINE_PNG} —— 跑 bash scripts/extract-tilemap-baseline.sh 后启用`,
-      )
-      return
-    }
+const SCENES = [
+  { sceneId: 1, mapNum: 12, name: 'scene-1-客栈' },
+  { sceneId: 14, mapNum: 3, name: 'scene-14-仙灵岛码头' },
+  { sceneId: 17, mapNum: 6, name: 'scene-17-仙灵岛入口' },
+]
 
-    mkdirSync(OUR_OUT_DIR, { recursive: true })
-    const r = renderTilemap({ sceneId: 1, outPath: OUR_PNG })
-    expect(r.outPath).toBe(OUR_PNG)
+describe('D29 tilemap baseline pixel diff(多场景)', () => {
+  for (const { sceneId, mapNum, name } of SCENES) {
+    const mapFile = `map-${mapNum.toString().padStart(2, '0')}.png`
+    const baselinePath = resolve(BASELINE_DIR, mapFile)
+    const ourPath = resolve(OUR_OUT_DIR, mapFile)
 
-    const baseline = PNG.sync.read(readFileSync(BASELINE_PNG))
-    const ours = PNG.sync.read(readFileSync(OUR_PNG))
-
-    expect(ours.width).toBe(baseline.width)
-    expect(ours.height).toBe(baseline.height)
-    expect(ours.data.length).toBe(baseline.data.length)
-
-    let diffs = 0
-    let firstDiffOffset = -1
-    for (let i = 0; i < baseline.data.length; i++) {
-      if (baseline.data[i] !== ours.data[i]) {
-        diffs++
-        if (firstDiffOffset === -1) firstDiffOffset = i
+    it(`${name}(scene ${sceneId} / mapNum ${mapNum}) 与 sdlpal-classic baseline 逐像素一致`, () => {
+      if (!existsSync(baselinePath)) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `[D29 skip] baseline missing: ${baselinePath} —— 跑 bash scripts/extract-tilemap-baseline.sh 后启用`,
+        )
+        return
       }
-    }
 
-    if (diffs > 0) {
-      const total = baseline.data.length
-      const pct = ((diffs / total) * 100).toFixed(3)
-      throw new Error(
-        `tilemap 与 baseline 不一致:${diffs} / ${total} bytes 不同(${pct}%);` +
-          ` 首差异 byte offset = ${firstDiffOffset};` +
-          ` baseline=${BASELINE_PNG},ours=${OUR_PNG}。` +
-          ` 用 ImageMagick \`compare\` 看差异。`,
-      )
-    }
-  }, 60_000)
+      mkdirSync(OUR_OUT_DIR, { recursive: true })
+      const r = renderTilemap({ sceneId, outPath: ourPath })
+      expect(r.outPath).toBe(ourPath)
+
+      const baseline = PNG.sync.read(readFileSync(baselinePath))
+      const ours = PNG.sync.read(readFileSync(ourPath))
+
+      expect(ours.width).toBe(baseline.width)
+      expect(ours.height).toBe(baseline.height)
+      expect(ours.data.length).toBe(baseline.data.length)
+
+      let diffs = 0
+      let firstDiffOffset = -1
+      for (let i = 0; i < baseline.data.length; i++) {
+        if (baseline.data[i] !== ours.data[i]) {
+          diffs++
+          if (firstDiffOffset === -1) firstDiffOffset = i
+        }
+      }
+
+      if (diffs > 0) {
+        const total = baseline.data.length
+        const pct = ((diffs / total) * 100).toFixed(3)
+        throw new Error(
+          `tilemap 与 baseline 不一致(${name}):${diffs} / ${total} bytes 不同(${pct}%);` +
+            ` 首差异 byte offset = ${firstDiffOffset};` +
+            ` baseline=${baselinePath},ours=${ourPath}。` +
+            ` 用 ImageMagick \`compare\` 看差异。`,
+        )
+      }
+    }, 60_000)
+  }
 })
