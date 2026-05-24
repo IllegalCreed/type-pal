@@ -3264,12 +3264,31 @@ M3.5 时切片 5 scene 共 26 sprite。P3.T4 全 295 scene union → 540 unique 
 - ⚠️ RNG/RGM/BALL raw dump,未解 RLE → 真 icon/face(留 M5/M6)
 - ⚠️ SOUNDS metadata only,ogg 转换留 M6
 
+### 13. M4 完工后 dev panel manual 测试暴露 M2 era 简化遗留(留 M5)
+
+M4 P3.T6 dev panel scene picker 扩 294 后,用户首次 manual 走全 scene 暴露两个 M2 era 简化 bug(M2 时只在 scene 1 客栈小范围走过,corner case 未触发):
+
+#### 13a. `isWalkable` 永远返 true → **穿墙**
+
+`packages/game/src/core/scene-system.ts:80` M2 简化"全部可走",未解 tile attribute 阻挡位。
+- sdlpal 真值:`scene.c:512 PAL_CheckObstacle` + `map.c` 通过 tile u32 高位 attribute 位判断 blocked
+- `TileCell.lower / .upper` 类型注释已说"u16 = tile bitmap 索引 + 属性位",但 M2 没拆出 attribute 位
+- M5 真做:patch `isWalkable` 拆 attribute 位 + 对照 sdlpal 真值;加 L1 单元测 + L2 spec "穿墙不通过"
+
+#### 13b. layer 1 永远盖 sprite + 无 Y-sort → **遮挡反**
+
+`packages/game/src/present/present.ts:48-61` 现:`drawTilemap layer 0 → NPCs(无 sort)→ party → drawTilemap layer 1(全集)`。
+- sdlpal 真值:`scene.c:181 PAL_SceneDrawSprites` Y-sort 所有 sprite 后逐个画,每 sprite 算 `PAL_CalcCoverTiles`,选择性 cover-tile redraw 才形成正确遮挡
+- 我方现状:party 永远 last 画(永盖 NPC);layer 1 整层永远在最上(永盖 sprite)
+- M5 真做:port `PAL_SceneDrawSprites` Y-sort + `PAL_CalcCoverTiles` selective cover-tile;present.ts 渲染流水大改
+
 ---
 
 ## 完成 = 准备 M5 / M6 / M7
 
 M4 完工后:
 - **M5 系统补全**:菜单系统全套 + 完整战斗(技能特效动画 / 五行 / 觉醒)+ 存档读档 + 真剧情链
+  + **M5 新增**(M4 manual 暴露):scene-system collision(isWalkable 真解 tile attribute)+ present scene 渲染(Y-sort sprite + CalcCoverTiles 选择性遮挡)
   - **M5 可用 M4 产物**:全 chunk 数据 / 全 scene 资源 / 字体真渲染 / SceneAssets eventCommands+labelMap lazy load infra
 - **M6 体验补全**:BGM + 音效 + AVI 过场 + 调色板循环
   - **M6 可用 M4 产物**:SOUNDS metadata / RNG raw / RGM raw / splash 素材
