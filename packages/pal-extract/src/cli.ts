@@ -28,6 +28,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import type { Symbols } from './events/annotate.js'
+import { glyphsToJson, parseBdf } from './font/bdf-to-json.js'
 import { annotate } from './events/annotate.js'
 import { disasm } from './events/disasm.js'
 import { recompile } from './events/recompile.js'
@@ -677,6 +678,19 @@ async function main(): Promise<void> {
   // ── lookup ──────────────────────────────────────────────────────
   writeJson(resolve(OUT, 'lookup', 'words.json'), words)
   writeJson(resolve(OUT, 'lookup', 'strings.json'), messages)
+
+  // M4 P4.T2: BDF → JSON glyph 表
+  const BDF_PATH = resolve(RAW, 'unifont-cn.bdf')
+  if (existsSync(BDF_PATH)) {
+    console.log('[pal-extract] BDF → JSON font glyphs …')
+    const bdfText = readFileSync(BDF_PATH, 'utf8')
+    const glyphs = parseBdf(bdfText)
+    writeJson(resolve(OUT, 'data', 'font', 'glyphs.json'), glyphsToJson(glyphs))
+    console.log(`[pal-extract] font glyphs written: ${glyphs.length}`)
+  }
+  else {
+    console.warn('[pal-extract] unifont-cn.bdf 缺,跳过 font')
+  }
 
   console.log(`[pal-extract] done. output → ${OUT}`)
 }
