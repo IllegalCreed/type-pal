@@ -1,8 +1,9 @@
 import { describe, it, expect, vi } from 'vitest'
 import type { Tilemap, InputSnapshot, AbstractKey } from '@type-pal/shared'
-import { tickSceneSystem } from './scene-system.js'
+import { loadScene, tickSceneSystem } from './scene-system.js'
 import { createInitialGameState } from './game-state.js'
 import { createCommandBus } from './command-bus.js'
+import { SceneAssetsCache, type SceneAssets } from '../assets/loader.js'
 
 function makeFlatMap(w: number, h: number): Tilemap {
   const cells = Array.from({ length: h }, () =>
@@ -115,5 +116,93 @@ describe('SceneSystem NPC 触发', () => {
     expect(gs.mode).toBe('explore')
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('L_999'))
     warnSpy.mockRestore()
+  })
+})
+
+// ── M3.5 T9: loadScene(D33 lazy 切场景)─────────────────────────────────────
+//
+// 设计契约(D33 + D34):
+//  1. 通过 SceneAssetsCache lazy 拿新 scene 资源(同 scene 重复切不重复 fetch)
+//  2. 重置 gs.npcs(从 eventObjects 走 npcFromEventObject)
+//  3. partyStart 可选;不传则 party 位置 / facing 不变
+//  4. **不**跑 onEnter(dev shortcut 跳过剧情;M5 真剧情链升级)
+function makeSceneAssets(sceneId: number, eventObjects: any[] = []): SceneAssets {
+  return {
+    sceneId,
+    tilemap: { width: 64, height: 128, cells: [], tilesetImage: 'fake' } as Tilemap,
+    palette: { colors: [], cycles: [] } as any,
+    eventObjects,
+    npcSprites: new Map(),
+  }
+}
+
+describe('loadScene(M3.5 T9 / D33)', () => {
+  it('切到新 scene → gs.npcs 由 eventObjects 重置;party 不传则不动', async () => {
+    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    // 旧 npcs(模拟之前 scene 的残留)
+    gs.npcs = [{ id: 99, col: 0, row: 0, spriteNum: 1 }]
+
+    const fetcher = vi.fn(async (id: number) =>
+      makeSceneAssets(id, [
+        // npcFromEventObject 把 x/y 视作 pixel:32 px/tile 列 / 16 px/tile 行
+        { id: 0, x: 320, y: 160, spriteNum: 78, triggerMode: 0, triggerLabel: 'L_A' },
+        { id: 1, x: 64, y: 32, spriteNum: 12, triggerMode: 0 },
+      ]),
+    )
+    const cache = new SceneAssetsCache(fetcher)
+
+    await loadScene({ gs, sceneId: 7, assets: cache })
+
+    expect(fetcher).toHaveBeenCalledTimes(1)
+    expect(fetcher).toHaveBeenCalledWith(7)
+    expect(gs.npcs).toHaveLength(2)
+    expect(gs.npcs[0]).toMatchObject({ id: 0, col: 10, row: 10, spriteNum: 78, triggerLabel: 'L_A' })
+    expect(gs.npcs[1]).toMatchObject({ id: 1, col: 2, row: 2, spriteNum: 12 })
+    // partyStart 未传 → party 不动
+    expect(gs.party).toEqual({ col: 5, row: 5, facing: 'down' })
+  })
+
+  it('传 partyStart → party 位置 / facing 重写;camera 跟到 party', async () => {
+    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    const cache = new SceneAssetsCache(async (id) => makeSceneAssets(id))
+
+    await loadScene({
+      gs,
+      sceneId: 2,
+      assets: cache,
+      partyStart: { col: 20, row: 30, facing: 'up' },
+    })
+
+    expect(gs.party).toEqual({ col: 20, row: 30, facing: 'up' })
+    // camera 跟 party(避免下一帧渲染时仍指着旧 scene 坐标)
+    expect(gs.camera).toEqual({ col: 20, row: 30 })
+  })
+
+  it('partyStart 不传 facing → 沿用当前 facing(只挪坐标)', async () => {
+    const gs = createInitialGameState({ col: 5, row: 5, facing: 'right' })
+    const cache = new SceneAssetsCache(async (id) => makeSceneAssets(id))
+
+    await loadScene({
+      gs,
+      sceneId: 2,
+      assets: cache,
+      partyStart: { col: 10, row: 15 },
+    })
+
+    expect(gs.party.col).toBe(10)
+    expect(gs.party.row).toBe(15)
+    expect(gs.party.facing).toBe('right')
+  })
+
+  it('SceneAssetsCache lazy hit:第二次切回同 scene,fetcher 不再调', async () => {
+    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    const fetcher = vi.fn(async (id: number) => makeSceneAssets(id))
+    const cache = new SceneAssetsCache(fetcher)
+
+    await loadScene({ gs, sceneId: 1, assets: cache })
+    await loadScene({ gs, sceneId: 2, assets: cache })
+    await loadScene({ gs, sceneId: 1, assets: cache })
+
+    expect(fetcher).toHaveBeenCalledTimes(2) // 1 和 2 各 fetch 一次,第二次 1 cache hit
   })
 })

@@ -9,8 +9,9 @@
  */
 
 import type { Command, InputSnapshot, Tilemap } from '@type-pal/shared'
+import type { SceneAssetsCache } from '../assets/loader.js'
 import type { CommandBus } from './command-bus.js'
-import type { Facing, GameState, NpcState } from './game-state.js'
+import { npcFromEventObject, type Facing, type GameState, type NpcState } from './game-state.js'
 
 export interface SceneContext {
   tilemap: Tilemap
@@ -108,4 +109,41 @@ export function tickSceneSystem(
   // 注:gs.frameNum++ 由 tickByMode 统一推进(所有模式都计),不在此处做。
 
   void bus
+}
+
+// ── M3.5 T9: loadScene(D33 lazy 切场景)─────────────────────────────────────
+
+export interface LoadSceneInput {
+  gs: GameState
+  sceneId: number
+  assets: SceneAssetsCache
+  /** 可选 party 起点 —— 不传则 party 位置 / facing 都不动(facing 单字段也可选)。 */
+  partyStart?: { col: number; row: number; facing?: Facing }
+}
+
+/**
+ * Scene 切换(D33 lazy + D34 dev shortcut)。
+ *
+ * 1. SceneAssetsCache lazy fetch 新 scene 资源(同 scene 重复切不重复 fetch)
+ * 2. 重置 gs.npcs(走 npcFromEventObject)
+ * 3. 可选写 party 起点(并把 camera 跟到 party,避免下一帧渲染指旧坐标)
+ * 4. **不**跑 onEnter(D34 dev shortcut;M5 接真剧情链时升级)
+ *
+ * 注:GameState 当前没单独 scene id 字段;切场景体现在 gs.npcs / party 的重置上,
+ * tilemap 等渲染所需资源由调用方自行从 SceneAssetsCache 取(M3.5 T16+ dev panel 串接)。
+ */
+export async function loadScene(input: LoadSceneInput): Promise<void> {
+  const { gs, sceneId, assets, partyStart } = input
+  const sceneAssets = await assets.loadScene(sceneId)
+
+  gs.npcs = sceneAssets.eventObjects.map(npcFromEventObject)
+
+  if (partyStart) {
+    gs.party = {
+      col: partyStart.col,
+      row: partyStart.row,
+      facing: partyStart.facing ?? gs.party.facing,
+    }
+    gs.camera = { col: partyStart.col, row: partyStart.row }
+  }
 }
