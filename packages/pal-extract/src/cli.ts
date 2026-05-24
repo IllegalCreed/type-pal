@@ -483,6 +483,20 @@ async function main(): Promise<void> {
     slicedScenes.push({ sceneId: sliceId, scene, sceneObjects })
   }
 
+  // M4 P3.T5: 全 295 scene-N.json(SceneObjects 含 mapNum + eventObjects)
+  // SLICE_SCENE_IDS 的 5 个 scene 会被下面覆写,结果一致。
+  {
+    let sceneWritten = 0
+    for (let allSceneId = 1; allSceneId < sss.scenes.length; allSceneId++) {
+      const s = sss.scenes[allSceneId]
+      if (!s) continue
+      const sceneObjs = dumpScene(allSceneId, sss.scenes, sss.eventObjects)
+      writeJson(dataSubdirPath('scene', String(allSceneId)), sceneObjs)
+      sceneWritten++
+    }
+    console.log(`[pal-extract] scenes written: ${sceneWritten}`)
+  }
+
   // 调色板:PAT.MKF 全量 dump
   const patMkf = openMkf(loadFile('PAT.MKF'))
   const patChunkCount = chunkCount(patMkf)
