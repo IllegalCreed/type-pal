@@ -82,6 +82,12 @@ export interface BattleState {
   selectingPlayerIdx?: number
   /** 队员已选好的 action(进 performAction 后逐个执行)。 */
   pendingActions: Map<number, BattleAction>
+  /**
+   * 半成品 action:攻击 / 法术 / 物品 在 mainMenu Confirm 后但还没选 target 时暂存
+   * 这里(T13 写入,T14 二级菜单 / targetSelect 完成后落 pendingActions)。
+   * 完整 BattleAction.target 必填,这里允许缺(尚未选 target)。
+   */
+  pendingActionDraft?: { type: BattleAction['type'], actionId?: number, target?: number }
   /** UI 状态。 */
   uiState: BattleUIState
   /** 当前 UI 选项的高亮 index。 */

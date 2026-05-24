@@ -257,15 +257,20 @@ function tickPreBattle(state: BattleState): void {
 }
 
 /**
- * selectAction:等所有活队员选好 action(由 dev panel / UI 写 pendingActions),
+ * selectAction:等所有活队员选好 action(由 UI 写 pendingActions),
  * 然后 build ActionQueue + 进 performAction。
  *
- * 本 task UI input 处理是 stub —— 真菜单交互延 T26 / T29。
+ * UI input 处理(M3.5 T13/T14):
+ * - mainMenu(T13):Up/Down 切 cursor;Confirm 0/3/4 直接产 action,1/2 切二级菜单
+ * - magicMenu / itemMenu / targetSelect(T14):待实现
+ *
+ * fixture 测试仍可绕过 UI 直填 pendingActions —— input handler 仅在 uiState
+ * 命中分支时改 state,其它情况(fixture 模式 / 二级菜单未实现)不动 state。
  */
 function tickSelectAction(
   state: BattleState,
   res: BattleResources,
-  _input: InputSnapshot,
+  input: InputSnapshot,
 ): void {
   // 找活队员
   const alivePlayerIdxs: number[] = []
@@ -282,7 +287,18 @@ function tickSelectAction(
     return
   }
 
-  // 还没全选完 → 等下一 tick(真 UI 交互延 T26;本 task 测试以 fixture 直填 pendingActions)
+  // UI input dispatch(按 uiState 路由);Cancel 在 mainMenu 顶层无意义,不处理。
+  switch (state.uiState) {
+    case 'mainMenu':
+      handleMainMenuInput(state, input, alivePlayerIdxs)
+      break
+    // T14 加 'magicMenu' / 'itemMenu' / 'targetSelect'
+    default:
+      // 其它 uiState(含 'hidden' / fixture 模式)— 不处理 input,保留 stub 行为
+      break
+  }
+
+  // 还没全选完 → 等下一 tick
   if (state.pendingActions.size < alivePlayerIdxs.length)
     return
 
@@ -317,6 +333,85 @@ function tickSelectAction(
   state.uiState = 'hidden'
   state.selectingPlayerIdx = undefined
   state.phaseStallTicks = 0
+}
+
+/** mainMenu 5 项数(0=攻击 1=法术 2=物品 3=防御 4=逃跑;对照 sdlpal BATTLE_MENU)。 */
+const MAIN_MENU_SIZE = 5
+
+/**
+ * mainMenu input 处理(M3.5 T13):
+ *
+ * - Up:cursor = (cursor - 1 + 5) % 5
+ * - Down:cursor = (cursor + 1) % 5
+ * - Confirm:按 cursor 派发:
+ *   - 0 攻击 → 切 targetSelect,暂存 pendingActionDraft
+ *   - 1 法术 → 切 magicMenu(T14 真消费)
+ *   - 2 物品 → 切 itemMenu(T14 真消费)
+ *   - 3 防御 → 落 pendingActions[playerIdx] = { type: 'defend', target: -1 } + advance
+ *   - 4 逃跑 → 落 pendingActions[playerIdx] = { type: 'flee', target: -1 } + advance
+ * - Cancel:顶层菜单,无意义,不处理
+ */
+function handleMainMenuInput(
+  state: BattleState,
+  input: InputSnapshot,
+  alivePlayerIdxs: number[],
+): void {
+  const playerIdx = state.selectingPlayerIdx
+  if (playerIdx === undefined)
+    return
+
+  if (input.pressed.has('Up')) {
+    state.uiCursor = (state.uiCursor - 1 + MAIN_MENU_SIZE) % MAIN_MENU_SIZE
+    return
+  }
+  if (input.pressed.has('Down')) {
+    state.uiCursor = (state.uiCursor + 1) % MAIN_MENU_SIZE
+    return
+  }
+  if (!input.pressed.has('Confirm'))
+    return
+
+  switch (state.uiCursor) {
+    case 0: // 攻击 → targetSelect
+      state.pendingActionDraft = { type: 'attack' }
+      state.uiState = 'targetSelect'
+      state.uiCursor = 0
+      break
+    case 1: // 法术 → magicMenu(T14)
+      state.pendingActionDraft = { type: 'magic' }
+      state.uiState = 'magicMenu'
+      state.uiCursor = 0
+      break
+    case 2: // 物品 → itemMenu(T14)
+      state.pendingActionDraft = { type: 'item' }
+      state.uiState = 'itemMenu'
+      state.uiCursor = 0
+      break
+    case 3: // 防御 → 直接落 action + advance
+      state.pendingActions.set(playerIdx, { type: 'defend', target: -1 })
+      advanceSelectingPlayer(state, alivePlayerIdxs)
+      break
+    case 4: // 逃跑 → 直接落 action + advance
+      state.pendingActions.set(playerIdx, { type: 'flee', target: -1 })
+      advanceSelectingPlayer(state, alivePlayerIdxs)
+      break
+  }
+}
+
+/**
+ * advance 到下一个未填 action 的活队员;全填则保留 selectingPlayerIdx(由
+ * tickSelectAction 主流程检测 size 切 performAction)。每次 advance 重置 uiState
+ * 回 mainMenu、cursor=0、清 pendingActionDraft。
+ */
+function advanceSelectingPlayer(state: BattleState, alivePlayerIdxs: number[]): void {
+  state.pendingActionDraft = undefined
+  const next = alivePlayerIdxs.find(i => !state.pendingActions.has(i))
+  if (next !== undefined) {
+    state.selectingPlayerIdx = next
+    state.uiState = 'mainMenu'
+    state.uiCursor = 0
+  }
+  // 全填完 → 不动 uiState/cursor;主流程下一步会切 performAction(在那里 uiState='hidden')
 }
 
 /**

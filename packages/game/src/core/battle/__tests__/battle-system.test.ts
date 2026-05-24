@@ -446,6 +446,73 @@ describe('finalize 清状态', () => {
 })
 
 // ============================================================================
+// tickSelectAction mainMenu input(M3.5 T13)
+// ============================================================================
+
+describe('tickSelectAction mainMenu input(M3.5 T13)', () => {
+  /** 构造一个只含一个键 pressed 的 InputSnapshot。 */
+  function snap(pressed: Array<'Up' | 'Down' | 'Left' | 'Right' | 'Confirm' | 'Cancel' | 'Menu'> = []): InputSnapshot {
+    return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
+  }
+
+  it('Up wrap:cursor=0 + Up → cursor=4', () => {
+    const { gs, bus, emptyInput } = bootstrap()
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction(uiState=mainMenu, cursor=0)
+    expect(gs.battleState?.uiState).toBe('mainMenu')
+    expect(gs.battleState?.uiCursor).toBe(0)
+    tickBattle(gs, snap(['Up']), bus)
+    expect(gs.battleState?.uiCursor).toBe(4)
+    expect(gs.battleState?.uiState).toBe('mainMenu')
+    expect(gs.battleState?.phase).toBe('selectAction')
+  })
+
+  it('Down wrap:cursor=4 + Down → cursor=0', () => {
+    const { gs, bus, emptyInput } = bootstrap()
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.uiCursor = 4
+    tickBattle(gs, snap(['Down']), bus)
+    expect(gs.battleState?.uiCursor).toBe(0)
+    expect(gs.battleState?.uiState).toBe('mainMenu')
+  })
+
+  it('Confirm 攻击(cursor=0)→ uiState=targetSelect + pendingActionDraft={type:"attack"}', () => {
+    const { gs, bus, emptyInput } = bootstrap()
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    expect(gs.battleState?.uiCursor).toBe(0)
+    tickBattle(gs, snap(['Confirm']), bus)
+    expect(gs.battleState?.uiState).toBe('targetSelect')
+    expect(gs.battleState?.uiCursor).toBe(0)
+    expect(gs.battleState?.pendingActionDraft).toEqual({ type: 'attack' })
+    // 攻击未落 pendingActions(还要选 target)
+    expect(gs.battleState?.pendingActions.has(0)).toBe(false)
+    expect(gs.battleState?.phase).toBe('selectAction')
+  })
+
+  it('Confirm 防御(cursor=3)→ pendingActions[0]={type:"defend"} + advance(单队员 → performAction)', () => {
+    const { gs, bus, emptyInput } = bootstrap()
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.uiCursor = 3
+    tickBattle(gs, snap(['Confirm']), bus)
+    expect(gs.battleState?.pendingActions.has(0)).toBe(true)
+    const action = gs.battleState!.pendingActions.get(0)!
+    expect(action.type).toBe('defend')
+    // 单队员 party — pendingActions 填满后由 tickSelectAction 主流程切 performAction
+    expect(gs.battleState?.phase).toBe('performAction')
+  })
+
+  it('Confirm 逃跑(cursor=4)→ pendingActions[0]={type:"flee"} + advance', () => {
+    const { gs, bus, emptyInput } = bootstrap()
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.uiCursor = 4
+    tickBattle(gs, snap(['Confirm']), bus)
+    expect(gs.battleState?.pendingActions.has(0)).toBe(true)
+    const action = gs.battleState!.pendingActions.get(0)!
+    expect(action.type).toBe('flee')
+    expect(gs.battleState?.phase).toBe('performAction')
+  })
+})
+
+// ============================================================================
 // 集成:多轮战斗(双方互殴)
 // ============================================================================
 
