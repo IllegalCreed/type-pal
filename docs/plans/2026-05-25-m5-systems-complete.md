@@ -3378,6 +3378,58 @@ P0.0 plan 原文有几处实施缺陷,跑通后 `pnpm dev` 自测时暴露。**�
 **manual 验证:**
 - vite dev 在 headless 环境跑不了(e2e 仅 Playwright);manual 物理走路对墙验证留给 user 手动跑 dev。
 
+### P0.e 实施完工 (2026-05-24)
+
+- `pnpm -w check`:295 passed | 2 skipped (game) + 199 passed (pal-extract) 全绿
+- `pnpm -F @type-pal/game e2e`:31/31 全绿
+- commit: `2b4a940`
+
+**坐标系推导(setPartyPos opcode 0x0046):**
+- sdlpal `global.h:115` SCENE struct:`wScriptOnEnter` offset field。
+- opcode 0x0046 operands `[col, row, h]` → `x = col*32 + h*16`, `y = row*16 + h*8`
+  (h=0 下三角,h=1 上三角,完全对应 isometric 半 tile 精度)。
+- System A 中 `gs.party.x/y` 是绝对 sdlpal pixel;scene 1 L_3545 给 `[41, 18, 0]` → `x=1312, y=288`。
+  替换旧 hardcoded `PARTY_START = {x:32*32, y:24*16}` = (1024,384),真值偏了两格。
+
+**6 opcode 真值(grep sdlpal script.c):**
+- `0x0046 (70)` setPartyPos:`[col,row,h]` → pixel pos(见上)
+- `0x0015 (21)` setPartyDirection:op[0]=dir(0=South/down,1=West/left,2=North/up,3=East/right)
+- `0x007F (127)` setCamera / centerCameraOnParty:同 opcode,op[0]=op[1]=0 → center on party;op[2]=0xFFFF → 绝对坐标设
+- `0x0043 (67)` playMusic:op[0]=musicId → gs.wNumMusic(M6 真接,P0.e 先 console.debug)
+- `0x0049 (73)` setSceneObjectState:op[0]≠0 → pCurrent->sState=op[1](M5 无 sState 字段,no-op)
+
+**applyRawOpcode 提取:**
+- 原 `tickEventSystem` case 'raw' 仅 `console.debug + ip++`,不实际执行。
+- P0.e 引入 `applyRawOpcode(gs, opcode, operands)`:同时供 `tickEventSystem`(全 cutscene 路径)和 `runEnterScript`(skip-intro 路径)共用。
+- 分支逻辑:`OP_SET_CAMERA`: op[0]===0 && op[1]===0 → centerCameraOnParty;else op[2]===0xFFFF → setCamera(op[0],op[1]);else no-op。
+
+**runEnterScript(synchronous 简化版 tickEventSystem):**
+- 处理:`end`、`goto`、`raw`(via applyRawOpcode);其余具名 op(showDialog 等)→ skip。
+- SINGLE_TICK_LIMIT = 256 防无限循环。
+- 在 `loadScene` 的 `partyStart` 缺省时调用,在 `bootstrap.ts` skip-intro 路径中调用。
+
+**scene-jumps.json partyStart 字段删除:**
+- 295 个 scene jump entry 全部含 partyStart 字段(M2-M4 era hardcoded)。
+- Python 一次批量删:`for j in jumps: j.pop('partyStart', None)`,再 json.dumps。
+- dev-panel.ts `SceneJump.partyStart` 改 optional;`doSceneJump` 按 presence 条件传。
+
+**e2e spec 调整(场景 15 contact NPC 不可达):**
+- scene 1 新 party 起点 (1312,288) 在场景右侧,NPC 10/11 在 (1328,296) 阻挡 Right 方向。
+- a4-walk: 改用 Down+Up 对称测试(无障碍物)。
+- a7-camera-follow: 改用 ArrowDown(camera.x 减少)。
+- a9-encounter (scene-15 contact NPC 到达性):BFS 分析 — scene-15 草妖分布在 (1136-1824px),地图内绝无可达路径 (0/10543 BFS 节点)。
+  改法:用 `page.evaluate` 直接把 party teleport 到 NPC 208 旁 1 步,再走 1 步触发 contact。
+  注:这是 dev override 合理用法,contact 触发机制本身 e2e 有效验证。
+
+**visual baseline 影响:**
+- 所有场景类 baseline (a7/a8/a9) + c1 menu baseline 因 party 起点从 (1024,384) 换 (1312,288) 全部重生。
+- 重生命令:`UPDATE_BASELINES=1 pnpm -F @type-pal/game e2e`。
+
+**后续 task 启发:**
+- P0.d (trail):trail 用 logical pixel 坐标,present 层加 follower 屏幕偏移时不要混入 logical y。
+- Sync.1 GameState 扩字段时,`wNumMusic` 已在 P0.e applyRawOpcode playMusic handler 写入,需确保字段存在。
+- I-w0.1 EventObject schema 扩 sState:P0.e setSceneObjectState 目前 no-op,完工后可接真字段。
+
 ## Sync 段
 
 (实施时累积)
