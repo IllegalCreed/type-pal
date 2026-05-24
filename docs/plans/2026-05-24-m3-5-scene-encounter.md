@@ -3418,8 +3418,119 @@ M3.5 完工后,M1-M3.5 所有功能点都有 L2 视觉 baseline(本机本地)+ �
 
 ---
 
-## 实施过程发现 / 与本计划的偏离(2026-05-DD 完工时整理)
+## 实施过程发现 / 与本计划的偏离(2026-05-24 完工时整理)
 
 本计划在 brainstorming + writing-plans 阶段基于设计 doc + sdlpal 源码推断;实施时遇到的真实差异记录如下供 M5 / M7 参考。**全部 commit 在 main 分支可追溯**。
 
-### 1. (待填)
+### 1. dump-scenes EO_SIZE 笔误把 scene 草妖归属误判 → 通道 scene 总集补漏 + 重命名
+
+T4 用临时 dump-scenes 脚本预探 scenes 头 20 个时,EO_SIZE 误写 22(真值 32 = `EVENT_OBJECT_SIZE`),字段全错位。后果:
+- plan 标的 scene chain `[1, 14, 17]` 漏 scene 15 + scene 16
+- 用户 14/17 中段反馈"明雷草妖不在我标的 scene" → 中段 fix 把 SLICE_SCENE_IDS 扩到 `[1, 14, 15, 16, 17]`(commit 672ccf7)
+- scene 标签真值 verify 后:
+  - scene 15 (mapNum 7) 通道 1 才是 4 个 sprite 468 草妖明雷的真场景
+  - scene 16 (mapNum 119) 通道 2 只有 invisible teleport NPC,没 visible 草妖
+  - scene 17 (mapNum 6) 迷宫含 15 个 sprite 84/233 明雷
+- scene-jumps.json 标签按真值修(commit 62f3d64)
+
+**教训**:预探脚本要复用现有 parser(`parseSss` 等),不要手敲 EO_SIZE。
+
+### 2. sdlpal `triggerMode` 真值 enum 跟 plan 假设不符
+
+T11 plan 假设 triggerMode=1 = contact 明雷;真值(sdlpal global.h:84-92):
+- 0 = kTriggerNone(装饰)
+- 1-3 = SearchNear/Normal/Far(Confirm-search NPC)
+- 4-8 = TouchNear..Farthest(**contact 明雷,真值**)
+
+修法:`TRIGGER_MODE_CONTACT_MIN = 4`,统一 4..8 视作 contact。scene 16 sprite=0 的 triggerMode=5 是 teleport contact(visible 明雷草妖在 scene 15)。
+
+### 3. M2 era render-tilemap + draw-tilemap 渲染 bug(两个 separate impl)
+
+M3 T3 修了 pal-extract `render-tilemap.ts` 的 sub-row offset(commit 94d6277),T6 又补 ±1 fence + layer 0 fallback(commit 73c7091),让 D29 5/5 baseline 0 diff。但 game runtime `draw-tilemap.ts` 是 **separate impl 从未修**:
+- scene 1 sparse(14% 非空)巧合不显
+- scene 16 dense(50%+)直接整图错位 + 锯齿 + layer 1 overhang 错位遮人物
+
+修法(commit 6c1ee36):port T6 修法到 draw-tilemap.ts,统一 sub-row + fence + layer 0 fallback。
+
+**教训**:type-pal 有两个 tilemap 渲染器(pal-extract baseline + game runtime),应该 dedupe 或建 cross-impl test。
+
+### 4. RLE decode 丢 opaque-zero 信息 → 跨链路 tile / sprite 视觉半透明
+
+`decodeRle` 返回单 `pixels: Uint8Array`,RLE-skip 透明 + opaque palette-0 像素都用 0 表示。pal-extract `encodeIndexedPng` alpha 永远 255 → game runtime `decodePngToIndices` + blitTile `if (idx === 0) continue` 凡 palette 0 当透明跳过。
+
+scene 1 巧合不显,scene 16 dense + 人物 sprite 头发 / 衣服暗部 palette 0 → "半透明" 效果。M3 T3 时 render-tilemap.ts 重写了 decodeRleFrame 独立保留 opaque,但 game 链路一直 lossy。
+
+修法(commit 0cbf7fe):shared `decodeRle` 加 opaque 字段;`encodeIndexedPng` 加 opaque 参数(alpha = 255*opaque);game `IndexedImage` 加 opaque + blitTile/blitFrame 用 `opaque[i] === 0` 替代 `idx === 0`。
+
+### 5. T17 dev panel scene jump 暴露 present.ts 单帧 snapshot 问题
+
+T17 第一版 dev panel applySceneJump 真调 loadScene + cache.loadScene → 拿 SceneAssets,但 bootstrap.ts presentCtx 构造是 one-shot snapshot(硬绑首屏 tilemap / tileImages / npcSprites),loadScene 只改 gs 不改 presentCtx → canvas 仍画首屏地图,party 漂到新地图坐标但视觉错位。
+
+修法(commit 066fc4f T17 重做):
+- presentCtx mutable refs + `applySceneAssetsToPresent` callback(bootstrap 注入到 dev-panel)
+- bootstrap 内 `tileImagesBySceneId: Map<sceneId, Map<tileId, IndexedImage>>` + `currentSceneId` let,presentCtx.tileImages.get 路由当前 scene
+- sceneFetcher 内 fetchMissingSprite + fetchSceneTileImages(per scene PNG fetch,cache hit 跳过)
+
+### 6. L2 self-snapshot 假基准 → sdlpal `--dump-battle` 新工具
+
+L2 b* spec 第一版 baseline 来自 game runtime self-snapshot(没 catch 渲染 bug:enemy 完全不显 + player 居中)。用户 catch:既然有 D29 `--dump-map`,battle 也应 sdlpal 真原版基准。
+
+修法(commit 5288159):
+- 加 sdlpal-classic 第 4 个 patch `headless-battle-dump.patch`:`--dump-battle <enemyTeam> --battle-field <N> [--party N] [--palette P] --out FILE`
+- battle.c PAL_BattleMain 加 hook,paint scene 后写 PNG + exit
+- main.c CLI 解析 + PAL_DumpBattleToPng(InitGameData 加载 DATA.MKF chunks + PAL_StartBattle)
+- scripts/build-sdlpal-classic.sh PATCHES + idempotent 探测加 4th marker
+
+**教训**:L2 baseline 必须独立来源(sdlpal 真原版)才有意义,self-snapshot 是循环引用。
+
+### 7. PLAYER_POSITIONS + ENEMY_POSITIONS hardcode 真值 vs M3 简版
+
+M3 phase 1 PLAYER_POSITIONS 硬编 5 槽(160,150 等)+ ENEMY_POSITIONS 5 槽(160,80 等)。L2 sdlpal baseline 揭穿:
+- sdlpal `battle.c:27 g_rgPlayerPos[3][3][2]`:1 player (240,170) 等真值表 per partyCount
+- sdlpal `global.h ENEMYPOS = PALPOS pos[5][5]` DATA.MKF chunk 13:per enemyCount layout 真值
+
+修法:
+- PLAYER_POSITIONS(commit f24a506):`PLAYER_POSITIONS_BY_COUNT[partyCount-1][i]` 三层表,匹配 sdlpal 真值
+- ENEMYPOS(commit 5b4ab4a):pal-extract 加 enemy-pos.json 抽 chunk 13 → game runtime 通过 BattleAssets.enemyPos 注入 → drawBattleSprites 优先用 `layouts[enemyCount-1]`,缺时 fallback hardcoded
+
+效果:zh1 vs sdlpal --dump-battle pixel diff 从 ~5.8% 降到 ~4.6%(threshold 0.1),zh2 = 7%(剩余主要 menu overlay 差异)。
+
+### 8. a9 contact → battle 端到端因 scene jump 不重载 events 而 skip
+
+a9 spec 想验证 "走入草妖 → mode='battle'" 端到端。但发现:dev panel scene jump 通过 loadScene 重置 gs.npcs / party / camera,**没** 重置 events / labelMap(那是 scene 1 的 events.json segment[0])。当 contact 触发 loadEventFromNpc 时,scene 16 草妖的 triggerScript(如 L_41179)不在 scene 1 labelMap → 早 return,mode 不切。
+
+简版修(spec test.skip + 注释 M5):scene events lazy 加载需要 SceneAssets 扩 eventCommands + labelMap 字段(M5 真做)。本 spec 当前只验证 contact NPC 不阻挡 party 走入(commit 62f3d64 scene-system fix:contact monster triggerMode>=4 不 npcAt 阻挡)。
+
+### 9. fixture-end SIGABRT in sdlpal --dump-battle
+
+fixture-end 用 enemyTeam 50 + battleField 70 + party 4。`--dump-battle 50 --battle-field 70 --party 4` 触发 sdlpal SIGABRT(可能 default 玩家 PlayerRoles 跟 enemy team 50 hp 不兼容触发某 assertion)。
+
+zh1 + zh2 baseline 都跑通,fixture-end visual baseline 留 M5(可能要补 player overrides 模拟 fixture player data 才能跑)。
+
+### 10. e2e spec keyboard.press 太快不触发 input.held/pressed
+
+Playwright `page.keyboard.press(key)` 内部 down + up 几 ms 间隔,M2 walking 用 `input.held`(scene-system pickFacing line 44),60fps RAF 大概率 miss → 0 walks。menu 用 `input.pressed`(edge),连续 press 也会被同一 tick 折叠成单次。
+
+修法(commit 62f3d64):helpers/bootstrap.ts 加 `walk(page, key, durationMs)`(down + wait + up + 缓冲)+ `pressMenu(page, key)`(press + 150ms 让 tick 消费 pressed)。a4/a5/a7/a9/c4 spec 切到新 helper。
+
+### M3.5 完成定义实际状态
+
+- ✅ scene 切换链路(loadScene + SceneAssetsCache + present re-render wire,D33)
+- ✅ 明雷怪机制(triggerMode>=4 contact 自动 runScript + 不阻挡,D32)
+- ✅ loadScene opcode handler stub(B 路线)
+- ✅ 仙灵岛 5 scene 资源 dump + 真值 sceneId scope(M3.5 中段补漏 fix)
+- ✅ dev panel scene jump 真做(D34 dev shortcut)
+- ✅ 战斗 UI input wire(mainMenu / magicMenu / itemMenu / targetSelect / Cancel)
+- ✅ L2 Playwright + pixelmatch 基建 + 23 spec(scene + battle + menu + dev)
+- ✅ sdlpal --dump-battle CLI(L2 battle baseline 真原版来源,新 patch)
+- ✅ PLAYER_POSITIONS + ENEMYPOS table 真值(L2 揭穿后真值替换)
+- ✅ draw-tilemap.ts + RLE/PNG opaque mask 修(L2 揭穿后多个独立 fix commit)
+- ⚠️ a9 contact → battle 端到端 test.skip(scene events lazy load 等 M5)
+- ⚠️ fixture-end visual baseline 缺(sdlpal --dump-battle 触发 SIGABRT)
+- ⚠️ L2 b* spec 仍跟 self-snapshot baseline diff(非 sdlpal real baseline)
+  - 现状:sdlpal baseline 已生成在 build/sdlpal-baseline/battles/{zh1,zh2}.png,但 L2 b* spec
+    没改 source。zh1 4.61% / zh2 7.04% 差距主要 menu overlay(sdlpal 不画 UI 我方画)。
+    完整接合 L2 spec 跟 sdlpal baseline diff 留 M5 / M7。
+- ⚠️ palette 跨 scene 仍用首屏 palette-0(setPalette opcode runtime 触发,留 M5)
+- ⚠️ 4-5 player 战斗 PLAYER_POSITIONS 续表(sdlpal 真值只到 3 人)是 educated guess,M5 真做时核对
+
