@@ -87,22 +87,16 @@ export function createInitialGameState(
 }
 
 /**
- * 原版 EVENTOBJECT.x / .y 是**像素坐标**(见 sdlpal map.c::PAL_MapBlitToSurface
- * 用 x/32 取 col、y/16 取 row,菱形错排,tile 32×16)。
- * M5 P0.0:运行时改用半格像素坐标(X_STEP=16 / Y_STEP=8),故:
- *   npc.x = floor(eo.x / 32) * 16 = eo.x / 2
- *   npc.y = floor(eo.y / 16) * 8  = eo.y / 2
+ * 原版 EVENTOBJECT.x / .y 是 sdlpal pixel(tile 32×16,允许半 tile)。
+ * M5 P0.0:我们单位 = sdlpal pixel / 2(X_STEP=16 = sdlpal 16 px;渲染层 pixelToScreen *2 还原)。
+ * 之前用 `floor(eo.x/32)*16` 把半 tile 信息丢了,导致 NPC 位置一个单位错位。
+ * 改 floor(eo.x/2) 保留半 tile 精度。
  */
-const TILE_W = 32
-const TILE_H = 16
-const X_STEP = 16
-const Y_STEP = 8
-
 export function npcFromEventObject(eo: SceneEventObject): NpcState {
   return {
     id: eo.id,
-    x: Math.floor(eo.x / TILE_W) * X_STEP,
-    y: Math.floor(eo.y / TILE_H) * Y_STEP,
+    x: Math.floor(eo.x / 2),
+    y: Math.floor(eo.y / 2),
     spriteNum: eo.spriteNum,
     triggerLabel: eo.triggerLabel,
     triggerMode: eo.triggerMode,

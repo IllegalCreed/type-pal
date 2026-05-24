@@ -29,23 +29,40 @@ export function setSceneContext(ctx: SceneContext): void {
 const X_STEP = 16
 const Y_STEP = 8
 
+// sdlpal scene.c:804-805 真值 + palcommon.h enum(kDirSouth=0,kDirWest=1,kDirNorth=2,kDirEast=3):
+//   xOffset = (West||South ? -16 : +16);  yOffset = (West||North ? -8 : +8)
+// 展开:
+//   Down  (South) → (-16, +8) 左下
+//   Up    (North) → (+16, -8) 右上
+//   Left  (West)  → (-16, -8) 左上
+//   Right (East)  → (+16, +8) 右下
+// 之前实现把 down/up 和 left/right 反了导致按键朝向与移动方向不一致。
 const DIR_DELTA: Record<Facing, { dx: number; dy: number }> = {
-  down:  { dx:  X_STEP, dy:  Y_STEP },
-  up:    { dx: -X_STEP, dy: -Y_STEP },
-  left:  { dx: -X_STEP, dy:  Y_STEP },
-  right: { dx:  X_STEP, dy: -Y_STEP },
+  down:  { dx: -X_STEP, dy:  Y_STEP },
+  up:    { dx:  X_STEP, dy: -Y_STEP },
+  left:  { dx: -X_STEP, dy: -Y_STEP },
+  right: { dx:  X_STEP, dy:  Y_STEP },
 }
 
-const DIR_PRIORITY: { key: 'Up' | 'Down' | 'Left' | 'Right'; facing: Facing }[] = [
-  { key: 'Up', facing: 'up' },
-  { key: 'Down', facing: 'down' },
-  { key: 'Left', facing: 'left' },
-  { key: 'Right', facing: 'right' },
-]
+const KEY_TO_FACING: Record<'Up' | 'Down' | 'Left' | 'Right', Facing> = {
+  Up: 'up', Down: 'down', Left: 'left', Right: 'right',
+}
+const DIR_KEY_SET = new Set<'Up' | 'Down' | 'Left' | 'Right'>(['Up', 'Down', 'Left', 'Right'])
 
+/**
+ * sdlpal input.c:180-189 PAL_GetCurrDirection:选最后按的方向键(dwKeyOrder 最大者)。
+ * 我们的实现:KeyboardInputSource handleDown delete-then-add 让最新键在 held Set 末尾,
+ * 反向迭代取第一个方向键。
+ *
+ * 之前 M2 era 用硬编码 Up>Down>Left>Right 固定优先级,不符合原版 "最后按的赢" 语义。
+ */
 function pickFacing(input: InputSnapshot): Facing | null {
-  for (const d of DIR_PRIORITY) {
-    if (input.held.has(d.key)) return d.facing
+  const held = Array.from(input.held)
+  for (let i = held.length - 1; i >= 0; i--) {
+    const k = held[i]
+    if (k !== undefined && DIR_KEY_SET.has(k as 'Up' | 'Down' | 'Left' | 'Right')) {
+      return KEY_TO_FACING[k as 'Up' | 'Down' | 'Left' | 'Right']
+    }
   }
   return null
 }

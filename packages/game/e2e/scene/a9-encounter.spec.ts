@@ -19,16 +19,18 @@ const TRIGGER_CONTACT_MIN = 4 // sdlpal global.h kTriggerTouchNear..Farthest
 
 /**
  * 选朝向 target(tx,ty) 移动的方向键(4 向菱形)。
- * M5 P0.0:Right(+16,-8)/Left(-16,+8)/Down(+16,+8)/Up(-16,-8)。
+ * M5 P0.0 + sdlpal scene.c:804-805:
+ *   Right(East): (+16,+8) 右下;Left(West): (-16,-8) 左上
+ *   Down (South): (-16,+8) 左下;Up   (North): (+16,-8) 右上
  */
 function pickKey(
   px: number, py: number, tx: number, ty: number,
 ): 'ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown' | null {
   const candidates: Array<['ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown', number, number]> = [
-    ['ArrowRight', 16, -8],
-    ['ArrowLeft', -16, 8],
-    ['ArrowDown', 16, 8],
-    ['ArrowUp', -16, -8],
+    ['ArrowRight', 16, 8],
+    ['ArrowLeft', -16, -8],
+    ['ArrowDown', -16, 8],
+    ['ArrowUp', 16, -8],
   ]
   const dist = (ax: number, ay: number) => Math.abs(ax - tx) + Math.abs(ay - ty)
   const cur = dist(px, py)

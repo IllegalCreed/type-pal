@@ -3284,7 +3284,47 @@ git commit -m "docs(M5.P2-w3.1): M5 完工同步 — README / 03 plan / 04 D36+ 
 
 ## P0 段
 
-(实施时累积)
+### P0.0 实施完工 (2026-05-24)
+
+- `pnpm -w check`:267 passed | 2 skipped (game) + 199 passed (pal-extract) 全绿
+- `pnpm -F @type-pal/game e2e`:31/31 全绿
+- 重生 baseline 4 张:`a1-scene-15-mob` / `a7-camera-right` / `a9-encounter-initial` / `a1-scene-17-maze`(NPC eo.x/y/2 修后位置变了)
+
+### P0.0 plan 自带 bug(5 项,实施时发现并修)
+
+P0.0 plan 原文有几处实施缺陷,跑通后 `pnpm dev` 自测时暴露。**后续 task 写 plan 时引以为戒**:
+
+1. **Bug 1 · Vite fs.allow 漏 main worktree path**
+   M5 用 `git worktree`,`public/extracted` 是 symlink 到 main 的目录。默认 vite.config.ts `fs.allow: ['..', '../..']` 不允许跨到 main → Vite SPA fallback 返 `index.html`(`<!doctype ...>`)→ `loadGlyphs` JSON.parse 报 `Unexpected token '<'`。修法:在 `fs.allow` 加 `/Users/zhangxu/illegal/type-pal` 绝对路径。
+
+2. **Bug 2/4 · DIR_DELTA 4 方向映射错(facing vs movement 不一致)**
+   plan 原文给的 DIR_DELTA:
+   ```typescript
+   down:  { dx:  +X_STEP, dy:  +Y_STEP }, up:    { dx: -X_STEP, dy: -Y_STEP },
+   left:  { dx: -X_STEP, dy:  +Y_STEP }, right: { dx: +X_STEP, dy: -Y_STEP },
+   ```
+   不符合 sdlpal `scene.c:804-805` 真值(`palcommon.h` enum:South=0/West=1/North=2/East=3):
+   ```c
+   xOffset = ((dir == West || dir == South) ? -16 : 16);
+   yOffset = ((dir == West || dir == North) ? -8 : 8);
+   ```
+   展开:Down(South)=(-16,+8) 左下;Up(North)=(+16,-8) 右上;Left(West)=(-16,-8) 左上;Right(East)=(+16,+8) 右下。
+   ⚠️ user 按 Up 键时,旧 DIR_DELTA 给 (-16,-8) 实际是 West/Left 方向,出现"facing 朝上但人向左移"错觉。
+
+3. **Bug 3 · npcFromEventObject 丢半 tile 精度**
+   plan 原文:`x: Math.floor(eo.x / TILE_W) * X_STEP`(= floor(eo.x/32)*16)把半 tile 信息抹掉。例:eo.x=720(=22.5 tile)→ 旧公式给 352,真值应 360(差 8 px = 1 半 tile y 单位)。M4 的 scene-N.json 里有大量含半 tile 位置的 EventObject,导致 NPC 全图错位一个单位。**修法**:`x: Math.floor(eo.x / 2), y: Math.floor(eo.y / 2)` —— 我们的单位 = sdlpal pixel / 2。
+
+4. **Bug 5 · pickFacing 走"硬编码优先级"而非 sdlpal "最后按优先"**
+   M2 era 实现固定 Up > Down > Left > Right 优先级。sdlpal `input.c:180-189 PAL_GetCurrDirection` 真值是"最后按的方向键优先"(`dwKeyOrder[4]` 数组,每次 KeyDown `dwKeyMaxCount++` 给当前方向,选最大者)。例:user 按住 Up,再按 Down → 方向 = Down。
+   **修法**(双处):
+   - `input.ts handleDown`:`delete-then-add` 让最新键推到 Set 末尾(JS Set add 已存在 key 是 no-op,不刷新顺序)。
+   - `scene-system.ts pickFacing`:反向迭代 `Array.from(held)`,取第一个方向键。
+
+### P0.0 后续 task 启发
+
+- **P0.a 菱形碰撞 / P0.b Y-sort**:务必用 `eo.x/y/2`(Bug 3 修后)的 NPC 坐标做碰撞 / 排序输入,别再 floor 到 cell。
+- **写 plan 给 DIR 映射**:对照 sdlpal palcommon.h enum + scene.c:804-805 真实代码,**别只看 axis 方向猜符号**(diagonal 等距方向键容易拼错)。
+- **e2e visual baseline**:跑 isometric 切换时(P0 任何子 task),旧 cell-based baseline 需要重生;**先 manual 看图是否合理**(NPC 位置应跟 sdlpal 真值对齐),再 commit baseline。
 
 ## Sync 段
 

@@ -26,6 +26,10 @@ export class KeyboardInputSource implements InputSource {
     const k = codeToAbstractKey(e.code)
     if (!k) return
     if (!this.held.has(k)) this.pressed.add(k)
+    // sdlpal input.c:235:每次 KeyDown 刷新 dwKeyOrder 为最新计数。
+    // JS Set 保 insertion order 但 add 已存在项是 no-op,故 delete-then-add
+    // 把最新键推到末尾 → pickFacing 反向迭代即"最后按优先"。
+    this.held.delete(k)
     this.held.add(k)
   }
   private readonly handleUp = (e: KeyboardEvent): void => {

@@ -33,7 +33,7 @@ describe('tickN', () => {
     expect(gs.frameNum).toBe(3)
   })
 
-  it('Replay 向右走 3 步 → party.x + 3*16, party.y - 3*8', () => {
+  it('Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const bus = createCommandBus()
     const ctx: LoopContext = {
@@ -48,8 +48,8 @@ describe('tickN', () => {
       onPresent: () => {},
     }
     tickN(3, ctx)
-    // Right: dx=+16, dy=-8 × 3 steps
+    // sdlpal scene.c:804-805 East: dx=+16, dy=+8 × 3 steps
     expect(gs.party.x).toBe(8 * 16)
-    expect(gs.party.y).toBe(2 * 8)
+    expect(gs.party.y).toBe(8 * 8)
   })
 })

@@ -17,13 +17,15 @@ function pickKey(
   const dx = tx - px
   const dy = ty - py
   if (dx === 0 && dy === 0) return null
-  // Right(+16,-8)/Left(-16,+8)/Down(+16,+8)/Up(-16,-8)
+  // sdlpal scene.c:804-805:
+  //   Right(East): (+16,+8) 右下;Left(West): (-16,-8) 左上
+  //   Down (South): (-16,+8) 左下;Up   (North): (+16,-8) 右上
   // 选使距离减小最多的键
   const candidates: Array<['ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown', number, number]> = [
-    ['ArrowRight', 16, -8],
-    ['ArrowLeft', -16, 8],
-    ['ArrowDown', 16, 8],
-    ['ArrowUp', -16, -8],
+    ['ArrowRight', 16, 8],
+    ['ArrowLeft', -16, -8],
+    ['ArrowDown', -16, 8],
+    ['ArrowUp', 16, -8],
   ]
   let best: typeof candidates[0] | null = null
   let bestGain = -Infinity

@@ -45,9 +45,9 @@ test('a8 scene 切换 — party 写入 scene-jumps.json 的 partyStart 位置', 
   const party = await page.evaluate(
     () => (window as unknown as Probe).__game.gs.party,
   )
-  // scene-jumps.json:scene-15-mob partyStart = { x: 544, y: 640, facing: 'down' }(= col:34*16, row:80*8)
-  // M5 P0.0:位置调整为草妖 NPC(35,81)邻格(34,80),1 步即可触发 contact。
-  expect(party.x).toBe(544)
-  expect(party.y).toBe(640)
-  expect(party.facing).toBe('down')
+  // scene-jumps.json:scene-15-mob partyStart = { x: 552, y: 644, facing: 'right' }
+  // M5 P0.0:位置调整到草妖 NPC 207(568,652)西邻 1 步 Right(+16,+8)即触发 contact。
+  expect(party.x).toBe(552)
+  expect(party.y).toBe(644)
+  expect(party.facing).toBe('right')
 })

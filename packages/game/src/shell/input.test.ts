@@ -53,6 +53,51 @@ describe('KeyboardInputSource', () => {
       src.detach()
     }
   })
+
+  // sdlpal input.c:180-189 PAL_GetCurrDirection — "最后按的方向键优先"。
+  describe('last-press priority (sdlpal input.c:180-189)', () => {
+    it('Up 然后 Down → held Set 末位 = Down', () => {
+      const src = new KeyboardInputSource(window)
+      try {
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown' }))
+        const arr = Array.from(src.nextSnapshot(0).held)
+        expect(arr).toContain('Up')
+        expect(arr).toContain('Down')
+        expect(arr[arr.length - 1]).toBe('Down')
+      } finally {
+        src.detach()
+      }
+    })
+
+    it('Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)', () => {
+      const src = new KeyboardInputSource(window)
+      try {
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight' }))
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))
+        window.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowUp' }))
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))
+        const arr = Array.from(src.nextSnapshot(0).held)
+        expect(arr[arr.length - 1]).toBe('Up')
+      } finally {
+        src.detach()
+      }
+    })
+
+    it('已 held 再 KeyDown(repeat 模拟)→ 推到末尾刷新 order', () => {
+      const src = new KeyboardInputSource(window)
+      try {
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown' }))
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowLeft' }))
+        // repeat 按 Down(模拟 OS 按住自动 repeat)→ Down 推到末尾
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown' }))
+        const arr = Array.from(src.nextSnapshot(0).held)
+        expect(arr[arr.length - 1]).toBe('Down')
+      } finally {
+        src.detach()
+      }
+    })
+  })
 })
 
 describe('ReplayInputSource', () => {

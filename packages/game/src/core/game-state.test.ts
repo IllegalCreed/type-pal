@@ -60,16 +60,26 @@ describe('GameState', () => {
 })
 
 describe('npcFromEventObject', () => {
-  it('SceneEventObject 像素坐标 → 半格像素坐标(floor(x/32)*16, floor(y/16)*8),其它字段透传', () => {
+  it('sdlpal pixel → 我们的半 px 单位(floor(eo.x/2), floor(eo.y/2)),其它字段透传', () => {
     const eo: SceneEventObject = {
       id: 3, x: 512, y: 800, spriteNum: 42, triggerLabel: 'L_59', triggerMode: 0,
     }
     const npc = npcFromEventObject(eo)
     expect(npc.id).toBe(3)
-    expect(npc.x).toBe(256) // floor(512/32)*16 = 16*16
-    expect(npc.y).toBe(400) // floor(800/16)*8  = 50*8
+    expect(npc.x).toBe(256) // 512 / 2
+    expect(npc.y).toBe(400) // 800 / 2
     expect(npc.spriteNum).toBe(42)
     expect(npc.triggerLabel).toBe('L_59')
+  })
+
+  it('半 tile 精度保留:eo.x=720(=22.5 tile) → npc.x=360,不丢半 tile', () => {
+    // 旧公式 floor(720/32)*16 = 22*16 = 352(差 8);新公式 floor(720/2) = 360
+    const eo: SceneEventObject = {
+      id: 7, x: 720, y: 664, spriteNum: 0, triggerMode: 0,
+    }
+    const npc = npcFromEventObject(eo)
+    expect(npc.x).toBe(360)
+    expect(npc.y).toBe(332)
   })
 
   it('triggerLabel 缺时透传 undefined', () => {

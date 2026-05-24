@@ -21,22 +21,22 @@ function snap(held: AbstractKey[] = [], pressed: AbstractKey[] = [], frameNum = 
 }
 
 describe('SceneSystem 走路', () => {
-  it('按住 Right → party.x + 16 / party.y - 8, facing=right', () => {
+  it('按住 Right → party.x + 16 / party.y + 8, facing=right (East 右下)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.party.x).toBe(6 * 16)
-    expect(gs.party.y).toBe(4 * 8)
+    expect(gs.party.y).toBe(6 * 8)
     expect(gs.party.facing).toBe('right')
   })
 
-  it('按住 Up → party.x - 16 / party.y - 8, facing=up', () => {
+  it('按住 Up → party.x + 16 / party.y - 8, facing=up (North 右上)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(['Up']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.party.x).toBe(4 * 16)
+    expect(gs.party.x).toBe(6 * 16)
     expect(gs.party.y).toBe(4 * 8)
     expect(gs.party.facing).toBe('up')
   })
@@ -61,12 +61,59 @@ describe('SceneSystem 走路', () => {
 
   it('NPC 阻挡走路:面前像素有 NPC + held=Right,party 不动', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
-    gs.npcs = [{ id: 1, x: 6 * 16, y: 4 * 8, spriteNum: 78 }]
+    // Right(East): dx=+16, dy=+8 → NPC 在 (6*16, 6*8)
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.party.x).toBe(5 * 16) // 没走过去
     expect(gs.party.facing).toBe('right') // facing 变了
+  })
+})
+
+// sdlpal input.c:180-189:user 同时按多键时,以最后按的为准(dwKeyOrder 最大者)。
+// 我们的 pickFacing 走 held Set 反向迭代,Set 末位 = 最后按的键。
+describe('pickFacing 走 last-press priority(sdlpal input.c:180-189)', () => {
+  it('held = [Up, Down](Down 后按)→ facing = down', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    tickSceneSystem(gs, snap(['Up', 'Down']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.party.facing).toBe('down')
+  })
+
+  it('held = [Right, Up, Left](Left 后按)→ facing = left', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    tickSceneSystem(gs, snap(['Right', 'Up', 'Left']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.party.facing).toBe('left')
+  })
+
+  it('held = [Confirm, Down](Down 在末尾)→ facing = down(忽略非方向键)', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    tickSceneSystem(gs, snap(['Confirm', 'Down']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.party.facing).toBe('down')
+  })
+
+  it('held = [Up, Confirm](Confirm 在末尾但非方向)→ facing = up(反向找方向键)', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    tickSceneSystem(gs, snap(['Up', 'Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.party.facing).toBe('up')
+  })
+
+  it('held = [](无键)→ facing 不变,party 不动', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.party.facing).toBe('right')
+    expect(gs.party.x).toBe(5 * 16)
+    expect(gs.party.y).toBe(5 * 8)
   })
 })
 
@@ -81,8 +128,8 @@ describe('SceneSystem NPC 触发', () => {
 
   it('面前像素有 NPC + Confirm → mode=event + eventCursor 装载', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
-    // right 方向: dx=+16, dy=-8 → NPC 在 (6*16, 4*8)
-    gs.npcs = [{ id: 7, x: 6 * 16, y: 4 * 8, spriteNum: 78, triggerLabel: 'L_59' }]
+    // right(East): dx=+16, dy=+8 → NPC 在 (6*16, 6*8)
+    gs.npcs = [{ id: 7, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_59' }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -102,7 +149,8 @@ describe('SceneSystem NPC 触发', () => {
 
   it('面前像素 NPC 无 triggerLabel + Confirm → 不切 mode', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
-    gs.npcs = [{ id: 1, x: 6 * 16, y: 4 * 8, spriteNum: 78 }] // 无 triggerLabel
+    // right(East): dx=+16, dy=+8 → NPC 在 (6*16, 6*8)
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78 }] // 无 triggerLabel
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap([], ['Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
@@ -111,7 +159,8 @@ describe('SceneSystem NPC 触发', () => {
 
   it('triggerLabel 存在但不在 labelMap → warn + 不切 mode', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
-    gs.npcs = [{ id: 1, x: 6 * 16, y: 4 * 8, spriteNum: 78, triggerLabel: 'L_999' }]
+    // right(East): dx=+16, dy=+8 → NPC 在 (6*16, 6*8)
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_999' }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
