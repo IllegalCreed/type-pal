@@ -1,6 +1,16 @@
 import type { Tilemap } from '@type-pal/shared'
 import { SCREEN_W, SCREEN_H, type Framebuffer } from './framebuffer.js'
 
+/** Y-sort エントリ。present.ts の sortedDraw ループに渡す。 */
+export interface DrawEntry {
+  /** Y-sort キー(sdlpal PAL_Y(pos) 相当の world-pixel 値)。 */
+  baseY: number
+  /** 実際の描画コールバック。 */
+  draw: (fb: Framebuffer) => void
+  /** デバッグ / テスト用 id。 */
+  id: string
+}
+
 const TILE_W = 32
 const TILE_H = 16
 const TILE_HALF_W = TILE_W / 2
@@ -59,6 +69,16 @@ function blitTile(
   }
 }
 
+/** 内部 blitTile を外部に公開(cover-tile 単体描画用)。 */
+export function blitTileAt(
+  fb: Framebuffer,
+  tile: TileImage,
+  dstX: number,
+  dstY: number,
+): void {
+  blitTile(fb, tile, dstX, dstY)
+}
+
 export function drawTilemap(
   fb: Framebuffer,
   map: Tilemap,
@@ -110,6 +130,164 @@ export function drawTilemap(
       if (upperId >= 0) {
         const img = tiles.get(upperId)
         if (img) blitTile(fb, img, cellPxX, rowPxY)
+      }
+    }
+  }
+}
+
+/**
+ * PAL_CalcCoverTiles port(sdlpal scene.c:77-178)。
+ *
+ * 对给定的 sprite 世界像素坐标 `(spriteWorldX, spriteWorldY)`,
+ * 计算可能覆盖该精灵的所有 layer-1(top layer)tile,
+ * 把每个 cover tile 封装为 DrawEntry 推入 `entries`。
+ *
+ * 算法说明(忠实 sdlpal scene.c:95-177):
+ *
+ *   sx ≈ spriteWorldX - spriteWidth/2   (精灵水平中心的世界 x)
+ *   sy = spriteWorldY                   (精灵排序用的世界 y,≈ pos.y in sdlpal)
+ *   sh = (sx % 32 !== 0) ? 1 : 0       (sub-row 偏移标志)
+ *
+ *   扫描范围:
+ *     row y: (sy - spriteHeight - 15) / 16  .. sy / 16
+ *     col x: (sx - spriteWidth/2) / 32      .. (sx + spriteWidth/2) / 32
+ *
+ *   对每个 (x, y):5 个候选 (dx, dy, dh) — 参见 sdlpal case 0..4。
+ *
+ *   对每个 (dx, dy, dh):检查 layer 0 和 layer 1(l=0/1)。
+ *   这里 "l" 对应原始 MAP DWORD 的哪个半字(lower = h-variant 0, upper = h-variant 1)。
+ *   注:TileCell.lower/upper 对应 Tiles[row][col][0/1]。
+ *
+ *   对于每个 (dx, dy, dh, l):
+ *     DWORD d = l==0 ? cells[dy][dx].lower : cells[dy][dx].upper
+ *     tileId (layer 1) = ((d >> 16) & 0xff) | (((d >> 16) >> 4) & 0x100) - 1
+ *     iTileHeight = (d >> 24) & 0xf   (layer 1 的高度字段)
+ *     条件: tileId >= 0 && iTileHeight > 0 && (dy + iTileHeight)*16 + dh*8 >= sy
+ *     若满足:
+ *       DrawEntry.baseY = dy*16 + dh*8 + 7 + l + iTileHeight*8
+ *       blit 屏幕位 = (dx*32 + dh*16 - 16 + offsetX, dy*16 + dh*8 - 8 + offsetY)
+ *       (h=0 时 dh=0: offsetX-16, offsetY-8;h=1 时 dh=1: offsetX, offsetY)
+ *
+ * 注意:只检查 layer 1(cover tile 只在 layer 1 有意义;layer 0 不遮挡精灵)。
+ * dh 字段 = 0 对应 lower DWORD(h=0);dh = 1 对应 upper DWORD(h=1)。
+ *
+ * @param entries        DrawEntry 数组,cover tile entries 会 push 进去
+ * @param map            当前场景 tilemap
+ * @param tileImgs       tile 位图集
+ * @param spriteWorldX   精灵世界像素 x(sdlpal eo.x / party.x)
+ * @param spriteWorldY   精灵排序世界像素 y(sdlpal pos.y = eo.y + 7 after offset)
+ * @param spriteW        精灵位图宽度(用于扫描范围计算)
+ * @param spriteH        精灵位图高度(用于扫描范围计算)
+ * @param camera         当前相机像素坐标
+ * @param idPrefix       DrawEntry.id 前缀(debug)
+ */
+export function addCoverTileEntries(
+  entries: DrawEntry[],
+  map: Tilemap,
+  tileImgs: TileImages,
+  spriteWorldX: number,
+  spriteWorldY: number,
+  spriteW: number,
+  spriteH: number,
+  camera: { x: number; y: number },
+  idPrefix: string,
+): void {
+  const offsetX = (SCREEN_W >> 1) - camera.x
+  const offsetY = (SCREEN_H >> 1) - camera.y
+
+  // sdlpal scene.c:99-101
+  const sx = spriteWorldX - Math.floor(spriteW / 2)
+  const sy = spriteWorldY
+  const sh = (sx % 32 !== 0) ? 1 : 0
+
+  const yStart = Math.floor((sy - spriteH - 15) / 16)
+  const yEnd   = Math.floor(sy / 16)
+  const xStart = Math.floor((sx - Math.floor(spriteW / 2)) / 32)
+  const xEnd   = Math.floor((sx + Math.floor(spriteW / 2)) / 32)
+
+  for (let y = yStart; y <= yEnd; y++) {
+    for (let x = xStart; x <= xEnd; x++) {
+      // sdlpal case i=0..4:leftmost col (x == xStart) 处理 i=0..2,其余 x 处理 i=3..4
+      const iStart = (x === xStart) ? 0 : 3
+      for (let i = iStart; i < 5; i++) {
+        let dx = 0, dy = 0, dh = 0
+
+        // sdlpal scene.c:127-154
+        switch (i) {
+          case 0:
+            dx = x; dy = y; dh = sh
+            break
+          case 1:
+            dx = x - 1; dy = y; dh = sh
+            break
+          case 2:
+            dx = sh ? x : (x - 1)
+            dy = sh ? (y + 1) : y
+            dh = 1 - sh
+            break
+          case 3:
+            dx = x + 1; dy = y; dh = sh
+            break
+          case 4:
+            dx = sh ? (x + 1) : x
+            dy = sh ? (y + 1) : y
+            dh = 1 - sh
+            break
+        }
+
+        // l = 0 → lower DWORD (h-variant 0);l = 1 → upper DWORD (h-variant 1)
+        for (let l = 0; l < 2; l++) {
+          // bounds check
+          if (dy < 0 || dy >= map.height || dx < 0 || dx >= map.width) continue
+
+          const row = map.cells[dy]
+          if (!row) continue
+          const cell = row[dx]
+          if (!cell) continue
+
+          // raw DWORD: l=0 → cell.lower, l=1 → cell.upper
+          const d = l === 0 ? cell.lower : cell.upper
+
+          // layer-1 tile id: ((d>>16) & 0xff) | (((d>>16)>>4) & 0x100) - 1
+          const hi = d >>> 16
+          const tileId = ((hi & 0xff) | ((hi >> 4) & 0x100)) - 1
+
+          // layer-1 tile height: (d >> 24) & 0xf
+          const iTileHeight = (d >>> 24) & 0xf
+
+          // sdlpal scene.c:164 condition
+          if (tileId < 0) continue
+          if (iTileHeight <= 0) continue
+          if ((dy + iTileHeight) * 16 + dh * 8 < sy) continue
+
+          const img = tileImgs.get(tileId)
+          if (!img) continue
+
+          // sdlpal scene.c:171 cover tile DrawEntry sort key
+          const baseY = dy * 16 + dh * 8 + 7 + l + iTileHeight * 8
+
+          // 屏幕绘制位:与 drawTilemap 中 blitTile 坐标一致
+          // dh=0 → (dx*32 - 16 + offsetX, dy*16 - 8 + offsetY)
+          // dh=1 → (dx*32       + offsetX, dy*16     + offsetY)
+          const screenX = dh === 0
+            ? dx * TILE_W - TILE_HALF_W + offsetX
+            : dx * TILE_W + offsetX
+          const screenY = dh === 0
+            ? dy * ROW_Y_STEP - SUBROW_Y_STEP + offsetY
+            : dy * ROW_Y_STEP + offsetY
+
+          // capture closure vars
+          const capturedImg = img
+          const capturedX = screenX
+          const capturedY = screenY
+          const entryId = `${idPrefix}-cover-${dx}-${dy}-${dh}-l${l}`
+
+          entries.push({
+            baseY,
+            draw: (fb) => blitTile(fb, capturedImg, capturedX, capturedY),
+            id: entryId,
+          })
+        }
       }
     }
   }
