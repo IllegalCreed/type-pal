@@ -75,6 +75,12 @@ export interface DevPanelDeps {
    * 留 optional 主要是测试 / 非 dev 场景占位。
    */
   onSceneChanged?: (sceneAssets: SceneAssets) => Promise<void> | void
+  /**
+   * P4.T5:字体测试 sheet 入口。
+   * bootstrap 传一个 closure:清 fb → renderText 渲染混合字符串 sheet → flushToCanvas。
+   * 不传则 Font Test 按钮走 console-only spot-check。
+   */
+  onFontTest?: () => void
   resources: {
     enemies: Enemy[]
     enemyTeams: EnemyTeam[]
@@ -194,6 +200,27 @@ function openPicker(deps: DevPanelDeps): void {
   cancel.style.cssText = 'margin-top:8px; padding:4px 8px'
   cancel.addEventListener('click', closePicker)
   div.appendChild(cancel)
+
+  // P4.T5: Font Test sheet — 渲染中英文混合字符串到 fb,spot-check Unifont glyph 真显示
+  const fontTestH = document.createElement('h3')
+  fontTestH.textContent = 'Dev: Font Test'
+  fontTestH.style.cssText = 'margin: 12px 0 8px 0; font-size: 14px'
+  div.appendChild(fontTestH)
+
+  const fontTestBtn = document.createElement('button')
+  fontTestBtn.textContent = 'Font Test'
+  fontTestBtn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left'
+  fontTestBtn.addEventListener('click', () => {
+    closePicker()
+    if (deps.onFontTest) {
+      deps.onFontTest()
+    }
+    else {
+      // fallback:console only spot-check(bootstrap 未传 onFontTest 时)
+      console.warn('[font-test] onFontTest 未注入,仅 console spot-check')
+    }
+  })
+  div.appendChild(fontTestBtn)
 
   document.body.appendChild(div)
   currentPicker = div

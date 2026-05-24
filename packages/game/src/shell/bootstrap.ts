@@ -1,7 +1,7 @@
 import type { EventFile, SceneEventObject, Tilemap } from '@type-pal/shared'
 import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
 import { fetchPalette, loadAll, SceneAssetsCache, type SceneAssets, type SceneFetcher } from '../assets/loader.js'
-import { loadGlyphs } from '../present/font.js'
+import { loadGlyphs, renderText } from '../present/font.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, npcFromEventObject } from '../core/game-state.js'
 import { buildLabelMap, setFetchPalette } from '../core/event-system.js'
@@ -317,12 +317,40 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // M3.5 T16:加 sceneJumps,picker 内多一段 scene jump 列表(T17 接真 loadScene)。
   // T17 重做:onSceneChanged callback 注入 — dev jump 后 dev-panel 回调它,
   //          bootstrap 在回调里 mutate presentCtx 让 canvas 重画。
+  // P4.T5: Font Test closure — 清 fb → renderText 渲染中英文混合 sheet → flushToCanvas。
+  // 通用安全字符串:不含角色名/地名/具体物品名(版权)。
+  // palette index 15:原版 BMP 调色板第 15 项通常为高亮白/淡色,足够文字可见。
+  const FONT_TEST_LINES = [
+    '0123456789 ABCDEFGHIJKLMNOP',
+    'QRSTUVWXYZ abcdefghijklmnop',
+    'qrstuvwxyz !@#$%^&*()-=+[]',
+    '主菜单 物品 法术 装备 状态',
+    '攻击 防御 法术 道具 逃跑',
+    '生命 法力 等级 经验 金币',
+    '回合 行动 防御 攻击 治疗',
+  ]
+  function onFontTest(): void {
+    fb.clear()
+    if (!glyphs) {
+      console.warn('[font-test] glyphs 未加载,无法渲染 sheet')
+      return
+    }
+    let y = 8
+    for (const line of FONT_TEST_LINES) {
+      renderText(fb, line, 4, y, 15, glyphs)
+      y += 20
+    }
+    flushToCanvas(fb, canvasCtx!, gs.palette ?? palette)
+    console.log('[font-test] sheet rendered — check canvas for tofu')
+  }
+
   setupDevPanel({
     gs,
     fixtures: battleFixtures,
     sceneJumps,
     sceneAssetsCache,
     onSceneChanged: applySceneAssetsToPresent,
+    onFontTest,
     resources: {
       enemies, enemyTeams, battleFields,
       playerRoles, items, spells, magics,
