@@ -1,4 +1,4 @@
-import type { SceneEventObject, Tilemap } from '@type-pal/shared'
+import type { EventFile, SceneEventObject, Tilemap } from '@type-pal/shared'
 import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
 import { loadAll, SceneAssetsCache, type SceneAssets, type SceneFetcher } from '../assets/loader.js'
 import { createCommandBus } from '../core/command-bus.js'
@@ -228,7 +228,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   }
 
   const sceneFetcher: SceneFetcher = async (sceneId: number): Promise<SceneAssets> => {
-    const [sceneJson, tilemapJson] = await Promise.all([
+    const padded = sceneId.toString().padStart(3, '0')
+    const [sceneJson, tilemapJson, eventsJson] = await Promise.all([
       fetch(`${BASE}/data/scene/${sceneId}.json`).then((r) => {
         if (!r.ok) throw new Error(`scene-${sceneId}.json fetch failed (${r.status})`)
         return r.json() as Promise<{ eventObjects: SceneEventObject[] }>
@@ -237,7 +238,16 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         if (!r.ok) throw new Error(`tilemap-${sceneId}.json fetch failed (${r.status})`)
         return r.json() as Promise<Tilemap & { tilesetFiles?: string[] }>
       }),
+      // P3.T1: per-scene events(lazy load,修 M3.5 ⚠️ a9 #8)
+      fetch(`${BASE}/events/scene-${padded}.json`).then((r) => {
+        if (!r.ok) throw new Error(`events/scene-${padded}.json fetch failed (${r.status})`)
+        return r.json() as Promise<EventFile>
+      }),
     ])
+
+    // P3.T1: 把所有 segment 的 commands 展平成单数组,保持与 buildLabelMap 的约定一致。
+    const eventCommands = eventsJson.segments.flatMap((seg) => seg.commands)
+    const sceneLabelMap = buildLabelMap(eventCommands)
 
     // 新 scene NPC sprite 补 fetch(已有的跳过)。fetch 之后写进 closure 的 npcSprites,
     // applySceneAssetsToPresent 里 presentCtx.npcSprites 是同一个引用,无需二次 mutate。
@@ -261,6 +271,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       palette,
       eventObjects: sceneJson.eventObjects,
       npcSprites: new Map<number, SpriteAsset>(),
+      eventCommands,
+      labelMap: sceneLabelMap,
     }
   }
   const sceneAssetsCache = new SceneAssetsCache(sceneFetcher)
@@ -279,10 +291,12 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   function applySceneAssetsToPresent(sceneAssets: SceneAssets): void {
     presentCtx.tilemap = sceneAssets.tilemap
     currentSceneId = sceneAssets.sceneId
+    // P3.T1: 使用新 scene 的 eventCommands / labelMap,
+    // 修 M3.5 ⚠️ a9 #8:loadScene 已 setSceneContext,此处同步覆写保持一致。
     setSceneContext({
       tilemap: sceneAssets.tilemap,
-      eventCommands,
-      labelMap,
+      eventCommands: sceneAssets.eventCommands,
+      labelMap: sceneAssets.labelMap,
     })
   }
 

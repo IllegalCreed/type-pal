@@ -25,6 +25,8 @@ describe('SceneAssetsCache(M3.5)', () => {
       palette: { colors: [] as Array<[number, number, number]> } as any,
       eventObjects: [],
       npcSprites: new Map(),
+      eventCommands: [],
+      labelMap: {},
     }))
     const cache = new SceneAssetsCache(fetcher)
 
@@ -45,6 +47,8 @@ describe('SceneAssetsCache(M3.5)', () => {
       palette: { colors: [] } as any,
       eventObjects: [],
       npcSprites: new Map(),
+      eventCommands: [],
+      labelMap: {},
     }
     const cache = new SceneAssetsCache(async () => fakeAssets)
     const result = await cache.loadScene(5)

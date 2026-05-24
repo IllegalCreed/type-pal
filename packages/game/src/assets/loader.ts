@@ -1,5 +1,6 @@
 import type {
   BattleField,
+  Command,
   Enemy,
   EnemyPosTable,
   EnemyTeam,
@@ -247,6 +248,10 @@ export interface SceneAssets {
   palette: Palette
   eventObjects: SceneEventObject[]
   npcSprites: Map<number, SpriteAsset>
+  /** P3.T1: per-scene event bytecode commands(lazy load from events/scene-NNN.json). */
+  eventCommands: Command[]
+  /** P3.T1: label string → command index map(for loadEventFromNpc goto lookup). */
+  labelMap: Record<string, number>
 }
 
 export type SceneFetcher = (sceneId: number) => Promise<SceneAssets>

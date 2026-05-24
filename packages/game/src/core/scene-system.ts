@@ -171,6 +171,14 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
 
   gs.npcs = sceneAssets.eventObjects.map(npcFromEventObject)
 
+  // P3.T1: 切 scene 时同步更新 SceneContext 的 events + labelMap,
+  // 修 M3.5 ⚠️ a9 #8:旧 scene 的 labelMap 留在内存导致 triggerLabel 查不到。
+  setSceneContext({
+    tilemap: sceneAssets.tilemap,
+    eventCommands: sceneAssets.eventCommands,
+    labelMap: sceneAssets.labelMap,
+  })
+
   if (partyStart) {
     gs.party = {
       col: partyStart.col,
