@@ -301,6 +301,16 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     },
   })
 
+  // M3.5 T19:dev gate 暴露 GameState + assets 供 L2 Playwright helper 用 page.evaluate 探针。
+  // 生产构建 dead-code(Vite tree-shake import.meta.env.DEV 分支)。
+  // 用 dev-panel.ts 同模式 cast(避免依赖 vite/client triple-slash 类型)。
+  if ((import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV) {
+    ;(window as unknown as { __game: { gs: typeof gs, assets: typeof assets } }).__game = {
+      gs,
+      assets,
+    }
+  }
+
   startRafLoop(loopCtx)
   console.log('[bootstrap] scene', SCENE_ID, 'started')
 }
