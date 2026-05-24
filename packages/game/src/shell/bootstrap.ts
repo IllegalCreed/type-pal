@@ -66,7 +66,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   const labelMap = buildLabelMap(eventCommands)
 
   // onEnter 装载
-  if (scene.onEnterLabel) {
+  // M3.5:dev verify / L2 Playwright 加 ?skip-intro=1 URL flag 跳 onEnter,避免
+  // 每次都按 Space 过开场对话(scene 1 是吕奇劫主角剧情)。default 仍跑 onEnter
+  // 保持真原版游戏首屏行为。
+  const skipIntro = new URLSearchParams(window.location.search).has('skip-intro')
+  if (scene.onEnterLabel && !skipIntro) {
     const ip = labelMap[scene.onEnterLabel]
     if (ip !== undefined) {
       gs.eventCursor = { commands: eventCommands, labelMap, ip }
