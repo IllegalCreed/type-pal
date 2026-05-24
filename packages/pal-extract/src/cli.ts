@@ -53,6 +53,7 @@ import { dumpRngAnim } from './resources/parsers/rng.js'
 import { dumpRgmChunk } from './resources/parsers/rgm.js'
 import { dumpBallChunk } from './resources/parsers/ball.js'
 import { parseFirSprite } from './resources/parsers/fire.js'
+import { dumpSoundsMetadata } from './resources/parsers/sounds.js'
 import {
   buildEnemyObjectNameMap,
   buildObjectIndexToEnemyIdMap,
@@ -373,6 +374,15 @@ async function main(): Promise<void> {
     writeJson(resolve(OUT, 'data', 'fire-sprites.json'), { chunkCount: n, chunks: fireManifest })
     console.log(`[pal-extract] FIRE.MKF written (${n} chunks, ${totalFireFrames} frames total)`)
   }
+
+  // M4 P2 T5: SOUNDS.MKF metadata
+  console.log('[pal-extract] SOUNDS.MKF metadata …')
+  const soundsMkf = openMkf(loadFile('SOUNDS.MKF'))
+  const soundsN = chunkCount(soundsMkf)
+  const soundsBufs: Uint8Array[] = []
+  for (let i = 0; i < soundsN; i++) soundsBufs.push(readChunk(soundsMkf, i))
+  writeJson(resolve(OUT, 'data', 'sounds-metadata.json'), dumpSoundsMetadata(soundsBufs))
+  console.log(`[pal-extract] SOUNDS.MKF metadata written (${soundsN} chunks)`)
 
   // splash 素材:FBP.MKF chunk 3(BITMAPNUM_SPLASH_UP WIN95=0x03) +
   //             chunk 4(BITMAPNUM_SPLASH_DOWN WIN95=0x04)。
