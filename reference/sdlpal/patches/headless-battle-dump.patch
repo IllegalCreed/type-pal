@@ -1,0 +1,186 @@
+--- a/main.c	2026-05-24 14:11:51
++++ b/main.c	2026-05-24 14:11:51
+@@ -43,6 +43,18 @@
+ static int  g_dump_map_num     = -1;
+ static int  g_dump_palette_num = 0;
+ static const char *g_dump_out_path = NULL;
++
++/* type-pal: headless single-frame battle scene dumper(M3.5 D29 battle baseline)。
++ * --dump-battle <enemyTeam> --battle-field <N> [--party <count>] [--palette <P>]
++ *               --out FILE
++ * 写 battle scene 第一帧(背景 + 双方 sprite,无 UI 状态栏)到 PNG。
++ * 实现:battle.c PAL_BattleMain 加 hook,paint scene 后跳 PNG 写盘 + return early。 */
++int g_pal_dump_battle_active = 0;  /* extern: battle.c 检查 */
++static int  g_dump_battle_enemy_team = -1;
++static int  g_dump_battle_field      = 0;
++static int  g_dump_battle_party_count = 1;
++static int  g_dump_battle_palette     = 0;
++static const char *g_dump_battle_out  = NULL;
+ 
+ /* type-pal: headless battle harness CLI (D29 numeric baseline).
+  * --battle-harness FIXTURE --out-battle RESULT runs a deterministic
+@@ -638,6 +650,64 @@
+    PAL_FreeMap(lpMap);
+    fclose(fpMAP);
+    fclose(fpGOP);
++   return 0;
++}
++
++/* type-pal: 把战斗 lpSceneBuf(8-bit indexed surface)用当前 palette 转 RGBA + 写 PNG。
++ * 由 battle.c PAL_BattleMain 在 paint 完后调一次。 */
++int
++PAL_DumpBattleSceneToPng(SDL_Surface *surf)
++{
++   SDL_Color     *pColors;
++   unsigned char *pRGBA;
++   int            W, H, x, y;
++
++   if (g_dump_battle_out == NULL) {
++      fprintf(stderr, "[dump-battle] g_dump_battle_out NULL\n");
++      return 1;
++   }
++
++   pColors = PAL_GetPalette(g_dump_battle_palette, FALSE);
++   if (pColors == NULL) {
++      fprintf(stderr, "[dump-battle] PAL_GetPalette(%d) failed\n", g_dump_battle_palette);
++      return 2;
++   }
++
++   W = surf->w;
++   H = surf->h;
++   pRGBA = (unsigned char *)malloc((size_t)W * H * 4);
++   if (pRGBA == NULL) {
++      fprintf(stderr, "[dump-battle] malloc rgba failed\n");
++      return 3;
++   }
++
++   {
++      const unsigned char *pSrc = (const unsigned char *)surf->pixels;
++      const int            iPitch = surf->pitch;
++      for (y = 0; y < H; y++) {
++         for (x = 0; x < W; x++) {
++            unsigned char idx = pSrc[y * iPitch + x];
++            unsigned char *dst = &pRGBA[(y * W + x) * 4];
++            dst[0] = pColors[idx].r;
++            dst[1] = pColors[idx].g;
++            dst[2] = pColors[idx].b;
++            dst[3] = 255;
++         }
++      }
++   }
++
++   if (!stbi_write_png(g_dump_battle_out, W, H, 4, pRGBA, W * 4)) {
++      fprintf(stderr, "[dump-battle] stbi_write_png(%s) failed\n", g_dump_battle_out);
++      free(pRGBA);
++      return 4;
++   }
++
++   fprintf(stderr, "[dump-battle] wrote %s (%dx%d, palette=%d, enemyTeam=%d, battleField=%d, party=%d)\n",
++           g_dump_battle_out, W, H,
++           g_dump_battle_palette, g_dump_battle_enemy_team,
++           g_dump_battle_field, g_dump_battle_party_count);
++
++   free(pRGBA);
+    return 0;
+ }
+ 
+@@ -692,12 +762,34 @@
+       {
+          g_harness_out = argv[++i];
+       }
++      else if (strcmp(argv[i], "--dump-battle") == 0 && i + 1 < argc)
++      {
++         g_dump_battle_enemy_team = atoi(argv[++i]);
++      }
++      else if (strcmp(argv[i], "--battle-field") == 0 && i + 1 < argc)
++      {
++         g_dump_battle_field = atoi(argv[++i]);
++      }
++      else if (strcmp(argv[i], "--party") == 0 && i + 1 < argc)
++      {
++         g_dump_battle_party_count = atoi(argv[++i]);
++      }
+    }
+ 
+-   /* type-pal: harness mode forces SDL dummy drivers so no window or
+-    * audio device opens. Must be set BEFORE SDL_Init. */
+-   if (g_harness_fixture != NULL)
++   /* --palette 参数 dump-battle 也用同一个 g_dump_palette_num(简化),
++    * 在循环里 reuse(已 parse 过)。dump-battle 的 --out 也 reuse g_dump_out_path。 */
++   if (g_dump_battle_enemy_team >= 0)
+    {
++      g_dump_battle_palette = g_dump_palette_num;
++      g_dump_battle_out     = g_dump_out_path;
++      if (g_dump_battle_party_count < 1) g_dump_battle_party_count = 1;
++      if (g_dump_battle_party_count > 5) g_dump_battle_party_count = 5;
++   }
++
++   /* type-pal: harness / dump-battle modes force SDL dummy drivers so no window
++    * or audio device opens. Must be set BEFORE SDL_Init. */
++   if (g_harness_fixture != NULL || g_dump_battle_enemy_team >= 0)
++   {
+       setenv("SDL_VIDEODRIVER", "dummy", 1);
+       setenv("SDL_AUDIODRIVER", "dummy", 1);
+    }
+@@ -764,6 +856,40 @@
+       exit(rc);
+    }
+ 
++   /* type-pal: --dump-battle headless 战斗 scene 单帧 dumper(M3.5 D29 battle
++    * baseline)。配合 --battle-field <N> --out FILE [--party <count>] [--palette <P>]。
++    * 初始化 gpGlobals(party + battleField + scene)→ 调 PAL_StartBattle,
++    * 在 PAL_BattleMain paint scene 后 hook 早 return(写 PNG)。 */
++   if (g_dump_battle_enemy_team >= 0 && g_dump_battle_out != NULL)
++   {
++      int i;
++      PAL_Init();
++
++      /* 关键:跟 PAL_HarnessRunFromFixture 一样,显式调 PAL_InitGameData 加载
++       * DATA.MKF 全部 chunk(lprgBattleField / lprgEnemyTeam / lprgEnemy 等),
++       * 否则 PAL_StartBattle 访问 NULL pointer 段错误。 */
++      PAL_InitGameData(0);
++
++      /* 设置 party:用 role id 0..N-1(简化,L 等队员 spriteNumInBattle 真值)。 */
++      for (i = 0; i < g_dump_battle_party_count; i++) {
++         gpGlobals->rgParty[i].wPlayerRole = (WORD)i;
++      }
++      gpGlobals->wMaxPartyMemberIndex = (WORD)(g_dump_battle_party_count - 1);
++
++      /* battleField + scene + palette 全局状态。 */
++      gpGlobals->wNumBattleField = (WORD)g_dump_battle_field;
++      gpGlobals->wNumScene       = 1;
++      gpGlobals->wNumPalette     = (WORD)g_dump_battle_palette;
++      gpGlobals->fEnteringScene  = FALSE;
++      gpGlobals->fNeedToFadeIn   = FALSE;
++
++      /* 激活 dump 模式,PAL_StartBattle 会在 paint 后 early return + exit。 */
++      g_pal_dump_battle_active = 1;
++      PAL_StartBattle((WORD)g_dump_battle_enemy_team, FALSE);
++      /* 不应到达这里 —— hook 会 exit。fallback:正常退出 */
++      exit(0);
++   }
++
+    //
+    // Should launch setting?
+    // Generally, the condition should never be TRUE as the UTIL_Platform_Init is assumed
+--- a/battle.c	2026-05-24 14:11:51
++++ b/battle.c	2026-05-24 14:11:51
+@@ -710,6 +710,18 @@
+    //
+    PAL_BattleMakeScene();
+    VIDEO_CopyEntireSurface(g_Battle.lpSceneBuf, gpScreen);
++
++   /* type-pal: --dump-battle hook. Paint scene then save to PNG and exit.
++    * Hook 在 audio/delay/pre-battle scripts 之前,避免那条链需要更深的全局状态。
++    * 实现在 main.c (PAL_DumpBattleSceneToPng);g_pal_dump_battle_active flag
++    * 由 --dump-battle CLI 入口设为 1。 */
++   extern int g_pal_dump_battle_active;
++   extern int PAL_DumpBattleSceneToPng(SDL_Surface *surf);
++   if (g_pal_dump_battle_active) {
++      int rc = PAL_DumpBattleSceneToPng(g_Battle.lpSceneBuf);
++      g_pal_dump_battle_active = 0;
++      exit(rc);  /* 直接 exit,避免 PAL_StartBattle 后续 free / cleanup 路径触发段错误 */
++   }
+ 
+    //
+    // Fade out the music and delay for a while
