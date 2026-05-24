@@ -111,8 +111,14 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
   const paletteId = opts.paletteId ?? 0
   const outPath = opts.outPath ?? DEFAULT_OUT_PATH
 
+  // M4 P3.T3: scene→mapNum→tilemap 链:先读 scene JSON 拿到 mapNum,再读 tilemap by mapNum。
+  const sceneMeta = JSON.parse(
+    readFileSync(resolve(DATA, 'data/scene', `${sceneId}.json`), 'utf-8'),
+  ) as { mapNum: number }
+  const mapNum = sceneMeta.mapNum
+
   const tilemap = JSON.parse(
-    readFileSync(resolve(DATA, 'data/tilemap', `${sceneId}.json`), 'utf-8'),
+    readFileSync(resolve(DATA, 'data/tilemap', `${mapNum}.json`), 'utf-8'),
   ) as Tilemap
 
   const palette = JSON.parse(
@@ -129,12 +135,7 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
 
   // M3 T3 修正:不用 data/extracted/images/tile-scene-*-N.png(PNG 抽取丢
   // 了 RLE 透明 / opaque-zero 区分),直接读 GOP.MKF 第 mapNum chunk 解 RLE。
-  // mapNum 从 scene-N.json 取真值(M2 era 曾 hardcode sceneId===1?12:sceneId,
-  // scene 14/17 时 GOP chunk 错位 → M3.5 T6 baseline diff 暴露)。
-  const sceneMeta = JSON.parse(
-    readFileSync(resolve(DATA, 'data/scene', `${sceneId}.json`), 'utf-8'),
-  ) as { mapNum: number }
-  const mapNum = sceneMeta.mapNum
+  // mapNum 从 scene-N.json 取真值(已在上方读取)。
   const gop = openMkf(new Uint8Array(readFileSync(resolve(RAW, 'GOP.MKF'))))
   const gopChunk = readChunk(gop, mapNum)
   const tileImages = new Map<number, TileImage>()

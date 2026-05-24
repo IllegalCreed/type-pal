@@ -420,16 +420,65 @@ async function main(): Promise<void> {
 
   console.log('[pal-extract] data tables written')
 
-  // ── 资源(切片:多场景) ──────────────────────────────────────────
-  // M3.5 T4:从单一 SLICE_SCENE_ID 扩到 SLICE_SCENE_IDS 数组,每个 sceneId 各产出
-  // tilemap-N.json + tile-scene-N-*.png + scene-N.json。dev panel 跳 scene 用。
-  console.log(`[pal-extract] resources for scenes ${SLICE_SCENE_IDS.join(',')} …`)
+  // ── 资源(tileset + tilemap:全 295 scene,按 mapNum dedup) ─────────────────────
+  // M4 P3.T3:全 295 scene → unique mapNum 集合,每个 mapNum dump 一次 tileset + tilemap。
+  // tilemap JSON 按 mapNum keyed(tilemap-{mapNum}.json),loader 通过 scene→mapNum→tilemap 链查找。
 
   const mapMkf = openMkf(loadFile('MAP.MKF'))
   const mapChunkCount = chunkCount(mapMkf)
   const gopMkf = openMkf(loadFile('GOP.MKF'))
 
-  // 收集所有切片场景对应的 scene 对象 + (sceneId → sceneObjects) — 给后面 sprite 提取用。
+  {
+    const allSceneCount = sss.scenes.length
+    const uniqueMapNums = new Set<number>()
+    for (let sliceId = 1; sliceId < allSceneCount; sliceId++) {
+      const scene = sss.scenes[sliceId]
+      if (!scene) continue
+      if (scene.mapNum >= mapChunkCount) {
+        console.warn(
+          `[pal-extract] scene ${sliceId} mapNum=${scene.mapNum} >= MAP chunks ${mapChunkCount}, skip`,
+        )
+        continue
+      }
+      uniqueMapNums.add(scene.mapNum)
+    }
+    console.log(
+      `[pal-extract] full scope: ${allSceneCount} scenes, ${uniqueMapNums.size} unique mapNums`,
+    )
+
+    let tilesetsWritten = 0
+    for (const mapNum of uniqueMapNums) {
+      const rawMapChunk = readChunk(mapMkf, mapNum)
+      if (rawMapChunk.byteLength === 0) {
+        console.warn(`[pal-extract] mapNum=${mapNum}: MAP.MKF chunk 为空,skip`)
+        continue
+      }
+      let mapBytes: Uint8Array
+      try {
+        mapBytes = decompressYj2(rawMapChunk)
+      } catch (err) {
+        console.warn(`[pal-extract] mapNum=${mapNum}: YJ2 解压失败,skip —— ${err}`)
+        continue
+      }
+      const gopBytes = readChunk(gopMkf, mapNum)
+      const mapResult = parseMap(mapBytes, gopBytes)
+
+      const tilesetFiles: string[] = []
+      for (const tile of mapResult.tiles) {
+        writeBinary(imageWorldTilesetPath(mapNum, tile.index), tile.pngBytes)
+        tilesetFiles.push(imageWorldTilesetRelPath(mapNum, tile.index))
+      }
+      writeJson(dataSubdirPath('tilemap', String(mapNum)), {
+        ...mapResult.tilemap,
+        tilesetFiles,
+        tilesetImage: `world/tileset/map-${mapNum}/tile-*.png`,
+      })
+      tilesetsWritten++
+    }
+    console.log(`[pal-extract] tilesets written: ${tilesetsWritten} / ${uniqueMapNums.size} unique mapNums`)
+  }
+
+  // 收集 SLICE_SCENE_IDS 切片场景的 sceneObjects — 给后面 sprite 提取用。
   const slicedScenes: Array<{
     sceneId: number
     scene: import('./io/sss.js').Scene
@@ -442,44 +491,7 @@ async function main(): Promise<void> {
       console.error(`[pal-extract] scene ${sliceId} not found`)
       process.exit(2)
     }
-    console.log(`[pal-extract] scene ${sliceId}: mapNum=${scene.mapNum}`)
-
-    if (scene.mapNum >= mapChunkCount) {
-      console.error(
-        `[pal-extract] scene ${sliceId} mapNum=${scene.mapNum} >= MAP.MKF chunk count ${mapChunkCount}; ` +
-          `请调整 SLICE_SCENE_IDS`,
-      )
-      process.exit(2)
-    }
-
-    // MAP.MKF chunk N:YJ2 压缩;GOP.MKF chunk N:raw sprite chunk
-    const mapBytes = decompressYj2(readChunk(mapMkf, scene.mapNum))
-    const gopBytes = readChunk(gopMkf, scene.mapNum)
-    const mapResult = parseMap(mapBytes, gopBytes)
-
-    // 每个 tile 写为独立 PNG
-    const tilesetFiles: string[] = []
-    for (const tile of mapResult.tiles) {
-      writeBinary(imageWorldTilesetPath(scene.mapNum, tile.index), tile.pngBytes)
-      tilesetFiles.push(imageWorldTilesetRelPath(scene.mapNum, tile.index))
-    }
-    mapResult.tilemap.tilesetImage = `world/tileset/map-${scene.mapNum}/tile-*.png`
-    writeJson(dataSubdirPath('tilemap', String(sliceId)), {
-      ...mapResult.tilemap,
-      tilesetFiles,
-    })
-
-    console.log(
-      `[pal-extract] scene ${sliceId} tilemap written (${mapResult.tiles.length} tiles)`,
-    )
-
-    // 场景对象切片:从切片场景 dump NPC/触发点列表(供运行时用)
     const sceneObjects = dumpScene(sliceId, sss.scenes, sss.eventObjects)
-    writeJson(dataSubdirPath('scene', String(sliceId)), sceneObjects)
-    console.log(
-      `[pal-extract] scene-${sliceId}.json written (${sceneObjects.eventObjects.length} event objects)`,
-    )
-
     slicedScenes.push({ sceneId: sliceId, scene, sceneObjects })
   }
 

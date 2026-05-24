@@ -230,13 +230,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   const sceneFetcher: SceneFetcher = async (sceneId: number): Promise<SceneAssets> => {
     const padded = sceneId.toString().padStart(3, '0')
-    const [sceneJson, tilemapJson, eventsJson] = await Promise.all([
-      fetch(`${BASE}/data/scene/${sceneId}.json`).then((r) => {
-        if (!r.ok) throw new Error(`scene-${sceneId}.json fetch failed (${r.status})`)
-        return r.json() as Promise<{ eventObjects: SceneEventObject[] }>
-      }),
-      fetch(`${BASE}/data/tilemap/${sceneId}.json`).then((r) => {
-        if (!r.ok) throw new Error(`tilemap-${sceneId}.json fetch failed (${r.status})`)
+    // M4 P3.T3: scene→mapNum→tilemap 链:先 fetch scene JSON 拿到 mapNum,再 fetch tilemap by mapNum。
+    const sceneJson = await fetch(`${BASE}/data/scene/${sceneId}.json`).then((r) => {
+      if (!r.ok) throw new Error(`scene-${sceneId}.json fetch failed (${r.status})`)
+      return r.json() as Promise<{ mapNum: number; eventObjects: SceneEventObject[] }>
+    })
+    const [tilemapJson, eventsJson] = await Promise.all([
+      fetch(`${BASE}/data/tilemap/${sceneJson.mapNum}.json`).then((r) => {
+        if (!r.ok) throw new Error(`tilemap-${sceneJson.mapNum}.json fetch failed (${r.status})`)
         return r.json() as Promise<Tilemap & { tilesetFiles?: string[] }>
       }),
       // P3.T1: per-scene events(lazy load,修 M3.5 ⚠️ a9 #8)

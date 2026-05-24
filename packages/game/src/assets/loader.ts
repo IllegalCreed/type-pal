@@ -78,13 +78,14 @@ interface BattleBgsManifest {
 
 export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   const padded = sceneId.toString().padStart(3, '0')
+  // M4 P3.T3: scene→mapNum→tilemap 链:先 fetch scene JSON 拿到 mapNum,再 fetch tilemap by mapNum。
+  const scene = await fetchJson<SceneObjects & { mapNum: number }>(`${BASE}/data/scene/${sceneId}.json`)
   const [
-    tilemap, palette, scene, events, playerRoles,
+    tilemap, palette, events, playerRoles,
     enemies, enemyTeams, battleFields, enemyPos, items, spells, magics,
   ] = await Promise.all([
-    fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap/${sceneId}.json`),
+    fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap/${scene.mapNum}.json`),
     fetchJson<Palette>(`${BASE}/data/palette/0.json`),
-    fetchJson<SceneObjects>(`${BASE}/data/scene/${sceneId}.json`),
     fetchJson<EventFile>(`${BASE}/events/scene-${padded}.json`),
     fetchJson<PlayerRoles>(`${BASE}/data/player-roles.json`),
     fetchJson<Enemy[]>(`${BASE}/data/enemies.json`),
