@@ -163,7 +163,7 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
     }
   }
 
-  // sdlpal map.c:382-414 PAL_MapBlitToSurface 真实公式:
+  // sdlpal map.c:382-417 PAL_MapBlitToSurface 真实公式:
   //   yPos = -8 + 16*y + 8*h   (h=0 排在 row baseline 上方 8 px;h=1 在 row baseline)
   //   xPos = 32*x + 16*h - 16  (h=0 排在 col baseline 左 16 px;h=1 在 col baseline)
   // 我们的 cell.lower = Tiles[y][x][0] = h=0 DWORD,cell.upper = Tiles[y][x][1] = h=1 DWORD。
@@ -173,30 +173,38 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
   // **迭代顺序** 也要照 sdlpal:外 y → 中 h → 内 x。这样 row 内 h=0 的全 x
   // 先画完再轮 h=1,因为 h=0 (col c+1) 和 h=1 (col c) 在 col 方向上有 16 px 重叠,
   // 顺序不同会因 opaque 互相覆盖产生不同 pixel。
-  function drawPass(layerFn: (d: number) => number): void {
-    for (let r = 0; r < tilemap.height; r++) {
+  //
+  // **±1 fence**(M3.5 T6 修):sdlpal sy=lpSrcRect->y/16-1, dy=(y+h)/16+2 → y 跑
+  // -1..130;x 同理跑 -1..65。fence 位置 PAL_MapGetTileBitmap 返回 NULL,layer 0
+  // fallback 到 tile (0,0,h=0,layer=0)(map.c:412);layer 1 直接 continue。fence
+  // 给 dense scene 右 16 col / 底 8 row 提供 fill;之前缺 fence → scene 14/17 暴露
+  // ~74808 px diff(scene 1 tile(0,0,0,0)=透明所以巧合 0 diff)。
+  function drawPass(layerFn: (d: number) => number, isLayer1: boolean): void {
+    // layer 0 fence fallback:cells[0][0].lower 的 layer 0 tile id(永远 h=0)
+    const fenceFill = isLayer1 ? -1 : layerFn(tilemap.cells[0]![0]!.lower)
+    for (let r = -1; r <= tilemap.height; r++) {
+      const row = (r >= 0 && r < tilemap.height) ? tilemap.cells[r]! : null
       // h=0 sub-row:所有 x。cell.lower → 左偏 16 / 上偏 8。
-      const row = tilemap.cells[r]!
-      for (let c = 0; c < tilemap.width; c++) {
-        const h0Id = layerFn(row[c]!.lower)
-        if (h0Id >= 0) {
-          const img = tileImages.get(h0Id)
-          if (img) blitTile(img, c * TILE_W - TILE_HALF_W, r * ROW_Y_STEP - SUBROW_Y_STEP)
-        }
+      for (let c = -1; c <= tilemap.width; c++) {
+        const cell = (row && c >= 0 && c < tilemap.width) ? row[c]! : null
+        const id = cell ? layerFn(cell.lower) : fenceFill
+        if (id < 0) continue
+        const img = tileImages.get(id)
+        if (img) blitTile(img, c * TILE_W - TILE_HALF_W, r * ROW_Y_STEP - SUBROW_Y_STEP)
       }
-      // h=1 sub-row:所有 x。cell.upper → 不偏。
-      for (let c = 0; c < tilemap.width; c++) {
-        const h1Id = layerFn(row[c]!.upper)
-        if (h1Id >= 0) {
-          const img = tileImages.get(h1Id)
-          if (img) blitTile(img, c * TILE_W, r * ROW_Y_STEP)
-        }
+      // h=1 sub-row:所有 x。cell.upper → 不偏。fence fallback 仍用 cells[0][0].lower。
+      for (let c = -1; c <= tilemap.width; c++) {
+        const cell = (row && c >= 0 && c < tilemap.width) ? row[c]! : null
+        const id = cell ? layerFn(cell.upper) : fenceFill
+        if (id < 0) continue
+        const img = tileImages.get(id)
+        if (img) blitTile(img, c * TILE_W, r * ROW_Y_STEP)
       }
     }
   }
 
-  drawPass(layer0Id)
-  drawPass(layer1Id)
+  drawPass(layer0Id, false)
+  drawPass(layer1Id, true)
 
   const png = new PNG({ width: W, height: H })
   for (let i = 0; i < fb.length; i++) {
