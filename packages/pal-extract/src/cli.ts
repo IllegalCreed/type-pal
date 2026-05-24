@@ -72,23 +72,6 @@ const RAW = resolve(REPO_ROOT, 'data/raw')
 const OUT = resolve(REPO_ROOT, 'data/extracted')
 const SYMBOLS_PATH = resolve(REPO_ROOT, 'data/symbols.json')
 
-/**
- * 切片场景 ID 列表(0-indexed,对应 sss.scenes[N]; sdlpal 1-based wNumScene = N+1)。
- * - 1  = 客栈 (mapNum 12) —— M2 / M3 起始切片
- * - 14 = 仙靈島碼頭 / 「入口」(mapNum 3) —— onEnter L_5117 + 張四哥 NPC「我在這裏看船」
- * - 15 = 仙靈島通道 1 (mapNum 7)  —— onEnter L_4203,过渡走廊(无明雷怪)
- * - 16 = 仙靈島通道 2 (mapNum 119) —— onEnter L_5231,**4 个 sprite 468 草妖明雷**
- *        (triggerMode=5 kTriggerTouchNormal contact)—— M3.5 明雷机制的真测试场景
- * - 17 = 仙靈島迷宮 (mapNum 6) —— onEnter L_5137,觀音像 + 破天錘 + 大量 Confirm-NPC
- *
- * 选定依据:scenes dump 头 20 个 + sdlpal kTriggerTouchNormal = 5(明雷 contact)语义
- * 校验 + 对照 reference/walkthrough/flow.md「仙靈島」章节。
- * dev panel(M3.5 D34)用 sceneId 直接跳。
- *
- * **M3.5 中段发现**:plan 初版只列 [1, 14, 17],漏了 14→17 之间的 2 个通道场景;
- * 通道里才有 contact 触发的明雷怪(scene 16 sprite 468 ×4)。Fix 后扩到 5 个。
- */
-const SLICE_SCENE_IDS = [1, 14, 15, 16, 17] as const
 
 function writeJson(path: string, data: unknown): void {
   mkdirSync(dirname(path), { recursive: true })
@@ -478,31 +461,15 @@ async function main(): Promise<void> {
     console.log(`[pal-extract] tilesets written: ${tilesetsWritten} / ${uniqueMapNums.size} unique mapNums`)
   }
 
-  // 收集 SLICE_SCENE_IDS 切片场景的 sceneObjects — 给后面 sprite 提取用。
-  const slicedScenes: Array<{
-    sceneId: number
-    scene: import('./io/sss.js').Scene
-    sceneObjects: ReturnType<typeof dumpScene>
-  }> = []
-
-  for (const sliceId of SLICE_SCENE_IDS) {
-    const scene = sss.scenes[sliceId]
-    if (!scene) {
-      console.error(`[pal-extract] scene ${sliceId} not found`)
-      process.exit(2)
-    }
-    const sceneObjects = dumpScene(sliceId, sss.scenes, sss.eventObjects)
-    slicedScenes.push({ sceneId: sliceId, scene, sceneObjects })
-  }
-
-  // M4 P3.T5: 全 295 scene-N.json(SceneObjects 含 mapNum + eventObjects)
-  // SLICE_SCENE_IDS 的 5 个 scene 会被下面覆写,结果一致。
+  // M4 P3.T4+T5: 全 295 scene dumpScene 结果 hoisted — T5 写 JSON,T4 复用 sceneObjs 做 sprite union。
+  const sceneObjsBySliceId = new Map<number, ReturnType<typeof dumpScene>>()
   {
     let sceneWritten = 0
     for (let allSceneId = 1; allSceneId < sss.scenes.length; allSceneId++) {
       const s = sss.scenes[allSceneId]
       if (!s) continue
       const sceneObjs = dumpScene(allSceneId, sss.scenes, sss.eventObjects)
+      sceneObjsBySliceId.set(allSceneId, sceneObjs)
       writeJson(dataSubdirPath('scene', String(allSceneId)), sceneObjs)
       sceneWritten++
     }
@@ -524,22 +491,20 @@ async function main(): Promise<void> {
   }
   console.log(`[pal-extract] palette written (${palWritten} chunks)`)
 
-  // 角色 / NPC 精灵切片(M2 新增 — D27, M3 T9 改读真值;M3.5 T4 改 union 多 scene)
-  console.log(
-    `[pal-extract] character sprites for scenes ${SLICE_SCENE_IDS.join(',')} …`,
-  )
+  // 角色 / NPC 精灵切片(M2 新增 — D27, M3 T9 改读真值;M4 P3.T4 扩到全 295 scene EO + 6 roles)
+  console.log('[pal-extract] character sprites: 全 295 scene EO union + 6 player roles …')
 
-  // 队长精灵号 —— 从上面 parsePlayerRoles 得到的真值取(roles[0].spriteNum,实测 = 2)。
-  // 6 个角色精灵号 = [2, 3, 7, 525, 5, 26]。M2 切片只装载队长一个 sprite,
-  // 多人队伍 / 角色切换的扩展留 M5。
-  const partyLeader = playerRoles.roles[0]
-  if (!partyLeader) throw new Error('cli: parsePlayerRoles 返回空 roles')
-  const spriteIds = new Set<number>([partyLeader.spriteNum])
-  for (const sliced of slicedScenes) {
-    for (const eo of sliced.sceneObjects.eventObjects) {
+  // M4 P3.T4: 全 295 scene EO sprite union + 6 player roles
+  const spriteIds = new Set<number>()
+  for (const role of playerRoles.roles) {
+    if (role.spriteNum > 0) spriteIds.add(role.spriteNum)
+  }
+  for (const [, sceneObjs] of sceneObjsBySliceId) {
+    for (const eo of sceneObjs.eventObjects) {
       if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)
     }
   }
+  console.log(`[pal-extract] sprite union: ${spriteIds.size} unique spriteIds (全 295 scene)`)
 
   const mgoMkf = openMkf(loadFile('MGO.MKF'))
   const mgoChunkCount = chunkCount(mgoMkf)
@@ -556,9 +521,15 @@ async function main(): Promise<void> {
       spriteIds.delete(id)
       continue
     }
-    // MGO.MKF chunk 是 YJ2 压缩 —— 实测全部非空 chunk 首 4 字节均为
-    // 有效 u32 LE 解压长度,无一例外,故直接走 YJ2,无 raw→fallback 路径。
-    mgoChunks.set(id, decompressYj2(raw))
+    // MGO.MKF chunk 是 YJ2 压缩 —— 全 295 scene union 中绝大部分 chunk 均有效;
+    // 防御性 try/catch 覆盖极少数格式异常 chunk。
+    try {
+      mgoChunks.set(id, decompressYj2(raw))
+    }
+    catch (err) {
+      console.warn(`[pal-extract] sprite ${id} YJ2 fail, skip:`, err)
+      spriteIds.delete(id)
+    }
   }
 
   const sprites = extractCharacterSprites([...spriteIds], mgoChunks)
