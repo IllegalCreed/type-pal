@@ -13,13 +13,26 @@ import type { BattleState } from '../../core/battle/battle-state.js'
 import type { Framebuffer } from '../framebuffer.js'
 
 /**
- * 队员战斗位置(M3 简版,5 个槽位)。
- * 队长(idx 0)居中靠后,其余按 sdlpal team 顺序左右展开。
+ * 队员战斗位置(M3.5 fix:对照 sdlpal battle.c::g_rgPlayerPos[3][3][2])。
+ *
+ * sdlpal 真值(idx 取 maxPartyMemberIndex,即 partyCount-1):
+ *   1 player : (240, 170)
+ *   2 players: (200, 176), (256, 152)
+ *   3 players: (180, 180), (234, 170), (270, 146)
+ *
+ * M2/M3 simple version 误用 hardcoded 中心 layout,L2 sdlpal baseline 揭穿。
  */
-const PLAYER_POSITIONS: ReadonlyArray<{ x: number, y: number }> = [
-  { x: 160, y: 150 },
-  { x: 80, y: 145 }, { x: 240, y: 145 },
-  { x: 50, y: 160 }, { x: 270, y: 160 },
+const PLAYER_POSITIONS_BY_COUNT: ReadonlyArray<ReadonlyArray<{ x: number, y: number }>> = [
+  // 1 player
+  [{ x: 240, y: 170 }],
+  // 2 players
+  [{ x: 200, y: 176 }, { x: 256, y: 152 }],
+  // 3 players
+  [{ x: 180, y: 180 }, { x: 234, y: 170 }, { x: 270, y: 146 }],
+  // 4+ players:sdlpal 表只到 3 人,M3.5 4 人 用 3 人 layout + 加一格
+  [{ x: 180, y: 180 }, { x: 234, y: 170 }, { x: 270, y: 146 }, { x: 280, y: 130 }],
+  // 5 players(罕见)
+  [{ x: 180, y: 180 }, { x: 234, y: 170 }, { x: 270, y: 146 }, { x: 280, y: 130 }, { x: 290, y: 110 }],
 ]
 
 /**
@@ -92,10 +105,16 @@ export function drawBattleSprites(
   })
 
   // 队员画在敌方之上(屏幕下方靠近玩家视角)
+  // M3.5 fix:position 选 PLAYER_POSITIONS_BY_COUNT[partyCount-1][i],对照 sdlpal
+  // g_rgPlayerPos 真表(1/2/3 队员各自 layout)。
+  const partyCount = state.players.length
+  const positions
+    = PLAYER_POSITIONS_BY_COUNT[Math.min(partyCount - 1, PLAYER_POSITIONS_BY_COUNT.length - 1)]
+  if (!positions) return
   state.players.forEach((p, i) => {
     const role = playerRoles.roles[p.roleId]
     if (!role || role.hp <= 0) return
-    const pos = PLAYER_POSITIONS[i]
+    const pos = positions[i]
     if (!pos) return
     const sprite = battleSprites.get(`player-${role.spriteNumInBattle}`)
     if (!sprite || !sprite.frames[0]) return

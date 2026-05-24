@@ -142,10 +142,11 @@ describe('drawBattleSprites', () => {
       [mkBattleEnemy(minimalEnemy(50))],
     )
     drawBattleSprites(fb, state, sprites, playerRoles)
-    // 队员位置 (160, 150),anchor 底中:px = 160 - 1 = 159, py = 150 - 2 = 148
-    expect(fb.indices[148 * 320 + 159]).toBe(8)
-    expect(fb.indices[149 * 320 + 160]).toBe(8)
-    // 敌方位置 (160, 80),anchor 底中:px = 159, py = 78
+    // M3.5 fix:1 player 真位置 (240, 170)(sdlpal g_rgPlayerPos[0][0][])。
+    // anchor 底中:px = 240 - 1 = 239, py = 170 - 2 = 168
+    expect(fb.indices[168 * 320 + 239]).toBe(8)
+    expect(fb.indices[169 * 320 + 240]).toBe(8)
+    // 敌方位置 (160, 80)(M3 简版,M5 改 ENEMYPOS table),anchor 底中:px = 159, py = 78
     expect(fb.indices[78 * 320 + 159]).toBe(9)
     expect(fb.indices[79 * 320 + 160]).toBe(9)
   })
@@ -165,7 +166,7 @@ describe('drawBattleSprites', () => {
     )
     drawBattleSprites(fb, state, sprites, playerRoles)
     // 两个 sprite 都不该画 — 队员 (159,148) / 敌方 (159,78) 仍 = 0
-    expect(fb.indices[148 * 320 + 159]).toBe(0)
+    expect(fb.indices[168 * 320 + 239]).toBe(0)
     expect(fb.indices[78 * 320 + 159]).toBe(0)
   })
 
@@ -183,8 +184,8 @@ describe('drawBattleSprites', () => {
 
   it('sprite opaque=0 透明,不覆盖背景(M3.5 fix:透明判定走 opaque,不再 idx===0)', () => {
     const fb = createFramebuffer()
-    // 队员 anchor 中心 (160, 150),底中 anchor 后 (159, 148) 是 frame[0,0]
-    fb.writePixel(159, 148, 77)
+    // M3.5 fix:1 player 真位置 (240, 170),底中 anchor 后 (239, 168) 是 frame[0,0]
+    fb.writePixel(239, 168, 77)
     const role = minimalRole(0, { spriteNumInBattle: 1 })
     const playerRoles: PlayerRoles = { roles: [role] }
     const indices = new Uint8Array(4) // 全 0
@@ -194,7 +195,7 @@ describe('drawBattleSprites', () => {
     ])
     const state = mkState([mkBattlePlayer(0)], [])
     drawBattleSprites(fb, state, sprites, playerRoles)
-    expect(fb.indices[148 * 320 + 159]).toBe(77) // 未被透明像素覆盖
+    expect(fb.indices[168 * 320 + 239]).toBe(77) // 未被透明像素覆盖
   })
 
   it('超过 5 个队员/敌方:多出来的不画(POSITIONS 数组限制)', () => {
