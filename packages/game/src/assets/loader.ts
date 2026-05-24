@@ -7,6 +7,7 @@ import type {
   Magic,
   Palette,
   PlayerRoles,
+  SceneEventObject,
   SceneObjects,
   Spell,
   Tilemap,
@@ -227,5 +228,42 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     items,
     spells,
     magics,
+  }
+}
+
+// ── Scene 资源 lazy 加载缓存(M3.5 / D33) ─────────────────────────────
+
+export interface SceneAssets {
+  sceneId: number
+  tilemap: Tilemap
+  palette: Palette
+  eventObjects: SceneEventObject[]
+  npcSprites: Map<number, SpriteAsset>
+}
+
+export type SceneFetcher = (sceneId: number) => Promise<SceneAssets>
+
+/**
+ * Scene 资源 lazy 加载缓存(D33)。
+ *
+ * M3.5 简版不做 LRU eviction(只 2-3 scene 切换,< 10MB 可接受);
+ * M5 全场景时加 LRU。
+ *
+ * 真 SceneFetcher 实现(从 `/extracted/data/scene-N.json` + tilemap-N.json +
+ * palette + sprites 各 PNG fetch)写在 bootstrap.ts(T16+ 用),不在 loader.ts。
+ * loader.ts 只管 cache 本身。
+ */
+export class SceneAssetsCache {
+  private readonly cache = new Map<number, SceneAssets>()
+
+  constructor(private readonly fetcher: SceneFetcher) {}
+
+  async loadScene(sceneId: number): Promise<SceneAssets> {
+    let cached = this.cache.get(sceneId)
+    if (!cached) {
+      cached = await this.fetcher(sceneId)
+      this.cache.set(sceneId, cached)
+    }
+    return cached
   }
 }
