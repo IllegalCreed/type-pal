@@ -273,3 +273,52 @@ describe('runScript (M3 T17, battle mode)', () => {
     debugSpy.mockRestore()
   })
 })
+
+describe('loadScene opcode handler stub(M3.5 T10 / B 路线)', () => {
+  it('explore mode 撞 loadScene → no-op + console.debug + ip++ 不抛错', () => {
+    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    loadEvent(gs, [
+      { op: 'loadScene', sceneId: 42 },
+      { op: 'end' },
+    ])
+    // 不抛错(stub no-op)
+    expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
+    // 一帧内 loadScene + end 连跑完 → mode=explore
+    expect(gs.mode).toBe('explore')
+    expect(gs.eventCursor).toBeUndefined()
+    // console.debug 被调用,信息含 loadScene + sceneId
+    expect(debugSpy).toHaveBeenCalledTimes(1)
+    const msg = debugSpy.mock.calls[0]?.[0] as string
+    expect(msg).toContain('loadScene')
+    expect(msg).toContain('42')
+    debugSpy.mockRestore()
+  })
+
+  it('battle mode 同样 stub(D26 跨 mode 一致):no-op + console.debug + ip++', () => {
+    const bus = createCommandBus()
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    expect(() =>
+      runScript({
+        commands: [
+          { op: 'loadScene', sceneId: 7 },
+          { op: 'end' },
+        ],
+        ip: 0,
+        bus,
+        runtimeMode: 'battle',
+        battleCtx: makeMinimalBattleCtx(),
+      }),
+    ).not.toThrow()
+    // stub 是 no-op,不 emit 任何 bus 命令
+    expect(bus.drain()).toEqual([])
+    // console.debug 被调用,信息含 loadScene + sceneId + battle 前缀(D26 跨 mode 一致)
+    expect(debugSpy).toHaveBeenCalledTimes(1)
+    const msg = debugSpy.mock.calls[0]?.[0] as string
+    expect(msg).toContain('loadScene')
+    expect(msg).toContain('7')
+    expect(msg).toMatch(/\[event-system battle\]/)
+    debugSpy.mockRestore()
+  })
+})
