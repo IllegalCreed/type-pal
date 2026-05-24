@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { bootstrap, openDevPicker, selectBattleFixture } from '../helpers/bootstrap.js'
 import { snapshotCanvas } from '../helpers/snapshot.js'
-import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
+import { sdlpalDiff } from '../helpers/pixel-diff.js'
 
 type Probe = {
   __game: {
@@ -27,12 +27,7 @@ test('b2 双方 sprite 渲染 — 队员 + enemy 都画出来', async ({ page })
   expect(battleState!.enemies.length).toBeGreaterThan(0)
 
   const actual = await snapshotCanvas(page)
-  expect(
-    await pixelDiff({
-      actual,
-      baselinePath: baselinePathFor('battle', 'b2-sprites-fixture-zh1'),
-      threshold: 0,
-      updateBaseline: !!process.env.UPDATE_BASELINES,
-    }),
-  ).toBe(0)
+  // 与 sdlpal real baseline 对比(build/sdlpal-baseline/battles/fixture-zh1.png)
+  const pct = await sdlpalDiff({ actual, baseline: 'fixture-zh1', threshold: 0.1 })
+  expect(pct).toBeLessThan(0.05)
 })

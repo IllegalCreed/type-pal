@@ -6,7 +6,7 @@ import {
   pressMenu,
 } from '../helpers/bootstrap.js'
 import { snapshotCanvas } from '../helpers/snapshot.js'
-import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
+import { sdlpalDiff } from '../helpers/pixel-diff.js'
 
 type Probe = {
   __game: {
@@ -61,11 +61,8 @@ test('b4 攻击数字弹幕 — fixture-zh2 双方动作完成 → 数字飘出'
   expect(mode).toBe('battle')
 
   const actual = await snapshotCanvas(page)
-  const diff = await pixelDiff({
-    actual,
-    baselinePath: baselinePathFor('battle', 'b4-damage-num'),
-    threshold: 0.1,
-    updateBaseline: !!process.env.UPDATE_BASELINES,
-  })
-  expect(diff).toBeLessThan(500)
+  // 与 sdlpal real baseline 对比(fixture-zh2 含双方 sprite + 状态栏)
+  // 数字弹幕是跨帧动画,截图时机与 sdlpal 不同;允许 < 8% diff(KNOWN_DEVIATION: 弹幕帧差异)
+  const pct = await sdlpalDiff({ actual, baseline: 'fixture-zh2', threshold: 0.1 })
+  expect(pct).toBeLessThan(0.08)
 })
