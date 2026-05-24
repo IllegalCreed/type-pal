@@ -12,13 +12,16 @@ import {
   type PresentContext,
 } from '../present/present.js'
 import { BattlePresent, type BattleAssets } from '../present/battle/present-battle.js'
-import { setupDevPanel, type BattleFixturesData } from './dev-panel.js'
+import { setupDevPanel, type BattleFixturesData, type SceneJumpsData } from './dev-panel.js'
 import battleFixturesRaw from '../data/battle-fixtures.json' with { type: 'json' }
+import sceneJumpsRaw from '../data/scene-jumps.json' with { type: 'json' }
 
 // JSON 静态 import 的 TS 类型推断会把每条 fixture 推成具体 key 集合(eg. fixture-zh1
 // 没 "1" → 推 "1": undefined),与 BattleFixturesData 的 Record<string, ...> 不严格匹配。
 // 这里显式 cast —— battle-fixtures.json 的 schema 由 BattleFixture 定义,运行时合法。
 const battleFixtures = battleFixturesRaw as unknown as BattleFixturesData
+// 同模式 cast —— scene-jumps.json schema 由 SceneJump 定义。
+const sceneJumps = sceneJumpsRaw as unknown as SceneJumpsData
 
 const SCENE_ID = 1
 
@@ -135,9 +138,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   }
 
   // M3 T29:dev panel(仅 DEV;生产构建 dead-code)。快捷键 B 弹 fixture picker → 启战。
+  // M3.5 T16:加 sceneJumps,picker 内多一段 scene jump 列表(stub,T17 接真切场景)。
   setupDevPanel({
     gs,
     fixtures: battleFixtures,
+    sceneJumps,
     resources: {
       enemies, enemyTeams, battleFields,
       playerRoles, items, spells, magics,

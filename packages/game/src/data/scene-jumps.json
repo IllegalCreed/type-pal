@@ -1,0 +1,9 @@
+{
+  "jumps": [
+    { "id": "scene-1",           "label": "scene 1 客栈(M2 起点)",     "sceneId": 1,  "partyStart": { "col": 32, "row": 24, "facing": "down" } },
+    { "id": "scene-14-port",     "label": "scene 14 仙灵岛入口/码头",   "sceneId": 14, "partyStart": { "col": 32, "row": 32, "facing": "down" } },
+    { "id": "scene-15-corridor", "label": "scene 15 仙灵岛通道 1",      "sceneId": 15, "partyStart": { "col": 32, "row": 32, "facing": "down" } },
+    { "id": "scene-16-mob",      "label": "scene 16 仙灵岛通道 2(明雷草妖)", "sceneId": 16, "partyStart": { "col": 32, "row": 32, "facing": "down" } },
+    { "id": "scene-17-maze",     "label": "scene 17 仙灵岛迷宫",        "sceneId": 17, "partyStart": { "col": 32, "row": 32, "facing": "down" } }
+  ]
+}

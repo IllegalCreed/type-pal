@@ -48,9 +48,22 @@ export interface BattleFixturesData {
   fixtures: BattleFixture[]
 }
 
+/** scene jump entry —— 与 `packages/game/src/data/scene-jumps.json` 对齐。 */
+export interface SceneJump {
+  id: string
+  label: string
+  sceneId: number
+  partyStart: { col: number; row: number; facing: string }
+}
+
+export interface SceneJumpsData {
+  jumps: SceneJump[]
+}
+
 export interface DevPanelDeps {
   gs: GameState
   fixtures: BattleFixturesData
+  sceneJumps: SceneJumpsData
   resources: {
     enemies: Enemy[]
     enemyTeams: EnemyTeam[]
@@ -124,6 +137,23 @@ function openPicker(deps: DevPanelDeps): void {
     div.appendChild(btn)
   }
 
+  // T16:scene jump section —— stub,T17 接真 loadScene。
+  const sceneH = document.createElement('h3')
+  sceneH.textContent = 'Dev: Scene Jump'
+  sceneH.style.cssText = 'margin: 12px 0 8px 0; font-size: 14px'
+  div.appendChild(sceneH)
+
+  for (const jump of deps.sceneJumps.jumps) {
+    const btn = document.createElement('button')
+    btn.textContent = `${jump.id}: ${jump.label}`
+    btn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width: 100%; text-align: left'
+    btn.addEventListener('click', () => {
+      closePicker()
+      void applySceneJump(deps, jump)
+    })
+    div.appendChild(btn)
+  }
+
   const cancel = document.createElement('button')
   cancel.textContent = 'Cancel'
   cancel.style.cssText = 'margin-top:8px; padding:4px 8px'
@@ -174,4 +204,18 @@ function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
     magics: deps.resources.magics,
     commands: deps.resources.commands,
   })
+}
+
+/**
+ * Stub —— T16 只 console.log + close picker;T17 接真 loadScene + 注入 SceneAssetsCache。
+ *
+ * 签名故意保留 deps 参数:T17 用 deps.resources / deps.gs 装真切场景。
+ */
+async function applySceneJump(
+  deps: DevPanelDeps,
+  jump: SceneJump,
+): Promise<void> {
+  void deps
+  // T17 真做:调 loadScene + 注入 SceneAssetsCache。
+  console.log('[dev-panel] scene jump stub:', jump.sceneId, '@', jump.partyStart)
 }
