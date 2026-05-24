@@ -87,20 +87,25 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }
   }
 
-  // sprite 装配
+  // sprite 装配 — sdlpal `scene.c:750-755`:站立帧 = wDirection * walkFrames,
+  // WIN95 party sprite 默认 12 帧 = 4 方向 × 3 帧(walkFrames 默认 3)。
+  // 这里把所有 frame 都装成 SpriteImage 数组,presentFrame 按 facing 取站立帧。
   const partyData = characterSprites.get(partyLeaderSpriteId)
   if (!partyData) throw new Error(`队长 sprite (id ${partyLeaderSpriteId}) 加载失败`)
-  const partyFirst = partyData.frames[0]
-  if (!partyFirst) throw new Error('队长 sprite 无 frame[0]')
-  const partySprite = {
-    width: partyFirst.width,
-    height: partyFirst.height,
-    indices: partyFirst.indices,
-    opaque: partyFirst.opaque,
+  if (partyData.frames.length === 0) throw new Error('队长 sprite 无 frame')
+  const partyFrames = partyData.frames.map((f) => ({
+    width: f.width,
+    height: f.height,
+    indices: f.indices,
+    opaque: f.opaque,
     anchorX: partyData.anchorX,
     anchorY: partyData.anchorY,
-  }
-  const npcSprites = new Map<number, typeof partySprite>()
+  }))
+  // playerRoles.rgwWalkFrames[role]:M4 简版 fallback 3(sdlpal `scene.c:752 if (i == 0) i = 3`)。
+  // M5 真做时按 PlayerRoles[leaderRole].walkFrames 取。
+  const partyWalkFrames = 3
+  type NpcSprite = (typeof partyFrames)[number]
+  const npcSprites = new Map<number, NpcSprite>()
   for (const [id, data] of characterSprites) {
     const f = data.frames[0]
     if (!f) continue
@@ -129,7 +134,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   const presentCtx: PresentContext = {
     tilemap,
     tileImages: { get: (i) => tileImagesBySceneId.get(currentSceneId)?.get(i) },
-    partySprite,
+    partyFrames,
+    partyWalkFrames,
     npcSprites,
     glyphs,
   }

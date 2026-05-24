@@ -11,10 +11,20 @@ import type { GlyphTable } from './font.js'
 export interface PresentContext {
   tilemap: Tilemap
   tileImages: TileImages
-  partySprite: SpriteImage
+  /** 队长 sprite 全帧。sdlpal `scene.c:750-755` 站立公式 `wFrame = wDirection * walkFrames`;
+   *  WIN95 party sprite 默认 12 帧 = 4 方向 × 3 帧。本字段为完整 frame 数组,
+   *  presentFrame 按 `gs.party.facing` + walkFrames 取站立帧。 */
+  partyFrames: SpriteImage[]
+  /** sdlpal `PlayerRoles.rgwWalkFrames[role]`,默认 3(scene.c:752 `if (i == 0) i = 3`)。 */
+  partyWalkFrames: number
   npcSprites: Map<number, SpriteImage>
   /** M4 P4.T3: Unifont glyph table(启动时 loadGlyphs 注入,缺省则所有文字渲染为 tofu)。 */
   glyphs?: GlyphTable
+}
+
+/** sdlpal `palcommon.h`:kDirSouth=0 / kDirWest=1 / kDirNorth=2 / kDirEast=3。 */
+const FACING_TO_DIRECTION: Record<'down' | 'left' | 'up' | 'right', number> = {
+  down: 0, left: 1, up: 2, right: 3,
 }
 
 const TILE_W = 32
@@ -55,7 +65,11 @@ export function presentFrame(
     drawSprite(fb, sprite, sx, sy)
   }
   const { sx, sy } = cellToScreen(gs.party, gs.camera)
-  drawSprite(fb, ctx.partySprite, sx, sy)
+  // 按 sdlpal `scene.c:755` 站立公式 wFrame = wDirection * walkFrames 取帧。
+  const direction = FACING_TO_DIRECTION[gs.party.facing]
+  const frameIdx = direction * ctx.partyWalkFrames
+  const partyFrame = ctx.partyFrames[frameIdx] ?? ctx.partyFrames[0]
+  if (partyFrame) drawSprite(fb, partyFrame, sx, sy)
 
   // 3. tilemap layer 1(顶层 — 门、柜子侧面、柱子;画在精灵之上做遮挡)
   drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 1)

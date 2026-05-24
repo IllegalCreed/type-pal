@@ -17,28 +17,28 @@ test('a2 队长 sprite — 初始(facing=down)', async ({ page }) => {
   expect(diff).toBe(0)
 })
 
-// facing 4 方向 — 用 down(key) hold 50ms(< walk tick 120ms)只触 face,不走路,
-// 然后 up + 短缓冲。Playwright press() 太快 input.held 来不及 register,M3.5 ⚠️ #10。
+// facing 4 方向 — 经 page.evaluate 直接 set gs.party.facing(M3.5 T19 dev hook 暴露)。
+// 之前用 keyboard.down + 150ms hold 引入 timing nondeterminism(10fps explore =
+// 100ms/tick,150ms 卡 1.5 tick 边界,有时 1 tick 有时 2 tick 走,party 位置抖)。
+// 走纯渲染 verify:facing 切到 X 后,present 应取 frame `direction × walkFrames`(sdlpal scene.c:755)。
 test('a2 队长 sprite — facing 4 方向切换', async ({ page }) => {
   await bootstrap(page)
 
-  const facings = [
-    { key: 'ArrowRight', name: 'right' },
-    { key: 'ArrowDown', name: 'down' },
-    { key: 'ArrowLeft', name: 'left' },
-    { key: 'ArrowUp', name: 'up' },
-  ] as const
+  const facings = ['down', 'left', 'up', 'right'] as const
 
-  for (const { key, name } of facings) {
-    await page.keyboard.down(key)
-    await page.waitForTimeout(150)
-    await page.keyboard.up(key)
+  for (const facing of facings) {
+    await page.evaluate((f) => {
+      const w = window as unknown as { __game?: { gs: { party: { facing: string } } } }
+      if (!w.__game) throw new Error('window.__game 缺;DEV gate 没触发')
+      w.__game.gs.party.facing = f
+    }, facing)
+    // 给一帧 RAF 让 presentFrame 跑 → flushToCanvas 上屏
     await page.waitForTimeout(150)
 
     const actual = await snapshotCanvas(page)
     const diff = await pixelDiff({
       actual,
-      baselinePath: baselinePathFor('scene', `a2-leader-facing-${name}`),
+      baselinePath: baselinePathFor('scene', `a2-leader-facing-${facing}`),
       threshold: 0,
       updateBaseline: !!process.env.UPDATE_BASELINES,
     })
