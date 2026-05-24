@@ -12,11 +12,16 @@
  *     battle/{enemy,player}/{id}/frame-{NN}.png    (battle sprites)
  *     ui/frame-{NN}.png                            (DATA.MKF chunk 9 SPRITEUI frames)
  *     magic/frame-{NN}.png                         (DATA.MKF chunk 10 battle effect frames)
+ *     magic/fire-{NN}/frame-{NN}.png               (FIRE.MKF per-chunk sprite group frames)
+ *     splash/splash-up-win95.png                   (FBP.MKF chunk 3 title screen upper)
+ *     splash/splash-down-win95.png                 (FBP.MKF chunk 4 title screen lower)
  *   data/
  *     {tilemap,scene,sprite,palette,battle-sprite}/...json  (子目录结构)
  *     enemies.json, items.json, spells.json, magic.json,
  *     enemy-teams.json, battle-fields.json, enemy-pos.json,
  *     player-roles.json, battle-bgs.json, battle-sprites.json  (平铺数据表)
+ *     rng-raw.json, rgm-raw.json, ball-raw.json    (raw dump, M4 P2 T4)
+ *     fire-sprites.json                            (FIRE.MKF sprite manifest, M4 P2 T4)
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -42,7 +47,12 @@ import {
   parseBattleEffectIndex,
   parseLevelUpExp,
   parseLevelUpMagic,
+  type RawChunkDump,
 } from './resources/parsers/data-misc.js'
+import { dumpRngAnim } from './resources/parsers/rng.js'
+import { dumpRgmChunk } from './resources/parsers/rgm.js'
+import { dumpBallChunk } from './resources/parsers/ball.js'
+import { parseFirSprite } from './resources/parsers/fire.js'
 import {
   buildEnemyObjectNameMap,
   buildObjectIndexToEnemyIdMap,
@@ -302,6 +312,101 @@ async function main(): Promise<void> {
 
   // chunk 7/8 空(0 字节);chunk 12 = 对话框图标 sprite(282B,P2.T4+ 处理)
   // DATA.MKF count=15(有效 chunk 0-14),chunk 15 超出范围不抽
+
+  // M4 P2 T4: RNG / RGM / BALL raw dump + FIRE sprite 抽出 ──────────────────
+  // SAVE.MKF 不存在(WIN95+ 用 .RPG 存档),drop。
+
+  // RNG.MKF: 12 chunks, 每 chunk 是 sub-MKF + RLE delta 动画帧(rngplay.c)
+  {
+    const rngMkf = openMkf(loadFile('RNG.MKF'))
+    const n = chunkCount(rngMkf)
+    const summary: RawChunkDump[] = []
+    for (let i = 0; i < n; i++) summary.push(dumpRngAnim(i, readChunk(rngMkf, i)))
+    writeJson(resolve(OUT, 'data', 'rng-raw.json'), summary)
+    console.log(`[pal-extract] RNG.MKF written (${n} chunks)`)
+  }
+
+  // RGM.MKF: 92 chunks, 每 chunk 是单帧 RLE bitmap 角色头像(global.h fpRGM)
+  {
+    const rgmMkf = openMkf(loadFile('RGM.MKF'))
+    const n = chunkCount(rgmMkf)
+    const summary: RawChunkDump[] = []
+    for (let i = 0; i < n; i++) summary.push(dumpRgmChunk(i, readChunk(rgmMkf, i)))
+    writeJson(resolve(OUT, 'data', 'rgm-raw.json'), summary)
+    console.log(`[pal-extract] RGM.MKF written (${n} chunks)`)
+  }
+
+  // BALL.MKF: 252 chunks, 每 chunk 是单帧 RLE bitmap 物品图标(global.h fpBALL)
+  {
+    const ballMkf = openMkf(loadFile('BALL.MKF'))
+    const n = chunkCount(ballMkf)
+    const summary: RawChunkDump[] = []
+    for (let i = 0; i < n; i++) summary.push(dumpBallChunk(i, readChunk(ballMkf, i)))
+    writeJson(resolve(OUT, 'data', 'ball-raw.json'), summary)
+    console.log(`[pal-extract] BALL.MKF written (${n} chunks)`)
+  }
+
+  // FIRE.MKF: 55 chunks, 每 chunk 是 YJ2 sprite group(fight.c PAL_MKFDecompressChunk)
+  // 产出:images/magic/fire-{NN}/frame-{NN}.png + data/fire-sprites.json
+  {
+    const fireMkf = openMkf(loadFile('FIRE.MKF'))
+    const n = chunkCount(fireMkf)
+    let totalFireFrames = 0
+    const fireManifest: Array<{ chunkIndex: number; frameCount: number; frames: Array<{ index: number; width: number; height: number }> }> = []
+    for (let i = 0; i < n; i++) {
+      const buf = readChunk(fireMkf, i)
+      const result = parseFirSprite(i, buf)
+      const chunkDir = `fire-${i.toString().padStart(2, '0')}`
+      for (const f of result.frames) {
+        writeBinary(
+          resolve(OUT, 'images', 'magic', chunkDir, `frame-${f.index.toString().padStart(2, '0')}.png`),
+          f.pngBytes,
+        )
+      }
+      fireManifest.push({
+        chunkIndex: i,
+        frameCount: result.frameCount,
+        frames: result.frames.map((f) => ({ index: f.index, width: f.width, height: f.height })),
+      })
+      totalFireFrames += result.frameCount
+    }
+    writeJson(resolve(OUT, 'data', 'fire-sprites.json'), { chunkCount: n, chunks: fireManifest })
+    console.log(`[pal-extract] FIRE.MKF written (${n} chunks, ${totalFireFrames} frames total)`)
+  }
+
+  // splash 素材:FBP.MKF chunk 3(BITMAPNUM_SPLASH_UP WIN95=0x03) +
+  //             chunk 4(BITMAPNUM_SPLASH_DOWN WIN95=0x04)。
+  // sdlpal main.c:42-43:  #define BITMAPNUM_SPLASH_UP (gConfig.fIsWIN95 ? 0x03 : 0x26)
+  //                       #define BITMAPNUM_SPLASH_DOWN (gConfig.fIsWIN95 ? 0x04 : 0x27)
+  // 读取方式:PAL_MKFReadChunk(raw) → Decompress(=YJ2 for WIN95) → 320×200 raw indexed。
+  // 注:battle bg 循环已把 chunk 3/4 写到 images/battle/bg/003.png + 004.png;
+  //     这里单独写到 images/splash/ 便于 M5/M6 直接消费标题画面。
+  {
+    const splashFbpMkf = openMkf(loadFile('FBP.MKF'))
+    const splashIds = [
+      { id: 0x03, name: 'splash-up-win95' },
+      { id: 0x04, name: 'splash-down-win95' },
+    ] as const
+    for (const { id, name } of splashIds) {
+      const raw = readChunk(splashFbpMkf, id)
+      if (raw.byteLength === 0) continue
+      let pixels: Uint8Array
+      try {
+        pixels = decompressYj2(raw)
+      } catch {
+        continue
+      }
+      if (pixels.byteLength !== 320 * 200) {
+        console.warn(`[pal-extract] splash FBP chunk ${id}: 解压后 ${pixels.byteLength} bytes ≠ 64000, skip`)
+        continue
+      }
+      writeBinary(
+        resolve(OUT, 'images', 'splash', `${name}.png`),
+        encodeIndexedPng(320, 200, pixels),
+      )
+    }
+    console.log('[pal-extract] splash written → images/splash/')
+  }
 
   console.log('[pal-extract] data tables written')
 
