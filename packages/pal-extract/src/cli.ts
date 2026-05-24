@@ -49,13 +49,20 @@ const SYMBOLS_PATH = resolve(REPO_ROOT, 'data/symbols.json')
 /**
  * 切片场景 ID 列表(0-indexed,对应 sss.scenes[N]; sdlpal 1-based wNumScene = N+1)。
  * - 1  = 客栈 (mapNum 12) —— M2 / M3 起始切片
- * - 14 = 仙靈島碼頭 (mapNum 3) —— scene-14.onEnter `L_5117` + 張四哥 NPC「我在這裏看船」
- * - 17 = 仙靈島入口 / 破陣場 (mapNum 6) —— 觀音像 + 破天錘
+ * - 14 = 仙靈島碼頭 / 「入口」(mapNum 3) —— onEnter L_5117 + 張四哥 NPC「我在這裏看船」
+ * - 15 = 仙靈島通道 1 (mapNum 7)  —— onEnter L_4203,过渡走廊(无明雷怪)
+ * - 16 = 仙靈島通道 2 (mapNum 119) —— onEnter L_5231,**4 个 sprite 468 草妖明雷**
+ *        (triggerMode=5 kTriggerTouchNormal contact)—— M3.5 明雷机制的真测试场景
+ * - 17 = 仙靈島迷宮 (mapNum 6) —— onEnter L_5137,觀音像 + 破天錘 + 大量 Confirm-NPC
  *
- * 选定依据:scenes dump 头 20 个 + 对照 reference/walkthrough/flow.md 第一章。
+ * 选定依据:scenes dump 头 20 个 + sdlpal kTriggerTouchNormal = 5(明雷 contact)语义
+ * 校验 + 对照 reference/walkthrough/flow.md「仙靈島」章节。
  * dev panel(M3.5 D34)用 sceneId 直接跳。
+ *
+ * **M3.5 中段发现**:plan 初版只列 [1, 14, 17],漏了 14→17 之间的 2 个通道场景;
+ * 通道里才有 contact 触发的明雷怪(scene 16 sprite 468 ×4)。Fix 后扩到 5 个。
  */
-const SLICE_SCENE_IDS = [1, 14, 17] as const
+const SLICE_SCENE_IDS = [1, 14, 15, 16, 17] as const
 
 function writeJson(path: string, data: unknown): void {
   mkdirSync(dirname(path), { recursive: true })

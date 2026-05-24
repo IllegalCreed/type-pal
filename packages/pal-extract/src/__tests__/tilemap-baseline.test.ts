@@ -25,8 +25,10 @@ const OUR_OUT_DIR = resolve(REPO_ROOT, 'build/render-tilemap-test')
 
 const SCENES = [
   { sceneId: 1, mapNum: 12, name: 'scene-1-客栈' },
-  { sceneId: 14, mapNum: 3, name: 'scene-14-仙灵岛码头' },
-  { sceneId: 17, mapNum: 6, name: 'scene-17-仙灵岛入口' },
+  { sceneId: 14, mapNum: 3, name: 'scene-14-仙灵岛入口' },
+  { sceneId: 15, mapNum: 7, name: 'scene-15-仙灵岛通道-1' },
+  { sceneId: 16, mapNum: 119, name: 'scene-16-仙灵岛通道-2-明雷草妖' },
+  { sceneId: 17, mapNum: 6, name: 'scene-17-仙灵岛迷宫' },
 ]
 
 describe('D29 tilemap baseline pixel diff(多场景)', () => {

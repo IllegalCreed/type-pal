@@ -24,12 +24,14 @@ BASELINE_DIR="$REPO_ROOT/build/sdlpal-baseline/maps"
 mkdir -p "$BASELINE_DIR"
 
 # M3.5 切片场景对应关系:
-#   scene 1  → mapNum 12(客栈,M2 切片)
-#   scene 14 → mapNum 3 (仙灵岛码头)
-#   scene 17 → mapNum 6 (仙灵岛入口)
+#   scene 1  → mapNum 12  (客栈,M2 切片)
+#   scene 14 → mapNum 3   (仙灵岛 入口 / 码头)
+#   scene 15 → mapNum 7   (仙灵岛 通道 1)
+#   scene 16 → mapNum 119 (仙灵岛 通道 2,明雷草妖所在)
+#   scene 17 → mapNum 6   (仙灵岛 迷宫)
 # palette 跟随场景,默认 0 适合结构对拍;颜色精度对拍需要每场景指定
 # --palette,留待场景列表扩展时补。
-MAPS=(12 3 6)
+MAPS=(12 3 7 119 6)
 
 for MAP in "${MAPS[@]}"; do
   OUT="$BASELINE_DIR/map-$(printf '%02d' "$MAP").png"
