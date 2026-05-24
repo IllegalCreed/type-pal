@@ -112,11 +112,11 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
   const outPath = opts.outPath ?? DEFAULT_OUT_PATH
 
   const tilemap = JSON.parse(
-    readFileSync(resolve(DATA, `data/tilemap-${sceneId}.json`), 'utf-8'),
+    readFileSync(resolve(DATA, 'data/tilemap', `${sceneId}.json`), 'utf-8'),
   ) as Tilemap
 
   const palette = JSON.parse(
-    readFileSync(resolve(DATA, `data/palette-${paletteId}.json`), 'utf-8'),
+    readFileSync(resolve(DATA, 'data/palette', `${paletteId}.json`), 'utf-8'),
   ) as { colors: [number, number, number][] }
 
   // sdlpal palette.c:75-77 用 `byte << 2` 把 6-bit VGA 升 8-bit,丢低 2 bit;
@@ -132,7 +132,7 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
   // mapNum 从 scene-N.json 取真值(M2 era 曾 hardcode sceneId===1?12:sceneId,
   // scene 14/17 时 GOP chunk 错位 → M3.5 T6 baseline diff 暴露)。
   const sceneMeta = JSON.parse(
-    readFileSync(resolve(DATA, `data/scene-${sceneId}.json`), 'utf-8'),
+    readFileSync(resolve(DATA, 'data/scene', `${sceneId}.json`), 'utf-8'),
   ) as { mapNum: number }
   const mapNum = sceneMeta.mapNum
   const gop = openMkf(new Uint8Array(readFileSync(resolve(RAW, 'GOP.MKF'))))
