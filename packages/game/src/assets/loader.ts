@@ -261,6 +261,12 @@ export interface SceneAssets {
   eventCommands: Command[]
   /** P3.T1: label string → command index map(for loadEventFromNpc goto lookup). */
   labelMap: Record<string, number>
+  /**
+   * P0.e: scene 进入即跑的脚本入口 label(对应 sdlpal SCENE.wScriptOnEnter)。
+   * undefined = 该 scene 无 enter script(135 scenes without onEnterLabel)。
+   * loadScene 不传 partyStart 时自动跑 wScriptOnEnter 段设 party 位置。
+   */
+  onEnterLabel?: string
 }
 
 export type SceneFetcher = (sceneId: number) => Promise<SceneAssets>

@@ -3,23 +3,25 @@ import { bootstrap, walk } from '../helpers/bootstrap.js'
 import { snapshotCanvas } from '../helpers/snapshot.js'
 import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 
-// M5 P0.0:camera 改像素坐标(X_STEP=16/Y_STEP=8)。Right: dx=+16。
+// M5 P0.0:camera 改像素坐标(X_STEP=16/Y_STEP=8)。Down: dx=-16, dy=+8。
+// P0.e: 初始位置(1312,288)右侧被 NPC 阻挡;改用 Down 方向(camera.x 减少)验证 follow。
 type Probe = { __game: { gs: { camera: { x: number; y: number } } } }
 
-test('a7 相机 follow — 长 hold ArrowRight,camera.x 增加 + visual baseline', async ({ page }) => {
+test('a7 相机 follow — 长 hold ArrowDown,camera.x 减少(party 走左下)+ visual baseline', async ({ page }) => {
   await bootstrap(page)
 
   const cameraBefore = await page.evaluate(
     () => (window as unknown as Probe).__game.gs.camera.x,
   )
 
-  // 10 walks worth(120ms each)+ slack;party 走右 → camera follow
-  await walk(page, 'ArrowRight', 1500)
+  // 10 walks worth(120ms each)+ slack;Down: dx=-16,dy=+8 → camera.x 减少
+  await walk(page, 'ArrowDown', 1500)
 
   const cameraAfter = await page.evaluate(
     () => (window as unknown as Probe).__game.gs.camera.x,
   )
-  expect(cameraAfter).toBeGreaterThan(cameraBefore)
+  // 验证 camera 跟随 party 移动(camera.x 减少,Down 方向 dx=-16)
+  expect(cameraAfter).toBeLessThan(cameraBefore)
 
   // visual baseline:camera 不同位置看到的 tilemap 不同
   const actual = await snapshotCanvas(page)

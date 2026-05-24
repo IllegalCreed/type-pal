@@ -5,6 +5,11 @@ import { createInitialGameState } from './game-state.js'
 import type { NpcState } from './game-state.js'
 import { createCommandBus } from './command-bus.js'
 import { SceneAssetsCache, type SceneAssets } from '../assets/loader.js'
+import {
+  OP_SET_PARTY_POS, OP_SET_PARTY_DIRECTION,
+  OP_SET_CAMERA, OP_CENTER_CAMERA_ON_PARTY,
+  OP_PLAY_MUSIC, OP_SET_SCENE_OBJECT_STATE,
+} from './event-system.js'
 
 function makeFlatMap(w: number, h: number): Tilemap {
   const cells = Array.from({ length: h }, () =>
@@ -392,6 +397,7 @@ function makeSceneAssets(
   eventObjects: any[] = [],
   eventCommands: any[] = [],
   labelMap: Record<string, number> = {},
+  onEnterLabel?: string,
 ): SceneAssets {
   return {
     sceneId,
@@ -401,7 +407,24 @@ function makeSceneAssets(
     npcSprites: new Map(),
     eventCommands,
     labelMap,
+    onEnterLabel,
   }
+}
+
+/**
+ * P0.e 测试用:构建含 wScriptOnEnter 入口的 SceneAssets。
+ * enterCmds 会加 onEnterLabel='L_enter',被 loadScene 触发。
+ */
+function makeFakeAssetsWithEnterScript(
+  sceneId: number,
+  enterCmds: any[],
+): SceneAssets {
+  const commands = [
+    ...enterCmds.map((c, i) => ({ ...c, label: i === 0 ? 'L_enter' : undefined })),
+    { op: 'end' as const },
+  ]
+  const labelMap: Record<string, number> = { L_enter: 0 }
+  return makeSceneAssets(sceneId, [], commands, labelMap, 'L_enter')
 }
 
 describe('loadScene(M3.5 T9 / D33)', () => {
@@ -646,5 +669,178 @@ describe('P0.a 菱形 isometric 碰撞', () => {
     expect(gs.party.x).toBe(48)   // 没走过去
     expect(gs.party.y).toBe(24)
     expect(gs.party.facing).toBe('right')
+  })
+})
+
+// ── P0.e: wScriptOnEnter 真跑 ─────────────────────────────────────────────────
+//
+// sdlpal SCENE struct(global.h:115-121):wScriptOnEnter → 进场景即跑此段脚本。
+// 6 具名 opcode 真编号(grep reference/sdlpal/script.c 得到):
+//   OP_SET_PARTY_POS        = 0x0046 (70)  — Set the party position on the map
+//   OP_SET_PARTY_DIRECTION  = 0x0015 (21)  — Set the direction and gesture for party member
+//   OP_SET_CAMERA           = 0x007F (127) — Move the viewport(setCamera / centerCameraOnParty)
+//   OP_CENTER_CAMERA_ON_PARTY = 0x007F     — 同 opcode,op[0]=0,op[1]=0 变体
+//   OP_PLAY_MUSIC           = 0x0043 (67)  — Set background music
+//   OP_SET_SCENE_OBJECT_STATE = 0x0049 (73)— Set state of current event object
+describe('P0.e wScriptOnEnter 真跑', () => {
+  it('loadScene 不传 partyStart → 跑 wScriptOnEnter,setPartyPos 把 party 放到指定位', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // setPartyPos col=6, row=4, h=0 → x=192, y=64
+    const assets = makeFakeAssetsWithEnterScript(5, [
+      { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [6, 4, 0] },
+    ])
+    const cache = new SceneAssetsCache(async () => assets)
+    await loadScene({ gs, sceneId: 5, assets: cache })
+    expect(gs.party.x).toBe(6 * 32)   // 192
+    expect(gs.party.y).toBe(4 * 16)   // 64
+    expect(gs.camera.x).toBe(192)
+    expect(gs.camera.y).toBe(64)
+  })
+
+  it('setPartyPos 坐标: col=41, row=18, h=0 → x=1312, y=288 (scene 1 真实值)', async () => {
+    // scene 1 wScriptOnEnter: opcode 70 operands=[41, 18, 0]
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const assets = makeFakeAssetsWithEnterScript(1, [
+      { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [41, 18, 0] },
+    ])
+    const cache = new SceneAssetsCache(async () => assets)
+    await loadScene({ gs, sceneId: 1, assets: cache })
+    expect(gs.party.x).toBe(41 * 32)   // 1312
+    expect(gs.party.y).toBe(18 * 16)   // 288
+  })
+
+  it('setPartyPos h=1 → 加 16/8 半 tile 偏移', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const assets = makeFakeAssetsWithEnterScript(5, [
+      { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [2, 3, 1] },
+    ])
+    const cache = new SceneAssetsCache(async () => assets)
+    await loadScene({ gs, sceneId: 5, assets: cache })
+    // x = 2*32 + 1*16 = 80; y = 3*16 + 1*8 = 56
+    expect(gs.party.x).toBe(80)
+    expect(gs.party.y).toBe(56)
+  })
+
+  it('setPartyDirection opcode → gs.party.facing 转换(dir=2→up)', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const assets = makeFakeAssetsWithEnterScript(5, [
+      { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [6, 4, 0] },
+      { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [2, 0, 0] },  // kDirNorth=2 → up
+    ])
+    const cache = new SceneAssetsCache(async () => assets)
+    await loadScene({ gs, sceneId: 5, assets: cache })
+    expect(gs.party.facing).toBe('up')
+  })
+
+  it('setPartyDirection 4 方向映射: 0=down, 1=left, 2=up, 3=right', async () => {
+    const mapping: [number, 'down' | 'left' | 'up' | 'right'][] = [
+      [0, 'down'], [1, 'left'], [2, 'up'], [3, 'right'],
+    ]
+    for (const [dir, expected] of mapping) {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const assets = makeFakeAssetsWithEnterScript(5, [
+        { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [dir, 0, 0] },
+      ])
+      const cache = new SceneAssetsCache(async () => assets)
+      await loadScene({ gs, sceneId: 5, assets: cache })
+      expect(gs.party.facing).toBe(expected)
+    }
+  })
+
+  it('loadScene 传显式 partyStart → override enter script(dev panel manual)', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const assets = makeFakeAssetsWithEnterScript(5, [
+      { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [6, 4, 0] },
+    ])
+    const cache = new SceneAssetsCache(async () => assets)
+    await loadScene({ gs, sceneId: 5, assets: cache, partyStart: { x: 500, y: 250, facing: 'left' } })
+    // partyStart override 优先:enter script 的 setPartyPos 不跑
+    expect(gs.party.x).toBe(500)
+    expect(gs.party.y).toBe(250)
+    expect(gs.party.facing).toBe('left')
+  })
+
+  it('未 dump wScriptOnEnter / 空 onEnterLabel → party 留在原坐标(不报错)', async () => {
+    const gs = createInitialGameState({ x: 100, y: 100, facing: 'right' })
+    // 没有 onEnterLabel 的 scene
+    const assets = makeSceneAssets(5)
+    const cache = new SceneAssetsCache(async () => assets)
+    await loadScene({ gs, sceneId: 5, assets: cache })
+    expect(gs.party.x).toBe(100)
+    expect(gs.party.y).toBe(100)
+    expect(gs.party.facing).toBe('right')
+  })
+
+  it('onEnterLabel 在 labelMap 中找不到 → party 留原位(不报错)', async () => {
+    const gs = createInitialGameState({ x: 200, y: 150, facing: 'up' })
+    // labelMap 里没有 L_enter
+    const assets = makeSceneAssets(5, [], [], {}, 'L_enter_MISSING')
+    const cache = new SceneAssetsCache(async () => assets)
+    await loadScene({ gs, sceneId: 5, assets: cache })
+    expect(gs.party.x).toBe(200)
+    expect(gs.party.y).toBe(150)
+  })
+
+  it('setCamera opcode 真生效 → camera 跟 party', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const assets = makeFakeAssetsWithEnterScript(5, [
+      { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [6, 4, 0] },
+      { op: 'raw', opcode: OP_SET_CAMERA, operands: [6, 4, 0xFFFF] },
+    ])
+    const cache = new SceneAssetsCache(async () => assets)
+    await loadScene({ gs, sceneId: 5, assets: cache })
+    // OP_SET_CAMERA absolute flag: camera = party pos
+    expect(gs.camera.x).toBe(gs.party.x)
+    expect(gs.camera.y).toBe(gs.party.y)
+  })
+
+  it('centerCameraOnParty opcode(0,0 变体)→ camera = party', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const assets = makeFakeAssetsWithEnterScript(5, [
+      { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [6, 4, 0] },
+      { op: 'raw', opcode: OP_CENTER_CAMERA_ON_PARTY, operands: [0, 0, 0] },
+    ])
+    const cache = new SceneAssetsCache(async () => assets)
+    await loadScene({ gs, sceneId: 5, assets: cache })
+    expect(gs.camera.x).toBe(192)
+    expect(gs.camera.y).toBe(64)
+  })
+
+  it('playMusic opcode 写 gs.wNumMusic(M6 接真播)', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const assets = makeFakeAssetsWithEnterScript(5, [
+      { op: 'raw', opcode: OP_PLAY_MUSIC, operands: [31, 0, 0] },
+    ])
+    const cache = new SceneAssetsCache(async () => assets)
+    await loadScene({ gs, sceneId: 5, assets: cache })
+    expect((gs as any).wNumMusic).toBe(31)
+  })
+
+  it('setSceneObjectState opcode 不报错(no-op, M5+ field)', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const assets = makeFakeAssetsWithEnterScript(5, [
+      { op: 'raw', opcode: OP_SET_SCENE_OBJECT_STATE, operands: [1, 0, 0] },
+    ])
+    const cache = new SceneAssetsCache(async () => assets)
+    // 不应抛错
+    await expect(loadScene({ gs, sceneId: 5, assets: cache })).resolves.toBeUndefined()
+  })
+
+  it('enter script 含 showDialog → skip(不阻塞,party 位置已设)', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // enter script: setPartyPos → showDialog → end
+    const commands = [
+      { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [6, 4, 0], label: 'L_enter' },
+      { op: 'showDialog', messageIndex: 1, text: '你好', label: undefined },
+      { op: 'end' as const },
+    ]
+    const labelMap: Record<string, number> = { L_enter: 0 }
+    const assets = makeSceneAssets(5, [], commands, labelMap, 'L_enter')
+    const cache = new SceneAssetsCache(async () => assets)
+    await loadScene({ gs, sceneId: 5, assets: cache })
+    // party 已被 setPartyPos 设好,showDialog 被 skip
+    expect(gs.party.x).toBe(192)
+    expect(gs.party.y).toBe(64)
+    expect(gs.mode).toBe('explore')  // 没切到 event 模式
   })
 })

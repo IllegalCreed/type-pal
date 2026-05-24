@@ -12,6 +12,7 @@ import type { Command, InputSnapshot, Tilemap } from '@type-pal/shared'
 import type { SceneAssetsCache } from '../assets/loader.js'
 import type { CommandBus } from './command-bus.js'
 import { npcFromEventObject, type Facing, type GameState, type NpcState } from './game-state.js'
+import { runEnterScript } from './event-system.js'
 
 export interface SceneContext {
   tilemap: Tilemap
@@ -266,6 +267,10 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
     labelMap: sceneAssets.labelMap,
   })
 
+  // P0.e: party 起点优先级:
+  //   1. 显式 partyStart(dev panel manual override)→ 直接写入,跳过 enter script
+  //   2. 无 partyStart → 跑 wScriptOnEnter(setPartyPos 把人放对位置)
+  //   3. 无 partyStart 且无 onEnterLabel → party 留在原坐标(不报错)
   if (partyStart) {
     gs.party = {
       x: partyStart.x,
@@ -273,5 +278,11 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
       facing: partyStart.facing ?? gs.party.facing,
     }
     gs.camera = { x: partyStart.x, y: partyStart.y }
+  }
+  else if (sceneAssets.onEnterLabel) {
+    const ip = sceneAssets.labelMap[sceneAssets.onEnterLabel]
+    if (ip !== undefined) {
+      runEnterScript(gs, sceneAssets.eventCommands, sceneAssets.labelMap, ip)
+    }
   }
 }

@@ -56,8 +56,12 @@ export interface SceneJump {
   label: string
   sceneId: number
   mapNum?: number
-  /** M5 P0.0:像素坐标(X_STEP=16 / Y_STEP=8);scene-jumps.json 里是 cell,dev-panel 读时乘步长。 */
-  partyStart: { x: number; y: number; facing: string }
+  /**
+   * P0.e: partyStart 已删(scene-jumps.json 删 partyStart 字段)。
+   * loadScene 不传 partyStart → 走 wScriptOnEnter 自动设位置。
+   * 留 optional 供需要 dev override 的极端情况(不传即走 enter script)。
+   */
+  partyStart?: { x: number; y: number; facing: string }
 }
 
 export interface SceneJumpsData {
@@ -285,15 +289,15 @@ async function applySceneJump(
   jump: SceneJump,
 ): Promise<void> {
   try {
+    // P0.e: partyStart 字段已从 scene-jumps.json 删除;loadScene 不传 → 走 wScriptOnEnter。
+    // 若 jump.partyStart 仍存在(极端 dev override),仍可透传。
     await loadScene({
       gs: deps.gs,
       sceneId: jump.sceneId,
       assets: deps.sceneAssetsCache,
-      partyStart: {
-        x: jump.partyStart.x,
-        y: jump.partyStart.y,
-        facing: jump.partyStart.facing as Facing,
-      },
+      partyStart: jump.partyStart
+        ? { x: jump.partyStart.x, y: jump.partyStart.y, facing: jump.partyStart.facing as Facing }
+        : undefined,
     })
     // loadScene 已经 mutate gs;现在拿 sceneAssets 让 bootstrap 同步 presentCtx。
     // 二次 loadScene 走 cache hit(SceneAssetsCache 的 Map.get),不会重 fetch。

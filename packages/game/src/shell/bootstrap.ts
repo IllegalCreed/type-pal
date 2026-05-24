@@ -4,7 +4,7 @@ import { fetchPalette, loadAll, SceneAssetsCache, type SceneAssets, type SceneFe
 import { loadGlyphs, renderText } from '../present/font.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, npcFromEventObject } from '../core/game-state.js'
-import { buildLabelMap, setFetchPalette } from '../core/event-system.js'
+import { buildLabelMap, runEnterScript, setFetchPalette } from '../core/event-system.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { KeyboardInputSource } from './input.js'
 import { startRafLoop, type LoopContext } from './main-loop.js'
@@ -63,10 +63,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   if (!leader) throw new Error('bootstrap: playerRoles.roles[0] missing')
   const partyLeaderSpriteId = leader.spriteNum
 
-  // party 起始位置 —— 真原版起始由 onEnter 脚本 setPartyPos opcode 设;M2 raw skip 后不自动设。
-  // M5 P0.0 System A:sdlpal pixel,tile=32×16。col=32,row=24 → x=1024,y=384。
-  const PARTY_START = { x: 32 * 32, y: 24 * 16, facing: 'down' as const }
-  const gs = createInitialGameState(PARTY_START)
+  // P0.e: party 起始位置改由首屏 scene wScriptOnEnter 脚本设(setPartyPos opcode 真生效)。
+  // 初始值 (0,0,down) 只是占位;loadScene / runEnterScript 会覆盖到真实原版位置。
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' as const })
   gs.npcs = scene.eventObjects.map(npcFromEventObject)
 
   const segment = events.segments[0]
@@ -78,12 +77,25 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // M3.5:dev verify / L2 Playwright 加 ?skip-intro=1 URL flag 跳 onEnter,避免
   // 每次都按 Space 过开场对话(scene 1 是吕奇劫主角剧情)。default 仍跑 onEnter
   // 保持真原版游戏首屏行为。
+  //
+  // P0.e:
+  //  - skip-intro: 直接跑 runEnterScript 同步取得 setPartyPos(跳过对话);party 在正确位置后
+  //    保持 explore 模式。
+  //  - 正常启动: enter script 里的 setPartyPos(opcode 0x0046) 由 tickEventSystem raw case
+  //    applyRawOpcode 真生效 → 对话过完后 party 已在正确位置。
   const skipIntro = new URLSearchParams(window.location.search).has('skip-intro')
-  if (scene.onEnterLabel && !skipIntro) {
+  if (scene.onEnterLabel) {
     const ip = labelMap[scene.onEnterLabel]
     if (ip !== undefined) {
-      gs.eventCursor = { commands: eventCommands, labelMap, ip }
-      gs.mode = 'event'
+      if (skipIntro) {
+        // skip-intro: 同步跑 enter script → 只取 setPartyPos/Direction,跳过对话
+        runEnterScript(gs, eventCommands, labelMap, ip)
+      }
+      else {
+        // 正常启动:跑完整 enter script(含对话)— tickEventSystem 步进
+        gs.eventCursor = { commands: eventCommands, labelMap, ip }
+        gs.mode = 'event'
+      }
     }
   }
 
@@ -250,7 +262,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // M4 P3.T3: scene→mapNum→tilemap 链:先 fetch scene JSON 拿到 mapNum,再 fetch tilemap by mapNum。
     const sceneJson = await fetch(`${BASE}/data/scene/${sceneId}.json`).then((r) => {
       if (!r.ok) throw new Error(`scene-${sceneId}.json fetch failed (${r.status})`)
-      return r.json() as Promise<{ mapNum: number; eventObjects: SceneEventObject[] }>
+      return r.json() as Promise<{ mapNum: number; eventObjects: SceneEventObject[]; onEnterLabel?: string }>
     })
     const [tilemapJson, eventsJson] = await Promise.all([
       fetch(`${BASE}/data/tilemap/${sceneJson.mapNum}.json`).then((r) => {
@@ -292,6 +304,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       npcSprites: new Map<number, SpriteAsset>(),
       eventCommands,
       labelMap: sceneLabelMap,
+      // P0.e: 透传 wScriptOnEnter label → loadScene 跑 enter script 设 party 起点
+      onEnterLabel: sceneJson.onEnterLabel,
     }
   }
   const sceneAssetsCache = new SceneAssetsCache(sceneFetcher)

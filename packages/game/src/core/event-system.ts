@@ -29,6 +29,33 @@ import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
 import type { GameState } from './game-state.js'
 
+// ── P0.e: wScriptOnEnter opcode 真值(grep sdlpal reference/sdlpal/script.c) ──
+// case 0x0046(70):  Set the party position on the map
+//   operand[0]=col, operand[1]=row, operand[2]=h → x=col*32+h*16, y=row*16+h*8
+export const OP_SET_PARTY_POS = 0x0046          // 70
+// case 0x0015(21):  Set the direction and gesture for a party member
+//   operand[0]=dir(0=South/down, 1=West/left, 2=North/up, 3=East/right)
+export const OP_SET_PARTY_DIRECTION = 0x0015    // 21
+// case 0x007F(127): Move the viewport(set camera)
+//   operand[2]=0xFFFF → absolute set(col, row → pixel); operand[0..1]=0 → center on party
+export const OP_SET_CAMERA = 0x007F             // 127
+// same opcode — centerCameraOnParty is 0x007F with operand[0]=0, operand[1]=0
+export const OP_CENTER_CAMERA_ON_PARTY = 0x007F // 127 (operand[0]=0, operand[1]=0 変体)
+// case 0x0043(67):  Set background music
+//   operand[0]=musicId → gs.wNumMusic (M6 接真播,先记字段)
+export const OP_PLAY_MUSIC = 0x0043             // 67
+// case 0x0049(73):  Set state of current event object
+//   operand[0]=condition(non-zero → execute), operand[1]=newState
+export const OP_SET_SCENE_OBJECT_STATE = 0x0049 // 73
+
+/** sdlpal palcommon.h enum kDir → our Facing 字面量映射 */
+const SDLPAL_DIR_TO_FACING: Record<number, 'down' | 'left' | 'up' | 'right'> = {
+  0: 'down',   // kDirSouth
+  1: 'left',   // kDirWest
+  2: 'up',     // kDirNorth
+  3: 'right',  // kDirEast
+}
+
 const SINGLE_TICK_LIMIT = 256
 
 /** fetchPalette 注入(M4 P3.T2)—— 模式与 setSceneContext 一致,保持 tickEventSystem 同步签名。 */
@@ -160,10 +187,12 @@ export function tickEventSystem(
         cursor.ip++
         break
 
-      case 'raw':
-        console.debug(`event-system: skip raw opcode=${cmd.opcode} ip=${cursor.ip}`, cmd.operands)
+      case 'raw': {
+        // P0.e: 6 wScriptOnEnter opcode 真生效;其余 D26 兜底 skip
+        applyRawOpcode(gs, cmd.opcode, cmd.operands)
         cursor.ip++
         break
+      }
 
       case 'giveItem':
       case 'startBattle':
@@ -330,5 +359,124 @@ export function runScript(opts: RunScriptOptions): void {
         throw new Error(`runScript: unhandled op ${(_exhaustive as Command).op}`)
       }
     }
+  }
+}
+
+// ── P0.e: applyRawOpcode + runEnterScript ──────────────────────────────────
+//
+// applyRawOpcode: 6 wScriptOnEnter opcode 真生效;其余 D26 兜底 skip(console.debug)。
+// 供 tickEventSystem(raw case)和 runEnterScript 共用,避免重复逻辑。
+function applyRawOpcode(
+  gs: GameState,
+  opcode: number,
+  operands: [number, number, number],
+): void {
+  switch (opcode) {
+    case OP_SET_PARTY_POS: {
+      const [col, row, h] = operands
+      const px = (col ?? 0) * 32 + (h ?? 0) * 16
+      const py = (row ?? 0) * 16 + (h ?? 0) * 8
+      gs.party.x = px
+      gs.party.y = py
+      gs.camera.x = px
+      gs.camera.y = py
+      console.debug(`event-system: setPartyPos col=${col} row=${row} h=${h} → px=${px} py=${py}`)
+      break
+    }
+
+    case OP_SET_PARTY_DIRECTION: {
+      const dirCode = operands[0] ?? 0
+      const facing = SDLPAL_DIR_TO_FACING[dirCode] ?? 'down'
+      gs.party.facing = facing
+      console.debug(`event-system: setPartyDirection dir=${dirCode} → facing=${facing}`)
+      break
+    }
+
+    case OP_SET_CAMERA: {
+      const [cx, cy, flag] = operands
+      if ((cx ?? 0) === 0 && (cy ?? 0) === 0) {
+        gs.camera.x = gs.party.x
+        gs.camera.y = gs.party.y
+        console.debug('event-system: centerCameraOnParty')
+      }
+      else if (flag === 0xFFFF) {
+        // Absolute set: camera follows party in System A
+        gs.camera.x = gs.party.x
+        gs.camera.y = gs.party.y
+        console.debug(`event-system: setCamera col=${cx} row=${cy} → follows party`)
+      }
+      else {
+        // Relative move (animated): no-op, log only
+        console.debug(`event-system: setCamera relative dx=${cx} dy=${cy} (skip)`)
+      }
+      break
+    }
+
+    case OP_PLAY_MUSIC: {
+      const musicId = operands[0] ?? 0
+      ;(gs as GameState & { wNumMusic?: number }).wNumMusic = musicId
+      console.debug(`event-system: playMusic id=${musicId} (M6 接真播)`)
+      break
+    }
+
+    case OP_SET_SCENE_OBJECT_STATE: {
+      const [cond, state] = operands
+      console.debug(`event-system: setSceneObjectState cond=${cond} state=${state} (no-op, M5+ field)`)
+      break
+    }
+
+    default:
+      console.debug(`event-system: skip raw opcode=0x${opcode.toString(16).padStart(4, '0')}`, operands)
+      break
+  }
+}
+
+// runEnterScript: 同步跑 wScriptOnEnter 段(loadScene 不传 partyStart 时调用)。
+// 只处理瞬时 setX opcode;其余走 D26 skip。
+// SINGLE_TICK_LIMIT 兜底防死循环。
+export function runEnterScript(
+  gs: GameState,
+  commands: Command[],
+  labelMap: Record<string, number>,
+  startIp: number,
+): void {
+  let ip = startIp
+  let stepCount = 0
+
+  while (true) {
+    if (++stepCount > SINGLE_TICK_LIMIT) {
+      console.warn(`runEnterScript: single-tick limit exceeded at ip=${ip}`)
+      return
+    }
+
+    if (ip < 0 || ip >= commands.length) {
+      return
+    }
+
+    const cmd = commands[ip]!
+
+    if (cmd.op === 'end') {
+      return
+    }
+
+    if (cmd.op === 'goto') {
+      const target = labelMap[cmd.to]
+      if (target === undefined) {
+        console.warn(`runEnterScript: goto label ${cmd.to} 不在 labelMap`)
+        return
+      }
+      ip = target
+      continue
+    }
+
+    if (cmd.op === 'raw') {
+      applyRawOpcode(gs, cmd.opcode, cmd.operands)
+      ip++
+      continue
+    }
+
+    // 其他具名 op(showDialog / setDialogStyle* / loadScene 等)→ skip(enter 段不阻塞)
+    console.debug(`runEnterScript: skip named op=${cmd.op} ip=${ip}`)
+    ip++
   }
 }
