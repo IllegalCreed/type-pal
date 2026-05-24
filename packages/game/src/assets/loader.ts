@@ -81,9 +81,9 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     tilemap, palette, scene, events, playerRoles,
     enemies, enemyTeams, battleFields, enemyPos, items, spells, magics,
   ] = await Promise.all([
-    fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap-${sceneId}.json`),
-    fetchJson<Palette>(`${BASE}/data/palette-0.json`),
-    fetchJson<SceneObjects>(`${BASE}/data/scene-${sceneId}.json`),
+    fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap/${sceneId}.json`),
+    fetchJson<Palette>(`${BASE}/data/palette/0.json`),
+    fetchJson<SceneObjects>(`${BASE}/data/scene/${sceneId}.json`),
     fetchJson<EventFile>(`${BASE}/events/scene-${padded}.json`),
     fetchJson<PlayerRoles>(`${BASE}/data/player-roles.json`),
     fetchJson<Enemy[]>(`${BASE}/data/enemies.json`),
@@ -95,13 +95,15 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     fetchJson<Magic[]>(`${BASE}/data/magic.json`),
   ])
 
+  // P1: tilesetFiles[] 内现在是 `world/tileset/map-{mapNum}/tile-{XXXX}.png` 格式,
+  // ${BASE}/images/${name} 仍能拼对(name 含子目录路径)。
   const tileFiles = tilemap.tilesetFiles ?? []
   const tilePngs = await Promise.all(
     tileFiles.map((name) => fetchPng(`${BASE}/images/${name}`)),
   )
   const tileImages = new Map<number, IndexedImage>()
   tileFiles.forEach((name, i) => {
-    const m = /tile-scene-\d+-(\d+)\.png/.exec(name)
+    const m = /tile-(\d+)\.png$/.exec(name)
     if (m) tileImages.set(Number(m[1]), tilePngs[i]!)
   })
 
@@ -123,11 +125,11 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
         const meta = await fetchJson<{
           spriteId: number
           frames: { index: number; width: number; height: number }[]
-        }>(`${BASE}/data/sprite-${id}.json`)
+        }>(`${BASE}/data/sprite/${id}.json`)
         const frames = await Promise.all(
           meta.frames.map((f) =>
             fetchPng(
-              `${BASE}/images/sprite-${id}-frame-${f.index.toString().padStart(2, '0')}.png`,
+              `${BASE}/images/world/npc/${id}/frame-${f.index.toString().padStart(2, '0')}.png`,
             ),
           ),
         )
@@ -169,12 +171,12 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     battleSpritesManifest.sprites.map(async (entry) => {
       try {
         const meta = await fetchJson<BattleSpriteMeta>(
-          `${BASE}/data/battle-sprite-${entry.kind}-${entry.id}.json`,
+          `${BASE}/data/battle-sprite/${entry.kind}/${entry.id}.json`,
         )
         const frames = await Promise.all(
           meta.frames.map((f) =>
             fetchPng(
-              `${BASE}/images/battle-sprite-${entry.kind}-${entry.id}-frame-${f.index
+              `${BASE}/images/battle/${entry.kind}/${entry.id}/frame-${f.index
                 .toString()
                 .padStart(2, '0')}.png`,
             ),
@@ -203,7 +205,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     battleBgsManifest.ids.map(async (id) => {
       try {
         const png = await fetchPng(
-          `${BASE}/images/battle-bg-${id.toString().padStart(3, '0')}.png`,
+          `${BASE}/images/battle/bg/${id.toString().padStart(3, '0')}.png`,
         )
         battleBgs.set(id, {
           width: png.width,

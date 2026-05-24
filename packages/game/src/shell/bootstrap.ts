@@ -172,7 +172,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   async function fetchMissingSprite(id: number): Promise<void> {
     if (npcSprites.has(id)) return
     try {
-      const metaRes = await fetch(`${BASE}/data/sprite-${id}.json`)
+      const metaRes = await fetch(`${BASE}/data/sprite/${id}.json`)
       if (!metaRes.ok) throw new Error(`sprite-${id}.json fetch failed (${metaRes.status})`)
       const meta = (await metaRes.json()) as {
         spriteId: number
@@ -181,7 +181,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       const frames = await Promise.all(
         meta.frames.map(async (f) => {
           const r = await fetch(
-            `${BASE}/images/sprite-${id}-frame-${f.index.toString().padStart(2, '0')}.png`,
+            `${BASE}/images/world/npc/${id}/frame-${f.index.toString().padStart(2, '0')}.png`,
           )
           if (!r.ok) throw new Error(`sprite-${id}-frame-${f.index} png fetch failed (${r.status})`)
           return decodePngToIndices(await r.blob())
@@ -220,7 +220,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     )
     const map = new Map<number, IndexedImage>()
     tileFiles.forEach((name, i) => {
-      const m = /tile-scene-\d+-(\d+)\.png/.exec(name)
+      const tileNumPattern = /tile-(\d+)\.png$/
+      const m = tileNumPattern.exec(name)
       if (m) map.set(Number(m[1]), tilePngs[i]!)
     })
     tileImagesBySceneId.set(sceneId, map)
@@ -228,11 +229,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   const sceneFetcher: SceneFetcher = async (sceneId: number): Promise<SceneAssets> => {
     const [sceneJson, tilemapJson] = await Promise.all([
-      fetch(`${BASE}/data/scene-${sceneId}.json`).then((r) => {
+      fetch(`${BASE}/data/scene/${sceneId}.json`).then((r) => {
         if (!r.ok) throw new Error(`scene-${sceneId}.json fetch failed (${r.status})`)
         return r.json() as Promise<{ eventObjects: SceneEventObject[] }>
       }),
-      fetch(`${BASE}/data/tilemap-${sceneId}.json`).then((r) => {
+      fetch(`${BASE}/data/tilemap/${sceneId}.json`).then((r) => {
         if (!r.ok) throw new Error(`tilemap-${sceneId}.json fetch failed (${r.status})`)
         return r.json() as Promise<Tilemap & { tilesetFiles?: string[] }>
       }),
