@@ -26,8 +26,10 @@ import type {
   PlayerRoles,
   Spell,
 } from '@type-pal/shared'
-import type { GameState } from '../core/game-state.js'
+import type { Facing, GameState } from '../core/game-state.js'
 import { startBattle } from '../core/battle/battle-system.js'
+import { loadScene } from '../core/scene-system.js'
+import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 
 /** fixture JSON entry —— 与 `packages/game/src/data/battle-fixtures.json` 对齐。 */
 export interface BattleFixture {
@@ -64,6 +66,14 @@ export interface DevPanelDeps {
   gs: GameState
   fixtures: BattleFixturesData
   sceneJumps: SceneJumpsData
+  /** T17:dev jump 用的 per-scene lazy 缓存(由 bootstrap 构造、首屏 palette / sprites 复用)。 */
+  sceneAssetsCache: SceneAssetsCache
+  /**
+   * T17 重做:scene 切换后 bootstrap 同步 presentCtx 的 hook。
+   * 不传则 dev jump 只 mutate gs(canvas 仍画首屏 tilemap);bootstrap 永远传。
+   * 留 optional 主要是测试 / 非 dev 场景占位。
+   */
+  onSceneChanged?: (sceneAssets: SceneAssets) => Promise<void> | void
   resources: {
     enemies: Enemy[]
     enemyTeams: EnemyTeam[]
@@ -207,15 +217,38 @@ function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
 }
 
 /**
- * Stub —— T16 只 console.log + close picker;T17 接真 loadScene + 注入 SceneAssetsCache。
+ * T17:dev scene jump 真做 —— 调 scene-system.loadScene + 走 SceneAssetsCache lazy fetch。
  *
- * 签名故意保留 deps 参数:T17 用 deps.resources / deps.gs 装真切场景。
+ * 重做版顺序:
+ *  1. loadScene:lazy fetch sceneAssets + mutate gs.npcs / party / camera
+ *  2. cache.loadScene 再取一次(cache hit,~0 cost),拿到 sceneAssets 引用
+ *  3. onSceneChanged(sceneAssets):bootstrap 在 callback 内 mutate presentCtx.tilemap
+ *     + 重置 scene-system 的 ctx singleton,canvas 下一帧画新地图
+ *
+ * 不跑 onEnter(D34 dev shortcut)。tile PNG / palette 留首屏(已知 visual 错;M5 升)。
  */
 async function applySceneJump(
   deps: DevPanelDeps,
   jump: SceneJump,
 ): Promise<void> {
-  void deps
-  // T17 真做:调 loadScene + 注入 SceneAssetsCache。
-  console.log('[dev-panel] scene jump stub:', jump.sceneId, '@', jump.partyStart)
+  try {
+    await loadScene({
+      gs: deps.gs,
+      sceneId: jump.sceneId,
+      assets: deps.sceneAssetsCache,
+      partyStart: {
+        col: jump.partyStart.col,
+        row: jump.partyStart.row,
+        facing: jump.partyStart.facing as Facing,
+      },
+    })
+    // loadScene 已经 mutate gs;现在拿 sceneAssets 让 bootstrap 同步 presentCtx。
+    // 二次 loadScene 走 cache hit(SceneAssetsCache 的 Map.get),不会重 fetch。
+    const sceneAssets = await deps.sceneAssetsCache.loadScene(jump.sceneId)
+    await deps.onSceneChanged?.(sceneAssets)
+    console.log('[dev-panel] scene jump done:', jump.sceneId)
+  }
+  catch (e) {
+    console.error('[dev-panel] scene jump failed:', e)
+  }
 }
