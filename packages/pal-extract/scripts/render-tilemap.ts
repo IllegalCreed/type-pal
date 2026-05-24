@@ -129,8 +129,12 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
 
   // M3 T3 修正:不用 data/extracted/images/tile-scene-*-N.png(PNG 抽取丢
   // 了 RLE 透明 / opaque-zero 区分),直接读 GOP.MKF 第 mapNum chunk 解 RLE。
-  // mapNum:M2 当前 scene 1 == mapNum 12(详见 scripts/extract-tilemap-baseline.sh)。
-  const mapNum = sceneId === 1 ? 12 : sceneId
+  // mapNum 从 scene-N.json 取真值(M2 era 曾 hardcode sceneId===1?12:sceneId,
+  // scene 14/17 时 GOP chunk 错位 → M3.5 T6 baseline diff 暴露)。
+  const sceneMeta = JSON.parse(
+    readFileSync(resolve(DATA, `data/scene-${sceneId}.json`), 'utf-8'),
+  ) as { mapNum: number }
+  const mapNum = sceneMeta.mapNum
   const gop = openMkf(new Uint8Array(readFileSync(resolve(RAW, 'GOP.MKF'))))
   const gopChunk = readChunk(gop, mapNum)
   const tileImages = new Map<number, TileImage>()
