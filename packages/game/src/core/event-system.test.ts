@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
-import type { Command, InputSnapshot, AbstractKey } from '@type-pal/shared'
-import { tickEventSystem, buildLabelMap, runScript, type BattleCtx } from './event-system.js'
+import type { Command, InputSnapshot, AbstractKey, Palette } from '@type-pal/shared'
+import { tickEventSystem, buildLabelMap, runScript, setFetchPalette, type BattleCtx } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
 import { createCommandBus } from './command-bus.js'
 import type { BattleState } from './battle/battle-state.js'
@@ -318,6 +318,83 @@ describe('loadScene opcode handler stub(M3.5 T10 / B 路线)', () => {
     const msg = debugSpy.mock.calls[0]?.[0] as string
     expect(msg).toContain('loadScene')
     expect(msg).toContain('7')
+    expect(msg).toMatch(/\[event-system battle\]/)
+    debugSpy.mockRestore()
+  })
+})
+
+describe('setPalette opcode handler(M4 P3.T2)', () => {
+  const fakePalette: Palette = { colors: Array(256).fill([0, 0, 0]) as [number, number, number][], cycles: [] }
+
+  it('explore mode: fetchPalette 被调用,gs.palette 异步更新', async () => {
+    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const mockFetch = vi.fn().mockResolvedValue(fakePalette)
+    setFetchPalette(mockFetch)
+
+    loadEvent(gs, [
+      { op: 'setPalette', paletteIndex: 3 },
+      { op: 'end' },
+    ])
+
+    tickEventSystem(gs, snap(), bus)
+
+    // tickEventSystem は同期で ip++ して end まで走る → mode=explore
+    expect(gs.mode).toBe('explore')
+    // fetchPalette が paletteIndex=3 で呼ばれていること
+    expect(mockFetch).toHaveBeenCalledOnce()
+    expect(mockFetch).toHaveBeenCalledWith(3)
+
+    // Promise が resolve するのを待つ
+    await vi.waitFor(() => expect(gs.palette).toBe(fakePalette))
+  })
+
+  it('explore mode: fetchPalette 未注入 → console.debug + ip++ 不抛错', () => {
+    // reset injection to null so handler takes the "未注入" branch
+    setFetchPalette(null)
+    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+
+    loadEvent(gs, [
+      { op: 'setPalette', paletteIndex: 5 },
+      { op: 'end' },
+    ])
+
+    expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
+    expect(gs.mode).toBe('explore')
+    expect(debugSpy).toHaveBeenCalledTimes(1)
+    const msg = debugSpy.mock.calls[0]?.[0] as string
+    expect(msg).toContain('setPalette')
+    expect(msg).toContain('5')
+    debugSpy.mockRestore()
+    // cleanup: restore a no-op fetchPalette so other tests aren't affected
+    setFetchPalette(() => Promise.resolve(fakePalette))
+  })
+
+  it('battle mode(runScript): setPalette → no-op skip + console.debug + ip++', () => {
+    setFetchPalette(() => Promise.resolve(fakePalette))
+    const bus = createCommandBus()
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+
+    expect(() =>
+      runScript({
+        commands: [
+          { op: 'setPalette', paletteIndex: 2 },
+          { op: 'end' },
+        ],
+        ip: 0,
+        bus,
+        runtimeMode: 'battle',
+        battleCtx: makeMinimalBattleCtx(),
+      }),
+    ).not.toThrow()
+
+    expect(bus.drain()).toEqual([])
+    expect(debugSpy).toHaveBeenCalledTimes(1)
+    const msg = debugSpy.mock.calls[0]?.[0] as string
+    expect(msg).toContain('setPalette')
+    expect(msg).toContain('2')
     expect(msg).toMatch(/\[event-system battle\]/)
     debugSpy.mockRestore()
   })

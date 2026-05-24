@@ -1,9 +1,9 @@
 import type { EventFile, SceneEventObject, Tilemap } from '@type-pal/shared'
 import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
-import { loadAll, SceneAssetsCache, type SceneAssets, type SceneFetcher } from '../assets/loader.js'
+import { fetchPalette, loadAll, SceneAssetsCache, type SceneAssets, type SceneFetcher } from '../assets/loader.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, npcFromEventObject } from '../core/game-state.js'
-import { buildLabelMap } from '../core/event-system.js'
+import { buildLabelMap, setFetchPalette } from '../core/event-system.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { KeyboardInputSource } from './input.js'
 import { startRafLoop, type LoopContext } from './main-loop.js'
@@ -152,7 +152,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       if (!presentBattleFrame(fb, gs, battlePresent, battleAssets, drained)) {
         presentFrame(fb, gs, presentCtx)
       }
-      flushToCanvas(fb, canvasCtx, palette)
+      // M4 P3.T2: gs.palette 由 setPalette opcode handler 异步写入;优先用它,否则 fallback 到初始 palette。
+      flushToCanvas(fb, canvasCtx, gs.palette ?? palette)
     },
   }
 
@@ -326,6 +327,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       assets,
     }
   }
+
+  // M4 P3.T2:注入 fetchPalette(类同 setSceneContext);event-system setPalette handler 用它
+  // 异步拉取新调色板 → 写入 gs.palette → 渲染层下一帧 flushToCanvas 消费。
+  setFetchPalette(fetchPalette)
 
   startRafLoop(loopCtx)
   console.log('[bootstrap] scene', SCENE_ID, 'started')

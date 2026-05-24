@@ -139,6 +139,18 @@ export interface ChoiceCommand {
   label?: string
 }
 
+/** 切换调色板命令 —— 对应 sdlpal opcode 0x008B(script.c:2571 "change the current palette")。
+ *  字节布局:operand[0] = paletteIndex;operand[1] / [2] sdlpal 该 case 未读。
+ *
+ *  **运行时语义**:EventSystem handler 调 fetchPalette(paletteIndex) 后更新 gs.palette,
+ *  渲染层下一帧 flushToCanvas 自动使用新调色板。
+ */
+export interface SetPaletteCommand {
+  op: 'setPalette'
+  paletteIndex: number
+  label?: string
+}
+
 export type Command =
   | RawCommand
   | EndCommand
@@ -147,6 +159,7 @@ export type Command =
   | GiveItemCommand
   | StartBattleCommand
   | LoadSceneCommand
+  | SetPaletteCommand
   | SetDialogStyleTopCommand
   | SetDialogStyleCenterCommand
   | SetDialogStyleBottomCommand

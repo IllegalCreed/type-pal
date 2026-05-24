@@ -151,6 +151,13 @@ export const opcodeTable: Record<number, OpcodeDef> = {
     named: true,
   },
 
+  // 0x008B: Change the current palette (script.c:2571) —— paletteIndex = operand[0]
+  0x008b: {
+    name: 'setPalette',
+    fields: [{ name: 'paletteIndex', kind: 'value' }, VALUE, VALUE],
+    named: true,
+  },
+
   // 0x0059: Change to specified scene (script.c:1870) —— sceneId = operand[0]
   // M3.5(D34/B 路线)真消费:disasm 出具名 LoadSceneCommand,EventSystem handler 是 stub
   // (no-op skip + console.debug);真 scene 切换由 dev panel 直调 loadScene() 函数。

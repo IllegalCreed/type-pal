@@ -24,12 +24,23 @@
  *    等真撞到 raw + console.debug 看到 opcode 号再补。
  */
 
-import type { Command, InputSnapshot } from '@type-pal/shared'
+import type { Command, InputSnapshot, Palette } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
 import type { GameState } from './game-state.js'
 
 const SINGLE_TICK_LIMIT = 256
+
+/** fetchPalette 注入(M4 P3.T2)—— 模式与 setSceneContext 一致,保持 tickEventSystem 同步签名。 */
+type FetchPaletteFn = (id: number) => Promise<Palette>
+let _fetchPalette: FetchPaletteFn | null = null
+
+/** 注入 fetchPalette 实现;bootstrap 在 startRafLoop 前调用一次(类同 setSceneContext)。
+ *  传 null 可在测试中重置(清除注入)。
+ */
+export function setFetchPalette(fn: FetchPaletteFn | null): void {
+  _fetchPalette = fn
+}
 
 /** 跑事件脚本的运行模式(M3 T17)。 */
 export type RuntimeMode = 'explore' | 'battle'
@@ -169,6 +180,29 @@ export function tickEventSystem(
         cursor.ip++
         break
 
+      case 'setPalette': {
+        // M4 P3.T2:真换调色板 —— 异步 fetch,fire-and-forget,tick 同步继续。
+        // gs.palette 写入后渲染层下一帧 flushToCanvas 消费新色表。
+        const paletteIdx = cmd.paletteIndex
+        if (_fetchPalette) {
+          const gsRef = gs
+          _fetchPalette(paletteIdx)
+            .then((p) => {
+              gsRef.palette = p
+            })
+            .catch((err: unknown) => {
+              console.warn(`event-system: fetchPalette(${paletteIdx}) failed:`, err)
+            })
+        }
+        else {
+          console.debug(
+            `event-system: setPalette paletteIndex=${paletteIdx} ip=${cursor.ip}(fetchPalette 未注入)`,
+          )
+        }
+        cursor.ip++
+        break
+      }
+
       case 'sequence':
       case 'if':
       case 'choice':
@@ -277,6 +311,12 @@ export function runScript(opts: RunScriptOptions): void {
       case 'loadScene':
         // M3.5 B 路线 stub:no-op skip + console.debug。test 在 T10 补全。
         console.debug(`${logPrefix} skip loadScene sceneId=${cmd.sceneId} ip=${ip}(B 路线 stub)`)
+        ip++
+        break
+
+      case 'setPalette':
+        // runScript 是 battle-mode 子脚本执行路径,setPalette 在战斗中无意义;no-op skip。
+        console.debug(`${logPrefix} skip setPalette paletteIndex=${cmd.paletteIndex} ip=${ip}`)
         ip++
         break
 

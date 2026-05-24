@@ -3,7 +3,7 @@
  * M2 覆盖 explore / event;M3 (T14) 加 battle option(tickBattle 真实现 T22)。
  */
 
-import type { Command, DialogBoxStyle, SceneEventObject } from '@type-pal/shared'
+import type { Command, DialogBoxStyle, Palette, SceneEventObject } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 
 export type Facing = 'up' | 'down' | 'left' | 'right'
@@ -62,6 +62,11 @@ export interface GameState {
   /** 战斗状态;T16 给真类型(BattleState),T14 已用 unknown 占位避免污染 explore/event。 */
   battleState?: BattleState
   frameNum: number
+  /** 当前调色板;M4 P3.T2 setPalette opcode handler 写入,渲染层 flushToCanvas 消费。
+   *  初始值 undefined — bootstrap 初始化后由 GameState 持有最新 palette,
+   *  flushToCanvas 优先用 gs.palette(若非 undefined),否则 fallback 到 bootstrap 初始 palette。
+   */
+  palette?: Palette
 }
 
 export function createInitialGameState(

@@ -20,6 +20,7 @@ import type {
   SetDialogStyleCenterCommand,
   SetDialogStyleNarrationCommand,
   SetDialogStyleTopCommand,
+  SetPaletteCommand,
   ShowDialogCommand,
 } from '@type-pal/shared'
 import { opcodeTable } from './opcodes.js'
@@ -111,6 +112,8 @@ function emitCommand(def: DefLike, operands: number[], messages: string[]): Comm
       return emitGiveItem(operands)
     case 'loadScene':
       return emitLoadScene(operands)
+    case 'setPalette':
+      return emitSetPalette(operands)
     case 'setDialogStyleTop':
       return emitSetDialogStyle('setDialogStyleTop', operands)
     case 'setDialogStyleCenter':
@@ -206,6 +209,17 @@ function emitLoadScene(operands: number[]): LoadSceneCommand {
     op: 'loadScene',
     // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
     sceneId: operands[0]!,
+  }
+}
+
+/** setPalette(0x008B):paletteIndex = operand[0];operand[1]/[2] sdlpal 不读、实数据全 0。
+ *  round-trip 假设这两位为 0 —— 若极少数指令带非 0 尾巴,全量 round-trip 会立刻报错。
+ */
+function emitSetPalette(operands: number[]): SetPaletteCommand {
+  return {
+    op: 'setPalette',
+    // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
+    paletteIndex: operands[0]!,
   }
 }
 

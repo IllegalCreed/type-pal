@@ -240,6 +240,14 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   }
 }
 
+/**
+ * 按调色板编号 fetch palette JSON(M4 P3.T2 setPalette opcode runtime)。
+ * URL: /extracted/data/palette/{id}.json —— 与 loadAll 内 palette/0.json 路径同模式。
+ */
+export async function fetchPalette(id: number): Promise<Palette> {
+  return fetchJson<Palette>(`${BASE}/data/palette/${id}.json`)
+}
+
 // ── Scene 资源 lazy 加载缓存(M3.5 / D33) ─────────────────────────────
 
 export interface SceneAssets {
