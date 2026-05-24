@@ -61,25 +61,44 @@ export function drawTilemap(
 
   const idFn = layer === 0 ? tileIdLayer0 : tileIdLayer1
 
-  for (let r = 0; r < map.height; r++) {
-    const rowCells = map.cells[r]!
-    const rowPxY = r * ROW_Y_STEP + offsetY
-    if (rowPxY + TILE_H <= 0 || rowPxY >= fb.height) continue
-    for (let c = 0; c < map.width; c++) {
-      const cell = rowCells[c]!
-      const cellPxX = c * TILE_W + offsetX
-      if (cellPxX + TILE_W <= 0 || cellPxX >= fb.width) continue
+  // sdlpal map.c:382-417 PAL_MapBlitToSurface 真实公式:
+  //   yPos = -8 + 16*y + 8*h   (h=0 在 row baseline 上方 8 px;h=1 在 row baseline)
+  //   xPos = 32*x + 16*h - 16  (h=0 在 col baseline 左 16 px;h=1 在 col baseline)
+  // 我们的 cell.lower = Tiles[y][x][0] = h=0 DWORD,cell.upper = Tiles[y][x][1] = h=1 DWORD。
+  // 早先把 lower 当 baseline、upper 偏 (+16,+8),整体偏置反了 —— scene 1 sparse
+  // 巧合不显,scene 16 dense 全图错位 + 锯齿。M3 T3 D29 baseline diff 暴露此 bug。
+  //
+  // ±1 fence(M3.5 T6):sdlpal sy/dy 各 ±1 fence;fence 位置 PAL_MapGetTileBitmap
+  // 返回 NULL,layer 0 fallback 到 tile (0,0,h=0,layer=0)(map.c:412),layer 1 直接
+  // continue。给 dense scene 右/底 strip 提供 fill;之前缺 fence → scene 16 picker
+  // 左侧"梯子状"杂乱 tile。
+  const fenceFill = layer === 1 ? -1 : tileIdLayer0(map.cells[0]![0]!.lower)
 
-      // sdlpal map.c:398-414:h=0 (lower) at (col*32, row*16);h=1 (upper) at (col*32+16, row*16+8)
-      const lowerId = idFn(cell.lower)
+  for (let r = -1; r <= map.height; r++) {
+    const row = (r >= 0 && r < map.height) ? map.cells[r]! : null
+    const rowPxY = r * ROW_Y_STEP + offsetY
+    // viewport clip:整 row 都在 viewport 外则跳过(fence row 也照样 clip 不浪费)。
+    // 注意 sub-row offset 后 lower 在 rowPxY-8、upper 在 rowPxY,所以 row 实际 y 覆盖
+    // [rowPxY - SUBROW_Y_STEP, rowPxY + TILE_H)。
+    if (rowPxY + TILE_H <= 0 || rowPxY - SUBROW_Y_STEP >= fb.height) continue
+    for (let c = -1; c <= map.width; c++) {
+      const cell = (row && c >= 0 && c < map.width) ? row[c]! : null
+      const cellPxX = c * TILE_W + offsetX
+      // 同理 lower 在 cellPxX-16、upper 在 cellPxX,col 实际 x 覆盖
+      // [cellPxX - TILE_HALF_W, cellPxX + TILE_W)。
+      if (cellPxX + TILE_W <= 0 || cellPxX - TILE_HALF_W >= fb.width) continue
+
+      // h=0 (lower):画在 (col*32 - 16, row*16 - 8)
+      const lowerId = cell ? idFn(cell.lower) : fenceFill
       if (lowerId >= 0) {
         const img = tiles.get(lowerId)
-        if (img) blitTile(fb, img, cellPxX, rowPxY)
+        if (img) blitTile(fb, img, cellPxX - TILE_HALF_W, rowPxY - SUBROW_Y_STEP)
       }
-      const upperId = idFn(cell.upper)
+      // h=1 (upper):画在 (col*32, row*16) = baseline
+      const upperId = cell ? idFn(cell.upper) : fenceFill
       if (upperId >= 0) {
         const img = tiles.get(upperId)
-        if (img) blitTile(fb, img, cellPxX + TILE_HALF_W, rowPxY + SUBROW_Y_STEP)
+        if (img) blitTile(fb, img, cellPxX, rowPxY)
       }
     }
   }
