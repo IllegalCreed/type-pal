@@ -24,18 +24,12 @@ const TRIGGER_CONTACT_MIN = 4 // sdlpal global.h kTriggerTouchNear..Farthest
  * 每段最多 hold N 个 walk 时长;走完每段重新探针距离决定下一段。最多 20 段兜底。
  */
 /**
- * M3.5 limitation:scene jump 不重载新 scene 的 events.json segment,labelMap 仍是
- * scene 1 → contact NPC trigger 标签找不到 → loadEventFromNpc 早 return + mode 保持
- * explore + party 继续走过 NPC cell。
- *
- * 完整 contact → battle 端到端要等 M5:
- *  - scene events lazy load(每个 scene 各自 events.json segment)
- *  - 或 D33 SceneAssets 扩 eventCommands + labelMap 字段
- *
- * 本 spec 当前只验证 scene 15 有 contact NPC(triggerMode>=4)+ visual baseline(草妖
- * sprite 468 可见)。走路 + mode 切 battle 留 M5。
+ * P3.T1 lazy events 修后 unskip:SceneAssets 扩 eventCommands+labelMap,
+ * loadScene 切 scene 时同步换入新 scene 的 events/labelMap,
+ * 修 M3.5 ⚠️ #8:scene jump 后旧 labelMap 留内存 → contact NPC triggerLabel 找不到 →
+ * loadEventFromNpc 早 return → mode 不切。
  */
-test.skip('a9 明雷遇怪 — M3.5 简版,完整 contact → battle 端到端等 M5(scene events lazy load)', async ({
+test('a9 明雷遇怪 — 跳 scene 15 草妖通道 → 走到 contact cell → 触发 event', async ({
   page,
 }) => {
   await bootstrap(page)
@@ -70,11 +64,9 @@ test.skip('a9 明雷遇怪 — M3.5 简版,完整 contact → battle 端到端�
     return db < da ? b : a
   })
 
-  // 走 → 触发 contact → mode 离开 explore(event 或 battle)
-  // 现状:scene jump 不重载新 scene events,labelMap 仍是 scene 1 → 触发后 mode='event'
-  // 但 triggerScript 41179 等不在 labelMap → loadEventFromNpc 早 return 不切 mode
-  // M3.5 简版 spec:只验证 walking 能进入 contact cell(NPC 不阻挡)+ 视觉草妖确实在
-  // 真做 contact → battle 端到端要等 scene events lazy load(M5)
+  // 走 → 触发 contact → loadEventFromNpc 找到 triggerLabel(P3.T1 lazy events 修后)
+  // → gs.mode='event' → 事件脚本跑(raw op skip)→ end → mode 回 'explore'
+  // party 已落在 NPC cell;最终断言检查 party 到达 contact cell
   for (let seg = 0; seg < 20; seg++) {
     const p = await page.evaluate(
       () => (window as unknown as Probe).__game.gs.party,

@@ -44,8 +44,8 @@ test('a8 scene 切换 — party 写入 scene-jumps.json 的 partyStart 位置', 
   const party = await page.evaluate(
     () => (window as unknown as Probe).__game.gs.party,
   )
-  // scene-jumps.json T16 真值:scene-15-mob partyStart = { col: 32, row: 32, facing: 'down' }
-  expect(party.col).toBe(32)
-  expect(party.row).toBe(32)
-  expect(party.facing).toBe('down')
+  // scene-jumps.json:scene-15-mob partyStart = { col: 26, row: 81, facing: 'right' }(a9 walk 收敛用)
+  expect(party.col).toBe(26)
+  expect(party.row).toBe(81)
+  expect(party.facing).toBe('right')
 })

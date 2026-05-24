@@ -53,19 +53,28 @@ export async function selectBattleFixture(page: Page, fixtureId: string): Promis
 /**
  * 点 picker 内 scene jump 按钮。
  * M4 P3 T6:scene picker 改 input + filter list。
- * jumpId 可传 sceneId 数字字符串(如 "14")或 label 子串;helper 会先在 input 填入 filter,
- * 再点第一个匹配按钮。
+ * jumpId 可传 sceneId 数字字符串(如 "14")或 jump id(如 "scene-15-mob");
+ * helper 先在 input 填入数字 filter 缩小列表,再按 jumpId 精确 or fallback 点击。
  */
 export async function selectSceneJump(page: Page, jumpId: string): Promise<void> {
-  // 提取纯数字部分用于 filter(若 jumpId 包含非数字前缀如 "scene-14-port" 则取 "14")
+  // 提取纯数字部分用于 filter(如 "scene-15-mob" → "15")
   const numMatch = jumpId.match(/\d+/)
   const filter = numMatch ? numMatch[0] : jumpId
   const input = page.locator('input[placeholder*="scene id"]')
   await input.fill(filter)
-  // filter 后点第一个匹配的 scene 按钮
-  await page.locator(`button:has-text("scene-${filter} (")`).first().click()
-  // dev jump 是 async loadScene + applySceneAssetsToPresent,等几百 ms 让 fetch + apply 完
-  await page.waitForTimeout(500)
+  // 优先尝试精确 jumpId 开头匹配(如 "scene-15-mob (");
+  // 若不存在则 fallback 到数字前缀(如 "scene-14 (")兼容老 jumpId(scene-14-port 等)
+  const exactLocator = page.locator(`button:has-text("${jumpId} (")`)
+  const exactCount = await exactLocator.count()
+  if (exactCount > 0) {
+    await exactLocator.first().click()
+  }
+  else {
+    await page.locator(`button:has-text("scene-${filter} (")`).first().click()
+  }
+  // dev jump 是 async loadScene + applySceneAssetsToPresent,P3.T1 新增 events fetch
+  // 等 2s 确保 3 个并发 fetch(scene,tilemap,events)+ apply 全部完成
+  await page.waitForTimeout(2000)
 }
 
 /**

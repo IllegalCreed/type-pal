@@ -166,6 +166,17 @@
       }
     },
     {
+      "id": "scene-15-mob",
+      "label": "scene-15-mob (map-7, 草妖通道)",
+      "sceneId": 15,
+      "mapNum": 7,
+      "partyStart": {
+        "col": 26,
+        "row": 81,
+        "facing": "right"
+      }
+    },
+    {
       "id": "scene-16",
       "label": "scene-16 (map-119)",
       "sceneId": 16,
