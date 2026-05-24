@@ -3349,6 +3349,35 @@ P0.0 plan 原文有几处实施缺陷,跑通后 `pnpm dev` 自测时暴露。**�
 - **e2e visual baseline**:跑 isometric 切换时,**先 manual 看图是否合理**(NPC 位置应跟 sdlpal 真值对齐),再 commit baseline。
 - **HMR 缓存陷阱**:重大单位制 / DIR 改动后,要明确请 user 重启 vite + 强制刷浏览器(否则旧 module 残留 → user 看到 stale 视觉,我们诊断成"代码 bug"实际是 cache)。
 
+### P0.a 实施完工 (2026-05-24)
+
+- `pnpm -w check`:282 passed | 2 skipped (game) + 199 passed (pal-extract) 全绿
+- `pnpm -F @type-pal/game e2e`:31/31 全绿
+- commit: `a8cab89`
+
+**TileCell obstacle bit 真值:**
+- `map.c:298`: `return (lpMap->Tiles[y][x][h] & 0x2000) >> 13;`
+- bit 13 (0-indexed) of u16 tile word = obstacle flag。
+- h=0 → `TileCell.lower`;h=1 → `TileCell.upper`。
+- plan 漏写此 bit 位,grep 出真值后直接 port。
+
+**责任划分决策(isWalkable vs tickSceneSystem):**
+- `isWalkable` 统一处理 tilemap obstacle bit + NPC 菱形碰撞两件事,对应 sdlpal `PAL_CheckObstacle(fCheckEventObjects=TRUE)`。
+- 旧 `tickSceneSystem` 的 `npcAt + isContactMonster` 拆分逻辑已删除,改为一次 `isWalkable(ctx.tilemap, nx, ny, gs.npcs, 0)` 完成全部检查。
+- contact 怪(triggerMode >= 4)在 isWalkable 内部 continue 跳过,不阻挡走路;明雷语义保留。
+
+**NPC 阻挡 sState vs triggerMode:**
+- sdlpal 原版用 `sState >= kObjStateBlocker(2)` 判阻挡,与 triggerMode 正交。
+- 我们 NpcState 没有 sState 字段(M2 era 设计),沿用 triggerMode 判断:triggerMode 0..3 = 阻挡,>= 4 = contact 不阻挡。
+- 功能等效(原版正常 NPC sState=1 也是 blocker;contact 怪 sState=1 但不阻挡是因为 play.c 里直接允许走入),有待 M5 后续真做 sState 时对齐。
+
+**e2e a5 边界 clamp 更新:**
+- 旧 a5 假设 party 能走到 x=0(M2 全可走 + 边界 clamp)。实真碰撞后 map-12 场景有真实 tile 墙,party 在 x=672 就被阻。
+- 改为:验证 8s hold Down 后 x 停止变化 + x ≥ 0 即可(tile 碰撞 or 地图边界均满足)。
+
+**manual 验证:**
+- vite dev 在 headless 环境跑不了(e2e 仅 Playwright);manual 物理走路对墙验证留给 user 手动跑 dev。
+
 ## Sync 段
 
 (实施时累积)
