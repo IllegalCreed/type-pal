@@ -12,15 +12,19 @@
 
 ## 当前状态(2026-05-24)
 
-**M3 Phase 1 完成** —— 战斗系统骨架 + D29 双基准 + 5 actions 全集 + dev 入口。
-- `pnpm -F @type-pal/game dev`:M2 探索 + `B` 键弹 dev panel picker 选 fixture → 进战斗 → 5 actions(attack / defend / magic / item / flee)→ won/lost/fleed 全跑通 + exp/cash 入账
-- 战斗骨架:`core/battle/` 子层 = `battle-state` / `turn-queue`(PAL_CLASSIC ActionQueue)/ `formulas`(1:1 port `fight.c`)/ `enemy-ai` / 5 个 `actions/*.ts` / `battle-system`(phase 状态机)/ `rng`(mulberry32)
-- 战斗 UI:`present/battle/` = 背景 + 双方 sprite + 主菜单 + 二级菜单 + 目标光标 + HP/MP 数字 + 伤害弹幕。`BATTLE_FPS=25` vs `EXPLORE_FPS=10`
-- 数据 schema 战斗完整版:Enemy 扩 30+ 字段(signed 语义 + 元素抗具名)+ 新增 Item / Spell / Magic / EnemyTeam / BattleField / PlayerRoles
-- **D29 双基准**:① sdlpal classic build PAL_CLASSIC patch + headless map dumper(`--dump-map`) → tilemap 像素 diff 自动测试;② headless battle harness(5 fixture)→ 逐回合 hp/mp 数值对拍。两套基准都活在 `pnpm check` 里
-- 407+ 单测 + 2 skipped(b2-magic / b5-defend 两个 fixture 的已知 deviation,见 plans 末「实施过程发现」)
+**M3.5 完成** —— scene 切换 + 明雷怪 + L2 Playwright 视觉对拍(M1-M3.5 全功能覆盖)。
+- `pnpm -F @type-pal/game dev[?skip-intro=1]`:M3.5 dev panel(`B` 键)picker = 3 battle fixture + **5 scene jump**(scene 1 客栈 + 仙灵岛入口/通道 1/通道 2/迷宫);仙灵岛通道 1 含 4 个 sprite 468 草妖明雷接触 NPC
+- **scene 切换链路**:`SceneAssetsCache` lazy 加载(D33)+ `loadScene` 函数 + `applySceneAssetsToPresent` re-render wire(tilemap / tileImages / npcSprites / setSceneContext 全同步)+ dev panel `applySceneJump` 真调
+- **明雷机制**:contact monster(triggerMode>=4)走入即触发 trigger,不阻挡;Confirm-search NPC(triggerMode 1-3)仍阻挡。对照 sdlpal `play.c::PAL_PartyWalk`
+- **战斗 input wire**:mainMenu / magicMenu / itemMenu / targetSelect / Cancel 全实现,5 actions 端到端 input → battle 真跑(M3 stub 时期 limitation 移除)
+- **L2 Playwright 视觉基准**:23 spec(scene + battle + menu + dev)L2 全跑通,baseline PNG 本机生成不入 git(版权)。battle baseline 用 **sdlpal-classic `--dump-battle` patch**(新加)为真原版基准,catch 出我方位置 / 渲染 bug
+- **sdlpal classic patch 总集**:4 个 — PAL_CLASSIC define / `--dump-map` / `--battle-harness` / **`--dump-battle`**(M3.5 新);全部活在 `pnpm e2e`
+- **修了多个 M2/M3 残留**:`render-tilemap.ts` ±1 fence + sub-row offset(然后 port 到 `draw-tilemap.ts`);RLE decode 保留 opaque mask + PNG alpha 通道编码(tile + sprite,scene 16 dense 暴露 + 人物半透明);PLAYER_POSITIONS 按 sdlpal `g_rgPlayerPos[3][3][2]` 真值;ENEMY_POSITIONS 改读 ENEMYPOS table(DATA.MKF chunk 13)
+- 460+ 单测 + 2 skipped + 30 L2 + 1 L2 skip(a9 contact→battle 端到端等 M5 scene events lazy load)
 
-下一步:进入 **M3.5**(scene 切换 + 明雷怪 + 仙灵岛端到端,把 scene 1 onEnter 真跑完连到撞草妖),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
+下一步:**M5/M6/M7**(系统补全 / 体验补全 / 通关验证),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
+
+**M3 Phase 1 完成**(2026-05-23) —— 战斗系统骨架 + D29 双基准 + 5 actions 全集 + dev 入口。
 
 **M2 完成**(2026-05-23) —— 运行时垂直切片打通(scene 1 探索 + NPC 触发对话)。详见 03 plan。
 

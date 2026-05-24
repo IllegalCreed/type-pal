@@ -46,7 +46,7 @@
 - **Dev panel**:`import.meta.env.DEV` gate 的 DOM 浮层,快捷键 B 调战斗(选 enemyTeam / battleField / 队伍预设),F1 dump GameState。
 - **完成定义** ✅:dev 入口能稳定跑 5 actions,won / lost / fleed 都通,exp 入账;D29 双基准对拍绿(tilemap 像素一致 + 5 个 battle fixture 中 3 个严格 PASS / 2 个 known deviation skip 见 plan 末「实施过程发现」)。
 
-#### M3.5 Phase 2(scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 · 下一里程碑)
+#### M3.5 Phase 2(scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐)✅ 2026-05-24
 
 **关键简化(D34)**:真剧情链 scope 爆,M3.5 不做真剧情;用 dev panel 加 "跳 scene" 快捷键直接 jump 到仙灵岛入口,然后真实走 1-2 scene + 撞草妖 + 真战斗。
 
@@ -69,7 +69,7 @@
 - c 组菜单(6):对话框 4 style / 战斗主菜单 / 战斗法术菜单 / 战斗物品菜单 / 战斗目标光标 / dev picker
 - f 组 dev 工具(1):F1 dump GameState
 
-详细设计 / 决策依据见 [`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md)。预计 ~38 task(主体 12-15 + L2 23 + Playwright setup ~3)。
+详细设计 / 决策依据见 [`plans/2026-05-24-m3-5-scene-encounter-design.md`](plans/2026-05-24-m3-5-scene-encounter-design.md)。实际 40 task 全 done(主体 17 + Playwright setup 3 + L2 23 spec 拆 17 task + 验收 3),plus 多个独立 fix commit(draw-tilemap ±1 fence + RLE opaque mask + sdlpal --dump-battle + PLAYER/ENEMY POSITIONS 真值)。**真原版 sdlpal `--dump-battle` patch 是 M3.5 新工具**(类似 D29 `--dump-map`,给 L2 battle baseline 提供真原版基准而非 self-snapshot)。L2 实施过程发现归 [`plans/2026-05-24-m3-5-scene-encounter.md`](plans/2026-05-24-m3-5-scene-encounter.md) 末尾。
 
 #### 未来 L2 大类(M3.5 不做,design 标)
 
