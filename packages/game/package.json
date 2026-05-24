@@ -19,9 +19,11 @@
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.1",
     "@types/pixelmatch": "^5.2.6",
+    "@types/pngjs": "^6.0.5",
     "canvas": "^3.2.3",
     "jsdom": "^29.1.1",
     "pixelmatch": "^7.2.0",
+    "pngjs": "^7.0.0",
     "vite": "^8.0.14"
   }
 }
