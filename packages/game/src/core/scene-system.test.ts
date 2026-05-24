@@ -194,6 +194,92 @@ describe('明雷机制(M3.5 T11 / D32)', () => {
   })
 })
 
+// ── M3.5 T12: 明雷反例 / edge case(D32)─────────────────────────────────────
+//
+// 与 T11 三个正例配对,补完 contact 路径的反例 + 边界:
+//  - 无 triggerLabel(对照原版 triggerScript=0 段)
+//  - triggerLabel 不在 labelMap(资源损坏 / 引用错 label,helper 应 warn + 不切 mode)
+//  - triggerMode 边界 3(Confirm-search 段最大)/ 4(contact 段最小)
+//
+// 注:NpcState 当前 schema 没 state 字段(M5 加),本 task 不引入新 schema。
+describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
+  it('party 同格 NPC 无 triggerLabel(triggerMode=5)→ 不切 mode + eventCursor undefined', () => {
+    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    // triggerMode 已是 contact 段(>= 4),但 triggerLabel 缺失(对照原版 triggerScript=0)
+    gs.npcs = [
+      { id: 7, col: 5, row: 5, spriteNum: 468, triggerMode: 5 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: [],
+      labelMap: {},
+    })
+    expect(gs.mode).toBe('explore')
+    expect(gs.eventCursor).toBeUndefined()
+  })
+
+  it('party 同格 NPC triggerLabel 不在 labelMap(triggerMode=5)→ warn + 不切 mode', () => {
+    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    gs.npcs = [
+      { id: 7, col: 5, row: 5, spriteNum: 468, triggerLabel: 'L_9999', triggerMode: 5 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: [{ op: 'end' as const }],
+      labelMap: { L_OTHER: 0 }, // 故意不含 L_9999
+    })
+    expect(gs.mode).toBe('explore')
+    expect(gs.eventCursor).toBeUndefined()
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('L_9999'))
+    warnSpy.mockRestore()
+  })
+
+  it('triggerMode=3 边界(Confirm-search 段最大值)→ 不自动触发(< CONTACT_MIN)', () => {
+    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    gs.npcs = [
+      { id: 7, col: 5, row: 5, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 3 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    const commands = [
+      { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+      { op: 'end' as const },
+    ]
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: commands,
+      labelMap: { L_42: 0 },
+    })
+    expect(gs.mode).toBe('explore')
+    expect(gs.eventCursor).toBeUndefined()
+  })
+
+  it('triggerMode=4 边界(contact 段最小值)→ 自动触发(=== CONTACT_MIN)', () => {
+    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    gs.npcs = [
+      { id: 7, col: 5, row: 5, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 4 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    const commands = [
+      { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+      { op: 'end' as const },
+    ]
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: commands,
+      labelMap: { L_42: 0 },
+    })
+    expect(gs.mode).toBe('event')
+    expect(gs.eventCursor?.ip).toBe(0)
+  })
+})
+
 // ── M3.5 T9: loadScene(D33 lazy 切场景)─────────────────────────────────────
 //
 // 设计契约(D33 + D34):
