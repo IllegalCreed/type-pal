@@ -123,7 +123,9 @@ function mkState(
 
 function mkSpriteAsset(w: number, h: number, fill: number): SpriteAsset {
   const indices = new Uint8Array(w * h).fill(fill)
-  return { frames: [{ width: w, height: h, indices }] }
+  // M3.5 fix:opaque mask 全 1 = 完全 opaque(对应 RLE 全 direct run)。
+  const opaque = new Uint8Array(w * h).fill(1)
+  return { frames: [{ width: w, height: h, indices, opaque }] }
 }
 
 describe('drawBattleSprites', () => {
@@ -179,15 +181,16 @@ describe('drawBattleSprites', () => {
     expect(() => drawBattleSprites(fb, state, sprites, playerRoles)).not.toThrow()
   })
 
-  it('sprite 索引 0 透明,不覆盖背景', () => {
+  it('sprite opaque=0 透明,不覆盖背景(M3.5 fix:透明判定走 opaque,不再 idx===0)', () => {
     const fb = createFramebuffer()
     // 队员 anchor 中心 (160, 150),底中 anchor 后 (159, 148) 是 frame[0,0]
     fb.writePixel(159, 148, 77)
     const role = minimalRole(0, { spriteNumInBattle: 1 })
     const playerRoles: PlayerRoles = { roles: [role] }
     const indices = new Uint8Array(4) // 全 0
+    const opaque = new Uint8Array(4) // 全 0 = 全透明(RLE-skip)
     const sprites = new Map<string, SpriteAsset>([
-      ['player-1', { frames: [{ width: 2, height: 2, indices }] }],
+      ['player-1', { frames: [{ width: 2, height: 2, indices, opaque }] }],
     ])
     const state = mkState([mkBattlePlayer(0)], [])
     drawBattleSprites(fb, state, sprites, playerRoles)

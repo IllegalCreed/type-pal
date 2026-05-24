@@ -181,6 +181,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
             width: f.width,
             height: f.height,
             indices: f.indices,
+            opaque: f.opaque,
           })),
         })
       }

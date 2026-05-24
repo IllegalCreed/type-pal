@@ -35,6 +35,8 @@ export interface SpriteFrame {
   width: number
   height: number
   indices: Uint8Array
+  /** opaque mask(M3.5 fix):1 = 写入,0 = RLE-skip 透明跳过(同 draw-sprite 约定)。 */
+  opaque: Uint8Array
 }
 
 export interface SpriteAsset {
@@ -44,7 +46,7 @@ export interface SpriteAsset {
 
 /**
  * 把单帧以 (anchorX, anchorY) 为底部中心 anchor 画到 framebuffer。
- * 索引 0 透明(同 draw-sprite RLE 约定)。
+ * 透明判定走 opaque mask(M3.5 fix,同 draw-sprite / draw-tilemap)。
  */
 function blitFrame(
   fb: Framebuffer,
@@ -56,9 +58,9 @@ function blitFrame(
   const baseY = anchorY - frame.height
   for (let y = 0; y < frame.height; y++) {
     for (let x = 0; x < frame.width; x++) {
-      const idx = frame.indices[y * frame.width + x]!
-      if (idx === 0) continue
-      fb.writePixel(baseX + x, baseY + y, idx)
+      const srcOff = y * frame.width + x
+      if (frame.opaque[srcOff] === 0) continue
+      fb.writePixel(baseX + x, baseY + y, frame.indices[srcOff]!)
     }
   }
 }

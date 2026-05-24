@@ -87,6 +87,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     width: partyFirst.width,
     height: partyFirst.height,
     indices: partyFirst.indices,
+    opaque: partyFirst.opaque,
     anchorX: partyData.anchorX,
     anchorY: partyData.anchorY,
   }
@@ -98,6 +99,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       width: f.width,
       height: f.height,
       indices: f.indices,
+      opaque: f.opaque,
       anchorX: data.anchorX,
       anchorY: data.anchorY,
     })
@@ -190,6 +192,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         width: first.width,
         height: first.height,
         indices: first.indices,
+        opaque: first.opaque,
         anchorX: Math.floor(first.width / 2),
         anchorY: first.height,
       })

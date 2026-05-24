@@ -147,7 +147,13 @@ function mkBgAsset(fill = 4): BattleBgAsset {
 
 function mkSpriteAsset(w: number, h: number, fill: number): SpriteAsset {
   return {
-    frames: [{ width: w, height: h, indices: new Uint8Array(w * h).fill(fill) }],
+    frames: [{
+      width: w,
+      height: h,
+      indices: new Uint8Array(w * h).fill(fill),
+      // M3.5 fix:opaque 全 1 = 完全 opaque
+      opaque: new Uint8Array(w * h).fill(1),
+    }],
   }
 }
 

@@ -45,12 +45,24 @@ export function parseSpriteChunk(buf: Uint8Array): RleFrame[] {
 }
 
 /**
- * 把索引位图编码为 PNG。M1 用 RGBA 三通道复制法(R=G=B=调色板下标,A=255)。
- * 运行时 game 包加载时只取 R 通道(=索引)。
+ * 把索引位图编码为 PNG。M1 用 RGBA 三通道复制法(R=G=B=调色板下标,A=opaque mask)。
+ * 运行时 game 包加载时:R 通道 = palette index,A 通道 = opaque(>0 即 opaque)。
  * 不烤色;运行时查调色板填色。
+ *
+ * **alpha 通道载 opaque mask**(M3.5 fix):之前 alpha 永远 = 255,RLE-skip 透明
+ * 与 opaque palette-0 都丢失区分;运行时 blit `idx === 0 continue` 把所有 palette-0
+ * 像素当透明 → scene 16 通道 dense tile + 角色 sprite 头发暗部都半透明。
+ *
+ * `opaque` 不传时全 opaque(向后兼容 — 比如战斗背景 320×200 raw bitmap 无 RLE)。
+ *
  * 磁盘代价 ×4 但实现简单;M3 视情况优化。
  */
-export function encodeIndexedPng(width: number, height: number, pixels: Uint8Array): Uint8Array {
+export function encodeIndexedPng(
+  width: number,
+  height: number,
+  pixels: Uint8Array,
+  opaque?: Uint8Array,
+): Uint8Array {
   const png = new PNG({ width, height })
   for (let i = 0; i < width * height; i++) {
     // biome-ignore lint/style/noNonNullAssertion: pixels length = width * height, index always in bounds
@@ -58,7 +70,8 @@ export function encodeIndexedPng(width: number, height: number, pixels: Uint8Arr
     png.data[i * 4] = v
     png.data[i * 4 + 1] = v
     png.data[i * 4 + 2] = v
-    png.data[i * 4 + 3] = 255
+    // biome-ignore lint/style/noNonNullAssertion: opaque length matches pixels when provided
+    png.data[i * 4 + 3] = opaque ? (opaque[i]! ? 255 : 0) : 255
   }
   return new Uint8Array(PNG.sync.write(png))
 }
@@ -75,7 +88,7 @@ export function framesToOut(frames: RleFrame[]): SpriteFrameOut[] {
     index: i,
     width: f.width,
     height: f.height,
-    pngBytes: encodeIndexedPng(f.width, f.height, f.pixels),
+    pngBytes: encodeIndexedPng(f.width, f.height, f.pixels, f.opaque),
   }))
 }
 

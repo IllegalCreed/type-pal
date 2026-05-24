@@ -13,10 +13,12 @@ describe('drawTilemap', () => {
     const fb = createFramebuffer()
     const lower = new Uint8Array(4 * 4).fill(1)
     const upper = new Uint8Array(4 * 4).fill(2)
+    const lowerOpaque = new Uint8Array(4 * 4).fill(1)
+    const upperOpaque = new Uint8Array(4 * 4).fill(1)
     const tiles: TileImages = {
       get(idx) {
-        if (idx === 1) return { width: 4, height: 4, indices: lower }
-        if (idx === 2) return { width: 4, height: 4, indices: upper }
+        if (idx === 1) return { width: 4, height: 4, indices: lower, opaque: lowerOpaque }
+        if (idx === 2) return { width: 4, height: 4, indices: upper, opaque: upperOpaque }
         return undefined
       },
     }

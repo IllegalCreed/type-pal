@@ -18,7 +18,7 @@ describe('presentFrame', () => {
     const ctx: PresentContext = {
       tilemap: flatMap(3, 3),
       tileImages: { get: () => undefined },
-      partySprite: { width: 1, height: 1, indices: new Uint8Array([0]), anchorX: 0, anchorY: 0 },
+      partySprite: { width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 },
       npcSprites: new Map(),
     }
     const ok = () => presentFrame(fb, gs, ctx)
@@ -32,7 +32,7 @@ describe('presentFrame', () => {
     const ctx: PresentContext = {
       tilemap: flatMap(3, 3),
       tileImages: { get: () => undefined },
-      partySprite: { width: 1, height: 1, indices: new Uint8Array([0]), anchorX: 0, anchorY: 0 },
+      partySprite: { width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 },
       npcSprites: new Map(),
     }
     presentFrame(fb, gs, ctx)

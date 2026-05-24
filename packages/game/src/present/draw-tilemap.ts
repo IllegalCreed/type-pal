@@ -8,8 +8,18 @@ const TILE_HALF_W = TILE_W / 2
 const ROW_Y_STEP = TILE_H
 const SUBROW_Y_STEP = TILE_H / 2 // h=1 相对 h=0 的 Y 偏移
 
+export interface TileImage {
+  width: number
+  height: number
+  indices: Uint8Array
+  /** opaque mask(M3.5 fix):1 = 写入,0 = RLE-skip 透明跳过。
+   *  之前 blit 用 `idx === 0 continue` 把 RLE-skip 与 opaque-palette-0 合并 → scene 16
+   *  dense tile palette-0 像素被透明 → "梯子状"杂乱。改 `opaque[i] === 0 continue`。 */
+  opaque: Uint8Array
+}
+
 export interface TileImages {
-  get(index: number): { width: number; height: number; indices: Uint8Array } | undefined
+  get(index: number): TileImage | undefined
 }
 
 /**
@@ -34,15 +44,17 @@ function tileIdLayer1(d: number): number {
 
 function blitTile(
   fb: Framebuffer,
-  tile: { width: number; height: number; indices: Uint8Array },
+  tile: TileImage,
   dstX: number,
   dstY: number,
 ): void {
   for (let y = 0; y < tile.height; y++) {
     for (let x = 0; x < tile.width; x++) {
-      const idx = tile.indices[y * tile.width + x]!
-      if (idx === 0) continue
-      fb.writePixel(dstX + x, dstY + y, idx)
+      const srcOff = y * tile.width + x
+      // M3.5 fix:用 opaque mask 判透明,不再用 `idx === 0`。允许 opaque palette-0
+      // 被画出来(scene 16 通道 dense tile 真的有 opaque idx 0 像素)。
+      if (tile.opaque[srcOff] === 0) continue
+      fb.writePixel(dstX + x, dstY + y, tile.indices[srcOff]!)
     }
   }
 }
