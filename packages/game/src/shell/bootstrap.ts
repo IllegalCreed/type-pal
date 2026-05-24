@@ -70,6 +70,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // P0.e: party 起始位置改由首屏 scene wScriptOnEnter 脚本设(setPartyPos opcode 真生效)。
   // 初始值 (0,0,down) 只是占位;loadScene / runEnterScript 会覆盖到真实原版位置。
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' as const })
+  // sdlpal global.c::PAL_NewGame 真值:wMaxPartyMemberIndex=0 + rgParty[0].wPlayerRole=0(主角)。
+  // 不设 partyMembers 则撞怪进战斗 createBattleState 构 0 player → 立刻 phase='lost' 闪退。
+  gs.partyMembers = [0]
   gs.npcs = scene.eventObjects.map(npcFromEventObject)
 
   const segment = events.segments[0]
