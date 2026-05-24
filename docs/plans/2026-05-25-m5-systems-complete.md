@@ -3551,6 +3551,58 @@ Scene 15 新 NPC-anchored BFS center: (800, 1440),验证跟全部 6 NPC parity=0
 - isWalkable / scene 几何相关函数务必用 4 iso 方向(party 真实 movement),不要混入 8 / cardinal 方向 — parity 一旦跨越就出现"看似在同区实际不可达"
 - contact 用菱形 Manhattan < 16 是 sdlpal 真值;Confirm-search 用 `npcAt` 严格相等(对面格语义合理)— 这两套语义并存,不要合并
 
+### P0.e 实施过程发现 · opcode 7 startBattle 具名 + shared#L_xxx 跨 scene goto (2026-05-25)
+
+**触发:** user 测 scene 15 草妖 contact 触发后报 2 个新 bug:
+1. NPC trigger 跑完 cursor.ip++,但 `raw#7 startBattle` 被 D26 兜底 skip → 不进战斗
+2. NPC trigger 末尾 `goto: "shared#L_41127"` 抛 `goto label shared#L_41127 不在 labelMap`(第 3 个草妖 throw)
+
+**Bug 1 · opcode 7 (startBattle) handler 注入:**
+
+sdlpal `script.c:3318`:`PAL_StartBattle(rgwOperand[0], !rgwOperand[2])`
+- operand[0] = enemyTeamId
+- operand[1] = onLose script entry(0 = default game-over)
+- operand[2] = onFlee script entry(同时 `!operand[2]` 作 `fIsBoss`:operand[2]==0 → 不可逃跑 boss 战)
+
+**event-system.ts 加 `OP_START_BATTLE = 0x0007`**:
+- `setStartBattleHandler(fn)` 注入闭包(避免 import battle/,污染 dependency graph)
+- `tickEventSystem` raw case:`opcode === OP_START_BATTLE` → 调 handler + 释放 eventCursor + return
+- 同名 `op:'startBattle'` 走同 handler 路径(disassembler 升级具名时 forward-compatible)
+
+**bootstrap.ts 注入 closure**:用 enemies / enemyTeams / battleFields / playerRoles / items / spells / magics / eventCommands 调用 M3 既有 `startBattle(...)`。battleFieldId 暂兜底 0(M5 B-w0 接 `wBattleField` 真值)。
+
+**简化版(P0.e 范围)**:
+- 切 mode='battle' + 释放 cursor;**不**实现"战后 cursor.ip++ 跑 onLose/onFlee 分支"
+- enemyTeam.wScriptOnWin/Lose cleanup 留 M5 P1-Battle B-w0 系列
+- 战后 mode 回 'explore'(由 finalizeBattle 完成);trigger 末尾 `goto shared#L_xxx` cleanup 不跑(可接受)
+
+**Bug 2 · `goto "shared#L_xxx"` 跨 scene 共享脚本支持:**
+
+scene events 内常 `goto: "shared#L_41127"` 跳到 `events/shared.json` 跑 cleanup / 公共序列(战后隐怪 + fade)。
+
+**event-system.ts:**
+- `setSharedEvents(commands, labelMap)` 注入(模块级,bootstrap 启动一次)
+- `tickEventSystem` goto case:`cmd.to.startsWith('shared#')` → 切 `cursor.commands = _sharedCommands` + `cursor.labelMap = _sharedLabelMap` + `cursor.ip = sharedLabelMap[label]`
+- shared 内 'end' → 退出 event mode 回 explore(无需 cursor 切回原 scene)
+- `scene#L_xxx` 前缀**不存在**于 295 scene events(grep 验证)— 不实现
+
+**bootstrap.ts**:启动时 `fetch /extracted/events/shared.json` → `setSharedEvents(flatten(segments), buildLabelMap)`。失败 warn + 继续(scene 不撞 shared# 时不影响)。
+
+**测试:**
+- `event-system.test.ts`:+9 spec(opcode 7 raw#7 / operand[2]=0 isBoss / handler 未注入安全网 / 具名 op:startBattle / shared#L_X cursor 切 / shared label 不存在 throw / 普通 goto 不变 / shared end 回 explore)
+- e2e a9:opcode 7 接 handler 后断言改用 `__battleStartCount` 累积观察(battle 可能瞬间 finalize 回 explore,mode 轮询 miss 不到)+ 验 `__lastBattleEnemyTeam ∈ {15,16,40}`(scene-15 草妖 trigger 真值)
+- bootstrap 加 dev-gate `__battleStartCount + __lastBattleEnemyTeam` 累积计数器供 e2e 探针
+
+**统计:**
+- 单元: 301 → **309**(+8 net,+9 新 P0.e spec - 1 旧 op:startBattle 失效检查;实际 28 event-system spec)
+- e2e: 31/31 pass(a9 新断言 + opcode 7 真触发 1 次 enemyTeamId=15/16/40)
+
+**未完成 / M5+ 启发:**
+- 战后 cursor.ip++ resume + onLose/onFlee 分支(operand[1]/operand[2])— 留 M5 P1-Battle B-w0
+- shared#L_xxx 内若再 `goto: "scene#L_xxx"` 跳回原 scene → 当前不支持(scene# 前缀全量 grep 不存在,M5+ 真需要时再加)
+- M5.5 sdlpal audit 应包含"全 opcode 系统层归类"清单 — 当前仅具名 7 / 21 / 67 / 70 / 73 / 79 / 127 七个,剩余 ~250 opcode 需识别 must-have(item/给道具/spawn 等高频)
+- trigger 末尾 cleanup(shared#L_xxx)在简化战斗路径下被吞掉,sState NPC 隐藏 / 战胜奖励等行为不展现 — 玩起来"草妖打完不消失"是已知,留 M5+
+
 ## Sync 段
 
 (实施时累积)

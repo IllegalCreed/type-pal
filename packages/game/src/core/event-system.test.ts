@@ -1,6 +1,11 @@
 import { describe, it, expect, vi } from 'vitest'
 import type { Command, InputSnapshot, AbstractKey, Palette } from '@type-pal/shared'
-import { tickEventSystem, buildLabelMap, runScript, setFetchPalette, type BattleCtx } from './event-system.js'
+import {
+  tickEventSystem, buildLabelMap, runScript, setFetchPalette,
+  setSharedEvents, setStartBattleHandler,
+  OP_START_BATTLE,
+  type BattleCtx,
+} from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
 import { createCommandBus } from './command-bus.js'
 import type { BattleState } from './battle/battle-state.js'
@@ -397,5 +402,169 @@ describe('setPalette opcode handler(M4 P3.T2)', () => {
     expect(msg).toContain('2')
     expect(msg).toMatch(/\[event-system battle\]/)
     debugSpy.mockRestore()
+  })
+})
+
+// ── P0.e: opcode 7 startBattle handler 注入 ──────────────────────────────────
+describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', () => {
+  it('raw#7 → 调 startBattle handler + 清 eventCursor + mode 切 battle', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const handler = vi.fn(({ gs: handlerGs }: { gs: GameState }) => {
+      handlerGs.mode = 'battle'
+    })
+    setStartBattleHandler(handler)
+
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_START_BATTLE, operands: [15, 41075, 41073] },
+      { op: 'end' },
+    ])
+
+    tickEventSystem(gs, snap(), bus)
+
+    expect(handler).toHaveBeenCalledOnce()
+    expect(handler).toHaveBeenCalledWith({
+      gs,
+      enemyTeamId: 15,
+      isBoss: false,
+    })
+    expect(gs.mode).toBe('battle')
+    expect(gs.eventCursor).toBeUndefined()
+    setStartBattleHandler(null)
+  })
+
+  it('operand[2]=0 → isBoss=true(sdlpal !operand[2])', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const handler = vi.fn(({ gs: g }: { gs: GameState }) => { g.mode = 'battle' })
+    setStartBattleHandler(handler)
+
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_START_BATTLE, operands: [5, 0, 0] },
+      { op: 'end' },
+    ])
+
+    tickEventSystem(gs, snap(), bus)
+
+    expect(handler).toHaveBeenCalledWith({
+      gs,
+      enemyTeamId: 5,
+      isBoss: true,
+    })
+    setStartBattleHandler(null)
+  })
+
+  it('handler 未注入 → warn + 清 cursor 但不抛错(P0.e 简化版安全网)', () => {
+    setStartBattleHandler(null)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_START_BATTLE, operands: [7, 0, 0] },
+      { op: 'end' },
+    ])
+
+    expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
+    expect(warnSpy).toHaveBeenCalled()
+    expect(gs.eventCursor).toBeUndefined()
+    warnSpy.mockRestore()
+  })
+
+  it('具名 op:startBattle → 同 raw#7 走 handler 路径', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const handler = vi.fn(({ gs: g }: { gs: GameState }) => { g.mode = 'battle' })
+    setStartBattleHandler(handler)
+
+    loadEvent(gs, [
+      { op: 'startBattle', enemyTeamId: 9, operands: [9, 0, 1234] },
+      { op: 'end' },
+    ])
+
+    tickEventSystem(gs, snap(), bus)
+
+    expect(handler).toHaveBeenCalledWith({
+      gs,
+      enemyTeamId: 9,
+      isBoss: false,
+    })
+    expect(gs.mode).toBe('battle')
+    expect(gs.eventCursor).toBeUndefined()
+    setStartBattleHandler(null)
+  })
+})
+
+// ── P0.e: goto "shared#L_xxx" 跨 scene 共享脚本支持 ──────────────────────────
+describe('goto shared#L_xxx(P0.e — events/shared.json 跨 scene 共享脚本)', () => {
+  it('goto shared#L_X → cursor 切到 shared commands + 找对 label', () => {
+    const sharedCommands: Command[] = [
+      { op: 'showDialog', messageIndex: 0, text: 'in shared', label: 'L_S1' },
+      { op: 'end' },
+    ]
+    const sharedLabelMap = buildLabelMap(sharedCommands)
+    setSharedEvents(sharedCommands, sharedLabelMap)
+
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'goto', to: 'shared#L_S1' },
+      { op: 'end' },
+    ])
+
+    tickEventSystem(gs, snap(), bus)
+
+    expect(gs.eventCursor?.commands).toBe(sharedCommands)
+    expect(gs.eventCursor?.labelMap).toBe(sharedLabelMap)
+    expect(gs.dialogBox?.text).toBe('in shared')
+    setSharedEvents([], {})
+  })
+
+  it('shared label 不存在 → 抛错指明 sharedLabelMap', () => {
+    setSharedEvents([], {})
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'goto', to: 'shared#L_DOES_NOT_EXIST' },
+      { op: 'end' },
+    ])
+
+    expect(() => tickEventSystem(gs, snap(), bus)).toThrow(/shared goto label/)
+  })
+
+  it('普通 goto(无 shared# 前缀)走 cursor.labelMap 原路径', () => {
+    setSharedEvents([], {})
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'goto', to: 'L_LOCAL' },
+      { op: 'showDialog', messageIndex: 0, text: 'wrong path' },
+      { op: 'end', label: 'L_LOCAL' },
+    ])
+
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.mode).toBe('explore')
+    expect(gs.dialogBox).toBeUndefined()
+  })
+
+  it('shared script 内 end → mode 回 explore + 清 cursor', () => {
+    const sharedCommands: Command[] = [
+      { op: 'end', label: 'L_S_END' },
+    ]
+    const sharedLabelMap = buildLabelMap(sharedCommands)
+    setSharedEvents(sharedCommands, sharedLabelMap)
+
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'goto', to: 'shared#L_S_END' },
+      { op: 'end' },
+    ])
+
+    tickEventSystem(gs, snap(), bus)
+
+    expect(gs.mode).toBe('explore')
+    expect(gs.eventCursor).toBeUndefined()
+    setSharedEvents([], {})
   })
 })

@@ -57,6 +57,12 @@ export interface GiveItemCommand {
 export interface StartBattleCommand {
   op: 'startBattle'
   enemyTeamId: number
+  /**
+   * P0.e:opcode 7 raw operands `[enemyTeamId, onLoseScript, onFleeScript]`
+   * 完整透传(disassembler 升级具名时填)— event-system 用 operand[2] 算 isBoss
+   * (sdlpal script.c:3318 `!operand[2]`)。
+   */
+  operands?: [number, number, number]
   _enemyTeam?: string
   label?: string
 }

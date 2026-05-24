@@ -29,7 +29,12 @@ import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
 import type { GameState } from './game-state.js'
 
-// ── P0.e: wScriptOnEnter opcode 真值(grep sdlpal reference/sdlpal/script.c) ──
+// ── P0.e: wScriptOnEnter / 战斗触发 opcode 真值(grep sdlpal reference/sdlpal/script.c) ──
+// case 0x0007(7):   Start battle
+//   operand[0]=enemyTeamId
+//   operand[1]=wScriptEntry on Lose(0 = default game-over)
+//   operand[2]=wScriptEntry on Flee(also: !operand[2] → fIsBoss / no-flee 标志)
+export const OP_START_BATTLE = 0x0007           // 7
 // case 0x0046(70):  Set the party position on the map
 //   operand[0]=col, operand[1]=row, operand[2]=h → x=col*32+h*16, y=row*16+h*8
 export const OP_SET_PARTY_POS = 0x0046          // 70
@@ -67,6 +72,46 @@ let _fetchPalette: FetchPaletteFn | null = null
  */
 export function setFetchPalette(fn: FetchPaletteFn | null): void {
   _fetchPalette = fn
+}
+
+// ── P0.e: shared.json events.bin 跨 scene 共享脚本注入 ─────────────────────────
+//
+// scene-NNN.json 的 trigger 内常 `goto: "shared#L_xxx"` 跳到 events/shared.json 的某 label
+// 跑 cleanup / 公共序列(如战后隐藏怪 sprite + fade)。
+// bootstrap 启动时 fetch /events/shared.json 一次,注入 commands + labelMap。
+// tickEventSystem 遇到 goto "shared#L_xxx" 时:
+//   - cursor.commands ← _sharedCommands
+//   - cursor.labelMap ← _sharedLabelMap
+//   - cursor.ip       ← labelMap["L_xxx"]
+// 即把 cursor 切到 shared events 上继续执行。shared 内 'end' 退出 event mode 回 explore。
+let _sharedCommands: Command[] = []
+let _sharedLabelMap: Record<string, number> = {}
+
+export function setSharedEvents(commands: Command[], labelMap: Record<string, number>): void {
+  _sharedCommands = commands
+  _sharedLabelMap = labelMap
+}
+
+// ── P0.e: opcode 7 startBattle handler 注入 ──────────────────────────────────
+//
+// event-system 不直接持有 enemies/enemyTeams/playerRoles 等战斗资源(避免污染 import 图)。
+// bootstrap 启动时把 startBattle 包成闭包注入 — handler 接收 enemyTeamId/isBoss 自驱动 battle-system。
+//
+// 简化版(P0.e 范围):opcode 7 切 mode='battle' + 清 eventCursor(战后 finalizeBattle
+// 自动回 explore mode),不实现"战后 cursor.ip++ 跑 onLose/onFlee 分支"路径。
+// 真做战后 resume 留 M5 P1-Battle 股。
+export interface StartBattleHandlerInput {
+  gs: GameState
+  enemyTeamId: number
+  /** sdlpal script.c:3318 真值:`fIsBoss = !operand[2]`(operand[2]==0 → 不可逃跑 boss 战)。 */
+  isBoss: boolean
+}
+export type StartBattleHandler = (input: StartBattleHandlerInput) => void
+
+let _startBattleHandler: StartBattleHandler | null = null
+
+export function setStartBattleHandler(fn: StartBattleHandler | null): void {
+  _startBattleHandler = fn
 }
 
 /** 跑事件脚本的运行模式(M3 T17)。 */
@@ -154,6 +199,24 @@ export function tickEventSystem(
         return
 
       case 'goto': {
+        // P0.e: 支持 "shared#L_xxx" 跨 scene 共享脚本(events/shared.json)。
+        // shared#L_X → cursor 切到 _sharedCommands + _sharedLabelMap,ip = sharedLabelMap[L_X]。
+        // shared 内 'end' 退出 event mode 回 explore(无需再切回原 scene cursor — 调用 trigger
+        // 已 end + 战斗 / cleanup 跑完即应回 explore)。
+        if (cmd.to.startsWith('shared#')) {
+          const sharedLabel = cmd.to.slice('shared#'.length)
+          const sharedIp = _sharedLabelMap[sharedLabel]
+          if (sharedIp === undefined) {
+            throw new Error(
+              `event-system: shared goto label ${cmd.to} 不在 sharedLabelMap`
+              + `(确认 bootstrap 已 setSharedEvents)`,
+            )
+          }
+          cursor.commands = _sharedCommands
+          cursor.labelMap = _sharedLabelMap
+          cursor.ip = sharedIp
+          break
+        }
         const target = cursor.labelMap[cmd.to]
         if (target === undefined) {
           throw new Error(`event-system: goto label ${cmd.to} 不在 labelMap`)
@@ -188,14 +251,33 @@ export function tickEventSystem(
         break
 
       case 'raw': {
+        // P0.e: opcode 7 startBattle 切 mode='battle' → 释放 cursor,return 退出 tickEventSystem
+        if (cmd.opcode === OP_START_BATTLE) {
+          tryStartBattle(gs, cmd.operands[0] ?? 0, cmd.operands[2] ?? 0)
+          gs.eventCursor = undefined
+          gs.dialogBox = undefined
+          return
+        }
         // P0.e: 6 wScriptOnEnter opcode 真生效;其余 D26 兜底 skip
         applyRawOpcode(gs, cmd.opcode, cmd.operands)
         cursor.ip++
         break
       }
 
-      case 'giveItem':
       case 'startBattle':
+        // P0.e: 具名 startBattle(若 disassembler 升级具名)— 走同 raw#7 handler。
+        // sdlpal script.c:3318 真值 PAL_StartBattle(operand[0], !operand[2])。
+        // 简化版:切 mode 'battle' + 清 eventCursor;战后 finalizeBattle 回 explore mode。
+        // 战后 cursor.ip++ resume + onLose/onFlee 分支留 M5 P1-Battle 股。
+        if (cmd.operands) {
+          tryStartBattle(gs, cmd.operands[0], cmd.operands[2])
+        }
+        // mode 已切 'battle' / explore(取决于 handler 是否注入);释放 cursor 不再 resume
+        gs.eventCursor = undefined
+        gs.dialogBox = undefined
+        return
+
+      case 'giveItem':
         console.debug(`event-system: skip M3+ op=${cmd.op} ip=${cursor.ip}`)
         cursor.ip++
         break
@@ -360,6 +442,27 @@ export function runScript(opts: RunScriptOptions): void {
       }
     }
   }
+}
+
+// ── P0.e: opcode 7 startBattle 调度(handler 注入,避免污染 event-system 的 import 图)──
+//
+// sdlpal script.c:3318:`PAL_StartBattle(operand[0], !operand[2])`
+// operand[0]=enemyTeamId;operand[2]=flee 跳转目标(也兼"是否允许逃跑"标志,非 0 = 允许)。
+// → isBoss = !operand[2](operand[2]==0 → 不可逃跑)
+//
+// 简化版(P0.e 范围):切 mode 'battle' + 释放 cursor;不 resume cursor.ip 跑 onLose/onFlee。
+// 真做战后 resume 留 M5 P1-Battle B-w0 系列(`wScriptOnWin/Lose` cleanup 一并)。
+function tryStartBattle(gs: GameState, enemyTeamId: number, fleeArg: number): void {
+  if (!_startBattleHandler) {
+    console.warn(
+      `event-system: opcode 7 startBattle handler 未注入,跳过 (enemyTeamId=${enemyTeamId})。`
+      + ' 测试外 bootstrap 应 setStartBattleHandler。',
+    )
+    return
+  }
+  const isBoss = fleeArg === 0  // sdlpal !operand[2]:operand[2]==0 → isBoss true
+  console.debug(`event-system: startBattle enemyTeamId=${enemyTeamId} isBoss=${isBoss}`)
+  _startBattleHandler({ gs, enemyTeamId, isBoss })
 }
 
 // ── P0.e: applyRawOpcode + runEnterScript ──────────────────────────────────

@@ -4,7 +4,11 @@ import { fetchPalette, loadAll, SceneAssetsCache, type SceneAssets, type SceneFe
 import { loadGlyphs, renderText } from '../present/font.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, npcFromEventObject } from '../core/game-state.js'
-import { buildLabelMap, runEnterScript, setFetchPalette } from '../core/event-system.js'
+import {
+  buildLabelMap, runEnterScript, setFetchPalette,
+  setSharedEvents, setStartBattleHandler,
+} from '../core/event-system.js'
+import { startBattle } from '../core/battle/battle-system.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { KeyboardInputSource } from './input.js'
 import { startRafLoop, type LoopContext } from './main-loop.js'
@@ -391,6 +395,52 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // M4 P3.T2:注入 fetchPalette(类同 setSceneContext);event-system setPalette handler 用它
   // 异步拉取新调色板 → 写入 gs.palette → 渲染层下一帧 flushToCanvas 消费。
   setFetchPalette(fetchPalette)
+
+  // P0.e: 加载 events/shared.json 一次 + 注入 event-system → tickEventSystem 解 "shared#L_xxx" 跨 scene goto。
+  // 失败:warn + 继续(scene 内 goto 不撞 shared# 时不影响游戏可运行性)。
+  try {
+    const sharedRes = await fetch(`${BASE}/events/shared.json`)
+    if (!sharedRes.ok) throw new Error(`shared.json fetch failed (${sharedRes.status})`)
+    const sharedJson = (await sharedRes.json()) as EventFile
+    const sharedCommands = sharedJson.segments.flatMap((seg) => seg.commands)
+    const sharedLabelMap = buildLabelMap(sharedCommands)
+    setSharedEvents(sharedCommands, sharedLabelMap)
+    console.log(`[bootstrap] shared events loaded:${sharedCommands.length} commands,${Object.keys(sharedLabelMap).length} labels`)
+  }
+  catch (err) {
+    console.warn('[bootstrap] shared.json 加载失败,goto shared#L_xxx 跨 scene 跳转将抛错:', err)
+  }
+
+  // P0.e: 注入 startBattle handler — opcode 7 (raw#7 / op:startBattle) 用。
+  // 战斗资源闭包持引用,event-system 不污染 import battle/。
+  // 简化版:isBoss + enemyTeamId 自驱;battleFieldId 用 enemyTeam.battleField 真值
+  // (sdlpal global.h:223 ENEMYTEAM 含 wBattleField,本 task 取 enemy-pos.json 默认 0 兜底)。
+  setStartBattleHandler(({ gs, enemyTeamId, isBoss }) => {
+    // sdlpal play.c PAL_StartBattle:battleField 从 wBattleField 或 enemy-pos 取;
+    // M3 既有 battle-fixtures.json 硬编码 0 — 这里也走 0 兜底,真做 lookup 留 M5 B-w0。
+    const battleFieldId = 0
+    startBattle({
+      gs,
+      enemyTeamId,
+      battleFieldId,
+      isBoss,
+      enemies,
+      enemyTeams,
+      battleFields,
+      playerRoles,
+      items,
+      spells,
+      magics,
+      commands: eventCommands,
+    })
+    // dev gate:e2e observability。battle 可能瞬间 finalize 回 explore(空 partyMembers
+    // 或资源缺失场景),mode 轮询 miss 不到 → 维持一个累积计数器供 a9 等 spec 断言"曾进过"。
+    if ((import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV) {
+      const w = window as unknown as { __battleStartCount?: number; __lastBattleEnemyTeam?: number }
+      w.__battleStartCount = (w.__battleStartCount ?? 0) + 1
+      w.__lastBattleEnemyTeam = enemyTeamId
+    }
+  })
 
   startRafLoop(loopCtx)
   console.log('[bootstrap] scene', SCENE_ID, 'started')
