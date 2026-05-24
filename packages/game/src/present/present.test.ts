@@ -14,7 +14,7 @@ function flatMap(w: number, h: number): Tilemap {
 describe('presentFrame', () => {
   it('无 dialogBox → 不画对话框,不抛错', () => {
     const fb = createFramebuffer()
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const ctx: PresentContext = {
       tilemap: flatMap(3, 3),
       tileImages: { get: () => undefined },
@@ -28,7 +28,7 @@ describe('presentFrame', () => {
 
   it('有 dialogBox → 帧缓冲被对话框覆盖', () => {
     const fb = createFramebuffer()
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.dialogBox = { text: '你好', style: 'center' }
     const ctx: PresentContext = {
       tilemap: flatMap(3, 3),

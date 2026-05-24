@@ -81,7 +81,7 @@ function minimalEnemy(id: number, health = 50): Enemy {
 
 describe('createBattleState', () => {
   it('从 GameState + fixture 派生', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
     const state = createBattleState({
       gs,
@@ -100,7 +100,7 @@ describe('createBattleState', () => {
   })
 
   it('players prevHp/prevMp 拷贝战前值', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
     const role = minimalRole(0)
     const state = createBattleState({
@@ -116,7 +116,7 @@ describe('createBattleState', () => {
   })
 
   it('enemies prevHp = e.health 拷贝', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const state = createBattleState({
       gs,
       playerRoles: { roles: [] },
@@ -130,7 +130,7 @@ describe('createBattleState', () => {
   })
 
   it('未知 roleId 抛错', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [99]
     expect(() => createBattleState({
       gs,

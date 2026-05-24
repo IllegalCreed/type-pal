@@ -1,27 +1,30 @@
 import { test, expect } from '@playwright/test'
 import { bootstrap, walk } from '../helpers/bootstrap.js'
 
-type Probe = { __game: { gs: { party: { col: number; row: number; facing: string } } } }
+// M5 P0.0:party 改像素坐标(X_STEP=16/Y_STEP=8)。
+// Down: dx=+16,dy=+8; Right: dx=+16,dy=-8; Left: dx=-16,dy=+8。
+type Probe = { __game: { gs: { party: { x: number; y: number; facing: string } } } }
 
-test('a4 走路 — 持续按 ArrowDown ~5 walk 时长 → party.row 增加(至少 3,可能被 NPC / 边界阻挡)', async ({
+test('a4 走路 — 持续按 ArrowDown ~5 walk 时长 → party.y 增加(至少 3*8,可能被 NPC / 边界阻挡)', async ({
   page,
 }) => {
   await bootstrap(page)
 
-  const initialRow = await page.evaluate(
-    () => (window as unknown as Probe).__game.gs.party.row,
+  const initialY = await page.evaluate(
+    () => (window as unknown as Probe).__game.gs.party.y,
   )
 
   // 5 walks worth(120ms / walk) + slack
   await walk(page, 'ArrowDown', 800)
 
-  const finalRow = await page.evaluate(
-    () => (window as unknown as Probe).__game.gs.party.row,
+  const finalY = await page.evaluate(
+    () => (window as unknown as Probe).__game.gs.party.y,
   )
-  expect(finalRow).toBeGreaterThanOrEqual(initialRow + 3)
+  // Down: dy=+8 per step, 3 steps minimum
+  expect(finalY).toBeGreaterThanOrEqual(initialY + 3 * 8)
 })
 
-test('a4 走路 — 持续 Right N + Left N 大致回原位(误差 ≤ 1 格)', async ({ page }) => {
+test('a4 走路 — 持续 Right N + Left N 大致回原位(误差 ≤ X_STEP)', async ({ page }) => {
   await bootstrap(page)
   const initial = await page.evaluate(
     () => (window as unknown as Probe).__game.gs.party,
@@ -33,5 +36,6 @@ test('a4 走路 — 持续 Right N + Left N 大致回原位(误差 ≤ 1 格)', 
   const final = await page.evaluate(
     () => (window as unknown as Probe).__game.gs.party,
   )
-  expect(Math.abs(final.col - initial.col)).toBeLessThanOrEqual(1)
+  // Right(dx=+16,dy=-8) + Left(dx=-16,dy=+8) → perfect cancel,误差 ≤ 1 步 = 16px
+  expect(Math.abs(final.x - initial.x)).toBeLessThanOrEqual(16)
 })

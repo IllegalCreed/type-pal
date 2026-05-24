@@ -6,8 +6,8 @@
       "sceneId": 1,
       "mapNum": 12,
       "partyStart": {
-        "col": 32,
-        "row": 24,
+        "x": 512,
+        "y": 192,
         "facing": "down"
       }
     },
@@ -17,8 +17,8 @@
       "sceneId": 2,
       "mapNum": 12,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -28,8 +28,8 @@
       "sceneId": 3,
       "mapNum": 10,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -39,8 +39,8 @@
       "sceneId": 4,
       "mapNum": 1,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -50,8 +50,8 @@
       "sceneId": 5,
       "mapNum": 2,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -61,8 +61,8 @@
       "sceneId": 6,
       "mapNum": 4,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -72,8 +72,8 @@
       "sceneId": 7,
       "mapNum": 5,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -83,8 +83,8 @@
       "sceneId": 8,
       "mapNum": 11,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -94,8 +94,8 @@
       "sceneId": 9,
       "mapNum": 13,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -105,8 +105,8 @@
       "sceneId": 10,
       "mapNum": 14,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -116,8 +116,8 @@
       "sceneId": 11,
       "mapNum": 19,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -127,8 +127,8 @@
       "sceneId": 12,
       "mapNum": 21,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -138,8 +138,8 @@
       "sceneId": 13,
       "mapNum": 22,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -149,8 +149,8 @@
       "sceneId": 14,
       "mapNum": 3,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -160,8 +160,8 @@
       "sceneId": 15,
       "mapNum": 7,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -171,9 +171,9 @@
       "sceneId": 15,
       "mapNum": 7,
       "partyStart": {
-        "col": 26,
-        "row": 81,
-        "facing": "right"
+        "x": 544,
+        "y": 640,
+        "facing": "down"
       }
     },
     {
@@ -182,8 +182,8 @@
       "sceneId": 16,
       "mapNum": 119,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -193,8 +193,8 @@
       "sceneId": 17,
       "mapNum": 6,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -204,8 +204,8 @@
       "sceneId": 18,
       "mapNum": 25,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -215,8 +215,8 @@
       "sceneId": 19,
       "mapNum": 8,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -226,8 +226,8 @@
       "sceneId": 20,
       "mapNum": 9,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -237,8 +237,8 @@
       "sceneId": 21,
       "mapNum": 18,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -248,8 +248,8 @@
       "sceneId": 22,
       "mapNum": 23,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -259,8 +259,8 @@
       "sceneId": 23,
       "mapNum": 23,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -270,8 +270,8 @@
       "sceneId": 24,
       "mapNum": 38,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -281,8 +281,8 @@
       "sceneId": 25,
       "mapNum": 26,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -292,8 +292,8 @@
       "sceneId": 26,
       "mapNum": 36,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -303,8 +303,8 @@
       "sceneId": 27,
       "mapNum": 37,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -314,8 +314,8 @@
       "sceneId": 28,
       "mapNum": 27,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -325,8 +325,8 @@
       "sceneId": 29,
       "mapNum": 28,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -336,8 +336,8 @@
       "sceneId": 30,
       "mapNum": 29,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -347,8 +347,8 @@
       "sceneId": 31,
       "mapNum": 30,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -358,8 +358,8 @@
       "sceneId": 32,
       "mapNum": 31,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -369,8 +369,8 @@
       "sceneId": 33,
       "mapNum": 50,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -380,8 +380,8 @@
       "sceneId": 34,
       "mapNum": 32,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -391,8 +391,8 @@
       "sceneId": 35,
       "mapNum": 15,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -402,8 +402,8 @@
       "sceneId": 36,
       "mapNum": 51,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -413,8 +413,8 @@
       "sceneId": 37,
       "mapNum": 33,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -424,8 +424,8 @@
       "sceneId": 38,
       "mapNum": 34,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -435,8 +435,8 @@
       "sceneId": 39,
       "mapNum": 35,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -446,8 +446,8 @@
       "sceneId": 40,
       "mapNum": 42,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -457,8 +457,8 @@
       "sceneId": 41,
       "mapNum": 131,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -468,8 +468,8 @@
       "sceneId": 42,
       "mapNum": 39,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -479,8 +479,8 @@
       "sceneId": 43,
       "mapNum": 44,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -490,8 +490,8 @@
       "sceneId": 44,
       "mapNum": 40,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -501,8 +501,8 @@
       "sceneId": 45,
       "mapNum": 41,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -512,8 +512,8 @@
       "sceneId": 46,
       "mapNum": 70,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -523,8 +523,8 @@
       "sceneId": 47,
       "mapNum": 43,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -534,8 +534,8 @@
       "sceneId": 48,
       "mapNum": 45,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -545,8 +545,8 @@
       "sceneId": 49,
       "mapNum": 46,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -556,8 +556,8 @@
       "sceneId": 50,
       "mapNum": 58,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -567,8 +567,8 @@
       "sceneId": 51,
       "mapNum": 48,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -578,8 +578,8 @@
       "sceneId": 52,
       "mapNum": 47,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -589,8 +589,8 @@
       "sceneId": 53,
       "mapNum": 49,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -600,8 +600,8 @@
       "sceneId": 54,
       "mapNum": 59,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -611,8 +611,8 @@
       "sceneId": 55,
       "mapNum": 60,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -622,8 +622,8 @@
       "sceneId": 56,
       "mapNum": 69,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -633,8 +633,8 @@
       "sceneId": 57,
       "mapNum": 125,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -644,8 +644,8 @@
       "sceneId": 58,
       "mapNum": 71,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -655,8 +655,8 @@
       "sceneId": 59,
       "mapNum": 76,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -666,8 +666,8 @@
       "sceneId": 60,
       "mapNum": 55,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -677,8 +677,8 @@
       "sceneId": 61,
       "mapNum": 52,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -688,8 +688,8 @@
       "sceneId": 62,
       "mapNum": 56,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -699,8 +699,8 @@
       "sceneId": 63,
       "mapNum": 53,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -710,8 +710,8 @@
       "sceneId": 64,
       "mapNum": 54,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -721,8 +721,8 @@
       "sceneId": 65,
       "mapNum": 57,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -732,8 +732,8 @@
       "sceneId": 66,
       "mapNum": 57,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -743,8 +743,8 @@
       "sceneId": 67,
       "mapNum": 73,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -754,8 +754,8 @@
       "sceneId": 68,
       "mapNum": 61,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -765,8 +765,8 @@
       "sceneId": 69,
       "mapNum": 62,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -776,8 +776,8 @@
       "sceneId": 70,
       "mapNum": 63,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -787,8 +787,8 @@
       "sceneId": 71,
       "mapNum": 64,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -798,8 +798,8 @@
       "sceneId": 72,
       "mapNum": 65,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -809,8 +809,8 @@
       "sceneId": 73,
       "mapNum": 66,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -820,8 +820,8 @@
       "sceneId": 74,
       "mapNum": 67,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -831,8 +831,8 @@
       "sceneId": 75,
       "mapNum": 68,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -842,8 +842,8 @@
       "sceneId": 76,
       "mapNum": 72,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -853,8 +853,8 @@
       "sceneId": 77,
       "mapNum": 24,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -864,8 +864,8 @@
       "sceneId": 78,
       "mapNum": 75,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -875,8 +875,8 @@
       "sceneId": 79,
       "mapNum": 79,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -886,8 +886,8 @@
       "sceneId": 80,
       "mapNum": 77,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -897,8 +897,8 @@
       "sceneId": 81,
       "mapNum": 84,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -908,8 +908,8 @@
       "sceneId": 82,
       "mapNum": 79,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -919,8 +919,8 @@
       "sceneId": 83,
       "mapNum": 78,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -930,8 +930,8 @@
       "sceneId": 84,
       "mapNum": 80,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -941,8 +941,8 @@
       "sceneId": 85,
       "mapNum": 92,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -952,8 +952,8 @@
       "sceneId": 86,
       "mapNum": 93,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -963,8 +963,8 @@
       "sceneId": 87,
       "mapNum": 81,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -974,8 +974,8 @@
       "sceneId": 88,
       "mapNum": 82,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -985,8 +985,8 @@
       "sceneId": 89,
       "mapNum": 82,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -996,8 +996,8 @@
       "sceneId": 90,
       "mapNum": 120,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1007,8 +1007,8 @@
       "sceneId": 91,
       "mapNum": 83,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1018,8 +1018,8 @@
       "sceneId": 92,
       "mapNum": 85,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1029,8 +1029,8 @@
       "sceneId": 93,
       "mapNum": 86,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1040,8 +1040,8 @@
       "sceneId": 94,
       "mapNum": 87,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1051,8 +1051,8 @@
       "sceneId": 95,
       "mapNum": 88,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1062,8 +1062,8 @@
       "sceneId": 96,
       "mapNum": 89,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1073,8 +1073,8 @@
       "sceneId": 97,
       "mapNum": 90,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1084,8 +1084,8 @@
       "sceneId": 98,
       "mapNum": 91,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1095,8 +1095,8 @@
       "sceneId": 99,
       "mapNum": 94,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1106,8 +1106,8 @@
       "sceneId": 100,
       "mapNum": 105,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1117,8 +1117,8 @@
       "sceneId": 101,
       "mapNum": 98,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1128,8 +1128,8 @@
       "sceneId": 102,
       "mapNum": 97,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1139,8 +1139,8 @@
       "sceneId": 103,
       "mapNum": 99,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1150,8 +1150,8 @@
       "sceneId": 104,
       "mapNum": 100,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1161,8 +1161,8 @@
       "sceneId": 105,
       "mapNum": 95,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1172,8 +1172,8 @@
       "sceneId": 106,
       "mapNum": 101,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1183,8 +1183,8 @@
       "sceneId": 107,
       "mapNum": 102,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1194,8 +1194,8 @@
       "sceneId": 108,
       "mapNum": 108,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1205,8 +1205,8 @@
       "sceneId": 109,
       "mapNum": 101,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1216,8 +1216,8 @@
       "sceneId": 110,
       "mapNum": 126,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1227,8 +1227,8 @@
       "sceneId": 111,
       "mapNum": 103,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1238,8 +1238,8 @@
       "sceneId": 112,
       "mapNum": 103,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1249,8 +1249,8 @@
       "sceneId": 113,
       "mapNum": 96,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1260,8 +1260,8 @@
       "sceneId": 114,
       "mapNum": 106,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1271,8 +1271,8 @@
       "sceneId": 115,
       "mapNum": 106,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1282,8 +1282,8 @@
       "sceneId": 116,
       "mapNum": 107,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1293,8 +1293,8 @@
       "sceneId": 117,
       "mapNum": 109,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1304,8 +1304,8 @@
       "sceneId": 118,
       "mapNum": 110,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1315,8 +1315,8 @@
       "sceneId": 119,
       "mapNum": 111,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1326,8 +1326,8 @@
       "sceneId": 120,
       "mapNum": 127,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1337,8 +1337,8 @@
       "sceneId": 121,
       "mapNum": 128,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1348,8 +1348,8 @@
       "sceneId": 122,
       "mapNum": 112,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1359,8 +1359,8 @@
       "sceneId": 123,
       "mapNum": 113,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1370,8 +1370,8 @@
       "sceneId": 124,
       "mapNum": 114,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1381,8 +1381,8 @@
       "sceneId": 125,
       "mapNum": 114,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1392,8 +1392,8 @@
       "sceneId": 126,
       "mapNum": 114,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1403,8 +1403,8 @@
       "sceneId": 127,
       "mapNum": 115,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1414,8 +1414,8 @@
       "sceneId": 128,
       "mapNum": 115,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1425,8 +1425,8 @@
       "sceneId": 129,
       "mapNum": 116,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1436,8 +1436,8 @@
       "sceneId": 130,
       "mapNum": 117,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1447,8 +1447,8 @@
       "sceneId": 131,
       "mapNum": 118,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1458,8 +1458,8 @@
       "sceneId": 132,
       "mapNum": 121,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1469,8 +1469,8 @@
       "sceneId": 133,
       "mapNum": 121,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1480,8 +1480,8 @@
       "sceneId": 134,
       "mapNum": 121,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1491,8 +1491,8 @@
       "sceneId": 135,
       "mapNum": 122,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1502,8 +1502,8 @@
       "sceneId": 136,
       "mapNum": 123,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1513,8 +1513,8 @@
       "sceneId": 137,
       "mapNum": 124,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1524,8 +1524,8 @@
       "sceneId": 138,
       "mapNum": 130,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1535,8 +1535,8 @@
       "sceneId": 139,
       "mapNum": 129,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1546,8 +1546,8 @@
       "sceneId": 140,
       "mapNum": 130,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1557,8 +1557,8 @@
       "sceneId": 141,
       "mapNum": 129,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1568,8 +1568,8 @@
       "sceneId": 142,
       "mapNum": 106,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1579,8 +1579,8 @@
       "sceneId": 143,
       "mapNum": 114,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1590,8 +1590,8 @@
       "sceneId": 144,
       "mapNum": 185,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1601,8 +1601,8 @@
       "sceneId": 145,
       "mapNum": 74,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1612,8 +1612,8 @@
       "sceneId": 146,
       "mapNum": 141,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1623,8 +1623,8 @@
       "sceneId": 147,
       "mapNum": 144,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1634,8 +1634,8 @@
       "sceneId": 148,
       "mapNum": 146,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1645,8 +1645,8 @@
       "sceneId": 149,
       "mapNum": 144,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1656,8 +1656,8 @@
       "sceneId": 150,
       "mapNum": 137,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1667,8 +1667,8 @@
       "sceneId": 151,
       "mapNum": 102,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1678,8 +1678,8 @@
       "sceneId": 152,
       "mapNum": 74,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1689,8 +1689,8 @@
       "sceneId": 153,
       "mapNum": 74,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1700,8 +1700,8 @@
       "sceneId": 154,
       "mapNum": 147,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1711,8 +1711,8 @@
       "sceneId": 155,
       "mapNum": 132,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1722,8 +1722,8 @@
       "sceneId": 156,
       "mapNum": 156,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1733,8 +1733,8 @@
       "sceneId": 157,
       "mapNum": 133,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1744,8 +1744,8 @@
       "sceneId": 158,
       "mapNum": 134,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1755,8 +1755,8 @@
       "sceneId": 159,
       "mapNum": 135,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1766,8 +1766,8 @@
       "sceneId": 160,
       "mapNum": 136,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1777,8 +1777,8 @@
       "sceneId": 161,
       "mapNum": 137,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1788,8 +1788,8 @@
       "sceneId": 162,
       "mapNum": 138,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1799,8 +1799,8 @@
       "sceneId": 163,
       "mapNum": 139,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1810,8 +1810,8 @@
       "sceneId": 164,
       "mapNum": 140,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1821,8 +1821,8 @@
       "sceneId": 165,
       "mapNum": 142,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1832,8 +1832,8 @@
       "sceneId": 166,
       "mapNum": 143,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1843,8 +1843,8 @@
       "sceneId": 167,
       "mapNum": 145,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1854,8 +1854,8 @@
       "sceneId": 168,
       "mapNum": 148,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1865,8 +1865,8 @@
       "sceneId": 169,
       "mapNum": 9,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1876,8 +1876,8 @@
       "sceneId": 170,
       "mapNum": 119,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1887,8 +1887,8 @@
       "sceneId": 171,
       "mapNum": 18,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1898,8 +1898,8 @@
       "sceneId": 172,
       "mapNum": 202,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1909,8 +1909,8 @@
       "sceneId": 173,
       "mapNum": 20,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1920,8 +1920,8 @@
       "sceneId": 174,
       "mapNum": 202,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1931,8 +1931,8 @@
       "sceneId": 175,
       "mapNum": 158,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1942,8 +1942,8 @@
       "sceneId": 176,
       "mapNum": 201,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1953,8 +1953,8 @@
       "sceneId": 177,
       "mapNum": 201,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1964,8 +1964,8 @@
       "sceneId": 178,
       "mapNum": 16,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1975,8 +1975,8 @@
       "sceneId": 179,
       "mapNum": 149,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1986,8 +1986,8 @@
       "sceneId": 180,
       "mapNum": 157,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -1997,8 +1997,8 @@
       "sceneId": 181,
       "mapNum": 160,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2008,8 +2008,8 @@
       "sceneId": 182,
       "mapNum": 17,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2019,8 +2019,8 @@
       "sceneId": 183,
       "mapNum": 158,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2030,8 +2030,8 @@
       "sceneId": 184,
       "mapNum": 154,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2041,8 +2041,8 @@
       "sceneId": 185,
       "mapNum": 152,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2052,8 +2052,8 @@
       "sceneId": 186,
       "mapNum": 150,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2063,8 +2063,8 @@
       "sceneId": 187,
       "mapNum": 155,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2074,8 +2074,8 @@
       "sceneId": 188,
       "mapNum": 153,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2085,8 +2085,8 @@
       "sceneId": 189,
       "mapNum": 200,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2096,8 +2096,8 @@
       "sceneId": 190,
       "mapNum": 159,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2107,8 +2107,8 @@
       "sceneId": 191,
       "mapNum": 161,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2118,8 +2118,8 @@
       "sceneId": 192,
       "mapNum": 151,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2129,8 +2129,8 @@
       "sceneId": 193,
       "mapNum": 31,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2140,8 +2140,8 @@
       "sceneId": 194,
       "mapNum": 15,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2151,8 +2151,8 @@
       "sceneId": 195,
       "mapNum": 33,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2162,8 +2162,8 @@
       "sceneId": 196,
       "mapNum": 18,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2173,8 +2173,8 @@
       "sceneId": 197,
       "mapNum": 90,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2184,8 +2184,8 @@
       "sceneId": 198,
       "mapNum": 109,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2195,8 +2195,8 @@
       "sceneId": 199,
       "mapNum": 74,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2206,8 +2206,8 @@
       "sceneId": 200,
       "mapNum": 20,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2217,8 +2217,8 @@
       "sceneId": 201,
       "mapNum": 187,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2228,8 +2228,8 @@
       "sceneId": 202,
       "mapNum": 162,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2239,8 +2239,8 @@
       "sceneId": 203,
       "mapNum": 175,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2250,8 +2250,8 @@
       "sceneId": 204,
       "mapNum": 176,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2261,8 +2261,8 @@
       "sceneId": 205,
       "mapNum": 170,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2272,8 +2272,8 @@
       "sceneId": 206,
       "mapNum": 163,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2283,8 +2283,8 @@
       "sceneId": 207,
       "mapNum": 166,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2294,8 +2294,8 @@
       "sceneId": 208,
       "mapNum": 167,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2305,8 +2305,8 @@
       "sceneId": 209,
       "mapNum": 169,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2316,8 +2316,8 @@
       "sceneId": 210,
       "mapNum": 172,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2327,8 +2327,8 @@
       "sceneId": 211,
       "mapNum": 173,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2338,8 +2338,8 @@
       "sceneId": 212,
       "mapNum": 186,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2349,8 +2349,8 @@
       "sceneId": 213,
       "mapNum": 225,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2360,8 +2360,8 @@
       "sceneId": 214,
       "mapNum": 212,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2371,8 +2371,8 @@
       "sceneId": 215,
       "mapNum": 213,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2382,8 +2382,8 @@
       "sceneId": 216,
       "mapNum": 214,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2393,8 +2393,8 @@
       "sceneId": 217,
       "mapNum": 215,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2404,8 +2404,8 @@
       "sceneId": 218,
       "mapNum": 216,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2415,8 +2415,8 @@
       "sceneId": 219,
       "mapNum": 217,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2426,8 +2426,8 @@
       "sceneId": 220,
       "mapNum": 218,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2437,8 +2437,8 @@
       "sceneId": 221,
       "mapNum": 219,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2448,8 +2448,8 @@
       "sceneId": 222,
       "mapNum": 220,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2459,8 +2459,8 @@
       "sceneId": 223,
       "mapNum": 221,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2470,8 +2470,8 @@
       "sceneId": 224,
       "mapNum": 222,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2481,8 +2481,8 @@
       "sceneId": 225,
       "mapNum": 223,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2492,8 +2492,8 @@
       "sceneId": 226,
       "mapNum": 224,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2503,8 +2503,8 @@
       "sceneId": 227,
       "mapNum": 176,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2514,8 +2514,8 @@
       "sceneId": 228,
       "mapNum": 162,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2525,8 +2525,8 @@
       "sceneId": 229,
       "mapNum": 163,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2536,8 +2536,8 @@
       "sceneId": 230,
       "mapNum": 162,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2547,8 +2547,8 @@
       "sceneId": 231,
       "mapNum": 176,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2558,8 +2558,8 @@
       "sceneId": 232,
       "mapNum": 173,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2569,8 +2569,8 @@
       "sceneId": 233,
       "mapNum": 175,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2580,8 +2580,8 @@
       "sceneId": 234,
       "mapNum": 175,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2591,8 +2591,8 @@
       "sceneId": 235,
       "mapNum": 187,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2602,8 +2602,8 @@
       "sceneId": 236,
       "mapNum": 170,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2613,8 +2613,8 @@
       "sceneId": 237,
       "mapNum": 166,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2624,8 +2624,8 @@
       "sceneId": 238,
       "mapNum": 167,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2635,8 +2635,8 @@
       "sceneId": 239,
       "mapNum": 169,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2646,8 +2646,8 @@
       "sceneId": 240,
       "mapNum": 172,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2657,8 +2657,8 @@
       "sceneId": 241,
       "mapNum": 176,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2668,8 +2668,8 @@
       "sceneId": 242,
       "mapNum": 186,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2679,8 +2679,8 @@
       "sceneId": 243,
       "mapNum": 163,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2690,8 +2690,8 @@
       "sceneId": 244,
       "mapNum": 165,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2701,8 +2701,8 @@
       "sceneId": 245,
       "mapNum": 174,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2712,8 +2712,8 @@
       "sceneId": 246,
       "mapNum": 177,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2723,8 +2723,8 @@
       "sceneId": 247,
       "mapNum": 184,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2734,8 +2734,8 @@
       "sceneId": 248,
       "mapNum": 178,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2745,8 +2745,8 @@
       "sceneId": 249,
       "mapNum": 203,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2756,8 +2756,8 @@
       "sceneId": 250,
       "mapNum": 188,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2767,8 +2767,8 @@
       "sceneId": 251,
       "mapNum": 177,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2778,8 +2778,8 @@
       "sceneId": 252,
       "mapNum": 189,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2789,8 +2789,8 @@
       "sceneId": 253,
       "mapNum": 184,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2800,8 +2800,8 @@
       "sceneId": 254,
       "mapNum": 193,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2811,8 +2811,8 @@
       "sceneId": 255,
       "mapNum": 179,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2822,8 +2822,8 @@
       "sceneId": 256,
       "mapNum": 183,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2833,8 +2833,8 @@
       "sceneId": 257,
       "mapNum": 182,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2844,8 +2844,8 @@
       "sceneId": 258,
       "mapNum": 180,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2855,8 +2855,8 @@
       "sceneId": 259,
       "mapNum": 181,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2866,8 +2866,8 @@
       "sceneId": 260,
       "mapNum": 204,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2877,8 +2877,8 @@
       "sceneId": 261,
       "mapNum": 205,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2888,8 +2888,8 @@
       "sceneId": 262,
       "mapNum": 206,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2899,8 +2899,8 @@
       "sceneId": 263,
       "mapNum": 207,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2910,8 +2910,8 @@
       "sceneId": 264,
       "mapNum": 208,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2921,8 +2921,8 @@
       "sceneId": 265,
       "mapNum": 209,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2932,8 +2932,8 @@
       "sceneId": 266,
       "mapNum": 5,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2943,8 +2943,8 @@
       "sceneId": 267,
       "mapNum": 195,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2954,8 +2954,8 @@
       "sceneId": 268,
       "mapNum": 19,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2965,8 +2965,8 @@
       "sceneId": 269,
       "mapNum": 4,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2976,8 +2976,8 @@
       "sceneId": 270,
       "mapNum": 197,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2987,8 +2987,8 @@
       "sceneId": 271,
       "mapNum": 198,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -2998,8 +2998,8 @@
       "sceneId": 272,
       "mapNum": 199,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3009,8 +3009,8 @@
       "sceneId": 273,
       "mapNum": 196,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3020,8 +3020,8 @@
       "sceneId": 274,
       "mapNum": 13,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3031,8 +3031,8 @@
       "sceneId": 275,
       "mapNum": 21,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3042,8 +3042,8 @@
       "sceneId": 276,
       "mapNum": 22,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3053,8 +3053,8 @@
       "sceneId": 277,
       "mapNum": 182,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3064,8 +3064,8 @@
       "sceneId": 278,
       "mapNum": 183,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3075,8 +3075,8 @@
       "sceneId": 279,
       "mapNum": 210,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3086,8 +3086,8 @@
       "sceneId": 280,
       "mapNum": 211,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3097,8 +3097,8 @@
       "sceneId": 281,
       "mapNum": 194,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3108,8 +3108,8 @@
       "sceneId": 282,
       "mapNum": 180,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3119,8 +3119,8 @@
       "sceneId": 283,
       "mapNum": 181,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3130,8 +3130,8 @@
       "sceneId": 284,
       "mapNum": 184,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3141,8 +3141,8 @@
       "sceneId": 285,
       "mapNum": 203,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3152,8 +3152,8 @@
       "sceneId": 286,
       "mapNum": 204,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3163,8 +3163,8 @@
       "sceneId": 287,
       "mapNum": 205,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3174,8 +3174,8 @@
       "sceneId": 288,
       "mapNum": 206,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3185,8 +3185,8 @@
       "sceneId": 289,
       "mapNum": 208,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3196,8 +3196,8 @@
       "sceneId": 290,
       "mapNum": 209,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3207,8 +3207,8 @@
       "sceneId": 291,
       "mapNum": 190,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3218,8 +3218,8 @@
       "sceneId": 292,
       "mapNum": 191,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3229,8 +3229,8 @@
       "sceneId": 293,
       "mapNum": 192,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     },
@@ -3240,8 +3240,8 @@
       "sceneId": 294,
       "mapNum": 0,
       "partyStart": {
-        "col": 32,
-        "row": 32,
+        "x": 512,
+        "y": 256,
         "facing": "down"
       }
     }

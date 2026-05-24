@@ -23,12 +23,16 @@ function snap(held: AbstractKey[] = [], pressed: AbstractKey[] = [], frameNum = 
 
 describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
   it('完整 NPC 触发流程,最终 mode=explore + dialogBox 已清', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'right' })
-    // npcFromEventObject 收的是原版像素坐标(x/32 → col, y/16 → row),所以构造时 ×32 / ×16
+    // M5 P0.0:party/npc 改像素坐标(X_STEP=16/Y_STEP=8)。
+    // Right: dx=+16, dy=-8。起点(80,40),3次右后=(128,16)。facing=right → confirm target=(144,8)。
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
+    // npcFromEventObject 收的是原版像素坐标(floor(x/32)*16, floor(y/16)*8)。
+    // 把 NPC 放在 party 走 3 步后的 Confirm target 位置 (144,8):
+    //   raw pixel: x=144/16*32=288, y=8/8*16=16
     gs.npcs = [
       npcFromEventObject({
         id: 1,
-        x: 8 * 32, y: 5 * 16,
+        x: 9 * 32, y: 1 * 16,
         spriteNum: 78,
         triggerLabel: 'L_2',
         triggerMode: 0,
@@ -65,6 +69,8 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.dialogBox).toBeUndefined()
-    expect(gs.party.col).toBe(7) // 走到 col 7 = NPC 前面(NPC 在 col 8)
+    // 走了 3 步 Right(dx=+16,dy=-8):x=5*16+3*16=8*16, y=5*8-3*8=2*8
+    expect(gs.party.x).toBe(8 * 16)
+    expect(gs.party.y).toBe(2 * 8)
   })
 })

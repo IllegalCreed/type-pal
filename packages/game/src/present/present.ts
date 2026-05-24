@@ -27,23 +27,21 @@ const FACING_TO_DIRECTION: Record<'down' | 'left' | 'up' | 'right', number> = {
   down: 0, left: 1, up: 2, right: 3,
 }
 
-const TILE_W = 32
-const ROW_Y_STEP = 16 // sdlpal map.c:398 — 每 row 步进 16 px
-
 const SCREEN_CENTER_X = SCREEN_W >> 1
 const SCREEN_CENTER_Y = SCREEN_H >> 1
 
-function cellToScreen(
-  cell: { col: number; row: number },
-  camera: { col: number; row: number },
+/**
+ * M5 P0.0:party / npc 位置已是半像素坐标(X_STEP=16 / Y_STEP=8)。
+ * tilemap 全像素空间 tile=32×16,故需 *2 还原到屏幕坐标。
+ * 公式等价旧 cellToScreen:(col - camera.col)*32 + CENTER。
+ */
+function pixelToScreen(
+  pos: { x: number; y: number },
+  camera: { x: number; y: number },
 ): { sx: number; sy: number } {
-  const cellPxX = cell.col * TILE_W
-  const cellPxY = cell.row * ROW_Y_STEP
-  const camPxX = camera.col * TILE_W
-  const camPxY = camera.row * ROW_Y_STEP
   return {
-    sx: cellPxX - camPxX + SCREEN_CENTER_X,
-    sy: cellPxY - camPxY + SCREEN_CENTER_Y,
+    sx: (pos.x - camera.x) * 2 + SCREEN_CENTER_X,
+    sy: (pos.y - camera.y) * 2 + SCREEN_CENTER_Y,
   }
 }
 
@@ -61,10 +59,10 @@ export function presentFrame(
   for (const npc of gs.npcs) {
     const sprite = ctx.npcSprites.get(npc.spriteNum)
     if (!sprite) continue
-    const { sx, sy } = cellToScreen(npc, gs.camera)
+    const { sx, sy } = pixelToScreen(npc, gs.camera)
     drawSprite(fb, sprite, sx, sy)
   }
-  const { sx, sy } = cellToScreen(gs.party, gs.camera)
+  const { sx, sy } = pixelToScreen(gs.party, gs.camera)
   // 按 sdlpal `scene.c:755` 站立公式 wFrame = wDirection * walkFrames 取帧。
   const direction = FACING_TO_DIRECTION[gs.party.facing]
   const frameIdx = direction * ctx.partyWalkFrames

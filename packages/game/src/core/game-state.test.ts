@@ -4,8 +4,8 @@ import type { SceneEventObject } from '@type-pal/shared'
 
 describe('GameState', () => {
   it('初始态:无 NPC、explore 模式、无对话框', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
-    expect(gs.party.col).toBe(0)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    expect(gs.party.x).toBe(0)
     expect(gs.mode).toBe('explore')
     expect(gs.dialogBox).toBeUndefined()
     expect(gs.eventCursor).toBeUndefined()
@@ -14,7 +14,7 @@ describe('GameState', () => {
   })
 
   it('初始态:partyMembers / inventory 默认空数组,battleState 缺省', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     expect(gs.partyMembers).toEqual([])
     expect(gs.inventory).toEqual([])
     expect(gs.battleState).toBeUndefined()
@@ -24,7 +24,7 @@ describe('GameState', () => {
     const modes: Mode[] = ['explore', 'event', 'battle']
     expect(modes).toHaveLength(3)
     // 类型层面允许赋值 'battle'(若被收窄会编译失败,代守护)
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'battle'
     expect(gs.mode).toBe('battle')
   })
@@ -35,7 +35,7 @@ describe('GameState', () => {
   })
 
   it('GameState 可 JSON 序列化(含 eventCursor.commands)', () => {
-    const gs = createInitialGameState({ col: 10, row: 20, facing: 'right' })
+    const gs = createInitialGameState({ x: 10 * 16, y: 20 * 8, facing: 'right' })
     gs.eventCursor = {
       commands: [
         { op: 'showDialog', messageIndex: 5, text: 'hi' },
@@ -49,7 +49,7 @@ describe('GameState', () => {
     gs.currentDialogStyle = 'top'
 
     const parsed = JSON.parse(JSON.stringify(gs)) as GameState
-    expect(parsed.party.col).toBe(10)
+    expect(parsed.party.x).toBe(10 * 16)
     expect(parsed.eventCursor?.ip).toBe(0)
     expect(parsed.eventCursor?.waiting).toBe('dialog')
     expect(parsed.eventCursor?.commands).toHaveLength(2)
@@ -60,14 +60,14 @@ describe('GameState', () => {
 })
 
 describe('npcFromEventObject', () => {
-  it('SceneEventObject 像素坐标 → cell 坐标(x/32, y/16),其它字段透传', () => {
+  it('SceneEventObject 像素坐标 → 半格像素坐标(floor(x/32)*16, floor(y/16)*8),其它字段透传', () => {
     const eo: SceneEventObject = {
       id: 3, x: 512, y: 800, spriteNum: 42, triggerLabel: 'L_59', triggerMode: 0,
     }
     const npc = npcFromEventObject(eo)
     expect(npc.id).toBe(3)
-    expect(npc.col).toBe(16) // 512 / 32
-    expect(npc.row).toBe(50) // 800 / 16
+    expect(npc.x).toBe(256) // floor(512/32)*16 = 16*16
+    expect(npc.y).toBe(400) // floor(800/16)*8  = 50*8
     expect(npc.spriteNum).toBe(42)
     expect(npc.triggerLabel).toBe('L_59')
   })

@@ -29,7 +29,7 @@ describe('drawTilemap', () => {
       cells: [[{ lower: 1, upper: 2 }]],
       tilesetImage: 'fake',
     }
-    drawTilemap(fb, map, tiles, { col: 0, row: 0 }, 0)
+    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 0)
     // lower (h=0) 落 (144, 92) → 该像素值 1
     expect(fb.indices[92 * 320 + 144]).toBe(1)
     // upper (h=1) 落 (160, 100) → 该像素值 2
@@ -53,7 +53,7 @@ describe('drawTilemap', () => {
       cells: [[{ lower: 5, upper: 0 }]],
       tilesetImage: 'fake',
     }
-    drawTilemap(fb, map, tiles, { col: 0, row: 0 }, 0)
+    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 0)
     // 中心格 lower id 5 + fence 8 圈每圈 lower+upper 都 fenceFill=5。
     // 调用次数远 > 1 即证明 fence 触发(无 fence 时 layer 0 只会拿 1 次 id 5)。
     expect((callCounts.get(5) ?? 0)).toBeGreaterThan(1)
@@ -74,7 +74,7 @@ describe('drawTilemap', () => {
       cells: [[{ lower: 0, upper: 0xff0000 }]],
       tilesetImage: 'fake',
     }
-    drawTilemap(fb, map, tiles, { col: 0, row: 0 }, 1)
+    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 1)
     // 唯一调用应该是中心格 upper 的 0xfe;另外 lower 在 layer 1 下
     // tileIdLayer1(0)=-1 跳过;fence 全部跳过。
     expect(calls).toEqual([0xfe])
@@ -92,7 +92,7 @@ describe('drawTilemap', () => {
       cells: [[{ lower: 0x1010, upper: 0 }]],
       tilesetImage: 'fake',
     }
-    drawTilemap(fb, map, tiles, { col: 0, row: 0 }, 0)
+    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 0)
     expect(captured).toContain(0x110)
   })
 
@@ -110,7 +110,7 @@ describe('drawTilemap', () => {
       cells: [[cellWithTop, cellNoTop]],
       tilesetImage: 'fake',
     }
-    drawTilemap(fb, map, tiles, { col: 0, row: 0 }, 1)
+    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 1)
     expect(captured).toContain(0x10f)
     expect(captured).not.toContain(-1) // 跳过,不调 tiles.get
   })

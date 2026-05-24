@@ -32,7 +32,7 @@ describe('buildLabelMap', () => {
 
 describe('EventSystem', () => {
   it('showDialog → 设 dialogBox + waiting + emit', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
       { op: 'showDialog', messageIndex: 0, text: '你好' },
@@ -45,7 +45,7 @@ describe('EventSystem', () => {
   })
 
   it('waiting=dialog + Confirm 释放 → ip++ + 继续到 end → mode=explore', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
       { op: 'showDialog', messageIndex: 0, text: '你好' },
@@ -59,7 +59,7 @@ describe('EventSystem', () => {
   })
 
   it('setDialogStyle 累积到 currentDialogStyle', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
       { op: 'setDialogStyleTop' },
@@ -72,7 +72,7 @@ describe('EventSystem', () => {
   })
 
   it('raw 命令 skip + console.debug + ip++', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
     loadEvent(gs, [
@@ -87,7 +87,7 @@ describe('EventSystem', () => {
   })
 
   it('goto 跳转', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
       { op: 'goto', to: 'target' },
@@ -99,7 +99,7 @@ describe('EventSystem', () => {
   })
 
   it('单 tick > 256 条 → 抛错防死循环', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     const cmds: Command[] = []
     for (let i = 0; i < 1000; i++) cmds.push({ op: 'raw', opcode: 0, operands: [0, 0, 0] })
@@ -138,7 +138,7 @@ function makeMinimalBattleCtx(): BattleCtx {
 
 describe('runScript (M3 T17, battle mode)', () => {
   it('runtimeMode=explore 不传 battleCtx 时 end 立即返回,不修改 GameState', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const before = JSON.stringify(gs)
     const bus = createCommandBus()
     runScript({
@@ -152,7 +152,7 @@ describe('runScript (M3 T17, battle mode)', () => {
   })
 
   it('runtimeMode=battle + showDialog → emit showBattleMessage(不阻塞,继续到 end)', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const before = JSON.stringify(gs)
     const bus = createCommandBus()
     runScript({
@@ -238,7 +238,7 @@ describe('runScript (M3 T17, battle mode)', () => {
   })
 
   it('battle mode 下 setDialogStyle* 视为 no-op skip,不改 GameState', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const beforeStyle = gs.currentDialogStyle
     const bus = createCommandBus()
     runScript({
@@ -276,7 +276,7 @@ describe('runScript (M3 T17, battle mode)', () => {
 
 describe('loadScene opcode handler stub(M3.5 T10 / B 路线)', () => {
   it('explore mode 撞 loadScene → no-op + console.debug + ip++ 不抛错', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
     loadEvent(gs, [
@@ -327,7 +327,7 @@ describe('setPalette opcode handler(M4 P3.T2)', () => {
   const fakePalette: Palette = { colors: Array(256).fill([0, 0, 0]) as [number, number, number][], cycles: [] }
 
   it('explore mode: fetchPalette 被调用,gs.palette 异步更新', async () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     const mockFetch = vi.fn().mockResolvedValue(fakePalette)
     setFetchPalette(mockFetch)
@@ -352,7 +352,7 @@ describe('setPalette opcode handler(M4 P3.T2)', () => {
   it('explore mode: fetchPalette 未注入 → console.debug + ip++ 不抛错', () => {
     // reset injection to null so handler takes the "未注入" branch
     setFetchPalette(null)
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
 

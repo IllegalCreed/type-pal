@@ -56,7 +56,8 @@ export interface SceneJump {
   label: string
   sceneId: number
   mapNum?: number
-  partyStart: { col: number; row: number; facing: string }
+  /** M5 P0.0:像素坐标(X_STEP=16 / Y_STEP=8);scene-jumps.json 里是 cell,dev-panel 读时乘步长。 */
+  partyStart: { x: number; y: number; facing: string }
 }
 
 export interface SceneJumpsData {
@@ -289,8 +290,8 @@ async function applySceneJump(
       sceneId: jump.sceneId,
       assets: deps.sceneAssetsCache,
       partyStart: {
-        col: jump.partyStart.col,
-        row: jump.partyStart.row,
+        x: jump.partyStart.x,
+        y: jump.partyStart.y,
         facing: jump.partyStart.facing as Facing,
       },
     })

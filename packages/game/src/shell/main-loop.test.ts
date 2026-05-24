@@ -18,7 +18,7 @@ function snap(held: AbstractKey[] = [], frameNum = 0): InputSnapshot {
 
 describe('tickN', () => {
   it('跑 N tick,每 tick 调 onPresent', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const bus = createCommandBus()
     const presentFn = vi.fn()
     const ctx: LoopContext = {
@@ -33,8 +33,8 @@ describe('tickN', () => {
     expect(gs.frameNum).toBe(3)
   })
 
-  it('Replay 向右走 3 步 → party.col + 3', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+  it('Replay 向右走 3 步 → party.x + 3*16, party.y - 3*8', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const bus = createCommandBus()
     const ctx: LoopContext = {
       gs, bus,
@@ -48,6 +48,8 @@ describe('tickN', () => {
       onPresent: () => {},
     }
     tickN(3, ctx)
-    expect(gs.party.col).toBe(8)
+    // Right: dx=+16, dy=-8 × 3 steps
+    expect(gs.party.x).toBe(8 * 16)
+    expect(gs.party.y).toBe(2 * 8)
   })
 })

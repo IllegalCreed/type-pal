@@ -126,7 +126,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
   resources: BattleResources
   emptyInput: InputSnapshot
 } {
-  const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
   gs.partyMembers = opts.partyMembers ?? [0]
 
   const roles: PlayerRole[] = opts.roles ?? gs.partyMembers.map(id => makeRole({ id }))
@@ -196,7 +196,7 @@ describe('startBattle', () => {
   })
 
   it('enemyTeam 找不到 → 抛错', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
     expect(() => startBattle({
       gs,
@@ -216,7 +216,7 @@ describe('startBattle', () => {
   })
 
   it('battleField 找不到 → 抛错', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
     expect(() => startBattle({
       gs,
@@ -427,7 +427,7 @@ describe('finalize 清状态', () => {
   })
 
   it('tickBattle 无 battleState → no-op', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     expect(() => tickBattle(gs, { held: new Set(), pressed: new Set(), frameNum: 0 }, bus)).not.toThrow()
   })

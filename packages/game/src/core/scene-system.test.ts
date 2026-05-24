@@ -21,65 +21,68 @@ function snap(held: AbstractKey[] = [], pressed: AbstractKey[] = [], frameNum = 
 }
 
 describe('SceneSystem 走路', () => {
-  it('按住 Right → party.col + 1, facing=right', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+  it('按住 Right → party.x + 16 / party.y - 8, facing=right', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.party.col).toBe(6)
+    expect(gs.party.x).toBe(6 * 16)
+    expect(gs.party.y).toBe(4 * 8)
     expect(gs.party.facing).toBe('right')
   })
 
-  it('按住 Up → row - 1, facing=up', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+  it('按住 Up → party.x - 16 / party.y - 8, facing=up', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(['Up']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.party.row).toBe(4)
+    expect(gs.party.x).toBe(4 * 16)
+    expect(gs.party.y).toBe(4 * 8)
     expect(gs.party.facing).toBe('up')
   })
 
-  it('地图边界 clamp:已在最左不能再左', () => {
-    const gs = createInitialGameState({ col: 0, row: 5, facing: 'down' })
+  it('地图边界 clamp:已在最左上角不能再左', () => {
+    const gs = createInitialGameState({ x: 0, y: 5 * 8, facing: 'down' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(['Left']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.party.col).toBe(0)
+    expect(gs.party.x).toBe(0)
     expect(gs.party.facing).toBe('left')
   })
 
-  it('相机边界 clamp:party.col 越界仍 clamp 到 tilemap.width - 1', () => {
-    const gs = createInitialGameState({ col: 100, row: 100, facing: 'down' })
+  it('相机边界 clamp:party 越界仍 clamp 到 tilemap max pixel', () => {
+    const gs = createInitialGameState({ x: 100 * 16, y: 100 * 8, facing: 'down' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.camera.col).toBe(9) // clamp to width-1
-    expect(gs.camera.row).toBe(9)
+    expect(gs.camera.x).toBe(9 * 16) // clamp to (width-1)*X_STEP
+    expect(gs.camera.y).toBe(9 * 8)  // clamp to (height-1)*Y_STEP
   })
 
-  it('NPC 阻挡走路:面前格有 NPC + held=Right,party 不动', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
-    gs.npcs = [{ id: 1, col: 6, row: 5, spriteNum: 78 }]
+  it('NPC 阻挡走路:面前像素有 NPC + held=Right,party 不动', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 4 * 8, spriteNum: 78 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.party.col).toBe(5) // 没走过去
+    expect(gs.party.x).toBe(5 * 16) // 没走过去
     expect(gs.party.facing).toBe('right') // facing 变了
   })
 })
 
 describe('SceneSystem NPC 触发', () => {
-  it('面前格无 NPC + Confirm → 不切 mode', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'right' })
+  it('面前像素无 NPC + Confirm → 不切 mode', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap([], ['Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.mode).toBe('explore')
   })
 
-  it('面前格有 NPC + Confirm → mode=event + eventCursor 装载', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'right' })
-    gs.npcs = [{ id: 7, col: 6, row: 5, spriteNum: 78, triggerLabel: 'L_59' }]
+  it('面前像素有 NPC + Confirm → mode=event + eventCursor 装载', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
+    // right 方向: dx=+16, dy=-8 → NPC 在 (6*16, 4*8)
+    gs.npcs = [{ id: 7, x: 6 * 16, y: 4 * 8, spriteNum: 78, triggerLabel: 'L_59' }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -97,9 +100,9 @@ describe('SceneSystem NPC 触发', () => {
     expect(gs.eventCursor?.ip).toBe(2)
   })
 
-  it('面前格 NPC 无 triggerLabel + Confirm → 不切 mode', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'right' })
-    gs.npcs = [{ id: 1, col: 6, row: 5, spriteNum: 78 }] // 无 triggerLabel
+  it('面前像素 NPC 无 triggerLabel + Confirm → 不切 mode', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 4 * 8, spriteNum: 78 }] // 无 triggerLabel
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap([], ['Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
@@ -107,8 +110,8 @@ describe('SceneSystem NPC 触发', () => {
   })
 
   it('triggerLabel 存在但不在 labelMap → warn + 不切 mode', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'right' })
-    gs.npcs = [{ id: 1, col: 6, row: 5, spriteNum: 78, triggerLabel: 'L_999' }]
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 4 * 8, spriteNum: 78, triggerLabel: 'L_999' }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
@@ -132,10 +135,10 @@ describe('明雷机制(M3.5 T11 / D32)', () => {
   // 注:M2 NPC 阻挡逻辑会让 party 走不进面前的 NPC 格;
   // 真原版明雷怪不被 npcAt 阻挡(妖怪可重叠 party)。M3.5 简版:把 NPC 放在 party 当前格,
   // 模拟「走完路后,party 与 contact NPC 同格」的状态。
-  it('party 在 contact cell(triggerMode=5)→ 自动切 event mode + ip 装载', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+  it('party 在 contact 像素(triggerMode=5)→ 自动切 event mode + ip 装载', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     gs.npcs = [
-      { id: 7, col: 5, row: 5, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
+      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
@@ -153,10 +156,10 @@ describe('明雷机制(M3.5 T11 / D32)', () => {
     expect(gs.eventCursor?.ip).toBe(1)
   })
 
-  it('party 在 triggerMode=0 装饰 cell → 不触发(保持 explore)', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+  it('party 在 triggerMode=0 装饰像素 → 不触发(保持 explore)', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     gs.npcs = [
-      { id: 7, col: 5, row: 5, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 0 },
+      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 0 },
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
@@ -173,10 +176,10 @@ describe('明雷机制(M3.5 T11 / D32)', () => {
     expect(gs.eventCursor).toBeUndefined()
   })
 
-  it('party 在 triggerMode=2 Confirm-search cell → 不自动触发(保持 explore,等 Confirm)', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+  it('party 在 triggerMode=2 Confirm-search 像素 → 不自动触发(保持 explore,等 Confirm)', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     gs.npcs = [
-      { id: 7, col: 5, row: 5, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 2 },
+      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 2 },
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
@@ -203,11 +206,11 @@ describe('明雷机制(M3.5 T11 / D32)', () => {
 //
 // 注:NpcState 当前 schema 没 state 字段(M5 加),本 task 不引入新 schema。
 describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
-  it('party 同格 NPC 无 triggerLabel(triggerMode=5)→ 不切 mode + eventCursor undefined', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+  it('party 同像素 NPC 无 triggerLabel(triggerMode=5)→ 不切 mode + eventCursor undefined', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     // triggerMode 已是 contact 段(>= 4),但 triggerLabel 缺失(对照原版 triggerScript=0)
     gs.npcs = [
-      { id: 7, col: 5, row: 5, spriteNum: 468, triggerMode: 5 },
+      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 468, triggerMode: 5 },
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
@@ -220,10 +223,10 @@ describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
     expect(gs.eventCursor).toBeUndefined()
   })
 
-  it('party 同格 NPC triggerLabel 不在 labelMap(triggerMode=5)→ warn + 不切 mode', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+  it('party 同像素 NPC triggerLabel 不在 labelMap(triggerMode=5)→ warn + 不切 mode', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     gs.npcs = [
-      { id: 7, col: 5, row: 5, spriteNum: 468, triggerLabel: 'L_9999', triggerMode: 5 },
+      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 468, triggerLabel: 'L_9999', triggerMode: 5 },
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
@@ -240,9 +243,9 @@ describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
   })
 
   it('triggerMode=3 边界(Confirm-search 段最大值)→ 不自动触发(< CONTACT_MIN)', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     gs.npcs = [
-      { id: 7, col: 5, row: 5, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 3 },
+      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 3 },
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
@@ -260,9 +263,9 @@ describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
   })
 
   it('triggerMode=4 边界(contact 段最小值)→ 自动触发(=== CONTACT_MIN)', () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     gs.npcs = [
-      { id: 7, col: 5, row: 5, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 4 },
+      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 4 },
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
@@ -306,13 +309,13 @@ function makeSceneAssets(
 
 describe('loadScene(M3.5 T9 / D33)', () => {
   it('切到新 scene → gs.npcs 由 eventObjects 重置;party 不传则不动', async () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     // 旧 npcs(模拟之前 scene 的残留)
-    gs.npcs = [{ id: 99, col: 0, row: 0, spriteNum: 1 }]
+    gs.npcs = [{ id: 99, x: 0, y: 0, spriteNum: 1 }]
 
     const fetcher = vi.fn(async (id: number) =>
       makeSceneAssets(id, [
-        // npcFromEventObject 把 x/y 视作 pixel:32 px/tile 列 / 16 px/tile 行
+        // npcFromEventObject: floor(x/32)*16, floor(y/16)*8
         { id: 0, x: 320, y: 160, spriteNum: 78, triggerMode: 0, triggerLabel: 'L_A' },
         { id: 1, x: 64, y: 32, spriteNum: 12, triggerMode: 0 },
       ]),
@@ -324,46 +327,48 @@ describe('loadScene(M3.5 T9 / D33)', () => {
     expect(fetcher).toHaveBeenCalledTimes(1)
     expect(fetcher).toHaveBeenCalledWith(7)
     expect(gs.npcs).toHaveLength(2)
-    expect(gs.npcs[0]).toMatchObject({ id: 0, col: 10, row: 10, spriteNum: 78, triggerLabel: 'L_A' })
-    expect(gs.npcs[1]).toMatchObject({ id: 1, col: 2, row: 2, spriteNum: 12 })
+    // x = floor(320/32)*16 = 10*16 = 160, y = floor(160/16)*8 = 10*8 = 80
+    expect(gs.npcs[0]).toMatchObject({ id: 0, x: 160, y: 80, spriteNum: 78, triggerLabel: 'L_A' })
+    // x = floor(64/32)*16 = 2*16 = 32, y = floor(32/16)*8 = 2*8 = 16
+    expect(gs.npcs[1]).toMatchObject({ id: 1, x: 32, y: 16, spriteNum: 12 })
     // partyStart 未传 → party 不动
-    expect(gs.party).toEqual({ col: 5, row: 5, facing: 'down' })
+    expect(gs.party).toEqual({ x: 5 * 16, y: 5 * 8, facing: 'down' })
   })
 
   it('传 partyStart → party 位置 / facing 重写;camera 跟到 party', async () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const cache = new SceneAssetsCache(async (id) => makeSceneAssets(id))
 
     await loadScene({
       gs,
       sceneId: 2,
       assets: cache,
-      partyStart: { col: 20, row: 30, facing: 'up' },
+      partyStart: { x: 20 * 16, y: 30 * 8, facing: 'up' },
     })
 
-    expect(gs.party).toEqual({ col: 20, row: 30, facing: 'up' })
+    expect(gs.party).toEqual({ x: 20 * 16, y: 30 * 8, facing: 'up' })
     // camera 跟 party(避免下一帧渲染时仍指着旧 scene 坐标)
-    expect(gs.camera).toEqual({ col: 20, row: 30 })
+    expect(gs.camera).toEqual({ x: 20 * 16, y: 30 * 8 })
   })
 
   it('partyStart 不传 facing → 沿用当前 facing(只挪坐标)', async () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'right' })
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     const cache = new SceneAssetsCache(async (id) => makeSceneAssets(id))
 
     await loadScene({
       gs,
       sceneId: 2,
       assets: cache,
-      partyStart: { col: 10, row: 15 },
+      partyStart: { x: 10 * 16, y: 15 * 8 },
     })
 
-    expect(gs.party.col).toBe(10)
-    expect(gs.party.row).toBe(15)
+    expect(gs.party.x).toBe(10 * 16)
+    expect(gs.party.y).toBe(15 * 8)
     expect(gs.party.facing).toBe('right')
   })
 
   it('SceneAssetsCache lazy hit:第二次切回同 scene,fetcher 不再调', async () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const fetcher = vi.fn(async (id: number) => makeSceneAssets(id))
     const cache = new SceneAssetsCache(fetcher)
 
@@ -385,7 +390,7 @@ describe('loadScene(M3.5 T9 / D33)', () => {
 // 修法:loadScene 拿到 sceneAssets 后调 setSceneContext 换入新 events + labelMap。
 describe('loadScene 注入 eventCommands+labelMap(P3.T1)', () => {
   it('loadScene 后 SceneContext 换成新 scene 的 eventCommands + labelMap', async () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const newCommands = [
       { op: 'showDialog' as const, messageIndex: 0, text: '草妖', label: 'L_41179' },
       { op: 'end' as const },
@@ -400,7 +405,7 @@ describe('loadScene 注入 eventCommands+labelMap(P3.T1)', () => {
 
     // 装一个 contact NPC,triggerLabel 指向新 scene 的 label
     gs.npcs = [
-      { id: 7, col: 5, row: 5, spriteNum: 468, triggerLabel: 'L_41179', triggerMode: 5 },
+      { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 468, triggerLabel: 'L_41179', triggerMode: 5 },
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(64, 128)
@@ -414,7 +419,7 @@ describe('loadScene 注入 eventCommands+labelMap(P3.T1)', () => {
   })
 
   it('连续 scene jump:每次 loadScene 都换入对应 scene 的 labelMap', async () => {
-    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const scene1Map: Record<string, number> = { L_scene1: 0 }
     const scene2Map: Record<string, number> = { L_scene2: 0 }
 
@@ -427,14 +432,14 @@ describe('loadScene 注入 eventCommands+labelMap(P3.T1)', () => {
 
     await loadScene({ gs, sceneId: 1, assets: cache })
     // After scene 1: SceneContext should have scene1's labelMap
-    gs.npcs = [{ id: 1, col: 5, row: 5, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 }]
+    gs.npcs = [{ id: 1, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 }]
     tickSceneSystem(gs, snap(), createCommandBus())
     // L_scene2 不在 scene1 labelMap → 不切 mode
     expect(gs.mode).toBe('explore')
 
     await loadScene({ gs, sceneId: 2, assets: cache })
     // After scene 2: SceneContext should have scene2's labelMap
-    gs.npcs = [{ id: 2, col: 5, row: 5, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 }]
+    gs.npcs = [{ id: 2, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 }]
     tickSceneSystem(gs, snap(), createCommandBus())
     // L_scene2 在 scene2 labelMap → 切 event mode
     expect(gs.mode).toBe('event')

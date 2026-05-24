@@ -75,6 +75,9 @@ export interface SceneObjects {
   eventObjects: SceneEventObject[]
 }
 
+/** 像素坐标(M5 P0.0 起:party / npcs / camera 统一用像素,不再用 cell)。 */
+export interface PixelPos { x: number; y: number }
+
 /** ENEMYPOS table(M3.5,DATA.MKF chunk 13)
  *
  * sdlpal global.h ENEMYPOS:5×5 PALPOS table。用法 pos[enemyIdx][maxIdx](battle.c:936)

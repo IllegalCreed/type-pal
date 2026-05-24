@@ -350,7 +350,7 @@ function runFixture(
     deviations: [],
   }
 
-  const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
   const partyRoleIds = [...fixture.playerOverrides.keys()]
   gs.partyMembers = partyRoleIds.length > 0 ? partyRoleIds : [0]
   gs.inventory = fixture.inventory.map((e) => ({ ...e }))

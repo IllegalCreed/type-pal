@@ -640,8 +640,8 @@ function makeItem(opts: Partial<Item> = {}): Item {
 /** 最小 GameState fixture(performItem 只看 .inventory)。 */
 function makeGameState(inventory: InventoryEntry[]): GameState {
   return {
-    party: { col: 0, row: 0, facing: 'down' },
-    camera: { col: 0, row: 0 },
+    party: { x: 0, y: 0, facing: 'down' },
+    camera: { x: 0, y: 0 },
     npcs: [],
     partyMembers: [],
     inventory,

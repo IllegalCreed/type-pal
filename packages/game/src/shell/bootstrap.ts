@@ -64,8 +64,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   const partyLeaderSpriteId = leader.spriteNum
 
   // party 起始位置 —— 真原版起始由 onEnter 脚本 setPartyPos opcode 设;M2 raw skip 后不自动设。
-  // 实施时若 dev 验证位置不对,改这两个数字。
-  const PARTY_START = { col: 32, row: 24, facing: 'down' as const }
+  // M5 P0.0:改像素坐标(X_STEP=16/Y_STEP=8)。原 col:32,row:24 → x:512,y:192。
+  const PARTY_START = { x: 32 * 16, y: 24 * 8, facing: 'down' as const }
   const gs = createInitialGameState(PARTY_START)
   gs.npcs = scene.eventObjects.map(npcFromEventObject)
 

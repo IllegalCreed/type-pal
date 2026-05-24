@@ -157,7 +157,7 @@ describe('M3 E2E:战斗 won 链路(attack-only,deterministic seed)', () => {
   }
 
   it('startBattle(enemyTeamId=1, 1 只灯笼) → 多回合 attack → won + exp/cash 入账 + mode=explore', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
 
     // fixture 类似 battle-fixtures.json 中的 fixture-zh1(队长 lv10 vs 弱怪)
     applyDevFixture(gs, resources, {
@@ -231,7 +231,7 @@ describe('M3 E2E:战斗 won 链路(attack-only,deterministic seed)', () => {
   }, 30_000) // 30s 测试超时充足
 
   it('flee 路径:fixture-fast-flee + 强 fleeRate → 数回合后 fleed + mode=explore + 无 exp 奖励', () => {
-    const gs = createInitialGameState({ col: 0, row: 0, facing: 'down' })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
 
     // 重置 leader._exp(前一个测试 mutate 了 playerRoles)
     const leader = resources.playerRoles.roles[0] as unknown as Record<string, number>

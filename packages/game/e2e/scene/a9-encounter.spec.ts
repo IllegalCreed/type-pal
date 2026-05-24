@@ -3,18 +3,47 @@ import { bootstrap, openDevPicker, selectSceneJump, walk } from '../helpers/boot
 import { snapshotCanvas } from '../helpers/snapshot.js'
 import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 
-type Npc = { id: number; col: number; row: number; triggerMode?: number }
+// M5 P0.0:party/npc 改像素坐标(X_STEP=16/Y_STEP=8)。
+type Npc = { id: number; x: number; y: number; triggerMode?: number }
 type Probe = {
   __game: {
     gs: {
       mode: string
-      party: { col: number; row: number }
+      party: { x: number; y: number }
       npcs: Npc[]
     }
   }
 }
 
 const TRIGGER_CONTACT_MIN = 4 // sdlpal global.h kTriggerTouchNear..Farthest
+
+/**
+ * 选朝向 target(tx,ty) 移动的方向键(4 向菱形)。
+ * M5 P0.0:Right(+16,-8)/Left(-16,+8)/Down(+16,+8)/Up(-16,-8)。
+ */
+function pickKey(
+  px: number, py: number, tx: number, ty: number,
+): 'ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown' | null {
+  const candidates: Array<['ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown', number, number]> = [
+    ['ArrowRight', 16, -8],
+    ['ArrowLeft', -16, 8],
+    ['ArrowDown', 16, 8],
+    ['ArrowUp', -16, -8],
+  ]
+  const dist = (ax: number, ay: number) => Math.abs(ax - tx) + Math.abs(ay - ty)
+  const cur = dist(px, py)
+  if (cur === 0) return null
+  let best: typeof candidates[0] | null = null
+  let bestGain = -Infinity
+  for (const c of candidates) {
+    const gain = cur - dist(px + c[1], py + c[2])
+    if (gain > bestGain) {
+      bestGain = gain
+      best = c
+    }
+  }
+  return best ? best[0] : null
+}
 
 /**
  * a9 明雷遇怪:scene-15-mob 通道 2 含 4 个 sprite 468 草妖(triggerMode=5 contact),
@@ -57,36 +86,31 @@ test('a9 明雷遇怪 — 跳 scene 15 草妖通道 → 走到 contact cell → 
     }),
   ).toBe(0)
 
-  // 取最近草妖,分段 walk(每段走到位前探针 + 切方向)
+  // 取最近草妖(像素曼哈顿距离)
   const target = contactNpcs.reduce((a, b) => {
-    const da = Math.abs(a.col - state.party.col) + Math.abs(a.row - state.party.row)
-    const db = Math.abs(b.col - state.party.col) + Math.abs(b.row - state.party.row)
+    const da = Math.abs(a.x - state.party.x) + Math.abs(a.y - state.party.y)
+    const db = Math.abs(b.x - state.party.x) + Math.abs(b.y - state.party.y)
     return db < da ? b : a
   })
 
   // 走 → 触发 contact → loadEventFromNpc 找到 triggerLabel(P3.T1 lazy events 修后)
   // → gs.mode='event' → 事件脚本跑(raw op skip)→ end → mode 回 'explore'
-  // party 已落在 NPC cell;最终断言检查 party 到达 contact cell
+  // 每段只走 1 步(150ms hold = 1 tick @ 10fps),避免走到 NPC 后多余 tick 继续移动。
   for (let seg = 0; seg < 20; seg++) {
     const p = await page.evaluate(
       () => (window as unknown as Probe).__game.gs.party,
     )
-    if (p.col === target.col && p.row === target.row) break
-    let key: 'ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown' | null = null
-    if (target.col > p.col) key = 'ArrowRight'
-    else if (target.col < p.col) key = 'ArrowLeft'
-    else if (target.row > p.row) key = 'ArrowDown'
-    else if (target.row < p.row) key = 'ArrowUp'
+    if (p.x === target.x && p.y === target.y) break
+    const key = pickKey(p.x, p.y, target.x, target.y)
     if (!key) break
 
-    const dist = Math.max(Math.abs(target.col - p.col), Math.abs(target.row - p.row))
-    await walk(page, key, Math.min(dist + 1, 6) * 150)
+    await walk(page, key, 150)
   }
 
-  // 期望:成功踩进草妖 cell(contact 不阻挡 fix 生效)
+  // 期望:成功踩进草妖像素(contact 不阻挡 fix 生效)
   const finalParty = await page.evaluate(
     () => (window as unknown as Probe).__game.gs.party,
   )
-  expect(finalParty.col).toBe(target.col)
-  expect(finalParty.row).toBe(target.row)
+  expect(finalParty.x).toBe(target.x)
+  expect(finalParty.y).toBe(target.y)
 })

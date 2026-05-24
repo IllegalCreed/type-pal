@@ -163,7 +163,7 @@ function mkItem(id: number, name?: string): Item {
 
 function mkGs(overrides: Partial<GameState> = {}): GameState {
   return {
-    ...createInitialGameState({ col: 0, row: 0, facing: 'down' }),
+    ...createInitialGameState({ x: 0, y: 0, facing: 'down' }),
     ...overrides,
   }
 }

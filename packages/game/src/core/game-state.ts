@@ -18,11 +18,12 @@ export interface InventoryEntry {
 
 export interface NpcState {
   id: number
-  col: number
-  row: number
+  /** 像素坐标(M5 P0.0:sdlpal scene.c:807 xOffset=±16 / yOffset=±8 等价)。 */
+  x: number
+  y: number
   spriteNum: number
   triggerLabel?: string
-  /** sdlpal `EventObject.wTriggerMode`(M3.5 T11 真消费):
+  /** sdlpal `EventObject.wTriggerMode`(M3.5 T11 真消費):
    *  - 0       装饰 / 不触发
    *  - 1..3    Confirm-search(M2 用 Confirm 键触发)
    *  - 4..8    contact 明雷(走进自动触发,M3.5 简版统一 >= 4)
@@ -46,9 +47,10 @@ export interface DialogBoxState {
 }
 
 export interface GameState {
-  party: { col: number; row: number; facing: Facing }
-  /** 相机中心瓦片坐标;SceneSystem 每 tick 跟随 party,带地图边界 clamp。 */
-  camera: { col: number; row: number }
+  /** 队长像素坐标(M5 P0.0:sdlpal scene.c:807 xOffset=±16 / yOffset=±8 等价)。 */
+  party: { x: number; y: number; facing: Facing }
+  /** 相机像素坐标;SceneSystem 每 tick 跟随 party,带地图边界 clamp。 */
+  camera: { x: number; y: number }
   npcs: NpcState[]
   /** 队伍成员 role id 列表(T14 占位,M3 dev fixture 决定默认填充)。 */
   partyMembers: number[]
@@ -70,11 +72,11 @@ export interface GameState {
 }
 
 export function createInitialGameState(
-  partyStart: { col: number; row: number; facing: Facing },
+  partyStart: { x: number; y: number; facing: Facing },
 ): GameState {
   return {
-    party: partyStart,
-    camera: { col: partyStart.col, row: partyStart.row },
+    party: { x: partyStart.x, y: partyStart.y, facing: partyStart.facing },
+    camera: { x: partyStart.x, y: partyStart.y },
     npcs: [],
     partyMembers: [],
     inventory: [],
@@ -87,16 +89,20 @@ export function createInitialGameState(
 /**
  * 原版 EVENTOBJECT.x / .y 是**像素坐标**(见 sdlpal map.c::PAL_MapBlitToSurface
  * 用 x/32 取 col、y/16 取 row,菱形错排,tile 32×16)。
- * 运行时按瓦片格走路,故 NPC 装载时把 px → cell。
+ * M5 P0.0:运行时改用半格像素坐标(X_STEP=16 / Y_STEP=8),故:
+ *   npc.x = floor(eo.x / 32) * 16 = eo.x / 2
+ *   npc.y = floor(eo.y / 16) * 8  = eo.y / 2
  */
 const TILE_W = 32
 const TILE_H = 16
+const X_STEP = 16
+const Y_STEP = 8
 
 export function npcFromEventObject(eo: SceneEventObject): NpcState {
   return {
     id: eo.id,
-    col: Math.floor(eo.x / TILE_W),
-    row: Math.floor(eo.y / TILE_H),
+    x: Math.floor(eo.x / TILE_W) * X_STEP,
+    y: Math.floor(eo.y / TILE_H) * Y_STEP,
     spriteNum: eo.spriteNum,
     triggerLabel: eo.triggerLabel,
     triggerMode: eo.triggerMode,
