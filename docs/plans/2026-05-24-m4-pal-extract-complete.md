@@ -3204,13 +3204,65 @@ git commit -m "docs(M4): 完工同步 README + 03 + 实施过程发现归档"
 
 本计划在 brainstorming + writing-plans 阶段基于 design doc + sdlpal grep 推断;实施时遇到的真实差异记录如下供 M5 / M6 / M7 参考。**全部 commit 在 main 分支可追溯**。
 
-### 1. (待填:实施过程发现的第一项,无显著偏离则填「无显著偏离」)
+### 1. STUFF.MKF + SAVE.MKF 根本不存在(WIN95+ 版无字模 MKF;存档用 .RPG)
+
+design plan 假设抽 STUFF + SAVE,P2.T1 chunk inventory verify 真值:**两文件都不在 data/raw/**。后果:P2.T3 重定向 STUFF → DATA chunk 9/10 sprite 抽到 images/ui+magic;P2.T4 drop SAVE;P4.T1 confirm D11 假设(纯 Unifont,无需字模 verify)。
+
+### 2. DATA chunk 9 SPRITEUI + chunk 10 effect sprite 实际是 sprite 数据,不是 typed data
+
+P2.T1 inventory 标"待 spelunking",P2.T3 grep sdlpal 真值发现两 chunk 是 sprite 组(72 + 86 frame)。抽到 P1 锁定的 `images/ui/` + `images/magic/` 子目录(原 P2 plan 假设是 typed data dump)。
+
+### 3. enemies/items/spells 字段补漏:M3 D28 早已完整(P2.T2 没需要补漏)
+
+design plan 假设要补 D28 字段(magStrength / dexterity / poisonResistance 等)。P2.T2 实施时发现 M3 D28 commit 已经把这些字段全 typed 完整。后果:P2.T2 实际只增加 DATA chunks 6/11/14 typed parser。
+
+### 4. SceneObjects.mapNum 字段早已存在(P3.T5 没需要加)
+
+design plan 假设要加 mapNum 字段。P3.T5 实施时 grep 现有 SceneObjects schema → mapNum 早已在 shared/resources.ts(M3.5 时加)。后果:T5 只剩 cli.ts 改 SLICE → 全 295 循环。
+
+### 5. T6 selectSceneJump helper 误改 + scene-15-mob entry 被覆盖
+
+T6 把 scene-jumps.json 全量 replace 为 295 generic entries,删了 M3.5 时的 5 个具名 entry(含 scene-15-mob)。同时 T6 改的 e2e helper `selectSceneJump` selector 用数字前缀提取 filter,对 jumpId="scene-15-mob" 提取 filter="15" 错点 "scene-15 (map-7)" 而非 "scene-15-mob (map-7, 草妖通道)"。后果:T8 a9 spec fail。修法:T8 重新加 scene-15-mob entry + 改 selectSceneJump 优先精确匹配 jumpId 前缀。
+
+### 6. lazy events 加载 3rd 并发 fetch 500ms 不够
+
+P3.T1 加 events fetch 第 3 个并发 → dev server 加载稍慢。T8 e2e helper wait 500ms 偶尔 fail → 改 2000ms 稳。
+
+### 7. RGM.MKF / BALL.MKF 不是 BGM/单一 UI 元素,是 character face / item bitmap raw chunks
+
+设计 plan 假设 RGM = BGM metadata, BALL = magic ball UI sprite。P2.T4 grep sdlpal 真值:**RGM = 角色头像 bitmap**(92 个单帧 RLE),**BALL = 物品 icon bitmap**(252 个单帧 RLE)。M4 简版:都 raw dump,M5 解 RLE 真做 icon / face display。
+
+### 8. P3.T3 unique mapNum 比 design 预估多(222 vs 120)
+
+design plan 预估 295 scene 共用 ~120 unique mapNum。实测:**222 unique mapNum**(295 scene 仍然 dedup 但比例没那么高)。影响:`images/world/tileset/` 222 个 map-N 子目录,tileset PNG 量更大。
+
+### 9. P3.T7 全 295 sdlpal --dump-map 99.7% pass(只 1 fail)
+
+design plan 预估 ≥ 90% pass。实测:**293/294 pass (99.7%)**,仅 scene 294 / mapNum=0 fail(sdlpal `PAL_LoadMap(0)` 返 NULL,scene 294 是 stub)。KNOWN_DEVIATIONS 单条记录,无 tilemap 渲染 bug。
+
+### 10. Unifont 接入后 b* baseline vs sdlpal real diff 显著降
+
+M3.5 末 self-snapshot baseline,b 组 diff 不准。P4.T4 切到 sdlpal real baseline + Unifont 与 sdlpal 内嵌字体一致 → **b1-b3 = 1.13% / b4 = 3.72%**。比 M3.5 末 4.6/7% 大幅下降。
+
+### 11. MGO union spriteId 540 vs M3.5 切片 26
+
+M3.5 时切片 5 scene 共 26 sprite。P3.T4 全 295 scene union → 540 unique spriteId, 3480 frames。pnpm extract 时间从 ~3s → 34s(可接受)。
+
+### 12. Subagent-Driven workflow 并行执行加速明显
+
+23 task 大部分 mechanical,sonnet model 足够。Wave 内能并行的 dispatched 同 message → wall time 显著缩短(实测 P3 8 task 在几小时内全完)。各 wave 之间靠 file dep graph 排序,~12 wave 完成。
 
 ### M4 完成定义实际状态
 
-(实施末勾选)
-
-- ✅ / ⚠️ 各项填充
+- ✅ P1 资产分层重构:`data/extracted/` 全部按 battle/world/item/ui/splash/magic/font 分层
+- ✅ P2 全 chunk 覆盖:14 MKF inventory(STUFF/SAVE 不存在 confirm)+ DATA chunks 6/9/10/11/14 typed/sprite + RNG/RGM/BALL/FIRE/SOUNDS dump + splash 2 PNG
+- ✅ P3 全 295 scene 资源:222 unique mapNum tileset / 540 sprite union / 全 294 scene-N.json / sdlpal --dump-map 99.7% pass / dev panel 294 scene picker / a9 端到端 unskip + pass
+- ✅ P4 字体真渲染:Unifont 9MB ship / glyphs.json 57083 / present/font.ts 17 调用点真 blit / L2 baseline 全重生 / b* sdlpal real baseline diff 1-4%
+- ⚠️ M3.5 残留 ⚠️ fixture-end SIGABRT(留 M5)
+- ⚠️ M3.5 残留 ⚠️ 4-5 player PLAYER_POSITIONS(留 M5)
+- ⚠️ DATA chunks 12/15 仍 raw + TODO(M5 真用时扩 typed)
+- ⚠️ RNG/RGM/BALL raw dump,未解 RLE → 真 icon/face(留 M5/M6)
+- ⚠️ SOUNDS metadata only,ogg 转换留 M6
 
 ---
 

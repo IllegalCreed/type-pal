@@ -12,23 +12,27 @@
 
 ## 当前状态(2026-05-24)
 
-**M3.5 完成** —— scene 切换 + 明雷怪 + L2 Playwright 视觉对拍(M1-M3.5 全功能覆盖)。
-- `pnpm -F @type-pal/game dev[?skip-intro=1]`:M3.5 dev panel(`B` 键)picker = 3 battle fixture + **5 scene jump**(scene 1 客栈 + 仙灵岛入口/通道 1/通道 2/迷宫);仙灵岛通道 1 含 4 个 sprite 468 草妖明雷接触 NPC
-- **scene 切换链路**:`SceneAssetsCache` lazy 加载(D33)+ `loadScene` 函数 + `applySceneAssetsToPresent` re-render wire(tilemap / tileImages / npcSprites / setSceneContext 全同步)+ dev panel `applySceneJump` 真调
-- **明雷机制**:contact monster(triggerMode>=4)走入即触发 trigger,不阻挡;Confirm-search NPC(triggerMode 1-3)仍阻挡。对照 sdlpal `play.c::PAL_PartyWalk`
-- **战斗 input wire**:mainMenu / magicMenu / itemMenu / targetSelect / Cancel 全实现,5 actions 端到端 input → battle 真跑(M3 stub 时期 limitation 移除)
-- **L2 Playwright 视觉基准**:23 spec(scene + battle + menu + dev)L2 全跑通,baseline PNG 本机生成不入 git(版权)。battle baseline 用 **sdlpal-classic `--dump-battle` patch**(新加)为真原版基准,catch 出我方位置 / 渲染 bug
-- **sdlpal classic patch 总集**:4 个 — PAL_CLASSIC define / `--dump-map` / `--battle-harness` / **`--dump-battle`**(M3.5 新);全部活在 `pnpm e2e`
-- **修了多个 M2/M3 残留**:`render-tilemap.ts` ±1 fence + sub-row offset(然后 port 到 `draw-tilemap.ts`);RLE decode 保留 opaque mask + PNG alpha 通道编码(tile + sprite,scene 16 dense 暴露 + 人物半透明);PLAYER_POSITIONS 按 sdlpal `g_rgPlayerPos[3][3][2]` 真值;ENEMY_POSITIONS 改读 ENEMYPOS table(DATA.MKF chunk 13)
-- 460+ 单测 + 2 skipped + 30 L2 + 1 L2 skip(a9 contact→battle 端到端等 M5 scene events lazy load)
+**M4 完成** —— pal-extract 补全 + 资产分层 + 全 295 scene + 字体真渲染(M1-M4 全功能覆盖)。
 
-下一步:**M5/M6/M7**(系统补全 / 体验补全 / 通关验证),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
+## M4 · pal-extract 补全 + 资产分层 + 字体真渲染 ✅(2026-05-24 完工)
+
+- pal-extract 14 个 MKF 全 chunk 覆盖(P2,见 `docs/M4_CHUNK_INVENTORY.md`)。STUFF.MKF + SAVE.MKF 不存在(WIN95+ 版用 .RPG 存档)
+- `data/extracted/` 资产按 battle / world / item / ui / splash / magic / font 分层(P1)
+- 全 295 scene 资源 dump + dev panel scene picker 294 可跳(P3,sdlpal `--dump-map` 自动化 diff 99.7% pass)
+- Unifont CN 真字形渲染,UI 文字可读;L2 b* spec vs sdlpal real baseline diff 1-4%(P4,M3.5 ⚠️ 接合)
+- M3.5 ⚠️ 残留修:a9 端到端 unskip(L2 31 pass / 0 skip)/ palette 跨 scene / b* 切 sdlpal real baseline
+
+详见 `docs/plans/2026-05-24-m4-pal-extract-complete-design.md`(brainstorm)和 `docs/plans/2026-05-24-m4-pal-extract-complete.md`(实施)。
+
+**M3.5 完成**(2026-05-24) —— scene 切换 + 明雷怪 + L2 Playwright 视觉对拍(M1-M3.5 全功能覆盖)。详见 03 plan。
 
 **M3 Phase 1 完成**(2026-05-23) —— 战斗系统骨架 + D29 双基准 + 5 actions 全集 + dev 入口。
 
 **M2 完成**(2026-05-23) —— 运行时垂直切片打通(scene 1 探索 + NPC 触发对话)。详见 03 plan。
 
 **M1 完成**(2026-05-23) —— `pal-extract` 端到端打通,`pnpm extract` 一次性产出 `data/extracted/`(全量 295 scenes / 235 items / 102 spells / 153 enemies + scene 1 视觉资源)。详见 03 plan。
+
+下一步:**M5/M6/M7**(系统补全 / 体验补全 / 通关验证),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
 
 ## 仓库结构
 

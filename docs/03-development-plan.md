@@ -85,11 +85,16 @@
 - 完整 status effects(M3 只识别 sleep / paralyzed / confused 三种最简)
 - Summon / Trance / 装备 / 物品投掷 / 商店
 
-### M4 · pal-extract 补全
-- 覆盖剩余 MKF 格式(M1 未碰到的:F / MGO / PAT / SOUNDS 中的非切片部分等)。
-- 全场景资源提取(剩余地图、剩余精灵、剩余调色板)。
-- 全数据表(物品 / 法术 / 怪物等全量)。
-- 注:**反汇编器骨架与全量 events round-trip 已在 M1 完成**(D22);剩余 ~80 个 opcode 的具名工作 M3 战斗 / M5 菜单等里程碑按玩法增量补,M4 兜底。
+### M4 · pal-extract 补全 + 资产分层 + 字体真渲染 ✅(2026-05-24 完工)
+
+23 task / 4 phase 全完工。L1: 501+2 skip / L2: 31 pass / 0 skip。
+
+- **P1 资产分层**(4 task):`data/extracted/` 按 battle/world/item/ui/splash/magic/font 分层。2530 PNG + 216 JSON 全 path 迁。
+- **P2 全 chunk 覆盖**(5 task):14 MKF inventory + DATA chunks 6/11/14 typed + DATA 9/10 sprite → images/ui+magic + RNG/RGM/BALL/FIRE raw + SOUNDS metadata + splash 2 PNG。STUFF/SAVE 不存在 confirm D11。
+- **P3 全 295 scene 资源**(8 task):222 unique mapNum tileset / 540 MGO sprite union / 全 294 scene-N.json / sdlpal --dump-map 99.7% diff pass / a9 端到端 unskip + pass(M3.5 ⚠️ #8 修)/ setPalette opcode handler(M3.5 ⚠️ palette 跨 scene 修)。
+- **P4 字体真渲染**(5 task):Unifont 9MB BDF ship + 57083 glyphs.json + present/font.ts 17 调用点真 glyph blit + L2 baseline 全重生 + b* spec 切 sdlpal real baseline(diff 1-4%,M3.5 ⚠️ 接合)。
+
+设计 / 决策依据见 [`plans/2026-05-24-m4-pal-extract-complete-design.md`](plans/2026-05-24-m4-pal-extract-complete-design.md)。实施过程发现 / 偏离见 [`plans/2026-05-24-m4-pal-extract-complete.md`](plans/2026-05-24-m4-pal-extract-complete.md) 末尾「实施过程发现」。
 
 ### M5 · 系统补全
 - 完整战斗:五行相克、法术、战斗道具、敌方 AI、逃跑、奖励结算。
