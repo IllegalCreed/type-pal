@@ -97,13 +97,75 @@ function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void
   gs.mode = 'event'
 }
 
-function isWalkable(tilemap: Tilemap, x: number, y: number): boolean {
-  // System A:sdlpal pixel → cell(map.c PAL_MapBlitToSurface 用 x/32 取 col、y/16 取 row,tile 32×16)。
-  const col = Math.floor(x / TILE_W)
-  const row = Math.floor(y / TILE_H)
-  if (col < 0 || col >= tilemap.width || row < 0 || row >= tilemap.height) return false
-  // M2 简化:全部可走。M1 没单独存 attribute 位,实施时若发现 schema 已带,
-  // 改成查属性位即可。Task 22 在「实施过程发现」记录。
+/**
+ * 读 TileCell obstacle bit。
+ *
+ * sdlpal map.c:298  `return (lpMap->Tiles[y][x][h] & 0x2000) >> 13;`
+ * → bit 13 (0-indexed) of the u16 tile value = obstacle flag。
+ * h=0 → cell.lower;h=1 → cell.upper。
+ */
+function tilemapIsBlocked(tilemap: Tilemap, col: number, row: number, h: 0 | 1): boolean {
+  if (col < 0 || col >= tilemap.width || row < 0 || row >= tilemap.height) return true
+  const cell = tilemap.cells[row]?.[col]
+  if (!cell) return true
+  const tileWord = h === 0 ? cell.lower : cell.upper
+  // obstacle bit = bit 13 of u16 tile word (sdlpal map.c:298 `& 0x2000`)
+  return (tileWord & 0x2000) !== 0
+}
+
+/**
+ * 菱形 isometric 碰撞判定(P0.a,port sdlpal scene.c:512-633 PAL_CheckObstacleWithRange)。
+ *
+ * 1. 把像素坐标用菱形四分法映射到 (col, row, h=0/1) tile — 直接 port sdlpal scene.c:556-591。
+ * 2. 查 tilemap obstacle bit(bit 13 of lower/upper u16)。
+ * 3. 查 NPC 菱形曼哈顿距离(sdlpal scene.c:624:abs(dx)+abs(dy)*2 < 16)。
+ *    contact 怪(triggerMode >= 4)走进触发战斗,不阻挡走路。
+ *
+ * @param tilemap  当前场景 tilemap
+ * @param posX     目标像素 X
+ * @param posY     目标像素 Y
+ * @param npcs     当前场景 NPC 列表(可选,默认空数组)
+ * @param selfNpcId 跳过自身(party=0,NPC 移动时传自己 id)
+ */
+export function isWalkable(
+  tilemap: Tilemap,
+  posX: number,
+  posY: number,
+  npcs: ReadonlyArray<NpcState> = [],
+  selfNpcId: number = 0,
+): boolean {
+  // ── Step 1: 菱形四分法 → (col, row, h) ──────────────────────────────────
+  // 直接 port sdlpal scene.c:556-591
+  let col = Math.floor(posX / TILE_W)
+  let row = Math.floor(posY / TILE_H)
+  let h: 0 | 1 = 0
+  const xr = posX % TILE_W   // 0..31
+  const yr = posY % TILE_H   // 0..15
+
+  if (xr + yr * 2 >= 16) {
+    if (xr + yr * 2 >= 48) {
+      col++; row++
+    } else if (32 - xr + yr * 2 < 16) {
+      col++
+    } else if (32 - xr + yr * 2 < 48) {
+      h = 1
+    } else {
+      row++
+    }
+  }
+
+  // ── Step 2: tilemap obstacle bit (sdlpal map.c:298 bit 13) ──────────────
+  if (tilemapIsBlocked(tilemap, col, row, h)) return false
+
+  // ── Step 3: NPC 菱形曼哈顿距离 (sdlpal scene.c:624) ────────────────────
+  // contact 怪(triggerMode >= 4)走进触发战斗 —— 不阻挡走路。
+  // 普通 NPC(triggerMode 0..3 或 undefined)阻挡。
+  for (const npc of npcs) {
+    if (npc.id === selfNpcId) continue
+    if (npc.triggerMode !== undefined && npc.triggerMode >= TRIGGER_MODE_CONTACT_MIN) continue
+    if (Math.abs(npc.x - posX) + Math.abs(npc.y - posY) * 2 < 16) return false
+  }
+
   return true
 }
 
@@ -117,20 +179,16 @@ export function tickSceneSystem(
   if (!ctx) throw new Error('scene-system: setSceneContext / ctxOverride 必须先设置')
 
   // 1) 走路 + 转向
-  //    M3.5:contact monster(triggerMode >= 4)**不阻挡** —— 对照 sdlpal play.c
-  //    PAL_PartyWalk,接触触发是「走入怪格 → 触发战斗」,所以 walk 阶段允许进入。
-  //    Confirm-search NPC(triggerMode 0..3,默认 NPC)仍阻挡。
+  //    P0.a:isWalkable 内部统一处理 tilemap obstacle bit + NPC 菱形碰撞。
+  //    contact monster(triggerMode >= 4)走进触发战斗 → isWalkable 不阻挡。
+  //    party 自身 selfNpcId=0(party 不是 NPC,无需排除自己)。
   const facing = pickFacing(input)
   if (facing) {
     gs.party.facing = facing
     const { dx, dy } = DIR_DELTA[facing]
     const nx = gs.party.x + dx
     const ny = gs.party.y + dy
-    const blockingNpc = npcAt(gs.npcs, nx, ny)
-    const isContactMonster
-      = blockingNpc?.triggerMode !== undefined
-        && blockingNpc.triggerMode >= TRIGGER_MODE_CONTACT_MIN
-    if (isWalkable(ctx.tilemap, nx, ny) && (!blockingNpc || isContactMonster)) {
+    if (isWalkable(ctx.tilemap, nx, ny, gs.npcs, 0)) {
       gs.party.x = nx
       gs.party.y = ny
     }
