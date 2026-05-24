@@ -50,6 +50,29 @@ function npcAt(npcs: NpcState[], col: number, row: number): NpcState | undefined
   return npcs.find((n) => n.col === col && n.row === row)
 }
 
+/** sdlpal global.h:84-92 wTriggerMode 真值;>= 4 是 contact 系列(TouchNear..Farthest)。
+ *  M3.5 简版统一处理;M5 真做距离差异时再细分。 */
+const TRIGGER_MODE_CONTACT_MIN = 4
+
+/**
+ * 用 NPC 的 triggerLabel 装载 eventCursor + 切到 event 模式。
+ * Confirm-search 路径 / contact 明雷路径共享。
+ */
+function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void {
+  if (!npc.triggerLabel) return
+  const ip = ctx.labelMap[npc.triggerLabel]
+  if (ip === undefined) {
+    console.warn(`scene-system: triggerLabel ${npc.triggerLabel} 不在 labelMap 中`)
+    return
+  }
+  gs.eventCursor = {
+    commands: ctx.eventCommands,
+    labelMap: ctx.labelMap,
+    ip,
+  }
+  gs.mode = 'event'
+}
+
 function isWalkable(tilemap: Tilemap, col: number, row: number): boolean {
   if (col < 0 || col >= tilemap.width || row < 0 || row >= tilemap.height) return false
   // M2 简化:全部可走。M1 没单独存 attribute 位,实施时若发现 schema 已带,
@@ -85,24 +108,27 @@ export function tickSceneSystem(
     row: Math.max(0, Math.min(ctx.tilemap.height - 1, gs.party.row)),
   }
 
-  // 3) Confirm 触发 NPC
-  if (input.pressed.has('Confirm')) {
+  // 3) 明雷 contact 检测(M3.5 T11 / D32 / 对照 sdlpal play.c::PAL_PartyWalk)
+  //    party 当前 cell 有 triggerMode >= 4 的 EventObject → 自动 runScript,无需 Confirm。
+  //    放在 Confirm 之前:走完路立即触发,避免下一帧才生效。
+  const npcAtParty = npcAt(gs.npcs, gs.party.col, gs.party.row)
+  if (
+    npcAtParty
+    && npcAtParty.triggerMode !== undefined
+    && npcAtParty.triggerMode >= TRIGGER_MODE_CONTACT_MIN
+  ) {
+    loadEventFromNpc(gs, ctx, npcAtParty)
+  }
+
+  // 4) Confirm 触发 NPC(M2 既有逻辑:对面格 NPC,按 Confirm)
+  //    注:M3.5 简版不做 triggerMode in {1,2,3} 距离差异;有 triggerLabel 即响应 Confirm。
+  if (gs.mode === 'explore' && input.pressed.has('Confirm')) {
     const { dc, dr } = DIR_DELTA[gs.party.facing]
     const targetCol = gs.party.col + dc
     const targetRow = gs.party.row + dr
     const npc = npcAt(gs.npcs, targetCol, targetRow)
     if (npc?.triggerLabel) {
-      const ip = ctx.labelMap[npc.triggerLabel]
-      if (ip !== undefined) {
-        gs.eventCursor = {
-          commands: ctx.eventCommands,
-          labelMap: ctx.labelMap,
-          ip,
-        }
-        gs.mode = 'event'
-      } else {
-        console.warn(`scene-system: triggerLabel ${npc.triggerLabel} 不在 labelMap 中`)
-      }
+      loadEventFromNpc(gs, ctx, npc)
     }
   }
 

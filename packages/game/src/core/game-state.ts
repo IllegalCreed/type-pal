@@ -22,6 +22,14 @@ export interface NpcState {
   row: number
   spriteNum: number
   triggerLabel?: string
+  /** sdlpal `EventObject.wTriggerMode`(M3.5 T11 真消费):
+   *  - 0       装饰 / 不触发
+   *  - 1..3    Confirm-search(M2 用 Confirm 键触发)
+   *  - 4..8    contact 明雷(走进自动触发,M3.5 简版统一 >= 4)
+   *
+   * 可选:M2 旧 fixture / 测试不带此字段时,scene-system 视作 0(不触发)。
+   */
+  triggerMode?: number
 }
 
 export interface EventCursor {
@@ -86,5 +94,6 @@ export function npcFromEventObject(eo: SceneEventObject): NpcState {
     row: Math.floor(eo.y / TILE_H),
     spriteNum: eo.spriteNum,
     triggerLabel: eo.triggerLabel,
+    triggerMode: eo.triggerMode,
   }
 }

@@ -119,6 +119,81 @@ describe('SceneSystem NPC 触发', () => {
   })
 })
 
+// ── M3.5 T11: 明雷机制(D32 / 对照 sdlpal play.c::PAL_PartyWalk)──────────────
+//
+// triggerMode 真值(sdlpal global.h:84-92):
+//  - 0       装饰 / 不触发
+//  - 1/2/3   Confirm-search(M2 已实现,本 task 不动)
+//  - 4..8    contact(走进自动触发)— M3.5 简版统一处理(>= 4)
+//
+// 测目标:party 走到 contact triggerMode NPC 同格 → 自动 enter event mode + ip 装载,
+// 不依赖 Confirm 键。
+describe('明雷机制(M3.5 T11 / D32)', () => {
+  // 注:M2 NPC 阻挡逻辑会让 party 走不进面前的 NPC 格;
+  // 真原版明雷怪不被 npcAt 阻挡(妖怪可重叠 party)。M3.5 简版:把 NPC 放在 party 当前格,
+  // 模拟「走完路后,party 与 contact NPC 同格」的状态。
+  it('party 在 contact cell(triggerMode=5)→ 自动切 event mode + ip 装载', () => {
+    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    gs.npcs = [
+      { id: 7, col: 5, row: 5, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    const commands = [
+      { op: 'end' as const },
+      { op: 'showDialog' as const, messageIndex: 0, text: '草妖来袭', label: 'L_42' },
+      { op: 'end' as const },
+    ]
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: commands,
+      labelMap: { L_42: 1 },
+    })
+    expect(gs.mode).toBe('event')
+    expect(gs.eventCursor?.ip).toBe(1)
+  })
+
+  it('party 在 triggerMode=0 装饰 cell → 不触发(保持 explore)', () => {
+    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    gs.npcs = [
+      { id: 7, col: 5, row: 5, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 0 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    const commands = [
+      { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+      { op: 'end' as const },
+    ]
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: commands,
+      labelMap: { L_42: 0 },
+    })
+    expect(gs.mode).toBe('explore')
+    expect(gs.eventCursor).toBeUndefined()
+  })
+
+  it('party 在 triggerMode=2 Confirm-search cell → 不自动触发(保持 explore,等 Confirm)', () => {
+    const gs = createInitialGameState({ col: 5, row: 5, facing: 'down' })
+    gs.npcs = [
+      { id: 7, col: 5, row: 5, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 2 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    const commands = [
+      { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
+      { op: 'end' as const },
+    ]
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: commands,
+      labelMap: { L_42: 0 },
+    })
+    expect(gs.mode).toBe('explore')
+    expect(gs.eventCursor).toBeUndefined()
+  })
+})
+
 // ── M3.5 T9: loadScene(D33 lazy 切场景)─────────────────────────────────────
 //
 // 设计契约(D33 + D34):
