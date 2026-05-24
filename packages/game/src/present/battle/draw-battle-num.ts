@@ -1,5 +1,5 @@
 import type { Framebuffer } from '../framebuffer.js'
-import { renderText } from '../font.js'
+import { renderText, type GlyphTable } from '../font.js'
 
 interface FloatingNum {
   x: number
@@ -35,7 +35,7 @@ export class FloatingNumsLayer {
     })
   }
 
-  draw(fb: Framebuffer, currentFrame: number): void {
+  draw(fb: Framebuffer, currentFrame: number, glyphs?: GlyphTable): void {
     // 清掉过期 nums
     this.nums = this.nums.filter((n) => currentFrame - n.startFrame < n.duration)
     for (const n of this.nums) {
@@ -44,7 +44,7 @@ export class FloatingNumsLayer {
       const text = n.value.toString()
       // M3 简版色板索引:yellow ≈ 0x0a,blue ≈ 0x10(占位 — sdlpal 真值实施时 verify by PAL_BattleUIShowNum)
       const colorIdx = n.color === 'yellow' ? 0x0a : 0x10
-      renderText(fb, text, n.x, n.y + dy, colorIdx)
+      renderText(fb, text, n.x, n.y + dy, colorIdx, glyphs)
     }
   }
 

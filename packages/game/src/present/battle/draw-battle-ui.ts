@@ -28,7 +28,7 @@
 import type { Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { BattleState } from '../../core/battle/battle-state.js'
 import type { GameState } from '../../core/game-state.js'
-import { renderText } from '../font.js'
+import { renderText, type GlyphTable } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 
 /** PAL 索引 1 —— 白色(M3 战斗 UI 默认前景色)。M5 时按 sdlpal `MENUITEM_COLOR_*` 真值。 */
@@ -89,20 +89,21 @@ export function drawBattleUI(
   spells: Spell[],
   items: Item[],
   gs: GameState,
+  glyphs?: GlyphTable,
 ): void {
-  drawPartyStatus(fb, state, playerRoles)
+  drawPartyStatus(fb, state, playerRoles, glyphs)
   switch (state.uiState) {
     case 'mainMenu':
-      drawMainMenu(fb, state, playerRoles)
+      drawMainMenu(fb, state, playerRoles, glyphs)
       break
     case 'magicMenu':
-      drawMagicMenu(fb, state, playerRoles, spells)
+      drawMagicMenu(fb, state, playerRoles, spells, glyphs)
       break
     case 'itemMenu':
-      drawItemMenu(fb, state, items, gs)
+      drawItemMenu(fb, state, items, gs, glyphs)
       break
     case 'targetSelect':
-      drawTargetCursor(fb, state)
+      drawTargetCursor(fb, state, glyphs)
       break
     case 'hidden':
       break
@@ -119,15 +120,16 @@ function drawPartyStatus(
   fb: Framebuffer,
   state: BattleState,
   playerRoles: PlayerRoles,
+  glyphs?: GlyphTable,
 ): void {
   state.players.forEach((p, i) => {
     const role = playerRoles.roles[p.roleId]
     if (!role) return
     const x = PARTY_STATUS_BASE_X + i * PARTY_STATUS_STRIDE_X
     const y = PARTY_STATUS_BASE_Y
-    renderText(fb, role._name ?? `P${i + 1}`, x, y, UI_TEXT_COLOR)
-    renderText(fb, `HP:${role.hp}/${role.maxHP}`, x, y + 8, UI_TEXT_COLOR)
-    renderText(fb, `MP:${role.mp}/${role.maxMP}`, x, y + 16, UI_TEXT_COLOR)
+    renderText(fb, role._name ?? `P${i + 1}`, x, y, UI_TEXT_COLOR, glyphs)
+    renderText(fb, `HP:${role.hp}/${role.maxHP}`, x, y + 8, UI_TEXT_COLOR, glyphs)
+    renderText(fb, `MP:${role.mp}/${role.maxMP}`, x, y + 16, UI_TEXT_COLOR, glyphs)
   })
 }
 
@@ -140,13 +142,14 @@ function drawMainMenu(
   fb: Framebuffer,
   state: BattleState,
   playerRoles: PlayerRoles,
+  glyphs?: GlyphTable,
 ): void {
   if (state.selectingPlayerIdx === undefined) return
   const player = state.players[state.selectingPlayerIdx]
   if (!player) return
   const role = playerRoles.roles[player.roleId]
   if (!role) return
-  renderText(fb, `${role._name ?? 'P'} 行动:`, MENU_BASE_X, MENU_BASE_Y, UI_TEXT_COLOR)
+  renderText(fb, `${role._name ?? 'P'} 行动:`, MENU_BASE_X, MENU_BASE_Y, UI_TEXT_COLOR, glyphs)
   MAIN_MENU.forEach((it, i) => {
     const prefix = i === state.uiCursor ? '> ' : '  '
     renderText(
@@ -155,6 +158,7 @@ function drawMainMenu(
       MENU_BASE_X,
       MENU_BASE_Y + (i + 1) * MENU_ITEM_STRIDE_Y + 3,
       UI_TEXT_COLOR,
+      glyphs,
     )
   })
 }
@@ -171,6 +175,7 @@ function drawMagicMenu(
   state: BattleState,
   playerRoles: PlayerRoles,
   spells: Spell[],
+  glyphs?: GlyphTable,
 ): void {
   if (state.selectingPlayerIdx === undefined) return
   const player = state.players[state.selectingPlayerIdx]
@@ -179,8 +184,8 @@ function drawMagicMenu(
   if (!role) return
   const learned: number[] = (role as unknown as { learnedSpells?: number[] }).learnedSpells ?? []
   if (learned.length === 0) {
-    renderText(fb, '(无法术)', MENU_BASE_X, MENU_BASE_Y, UI_TEXT_COLOR)
-    renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 20, UI_TEXT_COLOR)
+    renderText(fb, '(无法术)', MENU_BASE_X, MENU_BASE_Y, UI_TEXT_COLOR, glyphs)
+    renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 20, UI_TEXT_COLOR, glyphs)
     return
   }
   learned.slice(0, 5).forEach((spellId, i) => {
@@ -193,9 +198,10 @@ function drawMagicMenu(
       MENU_BASE_X,
       MENU_BASE_Y + i * MENU_ITEM_STRIDE_Y,
       UI_TEXT_COLOR,
+      glyphs,
     )
   })
-  renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 70, UI_TEXT_COLOR)
+  renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 70, UI_TEXT_COLOR, glyphs)
 }
 
 /**
@@ -209,12 +215,13 @@ function drawItemMenu(
   state: BattleState,
   items: Item[],
   gs: GameState,
+  glyphs?: GlyphTable,
 ): void {
   if (state.selectingPlayerIdx === undefined) return
   const inventory = gs.inventory.filter(e => e.count > 0)
   if (inventory.length === 0) {
-    renderText(fb, '(无物品)', MENU_BASE_X, MENU_BASE_Y, UI_TEXT_COLOR)
-    renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 20, UI_TEXT_COLOR)
+    renderText(fb, '(无物品)', MENU_BASE_X, MENU_BASE_Y, UI_TEXT_COLOR, glyphs)
+    renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 20, UI_TEXT_COLOR, glyphs)
     return
   }
   inventory.slice(0, 5).forEach((entry, i) => {
@@ -227,9 +234,10 @@ function drawItemMenu(
       MENU_BASE_X,
       MENU_BASE_Y + i * MENU_ITEM_STRIDE_Y,
       UI_TEXT_COLOR,
+      glyphs,
     )
   })
-  renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 70, UI_TEXT_COLOR)
+  renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 70, UI_TEXT_COLOR, glyphs)
 }
 
 /**
@@ -241,7 +249,7 @@ function drawItemMenu(
  * - 无敌人(全 dead 但 phase 还在 selectAction)→ no-op,不抛。
  * - uiCursor 超界 → clamp 到最后一个敌人。
  */
-function drawTargetCursor(fb: Framebuffer, state: BattleState): void {
+function drawTargetCursor(fb: Framebuffer, state: BattleState, glyphs?: GlyphTable): void {
   if (state.enemies.length === 0) return
   const targetIdx = Math.min(Math.max(state.uiCursor, 0), state.enemies.length - 1)
   const pos = ENEMY_POSITIONS[targetIdx]
@@ -252,5 +260,6 @@ function drawTargetCursor(fb: Framebuffer, state: BattleState): void {
     pos.x + TARGET_CURSOR_DX,
     pos.y + TARGET_CURSOR_DY,
     UI_TEXT_COLOR,
+    glyphs,
   )
 }

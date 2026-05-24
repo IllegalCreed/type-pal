@@ -1,6 +1,6 @@
 import type { DialogBoxStyle } from '@type-pal/shared'
 import { type Framebuffer, SCREEN_W, SCREEN_H } from './framebuffer.js'
-import { renderText } from './font.js'
+import { renderText, type GlyphTable } from './font.js'
 
 // M2 简化:0 = 调色板下标 0(原版通常黑色)。
 // TODO(M3): 改成真实对话框背景色的调色板下标(原版 palette 里的深蓝/深灰)。
@@ -28,6 +28,7 @@ export function drawDialogBox(
   fb: Framebuffer,
   text: string,
   style: DialogBoxStyle,
+  glyphs?: GlyphTable,
 ): void {
   const x0 = BOX_X
   const y0 = boxYFor(style)
@@ -39,5 +40,5 @@ export function drawDialogBox(
       fb.writePixel(x0 + x, y0 + y, isBorder ? BOX_BORDER : BOX_BG)
     }
   }
-  renderText(fb, text, x0 + TEXT_MARGIN_X, y0 + TEXT_MARGIN_Y, TEXT_COLOR)
+  renderText(fb, text, x0 + TEXT_MARGIN_X, y0 + TEXT_MARGIN_Y, TEXT_COLOR, glyphs)
 }

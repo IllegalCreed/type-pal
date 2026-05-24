@@ -6,12 +6,15 @@ import { type Framebuffer, SCREEN_W, SCREEN_H } from './framebuffer.js'
 import { drawTilemap, type TileImages } from './draw-tilemap.js'
 import { drawSprite, type SpriteImage } from './draw-sprite.js'
 import { drawDialogBox } from './draw-dialog-box.js'
+import type { GlyphTable } from './font.js'
 
 export interface PresentContext {
   tilemap: Tilemap
   tileImages: TileImages
   partySprite: SpriteImage
   npcSprites: Map<number, SpriteImage>
+  /** M4 P4.T3: Unifont glyph table(启动时 loadGlyphs 注入,缺省则所有文字渲染为 tofu)。 */
+  glyphs?: GlyphTable
 }
 
 const TILE_W = 32
@@ -59,7 +62,7 @@ export function presentFrame(
 
   // 4. 对话框(最上层)
   if (gs.dialogBox) {
-    drawDialogBox(fb, gs.dialogBox.text, gs.dialogBox.style)
+    drawDialogBox(fb, gs.dialogBox.text, gs.dialogBox.style, ctx.glyphs)
   }
 }
 

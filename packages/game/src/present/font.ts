@@ -1,30 +1,141 @@
 /**
- * 字体渲染 —— M2 简化:每个字符画 8×16 占位框。
- * 真字形(Unifont CN BDF/hex 解析)留 M3+ 补,不阻塞 M2 端到端验证。
+ * 字符渲染(M4 P4.T3)。
+ * 真 glyph blit:UTF-8 codepoint → GlyphTable → 16×16 indexed bitmap → blit。
+ * 数据源:data/extracted/data/font/glyphs.json(Unifont CN BDF 预处理产物)。
+ *
+ * API 兼容说明:
+ *   renderText(fb, text, x, y, color) — glyphs 默认 fallback(tofu 框占位)
+ *   renderText(fb, text, x, y, color, glyphs) — 真字形 blit
+ * 删除 M2 8×16 色块占位代码。
  */
 
 import type { Framebuffer } from './framebuffer.js'
 
-const GLYPH_W = 8
-const GLYPH_H = 16
-/** 占位用:字符内部填色,区别于边框以便目视识别占位框。M3 替换 renderText 时删除。 */
-const GLYPH_INTERIOR_FILL = 200
+export interface Glyph {
+  width: number    // 8 (ASCII half-width) or 16 (CJK full-width)
+  height: number   // 16
+  bitmap: Uint8Array
+}
 
+export interface GlyphTable {
+  has(codepoint: number): boolean
+  get(codepoint: number): Glyph | undefined
+}
+
+// ── Tofu fallback(16×16 空心框,渲染未加载字形时显示) ────────────────
+
+const TOFU_BITMAP: Uint8Array = (() => {
+  const b = new Uint8Array(32)
+  // 顶行 + 底行全亮
+  b[0] = 0xFF; b[1] = 0xFE
+  b[30] = 0xFF; b[31] = 0xFE
+  // 中间行只有最左最右各一像素
+  for (let r = 1; r < 15; r++) {
+    b[r * 2] = 0x80
+    b[r * 2 + 1] = 0x02
+  }
+  return b
+})()
+
+const TOFU_GLYPH: Glyph = { width: 16, height: 16, bitmap: TOFU_BITMAP }
+
+// ── loadGlyphs(browser 环境,fetch glyphs.json) ────────────────────────
+
+export async function loadGlyphs(baseUrl = '/extracted'): Promise<GlyphTable> {
+  const res = await fetch(`${baseUrl}/data/font/glyphs.json`)
+  if (!res.ok) throw new Error(`font: fetch glyphs.json failed (${res.status})`)
+  const data = await res.json() as {
+    glyphs: { codepoint: number; width: number; height: number; bitmapBase64: string }[]
+  }
+  const map = new Map<number, Glyph>()
+  for (const g of data.glyphs) {
+    map.set(g.codepoint, {
+      width: g.width,
+      height: g.height,
+      bitmap: Uint8Array.from(atob(g.bitmapBase64), (c) => c.charCodeAt(0)),
+    })
+  }
+  return {
+    has: (cp) => map.has(cp),
+    get: (cp) => map.get(cp),
+  }
+}
+
+// ── 空 GlyphTable 占位(glyphs 未加载时用 tofu fallback) ──────────────
+
+const EMPTY_GLYPH_TABLE: GlyphTable = {
+  has: () => false,
+  get: () => undefined,
+}
+
+// ── Core blit ─────────────────────────────────────────────────────────
+
+function blitGlyph(
+  fb: Framebuffer,
+  x: number,
+  y: number,
+  glyph: Glyph,
+  fgColor: number,
+): void {
+  const bytesPerRow = Math.ceil(glyph.width / 8)
+  for (let row = 0; row < glyph.height; row++) {
+    for (let col = 0; col < glyph.width; col++) {
+      const byteIdx = row * bytesPerRow + Math.floor(col / 8)
+      const bit = (glyph.bitmap[byteIdx]! >> (7 - (col % 8))) & 1
+      if (bit) {
+        fb.writePixel(x + col, y + row, fgColor)
+      }
+    }
+  }
+}
+
+// ── Public API ────────────────────────────────────────────────────────
+
+/**
+ * 把 `text` 从 (x, y) 起 blit 到 framebuffer。
+ *
+ * @param fb        目标 Framebuffer
+ * @param text      要渲染的字符串
+ * @param x         起始 X(像素)
+ * @param y         起始 Y(像素)
+ * @param fgColor   调色板前景色下标
+ * @param glyphs    GlyphTable;省略时用空表(全 tofu 占位)
+ * @returns         渲染宽度(像素)
+ */
 export function renderText(
   fb: Framebuffer,
   text: string,
-  startX: number,
-  startY: number,
-  colorIndex: number,
-): void {
-  let x = startX
-  for (const _ch of text) {
-    for (let py = 0; py < GLYPH_H; py++) {
-      for (let px = 0; px < GLYPH_W; px++) {
-        const onEdge = py === 0 || py === GLYPH_H - 1 || px === 0 || px === GLYPH_W - 1
-        fb.writePixel(x + px, startY + py, onEdge ? colorIndex : GLYPH_INTERIOR_FILL)
-      }
-    }
-    x += GLYPH_W
+  x: number,
+  y: number,
+  fgColor: number,
+  glyphs: GlyphTable = EMPTY_GLYPH_TABLE,
+): number {
+  let cursorX = x
+  for (const ch of text) {
+    const cp = ch.codePointAt(0)!
+    const g = glyphs.get(cp) ?? TOFU_GLYPH
+    blitGlyph(fb, cursorX, y, g, fgColor)
+    cursorX += g.width
   }
+  return cursorX - x
+}
+
+/**
+ * 测量 `text` 渲染后的总像素宽度(不写 fb)。
+ *
+ * @param text    要测量的字符串
+ * @param glyphs  GlyphTable;省略时全字符按 16px 宽计
+ * @returns       总宽度(像素)
+ */
+export function measureText(
+  text: string,
+  glyphs: GlyphTable = EMPTY_GLYPH_TABLE,
+): number {
+  let w = 0
+  for (const ch of text) {
+    const cp = ch.codePointAt(0)!
+    const g = glyphs.get(cp)
+    w += g?.width ?? 16
+  }
+  return w
 }

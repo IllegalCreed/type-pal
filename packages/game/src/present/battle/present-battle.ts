@@ -31,6 +31,7 @@ import type { BattleState } from '../../core/battle/battle-state.js'
 import type { BusEntry } from '../../core/command-bus.js'
 import type { GameState } from '../../core/game-state.js'
 import type { Framebuffer } from '../framebuffer.js'
+import type { GlyphTable } from '../font.js'
 import { type BattleBgAsset, drawBattleBg } from './draw-battle-bg.js'
 import { FloatingNumsLayer } from './draw-battle-num.js'
 import { drawBattleSprites, type SpriteAsset } from './draw-battle-sprites.js'
@@ -46,6 +47,8 @@ export interface BattleAssets {
   items: Item[]
   /** M3.5:ENEMYPOS table 真值(DATA.MKF chunk 13)— drawBattleSprites enemy 位置。 */
   enemyPos?: EnemyPosTable
+  /** M4 P4.T3: Unifont glyph table(启动时 loadGlyphs 注入,缺省则战斗文字渲染为 tofu)。 */
+  glyphs?: GlyphTable
 }
 
 /**
@@ -97,10 +100,10 @@ export class BattlePresent {
     drawBattleSprites(fb, state, assets.battleSprites, assets.playerRoles, assets.enemyPos)
 
     // 4. 数字弹幕(在精灵之上;过期数字自动清理)
-    this.floatingNums.draw(fb, currentFrame)
+    this.floatingNums.draw(fb, currentFrame, assets.glyphs)
 
     // 5. UI overlay(主菜单 / 二级菜单 / 目标光标 / HP/MP 状态栏)
-    drawBattleUI(fb, state, assets.playerRoles, assets.spells, assets.items, gs)
+    drawBattleUI(fb, state, assets.playerRoles, assets.spells, assets.items, gs, assets.glyphs)
   }
 
   /** 战斗结束时清空数字弹幕,避免下次战斗看到上次残留。 */

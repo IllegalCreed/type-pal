@@ -1,6 +1,7 @@
 import type { EventFile, SceneEventObject, Tilemap } from '@type-pal/shared'
 import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
 import { fetchPalette, loadAll, SceneAssetsCache, type SceneAssets, type SceneFetcher } from '../assets/loader.js'
+import { loadGlyphs } from '../present/font.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, npcFromEventObject } from '../core/game-state.js'
 import { buildLabelMap, setFetchPalette } from '../core/event-system.js'
@@ -40,7 +41,15 @@ export function showError(canvas: HTMLCanvasElement, msg: string): void {
 }
 
 export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
-  const assets = await loadAll(SCENE_ID)
+  // M4 P4.T3: loadGlyphs 与 loadAll 并行加载(glyphs.json 7.8MB,不阻塞 tiles/sprites)。
+  // glyphs 加载失败则 warn + 继续(所有文字退化为 tofu 占位,不影响游戏可运行性)。
+  const [assets, glyphs] = await Promise.all([
+    loadAll(SCENE_ID),
+    loadGlyphs().catch((err: unknown) => {
+      console.warn('[bootstrap] loadGlyphs failed, text will render as tofu:', err)
+      return undefined
+    }),
+  ])
 
   const {
     tilemap, palette, scene, events, playerRoles, tileImages, characterSprites,
@@ -122,6 +131,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     tileImages: { get: (i) => tileImagesBySceneId.get(currentSceneId)?.get(i) },
     partySprite,
     npcSprites,
+    glyphs,
   }
 
   // M3 T28/T29:战斗一帧装配 —— BattlePresent 持有 floating nums 跨帧状态;
@@ -134,6 +144,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     spells,
     items,
     enemyPos,
+    glyphs,
   }
 
   const bus = createCommandBus()
