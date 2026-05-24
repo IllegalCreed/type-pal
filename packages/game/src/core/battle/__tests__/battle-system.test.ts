@@ -767,3 +767,78 @@ describe('多轮战斗集成', () => {
     void consoleWarn // silence unused
   })
 })
+
+// ============================================================================
+// tickSelectAction 端到端 input 序列(M3.5 T15)
+// ============================================================================
+
+describe('tickSelectAction 端到端 input 序列(M3.5 T15)', () => {
+  function snap(pressed: Array<'Up' | 'Down' | 'Left' | 'Right' | 'Confirm' | 'Cancel' | 'Menu'> = []): InputSnapshot {
+    return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
+  }
+
+  it('攻击路径:Confirm → targetSelect → Right → Cancel → mainMenu → Confirm → Confirm → pendingActions + performAction', () => {
+    // 单 player + 2 enemy fixture(让 targetSelect Right 真能切到 idx 1)
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 200 })],
+      teamSlots: [100, 200, 0xFFFF, 0xFFFF, 0xFFFF],
+    })
+
+    // preBattle → selectAction(uiState=mainMenu, uiCursor=0)
+    tickBattle(gs, emptyInput, bus)
+    expect(gs.battleState?.phase).toBe('selectAction')
+    expect(gs.battleState?.uiState).toBe('mainMenu')
+    expect(gs.battleState?.uiCursor).toBe(0)
+
+    // Step 1: Confirm 选攻击 → targetSelect
+    tickBattle(gs, snap(['Confirm']), bus)
+    expect(gs.battleState?.uiState).toBe('targetSelect')
+    expect(gs.battleState?.uiCursor).toBe(0)
+    expect(gs.battleState?.pendingActionDraft).toEqual({ type: 'attack' })
+
+    // Step 2: Right → target 切到 idx 1
+    tickBattle(gs, snap(['Right']), bus)
+    expect(gs.battleState?.uiCursor).toBe(1)
+    expect(gs.battleState?.uiState).toBe('targetSelect')
+
+    // Step 3: Cancel → 回 mainMenu + 清 draft + cursor=0
+    tickBattle(gs, snap(['Cancel']), bus)
+    expect(gs.battleState?.uiState).toBe('mainMenu')
+    expect(gs.battleState?.uiCursor).toBe(0)
+    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
+    expect(gs.battleState?.pendingActions.has(0)).toBe(false)
+
+    // Step 4: 再 Confirm 选攻击 → targetSelect
+    tickBattle(gs, snap(['Confirm']), bus)
+    expect(gs.battleState?.uiState).toBe('targetSelect')
+    expect(gs.battleState?.uiCursor).toBe(0)
+    expect(gs.battleState?.pendingActionDraft).toEqual({ type: 'attack' })
+
+    // Step 5: Confirm 选 target 0 → pendingActions 落 + 单队员 → 切 performAction
+    tickBattle(gs, snap(['Confirm']), bus)
+    const action = gs.battleState!.pendingActions.get(0)!
+    expect(action.type).toBe('attack')
+    expect(action.target).toBe(0)
+    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
+
+    // Step 6: 单 player fixture → pendingActions 全填 → 切 performAction
+    expect(gs.battleState?.phase).toBe('performAction')
+  })
+
+  it('防御路径:cursor=3 + Confirm → 直接填 pendingActions + 切 performAction', () => {
+    const { gs, bus, emptyInput } = bootstrap()
+
+    // preBattle → selectAction
+    tickBattle(gs, emptyInput, bus)
+    expect(gs.battleState?.uiState).toBe('mainMenu')
+
+    // cursor=3 = 防御;Confirm → 不进 targetSelect,直接落 pendingActions
+    gs.battleState!.uiCursor = 3
+    tickBattle(gs, snap(['Confirm']), bus)
+    expect(gs.battleState?.pendingActions.has(0)).toBe(true)
+    const action = gs.battleState!.pendingActions.get(0)!
+    expect(action.type).toBe('defend')
+    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
+    expect(gs.battleState?.phase).toBe('performAction')
+  })
+})
