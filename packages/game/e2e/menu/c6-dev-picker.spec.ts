@@ -2,10 +2,10 @@ import { test, expect } from '@playwright/test'
 import { bootstrap } from '../helpers/bootstrap.js'
 
 /**
- * c6 dev panel picker:DOM 浮层,validate 标题 / 3 fixture / 5 scene jump / Cancel 关。
- * scene jump IDs 真值 from M3.5 T16 scene-jumps.json。
+ * c6 dev panel picker:DOM 浮层,validate 标题 / 3 fixture / scene jump input filter / Cancel 关。
+ * M4 P3 T6:scene jump 扩 294 entries,UI 改 input + filter list(前 30)。
  */
-test('c6 dev panel picker — B 弹 + 3 fixture + 5 scene jump + Cancel 关', async ({ page }) => {
+test('c6 dev panel picker — B 弹 + 3 fixture + scene jump input filter + Cancel 关', async ({ page }) => {
   await bootstrap(page)
 
   await page.keyboard.press('b')
@@ -16,11 +16,13 @@ test('c6 dev panel picker — B 弹 + 3 fixture + 5 scene jump + Cancel 关', as
   await expect(page.locator('button:has-text("fixture-end")')).toBeVisible()
 
   await expect(page.locator('text=Dev: Scene Jump')).toBeVisible()
-  await expect(page.locator('button:has-text("scene-1")').first()).toBeVisible()
-  await expect(page.locator('button:has-text("scene-14-port")')).toBeVisible()
-  await expect(page.locator('button:has-text("scene-15-mob")')).toBeVisible()
-  await expect(page.locator('button:has-text("scene-16-corridor")')).toBeVisible()
-  await expect(page.locator('button:has-text("scene-17-maze")')).toBeVisible()
+  // input filter 存在
+  await expect(page.locator('input[placeholder*="scene id"]')).toBeVisible()
+  // 默认列出前 30 条;scene-1 在前 30 内
+  await expect(page.locator('button:has-text("scene-1 (map-")').first()).toBeVisible()
+  // filter "17" → scene-17 等
+  await page.fill('input[placeholder*="scene id"]', '17')
+  await expect(page.locator('button:has-text("scene-17 (map-")')).toBeVisible()
 
   await page.click('button:has-text("Cancel")')
   await expect(page.locator('text=Dev: Battle Picker')).not.toBeVisible()

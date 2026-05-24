@@ -50,9 +50,20 @@ export async function selectBattleFixture(page: Page, fixtureId: string): Promis
   await page.waitForTimeout(300) // 让 battle UI 全渲染一帧
 }
 
-/** 点 picker 内 scene jump 按钮(text 含 jumpId)。 */
+/**
+ * 点 picker 内 scene jump 按钮。
+ * M4 P3 T6:scene picker 改 input + filter list。
+ * jumpId 可传 sceneId 数字字符串(如 "14")或 label 子串;helper 会先在 input 填入 filter,
+ * 再点第一个匹配按钮。
+ */
 export async function selectSceneJump(page: Page, jumpId: string): Promise<void> {
-  await page.click(`button:has-text("${jumpId}")`)
+  // 提取纯数字部分用于 filter(若 jumpId 包含非数字前缀如 "scene-14-port" 则取 "14")
+  const numMatch = jumpId.match(/\d+/)
+  const filter = numMatch ? numMatch[0] : jumpId
+  const input = page.locator('input[placeholder*="scene id"]')
+  await input.fill(filter)
+  // filter 后点第一个匹配的 scene 按钮
+  await page.locator(`button:has-text("scene-${filter} (")`).first().click()
   // dev jump 是 async loadScene + applySceneAssetsToPresent,等几百 ms 让 fetch + apply 完
   await page.waitForTimeout(500)
 }

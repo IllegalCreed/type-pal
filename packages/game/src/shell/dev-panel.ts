@@ -55,6 +55,7 @@ export interface SceneJump {
   id: string
   label: string
   sceneId: number
+  mapNum?: number
   partyStart: { col: number; row: number; facing: string }
 }
 
@@ -147,22 +148,46 @@ function openPicker(deps: DevPanelDeps): void {
     div.appendChild(btn)
   }
 
-  // T16:scene jump section —— stub,T17 接真 loadScene。
+  // M4 P3 T6: scene jump section —— input + filter list(294 entries)。
   const sceneH = document.createElement('h3')
   sceneH.textContent = 'Dev: Scene Jump'
   sceneH.style.cssText = 'margin: 12px 0 8px 0; font-size: 14px'
   div.appendChild(sceneH)
 
-  for (const jump of deps.sceneJumps.jumps) {
-    const btn = document.createElement('button')
-    btn.textContent = `${jump.id}: ${jump.label}`
-    btn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width: 100%; text-align: left'
-    btn.addEventListener('click', () => {
-      closePicker()
-      void applySceneJump(deps, jump)
-    })
-    div.appendChild(btn)
+  const sceneInput = document.createElement('input')
+  sceneInput.type = 'text'
+  sceneInput.placeholder = 'scene id / map id (1-294)'
+  sceneInput.style.cssText = 'width:200px; margin-bottom:6px; padding:3px 6px; font-family:monospace; font-size:12px'
+  div.appendChild(sceneInput)
+
+  const sceneList = document.createElement('div')
+  sceneList.style.cssText = 'max-height:200px; overflow-y:auto'
+  div.appendChild(sceneList)
+
+  const renderSceneList = (filter: string): void => {
+    sceneList.textContent = ''
+    const filtered = deps.sceneJumps.jumps.filter((e) => {
+      if (!filter) return true
+      return (
+        String(e.sceneId).includes(filter)
+        || e.label.includes(filter)
+        || (e.mapNum !== undefined && String(e.mapNum).includes(filter))
+      )
+    }).slice(0, 30)
+    for (const jump of filtered) {
+      const btn = document.createElement('button')
+      btn.textContent = jump.label
+      btn.style.cssText = 'display:block; margin:2px 0; padding:3px 8px; width:100%; text-align:left; font-family:monospace; font-size:11px'
+      btn.addEventListener('click', () => {
+        closePicker()
+        void applySceneJump(deps, jump)
+      })
+      sceneList.appendChild(btn)
+    }
   }
+
+  sceneInput.addEventListener('input', () => renderSceneList(sceneInput.value.trim()))
+  renderSceneList('')
 
   const cancel = document.createElement('button')
   cancel.textContent = 'Cancel'
