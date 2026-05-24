@@ -17,7 +17,8 @@ test('a2 队长 sprite — 初始(facing=down)', async ({ page }) => {
   expect(diff).toBe(0)
 })
 
-// facing 4 方向 — 按方向键后立即截图(走路 tick 也会同时发生,但 sprite frame 切到对应朝向)
+// facing 4 方向 — 用 down(key) hold 50ms(< walk tick 120ms)只触 face,不走路,
+// 然后 up + 短缓冲。Playwright press() 太快 input.held 来不及 register,M3.5 ⚠️ #10。
 test('a2 队长 sprite — facing 4 方向切换', async ({ page }) => {
   await bootstrap(page)
 
@@ -26,10 +27,12 @@ test('a2 队长 sprite — facing 4 方向切换', async ({ page }) => {
     { key: 'ArrowDown', name: 'down' },
     { key: 'ArrowLeft', name: 'left' },
     { key: 'ArrowUp', name: 'up' },
-  ]
+  ] as const
 
   for (const { key, name } of facings) {
-    await page.keyboard.press(key)
+    await page.keyboard.down(key)
+    await page.waitForTimeout(150)
+    await page.keyboard.up(key)
     await page.waitForTimeout(150)
 
     const actual = await snapshotCanvas(page)
