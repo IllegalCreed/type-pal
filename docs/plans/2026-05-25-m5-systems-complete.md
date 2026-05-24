@@ -3430,6 +3430,39 @@ P0.0 plan 原文有几处实施缺陷,跑通后 `pnpm dev` 自测时暴露。**�
 - Sync.1 GameState 扩字段时,`wNumMusic` 已在 P0.e applyRawOpcode playMusic handler 写入,需确保字段存在。
 - I-w0.1 EventObject schema 扩 sState:P0.e setSceneObjectState 目前 no-op,完工后可接真字段。
 
+### P0.e 实施过程发现 · dev panel 直跳不可达 fix (2026-05-25)
+
+**问题触发:** user 测试发现 scene 15(草妖)dev panel 直跳后 party 落不可达区。
+
+**根因:** scene 15 的 `wScriptOnEnter`(L_4203)只有 `raw opcode 74`(setBattlefield)然后 `end`,不调 setPartyPos。原游戏由邻接 scene 的 trigger script 在 loadScene 之前 setPartyPos 设好 party 位置,dev panel 直跳缺"前 scene context"。
+
+**识别清单:** 扫 295 个 scene events,识别出 **93 个** wScriptOnEnter 不含 setPartyPos(opcode 70)的 scene:
+- 典型 scene:4/6/15/16/17/18/19/22/33~279 中大量 mid/late-game scene
+- 列表前 10 个:scene-4(map-1)、scene-6(map-4)、scene-15(map-7)、scene-16(map-119)、scene-17(map-6)、scene-18(map-25)、scene-19(map-8)、scene-22(map-23)、scene-33(map-50)、scene-35(map-15)
+
+**选 partyStart 策略(两档):**
+- **优先级 a(caller 反推)**:在其他 scene 的 event commands 里找 `loadScene(targetId)` 调用,往前扫最多 20 条找 setPartyPos(opcode 70),提取 `[col, row, h]` 换算 pixel。成功 10 个 scene:scene-4/6/16/18/22/60/147/175/228/270/293。
+- **优先级 b(BFS 中心)**:对 scene 的 tilemap 跑 BFS(半 tile 步长 16/8px,8 邻居),取最大连通区中间点。成功 83 个 scene。连通区 size 通常 2 万~3.2 万 pixels,表明 BFS 质量良好。
+- **边界修正**:2 个 scene(49、180)BFS 给出 x=0 边界点,调整为内陆点(100,900)/(100,600)。
+
+**写入位置:** `packages/game/src/data/scene-jumps.json` — 仅对 93 个 scene 加 `partyStart` + `_devNote`;其他 scene(有 setPartyPos enter script)不加,继续走 enter script。`scene-15-mob` 因同 sceneId=15 同样获得 partyStart fallback。共 94 个 jump entry 有 partyStart(295 中)。
+
+**partyStart pixel pos 示例:**
+- scene-15(map-7): x=1152, y=984 (BFS center, 验证 walkable=True)
+- scene-4(map-1): x=1568, y=1504 (caller-scene-1 ops=[49,94,0])
+- scene-16(map-119): x=416, y=1664 (caller-scene-14 ops=[13,104,0])
+- scene-22(map-23): x=1360, y=1688 (caller-scene-5 ops=[42,105,1])
+
+**e2e 影响:**
+- a8 P0.e 测试:更新断言(party.x=1152, party.y=984 取代旧 1312,288)
+- a1/a2/a3/a7/a8/a9 + c1 visual baselines:全部因 partyStart 更改后重生(`UPDATE_BASELINES=1`)
+- 最终: 31/31 pass,0 skip
+
+**M5.5 audit 启发:**
+- 所有 scene 的"原游戏入口位置"可通过批量爬 loadScene 调用前的 setPartyPos 真值获得(已有 caller-反推脚本)
+- M5.5 时应将 caller 反推覆盖更多 scene,BFS fallback 只留无法找到 caller 的 scene
+- 工具脚本: `packages/pal-extract/scripts/find-scenes-without-setpartypos.mjs`(可复用)
+
 ## Sync 段
 
 (实施时累积)

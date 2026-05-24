@@ -38,9 +38,10 @@ test('a8 scene 切换 — scene 1 vs 仙灵岛入口(14)视觉差异 + 各自 ba
 })
 
 test('a8 scene 切换 — P0.e: wScriptOnEnter 设起点(非 hardcode partyStart)', async ({ page }) => {
-  // P0.e: scene-jumps.json 已删 partyStart,loadScene 走 wScriptOnEnter → setPartyPos。
-  // scene 15 无 onEnterLabel → party 留 scene-1 跑 enter script 后的坐标。
-  // 验 mode=explore + party 在非 (0,0) 合理坐标。
+  // P0.e: scene-jumps.json 为 wScriptOnEnter 不含 setPartyPos 的 scene 加 dev-only partyStart fallback。
+  // scene 15 的 wScriptOnEnter(L_4203)只有 setBattlefield + end,不含 setPartyPos。
+  // dev panel 直跳时走 partyStart fallback(BFS 连通区中心 x=1152,y=984)。
+  // 验 mode=explore + party 在 BFS fallback 坐标(可走区,非不可达)。
   await bootstrap(page)
 
   // 先确认 scene-1 的 enter script 把 party 放到正确位置(col=41,row=18 → x=1312,y=288)
@@ -61,7 +62,8 @@ test('a8 scene 切换 — P0.e: wScriptOnEnter 设起点(非 hardcode partyStart
   )
   // mode 应是 explore
   expect(gs.mode).toBe('explore')
-  // scene-15 无 onEnterLabel → party 坐标保留 (1312,288) 不动
-  expect(gs.party.x).toBe(1312)
-  expect(gs.party.y).toBe(288)
+  // scene-15 wScriptOnEnter 不含 setPartyPos → 走 partyStart fallback(BFS center)
+  // BFS 连通区中心 (1152, 984),确认 party 落在可走区
+  expect(gs.party.x).toBe(1152)
+  expect(gs.party.y).toBe(984)
 })

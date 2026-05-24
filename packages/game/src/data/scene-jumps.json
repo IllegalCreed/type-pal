@@ -22,7 +22,13 @@
       "id": "scene-4",
       "label": "scene-4 (map-1)",
       "sceneId": 4,
-      "mapNum": 1
+      "mapNum": 1,
+      "partyStart": {
+        "x": 1568,
+        "y": 1504,
+        "facing": "down",
+        "_devNote": "scene 4 wScriptOnEnter(L_1) 不含 setPartyPos；原游戏由 caller-scene-1 trigger loadScene 前的 setPartyPos [49, 94, 0] 进入。dev-only fallback。"
+      }
     },
     {
       "id": "scene-5",
@@ -34,7 +40,13 @@
       "id": "scene-6",
       "label": "scene-6 (map-4)",
       "sceneId": 6,
-      "mapNum": 4
+      "mapNum": 4,
+      "partyStart": {
+        "x": 256,
+        "y": 1648,
+        "facing": "down",
+        "_devNote": "scene 6 wScriptOnEnter(L_20) 不含 setPartyPos；原游戏由 caller-scene-4 trigger loadScene 前的 setPartyPos [8, 103, 0] 进入。dev-only fallback。"
+      }
     },
     {
       "id": "scene-7",
@@ -88,37 +100,73 @@
       "id": "scene-15",
       "label": "scene-15 (map-7)",
       "sceneId": 15,
-      "mapNum": 7
+      "mapNum": 7,
+      "partyStart": {
+        "x": 1152,
+        "y": 984,
+        "facing": "down",
+        "_devNote": "scene 15 wScriptOnEnter(L_4203) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31422。"
+      }
     },
     {
       "id": "scene-15-mob",
       "label": "scene-15-mob (map-7, 草妖通道)",
       "sceneId": 15,
-      "mapNum": 7
+      "mapNum": 7,
+      "partyStart": {
+        "x": 1152,
+        "y": 984,
+        "facing": "down",
+        "_devNote": "scene 15 wScriptOnEnter(L_4203) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31422。"
+      }
     },
     {
       "id": "scene-16",
       "label": "scene-16 (map-119)",
       "sceneId": 16,
-      "mapNum": 119
+      "mapNum": 119,
+      "partyStart": {
+        "x": 416,
+        "y": 1664,
+        "facing": "down",
+        "_devNote": "scene 16 wScriptOnEnter(L_5231) 不含 setPartyPos；原游戏由 caller-scene-14 trigger loadScene 前的 setPartyPos [13, 104, 0] 进入。dev-only fallback。"
+      }
     },
     {
       "id": "scene-17",
       "label": "scene-17 (map-6)",
       "sceneId": 17,
-      "mapNum": 6
+      "mapNum": 6,
+      "partyStart": {
+        "x": 320,
+        "y": 1064,
+        "facing": "down",
+        "_devNote": "scene 17 wScriptOnEnter(L_5137) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30394。"
+      }
     },
     {
       "id": "scene-18",
       "label": "scene-18 (map-25)",
       "sceneId": 18,
-      "mapNum": 25
+      "mapNum": 25,
+      "partyStart": {
+        "x": 576,
+        "y": 1152,
+        "facing": "down",
+        "_devNote": "scene 18 wScriptOnEnter(L_4205) 不含 setPartyPos；原游戏由 caller-scene-15 trigger loadScene 前的 setPartyPos [18, 72, 0] 进入。dev-only fallback。"
+      }
     },
     {
       "id": "scene-19",
       "label": "scene-19 (map-8)",
       "sceneId": 19,
-      "mapNum": 8
+      "mapNum": 8,
+      "partyStart": {
+        "x": 1056,
+        "y": 1048,
+        "facing": "down",
+        "_devNote": "scene 19 wScriptOnEnter(L_5622) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31568。"
+      }
     },
     {
       "id": "scene-20",
@@ -136,7 +184,13 @@
       "id": "scene-22",
       "label": "scene-22 (map-23)",
       "sceneId": 22,
-      "mapNum": 23
+      "mapNum": 23,
+      "partyStart": {
+        "x": 1360,
+        "y": 1688,
+        "facing": "down",
+        "_devNote": "scene 22 wScriptOnEnter(L_6956) 不含 setPartyPos；原游戏由 caller-scene-5 trigger loadScene 前的 setPartyPos [42, 105, 1] 进入。dev-only fallback。"
+      }
     },
     {
       "id": "scene-23",
@@ -202,7 +256,13 @@
       "id": "scene-33",
       "label": "scene-33 (map-50)",
       "sceneId": 33,
-      "mapNum": 50
+      "mapNum": 50,
+      "partyStart": {
+        "x": 1648,
+        "y": 1040,
+        "facing": "down",
+        "_devNote": "scene 33 wScriptOnEnter(L_36203) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31808。"
+      }
     },
     {
       "id": "scene-34",
@@ -214,19 +274,37 @@
       "id": "scene-35",
       "label": "scene-35 (map-15)",
       "sceneId": 35,
-      "mapNum": 15
+      "mapNum": 15,
+      "partyStart": {
+        "x": 1616,
+        "y": 1072,
+        "facing": "down",
+        "_devNote": "scene 35 wScriptOnEnter(L_36203) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30902。"
+      }
     },
     {
       "id": "scene-36",
       "label": "scene-36 (map-51)",
       "sceneId": 36,
-      "mapNum": 51
+      "mapNum": 51,
+      "partyStart": {
+        "x": 1552,
+        "y": 1032,
+        "facing": "down",
+        "_devNote": "scene 36 wScriptOnEnter(L_36201) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=32186。"
+      }
     },
     {
       "id": "scene-37",
       "label": "scene-37 (map-33)",
       "sceneId": 37,
-      "mapNum": 33
+      "mapNum": 33,
+      "partyStart": {
+        "x": 1488,
+        "y": 1032,
+        "facing": "down",
+        "_devNote": "scene 37 wScriptOnEnter(L_36201) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=32194。"
+      }
     },
     {
       "id": "scene-38",
@@ -256,19 +334,37 @@
       "id": "scene-42",
       "label": "scene-42 (map-39)",
       "sceneId": 42,
-      "mapNum": 39
+      "mapNum": 39,
+      "partyStart": {
+        "x": 1792,
+        "y": 992,
+        "facing": "down",
+        "_devNote": "scene 42 wScriptOnEnter(L_9412) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31424。"
+      }
     },
     {
       "id": "scene-43",
       "label": "scene-43 (map-44)",
       "sceneId": 43,
-      "mapNum": 44
+      "mapNum": 44,
+      "partyStart": {
+        "x": 528,
+        "y": 1024,
+        "facing": "down",
+        "_devNote": "scene 43 wScriptOnEnter(L_36201) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=32574。"
+      }
     },
     {
       "id": "scene-44",
       "label": "scene-44 (map-40)",
       "sceneId": 44,
-      "mapNum": 40
+      "mapNum": 40,
+      "partyStart": {
+        "x": 1648,
+        "y": 936,
+        "facing": "down",
+        "_devNote": "scene 44 wScriptOnEnter(L_9671) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=29586。"
+      }
     },
     {
       "id": "scene-45",
@@ -298,7 +394,13 @@
       "id": "scene-49",
       "label": "scene-49 (map-46)",
       "sceneId": 49,
-      "mapNum": 46
+      "mapNum": 46,
+      "partyStart": {
+        "x": 100,
+        "y": 900,
+        "facing": "down",
+        "_devNote": "scene 49 wScriptOnEnter(L_11112) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30789(edge-adjusted)。"
+      }
     },
     {
       "id": "scene-50",
@@ -328,19 +430,37 @@
       "id": "scene-54",
       "label": "scene-54 (map-59)",
       "sceneId": 54,
-      "mapNum": 59
+      "mapNum": 59,
+      "partyStart": {
+        "x": 672,
+        "y": 1008,
+        "facing": "down",
+        "_devNote": "scene 54 wScriptOnEnter(L_11107) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30810。"
+      }
     },
     {
       "id": "scene-55",
       "label": "scene-55 (map-60)",
       "sceneId": 55,
-      "mapNum": 60
+      "mapNum": 60,
+      "partyStart": {
+        "x": 544,
+        "y": 952,
+        "facing": "down",
+        "_devNote": "scene 55 wScriptOnEnter(L_11105) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30462。"
+      }
     },
     {
       "id": "scene-56",
       "label": "scene-56 (map-69)",
       "sceneId": 56,
-      "mapNum": 69
+      "mapNum": 69,
+      "partyStart": {
+        "x": 1392,
+        "y": 1000,
+        "facing": "down",
+        "_devNote": "scene 56 wScriptOnEnter(L_11758) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31246。"
+      }
     },
     {
       "id": "scene-57",
@@ -364,31 +484,61 @@
       "id": "scene-60",
       "label": "scene-60 (map-55)",
       "sceneId": 60,
-      "mapNum": 55
+      "mapNum": 55,
+      "partyStart": {
+        "x": 480,
+        "y": 288,
+        "facing": "down",
+        "_devNote": "scene 60 wScriptOnEnter(L_12500) 不含 setPartyPos；原游戏由 caller-scene-66 trigger loadScene 前的 setPartyPos [15, 18, 0] 进入。dev-only fallback。"
+      }
     },
     {
       "id": "scene-61",
       "label": "scene-61 (map-52)",
       "sceneId": 61,
-      "mapNum": 52
+      "mapNum": 52,
+      "partyStart": {
+        "x": 1104,
+        "y": 1040,
+        "facing": "down",
+        "_devNote": "scene 61 wScriptOnEnter(L_12506) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30958。"
+      }
     },
     {
       "id": "scene-62",
       "label": "scene-62 (map-56)",
       "sceneId": 62,
-      "mapNum": 56
+      "mapNum": 56,
+      "partyStart": {
+        "x": 1552,
+        "y": 1008,
+        "facing": "down",
+        "_devNote": "scene 62 wScriptOnEnter(L_12504) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31882。"
+      }
     },
     {
       "id": "scene-63",
       "label": "scene-63 (map-53)",
       "sceneId": 63,
-      "mapNum": 53
+      "mapNum": 53,
+      "partyStart": {
+        "x": 1472,
+        "y": 976,
+        "facing": "down",
+        "_devNote": "scene 63 wScriptOnEnter(L_12510) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=26258。"
+      }
     },
     {
       "id": "scene-64",
       "label": "scene-64 (map-54)",
       "sceneId": 64,
-      "mapNum": 54
+      "mapNum": 54,
+      "partyStart": {
+        "x": 1952,
+        "y": 784,
+        "facing": "down",
+        "_devNote": "scene 64 wScriptOnEnter(L_12512) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=21306。"
+      }
     },
     {
       "id": "scene-65",
@@ -406,61 +556,121 @@
       "id": "scene-67",
       "label": "scene-67 (map-73)",
       "sceneId": 67,
-      "mapNum": 73
+      "mapNum": 73,
+      "partyStart": {
+        "x": 1392,
+        "y": 976,
+        "facing": "down",
+        "_devNote": "scene 67 wScriptOnEnter(L_12925) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30830。"
+      }
     },
     {
       "id": "scene-68",
       "label": "scene-68 (map-61)",
       "sceneId": 68,
-      "mapNum": 61
+      "mapNum": 61,
+      "partyStart": {
+        "x": 544,
+        "y": 1008,
+        "facing": "down",
+        "_devNote": "scene 68 wScriptOnEnter(L_12651) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=29714。"
+      }
     },
     {
       "id": "scene-69",
       "label": "scene-69 (map-62)",
       "sceneId": 69,
-      "mapNum": 62
+      "mapNum": 62,
+      "partyStart": {
+        "x": 448,
+        "y": 992,
+        "facing": "down",
+        "_devNote": "scene 69 wScriptOnEnter(L_12929) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31326。"
+      }
     },
     {
       "id": "scene-70",
       "label": "scene-70 (map-63)",
       "sceneId": 70,
-      "mapNum": 63
+      "mapNum": 63,
+      "partyStart": {
+        "x": 1360,
+        "y": 1072,
+        "facing": "down",
+        "_devNote": "scene 70 wScriptOnEnter(L_12931) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30702。"
+      }
     },
     {
       "id": "scene-71",
       "label": "scene-71 (map-64)",
       "sceneId": 71,
-      "mapNum": 64
+      "mapNum": 64,
+      "partyStart": {
+        "x": 1280,
+        "y": 1056,
+        "facing": "down",
+        "_devNote": "scene 71 wScriptOnEnter(L_12931) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31150。"
+      }
     },
     {
       "id": "scene-72",
       "label": "scene-72 (map-65)",
       "sceneId": 72,
-      "mapNum": 65
+      "mapNum": 65,
+      "partyStart": {
+        "x": 496,
+        "y": 968,
+        "facing": "down",
+        "_devNote": "scene 72 wScriptOnEnter(L_12931) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31038。"
+      }
     },
     {
       "id": "scene-73",
       "label": "scene-73 (map-66)",
       "sceneId": 73,
-      "mapNum": 66
+      "mapNum": 66,
+      "partyStart": {
+        "x": 1472,
+        "y": 1024,
+        "facing": "down",
+        "_devNote": "scene 73 wScriptOnEnter(L_12931) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31480。"
+      }
     },
     {
       "id": "scene-74",
       "label": "scene-74 (map-67)",
       "sceneId": 74,
-      "mapNum": 67
+      "mapNum": 67,
+      "partyStart": {
+        "x": 560,
+        "y": 944,
+        "facing": "down",
+        "_devNote": "scene 74 wScriptOnEnter(L_12931) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=29732。"
+      }
     },
     {
       "id": "scene-75",
       "label": "scene-75 (map-68)",
       "sceneId": 75,
-      "mapNum": 68
+      "mapNum": 68,
+      "partyStart": {
+        "x": 1888,
+        "y": 896,
+        "facing": "down",
+        "_devNote": "scene 75 wScriptOnEnter(L_12931) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=28308。"
+      }
     },
     {
       "id": "scene-76",
       "label": "scene-76 (map-72)",
       "sceneId": 76,
-      "mapNum": 72
+      "mapNum": 72,
+      "partyStart": {
+        "x": 800,
+        "y": 952,
+        "facing": "down",
+        "_devNote": "scene 76 wScriptOnEnter(L_12925) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=28754。"
+      }
     },
     {
       "id": "scene-77",
@@ -472,19 +682,37 @@
       "id": "scene-78",
       "label": "scene-78 (map-75)",
       "sceneId": 78,
-      "mapNum": 75
+      "mapNum": 75,
+      "partyStart": {
+        "x": 176,
+        "y": 1016,
+        "facing": "down",
+        "_devNote": "scene 78 wScriptOnEnter(L_12933) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=32494。"
+      }
     },
     {
       "id": "scene-79",
       "label": "scene-79 (map-79)",
       "sceneId": 79,
-      "mapNum": 79
+      "mapNum": 79,
+      "partyStart": {
+        "x": 144,
+        "y": 1024,
+        "facing": "down",
+        "_devNote": "scene 79 wScriptOnEnter(L_12937) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30950。"
+      }
     },
     {
       "id": "scene-80",
       "label": "scene-80 (map-77)",
       "sceneId": 80,
-      "mapNum": 77
+      "mapNum": 77,
+      "partyStart": {
+        "x": 864,
+        "y": 1008,
+        "facing": "down",
+        "_devNote": "scene 80 wScriptOnEnter(L_12935) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31328。"
+      }
     },
     {
       "id": "scene-81",
@@ -514,13 +742,25 @@
       "id": "scene-85",
       "label": "scene-85 (map-92)",
       "sceneId": 85,
-      "mapNum": 92
+      "mapNum": 92,
+      "partyStart": {
+        "x": 1904,
+        "y": 1040,
+        "facing": "down",
+        "_devNote": "scene 85 wScriptOnEnter(L_13868) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31886。"
+      }
     },
     {
       "id": "scene-86",
       "label": "scene-86 (map-93)",
       "sceneId": 86,
-      "mapNum": 93
+      "mapNum": 93,
+      "partyStart": {
+        "x": 1600,
+        "y": 1040,
+        "facing": "down",
+        "_devNote": "scene 86 wScriptOnEnter(L_13868) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31928。"
+      }
     },
     {
       "id": "scene-87",
@@ -544,7 +784,13 @@
       "id": "scene-90",
       "label": "scene-90 (map-120)",
       "sceneId": 90,
-      "mapNum": 120
+      "mapNum": 120,
+      "partyStart": {
+        "x": 1440,
+        "y": 992,
+        "facing": "down",
+        "_devNote": "scene 90 wScriptOnEnter(L_14639) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31916。"
+      }
     },
     {
       "id": "scene-91",
@@ -556,7 +802,13 @@
       "id": "scene-92",
       "label": "scene-92 (map-85)",
       "sceneId": 92,
-      "mapNum": 85
+      "mapNum": 85,
+      "partyStart": {
+        "x": 2000,
+        "y": 992,
+        "facing": "down",
+        "_devNote": "scene 92 wScriptOnEnter(L_15363) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30972。"
+      }
     },
     {
       "id": "scene-93",
@@ -610,55 +862,109 @@
       "id": "scene-101",
       "label": "scene-101 (map-98)",
       "sceneId": 101,
-      "mapNum": 98
+      "mapNum": 98,
+      "partyStart": {
+        "x": 464,
+        "y": 960,
+        "facing": "down",
+        "_devNote": "scene 101 wScriptOnEnter(L_21512) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=29132。"
+      }
     },
     {
       "id": "scene-102",
       "label": "scene-102 (map-97)",
       "sceneId": 102,
-      "mapNum": 97
+      "mapNum": 97,
+      "partyStart": {
+        "x": 464,
+        "y": 1000,
+        "facing": "down",
+        "_devNote": "scene 102 wScriptOnEnter(L_21287) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30084。"
+      }
     },
     {
       "id": "scene-103",
       "label": "scene-103 (map-99)",
       "sceneId": 103,
-      "mapNum": 99
+      "mapNum": 99,
+      "partyStart": {
+        "x": 1504,
+        "y": 1000,
+        "facing": "down",
+        "_devNote": "scene 103 wScriptOnEnter(L_21561) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31592。"
+      }
     },
     {
       "id": "scene-104",
       "label": "scene-104 (map-100)",
       "sceneId": 104,
-      "mapNum": 100
+      "mapNum": 100,
+      "partyStart": {
+        "x": 1792,
+        "y": 984,
+        "facing": "down",
+        "_devNote": "scene 104 wScriptOnEnter(L_21565) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=19494。"
+      }
     },
     {
       "id": "scene-105",
       "label": "scene-105 (map-95)",
       "sceneId": 105,
-      "mapNum": 95
+      "mapNum": 95,
+      "partyStart": {
+        "x": 176,
+        "y": 1160,
+        "facing": "down",
+        "_devNote": "scene 105 wScriptOnEnter(L_15455) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=28158。"
+      }
     },
     {
       "id": "scene-106",
       "label": "scene-106 (map-101)",
       "sceneId": 106,
-      "mapNum": 101
+      "mapNum": 101,
+      "partyStart": {
+        "x": 768,
+        "y": 1024,
+        "facing": "down",
+        "_devNote": "scene 106 wScriptOnEnter(L_16375) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31744。"
+      }
     },
     {
       "id": "scene-107",
       "label": "scene-107 (map-102)",
       "sceneId": 107,
-      "mapNum": 102
+      "mapNum": 102,
+      "partyStart": {
+        "x": 1488,
+        "y": 976,
+        "facing": "down",
+        "_devNote": "scene 107 wScriptOnEnter(L_21176) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31190。"
+      }
     },
     {
       "id": "scene-108",
       "label": "scene-108 (map-108)",
       "sceneId": 108,
-      "mapNum": 108
+      "mapNum": 108,
+      "partyStart": {
+        "x": 400,
+        "y": 976,
+        "facing": "down",
+        "_devNote": "scene 108 wScriptOnEnter(L_17190) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31134。"
+      }
     },
     {
       "id": "scene-109",
       "label": "scene-109 (map-101)",
       "sceneId": 109,
-      "mapNum": 101
+      "mapNum": 101,
+      "partyStart": {
+        "x": 768,
+        "y": 1024,
+        "facing": "down",
+        "_devNote": "scene 109 wScriptOnEnter(L_21174) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31744。"
+      }
     },
     {
       "id": "scene-110",
@@ -688,7 +994,13 @@
       "id": "scene-114",
       "label": "scene-114 (map-106)",
       "sceneId": 114,
-      "mapNum": 106
+      "mapNum": 106,
+      "partyStart": {
+        "x": 416,
+        "y": 1032,
+        "facing": "down",
+        "_devNote": "scene 114 wScriptOnEnter(L_15737) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31422。"
+      }
     },
     {
       "id": "scene-115",
@@ -712,7 +1024,13 @@
       "id": "scene-118",
       "label": "scene-118 (map-110)",
       "sceneId": 118,
-      "mapNum": 110
+      "mapNum": 110,
+      "partyStart": {
+        "x": 1312,
+        "y": 1032,
+        "facing": "down",
+        "_devNote": "scene 118 wScriptOnEnter(L_17194) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=32220。"
+      }
     },
     {
       "id": "scene-119",
@@ -736,7 +1054,13 @@
       "id": "scene-122",
       "label": "scene-122 (map-112)",
       "sceneId": 122,
-      "mapNum": 112
+      "mapNum": 112,
+      "partyStart": {
+        "x": 1520,
+        "y": 1024,
+        "facing": "down",
+        "_devNote": "scene 122 wScriptOnEnter(L_18224) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=32450。"
+      }
     },
     {
       "id": "scene-123",
@@ -796,7 +1120,13 @@
       "id": "scene-132",
       "label": "scene-132 (map-121)",
       "sceneId": 132,
-      "mapNum": 121
+      "mapNum": 121,
+      "partyStart": {
+        "x": 688,
+        "y": 1016,
+        "facing": "down",
+        "_devNote": "scene 132 wScriptOnEnter(L_21575) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31402。"
+      }
     },
     {
       "id": "scene-133",
@@ -838,7 +1168,13 @@
       "id": "scene-139",
       "label": "scene-139 (map-129)",
       "sceneId": 139,
-      "mapNum": 129
+      "mapNum": 129,
+      "partyStart": {
+        "x": 1872,
+        "y": 1000,
+        "facing": "down",
+        "_devNote": "scene 139 wScriptOnEnter(L_21647) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30684。"
+      }
     },
     {
       "id": "scene-140",
@@ -850,19 +1186,37 @@
       "id": "scene-141",
       "label": "scene-141 (map-129)",
       "sceneId": 141,
-      "mapNum": 129
+      "mapNum": 129,
+      "partyStart": {
+        "x": 1872,
+        "y": 1000,
+        "facing": "down",
+        "_devNote": "scene 141 wScriptOnEnter(L_22223) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30684。"
+      }
     },
     {
       "id": "scene-142",
       "label": "scene-142 (map-106)",
       "sceneId": 142,
-      "mapNum": 106
+      "mapNum": 106,
+      "partyStart": {
+        "x": 416,
+        "y": 1032,
+        "facing": "down",
+        "_devNote": "scene 142 wScriptOnEnter(L_22275) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31422。"
+      }
     },
     {
       "id": "scene-143",
       "label": "scene-143 (map-114)",
       "sceneId": 143,
-      "mapNum": 114
+      "mapNum": 114,
+      "partyStart": {
+        "x": 1312,
+        "y": 1024,
+        "facing": "down",
+        "_devNote": "scene 143 wScriptOnEnter(L_22298) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=32476。"
+      }
     },
     {
       "id": "scene-144",
@@ -874,7 +1228,13 @@
       "id": "scene-145",
       "label": "scene-145 (map-74)",
       "sceneId": 145,
-      "mapNum": 74
+      "mapNum": 74,
+      "partyStart": {
+        "x": 224,
+        "y": 1080,
+        "facing": "down",
+        "_devNote": "scene 145 wScriptOnEnter(L_22593) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30700。"
+      }
     },
     {
       "id": "scene-146",
@@ -886,13 +1246,25 @@
       "id": "scene-147",
       "label": "scene-147 (map-144)",
       "sceneId": 147,
-      "mapNum": 144
+      "mapNum": 144,
+      "partyStart": {
+        "x": 1056,
+        "y": 304,
+        "facing": "down",
+        "_devNote": "scene 147 wScriptOnEnter(L_22383) 不含 setPartyPos；原游戏由 caller-scene-164 trigger loadScene 前的 setPartyPos [33, 19, 0] 进入。dev-only fallback。"
+      }
     },
     {
       "id": "scene-148",
       "label": "scene-148 (map-146)",
       "sceneId": 148,
-      "mapNum": 146
+      "mapNum": 146,
+      "partyStart": {
+        "x": 1680,
+        "y": 1040,
+        "facing": "down",
+        "_devNote": "scene 148 wScriptOnEnter(L_22385) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=29740。"
+      }
     },
     {
       "id": "scene-149",
@@ -958,7 +1330,13 @@
       "id": "scene-159",
       "label": "scene-159 (map-135)",
       "sceneId": 159,
-      "mapNum": 135
+      "mapNum": 135,
+      "partyStart": {
+        "x": 464,
+        "y": 1008,
+        "facing": "down",
+        "_devNote": "scene 159 wScriptOnEnter(L_22681) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=32314。"
+      }
     },
     {
       "id": "scene-160",
@@ -970,7 +1348,13 @@
       "id": "scene-161",
       "label": "scene-161 (map-137)",
       "sceneId": 161,
-      "mapNum": 137
+      "mapNum": 137,
+      "partyStart": {
+        "x": 960,
+        "y": 1008,
+        "facing": "down",
+        "_devNote": "scene 161 wScriptOnEnter(L_22374) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=29962。"
+      }
     },
     {
       "id": "scene-162",
@@ -1012,7 +1396,13 @@
       "id": "scene-168",
       "label": "scene-168 (map-148)",
       "sceneId": 168,
-      "mapNum": 148
+      "mapNum": 148,
+      "partyStart": {
+        "x": 416,
+        "y": 1088,
+        "facing": "down",
+        "_devNote": "scene 168 wScriptOnEnter(L_22391) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=30116。"
+      }
     },
     {
       "id": "scene-169",
@@ -1054,13 +1444,25 @@
       "id": "scene-175",
       "label": "scene-175 (map-158)",
       "sceneId": 175,
-      "mapNum": 158
+      "mapNum": 158,
+      "partyStart": {
+        "x": 480,
+        "y": 368,
+        "facing": "down",
+        "_devNote": "scene 175 wScriptOnEnter(L_26785) 不含 setPartyPos；原游戏由 caller-scene-173 trigger loadScene 前的 setPartyPos [15, 23, 0] 进入。dev-only fallback。"
+      }
     },
     {
       "id": "scene-176",
       "label": "scene-176 (map-201)",
       "sceneId": 176,
-      "mapNum": 201
+      "mapNum": 201,
+      "partyStart": {
+        "x": 144,
+        "y": 1048,
+        "facing": "down",
+        "_devNote": "scene 176 wScriptOnEnter(L_28622) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31446。"
+      }
     },
     {
       "id": "scene-177",
@@ -1084,7 +1486,13 @@
       "id": "scene-180",
       "label": "scene-180 (map-157)",
       "sceneId": 180,
-      "mapNum": 157
+      "mapNum": 157,
+      "partyStart": {
+        "x": 100,
+        "y": 600,
+        "facing": "down",
+        "_devNote": "scene 180 wScriptOnEnter(L_27540) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=20526(edge-adjusted)。"
+      }
     },
     {
       "id": "scene-181",
@@ -1120,13 +1528,25 @@
       "id": "scene-186",
       "label": "scene-186 (map-150)",
       "sceneId": 186,
-      "mapNum": 150
+      "mapNum": 150,
+      "partyStart": {
+        "x": 688,
+        "y": 976,
+        "facing": "down",
+        "_devNote": "scene 186 wScriptOnEnter(L_27679) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31296。"
+      }
     },
     {
       "id": "scene-187",
       "label": "scene-187 (map-155)",
       "sceneId": 187,
-      "mapNum": 155
+      "mapNum": 155,
+      "partyStart": {
+        "x": 1568,
+        "y": 1008,
+        "facing": "down",
+        "_devNote": "scene 187 wScriptOnEnter(L_27686) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=32242。"
+      }
     },
     {
       "id": "scene-188",
@@ -1144,7 +1564,13 @@
       "id": "scene-190",
       "label": "scene-190 (map-159)",
       "sceneId": 190,
-      "mapNum": 159
+      "mapNum": 159,
+      "partyStart": {
+        "x": 256,
+        "y": 1000,
+        "facing": "down",
+        "_devNote": "scene 190 wScriptOnEnter(L_27551) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=21696。"
+      }
     },
     {
       "id": "scene-191",
@@ -1156,7 +1582,13 @@
       "id": "scene-192",
       "label": "scene-192 (map-151)",
       "sceneId": 192,
-      "mapNum": 151
+      "mapNum": 151,
+      "partyStart": {
+        "x": 48,
+        "y": 1008,
+        "facing": "down",
+        "_devNote": "scene 192 wScriptOnEnter(L_27683) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=27444。"
+      }
     },
     {
       "id": "scene-193",
@@ -1210,19 +1642,37 @@
       "id": "scene-201",
       "label": "scene-201 (map-187)",
       "sceneId": 201,
-      "mapNum": 187
+      "mapNum": 187,
+      "partyStart": {
+        "x": 1248,
+        "y": 1080,
+        "facing": "down",
+        "_devNote": "scene 201 wScriptOnEnter(L_28862) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=23944。"
+      }
     },
     {
       "id": "scene-202",
       "label": "scene-202 (map-162)",
       "sceneId": 202,
-      "mapNum": 162
+      "mapNum": 162,
+      "partyStart": {
+        "x": 1792,
+        "y": 1048,
+        "facing": "down",
+        "_devNote": "scene 202 wScriptOnEnter(L_28853) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31640。"
+      }
     },
     {
       "id": "scene-203",
       "label": "scene-203 (map-175)",
       "sceneId": 203,
-      "mapNum": 175
+      "mapNum": 175,
+      "partyStart": {
+        "x": 1584,
+        "y": 1008,
+        "facing": "down",
+        "_devNote": "scene 203 wScriptOnEnter(L_28860) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31486。"
+      }
     },
     {
       "id": "scene-204",
@@ -1240,7 +1690,13 @@
       "id": "scene-206",
       "label": "scene-206 (map-163)",
       "sceneId": 206,
-      "mapNum": 163
+      "mapNum": 163,
+      "partyStart": {
+        "x": 80,
+        "y": 856,
+        "facing": "down",
+        "_devNote": "scene 206 wScriptOnEnter(L_28855) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=26000。"
+      }
     },
     {
       "id": "scene-207",
@@ -1270,13 +1726,25 @@
       "id": "scene-211",
       "label": "scene-211 (map-173)",
       "sceneId": 211,
-      "mapNum": 173
+      "mapNum": 173,
+      "partyStart": {
+        "x": 1344,
+        "y": 1064,
+        "facing": "down",
+        "_devNote": "scene 211 wScriptOnEnter(L_28858) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=29744。"
+      }
     },
     {
       "id": "scene-212",
       "label": "scene-212 (map-186)",
       "sceneId": 212,
-      "mapNum": 186
+      "mapNum": 186,
+      "partyStart": {
+        "x": 1680,
+        "y": 1008,
+        "facing": "down",
+        "_devNote": "scene 212 wScriptOnEnter(L_28862) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=27822。"
+      }
     },
     {
       "id": "scene-213",
@@ -1288,19 +1756,37 @@
       "id": "scene-214",
       "label": "scene-214 (map-212)",
       "sceneId": 214,
-      "mapNum": 212
+      "mapNum": 212,
+      "partyStart": {
+        "x": 736,
+        "y": 472,
+        "facing": "down",
+        "_devNote": "scene 214 wScriptOnEnter(L_30648) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=4374。"
+      }
     },
     {
       "id": "scene-215",
       "label": "scene-215 (map-213)",
       "sceneId": 215,
-      "mapNum": 213
+      "mapNum": 213,
+      "partyStart": {
+        "x": 912,
+        "y": 1216,
+        "facing": "down",
+        "_devNote": "scene 215 wScriptOnEnter(L_30648) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=21796。"
+      }
     },
     {
       "id": "scene-216",
       "label": "scene-216 (map-214)",
       "sceneId": 216,
-      "mapNum": 214
+      "mapNum": 214,
+      "partyStart": {
+        "x": 128,
+        "y": 1192,
+        "facing": "down",
+        "_devNote": "scene 216 wScriptOnEnter(L_30651) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=25992。"
+      }
     },
     {
       "id": "scene-217",
@@ -1372,7 +1858,13 @@
       "id": "scene-228",
       "label": "scene-228 (map-162)",
       "sceneId": 228,
-      "mapNum": 162
+      "mapNum": 162,
+      "partyStart": {
+        "x": 832,
+        "y": 976,
+        "facing": "down",
+        "_devNote": "scene 228 wScriptOnEnter(L_32312) 不含 setPartyPos；原游戏由 caller-scene-245 trigger loadScene 前的 setPartyPos [26, 61, 0] 进入。dev-only fallback。"
+      }
     },
     {
       "id": "scene-229",
@@ -1486,25 +1978,49 @@
       "id": "scene-247",
       "label": "scene-247 (map-184)",
       "sceneId": 247,
-      "mapNum": 184
+      "mapNum": 184,
+      "partyStart": {
+        "x": 160,
+        "y": 1008,
+        "facing": "down",
+        "_devNote": "scene 247 wScriptOnEnter(L_32476) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31432。"
+      }
     },
     {
       "id": "scene-248",
       "label": "scene-248 (map-178)",
       "sceneId": 248,
-      "mapNum": 178
+      "mapNum": 178,
+      "partyStart": {
+        "x": 1952,
+        "y": 1016,
+        "facing": "down",
+        "_devNote": "scene 248 wScriptOnEnter(L_32472) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31684。"
+      }
     },
     {
       "id": "scene-249",
       "label": "scene-249 (map-203)",
       "sceneId": 249,
-      "mapNum": 203
+      "mapNum": 203,
+      "partyStart": {
+        "x": 272,
+        "y": 1136,
+        "facing": "down",
+        "_devNote": "scene 249 wScriptOnEnter(L_32474) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=29022。"
+      }
     },
     {
       "id": "scene-250",
       "label": "scene-250 (map-188)",
       "sceneId": 250,
-      "mapNum": 188
+      "mapNum": 188,
+      "partyStart": {
+        "x": 1056,
+        "y": 1032,
+        "facing": "down",
+        "_devNote": "scene 250 wScriptOnEnter(L_33559) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=29488。"
+      }
     },
     {
       "id": "scene-251",
@@ -1528,25 +2044,49 @@
       "id": "scene-254",
       "label": "scene-254 (map-193)",
       "sceneId": 254,
-      "mapNum": 193
+      "mapNum": 193,
+      "partyStart": {
+        "x": 1184,
+        "y": 984,
+        "facing": "down",
+        "_devNote": "scene 254 wScriptOnEnter(L_32787) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=31452。"
+      }
     },
     {
       "id": "scene-255",
       "label": "scene-255 (map-179)",
       "sceneId": 255,
-      "mapNum": 179
+      "mapNum": 179,
+      "partyStart": {
+        "x": 992,
+        "y": 864,
+        "facing": "down",
+        "_devNote": "scene 255 wScriptOnEnter(L_32470) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=27772。"
+      }
     },
     {
       "id": "scene-256",
       "label": "scene-256 (map-183)",
       "sceneId": 256,
-      "mapNum": 183
+      "mapNum": 183,
+      "partyStart": {
+        "x": 272,
+        "y": 880,
+        "facing": "down",
+        "_devNote": "scene 256 wScriptOnEnter(L_32470) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=28194。"
+      }
     },
     {
       "id": "scene-257",
       "label": "scene-257 (map-182)",
       "sceneId": 257,
-      "mapNum": 182
+      "mapNum": 182,
+      "partyStart": {
+        "x": 496,
+        "y": 1016,
+        "facing": "down",
+        "_devNote": "scene 257 wScriptOnEnter(L_32470) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=32574。"
+      }
     },
     {
       "id": "scene-258",
@@ -1612,7 +2152,13 @@
       "id": "scene-268",
       "label": "scene-268 (map-19)",
       "sceneId": 268,
-      "mapNum": 19
+      "mapNum": 19,
+      "partyStart": {
+        "x": 1360,
+        "y": 1024,
+        "facing": "down",
+        "_devNote": "scene 268 wScriptOnEnter(L_34384) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=32470。"
+      }
     },
     {
       "id": "scene-269",
@@ -1624,7 +2170,13 @@
       "id": "scene-270",
       "label": "scene-270 (map-197)",
       "sceneId": 270,
-      "mapNum": 197
+      "mapNum": 197,
+      "partyStart": {
+        "x": 208,
+        "y": 184,
+        "facing": "down",
+        "_devNote": "scene 270 wScriptOnEnter(L_34489) 不含 setPartyPos；原游戏由 caller-scene-266 trigger loadScene 前的 setPartyPos [6, 11, 1] 进入。dev-only fallback。"
+      }
     },
     {
       "id": "scene-271",
@@ -1678,7 +2230,13 @@
       "id": "scene-279",
       "label": "scene-279 (map-210)",
       "sceneId": 279,
-      "mapNum": 210
+      "mapNum": 210,
+      "partyStart": {
+        "x": 1984,
+        "y": 944,
+        "facing": "down",
+        "_devNote": "scene 279 wScriptOnEnter(L_35211) 不含 setPartyPos；原游戏由外部 scene trigger 进入。dev-only fallback，BFS 连通区 size=27462。"
+      }
     },
     {
       "id": "scene-280",
@@ -1762,7 +2320,13 @@
       "id": "scene-293",
       "label": "scene-293 (map-192)",
       "sceneId": 293,
-      "mapNum": 192
+      "mapNum": 192,
+      "partyStart": {
+        "x": 240,
+        "y": 1672,
+        "facing": "down",
+        "_devNote": "scene 293 wScriptOnEnter(L_35031) 不含 setPartyPos；原游戏由 caller-scene-291 trigger loadScene 前的 setPartyPos [7, 104, 1] 进入。dev-only fallback。"
+      }
     },
     {
       "id": "scene-294",
