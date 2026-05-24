@@ -3679,6 +3679,59 @@ event-system: startBattle enemyTeamId=16 isBoss=false           ✓ (opcode 7)
 - M5.5 sdlpal opcode audit 要列出全 ~250 opcode,识别 P0.e 系统层 must-have — 这次 0x4A 漏就因为只盯了 wScriptOnEnter 中"常见"的 setPartyPos,没全扫 scene-15 enter 段
 - dev panel 应提供 "set default party + inventory" 一键按钮(或 URL flag `?party=zh1`),避免 user 直跳 scene 后撞怪闪退
 
+### P0.b 实施完工 (2026-05-25)
+
+- `pnpm -w check`: 316 passed | 2 skipped (game) + 199 passed (pal-extract) 全绿
+- `pnpm -F @type-pal/game e2e`: 31/31 全绿
+- 新增 spec: 5 个(P0.b Y-sort + cover-tile describe block)
+- 重生 baseline: 10 个场景类 + c1-dialog 系列(Y-sort + 选择性 layer1 改变了 sprite / layer1 tile 渲染叠加顺序)
+- commit: `687b283`
+
+**PAL_CalcCoverTiles 真值描述(scene.c:77-178):**
+
+算法不是"sprite bbox 重叠的 tile",而是基于 sprite 落点扫描周围固定 5 个 tile 候选(按 `sh` sub-row flag 决定):
+
+```
+sh = (sx % 32 !== 0) ? 1 : 0    // sprite x 是否在 sub-row 偏移列
+扫描范围:
+  y: floor((sy - spriteHeight - 15) / 16) .. floor(sy / 16)
+  x: floor((sx - w/2) / 32) .. floor((sx + w/2) / 32)
+每个 (x, y):
+  x == xStart → i=0..2(3 个候选);其余 x → i=3..4(2 个候选)
+  i=0: (dx=x,   dy=y,   dh=sh)
+  i=1: (dx=x-1, dy=y,   dh=sh)
+  i=2: (dx=sh?x:(x-1), dy=sh?(y+1):y, dh=1-sh)
+  i=3: (dx=x+1, dy=y,   dh=sh)
+  i=4: (dx=sh?(x+1):x, dy=sh?(y+1):y, dh=1-sh)
+每个 (dx,dy,dh):检查 l=0/1(lower/upper DWORD)的 layer-1 tile:
+  tileId = ((d >> 16) & 0xff) | (((d >> 16) >> 4) & 0x100) - 1
+  iTileHeight = (d >> 24) & 0xf
+  覆盖条件: tileId >= 0 && iTileHeight > 0 && (dy + iTileHeight)*16 + dh*8 >= sy
+  若满足:加入 entries,sort key = dy*16 + dh*8 + 7 + l + iTileHeight*8
+```
+
+**关键洞察(与 plan 预期一致):**
+- cover tile 与精灵一起 Y-sort,不是先画精灵再统一铺 layer1
+- 旧代码全图 layer1 全覆盖导致 party 走在柱子前也被遮(M4 ⚠️ #13b 反 bug),P0.b 修复
+- `dh=0` → `cell.lower` DWORD;`dh=1` → `cell.upper` DWORD(对应 sdlpal `Tiles[row][col][0/1]`)
+- `iTileHeight` 取自 layer-1 DWORD 的 bits 24-27(`(d >>> 24) & 0xf`)
+
+**Y-sort sort key 设计(与 sdlpal 对齐):**
+- party: `baseY = party.y + 10`(sdlpal `wLayer + 10 = 0 + 10`)
+- NPC: `baseY = npc.y + 9`(sdlpal `sLayer*8 + 9 = 0 + 9`)
+- cover tile: `baseY = dy*16 + dh*8 + 7 + l + iTileHeight*8`
+
+**e2e baseline 重生说明:**
+- 10 个场景类 baseline(a1-scene-1/14/15/17、a2-leader-{initial,down,left,right,up}、a3-npc-render、a7-camera-right、a8-scene-{1,14}、a9-encounter-initial)+ c1-dialog-{top,bottom,center} 因渲染叠加顺序变化全部重生
+- scene-16-corridor 无 layer-1 tile(全黑过道),渲染结果不变 → baseline 不重生
+- 重生命令:先删旧 baseline PNG,再 `UPDATE_BASELINES=1 pnpm -F @type-pal/game e2e`
+
+**manual 验证(留给 user):**
+走 scene 1(客栈)/ scene 30 / scene 17(迷宫):
+- 走到柱子/屋角后 → 屋顶/柱子顶 layer1 应盖住 party
+- 走到柱子前 → party 应在屋顶之上(不被 layer1 全覆盖)
+- 多 NPC scene → NPC 相互 Y-sort 不穿模
+
 ## Sync 段
 
 (实施时累积)
