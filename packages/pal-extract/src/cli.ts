@@ -75,6 +75,26 @@ function writeBinary(path: string, data: Uint8Array): void {
   writeFileSync(path, data)
 }
 
+function imageWorldNpcPath(spriteId: number, frameIdx: number): string {
+  return resolve(OUT, 'images', 'world', 'npc', String(spriteId), `frame-${frameIdx.toString().padStart(2, '0')}.png`)
+}
+
+function imageWorldTilesetPath(mapNum: number, tileIdx: number): string {
+  return resolve(OUT, 'images', 'world', 'tileset', `map-${mapNum}`, `tile-${tileIdx.toString().padStart(4, '0')}.png`)
+}
+
+function imageBattleBgPath(bgId: number): string {
+  return resolve(OUT, 'images', 'battle', 'bg', `${bgId.toString().padStart(3, '0')}.png`)
+}
+
+function imageBattleSpritePath(kind: 'enemy' | 'player', id: number, frameIdx: number): string {
+  return resolve(OUT, 'images', 'battle', kind, String(id), `frame-${frameIdx.toString().padStart(2, '0')}.png`)
+}
+
+function dataSubdirPath(subdir: 'tilemap' | 'scene' | 'sprite' | 'palette' | 'battle-sprite' | 'font', name: string): string {
+  return resolve(OUT, 'data', subdir, `${name}.json`)
+}
+
 function loadFile(name: string): Uint8Array {
   return new Uint8Array(readFileSync(resolve(RAW, name)))
 }
@@ -234,12 +254,11 @@ async function main(): Promise<void> {
     // 每个 tile 写为独立 PNG
     const tilesetFiles: string[] = []
     for (const tile of mapResult.tiles) {
-      const fname = `tile-scene-${sliceId}-${tile.index.toString().padStart(4, '0')}.png`
-      writeBinary(resolve(OUT, 'images', fname), tile.pngBytes)
-      tilesetFiles.push(fname)
+      writeBinary(imageWorldTilesetPath(scene.mapNum, tile.index), tile.pngBytes)
+      tilesetFiles.push(`world/tileset/map-${scene.mapNum}/tile-${tile.index.toString().padStart(4, '0')}.png`)
     }
-    mapResult.tilemap.tilesetImage = `tile-scene-${sliceId}-*.png`
-    writeJson(resolve(OUT, 'data', `tilemap-${sliceId}.json`), {
+    mapResult.tilemap.tilesetImage = `world/tileset/map-${scene.mapNum}/tile-*.png`
+    writeJson(dataSubdirPath('tilemap', String(sliceId)), {
       ...mapResult.tilemap,
       tilesetFiles,
     })
@@ -250,7 +269,7 @@ async function main(): Promise<void> {
 
     // 场景对象切片:从切片场景 dump NPC/触发点列表(供运行时用)
     const sceneObjects = dumpScene(sliceId, sss.scenes, sss.eventObjects)
-    writeJson(resolve(OUT, 'data', `scene-${sliceId}.json`), sceneObjects)
+    writeJson(dataSubdirPath('scene', String(sliceId)), sceneObjects)
     console.log(
       `[pal-extract] scene-${sliceId}.json written (${sceneObjects.eventObjects.length} event objects)`,
     )
@@ -266,7 +285,7 @@ async function main(): Promise<void> {
     const palBuf = readChunk(patMkf, i)
     if (palBuf.byteLength < 768) continue // 跳过非调色板 chunk
     writeJson(
-      resolve(OUT, 'data', `palette-${i}.json`),
+      dataSubdirPath('palette', String(i)),
       decodePalette(palBuf.subarray(0, 768)),
     )
     palWritten++
@@ -321,16 +340,9 @@ async function main(): Promise<void> {
         height: f.height,
       })),
     }
-    writeJson(resolve(OUT, 'data', `sprite-${sprite.spriteId}.json`), spriteJson)
+    writeJson(dataSubdirPath('sprite', String(sprite.spriteId)), spriteJson)
     for (const f of sprite.frames) {
-      writeBinary(
-        resolve(
-          OUT,
-          'images',
-          `sprite-${sprite.spriteId}-frame-${f.index.toString().padStart(2, '0')}.png`,
-        ),
-        f.pngBytes,
-      )
+      writeBinary(imageWorldNpcPath(sprite.spriteId, f.index), f.pngBytes)
     }
   }
 
@@ -399,19 +411,9 @@ async function main(): Promise<void> {
       kind: sprite.kind,
       frames: sprite.frames.map((f) => ({ index: f.index, width: f.width, height: f.height })),
     }
-    writeJson(
-      resolve(OUT, 'data', `battle-sprite-${sprite.kind}-${sprite.battleSpriteId}.json`),
-      json,
-    )
+    writeJson(dataSubdirPath('battle-sprite', `${sprite.kind}/${sprite.battleSpriteId}`), json)
     for (const f of sprite.frames) {
-      writeBinary(
-        resolve(
-          OUT,
-          'images',
-          `battle-sprite-${sprite.kind}-${sprite.battleSpriteId}-frame-${f.index.toString().padStart(2, '0')}.png`,
-        ),
-        f.pngBytes,
-      )
+      writeBinary(imageBattleSpritePath(sprite.kind, sprite.battleSpriteId, f.index), f.pngBytes)
     }
   }
 
@@ -446,10 +448,7 @@ async function main(): Promise<void> {
       )
       continue
     }
-    writeBinary(
-      resolve(OUT, 'images', `battle-bg-${i.toString().padStart(3, '0')}.png`),
-      encodeIndexedPng(320, 200, pixels),
-    )
+    writeBinary(imageBattleBgPath(i), encodeIndexedPng(320, 200, pixels))
     bgIds.push(i)
   }
   // M3 T25:battle-bgs.json 直接列出所有有效 bg id —— loader 按列表加载,免 404。
