@@ -5,9 +5,16 @@
  *
  * 产出目录:data/extracted/
  *   events/   scene-NNN.json, shared.json, objects.json
- *   data/     items.json, spells.json, magic.json, enemies.json, tilemap-N.json, palette-N.json
- *   images/   tile-scene-N-NNNN.png
- *   lookup/   words.json, strings.json
+ *   images/
+ *     world/tileset/map-{mapNum}/tile-{XXXX}.png  (per-mapNum tile PNG)
+ *     world/npc/{spriteId}/frame-{NN}.png          (NPC / character sprites)
+ *     battle/bg/{NNN}.png                           (battle backgrounds)
+ *     battle/{enemy,player}/{id}/frame-{NN}.png    (battle sprites)
+ *   data/
+ *     {tilemap,scene,sprite,palette,battle-sprite}/...json  (子目录结构)
+ *     enemies.json, items.json, spells.json, magic.json,
+ *     enemy-teams.json, battle-fields.json, enemy-pos.json,
+ *     player-roles.json, battle-bgs.json, battle-sprites.json  (平铺数据表)
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -79,8 +86,12 @@ function imageWorldNpcPath(spriteId: number, frameIdx: number): string {
   return resolve(OUT, 'images', 'world', 'npc', String(spriteId), `frame-${frameIdx.toString().padStart(2, '0')}.png`)
 }
 
+function imageWorldTilesetRelPath(mapNum: number, tileIdx: number): string {
+  return `world/tileset/map-${mapNum}/tile-${tileIdx.toString().padStart(4, '0')}.png`
+}
+
 function imageWorldTilesetPath(mapNum: number, tileIdx: number): string {
-  return resolve(OUT, 'images', 'world', 'tileset', `map-${mapNum}`, `tile-${tileIdx.toString().padStart(4, '0')}.png`)
+  return resolve(OUT, 'images', imageWorldTilesetRelPath(mapNum, tileIdx))
 }
 
 function imageBattleBgPath(bgId: number): string {
@@ -91,6 +102,14 @@ function imageBattleSpritePath(kind: 'enemy' | 'player', id: number, frameIdx: n
   return resolve(OUT, 'images', 'battle', kind, String(id), `frame-${frameIdx.toString().padStart(2, '0')}.png`)
 }
 
+/**
+ * Build path to `data/{subdir}/{name}.json`. The `name` parameter MAY contain
+ * `/` to nest one more level — e.g. `dataSubdirPath('battle-sprite', 'enemy/5')`
+ * resolves to `data/battle-sprite/enemy/5.json`. `mkdirSync({ recursive: true })`
+ * inside `writeJson` handles the nested mkdir.
+ *
+ * `'font'` subdir is forward-compat for P4 T2(BDF→JSON glyph 表),目前未使用。
+ */
 function dataSubdirPath(subdir: 'tilemap' | 'scene' | 'sprite' | 'palette' | 'battle-sprite' | 'font', name: string): string {
   return resolve(OUT, 'data', subdir, `${name}.json`)
 }
@@ -255,7 +274,7 @@ async function main(): Promise<void> {
     const tilesetFiles: string[] = []
     for (const tile of mapResult.tiles) {
       writeBinary(imageWorldTilesetPath(scene.mapNum, tile.index), tile.pngBytes)
-      tilesetFiles.push(`world/tileset/map-${scene.mapNum}/tile-${tile.index.toString().padStart(4, '0')}.png`)
+      tilesetFiles.push(imageWorldTilesetRelPath(scene.mapNum, tile.index))
     }
     mapResult.tilemap.tilesetImage = `world/tileset/map-${scene.mapNum}/tile-*.png`
     writeJson(dataSubdirPath('tilemap', String(sliceId)), {
