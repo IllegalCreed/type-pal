@@ -227,7 +227,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
       tickPreBattle(state)
       break
     case 'selectAction':
-      tickSelectAction(state, res, input)
+      tickSelectAction(state, res, input, gs)
       break
     case 'performAction':
       tickPerformAction(state, gs, bus, res)
@@ -271,6 +271,7 @@ function tickSelectAction(
   state: BattleState,
   res: BattleResources,
   input: InputSnapshot,
+  gs: GameState,
 ): void {
   // 找活队员
   const alivePlayerIdxs: number[] = []
@@ -292,9 +293,17 @@ function tickSelectAction(
     case 'mainMenu':
       handleMainMenuInput(state, input, alivePlayerIdxs)
       break
-    // T14 加 'magicMenu' / 'itemMenu' / 'targetSelect'
+    case 'magicMenu':
+      handleMagicMenuInput(state, input, res.playerRoles)
+      break
+    case 'itemMenu':
+      handleItemMenuInput(state, input, gs)
+      break
+    case 'targetSelect':
+      handleTargetSelectInput(state, input, alivePlayerIdxs)
+      break
     default:
-      // 其它 uiState(含 'hidden' / fixture 模式)— 不处理 input,保留 stub 行为
+      // 'hidden' / 其它(含 fixture 模式)— 不处理 input,保留 stub 行为
       break
   }
 
@@ -412,6 +421,170 @@ function advanceSelectingPlayer(state: BattleState, alivePlayerIdxs: number[]): 
     state.uiCursor = 0
   }
   // 全填完 → 不动 uiState/cursor;主流程下一步会切 performAction(在那里 uiState='hidden')
+}
+
+/**
+ * Cancel 退回 mainMenu —— magicMenu / itemMenu / targetSelect 三个 handler 共用。
+ * 不切 selectingPlayerIdx(还是当前队员重新选)、清 draft、cursor 归 0。
+ */
+function cancelToMainMenu(state: BattleState): void {
+  state.uiState = 'mainMenu'
+  state.uiCursor = 0
+  state.pendingActionDraft = undefined
+}
+
+/**
+ * magicMenu input 处理(M3.5 T14):
+ *
+ * - Up / Down:wrap 在 learnedSpells.length(空表 → 不动 cursor)
+ * - Confirm:把 learned[cursor] 写进 draft.actionId,切 targetSelect、cursor=0
+ *   - 空表 → no-op(不切)
+ * - Cancel:回 mainMenu(清 draft、cursor=0)
+ *
+ * learnedSpells 不在 PlayerRole schema —— 兼容 dev panel 临时附加(同 draw-battle-ui)。
+ */
+function handleMagicMenuInput(
+  state: BattleState,
+  input: InputSnapshot,
+  playerRoles: PlayerRoles,
+): void {
+  if (input.pressed.has('Cancel')) {
+    cancelToMainMenu(state)
+    return
+  }
+
+  const playerIdx = state.selectingPlayerIdx
+  if (playerIdx === undefined)
+    return
+  const player = state.players[playerIdx]
+  if (!player)
+    return
+  const role = playerRoles.roles[player.roleId]
+  if (!role)
+    return
+  const learned: number[] = (role as unknown as { learnedSpells?: number[] }).learnedSpells ?? []
+
+  if (learned.length === 0) {
+    // 空表 — Up/Down/Confirm 都 no-op(cursor 保持 0;Cancel 已在上面处理过)
+    return
+  }
+
+  if (input.pressed.has('Up')) {
+    state.uiCursor = (state.uiCursor - 1 + learned.length) % learned.length
+    return
+  }
+  if (input.pressed.has('Down')) {
+    state.uiCursor = (state.uiCursor + 1) % learned.length
+    return
+  }
+  if (input.pressed.has('Confirm')) {
+    const spellId = learned[state.uiCursor]
+    if (spellId === undefined)
+      return
+    state.pendingActionDraft = { type: 'magic', actionId: spellId }
+    state.uiState = 'targetSelect'
+    state.uiCursor = 0
+  }
+}
+
+/**
+ * itemMenu input 处理(M3.5 T14):
+ *
+ * - usable = gs.inventory.filter(count > 0)(与 draw-battle-ui 视图保持一致)
+ * - Up / Down:wrap 在 usable.length
+ * - Confirm:把 usable[cursor].itemId 写进 draft.actionId,切 targetSelect、cursor=0
+ *   - usable 空 → no-op
+ * - Cancel:回 mainMenu
+ */
+function handleItemMenuInput(
+  state: BattleState,
+  input: InputSnapshot,
+  gs: GameState,
+): void {
+  if (input.pressed.has('Cancel')) {
+    cancelToMainMenu(state)
+    return
+  }
+
+  const usable = gs.inventory.filter(e => e.count > 0)
+  if (usable.length === 0)
+    return
+
+  if (input.pressed.has('Up')) {
+    state.uiCursor = (state.uiCursor - 1 + usable.length) % usable.length
+    return
+  }
+  if (input.pressed.has('Down')) {
+    state.uiCursor = (state.uiCursor + 1) % usable.length
+    return
+  }
+  if (input.pressed.has('Confirm')) {
+    const entry = usable[state.uiCursor]
+    if (!entry)
+      return
+    state.pendingActionDraft = { type: 'item', actionId: entry.itemId }
+    state.uiState = 'targetSelect'
+    state.uiCursor = 0
+  }
+}
+
+/**
+ * targetSelect input 处理(M3.5 T14):
+ *
+ * 光标语义:uiCursor 是 **state.enemies 的 raw index**(与 draw-battle-ui 一致),
+ * Left/Right 移动时跳过已死 enemy(health <= 0)。
+ *
+ * - Left:从当前 raw index 往左找下一个 alive(wrap)
+ * - Right:类似
+ * - Confirm:把 (draft + target=uiCursor) 写进 pendingActions,advance
+ *   - 当前光标位置是死敌 / 无 alive enemy → no-op
+ *   - draft 缺失 → no-op(防御性)
+ * - Cancel:回 mainMenu(清 draft)
+ */
+function handleTargetSelectInput(
+  state: BattleState,
+  input: InputSnapshot,
+  alivePlayerIdxs: number[],
+): void {
+  if (input.pressed.has('Cancel')) {
+    cancelToMainMenu(state)
+    return
+  }
+
+  // 收集活敌 raw index;无 alive 则 Left/Right/Confirm 全 no-op
+  const aliveRawIdxs: number[] = []
+  state.enemies.forEach((e, i) => {
+    if (e.e.health > 0)
+      aliveRawIdxs.push(i)
+  })
+  if (aliveRawIdxs.length === 0)
+    return
+
+  if (input.pressed.has('Left') || input.pressed.has('Right')) {
+    // 找当前 cursor 在 aliveRawIdxs 中的位置;若 cursor 指向死敌则取最近的活敌
+    let pos = aliveRawIdxs.indexOf(state.uiCursor)
+    if (pos === -1)
+      pos = 0 // cursor 不在活敌中 — 默认从第一个 alive 开始数
+    const delta = input.pressed.has('Left') ? -1 : 1
+    const newPos = (pos + delta + aliveRawIdxs.length) % aliveRawIdxs.length
+    state.uiCursor = aliveRawIdxs[newPos]!
+    return
+  }
+
+  if (input.pressed.has('Confirm')) {
+    const draft = state.pendingActionDraft
+    const playerIdx = state.selectingPlayerIdx
+    if (!draft || playerIdx === undefined)
+      return
+    // 当前 cursor 必须是活敌(防御性 — UI 应已通过 Left/Right 保证)
+    const target = aliveRawIdxs.includes(state.uiCursor) ? state.uiCursor : aliveRawIdxs[0]!
+    state.pendingActions.set(playerIdx, {
+      type: draft.type,
+      actionId: draft.actionId,
+      target,
+    })
+    advanceSelectingPlayer(state, alivePlayerIdxs)
+  }
 }
 
 /**

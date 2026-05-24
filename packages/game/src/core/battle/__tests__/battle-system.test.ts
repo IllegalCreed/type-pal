@@ -513,6 +513,232 @@ describe('tickSelectAction mainMenu input(M3.5 T13)', () => {
 })
 
 // ============================================================================
+// tickSelectAction magicMenu / itemMenu / targetSelect input(M3.5 T14)
+// ============================================================================
+
+describe('tickSelectAction magicMenu / itemMenu / targetSelect(M3.5 T14)', () => {
+  function snap(pressed: Array<'Up' | 'Down' | 'Left' | 'Right' | 'Confirm' | 'Cancel' | 'Menu'> = []): InputSnapshot {
+    return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
+  }
+
+  /**
+   * 把 BattleState 推进到 'magicMenu' uiState(模拟 mainMenu 上 Confirm 法术)。
+   * 顺便往 role 上挂 learnedSpells。
+   */
+  function enterMagicMenu(learned: number[]) {
+    const ctx = bootstrap()
+    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // preBattle → selectAction
+    // 直接 mutate 已 bootstrap 的 role
+    const role = ctx.resources.playerRoles.roles[0] as PlayerRole & { learnedSpells: number[] }
+    role.learnedSpells = learned
+    // cursor=1 → Confirm 进 magicMenu
+    ctx.gs.battleState!.uiCursor = 1
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('magicMenu')
+    expect(ctx.gs.battleState?.uiCursor).toBe(0)
+    return ctx
+  }
+
+  function enterItemMenu(inventory: Array<{ itemId: number, count: number }>) {
+    const ctx = bootstrap()
+    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
+    ctx.gs.inventory = inventory
+    ctx.gs.battleState!.uiCursor = 2
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('itemMenu')
+    expect(ctx.gs.battleState?.uiCursor).toBe(0)
+    return ctx
+  }
+
+  // ---------- magicMenu ----------
+
+  it('magicMenu Up wrap(learned=[12,20,33]):cursor=0 + Up → cursor=2', () => {
+    const { gs, bus } = enterMagicMenu([12, 20, 33])
+    tickBattle(gs, snap(['Up']), bus)
+    expect(gs.battleState?.uiCursor).toBe(2)
+    expect(gs.battleState?.uiState).toBe('magicMenu')
+  })
+
+  it('magicMenu Down wrap(learned=[12,20,33]):cursor=2 + Down → cursor=0', () => {
+    const { gs, bus } = enterMagicMenu([12, 20, 33])
+    gs.battleState!.uiCursor = 2
+    tickBattle(gs, snap(['Down']), bus)
+    expect(gs.battleState?.uiCursor).toBe(0)
+  })
+
+  it('magicMenu Confirm(选中 spellId=20)→ uiState=targetSelect + draft.actionId=20', () => {
+    const { gs, bus } = enterMagicMenu([12, 20, 33])
+    gs.battleState!.uiCursor = 1 // 选中 learned[1] = 20
+    tickBattle(gs, snap(['Confirm']), bus)
+    expect(gs.battleState?.uiState).toBe('targetSelect')
+    expect(gs.battleState?.uiCursor).toBe(0)
+    expect(gs.battleState?.pendingActionDraft).toEqual({ type: 'magic', actionId: 20 })
+    expect(gs.battleState?.pendingActions.has(0)).toBe(false)
+  })
+
+  it('magicMenu Cancel → 回 mainMenu + cursor=0 + 清 draft', () => {
+    const { gs, bus } = enterMagicMenu([12, 20])
+    expect(gs.battleState?.pendingActionDraft).toBeDefined()
+    tickBattle(gs, snap(['Cancel']), bus)
+    expect(gs.battleState?.uiState).toBe('mainMenu')
+    expect(gs.battleState?.uiCursor).toBe(0)
+    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
+  })
+
+  it('magicMenu(无 learnedSpells)Confirm → 不切 targetSelect(空表 no-op)', () => {
+    const { gs, bus } = enterMagicMenu([])
+    tickBattle(gs, snap(['Confirm']), bus)
+    // 仍停在 magicMenu(没有可选项)
+    expect(gs.battleState?.uiState).toBe('magicMenu')
+    expect(gs.battleState?.pendingActionDraft).toEqual({ type: 'magic' })
+  })
+
+  // ---------- itemMenu ----------
+
+  it('itemMenu Up wrap(inv=[a,b,c count>0]):cursor=0 + Up → cursor=2', () => {
+    const { gs, bus } = enterItemMenu([
+      { itemId: 10, count: 1 },
+      { itemId: 11, count: 2 },
+      { itemId: 12, count: 3 },
+    ])
+    tickBattle(gs, snap(['Up']), bus)
+    expect(gs.battleState?.uiCursor).toBe(2)
+    expect(gs.battleState?.uiState).toBe('itemMenu')
+  })
+
+  it('itemMenu Down wrap(inv=2 entries):cursor=1 + Down → cursor=0', () => {
+    const { gs, bus } = enterItemMenu([
+      { itemId: 10, count: 1 },
+      { itemId: 11, count: 2 },
+    ])
+    gs.battleState!.uiCursor = 1
+    tickBattle(gs, snap(['Down']), bus)
+    expect(gs.battleState?.uiCursor).toBe(0)
+  })
+
+  it('itemMenu Confirm(选中 itemId=11)→ uiState=targetSelect + draft.actionId=11', () => {
+    const { gs, bus } = enterItemMenu([
+      { itemId: 10, count: 1 },
+      { itemId: 11, count: 2 },
+    ])
+    gs.battleState!.uiCursor = 1
+    tickBattle(gs, snap(['Confirm']), bus)
+    expect(gs.battleState?.uiState).toBe('targetSelect')
+    expect(gs.battleState?.uiCursor).toBe(0)
+    expect(gs.battleState?.pendingActionDraft).toEqual({ type: 'item', actionId: 11 })
+  })
+
+  it('itemMenu Up wrap 跳过 count=0(只算可用)', () => {
+    const { gs, bus } = enterItemMenu([
+      { itemId: 10, count: 1 },
+      { itemId: 11, count: 0 }, // 已用完,不计入
+      { itemId: 12, count: 3 },
+    ])
+    // 可用 = [10, 12],N=2;cursor=0 + Up → cursor=1
+    tickBattle(gs, snap(['Up']), bus)
+    expect(gs.battleState?.uiCursor).toBe(1)
+    // Confirm 拿 itemId=12(usable[1])
+    tickBattle(gs, snap(['Confirm']), bus)
+    expect(gs.battleState?.pendingActionDraft?.actionId).toBe(12)
+  })
+
+  it('itemMenu Cancel → 回 mainMenu + 清 draft', () => {
+    const { gs, bus } = enterItemMenu([{ itemId: 10, count: 1 }])
+    tickBattle(gs, snap(['Cancel']), bus)
+    expect(gs.battleState?.uiState).toBe('mainMenu')
+    expect(gs.battleState?.uiCursor).toBe(0)
+    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
+  })
+
+  // ---------- targetSelect ----------
+
+  /**
+   * 推进到 targetSelect uiState(走完 mainMenu Confirm 攻击的路径)。
+   * 默认 2 个活敌人,raw index = [0, 1]。
+   */
+  function enterTargetSelectViaAttack(opts: { enemies?: Enemy[] } = {}) {
+    const enemies = opts.enemies ?? [makeEnemy({ id: 100 }), makeEnemy({ id: 200 })]
+    const ctx = bootstrap({
+      enemies,
+      teamSlots: [100, 200, 0xFFFF, 0xFFFF, 0xFFFF],
+    })
+    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // preBattle → selectAction
+    // cursor=0 = 攻击;Confirm 切 targetSelect
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('targetSelect')
+    expect(ctx.gs.battleState?.pendingActionDraft).toEqual({ type: 'attack' })
+    return ctx
+  }
+
+  it('targetSelect Left wrap(2 个活敌):cursor=0 + Left → cursor=1', () => {
+    const { gs, bus } = enterTargetSelectViaAttack()
+    tickBattle(gs, snap(['Left']), bus)
+    expect(gs.battleState?.uiCursor).toBe(1)
+  })
+
+  it('targetSelect Right wrap(2 个活敌):cursor=1 + Right → cursor=0', () => {
+    const { gs, bus } = enterTargetSelectViaAttack()
+    gs.battleState!.uiCursor = 1
+    tickBattle(gs, snap(['Right']), bus)
+    expect(gs.battleState?.uiCursor).toBe(0)
+  })
+
+  it('targetSelect 跳过已死敌人:enemies[0].health=0 → Right 从 1 跳回 1(N=1 自旋)', () => {
+    const { gs, bus } = enterTargetSelectViaAttack()
+    gs.battleState!.enemies[0]!.e.health = 0
+    gs.battleState!.uiCursor = 1
+    tickBattle(gs, snap(['Right']), bus)
+    // 只剩 1 个活敌 → cursor 仍 1
+    expect(gs.battleState?.uiCursor).toBe(1)
+  })
+
+  it('targetSelect Confirm → pendingActions 落 + advance(单队员 → performAction)', () => {
+    const { gs, bus } = enterTargetSelectViaAttack()
+    gs.battleState!.uiCursor = 1
+    tickBattle(gs, snap(['Confirm']), bus)
+    expect(gs.battleState?.pendingActions.has(0)).toBe(true)
+    const action = gs.battleState!.pendingActions.get(0)!
+    expect(action.type).toBe('attack')
+    expect(action.target).toBe(1)
+    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
+    // 单队员 → 切 performAction
+    expect(gs.battleState?.phase).toBe('performAction')
+  })
+
+  it('targetSelect Cancel → 回 mainMenu + cursor=0 + 清 draft', () => {
+    const { gs, bus } = enterTargetSelectViaAttack()
+    expect(gs.battleState?.pendingActionDraft).toBeDefined()
+    tickBattle(gs, snap(['Cancel']), bus)
+    expect(gs.battleState?.uiState).toBe('mainMenu')
+    expect(gs.battleState?.uiCursor).toBe(0)
+    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
+  })
+
+  it('targetSelect Confirm 带 magic draft → action.target 为 raw enemy index', () => {
+    const ctx = bootstrap({
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 200 })],
+      teamSlots: [100, 200, 0xFFFF, 0xFFFF, 0xFFFF],
+    })
+    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
+    const role = ctx.resources.playerRoles.roles[0] as PlayerRole & { learnedSpells: number[] }
+    role.learnedSpells = [7]
+    // 1) main → magicMenu
+    ctx.gs.battleState!.uiCursor = 1
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('magicMenu')
+    // 2) magicMenu(cursor=0)Confirm → targetSelect
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('targetSelect')
+    expect(ctx.gs.battleState?.pendingActionDraft).toEqual({ type: 'magic', actionId: 7 })
+    // 3) targetSelect cursor=1 → Confirm
+    ctx.gs.battleState!.uiCursor = 1
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
+    const action = ctx.gs.battleState!.pendingActions.get(0)!
+    expect(action).toEqual({ type: 'magic', actionId: 7, target: 1 })
+  })
+})
+
+// ============================================================================
 // 集成:多轮战斗(双方互殴)
 // ============================================================================
 
