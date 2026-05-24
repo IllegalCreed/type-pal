@@ -385,6 +385,116 @@ describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
   })
 })
 
+// ── P0.e contact 菱形 Manhattan 触发(sdlpal scene.c:624)──────────────────────
+//
+// 旧 contact 检测用 npcAt 严格 == (party.x === npc.x && party.y === npc.y)。
+// 但 party 步长 (±16, ±8) 的 parity 限制让从任意 partyStart 走到 NPC 精确像素
+// **经常无整数解**(如 scene 15 草妖:dx=272 / dy=-128 → 2(a-d)=33 无解)。
+// → contact 永不触发 → 永远不进战斗。
+//
+// sdlpal scene.c:624 真值是菱形 isometric Manhattan:
+//   if (abs(p->x - npc->x) + abs(p->y - npc->y) * 2 < 16) ...
+// → party 步进到 NPC ±1 步内即触发。
+describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
+  it('严格相等:party 与 NPC 同像素 → 触发(legacy 兼容)', () => {
+    const gs = createInitialGameState({ x: 1136, y: 1304, facing: 'down' })
+    gs.npcs = [
+      { id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(128, 128)
+    const commands = [
+      { op: 'showDialog' as const, messageIndex: 0, text: '草妖来袭', label: 'L_42' },
+      { op: 'end' as const },
+    ]
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: commands,
+      labelMap: { L_42: 0 },
+    })
+    expect(gs.mode).toBe('event')
+  })
+
+  it('party 在 NPC 右上 1 步 (+16,-8) → 距离 = 16+16 = 32 ≥ 16,不触发', () => {
+    // dx=16 dy=-8 → |16| + |-8|*2 = 16 + 16 = 32(等于但 < 不成立)
+    const gs = createInitialGameState({ x: 1136 + 16, y: 1304 - 8, facing: 'down' })
+    gs.npcs = [
+      { id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(128, 128)
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
+      labelMap: { L_42: 0 },
+    })
+    expect(gs.mode).toBe('explore')  // 距离恰 = 16,不 < 16,不触发(边界)
+  })
+
+  it('party 在 NPC 旁 (+8, 0) → 距离 = 8 < 16,触发', () => {
+    // dx=8 dy=0 → 8 + 0 = 8 < 16
+    const gs = createInitialGameState({ x: 1136 + 8, y: 1304, facing: 'down' })
+    gs.npcs = [
+      { id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(128, 128)
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
+      labelMap: { L_42: 0 },
+    })
+    expect(gs.mode).toBe('event')
+  })
+
+  it('party 在 NPC 旁 (0, +4) → 距离 = 0 + 8 = 8 < 16,触发', () => {
+    // dx=0 dy=4 → 0 + 4*2 = 8 < 16
+    const gs = createInitialGameState({ x: 1136, y: 1304 + 4, facing: 'down' })
+    gs.npcs = [
+      { id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(128, 128)
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
+      labelMap: { L_42: 0 },
+    })
+    expect(gs.mode).toBe('event')
+  })
+
+  it('triggerMode < 4 不触发即使距离 < 16(只阻挡 NPC,不是 contact 怪)', () => {
+    const gs = createInitialGameState({ x: 1136 + 8, y: 1304, facing: 'down' })
+    gs.npcs = [
+      // triggerMode=2:Confirm-search 段,即使距离 8 也不自动触发
+      { id: 7, x: 1136, y: 1304, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 2 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(128, 128)
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
+      labelMap: { L_42: 0 },
+    })
+    expect(gs.mode).toBe('explore')
+  })
+
+  it('triggerMode=4 边界 + 距离 8 → 触发(契合 CONTACT_MIN 与新距离判)', () => {
+    const gs = createInitialGameState({ x: 1136 + 8, y: 1304, facing: 'down' })
+    gs.npcs = [
+      { id: 7, x: 1136, y: 1304, spriteNum: 1, triggerLabel: 'L_42', triggerMode: 4 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(128, 128)
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
+      labelMap: { L_42: 0 },
+    })
+    expect(gs.mode).toBe('event')
+  })
+})
+
 // ── M3.5 T9: loadScene(D33 lazy 切场景)─────────────────────────────────────
 //
 // 设计契约(D33 + D34):

@@ -40,9 +40,10 @@ test('a8 scene 切换 — scene 1 vs 仙灵岛入口(14)视觉差异 + 各自 ba
 test('a8 scene 切换 — P0.e: wScriptOnEnter 设起点(非 hardcode partyStart)', async ({ page }) => {
   // P0.e: scene-jumps.json 为 wScriptOnEnter 不含 setPartyPos 的 scene 加 dev-only partyStart fallback。
   // scene 15 的 wScriptOnEnter(L_4203)只有 setBattlefield + end,不含 setPartyPos。
-  // 无 caller-trace(全域无 loadScene(15) 调用)→ 走 NPC-anchored BFS:
-  // 以 NPC 204 walkable 邻居为起点 BFS,取连通区中心 (864, 1432)。
-  // 保证 partyStart 跟 6 个 NPC(含 4 个 草妖)在同一连通区可达。
+  // 无 caller-trace(全域无 loadScene(15) 调用)→ 走 NPC-anchored 4-iso BFS:
+  // 以 NPC 204 walkable 邻居为起点,只用 4 个 isometric 方向(±16, ±8)展开,
+  // 跟 party 物理 movement 完全匹配 → 区内任两点 parity 一致 → party 可走到任一区内点。
+  // 取连通区中心 (800, 1440),与所有 6 个 NPC(含 4 草妖)parity-matched 同区可达。
   await bootstrap(page)
 
   // 先确认 scene-1 的 enter script 把 party 放到正确位置(col=41,row=18 → x=1312,y=288)
@@ -63,8 +64,8 @@ test('a8 scene 切换 — P0.e: wScriptOnEnter 设起点(非 hardcode partyStart
   )
   // mode 应是 explore
   expect(gs.mode).toBe('explore')
-  // scene-15 wScriptOnEnter 不含 setPartyPos + 无 caller-trace → 走 NPC-anchored BFS
-  // 连通区中心 (864, 1432),与所有 6 个 NPC 同区可达
-  expect(gs.party.x).toBe(864)
-  expect(gs.party.y).toBe(1432)
+  // scene-15 wScriptOnEnter 不含 setPartyPos + 无 caller-trace → 走 NPC-anchored 4-iso BFS
+  // 连通区中心 (800, 1440),parity-matched 跟所有 6 个 NPC 同区可达
+  expect(gs.party.x).toBe(800)
+  expect(gs.party.y).toBe(1440)
 })

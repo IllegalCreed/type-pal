@@ -50,18 +50,16 @@ function pickKey(
 
 /**
  * a9 明雷遇怪:scene-15-mob 通道 2 含 4 个 sprite 468 草妖(triggerMode=5 contact),
- * 跳到该 scene → 含 contact NPC → 走向最近草妖 → mode 切 'battle'。
+ * 跳到该 scene → 含 contact NPC → 走向最近草妖 → 距离菱形 Manhattan < 16 → mode 切 'event'。
  *
  * 走路用 walk(hold key)pattern,scene-system pickFacing 读 input.held。
- * 每段最多 hold N 个 walk 时长;走完每段重新探针距离决定下一段。最多 20 段兜底。
+ * 每段最多 hold 一个 walk 时长;走完每段重新探针 mode / 距离决定下一段。最多 60 段兜底。
+ *
+ * 历史:之前 contact 用 npcAt 严格 ==,party 步长 parity 让走不到精确像素 →
+ * 用 page.evaluate 把 party teleport 到 NPC 旁 1 步绕过。P0.e fix(sdlpal scene.c:624
+ * 菱形 Manhattan < 16)真做后,workaround 去除,直接 greedy walk 走过去即触发。
  */
-/**
- * P3.T1 lazy events 修后 unskip:SceneAssets 扩 eventCommands+labelMap,
- * loadScene 切 scene 时同步换入新 scene 的 events/labelMap,
- * 修 M3.5 ⚠️ #8:scene jump 后旧 labelMap 留内存 → contact NPC triggerLabel 找不到 →
- * loadEventFromNpc 早 return → mode 不切。
- */
-test('a9 明雷遇怪 — 跳 scene 15 草妖通道 → 走到 contact cell → 触发 event', async ({
+test('a9 明雷遇怪 — 跳 scene 15 草妖通道 → 走到 contact → 触发 event', async ({
   page,
 }) => {
   await bootstrap(page)
@@ -78,27 +76,7 @@ test('a9 明雷遇怪 — 跳 scene 15 草妖通道 → 走到 contact cell → 
   )
   expect(contactNpcs.length).toBeGreaterThan(0)
 
-  // P0.e: scene 15 wScriptOnEnter 不含 setPartyPos + 无 caller-trace,
-  // dev-only NPC-anchored BFS fallback 落 (864,1432) — 跟草妖同区可达但走过去要 30+ 步。
-  // 缩 e2e:用 dev gate 直接把 party 移到最近草妖旁 1 步,验证 contact 触发机制。
-  // NPC 208 在 (1344, 1168);party 从 (1360, 1160) = 1 step Left(-16,-8) 可走进。
-  // 这是 contact 机制 e2e 验证的有效 dev override。
-  const target = contactNpcs.find((n) => n.id === 208) ?? contactNpcs[0]!
-
-  // 把 party 移到 target 旁 1 步 Left(East → West: dx=-16, dy=-8)
-  await page.evaluate(
-    ({ tx, ty }) => {
-      const gs = (window as unknown as { __game: { gs: Probe['__game']['gs'] } }).__game.gs
-      // 放在目标旁(Right 方向相邻:dx=+16,dy=+8,所以反向 dx=-16,dy=-8 to target)
-      gs.party.x = tx - 16
-      gs.party.y = ty - 8
-      gs.camera.x = gs.party.x
-      gs.camera.y = gs.party.y
-    },
-    { tx: target.x, ty: target.y },
-  )
-
-  // 截图初始 scene 15(visual baseline,party 已在草妖旁)
+  // 截图初始 scene 15(visual baseline,party 在 NPC-anchored BFS center 864,1432)
   const initialBuf = await snapshotCanvas(page)
   expect(
     await pixelDiff({
@@ -109,22 +87,32 @@ test('a9 明雷遇怪 — 跳 scene 15 草妖通道 → 走到 contact cell → 
     }),
   ).toBe(0)
 
-  // 走 1 步进入草妖像素 → contact 触发
-  // target NPC 在 party 右下方(Right: dx=+16, dy=+8)
-  for (let seg = 0; seg < 5; seg++) {
-    const p = await page.evaluate(
-      () => (window as unknown as Probe).__game.gs.party,
+  // 选最近的草妖作 target
+  let target = contactNpcs[0]!
+  let minDist = Math.abs(target.x - initialState.party.x) + Math.abs(target.y - initialState.party.y) * 2
+  for (const n of contactNpcs) {
+    const d = Math.abs(n.x - initialState.party.x) + Math.abs(n.y - initialState.party.y) * 2
+    if (d < minDist) { minDist = d; target = n }
+  }
+
+  // greedy walk:每 seg 选最逼近 target 的方向键 hold 1 walk 时长。
+  // contact 用菱形 Manhattan < 16 判定 — 走到 NPC ±1 步就触发 → mode 切 'event'。
+  for (let seg = 0; seg < 60; seg++) {
+    const probe = await page.evaluate(
+      () => {
+        const w = window as unknown as Probe
+        return { party: w.__game.gs.party, mode: w.__game.gs.mode }
+      },
     )
-    if (p.x === target.x && p.y === target.y) break
-    const key = pickKey(p.x, p.y, target.x, target.y)
+    if (probe.mode === 'event') break  // contact 已触发
+    const key = pickKey(probe.party.x, probe.party.y, target.x, target.y)
     if (!key) break
     await walk(page, key, 150)
   }
 
-  // 期望:成功踩进草妖像素(contact 不阻挡 fix 生效)
-  const finalParty = await page.evaluate(
-    () => (window as unknown as Probe).__game.gs.party,
+  // 期望:mode 切 'event'(contact 菱形距离 < 16 触发)
+  const finalMode = await page.evaluate(
+    () => (window as unknown as Probe).__game.gs.mode,
   )
-  expect(finalParty.x).toBe(target.x)
-  expect(finalParty.y).toBe(target.y)
+  expect(finalMode).toBe('event')
 })

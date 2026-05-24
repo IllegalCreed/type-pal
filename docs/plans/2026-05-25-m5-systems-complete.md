@@ -3507,6 +3507,50 @@ P0.0 plan 原文有几处实施缺陷,跑通后 `pnpm dev` 自测时暴露。**�
 - 删 `a1-scene-15-mob.png + a9-encounter-initial.png` 重生(party 位置 / camera follow 变化)
 - 最终 31/31 pass,0 skip
 
+### P0.e 实施过程发现 · contact 触发改菱形 Manhattan + BFS parity 修复 (2026-05-25)
+
+**触发:** user 测 scene 15 初始位置 (864,1432) 后,**碰草妖不触发战斗**。
+
+**根因 1(scene-system.ts contact 检测严格 ==):**
+- 旧 contact 检测用 `npcAt(gs.npcs, gs.party.x, gs.party.y)` —— 严格相等(party.x === npc.x && party.y === npc.y)
+- 但 party 步长 (±16, ±8) 的 parity 限制让从任意起点走到 NPC 精确像素**经常无整数解**
+- sdlpal `scene.c:624` 真值是菱形 isometric Manhattan:`abs(p->x - npc->x) + abs(p->y - npc->y) * 2 < 16` —— 走到 NPC ±1 步内即触发
+
+修法:加 `findContactNpc()` 用菱形 Manhattan,line 209-216 改用之。`npcAt` 严格相等保留给 Confirm-search 用(那里"对面格"语义合理)。
+
+**根因 2(BFS 用 8 方向 → 跨 parity 区):**
+- 旧 BFS 在 8 个方向 ((±16, 0), (0, ±8), 4 个对角) 展开,但 party physical movement 只有 4 个 iso 方向(±16, ±8)
+- 8 方向 BFS 跨越 parity 边界 → 选出的中心点跟目标 NPC parity 不同 → party 从中心永远走不到 NPC 附近 < 16 diamond 距离
+- 验证:scene 15 旧 NPC-anchored BFS center (864, 1432) 跟全部 4 草妖 parity=1(不同奇偶),party 步移再多步也只能到 diamond=16(不 < 16)
+
+修法:`bfsFromSeed` 把 DIRS 从 8 个改成 4 个 iso 方向 — 跟 party movement 完全匹配。区内任两点 parity 一致,选出的中心点 parity-matched 到种子 NPC 及该 NPC 周围所有 same-region NPCs。
+Scene 15 新 NPC-anchored BFS center: (800, 1440),验证跟全部 6 NPC parity=0 同区可达。
+
+**单元测试(scene-system.test.ts):**
+新 describe 块"P0.e contact 菱形距离触发(sdlpal scene.c:624)",6 个 case:
+- 严格相等(legacy 兼容)
+- party 在 NPC (+16,-8):diamond=32 ≥ 16 不触发
+- party 在 NPC (+8,0):diamond=8 < 16 触发
+- party 在 NPC (0,+4):diamond=8 < 16 触发
+- triggerMode < 4 即使距离 < 16 不触发
+- triggerMode=4 边界 + 距离 8 → 触发
+
+**a9 e2e workaround 去除:**
+- 之前 a9 spec 用 `page.evaluate` teleport party 到 NPC 旁 1 步绕过 parity bug
+- contact 改菱形 Manhattan 后,workaround **完全去除**,直接 greedy walk 60 段内 mode 切 'event' 自然 PASS
+- a9 spec 简化:删 page.evaluate 黑科技,改纯 walk 验证 contact 机制 end-to-end
+
+**统计:**
+- 单元测试: 295 → 301(+6 contact 菱形 test)
+- e2e: 31/31 pass(a9 5.1s 完成 — 60 段循环兜底但通常 30-40 段就触发)
+- scene-jumps.json: 94 entries 用 4-iso BFS 重新跑;scene 15 → (800, 1440)
+- a8 P0.e 断言更新 (864,1432) → (800,1440)
+- 删 `a1-scene-15-mob.png + a9-encounter-initial.png + a1-scene-17-maze.png` 重生
+
+**M5+ 启发:**
+- isWalkable / scene 几何相关函数务必用 4 iso 方向(party 真实 movement),不要混入 8 / cardinal 方向 — parity 一旦跨越就出现"看似在同区实际不可达"
+- contact 用菱形 Manhattan < 16 是 sdlpal 真值;Confirm-search 用 `npcAt` 严格相等(对面格语义合理)— 这两套语义并存,不要合并
+
 ## Sync 段
 
 (实施时累积)

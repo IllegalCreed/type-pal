@@ -75,6 +75,32 @@ function npcAt(npcs: NpcState[], x: number, y: number): NpcState | undefined {
   return npcs.find((n) => n.x === x && n.y === y)
 }
 
+/**
+ * sdlpal scene.c:624 真值 — 菱形 isometric Manhattan 距离 < 16 视为接触。
+ *
+ *   if (abs(p->x - PAL_X(pos)) + abs(p->y - PAL_Y(pos)) * 2 < 16) ...
+ *
+ * contact monster(triggerMode >= 4)走到 NPC 附近 1 步即触发,**不需要严格相等**。
+ *
+ * 之前 contact 检测用 `npcAt`(严格 ==),要求 party.x/y 等于 npc.x/y。但 party 步长
+ * (±16, ±8) 的 parity 限制让从任意起点走到 NPC 精确像素 *经常* 无整数解 —
+ * scene 15 草妖(NPC 207 at 1136,1304;partyStart 864,1432):dx=272 / dy=-128,
+ * 解 2(a-d) = 33 无整数解 → 永远走不到精确位 → contact 永不触发。
+ *
+ * 改用菱形 Manhattan < 16 复刻 sdlpal 真值后,party 步进到 NPC ±1 步内即可触发。
+ */
+function findContactNpc(
+  npcs: NpcState[],
+  x: number,
+  y: number,
+): NpcState | undefined {
+  for (const n of npcs) {
+    if (n.triggerMode === undefined || n.triggerMode < TRIGGER_MODE_CONTACT_MIN) continue
+    if (Math.abs(n.x - x) + Math.abs(n.y - y) * 2 < 16) return n
+  }
+  return undefined
+}
+
 /** sdlpal global.h:84-92 wTriggerMode 真值;>= 4 是 contact 系列(TouchNear..Farthest)。
  *  M3.5 简版统一处理;M5 真做距离差异时再细分。 */
 const TRIGGER_MODE_CONTACT_MIN = 4
@@ -203,16 +229,13 @@ export function tickSceneSystem(
     y: Math.max(0, Math.min(maxY, gs.party.y)),
   }
 
-  // 3) 明雷 contact 检测(M3.5 T11 / D32 / 对照 sdlpal play.c::PAL_PartyWalk)
-  //    party 当前像素位有 triggerMode >= 4 的 EventObject → 自动 runScript,无需 Confirm。
+  // 3) 明雷 contact 检测(对照 sdlpal scene.c:624 — 菱形 Manhattan < 16)
+  //    party 跟 triggerMode >= 4 的 EventObject 菱形距离 < 16 → 自动 runScript,无需 Confirm。
   //    放在 Confirm 之前:走完路立即触发,避免下一帧才生效。
-  const npcAtParty = npcAt(gs.npcs, gs.party.x, gs.party.y)
-  if (
-    npcAtParty
-    && npcAtParty.triggerMode !== undefined
-    && npcAtParty.triggerMode >= TRIGGER_MODE_CONTACT_MIN
-  ) {
-    loadEventFromNpc(gs, ctx, npcAtParty)
+  //    用 findContactNpc(菱形 Manhattan)取代旧 npcAt(严格 ==)— 修步长 parity 不能精准走到 NPC 的 bug。
+  const contactNpc = findContactNpc(gs.npcs, gs.party.x, gs.party.y)
+  if (contactNpc) {
+    loadEventFromNpc(gs, ctx, contactNpc)
   }
 
   // 4) Confirm 触发 NPC(M2 既有逻辑:对面格 NPC,按 Confirm)

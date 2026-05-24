@@ -168,7 +168,14 @@ function isWalkablePixel(tilemap, posX, posY) {
   return !tilemapIsBlocked(tilemap, col, row, h)
 }
 
-/** BFS from seed,返回连通区所有点(若 seed 不可走返回 null) */
+/**
+ * BFS from seed,返回连通区所有点(若 seed 不可走返回 null)。
+ *
+ * **重要**:只用 4 个 isometric 方向(±16, ±8),跟 party 的 movement 完全匹配。
+ * 之前用 8 个方向(含 (16,0) / (0,8) 等纯轴向)会展开 party 物理 *不能* 走到的格子 →
+ * 选出的 BFS center 跟目标 NPC parity 不同,party 永远走不到 diamond < 16 的距离。
+ * 用 4 iso 方向后,BFS 区内任两点 parity 一致 → party 从中心可走到区内任意点。
+ */
 function bfsFromSeed(tilemap, sx, sy) {
   if (!isWalkablePixel(tilemap, sx, sy)) return null
   const visited = new Set()
@@ -177,8 +184,8 @@ function bfsFromSeed(tilemap, sx, sy) {
   visited.add(key(sx, sy))
   const points = []
   const DIRS = [
-    [X_STEP, 0], [-X_STEP, 0], [0, Y_STEP], [0, -Y_STEP],
-    [X_STEP, Y_STEP], [-X_STEP, Y_STEP], [X_STEP, -Y_STEP], [-X_STEP, -Y_STEP],
+    [X_STEP, Y_STEP], [-X_STEP, -Y_STEP],
+    [-X_STEP, Y_STEP], [X_STEP, -Y_STEP],
   ]
   const maxX = tilemap.width * TILE_W
   const maxY = tilemap.height * TILE_H
