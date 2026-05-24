@@ -9,7 +9,7 @@
       },
       "inventory": [{ "itemId": 61, "count": 5 }],
       "enemyTeamId": 1,
-      "battleFieldId": 0
+      "battleFieldId": 7
     },
     {
       "id": "fixture-zh2",
@@ -21,7 +21,7 @@
       },
       "inventory": [{ "itemId": 61, "count": 10 }],
       "enemyTeamId": 5,
-      "battleFieldId": 1
+      "battleFieldId": 30
     },
     {
       "id": "fixture-end",
@@ -32,7 +32,7 @@
       },
       "inventory": [{ "itemId": 61, "count": 99 }],
       "enemyTeamId": 50,
-      "battleFieldId": 5
+      "battleFieldId": 70
     }
   ]
 }
