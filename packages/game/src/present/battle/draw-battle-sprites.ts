@@ -8,7 +8,7 @@
  * M3 简版:位置硬编码(5 个槽位)。M5 时按 sdlpal ENEMYPOS / 队列位置真值。
  * blit 规则同 draw-sprite:anchor 在底部中心,索引 0 透明,屏外 clip。
  */
-import type { PlayerRoles } from '@type-pal/shared'
+import type { EnemyPosTable, PlayerRoles } from '@type-pal/shared'
 import type { BattleState } from '../../core/battle/battle-state.js'
 import type { Framebuffer } from '../framebuffer.js'
 
@@ -36,9 +36,10 @@ const PLAYER_POSITIONS_BY_COUNT: ReadonlyArray<ReadonlyArray<{ x: number, y: num
 ]
 
 /**
- * 敌方位置(M3 简版,5 个槽位)。M5 时改读 enemy.json ENEMYPOS。
+ * 敌方位置 fallback(EnemyPosTable 缺时 / 兜底)。M3.5 起优先 EnemyPosTable
+ * (DATA.MKF chunk 13 真值,见 sdlpal global.h ENEMYPOS)。
  */
-const ENEMY_POSITIONS: ReadonlyArray<{ x: number, y: number }> = [
+const ENEMY_POSITIONS_FALLBACK: ReadonlyArray<{ x: number, y: number }> = [
   { x: 160, y: 80 },
   { x: 100, y: 60 }, { x: 220, y: 60 },
   { x: 70, y: 90 }, { x: 250, y: 90 },
@@ -93,11 +94,17 @@ export function drawBattleSprites(
   state: BattleState,
   battleSprites: Map<string, SpriteAsset>,
   playerRoles: PlayerRoles,
+  enemyPos?: EnemyPosTable,
 ): void {
   // 敌方先画(在背景之上、队员之下)
+  // M3.5 fix:优先 EnemyPosTable.layouts[count-1] 真表(DATA.MKF chunk 13 真值);
+  // 缺时 fallback hardcoded(向后兼容 test 没传 enemyPos 的)。
+  const enemyCount = state.enemies.length
+  const enemyLayout
+    = enemyPos?.layouts[enemyCount - 1] ?? ENEMY_POSITIONS_FALLBACK
   state.enemies.forEach((enemy, i) => {
     if (enemy.e.health <= 0) return
-    const pos = ENEMY_POSITIONS[i]
+    const pos = enemyLayout[i]
     if (!pos) return
     const sprite = battleSprites.get(`enemy-${enemy.e.id}`)
     if (!sprite || !sprite.frames[0]) return

@@ -74,3 +74,19 @@ export interface SceneObjects {
   onTeleportLabel?: string
   eventObjects: SceneEventObject[]
 }
+
+/** ENEMYPOS table(M3.5,DATA.MKF chunk 13)
+ *
+ * sdlpal global.h ENEMYPOS:5×5 PALPOS table。用法 pos[enemyIdx][maxIdx](battle.c:936)
+ * 即 第一维 = 当前 enemy index,第二维 = 总数-1。
+ *
+ * pal-extract dump 时翻转成 `layouts[count-1]` 数组(每条长度 = enemy count):
+ *   layouts[0] = [pos_for_1_enemy]
+ *   layouts[1] = [pos_for_2_enemies_e0, pos_for_2_enemies_e1]
+ *   ...
+ *   layouts[4] = [...5 个]
+ * 运行时 `layouts[state.enemies.length - 1][i]` 取第 i 个 enemy 位置。
+ */
+export interface EnemyPosTable {
+  layouts: ReadonlyArray<ReadonlyArray<{ x: number, y: number }>>
+}

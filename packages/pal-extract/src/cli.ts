@@ -24,6 +24,7 @@ import { parseSss } from './io/sss.js'
 import { parseWordDat } from './io/word.js'
 import { decompressYj2 } from './io/yj2.js'
 import { extractBattleSprites } from './resources/battle-sprite.js'
+import { parseEnemyPos } from './resources/enemy-pos.js'
 import { parseMap } from './resources/map.js'
 import { decodePalette } from './resources/palette.js'
 import { dumpScene } from './resources/scene.js'
@@ -181,6 +182,11 @@ async function main(): Promise<void> {
     parseEnemyTeams(teamBuf, enemyObjectNames, objectIndexToEnemyId),
   )
   writeJson(resolve(OUT, 'data', 'battle-fields.json'), parseBattleFields(fieldBuf))
+  // M3.5:ENEMYPOS(DATA.MKF chunk 13)= 5×5 PALPOS table。game runtime
+  // draw-battle-sprites.ts 按 state.enemies.length 选 layouts[count-1] 行,
+  // 替代 M3 simple version 的 hardcoded ENEMY_POSITIONS。
+  const enemyPosBuf = readChunk(dataMkf, 13)
+  writeJson(resolve(OUT, 'data', 'enemy-pos.json'), parseEnemyPos(enemyPosBuf))
   // M3 T8:PlayerRoles(DATA.MKF chunk 3)— M2 半解扩到 M3 战斗子集 dump。
   // T9:cli.ts 不再硬编码 leader sprite,改读 playerRoles.roles[0].spriteNum 真值用于切片。
   const playerRoles = parsePlayerRoles(loadFile('DATA.MKF'), words)

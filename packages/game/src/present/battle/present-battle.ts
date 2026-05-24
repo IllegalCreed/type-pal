@@ -26,7 +26,7 @@
  *   - 死亡淡出
  */
 
-import type { Item, PlayerRoles, Spell } from '@type-pal/shared'
+import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { BattleState } from '../../core/battle/battle-state.js'
 import type { BusEntry } from '../../core/command-bus.js'
 import type { GameState } from '../../core/game-state.js'
@@ -44,6 +44,8 @@ export interface BattleAssets {
   playerRoles: PlayerRoles
   spells: Spell[]
   items: Item[]
+  /** M3.5:ENEMYPOS table 真值(DATA.MKF chunk 13)— drawBattleSprites enemy 位置。 */
+  enemyPos?: EnemyPosTable
 }
 
 /**
@@ -92,7 +94,7 @@ export class BattlePresent {
     if (bg) drawBattleBg(fb, bg)
 
     // 3. 双方精灵(死亡的不画;sprite 缺资源跳过)
-    drawBattleSprites(fb, state, assets.battleSprites, assets.playerRoles)
+    drawBattleSprites(fb, state, assets.battleSprites, assets.playerRoles, assets.enemyPos)
 
     // 4. 数字弹幕(在精灵之上;过期数字自动清理)
     this.floatingNums.draw(fb, currentFrame)

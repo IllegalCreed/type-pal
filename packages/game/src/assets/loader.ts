@@ -1,6 +1,7 @@
 import type {
   BattleField,
   Enemy,
+  EnemyPosTable,
   EnemyTeam,
   EventFile,
   Item,
@@ -49,6 +50,8 @@ export interface LoadedAssets {
   enemies: Enemy[]
   enemyTeams: EnemyTeam[]
   battleFields: BattleField[]
+  /** M3.5:ENEMYPOS table(DATA.MKF chunk 13)— per enemy-count layout 真值。 */
+  enemyPos: EnemyPosTable
   items: Item[]
   spells: Spell[]
   magics: Magic[]
@@ -76,7 +79,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   const padded = sceneId.toString().padStart(3, '0')
   const [
     tilemap, palette, scene, events, playerRoles,
-    enemies, enemyTeams, battleFields, items, spells, magics,
+    enemies, enemyTeams, battleFields, enemyPos, items, spells, magics,
   ] = await Promise.all([
     fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap-${sceneId}.json`),
     fetchJson<Palette>(`${BASE}/data/palette-0.json`),
@@ -86,6 +89,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     fetchJson<Enemy[]>(`${BASE}/data/enemies.json`),
     fetchJson<EnemyTeam[]>(`${BASE}/data/enemy-teams.json`),
     fetchJson<BattleField[]>(`${BASE}/data/battle-fields.json`),
+    fetchJson<EnemyPosTable>(`${BASE}/data/enemy-pos.json`),
     fetchJson<Item[]>(`${BASE}/data/items.json`),
     fetchJson<Spell[]>(`${BASE}/data/spells.json`),
     fetchJson<Magic[]>(`${BASE}/data/magic.json`),
@@ -226,6 +230,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     enemies,
     enemyTeams,
     battleFields,
+    enemyPos,
     items,
     spells,
     magics,
