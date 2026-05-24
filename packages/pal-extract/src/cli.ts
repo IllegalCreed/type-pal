@@ -10,6 +10,8 @@
  *     world/npc/{spriteId}/frame-{NN}.png          (NPC / character sprites)
  *     battle/bg/{NNN}.png                           (battle backgrounds)
  *     battle/{enemy,player}/{id}/frame-{NN}.png    (battle sprites)
+ *     ui/frame-{NN}.png                            (DATA.MKF chunk 9 SPRITEUI frames)
+ *     magic/frame-{NN}.png                         (DATA.MKF chunk 10 battle effect frames)
  *   data/
  *     {tilemap,scene,sprite,palette,battle-sprite}/...json  (子目录结构)
  *     enemies.json, items.json, spells.json, magic.json,
@@ -35,7 +37,7 @@ import { parseEnemyPos } from './resources/enemy-pos.js'
 import { parseMap } from './resources/map.js'
 import { decodePalette } from './resources/palette.js'
 import { dumpScene } from './resources/scene.js'
-import { encodeIndexedPng, extractCharacterSprites } from './resources/sprite.js'
+import { encodeIndexedPng, extractCharacterSprites, framesToOut, parseSpriteChunk } from './resources/sprite.js'
 import {
   parseBattleEffectIndex,
   parseLevelUpExp,
@@ -103,6 +105,14 @@ function imageBattleBgPath(bgId: number): string {
   return resolve(OUT, 'images', 'battle', 'bg', `${bgId.toString().padStart(3, '0')}.png`)
 }
 
+function imageUiPath(frameIdx: number): string {
+  return resolve(OUT, 'images', 'ui', `frame-${frameIdx.toString().padStart(2, '0')}.png`)
+}
+
+function imageMagicPath(frameIdx: number): string {
+  return resolve(OUT, 'images', 'magic', `frame-${frameIdx.toString().padStart(2, '0')}.png`)
+}
+
 function imageBattleSpritePath(kind: 'enemy' | 'player', id: number, frameIdx: number): string {
   return resolve(OUT, 'images', 'battle', kind, String(id), `frame-${frameIdx.toString().padStart(2, '0')}.png`)
 }
@@ -115,7 +125,7 @@ function imageBattleSpritePath(kind: 'enemy' | 'player', id: number, frameIdx: n
  *
  * `'font'` subdir is forward-compat for P4 T2(BDF→JSON glyph 表),目前未使用。
  */
-function dataSubdirPath(subdir: 'tilemap' | 'scene' | 'sprite' | 'palette' | 'battle-sprite' | 'font', name: string): string {
+function dataSubdirPath(subdir: 'tilemap' | 'scene' | 'sprite' | 'palette' | 'battle-sprite' | 'font' | 'ui-sprite' | 'magic-sprite', name: string): string {
   return resolve(OUT, 'data', subdir, `${name}.json`)
 }
 
@@ -254,11 +264,44 @@ async function main(): Promise<void> {
   const battleEffectBuf = readChunk(dataMkf, 11)
   writeJson(resolve(OUT, 'data', 'battle-effect-index.json'), parseBattleEffectIndex(battleEffectBuf))
 
-  // chunk 7/8 空跳;chunk 9/10/12 sprite 数据 → P2.T3 处理
-  // inventory MD 标注的 chunk 15 实测超出范围(DATA.MKF count=15,有效 0-14),不抽
-  // 保留 raw 容器以兼容后续可能的扩展
-  const dataMiscRaw: Record<number, unknown> = {}
-  writeJson(resolve(OUT, 'data', 'data-misc-raw.json'), dataMiscRaw)
+  // M4 P2 T3: DATA.MKF chunk 9 (SPRITEUI) → images/ui/frame-NN.png
+  // sdlpal ui.h: CHUNKNUM_SPRITEUI = 9; PAL_MKFReadChunk(raw, no YJ2)
+  // gpSpriteUI 是单个 sprite group chunk,帧按 SPRITENUM_* 常量直接索引。
+  // 最高已知 SPRITENUM = SPRITENUM_ITEMBOX = 70;实测 imagecount = 72。
+  const uiSpriteBuf = readChunk(dataMkf, 9)
+  const uiFrames = parseSpriteChunk(uiSpriteBuf)
+  const uiFrameOut = framesToOut(uiFrames)
+  for (const f of uiFrameOut) {
+    writeBinary(imageUiPath(f.index), f.pngBytes)
+  }
+  writeJson(dataSubdirPath('ui-sprite', 'spriteui'), {
+    chunkIndex: 9,
+    sdlpalName: 'SPRITEUI',
+    frameCount: uiFrameOut.length,
+    frames: uiFrameOut.map((f) => ({ index: f.index, width: f.width, height: f.height })),
+  })
+  console.log(`[pal-extract] SPRITEUI (chunk 9) written: ${uiFrameOut.length} frames`)
+
+  // M4 P2 T3: DATA.MKF chunk 10 (battle effect sprite) → images/magic/frame-NN.png
+  // sdlpal battle.c:1787: PAL_MKFReadChunk(g_Battle.lpEffectSprite, i, 10, fpDATA)
+  // fight.c: PAL_SpriteGetFrame(g_Battle.lpEffectSprite, index) — 单 sprite group,帧顺序使用。
+  // 实测 imagecount = 86。
+  const effectSpriteBuf = readChunk(dataMkf, 10)
+  const effectFrames = parseSpriteChunk(effectSpriteBuf)
+  const effectFrameOut = framesToOut(effectFrames)
+  for (const f of effectFrameOut) {
+    writeBinary(imageMagicPath(f.index), f.pngBytes)
+  }
+  writeJson(dataSubdirPath('magic-sprite', 'effect'), {
+    chunkIndex: 10,
+    sdlpalName: 'lpEffectSprite',
+    frameCount: effectFrameOut.length,
+    frames: effectFrameOut.map((f) => ({ index: f.index, width: f.width, height: f.height })),
+  })
+  console.log(`[pal-extract] battle effect sprite (chunk 10) written: ${effectFrameOut.length} frames`)
+
+  // chunk 7/8 空(0 字节);chunk 12 = 对话框图标 sprite(282B,P2.T4+ 处理)
+  // DATA.MKF count=15(有效 chunk 0-14),chunk 15 超出范围不抽
 
   console.log('[pal-extract] data tables written')
 
