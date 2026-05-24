@@ -1,28 +1,26 @@
 import { test, expect } from '@playwright/test'
-import { bootstrap } from '../helpers/bootstrap.js'
+import { bootstrap, walk } from '../helpers/bootstrap.js'
 import { snapshotCanvas } from '../helpers/snapshot.js'
 import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 
 type Probe = { __game: { gs: { camera: { col: number; row: number } } } }
 
-test('a7 相机 follow — party 走 Right N 次,camera.col 增加 + visual diff', async ({ page }) => {
+test('a7 相机 follow — 长 hold ArrowRight,camera.col 增加 + visual baseline', async ({ page }) => {
   await bootstrap(page)
 
   const cameraBefore = await page.evaluate(
     () => (window as unknown as Probe).__game.gs.camera.col,
   )
 
-  for (let i = 0; i < 10; i++) {
-    await page.keyboard.press('ArrowRight')
-    await page.waitForTimeout(100)
-  }
+  // 10 walks worth(120ms each)+ slack;party 走右 → camera follow
+  await walk(page, 'ArrowRight', 1500)
 
   const cameraAfter = await page.evaluate(
     () => (window as unknown as Probe).__game.gs.camera.col,
   )
   expect(cameraAfter).toBeGreaterThan(cameraBefore)
 
-  // visual sanity:camera 不同位置看到的 tilemap 不同
+  // visual baseline:camera 不同位置看到的 tilemap 不同
   const actual = await snapshotCanvas(page)
   const diff = await pixelDiff({
     actual,

@@ -39,12 +39,12 @@ test('a8 scene 切换 — scene 1 vs 仙灵岛入口(14)视觉差异 + 各自 ba
 test('a8 scene 切换 — party 写入 scene-jumps.json 的 partyStart 位置', async ({ page }) => {
   await bootstrap(page)
   await openDevPicker(page)
-  await selectSceneJump(page, 'scene-16-mob')
+  await selectSceneJump(page, 'scene-15-mob')
 
   const party = await page.evaluate(
     () => (window as unknown as Probe).__game.gs.party,
   )
-  // scene-jumps.json T16 真值:scene-16-mob partyStart = { col: 32, row: 32, facing: 'down' }
+  // scene-jumps.json T16 真值:scene-15-mob partyStart = { col: 32, row: 32, facing: 'down' }
   expect(party.col).toBe(32)
   expect(party.row).toBe(32)
   expect(party.facing).toBe('down')

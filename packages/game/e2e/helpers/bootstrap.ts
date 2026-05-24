@@ -56,3 +56,36 @@ export async function selectSceneJump(page: Page, jumpId: string): Promise<void>
   // dev jump 是 async loadScene + applySceneAssetsToPresent,等几百 ms 让 fetch + apply 完
   await page.waitForTimeout(500)
 }
+
+/**
+ * 走路:hold key durationMs 触发多次 walk tick,然后 up + 缓冲。
+ *
+ * scene-system pickFacing 读 input.held,page.keyboard.press 只 hold ~10ms,
+ * 60fps RAF 大概率 miss → 0 walk。固定 hold 时长更稳。
+ *
+ * 经验值(scene-system M2 一 tick 一 cell):每 cell ~120ms 内通常 OK,留 50ms slack。
+ */
+export async function walk(
+  page: Page,
+  key: 'ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown',
+  durationMs: number,
+): Promise<void> {
+  await page.keyboard.down(key)
+  await page.waitForTimeout(durationMs)
+  await page.keyboard.up(key)
+  await page.waitForTimeout(100) // 让 input.pressed.clear 完成 + party 最后 1 tick 落地
+}
+
+/**
+ * 菜单切光标:press + 150ms 缓冲,确保 input.pressed 被 1 tick 消费 + 清空,
+ * 避免相邻 press 折叠成同一 tick 内单次 pressed。
+ *
+ * battle-system mainMenu / magic / item / target handler 都用 pressed.has(...) edge 触发。
+ */
+export async function pressMenu(
+  page: Page,
+  key: 'ArrowUp' | 'ArrowDown' | 'ArrowLeft' | 'ArrowRight' | 'Enter' | 'Escape',
+): Promise<void> {
+  await page.keyboard.press(key)
+  await page.waitForTimeout(150)
+}

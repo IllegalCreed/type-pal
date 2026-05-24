@@ -90,13 +90,20 @@ export function tickSceneSystem(
   if (!ctx) throw new Error('scene-system: setSceneContext / ctxOverride 必须先设置')
 
   // 1) 走路 + 转向
+  //    M3.5:contact monster(triggerMode >= 4)**不阻挡** —— 对照 sdlpal play.c
+  //    PAL_PartyWalk,接触触发是「走入怪格 → 触发战斗」,所以 walk 阶段允许进入。
+  //    Confirm-search NPC(triggerMode 0..3,默认 NPC)仍阻挡。
   const facing = pickFacing(input)
   if (facing) {
     gs.party.facing = facing
     const { dc, dr } = DIR_DELTA[facing]
     const nc = gs.party.col + dc
     const nr = gs.party.row + dr
-    if (isWalkable(ctx.tilemap, nc, nr) && !npcAt(gs.npcs, nc, nr)) {
+    const blockingNpc = npcAt(gs.npcs, nc, nr)
+    const isContactMonster
+      = blockingNpc?.triggerMode !== undefined
+        && blockingNpc.triggerMode >= TRIGGER_MODE_CONTACT_MIN
+    if (isWalkable(ctx.tilemap, nc, nr) && (!blockingNpc || isContactMonster)) {
       gs.party.col = nc
       gs.party.row = nr
     }

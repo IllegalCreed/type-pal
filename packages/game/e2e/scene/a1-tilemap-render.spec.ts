@@ -7,8 +7,8 @@ import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 const SCENES = [
   { id: 'scene-1', isInitial: true },
   { id: 'scene-14-port', isInitial: false },
-  { id: 'scene-15-corridor', isInitial: false },
-  { id: 'scene-16-mob', isInitial: false },
+  { id: 'scene-15-mob', isInitial: false },
+  { id: 'scene-16-corridor', isInitial: false },
   { id: 'scene-17-maze', isInitial: false },
 ]
 

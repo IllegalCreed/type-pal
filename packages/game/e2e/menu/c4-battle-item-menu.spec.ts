@@ -1,20 +1,24 @@
 import { test, expect } from '@playwright/test'
-import { bootstrap, openDevPicker, selectBattleFixture } from '../helpers/bootstrap.js'
+import {
+  bootstrap,
+  openDevPicker,
+  selectBattleFixture,
+  pressMenu,
+} from '../helpers/bootstrap.js'
 import { snapshotCanvas } from '../helpers/snapshot.js'
 import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 
 type Probe = { __game: { gs: { battleState?: { uiState: string } } } }
 
-test('c4 战斗物品菜单 — Down × 2 + Enter(选 cursor=2 物品)→ uiState=itemMenu', async ({ page }) => {
+test('c4 战斗物品菜单 — Down × 2(各等 tick)+ Enter → uiState=itemMenu', async ({ page }) => {
   await bootstrap(page)
   await openDevPicker(page)
   await selectBattleFixture(page, 'fixture-zh1')
 
-  await page.keyboard.press('ArrowDown')
-  await page.keyboard.press('ArrowDown')
-  await page.waitForTimeout(100)
-  await page.keyboard.press('Enter')
-  await page.waitForTimeout(200)
+  // pressMenu 各等 150ms 让 input.pressed 单独消费 — 否则相邻 press 折叠成 1 次 +1
+  await pressMenu(page, 'ArrowDown')
+  await pressMenu(page, 'ArrowDown')
+  await pressMenu(page, 'Enter')
 
   const uiState = await page.evaluate(
     () => (window as unknown as Probe).__game.gs.battleState?.uiState,
