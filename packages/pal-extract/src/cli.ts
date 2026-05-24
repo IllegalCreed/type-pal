@@ -37,6 +37,11 @@ import { decodePalette } from './resources/palette.js'
 import { dumpScene } from './resources/scene.js'
 import { encodeIndexedPng, extractCharacterSprites } from './resources/sprite.js'
 import {
+  parseBattleEffectIndex,
+  parseLevelUpExp,
+  parseLevelUpMagic,
+} from './resources/parsers/data-misc.js'
+import {
   buildEnemyObjectNameMap,
   buildObjectIndexToEnemyIdMap,
   parseBattleFields,
@@ -230,6 +235,30 @@ async function main(): Promise<void> {
   // T9:cli.ts 不再硬编码 leader sprite,改读 playerRoles.roles[0].spriteNum 真值用于切片。
   const playerRoles = parsePlayerRoles(loadFile('DATA.MKF'), words)
   writeJson(resolve(OUT, 'data', 'player-roles.json'), playerRoles)
+
+  // M4 P2 T2: DATA.MKF 余下 chunks ─────────────────────────────────────────
+  // chunk 14: rgLevelUpExp[100] = 升级经验阈值(WORD × 100 = 200 字节)
+  const levelUpExpBuf = readChunk(dataMkf, 14)
+  writeJson(resolve(OUT, 'data', 'level-up-exp.json'), parseLevelUpExp(levelUpExpBuf))
+
+  // chunk 6: lprgLevelUpMagic = LEVELUPMAGIC_ALL × N
+  //   LEVELUPMAGIC_ALL = { LEVELUPMAGIC m[5] }, LEVELUPMAGIC = { WORD wLevel; WORD wMagic }
+  //   MAX_PLAYABLE_PLAYER_ROLES = 5
+  const levelUpMagicBuf = readChunk(dataMkf, 6)
+  writeJson(
+    resolve(OUT, 'data', 'level-up-magic.json'),
+    parseLevelUpMagic(levelUpMagicBuf, 5),
+  )
+
+  // chunk 11: rgwBattleEffectIndex[10][2] = WORD × 20 = 40 字节
+  const battleEffectBuf = readChunk(dataMkf, 11)
+  writeJson(resolve(OUT, 'data', 'battle-effect-index.json'), parseBattleEffectIndex(battleEffectBuf))
+
+  // chunk 7/8 空跳;chunk 9/10/12 sprite 数据 → P2.T3 处理
+  // inventory MD 标注的 chunk 15 实测超出范围(DATA.MKF count=15,有效 0-14),不抽
+  // 保留 raw 容器以兼容后续可能的扩展
+  const dataMiscRaw: Record<number, unknown> = {}
+  writeJson(resolve(OUT, 'data', 'data-misc-raw.json'), dataMiscRaw)
 
   console.log('[pal-extract] data tables written')
 

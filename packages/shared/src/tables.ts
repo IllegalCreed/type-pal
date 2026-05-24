@@ -440,3 +440,52 @@ export interface PlayerRoles {
    */
   roles: PlayerRole[]
 }
+
+// ── M4 P2 T2: DATA.MKF 余下 chunks ────────────────────────────────────────
+
+/**
+ * DATA.MKF chunk 14 — rgLevelUpExp 升级经验阈值。
+ *
+ * sdlpal global.h:
+ *   `typedef WORD LEVELUPEXP;`
+ *   `LEVELUPEXP rgLevelUpExp[MAX_LEVELS + 1];`  MAX_LEVELS=99 → 100 条
+ *
+ * index i = 从第 i 级升至第 i+1 级所需的经验值(WORD 无符号)。
+ */
+export type LevelUpExp = number[]
+
+/**
+ * DATA.MKF chunk 6 — lprgLevelUpMagic 单个习得记录。
+ *
+ * sdlpal global.h tagLEVELUPMAGIC:
+ *   `WORD wLevel;` — 触发习得的等级(WORD 无符号)
+ *   `WORD wMagic;` — 习得的法术编号,指向 magic.json 的 id(WORD 无符号)
+ */
+export interface LevelUpMagicEntry {
+  /** sdlpal tagLEVELUPMAGIC.wLevel — 触发习得的等级(WORD)。 */
+  level: number
+  /** sdlpal tagLEVELUPMAGIC.wMagic — 习得的法术编号(WORD),指向 magic.json id。 */
+  magic: number
+}
+
+/**
+ * DATA.MKF chunk 6 — lprgLevelUpMagic 全量。
+ *
+ * sdlpal struct:
+ *   `LEVELUPMAGIC_ALL = { LEVELUPMAGIC m[MAX_PLAYABLE_PLAYER_ROLES=5] }`
+ *
+ * 布局:`result[entryIndex][roleIndex]` — entryIndex = 0..nLevelUpMagic-1,
+ * roleIndex = 0..4(MAX_PLAYABLE_PLAYER_ROLES-1)。
+ * 实测 chunk 6 = 400 字节 / 20 bytes per entry = 20 entries。
+ */
+export type LevelUpMagicTable = LevelUpMagicEntry[][]
+
+/**
+ * DATA.MKF chunk 11 — rgwBattleEffectIndex 战斗特效索引。
+ *
+ * sdlpal global.h:
+ *   `WORD rgwBattleEffectIndex[10][2];` — 10 套 × 2 WORD = 20 WORD = 40 字节。
+ *
+ * dump 为一维数组(length = 20);使用时按 `arr[role * 2 + subIdx]` 解读。
+ */
+export type BattleEffectIndex = number[]
