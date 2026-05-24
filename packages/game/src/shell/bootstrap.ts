@@ -413,32 +413,48 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   // P0.e: 注入 startBattle handler — opcode 7 (raw#7 / op:startBattle) 用。
   // 战斗资源闭包持引用,event-system 不污染 import battle/。
-  // 简化版:isBoss + enemyTeamId 自驱;battleFieldId 用 enemyTeam.battleField 真值
-  // (sdlpal global.h:223 ENEMYTEAM 含 wBattleField,本 task 取 enemy-pos.json 默认 0 兜底)。
+  // sdlpal play.c PAL_StartBattle 取 gpGlobals->wNumBattleField 作 battleFieldId,
+  // 该字段由 wScriptOnEnter opcode 0x4A setBattlefield 写入(P0.e 新接)。
   setStartBattleHandler(({ gs, enemyTeamId, isBoss }) => {
-    // sdlpal play.c PAL_StartBattle:battleField 从 wBattleField 或 enemy-pos 取;
-    // M3 既有 battle-fixtures.json 硬编码 0 — 这里也走 0 兜底,真做 lookup 留 M5 B-w0。
-    const battleFieldId = 0
-    startBattle({
-      gs,
-      enemyTeamId,
-      battleFieldId,
-      isBoss,
-      enemies,
-      enemyTeams,
-      battleFields,
-      playerRoles,
-      items,
-      spells,
-      magics,
-      commands: eventCommands,
-    })
+    const battleFieldId = gs.wNumBattleField ?? 0
+    console.debug(
+      `[bootstrap.startBattleHandler] enemyTeamId=${enemyTeamId} battleFieldId=${battleFieldId}`
+      + ` isBoss=${isBoss} before.mode=${gs.mode} partyMembers=${gs.partyMembers.length}`,
+    )
+    try {
+      startBattle({
+        gs,
+        enemyTeamId,
+        battleFieldId,
+        isBoss,
+        enemies,
+        enemyTeams,
+        battleFields,
+        playerRoles,
+        items,
+        spells,
+        magics,
+        commands: eventCommands,
+      })
+      console.debug(
+        `[bootstrap.startBattleHandler] after.mode=${gs.mode} battleState=${!!gs.battleState}`,
+      )
+    }
+    catch (e) {
+      console.error('[bootstrap.startBattleHandler] startBattle FAILED:', e)
+      throw e
+    }
     // dev gate:e2e observability。battle 可能瞬间 finalize 回 explore(空 partyMembers
     // 或资源缺失场景),mode 轮询 miss 不到 → 维持一个累积计数器供 a9 等 spec 断言"曾进过"。
     if ((import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV) {
-      const w = window as unknown as { __battleStartCount?: number; __lastBattleEnemyTeam?: number }
+      const w = window as unknown as {
+        __battleStartCount?: number
+        __lastBattleEnemyTeam?: number
+        __lastBattleFieldId?: number
+      }
       w.__battleStartCount = (w.__battleStartCount ?? 0) + 1
       w.__lastBattleEnemyTeam = enemyTeamId
+      w.__lastBattleFieldId = battleFieldId
     }
   })
 

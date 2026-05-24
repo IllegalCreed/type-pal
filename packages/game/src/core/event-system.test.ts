@@ -3,7 +3,7 @@ import type { Command, InputSnapshot, AbstractKey, Palette } from '@type-pal/sha
 import {
   tickEventSystem, buildLabelMap, runScript, setFetchPalette,
   setSharedEvents, setStartBattleHandler,
-  OP_START_BATTLE,
+  OP_START_BATTLE, OP_SET_BATTLE_FIELD,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -566,5 +566,35 @@ describe('goto shared#L_xxx(P0.e — events/shared.json 跨 scene 共享脚本)'
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()
     setSharedEvents([], {})
+  })
+})
+
+// ── P0.e: opcode 0x4A setBattlefield 写 gs.wNumBattleField ────────────────────
+describe('opcode 0x4A setBattlefield(P0.e — sdlpal script.c:1719)', () => {
+  it('raw#0x4A → gs.wNumBattleField = operand[0]', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    expect(gs.wNumBattleField).toBeUndefined()
+
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_BATTLE_FIELD, operands: [10, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+
+    expect(gs.wNumBattleField).toBe(10)
+    expect(gs.mode).toBe('explore')
+  })
+
+  it('多次 setBattlefield → 写入最后一次值', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_BATTLE_FIELD, operands: [5, 0, 0] },
+      { op: 'raw', opcode: OP_SET_BATTLE_FIELD, operands: [10, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.wNumBattleField).toBe(10)
   })
 })

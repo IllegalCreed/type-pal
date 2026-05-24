@@ -52,6 +52,10 @@ export const OP_PLAY_MUSIC = 0x0043             // 67
 // case 0x0049(73):  Set state of current event object
 //   operand[0]=condition(non-zero → execute), operand[1]=newState
 export const OP_SET_SCENE_OBJECT_STATE = 0x0049 // 73
+// case 0x004A(74):  Set the current battlefield
+//   operand[0] = battlefield id → gs.wNumBattleField(sdlpal script.c:1719,global.h:536)
+//   scene 15 wScriptOnEnter `[10, 0, 0]` → 草妖通道用 battlefield 10
+export const OP_SET_BATTLE_FIELD = 0x004A       // 74
 
 /** sdlpal palcommon.h enum kDir → our Facing 字面量映射 */
 const SDLPAL_DIR_TO_FACING: Record<number, 'down' | 'left' | 'up' | 'right'> = {
@@ -517,7 +521,7 @@ function applyRawOpcode(
 
     case OP_PLAY_MUSIC: {
       const musicId = operands[0] ?? 0
-      ;(gs as GameState & { wNumMusic?: number }).wNumMusic = musicId
+      gs.wNumMusic = musicId
       console.debug(`event-system: playMusic id=${musicId} (M6 接真播)`)
       break
     }
@@ -525,6 +529,15 @@ function applyRawOpcode(
     case OP_SET_SCENE_OBJECT_STATE: {
       const [cond, state] = operands
       console.debug(`event-system: setSceneObjectState cond=${cond} state=${state} (no-op, M5+ field)`)
+      break
+    }
+
+    case OP_SET_BATTLE_FIELD: {
+      // sdlpal script.c:1719:`gpGlobals->wNumBattleField = pScript->rgwOperand[0];`
+      // 进 scene wScriptOnEnter 时写;后续 opcode 7 startBattle 取此值作 battleFieldId。
+      const battleFieldId = operands[0] ?? 0
+      gs.wNumBattleField = battleFieldId
+      console.debug(`event-system: setBattlefield id=${battleFieldId}`)
       break
     }
 

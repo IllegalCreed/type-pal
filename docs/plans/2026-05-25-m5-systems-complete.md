@@ -3603,6 +3603,82 @@ scene events 内常 `goto: "shared#L_41127"` 跳到 `events/shared.json` 跑 cle
 - M5.5 sdlpal audit 应包含"全 opcode 系统层归类"清单 — 当前仅具名 7 / 21 / 67 / 70 / 73 / 79 / 127 七个,剩余 ~250 opcode 需识别 must-have(item/给道具/spawn 等高频)
 - trigger 末尾 cleanup(shared#L_xxx)在简化战斗路径下被吞掉,sState NPC 隐藏 / 战胜奖励等行为不展现 — 玩起来"草妖打完不消失"是已知,留 M5+
 
+### P0.e 实施过程发现 · opcode 0x4A setBattlefield + enter script 副作用顺序 (2026-05-25)
+
+**触发:** user 撞草妖触发 battle 后报 2 个新症状:
+1. 战斗背景看错(状态界面 / 错的 battlefield)
+2. 闪一下就回大世界(mode 没稳到 'battle')
+
+**Bug 1 根因 · opcode 0x4A setBattlefield 漏具名:**
+
+sdlpal `script.c:1719` 真值:
+```c
+case 0x004A:
+   gpGlobals->wNumBattleField = pScript->rgwOperand[0];
+   break;
+```
+
+P0.e 原 6 opcode(setPartyPos / Direction / Camera / centerCamera / playMusic / setObjectState)漏了 **0x4A setBattlefield**。scene 15 wScriptOnEnter `[10, 0, 0]` 在 `applyRawOpcode` default 分支被 D26 兜底 skip → `gs.wNumBattleField` 永远 undefined → bootstrap startBattle handler 用 `?? 0` 兜底 → battle 永远 battleField 0(场景 1 默认背景),不是草妖通道真值 10。
+
+修法:
+- `event-system.ts` 加 `OP_SET_BATTLE_FIELD = 0x004A` 常量(port `script.c:1719`)
+- `applyRawOpcode` 加 case:`gs.wNumBattleField = operands[0]` + console.debug
+- `game-state.ts` 加 `wNumBattleField?: number`(sdlpal `global.h:536` `wNumMusic` 同时正名)— 顺手清掉 P0.e setBattlefield 时用的 `(gs as GameState & { wNumMusic?: number })` ad-hoc cast,改 schema field 真值
+
+**Bug 1 隐藏子根因 · dev partyStart 短路 enter script:**
+
+scene-system `loadScene` 旧序列:
+```typescript
+if (partyStart) { gs.party = partyStart }       // partyStart 短路
+else if (onEnterLabel) { runEnterScript(...) }  // enter 不跑
+```
+
+scene-jumps.json 的 dev fallback partyStart(94 entries)会**短路 enter script**,导致 setBattlefield / playMusic / 其他系统层 opcode 全不跑 → battle field / music 永远 default。
+
+修法:把 partyStart 后置到 runEnterScript 之后,两者并存:
+```typescript
+if (onEnterLabel) { runEnterScript(...) }       // 先跑 enter 设 wNumBattleField / wNumMusic / ...
+if (partyStart) { gs.party = partyStart }       // dev fallback 覆写位置(setPartyPos 也被覆盖,无所谓)
+```
+
+**Bug 2 根因 · 空 partyMembers 让 battle 立即自动 lose:**
+
+`gs.partyMembers = []`(bootstrap 默认,user 没用 dev panel 设过 fixture)
+→ `createBattleState` 构 `players: []`
+→ tickBattle selectAction phase 第一 tick:`alivePlayerIdxs.length === 0` → `phase = 'lost'`
+→ 下一 tick `finalizeBattle` → `mode = 'explore'`
+
+这就是 user 看到的"闪一下回大世界"。本质是**用 dev panel 直跳 scene 但没先设 party** 的预期行为,不是 bug。修法可选 M5+:
+- (a) dev panel 加默认 partyMembers fallback(选 fixture-zh1 的队伍当默认)
+- (b) 友好 console.warn("battle 启动但 partyMembers 空,将立即 lose")
+
+本 task 不动 — 用户在 dev panel 选 battle fixture 或自行 `__game.gs.partyMembers = [0]` 即可避免。
+
+**Smoke trace 真值(headless playwright + dev gate):**
+
+跳 scene-15-mob (无 partyStart fallback 短路修后):
+```
+event-system: setBattlefield id=10                              ✓ (P0.e fix)
+event-system: startBattle enemyTeamId=16 isBoss=false           ✓ (opcode 7)
+[bootstrap.startBattleHandler] battleFieldId=10 partyMembers=1  ✓ (user set partyMembers=[0])
+[bootstrap.startBattleHandler] after.mode=battle battleState=true ✓
+```
+
+手动设 `partyMembers = [0]` 后,撞 NPC 206 13 步内触发,mode 稳定在 'battle',`__lastBattleFieldId === 10`,`__lastBattleEnemyTeam === 16`。
+
+**测试:**
+- 单元 +2 spec(setBattlefield 单次 / 多次写最后值)→ 309 → 311 passed
+- e2e 31/31 pass
+
+**opcode 表更新(6 → 7):**
+| opcode | 0x07 | 0x15 | 0x43 | 0x46 | 0x49 | 0x4A | 0x7F |
+|--------|------|------|------|------|------|------|------|
+| name | startBattle | setPartyDirection | playMusic | setPartyPos | setSceneObjectState | **setBattlefield** | setCamera |
+
+**M5+ 启发(增量):**
+- M5.5 sdlpal opcode audit 要列出全 ~250 opcode,识别 P0.e 系统层 must-have — 这次 0x4A 漏就因为只盯了 wScriptOnEnter 中"常见"的 setPartyPos,没全扫 scene-15 enter 段
+- dev panel 应提供 "set default party + inventory" 一键按钮(或 URL flag `?party=zh1`),避免 user 直跳 scene 后撞怪闪退
+
 ## Sync 段
 
 (实施时累积)

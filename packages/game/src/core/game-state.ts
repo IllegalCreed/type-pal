@@ -69,6 +69,22 @@ export interface GameState {
    *  flushToCanvas 优先用 gs.palette(若非 undefined),否则 fallback 到 bootstrap 初始 palette。
    */
   palette?: Palette
+  /**
+   * 当前 battle field id(sdlpal global.h:536 `wNumBattleField`)。
+   *
+   * P0.e:opcode 0x4A `setBattlefield` 写入 — `scene.wScriptOnEnter` 进 scene 时设。
+   * scene 15 的 enter script 真值 `[10, 0, 0]` → 草妖通道用 battlefield 10。
+   *
+   * opcode 7 startBattle 调 PAL_StartBattle 时取此值作 `battleFieldId`,绘制对应战斗背景。
+   * 初始值 undefined(尚未跑过任何 setBattlefield)。
+   */
+  wNumBattleField?: number
+  /**
+   * 当前 BGM id(sdlpal global.h:534 `wNumMusic`)。
+   *
+   * P0.e:opcode 0x43 `playMusic` 写入。M6 接真播,本阶段只记字段值供 sync 校验。
+   */
+  wNumMusic?: number
 }
 
 export function createInitialGameState(

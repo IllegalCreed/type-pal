@@ -290,10 +290,22 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
     labelMap: sceneAssets.labelMap,
   })
 
-  // P0.e: party 起点优先级:
-  //   1. 显式 partyStart(dev panel manual override)→ 直接写入,跳过 enter script
-  //   2. 无 partyStart → 跑 wScriptOnEnter(setPartyPos 把人放对位置)
-  //   3. 无 partyStart 且无 onEnterLabel → party 留在原坐标(不报错)
+  // P0.e: party 起点 + enter script 副作用顺序:
+  //   1. 先跑 wScriptOnEnter(若有)— 设 wNumBattleField / wNumMusic / setSceneObjectState 等
+  //      非位置类副作用(opcode 0x4A / 0x43 等)
+  //   2. 若调用方传 partyStart(dev panel manual override),其后覆写 party.x/y/facing + camera
+  //      — 这让 enter script 的 setBattlefield 真生效,即便 dev fallback partyStart 也不丢
+  //   3. 无 partyStart + 无 onEnterLabel → party 留在原坐标(不报错)
+  //
+  // 注:之前版本 partyStart 短路 enter script,导致 scene-jumps.json dev fallback partyStart
+  // 直跳的 scene 永远不跑 setBattlefield → 战斗背景永远 default。本 fix 让两者并存:
+  // enter script 跑全(含 setPartyPos),partyStart 之后覆写位置。
+  if (sceneAssets.onEnterLabel) {
+    const ip = sceneAssets.labelMap[sceneAssets.onEnterLabel]
+    if (ip !== undefined) {
+      runEnterScript(gs, sceneAssets.eventCommands, sceneAssets.labelMap, ip)
+    }
+  }
   if (partyStart) {
     gs.party = {
       x: partyStart.x,
@@ -301,11 +313,5 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
       facing: partyStart.facing ?? gs.party.facing,
     }
     gs.camera = { x: partyStart.x, y: partyStart.y }
-  }
-  else if (sceneAssets.onEnterLabel) {
-    const ip = sceneAssets.labelMap[sceneAssets.onEnterLabel]
-    if (ip !== undefined) {
-      runEnterScript(gs, sceneAssets.eventCommands, sceneAssets.labelMap, ip)
-    }
   }
 }
