@@ -26,3 +26,6 @@ reference/walkthrough/
 
 # Playwright MCP 临时缓存(快照 / 截图)
 .playwright-mcp/
+
+# 临时截图(本机 dev 验证用,版权 + 临时性质)
+m3-*.png
