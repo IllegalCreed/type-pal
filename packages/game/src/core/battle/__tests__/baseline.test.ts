@@ -29,11 +29,9 @@
  *
  * ## 已知 deviation(T23 实地观察 — 在 plan 末尾「实施过程发现」记录)
  *
- * 1. **enemy-teams.json 槽位是 sdlpal OBJECT id**(398..550),不是 enemies.json id
- *    (0..153)。T22 简化:`enemies.find(e => e.id === slot)` 直接失败。本 test 用
- *    `objId - 398 + 1` 启发式映射兜底。**真值映射需读 OBJECT_ENEMY.wEnemyID**,
- *    当前 data/extracted/events/objects.json segments=[] 没解 OBJECT 段。
- *    → 计入 D29 finding,T9 cli.ts 需补 OBJECT→enemyId 反向映射表 dump。
+ * 1. ~~**enemy-teams.json 槽位是 sdlpal OBJECT id**~~ —— 已修(M3 phase 1 T30,
+ *    commit ece67b9):pal-extract `parsers/enemies.ts` 加 `buildObjectIndexToEnemyIdMap`,
+ *    enemyTeam.enemies 槽位现在已是 0-based enemies.json id,test 直接调真 startBattle。
  *
  * 2. **spell / item id 在 fixture 是 OBJECT 段绝对 index**,不在我们 spells.json /
  *    items.json 的 0-based id 范围内 → performMagic / performItem warn + 早退,
@@ -72,7 +70,7 @@ import type {
 } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
 import { createCommandBus } from '../../command-bus.js'
-import { createInitialGameState, type GameState } from '../../game-state.js'
+import { createInitialGameState } from '../../game-state.js'
 import type { BattleState } from '../battle-state.js'
 import { startBattle, tickBattle } from '../battle-system.js'
 
@@ -241,53 +239,6 @@ function applyPlayerOverrides(
   return out
 }
 
-/**
- * sdlpal OBJECT id → enemies.json id 映射(D29 实地观察规律 + 兜底)。
- *
- * 严格映射需读 OBJECT_ENEMY.wEnemyID(当前 events/objects.json 未解 OBJECT 段)。
- * 启发式:`objId - ENEMY_OBJ_START + 1`,失败回退到 raw objId。
- */
-function resolveEnemyIdFromObjectId(objId: number, enemies: Enemy[]): number | undefined {
-  if (objId === 0 || objId === 0xffff) return undefined
-  const guessed = objId - ENEMY_OBJ_START + 1
-  if (enemies.some((e) => e.id === guessed)) return guessed
-  if (enemies.some((e) => e.id === objId)) return objId
-  return undefined
-}
-
-/**
- * 包了一层的 startBattle —— 把 enemyTeam 槽位的 OBJECT id 翻译成 enemies.json id。
- */
-function startBattleWithObjectIdMap(baseInput: {
-  gs: GameState
-  enemyTeamId: number
-  battleFieldId: number
-  isBoss: boolean
-  enemies: Enemy[]
-  enemyTeams: EnemyTeam[]
-  battleFields: BattleField[]
-  playerRoles: PlayerRoles
-  items: Item[]
-  spells: Spell[]
-  magics: Magic[]
-  commands: Command[]
-  rngSeed: number
-}): void {
-  const patchedTeams = baseInput.enemyTeams.map((t) => {
-    if (t.id !== baseInput.enemyTeamId) return t
-    return {
-      ...t,
-      enemies: t.enemies.map((slot) => {
-        if (slot === 0 || slot === 0xffff) return slot
-        const resolved = resolveEnemyIdFromObjectId(slot, baseInput.enemies)
-        return resolved ?? slot
-      }) as EnemyTeam['enemies'],
-    }
-  })
-
-  startBattle({ ...baseInput, enemyTeams: patchedTeams })
-}
-
 interface CapturedTurn {
   turn: number
   players: Array<{ role: number; hp: number; mp: number }>
@@ -409,7 +360,7 @@ function runFixture(
   const bus = createCommandBus()
   const emptyInput: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }
 
-  startBattleWithObjectIdMap({
+  startBattle({
     gs,
     enemyTeamId: fixture.enemyTeamId,
     battleFieldId: fixture.battleFieldId,
