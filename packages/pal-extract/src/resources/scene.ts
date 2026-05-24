@@ -49,6 +49,7 @@ export function dumpScene(
       spriteNum: eo.spriteNum,
       triggerLabel: labelOf(eo.triggerScript),
       autoLabel: labelOf(eo.autoScript),
+      triggerMode: eo.triggerMode,
     })
   }
 

@@ -49,6 +49,7 @@ describe('dumpScene', () => {
       spriteNum: 78,
       triggerLabel: 'L_59',
       autoLabel: undefined,
+      triggerMode: 0,
     })
     expect(result.eventObjects[1]?.triggerLabel).toBe('L_100')
     expect(result.eventObjects[1]?.autoLabel).toBe('L_200')
@@ -70,5 +71,51 @@ describe('dumpScene', () => {
     expect(result.mapNum).toBe(13)
     // scene[2].eventObjectIndex=2,末场景兜底走 eventObjects.length=2 → 0 个对象
     expect(result.eventObjects).toHaveLength(0)
+  })
+})
+
+describe('dumpScene triggerMode 字段(M3.5)', () => {
+  const fakeScenes: Scene[] = [
+    { mapNum: 0, scriptOnEnter: 0, scriptOnTeleport: 0, eventObjectIndex: 0, raw: new Uint16Array(4) },
+    { mapNum: 12, scriptOnEnter: 0, scriptOnTeleport: 0, eventObjectIndex: 0, raw: new Uint16Array(4) },
+    { mapNum: 13, scriptOnEnter: 0, scriptOnTeleport: 0, eventObjectIndex: 1, raw: new Uint16Array(4) },
+  ]
+
+  it('SceneEventObject dump 含 triggerMode raw u16', () => {
+    const fakeEventObjects: EventObject[] = [
+      {
+        state: 1,
+        vanishTime: 0,
+        x: 10,
+        y: 20,
+        spriteNum: 78,
+        triggerScript: 59,
+        autoScript: 0,
+        layer: 0,
+        triggerMode: 4,
+        raw: new Uint16Array(16),
+      },
+    ]
+    const result = dumpScene(1, fakeScenes, fakeEventObjects)
+    expect(result.eventObjects[0]?.triggerMode).toBe(4)
+  })
+
+  it('triggerMode=0 正确 dump(不是 undefined)', () => {
+    const fakeEventObjects: EventObject[] = [
+      {
+        state: 1,
+        vanishTime: 0,
+        x: 10,
+        y: 20,
+        spriteNum: 78,
+        triggerScript: 0,
+        autoScript: 0,
+        layer: 0,
+        triggerMode: 0,
+        raw: new Uint16Array(16),
+      },
+    ]
+    const result = dumpScene(1, fakeScenes, fakeEventObjects)
+    expect(result.eventObjects[0]?.triggerMode).toBe(0)
   })
 })

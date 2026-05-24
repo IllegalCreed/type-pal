@@ -62,7 +62,7 @@ describe('GameState', () => {
 describe('npcFromEventObject', () => {
   it('SceneEventObject 像素坐标 → cell 坐标(x/32, y/16),其它字段透传', () => {
     const eo: SceneEventObject = {
-      id: 3, x: 512, y: 800, spriteNum: 42, triggerLabel: 'L_59',
+      id: 3, x: 512, y: 800, spriteNum: 42, triggerLabel: 'L_59', triggerMode: 0,
     }
     const npc = npcFromEventObject(eo)
     expect(npc.id).toBe(3)
@@ -73,7 +73,7 @@ describe('npcFromEventObject', () => {
   })
 
   it('triggerLabel 缺时透传 undefined', () => {
-    const eo: SceneEventObject = { id: 0, x: 0, y: 0, spriteNum: 0 }
+    const eo: SceneEventObject = { id: 0, x: 0, y: 0, spriteNum: 0, triggerMode: 0 }
     expect(npcFromEventObject(eo).triggerLabel).toBeUndefined()
   })
 })

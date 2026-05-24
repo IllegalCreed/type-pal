@@ -31,6 +31,7 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
         x: 8 * 32, y: 5 * 16,
         spriteNum: 78,
         triggerLabel: 'L_2',
+        triggerMode: 0,
       }),
     ]
 
