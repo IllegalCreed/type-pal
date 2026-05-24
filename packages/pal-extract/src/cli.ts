@@ -46,8 +46,16 @@ const RAW = resolve(REPO_ROOT, 'data/raw')
 const OUT = resolve(REPO_ROOT, 'data/extracted')
 const SYMBOLS_PATH = resolve(REPO_ROOT, 'data/symbols.json')
 
-/** 切片场景 —— 跳过常见空场景 0,从场景 1 开始。可手动调整。*/
-const SLICE_SCENE_ID = 1
+/**
+ * 切片场景 ID 列表(0-indexed,对应 sss.scenes[N]; sdlpal 1-based wNumScene = N+1)。
+ * - 1  = 客栈 (mapNum 12) —— M2 / M3 起始切片
+ * - 14 = 仙靈島碼頭 (mapNum 3) —— scene-14.onEnter `L_5117` + 張四哥 NPC「我在這裏看船」
+ * - 17 = 仙靈島入口 / 破陣場 (mapNum 6) —— 觀音像 + 破天錘
+ *
+ * 选定依据:scenes dump 头 20 个 + 对照 reference/walkthrough/flow.md 第一章。
+ * dev panel(M3.5 D34)用 sceneId 直接跳。
+ */
+const SLICE_SCENE_IDS = [1, 14, 17] as const
 
 function writeJson(path: string, data: unknown): void {
   mkdirSync(dirname(path), { recursive: true })
@@ -173,48 +181,69 @@ async function main(): Promise<void> {
 
   console.log('[pal-extract] data tables written')
 
-  // ── 资源(切片:仅开局场景) ──────────────────────────────────────
-  console.log(`[pal-extract] resources for scene ${SLICE_SCENE_ID} …`)
-  const scene = sss.scenes[SLICE_SCENE_ID]
-  if (!scene) {
-    console.error(`[pal-extract] scene ${SLICE_SCENE_ID} not found`)
-    process.exit(2)
-  }
-  console.log(`[pal-extract] scene ${SLICE_SCENE_ID}: mapNum=${scene.mapNum}`)
+  // ── 资源(切片:多场景) ──────────────────────────────────────────
+  // M3.5 T4:从单一 SLICE_SCENE_ID 扩到 SLICE_SCENE_IDS 数组,每个 sceneId 各产出
+  // tilemap-N.json + tile-scene-N-*.png + scene-N.json。dev panel 跳 scene 用。
+  console.log(`[pal-extract] resources for scenes ${SLICE_SCENE_IDS.join(',')} …`)
 
-  // 检查 mapNum 合法性
   const mapMkf = openMkf(loadFile('MAP.MKF'))
   const mapChunkCount = chunkCount(mapMkf)
-  if (scene.mapNum >= mapChunkCount) {
-    console.error(
-      `[pal-extract] scene ${SLICE_SCENE_ID} mapNum=${scene.mapNum} >= MAP.MKF chunk count ${mapChunkCount}; ` +
-        `请调整 SLICE_SCENE_ID`,
-    )
-    process.exit(2)
-  }
-
-  // MAP.MKF chunk N:YJ2 压缩;GOP.MKF chunk N:raw sprite chunk
-  const mapBytes = decompressYj2(readChunk(mapMkf, scene.mapNum))
   const gopMkf = openMkf(loadFile('GOP.MKF'))
-  const gopBytes = readChunk(gopMkf, scene.mapNum)
-  const mapResult = parseMap(mapBytes, gopBytes)
 
-  // 每个 tile 写为独立 PNG
-  const tilesetFiles: string[] = []
-  for (const tile of mapResult.tiles) {
-    const fname = `tile-scene-${SLICE_SCENE_ID}-${tile.index.toString().padStart(4, '0')}.png`
-    writeBinary(resolve(OUT, 'images', fname), tile.pngBytes)
-    tilesetFiles.push(fname)
+  // 收集所有切片场景对应的 scene 对象 + (sceneId → sceneObjects) — 给后面 sprite 提取用。
+  const slicedScenes: Array<{
+    sceneId: number
+    scene: import('./io/sss.js').Scene
+    sceneObjects: ReturnType<typeof dumpScene>
+  }> = []
+
+  for (const sliceId of SLICE_SCENE_IDS) {
+    const scene = sss.scenes[sliceId]
+    if (!scene) {
+      console.error(`[pal-extract] scene ${sliceId} not found`)
+      process.exit(2)
+    }
+    console.log(`[pal-extract] scene ${sliceId}: mapNum=${scene.mapNum}`)
+
+    if (scene.mapNum >= mapChunkCount) {
+      console.error(
+        `[pal-extract] scene ${sliceId} mapNum=${scene.mapNum} >= MAP.MKF chunk count ${mapChunkCount}; ` +
+          `请调整 SLICE_SCENE_IDS`,
+      )
+      process.exit(2)
+    }
+
+    // MAP.MKF chunk N:YJ2 压缩;GOP.MKF chunk N:raw sprite chunk
+    const mapBytes = decompressYj2(readChunk(mapMkf, scene.mapNum))
+    const gopBytes = readChunk(gopMkf, scene.mapNum)
+    const mapResult = parseMap(mapBytes, gopBytes)
+
+    // 每个 tile 写为独立 PNG
+    const tilesetFiles: string[] = []
+    for (const tile of mapResult.tiles) {
+      const fname = `tile-scene-${sliceId}-${tile.index.toString().padStart(4, '0')}.png`
+      writeBinary(resolve(OUT, 'images', fname), tile.pngBytes)
+      tilesetFiles.push(fname)
+    }
+    mapResult.tilemap.tilesetImage = `tile-scene-${sliceId}-*.png`
+    writeJson(resolve(OUT, 'data', `tilemap-${sliceId}.json`), {
+      ...mapResult.tilemap,
+      tilesetFiles,
+    })
+
+    console.log(
+      `[pal-extract] scene ${sliceId} tilemap written (${mapResult.tiles.length} tiles)`,
+    )
+
+    // 场景对象切片:从切片场景 dump NPC/触发点列表(供运行时用)
+    const sceneObjects = dumpScene(sliceId, sss.scenes, sss.eventObjects)
+    writeJson(resolve(OUT, 'data', `scene-${sliceId}.json`), sceneObjects)
+    console.log(
+      `[pal-extract] scene-${sliceId}.json written (${sceneObjects.eventObjects.length} event objects)`,
+    )
+
+    slicedScenes.push({ sceneId: sliceId, scene, sceneObjects })
   }
-  mapResult.tilemap.tilesetImage = `tile-scene-${SLICE_SCENE_ID}-*.png`
-  writeJson(resolve(OUT, 'data', `tilemap-${SLICE_SCENE_ID}.json`), {
-    ...mapResult.tilemap,
-    tilesetFiles,
-  })
-
-  console.log(
-    `[pal-extract] tilemap written (${mapResult.tiles.length} tiles)`,
-  )
 
   // 调色板:PAT.MKF 全量 dump
   const patMkf = openMkf(loadFile('PAT.MKF'))
@@ -231,15 +260,10 @@ async function main(): Promise<void> {
   }
   console.log(`[pal-extract] palette written (${palWritten} chunks)`)
 
-  // 场景对象切片:从切片场景 dump NPC/触发点列表(供运行时用)
-  const sceneObjects = dumpScene(SLICE_SCENE_ID, sss.scenes, sss.eventObjects)
-  writeJson(resolve(OUT, 'data', `scene-${SLICE_SCENE_ID}.json`), sceneObjects)
+  // 角色 / NPC 精灵切片(M2 新增 — D27, M3 T9 改读真值;M3.5 T4 改 union 多 scene)
   console.log(
-    `[pal-extract] scene-${SLICE_SCENE_ID}.json written (${sceneObjects.eventObjects.length} event objects)`,
+    `[pal-extract] character sprites for scenes ${SLICE_SCENE_IDS.join(',')} …`,
   )
-
-  // 角色 / NPC 精灵切片(M2 新增 — D27, M3 T9 改读真值)
-  console.log(`[pal-extract] character sprites for scene ${SLICE_SCENE_ID} …`)
 
   // 队长精灵号 —— 从上面 parsePlayerRoles 得到的真值取(roles[0].spriteNum,实测 = 2)。
   // 6 个角色精灵号 = [2, 3, 7, 525, 5, 26]。M2 切片只装载队长一个 sprite,
@@ -247,8 +271,10 @@ async function main(): Promise<void> {
   const partyLeader = playerRoles.roles[0]
   if (!partyLeader) throw new Error('cli: parsePlayerRoles 返回空 roles')
   const spriteIds = new Set<number>([partyLeader.spriteNum])
-  for (const eo of sceneObjects.eventObjects) {
-    if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)
+  for (const sliced of slicedScenes) {
+    for (const eo of sliced.sceneObjects.eventObjects) {
+      if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)
+    }
   }
 
   const mgoMkf = openMkf(loadFile('MGO.MKF'))
