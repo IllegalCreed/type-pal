@@ -23,16 +23,15 @@ function snap(held: AbstractKey[] = [], pressed: AbstractKey[] = [], frameNum = 
 
 describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
   it('完整 NPC 触发流程,最终 mode=explore + dialogBox 已清', () => {
-    // M5 P0.0:party/npc 改像素坐标(X_STEP=16/Y_STEP=8)。
+    // M5 P0.0 System A:sdlpal pixel(tile 32×16)。
     // sdlpal scene.c:804-805 East: dx=+16, dy=+8。起点(80,40),3 次右后=(128,64)。
     // facing=right → confirm target=party+Right=(144,72)。
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
-    // npcFromEventObject:eo.x/y 是 sdlpal pixel,我们的单位 = floor(eo/2)。
-    // 把 NPC 放在 Confirm target (144,72) → eo.x=288, eo.y=144。
+    // System A:npcFromEventObject 1:1 透传,把 NPC 放在 Confirm target (144,72)。
     gs.npcs = [
       npcFromEventObject({
         id: 1,
-        x: 288, y: 144,
+        x: 144, y: 72,
         spriteNum: 78,
         triggerLabel: 'L_2',
         triggerMode: 0,

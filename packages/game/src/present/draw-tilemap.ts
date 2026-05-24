@@ -66,12 +66,9 @@ export function drawTilemap(
   cameraPx: { x: number; y: number },
   layer: TileLayer,
 ): void {
-  // M5 P0.0:camera 已是像素坐标(X_STEP=16 / Y_STEP=8 单位);
-  // 换算回 tilemap 渲染所用的 tile 像素空间(tile 32×16):cam_tile_x = camPx.x * 2
-  const camPxX = cameraPx.x * 2
-  const camPxY = cameraPx.y * 2
-  const offsetX = (SCREEN_W >> 1) - camPxX
-  const offsetY = (SCREEN_H >> 1) - camPxY
+  // M5 P0.0 System A:camera 已是 sdlpal pixel(tile 32×16),无需缩放,直接做 viewport offset。
+  const offsetX = (SCREEN_W >> 1) - cameraPx.x
+  const offsetY = (SCREEN_H >> 1) - cameraPx.y
 
   const idFn = layer === 0 ? tileIdLayer0 : tileIdLayer1
 

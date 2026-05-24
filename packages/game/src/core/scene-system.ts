@@ -25,9 +25,12 @@ export function setSceneContext(ctx: SceneContext): void {
   _ctx = ctx
 }
 
-/** sdlpal scene.c:807:xOffset=±16 / yOffset=±8,每按一次方向键走半格(tile 32×16)。 */
+/** sdlpal scene.c:807:xOffset=±16 / yOffset=±8(sdlpal pixel),每按一次方向键走半 tile。
+ *  System A:OUR unit = sdlpal pixel,tile=32×16 sdlpal px。 */
 const X_STEP = 16
 const Y_STEP = 8
+const TILE_W = 32
+const TILE_H = 16
 
 // sdlpal scene.c:804-805 真值 + palcommon.h enum(kDirSouth=0,kDirWest=1,kDirNorth=2,kDirEast=3):
 //   xOffset = (West||South ? -16 : +16);  yOffset = (West||North ? -8 : +8)
@@ -95,9 +98,9 @@ function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void
 }
 
 function isWalkable(tilemap: Tilemap, x: number, y: number): boolean {
-  // 把像素坐标换算回 cell(向下取整),做地图边界检查。
-  const col = Math.floor(x / X_STEP)
-  const row = Math.floor(y / Y_STEP)
+  // System A:sdlpal pixel → cell(map.c PAL_MapBlitToSurface 用 x/32 取 col、y/16 取 row,tile 32×16)。
+  const col = Math.floor(x / TILE_W)
+  const row = Math.floor(y / TILE_H)
   if (col < 0 || col >= tilemap.width || row < 0 || row >= tilemap.height) return false
   // M2 简化:全部可走。M1 没单独存 attribute 位,实施时若发现 schema 已带,
   // 改成查属性位即可。Task 22 在「实施过程发现」记录。
@@ -133,9 +136,9 @@ export function tickSceneSystem(
     }
   }
 
-  // 2) 相机跟随 + 边界 clamp(像素坐标;clamp 以 cell 边界换算)
-  const maxX = (ctx.tilemap.width - 1) * X_STEP
-  const maxY = (ctx.tilemap.height - 1) * Y_STEP
+  // 2) 相机跟随 + 边界 clamp(System A:sdlpal pixel,以 tile 边界换算)
+  const maxX = (ctx.tilemap.width - 1) * TILE_W
+  const maxY = (ctx.tilemap.height - 1) * TILE_H
   gs.camera = {
     x: Math.max(0, Math.min(maxX, gs.party.x)),
     y: Math.max(0, Math.min(maxY, gs.party.y)),

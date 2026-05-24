@@ -3,7 +3,7 @@ import { bootstrap, openDevPicker, selectSceneJump } from '../helpers/bootstrap.
 import { snapshotCanvas } from '../helpers/snapshot.js'
 import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 
-// M5 P0.0:party 改像素坐标(X_STEP=16/Y_STEP=8)。
+// M5 P0.0 System A:party 坐标 = sdlpal pixel(tile 32×16)。
 type Probe = { __game: { gs: { party: { x: number; y: number; facing: string } } } }
 
 test('a8 scene 切换 — scene 1 vs 仙灵岛入口(14)视觉差异 + 各自 baseline 一致', async ({ page }) => {
@@ -45,9 +45,10 @@ test('a8 scene 切换 — party 写入 scene-jumps.json 的 partyStart 位置', 
   const party = await page.evaluate(
     () => (window as unknown as Probe).__game.gs.party,
   )
-  // scene-jumps.json:scene-15-mob partyStart = { x: 552, y: 644, facing: 'right' }
-  // M5 P0.0:位置调整到草妖 NPC 207(568,652)西邻 1 步 Right(+16,+8)即触发 contact。
-  expect(party.x).toBe(552)
-  expect(party.y).toBe(644)
+  // scene-jumps.json:scene-15-mob partyStart = { x: 1104, y: 1288, facing: 'right' }
+  // M5 P0.0 System A:sdlpal pixel。草妖 NPC 207 在 (1136, 1304),
+  // party 在西邻 1 步 Right(+16,+8)即触发 contact。
+  expect(party.x).toBe(1104)
+  expect(party.y).toBe(1288)
   expect(party.facing).toBe('right')
 })

@@ -88,15 +88,18 @@ export function createInitialGameState(
 
 /**
  * 原版 EVENTOBJECT.x / .y 是 sdlpal pixel(tile 32×16,允许半 tile)。
- * M5 P0.0:我们单位 = sdlpal pixel / 2(X_STEP=16 = sdlpal 16 px;渲染层 pixelToScreen *2 还原)。
- * 之前用 `floor(eo.x/32)*16` 把半 tile 信息丢了,导致 NPC 位置一个单位错位。
- * 改 floor(eo.x/2) 保留半 tile 精度。
+ * M5 P0.0 System A:我们单位 = sdlpal pixel(1:1),直接透传 eo.x/y。
+ *
+ * 注:sdlpal scene.c:301-322 sprite 渲染时有 +7 锚点偏移(sLayer*8+9 anchor - sLayer*8-2 iLayer 相消),
+ * 但那是**渲染层偏移**(脚底显示在 y+7),不写进 logical 坐标 — contact 距离判断
+ * (sdlpal scene.c:624 `abs(p.x - eo.x) + abs(p.y - eo.y)*2 < 16`)用的是原 eo.x/y。
+ * +7 偏移在 present.ts NPC 绘制处加。
  */
 export function npcFromEventObject(eo: SceneEventObject): NpcState {
   return {
     id: eo.id,
-    x: Math.floor(eo.x / 2),
-    y: Math.floor(eo.y / 2),
+    x: eo.x,
+    y: eo.y,
     spriteNum: eo.spriteNum,
     triggerLabel: eo.triggerLabel,
     triggerMode: eo.triggerMode,

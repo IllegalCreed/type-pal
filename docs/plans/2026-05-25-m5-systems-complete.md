@@ -3286,11 +3286,11 @@ git commit -m "docs(M5.P2-w3.1): M5 完工同步 — README / 03 plan / 04 D36+ 
 
 ### P0.0 实施完工 (2026-05-24)
 
-- `pnpm -w check`:267 passed | 2 skipped (game) + 199 passed (pal-extract) 全绿
+- `pnpm -w check`:272 passed | 2 skipped (game) + 199 passed (pal-extract) 全绿
 - `pnpm -F @type-pal/game e2e`:31/31 全绿
-- 重生 baseline 4 张:`a1-scene-15-mob` / `a7-camera-right` / `a9-encounter-initial` / `a1-scene-17-maze`(NPC eo.x/y/2 修后位置变了)
+- 重生 baseline:a1-scene-15-mob / a1-scene-17-maze / a7-camera-right / a9-encounter-initial(System A scale + NPC +7 锚点 + 新 partyStart)
 
-### P0.0 plan 自带 bug(5 项,实施时发现并修)
+### P0.0 plan 自带 bug(7 项,实施时发现并修)
 
 P0.0 plan 原文有几处实施缺陷,跑通后 `pnpm dev` 自测时暴露。**后续 task 写 plan 时引以为戒**:
 
@@ -3320,11 +3320,34 @@ P0.0 plan 原文有几处实施缺陷,跑通后 `pnpm dev` 自测时暴露。**�
    - `input.ts handleDown`:`delete-then-add` 让最新键推到 Set 末尾(JS Set add 已存在 key 是 no-op,不刷新顺序)。
    - `scene-system.ts pickFacing`:反向迭代 `Array.from(held)`,取第一个方向键。
 
+5. **Bug 6 · 单位制 Option B(*2 缩放)埋雷 + NPC 缺 +7 锚点偏移**
+   plan §2 P0.0 Step 4 隐含 Option B(`5 * 16`),即 OUR unit = sdlpal pixel / 2,渲染层 *2 还原。实测后果:
+   - **每步跨 1 整 tile 屏幕距离**(32 fb px)而非半 tile(16 fb px),user 反馈"移动跨太狠 / 不像 isometric"
+   - 渲染层 `pixelToScreen` 和 `drawTilemap` 都做 *2,容易写错(NPC sprite *2 forget 一致性)
+   - sdlpal `scene.c:301-322` 有 sprite 锚点偏移 `sLayer*8+9 - sLayer*8-2 = +7`(纵向),plan 完全漏写 → NPC 视觉偏上半格,user 反馈"应该再往右下移动半格"
+   **修法 · System A(sdlpal pixel exact)**:
+   - 1 OUR unit = 1 sdlpal pixel(无缩放),X_STEP=16/Y_STEP=8 是 sdlpal px,tile=32×16
+   - `pixelToScreen` 去 *2:`sx = pos.x - camera.x + CENTER`
+   - `drawTilemap` 去 `cameraPx.x * 2`:直接 `offsetX = CENTER - cameraPx.x`
+   - `npcFromEventObject` 1:1 透传(`x: eo.x, y: eo.y`)— 不丢半 tile 精度
+   - NPC 绘制处 `sy + 7` 实现锚点偏移(不写进 logical y,保 contact 距离判断用原 eo.y)
+   - scene-jumps.json / fixture / spec / bootstrap PARTY_START 全部 .x .y ×2(脚本批量改 scene-jumps.json,手改 PARTY_START)
+   - `isWalkable` / camera clamp 用 TILE_W=32 / TILE_H=16(不再用 X_STEP/Y_STEP 当 cell size)
+
+6. **Bug 7 · input.ts handleDown 漏 e.repeat 过滤**
+   bug 5 修的 delete-then-add 在 hold key 时反咬一口:browser 自动 repeat keydown 每 ~30ms 触发,被 hold 的键持续推到 Set 末尾 → user 报"后按优先依然没生效"(实际是被 hold 的旧键反复刷新顺序,把后按的新键挤回前面)。
+   **修法**:`if (e.repeat) return` 入口过滤,对齐 sdlpal `input.c:213` `if (!fRepeat) { ... }`。
+   单元 spec:hold Up + 初按 Down + Up repeat 触发 → 末位仍是 Down。
+
 ### P0.0 后续 task 启发
 
-- **P0.a 菱形碰撞 / P0.b Y-sort**:务必用 `eo.x/y/2`(Bug 3 修后)的 NPC 坐标做碰撞 / 排序输入,别再 floor 到 cell。
-- **写 plan 给 DIR 映射**:对照 sdlpal palcommon.h enum + scene.c:804-805 真实代码,**别只看 axis 方向猜符号**(diagonal 等距方向键容易拼错)。
-- **e2e visual baseline**:跑 isometric 切换时(P0 任何子 task),旧 cell-based baseline 需要重生;**先 manual 看图是否合理**(NPC 位置应跟 sdlpal 真值对齐),再 commit baseline。
+- **单位制选择**:plan 默认应是 **System A(1 OUR unit = 1 sdlpal pixel)**,1:1 不缩放,避免渲染层 *2 漏调 sprite。
+- **NPC 锚点 +7**:写在 plan 显式提一句,scene.c:301-322 sLayer 项相消,净 +7(渲染层加,不入 logical 坐标)。
+- **P0.a 菱形碰撞 / P0.b Y-sort**:用 npc.x / npc.y 1:1 sdlpal pixel,sdlpal scene.c:624 contact 公式 `abs(p.x-eo.x) + abs(p.y-eo.y)*2 < 16` 直接抄。
+- **写 plan 给 DIR 映射**:对照 sdlpal palcommon.h enum + scene.c:804-805 真实代码,**别只看 axis 方向猜符号**。
+- **input 实现细节**:browser keyboard event 有 `e.repeat` flag,delete-then-add 这种基于"初次按下"的 Set order 排序,必须先过滤 repeat。
+- **e2e visual baseline**:跑 isometric 切换时,**先 manual 看图是否合理**(NPC 位置应跟 sdlpal 真值对齐),再 commit baseline。
+- **HMR 缓存陷阱**:重大单位制 / DIR 改动后,要明确请 user 重启 vite + 强制刷浏览器(否则旧 module 残留 → user 看到 stale 视觉,我们诊断成"代码 bug"实际是 cache)。
 
 ## Sync 段
 

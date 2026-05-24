@@ -84,15 +84,33 @@ describe('KeyboardInputSource', () => {
       }
     })
 
-    it('已 held 再 KeyDown(repeat 模拟)→ 推到末尾刷新 order', () => {
+    it('e.repeat=true 不刷新 held order(sdlpal input.c:213)', () => {
+      // hold key 时 browser 自动重复触发 keydown(e.repeat=true);
+      // 若不过滤,被 hold 的键持续推到末尾,挤掉后按的键 → "后按优先" 失效。
       const src = new KeyboardInputSource(window)
       try {
+        // 初按 Up + 初按 Down → held = [Up, Down]
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))
         window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown' }))
-        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowLeft' }))
-        // repeat 按 Down(模拟 OS 按住自动 repeat)→ Down 推到末尾
-        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown' }))
+        // Up repeat 触发(模拟 OS 自动重复)→ 不应刷新 order
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp', repeat: true }))
         const arr = Array.from(src.nextSnapshot(0).held)
-        expect(arr[arr.length - 1]).toBe('Down')
+        expect(arr[arr.length - 1]).toBe('Down') // Down 仍在末尾,Up repeat 无效
+      } finally {
+        src.detach()
+      }
+    })
+
+    it('repeat 也不污染 pressed(只在初次按下时 add pressed)', () => {
+      const src = new KeyboardInputSource(window)
+      try {
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))
+        const s1 = src.nextSnapshot(0)
+        expect(s1.pressed.has('Up')).toBe(true)
+        // repeat 触发 → 不应再加 pressed(已 held)
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp', repeat: true }))
+        const s2 = src.nextSnapshot(1)
+        expect(s2.pressed.has('Up')).toBe(false) // pressed 是 edge,repeat 不触发
       } finally {
         src.detach()
       }

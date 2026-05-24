@@ -31,17 +31,17 @@ const SCREEN_CENTER_X = SCREEN_W >> 1
 const SCREEN_CENTER_Y = SCREEN_H >> 1
 
 /**
- * M5 P0.0:party / npc 位置已是半像素坐标(X_STEP=16 / Y_STEP=8)。
- * tilemap 全像素空间 tile=32×16,故需 *2 还原到屏幕坐标。
- * 公式等价旧 cellToScreen:(col - camera.col)*32 + CENTER。
+ * M5 P0.0 System A:1 OUR unit = 1 sdlpal pixel(无缩放)。
+ * sdlpal scene.c PAL_SceneDrawSprites 等价:屏幕位 = world pos - viewport + CENTER。
+ * X_STEP=16 / Y_STEP=8 是 sdlpal px(半 tile),tile=32×16 sdlpal px。
  */
 function pixelToScreen(
   pos: { x: number; y: number },
   camera: { x: number; y: number },
 ): { sx: number; sy: number } {
   return {
-    sx: (pos.x - camera.x) * 2 + SCREEN_CENTER_X,
-    sy: (pos.y - camera.y) * 2 + SCREEN_CENTER_Y,
+    sx: pos.x - camera.x + SCREEN_CENTER_X,
+    sy: pos.y - camera.y + SCREEN_CENTER_Y,
   }
 }
 
@@ -60,7 +60,10 @@ export function presentFrame(
     const sprite = ctx.npcSprites.get(npc.spriteNum)
     if (!sprite) continue
     const { sx, sy } = pixelToScreen(npc, gs.camera)
-    drawSprite(fb, sprite, sx, sy)
+    // sdlpal scene.c:301-322 PAL_SceneDrawSprites:y += sLayer*8 + 9,iLayer = sLayer*8+2,
+    // blit_y = anchor - height - iLayer。sLayer 项相消,净偏 +7。
+    // 我们 NPC 不区分 sLayer(M2 简化),所以渲染时直接 sy + 7。
+    drawSprite(fb, sprite, sx, sy + 7)
   }
   const { sx, sy } = pixelToScreen(gs.party, gs.camera)
   // 按 sdlpal `scene.c:755` 站立公式 wFrame = wDirection * walkFrames 取帧。

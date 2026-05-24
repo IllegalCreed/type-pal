@@ -60,26 +60,27 @@ describe('GameState', () => {
 })
 
 describe('npcFromEventObject', () => {
-  it('sdlpal pixel → 我们的半 px 单位(floor(eo.x/2), floor(eo.y/2)),其它字段透传', () => {
+  it('System A:eo.x/y 直接透传(1:1 sdlpal pixel),其它字段透传', () => {
     const eo: SceneEventObject = {
       id: 3, x: 512, y: 800, spriteNum: 42, triggerLabel: 'L_59', triggerMode: 0,
     }
     const npc = npcFromEventObject(eo)
     expect(npc.id).toBe(3)
-    expect(npc.x).toBe(256) // 512 / 2
-    expect(npc.y).toBe(400) // 800 / 2
+    expect(npc.x).toBe(512)
+    expect(npc.y).toBe(800)
     expect(npc.spriteNum).toBe(42)
     expect(npc.triggerLabel).toBe('L_59')
   })
 
-  it('半 tile 精度保留:eo.x=720(=22.5 tile) → npc.x=360,不丢半 tile', () => {
-    // 旧公式 floor(720/32)*16 = 22*16 = 352(差 8);新公式 floor(720/2) = 360
+  it('半 tile 位置原样保留(eo.x=720 / eo.y=664)', () => {
+    // System A 1:1 透传,sdlpal scene.c:301-322 +7 锚点偏移在 present 渲染层加,
+    // 不写进 logical x/y(contact 距离判断 scene.c:624 用原 eo.x/y)。
     const eo: SceneEventObject = {
       id: 7, x: 720, y: 664, spriteNum: 0, triggerMode: 0,
     }
     const npc = npcFromEventObject(eo)
-    expect(npc.x).toBe(360)
-    expect(npc.y).toBe(332)
+    expect(npc.x).toBe(720)
+    expect(npc.y).toBe(664)
   })
 
   it('triggerLabel 缺时透传 undefined', () => {

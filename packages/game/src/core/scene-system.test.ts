@@ -20,6 +20,30 @@ function snap(held: AbstractKey[] = [], pressed: AbstractKey[] = [], frameNum = 
   }
 }
 
+// System A sanity:确认 4 方向都是 isometric 对角(非 cardinal)。
+// sdlpal scene.c:804-805 真值 4 方向均 dx ≠ 0 且 dy ≠ 0。
+describe('System A 对角移动 sanity(4 方向 dx/dy 都非零)', () => {
+  it.each([
+    ['Right' as const, 'right' as const, +16, +8],  // East SE
+    ['Left' as const, 'left' as const, -16, -8],    // West NW
+    ['Down' as const, 'down' as const, -16, +8],    // South SW
+    ['Up' as const, 'up' as const, +16, -8],        // North NE
+  ])('press %s → facing=%s, dx=%d, dy=%d(对角非 cardinal)', (key, expectedFacing, expectedDx, expectedDy) => {
+    const startX = 1000
+    const startY = 1000
+    const gs = createInitialGameState({ x: startX, y: startY, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(128, 128)
+    tickSceneSystem(gs, snap([key]), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.party.facing).toBe(expectedFacing)
+    expect(gs.party.x - startX).toBe(expectedDx)
+    expect(gs.party.y - startY).toBe(expectedDy)
+    // 确认非 cardinal:dx 和 dy 都非零
+    expect(gs.party.x - startX).not.toBe(0)
+    expect(gs.party.y - startY).not.toBe(0)
+  })
+})
+
 describe('SceneSystem 走路', () => {
   it('按住 Right → party.x + 16 / party.y + 8, facing=right (East 右下)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
@@ -50,13 +74,13 @@ describe('SceneSystem 走路', () => {
     expect(gs.party.facing).toBe('left')
   })
 
-  it('相机边界 clamp:party 越界仍 clamp 到 tilemap max pixel', () => {
-    const gs = createInitialGameState({ x: 100 * 16, y: 100 * 8, facing: 'down' })
+  it('相机边界 clamp:party 越界仍 clamp 到 tilemap max pixel(System A:tile 32×16)', () => {
+    const gs = createInitialGameState({ x: 100 * 32, y: 100 * 16, facing: 'down' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.camera.x).toBe(9 * 16) // clamp to (width-1)*X_STEP
-    expect(gs.camera.y).toBe(9 * 8)  // clamp to (height-1)*Y_STEP
+    expect(gs.camera.x).toBe(9 * 32) // clamp to (width-1)*TILE_W
+    expect(gs.camera.y).toBe(9 * 16) // clamp to (height-1)*TILE_H
   })
 
   it('NPC 阻挡走路:面前像素有 NPC + held=Right,party 不动', () => {
@@ -358,13 +382,13 @@ function makeSceneAssets(
 
 describe('loadScene(M3.5 T9 / D33)', () => {
   it('切到新 scene → gs.npcs 由 eventObjects 重置;party 不传则不动', async () => {
-    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    const gs = createInitialGameState({ x: 5 * 32, y: 5 * 16, facing: 'down' })
     // 旧 npcs(模拟之前 scene 的残留)
     gs.npcs = [{ id: 99, x: 0, y: 0, spriteNum: 1 }]
 
     const fetcher = vi.fn(async (id: number) =>
       makeSceneAssets(id, [
-        // npcFromEventObject: floor(x/32)*16, floor(y/16)*8
+        // System A:npcFromEventObject 1:1 透传 eo.x/y
         { id: 0, x: 320, y: 160, spriteNum: 78, triggerMode: 0, triggerLabel: 'L_A' },
         { id: 1, x: 64, y: 32, spriteNum: 12, triggerMode: 0 },
       ]),
@@ -376,12 +400,10 @@ describe('loadScene(M3.5 T9 / D33)', () => {
     expect(fetcher).toHaveBeenCalledTimes(1)
     expect(fetcher).toHaveBeenCalledWith(7)
     expect(gs.npcs).toHaveLength(2)
-    // x = floor(320/32)*16 = 10*16 = 160, y = floor(160/16)*8 = 10*8 = 80
-    expect(gs.npcs[0]).toMatchObject({ id: 0, x: 160, y: 80, spriteNum: 78, triggerLabel: 'L_A' })
-    // x = floor(64/32)*16 = 2*16 = 32, y = floor(32/16)*8 = 2*8 = 16
-    expect(gs.npcs[1]).toMatchObject({ id: 1, x: 32, y: 16, spriteNum: 12 })
+    expect(gs.npcs[0]).toMatchObject({ id: 0, x: 320, y: 160, spriteNum: 78, triggerLabel: 'L_A' })
+    expect(gs.npcs[1]).toMatchObject({ id: 1, x: 64, y: 32, spriteNum: 12 })
     // partyStart 未传 → party 不动
-    expect(gs.party).toEqual({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    expect(gs.party).toEqual({ x: 5 * 32, y: 5 * 16, facing: 'down' })
   })
 
   it('传 partyStart → party 位置 / facing 重写;camera 跟到 party', async () => {

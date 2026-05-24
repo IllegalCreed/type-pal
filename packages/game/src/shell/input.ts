@@ -25,10 +25,13 @@ export class KeyboardInputSource implements InputSource {
   private readonly handleDown = (e: KeyboardEvent): void => {
     const k = codeToAbstractKey(e.code)
     if (!k) return
+    // sdlpal input.c:213:仅 `if (!fRepeat)` 时才更新 dwKeyOrder。
+    // browser hold key 时每 ~30ms repeat 触发 keydown(e.repeat=true);
+    // 若不过滤,被 hold 的键持续 delete-then-add 推到末尾,后按的键反被挤前 →
+    // "后按优先" 失效(user 报"依然是固定优先级")。
+    if (e.repeat) return
     if (!this.held.has(k)) this.pressed.add(k)
-    // sdlpal input.c:235:每次 KeyDown 刷新 dwKeyOrder 为最新计数。
-    // JS Set 保 insertion order 但 add 已存在项是 no-op,故 delete-then-add
-    // 把最新键推到末尾 → pickFacing 反向迭代即"最后按优先"。
+    // delete-then-add 把最新**初次按下**的键推到 Set 末尾,pickFacing 反向取末位即可。
     this.held.delete(k)
     this.held.add(k)
   }
