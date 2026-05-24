@@ -160,6 +160,15 @@ export function tickEventSystem(
         cursor.ip++
         break
 
+      case 'loadScene':
+        // M3.5 B 路线:stub no-op + console.debug;真切场景由 dev panel 直调 loadScene() 函数。
+        // M5 真做剧情链时升级为 emit + 可等待命令(A 路线)。test 在 T10 补全。
+        console.debug(
+          `event-system: skip loadScene sceneId=${cmd.sceneId} ip=${cursor.ip}(B 路线 stub)`,
+        )
+        cursor.ip++
+        break
+
       case 'sequence':
       case 'if':
       case 'choice':
@@ -262,6 +271,12 @@ export function runScript(opts: RunScriptOptions): void {
       case 'startBattle':
         // 战斗脚本里出现这些 op 不合理;沿用 M2 skip 行为
         console.debug(`${logPrefix} skip op=${cmd.op} ip=${ip}`)
+        ip++
+        break
+
+      case 'loadScene':
+        // M3.5 B 路线 stub:no-op skip + console.debug。test 在 T10 补全。
+        console.debug(`${logPrefix} skip loadScene sceneId=${cmd.sceneId} ip=${ip}(B 路线 stub)`)
         ip++
         break
 

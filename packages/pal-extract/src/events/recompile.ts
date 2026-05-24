@@ -53,6 +53,12 @@ export function recompile(commands: Command[], _messages: string[]): Uint8Array 
       view.setUint16(off + 4, c.count, true)
       return
     }
+    if (c.op === 'loadScene') {
+      // 0x0059;operand[0]=sceneId,operand[1]/[2] sdlpal 不读、实数据全 0
+      view.setUint16(off, lookupOpcode('loadScene'), true)
+      view.setUint16(off + 2, c.sceneId, true)
+      return
+    }
     if (
       c.op === 'setDialogStyleCenter' ||
       c.op === 'setDialogStyleTop' ||

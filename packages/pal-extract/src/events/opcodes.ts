@@ -151,9 +151,12 @@ export const opcodeTable: Record<number, OpcodeDef> = {
     named: true,
   },
 
-  // 0x0059: Change to specified scene (script.c:1870)
+  // 0x0059: Change to specified scene (script.c:1870) —— sceneId = operand[0]
+  // M3.5(D34/B 路线)真消费:disasm 出具名 LoadSceneCommand,EventSystem handler 是 stub
+  // (no-op skip + console.debug);真 scene 切换由 dev panel 直调 loadScene() 函数。
+  // M5 真做剧情链时升级 handler 为可等待命令。
   89: {
-    name: 'changeScene',
+    name: 'loadScene',
     fields: [{ name: 'sceneId', kind: 'scene' }, VALUE, VALUE],
     named: true,
   },

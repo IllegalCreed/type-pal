@@ -32,12 +32,12 @@ describe('annotate', () => {
     const out1 = annotate([{ op: 'raw', opcode: 0x59, operands: [0, 0, 0] }], words, {})
     expect(out1[0]).toEqual({ op: 'raw', opcode: 0x59, operands: [0, 0, 0] })
 
-    // For a hypothetical named command with sceneId, annotation only via symbols:
-    const fakeChangeSceneCmd = { op: 'changeScene', sceneId: 0 } as unknown as import('@type-pal/shared').Command
-    const out2 = annotate([fakeChangeSceneCmd], words, { scene: { '0': '客栈' } })
+    // 真 LoadSceneCommand(M3.5 起具名),annotation 仅来自 symbols:
+    const loadSceneCmd: import('@type-pal/shared').LoadSceneCommand = { op: 'loadScene', sceneId: 0 }
+    const out2 = annotate([loadSceneCmd], words, { scene: { '0': '客栈' } })
     expect((out2[0] as { _scene?: string })._scene).toBe('客栈')
 
-    const out3 = annotate([fakeChangeSceneCmd], words, {})
+    const out3 = annotate([loadSceneCmd], words, {})
     expect((out3[0] as { _scene?: string })._scene).toBeUndefined()
   })
 

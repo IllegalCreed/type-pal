@@ -15,6 +15,7 @@ import type {
   EndCommand,
   GiveItemCommand,
   GotoCommand,
+  LoadSceneCommand,
   SetDialogStyleBottomCommand,
   SetDialogStyleCenterCommand,
   SetDialogStyleNarrationCommand,
@@ -108,6 +109,8 @@ function emitCommand(def: DefLike, operands: number[], messages: string[]): Comm
       return emitShowDialog(operands, messages)
     case 'giveItem':
       return emitGiveItem(operands)
+    case 'loadScene':
+      return emitLoadScene(operands)
     case 'setDialogStyleTop':
       return emitSetDialogStyle('setDialogStyleTop', operands)
     case 'setDialogStyleCenter':
@@ -191,6 +194,18 @@ function emitGiveItem(operands: number[]): GiveItemCommand {
     itemId: operands[0]!,
     // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
     count: operands[1]!,
+  }
+}
+
+/** loadScene(0x0059):sceneId = operand[0];operand[1]/[2] 在 sdlpal 该 case 不读,
+ *  实数据里观察到全为 0。round-trip 假设这两位为 0 —— 若极少数指令带非 0 尾巴,
+ *  pal-extract 全量 round-trip 验证会立刻报错,届时再扩 arg1/arg2 兜底字段。
+ */
+function emitLoadScene(operands: number[]): LoadSceneCommand {
+  return {
+    op: 'loadScene',
+    // biome-ignore lint/style/noNonNullAssertion: operands always has 3 elements
+    sceneId: operands[0]!,
   }
 }
 

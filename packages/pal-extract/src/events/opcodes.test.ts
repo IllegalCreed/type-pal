@@ -74,9 +74,9 @@ describe('opcode registry', () => {
     expect(lookupOpcode('ifItemLess')).toBe(0x0058)
   })
 
-  it('lookupVerb / lookupOpcode 双向(changeScene ↔ 0x0059)', () => {
-    expect(lookupVerb(0x0059)).toBe('changeScene')
-    expect(lookupOpcode('changeScene')).toBe(0x0059)
+  it('lookupVerb / lookupOpcode 双向(loadScene ↔ 0x0059,M3.5 重命名)', () => {
+    expect(lookupVerb(0x0059)).toBe('loadScene')
+    expect(lookupOpcode('loadScene')).toBe(0x0059)
   })
 
   it('lookupVerb / lookupOpcode 双向(giveItem ↔ 0x001F)', () => {

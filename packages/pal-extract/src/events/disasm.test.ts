@@ -121,3 +121,26 @@ describe('setDialogStyle round-trip', () => {
     expect(back).toEqual(bc)
   })
 })
+
+describe('loadScene round-trip(M3.5,opcode 0x0059)', () => {
+  it('loadScene opcode 反汇编为具名 Command', () => {
+    const bc = new Uint8Array(16)
+    const view = new DataView(bc.buffer)
+    view.setUint16(0, 0x0059, true) // opcode loadScene
+    view.setUint16(2, 12, true) // sceneId=12
+    // i=1: end (0x0000)
+    const cmds = disasm(bc, [])
+    expect(cmds[0]).toEqual({ op: 'loadScene', sceneId: 12 })
+    expect(cmds[1]).toEqual({ op: 'end' })
+  })
+
+  it('loadScene round-trip 字节级一致', () => {
+    const bc = new Uint8Array(16)
+    const view = new DataView(bc.buffer)
+    view.setUint16(0, 0x0059, true)
+    view.setUint16(2, 12, true)
+    const cmds = disasm(bc, [])
+    const back = recompile(cmds, [])
+    expect(back).toEqual(bc)
+  })
+})

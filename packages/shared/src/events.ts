@@ -61,6 +61,21 @@ export interface StartBattleCommand {
   label?: string
 }
 
+/** Scene 切换命令 —— 对应 sdlpal opcode 0x0059(script.c:1870 "Change to the specified scene")。
+ *  字节布局:operand[0] = sceneId(目标场景号);operand[1] / [2] sdlpal 该 case 未读。
+ *
+ *  **运行时语义**:M3.5 内 EventSystem handler 是 stub(no-op skip + console.debug);
+ *  真 scene 切换通过 dev panel 直调 `loadScene()` 函数实现(D34/B 路线)。M5 真做剧情链时
+ *  升级 handler 为可等待命令(emit + Shell 处理 async loadScene + complete cmdId)。
+ */
+export interface LoadSceneCommand {
+  op: 'loadScene'
+  sceneId: number
+  /** annotate 注入的人读场景名(symbols.json.scene[sceneId])—— 仅供阅读,recompile 不用 */
+  _scene?: string
+  label?: string
+}
+
 /**
  * 对话框样式 setter —— 对应 sdlpal 的 PAL_StartDialog 4 种 box 模式
  * (0x003B kDialogCenter / 0x003C kDialogUpper / 0x003D kDialogLower /
@@ -131,6 +146,7 @@ export type Command =
   | ShowDialogCommand
   | GiveItemCommand
   | StartBattleCommand
+  | LoadSceneCommand
   | SetDialogStyleTopCommand
   | SetDialogStyleCenterCommand
   | SetDialogStyleBottomCommand

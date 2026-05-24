@@ -5,6 +5,7 @@ import type {
   GotoCommand,
   ShowDialogCommand,
   DialogBoxStyle,
+  LoadSceneCommand,
   SetDialogStyleTopCommand,
   SetDialogStyleCenterCommand,
   SetDialogStyleBottomCommand,
@@ -54,5 +55,23 @@ describe('SetDialogStyle commands', () => {
       { op: 'setDialogStyleNarration' },
     ]
     expect(cs).toHaveLength(4)
+  })
+})
+
+describe('LoadSceneCommand(M3.5)', () => {
+  it('LoadSceneCommand 字段类型', () => {
+    const c: LoadSceneCommand = { op: 'loadScene', sceneId: 5 }
+    expectTypeOf(c.op).toEqualTypeOf<'loadScene'>()
+    expectTypeOf(c.sceneId).toEqualTypeOf<number>()
+  })
+
+  it('LoadSceneCommand 在 Command 联合中', () => {
+    const cs: Command[] = [
+      { op: 'loadScene', sceneId: 1 },
+      { op: 'loadScene', sceneId: 12, _scene: '客栈', label: 'L_3' },
+    ]
+    expect(cs).toHaveLength(2)
+    const first = cs[0] as LoadSceneCommand
+    expect(first.sceneId).toBe(1)
   })
 })
