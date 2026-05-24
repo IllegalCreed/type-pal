@@ -78,9 +78,9 @@ test('a9 明雷遇怪 — 跳 scene 15 草妖通道 → 走到 contact cell → 
   )
   expect(contactNpcs.length).toBeGreaterThan(0)
 
-  // P0.e: scene 15 无 onEnterLabel,party 留 scene-1 enter 坐标(1312,288)。
-  // 草妖在 1100-1600px 范围,greedy walk 无法到达。
-  // 用 dev gate 直接把 party 移到最近草妖旁 1 步,验证 contact 触发机制。
+  // P0.e: scene 15 wScriptOnEnter 不含 setPartyPos + 无 caller-trace,
+  // dev-only NPC-anchored BFS fallback 落 (864,1432) — 跟草妖同区可达但走过去要 30+ 步。
+  // 缩 e2e:用 dev gate 直接把 party 移到最近草妖旁 1 步,验证 contact 触发机制。
   // NPC 208 在 (1344, 1168);party 从 (1360, 1160) = 1 step Left(-16,-8) 可走进。
   // 这是 contact 机制 e2e 验证的有效 dev override。
   const target = contactNpcs.find((n) => n.id === 208) ?? contactNpcs[0]!

@@ -3463,6 +3463,50 @@ P0.0 plan 原文有几处实施缺陷,跑通后 `pnpm dev` 自测时暴露。**�
 - M5.5 时应将 caller 反推覆盖更多 scene,BFS fallback 只留无法找到 caller 的 scene
 - 工具脚本: `packages/pal-extract/scripts/find-scenes-without-setpartypos.mjs`(可复用)
 
+### P0.e 实施过程发现 · caller-trace 全面化 + e2e port 隔离 (2026-05-25)
+
+**触发:** user 看初版 fix(10 caller / 83 BFS)觉得 caller 反推命中率偏低,且 scene 15 BFS 给的 (1152, 984) **实际不在草妖所在连通区**(31422 cell 大区跟 674 cell 小池子互不通)。同时 user 提 e2e 跟 dev 共享 5173 port 冲突。
+
+**Item 1 · e2e port 隔离(5173 dev / 5174 e2e):**
+- `vite.config.ts` 显式 `server.port: 5173 + strictPort: true`(dev 锁 5173,不悄悄飘走撞 e2e)
+- `playwright.config.ts` webServer `command: 'pnpm dev --port 5174 --strictPort'`(注:`pnpm dev` 后**不加** `--` 分隔符,pnpm 直接转给 vite;加 `--` 会变成 `vite -- --port 5174` vite 不识别);`baseURL/url: http://localhost:5174`
+- 验证:同时启动 dev (5173) 和 e2e (5174),互不干扰,e2e 31/31 全绿
+
+**Item 2 · caller-trace 全面化(算法升级):**
+
+之前算法 bug 双重:
+1. 只往 loadScene **前** scan setPartyPos(漏掉 trigger 内 `setPartyPos → loadScene → centerCamera → end` 模式中 setPartyPos 是"先设位置再切场景"的关键真值);
+2. 没验 caller 给的位置在目标 tilemap 是否 walkable(误信 caller scene-N 的旧 trigger 数据,实际 N 已 deprecated);
+
+新算法 3 档:
+1. **caller-trace(双向 scan,后置优先)**:扫所有 loadScene(target),先看 **loadScene 后** N=20 步紧邻 setPartyPos(跨 end / 另 loadScene 即停)—— 那才是"目标 scene 的落脚点";若后置无再看前置(caller 位作近似)。**多 caller 时按 distance 升序选最紧邻**。提取 ops 换算 pixel 后**验证在 target tilemap walkable**(不可走则降级)
+2. **NPC-anchored BFS**:scene 含 eventObjects 时,从第一个 NPC 的可走邻居为 BFS 种子,取该连通区中心 —— **保证 partyStart 跟 NPCs 同区可达**(对 scene 15 这种孤儿 cutscene/battle field 关键)
+3. **bare BFS**:无 NPC 时网格扫种子(本次无 scene 落此档)
+
+**结果对比(改善前 → 改善后):**
+- caller-trace 命中: 10 → **79**(+69,4 个 caller 给位置不可走自动降级)
+- NPC-anchored BFS: 0 → **14**(含 scene 15)
+- bare BFS: 83 → **0**
+- orphan: 0 → 0
+
+**Scene 15 特殊 case:**
+- 全域无 `loadScene(15)` 调用 — 草妖通道是"battle field"性质 cutscene scene,**原游戏不允许通过 loadScene 进入**(可能由 startBattle/teleport 机制触发,M5+ 待研究)
+- 旧 BFS center (1152, 984) 落在 31422 cell 大区,与草妖所在 674 cell 区**互不通**
+- 新 NPC-anchored BFS 从 NPC 204 walkable 邻居出发,取 674 cell 区中心 (864, 1432),验证可达全部 6 个 NPC(含 4 草妖)
+
+**scene-jumps.json 重新生成:**
+- 94 jump entries 全部用新算法的 partyStart 重写(同 sceneId 的多 entry — scene-15 + scene-15-mob — 共享同 partyStart)
+- 所有 93 个 unique scene 的 pixel pos **逐一验证 walkable=True**
+
+**M5.5 audit 启发(增量):**
+- scene 15 类"原游戏无 loadScene 调用"的 scene 是否还有别的 entry 机制(startBattle? 隐式 teleport?)
+- caller-trace `loadScene → setPartyPos` 模式同时给 M5+ "真 scene-switch 时正确 setPartyPos" 直接证据,可批量生成默认 partyStart table 供 sync.1 使用
+
+**e2e 影响:**
+- a8 P0.e 断言更新 (1152,984) → (864,1432)
+- 删 `a1-scene-15-mob.png + a9-encounter-initial.png` 重生(party 位置 / camera follow 变化)
+- 最终 31/31 pass,0 skip
+
 ## Sync 段
 
 (实施时累积)
