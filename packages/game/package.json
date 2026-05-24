@@ -8,15 +8,20 @@
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
-    "check": "pnpm typecheck && pnpm test"
+    "check": "pnpm typecheck && pnpm test",
+    "e2e": "playwright test",
+    "e2e:update": "playwright test --update-snapshots"
   },
   "dependencies": {
     "@type-pal/shared": "workspace:*"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.1",
+    "@types/pixelmatch": "^5.2.6",
     "canvas": "^3.2.3",
     "jsdom": "^29.1.1",
+    "pixelmatch": "^7.2.0",
     "vite": "^8.0.14"
   }
 }

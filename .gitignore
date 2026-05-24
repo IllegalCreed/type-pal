@@ -33,3 +33,10 @@ reference/walkthrough/
 m3-*.png
 t*-*.png
 *-dev-verify*.png
+
+# Playwright L2 baseline PNG(版权,含原版游戏画面,本机生成不入库)
+packages/game/e2e/baselines/
+
+# Playwright 临时输出
+packages/game/test-results/
+packages/game/playwright-report/
