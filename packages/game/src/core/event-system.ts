@@ -27,7 +27,7 @@
 import type { Command, InputSnapshot, Palette } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
-import type { GameState } from './game-state.js'
+import type { GameState, NpcState } from './game-state.js'
 import {
   startDialogLine,
   appendDialogLine,
@@ -320,6 +320,110 @@ function applySetDialogStyle(
   }
   cursor.ip++
   return false
+}
+
+// ── autoScript runner ─────────────────────────────────────────────────────────
+//
+// port sdlpal `PAL_RunAutoScript`(script.c:3482-3651):每 active NPC 每帧执行 1 op,
+// 不阻塞 trigger script。
+//
+// 真值调度(sdlpal):
+//   - 主循环 PAL_GameUpdate(TRUE):跑 trigger + autoScripts
+//   - opcode 0x09 wait N frames 内每帧 PAL_GameUpdate(op1?T:F):跑 autoScripts
+//   - dialog wait / fade / scene-load **不**跑(sdlpal 这些 yield 不调 PAL_GameUpdate)
+//
+// 我们 port(mode.ts gate):
+//   - explore mode: 跑
+//   - event mode + cursor.waiting='frame-wait': 跑
+//   - 其他 mode / waiting: 不跑
+export function tickAutoScripts(gs: GameState): void {
+  if (!gs.sceneCommands) return
+  for (const npc of gs.npcs) {
+    if ((npc.sState ?? 1) === 0) continue  // sdlpal `sState > 0` 才跑 autoScript
+    if (!npc.autoCursor) continue
+    runOneAutoOp(gs, npc)
+  }
+}
+
+function runOneAutoOp(gs: GameState, npc: NpcState): void {
+  const cursor = npc.autoCursor!
+  const cmds = gs.sceneCommands!
+  if (cursor.ip < 0 || cursor.ip >= cmds.length) {
+    npc.autoCursor = undefined  // ip 越界 → 停
+    return
+  }
+  const cmd = cmds[cursor.ip]!
+
+  switch (cmd.op) {
+    case 'end':
+      // sdlpal case 0x0000 / 0x0001:停止;0x0001 推 ip。
+      if (cmd.advance) cursor.ip++
+      return
+
+    case 'goto': {
+      // sdlpal case 0x0003 unconditional jump
+      const frameDelay = cmd.frameDelay ?? 0
+      if (frameDelay > 0) {
+        cursor.idleFrameCount = (cursor.idleFrameCount ?? 0) + 1
+        if (cursor.idleFrameCount < frameDelay) return
+        cursor.idleFrameCount = 0
+      }
+      const target = gs.sceneLabelMap?.[cmd.to]
+      if (target !== undefined) {
+        cursor.ip = target
+      }
+      else {
+        npc.autoCursor = undefined  // shared#L_X 跨文件不支持
+      }
+      return
+    }
+
+    case 'raw': {
+      // opcode 0x09 wait N frames in autoScript:idleFrameCountAuto++ >= op0 → ip++
+      if (cmd.opcode === OP_WAIT_FRAMES) {
+        const frames = cmd.operands[0] || 1
+        cursor.idleFrameCount = (cursor.idleFrameCount ?? 0) + 1
+        if (cursor.idleFrameCount >= frames) {
+          cursor.idleFrameCount = 0
+          cursor.ip++
+        }
+        return
+      }
+
+      // opcode 0x10/0x11/0x82 NPCWalkTo — autoScript 自走目标(NPC 是 autoCursor owner)
+      if (cmd.opcode === OP_NPC_WALK_TO_SPEED_3
+        || cmd.opcode === OP_NPC_WALK_TO_SPEED_2
+        || cmd.opcode === OP_NPC_WALK_TO_SPEED_8) {
+        const speed = cmd.opcode === OP_NPC_WALK_TO_SPEED_3
+          ? 3
+          : cmd.opcode === OP_NPC_WALK_TO_SPEED_8
+            ? 8
+            : 2
+        const arrived = npcWalkTo(
+          npc,
+          cmd.operands[0] ?? 0,
+          cmd.operands[1] ?? 0,
+          cmd.operands[2] ?? 0,
+          speed,
+        )
+        if (arrived) cursor.ip++
+        return
+      }
+
+      // 其余 raw op:sdlpal default case 走 PAL_InterpretInstruction。
+      // 我们用 applyRawOpcode,**传 npc.id 作 currentEventObjectId**(0-based,跟
+      // scene-system.ts:125 trigger 进入约定一致 — **不**加 1)。
+      applyRawOpcode(gs, cmd.opcode, cmd.operands, npc.id)
+      cursor.ip++
+      return
+    }
+
+    default:
+      // showDialog / setDialogStyleX / loadScene / startBattle 等不该在 autoScript 出现。
+      // 防御 skip ip++,避免死循环。
+      console.debug(`autoScript: skip non-script op '${cmd.op}' for npc id=${npc.id} ip=${cursor.ip}`)
+      cursor.ip++
+  }
 }
 
 export function tickEventSystem(
@@ -1261,8 +1365,6 @@ function toInt16(v: number): number {
   return v >= 0x8000 ? v - 0x10000 : v
 }
 
-type Npc = GameState['npcs'][number]
-
 /**
  * port sdlpal `PAL_NPCWalkTo`(script.c:30-98)— **每 tick 走 1 步**,返回是否到达。
  *
@@ -1274,7 +1376,7 @@ type Npc = GameState['npcs'][number]
  *   4. 到达 → wCurrentFrameNum=0 返 true;否则返 false
  */
 function npcWalkTo(
-  npc: Npc,
+  npc: NpcState,
   targetX: number,
   targetY: number,
   h: number,
