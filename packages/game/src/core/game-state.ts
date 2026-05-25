@@ -145,6 +145,15 @@ export interface DialogBoxState {
    * undefined = 累计 4 行翻页(append 模式,保留 box 让下条 showDialog 续行)
    */
   pendingFullClear?: boolean
+  /**
+   * Sync.2 fix11:sdlpal script.c:3468-3471 default case 真值 — 任何非 dialog 跑指令前
+   * 都先 `PAL_ClearDialog(TRUE)`。我们在 opcode dispatch 前检测有 line-done dialog 时
+   * 触发等键阻塞;`true` 时 page-advance 后 **caller 不应 ip++**(opcode 本身还没跑)。
+   *
+   * true  = 由 dispatch 前 auto-ClearDialog 触发(opcode 尚未消费,ip 留原位)
+   * undefined = 由 opcode 0x05 / setDialogStyleX 触发(opcode 已消费,ip++ 继续)
+   */
+  pendingPreOpClear?: boolean
 }
 
 // ── M5 Sync.1: SAVEDGAME_WIN 倒推 typed ─────────────────────────────────────

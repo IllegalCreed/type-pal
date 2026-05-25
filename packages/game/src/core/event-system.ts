@@ -129,6 +129,28 @@ const SDLPAL_DIR_TO_FACING: Record<number, 'down' | 'left' | 'up' | 'right'> = {
 
 const SINGLE_TICK_LIMIT = 256
 
+/**
+ * "auto pre-op ClearDialog" — sdlpal script.c:3468-3471 default case 真值。
+ * 任何**非 dialog setup / showDialog / 自带 ClearDialog**的 opcode 在 dispatch 前都先
+ * `PAL_ClearDialog(TRUE)` — line-done dialog 在那时阻塞等 Space。
+ *
+ * 本列表 = "自带 ClearDialog 或 dialog-related,**不**需 auto pre-op 介入"的 opcode:
+ *  - showDialog:自己 append / 等键
+ *  - setDialogStyleX:自己触发 ClearDialog(by `pendingStyle`)
+ *  - 0x05 redrawScreen:自己 PAL_ClearDialog(TRUE)
+ *  - goto / end:goto 跳转不显示动作;end 自己 close dialog
+ */
+function isDialogContinuationOp(cmd: Command): boolean {
+  return cmd.op === 'showDialog'
+    || cmd.op === 'setDialogStyleTop'
+    || cmd.op === 'setDialogStyleCenter'
+    || cmd.op === 'setDialogStyleBottom'
+    || cmd.op === 'setDialogStyleNarration'
+    || cmd.op === 'goto'
+    || cmd.op === 'end'
+    || (cmd.op === 'raw' && cmd.opcode === OP_REDRAW_SCREEN)
+}
+
 /** fetchPalette 注入(M4 P3.T2)—— 模式与 setSceneContext 一致,保持 tickEventSystem 同步签名。 */
 type FetchPaletteFn = (id: number) => Promise<Palette>
 let _fetchPalette: FetchPaletteFn | null = null
@@ -349,11 +371,14 @@ export function tickEventSystem(
           // 跳到行末;仍在 typing 行,但已 line-done — 下面 line-done 分支自动推进
         }
         else if (result === 'page-advance') {
-          // 清屏完成。检查 pendingStyle / pendingFullClear:
+          // 清屏完成。检查 pendingStyle / pendingFullClear / pendingPreOpClear:
           //  - pendingStyle 有(setDialogStyleX 触发)→ apply gs.currentDialog*,清 dialogBox
           //  - pendingFullClear 有(Sync.2 fix8:0x05 ClearDialog 触发)→ 不切 style,但仍清 dialogBox
+          //  - pendingPreOpClear 有(Sync.2 fix11:script.c:3468 default auto-ClearDialog 触发)→
+          //      opcode 尚未消费,**不 ip++** — 下一帧 tick 仍在原 ip 跑 opcode(无 dialog 遮挡)
           //  - 都无 → 累计 4 行翻页(同 style),保留 dialogBox 让下条 showDialog appendDialogLine
           const pending = ds.pendingStyle
+          const preOp = ds.pendingPreOpClear
           if (pending) {
             gs.currentDialogStyle = pending.style
             gs.currentDialogPortraitIcon = pending.portraitIcon
@@ -364,8 +389,9 @@ export function tickEventSystem(
             gs.dialogBox = undefined  // 完全清,让 portrait 不再 overlay
           }
           cursor.waiting = undefined
-          cursor.ip++
-          // fall through 到下面 while 循环:本 tick 继续跑下条 opcode(showDialog 重建 dialog 或 NPC 动作)
+          if (!preOp) cursor.ip++
+          // fall through 到下面 while 循环:本 tick 继续跑下条 opcode(preOp 时 ip 不变,跑原 opcode;
+          // 非 preOp 时 ip 已 ++,跑下一条)
         }
         else if (result === 'dialog-end') {
           // 关 dialog,推进到 end 之后(此时 cursor.ip 已在 end opcode 上,end handler 处理退出)
@@ -408,6 +434,26 @@ export function tickEventSystem(
     }
 
     const cmd = cursor.commands[cursor.ip]!
+
+    // sdlpal script.c:3468-3471 真值:PAL_RunTriggerScript outer switch 的 default case 在跑
+    // 任何**非 dialog setup / showDialog / 自带 ClearDialog** 指令前都先 `PAL_ClearDialog(TRUE)`。
+    // 真值阻塞:if (nCurrentDialogLine > 0) PAL_DialogWaitForKey()(等 Space)。
+    //
+    // 我们 port:line-done 状态的 dialog + 即将跑非 dialog opcode → setWaitingPageKey(fullClear+preOpClear)
+    // + waiting='dialog' return,等用户 Space 后真清 dialogBox,下一帧再跑该 opcode。
+    // 这样 NPC 动画 / wait / 角色 pose 切换等播放期间,先前的对话框不再遮挡画面。
+    if (
+      gs.dialogBox
+      && gs.dialogBox.phase === 'line-done'
+      && (gs.dialogBox.shownLines.length > 0 || gs.dialogBox.currentLineText !== null)
+      && !isDialogContinuationOp(cmd)
+    ) {
+      // preOpClear=true:opcode 尚未消费,page-advance 不 ip++,等用户 Space 后 dialog 清,
+      // 下一帧 tick 仍在原 ip 跑 opcode(无 dialog 遮挡)。
+      setWaitingPageKey(gs.dialogBox, undefined, true, true)
+      cursor.waiting = 'dialog'
+      return
+    }
 
     switch (cmd.op) {
       case 'end':
