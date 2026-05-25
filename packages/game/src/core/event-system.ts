@@ -36,6 +36,7 @@ import {
   setWaitingEndKey,
   tickDialog,
   confirmDialog,
+  stripDialogControlCodes,
 } from '../present/dialog-box.js'
 
 // ── P0.e: wScriptOnEnter / 战斗触发 opcode 真值(grep sdlpal reference/sdlpal/script.c) ──
@@ -460,8 +461,11 @@ export function tickEventSystem(
         // 若 dialogBox 不存在 → startDialogLine 启首行
         // 若存在但累计 4 行(shouldWaitPageKey)→ setWaitingPageKey,等下次 tick Confirm 后再 append
         // 否则 → appendDialogLine 加新行
+        //
+        // sdlpal text.c:1534/1542 `$XX` / `~XX` 控制码 strip(不显示字面值)
+        const text = stripDialogControlCodes(cmd.text)
         if (!gs.dialogBox) {
-          gs.dialogBox = startDialogLine(cmd.text, {
+          gs.dialogBox = startDialogLine(text, {
             style: gs.currentDialogStyle,
             portraitIcon: gs.currentDialogPortraitIcon,
             fontColor: gs.currentDialogFontColor,
@@ -474,10 +478,10 @@ export function tickEventSystem(
           return
         }
         else {
-          appendDialogLine(gs.dialogBox, cmd.text)
+          appendDialogLine(gs.dialogBox, text)
         }
         cursor.waiting = 'dialog'
-        bus.emit({ op: 'showDialogBox', text: cmd.text, style: gs.currentDialogStyle })
+        bus.emit({ op: 'showDialogBox', text, style: gs.currentDialogStyle })
         // ip 停在 showDialog 上,waiting 释放(typing 完后自动 ip++)才推进
         return
       }

@@ -45,6 +45,20 @@ export const FONT_COLOR_DEFAULT = 0x4F
 /** sdlpal text.c:1649 `nCurrentDialogLine > 3`:超过 3 (即 4) 触发等键 */
 export const MAX_LINES_PER_PAGE = 4
 
+/**
+ * 去掉 sdlpal text.c:1534/1542 的 `$XX` / `~XX` 控制码,只 strip 不显示。
+ *
+ * 真值(text.c:1534-1554):
+ *   `$XX` → 设 iDelayTime = X * 10 / 7(typing 速度),sdlpal 固定 `lpszText += 3` 即吃 3 字符。
+ *   `~XX` → 延 X * 80 / 7 ms 后 return(本行立即结束),sdlpal 也是 2 位 decimal。
+ *
+ * 当前 strip-only:不做 typing 减速 / 自动 end 延时(留下一轮按需补)。
+ * 视觉上原版你看不到 `$10` `~30` 字面,我们之前直接 typing 出来是 bug。
+ */
+export function stripDialogControlCodes(text: string): string {
+  return text.replace(/[$~]\d{1,2}/g, '')
+}
+
 /** sdlpal text.c:1661 `y + nCurrentDialogLine * 18`:行间距 18 px */
 export const LINE_HEIGHT_PX = 18
 
