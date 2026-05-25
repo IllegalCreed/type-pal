@@ -4,9 +4,11 @@ import { fetchPalette, loadAll, SceneAssetsCache, type SceneAssets, type SceneFe
 import { loadDialogAssets } from '../assets/dialog-assets.js'
 import { loadGlyphs, renderText } from '../present/font.js'
 import { createCommandBus } from '../core/command-bus.js'
+import type { Command } from '@type-pal/shared'
 import { createInitialGameState, npcFromEventObject } from '../core/game-state.js'
 import {
   buildLabelMap, runEnterScript, setFetchPalette,
+  setSceneLoader,
   setSharedEvents, setStartBattleHandler,
 } from '../core/event-system.js'
 import { startBattle } from '../core/battle/battle-system.js'
@@ -33,7 +35,16 @@ const battleFixtures = battleFixturesRaw as unknown as BattleFixturesData
 // 同模式 cast —— scene-jumps.json schema 由 SceneJump 定义。
 const sceneJumps = sceneJumpsRaw as unknown as SceneJumpsData
 
-const SCENE_ID = 1
+// sdlpal 真值:`PAL_LoadDefaultGame` 起手 `wNumScene=1`,`PAL_GameUpdate` 取 `scenes[wNumScene-1]=scenes[0]`
+// 即 dump 文件 `scene/0.json`(mapNum=20 黑地图 + onEnterLabel=L_4)— 这才是开场梦境(主角躺地 +
+// 罗刹鬼婆声音 + 主角喊话)。L_4 末尾 `loadScene { sceneId: 2 }` 把 wNumScene 设 2 → `scenes[1]`
+// 才是客栈(mapNum=12)L_3545 cutscene。
+//
+// `?skip-intro=1` URL 参数:跳过开场梦境直接进客栈(scene/1.json,inn),并跳过 cutscene 对话 —
+// e2e / dev verify 用,正常用户路径仍走 scene 0 → loadScene(2) → scene 1 全流程。
+const skipIntroBoot = typeof window !== 'undefined'
+  && new URLSearchParams(window.location.search).has('skip-intro')
+const SCENE_ID = skipIntroBoot ? 1 : 0
 
 export function showError(canvas: HTMLCanvasElement, msg: string): void {
   const ctx = canvas.getContext('2d')
@@ -76,6 +87,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // sdlpal global.c::PAL_NewGame 真值:wMaxPartyMemberIndex=0 + rgParty[0].wPlayerRole=0(主角)。
   // 不设 partyMembers 则撞怪进战斗 createBattleState 构 0 player → 立刻 phase='lost' 闪退。
   gs.partyMembers = [0]
+  // sdlpal wNumScene 是 1-based,scenes[wNumScene-1] 才是真 scene。dump 文件 scene/N.json 对应
+  // scenes[N](0-based),所以 wNumScene = SCENE_ID + 1。loadScene opcode 真做时(callback)会写新值。
+  gs.wNumScene = SCENE_ID + 1
   gs.npcs = scene.eventObjects.map(npcFromEventObject)
 
   const segment = events.segments[0]
@@ -351,6 +365,59 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       labelMap: sceneAssets.labelMap,
     })
   }
+
+  // 扫新 scene eventCommands 的 setPlayerSprite(opcode 0x65)预 fetch 主角 cutscene sprite group。
+  async function preloadCutsceneSprites(commands: Command[]): Promise<void> {
+    const ids = new Set<number>()
+    for (const cmd of commands) {
+      if (cmd.op === 'raw' && cmd.opcode === 0x0065 && (cmd.operands[0] ?? 0) === 0) {
+        const spriteId = cmd.operands[1] ?? 0
+        if (spriteId > 0 && !npcSpriteFrames.has(spriteId)) ids.add(spriteId)
+      }
+    }
+    if (ids.size > 0) {
+      console.log(`[bootstrap] preloading ${ids.size} cutscene party sprite(s):`, [...ids])
+      await Promise.all([...ids].map((id) => fetchMissingSprite(id)))
+    }
+  }
+
+  // loadScene opcode (0x0059) callback:fetch 新 scene assets → 重置 gs.npcs + setSceneContext +
+  // applySceneAssetsToPresent + 预 fetch 新 scene cutscene sprites + 写 gs.eventCursor 到新 scene
+  // onEnterLabel ip → 释放 waiting='scene-load'。
+  // 注:cmd.sceneId 是 sdlpal wNumScene 值(1-based,scenes[wNumScene-1] 才是真 scene),
+  //     我们 dump 文件 scene/N.json 是 0-based(对应 scenes[N]),所以 dumpFileIndex = wNumScene - 1。
+  setSceneLoader(async (newWNumScene: number) => {
+    const dumpFileIndex = newWNumScene - 1
+    console.log(`[bootstrap.sceneLoader] loadScene wNumScene=${newWNumScene} → dump scene/${dumpFileIndex}.json`)
+    const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
+    gs.wNumScene = newWNumScene
+    gs.npcs = sceneAssets.eventObjects.map(npcFromEventObject)
+    // sdlpal scene 切换时 dialog 自然清(旧 enter script 结束 → PAL_EndDialog),我们手动清。
+    gs.dialogBox = undefined
+    gs.currentDialogPortraitIcon = undefined
+    gs.currentDialogFontColor = 0x4F
+    applySceneAssetsToPresent(sceneAssets)
+    await preloadCutsceneSprites(sceneAssets.eventCommands)
+    if (sceneAssets.onEnterLabel) {
+      const ip = sceneAssets.labelMap[sceneAssets.onEnterLabel]
+      if (ip !== undefined) {
+        gs.eventCursor = {
+          commands: sceneAssets.eventCommands,
+          labelMap: sceneAssets.labelMap,
+          ip,
+        }
+        gs.mode = 'event'
+      }
+      else {
+        gs.eventCursor = undefined
+        gs.mode = 'explore'
+      }
+    }
+    else {
+      gs.eventCursor = undefined
+      gs.mode = 'explore'
+    }
+  })
 
   // M3 T29:dev panel(仅 DEV;生产构建 dead-code)。快捷键 B 弹 fixture picker → 启战。
   // M3.5 T16:加 sceneJumps,picker 内多一段 scene jump 列表(T17 接真 loadScene)。

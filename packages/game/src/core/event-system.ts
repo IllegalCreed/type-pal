@@ -139,6 +139,25 @@ export function setFetchPalette(fn: FetchPaletteFn | null): void {
   _fetchPalette = fn
 }
 
+/**
+ * loadScene opcode (0x0059) 异步切场景 callback 注入。
+ *
+ * sdlpal script.c:1880-1893 真值:wNumScene = operand[0],PAL_SetLoadFlags(kLoadScene) +
+ * fEnteringScene = TRUE → 下帧 main loop PAL_LoadResources 重 load,PAL_GameUpdate 跑新 scene
+ * 的 wScriptOnEnter。我们用 async callback 模拟:bootstrap 在闭包内拿到 sceneAssetsCache,
+ * fetch 新 scene assets → setSceneContext + 重置 gs.npcs / wNumScene + applySceneAssetsToPresent
+ * → 写 gs.eventCursor 指向新 scene 的 onEnterLabel ip → 释放 waiting='scene-load'。
+ *
+ * tickEventSystem 在 loadScene opcode 上 cursor.waiting='scene-load' + return,
+ * callback 完成前不前进。callback 完成后,gs.eventCursor 已切到新 scene,下一帧 tick 接新 ip。
+ */
+type SceneLoaderFn = (sceneId: number) => Promise<void>
+let _sceneLoader: SceneLoaderFn | null = null
+
+export function setSceneLoader(fn: SceneLoaderFn | null): void {
+  _sceneLoader = fn
+}
+
 // ── P0.e: shared.json events.bin 跨 scene 共享脚本注入 ─────────────────────────
 //
 // scene-NNN.json 的 trigger 内常 `goto: "shared#L_xxx"` 跳到 events/shared.json 的某 label
@@ -295,6 +314,14 @@ export function tickEventSystem(
       cursor.ip++
       // fall through to main while loop
     }
+  }
+
+  // 1a'') waiting 处理:scene-load(opcode 0x0059 loadScene)
+  //   bootstrap callback 异步 fetch 新 scene assets → 重置 gs.eventCursor 指新 scene onEnterLabel ip。
+  //   callback 完成前每 tick 仍读到旧 cursor.waiting='scene-load' → 直接 return 不步进。
+  //   完成后 gs.eventCursor 被替换为新 cursor(无 waiting),下一 tick 从新 ip 继续。
+  if (cursor.waiting === 'scene-load') {
+    return  // 等 callback 替换 gs.eventCursor
   }
 
   // 1b) waiting 处理:dialog 状态机(port sdlpal text.c:1616 PAL_ShowDialogText)
@@ -557,14 +584,24 @@ export function tickEventSystem(
         cursor.ip++
         break
 
-      case 'loadScene':
-        // M3.5 B 路线:stub no-op + console.debug;真切场景由 dev panel 直调 loadScene() 函数。
-        // M5 真做剧情链时升级为 emit + 可等待命令(A 路线)。test 在 T10 补全。
-        console.debug(
-          `event-system: skip loadScene sceneId=${cmd.sceneId} ip=${cursor.ip}(B 路线 stub)`,
+      case 'loadScene': {
+        // sdlpal 0x0059 真做:fEnteringScene + wNumScene = operand[0] → 下帧 PAL_LoadResources 重 load。
+        // 我们用注入的 _sceneLoader async callback:fetch 新 scene assets → setSceneContext + 重置 gs +
+        // 切 gs.eventCursor 到新 scene 的 onEnterLabel ip → 释放 waiting。
+        // ip 停在本 loadScene 上,callback 完成后 gs.eventCursor 已被重写到新 scene,本 cursor 弃用。
+        if (_sceneLoader) {
+          cursor.waiting = 'scene-load'
+          _sceneLoader(cmd.sceneId).catch((err: unknown) => {
+            console.error(`event-system: sceneLoader(${cmd.sceneId}) failed:`, err)
+          })
+          return
+        }
+        console.warn(
+          `event-system: loadScene sceneId=${cmd.sceneId} 无 _sceneLoader 注入,skip(测试外 bootstrap 应 setSceneLoader)`,
         )
         cursor.ip++
         break
+      }
 
       case 'setPalette': {
         // M4 P3.T2:真换调色板 —— 异步 fetch,fire-and-forget,tick 同步继续。

@@ -74,8 +74,10 @@ export interface EventCursor {
    *  - 'dialog':      等对话(typing / page-key / end-key,由 dialog-box 状态机管)
    *  - 'frame-wait':  opcode 0x0009 wait N frames(sdlpal script.c:3593-3604)
    *  - 'fade-screen': opcode 0x0073 fade-in 完(Sync.2 fix9,由 gs.fadeState 管)
+   *  - 'scene-load': opcode 0x0059 loadScene 异步切场景(bootstrap callback fetch + setSceneContext +
+   *                  写 gs.eventCursor 到新 scene 的 onEnterLabel ip,释放 waiting,下一帧 tick 接管)
    */
-  waiting?: 'dialog' | 'frame-wait' | 'fade-screen'
+  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load'
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
   /**
