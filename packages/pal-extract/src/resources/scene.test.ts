@@ -65,6 +65,14 @@ describe('dumpScene', () => {
       triggerMode: 0,
       sState: 1,
       sLayer: 0,
+      vanishTime: 0,
+      nSpriteFrames: 0,
+      direction: 0,
+      currentFrameNum: 0,
+      scriptIdleFrame: 0,
+      spritePtrOffset: 0,
+      nSpriteFramesAuto: 0,
+      scriptIdleFrameCountAuto: 0,
     })
     expect(result.eventObjects[1]?.triggerLabel).toBe('L_100')
     expect(result.eventObjects[1]?.autoLabel).toBe('L_200')

@@ -387,6 +387,13 @@ describe('PlayerRole schema (M3 T8)', () => {
       criticalSound: 0,
       magicSound: 0,
       deathSound: 0,
+      coverSound: 0,
+      dyingSound: 0,
+      equipment: [0, 0, 0, 0, 0, 0],
+      magic: new Array(32).fill(0),
+      cooperativeMagic: 0,
+      coveredBy: 0,
+      unknown1: 0, unknown2: 0, unknown3: 0, unknown4: 0, unknown5: 0, unknown6: 0,
     }
     expect(role.spriteNum).toBe(2)
     expect(role.elemResistance.wind).toBe(0)
@@ -418,6 +425,13 @@ describe('PlayerRole schema (M3 T8)', () => {
       criticalSound: -1,
       magicSound: -1,
       deathSound: -1,
+      coverSound: -1,
+      dyingSound: -1,
+      equipment: [0, 0, 0, 0, 0, 0],
+      magic: new Array(32).fill(0),
+      cooperativeMagic: 0,
+      coveredBy: 0,
+      unknown1: 0, unknown2: 0, unknown3: 0, unknown4: 0, unknown5: 0, unknown6: 0,
     }
     const parsed = JSON.parse(JSON.stringify(role)) as PlayerRole
     expect(parsed.attackStrength).toBe(-2)

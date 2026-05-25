@@ -423,6 +423,32 @@ export interface PlayerRole {
   magicSound: number
   /** rgwDeathSound —— **signed** 死亡音效。 */
   deathSound: number
+  /** rgwCoverSound —— **signed** 防御音效(M4 全 dump 补上,fixture 可不填)。 */
+  coverSound?: number
+  /** rgwDyingSound —— **signed** 濒死音效。 */
+  dyingSound?: number
+
+  /**
+   * rgwEquipment[MAX_PLAYER_EQUIPMENTS=6] —— 每个角色 6 个装备槽位 ID(指向 OBJECT.item)。
+   * sdlpal `LPCEQUIPITEM` 槽位顺序(global.h):武器 / 头盔 / 衣甲 / 鞋 / 饰品 / 护身符。
+   */
+  equipment?: number[]
+
+  /** rgwMagic[MAX_PLAYER_MAGICS=32] —— 每个角色已学法术槽位。0 = 空槽,非 0 = magic id。 */
+  magic?: number[]
+
+  /** rgwCooperativeMagic —— 合击魔法 ID(双人协同攻击)。 */
+  cooperativeMagic?: number
+  /** rgwCoveredBy —— 被哪个 player id 庇护(战斗倒地后转防御目标)。 */
+  coveredBy?: number
+
+  /** rgwUnknown1..6 —— sdlpal 自身标 FIXME ???,M4 全 dump 保留 raw。 */
+  unknown1?: number
+  unknown2?: number
+  unknown3?: number
+  unknown4?: number
+  unknown5?: number
+  unknown6?: number
 }
 
 /**
