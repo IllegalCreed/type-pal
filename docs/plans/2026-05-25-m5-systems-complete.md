@@ -3732,6 +3732,69 @@ sh = (sx % 32 !== 0) ? 1 : 0    // sprite x 是否在 sub-row 偏移列
 - 走到柱子前 → party 应在屋顶之上(不被 layer1 全覆盖)
 - 多 NPC scene → NPC 相互 Y-sort 不穿模
 
+### P0.b fix 1 · layer 1 全画 + cover tile blit_y 公式纠正 (2026-05-25)
+
+**触发:** user 截图实证 scene 1 客栈 / scene 17 迷宫两 bug:
+1. 椅子被切成 3 段(cover tile blit_y 错位)
+2. 椅子 / 桌子 / 柱子身体部分整个消失(layer 1 没全画,只在 cover tile 触发时画)
+
+**Bug 1 根因 · cover tile blit_y 公式错(用 drawTilemap 常规排版位置)**
+
+第一版 cover tile 用 drawTilemap 同样的 cell 排版位置:
+```typescript
+const screenY = dh === 0
+  ? dy * ROW_Y_STEP - SUBROW_Y_STEP + offsetY    // 错
+  : dy * ROW_Y_STEP + offsetY                     // 错
+```
+
+sdlpal `scene.c:164-172 PAL_AddSpriteToDraw` 入数组的 `pos.y`:
+```c
+pos.y = dy*16 + dh*8 + 7 + l + iTileHeight*8 - viewport.y
+iLayer = iTileHeight*8 + l
+```
+后续 `scene.c:358 PAL_RLEBlitToSurface` 真实 blit:
+```c
+blit_y = pos.y - bitmap.height - iLayer
+```
+代入相消(`iTileHeight*8 + l` 在 pos.y 与 iLayer 之间互消):
+```
+blit_y = dy*16 + dh*8 + 7 - bitmap.height - viewport.y
+```
+
+差 = `15 - bitmap.height`:短 tile (H=16) 差 -1 几乎不显;高柱子 / 屋顶 (H=48 之类) 差 -33 → user 看到的"错位"主要是高 cover tile 偏位。
+
+**Bug 2 根因 · 漏 layer 1 全画(sdlpal PAL_MakeScene step 1b)**
+
+sdlpal `scene.c:480-491 PAL_MakeScene` 真实流程:
+```c
+PAL_MapBlitToSurface(map, screen, &rect, 0);   // step 1a: layer 0 全画
+PAL_MapBlitToSurface(map, screen, &rect, 1);   // step 1b: layer 1 全画 ← P0.b 第一版漏!
+PAL_SceneDrawSprites();                          // step 2: sprite + cover tile Y-sort 重画
+```
+
+**两层都全画**保证物体(椅子/桌子/柱子)无论 sprite 接近与否都完整可见;cover tile 在 Y-sort 阶段是**重画**已被全画一次的 layer-1 tile,用 Y-sort 让 "高 y 的 tile 排后 → 重画时盖 sprite" 真生效。
+
+P0.b 第一版误以为"只在 cover tile 触发时画 layer 1",删了全画 → 远离任何 sprite 的物体直接消失。
+
+**修法:**
+- `present.ts presentFrame` 在 layer 0 全画后加 `drawTilemap(fb, ..., 1)` 全画 layer 1
+- `draw-tilemap.ts addCoverTileEntries` screenY 改 `dy*ROW_Y_STEP + dh*SUBROW_Y_STEP + 7 - img.height + offsetY`;screenX 合并 `dx*TILE_W + dh*TILE_HALF_W - TILE_HALF_W + offsetX`(等价旧公式但合一)
+
+**视觉验证(headless playwright + take_screenshot):**
+- scene 1 客栈走廊:红木门板 / 桌椅完整,party 走门前不被门挡(Y-sort 对)
+- scene 1 室内 teleport:桌子 + 椅子 + 灯 + 卷轴 / 床 全部 layer-1 完整,party 站柜子前柜身盖 party 腿(cover tile 重画)
+- scene 17 迷宫:石柱完整(柱身 + 柱顶),party 走柱子前柱顶仍盖 party 头部(高 cover tile)
+
+**测试:**
+- 单元:67 → 68(+1 blit_y 公式验证 spec — 直接断言 fb 像素值,验证 cover tile 重画位置跟全画位置 y 不同 → 证明新公式生效)
+- 现有 cover-tile fb 像素 assertion 全数更新到新坐标(103 替代 92)
+- e2e:31/31 重生 baseline 通过(同 P0.b 第一版相同的 ~10 张 + c1-dialog 系列)
+
+**M5+ 启发:**
+- sdlpal `PAL_MakeScene` 多步 pipeline(layer 0 全画 → layer 1 全画 → sprite + cover tile Y-sort)缺一不可;**port 渲染管线时不要省"看似多余"的全画**,sdlpal 设计精妙处经常是双画一次实现遮挡
+- cover tile blit_y / pos.y / iLayer 字段相互嵌套,**纸笔代入相消**比直觉抄 drawTilemap 排版位置更可靠;sdlpal 频用"sprite.pos.y 是个复合字段,真 blit_y 需经 pos.y - height - iLayer 减一遍"模式
+- M4 ⚠️ #13b "layer 1 全盖反 bug" 原始诊断**部分错**:全图盖确实有 bug(高 cover tile 该让 party 通过时也被遮),但**根因是 layer-1 全画后缺 Y-sort cover tile 重画机制**,不是"layer 1 不该全画"。P0.b 第一版只移植了 Y-sort cover tile 但删了全画 → 矫枉过正
+
 ## Sync 段
 
 (实施时累积)
