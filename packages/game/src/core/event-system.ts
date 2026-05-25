@@ -624,6 +624,10 @@ export function tickEventSystem(
             startTimeMs: performance.now(),
             appliedSteps: 0,
           }
+          // sdlpal 真值:fEnteringScene 在 PAL_LoadResources 完成 + 第一次 PAL_GameUpdate 后即清。
+          // 我们 port:fadeScreen 启动表示 onEnter 已跑到 fade 这步,scene 已加载完;清 fEnteringScene
+          // 让 present.ts 恢复渲染(新 scene)— fade 从冻结的旧画面渐变到新 scene。
+          gs.fEnteringScene = false
           cursor.waiting = 'fade-screen'
           console.debug(`event-system: fadeScreen speed=${speed} → ${totalMs}ms (sdlpal classic 真值)`)
           return  // 等 fade 完

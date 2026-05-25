@@ -397,8 +397,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // 这是 sdlpal "渐变跟着 dialog 一起 fade" 真值机制:
     //   scene 切换后下条 fadeScreen → VIDEO_BackupScreen 拷当前屏(含 dialog) → 在 backup
     //   到 current 之间渐变 → 视觉上 dialog 跟着 fade 渐变出。
-    // 之前手动清 dialogBox 导致 backup buffer 不含 dialog,渐变只 scene 部分动 — bug。
     applySceneAssetsToPresent(sceneAssets)
+    // sdlpal `fEnteringScene = TRUE` 真值:`PAL_StartFrame` 早期 return → 屏幕冻结直到
+    // 下条 fadeScreen 启动。我们 port:present.ts 见此 flag 跳过 render,fb 保留上一帧
+    // (dream + dialog)→ fadeScreen 启动 backupPixels = 冻结画面 → 渐变 dream → inn。
+    gs.fEnteringScene = true
     await preloadCutsceneSprites(sceneAssets.eventCommands)
     if (sceneAssets.onEnterLabel) {
       const ip = sceneAssets.labelMap[sceneAssets.onEnterLabel]

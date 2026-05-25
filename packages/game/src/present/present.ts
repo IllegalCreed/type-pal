@@ -58,6 +58,13 @@ export function presentFrame(
   gs: GameState,
   ctx: PresentContext,
 ): void {
+  // sdlpal `fEnteringScene = TRUE` 真值:`PAL_StartFrame` 早期 return,不调 PAL_MakeScene →
+  // 屏幕冻结。我们 port:跳过整个 render,fb 保留上一帧 = 旧 scene + dialog 像素。
+  // fadeScreen 启动时清 fEnteringScene → 渲染 + backupPixels 拷冻结画面 → 渐变。
+  if (gs.fEnteringScene) {
+    return
+  }
+
   // sdlpal video.c:VIDEO_BackupScreen 真值:opcode 0x73 触发那一瞬间,把当前屏幕快照存到 gpScreenBak。
   // 在 fadeState 第一次出现的那帧(backupPixels 还没拷),从上一帧 fb.indices 拷一份(fb 没被
   // clear 前还留着上一帧的像素)→ fadeState.backupPixels。

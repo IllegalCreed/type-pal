@@ -341,6 +341,19 @@ export interface GameState {
    */
   palette?: Palette
 
+  /**
+   * sdlpal `gpGlobals->fEnteringScene` 真值:loadScene opcode 设 TRUE → `PAL_StartFrame`
+   * 早期 return(不调 PAL_MakeScene)→ **屏幕冻结**在 loadScene 前那一帧,直到下个
+   * fadeScreen opcode 启动 backup 时屏幕仍是冻结画面(=旧 scene + dialog)。
+   *
+   * 我们 port:sceneLoader callback 设 fEnteringScene=true → present.ts 跳过 render
+   * (fb 保留上一帧 = dream 渲染)→ ip=371 fadeScreen 启动 backupPixels = fb.indices
+   * 含 dream 像素 → fade 视觉 dream 渐变到 inn。
+   *
+   * fadeScreen handler 设 fEnteringScene=false 让 render 恢复。
+   */
+  fEnteringScene?: boolean
+
   // ── SAVEDGAME_WIN 倒推: 平铺全局杂项 ───────────────────────────────────────
 
   /**
