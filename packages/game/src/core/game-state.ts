@@ -71,10 +71,11 @@ export interface EventCursor {
   ip: number
   /**
    * EventSystem 暂停等待原因。undefined = 非 waiting 状态。
-   *  - 'dialog':     等对话(typing / page-key / end-key,由 dialog-box 状态机管)
-   *  - 'frame-wait': opcode 0x0009 wait N frames(sdlpal script.c:3593-3604)
+   *  - 'dialog':      等对话(typing / page-key / end-key,由 dialog-box 状态机管)
+   *  - 'frame-wait':  opcode 0x0009 wait N frames(sdlpal script.c:3593-3604)
+   *  - 'fade-screen': opcode 0x0073 fade-in 完(Sync.2 fix9,由 gs.fadeState 管)
    */
-  waiting?: 'dialog' | 'frame-wait'
+  waiting?: 'dialog' | 'frame-wait' | 'fade-screen'
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
   /**
@@ -133,6 +134,15 @@ export interface DialogBoxState {
     portraitIcon?: number
     fontColor: number
   }
+  /**
+   * Sync.2 fix8:opcode 0x05 ClearDialog 或 setDialogStyleX 触发的 waiting-page-key,
+   * Confirm 翻页后必须**完全清掉 dialogBox**(不只清 shownLines/currentLineText),
+   * 否则 portrait 在下条 NPC 动画 opcode 期间残留,遮挡剧情动画。
+   *
+   * true  = 翻页后 caller 设 gs.dialogBox = undefined(对应 sdlpal PAL_ClearDialog(TRUE))
+   * undefined = 累计 4 行翻页(append 模式,保留 box 让下条 showDialog 续行)
+   */
+  pendingFullClear?: boolean
 }
 
 // ── M5 Sync.1: SAVEDGAME_WIN 倒推 typed ─────────────────────────────────────
@@ -206,7 +216,7 @@ export interface PoisonStatus {
  * 稀疏存:只存被 script 改过的 event object。
  */
 export interface EventObjectStateMutable {
-  sState: number          // kObjStateHidden=-1 / Normal=0 / Blocker=1 / Message=2 ...
+  sState: number          // sdlpal global.h:77 kObjStateHidden=0 / Normal=1 / Blocker=2 / Message=3 ...(负数也算 hidden)
   x: number               // 像素坐标(可被 script 移动)
   y: number
   sLayer: number          // layer value
@@ -434,6 +444,28 @@ export interface GameState {
    * 稀疏存:eventObjectId → state。chest 已开 / 机关已触发 / NPC 移动等全在这。
    */
   rgEventObject: Record<number, EventObjectStateMutable>
+
+  /**
+   * Sync.2 fix9:屏幕淡入状态(sdlpal video.c::VIDEO_FadeScreen,opcode 0x73 触发)。
+   *
+   * sdlpal 真值(video.c:1130-1280):
+   *   - 12 outer × 6 inner = 72 步 palette-bit blending
+   *   - 每步 SDL_Delay(wSpeed*10 ms),speed=2 → 30ms × 72 ≈ 2.16s
+   *   - blocking event loop:VIDEO_BackupScreen → PAL_MakeScene → VIDEO_FadeScreen(speed) 三步同步
+   * 我们真做:framesTotal = 72(对应 sdlpal 72 inner ticks),每 raf tick 推 1。
+   * present.ts 见此字段时在最上层画黑色 alpha overlay:
+   *   alpha = 1.0 - framesElapsed/framesTotal(0→全黑,1→全透明)
+   *
+   * undefined = 无 fade(常态)
+   */
+  fadeState?: {
+    /** opcode 0x73 operand[0] — sdlpal speed,越大每步越慢(我们 tick 速率固定,字段仅记录值)。 */
+    speed: number
+    /** 总帧数:sdlpal 真值 72(= 12 outer × 6 inner)。 */
+    framesTotal: number
+    /** 已过帧数(0→framesTotal)。 */
+    framesElapsed: number
+  }
 }
 
 // ── 工厂函数 helpers ──────────────────────────────────────────────────────────
@@ -545,7 +577,10 @@ export function npcFromEventObject(eo: SceneEventObject): NpcState {
     spriteNum: eo.spriteNum,
     triggerLabel: eo.triggerLabel,
     triggerMode: eo.triggerMode,
-    // Sync.2 fix4:透传 sState(scene dump 已含;旧 fixture 缺省 0=Normal)
-    sState: eo.sState ?? 0,
+    // Sync.2 fix4 + fix10:透传 sState(scene dump 已含 EventObject.sState 真值)
+    // sdlpal global.h:77-79:kObjStateHidden=0 / Normal=1 / Blocker=2
+    // pal-extract dump 的 eo.sState 来自 SSS.MKF EventObject.sState 字段(int16)
+    // 旧 fixture / 没字段时缺省 1 = Normal(可见);Hidden 必须显式 0 或负数
+    sState: eo.sState ?? 1,
   }
 }

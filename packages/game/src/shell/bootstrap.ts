@@ -401,9 +401,12 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // 生产构建 dead-code(Vite tree-shake import.meta.env.DEV 分支)。
   // 用 dev-panel.ts 同模式 cast(避免依赖 vite/client triple-slash 类型)。
   if ((import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV) {
-    ;(window as unknown as { __game: { gs: typeof gs, assets: typeof assets } }).__game = {
+    ;(window as unknown as {
+      __game: { gs: typeof gs, assets: typeof assets, presentCtx: typeof presentCtx }
+    }).__game = {
       gs,
       assets,
+      presentCtx,  // Sync.2 fix10:暴露 npcSpriteFrames 供 e2e verify cutscene sprite 加载
     }
   }
 

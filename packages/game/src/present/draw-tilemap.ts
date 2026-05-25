@@ -190,13 +190,19 @@ export function addCoverTileEntries(
   spriteH: number,
   camera: { x: number; y: number },
   idPrefix: string,
+  iLayer: number = 0,  // Sync.2 fix10:sdlpal `lpSpriteToDraw->iLayer`(party=6, NPC=2)
 ): void {
   const offsetX = (SCREEN_W >> 1) - camera.x
   const offsetY = (SCREEN_H >> 1) - camera.y
 
-  // sdlpal scene.c:99-101
-  const sx = spriteWorldX - Math.floor(spriteW / 2)
-  const sy = spriteWorldY
+  // sdlpal scene.c:99-101 — PAL_CalcCoverTiles 真值:
+  //   sx = viewport.x + pos.x - iLayer/2,其中 pos.x = world.x - viewport.x - width/2
+  //   → sx = world.x - width/2 - iLayer/2
+  //   sy = viewport.y + pos.y - iLayer,其中 pos.y = world.y - viewport.y + wLayer + 10(party)或 + 9(NPC)
+  //   → sy = world.y + wLayer + offset_param - iLayer(caller 把 wLayer+offset 加进 spriteWorldY 传入)
+  // 注:caller 传入的 spriteWorldY 已包含 wLayer+offset(party=+10, NPC=+9),这里只减 iLayer。
+  const sx = spriteWorldX - Math.floor(spriteW / 2) - Math.floor(iLayer / 2)
+  const sy = spriteWorldY - iLayer
   const sh = (sx % 32 !== 0) ? 1 : 0
 
   const yStart = Math.floor((sy - spriteH - 15) / 16)

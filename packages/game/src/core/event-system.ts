@@ -112,6 +112,11 @@ export const OP_PLAYER_WALK_ONE_STEP = 0x006E   // 110
 //   operand[2] != 0 → PAL_LoadResources (we just update runtime;实际 load 由 bootstrap 预加载所有)
 // 用于剧情切换主角 pose 系列 sprite group(如:捂头 / 倒地 / 大侠造型)。
 export const OP_SET_PLAYER_SPRITE = 0x0065      // 101
+// case 0x0073(115): Fade screen — VIDEO_FadeScreen(operand[0])(script.c:3267-3297 类似的 IO 模式)
+//   sdlpal 真值:VIDEO_BackupScreen + PAL_MakeScene + VIDEO_FadeScreen(speed)
+//   速度越大越慢:12 outer × 6 inner = 72 步 palette-bit blending
+// M5 简版:writeState fadeState + cursor.waiting='fade-screen' 等淡完;present.ts 画黑色 alpha overlay
+export const OP_FADE_SCREEN = 0x0073            // 115
 
 /** sdlpal palcommon.h enum kDir → our Facing 字面量映射 */
 const SDLPAL_DIR_TO_FACING: Record<number, 'down' | 'left' | 'up' | 'right'> = {
@@ -274,6 +279,24 @@ export function tickEventSystem(
     // fall through to main while loop
   }
 
+  // 1a') waiting 处理:fade-screen(Sync.2 fix9,opcode 0x0073 fade-in)
+  //   每 tick 推 gs.fadeState.framesElapsed;完成时清 fadeState + waiting + ip++
+  if (cursor.waiting === 'fade-screen') {
+    if (!gs.fadeState) {
+      cursor.waiting = undefined  // 防御:无 fadeState 不应等
+    }
+    else {
+      gs.fadeState.framesElapsed++
+      if (gs.fadeState.framesElapsed < gs.fadeState.framesTotal) {
+        return  // 仍在 fade 中,本 tick 不动 cursor
+      }
+      gs.fadeState = undefined
+      cursor.waiting = undefined
+      cursor.ip++
+      // fall through to main while loop
+    }
+  }
+
   // 1b) waiting 处理:dialog 状态机(port sdlpal text.c:1616 PAL_ShowDialogText)
   //
   // sdlpal 真实交互:
@@ -297,9 +320,10 @@ export function tickEventSystem(
           // 跳到行末;仍在 typing 行,但已 line-done — 下面 line-done 分支自动推进
         }
         else if (result === 'page-advance') {
-          // 清屏完成。检查 pendingStyle(setDialogStyleX 触发的 ClearDialog):
-          //  - 有 → apply 到 gs.currentDialog*,清 gs.dialogBox,推 ip(到下条 showDialog 重建)
-          //  - 无 → 累计 4 行触发(同 style),保留 dialogBox 让下条 showDialog appendDialogLine
+          // 清屏完成。检查 pendingStyle / pendingFullClear:
+          //  - pendingStyle 有(setDialogStyleX 触发)→ apply gs.currentDialog*,清 dialogBox
+          //  - pendingFullClear 有(Sync.2 fix8:0x05 ClearDialog 触发)→ 不切 style,但仍清 dialogBox
+          //  - 都无 → 累计 4 行翻页(同 style),保留 dialogBox 让下条 showDialog appendDialogLine
           const pending = ds.pendingStyle
           if (pending) {
             gs.currentDialogStyle = pending.style
@@ -307,9 +331,12 @@ export function tickEventSystem(
             gs.currentDialogFontColor = pending.fontColor
             gs.dialogBox = undefined
           }
+          else if (ds.pendingFullClear) {
+            gs.dialogBox = undefined  // 完全清,让 portrait 不再 overlay
+          }
           cursor.waiting = undefined
           cursor.ip++
-          // fall through 到下面 while 循环:本 tick 继续跑下条 opcode(showDialog 重建 dialog)
+          // fall through 到下面 while 循环:本 tick 继续跑下条 opcode(showDialog 重建 dialog 或 NPC 动作)
         }
         else if (result === 'dialog-end') {
           // 关 dialog,推进到 end 之后(此时 cursor.ip 已在 end opcode 上,end handler 处理退出)
@@ -475,16 +502,36 @@ export function tickEventSystem(
         }
         // Sync.2 fix5: opcode 5 redrawScreen / PAL_ClearDialog(TRUE) — sdlpal script.c:3267-3297
         //   有 dialog → 等 Confirm 翻页清屏(让后续 NPC 动作 / 场景重画显);无 dialog → no-op + ip++
+        // Sync.2 fix8:翻页后**必须完全清 gs.dialogBox**(对应 sdlpal PAL_ClearDialog(TRUE)),
+        //              不只清 shownLines/currentLineText;否则 portrait 残留遮挡后续 NPC 动画。
         if (cmd.opcode === OP_REDRAW_SCREEN) {
           if (gs.dialogBox
             && (gs.dialogBox.shownLines.length > 0 || gs.dialogBox.currentLineText !== null)) {
-            setWaitingPageKey(gs.dialogBox)  // 不带 pendingStyle(0x05 不切 style)
+            setWaitingPageKey(gs.dialogBox, undefined, true)  // fullClear=true(0x05 = PAL_ClearDialog(TRUE))
             cursor.waiting = 'dialog'
-            return  // 等下次 tick Confirm,page-advance 后 ip++ + 继续
+            return  // 等下次 tick Confirm,page-advance 后 dialogBox=undefined + ip++ + 继续
           }
           // 无 dialog → 直接 ip++,本 tick 继续(下面 ip++)
           cursor.ip++
           break
+        }
+
+        // Sync.2 fix9: opcode 0x73 fadeScreen — sdlpal script.c:3271 + video.c:1130 VIDEO_FadeScreen
+        //   sdlpal 真值:VIDEO_BackupScreen + PAL_MakeScene + VIDEO_FadeScreen(speed)
+        //   VIDEO_FadeScreen 内 12 outer × 6 inner = 72 步 palette-bit blending,blocking。
+        //   speed 控制每步 SDL_Delay(wSpeed*10ms);我们 raf tick 速率固定 ≈ 60Hz,
+        //   72 frames ≈ 1.2s,接近 sdlpal speed=2 的 2.16s(可接受的近似)。
+        //   设 fadeState + waiting='fade-screen';tick 1a' 推帧完成后 ip++。
+        if (cmd.opcode === OP_FADE_SCREEN) {
+          const speed = cmd.operands[0] ?? 0
+          gs.fadeState = {
+            speed,
+            framesTotal: 72,  // sdlpal video.c:1178-1190 真值 = 12 outer × 6 inner
+            framesElapsed: 0,
+          }
+          cursor.waiting = 'fade-screen'
+          console.debug(`event-system: fadeScreen speed=${speed} → framesTotal=72 (sdlpal 12×6)`)
+          return  // 等 fade 完
         }
         // P0.e: 6 wScriptOnEnter opcode 真生效 + Sync.2 fix3: 4 个 NPC 动作 opcode;其余 D26 兜底 skip
         applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId)

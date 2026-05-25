@@ -138,6 +138,7 @@ export function presentFrame(
       id: 'party',
     })
     // cover tiles for party
+    // sdlpal scene.c:226 真值:iLayer = wLayer + 6(party 默认 wLayer=0 → iLayer=6)
     addCoverTileEntries(
       entries,
       ctx.tilemap,
@@ -148,6 +149,7 @@ export function presentFrame(
       capturedFrame.height,
       gs.camera,
       'party',
+      6,                       // iLayer(party 默认 wLayer=0 → 6;runtime gs.wLayer 待补)
     )
   }
 
@@ -207,14 +209,18 @@ export function presentFrame(
         capturedFrame.height,
         gs.camera,
         'party-member-1',
+        6,                     // follower iLayer 同 party = 6
       )
     }
   }
 
   // --- NPCs ---
   for (const npc of gs.npcs) {
-    // Sync.2 fix4:sState < 0(kObjStateHidden)不渲染
-    if (npc.sState !== undefined && npc.sState < 0) continue
+    // Sync.2 fix4 + fix10:sdlpal scene.c PAL_ApplyWave hide check —
+    //   sState == kObjStateHidden(=0)或 sState < 0 都隐(scene 1 cutscene 后
+    //   setSceneObjectState[12,0,0] 把 npc id=11 sprite 628 拿锅李大娘隐起来,让 sprite 55 走的李大娘 take over)。
+    //   注:bootstrap 把 npc.sState 从 eo.state 真值初始化为 1(kObjStateNormal),所以默认 sState=1 显示。
+    if (npc.sState !== undefined && npc.sState <= 0) continue
     // Sync.2 fix3 pose:若 npc.scriptedFrame 设且 ctx.npcSpriteFrames 有真帧 → 用 scripted 帧
     //                  否则 fallback 到 ctx.npcSprites(frame 0)
     let sprite: SpriteImage | undefined
@@ -243,6 +249,7 @@ export function presentFrame(
       id: `npc-${capturedNpcId}`,
     })
     // cover tiles for NPC
+    // sdlpal scene.c:301-316 真值:iLayer = sLayer*8 + 2(NPC 默认 sLayer=0 → iLayer=2)
     addCoverTileEntries(
       entries,
       ctx.tilemap,
@@ -253,6 +260,7 @@ export function presentFrame(
       capturedSprite.height,
       gs.camera,
       `npc-${capturedNpcId}`,
+      2,                       // iLayer(NPC sLayer=0 → 2)
     )
   }
 
@@ -266,6 +274,39 @@ export function presentFrame(
   // 6. 对话框(最上层)
   if (gs.dialogBox) {
     drawDialogBox(fb, gs.dialogBox, ctx.glyphs, ctx.dialogAssets)
+  }
+
+  // 7. Sync.2 fix9: fadeState 黑→透明 overlay(最最上层)
+  //    sdlpal video.c:1130 VIDEO_FadeScreen 是 backup→current palette-bit blending;
+  //    72 步(12 outer × 6 inner),每 inner step 用 rgIndex[6]={0,3,1,5,2,4} 选 stride-6 pixels。
+  //    我们渲染时已是后端 palette,不再 backup/current 双 buffer 操作;改用 framesElapsed/framesTotal
+  //    驱动渐进 reveal:framesElapsed=0 → 全屏黑,递增至 framesTotal → 全屏 pass-through。
+  //    每帧写 N 个 stride-6 像素为 palette idx 0(=黑),N 随进度递减,模拟 72 步逐 group reveal。
+  if (gs.fadeState) {
+    const { framesElapsed, framesTotal } = gs.fadeState
+    const progress = framesTotal > 0 ? Math.min(framesElapsed / framesTotal, 1) : 1
+    // sdlpal 真序列:每 6 stride 包含 6 个 inner steps,index 顺序 {0,3,1,5,2,4}。
+    // 每 inner step 中 stride-6 mod==某 rgIndex 的像素 被 blend。
+    // 我们简化为:计算"已 reveal 的 pixel group 数",剩余 group 保持全黑。
+    const W = fb.width
+    const H = fb.height
+    const total = W * H
+    // 总 stride-6 单元 = total。已 reveal 单元 = floor(progress * total)。
+    // 每个 stride-6 group 6 pixels;sdlpal 真值是 group 内 6 个 phase 逐次 reveal。
+    // 简化:按 (1-progress) 比例锁住 stride-6 中前 N 个 phase 为黑。
+    const phasesBlack = Math.ceil((1 - progress) * 6)  // 6→0:6=全黑,0=全透
+    if (phasesBlack > 0) {
+      const rgIndex = [0, 3, 1, 5, 2, 4] as const
+      const blackSet = new Set<number>()
+      for (let i = 0; i < phasesBlack; i++) blackSet.add(rgIndex[i]!)
+      for (let i = 0; i < total; i++) {
+        if (blackSet.has(i % 6)) {
+          const x = i % W
+          const y = Math.floor(i / W)
+          fb.writePixel(x, y, 0)
+        }
+      }
+    }
   }
 }
 

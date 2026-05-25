@@ -4299,6 +4299,80 @@ opcode 21 [0, 3, 0]           → sprite 627 frame 3  (大侠)
 
 剩余轻微 gap(MAP.MKF 5 个未引用 mapNum)目前不影响任何已知场景,留 M5.5 audit 时按同原则改 dump-all。
 
+### Sync.2 修补 fix8/9/10 — 0x05 真清 dialogBox + opcode 0x73 fadeScreen 真做 + sState 真值过滤 + cover-tile iLayer 修(2026-05-25)
+
+User 报 4 bug:对话遮挡 NPC 动画 / 李大娘走出 / 开场缺 fade-in / 主角对话残留 portrait。逐项 sdlpal 真值核对 + playwright headless 截图 verify。
+
+**fix8 — opcode 0x05 ClearDialog 真清 dialogBox**
+
+旧问题:scene 1 cutscene 中 opcode 0x05 触发 waiting-page-key 后,Confirm 翻页只清 `shownLines/currentLineText`,**`gs.dialogBox` 引用残留**(`portraitIcon=55` 字段还在)。下条 NPC 动作 opcode(0x49 / 0x16 / 0x6C)期间渲染层 `drawDialogBox(gs.dialogBox)` 仍画 portrait → 李大娘头像盖在 cutscene NPC 动画上。
+
+sdlpal 真值(text.c:1752-1784):`PAL_ClearDialog(TRUE)` 重置 `nCurrentDialogLine = 0` +(条件)等键。下次 PAL_ShowDialogText 不再被调,自然 portrait/key icon 不 blit。
+
+我们 retain dialogBox state 但渲染层 short-circuit:
+- `DialogBoxState.pendingFullClear?: boolean` 字段新增(类似 `pendingStyle`)
+- `setWaitingPageKey(state, pendingStyle?, fullClear?)` 签名扩
+- 0x05 handler 触发 waiting 时设 `fullClear=true`
+- `confirmDialog` page-advance 分支:若 `pendingFullClear` 则 `gs.dialogBox = undefined`
+- 兜底:`drawDialogBox` 入口加 `if (shownLines.length===0 && currentLineText===null) return`
+
+**fix9 — opcode 0x73 fadeScreen 真做(72 frames)**
+
+旧问题:scene 1 L_3545 第 4 条 `opcode 115 (0x73) [2, 0, 0]` — 黑屏 fade in 到客栈。raw skip → 开场直接显场景,无 fade。
+
+sdlpal 真值(video.c:1130-1280):`VIDEO_BackupScreen + PAL_MakeScene + VIDEO_FadeScreen(speed)`,72 步(12 outer × 6 inner)palette-bit blending,blocking event loop。
+
+我们 1:1 真做:
+- `GameState.fadeState?: { speed, framesTotal=72, framesElapsed }` 字段
+- `EventCursor.waiting` 类型加 `'fade-screen'`
+- 0x73 handler 设 fadeState + waiting(blocking)
+- `tickEventSystem` 1a' 每 tick 推 framesElapsed → 72 时清 + ip++
+- `present.ts` 末尾 alpha overlay pass:`phasesBlack = ceil((1-progress)*6)`,用 sdlpal `rgIndex[6]={0,3,1,5,2,4}` 序列把 stride-6 像素前 N 个 phase 写黑(palette idx 0)
+- raf 60Hz × 72 ≈ 1.2s
+
+**fix10 — sState 真值过滤 + cover-tile iLayer 修**
+
+旧问题 A:scene 1 cutscene 中段 `[470] 0x49 setSceneObjectState [12, 0, 0]` 把 npc id=11(拿锅李大娘)`sState=0` = `kObjStateHidden`。我们之前 `sState < 0` 才隐 → 0 不隐 → 拿锅李大娘 跟走的李大娘 重叠。
+
+sdlpal global.h:77 真值:`kObjStateHidden=0, kObjStateNormal=1, kObjStateBlocker=2`。
+我们之前 `sState ?? 0` 默认值是错的(空 fixture 就全隐)→ 改 `?? 1`。
+NPC 渲染过滤改 `if (sState !== undefined && sState <= 0) continue`,对应 sdlpal scene.c `sState == kObjStateHidden || sState < 0` 真值。
+
+旧问题 B:`addCoverTileEntries` 公式漏 `iLayer`:
+- sdlpal scene.c:99-101: `sx = world.x - W/2 - iLayer/2`, `sy = world.y + offset - iLayer`
+- 我们之前: `sx = worldX - W/2`, `sy = worldY` — **少减 iLayer**
+
+修:`addCoverTileEntries(..., iLayer=0)` 加参,内部:
+```ts
+const sx = spriteWorldX - W/2 - Math.floor(iLayer / 2)
+const sy = spriteWorldY - iLayer
+```
+
+caller iLayer:party=6(sdlpal scene.c:226 `wLayer+6`)/ follower=6 / NPC=2(sdlpal scene.c:316 `sLayer*8+2`)。
+
+**playwright 验**(headless 跑 scene 1 onEnter cutscene,28 张截图 + state dump):
+- 02b-fade-done-no-dialog:fade 真 72 frame ≈ 1.2s,黑→dithered→清晰客栈
+- 60-65 sprite627:主角 partyLeaderSpriteId=627 + scriptedFrame 0..3 真切(躺/起/抱胸/大侠)
+- 72:setSceneObjectState[12,0,0] 后拿锅李大娘隐藏,只剩走的李大娘 + portrait cleaned(fix10 视觉验证点)
+
+**改动文件**:
+- `packages/shared/src/resources.ts` — SceneEventObject.sState 枚举注释更正
+- `packages/game/src/core/game-state.ts` — waiting 加 'fade-screen';DialogBoxState.pendingFullClear;fadeState 字段;npcFromEventObject default sState=1
+- `packages/game/src/core/event-system.ts` — OP_FADE_SCREEN=0x0073;0x05 → fullClear=true;0x73 真 handler;tick 1a' fade 推进
+- `packages/game/src/present/dialog-box.ts` — setWaitingPageKey fullClear 参;drawDialogBox hasActiveContent short-circuit
+- `packages/game/src/present/present.ts` — fadeState rgIndex dither overlay;NPC `sState <= 0` 过滤;3 个 cover caller 加 iLayer
+- `packages/game/src/present/draw-tilemap.ts` — addCoverTileEntries iLayer 参 + sx/sy 公式修
+- `packages/game/src/shell/bootstrap.ts` — __game.presentCtx 暴露供 e2e probe
+- e2e baselines 重生 6 张(a1/a2×2/a3/a7/c1 — sState 过滤 + dialog short-circuit + cover-tile 真值后视觉变更)
+
+**已知未完成 / 不知道怎么做**:
+- **Bug 4(主角"躺床"视觉)我没做到**:cover-tile iLayer 修后,sprite 2 frame 0 在 (1312, 288) row 18 col 41,bed cover tile 在 [19, 41] `cell.upper` dh=1 tile 123 高度 7。算法 y range = `[(sy-h-15)/16, sy/16] = [13, 18]`,case 0/1/3 dy=y dh=sh=1,case 2/4 dy=y+1 dh=0。**结构上无法到达 (dy=19, dh=1) 这个 cover cell** — 那是 bed visual 起点。可能是我们 party.x/y 是 world(sdlpal `rgParty[i].x` 实际是 partyOffset 相对屏幕中心 + viewport 跟随)的坐标系差导致 sx/sy 算偏,但单独修 iLayer 没把这个空隙补上。**整套 viewport / partyOffset 坐标系审计留 M5.5。**
+- **Bug 5(6 张 sdlpal ground truth screenshot 对照)我没做到**:user 未提供 sdlpal classic 截图,无法逐张视觉对比。我们生成的 28 张 cutscene screenshot 已在 `build/sync2-verify/`(gitignored),user 拿到 sdlpal 截图后可对比。
+
+**测试 + e2e**:
+- L1:game 416 + pal-extract 199 + shared 44 = **659** pass
+- L2:e2e 31/31 全绿(6 baseline 重生)
+
 ## P1-Battle 段
 
 (实施时累积)

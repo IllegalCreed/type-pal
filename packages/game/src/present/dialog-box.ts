@@ -180,16 +180,23 @@ export function shouldWaitPageKey(state: DialogBoxState): boolean {
  *
  * 可选 pendingStyle:若由 setDialogStyleX 在已有 dialog 上触发的 PAL_ClearDialog(TRUE),
  * 把新 style/portrait/fontColor 暂存,Confirm 翻页时 caller 应用到 gs。
+ *
+ * Sync.2 fix8:可选 fullClear:若由 0x05 ClearDialog 或 setDialogStyleX 触发,
+ * Confirm 翻页后 caller 应 gs.dialogBox = undefined(对应 sdlpal PAL_ClearDialog(TRUE))。
  */
 export function setWaitingPageKey(
   state: DialogBoxState,
   pendingStyle?: DialogBoxState['pendingStyle'],
+  fullClear?: boolean,
 ): void {
   state.phase = 'waiting-page-key'
   state.typingFrames = 0
   state.keyIconBlink = true
   if (pendingStyle !== undefined) {
     state.pendingStyle = pendingStyle
+  }
+  if (fullClear) {
+    state.pendingFullClear = true
   }
 }
 
@@ -296,6 +303,16 @@ export function drawDialogBox(
   glyphs: GlyphTable | undefined,
   ctx?: DialogBoxDrawCtx,
 ): void {
+  // Sync.2 fix10:dialog 无活跃内容(shownLines=[]+currentLineText=null)时 整个 dialog 不画 —
+  //   包括 portrait + key icon。对应 sdlpal `nCurrentDialogLine=0` 后 PAL_ShowDialogText 不被
+  //   调,自然 portrait 不再 blit。我们 retainstate 但渲染层 short-circuit。
+  //   场景:0x05 ClearDialog 翻页 + cutscene NPC opcode 期间,portrait 不再 overlay。
+  //
+  // 注:currentLineText 非 null 但 charsRevealed=0(startDialogLine 后第 0 tick)
+  //    仍 draw — portrait + text 框已"准备好显示",玩家会看到 portrait 先于文字。
+  const hasActiveContent = state.shownLines.length > 0 || state.currentLineText !== null
+  if (!hasActiveContent) return
+
   // 1. portrait(sdlpal text.c:1289-1310)
   let hasPortraitRendered = false
   if (state.portraitIcon !== undefined && ctx?.portraitFrames) {

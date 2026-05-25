@@ -63,16 +63,19 @@ export interface SceneEventObject {
    */
   triggerMode: number
   /**
-   * 初始状态(sdlpal `EventObject.sState`,Sync.2 fix4)。
-   *  - -1 = kObjStateHidden(不渲染)
-   *  -  0 = Normal
-   *  -  1 = Blocker
-   *  -  2 = Message
-   *  -  3 = Script
+   * 初始状态(sdlpal `EventObject.sState`,Sync.2 fix4 + fix10)。
+   * sdlpal global.h:77-79 真值:
+   *  -  0 = kObjStateHidden(不渲染)
+   *  -  1 = kObjStateNormal
+   *  -  2 = kObjStateBlocker
+   *  -  3 = kObjStateMessage
+   *  -  4 = kObjStateScript
    *  - 4+ = Contact
+   *  - 负数也算 hidden(部分 script 用)
    *
-   * scene-system loadScene 时按 `sState >= 0` 过滤,负值 NPC 不进 gs.npcs。
-   * 可选(向后兼容旧 fixture):缺省 0 = Normal。
+   * present.ts NPC 渲染按 `sState > 0` 过滤(sdlpal scene.c:PAL_ApplyWave 同条件:
+   * `sState == kObjStateHidden(0)` 或 `sState < 0` 隐藏)。
+   * 可选(向后兼容旧 fixture):缺省 1 = Normal(避免老 fixture 全隐)。
    */
   sState?: number
 }
