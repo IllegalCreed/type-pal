@@ -1,0 +1,183 @@
+--- a/play.c	2026-05-22 23:45:52
++++ b/play.c	2026-05-25 23:25:15
+@@ -547,6 +547,10 @@
+    //
+    PAL_MakeScene();
+    VIDEO_UpdateScreen(NULL);
++
++   /* type-pal Sync.2: per-frame state dump hook(tp_dump_state.c). */
++   extern void tp_dump_one_frame(void);
++   tp_dump_one_frame();
+ 
+    if (g_InputState.dwKeyPress & kKeyMenu)
+    {
+--- a/input.c	2026-05-22 23:45:52
++++ b/input.c	2026-05-25 23:25:29
+@@ -1336,6 +1336,10 @@
+ #if PAL_HAS_TOUCH
+    PAL_TouchRepeatCheck();
+ #endif
++
++   /* type-pal Sync.2: AUTO_SPACE inject hook(dialog wait 也走 ProcessEvent). */
++   extern void tp_dump_auto_space_inject(void);
++   tp_dump_auto_space_inject();
+ }
+ 
+ VOID
+--- a/uigame.c	2026-05-22 23:45:52
++++ b/uigame.c	2026-05-25 23:25:42
+@@ -100,6 +100,12 @@
+ {
+    WORD          wItemSelected;
+    WORD          wDefaultItem     = 0;
++
++   /* type-pal Sync.2:TP_DUMP_STATE 设置时跳过 opening menu(自动新游戏 = slot 0). */
++   if (getenv("TP_DUMP_STATE") != NULL)
++   {
++      return 0;
++   }
+    INT           w[2] = { PAL_WordWidth(MAINMENU_LABEL_NEWGAME), PAL_WordWidth(MAINMENU_LABEL_LOADGAME) };
+ 
+    MENUITEM      rgMainMenuItem[2] = {
+--- a/main.c	2026-05-22 23:45:52
++++ b/main.c	2026-05-25 23:25:54
+@@ -542,8 +542,10 @@
+    //
+    // Show the trademark screen and splash screen
+    //
+-   PAL_TrademarkScreen();
+-   PAL_SplashScreen();
++   if (getenv("TP_DUMP_STATE") == NULL) {
++      PAL_TrademarkScreen();
++      PAL_SplashScreen();
++   }
+ 
+    //
+    // Run the main game routine
+--- /dev/null
++++ b/tp_dump_state.c	2026-05-25 23:26:24
+@@ -0,0 +1,124 @@
++/* type-pal: per-frame state dumper for sdlpal baseline 对比工具(Sync.2).
++ *
++ * 环境变量(避免改 main.c CLI 解析):
++ *   TP_DUMP_STATE=<out.jsonl>    每帧 dump JSON 行(party + npcs)
++ *   TP_AUTO_SPACE=<N>            每 N 次 PAL_ProcessEvent 自动 inject kKeySearch
++ *                                (注:不是 frame 计数 — dialog wait 期间
++ *                                PAL_StartFrame 不跑,只有 PAL_ProcessEvent 跑)
++ *   TP_MAX_FRAMES=<M>            跑到第 M 帧自动 exit
++ *
++ * Hook 位置:
++ *   - dump JSON:play.c PAL_StartFrame 末尾(PAL_MakeScene 后,每帧一次)
++ *   - AUTO_SPACE inject:input.c PAL_ProcessEvent 末尾(dialog wait 也走这条)
++ */
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include "main.h"
++
++static int g_tp_dump_enabled = 0;
++static FILE *g_tp_dump_fp = NULL;
++static int g_tp_dump_auto_space_interval = 0;
++static int g_tp_dump_max_frames = 0;
++static int g_tp_dump_frame_count = 0;
++static int g_tp_dump_initialized = 0;
++
++static void tp_dump_state_lazy_init(void)
++{
++   if (g_tp_dump_initialized) return;
++   g_tp_dump_initialized = 1;
++   const char *path = getenv("TP_DUMP_STATE");
++   if (path == NULL || path[0] == '\0') return;
++   g_tp_dump_fp = fopen(path, "w");
++   if (g_tp_dump_fp == NULL)
++   {
++      fprintf(stderr, "type-pal: failed to open TP_DUMP_STATE='%s'\n", path);
++      return;
++   }
++   g_tp_dump_enabled = 1;
++   const char *auto_space = getenv("TP_AUTO_SPACE");
++   if (auto_space && auto_space[0]) g_tp_dump_auto_space_interval = atoi(auto_space);
++   const char *max_frames = getenv("TP_MAX_FRAMES");
++   if (max_frames && max_frames[0]) g_tp_dump_max_frames = atoi(max_frames);
++   fprintf(stderr, "type-pal: dump state -> %s (auto-space=%d max-frames=%d)\n",
++      path, g_tp_dump_auto_space_interval, g_tp_dump_max_frames);
++}
++
++void tp_dump_one_frame(void)
++{
++   tp_dump_state_lazy_init();
++   if (!g_tp_dump_enabled || g_tp_dump_fp == NULL) return;
++   FILE *f = g_tp_dump_fp;
++   int frame = g_tp_dump_frame_count;
++   WORD wScene = gpGlobals->wNumScene;
++   int vp_x = PAL_X(gpGlobals->viewport);
++   int vp_y = PAL_Y(gpGlobals->viewport);
++   int po_x = PAL_X(gpGlobals->partyoffset);
++   int po_y = PAL_Y(gpGlobals->partyoffset);
++   int party_x = vp_x + po_x;
++   int party_y = vp_y + po_y;
++   WORD wPlayerRole = gpGlobals->rgParty[0].wPlayerRole;
++
++   fprintf(f,
++      "{\"frame\":%d,\"scene\":%d,\"viewport\":[%d,%d],"
++      "\"party\":{\"x\":%d,\"y\":%d,\"dir\":%d,\"wFrame\":%d,\"role\":%d,\"sprite\":%d},"
++      "\"npcs\":[",
++      frame, (int)wScene, vp_x, vp_y,
++      party_x, party_y,
++      (int)gpGlobals->wPartyDirection,
++      (int)gpGlobals->rgParty[0].wFrame,
++      (int)wPlayerRole,
++      (int)gpGlobals->g.PlayerRoles.rgwSpriteNum[wPlayerRole]
++   );
++
++   /* scene-local NPCs:wEventObjectIndex 范围 [scene[N-1], scene[N]) */
++   WORD startIdx = (wScene > 0) ? gpGlobals->g.rgScene[wScene - 1].wEventObjectIndex : 0;
++   WORD endIdx = gpGlobals->g.rgScene[wScene].wEventObjectIndex;
++   int first = 1;
++   WORD i;
++   for (i = startIdx; i < endIdx; i++)
++   {
++      LPEVENTOBJECT eo = &gpGlobals->g.lprgEventObject[i];
++      if (!first) fprintf(f, ",");
++      first = 0;
++      fprintf(f,
++         "{\"id\":%d,\"x\":%d,\"y\":%d,\"dir\":%d,\"frame\":%d,\"sState\":%d,"
++         "\"sprite\":%d,\"layer\":%d,\"trigMode\":%d}",
++         (int)(i - startIdx),
++         (int)eo->x, (int)eo->y,
++         (int)eo->wDirection, (int)eo->wCurrentFrameNum,
++         (int)eo->sState, (int)eo->wSpriteNum,
++         (int)eo->sLayer, (int)eo->wTriggerMode);
++   }
++   fprintf(f, "]}\n");
++   fflush(f);
++
++   if (g_tp_dump_max_frames > 0 && frame >= g_tp_dump_max_frames)
++   {
++      fprintf(stderr, "type-pal: max-frames %d reached, exit\n", g_tp_dump_max_frames);
++      fflush(f);
++      fclose(f);
++      exit(0);
++   }
++   g_tp_dump_frame_count++;
++}
++
++/* AUTO_SPACE inject —— 挂在 PAL_ProcessEvent 末尾,dialog wait 期间也跑(那段
++ * 时间 PAL_StartFrame 不跑,只有 PAL_ProcessEvent 在循环里被反复 poll)。
++ *
++ * 计数用独立的 process_event_count(不是 frame_count),由 ProcessEvent
++ * 调用频率决定 inject 节奏。Interval 单位 = ProcessEvent 调用次数。
++ */
++static int g_tp_process_event_count = 0;
++void tp_dump_auto_space_inject(void)
++{
++   tp_dump_state_lazy_init();
++   if (g_tp_dump_auto_space_interval <= 0) return;
++   int n = g_tp_process_event_count++;
++   if (n > 0 && (n % g_tp_dump_auto_space_interval) == 0)
++   {
++      extern volatile PALINPUTSTATE g_InputState;
++      g_InputState.dwKeyPress |= kKeySearch;
++   }
++}

@@ -26,6 +26,7 @@ PATCHES=(
   "$SDLPAL_SRC/patches/headless-map-dump.patch"
   "$SDLPAL_SRC/patches/headless-battle-harness.patch"
   "$SDLPAL_SRC/patches/headless-battle-dump.patch"
+  "$SDLPAL_SRC/patches/dump-frames.patch"
   "$REPO_ROOT/scripts/sdlpal-extern-c.patch"
 )
 
@@ -49,6 +50,7 @@ grep -q '^#define PAL_CLASSIC' "$BUILD_DIR/common.h" 2>/dev/null || NEED_REBUILD
 grep -q 'PAL_DumpMapToPng' "$BUILD_DIR/main.c" 2>/dev/null || NEED_REBUILD=1
 grep -q 'PAL_HarnessRunFromFixture' "$BUILD_DIR/battle.c" 2>/dev/null || NEED_REBUILD=1
 grep -q 'PAL_DumpBattleSceneToPng' "$BUILD_DIR/main.c" 2>/dev/null || NEED_REBUILD=1
+grep -q 'tp_dump_state_init' "$BUILD_DIR/play.c" 2>/dev/null || NEED_REBUILD=1
 if [ "$NEED_REBUILD" = "1" ]; then
   if [ -d "$BUILD_DIR" ]; then
     echo "[0/3] 检测到未完整 patch 的 build/sdlpal-classic,删除重做"
