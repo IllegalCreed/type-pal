@@ -118,6 +118,11 @@ export const OP_SET_PLAYER_SPRITE = 0x0065      // 101
 //   速度越大越慢:12 outer × 6 inner = 72 步 palette-bit blending
 // M5 简版:writeState fadeState + cursor.waiting='fade-screen' 等淡完;present.ts 画黑色 alpha overlay
 export const OP_FADE_SCREEN = 0x0073            // 115
+// case 0x008E(142): Restore the screen(sdlpal script.c:3428-3436)
+//   PAL_ClearDialog(TRUE) + VIDEO_RestoreScreen + VIDEO_UpdateScreen
+//   真值:restore backup buffer(含 title+portrait 像素)→ 视觉 title/portrait 持久,body 空。
+//   我们 state-driven:trigger partialClear → page-advance 保 titleText + portraitIcon,清 body。
+export const OP_RESTORE_SCREEN = 0x008E         // 142
 
 /** sdlpal palcommon.h enum kDir → our Facing 字面量映射 */
 const SDLPAL_DIR_TO_FACING: Record<number, 'down' | 'left' | 'up' | 'right'> = {
@@ -391,15 +396,20 @@ export function tickEventSystem(
             gs.currentDialogFontColor = pending.fontColor
             gs.dialogBox = undefined
           }
-          else if (ds.pendingFullClear) {
-            // Sync.2 fix17:**不**清 gs.dialogBox 整体,只清 content(shownLines/currentLineText 已在
-            // confirmDialog page-advance 内清)。**保留 titleText**(姓名)+ portraitIcon — 对应
-            // sdlpal PAL_ClearDialog 真值:只 reset nCurrentDialogLine,g_TextLib 其他字段(姓名 / 头像 /
-            // 字体色)不动。
-            // 之前 `gs.dialogBox = undefined` 把 "李逍遥:" title 丢了(scene 0 第二页缺姓名前缀 bug)。
-            // 清 pending flags 防 next page-advance 误用。
-            ds.pendingFullClear = undefined
+          else if (ds.pendingPartialClear) {
+            // Sync.2 fix18:0x8E RestoreScreen 特殊路径 — sdlpal 真值是 VIDEO_RestoreScreen
+            // restore backup buffer(含 title + portrait 像素)→ 视觉 title/portrait 持久。
+            // 我们 state-driven:partialClear 保留 titleText + portraitIcon,只清 body 内容。
+            // (content 已在 confirmDialog page-advance 内 reset)
+            ds.pendingPartialClear = undefined
             ds.pendingPreOpClear = undefined
+          }
+          else if (ds.pendingFullClear) {
+            // Sync.2 真值:0x05 ClearDialog + PAL_MakeScene 重画 scene 覆盖 dialog 区像素
+            // (含 portrait + title)→ 视觉消失。auto pre-op clear 同理(后面 NPC 动画 opcode
+            // 由 PAL_MakeScene 覆盖屏幕)。
+            // state-driven port:清整 dialogBox 让渲染层不再画 dialog。
+            gs.dialogBox = undefined
           }
           cursor.waiting = undefined
           if (!preOp) cursor.ip++
@@ -461,9 +471,21 @@ export function tickEventSystem(
       && (gs.dialogBox.shownLines.length > 0 || gs.dialogBox.currentLineText !== null)
       && !isDialogContinuationOp(cmd)
     ) {
-      // preOpClear=true:opcode 尚未消费,page-advance 不 ip++,等用户 Space 后 dialog 清,
-      // 下一帧 tick 仍在原 ip 跑 opcode(无 dialog 遮挡)。
-      setWaitingPageKey(gs.dialogBox, undefined, true, true)
+      // Sync.2 fix18:区分 ClearDialog 触发源(sdlpal scene.c:472 真值 — PAL_MakeScene 每帧
+      // rect={0,0,320,200} 全屏重画 → portrait/title 像素被覆盖 → 视觉消失。**例外** 0x8E
+      // RestoreScreen 用 VIDEO_RestoreScreen restore backup buffer 含 title/portrait → 持久)。
+      //
+      // 我们 port:
+      //   - 0x8E:partialClear → page-advance 保 titleText + portraitIcon,清 body
+      //   - 其他 op (NPC 动画 / wait / pose 切换):fullClear → 清整 dialogBox(title+portrait 都消失)
+      const isRestoreScreen = cmd.op === 'raw' && cmd.opcode === OP_RESTORE_SCREEN
+      setWaitingPageKey(
+        gs.dialogBox,
+        undefined,
+        !isRestoreScreen,  // fullClear:非 0x8E 都 true
+        true,              // preOpClear:opcode 尚未消费
+        isRestoreScreen,   // partialClear:仅 0x8E true
+      )
       cursor.waiting = 'dialog'
       return
     }

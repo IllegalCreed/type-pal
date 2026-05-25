@@ -163,6 +163,14 @@ export interface DialogBoxState {
    * undefined = 由 opcode 0x05 / setDialogStyleX 触发(opcode 已消费,ip++ 继续)
    */
   pendingPreOpClear?: boolean
+  /**
+   * Sync.2 fix18:opcode 0x8E RestoreScreen 真值 — sdlpal `VIDEO_RestoreScreen` restore
+   * backup buffer(含 title + portrait + body=空)→ 视觉 title/portrait 持久,body 空。
+   *
+   * true  = 0x8E 触发的 ClearDialog,page-advance 保 titleText + portraitIcon,只清 body
+   * undefined = 普通 0x05 / auto pre-op clear → fullClear 清整 dialogBox
+   */
+  pendingPartialClear?: boolean
 }
 
 // ── M5 Sync.1: SAVEDGAME_WIN 倒推 typed ─────────────────────────────────────

@@ -243,6 +243,7 @@ export function setWaitingPageKey(
   pendingStyle?: DialogBoxState['pendingStyle'],
   fullClear?: boolean,
   preOpClear?: boolean,
+  partialClear?: boolean,
 ): void {
   state.phase = 'waiting-page-key'
   state.typingFrames = 0
@@ -255,6 +256,9 @@ export function setWaitingPageKey(
   }
   if (preOpClear) {
     state.pendingPreOpClear = true
+  }
+  if (partialClear) {
+    state.pendingPartialClear = true
   }
 }
 
