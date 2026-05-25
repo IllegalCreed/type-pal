@@ -266,15 +266,23 @@ export function addCoverTileEntries(
           // sdlpal scene.c:171 cover tile DrawEntry sort key
           const baseY = dy * 16 + dh * 8 + 7 + l + iTileHeight * 8
 
-          // 屏幕绘制位:与 drawTilemap 中 blitTile 坐标一致
-          // dh=0 → (dx*32 - 16 + offsetX, dy*16 - 8 + offsetY)
-          // dh=1 → (dx*32       + offsetX, dy*16     + offsetY)
-          const screenX = dh === 0
-            ? dx * TILE_W - TILE_HALF_W + offsetX
-            : dx * TILE_W + offsetX
-          const screenY = dh === 0
-            ? dy * ROW_Y_STEP - SUBROW_Y_STEP + offsetY
-            : dy * ROW_Y_STEP + offsetY
+          // 屏幕绘制位 — port sdlpal scene.c:164-172 PAL_AddSpriteToDraw + scene.c:357-360 真实 blit。
+          // PAL_AddSpriteToDraw 把 (pos.x, pos.y) 入数组:
+          //   pos.x = dx*32 + dh*16 - 16 - viewport.x
+          //   pos.y = dy*16 + dh*8  + 7 + l + iTileHeight*8 - viewport.y
+          //   iLayer = iTileHeight*8 + l
+          // 真实 blit (scene.c:358):
+          //   blit_x = pos.x
+          //   blit_y = pos.y - bitmap.height - iLayer
+          // 代入相消(iTileHeight*8 + l 项在 pos.y 与 iLayer 之间相消):
+          //   blit_x = dx*32 + dh*16 - 16 - viewport.x
+          //   blit_y = dy*16 + dh*8 + 7 - bitmap.height - viewport.y
+          //
+          // 之前用 drawTilemap 常规 tile 排版位置(dy*16-8 for h=0 / dy*16 for h=1),
+          // 差 = `15 - bitmap.height`:短 tile (H=16) 差 -1 几乎不显;高柱子 / 屋顶
+          // (H=48 之类)差 -33 → user 看到的"错位"主要是高 cover tile 偏位。
+          const screenX = dx * TILE_W + dh * TILE_HALF_W - TILE_HALF_W + offsetX
+          const screenY = dy * ROW_Y_STEP + dh * SUBROW_Y_STEP + 7 - img.height + offsetY
 
           // capture closure vars
           const capturedImg = img

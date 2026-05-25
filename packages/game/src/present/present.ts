@@ -52,12 +52,25 @@ export function presentFrame(
 ): void {
   fb.clear()
 
+  // sdlpal `PAL_MakeScene` (scene.c:480-491) 真实流程:
+  //   1a. PAL_MapBlitToSurface(layer 0)— 底层全画
+  //   1b. PAL_MapBlitToSurface(layer 1)— **顶层也全画**(cover tile 候选)
+  //   2.  PAL_SceneDrawSprites():Y-sort sprites + cover tile entries(重画 layer-1 tile 盖 sprite)
+  //
+  // P0.b 第一版误以为"layer 1 只在 cover tile 触发时画" — 实际是**两层都全画 + cover tile 重画**。
+  // 全画保证物体(椅子/桌子/柱子)无论 sprite 接近与否都完整可见;cover tile 重画用 Y-sort
+  // 让 "高 y 的 tile 盖低 y 的 sprite" 真生效(屋顶/柱子顶盖住 sprite 头部)。
+
   // 1. tilemap layer 0(底层 — 地砖、墙基)
   drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 0)
 
-  // 2. 收集所有精灵 entries(party + NPCs),Y-sort 后逐一绘制。
+  // 2. tilemap layer 1(顶层 — 桌子 / 椅子 / 柱子 / 屋顶 / 门 — sdlpal scene.c:481 全画)
+  drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 1)
+
+  // 3. 收集所有精灵 entries(party + NPCs),Y-sort 后逐一绘制。
   //    同时计算每个精灵的 cover tiles(sdlpal PAL_CalcCoverTiles port),
-  //    加入同一数组,与精灵一起排序。
+  //    cover tile 是**重画**已被全画过一次的 layer-1 tile,Y-sort 让重画位置
+  //    跟 sprite 正确叠加(高 y 的 cover tile 排后 → 重画时盖 sprite)。
   //    参考 sdlpal scene.c:181-362 PAL_SceneDrawSprites。
   const entries: DrawEntry[] = []
 
@@ -130,14 +143,14 @@ export function presentFrame(
     )
   }
 
-  // 3. Y-sort(sdlpal scene.c:327-348 bubble sort;我们用 stable Array.sort)。
+  // 4. Y-sort(sdlpal scene.c:327-348 bubble sort;我们用 stable Array.sort)。
   //    sort key = baseY 升序。同 baseY 时保稳定顺序(入数组先后)。
   entries.sort((a, b) => a.baseY - b.baseY)
 
-  // 4. 按排序后顺序绘制所有精灵 + cover tile。
+  // 5. 按排序后顺序绘制所有精灵 + cover tile。
   for (const e of entries) e.draw(fb)
 
-  // 5. 对话框(最上层)
+  // 6. 对话框(最上层)
   if (gs.dialogBox) {
     drawDialogBox(fb, gs.dialogBox.text, gs.dialogBox.style, ctx.glyphs)
   }

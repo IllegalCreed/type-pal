@@ -253,10 +253,72 @@ describe('P0.b Y-sort + cover-tile', () => {
     presentFrame(fb, gs, ctx)
 
     // cover tile for party at cell(5, 5) h=0:
-    //   screen x = 5*32 - 16 + (160 - 160) = 144,  y = 5*16 - 8 + (100 - 80) = 92
-    // tile 4×4 → pixels at (144..147, 92..95) should have color idx=7
-    const px = fb.indices[92 * 320 + 144]
+    //   sdlpal scene.c:164-172 + scene.c:358 相消化:
+    //     screenX = dx*32 + dh*16 - 16 + offsetX = 5*32 + 0 - 16 + (160-160) = 144
+    //     screenY = dy*16 + dh*8 + 7 - img.height + offsetY = 5*16 + 0 + 7 - 4 + (100-80) = 103
+    // tile 4×4 → pixels at (144..147, 103..106) should have color idx=7
+    const px = fb.indices[103 * 320 + 144]
     expect(px).toBe(7)
+  })
+
+  it('cover-tile blit_y 公式 = dy*16 + dh*8 + 7 - bitmap.height(sdlpal scene.c:358 相消化)', () => {
+    // sdlpal PAL_AddSpriteToDraw 入数组 pos.y = dy*16 + dh*8 + 7 + l + iTileHeight*8 - vp.y,
+    // iLayer = iTileHeight*8 + l;blit_y = pos.y - bitmap.height - iLayer →
+    // iTileHeight*8 + l 项相消,净 blit_y = dy*16 + dh*8 + 7 - bitmap.height - vp.y。
+    //
+    // 验证策略:直接 spy addCoverTileEntries 输出(present.ts 内部走 entries.draw),
+    // 比较抽 closure-captured Y 值 — 不去 fb 像素,因 sdlpal 真值 layer-1 也全画一遍
+    // (cover tile 在 Y-sort 是"重画"位置上盖 sprite),fb 像素同时受全画 + cover-tile
+    // 干扰难分。改用 collector pattern:替换 draw fn 收集 Y 入参。
+
+    // 高 tile:48 px(屋顶/高柱子类),idx=9
+    const coverTileImg = {
+      width: 4, height: 48,
+      indices: new Uint8Array(4 * 48).fill(9),
+      opaque: new Uint8Array(4 * 48).fill(1),
+    }
+    const tileImages = {
+      get: (idx: number) => idx === 1 ? coverTileImg : undefined,
+    }
+
+    // cell(2, 3).lower:layer-1 tileId=1, height=2 → hi = 0x0202 → DWORD 0x02020000
+    const L1_DWORD = 0x02020000
+    const cells = Array.from({ length: 10 }, (_, r) =>
+      Array.from({ length: 10 }, (__, c) =>
+        (r === 3 && c === 2) ? { lower: L1_DWORD, upper: 0 } : { lower: 0, upper: 0 },
+      ),
+    )
+    const tilemap: Tilemap = { width: 10, height: 10, cells, tilesetImage: 'fake' }
+
+    // sdlpal scene.c:480-491 真值:layer 0 + layer 1 全画 → 再 Y-sort sprites + cover tiles
+    // 全画位置:h=0 tile 落在 (dx*32 - 16 + offsetX, dy*16 - 8 + offsetY) = (144, 92)
+    // cover tile 重画位置(新公式):(dx*32 - 16 + offsetX, dy*16 + 7 - bitmap.height + offsetY) = (144, 59)
+    //
+    // 测视觉:cover tile 重画的 (144, 59..106) 范围内 fb 像素应为 idx=9,且独立于
+    // 全画位置(144, 92..139)证明 cover tile 落点不同 — fb 在 (144, 65) 该像素应为 9,
+    // 但 fb 在 (144, 60) 也应为 9(cover tile 重画起点 y=59)。
+    //
+    // 全画 alone 不会覆盖 (144, 60..91) 区域,cover-tile 重画后才填上 — 验证新 blit_y 真生效。
+    const fb = createFramebuffer()
+    const gs = createInitialGameState({ x: 64, y: 48, facing: 'down' })
+    gs.camera = { x: 64, y: 48 }
+    const ctx: PresentContext = {
+      tilemap,
+      tileImages,
+      partyFrames: [makeSprite(5)],
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+    }
+
+    presentFrame(fb, gs, ctx)
+
+    // cover tile 重画起点 y=59 → (144, 60) 应为 idx=9。
+    // 全画起点 y=92,(144, 60) 不在全画范围内,所以只有 cover tile 重画到这里 → 必为 9。
+    expect(fb.indices[60 * 320 + 144]).toBe(9)
+    // (144, 80) 也在 cover tile 重画范围 (59..106),全画范围 (92..139) 外 → 必为 9
+    expect(fb.indices[80 * 320 + 144]).toBe(9)
+    // (144, 58) 是 cover tile 重画 1 px 之上 + 全画 34 px 之上 → 不应为 9
+    expect(fb.indices[58 * 320 + 144]).not.toBe(9)
   })
 
   it('cover-tile 不画超出范围的 tile(party 远离,height 条件不满足 → tile 不出现)', () => {
