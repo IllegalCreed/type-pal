@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { writeFileSync } from 'node:fs'
+import { writeFileSync } from 'fs'
 
 /**
  * Sync.2 cutscene dump:跑 ts game 开场 cutscene,记录每 tick state-dump,
@@ -18,12 +18,12 @@ test('tp-dump sync2 cutscene → /tmp/ts-dump.jsonl', async ({ page }) => {
 
   // 等开场梦境 dialog 起来,Space 推进
   await page.waitForTimeout(500)
-  for (let i = 0; i < 60; i++) {
+  for (let i = 0; i < 150; i++) {
     await page.keyboard.press('Space')
-    await page.waitForTimeout(150)
+    await page.waitForTimeout(100)
   }
   // 多跑些 tick 让稳定状态落地
-  await page.waitForTimeout(2_000)
+  await page.waitForTimeout(5_000)
 
   const buffer = await page.evaluate(
     () => (window as unknown as { __tpDumpBuffer?: string[] }).__tpDumpBuffer ?? [],
