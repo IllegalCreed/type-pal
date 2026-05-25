@@ -70,6 +70,13 @@ export const OP_SET_SCENE_OBJECT_STATE = 0x0049 // 73
 export const OP_SET_BATTLE_FIELD = 0x004A       // 74
 
 // ── Sync.2 fix3: 5 个 cutscene opcode(scene 1 onEnter 高频用)─────────────
+// case 0x0005(5):   Redraw screen / PAL_ClearDialog(TRUE) — sdlpal script.c:3267-3297
+//   触发 dialog 等键 + 清屏(让后续 NPC 动作 / 场景重画显示)。
+//   有 dialog → 等 Confirm 翻页(走 pendingStyle = undefined 路径,纯 clear 不切 style)
+//   无 dialog → 直接 ip++(no-op)
+// 注:operand[1] = delay 倍数 60(UTIL_Delay),operand[2] != 0 → PAL_UpdatePartyGestures(FALSE)
+//     M5 简版:delay / gesture update 暂不实现(playback 节奏由 typing + frame-wait 覆盖)
+export const OP_REDRAW_SCREEN = 0x0005          // 5
 // case 0x0009(9):   Wait for N frames(sdlpal script.c:3593-3604)
 //   operand[0] = frame count;cursor 卡 N frame 再 ip++
 export const OP_WAIT_FRAMES = 0x0009            // 9
@@ -355,6 +362,8 @@ export function tickEventSystem(
         gs.eventCursor = undefined
         gs.dialogBox = undefined
         gs.currentDialogPortraitIcon = undefined
+        // Sync.2 fix5:主角 scripted pose / sprite override 不在此清,
+        //   由 scene-system 首次走动检测时清(避免单元测试 setX→end 两 opcode 后立即 read 不到值)
         gs.mode = 'explore'
         return
 
@@ -456,6 +465,19 @@ export function tickEventSystem(
           cursor.waiting = 'frame-wait'
           cursor.waitFramesRemaining = frames
           return
+        }
+        // Sync.2 fix5: opcode 5 redrawScreen / PAL_ClearDialog(TRUE) — sdlpal script.c:3267-3297
+        //   有 dialog → 等 Confirm 翻页清屏(让后续 NPC 动作 / 场景重画显);无 dialog → no-op + ip++
+        if (cmd.opcode === OP_REDRAW_SCREEN) {
+          if (gs.dialogBox
+            && (gs.dialogBox.shownLines.length > 0 || gs.dialogBox.currentLineText !== null)) {
+            setWaitingPageKey(gs.dialogBox)  // 不带 pendingStyle(0x05 不切 style)
+            cursor.waiting = 'dialog'
+            return  // 等下次 tick Confirm,page-advance 后 ip++ + 继续
+          }
+          // 无 dialog → 直接 ip++,本 tick 继续(下面 ip++)
+          cursor.ip++
+          break
         }
         // P0.e: 6 wScriptOnEnter opcode 真生效 + Sync.2 fix3: 4 个 NPC 动作 opcode;其余 D26 兜底 skip
         applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId)
@@ -857,12 +879,17 @@ function applyRawOpcode(
         const dy = toInt16(operands[2] ?? 0)
         npc.x += dx
         npc.y += dy
-        // PAL_NPCWalkOneStep 内部 wCurrentFrameNum++(scene.c:895-902)
-        // M5 简版:仅推 stepFrame,不强行覆盖 scriptedFrame
-        if (npc.scriptedFrame !== undefined) {
-          npc.scriptedFrame = npc.scriptedFrame + 1
-        }
-        console.debug(`event-system: npcWalkOneStep id=${npc.id} d=(${dx},${dy}) → (${npc.x},${npc.y})`)
+        // Sync.2 fix5:port sdlpal `PAL_NPCWalkOneStep(id, 0)`(scene.c:893-902):
+        //   wCurrentFrameNum++ + 循环模(nSpriteFrames=3 → mod 4;否则 mod nSpriteFrames)
+        // M5 简版:从 undefined 起始 0,循环 mod 4(NPC sprite 通常 4 帧 = 4 dirs × 1 / 或 4 步动画)
+        //         真 nSpriteFrames 由渲染层从 ctx.npcSpriteFrames 反查;event-system 拿不到 ctx,
+        //         默认 mod 4 已足以让"走 5 步动画 0→1→2→3→0→1"循环视觉。
+        const next = ((npc.scriptedFrame ?? -1) + 1) % 4
+        npc.scriptedFrame = next
+        console.debug(
+          `event-system: npcWalkOneStep id=${npc.id} d=(${dx},${dy}) → (${npc.x},${npc.y})`
+          + ` frame=${next}`,
+        )
       }
       break
     }

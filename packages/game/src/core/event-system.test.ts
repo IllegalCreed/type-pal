@@ -877,6 +877,50 @@ describe('opcode 0x006C npcWalkOneStep(sdlpal script.c:2056-2063)', () => {
     expect(gs.npcs[0]?.x).toBe(92)
     expect(gs.npcs[0]?.y).toBe(54)
   })
+
+  it('Sync.2 fix5:每次调 wCurrentFrameNum++ 循环 mod 4(初值 undefined → 0,然后 1/2/3/0)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 9, x: 0, y: 0, spriteNum: 628 }]
+    const cmds: Array<{ op: 'raw', opcode: number, operands: [number, number, number] }> = []
+    for (let i = 0; i < 5; i++) {
+      cmds.push({ op: 'raw' as const, opcode: OP_NPC_WALK_ONE_STEP, operands: [0, 0, 0] })
+    }
+    loadEvent(gs, [...cmds, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 9
+    // 单 tick 跑完 5 walkOneStep + end:scriptedFrame 应循环到 (0+1+1+1+1) mod 4 = 4 mod 4 = 0
+    // (undefined → 0 → 1 → 2 → 3 → 0)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.scriptedFrame).toBe(0)  // 5 次后回到 0
+  })
+})
+
+describe('opcode 0x0005 redrawScreen / PAL_ClearDialog(TRUE)(sdlpal script.c:3267-3297)— fix5', () => {
+  it('有 dialog → wait page key(等 Confirm 翻页 + 清屏)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'showDialog', messageIndex: 0, text: 'A' },
+      { op: 'raw', opcode: 5, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)  // 起 dialog typing
+    tickEventSystem(gs, snap(['Confirm']), bus) // skip-typing + line-done auto ip++ → 0x05 → wait page key
+    expect(gs.dialogBox?.phase).toBe('waiting-page-key')
+    expect(gs.eventCursor?.waiting).toBe('dialog')
+  })
+
+  it('无 dialog → no-op + ip++', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 5, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.mode).toBe('explore')
+    expect(gs.dialogBox).toBeUndefined()
+  })
 })
 
 describe('opcode 0x006E playerWalkOneStep(sdlpal script.c:2091-2113)', () => {

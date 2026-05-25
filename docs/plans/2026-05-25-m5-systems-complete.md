@@ -4132,6 +4132,57 @@ sdlpal `script.c:1999-2004` `case 0x0065` `PlayerRoles.rgwSpriteNum[op[0]] = op[
 
 **M5.5 audit 升级版 #3:** 任何"NPC 选择"/"actor 默认值"语义都要看 sdlpal `PAL_InterpretInstruction` 入口 60 行的解析,**不能假设每条 opcode 自己处理**。fix4 一轮就修了 4 个 opcode 的 actor 解析 + 2 个全新 opcode(0x49 / 0x65)+ 1 个 schema 透传(sState)。
 
+### Sync.2 修补 fix5 — 0x05 ClearDialog 具名 + 0x6C frame 循环 + pose explore 清理(2026-05-25)
+
+**根因 1:opcode 0x05 (redrawScreen) 未具名 → dialog 持续遮挡 cutscene 动画**
+
+sdlpal `script.c:3267-3297` 真值:`PAL_ClearDialog(TRUE)` + `PAL_MakeScene()` — 阻塞等键 + 清屏 + 重画。scene 1 cutscene 在每段对话后用 0x05 清屏让后续 NPC 动作显;我们 D26 raw skip → dialog 一直在 → 后续动作画在底被 dialog 遮。
+
+**fix5:** event-system 加 `OP_REDRAW_SCREEN = 0x0005` + 在 raw case 早期截获:
+- 有 dialog → `setWaitingPageKey(state)`(不带 pendingStyle)+ `cursor.waiting = 'dialog'` + return
+- 无 dialog → `cursor.ip++` 继续(no-op)
+
+复用既有 `waiting-page-key` 状态机 → Confirm 翻页时 `page-advance` 分支(pendingStyle 无 → 仅清屏 + ip++)。
+
+**根因 2:opcode 0x6C walkOneStep 漏 `wCurrentFrameNum++` 循环 → NPC 静止**
+
+sdlpal `script.c:2056-2063` 调 `PAL_NPCWalkOneStep(id, 0)` — `iSpeed=0` 不改 x/y(已由 operand[1]/[2] 显式偏移),但**仍执行 `wCurrentFrameNum++` 循环模**(scene.c:893-902):
+- `nSpriteFrames > 0`:`wCurrentFrameNum = (wCurrentFrameNum + 1) % (nSpriteFrames == 3 ? 4 : nSpriteFrames)`
+- 否则用 `nSpriteFramesAuto`
+
+fix3 实现只做 manual x/y 偏移 → NPC 看起来不动。fix5 加 frame 循环:从 undefined 起始 0,循环 mod 4(默认值匹配 sdlpal `nSpriteFrames=3 → mod 4` 常见情况)。真 `nSpriteFrames` per-NPC 留 M6(需 EventObject schema 透传)。
+
+```ts
+const next = ((npc.scriptedFrame ?? -1) + 1) % 4
+npc.scriptedFrame = next
+```
+
+scene 1 李大娘(NPC 9, sprite 628)走 5 次:scriptedFrame 0→1→2→3→0(挥锅动画循环)。
+
+**根因 3:scriptedFrame / partyLeaderSpriteId 应在玩家走动时清,不在 event 结束时清**
+
+剧情结束(`end` opcode)立刻清 partyScriptedFrame 会破坏现有单元测试(`[setPartyDir, end]` 跑完后 read 不到值)。改在 `tickSceneSystem` 检测到玩家方向键时清 — 这样:
+- 单元测试:set 写入后立即可 read(end 不清)
+- 真游戏:cutscene 期间(event mode 没 input direction)pose 保留;切回 explore 后玩家首次按方向键时清 → walking stepFrame 接管
+
+NPC scriptedFrame 不清(NPC 走动是 cutscene 真值,不会因玩家走动失效)。
+
+**改动文件:**
+- `packages/game/src/core/event-system.ts` — `OP_REDRAW_SCREEN` 常量 + raw case 早期截获;0x6C handler 加 scriptedFrame 循环 mod 4
+- `packages/game/src/core/scene-system.ts` — `tickSceneSystem` 玩家方向键 → 清 `partyScriptedFrame` / `partyLeaderSpriteId`
+- `packages/game/src/core/event-system.test.ts` — +3 spec(0x05 有 dialog / 无 dialog + 0x6C 5 次 frame 循环回 0)
+
+**测试 + e2e(fix5 后):**
+- L1:game **413 pass / 2 skip**(原 410 → +3 新 spec)
+- L2:e2e 31/31 全绿,baseline 重生(NPC 动画 + dialog 段间清屏)
+
+**已知 M6 遗留(未变):**
+- `nSpriteFrames` per-NPC 真值未透传(M5 用 mod 4 默认)
+- cutscene-only sprite(627 等)未 dump
+- onEnter `currentEventObjectId` 仍 undefined
+
+**M5.5 audit 升级版 #4:** 任何"段落分隔"opcode(0x05 ClearDialog / setDialogStyleX / end)都应走 dialog 状态机的 `waiting-page-key` / `waiting-end-key`;**不能让一条 opcode 在 dialog 在场时偷偷"重画"**(否则 dialog 文本 + 动画叠加成视觉炸)。fix5 一轮修了 0x05 漏接 + 0x6C 动画漏 + pose 清理时机。
+
 ## P1-Battle 段
 
 (实施时累积)

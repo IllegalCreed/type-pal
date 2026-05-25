@@ -214,6 +214,15 @@ export function tickSceneSystem(
   //    party 自身 selfNpcId=0(party 不是 NPC,无需排除自己)。
   const facing = pickFacing(input)
   if (facing) {
+    // Sync.2 fix5:玩家首次按方向键时清剧情期间设的主角 pose / sprite override,
+    // 让 walking stepFrame 公式接管。NPC scriptedFrame 不动(NPC 走动是 cutscene 真值,
+    // 不会因玩家走动而失效;若需 NPC idle 时清,留 M6)。
+    if (Object.keys(gs.partyScriptedFrame).length > 0) {
+      gs.partyScriptedFrame = {}
+    }
+    if (gs.partyLeaderSpriteId !== undefined) {
+      gs.partyLeaderSpriteId = undefined
+    }
     gs.party.facing = facing
     const { dx, dy } = DIR_DELTA[facing]
     const nx = gs.party.x + dx
