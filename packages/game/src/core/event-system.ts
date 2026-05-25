@@ -28,6 +28,7 @@ import type { Command, InputSnapshot, Palette } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
 import type { GameState, NpcState } from './game-state.js'
+import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import {
   startDialogLine,
   appendDialogLine,
@@ -1066,13 +1067,15 @@ function applyRawOpcode(
 ): void {
   switch (opcode) {
     case OP_SET_PARTY_POS: {
+      // sdlpal script.c:1665-1700 真值:operand=(col,row,h) → world.x = col*32+h*16,
+      // world.y = row*16+h*8;viewport = world - partyoffset(party 在 screen anchor)。
       const [col, row, h] = operands
       const px = (col ?? 0) * 32 + (h ?? 0) * 16
       const py = (row ?? 0) * 16 + (h ?? 0) * 8
       gs.party.x = px
       gs.party.y = py
-      gs.camera.x = px
-      gs.camera.y = py
+      gs.camera.x = px - PARTYOFFSET_X
+      gs.camera.y = py - PARTYOFFSET_Y
       console.debug(`event-system: setPartyPos col=${col} row=${row} h=${h} → px=${px} py=${py}`)
       break
     }
@@ -1098,14 +1101,14 @@ function applyRawOpcode(
     case OP_SET_CAMERA: {
       const [cx, cy, flag] = operands
       if ((cx ?? 0) === 0 && (cy ?? 0) === 0) {
-        gs.camera.x = gs.party.x
-        gs.camera.y = gs.party.y
+        gs.camera.x = gs.party.x - PARTYOFFSET_X
+        gs.camera.y = gs.party.y - PARTYOFFSET_Y
         console.debug('event-system: centerCameraOnParty')
       }
       else if (flag === 0xFFFF) {
         // Absolute set: camera follows party in System A
-        gs.camera.x = gs.party.x
-        gs.camera.y = gs.party.y
+        gs.camera.x = gs.party.x - PARTYOFFSET_X
+        gs.camera.y = gs.party.y - PARTYOFFSET_Y
         console.debug(`event-system: setCamera col=${cx} row=${cy} → follows party`)
       }
       else {
@@ -1274,8 +1277,8 @@ function applyRawOpcode(
 
       gs.party.x += dx
       gs.party.y += dy
-      gs.camera.x = gs.party.x
-      gs.camera.y = gs.party.y
+      gs.camera.x = gs.party.x - PARTYOFFSET_X
+      gs.camera.y = gs.party.y - PARTYOFFSET_Y
       gs.wLayer = (operands[2] ?? 0) * 8
 
       if (dx !== 0 || dy !== 0) {
@@ -1478,8 +1481,8 @@ function partyWalkTo(
   const stepY = Math.abs(dy) <= speed ? dy : (dy < 0 ? -speed : speed)
   gs.party.x += stepX
   gs.party.y += stepY
-  gs.camera.x = gs.party.x
-  gs.camera.y = gs.party.y
+  gs.camera.x = gs.party.x - PARTYOFFSET_X
+  gs.camera.y = gs.party.y - PARTYOFFSET_Y
 
   // PAL_UpdatePartyGestures(TRUE) — 推 walking stepFrame
   gs.walkingFrame.walking = true

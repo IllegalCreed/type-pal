@@ -35,21 +35,19 @@ const FACING_TO_DIRECTION: Record<'down' | 'left' | 'up' | 'right', number> = {
   down: 0, left: 1, up: 2, right: 3,
 }
 
-const SCREEN_CENTER_X = SCREEN_W >> 1
-const SCREEN_CENTER_Y = SCREEN_H >> 1
-
 /**
  * M5 P0.0 System A:1 OUR unit = 1 sdlpal pixel(无缩放)。
- * sdlpal scene.c PAL_SceneDrawSprites 等价:屏幕位 = world pos - viewport + CENTER。
- * X_STEP=16 / Y_STEP=8 是 sdlpal px(半 tile),tile=32×16 sdlpal px。
+ * sdlpal scene.c PAL_SceneDrawSprites 真值:screen = world - viewport。
+ * gs.camera 语义 = sdlpal viewport(屏幕左上 world 坐标);
+ * party world = viewport + partyoffset(160, 112),partyoffset 常量定义在 game-state.ts。
  */
 function pixelToScreen(
   pos: { x: number; y: number },
   camera: { x: number; y: number },
 ): { sx: number; sy: number } {
   return {
-    sx: pos.x - camera.x + SCREEN_CENTER_X,
-    sy: pos.y - camera.y + SCREEN_CENTER_Y,
+    sx: pos.x - camera.x,
+    sy: pos.y - camera.y,
   }
 }
 

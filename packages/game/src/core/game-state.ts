@@ -10,6 +10,20 @@ import type { BattleState } from './battle/battle-state.js'
 export type Facing = 'up' | 'down' | 'left' | 'right'
 
 /**
+ * sdlpal `gpGlobals->partyoffset` 真值(res.c:301):party 永远 anchor 在 screen
+ * (160, 112);viewport 是 "屏幕左上对应的 world 坐标" = party.world - partyoffset。
+ *
+ * gs.camera 语义 = sdlpal viewport。所有 camera write 点统一:
+ *   gs.camera.x = gs.party.x - PARTYOFFSET_X
+ *   gs.camera.y = gs.party.y - PARTYOFFSET_Y
+ *
+ * 后续 sdlpal script.c:2306/2354 改 partyoffset 的 opcode 真做时,此常量改 mutable
+ * gs.partyoffset 字段;M5.Sync.2 阶段固定 (160,112) 满足开场 cutscene 对齐。
+ */
+export const PARTYOFFSET_X = 160
+export const PARTYOFFSET_Y = 112
+
+/**
  * 队友 trail 记录项(P0.d:port sdlpal global.h rgTrail[5])。
  * 移动前 leader 的世界像素坐标 + 方向,供跟随者占位使用。
  */
@@ -616,7 +630,7 @@ export function createInitialGameState(
     // ── 既有字段 ──
     party: { x: partyStart.x, y: partyStart.y, facing: partyStart.facing },
     partyScriptedFrame: {},
-    camera: { x: partyStart.x, y: partyStart.y },
+    camera: { x: partyStart.x - PARTYOFFSET_X, y: partyStart.y - PARTYOFFSET_Y },
     npcs: [],
     partyMembers: [],
     inventory: [],

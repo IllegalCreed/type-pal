@@ -575,8 +575,8 @@ describe('loadScene(M3.5 T9 / D33)', () => {
     })
 
     expect(gs.party).toEqual({ x: 20 * 16, y: 30 * 8, facing: 'up' })
-    // camera 跟 party(避免下一帧渲染时仍指着旧 scene 坐标)
-    expect(gs.camera).toEqual({ x: 20 * 16, y: 30 * 8 })
+    // camera = viewport = party - partyoffset(160, 112)
+    expect(gs.camera).toEqual({ x: 20 * 16 - 160, y: 30 * 8 - 112 })
   })
 
   it('partyStart 不传 facing → 沿用当前 facing(只挪坐标)', async () => {
@@ -1013,8 +1013,9 @@ describe('P0.e wScriptOnEnter 真跑', () => {
     await loadScene({ gs, sceneId: 5, assets: cache })
     expect(gs.party.x).toBe(6 * 32)   // 192
     expect(gs.party.y).toBe(4 * 16)   // 64
-    expect(gs.camera.x).toBe(192)
-    expect(gs.camera.y).toBe(64)
+    // camera = viewport = party - partyoffset(160, 112)
+    expect(gs.camera.x).toBe(192 - 160)
+    expect(gs.camera.y).toBe(64 - 112)
   })
 
   it('setPartyPos 坐标: col=41, row=18, h=0 → x=1312, y=288 (scene 1 真实值)', async () => {
@@ -1109,12 +1110,12 @@ describe('P0.e wScriptOnEnter 真跑', () => {
     ])
     const cache = new SceneAssetsCache(async () => assets)
     await loadScene({ gs, sceneId: 5, assets: cache })
-    // OP_SET_CAMERA absolute flag: camera = party pos
-    expect(gs.camera.x).toBe(gs.party.x)
-    expect(gs.camera.y).toBe(gs.party.y)
+    // OP_SET_CAMERA absolute flag: camera = viewport = party - partyoffset
+    expect(gs.camera.x).toBe(gs.party.x - 160)
+    expect(gs.camera.y).toBe(gs.party.y - 112)
   })
 
-  it('centerCameraOnParty opcode(0,0 变体)→ camera = party', async () => {
+  it('centerCameraOnParty opcode(0,0 变体)→ camera = party - partyoffset', async () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const assets = makeFakeAssetsWithEnterScript(5, [
       { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [6, 4, 0] },
@@ -1122,8 +1123,8 @@ describe('P0.e wScriptOnEnter 真跑', () => {
     ])
     const cache = new SceneAssetsCache(async () => assets)
     await loadScene({ gs, sceneId: 5, assets: cache })
-    expect(gs.camera.x).toBe(192)
-    expect(gs.camera.y).toBe(64)
+    expect(gs.camera.x).toBe(192 - 160)
+    expect(gs.camera.y).toBe(64 - 112)
   })
 
   it('playMusic opcode 写 gs.wNumMusic(M6 接真播)', async () => {

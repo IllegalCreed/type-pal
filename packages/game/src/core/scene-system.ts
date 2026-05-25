@@ -11,7 +11,7 @@
 import type { Command, InputSnapshot, Tilemap } from '@type-pal/shared'
 import type { SceneAssetsCache } from '../assets/loader.js'
 import type { CommandBus } from './command-bus.js'
-import { npcFromEventObject, type Facing, type GameState, type NpcState } from './game-state.js'
+import { npcFromEventObject, PARTYOFFSET_X, PARTYOFFSET_Y, type Facing, type GameState, type NpcState } from './game-state.js'
 import { runEnterScript } from './event-system.js'
 
 export interface SceneContext {
@@ -250,11 +250,12 @@ export function tickSceneSystem(
   }
 
   // 2) 相机跟随 + 边界 clamp(System A:sdlpal pixel,以 tile 边界换算)
+  //    camera 语义 = sdlpal viewport(屏幕左上 world 坐标)= party - partyoffset
   const maxX = (ctx.tilemap.width - 1) * TILE_W
   const maxY = (ctx.tilemap.height - 1) * TILE_H
   gs.camera = {
-    x: Math.max(0, Math.min(maxX, gs.party.x)),
-    y: Math.max(0, Math.min(maxY, gs.party.y)),
+    x: Math.max(0, Math.min(maxX, gs.party.x - PARTYOFFSET_X)),
+    y: Math.max(0, Math.min(maxY, gs.party.y - PARTYOFFSET_Y)),
   }
 
   // 3) 明雷 contact 检测(对照 sdlpal scene.c:624 — 菱形 Manhattan < 16)
@@ -343,6 +344,6 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
       y: partyStart.y,
       facing: partyStart.facing ?? gs.party.facing,
     }
-    gs.camera = { x: partyStart.x, y: partyStart.y }
+    gs.camera = { x: partyStart.x - PARTYOFFSET_X, y: partyStart.y - PARTYOFFSET_Y }
   }
 }

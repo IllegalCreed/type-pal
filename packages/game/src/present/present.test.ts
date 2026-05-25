@@ -245,7 +245,8 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
       { x: 284, y: 142, dir: 'right' },   // trail[0]
       { x: 268, y: 134, dir: 'right' },   // trail[1] → follower 用这个
     ]
-    gs.camera = { x: 300, y: 150 }  // center camera on leader
+    // new camera 语义 = sdlpal viewport = party - partyoffset(160, 112)
+    gs.camera = { x: 300 - 160, y: 150 - 112 }  // = (140, 38)
 
     const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
       ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
@@ -261,19 +262,17 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     // leader + follower = 2 drawSprite calls
     expect(calls).toHaveLength(2)
 
-    // 计算 follower screen position:
-    //   followerWorld = (268 - 16, 134 - 8) = (252, 126)
-    //   sx = 252 - 300 + SCREEN_CENTER_X = 252 - 300 + 160 = 112
-    //   sy = 126 - 150 + SCREEN_CENTER_Y = 126 - 150 + 100 = 76
-    // Find the non-leader call: leader should be at screen center (160, 100)
-    const leaderScreenX = 300 - 300 + 160  // = 160
-    const leaderScreenY = 150 - 150 + 100  // = 100
+    // screen = world - camera(camera 已含 -partyoffset)
+    //   leader: 300-140=160, 150-38=112 → screen anchor (160, 112)
+    //   follower world = (252, 126) → screen (112, 88)
+    const leaderScreenX = 160
+    const leaderScreenY = 112
     const leaderCalls = calls.filter((c) => c.cx === leaderScreenX && c.cy === leaderScreenY)
     const followerCalls = calls.filter((c) => c.cx !== leaderScreenX || c.cy !== leaderScreenY)
     expect(leaderCalls).toHaveLength(1)
     expect(followerCalls).toHaveLength(1)
-    expect(followerCalls[0]!.cx).toBe(112) // 252 - 300 + 160
-    expect(followerCalls[0]!.cy).toBe(76)  // 126 - 150 + 100
+    expect(followerCalls[0]!.cx).toBe(112)
+    expect(followerCalls[0]!.cy).toBe(88)
   })
 
   it('dir=left(West): isWS=true→offsetX=+16; isWN=true→offsetY=+8', () => {
@@ -283,7 +282,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
       { x: 316, y: 158, dir: 'left' },
       { x: 332, y: 166, dir: 'left' },   // follower 用 trail[1]
     ]
-    gs.camera = { x: 300, y: 150 }
+    gs.camera = { x: 300 - 160, y: 150 - 112 }  // sdlpal viewport = party - partyoffset
 
     const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
       ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
@@ -298,12 +297,11 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     const calls = trackFollowerDraw(gs, ctx)
     expect(calls).toHaveLength(2)
     // dir=left: isWS=true→offsetX=16; isWN=true→offsetY=8
-    // followerWorld = (332 + 16, 166 + 8) = (348, 174)
-    // sx = 348 - 300 + 160 = 208; sy = 174 - 150 + 100 = 124
-    const leaderScreenX = 300 - 300 + 160  // = 160
-    const followerCalls = calls.filter((c) => c.cx !== leaderScreenX)
+    // followerWorld = (332+16, 166+8) = (348, 174);camera=(140, 38)
+    // screen = world - camera → (208, 136)
+    const followerCalls = calls.filter((c) => c.cx !== 160)
     expect(followerCalls[0]!.cx).toBe(208)
-    expect(followerCalls[0]!.cy).toBe(124)
+    expect(followerCalls[0]!.cy).toBe(136)
   })
 
   it('dir=down(South): isWS=true→offsetX=+16; isWN=false→offsetY=-8', () => {
@@ -313,7 +311,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
       { x: 316, y: 142, dir: 'down' },
       { x: 332, y: 134, dir: 'down' },
     ]
-    gs.camera = { x: 300, y: 150 }
+    gs.camera = { x: 300 - 160, y: 150 - 112 }  // sdlpal viewport = party - partyoffset
 
     const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
       ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
@@ -328,12 +326,11 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     const calls = trackFollowerDraw(gs, ctx)
     expect(calls).toHaveLength(2)
     // dir=down: isWS=true→offsetX=16; isWN=false→offsetY=-8
-    // followerWorld = (332 + 16, 134 - 8) = (348, 126)
-    // sx = 348 - 300 + 160 = 208; sy = 126 - 150 + 100 = 76
-    const leaderScreenX = 300 - 300 + 160
-    const followerCalls = calls.filter((c) => c.cx !== leaderScreenX)
+    // followerWorld = (332+16, 134-8) = (348, 126);camera=(140, 38)
+    // screen = world - camera → (208, 88)
+    const followerCalls = calls.filter((c) => c.cx !== 160)
     expect(followerCalls[0]!.cx).toBe(208)
-    expect(followerCalls[0]!.cy).toBe(76)
+    expect(followerCalls[0]!.cy).toBe(88)
   })
 
   it('dir=up(North): isWS=false→offsetX=-16; isWN=true→offsetY=+8', () => {
@@ -343,7 +340,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
       { x: 284, y: 158, dir: 'up' },
       { x: 268, y: 166, dir: 'up' },
     ]
-    gs.camera = { x: 300, y: 150 }
+    gs.camera = { x: 300 - 160, y: 150 - 112 }  // sdlpal viewport = party - partyoffset
 
     const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
       ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
@@ -358,19 +355,18 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     const calls = trackFollowerDraw(gs, ctx)
     expect(calls).toHaveLength(2)
     // dir=up: isWS=false→offsetX=-16; isWN=true→offsetY=8
-    // followerWorld = (268 - 16, 166 + 8) = (252, 174)
-    // sx = 252 - 300 + 160 = 112; sy = 174 - 150 + 100 = 124
-    const leaderScreenX = 300 - 300 + 160
-    const followerCalls = calls.filter((c) => c.cx !== leaderScreenX)
+    // followerWorld = (268-16, 166+8) = (252, 174);camera=(140, 38)
+    // screen = world - camera → (112, 136)
+    const followerCalls = calls.filter((c) => c.cx !== 160)
     expect(followerCalls[0]!.cx).toBe(112)
-    expect(followerCalls[0]!.cy).toBe(124)
+    expect(followerCalls[0]!.cy).toBe(136)
   })
 
   it('partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)', () => {
     const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
     gs.partyMembers = [0, 1]
     gs.trail = [{ x: 284, y: 142, dir: 'right' }]  // 只有 1 项,不够
-    gs.camera = { x: 300, y: 150 }
+    gs.camera = { x: 300 - 160, y: 150 - 112 }  // sdlpal viewport = party - partyoffset
 
     const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
       ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
@@ -391,7 +387,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
     gs.partyMembers = [0, 1]
     gs.trail = []
-    gs.camera = { x: 300, y: 150 }
+    gs.camera = { x: 300 - 160, y: 150 - 112 }  // sdlpal viewport = party - partyoffset
 
     const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
       ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
@@ -585,7 +581,8 @@ describe('P0.b Y-sort + cover-tile', () => {
     // party at x=160, y=80 → camera at same → party at screen center (160, 100)
     // sy = 80 + 10 = 90; condition: (5+2)*16 + 0*8 = 112 >= 90 ✓
     const gs = createInitialGameState({ x: 160, y: 80, facing: 'down' })
-    gs.camera = { x: 160, y: 80 }  // center camera on party
+    // new camera 语义 = sdlpal viewport = party - partyoffset(160, 112)
+    gs.camera = { x: 160 - 160, y: 80 - 112 }  // = (0, -32)
     const ctx: PresentContext = {
       tilemap,
       tileImages,
@@ -596,12 +593,10 @@ describe('P0.b Y-sort + cover-tile', () => {
 
     presentFrame(fb, gs, ctx)
 
-    // cover tile for party at cell(5, 5) h=0:
-    //   sdlpal scene.c:164-172 + scene.c:358 相消化:
-    //     screenX = dx*32 + dh*16 - 16 + offsetX = 5*32 + 0 - 16 + (160-160) = 144
-    //     screenY = dy*16 + dh*8 + 7 - img.height + offsetY = 5*16 + 0 + 7 - 4 + (100-80) = 103
-    // tile 4×4 → pixels at (144..147, 103..106) should have color idx=7
-    const px = fb.indices[103 * 320 + 144]
+    // cover tile for party at cell(5, 5) h=0,offsetX/Y = -camera = (0, 32):
+    //   screenX = 5*32 + 0 - 16 + 0 = 144
+    //   screenY = 5*16 + 0 + 7 - 4 + 32 = 115
+    const px = fb.indices[115 * 320 + 144]
     expect(px).toBe(7)
   })
 
@@ -645,7 +640,11 @@ describe('P0.b Y-sort + cover-tile', () => {
     // 全画 alone 不会覆盖 (144, 60..91) 区域,cover-tile 重画后才填上 — 验证新 blit_y 真生效。
     const fb = createFramebuffer()
     const gs = createInitialGameState({ x: 64, y: 48, facing: 'down' })
-    gs.camera = { x: 64, y: 48 }
+    // new camera 语义 = sdlpal viewport(屏幕左上 world 坐标)。
+    // 测试本身只关心 cover tile blit_y 公式,camera 任意都可;
+    // 为保持下方像素断言不变(旧用 offsetX=96 / offsetY=52),设 camera=(-96, -52)
+    // 让新 offsetX=-camera.x=96, offsetY=-camera.y=52,与旧公式等价。
+    gs.camera = { x: -96, y: -52 }
     const ctx: PresentContext = {
       tilemap,
       tileImages,

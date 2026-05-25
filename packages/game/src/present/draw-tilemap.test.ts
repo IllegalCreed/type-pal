@@ -5,11 +5,11 @@ import { drawTilemap, type TileImages } from './draw-tilemap.js'
 
 describe('drawTilemap', () => {
   it('lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline', () => {
-    // sdlpal map.c:398-414 真实公式:
-    //   h=0:xPos = 32*x - 16, yPos = -8 + 16*y
-    //   h=1:xPos = 32*x,      yPos =      16*y
-    // 以 cameraCell (0,0) 居中到屏幕 (160,100):
-    //   cell(0,0) 的 lower 落在 (144, 92);upper 落在 (160, 100)。
+    // sdlpal map.c:398-414 真实公式 + camera 语义 = sdlpal viewport(屏幕左上 world 坐标):
+    //   screen = world - camera
+    //   h=0:xPos = 32*x - 16 - camera.x, yPos = -8 + 16*y - camera.y
+    //   h=1:xPos = 32*x - camera.x,      yPos =      16*y - camera.y
+    // camera=(-160, -112) → cell(0,0) 落屏幕 (160, 112);lower 落 (144, 104)。
     const fb = createFramebuffer()
     const lower = new Uint8Array(4 * 4).fill(1)
     const upper = new Uint8Array(4 * 4).fill(2)
@@ -24,16 +24,14 @@ describe('drawTilemap', () => {
     }
     const map: Tilemap = {
       width: 1, height: 1,
-      // cells[0][0].lower=1 → fenceFill = tileIdLayer0(1) = 1;为避免 fence 干扰
-      // 周围像素断言,这里只断言 (0,0) 自己的中心格 sub-row 像素。
       cells: [[{ lower: 1, upper: 2 }]],
       tilesetImage: 'fake',
     }
-    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 0)
-    // lower (h=0) 落 (144, 92) → 该像素值 1
-    expect(fb.indices[92 * 320 + 144]).toBe(1)
-    // upper (h=1) 落 (160, 100) → 该像素值 2
-    expect(fb.indices[100 * 320 + 160]).toBe(2)
+    drawTilemap(fb, map, tiles, { x: -160, y: -112 }, 0)
+    // lower (h=0) 落 (144, 104) → 该像素值 1
+    expect(fb.indices[104 * 320 + 144]).toBe(1)
+    // upper (h=1) 落 (160, 112) → 该像素值 2
+    expect(fb.indices[112 * 320 + 160]).toBe(2)
   })
 
   it('±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)', () => {

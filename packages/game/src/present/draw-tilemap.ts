@@ -87,8 +87,9 @@ export function drawTilemap(
   layer: TileLayer,
 ): void {
   // M5 P0.0 System A:camera 已是 sdlpal pixel(tile 32×16),无需缩放,直接做 viewport offset。
-  const offsetX = (SCREEN_W >> 1) - cameraPx.x
-  const offsetY = (SCREEN_H >> 1) - cameraPx.y
+  // camera 语义 = sdlpal viewport(屏幕左上 world 坐标),screen = world - viewport。
+  const offsetX = -cameraPx.x
+  const offsetY = -cameraPx.y
 
   const idFn = layer === 0 ? tileIdLayer0 : tileIdLayer1
 
@@ -192,8 +193,9 @@ export function addCoverTileEntries(
   idPrefix: string,
   iLayer: number = 0,  // Sync.2 fix10:sdlpal `lpSpriteToDraw->iLayer`(party=6, NPC=2)
 ): void {
-  const offsetX = (SCREEN_W >> 1) - camera.x
-  const offsetY = (SCREEN_H >> 1) - camera.y
+  // camera 语义 = sdlpal viewport(屏幕左上 world 坐标),screen = world - viewport。
+  const offsetX = -camera.x
+  const offsetY = -camera.y
 
   // sdlpal scene.c:99-101 — PAL_CalcCoverTiles 真值:
   //   sx = viewport.x + pos.x - iLayer/2,其中 pos.x = world.x - viewport.x - width/2
