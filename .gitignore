@@ -42,3 +42,8 @@ packages/game/e2e/baselines/
 # Playwright 临时输出
 packages/game/test-results/
 packages/game/playwright-report/
+
+# Claude Code 本地配置(每用户私有,不入库)
+.claude/settings.local.json
+.claude/
+
