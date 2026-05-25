@@ -628,6 +628,15 @@ export function tickEventSystem(
           // 我们 port:fadeScreen 启动表示 onEnter 已跑到 fade 这步,scene 已加载完;清 fEnteringScene
           // 让 present.ts 恢复渲染(新 scene)— fade 从冻结的旧画面渐变到新 scene。
           gs.fEnteringScene = false
+          // Sync.2 fix18:sdlpal 真值 — fadeScreen 启动前的 default-case PAL_ClearDialog(TRUE) 已经
+          // 把 nCurrentDialogLine 设 0 → 之后 PAL_MakeScene 重画不含 dialog box → fade 是
+          // backup(冻结画面有 dialog 像素) → current(重画无 dialog) → 视觉 dialog 跟着渐隐。
+          //
+          // 我们 game dialog 是 state-driven render:清 gs.dialogBox 让 current 渲染不画 dialog,
+          // backupPixels 已含上一帧冻结的 dialog 像素 → fade 视觉 dialog 渐隐(title + body 一起)。
+          gs.dialogBox = undefined
+          gs.currentDialogPortraitIcon = undefined
+          gs.currentDialogFontColor = 0x4F
           cursor.waiting = 'fade-screen'
           console.debug(`event-system: fadeScreen speed=${speed} → ${totalMs}ms (sdlpal classic 真值)`)
           return  // 等 fade 完
