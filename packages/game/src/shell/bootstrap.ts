@@ -128,17 +128,19 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   const partyWalkFrames = 3
   type NpcSprite = (typeof partyFrames)[number]
   const npcSprites = new Map<number, NpcSprite>()
+  // Sync.2 fix3 pose:per-spriteId 全帧数组,opcode 0x0014/0x0016/0x000F 写 npc.scriptedFrame 用。
+  const npcSpriteFrames = new Map<number, NpcSprite[]>()
   for (const [id, data] of characterSprites) {
-    const f = data.frames[0]
-    if (!f) continue
-    npcSprites.set(id, {
+    const allFrames: NpcSprite[] = data.frames.map((f) => ({
       width: f.width,
       height: f.height,
       indices: f.indices,
       opaque: f.opaque,
       anchorX: data.anchorX,
       anchorY: data.anchorY,
-    })
+    }))
+    npcSpriteFrames.set(id, allFrames)
+    if (allFrames[0]) npcSprites.set(id, allFrames[0])
   }
 
   const fb = createFramebuffer()
@@ -159,6 +161,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     partyFrames,
     partyWalkFrames,
     npcSprites,
+    npcSpriteFrames,
     glyphs,
     dialogAssets,
   }
@@ -230,14 +233,19 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       )
       const first = frames[0]
       if (!first) return
-      npcSprites.set(id, {
-        width: first.width,
-        height: first.height,
-        indices: first.indices,
-        opaque: first.opaque,
-        anchorX: Math.floor(first.width / 2),
-        anchorY: first.height,
-      })
+      const anchorX = Math.floor(first.width / 2)
+      const anchorY = first.height
+      // Sync.2 fix3 pose:存全帧 + frame 0
+      const allFrames: NpcSprite[] = frames.map((f) => ({
+        width: f.width,
+        height: f.height,
+        indices: f.indices,
+        opaque: f.opaque,
+        anchorX,
+        anchorY,
+      }))
+      npcSpriteFrames.set(id, allFrames)
+      npcSprites.set(id, allFrames[0]!)
     }
     catch (err) {
       console.warn(`[bootstrap] scene-jump sprite ${id} fetch failed, skip:`, err)

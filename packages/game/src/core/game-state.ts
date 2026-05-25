@@ -42,14 +42,41 @@ export interface NpcState {
    * 可选:M2 旧 fixture / 测试不带此字段时,scene-system 视作 0(不触发)。
    */
   triggerMode?: number
+  /**
+   * NPC 朝向(sdlpal `EventObject.wDirection`)。
+   * Sync.2 fix3:opcode 0x0016 setEventObjectDirAndFrame 写入(operand[1])。
+   * undefined = 渲染层用 spriteNum 默认帧。
+   */
+  facing?: Facing
+  /**
+   * NPC 姿势帧(sdlpal `EventObject.wCurrentFrameNum`)。
+   * Sync.2 fix3 pose:opcode 0x0014 setEventObjectGesture(operand[0])
+   *                 / 0x0016 setEventObjectDirAndFrame(operand[2])
+   *                 / 0x000F walkOneStepWithFrame(operand[1] != 0xFFFF) 写入。
+   * **优先级:** 若 scriptedFrame 非 undefined,渲染层直接用此帧(覆盖 stepFrame 公式)。
+   * 用于剧情期间 NPC 摆姿势(挥手 / 点头 / 鞠躬 等)。
+   */
+  scriptedFrame?: number
 }
 
 export interface EventCursor {
   commands: Command[]
   labelMap: Record<string, number>
   ip: number
-  /** EventSystem 暂停等待用户确认的原因;undefined = 非 waiting 状态。M2 只有 'dialog'。 */
-  waiting?: 'dialog'
+  /**
+   * EventSystem 暂停等待原因。undefined = 非 waiting 状态。
+   *  - 'dialog':     等对话(typing / page-key / end-key,由 dialog-box 状态机管)
+   *  - 'frame-wait': opcode 0x0009 wait N frames(sdlpal script.c:3593-3604)
+   */
+  waiting?: 'dialog' | 'frame-wait'
+  /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
+  waitFramesRemaining?: number
+  /**
+   * 当前执行 trigger 的 event object id(sdlpal `wEventObjectID` / `pCurrent`)。
+   * setObjectPosition / walkOneStep 等 opcode 默认 operate on this 当 operand[0]==0 时。
+   * tickSceneSystem 触发 NPC trigger 时设;此后所有 opcode 内 self = npcs[id-1]。
+   */
+  currentEventObjectId?: number
 }
 
 /**
@@ -216,6 +243,15 @@ export interface ObjectStateMutable {
 export interface GameState {
   /** 队长像素坐标(M5 P0.0:sdlpal scene.c:807 xOffset=±16 / yOffset=±8 等价)。 */
   party: { x: number; y: number; facing: Facing }
+  /**
+   * 主角 / 队员的姿势帧覆盖(sdlpal `rgParty[i].wFrame` 等价)。
+   * Sync.2 fix3 pose:opcode 0x0015 setPartyDirectionAndFrame
+   *   wFrame = wPartyDirection * 3 + operand[1],队员 index = operand[2]
+   * **优先级:** 若 partyScriptedFrame[memberIdx] 非 undefined,渲染层覆盖 stepFrame 公式。
+   * 用于剧情期间主角 / 队员摆姿势(点头 / 摆手 / 鞠躬 等)。
+   * M5 简版:用 Record(sparse)而非数组,避免初始化空槽。
+   */
+  partyScriptedFrame: Record<number, number>
   /** 相机像素坐标;SceneSystem 每 tick 跟随 party,带地图边界 clamp。 */
   camera: { x: number; y: number }
   npcs: NpcState[]
@@ -440,6 +476,7 @@ export function createInitialGameState(
   return {
     // ── 既有字段 ──
     party: { x: partyStart.x, y: partyStart.y, facing: partyStart.facing },
+    partyScriptedFrame: {},
     camera: { x: partyStart.x, y: partyStart.y },
     npcs: [],
     partyMembers: [],

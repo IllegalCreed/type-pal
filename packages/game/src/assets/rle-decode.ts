@@ -18,12 +18,30 @@ export interface RleFrame {
 
 /**
  * 解码单帧 RLE。
- * 头:width u16 LE + height u16 LE;之后是指令字节:
- *   b >= 0x80 → 跳 b-0x80 像素(opaque=0)
- *   else      → 接 b 字节直接像素(opaque=1)
+ *
+ * sdlpal palcommon.c:722-728 真值:若头 4 字节是 `0x02 0x00 0x00 0x00` 则跳过(file header
+ * 前缀,标记"单帧 RLE bitmap" — RGM 头像 / 标题屏等);之后才是真 RLE 头:
+ *   width u16 LE + height u16 LE
+ *   指令字节:
+ *     b >= 0x80 → 跳 b-0x80 像素(opaque=0)
+ *     else      → 接 b 字节直接像素(opaque=1)
+ *
+ * 注:pal-extract `io/rle.ts` 没 skip 此前缀,因 sprite-group chunks(战斗/UI sprite)
+ *    用 `parseSpriteChunk` 取真 offset 后才喂 decodeRle,首字节就是真 width。
+ *    单帧 RLE(RGM)直接喂整 chunk,必须自己 skip。M5 Sync.2 fix3 加。
  */
 export function decodeRle(buf: Uint8Array): RleFrame {
   let offset = 0
+
+  // sdlpal palcommon.c:722-728:skip 0x00000002 file header prefix(单帧 RLE bitmap 用)
+  if (
+    buf.length >= 4
+    && buf[0] === 0x02 && buf[1] === 0x00
+    && buf[2] === 0x00 && buf[3] === 0x00
+  ) {
+    offset = 4
+  }
+
   const width = buf[offset]! | (buf[offset + 1]! << 8)
   const height = buf[offset + 2]! | (buf[offset + 3]! << 8)
   offset += 4

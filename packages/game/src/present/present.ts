@@ -18,6 +18,12 @@ export interface PresentContext {
   /** sdlpal `PlayerRoles.rgwWalkFrames[role]`,默认 3(scene.c:752 `if (i == 0) i = 3`)。 */
   partyWalkFrames: number
   npcSprites: Map<number, SpriteImage>
+  /**
+   * M5 Sync.2 fix3 pose:NPC 全帧映射(sprite id → 全 frames[])。
+   * opcode 0x0014/0x0016/0x000F 设的 `npc.scriptedFrame` 用这个取真帧。
+   * 缺省 / 没设 scriptedFrame 时 fallback 到 npcSprites(frame 0)。
+   */
+  npcSpriteFrames?: Map<number, SpriteImage[]>
   /** M4 P4.T3: Unifont glyph table(启动时 loadGlyphs 注入,缺省则所有文字渲染为 tofu)。 */
   glyphs?: GlyphTable
   /** M5 Sync.2: 对话框资产(portrait + key icon sprite map);bootstrap 注入。 */
@@ -81,7 +87,14 @@ export function presentFrame(
   const direction = FACING_TO_DIRECTION[gs.party.facing]
   const walkFrames = ctx.partyWalkFrames
   let frameIdx: number
-  if (gs.walkingFrame.walking) {
+  // Sync.2 fix3 pose:opcode 0x0015 setPartyDirectionAndFrame 写 partyScriptedFrame[memberIdx]
+  // 优先级最高 — 剧情期间主角应固定姿势,不被 walking 算法覆盖。
+  // memberIdx=0 即 leader(主角)。
+  const partyLeaderScriptedFrame = gs.partyScriptedFrame[0]
+  if (partyLeaderScriptedFrame !== undefined) {
+    frameIdx = partyLeaderScriptedFrame
+  }
+  else if (gs.walkingFrame.walking) {
     // sdlpal scene.c:678-685 PAL_UpdatePartyGestures:
     //   walkFrames=4: wFrame = wDirection * 4 + s_iThisStepFrame
     //   walkFrames=3: wFrame = wDirection * 3 + iStepFrameLeader
@@ -190,7 +203,16 @@ export function presentFrame(
 
   // --- NPCs ---
   for (const npc of gs.npcs) {
-    const sprite = ctx.npcSprites.get(npc.spriteNum)
+    // Sync.2 fix3 pose:若 npc.scriptedFrame 设且 ctx.npcSpriteFrames 有真帧 → 用 scripted 帧
+    //                  否则 fallback 到 ctx.npcSprites(frame 0)
+    let sprite: SpriteImage | undefined
+    if (npc.scriptedFrame !== undefined && ctx.npcSpriteFrames) {
+      const frames = ctx.npcSpriteFrames.get(npc.spriteNum)
+      sprite = frames?.[npc.scriptedFrame] ?? frames?.[0]
+    }
+    if (!sprite) {
+      sprite = ctx.npcSprites.get(npc.spriteNum)
+    }
     if (!sprite) continue
     const { sx, sy } = pixelToScreen(npc, gs.camera)
     // sdlpal scene.c:301-316:y = eo.y - viewport.y + sLayer*8 + 9,iLayer = sLayer*8 + 2。

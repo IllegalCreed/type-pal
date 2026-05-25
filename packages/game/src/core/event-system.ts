@@ -47,9 +47,12 @@ export const OP_START_BATTLE = 0x0007           // 7
 // case 0x0046(70):  Set the party position on the map
 //   operand[0]=col, operand[1]=row, operand[2]=h → x=col*32+h*16, y=row*16+h*8
 export const OP_SET_PARTY_POS = 0x0046          // 70
-// case 0x0015(21):  Set the direction and gesture for a party member
-//   operand[0]=dir(0=South/down, 1=West/left, 2=North/up, 3=East/right)
-export const OP_SET_PARTY_DIRECTION = 0x0015    // 21
+// case 0x0015(21):  Set the direction and gesture for a party member (sdlpal script.c:732-739)
+//   operand[0] = wPartyDirection(0=South/down, 1=West/left, 2=North/up, 3=East/right)
+//   operand[1] = wFrame offset(0/1/2 — 加到 dir*3 上)
+//   operand[2] = party member index(M5 简版 = 0 主角)
+// **fix3:** 之前只读 operand[0]/dir;真值还要写 partyScriptedFrame[op[2]] = dir*3 + op[1]
+export const OP_SET_PARTY_DIRECTION = 0x0015    // 21(实际 setPartyDirectionAndFrame)
 // case 0x007F(127): Move the viewport(set camera)
 //   operand[2]=0xFFFF → absolute set(col, row → pixel); operand[0..1]=0 → center on party
 export const OP_SET_CAMERA = 0x007F             // 127
@@ -65,6 +68,38 @@ export const OP_SET_SCENE_OBJECT_STATE = 0x0049 // 73
 //   operand[0] = battlefield id → gs.wNumBattleField(sdlpal script.c:1719,global.h:536)
 //   scene 15 wScriptOnEnter `[10, 0, 0]` → 草妖通道用 battlefield 10
 export const OP_SET_BATTLE_FIELD = 0x004A       // 74
+
+// ── Sync.2 fix3: 5 个 cutscene opcode(scene 1 onEnter 高频用)─────────────
+// case 0x0009(9):   Wait for N frames(sdlpal script.c:3593-3604)
+//   operand[0] = frame count;cursor 卡 N frame 再 ip++
+export const OP_WAIT_FRAMES = 0x0009            // 9
+// case 0x0013(19):  Set the position of the event object(script.c:716-722)
+//   self.x = operand[1], self.y = operand[2](operand[0] unused;always pCurrent / wCurEventObjectID)
+export const OP_SET_OBJECT_POS = 0x0013         // 19
+// case 0x0014(20):  Set the gesture of the event object(script.c:724-730)
+//   pCurrent.wCurrentFrameNum = operand[0]; pCurrent.wDirection = kDirSouth(强制朝南)
+// 这是 pose opcode 核心 — 设 NPC 当前帧 + 朝南。
+export const OP_SET_OBJECT_GESTURE = 0x0014     // 20
+// case 0x0016(22):  Set direction AND gesture for an event object(script.c:741-750)
+//   operand[0] != 0 → pCurrent.wDirection = operand[1], pCurrent.wCurrentFrameNum = operand[2]
+//   operand[0] == 0 → no-op
+// **fix3 真值修:** 之前误把 operand[1]=dir + 漏 operand[2]=frame;真值如上。
+export const OP_SET_EVENT_OBJECT_DIR_AND_FRAME = 0x0016  // 22
+/** @deprecated 改名 → OP_SET_EVENT_OBJECT_DIR_AND_FRAME */
+export const OP_SET_EVENT_OBJECT_DIR = OP_SET_EVENT_OBJECT_DIR_AND_FRAME
+// case 0x000F(15):  Set direction and/or gesture for event object (sdlpal script.c:663-675)
+//   operand[0] != 0xFFFF → pEvtObj.wDirection = operand[0]
+//   operand[1] != 0xFFFF → pEvtObj.wCurrentFrameNum = operand[1]
+// 注:**与 0x000E walkOneStep 是兩個独立 opcode** — 0x000F 不真 walk,只是 dir/frame setter。
+export const OP_SET_EVENT_OBJECT_DIR_OR_FRAME = 0x000F  // 15
+// case 0x006C(108): Walk the NPC in one step(script.c:2056-2063)
+//   pCurrent.x += SHORT(operand[1]), pCurrent.y += SHORT(operand[2])
+//   PAL_NPCWalkOneStep(wCurEventObjectID, 0)  // speed=0,只更新 wCurrentFrameNum
+export const OP_NPC_WALK_ONE_STEP = 0x006C      // 108
+// case 0x006E(110): Move the player to specified offset in one step(script.c:2091-2113)
+//   trail unshift + party.x += SHORT(operand[0]), party.y += SHORT(operand[1])
+//   wLayer = operand[2] * 8
+export const OP_PLAYER_WALK_ONE_STEP = 0x006E   // 110
 
 /** sdlpal palcommon.h enum kDir → our Facing 字面量映射 */
 const SDLPAL_DIR_TO_FACING: Record<number, 'down' | 'left' | 'up' | 'right'> = {
@@ -206,7 +241,21 @@ export function tickEventSystem(
     return
   }
 
-  // 1) waiting 处理:dialog 状态机(port sdlpal text.c:1616 PAL_ShowDialogText)
+  // 1a) waiting 处理:frame-wait(opcode 0x0009 wait N frames,sdlpal script.c:3593-3604)
+  //   每 tick 自减;归 0 时 ip++ + clear waiting,fall through 跑下条 opcode
+  if (cursor.waiting === 'frame-wait') {
+    const remaining = (cursor.waitFramesRemaining ?? 1) - 1
+    if (remaining > 0) {
+      cursor.waitFramesRemaining = remaining
+      return
+    }
+    cursor.waitFramesRemaining = undefined
+    cursor.waiting = undefined
+    cursor.ip++
+    // fall through to main while loop
+  }
+
+  // 1b) waiting 处理:dialog 状态机(port sdlpal text.c:1616 PAL_ShowDialogText)
   //
   // sdlpal 真实交互:
   //  - typing 中:每 tick 推 charsRevealed;Confirm = fUserSkip 跳行末
@@ -395,8 +444,16 @@ export function tickEventSystem(
           gs.dialogBox = undefined
           return
         }
-        // P0.e: 6 wScriptOnEnter opcode 真生效;其余 D26 兜底 skip
-        applyRawOpcode(gs, cmd.opcode, cmd.operands)
+        // Sync.2 fix3: opcode 9 wait N frames — 设 waiting='frame-wait',ip 暂不动
+        if (cmd.opcode === OP_WAIT_FRAMES) {
+          // sdlpal script.c:3354 `pScript->rgwOperand[0] ? operand[0] : 1`
+          const frames = cmd.operands[0] || 1
+          cursor.waiting = 'frame-wait'
+          cursor.waitFramesRemaining = frames
+          return
+        }
+        // P0.e: 6 wScriptOnEnter opcode 真生效 + Sync.2 fix3: 4 个 NPC 动作 opcode;其余 D26 兜底 skip
+        applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId)
         cursor.ip++
         break
       }
@@ -610,6 +667,13 @@ function applyRawOpcode(
   gs: GameState,
   opcode: number,
   operands: [number, number, number],
+  /**
+   * 当前 trigger 的 event object id(sdlpal `wCurEventObjectID` / `pCurrent`)。
+   * 用于 OP_SET_OBJECT_POS / OP_SET_EVENT_OBJECT_DIR / OP_NPC_WALK_ONE_STEP 作用于 self。
+   * undefined 表示无 self context(runEnterScript 从 onEnter 跑时无 trigger NPC);
+   * 此种情况下 self-ops 视为 no-op + warn。
+   */
+  currentEventObjectId?: number,
 ): void {
   switch (opcode) {
     case OP_SET_PARTY_POS: {
@@ -625,10 +689,20 @@ function applyRawOpcode(
     }
 
     case OP_SET_PARTY_DIRECTION: {
+      // sdlpal script.c:732-739 真值:setPartyDirectionAndFrame
+      //   wPartyDirection = operand[0];
+      //   rgParty[operand[2]].wFrame = wPartyDirection * 3 + operand[1]
       const dirCode = operands[0] ?? 0
+      const frameOffset = operands[1] ?? 0
+      const memberIdx = operands[2] ?? 0
       const facing = SDLPAL_DIR_TO_FACING[dirCode] ?? 'down'
       gs.party.facing = facing
-      console.debug(`event-system: setPartyDirection dir=${dirCode} → facing=${facing}`)
+      // wFrame = dir * 3 + frameOffset(sdlpal walkFrames default 3)
+      gs.partyScriptedFrame[memberIdx] = dirCode * 3 + frameOffset
+      console.debug(
+        `event-system: setPartyDirectionAndFrame dir=${dirCode} frameOff=${frameOffset} member=${memberIdx}`
+        + ` → facing=${facing} wFrame=${gs.partyScriptedFrame[memberIdx]}`,
+      )
       break
     }
 
@@ -674,10 +748,149 @@ function applyRawOpcode(
       break
     }
 
+    // ── Sync.2 fix3: 4 个 NPC 动作 opcode(scene 1 onEnter 高频用) ───────────
+
+    case OP_SET_OBJECT_POS: {
+      // sdlpal script.c:716-722:`pCurrent->x = operand[1]; pCurrent->y = operand[2]`
+      // operand[0] unused(始终作用于 wCurEventObjectID / self)
+      const npc = getSelfNpc(gs, currentEventObjectId, 'setObjectPos')
+      if (npc) {
+        npc.x = operands[1] ?? 0
+        npc.y = operands[2] ?? 0
+        console.debug(`event-system: setObjectPos id=${npc.id} → (${npc.x},${npc.y})`)
+      }
+      break
+    }
+
+    case OP_SET_OBJECT_GESTURE: {
+      // sdlpal script.c:724-730 真值:
+      //   pEvtObj->wCurrentFrameNum = operand[0];
+      //   pEvtObj->wDirection = kDirSouth(强制朝南)
+      // Pose opcode 核心 — 设 NPC 当前帧 + 朝南。
+      const npc = getSelfNpc(gs, currentEventObjectId, 'setObjectGesture')
+      if (npc) {
+        npc.scriptedFrame = operands[0] ?? 0
+        npc.facing = 'down'  // sdlpal 强制 kDirSouth
+        console.debug(`event-system: setObjectGesture id=${npc.id} frame=${npc.scriptedFrame} dir=down`)
+      }
+      break
+    }
+
+    case OP_SET_EVENT_OBJECT_DIR_AND_FRAME: {
+      // sdlpal script.c:741-750 真值:
+      //   if (operand[0] != 0):
+      //     pCurrent->wDirection = operand[1]
+      //     pCurrent->wCurrentFrameNum = operand[2]
+      // **fix3 真值:** operand[1] 是 dir,operand[2] 是 frame(不是 dir-only)
+      if ((operands[0] ?? 0) === 0) {
+        console.debug('event-system: setEventObjectDirAndFrame operand[0]==0 → no-op (sdlpal 真值)')
+        break
+      }
+      const npc = getSelfNpc(gs, currentEventObjectId, 'setEventObjectDirAndFrame')
+      if (npc) {
+        const dirCode = operands[1] ?? 0
+        const frame = operands[2] ?? 0
+        npc.facing = SDLPAL_DIR_TO_FACING[dirCode] ?? 'down'
+        npc.scriptedFrame = frame
+        console.debug(`event-system: setEventObjectDirAndFrame id=${npc.id} dir=${dirCode} frame=${frame}`)
+      }
+      break
+    }
+
+    case OP_SET_EVENT_OBJECT_DIR_OR_FRAME: {
+      // sdlpal script.c:663-675:operand[0] != 0xFFFF → wDirection; operand[1] != 0xFFFF → wFrame
+      const npc = getSelfNpc(gs, currentEventObjectId, 'setEventObjectDirOrFrame')
+      if (npc) {
+        if (operands[0] !== 0xFFFF) {
+          const dirCode = operands[0] ?? 0
+          npc.facing = SDLPAL_DIR_TO_FACING[dirCode] ?? 'down'
+        }
+        if (operands[1] !== 0xFFFF) {
+          npc.scriptedFrame = operands[1] ?? 0
+        }
+        console.debug(
+          `event-system: setEventObjectDirOrFrame id=${npc.id} op0=${operands[0]} op1=${operands[1]}`
+          + ` → facing=${npc.facing} frame=${npc.scriptedFrame}`,
+        )
+      }
+      break
+    }
+
+    case OP_NPC_WALK_ONE_STEP: {
+      // sdlpal script.c:2056-2063:
+      //   pCurrent.x += SHORT(operand[1])
+      //   pCurrent.y += SHORT(operand[2])
+      //   PAL_NPCWalkOneStep(wCurEventObjectID, 0)  // speed=0,只更新 wCurrentFrameNum
+      // M5 简版:apply 偏移即可;NPC sprite frame 帧动画由渲染层未来真接 wCurrentFrameNum
+      const npc = getSelfNpc(gs, currentEventObjectId, 'npcWalkOneStep')
+      if (npc) {
+        const dx = toInt16(operands[1] ?? 0)
+        const dy = toInt16(operands[2] ?? 0)
+        npc.x += dx
+        npc.y += dy
+        console.debug(`event-system: npcWalkOneStep id=${npc.id} d=(${dx},${dy}) → (${npc.x},${npc.y})`)
+      }
+      break
+    }
+
+    case OP_PLAYER_WALK_ONE_STEP: {
+      // sdlpal script.c:2091-2113:
+      //   trail unshift + party.x += SHORT(operand[0]), party.y += SHORT(operand[1])
+      //   wLayer = operand[2] * 8
+      //   若 operand[0]/[1] 非 0 → PAL_UpdatePartyGestures(TRUE) 更新 stepFrame
+      const dx = toInt16(operands[0] ?? 0)
+      const dy = toInt16(operands[1] ?? 0)
+
+      // trail unshift(P0.d:port sdlpal scene.c:823-830,trail 长度 ≤ 5)
+      gs.trail.unshift({
+        x: gs.party.x,
+        y: gs.party.y,
+        dir: gs.party.facing,
+      })
+      if (gs.trail.length > 5) gs.trail.length = 5
+
+      gs.party.x += dx
+      gs.party.y += dy
+      gs.camera.x = gs.party.x
+      gs.camera.y = gs.party.y
+      gs.wLayer = (operands[2] ?? 0) * 8
+
+      if (dx !== 0 || dy !== 0) {
+        // sdlpal PAL_UpdatePartyGestures(TRUE):推进 stepFrame
+        gs.walkingFrame.walking = true
+        gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame + 1) % 4
+      }
+      console.debug(`event-system: playerWalkOneStep d=(${dx},${dy}) wLayer=${gs.wLayer}`)
+      break
+    }
+
     default:
       console.debug(`event-system: skip raw opcode=0x${opcode.toString(16).padStart(4, '0')}`, operands)
       break
   }
+}
+
+/** 取 trigger 的 self NPC(sdlpal `pCurrent`)。无效 id 时 warn + 返回 null。 */
+function getSelfNpc(
+  gs: GameState,
+  currentEventObjectId: number | undefined,
+  opName: string,
+): GameState['npcs'][number] | null {
+  if (currentEventObjectId === undefined) {
+    console.warn(`event-system: ${opName} 无 currentEventObjectId(可能从 runEnterScript 跑),跳过`)
+    return null
+  }
+  const npc = gs.npcs.find((n) => n.id === currentEventObjectId)
+  if (!npc) {
+    console.warn(`event-system: ${opName} npc id=${currentEventObjectId} 不在 gs.npcs,跳过`)
+    return null
+  }
+  return npc
+}
+
+/** WORD operand 真值 SHORT(SDL Pal C struct 用 SHORT,JS 我们一直当 u16 存)。 */
+function toInt16(v: number): number {
+  return v >= 0x8000 ? v - 0x10000 : v
 }
 
 // runEnterScript: 同步跑 wScriptOnEnter 段(loadScene 不传 partyStart 时调用)。

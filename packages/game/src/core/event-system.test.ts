@@ -4,6 +4,10 @@ import {
   tickEventSystem, buildLabelMap, runScript, setFetchPalette,
   setSharedEvents, setStartBattleHandler,
   OP_START_BATTLE, OP_SET_BATTLE_FIELD,
+  OP_SET_PARTY_DIRECTION,
+  OP_WAIT_FRAMES, OP_SET_OBJECT_POS,
+  OP_SET_OBJECT_GESTURE, OP_SET_EVENT_OBJECT_DIR_AND_FRAME, OP_SET_EVENT_OBJECT_DIR_OR_FRAME,
+  OP_NPC_WALK_ONE_STEP, OP_PLAYER_WALK_ONE_STEP,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -662,5 +666,241 @@ describe('opcode 0x4A setBattlefield(P0.e — sdlpal script.c:1719)', () => {
     ])
     tickEventSystem(gs, snap(), bus)
     expect(gs.wNumBattleField).toBe(10)
+  })
+})
+
+// ── Sync.2 fix3: 5 个 cutscene opcode(scene 1 onEnter 高频用) ──────────────
+
+describe('opcode 0x0009 wait N frames(sdlpal script.c:3593-3604)', () => {
+  it('wait 3 frames → cursor 卡 3 tick 再 ip++', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_WAIT_FRAMES, operands: [3, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('frame-wait')
+    expect(gs.eventCursor?.waitFramesRemaining).toBe(3)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waitFramesRemaining).toBe(2)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waitFramesRemaining).toBe(1)
+    tickEventSystem(gs, snap(), bus)
+    // 第 3 次 waitFramesRemaining 减到 0 → clear waiting + ip++ + end → mode=explore
+    expect(gs.mode).toBe('explore')
+  })
+
+  it('wait operand[0]==0 → 视作 1 帧(sdlpal 真值 fallback)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_WAIT_FRAMES, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waitFramesRemaining).toBe(1)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.mode).toBe('explore')
+  })
+})
+
+describe('opcode 0x0013 setObjectPos(sdlpal script.c:716-722)', () => {
+  it('设当前 trigger NPC 坐标 → gs.npcs[id].x/y', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 5, x: 100, y: 100, spriteNum: 1 }]
+    // 手动模拟 scene-system 触发:设 currentEventObjectId
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_OBJECT_POS, operands: [0, 200, 150] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.x).toBe(200)
+    expect(gs.npcs[0]?.y).toBe(150)
+  })
+
+  it('无 currentEventObjectId → 跳过 + warn(不抛错)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_OBJECT_POS, operands: [0, 50, 60] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(warnSpy).toHaveBeenCalled()
+    expect(gs.mode).toBe('explore')
+    warnSpy.mockRestore()
+  })
+})
+
+describe('opcode 0x0014 setObjectGesture(sdlpal script.c:724-730)— pose 核心', () => {
+  it('设 npc.scriptedFrame=operand[0] + 强制 facing=down', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, facing: 'up' }]
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [5, 0, 0] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 7
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.scriptedFrame).toBe(5)
+    expect(gs.npcs[0]?.facing).toBe('down')  // sdlpal 强制 kDirSouth
+  })
+})
+
+describe('opcode 0x0016 setEventObjectDirAndFrame(sdlpal script.c:741-750)', () => {
+  it('operand[0]!=0 → facing=operand[1] + scriptedFrame=operand[2](fix3 真值)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1 }]
+    loadEvent(gs, [
+      // operand[0]=1 触发,operand[1]=2 → up,operand[2]=8 → scriptedFrame=8
+      { op: 'raw', opcode: OP_SET_EVENT_OBJECT_DIR_AND_FRAME, operands: [1, 2, 8] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 7
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.facing).toBe('up')
+    expect(gs.npcs[0]?.scriptedFrame).toBe(8)
+  })
+
+  it('operand[0]==0 → no-op(sdlpal 真值)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, facing: 'down', scriptedFrame: 3 }]
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_EVENT_OBJECT_DIR_AND_FRAME, operands: [0, 2, 8] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 7
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.facing).toBe('down')       // 未改
+    expect(gs.npcs[0]?.scriptedFrame).toBe(3)     // 未改
+  })
+})
+
+describe('opcode 0x000F setEventObjectDirOrFrame(sdlpal script.c:663-675)', () => {
+  it('operand[0] != 0xFFFF → 设 facing;operand[1] != 0xFFFF → 设 scriptedFrame', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 4, x: 0, y: 0, spriteNum: 1 }]
+    loadEvent(gs, [
+      // operand[0]=3 → right (kDirEast),operand[1]=2 → frame=2
+      { op: 'raw', opcode: OP_SET_EVENT_OBJECT_DIR_OR_FRAME, operands: [3, 2, 0] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 4
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.facing).toBe('right')
+    expect(gs.npcs[0]?.scriptedFrame).toBe(2)
+  })
+
+  it('operand[0]==0xFFFF → 仅设 scriptedFrame,不改 facing', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 4, x: 0, y: 0, spriteNum: 1, facing: 'left' }]
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_EVENT_OBJECT_DIR_OR_FRAME, operands: [0xFFFF, 7, 0] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 4
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.facing).toBe('left')      // 未改
+    expect(gs.npcs[0]?.scriptedFrame).toBe(7)
+  })
+})
+
+describe('opcode 0x0015 setPartyDirectionAndFrame(sdlpal script.c:732-739)— fix3 真值修', () => {
+  it('设 facing=op[0] + partyScriptedFrame[op[2]] = op[0]*3 + op[1]', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      // op[0]=2 (up=North), op[1]=1 (frame offset), op[2]=0 (leader)
+      // 期望 wFrame = 2*3 + 1 = 7,facing=up
+      { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [2, 1, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.party.facing).toBe('up')
+    expect(gs.partyScriptedFrame[0]).toBe(7)
+  })
+
+  it('member index 非 0 → 写到对应槽位', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [1, 2, 2] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.partyScriptedFrame[2]).toBe(1 * 3 + 2)  // dir=1 (left) * 3 + 2 = 5
+    expect(gs.partyScriptedFrame[0]).toBeUndefined()
+  })
+})
+
+describe('opcode 0x006C npcWalkOneStep(sdlpal script.c:2056-2063)', () => {
+  it('apply operand[1]/[2] 偏移 + SHORT 真转(负值)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 3, x: 100, y: 50, spriteNum: 1 }]
+    loadEvent(gs, [
+      // operand[1] = -8(0xFFF8 SHORT),operand[2] = +4
+      { op: 'raw', opcode: OP_NPC_WALK_ONE_STEP, operands: [0, 0xFFF8, 4] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 3
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.x).toBe(92)
+    expect(gs.npcs[0]?.y).toBe(54)
+  })
+})
+
+describe('opcode 0x006E playerWalkOneStep(sdlpal script.c:2091-2113)', () => {
+  it('trail unshift + party.x/y += operand[0]/[1](SHORT)+ wLayer 设', () => {
+    const gs = createInitialGameState({ x: 100, y: 50, facing: 'right' })
+    const bus = createCommandBus()
+    gs.trail = [{ x: 84, y: 42, dir: 'right' }]
+    loadEvent(gs, [
+      // operand[0] = 16(向右),operand[1] = 8,operand[2] = 1 → wLayer = 8
+      { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [16, 8, 1] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.party.x).toBe(116)
+    expect(gs.party.y).toBe(58)
+    expect(gs.wLayer).toBe(8)
+    // trail 头部应是原 party 位置(100, 50, right)
+    expect(gs.trail[0]).toEqual({ x: 100, y: 50, dir: 'right' })
+    expect(gs.trail).toHaveLength(2)  // unshift 后 [新, 旧]
+  })
+
+  it('trail 已 5 项 → unshift 后截至长度 5', () => {
+    const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
+    const bus = createCommandBus()
+    gs.trail = Array.from({ length: 5 }, (_, i) => ({ x: i, y: i, dir: 'down' as const }))
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 8, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.trail).toHaveLength(5)
+    expect(gs.trail[0]).toEqual({ x: 100, y: 50, dir: 'down' })
+  })
+
+  it('operand[0]==0 && operand[1]==0 → 不推 stepFrame(sdlpal 真值)', () => {
+    const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
+    const bus = createCommandBus()
+    gs.walkingFrame = { stepFrame: 2, walking: false }
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.walkingFrame.stepFrame).toBe(2)
+    expect(gs.walkingFrame.walking).toBe(false)
   })
 })

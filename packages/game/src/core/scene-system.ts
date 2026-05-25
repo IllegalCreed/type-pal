@@ -120,6 +120,9 @@ function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void
     commands: ctx.eventCommands,
     labelMap: ctx.labelMap,
     ip,
+    // Sync.2 fix3:trigger 触发时设 currentEventObjectId(= NPC id),让 opcode 0x0013/0x0016/0x006C
+    // 在 operand[0]==0 时作用于"自己"(sdlpal `wEventObjectID` / `pCurrent` 等价)。
+    currentEventObjectId: npc.id,
   }
   gs.mode = 'event'
 }

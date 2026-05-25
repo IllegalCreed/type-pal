@@ -4000,6 +4000,77 @@ P0 全 6 项 done(原 design 5 项 + wScriptOnEnter 升 6)。
 
 **M5.5 audit 升级版:** 任何"等键"/"清屏"/"行偏移"系列 sdlpal 真值都要看具体函数(PAL_ClearDialog / PAL_DialogWaitForKey / PAL_ShowDialogText 的 nCurrentDialogLine 增减),不能假设状态机简化。Sync.2 fix2 这 3 轮迭代直接修了 7 项简化错误 — 占 M5 总 plan 修补量预估的 50%。
 
+### Sync.2 修补 fix3 — portrait RLE 头修 + 7 个 cutscene opcode 真做 + pose scriptedFrame 渲染优先(2026-05-25)
+
+**根因 1:portrait 不显**
+
+`packages/game/src/assets/rle-decode.ts` 缺 sdlpal `palcommon.c:722-728` 的 file header 前缀 skip。RGM 头像 chunk 数据格式:
+
+```
+[0x02 0x00 0x00 0x00]  ← file header prefix(单帧 RLE bitmap 标识)
+[width u16] [height u16] [RLE 指令...]
+```
+
+之前 `decodeRle` 把头 4 字节当 width/height,得到 `width=2 height=0` → 全部 92 头像解出空帧 → drawDialogBox 一个像素都不画。
+sprite-group chunks(DATA chunk 12 dialog icons / 战斗 sprite 等)没这前缀,`parseSpriteChunk` 先按 word-offset 取真 frame 起点喂 decodeRle,首字节就是真 width — 所以 pal-extract `io/rle.ts` 一直没修。**单帧 RLE 必须自己 skip 前缀**,M5 fix3 加。
+
+**根因 2:NPC / 主角对话无 pose 动画**
+
+scene 1 onEnter 用 pose 系列 opcode 设角色姿势帧(挥手 / 点头 / 鞠躬),但事件系统全部 D26 raw skip。Sync.2 fix3 真做齐 7 个 cutscene opcode:
+
+| opcode | 名 | 真值(sdlpal script.c) |
+|--------|-----|-----------------------|
+| 0x0009 | wait | operand[0] = N frames;cursor 卡 N tick(`frame-wait` 状态)|
+| 0x000F | setEventObjectDirOrFrame | op[0] != 0xFFFF → wDirection;op[1] != 0xFFFF → wCurrentFrameNum |
+| 0x0013 | setObjectPos | self.x=op[1], self.y=op[2](pCurrent / wCurEventObjectID)|
+| **0x0014** | **setObjectGesture(pose 核心)** | wCurrentFrameNum=op[0]; wDirection=kDirSouth(强制朝南)|
+| **0x0015** | setPartyDirectionAndFrame | wPartyDirection=op[0]; rgParty[op[2]].wFrame = dir*3 + op[1]<br>**fix3:** P0.e 之前只读 op[0],漏 op[1]/op[2] |
+| **0x0016** | setEventObjectDirAndFrame | op[0]!=0 → wDirection=op[1] + wCurrentFrameNum=op[2]<br>**fix3:** 之前误把 op[1] 当 dir 漏 op[2]=frame |
+| 0x006C | npcWalkOneStep | pCurrent.x += SHORT(op[1]); .y += SHORT(op[2])|
+| 0x006E | playerWalkOneStep | trail unshift + party.x/y += SHORT(op[0]/[1]); wLayer = op[2]*8 |
+
+**关键设计:scriptedFrame 渲染优先**
+
+新字段:
+- `NpcState.scriptedFrame?: number` — opcode 0x0014/0x0016/0x000F 写入
+- `GameState.partyScriptedFrame: Record<number, number>` — opcode 0x0015 按 member index 写入
+
+`present.ts` 渲染优先级:
+1. **`scriptedFrame` / `partyScriptedFrame[0]` 非 undefined** → 用 scripted 帧(剧情期间固定 pose,不被 walking 算法覆盖)
+2. fallback walking stepFrame(P0.c 公式)
+3. fallback 站立帧 `direction * walkFrames`
+
+新 `PresentContext.npcSpriteFrames: Map<number, SpriteImage[]>` — per-spriteId 全帧数组(`scriptedFrame` index 这个)。bootstrap `characterSprites` 已加载所有 frames,Sync.2 fix3 expose 全帧而非只 frame 0。
+
+**EventCursor 扩 `currentEventObjectId`**
+
+scene-system `loadEventFromNpc` 在 trigger 时设 `cursor.currentEventObjectId = npc.id`(sdlpal `pCurrent` / `wCurEventObjectID` 等价)。opcode handler 通过 `getSelfNpc(gs, currentEventObjectId, opName)` 取 trigger NPC,**operand[0] 通常 unused**(始终作用于 self)。
+
+**已知遗留:** scene onEnter 全局脚本(非 trigger)`currentEventObjectId` 为 undefined,所以 setObjectPos / setObjectGesture / npcWalkOneStep 在 onEnter 中会 warn 跳过 — 这跟 sdlpal 真值仍有差距(sdlpal onEnter 也跑 per-NPC 上下文,需要进一步研究 wEventObjectID 传值机制)。
+
+**改动文件:**
+- `packages/game/src/assets/rle-decode.ts` — 加 0x00000002 file header skip
+- `packages/game/src/assets/rle-decode.test.ts`(新建)— 5 spec(含前缀 skip)
+- `packages/game/src/core/game-state.ts` — `NpcState.facing/scriptedFrame` + `GameState.partyScriptedFrame` + `EventCursor.waitFramesRemaining/currentEventObjectId`
+- `packages/game/src/core/event-system.ts` — 7 opcode 常量 + handler + `frame-wait` waiting state + helpers
+- `packages/game/src/core/scene-system.ts` — `loadEventFromNpc` 设 `currentEventObjectId = npc.id`
+- `packages/game/src/present/present.ts` — `npcSpriteFrames` 字段 + party/NPC 渲染优先 scriptedFrame
+- `packages/game/src/shell/bootstrap.ts` — `npcSpriteFrames` 全帧载入 + 透传 PresentContext
+- `packages/game/src/core/event-system.test.ts` — +13 spec(7 opcode 各 1-3 case)
+- `packages/game/e2e/scene/a2-leader-sprite.spec.ts` — 加 `partyScriptedFrame = {}` 重置(避免 onEnter 影响)
+
+**测试 + e2e(fix3 后):**
+- L1:game **404 pass / 2 skip**(原 383 → +21 新 spec)+ pal-extract 199
+- L2:e2e 31/31 全绿,c1-dialog-top baseline 又重生(现在 portrait 真显)
+
+**实施过程发现:**
+- sdlpal RLE 单帧 / sprite-group 两种格式:单帧带 0x02000000 header 前缀,sprite group 不带;`pal-extract io/rle.ts` 之前只用于 sprite group → 全无前缀逻辑 → 单帧解码全错
+- 0x0015 / 0x0016 / 0x0014 三个 pose opcode 的 operand 语义之前**全错** — 这正是 user 反馈"角色无 pose 动画"的根因
+- `EventCursor.currentEventObjectId` 是 sdlpal `pCurrent` / `wCurEventObjectID` 的等价,**之前完全缺失** — onEnter / contact / Confirm-search 三种 trigger 都应该设;只有 contact / Confirm-search 已经走 `loadEventFromNpc`,onEnter 未走(留后续 fix)
+- pose opcode 设的 `wCurrentFrameNum` 必须**覆盖** walking stepFrame —— 否则剧情期间角色被 stepFrame 算法"踩"回 walk 帧。新增 scriptedFrame 字段 + 渲染优先级解决
+
+**M5.5 audit 升级版 #2:** 任何"帧选择"/"sprite 索引"/"动画状态机"系列 sdlpal 真值都要严格读 script.c case 块的 operand 真用法,**不能套同名/同位置**(0x0015/0x0016 三个 operand 三种含义)。fix3 一轮就修了 3 个 opcode 的 operand 误读 + 1 个底层 RLE 解码 bug。
+
 ## P1-Battle 段
 
 (实施时累积)

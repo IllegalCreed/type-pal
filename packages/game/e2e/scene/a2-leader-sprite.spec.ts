@@ -28,9 +28,18 @@ test('a2 队长 sprite — facing 4 方向切换', async ({ page }) => {
 
   for (const facing of facings) {
     await page.evaluate((f) => {
-      const w = window as unknown as { __game?: { gs: { party: { facing: string } } } }
+      const w = window as unknown as {
+        __game?: {
+          gs: {
+            party: { facing: string }
+            partyScriptedFrame: Record<number, number>
+          }
+        }
+      }
       if (!w.__game) throw new Error('window.__game 缺;DEV gate 没触发')
       w.__game.gs.party.facing = f
+      // Sync.2 fix3:清 partyScriptedFrame 避免被 scene 1 onEnter 的 setPartyDirectionAndFrame 覆盖
+      w.__game.gs.partyScriptedFrame = {}
     }, facing)
     // 给一帧 RAF 让 presentFrame 跑 → flushToCanvas 上屏
     await page.waitForTimeout(150)
