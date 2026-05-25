@@ -100,6 +100,17 @@ export const OP_SET_EVENT_OBJECT_DIR = OP_SET_EVENT_OBJECT_DIR_AND_FRAME
 //   operand[1] != 0xFFFF → pEvtObj.wCurrentFrameNum = operand[1]
 // 注:**与 0x000E walkOneStep 是兩個独立 opcode** — 0x000F 不真 walk,只是 dir/frame setter。
 export const OP_SET_EVENT_OBJECT_DIR_OR_FRAME = 0x000F  // 15
+// case 0x0010(16): Walk straight to position(sdlpal script.c:677-686)
+//   PAL_NPCWalkTo(wEventObjectID, op0, op1, op2, speed=3)
+//   未到达时 sdlpal `wScriptEntry--` → 下一帧 retry 同条 ip → 阻塞 trigger script 到达目标。
+//   trigger 触发的 wEventObjectID = currentEventObjectId(我们 npc.id 0-based)。
+//   target 像素 = (op0 * 32 + op2 * 16, op1 * 16 + op2 * 8) — col/row/h 转 pixel(sdlpal map.h)
+export const OP_NPC_WALK_TO_SPEED_3 = 0x0010    // 16
+// case 0x0011(17): NPCWalkTo,speed=2,每隔帧才走(sdlpal script.c:688-704)
+//   `if ((wEventObjectID & 1) ^ (dwFrameNum & 1))` 即奇偶搭配走 → 实际是慢速 walk
+export const OP_NPC_WALK_TO_SPEED_2 = 0x0011    // 17
+// case 0x0082(130): NPCWalkTo,speed=8(快走,script.c:2437-2446)
+export const OP_NPC_WALK_TO_SPEED_8 = 0x0082    // 130
 // case 0x006C(108): Walk the NPC in one step(script.c:2056-2063)
 //   pCurrent.x += SHORT(operand[1]), pCurrent.y += SHORT(operand[2])
 //   PAL_NPCWalkOneStep(wCurEventObjectID, 0)  // speed=0,只更新 wCurrentFrameNum
@@ -663,6 +674,38 @@ export function tickEventSystem(
           console.debug(`event-system: fadeScreen speed=${speed} → ${totalMs}ms (sdlpal classic 真值)`)
           return  // 等 fade 完
         }
+        // Sync.2 fix19:opcode 0x10 / 0x11 / 0x82 NPCWalkTo — 阻塞 trigger script,
+        // 每 tick 走 1 步,arrived 才 ip++(对应 sdlpal `wScriptEntry--` 下帧 retry 真值)。
+        // self = currentEventObjectId(trigger 当前 NPC,scene-system 进入 trigger 时设)。
+        if (cmd.opcode === OP_NPC_WALK_TO_SPEED_3
+          || cmd.opcode === OP_NPC_WALK_TO_SPEED_2
+          || cmd.opcode === OP_NPC_WALK_TO_SPEED_8) {
+          const npc = getSelfNpc(gs, cursor.currentEventObjectId, 'npcWalkTo')
+          if (!npc) {
+            // 无 self(从 onEnter 跑无 trigger NPC)→ skip + ip++
+            cursor.ip++
+            break
+          }
+          // sdlpal 三档速度:0x10=3, 0x11=2(每隔帧走), 0x82=8
+          const speed = cmd.opcode === OP_NPC_WALK_TO_SPEED_3
+            ? 3
+            : cmd.opcode === OP_NPC_WALK_TO_SPEED_8
+              ? 8
+              : 2
+          const arrived = npcWalkTo(
+            npc,
+            cmd.operands[0] ?? 0,
+            cmd.operands[1] ?? 0,
+            cmd.operands[2] ?? 0,
+            speed,
+          )
+          if (arrived) {
+            cursor.ip++
+            break  // fall through 跑下条
+          }
+          return  // 未到 → 下 tick 再跑同条
+        }
+
         // P0.e: 6 wScriptOnEnter opcode 真生效 + Sync.2 fix3: 4 个 NPC 动作 opcode;其余 D26 兜底 skip
         applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId)
         cursor.ip++
@@ -1195,6 +1238,61 @@ function resolveTargetNpc(
 /** WORD operand 真值 SHORT(SDL Pal C struct 用 SHORT,JS 我们一直当 u16 存)。 */
 function toInt16(v: number): number {
   return v >= 0x8000 ? v - 0x10000 : v
+}
+
+type Npc = GameState['npcs'][number]
+
+/**
+ * port sdlpal `PAL_NPCWalkTo`(script.c:30-98)— **每 tick 走 1 步**,返回是否到达。
+ *
+ * 真值算法:
+ *   1. dx = (x*32 + h*16) - npc.x;dy = (y*16 + h*8) - npc.y
+ *   2. 设 facing:dy<0 → (dx<0?West:North);否则 → (dx<0?South:East)
+ *   3. 若 `|dx| < speed*2 || |dy| < speed*2` → snap 到目标(任一接近即整体 snap)
+ *      否则 → 1 步:(±2*speed x, ±speed y) — 按 facing
+ *   4. 到达 → wCurrentFrameNum=0 返 true;否则返 false
+ */
+function npcWalkTo(
+  npc: Npc,
+  targetX: number,
+  targetY: number,
+  h: number,
+  speed: number,
+): boolean {
+  const tx = targetX * 32 + h * 16
+  const ty = targetY * 16 + h * 8
+  const dx = tx - npc.x
+  const dy = ty - npc.y
+
+  // sdlpal scene.c:72-79 真值方向选(全角符号 dy<0 north/west;dy>=0 south/east)
+  if (dy < 0) {
+    npc.facing = dx < 0 ? 'left' : 'up'
+  }
+  else {
+    npc.facing = dx < 0 ? 'down' : 'right'
+  }
+
+  if (Math.abs(dx) < speed * 2 || Math.abs(dy) < speed * 2) {
+    // snap 到目标
+    npc.x = tx
+    npc.y = ty
+  }
+  else {
+    // PAL_NPCWalkOneStep(id, speed) — scene.c:887-902
+    const stepX = (npc.facing === 'left' || npc.facing === 'down') ? -2 : 2
+    const stepY = (npc.facing === 'left' || npc.facing === 'up') ? -1 : 1
+    npc.x += stepX * speed
+    npc.y += stepY * speed
+    // wCurrentFrameNum++ mod 4(NPC sprite nSpriteFrames=3 → mod 4 真值)
+    const next = ((npc.scriptedFrame ?? -1) + 1) % 4
+    npc.scriptedFrame = next
+  }
+
+  if (npc.x === tx && npc.y === ty) {
+    npc.scriptedFrame = 0  // sdlpal 真值:到达 wCurrentFrameNum=0(站立)
+    return true
+  }
+  return false
 }
 
 // runEnterScript: 同步跑 wScriptOnEnter 段(loadScene 不传 partyStart 时调用)。
