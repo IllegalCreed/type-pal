@@ -63,6 +63,23 @@ export interface NpcState {
    * 用于剧情期间 NPC 摆姿势(挥手 / 点头 / 鞠躬 等)。
    */
   scriptedFrame?: number
+  /**
+   * port sdlpal `EventObject.wAutoScript` + `PAL_RunAutoScript`(script.c:3482-3651)。
+   *
+   * sdlpal `PAL_GameUpdate` 内对每个 `sState != 0 && wAutoScript != 0` 的 NPC 调
+   * `PAL_RunAutoScript(wAutoScript, id)`,返回新 wAutoScript ip — **不阻塞** trigger script。
+   *
+   * 我们 port:对 sState != 0 && autoCursor 设置的 NPC 每 tick 跑 1 op。autoLabel(scene
+   * dump 字段)在 npcFromEventObject 时按 labelMap 解 ip 写入 autoCursor。
+   *
+   * undefined = NPC 无 autoScript(wAutoScript=0)。
+   */
+  autoCursor?: {
+    /** scene 全局 ip(等同 sdlpal `wAutoScript`)。每跑一 op 由 autoScript handler 改写。 */
+    ip: number
+    /** sdlpal `wScriptIdleFrameCountAuto`:opcode 0x09 wait N frames 用,累计 N 后推 ip。 */
+    idleFrameCount?: number
+  }
 }
 
 export interface EventCursor {
@@ -311,6 +328,17 @@ export interface GameState {
   /** 持有物品(T21 item action 用),数量为 0 不剔除由 add/sub 命令决定。 */
   inventory: InventoryEntry[]
   mode: Mode
+  /**
+   * scene-level event commands + labelMap(autoScript runner 用)。
+   *
+   * `eventCursor` 是 trigger script 临时 cursor(event mode 进入时设,退出清);
+   * `sceneCommands`/`sceneLabelMap` 是 scene 持有 events 文件全文 — autoScript 在 explore
+   * mode 也要跑(sdlpal `PAL_GameUpdate` 不分 mode 都调),所以读这里。
+   *
+   * 由 bootstrap / sceneLoader 在 scene 加载完成后写入。
+   */
+  sceneCommands?: Command[]
+  sceneLabelMap?: Record<string, number>
   eventCursor?: EventCursor
   dialogBox?: DialogBoxState
   /** 由 setDialogStyle* 命令累积。默认 'center'。 */
@@ -628,8 +656,11 @@ export function createInitialGameState(
  * (sdlpal scene.c:624 `abs(p.x - eo.x) + abs(p.y - eo.y)*2 < 16`)用的是原 eo.x/y。
  * +7 偏移在 present.ts NPC 绘制处加。
  */
-export function npcFromEventObject(eo: SceneEventObject): NpcState {
-  return {
+export function npcFromEventObject(
+  eo: SceneEventObject,
+  labelMap?: Record<string, number>,
+): NpcState {
+  const npc: NpcState = {
     id: eo.id,
     x: eo.x,
     y: eo.y,
@@ -638,8 +669,15 @@ export function npcFromEventObject(eo: SceneEventObject): NpcState {
     triggerMode: eo.triggerMode,
     // Sync.2 fix4 + fix10:透传 sState(scene dump 已含 EventObject.sState 真值)
     // sdlpal global.h:77-79:kObjStateHidden=0 / Normal=1 / Blocker=2
-    // pal-extract dump 的 eo.sState 来自 SSS.MKF EventObject.sState 字段(int16)
-    // 旧 fixture / 没字段时缺省 1 = Normal(可见);Hidden 必须显式 0 或负数
     sState: eo.sState ?? 1,
   }
+  // resolve autoLabel → autoCursor.ip(scene 加载时调用方传 labelMap)
+  // sdlpal `wAutoScript != 0 && sState > 0` → autoScript 每帧跑;NPC dump 里 autoLabel 非空才有。
+  if (eo.autoLabel && labelMap) {
+    const ip = labelMap[eo.autoLabel]
+    if (ip !== undefined) {
+      npc.autoCursor = { ip }
+    }
+  }
+  return npc
 }

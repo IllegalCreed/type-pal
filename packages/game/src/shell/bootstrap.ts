@@ -90,12 +90,17 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // sdlpal wNumScene 是 1-based,scenes[wNumScene-1] 才是真 scene。dump 文件 scene/N.json 对应
   // scenes[N](0-based),所以 wNumScene = SCENE_ID + 1。loadScene opcode 真做时(callback)会写新值。
   gs.wNumScene = SCENE_ID + 1
-  gs.npcs = scene.eventObjects.map(npcFromEventObject)
 
   const segment = events.segments[0]
   if (!segment) throw new Error('events.json 无 segment[0]')
   const eventCommands = segment.commands
   const labelMap = buildLabelMap(eventCommands)
+
+  // scene-level commands + label map(autoScript runner 用)
+  gs.sceneCommands = eventCommands
+  gs.sceneLabelMap = labelMap
+  // 传 labelMap → NPC autoLabel resolve 成 autoCursor.ip
+  gs.npcs = scene.eventObjects.map((eo) => npcFromEventObject(eo, labelMap))
 
   // onEnter 装载
   // M3.5:dev verify / L2 Playwright 加 ?skip-intro=1 URL flag 跳 onEnter,避免
@@ -391,7 +396,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     console.log(`[bootstrap.sceneLoader] loadScene wNumScene=${newWNumScene} → dump scene/${dumpFileIndex}.json`)
     const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
     gs.wNumScene = newWNumScene
-    gs.npcs = sceneAssets.eventObjects.map(npcFromEventObject)
+    // 新 scene 的 commands + labelMap 写入 gs(autoScript runner 用)
+    gs.sceneCommands = sceneAssets.eventCommands
+    gs.sceneLabelMap = sceneAssets.labelMap
+    // 传 labelMap → 新 scene NPC autoLabel 解 ip
+    gs.npcs = sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
     // sdlpal scene 切换时 dialog **不**自动清 — sdlpal `PAL_LoadResources` 只重置场景资源,
     // 文字框留待后续 opcode(0x05 ClearDialog / 0x73 fadeScreen 内部 / setDialogStyleX)清。
     // 这是 sdlpal "渐变跟着 dialog 一起 fade" 真值机制:
