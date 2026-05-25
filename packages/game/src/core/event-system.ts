@@ -111,6 +111,10 @@ export const OP_NPC_WALK_TO_SPEED_3 = 0x0010    // 16
 export const OP_NPC_WALK_TO_SPEED_2 = 0x0011    // 17
 // case 0x0082(130): NPCWalkTo,speed=8(快走,script.c:2437-2446)
 export const OP_NPC_WALK_TO_SPEED_8 = 0x0082    // 130
+// case 0x0070(112): Walk the party to position(sdlpal script.c:2125-2130)
+//   PAL_PartyWalkTo(op0, op1, op2, speed=2) — 主角同步走到 (col=op0, row=op1, h=op2)。
+//   每 tick 1 step,trail unshift + 改 wPartyDirection + UpdatePartyGestures。
+export const OP_PARTY_WALK_TO = 0x0070          // 112
 // case 0x006C(108): Walk the NPC in one step(script.c:2056-2063)
 //   pCurrent.x += SHORT(operand[1]), pCurrent.y += SHORT(operand[2])
 //   PAL_NPCWalkOneStep(wCurEventObjectID, 0)  // speed=0,只更新 wCurrentFrameNum
@@ -674,6 +678,23 @@ export function tickEventSystem(
           console.debug(`event-system: fadeScreen speed=${speed} → ${totalMs}ms (sdlpal classic 真值)`)
           return  // 等 fade 完
         }
+        // Sync.2 fix20:opcode 0x70 PartyWalkTo — 主角阻塞走到目标(sdlpal script.c:2125-2130)。
+        // 每 tick 走 1 step (speed=2),arrived 才 ip++。trigger 中常见用法 "主角走到密道" 等。
+        if (cmd.opcode === OP_PARTY_WALK_TO) {
+          const arrived = partyWalkTo(
+            gs,
+            cmd.operands[0] ?? 0,
+            cmd.operands[1] ?? 0,
+            cmd.operands[2] ?? 0,
+            2,
+          )
+          if (arrived) {
+            cursor.ip++
+            break
+          }
+          return
+        }
+
         // Sync.2 fix19:opcode 0x10 / 0x11 / 0x82 NPCWalkTo — 阻塞 trigger script,
         // 每 tick 走 1 步,arrived 才 ip++(对应 sdlpal `wScriptEntry--` 下帧 retry 真值)。
         // self = currentEventObjectId(trigger 当前 NPC,scene-system 进入 trigger 时设)。
@@ -1290,6 +1311,70 @@ function npcWalkTo(
 
   if (npc.x === tx && npc.y === ty) {
     npc.scriptedFrame = 0  // sdlpal 真值:到达 wCurrentFrameNum=0(站立)
+    return true
+  }
+  return false
+}
+
+/**
+ * port sdlpal `PAL_PartyWalkTo`(script.c:101-200)— **每 tick 走 1 步**,返回是否到达。
+ *
+ * 真值算法:
+ *   1. dx = (x*32 + h*16) - party.x;dy = (y*16 + h*8) - party.y
+ *   2. trail unshift:把 leader 当前位置插 trail[0]
+ *   3. facing 同 npcWalkTo
+ *   4. step:|dx| <= speed*2 → snap dx else ±speed*2;|dy| <= speed → snap dy else ±speed
+ *   5. PAL_UpdatePartyGestures(TRUE) — 推 stepFrame(走路动画)
+ *   6. 到达(dx=0 && dy=0)→ 返 true(caller 调 PAL_UpdatePartyGestures(FALSE) 站立)
+ */
+function partyWalkTo(
+  gs: GameState,
+  targetX: number,
+  targetY: number,
+  h: number,
+  speed: number,
+): boolean {
+  const tx = targetX * 32 + h * 16
+  const ty = targetY * 16 + h * 8
+  const dx = tx - gs.party.x
+  const dy = ty - gs.party.y
+
+  if (dx === 0 && dy === 0) {
+    // 已到达(可能从 dx=0 dy=0 起步 — 防御)
+    gs.walkingFrame.walking = false
+    return true
+  }
+
+  // sdlpal scene.c:155-162 真值:facing 同 NPC
+  if (dy < 0) {
+    gs.party.facing = dx < 0 ? 'left' : 'up'
+  }
+  else {
+    gs.party.facing = dx < 0 ? 'down' : 'right'
+  }
+
+  // trail unshift(sdlpal script.c:147-153:rgTrail[i+1]=rgTrail[i],leader pos 入 trail[0])
+  gs.trail.unshift({
+    x: gs.party.x,
+    y: gs.party.y,
+    dir: gs.party.facing,
+  })
+  if (gs.trail.length > 5) gs.trail.length = 5
+
+  // sdlpal step:|d| <= speed*2(或 speed)→ snap remainder;否则 ±speed*2(或 ±speed)
+  const stepX = Math.abs(dx) <= speed * 2 ? dx : (dx < 0 ? -speed * 2 : speed * 2)
+  const stepY = Math.abs(dy) <= speed ? dy : (dy < 0 ? -speed : speed)
+  gs.party.x += stepX
+  gs.party.y += stepY
+  gs.camera.x = gs.party.x
+  gs.camera.y = gs.party.y
+
+  // PAL_UpdatePartyGestures(TRUE) — 推 walking stepFrame
+  gs.walkingFrame.walking = true
+  gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame + 1) % 4
+
+  if (gs.party.x === tx && gs.party.y === ty) {
+    gs.walkingFrame.walking = false  // PAL_UpdatePartyGestures(FALSE) — 站立
     return true
   }
   return false
