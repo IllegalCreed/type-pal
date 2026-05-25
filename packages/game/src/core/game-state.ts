@@ -99,6 +99,15 @@ export type DialogPhase = 'typing' | 'line-done' | 'waiting-page-key' | 'waiting
 
 export interface DialogBoxState {
   /**
+   * 当前 dialog 的"姓名 title"(以 `:` / `：` / `∶` 结尾的 showDialog 文本)。
+   * sdlpal text.c:1717-1727 真值:姓名画在独立 `posDialogTitle` 位置,**不计入** dialog
+   * line(nCurrentDialogLine 不加),后续 RestoreScreen 把 backup buffer restore 时 title
+   * 区像素仍保留,所以同 cutscene 段 dialog 翻页后"李逍遥:" 仍显示。
+   *
+   * undefined = 当前 dialog 段无姓名(setDialogStyleX 重置 + 没遇过 `:` 结尾)
+   */
+  titleText?: string
+  /**
    * 已 typing 完整显示的"过往行"(累计 0-4)。
    * 第 4 行画完后下条 showDialog 触发 waiting-page-key,Confirm 后清空。
    */

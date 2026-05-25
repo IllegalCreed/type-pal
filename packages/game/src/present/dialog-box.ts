@@ -81,6 +81,36 @@ export function getDialogTextPos(style: DialogBoxStyle, hasPortrait: boolean): T
   }
 }
 
+/**
+ * sdlpal text.c:1316/1340 真值 — title(姓名)位置,跟 dialog text 独立。
+ * top:    (iNumCharFace > 0 ? 80 : 12, 8)
+ * bottom: (iNumCharFace > 0 ? 4 : 12, 108)
+ * 姓名以 `:` 结尾,画在此处,**不**计入 nCurrentDialogLine。
+ */
+export function getDialogTitlePos(style: DialogBoxStyle, hasPortrait: boolean): TextPos {
+  switch (style) {
+    case 'top':
+      return { x: hasPortrait ? 80 : 12, y: 8 }
+    case 'center':
+      return { x: 12, y: 8 }  // sdlpal default,center 一般不用 title
+    case 'bottom':
+    case 'narration':
+      return { x: hasPortrait ? 4 : 12, y: 108 }
+  }
+}
+
+/**
+ * sdlpal text.c:1717-1719 真值 — 姓名识别:全角 `：` (0xff1a) / `∶` (0x2236) / 半角 `:` 结尾。
+ */
+export function isCharacterNameLine(text: string): boolean {
+  if (text.length === 0) return false
+  const last = text.charCodeAt(text.length - 1)
+  return last === 0xff1a || last === 0x2236 || last === 0x3a /* ':' */
+}
+
+/** sdlpal text.c:33 真值 `#define FONT_COLOR_CYAN_ALT 0x8C` — 姓名 title 渲染色。 */
+export const FONT_COLOR_CYAN_ALT = 0x8C
+
 // ── 头像位置(sdlpal text.c:1289-1310 真值) ───────────────────────────────────
 
 interface PortraitPos {
@@ -139,12 +169,16 @@ export function startDialogLine(
     shadow?: boolean
   },
 ): DialogBoxState {
+  // sdlpal text.c:1715-1727 真值:`:` 结尾的字符串 = 姓名 title,画独立位置,不计入 line。
+  // 我们把它写进 titleText,**不** typing(姓名一闪而出 = sdlpal `PAL_DrawText` 单次绘)。
+  const isTitle = isCharacterNameLine(text)
   return {
+    titleText: isTitle ? text : undefined,
     shownLines: [],
-    currentLineText: text,
+    currentLineText: isTitle ? null : text,
     typingFrames: 0,
-    charsRevealed: 0,
-    phase: 'typing',
+    charsRevealed: isTitle ? 0 : 0,
+    phase: isTitle ? 'line-done' : 'typing',  // title 即出完,让 event-system 立即 ip++ 下条
     style: opts.style ?? 'bottom',
     portraitIcon: opts.portraitIcon,
     fontColor: opts.fontColor ?? FONT_COLOR_DEFAULT,
@@ -163,6 +197,12 @@ export function startDialogLine(
  * 不调本函数,而是 setWaitingPageKey(state) 等键后再调。
  */
 export function appendDialogLine(state: DialogBoxState, text: string): void {
+  // sdlpal text.c:1715 姓名识别 — `:` 结尾的字符串画 title 位置,不进 shownLines。
+  if (isCharacterNameLine(text)) {
+    state.titleText = text
+    // **不**修改 currentLineText / phase — title 跟现在 typing 的 dialog 并存
+    return
+  }
   // 把"上次 line-done 的 currentLineText"沉入 shownLines
   if (state.currentLineText !== null) {
     state.shownLines.push(state.currentLineText)
@@ -328,7 +368,9 @@ export function drawDialogBox(
   //
   // 注:currentLineText 非 null 但 charsRevealed=0(startDialogLine 后第 0 tick)
   //    仍 draw — portrait + text 框已"准备好显示",玩家会看到 portrait 先于文字。
-  const hasActiveContent = state.shownLines.length > 0 || state.currentLineText !== null
+  const hasActiveContent = state.shownLines.length > 0
+    || state.currentLineText !== null
+    || state.titleText !== undefined
   if (!hasActiveContent) return
 
   // 1. portrait(sdlpal text.c:1289-1310)
@@ -344,7 +386,13 @@ export function drawDialogBox(
     }
   }
 
-  // 2. text:所有已完成行 + 当前行(截 charsRevealed)
+  // 2a. title(姓名,以 `:` 结尾 — sdlpal text.c:1725 真值 FONT_COLOR_CYAN_ALT,独立位置)
+  if (state.titleText !== undefined) {
+    const titlePos = getDialogTitlePos(state.style, hasPortraitRendered)
+    drawTextLine(fb, state.titleText, titlePos.x, titlePos.y, state, glyphs, FONT_COLOR_CYAN_ALT)
+  }
+
+  // 2b. text:所有已完成行 + 当前行(截 charsRevealed)
   const basePos = getDialogTextPos(state.style, hasPortraitRendered)
 
   for (let i = 0; i < state.shownLines.length; i++) {
@@ -387,12 +435,14 @@ function drawTextLine(
   y: number,
   state: DialogBoxState,
   glyphs: GlyphTable | undefined,
+  colorOverride?: number,
 ): void {
   if (text.length === 0) return
-  if (state.shadow) {
-    renderText(fb, text, x + 1, y + 1, SHADOW_COLOR, glyphs)
-  }
-  renderText(fb, text, x, y, state.fontColor, glyphs)
+  // Sync.2 fix17:sdlpal text.c:1594/1725 真值,文字都有阴影(`fShadow=TRUE`)。
+  // 我们之前 shadow gated by state.shadow,但 sdlpal 文字渲染 default 带 shadow。
+  // 用 state.shadow ?? true,但当前 startDialogLine 默认 false → fix:都画 shadow。
+  renderText(fb, text, x + 1, y + 1, SHADOW_COLOR, glyphs)
+  renderText(fb, text, x, y, colorOverride ?? state.fontColor, glyphs)
 }
 
 // ── 内部 blit ─────────────────────────────────────────────────────────────────
