@@ -59,6 +59,116 @@ describe('GameState', () => {
   })
 })
 
+describe('Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)', () => {
+  it('round-trip JSON.stringify → parse → deep equal', () => {
+    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
+    // 触发非 default 状态:
+    gs.dwCash = 1000
+    gs.wSavedTimes = 3
+    gs.wNumScene = 7
+    gs.wBattleSpeed = 3
+    gs.Exp.rgPrimaryExp[0] = { wExp: 50, wLevel: 2 }
+    gs.Exp.rgHealthExp[1] = { wExp: 30, wLevel: 1 }
+    gs.PlayerRolesRuntime.rgwHP[0] = 255
+    gs.PlayerRolesRuntime.rgwLevel[0] = 5
+    gs.rgEventObject[5] = {
+      sState: -1, x: 100, y: 100, sLayer: 0,
+      wTriggerScript: 0, wAutoScript: 0,
+      wTriggerMode: 0, wSpriteNum: 3, nSpriteFrames: 4,
+      wDirection: 2, wCurrentFrameNum: 0, nScriptIdleFrame: 0,
+      wSpritePtrOffset: 0, nSpriteFramesAuto: 0, wScriptIdleFrameCountAuto: 0,
+      sVanishTime: 0,
+    }
+    gs.rgScene[15] = { wMapNum: 3, wScriptOnEnter: 42, wScriptOnTeleport: 0, wEventObjectIndex: 10 }
+    gs.rgObject[100] = { rgwData: [1, 2, 3, 4, 5, 6, 7] }
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 3, wPoisonScript: 100 }
+
+    const json = JSON.stringify(gs)
+    const restored = JSON.parse(json) as GameState
+    expect(restored).toEqual(gs)
+  })
+
+  it('default initial state 所有新字段非 undefined', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // 平铺杂项字段
+    expect(gs.wSavedTimes).toBe(0)
+    expect(gs.wNumScene).toBe(0)
+    expect(gs.wPaletteOffset).toBe(0)
+    expect(gs.wNumMusic).toBe(0)
+    expect(gs.wNumBattleMusic).toBe(0)
+    expect(gs.wNumBattleField).toBe(0)
+    expect(gs.wScreenWave).toBe(0)
+    expect(gs.wBattleSpeed).toBe(2)   // sdlpal global.c default
+    expect(gs.wCollectValue).toBe(0)
+    expect(gs.wLayer).toBe(0)
+    expect(gs.wChaseRange).toBe(1)
+    expect(gs.wChasespeedChangeCycles).toBe(0)
+    expect(gs.nFollower).toBe(0)
+    expect(gs.dwCash).toBe(0)
+    // 嵌套 struct
+    expect(gs.Exp).toBeDefined()
+    expect(gs.Exp.rgPrimaryExp).toBeInstanceOf(Array)
+    expect(gs.Exp.rgPrimaryExp).toHaveLength(6)   // MAX_PLAYER_ROLES
+    expect(gs.Exp.rgHealthExp).toHaveLength(6)
+    expect(gs.Exp.rgMagicExp).toHaveLength(6)
+    expect(gs.Exp.rgAttackExp).toHaveLength(6)
+    expect(gs.Exp.rgMagicPowerExp).toHaveLength(6)
+    expect(gs.Exp.rgDefenseExp).toHaveLength(6)
+    expect(gs.Exp.rgDexterityExp).toHaveLength(6)
+    expect(gs.Exp.rgFleeExp).toHaveLength(6)
+    expect(gs.PlayerRolesRuntime).toBeDefined()
+    expect(gs.PlayerRolesRuntime.rgwHP).toHaveLength(6)
+    expect(gs.PlayerRolesRuntime.rgwLevel).toHaveLength(6)
+    expect(gs.PlayerRolesRuntime.rgwEquipment).toHaveLength(6)   // MAX_PLAYER_EQUIPMENTS
+    expect(gs.PlayerRolesRuntime.rgwMagic).toHaveLength(32)      // MAX_PLAYER_MAGICS
+    expect(gs.PlayerRolesRuntime.rgwElementalResistance).toHaveLength(5) // NUM_MAGIC_ELEMENTAL
+    expect(gs.rgPoisonStatus).toEqual({})
+    expect(gs.rgScene).toEqual({})
+    expect(gs.rgObject).toEqual({})
+    expect(gs.rgEventObject).toEqual({})
+  })
+
+  it('sparse Record:rgEventObject 只存改过的 EventObject', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    expect(Object.keys(gs.rgEventObject)).toHaveLength(0)
+    gs.rgEventObject[5] = {
+      sState: -1, x: 100, y: 100, sLayer: 0,
+      wTriggerScript: 0, wAutoScript: 0,
+      wTriggerMode: 0, wSpriteNum: 3, nSpriteFrames: 4,
+      wDirection: 2, wCurrentFrameNum: 0, nScriptIdleFrame: 0,
+      wSpritePtrOffset: 0, nSpriteFramesAuto: 0, wScriptIdleFrameCountAuto: 0,
+      sVanishTime: 0,
+    }
+    expect(Object.keys(gs.rgEventObject)).toHaveLength(1)
+    expect(gs.rgEventObject[5]?.sState).toBe(-1)
+  })
+
+  it('sparse Record:rgScene / rgObject 初始空,可单独写入', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    expect(Object.keys(gs.rgScene)).toHaveLength(0)
+    expect(Object.keys(gs.rgObject)).toHaveLength(0)
+    gs.rgScene[15] = { wMapNum: 3, wScriptOnEnter: 42, wScriptOnTeleport: 0, wEventObjectIndex: 10 }
+    gs.rgObject[100] = { rgwData: [1, 2, 3, 4, 5, 6, 7] }
+    expect(Object.keys(gs.rgScene)).toHaveLength(1)
+    expect(Object.keys(gs.rgObject)).toHaveLength(1)
+  })
+
+  it('AllExperience 初始值全零 ExpEntry', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    for (const entry of gs.Exp.rgPrimaryExp) {
+      expect(entry.wExp).toBe(0)
+      expect(entry.wLevel).toBe(0)
+    }
+  })
+
+  it('PlayerRolesRuntime 初始值全零', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    expect(gs.PlayerRolesRuntime.rgwHP.every(v => v === 0)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwLevel.every(v => v === 0)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwMagic.every(row => row.every(v => v === 0))).toBe(true)
+  })
+})
+
 describe('npcFromEventObject', () => {
   it('System A:eo.x/y 直接透传(1:1 sdlpal pixel),其它字段透传', () => {
     const eo: SceneEventObject = {

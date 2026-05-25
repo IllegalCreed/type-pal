@@ -574,7 +574,7 @@ describe('opcode 0x4A setBattlefield(P0.e — sdlpal script.c:1719)', () => {
   it('raw#0x4A → gs.wNumBattleField = operand[0]', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
-    expect(gs.wNumBattleField).toBeUndefined()
+    expect(gs.wNumBattleField).toBe(0) // M5 Sync.1: 改为 required 字段, 初始值 0
 
     loadEvent(gs, [
       { op: 'raw', opcode: OP_SET_BATTLE_FIELD, operands: [10, 0, 0] },

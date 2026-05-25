@@ -8,7 +8,7 @@
 import type { BattleField, Command, Enemy, Item, Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
-import type { GameState, InventoryEntry } from '../../game-state.js'
+import { createInitialGameState, type GameState, type InventoryEntry } from '../../game-state.js'
 import { createSeedableRng } from '../../rng.js'
 import { performAttack } from '../actions/attack.js'
 import { performDefend } from '../actions/defend.js'
@@ -639,18 +639,10 @@ function makeItem(opts: Partial<Item> = {}): Item {
 
 /** 最小 GameState fixture(performItem 只看 .inventory)。 */
 function makeGameState(inventory: InventoryEntry[]): GameState {
-  return {
-    party: { x: 0, y: 0, facing: 'down' },
-    camera: { x: 0, y: 0 },
-    npcs: [],
-    partyMembers: [],
-    inventory,
-    mode: 'battle',
-    currentDialogStyle: 'center',
-    frameNum: 0,
-    walkingFrame: { stepFrame: 0, walking: false },
-    trail: [],
-  }
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  gs.inventory = inventory
+  gs.mode = 'battle'
+  return gs
 }
 
 describe('performItem', () => {

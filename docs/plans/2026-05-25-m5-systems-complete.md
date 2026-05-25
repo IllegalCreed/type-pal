@@ -982,7 +982,7 @@ git commit -m "docs(M5.P0.v): P0 完工 — pnpm check 全绿 / e2e 全绿 / man
 
 参考 sdlpal `global.c:530-559`(SAVEDGAME_WIN)。
 
-- [ ] **Step 1: 列字段表 + types.ts 加全字段**
+- [x] **Step 1: 列字段表 + types.ts 加全字段**
 
 ```typescript
 // packages/shared/src/types.ts(增量字段,P0 已加 PixelPos)
@@ -1075,7 +1075,7 @@ export interface GameState {
 }
 ```
 
-- [ ] **Step 2: 写 round-trip spec**
+- [x] **Step 2: 写 round-trip spec**
 
 ```typescript
 // packages/game/src/core/game-state.test.ts
@@ -1097,7 +1097,7 @@ describe('Sync.1 GameState round-trip', () => {
 })
 ```
 
-- [ ] **Step 3: 跑 spec 验失败 → 实现 → 通过**
+- [x] **Step 3: 跑 spec 验失败 → 实现 → 通过**
 
 ```bash
 pnpm -F @type-pal/game test game-state
@@ -1105,25 +1105,49 @@ pnpm -F @type-pal/game test game-state
 
 期望先全 FAIL → 加 fields → PASS。
 
-- [ ] **Step 4: 适配现有 spec / fixture**
+- [x] **Step 4: 适配现有 spec / fixture**
 
 全文 search & rename(M1-M4 既有 spec 用旧字段名的全部改):
 - `gs.cash` → `gs.dwCash`
 - `gs.musicNum` → `gs.wNumMusic`
 - 等(具体清单 grep 后枚举)
 
-- [ ] **Step 5: 跑 pnpm check 全绿**
+- [x] **Step 5: 跑 pnpm check 全绿**
 
 ```bash
 pnpm -w check
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add packages/game/src packages/shared/src
 git commit -m "feat(M5.Sync.1): GameState 全字段冻结 — SAVEDGAME_WIN 倒推(Exp 8 类 / PlayerRoles / rgPoisonStatus / rgScene / rgObject / rgEventObject / 杂项)"
 ```
+
+### Sync.1 实施过程发现
+
+**完工状态:DONE(2026-05-25)**
+
+**嵌套 struct 对齐方式:**
+- `AllExperience`:8 类 ExpEntry × MAX_PLAYER_ROLES(6),用 `number[]` 数组 index = roleId,与 C struct PLAYERS typedef 对齐。
+- `PlayerRolesRuntime`:静态字段(avatar / spriteNum / name / walk sound 等)保留 player-roles.json,运行时只存可变字段(HP/MP/level/装备/魔法/属性)。`rgwEquipment` 用 `number[][]`(6 slots × 6 roles),`rgwMagic` 用 `number[][]`(32 × 6)。
+- `rgPoisonStatus`:用 `Record<string, PoisonStatus>`(key = `${poisonSlot}_${playerIdx}`),比 C 的 `[MAX_POISONS][MAX_PLAYABLE_PLAYER_ROLES]` 二维数组节省空间,序列化友好。
+- `rgScene / rgObject / rgEventObject`:用 `Record<number, T>` 稀疏存,只持久化被 script 改过的条目。`rgEventObject` 全字段覆盖 EVENTOBJECT struct 的所有 16 个字段。
+- `ObjectStateMutable`:用 `rgwData: number[]`(7 个 WORD)统一 OBJECT union,避免 player/item/magic/enemy/poison 分叉。
+
+**既有 fixture 适配:**
+- `actions.test.ts`:内联 GameState literal 改用 `createInitialGameState` + 覆盖 `inventory / mode`(1 处)。
+- `event-system.test.ts`:1 处 `wNumBattleField` 从 `toBeUndefined()` 改为 `toBe(0)` — 因字段从 optional 改为 required(初始值 0)。
+- 所有其他 test 文件走 `createInitialGameState`,自动获得新字段 default,无需手改。
+
+**wNumBattleField / wNumMusic optional → required:**  
+原来两个字段是 `?: number`(undefined 表示未设过)。Sync.1 改成 `number`(初始 0),符合 SAVEDGAME_WIN 存档语义(存档时字段都有值)。bootstrap.ts 中 `?? 0` 兜底已无实际效用但无害。
+
+**后续启发:**
+- S 股(IndexedDB 存档):序列化只需 `JSON.stringify(gs)` → IndexedDB,rgScene/Object/EventObject 稀疏 Record 直接 JSON 友好,不需额外 sparse 处理。
+- I 股(场景交互):opcode handler 可直接写 `gs.rgEventObject[eoId].sState = -1`(chest open),`gs.rgScene[sceneId].wScriptOnEnter = newOffset`(script 改写 scene 入口)。
+- 下一阻塞点:Sync.v verify(需 Sync.2 DialogBox 先完工)。
 
 ---
 
