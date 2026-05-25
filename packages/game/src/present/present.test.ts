@@ -64,6 +64,113 @@ describe('presentFrame', () => {
   })
 })
 
+// ── P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)───────────────────
+//
+// walkFrames=3:iStepFrameLeader = [0,1,0,2][stepFrame],wFrame = dir*3 + iStepFrameLeader
+// walkFrames=4:wFrame = dir*4 + stepFrame
+// walking=false:站立帧 dir * walkFrames(P0.0 既有)
+describe('P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  /**
+   * 追踪 presentFrame 内 party drawSprite 的 frameIdx。
+   * 替换 ctx.partyFrames 为 map:frameIdx→SpriteImage(唯一颜色),
+   * 记录实际落到哪张图。
+   */
+  function trackPartyFrameIdx(
+    gs: ReturnType<typeof createInitialGameState>,
+    walkFrames: number,
+  ): number {
+    // 构造 walkFrames*4 帧,每帧颜色 = idx+1
+    const frames: SpriteImage[] = Array.from({ length: walkFrames * 4 }, (_, i) =>
+      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
+    )
+    const drawn: number[] = []
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation(
+      (_fb, sprite) => {
+        const idx = frames.indexOf(sprite as SpriteImage)
+        if (idx >= 0) drawn.push(idx)
+      },
+    )
+    const fb = createFramebuffer()
+    const ctx: PresentContext = {
+      tilemap: flatMap(10, 10),
+      tileImages: { get: () => undefined },
+      partyFrames: frames,
+      partyWalkFrames: walkFrames,
+      npcSprites: new Map(),
+    }
+    presentFrame(fb, gs, ctx)
+    spy.mockRestore()
+    return drawn[0] ?? -1
+  }
+
+  it('walking=false → 站立帧:frameIdx = dir * walkFrames (P0.0 既有)', () => {
+    // facing=right → dir=3, walkFrames=3 → frameIdx=9
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'right' })
+    gs.walkingFrame = { walking: false, stepFrame: 0 }
+    expect(trackPartyFrameIdx(gs, 3)).toBe(9)
+
+    // facing=down → dir=0 → frameIdx=0
+    const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs2.walkingFrame = { walking: false, stepFrame: 2 }
+    expect(trackPartyFrameIdx(gs2, 3)).toBe(0)
+  })
+
+  it('walking=true, walkFrames=3, stepFrame=0 → iStepFrameLeader=0 → frameIdx=dir*3+0', () => {
+    // facing=right → dir=3, leader=0 → frameIdx=9
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'right' })
+    gs.walkingFrame = { walking: true, stepFrame: 0 }
+    expect(trackPartyFrameIdx(gs, 3)).toBe(9)
+  })
+
+  it('walking=true, walkFrames=3, stepFrame=1 → iStepFrameLeader=1 → frameIdx=dir*3+1', () => {
+    // facing=right → dir=3 → frameIdx=3*3+1=10
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'right' })
+    gs.walkingFrame = { walking: true, stepFrame: 1 }
+    expect(trackPartyFrameIdx(gs, 3)).toBe(10)
+  })
+
+  it('walking=true, walkFrames=3, stepFrame=2 → iStepFrameLeader=0 → frameIdx=dir*3+0', () => {
+    // facing=right → dir=3 → frameIdx=9(同 stepFrame=0)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'right' })
+    gs.walkingFrame = { walking: true, stepFrame: 2 }
+    expect(trackPartyFrameIdx(gs, 3)).toBe(9)
+  })
+
+  it('walking=true, walkFrames=3, stepFrame=3 → iStepFrameLeader=2 → frameIdx=dir*3+2', () => {
+    // facing=right → dir=3 → frameIdx=3*3+2=11
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'right' })
+    gs.walkingFrame = { walking: true, stepFrame: 3 }
+    expect(trackPartyFrameIdx(gs, 3)).toBe(11)
+  })
+
+  it('walking=true, walkFrames=4 → frameIdx=dir*4+stepFrame', () => {
+    // facing=right → dir=3, stepFrame=2 → frameIdx=3*4+2=14
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'right' })
+    gs.walkingFrame = { walking: true, stepFrame: 2 }
+    expect(trackPartyFrameIdx(gs, 4)).toBe(14)
+
+    // facing=down → dir=0, stepFrame=3 → frameIdx=0*4+3=3
+    const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs2.walkingFrame = { walking: true, stepFrame: 3 }
+    expect(trackPartyFrameIdx(gs2, 4)).toBe(3)
+  })
+
+  it('4 方向 facing 映射:down=0/left=1/up=2/right=3(站立帧验证)', () => {
+    const facings: Array<['down' | 'left' | 'up' | 'right', number]> = [
+      ['down', 0], ['left', 1], ['up', 2], ['right', 3],
+    ]
+    for (const [facing, dir] of facings) {
+      const gs = createInitialGameState({ x: 0, y: 0, facing })
+      gs.walkingFrame = { walking: false, stepFrame: 0 }
+      expect(trackPartyFrameIdx(gs, 3)).toBe(dir * 3)
+    }
+  })
+})
+
 describe('P0.b Y-sort + cover-tile', () => {
   afterEach(() => {
     vi.restoreAllMocks()

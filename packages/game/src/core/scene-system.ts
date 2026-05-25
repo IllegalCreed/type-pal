@@ -218,7 +218,16 @@ export function tickSceneSystem(
     if (isWalkable(ctx.tilemap, nx, ny, gs.npcs, 0)) {
       gs.party.x = nx
       gs.party.y = ny
+      // sdlpal scene.c:663 PAL_UpdatePartyGestures:walking 时 s_iThisStepFrame +1 mod 4
+      gs.walkingFrame.walking = true
+      gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame + 1) % 4
+    } else {
+      // 撞墙 / NPC 阻挡:转向但不走 → walking=false
+      gs.walkingFrame.walking = false
     }
+  } else {
+    // 无方向键:idle → walking=false
+    gs.walkingFrame.walking = false
   }
 
   // 2) 相机跟随 + 边界 clamp(System A:sdlpal pixel,以 tile 边界换算)

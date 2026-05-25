@@ -648,6 +648,7 @@ function makeGameState(inventory: InventoryEntry[]): GameState {
     mode: 'battle',
     currentDialogStyle: 'center',
     frameNum: 0,
+    walkingFrame: { stepFrame: 0, walking: false },
   }
 }
 

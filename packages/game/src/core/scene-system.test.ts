@@ -782,6 +782,123 @@ describe('P0.a 菱形 isometric 碰撞', () => {
   })
 })
 
+// ── P0.c: 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)───────────
+//
+// s_iThisStepFrame 0-3 循环,走一步 +1 mod 4;撞墙 / idle → walking=false。
+// present.ts 按 walking / stepFrame 选 party leader frame。
+describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', () => {
+  it('初始状态:walking=false, stepFrame=0', () => {
+    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
+    expect(gs.walkingFrame.walking).toBe(false)
+    expect(gs.walkingFrame.stepFrame).toBe(0)
+  })
+
+  it('按住方向键 → walking=true,stepFrame 0→1→2→3→0 循环', () => {
+    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 32)
+
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.walkingFrame.walking).toBe(true)
+    expect(gs.walkingFrame.stepFrame).toBe(1)
+
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.walkingFrame.stepFrame).toBe(2)
+
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.walkingFrame.stepFrame).toBe(3)
+
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.walkingFrame.stepFrame).toBe(0)
+
+    // 继续循环
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.walkingFrame.stepFrame).toBe(1)
+  })
+
+  it('停按方向键 → walking=false,party.facing 不变', () => {
+    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 32)
+
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.walkingFrame.walking).toBe(true)
+    expect(gs.party.facing).toBe('right')
+
+    tickSceneSystem(gs, snap([]), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.walkingFrame.walking).toBe(false)
+    // facing 不变(仍是上一帧 set 的)
+    expect(gs.party.facing).toBe('right')
+  })
+
+  it('撞墙(阻挡 tile)→ walking=false,facing 已转但 stepFrame 不前进', () => {
+    // party at (48, 24), Right(+16,+8) → target (64, 32)
+    // tile (64,32): col=2, row=2, xr=0, yr=0 → h=0, blocked
+    const map = makeBlockedMap(10, 10, [[2, 2]])
+    const gs = createInitialGameState({ x: 48, y: 24, facing: 'down' })
+    const bus = createCommandBus()
+    const stepBefore = gs.walkingFrame.stepFrame
+
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.walkingFrame.walking).toBe(false)
+    expect(gs.party.facing).toBe('right')   // facing 改了
+    expect(gs.party.x).toBe(48)             // 没走
+    // stepFrame 不前进(撞墙时不计步)
+    expect(gs.walkingFrame.stepFrame).toBe(stepBefore)
+  })
+
+  it('NPC 阻挡 → walking=false,facing 转但 stepFrame 不前进', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    // Right(+16,+8) → NPC 在 (6*16, 6*8)
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78 }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    const stepBefore = gs.walkingFrame.stepFrame
+
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.walkingFrame.walking).toBe(false)
+    expect(gs.party.facing).toBe('right')
+    expect(gs.party.x).toBe(5 * 16)        // 没走
+    expect(gs.walkingFrame.stepFrame).toBe(stepBefore)
+  })
+
+  it('idle → walking=false,stepFrame 保持不变', () => {
+    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 32)
+
+    // 先走 2 步把 stepFrame 推到 2
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.walkingFrame.stepFrame).toBe(2)
+
+    // idle
+    tickSceneSystem(gs, snap([]), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.walkingFrame.walking).toBe(false)
+    // stepFrame 不重置为 0(保持 2,下次走时从 2 继续 +1 → 3)
+    expect(gs.walkingFrame.stepFrame).toBe(2)
+  })
+
+  it('contact NPC(triggerMode >= 4)不阻挡走路 → walking=true', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    // contact 怪:走进触发战斗但不阻挡走路
+    gs.npcs = [{ id: 7, x: 6 * 16, y: 6 * 8, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    const commands = [
+      { op: 'showDialog' as const, messageIndex: 0, text: '草妖来袭', label: 'L_42' },
+      { op: 'end' as const },
+    ]
+    // contact 触发后 mode=event,tickSceneSystem 仍会在 step 1 处理走路
+    tickSceneSystem(gs, snap(['Right']), bus, {
+      tilemap: map, eventCommands: commands, labelMap: { L_42: 0 },
+    })
+    // contact 怪不阻挡走路 → walking=true, stepFrame=1
+    expect(gs.walkingFrame.walking).toBe(true)
+    expect(gs.walkingFrame.stepFrame).toBe(1)
+  })
+})
+
 // ── P0.e: wScriptOnEnter 真跑 ─────────────────────────────────────────────────
 //
 // sdlpal SCENE struct(global.h:115-121):wScriptOnEnter → 进场景即跑此段脚本。

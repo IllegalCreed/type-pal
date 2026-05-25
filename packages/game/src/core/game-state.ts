@@ -64,6 +64,14 @@ export interface GameState {
   /** 战斗状态;T16 给真类型(BattleState),T14 已用 unknown 占位避免污染 explore/event。 */
   battleState?: BattleState
   frameNum: number
+  /**
+   * 走动动画状态(P0.c:port sdlpal scene.c:636 PAL_UpdatePartyGestures)。
+   *
+   * `stepFrame`: 0-3 循环计数(s_iThisStepFrame),走一步 +1 mod 4。
+   * `walking`: 本 tick 是否成功走路(走时 true,撞墙 / idle 时 false)。
+   * present.ts 按 walking / stepFrame 选 party leader frame(走动帧 vs 站立帧)。
+   */
+  walkingFrame: { stepFrame: number; walking: boolean }
   /** 当前调色板;M4 P3.T2 setPalette opcode handler 写入,渲染层 flushToCanvas 消费。
    *  初始值 undefined — bootstrap 初始化后由 GameState 持有最新 palette,
    *  flushToCanvas 优先用 gs.palette(若非 undefined),否则 fallback 到 bootstrap 初始 palette。
@@ -99,6 +107,7 @@ export function createInitialGameState(
     mode: 'explore',
     currentDialogStyle: 'center',
     frameNum: 0,
+    walkingFrame: { stepFrame: 0, walking: false },
   }
 }
 

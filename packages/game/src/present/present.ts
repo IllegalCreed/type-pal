@@ -77,7 +77,24 @@ export function presentFrame(
   // --- party ---
   const { sx: partySX, sy: partySY } = pixelToScreen(gs.party, gs.camera)
   const direction = FACING_TO_DIRECTION[gs.party.facing]
-  const frameIdx = direction * ctx.partyWalkFrames
+  const walkFrames = ctx.partyWalkFrames
+  let frameIdx: number
+  if (gs.walkingFrame.walking) {
+    // sdlpal scene.c:678-685 PAL_UpdatePartyGestures:
+    //   walkFrames=4: wFrame = wDirection * 4 + s_iThisStepFrame
+    //   walkFrames=3: wFrame = wDirection * 3 + iStepFrameLeader
+    //                 iStepFrameLeader = [0, 1, 0, 2][s_iThisStepFrame]
+    //                 (stepFrame 0→leader 0, 1→leader 1, 2→leader 0, 3→leader 2)
+    if (walkFrames === 4) {
+      frameIdx = direction * 4 + gs.walkingFrame.stepFrame
+    } else {
+      const iStepFrameLeader = [0, 1, 0, 2][gs.walkingFrame.stepFrame] ?? 0
+      frameIdx = direction * walkFrames + iStepFrameLeader
+    }
+  } else {
+    // 站立帧:dir * walkFrames(P0.0 既有公式,sdlpal scene.c:750-755)
+    frameIdx = direction * walkFrames
+  }
   const partyFrame = ctx.partyFrames[frameIdx] ?? ctx.partyFrames[0]
   if (partyFrame) {
     // sdlpal scene.c:224-226:party pos.y = party.y - viewport.y + wLayer + 10,iLayer = wLayer + 6
