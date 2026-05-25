@@ -150,10 +150,10 @@ describe('EventSystem', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
-    // Sync.2 fix4:73(0x49 setSceneObjectState)现已实做,改用未具名 opcode
+    // 用两个明确未具名 opcode 走 default debug 分支(0x10 / 0x49 等已陆续实做,改用 0xC0 / 0xD0)
     loadEvent(gs, [
-      { op: 'raw', opcode: 16, operands: [36, 24, 0] },
-      { op: 'raw', opcode: 0xC0, operands: [0, 0, 0] },  // 未具名 → default debug branch
+      { op: 'raw', opcode: 0xC0, operands: [0, 0, 0] },
+      { op: 'raw', opcode: 0xD0, operands: [0, 0, 0] },
       { op: 'end' },
     ])
     tickEventSystem(gs, snap(), bus)
@@ -351,10 +351,11 @@ describe('runScript (M3 T17, battle mode)', () => {
 })
 
 describe('loadScene opcode handler stub(M3.5 T10 / B 路线)', () => {
-  it('explore mode 撞 loadScene → no-op + console.debug + ip++ 不抛错', () => {
+  it('explore mode 撞 loadScene → no-op + console.warn + ip++ 不抛错', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
-    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    // M4 P3:无 _sceneLoader 注入时走 warn 分支(配置缺失 → warn 比 debug 更准)
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     loadEvent(gs, [
       { op: 'loadScene', sceneId: 42 },
       { op: 'end' },
@@ -364,12 +365,12 @@ describe('loadScene opcode handler stub(M3.5 T10 / B 路线)', () => {
     // 一帧内 loadScene + end 连跑完 → mode=explore
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()
-    // console.debug 被调用,信息含 loadScene + sceneId
-    expect(debugSpy).toHaveBeenCalledTimes(1)
-    const msg = debugSpy.mock.calls[0]?.[0] as string
+    // console.warn 被调用,信息含 loadScene + sceneId
+    expect(warnSpy).toHaveBeenCalledTimes(1)
+    const msg = warnSpy.mock.calls[0]?.[0] as string
     expect(msg).toContain('loadScene')
     expect(msg).toContain('42')
-    debugSpy.mockRestore()
+    warnSpy.mockRestore()
   })
 
   it('battle mode 同样 stub(D26 跨 mode 一致):no-op + console.debug + ip++', () => {
