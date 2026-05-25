@@ -115,7 +115,7 @@ describe('SceneSystem 走路', () => {
   it('NPC 阻挡走路:面前像素有 NPC + held=Right,party 不动', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     // Right(East): dx=+16, dy=+8 → NPC 在 (6*16, 6*8)
-    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78 }]
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, sState: 2 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
@@ -832,7 +832,7 @@ describe('P0.a 菱形 isometric 碰撞', () => {
   // ── 7. NPC 菱形曼哈顿距离 abs(dx)+abs(dy)*2 < 16 ─────────────────────────
   it('NPC 在目标像素菱形范围内(距离 < 16)→ 阻挡', () => {
     const map = makeFlatMap(20, 20)
-    const npcs: NpcState[] = [{ id: 1, x: 100, y: 50, spriteNum: 0, triggerMode: 0 }]
+    const npcs: NpcState[] = [{ id: 1, x: 100, y: 50, spriteNum: 0, triggerMode: 0, sState: 2 }]
     // pos (105, 53): dx=5, dy=3, 5+6=11 < 16 → 阻
     expect(isWalkable(map, 105, 53, npcs, 0)).toBe(false)
     // pos (108, 54): dx=8, dy=4, 8+8=16, 不 < 16 → 不阻
@@ -857,7 +857,7 @@ describe('P0.a 菱形 isometric 碰撞', () => {
     const npcs4: NpcState[] = [{ id: 2, x: 100, y: 50, spriteNum: 0, triggerMode: 4 }]
     expect(isWalkable(map, 100, 50, npcs4, 0)).toBe(true)
     // triggerMode=3 → 阻挡
-    const npcs3: NpcState[] = [{ id: 2, x: 100, y: 50, spriteNum: 0, triggerMode: 3 }]
+    const npcs3: NpcState[] = [{ id: 2, x: 100, y: 50, spriteNum: 0, triggerMode: 3, sState: 2 }]
     expect(isWalkable(map, 100, 50, npcs3, 0)).toBe(false)
   })
 
@@ -943,7 +943,7 @@ describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', 
   it('NPC 阻挡 → walking=false,facing 转但 stepFrame 不前进', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     // Right(+16,+8) → NPC 在 (6*16, 6*8)
-    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78 }]
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, sState: 2 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const stepBefore = gs.walkingFrame.stepFrame
