@@ -1450,6 +1450,13 @@ function partyWalkTo(
     return true
   }
 
+  // sdlpal PAL_UpdatePartyGestures(TRUE) 每 tick 直接覆写 rgParty[*].wFrame
+  // (scene.c:680/684/724/728);任何之前 0x15 写的 scripted pose 都被走路覆盖。
+  // 清掉 partyScriptedFrame,到达后 fallback 站立帧而不是恢复旧 pose。
+  if (Object.keys(gs.partyScriptedFrame).length > 0) {
+    gs.partyScriptedFrame = {}
+  }
+
   // sdlpal scene.c:155-162 真值:facing 同 NPC
   if (dy < 0) {
     gs.party.facing = dx < 0 ? 'left' : 'up'

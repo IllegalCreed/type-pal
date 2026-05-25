@@ -103,19 +103,11 @@ export function presentFrame(
   const direction = FACING_TO_DIRECTION[gs.party.facing]
   const walkFrames = ctx.partyWalkFrames
   let frameIdx: number
-  // Sync.2 fix3 pose:opcode 0x0015 setPartyDirectionAndFrame 写 partyScriptedFrame[memberIdx]
-  // 优先级最高 — 剧情期间主角应固定姿势,不被 walking 算法覆盖。
-  // memberIdx=0 即 leader(主角)。
-  const partyLeaderScriptedFrame = gs.partyScriptedFrame[0]
-  if (partyLeaderScriptedFrame !== undefined) {
-    frameIdx = partyLeaderScriptedFrame
-  }
-  else if (gs.walkingFrame.walking) {
-    // sdlpal scene.c:678-685 PAL_UpdatePartyGestures:
-    //   walkFrames=4: wFrame = wDirection * 4 + s_iThisStepFrame
-    //   walkFrames=3: wFrame = wDirection * 3 + iStepFrameLeader
-    //                 iStepFrameLeader = [0, 1, 0, 2][s_iThisStepFrame]
-    //                 (stepFrame 0→leader 0, 1→leader 1, 2→leader 0, 3→leader 2)
+  // sdlpal 真值优先级:walking=true(PAL_UpdatePartyGestures(TRUE) scene.c:678-685)
+  // 直接覆写 rgParty[0].wFrame,无视任何之前的 scripted pose。
+  // walking=false 时,opcode 0x15 setPartyDirectionAndFrame 写的 partyScriptedFrame[0] 生效
+  // (剧情固定姿势 — 捂头/倒地等);再 fallback 站立帧 direction*walkFrames。
+  if (gs.walkingFrame.walking) {
     if (walkFrames === 4) {
       frameIdx = direction * 4 + gs.walkingFrame.stepFrame
     } else {
@@ -123,8 +115,13 @@ export function presentFrame(
       frameIdx = direction * walkFrames + iStepFrameLeader
     }
   } else {
-    // 站立帧:dir * walkFrames(P0.0 既有公式,sdlpal scene.c:750-755)
-    frameIdx = direction * walkFrames
+    const partyLeaderScriptedFrame = gs.partyScriptedFrame[0]
+    if (partyLeaderScriptedFrame !== undefined) {
+      frameIdx = partyLeaderScriptedFrame
+    } else {
+      // 站立帧:dir * walkFrames(sdlpal scene.c:750-755)
+      frameIdx = direction * walkFrames
+    }
   }
   // Sync.2 fix4:若 gs.partyLeaderSpriteId 设(由 opcode 0x65 setPlayerSprite 写入)→
   //              切换到对应 sprite group(从 ctx.npcSpriteFrames 取);否则用 ctx.partyFrames(bootstrap 默认)。
