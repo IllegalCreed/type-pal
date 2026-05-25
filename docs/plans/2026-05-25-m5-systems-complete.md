@@ -3841,7 +3841,61 @@ P0 全 6 项 done(原 design 5 项 + wScriptOnEnter 升 6)。
 
 ## Sync 段
 
-(实施时累积)
+### Sync.2 · DialogBox 真做(2026-05-25)
+
+**改动文件:**
+- `packages/game/src/present/dialog-box.ts`(新建,替换旧 draw-dialog-box.ts)
+- `packages/game/src/present/dialog-box.test.ts`(新建,21 spec)
+- `packages/game/src/core/game-state.ts`(`DialogBoxState` 扩 9 字段)
+- `packages/game/src/core/event-system.ts`(`showDialog` 改用 `startDialog`,Confirm 走 `nextPage` 三段式)
+- `packages/game/src/present/present.ts`(drawDialogBox 调用改新签名)
+- `packages/game/src/present/present.test.ts`(改用 startDialog)
+- `packages/game/src/core/game-state.test.ts`(改用 startDialog)
+- `packages/game/src/core/event-system.test.ts`(Confirm 释放 spec 改为 2 次 Confirm)
+- `packages/game/src/e2e.test.ts`(replay 6 tick → 7 tick,加一帧 Confirm)
+- 删:`packages/game/src/present/draw-dialog-box.ts` + 其 test
+
+**4 styles rect 真值(sdlpal text.c:1208 PAL_StartDialogWithOffset):**
+- `top`:       x=8, y=8,   w=304, h=48(kDialogUpper)
+- `center`:    x=8, y=80,  w=304, h=48(kDialogCenter)
+- `bottom`:    x=8, y=144, w=304, h=48(kDialogLower)
+- `narration`: x=8, y=144, w=304, h=48(位置同 bottom,noBorder=true)
+- 注:保留 shared 层 `DialogBoxStyle` 字面量(`top/center/bottom/narration`),不改名为 sdlpal enum 名(`upper/lower/center-window`)— 减少 shared 层级联改动 + 不破坏既有 setDialogStyle 命令名。
+
+**typing FRAMES_PER_CHAR = 4:**
+- explore/event @10fps → 每字 ~0.4s,体感"逐字出现"而非"瞬现"
+- sdlpal 真值 PAL_ShowDialogText 每帧 1 字(约 0.1s/字),M5 选 4 帧/字慢一点以衬托 typing 节奏。可后期调。
+
+**key icon blink period = 16 帧:** sdlpal text.c PAL_DialogWaitForKey g_TextLib.bIcon 每 16 帧 toggle。
+
+**字阴影色 = palette 50:** sdlpal 真值 palette[0](通常黑/最深);M5 用 50 暗灰作占位,M6 映射真色。
+
+**头像(portrait)M5 占位:** M4 P2 dump 的 92 头像未在 M5 接入真 RLE blit;`drawDialogBox` 当 `portraitIcon` 非 undefined 时画 32×32 占位框(白边),并把文本 X 偏移到 rect.x+40。真 RLE blit 留 M6。
+
+**DialogBoxState 字段兼容策略:**
+- 保留 `text`(完整原始文本,含 \r 分页符)— 现有测试访问 `gs.dialogBox?.text` 仍然有效
+- 保留 `style` — 现有测试访问 `gs.dialogBox?.style` 仍然有效
+- 新增字段:`pages` / `currentPage` / `typingFrames` / `charsRevealed` / `isComplete` / `portraitIcon` / `fontColor` / `shadow` / `keyIconBlink`
+
+**nextPage 三段式(port sdlpal PAL_DialogWaitForKey):**
+1. 未 complete → skip typing(charsRevealed = pageText.length),return true(消费输入但不翻页)
+2. complete + 有下页 → 翻页 + reset typing,return true
+3. complete + 最后页 → return false(caller 清 `gs.dialogBox` + cursor.ip++)
+
+**event-system 集成方式:**
+- `waiting='dialog'` 分支每 tick 调 `tickDialog(gs.dialogBox)` 推进 typing
+- Confirm 按下时调 `nextPage`:返 true 保持 waiting(不 ip++),返 false 才清 dialogBox + ip++
+
+**测试 + e2e 数:**
+- L1:`pnpm -w check` 全绿,game 369 pass / 2 skip(原 348 → +21 新 dialog-box spec)
+- L2:`pnpm -F @type-pal/game e2e` 31/31 pass
+- baseline 重生 2 张:`c1-dialog-top.png` + `c1-dialog-bottom.png`(新 box 位置 x=8,y=8/144;旧 x=20,y=8/152;且字现在按 typing 节奏只显前几个字符)
+
+**已知遗留 → M6 处理:**
+- 真 portrait RLE blit(M4 P2 已 dump 92 头像,接入 loader 即可)
+- key icon 真 sprite(sdlpal text.c:1391 bufDialogIcons sprite),目前 4×4 白块占位
+- 字阴影 palette 真值映射(目前 50 是 M4 通用暗色占位)
+- 长行 auto-wrap(sdlpal 真有按行宽切分;M5 只切 \r,长行不换行 — 但 sdlpal MSG 一般都已带 \r,实测无视觉差)
 
 ## P1-Battle 段
 

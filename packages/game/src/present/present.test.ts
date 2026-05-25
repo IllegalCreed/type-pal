@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import type { Tilemap } from '@type-pal/shared'
 import { presentFrame, type PresentContext } from './present.js'
+import { startDialog } from './dialog-box.js'
 import { createFramebuffer } from './framebuffer.js'
 import { createInitialGameState } from '../core/game-state.js'
 import type { SpriteImage } from './draw-sprite.js'
@@ -50,7 +51,7 @@ describe('presentFrame', () => {
   it('有 dialogBox → 帧缓冲被对话框覆盖', () => {
     const fb = createFramebuffer()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.dialogBox = { text: '你好', style: 'center' }
+    gs.dialogBox = startDialog('你好', { style: 'center' })
     const ctx: PresentContext = {
       tilemap: flatMap(3, 3),
       tileImages: { get: () => undefined },

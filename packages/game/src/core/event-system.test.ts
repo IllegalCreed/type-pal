@@ -50,14 +50,16 @@ describe('EventSystem', () => {
   })
 
   it('waiting=dialog + Confirm 释放 → ip++ + 继续到 end → mode=explore', () => {
+    // Sync.2:nextPage 三段式 → 两次 Confirm:第 1 次跳 typing 末,第 2 次结束 dialog
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
       { op: 'showDialog', messageIndex: 0, text: '你好' },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus) // 进入 waiting
-    tickEventSystem(gs, snap(['Confirm']), bus) // 释放 + 继续到 end
+    tickEventSystem(gs, snap(), bus)             // 进入 waiting
+    tickEventSystem(gs, snap(['Confirm']), bus) // 跳 typing 末(nextPage return true)
+    tickEventSystem(gs, snap(['Confirm']), bus) // 最后页完成 → nextPage false → end
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.dialogBox).toBeUndefined()

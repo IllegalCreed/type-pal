@@ -51,8 +51,9 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
       snap(['Right'], [], 1), // tick 1:右
       snap(['Right'], [], 2), // tick 2:右
       snap([], ['Confirm'], 3), // tick 3:Confirm — SceneSystem 触发 NPC + 切 mode=event
-      snap([], [], 4),           // tick 4:event 模式跑 showDialog → waiting
-      snap([], ['Confirm'], 5), // tick 5:释放 waiting → end → 回 explore
+      snap([], [], 4),           // tick 4:event 模式跑 showDialog → waiting + typing
+      snap([], ['Confirm'], 5), // tick 5:Confirm — typing 中 → nextPage 跳末(true)
+      snap([], ['Confirm'], 6), // tick 6:Confirm — 最后页 → nextPage false → end → 回 explore
     ])
 
     const bus = createCommandBus()
@@ -63,7 +64,7 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
       onPresent: () => {},
     }
 
-    tickN(6, ctx)
+    tickN(7, ctx)
 
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()

@@ -28,6 +28,7 @@ import type { Command, InputSnapshot, Palette } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
 import type { GameState } from './game-state.js'
+import { startDialog, tickDialog, nextPage } from '../present/dialog-box.js'
 
 // ── P0.e: wScriptOnEnter / 战斗触发 opcode 真值(grep sdlpal reference/sdlpal/script.c) ──
 // case 0x0007(7):   Start battle
@@ -165,9 +166,21 @@ export function tickEventSystem(
     return
   }
 
-  // 1) waiting 处理:阻塞在对话框,等 Confirm 释放
+  // 1) waiting 处理:阻塞在对话框,每 tick 推进 typing + 等 Confirm
   if (cursor.waiting === 'dialog') {
+    // 每 tick 推进 typing animation(port sdlpal text.c:1616 PAL_ShowDialogText)
+    if (gs.dialogBox) {
+      tickDialog(gs.dialogBox)
+    }
     if (input.pressed.has('Confirm')) {
+      if (gs.dialogBox) {
+        const dialogContinues = nextPage(gs.dialogBox)
+        if (dialogContinues) {
+          // typing 跳末 或 翻页:保持 waiting='dialog',不推进 ip
+          return
+        }
+      }
+      // dialog 结束(nextPage 返 false 或 dialogBox 已 undefined)
       cursor.waiting = undefined
       gs.dialogBox = undefined
       cursor.ip++
@@ -230,10 +243,10 @@ export function tickEventSystem(
       }
 
       case 'showDialog': {
-        gs.dialogBox = { text: cmd.text, style: gs.currentDialogStyle }
+        gs.dialogBox = startDialog(cmd.text, { style: gs.currentDialogStyle })
         cursor.waiting = 'dialog'
         bus.emit({ op: 'showDialogBox', text: cmd.text, style: gs.currentDialogStyle })
-        // ip 停在 showDialog 上,waiting 释放时(上面 cursor.ip++)才推进
+        // ip 停在 showDialog 上,waiting 释放时才推进
         return
       }
 

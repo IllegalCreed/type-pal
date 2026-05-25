@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { createInitialGameState, npcFromEventObject, type Facing, type GameState, type Mode } from './game-state.js'
+import { startDialog } from '../present/dialog-box.js'
 import type { SceneEventObject } from '@type-pal/shared'
 
 describe('GameState', () => {
@@ -45,7 +46,7 @@ describe('GameState', () => {
       ip: 0,
       waiting: 'dialog',
     }
-    gs.dialogBox = { text: 'hi', style: 'center' }
+    gs.dialogBox = startDialog('hi', { style: 'center' })
     gs.currentDialogStyle = 'top'
 
     const parsed = JSON.parse(JSON.stringify(gs)) as GameState

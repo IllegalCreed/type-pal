@@ -53,8 +53,28 @@ export interface EventCursor {
 }
 
 export interface DialogBoxState {
+  /** 完整原始文本(含 \r 分页符) */
   text: string
+  /** 已按 \r 切好的页列表 */
+  pages: string[]
+  /** 当前显示第几页(0-based) */
+  currentPage: number
+  /** 已经过的 frame 数(用于 typing 进度计算) */
+  typingFrames: number
+  /** 当前已显示字符数 = Math.min(floor(typingFrames / FRAMES_PER_CHAR), pageText.length) */
+  charsRevealed: number
+  /** 当前页文字已全部显示完毕 */
+  isComplete: boolean
+  /** 对话框位置样式 */
   style: DialogBoxStyle
+  /** RGM.MKF chunk 编号(角色头像);undefined = 无头像 */
+  portraitIcon?: number
+  /** 字体前景色(palette 下标;默认 255 白) */
+  fontColor: number
+  /** 字阴影(iDialogShadow > 0 时 true) */
+  shadow: boolean
+  /** 等键时右下角 icon 的闪烁状态(偶数 blink-period = true) */
+  keyIconBlink: boolean
 }
 
 // ── M5 Sync.1: SAVEDGAME_WIN 倒推 typed ─────────────────────────────────────

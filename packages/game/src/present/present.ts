@@ -5,7 +5,7 @@ import type { BattlePresent, BattleAssets } from './battle/present-battle.js'
 import { type Framebuffer, SCREEN_W, SCREEN_H } from './framebuffer.js'
 import { drawTilemap, addCoverTileEntries, type TileImages, type DrawEntry } from './draw-tilemap.js'
 import { drawSprite, type SpriteImage } from './draw-sprite.js'
-import { drawDialogBox } from './draw-dialog-box.js'
+import { drawDialogBox } from './dialog-box.js'
 import type { GlyphTable } from './font.js'
 
 export interface PresentContext {
@@ -229,7 +229,7 @@ export function presentFrame(
 
   // 6. 对话框(最上层)
   if (gs.dialogBox) {
-    drawDialogBox(fb, gs.dialogBox.text, gs.dialogBox.style, ctx.glyphs)
+    drawDialogBox(fb, gs.dialogBox, ctx.glyphs)
   }
 }
 
