@@ -235,9 +235,16 @@ function applySetDialogStyle(
     cursor.waiting = 'dialog'
     return true
   }
+  // **Sync.2 fix6:** 每次 setDialogStyleX 重设 style/portrait/fontColor(不 inherit),
+  // 且若 dialogBox 还残留(opcode 0x05 + Confirm 后 shownLines/currentLineText 都清空,
+  // 但 dialogBox 对象仍在)→ 清掉它,让下一条 showDialog 走 startDialogLine 用新 portrait/fontColor
+  // 重建。不然 appendDialogLine 沿用旧 dialogBox 的 style/portraitIcon 留 bug(主角对话显李大娘头像)。
   gs.currentDialogStyle = style
   gs.currentDialogPortraitIcon = portraitIcon
   gs.currentDialogFontColor = fontColor
+  if (ds) {
+    gs.dialogBox = undefined
+  }
   cursor.ip++
   return false
 }

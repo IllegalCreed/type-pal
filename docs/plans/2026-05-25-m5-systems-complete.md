@@ -4183,6 +4183,61 @@ NPC scriptedFrame 不清(NPC 走动是 cutscene 真值,不会因玩家走动失�
 
 **M5.5 audit 升级版 #4:** 任何"段落分隔"opcode(0x05 ClearDialog / setDialogStyleX / end)都应走 dialog 状态机的 `waiting-page-key` / `waiting-end-key`;**不能让一条 opcode 在 dialog 在场时偷偷"重画"**(否则 dialog 文本 + 动画叠加成视觉炸)。fix5 一轮修了 0x05 漏接 + 0x6C 动画漏 + pose 清理时机。
 
+### Sync.2 修补 fix6 — setDialogStyleX portrait/fontColor 不 inherit + 残留 dialogBox 清理(2026-05-25)
+
+**根因:opcode 0x05 ClearDialog + Confirm 后 dialogBox 没清,导致下条 setDialogStyleX → showDialog 走 appendDialogLine 路径,沿用旧 dialogBox 的 portraitIcon**
+
+scene 1 真实 flow:
+```
+setDialogStyleTop arg0=55          ← 李大娘头像
+showDialog "李大娘:"
+showDialog "..."
+opcode 5 ClearDialog               ← 翻页清屏
+Confirm                            ← page-advance(无 pending)→ keep dialogBox 空壳 + ip++
+setDialogStyleBottom (无 arg0)     ← 期望:portrait clear
+showDialog "李逍遥:"               ← bug:dialogBox 还在,走 appendDialogLine,
+                                     dialogBox.portraitIcon 还是 55(李大娘)
+```
+
+`appendDialogLine` 不刷新 style/portrait/fontColor — 它假设 dialogBox 是同一段对话延续。但 setDialogStyleX 之后 dialogBox 是**新一段**了,必须重建。
+
+**fix6:** `applySetDialogStyle` 直接 apply 路径(无 prev 行)末尾,**如果 dialogBox 残留(空壳),清掉它** → 下一条 showDialog 走 `startDialogLine` 用新 style/portrait/fontColor 重建。
+
+```typescript
+function applySetDialogStyle(...): boolean {
+  const ds = gs.dialogBox
+  if (ds && (ds.shownLines.length > 0 || ds.currentLineText !== null)) {
+    setWaitingPageKey(ds, { style, portraitIcon, fontColor })
+    cursor.waiting = 'dialog'
+    return true
+  }
+  gs.currentDialogStyle = style
+  gs.currentDialogPortraitIcon = portraitIcon
+  gs.currentDialogFontColor = fontColor
+  if (ds) gs.dialogBox = undefined   // ← fix6:清残留空壳
+  cursor.ip++
+  return false
+}
+```
+
+**真值核对(sdlpal script.c:3389-3426 case 0x003B-0x003E):**
+每次 `setDialogStyleX` opcode 完全用**该 opcode 的 operand 重设** portrait/fontColor,不 inherit。`PAL_StartDialog(..., bFontColor, iNumCharFace, ...)` 内 `iNumCharFace == 0` 时 `if (iNumCharFace > 0) {blit portrait}` 跳过 → 不显头像。
+
+我们 4 个 handler 已用 `cmd.arg0 ? cmd.arg0 : undefined`(直接 reset,不 fallback);applySetDialogStyle 直接 assign(不 `?? prev`)— 真值传递部分一直对,只是**残留 dialogBox 没清**导致 appendDialogLine 沿用旧值。
+
+**改动文件:**
+- `packages/game/src/core/event-system.ts` — `applySetDialogStyle` 直接 apply 路径加 `if (ds) gs.dialogBox = undefined`
+- `packages/game/src/core/event-system.test.ts` — +3 spec:
+  - scene 1 真实 flow(setDialogStyleTop arg0=55 → 0x05 + Confirm → setDialogStyleBottom 无 arg0 → 主角对话不显头像)
+  - 连续 setDialogStyleTop arg0 切换(55 → 63 reset 而非 inherit)
+  - setDialogStyleBottom arg0=1 arg1=10 → portrait=1 + fontColor=10 显式 set
+
+**测试 + e2e(fix6 后):**
+- L1:game **416 pass / 2 skip**(原 413 → +3 新 spec)+ pal-extract 199
+- L2:e2e 31/31 全绿,c1-dialog-bottom baseline 重生(主角对话不再显李大娘头像)
+
+**M5.5 audit 升级版 #5:** 任何"sticky state"(`gs.dialogBox` 引用持续 across opcodes)切段时(setDialogStyleX / ClearDialog)必须**显式 reset**,不能假设 caller 重新 startDialogLine。fix6 一轮修了 1 个 portrait 持续 bug,直接落实"每段对话独立 portrait/fontColor"语义。
+
 ## P1-Battle 段
 
 (实施时累积)

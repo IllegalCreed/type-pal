@@ -1038,3 +1038,67 @@ describe('opcode 0x0065 setPlayerSprite(sdlpal script.c:1999-2004)— fix4', () 
     expect(gs.partyLeaderSpriteId).toBeUndefined()
   })
 })
+
+describe('setDialogStyleX 真值 reset(每次 opcode 重设 portrait/fontColor,不 inherit)— fix6', () => {
+  it('setDialogStyleTop arg0=55 → showDialog → 0x05 + Confirm → setDialogStyleBottom 无 arg0 → 主角对话不显头像', () => {
+    // scene 1 真实 flow:李大娘对话(头像 55)→ ClearDialog → 李逍遥对话(无头像)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'setDialogStyleTop', arg0: 55, arg1: 0x4F },
+      { op: 'showDialog', messageIndex: 0, text: '李大娘A' },
+      { op: 'raw', opcode: 5, operands: [0, 0, 0] },   // ClearDialog
+      { op: 'setDialogStyleBottom' },                   // 无 arg0 → portraitIcon undefined
+      { op: 'showDialog', messageIndex: 0, text: '李逍遥B' },
+      { op: 'end' },
+    ])
+    // tick 1: setDialogStyleTop + showDialog → dialogBox 含 portraitIcon=55
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogBox?.portraitIcon).toBe(55)
+    expect(gs.currentDialogPortraitIcon).toBe(55)
+    // tick 2 Confirm: skip-typing + line-done → ip++ → opcode 5 ClearDialog → wait page key
+    tickEventSystem(gs, snap(['Confirm']), bus)
+    expect(gs.dialogBox?.phase).toBe('waiting-page-key')
+    // tick 3 Confirm: page-advance (no pending) → keep dialogBox (empty) + ip++ → setDialogStyleBottom
+    //   → 无 prev dialog 行(shownLines=[]/currentLineText=null)→ 直接 apply + clear dialogBox + ip++
+    //   → showDialog → startDialogLine with portraitIcon=undefined
+    tickEventSystem(gs, snap(['Confirm']), bus)
+    expect(gs.currentDialogPortraitIcon).toBeUndefined()
+    expect(gs.currentDialogStyle).toBe('bottom')
+    expect(gs.dialogBox?.portraitIcon).toBeUndefined()   // 主角对话不显头像 ✓
+    expect(gs.dialogBox?.currentLineText).toBe('李逍遥B')
+  })
+
+  it('连续 setDialogStyleTop arg0=55 → arg0=63 → portrait 重设为 63(不 inherit)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'setDialogStyleTop', arg0: 55 },
+      { op: 'showDialog', messageIndex: 0, text: 'A' },
+      { op: 'raw', opcode: 5, operands: [0, 0, 0] },
+      { op: 'setDialogStyleTop', arg0: 63 },
+      { op: 'showDialog', messageIndex: 0, text: 'B' },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickEventSystem(gs, snap(['Confirm']), bus)
+    expect(gs.currentDialogPortraitIcon).toBe(63)
+    expect(gs.dialogBox?.portraitIcon).toBe(63)
+  })
+
+  it('setDialogStyleBottom arg0=1 arg1=10 → portrait=1 + fontColor=10(显式 set,不 default)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'setDialogStyleBottom', arg0: 1, arg1: 10 },
+      { op: 'showDialog', messageIndex: 0, text: 'A' },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.currentDialogPortraitIcon).toBe(1)
+    expect(gs.currentDialogFontColor).toBe(10)
+    expect(gs.dialogBox?.portraitIcon).toBe(1)
+    expect(gs.dialogBox?.fontColor).toBe(10)
+  })
+})
