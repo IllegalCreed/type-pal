@@ -52,6 +52,14 @@ export function dumpScene(
       triggerMode: eo.triggerMode,
       sState: eo.state,
       sLayer: eo.layer,
+      vanishTime: eo.vanishTime,
+      nSpriteFrames: eo.nSpriteFrames,
+      direction: eo.direction,
+      currentFrameNum: eo.currentFrameNum,
+      scriptIdleFrame: eo.scriptIdleFrame,
+      spritePtrOffset: eo.spritePtrOffset,
+      nSpriteFramesAuto: eo.nSpriteFramesAuto,
+      scriptIdleFrameCountAuto: eo.scriptIdleFrameCountAuto,
     })
   }
 

@@ -41,51 +41,48 @@ export interface SpriteSet {
   frames: SpriteFrame[]
 }
 
-/** 一个场景里的事件对象(NPC 或交互点) —— pal-extract 切片场景时 dump 出来。 */
+/**
+ * 一个场景里的事件对象 —— pal-extract 切片场景时 dump 出来。
+ *
+ * 对应 sdlpal `global.h tagEVENTOBJECT` 16 个字段全字段透出(M4 约定 raw dump)。
+ * 字段名沿用 sdlpal 命名(去掉 w/n/s 匈牙利前缀)。
+ */
 export interface SceneEventObject {
   /** 在原 SSS.MKF EventObject 数组里的下标。 */
   id: number
-  /** 瓦片坐标(原 EventObject.x / .y,以 tile 为单位)。 */
+  /** [1] x —— sdlpal world 像素坐标(M5 P0.0:pixel,非 tile)。 */
   x: number
-  /** 同 x,以 tile 为单位。 */
+  /** [2] y —— sdlpal world 像素坐标。 */
   y: number
-  /** 精灵编号(原 EventObject.wSpriteNum) —— 对应 sprite-NNN.json。 */
+  /** [8] wSpriteNum —— 对应 sprite-NNN.json。 */
   spriteNum: number
-  /** 玩家触发对话的入口标签;在 scene-001.json commands 里找该 label 的 index 即可入口。 */
+  /** [4] wTriggerScript → label name(`L_<offset>`);0 → undefined。 */
   triggerLabel?: string
-  /** NPC 待机行为(M2 不消费,留给 M5+)。 */
+  /** [5] wAutoScript → label name;0 → undefined。 */
   autoLabel?: string
-  /** 触发模式:对照 sdlpal `EventObject.wTriggerMode`(M1 parse,M3.5 真消费)。
-   *
-   * Raw u16,运行时 scene-system 解读:可能值含义(实施 T11 时按 sdlpal `play.c::PAL_PartyWalk` 真值定):
-   * - 0 = 不触发
-   * - N = 明雷接触触发 / Confirm 触发 / 传送 / 等
-   */
+  /** [7] wTriggerMode —— 触发模式(sdlpal `play.c::PAL_PartyWalk` 真值)。 */
   triggerMode: number
-  /**
-   * 初始状态(sdlpal `EventObject.sState`,Sync.2 fix4 + fix10)。
-   * sdlpal global.h:77-79 真值:
-   *  -  0 = kObjStateHidden(不渲染)
-   *  -  1 = kObjStateNormal
-   *  -  2 = kObjStateBlocker
-   *  -  3 = kObjStateMessage
-   *  -  4 = kObjStateScript
-   *  - 4+ = Contact
-   *  - 负数也算 hidden(部分 script 用)
-   *
-   * present.ts NPC 渲染按 `sState > 0` 过滤(sdlpal scene.c:PAL_ApplyWave 同条件:
-   * `sState == kObjStateHidden(0)` 或 `sState < 0` 隐藏)。
-   * 可选(向后兼容旧 fixture):缺省 1 = Normal(避免老 fixture 全隐)。
-   */
+  /** [6] sState (signed i16) —— sdlpal global.h:77-79
+   *      Hidden=0 / Normal=1 / Blocker=2 / Message=3 / Script=4 / Contact 4+;负数也算 hidden。 */
   sState?: number
-  /**
-   * sdlpal `EventObject.sLayer` —— signed i16,渲染 z 层:
-   *   sort key  = world.y + sLayer*8 + 9    (scene.c:302)
-   *   blit iLayer = sLayer*8 + 2             (scene.c:316)
-   * 装饰类 sprite(如地板 / 桌椅)常用非 0 sLayer 决定与人物的 z 关系。
-   * 缺省 0(向后兼容旧 fixture)。
-   */
+  /** [3] sLayer (signed i16) —— 渲染 z 层(scene.c:302 sort + scene.c:316 iLayer)。 */
   sLayer?: number
+  /** [0] sVanishTime (signed i16) —— 倒计时后 hide(scene.c:247)。 */
+  vanishTime?: number
+  /** [9] nSpriteFrames —— 单方向走路帧数(scene.c:263 决定 3/4 帧重映射)。 */
+  nSpriteFrames?: number
+  /** [10] wDirection —— 初始朝向(0=South / 1=West / 2=North / 3=East,palcommon.h)。 */
+  direction?: number
+  /** [11] wCurrentFrameNum —— 初始姿势帧。 */
+  currentFrameNum?: number
+  /** [12] nScriptIdleFrame —— 待机帧计数,等待 N 帧后跑下一 op(script.c:3593)。 */
+  scriptIdleFrame?: number
+  /** [13] wSpritePtrOffset —— runtime sprite 数据偏移指针(sdlpal 内部,raw 透出仅供 diff)。 */
+  spritePtrOffset?: number
+  /** [14] nSpriteFramesAuto —— autoScript 帧数(scene.c:898-901)。 */
+  nSpriteFramesAuto?: number
+  /** [15] wScriptIdleFrameCountAuto —— autoScript idle 计数。 */
+  scriptIdleFrameCountAuto?: number
 }
 
 export interface SceneObjects {

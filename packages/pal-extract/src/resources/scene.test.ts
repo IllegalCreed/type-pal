@@ -2,9 +2,21 @@ import { describe, expect, it } from 'vitest'
 import type { EventObject, Scene } from '../io/sss.js'
 import { dumpScene } from './scene.js'
 
+// sdlpal EVENTOBJECT 后 7 字段默认 0(zero-init struct);测试只关心前 9 字段。
+const ZERO_TAIL = {
+  nSpriteFrames: 0,
+  direction: 0,
+  currentFrameNum: 0,
+  scriptIdleFrame: 0,
+  spritePtrOffset: 0,
+  nSpriteFramesAuto: 0,
+  scriptIdleFrameCountAuto: 0,
+}
+
 describe('dumpScene', () => {
   const fakeEventObjects: EventObject[] = [
     {
+      ...ZERO_TAIL,
       state: 1,
       vanishTime: 0,
       x: 10,
@@ -17,6 +29,7 @@ describe('dumpScene', () => {
       raw: new Uint16Array(16),
     },
     {
+      ...ZERO_TAIL,
       state: 1,
       vanishTime: 0,
       x: 15,
@@ -86,6 +99,7 @@ describe('dumpScene triggerMode 字段(M3.5)', () => {
   it('SceneEventObject dump 含 triggerMode raw u16', () => {
     const fakeEventObjects: EventObject[] = [
       {
+        ...ZERO_TAIL,
         state: 1,
         vanishTime: 0,
         x: 10,
@@ -105,6 +119,7 @@ describe('dumpScene triggerMode 字段(M3.5)', () => {
   it('triggerMode=0 正确 dump(不是 undefined)', () => {
     const fakeEventObjects: EventObject[] = [
       {
+        ...ZERO_TAIL,
         state: 1,
         vanishTime: 0,
         x: 10,
