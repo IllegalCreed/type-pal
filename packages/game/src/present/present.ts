@@ -267,34 +267,37 @@ export function presentFrame(
     }
     if (!sprite) continue
     const { sx, sy } = pixelToScreen(npc, gs.camera)
-    // sdlpal scene.c:301-316:y = eo.y - viewport.y + sLayer*8 + 9,iLayer = sLayer*8 + 2。
-    // sLayer=0 → sort key(pos.y) = npc.y - viewport.y + 9 → world: npc.y + 9。
-    // blit_y = pos.y - height - iLayer = npc.y - vp.y + 9 - height - 2 = npc.y - vp.y + 7 - height。
-    // drawSprite(fb, sprite, sx, sy + 7) 等价:sy = npc.y - vp.y + SCREEN_CENTER_Y,
-    // cy = sy + 7 = npc.y - vp.y + SCREEN_CENTER_Y + 7。
+    // sdlpal scene.c:301-316 真值(sLayer 来自 EVENTOBJECT,signed i16):
+    //   pos.y  = eo.y - vp.y + sLayer*8 + 9     (sort key)
+    //   iLayer = sLayer*8 + 2
+    //   blit_y = pos.y - height - iLayer
+    //          = eo.y - vp.y + 7 - height       (sLayer*8 项相消)
+    // → blit anchor (cy) = npc.y - vp.y + 7;screen sy = npc.y - vp.y + SCREEN_CENTER_Y,
+    //   故 drawSprite cy = sy + 7(sLayer 不进 blit,只进 sort key 和 cover sy)。
+    const sLayer = npc.sLayer ?? 0
+    const sortY = npc.y + sLayer * 8 + 9
+    const iLayer = sLayer * 8 + 2
     const capturedSprite = sprite
     const capturedSX = sx
     const capturedSY = sy
     const capturedNpcId = npc.id
     entries.push({
-      // sdlpal NPC sort key: world.y + 9(sLayer=0)
-      baseY: npc.y + 9,
+      baseY: sortY,
       draw: (f) => drawSprite(f, capturedSprite, capturedSX, capturedSY + 7),
       id: `npc-${capturedNpcId}`,
     })
-    // cover tiles for NPC
-    // sdlpal scene.c:301-316 真值:iLayer = sLayer*8 + 2(NPC 默认 sLayer=0 → iLayer=2)
+    // cover tiles for NPC — sy 与 iLayer 都用 sLayer 计算
     addCoverTileEntries(
       entries,
       ctx.tilemap,
       ctx.tileImages,
       npc.x,
-      npc.y + 9,              // sy = npc.y + 9,与 NPC sort key 一致
+      sortY,
       capturedSprite.width,
       capturedSprite.height,
       gs.camera,
       `npc-${capturedNpcId}`,
-      2,                       // iLayer(NPC sLayer=0 → 2)
+      iLayer,
     )
   }
 

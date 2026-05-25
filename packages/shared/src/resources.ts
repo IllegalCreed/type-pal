@@ -78,6 +78,14 @@ export interface SceneEventObject {
    * 可选(向后兼容旧 fixture):缺省 1 = Normal(避免老 fixture 全隐)。
    */
   sState?: number
+  /**
+   * sdlpal `EventObject.sLayer` —— signed i16,渲染 z 层:
+   *   sort key  = world.y + sLayer*8 + 9    (scene.c:302)
+   *   blit iLayer = sLayer*8 + 2             (scene.c:316)
+   * 装饰类 sprite(如地板 / 桌椅)常用非 0 sLayer 决定与人物的 z 关系。
+   * 缺省 0(向后兼容旧 fixture)。
+   */
+  sLayer?: number
 }
 
 export interface SceneObjects {

@@ -49,6 +49,13 @@ export interface NpcState {
    */
   sState?: number
   /**
+   * sdlpal `EventObject.sLayer` —— 渲染 z 层(sort + cover tile 算法都用)。
+   * scene.c:302 `y += sLayer * 8 + 9`(sort key)、scene.c:316 `iLayer = sLayer * 8 + 2`。
+   * 装饰类 sprite(地板 / 桌椅等)常用非 0 sLayer 决定与人物的 z 关系。
+   * undefined = 0(向后兼容旧 fixture)。
+   */
+  sLayer?: number
+  /**
    * NPC 朝向(sdlpal `EventObject.wDirection`)。
    * Sync.2 fix3:opcode 0x0016 setEventObjectDirAndFrame 写入(operand[1])。
    * undefined = 渲染层用 spriteNum 默认帧。
@@ -670,6 +677,9 @@ export function npcFromEventObject(
     // Sync.2 fix4 + fix10:透传 sState(scene dump 已含 EventObject.sState 真值)
     // sdlpal global.h:77-79:kObjStateHidden=0 / Normal=1 / Blocker=2
     sState: eo.sState ?? 1,
+    // sdlpal scene.c:302/316 真值:渲染 z 层 — sort key 和 iLayer 都依赖 sLayer。
+    // dump 字段保留;present.ts 用 sLayer*8+9(pos.y)/ sLayer*8+2(iLayer)。
+    sLayer: eo.sLayer ?? 0,
   }
   // resolve autoLabel → autoCursor.ip(scene 加载时调用方传 labelMap)
   // sdlpal `wAutoScript != 0 && sState > 0` → autoScript 每帧跑;NPC dump 里 autoLabel 非空才有。
