@@ -3780,6 +3780,41 @@ if (numDiff > 0 && opts.updateBaseline) {
 - e2e: 31/31 全绿(9 张 baseline 自动重生)
 - 视觉自查(scene 1 screenshot):桌椅 / 门板整体渲染,无 3 段切割
 
+---
+
+### P0.v 收口(2026-05-25)
+
+P0 全 6 项 done(原 design 5 项 + wScriptOnEnter 升 6)。
+
+**测试 baseline**:M4 末 → P0 末 = **501+2 → 545+2 spec**(+44),e2e **31/31** 全程绿。
+
+**P0 期间发现 plan 自带 bug 14 项**(逐段已记录),全部已修。
+
+**M5.5 audit 启发**(P0 累计):
+- DIR_DELTA 方向映射:plan 4 个 facing 全写反;真值见 sdlpal scene.c:804-805
+- 按键 priority:固定 hardcoded 改 sdlpal "最后按优先"(dwKeyOrder)+ KeyboardEvent.repeat 过滤
+- 单位制:System A(1 OUR = 1 sdlpal px)统一,plan 第一版埋了"半 pixel + *2 缩放"陷阱
+- NPC 锚点 +7 偏移(sdlpal scene.c:301-322 sLayer*8+9 - sLayer*8-2 相消)
+- partyStart fallback:wScriptOnEnter 不 setPartyPos 的 scene 用 caller-trace 反推 + NPC-anchored BFS 兜底(parity 修)
+- contact 触发:菱形 Manhattan < 16(parity 限制不能精准走到 NPC 像素)
+- shared# 跨 scene label:event-system 跨域 cursor 切换
+- opcode 7 startBattle / opcode 0x4A setBattlefield 都是系统层 must-have(plan 6 opcode 漏)
+- bootstrap partyMembers=[0] 默认值(sdlpal PAL_NewGame 真值,空数组导致进战斗即闪退)
+- Y-sort + cover-tile:**3 个独立 bug 叠加**(layer 1 全画不能省 / blit_y 公式 sprite_pos 相消 / l 与 dh 维度不能混)
+- 走动 stepFrame 撞墙时 sdlpal 是 `&= 2; ^= 2;` 0/2 切换(我们简化成"不前进",视觉无感)
+- follower partyMembers[1] 偏移真做,partyMembers[2] 留 M5+(M4 只 dump 主角 sprite)
+- vite dev / e2e port 必须分开(5173 / 5174)
+
+**P0 期间主要 commits**(feat / 大 fix):
+- P0.0 schema pixel:`961e839` `d365055` `206e407` `178c9b3`
+- P0.a 菱形碰撞:`a8cab89` `b094619`
+- P0.e wScriptOnEnter + 7 opcode + 93 scene + contact + shared#:`2b4a940` `df52a15` + 多 fix
+- P0.b Y-sort + cover-tile(3 轮修齐):`687b283` `fa49cf2` + 后续修
+- P0.c 走动动画 + P0.d trail
+- cleanup:`9a1a234`(.claude/ gitignore),m5-execute worktree 清除
+
+**关键调度调整**:**P0.e 提前到 P0.b 之前做**(plan 原顺序 b/c/d ∥ e);原因:P0.a 碰撞加完后 dev panel scene jump 起点很多在不可达区,需要 P0.e wScriptOnEnter 真跑 + caller-trace partyStart 才能 unblock 后续 manual 测试。
+
 ## Sync 段
 
 (实施时累积)
