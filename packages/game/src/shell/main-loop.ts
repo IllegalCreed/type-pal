@@ -20,6 +20,7 @@ import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
 import { tickByMode } from '../core/mode.js'
 import { setSceneContext } from '../core/scene-system.js'
+import { initStateDump } from './state-dump.js'
 
 export interface LoopContext {
   gs: GameState
@@ -29,6 +30,8 @@ export interface LoopContext {
   eventCommands: Command[]
   labelMap: Record<string, number>
   onPresent: (drained: BusEntry[]) => void
+  /** sdlpal `PlayerRoles.rgwWalkFrames[leaderRoleId]`(3 或 4),dump 计算 wFrame 用 */
+  partyWalkFrames?: number
 }
 
 /** 按 gs.mode 选 tick interval —— battle 40ms / 其他 100ms。 */
@@ -36,11 +39,13 @@ function tickIntervalMs(gs: GameState): number {
   return gs.mode === 'battle' ? FRAME_MS_BATTLE : FRAME_MS_EXPLORE
 }
 
-function singleTick(ctx: LoopContext): void {
+function singleTick(ctx: LoopContext, dump?: ReturnType<typeof initStateDump>): void {
   const snap = ctx.input.nextSnapshot(ctx.gs.frameNum)
   tickByMode(ctx.gs, snap, ctx.bus)
   const drained = ctx.bus.drain()
   ctx.onPresent(drained)
+  // 对照 sdlpal dump-frames.patch hook 位置:tickByMode 后(等同 PAL_StartFrame 末尾)
+  if (dump?.enabled) dump.push(ctx.gs, ctx.partyWalkFrames ?? 3)
 }
 
 function applySceneContext(ctx: LoopContext): void {
@@ -58,6 +63,7 @@ export function tickN(n: number, ctx: LoopContext): void {
 
 export function startRafLoop(ctx: LoopContext): () => void {
   applySceneContext(ctx)
+  const dump = initStateDump()
   let lastTickTime = performance.now()
   let accumulator = 0
   let raf = 0
@@ -68,7 +74,7 @@ export function startRafLoop(ctx: LoopContext): () => void {
 
     const interval = tickIntervalMs(ctx.gs)
     while (accumulator >= interval) {
-      singleTick(ctx)
+      singleTick(ctx, dump)
       accumulator -= interval
     }
     // mode 切换时 clamp:避免 explore→battle 一下子 catch-up 多 tick

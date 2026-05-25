@@ -208,6 +208,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     tilemap,
     eventCommands,
     labelMap,
+    partyWalkFrames,
     onPresent: (drained) => {
       // 按 gs.mode 路由 present:battle → presentBattleFrame(消费 commands 进 floating nums);
       // 否则走 explore/event 路径 presentFrame(commands 由 M2 EventSystem 直接消费 GameState)
