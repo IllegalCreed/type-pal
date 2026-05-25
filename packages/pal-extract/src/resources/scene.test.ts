@@ -50,6 +50,7 @@ describe('dumpScene', () => {
       triggerLabel: 'L_59',
       autoLabel: undefined,
       triggerMode: 0,
+      sState: 1,
     })
     expect(result.eventObjects[1]?.triggerLabel).toBe('L_100')
     expect(result.eventObjects[1]?.autoLabel).toBe('L_200')

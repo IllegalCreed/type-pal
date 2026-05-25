@@ -50,6 +50,7 @@ export function dumpScene(
       triggerLabel: labelOf(eo.triggerScript),
       autoLabel: labelOf(eo.autoScript),
       triggerMode: eo.triggerMode,
+      sState: eo.state,
     })
   }
 

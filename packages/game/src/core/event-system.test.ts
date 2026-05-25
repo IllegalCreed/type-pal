@@ -3,11 +3,11 @@ import type { Command, InputSnapshot, AbstractKey, Palette } from '@type-pal/sha
 import {
   tickEventSystem, buildLabelMap, runScript, setFetchPalette,
   setSharedEvents, setStartBattleHandler,
-  OP_START_BATTLE, OP_SET_BATTLE_FIELD,
+  OP_START_BATTLE, OP_SET_BATTLE_FIELD, OP_SET_SCENE_OBJECT_STATE,
   OP_SET_PARTY_DIRECTION,
   OP_WAIT_FRAMES, OP_SET_OBJECT_POS,
   OP_SET_OBJECT_GESTURE, OP_SET_EVENT_OBJECT_DIR_AND_FRAME, OP_SET_EVENT_OBJECT_DIR_OR_FRAME,
-  OP_NPC_WALK_ONE_STEP, OP_PLAYER_WALK_ONE_STEP,
+  OP_NPC_WALK_ONE_STEP, OP_PLAYER_WALK_ONE_STEP, OP_SET_PLAYER_SPRITE,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -150,9 +150,10 @@ describe('EventSystem', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    // Sync.2 fix4:73(0x49 setSceneObjectState)现已实做,改用未具名 opcode
     loadEvent(gs, [
       { op: 'raw', opcode: 16, operands: [36, 24, 0] },
-      { op: 'raw', opcode: 73, operands: [4, 1, 0] },
+      { op: 'raw', opcode: 0xC0, operands: [0, 0, 0] },  // 未具名 → default debug branch
       { op: 'end' },
     ])
     tickEventSystem(gs, snap(), bus)
@@ -753,19 +754,38 @@ describe('opcode 0x0014 setObjectGesture(sdlpal script.c:724-730)— pose 核心
 })
 
 describe('opcode 0x0016 setEventObjectDirAndFrame(sdlpal script.c:741-750)', () => {
-  it('operand[0]!=0 → facing=operand[1] + scriptedFrame=operand[2](fix3 真值)', () => {
+  it('operand[0]=0xFFFF → 用 self(currentEventObjectId)+ facing=operand[1] + scriptedFrame=operand[2]', () => {
+    // fix4:operand[0]=0/0xFFFF → self;operand[0]==0 在 0x16 是 silent skip,所以 self 用 0xFFFF
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1 }]
     loadEvent(gs, [
-      // operand[0]=1 触发,operand[1]=2 → up,operand[2]=8 → scriptedFrame=8
-      { op: 'raw', opcode: OP_SET_EVENT_OBJECT_DIR_AND_FRAME, operands: [1, 2, 8] },
+      { op: 'raw', opcode: OP_SET_EVENT_OBJECT_DIR_AND_FRAME, operands: [0xFFFF, 2, 8] },
       { op: 'end' },
     ])
     gs.eventCursor!.currentEventObjectId = 7
     tickEventSystem(gs, snap(), bus)
     expect(gs.npcs[0]?.facing).toBe('up')
     expect(gs.npcs[0]?.scriptedFrame).toBe(8)
+  })
+
+  it('operand[0] 显式 NPC id(1-based)→ 作用于 npcs.find(id==op0-1),即使 currentEventObjectId 不同', () => {
+    // fix4:operand[0] = 8 → 显式找 npc.id = 7(1-based op[0] - 1 = 0-based id)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [
+      { id: 0, x: 0, y: 0, spriteNum: 1 },
+      { id: 7, x: 100, y: 0, spriteNum: 1 },
+    ]
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_EVENT_OBJECT_DIR_AND_FRAME, operands: [8, 1, 5] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 0   // self 是 npc 0,但 operand[0]=8 显式找 npc 7
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.facing).toBeUndefined()       // npc 0 未改
+    expect(gs.npcs[1]?.facing).toBe('left')          // npc 7 被改
+    expect(gs.npcs[1]?.scriptedFrame).toBe(5)
   })
 
   it('operand[0]==0 → no-op(sdlpal 真值)', () => {
@@ -902,5 +922,75 @@ describe('opcode 0x006E playerWalkOneStep(sdlpal script.c:2091-2113)', () => {
     tickEventSystem(gs, snap(), bus)
     expect(gs.walkingFrame.stepFrame).toBe(2)
     expect(gs.walkingFrame.walking).toBe(false)
+  })
+})
+
+describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4', () => {
+  it('operand[0]=0 → silent no-op', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 0, x: 0, y: 0, spriteNum: 1, sState: 0 }]
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_SCENE_OBJECT_STATE, operands: [0, 5, 0] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.sState).toBe(0)  // 未改
+  })
+
+  it('operand[0]=0xFFFF → self;operand[1] → sState', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 11, x: 0, y: 0, spriteNum: 628, sState: 1 }]
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_SCENE_OBJECT_STATE, operands: [0xFFFF, -1 & 0xFFFF, 0] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 11
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.sState).toBe(-1 & 0xFFFF)
+  })
+
+  it('operand[0]=explicit NPC id(1-based)→ 选别的 NPC', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [
+      { id: 0, x: 0, y: 0, spriteNum: 1, sState: 0 },
+      { id: 11, x: 0, y: 0, spriteNum: 628, sState: 0 },
+    ]
+    loadEvent(gs, [
+      // operand[0]=12 → id=11(1-based - 1)
+      { op: 'raw', opcode: OP_SET_SCENE_OBJECT_STATE, operands: [12, 3, 0] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.sState).toBe(0)   // 未改
+    expect(gs.npcs[1]?.sState).toBe(3)
+  })
+})
+
+describe('opcode 0x0065 setPlayerSprite(sdlpal script.c:1999-2004)— fix4', () => {
+  it('operand[0]=0 (主角) + operand[1]=spriteId → 写 gs.partyLeaderSpriteId', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_PLAYER_SPRITE, operands: [0, 18, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.partyLeaderSpriteId).toBe(18)
+  })
+
+  it('operand[0] != 0(非主角)→ no-op(M5 简版仅支持队长)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_PLAYER_SPRITE, operands: [1, 18, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.partyLeaderSpriteId).toBeUndefined()
   })
 })

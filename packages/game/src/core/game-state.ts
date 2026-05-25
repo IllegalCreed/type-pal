@@ -43,6 +43,12 @@ export interface NpcState {
    */
   triggerMode?: number
   /**
+   * 当前状态(sdlpal `EventObject.sState`)。Sync.2 fix4:scene 加载时透传。
+   *  -1 = Hidden(不渲染);0+ = 可见(0=Normal/1=Blocker/2=Message/3=Script/4+=Contact)
+   * 缺省 0 = Normal(向后兼容)。
+   */
+  sState?: number
+  /**
    * NPC 朝向(sdlpal `EventObject.wDirection`)。
    * Sync.2 fix3:opcode 0x0016 setEventObjectDirAndFrame 写入(operand[1])。
    * undefined = 渲染层用 spriteNum 默认帧。
@@ -243,6 +249,13 @@ export interface ObjectStateMutable {
 export interface GameState {
   /** 队长像素坐标(M5 P0.0:sdlpal scene.c:807 xOffset=±16 / yOffset=±8 等价)。 */
   party: { x: number; y: number; facing: Facing }
+  /**
+   * 队长当前 sprite id(sdlpal `PlayerRoles.rgwSpriteNum[0]` runtime 镜像)。
+   * Sync.2 fix4:opcode 0x0065 setPlayerSprite 写入,覆盖 bootstrap hardcoded sprite #2,
+   * 用于剧情切换主角 pose sprite group(捂头 / 倒地 / 大侠 等)。
+   * undefined = 用 bootstrap 默认(player-roles.json roles[0].spriteNum)。
+   */
+  partyLeaderSpriteId?: number
   /**
    * 主角 / 队员的姿势帧覆盖(sdlpal `rgParty[i].wFrame` 等价)。
    * Sync.2 fix3 pose:opcode 0x0015 setPartyDirectionAndFrame
@@ -532,5 +545,7 @@ export function npcFromEventObject(eo: SceneEventObject): NpcState {
     spriteNum: eo.spriteNum,
     triggerLabel: eo.triggerLabel,
     triggerMode: eo.triggerMode,
+    // Sync.2 fix4:透传 sState(scene dump 已含;旧 fixture 缺省 0=Normal)
+    sState: eo.sState ?? 0,
   }
 }

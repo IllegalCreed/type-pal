@@ -4071,6 +4071,67 @@ scene-system `loadEventFromNpc` 在 trigger 时设 `cursor.currentEventObjectId 
 
 **M5.5 audit 升级版 #2:** 任何"帧选择"/"sprite 索引"/"动画状态机"系列 sdlpal 真值都要严格读 script.c case 块的 operand 真用法,**不能套同名/同位置**(0x0015/0x0016 三个 operand 三种含义)。fix3 一轮就修了 3 个 opcode 的 operand 误读 + 1 个底层 RLE 解码 bug。
 
+### Sync.2 修补 fix4 — operand[0] 入口解析 + sState + setPlayerSprite + setSceneObjectState(2026-05-25)
+
+**根因 1:event-system 没解析每条 opcode 入口的 operand[0] 真值**
+
+读 `reference/sdlpal/script.c:608-639 PAL_InterpretInstruction`:**每条 opcode 入口**先解析 operand[0]:
+- `operand[0] == 0 || == 0xFFFF` → `pCurrent = pEvtObj`(self,由调用方传的 wEventObjectID 决定)
+- 其它 → `pCurrent = lprgEventObject[operand[0] - 1]`(1-based 全局 NPC id)
+
+之前 fix3 全部 opcode 都用 `getSelfNpc(currentEventObjectId)` → onEnter / 显式选其他 NPC 的 opcode 全跳过。**fix4 加 `resolveTargetNpc` helper**,严格区分 opcode 类型:
+- **用 pCurrent(operand[0] 选 NPC):** `0x0013` setObjectPos / `0x0016` setEventObjectDirAndFrame / `0x0049` setSceneObjectState / `0x006C` npcWalkOneStep
+- **用 pEvtObj(self 强制,operand[0]/[1] 是数据):** `0x000F` setEventObjectDirOrFrame / `0x0014` setObjectGesture
+
+**根因 2:NPC `sState` 字段从未透传**
+
+sdlpal `EventObject.sState` 决定 NPC 是否可见(-1=Hidden / 0=Normal / 1=Blocker / ...)。pal-extract `io/sss.ts` 已解析 `state` 字段,但 `dumpScene` 没写入 JSON;`SceneEventObject` schema 缺字段;runtime present.ts 不过滤。
+
+**fix4:** pal-extract `dumpScene` 加 `sState` 字段(重 dump 全部 295 scenes 的 JSON);shared `SceneEventObject` 加 `sState?: number`;`npcFromEventObject` 透传(缺省 0);present.ts 渲染按 `sState < 0` 过滤(kObjStateHidden 不画)。
+
+**根因 3:主角 pose 真值需要切 sprite group(不是改 frame)**
+
+sdlpal `script.c:1999-2004` `case 0x0065` `PlayerRoles.rgwSpriteNum[op[0]] = op[1]` — 主角"捂头 / 大侠"是**切到不同 sprite group**(如 sprite #18 / #627),不是改当前 sprite 的帧。
+
+**fix4 真做:**
+- 加 `OP_SET_PLAYER_SPRITE = 0x0065` + handler → 写 `gs.partyLeaderSpriteId`
+- present.ts 渲染主角时:若 `gs.partyLeaderSpriteId` 非 undefined → 从 `ctx.npcSpriteFrames.get(spriteId)` 取 sprite group;否则 fallback `ctx.partyFrames`(bootstrap 默认)
+- bootstrap 扫 eventCommands 找所有 `setPlayerSprite` 引用的 sprite ids → 预 `fetchMissingSprite` 加载到 `npcSpriteFrames`(否则 present 渲染时找不到 fallback 到默认)
+
+**新 / 改 opcode(全 fix4 一次落齐):**
+
+| opcode | 名 | actor | operand 真值 |
+|--------|-----|-------|-------------|
+| 0x0013 | setObjectPos | pCurrent | op[0]=NPC sel; op[1]=x, op[2]=y |
+| 0x0014 | setObjectGesture | pEvtObj(self) | op[0]=frame(强制朝南) |
+| 0x0016 | setEventObjectDirAndFrame | pCurrent | op[0]=NPC sel(=0 silent skip); op[1]=dir, op[2]=frame |
+| 0x000F | setEventObjectDirOrFrame | pEvtObj(self) | op[0]=dir(!=0xFFFF); op[1]=frame(!=0xFFFF) |
+| 0x006C | npcWalkOneStep | pCurrent | op[0]=NPC sel; op[1]/[2]=dx/dy SHORT |
+| 0x0049 | setSceneObjectState | pCurrent | op[0]=NPC sel(=0 silent skip); op[1]=new sState |
+| 0x0065 | setPlayerSprite | global | op[0]=player idx; op[1]=spriteId |
+
+**改动文件(fix4):**
+- `packages/shared/src/resources.ts` — `SceneEventObject.sState?: number`
+- `packages/pal-extract/src/resources/scene.ts` — dumpScene 写 sState
+- `packages/pal-extract/src/resources/scene.test.ts` — spec 适配 sState
+- `data/extracted/data/scene/*.json` — 重 dump 全部 295 scenes(sState 字段)
+- `packages/game/src/core/game-state.ts` — `NpcState.sState` + `GameState.partyLeaderSpriteId`
+- `packages/game/src/core/event-system.ts` — `resolveTargetNpc` helper + `OP_SET_PLAYER_SPRITE` 常量 + handler;0x49 实做;0x13/0x16/0x6C 用 resolveTargetNpc
+- `packages/game/src/core/event-system.test.ts` — +5 spec(0x49 三 case / 0x65 两 case)+ 0x16 self/explicit
+- `packages/game/src/present/present.ts` — NPC sState<0 过滤 + 主角 sprite group override
+- `packages/game/src/shell/bootstrap.ts` — 扫 setPlayerSprite 预 fetch cutscene sprite
+
+**测试 + e2e(fix4 后):**
+- L1:game **410 pass / 2 skip**(原 404 → +6 新 spec)+ pal-extract 199(test 适配 sState)
+- L2:e2e 31/31 全绿,所有 baseline 重生
+
+**已知 M6 遗留:**
+- pal-extract 只 dump scene/NPC 用的 sprite ids,**cutscene-only sprite(如 setPlayerSprite 引用的 627)未 dump** → bootstrap fetch 失败 warn 跳过,fallback 默认主角 sprite。需要 expand pal-extract sprite 扫描范围。
+- NPC `wCurrentFrameNum` 自动动画(`nSpriteFrames` 循环)— sdlpal scene.c:895-902,M5 简版仅按 scriptedFrame 静态;走动时不自动循环。
+- scene onEnter 全局脚本的 `currentEventObjectId` 仍 undefined — 0x14/0xF(纯 self)在 onEnter 中 warn 跳过。需要研究 sdlpal 真实 wEventObjectID 传值机制(可能 onEnter 由 `lprgEventObject` 数组循环 per-NPC 调 PAL_InterpretInstruction)。
+
+**M5.5 audit 升级版 #3:** 任何"NPC 选择"/"actor 默认值"语义都要看 sdlpal `PAL_InterpretInstruction` 入口 60 行的解析,**不能假设每条 opcode 自己处理**。fix4 一轮就修了 4 个 opcode 的 actor 解析 + 2 个全新 opcode(0x49 / 0x65)+ 1 个 schema 透传(sState)。
+
 ## P1-Battle 段
 
 (实施时累积)

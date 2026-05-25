@@ -62,6 +62,19 @@ export interface SceneEventObject {
    * - N = 明雷接触触发 / Confirm 触发 / 传送 / 等
    */
   triggerMode: number
+  /**
+   * 初始状态(sdlpal `EventObject.sState`,Sync.2 fix4)。
+   *  - -1 = kObjStateHidden(不渲染)
+   *  -  0 = Normal
+   *  -  1 = Blocker
+   *  -  2 = Message
+   *  -  3 = Script
+   *  - 4+ = Contact
+   *
+   * scene-system loadScene 时按 `sState >= 0` 过滤,负值 NPC 不进 gs.npcs。
+   * 可选(向后兼容旧 fixture):缺省 0 = Normal。
+   */
+  sState?: number
 }
 
 export interface SceneObjects {

@@ -473,6 +473,24 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }
   })
 
+  // Sync.2 fix4:扫 eventCommands 找 setPlayerSprite(opcode 0x65)的 sprite id,预 fetch。
+  //   操作:operand[0]=playerIdx, operand[1]=spriteId。playerIdx=0 即主角,需在 npcSpriteFrames 内。
+  // present.ts 渲染时优先用 gs.partyLeaderSpriteId(由 opcode 写入)→ ctx.npcSpriteFrames.get(spriteId)。
+  // 若未预 fetch,渲染会 fallback 到 ctx.partyFrames(bootstrap 默认 sprite)— pose 切不生效。
+  const cutsceneSpriteIds = new Set<number>()
+  for (const cmd of eventCommands) {
+    if (cmd.op === 'raw' && cmd.opcode === 0x0065 && (cmd.operands[0] ?? 0) === 0) {
+      const spriteId = cmd.operands[1] ?? 0
+      if (spriteId > 0 && !npcSpriteFrames.has(spriteId)) {
+        cutsceneSpriteIds.add(spriteId)
+      }
+    }
+  }
+  if (cutsceneSpriteIds.size > 0) {
+    console.log(`[bootstrap] preloading ${cutsceneSpriteIds.size} cutscene party sprite(s):`, [...cutsceneSpriteIds])
+    await Promise.all([...cutsceneSpriteIds].map((id) => fetchMissingSprite(id)))
+  }
+
   startRafLoop(loopCtx)
   console.log('[bootstrap] scene', SCENE_ID, 'started')
 }

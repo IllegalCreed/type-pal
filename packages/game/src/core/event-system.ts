@@ -100,6 +100,11 @@ export const OP_NPC_WALK_ONE_STEP = 0x006C      // 108
 //   trail unshift + party.x += SHORT(operand[0]), party.y += SHORT(operand[1])
 //   wLayer = operand[2] * 8
 export const OP_PLAYER_WALK_ONE_STEP = 0x006E   // 110
+// case 0x0065(101): Set player sprite(script.c:1999-2004)
+//   PlayerRoles.rgwSpriteNum[operand[0]] = operand[1]
+//   operand[2] != 0 → PAL_LoadResources (we just update runtime;实际 load 由 bootstrap 预加载所有)
+// 用于剧情切换主角 pose 系列 sprite group(如:捂头 / 倒地 / 大侠造型)。
+export const OP_SET_PLAYER_SPRITE = 0x0065      // 101
 
 /** sdlpal palcommon.h enum kDir → our Facing 字面量映射 */
 const SDLPAL_DIR_TO_FACING: Record<number, 'down' | 'left' | 'up' | 'right'> = {
@@ -734,8 +739,17 @@ function applyRawOpcode(
     }
 
     case OP_SET_SCENE_OBJECT_STATE: {
-      const [cond, state] = operands
-      console.debug(`event-system: setSceneObjectState cond=${cond} state=${state} (no-op, M5+ field)`)
+      // sdlpal script.c:1711-1717:if (operand[0] != 0) pCurrent->sState = operand[1]
+      // operand[0] 作 enabled 标志 + 选 NPC(走 resolveTargetNpc)
+      if ((operands[0] ?? 0) === 0) {
+        console.debug('event-system: setSceneObjectState operand[0]==0 → no-op')
+        break
+      }
+      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setSceneObjectState')
+      if (npc) {
+        npc.sState = operands[1] ?? 0
+        console.debug(`event-system: setSceneObjectState id=${npc.id} sState=${npc.sState}`)
+      }
       break
     }
 
@@ -748,12 +762,23 @@ function applyRawOpcode(
       break
     }
 
-    // ── Sync.2 fix3: 4 个 NPC 动作 opcode(scene 1 onEnter 高频用) ───────────
+    // ── Sync.2 fix3/fix4: cutscene opcode(scene 1 onEnter 高频用) ─────────────
+    //
+    // **fix4 真值**(port sdlpal script.c:608-639 PAL_InterpretInstruction 入口解析):
+    //   pCurrent = (operand[0] == 0 || operand[0] == 0xFFFF)
+    //            ? pEvtObj                                          // self,即调用方传的 wEventObjectID
+    //            : &lprgEventObject[operand[0] - 1];                // 1-based 全局 NPC id
+    //
+    // 即每条 opcode 自带 NPC 选择器。两类:
+    //  - 用 pCurrent(operand[0] 选 NPC):0x13 / 0x16 / 0x6C
+    //  - 用 pEvtObj 强制 self(operand[0]/[1] 是数据,不是 NPC id):0xF / 0x14
+    //
+    // resolveTargetNpc(...) 仅给 pCurrent 类用。pEvtObj 类直接用 currentEventObjectId。
 
     case OP_SET_OBJECT_POS: {
       // sdlpal script.c:716-722:`pCurrent->x = operand[1]; pCurrent->y = operand[2]`
-      // operand[0] unused(始终作用于 wCurEventObjectID / self)
-      const npc = getSelfNpc(gs, currentEventObjectId, 'setObjectPos')
+      // pCurrent 由 operand[0] 选(fix4)
+      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setObjectPos')
       if (npc) {
         npc.x = operands[1] ?? 0
         npc.y = operands[2] ?? 0
@@ -763,10 +788,10 @@ function applyRawOpcode(
     }
 
     case OP_SET_OBJECT_GESTURE: {
-      // sdlpal script.c:724-730 真值:
-      //   pEvtObj->wCurrentFrameNum = operand[0];
+      // sdlpal script.c:724-730:
+      //   pEvtObj->wCurrentFrameNum = operand[0];          // operand[0] 是 frame
       //   pEvtObj->wDirection = kDirSouth(强制朝南)
-      // Pose opcode 核心 — 设 NPC 当前帧 + 朝南。
+      // **pEvtObj 类:operand[0] 是数据,不是 NPC id**;只能作用 self。
       const npc = getSelfNpc(gs, currentEventObjectId, 'setObjectGesture')
       if (npc) {
         npc.scriptedFrame = operands[0] ?? 0
@@ -777,16 +802,17 @@ function applyRawOpcode(
     }
 
     case OP_SET_EVENT_OBJECT_DIR_AND_FRAME: {
-      // sdlpal script.c:741-750 真值:
+      // sdlpal script.c:741-750:
       //   if (operand[0] != 0):
       //     pCurrent->wDirection = operand[1]
       //     pCurrent->wCurrentFrameNum = operand[2]
-      // **fix3 真值:** operand[1] 是 dir,operand[2] 是 frame(不是 dir-only)
+      // operand[0] 既是"enabled 标志"又是 pCurrent 的 NPC id(fix4 入口解析逻辑)
+      // operand[0]==0 → no-op(sdlpal silent skip)
       if ((operands[0] ?? 0) === 0) {
-        console.debug('event-system: setEventObjectDirAndFrame operand[0]==0 → no-op (sdlpal 真值)')
+        console.debug('event-system: setEventObjectDirAndFrame operand[0]==0 → no-op')
         break
       }
-      const npc = getSelfNpc(gs, currentEventObjectId, 'setEventObjectDirAndFrame')
+      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setEventObjectDirAndFrame')
       if (npc) {
         const dirCode = operands[1] ?? 0
         const frame = operands[2] ?? 0
@@ -798,7 +824,10 @@ function applyRawOpcode(
     }
 
     case OP_SET_EVENT_OBJECT_DIR_OR_FRAME: {
-      // sdlpal script.c:663-675:operand[0] != 0xFFFF → wDirection; operand[1] != 0xFFFF → wFrame
+      // sdlpal script.c:663-675:
+      //   if (operand[0] != 0xFFFF) pEvtObj->wDirection = operand[0]
+      //   if (operand[1] != 0xFFFF) pEvtObj->wCurrentFrameNum = operand[1]
+      // **pEvtObj 类:operand[0]/[1] 是数据(dir / frame),不是 NPC id**;只能作用 self。
       const npc = getSelfNpc(gs, currentEventObjectId, 'setEventObjectDirOrFrame')
       if (npc) {
         if (operands[0] !== 0xFFFF) {
@@ -820,14 +849,19 @@ function applyRawOpcode(
       // sdlpal script.c:2056-2063:
       //   pCurrent.x += SHORT(operand[1])
       //   pCurrent.y += SHORT(operand[2])
-      //   PAL_NPCWalkOneStep(wCurEventObjectID, 0)  // speed=0,只更新 wCurrentFrameNum
-      // M5 简版:apply 偏移即可;NPC sprite frame 帧动画由渲染层未来真接 wCurrentFrameNum
-      const npc = getSelfNpc(gs, currentEventObjectId, 'npcWalkOneStep')
+      //   PAL_NPCWalkOneStep(wCurEventObjectID, 0)
+      // pCurrent 由 operand[0] 选(fix4)
+      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'npcWalkOneStep')
       if (npc) {
         const dx = toInt16(operands[1] ?? 0)
         const dy = toInt16(operands[2] ?? 0)
         npc.x += dx
         npc.y += dy
+        // PAL_NPCWalkOneStep 内部 wCurrentFrameNum++(scene.c:895-902)
+        // M5 简版:仅推 stepFrame,不强行覆盖 scriptedFrame
+        if (npc.scriptedFrame !== undefined) {
+          npc.scriptedFrame = npc.scriptedFrame + 1
+        }
         console.debug(`event-system: npcWalkOneStep id=${npc.id} d=(${dx},${dy}) → (${npc.x},${npc.y})`)
       }
       break
@@ -864,13 +898,30 @@ function applyRawOpcode(
       break
     }
 
+    case OP_SET_PLAYER_SPRITE: {
+      // sdlpal script.c:1999-2004:
+      //   PlayerRoles.rgwSpriteNum[operand[0]] = operand[1]
+      //   if (!fInBattle && operand[2]) PAL_LoadResources()  // hot-reload sprite
+      // 用于剧情期间切主角 pose sprite group(捂头 / 倒地 / 大侠 等)。
+      //
+      // M5 简版:只支持队长(operand[0]=0)— 多 player 切 sprite 留 M6。
+      // 写 gs.partyLeaderSpriteId,present.ts 渲染优先用此值(覆盖 bootstrap ctx.partyFrames)。
+      const playerIdx = operands[0] ?? 0
+      const spriteId = operands[1] ?? 0
+      if (playerIdx === 0) {
+        gs.partyLeaderSpriteId = spriteId
+      }
+      console.debug(`event-system: setPlayerSprite player=${playerIdx} spriteId=${spriteId}`)
+      break
+    }
+
     default:
       console.debug(`event-system: skip raw opcode=0x${opcode.toString(16).padStart(4, '0')}`, operands)
       break
   }
 }
 
-/** 取 trigger 的 self NPC(sdlpal `pCurrent`)。无效 id 时 warn + 返回 null。 */
+/** 取 trigger 的 self NPC(sdlpal `pEvtObj`,纯 self 类 opcode 0x14 / 0xF 用)。无效 id 时 warn + 返回 null。 */
 function getSelfNpc(
   gs: GameState,
   currentEventObjectId: number | undefined,
@@ -883,6 +934,38 @@ function getSelfNpc(
   const npc = gs.npcs.find((n) => n.id === currentEventObjectId)
   if (!npc) {
     console.warn(`event-system: ${opName} npc id=${currentEventObjectId} 不在 gs.npcs,跳过`)
+    return null
+  }
+  return npc
+}
+
+/**
+ * Sync.2 fix4:resolve `pCurrent` 对应的 NPC(port sdlpal script.c:608-639 PAL_InterpretInstruction 入口)。
+ *
+ *   operand[0] == 0 / 0xFFFF → pCurrent = pEvtObj(self,由 currentEventObjectId 决定)
+ *   其它                     → pCurrent = lprgEventObject[operand[0] - 1](1-based 全局 NPC id)
+ *
+ * 0x13 / 0x16 / 0x6C 等 pCurrent 类 opcode 用,允许显式选其他 NPC(onEnter 段经此走对 NPC)。
+ */
+function resolveTargetNpc(
+  gs: GameState,
+  operand0: number,
+  currentEventObjectId: number | undefined,
+  opName: string,
+): GameState['npcs'][number] | null {
+  // operand[0] = 0 或 0xFFFF → self
+  if (operand0 === 0 || operand0 === 0xFFFF) {
+    return getSelfNpc(gs, currentEventObjectId, opName)
+  }
+  // sdlpal:`i = operand[0] - 1`;lprgEventObject 是 0-based,wEventObjectID 是 1-based。
+  // 我们 pal-extract scene.ts:46 `id: i`(0-based 全局 eventObject 索引)= sdlpal `i`。
+  // → 查 `id == operand0 - 1`(operand0 已减 1 即对应我们的 npc.id)。
+  const targetId = operand0 - 1
+  const npc = gs.npcs.find((n) => n.id === targetId)
+  if (!npc) {
+    // 注:scene 切换后 gs.npcs 只含当前 scene 的 event objects;但 sdlpal lprgEventObject 是全局表,
+    // 跨 scene id 可能在 lprgEventObject 内但不在当前 gs.npcs。M5 简版:warn + skip。
+    console.warn(`event-system: ${opName} 显式 operand[0]=${operand0} → npc.id=${targetId} 不在当前 scene,跳过`)
     return null
   }
   return npc

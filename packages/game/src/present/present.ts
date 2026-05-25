@@ -110,7 +110,17 @@ export function presentFrame(
     // 站立帧:dir * walkFrames(P0.0 既有公式,sdlpal scene.c:750-755)
     frameIdx = direction * walkFrames
   }
-  const partyFrame = ctx.partyFrames[frameIdx] ?? ctx.partyFrames[0]
+  // Sync.2 fix4:若 gs.partyLeaderSpriteId 设(由 opcode 0x65 setPlayerSprite 写入)→
+  //              切换到对应 sprite group(从 ctx.npcSpriteFrames 取);否则用 ctx.partyFrames(bootstrap 默认)。
+  // 用于剧情切换主角 pose sprite group(捂头 / 倒地 / 大侠 等)。
+  let activePartyFrames: SpriteImage[] = ctx.partyFrames
+  if (gs.partyLeaderSpriteId !== undefined && ctx.npcSpriteFrames) {
+    const overrideFrames = ctx.npcSpriteFrames.get(gs.partyLeaderSpriteId)
+    if (overrideFrames && overrideFrames.length > 0) {
+      activePartyFrames = overrideFrames
+    }
+  }
+  const partyFrame = activePartyFrames[frameIdx] ?? activePartyFrames[0]
   if (partyFrame) {
     // sdlpal scene.c:224-226:party pos.y = party.y - viewport.y + wLayer + 10,iLayer = wLayer + 6
     // wLayer=0 → pos.y = party.y - viewport.y + 10,iLayer = 6。
@@ -203,6 +213,8 @@ export function presentFrame(
 
   // --- NPCs ---
   for (const npc of gs.npcs) {
+    // Sync.2 fix4:sState < 0(kObjStateHidden)不渲染
+    if (npc.sState !== undefined && npc.sState < 0) continue
     // Sync.2 fix3 pose:若 npc.scriptedFrame 设且 ctx.npcSpriteFrames 有真帧 → 用 scripted 帧
     //                  否则 fallback 到 ctx.npcSprites(frame 0)
     let sprite: SpriteImage | undefined
