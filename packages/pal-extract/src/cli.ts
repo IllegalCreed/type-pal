@@ -503,46 +503,33 @@ async function main(): Promise<void> {
   }
   console.log(`[pal-extract] palette written (${palWritten} chunks)`)
 
-  // 角色 / NPC 精灵切片(M2 新增 — D27, M3 T9 改读真值;M4 P3.T4 扩到全 295 scene EO + 6 roles)
-  console.log('[pal-extract] character sprites: 全 295 scene EO union + 6 player roles …')
-
-  // M4 P3.T4: 全 295 scene EO sprite union + 6 player roles
-  const spriteIds = new Set<number>()
-  for (const role of playerRoles.roles) {
-    if (role.spriteNum > 0) spriteIds.add(role.spriteNum)
-  }
-  for (const [, sceneObjs] of sceneObjsBySliceId) {
-    for (const eo of sceneObjs.eventObjects) {
-      if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)
-    }
-  }
-  console.log(`[pal-extract] sprite union: ${spriteIds.size} unique spriteIds (全 295 scene)`)
+  // 角色 / NPC 精灵切片
+  // M5.Sync.2 修:**dump 全 MGO.MKF 0..chunkCount-1**,不再 filter scene EO + player role 引用。
+  //
+  // M4 漏洞:旧策略 "filter first then dump"(只收 scene.eventObjects.spriteNum + playerRoles.spriteNum)
+  //          → cutscene-only sprite(opcode 0x65 setPlayerSprite 切换的主角 pose group,如 sprite 627 = 李逍遥
+  //          躺/起/抱胸/大侠 4 帧 pose)从未在 scene 静态字段出现,被完全漏掉 — 97 个 MGO chunk 缺失。
+  // 修法:dump first,filter never。MGO.MKF 全 637 chunks 都尝试解;空 / YJ2 fail chunk 防御 skip。
+  // 体积代价:540 → ~637 个 sprite JSON + per-frame PNG,可接受(单 sprite 几 KB)。
+  console.log('[pal-extract] character sprites: 全 MGO.MKF chunks (dump-all, no filter) …')
 
   const mgoMkf = openMkf(loadFile('MGO.MKF'))
   const mgoChunkCount = chunkCount(mgoMkf)
+  const spriteIds = new Set<number>()
   const mgoChunks = new Map<number, Uint8Array>()
-  for (const id of spriteIds) {
-    if (id >= mgoChunkCount) {
-      console.warn(`[pal-extract] sprite ${id} >= MGO chunk count ${mgoChunkCount}, skip`)
-      spriteIds.delete(id)
-      continue
-    }
+  for (let id = 0; id < mgoChunkCount; id++) {
     const raw = readChunk(mgoMkf, id)
-    if (raw.byteLength === 0) {
-      console.warn(`[pal-extract] sprite ${id}: MGO.MKF chunk 为空,skip`)
-      spriteIds.delete(id)
-      continue
-    }
-    // MGO.MKF chunk 是 YJ2 压缩 —— 全 295 scene union 中绝大部分 chunk 均有效;
-    // 防御性 try/catch 覆盖极少数格式异常 chunk。
+    if (raw.byteLength === 0) continue // 空 chunk 静默 skip(MGO 内有合法空槽)
+    // MGO.MKF chunk 是 YJ2 压缩 —— 防御性 try/catch 覆盖极少数格式异常 chunk。
     try {
       mgoChunks.set(id, decompressYj2(raw))
+      spriteIds.add(id)
     }
     catch (err) {
       console.warn(`[pal-extract] sprite ${id} YJ2 fail, skip:`, err)
-      spriteIds.delete(id)
     }
   }
+  console.log(`[pal-extract] sprite scan: ${spriteIds.size} / ${mgoChunkCount} MGO chunks 可解`)
 
   const sprites = extractCharacterSprites([...spriteIds], mgoChunks)
 
@@ -566,57 +553,40 @@ async function main(): Promise<void> {
       `${sprites.reduce((sum, s) => sum + s.frames.length, 0)} frames total`,
   )
 
-  // ── 战斗 sprite(M3 T24) ────────────────────────────────────────
+  // ── 战斗 sprite(M3 T24,M5.Sync.2 改 dump-all) ──────────────────
   // 数据源真值(reference/sdlpal/battle.c:856 PAL_LoadBattleSprites):
   //   - 队员战斗 sprite:F.MKF chunk[spriteNumInBattle]
   //   - 敌方战斗 sprite:**ABC.MKF**(非 F.MKF)chunk[wEnemyID]
-  //     反查 enemies.json:`enemy.id == wEnemyID`(parsers/enemies.ts 注释证实)
-  // M3 简化:敌方全提(154 条),M3.5 / M5 再按 fixture 收窄。
-  console.log('[pal-extract] battle sprites from F.MKF (player) + ABC.MKF (enemy) …')
-
-  const battleSpriteIds: Array<{ id: number; kind: 'enemy' | 'player' }> = []
-  for (const role of playerRoles.roles) {
-    // M3.30 Bug 2 修复:之前过滤 `> 0` 把李逍遥(spriteNumInBattle=0)跳过 → dev panel
-    // 选战斗时队长 sprite 不显示。sdlpal `battle.c:856` 对 spriteNumInBattle=0 不 filter
-    // (F.MKF chunk 0 是有效的李逍遥战斗 sprite,sdlpal extractor 同样会 dump)。改 `>= 0`。
-    if (role.spriteNumInBattle >= 0) {
-      battleSpriteIds.push({ id: role.spriteNumInBattle, kind: 'player' })
-    }
-  }
-  // 敌方:enemies.json 的 id == wEnemyID;id=0 是 sdlpal 的空 placeholder 跳过
-  for (const enemy of enemies) {
-    if (enemy.id > 0) {
-      battleSpriteIds.push({ id: enemy.id, kind: 'enemy' })
-    }
-  }
+  //
+  // M5.Sync.2 修:同 MGO 改 dump-all。F.MKF 19 chunks 之前只 dump 6 个 player role 引用 → 漏 13;
+  //               ABC.MKF 154 chunks 之前 filter enemy.id>0 跳过 chunk 0 → 漏 1。dump first 同治。
+  console.log('[pal-extract] battle sprites: 全 F.MKF + ABC.MKF chunks (dump-all) …')
 
   const fMkf = openMkf(loadFile('F.MKF'))
   const fChunkCount = chunkCount(fMkf)
   const abcMkf = openMkf(loadFile('ABC.MKF'))
   const abcChunkCount = chunkCount(abcMkf)
+  const battleSpriteIds: Array<{ id: number; kind: 'enemy' | 'player' }> = []
   const battleChunks = new Map<string, Uint8Array>()
-  for (const { id, kind } of battleSpriteIds) {
-    const mkf = kind === 'player' ? fMkf : abcMkf
-    const total = kind === 'player' ? fChunkCount : abcChunkCount
-    const src = kind === 'player' ? 'F.MKF' : 'ABC.MKF'
-    if (id >= total) {
-      console.warn(
-        `[pal-extract] battle sprite ${id} (${kind}) >= ${src} chunk count ${total}, skip`,
-      )
-      continue
+
+  const loadBattleMkf = (kind: 'player' | 'enemy', mkf: ReturnType<typeof openMkf>, total: number): void => {
+    for (let id = 0; id < total; id++) {
+      const raw = readChunk(mkf, id)
+      if (raw.byteLength === 0) continue // 空 chunk:对应 sdlpal `if (l <= 0) continue;`
+      // F.MKF / ABC.MKF chunk 通过 sdlpal `PAL_MKFDecompressChunk` 加载 → YJ2 压缩。
+      // 部分 chunk 可能 raw(未压缩)— try YJ2,失败回 raw(同 M2 sprite 防御模式)。
+      let decompressed: Uint8Array
+      try {
+        decompressed = decompressYj2(raw)
+      } catch {
+        decompressed = raw
+      }
+      battleChunks.set(`${kind}:${id}`, decompressed)
+      battleSpriteIds.push({ id, kind })
     }
-    const raw = readChunk(mkf, id)
-    if (raw.byteLength === 0) continue // 空 chunk:对应 sdlpal `if (l <= 0) continue;`
-    // F.MKF / ABC.MKF chunk 通过 sdlpal `PAL_MKFDecompressChunk` 加载 → YJ2 压缩。
-    // 部分 chunk 可能 raw(未压缩)— try YJ2,失败回 raw(同 M2 sprite 防御模式)。
-    let decompressed: Uint8Array
-    try {
-      decompressed = decompressYj2(raw)
-    } catch {
-      decompressed = raw
-    }
-    battleChunks.set(`${kind}:${id}`, decompressed)
   }
+  loadBattleMkf('player', fMkf, fChunkCount)
+  loadBattleMkf('enemy', abcMkf, abcChunkCount)
 
   const battleSprites = extractBattleSprites(battleSpriteIds, battleChunks)
 

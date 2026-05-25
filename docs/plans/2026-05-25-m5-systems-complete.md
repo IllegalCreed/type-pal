@@ -4238,6 +4238,67 @@ function applySetDialogStyle(...): boolean {
 
 **M5.5 audit 升级版 #5:** 任何"sticky state"(`gs.dialogBox` 引用持续 across opcodes)切段时(setDialogStyleX / ClearDialog)必须**显式 reset**,不能假设 caller 重新 startDialogLine。fix6 一轮修了 1 个 portrait 持续 bug,直接落实"每段对话独立 portrait/fontColor"语义。
 
+### Sync.2 修补 fix7 — M4 dump 策略漏洞:pal-extract MGO/F/ABC dump-all 改造(2026-05-25)
+
+**根因:M4 plan 名为"全 chunk dump",实际是 "filter first then dump" — 只 dump scene.eventObjects.spriteNum + playerRoles.spriteNum 引用过的 sprite。cutscene-only sprite(opcode 0x65 setPlayerSprite 切换的主角 pose group)从未在 scene 静态字段出现,被完全漏掉。**
+
+User 跑 sdlpal classic build 对照发现:scene 1 cutscene L_3545(李大娘骂主角懒鬼那段)主角 pose(躺/起/抱胸/大侠)来自 sprite group 627,完全不是默认 sprite 2。`opcode 101 (0x65) [0, 627, 65535]` 把主角 sprite 切到 627,opcode 21 (0x15) 切 frame 0..3 演 pose;ClearDialog 后 `opcode 101 [0, 2, 65535]` 切回 default。
+
+```
+opcode 101 (0x65 setPlayerSprite) [0, 627, 65535]    ← 主角 sprite 切到 627!
+opcode 21 (0x15) [0, 0, 0]    → sprite 627 frame 0  (躺/低头)
+opcode 21 [0, 1, 0]           → sprite 627 frame 1  (站起)
+opcode 22 (0x16) [12, 0, 1]   → NPC 12 dir/frame    (砸锅 frame 1)
+opcode 21 [0, 2, 0]           → sprite 627 frame 2  (抱胸)
+opcode 22 [12, 0, 2]          → NPC 12 frame 2      (锅砸下)
+opcode 21 [0, 3, 0]           → sprite 627 frame 3  (大侠)
+```
+
+**MKF audit(M4 vs 真实总 chunk 数):**
+
+| MKF | 总 chunks | M4 dump 数 | 漏 | 备注 |
+|---|---|---|---|---|
+| MGO.MKF | 637 | 540 | **97** | cutscene-only sprite(主角 pose / 关键 NPC 多帧 group) |
+| F.MKF | 19 | 6 | **13** | 只 dump 6 player role 引用 |
+| ABC.MKF | 154 | 153 | 1 | filter `enemy.id>0` 跳过 chunk 0 |
+| FBP.MKF | 78 | 76 | 2 | empty chunk 合理跳 |
+| MAP.MKF | 226 | 221 | 5 | 未被任何 scene 引用的 mapNum |
+| PAT.MKF | 9 | 9 | 0 | 全 |
+| RGM/RNG/BALL/FIRE/SOUNDS | 已全 dump | | | |
+
+**修法:dump first,filter never。**
+
+`packages/pal-extract/src/cli.ts`:
+- MGO.MKF:`for (let id = 0; id < mgoChunkCount; id++)`,空 chunk + YJ2 fail 防御 skip。540 → **636** sprite(只 chunk 0 是合法空槽)。
+- F.MKF + ABC.MKF:统一 `loadBattleMkf(kind, mkf, total)` helper,player 6 → **19**;enemy 153 → **153**(chunk 0 在源里就是空)。
+- 旧的 `playerRoles.roles[].spriteNum` / `sceneObjsBySliceId.eventObjects.spriteNum` / `enemy.id>0` filter 全删。
+
+**sprite 627 验:**
+- `data/extracted/data/sprite/627.json` ✓ 存,4 帧 60×53(对照 cutscene 真值)
+- frame 0 = 低头被骂,frame 1 = 抗议站起,frame 2 = 抱胸,frame 3 = 大侠手扬
+- bootstrap 已有的 cutscene pre-fetch 循环(fix4)直接生效 — sprite 627 fetch 不再 404
+
+**改动文件:**
+- `packages/pal-extract/src/cli.ts` — 2 处 dump-all 改造(MGO + F/ABC)
+- `data/extracted/data/sprite/` — +96 sprite JSON(540 → 636)
+- `data/extracted/images/world/npc/` — +96 sprite 目录,每目录 N 张 frame PNG(总 4133 frames)
+- `data/extracted/data/battle-sprite/player/` — +13 battle player sprite JSON(6 → 19)
+- `data/extracted/images/battle/player/` — +13 player 目录
+
+**测试 + e2e(fix7 后):**
+- L1:game 416 pass / 2 skip + pal-extract 199(无 spec 新增,fix7 是 data 量改,既有 spec 全过)
+- L2:e2e 31/31 全绿,无 baseline 重生(sprite 渲染走 cutscene 路径,explore baseline 不变)
+
+**M5.5 audit 升级版 #6:dump 策略原则 "dump first then filter"。**
+
+凡是 sdlpal extractor 全 dump 的 MKF(MGO/F/ABC/FBP/MAP/PAT/RNG/RGM/BALL/FIRE/SOUNDS),pal-extract **不得 filter** — 因为
+1. cutscene opcode 可引用任意 sprite ID;
+2. dev panel / 后续 milestone fixture 可能引任意 id;
+3. 体积代价小(单 sprite 几 KB,总 fixture 增量 < 1 MB);
+4. filter-first 是 "premature optimization at the cost of correctness" — M4 漏洞就是教训。
+
+剩余轻微 gap(MAP.MKF 5 个未引用 mapNum)目前不影响任何已知场景,留 M5.5 audit 时按同原则改 dump-all。
+
 ## P1-Battle 段
 
 (实施时累积)
