@@ -58,6 +58,15 @@ export function presentFrame(
   gs: GameState,
   ctx: PresentContext,
 ): void {
+  // sdlpal video.c:VIDEO_BackupScreen 真值:opcode 0x73 触发那一瞬间,把当前屏幕快照存到 gpScreenBak。
+  // 在 fadeState 第一次出现的那帧(backupPixels 还没拷),从上一帧 fb.indices 拷一份(fb 没被
+  // clear 前还留着上一帧的像素)→ fadeState.backupPixels。
+  // 用于后续 fade 帧用 sdlpal 真 rgIndex stride-6 dither pattern blend 主角"在两个 buffer 都画"
+  // 故全程可见(不会被纯黑 overlay 盖住)。
+  if (gs.fadeState && !gs.fadeState.backupPixels) {
+    gs.fadeState.backupPixels = new Uint8Array(fb.indices)
+  }
+
   fb.clear()
 
   // sdlpal `PAL_MakeScene` (scene.c:480-491) 真实流程:
@@ -276,37 +285,59 @@ export function presentFrame(
     drawDialogBox(fb, gs.dialogBox, ctx.glyphs, ctx.dialogAssets)
   }
 
-  // 7. Sync.2 fix9: fadeState 黑→透明 overlay(最最上层)
-  //    sdlpal video.c:1130 VIDEO_FadeScreen 是 backup→current palette-bit blending;
-  //    72 步(12 outer × 6 inner),每 inner step 用 rgIndex[6]={0,3,1,5,2,4} 选 stride-6 pixels。
-  //    我们渲染时已是后端 palette,不再 backup/current 双 buffer 操作;改用 framesElapsed/framesTotal
-  //    驱动渐进 reveal:framesElapsed=0 → 全屏黑,递增至 framesTotal → 全屏 pass-through。
-  //    每帧写 N 个 stride-6 像素为 palette idx 0(=黑),N 随进度递减,模拟 72 步逐 group reveal。
-  if (gs.fadeState) {
-    const { framesElapsed, framesTotal } = gs.fadeState
-    const progress = framesTotal > 0 ? Math.min(framesElapsed / framesTotal, 1) : 1
-    // sdlpal 真序列:每 6 stride 包含 6 个 inner steps,index 顺序 {0,3,1,5,2,4}。
-    // 每 inner step 中 stride-6 mod==某 rgIndex 的像素 被 blend。
-    // 我们简化为:计算"已 reveal 的 pixel group 数",剩余 group 保持全黑。
-    const W = fb.width
-    const H = fb.height
-    const total = W * H
-    // 总 stride-6 单元 = total。已 reveal 单元 = floor(progress * total)。
-    // 每个 stride-6 group 6 pixels;sdlpal 真值是 group 内 6 个 phase 逐次 reveal。
-    // 简化:按 (1-progress) 比例锁住 stride-6 中前 N 个 phase 为黑。
-    const phasesBlack = Math.ceil((1 - progress) * 6)  // 6→0:6=全黑,0=全透
-    if (phasesBlack > 0) {
-      const rgIndex = [0, 3, 1, 5, 2, 4] as const
-      const blackSet = new Set<number>()
-      for (let i = 0; i < phasesBlack; i++) blackSet.add(rgIndex[i]!)
-      for (let i = 0; i < total; i++) {
-        if (blackSet.has(i % 6)) {
-          const x = i % W
-          const y = Math.floor(i / W)
-          fb.writePixel(x, y, 0)
+  // 7. fadeState — port sdlpal video.c:1130-1280 VIDEO_FadeScreen 真值 **per-frame 1 step**。
+  //
+  //    sdlpal 算法 72 帧(12 outer × 6 inner):
+  //    ```c
+  //    for (i = 0; i < 12; i++)
+  //      for (j = 0; j < 6; j++)
+  //        for (k = rgIndex[j]; k < total; k += 6) {
+  //          a = current[k]; b = backupCur[k];
+  //          if (i > 0) {
+  //            if ((a & 0x0F) > (b & 0x0F)) b++;
+  //            else if ((a & 0x0F) < (b & 0x0F)) b--;
+  //          }
+  //          backupCur[k] = (a & 0xF0) | (b & 0x0F);
+  //        }
+  //        display backupCur
+  //    ```
+  //
+  //    每帧只跑 1 个 (i, j) step,所以 72 帧每帧都视觉不同(=真平滑)。
+  //    backupPixels 在 fadeState 启动时快照,然后每帧被 mutate(累积逼近 current)。
+  //
+  //    **关键**:主角 sprite 在 backup(旧场景)和 current(新场景)都画过,所以 fade 全程主角可见
+  //    (palette nibble 渐变,不会突然消失)。
+  if (gs.fadeState && gs.fadeState.backupPixels) {
+    const { totalMs, startTimeMs, appliedSteps, backupPixels } = gs.fadeState
+    const current = fb.indices as Uint8Array
+    const rgIndex = [0, 3, 1, 5, 2, 4] as const
+    const TOTAL_STEPS = 72  // sdlpal video.c:1178 真值 12 outer × 6 inner
+
+    // time-based:elapsedMs / totalMs * 72 = target step。raf 慢就一帧多跑几步追上。
+    const elapsedMs = performance.now() - startTimeMs
+    const progress = Math.min(elapsedMs / totalMs, 1)
+    const targetSteps = Math.floor(progress * TOTAL_STEPS)
+
+    for (let stepIdx = appliedSteps; stepIdx < targetSteps; stepIdx++) {
+      const outerI = Math.floor(stepIdx / 6)
+      const innerJ = stepIdx % 6
+      const phaseOffset = rgIndex[innerJ]!
+      for (let k = phaseOffset; k < current.length; k += 6) {
+        const a = current[k]!
+        let b = backupPixels[k]!
+        if (outerI > 0) {
+          const aLow = a & 0x0F
+          const bLow = b & 0x0F
+          if (aLow > bLow) b++
+          else if (aLow < bLow) b--
         }
+        backupPixels[k] = ((a & 0xF0) | (b & 0x0F)) & 0xFF
       }
     }
+    gs.fadeState.appliedSteps = targetSteps
+
+    // 显示 backupPixels(累积态)— 不是 current。fade 全程主角可见因为两 buffer 都画过。
+    current.set(backupPixels)
   }
 }
 

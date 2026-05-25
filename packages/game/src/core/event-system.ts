@@ -299,16 +299,17 @@ export function tickEventSystem(
     // fall through to main while loop
   }
 
-  // 1a') waiting 处理:fade-screen(Sync.2 fix9,opcode 0x0073 fade-in)
-  //   每 tick 推 gs.fadeState.framesElapsed;完成时清 fadeState + waiting + ip++
+  // 1a') waiting 处理:fade-screen(opcode 0x0073 fade-in)
+  //   time-based:elapsed = performance.now() - startTimeMs;到 totalMs 即完成。
+  //   raf 帧率(60Hz / 20Hz 都行)不影响实际时长 — 1:1 还原 sdlpal video.c wall-clock 节拍。
   if (cursor.waiting === 'fade-screen') {
     if (!gs.fadeState) {
       cursor.waiting = undefined  // 防御:无 fadeState 不应等
     }
     else {
-      gs.fadeState.framesElapsed++
-      if (gs.fadeState.framesElapsed < gs.fadeState.framesTotal) {
-        return  // 仍在 fade 中,本 tick 不动 cursor
+      const elapsed = performance.now() - gs.fadeState.startTimeMs
+      if (elapsed < gs.fadeState.totalMs) {
+        return  // 仍在 fade,present.ts 按 elapsed/totalMs 应用对应数量 sdlpal step
       }
       gs.fadeState = undefined
       cursor.waiting = undefined
@@ -554,14 +555,18 @@ export function tickEventSystem(
         //   72 frames ≈ 1.2s,接近 sdlpal speed=2 的 2.16s(可接受的近似)。
         //   设 fadeState + waiting='fade-screen';tick 1a' 推帧完成后 ip++。
         if (cmd.opcode === OP_FADE_SCREEN) {
+          // sdlpal video.c:1175-1176 真值:wSpeed = (operand+1)*10 ms 每步,72 步总时长。
+          // speed=2 → 30ms × 72 = 2160ms。time-based 不受 raf 帧率影响 — 1:1 还原 sdlpal classic 真值。
           const speed = cmd.operands[0] ?? 0
+          const totalMs = (speed + 1) * 10 * 72
           gs.fadeState = {
             speed,
-            framesTotal: 72,  // sdlpal video.c:1178-1190 真值 = 12 outer × 6 inner
-            framesElapsed: 0,
+            totalMs,
+            startTimeMs: performance.now(),
+            appliedSteps: 0,
           }
           cursor.waiting = 'fade-screen'
-          console.debug(`event-system: fadeScreen speed=${speed} → framesTotal=72 (sdlpal 12×6)`)
+          console.debug(`event-system: fadeScreen speed=${speed} → ${totalMs}ms (sdlpal classic 真值)`)
           return  // 等 fade 完
         }
         // P0.e: 6 wScriptOnEnter opcode 真生效 + Sync.2 fix3: 4 个 NPC 动作 opcode;其余 D26 兜底 skip

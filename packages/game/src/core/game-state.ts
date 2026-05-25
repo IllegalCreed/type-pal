@@ -461,12 +461,30 @@ export interface GameState {
    * undefined = 无 fade(常态)
    */
   fadeState?: {
-    /** opcode 0x73 operand[0] — sdlpal speed,越大每步越慢(我们 tick 速率固定,字段仅记录值)。 */
+    /** opcode 0x73 operand[0] — sdlpal speed;wall-clock 总时长 = (speed+1)*10*72 ms。 */
     speed: number
-    /** 总帧数:sdlpal 真值 72(= 12 outer × 6 inner)。 */
-    framesTotal: number
-    /** 已过帧数(0→framesTotal)。 */
-    framesElapsed: number
+    /**
+     * sdlpal video.c:1175-1176 真值:wSpeed++; wSpeed*=10; 总时长 = wSpeed * 72。
+     * speed=2 → 30ms × 72 = 2160ms。time-based 不受 raf 帧率影响,1:1 还原 sdlpal classic。
+     */
+    totalMs: number
+    /** performance.now() 在 opcode 0x73 firing 那一帧记录;每帧算 elapsed = now - startTime。 */
+    startTimeMs: number
+    /**
+     * 已应用 sdlpal step 数(0..72)。每帧 present.ts 按 elapsedMs 算 target step,
+     * 把 missing steps 全跑完(raf 慢时一次跑多步追上)。
+     */
+    appliedSteps: number
+    /**
+     * sdlpal video.c:VIDEO_BackupScreen 的 gpScreenBak buffer — 在 opcode 0x73 firing
+     * 当 frame 进 present.ts 时,从上一帧 fb.indices 拷一份快照。
+     *
+     * sdlpal 真值:`VIDEO_BackupScreen(gpScreen)` 在 PAL_MakeScene 之前调,backupBuffer
+     * 持有"opcode 触发那一瞬间屏幕上"的像素(在我们 == 上一帧 dream 渲染结果)。
+     * 后续 VIDEO_FadeScreen 在 backup ↔ current 之间 per-pixel 渐变 — 主角 sprite 在两个
+     * buffer 都画过(dream 跟 inn 都画主角 sprite 193),所以 fade 全程主角可见。
+     */
+    backupPixels?: Uint8Array
   }
 }
 
