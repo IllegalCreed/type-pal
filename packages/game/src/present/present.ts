@@ -237,12 +237,33 @@ export function presentFrame(
     //   setSceneObjectState[12,0,0] 把 npc id=11 sprite 628 拿锅李大娘隐起来,让 sprite 55 走的李大娘 take over)。
     //   注:bootstrap 把 npc.sState 从 eo.state 真值初始化为 1(kObjStateNormal),所以默认 sState=1 显示。
     if (npc.sState !== undefined && npc.sState <= 0) continue
-    // Sync.2 fix3 pose:若 npc.scriptedFrame 设且 ctx.npcSpriteFrames 有真帧 → 用 scripted 帧
-    //                  否则 fallback 到 ctx.npcSprites(frame 0)
+    // port sdlpal scene.c:262-280 真值 NPC 帧渲染:
+    //   iFrame = wCurrentFrameNum (= scriptedFrame, 0..3 cycle)
+    //   if (nSpriteFrames == 3):  // 标准 walking NPC,每方向 3 帧
+    //     iFrame = (iFrame == 2 ? 0 : iFrame == 3 ? 2 : iFrame)
+    //   spriteIdx = wDirection * nSpriteFrames + iFrame
+    //
+    // 帧映射 0→0, 1→1, 2→0, 3→2 — cycle 视觉 stand-foot1-stand-foot2 自然走路。
+    // 之前 bug:直接 `frames[scriptedFrame]`,frame=3 时索引到 `frames[3]` = 下一方向
+    // 的 stand 帧 → 视觉看像"转身"。
+    //
+    // nSpriteFrames 推断:frames.length / 4(4 方向):12→3 walking, 4→1 single-pose, 1→0 static
     let sprite: SpriteImage | undefined
     if (npc.scriptedFrame !== undefined && ctx.npcSpriteFrames) {
       const frames = ctx.npcSpriteFrames.get(npc.spriteNum)
-      sprite = frames?.[npc.scriptedFrame] ?? frames?.[0]
+      if (frames && frames.length > 0) {
+        const dir = npc.facing ? FACING_TO_DIRECTION[npc.facing] : 0
+        const nSpriteFrames = frames.length === 1 ? 0
+          : (frames.length % 4 === 0 ? frames.length / 4 : 1)
+        let iFrame = npc.scriptedFrame
+        // sdlpal scene.c:268-276 真值 nSpriteFrames==3 时 2/3 重映射
+        if (nSpriteFrames === 3) {
+          if (iFrame === 2) iFrame = 0
+          else if (iFrame === 3) iFrame = 2
+        }
+        const idx = dir * nSpriteFrames + iFrame
+        sprite = frames[idx] ?? frames[0]
+      }
     }
     if (!sprite) {
       sprite = ctx.npcSprites.get(npc.spriteNum)
