@@ -392,10 +392,12 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
     gs.wNumScene = newWNumScene
     gs.npcs = sceneAssets.eventObjects.map(npcFromEventObject)
-    // sdlpal scene 切换时 dialog 自然清(旧 enter script 结束 → PAL_EndDialog),我们手动清。
-    gs.dialogBox = undefined
-    gs.currentDialogPortraitIcon = undefined
-    gs.currentDialogFontColor = 0x4F
+    // sdlpal scene 切换时 dialog **不**自动清 — sdlpal `PAL_LoadResources` 只重置场景资源,
+    // 文字框留待后续 opcode(0x05 ClearDialog / 0x73 fadeScreen 内部 / setDialogStyleX)清。
+    // 这是 sdlpal "渐变跟着 dialog 一起 fade" 真值机制:
+    //   scene 切换后下条 fadeScreen → VIDEO_BackupScreen 拷当前屏(含 dialog) → 在 backup
+    //   到 current 之间渐变 → 视觉上 dialog 跟着 fade 渐变出。
+    // 之前手动清 dialogBox 导致 backup buffer 不含 dialog,渐变只 scene 部分动 — bug。
     applySceneAssetsToPresent(sceneAssets)
     await preloadCutsceneSprites(sceneAssets.eventCommands)
     if (sceneAssets.onEnterLabel) {

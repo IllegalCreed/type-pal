@@ -148,7 +148,13 @@ function isDialogContinuationOp(cmd: Command): boolean {
     || cmd.op === 'setDialogStyleNarration'
     || cmd.op === 'goto'
     || cmd.op === 'end'
+    // loadScene:sdlpal 真值 dialog **跟着** scene 渐变(后续 fadeScreen backup 含 dialog) —
+    // dispatch 前不能清 dialogBox,否则 backup buffer 不含 dialog,fade 视觉不对。
+    || cmd.op === 'loadScene'
     || (cmd.op === 'raw' && cmd.opcode === OP_REDRAW_SCREEN)
+    // opcode 0x73 fadeScreen 内部 sdlpal `VIDEO_BackupScreen` 已含 dialog text;dispatch 前
+    // **不**触发 auto pre-op clear,否则 backup 不含 dialog → 渐变 dialog 不跟。
+    || (cmd.op === 'raw' && cmd.opcode === OP_FADE_SCREEN)
 }
 
 /** fetchPalette 注入(M4 P3.T2)—— 模式与 setSceneContext 一致,保持 tickEventSystem 同步签名。 */
