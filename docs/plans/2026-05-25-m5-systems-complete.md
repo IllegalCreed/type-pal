@@ -3891,11 +3891,49 @@ P0 全 6 项 done(原 design 5 项 + wScriptOnEnter 升 6)。
 - L2:`pnpm -F @type-pal/game e2e` 31/31 pass
 - baseline 重生 2 张:`c1-dialog-top.png` + `c1-dialog-bottom.png`(新 box 位置 x=8,y=8/144;旧 x=20,y=8/152;且字现在按 typing 节奏只显前几个字符)
 
-**已知遗留 → M6 处理:**
-- 真 portrait RLE blit(M4 P2 已 dump 92 头像,接入 loader 即可)
-- key icon 真 sprite(sdlpal text.c:1391 bufDialogIcons sprite),目前 4×4 白块占位
-- 字阴影 palette 真值映射(目前 50 是 M4 通用暗色占位)
-- 长行 auto-wrap(sdlpal 真有按行宽切分;M5 只切 \r,长行不换行 — 但 sdlpal MSG 一般都已带 \r,实测无视觉差)
+**已知遗留 → 本轮真做齐(2026-05-25 fix,见下):**
+- ~~真 portrait RLE blit~~ ✅ 已接 RGM.MKF 92 chunks RLE decode
+- ~~key icon 真 sprite~~ ✅ 已接 DATA.MKF chunk 12 sprite group frame 0
+- 字阴影 palette 真值映射(目前 50 是 M4 通用暗色占位)— 留 M6
+- 长行 auto-wrap(sdlpal 真有按行宽切分;M5 只切 \r,长行不换行 — sdlpal MSG 一般都已带 \r,实测无视觉差)— 留 M6
+
+### Sync.2 修补 — 真做齐(2026-05-25,user 反馈"还是简陋 + 太慢")
+
+**根因:** Sync.2 初版把 portrait / key icon / 字阴影全推 M6,且照 M2 era 假设画了实心 box + 白边 → user 反馈"还是简陋版"。**M2 era box bg 完全是错的简化** — 必须真核 sdlpal 真值。
+
+**关键发现 — sdlpal upper/center/lower 不画 box:**
+读 `reference/sdlpal/text.c:1277-1352 PAL_StartDialogWithOffset` 真值:这 3 个 style **完全不画框 / 边框**,直接 portrait(若有)+ 文字 画在 scene 之上,scene 自然透出来 — 这就是"半透明对话感"的真来源。**只有 kDialogCenterWindow 用 PAL_CreateBox(sprite frame 边框)**,且只在长文 / 选项框时用。
+
+**改动文件(本轮修补):**
+- `packages/game/src/assets/rle-decode.ts`(新建)— 运行时 RLE decoder 端口(同 pal-extract `io/rle.ts`),含 `decodeRle` / `parseSpriteChunk` / `base64ToBytes`
+- `packages/game/src/assets/dialog-assets.ts`(新建)— `loadDialogAssets()` fetch rgm-raw.json + dialog-icons-raw.json,decode 出 portrait map(92 chunk)+ icon map(sprite group frames)
+- `packages/pal-extract/src/cli.ts`— 加 DATA.MKF chunk 12(282B bufDialogIcons)dump 进 `dialog-icons-raw.json`(一次性已落盘 + cli 永久化)
+- `packages/game/src/present/dialog-box.ts`(整改)— 删 `drawBoxBg` / 删 portrait/icon 占位;真用 sdlpal 真值文本位置 + portrait 位置 + icon sprite blit;`FRAMES_PER_CHAR` 4→1
+- `packages/game/src/present/present.ts` + `bootstrap.ts`— 新 `dialogAssets?: DialogBoxDrawCtx` 透传 PresentContext
+
+**真值表(sdlpal text.c:1289-1346):**
+
+| 位置 | top (upper) | center | bottom/narration (lower) |
+|------|-------------|--------|--------------------------|
+| portrait | x=48-w/2, y=55-h/2 | 不画 | x=270-w/2, y=144-h/2 |
+| text (无 portrait) | (44, 26) | (80, 40) | (44, 126) |
+| text (有 portrait) | (96, 26) | (80, 40) | (20, 126) |
+
+**typing 真速度:** `FRAMES_PER_CHAR = 1`(sdlpal 真值每帧 1 字 @10fps = 100ms/字)。
+
+**key icon 真做:** DATA.MKF chunk 12(282 字节)是 sprite group。bootstrap `loadDialogAssets()` 解 frame[0] 作为 key continue icon,blit 在 textY+36, x=280(lower box 内右下)。`g_TextLib.bIcon` 真值多帧 toggle 留 M6(M5 简版固定 frame 0)。
+
+**资产载入路径:**
+- RGM.MKF 已经在 M4 P2 raw dump 到 `data/extracted/data/rgm-raw.json`(92 chunks,base64 RLE)
+- DATA.MKF chunk 12 本次新 dump 到 `data/extracted/data/dialog-icons-raw.json`(282B base64)
+- 运行时 `loadDialogAssets()` 并行 fetch 两文件 → `parseSpriteChunk` / `decodeRle` → `Map<number, DialogSprite>`
+- bootstrap 在 `loadAll` / `loadGlyphs` Promise.all 三路并行加载
+
+**测试 + e2e(修补后):**
+- L1:game **380 pass / 2 skip**(原 369 → +11 新 portrait / textPos / 删 box bg / icon 共 4 段 spec)
+- L2:e2e 31/31 全绿,c1-dialog-top + c1-dialog-bottom baseline 重生(透明背景 + 头像真位置 + 文本真位置 + 快 typing)
+
+**M5.5 audit 启发:** 任何 plan 说"M2 简化"的地方都要核 sdlpal 真值,不能假设简化是合理的。本案"实心 box + 白边"假设源自 M2 切片粗糙的占位框思路,而 sdlpal 真值是**透明背景** —— 美术风格反向完全不同。
 
 ## P1-Battle 段
 

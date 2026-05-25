@@ -48,10 +48,13 @@ describe('presentFrame', () => {
     expect(ok).not.toThrow()
   })
 
-  it('有 dialogBox → 帧缓冲被对话框覆盖', () => {
+  it('有 dialogBox → 文本绘到 fb(sdlpal upper/center/lower 无 box bg,文本即唯一证据)', () => {
     const fb = createFramebuffer()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.dialogBox = startDialog('你好', { style: 'center' })
+    // Sync.2:已 typing 完成 + fontColor=200(全屏其他像素无此色),验文本像素存在
+    gs.dialogBox = startDialog('你好', { style: 'center', fontColor: 200 })
+    gs.dialogBox.charsRevealed = gs.dialogBox.pages[0]!.length
+    gs.dialogBox.isComplete = true
     const ctx: PresentContext = {
       tilemap: flatMap(3, 3),
       tileImages: { get: () => undefined },
@@ -60,8 +63,8 @@ describe('presentFrame', () => {
       npcSprites: new Map(),
     }
     presentFrame(fb, gs, ctx)
-    const someBorderPixel = Array.from(fb.indices).some((i) => i === 255)
-    expect(someBorderPixel).toBe(true)
+    const hasTextPx = Array.from(fb.indices).some((i) => i === 200)
+    expect(hasTextPx).toBe(true)
   })
 })
 

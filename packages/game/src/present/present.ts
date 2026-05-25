@@ -5,7 +5,7 @@ import type { BattlePresent, BattleAssets } from './battle/present-battle.js'
 import { type Framebuffer, SCREEN_W, SCREEN_H } from './framebuffer.js'
 import { drawTilemap, addCoverTileEntries, type TileImages, type DrawEntry } from './draw-tilemap.js'
 import { drawSprite, type SpriteImage } from './draw-sprite.js'
-import { drawDialogBox } from './dialog-box.js'
+import { drawDialogBox, type DialogBoxDrawCtx } from './dialog-box.js'
 import type { GlyphTable } from './font.js'
 
 export interface PresentContext {
@@ -20,6 +20,8 @@ export interface PresentContext {
   npcSprites: Map<number, SpriteImage>
   /** M4 P4.T3: Unifont glyph table(启动时 loadGlyphs 注入,缺省则所有文字渲染为 tofu)。 */
   glyphs?: GlyphTable
+  /** M5 Sync.2: 对话框资产(portrait + key icon sprite map);bootstrap 注入。 */
+  dialogAssets?: DialogBoxDrawCtx
 }
 
 /** sdlpal `palcommon.h`:kDirSouth=0 / kDirWest=1 / kDirNorth=2 / kDirEast=3。 */
@@ -229,7 +231,7 @@ export function presentFrame(
 
   // 6. 对话框(最上层)
   if (gs.dialogBox) {
-    drawDialogBox(fb, gs.dialogBox, ctx.glyphs)
+    drawDialogBox(fb, gs.dialogBox, ctx.glyphs, ctx.dialogAssets)
   }
 }
 

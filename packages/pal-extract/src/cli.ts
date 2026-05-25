@@ -295,8 +295,19 @@ async function main(): Promise<void> {
   })
   console.log(`[pal-extract] battle effect sprite (chunk 10) written: ${effectFrameOut.length} frames`)
 
-  // chunk 7/8 空(0 字节);chunk 12 = 对话框图标 sprite(282B,P2.T4+ 处理)
-  // DATA.MKF count=15(有效 chunk 0-14),chunk 15 超出范围不抽
+  // M5 Sync.2: DATA.MKF chunk 12 (282B) = bufDialogIcons (sdlpal text.c:891)
+  // sprite group: 多帧 icon (key continue / cursor / 等),index 由 g_TextLib.bIcon 选。
+  // 运行时 game 包用 parseSpriteChunk + decodeRle 解(packages/game/src/assets/rle-decode.ts)。
+  // 不导 PNG — 帧很小 (~16×16),运行时解一次 cache 比磁盘 IO 还快。
+  const dialogIconsBuf = readChunk(dataMkf, 12)
+  writeJson(resolve(OUT, 'data', 'dialog-icons-raw.json'), {
+    source: 'DATA.MKF chunk 12 — bufDialogIcons (sdlpal text.c:891 PAL_MKFReadChunk size=282)',
+    size: dialogIconsBuf.byteLength,
+    base64: Buffer.from(dialogIconsBuf).toString('base64'),
+  })
+  console.log(`[pal-extract] dialog-icons (DATA.MKF chunk 12) written: ${dialogIconsBuf.byteLength} bytes`)
+
+  // chunk 7/8 空(0 字节);DATA.MKF count=15(有效 chunk 0-14),chunk 15 超出范围不抽
 
   // M4 P2 T4: RNG / RGM / BALL raw dump + FIRE sprite 抽出 ──────────────────
   // SAVE.MKF 不存在(WIN95+ 用 .RPG 存档),drop。
