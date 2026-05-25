@@ -1406,8 +1406,11 @@ function npcWalkTo(
     const stepY = (npc.facing === 'left' || npc.facing === 'up') ? -1 : 1
     npc.x += stepX * speed
     npc.y += stepY * speed
-    // wCurrentFrameNum++ mod 4(NPC sprite nSpriteFrames=3 → mod 4 真值)
-    const next = ((npc.scriptedFrame ?? -1) + 1) % 4
+    // wCurrentFrameNum++ mod 4(sdlpal scene.c:893-896 真值)
+    // **重要**:sdlpal 结构体 zero-init,wCurrentFrameNum 初始 = 0。我们 scriptedFrame
+    // undefined 时也应当 0(不是 -1),否则差一帧 — 12 步后 sdlpal frame=0(stand),
+    // 我们错算成 frame=3(foot2),停在抬腿姿势。
+    const next = ((npc.scriptedFrame ?? 0) + 1) % 4
     npc.scriptedFrame = next
   }
 
