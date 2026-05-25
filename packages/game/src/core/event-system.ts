@@ -392,7 +392,14 @@ export function tickEventSystem(
             gs.dialogBox = undefined
           }
           else if (ds.pendingFullClear) {
-            gs.dialogBox = undefined  // 完全清,让 portrait 不再 overlay
+            // Sync.2 fix17:**不**清 gs.dialogBox 整体,只清 content(shownLines/currentLineText 已在
+            // confirmDialog page-advance 内清)。**保留 titleText**(姓名)+ portraitIcon — 对应
+            // sdlpal PAL_ClearDialog 真值:只 reset nCurrentDialogLine,g_TextLib 其他字段(姓名 / 头像 /
+            // 字体色)不动。
+            // 之前 `gs.dialogBox = undefined` 把 "李逍遥:" title 丢了(scene 0 第二页缺姓名前缀 bug)。
+            // 清 pending flags 防 next page-advance 误用。
+            ds.pendingFullClear = undefined
+            ds.pendingPreOpClear = undefined
           }
           cursor.waiting = undefined
           if (!preOp) cursor.ip++
