@@ -3795,6 +3795,64 @@ P0.b 第一版误以为"只在 cover tile 触发时画 layer 1",删了全画 →
 - cover tile blit_y / pos.y / iLayer 字段相互嵌套,**纸笔代入相消**比直觉抄 drawTilemap 排版位置更可靠;sdlpal 频用"sprite.pos.y 是个复合字段,真 blit_y 需经 pos.y - height - iLayer 减一遍"模式
 - M4 ⚠️ #13b "layer 1 全盖反 bug" 原始诊断**部分错**:全图盖确实有 bug(高 cover tile 该让 party 通过时也被遮),但**根因是 layer-1 全画后缺 Y-sort cover tile 重画机制**,不是"layer 1 不该全画"。P0.b 第一版只移植了 Y-sort cover tile 但删了全画 → 矫枉过正
 
+### P0.b fix 2 · cover-tile l/dh 维度纠正(椅子切 3 段第二轮)(2026-05-25)
+
+**触发:** user 反馈 fix 1 后椅子依然切 3 段。
+
+**根因 · `l` 和 `dh` 两个维度被搞混**
+
+fix 1 版 `addCoverTileEntries` 内层 l 循环:
+```typescript
+const d = l === 0 ? cell.lower : cell.upper  // ← 错:用 l 选 lower/upper DWORD
+const hi = d >>> 16
+const tileId = ((hi & 0xff) | ((hi >> 4) & 0x100)) - 1  // ← 永远读 layer-1 bits
+const iTileHeight = (d >>> 24) & 0xf                     // ← 永远读 bits 24-27
+```
+
+对照 sdlpal map.c 真实函数签名:
+```c
+PAL_MapGetTileBitmap(x, y, h,       ucLayer, lpMap)  // h=dh 选 DWORD,ucLayer=l 选层
+PAL_MapGetTileHeight(x, y, h,       ucLayer, lpMap)  // 同上
+// map.c 实现:d = Tiles[y][x][h]; if (ucLayer) d >>= 16; d >>= 8; return d & 0xf;
+```
+
+`h`(dh)选 `lower`(h=0)或 `upper`(h=1)DWORD;`ucLayer`(l)在已选 DWORD 内选低 16 / 高 16 位。
+fix 1 版把这两个维度对调了:用 `l` 选 DWORD,导致同一 cover tile 从错误 DWORD 读数据,最终一个 tile 被拆成多次叠加错位绘制 → user 看到 3 段椅子。
+
+**修法:**
+
+```typescript
+// dh 选 DWORD(Tiles[y][x][h])
+const d = dh === 0 ? cell.lower : cell.upper
+
+for (let l = 0; l < 2; l++) {
+  // l 选 layer:复用既有 tileIdLayer0 / tileIdLayer1 helper
+  const tileId = l === 0 ? tileIdLayer0(d) : tileIdLayer1(d)
+  // layer-0 height: bits 8-11 of low 16;layer-1 height: bits 24-27
+  const iTileHeight = l === 0 ? (d >>> 8) & 0xf : (d >>> 24) & 0xf
+  ...
+}
+```
+
+bounds check 也随之前移到 l 循环外(同一 (dx,dy,dh) 检查一次即可)。
+
+**注:** layer-0 cover tile 在实测数据中因 `tileIdLayer0(d) = 0`(背景 tile)+ `tileImages.get(0)` 返回 undefined 自动 skip,不影响视觉但现在语义正确:sdlpal 真值确实同时检查 l=0/1 两层。
+
+**附带 fix · pixel-diff.ts updateBaseline 覆写逻辑**
+
+原 `pixelDiff` 在 baseline **已存在**时不覆写(`updateBaseline` 只在 baseline **缺失**时写)。本次修后 9 张场景类 baseline 因 cover tile 变化需强制重生,发现此 bug 并修:
+```typescript
+if (numDiff > 0 && opts.updateBaseline) {
+  writeFileSync(opts.baselinePath, opts.actual)
+  return 0
+}
+```
+
+**测试:**
+- 单元: 317 passed | 2 skipped(全绿,原有 68 个 present spec 全通过)
+- e2e: 31/31 全绿(9 张 baseline 自动重生)
+- 视觉自查(scene 1 screenshot):桌椅 / 门板整体渲染,无 3 段切割
+
 ## Sync 段
 
 (实施时累积)
