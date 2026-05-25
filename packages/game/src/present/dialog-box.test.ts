@@ -1,17 +1,22 @@
 import { describe, it, expect } from 'vitest'
 import { createFramebuffer } from './framebuffer.js'
 import {
-  startDialog,
+  startDialogLine,
+  appendDialogLine,
+  shouldWaitPageKey,
+  setWaitingPageKey,
+  setWaitingEndKey,
   tickDialog,
-  nextPage,
+  confirmDialog,
   getDialogBoxRect,
   getDialogTextPos,
   drawDialogBox,
   FRAMES_PER_CHAR,
+  FONT_COLOR_DEFAULT,
+  MAX_LINES_PER_PAGE,
   type DialogSprite,
 } from './dialog-box.js'
 
-/** 测试用 portrait/icon sprite — 固定 colorIdx,opaque mask 全 1。 */
 function mockSprite(w: number, h: number, colorIdx: number): DialogSprite {
   return {
     width: w,
@@ -21,133 +26,139 @@ function mockSprite(w: number, h: number, colorIdx: number): DialogSprite {
   }
 }
 
-describe('Sync.2 DialogBox · startDialog', () => {
-  it('初始化 state:pages 按 \\r 切分 + 计数归零', () => {
-    const s = startDialog('你好\r第二页', { style: 'top' })
-    expect(s.pages).toEqual(['你好', '第二页'])
-    expect(s.currentPage).toBe(0)
+/** typing 完 1 行(任何长度)— 跑足够多 tick。 */
+function completeLine(s: ReturnType<typeof startDialogLine>): void {
+  if (s.currentLineText === null) return
+  for (let i = 0; i < FRAMES_PER_CHAR * s.currentLineText.length; i++) tickDialog(s)
+}
+
+describe('Sync.2 DialogBox · startDialogLine / appendDialogLine', () => {
+  it('startDialogLine 初始化:shownLines 空,currentLineText=text,phase=typing', () => {
+    const s = startDialogLine('你好', { style: 'top' })
+    expect(s.shownLines).toEqual([])
+    expect(s.currentLineText).toBe('你好')
     expect(s.charsRevealed).toBe(0)
     expect(s.typingFrames).toBe(0)
-    expect(s.isComplete).toBe(false)
+    expect(s.phase).toBe('typing')
     expect(s.keyIconBlink).toBe(false)
   })
 
-  it('无 \\r 时 pages = [text]', () => {
-    const s = startDialog('单页', { style: 'bottom' })
-    expect(s.pages).toEqual(['单页'])
-  })
-
-  it('defaults:fontColor=255, shadow=false, portraitIcon=undefined', () => {
-    const s = startDialog('x', { style: 'bottom' })
-    expect(s.fontColor).toBe(255)
+  it('defaults:fontColor=FONT_COLOR_DEFAULT(0x4F=79),shadow=false,portraitIcon=undefined', () => {
+    const s = startDialogLine('x', { style: 'bottom' })
+    expect(s.fontColor).toBe(FONT_COLOR_DEFAULT)
+    expect(s.fontColor).toBe(0x4F)
     expect(s.shadow).toBe(false)
     expect(s.portraitIcon).toBeUndefined()
   })
 
-  it('opts 覆盖 defaults', () => {
-    const s = startDialog('x', { style: 'narration', fontColor: 12, shadow: true, portraitIcon: 3 })
+  it('opts 覆盖 defaults(含 portraitIcon)', () => {
+    const s = startDialogLine('x', { style: 'top', fontColor: 12, shadow: true, portraitIcon: 55 })
     expect(s.fontColor).toBe(12)
     expect(s.shadow).toBe(true)
-    expect(s.portraitIcon).toBe(3)
-    expect(s.style).toBe('narration')
+    expect(s.portraitIcon).toBe(55)
+    expect(s.style).toBe('top')
   })
 
-  it('text 字段保留原始文本(含 \\r)', () => {
-    const s = startDialog('A\rB', { style: 'bottom' })
-    expect(s.text).toBe('A\rB')
-  })
-})
-
-describe('Sync.2 DialogBox · tickDialog typing animation', () => {
-  it(`每 ${FRAMES_PER_CHAR} frame 出 1 字`, () => {
-    const s = startDialog('你好世界', { style: 'bottom' })
-    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(s)
-    expect(s.charsRevealed).toBe(1)
-    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(s)
-    expect(s.charsRevealed).toBe(2)
-  })
-
-  it('isComplete 在 charsRevealed === pageText.length 时置 true', () => {
-    const s = startDialog('A', { style: 'bottom' })
-    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(s)
-    expect(s.charsRevealed).toBe(1)
-    expect(s.isComplete).toBe(true)
-  })
-
-  it('isComplete 后 charsRevealed 不再增长(已达 pageText.length)', () => {
-    const s = startDialog('AB', { style: 'bottom' })
-    for (let i = 0; i < FRAMES_PER_CHAR * 10; i++) tickDialog(s)
-    expect(s.charsRevealed).toBe(2)
-    expect(s.isComplete).toBe(true)
-  })
-
-  it('isComplete 后 keyIconBlink 在 blink-period 内切换', () => {
-    const s = startDialog('A', { style: 'bottom' })
-    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(s)
-    const firstBlink = s.keyIconBlink
-
-    const s2 = startDialog('A', { style: 'bottom' })
-    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(s2)
-    for (let i = 0; i < 16; i++) tickDialog(s2)
-    expect(s2.keyIconBlink).not.toBe(firstBlink)
-  })
-})
-
-describe('Sync.2 DialogBox · nextPage 三段式', () => {
-  it('typing 进行中 → 跳至当前页末(skip typing),return true,不翻页', () => {
-    const s = startDialog('hello world', { style: 'bottom' })
-    expect(s.charsRevealed).toBeLessThan('hello world'.length)
-    expect(s.isComplete).toBe(false)
-    const result = nextPage(s)
-    expect(result).toBe(true)
-    expect(s.charsRevealed).toBe('hello world'.length)
-    expect(s.isComplete).toBe(true)
-    expect(s.currentPage).toBe(0)
-  })
-
-  it('isComplete + 有下一页 → 翻页 + 重置 typing,return true', () => {
-    const s = startDialog('A\rB', { style: 'bottom' })
-    for (let i = 0; i < FRAMES_PER_CHAR * 20; i++) tickDialog(s)
-    expect(s.isComplete).toBe(true)
-    expect(s.currentPage).toBe(0)
-    const result = nextPage(s)
-    expect(result).toBe(true)
-    expect(s.currentPage).toBe(1)
+  it('appendDialogLine 把上行(已 line-done)沉进 shownLines + 新行 typing', () => {
+    const s = startDialogLine('line1', { style: 'bottom' })
+    completeLine(s)
+    expect(s.phase).toBe('line-done')
+    appendDialogLine(s, 'line2')
+    expect(s.shownLines).toEqual(['line1'])
+    expect(s.currentLineText).toBe('line2')
     expect(s.charsRevealed).toBe(0)
     expect(s.typingFrames).toBe(0)
-    expect(s.isComplete).toBe(false)
-    expect(s.keyIconBlink).toBe(false)
+    expect(s.phase).toBe('typing')
   })
 
-  it('isComplete + 最后一页 → return false(dialog 结束信号)', () => {
-    const s = startDialog('A', { style: 'bottom' })
-    for (let i = 0; i < FRAMES_PER_CHAR * 20; i++) tickDialog(s)
-    expect(s.isComplete).toBe(true)
-    const result = nextPage(s)
-    expect(result).toBe(false)
+  it('shouldWaitPageKey:第 4 行 line-done 后返 true(下条 showDialog 会撞)', () => {
+    const s = startDialogLine('l1', { style: 'bottom' })
+    completeLine(s)
+    expect(shouldWaitPageKey(s)).toBe(false)
+    appendDialogLine(s, 'l2'); completeLine(s)
+    appendDialogLine(s, 'l3'); completeLine(s)
+    appendDialogLine(s, 'l4'); completeLine(s)
+    // shownLines=[l1,l2,l3] currentLineText='l4' phase='line-done' → effective=4
+    expect(shouldWaitPageKey(s)).toBe(true)
+  })
+})
+
+describe('Sync.2 DialogBox · tickDialog typing', () => {
+  it(`每 ${FRAMES_PER_CHAR} frame 出 1 字`, () => {
+    const s = startDialogLine('你好世界', { style: 'bottom' })
+    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(s)
+    expect(s.charsRevealed).toBe(1)
+    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(s)
+    expect(s.charsRevealed).toBe(2)
   })
 
-  it('多页:翻完所有页后最后 nextPage 返 false', () => {
-    const s = startDialog('P1\rP2\rP3', { style: 'bottom' })
-    function completeAndFlip(): boolean {
-      for (let i = 0; i < FRAMES_PER_CHAR * 100; i++) tickDialog(s)
-      return nextPage(s)
-    }
-    expect(completeAndFlip()).toBe(true)
-    expect(completeAndFlip()).toBe(true)
-    expect(completeAndFlip()).toBe(false)
+  it('charsRevealed === currentLineText.length 时 phase → line-done', () => {
+    const s = startDialogLine('A', { style: 'bottom' })
+    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(s)
+    expect(s.charsRevealed).toBe(1)
+    expect(s.phase).toBe('line-done')
+  })
+
+  it('line-done 后继续 tick → charsRevealed 不再增长', () => {
+    const s = startDialogLine('AB', { style: 'bottom' })
+    for (let i = 0; i < FRAMES_PER_CHAR * 10; i++) tickDialog(s)
+    expect(s.charsRevealed).toBe(2)
+    expect(s.phase).toBe('line-done')
+  })
+
+  it('非 typing phase 下 keyIconBlink 在 blink-period 内切换', () => {
+    const s = startDialogLine('A', { style: 'bottom' })
+    completeLine(s)
+    const firstBlink = s.keyIconBlink
+    for (let i = 0; i < 16; i++) tickDialog(s)
+    expect(s.keyIconBlink).not.toBe(firstBlink)
+  })
+})
+
+describe('Sync.2 DialogBox · confirmDialog 4 case', () => {
+  it('typing 中 → skip-typing(跳行末,不翻页)', () => {
+    const s = startDialogLine('hello world', { style: 'bottom' })
+    expect(s.charsRevealed).toBeLessThan(11)
+    const r = confirmDialog(s)
+    expect(r).toBe('skip-typing')
+    expect(s.charsRevealed).toBe(11)
+    expect(s.phase).toBe('line-done')
+  })
+
+  it('line-done 状态下 Confirm → noop(等自动推进)', () => {
+    const s = startDialogLine('A', { style: 'bottom' })
+    completeLine(s)
+    expect(s.phase).toBe('line-done')
+    const r = confirmDialog(s)
+    expect(r).toBe('noop')
+  })
+
+  it('waiting-page-key 状态 → page-advance + 清 shownLines / currentLineText', () => {
+    const s = startDialogLine('l1', { style: 'bottom' })
+    completeLine(s)
+    setWaitingPageKey(s)
+    expect(s.phase).toBe('waiting-page-key')
+    const r = confirmDialog(s)
+    expect(r).toBe('page-advance')
+    expect(s.shownLines).toEqual([])
+    expect(s.currentLineText).toBeNull()
+  })
+
+  it('waiting-end-key 状态 → dialog-end', () => {
+    const s = startDialogLine('A', { style: 'bottom' })
+    completeLine(s)
+    setWaitingEndKey(s)
+    expect(s.phase).toBe('waiting-end-key')
+    const r = confirmDialog(s)
+    expect(r).toBe('dialog-end')
   })
 })
 
 describe('Sync.2 DialogBox · getDialogBoxRect', () => {
   it('4 styles 返回不同 y 坐标', () => {
-    const top = getDialogBoxRect('top')
-    const center = getDialogBoxRect('center')
-    const bottom = getDialogBoxRect('bottom')
-    const narration = getDialogBoxRect('narration')
-    expect(top.y).toBeLessThan(center.y)
-    expect(center.y).toBeLessThan(bottom.y)
-    expect(narration.y).toBe(bottom.y)
+    expect(getDialogBoxRect('top').y).toBeLessThan(getDialogBoxRect('center').y)
+    expect(getDialogBoxRect('center').y).toBeLessThan(getDialogBoxRect('bottom').y)
+    expect(getDialogBoxRect('narration').y).toBe(getDialogBoxRect('bottom').y)
   })
 })
 
@@ -155,82 +166,68 @@ describe('Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值)',
   it('top 无 portrait → (44, 26)', () => {
     expect(getDialogTextPos('top', false)).toEqual({ x: 44, y: 26 })
   })
-
   it('top 有 portrait → (96, 26)', () => {
     expect(getDialogTextPos('top', true)).toEqual({ x: 96, y: 26 })
   })
-
   it('center → (80, 40),不论 portrait', () => {
     expect(getDialogTextPos('center', false)).toEqual({ x: 80, y: 40 })
     expect(getDialogTextPos('center', true)).toEqual({ x: 80, y: 40 })
   })
-
   it('bottom 无 portrait → (44, 126)', () => {
     expect(getDialogTextPos('bottom', false)).toEqual({ x: 44, y: 126 })
   })
-
   it('bottom 有 portrait → (20, 126)', () => {
     expect(getDialogTextPos('bottom', true)).toEqual({ x: 20, y: 126 })
   })
-
   it('narration 同 bottom', () => {
     expect(getDialogTextPos('narration', false)).toEqual(getDialogTextPos('bottom', false))
     expect(getDialogTextPos('narration', true)).toEqual(getDialogTextPos('bottom', true))
   })
 })
 
-describe('Sync.2 DialogBox · drawDialogBox 不画 box bg(sdlpal upper/lower/center 真值)', () => {
-  it('无文字 / 无 portrait → fb 完全空(palette 0 = 未写)', () => {
+describe('Sync.2 DialogBox · drawDialogBox 不画 box bg', () => {
+  it('charsRevealed=0 且无 portrait → fb 完全空', () => {
     const fb = createFramebuffer()
-    const state = startDialog('x', { style: 'bottom' })
+    const state = startDialogLine('x', { style: 'bottom' })
     drawDialogBox(fb, state, undefined, undefined)
     const nonZero = Array.from(fb.indices).some((i) => i !== 0)
     expect(nonZero).toBe(false)
   })
 
-  it('有文字但无 portrait → 仅文本区域有像素,无 255 边框色', () => {
+  it('typing 完一字 → fontColor 像素存在,无 255 边框色', () => {
     const fb = createFramebuffer()
-    const state = startDialog('A', { style: 'bottom', fontColor: 200 })
-    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(state)
+    const state = startDialogLine('A', { style: 'bottom', fontColor: 200 })
+    completeLine(state)
     drawDialogBox(fb, state, undefined, undefined)
-    const has200 = Array.from(fb.indices).some((i) => i === 200)
-    expect(has200).toBe(true)
-    const has255 = Array.from(fb.indices).some((i) => i === 255)
-    expect(has255).toBe(false)
+    expect(Array.from(fb.indices).some((i) => i === 200)).toBe(true)
+    expect(Array.from(fb.indices).some((i) => i === 255)).toBe(false)
   })
 
-  it('charsRevealed=0 时文本像素比 charsRevealed>0 时少', () => {
-    const fb0 = createFramebuffer()
-    const s0 = startDialog('你好', { style: 'bottom', fontColor: 200 })
-    drawDialogBox(fb0, s0, undefined, undefined)
-    const count0 = Array.from(fb0.indices).filter((i) => i === 200).length
-
-    const fb1 = createFramebuffer()
-    const s1 = startDialog('你好', { style: 'bottom', fontColor: 200 })
-    for (let i = 0; i < FRAMES_PER_CHAR * 2; i++) tickDialog(s1)
-    drawDialogBox(fb1, s1, undefined, undefined)
-    const count1 = Array.from(fb1.indices).filter((i) => i === 200).length
-
-    expect(count1).toBeGreaterThan(count0)
+  it('多行(shownLines + currentLine)都画在 fb', () => {
+    const fb = createFramebuffer()
+    const state = startDialogLine('l1', { style: 'bottom', fontColor: 200 })
+    completeLine(state)
+    appendDialogLine(state, 'l2')
+    completeLine(state)
+    drawDialogBox(fb, state, undefined, undefined)
+    const count = Array.from(fb.indices).filter((i) => i === 200).length
+    expect(count).toBeGreaterThan(0)
   })
 
-  it('shadow=true → 两种颜色像素都存在(主色 200 + 阴影色 50)', () => {
+  it('shadow=true → 主色 + 阴影色 50 都存在', () => {
     const fb = createFramebuffer()
-    const state = startDialog('A', { style: 'bottom', shadow: true, fontColor: 200 })
-    for (let i = 0; i < FRAMES_PER_CHAR * 10; i++) tickDialog(state)
+    const state = startDialogLine('A', { style: 'bottom', shadow: true, fontColor: 200 })
+    completeLine(state)
     drawDialogBox(fb, state, undefined, undefined)
-    const hasMain = Array.from(fb.indices).some((i) => i === 200)
-    const hasShadow = Array.from(fb.indices).some((i) => i === 50)
-    expect(hasMain).toBe(true)
-    expect(hasShadow).toBe(true)
+    expect(Array.from(fb.indices).some((i) => i === 200)).toBe(true)
+    expect(Array.from(fb.indices).some((i) => i === 50)).toBe(true)
   })
 
   it('4 styles 绘制不抛错', () => {
     for (const style of ['top', 'center', 'bottom', 'narration'] as const) {
       const fb = createFramebuffer()
-      const state = startDialog('x', { style })
-      const ok = () => drawDialogBox(fb, state, undefined, undefined)
-      expect(ok).not.toThrow()
+      const state = startDialogLine('x', { style })
+      expect(() => drawDialogBox(fb, state, undefined, undefined)).not.toThrow()
     }
   })
 })
@@ -239,45 +236,41 @@ describe('Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置)
   it('top + portrait → blit 在 (48 - w/2, 55 - h/2)', () => {
     const fb = createFramebuffer()
     const portrait = mockSprite(32, 32, 77)
-    const state = startDialog('hi', { style: 'top', portraitIcon: 5 })
+    const state = startDialogLine('hi', { style: 'top', portraitIcon: 5 })
     drawDialogBox(fb, state, undefined, {
       portraitFrames: new Map([[5, portrait]]),
     })
-    // upper: x=48-16=32, y=55-16=39
     expect(fb.indices[39 * 320 + 32]).toBe(77)
     expect(fb.indices[(39 + 31) * 320 + (32 + 31)]).toBe(77)
-    // (31, 39) 在 portrait 左外 → 0
     expect(fb.indices[39 * 320 + 31]).toBe(0)
   })
 
   it('bottom + portrait → blit 在 (270 - w/2, 144 - h/2)', () => {
     const fb = createFramebuffer()
     const portrait = mockSprite(32, 32, 77)
-    const state = startDialog('hi', { style: 'bottom', portraitIcon: 5 })
+    const state = startDialogLine('hi', { style: 'bottom', portraitIcon: 5 })
     drawDialogBox(fb, state, undefined, {
       portraitFrames: new Map([[5, portrait]]),
     })
-    // lower: x=270-16=254, y=144-16=128
     expect(fb.indices[128 * 320 + 254]).toBe(77)
     expect(fb.indices[(128 + 31) * 320 + (254 + 31)]).toBe(77)
   })
 
-  it('center style → 不画 portrait(sdlpal center 不画)', () => {
+  it('center style → 不画 portrait', () => {
     const fb = createFramebuffer()
     const portrait = mockSprite(32, 32, 77)
-    const state = startDialog('hi', { style: 'center', portraitIcon: 5 })
+    const state = startDialogLine('hi', { style: 'center', portraitIcon: 5 })
     drawDialogBox(fb, state, undefined, {
       portraitFrames: new Map([[5, portrait]]),
     })
-    const has77 = Array.from(fb.indices).some((i) => i === 77)
-    expect(has77).toBe(false)
+    expect(Array.from(fb.indices).some((i) => i === 77)).toBe(false)
   })
 
-  it('top + portrait → text X 起始 ≥ 96(避让 portrait)', () => {
+  it('top + portrait → text X 起始 ≥ 96', () => {
     const fb = createFramebuffer()
     const portrait = mockSprite(32, 32, 77)
-    const state = startDialog('A', { style: 'top', portraitIcon: 5, fontColor: 200 })
-    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(state)
+    const state = startDialogLine('A', { style: 'top', portraitIcon: 5, fontColor: 200 })
+    completeLine(state)
     drawDialogBox(fb, state, undefined, {
       portraitFrames: new Map([[5, portrait]]),
     })
@@ -289,43 +282,32 @@ describe('Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置)
     }
     expect(minX).toBeGreaterThanOrEqual(96)
   })
+})
 
-  it('portraitIcon 设了但 ctx 无对应 frame → 不渲染 portrait + text 走无 portrait 路径', () => {
+describe('Sync.2 DialogBox · key icon(sdlpal text.c:1391)', () => {
+  it('waiting-page-key + blink=true → blit icon', () => {
     const fb = createFramebuffer()
-    const state = startDialog('A', { style: 'top', portraitIcon: 99, fontColor: 200 })
-    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(state)
-    drawDialogBox(fb, state, undefined, { portraitFrames: new Map() })
-    let minX = 320
-    for (let y = 0; y < 200; y++) {
-      for (let x = 0; x < 320; x++) {
-        if (fb.indices[y * 320 + x] === 200 && x < minX) minX = x
-      }
-    }
-    expect(minX).toBeGreaterThanOrEqual(44)
-    expect(minX).toBeLessThan(96)
+    const icon = mockSprite(8, 8, 99)
+    const state = startDialogLine('A', { style: 'bottom' })
+    completeLine(state)
+    setWaitingPageKey(state)
+    tickDialog(state)
+    drawDialogBox(fb, state, undefined, { iconFrames: new Map([[0, icon]]) })
+    expect(Array.from(fb.indices).some((i) => i === 99)).toBe(true)
+  })
+
+  it('typing 中(phase=typing)→ 不画 icon', () => {
+    const fb = createFramebuffer()
+    const icon = mockSprite(8, 8, 99)
+    const state = startDialogLine('A long line', { style: 'bottom' })
+    tickDialog(state)
+    drawDialogBox(fb, state, undefined, { iconFrames: new Map([[0, icon]]) })
+    expect(Array.from(fb.indices).some((i) => i === 99)).toBe(false)
   })
 })
 
-describe('Sync.2 DialogBox · key icon 真 sprite(sdlpal text.c:1391)', () => {
-  it('isComplete + 有下页 + blink=true + ctx 有 icon → blit icon', () => {
-    const fb = createFramebuffer()
-    const icon = mockSprite(8, 8, 99)
-    const state = startDialog('A\rB', { style: 'bottom' })
-    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(state)
-    expect(state.isComplete).toBe(true)
-    expect(state.keyIconBlink).toBe(true)
-    drawDialogBox(fb, state, undefined, { iconFrames: new Map([[0, icon]]) })
-    const has99 = Array.from(fb.indices).some((i) => i === 99)
-    expect(has99).toBe(true)
-  })
-
-  it('最后一页 complete → 不画 icon(无下页)', () => {
-    const fb = createFramebuffer()
-    const icon = mockSprite(8, 8, 99)
-    const state = startDialog('A', { style: 'bottom' })
-    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(state)
-    drawDialogBox(fb, state, undefined, { iconFrames: new Map([[0, icon]]) })
-    const has99 = Array.from(fb.indices).some((i) => i === 99)
-    expect(has99).toBe(false)
+describe('Sync.2 DialogBox · MAX_LINES_PER_PAGE 真值', () => {
+  it('MAX_LINES_PER_PAGE = 4(sdlpal text.c:1649 nCurrentDialogLine > 3)', () => {
+    expect(MAX_LINES_PER_PAGE).toBe(4)
   })
 })

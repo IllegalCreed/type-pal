@@ -3935,6 +3935,71 @@ P0 全 6 项 done(原 design 5 项 + wScriptOnEnter 升 6)。
 
 **M5.5 audit 启发:** 任何 plan 说"M2 简化"的地方都要核 sdlpal 真值,不能假设简化是合理的。本案"实心 box + 白边"假设源自 M2 切片粗糙的占位框思路,而 sdlpal 真值是**透明背景** —— 美术风格反向完全不同。
 
+### Sync.2 修补 fix2 — 4 行/屏交互 + portrait/fontColor 真传 + setDialogStyleX ClearDialog(2026-05-25)
+
+**根因 + sdlpal 真值再核(再读 text.c:1616-1815 + script.c:3389-3475):**
+1. `PAL_ShowDialogText` 真值:typing 完**不等键**,opcode 直接推进。多行连画,累计 `nCurrentDialogLine > 3` 时下次 showDialog 才触发 `PAL_DialogWaitForKey`(第 5 行)。
+2. `PAL_EndDialog`(script.c:3475 dialog 整段末调)→ `PAL_ClearDialog(TRUE)`(有行才等键)。
+3. **关键漏:** script.c:3389-3426 每 `setDialogStyleX` opcode 入口**先调** `PAL_ClearDialog(TRUE)` — 已有 dialog 时切 style 也等键 + 清屏。NPC vs 主角对话切换之间的等键正是此处来。
+4. **opcode operand 漏:** setDialogStyleX 真值(script.c:3389-3426):
+   - Upper/Lower:`operand[0]=iNumCharFace(头像)`,`operand[1]=bFontColor`,`operand[2]=fPlayingRNG`
+   - Center/CenterWindow:`operand[0]=bFontColor`(不画头像),`iNumCharFace 强制 0`
+5. **FONT_COLOR_DEFAULT:** sdlpal text.c:29 `#define FONT_COLOR_DEFAULT 0x4F`(palette idx 79 亮黄/浅米)— fix1 错把默认设成 255。
+
+**状态机 phase(DialogPhase 新):**
+- `typing`:当前行 typing 中;Confirm = fUserSkip 跳行末
+- `line-done`:行完;event-system **自动 ip++**,不等 Confirm(行间不停)
+- `waiting-page-key`:第 5 行 / setDialogStyleX 切换 → 等 Confirm 清屏(+ pendingStyle apply 若有)
+- `waiting-end-key`:end opcode + 有行 → 等 Confirm 关 dialog
+
+**改动文件:**
+- `packages/game/src/core/game-state.ts` — `DialogBoxState` 重设计:`shownLines[] / currentLineText / phase` 取代 `pages/currentPage/isComplete`;加 `currentDialogPortraitIcon` + `currentDialogFontColor` 字段;`pendingStyle` 字段(setDialogStyleX 切换暂存)
+- `packages/game/src/present/dialog-box.ts` — 新 API:`startDialogLine` / `appendDialogLine` / `shouldWaitPageKey` / `setWaitingPageKey(s, pendingStyle?)` / `setWaitingEndKey` / `tickDialog` / `confirmDialog` 返 `ConfirmResult`('skip-typing' / 'page-advance' / 'dialog-end' / 'noop');导出 `FONT_COLOR_DEFAULT = 0x4F` / `MAX_LINES_PER_PAGE = 4` / `LINE_HEIGHT_PX = 18`;drawDialogBox 画所有 shownLines + currentLine(按行偏移 18 px)
+- `packages/game/src/core/event-system.ts` — `applySetDialogStyle` helper(已有 dialog → setWaitingPageKey + pendingStyle 暂存;否则 apply 到 gs + ip++);`waiting=dialog` handler 重构(skip-typing / page-advance + 应用 pendingStyle / dialog-end / line-done 自动推进);end opcode 增加 setWaitingEndKey 分支(有行才等键);4 个 setDialogStyleX handler 经 applySetDialogStyle + 真值 arg 透传(arg0/arg1 各 style 不同语义)
+- `packages/game/src/core/event-system.test.ts` — +2 spec:setDialogStyleTop arg0/arg1 真传 + setDialogStyleX 在 mid-dialog 触发 ClearDialog(TRUE)
+- `packages/game/src/present/dialog-box.test.ts` — 整改:删 `nextPage` / `pages` 相关;新 21 spec 覆盖 startDialogLine / appendDialogLine / shouldWaitPageKey / confirmDialog 4 case / portrait / textPos / icon / FONT_COLOR_DEFAULT
+- `packages/game/src/present/present.test.ts` + `core/game-state.test.ts` + `e2e.test.ts` — 适配新 API(`currentLineText` 取代 `text`)
+- `packages/game/e2e/menu/c1-dialog-styles.spec.ts` — 截图前 probe `dialogBox.phase`,等 line-done / waiting-* 稳定态才 snapshot(typing 中的不稳定差异避开)
+
+**真值常量(全部接 sdlpal):**
+
+| 常量 | 真值 | 出处 |
+|------|------|------|
+| `MAX_LINES_PER_PAGE` | 4 | text.c:1649 `nCurrentDialogLine > 3` |
+| `LINE_HEIGHT_PX` | 18 | text.c:1661 `y + nCurrentDialogLine * 18` |
+| `FONT_COLOR_DEFAULT` | 0x4F = 79 | text.c:29 `#define FONT_COLOR_DEFAULT 0x4F` |
+| `FRAMES_PER_CHAR` | 1 | text.c:1616 PAL_ShowDialogText 每帧 1 字 |
+| `KEY_ICON_BLINK_PERIOD` | 16 | text.c PAL_DialogWaitForKey g_TextLib.bIcon |
+
+**setDialogStyleX operand 真值表(script.c:3389-3426):**
+
+| opcode | style | operand[0] | operand[1] | operand[2] | 入口 ClearDialog |
+|--------|-------|-----------|-----------|-----------|-----------------|
+| 0x003C setDialogStyleTop | upper | iNumCharFace | bFontColor | fPlayingRNG | TRUE |
+| 0x003D setDialogStyleBottom | lower | iNumCharFace | bFontColor | fPlayingRNG | TRUE |
+| 0x003B setDialogStyleCenter | center | bFontColor | (unused) | fPlayingRNG | TRUE |
+| 0x003E setDialogStyleNarration | center-window | bFontColor | (unused) | (FALSE) | TRUE |
+
+**测试 + e2e(fix2 后):**
+- L1:game **383 pass / 2 skip**(原 380 → +3 新 spec:setDialogStyleX arg / ClearDialog 触发 / FONT_COLOR_DEFAULT)
+- L2:e2e 31/31 全绿,c1-dialog-top + c1-dialog-bottom baseline 重生(稳定态 snapshot + 真值)
+
+**UX 改进(玩家体验):**
+- 之前(\r 切页):每行对话都按 1 次 Confirm 推进
+- 现在(4 行/屏 + setDialogStyleX 强制清屏):
+  - 同 style 内连续 4 行 typing 流畅自动连画
+  - 第 5 行 / 切 style 才需要 1 次 Confirm
+  - NPC ↔ 主角对话因 setDialogStyleX 切换天然有 1 次 Confirm + 清屏 + 新头像
+  - dialog 整段末再 1 次 Confirm 关 dialog
+
+**实施过程发现:**
+- pal-extract `events/disasm.ts` 已正确 dump arg0/arg1/arg2,只是 event-system handler 一直没消费 — disasm 已对,event-system 漏接(M5.5 audit 时 grep 类似漏)
+- `setDialogStyleX` 4 种 operand 语义不同(Upper/Lower 用 operand[0] = iNumCharFace,Center/CenterWindow 用 operand[0] = bFontColor)— 不能套同一映射
+- `setDialogStyleX → PAL_ClearDialog(TRUE)` 是 sdlpal 真值,以前没注意 — 这正是"NPC vs 主角对话之间天然有 page break"的来源
+- `pendingStyle` 字段必要:Confirm 触发 page-advance 时需要"延后应用"新 style,因为 setDialogStyleX 在 wait 之前就已被 opcode 消费
+
+**M5.5 audit 升级版:** 任何"等键"/"清屏"/"行偏移"系列 sdlpal 真值都要看具体函数(PAL_ClearDialog / PAL_DialogWaitForKey / PAL_ShowDialogText 的 nCurrentDialogLine 增减),不能假设状态机简化。Sync.2 fix2 这 3 轮迭代直接修了 7 项简化错误 — 占 M5 总 plan 修补量预估的 50%。
+
 ## P1-Battle 段
 
 (实施时累积)

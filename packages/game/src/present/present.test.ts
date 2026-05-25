@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import type { Tilemap } from '@type-pal/shared'
 import { presentFrame, type PresentContext } from './present.js'
-import { startDialog } from './dialog-box.js'
+import { startDialogLine, tickDialog, FRAMES_PER_CHAR } from './dialog-box.js'
 import { createFramebuffer } from './framebuffer.js'
 import { createInitialGameState } from '../core/game-state.js'
 import type { SpriteImage } from './draw-sprite.js'
@@ -52,9 +52,9 @@ describe('presentFrame', () => {
     const fb = createFramebuffer()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     // Sync.2:已 typing 完成 + fontColor=200(全屏其他像素无此色),验文本像素存在
-    gs.dialogBox = startDialog('你好', { style: 'center', fontColor: 200 })
-    gs.dialogBox.charsRevealed = gs.dialogBox.pages[0]!.length
-    gs.dialogBox.isComplete = true
+    gs.dialogBox = startDialogLine('你好', { style: 'center', fontColor: 200 })
+    // typing 完整段(2 字 × FRAMES_PER_CHAR)
+    for (let i = 0; i < FRAMES_PER_CHAR * 2; i++) tickDialog(gs.dialogBox)
     const ctx: PresentContext = {
       tilemap: flatMap(3, 3),
       tileImages: { get: () => undefined },

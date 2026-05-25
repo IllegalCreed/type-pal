@@ -1,43 +1,52 @@
 /**
- * DialogBox 真实实现 — port sdlpal text.c:1208-1750
- * PAL_StartDialogWithOffset + PAL_ShowDialogText + PAL_DialogWaitForKey
+ * DialogBox 真实实现 — port sdlpal text.c:1208-1815
+ * PAL_StartDialogWithOffset + PAL_ShowDialogText + PAL_DialogWaitForKey + PAL_ClearDialog + PAL_EndDialog
  *
- * **关键**:sdlpal upper/center/lower 不画 box(透明,scene 自然透出)。
- * 只有 kDialogCenterWindow 用 PAL_CreateBox sprite 边框,M5 暂不实现(留 M6)。
+ * **sdlpal 真实交互(text.c:1616 PAL_ShowDialogText 真值)**:
+ *  - 每条 showDialog opcode = 1 行;**单行 typing 完不等键**,opcode 直接推进
+ *  - 累计 4 行后再来 showDialog → PAL_DialogWaitForKey(等 Confirm)+ 清屏 + 行号归零 + 画新行
+ *  - dialog 整段结束(script 跑到 end / 退出 event mode)→ PAL_EndDialog → PAL_ClearDialog(TRUE)
+ *    → 若有过任何行 → 等 1 次 Confirm 才真清屏
+ *  - typing 进行中按 Confirm → fUserSkip = TRUE,当前行剩字瞬现(g_TextLib.fUserSkip 读后不重置 cursor)
  *
- * 文本位置真值(sdlpal text.c:1313-1346 PAL_StartDialogWithOffset):
- *   top (upper):  hasPortrait ? (96, 26)  : (44, 26)
- *   center:       (80, 40)
- *   bottom/narration (lower): hasPortrait ? (20, 126) : (44, 126)
+ * **状态机 phase**:
+ *  - 'typing':       当前行 typing 中,Confirm = 跳行末
+ *  - 'line-done':    当前行 typing 完,**event-system 自动推进 cursor.ip 到下一 opcode**,无需 Confirm
+ *  - 'waiting-page-key':  shownLines==4 + 来了新 showDialog → 等 Confirm 清屏
+ *  - 'waiting-end-key':   dialog 整段结束(撞 end opcode)+ 有行 → 等 Confirm 关 dialog
  *
- * 头像位置(sdlpal text.c:1289-1310):
- *   upper:  x=48 - w/2,  y=55 - h/2
- *   lower:  x=270 - w/2, y=144 - h/2
- *   center:不画头像
+ * **行间不停**:典型 NPC 对话 3-4 行 = 玩家按 0-1 次 Confirm(只在第 5 行 / 整段末)。
  *
- * typing FRAMES_PER_CHAR = 1:sdlpal 真值(每帧 1 字),@10fps = 100ms/字。
- * key icon blink:sdlpal text.c PAL_DialogWaitForKey g_TextLib.bIcon 每 16 帧 toggle。
- * 字阴影:sdlpal iDialogShadow > 0 时 +1px 偏移暗色(palette 0 黑)。M5 用 50 暗灰占位。
+ * 真值表(sdlpal text.c:1289-1346):
+ *   portrait/text 位置 同前(不变,fix1 已对)。
+ *   typing FRAMES_PER_CHAR = 1(每帧 1 字,@10fps = 100ms/字)。
+ *   LINE_HEIGHT_PX = 18(sdlpal text.c:1661 `y + nCurrentDialogLine * 18`)。
+ *   MAX_LINES_PER_PAGE = 4(text.c:1649 `nCurrentDialogLine > 3` 触发等键)。
  */
 
 import type { DialogBoxStyle } from '@type-pal/shared'
 import type { Framebuffer } from './framebuffer.js'
 import { renderText, type GlyphTable } from './font.js'
-import type { DialogBoxState } from '../core/game-state.js'
+import type { DialogBoxState, DialogPhase } from '../core/game-state.js'
 
 // ── 常量 ──────────────────────────────────────────────────────────────────────
 
-/**
- * 每 N 逻辑帧显示 1 字。sdlpal text.c PAL_ShowDialogText 真值 1 帧/字。
- * explore/event @10fps → 100ms/字,体感与 sdlpal classic 接近。
- */
 export const FRAMES_PER_CHAR = 1
-
-/** key icon blink 半周期(帧)。sdlpal text.c PAL_DialogWaitForKey 每 16 帧 toggle。 */
 const KEY_ICON_BLINK_PERIOD = 16
-
-/** 字阴影调色板下标(sdlpal palette[0] 真值黑;M5 用 50 暗灰占位)。 */
 const SHADOW_COLOR = 50
+
+/**
+ * sdlpal text.c:29 `#define FONT_COLOR_DEFAULT 0x4F` = 79。
+ * 默认对话字体色 — palette idx 79 在原版调色板里是亮黄/浅米色。
+ * 修复 fix1 错把默认设成 255(白)— sdlpal 真值是 0x4F。
+ */
+export const FONT_COLOR_DEFAULT = 0x4F
+
+/** sdlpal text.c:1649 `nCurrentDialogLine > 3`:超过 3 (即 4) 触发等键 */
+export const MAX_LINES_PER_PAGE = 4
+
+/** sdlpal text.c:1661 `y + nCurrentDialogLine * 18`:行间距 18 px */
+export const LINE_HEIGHT_PX = 18
 
 // ── 文本位置(sdlpal text.c:1313-1346 真值) ───────────────────────────────────
 
@@ -65,7 +74,6 @@ interface PortraitPos {
   y: number
 }
 
-/** 头像锚点:upper (48, 55) / lower (270, 144);blit 左上 = (anchor - w/2, anchor - h/2)。 */
 function getPortraitPos(
   style: DialogBoxStyle,
   width: number,
@@ -78,11 +86,11 @@ function getPortraitPos(
     case 'narration':
       return { x: 270 - Math.floor(width / 2), y: 144 - Math.floor(height / 2) }
     case 'center':
-      return null  // sdlpal center 不画头像
+      return null
   }
 }
 
-// ── 4 styles 矩形(spec / e2e 仍可用 — sdlpal 真值,虽不画 box) ─────────────────
+// ── 4 styles 矩形(仅供测试 / e2e 引用;实际不画 box) ─────────────────────────
 
 export interface BoxRect {
   x: number
@@ -102,19 +110,13 @@ export function getDialogBoxRect(style: DialogBoxStyle): BoxRect {
   return STYLE_RECTS[style]
 }
 
-// ── splitPages ────────────────────────────────────────────────────────────────
+// ── startDialogLine ───────────────────────────────────────────────────────────
 
 /**
- * sdlpal `\r` 切页(PAL_ShowDialogText 检测 '\r' 时触发翻页等待)。
- * 空段过滤(防止首字符是 \r 生成空页)。
+ * 启动 dialog 显示首行。event-system showDialog opcode 在 gs.dialogBox==undefined 时调。
+ * shownLines=[],currentLineText=text,phase='typing'。
  */
-function splitPages(text: string): string[] {
-  return text.split('\r').filter((p) => p.length > 0)
-}
-
-// ── startDialog ───────────────────────────────────────────────────────────────
-
-export function startDialog(
+export function startDialogLine(
   text: string,
   opts: {
     style?: DialogBoxStyle
@@ -124,69 +126,141 @@ export function startDialog(
   },
 ): DialogBoxState {
   return {
-    text,
-    pages: splitPages(text),
-    currentPage: 0,
+    shownLines: [],
+    currentLineText: text,
     typingFrames: 0,
     charsRevealed: 0,
-    isComplete: false,
+    phase: 'typing',
     style: opts.style ?? 'bottom',
     portraitIcon: opts.portraitIcon,
-    fontColor: opts.fontColor ?? 255,
+    fontColor: opts.fontColor ?? FONT_COLOR_DEFAULT,
     shadow: opts.shadow ?? false,
     keyIconBlink: false,
   }
 }
 
+// ── appendDialogLine ──────────────────────────────────────────────────────────
+
+/**
+ * 把上一行(已 line-done)推进 shownLines,开始新行 typing。
+ * event-system showDialog opcode 在 gs.dialogBox!=undefined 时调。
+ *
+ * **必须先在 caller 中检查 shouldWaitPageKey(state)** — 如果会到第 5 行,
+ * 不调本函数,而是 setWaitingPageKey(state) 等键后再调。
+ */
+export function appendDialogLine(state: DialogBoxState, text: string): void {
+  // 把"上次 line-done 的 currentLineText"沉入 shownLines
+  if (state.currentLineText !== null) {
+    state.shownLines.push(state.currentLineText)
+  }
+  state.currentLineText = text
+  state.typingFrames = 0
+  state.charsRevealed = 0
+  state.phase = 'typing'
+  state.keyIconBlink = false
+}
+
+/**
+ * 判定:再加一行是否会撞满(>=4 行已显 + 新行)→ caller 应先 setWaitingPageKey。
+ *
+ * 触发条件:shownLines 中已有 4 条(即 phase='line-done' 时的 currentLineText 是第 4 行,
+ * 或 phase 已 'waiting-page-key' 表示尚未沉入)。本函数在 appendDialogLine 之**前**调用。
+ */
+export function shouldWaitPageKey(state: DialogBoxState): boolean {
+  // currentLineText 若已 typing 完,逻辑上算 1 行;还没沉 shownLines 因为 append 才沉
+  const effectiveLines = state.shownLines.length
+    + (state.currentLineText !== null && state.phase === 'line-done' ? 1 : 0)
+  return effectiveLines >= MAX_LINES_PER_PAGE
+}
+
+// ── setWaitingPageKey / setWaitingEndKey ──────────────────────────────────────
+
+/**
+ * 第 5 行 showDialog 到来 → 进 waiting-page-key,等 Confirm 清屏。
+ *
+ * 可选 pendingStyle:若由 setDialogStyleX 在已有 dialog 上触发的 PAL_ClearDialog(TRUE),
+ * 把新 style/portrait/fontColor 暂存,Confirm 翻页时 caller 应用到 gs。
+ */
+export function setWaitingPageKey(
+  state: DialogBoxState,
+  pendingStyle?: DialogBoxState['pendingStyle'],
+): void {
+  state.phase = 'waiting-page-key'
+  state.typingFrames = 0
+  state.keyIconBlink = true
+  if (pendingStyle !== undefined) {
+    state.pendingStyle = pendingStyle
+  }
+}
+
+/** dialog 整段结束(end opcode 触发)+ 有行 → 进 waiting-end-key。 */
+export function setWaitingEndKey(state: DialogBoxState): void {
+  state.phase = 'waiting-end-key'
+  state.typingFrames = 0
+  state.keyIconBlink = true
+}
+
 // ── tickDialog ────────────────────────────────────────────────────────────────
 
 /**
- * 每逻辑帧调一次:推进 typing 进度 + key icon 闪烁。
- * port sdlpal text.c:1616-1830 PAL_ShowDialogText 每帧出字逻辑。
+ * 每逻辑帧调一次:
+ *  - typing 中 → 推 charsRevealed,完后 phase → 'line-done'
+ *  - line-done / wait 状态 → blink key icon
  */
 export function tickDialog(state: DialogBoxState): void {
   state.typingFrames++
-  const pageText = state.pages[state.currentPage] ?? ''
-  const wantChars = Math.floor(state.typingFrames / FRAMES_PER_CHAR)
-  state.charsRevealed = Math.min(wantChars, pageText.length)
 
-  if (!state.isComplete && state.charsRevealed >= pageText.length) {
-    state.isComplete = true
+  if (state.phase === 'typing' && state.currentLineText !== null) {
+    const want = Math.floor(state.typingFrames / FRAMES_PER_CHAR)
+    state.charsRevealed = Math.min(want, state.currentLineText.length)
+    if (state.charsRevealed >= state.currentLineText.length) {
+      state.phase = 'line-done'
+    }
   }
 
-  // key icon blink:isComplete 后才有意义(sdlpal PAL_DialogWaitForKey)
-  if (state.isComplete) {
+  // blink key icon — 任何 line-done / wait 状态都 blink,UX 提示玩家"可推进"。
+  if (state.phase !== 'typing') {
     state.keyIconBlink = (Math.floor(state.typingFrames / KEY_ICON_BLINK_PERIOD) % 2) === 0
   }
 }
 
-// ── nextPage ──────────────────────────────────────────────────────────────────
+// ── confirmDialog ─────────────────────────────────────────────────────────────
 
 /**
- * Confirm 键按下时调。三段式(port sdlpal PAL_DialogWaitForKey):
- * 1. typing 进行中 → 跳至当前页末(skip typing),return true(不翻页,消费 input)
- * 2. isComplete + 有下一页 → 翻页 + 重置 typing,return true
- * 3. isComplete + 最后一页 → return false(dialog 结束,caller 清 gs.dialogBox)
+ * Confirm 按键时调,返回值告诉 event-system 接下来做什么:
+ *  - 'skip-typing':  当前行 typing 中 → 跳行末(fUserSkip)。caller 不动 cursor。
+ *  - 'page-advance': 之前 waiting-page-key → 清屏 + line=0。caller 应 appendDialogLine
+ *                    (即推进到下一 showDialog opcode)— 实际上 caller 仍 cursor.ip++ 让
+ *                    event-system 跑下一条 opcode。
+ *  - 'dialog-end':   之前 waiting-end-key → 关 dialog。caller 清 gs.dialogBox + cursor.ip++。
+ *  - 'noop':         其他状态(line-done 等),Confirm 无效(等自动推进)。
  */
-export function nextPage(state: DialogBoxState): boolean {
-  if (!state.isComplete) {
-    const pageText = state.pages[state.currentPage] ?? ''
-    state.charsRevealed = pageText.length
-    state.isComplete = true
-    state.keyIconBlink = false
-    return true
-  }
+export type ConfirmResult = 'skip-typing' | 'page-advance' | 'dialog-end' | 'noop'
 
-  if (state.currentPage < state.pages.length - 1) {
-    state.currentPage++
+export function confirmDialog(state: DialogBoxState): ConfirmResult {
+  if (state.phase === 'typing' && state.currentLineText !== null) {
+    state.charsRevealed = state.currentLineText.length
+    state.phase = 'line-done'
+    return 'skip-typing'
+  }
+  if (state.phase === 'waiting-page-key') {
+    // 清屏 + line=0,准备画新行(caller 在 ip++ 后下条 showDialog 会调 startDialogLine/append)。
+    // 注意:caller 应在 page-advance 后读 state.pendingStyle:
+    //   - 非空 → 由 setDialogStyleX 触发的 ClearDialog,caller 应 apply pendingStyle 到 gs +
+    //           清 gs.dialogBox(让下次 showDialog 重建)
+    //   - 空 → 累计 4 行触发,caller 推 cursor.ip(下条 showDialog 会 append 第 5 行)
+    state.shownLines = []
+    state.currentLineText = null
     state.typingFrames = 0
     state.charsRevealed = 0
-    state.isComplete = false
+    state.phase = 'line-done' // 临时;caller 推 ip → 下条 showDialog 调 append 切到 'typing'
     state.keyIconBlink = false
-    return true
+    return 'page-advance'
   }
-
-  return false
+  if (state.phase === 'waiting-end-key') {
+    return 'dialog-end'
+  }
+  return 'noop'
 }
 
 // ── drawDialogBox ─────────────────────────────────────────────────────────────
@@ -206,22 +280,15 @@ export interface DialogBoxDrawCtx {
   iconFrames?: Map<number, DialogSprite>
 }
 
-/**
- * sdlpal "key continue" icon 在 g_TextLib.bIcon 取真 frame index。
- * 0 / 1 帧最常见(箭头 / 三角)— M5 简版固定取 frame 0。
- */
 const KEY_ICON_FRAME = 0
 
 /**
- * 绘制对话框一帧(由 present.ts presentFrame 调用,在所有 sprite 之上)。
+ * 绘一帧 dialog:画所有 shownLines(完整)+ currentLineText 的 charsRevealed 截断。
+ * 行布局:`pos.y + lineIdx * LINE_HEIGHT_PX`。
  *
- * **重要**:sdlpal upper/center/lower 真值不画 box bg / border —
- * scene 自然透出(原版半透明对话感来源)。M5 修齐,不再画 box。
- *
- * @param fb      目标 Framebuffer
- * @param state   DialogBoxState
- * @param glyphs  GlyphTable;undefined → tofu 占位
- * @param ctx     头像 + icon 资产(bootstrap 注入)
+ * key icon 显示条件:phase != 'typing' && (有下个动作可期待)。
+ *   waiting-page-key / waiting-end-key:必须 blink(玩家必须按键)
+ *   line-done:也 blink(玩家可按 Confirm 跳过 fUserSkip,但本来就完了 — 显示 hint)
  */
 export function drawDialogBox(
   fb: Framebuffer,
@@ -229,7 +296,7 @@ export function drawDialogBox(
   glyphs: GlyphTable | undefined,
   ctx?: DialogBoxDrawCtx,
 ): void {
-  // 1. portrait(若有 + style 允许)— sdlpal text.c:1289-1310
+  // 1. portrait(sdlpal text.c:1289-1310)
   let hasPortraitRendered = false
   if (state.portraitIcon !== undefined && ctx?.portraitFrames) {
     const portrait = ctx.portraitFrames.get(state.portraitIcon)
@@ -242,39 +309,59 @@ export function drawDialogBox(
     }
   }
 
-  // 2. text(按 charsRevealed 截 + sdlpal 真位置)
-  const pos = getDialogTextPos(state.style, hasPortraitRendered)
-  const pageText = state.pages[state.currentPage] ?? ''
-  const visibleText = pageText.slice(0, state.charsRevealed)
+  // 2. text:所有已完成行 + 当前行(截 charsRevealed)
+  const basePos = getDialogTextPos(state.style, hasPortraitRendered)
 
-  if (visibleText.length > 0) {
-    if (state.shadow) {
-      // 字阴影:+1px 偏移暗色(sdlpal iDialogShadow > 0)
-      renderText(fb, visibleText, pos.x + 1, pos.y + 1, SHADOW_COLOR, glyphs)
-    }
-    renderText(fb, visibleText, pos.x, pos.y, state.fontColor, glyphs)
+  for (let i = 0; i < state.shownLines.length; i++) {
+    const line = state.shownLines[i]!
+    drawTextLine(fb, line, basePos.x, basePos.y + i * LINE_HEIGHT_PX, state, glyphs)
   }
 
-  // 3. key icon(等键时右下角闪烁 — sdlpal text.c:1391 PAL_SpriteGetFrame bufDialogIcons)
-  if (state.isComplete && state.currentPage < state.pages.length - 1 && state.keyIconBlink) {
+  // 当前行(typing 或 line-done):画在 shownLines 之后第 N 行
+  if (state.currentLineText !== null && state.charsRevealed > 0) {
+    const lineIdx = state.shownLines.length
+    const visible = state.currentLineText.slice(0, state.charsRevealed)
+    drawTextLine(fb, visible, basePos.x, basePos.y + lineIdx * LINE_HEIGHT_PX, state, glyphs)
+  }
+
+  // 3. key icon(等键 / line-done 时右下角闪烁)
+  if (shouldShowKeyIcon(state) && state.keyIconBlink) {
     const iconSprite = ctx?.iconFrames?.get(KEY_ICON_FRAME)
     if (iconSprite) {
-      // icon 位置:文本块右下方;sdlpal text.c 真值约 textX + 文本宽 + 余量。
-      // 简版:在文本起点右下 ~280, textY+36 处(lower box 内右下角)。
+      // icon 位置:最后一行的右下方,sdlpal text.c:1745 `posIcon = PAL_XY(x, y)`
+      // 简版:lower box 右下固定位置(可后期改 sdlpal 精确位置)
+      const lineIdx = state.currentLineText !== null
+        ? state.shownLines.length
+        : Math.max(0, state.shownLines.length - 1)
       const iconX = 280
-      const iconY = pos.y + 36
+      const iconY = basePos.y + lineIdx * LINE_HEIGHT_PX + 12
       blitSprite(fb, iconSprite, iconX, iconY)
     }
   }
 }
 
+function shouldShowKeyIcon(state: DialogBoxState): boolean {
+  return state.phase === 'waiting-page-key' || state.phase === 'waiting-end-key'
+    || state.phase === 'line-done'
+}
+
+function drawTextLine(
+  fb: Framebuffer,
+  text: string,
+  x: number,
+  y: number,
+  state: DialogBoxState,
+  glyphs: GlyphTable | undefined,
+): void {
+  if (text.length === 0) return
+  if (state.shadow) {
+    renderText(fb, text, x + 1, y + 1, SHADOW_COLOR, glyphs)
+  }
+  renderText(fb, text, x, y, state.fontColor, glyphs)
+}
+
 // ── 内部 blit ─────────────────────────────────────────────────────────────────
 
-/**
- * sprite blit(left-top 锚,opaque mask 真用)。
- * 与 draw-sprite.ts drawSprite 不同 — drawSprite 用 anchorX/anchorY 中心底,
- * dialog 用左上(sdlpal portrait blit 直接按真值左上对齐)。
- */
 function blitSprite(
   fb: Framebuffer,
   sprite: DialogSprite,

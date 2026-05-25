@@ -52,19 +52,29 @@ export interface EventCursor {
   waiting?: 'dialog'
 }
 
+/**
+ * DialogBox 状态机 phase(port sdlpal text.c:1616 PAL_ShowDialogText):
+ *  - 'typing': 当前行 typing 中(charsRevealed < currentLineText.length)
+ *  - 'line-done': 当前行 typing 完;cursor 可推进到下一 opcode(自动,无需 Confirm)
+ *  - 'waiting-page-key': shownLines==4 且下条 showDialog 来到 → 等 Confirm 清屏 + 重置 line=0
+ *  - 'waiting-end-key': dialog 整段结束(如撞 end opcode)→ 等 Confirm 关 dialog
+ */
+export type DialogPhase = 'typing' | 'line-done' | 'waiting-page-key' | 'waiting-end-key'
+
 export interface DialogBoxState {
-  /** 完整原始文本(含 \r 分页符) */
-  text: string
-  /** 已按 \r 切好的页列表 */
-  pages: string[]
-  /** 当前显示第几页(0-based) */
-  currentPage: number
-  /** 已经过的 frame 数(用于 typing 进度计算) */
+  /**
+   * 已 typing 完整显示的"过往行"(累计 0-4)。
+   * 第 4 行画完后下条 showDialog 触发 waiting-page-key,Confirm 后清空。
+   */
+  shownLines: string[]
+  /** 当前正在 typing 的那行文本(若 phase='typing'/'line-done')。 */
+  currentLineText: string | null
+  /** 当前行已经过的 frame 数。 */
   typingFrames: number
-  /** 当前已显示字符数 = Math.min(floor(typingFrames / FRAMES_PER_CHAR), pageText.length) */
+  /** 当前行已显字符数 = min(floor(typingFrames / FRAMES_PER_CHAR), currentLineText.length)。 */
   charsRevealed: number
-  /** 当前页文字已全部显示完毕 */
-  isComplete: boolean
+  /** 状态机 phase(详见 DialogPhase 注释)。 */
+  phase: DialogPhase
   /** 对话框位置样式 */
   style: DialogBoxStyle
   /** RGM.MKF chunk 编号(角色头像);undefined = 无头像 */
@@ -75,6 +85,21 @@ export interface DialogBoxState {
   shadow: boolean
   /** 等键时右下角 icon 的闪烁状态(偶数 blink-period = true) */
   keyIconBlink: boolean
+  /**
+   * 暂存的 setDialogStyleX 切换(sdlpal script.c:3389-3426 真值:每 setDialogStyleX
+   * 入口先 PAL_ClearDialog(TRUE) 阻塞等键)。
+   *
+   * 当 setDialogStyleX 在已有 dialog 上触发时,setWaitingPageKey 切 phase,
+   * 同时把"新 style + portrait + fontColor"暂存进 pendingStyle。Confirm 翻页时
+   * caller 应用 pending → gs.currentDialogStyle / currentDialogPortraitIcon / currentDialogFontColor。
+   *
+   * undefined = 累计 4 行触发的页翻(同 style),非 setDialogStyleX 触发。
+   */
+  pendingStyle?: {
+    style: DialogBoxStyle
+    portraitIcon?: number
+    fontColor: number
+  }
 }
 
 // ── M5 Sync.1: SAVEDGAME_WIN 倒推 typed ─────────────────────────────────────
@@ -203,6 +228,17 @@ export interface GameState {
   dialogBox?: DialogBoxState
   /** 由 setDialogStyle* 命令累积。默认 'center'。 */
   currentDialogStyle: DialogBoxStyle
+  /**
+   * 当前对话头像 RGM.MKF chunk(由 setDialogStyleTop/Bottom 的 operand[0] = iNumCharFace 累积)。
+   * undefined = 无头像;showDialog 时透传给 startDialogLine / appendDialogLine。
+   * sdlpal script.c:3389-3426 真值。
+   */
+  currentDialogPortraitIcon?: number
+  /**
+   * 当前对话字体色(由 setDialogStyleX 的 operand[1] (Upper/Lower) 或 operand[0] (Center/CenterWindow))。
+   * sdlpal text.c:29 #define FONT_COLOR_DEFAULT 0x4F。默认 0x4F = 79(palette idx 亮黄)。
+   */
+  currentDialogFontColor: number
   /** 战斗状态;T16 给真类型(BattleState),T14 已用 unknown 占位避免污染 explore/event。 */
   battleState?: BattleState
   frameNum: number
@@ -410,6 +446,8 @@ export function createInitialGameState(
     inventory: [],
     mode: 'explore',
     currentDialogStyle: 'center',
+    // sdlpal text.c:29 FONT_COLOR_DEFAULT = 0x4F(palette idx 79,亮黄/浅米)
+    currentDialogFontColor: 0x4F,
     frameNum: 0,
     walkingFrame: { stepFrame: 0, walking: false },
     trail: [],

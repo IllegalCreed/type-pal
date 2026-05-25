@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { createInitialGameState, npcFromEventObject, type Facing, type GameState, type Mode } from './game-state.js'
-import { startDialog } from '../present/dialog-box.js'
+import { startDialogLine } from '../present/dialog-box.js'
 import type { SceneEventObject } from '@type-pal/shared'
 
 describe('GameState', () => {
@@ -46,7 +46,7 @@ describe('GameState', () => {
       ip: 0,
       waiting: 'dialog',
     }
-    gs.dialogBox = startDialog('hi', { style: 'center' })
+    gs.dialogBox = startDialogLine('hi', { style: 'center' })
     gs.currentDialogStyle = 'top'
 
     const parsed = JSON.parse(JSON.stringify(gs)) as GameState
@@ -55,7 +55,7 @@ describe('GameState', () => {
     expect(parsed.eventCursor?.waiting).toBe('dialog')
     expect(parsed.eventCursor?.commands).toHaveLength(2)
     expect(parsed.eventCursor?.commands[0]?.op).toBe('showDialog')
-    expect(parsed.dialogBox?.text).toBe('hi')
+    expect(parsed.dialogBox?.currentLineText).toBe('hi')
     expect(parsed.currentDialogStyle).toBe('top')
   })
 })

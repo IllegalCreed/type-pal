@@ -44,22 +44,25 @@ describe('EventSystem', () => {
       { op: 'end' },
     ])
     tickEventSystem(gs, snap(), bus)
-    expect(gs.dialogBox?.text).toBe('你好')
+    expect(gs.dialogBox?.currentLineText).toBe('你好')
     expect(gs.eventCursor?.waiting).toBe('dialog')
     expect(bus.drain()[0]?.cmd.op).toBe('showDialogBox')
   })
 
   it('waiting=dialog + Confirm 释放 → ip++ + 继续到 end → mode=explore', () => {
-    // Sync.2:nextPage 三段式 → 两次 Confirm:第 1 次跳 typing 末,第 2 次结束 dialog
+    // Sync.2 4 行/屏:
+    //  tick 1: showDialog 入,startDialogLine,waiting=dialog
+    //  tick 2 (Confirm): tickDialog typing 中 → Confirm skip-typing → line-done → 自动 ip++ → end → 有行 → setWaitingEndKey
+    //  tick 3 (Confirm): waiting-end-key → Confirm dialog-end → 清 dialogBox + waiting=undef → end → mode=explore
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
       { op: 'showDialog', messageIndex: 0, text: '你好' },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)             // 进入 waiting
-    tickEventSystem(gs, snap(['Confirm']), bus) // 跳 typing 末(nextPage return true)
-    tickEventSystem(gs, snap(['Confirm']), bus) // 最后页完成 → nextPage false → end
+    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickEventSystem(gs, snap(['Confirm']), bus)
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.dialogBox).toBeUndefined()
@@ -76,6 +79,67 @@ describe('EventSystem', () => {
     tickEventSystem(gs, snap(), bus)
     expect(gs.currentDialogStyle).toBe('top')
     expect(gs.dialogBox?.style).toBe('top')
+  })
+
+  it('setDialogStyleTop 带 arg0 (iNumCharFace) + arg1 (bFontColor) → 写入 gs.currentDialogPortraitIcon/FontColor', () => {
+    // sdlpal script.c:3404 PAL_StartDialog(kDialogUpper, op[1], op[0], ...)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'setDialogStyleTop', arg0: 55, arg1: 12 },
+      { op: 'showDialog', messageIndex: 0, text: 'x' },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.currentDialogPortraitIcon).toBe(55)
+    expect(gs.currentDialogFontColor).toBe(12)
+    expect(gs.dialogBox?.portraitIcon).toBe(55)
+    expect(gs.dialogBox?.fontColor).toBe(12)
+  })
+
+  it('setDialogStyleCenter arg0 = fontColor(不是 portraitIcon — sdlpal Center 不画头像)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'setDialogStyleCenter', arg0: 22 },
+      { op: 'showDialog', messageIndex: 0, text: 'x' },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.currentDialogPortraitIcon).toBeUndefined()
+    expect(gs.currentDialogFontColor).toBe(22)
+  })
+
+  it('setDialogStyleX 在已有 dialog 时触发 PAL_ClearDialog(TRUE)— wait Confirm + apply pending', () => {
+    // sdlpal script.c:3389-3426 真值:每 setDialogStyleX 入口先 PAL_ClearDialog(TRUE)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'setDialogStyleBottom', arg0: 5, arg1: 10 },   // NPC head
+      { op: 'showDialog', messageIndex: 0, text: 'A' },
+      { op: 'setDialogStyleTop', arg0: 55, arg1: 12 },     // 主角 head — 应触发 ClearDialog wait
+      { op: 'showDialog', messageIndex: 0, text: 'B' },
+      { op: 'end' },
+    ])
+    // tick 1: setDialogStyleBottom 直接 apply(无 prev dialog) + showDialog 入 dialogBox = 'A' typing
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.currentDialogStyle).toBe('bottom')
+    expect(gs.currentDialogPortraitIcon).toBe(5)
+    expect(gs.dialogBox?.currentLineText).toBe('A')
+    // tick 2 Confirm: skip-typing → line-done → 自动 ip++ → setDialogStyleTop → applySetDialogStyle 检测 prev dialog
+    // → setWaitingPageKey + pendingStyle = {top, 55, 12} + waiting='dialog' return
+    tickEventSystem(gs, snap(['Confirm']), bus)
+    expect(gs.dialogBox?.phase).toBe('waiting-page-key')
+    expect(gs.dialogBox?.pendingStyle).toEqual({ style: 'top', portraitIcon: 55, fontColor: 12 })
+    expect(gs.currentDialogStyle).toBe('bottom')  // 还未 apply
+    // tick 3 Confirm: page-advance → 读 pendingStyle apply → 清 dialogBox + ip++ → 下条 showDialog 重建
+    tickEventSystem(gs, snap(['Confirm']), bus)
+    expect(gs.currentDialogStyle).toBe('top')
+    expect(gs.currentDialogPortraitIcon).toBe(55)
+    expect(gs.currentDialogFontColor).toBe(12)
+    expect(gs.dialogBox?.currentLineText).toBe('B')   // showDialog 已 startDialogLine
+    expect(gs.dialogBox?.style).toBe('top')
+    expect(gs.dialogBox?.portraitIcon).toBe(55)
   })
 
   it('raw 命令 skip + console.debug + ip++', () => {
@@ -518,7 +582,7 @@ describe('goto shared#L_xxx(P0.e — events/shared.json 跨 scene 共享脚本)'
 
     expect(gs.eventCursor?.commands).toBe(sharedCommands)
     expect(gs.eventCursor?.labelMap).toBe(sharedLabelMap)
-    expect(gs.dialogBox?.text).toBe('in shared')
+    expect(gs.dialogBox?.currentLineText).toBe('in shared')
     setSharedEvents([], {})
   })
 

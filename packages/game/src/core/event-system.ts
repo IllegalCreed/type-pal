@@ -28,7 +28,15 @@ import type { Command, InputSnapshot, Palette } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
 import type { GameState } from './game-state.js'
-import { startDialog, tickDialog, nextPage } from '../present/dialog-box.js'
+import {
+  startDialogLine,
+  appendDialogLine,
+  shouldWaitPageKey,
+  setWaitingPageKey,
+  setWaitingEndKey,
+  tickDialog,
+  confirmDialog,
+} from '../present/dialog-box.js'
 
 // ── P0.e: wScriptOnEnter / 战斗触发 opcode 真值(grep sdlpal reference/sdlpal/script.c) ──
 // case 0x0007(7):   Start battle
@@ -155,6 +163,38 @@ export function buildLabelMap(commands: Command[]): Record<string, number> {
   return map
 }
 
+/**
+ * sdlpal script.c:3389-3426:每 setDialogStyleX opcode 入口先 `PAL_ClearDialog(TRUE)`:
+ *  - 若已有 dialog(currentLineText 或 shownLines 非空)→ 阻塞等 Confirm + 清屏
+ *  - 然后 `PAL_StartDialog(<style>, bFontColor, iNumCharFace, ...)` 应用新 style
+ *
+ * 我们的实现:
+ *  - 已有 dialog → setWaitingPageKey(state, pendingStyle) + cursor.waiting='dialog' + return true
+ *    (caller 不推 ip,等下次 tick Confirm 在 'page-advance' 分支读 pending → apply + 清 + ip++)
+ *  - 无 dialog → 直接写 gs.currentDialog* + cursor.ip++,return false
+ *
+ * @returns true 表示已 wait(caller 应 return);false 表示已 apply(caller 应 break out of switch)
+ */
+function applySetDialogStyle(
+  gs: GameState,
+  cursor: NonNullable<GameState['eventCursor']>,
+  style: 'top' | 'center' | 'bottom' | 'narration',
+  portraitIcon: number | undefined,
+  fontColor: number,
+): boolean {
+  const ds = gs.dialogBox
+  if (ds && (ds.shownLines.length > 0 || ds.currentLineText !== null)) {
+    setWaitingPageKey(ds, { style, portraitIcon, fontColor })
+    cursor.waiting = 'dialog'
+    return true
+  }
+  gs.currentDialogStyle = style
+  gs.currentDialogPortraitIcon = portraitIcon
+  gs.currentDialogFontColor = fontColor
+  cursor.ip++
+  return false
+}
+
 export function tickEventSystem(
   gs: GameState,
   input: InputSnapshot,
@@ -166,26 +206,63 @@ export function tickEventSystem(
     return
   }
 
-  // 1) waiting 处理:阻塞在对话框,每 tick 推进 typing + 等 Confirm
+  // 1) waiting 处理:dialog 状态机(port sdlpal text.c:1616 PAL_ShowDialogText)
+  //
+  // sdlpal 真实交互:
+  //  - typing 中:每 tick 推 charsRevealed;Confirm = fUserSkip 跳行末
+  //  - line-done:自动推进 cursor.ip,无需 Confirm(行间不停)
+  //  - waiting-page-key:第 5 行 showDialog 到来 → 等 Confirm 清屏 + 重画
+  //  - waiting-end-key:dialog 整段结束 → 等 Confirm 关 dialog
   if (cursor.waiting === 'dialog') {
-    // 每 tick 推进 typing animation(port sdlpal text.c:1616 PAL_ShowDialogText)
-    if (gs.dialogBox) {
-      tickDialog(gs.dialogBox)
-    }
-    if (input.pressed.has('Confirm')) {
-      if (gs.dialogBox) {
-        const dialogContinues = nextPage(gs.dialogBox)
-        if (dialogContinues) {
-          // typing 跳末 或 翻页:保持 waiting='dialog',不推进 ip
-          return
-        }
-      }
-      // dialog 结束(nextPage 返 false 或 dialogBox 已 undefined)
+    if (!gs.dialogBox) {
+      // 防御:waiting=dialog 但 dialogBox 不存在 → 清状态退出 waiting,继续步进
       cursor.waiting = undefined
-      gs.dialogBox = undefined
-      cursor.ip++
-    } else {
-      return
+    }
+    else {
+      tickDialog(gs.dialogBox)
+      const ds = gs.dialogBox
+
+      // Confirm 处理:phase 决定行为
+      if (input.pressed.has('Confirm')) {
+        const result = confirmDialog(ds)
+        if (result === 'skip-typing') {
+          // 跳到行末;仍在 typing 行,但已 line-done — 下面 line-done 分支自动推进
+        }
+        else if (result === 'page-advance') {
+          // 清屏完成。检查 pendingStyle(setDialogStyleX 触发的 ClearDialog):
+          //  - 有 → apply 到 gs.currentDialog*,清 gs.dialogBox,推 ip(到下条 showDialog 重建)
+          //  - 无 → 累计 4 行触发(同 style),保留 dialogBox 让下条 showDialog appendDialogLine
+          const pending = ds.pendingStyle
+          if (pending) {
+            gs.currentDialogStyle = pending.style
+            gs.currentDialogPortraitIcon = pending.portraitIcon
+            gs.currentDialogFontColor = pending.fontColor
+            gs.dialogBox = undefined
+          }
+          cursor.waiting = undefined
+          cursor.ip++
+          // fall through 到下面 while 循环:本 tick 继续跑下条 opcode(showDialog 重建 dialog)
+        }
+        else if (result === 'dialog-end') {
+          // 关 dialog,推进到 end 之后(此时 cursor.ip 已在 end opcode 上,end handler 处理退出)
+          gs.dialogBox = undefined
+          cursor.waiting = undefined
+          // 注意:不 ip++,因为 'end' opcode 本身还要执行(下面 switch case 处理)
+        }
+        // 'noop':什么都不做(line-done 等状态)
+      }
+
+      // 自动推进:line-done 时直接 cursor.ip++(不等 Confirm)— sdlpal 行间不停
+      // 但只在 *上面* 不是 'page-advance' / 'dialog-end' 时才做(那两已 return / 切状态)
+      if (gs.dialogBox && gs.dialogBox.phase === 'line-done' && cursor.waiting === 'dialog') {
+        cursor.waiting = undefined
+        cursor.ip++
+        // 继续 fall-through 进入主 while 跑下条 opcode
+      }
+      else if (gs.dialogBox && cursor.waiting === 'dialog') {
+        // 仍在 typing / waiting-page-key / waiting-end-key → 本 tick 不动 cursor
+        return
+      }
     }
   }
 
@@ -210,8 +287,20 @@ export function tickEventSystem(
 
     switch (cmd.op) {
       case 'end':
+        // sdlpal script.c:3475 PAL_EndDialog → PAL_ClearDialog(TRUE)
+        // 若 dialog 有过行(shownLines.length > 0 或 currentLineText 非空)→ 等 Confirm 关 dialog
+        if (gs.dialogBox && gs.dialogBox.phase !== 'waiting-end-key') {
+          const hasLines = gs.dialogBox.shownLines.length > 0
+            || (gs.dialogBox.currentLineText !== null && gs.dialogBox.charsRevealed > 0)
+          if (hasLines) {
+            setWaitingEndKey(gs.dialogBox)
+            cursor.waiting = 'dialog'
+            return // 等下次 tick Confirm 处理
+          }
+        }
         gs.eventCursor = undefined
         gs.dialogBox = undefined
+        gs.currentDialogPortraitIcon = undefined
         gs.mode = 'explore'
         return
 
@@ -243,29 +332,60 @@ export function tickEventSystem(
       }
 
       case 'showDialog': {
-        gs.dialogBox = startDialog(cmd.text, { style: gs.currentDialogStyle })
+        // sdlpal text.c:1616 PAL_ShowDialogText —— 一行一调,行间不等键(由 page/end 状态机管)。
+        // 若 dialogBox 不存在 → startDialogLine 启首行
+        // 若存在但累计 4 行(shouldWaitPageKey)→ setWaitingPageKey,等下次 tick Confirm 后再 append
+        // 否则 → appendDialogLine 加新行
+        if (!gs.dialogBox) {
+          gs.dialogBox = startDialogLine(cmd.text, {
+            style: gs.currentDialogStyle,
+            portraitIcon: gs.currentDialogPortraitIcon,
+            fontColor: gs.currentDialogFontColor,
+          })
+        }
+        else if (shouldWaitPageKey(gs.dialogBox)) {
+          // 不消费本 showDialog — 设 wait 状态,Confirm 后 cursor.ip++ 才会回到此 case append
+          setWaitingPageKey(gs.dialogBox)
+          cursor.waiting = 'dialog'
+          return
+        }
+        else {
+          appendDialogLine(gs.dialogBox, cmd.text)
+        }
         cursor.waiting = 'dialog'
         bus.emit({ op: 'showDialogBox', text: cmd.text, style: gs.currentDialogStyle })
-        // ip 停在 showDialog 上,waiting 释放时才推进
+        // ip 停在 showDialog 上,waiting 释放(typing 完后自动 ip++)才推进
         return
       }
 
-      case 'setDialogStyleTop':
-        gs.currentDialogStyle = 'top'
-        cursor.ip++
+      case 'setDialogStyleTop': {
+        // sdlpal script.c:3404 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogUpper, op[1], op[0], ...)
+        if (applySetDialogStyle(gs, cursor, 'top',
+          cmd.arg0 ? cmd.arg0 : undefined,
+          cmd.arg1 ? cmd.arg1 : 0x4F)) return
         break
-      case 'setDialogStyleCenter':
-        gs.currentDialogStyle = 'center'
-        cursor.ip++
+      }
+      case 'setDialogStyleCenter': {
+        // sdlpal script.c:3394 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogCenter, op[0], 0, ...)
+        if (applySetDialogStyle(gs, cursor, 'center',
+          undefined,
+          cmd.arg0 ? cmd.arg0 : 0x4F)) return
         break
-      case 'setDialogStyleBottom':
-        gs.currentDialogStyle = 'bottom'
-        cursor.ip++
+      }
+      case 'setDialogStyleBottom': {
+        // sdlpal script.c:3414 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogLower, op[1], op[0], ...)
+        if (applySetDialogStyle(gs, cursor, 'bottom',
+          cmd.arg0 ? cmd.arg0 : undefined,
+          cmd.arg1 ? cmd.arg1 : 0x4F)) return
         break
-      case 'setDialogStyleNarration':
-        gs.currentDialogStyle = 'narration'
-        cursor.ip++
+      }
+      case 'setDialogStyleNarration': {
+        // sdlpal script.c:3424 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogCenterWindow, op[0], 0, FALSE)
+        if (applySetDialogStyle(gs, cursor, 'narration',
+          undefined,
+          cmd.arg0 ? cmd.arg0 : 0x4F)) return
         break
+      }
 
       case 'raw': {
         // P0.e: opcode 7 startBattle 切 mode='battle' → 释放 cursor,return 退出 tickEventSystem

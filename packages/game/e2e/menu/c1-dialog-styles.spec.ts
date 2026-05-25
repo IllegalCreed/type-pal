@@ -4,7 +4,11 @@ import { pixelDiff, baselinePathFor } from '../helpers/pixel-diff.js'
 
 type Probe = {
   __game?: {
-    gs: { currentDialogStyle?: string; mode: string }
+    gs: {
+      currentDialogStyle?: string
+      mode: string
+      dialogBox?: { phase?: string }
+    }
   }
 }
 
@@ -26,12 +30,20 @@ test('c1 对话框 style — scene 1 onEnter 链至少含 2 种 style + visual b
   )
 
   const stylesSeen = new Map<string, Buffer>()
-  for (let i = 0; i < 80; i++) {
+  for (let i = 0; i < 120; i++) {
     const probe = await page.evaluate(() => {
       const g = (window as unknown as Probe).__game
-      return { style: g?.gs.currentDialogStyle, mode: g?.gs.mode }
+      return {
+        style: g?.gs.currentDialogStyle,
+        mode: g?.gs.mode,
+        phase: g?.gs.dialogBox?.phase,
+      }
     })
-    if (probe.style && !stylesSeen.has(probe.style)) {
+    // 只在 dialog 进入稳定状态(line-done / waiting-*)截图,避免 typing 中途的不稳定差异
+    const stableForSnap = probe.phase === 'line-done'
+      || probe.phase === 'waiting-page-key'
+      || probe.phase === 'waiting-end-key'
+    if (probe.style && stableForSnap && !stylesSeen.has(probe.style)) {
       stylesSeen.set(probe.style, await snapshotCanvas(page))
     }
     if (probe.mode === 'explore') break // onEnter 跑完
