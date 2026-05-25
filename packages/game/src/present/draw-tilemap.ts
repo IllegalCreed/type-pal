@@ -159,17 +159,16 @@ export function drawTilemap(
  *   注:TileCell.lower/upper 对应 Tiles[row][col][0/1]。
  *
  *   对于每个 (dx, dy, dh, l):
- *     DWORD d = l==0 ? cells[dy][dx].lower : cells[dy][dx].upper
- *     tileId (layer 1) = ((d >> 16) & 0xff) | (((d >> 16) >> 4) & 0x100) - 1
- *     iTileHeight = (d >> 24) & 0xf   (layer 1 的高度字段)
+ *     DWORD d = dh==0 ? cells[dy][dx].lower : cells[dy][dx].upper  ← dh 选 h-row DWORD
+ *     l=0(底层):tileId = tileIdLayer0(d);iTileHeight = (d>>8) & 0xf
+ *     l=1(顶层):tileId = tileIdLayer1(d);iTileHeight = (d>>24) & 0xf
  *     条件: tileId >= 0 && iTileHeight > 0 && (dy + iTileHeight)*16 + dh*8 >= sy
  *     若满足:
  *       DrawEntry.baseY = dy*16 + dh*8 + 7 + l + iTileHeight*8
- *       blit 屏幕位 = (dx*32 + dh*16 - 16 + offsetX, dy*16 + dh*8 - 8 + offsetY)
- *       (h=0 时 dh=0: offsetX-16, offsetY-8;h=1 时 dh=1: offsetX, offsetY)
+ *       blit 屏幕位 = (dx*32 + dh*16 - 16 + offsetX, dy*16 + dh*8 + 7 - bitmap.height + offsetY)
  *
- * 注意:只检查 layer 1(cover tile 只在 layer 1 有意义;layer 0 不遮挡精灵)。
  * dh 字段 = 0 对应 lower DWORD(h=0);dh = 1 对应 upper DWORD(h=1)。
+ * l=0/1 在已选的 DWORD 内选 layer 0(低 16 位)或 layer 1(高 16 位)。
  *
  * @param entries        DrawEntry 数组,cover tile entries 会 push 进去
  * @param map            当前场景 tilemap
@@ -235,27 +234,32 @@ export function addCoverTileEntries(
             break
         }
 
-        // l = 0 → lower DWORD (h-variant 0);l = 1 → upper DWORD (h-variant 1)
+        // bounds check (once per (dx,dy,dh) candidate — outside l loop)
+        if (dy < 0 || dy >= map.height || dx < 0 || dx >= map.width) continue
+
+        const row = map.cells[dy]
+        if (!row) continue
+        const cell = row[dx]
+        if (!cell) continue
+
+        // sdlpal map.c PAL_MapGetTileBitmap / PAL_MapGetTileHeight:
+        //   Tiles[y][x][h] — h=dh selects lower(h=0) or upper(h=1) DWORD.
+        //   ucLayer=l then selects layer 0 (low 16 bits) or layer 1 (high 16 bits).
+        const d = dh === 0 ? cell.lower : cell.upper
+
+        // sdlpal scene.c:156 内层 for (l = 0; l < 2; l++) — l selects layer 0 or layer 1.
         for (let l = 0; l < 2; l++) {
-          // bounds check
-          if (dy < 0 || dy >= map.height || dx < 0 || dx >= map.width) continue
+          // layer tile id:
+          //   l=0 (bottom layer): (d & 0xff) | ((d >> 4) & 0x100)  [no -1; 0 = valid tile]
+          //   l=1 (top layer):    ((d>>>16 & 0xff) | ((d>>>16 >> 4) & 0x100)) - 1  [0 = no tile]
+          const tileId = l === 0 ? tileIdLayer0(d) : tileIdLayer1(d)
 
-          const row = map.cells[dy]
-          if (!row) continue
-          const cell = row[dx]
-          if (!cell) continue
+          // sdlpal map.c PAL_MapGetTileHeight:
+          //   l=0: (d >> 8) & 0xf   (bits 8-11 of low 16-bit half)
+          //   l=1: (d >> 24) & 0xf  (bits 24-27 = bits 8-11 of high 16-bit half)
+          const iTileHeight = l === 0 ? (d >>> 8) & 0xf : (d >>> 24) & 0xf
 
-          // raw DWORD: l=0 → cell.lower, l=1 → cell.upper
-          const d = l === 0 ? cell.lower : cell.upper
-
-          // layer-1 tile id: ((d>>16) & 0xff) | (((d>>16)>>4) & 0x100) - 1
-          const hi = d >>> 16
-          const tileId = ((hi & 0xff) | ((hi >> 4) & 0x100)) - 1
-
-          // layer-1 tile height: (d >> 24) & 0xf
-          const iTileHeight = (d >>> 24) & 0xf
-
-          // sdlpal scene.c:164 condition
+          // sdlpal scene.c:164 condition: lpTile != NULL && iTileHeight > 0 && cover check
           if (tileId < 0) continue
           if (iTileHeight <= 0) continue
           if ((dy + iTileHeight) * 16 + dh * 8 < sy) continue
@@ -277,10 +281,6 @@ export function addCoverTileEntries(
           // 代入相消(iTileHeight*8 + l 项在 pos.y 与 iLayer 之间相消):
           //   blit_x = dx*32 + dh*16 - 16 - viewport.x
           //   blit_y = dy*16 + dh*8 + 7 - bitmap.height - viewport.y
-          //
-          // 之前用 drawTilemap 常规 tile 排版位置(dy*16-8 for h=0 / dy*16 for h=1),
-          // 差 = `15 - bitmap.height`:短 tile (H=16) 差 -1 几乎不显;高柱子 / 屋顶
-          // (H=48 之类)差 -33 → user 看到的"错位"主要是高 cover tile 偏位。
           const screenX = dx * TILE_W + dh * TILE_HALF_W - TILE_HALF_W + offsetX
           const screenY = dy * ROW_Y_STEP + dh * SUBROW_Y_STEP + 7 - img.height + offsetY
 

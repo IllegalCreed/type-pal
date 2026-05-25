@@ -56,6 +56,11 @@ export async function pixelDiff(opts: PixelDiffOptions): Promise<number> {
   )
 
   if (numDiff > 0) {
+    if (opts.updateBaseline) {
+      writeFileSync(opts.baselinePath, opts.actual)
+      console.warn(`[pixel-diff] updated baseline: ${opts.baselinePath}`)
+      return 0
+    }
     const diffPath = opts.baselinePath.replace(/\.png$/, '.diff.png')
     writeFileSync(diffPath, PNG.sync.write(diff))
     console.warn(`[pixel-diff] ${numDiff} diff pixels, diff PNG: ${diffPath}`)
