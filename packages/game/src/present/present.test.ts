@@ -171,6 +171,239 @@ describe('P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)', () => {
   })
 })
 
+// ── P0.d follower 占位(sdlpal scene.c:692-707)───────────────────────────────
+//
+// sdlpal 偏移公式(M5 简版只做 partyMembers[1],occupying trail[1]):
+//   dir = trail[1].wDirection
+//   isWS = (dir == West || dir == South) → left / down
+//   isWN = (dir == West || dir == North) → left / up
+//   offsetX = isWS ? 16 : -16
+//   offsetY = isWN ? 8 : -8
+//
+// partyMembers.length > 1 且 trail.length > 1 时才渲染 follower。
+describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  /**
+   * 追踪 presentFrame 内 drawSprite 调用,返回 id → {sprite, cx, cy} 映射。
+   * 用 spy 拦截 drawSprite,通过 sprite 对象引用识别 party leader vs follower。
+   * follower 在 ctx 中用与 leader 不同索引的 partyFrames 传入来追踪。
+   */
+  function trackFollowerDraw(
+    gs: ReturnType<typeof createInitialGameState>,
+    ctx: PresentContext,
+  ): Array<{ spriteIdx: number; cx: number; cy: number }> {
+    const calls: Array<{ spriteIdx: number; cx: number; cy: number }> = []
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation(
+      (_fb, sprite, cx, cy) => {
+        const idx = ctx.partyFrames.indexOf(sprite as SpriteImage)
+        if (idx >= 0) calls.push({ spriteIdx: idx, cx, cy })
+      },
+    )
+    const fb = createFramebuffer()
+    presentFrame(fb, gs, ctx)
+    spy.mockRestore()
+    return calls
+  }
+
+  it('partyMembers=[0] 单人 → 不渲染 follower(只有 leader drawSprite)', () => {
+    const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
+    gs.partyMembers = [0]
+    gs.trail = [
+      { x: 284, y: 142, dir: 'right' },
+      { x: 268, y: 134, dir: 'right' },
+    ]
+    // 构造 12 帧(4 dir × 3 frames)partyFrames
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
+      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
+    )
+    const ctx: PresentContext = {
+      tilemap: flatMap(20, 20),
+      tileImages: { get: () => undefined },
+      partyFrames: frames,
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+    }
+    const calls = trackFollowerDraw(gs, ctx)
+    // 单人:只有 leader(1 次 drawSprite)
+    expect(calls).toHaveLength(1)
+  })
+
+  it('partyMembers=[0, 1] 且 trail.length > 1 → 渲染 follower 在 trail[1] + 偏移', () => {
+    // leader 在 (300, 150) facing=right,trail[1] dir=right
+    // right(East): isWS = false → offsetX = -16; isWN = false → offsetY = -8
+    // follower world = trail[1] + (-16, -8) = (268-16, 134-8) = (252, 126)
+    const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
+    gs.partyMembers = [0, 1]
+    gs.trail = [
+      { x: 284, y: 142, dir: 'right' },   // trail[0]
+      { x: 268, y: 134, dir: 'right' },   // trail[1] → follower 用这个
+    ]
+    gs.camera = { x: 300, y: 150 }  // center camera on leader
+
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
+      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
+    )
+    const ctx: PresentContext = {
+      tilemap: flatMap(30, 30),
+      tileImages: { get: () => undefined },
+      partyFrames: frames,
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+    }
+    const calls = trackFollowerDraw(gs, ctx)
+    // leader + follower = 2 drawSprite calls
+    expect(calls).toHaveLength(2)
+
+    // 计算 follower screen position:
+    //   followerWorld = (268 - 16, 134 - 8) = (252, 126)
+    //   sx = 252 - 300 + SCREEN_CENTER_X = 252 - 300 + 160 = 112
+    //   sy = 126 - 150 + SCREEN_CENTER_Y = 126 - 150 + 100 = 76
+    // Find the non-leader call: leader should be at screen center (160, 100)
+    const leaderScreenX = 300 - 300 + 160  // = 160
+    const leaderScreenY = 150 - 150 + 100  // = 100
+    const leaderCalls = calls.filter((c) => c.cx === leaderScreenX && c.cy === leaderScreenY)
+    const followerCalls = calls.filter((c) => c.cx !== leaderScreenX || c.cy !== leaderScreenY)
+    expect(leaderCalls).toHaveLength(1)
+    expect(followerCalls).toHaveLength(1)
+    expect(followerCalls[0]!.cx).toBe(112) // 252 - 300 + 160
+    expect(followerCalls[0]!.cy).toBe(76)  // 126 - 150 + 100
+  })
+
+  it('dir=left(West): isWS=true→offsetX=+16; isWN=true→offsetY=+8', () => {
+    const gs = createInitialGameState({ x: 300, y: 150, facing: 'left' })
+    gs.partyMembers = [0, 1]
+    gs.trail = [
+      { x: 316, y: 158, dir: 'left' },
+      { x: 332, y: 166, dir: 'left' },   // follower 用 trail[1]
+    ]
+    gs.camera = { x: 300, y: 150 }
+
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
+      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
+    )
+    const ctx: PresentContext = {
+      tilemap: flatMap(30, 30),
+      tileImages: { get: () => undefined },
+      partyFrames: frames,
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+    }
+    const calls = trackFollowerDraw(gs, ctx)
+    expect(calls).toHaveLength(2)
+    // dir=left: isWS=true→offsetX=16; isWN=true→offsetY=8
+    // followerWorld = (332 + 16, 166 + 8) = (348, 174)
+    // sx = 348 - 300 + 160 = 208; sy = 174 - 150 + 100 = 124
+    const leaderScreenX = 300 - 300 + 160  // = 160
+    const followerCalls = calls.filter((c) => c.cx !== leaderScreenX)
+    expect(followerCalls[0]!.cx).toBe(208)
+    expect(followerCalls[0]!.cy).toBe(124)
+  })
+
+  it('dir=down(South): isWS=true→offsetX=+16; isWN=false→offsetY=-8', () => {
+    const gs = createInitialGameState({ x: 300, y: 150, facing: 'down' })
+    gs.partyMembers = [0, 1]
+    gs.trail = [
+      { x: 316, y: 142, dir: 'down' },
+      { x: 332, y: 134, dir: 'down' },
+    ]
+    gs.camera = { x: 300, y: 150 }
+
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
+      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
+    )
+    const ctx: PresentContext = {
+      tilemap: flatMap(30, 30),
+      tileImages: { get: () => undefined },
+      partyFrames: frames,
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+    }
+    const calls = trackFollowerDraw(gs, ctx)
+    expect(calls).toHaveLength(2)
+    // dir=down: isWS=true→offsetX=16; isWN=false→offsetY=-8
+    // followerWorld = (332 + 16, 134 - 8) = (348, 126)
+    // sx = 348 - 300 + 160 = 208; sy = 126 - 150 + 100 = 76
+    const leaderScreenX = 300 - 300 + 160
+    const followerCalls = calls.filter((c) => c.cx !== leaderScreenX)
+    expect(followerCalls[0]!.cx).toBe(208)
+    expect(followerCalls[0]!.cy).toBe(76)
+  })
+
+  it('dir=up(North): isWS=false→offsetX=-16; isWN=true→offsetY=+8', () => {
+    const gs = createInitialGameState({ x: 300, y: 150, facing: 'up' })
+    gs.partyMembers = [0, 1]
+    gs.trail = [
+      { x: 284, y: 158, dir: 'up' },
+      { x: 268, y: 166, dir: 'up' },
+    ]
+    gs.camera = { x: 300, y: 150 }
+
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
+      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
+    )
+    const ctx: PresentContext = {
+      tilemap: flatMap(30, 30),
+      tileImages: { get: () => undefined },
+      partyFrames: frames,
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+    }
+    const calls = trackFollowerDraw(gs, ctx)
+    expect(calls).toHaveLength(2)
+    // dir=up: isWS=false→offsetX=-16; isWN=true→offsetY=8
+    // followerWorld = (268 - 16, 166 + 8) = (252, 174)
+    // sx = 252 - 300 + 160 = 112; sy = 174 - 150 + 100 = 124
+    const leaderScreenX = 300 - 300 + 160
+    const followerCalls = calls.filter((c) => c.cx !== leaderScreenX)
+    expect(followerCalls[0]!.cx).toBe(112)
+    expect(followerCalls[0]!.cy).toBe(124)
+  })
+
+  it('partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)', () => {
+    const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
+    gs.partyMembers = [0, 1]
+    gs.trail = [{ x: 284, y: 142, dir: 'right' }]  // 只有 1 项,不够
+    gs.camera = { x: 300, y: 150 }
+
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
+      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
+    )
+    const ctx: PresentContext = {
+      tilemap: flatMap(20, 20),
+      tileImages: { get: () => undefined },
+      partyFrames: frames,
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+    }
+    const calls = trackFollowerDraw(gs, ctx)
+    // trail 不足,只画 leader
+    expect(calls).toHaveLength(1)
+  })
+
+  it('partyMembers=[0, 1] 且 trail 为空 → 不渲染 follower', () => {
+    const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
+    gs.partyMembers = [0, 1]
+    gs.trail = []
+    gs.camera = { x: 300, y: 150 }
+
+    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) =>
+      ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
+    )
+    const ctx: PresentContext = {
+      tilemap: flatMap(20, 20),
+      tileImages: { get: () => undefined },
+      partyFrames: frames,
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+    }
+    const calls = trackFollowerDraw(gs, ctx)
+    expect(calls).toHaveLength(1)
+  })
+})
+
 describe('P0.b Y-sort + cover-tile', () => {
   afterEach(() => {
     vi.restoreAllMocks()

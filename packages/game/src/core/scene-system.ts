@@ -216,6 +216,9 @@ export function tickSceneSystem(
     const nx = gs.party.x + dx
     const ny = gs.party.y + dy
     if (isWalkable(ctx.tilemap, nx, ny, gs.npcs, 0)) {
+      // sdlpal scene.c:823-830 PAL_UpdateParty:移动前 leader pos 插入 trail 头部,截至 5 项。
+      gs.trail.unshift({ x: gs.party.x, y: gs.party.y, dir: facing })
+      if (gs.trail.length > 5) gs.trail.length = 5
       gs.party.x = nx
       gs.party.y = ny
       // sdlpal scene.c:663 PAL_UpdatePartyGestures:walking 时 s_iThisStepFrame +1 mod 4

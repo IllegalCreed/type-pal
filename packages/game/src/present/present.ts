@@ -126,6 +126,66 @@ export function presentFrame(
     )
   }
 
+  // --- followers (partyMembers[1..]) ---
+  // sdlpal scene.c:692-707 PAL_UpdatePartyGestures follower 部分:
+  //   第 1 个 follower(partyMembers[1])占 trail[1] 位 + 偏移:
+  //     isWS = (dir == West || dir == South) → left / down
+  //     isWN = (dir == West || dir == North) → left / up
+  //     offsetX = isWS ? 16 : -16
+  //     offsetY = isWN ? 8 : -8
+  //
+  // M5 简版:只做 partyMembers[1],使用 partyFrames(主角占位 sprite)。
+  // partyMembers[2] 后续留 M5+(需 ctx.partyMemberSprites 多角色 map)。
+  if (gs.partyMembers.length > 1 && gs.trail.length > 1) {
+    const t = gs.trail[1]!
+    // sdlpal scene.c:692-707 offset 公式
+    const isWS = t.dir === 'left' || t.dir === 'down'   // West || South
+    const isWN = t.dir === 'left' || t.dir === 'up'     // West || North
+    const offX = isWS ? 16 : -16
+    const offY = isWN ? 8 : -8
+    const followerWorldX = t.x + offX
+    const followerWorldY = t.y + offY
+    const { sx: followerSX, sy: followerSY } = pixelToScreen(
+      { x: followerWorldX, y: followerWorldY },
+      gs.camera,
+    )
+    // follower frame: dir 用 trail[1].dir(M5 简版;sdlpal 真值用 trail[2].dir)
+    const followerDir = FACING_TO_DIRECTION[t.dir]
+    let followerFrameIdx: number
+    if (gs.walkingFrame.walking) {
+      if (walkFrames === 4) {
+        followerFrameIdx = followerDir * 4 + gs.walkingFrame.stepFrame
+      } else {
+        const iStepFrameFollower = [0, 1, 0, 2][gs.walkingFrame.stepFrame] ?? 0
+        followerFrameIdx = followerDir * walkFrames + iStepFrameFollower
+      }
+    } else {
+      followerFrameIdx = followerDir * walkFrames
+    }
+    const followerFrame = ctx.partyFrames[followerFrameIdx] ?? ctx.partyFrames[0]
+    if (followerFrame) {
+      const capturedFrame = followerFrame
+      const capturedSX = followerSX
+      const capturedSY = followerSY
+      entries.push({
+        baseY: followerWorldY + 10,
+        draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY),
+        id: 'party-member-1',
+      })
+      addCoverTileEntries(
+        entries,
+        ctx.tilemap,
+        ctx.tileImages,
+        followerWorldX,
+        followerWorldY + 10,
+        capturedFrame.width,
+        capturedFrame.height,
+        gs.camera,
+        'party-member-1',
+      )
+    }
+  }
+
   // --- NPCs ---
   for (const npc of gs.npcs) {
     const sprite = ctx.npcSprites.get(npc.spriteNum)

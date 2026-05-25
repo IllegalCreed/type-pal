@@ -8,6 +8,16 @@ import type { BattleState } from './battle/battle-state.js'
 
 export type Facing = 'up' | 'down' | 'left' | 'right'
 
+/**
+ * 队友 trail 记录项(P0.d:port sdlpal global.h rgTrail[5])。
+ * 移动前 leader 的世界像素坐标 + 方向,供跟随者占位使用。
+ */
+export interface TrailEntry {
+  x: number
+  y: number
+  dir: Facing
+}
+
 export type Mode = 'explore' | 'event' | 'battle'
 
 /** 队伍成员的 role id(MKFNUM_PLAYERROLES),原版 max 5 在 party 中。 */
@@ -72,6 +82,12 @@ export interface GameState {
    * present.ts 按 walking / stepFrame 选 party leader frame(走动帧 vs 站立帧)。
    */
   walkingFrame: { stepFrame: number; walking: boolean }
+  /**
+   * 队友 trail(P0.d:port sdlpal scene.c:823-830 PAL_UpdateParty rgTrail[5] shift)。
+   * 每次 leader 成功移动时,将移动前的 leader pos 插入头部,截至长度 5。
+   * 跟随者(partyMembers[1..])根据 trail 位置 + 偏移确定自身位置。
+   */
+  trail: TrailEntry[]
   /** 当前调色板;M4 P3.T2 setPalette opcode handler 写入,渲染层 flushToCanvas 消费。
    *  初始值 undefined — bootstrap 初始化后由 GameState 持有最新 palette,
    *  flushToCanvas 优先用 gs.palette(若非 undefined),否则 fallback 到 bootstrap 初始 palette。
@@ -108,6 +124,7 @@ export function createInitialGameState(
     currentDialogStyle: 'center',
     frameNum: 0,
     walkingFrame: { stepFrame: 0, walking: false },
+    trail: [],
   }
 }
 

@@ -649,6 +649,7 @@ function makeGameState(inventory: InventoryEntry[]): GameState {
     currentDialogStyle: 'center',
     frameNum: 0,
     walkingFrame: { stepFrame: 0, walking: false },
+    trail: [],
   }
 }
 

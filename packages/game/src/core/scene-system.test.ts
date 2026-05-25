@@ -674,6 +674,99 @@ describe('loadScene 注入 eventCommands+labelMap(P3.T1)', () => {
   })
 })
 
+// ── P0.d: 队友 trail rgTrail[5](port sdlpal scene.c:823-830 PAL_UpdateParty)────
+//
+// sdlpal scene.c:823-830 真值:
+//   for (i=3; i>=0; i--) gpGlobals->rgTrail[i+1] = gpGlobals->rgTrail[i];
+//   rgTrail[0].wDirection = dir; rgTrail[0].x = xSource; rgTrail[0].y = ySource;
+// → 移动成功后,将移动前 leader pos 插入 trail 头部,上限 5 项。
+describe('P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift)', () => {
+  it('初始 trail 为空', () => {
+    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
+    expect(gs.trail).toEqual([])
+  })
+
+  it('成功移动一步 → trail unshift 移动前 leader pos(长度 1)', () => {
+    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 32)
+    // Right(East): dx=+16, dy=+8
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.trail).toHaveLength(1)
+    // trail[0] = 移动前 leader pos + 移动方向
+    expect(gs.trail[0]).toEqual({ x: 256, y: 128, dir: 'right' })
+    // leader 已移到新位
+    expect(gs.party.x).toBe(272)
+    expect(gs.party.y).toBe(136)
+  })
+
+  it('连续移动两步 → trail[0] 是上一步前 leader pos,trail[1] 是更早的', () => {
+    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 32)
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.trail).toHaveLength(2)
+    // 第 2 次移动前 leader pos = (272, 136)
+    expect(gs.trail[0]).toEqual({ x: 272, y: 136, dir: 'right' })
+    // 第 1 次移动前 leader pos = (256, 128)
+    expect(gs.trail[1]).toEqual({ x: 256, y: 128, dir: 'right' })
+  })
+
+  it('trail 长度上限 5(移动 7 步后仍为 5 项)', () => {
+    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 32)
+    for (let i = 0; i < 7; i++) {
+      tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    }
+    expect(gs.trail).toHaveLength(5)
+  })
+
+  it('trail[0] 始终是上一步移动前的 leader pos(最新)', () => {
+    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 32)
+    for (let i = 0; i < 7; i++) {
+      tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    }
+    // 走了 7 步:party.x = 256 + 7*16 = 368;上一步移动前 = 256 + 6*16 = 352
+    expect(gs.trail[0]).toMatchObject({ x: 352, y: 128 + 6 * 8 })
+  })
+
+  it('撞墙不动 → trail 不变(不 unshift)', () => {
+    // party at (48, 24), Right(+16,+8) → target (64, 32), tile [2,2] blocked
+    const map = makeBlockedMap(10, 10, [[2, 2]])
+    const gs = createInitialGameState({ x: 48, y: 24, facing: 'down' })
+    const bus = createCommandBus()
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    // 撞墙没动,trail 不应有新记录
+    expect(gs.trail).toEqual([])
+  })
+
+  it('idle(无方向键)→ trail 不变', () => {
+    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 32)
+    // 先走一步建立 trail
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.trail).toHaveLength(1)
+    // idle:trail 不新增
+    tickSceneSystem(gs, snap([]), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.trail).toHaveLength(1)
+  })
+
+  it('方向变化时,trail 记录各自方向', () => {
+    const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 32)
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    tickSceneSystem(gs, snap(['Up']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.trail[0]!.dir).toBe('up')    // 第 2 步用 'up'
+    expect(gs.trail[1]!.dir).toBe('right') // 第 1 步用 'right'
+  })
+})
+
 // ── P0.a: 菱形 isometric 碰撞(port sdlpal scene.c:512 + map.c:298) ─────────
 //
 // sdlpal 真值:

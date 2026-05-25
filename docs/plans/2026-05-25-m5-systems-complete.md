@@ -656,7 +656,7 @@ git commit -m "feat(M5.P0.b): Y-sort + 选择性 cover-tile — port sdlpal scen
 
 参考 sdlpal `scene.c:779-848`(PAL_UpdateParty)。
 
-- [ ] **Step 1: 写失败 spec**
+- [x] **Step 1: 写失败 spec**
 
 ```typescript
 describe('P0.d 队友 trail', () => {
@@ -686,12 +686,12 @@ describe('P0.d 队友 trail', () => {
 })
 ```
 
-- [ ] **Step 2: 跑 spec 验失败**
+- [x] **Step 2: 跑 spec 验失败**
 
 Run: `pnpm -F @type-pal/game test scene-system`
 Expected: 2 FAIL。
 
-- [ ] **Step 3: tick 改:成功移动 unshift trail**
+- [x] **Step 3: tick 改:成功移动 unshift trail**
 
 ```typescript
 // packages/game/src/core/scene-system.ts tick 内,成功移动后
@@ -703,7 +703,7 @@ if (moved) {
 }
 ```
 
-- [ ] **Step 4: present.ts 画 trail 上的队友**
+- [x] **Step 4: present.ts 画 trail 上的队友**
 
 ```typescript
 // packages/game/src/present/present.ts
@@ -733,25 +733,31 @@ for (let i = 1; i <= Math.min(gs.partyMembers.length - 1, 1); i++) {
 }
 ```
 
-- [ ] **Step 5: 跑 spec 验通过**
+- [x] **Step 5: 跑 spec 验通过**
 
 Run: `pnpm -F @type-pal/game test scene-system present`
 Expected: 4 PASS(P0.d 4 spec)。
 
-- [ ] **Step 6: 重生 a-multi-party baseline**
+- [x] **Step 6: 重生 a-multi-party baseline**
 
-```bash
-PLAYWRIGHT_UPDATE_SNAPSHOTS=1 pnpm -F @type-pal/game e2e -- a-multi-party
-```
+无新 a-multi-party e2e(bootstrap partyMembers=[0] 单人,follower 渲染无视觉副作用)。
+既有 31 e2e 全绿。
 
-人工肉眼:3 人队走有跟随。
-
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add packages/game/src/core packages/game/src/present
 git commit -m "feat(M5.P0.d): 队友 trail rgTrail[5] + follower 占位偏移 — port sdlpal scene.c:779 PAL_UpdateParty"
 ```
+
+**实施过程发现:**
+
+- **follower 偏移公式真值**:sdlpal scene.c:692-707 — `isWS = (dir==West||South)` / `isWN = (dir==West||North)` → `offsetX = isWS?16:-16` / `offsetY = isWN?8:-8`。4 方向映射:right→(-16,-8), left→(+16,+8), down→(+16,-8), up→(-16,+8)。
+- **trail unshift 位置**:移动成功后、`gs.party.x/y` 更新前 unshift,确保记录的是移动前的 leader 坐标(对照 sdlpal scene.c:823 `xSource/ySource = 移动前`)。
+- **trail TypeScript 类型**:GameState 加 `TrailEntry` 接口(`{x,y,dir:Facing}`),作为独立 exported interface 供 present.ts 等消费。
+- **partyMembers[2] 留 M5+**:第 3 人需 `ctx.partyMemberSprites` 多角色 sprite map(M4 只 dump 主角 sprite)。M5 简版 follower 用 `partyFrames`(主角占位 sprite)。
+- **bootstrap partyMembers=[0] 单人无副作用**:follower 渲染条件 `partyMembers.length > 1 && trail.length > 1`，默认单人 explore 不触发任何额外渲染。
+- **battle fixture 漏 trail**:actions.test.ts 手动构造 GameState 缺 `trail: []`，typecheck 失败。已补。
 
 ---
 
