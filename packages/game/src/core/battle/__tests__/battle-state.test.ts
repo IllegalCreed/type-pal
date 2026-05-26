@@ -146,4 +146,32 @@ describe('createBattleState', () => {
     const phases: BattlePhase[] = ['preBattle', 'selectAction', 'performAction', 'postAction', 'won', 'lost', 'fleed']
     expect(phases).toHaveLength(7)
   })
+
+  // ── M5.B-w0.2: PLAYER_POSITIONS 真值(sdlpal battle.c:27 g_rgPlayerPos[3][3][2])──
+  it('B-w0.2:partyMembers > 3 抛错(sdlpal g_rgPlayerPos[3][3][2] 真值)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0, 1, 2, 3]  // 4 个,超 3 上限
+    expect(() => createBattleState({
+      gs,
+      playerRoles: { roles: [0, 1, 2, 3].map((i) => minimalRole(i)) },
+      enemies: [],
+      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      isBoss: false,
+      rng: createSeedableRng(1),
+    })).toThrow(/最多 3 player|partyMembers.length=4 > 3/)
+  })
+
+  it('B-w0.2:partyMembers <= 3 正常构造', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0, 1, 2]  // 3 个,边界 OK
+    const state = createBattleState({
+      gs,
+      playerRoles: { roles: [0, 1, 2].map((i) => minimalRole(i)) },
+      enemies: [],
+      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      isBoss: false,
+      rng: createSeedableRng(1),
+    })
+    expect(state.players).toHaveLength(3)
+  })
 })

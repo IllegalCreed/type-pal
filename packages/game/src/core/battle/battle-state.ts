@@ -117,7 +117,17 @@ export interface CreateBattleStateInput {
  * - enemies 每条 shallow copy `e`,health 在战斗中会被改,避免污染原 JSON 数据。
  * - phase 起点 = 'preBattle',turn = 0,uiState = 'hidden'(T22 进入后再 advance)。
  */
+/** sdlpal `battle.c:27` 真值:`g_rgPlayerPos[3][3][2]` — 战斗时最多 3 player。
+ *  party 可有 5(MAX_PLAYABLE_PLAYER_ROLES),但战斗 layout 只 3 位。 */
+export const MAX_BATTLE_PLAYERS = 3
+
 export function createBattleState(input: CreateBattleStateInput): BattleState {
+  if (input.gs.partyMembers.length > MAX_BATTLE_PLAYERS) {
+    throw new Error(
+      `createBattleState: partyMembers.length=${input.gs.partyMembers.length} > ${MAX_BATTLE_PLAYERS}`
+      + `(sdlpal g_rgPlayerPos[3][3][2] 真值:战斗最多 3 player)`,
+    )
+  }
   const players: BattlePlayer[] = input.gs.partyMembers.map((roleId) => {
     const role = input.playerRoles.roles[roleId]
     if (!role)
