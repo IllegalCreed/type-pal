@@ -95,6 +95,13 @@ export const OP_SET_AUTO_SCRIPT = 0x0024        // 36
 //   M5 简版:存 gs.screenShakeFrames,present 层 viewport ±intensity 抖(M5 不渲染 — 留 follow-up)。
 //   功能 stub 即可,不挡 cutscene 流。
 export const OP_SHAKE_SCREEN = 0x0035           // 53
+// case 0x000B-0x000E (11-14): NPC walk one step + 自动设方向(script.c:652-661)
+//   dir = wOperation - 0x000B(0=S, 1=W, 2=N, 3=E,palcommon.h kDir*)
+//   走一步 = 像素位移按方向(scene.c:804-805:S→(-16,+8) W→(-16,-8) N→(+16,-8) E→(+16,+8))
+export const OP_NPC_WALK_ONE_STEP_SOUTH = 0x000B  // 11
+export const OP_NPC_WALK_ONE_STEP_WEST  = 0x000C  // 12
+export const OP_NPC_WALK_ONE_STEP_NORTH = 0x000D  // 13
+export const OP_NPC_WALK_ONE_STEP_EAST  = 0x000E  // 14
 // case 0x004A(74):  Set the current battlefield
 //   operand[0] = battlefield id → gs.wNumBattleField(sdlpal script.c:1719,global.h:536)
 //   scene 15 wScriptOnEnter `[10, 0, 0]` → 草妖通道用 battlefield 10
@@ -1258,6 +1265,34 @@ function applyRawOpcode(
       const duration = operands[0] ?? 0
       const intensity = (operands[1] ?? 0) === 0 ? 4 : (operands[1] ?? 0)
       console.debug(`event-system: shakeScreen duration=${duration} intensity=${intensity}(present 层 stub)`)
+      break
+    }
+
+    case OP_NPC_WALK_ONE_STEP_SOUTH:
+    case OP_NPC_WALK_ONE_STEP_WEST:
+    case OP_NPC_WALK_ONE_STEP_NORTH:
+    case OP_NPC_WALK_ONE_STEP_EAST: {
+      // sdlpal script.c:652-661 真值:dir = opcode - 0x000B(0=S, 1=W, 2=N, 3=E),
+      //   pEvtObj.wDirection = dir;PAL_NPCWalkOneStep(wEventObjectID, 2)
+      // scene.c:804-805 方向位移真值:
+      //   S→(-16,+8) W→(-16,-8) N→(+16,-8) E→(+16,+8)
+      const npc = resolveTargetNpc(gs, 0, currentEventObjectId, 'npcWalkOneStepDir')
+      if (npc) {
+        const dirCode = opcode - 0x000B  // 0..3
+        const FACINGS = ['down', 'left', 'up', 'right'] as const
+        const DELTAS = [[-16, 8], [-16, -8], [16, -8], [16, 8]] as const
+        npc.facing = FACINGS[dirCode]
+        const delta = DELTAS[dirCode]
+        if (delta) {
+          npc.x += delta[0]
+          npc.y += delta[1]
+        }
+        // 同 0x6C handler:推进 scriptedFrame mod 4 — 走路帧循环
+        npc.scriptedFrame = ((npc.scriptedFrame ?? -1) + 1) % 4
+        console.debug(
+          `event-system: walkOneStep dir=${FACINGS[dirCode]} id=${npc.id} → (${npc.x},${npc.y})`,
+        )
+      }
       break
     }
 
