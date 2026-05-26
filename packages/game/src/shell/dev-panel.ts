@@ -29,6 +29,7 @@ import type {
 import type { Facing, GameState } from '../core/game-state.js'
 import { startBattle } from '../core/battle/battle-system.js'
 import { loadScene } from '../core/scene-system.js'
+import { buildLabelMap } from '../core/event-system.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 
 /** fixture JSON entry —— 与 `packages/game/src/data/battle-fixtures.json` 对齐。 */
@@ -114,7 +115,7 @@ export function setupDevPanel(deps: DevPanelDeps): void {
     }
   })
 
-  console.log('[dev-panel] 装配完成。快捷键:B = battle picker(探索模式)/ F1 = GameState dump')
+  console.log('[dev-panel] 装配完成。快捷键:B = battle picker(探索模式)/ F1 = GameState dump / picker 内 "Test 4 Styles" = dialog 验证')
 }
 
 /** 当前打开的 picker root —— 同一时刻只允许一个。 */
@@ -227,8 +228,53 @@ function openPicker(deps: DevPanelDeps): void {
   })
   div.appendChild(fontTestBtn)
 
+  // Sync.v Step 2: Dialog Style Test —— 4 style 各一段,验证 typing / 头像 / key icon / 多页
+  const dialogH = document.createElement('h3')
+  dialogH.textContent = 'Dev: Test Dialog Styles'
+  dialogH.style.cssText = 'margin: 12px 0 8px 0; font-size: 14px'
+  div.appendChild(dialogH)
+
+  const dialogBtn = document.createElement('button')
+  dialogBtn.textContent = 'Test 4 Styles(top→center→bottom→narration)'
+  dialogBtn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left'
+  dialogBtn.addEventListener('click', () => {
+    closePicker()
+    triggerDialogStyleTest(deps)
+  })
+  div.appendChild(dialogBtn)
+
   document.body.appendChild(div)
   currentPicker = div
+}
+
+/**
+ * Sync.v: 注入 4 个 setDialogStyle* + showDialog 命令序列到 eventCursor,
+ * mode 切 'event' 后 EventSystem tick 跑完。验证 typing / portrait / key icon / 多页 / 阴影。
+ *
+ * 4 style:top / center / bottom / narration —— 每段一行短文 + 一行多页提示。
+ */
+function triggerDialogStyleTest(deps: DevPanelDeps): void {
+  const commands: Command[] = [
+    // 1) top + portrait icon=1 + color=55(默认) — 多页测试(2 段)
+    { op: 'setDialogStyleTop', arg0: 1 },
+    { op: 'showDialog', messageIndex: 0, text: '李大娘:' },
+    { op: 'showDialog', messageIndex: 1, text: '上方对话框 + 头像 + typing 测试' },
+    { op: 'showDialog', messageIndex: 2, text: '第二页:多页翻动 + key icon' },
+    // 2) center —— 居中无头像
+    { op: 'setDialogStyleCenter' },
+    { op: 'showDialog', messageIndex: 3, text: '居中对话框(无头像)' },
+    // 3) bottom + portrait icon=5
+    { op: 'setDialogStyleBottom', arg0: 5 },
+    { op: 'showDialog', messageIndex: 4, text: '下方对话框 + portrait icon=5' },
+    // 4) narration(不带边框)
+    { op: 'setDialogStyleNarration' },
+    { op: 'showDialog', messageIndex: 5, text: 'narration 旁白模式 — 不带边框' },
+    { op: 'end' },
+  ]
+  const labelMap = buildLabelMap(commands)
+  deps.gs.eventCursor = { commands, labelMap, ip: 0 }
+  deps.gs.mode = 'event'
+  console.log('[dev] Triggered dialog style test sequence (4 styles, 7 dialogs).')
 }
 
 function closePicker(): void {
