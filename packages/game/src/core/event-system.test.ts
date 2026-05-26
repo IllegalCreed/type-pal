@@ -1315,6 +1315,25 @@ describe('I-w1.c NPC contact opcodes', () => {
     }
   })
 
+  it('chest 完整流程(I-w2.1 集成):trigger script 跑 addItem + setSceneObjectState + showDialog → inventory 加 / npc 隐藏 / 对话框显', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // 设 chest NPC 在 (100, 50),trigger script 跑:加 1 个 item 42 + 隐藏自己 + 显对话框
+    gs.npcs = [{ id: 9, x: 100, y: 50, spriteNum: 1, sState: 1, triggerLabel: 'L_chest' }]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x1F, operands: [42, 1, 0], label: 'L_chest' },  // addItem 42 x1
+      { op: 'raw', opcode: 0x49, operands: [0xFFFF, 0, 0] },                // setSceneObjectState self → 0 (Hidden)
+      { op: 'showDialog', messageIndex: 0, text: '得到 上品丹药 ×1' },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 9
+    tickEventSystem(gs, snap(), bus)
+    // 跑到 showDialog 时停在 dialog 等键
+    expect(gs.inventory).toEqual([{ itemId: 42, count: 1 }])
+    expect(gs.npcs[0]?.sState).toBe(0)
+    expect(gs.dialogBox?.currentLineText).toBe('得到 上品丹药 ×1')
+  })
+
   it('walkOneStep 推进 scriptedFrame mod 4(动画循环)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 5, x: 100, y: 50, spriteNum: 1, sState: 1 }]
