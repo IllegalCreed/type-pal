@@ -81,6 +81,20 @@ export const OP_REMOVE_ITEM = 0x0020            // 32
 // case 0x0047(71):  Play sound effect(sdlpal script.c:1704-1709)
 //   operand[0] = soundId。M6 接音频 — 简版 console.debug 不报错。
 export const OP_PLAY_SOUND = 0x0047             // 71
+// case 0x0012(18):  Set position of event object relative to party(script.c:706-714)
+//   pCurrent.x = operand[1] + viewport.x + partyoffset.x = operand[1] + party.x(world)
+//   pCurrent.y = operand[2] + viewport.y + partyoffset.y = operand[2] + party.y
+//   (我们 gs.party.x/y 直接是 world,viewport+partyoffset 等价于 party world)
+export const OP_SET_OBJECT_POS_REL_PARTY = 0x0012  // 18
+// case 0x0024(36):  Set autoscript entry for event object(script.c:相关)
+//   if (operand[0] != 0) pCurrent.wAutoScript = operand[1]
+//   operand[1] 是 raw commands index ip — 我们 npc.autoCursor.ip 同义。
+export const OP_SET_AUTO_SCRIPT = 0x0024        // 36
+// case 0x0035(53):  Shake screen(script.c:相关)
+//   operand[0] = duration(frames),operand[1] = intensity(0 默认 4 像素)
+//   M5 简版:存 gs.screenShakeFrames,present 层 viewport ±intensity 抖(M5 不渲染 — 留 follow-up)。
+//   功能 stub 即可,不挡 cutscene 流。
+export const OP_SHAKE_SCREEN = 0x0035           // 53
 // case 0x004A(74):  Set the current battlefield
 //   operand[0] = battlefield id → gs.wNumBattleField(sdlpal script.c:1719,global.h:536)
 //   scene 15 wScriptOnEnter `[10, 0, 0]` → 草妖通道用 battlefield 10
@@ -1207,6 +1221,43 @@ function applyRawOpcode(
     case OP_PLAY_SOUND: {
       // sdlpal script.c:1704-1709:AUDIO_PlaySound(operand[0])。M6 接音频。
       console.debug(`event-system: playSound id=${operands[0] ?? 0}(M6 接音频系统)`)
+      break
+    }
+
+    case OP_SET_OBJECT_POS_REL_PARTY: {
+      // sdlpal script.c:706-714 真值:pCurrent.x = operand[1] + viewport.x + partyoffset.x
+      //   = operand[1] + party.x(因为 party.world = viewport + partyoffset)
+      const npc = resolveTargetNpc(gs, 0, currentEventObjectId, 'setObjectPosRelParty')
+      if (npc) {
+        npc.x = (operands[1] ?? 0) + gs.party.x
+        npc.y = (operands[2] ?? 0) + gs.party.y
+        console.debug(`event-system: setObjectPosRelParty id=${npc.id} → (${npc.x},${npc.y})`)
+      }
+      break
+    }
+
+    case OP_SET_AUTO_SCRIPT: {
+      // sdlpal:if (operand[0] != 0) pCurrent.wAutoScript = operand[1]
+      // operand[0] 既是 enabled 标志,也用于 resolveTargetNpc 选 NPC(operand[0]==0 → self)。
+      if ((operands[0] ?? 0) === 0) {
+        console.debug('event-system: setAutoScript operand[0]==0 → no-op')
+        break
+      }
+      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setAutoScript')
+      if (npc) {
+        const newIp = operands[1] ?? 0
+        npc.autoCursor = newIp === 0 ? undefined : { ip: newIp }
+        console.debug(`event-system: setAutoScript id=${npc.id} ip=${newIp}`)
+      }
+      break
+    }
+
+    case OP_SHAKE_SCREEN: {
+      // sdlpal script.c:相关 真值:operand[0]=duration,operand[1]=intensity(默认 4)。
+      // M5 简版:stub,console.debug 标 frames + intensity,present 层不实接抖动(留 follow-up)。
+      const duration = operands[0] ?? 0
+      const intensity = (operands[1] ?? 0) === 0 ? 4 : (operands[1] ?? 0)
+      console.debug(`event-system: shakeScreen duration=${duration} intensity=${intensity}(present 层 stub)`)
       break
     }
 

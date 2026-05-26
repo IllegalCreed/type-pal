@@ -1193,3 +1193,75 @@ describe('I-w1.a chest opcodes', () => {
     debugSpy.mockRestore()
   })
 })
+
+// ── M5.I-w1.b: 机关 / scene-state opcode(setObjectPosRelParty / setAutoScript / shakeScreen)
+describe('I-w1.b 机关 / scene-state opcodes', () => {
+  it('setObjectPosRelParty(0x12):pCurrent.x = operand[1] + party.x', () => {
+    const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
+    gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 1 }]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x12, operands: [0, 16, 8] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 7
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.x).toBe(116)  // 16 + 100
+    expect(gs.npcs[0]?.y).toBe(58)   // 8 + 50
+  })
+
+  it('setAutoScript(0x24):operand[0]!=0 → npc.autoCursor.ip = operand[1]', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1 }]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      // operand[0]=0xFFFF(self),operand[1]=42(new ip)
+      { op: 'raw', opcode: 0x24, operands: [0xFFFF, 42, 0] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 3
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.autoCursor).toEqual({ ip: 42 })
+  })
+
+  it('setAutoScript:operand[0]==0 → no-op(sdlpal `if (operand[0] != 0)` 真值)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 5 } }]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x24, operands: [0, 99, 0] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 3
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.autoCursor).toEqual({ ip: 5 })  // 未改
+  })
+
+  it('setAutoScript:operand[1]=0 → 清空 autoCursor', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 5 } }]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x24, operands: [0xFFFF, 0, 0] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 3
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.autoCursor).toBeUndefined()
+  })
+
+  it('shakeScreen(0x35):console.debug stub 不报错 + ip++', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x35, operands: [10, 4, 0] },
+      { op: 'end' },
+    ])
+    expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
+    expect(gs.mode).toBe('explore')
+    const calls = debugSpy.mock.calls.map((c) => String(c[0]))
+    expect(calls.some((m) => m.includes('shakeScreen'))).toBe(true)
+    debugSpy.mockRestore()
+  })
+})
