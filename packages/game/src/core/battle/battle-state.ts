@@ -26,7 +26,17 @@ export interface BattlePlayer {
   /** 本轮是否在 defend。 */
   defending: boolean
   /** 状态:M3 只识别 sleep / paralyzed / confused 三种 + haste / slow flag。 */
-  status: { sleep: number, paralyzed: number, confused: number, haste: boolean, slow: boolean }
+  /** sdlpal `global.h tagSTATUS` 真值 9 种(PAL_CLASSIC):
+   *  Confused/Paralyzed/Sleep/Silence/Puppet/Bravery/Protect/Haste/DualAttack。
+   *  此外 Slow(revisited 模式独有)我们留兼容。number = 剩余回合数(0 = 无效)。
+   *  boolean = 持续生效旗子(Haste/Bravery/Protect/Slow 等 sdlpal `rgwStatus[i] > 0`)。 */
+  status: {
+    sleep: number, paralyzed: number, confused: number, haste: boolean, slow: boolean,
+    // M5.B-w0.3 扩 — sdlpal classic 9 种 status:Silence/Puppet/Bravery/Protect/DualAttack
+    // 全 optional 保 fixture 向后兼容;运行时 apply 逻辑(B-w1.a)用 ?? 0/false。
+    silence?: number, puppet?: number,
+    bravery?: boolean, protect?: boolean, dualAttack?: boolean,
+  }
 }
 
 /**
@@ -37,7 +47,17 @@ export interface BattlePlayer {
 export interface BattleEnemy {
   /** 拷贝 enemies.json 的完整 stats(战斗中 health 会被改)。 */
   e: Enemy
-  status: { sleep: number, paralyzed: number, confused: number, haste: boolean, slow: boolean }
+  /** sdlpal `global.h tagSTATUS` 真值 9 种(PAL_CLASSIC):
+   *  Confused/Paralyzed/Sleep/Silence/Puppet/Bravery/Protect/Haste/DualAttack。
+   *  此外 Slow(revisited 模式独有)我们留兼容。number = 剩余回合数(0 = 无效)。
+   *  boolean = 持续生效旗子(Haste/Bravery/Protect/Slow 等 sdlpal `rgwStatus[i] > 0`)。 */
+  status: {
+    sleep: number, paralyzed: number, confused: number, haste: boolean, slow: boolean,
+    // M5.B-w0.3 扩 — sdlpal classic 9 种 status:Silence/Puppet/Bravery/Protect/DualAttack
+    // 全 optional 保 fixture 向后兼容;运行时 apply 逻辑(B-w1.a)用 ?? 0/false。
+    silence?: number, puppet?: number,
+    bravery?: boolean, protect?: boolean, dualAttack?: boolean,
+  }
   prevHp: number
   /** 从 OBJECT 数组的 OBJECT_ENEMY 派生(M3 不实际运行,但字段预留 M5)。 */
   scriptOnTurnStart: number

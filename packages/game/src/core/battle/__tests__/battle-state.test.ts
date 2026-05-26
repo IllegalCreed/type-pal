@@ -161,6 +161,31 @@ describe('createBattleState', () => {
     })).toThrow(/最多 3 player|partyMembers.length=4 > 3/)
   })
 
+  it('B-w0.3:status field 扩 9 种 — silence/puppet/bravery/protect/dualAttack(全 optional)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    const state = createBattleState({
+      gs,
+      playerRoles: { roles: [minimalRole(0)] },
+      enemies: [],
+      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      isBoss: false,
+      rng: createSeedableRng(1),
+    })
+    // 新字段写入 + JSON round-trip 保留
+    state.players[0]!.status.silence = 3
+    state.players[0]!.status.puppet = 5
+    state.players[0]!.status.bravery = true
+    state.players[0]!.status.protect = true
+    state.players[0]!.status.dualAttack = true
+    const parsed = JSON.parse(JSON.stringify(state)) as typeof state
+    expect(parsed.players[0]?.status.silence).toBe(3)
+    expect(parsed.players[0]?.status.puppet).toBe(5)
+    expect(parsed.players[0]?.status.bravery).toBe(true)
+    expect(parsed.players[0]?.status.protect).toBe(true)
+    expect(parsed.players[0]?.status.dualAttack).toBe(true)
+  })
+
   it('B-w0.2:partyMembers <= 3 正常构造', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0, 1, 2]  // 3 个,边界 OK
