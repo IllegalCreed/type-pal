@@ -66,6 +66,21 @@ export const OP_PLAY_MUSIC = 0x0043             // 67
 // case 0x0049(73):  Set state of current event object
 //   operand[0]=condition(non-zero → execute), operand[1]=newState
 export const OP_SET_SCENE_OBJECT_STATE = 0x0049 // 73
+// case 0x001E(30):  Increase or decrease cash(sdlpal script.c:952-968)
+//   operand[0] = signed amount;若 < 0 且 dwCash 不够 → 跳 operand[1] label。
+//   我们简版:cash 不够时也加(让 negative)+ 不跳 — 注释标注但不做 goto fallback
+//   (chest 用 add positive 主要 case;dec 多在 buy 用走 menu 路径)。
+export const OP_ADD_CASH = 0x001E               // 30
+// case 0x001F(31):  Add item to inventory(sdlpal script.c:970-975)
+//   operand[0] = itemId, operand[1] = qty(signed,负值 = remove)。
+export const OP_ADD_ITEM = 0x001F               // 31
+// case 0x0020(32):  Remove item from inventory(sdlpal script.c:977-...)
+//   operand[0] = itemId, operand[1] = qty(0 → 1), operand[2] = consumeEquipped flag。
+//   简版:只从 inventory remove;equipment 不消费(M5 装备表未真做)。
+export const OP_REMOVE_ITEM = 0x0020            // 32
+// case 0x0047(71):  Play sound effect(sdlpal script.c:1704-1709)
+//   operand[0] = soundId。M6 接音频 — 简版 console.debug 不报错。
+export const OP_PLAY_SOUND = 0x0047             // 71
 // case 0x004A(74):  Set the current battlefield
 //   operand[0] = battlefield id → gs.wNumBattleField(sdlpal script.c:1719,global.h:536)
 //   scene 15 wScriptOnEnter `[10, 0, 0]` → 草妖通道用 battlefield 10
@@ -1053,6 +1068,27 @@ function tryStartBattle(gs: GameState, enemyTeamId: number, fleeArg: number): vo
 //
 // applyRawOpcode: 6 wScriptOnEnter opcode 真生效;其余 D26 兜底 skip(console.debug)。
 // 供 tickEventSystem(raw case)和 runEnterScript 共用,避免重复逻辑。
+
+/** u16 → signed i16(sdlpal `(SHORT)` cast 真值)。 */
+function signExtendI16(u: number): number {
+  return u & 0x8000 ? u - 0x10000 : u
+}
+
+/** I-w1.a 共用 helper:inventory 加/减(qty signed)。port sdlpal global.c PAL_AddItemToInventory。
+ *  qty > 0:已有 → count+=qty;无则 push 新条目。
+ *  qty < 0:已有 → count clamp 到 0;无则 no-op(简版,不做 sdlpal equipment fallback)。 */
+function addItemToInventory(gs: GameState, itemId: number, qty: number): void {
+  const entry = gs.inventory.find((e) => e.itemId === itemId)
+  if (entry) {
+    entry.count = Math.max(0, entry.count + qty)
+    if (entry.count === 0) {
+      gs.inventory = gs.inventory.filter((e) => e.itemId !== itemId)
+    }
+  } else if (qty > 0) {
+    gs.inventory.push({ itemId, count: qty })
+  }
+}
+
 function applyRawOpcode(
   gs: GameState,
   opcode: number,
@@ -1137,6 +1173,40 @@ function applyRawOpcode(
         npc.sState = operands[1] ?? 0
         console.debug(`event-system: setSceneObjectState id=${npc.id} sState=${npc.sState}`)
       }
+      break
+    }
+
+    case OP_ADD_CASH: {
+      // sdlpal script.c:952-968 真值:operand[0] signed amount(SHORT cast)。
+      // 简版:不做 "cash 不足 goto" 分支(operand[1] = onFail label);chest 主要 use 是 add positive。
+      const amount = signExtendI16(operands[0] ?? 0)
+      gs.dwCash = Math.max(0, gs.dwCash + amount)
+      console.debug(`event-system: addCash amount=${amount} → dwCash=${gs.dwCash}`)
+      break
+    }
+
+    case OP_ADD_ITEM: {
+      // sdlpal script.c:970-975:PAL_AddItemToInventory(itemId, qty);qty signed。
+      const itemId = operands[0] ?? 0
+      const qty = signExtendI16(operands[1] ?? 0)
+      addItemToInventory(gs, itemId, qty)
+      console.debug(`event-system: addItem id=${itemId} qty=${qty}`)
+      break
+    }
+
+    case OP_REMOVE_ITEM: {
+      // sdlpal script.c:977+:operand[0]=itemId, operand[1]=qty(0→1), operand[2]=consumeEquipped。
+      // 简版:不消费 equipment,只从 inventory 走 negative add。
+      const itemId = operands[0] ?? 0
+      const qty = (operands[1] ?? 0) === 0 ? 1 : (operands[1] ?? 0)
+      addItemToInventory(gs, itemId, -qty)
+      console.debug(`event-system: removeItem id=${itemId} qty=${qty}`)
+      break
+    }
+
+    case OP_PLAY_SOUND: {
+      // sdlpal script.c:1704-1709:AUDIO_PlaySound(operand[0])。M6 接音频。
+      console.debug(`event-system: playSound id=${operands[0] ?? 0}(M6 接音频系统)`)
       break
     }
 

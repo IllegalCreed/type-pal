@@ -1103,3 +1103,93 @@ describe('setDialogStyleX 真值 reset(每次 opcode 重设 portrait/fontColor,�
     expect(gs.dialogBox?.fontColor).toBe(10)
   })
 })
+
+// ── M5.I-w1.a: chest opcode(addCash / addItem / removeItem / playSound)──────
+// sdlpal script.c:952-968 / 970-975 / 977+ / 1704-1709 真值。
+describe('I-w1.a chest opcodes', () => {
+  it('addCash(0x1E):正数加;u16 0xFFFF = signed -1', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 100
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x1E, operands: [200, 0, 0] },
+      { op: 'raw', opcode: 0x1E, operands: [0xFFFF, 0, 0] },  // signed -1
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dwCash).toBe(299) // 100+200-1
+  })
+
+  it('addCash:dwCash 不足时 clamp 到 0(简版,不做 sdlpal onFail goto 分支)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 10
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x1E, operands: [0xFFCE, 0, 0] },  // signed -50
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dwCash).toBe(0)
+  })
+
+  it('addItem(0x1F):空 inventory → 新增条目', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x1F, operands: [42, 3, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.inventory).toEqual([{ itemId: 42, count: 3 }])
+  })
+
+  it('addItem:已有 itemId → count 累加', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.inventory = [{ itemId: 42, count: 2 }]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x1F, operands: [42, 5, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.inventory).toEqual([{ itemId: 42, count: 7 }])
+  })
+
+  it('removeItem(0x20):qty=0 默认按 1 移除', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.inventory = [{ itemId: 42, count: 3 }]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x20, operands: [42, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.inventory).toEqual([{ itemId: 42, count: 2 }])
+  })
+
+  it('removeItem:count 减到 0 → entry 从 inventory 删除', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.inventory = [{ itemId: 42, count: 1 }]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x20, operands: [42, 1, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.inventory).toEqual([])
+  })
+
+  it('playSound(0x47):console.debug 不报错 + ip++', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x47, operands: [10, 0, 0] },
+      { op: 'end' },
+    ])
+    expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
+    expect(gs.mode).toBe('explore') // 一帧跑完
+    expect(debugSpy).toHaveBeenCalled()
+    debugSpy.mockRestore()
+  })
+})
