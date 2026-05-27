@@ -51,7 +51,7 @@
 | **MAP.MKF** | per mapNum YJ2 | 地图 layer | 配合 GOP.MKF parseMap | `data/tilemap/{mapNum}.json` |
 | **GOP.MKF** | per mapNum | 障碍物层(gridObstacles?)| parseMap 内部消费 | (同上 tilemap json) |
 | MAP + GOP | ~120 unique mapNum | 全 295 scene mapNum dedup | per mapNum dump tile + tilemap | `images/world/tileset/map-{n}/tile-XXXX.png` |
-| **RNG.MKF** | 0-11 | sub-MKF + RLE delta 动画帧(rngplay.c)| raw dump 未解 RLE | `data/rng-raw.json` |
+| **RNG.MKF** | 0-11 | sub-MKF + RLE delta 动画帧(rngplay.c)| ✓ T18 Step 2:`decodeRngAnim` port `PAL_RNGReadFrame` + `PAL_RNGBlitToSurface` opcode 0x00-0x13 → 1464 frame PNG | `images/animation/rng-{NN}/frame-{NNN}.png` + `data/rng-frames.json` |
 | **RGM.MKF** | 0-91 | 单帧 RLE bitmap **角色头像** | ⚠ raw dump **未解 RLE 无 PNG** | `data/rgm-raw.json` |
 | **BALL.MKF** | 0-251 | 单帧 RLE bitmap **物品图标** | ⚠ raw dump **未解 RLE 无 PNG** | `data/ball-raw.json` |
 | **FIRE.MKF** | 0-54 | sprite group YJ2 法术动画 | 全 YJ2 + 帧抽 | `images/magic/fire-NN/frame-NN.png` + `data/fire-sprites.json` |

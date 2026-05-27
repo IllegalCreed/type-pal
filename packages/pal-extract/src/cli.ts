@@ -20,7 +20,7 @@
  *     enemies.json, items.json, spells.json, magic.json,
  *     enemy-teams.json, battle-fields.json, enemy-pos.json,
  *     player-roles.json, battle-bgs.json, battle-sprites.json  (平铺数据表)
- *     rng-raw.json, rgm-raw.json, ball-raw.json    (raw dump, M4 P2 T4)
+ *     rng-frames.json, rgm-raw.json, ball-raw.json (rng: decoded PNG; rgm/ball: raw dump, T18.5+ 真做)
  *     fire-sprites.json                            (FIRE.MKF sprite manifest, M4 P2 T4)
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -50,7 +50,7 @@ import {
   parseLevelUpMagic,
   type RawChunkDump,
 } from './resources/parsers/data-misc.js'
-import { dumpRngAnim } from './resources/parsers/rng.js'
+import { decodeRngAnim } from './resources/parsers/rng-frames.js'
 import { dumpRgmChunk } from './resources/parsers/rgm.js'
 import { dumpBallChunk } from './resources/parsers/ball.js'
 import { parseFirSprite } from './resources/parsers/fire.js'
@@ -317,13 +317,44 @@ async function main(): Promise<void> {
   // SAVE.MKF 不存在(WIN95+ 用 .RPG 存档),drop。
 
   // RNG.MKF: 12 chunks, 每 chunk 是 sub-MKF + RLE delta 动画帧(rngplay.c)
+  // M5.6 T18 Step 2:从 raw dump 升级到 RLE delta decode → 320×200 frame PNG。
+  // sdlpal `PAL_RNGReadFrame`(sub-MKF + 4-byte offsets)+ `PAL_RNGBlitToSurface`
+  //(opcode 0x00-0x13 真值,见 rng-frames.ts)真做 port。
   {
     const rngMkf = openMkf(loadFile('RNG.MKF'))
     const n = chunkCount(rngMkf)
-    const summary: RawChunkDump[] = []
-    for (let i = 0; i < n; i++) summary.push(dumpRngAnim(i, readChunk(rngMkf, i)))
-    writeJson(resolve(OUT, 'data', 'rng-raw.json'), summary)
-    console.log(`[pal-extract] RNG.MKF written (${n} chunks)`)
+    const manifest: Array<{
+      chunkIndex: number
+      frameCount: number
+      frames: Array<{ index: number }>
+    }> = []
+    let totalRngFrames = 0
+    for (let i = 0; i < n; i++) {
+      const chunk = readChunk(rngMkf, i)
+      let result: ReturnType<typeof decodeRngAnim>
+      try {
+        result = decodeRngAnim(i, chunk)
+      }
+      catch (err) {
+        console.warn(`[pal-extract] RNG chunk ${i} decode fail, skip:`, err)
+        continue
+      }
+      for (const f of result.frames) {
+        writeBinary(
+          resolve(OUT, 'images', 'animation', `rng-${i.toString().padStart(2, '0')}`,
+            `frame-${f.index.toString().padStart(3, '0')}.png`),
+          f.pngBytes,
+        )
+      }
+      manifest.push({
+        chunkIndex: i,
+        frameCount: result.frameCount,
+        frames: result.frames.map((f) => ({ index: f.index })),
+      })
+      totalRngFrames += result.frameCount
+    }
+    writeJson(resolve(OUT, 'data', 'rng-frames.json'), { chunks: manifest })
+    console.log(`[pal-extract] RNG.MKF written (${n} chunks, ${totalRngFrames} frames total)`)
   }
 
   // RGM.MKF: 92 chunks, 每 chunk 是单帧 RLE bitmap 角色头像(global.h fpRGM)

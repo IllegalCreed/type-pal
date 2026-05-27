@@ -17,7 +17,6 @@ import { framesToOut, parseSpriteChunk } from '../../sprite.js'
 import { dumpBallChunk } from '../ball.js'
 import { parseFirSprite } from '../fire.js'
 import { dumpRgmChunk } from '../rgm.js'
-import { dumpRngAnim } from '../rng.js'
 
 // ── helpers ────────────────────────────────────────────────────────────────
 
@@ -45,43 +44,9 @@ function rawMkfPath(name: string): string {
   return resolve(REPO_ROOT, 'data/raw', name)
 }
 
-// ── dumpRngAnim ────────────────────────────────────────────────────────────
-
-describe('dumpRngAnim', () => {
-  it('returns raw dump with chunkIndex + size + base64 + sdlpalHint + todo', () => {
-    const r = dumpRngAnim(5, new Uint8Array([0x01, 0x02, 0x03]))
-    expect(r.chunkIndex).toBe(5)
-    expect(r.size).toBe(3)
-    expect(r.base64).toBeTruthy()
-    expect(Buffer.from(r.base64, 'base64')).toEqual(Buffer.from([0x01, 0x02, 0x03]))
-    expect(r.sdlpalHint).toContain('RNG.MKF')
-    expect(r.sdlpalHint).toContain('rngplay.c')
-    expect(r.todo).toContain('M5')
-  })
-
-  it('empty chunk → size=0, base64 empty string', () => {
-    const r = dumpRngAnim(0, new Uint8Array(0))
-    expect(r.size).toBe(0)
-    expect(r.base64).toBe('')
-  })
-
-  it('real RNG.MKF — 12 chunks, all non-empty', () => {
-    const p = rawMkfPath('RNG.MKF')
-    if (!existsSync(p)) {
-      console.warn('[rng test skip] data/raw/RNG.MKF 不存在,需原盘')
-      return
-    }
-    const mkf = openMkf(new Uint8Array(readFileSync(p)))
-    expect(chunkCount(mkf)).toBe(12)
-    for (let i = 0; i < 12; i++) {
-      const buf = readChunk(mkf, i)
-      expect(buf.byteLength).toBeGreaterThan(0)
-      const r = dumpRngAnim(i, buf)
-      expect(r.chunkIndex).toBe(i)
-      expect(r.size).toBe(buf.byteLength)
-    }
-  })
-})
+// ── dumpRngAnim — DEPRECATED 2026-05-27 ────────────────────────────────────
+// M5.6 T18 Step 2:rng.ts raw dump 已废弃,改 rng-frames.ts 真做 RLE delta decode →
+// 320×200 frame PNG。完整单测覆盖在 rng-frames.test.ts(14 case + 真 RNG.MKF chunk 6 集成)。
 
 // ── dumpRgmChunk ───────────────────────────────────────────────────────────
 
