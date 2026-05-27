@@ -1,8 +1,20 @@
-import { describe, it, expect } from 'vitest'
-import type { InputSnapshot, AbstractKey } from '@type-pal/shared'
+import { describe, it, expect, beforeEach } from 'vitest'
+import type { InputSnapshot, AbstractKey, Item, PlayerRoles, Spell } from '@type-pal/shared'
 import { createCommandBus } from '../command-bus.js'
 import { createInitialGameState } from '../game-state.js'
+import { createInGameMenu } from './in-game-menu.js'
+import { setMenuCatalogs } from './menu-driver.js'
 import { tickMenu, openMenu, closeTopMenu } from './menu-mode.js'
+
+const MOCK_CATALOGS = {
+  items: [] as Item[],
+  spells: [] as Spell[],
+  playerRoles: { roles: [] } as unknown as PlayerRoles,
+}
+
+beforeEach(() => {
+  setMenuCatalogs(MOCK_CATALOGS)
+})
 
 function snap(pressed: AbstractKey[] = []): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
@@ -19,7 +31,7 @@ describe('M5.6 W0.a tickMenu 骨架', () => {
 
   it('按 Menu 键 → pop 栈顶 + 栈空时切回 explore', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    openMenu(gs, { kind: 'in-game', state: {} })
+    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
     expect(gs.mode).toBe('menu')
     expect(gs.menuStack.length).toBe(1)
     tickMenu(gs, snap(['Menu']), createCommandBus())
@@ -29,7 +41,7 @@ describe('M5.6 W0.a tickMenu 骨架', () => {
 
   it('栈非空 + 无 Menu 键 → mode 保持 menu(等待子菜单 dispatcher)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    openMenu(gs, { kind: 'in-game', state: {} })
+    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
     tickMenu(gs, snap(['Up']), createCommandBus())
     expect(gs.menuStack.length).toBe(1)
     expect(gs.mode).toBe('menu')
@@ -37,8 +49,8 @@ describe('M5.6 W0.a tickMenu 骨架', () => {
 
   it('栈两层 + Menu 键 → pop 一层(仍在 menu mode)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    openMenu(gs, { kind: 'in-game', state: {} })
-    openMenu(gs, { kind: 'inventory', state: {} })
+    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
+    openMenu(gs, { kind: 'inventory', state: { phase: 'list' } })
     expect(gs.menuStack.length).toBe(2)
     tickMenu(gs, snap(['Menu']), createCommandBus())
     expect(gs.menuStack.length).toBe(1)
@@ -58,7 +70,7 @@ describe('openMenu / closeTopMenu', () => {
 
   it('closeTopMenu pop(不切 mode — 留 tickMenu 下帧处理)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    openMenu(gs, { kind: 'in-game', state: {} })
+    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
     closeTopMenu(gs)
     expect(gs.menuStack.length).toBe(0)
     // mode 仍是 'menu' — tickMenu 下一帧检查空栈才切回 explore

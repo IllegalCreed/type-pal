@@ -11,6 +11,7 @@ import {
   setSceneLoader,
   setSharedEvents, setStartBattleHandler,
 } from '../core/event-system.js'
+import { setMenuCatalogs } from '../core/menu/menu-driver.js'
 import { startBattle } from '../core/battle/battle-system.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { KeyboardInputSource } from './input.js'
@@ -73,6 +74,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     tilemap, palette, scene, events, playerRoles, tileImages, characterSprites,
     battleSprites, battleBgs, enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics,
   } = assets
+
+  // M5.6 W0.b:注入大世界 menu catalogs(items / spells / playerRoles),
+  // menu-driver 内 dispatchInGameMenu 在 Confirm 时调 createInventoryMenu / createInGameMagicMenu 等需要。
+  setMenuCatalogs({ items, spells, playerRoles })
 
   // 队长精灵号 —— 从 player-roles.json (DATA.MKF chunk 3 真解) 取真值。
   // M3 T9 之前 M2 硬编码 = 2,现在改读 PlayerRoles.roles[0].spriteNum(实测 = 2);
