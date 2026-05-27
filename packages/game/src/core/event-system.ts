@@ -96,6 +96,12 @@ export const OP_SET_AUTO_SCRIPT = 0x0024        // 36
 //   M5 简版:存 gs.screenShakeFrames,present 层 viewport ±intensity 抖(M5 不渲染 — 留 follow-up)。
 //   功能 stub 即可,不挡 cutscene 流。
 export const OP_SHAKE_SCREEN = 0x0035           // 53
+// case 0x0026(38): Buy menu(sdlpal script.c:1157)— PAL_BuyMenu(operand[0]=shop id)
+//   显示购买菜单,operand[0] 是 shop OBJECT id;阻塞等用户选完。
+// M-w3.a 简版:event-system stub console.debug + ip++(真做接 dev panel BuyMenu)。
+export const OP_BUY_MENU = 0x0026                // 38
+// case 0x0027(39): Sell menu(script.c:1166)— PAL_SellMenu(),无 operand。
+export const OP_SELL_MENU = 0x0027               // 39
 // case 0x000B-0x000E (11-14): NPC walk one step + 自动设方向(script.c:652-661)
 //   dir = wOperation - 0x000B(0=S, 1=W, 2=N, 3=E,palcommon.h kDir*)
 //   走一步 = 像素位移按方向(scene.c:804-805:S→(-16,+8) W→(-16,-8) N→(+16,-8) E→(+16,+8))
@@ -1266,6 +1272,15 @@ function applyRawOpcode(
         npc.autoCursor = newIp === 0 ? undefined : { ip: newIp }
         console.debug(`event-system: setAutoScript id=${npc.id} ip=${newIp}`)
       }
+      break
+    }
+
+    case OP_BUY_MENU:
+    case OP_SELL_MENU: {
+      // M5.M-w3.a 简版:console.debug stub。真做要 emit 'showShopMenu' command +
+      // 进 waiting='shop' phase 等 dev panel / UI 弹 BuyMenu / SellMenu confirm。
+      console.debug(`event-system: ${opcode === OP_BUY_MENU ? 'buy' : 'sell'} menu`
+        + ` operand=${operands.join(',')}(menu UI 真接入留 follow-up)`)
       break
     }
 
