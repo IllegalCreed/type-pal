@@ -1,5 +1,10 @@
 import type { AbstractKey, InputSnapshot, InputSource } from '@type-pal/shared'
 
+// 物理键 → AbstractKey。对照 sdlpal `input.c:60-92`(SDL2 → kKey*):
+//   ESCAPE/INSERT/ALT/KP_0 → kKeyMenu(开 InGameMenu / 菜单内返回上一级)
+//   RETURN/SPACE → kKeySearch(大世界调查 / 菜单内确认 → ts 'Confirm')
+//   F → kKeyForce(暂未接;留 W0.0 之后扩)
+// ts 端 'Cancel' 抽象保留 — M5 battle UI 用作回退键(battle menu 内退回上一菜单 step)
 const CODE_MAP: Record<string, AbstractKey> = {
   ArrowUp: 'Up',
   ArrowDown: 'Down',
@@ -11,8 +16,11 @@ const CODE_MAP: Record<string, AbstractKey> = {
   KeyD: 'Right',
   Space: 'Confirm',
   Enter: 'Confirm',
-  Escape: 'Cancel',
-  KeyM: 'Menu',
+  Escape: 'Menu', // sdlpal input.c:66 SDLK_ESCAPE → kKeyMenu(M5.6 W0.0 — 原误标 'Cancel')
+  AltLeft: 'Menu', // sdlpal input.c:68
+  AltRight: 'Menu', // sdlpal input.c:69
+  Insert: 'Menu', // sdlpal input.c:67
+  KeyM: 'Menu', // dev 常用键,保留
 }
 
 export function codeToAbstractKey(code: string): AbstractKey | null {

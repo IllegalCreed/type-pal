@@ -21,10 +21,14 @@ describe('codeToAbstractKey', () => {
     expect(codeToAbstractKey('KeyD')).toBe('Right')
   })
 
-  it('确认 / 取消 / 菜单', () => {
+  it('确认 / 菜单(sdlpal input.c:66-72 真值)', () => {
     expect(codeToAbstractKey('Space')).toBe('Confirm')
     expect(codeToAbstractKey('Enter')).toBe('Confirm')
-    expect(codeToAbstractKey('Escape')).toBe('Cancel')
+    // sdlpal input.c:66 SDLK_ESCAPE → kKeyMenu;ts 'Cancel' 抽象保留 battle 用,但物理 Escape 映 'Menu'
+    expect(codeToAbstractKey('Escape')).toBe('Menu')
+    expect(codeToAbstractKey('AltLeft')).toBe('Menu')
+    expect(codeToAbstractKey('AltRight')).toBe('Menu')
+    expect(codeToAbstractKey('Insert')).toBe('Menu')
     expect(codeToAbstractKey('KeyM')).toBe('Menu')
   })
 
