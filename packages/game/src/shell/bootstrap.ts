@@ -191,6 +191,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     openingMenuBg: assets.battleBgs.get(2),
     // M5.6 T10b:BALL 物品图标(audit 第 1 漏洞已修)— InventoryMenu / Equip / 商店用。
     itemIcons: assets.itemIcons,
+    items: assets.items,
   }
 
   // M3 T28/T29:战斗一帧装配 —— BattlePresent 持有 floating nums 跨帧状态;

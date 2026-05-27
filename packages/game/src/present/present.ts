@@ -45,6 +45,8 @@ export interface PresentContext {
    * 商店 / addItem dialog 渲染时取。
    */
   itemIcons?: Map<number, IndexedImage>
+  /** T10b:items catalog(InventoryMenu / Equip / 商店 渲染用)。 */
+  items?: import('@type-pal/shared').Item[]
 }
 
 /** sdlpal `palcommon.h`:kDirSouth=0 / kDirWest=1 / kDirNorth=2 / kDirEast=3。 */
@@ -395,7 +397,11 @@ export function presentFrame(
   // M5.6 W0.d:菜单 modal 覆盖最顶层,在 fadeState 后画(避免被 fade 覆盖)。
   // gs.menuStack 空时 drawMenuStack 立即 return,无开销。
   if (gs.menuStack.length > 0 && ctx.uiSpriteFrames) {
-    drawMenuStack(fb, gs, ctx.uiSpriteFrames, ctx.glyphs, ctx.openingMenuBg)
+    drawMenuStack(fb, gs, ctx.uiSpriteFrames, ctx.glyphs, {
+      openingMenuBg: ctx.openingMenuBg,
+      items: ctx.items,
+      itemIcons: ctx.itemIcons,
+    })
   }
 }
 

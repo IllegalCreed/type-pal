@@ -10,6 +10,7 @@
  *  - 主菜单弹时左上角 PAL_ShowCash 单行 box + "金钱" label + dwCash 数字
  */
 
+import type { Item } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import type {
   ActiveMenuEntry,
@@ -17,6 +18,7 @@ import type {
   GameState,
 } from '../../core/game-state.js'
 import type { InGameMenuState, SystemMenuState } from '../../core/menu/in-game-menu.js'
+import type { InventoryMenuState } from '../../core/menu/inventory-menu.js'
 import type { OpeningMenuState } from '../../core/menu/opening-menu.js'
 import type { SaveSlotMenuState } from '../../core/menu/save-slot-menu.js'
 import type { SelectionMenuState } from '../../core/menu/primitives.js'
@@ -25,6 +27,7 @@ import type { Framebuffer } from '../framebuffer.js'
 import { measureText, renderText, type GlyphTable } from '../font.js'
 import { drawBox, drawSingleLineBox } from './draw-box.js'
 import { drawNumber } from '../draw-number.js'
+import { drawInventoryMenu } from './draw-inventory.js'
 import { drawOpeningMenu } from './draw-opening-menu.js'
 
 // ── sdlpal ui.h / text.c 真值色 ──────────────────────────────────────────────
@@ -68,15 +71,22 @@ function menuTextMaxWidth(labels: string[], glyphs?: GlyphTable): number {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+export interface DrawMenuExtraCtx {
+  openingMenuBg?: BattleBgAsset
+  /** M5.6 T10b:InventoryMenu / Equip / 商店 渲染要 items catalog + BALL 图标 */
+  items?: Item[]
+  itemIcons?: Map<number, IndexedImage>
+}
+
 export function drawMenuStack(
   fb: Framebuffer,
   gs: GameState,
   uiSpriteFrames: IndexedImage[],
   glyphs?: GlyphTable,
-  openingMenuBg?: BattleBgAsset,
+  extra?: DrawMenuExtraCtx,
 ): void {
   for (const entry of gs.menuStack) {
-    drawMenuEntry(fb, entry, gs, uiSpriteFrames, glyphs, openingMenuBg)
+    drawMenuEntry(fb, entry, gs, uiSpriteFrames, glyphs, extra)
   }
 }
 
@@ -86,14 +96,14 @@ function drawMenuEntry(
   gs: GameState,
   uiSpriteFrames: IndexedImage[],
   glyphs?: GlyphTable,
-  openingMenuBg?: BattleBgAsset,
+  extra?: DrawMenuExtraCtx,
 ): void {
   switch (entry.kind) {
     case 'opening':
       drawOpeningMenu({
         fb,
         state: entry.state as OpeningMenuState,
-        bg: openingMenuBg,
+        bg: extra?.openingMenuBg,
         glyphs,
       })
       break
@@ -110,12 +120,22 @@ function drawMenuEntry(
       drawSaveSlotMenu(fb, entry.state as SaveSlotMenuState, uiSpriteFrames, glyphs)
       break
     case 'inventory':
+      // T10b:fullscreen UI(sdlpal itemmenu.c:28-310 真值 1:1 port)
+      drawInventoryMenu({
+        fb,
+        state: entry.state as InventoryMenuState,
+        items: extra?.items ?? [],
+        uiSpriteFrames,
+        itemIcons: extra?.itemIcons,
+        glyphs,
+      })
+      break
     case 'equip':
     case 'in-game-magic':
     case 'player-status':
     case 'shop-buy':
     case 'shop-sell':
-      // T10b-e 待真做 fullscreen UI;此处显式标 TODO 不再装"接通"
+      // T10c-e 待真做 fullscreen UI;此处显式标 TODO 不再装"接通"
       drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
       break
   }
