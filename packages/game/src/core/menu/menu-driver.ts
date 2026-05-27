@@ -337,20 +337,40 @@ function dispatchInventoryMenu(
   if (input.pressed.has('End')) inventoryEnd(s)
   // sdlpal gpGlobals->iCurInvMenuItem 全局记忆
   gs.iCurInvMenuItem = s.cursor
+  // sdlpal `uigame.c:1403/1468` PAL_ItemUseMenu 真值:`if (PAL_GetItemAmount(wItemToUse) <= 0)
+  //   return MENUITEM_VALUE_CANCELLED` — 物品用完 picker 自动返 CANCELLED,退到 OUTER 物品选择。
+  // ts 等价:phase='use-target' 时每帧检测 gs.inventory[selectedItemId].count <= 0 → 自动
+  // cancel 回 'list' 不渲染僵尸 picker。
+  if (s.phase === 'use-target' && s.selectedItemId !== undefined) {
+    const count = gs.inventory.find((e) => e.itemId === s.selectedItemId)?.count ?? 0
+    if (count <= 0) {
+      cancelInventoryMenu(s)  // phase 'use-target' → 'list'
+      // 重建 state.inventory snapshot(items 已减少,filter 重过)
+      const catalogs = requireCatalogs()
+      const refreshed = createInventoryMenu(gs, catalogs.items, s.filter)
+      s.inventory = refreshed.inventory
+      if (s.cursor >= s.inventory.length) s.cursor = Math.max(0, s.inventory.length - 1)
+    }
+  }
+
   if (input.pressed.has('Confirm')) {
     const catalogs = requireCatalogs()
     if (s.phase === 'list') {
       // sdlpal play.c:268-323 真值:if item.flags.applyToAll → 跳过 picker,直接跑 script with
-      // wEventObjectID=0xFFFF;else 进 PAL_ItemUseMenu 选 player。
+      // wEventObjectID=0xFFFF + 用完 return 退到 InventoryMenu 上层;else 进 PAL_ItemUseMenu 选 player。
       const sel = s.inventory[s.cursor]
       const item = sel ? catalogs.items.find((it) => it.id === sel.itemId) : undefined
       if (item && item.flags.usable && item.flags.applyToAll) {
-        // 直接跑 script + 关全菜单(applyToAll 不需 target picker)
+        // applyToAll 路径:sdlpal play.c:305-322 真值 — runScript + consume + return
+        // (不再 while loop 继续选;applyToAll 用完即退出 PAL_GameUseItem)。
+        // ts:让 phase='done' → tickMenu closeTopMenu 退 inventory 回 inventory-action。
+        // 注:**不再 menuStack=[]**(之前错杀)— event mode 跑 script 完会自动 mode='menu'
+        //     恢复 menuStack 顶 'inventory'(已 phase='done'),即关 inventory 回 inventory-action。
         const ok = startOverworldItemScript(
           gs, item.id, item.scriptOnUse, 0xFFFF, item.flags.consuming,
         )
         if (ok) {
-          gs.menuStack = []  // 关 inventory + 上层 inventory-action(如果在),让 event mode 接管
+          s.phase = 'done'  // script 跑完 mode 切 menu,closeTopMenu 关 inventory
         }
         return
       }
@@ -362,13 +382,20 @@ function dispatchInventoryMenu(
       if (picked) {
         const item = catalogs.items.find((it) => it.id === picked.itemId)
         if (item) {
-          // sdlpal play.c:288-302 真值:PAL_RunTriggerScript(scriptOnUse, wPlayer) +
-          // if consuming + g_fScriptSuccess → PAL_AddItemToInventory(-1)
+          // sdlpal play.c:288-302 真值 INNER while loop:
+          //   - PAL_RunTriggerScript(scriptOnUse, wPlayer)
+          //   - if consuming + g_fScriptSuccess → PAL_AddItemToInventory(-1)
+          //   - 回到 while (TRUE) 顶 → ItemUseMenu 再开(同物品同 picker,可继续选 target 重用)
+          // ts:**不**清 menuStack;phase 保 'use-target'(confirmInventoryTarget 把 phase 设了
+          // 'done',要 revert 回 'use-target' 让 picker 继续);script 跑完 event mode 切 menu
+          // 恢复 picker 渲染。
           const ok = startOverworldItemScript(
             gs, picked.itemId, item.scriptOnUse, picked.roleId, item.flags.consuming,
           )
           if (ok) {
-            gs.menuStack = []  // 关全菜单,event mode 接管 script 跑完后回 explore
+            // confirmInventoryTarget 把 phase 设了 'done',sdlpal 实际是 INNER loop 继续,
+            // 所以这里 revert 回 'use-target' 让 ItemUseMenu picker 继续显示。
+            s.phase = 'use-target'
             return
           }
         }

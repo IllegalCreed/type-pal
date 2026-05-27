@@ -720,10 +720,12 @@ export function tickEventSystem(
     }
 
     if (cursor.ip < 0 || cursor.ip >= cursor.commands.length) {
-      console.warn(`event-system: ip ${cursor.ip} 越界 → 切回 explore`)
+      console.warn(`event-system: ip ${cursor.ip} 越界 → 切回 explore / menu`)
       gs.eventCursor = undefined
       gs.dialogBox = undefined
-      gs.mode = 'explore'
+      // sdlpal play.c:264-303 PAL_GameUseItem 真值:item script 跑完回到 ItemUseMenu。
+      // 等价 ts:menuStack 非空 → mode='menu' 恢复菜单循环(否则回 explore)。
+      gs.mode = gs.menuStack.length > 0 ? 'menu' : 'explore'
       return
     }
 
@@ -779,7 +781,11 @@ export function tickEventSystem(
         gs.currentDialogPortraitIcon = undefined
         // Sync.2 fix5:主角 scripted pose / sprite override 不在此清,
         //   由 scene-system 首次走动检测时清(避免单元测试 setX→end 两 opcode 后立即 read 不到值)
-        gs.mode = 'explore'
+        // M5.6 session 3 修(sdlpal play.c:264-303 PAL_GameUseItem INNER while loop 真值):
+        //   item.scriptOnUse 跑完后 sdlpal **回到** ItemUseMenu(while (TRUE) 顶)— 不退菜单。
+        //   ts 等价:若 menuStack 非空 → mode='menu' 恢复菜单循环,而非 mode='explore'。
+        //   user 反馈"如果这个物品没用完可以继续使用" — 之前我一律 menuStack=[] 错杀菜单。
+        gs.mode = gs.menuStack.length > 0 ? 'menu' : 'explore'
         return
 
       case 'goto': {
