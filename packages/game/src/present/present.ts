@@ -8,6 +8,7 @@ import { drawTilemap, addCoverTileEntries, type TileImages, type DrawEntry } fro
 import { drawSprite, type SpriteImage } from './draw-sprite.js'
 import { drawDialogBox, type DialogBoxDrawCtx } from './dialog-box.js'
 import { drawMenuStack } from './menu/draw-menu.js'
+import type { BattleBgAsset } from './battle/draw-battle-bg.js'
 import type { GlyphTable } from './font.js'
 
 export interface PresentContext {
@@ -32,6 +33,12 @@ export interface PresentContext {
   dialogAssets?: DialogBoxDrawCtx
   /** M5.6 W0.d:SPRITEUI 71 frame(menu box 9-slice 用前 18 个) */
   uiSpriteFrames?: IndexedImage[]
+  /**
+   * M5.6 T17:OpeningMenu 全屏背景(sdlpal `MAINMENU_BACKGROUND_FBPNUM = 2` WIN95 真值)。
+   * 数据源 = FBP.MKF chunk 2 → M4 P2.T4 已 dump 到 images/battle/bg/002.png。
+   * loadAll 通过 battleBgs.get(2) 拿到;bootstrap 注入此字段。
+   */
+  openingMenuBg?: BattleBgAsset
 }
 
 /** sdlpal `palcommon.h`:kDirSouth=0 / kDirWest=1 / kDirNorth=2 / kDirEast=3。 */
