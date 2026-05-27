@@ -134,30 +134,33 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 
 ### battle.c(22 函数)
 
+> 大部分是战斗渲染层(SpriteObject 管理 + draw),ts 端 present/battle/ 简版接管;
+> 核心逻辑(BattleWon / StartBattle)已 port。
+
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 34 | `PAL_BattleDrawBackground` | ✗ | _待审_ |
-| 86 | `PAL_BattleDrawEnemySprites` | ✗ | _待审_ |
-| 143 | `PAL_BattleDrawPlayerSprites` | ✗ | _待审_ |
-| 216 | `PAL_BattleDrawMagicSprites` | ✗ | _待审_ |
-| 248 | `PAL_BattleClearSpriteObject` | ✗ | _待审_ |
-| 272 | `PAL_BattleSpriteAddUnlock` | ✗ | _待审_ |
-| 282 | `PAL_BattleAddSpriteObject` | ✗ | _待审_ |
-| 330 | `PAL_BattleRemoveSpriteObject` | ✗ | _待审_ |
-| 361 | `PAL_BattleAddFighterSpriteObject` | ✗ | _待审_ |
-| 409 | `PAL_BattleSortSpriteObjecByPos` | ✗ | _待审_ |
-| 473 | `PAL_BattleDrawAllSprites` | ✗ | _待审_ |
-| 505 | `PAL_BattleDrawAllSpritesWithColorShift` | ✗ | _待审_ |
-| 565 | `PAL_BattleMakeScene` | ? | _待审_ |
-| 609 | `PAL_BattleFadeScene` | ✗ | _待审_ |
-| 685 | `PAL_BattleMain` | ✗ | _待审_ |
-| 807 | `PAL_FreeBattleSprites` | ✗ | _待审_ |
-| 856 | `PAL_LoadBattleSprites` | ✗ | _待审_ |
-| 949 | `PAL_LoadBattleBackground` | ✗ | _待审_ |
-| 991 | `PAL_BattleWon` | ? | _待审_ |
-| 1376 | `PAL_BattleEnemyEscape` | ✗ | _待审_ |
-| 1438 | `PAL_BattlePlayerEscape` | ✗ | _待审_ |
-| 1531 | `PAL_StartBattle` | ? | _待审_ |
+| 34 | `PAL_BattleDrawBackground` | ⚠️ | present/battle/draw-battle-bg.ts(M3 T25 简版,无 wave/cycle 动画)|
+| 86 | `PAL_BattleDrawEnemySprites` | ⚠️ | present/battle/draw-battle-sprites.ts(简版,无 ColorShift 死敌效果)|
+| 143 | `PAL_BattleDrawPlayerSprites` | ⚠️ | 同上 |
+| 216 | `PAL_BattleDrawMagicSprites` | ✗ | magic 特效 sprite(B-w3.b follow-up,FIRE/RGM/RNG sprite sheet)|
+| 248 | `PAL_BattleClearSpriteObject` | N/A | sdlpal 内部 SpriteObject 数组管理,ts 用 entries 数组 + JS GC |
+| 272 | `PAL_BattleSpriteAddUnlock` | N/A | 同上 |
+| 282 | `PAL_BattleAddSpriteObject` | N/A | 同上 |
+| 330 | `PAL_BattleRemoveSpriteObject` | N/A | 同上 |
+| 361 | `PAL_BattleAddFighterSpriteObject` | N/A | 同上 |
+| 409 | `PAL_BattleSortSpriteObjecByPos` | ✓ | present/battle/present-battle.ts entries 按 baseY sort(等价)|
+| 473 | `PAL_BattleDrawAllSprites` | ⚠️ | present-battle.ts:presentBattleFrame(简版,无 colorShift / hiding mask)|
+| 505 | `PAL_BattleDrawAllSpritesWithColorShift` | ✗ | 死敌 / 中毒 / 高亮 colorShift 效果;follow-up |
+| 565 | `PAL_BattleMakeScene` | ⚠️ | present-battle.ts 等价 — 调 DrawBackground + DrawAllSprites + UI;简版无 wave 等 |
+| 609 | `PAL_BattleFadeScene` | ✗ | 战斗入场 fade;follow-up M6 体验 |
+| 685 | `PAL_BattleMain` | ⚠️ | battle-system.ts:tickBattle(异步 raf 循环驱动 vs sdlpal 同步 frame loop;逻辑等价)|
+| 807 | `PAL_FreeBattleSprites` | N/A | JS GC |
+| 856 | `PAL_LoadBattleSprites` | ⚠️ | assets/loader.ts 内一次 fetch battle sprites(无 per-enemy lazy load) |
+| 949 | `PAL_LoadBattleBackground` | ✓ | assets/loader.ts:battleBgs fetch |
+| 991 | `PAL_BattleWon` | ⚠️ | battle-system.ts:finalizeBattle won 分支(B-w1.c expGained 入 gs.Exp.rgPrimaryExp + dwCash);**未做 levelup loop while dwExp >= rgLevelUpExp[level]**(B-w1.c follow-up)+ 4 段视觉 box 未做(M6 UI)|
+| 1376 | `PAL_BattleEnemyEscape` | ✗ | enemy 主动逃跑(BOSS script 触发);ts 端 opcode 0x69 stub,完整 anim follow-up |
+| 1438 | `PAL_BattlePlayerEscape` | ⚠️ | actions/flee.ts:performFlee(fleeRate vs enemy.dex 简版 RNG;sdlpal 真值含 BOSS 不许逃 + party 全员 fleeRate 综合)|
+| 1531 | `PAL_StartBattle` | ✓ | battle-system.ts:startBattle(buildBattleState + 入 mode='battle' + emit battleStarted)|
 
 ### ending.c(5 函数)
 
@@ -173,37 +176,42 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 29 | `PAL_IsPlayerDying` | ✗ | _待审_ |
-| 52 | `PAL_IsPlayerHealthy` | ✗ | _待审_ |
-| 79 | `PAL_BattleSelectAutoTarget` | ✗ | _待审_ |
-| 87 | `PAL_BattleSelectAutoTargetFrom` | ✗ | _待审_ |
-| 131 | `PAL_CalcBaseDamage` | ? | _待审_ |
-| 174 | `PAL_CalcMagicDamage` | ? | _待审_ |
-| 253 | `PAL_CalcPhysicalAttackDamage` | ? | _待审_ |
-| 289 | `PAL_GetEnemyDexterity` | ? | _待审_ |
-| 336 | `PAL_GetPlayerActualDexterity` | ? | _待审_ |
-| 395 | `PAL_UpdateTimeChargingUnit` | ✗ | _待审_ |
-| 427 | `PAL_GetTimeChargingSpeed` | ✗ | _待审_ |
-| 469 | `PAL_BattleDelay` | ✗ | _待审_ |
-| 561 | `PAL_BattleBackupStat` | ✗ | _待审_ |
-| 603 | `PAL_BattleDisplayStatChange` | ✗ | _待审_ |
-| 719 | `PAL_BattlePostActionCheck` | ✗ | _待审_ |
-| 916 | `PAL_BattleUpdateFighters` | ✗ | _待审_ |
-| 1023 | `PAL_BattlePlayerCheckReady` | ? | _待审_ |
-| 1073 | `PAL_BattleStartFrame` | ✗ | _待审_ |
-| 1811 | `PAL_BattleCommitAction` | ✗ | _待审_ |
-| 2008 | `PAL_BattleShowPlayerAttackAnim` | ✗ | _待审_ |
-| 2266 | `PAL_BattleShowPlayerUseItemAnim` | ✗ | _待审_ |
-| 2338 | `PAL_BattleShowPlayerPreMagicAnim` | ✗ | _待审_ |
-| 2448 | `PAL_BattleShowPlayerDefMagicAnim` | ✗ | _待审_ |
-| 2609 | `PAL_BattleShowPlayerOffMagicAnim` | ✗ | _待审_ |
-| 2847 | `PAL_BattleShowEnemyMagicAnim` | ✗ | _待审_ |
-| 3072 | `PAL_BattleShowPlayerSummonMagicAnim` | ✗ | _待审_ |
-| 3190 | `PAL_BattleShowPostMagicAnim` | ✗ | _待审_ |
-| 3249 | `PAL_BattlePlayerValidateAction` | ✗ | _待审_ |
-| 3511 | `PAL_BattleCheckHidingEffect` | ✗ | _待审_ |
-| 3552 | `FIGHT_DetectMagicTargetChange` | ✗ | _待审_ |
-| 3577 | `PAL_BattlePlayerPerformAction` | ? | _待审_ |
+| 29 | `PAL_IsPlayerDying` | ⚠️ | inline 在 actions handlers / formulas 内,无独立 helper;hp < maxHp/5 阈值未严格统一 |
+| 52 | `PAL_IsPlayerHealthy` | ✗ | 未独立 helper;ts code grep 无引用,follow-up 需要时按 sdlpal "全 status 0 + hp > maxHP/5" 真值加 |
+| 79 | `PAL_BattleSelectAutoTarget` | ✗ | 含 Bug-1 死循环;ts decideEnemyAction 用 RNG 选 alive enemy,需补 sdlpal 真值 + safety break |
+| 87 | `PAL_BattleSelectAutoTargetFrom` | ✗ | 同上;follow-up B-w2.a 接 wScriptOnReady 时用 |
+| 131 | `PAL_CalcBaseDamage` | ✓ | formulas.ts:calcBaseDamage(fight.c:131-171 真值,3 分支 atk>def/def*0.6/etc) |
+| 174 | `PAL_CalcMagicDamage` | ✓ | formulas.ts:calcMagicDamage(5 元素 + 抗 + fieldEffect + poison 完整 port,B-w1.b)|
+| 253 | `PAL_CalcPhysicalAttackDamage` | ✓ | formulas.ts:calcPhysicalAttackDamage(resist != 0 除法 + 防 div by zero)|
+| 289 | `PAL_GetEnemyDexterity` | ✓ | formulas.ts:getEnemyDexterity((level+6)*3 + dex(SHORT))|
+| 336 | `PAL_GetPlayerActualDexterity` | ✓ | formulas.ts:getPlayerActualDexterity(haste*3 + 999 clamp,M3 classic 路径)|
+| 395 | `PAL_UpdateTimeChargingUnit` | N/A | ATB 路径(D39 classic 不 port) |
+| 427 | `PAL_GetTimeChargingSpeed` | N/A | ATB 路径(D39) |
+| 469 | `PAL_BattleDelay` | ✗ | 战斗 anim 帧延迟(渲染);ts 端 battle anim 简版 FloatingNums 等,follow-up |
+| 561 | `PAL_BattleBackupStat` | ✗ | 备份 stat 给 BattleDisplayStatChange 算变化;ts BattlePlayer.prevHp/prevMp 等价 |
+| 603 | `PAL_BattleDisplayStatChange` | ⚠️ | ts FloatingNumsLayer 显伤害数字 — 简版,无 sdlpal 完整 stat box anim |
+| 719 | `PAL_BattlePostActionCheck` | ✗ | 每 action 后检 enemy 死亡 / poison tick / status;ts 在 advance 内 inline 简版,需 audit M6 |
+| 916 | `PAL_BattleUpdateFighters` | ✗ | ATB 路径为主(classic 简化);ts 端 advance 内 inline |
+| 1023 | `PAL_BattlePlayerCheckReady` | ✓ | status.ts:tickStatusEffects(B-w1.a:sleep/paralyzed/confused/silence/puppet 每回合 -1)|
+| 1073 | `PAL_BattleStartFrame` | ⚠️ | battle-system.ts:tickBattle / advance 等价 classic 路径(line 1706+);ATB 路径(1077-1700)不 port D39 |
+| 1811 | `PAL_BattleCommitAction` | ⚠️ | battle-system.ts performBattleAction 等价;**未含 sdlpal 真值 confused → attack mate + dying check + Sleep status auto-pass** follow-up |
+| 2008 | `PAL_BattleShowPlayerAttackAnim` | ✗ | 渲染 anim,B-w3.b follow-up |
+| 2266 | `PAL_BattleShowPlayerUseItemAnim` | ✗ | 同上 |
+| 2338 | `PAL_BattleShowPlayerPreMagicAnim` | ✗ | 同上(magic 前摇)|
+| 2448 | `PAL_BattleShowPlayerDefMagicAnim` | ✗ | 防御 magic anim |
+| 2609 | `PAL_BattleShowPlayerOffMagicAnim` | ✗ | 攻击 magic anim |
+| 2847 | `PAL_BattleShowEnemyMagicAnim` | ✗ | enemy magic anim |
+| 3072 | `PAL_BattleShowPlayerSummonMagicAnim` | ✗ | 召唤 anim;B-w2.b summon stub 未做 |
+| 3190 | `PAL_BattleShowPostMagicAnim` | ✗ | magic 后摇 anim |
+| 3249 | `PAL_BattlePlayerValidateAction` | ⚠️ | ts battle-system 内 validate 简版(MP 不足 fallback / target 死重选);**未做 R 重复 prevAction 复用 + dead target reselect 完整逻辑**(Bug-2 fix 需要)|
+| 3511 | `PAL_BattleCheckHidingEffect` | ✗ | iHidingTime > 0 时跳过 enemy action;ts 端无 hiding 概念,follow-up |
+| 3552 | `FIGHT_DetectMagicTargetChange` | ✗ | magic target 重选 anim 跟随;follow-up 渲染层 |
+| 3577 | `PAL_BattlePlayerPerformAction` | ⚠️ | 拆 5 action 各 ts module:actions/attack.ts / magic.ts / item.ts / defend.ts / flee.ts;**未含 BlowAway / status apply 完整真值** follow-up |
+| 4489 | `PAL_BattleEnemySelectEnemyTargetIndex` | ✗ | enemy AI 选友军 target(混乱状态);follow-up |
+| 4520 | `PAL_BattleEnemySelectTargetIndex` | ✗ | enemy AI 选 player target(默认 alive RNG);ts decideEnemyAction 简版 random,follow-up 精确公式 |
+| 4551 | `PAL_BattleEnemyPerformAction` | ⚠️ | ts decideEnemyAction → performBattleAction 简版;**未通过 wScriptOnReady bytecode 走真 AI**(B-w2.a 待 接入 runScript)|
+| 5193 | `PAL_BattleStealFromEnemy` | ✗ | opcode 0x6A;含 **Bug-2**(无 dead target check);ts 端 opcode 未具名,follow-up + fix |
+| 5301 | `PAL_BattleSimulateMagic` | ✗ | opcode 0x42 wrapper 模拟 magic 不消 MP;follow-up |
 | 4489 | `PAL_BattleEnemySelectEnemyTargetIndex` | ✗ | _待审_ |
 | 4520 | `PAL_BattleEnemySelectTargetIndex` | ✗ | _待审_ |
 | 4551 | `PAL_BattleEnemyPerformAction` | ? | _待审_ |
