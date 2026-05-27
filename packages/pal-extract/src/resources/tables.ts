@@ -28,6 +28,7 @@ export {
   buildEnemyObjectNameMap,
   buildObjectIndexToEnemyIdMap,
   parseEnemies,
+  parseEnemyObjects,
 } from './parsers/enemies.js'
 export { parseEnemyTeams } from './parsers/enemy-teams.js'
 export { parseItems } from './parsers/items.js'

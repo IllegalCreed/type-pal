@@ -22,9 +22,17 @@ export const SPELL_COUNT = 102
 export const ENEMY_OBJ_START = 398
 export const ENEMY_OBJ_COUNT = 153
 
-// ── OBJECT_ENEMY 字段偏移 (global.h tagOBJECT_ENEMY) ────────────────────
-// wEnemyID(0) — 指向 DATA.MKF chunk 1 ENEMY 数组的 1-based 索引
+// ── OBJECT_ENEMY 字段偏移 (global.h tagOBJECT_ENEMY,5 字段 × 2 字节)──────
+// 0: wEnemyID            — 指向 DATA.MKF chunk 1 ENEMY 数组的 1-based 索引
+// 2: wResistanceToSorcery
+// 4: wScriptOnTurnStart  — 每回合开始跑(B-w2.a AI hook)
+// 6: wScriptOnBattleEnd  — 战斗结束跑
+// 8: wScriptOnReady      — enemy 准备出招时跑,classic 模式是 ActionQueue 跑到 enemy 时
 export const ENEMY_OBJ_ID_OFF = 0
+export const ENEMY_OBJ_RESIST_OFF = 2
+export const ENEMY_OBJ_ON_TURN_START_OFF = 4
+export const ENEMY_OBJ_ON_BATTLE_END_OFF = 6
+export const ENEMY_OBJ_ON_READY_OFF = 8
 
 // MAX_PLAYER_ROLES (palcommon.h:45)
 export const PLAYER_ROLES_NUM = 6

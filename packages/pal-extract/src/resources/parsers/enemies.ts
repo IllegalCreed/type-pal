@@ -9,6 +9,10 @@ import type { Words } from '../../io/word.js'
 import {
   ENEMY_OBJ_COUNT,
   ENEMY_OBJ_ID_OFF,
+  ENEMY_OBJ_ON_BATTLE_END_OFF,
+  ENEMY_OBJ_ON_READY_OFF,
+  ENEMY_OBJ_ON_TURN_START_OFF,
+  ENEMY_OBJ_RESIST_OFF,
   ENEMY_OBJ_START,
   OBJ_SIZE,
   s16,
@@ -131,6 +135,62 @@ export function parseEnemies(
     const nm = nameByEnemyId.get(i)
     if (nm) e._name = nm
     out.push(e)
+  }
+  return out
+}
+
+/**
+ * M5.B-w2.a:dump OBJECT_ENEMY 段全 5 字段(sdlpal global.h tagOBJECT_ENEMY)。
+ *
+ * SSS.MKF chunk 2 OBJECT 表中 ENEMY_OBJ_START (398) 起 153 条 OBJECT_ENEMY,
+ * 每条 5 字段 × 2 字节:
+ *   wEnemyID / wResistanceToSorcery / wScriptOnTurnStart /
+ *   wScriptOnBattleEnd / wScriptOnReady
+ *
+ * EnemyTeam.slots[i] 是 OBJECT 绝对 index(398+),通过本 dump 反查 OBJECT_ENEMY
+ * 5 字段。游戏侧 battle-system enemy turn 真做 scripted AI(B-w2.a)时,从此表
+ * 取 scriptOnReady 喂 runScript。
+ *
+ * @returns 数组 length 153,index = 段内偏移(0..152),objectIndex 字段填 OBJECT 表绝对 index
+ */
+export interface EnemyObject {
+  /** OBJECT 表绝对 index(398+);EnemyTeam.slots[i] 直接对应。 */
+  objectIndex: number
+  /** wEnemyID,指向 chunk 1 ENEMY 数组(enemies[].id)。0 = 空槽。 */
+  enemyId: number
+  /** wResistanceToSorcery(0..10)。 */
+  resistanceToSorcery: number
+  /** wScriptOnTurnStart:每回合开始 bytecode entry ip;0 = 无。 */
+  scriptOnTurnStart: number
+  /** wScriptOnBattleEnd:战斗结束 bytecode entry ip。 */
+  scriptOnBattleEnd: number
+  /** wScriptOnReady:enemy 准备出招 bytecode entry ip(classic 模式 ActionQueue 跑到时调用)。 */
+  scriptOnReady: number
+  /** 名字注释(reverse from words.enemies);引擎不读。 */
+  _name?: string
+}
+
+export function parseEnemyObjects(objBuf: Uint8Array, words?: Words): EnemyObject[] {
+  const need = (ENEMY_OBJ_START + ENEMY_OBJ_COUNT) * OBJ_SIZE
+  if (objBuf.byteLength < need) {
+    throw new Error(`parseEnemyObjects: SSS chunk 2 byte length ${objBuf.byteLength} < required ${need}`)
+  }
+  const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
+  const out: EnemyObject[] = []
+  for (let i = 0; i < ENEMY_OBJ_COUNT; i++) {
+    const objectIndex = ENEMY_OBJ_START + i
+    const base = objectIndex * OBJ_SIZE
+    const entry: EnemyObject = {
+      objectIndex,
+      enemyId: u16(view, base, ENEMY_OBJ_ID_OFF),
+      resistanceToSorcery: u16(view, base, ENEMY_OBJ_RESIST_OFF),
+      scriptOnTurnStart: u16(view, base, ENEMY_OBJ_ON_TURN_START_OFF),
+      scriptOnBattleEnd: u16(view, base, ENEMY_OBJ_ON_BATTLE_END_OFF),
+      scriptOnReady: u16(view, base, ENEMY_OBJ_ON_READY_OFF),
+    }
+    const nm = words?.enemies[i]
+    if (nm && entry.enemyId > 0) entry._name = nm
+    out.push(entry)
   }
   return out
 }

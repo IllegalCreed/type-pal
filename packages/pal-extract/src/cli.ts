@@ -60,6 +60,7 @@ import {
   buildObjectIndexToEnemyIdMap,
   parseBattleFields,
   parseEnemies,
+  parseEnemyObjects,
   parseEnemyTeams,
   parseItems,
   parseMagicTable,
@@ -218,6 +219,9 @@ async function main(): Promise<void> {
   writeJson(resolve(OUT, 'data', 'magic.json'), parseMagicTable(magicBuf))
   const enemies = parseEnemies(enemyBuf, sssObjBuf, words)
   writeJson(resolve(OUT, 'data', 'enemies.json'), enemies)
+  // M5.B-w2.a:OBJECT_ENEMY 段 5 字段全 dump(scriptOnReady/scriptOnTurnStart/
+  // scriptOnBattleEnd 等 AI hook),enemy-objects.json index = OBJECT 表绝对 index。
+  writeJson(resolve(OUT, 'data', 'enemy-objects.json'), parseEnemyObjects(sssObjBuf, words))
   // M3 T7:EnemyTeam(DATA chunk 2) + BattleField(DATA chunk 5)dev panel 选 fixture 用。
   // EnemyTeam._names 反查 — 用 OBJECT_ENEMY 段 + words 建 map。
   const enemyObjectNames = buildEnemyObjectNameMap(sssObjBuf, words)

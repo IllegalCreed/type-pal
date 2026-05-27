@@ -264,6 +264,22 @@ export interface Enemy {
 }
 
 /**
+ * sdlpal `global.h tagOBJECT_ENEMY`(M5.B-w2.a):SSS.MKF chunk 2 OBJECT 表
+ * ENEMY_OBJ_START(398)起 153 条 wrapper,每条把 chunk 1 ENEMY 真值 + 4 个
+ * AI 脚本 hook 关联。EnemyTeam.slots[i] 是 OBJECT 表绝对 index → 通过此表反查
+ * scriptOnReady 等 AI hook。
+ */
+export interface EnemyObject {
+  objectIndex: number
+  enemyId: number
+  resistanceToSorcery: number
+  scriptOnTurnStart: number
+  scriptOnBattleEnd: number
+  scriptOnReady: number
+  _name?: string
+}
+
+/**
  * 一组敌人(对照 sdlpal `global.h::tagENEMYTEAM` + `palcommon.h::MAX_ENEMIES_IN_TEAM=5`)。
  *
  * 数据源:DATA.MKF chunk 2(sdlpal `global.c:294`
