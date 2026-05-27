@@ -239,52 +239,52 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 51 | `PAL_IsWINVersion` | ✗ | _待审_ |
-| 112 | `PAL_DetectCodePage` | ✗ | _待审_ |
-| 154 | `PAL_InitGlobals` | ✗ | _待审_ |
-| 211 | `PAL_FreeGlobals` | ✗ | _待审_ |
-| 269 | `PAL_ReadGlobalGameData` | ✗ | _待审_ |
-| 312 | `PAL_InitGlobalGameData` | ✗ | _待审_ |
-| 378 | `PAL_LoadDefaultGame` | ? | _待审_ |
-| 562 | `PAL_LoadGame_Common` | ✗ | _待审_ |
-| 642 | `PAL_LoadGame_DOS` | ✗ | _待审_ |
-| 689 | `PAL_LoadGame_WIN` | ✗ | _待审_ |
-| 727 | `PAL_LoadGame` | ✗ | _待审_ |
-| 735 | `PAL_SaveGame_Common` | ✗ | _待审_ |
-| 804 | `PAL_SaveGame_DOS` | ✗ | _待审_ |
-| 844 | `PAL_SaveGame_WIN` | ✗ | _待审_ |
-| 877 | `PAL_SaveGame` | ? | _待审_ |
-| 889 | `PAL_ReloadInNextTick` | ✗ | _待审_ |
-| 915 | `PAL_InitGameData` | ✗ | _待审_ |
-| 957 | `PAL_CountItem` | ✗ | _待审_ |
-| 1020 | `PAL_GetItemIndexToInventory` | ✗ | _待审_ |
-| 1063 | `PAL_AddItemToInventory` | ? | _待审_ |
-| 1175 | `PAL_GetItemAmount` | ✗ | _待审_ |
-| 1212 | `PAL_CompressInventory` | ✗ | _待审_ |
-| 1254 | `PAL_IncreaseHPMP` | ✗ | _待审_ |
-| 1333 | `PAL_UpdateEquipments` | ✗ | _待审_ |
-| 1372 | `PAL_RemoveEquipmentEffect` | ✗ | _待审_ |
-| 1459 | `PAL_AddPoisonForPlayer` | ✗ | _待审_ |
-| 1520 | `PAL_CurePoisonByKind` | ✗ | _待审_ |
-| 1567 | `PAL_CurePoisonByLevel` | ✗ | _待审_ |
-| 1617 | `PAL_IsPlayerPoisonedByLevel` | ✗ | _待审_ |
-| 1687 | `PAL_IsPlayerPoisonedByKind` | ✗ | _待审_ |
-| 1736 | `PAL_GetPlayerAttackStrength` | ? | _待审_ |
-| 1768 | `PAL_GetPlayerMagicStrength` | ✗ | _待审_ |
-| 1800 | `PAL_GetPlayerDefense` | ? | _待审_ |
-| 1832 | `PAL_GetPlayerDexterity` | ? | _待审_ |
-| 1868 | `PAL_GetPlayerFleeRate` | ? | _待审_ |
-| 1900 | `PAL_GetPlayerPoisonResistance` | ✗ | _待审_ |
-| 1937 | `PAL_GetPlayerElementalResistance` | ✗ | _待审_ |
-| 1978 | `PAL_GetPlayerBattleSprite` | ✗ | _待审_ |
-| 2013 | `PAL_GetPlayerCooperativeMagic` | ✗ | _待审_ |
-| 2048 | `PAL_PlayerCanAttackAll` | ✗ | _待审_ |
-| 2084 | `PAL_AddMagic` | ✗ | _待审_ |
-| 2139 | `PAL_RemoveMagic` | ✗ | _待审_ |
-| 2173 | `PAL_SetPlayerStatus` | ✗ | _待审_ |
-| 2280 | `PAL_RemovePlayerStatus` | ✗ | _待审_ |
-| 2311 | `PAL_ClearAllPlayerStatus` | ✗ | _待审_ |
-| 2347 | `PAL_PlayerLevelUp` | ✗ | _待审_ |
+| 51 | `PAL_IsWINVersion` | N/A | sdlpal 同支 DOS/WIN 双版本,ts 端只 WIN95 真值(D36) |
+| 112 | `PAL_DetectCodePage` | N/A | sdlpal 简繁日韩 + GBK/Big5;ts 端 UTF-8 + word.dat 已 dump _name |
+| 154 | `PAL_InitGlobals` | ⚠️ | bootstrap.ts:bootstrap 初始化 gs 默认值;**未做** sdlpal fpDATA chunk 重 load(我们 extract 一次性 dump 替代) |
+| 211 | `PAL_FreeGlobals` | N/A | JS GC |
+| 269 | `PAL_ReadGlobalGameData` | N/A | sdlpal 从二进制 chunk read;ts extract 一次性 JSON dump |
+| 312 | `PAL_InitGlobalGameData` | N/A | 同上 |
+| 378 | `PAL_LoadDefaultGame` | ⚠️ | bootstrap.ts:createInitialGameState + 默认值;sdlpal 真值是从 SAVEDGAME 切片 0 load 而非 default |
+| 562 | `PAL_LoadGame_Common` | N/A | DOS/WIN 共用 load helper;D37 不字节兼容 |
+| 642 | `PAL_LoadGame_DOS` | N/A | D37 |
+| 689 | `PAL_LoadGame_WIN` | N/A | core/save/api.ts:Save.loadSlot(JSON+IndexedDB,不字节兼容 sdlpal *.RPG) |
+| 727 | `PAL_LoadGame` | ⚠️ | Save.loadSlot 路径不同(slot id 1-5) |
+| 735 | `PAL_SaveGame_Common` | N/A | D37 |
+| 804 | `PAL_SaveGame_DOS` | N/A | D37 |
+| 844 | `PAL_SaveGame_WIN` | N/A | core/save/api.ts:Save.saveSlot(JSON) |
+| 877 | `PAL_SaveGame` | ⚠️ | 同上 |
+| 889 | `PAL_ReloadInNextTick` | ✗ | scene 切换 reload flag(我们 loadScene 异步 callback 替代,无单独 flag) |
+| 915 | `PAL_InitGameData` | ⚠️ | bootstrap.ts:fetchAndInit 异步等价;sdlpal 同步 load 不同 |
+| 957 | `PAL_CountItem` | ⚠️ | inventory.find(itemId).count inline 多处;follow-up 抽 helper |
+| 1020 | `PAL_GetItemIndexToInventory` | ⚠️ | inventory.findIndex inline |
+| 1063 | `PAL_AddItemToInventory` | ✓ | event-system.ts:addItemToInventory(I-w1.a chest opcode 助手,M5 完整 port) |
+| 1175 | `PAL_GetItemAmount` | ⚠️ | inline,无 helper |
+| 1212 | `PAL_CompressInventory` | ⚠️ | addItemToInventory count=0 自动 filter,语义合并 |
+| 1254 | `PAL_IncreaseHPMP` | ✗ | 加 HP/MP 时 cap maxHP/maxMP;ts actions/magic.ts inline,未抽 helper |
+| 1333 | `PAL_UpdateEquipments` | ✗ | 装备 effect 累加到 stat;**ts 端 装备 effect 完全未消费**(M-w1.b 数据层有,运行时忽略) follow-up |
+| 1372 | `PAL_RemoveEquipmentEffect` | ✗ | 同上 |
+| 1459 | `PAL_AddPoisonForPlayer` | ✗ | rgPoisonStatus[16][6] 数组写 poison id+duration;**ts 端 poison 单独 MAX_POISONS 数组未 port**(status field 含 confused/paralyzed 但 poison 单独管理) follow-up |
+| 1520 | `PAL_CurePoisonByKind` | ✗ | 同上 |
+| 1567 | `PAL_CurePoisonByLevel` | ✗ | 同上 |
+| 1617 | `PAL_IsPlayerPoisonedByLevel` | ✗ | 同上 |
+| 1687 | `PAL_IsPlayerPoisonedByKind` | ✗ | 同上 |
+| 1736 | `PAL_GetPlayerAttackStrength` | ⚠️ | role.attackStrength inline;sdlpal 真值含装备 + bravery status 加成(简版无) |
+| 1768 | `PAL_GetPlayerMagicStrength` | ⚠️ | 同上 |
+| 1800 | `PAL_GetPlayerDefense` | ⚠️ | sdlpal 含 protect status 双倍 follow-up |
+| 1832 | `PAL_GetPlayerDexterity` | ✓ | formulas.ts:getPlayerActualDexterity(haste/slow 修饰,(level+6)*3+dex) |
+| 1868 | `PAL_GetPlayerFleeRate` | ⚠️ | role.fleeRate inline;sdlpal 含装备加成 |
+| 1900 | `PAL_GetPlayerPoisonResistance` | ⚠️ | inline 无装备加成 |
+| 1937 | `PAL_GetPlayerElementalResistance` | ⚠️ | formulas.ts inline 5 elem 抗;无装备加成 |
+| 1978 | `PAL_GetPlayerBattleSprite` | ⚠️ | role.spriteNumInBattle 直接读;sdlpal opcode 0x31 临时改未做(M5 opcode 0x65 是大世界 sprite) |
+| 2013 | `PAL_GetPlayerCooperativeMagic` | ⚠️ | role.cooperativeMagic 已 dump;协力触发(B-w3.a)未做 |
+| 2048 | `PAL_PlayerCanAttackAll` | ⚠️ | role.attackAll 读;ts attack action 简版未做 attackAll 分支 follow-up |
+| 2084 | `PAL_AddMagic` | ✗ | 学法术加 rgwMagic[32][role] 槽位;opcode 0x55 未具名 follow-up |
+| 2139 | `PAL_RemoveMagic` | ✗ | 0x56 未具名 |
+| 2173 | `PAL_SetPlayerStatus` | ⚠️ | BattlePlayer.status fields 直接 mutate,无 helper(opcode 0x2D 未具名) |
+| 2280 | `PAL_RemovePlayerStatus` | ⚠️ | 同上 |
+| 2311 | `PAL_ClearAllPlayerStatus` | ✗ | 战斗结束清全 status;ts finalizeBattle 未 clear follow-up |
+| 2347 | `PAL_PlayerLevelUp` | ✗ | **B-w1.c levelup loop 未做**(while dwExp >= rgLevelUpExp + 8 类 stat 加成) follow-up 核心 |
 
 ### glslp.c(1 函数)
 
@@ -480,15 +480,15 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 25 | `PAL_GameUpdate` | ? | _待审_ |
-| 244 | `PAL_GameUseItem` | ✗ | _待审_ |
-| 328 | `PAL_GameEquipItem` | ✗ | _待审_ |
-| 362 | `PAL_GetSearchTriggerRange` | ✗ | _待审_ |
-| 423 | `PAL_Search` | ? | _待审_ |
-| 513 | `PAL_StartFrame` | ? | _待审_ |
-| 603 | `PAL_WaitForKeyInternal` | ✗ | _待审_ |
-| 641 | `PAL_WaitForKey` | ? | _待审_ |
-| 663 | `PAL_WaitForAnyKey` | ✗ | _待审_ |
+| 25 | `PAL_GameUpdate` | ⚠️ | scene-system.ts:tickSceneSystem + main-loop.ts:tickByMode 综合等价;sdlpal `PAL_GameUpdate` 含 NPC 自动移动 + dwTime / dwFrameNum 累加 / contact 触发 / cover tile,我们拆到 scene-system + present + 各 tick |
+| 244 | `PAL_GameUseItem` | ⚠️ | 大世界用物品流程;ts 端 inventory-menu state machine 简版,真 script(item.scriptOnUse)未跑 follow-up |
+| 328 | `PAL_GameEquipItem` | ⚠️ | 装备物品;ts equip-menu state machine,真 stat 加成未做(see global.c UpdateEquipments) |
+| 362 | `PAL_GetSearchTriggerRange` | ✓ | scene-system.ts:findContactNpc 等价(M3.5 triggerMode 4-8 距离判定) |
+| 423 | `PAL_Search` | ⚠️ | Confirm 键 search 流程;scene-system.ts tickSceneSystem 内简版 Confirm 触发 + loadEventFromNpc |
+| 513 | `PAL_StartFrame` | ✓ | shell/main-loop.ts:startRafLoop + singleTick |
+| 603 | `PAL_WaitForKeyInternal` | ✓ | event-system.ts dialog waiting=dialog phase(state machine 等价 sync 等键) |
+| 641 | `PAL_WaitForKey` | ✓ | PAL_WaitForKeyInternal wrapper;同上 |
+| 663 | `PAL_WaitForAnyKey` | ✓ | 同上 dialog 状态机 |
 
 ### res.c(9 函数)
 
@@ -516,30 +516,30 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 40 | `PAL_AddSpriteToDraw` | ? | _待审_ |
-| 77 | `PAL_CalcCoverTiles` | ? | _待审_ |
-| 181 | `PAL_SceneDrawSprites` | ? | _待审_ |
-| 365 | `PAL_ApplyWave` | ? | _待审_ |
-| 453 | `PAL_MakeScene` | ? | _待审_ |
-| 512 | `PAL_CheckObstacle` | ? | _待审_ |
-| 522 | `PAL_CheckObstacleWithRange` | ? | _待审_ |
-| 636 | `PAL_UpdatePartyGestures` | ? | _待审_ |
-| 779 | `PAL_UpdateParty` | ? | _待审_ |
-| 851 | `PAL_NPCWalkOneStep` | ? | _待审_ |
+| 40 | `PAL_AddSpriteToDraw` | ✓ | (隐式)present.ts entries 数组 push |
+| 77 | `PAL_CalcCoverTiles` | ✓ | draw-tilemap.ts:addCoverTileEntries(完整 5×5 scan + iTileHeight 真值) |
+| 181 | `PAL_SceneDrawSprites` | ✓ | present.ts 内 NPC + party 段(用真实 sLayer 真值 + scriptedFrame 优先级) |
+| 365 | `PAL_ApplyWave` | ✗ | 战场水波视觉;follow-up M6 |
+| 453 | `PAL_MakeScene` | ✓ | 同上(已审过) |
+| 512 | `PAL_CheckObstacle` | ✓ | scene-system.ts:isWalkable(单点 wrapper) |
+| 522 | `PAL_CheckObstacleWithRange` | ✓ | scene-system.ts:isWalkable(完整 sState>=2 检查,M5.Sync.2 D38) |
+| 636 | `PAL_UpdatePartyGestures` | ✓ | event-system.ts partyWalkTo 内 walkingFrame.walking + stepFrame 推进;present.ts 优先级 walking>scriptedFrame |
+| 779 | `PAL_UpdateParty` | ✓ | partyWalkTo 内 trail.unshift + UpdatePartyGestures(M5.Sync.2 完整 port) |
+| 851 | `PAL_NPCWalkOneStep` | ✓ | event-system.ts:0x6C opcode handler(dir*N+iFrame + 2/3 重映射,M5.Sync.2 91dc2e2) |
 
 ### script.c(9 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 31 | `PAL_NPCWalkTo` | ? | _待审_ |
-| 101 | `PAL_PartyWalkTo` | ? | _待审_ |
-| 203 | `PAL_PartyRideEventObject` | ✗ | _待审_ |
-| 310 | `PAL_MonsterChasePlayer` | ✗ | _待审_ |
-| 504 | `PAL_AdditionalCredits` | ✗ | _待审_ |
-| 587 | `PAL_InterpretInstruction` | ? | _待审_ |
-| 3088 | `MESSAGE_GetSpan` | ✗ | _待审_ |
-| 3140 | `PAL_RunTriggerScript` | ? | _待审_ |
-| 3482 | `PAL_RunAutoScript` | ? | _待审_ |
+| 31 | `PAL_NPCWalkTo` | ✓ | event-system.ts:npcWalkTo helper(0x10/0x11/0x82 opcode handlers) |
+| 101 | `PAL_PartyWalkTo` | ✓ | event-system.ts:partyWalkTo(opcode 0x70 handler;D36 camera viewport 改造后字段对齐) |
+| 203 | `PAL_PartyRideEventObject` | ✗ | 骑 event object(船 / 御剑等)opcode,ts 端 follow-up |
+| 310 | `PAL_MonsterChasePlayer` | ✗ | enemy 追玩家(opcode 0x4C chase);ts 端 follow-up,scene-system 简版 contact 触发 |
+| 504 | `PAL_AdditionalCredits` | N/A | sdlpal 加 credits 显示;ts 端 N/A |
+| 587 | `PAL_InterpretInstruction` | ⚠️ | event-system.ts:tickEventSystem 主循环(M5 简版具名 35 opcode)+ runScript(battle ctx);**完整 100+ case 仍 70+ 未具名 follow-up** |
+| 3088 | `MESSAGE_GetSpan` | N/A | dialog text span 计算;ts 端 render-text inline 等价 |
+| 3140 | `PAL_RunTriggerScript` | ⚠️ | event-system.ts:runScript runtimeMode=event 等价(M3 已 port);**未真做 wScriptOnReady 调用入口**(B-w2.a follow-up) |
+| 3482 | `PAL_RunAutoScript` | ⚠️ | event-system.ts:tickAutoScripts(M5.Sync.2 已 port autoScript runner — 每 active NPC 每 tick 跑 1 op);**autoScript 真值循环 4 个状态(reset/loop/etc)简版未做** |
 
 ### sound.c(14 函数)
 
