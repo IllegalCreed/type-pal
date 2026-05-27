@@ -189,6 +189,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // M5.6 T17:OpeningMenu 背景 — sdlpal `MAINMENU_BACKGROUND_FBPNUM (fIsWIN95?2:60)`,
     // 我们 WIN95 data 走 chunk 2;M4 P2.T4 已 dump 进 battleBgs map(key=2)。
     openingMenuBg: assets.battleBgs.get(2),
+    // M5.6 T10b:BALL 物品图标(audit 第 1 漏洞已修)— InventoryMenu / Equip / 商店用。
+    itemIcons: assets.itemIcons,
   }
 
   // M3 T28/T29:战斗一帧装配 —— BattlePresent 持有 floating nums 跨帧状态;

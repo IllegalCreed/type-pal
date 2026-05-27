@@ -39,6 +39,12 @@ export interface PresentContext {
    * loadAll 通过 battleBgs.get(2) 拿到;bootstrap 注入此字段。
    */
   openingMenuBg?: BattleBgAsset
+  /**
+   * M5.6 T10b:BALL.MKF 物品图标(audit 第 1 漏洞已修)— 251 chunk → IndexedImage map。
+   * key = chunkIndex(对应 OBJECT.item.wBitmap)。InventoryMenu fullscreen UI / Equip /
+   * 商店 / addItem dialog 渲染时取。
+   */
+  itemIcons?: Map<number, IndexedImage>
 }
 
 /** sdlpal `palcommon.h`:kDirSouth=0 / kDirWest=1 / kDirNorth=2 / kDirEast=3。 */

@@ -61,6 +61,12 @@ export interface LoadedAssets {
   magics: Magic[]
   /** M5.6 W0.d:SPRITEUI 71 frame(DATA.MKF chunk 9)— menu box 9-slice 用前 18 个(style 0/1)。 */
   uiSpriteFrames: IndexedImage[]
+  /**
+   * M5.6 T10b:BALL.MKF 物品图标(audit 第 1 漏洞已修)— 251 chunk → IndexedImage map。
+   * key = chunkIndex(对应 OBJECT.item.wBitmap,sdlpal itemmenu.c:201 真值)。
+   * InventoryMenu / EquipMenu / 商店 / addItem dialog 用。
+   */
+  itemIcons: Map<number, IndexedImage>
 }
 
 interface UiSpriteManifest {
@@ -263,6 +269,33 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     console.warn('assets: ui-sprite/spriteui.json 缺失,menu box 渲染将抛 frame missing:', err)
   }
 
+  // ── M5.6 T10b:BALL.MKF 物品图标加载 ────────────────────────────────────────
+  // 索引 manifest = items-icons.json(pal-extract BALL RLE decode 输出),
+  // 按 chunkIndex 映射到 IndexedImage,InventoryMenu / EquipMenu / 商店 / addItem 用。
+  const itemIcons = new Map<number, IndexedImage>()
+  try {
+    const manifest = await fetchJson<{
+      count: number
+      icons: Array<{ chunkIndex: number; width: number; height: number }>
+    }>(`${BASE}/data/items-icons.json`)
+    await Promise.all(
+      manifest.icons.map(async (icon) => {
+        try {
+          const png = await fetchPng(
+            `${BASE}/images/items/${icon.chunkIndex.toString().padStart(3, '0')}.png`,
+          )
+          itemIcons.set(icon.chunkIndex, png)
+        }
+        catch (err) {
+          console.warn(`assets: item icon ${icon.chunkIndex} load failed, skip:`, err)
+        }
+      }),
+    )
+  }
+  catch (err) {
+    console.warn('assets: items-icons.json 缺失,InventoryMenu 物品图标不显示:', err)
+  }
+
   return {
     tilemap,
     palette,
@@ -282,6 +315,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     spells,
     magics,
     uiSpriteFrames,
+    itemIcons,
   }
 }
 
