@@ -32,6 +32,7 @@ import type {
   BattleField,
   Command,
   Enemy,
+  EnemyObject,
   EnemyTeam,
   InputSnapshot,
   Item,
@@ -102,6 +103,12 @@ export interface StartBattleInput {
   isBoss: boolean
   /** 全部 enemies.json。 */
   enemies: Enemy[]
+  /**
+   * M5.B-w2.a:全部 enemy-objects.json — sdlpal `OBJECT_ENEMY` 段 153 条
+   * (objectIndex 398+),每条含 4 个 AI script hook(scriptOnReady 等)。
+   * 不传 → 全部 enemy 走 default `decideEnemyAction` C 代码 fallback(无 AI)。
+   */
+  enemyObjects?: EnemyObject[]
   /** 全部 enemy-teams.json。 */
   enemyTeams: EnemyTeam[]
   /** 全部 battle-fields.json。 */
@@ -139,15 +146,25 @@ export function startBattle(input: StartBattleInput): void {
 
   // 展开 team.enemies(过滤 0 / 0xFFFF;详见 EnemyTeam 注释)
   // 简化:槽位直接当 enemies.json 的 id 索引(T23 baseline 对拍如不对再修)
-  const enemyList: Enemy[] = team.enemies
-    .filter(slot => slot !== 0 && slot !== 0xFFFF)
-    .map((slot) => {
-      const e = input.enemies.find(en => en.id === slot)
-      if (!e)
-        console.warn(`[battle] startBattle: enemy id ${slot} not in enemies.json, skipped`)
-      return e
+  // M5.B-w2.a:平行构造 enemyScripts,同 index 对齐;通过 enemyId 反查 enemy-objects.json
+  // 第一条匹配项(同 enemyId 多 OBJECT_ENEMY 条目时取首条,精确多版本 script 推后)。
+  const enemyList: Enemy[] = []
+  const enemyScripts: Array<{ onTurnStart: number; onReady: number; onBattleEnd: number }> = []
+  for (const slot of team.enemies) {
+    if (slot === 0 || slot === 0xFFFF) continue
+    const e = input.enemies.find(en => en.id === slot)
+    if (!e) {
+      console.warn(`[battle] startBattle: enemy id ${slot} not in enemies.json, skipped`)
+      continue
+    }
+    enemyList.push(e)
+    const objMatch = input.enemyObjects?.find(o => o.enemyId === slot)
+    enemyScripts.push({
+      onTurnStart: objMatch?.scriptOnTurnStart ?? 0,
+      onReady: objMatch?.scriptOnReady ?? 0,
+      onBattleEnd: objMatch?.scriptOnBattleEnd ?? 0,
     })
-    .filter((e): e is Enemy => e !== undefined)
+  }
 
   const field = input.battleFields.find(f => f.id === input.battleFieldId)
   if (!field)
@@ -159,6 +176,7 @@ export function startBattle(input: StartBattleInput): void {
     gs: input.gs,
     playerRoles: input.playerRoles,
     enemies: enemyList,
+    enemyScripts,
     field,
     isBoss: input.isBoss,
     rng,
@@ -622,6 +640,24 @@ function tickPerformAction(
   if (item.isEnemy) {
     const enemy = state.enemies[item.idx]
     if (enemy && enemy.e.health > 0) {
+      // M5.B-w2.a:sdlpal `fight.c:1719-1724` 真值 — enemy 轮到时跑 wScriptOnReady
+      // bytecode AI 脚本,脚本通过 opcode 0x0067 enemy use magic / 0x0064 jump if hp>
+      // 等 mutate enemy state(wMagic / wMagicRate);随后 PerformAction 用 mutate
+      // 后的 state 执行实际动作。
+      // 现阶段 opcode handler 仍是 raw skip(留后续 commit 真做),脚本路径已通,
+      // mutate 还没生效,默认仍走 decideEnemyAction fallback。
+      if (enemy.scriptOnReady > 0) {
+        runScript({
+          commands: res.commands,
+          ip: enemy.scriptOnReady,
+          bus,
+          runtimeMode: 'battle',
+          battleCtx: {
+            state,
+            caster: { type: 'enemy', idx: item.idx },
+          },
+        })
+      }
       const alivePlayers = state.players
         .map((p, i) => ({ idx: i, hp: res.playerRoles.roles[p.roleId]?.hp ?? 0 }))
         .filter(p => p.hp > 0)

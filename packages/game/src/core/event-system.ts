@@ -29,6 +29,7 @@ import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
 import type { GameState, NpcState } from './game-state.js'
 import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
+import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
 import {
   startDialogLine,
   appendDialogLine,
@@ -1025,12 +1026,21 @@ export function runScript(opts: RunScriptOptions): void {
         ip++
         break
 
-      case 'raw':
+      case 'raw': {
+        // M5.B-w2.a:battle mode 先尝试 dispatchBattleOpcode(scripted enemy AI 入口)
+        if (runtimeMode === 'battle' && battleCtx) {
+          const r = dispatchBattleOpcode(cmd.opcode, cmd.operands, battleCtx)
+          if (r.consumed) {
+            ip = r.newIp !== undefined ? r.newIp : (ip + 1)
+            break
+          }
+        }
         // D26:无具名 opcode 兜底 skip + console.debug;battle mode 加前缀方便
         // T20/T21 implementer grep 撞到的真实 opcode 号
         console.debug(`${logPrefix} skip raw opcode=${cmd.opcode} ip=${ip}`, cmd.operands)
         ip++
         break
+      }
 
       case 'giveItem':
       case 'startBattle':

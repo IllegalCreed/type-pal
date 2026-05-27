@@ -124,6 +124,13 @@ export interface CreateBattleStateInput {
   playerRoles: PlayerRoles
   /** 已 expand 自 enemyTeam(slot 解引用 + 0xFFFF 过滤过)。 */
   enemies: Enemy[]
+  /**
+   * M5.B-w2.a:每只 enemy 的 AI script hook(同 index 对齐 enemies 数组)。
+   * 字段对应 sdlpal `OBJECT_ENEMY.wScriptOn*` 真值;0 = 无脚本(走 default
+   * `decideEnemyAction` C 代码 fallback)。
+   * 不传或 length 不足 → 全部按 0 处理(向后兼容旧 fixture / 测试)。
+   */
+  enemyScripts?: Array<{ onTurnStart: number; onReady: number; onBattleEnd: number }>
   field: BattleField
   isBoss: boolean
   rng: SeedableRng
@@ -161,14 +168,17 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
     }
   })
 
-  const enemies: BattleEnemy[] = input.enemies.map(e => ({
-    e: { ...e }, // shallow copy(health 在战斗中会被改)
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
-    prevHp: e.health,
-    scriptOnTurnStart: 0,
-    scriptOnBattleEnd: 0,
-    scriptOnReady: 0,
-  }))
+  const enemies: BattleEnemy[] = input.enemies.map((e, i) => {
+    const scripts = input.enemyScripts?.[i]
+    return {
+      e: { ...e }, // shallow copy(health 在战斗中会被改)
+      status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+      prevHp: e.health,
+      scriptOnTurnStart: scripts?.onTurnStart ?? 0,
+      scriptOnBattleEnd: scripts?.onBattleEnd ?? 0,
+      scriptOnReady: scripts?.onReady ?? 0,
+    }
+  })
 
   return {
     players,

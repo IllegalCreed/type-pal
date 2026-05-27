@@ -3,6 +3,7 @@ import type {
   Command,
   Enemy,
   EnemyPosTable,
+  EnemyObject,
   EnemyTeam,
   EventFile,
   Item,
@@ -49,6 +50,8 @@ export interface LoadedAssets {
   battleBgs: Map<number, BattleBgAsset>
   /** M3 T29:战斗运行所需表 — dev panel / startBattle 用。 */
   enemies: Enemy[]
+  /** M5.B-w2.a:OBJECT_ENEMY 段 153 条(scriptOnReady / scriptOnTurnStart 等 AI hook)。 */
+  enemyObjects: EnemyObject[]
   enemyTeams: EnemyTeam[]
   battleFields: BattleField[]
   /** M3.5:ENEMYPOS table(DATA.MKF chunk 13)— per enemy-count layout 真值。 */
@@ -82,13 +85,14 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   const scene = await fetchJson<SceneObjects & { mapNum: number }>(`${BASE}/data/scene/${sceneId}.json`)
   const [
     tilemap, palette, events, playerRoles,
-    enemies, enemyTeams, battleFields, enemyPos, items, spells, magics,
+    enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics,
   ] = await Promise.all([
     fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap/${scene.mapNum}.json`),
     fetchJson<Palette>(`${BASE}/data/palette/0.json`),
     fetchJson<EventFile>(`${BASE}/events/scene-${padded}.json`),
     fetchJson<PlayerRoles>(`${BASE}/data/player-roles.json`),
     fetchJson<Enemy[]>(`${BASE}/data/enemies.json`),
+    fetchJson<EnemyObject[]>(`${BASE}/data/enemy-objects.json`),
     fetchJson<EnemyTeam[]>(`${BASE}/data/enemy-teams.json`),
     fetchJson<BattleField[]>(`${BASE}/data/battle-fields.json`),
     fetchJson<EnemyPosTable>(`${BASE}/data/enemy-pos.json`),
@@ -232,6 +236,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     battleSprites,
     battleBgs,
     enemies,
+    enemyObjects,
     enemyTeams,
     battleFields,
     enemyPos,

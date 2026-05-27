@@ -71,7 +71,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   const {
     tilemap, palette, scene, events, playerRoles, tileImages, characterSprites,
-    battleSprites, battleBgs, enemies, enemyTeams, battleFields, enemyPos, items, spells, magics,
+    battleSprites, battleBgs, enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics,
   } = assets
 
   // 队长精灵号 —— 从 player-roles.json (DATA.MKF chunk 3 真解) 取真值。
@@ -528,6 +528,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         battleFieldId,
         isBoss,
         enemies,
+        enemyObjects,
         enemyTeams,
         battleFields,
         playerRoles,
