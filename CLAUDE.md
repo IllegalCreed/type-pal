@@ -2,6 +2,47 @@
 
 **用户跟 Claude 之间的硬约定 — 违反就是 bug。**
 
+## TOP 0:任何 sdlpal port task 起手第一动作 = 系统读源(违反就停)
+
+**user 2026-05-27 session 3 原话**:"我有些厌倦了这种沟通方式,我要每句话提醒你通读源代码吗?有这个必要吗?"
+
+这是**最高优先**约束 — 我反复违反 `sdlpal-systematic-read-not-grep` 已有 memory + 已有约束(本文件下方"sdlpal 阅读方式"段),user 必须**每次提醒**才做。这种沟通成本 user 不再接受。
+
+**新硬规则**:**每个 sdlpal port task 开始 一律先完整 read 整 callpath 所有相关 C fn 全文**,不需要 user 提醒。
+
+具体怎么定义"整 callpath":
+
+1. 接到 task → 找入口 sdlpal fn(eg. PAL_InventoryMenu / PAL_GameUseItem / PAL_ItemUseMenu)
+2. 完整 read 该 fn **全文**(不是 +/- 30 行,是 fn 整段从 `{` 到 `}`)
+3. 该 fn 内每个调用的 sdlpal fn → **递归 read 全文**:
+   - PAL_GameUseItem 内调 PAL_ItemSelectMenu / PAL_ItemUseMenu / PAL_RunTriggerScript → 三个都完整 read
+   - PAL_ItemUseMenu 内调 PAL_CreateBox / PAL_DrawNumber / PAL_DrawText / PAL_GetItemAmount → 关键 helper 也 read 一遍
+4. 识别**所有 while/for loop 边界**(eg. PAL_GameUseItem `while (TRUE)` OUTER + INNER 两层)
+5. 识别**所有 if-branch 真值**(eg. `if (!applyToAll) { ... } else { ... return; }`)
+6. 列差异表 → **一次性** port 全套,不"修入口 1 行等 user 怼缺哪条"
+
+**反 pattern 实例(session 3 我反复犯)**:
+
+- T10b InventoryMenu:只读 `itemmenu.c PAL_ItemSelectMenu` 本体,**没回追 uigame.c:878-919 PAL_InventoryMenu 入口**,漏 1 级 box 子菜单(装备/使用)。user 怼"你的物品菜单做对了吗"。
+- T10b PAL_ItemUseMenu:phase='use-target' state OK 但**没读 uigame.c:1289-1473 PAL_ItemUseMenu**,渲染层缺整个全屏 picker UI。user 怼"使用物品时并没有弹出选择角色的 UI"。
+- 物品使用循环:**没读 play.c:264-303 PAL_GameUseItem INNER while loop**,一律 `menuStack=[]` 关全菜单。user 怼"我印象里如果这个物品没用完可以继续使用,而不是直接关闭所有 UI 菜单"。
+- 物品脚本 opcode:**没枚举全 51 unique opcodes** + **没系统读 sdlpal script.c case 真值**,先做 0x1B 就提交。user 怼"什么叫补常见 opcode,都现在了你应该全都不齐了呀"。
+
+**修法(从 session 4 起执行)**:
+
+接 sdlpal port task 第一个动作 = 写一份 **"sdlpal 入口 fn 全 callpath 读完清单"**:
+```
+read entry fn: PAL_XxxMenu (uigame.c:N-M) ✓
+recursive deps:
+  - PAL_YyyMenu (uigame.c:A-B) ✓
+  - PAL_ZzzScript (play.c:C-D) ✓
+loops identified: OUTER while (TRUE) at line N; INNER while (TRUE) at line M
+branches identified: !applyToAll vs applyToAll (line K); cancel (=0) vs picked
+sdlpal global state mutated: gpGlobals->g.PlayerRoles.rgwHP[role]
+```
+
+**只有这份清单写完 + 列差异表后才动 ts 代码**。中途发现新 dep fn 没读完整 → 立即 read,不 grep+stop。
+
 ## 测试 / 验证
 
 - **图是给用户看的,不是 Claude 测试过不过的标准。** Claude 不识别截图。
