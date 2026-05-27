@@ -121,6 +121,25 @@ const TRIGGER_MODE_AUTO_MIN = 4
 
 // sdlpal palcommon.h:kDirSouth=0, kDirWest=1, kDirNorth=2, kDirEast=3
 const DIR_NUM_TO_FACING: Record<number, Facing> = { 0: 'down', 1: 'left', 2: 'up', 3: 'right' }
+const FACING_TO_DIR_NUM: Record<Facing, number> = { down: 0, left: 1, up: 2, right: 3 }
+
+/**
+ * sdlpal play.c:468-490 PAL_Search 触发后的视觉效果(M5.6 T8):
+ *  - NPC 转向 party 反方向(kDir = (partyDir + 2) % 4)+ scriptedFrame 0 站立
+ *  - party 全员转向面对 NPC(rgParty[l].wFrame = wPartyDirection * 3 → ts:partyScriptedFrame[i])
+ *  - sdlpal PAL_MakeScene + VIDEO_UpdateScreen + UTIL_Delay(50):ts 渲染下帧自动跑,delay 略
+ */
+function applySearchVisualEffect(gs: GameState, npc: NpcState): void {
+  const partyDirNum = FACING_TO_DIR_NUM[gs.party.facing]
+  // sdlpal play.c:483 真值:NPC 朝向 party 反方向
+  npc.facing = DIR_NUM_TO_FACING[(partyDirNum + 2) % 4]
+  npc.scriptedFrame = 0
+  // sdlpal play.c:485-489:party 全员 wFrame = wPartyDirection * 3(面向 NPC 的站立帧)
+  // ts partyScriptedFrame[i] 等价(渲染层优先级覆盖 stepFrame)
+  for (let i = 0; i < gs.partyMembers.length; i++) {
+    gs.partyScriptedFrame[i] = partyDirNum * 3
+  }
+}
 
 const SCREEN_W = 320
 
@@ -375,12 +394,14 @@ export function tickSceneSystem(
   //         - 触发后 break(sdlpal `PAL_ClearKeyState` + `if (fEnteringScene) return`)
   updateEventObjectsAndTrigger(gs, ctx)
 
-  // 4) Confirm 触发 Search(M5.6 W1.c:port sdlpal play.c:423-510 PAL_Search 完整 13-cell range)
-  //    sdlpal 真值:对 party 朝向前 13 个 grid cell 检查 triggerMode 1-3(SearchNear/Normal/Far)
-  //    + (mode*6-4 < i) 距离过滤;命中跑 wTriggerScript。修 M3.5 简版"facing 前 1 步 + 严格 ==" 不准。
+  // 4) Confirm 触发 Search(M5.6 W1.c + T8 完整真值:play.c:423-510)
+  //    - 13 cell range + triggerMode 1-3 + grid match(W1.c)
+  //    - 触发命中后:NPC 转向 party 反方向 + 站立帧;party 全员转向面对 NPC(T8)
+  //    - sdlpal UTIL_Delay(50) + PAL_ClearKeyState:ts 不阻塞,delay 略;input 每 tick 新无需 clear
   if (gs.mode === 'explore' && input.pressed.has('Confirm')) {
     const npc = findSearchableNpc(gs.npcs, gs.party.facing, gs.party.x, gs.party.y)
     if (npc?.triggerLabel) {
+      applySearchVisualEffect(gs, npc)
       loadEventFromNpc(gs, ctx, npc)
     }
   }

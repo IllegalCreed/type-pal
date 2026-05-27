@@ -493,6 +493,49 @@ describe('M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)', () => {
   })
 })
 
+describe('M5.6 T8 PAL_Search 视觉效果(play.c:468-490)', () => {
+  it('Confirm 触发 SearchNear NPC → NPC 朝 party 反方向 + scriptedFrame 0', () => {
+    // party facing 'down' (kDirSouth=0);NPC 朝向 = (0+2)%4 = 2 = North = 'up'
+    // mode 1 cells[0] = (party.x, party.y) = (100,100)同 grid;NPC 放 (100,100)同 grid
+    const gs = createInitialGameState({ x: 100, y: 100, facing: 'down' })
+    gs.partyMembers = [0, 1, 2]
+    gs.npcs = [{
+      id: 1, x: 100, y: 100, spriteNum: 1, sState: 1,
+      triggerLabel: 'L_X', triggerMode: 1, scriptedFrame: 99,
+    }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(20, 20)
+    tickSceneSystem(gs, snap([], ['Confirm']), bus, {
+      tilemap: map,
+      eventCommands: [{ op: 'end' as const }],
+      labelMap: { L_X: 0 },
+    })
+    expect(gs.npcs[0]?.facing).toBe('up') // sdlpal play.c:483 (partyDir+2)%4
+    expect(gs.npcs[0]?.scriptedFrame).toBe(0)
+    expect(gs.mode).toBe('event')
+  })
+
+  it('Confirm 触发 → party 全员 partyScriptedFrame[i] = partyDirNum * 3', () => {
+    // party facing 'right' (kDirEast=3);wFrame = 3*3 = 9
+    const gs = createInitialGameState({ x: 100, y: 100, facing: 'right' })
+    gs.partyMembers = [0, 1, 2] // 3 队员
+    gs.npcs = [{
+      id: 1, x: 100, y: 100, spriteNum: 1, sState: 1,
+      triggerLabel: 'L_X', triggerMode: 1,
+    }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(20, 20)
+    tickSceneSystem(gs, snap([], ['Confirm']), bus, {
+      tilemap: map,
+      eventCommands: [{ op: 'end' as const }],
+      labelMap: { L_X: 0 },
+    })
+    expect(gs.partyScriptedFrame[0]).toBe(9)
+    expect(gs.partyScriptedFrame[1]).toBe(9)
+    expect(gs.partyScriptedFrame[2]).toBe(9)
+  })
+})
+
 describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
   it('严格相等:party 与 NPC 同像素 → 触发(legacy 兼容)', () => {
     const gs = createInitialGameState({ x: 1136, y: 1304, facing: 'down' })
