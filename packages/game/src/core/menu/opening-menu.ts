@@ -19,11 +19,20 @@ export type OpeningMenuChoice = 'new-game' | 'load-game'
 
 /**
  * sdlpal `uigame.c:105-109` 真值菜单项 — 顺序:新游戏(value=0)/ 读档(value=1)。
+ *
+ * label 文案 = WORD.DAT id 7 / 8 真值 GBK 解码(`MAINMENU_LABEL_NEWGAME=7` / `LOADGAME=8`):
+ *   id 7 hex `d0 c2 b5 c4 b9 ca ca c2` GBK → "新的故事"
+ *   id 8 hex `be c9 b5 c4 bb d8 d2 e4` GBK → "旧的回忆"
+ * 每 word fixed 10 byte 长度,中文 2 byte/字,4 字 + 2 空格右补 = 10 byte。
+ *
+ * 注:in-game-menu.ts / save-slot 等同模式硬编码真值字符串;T20 真值 audit v2 时
+ * 考虑统一改成 lookup-driven(从 words.json 按 id 读),T17 范围内硬编码 OK。
+ *
  * 坐标在渲染层 PAL_XY(125±padding, 95/112);state machine 不持坐标。
  */
 const OPENING_LABELS: Array<{ id: number; choice: OpeningMenuChoice; label: string }> = [
-  { id: 0, choice: 'new-game', label: '新游戏' },
-  { id: 1, choice: 'load-game', label: '读取存档' },
+  { id: 0, choice: 'new-game', label: '新的故事' },
+  { id: 1, choice: 'load-game', label: '旧的回忆' },
 ]
 
 export interface OpeningMenuState {

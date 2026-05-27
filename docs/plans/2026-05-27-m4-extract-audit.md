@@ -57,7 +57,13 @@
 | **FIRE.MKF** | 0-54 | sprite group YJ2 法术动画 | 全 YJ2 + 帧抽 | `images/magic/fire-NN/frame-NN.png` + `data/fire-sprites.json` |
 | **SOUNDS.MKF** | 0-504 | OGG 音效(M6)| metadata only | `data/sounds-metadata.json` |
 | **M.MSG** | — | 字符串表(SSS.MKF.messageOffsets 索引)| parseMessages | `lookup/strings.json` |
-| **WORD.DAT** | — | 词表(8 byte / word)| parseWordDat | `lookup/words.json` |
+| **WORD.DAT** | [0..35] 系统/UI 36 条(含 `MAINMENU_LABEL_NEWGAME=7` / `LOADGAME=8`)| 10 byte/word GBK | ⚠ **未抽** | — |
+| WORD.DAT | [36..41] 人物名 6 条 | parseWordDat | `lookup/words.json.persons` |
+| WORD.DAT | [42..60] 战斗/UI 19 条 | ⚠ **未抽** | — |
+| WORD.DAT | [61..295] 物品名 235 条 | parseWordDat | `lookup/words.json.items` |
+| WORD.DAT | [296..397] 仙术名 102 条 | parseWordDat | `lookup/words.json.spells` |
+| WORD.DAT | [398..550] 敌人名 153 条 | parseWordDat | `lookup/words.json.enemies` |
+| WORD.DAT | [551..564] 毒素/特殊 14 条 | parseWordDat | `lookup/words.json.scenes` |
 | **SAVE.MKF** | — | **不存在**(WIN95+ 用 .RPG 存档)| — | — |
 | **unifont-cn.bdf**(非 MKF)| — | Unifont CN BDF(M4.P4 ship)| parseBdf + glyphsToJson | `data/font/glyphs.json` |
 | **1.avi**(trademark)| — | sdlpal `PAL_TrademarkScreen` 调 | ⚠ **未转 mp4**(memory [avi-offline-ffmpeg-to-mp4])| — |
@@ -106,6 +112,12 @@
 - **STORE 结构**:[global.h:252-255](../../reference/sdlpal/global.h#L252-L255)
 - **MAX_STORE_ITEM 值**:需 grep `common.h` 取 fixed 值
 
+### 5. WORD.DAT 系统/UI/战斗 menu label(55 条)dump
+- **触发 task**:T17 OpeningMenu / SystemMenu / battle menu UI / 任何 sdlpal `PAL_GetWord(wNum)` 引用真字符串的地方(eg. `MAINMENU_LABEL_NEWGAME=7` "新的故事" / `LOADGAME=8` "旧的回忆" / `STATUS_LABEL_*` / `BATTLEUI_LABEL_*` 等)
+- **现状**:[`parseWordDat`](../../packages/pal-extract/src/io/word.ts) 只 dump 5 个 category(persons/items/spells/enemies/scenes 共 510 条),**丢了 [0..35] 系统/UI 36 条 + [42..60] 战斗/UI 19 条 = 55 条 sdlpal `#define LABEL_X = N` 引用的 word**
+- **工作量**:加 `system: string[]` (36 条 id 0-35)+ `battleUi: string[]` (19 条 id 42-60)字段;或更彻底 — 加 `flatAll: string[]` (565 条,index = sdlpal word id)字段供 `PAL_GetWord(wNum)` 一对一查询
+- **T17 缓解**:OpeningMenu label 当前硬编码真值字符串(新的故事 / 旧的回忆),未走 WORD.DAT lookup。T20 真值 audit v2 统一改成 lookup-driven。
+
 ---
 
 ## 本 audit 没覆盖的事
@@ -120,15 +132,17 @@
 
 ## v2 session 2 shallow-推教训
 
-本 audit 起源是我在 T17 准备阶段连续 3 次 shallow 推:
+本 audit 起源是我在 T17 准备阶段连续 4 次 shallow 推:
 1. `find -name "fbp*"` 0 hit 就说 "FBP 没 extract" — **没去看 cli.ts 是不是把 FBP 当 battle bg routed 到 battle/bg/**
 2. 看 sdlpal `(fIsWIN95 ? 2 : 60)` 三元 macro 推 "PAL_CLASSIC build → chunk 60" — **没查 fIsWIN95 实际值**,把 fIsWIN95 和 PAL_CLASSIC 混成一回事
 3. 起手 msg 写 "OpeningMenu 3 选 1(新/读档/退出)" 我没怼,直到查 sdlpal `uigame.c:105-109` 才发现真值是 2 项
+4. 本 audit doc 自己只"通读 cli.ts"没追 **parser 函数实现**,把 `parseWordDat` 当作"WORD.DAT 全 dump",实际只 dump 5/7 category 丢 55 条 sys/UI/battle menu label — **audit doc 本身 shallow,失去 single source of truth 价值** — user 用 "WORD.DAT 你又少提取东西了?" 揭穿
 
 **修法**(行为约束):
 - 看 sdlpal 三元 macro 必查 condition 实际值,不凭印象
 - find filename 0 hit ≠ "没提取",要 grep extractor cli.ts 实际逻辑
 - 用户起手 msg 与 sdlpal 真值冲突时立刻问,不擅自二选一
-- 本 audit doc 是 single source of truth — 后续 task 真做前先查,不再 shallow grep
+- **audit doc 不能只看 cli.ts 调用 — 必须追 parser 函数实现(看是否 dump-all vs 选 subset)**;cli.ts 调用 `parseX` 不代表 X 被全 dump
+- 本 audit doc 是 single source of truth — 后续 task 真做前先查,不再 shallow grep;但 audit doc 自己也得真实(本文档已在 2026-05-27 由 WORD.DAT 漏洞触发第一次修订)
 
-待存 memory:`shallow-extract-audit-lesson.md` — "凭 find filename / sdlpal 三元 macro 推 M4 是否提取 X = 错;只信 cli.ts 通读 + 本 audit doc"
+待存 memory:`shallow-extract-audit-lesson.md` — "凭 find filename / sdlpal 三元 macro 推 M4 是否提取 X = 错;只信 cli.ts 通读 + parser 函数实现追溯 + 本 audit doc"
