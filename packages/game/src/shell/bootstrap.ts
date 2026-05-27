@@ -13,6 +13,9 @@ import {
 } from '../core/event-system.js'
 import { setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
 import { createOpeningMenu } from '../core/menu/opening-menu.js'
+import { playAvi } from './avi-player.js'
+import { playSplashFallback } from './splash-fallback.js'
+import { playTrademarkFallback } from './trademark-fallback.js'
 import { startBattle } from '../core/battle/battle-system.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { KeyboardInputSource } from './input.js'
@@ -47,6 +50,18 @@ const sceneJumps = sceneJumpsRaw as unknown as SceneJumpsData
 const skipIntroBoot = typeof window !== 'undefined'
   && new URLSearchParams(window.location.search).has('skip-intro')
 const SCENE_ID = skipIntroBoot ? 1 : 0
+
+/**
+ * M5.6 T18 Step 7:`?build=win95`(默认)/ `?build=dos` URL flag。
+ * - win95:trademark / splash 走 mp4 视频(playAvi 1/2.avi)— sdlpal `gConfig.fIsWIN95=TRUE`
+ *   真值同口径
+ * - dos:走 sdlpal DOS fallback 真做(playTrademarkFallback RNG.MKF chunk 6 +
+ *   playSplashFallback FBP chunk 3/4 + 仙鹤 + 标题 RLE + palette 渐变 200 行 port)
+ * `?skip-intro=1` 优先短路全部(同前)。
+ */
+const buildFlag: 'win95' | 'dos' = typeof window !== 'undefined'
+  && new URLSearchParams(window.location.search).get('build') === 'dos'
+  ? 'dos' : 'win95'
 
 export function showError(canvas: HTMLCanvasElement, msg: string): void {
   const ctx = canvas.getContext('2d')
@@ -599,12 +614,27 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   }
 
   /**
-   * T18 真做 hook:OpeningMenu 选 new-game 后 sdlpal uigame.c:162 `PAL_PlayAVI("3.avi")`。
-   * 走 ffmpeg 离线转 mp4(memory: avi-offline-ffmpeg-to-mp4)+ <video> 元素播放。
-   * T17 stub:console.log + 立即 resolve,T18 swap 实现。
+   * M5.6 T19 Step 8:OpeningMenu 选 new-game 后播 3.avi。
+   * sdlpal uigame.c:162 `PAL_PlayAVI("3.avi")` 真值:
+   *   if (wItemSelected == 0) PAL_PlayAVI("3.avi");
+   *   return (INT)wItemSelected;
+   *
+   * `?build=win95`:走 mp4 视频(我们默认)
+   * `?build=dos`:DOS 数据没 3.avi 替代,直接 return(sdlpal main.c 同口径,
+   *   PAL_PlayAVI 失败时 return 0 不走 fallback)
    */
   async function playOpeningAvi(): Promise<void> {
-    console.log('[bootstrap] TODO T18:3.avi(ffmpeg→mp4 + <video> 播放,memory:avi-offline-ffmpeg-to-mp4)')
+    if (buildFlag === 'dos') {
+      console.log('[bootstrap] DOS build:3.avi 无 fallback,直接进 scene')
+      return
+    }
+    gs.suspendRaf = true
+    try {
+      await playAvi({ src: '/extracted/videos/3.mp4' })
+    }
+    finally {
+      gs.suspendRaf = false
+    }
   }
 
   setStartGameHandler(async (choice) => {
@@ -620,16 +650,86 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }
   })
 
+  /**
+   * Step 7:Trademark + Splash 启动序列 — sdlpal main.c:545-546 真值。
+   * `?build=win95`:playAvi(1/2)— mp4 视频(WIN95 build path,我们默认)
+   * `?build=dos`:playTrademarkFallback + playSplashFallback — RNG + 卷轴动画
+   *
+   * suspendRaf 包 try/finally,modal 期间 canvas render 暂停。
+   */
+  async function showTrademarkAndSplash(): Promise<void> {
+    gs.suspendRaf = true
+    try {
+      if (buildFlag === 'win95') {
+        // sdlpal main.c:197 PAL_PlayAVI("1.avi") / main.c:237 PAL_PlayAVI("2.avi")
+        await playAvi({ src: '/extracted/videos/1.mp4' })
+        await playAvi({ src: '/extracted/videos/2.mp4' })
+      }
+      else {
+        // sdlpal main.c:199-203 DOS Trademark fallback / main.c:223-456 DOS Splash fallback
+        // palette 3:trademark / palette 1:splash(sdlpal PAL_SetPalette / PAL_GetPalette 真值)
+        const palette3 = await fetchPalette(3).catch(() => palette)
+        await playTrademarkFallback({
+          fb,
+          canvasCtx: canvasCtx!,
+          palette: palette3,
+        })
+        const palette1 = await fetchPalette(1).catch(() => palette)
+        const fbpUp = assets.battleBgs.get(3)
+        const fbpDown = assets.battleBgs.get(4)
+        const craneSprite = characterSprites.get(73)
+        const titleSprite = characterSprites.get(71)
+        if (!fbpUp || !fbpDown || !craneSprite || !titleSprite || titleSprite.frames.length === 0) {
+          console.warn('[bootstrap] DOS splash 资产缺失,跳过 splash fallback')
+        }
+        else {
+          await playSplashFallback({
+            fb,
+            canvasCtx: canvasCtx!,
+            palette: palette1,
+            // BattleBgAsset(无 opaque)→ wrap 成 IndexedImage(全 opaque)
+            bitmapUp: { ...fbpUp, opaque: new Uint8Array(fbpUp.width * fbpUp.height).fill(1) },
+            bitmapDown: { ...fbpDown, opaque: new Uint8Array(fbpDown.width * fbpDown.height).fill(1) },
+            craneSprite: {
+              frames: craneSprite.frames.map((f) => ({
+                width: f.width, height: f.height,
+                indices: f.indices, opaque: f.opaque,
+              })),
+              anchorX: craneSprite.anchorX,
+              anchorY: craneSprite.anchorY,
+            },
+            titleFrame: {
+              width: titleSprite.frames[0]!.width,
+              height: titleSprite.frames[0]!.height,
+              indices: titleSprite.frames[0]!.indices,
+              opaque: titleSprite.frames[0]!.opaque,
+            },
+          })
+        }
+      }
+    }
+    finally {
+      gs.suspendRaf = false
+    }
+  }
+
   if (skipIntroBoot) {
-    // ?skip-intro=1 → 跳 OpeningMenu 直接走 SCENE_ID(=1)新游戏
+    // ?skip-intro=1 → 跳 trademark + splash + OpeningMenu 直接走 SCENE_ID(=1)新游戏
     startNewGameFromPrimary()
   }
   else {
-    // 默认:弹 OpeningMenu(sdlpal uigame.c:42-167 PAL_OpeningMenu)
-    gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
-    gs.mode = 'menu'
+    // 默认:trademark → splash → OpeningMenu
+    // 注:await 不阻塞 startRafLoop(后者立即调,raf 已暂停 via suspendRaf)
+    void showTrademarkAndSplash().then(() => {
+      gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
+      gs.mode = 'menu'
+    }).catch((err: unknown) => {
+      console.error('[bootstrap] trademark/splash 失败,直接进 OpeningMenu:', err)
+      gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
+      gs.mode = 'menu'
+    })
   }
 
   startRafLoop(loopCtx)
-  console.log('[bootstrap] startup ready, SCENE_ID=', SCENE_ID, 'skipIntro=', skipIntroBoot)
+  console.log('[bootstrap] startup ready, SCENE_ID=', SCENE_ID, 'skipIntro=', skipIntroBoot, 'build=', buildFlag)
 }
