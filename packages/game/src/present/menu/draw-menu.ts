@@ -17,11 +17,14 @@ import type {
   GameState,
 } from '../../core/game-state.js'
 import type { InGameMenuState, SystemMenuState } from '../../core/menu/in-game-menu.js'
+import type { OpeningMenuState } from '../../core/menu/opening-menu.js'
 import type { SaveSlotMenuState } from '../../core/menu/save-slot-menu.js'
 import type { SelectionMenuState } from '../../core/menu/primitives.js'
+import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { measureText, renderText, type GlyphTable } from '../font.js'
 import { drawBox, drawSingleLineBox } from './draw-box.js'
+import { drawOpeningMenu } from './draw-opening-menu.js'
 
 // ── sdlpal ui.h / text.c 真值色 ──────────────────────────────────────────────
 const MENUITEM_COLOR = 0x4F            // ui.h:29
@@ -69,9 +72,10 @@ export function drawMenuStack(
   gs: GameState,
   uiSpriteFrames: IndexedImage[],
   glyphs?: GlyphTable,
+  openingMenuBg?: BattleBgAsset,
 ): void {
   for (const entry of gs.menuStack) {
-    drawMenuEntry(fb, entry, gs, uiSpriteFrames, glyphs)
+    drawMenuEntry(fb, entry, gs, uiSpriteFrames, glyphs, openingMenuBg)
   }
 }
 
@@ -81,8 +85,17 @@ function drawMenuEntry(
   gs: GameState,
   uiSpriteFrames: IndexedImage[],
   glyphs?: GlyphTable,
+  openingMenuBg?: BattleBgAsset,
 ): void {
   switch (entry.kind) {
+    case 'opening':
+      drawOpeningMenu({
+        fb,
+        state: entry.state as OpeningMenuState,
+        bg: openingMenuBg,
+        glyphs,
+      })
+      break
     case 'in-game':
       // sdlpal uigame.c:472 PAL_InGameMenu 先 PAL_ShowCash 再 CreateBox
       drawCashBox(fb, gs.dwCash, uiSpriteFrames, glyphs)

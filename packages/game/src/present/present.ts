@@ -380,7 +380,7 @@ export function presentFrame(
   // M5.6 W0.d:菜单 modal 覆盖最顶层,在 fadeState 后画(避免被 fade 覆盖)。
   // gs.menuStack 空时 drawMenuStack 立即 return,无开销。
   if (gs.menuStack.length > 0 && ctx.uiSpriteFrames) {
-    drawMenuStack(fb, gs, ctx.uiSpriteFrames, ctx.glyphs)
+    drawMenuStack(fb, gs, ctx.uiSpriteFrames, ctx.glyphs, ctx.openingMenuBg)
   }
 }
 
