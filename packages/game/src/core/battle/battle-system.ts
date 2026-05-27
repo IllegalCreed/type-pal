@@ -46,6 +46,7 @@ import { createSeedableRng } from '../rng.js'
 import { performAttack } from './actions/attack.js'
 import { performDefend } from './actions/defend.js'
 import { performFlee } from './actions/flee.js'
+import { tickStatusEffects } from './status.js'
 import { performItem } from './actions/item.js'
 import { performMagic } from './actions/magic.js'
 import type { BattleAction, BattleState } from './battle-state.js'
@@ -765,7 +766,10 @@ function tickPostAction(state: BattleState, res: BattleResources): void {
     return
   }
 
-  // 推下一轮
+  // 推下一轮 + M5.B-w1.a:tick status effects(sdlpal fight.c:PAL_BattlePlayerCheckReady)
+  // sleep/paralyzed/confused/silence/puppet 各 -1 直到 0;boolean 类 haste/slow/...
+  // 简版不衰减(等装备 / 法术 follow-up)
+  tickStatusEffects(state)
   state.turn++
   state.pendingActions.clear()
   // defend 单轮失效(sdlpal `fight.c:1604` `g_Battle.rgPlayer[i].fDefending = FALSE`)
