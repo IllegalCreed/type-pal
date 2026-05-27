@@ -13,6 +13,8 @@ import type { SceneAssetsCache } from '../assets/loader.js'
 import type { CommandBus } from './command-bus.js'
 import { npcFromEventObject, PARTYOFFSET_X, PARTYOFFSET_Y, type Facing, type GameState, type NpcState } from './game-state.js'
 import { runEnterScript } from './event-system.js'
+import { createInGameMenu } from './menu/in-game-menu.js'
+import { openMenu } from './menu/menu-mode.js'
 
 export interface SceneContext {
   tilemap: Tilemap
@@ -211,6 +213,13 @@ export function tickSceneSystem(
 ): void {
   const ctx = ctxOverride ?? _ctx
   if (!ctx) throw new Error('scene-system: setSceneContext / ctxOverride 必须先设置')
+
+  // M5.6 W0.v:Menu 键(sdlpal input.c:66 SDLK_ESCAPE → kKeyMenu)→ 开 InGameMenu hub。
+  // 早返回:不走 movement / search,避免按 ESC 时同时位移。
+  if (input.pressed.has('Menu')) {
+    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
+    return
+  }
 
   // 1) 走路 + 转向
   //    P0.a:isWalkable 内部统一处理 tilemap obstacle bit + NPC 菱形碰撞。
