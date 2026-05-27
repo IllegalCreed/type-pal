@@ -11,7 +11,8 @@ import {
   setSceneLoader,
   setSharedEvents, setStartBattleHandler,
 } from '../core/event-system.js'
-import { setMenuCatalogs } from '../core/menu/menu-driver.js'
+import { setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
+import { createOpeningMenu } from '../core/menu/opening-menu.js'
 import { startBattle } from '../core/battle/battle-system.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { KeyboardInputSource } from './input.js'
@@ -107,31 +108,12 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // 传 labelMap → NPC autoLabel resolve 成 autoCursor.ip
   gs.npcs = scene.eventObjects.map((eo) => npcFromEventObject(eo, labelMap))
 
-  // onEnter 装载
-  // M3.5:dev verify / L2 Playwright 加 ?skip-intro=1 URL flag 跳 onEnter,避免
-  // 每次都按 Space 过开场对话(scene 1 是吕奇劫主角剧情)。default 仍跑 onEnter
-  // 保持真原版游戏首屏行为。
-  //
-  // P0.e:
-  //  - skip-intro: 直接跑 runEnterScript 同步取得 setPartyPos(跳过对话);party 在正确位置后
-  //    保持 explore 模式。
-  //  - 正常启动: enter script 里的 setPartyPos(opcode 0x0046) 由 tickEventSystem raw case
-  //    applyRawOpcode 真生效 → 对话过完后 party 已在正确位置。
-  const skipIntro = new URLSearchParams(window.location.search).has('skip-intro')
-  if (scene.onEnterLabel) {
-    const ip = labelMap[scene.onEnterLabel]
-    if (ip !== undefined) {
-      if (skipIntro) {
-        // skip-intro: 同步跑 enter script → 只取 setPartyPos/Direction,跳过对话
-        runEnterScript(gs, eventCommands, labelMap, ip)
-      }
-      else {
-        // 正常启动:跑完整 enter script(含对话)— tickEventSystem 步进
-        gs.eventCursor = { commands: eventCommands, labelMap, ip }
-        gs.mode = 'event'
-      }
-    }
-  }
+  // M5.6 T17:onEnter 启动改由 startNewGameFromPrimary helper 触发,
+  // OpeningMenu 选 new-game / ?skip-intro=1 路径都调它。
+  // (helper 定义在下面 setStartGameHandler 之前;此处仅保留注释占位。)
+  // skipIntro 行为见 ?skip-intro=1 路径分支(SCENE_ID=1 + runEnterScript 同步只取 setPartyPos)。
+  // 正常启动:OpeningMenu 选 new-game → playOpeningAvi() stub → startNewGameFromPrimary 装载完整
+  // onEnter(对话由 tickEventSystem 步进)。
 
   // sprite 装配 — sdlpal `scene.c:750-755`:站立帧 = wDirection * walkFrames,
   // WIN95 party sprite 默认 12 帧 = 4 方向 × 3 帧(walkFrames 默认 3)。
@@ -586,6 +568,68 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     await Promise.all([...cutsceneSpriteIds].map((id) => fetchMissingSprite(id)))
   }
 
+  // ── M5.6 T17:启动路由 — OpeningMenu vs ?skip-intro ──────────────────────
+  // sdlpal main.c:545-546 真值:`PAL_TrademarkScreen → PAL_SplashScreen → PAL_OpeningMenu`,
+  // OpeningMenu 选 new-game 返回 0 → `PAL_PlayAVI("3.avi")` → loop 进 scene。
+  //
+  // ts 端:T18/T19 trademark + splash + 3.avi 留后续 task;T17 只接 OpeningMenu 本体 + AVI hook stub。
+  //
+  // ?skip-intro=1 URL flag(M3.5 commit a9a87ac)— 之前跳 scene 0 梦境直接 scene 1,
+  // T17 扩为同时跳过 OpeningMenu(dev / e2e 用)。
+
+  /** 用 primary scene(SCENE_ID)资产真正"开始"游戏 — 装 events + 跑 onEnter。 */
+  function startNewGameFromPrimary(): void {
+    if (scene.onEnterLabel) {
+      const ip = labelMap[scene.onEnterLabel]
+      if (ip !== undefined) {
+        if (skipIntroBoot) {
+          // skip-intro: 同步跑 enter script,只取 setPartyPos/Direction,跳过对话(scene 1 客栈)
+          runEnterScript(gs, eventCommands, labelMap, ip)
+        }
+        else {
+          // 正常启动:跑完整 onEnter script(scene 0 梦境对话)— tickEventSystem 步进
+          gs.eventCursor = { commands: eventCommands, labelMap, ip }
+          gs.mode = 'event'
+        }
+      }
+    }
+    // 清 OpeningMenu(若有);startNewGameFromPrimary 由 OpeningMenu 触发时 menuStack 非空
+    gs.menuStack = []
+    if (gs.mode === 'menu') gs.mode = 'explore'
+  }
+
+  /**
+   * T18 真做 hook:OpeningMenu 选 new-game 后 sdlpal uigame.c:162 `PAL_PlayAVI("3.avi")`。
+   * 走 ffmpeg 离线转 mp4(memory: avi-offline-ffmpeg-to-mp4)+ <video> 元素播放。
+   * T17 stub:console.log + 立即 resolve,T18 swap 实现。
+   */
+  async function playOpeningAvi(): Promise<void> {
+    console.log('[bootstrap] TODO T18:3.avi(ffmpeg→mp4 + <video> 播放,memory:avi-offline-ffmpeg-to-mp4)')
+  }
+
+  setStartGameHandler(async (choice) => {
+    if (choice.kind === 'new-game') {
+      await playOpeningAvi()
+      startNewGameFromPrimary()
+    }
+    else {
+      // load-game stub — sdlpal global.c:731 PAL_LoadGame_WIN(slot)真做 .RPG 解,留 M6+
+      console.log(`[bootstrap] TODO M6:load-game slot=${choice.slot}`)
+      // 暂走 primary scene(让游戏可继续 dev / e2e)
+      startNewGameFromPrimary()
+    }
+  })
+
+  if (skipIntroBoot) {
+    // ?skip-intro=1 → 跳 OpeningMenu 直接走 SCENE_ID(=1)新游戏
+    startNewGameFromPrimary()
+  }
+  else {
+    // 默认:弹 OpeningMenu(sdlpal uigame.c:42-167 PAL_OpeningMenu)
+    gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
+    gs.mode = 'menu'
+  }
+
   startRafLoop(loopCtx)
-  console.log('[bootstrap] scene', SCENE_ID, 'started')
+  console.log('[bootstrap] startup ready, SCENE_ID=', SCENE_ID, 'skipIntro=', skipIntroBoot)
 }
