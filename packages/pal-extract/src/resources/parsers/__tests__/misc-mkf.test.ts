@@ -14,7 +14,7 @@ import { describe, expect, it } from 'vitest'
 import { chunkCount, openMkf, readChunk } from '../../../io/mkf.js'
 import { decompressYj2 } from '../../../io/yj2.js'
 import { framesToOut, parseSpriteChunk } from '../../sprite.js'
-import { dumpBallChunk } from '../ball.js'
+import { decodeBallIcon } from '../ball.js'
 import { parseFirSprite } from '../fire.js'
 import { dumpRgmChunk } from '../rgm.js'
 
@@ -77,19 +77,14 @@ describe('dumpRgmChunk', () => {
   })
 })
 
-// ── dumpBallChunk ──────────────────────────────────────────────────────────
+// ── decodeBallIcon ─────────────────────────────────────────────────────────
 
-describe('dumpBallChunk', () => {
-  it('returns raw dump with chunkIndex + size + sdlpalHint + todo', () => {
-    const r = dumpBallChunk(7, new Uint8Array(8))
-    expect(r.chunkIndex).toBe(7)
-    expect(r.size).toBe(8)
-    expect(r.sdlpalHint).toContain('BALL.MKF')
-    expect(r.sdlpalHint).toContain('wBitmap')
-    expect(r.todo).toContain('M5')
+describe('decodeBallIcon', () => {
+  it('empty chunk(0 byte)→ null', () => {
+    expect(decodeBallIcon(0, new Uint8Array(0))) .toBe(null)
   })
 
-  it('real BALL.MKF — 252 chunks(item icon bitmaps)', () => {
+  it('real BALL.MKF — 252 chunks 多数解码出 width/height/png', () => {
     const p = rawMkfPath('BALL.MKF')
     if (!existsSync(p)) {
       console.warn('[ball test skip] data/raw/BALL.MKF 不存在,需原盘')
@@ -97,11 +92,20 @@ describe('dumpBallChunk', () => {
     }
     const mkf = openMkf(new Uint8Array(readFileSync(p)))
     expect(chunkCount(mkf)).toBe(252)
-    let hasNonEmpty = false
+    let decoded = 0
     for (let i = 0; i < chunkCount(mkf); i++) {
-      if (readChunk(mkf, i).byteLength > 0) { hasNonEmpty = true; break }
+      const icon = decodeBallIcon(i, readChunk(mkf, i))
+      if (icon) {
+        expect(icon.width).toBeGreaterThan(0)
+        expect(icon.height).toBeGreaterThan(0)
+        expect(icon.pngBytes.byteLength).toBeGreaterThan(50)
+        // PNG signature
+        expect(icon.pngBytes[0]).toBe(0x89)
+        expect(icon.pngBytes[1]).toBe(0x50)
+        decoded++
+      }
     }
-    expect(hasNonEmpty).toBe(true)
+    expect(decoded).toBeGreaterThan(100) // 多数 chunk 都该是 valid RLE
   })
 })
 

@@ -52,7 +52,7 @@ import {
 } from './resources/parsers/data-misc.js'
 import { decodeRngAnim } from './resources/parsers/rng-frames.js'
 import { dumpRgmChunk } from './resources/parsers/rgm.js'
-import { dumpBallChunk } from './resources/parsers/ball.js'
+import { decodeBallIcon } from './resources/parsers/ball.js'
 import { parseFirSprite } from './resources/parsers/fire.js'
 import { dumpSoundsMetadata } from './resources/parsers/sounds.js'
 import {
@@ -367,14 +367,27 @@ async function main(): Promise<void> {
     console.log(`[pal-extract] RGM.MKF written (${n} chunks)`)
   }
 
-  // BALL.MKF: 252 chunks, 每 chunk 是单帧 RLE bitmap 物品图标(global.h fpBALL)
+  // BALL.MKF: 252 chunks, 每 chunk 是单帧 RLE bitmap 物品图标(sdlpal global.h fpBALL)。
+  // M5.6 audit 第 1 真漏洞修(2026-05-27):decodeRle → encodeIndexedPng → PNG。
+  // 输出 images/items/{NNN}.png + data/items-icons.json manifest。
+  // 索引方式 = `OBJECT.item.wBitmap`(sdlpal itemmenu.c:201 真值)→ ts InventoryMenu fullscreen 用。
   {
     const ballMkf = openMkf(loadFile('BALL.MKF'))
     const n = chunkCount(ballMkf)
-    const summary: RawChunkDump[] = []
-    for (let i = 0; i < n; i++) summary.push(dumpBallChunk(i, readChunk(ballMkf, i)))
-    writeJson(resolve(OUT, 'data', 'ball-raw.json'), summary)
-    console.log(`[pal-extract] BALL.MKF written (${n} chunks)`)
+    const manifest: Array<{ chunkIndex: number; width: number; height: number }> = []
+    let written = 0
+    for (let i = 0; i < n; i++) {
+      const icon = decodeBallIcon(i, readChunk(ballMkf, i))
+      if (!icon) continue
+      writeBinary(
+        resolve(OUT, 'images', 'items', `${i.toString().padStart(3, '0')}.png`),
+        icon.pngBytes,
+      )
+      manifest.push({ chunkIndex: icon.chunkIndex, width: icon.width, height: icon.height })
+      written++
+    }
+    writeJson(resolve(OUT, 'data', 'items-icons.json'), { count: n, icons: manifest })
+    console.log(`[pal-extract] BALL.MKF written: ${written} / ${n} icons → images/items/{NNN}.png`)
   }
 
   // FIRE.MKF: 55 chunks, 每 chunk 是 YJ2 sprite group(fight.c PAL_MKFDecompressChunk)

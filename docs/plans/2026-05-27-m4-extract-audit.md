@@ -88,10 +88,10 @@
 
 ## 真漏洞列表(实做对应 task 前必须补)
 
-### 1. BALL.MKF RLE 解 → 252 物品图标 PNG
+### 1. BALL.MKF RLE 解 → 252 物品图标 PNG — ✓ 已修(2026-05-27 T10b)
 - **触发 task**:T10b InventoryMenu / T10e EquipItemMenu
-- **工作量**:加 `packages/pal-extract/src/resources/parsers/ball.ts` 真实现(目前是 dumpBallChunk raw),复刻 sdlpal RLE 解码 + 输出 PNG,落 `images/items/{NNN}.png` × 252
-- **现状参考**:dialog-icons-raw.json 同样是 RLE raw,但 runtime 解(`packages/game/src/assets/rle-decode.ts`),可以参考决定是 pal-extract 离线解还是 runtime 解。物品图标量大(252),倾向 pal-extract 离线 PNG。
+- **修法**:[`parsers/ball.ts`](../../packages/pal-extract/src/resources/parsers/ball.ts) `decodeBallIcon` — 复用 `io/rle.ts decodeRle`,**skip 头 4 byte `02 00 00 00` file header**(sdlpal palcommon.c:96-100 真值),输出 `images/items/{NNN}.png` × 251(chunk 0 空槽位 skip)+ `data/items-icons.json` manifest。
+- **典型尺寸**:48×47 indexed PNG with alpha mask(opaque=0 处 透明)。
 
 ### 2. RGM.MKF RLE 解 → 92 角色头像 PNG
 - **触发 task**:T10d PlayerStatus
