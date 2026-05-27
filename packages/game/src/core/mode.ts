@@ -9,6 +9,7 @@ import { tickBattle } from './battle/battle-system.js'
 import type { CommandBus } from './command-bus.js'
 import type { GameState } from './game-state.js'
 import { tickAutoScripts, tickEventSystem } from './event-system.js'
+import { tickMenu } from './menu/menu-mode.js'
 import { tickSceneSystem } from './scene-system.js'
 
 export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
@@ -36,6 +37,11 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
       break
     case 'battle':
       tickBattle(gs, input, bus)
+      break
+    case 'menu':
+      // M5.6 W0.a:大世界菜单 modal 子 mode;dispatch 输入到栈顶 menu,
+      // 栈空时 tickMenu 自动切回 'explore'。
+      tickMenu(gs, input, bus)
       break
   }
 }

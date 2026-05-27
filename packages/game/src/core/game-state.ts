@@ -33,7 +33,28 @@ export interface TrailEntry {
   dir: Facing
 }
 
-export type Mode = 'explore' | 'event' | 'battle'
+export type Mode = 'explore' | 'event' | 'battle' | 'menu'
+
+/**
+ * M5.6 W0.a:大世界菜单种类(对应 sdlpal uigame.c 各 PAL_*Menu 函数)。
+ * 战斗内菜单(item-select / magic-select)仍走 battle-system 自有 uiState,不进 menuStack。
+ */
+export type ActiveMenuKind =
+  | 'in-game'        // ESC 弹出的主菜单 hub(物品/法术/状态/系统)
+  | 'system'          // 进系统设置(存档/读档/设置/退出)
+  | 'save-slot'       // 存档列表(5 slot)
+  | 'inventory'       // 物品(use/throw)
+  | 'equip'           // 装备
+  | 'in-game-magic'   // 大世界法术(选角色 → 选法术 → 选目标)
+  | 'player-status'   // 角色状态(stat + 装备)
+  | 'shop-buy'        // 商店买
+  | 'shop-sell'       // 商店卖
+
+/** 当前 active menu — `state` 由具体 menu state machine fn 创建,unknown 让 dispatcher 转型。 */
+export interface ActiveMenuEntry {
+  kind: ActiveMenuKind
+  state: unknown
+}
 
 /** 队伍成员的 role id(MKFNUM_PLAYERROLES),原版 max 5 在 party 中。 */
 export interface InventoryEntry {
@@ -350,6 +371,13 @@ export interface GameState {
   inventory: InventoryEntry[]
   mode: Mode
   /**
+   * M5.6 W0.a:active menu 栈。push 子菜单时 append,关菜单时 pop;
+   * 空 = 无菜单(若当前 mode='menu' 则 tickMenu 自动切回 'explore')。
+   * sdlpal uigame.c 各 PAL_*Menu 是 modal blocking 函数,栈隐式在 C call stack;
+   * ts 端把它显式化为数据 — 顶层是当前焦点,渲染层从底到顶画。
+   */
+  menuStack: ActiveMenuEntry[]
+  /**
    * scene-level event commands + labelMap(autoScript runner 用)。
    *
    * `eventCursor` 是 trigger script 临时 cursor(event mode 进入时设,退出清);
@@ -635,6 +663,7 @@ export function createInitialGameState(
     partyMembers: [],
     inventory: [],
     mode: 'explore',
+    menuStack: [],
     currentDialogStyle: 'center',
     // sdlpal text.c:29 FONT_COLOR_DEFAULT = 0x4F(palette idx 79,亮黄/浅米)
     currentDialogFontColor: 0x4F,
