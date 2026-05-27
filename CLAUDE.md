@@ -15,6 +15,13 @@
 - 任何 cutscene / dialog / scene-transition 等修改前,**先 grep sdlpal source 真值**(`reference/sdlpal/*.c`),再写实现。不要凭推理修。
 - 用户的需求都是对照 sdlpal 真版本发现的,**不是瞎编的**。先信用户。
 
+### 截图 vs 修改依据(强硬约束)
+
+- user 给的 sdlpal Win95 真值**截图**是用来**发现 bug** 的(指出 visual 跟我目前实现哪里不对),**不是修改的依据本身**。
+- **所有修改必须在 sdlpal source(`reference/sdlpal/*.c` / `*.h`)找到对应出处**(行号 + 真值 macro / 函数 / 字段),再改 ts 实现。
+- **不许**凭截图 visual 自己猜着 fix。原因:Unifont 16×16 stroke 跟 sdlpal 原 font 不同 / palette index 渲染色不同 / shadow algorithm 差异 — 截图视觉**对不齐 ≠ sdlpal 真值错**;真值对了 visual 自然就对了,**反之不成立**。
+- 反面案例(2026-05-27):user 给 sdlpal Win95 截图 shadow 看着 1 px 偏移 → 我擅自把 ts triple shadow 改 single 是错的,sdlpal text.c:1144-1155 真值是 triple(注释明说 DOS triple / WIN95 single,sdlpal "fix" 统一 triple)— **不能因截图视觉差就改算法**,要改 font / palette 对齐才行。user 原话:"你不是对着截图改,我截图给你**发现问题用的**,你的修改都要在 sdl 里面找到出处再改"。
+
 ## 反 shallow 资源 / 真值判断(硬约束)
 
 判断"M4 是否已 dump X" / "sdlpal `(cond ? A : B)` 真值哪个" / "pal-extract parser 完整覆盖 Y" 前,**必走 byte-level / source-level verify**,不许凭 surface 信号(file naming / macro 字面 / category 字段名)推断:

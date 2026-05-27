@@ -528,9 +528,11 @@ function drawNarrationDialog(
   // 文字 pos(sdlpal text.c:1698)
   const textX = boxX + 8 + ((len & 1) << 2)
   const textY = boxY + 10
-  // typing 进度截断(narration 通常一次性 display,但保留 charsRevealed 兼容性)
-  const visible = state.charsRevealed > 0
-    ? text.slice(0, state.charsRevealed)
-    : text
-  renderText(fb, visible, textX, textY, 0x4F /* MENUITEM_COLOR */, glyphs, false)
+  // sdlpal text.c:1698 真值:TEXT_DisplayText(lpszText, ...) **一次性 display 整 text**,
+  // 不 typing(narration path 没 typing loop)。state.charsRevealed 截断仅适用 upper/lower
+  // /center 透明文字风格 — narration 无视 charsRevealed,直接画全 text。
+  // 字色 sdlpal text.c:29 FONT_COLOR_DEFAULT=0x4F + fShadow=true(text.c:1594 TEXT_DisplayText
+  // 内调 PAL_DrawTextUnescape fShadow=!isDialog 真值:narration isDialog=TRUE → !TRUE = FALSE。
+  // 但 sdlpal 真值是 isDialog=TRUE(text.c:1698 最后参),所以 fShadow=FALSE。
+  renderText(fb, text, textX, textY, FONT_COLOR_DEFAULT, glyphs, false)
 }
