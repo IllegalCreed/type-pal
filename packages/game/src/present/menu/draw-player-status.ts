@@ -34,6 +34,13 @@ import { drawBattleBg } from '../battle/draw-battle-bg.js'
 import { drawNumber } from '../draw-number.js'
 import { renderText, type GlyphTable } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
+import {
+  getPlayerAttackStrength,
+  getPlayerDefense,
+  getPlayerDexterity,
+  getPlayerFleeRate,
+  getPlayerMagicStrength,
+} from '../../core/equip-effect.js'
 
 // ── sdlpal ui.h 真值色 ──────────────────────────────────────────────────────
 const MENUITEM_COLOR = 0x4F            // ui.h:29 — 4 EXP/Lv/HP/MP labels + 5 stat labels
@@ -88,26 +95,10 @@ const LABEL_FLEERATE = '吉运'      // STATUS_LABEL_FLEERATE=55
 
 const MAX_PLAYER_EQUIPMENTS = 6 // sdlpal palcommon.h:63
 
-// ── effective stat(sdlpal global.c:1736+ 公式) ────────────────────────────
+// ── effective stat(sdlpal global.c:1736-1899 真值)─────────────────────────
 //
-// sdlpal `PAL_GetPlayerXxxStrength(role) = PlayerRoles.rgwXxx[role] + Σ rgEquipmentEffect[0..6].rgwXxx[role]`
-// runtime `rgEquipmentEffect` 由 EquipItem 写入 — ts 尚无该 mutable 模型(留 M5.5/M6 follow-up)。
-// 当前退化:返回 PlayerRolesRuntime 当前 stat(若已经过 equip 写入)否则 fallback static base
-// (player-roles.json)。这与 sdlpal "no items equipped" 同效果。
-
-function effectiveStats(gs: GameState, roleId: number, playerRoles: PlayerRoles): {
-  attack: number; magic: number; defense: number; dexterity: number; flee: number
-} {
-  const runtime = gs.PlayerRolesRuntime
-  const base = playerRoles.roles[roleId]
-  return {
-    attack: runtime.rgwAttackStrength[roleId] || base?.attackStrength || 0,
-    magic: runtime.rgwMagicStrength[roleId] || base?.magicStrength || 0,
-    defense: runtime.rgwDefense[roleId] || base?.defense || 0,
-    dexterity: runtime.rgwDexterity[roleId] || base?.dexterity || 0,
-    flee: runtime.rgwFleeRate[roleId] || base?.fleeRate || 0,
-  }
-}
+// sdlpal `PAL_GetPlayerXxxStrength(role) = PlayerRoles.rgwXxx[role] + Σ rgEquipmentEffect[i].rgwXxx[role]`
+// C5(2026-05-28)接通真 getter:见 [core/equip-effect.ts](../../core/equip-effect.ts)。
 
 function runtimeOrBase(
   gs: GameState,
@@ -251,12 +242,12 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
 
   // 9. 5 stat 数字(sdlpal uigame.c:1231-1240)
   //    PAL_GetPlayerAttackStrength / MagicStrength / Defense / Dexterity / FleeRate
-  const stats = effectiveStats(gs, roleId, playerRoles)
-  drawNumber(fb, stats.attack,    4, ROLE_STATUS_VALUES[0]!, 'yellow', 'right', uiSpriteFrames)
-  drawNumber(fb, stats.magic,     4, ROLE_STATUS_VALUES[1]!, 'yellow', 'right', uiSpriteFrames)
-  drawNumber(fb, stats.defense,   4, ROLE_STATUS_VALUES[2]!, 'yellow', 'right', uiSpriteFrames)
-  drawNumber(fb, stats.dexterity, 4, ROLE_STATUS_VALUES[3]!, 'yellow', 'right', uiSpriteFrames)
-  drawNumber(fb, stats.flee,      4, ROLE_STATUS_VALUES[4]!, 'yellow', 'right', uiSpriteFrames)
+  //    C5(2026-05-28)真 getter 含装备 effect 加成 — 见 core/equip-effect.ts。
+  drawNumber(fb, getPlayerAttackStrength(gs, roleId), 4, ROLE_STATUS_VALUES[0]!, 'yellow', 'right', uiSpriteFrames)
+  drawNumber(fb, getPlayerMagicStrength(gs, roleId),  4, ROLE_STATUS_VALUES[1]!, 'yellow', 'right', uiSpriteFrames)
+  drawNumber(fb, getPlayerDefense(gs, roleId),        4, ROLE_STATUS_VALUES[2]!, 'yellow', 'right', uiSpriteFrames)
+  drawNumber(fb, getPlayerDexterity(gs, roleId),      4, ROLE_STATUS_VALUES[3]!, 'yellow', 'right', uiSpriteFrames)
+  drawNumber(fb, getPlayerFleeRate(gs, roleId),       4, ROLE_STATUS_VALUES[4]!, 'yellow', 'right', uiSpriteFrames)
 
   // 10. poisons(sdlpal uigame.c:1245-1253)— 首版 skip;留 follow-up 待
   //     items[poisonId].poison.wPoisonLevel + .wColor 字段 + gs.rgPoisonStatus 完整接入

@@ -64,6 +64,12 @@ export interface PresentContext {
    * sdlpal uigame.c:1218 `gpGlobals->g.rgLevelUpExp[rgwLevel[role]]`(RoleNextExp 数字)。
    */
   levelUpExp?: number[]
+  /**
+   * C5(2026-05-28):EquipItemMenu 全屏背景 — sdlpal `EQUIPMENU_BACKGROUND_FBPNUM = 1`
+   * (ui.h:118 + uigame.c:1822 `PAL_MKFDecompressChunk(...)` + PAL_FBPBlitToSurface 真值)。
+   * 数据源 = FBP.MKF chunk 1 → battleBgs.get(1)。bootstrap 注入。
+   */
+  equipBg?: BattleBgAsset
 }
 
 /** sdlpal `palcommon.h`:kDirSouth=0 / kDirWest=1 / kDirNorth=2 / kDirEast=3。 */
@@ -423,6 +429,7 @@ export function presentFrame(
       // M5.6 T10d:PlayerStatus 头像复用 dialog-assets.portraitFrames(同 RGM PNG 资源)。
       portraitIcons: ctx.dialogAssets?.portraitFrames,
       levelUpExp: ctx.levelUpExp,
+      equipBg: ctx.equipBg,
     })
   }
 }

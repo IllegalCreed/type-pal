@@ -306,6 +306,40 @@ export interface PoisonStatus {
 }
 
 /**
+ * sdlpal global.h:521 `rgEquipmentEffect[MAX_PLAYER_EQUIPMENTS + 1]` 真值 —
+ * 7 个 PLAYERROLES SoA,index = bodypart(0..5 真实槽 + 6 reserved)。
+ *
+ * scriptOnEquip 跑 opcode 0x17 时写入(script.c:752-766 真值 HACK):
+ *   i = operand[0] - 0xB; p = (WORD*)&rgEquipmentEffect[i];
+ *   p[operand[1] * MAX_PLAYER_ROLES + role] = SHORT(operand[2])
+ * → 解析:把 `rgEquipmentEffect[i]` 当 byte 数组 cast 成 WORD*,
+ *   operand[1] = sdlpal global.h tagPLAYERROLES 内 row index(0=Avatar..70+ 各字段)。
+ *
+ * 装备 effect 永远只写 stat 类字段(AttackStrength 等),所以 ts 只保留 stat 行
+ * 节省内存;非 stat row(eg avatar/name)的 0x17 写入 → log skip。
+ *
+ * effective stat = base PlayerRolesRuntime.rgwXxx[role]
+ *                + Σ rgEquipmentEffect[i].rgwXxx[role]  // i = 0..6
+ *
+ * 见 [equip-effect.ts](./equip-effect.ts) 6 个 getter(`getPlayerAttackStrength` 等)。
+ */
+export interface EquipmentEffectRoles {
+  rgwLevel: number[]              // sdlpal global.h:307 row 6
+  rgwMaxHP: number[]              // row 7
+  rgwMaxMP: number[]              // row 8
+  rgwHP: number[]                 // row 9
+  rgwMP: number[]                 // row 10
+  rgwAttackStrength: number[]     // row 17
+  rgwMagicStrength: number[]      // row 18
+  rgwDefense: number[]            // row 19
+  rgwDexterity: number[]          // row 20
+  rgwFleeRate: number[]           // row 21
+  rgwPoisonResistance: number[]   // row 22
+  rgwElementalResistance: number[][] // row 23-27 (5 elem × 6 roles)
+  rgwCoveredBy: number[]          // row 31
+}
+
+/**
  * sdlpal global.h `EVENTOBJECT`(tagEVENTOBJECT)运行时可变字段。
  *
  * chest 已开 / 机关已触发 / NPC 状态 全住这(rgEventObject sparse record)。
@@ -603,6 +637,30 @@ export interface GameState {
   rgEventObject: Record<number, EventObjectStateMutable>
 
   /**
+   * sdlpal global.h:521 `rgEquipmentEffect[MAX_PLAYER_EQUIPMENTS + 1]` — 7 部位
+   * 装备 stat 加成累加表。`updateAllEquipments` 启动 / 读档时填满,opcode 0x17
+   * (set extra attr)期间增量写入,opcode 0x18 (Equip) 入口先 removeEquipmentEffect 清。
+   */
+  rgEquipmentEffect: EquipmentEffectRoles[]
+
+  /**
+   * sdlpal global.h:519 `wLastUnequippedItem` — opcode 0x18 真值(script.c:809)将
+   * 当前 swap 下来的旧装备 ID 写到此字段;PAL_EquipItemMenu(uigame.c:1859)每帧重读,
+   * **swap 链路 redraw 用** — 装上一个新装备后,菜单显示旧装备让 user 看,
+   * 可继续选 role 装这个旧装备(实现装备循环交换 UI)。
+   */
+  wLastUnequippedItem: number
+
+  /**
+   * sdlpal `g_iCurEquipPart` — opcode 0x18 设当前 bodypart slot,后续 0x17 写入
+   * `rgEquipmentEffect[i]` 时使用(script.c:773 真值)。我们 ts 不真用 — opcode 0x17
+   * 直接取 operand[0]-0xB 算 part,iCurEquipPart 只为同 sdlpal SAVEDGAME 对齐保留。
+   *
+   * -1 = no equip in progress(sdlpal 默认 0 但 ts 用 -1 区分 "未装备"和"part 0=Head")。
+   */
+  iCurEquipPart: number
+
+  /**
    * Sync.2 fix9:屏幕淡入状态(sdlpal video.c::VIDEO_FadeScreen,opcode 0x73 触发)。
    *
    * sdlpal 真值(video.c:1130-1280):
@@ -742,6 +800,34 @@ function createInitialPlayerRolesRuntime(): PlayerRolesRuntime {
   }
 }
 
+/**
+ * sdlpal global.h:521 `rgEquipmentEffect[MAX_PLAYER_EQUIPMENTS + 1]` 全零初始化 —
+ * 7 个 EquipmentEffectRoles。PAL_UpdateEquipments(global.c:1333)启动时先 memset 全 0
+ * 再跨 role × part 跑 scriptOnEquip 累加。
+ */
+export function createInitialEquipmentEffect(): EquipmentEffectRoles[] {
+  const n = 6 // MAX_PLAYER_ROLES
+  const zeros = () => Array<number>(n).fill(0)
+  const mat = (rows: number) => Array.from({ length: rows }, zeros)
+  const slot = (): EquipmentEffectRoles => ({
+    rgwLevel: zeros(),
+    rgwMaxHP: zeros(),
+    rgwMaxMP: zeros(),
+    rgwHP: zeros(),
+    rgwMP: zeros(),
+    rgwAttackStrength: zeros(),
+    rgwMagicStrength: zeros(),
+    rgwDefense: zeros(),
+    rgwDexterity: zeros(),
+    rgwFleeRate: zeros(),
+    rgwPoisonResistance: zeros(),
+    rgwElementalResistance: mat(5),
+    rgwCoveredBy: zeros(),
+  })
+  // sdlpal MAX_PLAYER_EQUIPMENTS + 1 = 7 部位(0..5 真实 + 1 reserved)
+  return Array.from({ length: 7 }, slot)
+}
+
 export function createInitialGameState(
   partyStart: { x: number; y: number; facing: Facing },
 ): GameState {
@@ -789,6 +875,10 @@ export function createInitialGameState(
     rgScene: {},
     rgObject: {},
     rgEventObject: {},
+    // ── M6 C5: 装备 effect ───────────────────────────────────────────────
+    rgEquipmentEffect: createInitialEquipmentEffect(),
+    wLastUnequippedItem: 0,
+    iCurEquipPart: -1,
   }
 }
 

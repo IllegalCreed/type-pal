@@ -6,6 +6,7 @@ import { loadGlyphs, renderText } from '../present/font.js'
 import { createCommandBus } from '../core/command-bus.js'
 import type { Command } from '@type-pal/shared'
 import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject } from '../core/game-state.js'
+import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap, runEnterScript, setFetchPalette,
   setSceneLoader,
@@ -199,6 +200,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     playerRoles: assets.playerRoles,
     // PlayerStatus 显示 RoleNextExp 用 LevelUpExp[level] 阈值(DATA.MKF chunk 14)。
     levelUpExp: assets.levelUpExp,
+    // C5(2026-05-28):EquipItemMenu 全屏背景 — sdlpal `EQUIPMENU_BACKGROUND_FBPNUM = 1`(ui.h:118)。
+    equipBg: assets.battleBgs.get(1),
   }
 
   // M3 T28/T29:战斗一帧装配 —— BattlePresent 持有 floating nums 跨帧状态;
@@ -617,6 +620,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // 否则 rgwHP/MaxHP/AttackStrength 等都是 0,HP 加减 opcode clamp 失效。
     // sdlpal global.c PAL_NewGame → PAL_LoadDefaultGame 真值等价。
     hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
+    // C5(2026-05-28):hydrate 后 sdlpal PAL_LoadDefaultGame 真值再调 PAL_UpdateEquipments
+    // (global.c:1333)— 跨 role × 6 part 跑每件装备 scriptOnEquip 累加 stat 到 rgEquipmentEffect。
+    // 否则 effective Atk/Def/Mag 等 stat getter 永远 = base,跟 sdlpal 真值偏差(D14 装备 effect 根因)。
+    updateAllEquipments(gs, items)
 
     if (scene.onEnterLabel) {
       const ip = labelMap[scene.onEnterLabel]

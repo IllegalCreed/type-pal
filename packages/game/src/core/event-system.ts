@@ -30,6 +30,7 @@ import type { CommandBus } from './command-bus.js'
 import type { GameState, NpcState } from './game-state.js'
 import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
+import { removeEquipmentEffect, writeEquipmentEffectField } from './equip-effect.js'
 import {
   startDialogLine,
   appendDialogLine,
@@ -1686,15 +1687,29 @@ function applyRawOpcode(
     }
 
     case OP_SET_PLAYER_EXTRA_ATTR: {
-      // sdlpal script.c:752-766:equipmentEffect[i].field[op[1]][role] = SHORT(op[2])
-      // ts 无 rgEquipmentEffect runtime 模型 — log skip(M6 EquipItemMenu 真做时补)
-      console.debug(`event-system: setPlayerExtraAttr op=${operands} (equipmentEffect 模型未做)`)
+      // sdlpal script.c:752-766 真值:
+      //   i = op[0] - 0xB;
+      //   p = (WORD*)&gpGlobals->rgEquipmentEffect[i];
+      //   p[op[1] * MAX_PLAYER_ROLES + role] = SHORT(op[2])
+      // op[1] 是 sdlpal global.h tagPLAYERROLES row index — 真值见 equip-effect.ts PLAYERROLES_ROW。
+      const partIdx = (operands[0] ?? 0) - 0x0B
+      const rowIdx = operands[1] ?? 0
+      const value = signExtendI16(operands[2] ?? 0)
+      const roleId = currentEventObjectId
+      if (roleId === undefined || roleId === 0xFFFF) {
+        console.warn(`event-system: setPlayerExtraAttr no role context`)
+        break
+      }
+      writeEquipmentEffectField(gs, partIdx, rowIdx, roleId, value)
+      console.debug(`event-system: setPlayerExtraAttr part=${partIdx} row=${rowIdx} role=${roleId} =${value}`)
       break
     }
 
     case OP_EQUIP_ITEM: {
-      // sdlpal script.c:768-811:写 rgwEquipment[slot][role] + inventory swap
-      // slot = operand[0] - 0xB;newItem = operand[1];role = currentEventObjectId
+      // sdlpal script.c:768-811 真值:
+      //   i = op[0] - 0xB; g_iCurEquipPart = i; PAL_RemoveEquipmentEffect(role, i);
+      //   if (rgwEquipment[i][role] != op[1])
+      //     swap inventory + rgwEquipment[i][role] = op[1] + wLastUnequippedItem = old
       const slot = (operands[0] ?? 0) - 0x0B
       const newItem = operands[1] ?? 0
       const roleId = currentEventObjectId
@@ -1706,6 +1721,9 @@ function applyRawOpcode(
         console.warn(`event-system: equipItem invalid slot=${slot}(op[0]=${operands[0]})`)
         break
       }
+      // sdlpal script.c:773-778 真值:iCurEquipPart + removeEquipmentEffect 入口先做
+      gs.iCurEquipPart = slot
+      removeEquipmentEffect(gs, roleId, slot)
       const eqRow = gs.PlayerRolesRuntime.rgwEquipment[slot]
       if (!eqRow) break
       const oldItem = eqRow[roleId] ?? 0
@@ -1713,6 +1731,8 @@ function applyRawOpcode(
         eqRow[roleId] = newItem
         addItemToInventory(gs, newItem, -1)
         if (oldItem !== 0) addItemToInventory(gs, oldItem, 1)
+        // sdlpal script.c:809 真值 — swap 后写 wLastUnequippedItem
+        gs.wLastUnequippedItem = oldItem
       }
       console.debug(`event-system: equipItem role=${roleId} slot=${slot} ${oldItem}→${newItem}`)
       break

@@ -17,6 +17,7 @@ import type {
   ActiveMenuKind,
   GameState,
 } from '../../core/game-state.js'
+import type { EquipMenuState } from '../../core/menu/equip-menu.js'
 import type { InGameMenuState, SystemMenuState } from '../../core/menu/in-game-menu.js'
 import type { InventoryActionMenuState } from '../../core/menu/inventory-action-menu.js'
 import type { InventoryMenuState } from '../../core/menu/inventory-menu.js'
@@ -29,6 +30,7 @@ import type { Framebuffer } from '../framebuffer.js'
 import { measureText, renderText, type GlyphTable } from '../font.js'
 import { drawBox, drawSingleLineBox } from './draw-box.js'
 import { drawNumber } from '../draw-number.js'
+import { drawEquipMenu } from './draw-equip.js'
 import { drawInventoryMenu } from './draw-inventory.js'
 import { drawOpeningMenu } from './draw-opening-menu.js'
 import { drawPlayerStatus } from './draw-player-status.js'
@@ -90,6 +92,8 @@ export interface DrawMenuExtraCtx {
   portraitIcons?: Map<number, IndexedImage>
   /** M5.6 T10d:DATA.MKF chunk 14 LevelUpExp[100](RoleNextExp 数字)。 */
   levelUpExp?: number[]
+  /** C5(2026-05-28):FBP chunk 1 全屏背景(sdlpal `EQUIPMENU_BACKGROUND_FBPNUM=1`)— EquipItemMenu 用。 */
+  equipBg?: BattleBgAsset
 }
 
 export function drawMenuStack(
@@ -173,10 +177,28 @@ function drawMenuEntry(
       }
       break
     case 'equip':
+      // C5(2026-05-28):sdlpal uigame.c:1793-2056 PAL_EquipItemMenu 1:1 port
+      if (extra?.playerRoles) {
+        drawEquipMenu({
+          fb,
+          state: entry.state as EquipMenuState,
+          gs,
+          playerRoles: extra.playerRoles,
+          items: extra?.items ?? [],
+          uiSpriteFrames,
+          glyphs,
+          equipBg: extra.equipBg,
+          itemIcons: extra.itemIcons,
+        })
+      }
+      else {
+        drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
+      }
+      break
     case 'in-game-magic':
     case 'shop-buy':
     case 'shop-sell':
-      // T10c-e 待真做 fullscreen UI;此处显式标 TODO 不再装"接通"
+      // C7/C9 待真做 fullscreen UI;此处显式标 TODO 不再装"接通"
       drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
       break
   }

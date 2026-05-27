@@ -13,10 +13,20 @@
 
 ## audit 进度
 
-- 核对中:(空)
+- 核对中:user 让"先做完菜单"(暂停 Phase A,改 C 系列菜单补完)
+- 菜单补完进度:**1/6**(C5 ✓ — EquipItemMenu fullscreen UI + scriptOnEquip 真接通 + D14 装备 effect 顺手补)
 - 已 verified ✓:0 / 18 自认 ✓ claimed
 - 已 verified ⚠️:0 / 31 自认 ⚠️ claimed
 - L 段(特殊物品 / 剧情系统):待 Phase B.G7 grep sdlpal 入口
+
+## 已知 follow-up
+
+- mutatePlayerStat FIELD_MAP row index 偏移 -1 bug(event-system.ts:1956,2026-05-28 C5 audit 发现):
+  - sdlpal global.h 真值 5=Unknown1 / 6=Level / 17=AttackStrength
+  - ts mutatePlayerStat 用 5=Level / 16=AttackStrength(全错位 -1)
+  - 影响:opcode 0x19 (IncreasePlayerAttr) / 0x1A (SetPlayerStat) 大世界 trigger script 真值错
+  - 修复策略:统一改成 sdlpal 真值 row(见 [equip-effect.ts `PLAYERROLES_ROW`](../packages/game/src/core/equip-effect.ts))
+  - 优先级:中(实测可能没被触发,但 audit 时已发现就该修)
 
 > 本表初版来自 [2026-05-28 chat 全功能清单](plans/2026-05-28-feature-audit-and-replanning.md);
 > 状态变更走 plan Phase A/B audit 模板,commit message 引 sdlpal 行号。
@@ -55,7 +65,7 @@
 | C2 | 系统菜单 SystemMenu | ⚠️ claimed | uigame.c:516 `PAL_SystemMenu` | core/menu/menu-driver.ts | 数据 + 输入接通;渲染入口未严格 sdlpal port |
 | C3 | 物品菜单 InventoryMenu | ⚠️ claimed | uigame.c:878-919 `PAL_InventoryMenu` | core/menu/inventory-menu.ts | M5.6 数据 + dispatcher;1 级 box 子菜单(装备/使用)session 3 刚补,user 反馈仍不齐 |
 | C4 | 物品使用菜单 ItemUseMenu | ⚠️ claimed | uigame.c:1289-1473 `PAL_ItemUseMenu` | core/menu/inventory-action-menu.ts | session 3 刚补全屏渲染 + INNER while + amount live 读;applyToAll branch / 9 装备角色 swap 未实测 |
-| C5 | 装备菜单 EquipItemMenu | ⚠️ claimed | uigame.c:1794 `PAL_EquipItemMenu` | core/menu/equip-menu.ts | 数据层 + dispatcher;装备 stat 加成 ✗(UpdateEquipments 未做)— 显示装备但数值不变 |
+| C5 | 装备菜单 EquipItemMenu | ⚠️ claimed | uigame.c:1794 `PAL_EquipItemMenu` | core/menu/equip-menu.ts + present/menu/draw-equip.ts | C5 (2026-05-28) 1:1 port — FBP 背景 + 6 装备槽 + 5 stat cyan + 4-case color role list + wLastUnequippedItem swap loop + scriptOnEquip 真接通(via runEquipScript)。**装备 stat 加成已生效**(rgEquipmentEffect + 6 stat getter,顺手补 D14)。phase='list' 简版 SelectionMenu 而非 grid 留 follow-up。|
 | C6 | 角色状态菜单 PlayerStatus | ⚠️ claimed | uigame.c:1051-1288 `PAL_PlayerStatus` | core/menu/player-status.ts | 数据 + 渲染简版;完整字段排版 + 装备格 / 习得法术格未严格 1:1 |
 | C7 | 法术菜单 InGameMagicMenu | ⚠️ claimed | uigame.c:654 `PAL_InGameMagicMenu` | core/menu/in-game-magic-menu.ts | 数据 + 输入;大世界 castMagic→effect ✗(治疗/复活非战斗 magic 未生效) |
 | C8 | 存档菜单 SaveSlotMenu | ⚠️ claimed | uigame.c:169 `PAL_SaveSlotMenu` | core/menu/save-slot-menu.ts | M5.6 简版 5 slot list + Up/Down/Confirm;真 IO(IndexedDB) ✗ — 选 slot 不真存 |
@@ -83,7 +93,7 @@
 | D11 | 战斗胜利 BattleWon | ⚠️ claimed | battle.c:991 `PAL_BattleWon` | core/battle/battle-system.ts finalizeBattle | exp/cash 入 gs;levelup loop while dwExp >= rgLevelUpExp ✗ + 4 段视觉 box ✗ |
 | D12 | 战斗逃跑 PlayerEscape | ⚠️ claimed | battle.c:1438 `PAL_BattlePlayerEscape` | core/battle/actions/flee.ts | 简版 fleeRate vs enemy.dex;BOSS 不许逃 + party 综合 fleeRate ✗ |
 | D13 | 敌人主动逃 EnemyEscape | ✗ todo | battle.c:1376 `PAL_BattleEnemyEscape` | — | opcode 0x69 stub |
-| D14 | 装备 stat 加成 UpdateEquipments | ✗ todo | global.c:1333 `PAL_UpdateEquipments` | — | **rgwEquipment 已存,运行时 stat 全忽略装备 — 数值偏差源头** |
+| D14 | 装备 stat 加成 UpdateEquipments | ⚠️ claimed | global.c:1333 `PAL_UpdateEquipments` | core/equip-effect.ts | C5 (2026-05-28) 顺手补 — `updateAllEquipments` bootstrap 起手调,跨 role × 6 part 同步跑 scriptOnEquip 写 rgEquipmentEffect;6 effective stat getter(`getPlayerAttackStrength` 等)消费。**player-status / item-use UI 已切真 getter**。opcode 0x17/0x18 真做 + RemoveEquipmentEffect helper port。**残留**:opcode 0x2D (5 次) / 0x29 (2 次) scriptOnEquip 内未处理(log skip,follow-up);Hand 卸下 DualAttack status reset 未做(留 D15 poison/status 整组)。|
 | D15 | poison 系统 rgPoisonStatus[16][6] | ✗ todo | global.c:1459-1735 5 fn | — | M5 简版只 status field,真 poison 二维数组未做 |
 | D16 | 协力法术 CooperativeMagic | ✗ todo | global.c:2013 `PAL_GetPlayerCooperativeMagic` | — | role.cooperativeMagic 已 dump,触发 ✗ |
 | D17 | 法术动画 PreMagicAnim / RNG.MKF | ✗ todo | fight.c 6 个 ShowMagic*Anim + rngplay.c 全组 | — | B-w3.b follow-up |

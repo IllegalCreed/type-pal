@@ -15,6 +15,7 @@ import type { InputSnapshot } from '@type-pal/shared'
 import type { Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
 import { startOverworldItemScript } from '../event-system.js'
+import { runEquipScript } from '../equip-effect.js'
 import type { ActiveMenuEntry, GameState } from '../game-state.js'
 import { closeTopMenu, openMenu } from './menu-mode.js'
 import {
@@ -410,6 +411,19 @@ function dispatchInventoryMenu(
 }
 
 // ── Equip(装备菜单)─────────────────────────────────────────────────────
+//
+// C5(2026-05-28):sdlpal `PAL_GameEquipItem`(play.c:328-359)+ `PAL_EquipItemMenu`
+// (uigame.c:1793-2056)真值 1:1。
+//
+// 流程:
+//  - phase='list'(sdlpal `PAL_ItemSelectMenu(equipable)`):Confirm → 进 'pick-role',
+//    selectedItemId = chosen item。dispatcher 把它作 sdlpal `wLastUnequippedItem` 入口。
+//  - phase='pick-role'(sdlpal `PAL_EquipItemMenu`):Up/Down 切 playerCursor;
+//    Confirm 检 item.equipableBy[role] → 跑 scriptOnEquip(opcode 0x18 真做 swap +
+//    写 gs.wLastUnequippedItem)→ state.selectedItemId = gs.wLastUnequippedItem。
+//    if newSelectedItem == 0 → phase='done'(无旧装备可继续 swap,sdlpal uigame.c:2016 真值)。
+//    else 保持 'pick-role' 显示 swap 出来的旧装备 picker。
+//  - Menu key:pick-role → 回 'list' 选下一个 item;list → 'done' 关菜单。
 
 function dispatchEquipMenu(
   gs: GameState,
@@ -423,8 +437,8 @@ function dispatchEquipMenu(
     if (s.phase === 'done') closeTopMenu(gs)
     return
   }
-  if (input.pressed.has('Up')) equipMoveUp(s)
-  if (input.pressed.has('Down')) equipMoveDown(s)
+  if (input.pressed.has('Up') || input.pressed.has('Left')) equipMoveUp(s)
+  if (input.pressed.has('Down') || input.pressed.has('Right')) equipMoveDown(s)
   if (input.pressed.has('Confirm')) {
     const catalogs = requireCatalogs()
     if (s.phase === 'list') {
@@ -433,7 +447,26 @@ function dispatchEquipMenu(
     else if (s.phase === 'pick-role') {
       const picked = confirmEquipRole(s)
       if (picked) {
-        console.debug(`[menu] equipItem stub:itemId=${picked.itemId} roleId=${picked.roleId}`)
+        const item = catalogs.items.find((it) => it.id === picked.itemId)
+        if (!item) return
+        // sdlpal uigame.c:1931+ 真值:item.equipableBy[role] = bit (kItemFlagEquipableByPlayerRole_First << role)
+        const canEquip = item.flags.equipableBy?.[picked.roleId] ?? false
+        if (!canEquip) {
+          // 视觉提示在渲染层(MENUITEM_COLOR_SELECTED_INACTIVE 灰色),输入侧 noop
+          return
+        }
+        // sdlpal uigame.c:2050-2053 真值 `scriptOnEquip = PAL_RunTriggerScript(scriptOnEquip, role)`
+        // scriptOnEquip chain 内有 opcode 0x18(equipItem)真做:swap inventory + gs.wLastUnequippedItem = old
+        const sid = item.scriptOnEquip ?? 0
+        if (sid !== 0) {
+          runEquipScript(gs, sid, picked.roleId)
+        }
+        // sdlpal uigame.c:1859 真值:下一帧渲染重读 wLastUnequippedItem(0x18 已写)
+        s.selectedItemId = gs.wLastUnequippedItem
+        // sdlpal uigame.c:2016-2019 真值:wItem == 0 → return(关菜单)
+        if (s.selectedItemId === 0) {
+          s.phase = 'done'
+        }
       }
     }
     if (s.phase === 'done') closeTopMenu(gs)

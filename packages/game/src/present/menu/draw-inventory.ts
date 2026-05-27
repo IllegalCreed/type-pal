@@ -35,6 +35,13 @@ import type { Framebuffer } from '../framebuffer.js'
 import { renderText, type GlyphTable } from '../font.js'
 import { drawBox } from './draw-box.js'
 import { drawNumber } from '../draw-number.js'
+import {
+  getPlayerAttackStrength,
+  getPlayerDefense,
+  getPlayerDexterity,
+  getPlayerFleeRate,
+  getPlayerMagicStrength,
+} from '../../core/equip-effect.js'
 
 // sdlpal ui.h 真值色
 const MENUITEM_COLOR = 0x4F
@@ -167,11 +174,13 @@ function drawItemUseMenu(
     const maxHP = runtime.rgwMaxHP[roleId] ?? 0
     const mp = runtime.rgwMP[roleId] ?? 0
     const maxMP = runtime.rgwMaxMP[roleId] ?? 0
-    const atk = runtime.rgwAttackStrength[roleId] ?? 0
-    const mag = runtime.rgwMagicStrength[roleId] ?? 0
-    const def = runtime.rgwDefense[roleId] ?? 0
-    const dex = runtime.rgwDexterity[roleId] ?? 0
-    const flee = runtime.rgwFleeRate[roleId] ?? 0
+    // C5(2026-05-28)真 effective stat:base + Σ rgEquipmentEffect[i] —
+    // sdlpal uigame.c:1369-1378 真值 `PAL_GetPlayerAttackStrength` 等。
+    const atk = getPlayerAttackStrength(gs, roleId)
+    const mag = getPlayerMagicStrength(gs, roleId)
+    const def = getPlayerDefense(gs, roleId)
+    const dex = getPlayerDexterity(gs, roleId)
+    const flee = getPlayerFleeRate(gs, roleId)
 
     // uigame.c:1352:level (4 位 yellow right)
     drawNumber(fb, level, 4, { x: ITEMUSE_STAT_VALUE_X, y: 20 }, 'yellow', 'right', uiSpriteFrames)
