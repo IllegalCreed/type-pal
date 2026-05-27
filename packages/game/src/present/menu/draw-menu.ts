@@ -141,7 +141,8 @@ function drawInGameMenu(
   items.forEach((item, i) => {
     const y = IN_GAME_MENU_ITEM_START.y + i * LINE_HEIGHT
     const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
-    renderText(fb, item.label, IN_GAME_MENU_ITEM_START.x, y, color, glyphs)
+    // sdlpal ui.c:458 PAL_ReadMenu 真值 PAL_DrawText(...fShadow=TRUE)— triple shadow
+    renderText(fb, item.label, IN_GAME_MENU_ITEM_START.x, y, color, glyphs, true)
   })
 }
 
@@ -167,7 +168,8 @@ function drawSystemMenu(
   items.forEach((item, i) => {
     const y = SYSTEM_MENU_ITEM_START.y + i * LINE_HEIGHT
     const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
-    renderText(fb, item.label, SYSTEM_MENU_ITEM_START.x, y, color, glyphs)
+    // sdlpal ui.c:458 PAL_ReadMenu 真值 fShadow=TRUE
+    renderText(fb, item.label, SYSTEM_MENU_ITEM_START.x, y, color, glyphs, true)
   })
 }
 
@@ -182,12 +184,13 @@ function drawCashBox(
   drawSingleLineBox({
     fb, x: CASH_BOX.x, y: CASH_BOX.y, len: CASH_BOX.len, uiSpriteFrames,
   })
-  renderText(fb, '金钱', CASH_LABEL_POS.x, CASH_LABEL_POS.y, MENUITEM_COLOR, glyphs)
+  // sdlpal text.c PAL_DrawText shadow 真值:menu / cash 标签默认带 shadow
+  renderText(fb, '金钱', CASH_LABEL_POS.x, CASH_LABEL_POS.y, MENUITEM_COLOR, glyphs, true)
   // sdlpal uigame.c:490 PAL_DrawNumber(dwCash, 6, PAL_XY(49, 14), kNumColorYellow, kNumAlignRight)
   // 简版:用 renderText 写数字 string,右对齐到 CASH_NUMBER_RIGHT.x
   const num = String(dwCash)
   const numW = measureText(num, glyphs)
-  renderText(fb, num, CASH_NUMBER_RIGHT.x - numW, CASH_NUMBER_RIGHT.y, FONT_COLOR_YELLOW, glyphs)
+  renderText(fb, num, CASH_NUMBER_RIGHT.x - numW, CASH_NUMBER_RIGHT.y, FONT_COLOR_YELLOW, glyphs, true)
 }
 
 // ── Save Slot menu(T10a:sdlpal uigame.c:169-242 真值) ────────────────────
@@ -214,11 +217,12 @@ function drawSaveSlotMenu(
     const boxY = SAVE_SLOT_BOX_Y_BASE + i * SAVE_SLOT_LINE_HEIGHT
     drawSingleLineBox({ fb, x: SAVE_SLOT_BOX_X, y: boxY, len: 6, uiSpriteFrames })
     const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
+    // sdlpal ui.c:458 PAL_ReadMenu 真值 fShadow=TRUE
     renderText(
       fb, item.label,
       SAVE_SLOT_BOX_X + SAVE_SLOT_LABEL_OFFSET.x,
       boxY + SAVE_SLOT_LABEL_OFFSET.y,
-      color, glyphs,
+      color, glyphs, true,
     )
     // 存档次数 right-align(M5.6 简版固定 0;真 Save.listSlots 异步留 follow-up 注入)
     const num = '0'
@@ -227,11 +231,11 @@ function drawSaveSlotMenu(
       fb, num,
       SAVE_SLOT_NUMBER_X_RIGHT - numW,
       boxY + SAVE_SLOT_LABEL_OFFSET.y,
-      FONT_COLOR_YELLOW, glyphs,
+      FONT_COLOR_YELLOW, glyphs, true,
     )
   }
   // 顶部 mode 标题 "存档" / "读档"(sdlpal 无独立标题;mode 是 caller context — ts 加视觉提示)
-  renderText(fb, state.mode === 'save' ? '存档' : '读档', 100, 7, FONT_COLOR_YELLOW, glyphs)
+  renderText(fb, state.mode === 'save' ? '存档' : '读档', 100, 7, FONT_COLOR_YELLOW, glyphs, true)
 }
 
 // ── Placeholder TODO(T10b-e 完成前,显式标 TODO 不装"接通") ────────────────

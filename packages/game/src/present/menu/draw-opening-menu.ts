@@ -58,13 +58,14 @@ export function drawOpeningMenu(input: DrawOpeningMenuInput): void {
     drawBattleBg(fb, bg)
   }
 
-  // 2. 2 行字(无 box)
+  // 2. 2 行字(无 box)— sdlpal ui.c:458 PAL_ReadMenu 真值 PAL_DrawText(...fShadow=TRUE)
+  //    triple shadow(黑色 color 0,offset (+1,0)/(0,+1)/(+1,+1))+ 主色字
   const labels = openingMenuLabels()
   const positions = [ITEM_NEW_GAME_POS, ITEM_LOAD_GAME_POS]
   labels.forEach((entry, i) => {
     const pos = positions[i]
     if (!pos) return
     const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
-    renderText(fb, entry.label, pos.x, pos.y, color, glyphs)
+    renderText(fb, entry.label, pos.x, pos.y, color, glyphs, true)
   })
 }

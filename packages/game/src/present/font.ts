@@ -109,11 +109,19 @@ export function renderText(
   y: number,
   fgColor: number,
   glyphs: GlyphTable = EMPTY_GLYPH_TABLE,
+  fShadow = false,
 ): number {
   let cursorX = x
   for (const ch of text) {
     const cp = ch.codePointAt(0)!
     const g = glyphs.get(cp) ?? TOFU_GLYPH
+    // sdlpal text.c:1144-1154 真值:fShadow=TRUE 时 triple shadow 黑色 (color 0)
+    //   offset (+1, 0) / (0, +1) / (+1, +1),然后主色字
+    if (fShadow) {
+      blitGlyph(fb, cursorX + 1, y, g, 0)
+      blitGlyph(fb, cursorX, y + 1, g, 0)
+      blitGlyph(fb, cursorX + 1, y + 1, g, 0)
+    }
     blitGlyph(fb, cursorX, y, g, fgColor)
     cursorX += g.width
   }
