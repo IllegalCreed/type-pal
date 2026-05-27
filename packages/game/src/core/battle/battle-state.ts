@@ -79,6 +79,10 @@ export interface BattleAction {
   // 真实施留 B-w2.b 后续 commit。
   type: 'attack' | 'defend' | 'magic' | 'item' | 'flee' | 'pass'
     | 'summon' | 'trance' | 'throw-item' | 'equip-battle'
+    // M5.B-w3.a:coop-magic 协力法术 — sdlpal `fight.c:PAL_BattleCheckCooperativeMagic`
+    // 两 player 同 mainmenu confirm 时检测;actionId = cooperativeMagicId(来自
+    // PlayerRoles.cooperativeMagic 字段,Sync.2 B-w0 已 dump)。
+    | 'coop-magic'
   /** magic / item 的 id;attack/defend/flee 不用。summon = magicId,trance = roleId,
    *  throw-item = itemId,equip-battle = itemId。 */
   actionId?: number
