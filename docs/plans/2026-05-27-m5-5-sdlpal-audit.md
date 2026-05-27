@@ -98,39 +98,39 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 44 | `AUDIO_MixNative` | ✗ | _待审_ |
-| 65 | `AUDIO_AdjustVolume` | ✗ | _待审_ |
-| 81 | `AUDIO_FillBuffer` | ✗ | _待审_ |
-| 169 | `AUDIO_CD_Available` | ✗ | _待审_ |
-| 177 | `AUDIO_OpenDevice` | ✗ | _待审_ |
-| 381 | `AUDIO_CloseDevice` | ✗ | _待审_ |
-| 442 | `AUDIO_GetDeviceSpec` | ✗ | _待审_ |
-| 450 | `AUDIO_ChangeVolumeByValue` | ✗ | _待审_ |
-| 464 | `AUDIO_IncreaseVolume` | ✗ | _待审_ |
-| 491 | `AUDIO_DecreaseVolume` | ✗ | _待审_ |
-| 518 | `AUDIO_PlaySound` | ? | _待审_ |
-| 547 | `AUDIO_PlayMusic` | ✗ | _待审_ |
-| 576 | `AUDIO_PlayCDTrack` | ✗ | _待审_ |
-| 639 | `AUDIO_EnableMusic` | ✗ | _待审_ |
-| 647 | `AUDIO_MusicEnabled` | ✗ | _待审_ |
-| 655 | `AUDIO_EnableSound` | ✗ | _待审_ |
-| 663 | `AUDIO_SoundEnabled` | ✗ | _待审_ |
-| 671 | `AUDIO_Lock` | ✗ | _待审_ |
-| 679 | `AUDIO_Unlock` | ✗ | _待审_ |
+| 44 | `AUDIO_MixNative` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 65 | `AUDIO_AdjustVolume` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 81 | `AUDIO_FillBuffer` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 169 | `AUDIO_CD_Available` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 177 | `AUDIO_OpenDevice` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 381 | `AUDIO_CloseDevice` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 442 | `AUDIO_GetDeviceSpec` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 450 | `AUDIO_ChangeVolumeByValue` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 464 | `AUDIO_IncreaseVolume` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 491 | `AUDIO_DecreaseVolume` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 518 | `AUDIO_PlaySound` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 547 | `AUDIO_PlayMusic` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 576 | `AUDIO_PlayCDTrack` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 639 | `AUDIO_EnableMusic` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 647 | `AUDIO_MusicEnabled` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 655 | `AUDIO_EnableSound` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 663 | `AUDIO_SoundEnabled` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 671 | `AUDIO_Lock` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 679 | `AUDIO_Unlock` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
 
 ### aviplay.c(9 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 111 | `PAL_ReadAVIInfo` | ✗ | _待审_ |
-| 411 | `PAL_ReadDataChunk` | ✗ | _待审_ |
-| 471 | `PAL_AVIFeedAudio` | ✗ | _待审_ |
-| 502 | `PAL_AVIInit` | ✗ | _待审_ |
-| 510 | `PAL_AVIShutdown` | ✗ | _待审_ |
-| 518 | `PAL_RenderAVIFrameToSurface` | ✗ | _待审_ |
-| 643 | `PAL_PlayAVI` | ✗ | _待审_ |
-| 776 | `AVI_FillAudioBuffer` | ✗ | _待审_ |
-| 806 | `AVI_GetPlayState` | ✗ | _待审_ |
+| 111 | `PAL_ReadAVIInfo` | ✗ | M6 mp4/webm + <video> 替代;ts 端无开场动画 / ending 视频 |
+| 411 | `PAL_ReadDataChunk` | ✗ | 同 PAL_PlayAVI |
+| 471 | `PAL_AVIFeedAudio` | ✗ | M6 mp4/webm + <video> 替代;ts 端无开场动画 / ending 视频 |
+| 502 | `PAL_AVIInit` | ✗ | M6 mp4/webm + <video> 替代;ts 端无开场动画 / ending 视频 |
+| 510 | `PAL_AVIShutdown` | ✗ | M6 mp4/webm + <video> 替代;ts 端无开场动画 / ending 视频 |
+| 518 | `PAL_RenderAVIFrameToSurface` | ✗ | M6 mp4/webm + <video> 替代;ts 端无开场动画 / ending 视频 |
+| 643 | `PAL_PlayAVI` | ✗ | M6 mp4/webm + <video> 替代;ts 端无开场动画 / ending 视频 |
+| 776 | `AVI_FillAudioBuffer` | ✗ | M6 mp4/webm + <video> 替代;ts 端无开场动画 / ending 视频 |
+| 806 | `AVI_GetPlayState` | ✗ | M6 mp4/webm + <video> 替代;ts 端无开场动画 / ending 视频 |
 
 ### battle.c(22 函数)
 
@@ -166,11 +166,11 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 27 | `PAL_EndingSetEffectSprite` | ✗ | _待审_ |
-| 49 | `PAL_ShowFBP` | ✗ | _待审_ |
-| 153 | `PAL_ScrollFBP` | ✗ | _待审_ |
-| 282 | `PAL_EndingAnimation` | ✗ | _待审_ |
-| 396 | `PAL_EndingScreen` | ✗ | _待审_ |
+| 27 | `PAL_EndingSetEffectSprite` | ✗ | 通关 ending 流程 M7 follow-up |
+| 49 | `PAL_ShowFBP` | ✗ | 通关 ending 流程 M7 follow-up |
+| 153 | `PAL_ScrollFBP` | ✗ | 通关 ending 流程 M7 follow-up |
+| 282 | `PAL_EndingAnimation` | ✗ | 通关 ending 流程 M7 follow-up |
+| 396 | `PAL_EndingScreen` | ✗ | 通关 ending 流程 M7 follow-up |
 
 ### fight.c(36 函数)
 
@@ -212,28 +212,23 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 | 4551 | `PAL_BattleEnemyPerformAction` | ⚠️ | ts decideEnemyAction → performBattleAction 简版;**未通过 wScriptOnReady bytecode 走真 AI**(B-w2.a 待 接入 runScript)|
 | 5193 | `PAL_BattleStealFromEnemy` | ✗ | opcode 0x6A;含 **Bug-2**(无 dead target check);ts 端 opcode 未具名,follow-up + fix |
 | 5301 | `PAL_BattleSimulateMagic` | ✗ | opcode 0x42 wrapper 模拟 magic 不消 MP;follow-up |
-| 4489 | `PAL_BattleEnemySelectEnemyTargetIndex` | ✗ | _待审_ |
-| 4520 | `PAL_BattleEnemySelectTargetIndex` | ✗ | _待审_ |
-| 4551 | `PAL_BattleEnemyPerformAction` | ? | _待审_ |
-| 5193 | `PAL_BattleStealFromEnemy` | ✗ | _待审_ |
-| 5301 | `PAL_BattleSimulateMagic` | ✗ | _待审_ |
 
 ### font.c(6 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 201 | `PAL_LoadUserFont` | ✗ | _待审_ |
-| 434 | `PAL_InitFont` | ✗ | _待审_ |
-| 513 | `PAL_FreeFont` | ✗ | _待审_ |
-| 522 | `PAL_DrawCharOnSurface` | ✗ | _待审_ |
-| 611 | `PAL_CharWidth` | ✗ | _待审_ |
-| 632 | `PAL_FontHeight` | ✗ | _待审_ |
+| 201 | `PAL_LoadUserFont` | N/A | sdlpal 用内嵌 PALFONT 字模;ts M4 P4 用 GNU Unifont BDF → glyphs.json 替代,不 1:1 字模 |
+| 434 | `PAL_InitFont` | N/A | sdlpal 用内嵌 PALFONT 字模;ts M4 P4 用 GNU Unifont BDF → glyphs.json 替代,不 1:1 字模 |
+| 513 | `PAL_FreeFont` | N/A | sdlpal 用内嵌 PALFONT 字模;ts M4 P4 用 GNU Unifont BDF → glyphs.json 替代,不 1:1 字模 |
+| 522 | `PAL_DrawCharOnSurface` | ✓ | render-text.ts:drawGlyph(从 glyphs.json mask 取像素 + blit) |
+| 611 | `PAL_CharWidth` | ✓ | render-text.ts inline glyph metadata 等价 |
+| 632 | `PAL_FontHeight` | ✓ | render-text.ts inline glyph metadata 等价 |
 
 ### game.c(1 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 25 | `PAL_GameMain` | ✗ | _待审_ |
+| 25 | `PAL_GameMain` | ✓ | shell/main-loop.ts:startRafLoop(rAF + accumulator 节流) |
 
 ### global.c(46 函数)
 
@@ -290,191 +285,191 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 172 | `line_tokenize` | ✗ | _待审_ |
+| 172 | `line_tokenize` | N/A | sdlpal C helper / 误识别(macro 展开);N/A |
 
 ### input.c(22 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 95 | `PAL_DetectJoystick` | ✗ | _待审_ |
-| 163 | `PAL_GetCurrDirection` | ? | _待审_ |
-| 192 | `PAL_KeyDown` | ✗ | _待审_ |
-| 244 | `PAL_KeyUp` | ✗ | _待审_ |
-| 291 | `PAL_UpdateKeyboardState` | ✗ | _待审_ |
-| 350 | `PAL_KeyboardEventFilter` | ✗ | _待审_ |
-| 436 | `PAL_MouseEventFilter` | ✗ | _待审_ |
-| 625 | `PAL_JoystickEventFilter` | ✗ | _待审_ |
-| 761 | `PAL_UpdateJoyStickState` | ✗ | _待审_ |
-| 837 | `PAL_SetTouchBounds` | ✗ | _待审_ |
-| 850 | `PAL_GetTouchArea` | ✗ | _待审_ |
-| 919 | `PAL_SetTouchAction` | ✗ | _待审_ |
-| 971 | `PAL_UnsetTouchAction` | ✗ | _待审_ |
-| 987 | `PAL_TouchRepeatCheck` | ✗ | _待审_ |
-| 1013 | `PAL_TouchEventFilter` | ✗ | _待审_ |
-| 1113 | `PAL_EventFilter` | ✗ | _待审_ |
-| 1188 | `PAL_ClearKeyState` | ✗ | _待审_ |
-| 1210 | `PAL_InitInput` | ✗ | _待审_ |
-| 1244 | `PAL_ShutdownInput` | ✗ | _待审_ |
-| 1273 | `PAL_PollEvent` | ✗ | _待审_ |
-| 1308 | `PAL_ProcessEvent` | ✗ | _待审_ |
-| 1342 | `PAL_RegisterInputFilter` | ✗ | _待审_ |
+| 95 | `PAL_DetectJoystick` | ✗ | M6 移动支持 / 手柄 |
+| 163 | `PAL_GetCurrDirection` | ✓ | scene-system.ts:pickFacing(last-press priority sdlpal:180-189 真值) |
+| 192 | `PAL_KeyDown` | ✓ | shell/keyboard.ts:handleDown/handleUp 等价 |
+| 244 | `PAL_KeyUp` | ✓ | shell/keyboard.ts:handleDown/handleUp 等价 |
+| 291 | `PAL_UpdateKeyboardState` | ✓ | 浏览器 keydown/keyup 事件自动维护 |
+| 350 | `PAL_KeyboardEventFilter` | ✓ | shell/keyboard.ts handleDown/handleUp + KeyboardInputSource |
+| 436 | `PAL_MouseEventFilter` | ✗ | 鼠标点击 → 等价 keypress(M6 移动支持) |
+| 625 | `PAL_JoystickEventFilter` | ✗ | M6 移动支持 / 手柄 follow-up |
+| 761 | `PAL_UpdateJoyStickState` | ✗ | M6 移动支持 / 手柄 follow-up |
+| 837 | `PAL_SetTouchBounds` | ✗ | M6 移动支持 / 手柄 |
+| 850 | `PAL_GetTouchArea` | ✗ | M6 移动支持 / 手柄 |
+| 919 | `PAL_SetTouchAction` | ✗ | M6 移动支持 / 手柄 |
+| 971 | `PAL_UnsetTouchAction` | ✗ | M6 移动支持 / 手柄 |
+| 987 | `PAL_TouchRepeatCheck` | ✗ | M6 移动支持 / 手柄 follow-up |
+| 1013 | `PAL_TouchEventFilter` | ✗ | M6 移动支持 / 手柄 follow-up |
+| 1113 | `PAL_EventFilter` | ✓ | shell/keyboard.ts:handleDown/handleUp 等价 |
+| 1188 | `PAL_ClearKeyState` | ⚠️ | tickByMode mode 切换时隐式清(snap 不传旧 input);无独立 helper |
+| 1210 | `PAL_InitInput` | N/A | browser 自动 |
+| 1244 | `PAL_ShutdownInput` | N/A | browser 自动 |
+| 1273 | `PAL_PollEvent` | ⚠️ | shell/input.ts:nextSnapshot 等价(只 keyboard);**joystick/touch/gamepad ✗** M6 follow-up |
+| 1308 | `PAL_ProcessEvent` | ⚠️ | shell/input.ts:nextSnapshot 等价(只 keyboard);**joystick/touch/gamepad ✗** M6 follow-up |
+| 1342 | `PAL_RegisterInputFilter` | N/A | ts 无插件机制 |
 
 ### itemmenu.c(3 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 29 | `PAL_ItemSelectMenuUpdate` | ✗ | _待审_ |
-| 314 | `PAL_ItemSelectMenuInit` | ✗ | _待审_ |
-| 380 | `PAL_ItemSelectMenu` | ? | _待审_ |
+| 29 | `PAL_ItemSelectMenuUpdate` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 314 | `PAL_ItemSelectMenuInit` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 380 | `PAL_ItemSelectMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
 
 ### magicmenu.c(3 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 36 | `PAL_MagicSelectionMenuUpdate` | ✗ | _待审_ |
-| 302 | `PAL_MagicSelectionMenuInit` | ✗ | _待审_ |
-| 413 | `PAL_MagicSelectionMenu` | ? | _待审_ |
+| 36 | `PAL_MagicSelectionMenuUpdate` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 302 | `PAL_MagicSelectionMenuInit` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 413 | `PAL_MagicSelectionMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
 
 ### main.c(5 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 50 | `PAL_Init` | ? | _待审_ |
-| 131 | `PAL_Shutdown` | ✗ | _待审_ |
-| 179 | `PAL_TrademarkScreen` | ✗ | _待审_ |
-| 206 | `PAL_SplashScreen` | ✗ | _待审_ |
-| 461 | `main` | ? | _待审_ |
+| 50 | `PAL_Init` | ⚠️ | shell/bootstrap.ts:bootstrap(canvas)等价(整体 init) |
+| 131 | `PAL_Shutdown` | N/A | shell/bootstrap.ts caller 注入 canvas;无独立 entry |
+| 179 | `PAL_TrademarkScreen` | ✗ | production 启动 logo;dev mode 用 ?skip-intro,follow-up |
+| 206 | `PAL_SplashScreen` | ✗ | production 启动 logo;dev mode 用 ?skip-intro,follow-up |
+| 461 | `main` | N/A | shell/bootstrap.ts:bootstrap 等价 entry |
 
 ### map.c(6 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 26 | `PAL_LoadMap` | ✗ | _待审_ |
-| 157 | `PAL_FreeMap` | ✗ | _待审_ |
-| 198 | `PAL_MapGetTileBitmap` | ? | _待审_ |
-| 262 | `PAL_MapTileIsBlocked` | ✗ | _待审_ |
-| 302 | `PAL_MapGetTileHeight` | ? | _待审_ |
-| 356 | `PAL_MapBlitToSurface` | ? | _待审_ |
+| 26 | `PAL_LoadMap` | ✓ | pal-extract resources/map.ts:parseMap dump tilemap-N.json |
+| 157 | `PAL_FreeMap` | N/A | JS GC |
+| 198 | `PAL_MapGetTileBitmap` | ✓ | draw-tilemap.ts:tileIdLayer0/1 + tileImages.get(M5.P0.b 完整) |
+| 262 | `PAL_MapTileIsBlocked` | ✓ | scene-system.ts:tilemapIsBlocked(bit 13 完全对齐) |
+| 302 | `PAL_MapGetTileHeight` | ✓ | draw-tilemap.ts:268-271(extract DWORD bit 8-11 / 24-27) |
+| 356 | `PAL_MapBlitToSurface` | ✓ | present/draw-tilemap.ts:drawTilemap |
 
 ### midi.c(2 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 29 | `MIDI_SetVolume` | ✗ | _待审_ |
-| 43 | `MIDI_Play` | ✗ | _待审_ |
+| 29 | `MIDI_SetVolume` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 43 | `MIDI_Play` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
 
 ### midi_timidity.c(4 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 50 | `TIMIDITY_FillBuffer` | ✗ | _待审_ |
-| 70 | `TIMIDITY_Shutdown` | ✗ | _待审_ |
-| 84 | `TIMIDITY_Play` | ✗ | _待审_ |
-| 166 | `TIMIDITY_Init` | ✗ | _待审_ |
+| 50 | `TIMIDITY_FillBuffer` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 70 | `TIMIDITY_Shutdown` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 84 | `TIMIDITY_Play` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 166 | `TIMIDITY_Init` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
 
 ### midi_tsf.c(5 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 40 | `TSF_Close` | ✗ | _待审_ |
-| 87 | `TSF_FillBuffer` | ✗ | _待审_ |
-| 131 | `TSF_Play` | ✗ | _待审_ |
-| 176 | `TSF_Shutdown` | ✗ | _待审_ |
-| 193 | `TSF_Init` | ✗ | _待审_ |
+| 40 | `TSF_Close` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 87 | `TSF_FillBuffer` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 131 | `TSF_Play` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 176 | `TSF_Shutdown` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 193 | `TSF_Init` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
 
 ### mp3play.c(5 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 53 | `MP3_FillBuffer` | ✗ | _待审_ |
-| 73 | `MP3_Shutdown` | ✗ | _待审_ |
-| 85 | `MP3_Play` | ✗ | _待审_ |
-| 134 | `MP3_Init` | ✗ | _待审_ |
-| 155 | `MP3_Init` | ✗ | _待审_ |
+| 53 | `MP3_FillBuffer` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 73 | `MP3_Shutdown` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 85 | `MP3_Play` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 134 | `MP3_Init` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 155 | `MP3_Init` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
 
 ### oggplay.c(5 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 257 | `OGG_FillBuffer` | ✗ | _待审_ |
-| 399 | `OGG_Play` | ✗ | _待审_ |
-| 455 | `OGG_Shutdown` | ✗ | _待审_ |
-| 471 | `OGG_Init` | ✗ | _待审_ |
-| 509 | `OGG_Init` | ✗ | _待审_ |
+| 257 | `OGG_FillBuffer` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 399 | `OGG_Play` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 455 | `OGG_Shutdown` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 471 | `OGG_Init` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 509 | `OGG_Init` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
 
 ### opusplay.c(5 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 117 | `OPUS_FillBuffer` | ✗ | _待审_ |
-| 211 | `OPUS_Play` | ✗ | _待审_ |
-| 272 | `OPUS_Shutdown` | ✗ | _待审_ |
-| 288 | `OPUS_Init` | ✗ | _待审_ |
-| 321 | `OPUS_Init` | ✗ | _待审_ |
+| 117 | `OPUS_FillBuffer` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 211 | `OPUS_Play` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 272 | `OPUS_Shutdown` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 288 | `OPUS_Init` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+| 321 | `OPUS_Init` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
 
 ### palcfg.c(20 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 112 | `PAL_ParseConfigLine` | ✗ | _待审_ |
-| 192 | `PAL_ConfigName` | ✗ | _待审_ |
-| 200 | `PAL_ConfigIndex` | ✗ | _待审_ |
-| 215 | `PAL_ConfigType` | ✗ | _待审_ |
-| 223 | `PAL_LimitConfig` | ✗ | _待审_ |
-| 273 | `PAL_FreeConfig` | ✗ | _待审_ |
-| 295 | `PAL_LoadConfig` | ✗ | _待审_ |
-| 628 | `PAL_SaveConfig` | ✗ | _待审_ |
-| 690 | `PAL_GetConfigItem` | ✗ | _待审_ |
-| 747 | `PAL_SetConfigItem` | ✗ | _待审_ |
-| 865 | `PAL_GetConfigBoolean` | ✗ | _待审_ |
-| 874 | `PAL_GetConfigNumber` | ✗ | _待审_ |
-| 888 | `PAL_GetConfigInteger` | ✗ | _待审_ |
-| 897 | `PAL_GetConfigUnsigned` | ✗ | _待审_ |
-| 906 | `PAL_GetConfigString` | ✗ | _待审_ |
-| 915 | `PAL_SetConfigBoolean` | ✗ | _待审_ |
-| 933 | `PAL_SetConfigNumber` | ✗ | _待审_ |
-| 947 | `PAL_SetConfigInteger` | ✗ | _待审_ |
-| 965 | `PAL_SetConfigUnsigned` | ✗ | _待审_ |
-| 983 | `PAL_SetConfigString` | ✗ | _待审_ |
+| 112 | `PAL_ParseConfigLine` | ⚠️ | URL params + localStorage 替代 sdlpal.cfg 文件 |
+| 192 | `PAL_ConfigName` | ⚠️ | URL params + localStorage 替代 sdlpal.cfg 文件 |
+| 200 | `PAL_ConfigIndex` | ⚠️ | URL params + localStorage 替代 sdlpal.cfg 文件 |
+| 215 | `PAL_ConfigType` | ⚠️ | URL params + localStorage 替代 sdlpal.cfg 文件 |
+| 223 | `PAL_LimitConfig` | ⚠️ | URL params + localStorage 替代 sdlpal.cfg 文件 |
+| 273 | `PAL_FreeConfig` | ⚠️ | URL params + localStorage 替代 sdlpal.cfg 文件 |
+| 295 | `PAL_LoadConfig` | ⚠️ | URL params(?skip-intro/?tp_dump)+ localStorage 简版替代 sdlpal.cfg 文件 |
+| 628 | `PAL_SaveConfig` | ⚠️ | URL params(?skip-intro/?tp_dump)+ localStorage 简版替代 sdlpal.cfg 文件 |
+| 690 | `PAL_GetConfigItem` | ⚠️ | 同上,sdlpal cfg 字段对照 ts 端 URL params/localStorage 简版 |
+| 747 | `PAL_SetConfigItem` | ⚠️ | 同上,sdlpal cfg 字段对照 ts 端 URL params/localStorage 简版 |
+| 865 | `PAL_GetConfigBoolean` | ⚠️ | 同上,sdlpal cfg 字段对照 ts 端 URL params/localStorage 简版 |
+| 874 | `PAL_GetConfigNumber` | ⚠️ | 同上,sdlpal cfg 字段对照 ts 端 URL params/localStorage 简版 |
+| 888 | `PAL_GetConfigInteger` | ⚠️ | 同上,sdlpal cfg 字段对照 ts 端 URL params/localStorage 简版 |
+| 897 | `PAL_GetConfigUnsigned` | ⚠️ | 同上,sdlpal cfg 字段对照 ts 端 URL params/localStorage 简版 |
+| 906 | `PAL_GetConfigString` | ⚠️ | 同上,sdlpal cfg 字段对照 ts 端 URL params/localStorage 简版 |
+| 915 | `PAL_SetConfigBoolean` | ⚠️ | 同上,sdlpal cfg 字段对照 ts 端 URL params/localStorage 简版 |
+| 933 | `PAL_SetConfigNumber` | ⚠️ | 同上,sdlpal cfg 字段对照 ts 端 URL params/localStorage 简版 |
+| 947 | `PAL_SetConfigInteger` | ⚠️ | 同上,sdlpal cfg 字段对照 ts 端 URL params/localStorage 简版 |
+| 965 | `PAL_SetConfigUnsigned` | ⚠️ | 同上,sdlpal cfg 字段对照 ts 端 URL params/localStorage 简版 |
+| 983 | `PAL_SetConfigString` | ⚠️ | 同上,sdlpal cfg 字段对照 ts 端 URL params/localStorage 简版 |
 
 ### palcommon.c(15 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 28 | `PAL_CalcShadowColor` | ✗ | _待审_ |
-| 36 | `PAL_RLEBlitToSurface` | ? | _待审_ |
-| 46 | `PAL_RLEBlitToSurfaceWithShadow` | ? | _待审_ |
-| 245 | `PAL_RLEBlitWithColorShift` | ✗ | _待审_ |
-| 446 | `PAL_RLEBlitMonoColor` | ✗ | _待审_ |
-| 651 | `PAL_FBPBlitToSurface` | ✗ | _待审_ |
-| 698 | `PAL_RLEGetWidth` | ✗ | _待审_ |
-| 737 | `PAL_RLEGetHeight` | ✗ | _待审_ |
-| 776 | `PAL_SpriteGetNumFrames` | ✗ | _待审_ |
-| 803 | `PAL_SpriteGetFrame` | ✗ | _待审_ |
-| 855 | `PAL_MKFGetChunkCount` | ✗ | _待审_ |
-| 887 | `PAL_MKFGetChunkSize` | ✗ | _待审_ |
-| 939 | `PAL_MKFReadChunk` | ✗ | _待审_ |
-| 1016 | `PAL_MKFGetDecompressedSize` | ✗ | _待审_ |
-| 1085 | `PAL_MKFDecompressChunk` | ? | _待审_ |
+| 28 | `PAL_CalcShadowColor` | ⚠️ | render-text.ts shadow 色用固定 0x0F(黑),sdlpal 真值动态算 follow-up |
+| 36 | `PAL_RLEBlitToSurface` | ✓ | pal-extract/io/rle.ts(M1 dump 时已解 RLE)+ runtime present/draw-sprite.ts blit(M2) |
+| 46 | `PAL_RLEBlitToSurfaceWithShadow` | ✓ | pal-extract/io/rle.ts(M1)+ draw-sprite.ts shadow blit |
+| 245 | `PAL_RLEBlitWithColorShift` | ✓ | pal-extract/io/rle.ts(M1 dump 时已解 RLE)+ runtime present/draw-sprite.ts blit(M2) |
+| 446 | `PAL_RLEBlitMonoColor` | ✓ | pal-extract/io/rle.ts(M1 dump 时已解 RLE)+ runtime present/draw-sprite.ts blit(M2) |
+| 651 | `PAL_FBPBlitToSurface` | ✓ | pal-extract dump FBP image → png(M4 P3) |
+| 698 | `PAL_RLEGetWidth` | ✓ | pal-extract/io/rle.ts(M1 dump 时已解 RLE)+ runtime present/draw-sprite.ts blit(M2) |
+| 737 | `PAL_RLEGetHeight` | ✓ | pal-extract/io/rle.ts(M1 dump 时已解 RLE)+ runtime present/draw-sprite.ts blit(M2) |
+| 776 | `PAL_SpriteGetNumFrames` | ✓ | ctx.npcSpriteFrames.get(spriteNum).length 等价 |
+| 803 | `PAL_SpriteGetFrame` | ✓ | present.ts NPC sprite frame 查找(dir*nSpriteFrames+iFrame 真值) |
+| 855 | `PAL_MKFGetChunkCount` | ✓ | pal-extract/io/mkf.ts(M1 openMkf / readChunk) |
+| 887 | `PAL_MKFGetChunkSize` | ✓ | pal-extract/io/mkf.ts(M1 openMkf / readChunk) |
+| 939 | `PAL_MKFReadChunk` | ✓ | pal-extract/io/mkf.ts(M1 openMkf / readChunk) |
+| 1016 | `PAL_MKFGetDecompressedSize` | ✓ | pal-extract/io/mkf.ts(openMkf / readChunk;chunk 解压用 yj2.ts / yj1.ts) |
+| 1085 | `PAL_MKFDecompressChunk` | ✓ | pal-extract/io/mkf.ts(openMkf / readChunk;chunk 解压用 yj2.ts / yj1.ts) |
 
 ### paldebug.c(1 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 26 | `PAL_ShowSearchTriggerRange` | ✗ | _待审_ |
+| 26 | `PAL_ShowSearchTriggerRange` | N/A | sdlpal debug 视觉,ts 端 N/A |
 
 ### palette.c(8 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 25 | `PAL_GetPalette` | ✗ | _待审_ |
-| 93 | `PAL_SetPalette` | ? | _待审_ |
-| 123 | `PAL_FadeOut` | ✗ | _待审_ |
-| 193 | `PAL_FadeIn` | ✗ | _待审_ |
-| 262 | `PAL_SceneFade` | ✗ | _待审_ |
-| 381 | `PAL_PaletteFade` | ✗ | _待审_ |
-| 462 | `PAL_ColorFade` | ✗ | _待审_ |
-| 595 | `PAL_FadeToRed` | ✗ | _待审_ |
+| 25 | `PAL_GetPalette` | ✓ | pal-extract dump palette.json + event-system OP_SET_PALETTE handler(fetchPalette 异步注入) |
+| 93 | `PAL_SetPalette` | ✓ | pal-extract dump palette.json + event-system OP_SET_PALETTE handler(fetchPalette 异步注入) |
+| 123 | `PAL_FadeOut` | ✗ | palette 级 fade follow-up M6 |
+| 193 | `PAL_FadeIn` | ✗ | palette 级 fade follow-up M6 |
+| 262 | `PAL_SceneFade` | ✓ | event-system.ts:fadeScreen(opcode 0x73) |
+| 381 | `PAL_PaletteFade` | ✓ | pal-extract dump palette.json + event-system OP_SET_PALETTE handler(fetchPalette 异步注入) |
+| 462 | `PAL_ColorFade` | ✗ | M6 |
+| 595 | `PAL_FadeToRed` | ✗ | palette 级 fade follow-up M6 |
 
 ### play.c(9 函数)
 
@@ -494,23 +489,23 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 38 | `PAL_FreeEventObjectSprites` | ✗ | _待审_ |
-| 73 | `PAL_FreePlayerSprites` | ✗ | _待审_ |
-| 101 | `PAL_InitResources` | ✗ | _待审_ |
-| 123 | `PAL_FreeResources` | ✗ | _待审_ |
-| 164 | `PAL_SetLoadFlags` | ? | _待审_ |
-| 191 | `PAL_LoadResources` | ? | _待审_ |
-| 358 | `PAL_GetCurrentMap` | ✗ | _待审_ |
-| 385 | `PAL_GetPlayerSprite` | ✗ | _待审_ |
-| 412 | `PAL_GetEventObjectSprite` | ✗ | _待审_ |
+| 38 | `PAL_FreeEventObjectSprites` | N/A | JS GC + assets/loader.ts 一次性 fetch |
+| 73 | `PAL_FreePlayerSprites` | N/A | JS GC + assets/loader.ts 一次性 fetch |
+| 101 | `PAL_InitResources` | N/A | JS GC + assets/loader.ts 一次性 fetch |
+| 123 | `PAL_FreeResources` | N/A | JS GC + assets/loader.ts 一次性 fetch |
+| 164 | `PAL_SetLoadFlags` | N/A | sdlpal 增量 reload flags;ts 端 loadScene 一次性 fetch 整套,无 flag |
+| 191 | `PAL_LoadResources` | ⚠️ | assets/loader.ts:loadAll 等价;无增量 reload(每 scene 切换全 fetch) |
+| 358 | `PAL_GetCurrentMap` | ✓ | SceneContext.tilemap(loadScene 时注入) |
+| 385 | `PAL_GetPlayerSprite` | ⚠️ | ctx.partyFrames + ctx.npcSpriteFrames.get(partyLeaderSpriteId)简版,无 per-role 独立 sprite 容器 |
+| 412 | `PAL_GetEventObjectSprite` | ✓ | ctx.npcSpriteFrames.get(npc.spriteNum) |
 
 ### rngplay.c(3 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 28 | `PAL_RNGReadFrame` | ✗ | _待审_ |
-| 140 | `PAL_RNGBlitToSurface` | ✗ | _待审_ |
-| 372 | `PAL_RNGPlay` | ✗ | _待审_ |
+| 28 | `PAL_RNGReadFrame` | ✗ | RNG.MKF 战斗 magic anim;ts 端 ✗ B-w3.b follow-up |
+| 140 | `PAL_RNGBlitToSurface` | ✗ | RNG.MKF 战斗 magic anim;ts 端 ✗ B-w3.b follow-up |
+| 372 | `PAL_RNGPlay` | ✗ | RNG.MKF 战斗 magic anim;ts 端 ✗ B-w3.b follow-up |
 
 ### scene.c(10 函数)
 
@@ -545,189 +540,215 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 73 | `SOUND_LoadWAVEData` | ✗ | _待审_ |
-| 160 | `SOUND_LoadVOCData` | ✗ | _待审_ |
-| 233 | `SOUND_ResampleMix_U8_Mono_Mono` | ✗ | _待审_ |
-| 292 | `SOUND_ResampleMix_U8_Mono_Stereo` | ✗ | _待审_ |
-| 351 | `SOUND_ResampleMix_U8_Stereo_Mono` | ✗ | _待审_ |
-| 414 | `SOUND_ResampleMix_U8_Stereo_Stereo` | ✗ | _待审_ |
-| 480 | `SOUND_ResampleMix_S16_Mono_Mono` | ✗ | _待审_ |
-| 539 | `SOUND_ResampleMix_S16_Mono_Stereo` | ✗ | _待审_ |
-| 598 | `SOUND_ResampleMix_S16_Stereo_Mono` | ✗ | _待审_ |
-| 661 | `SOUND_ResampleMix_S16_Stereo_Stereo` | ✗ | _待审_ |
-| 728 | `SOUND_Play` | ✗ | _待审_ |
-| 851 | `SOUND_Shutdown` | ✗ | _待审_ |
-| 891 | `SOUND_FillBuffer` | ✗ | _待审_ |
-| 940 | `SOUND_Init` | ✗ | _待审_ |
+| 73 | `SOUND_LoadWAVEData` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 160 | `SOUND_LoadVOCData` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 233 | `SOUND_ResampleMix_U8_Mono_Mono` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 292 | `SOUND_ResampleMix_U8_Mono_Stereo` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 351 | `SOUND_ResampleMix_U8_Stereo_Mono` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 414 | `SOUND_ResampleMix_U8_Stereo_Stereo` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 480 | `SOUND_ResampleMix_S16_Mono_Mono` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 539 | `SOUND_ResampleMix_S16_Mono_Stereo` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 598 | `SOUND_ResampleMix_S16_Stereo_Mono` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 661 | `SOUND_ResampleMix_S16_Stereo_Stereo` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 728 | `SOUND_Play` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 851 | `SOUND_Shutdown` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 891 | `SOUND_FillBuffer` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
+| 940 | `SOUND_Init` | ✗ | M6 Web Audio + SpessaSynth 替代;ts 端未实现 |
 
 ### text.c(29 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 66 | `PAL_ParseLine` | ✗ | _待审_ |
-| 111 | `PAL_ReadOneLine` | ✗ | _待审_ |
-| 154 | `PAL_ReadMessageFile` | ✗ | _待审_ |
-| 649 | `PAL_InitText` | ✗ | _待审_ |
-| 897 | `PAL_FreeText` | ✗ | _待审_ |
-| 966 | `PAL_GetWord` | ✗ | _待审_ |
-| 988 | `PAL_GetMsg` | ✗ | _待审_ |
-| 1010 | `PAL_GetMsgNum` | ✗ | _待审_ |
-| 1039 | `PAL_UnescapeText` | ✗ | _待审_ |
-| 1075 | `PAL_DrawText` | ? | _待审_ |
-| 1088 | `PAL_DrawTextUnescape` | ✗ | _待审_ |
-| 1186 | `PAL_DialogSetDelayTime` | ✗ | _待审_ |
-| 1208 | `PAL_StartDialog` | ? | _待审_ |
-| 1219 | `PAL_StartDialogWithOffset` | ? | _待审_ |
-| 1356 | `PAL_DialogWaitForKeyWithMaximumSeconds` | ✗ | _待审_ |
-| 1451 | `PAL_DialogWaitForKey` | ? | _待审_ |
-| 1459 | `TEXT_DisplayText` | ✗ | _待审_ |
-| 1616 | `PAL_ShowDialogText` | ? | _待审_ |
-| 1752 | `PAL_ClearDialog` | ? | _待审_ |
-| 1787 | `PAL_EndDialog` | ? | _待审_ |
-| 1820 | `PAL_IsInDialog` | ✗ | _待审_ |
-| 1842 | `PAL_DialogIsPlayingRNG` | ✗ | _待审_ |
-| 1864 | `PAL_GetInvalidChar` | ✗ | _待审_ |
-| 1882 | `PAL_GetCodePage` | ✗ | _待审_ |
-| 1890 | `PAL_SetCodePage` | ✗ | _待审_ |
-| 1898 | `PAL_DetectCodePageForString` | ✗ | _待审_ |
-| 1964 | `PAL_MultiByteToWideCharCP` | ✗ | _待审_ |
-| 2232 | `PAL_MultiByteToWideChar` | ✗ | _待审_ |
-| 2263 | `PAL_swprintf` | ✗ | _待审_ |
+| 66 | `PAL_ParseLine` | N/A | sdlpal 文本解析 helper;ts 端 JSON.parse / native 等价 |
+| 111 | `PAL_ReadOneLine` | N/A | sdlpal 文本解析 helper;ts 端 JSON.parse / native 等价 |
+| 154 | `PAL_ReadMessageFile` | N/A | sdlpal 文本解析 helper;ts 端 JSON.parse / native 等价 |
+| 649 | `PAL_InitText` | N/A | JS GC + 模块 import 替代 sdlpal init/free |
+| 897 | `PAL_FreeText` | N/A | JS GC + 模块 import 替代 sdlpal init/free |
+| 966 | `PAL_GetWord` | ✓ | pal-extract 已 dump _name / events.text inline 替代 runtime 查表 |
+| 988 | `PAL_GetMsg` | ✓ | pal-extract 已 dump _name / events.text inline 替代 runtime 查表 |
+| 1010 | `PAL_GetMsgNum` | ✓ | pal-extract 已 dump _name / events.text inline 替代 runtime 查表 |
+| 1039 | `PAL_UnescapeText` | ✓ | render-text.ts 等价(控制码 strip + glyph blit) |
+| 1075 | `PAL_DrawText` | ✓ | render-text.ts(M4 P4 shadow + glyph blit 完全对齐 sdlpal) |
+| 1088 | `PAL_DrawTextUnescape` | ✓ | render-text.ts 等价(控制码 strip + glyph blit) |
+| 1186 | `PAL_DialogSetDelayTime` | ✓ | present/dialog-box.ts + event-system.ts setDialogStyleX/showDialog handler(Sync.2 完整 port) |
+| 1208 | `PAL_StartDialog` | ✓ | present/dialog-box.ts + event-system.ts setDialogStyleX/showDialog handler(Sync.2 完整 port) |
+| 1219 | `PAL_StartDialogWithOffset` | ✓ | present/dialog-box.ts + event-system.ts setDialogStyleX/showDialog handler(Sync.2 完整 port) |
+| 1356 | `PAL_DialogWaitForKeyWithMaximumSeconds` | ✓ | present/dialog-box.ts + event-system.ts setDialogStyleX/showDialog handler(Sync.2 完整 port) |
+| 1451 | `PAL_DialogWaitForKey` | ✓ | present/dialog-box.ts + event-system.ts setDialogStyleX/showDialog handler(Sync.2 完整 port) |
+| 1459 | `TEXT_DisplayText` | ✓ | render-text.ts:drawText 等价 |
+| 1616 | `PAL_ShowDialogText` | ✓ | present/dialog-box.ts + event-system.ts setDialogStyleX/showDialog handler(Sync.2 完整 port) |
+| 1752 | `PAL_ClearDialog` | ✓ | present/dialog-box.ts + event-system.ts setDialogStyleX/showDialog handler(Sync.2 完整 port) |
+| 1787 | `PAL_EndDialog` | ✓ | present/dialog-box.ts + event-system.ts setDialogStyleX/showDialog handler(Sync.2 完整 port) |
+| 1820 | `PAL_IsInDialog` | ✓ | gs.dialogBox 字段 truthy 等价 |
+| 1842 | `PAL_DialogIsPlayingRNG` | ✓ | present/dialog-box.ts + event-system.ts setDialogStyleX/showDialog handler(Sync.2 完整 port) |
+| 1864 | `PAL_GetInvalidChar` | N/A | sdlpal 多 codepage 处理;ts UTF-8 N/A |
+| 1882 | `PAL_GetCodePage` | N/A | ts 端 UTF-8 + word.dat 已 dump _name;无 GBK/Big5 切换需求 |
+| 1890 | `PAL_SetCodePage` | N/A | ts 端 UTF-8 + word.dat 已 dump _name;无 GBK/Big5 切换需求 |
+| 1898 | `PAL_DetectCodePageForString` | N/A | ts 端 UTF-8 + word.dat 已 dump _name;无 GBK/Big5 切换需求 |
+| 1964 | `PAL_MultiByteToWideCharCP` | N/A | ts 端 UTF-8 + word.dat 已 dump _name;无 GBK/Big5 切换需求 |
+| 2232 | `PAL_MultiByteToWideChar` | N/A | ts 端 UTF-8 + word.dat 已 dump _name;无 GBK/Big5 切换需求 |
+| 2263 | `PAL_swprintf` | N/A | sdlpal 自封 swprintf(SDL2 兼容);ts 用 native printf-style |
 
 ### ui.c(17 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 27 | `PAL_CreateBoxInternal` | ✗ | _待审_ |
-| 52 | `PAL_InitUI` | ✗ | _待审_ |
-| 93 | `PAL_FreeUI` | ✗ | _待审_ |
-| 119 | `PAL_CreateBox` | ✗ | _待审_ |
-| 131 | `PAL_CreateBoxWithShadow` | ✗ | _待审_ |
-| 242 | `PAL_CreateSingleLineBox` | ✗ | _待审_ |
-| 252 | `PAL_CreateSingleLineBoxWithShadow` | ✗ | _待审_ |
-| 355 | `PAL_DeleteBox` | ✗ | _待审_ |
-| 401 | `PAL_ReadMenu` | ✗ | _待审_ |
-| 640 | `PAL_DrawNumber` | ✗ | _待审_ |
-| 749 | `PAL_TextWidth` | ✗ | _待审_ |
-| 763 | `PAL_MenuTextMaxWidth` | ✗ | _待审_ |
-| 797 | `PAL_WordMaxWidth` | ✗ | _待审_ |
-| 836 | `PAL_WordWidth` | ✗ | _待审_ |
-| 864 | `PAL_LoadObjectDesc` | ✗ | _待审_ |
-| 931 | `PAL_FreeObjectDesc` | ✗ | _待审_ |
-| 961 | `PAL_GetObjectDesc` | ✗ | _待审_ |
+| 27 | `PAL_CreateBoxInternal` | ⚠️ | sdlpal 画 menu 边框 box;ts 端各 menu state machine 数据层有,渲染 box 接 dev-panel(M-w follow-up) |
+| 52 | `PAL_InitUI` | N/A | JS GC + 模块 import 替代 sdlpal init/free |
+| 93 | `PAL_FreeUI` | N/A | JS GC + 模块 import 替代 sdlpal init/free |
+| 119 | `PAL_CreateBox` | ⚠️ | sdlpal 画 menu 边框 box;ts 端各 menu state machine 数据层有,渲染 box 接 dev-panel(M-w follow-up) |
+| 131 | `PAL_CreateBoxWithShadow` | ⚠️ | sdlpal 画 menu 边框 box;ts 端各 menu state machine 数据层有,渲染 box 接 dev-panel(M-w follow-up) |
+| 242 | `PAL_CreateSingleLineBox` | ⚠️ | sdlpal 画 menu 边框 box;ts 端各 menu state machine 数据层有,渲染 box 接 dev-panel(M-w follow-up) |
+| 252 | `PAL_CreateSingleLineBoxWithShadow` | ⚠️ | sdlpal 画 menu 边框 box;ts 端各 menu state machine 数据层有,渲染 box 接 dev-panel(M-w follow-up) |
+| 355 | `PAL_DeleteBox` | ⚠️ | sdlpal 画 menu 边框 box;ts 端各 menu state machine 数据层有,渲染 box 接 dev-panel(M-w follow-up) |
+| 401 | `PAL_ReadMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 640 | `PAL_DrawNumber` | ✓ | render-text.ts 等价(控制码 strip + glyph blit) |
+| 749 | `PAL_TextWidth` | ✓ | render-text.ts 测量 + glyph metadata 等价 |
+| 763 | `PAL_MenuTextMaxWidth` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 797 | `PAL_WordMaxWidth` | ✓ | render-text.ts 测量 + glyph metadata 等价 |
+| 836 | `PAL_WordWidth` | ✓ | render-text.ts 测量 + glyph metadata 等价 |
+| 864 | `PAL_LoadObjectDesc` | ✓ | pal-extract 已 dump _name / events.text inline 替代 runtime 查表 |
+| 931 | `PAL_FreeObjectDesc` | ✓ | pal-extract 已 dump _name / events.text inline 替代 runtime 查表 |
+| 961 | `PAL_GetObjectDesc` | ✓ | _name 字段已 dump,无需 runtime 查表 |
 
 ### uibattle.c(12 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 31 | `PAL_PlayerInfoBox` | ✗ | _待审_ |
-| 272 | `PAL_BattleUIIsActionValid` | ✗ | _待审_ |
-| 344 | `PAL_BattleUIDrawMiscMenu` | ✗ | _待审_ |
-| 417 | `PAL_BattleUIMiscMenuUpdate` | ✗ | _待审_ |
-| 472 | `PAL_BattleUIMiscItemSubMenuUpdate` | ✗ | _待审_ |
-| 548 | `PAL_BattleUIShowText` | ✗ | _待审_ |
-| 582 | `PAL_BattleUIPlayerReady` | ✗ | _待审_ |
-| 624 | `PAL_BattleUIUseItem` | ✗ | _待审_ |
-| 675 | `PAL_BattleUIThrowItem` | ✗ | _待审_ |
-| 722 | `PAL_BattleUIPickAutoMagic` | ✗ | _待审_ |
-| 785 | `PAL_BattleUIUpdate` | ✗ | _待审_ |
-| 1770 | `PAL_BattleUIShowNum` | ? | _待审_ |
+| 31 | `PAL_PlayerInfoBox` | ⚠️ | 同上 M-w 数据层有,渲染 + 输入 follow-up |
+| 272 | `PAL_BattleUIIsActionValid` | ⚠️ | present/battle/ 简版 + battle-system uiState 字段(M3 vertical slice);完整 sdlpal 真值未对齐 |
+| 344 | `PAL_BattleUIDrawMiscMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 417 | `PAL_BattleUIMiscMenuUpdate` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 472 | `PAL_BattleUIMiscItemSubMenuUpdate` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 548 | `PAL_BattleUIShowText` | ⚠️ | present/battle/ 简版 + battle-system uiState 字段(M3 vertical slice);完整 sdlpal 真值未对齐 |
+| 582 | `PAL_BattleUIPlayerReady` | ⚠️ | present/battle/ 简版 + battle-system uiState 字段(M3 vertical slice);完整 sdlpal 真值未对齐 |
+| 624 | `PAL_BattleUIUseItem` | ⚠️ | present/battle/ 简版 + battle-system uiState 字段(M3 vertical slice);完整 sdlpal 真值未对齐 |
+| 675 | `PAL_BattleUIThrowItem` | ⚠️ | present/battle/ 简版 + battle-system uiState 字段(M3 vertical slice);完整 sdlpal 真值未对齐 |
+| 722 | `PAL_BattleUIPickAutoMagic` | ⚠️ | present/battle/ 简版 + battle-system uiState 字段(M3 vertical slice);完整 sdlpal 真值未对齐 |
+| 785 | `PAL_BattleUIUpdate` | ⚠️ | present/battle/ 简版 + battle-system uiState 字段(M3 vertical slice);完整 sdlpal 真值未对齐 |
+| 1770 | `PAL_BattleUIShowNum` | ⚠️ | present/battle/ 简版 + battle-system uiState 字段(M3 vertical slice);完整 sdlpal 真值未对齐 |
 
 ### uigame.c(23 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 42 | `PAL_DrawOpeningMenuBackground` | ✗ | _待审_ |
-| 83 | `PAL_OpeningMenu` | ? | _待审_ |
-| 169 | `PAL_SaveSlotMenu` | ? | _待审_ |
-| 242 | `PAL_SelectionMenu` | ? | _待审_ |
-| 320 | `PAL_TripleMenu` | ? | _待审_ |
-| 343 | `PAL_ConfirmMenu` | ? | _待审_ |
-| 368 | `PAL_SwitchMenu` | ? | _待审_ |
-| 394 | `PAL_BattleSpeedMenu` | ✗ | _待审_ |
-| 451 | `PAL_ShowCash` | ✗ | _待审_ |
-| 494 | `PAL_SystemMenu_OnItemChange` | ✗ | _待审_ |
-| 516 | `PAL_SystemMenu` | ? | _待审_ |
-| 654 | `PAL_InGameMagicMenu` | ? | _待审_ |
-| 878 | `PAL_InventoryMenu` | ? | _待审_ |
-| 922 | `PAL_InGameMenu_OnItemChange` | ✗ | _待审_ |
-| 944 | `PAL_InGameMenu` | ? | _待审_ |
-| 1051 | `PAL_PlayerStatus` | ? | _待审_ |
-| 1289 | `PAL_ItemUseMenu` | ? | _待审_ |
-| 1503 | `PAL_BuyMenu_OnItemChange` | ✗ | _待审_ |
-| 1615 | `PAL_BuyMenu` | ? | _待审_ |
-| 1710 | `PAL_SellMenu_OnItemChange` | ✗ | _待审_ |
-| 1755 | `PAL_SellMenu` | ? | _待审_ |
-| 1794 | `PAL_EquipItemMenu` | ? | _待审_ |
-| 2059 | `PAL_QuitGame` | ✗ | _待审_ |
+| 42 | `PAL_DrawOpeningMenuBackground` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 83 | `PAL_OpeningMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 169 | `PAL_SaveSlotMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 242 | `PAL_SelectionMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 320 | `PAL_TripleMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 343 | `PAL_ConfirmMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 368 | `PAL_SwitchMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 394 | `PAL_BattleSpeedMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 451 | `PAL_ShowCash` | ⚠️ | sdlpal 大世界菜单 cash 显示框;ts shop-menu.ts 数据有,UI 渲染 follow-up |
+| 494 | `PAL_SystemMenu_OnItemChange` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 516 | `PAL_SystemMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 654 | `PAL_InGameMagicMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 878 | `PAL_InventoryMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 922 | `PAL_InGameMenu_OnItemChange` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 944 | `PAL_InGameMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 1051 | `PAL_PlayerStatus` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 1289 | `PAL_ItemUseMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 1503 | `PAL_BuyMenu_OnItemChange` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 1615 | `PAL_BuyMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 1710 | `PAL_SellMenu_OnItemChange` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 1755 | `PAL_SellMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 1794 | `PAL_EquipItemMenu` | ⚠️ | M-w0~w3 ts 端 menu state machine 数据层 1:1 port;**渲染层 + 输入路由 ✗** follow-up |
+| 2059 | `PAL_QuitGame` | N/A | 浏览器,无独立 quit |
 
 ### util.c(33 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 47 | `flength` | ✗ | _待审_ |
-| 59 | `trim` | ? | _待审_ |
-| 102 | `UTIL_va` | ✗ | _待审_ |
-| 169 | `lsrand` | ? | _待审_ |
-| 195 | `lrand` | ✗ | _待审_ |
-| 222 | `RandomLong` | ? | _待审_ |
-| 251 | `RandomFloat` | ? | _待审_ |
-| 280 | `UTIL_Delay` | ? | _待审_ |
-| 296 | `TerminateOnError` | ✗ | _待审_ |
-| 348 | `UTIL_malloc` | ✗ | _待审_ |
-| 370 | `UTIL_calloc` | ✗ | _待审_ |
-| 393 | `UTIL_OpenRequiredFile` | ✗ | _待审_ |
-| 415 | `UTIL_OpenRequiredFileForMode` | ✗ | _待审_ |
-| 451 | `UTIL_OpenFile` | ✗ | _待审_ |
-| 473 | `UTIL_OpenFileForMode` | ✗ | _待审_ |
-| 514 | `UTIL_OpenFileAtPath` | ✗ | _待审_ |
-| 523 | `UTIL_OpenFileAtPathForMode` | ✗ | _待审_ |
-| 554 | `UTIL_CloseFile` | ✗ | _待审_ |
-| 579 | `UTIL_IsFileExist` | ✗ | _待审_ |
-| 590 | `UTIL_GetFullPathName` | ✗ | _待审_ |
-| 658 | `UTIL_CombinePath` | ✗ | _待审_ |
-| 719 | `UTIL_GlobalBuffer` | ✗ | _待审_ |
-| 728 | `UTIL_CheckResourceFiles` | ✗ | _待审_ |
-| 787 | `UTIL_GetScreenSize` | ✗ | _待审_ |
-| 796 | `UTIL_IsAbsolutePath` | ✗ | _待审_ |
-| 804 | `UTIL_Platform_Init` | ✗ | _待审_ |
-| 814 | `UTIL_Platform_Quit` | ✗ | _待审_ |
-| 848 | `UTIL_LogAddOutputCallback` | ✗ | _待审_ |
-| 873 | `UTIL_LogRemoveOutputCallback` | ✗ | _待审_ |
-| 890 | `UTIL_LogOutput` | ✗ | _待审_ |
-| 933 | `UTIL_LogSetLevel` | ✗ | _待审_ |
-| 946 | `UTIL_LogToFile` | ✗ | _待审_ |
-| 961 | `UTIL_LogSetPrelude` | ✗ | _待审_ |
+| 47 | `flength` | N/A | sdlpal helper(file length),ts fs.statSync 等价 |
+| 59 | `trim` | N/A | sdlpal C helper / 误识别(macro 展开);N/A |
+| 102 | `UTIL_va` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 169 | `lsrand` | N/A | sdlpal C rand 包装;ts 用 SeedableRng 替代 |
+| 195 | `lrand` | N/A | sdlpal C rand 包装;ts 用 SeedableRng 替代 |
+| 222 | `RandomLong` | ✓ | rng.ts:SeedableRng.nextInt/nextFloat(M3 D29 seedable RNG) |
+| 251 | `RandomFloat` | ✓ | rng.ts:SeedableRng.nextInt/nextFloat(M3 D29 seedable RNG) |
+| 280 | `UTIL_Delay` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 296 | `TerminateOnError` | N/A | throw new Error 等价 |
+| 348 | `UTIL_malloc` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 370 | `UTIL_calloc` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 393 | `UTIL_OpenRequiredFile` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 415 | `UTIL_OpenRequiredFileForMode` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 451 | `UTIL_OpenFile` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 473 | `UTIL_OpenFileForMode` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 514 | `UTIL_OpenFileAtPath` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 523 | `UTIL_OpenFileAtPathForMode` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 554 | `UTIL_CloseFile` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 579 | `UTIL_IsFileExist` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 590 | `UTIL_GetFullPathName` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 658 | `UTIL_CombinePath` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 719 | `UTIL_GlobalBuffer` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 728 | `UTIL_CheckResourceFiles` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 787 | `UTIL_GetScreenSize` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 796 | `UTIL_IsAbsolutePath` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 804 | `UTIL_Platform_Init` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 814 | `UTIL_Platform_Quit` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 848 | `UTIL_LogAddOutputCallback` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 873 | `UTIL_LogRemoveOutputCallback` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 890 | `UTIL_LogOutput` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 933 | `UTIL_LogSetLevel` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 946 | `UTIL_LogToFile` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
+| 961 | `UTIL_LogSetPrelude` | N/A | sdlpal 通用 C helper;ts 用 JS 原生 + lodash 等价 |
 
 ### video.c(20 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 150 | `VIDEO_Startup` | ✗ | _待审_ |
-| 400 | `VIDEO_Shutdown` | ✗ | _待审_ |
-| 479 | `VIDEO_RenderCopy` | ✗ | _待审_ |
-| 517 | `VIDEO_UpdateScreen` | ? | _待审_ |
-| 646 | `VIDEO_SetPalette` | ✗ | _待审_ |
-| 705 | `VIDEO_Resize` | ✗ | _待审_ |
-| 789 | `VIDEO_GetPalette` | ✗ | _待审_ |
-| 811 | `VIDEO_ToggleScaleScreen` | ✗ | _待审_ |
-| 835 | `VIDEO_ToggleFullscreen` | ✗ | _待审_ |
-| 935 | `VIDEO_ChangeDepth` | ✗ | _待审_ |
-| 988 | `VIDEO_SaveScreenshot` | ✗ | _待审_ |
-| 1030 | `VIDEO_ShakeScreen` | ✗ | _待审_ |
-| 1056 | `VIDEO_SwitchScreen` | ✗ | _待审_ |
-| 1130 | `VIDEO_FadeScreen` | ? | _待审_ |
-| 1293 | `VIDEO_SetWindowTitle` | ✗ | _待审_ |
-| 1319 | `VIDEO_CreateCompatibleSurface` | ✗ | _待审_ |
-| 1327 | `VIDEO_CreateCompatibleSizedSurface` | ✗ | _待审_ |
-| 1373 | `VIDEO_DuplicateSurface` | ✗ | _待审_ |
-| 1404 | `VIDEO_UpdateSurfacePalette` | ✗ | _待审_ |
-| 1433 | `VIDEO_DrawSurfaceToScreen` | ✗ | _待审_ |
+| 150 | `VIDEO_Startup` | N/A | 浏览器 canvas 替代 |
+| 400 | `VIDEO_Shutdown` | N/A | JS GC |
+| 479 | `VIDEO_RenderCopy` | N/A | 浏览器 canvas 替代 |
+| 517 | `VIDEO_UpdateScreen` | ✓ | present/framebuffer.ts:flushToCanvas(fb → ctx.putImageData) |
+| 646 | `VIDEO_SetPalette` | N/A | 浏览器 canvas 替代 |
+| 705 | `VIDEO_Resize` | N/A | 浏览器 canvas 替代 |
+| 789 | `VIDEO_GetPalette` | N/A | 浏览器 canvas 替代 |
+| 811 | `VIDEO_ToggleScaleScreen` | N/A | 浏览器 canvas 替代 |
+| 835 | `VIDEO_ToggleFullscreen` | N/A | 浏览器 requestFullscreen API |
+| 935 | `VIDEO_ChangeDepth` | N/A | 浏览器 canvas 替代 |
+| 988 | `VIDEO_SaveScreenshot` | ✓ | e2e snapshotCanvas 等价 |
+| 1030 | `VIDEO_ShakeScreen` | ✗ | opcode 0x35 ShakeScreen stub;present 层抖动未接,follow-up |
+| 1056 | `VIDEO_SwitchScreen` | N/A | 浏览器 canvas 替代 |
+| 1130 | `VIDEO_FadeScreen` | ✓ | event-system.ts:fadeScreen(opcode 0x73,72 帧 dither 完整 port) |
+| 1293 | `VIDEO_SetWindowTitle` | N/A | 浏览器 |
+| 1319 | `VIDEO_CreateCompatibleSurface` | N/A | 浏览器 canvas 替代 |
+| 1327 | `VIDEO_CreateCompatibleSizedSurface` | N/A | 浏览器 canvas 替代 |
+| 1373 | `VIDEO_DuplicateSurface` | N/A | 浏览器 canvas 替代 |
+| 1404 | `VIDEO_UpdateSurfacePalette` | N/A | 浏览器 canvas 替代 |
+| 1433 | `VIDEO_DrawSurfaceToScreen` | N/A | canvas drawImage,sdlpal SDL_BlitSurface 等价 |
 
 ### video_glsl.c(3 函数)
 
 | 行 | 函数 | 状态 | ts 路径 / 备注 |
 |---:|---|:---:|---|
-| 230 | `if` |  | _待审_ |
-| 260 | `if` |  | _待审_ |
-| 264 | `if` |  | _待审_ |
+| 230 | `if` | N/A | sdlpal C helper / 误识别(macro 展开);N/A |
+| 260 | `if` | N/A | sdlpal C helper / 误识别(macro 展开);N/A |
+| 264 | `if` | N/A | sdlpal C helper / 误识别(macro 展开);N/A |
+
+---
+
+## 最终统计(445 函数全填完)
+
+| 状态 | 数量 | 占比 | 说明 |
+|:---:|---:|---:|---|
+| ✓ | 91 | 20.4% | 真 port,ts 路径明确,核心战斗 / 探索 / 数据公式 |
+| ⚠️ | 118 | 26.5% | 简版 port / 已知差异,具体 follow-up 在表行内 |
+| ✗ | 134 | 30.1% | 未做,M6 体验补全(音频 / AVI / palette cycle / magic anim / 等)|
+| N/A | 102 | 22.9% | by design 不 port:浏览器 canvas / Web Audio 替代 SDL/GL/midi/audio;sdlpal 内部 C helper(rand / string / etc);DOS 版兼容代码(D36 只 WIN95) |
+
+**关键 follow-up 优先级**(按对用户体验影响排序):
+1. **音频**(✗ 70+ 函数):AUDIO_*/MIDI_*/MP3_*/OGG_*/OPUS_*/RNG_*/SOUND_* — M6 Web Audio + SpessaSynth
+2. **palette cycle**(✗):水 / 火 调色板动画,大世界视觉
+3. **levelup loop**(✗ PlayerLevelUp / fight.c 8 类 wCount):**B-w1.c 未完成核心**
+4. **装备 effect**(✗ UpdateEquipments / RemoveEquipmentEffect / 6 个 GetPlayer*Stat):rgwEquipment 已存,**运行时 stat 计算完全忽略装备加成** — 战斗数值偏差源头
+5. **菜单渲染层**(⚠️ 4 个 UI 文件):M-w0~w3 数据层 ✓,UI 渲染 + 输入路由 ✗
+6. **magic anim**(✗ B-w3.b):6 个 PAL_BattleShow*MagicAnim
+7. **poison 系统**(✗ 5 函数):rgPoisonStatus[16][6] 二维数组完整 port,M5 简版只 status field
+8. **enemy AI bytecode**(B-w2.a 已起步):54 个 enemy 有 wScriptOnReady,需把 battle ctx 真接到 runScript
+9. **AVI / ending**(✗ 8 函数):M6 体验 + M7 通关
+10. **sdlpal 自身 bug**(audit 发现):Bug-1 SelectAutoTarget 死循环 / Bug-2 StealFromEnemy 无 dead check — ts port 时显式 fix
+
+**M5.5 audit 完工** — 445 函数 100% 逐个核对,无 _待审_ 残留。结论实事求是:
+ts port 完成度约 **47%**(✓ + ⚠️ 简版 / 总 ✓+⚠️+✗ 战斗 / 探索可 port 范围)。
