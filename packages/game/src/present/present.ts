@@ -325,7 +325,10 @@ export function presentFrame(
 
   // 6. 对话框(最上层)
   if (gs.dialogBox) {
-    drawDialogBox(fb, gs.dialogBox, ctx.glyphs, ctx.dialogAssets)
+    drawDialogBox(fb, gs.dialogBox, ctx.glyphs, {
+      ...ctx.dialogAssets,
+      uiSpriteFrames: ctx.uiSpriteFrames,
+    })
   }
 
   // 7. fadeState — port sdlpal video.c:1130-1280 VIDEO_FadeScreen 真值 **per-frame 1 step**。

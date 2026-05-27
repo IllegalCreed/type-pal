@@ -28,6 +28,7 @@ import type { DialogBoxStyle } from '@type-pal/shared'
 import type { Framebuffer } from './framebuffer.js'
 import { renderText, type GlyphTable } from './font.js'
 import type { DialogBoxState, DialogPhase } from '../core/game-state.js'
+import { drawSingleLineBox } from './menu/draw-box.js'
 
 // ── 常量 ──────────────────────────────────────────────────────────────────────
 
@@ -347,6 +348,8 @@ export interface DialogBoxDrawCtx {
   portraitFrames?: Map<number, DialogSprite>
   /** DATA.MKF chunk 12 dialog icon sprite group(frame index → sprite)。 */
   iconFrames?: Map<number, DialogSprite>
+  /** T14:narration style(kDialogCenterWindow)画 SingleLineBox 背景,需 SPRITEUI frame 44/45/46。 */
+  uiSpriteFrames?: import('../assets/png.js').IndexedImage[]
 }
 
 const KEY_ICON_FRAME = 0
@@ -376,6 +379,14 @@ export function drawDialogBox(
     || state.currentLineText !== null
     || state.titleText !== undefined
   if (!hasActiveContent) return
+
+  // T14:narration style(kDialogCenterWindow)— sdlpal text.c:1663-1710 真值。
+  // 居中 SingleLineBox + 一行文字 居中显示(eg. "获得 XX × N" 物品提示)。
+  // 跟其他 style(透明 typing 多行)逻辑完全不同,short-circuit。
+  if (state.style === 'narration') {
+    drawNarrationDialog(fb, state, glyphs, ctx)
+    return
+  }
 
   // 1. portrait(sdlpal text.c:1289-1310)
   let hasPortraitRendered = false
@@ -466,4 +477,60 @@ function blitSprite(
       }
     }
   }
+}
+
+/**
+ * T14:narration style(kDialogCenterWindow)1:1 port — sdlpal text.c:1663-1710 真值。
+ *
+ * 视觉:屏幕中央(160, 40)居中 SingleLineBox + 一行文字。box 宽度根据文字长度计算。
+ * 用于"获得 XX × N" / "钱不够" / item info 等 1-shot 1.4s 自动关闭提示。
+ *
+ * sdlpal 真值算法:
+ *   posDialogText = PAL_XY(160, 40)               (text.c:1345)
+ *   len = sum(PAL_CharWidth(ch) >> 3) for ch in lpszText   (text.c:1681)
+ *   pos = PAL_XY(posDialogText.x - len * 4, posDialogText.y)
+ *   PAL_CreateSingleLineBoxWithShadow(pos, (len + 1) / 2, ...)
+ *   TEXT_DisplayText(lpszText, pos.x + 8 + ((len & 1) << 2), pos.y + 10, ...)
+ *
+ * `PAL_CharWidth(ch) >> 3`:半角 8>>3=1 / 全角 16>>3=2。
+ */
+function drawNarrationDialog(
+  fb: Framebuffer,
+  state: DialogBoxState,
+  glyphs: GlyphTable | undefined,
+  ctx?: DialogBoxDrawCtx,
+): void {
+  // narration 是 1-shot 1 行 — 取 currentLineText(若有)或 shownLines[0]
+  const text = state.currentLineText ?? state.shownLines[0] ?? ''
+  if (text.length === 0) return
+
+  // sdlpal len:半角 1 / 全角 2
+  let len = 0
+  for (const ch of text) {
+    const cp = ch.codePointAt(0)!
+    len += cp < 0x80 ? 1 : 2
+  }
+
+  // sdlpal text.c:1345 posDialogText = PAL_XY(160, 40)
+  const POS_X = 160
+  const POS_Y = 40
+  const boxX = POS_X - len * 4
+  const boxY = POS_Y
+  const boxLen = Math.floor((len + 1) / 2)
+
+  // 画 box(若 uiSpriteFrames 缺失则只画文字,debug 防御)
+  if (ctx?.uiSpriteFrames) {
+    drawSingleLineBox({
+      fb, x: boxX, y: boxY, len: boxLen, uiSpriteFrames: ctx.uiSpriteFrames,
+    })
+  }
+
+  // 文字 pos(sdlpal text.c:1698)
+  const textX = boxX + 8 + ((len & 1) << 2)
+  const textY = boxY + 10
+  // typing 进度截断(narration 通常一次性 display,但保留 charsRevealed 兼容性)
+  const visible = state.charsRevealed > 0
+    ? text.slice(0, state.charsRevealed)
+    : text
+  renderText(fb, visible, textX, textY, 0x4F /* MENUITEM_COLOR */, glyphs, false)
 }
