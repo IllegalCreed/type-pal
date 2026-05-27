@@ -1152,3 +1152,71 @@ function dispatchMagicSelectMenu(gs, top, input, bus) { /* 同 in-game-magic pic
 ## 执行方式
 
 按用户授权"按顺序做就好",**inline execution** 模式:本 session 内按 W0.0 → W0.a → ... → W2.c 顺序执行每 task,task 完 commit,中间不再请用户决策。如遇 manual checkpoint(W0.v / W1.v / W2.c)需用户跑 dev 验证,会停下来给用户测。
+
+---
+
+# M5.6 v2 进度 snapshot(session 1 完工 — 2026-05-27)
+
+> M5.6 v1 走损被用户实测发现:菜单坐标臆造 / 子菜单全 placeholder / 缺 cash 框 / SystemMenu 缺 2 项 / input 漏一半键 / fTrigger/Search 只做距离公式漏其他细节 / dispatcher 单测漏 / dev-panel 缺按钮 / audit 表 footer 增量(没 in-place 改 ⚠️)/ explore addItem 卷轴 box 漏 / 开始菜单整段缺 / 开场动画整段缺 / **整个 M5.5 audit 47% 数字本身就是 shallow grep 数字游戏不可信**。
+>
+> session 1 把"基础玩法接通 + sdlpal 真值修正"做完,**fullscreen UI / 战斗结算 / levelup / OpeningMenu / 开场动画**整段留 v2 后续 session。
+
+## v2 session 1 已完工(13 task + 22 commit)
+
+| Task | Commit | 内容 |
+|---|---|---|
+| W0.0 | `028688c` | input.ts Escape→'Menu' |
+| W0.a | `68c701b` | mode='menu' + tickMenu + menuStack |
+| W0.b | `b8158d9` | menu-driver InGame + System hub |
+| W0.c | `b5e7d45` | draw-box 9-slice + shadow |
+| W0.d | `3cf71cf` | loader uiSpriteFrames + draw-menu hub |
+| W0.e/f | `1ec20f4` | 5 sub-menu dispatcher 接通(渲染层 placeholder) |
+| W0.v | `a7fe31a` | scene-system Menu 键 |
+| W1.a | `3dfe8c5` | NPC triggerLabel fallback shared.json |
+| W1.b | `5755414` | scene-system auto trigger zone(distance only,detail 留 T7) |
+| W1.c | `3ac25d8` | PAL_Search 13-cell range(detail 留 T8) |
+| W2.a | `fd13466` | dev-panel CSS + section |
+| W2.b | `fd54df4` | dev-panel menu units 入口 |
+| W2.c | `ae176fd` | README + audit footer 增量(没 in-place,标 SHALLOW) |
+| T2/3/4/5 | `2c0f8aa` | 主菜单坐标真值修(uigame.c:990 (3,37))+ cash 框 + SystemMenu 5 项 + draw-box tile-by-tile |
+| T1 | `d6a4aea` | input.ts 全 sdlpal 键(Numpad/PgUp/Repeat/Force/Flee 等 12 新) |
+| T7 | `c376343` | fTrigger 完整(sVanishTime / sState<0 复活 / NPC auto-face) |
+| T8 | `a5712f5` | PAL_Search 视觉效果(party 转向 + NPC 站立帧) |
+| T11 | `2242c60` | dev-panel 补 3 menu units + "添加全物品" cheat(user 加需求) |
+| T6 | `aa0e171` | iCur* 全局记忆 + PgUp/PgDn 翻页 |
+| T9 | `3277e26` | 5 dispatcher 单测覆盖 |
+| T10a | `60defb4` | SaveSlotMenu fullscreen 真做(uigame.c:169-242) |
+| skip-intro patch | `683a080` | sdlpal patch:`PAL_SKIP_INTRO=1` 跳 trademark/splash |
+
+**测试**:543 单测 + 199 pal-extract + 44 shared = 786 全过,2 skip 不变。
+
+## v2 剩余 task(后续 session 推进)
+
+按用户体验影响 + 依赖排序:
+
+| # | Task | sdlpal 真值 / 工作量 |
+|---:|---|---|
+| 1 | **T17 PAL_OpeningMenu fullscreen + bootstrap 接入** | `uigame.c:42-167` ~125 行,1 session;玩家第一眼,启动流程 |
+| 2 | **T18 + T19 Trademark + Splash + ffmpeg AVI→mp4 + `<video>`** | `main.c:179-540` ~400 行 + pal-extract ffmpeg script,1-2 session |
+| 3 | **T14 addItem 卷轴 box**(sdlpal opcode idiom)| 用 kDialogCenterWindow + SingleLineBox 复用,~0.5 session |
+| 4 | T10b InventoryMenu fullscreen | `itemmenu.c PAL_ItemSelectMenu` 285 行 |
+| 5 | T10d PlayerStatus | `uigame.c:1051-1288` 238 行 |
+| 6 | T10c InGameMagicMenu | `uigame.c:654-877` 224 行 |
+| 7 | T10e EquipItemMenu | `uigame.c:1794-2058` 265 行 |
+| 8 | T15 PAL_BattleWon 4 段 modal box | `battle.c:991-1150` 159 行 |
+| 9 | T16 levelup loop + 8 类 stat + 数值提升 UI | `fight.c:3756+` + `global.c:2347+`,跨 session;**会触发战斗 baseline 重算** |
+| 10 | T12 audit 表 in-place + T13 README 收口 | ~0.5 session |
+
+**ETA**:~9-11 个后续 session 完工 M5.6 v2 全 21 task。
+
+## M5.6 完工后(用户决定,留 新对话)
+
+- **T20 M5.5 真值 audit v2(纯代码,不靠 e2e)** — 完整读 sdlpal C impl + cross-reference 剧本 + ts 对比,列逐函数差异 list;不再用 47% 数字游戏。估 2-3 个 session。
+
+## v2 session 1 收口教训(给后续 session 用)
+
+1. **没真值代码就别标 ⚠️/✓**:M5.6 v1 反复踩 "看 sdlpal 函数 header 就标 ✓ 实际差很远"(uigame menu 坐标 / 子菜单 fullscreen / cash 框 / SystemMenu 5 项)。后续每加新 task 前 **真打开 sdlpal 完整 impl 读完** + cross-reference 剧本 + ts 对比。
+2. **fullscreen UI 不写 placeholder**:M5.6 v1 W0.e/f commit "✓" 实际 5 子菜单全 placeholder box,被用户截图打脸。后续 T10b-e/T15/T17/T18 真做 = 每函数 1:1 port sdlpal 渲染顺序 + 坐标 + 颜色,不接受简版。
+3. **audit 表 in-place 改 ✓**(不准 footer 增量):每完工一个 task,**改对应行 ⚠️→✓**,不允许"在 audit 文档末尾加增量段"装作完工。
+4. **AVI 走 ffmpeg 离线转 mp4**:memory [avi-offline-ffmpeg-to-mp4](memory:avi-offline-ffmpeg-to-mp4),不写"web video API 解 aviplay.c"这种。
+5. **每 task 完 commit**(不堆改动):本 session 22 commit 是节奏样板。
