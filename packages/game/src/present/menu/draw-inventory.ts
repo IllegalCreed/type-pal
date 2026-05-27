@@ -217,8 +217,10 @@ function drawItemUseMenu(
   }
   // 物品名 at (116, 143),color = STATUS_COLOR_EQUIPMENT 0xBE,fShadow=TRUE
   renderText(fb, selectedItem._name ?? `?${selectedItem.id}`, ITEMUSE_ITEM_NAME_POS.x, ITEMUSE_ITEM_NAME_POS.y, STATUS_COLOR_EQUIPMENT, glyphs, true)
-  // amount(物品当前 inventory 数量)
-  const invEntry = state.inventory.find((e) => e.itemId === selectedItem.id)
+  // amount — sdlpal `uigame.c:1401` 真值 `i = PAL_GetItemAmount(wItemToUse)` 每帧 live 读
+  // gpGlobals->rgInventory,**不用** state.inventory snapshot(否则用一次后 picker 始终显
+  // 旧 amount,看起来"道具没减")。
+  const invEntry = gs.inventory.find((e) => e.itemId === selectedItem.id)
   const amount = invEntry?.count ?? 0
   if (amount > 0) {
     drawNumber(fb, amount, 2, ITEMUSE_ITEM_AMOUNT, 'cyan', 'right', uiSpriteFrames)

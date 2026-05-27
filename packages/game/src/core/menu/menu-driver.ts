@@ -337,19 +337,23 @@ function dispatchInventoryMenu(
   if (input.pressed.has('End')) inventoryEnd(s)
   // sdlpal gpGlobals->iCurInvMenuItem 全局记忆
   gs.iCurInvMenuItem = s.cursor
-  // sdlpal `uigame.c:1403/1468` PAL_ItemUseMenu 真值:`if (PAL_GetItemAmount(wItemToUse) <= 0)
-  //   return MENUITEM_VALUE_CANCELLED` — 物品用完 picker 自动返 CANCELLED,退到 OUTER 物品选择。
-  // ts 等价:phase='use-target' 时每帧检测 gs.inventory[selectedItemId].count <= 0 → 自动
-  // cancel 回 'list' 不渲染僵尸 picker。
+  // sdlpal `uigame.c:1401-1418 / 1468` PAL_ItemUseMenu 真值:
+  //   1. 每帧 `i = PAL_GetItemAmount(wItemToUse)` live 读 gpGlobals->rgInventory(不用 snapshot)
+  //   2. `if (i <= 0) return MENUITEM_VALUE_CANCELLED` — 物品用完 picker 自动返 CANCELLED
+  // ts 等价:每帧 refresh state.inventory snapshot from gs.inventory(filter 重过)— 这样
+  // list 显示的 count 跟 PAL_ItemUseMenu picker 一致,都是真值。然后 phase='use-target'
+  // 时检测 selectedItemId count <= 0 → 自动 cancel 回 'list'。
+  // **不 refresh 是 user 反馈"道具不减少"根因** — state.inventory snapshot 永远不变。
+  {
+    const catalogs = requireCatalogs()
+    const refreshed = createInventoryMenu(gs, catalogs.items, s.filter)
+    s.inventory = refreshed.inventory
+    if (s.cursor >= s.inventory.length) s.cursor = Math.max(0, s.inventory.length - 1)
+  }
   if (s.phase === 'use-target' && s.selectedItemId !== undefined) {
     const count = gs.inventory.find((e) => e.itemId === s.selectedItemId)?.count ?? 0
     if (count <= 0) {
-      cancelInventoryMenu(s)  // phase 'use-target' → 'list'
-      // 重建 state.inventory snapshot(items 已减少,filter 重过)
-      const catalogs = requireCatalogs()
-      const refreshed = createInventoryMenu(gs, catalogs.items, s.filter)
-      s.inventory = refreshed.inventory
-      if (s.cursor >= s.inventory.length) s.cursor = Math.max(0, s.inventory.length - 1)
+      cancelInventoryMenu(s)  // phase 'use-target' → 'list'(sdlpal uigame.c:1468 等价)
     }
   }
 
