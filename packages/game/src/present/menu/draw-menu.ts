@@ -138,7 +138,8 @@ function drawMenuEntry(
       drawInventoryActionMenu(fb, entry.state as InventoryActionMenuState, uiSpriteFrames, glyphs)
       break
     case 'inventory':
-      // T10b:fullscreen UI(sdlpal itemmenu.c:28-310 真值 1:1 port)
+      // T10b:fullscreen UI(sdlpal itemmenu.c:28-310 真值 1:1 port);
+      // session 3 修:phase='use-target' 时叠加 PAL_ItemUseMenu(uigame.c:1289-1473)— 需 gs + playerRoles。
       drawInventoryMenu({
         fb,
         state: entry.state as InventoryMenuState,
@@ -146,6 +147,8 @@ function drawMenuEntry(
         uiSpriteFrames,
         itemIcons: extra?.itemIcons,
         glyphs,
+        gs,
+        playerRoles: extra?.playerRoles,
       })
       break
     case 'player-status':
