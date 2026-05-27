@@ -12,7 +12,7 @@ import type { Command, InputSnapshot, Tilemap } from '@type-pal/shared'
 import type { SceneAssetsCache } from '../assets/loader.js'
 import type { CommandBus } from './command-bus.js'
 import { npcFromEventObject, PARTYOFFSET_X, PARTYOFFSET_Y, type Facing, type GameState, type NpcState } from './game-state.js'
-import { runEnterScript } from './event-system.js'
+import { getSharedCommands, getSharedLabelMap, runEnterScript } from './event-system.js'
 import { createInGameMenu } from './menu/in-game-menu.js'
 import { openMenu } from './menu/menu-mode.js'
 
@@ -113,14 +113,33 @@ const TRIGGER_MODE_CONTACT_MIN = 4
  */
 function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void {
   if (!npc.triggerLabel) return
-  const ip = ctx.labelMap[npc.triggerLabel]
+
+  // M5.6 W1.a:先查 per-scene labelMap;不命中时 fallback events/shared.json 的 _sharedLabelMap。
+  // sdlpal 真值:events.bin 是 unified 单文件,wTriggerScript 直接是文件内 offset 不分段;
+  // 我们 dump 时拆成 shared.json + scene-NNN.json 两份(便于按场景懒加载),
+  // 因此跨段 label 引用需 runtime 显式 fallback。
+  let ip = ctx.labelMap[npc.triggerLabel]
+  let commands = ctx.eventCommands
+  let labelMap = ctx.labelMap
   if (ip === undefined) {
-    console.warn(`scene-system: triggerLabel ${npc.triggerLabel} 不在 labelMap 中`)
+    const sharedLabelMap = getSharedLabelMap()
+    const sharedIp = sharedLabelMap[npc.triggerLabel]
+    if (sharedIp !== undefined) {
+      ip = sharedIp
+      commands = getSharedCommands()
+      labelMap = sharedLabelMap
+    }
+  }
+  if (ip === undefined) {
+    console.warn(
+      `scene-system: triggerLabel ${npc.triggerLabel} 不在 per-scene 也不在 shared labelMap(NPC id=${npc.id})`,
+    )
     return
   }
+
   gs.eventCursor = {
-    commands: ctx.eventCommands,
-    labelMap: ctx.labelMap,
+    commands,
+    labelMap,
     ip,
     // Sync.2 fix3:trigger 触发时设 currentEventObjectId(= NPC id),让 opcode 0x0013/0x0016/0x006C
     // 在 operand[0]==0 时作用于"自己"(sdlpal `wEventObjectID` / `pCurrent` 等价)。

@@ -9,6 +9,7 @@ import {
   OP_SET_PARTY_POS, OP_SET_PARTY_DIRECTION,
   OP_SET_CAMERA, OP_CENTER_CAMERA_ON_PARTY,
   OP_PLAY_MUSIC, OP_SET_SCENE_OBJECT_STATE,
+  setSharedEvents,
 } from './event-system.js'
 
 function makeFlatMap(w: number, h: number): Tilemap {
@@ -217,10 +218,43 @@ describe('SceneSystem NPC 触发', () => {
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    setSharedEvents([], {})
     tickSceneSystem(gs, snap([], ['Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.mode).toBe('explore')
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('L_999'))
     warnSpy.mockRestore()
+  })
+
+  it('M5.6 W1.a:triggerLabel 不在 per-scene 但在 shared labelMap → fallback shared + 切 event', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_38592' }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    // 模拟 shared.json 含 L_38592 → ip = 50
+    const sharedCmds = [{ op: 'end' as const }]
+    setSharedEvents(sharedCmds, { L_38592: 50 })
+    tickSceneSystem(gs, snap([], ['Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.mode).toBe('event')
+    expect(gs.eventCursor?.ip).toBe(50)
+    expect(gs.eventCursor?.commands).toBe(sharedCmds)
+    expect(gs.eventCursor?.labelMap).toEqual({ L_38592: 50 })
+  })
+
+  it('M5.6 W1.a:per-scene labelMap 优先 — 同名 label 命中 per-scene 不查 shared', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_X' }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    const sceneCmds = [{ op: 'end' as const }]
+    const sharedCmds = [{ op: 'end' as const }]
+    setSharedEvents(sharedCmds, { L_X: 999 })
+    tickSceneSystem(gs, snap([], ['Confirm']), bus, {
+      tilemap: map,
+      eventCommands: sceneCmds,
+      labelMap: { L_X: 10 },
+    })
+    expect(gs.eventCursor?.ip).toBe(10)
+    expect(gs.eventCursor?.commands).toBe(sceneCmds)
   })
 })
 

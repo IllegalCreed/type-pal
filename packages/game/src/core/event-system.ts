@@ -269,6 +269,15 @@ export function setSharedEvents(commands: Command[], labelMap: Record<string, nu
   _sharedLabelMap = labelMap
 }
 
+/** M5.6 W1.a:scene-system loadEventFromNpc fallback 用 — NPC triggerLabel 不在 per-scene 时查 shared。 */
+export function getSharedLabelMap(): Record<string, number> {
+  return _sharedLabelMap
+}
+
+export function getSharedCommands(): Command[] {
+  return _sharedCommands
+}
+
 // ── P0.e: opcode 7 startBattle handler 注入 ──────────────────────────────────
 //
 // event-system 不直接持有 enemies/enemyTeams/playerRoles 等战斗资源(避免污染 import 图)。
