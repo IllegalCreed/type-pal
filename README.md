@@ -34,7 +34,7 @@
 
 **M5 完成**(2026-05-27) —— 51 task:P0 物理 7 + Sync 3 + Battle 13 + Menu 11 + Save 5 + Interact 7 + P2 收口 4。Test 计 game 486 + pal-extract 199 + shared 44 = **729 用例全过**(+2 skip 已知 deviation)。`?tp_dump=1` URL flag 启动 ts game 即录每帧 jsonl 与 sdlpal classic build dump 1:1 字段对齐(camera 改 sdlpal viewport 语义 + partyoffset(160, 112))。
 
-**M5.5 进行中** —— sdlpal 全 46 个 .c 源逐文件 / 逐函数 audit。当前进度:Tier 1 6 文件(scene/play/script/battle/fight/global)逐函数审过;Tier 2 / Tier 3 之前的"概要式标 ts 等价"不算数,正在重做。报告见 [`docs/plans/2026-05-27-m5-5-sdlpal-audit.md`](docs/plans/2026-05-27-m5-5-sdlpal-audit.md)。
+**M5.5 完成**(2026-05-27) —— sdlpal 全 46 个 .c 源 **445 函数 100% 逐函数 audit**:✓ 91(20.4%)+ ⚠️ 118(26.5%)+ ✗ 134(30.1%)+ N/A 102(22.9%)。ts port 整体完成度约 47%。audit 过程发现 2 个 sdlpal 自身 bug(SelectAutoTarget 死循环 / StealFromEnemy 无 dead check)。10 项 follow-up 优先级见 [`docs/plans/2026-05-27-m5-5-sdlpal-audit.md`](docs/plans/2026-05-27-m5-5-sdlpal-audit.md) 末尾汇总。
 
 下一步:**M6 / M7**(体验补全 / 通关验证),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
 
