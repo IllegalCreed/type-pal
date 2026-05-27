@@ -17,9 +17,14 @@ export type SystemMenuChoice = 'save' | 'load' | 'music' | 'sound' | 'quit'
  * sdlpal `uigame.c:961-966` PAL_InGameMenu 真值菜单项 — 顺序:状态/法术/物品/系统。
  * 每行 PAL_XY(16, 50 + i*18)— 间距 18px,起点 (16, 50);box 在 PAL_XY(3, 37) rows=3 cols=auto。
  */
+// sdlpal WORD.DAT 真值(verify by `flat[id]` from extracted/lookup/words.json):
+//   GAMEMENU_LABEL_STATUS=3    → "状态"
+//   GAMEMENU_LABEL_MAGIC=4     → "仙术"(我之前 hardcode "法术" 错)
+//   GAMEMENU_LABEL_INVENTORY=5 → "物品"
+//   GAMEMENU_LABEL_SYSTEM=6    → "系统"
 const IN_GAME_LABELS: Array<{ id: number; choice: InGameMenuChoice; label: string }> = [
   { id: 0, choice: 'status', label: '状态' },
-  { id: 1, choice: 'magic', label: '法术' },
+  { id: 1, choice: 'magic', label: '仙术' },
   { id: 2, choice: 'inventory', label: '物品' },
   { id: 3, choice: 'system', label: '系统' },
 ]
@@ -28,12 +33,18 @@ const IN_GAME_LABELS: Array<{ id: number; choice: InGameMenuChoice; label: strin
  * sdlpal `uigame.c:543-552` PAL_SystemMenu PAL_CLASSIC 真值 — 5 项:存档/读档/音乐/音效/退出。
  * box pos (40, 60),items PAL_XY(53, 72 + i*18)。ATB build 还有第 6 项 battlemode,classic 省略。
  */
+// sdlpal WORD.DAT 真值(verify by `flat[id]` from extracted/lookup/words.json):
+//   SYSMENU_LABEL_SAVE=11   → "储存进度"(我之前 hardcode "存档" 错)
+//   SYSMENU_LABEL_LOAD=12   → "读取进度"(我之前 hardcode "读档" 错)
+//   SYSMENU_LABEL_MUSIC=13  → "音乐"
+//   SYSMENU_LABEL_SOUND=14  → "音效"
+//   SYSMENU_LABEL_QUIT=15   → "结束游戏"(我之前 hardcode "退出" 错)
 const SYSTEM_LABELS: Array<{ id: number; choice: SystemMenuChoice; label: string }> = [
-  { id: 0, choice: 'save', label: '存档' },
-  { id: 1, choice: 'load', label: '读档' },
+  { id: 0, choice: 'save', label: '储存进度' },
+  { id: 1, choice: 'load', label: '读取进度' },
   { id: 2, choice: 'music', label: '音乐' },
   { id: 3, choice: 'sound', label: '音效' },
-  { id: 4, choice: 'quit', label: '退出' },
+  { id: 4, choice: 'quit', label: '结束游戏' },
 ]
 
 export interface InGameMenuState {
