@@ -110,3 +110,108 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     expect(gs.mode).toBe('explore')
   })
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M5.6 T9:5 sub-menu dispatcher 单测
+// ─────────────────────────────────────────────────────────────────────────────
+
+import { createInventoryMenu } from './inventory-menu.js'
+import { createEquipMenu } from './equip-menu.js'
+import { createInGameMagicMenu } from './in-game-magic-menu.js'
+import { createPlayerStatus } from './player-status.js'
+import { createSaveSlotMenu } from './save-slot-menu.js'
+
+describe('M5.6 T9 dispatchInventoryMenu', () => {
+  it('Menu 键 → close 菜单', () => {
+    const gs = mkGs()
+    openMenu(gs, { kind: 'inventory', state: createInventoryMenu(gs, []) })
+    tickMenu(gs, snap(['Menu']), createCommandBus())
+    expect(gs.menuStack.length).toBe(0)
+  })
+
+  it('Up/Down → cursor 变 + iCurInvMenuItem 写回', () => {
+    const gs = mkGs()
+    // 给 inventory + items 让 list 有内容
+    gs.inventory = [{ itemId: 1, count: 5 }, { itemId: 2, count: 3 }, { itemId: 3, count: 1 }]
+    const items = [
+      { id: 1, name: 'A' }, { id: 2, name: 'B' }, { id: 3, name: 'C' },
+    ] as unknown as Item[]
+    setMenuCatalogs({ ...MOCK_CATALOGS, items })
+    const inv = createInventoryMenu(gs, items)
+    openMenu(gs, { kind: 'inventory', state: inv })
+    tickMenu(gs, snap(['Down']), createCommandBus())
+    expect(inv.list.cursor).toBeGreaterThan(0)
+    expect(gs.iCurInvMenuItem).toBe(inv.list.cursor)
+  })
+
+  it('PgDn → 翻页', () => {
+    const gs = mkGs()
+    gs.inventory = Array.from({ length: 20 }, (_, i) => ({ itemId: i + 1, count: 1 }))
+    const items = gs.inventory.map((e) => ({ id: e.itemId, name: `Item${e.itemId}` })) as unknown as Item[]
+    setMenuCatalogs({ ...MOCK_CATALOGS, items })
+    const inv = createInventoryMenu(gs, items)
+    openMenu(gs, { kind: 'inventory', state: inv })
+    const before = inv.list.cursor
+    tickMenu(gs, snap(['PgDn']), createCommandBus())
+    expect(inv.list.cursor).toBeGreaterThan(before)
+  })
+})
+
+describe('M5.6 T9 dispatchEquipMenu', () => {
+  it('Menu 键 → close', () => {
+    const gs = mkGs()
+    openMenu(gs, { kind: 'equip', state: createEquipMenu(gs, []) })
+    tickMenu(gs, snap(['Menu']), createCommandBus())
+    expect(gs.menuStack.length).toBe(0)
+  })
+})
+
+describe('M5.6 T9 dispatchInGameMagicMenu', () => {
+  it('Menu 键 → close', () => {
+    const gs = mkGs()
+    openMenu(gs, {
+      kind: 'in-game-magic',
+      state: createInGameMagicMenu(MOCK_CATALOGS.playerRoles, gs.partyMembers, []),
+    })
+    tickMenu(gs, snap(['Menu']), createCommandBus())
+    expect(gs.menuStack.length).toBe(0)
+  })
+})
+
+describe('M5.6 T9 dispatchPlayerStatusMenu', () => {
+  it('Left/Right → 切队员', () => {
+    const gs = mkGs()
+    gs.partyMembers = [10, 20, 30]
+    const ps = createPlayerStatus(gs.partyMembers)
+    openMenu(gs, { kind: 'player-status', state: ps })
+    tickMenu(gs, snap(['Right']), createCommandBus())
+    expect(ps.partyIndex).toBe(1)
+    tickMenu(gs, snap(['Left']), createCommandBus())
+    expect(ps.partyIndex).toBe(0)
+  })
+
+  it('Menu 键 → close', () => {
+    const gs = mkGs()
+    openMenu(gs, { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) })
+    tickMenu(gs, snap(['Menu']), createCommandBus())
+    expect(gs.menuStack.length).toBe(0)
+  })
+})
+
+describe('M5.6 T9 dispatchSaveSlotMenu', () => {
+  it('Up/Down → cursor 变', () => {
+    const gs = mkGs()
+    const ss = createSaveSlotMenu('save')
+    openMenu(gs, { kind: 'save-slot', state: ss })
+    tickMenu(gs, snap(['Down']), createCommandBus())
+    expect(ss.selection.cursor).toBe(1)
+  })
+
+  it('Confirm → close save-slot(pop 一层)', () => {
+    const gs = mkGs()
+    openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('save') })
+    expect(gs.menuStack.length).toBe(1)
+    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    expect(gs.menuStack.length).toBe(0) // 已 pop save-slot
+  })
+})
