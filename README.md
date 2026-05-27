@@ -32,7 +32,9 @@
 
 **M1 完成**(2026-05-23) —— `pal-extract` 端到端打通,`pnpm extract` 一次性产出 `data/extracted/`(全量 295 scenes / 235 items / 102 spells / 153 enemies + scene 1 视觉资源)。详见 03 plan。
 
-下一步:**M5/M6/M7**(系统补全 / 体验补全 / 通关验证),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
+**M5 完成**(2026-05-27) —— 51 task:P0 物理 7 + Sync 3 + Battle 13 + Menu 11 + Save 5 + Interact 7 + P2 收口 4。Test 计 game 486 + pal-extract 199 + shared 44 = **729 用例全过**(+2 skip 已知 deviation)。`?tp_dump=1` URL flag 启动 ts game 即录每帧 jsonl 与 sdlpal classic build dump 1:1 字段对齐(camera 改 sdlpal viewport 语义 + partyoffset(160, 112))。
+
+下一步:**M5.5 / M6 / M7**(sdlpal 全源审计 / 体验补全 / 通关验证),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
 
 ## 仓库结构
 

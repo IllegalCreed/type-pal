@@ -96,10 +96,23 @@
 
 设计 / 决策依据见 [`plans/2026-05-24-m4-pal-extract-complete-design.md`](plans/2026-05-24-m4-pal-extract-complete-design.md)。实施过程发现 / 偏离见 [`plans/2026-05-24-m4-pal-extract-complete.md`](plans/2026-05-24-m4-pal-extract-complete.md) 末尾「实施过程发现」。
 
-### M5 · 系统补全
-- 完整战斗:五行相克、法术、战斗道具、敌方 AI、逃跑、奖励结算。
-- 菜单系统全套:背包、法术、装备、状态、商店。
-- 存档 / 读档(IndexedDB)。
+### M5 · 系统补全(2026-05-27 完工)
+- **P0 探索物理**(7 task):pixel 坐标 / 菱形碰撞 / Y-sort 遮挡 / 4 帧走动 / 队友 trail / wScriptOnEnter 真跑 + verify
+- **Sync GameState/DialogBox**(3 task):全字段冻结(SAVEDGAME_WIN 倒推)+ DialogBox 真做(typing/portrait/key icon/多页)+ verify
+- **完整战斗**(13 task):五行公式 / 9 类 status / status apply tick / scripted enemy AI(runScript scriptOnReady + 5 battle opcode)/ exp 8 子项 / cash 真 schema / 5 个 action stub(summon/trance/throw-item/equip-battle/coop-magic)+ 收口
+- **菜单 11 task**:4 个底层 primitive(Selection/Confirm/Triple/Switch)+ ItemSelectMenu/MagicSelectionMenu + InventoryMenu/EquipMenu/InGameMagicMenu state machine + PlayerStatus 3 页 + InGameMenu/SystemMenu + Shop(buy/sell)+ OpeningMenu + 收口
+- **存档**(5 task):Save API(saveSlot/loadSlot/listSlots/deleteSlot)+ IndexedDB driver + slot meta(partyLevel/cash/sceneId)+ dev panel save/load/list/clear + 收口
+- **交互**(7 task):EventObject 16 字段全 dump / cell-trigger / chest opcode 4 个 + 机关 opcode 3 个 + walkOneStepDir 4 个 + 三路径串通 + 收口
+- **sdlpal dump 对齐工具链**:`tp_dump_state.c`(每帧 party/npcs/viewport JSON)+ `headless-battle-post-dump.patch`(战后 8 类 exp/9 status/cash)+ ts e2e 端 `?tp_dump=1` 1:1 字段对齐
+- **camera 真值改造**:引入 sdlpal partyoffset(160, 112)— gs.camera 改为 viewport 语义(屏幕左上 world 坐标),render 公式 `screen = world - camera`,跨 ~15 处文件改
+
+P2 收口:dev panel 集成 5 个 unit 入口(Battle / Scene Jump / Font Test / Dialog Style Test / Save Slots)。L2 baseline 25-30 张 + manual checklist 8 项留各功能渲染层接入后 follow-up。
+
+设计 / 决策依据见 [`plans/2026-05-25-m5-systems-complete-design.md`](plans/2026-05-25-m5-systems-complete-design.md);实施 task plan 见 [`plans/2026-05-25-m5-systems-complete.md`](plans/2026-05-25-m5-systems-complete.md)。
+
+### M5.5 · sdlpal 全源审计(user 要求)
+- 对 sdlpal 所有 C 源逐文件 / 逐函数核对细节,与 ts port 1:1 比对,记 deviation report。
+- 已知遗留 follow-up(渲染层接入相关):B-w3.b magic 特效动画(FIRE/RGM/RNG sprite sheet)/ M-w1.a~3.b 菜单渲染层 + 输入路由集成 / B-w2.b/B-w3.a 4+1 action handler 真做 / B-w1.c levelup loop(while dwExp >= rgLevelUpExp[level])。
 
 ### M6 · 体验补全
 - 音频接入:CD 音轨(`TRACK*.ogg`)直接用;BGM(`.mid`)运行时 SpessaSynth 合成;音效从 `SOUNDS.MKF` 解包后接入。
