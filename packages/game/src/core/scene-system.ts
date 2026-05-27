@@ -78,34 +78,45 @@ function npcAt(npcs: NpcState[], x: number, y: number): NpcState | undefined {
 }
 
 /**
- * sdlpal scene.c:624 真值 — 菱形 isometric Manhattan 距离 < 16 视为接触。
+ * sdlpal play.c:107-165(PAL_GameUpdate fTrigger 段)真值 — 自动 trigger zone 检测。
  *
- *   if (abs(p->x - PAL_X(pos)) + abs(p->y - PAL_Y(pos)) * 2 < 16) ...
+ *   if (p->sState > 0 && p->wTriggerMode >= kTriggerTouchNear) {
+ *      if (abs(viewport.x + partyoffset.x - p->x) +
+ *          abs(viewport.y + partyoffset.y - p->y) * 2 <
+ *          (p->wTriggerMode - kTriggerTouchNear) * 32 + 16)
+ *      { ... PAL_RunTriggerScript ... }
+ *   }
  *
- * contact monster(triggerMode >= 4)走到 NPC 附近 1 步即触发,**不需要严格相等**。
+ * sdlpal 真值 4 个常量(global.h:88-92):
+ *   kTriggerTouchNear=4(threshold 16)/ Normal=5(48)/ Far=6(80)/ Farther=7(112)/ Farthest=8(144)
  *
- * 之前 contact 检测用 `npcAt`(严格 ==),要求 party.x/y 等于 npc.x/y。但 party 步长
- * (±16, ±8) 的 parity 限制让从任意起点走到 NPC 精确像素 *经常* 无整数解 —
- * scene 15 草妖(NPC 207 at 1136,1304;partyStart 864,1432):dx=272 / dy=-128,
- * 解 2(a-d) = 33 无整数解 → 永远走不到精确位 → contact 永不触发。
+ * **不区分** contact monster vs trigger NPC — 同一机制:wTriggerScript 跑 script,
+ * script 内部用 opcode 决定动作(startBattle / loadScene / showDialog / openShop 等)。
  *
- * 改用菱形 Manhattan < 16 复刻 sdlpal 真值后,party 步进到 NPC ±1 步内即可触发。
+ * M3.5 旧版 findContactNpc 只对 mode 4 用 < 16(把所有 mode>=4 都按 16 处理),
+ * 导致出口 / 远距离 trigger NPC(mode 5-8)走过去也不触发 → 用户报"走到地图边缘不切场景"。
+ *
+ * M5.6 W1.b 修:按 sdlpal 真值距离公式,每 mode 不同 threshold。
  */
-function findContactNpc(
+function findTriggerZoneNpc(
   npcs: NpcState[],
   x: number,
   y: number,
 ): NpcState | undefined {
   for (const n of npcs) {
-    if (n.triggerMode === undefined || n.triggerMode < TRIGGER_MODE_CONTACT_MIN) continue
-    if (Math.abs(n.x - x) + Math.abs(n.y - y) * 2 < 16) return n
+    if (n.triggerMode === undefined || n.triggerMode < TRIGGER_MODE_AUTO_MIN) continue
+    // sdlpal global.h:77 EventObject.sState <=0 (Hidden / Vanishing) 不参与 trigger;
+    // NpcState.sState 可能 undefined(老 dump 数据);视 undefined 为 1(Normal)。
+    if ((n.sState ?? 1) <= 0) continue
+    // sdlpal play.c:113-115 真值距离公式
+    const threshold = (n.triggerMode - TRIGGER_MODE_AUTO_MIN) * 32 + 16
+    if (Math.abs(n.x - x) + Math.abs(n.y - y) * 2 < threshold) return n
   }
   return undefined
 }
 
-/** sdlpal global.h:84-92 wTriggerMode 真值;>= 4 是 contact 系列(TouchNear..Farthest)。
- *  M3.5 简版统一处理;M5 真做距离差异时再细分。 */
-const TRIGGER_MODE_CONTACT_MIN = 4
+/** sdlpal global.h:88-92 kTriggerTouchNear..Farthest = 4..8(自动触发区间)。 */
+const TRIGGER_MODE_AUTO_MIN = 4
 
 /**
  * 用 NPC 的 triggerLabel 装载 eventCursor + 切到 event 模式。
@@ -217,7 +228,7 @@ export function isWalkable(
   for (const npc of npcs) {
     if (npc.id === selfNpcId) continue
     if ((npc.sState ?? 1) < 2) continue
-    if (npc.triggerMode !== undefined && npc.triggerMode >= TRIGGER_MODE_CONTACT_MIN) continue
+    if (npc.triggerMode !== undefined && npc.triggerMode >= TRIGGER_MODE_AUTO_MIN) continue
     if (Math.abs(npc.x - posX) + Math.abs(npc.y - posY) * 2 < 16) return false
   }
 
@@ -289,8 +300,10 @@ export function tickSceneSystem(
   // 3) 明雷 contact 检测(对照 sdlpal scene.c:624 — 菱形 Manhattan < 16)
   //    party 跟 triggerMode >= 4 的 EventObject 菱形距离 < 16 → 自动 runScript,无需 Confirm。
   //    放在 Confirm 之前:走完路立即触发,避免下一帧才生效。
-  //    用 findContactNpc(菱形 Manhattan)取代旧 npcAt(严格 ==)— 修步长 parity 不能精准走到 NPC 的 bug。
-  const contactNpc = findContactNpc(gs.npcs, gs.party.x, gs.party.y)
+  //    M5.6 W1.b:findTriggerZoneNpc 按 sdlpal play.c:107-165 真值距离公式
+  //    (每 mode 不同 threshold:mode 4=16 / 5=48 / 6=80 / 7=112 / 8=144)。
+  //    sdlpal 不区分 monster vs trigger NPC — 都跑 wTriggerScript,script 内 opcode 决定动作。
+  const contactNpc = findTriggerZoneNpc(gs.npcs, gs.party.x, gs.party.y)
   if (contactNpc) {
     loadEventFromNpc(gs, ctx, contactNpc)
   }

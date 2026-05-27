@@ -449,11 +449,11 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
     expect(gs.mode).toBe('event')
   })
 
-  it('party 在 NPC 右上 1 步 (+16,-8) → 距离 = 16+16 = 32 ≥ 16,不触发', () => {
-    // dx=16 dy=-8 → |16| + |-8|*2 = 16 + 16 = 32(等于但 < 不成立)
+  it('M5.6 W1.b:triggerMode 4 — 距离 = 16 边界不触发(< 16 = false)', () => {
+    // dx=16 dy=-8 → |16| + |-8|*2 = 16 + 16 = 32(threshold mode 4 = 16,32 ≥ 16,不触发)
     const gs = createInitialGameState({ x: 1136 + 16, y: 1304 - 8, facing: 'down' })
     gs.npcs = [
-      { id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 },
+      { id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 4, sState: 1 },
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(128, 128)
@@ -462,7 +462,23 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
       eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
       labelMap: { L_42: 0 },
     })
-    expect(gs.mode).toBe('explore')  // 距离恰 = 16,不 < 16,不触发(边界)
+    expect(gs.mode).toBe('explore') // mode 4 threshold = 16,32 ≥ 16,不触发
+  })
+
+  it('M5.6 W1.b:triggerMode 5 — 距离 = 32 < 48,触发(原简版误判)', () => {
+    // sdlpal play.c:113-115:threshold = (5-4)*32+16 = 48
+    const gs = createInitialGameState({ x: 1136 + 16, y: 1304 - 8, facing: 'down' })
+    gs.npcs = [
+      { id: 7, x: 1136, y: 1304, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5, sState: 1 },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(128, 128)
+    tickSceneSystem(gs, snap(), bus, {
+      tilemap: map,
+      eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
+      labelMap: { L_42: 0 },
+    })
+    expect(gs.mode).toBe('event') // mode 5 threshold = 48,32 < 48,触发
   })
 
   it('party 在 NPC 旁 (+8, 0) → 距离 = 8 < 16,触发', () => {
