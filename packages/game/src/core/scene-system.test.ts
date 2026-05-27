@@ -429,6 +429,70 @@ describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
 // sdlpal scene.c:624 真值是菱形 isometric Manhattan:
 //   if (abs(p->x - npc->x) + abs(p->y - npc->y) * 2 < 16) ...
 // → party 步进到 NPC ±1 步内即触发。
+describe('M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)', () => {
+  it('sVanishTime > 0 → 递减 + 不触发 trigger', () => {
+    const gs = createInitialGameState({ x: 100, y: 100, facing: 'down' })
+    gs.npcs = [{
+      id: 1, x: 100, y: 100, spriteNum: 1,
+      triggerLabel: 'L_X', triggerMode: 5, sState: 1,
+      sVanishTime: 3,
+    }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(20, 20)
+    tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: { L_X: 0 } })
+    expect(gs.mode).toBe('explore') // 不触发
+    expect(gs.npcs[0]?.sVanishTime).toBe(2) // 递减
+  })
+
+  it('sVanishTime < 0 → 递增 + 不触发', () => {
+    const gs = createInitialGameState({ x: 100, y: 100, facing: 'down' })
+    gs.npcs = [{
+      id: 1, x: 100, y: 100, spriteNum: 1,
+      triggerLabel: 'L_X', triggerMode: 5, sState: 1,
+      sVanishTime: -3,
+    }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(20, 20)
+    tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: { L_X: 0 } })
+    expect(gs.mode).toBe('explore')
+    expect(gs.npcs[0]?.sVanishTime).toBe(-2)
+  })
+
+  it('sState < 0 + viewport 外 → 复活 + scriptedFrame 0', () => {
+    // gs.party (100,100) → camera = max(0, 100-160), max(0, 100-112) = (0,0);
+    // viewport (0,0)..(320,320)。NPC 在 (500, 500) 完全在外 → 复活。
+    const gs = createInitialGameState({ x: 100, y: 100, facing: 'down' })
+    gs.npcs = [{
+      id: 1, x: 500, y: 500, spriteNum: 1, triggerMode: 5,
+      sState: -1, scriptedFrame: 99,
+    }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(40, 40)
+    tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.npcs[0]?.sState).toBe(1) // abs(-1) = 1
+    expect(gs.npcs[0]?.scriptedFrame).toBe(0)
+  })
+
+  it('触发 trigger zone → NPC 转向面对 party', () => {
+    // party (100, 100),NPC 在 party 东边 (110, 100):xOffset=10>0, yOffset=0 → kDirNorth(up)
+    // sdlpal 真值:xOffset>0 + yOffset<=0 → kDirNorth(NPC 朝 party 反向?
+    // 实际逻辑:NPC face party 的方向 — party 在 NPC 左 / 上 → NPC 朝右 / 下
+    // 重读 play.c:132-139:NPC's xOffset = party.x - npc.x;NPC face this direction
+    const gs = createInitialGameState({ x: 110, y: 100, facing: 'down' })
+    gs.npcs = [{
+      id: 1, x: 100, y: 100, spriteNum: 1, sState: 1,
+      triggerLabel: 'L_X', triggerMode: 5,
+    }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(20, 20)
+    tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [{ op: 'end' as const }], labelMap: { L_X: 0 } })
+    // xOffset = 110-100 = 10 > 0, yOffset = 100-100 = 0 → kDirNorth → ts 'up'
+    expect(gs.npcs[0]?.facing).toBe('up')
+    expect(gs.npcs[0]?.scriptedFrame).toBe(0) // 站立帧
+    expect(gs.mode).toBe('event')
+  })
+})
+
 describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
   it('严格相等:party 与 NPC 同像素 → 触发(legacy 兼容)', () => {
     const gs = createInitialGameState({ x: 1136, y: 1304, facing: 'down' })

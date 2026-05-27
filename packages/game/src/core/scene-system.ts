@@ -119,6 +119,73 @@ function findTriggerZoneNpc(
 /** sdlpal global.h:88-92 kTriggerTouchNear..Farthest = 4..8(自动触发区间)。 */
 const TRIGGER_MODE_AUTO_MIN = 4
 
+// sdlpal palcommon.h:kDirSouth=0, kDirWest=1, kDirNorth=2, kDirEast=3
+const DIR_NUM_TO_FACING: Record<number, Facing> = { 0: 'down', 1: 'left', 2: 'up', 3: 'right' }
+
+const SCREEN_W = 320
+
+/**
+ * sdlpal play.c:81-166 PAL_GameUpdate fTrigger 段完整 port(M5.6 T7)。
+ * 遍历 EventObjects:vanish-time / 复活 / 转向 + 触发 trigger zone。
+ * 内联 trigger zone 距离 + Manhattan 公式(W1.b 的 findTriggerZoneNpc 等价但带 in-place 转向 + state 修)。
+ */
+function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
+  // sdlpal `viewport + partyoffset = party world pos`(viewport 是屏幕左上 world 坐标,
+  // partyoffset (160,112) 是 party 在屏幕上的固定位置,相加 = party world)。
+  // ts 端 gs.party.x/y 直接就是 party world,无需再算 — 但 viewport 仍单独用于 sState<0 复活检测。
+  const vx = gs.camera.x
+  const vy = gs.camera.y
+  const partyWorldX = gs.party.x
+  const partyWorldY = gs.party.y
+
+  for (const npc of gs.npcs) {
+    // a) sVanishTime != 0 — sdlpal play.c:87-94
+    if (npc.sVanishTime !== undefined && npc.sVanishTime !== 0) {
+      npc.sVanishTime += npc.sVanishTime < 0 ? 1 : -1
+      continue
+    }
+
+    // b) sState < 0 + viewport 外 → 复活 — sdlpal play.c:96-106
+    if ((npc.sState ?? 1) < 0) {
+      // sdlpal:p->x < viewport.x || p->x > viewport.x + 320 || p->y < viewport.y || p->y > viewport.y + 320
+      // (sdlpal 第二个 320 是 y 比较,可能是 typo 应该 200,但忠实复刻)
+      if (npc.x < vx || npc.x > vx + SCREEN_W || npc.y < vy || npc.y > vy + SCREEN_W) {
+        npc.sState = Math.abs(npc.sState ?? 0)
+        npc.scriptedFrame = 0
+      }
+      continue
+    }
+
+    // c) sState > 0 + triggerMode >= 4 + Manhattan < threshold — sdlpal play.c:107-165
+    const mode = npc.triggerMode ?? 0
+    if ((npc.sState ?? 1) <= 0 || mode < TRIGGER_MODE_AUTO_MIN) continue
+    const threshold = (mode - TRIGGER_MODE_AUTO_MIN) * 32 + 16
+    const dxAbs = Math.abs(partyWorldX - npc.x)
+    const dyAbs = Math.abs(partyWorldY - npc.y) * 2
+    if (dxAbs + dyAbs >= threshold) continue
+
+    // 触发:NPC 转向面对 party(sdlpal play.c:120-148 真值 — 仅 nSpriteFrames>0 时)
+    // ts 简化:所有 NPC 都尝试转向(spriteFrames 信息在 present 层,core 不持)
+    const xOffset = partyWorldX - npc.x
+    const yOffset = partyWorldY - npc.y
+    let dirNum: number
+    if (xOffset > 0) {
+      dirNum = yOffset > 0 ? 3 /* East */ : 2 /* North */
+    } else {
+      dirNum = yOffset > 0 ? 0 /* South */ : 1 /* West */
+    }
+    npc.facing = DIR_NUM_TO_FACING[dirNum]
+    npc.scriptedFrame = 0 // sdlpal play.c:127 wCurrentFrameNum = 0(站立帧)
+
+    // 跑 trigger script + 切 event mode(sdlpal play.c:153 PAL_RunTriggerScript)
+    loadEventFromNpc(gs, ctx, npc)
+    // sdlpal play.c:155-163:PAL_ClearKeyState + if (fEnteringScene) return
+    // ts:input snapshot 每 tick 新,无需 clear;loadEventFromNpc 切 mode='event' 后
+    // 同 tick 后续 systems 不会再用 input;直接 break 即可
+    return
+  }
+}
+
 /**
  * 用 NPC 的 triggerLabel 装载 eventCursor + 切到 event 模式。
  * Confirm-search 路径 / contact 明雷路径共享。
@@ -298,16 +365,15 @@ export function tickSceneSystem(
     y: Math.max(0, Math.min(maxY, gs.party.y - PARTYOFFSET_Y)),
   }
 
-  // 3) 明雷 contact 检测(对照 sdlpal scene.c:624 — 菱形 Manhattan < 16)
-  //    party 跟 triggerMode >= 4 的 EventObject 菱形距离 < 16 → 自动 runScript,无需 Confirm。
-  //    放在 Confirm 之前:走完路立即触发,避免下一帧才生效。
-  //    M5.6 W1.b:findTriggerZoneNpc 按 sdlpal play.c:107-165 真值距离公式
-  //    (每 mode 不同 threshold:mode 4=16 / 5=48 / 6=80 / 7=112 / 8=144)。
-  //    sdlpal 不区分 monster vs trigger NPC — 都跑 wTriggerScript,script 内 opcode 决定动作。
-  const contactNpc = findTriggerZoneNpc(gs.npcs, gs.party.x, gs.party.y)
-  if (contactNpc) {
-    loadEventFromNpc(gs, ctx, contactNpc)
-  }
+  // 3) sdlpal play.c:81-166 PAL_GameUpdate fTrigger 段完整 port(M5.6 T7 真值补齐):
+  //    遍历当前 scene 全 EventObjects:
+  //      a. sVanishTime != 0 → 递减;continue
+  //      b. sState < 0 + viewport 外 → 复活(sState = abs)+ scriptedFrame 0
+  //      c. sState > 0 + triggerMode >= 4 + Manhattan < threshold:
+  //         - NPC 转向面对 party + scriptedFrame 0
+  //         - 跑 trigger script(切 event mode)
+  //         - 触发后 break(sdlpal `PAL_ClearKeyState` + `if (fEnteringScene) return`)
+  updateEventObjectsAndTrigger(gs, ctx)
 
   // 4) Confirm 触发 Search(M5.6 W1.c:port sdlpal play.c:423-510 PAL_Search 完整 13-cell range)
   //    sdlpal 真值:对 party 朝向前 13 个 grid cell 检查 triggerMode 1-3(SearchNear/Normal/Far)

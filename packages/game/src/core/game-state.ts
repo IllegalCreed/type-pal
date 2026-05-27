@@ -84,6 +84,13 @@ export interface NpcState {
    */
   sState?: number
   /**
+   * sdlpal `EventObject.sVanishTime`(M5.6 T7 真值补)。
+   * 非 0 时 NPC 消失中:每 tick 递减(< 0 +1 / > 0 -1)直到 0,期间不参与 trigger。
+   * 用于"NPC 短时间消失"opcode(剧情:角色暂时离开 / 物品被拾起短时不显示)。
+   * undefined = 0(常态可见)。
+   */
+  sVanishTime?: number
+  /**
    * sdlpal `EventObject.sLayer` —— 渲染 z 层(sort + cover tile 算法都用)。
    * scene.c:302 `y += sLayer * 8 + 9`(sort key)、scene.c:316 `iLayer = sLayer * 8 + 2`。
    * 装饰类 sprite(地板 / 桌椅等)常用非 0 sLayer 决定与人物的 z 关系。
