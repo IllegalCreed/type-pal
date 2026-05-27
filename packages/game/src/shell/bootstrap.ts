@@ -5,7 +5,7 @@ import { loadDialogAssets } from '../assets/dialog-assets.js'
 import { loadGlyphs, renderText } from '../present/font.js'
 import { createCommandBus } from '../core/command-bus.js'
 import type { Command } from '@type-pal/shared'
-import { createInitialGameState, npcFromEventObject } from '../core/game-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject } from '../core/game-state.js'
 import {
   buildLabelMap, runEnterScript, setFetchPalette,
   setSceneLoader,
@@ -612,6 +612,12 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   /** 用 primary scene(SCENE_ID)资产真正"开始"游戏 — 装 events + 跑 onEnter。 */
   function startNewGameFromPrimary(): void {
+    // M5.6 session 3 修(user 反馈"用物品没反应"):
+    // 新游戏起手把 playerRoles.json 静态基线 hydrate 到 gs.PlayerRolesRuntime。
+    // 否则 rgwHP/MaxHP/AttackStrength 等都是 0,HP 加减 opcode clamp 失效。
+    // sdlpal global.c PAL_NewGame → PAL_LoadDefaultGame 真值等价。
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
+
     if (scene.onEnterLabel) {
       const ip = labelMap[scene.onEnterLabel]
       if (ip !== undefined) {

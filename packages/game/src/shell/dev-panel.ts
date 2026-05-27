@@ -417,8 +417,11 @@ function openPicker(deps: DevPanelDeps): void {
   addAllBtn.addEventListener('click', () => {
     closePicker()
     // 直接 mutate gs.inventory(同 event-system addItemToInventory 等价语义,但批量)
+    // 修(2026-05-27 session 3,user 反馈"添加全物品没看到观音符"):**不能** skip id===0,
+    // 观音符 items.json id=0 是真值物品(items.json id 0..234 对 sdlpal OBJECT 61..295)。
+    // 旧 `if (item.id === 0) continue` 错误把 items.json id 0 当 sdlpal 内部 wItem=0 "no item"
+    // 哨兵 — 两套 id 系统混淆,导致 观音符 永远添加不进 inventory。
     for (const item of deps.resources.items) {
-      if (item.id === 0) continue // id 0 = none
       const entry = deps.gs.inventory.find((e) => e.itemId === item.id)
       if (entry) {
         entry.count = Math.min(99, entry.count + 99)

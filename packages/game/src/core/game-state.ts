@@ -665,6 +665,58 @@ function createEmptyExp(): AllExperience {
   }
 }
 
+/**
+ * 新游戏起手:从 playerRoles.json 静态基线 hydrate 到 PlayerRolesRuntime 运行时可变副本。
+ *
+ * sdlpal `global.c PAL_NewGame` → `PAL_LoadDefaultGame` 真值:把 DATA.MKF chunk 3 解出的
+ * 整张 PLAYERROLES 表整体拷给 `gpGlobals->g.PlayerRoles`(runtime 副本)。我们 ts 拆静态字段
+ * 留在 [player-roles.json](../../../packages/game/public/extracted/data/player-roles.json),
+ * runtime mutable 字段在 `PlayerRolesRuntime` — 新游戏时需要复制基线值,否则 rgwHP/MaxHP/全 stat
+ * 都是 0,所有 HP/MP 加减 opcode(0x1B/1C/1D 等)clamp 后无效果(user 反馈"用观音符没反应"
+ * 的根因)。
+ */
+export function hydratePlayerRolesRuntime(
+  runtime: PlayerRolesRuntime,
+  playerRoles: import('@type-pal/shared').PlayerRoles,
+): void {
+  for (const role of playerRoles.roles) {
+    const i = role.id
+    runtime.rgwLevel[i] = role.level
+    runtime.rgwMaxHP[i] = role.maxHP
+    runtime.rgwMaxMP[i] = role.maxMP
+    runtime.rgwHP[i] = role.hp
+    runtime.rgwMP[i] = role.mp
+    runtime.rgwAttackStrength[i] = role.attackStrength
+    runtime.rgwMagicStrength[i] = role.magicStrength
+    runtime.rgwDefense[i] = role.defense
+    runtime.rgwDexterity[i] = role.dexterity
+    runtime.rgwFleeRate[i] = role.fleeRate
+    runtime.rgwPoisonResistance[i] = role.poisonResistance
+    runtime.rgwCoveredBy[i] = role.coveredBy ?? 0
+    // 装备 6 槽
+    const eq = role.equipment ?? []
+    for (let slot = 0; slot < 6; slot++) {
+      const row = runtime.rgwEquipment[slot]
+      if (row) row[i] = eq[slot] ?? 0
+    }
+    // 法术 32 槽
+    const mg = role.magic ?? []
+    for (let slot = 0; slot < 32; slot++) {
+      const row = runtime.rgwMagic[slot]
+      if (row) row[i] = mg[slot] ?? 0
+    }
+    // 元素抗性 5 维(sdlpal NUM_MAGIC_ELEMENTAL=5 顺序:0 风 / 1 雷 / 2 水 / 3 火 / 4 土)
+    const er = role.elemResistance
+    if (er) {
+      const elems: number[] = [er.wind, er.thunder, er.water, er.fire, er.earth]
+      for (let elem = 0; elem < 5; elem++) {
+        const row = runtime.rgwElementalResistance[elem]
+        if (row) row[i] = elems[elem] ?? 0
+      }
+    }
+  }
+}
+
 /** 创建全零 PlayerRolesRuntime(MAX_PLAYER_ROLES=6 角色)。 */
 function createInitialPlayerRolesRuntime(): PlayerRolesRuntime {
   const n = 6 // MAX_PLAYER_ROLES

@@ -65,8 +65,11 @@ export function createInventoryMenu(
   items: Item[],
   filter: ItemFilter = 'all',
 ): InventoryMenuState {
+  // 修(2026-05-27 session 3):**移除** `itemId > 0` filter — items.json id 0 是真值物品
+  // (观音符),不是 sdlpal "wItem=0 = no item" 哨兵。两套 id 系统混淆是 user 反馈"添加全
+  // 物品没看到观音符"的根因之一。inventory entries 由 addItemToInventory 维护,count=0 自动
+  // 清掉,itemId=0 只可能是真观音符。
   const inv: InventorySlot[] = gs.inventory
-    .filter((e) => e.itemId > 0)
     .filter((e) => {
       const item = items.find((i) => i.id === e.itemId)
       return item ? matchesFilter(item, filter) : false
