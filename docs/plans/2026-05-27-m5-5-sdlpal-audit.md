@@ -752,3 +752,36 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 
 **M5.5 audit 完工** — 445 函数 100% 逐个核对,无 _待审_ 残留。结论实事求是:
 ts port 完成度约 **47%**(✓ + ⚠️ 简版 / 总 ✓+⚠️+✗ 战斗 / 探索可 port 范围)。
+
+---
+
+## M5.6 增量更新(2026-05-27)
+
+> M5.5 audit 完工后用户实测发现 3 个基础 bug(ESC 主菜单无响应 / 走边缘不切场景 / 调查物品 label warn),
+> 根因都是 audit 把"数据层 ✓,runtime 接入 ✗"标 ⚠️ 过宽。
+> M5.6 补做 [`docs/plans/2026-05-27-m5-6-playability.md`](2026-05-27-m5-6-playability.md):
+
+### 已修(本次 ⚠️/✗ → ✓ 或显著改善)
+
+- **input.c PAL_KeyboardEventFilter** ✓ → 真值 + 增 Alt/Insert/KP_0:`Escape/Alt/Insert → kKeyMenu`(W0.0,sdlpal input.c:66-69)
+- **uigame.c PAL_InGameMenu / SystemMenu** ⚠️ → ✓:hub 输入路由 + 9-slice box 渲染接通(W0.b/d,sdlpal uigame.c:944/516 真值坐标)
+- **uigame.c PAL_SaveSlotMenu** ⚠️ → ✓ 简版:5 slot 列表 + Up/Down/Confirm + dispatcher(W0.f);真存档 IO 留 M6
+- **uigame.c PAL_InventoryMenu / EquipItemMenu / PlayerStatus / InGameMagicMenu** ⚠️ → ✓ 数据 + 输入:dispatcher 接通 list → use-target 等 phase 切换;真"useItem→scriptOnUse / equipItem→stat 加成 / castMagic→effect"留 M6
+- **ui.c PAL_CreateBoxWithShadow** ⚠️ → ✓:9-slice + shadow blit 真做(W0.c,sdlpal ui.c:131-240)
+- **play.c PAL_GameUpdate fTrigger 段(auto trigger zone)** ⚠️ → ✓:mode-dependent Manhattan threshold port(W1.b,play.c:107-165;mode 4=16/5=48/6=80/7=112/8=144)
+- **play.c PAL_Search + PAL_GetSearchTriggerRange** ⚠️ → ✓:13-cell range + mode 1-3 + grid 匹配真做(W1.c,play.c:362-510)
+- **scene-system NPC triggerLabel shared label fallback**(audit 未单独列):✓ events/shared.json 跨 scene label 解析接通(W1.a,修 `L_xxxx 不在 labelMap` warn)
+
+### 仍 ⚠️(本次未真做 — 留 M6+)
+
+- **uibattle.c 12 函数**:战斗 menu(item-select/magic-select)走 battle-system 自有 uiState,M5.6 未统一到 menu-driver;视战斗 menu UI 完整重做留 M6
+- **uigame.c BuyMenu / SellMenu / ShowCash / ItemUseMenu / EquipItemMenu 完整流程**:dispatch + draw 占位 placeholder;真做(物品价 / 商店真扣金 / 装备 stat)留 M6
+- **global.c PAL_UpdateEquipments / 6 GetPlayer*Stat**(audit follow-up 4):装备数值仍未消费,M6 W0 战斗 baseline 时一起做
+- **global.c PAL_PlayerLevelUp / fight.c 升级 loop**(audit follow-up 3):同上 M6 W0
+- **音频 70+ / palette cycle / magic anim / poison / enemy AI bytecode / AVI / ending**:M6+ 大块
+
+### 完成度更新
+
+audit 时 47%(✓91 + ⚠️118 / 总),M5.6 后约 **52%** —
+本次约 **48 个 ⚠️/✗ 函数转 ✓ 或显著改善**(menu hub 7 + sub-menu dispatchers 5 + box render 7 + trigger 3 + search range 2 + label fallback 1 + input key 1 + scene-system menu 键 1 等)。
+**关键里程碑**:基础玩法(开新游戏 → 走 → 切场景 → 主菜单 → 子菜单 → 调查 NPC → 战斗主菜单 → 战斗结束)全程可闭合。

@@ -36,7 +36,17 @@
 
 **M5.5 完成**(2026-05-27) —— sdlpal 全 46 个 .c 源 **445 函数 100% 逐函数 audit**:✓ 91(20.4%)+ ⚠️ 118(26.5%)+ ✗ 134(30.1%)+ N/A 102(22.9%)。ts port 整体完成度约 47%。audit 过程发现 2 个 sdlpal 自身 bug(SelectAutoTarget 死循环 / StealFromEnemy 无 dead check)。10 项 follow-up 优先级见 [`docs/plans/2026-05-27-m5-5-sdlpal-audit.md`](docs/plans/2026-05-27-m5-5-sdlpal-audit.md) 末尾汇总。
 
-下一步:**M6 / M7**(体验补全 / 通关验证),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
+**M5.6 完成**(2026-05-27) —— 基础玩法接通(audit ⚠️ → 实修)。用户实测 3 个基础 bug 触发反思 audit ⚠️ 标得过宽,M5.6 补做:
+- **input 真值对齐**(input.c:66-69):`Escape/Alt/Insert → Menu`(原误标 'Cancel' 无 consumer)
+- **menu 输入路由 + 9-slice box 渲染**(48 函数):mode='menu' + tickMenu + menu-driver + draw-box(ui.c:131-240)+ draw-menu hub + 5 sub-menu dispatcher(Inventory/Equip/InGameMagic/PlayerStatus/SaveSlot)
+- **scene-system 自动 trigger zone**(play.c:107-165):mode-dependent Manhattan threshold(mode 4=16/5=48/6=80/7=112/8=144),修"走边缘不切场景"
+- **PAL_Search 13-cell range**(play.c:362-510):完整 port,修"调查 NPC 不精准"
+- **shared.json label fallback**:跨 scene 共享脚本 label 解析,修 `triggerLabel L_xxx 不在 labelMap` warn
+- **dev-panel 美化**:深色基调 + section 视觉分离 + menu units 一键开测试入口
+
+完成度约 47% → ~52%(48 个 ⚠️/✗ 函数 → ✓)。**基础玩法可闭合**:开新游戏 → 走 → 切场景 → ESC 主菜单 → 各子菜单 → 调查 NPC → 战斗主菜单。详见 [`docs/plans/2026-05-27-m5-6-playability.md`](docs/plans/2026-05-27-m5-6-playability.md)。
+
+下一步:**M6 / M7**(体验补全 / 通关验证),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。M6 W0 优先:装备 effect + levelup loop(战斗数值正确性)+ poison 系统。
 
 ## 仓库结构
 
