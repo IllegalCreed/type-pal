@@ -183,7 +183,7 @@ describe('SceneSystem NPC 触发', () => {
   it('面前像素有 NPC + Confirm → mode=event + eventCursor 装载', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     // right(East): dx=+16, dy=+8 → NPC 在 (6*16, 6*8)
-    gs.npcs = [{ id: 7, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_59' }]
+    gs.npcs = [{ id: 7, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_59', triggerMode: 1, sState: 1 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [
@@ -214,7 +214,7 @@ describe('SceneSystem NPC 触发', () => {
   it('triggerLabel 存在但不在 labelMap → warn + 不切 mode', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     // right(East): dx=+16, dy=+8 → NPC 在 (6*16, 6*8)
-    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_999' }]
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_999', triggerMode: 1, sState: 1 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
@@ -227,7 +227,7 @@ describe('SceneSystem NPC 触发', () => {
 
   it('M5.6 W1.a:triggerLabel 不在 per-scene 但在 shared labelMap → fallback shared + 切 event', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
-    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_38592' }]
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_38592', triggerMode: 1, sState: 1 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     // 模拟 shared.json 含 L_38592 → ip = 50
@@ -242,7 +242,7 @@ describe('SceneSystem NPC 触发', () => {
 
   it('M5.6 W1.a:per-scene labelMap 优先 — 同名 label 命中 per-scene 不查 shared', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
-    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_X' }]
+    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_X', triggerMode: 1, sState: 1 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const sceneCmds = [{ op: 'end' as const }]

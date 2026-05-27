@@ -15,6 +15,7 @@ import { npcFromEventObject, PARTYOFFSET_X, PARTYOFFSET_Y, type Facing, type Gam
 import { getSharedCommands, getSharedLabelMap, runEnterScript } from './event-system.js'
 import { createInGameMenu } from './menu/in-game-menu.js'
 import { openMenu } from './menu/menu-mode.js'
+import { findSearchableNpc } from './scene-system-search.js'
 
 export interface SceneContext {
   tilemap: Tilemap
@@ -308,13 +309,11 @@ export function tickSceneSystem(
     loadEventFromNpc(gs, ctx, contactNpc)
   }
 
-  // 4) Confirm 触发 NPC(M2 既有逻辑:对面格 NPC,按 Confirm)
-  //    注:M3.5 简版不做 triggerMode in {1,2,3} 距离差异;有 triggerLabel 即响应 Confirm。
+  // 4) Confirm 触发 Search(M5.6 W1.c:port sdlpal play.c:423-510 PAL_Search 完整 13-cell range)
+  //    sdlpal 真值:对 party 朝向前 13 个 grid cell 检查 triggerMode 1-3(SearchNear/Normal/Far)
+  //    + (mode*6-4 < i) 距离过滤;命中跑 wTriggerScript。修 M3.5 简版"facing 前 1 步 + 严格 ==" 不准。
   if (gs.mode === 'explore' && input.pressed.has('Confirm')) {
-    const { dx, dy } = DIR_DELTA[gs.party.facing]
-    const targetX = gs.party.x + dx
-    const targetY = gs.party.y + dy
-    const npc = npcAt(gs.npcs, targetX, targetY)
+    const npc = findSearchableNpc(gs.npcs, gs.party.facing, gs.party.x, gs.party.y)
     if (npc?.triggerLabel) {
       loadEventFromNpc(gs, ctx, npc)
     }
