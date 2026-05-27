@@ -12,7 +12,7 @@
  */
 
 import type { InputSnapshot } from '@type-pal/shared'
-import type { Item, PlayerRoles, Spell } from '@type-pal/shared'
+import type { Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
 import type { ActiveMenuEntry, GameState } from '../game-state.js'
 import { closeTopMenu, openMenu } from './menu-mode.js'
@@ -28,16 +28,33 @@ import {
   type InGameMenuState,
   type SystemMenuState,
 } from './in-game-menu.js'
-import { createInventoryMenu } from './inventory-menu.js'
-import { createEquipMenu } from './equip-menu.js'
-import { createInGameMagicMenu } from './in-game-magic-menu.js'
-import { createPlayerStatus } from './player-status.js'
+import {
+  cancelInventoryMenu, confirmInventoryItem, confirmInventoryTarget,
+  createInventoryMenu, inventoryMoveDown, inventoryMoveUp, type InventoryMenuState,
+} from './inventory-menu.js'
+import {
+  cancelEquipMenu, confirmEquipItem, confirmEquipRole,
+  createEquipMenu, equipMoveDown, equipMoveUp, type EquipMenuState,
+} from './equip-menu.js'
+import {
+  cancelInGameMagic, confirmCaster, confirmSpell, confirmTarget,
+  createInGameMagicMenu, inGameMagicMoveDown, inGameMagicMoveUp, type InGameMagicMenuState,
+} from './in-game-magic-menu.js'
+import {
+  switchToNextPage, switchToNextPlayer, switchToPrevPage, switchToPrevPlayer,
+  createPlayerStatus, type PlayerStatusState,
+} from './player-status.js'
+import {
+  createSaveSlotMenu, saveSlotMenuCurrent, saveSlotMenuDown, saveSlotMenuUp,
+  type SaveSlotMenuState,
+} from './save-slot-menu.js'
 
 // ── Catalogs singleton(bootstrap 注入) ──────────────────────────────────────
 
 interface MenuCatalogs {
   items: Item[]
   spells: Spell[]
+  magics: Magic[]
   playerRoles: PlayerRoles
 }
 
@@ -71,19 +88,27 @@ export function dispatchMenuInput(gs: GameState, input: InputSnapshot, bus: Comm
     case 'system':
       dispatchSystemMenu(gs, top, input)
       break
-    case 'save-slot':
     case 'inventory':
+      dispatchInventoryMenu(gs, top, input, bus)
+      break
     case 'equip':
+      dispatchEquipMenu(gs, top, input, bus)
+      break
     case 'in-game-magic':
+      dispatchInGameMagicMenu(gs, top, input, bus)
+      break
     case 'player-status':
+      dispatchPlayerStatusMenu(gs, top, input)
+      break
+    case 'save-slot':
+      dispatchSaveSlotMenu(gs, top, input, bus)
+      break
     case 'shop-buy':
     case 'shop-sell':
-      // W0.e/f 内逐 kind 填实 dispatch handler;暂时 Menu 键关闭即可
+      // 商店 menu(M5 shop-menu.ts 数据层有)留 M6 — 暂只允许 Menu 关
       if (input.pressed.has('Menu')) closeTopMenu(gs)
       break
   }
-
-  void bus // M5.6 后续 task(useItem / saveSlot 等 command emit)填实时移除
 }
 
 // ── In-Game hub(ESC 弹出的主菜单:物品/法术/状态/系统) ────────────────────
@@ -135,9 +160,10 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
     if (!choice) return
     switch (choice) {
       case 'save':
+        openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('save') })
+        break
       case 'load':
-        // W0.f 内推 save-slot 子菜单;暂 stub log
-        console.debug(`SystemMenu: ${choice} → W0.f 推 save-slot menu`)
+        openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
         break
       case 'setting':
         // 设置菜单超出 M5.6 范围 → 留 M6+
@@ -147,6 +173,141 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
         // 浏览器无 quit;关掉所有菜单返回 explore
         gs.menuStack = []
         break
+    }
+  }
+}
+
+// ── Inventory(物品菜单)─────────────────────────────────────────────────
+
+function dispatchInventoryMenu(
+  gs: GameState,
+  top: ActiveMenuEntry,
+  input: InputSnapshot,
+  bus: CommandBus,
+): void {
+  const s = top.state as InventoryMenuState
+  if (input.pressed.has('Menu')) {
+    cancelInventoryMenu(s)
+    if (s.phase === 'done') closeTopMenu(gs)
+    return
+  }
+  if (input.pressed.has('Up')) inventoryMoveUp(s)
+  if (input.pressed.has('Down')) inventoryMoveDown(s)
+  if (input.pressed.has('Confirm')) {
+    const catalogs = requireCatalogs()
+    if (s.phase === 'list') {
+      confirmInventoryItem(s, catalogs.items, catalogs.playerRoles, gs.partyMembers)
+    }
+    else if (s.phase === 'use-target') {
+      const picked = confirmInventoryTarget(s)
+      if (picked) {
+        // M5.6:菜单接通即可,真"用物品 → 跑 scriptOnUse"留 M6;此处仅 log 选择结果
+        console.debug(`[menu] useItem stub:itemId=${picked.itemId} roleId=${picked.roleId}`)
+      }
+    }
+    if (s.phase === 'done') closeTopMenu(gs)
+  }
+}
+
+// ── Equip(装备菜单)─────────────────────────────────────────────────────
+
+function dispatchEquipMenu(
+  gs: GameState,
+  top: ActiveMenuEntry,
+  input: InputSnapshot,
+  bus: CommandBus,
+): void {
+  const s = top.state as EquipMenuState
+  if (input.pressed.has('Menu')) {
+    cancelEquipMenu(s)
+    if (s.phase === 'done') closeTopMenu(gs)
+    return
+  }
+  if (input.pressed.has('Up')) equipMoveUp(s)
+  if (input.pressed.has('Down')) equipMoveDown(s)
+  if (input.pressed.has('Confirm')) {
+    const catalogs = requireCatalogs()
+    if (s.phase === 'list') {
+      confirmEquipItem(s, catalogs.items, catalogs.playerRoles, gs.partyMembers)
+    }
+    else if (s.phase === 'pick-role') {
+      const picked = confirmEquipRole(s)
+      if (picked) {
+        console.debug(`[menu] equipItem stub:itemId=${picked.itemId} roleId=${picked.roleId}`)
+      }
+    }
+    if (s.phase === 'done') closeTopMenu(gs)
+  }
+}
+
+// ── In-Game Magic(大世界法术)─────────────────────────────────────────
+
+function dispatchInGameMagicMenu(
+  gs: GameState,
+  top: ActiveMenuEntry,
+  input: InputSnapshot,
+  bus: CommandBus,
+): void {
+  const s = top.state as InGameMagicMenuState
+  if (input.pressed.has('Menu')) {
+    cancelInGameMagic(s)
+    if (s.phase === 'done') closeTopMenu(gs)
+    return
+  }
+  if (input.pressed.has('Up')) inGameMagicMoveUp(s)
+  if (input.pressed.has('Down')) inGameMagicMoveDown(s)
+  if (input.pressed.has('Confirm')) {
+    const catalogs = requireCatalogs()
+    if (s.phase === 'pick-caster') confirmCaster(s, catalogs.playerRoles, catalogs.spells, catalogs.magics)
+    else if (s.phase === 'pick-spell') confirmSpell(s, catalogs.playerRoles, gs.partyMembers)
+    else if (s.phase === 'pick-target') {
+      const result = confirmTarget(s)
+      if (result) {
+        console.debug(
+          `[menu] castMagic stub:caster=${result.casterId} spell=${result.spellId} target=${result.targetId}`,
+        )
+      }
+    }
+    if (s.phase === 'done') closeTopMenu(gs)
+  }
+}
+
+// ── Player Status(角色状态)─────────────────────────────────────────────
+
+function dispatchPlayerStatusMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
+  const s = top.state as PlayerStatusState
+  if (input.pressed.has('Menu')) {
+    closeTopMenu(gs)
+    return
+  }
+  // sdlpal uigame.c:1234 左/右切队员,上/下翻页(attribute / equipment / magic)
+  if (input.pressed.has('Left')) switchToPrevPlayer(s)
+  if (input.pressed.has('Right')) switchToNextPlayer(s)
+  if (input.pressed.has('Up')) switchToPrevPage(s)
+  if (input.pressed.has('Down')) switchToNextPage(s)
+}
+
+// ── Save Slot(存档/读档槽位)─────────────────────────────────────────────
+
+function dispatchSaveSlotMenu(
+  gs: GameState,
+  top: ActiveMenuEntry,
+  input: InputSnapshot,
+  bus: CommandBus,
+): void {
+  const s = top.state as SaveSlotMenuState
+  if (input.pressed.has('Menu')) {
+    closeTopMenu(gs)
+    return
+  }
+  if (input.pressed.has('Up')) saveSlotMenuUp(s)
+  if (input.pressed.has('Down')) saveSlotMenuDown(s)
+  if (input.pressed.has('Confirm')) {
+    const slot = saveSlotMenuCurrent(s)
+    if (slot !== undefined) {
+      // M5.6:存档/读档 真实现接 core/save/api.ts Save.saveSlot/loadSlot 留 M6 — 此处仅 log
+      console.debug(`[menu] ${s.mode}Slot stub:slot=${slot}`)
+      closeTopMenu(gs) // pop save-slot,回到 SystemMenu
     }
   }
 }

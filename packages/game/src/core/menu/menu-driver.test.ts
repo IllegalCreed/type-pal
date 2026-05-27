@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import type { AbstractKey, InputSnapshot, Item, PlayerRoles, Spell } from '@type-pal/shared'
+import type { AbstractKey, InputSnapshot, Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import { createCommandBus } from '../command-bus.js'
 import { createInitialGameState, type GameState } from '../game-state.js'
 import { tickMenu, openMenu } from './menu-mode.js'
@@ -19,6 +19,7 @@ function mkGs(): GameState {
 const MOCK_CATALOGS = {
   items: [] as Item[],
   spells: [] as Spell[],
+  magics: [] as Magic[],
   playerRoles: { roles: [] } as unknown as PlayerRoles,
 }
 

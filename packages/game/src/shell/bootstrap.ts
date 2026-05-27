@@ -77,7 +77,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   // M5.6 W0.b:注入大世界 menu catalogs(items / spells / playerRoles),
   // menu-driver 内 dispatchInGameMenu 在 Confirm 时调 createInventoryMenu / createInGameMagicMenu 等需要。
-  setMenuCatalogs({ items, spells, playerRoles })
+  setMenuCatalogs({ items, spells, magics, playerRoles })
 
   // 队长精灵号 —— 从 player-roles.json (DATA.MKF chunk 3 真解) 取真值。
   // M3 T9 之前 M2 硬编码 = 2,现在改读 PlayerRoles.roles[0].spriteNum(实测 = 2);
