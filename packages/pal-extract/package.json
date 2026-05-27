@@ -8,6 +8,7 @@
     "test": "vitest run --passWithNoTests",
     "check": "pnpm typecheck && pnpm test",
     "extract": "tsx src/cli.ts",
+    "extract:videos": "tsx scripts/extract-videos.ts",
     "render-tilemap": "tsx scripts/render-tilemap.ts"
   },
   "dependencies": {

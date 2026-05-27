@@ -66,10 +66,7 @@
 | WORD.DAT | [551..564] 毒素/特殊 14 条 | parseWordDat | `lookup/words.json.scenes` |
 | **SAVE.MKF** | — | **不存在**(WIN95+ 用 .RPG 存档)| — | — |
 | **unifont-cn.bdf**(非 MKF)| — | Unifont CN BDF(M4.P4 ship)| parseBdf + glyphsToJson | `data/font/glyphs.json` |
-| **1.avi**(trademark)| — | sdlpal `PAL_TrademarkScreen` 调 | ⚠ **未转 mp4**(memory [avi-offline-ffmpeg-to-mp4])| — |
-| **2.avi**(splash 跳过)| — | sdlpal `PAL_SplashScreen` 替代 | ⚠ **未转 mp4** | — |
-| **3.avi**(开场动画)| — | sdlpal `PAL_OpeningMenu` 新游戏后调 | ⚠ **未转 mp4** | — |
-| **6.avi**(结局?)| — | sdlpal 某结局 / 过场 | ⚠ **未转 mp4** | — |
+| **1-6.avi**(6 个全)| — | trademark / splash / opening AVI / cutscene / 结局 | ✓ T18 Step 1:`pnpm extract:videos` 离线 ffmpeg H.264 CRF 18 + AAC 96k → mp4 | `data/extracted/videos/{1-6}.mp4` |
 
 ---
 
@@ -100,9 +97,9 @@
 - **触发 task**:T10d PlayerStatus
 - **工作量**:同 BALL,加 `parsers/rgm.ts` 真实现 → `images/portraits/{NN}.png` × 92
 
-### 3. AVI → mp4(ffmpeg 离线)
-- **触发 task**:T18 Trademark + Splash + AVI
-- **工作量**:`packages/pal-extract/scripts/avi-to-mp4.sh`(或 ts)调 ffmpeg,把 `data/raw/{1,2,3,6}.avi` → `data/extracted/videos/{1,2,3,6}.mp4`,落 `packages/game/public/extracted/videos/`
+### 3. 1-6.avi → mp4(ffmpeg 离线)— ✓ T18 Step 1 已修(2026-05-27)
+- **触发 task**:T18 Trademark + Splash / T19 OpeningMenu AVI / 后续 cutscene
+- **状态**:`pnpm -F @type-pal/pal-extract extract:videos` 走 [`scripts/extract-videos.ts`](../../packages/pal-extract/scripts/extract-videos.ts) — ffmpeg H.264 CRF 18 preset slow + AAC 96k,6 个 AVI 全转,输出 `data/extracted/videos/{1-6}.mp4`(总 ~21MB)。增量 build(mtime 比对 skip)。
 - **memory 锚**:[avi-offline-ffmpeg-to-mp4](../../memory/avi-offline-ffmpeg-to-mp4.md)
 
 ### 4. DATA.MKF chunk 0 STORE 表抽取
