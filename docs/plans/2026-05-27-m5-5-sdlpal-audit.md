@@ -253,13 +253,99 @@ follow-up。文件按 game logic 相关性优先级排序。
 
 ---
 
-## 待 audit Tier 2(~12 个 .c)
+## Tier 2(数据 / 资源加载 / UI,M4 已大部分 port 或 ts 端替代)
 
-接下来:res.c(asset load)/ map.c / text.c / font.c / input.c / itemmenu.c / magicmenu.c / uigame.c / uibattle.c。
+### res.c(资源加载入口)
 
-## 待 audit Tier 3(~28 个 .c)
+sdlpal `PAL_LoadResources` / `PAL_FreeResources` — load palette / tilemap / sprites / events
+依 scene 切换。**ts port**:`packages/game/src/assets/loader.ts:loadAll`(M4 P4 重做,
+含 enemyObjects / events / sprites / battle assets / glyphs / dialog assets 并行 fetch)。
+✓ 已对齐 lazy load(D33);**未 port**:tile mask 9 类 sprite 解码(M4 P3 已做)的 runtime
+free / reload(浏览器 GC 自动,无需手动 free)。
 
-渲染底层 / 音频 / 配置 — 跟 game 逻辑解耦,M6+ follow-up:
-video.c / video_glsl.c / glslp.c / overlay.c / mini_glloader.c / aviplay.c / palette.c /
-audio.c / mp3play.c / oggplay.c / opusplay.c / midi*.c / resampler.c / rngplay.c / sound.c /
-palcfg.c / palcommon.c / paldebug.c / ending.c / game.c / main.c / util.c
+### map.c(tile / cell 解码)
+
+`PAL_MapGetTileBitmap` / `PAL_MapGetTileHeight` / `PAL_GetCurrentMap`(获取当前 map 5×5)。
+**ts port**:`packages/pal-extract/src/resources/map.ts`(extract 时把 MAP.MKF 解成
+tilemap-N.json:cells[][].{lower,upper} u32)+ `packages/game/src/present/draw-tilemap.ts`
+(运行时 tile bitmap fetch + render)。✓ 完整对齐 cell DWORD 双 layer + iTileHeight 4-bit
++ obstacle bit 13(已 D38 sState>=2 检查);**未 port**:PAL_MapGetMaskSprite(地图遮罩
+sprite,M5 P0.b cover-tile 已实现等价)。
+
+### text.c(文本 / 字体渲染 / dialog)
+
+`PAL_DrawText` / `PAL_ShowDialogText` / `PAL_StartDialog` / `PAL_ClearDialog` 全 1700+ 行。
+**ts port**:`packages/game/src/present/dialog-box.ts`(Sync.2 完整 typing 状态机)+
+`render-text.ts`(M4 P4 glyph blit)+ `event-system.ts`(showDialog / setDialogStyle*
+opcode handler)。✓ 4 style(top/center/bottom/narration)+ portrait + key icon + 多页
++ 控制码 `$XX` strip(6814167)+ shadow + title;**差异**:sdlpal `PAL_DrawText` 含
+shadow + 字符 0x40(空格)+ 控制码,我们 render-text 已对齐;`PAL_ShowDialogText` 多页
+按 4 行翻页(我们 dialog phase 'waiting-page-key')✓。
+
+### font.c(BDF / Unifont 字体)
+
+sdlpal 用内嵌字模(每像素 PALFONT 数组)。**ts port**:M4 P4 用 GNU Unifont BDF
+→ glyphs.json(7.8MB,57083 glyphs)+ `render-text.ts` 17 处调用点。✓ 完整替代;不
+1:1 字模匹配(D40 类设计 — Unifont 与原版字模视觉接近但不完全相同,无版权).
+
+### input.c
+
+`PAL_ProcessEvent` / `PAL_UpdateKeyboardState` / `g_InputState`。**ts port**:
+`packages/game/src/shell/input.ts` + `keyboard.ts`(按 sdlpal `input.c:180-189` 真值
+"last-press priority" 移植,M5 P0 阶段验证)。✓ 多键 dwKeyOrder + 方向键 last-press
++ Confirm/Menu/Search 键映射;**未 port**:joystick / touch / mobile gesture(M6 触屏
+follow-up)。
+
+### itemmenu.c / magicmenu.c / uigame.c / uibattle.c(UI 菜单)
+
+sdlpal 用 SDL_BlitSurface 画 320×200 menu UI(`PAL_BuyMenu` / `PAL_SellMenu` /
+`PAL_InventoryMenu` / `PAL_EquipItemMenu` / `PAL_OpeningMenu` / `PAL_PlayerStatus` / etc)。
+**ts port**:M-w0/w1/w2/w3 11 task 把状态机数据层 1:1 port 到 TS — `packages/game/src/core/menu/`
+8 个 module(primitives / item-select / magic-select / inventory-menu / equip-menu /
+in-game-magic-menu / player-status / in-game-menu / shop-menu),sdlpal 各 UI 函数对应。
+**渲染层(draw-menu.ts)留 follow-up**(M6 接入 dev panel 输入路由 + L2 baseline 跑通)。
+
+## Tier 3(渲染底层 / 音频 / 平台,ts 端不复制 C 实现 — 用 web 等价)
+
+> 这一层 sdlpal 是 SDL2/3 + custom GL pipeline / midi synth / audio driver。ts port
+> **用浏览器原生 API 替代** — 不 1:1 port C 代码,而是同语义不同实现。M5.5 audit 只
+> 标"对齐策略",具体实现 M6 体验补全做。
+
+| sdlpal | sdlpal 用途 | ts 端策略 | 优先级 |
+|---|---|---|---|
+| video.c / video_glsl.c / mini_glloader.c | SDL framebuffer + GL shader pipeline | `<canvas>` 2d ctx + framebuffer.ts:Uint8Array | ✓ M2 |
+| glslp.c | GLSL shader 加载 | N/A(浏览器无 shader scaling 需求) | N/A |
+| palette.c | 256 色 palette LUT + 动画(水/火 cycle) | palette.json + flushToCanvas 写 RGBA | ✓ M2 / 动画 follow-up |
+| overlay.c | 像素 overlay(战斗 magic 投影到 320x200) | render layer composition(present.ts entries 数组) | ✓ |
+| aviplay.c | Bink AVI 播放(开场动画 / ending) | mp4/webm 文件 + `<video>` 标签 | M6 体验 |
+| audio.c / sound.c / mp3play.c / oggplay.c / opusplay.c / midi*.c / resampler.c / rngplay.c | SDL_audio + 自封 mixer + midi synth + RNG audio chunks | Web Audio API + 内置 mp3/ogg 解码 / SpessaSynth midi(M6) | M6 体验 |
+| palcfg.c | sdlpal.cfg 解析 | localStorage / URL params(简版)| 已隐式 |
+| palcommon.c / paldebug.c / util.c | helper / debug | inline / lodash / vitest | ✓ |
+| ending.c | ending 流程(剧情结局)| M7 通关验证 | M7 |
+| game.c | PAL_GameMain 主循环 | main-loop.ts:startRafLoop | ✓ M2 |
+| main.c | SDL_main + CLI parse | bootstrap.ts:bootstrap(canvas) | ✓ |
+
+## 总结
+
+**已 port / 已对齐**:Tier 1 全 6 文件(scene/play/script/battle/fight/global)+ Tier 2
+6 文件(res/map/text/font/input/4 menu UI 状态机)= 12 个核心 .c。
+
+**ts native 替代(by design)**:Tier 3 全 28 个 .c — 浏览器原生 API(canvas /
+Web Audio / localStorage / Unifont)替代 SDL / GL / midi / audio。
+
+**已知 deviation(已记 D36-D40 决策 / 各 task follow-up 注释)**:
+- camera viewport 语义(D36 已对齐)
+- save 字节级不兼容(D37 by design)
+- enemy AI bytecode 驱动(D38)
+- classic 无蓄气槽(D39)
+- OBJECT_ENEMY 独立 json(D40)
+- ts levelup loop 未做(B-w1.c follow-up)
+- 6 个 magic anim 未做(B-w3.b follow-up)
+- 5 个 action handler stub(summon/trance/throw-item/equip-battle/coop-magic)
+- 4 个菜单渲染层 follow-up(M6 接入 dev panel 输入路由)
+
+**M5.5 audit 完工标记** — sdlpal 全 46 个 .c 源逐文件审计完毕,deviation 全部归位
+到 follow-up task / 决策记录。
+
+下一段:**M6 体验补全**(音频 / AVI / 转场 / palette cycle / ending),或者
+**渲染层 follow-up**(magic anim / menu 渲染层 + 输入路由)。

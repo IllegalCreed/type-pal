@@ -34,7 +34,9 @@
 
 **M5 完成**(2026-05-27) —— 51 task:P0 物理 7 + Sync 3 + Battle 13 + Menu 11 + Save 5 + Interact 7 + P2 收口 4。Test 计 game 486 + pal-extract 199 + shared 44 = **729 用例全过**(+2 skip 已知 deviation)。`?tp_dump=1` URL flag 启动 ts game 即录每帧 jsonl 与 sdlpal classic build dump 1:1 字段对齐(camera 改 sdlpal viewport 语义 + partyoffset(160, 112))。
 
-下一步:**M5.5 / M6 / M7**(sdlpal 全源审计 / 体验补全 / 通关验证),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
+**M5.5 完成**(2026-05-27) —— sdlpal 全 46 个 .c 源逐文件 audit:Tier 1 6 文件 + Tier 2 6 文件全 port / 对齐;Tier 3 28 文件 ts native 替代(by design)。deviation 全部归位到 follow-up task / 决策(D36-D40)。报告见 [`docs/plans/2026-05-27-m5-5-sdlpal-audit.md`](docs/plans/2026-05-27-m5-5-sdlpal-audit.md)。
+
+下一步:**M6 / M7**(体验补全 / 通关验证),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。
 
 ## 仓库结构
 
