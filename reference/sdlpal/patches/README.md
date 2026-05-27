@@ -7,6 +7,7 @@ patch 路径均相对 sdlpal 根目录(以 `a/<file>` / `b/<file>` 起头),应�
 ## patches 列表
 
 - `pal-classic-on.patch` —— 强制打开 `common.h` 里的 `#define PAL_CLASSIC 1`(去掉 `#ifndef ENABLE_REVISIED_BATTLE` 包裹),build 出 1995/1998 原版 battle 行为(D30,纯回合制非 ATB)。`scripts/build-sdlpal-classic.sh` 应用此 patch。
+- `skip-intro.patch` —— `main.c` 加 `PAL_SKIP_INTRO=1` 环境变量 gate;设置时跳过 `PAL_TrademarkScreen + PAL_SplashScreen`,直接 `PAL_GameMain`。M5.6 加,方便 manual 对照 ts port vs sdlpal real baseline 时不每次过 intro 等键。用法:`PAL_SKIP_INTRO=1 ./sdlpal`。
 - `headless-map-dump.patch` —— 给 sdlpal 加 `--dump-map N --out FILE` CLI,跳 SDL 窗口 dump 全图 PNG(D29 视觉基准)。M3 Task 2 加。
 - `headless-battle-harness.patch` —— 给 sdlpal classic build 加 `--battle-harness FIXTURE --out-battle RESULT` CLI,从 KV-text fixture 跑确定性战斗 dump 每回合 JSON(D29 数值基准)。M3 Task 10 加。改动 5 个文件:
   - `util.h` / `util.c`:加 `PAL_HarnessSetRandomSeed(seed)` 控制 `glSeed`(原 static),让 RNG 跨进程可复现

@@ -1,0 +1,21 @@
+--- a/main.c
++++ b/main.c
+@@ -541,9 +541,16 @@
+ #if !defined(UNIT_TEST)
+    //
+    // Show the trademark screen and splash screen
++   // (type-pal skip-intro.patch: PAL_SKIP_INTRO=1 跳过 trademark + splash)
+    //
+-   PAL_TrademarkScreen();
+-   PAL_SplashScreen();
++   {
++      const char *skip = getenv("PAL_SKIP_INTRO");
++      if (!skip || skip[0] == '\0' || skip[0] == '0')
++      {
++         PAL_TrademarkScreen();
++         PAL_SplashScreen();
++      }
++   }
+ 
+    //
+    // Run the main game routine

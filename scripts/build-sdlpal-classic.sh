@@ -28,6 +28,7 @@ PATCHES=(
   "$SDLPAL_SRC/patches/headless-battle-dump.patch"
   "$SDLPAL_SRC/patches/dump-frames.patch"
   "$SDLPAL_SRC/patches/headless-battle-post-dump.patch"
+  "$SDLPAL_SRC/patches/skip-intro.patch"   # M5.6:PAL_SKIP_INTRO=1 跳过 trademark/splash
   "$REPO_ROOT/scripts/sdlpal-extern-c.patch"
 )
 
