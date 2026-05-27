@@ -49,6 +49,10 @@ import {
   createSaveSlotMenu, saveSlotMenuCurrent, saveSlotMenuDown, saveSlotMenuUp,
   type SaveSlotMenuState,
 } from './save-slot-menu.js'
+import {
+  openingMenuChoice, openingMenuDown, openingMenuUp,
+  type OpeningMenuState,
+} from './opening-menu.js'
 
 // ── Catalogs singleton(bootstrap 注入) ──────────────────────────────────────
 
@@ -76,6 +80,26 @@ function requireCatalogs(): MenuCatalogs {
   return _catalogs
 }
 
+// ── Start game handler(M5.6 T17:OpeningMenu choice 完成回调) ──────────────────
+// sdlpal `PAL_OpeningMenu` 返回 0(new-game)/ 1-5(load-game slot);ts 端 dispatcher
+// 不直接装载 scene/存档(避免 import 循环 + 跨层耦合),改 bootstrap 在 setup 阶段
+// setStartGameHandler 注入,Confirm 时 dispatcher 调它。
+export type StartGameChoice =
+  | { kind: 'new-game' }
+  | { kind: 'load-game'; slot: number }
+export type StartGameHandler = (choice: StartGameChoice) => void | Promise<void>
+
+let _startGameHandler: StartGameHandler | undefined
+
+export function setStartGameHandler(handler: StartGameHandler): void {
+  _startGameHandler = handler
+}
+
+/** 测试用:重置 handler。 */
+export function _resetStartGameHandlerForTest(): void {
+  _startGameHandler = undefined
+}
+
 // ── dispatchMenuInput ─────────────────────────────────────────────────────────
 
 export function dispatchMenuInput(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
@@ -83,6 +107,9 @@ export function dispatchMenuInput(gs: GameState, input: InputSnapshot, bus: Comm
   if (!top) return
 
   switch (top.kind) {
+    case 'opening':
+      dispatchOpeningMenu(gs, top, input)
+      break
     case 'in-game':
       dispatchInGameMenu(gs, top, input)
       break
@@ -109,6 +136,40 @@ export function dispatchMenuInput(gs: GameState, input: InputSnapshot, bus: Comm
       // 商店 menu(M5 shop-menu.ts 数据层有)留 M6 — 暂只允许 Menu 关
       if (input.pressed.has('Menu')) closeTopMenu(gs)
       break
+  }
+}
+
+// ── Opening Menu(M5.6 T17:启动菜单 新游戏 / 读档)────────────────────────
+//
+// sdlpal `uigame.c:122-152` 真值循环:Confirm 选 NEWGAME(value=0)或 Cancel 都
+// 等同 wItemSelected = 0(新游戏)break;Confirm 选 LOADGAME(value=1)→ 弹
+// PAL_SaveSlotMenu(1),slot 选完 break,Cancel 回 OpeningMenu。
+//
+// ts 端:dispatcher 不装 scene / load 存档(那是 bootstrap 的事),只调
+// _startGameHandler 通知 bootstrap;OpeningMenu 自身 close 也由 handler 处理
+// (handler 内 `gs.menuStack = []`)。
+function dispatchOpeningMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
+  const s = top.state as OpeningMenuState
+  // sdlpal uigame.c:129-136:Cancel = 选新游戏(wItemSelected=0 break)
+  if (input.pressed.has('Menu')) {
+    _startGameHandler?.({ kind: 'new-game' })
+    return
+  }
+  if (input.pressed.has('Up')) openingMenuUp(s)
+  if (input.pressed.has('Down')) openingMenuDown(s)
+  if (input.pressed.has('Confirm')) {
+    const choice = openingMenuChoice(s)
+    if (choice === 'new-game') {
+      _startGameHandler?.({ kind: 'new-game' })
+      return
+    }
+    if (choice === 'load-game') {
+      // sdlpal uigame.c:143 真值:VIDEO_BackupScreen → PAL_SaveSlotMenu(1) → Restore。
+      // ts 端 push 'save-slot' kind menu,SaveSlot dispatcher 选完 slot 后由 M6 真做
+      // load(现 stub 在 dispatchSaveSlotMenu 内 console.debug)。Cancel 回 OpeningMenu
+      // = closeTopMenu(save-slot)pop 回 opening — sdlpal uigame.c:146-151 等价。
+      openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
+    }
   }
 }
 

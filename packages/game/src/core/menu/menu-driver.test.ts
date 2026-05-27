@@ -4,7 +4,11 @@ import { createCommandBus } from '../command-bus.js'
 import { createInitialGameState, type GameState } from '../game-state.js'
 import { tickMenu, openMenu } from './menu-mode.js'
 import { createInGameMenu, createSystemMenu } from './in-game-menu.js'
-import { setMenuCatalogs } from './menu-driver.js'
+import { createOpeningMenu } from './opening-menu.js'
+import {
+  _resetStartGameHandlerForTest, setMenuCatalogs, setStartGameHandler,
+  type StartGameChoice,
+} from './menu-driver.js'
 
 function snap(pressed: AbstractKey[] = []): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
@@ -195,6 +199,61 @@ describe('M5.6 T9 dispatchPlayerStatusMenu', () => {
     openMenu(gs, { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) })
     tickMenu(gs, snap(['Menu']), createCommandBus())
     expect(gs.menuStack.length).toBe(0)
+  })
+})
+
+describe('M5.6 T17 dispatchOpeningMenu', () => {
+  it('Up/Down 切换 new-game / load-game cursor', () => {
+    const gs = mkGs()
+    const opening = createOpeningMenu()
+    openMenu(gs, { kind: 'opening', state: opening })
+    expect(opening.selection.cursor).toBe(0) // new-game
+    tickMenu(gs, snap(['Down']), createCommandBus())
+    expect(opening.selection.cursor).toBe(1) // load-game
+  })
+
+  it('Confirm new-game → 调 startGameHandler({kind:"new-game"})', () => {
+    const gs = mkGs()
+    const opening = createOpeningMenu()
+    let received: StartGameChoice | undefined
+    setStartGameHandler((c) => { received = c })
+    openMenu(gs, { kind: 'opening', state: opening })
+    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    expect(received).toEqual({ kind: 'new-game' })
+    _resetStartGameHandlerForTest()
+  })
+
+  it('Menu(Cancel)键 → 同新游戏(sdlpal uigame.c:129 真值)', () => {
+    const gs = mkGs()
+    const opening = createOpeningMenu()
+    // 故意把 cursor 移到 load-game,验证 Cancel 仍按 new-game 走
+    opening.selection.cursor = 1
+    let received: StartGameChoice | undefined
+    setStartGameHandler((c) => { received = c })
+    openMenu(gs, { kind: 'opening', state: opening })
+    tickMenu(gs, snap(['Menu']), createCommandBus())
+    expect(received).toEqual({ kind: 'new-game' })
+    _resetStartGameHandlerForTest()
+  })
+
+  it('Confirm load-game → push save-slot(mode=load)', () => {
+    const gs = mkGs()
+    const opening = createOpeningMenu()
+    opening.selection.cursor = 1 // load-game
+    openMenu(gs, { kind: 'opening', state: opening })
+    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    expect(gs.menuStack.length).toBe(2)
+    expect(gs.menuStack[1]?.kind).toBe('save-slot')
+    const ss = gs.menuStack[1]!.state as { mode: 'save' | 'load' }
+    expect(ss.mode).toBe('load')
+  })
+
+  it('未注入 handler 时 Confirm new-game 不抛错(noop)', () => {
+    const gs = mkGs()
+    const opening = createOpeningMenu()
+    _resetStartGameHandlerForTest()
+    openMenu(gs, { kind: 'opening', state: opening })
+    expect(() => tickMenu(gs, snap(['Confirm']), createCommandBus())).not.toThrow()
   })
 })
 

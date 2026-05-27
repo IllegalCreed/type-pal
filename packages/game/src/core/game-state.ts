@@ -40,6 +40,7 @@ export type Mode = 'explore' | 'event' | 'battle' | 'menu'
  * 战斗内菜单(item-select / magic-select)仍走 battle-system 自有 uiState,不进 menuStack。
  */
 export type ActiveMenuKind =
+  | 'opening'         // M5.6 T17:启动后第一个菜单(新游戏/读档)— sdlpal uigame.c:42-167
   | 'in-game'        // ESC 弹出的主菜单 hub(物品/法术/状态/系统)
   | 'system'          // 进系统设置(存档/读档/设置/退出)
   | 'save-slot'       // 存档列表(5 slot)
