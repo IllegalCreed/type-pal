@@ -15,11 +15,21 @@ export interface SaveSlotMenuState {
 }
 
 /**
- * 创建 save-slot 菜单。slotMeta 缺省时,每 slot 标 "Slot N(空)";真实存档读出后会在
+ * sdlpal WORD.DAT 真值 LOADMENU_LABEL_SLOT_FIRST=43 + i(uigame.c:206 真值):
+ *   id 43 "进度一" / 44 "进度二" / 45 "进度三" / 46 "进度四" / 47 "进度五"
+ * GBK 解 + rstrip space。
+ */
+const SAVE_SLOT_LABELS = ['进度一', '进度二', '进度三', '进度四', '进度五']
+
+/**
+ * 创建 save-slot 菜单。slotMeta 缺省时用 sdlpal 真值 "进度N";真实存档读出后会在
  * draw-menu 端取 IndexedDB meta 补 "Lv X / scene Y" 等信息(M5 Save 已有 API)。
  */
 export function createSaveSlotMenu(mode: SaveSlotMode, slotMeta?: Array<{ slot: number; label: string }>): SaveSlotMenuState {
-  const items = (slotMeta ?? [1, 2, 3, 4, 5].map((slot) => ({ slot, label: `Slot ${slot}(空)` }))).map((s) => ({
+  const items = (slotMeta ?? [1, 2, 3, 4, 5].map((slot) => ({
+    slot,
+    label: SAVE_SLOT_LABELS[slot - 1] ?? `进度${slot}`,
+  }))).map((s) => ({
     id: s.slot,
     label: s.label,
   }))

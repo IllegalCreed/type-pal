@@ -23,6 +23,20 @@ export interface Words {
   persons: string[]
   enemies: string[]
   scenes: string[]
+  /**
+   * M5.6 T14 hotfix(2026-05-27)— audit doc 第 5 漏洞:之前只 dump 5 category(510 条),
+   * 丢了 [0..35] 系统/UI 36 条 + [42..60] 战斗/UI 19 条 = 55 条 sdlpal `#define LABEL_X = N`
+   * 引用的 word(eg. `MAINMENU_LABEL_NEWGAME=7` / `LOADGAME=8` / `LOADMENU_LABEL_SLOT_FIRST=43-47`
+   * / `CASH_LABEL=10` 等)。
+   *
+   * 真值 flat:`flat[i]` 直接对应 sdlpal `PAL_GetWord(i)`,index = sdlpal word id。
+   * 565 条全 dump,运行时按需取。
+   */
+  flat: string[]
+  /** 系统 / UI 文字 [0..35],36 条(含 MAINMENU / LOADMENU / SystemMenu / Cash 等 label)。 */
+  system: string[]
+  /** 战斗 / UI 文字 [42..60],19 条(含 BATTLEUI_LABEL_* 等)。 */
+  battleUi: string[]
 }
 
 // 每条名称固定 10 字节 GBK，来自 sdlpal text.c 注释 "Each word has 10 bytes"
@@ -56,12 +70,34 @@ function readBlock(buf: Uint8Array, offset: number, count: number): string[] {
   return out
 }
 
+// M5.6 hotfix(2026-05-27)— 系统/UI/战斗段(sdlpal source 真值)
+const SYSTEM_OFFSET = 0    // [0..35] 系统 / UI 文字 36 条
+const SYSTEM_COUNT  = 36
+// [36..41] 已在 PERSONS
+const BATTLE_UI_OFFSET = 42 // [42..60] 战斗 / UI 文字 19 条
+const BATTLE_UI_COUNT  = 19
+const TOTAL_WORD_COUNT = 565 // sdlpal Win9x 版实测
+
 export function parseWordDat(buf: Uint8Array): Words {
+  // M5.6 hotfix:之前只 5 category dump 漏 55 条 sys/UI/battle label,user 怼 5 次。
+  // 现 flat[i] 直对 sdlpal `PAL_GetWord(i)`,运行时按 id lookup;同时保留 category
+  // 切片便于 game runtime 按用途取(eg. items / spells / enemies)。
+  const flat: string[] = []
+  for (let i = 0; i < TOTAL_WORD_COUNT; i++) {
+    const start = i * WORD_LENGTH
+    if (start + WORD_LENGTH > buf.byteLength) break
+    let end = start + WORD_LENGTH
+    while (end > start && buf[end - 1] === 0x20) end--
+    flat.push(decodeGbk(buf.subarray(start, end)))
+  }
   return {
     persons: readBlock(buf, PERSONS_OFFSET, PERSONS_COUNT),
     items:   readBlock(buf, ITEMS_OFFSET,   ITEMS_COUNT),
     spells:  readBlock(buf, SPELLS_OFFSET,  SPELLS_COUNT),
     enemies: readBlock(buf, ENEMIES_OFFSET, ENEMIES_COUNT),
     scenes:  readBlock(buf, SCENES_OFFSET,  SCENES_COUNT),
+    flat,
+    system:   readBlock(buf, SYSTEM_OFFSET,    SYSTEM_COUNT),
+    battleUi: readBlock(buf, BATTLE_UI_OFFSET, BATTLE_UI_COUNT),
   }
 }

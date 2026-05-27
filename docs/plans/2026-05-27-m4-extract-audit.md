@@ -109,11 +109,11 @@
 - **STORE 结构**:[global.h:252-255](../../reference/sdlpal/global.h#L252-L255)
 - **MAX_STORE_ITEM 值**:需 grep `common.h` 取 fixed 值
 
-### 5. WORD.DAT 系统/UI/战斗 menu label(55 条)dump
-- **触发 task**:T17 OpeningMenu / SystemMenu / battle menu UI / 任何 sdlpal `PAL_GetWord(wNum)` 引用真字符串的地方(eg. `MAINMENU_LABEL_NEWGAME=7` "新的故事" / `LOADGAME=8` "旧的回忆" / `STATUS_LABEL_*` / `BATTLEUI_LABEL_*` 等)
-- **现状**:[`parseWordDat`](../../packages/pal-extract/src/io/word.ts) 只 dump 5 个 category(persons/items/spells/enemies/scenes 共 510 条),**丢了 [0..35] 系统/UI 36 条 + [42..60] 战斗/UI 19 条 = 55 条 sdlpal `#define LABEL_X = N` 引用的 word**
-- **工作量**:加 `system: string[]` (36 条 id 0-35)+ `battleUi: string[]` (19 条 id 42-60)字段;或更彻底 — 加 `flatAll: string[]` (565 条,index = sdlpal word id)字段供 `PAL_GetWord(wNum)` 一对一查询
-- **T17 缓解**:OpeningMenu label 当前硬编码真值字符串(新的故事 / 旧的回忆),未走 WORD.DAT lookup。T20 真值 audit v2 统一改成 lookup-driven。
+### 5. WORD.DAT 系统/UI/战斗 menu label(55 条)dump — ✓ 已修(2026-05-27)
+- **触发 task**:T17 OpeningMenu / SystemMenu / SaveSlot / battle UI / 任何 `PAL_GetWord(wNum)` 引用真字符串
+- **修法**:`parseWordDat` 增加 `flat: string[]`(565 条 index = sdlpal word id)+ `system: string[]`(id 0-35)+ `battleUi: string[]`(id 42-60),全 565 条全 dump 进 `lookup/words.json`
+- **真值锚**:`MAINMENU_LABEL_NEWGAME=7` → "新的故事" / `LOADGAME=8` → "旧的回忆" / `CASH_LABEL=21` → "金钱" / `LOADMENU_LABEL_SLOT_FIRST=43-47` → "进度一/二/三/四/五" 等
+- **runtime 接入**:game runtime 暂仍硬编码字符串(与 sdlpal id 真值对应),loader 加 fetchWords + menu 走 lookup 留 follow-up(T20 真值 audit v2)
 
 ---
 

@@ -8,6 +8,9 @@ const words: Words = {
   persons: ['李逍遥'],
   enemies: ['', '蝙蝠'],
   scenes: ['垃圾名 0', '垃圾名 1'], // misleading in real data; rule skips it
+  flat: [],
+  system: [],
+  battleUi: [],
 }
 
 describe('annotate', () => {

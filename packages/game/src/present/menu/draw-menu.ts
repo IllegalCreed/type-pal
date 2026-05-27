@@ -236,8 +236,8 @@ function drawSaveSlotMenu(
       FONT_COLOR_YELLOW, glyphs, true,
     )
   }
-  // 顶部 mode 标题 "存档" / "读档"(sdlpal 无独立标题;mode 是 caller context — ts 加视觉提示)
-  renderText(fb, state.mode === 'save' ? '存档' : '读档', 100, 7, FONT_COLOR_YELLOW, glyphs, true)
+  // sdlpal PAL_SaveSlotMenu(uigame.c:169-242)真值无独立标题 — caller(InGameMenu /
+  // OpeningMenu)按 mode 自行处理。我之前简版加 "存档/读档" 标题是错的,user 怒怼删。
 }
 
 // ── Placeholder TODO(T10b-e 完成前,显式标 TODO 不装"接通") ────────────────

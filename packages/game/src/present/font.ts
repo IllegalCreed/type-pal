@@ -115,8 +115,10 @@ export function renderText(
   for (const ch of text) {
     const cp = ch.codePointAt(0)!
     const g = glyphs.get(cp) ?? TOFU_GLYPH
-    // sdlpal text.c:1144-1154 真值:fShadow=TRUE 时 triple shadow 黑色 (color 0)
-    //   offset (+1, 0) / (0, +1) / (+1, +1),然后主色字
+    // sdlpal text.c:1144-1155 真值 fShadow=TRUE 时 triple shadow offset
+    //   (+1, 0) / (0, +1) / (+1, +1) color=0(黑)+ 主色字。
+    // 注释明说 DOS triple / WIN95 single,sdlpal 自己 "fix" 统一 triple
+    // (认为 WIN95 单层是 bug)。ts 跟 sdlpal 真值,不凭截图视觉调整。
     if (fShadow) {
       blitGlyph(fb, cursorX + 1, y, g, 0)
       blitGlyph(fb, cursorX, y + 1, g, 0)
