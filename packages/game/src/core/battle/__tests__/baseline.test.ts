@@ -208,6 +208,27 @@ interface ExpectedTurn {
   enemies: Array<{ objectId: number; hp: number }>
 }
 
+interface ExpectedPostBattle {
+  players: Array<{
+    role: number
+    hp: number
+    mp: number
+    level: number
+    exp: {
+      primary: number
+      health: number
+      magic: number
+      attack: number
+      magicPower: number
+      defense: number
+      dexterity: number
+      flee: number
+    }
+    status: number[]
+  }>
+  cash: number
+}
+
 interface ExpectedResult {
   rng: number
   enemyTeamId: number
@@ -216,6 +237,10 @@ interface ExpectedResult {
   turns: ExpectedTurn[]
   result: string
   turnsRun: number
+  expGained?: number
+  cashGained?: number
+  /** M5.B-w0.4 加的 post_battle dump 段 — 可选(老 result.json 没 regen 时缺) */
+  post_battle?: ExpectedPostBattle
 }
 
 /**
@@ -328,6 +353,9 @@ interface BaselineRunReport {
   expectedTurns: ExpectedTurn[]
   finishedNormally: boolean
   deviations: string[]
+  /** M5.B-w0.4: 战后采集 ts 端 final state 对照 sdlpal post_battle 段 */
+  finalCash: number
+  finalPrimaryExp: number[]   // index = roleId
 }
 
 /**
@@ -348,6 +376,8 @@ function runFixture(
     expectedTurns: expected.turns,
     finishedNormally: false,
     deviations: [],
+    finalCash: 0,
+    finalPrimaryExp: [],
   }
 
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -454,6 +484,11 @@ function runFixture(
 
   // mark unused vars (typescript-strict)
   void lastSeenTurn
+
+  // M5.B-w0.4 / B-w1.c:采集战后 final state(gs.Exp 8 类 / gs.dwCash)
+  // 用于 STRICT fixture 跟 expected.post_battle 对拍
+  report.finalCash = gs.dwCash
+  report.finalPrimaryExp = gs.Exp.rgPrimaryExp.map((e) => e.wExp)
 
   return report
 }
@@ -616,6 +651,18 @@ describe('D29 battle baseline diff', () => {
             } else {
               expect(ae.hp, `${fixtureId}: turn ${i} enemy ${ei} hp`).toBe(ee.hp)
             }
+          }
+        }
+
+        // M5.B-w0.4 + B-w1.c:post_battle 对拍 — cash + per-player primary exp
+        // level / status / 7 类 exp 留 follow-up(需 ts 端 levelup + 7 类 exp wCount 真做)。
+        if (expected.post_battle) {
+          expect(report.finalCash, `${fixtureId}: dwCash`).toBe(expected.post_battle.cash)
+          for (const expPlayer of expected.post_battle.players) {
+            expect(
+              report.finalPrimaryExp[expPlayer.role],
+              `${fixtureId}: role=${expPlayer.role} primary exp`,
+            ).toBe(expPlayer.exp.primary)
           }
         }
       }

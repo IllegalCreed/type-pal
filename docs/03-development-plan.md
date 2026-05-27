@@ -107,6 +107,55 @@
 - 转场特效、调色板循环动画(水 / 火)。
 - 结局流程。
 
+### M6.5 · 资源剥离 + 代码保护(部署前置)
+
+把项目从"本地全开 demo"切到"可对外部署"形态。两块独立工作。
+
+#### A. 资源包外部分发
+
+- vite build 排除 `packages/game/public/extracted/`,部署包仅含 JS/HTML/CSS(几 MB)
+- `data/extracted/` 打 zip(125M;可选 PNG → WebP 无损 ~70M),通过**非公开渠道**分发(网盘私链 / 需先证明拥有原版)。README 与公开页面不提"下载资源包"
+- 抽 `AssetLoader` 层(packages/game 内),所有 `fetch('/extracted/...')` 收口:
+  - dev: 走 fetch(vite serve `public/extracted/` symlink)
+  - prod: 走 IndexedDB Blob → `URL.createObjectURL` 喂 `<img>`,JSON 走 `blob.text().then(JSON.parse)`
+- 浏览器端首次导入流程:
+  - `<input type="file" accept=".zip">` 上传
+  - `fflate` 解压(比 JSZip 快 3-5×,体积更小)
+  - 写 IndexedDB(key = 路径,value = Blob)
+  - zip 内带 `manifest.json`(版本号 + 文件 hash),启动时对比 IDB 决定是否需要重新导入
+- 浏览器兼容: 首版 Chrome / Edge;Firefox / Safari 兜底 `<input webkitdirectory>` 一次性读目录
+- 版权边界: zip 内仍是原作者美术资产,渠道隐蔽性 ≠ 法律免责;参考 ROM 社区实务,不做公开宣传
+
+#### B. 关键代码后端化(轻量 Node)
+
+威胁模型: 挡掉"扒站重挂广告"的懒人(~90%);专业逆向不在防御范围内(他们去看 sdlpal C 源更省事)。
+
+后端只放**低频高价值**逻辑,不放高频(战斗动画 tick / UI 状态)。
+
+- **粒度 1(M6.5 起点 · 推荐)— RNG seed 后端发**
+  - 战斗 / 宝箱 / 跑路等关键节点的 PalRand seed 后端发;sdlpal RNG 是标准 LCG(`seed * 1103515245 + 12345 & 0x7fff`,从 `reference/sdlpal/uigame.c` 真值),前端复用算法
+  - Stateless `POST /api/rng/battle` 返回 seed batch
+  - 盗站后果: 前端跑得起来但数值跟原版对不上(伤害浮动错、宝箱错),玩家立刻发现
+  - QPS: 每场战斗 1 次,Cloudflare Workers / Vercel Edge 免费 tier 永久够
+- **粒度 2(可选升级)— 核心数值公式后端跑**
+  - `POST /api/calc/battle-turn` 提交整轮 action,后端按 sdlpal 公式算完返回结果列表
+  - 批量化避免每 action 一次 RTT
+  - 门槛更高但实现成本也更高,M7 通关验证后若发现粒度 1 不够再升
+
+- **存档签名**: IDB 存档前后端签一次,启动时校验,防直接编辑本地存档。极小 QPS
+- **架构**:
+  - Hono / Fastify on Node,或 Cloudflare Workers / Vercel Edge
+  - 首次进入发 session token,后续请求带 token + rate limit 防爬
+  - 后端代码**独立私有 repo**;前端 build 时只 inline endpoint URL
+- **不做**:
+  - 用户登录 / license key(破单机体验)
+  - 服务器跑整场战斗(延迟敏感 + QPS 太高)
+  - 实时反作弊(单机游戏没作弊对象)
+
+#### 进入条件
+- M5 + M6 完成,核心数值公式对照 sdlpal 真值已稳定
+- A 与 B 可并行;A 先行不影响游戏跑通,B 先做粒度 1 + 存档签名跑通链路
+
 ### M7 · 通关验证与打磨
 - 从头到尾能通关。
 - 对照原版 / sdlpal 校验忠实度(数值、剧情、触发)。
