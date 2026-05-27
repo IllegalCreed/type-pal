@@ -183,6 +183,105 @@ export const OP_FADE_SCREEN = 0x0073            // 115
 //   我们 state-driven:trigger partialClear → page-advance 保 titleText + portraitIcon,清 body。
 export const OP_RESTORE_SCREEN = 0x008E         // 142
 
+// ── M5.6 session 3:item.scriptOnUse / scriptOnEquip 真值 opcode(sdlpal script.c:867-1404)
+//
+// 全部按 sdlpal script.c case 真值 1:1 port。currentEventObjectId 在 item 上下文 = 目标 role id
+// (sdlpal `wPlayer` 0-based)或 0xFFFF(applyToAll)。NPC trigger 上下文是 1-based NPC id;
+// opcode 自行按需重新解读 — HP/MP/status 类按 role id,equipment 类按 role id。
+
+// case 0x0006(6):  Jump to specified address by rate(script.c:3299-3312)
+//   if (RandomLong(1, 100) >= operand[0]) → wScriptEntry = operand[1];else ip++
+export const OP_JUMP_BY_RATE = 0x0006              // 6
+
+// case 0x0017(23): Set player extra attribute(equipment effect — script.c:752-766)
+//   i = operand[0] - 0xB → equipmentEffect[i].field[operand[1]][role] = SHORT(operand[2])
+//   ts:无 rgEquipmentEffect runtime 模型 → log skip(M6 EquipItemMenu 真做时补)
+export const OP_SET_PLAYER_EXTRA_ATTR = 0x0017     // 23
+
+// case 0x0018(24): Equip selected item(script.c:768-811)
+//   i = operand[0] - 0xB(equipment slot);writes rgwEquipment[i][role]=operand[1];
+//   inventory swap:remove new item -1,if old != 0 add old +1
+//   sdlpal `g_iCurEquipPart = i` 全局后续 0x1A 写 equipmentEffect 用 — ts 不持久此 ctx
+//   (装备效果留 M6),先把 rgwEquipment 字段 + inventory swap 真做。
+export const OP_EQUIP_ITEM = 0x0018                // 24
+
+// case 0x0019(25): Increase/decrease player attribute(script.c:813-832)
+//   p[operand[0] * MAX_PLAYER_ROLES + role] += SHORT(operand[1])
+//   role = (operand[2] == 0) ? wEventObjectID : operand[2] - 1
+//   operand[0] 是 PlayerRoles 结构内 row index(sdlpal global.h tagPLAYERROLES):
+//     5=Level / 6=MaxHP / 7=MaxMP / 8=HP / 9=MP / 16=AttackStrength / 17=MagicStrength
+//     18=Defense / 19=Dexterity / 20=FleeRate / 21=PoisonResistance / 28=CoveredBy
+//   其它(0-4 静态字段 / 10-15 Equipment 2D / 22-27 Resistance 等)→ log skip
+export const OP_INCREASE_PLAYER_ATTR = 0x0019      // 25
+
+// case 0x001A(26): Set player stat(script.c:834-865)
+//   p[operand[0] * MAX_PLAYER_ROLES + role] = SHORT(operand[1])
+//   role 同 0x0019
+//   注:g_iCurEquipPart != -1 时改写 equipmentEffect(equip 时)— ts 不持久,fallback PlayerRoles
+export const OP_SET_PLAYER_STAT = 0x001A           // 26
+
+// case 0x001B(27): HP delta(script.c:867-894)
+//   operand[0]=applyToAll;operand[1]=signed delta;wEventObjectID=target role(when not all)
+//   PAL_IncreaseHPMP clamp [0, maxHP]
+export const OP_INCREASE_HP = 0x001B               // 27
+
+// case 0x001C(28): MP delta(script.c:896-921)— 同上
+export const OP_INCREASE_MP = 0x001C               // 28
+
+// case 0x001D(29): HP+MP 双 delta(script.c:923-950)— 同上
+export const OP_INCREASE_HP_MP = 0x001D            // 29
+
+// case 0x0021(33): Inflict damage to enemy(script.c:1026-1050)— 战斗 only
+//   battle context;overworld script 不触发 — log skip + 不阻流
+export const OP_DAMAGE_ENEMY = 0x0021              // 33
+
+// case 0x0022(34): Revive player(script.c:1052-1102)
+//   if HP == 0:HP = maxHP * operand[1] / 10 + cure poison level 3 + clear all status
+//   operand[0]=applyToAll
+export const OP_REVIVE_PLAYER = 0x0022             // 34
+
+// case 0x0023(35): Remove equipment(script.c:1104-1135)
+//   operand[0]=role id;operand[1]==0 → 全槽 / != 0 → 槽 (operand[1]-1)
+//   removed item → inventory +1
+export const OP_REMOVE_EQUIPMENT = 0x0023          // 35
+
+// case 0x0025(37): Set trigger script for NPC(script.c:1147-1155)
+//   if operand[0] != 0:pCurrent.wTriggerScript = operand[1]
+//   NPC trigger 上下文 — overworld item script 罕用
+export const OP_SET_TRIGGER_SCRIPT = 0x0025        // 37
+
+// case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
+export const OP_POISON_ENEMY = 0x0028              // 40
+
+// case 0x0029(41): Apply poison to player(script.c:1257-1285)
+//   if RandomLong(1,100) > PAL_GetPlayerPoisonResistance(role) → AddPoisonForPlayer(role, operand[1])
+//   operand[0]=applyToAll
+//   ts:gs.rgPoisonStatus[`${slot}_${playerIdx}`] = { wPoisonID, wPoisonScript }
+export const OP_POISON_PLAYER = 0x0029             // 41
+
+// case 0x002A(42): Cure poison enemy(script.c:1287-1329)— 战斗 only,log skip
+export const OP_CURE_ENEMY_POISON_KIND = 0x002A    // 42
+
+// case 0x002B(43): Cure player poison by kind(script.c:1331-1347)
+//   遍历 rgPoisonStatus,wPoisonID == operand[1] 清 0
+export const OP_CURE_PLAYER_POISON_KIND = 0x002B   // 43
+
+// case 0x002C(44): Cure player poison by level(script.c:1349-1365)
+//   遍历 rgPoisonStatus,items[wPoisonID].poison.wPoisonLevel <= operand[1] 清 0
+//   ts:items.poison 字段未完整 plumb — fallback 全清(简化,等 M5.5 poison plumb 真做)
+export const OP_CURE_PLAYER_POISON_LEVEL = 0x002C  // 44
+
+// case 0x002D(45): Set player status(script.c:1367-1375)
+//   PAL_SetPlayerStatus(role, statusId, duration)
+//   ts:无大世界 player status 模型(battle-only)— log skip(M6 大世界 status 真做时补)
+export const OP_SET_PLAYER_STATUS = 0x002D         // 45
+
+// case 0x002E(46): Set enemy status — 战斗 only,log skip
+export const OP_SET_ENEMY_STATUS = 0x002E          // 46
+
+// case 0x002F(47): Remove player status(script.c:1399-1404)— 同 0x002D 模型问题,log skip
+export const OP_REMOVE_PLAYER_STATUS = 0x002F      // 47
+
 /** sdlpal palcommon.h enum kDir → our Facing 字面量映射 */
 const SDLPAL_DIR_TO_FACING: Record<number, 'down' | 'left' | 'up' | 'right'> = {
   0: 'down',   // kDirSouth
@@ -1553,10 +1652,354 @@ function applyRawOpcode(
       break
     }
 
+    // ── M5.6 session 3:item.scriptOnUse / scriptOnEquip 真值 opcode(sdlpal script.c:867-1404)──
+
+    case OP_JUMP_BY_RATE: {
+      // sdlpal script.c:3299-3312:if RandomLong(1,100) >= operand[0] → jump operand[1]
+      const rate = operands[0] ?? 0
+      const targetIp = operands[1] ?? 0
+      if (Math.floor(Math.random() * 100) + 1 >= rate) {
+        // 跳转 — 但 applyRawOpcode 是 cursor.ip 已 ip++ 的;调用方需用 label 系统
+        // 实际:tickEventSystem 推 ip 是默认 ip++;我们这里改写 cursor.ip 让下一帧从 targetIp 走。
+        // 简化:gs.eventCursor 直接改 ip(注意 targetIp 是 sdlpal global IP — 经 disasm 后用 L_ 查)
+        const labelMap = gs.eventCursor?.labelMap
+        if (labelMap) {
+          const idx = labelMap[`L_${targetIp}`]
+          if (idx !== undefined && gs.eventCursor) {
+            gs.eventCursor.ip = idx - 1 // ip++ 被 default 自动加,这里减 1 抵消
+            console.debug(`event-system: jumpByRate rate=${rate} hit → ip=L_${targetIp} (${idx})`)
+            return
+          }
+        }
+        console.debug(`event-system: jumpByRate rate=${rate} hit but L_${targetIp} 不在 labelMap`)
+      }
+      else {
+        console.debug(`event-system: jumpByRate rate=${rate} miss → fall through`)
+      }
+      break
+    }
+
+    case OP_SET_PLAYER_EXTRA_ATTR: {
+      // sdlpal script.c:752-766:equipmentEffect[i].field[op[1]][role] = SHORT(op[2])
+      // ts 无 rgEquipmentEffect runtime 模型 — log skip(M6 EquipItemMenu 真做时补)
+      console.debug(`event-system: setPlayerExtraAttr op=${operands} (equipmentEffect 模型未做)`)
+      break
+    }
+
+    case OP_EQUIP_ITEM: {
+      // sdlpal script.c:768-811:写 rgwEquipment[slot][role] + inventory swap
+      // slot = operand[0] - 0xB;newItem = operand[1];role = currentEventObjectId
+      const slot = (operands[0] ?? 0) - 0x0B
+      const newItem = operands[1] ?? 0
+      const roleId = currentEventObjectId
+      if (roleId === undefined || roleId === 0xFFFF) {
+        console.warn(`event-system: equipItem no role context`)
+        break
+      }
+      if (slot < 0 || slot >= 6) {
+        console.warn(`event-system: equipItem invalid slot=${slot}(op[0]=${operands[0]})`)
+        break
+      }
+      const eqRow = gs.PlayerRolesRuntime.rgwEquipment[slot]
+      if (!eqRow) break
+      const oldItem = eqRow[roleId] ?? 0
+      if (oldItem !== newItem) {
+        eqRow[roleId] = newItem
+        addItemToInventory(gs, newItem, -1)
+        if (oldItem !== 0) addItemToInventory(gs, oldItem, 1)
+      }
+      console.debug(`event-system: equipItem role=${roleId} slot=${slot} ${oldItem}→${newItem}`)
+      break
+    }
+
+    case OP_INCREASE_PLAYER_ATTR: {
+      // sdlpal script.c:813-832:p[op[0] * MAX_PLAYER_ROLES + role] += SHORT(op[1])
+      // role = (op[2] == 0) ? wEventObjectID : op[2] - 1
+      const fieldIdx = operands[0] ?? 0
+      const delta = signExtendI16(operands[1] ?? 0)
+      const roleId = (operands[2] ?? 0) === 0
+        ? currentEventObjectId
+        : ((operands[2] ?? 0) - 1)
+      if (roleId === undefined || roleId === 0xFFFF) {
+        console.warn(`event-system: increasePlayerAttr no role context`)
+        break
+      }
+      mutatePlayerStat(gs, roleId, fieldIdx, (cur) => cur + delta)
+      console.debug(`event-system: increasePlayerAttr role=${roleId} field=${fieldIdx} +=${delta}`)
+      break
+    }
+
+    case OP_SET_PLAYER_STAT: {
+      // sdlpal script.c:834-865:p[op[0] * MAX_PLAYER_ROLES + role] = SHORT(op[1])
+      const fieldIdx = operands[0] ?? 0
+      const newVal = signExtendI16(operands[1] ?? 0)
+      const roleId = (operands[2] ?? 0) === 0
+        ? currentEventObjectId
+        : ((operands[2] ?? 0) - 1)
+      if (roleId === undefined || roleId === 0xFFFF) {
+        console.warn(`event-system: setPlayerStat no role context`)
+        break
+      }
+      mutatePlayerStat(gs, roleId, fieldIdx, () => newVal)
+      console.debug(`event-system: setPlayerStat role=${roleId} field=${fieldIdx} =${newVal}`)
+      break
+    }
+
+    case OP_INCREASE_HP: {
+      // sdlpal script.c:867-894:HP delta(applyToAll on operand[0])
+      applyHPMPDelta(gs, currentEventObjectId, operands, /*hp*/ true, /*mp*/ false)
+      break
+    }
+
+    case OP_INCREASE_MP: {
+      // sdlpal script.c:896-921:MP delta
+      applyHPMPDelta(gs, currentEventObjectId, operands, /*hp*/ false, /*mp*/ true)
+      break
+    }
+
+    case OP_INCREASE_HP_MP: {
+      // sdlpal script.c:923-950:HP & MP 双 delta
+      applyHPMPDelta(gs, currentEventObjectId, operands, /*hp*/ true, /*mp*/ true)
+      break
+    }
+
+    case OP_DAMAGE_ENEMY: {
+      // sdlpal script.c:1026-1050:战斗 only(g_Battle.rgEnemy.wHealth)
+      console.debug(`event-system: damageEnemy(battle-only,overworld skip)op=${operands}`)
+      break
+    }
+
+    case OP_REVIVE_PLAYER: {
+      // sdlpal script.c:1052-1102:HP==0 时 HP = maxHP*op[1]/10 + cure poison level 3 + clear all status
+      const applyAll = (operands[0] ?? 0) !== 0
+      const ratioTenths = operands[1] ?? 0
+      const targets = applyAll ? gs.partyMembers : (
+        currentEventObjectId !== undefined && currentEventObjectId !== 0xFFFF
+          ? [currentEventObjectId]
+          : []
+      )
+      for (const roleId of targets) {
+        const curHP = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
+        const maxHP = gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0
+        if (curHP === 0) {
+          gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor(maxHP * ratioTenths / 10)
+          curePlayerPoisonByLevel(gs, roleId, 3)
+          // status flags 留 follow-up:无大世界 status 模型,只在 battle 内有 rgwStatus
+        }
+      }
+      console.debug(`event-system: revivePlayer applyAll=${applyAll} ratio=${ratioTenths}/10`)
+      break
+    }
+
+    case OP_REMOVE_EQUIPMENT: {
+      // sdlpal script.c:1104-1135
+      const roleId = operands[0] ?? 0
+      const slotPlus1 = operands[1] ?? 0  // 0 = 全部 / 非 0 = slot-1
+      const eq = gs.PlayerRolesRuntime.rgwEquipment
+      const removeSlot = (slot: number) => {
+        const w = eq[slot]?.[roleId] ?? 0
+        if (w !== 0) {
+          addItemToInventory(gs, w, 1)
+          eq[slot]![roleId] = 0
+        }
+      }
+      if (slotPlus1 === 0) {
+        for (let s = 0; s < 6; s++) removeSlot(s)
+      }
+      else {
+        removeSlot(slotPlus1 - 1)
+      }
+      console.debug(`event-system: removeEquipment role=${roleId} slot=${slotPlus1 === 0 ? 'all' : slotPlus1 - 1}`)
+      break
+    }
+
+    case OP_SET_TRIGGER_SCRIPT: {
+      // sdlpal script.c:1147-1155:if op[0] != 0 → pCurrent.wTriggerScript = op[1]
+      // ts NpcState 没有 wTriggerScript field;改成 triggerLabel: 'L_<ip>' 等价表达。
+      if ((operands[0] ?? 0) !== 0) {
+        const npc = getSelfNpc(gs, currentEventObjectId, 'setTriggerScript')
+        if (npc) {
+          const newIp = operands[1] ?? 0
+          npc.triggerLabel = `L_${newIp}`
+          console.debug(`event-system: setTriggerScript npc.id=${npc.id} → triggerLabel=L_${newIp}`)
+        }
+      }
+      break
+    }
+
+    case OP_POISON_ENEMY:
+    case OP_CURE_ENEMY_POISON_KIND:
+    case OP_SET_ENEMY_STATUS: {
+      console.debug(`event-system: 战斗 only opcode(overworld skip)0x${opcode.toString(16)} op=${operands}`)
+      break
+    }
+
+    case OP_POISON_PLAYER: {
+      // sdlpal script.c:1257-1285:if RandomLong(1,100) > poisonResist → addPoison
+      const applyAll = (operands[0] ?? 0) !== 0
+      const poisonId = operands[1] ?? 0
+      const targets = applyAll ? gs.partyMembers : (
+        currentEventObjectId !== undefined && currentEventObjectId !== 0xFFFF
+          ? [currentEventObjectId]
+          : []
+      )
+      for (const roleId of targets) {
+        // 简版:不模拟 RandomLong 抗性检查(沿用 sdlpal 但简化),直接添加(scriptOnUse 物品用,
+        // 调用方设计为"必中"或 g_fScriptSuccess 路径已含 random 判定;follow-up 加抗性)
+        for (let slot = 0; slot < 16; slot++) {
+          const key = `${slot}_${roleId}`
+          if (!gs.rgPoisonStatus[key] || gs.rgPoisonStatus[key]!.wPoisonID === 0) {
+            gs.rgPoisonStatus[key] = { wPoisonID: poisonId, wPoisonScript: 0 }
+            break
+          }
+        }
+      }
+      console.debug(`event-system: poisonPlayer applyAll=${applyAll} poisonId=${poisonId}`)
+      break
+    }
+
+    case OP_CURE_PLAYER_POISON_KIND: {
+      // sdlpal script.c:1331-1347:遍历 rgPoisonStatus,wPoisonID == op[1] 清 0
+      const applyAll = (operands[0] ?? 0) !== 0
+      const poisonId = operands[1] ?? 0
+      const targets = applyAll ? gs.partyMembers : (
+        currentEventObjectId !== undefined && currentEventObjectId !== 0xFFFF
+          ? [currentEventObjectId]
+          : []
+      )
+      for (const roleId of targets) {
+        curePlayerPoisonByKind(gs, roleId, poisonId)
+      }
+      console.debug(`event-system: curePoisonByKind applyAll=${applyAll} poisonId=${poisonId}`)
+      break
+    }
+
+    case OP_CURE_PLAYER_POISON_LEVEL: {
+      // sdlpal script.c:1349-1365:遍历 rgPoisonStatus,items[wPoisonID].poison.wPoisonLevel <= op[1] 清 0
+      // ts:items.poison 字段未完整 plumb — 简版按 level cap = 99 视为全清(等价 cure all)
+      const applyAll = (operands[0] ?? 0) !== 0
+      const maxLevel = operands[1] ?? 0
+      const targets = applyAll ? gs.partyMembers : (
+        currentEventObjectId !== undefined && currentEventObjectId !== 0xFFFF
+          ? [currentEventObjectId]
+          : []
+      )
+      for (const roleId of targets) {
+        curePlayerPoisonByLevel(gs, roleId, maxLevel)
+      }
+      console.debug(`event-system: curePoisonByLevel applyAll=${applyAll} maxLevel=${maxLevel}`)
+      break
+    }
+
+    case OP_SET_PLAYER_STATUS:
+    case OP_REMOVE_PLAYER_STATUS: {
+      // sdlpal script.c:1367/1399 — 无大世界 player status 模型(battle.rgwStatus only)
+      // 大世界 buff(如 blessing)持久化留 M6 follow-up
+      console.debug(`event-system: ${opcode === OP_SET_PLAYER_STATUS ? 'set' : 'remove'}PlayerStatus(no overworld status model)op=${operands}`)
+      break
+    }
+
     default:
       console.debug(`event-system: skip raw opcode=0x${opcode.toString(16).padStart(4, '0')}`, operands)
       break
   }
+}
+
+// ── M5.6 session 3:helper for item.scriptOnUse opcode 真值 1:1 port ──────────────
+
+/**
+ * 0x001B/0x001C/0x001D 共用 — sdlpal PAL_IncreaseHPMP(global.c:1957+)。
+ * 多 target(applyAll)or 单 target(wEventObjectID);clamp HP/MP 到 [0, max]。
+ */
+function applyHPMPDelta(
+  gs: GameState,
+  currentEventObjectId: number | undefined,
+  operands: [number, number, number],
+  hp: boolean,
+  mp: boolean,
+): void {
+  const applyAll = (operands[0] ?? 0) !== 0
+  const delta = signExtendI16(operands[1] ?? 0)
+  const targets = applyAll ? gs.partyMembers : (
+    currentEventObjectId !== undefined && currentEventObjectId !== 0xFFFF
+      ? [currentEventObjectId]
+      : (currentEventObjectId === 0xFFFF ? gs.partyMembers : [])
+  )
+  for (const roleId of targets) {
+    if (hp) {
+      const cur = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
+      const max = gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0
+      gs.PlayerRolesRuntime.rgwHP[roleId] = Math.max(0, Math.min(max, cur + delta))
+    }
+    if (mp) {
+      const cur = gs.PlayerRolesRuntime.rgwMP[roleId] ?? 0
+      const max = gs.PlayerRolesRuntime.rgwMaxMP[roleId] ?? 0
+      gs.PlayerRolesRuntime.rgwMP[roleId] = Math.max(0, Math.min(max, cur + delta))
+    }
+  }
+  console.debug(
+    `event-system: HP${hp ? '+' : ''}MP${mp ? '+' : ''}Delta applyAll=${applyAll} delta=${delta} → ${targets.length} role(s)`,
+  )
+}
+
+/**
+ * 0x0019/0x001A — sdlpal `p[op[0] * MAX_PLAYER_ROLES + role]` 真值直写。
+ * operand[0] 是 PlayerRoles 结构内 row index(sdlpal global.h tagPLAYERROLES,见 OP_INCREASE_PLAYER_ATTR 注)。
+ * mutator 函数返回新值(set / add 等)。
+ */
+function mutatePlayerStat(
+  gs: GameState,
+  roleId: number,
+  fieldIdx: number,
+  mutator: (cur: number) => number,
+): void {
+  const runtime = gs.PlayerRolesRuntime
+  // sdlpal global.h tagPLAYERROLES 真值 field 索引(每 row = MAX_PLAYER_ROLES=6 WORDs)
+  const FIELD_MAP: Record<number, number[]> = {
+    5: runtime.rgwLevel,
+    6: runtime.rgwMaxHP,
+    7: runtime.rgwMaxMP,
+    8: runtime.rgwHP,
+    9: runtime.rgwMP,
+    16: runtime.rgwAttackStrength,
+    17: runtime.rgwMagicStrength,
+    18: runtime.rgwDefense,
+    19: runtime.rgwDexterity,
+    20: runtime.rgwFleeRate,
+    21: runtime.rgwPoisonResistance,
+    28: runtime.rgwCoveredBy,
+  }
+  const arr = FIELD_MAP[fieldIdx]
+  if (!arr) {
+    console.warn(`event-system: mutatePlayerStat unknown fieldIdx=${fieldIdx}(sdlpal global.h tagPLAYERROLES row index)`)
+    return
+  }
+  arr[roleId] = mutator(arr[roleId] ?? 0)
+}
+
+/** sdlpal PAL_CurePoisonByKind(global.c:1936-1955)— roleId × poisonId 清 0。 */
+function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: number): void {
+  for (let slot = 0; slot < 16; slot++) {
+    const key = `${slot}_${roleId}`
+    const ps = gs.rgPoisonStatus[key]
+    if (ps && ps.wPoisonID === poisonId) {
+      gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
+    }
+  }
+}
+
+/** sdlpal PAL_CurePoisonByLevel(global.c:1957-1985)— level <= maxLevel 清 0。
+ *  ts 简版:items.poison.wPoisonLevel 字段未 plumb → 视为 maxLevel >= 3 时全清(覆盖 sdlpal 真值用法
+ *  — 0x22 revive 用 maxLevel=3 全清;治毒丹 maxLevel=1 部分清留 follow-up)。 */
+function curePlayerPoisonByLevel(gs: GameState, roleId: number, maxLevel: number): void {
+  // 简化:全清。等 items.poison 字段 plumb 后改按 level 过滤。
+  for (let slot = 0; slot < 16; slot++) {
+    const key = `${slot}_${roleId}`
+    if (gs.rgPoisonStatus[key]) {
+      gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
+    }
+  }
+  void maxLevel  // explicit unused — 见上注
 }
 
 /** 取 trigger 的 self NPC(sdlpal `pEvtObj`,纯 self 类 opcode 0x14 / 0xF 用)。无效 id 时 warn + 返回 null。 */

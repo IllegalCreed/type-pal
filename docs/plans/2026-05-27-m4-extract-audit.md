@@ -114,6 +114,17 @@
 - **STORE 结构**:[global.h:252-255](../../reference/sdlpal/global.h#L252-L255)
 - **MAX_STORE_ITEM 值**:需 grep `common.h` 取 fixed 值
 
+### 6. items/spells/enemyObjects scripts 切片丢弃 — ✓ 已修(2026-05-27 T10b 修 / session 3)
+- **触发**:user 反馈"物品都没法使用" — 选完 use-target Confirm 后 console.debug stub。
+- **根因**:[`sliceByScene`](../../packages/pal-extract/src/events/slice.ts) 只用 scene 入口 + eventObject 做 BFS,**漏收 items/spells/enemyObjects.scriptOn\* 作为 entry point**。
+  验证:items.scriptOnUse 范围 39190..43028,原 shared.json label 范围 2201..42409 → 103 个 item scripts 全 miss。
+  整批 script bytecode 被切片**丢弃**(任何 scene reach 不到的 cmd 自动丢)。
+- **修法**:
+  - sliceByScene 加 `globalEntries: number[]` 参数 — items/spells/enemyObjects.scriptOn{Use,Equip,Throw,Desc,Success,TurnStart,BattleEnd,Ready} BFS 单独 reachable 集合,强制归 shared。sdlpal 真值依据 [`script.c:3140 PAL_RunTriggerScript`](../../reference/sdlpal/script.c#L3140) → `gpGlobals->g.lprgScriptEntry[wScriptEntry]` 全局 SCRIPTENTRY 数组。
+  - cli.ts 先 parseItems/parseSpells/parseEnemyObjects 再 sliceByScene,收集 globalScriptEntries 喂 sliceByScene + 加进 disasm entryIps 让命中点也打 L_<ip> 标签
+  - 验证:items.scriptOnUse 103/103 hits in shared.json labelMap;shared.json 1999 → 4405 commands(+628 entry × BFS 后展开 2406 cmds)
+- **配套**:event-system.ts `startOverworldItemScript` helper + menu-driver 用物品流程接入 event mode;Phase 3 opcode handler(HP/MP/status 等)按 sdlpal script.c case-by-case port。
+
 ### 5. WORD.DAT 系统/UI/战斗 menu label(55 条)dump — ✓ 已修(2026-05-27)
 - **触发 task**:T17 OpeningMenu / SystemMenu / SaveSlot / battle UI / 任何 `PAL_GetWord(wNum)` 引用真字符串
 - **修法**:`parseWordDat` 增加 `flat: string[]`(565 条 index = sdlpal word id)+ `system: string[]`(id 0-35)+ `battleUi: string[]`(id 42-60),全 565 条全 dump 进 `lookup/words.json`
