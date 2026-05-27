@@ -22,6 +22,26 @@
 - **不许**凭截图 visual 自己猜着 fix。原因:Unifont 16×16 stroke 跟 sdlpal 原 font 不同 / palette index 渲染色不同 / shadow algorithm 差异 — 截图视觉**对不齐 ≠ sdlpal 真值错**;真值对了 visual 自然就对了,**反之不成立**。
 - 反面案例(2026-05-27):user 给 sdlpal Win95 截图 shadow 看着 1 px 偏移 → 我擅自把 ts triple shadow 改 single 是错的,sdlpal text.c:1144-1155 真值是 triple(注释明说 DOS triple / WIN95 single,sdlpal "fix" 统一 triple)— **不能因截图视觉差就改算法**,要改 font / palette 对齐才行。user 原话:"你不是对着截图改,我截图给你**发现问题用的**,你的修改都要在 sdl 里面找到出处再改"。
 
+### sdlpal 阅读方式 — 系统性 vs 关键字 grep(根因约束)
+
+**user 2026-05-27 一针见血诊断**:"你每次就是猜一个关键字去 grep,命中了就看看,如果你猜错了就说没有,这就是根本原因"。
+
+- **关键字 grep + stop-on-hit** = 反 pattern。每次只命中 user 描述的关键字 + 看少量 surrounding line → **永远理解不了 sdlpal 整 callpath / global state / control flow**。
+- **正确做法 — 系统性阅读关键 sdlpal C file**:
+  1. 接到任何 dialog / menu / battle / scene UI 任务,**完整 read 对应 sdlpal C file 关键 fn 全文**(eg. dialog 任务 → 完整读 `text.c` 内 `PAL_StartDialogWithOffset` + `TEXT_DisplayText` + `PAL_ShowDialogText` + `PAL_DialogWaitForKey*` + `PAL_EndDialog`)
+  2. trace **完整 callpath**(谁调谁、参数传递、global state mutation `g_TextLib.xxx`)
+  3. 识别 **branch condition**(eg. `isDialog` / `bDialogPosition` 各 case → 不同行为)
+  4. 列 sdlpal 真值 → ts 现状差异 **清单**,**一次性** port,不"修一半等 user 怼指点"
+- **反 pattern 实例**(2026-05-27 narration UI):
+  - 我只 grep "PAL_StartDialog narration" → 看到 box pos 真值就修 → user 怼"字色 / typing 不对" → 再 grep TEXT_DisplayText → 又看到 isDialog + DEFAULT 时 color=0 + 数字字符 sprite digit → 改 → ... 反复 3-4 轮
+  - **正确**:接 T14 dialog task 一开始就完整读 text.c PAL_StartDialogWithOffset + TEXT_DisplayText + PAL_ShowDialogText 全文,列 narration path 完整真值差异表(color / typing / fShadow / digit sprite / 1.4s timer / wait-for-key 全套),**一次性 commit**。
+- **新增 task 起手 checklist**(任何涉及 sdlpal port):
+  - [ ] 完整 read sdlpal C file 内对应任务的**全部** fn(不是 grep 命中 +/- 30 行)
+  - [ ] 列 callpath + global state mutation
+  - [ ] 识别 4-style / mode / branch 各 case
+  - [ ] 一次性列差异表 + 一次性 port
+  - [ ] commit message 引每行 sdlpal source 出处(`text.c:行号` 等)
+
 ## 反 shallow 资源 / 真值判断(硬约束)
 
 判断"M4 是否已 dump X" / "sdlpal `(cond ? A : B)` 真值哪个" / "pal-extract parser 完整覆盖 Y" 前,**必走 byte-level / source-level verify**,不许凭 surface 信号(file naming / macro 字面 / category 字段名)推断:

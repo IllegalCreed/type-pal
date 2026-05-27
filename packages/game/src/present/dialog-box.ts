@@ -29,6 +29,7 @@ import type { Framebuffer } from './framebuffer.js'
 import { renderText, type GlyphTable } from './font.js'
 import type { DialogBoxState, DialogPhase } from '../core/game-state.js'
 import { drawSingleLineBox } from './menu/draw-box.js'
+import { drawNumber } from './draw-number.js'
 
 // ── 常量 ──────────────────────────────────────────────────────────────────────
 
@@ -525,14 +526,31 @@ function drawNarrationDialog(
     })
   }
 
-  // 文字 pos(sdlpal text.c:1698)
+  // 文字 pos(sdlpal text.c:1698)— PAL_X(pos) + 8 + ((len & 1) << 2), PAL_Y(pos) + 10
   const textX = boxX + 8 + ((len & 1) << 2)
   const textY = boxY + 10
-  // sdlpal text.c:1698 真值:TEXT_DisplayText(lpszText, ...) **一次性 display 整 text**,
-  // 不 typing(narration path 没 typing loop)。state.charsRevealed 截断仅适用 upper/lower
-  // /center 透明文字风格 — narration 无视 charsRevealed,直接画全 text。
-  // 字色 sdlpal text.c:29 FONT_COLOR_DEFAULT=0x4F + fShadow=true(text.c:1594 TEXT_DisplayText
-  // 内调 PAL_DrawTextUnescape fShadow=!isDialog 真值:narration isDialog=TRUE → !TRUE = FALSE。
-  // 但 sdlpal 真值是 isDialog=TRUE(text.c:1698 最后参),所以 fShadow=FALSE。
-  renderText(fb, text, textX, textY, FONT_COLOR_DEFAULT, glyphs, false)
+
+  // sdlpal TEXT_DisplayText(text.c:1459-1613) narration path(isDialog=TRUE)真值:
+  //   - 整 text 一次性 display(text.c:1597 typing delay 仅 !isDialog 走)
+  //   - 逐字符 switch case(text.c:1474)— '0'-'9' 数字字符走 PAL_DrawNumber sprite digit,
+  //     其余走 PAL_DrawTextUnescape
+  //   - text.c:1581-1582 真值:isDialog + bCurrentFontColor==FONT_COLOR_DEFAULT → color=**0(黑)**
+  //   - text.c:1594 fShadow=!isDialog(narration isDialog=TRUE → fShadow=FALSE)
+  //   - text.c:1592 PAL_DrawNumber(ch-'0', 1, PAL_XY(x, y+4), kNumColorYellow, kNumAlignLeft)
+  //   - text.c:1595 x += PAL_CharWidth(ch)
+  let cursorX = textX
+  for (const ch of text) {
+    if (ch >= '0' && ch <= '9' && ctx?.uiSpriteFrames) {
+      // sdlpal text.c:1583-1592 真值:数字字符 yellow sprite digit blit at (x, y+4) left-align
+      const digit = ch.charCodeAt(0) - 0x30
+      drawNumber(fb, digit, 1, { x: cursorX, y: textY + 4 }, 'yellow', 'left', ctx.uiSpriteFrames)
+      cursorX += 6 // sdlpal PAL_CharWidth 数字字符 = 6(digit sprite width)
+    }
+    else {
+      // sdlpal text.c:1594 PAL_DrawTextUnescape(text, ..., color=0, fShadow=FALSE)
+      // sdlpal text.c:1595 x += PAL_CharWidth(text[0]):半角 8 / 全角 16
+      const advance = renderText(fb, ch, cursorX, textY, 0, glyphs, false)
+      cursorX += advance
+    }
+  }
 }
