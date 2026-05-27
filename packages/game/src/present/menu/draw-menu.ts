@@ -184,13 +184,15 @@ function drawCashBox(
   drawSingleLineBox({
     fb, x: CASH_BOX.x, y: CASH_BOX.y, len: CASH_BOX.len, uiSpriteFrames,
   })
-  // sdlpal text.c PAL_DrawText shadow 真值:menu / cash 标签默认带 shadow
-  renderText(fb, '金钱', CASH_LABEL_POS.x, CASH_LABEL_POS.y, MENUITEM_COLOR, glyphs, true)
-  // sdlpal uigame.c:490 PAL_DrawNumber(dwCash, 6, PAL_XY(49, 14), kNumColorYellow, kNumAlignRight)
+  // sdlpal uigame.c:483 真值:PAL_DrawText("金钱", PAL_XY(10, 10), 0, FALSE, ...)
+  //   color=0(黑色) + fShadow=FALSE(无阴影)— 不要带 shadow 也不要用 MENUITEM_COLOR
+  renderText(fb, '金钱', CASH_LABEL_POS.x, CASH_LABEL_POS.y, 0, glyphs, false)
+  // sdlpal uigame.c:488 PAL_DrawNumber(dwCash, 6, PAL_XY(49, 14), kNumColorYellow, kNumAlignRight)
   // 简版:用 renderText 写数字 string,右对齐到 CASH_NUMBER_RIGHT.x
+  // 真做留 T20:sprite-based digit(SPRITENUM_NUMBER chunk),每 digit 8px,不是 Unifont 16px
   const num = String(dwCash)
   const numW = measureText(num, glyphs)
-  renderText(fb, num, CASH_NUMBER_RIGHT.x - numW, CASH_NUMBER_RIGHT.y, FONT_COLOR_YELLOW, glyphs, true)
+  renderText(fb, num, CASH_NUMBER_RIGHT.x - numW, CASH_NUMBER_RIGHT.y, FONT_COLOR_YELLOW, glyphs, false)
 }
 
 // ── Save Slot menu(T10a:sdlpal uigame.c:169-242 真值) ────────────────────
