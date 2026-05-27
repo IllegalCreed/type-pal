@@ -1,26 +1,62 @@
 import type { AbstractKey, InputSnapshot, InputSource } from '@type-pal/shared'
 
-// 物理键 → AbstractKey。对照 sdlpal `input.c:60-92`(SDL2 → kKey*):
-//   ESCAPE/INSERT/ALT/KP_0 → kKeyMenu(开 InGameMenu / 菜单内返回上一级)
-//   RETURN/SPACE → kKeySearch(大世界调查 / 菜单内确认 → ts 'Confirm')
-//   F → kKeyForce(暂未接;留 W0.0 之后扩)
-// ts 端 'Cancel' 抽象保留 — M5 battle UI 用作回退键(battle menu 内退回上一菜单 step)
+// 物理键 → AbstractKey。完整对照 sdlpal `input.c:58-90`(M5.6 T1 真值补全)。
+// sdlpal 真值键集合(SDL2 → kKey*):
+//   方向:UP/DOWN/LEFT/RIGHT + Numpad 8/2/4/6
+//   Menu:ESCAPE/INSERT/LALT/RALT/KP_0
+//   Search(Confirm):RETURN/SPACE/KP_ENTER/LCTRL
+//   PgUp/PgDn/Home/End + Numpad 9/3/7/1 对应
+//   字母:r=Repeat / a=Auto / d=Defend / e=UseItem / w=ThrowItem / q=Flee / f=Force / s=Status
+//
+// ts 偏离 sdlpal 真值的合理选择:
+//   - 保留 WASD 当方向(浏览器游戏 convention,目标用户非 1995 DOS 玩家)
+//     → KeyW/A/S/D 优先映射方向键,sdlpal SDLK_w/a/d/s 战斗专用键(Auto/Defend/ThrowItem/Status)
+//       仍可通过 NumpadDecimal / 其他键达成;Status 走主菜单 hub
+//   - 'Cancel' 抽象保留(M5 battle UI 用作回退键,sdlpal 实际复用 kKeyMenu 但 ts 显式分键)
 const CODE_MAP: Record<string, AbstractKey> = {
+  // ── 方向(sdlpal input.c:58-65) ─────────────────────────────────────
   ArrowUp: 'Up',
   ArrowDown: 'Down',
   ArrowLeft: 'Left',
   ArrowRight: 'Right',
-  KeyW: 'Up',
-  KeyS: 'Down',
-  KeyA: 'Left',
-  KeyD: 'Right',
+  KeyW: 'Up',     // ts 偏离 sdlpal(浏览器 WASD convention,sdlpal 真值 W=ThrowItem)
+  KeyS: 'Down',   // ts 偏离 sdlpal(WASD;sdlpal 真值 S=Status)
+  KeyA: 'Left',   // ts 偏离 sdlpal(WASD;sdlpal 真值 A=Auto)
+  KeyD: 'Right',  // ts 偏离 sdlpal(WASD;sdlpal 真值 D=Defend)
+  Numpad8: 'Up',
+  Numpad2: 'Down',
+  Numpad4: 'Left',
+  Numpad6: 'Right',
+
+  // ── Menu(sdlpal input.c:66-70 kKeyMenu) ───────────────────────────
+  Escape: 'Menu',
+  AltLeft: 'Menu',
+  AltRight: 'Menu',
+  Insert: 'Menu',
+  Numpad0: 'Menu',
+  KeyM: 'Menu', // dev 常用
+
+  // ── Confirm/Search(sdlpal input.c:71-74 kKeySearch) ────────────────
   Space: 'Confirm',
   Enter: 'Confirm',
-  Escape: 'Menu', // sdlpal input.c:66 SDLK_ESCAPE → kKeyMenu(M5.6 W0.0 — 原误标 'Cancel')
-  AltLeft: 'Menu', // sdlpal input.c:68
-  AltRight: 'Menu', // sdlpal input.c:69
-  Insert: 'Menu', // sdlpal input.c:67
-  KeyM: 'Menu', // dev 常用键,保留
+  NumpadEnter: 'Confirm',
+  ControlLeft: 'Confirm',
+
+  // ── 翻页 / Home/End(sdlpal input.c:75-82) ─────────────────────────
+  PageUp: 'PgUp',
+  Numpad9: 'PgUp',
+  PageDown: 'PgDn',
+  Numpad3: 'PgDn',
+  Home: 'Home',
+  Numpad7: 'Home',
+  End: 'End',
+  Numpad1: 'End',
+
+  // ── 战斗 / 大世界专用键(sdlpal input.c:83-90) ────────────────────
+  KeyR: 'Repeat',     // sdlpal SDLK_r 战斗重复上回合 action
+  KeyE: 'UseItem',    // sdlpal SDLK_e 大世界直接用物品
+  KeyQ: 'Flee',       // sdlpal SDLK_q 战斗逃跑
+  KeyF: 'Force',      // sdlpal SDLK_f 强制移动 / 战斗 force action
 }
 
 export function codeToAbstractKey(code: string): AbstractKey | null {

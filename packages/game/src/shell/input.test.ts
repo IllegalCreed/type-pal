@@ -21,15 +21,42 @@ describe('codeToAbstractKey', () => {
     expect(codeToAbstractKey('KeyD')).toBe('Right')
   })
 
-  it('确认 / 菜单(sdlpal input.c:66-72 真值)', () => {
+  it('确认 / 菜单(sdlpal input.c:66-74 真值)', () => {
     expect(codeToAbstractKey('Space')).toBe('Confirm')
     expect(codeToAbstractKey('Enter')).toBe('Confirm')
-    // sdlpal input.c:66 SDLK_ESCAPE → kKeyMenu;ts 'Cancel' 抽象保留 battle 用,但物理 Escape 映 'Menu'
+    expect(codeToAbstractKey('NumpadEnter')).toBe('Confirm')
+    expect(codeToAbstractKey('ControlLeft')).toBe('Confirm')
     expect(codeToAbstractKey('Escape')).toBe('Menu')
     expect(codeToAbstractKey('AltLeft')).toBe('Menu')
     expect(codeToAbstractKey('AltRight')).toBe('Menu')
     expect(codeToAbstractKey('Insert')).toBe('Menu')
+    expect(codeToAbstractKey('Numpad0')).toBe('Menu')
     expect(codeToAbstractKey('KeyM')).toBe('Menu')
+  })
+
+  it('Numpad 方向键(sdlpal input.c:58-65)', () => {
+    expect(codeToAbstractKey('Numpad8')).toBe('Up')
+    expect(codeToAbstractKey('Numpad2')).toBe('Down')
+    expect(codeToAbstractKey('Numpad4')).toBe('Left')
+    expect(codeToAbstractKey('Numpad6')).toBe('Right')
+  })
+
+  it('翻页 / Home/End(sdlpal input.c:75-82)', () => {
+    expect(codeToAbstractKey('PageUp')).toBe('PgUp')
+    expect(codeToAbstractKey('Numpad9')).toBe('PgUp')
+    expect(codeToAbstractKey('PageDown')).toBe('PgDn')
+    expect(codeToAbstractKey('Numpad3')).toBe('PgDn')
+    expect(codeToAbstractKey('Home')).toBe('Home')
+    expect(codeToAbstractKey('Numpad7')).toBe('Home')
+    expect(codeToAbstractKey('End')).toBe('End')
+    expect(codeToAbstractKey('Numpad1')).toBe('End')
+  })
+
+  it('战斗 / 大世界专用键(sdlpal input.c:83-90)', () => {
+    expect(codeToAbstractKey('KeyR')).toBe('Repeat')
+    expect(codeToAbstractKey('KeyE')).toBe('UseItem')
+    expect(codeToAbstractKey('KeyQ')).toBe('Flee')
+    expect(codeToAbstractKey('KeyF')).toBe('Force')
   })
 
   it('未知键 → null', () => {
