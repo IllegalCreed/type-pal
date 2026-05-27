@@ -17,6 +17,7 @@ import type {
   GameState,
 } from '../../core/game-state.js'
 import type { InGameMenuState, SystemMenuState } from '../../core/menu/in-game-menu.js'
+import type { SaveSlotMenuState } from '../../core/menu/save-slot-menu.js'
 import type { SelectionMenuState } from '../../core/menu/primitives.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { measureText, renderText, type GlyphTable } from '../font.js'
@@ -91,13 +92,16 @@ function drawMenuEntry(
       drawSystemMenu(fb, entry.state as SystemMenuState, uiSpriteFrames, glyphs)
       break
     case 'save-slot':
+      // T10a 完工:5 个 SingleLineBox + slot 文字 + 存档次数(sdlpal uigame.c:169-242)
+      drawSaveSlotMenu(fb, entry.state as SaveSlotMenuState, uiSpriteFrames, glyphs)
+      break
     case 'inventory':
     case 'equip':
     case 'in-game-magic':
     case 'player-status':
     case 'shop-buy':
     case 'shop-sell':
-      // T10a-e fullscreen UI 真做;此处仍占位标记 — M5.6 v2 不再装样子,显式标 TODO
+      // T10b-e 待真做 fullscreen UI;此处显式标 TODO 不再装"接通"
       drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
       break
   }
@@ -173,7 +177,51 @@ function drawCashBox(
   renderText(fb, num, CASH_NUMBER_RIGHT.x - numW, CASH_NUMBER_RIGHT.y, FONT_COLOR_YELLOW, glyphs)
 }
 
-// ── Placeholder TODO(T10a-e 完成前,显式标 TODO 不装"接通") ────────────────
+// ── Save Slot menu(T10a:sdlpal uigame.c:169-242 真值) ────────────────────
+
+// sdlpal 真值:
+//   每 slot box pos (195-dx, 7 + 38*i),slot 文字 (210-dx, 17 + 38*i)
+//   存档次数数字 right-align at (270, 38*i - 17),黄色
+//   ts 简版:dx=0(假设 "Slot N" label 短),len=6
+const SAVE_SLOT_BOX_X = 195
+const SAVE_SLOT_BOX_Y_BASE = 7
+const SAVE_SLOT_LINE_HEIGHT = 38
+const SAVE_SLOT_LABEL_OFFSET = { x: 15, y: 10 }
+const SAVE_SLOT_NUMBER_X_RIGHT = 270
+
+function drawSaveSlotMenu(
+  fb: Framebuffer,
+  state: SaveSlotMenuState,
+  uiSpriteFrames: IndexedImage[],
+  glyphs?: GlyphTable,
+): void {
+  const items = state.selection.items
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i]!
+    const boxY = SAVE_SLOT_BOX_Y_BASE + i * SAVE_SLOT_LINE_HEIGHT
+    drawSingleLineBox({ fb, x: SAVE_SLOT_BOX_X, y: boxY, len: 6, uiSpriteFrames })
+    const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
+    renderText(
+      fb, item.label,
+      SAVE_SLOT_BOX_X + SAVE_SLOT_LABEL_OFFSET.x,
+      boxY + SAVE_SLOT_LABEL_OFFSET.y,
+      color, glyphs,
+    )
+    // 存档次数 right-align(M5.6 简版固定 0;真 Save.listSlots 异步留 follow-up 注入)
+    const num = '0'
+    const numW = measureText(num, glyphs)
+    renderText(
+      fb, num,
+      SAVE_SLOT_NUMBER_X_RIGHT - numW,
+      boxY + SAVE_SLOT_LABEL_OFFSET.y,
+      FONT_COLOR_YELLOW, glyphs,
+    )
+  }
+  // 顶部 mode 标题 "存档" / "读档"(sdlpal 无独立标题;mode 是 caller context — ts 加视觉提示)
+  renderText(fb, state.mode === 'save' ? '存档' : '读档', 100, 7, FONT_COLOR_YELLOW, glyphs)
+}
+
+// ── Placeholder TODO(T10b-e 完成前,显式标 TODO 不装"接通") ────────────────
 
 function drawPlaceholderTodo(
   fb: Framebuffer,
