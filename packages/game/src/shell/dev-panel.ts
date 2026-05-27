@@ -35,6 +35,7 @@ import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 // M5.6 W2.b + T11:menu units 入口 — 一键 push 各 menu kind 到 menuStack
 import { createInGameMenu, createSystemMenu } from '../core/menu/in-game-menu.js'
 import { createSaveSlotMenu } from '../core/menu/save-slot-menu.js'
+import { createInventoryActionMenu } from '../core/menu/inventory-action-menu.js'
 import { createPlayerStatus } from '../core/menu/player-status.js'
 import { createInventoryMenu } from '../core/menu/inventory-menu.js'
 import { createEquipMenu } from '../core/menu/equip-menu.js'
@@ -369,8 +370,16 @@ function openPicker(deps: DevPanelDeps): void {
     { label: 'Save Slot (save mode)', openFn: () => openMenu(deps.gs, { kind: 'save-slot', state: createSaveSlotMenu('save') }) },
     { label: 'Player Status', openFn: () => openMenu(deps.gs, { kind: 'player-status', state: createPlayerStatus(deps.gs.partyMembers) }) },
     // T11 补 3 个 sub-menu(catalog 已通过 setMenuCatalogs 注入,createX 内部读 catalogs)
+    // M5.6 session 3 加:Inventory Action 1 级 box submenu(sdlpal uigame.c:878-919 真值)
     {
-      label: 'Inventory',
+      label: 'Inventory Action (装备/使用 box)',
+      openFn: () => openMenu(deps.gs, {
+        kind: 'inventory-action',
+        state: createInventoryActionMenu(deps.gs.iCurInvActionMenuItem),
+      }),
+    },
+    {
+      label: 'Inventory (直跳 fullscreen list,dev only)',
       openFn: () => openMenu(deps.gs, { kind: 'inventory', state: createInventoryMenu(deps.gs, deps.resources.items) }),
     },
     {
