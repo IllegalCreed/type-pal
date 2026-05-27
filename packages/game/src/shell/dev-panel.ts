@@ -32,6 +32,11 @@ import { loadScene } from '../core/scene-system.js'
 import { buildLabelMap } from '../core/event-system.js'
 import { Save } from '../core/save/api.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
+// M5.6 W2.b:menu units 入口 — 一键 push 各 menu kind 到 menuStack
+import { createInGameMenu, createSystemMenu } from '../core/menu/in-game-menu.js'
+import { createSaveSlotMenu } from '../core/menu/save-slot-menu.js'
+import { createPlayerStatus } from '../core/menu/player-status.js'
+import { openMenu } from '../core/menu/menu-mode.js'
 
 /** fixture JSON entry —— 与 `packages/game/src/data/battle-fixtures.json` 对齐。 */
 export interface BattleFixture {
@@ -341,6 +346,30 @@ function openPicker(deps: DevPanelDeps): void {
     console.log('[save] slots:', list)
   })
   div.appendChild(listBtn)
+
+  // ── M5.6 W2.b: Menu Units ─────────────────────────────────────────
+  // 每按钮一键 push 对应 menu kind 到 menuStack — 验证 W0 渲染 + 输入路由真通。
+  const menuH = document.createElement('h4')
+  menuH.textContent = '📋 Menu Units (M5.6 W0)'
+  menuH.className = 'tp-dev-section-h'
+  div.appendChild(menuH)
+
+  const menuUnits: Array<{ label: string; openFn: () => void }> = [
+    { label: 'InGame Menu (ESC)', openFn: () => openMenu(deps.gs, { kind: 'in-game', state: createInGameMenu() }) },
+    { label: 'System Menu', openFn: () => openMenu(deps.gs, { kind: 'system', state: createSystemMenu() }) },
+    { label: 'Save Slot (save mode)', openFn: () => openMenu(deps.gs, { kind: 'save-slot', state: createSaveSlotMenu('save') }) },
+    { label: 'Player Status', openFn: () => openMenu(deps.gs, { kind: 'player-status', state: createPlayerStatus(deps.gs.partyMembers) }) },
+  ]
+  for (const unit of menuUnits) {
+    const btn = document.createElement('button')
+    btn.textContent = unit.label
+    btn.style.cssText = 'display:block; margin:2px 0; padding:4px 8px; width:100%; text-align:left; font-size:11px'
+    btn.addEventListener('click', () => {
+      closePicker()
+      unit.openFn()
+    })
+    div.appendChild(btn)
+  }
 
   document.body.appendChild(div)
   currentPicker = div
