@@ -468,7 +468,15 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       y += 20
     }
     flushToCanvas(fb, canvasCtx!, gs.palette ?? palette)
-    console.log('[font-test] sheet rendered — check canvas for tofu')
+    console.log('[font-test] sheet rendered — 按任意键退出 font test 恢复 raf loop')
+    // M5.6 UX hotfix:user 怒怼'font test 一帧就没了' — 修法 suspendRaf=true 防下一帧覆盖,
+    // 任意 keydown 退出 resume(once listener)。
+    gs.suspendRaf = true
+    const exitOnce = (): void => {
+      gs.suspendRaf = false
+      window.removeEventListener('keydown', exitOnce, true)
+    }
+    window.addEventListener('keydown', exitOnce, true)
   }
 
   setupDevPanel({

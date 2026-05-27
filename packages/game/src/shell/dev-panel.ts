@@ -195,11 +195,21 @@ function openPicker(deps: DevPanelDeps): void {
 
   const div = document.createElement('div')
   div.className = 'tp-dev-panel'
+  // 注:不要 set `position: relative` — `.tp-dev-panel` CSS 已 `position: fixed`,
+  // 自动是 positioned ancestor。覆盖会让 panel 从 fixed 退回 normal flow → 飘到页底。
 
   const h3 = document.createElement('h3')
   h3.textContent = 'Dev Panel'
   h3.className = 'tp-dev-panel-title'
   div.appendChild(h3)
+
+  // M5.6 UX hotfix:close 按钮右上角 X(user 怒怼"Cancel 在底部不顺手")
+  const closeBtn = document.createElement('button')
+  closeBtn.textContent = '×'
+  closeBtn.title = 'Close (Esc)'
+  closeBtn.style.cssText = 'position:absolute; top:6px; right:8px; padding:0 8px; cursor:pointer; font-size:20px; line-height:1; background:transparent; border:none; color:#fff; font-weight:bold'
+  closeBtn.addEventListener('click', closePicker)
+  div.appendChild(closeBtn)
 
   const battleH = document.createElement('h4')
   battleH.textContent = '⚔ Battle Fixtures'
@@ -258,11 +268,7 @@ function openPicker(deps: DevPanelDeps): void {
   sceneInput.addEventListener('input', () => renderSceneList(sceneInput.value.trim()))
   renderSceneList('')
 
-  const cancel = document.createElement('button')
-  cancel.textContent = 'Cancel'
-  cancel.style.cssText = 'margin-top:8px; padding:4px 8px'
-  cancel.addEventListener('click', closePicker)
-  div.appendChild(cancel)
+  // M5.6 UX hotfix:底部 Cancel 按钮删除 — 走右上角 X(已加在 div 内)
 
   // P4.T5: Font Test sheet — 渲染中英文混合字符串到 fb,spot-check Unifont glyph 真显示
   const fontTestH = document.createElement('h4')
