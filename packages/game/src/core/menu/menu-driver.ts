@@ -28,10 +28,11 @@ import {
   type InGameMenuState,
   type SystemMenuState,
 } from './in-game-menu.js'
-import { pageDown, pageUp } from './primitives.js'
 import {
   cancelInventoryMenu, confirmInventoryItem, confirmInventoryTarget,
-  createInventoryMenu, inventoryMoveDown, inventoryMoveUp, type InventoryMenuState,
+  createInventoryMenu, inventoryEnd, inventoryHome, inventoryMoveDown,
+  inventoryMoveLeft, inventoryMoveRight, inventoryMoveUp, inventoryPageDown,
+  inventoryPageUp, type InventoryMenuState,
 } from './inventory-menu.js'
 import {
   cancelEquipMenu, confirmEquipItem, confirmEquipRole,
@@ -263,14 +264,17 @@ function dispatchInventoryMenu(
     if (s.phase === 'done') closeTopMenu(gs)
     return
   }
+  // sdlpal itemmenu.c:63-94 真值:8 keys grid navigation
   if (input.pressed.has('Up')) inventoryMoveUp(s)
   if (input.pressed.has('Down')) inventoryMoveDown(s)
-  // M5.6 T6:PgUp/PgDn 翻页(sdlpal ui.c kKeyPgUp/PgDn)— list phase 的 SelectionMenu
-  if (s.phase === 'list') {
-    if (input.pressed.has('PgUp')) pageUp(s.list)
-    if (input.pressed.has('PgDn')) pageDown(s.list)
-  }
-  gs.iCurInvMenuItem = s.list?.cursor ?? 0
+  if (input.pressed.has('Left')) inventoryMoveLeft(s)
+  if (input.pressed.has('Right')) inventoryMoveRight(s)
+  if (input.pressed.has('PgUp')) inventoryPageUp(s)
+  if (input.pressed.has('PgDn')) inventoryPageDown(s)
+  if (input.pressed.has('Home')) inventoryHome(s)
+  if (input.pressed.has('End')) inventoryEnd(s)
+  // sdlpal gpGlobals->iCurInvMenuItem 全局记忆
+  gs.iCurInvMenuItem = s.cursor
   if (input.pressed.has('Confirm')) {
     const catalogs = requireCatalogs()
     if (s.phase === 'list') {

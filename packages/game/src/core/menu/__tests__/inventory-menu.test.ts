@@ -54,7 +54,7 @@ describe('M-w1.a InventoryMenu', () => {
     gs.inventory = [{ itemId: 1, count: 3 }, { itemId: 2, count: 1 }]
     const s = createInventoryMenu(gs, ITEMS, 'all')
     expect(s.phase).toBe('list')
-    expect(s.list.items.length).toBe(2)
+    expect(s.inventory.length).toBe(2)
   })
 
   it('confirmInventoryItem usable 物品 → 进 use-target + 构 targetMenu', () => {
@@ -99,12 +99,13 @@ describe('M-w1.a InventoryMenu', () => {
     expect(s.phase).toBe('done')
   })
 
-  it('inventoryMoveDown 路由到当前 phase 的 menu', () => {
+  it('inventoryMoveDown 按 sdlpal 真值跨行(±iItemsPerLine=3)— 2 个 item 时 +3 clamp 到 last=1', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = [{ itemId: 1, count: 3 }, { itemId: 2, count: 1 }]
     const s = createInventoryMenu(gs, ITEMS, 'all')
-    expect(s.list.cursor).toBe(0)
+    expect(s.cursor).toBe(0)
+    // sdlpal itemmenu.c:67-69 真值:Down → item_delta = +iItemsPerLine(3),clamp 到 inventory.length-1=1
     inventoryMoveDown(s)
-    expect(s.list.cursor).toBe(1)
+    expect(s.cursor).toBe(1)
   })
 })

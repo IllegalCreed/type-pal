@@ -35,7 +35,7 @@ export interface ItemSelectMenuConfig {
 }
 
 /** filter → item 是否归属此类。M5 简版按 ItemFlags 拆 bit 判断。 */
-function matchesFilter(item: Item, filter: ItemFilter): boolean {
+export function matchesFilter(item: Item, filter: ItemFilter): boolean {
   if (filter === 'all') return true
   const f = item.flags
   switch (filter) {

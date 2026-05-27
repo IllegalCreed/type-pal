@@ -144,8 +144,8 @@ describe('M5.6 T9 dispatchInventoryMenu', () => {
     const inv = createInventoryMenu(gs, items)
     openMenu(gs, { kind: 'inventory', state: inv })
     tickMenu(gs, snap(['Down']), createCommandBus())
-    expect(inv.list.cursor).toBeGreaterThan(0)
-    expect(gs.iCurInvMenuItem).toBe(inv.list.cursor)
+    expect(inv.cursor).toBeGreaterThan(0)
+    expect(gs.iCurInvMenuItem).toBe(inv.cursor)
   })
 
   it('PgDn → 翻页', () => {
@@ -155,9 +155,9 @@ describe('M5.6 T9 dispatchInventoryMenu', () => {
     setMenuCatalogs({ ...MOCK_CATALOGS, items })
     const inv = createInventoryMenu(gs, items)
     openMenu(gs, { kind: 'inventory', state: inv })
-    const before = inv.list.cursor
+    const before = inv.cursor
     tickMenu(gs, snap(['PgDn']), createCommandBus())
-    expect(inv.list.cursor).toBeGreaterThan(before)
+    expect(inv.cursor).toBeGreaterThan(before)
   })
 })
 
