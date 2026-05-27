@@ -122,6 +122,60 @@ export function setupDevPanel(deps: DevPanelDeps): void {
 /** 当前打开的 picker root —— 同一时刻只允许一个。 */
 let currentPicker: HTMLDivElement | undefined
 
+/**
+ * M5.6 W2.a:dev panel CSS 注入。
+ * 提供:统一深色背景 / 紧凑间距 / 等宽字体 / section 标题视觉分离 / 按钮 hover 反馈。
+ * inline style 仍 override 具体尺寸位置;CSS class 给 base color/font 让面板有统一基调。
+ */
+let _devPanelCssInjected = false
+function injectDevPanelCSS(): void {
+  if (_devPanelCssInjected || typeof document === 'undefined') return
+  _devPanelCssInjected = true
+  const style = document.createElement('style')
+  style.id = 'tp-dev-panel-css'
+  style.textContent = `
+    .tp-dev-panel {
+      position: fixed; top: 12px; left: 12px; z-index: 9999;
+      background: rgba(24, 24, 28, 0.96); color: #e8e8e8;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px;
+      padding: 10px 12px; border-radius: 8px;
+      border: 1px solid #3a3a42;
+      width: 320px; max-height: 88vh; overflow-y: auto;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    }
+    .tp-dev-panel h3, .tp-dev-panel h4 {
+      margin: 0; font-weight: 600;
+    }
+    .tp-dev-panel-title {
+      font-size: 13px !important;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #3a3a42;
+      margin-bottom: 8px !important;
+      color: #fdf6a8;
+    }
+    .tp-dev-section-h {
+      font-size: 12px !important;
+      margin: 10px 0 4px 0 !important;
+      padding: 3px 6px;
+      background: linear-gradient(90deg, #3a3a42 0%, transparent 100%);
+      border-left: 3px solid #6c8eef;
+      color: #c4d1ff;
+    }
+    .tp-dev-panel button {
+      background: #2d2d34; color: #e8e8e8;
+      border: 1px solid #45454f; border-radius: 4px;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .tp-dev-panel button:hover { background: #3a3a45; }
+    .tp-dev-panel input {
+      background: #1c1c20; color: #e8e8e8;
+      border: 1px solid #45454f; border-radius: 4px;
+    }
+    .tp-dev-panel input:focus { outline: none; border-color: #6c8eef; }
+  `
+  document.head.appendChild(style)
+}
+
 function openPicker(deps: DevPanelDeps): void {
   // 已开 → 先关再开(防多按 B 累浮层)
   if (currentPicker) {
@@ -129,26 +183,20 @@ function openPicker(deps: DevPanelDeps): void {
     currentPicker = undefined
   }
 
+  injectDevPanelCSS()
+
   const div = document.createElement('div')
-  div.style.cssText = [
-    'position: fixed',
-    'top: 20px',
-    'left: 20px',
-    'z-index: 9999',
-    'background: white',
-    'color: black',
-    'padding: 12px',
-    'border: 2px solid #333',
-    'font-family: monospace',
-    'font-size: 12px',
-    'max-height: 80vh',
-    'overflow-y: auto',
-  ].join(';')
+  div.className = 'tp-dev-panel'
 
   const h3 = document.createElement('h3')
-  h3.textContent = 'Dev: Battle Picker'
-  h3.style.cssText = 'margin: 0 0 8px 0; font-size: 14px'
+  h3.textContent = 'Dev Panel'
+  h3.className = 'tp-dev-panel-title'
   div.appendChild(h3)
+
+  const battleH = document.createElement('h4')
+  battleH.textContent = '⚔ Battle Fixtures'
+  battleH.className = 'tp-dev-section-h'
+  div.appendChild(battleH)
 
   for (const fixture of deps.fixtures.fixtures) {
     const btn = document.createElement('button')
@@ -162,9 +210,9 @@ function openPicker(deps: DevPanelDeps): void {
   }
 
   // M4 P3 T6: scene jump section —— input + filter list(294 entries)。
-  const sceneH = document.createElement('h3')
-  sceneH.textContent = 'Dev: Scene Jump'
-  sceneH.style.cssText = 'margin: 12px 0 8px 0; font-size: 14px'
+  const sceneH = document.createElement('h4')
+  sceneH.textContent = '🗺 Scene Jump'
+  sceneH.className = 'tp-dev-section-h'
   div.appendChild(sceneH)
 
   const sceneInput = document.createElement('input')
@@ -209,9 +257,9 @@ function openPicker(deps: DevPanelDeps): void {
   div.appendChild(cancel)
 
   // P4.T5: Font Test sheet — 渲染中英文混合字符串到 fb,spot-check Unifont glyph 真显示
-  const fontTestH = document.createElement('h3')
-  fontTestH.textContent = 'Dev: Font Test'
-  fontTestH.style.cssText = 'margin: 12px 0 8px 0; font-size: 14px'
+  const fontTestH = document.createElement('h4')
+  fontTestH.textContent = '🔤 Font Test'
+  fontTestH.className = 'tp-dev-section-h'
   div.appendChild(fontTestH)
 
   const fontTestBtn = document.createElement('button')
@@ -230,9 +278,9 @@ function openPicker(deps: DevPanelDeps): void {
   div.appendChild(fontTestBtn)
 
   // Sync.v Step 2: Dialog Style Test —— 4 style 各一段,验证 typing / 头像 / key icon / 多页
-  const dialogH = document.createElement('h3')
-  dialogH.textContent = 'Dev: Test Dialog Styles'
-  dialogH.style.cssText = 'margin: 12px 0 8px 0; font-size: 14px'
+  const dialogH = document.createElement('h4')
+  dialogH.textContent = '💬 Dialog Styles'
+  dialogH.className = 'tp-dev-section-h'
   div.appendChild(dialogH)
 
   const dialogBtn = document.createElement('button')
@@ -245,9 +293,9 @@ function openPicker(deps: DevPanelDeps): void {
   div.appendChild(dialogBtn)
 
   // M5.S-w2.1: Save / Load / List / Clear entry
-  const saveH = document.createElement('h3')
-  saveH.textContent = 'Dev: Save Slots(IndexedDB)'
-  saveH.style.cssText = 'margin: 12px 0 8px 0; font-size: 14px'
+  const saveH = document.createElement('h4')
+  saveH.textContent = '💾 Save Slots (IndexedDB)'
+  saveH.className = 'tp-dev-section-h'
   div.appendChild(saveH)
 
   for (let slot = 1; slot <= 5; slot++) {
