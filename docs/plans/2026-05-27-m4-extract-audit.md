@@ -52,7 +52,7 @@
 | **GOP.MKF** | per mapNum | 障碍物层(gridObstacles?)| parseMap 内部消费 | (同上 tilemap json) |
 | MAP + GOP | ~120 unique mapNum | 全 295 scene mapNum dedup | per mapNum dump tile + tilemap | `images/world/tileset/map-{n}/tile-XXXX.png` |
 | **RNG.MKF** | 0-11 | sub-MKF + RLE delta 动画帧(rngplay.c)| ✓ T18 Step 2:`decodeRngAnim` port `PAL_RNGReadFrame` + `PAL_RNGBlitToSurface` opcode 0x00-0x13 → 1464 frame PNG | `images/animation/rng-{NN}/frame-{NNN}.png` + `data/rng-frames.json` |
-| **RGM.MKF** | 0-91 | 单帧 RLE bitmap **角色头像** | ⚠ raw dump **未解 RLE 无 PNG** | `data/rgm-raw.json` |
+| **RGM.MKF** | 0-91 | 单帧 RLE bitmap **角色头像** | ✓ `parsers/rgm.ts decodeRgmPortrait`(M5.6 T10d 修)RLE → PNG | `images/portraits/{NN}.png` × 88 + `data/portraits.json` |
 | **BALL.MKF** | 0-251 | 单帧 RLE bitmap **物品图标** | ⚠ raw dump **未解 RLE 无 PNG** | `data/ball-raw.json` |
 | **FIRE.MKF** | 0-54 | sprite group YJ2 法术动画 | 全 YJ2 + 帧抽 | `images/magic/fire-NN/frame-NN.png` + `data/fire-sprites.json` |
 | **SOUNDS.MKF** | 0-504 | OGG 音效(M6)| metadata only | `data/sounds-metadata.json` |
@@ -77,7 +77,7 @@
 | **T17 OpeningMenu** | FBP chunk 2 主菜单 bg + SPRITEUI(chunk 9) + 字 | ✅ 全已 dump | 不需补 |
 | **T18 Trademark + Splash + AVI** | Splash chunk 3/4 + 1.avi/2.avi/3.avi → mp4 | ⚠ splash PNG OK,**3 AVI 未转 mp4** | 需补 ffmpeg 离线流水线 |
 | **T10b InventoryMenu fullscreen** | BALL 252 物品图标 + SPRITEUI | ⚠ **BALL 未解 RLE,无 PNG** | 需补 RLE 解 → PNG 流水线 |
-| **T10d PlayerStatus** | RGM 92 角色头像 + SPRITEUI + LevelUpExp | ⚠ **RGM 未解 RLE,无 PNG** | 需补 RLE 解 → PNG 流水线 |
+| **T10d PlayerStatus** | RGM 92 角色头像 + SPRITEUI + LevelUpExp | ✅ 全已 dump(M5.6 T10d 已修 RGM RLE → 88 PNG) | 不需补 |
 | **T10c InGameMagicMenu** | SPRITEUI + magic chunk 10 effect frames + magic.json | ✅ 全已 dump | 不需补 |
 | **T10e EquipItemMenu** | BALL + SPRITEUI | ⚠ 同 T10b | 同 T10b(可一并补)|
 | **T15 BattleWon** | SPRITEUI 9-slice box + 战斗结算文字 | ✅ | 不需补 |
@@ -93,9 +93,14 @@
 - **修法**:[`parsers/ball.ts`](../../packages/pal-extract/src/resources/parsers/ball.ts) `decodeBallIcon` — 复用 `io/rle.ts decodeRle`,**skip 头 4 byte `02 00 00 00` file header**(sdlpal palcommon.c:96-100 真值),输出 `images/items/{NNN}.png` × 251(chunk 0 空槽位 skip)+ `data/items-icons.json` manifest。
 - **典型尺寸**:48×47 indexed PNG with alpha mask(opaque=0 处 透明)。
 
-### 2. RGM.MKF RLE 解 → 92 角色头像 PNG
-- **触发 task**:T10d PlayerStatus
-- **工作量**:同 BALL,加 `parsers/rgm.ts` 真实现 → `images/portraits/{NN}.png` × 92
+### 2. RGM.MKF RLE 解 → 88 角色头像 PNG — ✓ 已修(2026-05-27 T10d session 3)
+- **触发 task**:T10d PlayerStatus / DialogBox portrait
+- **修法**:[`parsers/rgm.ts`](../../packages/pal-extract/src/resources/parsers/rgm.ts) `decodeRgmPortrait` —
+  与 BALL 同模式(`palcommon.c:96-100` 4-byte file header `02 00 00 00` skip + decodeRle + encodeIndexedPng),
+  输出 `images/portraits/{NN}.png` × 88(chunk 0 + 3 空 skip)+ `data/portraits.json` manifest。
+- **典型尺寸**:78×91 indexed PNG with alpha mask(chunk 1 真值)。
+- **runtime 接入**:loader 不重复 fetch(复用 `dialog-assets.portraitFrames` map)— DialogBox + PlayerStatus
+  共享同一 chunkIndex → IndexedImage 映射。dialog-assets 已切换 PNG fetch path(取代 rgm-raw.json runtime RLE)。
 
 ### 3. 1-6.avi → mp4(ffmpeg 离线)— ✓ T18 Step 1 已修(2026-05-27)
 - **触发 task**:T18 Trademark + Splash / T19 OpeningMenu AVI / 后续 cutscene

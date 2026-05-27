@@ -1196,18 +1196,35 @@ function dispatchMagicSelectMenu(gs, top, input, bus) { /* 同 in-game-magic pic
 
 | # | Task | sdlpal 真值 / 工作量 |
 |---:|---|---|
-| 1 | **T17 PAL_OpeningMenu fullscreen + bootstrap 接入** | `uigame.c:42-167` ~125 行,1 session;玩家第一眼,启动流程 |
-| 2 | **T18 + T19 Trademark + Splash + ffmpeg AVI→mp4 + `<video>`** | `main.c:179-540` ~400 行 + pal-extract ffmpeg script,1-2 session |
-| 3 | **T14 addItem 卷轴 box**(sdlpal opcode idiom)| 用 kDialogCenterWindow + SingleLineBox 复用,~0.5 session |
-| 4 | T10b InventoryMenu fullscreen | `itemmenu.c PAL_ItemSelectMenu` 285 行 |
-| 5 | T10d PlayerStatus | `uigame.c:1051-1288` 238 行 |
+| ~~1~~ | ~~**T17 PAL_OpeningMenu fullscreen**~~ | ✓ session 2 完工 |
+| ~~2~~ | ~~**T18 + T19 Trademark + Splash + AVI→mp4**~~ | ✓ session 2 完工 |
+| ~~3~~ | ~~**T14 narration 卷轴**~~ | ✓ session 2 完工(kDialogCenterWindow 真值修) |
+| ~~4~~ | ~~T10b InventoryMenu fullscreen~~ | ✓ session 2 完工 + session 3 补一级 box 子菜单(uigame.c:878-919 PAL_InventoryMenu) |
+| ~~5~~ | ~~T10d PlayerStatus~~ | ✓ session 3 完工(`uigame.c:1051-1286` 1:1 port + RGM RLE → PNG 88 头像 audit 第 2 漏洞修) |
 | 6 | T10c InGameMagicMenu | `uigame.c:654-877` 224 行 |
-| 7 | T10e EquipItemMenu | `uigame.c:1794-2058` 265 行 |
+| 7 | T10e EquipItemMenu | `uigame.c:1794-2058` 265 行(把 ts equip-menu.ts 嵌套 ItemSelectMenu 拆出,改成接收预选 wObject 的全屏 UI) |
 | 8 | T15 PAL_BattleWon 4 段 modal box | `battle.c:991-1150` 159 行 |
 | 9 | T16 levelup loop + 8 类 stat + 数值提升 UI | `fight.c:3756+` + `global.c:2347+`,跨 session;**会触发战斗 baseline 重算** |
 | 10 | T12 audit 表 in-place + T13 README 收口 | ~0.5 session |
+| 11 | rgEquipmentEffect 运行时模型 — sdlpal `global.c:1736+` PAL_GetPlayer*Stat 真值公式启用(EquipItemMenu 落地后激活)| ~0.5 session |
+| 12 | PlayerStatus 毒素 row(uigame.c:1245-1253)+ items.poison 字段全 plumb | ~0.5 session |
 
-**ETA**:~9-11 个后续 session 完工 M5.6 v2 全 21 task。
+**ETA**:~5-7 个后续 session 完工 M5.6 v2 剩余 task。
+
+### v2 session 3 完工(2026-05-27)
+
+| Task | Commit | 内容 |
+|---|---|---|
+| RGM RLE PNG | `16df927` | audit 第 2 漏洞:RGM.MKF RLE 解 → 88 portrait PNG;dialog-assets 切 PNG fetch path |
+| T10b 1 级 box 修 | `6e7b3a6` | sdlpal `uigame.c:878-919` PAL_InventoryMenu 一级子菜单(装备/使用)+ ItemFilter 'usable' + iCurInvActionMenuItem 跨次记忆 |
+| T10d state machine | (同上) | player-status.ts 删 3 页签简版,重写为 cursor linear(party 成员索引)+ 4-key dispatch(sdlpal uigame.c:1265-1284 真值)+ 单测 × 6 |
+| T10d wiring | (同上) | loader 加 levelUpExp 加载;PresentContext 加 statusBg / playerRoles / portraitIcons / levelUpExp |
+| T10d fullscreen UI | `0fa8440` | draw-player-status.ts(sdlpal uigame.c:1051-1286 全 10 步渲染 1:1 port — FBP bg + RGM 头像 + 6 装备槽 + 9 stat 标签 + 12 数字 + 角色名 + 2 slash + effectiveStats 公式退化版)|
+
+**session 3 教训**(user 当下指出 + 我自查):
+
+1. **T10b 我没通读 uigame.c**(user 原话:"所以你 t10b 是没有通读 uigame.c 吗")— 只读 itemmenu.c PAL_ItemSelectMenu 本体,**没回追 callpath 起点** uigame.c PAL_InventoryMenu。导致漏 1 级 box 子菜单。再次违反项目 memory `sdlpal-systematic-read-not-grep`。本 session 补 + 把 T10d 也按"系统性 read 整 callpath"做(read uigame.c:1051-1286 全文 + palcfg.c:333-376 默认 ScreenLayout 全坐标 + global.c:1736+ PAL_GetPlayer*Stat 公式 + ui.h 全 STATUS_LABEL_* 常量,再 1:1 port)。
+2. **stat 公式退化 fallback** = "PlayerRolesRuntime[stat] || base.stat" 是诚实降级 — 等 EquipItemMenu(T10e)真做时让 runtime stat 真生效 + rgEquipmentEffect 运行时模型补上,公式自然贴合 sdlpal `global.c:1736+`。
 
 ## M5.6 完工后(用户决定,留 新对话)
 
