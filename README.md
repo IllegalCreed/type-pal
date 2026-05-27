@@ -10,43 +10,24 @@
 - **参考而非 fork**:sdlpal 的 C 源码作为引擎逻辑的"规格说明书"(战斗公式、脚本语义、数据格式),我们照着它用 TS 重写。
 - **个人自用**:自己游玩,不公开发布。
 
-## 当前状态(2026-05-24)
+## 状态(2026-05-28)
 
-**M4 完成** —— pal-extract 补全 + 资产分层 + 全 295 scene + 字体真渲染(M1-M4 全功能覆盖)。
+M5/M5.5/M5.6 完工后,user 实测发现自报完成度被反复夸大。已停"做新功能",
+转入 **Phase A/B feature audit** — 逐功能 sdlpal 源 1:1 核对 + user 拍板,
+落到 [`docs/feature-status.md`](docs/feature-status.md) 权威表。
 
-## M4 · pal-extract 补全 + 资产分层 + 字体真渲染 ✅(2026-05-24 完工)
+进度 / 重排 M6 见 [`docs/plans/2026-05-28-feature-audit-and-replanning.md`](docs/plans/2026-05-28-feature-audit-and-replanning.md)。
 
-- pal-extract 14 个 MKF 全 chunk 覆盖(P2,见 `docs/M4_CHUNK_INVENTORY.md`)。STUFF.MKF + SAVE.MKF 不存在(WIN95+ 版用 .RPG 存档)
-- `data/extracted/` 资产按 battle / world / item / ui / splash / magic / font 分层(P1)
-- 全 295 scene 资源 dump + dev panel scene picker 294 可跳(P3,sdlpal `--dump-map` 自动化 diff 99.7% pass)
-- Unifont CN 真字形渲染,UI 文字可读;L2 b* spec vs sdlpal real baseline diff 1-4%(P4,M3.5 ⚠️ 接合)
-- M3.5 ⚠️ 残留修:a9 端到端 unskip(L2 31 pass / 0 skip)/ palette 跨 scene / b* 切 sdlpal real baseline
+历史里程碑(纯记录,完成度表述以 feature-status.md 为准):
 
-详见 `docs/plans/2026-05-24-m4-pal-extract-complete-design.md`(brainstorm)和 `docs/plans/2026-05-24-m4-pal-extract-complete.md`(实施)。
-
-**M3.5 完成**(2026-05-24) —— scene 切换 + 明雷怪 + L2 Playwright 视觉对拍(M1-M3.5 全功能覆盖)。详见 03 plan。
-
-**M3 Phase 1 完成**(2026-05-23) —— 战斗系统骨架 + D29 双基准 + 5 actions 全集 + dev 入口。
-
-**M2 完成**(2026-05-23) —— 运行时垂直切片打通(scene 1 探索 + NPC 触发对话)。详见 03 plan。
-
-**M1 完成**(2026-05-23) —— `pal-extract` 端到端打通,`pnpm extract` 一次性产出 `data/extracted/`(全量 295 scenes / 235 items / 102 spells / 153 enemies + scene 1 视觉资源)。详见 03 plan。
-
-**M5 完成**(2026-05-27) —— 51 task:P0 物理 7 + Sync 3 + Battle 13 + Menu 11 + Save 5 + Interact 7 + P2 收口 4。Test 计 game 486 + pal-extract 199 + shared 44 = **729 用例全过**(+2 skip 已知 deviation)。`?tp_dump=1` URL flag 启动 ts game 即录每帧 jsonl 与 sdlpal classic build dump 1:1 字段对齐(camera 改 sdlpal viewport 语义 + partyoffset(160, 112))。
-
-**M5.5 完成**(2026-05-27) —— sdlpal 全 46 个 .c 源 **445 函数 100% 逐函数 audit**:✓ 91(20.4%)+ ⚠️ 118(26.5%)+ ✗ 134(30.1%)+ N/A 102(22.9%)。ts port 整体完成度约 47%。audit 过程发现 2 个 sdlpal 自身 bug(SelectAutoTarget 死循环 / StealFromEnemy 无 dead check)。10 项 follow-up 优先级见 [`docs/plans/2026-05-27-m5-5-sdlpal-audit.md`](docs/plans/2026-05-27-m5-5-sdlpal-audit.md) 末尾汇总。
-
-**M5.6 完成**(2026-05-27) —— 基础玩法接通(audit ⚠️ → 实修)。用户实测 3 个基础 bug 触发反思 audit ⚠️ 标得过宽,M5.6 补做:
-- **input 真值对齐**(input.c:66-69):`Escape/Alt/Insert → Menu`(原误标 'Cancel' 无 consumer)
-- **menu 输入路由 + 9-slice box 渲染**(48 函数):mode='menu' + tickMenu + menu-driver + draw-box(ui.c:131-240)+ draw-menu hub + 5 sub-menu dispatcher(Inventory/Equip/InGameMagic/PlayerStatus/SaveSlot)
-- **scene-system 自动 trigger zone**(play.c:107-165):mode-dependent Manhattan threshold(mode 4=16/5=48/6=80/7=112/8=144),修"走边缘不切场景"
-- **PAL_Search 13-cell range**(play.c:362-510):完整 port,修"调查 NPC 不精准"
-- **shared.json label fallback**:跨 scene 共享脚本 label 解析,修 `triggerLabel L_xxx 不在 labelMap` warn
-- **dev-panel 美化**:深色基调 + section 视觉分离 + menu units 一键开测试入口
-
-完成度约 47% → ~52%(48 个 ⚠️/✗ 函数 → ✓)。**基础玩法可闭合**:开新游戏 → 走 → 切场景 → ESC 主菜单 → 各子菜单 → 调查 NPC → 战斗主菜单。详见 [`docs/plans/2026-05-27-m5-6-playability.md`](docs/plans/2026-05-27-m5-6-playability.md)。
-
-下一步:**M6 / M7**(体验补全 / 通关验证),见 [`docs/03-development-plan.md`](docs/03-development-plan.md)。M6 W0 优先:装备 effect + levelup loop(战斗数值正确性)+ poison 系统。
+- **M1**(2026-05-23):pal-extract 端到端,295 scenes / 235 items / 102 spells / 153 enemies dump
+- **M2**(2026-05-23):运行时垂直切片(scene 1 探索 + NPC 触发对话)
+- **M3 Phase 1**(2026-05-23):战斗系统骨架 + D29 双基准 + 5 actions + dev 入口
+- **M3.5**(2026-05-24):scene 切换 + 明雷怪 + L2 Playwright 视觉对拍
+- **M4**(2026-05-24):pal-extract 补全 + 资产分层 + 全 295 scene + Unifont 字体真渲染
+- **M5**(2026-05-27):51 task — P0 物理 / Sync GameState / 完整战斗骨架 / 菜单 state machine / Save API / Interact opcode
+- **M5.5**(2026-05-27):sdlpal 全 46 个 .c 源 445 函数 audit doc(自报完成度后被 user 实测打脸)
+- **M5.6**(2026-05-27):基础玩法接通 — 菜单输入路由 / 9-slice box / trigger zone / PAL_Search(同样自报完成度被打脸,触发 2026-05-28 重置)
 
 ## 仓库结构
 
