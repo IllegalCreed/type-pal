@@ -447,6 +447,18 @@ export interface GameState {
    */
   fEnteringScene?: boolean
 
+  /**
+   * M5.6 T18 Step 3:AVI / RNG / splash 等"全屏 modal 序列"播放期间暂停 raf loop
+   * 渲染(canvas 内容冻结,DOM `<video>` overlay 或自管渲染层接管视觉)。
+   *
+   * present.ts 入口检查 → early return;avi-player / rng-player / splash-fallback
+   * 设 true,播完 finally 清 false。
+   *
+   * 注:跟 fEnteringScene 区别 — fEnteringScene 是 sdlpal loadScene 期间内部 1-2 帧
+   * 冻结(短),suspendRaf 是 modal 整段(几秒到 30s+)。
+   */
+  suspendRaf?: boolean
+
   // ── SAVEDGAME_WIN 倒推: 平铺全局杂项 ───────────────────────────────────────
 
   /**

@@ -67,6 +67,12 @@ export function presentFrame(
   gs: GameState,
   ctx: PresentContext,
 ): void {
+  // M5.6 T18:全屏 modal 播放期间(AVI / RNG / splash)暂停 canvas render,
+  // DOM <video> overlay 或自管渲染层接管视觉。
+  if (gs.suspendRaf) {
+    return
+  }
+
   // sdlpal `fEnteringScene = TRUE` 真值:`PAL_StartFrame` 早期 return,不调 PAL_MakeScene →
   // 屏幕冻结。我们 port:跳过整个 render,fb 保留上一帧 = 旧 scene + dialog 像素。
   // fadeScreen 启动时清 fEnteringScene → 渲染 + backupPixels 拷冻结画面 → 渐变。
