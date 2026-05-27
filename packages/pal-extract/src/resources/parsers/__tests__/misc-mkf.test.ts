@@ -16,7 +16,7 @@ import { decompressYj2 } from '../../../io/yj2.js'
 import { framesToOut, parseSpriteChunk } from '../../sprite.js'
 import { decodeBallIcon } from '../ball.js'
 import { parseFirSprite } from '../fire.js'
-import { dumpRgmChunk } from '../rgm.js'
+import { decodeRgmPortrait } from '../rgm.js'
 
 // ── helpers ────────────────────────────────────────────────────────────────
 
@@ -48,19 +48,17 @@ function rawMkfPath(name: string): string {
 // M5.6 T18 Step 2:rng.ts raw dump 已废弃,改 rng-frames.ts 真做 RLE delta decode →
 // 320×200 frame PNG。完整单测覆盖在 rng-frames.test.ts(14 case + 真 RNG.MKF chunk 6 集成)。
 
-// ── dumpRgmChunk ───────────────────────────────────────────────────────────
+// ── decodeRgmPortrait ──────────────────────────────────────────────────────
+//
+// M5.6 audit 第 2 真漏洞修(2026-05-27 T10d):RGM.MKF 原 raw dump 改为 RLE 解 → PNG。
+// 与 BALL.MKF 同模式(`02 00 00 00` file header skip → decodeRle → encodeIndexedPng)。
 
-describe('dumpRgmChunk', () => {
-  it('returns raw dump with chunkIndex + size + sdlpalHint + todo', () => {
-    const r = dumpRgmChunk(3, new Uint8Array([0xab, 0xcd]))
-    expect(r.chunkIndex).toBe(3)
-    expect(r.size).toBe(2)
-    expect(r.sdlpalHint).toContain('RGM.MKF')
-    expect(r.sdlpalHint).toContain('fpRGM')
-    expect(r.todo).toContain('M5')
+describe('decodeRgmPortrait', () => {
+  it('empty chunk(0 byte)→ null', () => {
+    expect(decodeRgmPortrait(0, new Uint8Array(0))).toBe(null)
   })
 
-  it('real RGM.MKF — 92 chunks(character face bitmaps)', () => {
+  it('real RGM.MKF — 92 chunks 多数解码出 width/height/png', () => {
     const p = rawMkfPath('RGM.MKF')
     if (!existsSync(p)) {
       console.warn('[rgm test skip] data/raw/RGM.MKF 不存在,需原盘')
@@ -68,12 +66,20 @@ describe('dumpRgmChunk', () => {
     }
     const mkf = openMkf(new Uint8Array(readFileSync(p)))
     expect(chunkCount(mkf)).toBe(92)
-    // 随机抽一个非空 chunk
-    let hasNonEmpty = false
+    let decoded = 0
     for (let i = 0; i < chunkCount(mkf); i++) {
-      if (readChunk(mkf, i).byteLength > 0) { hasNonEmpty = true; break }
+      const portrait = decodeRgmPortrait(i, readChunk(mkf, i))
+      if (portrait) {
+        expect(portrait.width).toBeGreaterThan(0)
+        expect(portrait.height).toBeGreaterThan(0)
+        expect(portrait.pngBytes.byteLength).toBeGreaterThan(50)
+        // PNG signature
+        expect(portrait.pngBytes[0]).toBe(0x89)
+        expect(portrait.pngBytes[1]).toBe(0x50)
+        decoded++
+      }
     }
-    expect(hasNonEmpty).toBe(true)
+    expect(decoded).toBeGreaterThan(50) // sdlpal RGM 多数 chunk 非空 — 至少 50 个 PNG
   })
 })
 

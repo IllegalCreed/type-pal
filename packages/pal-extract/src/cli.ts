@@ -51,7 +51,7 @@ import {
   type RawChunkDump,
 } from './resources/parsers/data-misc.js'
 import { decodeRngAnim } from './resources/parsers/rng-frames.js'
-import { dumpRgmChunk } from './resources/parsers/rgm.js'
+import { decodeRgmPortrait } from './resources/parsers/rgm.js'
 import { decodeBallIcon } from './resources/parsers/ball.js'
 import { parseFirSprite } from './resources/parsers/fire.js'
 import { dumpSoundsMetadata } from './resources/parsers/sounds.js'
@@ -357,14 +357,28 @@ async function main(): Promise<void> {
     console.log(`[pal-extract] RNG.MKF written (${n} chunks, ${totalRngFrames} frames total)`)
   }
 
-  // RGM.MKF: 92 chunks, 每 chunk 是单帧 RLE bitmap 角色头像(global.h fpRGM)
+  // RGM.MKF: 92 chunks, 每 chunk 是单帧 RLE bitmap 角色头像(sdlpal global.h fpRGM)。
+  // M5.6 audit 第 2 真漏洞修(2026-05-27 T10d):decodeRle → encodeIndexedPng → PNG。
+  // 输出 images/portraits/{NN}.png + data/portraits.json manifest。
+  // 索引方式 = `PlayerRoles.rgwAvatar[roleId]`(sdlpal uigame.c:1132 真值)→ ts
+  // PlayerStatus / DialogBox portrait blit 用。
   {
     const rgmMkf = openMkf(loadFile('RGM.MKF'))
     const n = chunkCount(rgmMkf)
-    const summary: RawChunkDump[] = []
-    for (let i = 0; i < n; i++) summary.push(dumpRgmChunk(i, readChunk(rgmMkf, i)))
-    writeJson(resolve(OUT, 'data', 'rgm-raw.json'), summary)
-    console.log(`[pal-extract] RGM.MKF written (${n} chunks)`)
+    const manifest: Array<{ chunkIndex: number; width: number; height: number }> = []
+    let written = 0
+    for (let i = 0; i < n; i++) {
+      const portrait = decodeRgmPortrait(i, readChunk(rgmMkf, i))
+      if (!portrait) continue
+      writeBinary(
+        resolve(OUT, 'images', 'portraits', `${i.toString().padStart(2, '0')}.png`),
+        portrait.pngBytes,
+      )
+      manifest.push({ chunkIndex: portrait.chunkIndex, width: portrait.width, height: portrait.height })
+      written++
+    }
+    writeJson(resolve(OUT, 'data', 'portraits.json'), { count: n, portraits: manifest })
+    console.log(`[pal-extract] RGM.MKF written: ${written} / ${n} portraits → images/portraits/{NN}.png`)
   }
 
   // BALL.MKF: 252 chunks, 每 chunk 是单帧 RLE bitmap 物品图标(sdlpal global.h fpBALL)。
