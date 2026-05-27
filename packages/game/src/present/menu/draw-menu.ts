@@ -1,40 +1,67 @@
 /**
- * M5.6 W0.d:大世界菜单渲染入口 — 从 gs.menuStack 底到顶遍历画。
+ * M5.6 v2(T2/T3/T4 修):大世界菜单渲染入口 — 严格对照 sdlpal `uigame.c` / `ui.c` / `ui.h` 真值。
  *
- * sdlpal `uigame.c` 各 PAL_*Menu 函数内部:CreateBoxWithShadow + 画 box 内 SelectionMenuItem
- * 列表(label + rightText)+ 高亮当前 cursor 项。ts 端 menu state machine 数据层已 port
- * (M5),W0.d 把它接到 framebuffer 上。
- *
- * 字体真值:sdlpal 用 PALFONT 字模(GBK/Big5);ts 用 GNU Unifont(M4 P4)— 中文字宽相同(16px)。
+ * v1 走损纠正:
+ *  - InGame box pos 真值 (3, 37) 非臆造 (57, 60)
+ *  - item 起点 PAL_XY(16, 50) 绝对屏幕坐标,LINE_HEIGHT = 18
+ *  - MENUITEM_COLOR = 0x4F / SELECTED = (0xF9 + tick/100 % 6) 动态闪烁(ui.h:29-39)
+ *  - cols = PAL_MenuTextMaxWidth - 1((maxPixWidth + 8) >> 4 - 1)
+ *  - SystemMenu pos (40, 60) item 起 (53, 72) rows = nItems - 1
+ *  - 主菜单弹时左上角 PAL_ShowCash 单行 box + "金钱" label + dwCash 数字
  */
 
 import type { IndexedImage } from '../../assets/png.js'
 import type {
   ActiveMenuEntry,
-  GameState,
   ActiveMenuKind,
+  GameState,
 } from '../../core/game-state.js'
 import type { InGameMenuState, SystemMenuState } from '../../core/menu/in-game-menu.js'
+import type { SelectionMenuState } from '../../core/menu/primitives.js'
 import type { Framebuffer } from '../framebuffer.js'
-import { renderText, type GlyphTable } from '../font.js'
-import { drawBox } from './draw-box.js'
+import { measureText, renderText, type GlyphTable } from '../font.js'
+import { drawBox, drawSingleLineBox } from './draw-box.js'
 
-// sdlpal palette idx 真值:
-//   FONT_COLOR_DEFAULT = 0x4F(亮黄,亮色文字)
-//   FONT_COLOR_HIGHLIGHT = 0x1F(亮白,选中项)— 用于光标当前 item
-const COLOR_NORMAL = 0x4F
-const COLOR_HIGHLIGHT = 0x1F
+// ── sdlpal ui.h / text.c 真值色 ──────────────────────────────────────────────
+const MENUITEM_COLOR = 0x4F            // ui.h:29
+const MENUITEM_COLOR_SELECTED_FIRST = 0xF9 // ui.h:33
+const MENUITEM_COLOR_SELECTED_TOTAL = 6    // ui.h:34
+const FONT_COLOR_YELLOW = 0x2D         // text.c:30 — cash 数字
 
-// sdlpal uigame.c:953 PAL_InGameMenu 真值坐标
-const IN_GAME_MENU_POS = { x: 57, y: 60 }
-// sdlpal uigame.c:516+ PAL_SystemMenu — 弹在 InGameMenu 右侧
-const SYSTEM_MENU_POS = { x: 130, y: 60 }
+// ── sdlpal uigame.c 真值坐标 ──────────────────────────────────────────────────
+const IN_GAME_MENU_BOX = { x: 3, y: 37, rows: 3 }      // uigame.c:990 PAL_CreateBox(PAL_XY(3, 37), 3, ...)
+const IN_GAME_MENU_ITEM_START = { x: 16, y: 50 }       // uigame.c:961-966 PAL_XY(16, 50+i*18)
+const SYSTEM_MENU_BOX = { x: 40, y: 60 }               // uigame.c:559 PAL_CreateBox(PAL_XY(40, 60), ...)
+const SYSTEM_MENU_ITEM_START = { x: 53, y: 72 }        // uigame.c:543-552 PAL_XY(53, 72+i*18)
+const LINE_HEIGHT = 18                                  // sdlpal 真值菜单项 y 间距
 
-// 列表行间距(sdlpal 默认 16px)
-const LINE_HEIGHT = 16
-// label 内容相对 box 左上偏移(box 边框约 8px 厚)
-const LABEL_OFFSET_X = 16
-const LABEL_OFFSET_Y = 8
+// cash 框 — uigame.c:475 PAL_CreateSingleLineBox(PAL_XY(0, 0), 5, TRUE)
+const CASH_BOX = { x: 0, y: 0, len: 5 }
+const CASH_LABEL_POS = { x: 10, y: 10 }       // uigame.c:485 PAL_DrawText label
+const CASH_NUMBER_RIGHT = { x: 49, y: 14 }     // uigame.c:490 PAL_DrawNumber right-align
+
+/**
+ * sdlpal ui.h:36-39 真值:`MENUITEM_COLOR_SELECTED_FIRST + tick/100 % 6` 闪烁。
+ * SDL_GetTicks ms → ts 用 Date.now() 等价。
+ */
+function selectedColor(): number {
+  return MENUITEM_COLOR_SELECTED_FIRST + Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL
+}
+
+/**
+ * sdlpal ui.c:783-794 PAL_MenuTextMaxWidth 真值:
+ *   for each item: w = (TextWidth(label) + 8) >> 4;return max(w)
+ */
+function menuTextMaxWidth(labels: string[], glyphs?: GlyphTable): number {
+  let max = 0
+  for (const label of labels) {
+    const w = (measureText(label, glyphs) + 8) >> 4
+    if (w > max) max = w
+  }
+  return max
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 export function drawMenuStack(
   fb: Framebuffer,
@@ -42,20 +69,22 @@ export function drawMenuStack(
   uiSpriteFrames: IndexedImage[],
   glyphs?: GlyphTable,
 ): void {
-  // 多层 menu 都画(底层 → 顶层堆叠);顶层是当前焦点(高亮位置基于栈顶 cursor)
   for (const entry of gs.menuStack) {
-    drawMenuEntry(fb, entry, uiSpriteFrames, glyphs)
+    drawMenuEntry(fb, entry, gs, uiSpriteFrames, glyphs)
   }
 }
 
 function drawMenuEntry(
   fb: Framebuffer,
   entry: ActiveMenuEntry,
+  gs: GameState,
   uiSpriteFrames: IndexedImage[],
   glyphs?: GlyphTable,
 ): void {
   switch (entry.kind) {
     case 'in-game':
+      // sdlpal uigame.c:472 PAL_InGameMenu 先 PAL_ShowCash 再 CreateBox
+      drawCashBox(fb, gs.dwCash, uiSpriteFrames, glyphs)
       drawInGameMenu(fb, entry.state as InGameMenuState, uiSpriteFrames, glyphs)
       break
     case 'system':
@@ -68,13 +97,13 @@ function drawMenuEntry(
     case 'player-status':
     case 'shop-buy':
     case 'shop-sell':
-      // W0.e/f 内填实各 kind 的 draw fn;暂画 placeholder box
-      drawPlaceholderBox(fb, entry.kind, uiSpriteFrames, glyphs)
+      // T10a-e fullscreen UI 真做;此处仍占位标记 — M5.6 v2 不再装样子,显式标 TODO
+      drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
       break
   }
 }
 
-// ── In-Game hub(物品/法术/状态/系统) ──────────────────────────────────────
+// ── In-Game hub ──────────────────────────────────────────────────────────────
 
 function drawInGameMenu(
   fb: Framebuffer,
@@ -82,10 +111,24 @@ function drawInGameMenu(
   uiSpriteFrames: IndexedImage[],
   glyphs?: GlyphTable,
 ): void {
-  drawSelectionBox(fb, state, IN_GAME_MENU_POS, uiSpriteFrames, glyphs)
+  const items = state.selection.items
+  const labels = items.map((it) => it.label)
+  const maxWidth = menuTextMaxWidth(labels, glyphs)
+  // sdlpal uigame.c:990 真值:cols = PAL_MenuTextMaxWidth - 1
+  const cols = Math.max(1, maxWidth - 1)
+  drawBox({
+    fb, x: IN_GAME_MENU_BOX.x, y: IN_GAME_MENU_BOX.y,
+    rows: IN_GAME_MENU_BOX.rows, cols, style: 0,
+    uiSpriteFrames,
+  })
+  items.forEach((item, i) => {
+    const y = IN_GAME_MENU_ITEM_START.y + i * LINE_HEIGHT
+    const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
+    renderText(fb, item.label, IN_GAME_MENU_ITEM_START.x, y, color, glyphs)
+  })
 }
 
-// ── System menu(存档/读档/设置/退出) ─────────────────────────────────────
+// ── System menu ──────────────────────────────────────────────────────────────
 
 function drawSystemMenu(
   fb: Framebuffer,
@@ -93,46 +136,55 @@ function drawSystemMenu(
   uiSpriteFrames: IndexedImage[],
   glyphs?: GlyphTable,
 ): void {
-  drawSelectionBox(fb, state, SYSTEM_MENU_POS, uiSpriteFrames, glyphs)
-}
-
-// ── 通用 selection menu render(box + labels + 高亮当前 cursor) ────────────
-
-function drawSelectionBox(
-  fb: Framebuffer,
-  state: InGameMenuState | SystemMenuState,
-  pos: { x: number; y: number },
-  uiSpriteFrames: IndexedImage[],
-  glyphs?: GlyphTable,
-): void {
   const items = state.selection.items
-  const cursor = state.selection.cursor
-  // box 大小:行数 = items 数;列数留 5(够 4 字中文 + 边距)
+  const labels = items.map((it) => it.label)
+  const maxWidth = menuTextMaxWidth(labels, glyphs)
+  const cols = Math.max(1, maxWidth - 1)
+  // sdlpal uigame.c:559:rows = nSystemMenuItem - 1(5 items → rows 4)
+  const rows = Math.max(1, items.length - 1)
   drawBox({
-    fb,
-    x: pos.x,
-    y: pos.y,
-    rows: Math.max(items.length, 1),
-    cols: 5,
-    style: 0,
+    fb, x: SYSTEM_MENU_BOX.x, y: SYSTEM_MENU_BOX.y,
+    rows, cols, style: 0,
     uiSpriteFrames,
   })
   items.forEach((item, i) => {
-    const y = pos.y + LABEL_OFFSET_Y + i * LINE_HEIGHT
-    const color = i === cursor ? COLOR_HIGHLIGHT : COLOR_NORMAL
-    renderText(fb, item.label, pos.x + LABEL_OFFSET_X, y, color, glyphs)
+    const y = SYSTEM_MENU_ITEM_START.y + i * LINE_HEIGHT
+    const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
+    renderText(fb, item.label, SYSTEM_MENU_ITEM_START.x, y, color, glyphs)
   })
 }
 
-// ── Placeholder(W0.e/f 填实前的占位) ─────────────────────────────────────
+// ── Cash box(主菜单弹出时左上角) ─────────────────────────────────────────
 
-function drawPlaceholderBox(
+function drawCashBox(
+  fb: Framebuffer,
+  dwCash: number,
+  uiSpriteFrames: IndexedImage[],
+  glyphs?: GlyphTable,
+): void {
+  drawSingleLineBox({
+    fb, x: CASH_BOX.x, y: CASH_BOX.y, len: CASH_BOX.len, uiSpriteFrames,
+  })
+  renderText(fb, '金钱', CASH_LABEL_POS.x, CASH_LABEL_POS.y, MENUITEM_COLOR, glyphs)
+  // sdlpal uigame.c:490 PAL_DrawNumber(dwCash, 6, PAL_XY(49, 14), kNumColorYellow, kNumAlignRight)
+  // 简版:用 renderText 写数字 string,右对齐到 CASH_NUMBER_RIGHT.x
+  const num = String(dwCash)
+  const numW = measureText(num, glyphs)
+  renderText(fb, num, CASH_NUMBER_RIGHT.x - numW, CASH_NUMBER_RIGHT.y, FONT_COLOR_YELLOW, glyphs)
+}
+
+// ── Placeholder TODO(T10a-e 完成前,显式标 TODO 不装"接通") ────────────────
+
+function drawPlaceholderTodo(
   fb: Framebuffer,
   kind: ActiveMenuKind,
   uiSpriteFrames: IndexedImage[],
   glyphs?: GlyphTable,
 ): void {
   const pos = { x: 80, y: 80 }
-  drawBox({ fb, x: pos.x, y: pos.y, rows: 1, cols: 8, style: 0, uiSpriteFrames })
-  renderText(fb, `[${kind}]`, pos.x + LABEL_OFFSET_X, pos.y + LABEL_OFFSET_Y, COLOR_NORMAL, glyphs)
+  drawBox({ fb, x: pos.x, y: pos.y, rows: 1, cols: 14, style: 0, uiSpriteFrames })
+  renderText(fb, `TODO M5.6 T10:${kind}`, pos.x + 16, pos.y + 8, MENUITEM_COLOR, glyphs)
 }
+
+// 防 lint warn — SelectionMenuState 未直接用,但下面调用通过 state.selection 间接用
+void (null as unknown as SelectionMenuState)

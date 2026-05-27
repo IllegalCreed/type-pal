@@ -55,25 +55,9 @@ export function drawBox(input: DrawBoxInput): void {
   const totalRows = input.rows + 2 // sdlpal ui.c:170:"Border takes 2 additional rows and columns"
   const totalCols = input.cols + 2
 
-  // 先一轮全画阴影(纯黑 0x0F),再一轮覆盖正色 —
-  // sdlpal ui.c:194-197 把两个 blit 嵌在同一循环;为简化 + 视觉一致,这里分两轮:
-  // 阴影 offset 让正色 box 看起来浮在背景上(右下偏移)。
-  if (shadow > 0) {
-    let curY = input.y + shadow
-    for (let i = 0; i < totalRows; i++) {
-      const m = i === 0 ? 0 : i === totalRows - 1 ? 2 : 1
-      let curX = input.x + shadow
-      for (let j = 0; j < totalCols; j++) {
-        const n = j === 0 ? 0 : j === totalCols - 1 ? 2 : 1
-        const tile = get(m, n)
-        blitMonoColor(input.fb, tile, curX, curY, SHADOW_PALETTE_IDX)
-        curX += tile.width
-      }
-      curY += get(m, 0).height
-    }
-  }
-
-  // 正色边框
+  // sdlpal ui.c:194-197 真值:tile-by-tile 单循环,每 tile 先 shadow(右下偏移)再正色。
+  // 单循环 vs 两轮的差:tile 边缘重叠时,两轮把所有阴影画完后正色覆盖,可能让先画 tile 的阴影
+  // 被后画相邻 tile 的正色压掉一部分;单循环按行扫描保证每 tile 阴影刚画完正色就盖,边缘平滑。
   let curY = input.y
   for (let i = 0; i < totalRows; i++) {
     const m = i === 0 ? 0 : i === totalRows - 1 ? 2 : 1
@@ -81,6 +65,9 @@ export function drawBox(input: DrawBoxInput): void {
     for (let j = 0; j < totalCols; j++) {
       const n = j === 0 ? 0 : j === totalCols - 1 ? 2 : 1
       const tile = get(m, n)
+      if (shadow > 0) {
+        blitMonoColor(input.fb, tile, curX + shadow, curY + shadow, SHADOW_PALETTE_IDX)
+      }
       blitOpaque(input.fb, tile, curX, curY)
       curX += tile.width
     }
@@ -120,4 +107,54 @@ function blitMonoColor(
       fb.writePixel(dstX + x, dstY + y, paletteIdx)
     }
   }
+}
+
+/**
+ * sdlpal `ui.c:252-340` PAL_CreateSingleLineBoxWithShadow 真值 —
+ * 单行 box,3 个 SPRITEUI frame:44 (left) / 45 (mid × len) / 46 (right)。
+ * shadow offset 默认 6;cash 框、"获得物品"提示等单行 box 用此。
+ */
+const SINGLE_LINE_FRAME_LEFT = 44
+const SINGLE_LINE_FRAME_MID = 45
+const SINGLE_LINE_FRAME_RIGHT = 46
+
+export interface DrawSingleLineBoxInput {
+  fb: Framebuffer
+  x: number
+  y: number
+  /** sdlpal nLen — mid sprite 重复几次。box 总宽 = leftSprite.w + mid.w * len + rightSprite.w */
+  len: number
+  shadowOffset?: number
+  uiSpriteFrames: IndexedImage[]
+}
+
+export function drawSingleLineBox(input: DrawSingleLineBoxInput): void {
+  const shadow = input.shadowOffset ?? 6
+  const left = input.uiSpriteFrames[SINGLE_LINE_FRAME_LEFT]
+  const mid = input.uiSpriteFrames[SINGLE_LINE_FRAME_MID]
+  const right = input.uiSpriteFrames[SINGLE_LINE_FRAME_RIGHT]
+  if (!left || !mid || !right) {
+    throw new Error(
+      `draw-box: drawSingleLineBox 需要 uiSpriteFrames[${SINGLE_LINE_FRAME_LEFT}..${SINGLE_LINE_FRAME_RIGHT}]`,
+    )
+  }
+  // 阴影一行 + 正色一行(单行结构无 tile 边缘重叠问题,顺序不敏感)
+  if (shadow > 0) {
+    let sx = input.x + shadow
+    blitMonoColor(input.fb, left, sx, input.y + shadow, SHADOW_PALETTE_IDX)
+    sx += left.width
+    for (let i = 0; i < input.len; i++) {
+      blitMonoColor(input.fb, mid, sx, input.y + shadow, SHADOW_PALETTE_IDX)
+      sx += mid.width
+    }
+    blitMonoColor(input.fb, right, sx, input.y + shadow, SHADOW_PALETTE_IDX)
+  }
+  let cx = input.x
+  blitOpaque(input.fb, left, cx, input.y)
+  cx += left.width
+  for (let i = 0; i < input.len; i++) {
+    blitOpaque(input.fb, mid, cx, input.y)
+    cx += mid.width
+  }
+  blitOpaque(input.fb, right, cx, input.y)
 }

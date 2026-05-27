@@ -165,9 +165,14 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
       case 'load':
         openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
         break
-      case 'setting':
-        // 设置菜单超出 M5.6 范围 → 留 M6+
-        console.debug('SystemMenu: setting (M6+)')
+      case 'music':
+        // sdlpal uigame.c:610-621 真值:toggle gConfig.fIsMusicEnabled + AUDIO_EnableMusic
+        // 音频系统(audio.c 70+ 函数)留 M6+,本处 log stub
+        console.debug('SystemMenu: music toggle (audio system M6+)')
+        break
+      case 'sound':
+        // 同上,toggle gConfig.fIsSoundEnabled
+        console.debug('SystemMenu: sound toggle (audio system M6+)')
         break
       case 'quit':
         // 浏览器无 quit;关掉所有菜单返回 explore
