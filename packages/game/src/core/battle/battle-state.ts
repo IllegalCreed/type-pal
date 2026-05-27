@@ -70,8 +70,17 @@ export interface BattleEnemy {
  * actionId 仅对 magic / item 有效;target = -1 表示全体。
  */
 export interface BattleAction {
+  // M5.B-w2.b 扩 4 个 action type(sdlpal `battle.h kBattleAction*`):
+  //   summon: 召唤(special magic 调 special script + 召唤兽 sprite)
+  //   trance: 觉醒态切换(player sprite 改 + buff atk/def/dex 翻倍持续 N 回合)
+  //   throw-item: 物品投掷(item.scriptOnThrow 跑 — 类法术效果但消耗 item)
+  //   equip-battle: 战斗内换装(罕见,跟 Menu equip 共享框架)
+  // M5 简版 4 个 action 类型 stub:handler 走 console.debug + 不影响 outcome,
+  // 真实施留 B-w2.b 后续 commit。
   type: 'attack' | 'defend' | 'magic' | 'item' | 'flee' | 'pass'
-  /** magic / item 的 id;attack/defend/flee 不用。 */
+    | 'summon' | 'trance' | 'throw-item' | 'equip-battle'
+  /** magic / item 的 id;attack/defend/flee 不用。summon = magicId,trance = roleId,
+   *  throw-item = itemId,equip-battle = itemId。 */
   actionId?: number
   /** target 索引(0..4 或 0..N enemy);-1 = 全体。 */
   target: number

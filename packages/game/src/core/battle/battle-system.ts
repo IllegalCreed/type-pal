@@ -763,6 +763,18 @@ function performBattleAction(
     case 'pass':
       // pass:no-op(enemy 死掉后 decideEnemyAction 返回的兜底)
       break
+
+    // M5.B-w2.b stub:4 个新 action type — handler 真做留后续 commit
+    case 'summon':
+    case 'trance':
+    case 'throw-item':
+    case 'equip-battle':
+      console.debug(
+        `[battle] B-w2.b stub:action=${action.type} actionId=${action.actionId}`
+        + ` target=${action.target}(handler 真做留后续)`,
+      )
+      bus.emit({ op: 'showBattleMessage', text: `[${action.type}] stub` })
+      break
   }
 }
 
