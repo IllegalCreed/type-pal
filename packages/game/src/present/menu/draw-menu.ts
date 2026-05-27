@@ -24,6 +24,7 @@ import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { measureText, renderText, type GlyphTable } from '../font.js'
 import { drawBox, drawSingleLineBox } from './draw-box.js'
+import { drawNumber } from '../draw-number.js'
 import { drawOpeningMenu } from './draw-opening-menu.js'
 
 // ── sdlpal ui.h / text.c 真值色 ──────────────────────────────────────────────
@@ -187,12 +188,10 @@ function drawCashBox(
   // sdlpal uigame.c:483 真值:PAL_DrawText("金钱", PAL_XY(10, 10), 0, FALSE, ...)
   //   color=0(黑色) + fShadow=FALSE(无阴影)— 不要带 shadow 也不要用 MENUITEM_COLOR
   renderText(fb, '金钱', CASH_LABEL_POS.x, CASH_LABEL_POS.y, 0, glyphs, false)
-  // sdlpal uigame.c:488 PAL_DrawNumber(dwCash, 6, PAL_XY(49, 14), kNumColorYellow, kNumAlignRight)
-  // 简版:用 renderText 写数字 string,右对齐到 CASH_NUMBER_RIGHT.x
-  // 真做留 T20:sprite-based digit(SPRITENUM_NUMBER chunk),每 digit 8px,不是 Unifont 16px
-  const num = String(dwCash)
-  const numW = measureText(num, glyphs)
-  renderText(fb, num, CASH_NUMBER_RIGHT.x - numW, CASH_NUMBER_RIGHT.y, FONT_COLOR_YELLOW, glyphs, false)
+  // sdlpal uigame.c:488 真值:PAL_DrawNumber(dwCash, 6, PAL_XY(49, 14), kNumColorYellow, kNumAlignRight)
+  // M5.6 Step A:port PAL_DrawNumber 真做 sprite-based digit(SPRITEUI frame 19-28
+  // yellow,每 digit 6px),不再用 Unifont char measureText 算右对齐(位置不准)。
+  drawNumber(fb, dwCash, 6, CASH_NUMBER_RIGHT, 'yellow', 'right', uiSpriteFrames)
 }
 
 // ── Save Slot menu(T10a:sdlpal uigame.c:169-242 真值) ────────────────────
@@ -226,14 +225,14 @@ function drawSaveSlotMenu(
       boxY + SAVE_SLOT_LABEL_OFFSET.y,
       color, glyphs, true,
     )
-    // 存档次数 right-align(M5.6 简版固定 0;真 Save.listSlots 异步留 follow-up 注入)
-    const num = '0'
-    const numW = measureText(num, glyphs)
-    renderText(
-      fb, num,
-      SAVE_SLOT_NUMBER_X_RIGHT - numW,
-      boxY + SAVE_SLOT_LABEL_OFFSET.y,
-      FONT_COLOR_YELLOW, glyphs, true,
+    // sdlpal uigame.c:218 真值:PAL_DrawNumber(GetSavedTimes(i), 4, PAL_XY(270, 38*i-17), kNumColorYellow, kNumAlignRight)
+    // i 是 1-based(uigame.c:213 for i=1..5),y = 38*i-17 = 21/59/97/135/173;
+    // ts 端 cursor i 是 0-based,等价 y = 38*(i+1)-17 = 21+38*i。
+    // M5.6 简版固定 savedTimes=0;真 Save.listSlots 异步注入留 follow-up。
+    drawNumber(
+      fb, 0, 4,
+      { x: SAVE_SLOT_NUMBER_X_RIGHT, y: 21 + 38 * i },
+      'yellow', 'right', uiSpriteFrames,
     )
   }
   // sdlpal PAL_SaveSlotMenu(uigame.c:169-242)真值无独立标题 — caller(InGameMenu /

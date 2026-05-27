@@ -12,7 +12,15 @@ import type { Framebuffer } from '../framebuffer.js'
 import type { IndexedImage } from '../../assets/png.js'
 
 // sdlpal palette 黑色 idx,用于 shadow 渲染。
-const SHADOW_PALETTE_IDX = 0x0F
+// M5.6 hotfix(2026-05-27)— shadow color 真值:不是固定纯色,而是基于当前 fb pixel 计算。
+// sdlpal `PAL_CalcShadowColor`(palcommon.c:28-33)真值:
+//   return ((src & 0xF0) | ((src & 0x0F) >> 1))
+// 把 palette index 的低 4 位(luminance group)右移 1 = 除 2 变暗;保留高 4 位 hue。
+// 视觉上原色稍变暗,像半透明黑色 overlay。
+// 我之前 hardcode 0x0F 是错(palette index 0x0F 通常是亮色,显示纯白阴影)— user 怒怼。
+function palCalcShadowColor(srcColor: number): number {
+  return (srcColor & 0xF0) | ((srcColor & 0x0F) >> 1)
+}
 
 export interface DrawBoxInput {
   fb: Framebuffer
@@ -66,7 +74,7 @@ export function drawBox(input: DrawBoxInput): void {
       const n = j === 0 ? 0 : j === totalCols - 1 ? 2 : 1
       const tile = get(m, n)
       if (shadow > 0) {
-        blitMonoColor(input.fb, tile, curX + shadow, curY + shadow, SHADOW_PALETTE_IDX)
+        blitShadowMask(input.fb, tile, curX + shadow, curY + shadow)
       }
       blitOpaque(input.fb, tile, curX, curY)
       curX += tile.width
@@ -90,21 +98,29 @@ function blitOpaque(fb: Framebuffer, img: IndexedImage, dstX: number, dstY: numb
 }
 
 /**
- * 用 img.opaque mask 当形状,写入纯色 idx — 用于 shadow blit。
- * sdlpal `PAL_RLEBlitToSurfaceWithShadow` 真值:opaque 像素全写 0x0F(palette 黑)。
+ * 用 img.opaque mask 当形状,对落点 fb 当前 pixel 应用 PAL_CalcShadowColor → 写回。
+ *
+ * sdlpal `PAL_RLEBlitToSurfaceWithShadow`(palcommon.c:46-220 + 201)真值:
+ *   if (bShadow) p[x] = PAL_CalcShadowColor(p[x])
+ *
+ * 视觉效果:原 fb pixel 被替换成"低 4 位除 2"的同色调 darker 版本 — 像半透明黑色
+ * overlay 落在 box 周围的 scene 像素上。
  */
-function blitMonoColor(
+function blitShadowMask(
   fb: Framebuffer,
   img: IndexedImage,
   dstX: number,
   dstY: number,
-  paletteIdx: number,
 ): void {
   for (let y = 0; y < img.height; y++) {
     for (let x = 0; x < img.width; x++) {
       const off = y * img.width + x
       if (img.opaque[off] === 0) continue
-      fb.writePixel(dstX + x, dstY + y, paletteIdx)
+      const fbX = dstX + x
+      const fbY = dstY + y
+      if (fbX < 0 || fbX >= fb.width || fbY < 0 || fbY >= fb.height) continue
+      const curIdx = fb.indices[fbY * fb.width + fbX]!
+      fb.writePixel(fbX, fbY, palCalcShadowColor(curIdx))
     }
   }
 }
@@ -141,13 +157,13 @@ export function drawSingleLineBox(input: DrawSingleLineBoxInput): void {
   // 阴影一行 + 正色一行(单行结构无 tile 边缘重叠问题,顺序不敏感)
   if (shadow > 0) {
     let sx = input.x + shadow
-    blitMonoColor(input.fb, left, sx, input.y + shadow, SHADOW_PALETTE_IDX)
+    blitShadowMask(input.fb, left, sx, input.y + shadow)
     sx += left.width
     for (let i = 0; i < input.len; i++) {
-      blitMonoColor(input.fb, mid, sx, input.y + shadow, SHADOW_PALETTE_IDX)
+      blitShadowMask(input.fb, mid, sx, input.y + shadow)
       sx += mid.width
     }
-    blitMonoColor(input.fb, right, sx, input.y + shadow, SHADOW_PALETTE_IDX)
+    blitShadowMask(input.fb, right, sx, input.y + shadow)
   }
   let cx = input.x
   blitOpaque(input.fb, left, cx, input.y)

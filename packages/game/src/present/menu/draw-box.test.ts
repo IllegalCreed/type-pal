@@ -39,15 +39,19 @@ describe('M5.6 W0.c drawBox', () => {
     expect(fb.indices[16 * fb.width + 16]).toBe(9)
   })
 
-  it('shadowOffset 6 → 阴影在 (6,6) 偏移位置写 0x0F', () => {
+  it('shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel', () => {
     const fb = createFramebuffer()
     const frames = mockUiFrames()
+    // 起始 fb 全 0(idx 0)— shadow blit 时 PAL_CalcShadowColor(0) = (0 & 0xF0) | ((0 & 0x0F) >> 1) = 0
     drawBox({ fb, x: 10, y: 10, rows: 1, cols: 1, style: 0, shadowOffset: 6, uiSpriteFrames: frames })
-    // 正色 box 左上 (10,10) = frame 0 idx 1
-    expect(fb.indices[10 * fb.width + 10]).toBe(1)
-    // 阴影右下 corner(右下边距外 6px,正色覆盖前已写阴影)— 阴影 box 右下 corner 在 (10+6+24-1, 10+6+24-1) = (39,39)
-    // 但正色 box 右下 corner 在 (10+24-1, 10+24-1) = (33,33),所以 (39,39) 只有阴影
-    expect(fb.indices[39 * fb.width + 39]).toBe(0x0F)
+    expect(fb.indices[10 * fb.width + 10]).toBe(1) // 正色 box 左上
+    // 阴影右下 (39, 39):落在 fb 0 上 → shadow = 0,但需要测 shadow 是动态计算的
+    // 改测:先 prefill fb (39,39) 为 0xAB,shadow 应改为 PAL_CalcShadowColor(0xAB) = 0xA5
+    const fb2 = createFramebuffer()
+    fb2.writePixel(39, 39, 0xAB)
+    drawBox({ fb: fb2, x: 10, y: 10, rows: 1, cols: 1, style: 0, shadowOffset: 6, uiSpriteFrames: frames })
+    // PAL_CalcShadowColor(0xAB) = (0xAB & 0xF0) | ((0xAB & 0x0F) >> 1) = 0xA0 | (0x0B >> 1) = 0xA0 | 0x05 = 0xA5
+    expect(fb2.indices[39 * fb2.width + 39]).toBe(0xA5)
   })
 
   it('style 1 → 用 frame 9-17', () => {
