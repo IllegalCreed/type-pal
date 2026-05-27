@@ -6,6 +6,15 @@
  * - ≥2 个场景能 reach 的指令 → 归入 shared
  * - 任何场景都 reach 不到的指令 → 丢弃
  *
+ * **M5.6 修(2026-05-27 audit 第 3 真漏洞)**:
+ *   `globalEntries` 参数 — items/spells/enemyObjects 的 scriptOn{Use,Equip,...} 入口
+ *   单列。这些 script 入口**不属于任何 scene**(物品 / 法术 / 敌人 AI 跨 scene 复用),
+ *   原 sliceByScene 漏收 → 整批 script bytecode 被切片丢弃 → 用户用物品没反应根因。
+ *   修法:globalEntries BFS 单独 reachable 集合,**强制归 shared**(不属任何 scene 文件)。
+ *   sdlpal 真值依据:`script.c:3140` `PAL_RunTriggerScript(wScriptEntry, ...)` —
+ *   `gpGlobals->g.lprgScriptEntry[wScriptEntry]` 全局 SCRIPTENTRY 数组,wScriptEntry
+ *   就是 items.scriptOnUse / spells.scriptOnUse / enemyObjects.scriptOnXxx 的值。
+ *
  * M1 限制:跨文件标签改写仅对具名 goto 生效;raw 命令的数字操作数不改写。
  */
 
@@ -22,6 +31,12 @@ export function sliceByScene(
   commands: Command[],
   scenes: Scene[],
   eventObjects: EventObject[],
+  /**
+   * 全局 script 入口 — items / spells / enemyObjects 的 scriptOn{Use,Equip,Throw,Desc,
+   * Success,TurnStart,BattleEnd,Ready} 等。BFS 收集后强制 shared(不属任何 scene)。
+   * 默认空数组(向后兼容)。
+   */
+  globalEntries: number[] = [],
 ): SliceResult {
   // 1. 收集每个场景的入口指令下标
   const sceneEntries: number[][] = scenes.map((sc, si) => {
@@ -77,12 +92,44 @@ export function sliceByScene(
     }
   }
 
+  // 2.5. BFS:globalEntries(items/spells/enemyObjects scripts)— M5.6 audit 第 3 漏洞修
+  //
+  // 这些 script 入口不属任何 scene(物品法术跨 scene 复用),BFS 单独 reachable 集合,
+  // 后续强制归 shared。sdlpal `script.c:3196 lprgScriptEntry[wScriptEntry]` 真值即此。
+  const globalReachable = new Set<number>()
+  {
+    const queue = globalEntries.filter((e) => e > 0)
+    while (queue.length > 0) {
+      const i = queue.shift()!
+      if (i < 0 || i >= commands.length || globalReachable.has(i)) continue
+      globalReachable.add(i)
+
+      const c = commands[i]!
+      if (c.op === 'end') continue
+      if (c.op === 'goto') {
+        const t = parseLabel(c.to)
+        if (t !== null) queue.push(t)
+        continue
+      }
+      for (const v of Object.values(c as unknown as Record<string, unknown>)) {
+        if (typeof v === 'string') {
+          const t = parseLabel(v)
+          if (t !== null) queue.push(t)
+        }
+      }
+      queue.push(i + 1)
+    }
+  }
+
   // 3. 统计每条指令被几个场景 reach
+  //   globalReachable 命中的指令强制归 shared(等价 sceneCount ≥ 2)。
   const sceneCount: number[] = commands.map((_c, i) => {
     let n = 0
     for (const s of reachableByScene) {
       if (s.has(i)) n++
     }
+    // 强制 shared:globalReachable 命中,即使 n=0/1 也走 shared 路径(>= 2 判定)
+    if (globalReachable.has(i)) n = Math.max(n, 2)
     return n
   })
 

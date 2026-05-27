@@ -1135,6 +1135,62 @@ function addItemToInventory(gs: GameState, itemId: number, qty: number): void {
   }
 }
 
+/** Export for menu-driver(M5.6 session 3:大世界 PAL_GameUseItem 等价 — 物品消耗 / 装备脚本)。 */
+export function consumeItemFromInventory(gs: GameState, itemId: number): void {
+  addItemToInventory(gs, itemId, -1)
+}
+
+/**
+ * 大世界用物品 — sdlpal `play.c:244-325` PAL_GameUseItem 真值简版。
+ *
+ * sdlpal 真值流程(item.flags.applyToAll 分支):
+ *  - applyToAll=false:PAL_ItemUseMenu 选 player → PAL_RunTriggerScript(scriptOnUse, wPlayer)
+ *  - applyToAll=true: 跳过 picker,直接 PAL_RunTriggerScript(scriptOnUse, 0xFFFF)
+ *  - if (item.flags.consuming && g_fScriptSuccess) PAL_AddItemToInventory(itemId, -1)
+ *
+ * ts 简版:不跟 sdlpal `while (true)` 循环(用完一个继续选下一个);使用一次后退出。
+ * 用 `0xFFFF` 表 sdlpal 真值 applyToAll(wEventObjectID=0xFFFF)。
+ *
+ * 返回 false:scriptOnUse=0 / labelMap 缺失 — 调用方应不消耗物品并 warn。
+ * 返回 true: 已设置 gs.eventCursor + mode='event';调用方应清 menuStack。
+ */
+export function startOverworldItemScript(
+  gs: GameState,
+  itemId: number,
+  scriptOnUse: number,
+  targetRoleIdOrAll: number | 0xFFFF,
+  consuming: boolean,
+): boolean {
+  if (scriptOnUse === 0) {
+    console.warn(`[item-use] scriptOnUse=0 for itemId=${itemId},不可用`)
+    return false
+  }
+  const labelMap = getSharedLabelMap()
+  const ip = labelMap[`L_${scriptOnUse}`]
+  if (ip === undefined) {
+    console.warn(
+      `[item-use] L_${scriptOnUse} 不在 shared.json labelMap(itemId=${itemId})— `
+      + `pal-extract sliceByScene globalEntries 是否漏收?`,
+    )
+    return false
+  }
+  // sdlpal play.c:298-302 真值:g_fScriptSuccess 决定是否扣;ts 简版立即扣(脚本失败时不可逆,
+  // M6 真做加 success 回调跟踪)。
+  if (consuming) {
+    addItemToInventory(gs, itemId, -1)
+  }
+  gs.eventCursor = {
+    commands: getSharedCommands(),
+    labelMap,
+    ip,
+    // sdlpal `script.c:3140 wEventObjectID` 参数 — items 上下文里是 wPlayer(0-based role id)或
+    // 0xFFFF(applyToAll)。NPC trigger 用 1-based NPC id;opcode handler 自行按 op 区分语义。
+    currentEventObjectId: targetRoleIdOrAll,
+  }
+  gs.mode = 'event'
+  return true
+}
+
 function applyRawOpcode(
   gs: GameState,
   opcode: number,

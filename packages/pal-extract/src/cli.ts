@@ -162,7 +162,33 @@ async function main(): Promise<void> {
   // ── 事件管线(全量) ─────────────────────────────────────────────
   console.log('[pal-extract] events …')
 
-  // 收集所有入口 ip(可能未被任何跳转指向,但运行时要从此进入,需打 label)
+  // 收集所有入口 ip(可能未被任何跳转指向,但运行时要从此进入,需打 label)。
+  // M5.6 audit 第 3 漏洞修:items/spells/enemyObjects 的 scriptOn* 也加进来,
+  // 否则 disasm 不会给这些命令打 L_ 标签,runtime 无法按 label 查 ip。
+  // (parse items/spells/enemyObjects 见下面 globalScriptEntries 收集段。)
+  const sssObjBuf = loadMkfChunk('SSS.MKF', 2)
+  const items = parseItems(sssObjBuf, words)
+  const spells = parseSpells(sssObjBuf, words)
+  const enemyObjects = parseEnemyObjects(sssObjBuf, words)
+
+  const globalScriptEntries: number[] = []
+  for (const it of items) {
+    if (it.scriptOnUse > 0) globalScriptEntries.push(it.scriptOnUse)
+    if (it.scriptOnEquip > 0) globalScriptEntries.push(it.scriptOnEquip)
+    if (it.scriptOnThrow > 0) globalScriptEntries.push(it.scriptOnThrow)
+    if (it.scriptDesc > 0) globalScriptEntries.push(it.scriptDesc)
+  }
+  for (const sp of spells) {
+    if (sp.scriptOnUse > 0) globalScriptEntries.push(sp.scriptOnUse)
+    if (sp.scriptOnSuccess > 0) globalScriptEntries.push(sp.scriptOnSuccess)
+    if (sp.scriptDesc > 0) globalScriptEntries.push(sp.scriptDesc)
+  }
+  for (const eo of enemyObjects) {
+    if (eo.scriptOnTurnStart > 0) globalScriptEntries.push(eo.scriptOnTurnStart)
+    if (eo.scriptOnBattleEnd > 0) globalScriptEntries.push(eo.scriptOnBattleEnd)
+    if (eo.scriptOnReady > 0) globalScriptEntries.push(eo.scriptOnReady)
+  }
+
   const entryIps: number[] = []
   for (const sc of sss.scenes) {
     if (sc.scriptOnEnter > 0) entryIps.push(sc.scriptOnEnter)
@@ -172,6 +198,9 @@ async function main(): Promise<void> {
     if (eo.triggerScript > 0) entryIps.push(eo.triggerScript)
     if (eo.autoScript > 0) entryIps.push(eo.autoScript)
   }
+  // M5.6 audit 第 3 漏洞修:把 items/spells/enemyObjects scripts 加进 disasm entryIps,
+  // 给它们的入口指令打 L_<ip> 标签,runtime 才能查表。
+  entryIps.push(...globalScriptEntries)
 
   const rawCommands = disasm(sss.bytecode, messages, entryIps)
 
@@ -184,7 +213,7 @@ async function main(): Promise<void> {
   console.log('[pal-extract] events round-trip OK')
 
   const annotated = annotate(rawCommands, words, symbols)
-  const sliced = sliceByScene(annotated, sss.scenes, sss.eventObjects)
+  const sliced = sliceByScene(annotated, sss.scenes, sss.eventObjects, globalScriptEntries)
 
   sliced.scenes.forEach((sceneFile, i) => {
     const padded = i.toString().padStart(3, '0')
@@ -194,14 +223,11 @@ async function main(): Promise<void> {
   writeJson(resolve(OUT, 'events', 'objects.json'), sliced.objects)
 
   console.log(
-    `[pal-extract] events written: ${sliced.scenes.length} scenes + shared + objects`,
+    `[pal-extract] events written: ${sliced.scenes.length} scenes + shared(含 ${globalScriptEntries.length} item/spell/enemyObj script entries)+ objects`,
   )
 
   // ── 数据表(全量) ────────────────────────────────────────────────
   console.log('[pal-extract] data tables …')
-
-  // SSS.MKF chunk 2 = OBJECT 数组原始字节(供 parseItems / parseSpells / parseEnemies)
-  const sssObjBuf = loadMkfChunk('SSS.MKF', 2)
 
   // DATA.MKF chunk 1 = ENEMY 敌人基础数据;chunk 2 = ENEMYTEAM 敌队;
   // chunk 4 = MAGIC 法术细节;chunk 5 = BATTLEFIELD 战场背景 + 元素 buff
@@ -212,16 +238,16 @@ async function main(): Promise<void> {
   const magicBuf = readChunk(dataMkf, 4)
   const fieldBuf = readChunk(dataMkf, 5)
 
-  writeJson(resolve(OUT, 'data', 'items.json'), parseItems(sssObjBuf, words))
+  writeJson(resolve(OUT, 'data', 'items.json'), items)
   // M3 T6:Spell wrapper(SSS chunk 2) + Magic 详细 stats(DATA chunk 4)分两个文件 dump。
   // Spell.magicNumber 指向 magic[] 索引;运行时按需 join。
-  writeJson(resolve(OUT, 'data', 'spells.json'), parseSpells(sssObjBuf, words))
+  writeJson(resolve(OUT, 'data', 'spells.json'), spells)
   writeJson(resolve(OUT, 'data', 'magic.json'), parseMagicTable(magicBuf))
   const enemies = parseEnemies(enemyBuf, sssObjBuf, words)
   writeJson(resolve(OUT, 'data', 'enemies.json'), enemies)
   // M5.B-w2.a:OBJECT_ENEMY 段 5 字段全 dump(scriptOnReady/scriptOnTurnStart/
   // scriptOnBattleEnd 等 AI hook),enemy-objects.json index = OBJECT 表绝对 index。
-  writeJson(resolve(OUT, 'data', 'enemy-objects.json'), parseEnemyObjects(sssObjBuf, words))
+  writeJson(resolve(OUT, 'data', 'enemy-objects.json'), enemyObjects)
   // M3 T7:EnemyTeam(DATA chunk 2) + BattleField(DATA chunk 5)dev panel 选 fixture 用。
   // EnemyTeam._names 反查 — 用 OBJECT_ENEMY 段 + words 建 map。
   const enemyObjectNames = buildEnemyObjectNameMap(sssObjBuf, words)

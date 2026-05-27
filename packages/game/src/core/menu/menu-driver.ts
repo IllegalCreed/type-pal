@@ -14,6 +14,7 @@
 import type { InputSnapshot } from '@type-pal/shared'
 import type { Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
+import { startOverworldItemScript } from '../event-system.js'
 import type { ActiveMenuEntry, GameState } from '../game-state.js'
 import { closeTopMenu, openMenu } from './menu-mode.js'
 import {
@@ -339,13 +340,38 @@ function dispatchInventoryMenu(
   if (input.pressed.has('Confirm')) {
     const catalogs = requireCatalogs()
     if (s.phase === 'list') {
+      // sdlpal play.c:268-323 真值:if item.flags.applyToAll → 跳过 picker,直接跑 script with
+      // wEventObjectID=0xFFFF;else 进 PAL_ItemUseMenu 选 player。
+      const sel = s.inventory[s.cursor]
+      const item = sel ? catalogs.items.find((it) => it.id === sel.itemId) : undefined
+      if (item && item.flags.usable && item.flags.applyToAll) {
+        // 直接跑 script + 关全菜单(applyToAll 不需 target picker)
+        const ok = startOverworldItemScript(
+          gs, item.id, item.scriptOnUse, 0xFFFF, item.flags.consuming,
+        )
+        if (ok) {
+          gs.menuStack = []  // 关 inventory + 上层 inventory-action(如果在),让 event mode 接管
+        }
+        return
+      }
+      // 单 target 路径:进 use-target phase
       confirmInventoryItem(s, catalogs.items, catalogs.playerRoles, gs.partyMembers)
     }
     else if (s.phase === 'use-target') {
       const picked = confirmInventoryTarget(s)
       if (picked) {
-        // M5.6:菜单接通即可,真"用物品 → 跑 scriptOnUse"留 M6;此处仅 log 选择结果
-        console.debug(`[menu] useItem stub:itemId=${picked.itemId} roleId=${picked.roleId}`)
+        const item = catalogs.items.find((it) => it.id === picked.itemId)
+        if (item) {
+          // sdlpal play.c:288-302 真值:PAL_RunTriggerScript(scriptOnUse, wPlayer) +
+          // if consuming + g_fScriptSuccess → PAL_AddItemToInventory(-1)
+          const ok = startOverworldItemScript(
+            gs, picked.itemId, item.scriptOnUse, picked.roleId, item.flags.consuming,
+          )
+          if (ok) {
+            gs.menuStack = []  // 关全菜单,event mode 接管 script 跑完后回 explore
+            return
+          }
+        }
       }
     }
     if (s.phase === 'done') closeTopMenu(gs)
