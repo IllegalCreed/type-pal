@@ -1,4 +1,5 @@
 import type { Palette, Tilemap } from '@type-pal/shared'
+import type { IndexedImage } from '../assets/png.js'
 import type { BusEntry } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
 import type { BattlePresent, BattleAssets } from './battle/present-battle.js'
@@ -6,6 +7,7 @@ import { type Framebuffer, SCREEN_W, SCREEN_H } from './framebuffer.js'
 import { drawTilemap, addCoverTileEntries, type TileImages, type DrawEntry } from './draw-tilemap.js'
 import { drawSprite, type SpriteImage } from './draw-sprite.js'
 import { drawDialogBox, type DialogBoxDrawCtx } from './dialog-box.js'
+import { drawMenuStack } from './menu/draw-menu.js'
 import type { GlyphTable } from './font.js'
 
 export interface PresentContext {
@@ -28,6 +30,8 @@ export interface PresentContext {
   glyphs?: GlyphTable
   /** M5 Sync.2: 对话框资产(portrait + key icon sprite map);bootstrap 注入。 */
   dialogAssets?: DialogBoxDrawCtx
+  /** M5.6 W0.d:SPRITEUI 71 frame(menu box 9-slice 用前 18 个) */
+  uiSpriteFrames?: IndexedImage[]
 }
 
 /** sdlpal `palcommon.h`:kDirSouth=0 / kDirWest=1 / kDirNorth=2 / kDirEast=3。 */
@@ -364,6 +368,12 @@ export function presentFrame(
 
     // 显示 backupPixels(累积态)— 不是 current。fade 全程主角可见因为两 buffer 都画过。
     current.set(backupPixels)
+  }
+
+  // M5.6 W0.d:菜单 modal 覆盖最顶层,在 fadeState 后画(避免被 fade 覆盖)。
+  // gs.menuStack 空时 drawMenuStack 立即 return,无开销。
+  if (gs.menuStack.length > 0 && ctx.uiSpriteFrames) {
+    drawMenuStack(fb, gs, ctx.uiSpriteFrames, ctx.glyphs)
   }
 }
 

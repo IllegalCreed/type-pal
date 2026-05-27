@@ -188,6 +188,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     npcSpriteFrames,
     glyphs,
     dialogAssets,
+    uiSpriteFrames: assets.uiSpriteFrames,
   }
 
   // M3 T28/T29:战斗一帧装配 —— BattlePresent 持有 floating nums 跨帧状态;

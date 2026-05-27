@@ -59,6 +59,15 @@ export interface LoadedAssets {
   items: Item[]
   spells: Spell[]
   magics: Magic[]
+  /** M5.6 W0.d:SPRITEUI 71 frame(DATA.MKF chunk 9)— menu box 9-slice 用前 18 个(style 0/1)。 */
+  uiSpriteFrames: IndexedImage[]
+}
+
+interface UiSpriteManifest {
+  chunkIndex: number
+  sdlpalName: string
+  frameCount: number
+  frames: Array<{ index: number; width: number; height: number }>
 }
 
 interface BattleSpriteManifestEntry {
@@ -225,6 +234,28 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     }),
   )
 
+  // ── M5.6 W0.d:SPRITEUI 加载(menu box 9-slice 用前 18 frame) ─────────────
+  const uiSpriteFrames: IndexedImage[] = []
+  try {
+    const meta = await fetchJson<UiSpriteManifest>(`${BASE}/data/ui-sprite/spriteui.json`)
+    const frames = await Promise.all(
+      meta.frames.map((f) =>
+        fetchPng(`${BASE}/images/ui/frame-${f.index.toString().padStart(2, '0')}.png`).catch(
+          (err: unknown) => {
+            console.warn(`assets: ui-sprite frame ${f.index} load failed:`, err)
+            return undefined
+          },
+        ),
+      ),
+    )
+    for (const f of frames) {
+      if (f) uiSpriteFrames.push(f)
+    }
+  }
+  catch (err) {
+    console.warn('assets: ui-sprite/spriteui.json 缺失,menu box 渲染将抛 frame missing:', err)
+  }
+
   return {
     tilemap,
     palette,
@@ -243,6 +274,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     items,
     spells,
     magics,
+    uiSpriteFrames,
   }
 }
 
