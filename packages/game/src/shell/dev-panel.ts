@@ -30,6 +30,7 @@ import type { Facing, GameState } from '../core/game-state.js'
 import { startBattle } from '../core/battle/battle-system.js'
 import { loadScene } from '../core/scene-system.js'
 import { buildLabelMap } from '../core/event-system.js'
+import { Save } from '../core/save/api.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 
 /** fixture JSON entry —— 与 `packages/game/src/data/battle-fixtures.json` 对齐。 */
@@ -242,6 +243,56 @@ function openPicker(deps: DevPanelDeps): void {
     triggerDialogStyleTest(deps)
   })
   div.appendChild(dialogBtn)
+
+  // M5.S-w2.1: Save / Load / List / Clear entry
+  const saveH = document.createElement('h3')
+  saveH.textContent = 'Dev: Save Slots(IndexedDB)'
+  saveH.style.cssText = 'margin: 12px 0 8px 0; font-size: 14px'
+  div.appendChild(saveH)
+
+  for (let slot = 1; slot <= 5; slot++) {
+    const row = document.createElement('div')
+    row.style.cssText = 'display:flex; gap:4px; margin:2px 0'
+    const saveBtn = document.createElement('button')
+    saveBtn.textContent = `S${slot} save`
+    saveBtn.style.cssText = 'padding:3px 6px; font-size:11px'
+    saveBtn.addEventListener('click', async () => {
+      await Save.saveSlot(slot, deps.gs)
+      console.log(`[save] slot ${slot} saved`)
+    })
+    const loadBtn = document.createElement('button')
+    loadBtn.textContent = 'load'
+    loadBtn.style.cssText = 'padding:3px 6px; font-size:11px'
+    loadBtn.addEventListener('click', async () => {
+      const loaded = await Save.loadSlot(slot)
+      if (!loaded) {
+        console.warn(`[load] slot ${slot} 为空`)
+        return
+      }
+      Object.assign(deps.gs, loaded)
+      console.log(`[load] slot ${slot} loaded → gs.dwCash=${deps.gs.dwCash} scene=${deps.gs.wNumScene}`)
+    })
+    const delBtn = document.createElement('button')
+    delBtn.textContent = 'del'
+    delBtn.style.cssText = 'padding:3px 6px; font-size:11px'
+    delBtn.addEventListener('click', async () => {
+      await Save.deleteSlot(slot)
+      console.log(`[save] slot ${slot} deleted`)
+    })
+    row.appendChild(saveBtn)
+    row.appendChild(loadBtn)
+    row.appendChild(delBtn)
+    div.appendChild(row)
+  }
+
+  const listBtn = document.createElement('button')
+  listBtn.textContent = 'List All Slots'
+  listBtn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left'
+  listBtn.addEventListener('click', async () => {
+    const list = await Save.listSlots()
+    console.log('[save] slots:', list)
+  })
+  div.appendChild(listBtn)
 
   document.body.appendChild(div)
   currentPicker = div
