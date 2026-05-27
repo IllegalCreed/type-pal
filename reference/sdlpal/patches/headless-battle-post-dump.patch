@@ -1,0 +1,63 @@
+--- a/battle.c	2026-05-27 09:29:35
++++ b/battle.c	2026-05-27 09:31:40
+@@ -2321,8 +2321,7 @@
+       "  \"resultCode\": %d,\n"
+       "  \"turnsRun\": %d,\n"
+       "  \"expGained\": %d,\n"
+-      "  \"cashGained\": %d\n"
+-      "}\n",
++      "  \"cashGained\": %d,\n",
+       (r == kBattleResultWon)        ? "won"  :
+       (r == kBattleResultLost)       ? "lost" :
+       (r == kBattleResultFleed)      ? "fled" :
+@@ -2330,6 +2329,50 @@
+       (int)r, g_Harness.currentTurn,
+       g_Battle.iExpGained, g_Battle.iCashGained);
+ 
++   /* type-pal M5.B-w0.4: post_battle 段 — 给 ts 升级对拍提供 baseline。
++    * dump 每 partyMember 的 hp/mp/level + status 9 类(sdlpal classic kStatus*)
++    * + dwCash + dwExp(rgExp 8 类 primary/health/magic/attack/defense/dexterity/
++    * fleeRate/poisonResistance,sdlpal global.h ExpStats)。 */
++   fprintf(g_Harness.outFp, "  \"post_battle\": {\n    \"players\": [\n");
++   {
++      WORD pi;
++      for (pi = 0; pi <= gpGlobals->wMaxPartyMemberIndex; pi++)
++      {
++         WORD role = gpGlobals->rgParty[pi].wPlayerRole;
++         LPEXPERIENCE exp = &gpGlobals->Exp.rgPrimaryExp[role];
++         fprintf(g_Harness.outFp,
++            "      { \"role\": %d, \"hp\": %d, \"mp\": %d, \"level\": %d,\n"
++            "        \"exp\": { \"primary\": %u, \"health\": %u, \"magic\": %u,\n"
++            "          \"attack\": %u, \"magicPower\": %u, \"defense\": %u,\n"
++            "          \"dexterity\": %u, \"flee\": %u },\n"
++            "        \"status\": [%d,%d,%d,%d,%d,%d,%d,%d,%d] }%s\n",
++            (int)role,
++            (int)gpGlobals->g.PlayerRoles.rgwHP[role],
++            (int)gpGlobals->g.PlayerRoles.rgwMP[role],
++            (int)gpGlobals->g.PlayerRoles.rgwLevel[role],
++            (unsigned)exp->wExp,
++            (unsigned)gpGlobals->Exp.rgHealthExp[role].wExp,
++            (unsigned)gpGlobals->Exp.rgMagicExp[role].wExp,
++            (unsigned)gpGlobals->Exp.rgAttackExp[role].wExp,
++            (unsigned)gpGlobals->Exp.rgMagicPowerExp[role].wExp,
++            (unsigned)gpGlobals->Exp.rgDefenseExp[role].wExp,
++            (unsigned)gpGlobals->Exp.rgDexterityExp[role].wExp,
++            (unsigned)gpGlobals->Exp.rgFleeExp[role].wExp,
++            (int)gpGlobals->rgPlayerStatus[role][kStatusConfused],
++            (int)gpGlobals->rgPlayerStatus[role][kStatusParalyzed],
++            (int)gpGlobals->rgPlayerStatus[role][kStatusSleep],
++            (int)gpGlobals->rgPlayerStatus[role][kStatusSilence],
++            (int)gpGlobals->rgPlayerStatus[role][kStatusPuppet],
++            (int)gpGlobals->rgPlayerStatus[role][kStatusBravery],
++            (int)gpGlobals->rgPlayerStatus[role][kStatusProtect],
++            (int)gpGlobals->rgPlayerStatus[role][kStatusHaste],
++            (int)gpGlobals->rgPlayerStatus[role][kStatusDualAttack],
++            (pi < gpGlobals->wMaxPartyMemberIndex) ? "," : "");
++      }
++   }
++   fprintf(g_Harness.outFp, "    ],\n    \"cash\": %u\n  }\n}\n",
++      (unsigned)gpGlobals->dwCash);
++
+    fclose(g_Harness.outFp);
+    g_Harness.outFp = NULL;
+ 
