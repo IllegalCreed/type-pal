@@ -9,6 +9,8 @@ import {
   moveSelectionUp,
   moveTripleDown,
   moveTripleUp,
+  pageDown,
+  pageUp,
   switchLeft,
   switchRight,
   toggleConfirm,
@@ -122,5 +124,41 @@ describe('M-w0.1 SwitchMenu', () => {
     const s = createSwitchMenu([])
     switchLeft(s); switchRight(s)
     expect(s.current).toBe(0)
+  })
+})
+
+describe('M5.6 T6 pageUp / pageDown(SelectionMenu 翻页)', () => {
+  function mkLong() {
+    // 20 项,pageSize 8 → 3 页
+    return createSelectionMenu(
+      Array.from({ length: 20 }, (_, i) => ({ id: i, label: `Item ${i}` })),
+    )
+  }
+
+  it('pageDown 从 cursor 0 → cursor 8(下一页)', () => {
+    const s = mkLong()
+    pageDown(s)
+    expect(s.cursor).toBe(8)
+  })
+
+  it('pageDown 末页 clamp 到末项 19', () => {
+    const s = mkLong()
+    s.cursor = 16
+    pageDown(s)
+    expect(s.cursor).toBe(19)
+  })
+
+  it('pageUp 从 cursor 16 → 8', () => {
+    const s = mkLong()
+    s.cursor = 16
+    pageUp(s)
+    expect(s.cursor).toBe(8)
+  })
+
+  it('pageUp 第一页 clamp 到 0', () => {
+    const s = mkLong()
+    s.cursor = 4
+    pageUp(s)
+    expect(s.cursor).toBe(0)
   })
 })

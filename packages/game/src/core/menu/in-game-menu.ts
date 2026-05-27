@@ -10,30 +10,46 @@
 import type { SelectionMenuState } from './primitives.js'
 import { createSelectionMenu, moveSelectionDown, moveSelectionUp } from './primitives.js'
 
-export type InGameMenuChoice = 'inventory' | 'magic' | 'status' | 'system'
-export type SystemMenuChoice = 'save' | 'load' | 'setting' | 'quit'
+export type InGameMenuChoice = 'status' | 'magic' | 'inventory' | 'system'
+export type SystemMenuChoice = 'save' | 'load' | 'music' | 'sound' | 'quit'
 
-/** sdlpal `uigame.c` 真值标签;名字按 WORD.DAT 反查,简版用中文字面值。 */
+/**
+ * sdlpal `uigame.c:961-966` PAL_InGameMenu 真值菜单项 — 顺序:状态/法术/物品/系统。
+ * 每行 PAL_XY(16, 50 + i*18)— 间距 18px,起点 (16, 50);box 在 PAL_XY(3, 37) rows=3 cols=auto。
+ */
 const IN_GAME_LABELS: Array<{ id: number; choice: InGameMenuChoice; label: string }> = [
-  { id: 0, choice: 'inventory', label: '物品' },
+  { id: 0, choice: 'status', label: '状态' },
   { id: 1, choice: 'magic', label: '法术' },
-  { id: 2, choice: 'status', label: '状态' },
+  { id: 2, choice: 'inventory', label: '物品' },
   { id: 3, choice: 'system', label: '系统' },
 ]
 
+/**
+ * sdlpal `uigame.c:543-552` PAL_SystemMenu PAL_CLASSIC 真值 — 5 项:存档/读档/音乐/音效/退出。
+ * box pos (40, 60),items PAL_XY(53, 72 + i*18)。ATB build 还有第 6 项 battlemode,classic 省略。
+ */
 const SYSTEM_LABELS: Array<{ id: number; choice: SystemMenuChoice; label: string }> = [
   { id: 0, choice: 'save', label: '存档' },
   { id: 1, choice: 'load', label: '读档' },
-  { id: 2, choice: 'setting', label: '设置' },
-  { id: 3, choice: 'quit', label: '退出' },
+  { id: 2, choice: 'music', label: '音乐' },
+  { id: 3, choice: 'sound', label: '音效' },
+  { id: 4, choice: 'quit', label: '退出' },
 ]
 
 export interface InGameMenuState {
   selection: SelectionMenuState
 }
 
-export function createInGameMenu(): InGameMenuState {
-  return { selection: createSelectionMenu(IN_GAME_LABELS) }
+/**
+ * 创建 InGame 主菜单 state。
+ * @param defaultCursor sdlpal iCurMainMenuItem 全局记忆 — 上次选哪项,这次默认那项(M5.6 T6)。
+ */
+export function createInGameMenu(defaultCursor = 0): InGameMenuState {
+  const selection = createSelectionMenu(IN_GAME_LABELS)
+  if (defaultCursor > 0 && defaultCursor < selection.items.length) {
+    selection.cursor = defaultCursor
+  }
+  return { selection }
 }
 
 export function inGameMenuChoice(s: InGameMenuState): InGameMenuChoice | undefined {
@@ -49,8 +65,16 @@ export interface SystemMenuState {
   selection: SelectionMenuState
 }
 
-export function createSystemMenu(): SystemMenuState {
-  return { selection: createSelectionMenu(SYSTEM_LABELS) }
+/**
+ * 创建 System 菜单 state。
+ * @param defaultCursor sdlpal iCurSystemMenuItem 全局记忆(M5.6 T6)。
+ */
+export function createSystemMenu(defaultCursor = 0): SystemMenuState {
+  const selection = createSelectionMenu(SYSTEM_LABELS)
+  if (defaultCursor > 0 && defaultCursor < selection.items.length) {
+    selection.cursor = defaultCursor
+  }
+  return { selection }
 }
 
 export function systemMenuChoice(s: SystemMenuState): SystemMenuChoice | undefined {

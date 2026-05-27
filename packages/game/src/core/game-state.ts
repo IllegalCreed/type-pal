@@ -502,6 +502,18 @@ export interface GameState {
   wBattleSpeed: number
 
   /**
+   * sdlpal SAVEDGAME_WIN.iCurMainMenuItem(M5.6 T6 PAL_ReadMenu 全局记忆)。
+   * 主菜单(InGame hub)cursor 跨次记忆 — 下次开菜单光标停在上次位置。
+   */
+  iCurMainMenuItem: number
+
+  /** sdlpal SAVEDGAME_WIN.iCurSystemMenuItem — 系统菜单 cursor 跨次记忆。 */
+  iCurSystemMenuItem: number
+
+  /** sdlpal SAVEDGAME_WIN.iCurInvMenuItem — 物品菜单 cursor 跨次记忆。 */
+  iCurInvMenuItem: number
+
+  /**
    * 采集物品总价值(sdlpal SAVEDGAME_WIN.wCollectValue)。
    * 击败可采集敌人时累积。
    */
@@ -687,6 +699,9 @@ export function createInitialGameState(
     wNumBattleField: 0,
     wScreenWave: 0,
     wBattleSpeed: 2,      // sdlpal global.c:765 default = 2
+    iCurMainMenuItem: 0,  // M5.6 T6:菜单 cursor 默认 0
+    iCurSystemMenuItem: 0,
+    iCurInvMenuItem: 0,
     wCollectValue: 0,
     wLayer: 0,
     wChaseRange: 1,       // sdlpal default 追击范围 1

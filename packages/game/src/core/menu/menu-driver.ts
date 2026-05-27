@@ -28,6 +28,7 @@ import {
   type InGameMenuState,
   type SystemMenuState,
 } from './in-game-menu.js'
+import { pageDown, pageUp } from './primitives.js'
 import {
   cancelInventoryMenu, confirmInventoryItem, confirmInventoryTarget,
   createInventoryMenu, inventoryMoveDown, inventoryMoveUp, type InventoryMenuState,
@@ -121,6 +122,8 @@ function dispatchInGameMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
   }
   if (input.pressed.has('Up')) inGameMenuUp(s)
   if (input.pressed.has('Down')) inGameMenuDown(s)
+  // M5.6 T6:每帧写回 iCurMainMenuItem(sdlpal `PAL_InGameMenu_OnItemChange` 等价,uigame.c:935-940)
+  gs.iCurMainMenuItem = s.selection.cursor
   if (input.pressed.has('Confirm')) {
     const choice = inGameMenuChoice(s)
     if (!choice) return
@@ -139,7 +142,8 @@ function dispatchInGameMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
         openMenu(gs, { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) })
         break
       case 'system':
-        openMenu(gs, { kind: 'system', state: createSystemMenu() })
+        // M5.6 T6:cursor 默认 = gs.iCurSystemMenuItem
+        openMenu(gs, { kind: 'system', state: createSystemMenu(gs.iCurSystemMenuItem) })
         break
     }
   }
@@ -155,6 +159,8 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
   }
   if (input.pressed.has('Up')) systemMenuUp(s)
   if (input.pressed.has('Down')) systemMenuDown(s)
+  // M5.6 T6:iCurSystemMenuItem 全局记忆(sdlpal uigame.c:512 PAL_SystemMenu_OnItemChange)
+  gs.iCurSystemMenuItem = s.selection.cursor
   if (input.pressed.has('Confirm')) {
     const choice = systemMenuChoice(s)
     if (!choice) return
@@ -198,6 +204,12 @@ function dispatchInventoryMenu(
   }
   if (input.pressed.has('Up')) inventoryMoveUp(s)
   if (input.pressed.has('Down')) inventoryMoveDown(s)
+  // M5.6 T6:PgUp/PgDn 翻页(sdlpal ui.c kKeyPgUp/PgDn)— list phase 的 SelectionMenu
+  if (s.phase === 'list') {
+    if (input.pressed.has('PgUp')) pageUp(s.list)
+    if (input.pressed.has('PgDn')) pageDown(s.list)
+  }
+  gs.iCurInvMenuItem = s.list?.cursor ?? 0
   if (input.pressed.has('Confirm')) {
     const catalogs = requireCatalogs()
     if (s.phase === 'list') {

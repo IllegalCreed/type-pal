@@ -334,7 +334,8 @@ export function tickSceneSystem(
   // M5.6 W0.v:Menu 键(sdlpal input.c:66 SDLK_ESCAPE → kKeyMenu)→ 开 InGameMenu hub。
   // 早返回:不走 movement / search,避免按 ESC 时同时位移。
   if (input.pressed.has('Menu')) {
-    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
+    // M5.6 T6:cursor 默认 = gs.iCurMainMenuItem(sdlpal 真值 — 上次选哪项这次默认那项)
+    openMenu(gs, { kind: 'in-game', state: createInGameMenu(gs.iCurMainMenuItem) })
     return
   }
 

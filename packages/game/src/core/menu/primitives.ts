@@ -92,6 +92,27 @@ function ensureCursorVisible(s: SelectionMenuState): void {
   }
 }
 
+/**
+ * M5.6 T6:PgUp 翻页 — cursor 跳到上一页第一个可选项;若已在第一页,跳到首项。
+ * sdlpal ui.c:540+ PAL_ReadMenu kKeyPgUp 真值。
+ */
+export function pageUp(s: SelectionMenuState): void {
+  const target = Math.max(0, s.cursor - s.pageSize)
+  s.cursor = findNextSelectable(s.items, target - 1, 1) // 从 target-1 之后找下一个可选
+  if (s.cursor < target) s.cursor = target // 边界
+  ensureCursorVisible(s)
+}
+
+/**
+ * M5.6 T6:PgDn 翻页 — cursor 跳到下一页第一个可选项;末页时跳到末项。
+ */
+export function pageDown(s: SelectionMenuState): void {
+  const target = Math.min(s.items.length - 1, s.cursor + s.pageSize)
+  s.cursor = findNextSelectable(s.items, target - 1, 1)
+  if (s.cursor > target) s.cursor = target
+  ensureCursorVisible(s)
+}
+
 /** 当前光标对应的 item(可能 undefined when items 空)。 */
 export function getSelected(s: SelectionMenuState): SelectionMenuItem | undefined {
   return s.items[s.cursor]
