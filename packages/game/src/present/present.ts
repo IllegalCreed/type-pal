@@ -422,6 +422,7 @@ export function presentFrame(
       playerRoles: ctx.playerRoles,
       // M5.6 T10d:PlayerStatus 头像复用 dialog-assets.portraitFrames(同 RGM PNG 资源)。
       portraitIcons: ctx.dialogAssets?.portraitFrames,
+      levelUpExp: ctx.levelUpExp,
     })
   }
 }

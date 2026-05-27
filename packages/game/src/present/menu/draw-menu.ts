@@ -20,6 +20,7 @@ import type {
 import type { InGameMenuState, SystemMenuState } from '../../core/menu/in-game-menu.js'
 import type { InventoryActionMenuState } from '../../core/menu/inventory-action-menu.js'
 import type { InventoryMenuState } from '../../core/menu/inventory-menu.js'
+import type { PlayerStatusState } from '../../core/menu/player-status.js'
 import type { OpeningMenuState } from '../../core/menu/opening-menu.js'
 import type { SaveSlotMenuState } from '../../core/menu/save-slot-menu.js'
 import type { SelectionMenuState } from '../../core/menu/primitives.js'
@@ -30,6 +31,7 @@ import { drawBox, drawSingleLineBox } from './draw-box.js'
 import { drawNumber } from '../draw-number.js'
 import { drawInventoryMenu } from './draw-inventory.js'
 import { drawOpeningMenu } from './draw-opening-menu.js'
+import { drawPlayerStatus } from './draw-player-status.js'
 
 // ── sdlpal ui.h / text.c 真值色 ──────────────────────────────────────────────
 const MENUITEM_COLOR = 0x4F            // ui.h:29
@@ -86,6 +88,8 @@ export interface DrawMenuExtraCtx {
    * 复用 dialog-assets.portraitFrames(同 PNG 资源 / 同 chunkIndex 索引)。
    */
   portraitIcons?: Map<number, IndexedImage>
+  /** M5.6 T10d:DATA.MKF chunk 14 LevelUpExp[100](RoleNextExp 数字)。 */
+  levelUpExp?: number[]
 }
 
 export function drawMenuStack(
@@ -144,9 +148,29 @@ function drawMenuEntry(
         glyphs,
       })
       break
+    case 'player-status':
+      // T10d:fullscreen UI(sdlpal uigame.c:1051-1286 真值 1:1 port)
+      if (extra?.playerRoles) {
+        drawPlayerStatus({
+          fb,
+          state: entry.state as PlayerStatusState,
+          gs,
+          playerRoles: extra.playerRoles,
+          items: extra.items ?? [],
+          uiSpriteFrames,
+          glyphs,
+          statusBg: extra.statusBg,
+          portraitIcons: extra.portraitIcons,
+          itemIcons: extra.itemIcons,
+          levelUpExp: extra.levelUpExp,
+        })
+      }
+      else {
+        drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
+      }
+      break
     case 'equip':
     case 'in-game-magic':
-    case 'player-status':
     case 'shop-buy':
     case 'shop-sell':
       // T10c-e 待真做 fullscreen UI;此处显式标 TODO 不再装"接通"
