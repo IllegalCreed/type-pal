@@ -130,6 +130,13 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   for (const eo of scene.eventObjects) {
     if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)
   }
+  // M5.6 T18 Step 7:splash fallback (DOS build) 用 MGO chunk 71/73
+  //   - 71 = SPRITENUM_SPLASH_TITLE(sdlpal main.c:44 0x47)— 标题 RLE
+  //   - 73 = SPRITENUM_SPLASH_CRANE(main.c:45 0x49)— 仙鹤 sprite group 8 帧
+  // 不大(~50KB),启动一次性 fetch,无论 ?build flag 都加载(WIN95 build mp4 fallback
+  // 失败时也能切到 dos 路径)。
+  spriteIds.add(71)
+  spriteIds.add(73)
   const characterSprites = new Map<
     number,
     { frames: IndexedImage[]; anchorX: number; anchorY: number }
