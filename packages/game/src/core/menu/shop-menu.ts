@@ -12,7 +12,6 @@ import type { Item } from '@type-pal/shared'
 import type { GameState, InventoryEntry } from '../game-state.js'
 import { createItemSelectMenu } from './item-select.js'
 import {
-  createSelectionMenu,
   type SelectionMenuState,
   moveSelectionDown,
   moveSelectionUp,
@@ -122,18 +121,3 @@ export function shopMoveDown(s: ShopMenuState): void {
   else if (s.phase === 'confirm-qty') adjustQty(s, -1)
 }
 
-/** OpeningMenu(sdlpal `uigame.c:83`)— 大概率被 user 直接走 ?skip-intro 跳过,
- *  这里只放数据壳;真做时接 createSelectionMenu(newgame + load slots 1-5)。 */
-export interface OpeningMenuChoice {
-  type: 'new-game' | 'load-game'
-  /** load-game 时是 slot index(1-5);new-game 不用。 */
-  slotIndex?: number
-}
-
-export function createOpeningMenuList(availableSlots: number[]): SelectionMenuState {
-  const items = [
-    { id: 0, label: '新的开始', disabled: false },
-    ...availableSlots.map((slot) => ({ id: slot, label: `读取 #${slot}`, disabled: false })),
-  ]
-  return createSelectionMenu(items)
-}
