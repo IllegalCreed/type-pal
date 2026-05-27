@@ -321,10 +321,9 @@ describe('tickBattle finalize', () => {
 
     expect(gs.mode).toBe('explore')
     expect(gs.battleState).toBeUndefined()
-    // exp / cash 入账(M3 简版 — 临时 _exp + (gs as any).cash)
-    const role = (gs as unknown as { __battleResources?: BattleResources }).__battleResources
-    void role // (资源应已清)
-    expect((gs as unknown as Record<string, number>).cash).toBe(200)
+    // M5.B-w1.c:exp/cash 入账走 gs.Exp.rgPrimaryExp + gs.dwCash 真 schema
+    expect(gs.dwCash).toBe(200)
+    expect(gs.Exp.rgPrimaryExp[0]?.wExp).toBeGreaterThan(0)
   })
 
   it('队员死光 → lost → finalize 切 explore + hp=1', () => {

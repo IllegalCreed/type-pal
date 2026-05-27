@@ -218,12 +218,11 @@ describe('M3 E2E:战斗 won 链路(attack-only,deterministic seed)', () => {
     expect(gs.mode, '应回到 explore 模式').toBe('explore')
     expect(gs.battleState, 'battleState 应清空').toBeUndefined()
 
-    // exp / cash 入账:队长 role 上挂了 _exp(M3 简版,M5 真做 levelUpExp)
-    const leader = resources.playerRoles.roles[0] as unknown as Record<string, number>
-    expect(leader._exp ?? 0, 'won 应给 leader exp').toBeGreaterThan(0)
-    const cash = (gs as unknown as Record<string, number>).cash ?? 0
-    expect(cash, 'won 应累 cash').toBeGreaterThan(0)
+    // M5.B-w1.c:exp/cash 入账走 gs.Exp.rgPrimaryExp + gs.dwCash 真 schema
+    expect(gs.Exp.rgPrimaryExp[0]?.wExp ?? 0, 'won 应给 leader exp').toBeGreaterThan(0)
+    expect(gs.dwCash, 'won 应累 cash').toBeGreaterThan(0)
     // 防御性 — 队长不应在 lost 路径(M3 lost 时 hp=1 兜底)
+    const leader = resources.playerRoles.roles[0] as unknown as Record<string, number>
     expect(leader.hp).toBeGreaterThan(0)
 
     // 兜底 — ATTACK_TARGET_0 引用避免 lint unused
@@ -233,11 +232,10 @@ describe('M3 E2E:战斗 won 链路(attack-only,deterministic seed)', () => {
   it('flee 路径:fixture-fast-flee + 强 fleeRate → 数回合后 fleed + mode=explore + 无 exp 奖励', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
 
-    // 重置 leader._exp(前一个测试 mutate 了 playerRoles)
+    // 重置 exp/cash(前一个测试 mutate 了 gs.Exp / gs.dwCash 但 createInitialGameState
+    // 已新建,无需 reset。leader 引用保留供后续断言。)
     const leader = resources.playerRoles.roles[0] as unknown as Record<string, number>
-    leader._exp = 0
-    const gsState = gs as unknown as Record<string, number>
-    gsState.cash = 0
+    void leader
 
     applyDevFixture(gs, resources, {
       partyMembers: [0],
@@ -280,7 +278,7 @@ describe('M3 E2E:战斗 won 链路(attack-only,deterministic seed)', () => {
     expect(gs.mode).toBe('explore')
     expect(gs.battleState).toBeUndefined()
     // fleed:无 exp / cash 奖励(finalize 走 fleed 分支)
-    expect((resources.playerRoles.roles[0] as unknown as Record<string, number>)._exp ?? 0).toBe(0)
-    expect((gs as unknown as Record<string, number>).cash ?? 0).toBe(0)
+    expect(gs.Exp.rgPrimaryExp[0]?.wExp ?? 0).toBe(0)
+    expect(gs.dwCash).toBe(0)
   }, 30_000)
 })

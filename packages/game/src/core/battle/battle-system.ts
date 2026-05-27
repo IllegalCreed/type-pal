@@ -806,18 +806,18 @@ function finalizeBattle(
 ): void {
   if (!forced) {
     if (state.phase === 'won') {
-      // exp 平分到 partyMembers(M3 简版:不算 level up;M5 真做)
-      const partySize = Math.max(gs.partyMembers.length, 1)
-      const expEach = Math.floor(state.expGained / partySize)
-      for (const playerIdx of gs.partyMembers) {
-        const role = res.playerRoles.roles[playerIdx]
-        if (!role)
-          continue
-        const r = role as unknown as Record<string, number>
-        r._exp = (r._exp ?? 0) + expEach
+      // M5.B-w1.c:sdlpal `PAL_BattleWon` 真值 — iExpGained 加到每 alive
+      // partyMember 的 rgPrimaryExp(wExp);levelup loop 触发查 rgLevelUpExp 阈值
+      // 留 follow-up(需注入 LevelUpExp 表 + stat 加成 random 公式)。
+      // alive 判定用 res.playerRoles.roles[roleId].hp(fixture 真值来源),
+      // PlayerRolesRuntime.rgwHP 在装备/savegame 体系完工后接管。
+      for (const roleId of gs.partyMembers) {
+        const role = res.playerRoles.roles[roleId]
+        if (!role || role.hp <= 0) continue // dead 不获 exp
+        const entry = gs.Exp.rgPrimaryExp[roleId]
+        if (entry) entry.wExp += state.expGained
       }
-      const g = gs as unknown as Record<string, number>
-      g.cash = (g.cash ?? 0) + state.cashGained
+      gs.dwCash += state.cashGained
     }
     else if (state.phase === 'lost') {
       // 全员 hp=1(M3 简版,M5 真做 game over)
