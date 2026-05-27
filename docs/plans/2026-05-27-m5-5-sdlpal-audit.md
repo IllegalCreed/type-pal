@@ -144,6 +144,122 @@ follow-up。文件按 game logic 相关性优先级排序。
 
 ---
 
-## 待 audit(剩 43 个 .c)
+## battle.c(1858 行)
 
-接下来按 Tier 1 / Tier 2 顺序逐个审 — battle.c / fight.c / global.c / res.c / map.c / text.c / font.c / input.c / itemmenu.c / magicmenu.c / uigame.c / uibattle.c。
+**ts port 入口**:packages/game/src/core/battle/battle-system.ts / battle-state.ts / turn-queue.ts
+
+### 已 port
+
+| sdlpal 函数 | sdlpal 行 | ts port | 状态 |
+|---|---|---|---|
+| `PAL_StartBattle` | 1531-1858 | battle-system.ts:startBattle | ✓ |
+| `PAL_BattleWon`(战后 exp/cash + level up) | 991-1374 | battle-system.ts:finalizeBattle won 分支 | ⚠️ exp 加成 ✓ 但 **levelup loop 未做**(while dwExp >= rgLevelUpExp[level])+ 8 类 exp wCount→stat 加成未做 |
+| `PAL_BattleMain`(战斗主循环) | 685-807 | battle-system.ts:tickBattle | ✓(M3 vertical slice) |
+| ActionQueue build by dex | turn-queue.ts | buildActionQueue | ✓(D39 classic 无蓄气槽) |
+| `PAL_LoadBattleSprites` / Background | 807-989 | bootstrap.ts loader | ✓ |
+
+### 未 port
+
+| sdlpal 函数 | 用途 | 优先级 |
+|---|---|---|
+| `PAL_BattleDrawAllSprites*`(渲染层 sprite z-sort) | 战斗渲染层 | M6 — battle render 已有简版(M3 T22 / T25 sprites + bg) |
+| `PAL_BattleFadeScene` | 战斗入场 fade | M6 体验 |
+| `PAL_BattleEnemyEscape` / `PAL_BattlePlayerEscape` 完整 flee 流程 | 已 port flee action,真值含命中算 / fleeRate 阈值 | ⚠️ M3 已 port 简版,精确 fleeRate 真值留 |
+| `PAL_BattleDrawMagicSprites`(B-w3.b magic 特效)| FIRE/RGM/RNG sprite sheet 接战斗 | follow-up(B-w3.b 留) |
+
+### 差异
+
+| sdlpal 真值 | ts port | 备注 |
+|---|---|---|
+| BattleWon 含 4 段视觉 box(getexp / beatenemy / dollar / level up)| ts 只数值入账,无 box 显示 | UI 后续 |
+| Enemy 死后 wHealth = 65504(WORD underflow)| 我们 sentinel objectId=0(对拍时 jump) | D29 baseline 已知约定 |
+
+### Follow-up
+
+- B-w1.c levelup loop 真做(while dwExp >= rgLevelUpExp[level] → level++ + 8 类 stat 加成随机)
+- 战斗渲染:magic anim 接 FIRE/RGM/RNG;BattleWon UI 显 exp/cash/level up box
+
+---
+
+## fight.c(5400 行)— 战斗动作 / 公式 / 升级
+
+**ts port 入口**:packages/game/src/core/battle/formulas.ts / battle-system.ts / actions/*.ts / status.ts
+
+### 已 port
+
+| sdlpal 函数 | sdlpal 行 | ts port | 状态 |
+|---|---|---|---|
+| `PAL_CalcBaseDamage` | 131-171 | formulas.ts:calcBaseDamage | ✓ |
+| `PAL_CalcMagicDamage` | 174-249 | formulas.ts:calcMagicDamage | ✓(B-w1.b 五行 + 抗 + fieldEffect 完整)|
+| `PAL_CalcPhysicalAttackDamage` | 253-285 | formulas.ts | ✓ |
+| `PAL_GetEnemyDexterity` | 289-334 | formulas.ts | ✓ |
+| `PAL_GetPlayerActualDexterity` | 336-394 | formulas.ts(含 haste/slow modifier)| ✓ |
+| `PAL_IsPlayerDying` | 29-50 | actions 内 inline 用 | ✓ |
+| `PAL_BattlePlayerCheckReady`(状态衰减) | 1023-1072 | status.ts:tickStatusEffects | ✓(B-w1.a — number 类 -1) |
+| `PAL_BattlePlayerPerformAction` | 3577-... | actions/attack.ts / magic.ts / item.ts / defend.ts / flee.ts | ✓ |
+| `PAL_BattleStartFrame`(每帧推进) | 1073-1810 | battle-system.ts:advanceBattle(classic 路径) | ✓ |
+
+### 未 port(deviation)
+
+| sdlpal 函数 | 用途 | 优先级 |
+|---|---|---|
+| 升级 8 类 exp wCount → stat 加成(fight.c:3756 attackExp.wCount++ / healthExp+=RandomLong(2,3))| BattleWon 内每 action 加 + while dwExp >= levelUpExp → levelup | **B-w1.c 真做需要**;follow-up |
+| `PAL_BattleShowPlayerAttackAnim` / `PreMagicAnim` / `DefMagicAnim` / `OffMagicAnim` / `SummonMagicAnim` / `EnemyMagicAnim`(全 magic anim)| 渲染层动画 | B-w3.b follow-up(渲染深度) |
+| `PAL_BattleCommitAction` 1811+ 含 status 攻击友军 / dying 检测 | ts performAttack 简版未含 confused 攻击友军 / dying check | M6 完善 |
+| `PAL_BattleCheckHidingEffect` 3511 隐身效果 | ts 无 | M6 follow-up |
+| ATB 路径(`#ifndef PAL_CLASSIC` 包了 ~20 处):`PAL_UpdateTimeChargingUnit` / `PAL_GetTimeChargingSpeed` 等 | D39 我们 classic 路径不 port ATB | N/A(decision)|
+
+### 差异
+
+| sdlpal 真值 | ts port | 备注 |
+|---|---|---|
+| ActionQueue 含 `fIsSecond`(dualMove 第二回合) | ts buildActionQueue 已含 | ✓ |
+| `PAL_BattleSelectAutoTarget` 自动选目标(M3 简版 random target)| ts decideEnemyAction 简版 random | M3 简版,精确真值 follow-up |
+
+### Follow-up
+
+- 升级 8 类 wCount + 随机加成(B-w1.c 真做)
+- magic anim 6 个动画函数接渲染(B-w3.b)
+- confused 攻击友军 / dying check / hiding effect(M6)
+- decideEnemyAction 精确 sdlpal `PAL_BattleSelectAutoTarget` 真值
+
+---
+
+## global.c(2409 行)— GameState load / save / new game
+
+**ts port 入口**:packages/game/src/core/game-state.ts(schema 全字段 Sync.1)
+
+### 已 port
+
+| sdlpal 函数 | sdlpal 行 | ts port | 状态 |
+|---|---|---|---|
+| `tagSAVEDGAME_WIN` schema | global.h | game-state.ts(Sync.1 全字段)| ✓ |
+| `PAL_NewGame`(party=主角 / maxPartyMemberIndex=0 / wNumScene=1) | global.c | bootstrap.ts:createInitialGameState + bootstrap 默认值 | ✓ |
+| `PAL_LoadGame_WIN` / `PAL_SaveGame_WIN` | 字节级序列化 | **ts 不字节兼容**(D36 决策),用 JSON | by design |
+
+### 未 port
+
+| sdlpal 函数 | 用途 | 优先级 |
+|---|---|---|
+| `PAL_AddItemToInventory` 完整逻辑(8 字节 entry,排序 by item.bitmap 等)| 简版 sortable 留 | M6 |
+| `PAL_GetItemAmount` / equipment slot 查找 / `PAL_EquipItem` 完整流程 | M-w1.b 简版 state machine | follow-up |
+
+### 差异(by design)
+
+| sdlpal 真值 | ts port | 备注 |
+|---|---|---|
+| Save 字节级二进制 SAVEDGAME.RPG 文件 | IndexedDB JSON | D36 不字节兼容 — 跨平台 / WebGame 选择 |
+| Item entry 8 字节 with sortable flags / equipped marker | InventoryEntry { itemId, count } 简版 | follow-up:加 sortable / equipped 标记 |
+
+---
+
+## 待 audit Tier 2(~12 个 .c)
+
+接下来:res.c(asset load)/ map.c / text.c / font.c / input.c / itemmenu.c / magicmenu.c / uigame.c / uibattle.c。
+
+## 待 audit Tier 3(~28 个 .c)
+
+渲染底层 / 音频 / 配置 — 跟 game 逻辑解耦,M6+ follow-up:
+video.c / video_glsl.c / glslp.c / overlay.c / mini_glloader.c / aviplay.c / palette.c /
+audio.c / mp3play.c / oggplay.c / opusplay.c / midi*.c / resampler.c / rngplay.c / sound.c /
+palcfg.c / palcommon.c / paldebug.c / ending.c / game.c / main.c / util.c
