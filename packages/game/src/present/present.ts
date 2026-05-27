@@ -1,4 +1,4 @@
-import type { Palette, Tilemap } from '@type-pal/shared'
+import type { Palette, PlayerRoles, Tilemap } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'
 import type { BusEntry } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
@@ -47,6 +47,23 @@ export interface PresentContext {
   itemIcons?: Map<number, IndexedImage>
   /** T10b:items catalog(InventoryMenu / Equip / 商店 渲染用)。 */
   items?: import('@type-pal/shared').Item[]
+  /**
+   * M5.6 T10d:PlayerStatus 全屏背景 — sdlpal `STATUS_BACKGROUND_FBPNUM = 0`
+   * (ui.h:83 真值 + uigame.c:1089 `PAL_MKFDecompressChunk(..., STATUS_BACKGROUND_FBPNUM, fpFBP)`)。
+   * 数据源 = FBP.MKF chunk 0 → M4 P2.T4 已 dump 到 images/battle/bg/000.png。
+   * loadAll 通过 battleBgs.get(0) 拿到;bootstrap 注入此字段。
+   */
+  statusBg?: BattleBgAsset
+  /**
+   * M5.6 T10d:PlayerStatus 渲染需 PlayerRoles 全字段(stat / equipment / avatar / maxHP 等)。
+   * 与 BattleAssets.playerRoles 同源(LoadedAssets.playerRoles)。
+   */
+  playerRoles?: PlayerRoles
+  /**
+   * M5.6 T10d:DATA.MKF chunk 14 LevelUpExp[100],下一等级所需累积经验。
+   * sdlpal uigame.c:1218 `gpGlobals->g.rgLevelUpExp[rgwLevel[role]]`(RoleNextExp 数字)。
+   */
+  levelUpExp?: number[]
 }
 
 /** sdlpal `palcommon.h`:kDirSouth=0 / kDirWest=1 / kDirNorth=2 / kDirEast=3。 */
@@ -401,6 +418,10 @@ export function presentFrame(
       openingMenuBg: ctx.openingMenuBg,
       items: ctx.items,
       itemIcons: ctx.itemIcons,
+      statusBg: ctx.statusBg,
+      playerRoles: ctx.playerRoles,
+      // M5.6 T10d:PlayerStatus 头像复用 dialog-assets.portraitFrames(同 RGM PNG 资源)。
+      portraitIcons: ctx.dialogAssets?.portraitFrames,
     })
   }
 }

@@ -10,7 +10,7 @@
  *  - 主菜单弹时左上角 PAL_ShowCash 单行 box + "金钱" label + dwCash 数字
  */
 
-import type { Item } from '@type-pal/shared'
+import type { Item, PlayerRoles } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import type {
   ActiveMenuEntry,
@@ -18,6 +18,7 @@ import type {
   GameState,
 } from '../../core/game-state.js'
 import type { InGameMenuState, SystemMenuState } from '../../core/menu/in-game-menu.js'
+import type { InventoryActionMenuState } from '../../core/menu/inventory-action-menu.js'
 import type { InventoryMenuState } from '../../core/menu/inventory-menu.js'
 import type { OpeningMenuState } from '../../core/menu/opening-menu.js'
 import type { SaveSlotMenuState } from '../../core/menu/save-slot-menu.js'
@@ -76,6 +77,15 @@ export interface DrawMenuExtraCtx {
   /** M5.6 T10b:InventoryMenu / Equip / 商店 渲染要 items catalog + BALL 图标 */
   items?: Item[]
   itemIcons?: Map<number, IndexedImage>
+  /** M5.6 T10d:PlayerStatus 全屏背景(FBP chunk 0,sdlpal ui.h:83 STATUS_BACKGROUND_FBPNUM=0)。 */
+  statusBg?: BattleBgAsset
+  /** M5.6 T10d:PlayerStatus 渲染需 PlayerRoles 全字段(stat / equipment / avatar)。 */
+  playerRoles?: PlayerRoles
+  /**
+   * M5.6 T10d:RGM 角色头像 PNG map(chunkIndex → IndexedImage 等价 shape)。
+   * 复用 dialog-assets.portraitFrames(同 PNG 资源 / 同 chunkIndex 索引)。
+   */
+  portraitIcons?: Map<number, IndexedImage>
 }
 
 export function drawMenuStack(
@@ -118,6 +128,10 @@ function drawMenuEntry(
     case 'save-slot':
       // T10a 完工:5 个 SingleLineBox + slot 文字 + 存档次数(sdlpal uigame.c:169-242)
       drawSaveSlotMenu(fb, entry.state as SaveSlotMenuState, uiSpriteFrames, glyphs)
+      break
+    case 'inventory-action':
+      // T10b 修(session 3):sdlpal uigame.c:878-919 PAL_InventoryMenu 真值 — 2 项 box(装备/使用)
+      drawInventoryActionMenu(fb, entry.state as InventoryActionMenuState, uiSpriteFrames, glyphs)
       break
     case 'inventory':
       // T10b:fullscreen UI(sdlpal itemmenu.c:28-310 真值 1:1 port)
@@ -191,6 +205,40 @@ function drawSystemMenu(
     const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
     // sdlpal ui.c:458 PAL_ReadMenu 真值 fShadow=TRUE
     renderText(fb, item.label, SYSTEM_MENU_ITEM_START.x, y, color, glyphs, true)
+  })
+}
+
+// ── Inventory Action submenu(装备/使用 1 级 box) ────────────────────────
+//
+// sdlpal `uigame.c:898-908` PAL_InventoryMenu 真值:
+//   box pos PAL_XY(30, 60),rows=1,cols=PAL_MenuTextMaxWidth(2)-1,style=0
+//   item 1 (INVMENU_LABEL_EQUIP=22 "装备") at PAL_XY(43, 73)
+//   item 2 (INVMENU_LABEL_USE=23   "使用") at PAL_XY(43, 73 + 18) = (43, 91)
+//   color = MENUITEM_COLOR (0x4F),selected = MENUITEM_COLOR_SELECTED (0xF9 + tick/100%6 闪烁)
+//   fShadow = TRUE (PAL_ReadMenu 默认)
+
+const INVENTORY_ACTION_BOX = { x: 30, y: 60 }
+const INVENTORY_ACTION_ITEM_START = { x: 43, y: 73 }
+
+function drawInventoryActionMenu(
+  fb: Framebuffer,
+  state: InventoryActionMenuState,
+  uiSpriteFrames: IndexedImage[],
+  glyphs?: GlyphTable,
+): void {
+  const items = state.selection.items
+  const labels = items.map((it) => it.label)
+  const maxWidth = menuTextMaxWidth(labels, glyphs)
+  const cols = Math.max(1, maxWidth - 1)
+  drawBox({
+    fb, x: INVENTORY_ACTION_BOX.x, y: INVENTORY_ACTION_BOX.y,
+    rows: 1, cols, style: 0,
+    uiSpriteFrames,
+  })
+  items.forEach((item, i) => {
+    const y = INVENTORY_ACTION_ITEM_START.y + i * LINE_HEIGHT
+    const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
+    renderText(fb, item.label, INVENTORY_ACTION_ITEM_START.x, y, color, glyphs, true)
   })
 }
 

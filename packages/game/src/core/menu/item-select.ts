@@ -18,7 +18,7 @@ import { createSelectionMenu } from './primitives.js'
  *  - potion:可使用恢复类
  *  - battle:战斗道具
  *  - important:剧情道具(不可丢弃 / 不可用) */
-export type ItemFilter = 'equip' | 'potion' | 'battle' | 'important' | 'all'
+export type ItemFilter = 'equip' | 'potion' | 'battle' | 'important' | 'usable' | 'all'
 
 /** 显示模式:inventory(默认无价格)/ buy(显价)/ sell(显卖价 = 价格 / 2). */
 export type ItemDisplayMode = 'inventory' | 'buy' | 'sell'
@@ -45,6 +45,9 @@ export function matchesFilter(item: Item, filter: ItemFilter): boolean {
     // sdlpal `kItemFlagImportant` 实际是非 sellable + 非 consuming + 非 equipable
     // 等的间接判断(M5 简版按 sellable=false 近似)。
     case 'important': return !f.sellable && !f.equipable
+    // sdlpal play.c:266 `PAL_ItemSelectMenu(NULL, kItemFlagUsable)` 真值 — PAL_GameUseItem
+    // 入口的 filter,直接按 item.flags.usable 标志。
+    case 'usable': return f.usable
   }
 }
 

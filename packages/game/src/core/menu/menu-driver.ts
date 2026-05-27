@@ -35,6 +35,10 @@ import {
   inventoryPageUp, type InventoryMenuState,
 } from './inventory-menu.js'
 import {
+  createInventoryActionMenu, inventoryActionChoice, inventoryActionMenuDown,
+  inventoryActionMenuUp, type InventoryActionMenuState,
+} from './inventory-action-menu.js'
+import {
   cancelEquipMenu, confirmEquipItem, confirmEquipRole,
   createEquipMenu, equipMoveDown, equipMoveUp, type EquipMenuState,
 } from './equip-menu.js'
@@ -43,8 +47,8 @@ import {
   createInGameMagicMenu, inGameMagicMoveDown, inGameMagicMoveUp, type InGameMagicMenuState,
 } from './in-game-magic-menu.js'
 import {
-  switchToNextPage, switchToNextPlayer, switchToPrevPage, switchToPrevPlayer,
-  createPlayerStatus, type PlayerStatusState,
+  createPlayerStatus, playerStatusCancel, playerStatusNext, playerStatusPrev,
+  type PlayerStatusState,
 } from './player-status.js'
 import {
   createSaveSlotMenu, saveSlotMenuCurrent, saveSlotMenuDown, saveSlotMenuUp,
@@ -116,6 +120,9 @@ export function dispatchMenuInput(gs: GameState, input: InputSnapshot, bus: Comm
       break
     case 'system':
       dispatchSystemMenu(gs, top, input)
+      break
+    case 'inventory-action':
+      dispatchInventoryActionMenu(gs, top, input)
       break
     case 'inventory':
       dispatchInventoryMenu(gs, top, input, bus)
@@ -192,7 +199,13 @@ function dispatchInGameMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
     const catalogs = requireCatalogs()
     switch (choice) {
       case 'inventory':
-        openMenu(gs, { kind: 'inventory', state: createInventoryMenu(gs, catalogs.items) })
+        // sdlpal `uigame.c:912-916` 真值:Confirm "物品" → PAL_InventoryMenu(2-项 box submenu
+        // 装备/使用),再按 case 走 PAL_GameEquipItem / PAL_GameUseItem。v1 ts 漏了这一层 box,
+        // 直接进 fullscreen list — 本 session 修。
+        openMenu(gs, {
+          kind: 'inventory-action',
+          state: createInventoryActionMenu(gs.iCurInvActionMenuItem),
+        })
         break
       case 'magic':
         openMenu(gs, {
@@ -246,6 +259,54 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
         // 浏览器无 quit;关掉所有菜单返回 explore
         gs.menuStack = []
         break
+    }
+  }
+}
+
+// ── Inventory Action(物品 1 级子菜单:装备 / 使用)──────────────────────
+//
+// sdlpal `uigame.c:878-919` PAL_InventoryMenu 真值 — 2 项 box:
+//   INVMENU_LABEL_EQUIP=22 → PAL_GameEquipItem (play.c:328-359)
+//                               → PAL_ItemSelectMenu(equipable) → PAL_EquipItemMenu(wObject)
+//   INVMENU_LABEL_USE=23   → PAL_GameUseItem (play.c:244-325)
+//                               → PAL_ItemSelectMenu(usable) → PAL_ItemUseMenu(wObject)
+//
+// 简版降级:ts equip menu 已嵌内部 ItemSelectMenu(equipable);use 路径走 'inventory' kind
+// (filter='usable')。sdlpal while loop"用完一个继续选下一个"留 follow-up — 当前 ts
+// 选完一次 + cancel 即关菜单回 InGame。
+
+function dispatchInventoryActionMenu(
+  gs: GameState,
+  top: ActiveMenuEntry,
+  input: InputSnapshot,
+): void {
+  const s = top.state as InventoryActionMenuState
+  if (input.pressed.has('Menu')) {
+    closeTopMenu(gs)
+    return
+  }
+  if (input.pressed.has('Up')) inventoryActionMenuUp(s)
+  if (input.pressed.has('Down')) inventoryActionMenuDown(s)
+  // sdlpal uigame.c:896 真值 `static WORD w = 0` 跨调用记忆
+  gs.iCurInvActionMenuItem = s.selection.cursor
+  if (input.pressed.has('Confirm')) {
+    const choice = inventoryActionChoice(s)
+    if (!choice) return
+    const catalogs = requireCatalogs()
+    if (choice === 'equip') {
+      // sdlpal play.c:350 PAL_ItemSelectMenu(equipable) → EquipItemMenu;
+      // 简版:close action + open 现有 equip menu(内含 item list + 选 role)
+      closeTopMenu(gs)
+      openMenu(gs, { kind: 'equip', state: createEquipMenu(gs, catalogs.items) })
+    }
+    else if (choice === 'use') {
+      // sdlpal play.c:266 PAL_ItemSelectMenu(usable) → ItemUseMenu;
+      // 简版:close action + open inventory(filter='usable' = sdlpal kItemFlagUsable)
+      closeTopMenu(gs)
+      openMenu(gs, {
+        kind: 'inventory',
+        state: createInventoryMenu(gs, catalogs.items, 'usable'),
+      })
     }
   }
 }
@@ -355,18 +416,29 @@ function dispatchInGameMagicMenu(
 }
 
 // ── Player Status(角色状态)─────────────────────────────────────────────
+//
+// sdlpal `uigame.c:1265-1284` PAL_PlayerStatus 输入路由真值(无"页"概念,一屏整布局):
+//   kKeyMenu        → iCurrent = -1 → break(关菜单)
+//   kKeyLeft/Up     → iCurrent-- → 上个 party 成员;< 0 关菜单
+//   kKeyRight/Down/Search → iCurrent++ → 下个 party 成员;> max 关菜单
+//
+// v1 ts 简版 Up/Down=切 page、Left/Right=切 player 是错的(用户截图打脸)— sdlpal
+// 没有"属性页 / 装备页 / 法术页"页签,4 方向 + Confirm 都是切 party 成员索引。
 
 function dispatchPlayerStatusMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as PlayerStatusState
   if (input.pressed.has('Menu')) {
-    closeTopMenu(gs)
-    return
+    playerStatusCancel(s)
   }
-  // sdlpal uigame.c:1234 左/右切队员,上/下翻页(attribute / equipment / magic)
-  if (input.pressed.has('Left')) switchToPrevPlayer(s)
-  if (input.pressed.has('Right')) switchToNextPlayer(s)
-  if (input.pressed.has('Up')) switchToPrevPage(s)
-  if (input.pressed.has('Down')) switchToNextPage(s)
+  if (input.pressed.has('Left') || input.pressed.has('Up')) {
+    playerStatusPrev(s)
+  }
+  if (input.pressed.has('Right') || input.pressed.has('Down') || input.pressed.has('Confirm')) {
+    playerStatusNext(s)
+  }
+  if (s.done) {
+    closeTopMenu(gs)
+  }
 }
 
 // ── Save Slot(存档/读档槽位)─────────────────────────────────────────────

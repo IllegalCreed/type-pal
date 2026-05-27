@@ -192,6 +192,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // M5.6 T10b:BALL 物品图标(audit 第 1 漏洞已修)— InventoryMenu / Equip / 商店用。
     itemIcons: assets.itemIcons,
     items: assets.items,
+    // M5.6 T10d:PlayerStatus 全屏背景 — sdlpal `STATUS_BACKGROUND_FBPNUM = 0`(ui.h:83)。
+    // FBP chunk 0 → battleBgs.get(0)(M4 P2.T4 已 dump)。
+    statusBg: assets.battleBgs.get(0),
+    // PlayerStatus 渲染读 stat / equipment / avatar(rgwAvatar→portrait chunk index)。
+    playerRoles: assets.playerRoles,
+    // PlayerStatus 显示 RoleNextExp 用 LevelUpExp[level] 阈值(DATA.MKF chunk 14)。
+    levelUpExp: assets.levelUpExp,
   }
 
   // M3 T28/T29:战斗一帧装配 —— BattlePresent 持有 floating nums 跨帧状态;

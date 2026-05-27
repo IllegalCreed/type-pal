@@ -67,6 +67,11 @@ export interface LoadedAssets {
    * InventoryMenu / EquipMenu / 商店 / addItem dialog 用。
    */
   itemIcons: Map<number, IndexedImage>
+  /**
+   * M5.6 T10d:DATA.MKF chunk 14 LevelUpExp[100] WORD × 100 — sdlpal `global.h::rgLevelUpExp`。
+   * 用于 PlayerStatus 显示 RoleNextExp(等级 N 升至 N+1 所需累积经验阈值)。
+   */
+  levelUpExp: number[]
 }
 
 interface UiSpriteManifest {
@@ -100,7 +105,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   const scene = await fetchJson<SceneObjects & { mapNum: number }>(`${BASE}/data/scene/${sceneId}.json`)
   const [
     tilemap, palette, events, playerRoles,
-    enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics,
+    enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics, levelUpExp,
   ] = await Promise.all([
     fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap/${scene.mapNum}.json`),
     fetchJson<Palette>(`${BASE}/data/palette/0.json`),
@@ -114,6 +119,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     fetchJson<Item[]>(`${BASE}/data/items.json`),
     fetchJson<Spell[]>(`${BASE}/data/spells.json`),
     fetchJson<Magic[]>(`${BASE}/data/magic.json`),
+    fetchJson<number[]>(`${BASE}/data/level-up-exp.json`),
   ])
 
   // P1: tilesetFiles[] 内现在是 `world/tileset/map-{mapNum}/tile-{XXXX}.png` 格式,
@@ -316,6 +322,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     magics,
     uiSpriteFrames,
     itemIcons,
+    levelUpExp,
   }
 }
 

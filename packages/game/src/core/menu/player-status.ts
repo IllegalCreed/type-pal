@@ -1,88 +1,58 @@
 /**
- * M5.M-w2.a:PlayerStatus 3 页(sdlpal `uigame.c:1041` 真值)。
+ * M5.6 T10d:PlayerStatus state machine — sdlpal `uigame.c:1051-1286` PAL_PlayerStatus 真值。
  *
- * 大世界状态页面:左右切换 player(party 成员)+ 上下切换 页签(属性 / 装备 / 法术)。
- * 纯数据 — 渲染层后续。
+ * sdlpal 真值(1:1):
+ *  - `iCurrent = 0` → 0..gpGlobals->wMaxPartyMemberIndex 循环遍历 party 成员
+ *  - 每次循环 fullscreen 渲染对应 player(`gpGlobals->rgParty[iCurrent].wPlayerRole`)
+ *    的:FBP chunk 0 背景 + RGM 头像(`rgwAvatar[role]`)+ 6 装备槽 + 4 EXP/Lv/HP/MP 标签
+ *    + 5 stat 标签(Atk/Mag/Res/Dex/Flee)+ 数字 + 毒素 row + roleName
+ *  - 输入循环(uigame.c:1265-1284):
+ *      kKeyMenu        → iCurrent = -1 → break 外循环(关菜单)
+ *      kKeyLeft/Up     → iCurrent-- → 上个 party 成员
+ *      kKeyRight/Down/Search → iCurrent++ → 下个 party 成员
+ *    cursor 越界(<0 或 > wMaxPartyMemberIndex)外循环 while 条件 false → break 关菜单。
+ *
+ * sdlpal **没有**"属性页 / 装备页 / 法术页"切换的概念 — 一屏整布局 9 stat + 6 装备 + 头像
+ * 同时显示。v1 ts 简版 `page='attribute'|'equipment'|'magic'` 是错的(用户截图打脸已删)。
  */
 
-import type { PlayerRoles } from '@type-pal/shared'
-
-export type StatusPage = 'attribute' | 'equipment' | 'magic'
-
 export interface PlayerStatusState {
-  /** 当前显示哪个 partyMembers[index]。 */
-  partyIndex: number
-  /** partyMembers 数组(roleId 列表),用于 left/right 切换。 */
+  /** 当前 party 成员索引(sdlpal `iCurrent`)。 */
+  cursor: number
+  /** partyMembers 数组(roleId 列表)— close 判断用 length。 */
   partyMembers: number[]
-  /** 3 页签当前。 */
-  page: StatusPage
+  /**
+   * 退出标志(sdlpal `iCurrent = -1` 或越界 → break 等价)。
+   * dispatcher(menu-driver)检测后 closeTopMenu;state 自身不直接 mutate menuStack。
+   */
+  done: boolean
 }
 
 export function createPlayerStatus(partyMembers: number[]): PlayerStatusState {
-  return { partyIndex: 0, partyMembers, page: 'attribute' }
+  return { cursor: 0, partyMembers: [...partyMembers], done: partyMembers.length === 0 }
 }
 
-export function switchToNextPlayer(s: PlayerStatusState): void {
-  if (s.partyMembers.length === 0) return
-  s.partyIndex = (s.partyIndex + 1) % s.partyMembers.length
+/** sdlpal uigame.c:1276 — kKeyLeft | kKeyUp → iCurrent--;越界关菜单。 */
+export function playerStatusPrev(s: PlayerStatusState): void {
+  if (s.done) return
+  s.cursor--
+  if (s.cursor < 0) s.done = true
 }
 
-export function switchToPrevPlayer(s: PlayerStatusState): void {
-  if (s.partyMembers.length === 0) return
-  s.partyIndex = (s.partyIndex - 1 + s.partyMembers.length) % s.partyMembers.length
+/** sdlpal uigame.c:1281 — kKeyRight | kKeyDown | kKeySearch → iCurrent++;越界关菜单。 */
+export function playerStatusNext(s: PlayerStatusState): void {
+  if (s.done) return
+  s.cursor++
+  if (s.cursor >= s.partyMembers.length) s.done = true
 }
 
-const PAGES: StatusPage[] = ['attribute', 'equipment', 'magic']
-
-export function switchToNextPage(s: PlayerStatusState): void {
-  const i = PAGES.indexOf(s.page)
-  s.page = PAGES[(i + 1) % PAGES.length]!
+/** sdlpal uigame.c:1271 — kKeyMenu → iCurrent = -1 直接退。 */
+export function playerStatusCancel(s: PlayerStatusState): void {
+  s.done = true
 }
 
-export function switchToPrevPage(s: PlayerStatusState): void {
-  const i = PAGES.indexOf(s.page)
-  s.page = PAGES[(i - 1 + PAGES.length) % PAGES.length]!
-}
-
-/** 当前显示 role id(可能 undefined when partyMembers 空)。 */
+/** 当前 cursor 对应 role id;done 状态返回 undefined。 */
 export function currentRoleId(s: PlayerStatusState): number | undefined {
-  return s.partyMembers[s.partyIndex]
-}
-
-/** 当前 page 的呈现数据(渲染层取用)— stat / equipment / magic 三类。 */
-export interface PlayerStatusViewData {
-  page: StatusPage
-  roleId: number
-  // attribute 页
-  level?: number
-  hp?: number; maxHP?: number
-  mp?: number; maxMP?: number
-  attack?: number
-  defense?: number
-  dex?: number
-  // equipment 页(6 装备槽)
-  equipment?: number[]
-  // magic 页(已学法术列表)
-  learnedMagic?: number[]
-}
-
-export function viewData(s: PlayerStatusState, playerRoles: PlayerRoles): PlayerStatusViewData | null {
-  const roleId = currentRoleId(s)
-  if (roleId === undefined) return null
-  const role = playerRoles.roles[roleId]
-  if (!role) return null
-  const base: PlayerStatusViewData = { page: s.page, roleId }
-  if (s.page === 'attribute') {
-    base.level = role.level
-    base.hp = role.hp; base.maxHP = role.maxHP
-    base.mp = role.mp; base.maxMP = role.maxMP
-    base.attack = role.attackStrength
-    base.defense = role.defense
-    base.dex = role.dexterity
-  } else if (s.page === 'equipment') {
-    base.equipment = role.equipment ?? []
-  } else if (s.page === 'magic') {
-    base.learnedMagic = (role.magic ?? []).filter((s) => s !== 0)
-  }
-  return base
+  if (s.done) return undefined
+  return s.partyMembers[s.cursor]
 }

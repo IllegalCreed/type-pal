@@ -44,7 +44,8 @@ export type ActiveMenuKind =
   | 'in-game'        // ESC 弹出的主菜单 hub(物品/法术/状态/系统)
   | 'system'          // 进系统设置(存档/读档/设置/退出)
   | 'save-slot'       // 存档列表(5 slot)
-  | 'inventory'       // 物品(use/throw)
+  | 'inventory-action' // M5.6 T10b 修:sdlpal `uigame.c:878-919 PAL_InventoryMenu` 一级子菜单(装备/使用 2 项 box)
+  | 'inventory'       // 物品 fullscreen list(use/equip filter,sdlpal `itemmenu.c PAL_ItemSelectMenu`)
   | 'equip'           // 装备
   | 'in-game-magic'   // 大世界法术(选角色 → 选法术 → 选目标)
   | 'player-status'   // 角色状态(stat + 装备)
@@ -527,6 +528,12 @@ export interface GameState {
   iCurInvMenuItem: number
 
   /**
+   * M5.6 T10b 修:sdlpal `uigame.c:896` `static WORD w = 0` 跨调用记忆 InventoryMenu
+   * 一级子菜单(装备/使用)上次选项。0=装备 / 1=使用。
+   */
+  iCurInvActionMenuItem: number
+
+  /**
    * 采集物品总价值(sdlpal SAVEDGAME_WIN.wCollectValue)。
    * 击败可采集敌人时累积。
    */
@@ -715,6 +722,7 @@ export function createInitialGameState(
     iCurMainMenuItem: 0,  // M5.6 T6:菜单 cursor 默认 0
     iCurSystemMenuItem: 0,
     iCurInvMenuItem: 0,
+    iCurInvActionMenuItem: 0,  // M5.6 T10b 修:sdlpal uigame.c:896 static w=0
     wCollectValue: 0,
     wLayer: 0,
     wChaseRange: 1,       // sdlpal default 追击范围 1

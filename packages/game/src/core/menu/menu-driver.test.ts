@@ -62,6 +62,21 @@ describe('M5.6 W0.b dispatchInGameMenu hub', () => {
     expect(gs.menuStack[1]?.kind).toBe('system')
   })
 
+  it('Confirm "物品" → push inventory-action(sdlpal uigame.c:878-919 真值修)', () => {
+    const gs = mkGs()
+    const inGame = createInGameMenu()
+    openMenu(gs, { kind: 'in-game', state: inGame })
+    // 遍历找 'inventory' choice
+    for (let i = 0; i < inGame.selection.items.length; i++) {
+      inGame.selection.cursor = i
+      gs.menuStack = [{ kind: 'in-game', state: inGame }]
+      gs.mode = 'menu'
+      tickMenu(gs, snap(['Confirm']), createCommandBus())
+      if (gs.menuStack.length === 2 && gs.menuStack[1]?.kind === 'inventory-action') return
+    }
+    throw new Error('Confirm "物品" 未 push inventory-action — sdlpal PAL_InventoryMenu 一级 box 子菜单缺失')
+  })
+
   it('Confirm "status" → push player-status', () => {
     const gs = mkGs()
     const inGame = createInGameMenu()
@@ -120,10 +135,46 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { createInventoryMenu } from './inventory-menu.js'
+import { createInventoryActionMenu } from './inventory-action-menu.js'
 import { createEquipMenu } from './equip-menu.js'
 import { createInGameMagicMenu } from './in-game-magic-menu.js'
 import { createPlayerStatus } from './player-status.js'
 import { createSaveSlotMenu } from './save-slot-menu.js'
+
+describe('M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu', () => {
+  it('Menu 键 → close', () => {
+    const gs = mkGs()
+    openMenu(gs, { kind: 'inventory-action', state: createInventoryActionMenu() })
+    tickMenu(gs, snap(['Menu']), createCommandBus())
+    expect(gs.menuStack.length).toBe(0)
+  })
+
+  it('Up/Down 切换装备/使用 + iCurInvActionMenuItem 写回(sdlpal uigame.c:896 static w)', () => {
+    const gs = mkGs()
+    const action = createInventoryActionMenu()
+    openMenu(gs, { kind: 'inventory-action', state: action })
+    expect(action.selection.cursor).toBe(0) // equip
+    tickMenu(gs, snap(['Down']), createCommandBus())
+    expect(action.selection.cursor).toBe(1) // use
+    expect(gs.iCurInvActionMenuItem).toBe(1)
+  })
+
+  it('Confirm "装备"(cursor=0)→ close action + open equip menu(sdlpal play.c:328-359 PAL_GameEquipItem)', () => {
+    const gs = mkGs()
+    openMenu(gs, { kind: 'inventory-action', state: createInventoryActionMenu(0) })
+    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    expect(gs.menuStack.length).toBe(1)
+    expect(gs.menuStack[0]!.kind).toBe('equip')
+  })
+
+  it('Confirm "使用"(cursor=1)→ close action + open inventory(filter=usable,sdlpal play.c:266)', () => {
+    const gs = mkGs()
+    openMenu(gs, { kind: 'inventory-action', state: createInventoryActionMenu(1) })
+    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    expect(gs.menuStack.length).toBe(1)
+    expect(gs.menuStack[0]!.kind).toBe('inventory')
+  })
+})
 
 describe('M5.6 T9 dispatchInventoryMenu', () => {
   it('Menu 键 → close 菜单', () => {
@@ -182,20 +233,37 @@ describe('M5.6 T9 dispatchInGameMagicMenu', () => {
   })
 })
 
-describe('M5.6 T9 dispatchPlayerStatusMenu', () => {
-  it('Left/Right → 切队员', () => {
+describe('M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值', () => {
+  it('Right/Down/Confirm 都 cursor++(sdlpal kKeyRight|kKeyDown|kKeySearch)', () => {
     const gs = mkGs()
     gs.partyMembers = [10, 20, 30]
     const ps = createPlayerStatus(gs.partyMembers)
     openMenu(gs, { kind: 'player-status', state: ps })
     tickMenu(gs, snap(['Right']), createCommandBus())
-    expect(ps.partyIndex).toBe(1)
-    tickMenu(gs, snap(['Left']), createCommandBus())
-    expect(ps.partyIndex).toBe(0)
+    expect(ps.cursor).toBe(1)
+    tickMenu(gs, snap(['Down']), createCommandBus())
+    expect(ps.cursor).toBe(2)
+    // 第三次 next 越界 → done → closeTopMenu
+    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    expect(gs.menuStack.length).toBe(0)
   })
 
-  it('Menu 键 → close', () => {
+  it('Left/Up cursor--,从 0 再 -- → done 关菜单', () => {
     const gs = mkGs()
+    gs.partyMembers = [10, 20, 30]
+    const ps = createPlayerStatus(gs.partyMembers)
+    openMenu(gs, { kind: 'player-status', state: ps })
+    tickMenu(gs, snap(['Right']), createCommandBus())
+    expect(ps.cursor).toBe(1)
+    tickMenu(gs, snap(['Up']), createCommandBus())
+    expect(ps.cursor).toBe(0)
+    tickMenu(gs, snap(['Left']), createCommandBus())
+    expect(gs.menuStack.length).toBe(0)
+  })
+
+  it('Menu 键 → 直接 close(sdlpal iCurrent=-1)', () => {
+    const gs = mkGs()
+    gs.partyMembers = [10]
     openMenu(gs, { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) })
     tickMenu(gs, snap(['Menu']), createCommandBus())
     expect(gs.menuStack.length).toBe(0)
