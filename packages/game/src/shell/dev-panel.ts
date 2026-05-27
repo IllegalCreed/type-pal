@@ -32,10 +32,13 @@ import { loadScene } from '../core/scene-system.js'
 import { buildLabelMap } from '../core/event-system.js'
 import { Save } from '../core/save/api.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
-// M5.6 W2.b:menu units 入口 — 一键 push 各 menu kind 到 menuStack
+// M5.6 W2.b + T11:menu units 入口 — 一键 push 各 menu kind 到 menuStack
 import { createInGameMenu, createSystemMenu } from '../core/menu/in-game-menu.js'
 import { createSaveSlotMenu } from '../core/menu/save-slot-menu.js'
 import { createPlayerStatus } from '../core/menu/player-status.js'
+import { createInventoryMenu } from '../core/menu/inventory-menu.js'
+import { createEquipMenu } from '../core/menu/equip-menu.js'
+import { createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
 import { openMenu } from '../core/menu/menu-mode.js'
 
 /** fixture JSON entry —— 与 `packages/game/src/data/battle-fixtures.json` 对齐。 */
@@ -359,6 +362,22 @@ function openPicker(deps: DevPanelDeps): void {
     { label: 'System Menu', openFn: () => openMenu(deps.gs, { kind: 'system', state: createSystemMenu() }) },
     { label: 'Save Slot (save mode)', openFn: () => openMenu(deps.gs, { kind: 'save-slot', state: createSaveSlotMenu('save') }) },
     { label: 'Player Status', openFn: () => openMenu(deps.gs, { kind: 'player-status', state: createPlayerStatus(deps.gs.partyMembers) }) },
+    // T11 补 3 个 sub-menu(catalog 已通过 setMenuCatalogs 注入,createX 内部读 catalogs)
+    {
+      label: 'Inventory',
+      openFn: () => openMenu(deps.gs, { kind: 'inventory', state: createInventoryMenu(deps.gs, deps.resources.items) }),
+    },
+    {
+      label: 'Equip',
+      openFn: () => openMenu(deps.gs, { kind: 'equip', state: createEquipMenu(deps.gs, deps.resources.items) }),
+    },
+    {
+      label: 'InGame Magic',
+      openFn: () => openMenu(deps.gs, {
+        kind: 'in-game-magic',
+        state: createInGameMagicMenu(deps.resources.playerRoles, deps.gs.partyMembers, deps.resources.spells),
+      }),
+    },
   ]
   for (const unit of menuUnits) {
     const btn = document.createElement('button')
@@ -370,6 +389,45 @@ function openPicker(deps: DevPanelDeps): void {
     })
     div.appendChild(btn)
   }
+
+  // ── M5.6 T11(user 加需求):添加全物品 — 帮 manual 测物品菜单完整显示 ──
+  const inventoryAllH = document.createElement('h4')
+  inventoryAllH.textContent = '🎒 Inventory Cheats'
+  inventoryAllH.className = 'tp-dev-section-h'
+  div.appendChild(inventoryAllH)
+
+  const addAllBtn = document.createElement('button')
+  addAllBtn.textContent = `+ 添加全部 ${deps.resources.items.length} 物品 ×99`
+  addAllBtn.style.cssText = 'display:block; margin:2px 0; padding:4px 8px; width:100%; text-align:left; font-size:11px'
+  addAllBtn.addEventListener('click', () => {
+    closePicker()
+    // 直接 mutate gs.inventory(同 event-system addItemToInventory 等价语义,但批量)
+    for (const item of deps.resources.items) {
+      if (item.id === 0) continue // id 0 = none
+      const entry = deps.gs.inventory.find((e) => e.itemId === item.id)
+      if (entry) {
+        entry.count = Math.min(99, entry.count + 99)
+      }
+      else {
+        deps.gs.inventory.push({ itemId: item.id, count: 99 })
+      }
+    }
+    // 加 1,000,000 金钱方便商店测试
+    deps.gs.dwCash = 1_000_000
+    console.log(`[dev] 添加了 ${deps.resources.items.length} 种物品 ×99 + 金钱 1,000,000`)
+  })
+  div.appendChild(addAllBtn)
+
+  const clearInvBtn = document.createElement('button')
+  clearInvBtn.textContent = '🗑 清空背包'
+  clearInvBtn.style.cssText = 'display:block; margin:2px 0; padding:4px 8px; width:100%; text-align:left; font-size:11px'
+  clearInvBtn.addEventListener('click', () => {
+    closePicker()
+    deps.gs.inventory = []
+    deps.gs.dwCash = 0
+    console.log('[dev] 背包清空 + 金钱归 0')
+  })
+  div.appendChild(clearInvBtn)
 
   document.body.appendChild(div)
   currentPicker = div
