@@ -962,7 +962,7 @@ export function createInitialGameState(
     inventory: [],
     mode: 'explore',
     menuStack: [],
-    currentDialogStyle: 'center',
+    currentDialogStyle: 'top',  // sdlpal PAL_InitText / PAL_EndDialog 默认 kDialogUpper(top)
     // sdlpal text.c:29 FONT_COLOR_DEFAULT = 0x4F(palette idx 79,亮黄/浅米)
     currentDialogFontColor: 0x4F,
     frameNum: 0,

@@ -1291,6 +1291,22 @@ describe('NPC trigger 脚本推进持久化(sdlpal play.c pEvtObj->wTriggerScrip
   })
 })
 
+describe('对话框样式复位(sdlpal PAL_EndDialog text.c:1814 → kDialogUpper)', () => {
+  it('脚本结束 → currentDialogStyle 复位 top(下段无 setDialogStyle 的 showDialog 用 top 默认)', () => {
+    // 厨房李大娘 L_560 直接 showDialog 没 setDialogStyle → 应继承 top 默认而非上段 cutscene 的
+    // center/narration(2026-05-28 "逍遥快把酒菜"显示成居中框的根因)。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.currentDialogStyle = 'narration'  // 上段 cutscene 残留
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x35, operands: [0, 0, 0] }, // 任意非对话 raw(shakeScreen stub)
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.currentDialogStyle).toBe('top')            // PAL_EndDialog 复位
+  })
+})
+
 describe('opcode 0x0065 setPlayerSprite(sdlpal script.c:1999-2004)— fix4', () => {
   it('operand[0]=0 (主角) + operand[1]=spriteId → 写 gs.partyLeaderSpriteId', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })

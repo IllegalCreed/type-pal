@@ -1057,6 +1057,10 @@ export function tickEventSystem(
         gs.eventCursor = undefined
         gs.dialogBox = undefined
         gs.currentDialogPortraitIcon = undefined
+        // sdlpal PAL_EndDialog(text.c:1814)真值:脚本结束把 bDialogPosition 复位 kDialogUpper(top)。
+        // 下个 trigger 脚本若直接 showDialog 没先 setDialogStyle(eg. 厨房李大娘 L_560)→ 用 top 默认,
+        // 而非继承上段 cutscene 的 center/narration(2026-05-28 "逍遥快把酒菜"显示成居中框的根因)。
+        gs.currentDialogStyle = 'top'
         // Sync.2 fix5:主角 scripted pose / sprite override 不在此清,
         //   由 scene-system 首次走动检测时清(避免单元测试 setX→end 两 opcode 后立即 read 不到值)
         // M5.6 session 3 修(sdlpal play.c:264-303 PAL_GameUseItem INNER while loop 真值):

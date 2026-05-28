@@ -10,7 +10,7 @@ describe('GameState', () => {
     expect(gs.mode).toBe('explore')
     expect(gs.dialogBox).toBeUndefined()
     expect(gs.eventCursor).toBeUndefined()
-    expect(gs.currentDialogStyle).toBe('center')
+    expect(gs.currentDialogStyle).toBe('top')  // sdlpal PAL_InitText 默认 kDialogUpper
     expect(gs.frameNum).toBe(0)
   })
 
