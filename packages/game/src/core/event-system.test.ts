@@ -1213,6 +1213,25 @@ describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4',
     tickEventSystem(gs, snap(), bus)
     expect(roomMiao.sState).toBe(2)   // 跨 scene 改到全局对象,进房间时 slice 引用即显形
   })
+
+  it('setTriggerScript(0x25):operand[0] 选对象(非 self)→ 改该对象 triggerLabel(客栈酒剑仙)', () => {
+    // sdlpal script.c:1147-1155:pCurrent(operand[0] 选)->wTriggerScript = op1,非 self。
+    // 客栈 `0x25 [63, 604]`:李大娘对话后把酒剑仙(对象 63=id62)trigger 改 L_604(开新对话)。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [
+      { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1 },                              // 触发 cutscene 的 self
+      { id: 62, x: 100, y: 100, spriteNum: 56, sState: 2, triggerLabel: 'L_601' }, // 酒剑仙
+    ]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x25, operands: [63, 604, 0] }, // op0=63 → id62,trigger → L_604
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[1]?.triggerLabel).toBe('L_604')      // 酒剑仙(operand[0] 选)改了
+    expect(gs.npcs[0]?.triggerLabel).toBeUndefined()    // self(id5)没动(旧 bug 会误改 self)
+  })
 })
 
 describe('opcode 0x0065 setPlayerSprite(sdlpal script.c:1999-2004)— fix4', () => {

@@ -2327,14 +2327,17 @@ function applyRawOpcode(
     }
 
     case OP_SET_TRIGGER_SCRIPT: {
-      // sdlpal script.c:1147-1155:if op[0] != 0 → pCurrent.wTriggerScript = op[1]
+      // sdlpal script.c:1147-1155:if op[0] != 0 → pCurrent.wTriggerScript = op[1]。
+      // pCurrent 由 operand[0] 选(非 self!)—— 旧 bug 用 getSelfNpc 改错对象:客栈剧情
+      //   `0x25 [63, 604]` 要把**酒剑仙**(对象 63 = id 62)trigger 改成 L_604,而非 self
+      //   → 改完没生效,李大娘对话后酒剑仙仍是旧 trigger / 不开新对话(2026-05-28 user 发现)。
       // ts NpcState 没有 wTriggerScript field;改成 triggerLabel: 'L_<ip>' 等价表达。
       if ((operands[0] ?? 0) !== 0) {
-        const npc = getSelfNpc(gs, currentEventObjectId, 'setTriggerScript')
+        const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setTriggerScript')
         if (npc) {
           const newIp = operands[1] ?? 0
           npc.triggerLabel = `L_${newIp}`
-          console.debug(`event-system: setTriggerScript npc.id=${npc.id} → triggerLabel=L_${newIp}`)
+          console.debug(`event-system: setTriggerScript id=${npc.id} → triggerLabel=L_${newIp}`)
         }
       }
       break

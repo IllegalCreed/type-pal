@@ -100,6 +100,14 @@ export interface NpcState {
    */
   sLayer?: number
   /**
+   * sdlpal `EventObject.nSpriteFrames` —— 单方向走路帧数(scene.c:262-280 渲染真值)。
+   * spriteIdx = wDirection * nSpriteFrames + wCurrentFrameNum;**nSpriteFrames==0 时方向被忽略**
+   * (idx = frame,非方向性 sprite,eg. 躺地醉汉 / 装饰物)。必须用 dump 真值,不能靠 frames.length
+   * 推断 —— 否则非方向 sprite 被当成方向性,转向时帧错(2026-05-28 酒剑仙对话"站起来"的根因)。
+   * undefined = 渲染层回退 frames.length 推断(旧 fixture 兼容)。
+   */
+  nSpriteFrames?: number
+  /**
    * NPC 朝向(sdlpal `EventObject.wDirection`)。
    * Sync.2 fix3:opcode 0x0016 setEventObjectDirAndFrame 写入(operand[1])。
    * undefined = 渲染层用 spriteNum 默认帧。
@@ -1008,6 +1016,8 @@ export function npcFromEventObject(
     // sdlpal scene.c:302/316 真值:渲染 z 层 — sort key 和 iLayer 都依赖 sLayer。
     // dump 字段保留;present.ts 用 sLayer*8+9(pos.y)/ sLayer*8+2(iLayer)。
     sLayer: eo.sLayer ?? 0,
+    // sdlpal `EventObject.nSpriteFrames`(scene.c:262 渲染真值;0 = 非方向性 sprite)。
+    nSpriteFrames: eo.nSpriteFrames,
   }
   // sdlpal EventObject.wDirection → 初始朝向(scene.c NPC 渲染按 wDirection 选方向帧)。
   // kDir 0=South/down, 1=West/left, 2=North/up, 3=East/right(palcommon.h:92-95)。

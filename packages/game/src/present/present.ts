@@ -325,8 +325,10 @@ export function presentFrame(
       const frames = ctx.npcSpriteFrames.get(npc.spriteNum)
       if (frames && frames.length > 0) {
         const dir = npc.facing ? FACING_TO_DIRECTION[npc.facing] : 0
-        const nSpriteFrames = frames.length === 1 ? 0
-          : (frames.length % 4 === 0 ? frames.length / 4 : 1)
+        // nSpriteFrames 用 dump 真值(sdlpal EventObject.nSpriteFrames);为 0 = 非方向性 sprite
+        //   → idx = iFrame(忽略方向),躺地醉汉 / 装饰物转向不变帧。dump 缺则回退 frames.length 推断。
+        const nSpriteFrames = npc.nSpriteFrames ?? (frames.length === 1 ? 0
+          : (frames.length % 4 === 0 ? frames.length / 4 : 1))
         let iFrame = npc.scriptedFrame ?? 0
         // sdlpal scene.c:268-276 真值 nSpriteFrames==3 时 2/3 重映射
         if (nSpriteFrames === 3) {
