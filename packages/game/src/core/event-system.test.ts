@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import type { Command, InputSnapshot, AbstractKey, Palette } from '@type-pal/shared'
 import {
-  tickEventSystem, buildLabelMap, runScript, setFetchPalette,
+  tickEventSystem, tickAutoScripts, buildLabelMap, runScript, setFetchPalette,
   setSharedEvents, setStartBattleHandler,
   OP_START_BATTLE, OP_SET_BATTLE_FIELD, OP_SET_SCENE_OBJECT_STATE,
   OP_SET_PARTY_DIRECTION,
@@ -1349,5 +1349,138 @@ describe('I-w1.c NPC contact opcodes', () => {
     gs.eventCursor!.currentEventObjectId = 5
     tickEventSystem(gs, snap(), bus)
     expect(gs.npcs[0]?.scriptedFrame).toBe(0)  // (-1+1)%4=0 → 1 → 2 → 3 → 0
+  })
+})
+
+// ── autoScript 控制流 fall-through(2026-05-28 黑屏根因回归)─────────────────
+//
+// 黑屏 root cause:events 提取 BFS 对 `end` 一律不收 fall-through,但 0x0001(advance)
+// 运行时 ip++ 到下一行、0x0002(reset)跳 resetTo。提取丢了续行 → local 数组把不相干的
+// 邻接脚本(L_1649 setPartyPos+loadScene)塞在 autoscript(L_734)正后面 → autoscript
+// ip++ 跑进 setPartyPos → party 被拉到地图空白区 → 黑屏。
+//
+// 真值:scene-003 id=62 autoscript(全局 734-740)= NPC 待机动画循环:
+//   end advance → setGesture(1) → end advance → setGesture(0) → wait → end reset(回 734)
+// 该循环**绝不能**落到后面的 setPartyPos。
+describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', () => {
+  // scene-003 id=62 待机动画 1:1 结构 + 一个哨兵 setPartyPos(绝不能被跑到)
+  function idleLoopCommands(): Command[] {
+    return [
+      { op: 'end', advance: true },                       // 0: 0x0001 → ip++
+      { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [1, 0, 0] }, // 1
+      { op: 'end', advance: true },                       // 2: 0x0001 → ip++
+      { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [0, 0, 0] }, // 3
+      { op: 'raw', opcode: OP_WAIT_FRAMES, operands: [2, 0, 0] },        // 4: wait 2 帧
+      { op: 'end', reset: true, resetTo: 734, idleFrames: 0 },           // 5: 0x0002 → 跳回 ip0
+      // ↓ 哨兵:邻接脚本(原 L_1649)。autoscript 绝不能 fall-through 到此。
+      { op: 'raw', opcode: 0x46 /* setPartyPos */, operands: [39, 56, 0] }, // 6
+      { op: 'end' },                                      // 7
+    ]
+  }
+
+  it('0x0002 reset:循环回 resetTo(L_734),NPC 待机动画不停 + 绝不 fall-through 到 setPartyPos', () => {
+    const gs = createInitialGameState({ x: 1408, y: 1424, facing: 'down' })
+    const px0 = gs.party.x
+    const py0 = gs.party.y
+    gs.npcs = [{ id: 62, x: 1024, y: 1680, spriteNum: 1, sState: 2, autoCursor: { ip: 0 } }]
+    gs.sceneCommands = idleLoopCommands()
+    gs.sceneLabelMap = { L_734: 0 } // resetTo=734 → local ip 0
+
+    // 跑 40 帧(远超一个动画周期 6 帧)
+    for (let i = 0; i < 40; i++) tickAutoScripts(gs)
+
+    // party 位置纹丝不动 — setPartyPos(哨兵 ip6)从未被执行
+    expect(gs.party.x).toBe(px0)
+    expect(gs.party.y).toBe(py0)
+    // autoCursor 始终在循环体内 [0,5],绝不到 ip6/ip7
+    expect(gs.npcs[0]?.autoCursor).toBeDefined()
+    expect(gs.npcs[0]!.autoCursor!.ip).toBeLessThanOrEqual(5)
+  })
+
+  it('0x0001 advance:autoscript 推进至下一行(不 park、不停)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 1, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }]
+    gs.sceneCommands = [
+      { op: 'end', advance: true },                       // 0 → ip++
+      { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [2, 0, 0] }, // 1
+      { op: 'end' },                                      // 2: 0x0000 park
+    ]
+    gs.sceneLabelMap = {}
+    tickAutoScripts(gs)
+    expect(gs.npcs[0]!.autoCursor!.ip).toBe(1) // 0x0001 推进到 1
+    tickAutoScripts(gs)
+    expect(gs.npcs[0]!.autoCursor!.ip).toBe(2) // raw 跑完推进到 2
+    tickAutoScripts(gs)
+    expect(gs.npcs[0]!.autoCursor!.ip).toBe(2) // 0x0000 park(原地不动)
+  })
+
+  it('0x0002 reset:resetTo 跨文件(labelMap 无)→ 停 autoCursor(不死循环)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 1, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }]
+    gs.sceneCommands = [{ op: 'end', reset: true, resetTo: 9999, idleFrames: 0 }]
+    gs.sceneLabelMap = {} // L_9999 不在本 scene
+    tickAutoScripts(gs)
+    expect(gs.npcs[0]?.autoCursor).toBeUndefined()
+  })
+})
+
+// ── narration(kDialogCenterWindow)自动消失(2026-05-28 物品UI卡操作回归)──────
+//
+// sdlpal text.c:1663-1710:kDialogCenterWindow(物品提示 "得到XX")显示后走
+// PAL_DialogWaitForKeyWithMaximumSeconds(1.4)→ 最多 1.4s 自动消失(或按键提前)→
+// PAL_DeleteBox + PAL_EndDialog。**不卡死等空格**。
+// bug:之前 narration 走 typing → line-done → 下条 opcode 前 pre-op ClearDialog 等 Confirm,
+// 用户必须按空格才能继续。
+describe('narration dialog 自动消失(sdlpal text.c:1701 PAL_DialogWaitForKeyWithMaximumSeconds(1.4))', () => {
+  it('narration:跑满 14 帧(1.4s @10fps)自动消失,无需 Confirm', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.currentDialogStyle = 'narration'
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'showDialog', text: '得到净衣符', messageIndex: 0 },
+      { op: 'end' },
+    ])
+    // tick 1:showDialog 建 narration 框
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogBox?.style).toBe('narration')
+    // 不按任何键,跑 12 帧仍在显示(< 14)
+    for (let i = 0; i < 12; i++) tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogBox).toBeDefined()
+    // 再跑几帧凑满 14 → 自动消失(全程无 Confirm)
+    for (let i = 0; i < 5; i++) tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogBox).toBeUndefined()
+  })
+
+  it('narration:任意键(非只 Confirm)提前消失 — sdlpal text.c:1433 dwKeyPress!=0', () => {
+    // sdlpal 任意键都关:方向键 / Cancel(ESC)/ Menu 都行,不被迫等满 1.4s
+    for (const key of ['Confirm', 'Cancel', 'Down', 'Menu'] as const) {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.currentDialogStyle = 'narration'
+      const bus = createCommandBus()
+      loadEvent(gs, [
+        { op: 'showDialog', text: '得到净衣符', messageIndex: 0 },
+        { op: 'end' },
+      ])
+      tickEventSystem(gs, snap(), bus) // 建框
+      expect(gs.dialogBox).toBeDefined()
+      tickEventSystem(gs, snap([key]), bus) // 任意键 → 立即消失
+      expect(gs.dialogBox, `key=${key} 应能关闭 narration`).toBeUndefined()
+    }
+  })
+
+  it('narration 消失后 cursor 继续推进(后续 opcode 不被阻塞)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.currentDialogStyle = 'narration'
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'showDialog', text: '得到大蒜', messageIndex: 0 },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus) // 建框
+    // Confirm 提前关 → 同 tick fall-through 跑 'end' → eventCursor 清空 → 回 explore
+    tickEventSystem(gs, snap(['Confirm']), bus)
+    expect(gs.dialogBox).toBeUndefined()
+    expect(gs.eventCursor).toBeUndefined()
+    expect(gs.mode).toBe('explore')
   })
 })

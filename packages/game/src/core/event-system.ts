@@ -25,6 +25,7 @@
  */
 
 import type { Command, InputSnapshot, Palette } from '@type-pal/shared'
+import { FPS_EXPLORE } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
 import type { GameState, NpcState } from './game-state.js'
@@ -293,6 +294,11 @@ const SDLPAL_DIR_TO_FACING: Record<number, 'down' | 'left' | 'up' | 'right'> = {
 
 const SINGLE_TICK_LIMIT = 256
 
+// sdlpal text.c:1701 PAL_DialogWaitForKeyWithMaximumSeconds(1.4):kDialogCenterWindow
+// (narration / "得到XX" 物品提示)最多等 1.4s 自动消失,或按键提前。
+// explore/event @ FPS_EXPLORE(10)→ 1.4 × 10 = 14 帧。
+const NARRATION_AUTO_DISMISS_FRAMES = Math.round(1.4 * FPS_EXPLORE)
+
 /**
  * "auto pre-op ClearDialog" — sdlpal script.c:3468-3471 default case 真值。
  * 任何**非 dialog setup / showDialog / 自带 ClearDialog**的 opcode 在 dispatch 前都先
@@ -509,8 +515,34 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
 
   switch (cmd.op) {
     case 'end':
-      // sdlpal case 0x0000 / 0x0001:停止;0x0001 推 ip。
-      if (cmd.advance) cursor.ip++
+      // sdlpal PAL_RunAutoScript 控制流(script.c:3518-3547):
+      //  - 0x0000 (plain):原地 park(ip 不变,每帧重读 = no-op)
+      //  - 0x0001 (advance):推进至下一行 i+1
+      //  - 0x0002 (reset):idleFrames(operand[1])满前跳 resetTo(operand[0]);满后推进 i+1
+      if (cmd.advance) {
+        cursor.ip++
+        return
+      }
+      if (cmd.reset) {
+        const idleFrames = cmd.idleFrames ?? 0
+        // sdlpal `rgwOperand[1] == 0 || ++count < rgwOperand[1]`(idleFrames=0 时不累加,恒跳)
+        if (
+          idleFrames === 0
+          || (cursor.idleFrameCount = (cursor.idleFrameCount ?? 0) + 1) < idleFrames
+        ) {
+          // resetTo 是全局 entry 号,经 sceneLabelMap['L_<resetTo>'] 解本地 ip
+          const target =
+            cmd.resetTo !== undefined ? gs.sceneLabelMap?.[`L_${cmd.resetTo}`] : undefined
+          if (target !== undefined) cursor.ip = target
+          else npc.autoCursor = undefined // resetTo 跨文件/不在本 scene → 停
+        }
+        else {
+          cursor.idleFrameCount = 0
+          cursor.ip++
+        }
+        return
+      }
+      // 0x0000:park(ip 不变)
       return
 
     case 'goto': {
@@ -642,6 +674,27 @@ export function tickEventSystem(
     if (!gs.dialogBox) {
       // 防御:waiting=dialog 但 dialogBox 不存在 → 清状态退出 waiting,继续步进
       cursor.waiting = undefined
+    }
+    else if (gs.dialogBox.style === 'narration') {
+      // sdlpal text.c:1663-1710 kDialogCenterWindow(物品提示 "得到XX"):全文瞬显 +
+      // PAL_DialogWaitForKeyWithMaximumSeconds(1.4)→ 最多 1.4s(NARRATION_AUTO_DISMISS_FRAMES 帧)
+      // 自动消失 / 按键提前 → PAL_DeleteBox + PAL_EndDialog(nCurrentDialogLine=0)。
+      //
+      // 与多行 typing dialog 不同:**不**走行间 auto-advance / pre-op wait-for-key —
+      // 自带 timer 自清 dialogBox + 推进 cursor,后续 opcode(giveItem 等)本 tick 继续跑、不阻塞。
+      const ds = gs.dialogBox
+      ds.typingFrames++
+      // sdlpal text.c:1433 `g_InputState.dwKeyPress != 0`:**任意键**立即关闭(不止 Confirm),
+      // 或 1.4s 超时。玩家按方向键 / ESC / 任何键都能马上继续,不被迫干等。
+      const anyKey = input.pressed.size > 0
+      if (anyKey || ds.typingFrames >= NARRATION_AUTO_DISMISS_FRAMES) {
+        gs.dialogBox = undefined
+        cursor.waiting = undefined
+        cursor.ip++ // 推进过 showDialog;fall through 主 while 跑后续 opcode
+      }
+      else {
+        return // 继续显示,等 1.4s timer / 按键
+      }
     }
     else {
       tickDialog(gs.dialogBox)

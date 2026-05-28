@@ -71,8 +71,21 @@ export function sliceByScene(
 
       const c = commands[i]!
 
-      // end 系列:终止此路径
-      if (c.op === 'end') continue
+      // end 系列 fall-through(sdlpal 真值):
+      //  - 0x0000 (plain end):真终止,不收续行(PAL_RunTriggerScript script.c:3204 fEnded;
+      //    PAL_RunAutoScript script.c:3520 原地 park)
+      //  - 0x0001 (advance):下次执行推进至下一行 i+1(trigger script.c:3216 wNextScriptEntry=+1;
+      //    auto script.c:3530 wScriptEntry++)— 必须收 i+1,否则运行时 ip++ 落进邻接脚本
+      //  - 0x0002 (reset):跳 resetTo(operand[0])或 idleFrames 满后推进 i+1
+      //    (script.c:3223-3236 / 3537-3546)— 两者都收
+      if (c.op === 'end') {
+        if (c.advance) queue.push(i + 1)
+        if (c.reset) {
+          if (typeof c.resetTo === 'number') queue.push(c.resetTo)
+          queue.push(i + 1)
+        }
+        continue
+      }
 
       // goto:跳到 to,不 fall-through
       if (c.op === 'goto') {
@@ -105,7 +118,15 @@ export function sliceByScene(
       globalReachable.add(i)
 
       const c = commands[i]!
-      if (c.op === 'end') continue
+      // end fall-through 同上(step 2 注释):0x0001 收 i+1;0x0002 收 resetTo + i+1
+      if (c.op === 'end') {
+        if (c.advance) queue.push(i + 1)
+        if (c.reset) {
+          if (typeof c.resetTo === 'number') queue.push(c.resetTo)
+          queue.push(i + 1)
+        }
+        continue
+      }
       if (c.op === 'goto') {
         const t = parseLabel(c.to)
         if (t !== null) queue.push(t)

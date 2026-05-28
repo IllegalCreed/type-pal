@@ -119,4 +119,40 @@ describe('sliceByScene', () => {
     expect(result.scenes[0]!.scene).toBe(0)
     expect(result.scenes[1]!.scene).toBe(1)
   })
+
+  // ── end fall-through(2026-05-28 黑屏根因回归)────────────────────────────
+  //
+  // sdlpal 0x0001(end advance)运行时推进至下一行 i+1、0x0002(end reset)跳 resetTo。
+  // BFS 必须收这些续行,否则 local 数组把邻接脚本错塞在 autoscript 后 → 运行时 ip++
+  // 跑进不相干脚本(原 bug:scene-3 autoscript 跑进 L_1649 setPartyPos → 黑屏)。
+  it('0x0001 end advance:收 fall-through i+1(autoscript 续行)', () => {
+    const result = sliceByScene(
+      [
+        { op: 'end' }, // 0: padding
+        { op: 'end', advance: true }, // 1: scene 0 entry — 0x0001 推进 i+1
+        { op: 'raw', opcode: 0x14, operands: [1, 0, 0] }, // 2: 续行,必须被收
+        { op: 'end' }, // 3: 0x0000 park
+      ],
+      [makeScene(1, 0)],
+      [],
+    )
+    const cmds = result.scenes[0]!.segments[0]!.commands
+    expect(cmds).toContainEqual({ op: 'raw', opcode: 0x14, operands: [1, 0, 0] })
+    expect(cmds).toContainEqual({ op: 'end', advance: true })
+  })
+
+  it('0x0002 end reset:收 resetTo 目标 + fall-through i+1', () => {
+    const result = sliceByScene(
+      [
+        { op: 'end' }, // 0: padding
+        { op: 'end', reset: true, resetTo: 3, idleFrames: 0 }, // 1: scene 0 entry → 跳 3 + i+1=2
+        { op: 'end' }, // 2: fall-through 续行
+        { label: 'L_3', op: 'raw', opcode: 0x14, operands: [9, 0, 0] }, // 3: resetTo 目标,必须被收
+      ],
+      [makeScene(1, 0)],
+      [],
+    )
+    const cmds = result.scenes[0]!.segments[0]!.commands
+    expect(cmds).toContainEqual({ label: 'L_3', op: 'raw', opcode: 0x14, operands: [9, 0, 0] })
+  })
 })
