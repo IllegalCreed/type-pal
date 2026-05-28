@@ -123,9 +123,18 @@ export function setupDevPanel(deps: DevPanelDeps): void {
       // 深拷贝 dump —— 让用户在 console 翻 GameState 不被后续 mutate 影响
       console.log('[dev] GameState dump:', JSON.parse(JSON.stringify(deps.gs)))
     }
+    else if (e.code === 'KeyP') {
+      e.preventDefault()
+      // 强制 李逍遥(role 0)+ 赵灵儿(role 1)+ 林月如(role 2)入队,测多人状态/装备/道具。
+      // 三人 runtime stats 新游戏已 hydrate(hydratePlayerRolesRuntime 遍历全 role),
+      // 直接设 partyMembers 即可驱动 status/equip/magic/item 菜单显示三人。
+      deps.gs.partyMembers = [0, 1, 2]
+      deps.gs.partyLeaderSpriteId = deps.resources.playerRoles.roles[0]?.spriteNum ?? deps.gs.partyLeaderSpriteId
+      console.log('[dev] 强制入队:李逍遥(0)+赵灵儿(1)+林月如(2)。partyMembers=', deps.gs.partyMembers)
+    }
   })
 
-  console.log('[dev-panel] 装配完成。快捷键:B = battle picker(探索模式)/ F1 = GameState dump / picker 内 "Test 4 Styles" = dialog 验证')
+  console.log('[dev-panel] 装配完成。快捷键:B = battle picker / F1 = GameState dump / P = 强制三人入队(测多人菜单)/ picker 内 "Test 4 Styles" = dialog 验证')
 }
 
 /** 当前打开的 picker root —— 同一时刻只允许一个。 */
