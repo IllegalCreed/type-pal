@@ -283,8 +283,11 @@ export const OP_RANDOM_JUMP = 0x00A2               // 162 cursor.ip += RandomLon
 
 // ── A3 数据/状态 opcode ──────────────────────────────────────────────────────
 export const OP_CALL_SCRIPT = 0x0004               // 4   调用子脚本 op0(op1=eventObjId 覆盖),返回后续跑
+export const OP_SET_SCENE_SCRIPTS = 0x006D         // 109 设 scene op0 的 onEnter(op1)/teleport(op2)脚本
 export const OP_SET_PARTY = 0x0075                 // 117 operand[0..2]=roleId+1 → partyMembers
 export const OP_SET_OBJECT_SCRIPT = 0x0090         // 144 rgObject[op0].rgwData[2+op2]=op1
+export const OP_SET_FOLLOWER = 0x0098              // 152 operand[0..1]=follower roleId → gs.followers
+export const OP_CHANGE_MAP = 0x0099                // 153 op0==0xFFFF 当前换图+reload;else 设 scene op0 mapNum
 
 // case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
 export const OP_POISON_ENEMY = 0x0028              // 40
@@ -389,6 +392,20 @@ let _sceneLoader: SceneLoaderFn | null = null
 
 export function setSceneLoader(fn: SceneLoaderFn | null): void {
   _sceneLoader = fn
+}
+
+/**
+ * opcode 0x99 (changeMap) map-only 重载 callback。sdlpal script.c:2744-2748 op0==0xFFFF:
+ * `rgScene[wNumScene-1].wMapNum = op1; PAL_SetLoadFlags(kLoadScene); PAL_LoadResources()` —
+ * **只换地图 tilemap**(脚本继续,不重跑 onEnter / 不重置 npcs)。
+ * bootstrap 注入:按新 mapNum re-fetch tilemap + applySceneAssetsToPresent(tilemap-only)。
+ * fire-and-forget(不挂 waiting):异步换图期间脚本继续,几帧后新图就绪。
+ */
+type MapReloaderFn = (mapNum: number) => Promise<void>
+let _mapReloader: MapReloaderFn | null = null
+
+export function setMapReloader(fn: MapReloaderFn | null): void {
+  _mapReloader = fn
 }
 
 // ── P0.e: shared.json events.bin 跨 scene 共享脚本注入 ─────────────────────────
@@ -2314,6 +2331,47 @@ function applyRawOpcode(
       }
       while (st.rgwData.length <= idx) st.rgwData.push(0)
       if (idx >= 0) st.rgwData[idx] = operands[1] ?? 0
+      break
+    }
+
+    case OP_SET_SCENE_SCRIPTS: {
+      // sdlpal script.c:2065-2089:if op0: op1!=0 → rgScene[op0-1].wScriptOnEnter=op1(全局 entry);
+      //   op1==0&&op2==0 → 清(=0)。op2(teleport)ts 暂不消费。存全局 override,loadScene 时解析。
+      const sceneId = operands[0] ?? 0 // 1-based wNumScene
+      if (sceneId !== 0) {
+        gs.sceneOnEnterOverride = gs.sceneOnEnterOverride ?? {}
+        if ((operands[1] ?? 0) !== 0) gs.sceneOnEnterOverride[sceneId] = operands[1] ?? 0
+        else if ((operands[2] ?? 0) === 0) gs.sceneOnEnterOverride[sceneId] = 0 // 清
+      }
+      break
+    }
+
+    case OP_SET_FOLLOWER: {
+      // sdlpal script.c:2709-2738:operand[0..1] = follower role id(>0;注:直接 role id,非 -1)→
+      //   nFollower=count。present 层在队伍后按 trail 渲染。
+      const followers: number[] = []
+      for (let i = 0; i < 2; i++) {
+        const r = operands[i] ?? 0
+        if (r > 0) followers.push(r)
+      }
+      gs.followers = followers
+      gs.nFollower = followers.length
+      break
+    }
+
+    case OP_CHANGE_MAP: {
+      // sdlpal script.c:2740-2753:op0==0xFFFF → 当前 scene mapNum=op1 + map-only reload(脚本继续);
+      //   else rgScene[op0-1].wMapNum=op1(下次 load 生效)。
+      const op0 = operands[0] ?? 0
+      const newMapNum = operands[1] ?? 0
+      gs.sceneMapNumOverride = gs.sceneMapNumOverride ?? {}
+      if (op0 === 0xffff) {
+        gs.sceneMapNumOverride[gs.wNumScene] = newMapNum
+        if (_mapReloader) void _mapReloader(newMapNum) // 异步换 tilemap,不动 cursor/npcs
+      }
+      else {
+        gs.sceneMapNumOverride[op0] = newMapNum
+      }
       break
     }
 

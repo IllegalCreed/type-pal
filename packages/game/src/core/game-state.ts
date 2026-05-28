@@ -664,6 +664,26 @@ export interface GameState {
   sceneOnEnterIp: Record<number, number>
 
   /**
+   * opcode 0x6D 设的 scene onEnter 脚本覆盖(键 = wNumScene,值 = **全局 script entry**,
+   * 0 = 清除/无 onEnter)。sdlpal script.c:2065 `rgScene[op0-1].wScriptOnEnter = op1`。
+   * loadScene 时消耗:全局 entry → 该 scene labelMap 解 local ip → 写 sceneOnEnterIp(0 → -1 哨兵)。
+   * 跟 sceneOnEnterIp(local,跑完持久)分开存,因 0x6D 设的是全局 entry 且常作用于未加载的 scene。
+   */
+  sceneOnEnterOverride?: Record<number, number>
+
+  /**
+   * opcode 0x99 设的 scene mapNum 覆盖(键 = wNumScene,值 = 新 mapNum)。
+   * sdlpal script.c:2740 `rgScene[op0-1].wMapNum = op1`。loadScene 时优先用此 mapNum 取 tilemap。
+   */
+  sceneMapNumOverride?: Record<number, number>
+
+  /**
+   * opcode 0x98 设的跟随者 role id 列表(队员之外的 NPC 跟随,如剧情角色)。
+   * sdlpal nFollower + rgParty[wMaxPartyMemberIndex+i].wPlayerRole。present 层在队伍后渲染。
+   */
+  followers?: number[]
+
+  /**
    * Object 运行时可变状态(sdlpal SAVEDGAME_WIN.rgObject[MAX_OBJECTS])。
    * 稀疏存:objectId → state,只存被 script 改过的 object。
    */

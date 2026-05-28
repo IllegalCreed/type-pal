@@ -1726,6 +1726,36 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     tickEventSystem(gs, snap(), bus)
     expect(gs.rgObject[42]?.rgwData[3]).toBe(777) // idx = 2 + op2(1) = 3
   })
+
+  it('0x6D setSceneScripts:op1!=0 → sceneOnEnterOverride[op0]=op1;op1=0&&op2=0 → 0(清)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x6d, operands: [3, 500, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.sceneOnEnterOverride?.[3]).toBe(500)
+
+    const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    loadEvent(gs2, [{ op: 'raw', opcode: 0x6d, operands: [3, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs2, snap(), createCommandBus())
+    expect(gs2.sceneOnEnterOverride?.[3]).toBe(0) // 清
+  })
+
+  it('0x98 setFollower:operand[0..1]>0 → gs.followers + nFollower(script.c:2709)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x98, operands: [3, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.followers).toEqual([3]) // role id 直接(sdlpal 无 -1)
+    expect(gs.nFollower).toBe(1)
+  })
+
+  it('0x99 changeMap:op0!=0xFFFF → sceneMapNumOverride[op0]=op1(script.c:2740)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x99, operands: [5, 99, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.sceneMapNumOverride?.[5]).toBe(99)
+  })
 })
 
 // ── 0x04 call-script(2026-05-28,238 次最高频,调用栈)──────────────────────────

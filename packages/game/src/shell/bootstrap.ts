@@ -9,7 +9,7 @@ import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject, 
 import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap, runEnterScript, setFetchPalette,
-  setSceneLoader,
+  setSceneLoader, setMapReloader,
   setSharedEvents, setStartBattleHandler,
 } from '../core/event-system.js'
 import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
@@ -454,6 +454,15 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // 新 scene 的 commands + labelMap 写入 gs(autoScript runner 用)
     gs.sceneCommands = sceneAssets.eventCommands
     gs.sceneLabelMap = sceneAssets.labelMap
+    // opcode 0x6D 设的 onEnter 全局 override → 解析为本 scene local ip,写入 sceneOnEnterIp(消耗 override)。
+    // override===0(清)→ -1 哨兵(下方 onEnter setup 视作"无 onEnter")。
+    const oeOverride = gs.sceneOnEnterOverride?.[newWNumScene]
+    if (oeOverride !== undefined) {
+      delete gs.sceneOnEnterOverride![newWNumScene]
+      gs.sceneOnEnterIp[newWNumScene] = oeOverride === 0
+        ? -1
+        : (sceneAssets.labelMap[`L_${oeOverride}`] ?? -1)
+    }
     if (!opts.fromSavedGame) {
       // 忠实全局 event object 数组(sdlpal lprgEventObject):gs.npcs = 当前 scene 切片
       //(引用 gs.allEventObjects 元素 → 脚本改动持久,重进保留)。
@@ -480,29 +489,25 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }
     await preloadCutsceneSprites(sceneAssets.eventCommands)
     if (!opts.fromSavedGame) {
-      // 正常 loadScene:跑 onEnter
-      if (sceneAssets.onEnterLabel) {
-        // sdlpal play.c:64 真值:onEnter 入口 = 上次跑完存回的 wScriptOnEnter(若有),否则 JSON 标签。
-        // 重进已播过的 cutscene scene → 入口已被推进到 0x00 stop → 不重播(开场只播一次)。
-        const overrideIp = gs.sceneOnEnterIp[newWNumScene]
-        const ip = overrideIp ?? sceneAssets.labelMap[sceneAssets.onEnterLabel]
-        if (ip !== undefined) {
-          gs.eventCursor = {
-            commands: sceneAssets.eventCommands,
-            labelMap: sceneAssets.labelMap,
-            ip,
-            onEnterSceneId: newWNumScene,
-            onEnterStartIp: ip,
-          }
-          gs.mode = 'event'
-          // mode='event':保持 fEnteringScene=true,等 onEnter 内 fadeScreen opcode 清
-          // (scene 0→1 梦境 fade 演出依赖此机制,event-system.ts:930)
+      // 正常 loadScene:跑 onEnter。入口优先级(sdlpal play.c:64 真值):
+      //   sceneOnEnterIp(持久化:上次跑完存回 / 0x6D override 解析后,-1=无 onEnter)> onEnterLabel。
+      // 重进已播过的 cutscene scene → 入口已被推进到 0x00 stop → 不重播(开场只播一次)。
+      const persistedIp = gs.sceneOnEnterIp[newWNumScene]
+      const labelIp = sceneAssets.onEnterLabel
+        ? sceneAssets.labelMap[sceneAssets.onEnterLabel]
+        : undefined
+      const ip = persistedIp ?? labelIp
+      if (ip !== undefined && ip >= 0) { // ip === -1 = 0x6D 清的"无 onEnter"
+        gs.eventCursor = {
+          commands: sceneAssets.eventCommands,
+          labelMap: sceneAssets.labelMap,
+          ip,
+          onEnterSceneId: newWNumScene,
+          onEnterStartIp: ip,
         }
-        else {
-          gs.eventCursor = undefined
-          gs.mode = 'explore'
-          gs.fEnteringScene = false // 见下方说明
-        }
+        gs.mode = 'event'
+        // mode='event':保持 fEnteringScene=true,等 onEnter 内 fadeScreen opcode 清
+        // (scene 0→1 梦境 fade 演出依赖此机制,event-system.ts:930)
       }
       else {
         gs.eventCursor = undefined
@@ -520,6 +525,23 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   setSceneLoader(async (newWNumScene: number) => {
     await loadSceneCommon(newWNumScene, { fromSavedGame: false })
+  })
+
+  // opcode 0x99(changeMap)op0==0xFFFF:map-only 重载当前场景 tilemap(不重跑 onEnter / 不重置 npcs)。
+  // 删当前 scene 的 tile cache 强制重 fetch(同 sceneId 不同 mapNum)→ 换 presentCtx.tilemap + scene-system。
+  setMapReloader(async (mapNum: number) => {
+    const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
+      if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
+      return r.json() as Promise<Tilemap & { tilesetFiles?: string[] }>
+    })
+    tileImagesBySceneId.delete(currentSceneId) // 强制重 fetch(fetchSceneTileImages 有 cache)
+    await fetchSceneTileImages(currentSceneId, tilemapJson)
+    presentCtx.tilemap = tilemapJson
+    setSceneContext({
+      tilemap: tilemapJson,
+      eventCommands: gs.sceneCommands ?? [],
+      labelMap: gs.sceneLabelMap ?? {},
+    })
   })
 
   // M3 T29:dev panel(仅 DEV;生产构建 dead-code)。快捷键 B 弹 fixture picker → 启战。
