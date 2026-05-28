@@ -1484,3 +1484,70 @@ describe('narration dialog 自动消失(sdlpal text.c:1701 PAL_DialogWaitForKeyW
     expect(gs.mode).toBe('explore')
   })
 })
+
+// ── A 类补全(A1:自包含数据/状态 opcode)──────────────────────────────────────
+describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0x9A setMultiState', () => {
+  it('0x40 setTriggerMethod:operand[0]!=0 → pCurrent.triggerMode = operand[1](script.c:1613-1621)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 5, x: 0, y: 0, spriteNum: 1, sState: 1, triggerMode: 0 }]
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x40, operands: [1, 4, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.triggerMode).toBe(4)
+  })
+
+  it('0x40:operand[0]==0 → no-op(triggerMode 不变)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 5, x: 0, y: 0, spriteNum: 1, sState: 1, triggerMode: 6 }]
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x40, operands: [0, 4, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.triggerMode).toBe(6) // 未改
+  })
+
+  it('0x55 addMagic:role=operand[1]-1,spell=operand[0] 填空槽(global.c:2084)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x55, operands: [350, 1, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    // role 0(operand[1]=1 → 1-1=0)第一个空槽 = 350
+    expect(gs.PlayerRolesRuntime.rgwMagic[0]?.[0]).toBe(350)
+  })
+
+  it('0x55 addMagic:已学该法术 → no-op(不重复填槽)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.PlayerRolesRuntime.rgwMagic[0]![0] = 350
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x55, operands: [350, 1, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.PlayerRolesRuntime.rgwMagic[0]?.[0]).toBe(350)
+    expect(gs.PlayerRolesRuntime.rgwMagic[1]?.[0]).toBe(0) // 第二槽未被占
+  })
+
+  it('0x56 removeMagic:找到该 spell 的槽置 0(global.c:2139)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.PlayerRolesRuntime.rgwMagic[0]![0] = 350
+    gs.PlayerRolesRuntime.rgwMagic[1]![0] = 351
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x56, operands: [350, 1, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.PlayerRolesRuntime.rgwMagic[0]?.[0]).toBe(0) // 移除
+    expect(gs.PlayerRolesRuntime.rgwMagic[1]?.[0]).toBe(351) // 其他不动
+  })
+
+  it('0x9A setMultiState:id ∈ [operand[0],operand[1]] 的 NPC sState = operand[2](script.c:2756)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [
+      { id: 3, x: 0, y: 0, spriteNum: 1, sState: 1 },
+      { id: 4, x: 0, y: 0, spriteNum: 1, sState: 1 },
+      { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1 },
+      { id: 6, x: 0, y: 0, spriteNum: 1, sState: 1 },
+    ]
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x9a, operands: [4, 5, 2] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs.map((n) => n.sState)).toEqual([1, 2, 2, 1]) // 仅 id 4/5 改成 2
+  })
+})

@@ -252,6 +252,22 @@ export const OP_REMOVE_EQUIPMENT = 0x0023          // 35
 //   NPC trigger 上下文 — overworld item script 罕用
 export const OP_SET_TRIGGER_SCRIPT = 0x0025        // 37
 
+// case 0x0040(64): Set trigger method for event object(script.c:1613-1621)
+//   if operand[0] != 0 → pCurrent.wTriggerMode = operand[1]
+export const OP_SET_TRIGGER_METHOD = 0x0040        // 64
+
+// case 0x0055(85): Add magic to player(script.c:1816-1830 → global.c:2084 PAL_AddMagic)
+//   role = operand[1]==0 ? eventObjId : operand[1]-1;spell wObjectID = operand[0]
+//   已学则 no-op,否则填第一个空槽
+export const OP_ADD_MAGIC = 0x0055                 // 85
+
+// case 0x0056(86): Remove magic from player(script.c:1832-1846 → global.c:2139 PAL_RemoveMagic)
+export const OP_REMOVE_MAGIC = 0x0056              // 86
+
+// case 0x009A(154): Set state for multiple event objects(script.c:2756-2764)
+//   for id in [operand[0], operand[1]] → eventObject[id-1].sState = operand[2]
+export const OP_SET_MULTI_OBJECT_STATE = 0x009A    // 154
+
 // case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
 export const OP_POISON_ENEMY = 0x0028              // 40
 
@@ -1367,6 +1383,38 @@ export function startOverworldItemScript(
   return true
 }
 
+/** sdlpal `PAL_AddMagic`(global.c:2084):已学 → no-op;否则填第一个空槽(spell wObjectID)。 */
+function addMagicToRole(gs: GameState, roleId: number, spellObjId: number): void {
+  const rgwMagic = gs.PlayerRolesRuntime.rgwMagic
+  const numRoles = rgwMagic[0]?.length ?? 0
+  if (roleId < 0 || roleId >= numRoles || spellObjId === 0) return
+  // 已学该法术 → no-op
+  for (const slot of rgwMagic) {
+    if (slot?.[roleId] === spellObjId) return
+  }
+  // 填第一个空槽(0 = 空)
+  for (const slot of rgwMagic) {
+    if ((slot?.[roleId] ?? 0) === 0) {
+      slot[roleId] = spellObjId
+      return
+    }
+  }
+  // 槽满 → 失败(sdlpal 返回 FALSE)
+}
+
+/** sdlpal `PAL_RemoveMagic`(global.c:2139):找到该 spell 的槽置 0(不移位)。 */
+function removeMagicFromRole(gs: GameState, roleId: number, spellObjId: number): void {
+  const rgwMagic = gs.PlayerRolesRuntime.rgwMagic
+  const numRoles = rgwMagic[0]?.length ?? 0
+  if (roleId < 0 || roleId >= numRoles) return
+  for (const slot of rgwMagic) {
+    if (slot?.[roleId] === spellObjId) {
+      slot[roleId] = 0
+      return
+    }
+  }
+}
+
 function applyRawOpcode(
   gs: GameState,
   opcode: number,
@@ -1992,6 +2040,44 @@ function applyRawOpcode(
       // sdlpal script.c:1367/1399 — 无大世界 player status 模型(battle.rgwStatus only)
       // 大世界 buff(如 blessing)持久化留 M6 follow-up
       console.debug(`event-system: ${opcode === OP_SET_PLAYER_STATUS ? 'set' : 'remove'}PlayerStatus(no overworld status model)op=${operands}`)
+      break
+    }
+
+    // ── A 类补全(A1:自包含数据/状态,无跳转)─────────────────────────────────
+
+    case OP_SET_TRIGGER_METHOD: {
+      // sdlpal script.c:1613-1621:if operand[0] != 0 → pCurrent.wTriggerMode = operand[1]
+      if ((operands[0] ?? 0) !== 0 && currentEventObjectId !== undefined) {
+        const npc = gs.npcs.find((n) => n.id === currentEventObjectId)
+        if (npc) npc.triggerMode = operands[1] ?? 0
+      }
+      break
+    }
+
+    case OP_ADD_MAGIC: {
+      // sdlpal script.c:1816-1830 → global.c:2084 PAL_AddMagic
+      //   role = operand[1]==0 ? eventObjId : operand[1]-1;spell wObjectID = operand[0]
+      const roleId = (operands[1] ?? 0) === 0 ? (currentEventObjectId ?? 0) : ((operands[1] ?? 0) - 1)
+      addMagicToRole(gs, roleId, operands[0] ?? 0)
+      break
+    }
+
+    case OP_REMOVE_MAGIC: {
+      // sdlpal script.c:1832-1846 → global.c:2139 PAL_RemoveMagic
+      const roleId = (operands[1] ?? 0) === 0 ? (currentEventObjectId ?? 0) : ((operands[1] ?? 0) - 1)
+      removeMagicFromRole(gs, roleId, operands[0] ?? 0)
+      break
+    }
+
+    case OP_SET_MULTI_OBJECT_STATE: {
+      // sdlpal script.c:2756-2764:for id in [operand[0], operand[1]] → eventObject[id-1].sState = operand[2]
+      // ts:只对当前 scene 已加载 npcs(id 即 1-based 全局 event object id)生效,同 0x49 模型。
+      const from = operands[0] ?? 0
+      const to = operands[1] ?? 0
+      const state = operands[2] ?? 0
+      for (const npc of gs.npcs) {
+        if (npc.id >= from && npc.id <= to) npc.sState = state
+      }
       break
     }
 
