@@ -1031,6 +1031,29 @@ export function tickEventSystem(
           // 开场、无 fadeScreen)则靠这里清,否则 present.ts:114 永久 early-return → 卡死。
           gs.fEnteringScene = false
         }
+        // NPC trigger 脚本推进持久化(sdlpal play.c `pEvtObj->wTriggerScript = PAL_RunTriggerScript(...)`):
+        //   0x01 advance → 续跑下一条;0x02 reset → resetTo;0x00 plain → 原点(triggerResume 清空,可重触发)。
+        //   否则 0x01 收尾的 cutscene 每次接触都重播(2026-05-28 客栈李大娘苗人演出重播根因)。
+        if (cursor.triggerOwnerId !== undefined) {
+          const owner = gs.npcs.find((n) => n.id === cursor.triggerOwnerId)
+            ?? gs.allEventObjects?.[cursor.triggerOwnerId]
+          if (owner) {
+            if (cmd.advance) {
+              owner.triggerResume = {
+                commands: cursor.commands, labelMap: cursor.labelMap, ip: cursor.ip + 1,
+              }
+            }
+            else if (cmd.reset && cmd.resetTo !== undefined) {
+              const t = cursor.labelMap[`L_${cmd.resetTo}`]
+              if (t !== undefined) {
+                owner.triggerResume = { commands: cursor.commands, labelMap: cursor.labelMap, ip: t }
+              }
+            }
+            // 0x00 plain:sdlpal 返回起始 entry(原地可重触发)→ triggerResume **不动**
+            //   (已是本次起始 = 上次 advance 的续跑点,或 undefined 走 triggerLabel)。清空会错误
+            //   回退到 triggerLabel 原点重播已推进过的 cutscene。
+          }
+        }
         gs.eventCursor = undefined
         gs.dialogBox = undefined
         gs.currentDialogPortraitIcon = undefined
@@ -2364,6 +2387,7 @@ function applyRawOpcode(
         if (npc) {
           const newIp = operands[1] ?? 0
           npc.triggerLabel = `L_${newIp}`
+          npc.triggerResume = undefined // 0x25 直接覆写 wTriggerScript → 清运行时推进的续跑点
           console.debug(`event-system: setTriggerScript id=${npc.id} → triggerLabel=L_${newIp}`)
         }
       }

@@ -71,6 +71,13 @@ export interface NpcState {
   y: number
   spriteNum: number
   triggerLabel?: string
+  /**
+   * trigger 脚本推进后的"续跑位置"(sdlpal `EventObject.wTriggerScript` 被 PAL_RunTriggerScript
+   * 返回值改写的等价)。0x01 advance 收尾的 trigger 跑完后存"下一条",下次接触从这里跑(而非
+   * triggerLabel 原点重播)。undefined = 用 triggerLabel(原点,可重触发的 0x00 plain 脚本)。
+   * commands/labelMap 指脚本来源(scene/shared/global),同 EventCursor。
+   */
+  triggerResume?: { commands: Command[]; labelMap: Record<string, number>; ip: number }
   /** sdlpal `EventObject.wTriggerMode`(M3.5 T11 真消費):
    *  - 0       装饰 / 不触发
    *  - 1..3    Confirm-search(M2 用 Confirm 键触发)
@@ -191,6 +198,13 @@ export interface EventCursor {
    * tickSceneSystem 触发 NPC trigger 时设;此后所有 opcode 内 self = npcs[id-1]。
    */
   currentEventObjectId?: number
+  /**
+   * 本 cursor 是某 NPC 的 trigger 脚本时设(= 该 NPC id)。'end' 时据此持久化触发脚本推进:
+   * sdlpal play.c `pEvtObj->wTriggerScript = PAL_RunTriggerScript(...)` —— 0x01 advance → 下一条,
+   * 0x02 reset → resetTo,0x00 plain → 原地(可重触发)。否则 0x01 收尾的 cutscene 会每次接触重播
+   * (2026-05-28 客栈李大娘苗人演出重播的根因)。onEnter / item / magic 脚本不设此(不持久化 NPC trigger)。
+   */
+  triggerOwnerId?: number
   /**
    * opcode 0x04 call-script(script.c:3258)调用栈。sdlpal `PAL_RunTriggerScript(子脚本)`
    * 同步跑完再回原处 wScriptEntry++。ts tick 模型用栈:0x04 压返回帧 + 跳子脚本;子脚本

@@ -210,28 +210,41 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
  * Confirm-search 路径 / contact 明雷路径共享。
  */
 function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void {
-  if (!npc.triggerLabel) return
+  let commands: Command[]
+  let labelMap: Record<string, number>
+  let ip: number
 
-  // M5.6 W1.a:先查 per-scene labelMap;不命中时 scene→shared→global 兜底解析。
-  // sdlpal 真值:events.bin 是 unified 单文件,wTriggerScript 是全局 offset 不分段;我们 dump 时
-  // 拆成 scene-NNN.json + shared.json(按场景懒加载)。跨 scene 设的 trigger(eg. scene-3 把
-  // scene-1 李大娘 trigger 设到只切进 scene-3 的 L_560)需回退全局脚本数组(events/all.json)。
-  let ip = ctx.labelMap[npc.triggerLabel]
-  let commands = ctx.eventCommands
-  let labelMap = ctx.labelMap
-  if (ip === undefined) {
-    const r = resolveScriptLabel(gs, npc.triggerLabel)
-    if (r) {
-      ip = r.ip
-      commands = r.commands
-      labelMap = r.labelMap
-    }
+  // 优先 triggerResume(上次 0x01 advance / 0x02 reset 推进后的续跑位置,sdlpal wTriggerScript
+  // 被改写的等价)→ 不重播已跑过的 cutscene。否则按 triggerLabel 原点解析。
+  if (npc.triggerResume) {
+    commands = npc.triggerResume.commands
+    labelMap = npc.triggerResume.labelMap
+    ip = npc.triggerResume.ip
   }
-  if (ip === undefined) {
-    console.warn(
-      `scene-system: triggerLabel ${npc.triggerLabel} 不在 scene/shared/global labelMap(NPC id=${npc.id})`,
-    )
-    return
+  else {
+    if (!npc.triggerLabel) return
+    // M5.6 W1.a:先查 per-scene labelMap;不命中时 scene→shared→global 兜底解析。
+    // sdlpal 真值:events.bin 是 unified 单文件,wTriggerScript 是全局 offset 不分段;我们 dump 时
+    // 拆成 scene-NNN.json + shared.json(按场景懒加载)。跨 scene 设的 trigger(eg. scene-3 把
+    // scene-1 李大娘 trigger 设到只切进 scene-3 的 L_560)需回退全局脚本数组(events/all.json)。
+    let resolvedIp = ctx.labelMap[npc.triggerLabel]
+    commands = ctx.eventCommands
+    labelMap = ctx.labelMap
+    if (resolvedIp === undefined) {
+      const r = resolveScriptLabel(gs, npc.triggerLabel)
+      if (r) {
+        resolvedIp = r.ip
+        commands = r.commands
+        labelMap = r.labelMap
+      }
+    }
+    if (resolvedIp === undefined) {
+      console.warn(
+        `scene-system: triggerLabel ${npc.triggerLabel} 不在 scene/shared/global labelMap(NPC id=${npc.id})`,
+      )
+      return
+    }
+    ip = resolvedIp
   }
 
   gs.eventCursor = {
@@ -241,6 +254,8 @@ function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void
     // Sync.2 fix3:trigger 触发时设 currentEventObjectId(= NPC id),让 opcode 0x0013/0x0016/0x006C
     // 在 operand[0]==0 时作用于"自己"(sdlpal `wEventObjectID` / `pCurrent` 等价)。
     currentEventObjectId: npc.id,
+    // 'end' 据此持久化 trigger 推进(0x01 advance / 0x02 reset → triggerResume)。
+    triggerOwnerId: npc.id,
   }
   gs.mode = 'event'
 }

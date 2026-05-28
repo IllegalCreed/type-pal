@@ -1234,6 +1234,63 @@ describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4',
   })
 })
 
+describe('NPC trigger 脚本推进持久化(sdlpal play.c pEvtObj->wTriggerScript = RunTriggerScript)', () => {
+  it('0x01 advance:trigger 跑完 → triggerResume 续跑下一条(不每次接触重播 cutscene)', () => {
+    // 客栈李大娘苗人演出 L_285 以 0x01 收尾 → sdlpal 推进 wTriggerScript 到下一条("记得喔"),
+    // 再接触不重播全段。旧实现不持久化 → 重播(2026-05-28 user 发现)。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 56, x: 0, y: 0, spriteNum: 21, sState: 2 }]
+    const commands: Command[] = [
+      { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [1, 0, 0] }, // 0: 演出
+      { op: 'end', advance: true },                                      // 1: 0x01 advance
+      { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [2, 0, 0] }, // 2: 续跑目标("记得喔")
+      { op: 'end' },                                                     // 3
+    ]
+    gs.eventCursor = { commands, labelMap: {}, ip: 0, currentEventObjectId: 56, triggerOwnerId: 56 }
+    gs.mode = 'event'
+    tickEventSystem(gs, snap(), bus) // 跑 ip0 raw → ip1 end advance → 持久化 + 结束
+    expect(gs.mode).toBe('explore')
+    expect(gs.npcs[0]?.triggerResume?.ip).toBe(2)             // 续跑指 idx2,不重播 idx0
+    expect(gs.npcs[0]?.triggerResume?.commands).toBe(commands)
+  })
+
+  it('0x00 plain:trigger 跑完 → triggerResume **不动**(sdlpal 返回起始 entry,原地可重触发)', () => {
+    // 已推进到续跑点(idx 5)的 trigger 再跑、以 plain 收尾 → 应停在 idx 5(原地),不回退重播。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const commands: Command[] = [
+      { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [0, 0, 0] }, // 0..4 占位
+      { op: 'end' }, { op: 'end' }, { op: 'end' }, { op: 'end' },
+      { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [1, 0, 0] }, // 5: 续跑点
+      { op: 'end' },                                                     // 6: 0x00 plain
+    ]
+    const resume = { commands, labelMap: {}, ip: 5 }
+    gs.npcs = [{ id: 62, x: 0, y: 0, spriteNum: 56, sState: 2, triggerResume: resume }]
+    gs.eventCursor = { commands, labelMap: {}, ip: 5, currentEventObjectId: 62, triggerOwnerId: 62 }
+    gs.mode = 'event'
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.triggerResume?.ip).toBe(5)            // plain 不动 → 停在续跑点 5(不回退原点)
+  })
+
+  it('0x25 setTriggerScript:清 triggerResume(新 trigger label 生效,不被旧续跑点盖)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [
+      { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1 },
+      { id: 62, x: 0, y: 0, spriteNum: 56, sState: 2, triggerLabel: 'L_601', triggerResume: { commands: [], labelMap: {}, ip: 9 } },
+    ]
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x25, operands: [63, 604, 0] }, // 设 id62 trigger L_604
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[1]?.triggerLabel).toBe('L_604')
+    expect(gs.npcs[1]?.triggerResume).toBeUndefined()       // 旧续跑点清掉 → L_604 生效
+  })
+})
+
 describe('opcode 0x0065 setPlayerSprite(sdlpal script.c:1999-2004)— fix4', () => {
   it('operand[0]=0 (主角) + operand[1]=spriteId → 写 gs.partyLeaderSpriteId', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
