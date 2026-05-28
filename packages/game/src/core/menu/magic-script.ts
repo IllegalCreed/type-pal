@@ -73,7 +73,13 @@ function applyHPMPDeltaAll(
 //
 // HP==0 时复活 HP=maxHP*operand[1]/10 + cure poison level <= 3 + clear all status。
 // applyToAll=operand[0]。
-function revivePlayerSingle(gs: GameState, roleId: number, ratioTenths: number): void {
+//
+// **关键真值**(sdlpal script.c:1099 / 1077):无活 target 复活时设
+// `g_fScriptSuccess = FALSE` — 上层 uigame.c:818-822 `if (g_fScriptSuccess) MP -=`
+// 不扣 MP。即:战斗外用还魂咒选活人 / 全队都活时,ts 端也应不扣 MP。
+//
+// returns true = 至少 1 个 target 真被复活(g_fScriptSuccess=TRUE)
+function revivePlayerSingle(gs: GameState, roleId: number, ratioTenths: number): boolean {
   const cur = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
   const maxHP = gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0
   if (cur === 0) {
@@ -86,13 +92,18 @@ function revivePlayerSingle(gs: GameState, roleId: number, ratioTenths: number):
         gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
       }
     }
+    return true
   }
+  return false
 }
 
-function revivePlayerAll(gs: GameState, ratioTenths: number): void {
+/** sdlpal script.c:1056-1080 真值:全队遍历,只要 1 个 HP=0 被复活就 success;全活 → success=false。 */
+function revivePlayerAll(gs: GameState, ratioTenths: number): boolean {
+  let anyRevived = false
   for (const role of gs.partyMembers) {
-    revivePlayerSingle(gs, role, ratioTenths)
+    if (revivePlayerSingle(gs, role, ratioTenths)) anyRevived = true
   }
+  return anyRevived
 }
 
 // ── 主 runner ───────────────────────────────────────────────────────────────
@@ -118,6 +129,9 @@ export function runMagicScriptSync(
   const cmds = getSharedCommands()
   let ip = ip0
   let step = 0
+  // sdlpal `g_fScriptSuccess` 真值 — 默认 TRUE,特定 opcode(0x22 选活人时)设 FALSE。
+  // runner 返回值含 success 让 caller(dispatcher)决定是否扣 MP(sdlpal uigame.c:818-822)。
+  let scriptSuccess = true
 
   while (step++ < SCRIPT_TICK_LIMIT) {
     if (ip < 0 || ip >= cmds.length) {
@@ -126,7 +140,7 @@ export function runMagicScriptSync(
     }
     const cmd = cmds[ip]!
 
-    if (cmd.op === 'end') return true
+    if (cmd.op === 'end') return scriptSuccess
     if (cmd.op === 'goto') {
       const t = labelMap[cmd.to]
       if (t === undefined) {
@@ -169,9 +183,17 @@ export function runMagicScriptSync(
       case 0x22: {
         // OP_REVIVE_PLAYER — sdlpal script.c:1052-1102
         // operand[0]=applyToAll,operand[1]=ratio*10 (1=10%, 10=100%)
+        //
+        // **关键真值**(sdlpal script.c:1099 / 1077):无活 target 复活时设
+        // `g_fScriptSuccess = FALSE` — 上层 uigame.c:818-822 `if (g_fScriptSuccess)`
+        // 不扣 MP。即:战斗外用还魂咒选活人 → 不扣 MP(user 2026-05-29 提醒:
+        // BattleWon 已 auto-revive 半 HP,大世界几乎无死人)。
         const ratioTenths = b ?? 0
-        if (applyAll) revivePlayerAll(gs, ratioTenths)
-        else if (targetRoleIdOrAll !== 0xFFFF) revivePlayerSingle(gs, targetRoleIdOrAll, ratioTenths)
+        let revivedAny: boolean
+        if (applyAll) revivedAny = revivePlayerAll(gs, ratioTenths)
+        else if (targetRoleIdOrAll !== 0xFFFF) revivedAny = revivePlayerSingle(gs, targetRoleIdOrAll, ratioTenths)
+        else revivedAny = false
+        if (!revivedAny) scriptSuccess = false
         break
       }
       default:

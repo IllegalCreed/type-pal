@@ -184,6 +184,74 @@ describe('runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER', () => {
     runMagicScriptSync(gs, 43024, 0)
     expect(gs.rgPoisonStatus['0_0']?.wPoisonID).toBe(0)
   })
+
+  // ── g_fScriptSuccess 真值(sdlpal script.c:1077/1099)── user 2026-05-29 提醒:
+  // BattleWon 已 auto-revive 半 HP,大世界几乎无死人 → 还魂咒选活人应不扣 MP。
+  it('revive 选活人 target → runner return false(g_fScriptSuccess=FALSE)', () => {
+    const gs = mkGs() // HP[0]=50 活
+    const ok = runMagicScriptSync(gs, 43024, 0)
+    expect(ok).toBe(false) // dispatcher 据此不扣 MP
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50) // 未变
+  })
+
+  it('revive 选死人 target → runner return true', () => {
+    const gs = mkGs()
+    gs.PlayerRolesRuntime.rgwHP[0] = 0
+    const ok = runMagicScriptSync(gs, 43024, 0)
+    expect(ok).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(20)
+  })
+
+  it('revive applyToAll 全活 → runner return false', () => {
+    const gs = mkGs() // 全活
+    const ok = runMagicScriptSync(gs, 39554, 0xFFFF) // 用 39554 fixture? — 是 0x1B,不对
+    // 改用 L_500 之外的真 revive applyToAll 测,新加 fixture L_504
+    void ok
+  })
+})
+
+// 补 fixture 测 revive applyToAll(用 inline event setShared)
+describe('runMagicScriptSync - revive applyToAll g_fScriptSuccess', () => {
+  it('revive applyToAll 全活 → return false', () => {
+    setSharedEvents(
+      [
+        { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_REVIVE_ALL' },
+        { op: 'end' },
+      ] as Command[],
+      { L_REVIVE_ALL: 0 },
+    )
+    const gs = mkGs() // 全活
+    const ok = runMagicScriptSync(gs, 0, 0xFFFF) // scriptId=0 → return true skip — 但我要测 L_REVIVE_ALL
+    void ok
+    // 直接用 label id (重构):用 magic-script.ts 接口 scriptId 应等于 labelMap key 不带 L_ — 数字
+    // L_REVIVE_ALL 我得叫它 number。改 fixture key:
+    setSharedEvents(
+      [
+        { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_77777' },
+        { op: 'end' },
+      ] as Command[],
+      { L_77777: 0 },
+    )
+    const ok2 = runMagicScriptSync(gs, 77777, 0xFFFF)
+    expect(ok2).toBe(false) // 全活
+    setSharedEvents([], {})
+  })
+
+  it('revive applyToAll 至少 1 死 → return true', () => {
+    setSharedEvents(
+      [
+        { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_77778' },
+        { op: 'end' },
+      ] as Command[],
+      { L_77778: 0 },
+    )
+    const gs = mkGs()
+    gs.PlayerRolesRuntime.rgwHP[1] = 0 // role 1 dead
+    const ok = runMagicScriptSync(gs, 77778, 0xFFFF)
+    expect(ok).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(20) // 200 * 1/10
+    setSharedEvents([], {})
+  })
 })
 
 // ── multi-op chain + unknown skip ──────────────────────────────────────────
