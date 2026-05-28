@@ -13,7 +13,7 @@ import {
   OP_NULLIFY_OBJECT, OP_HIDE_OBJECT, OP_CHASE_PAUSE, OP_CHASE_SPEEDUP,
   OP_PARTY_WALK_TO_4, OP_PARTY_WALK_TO_8, OP_NPC_WALK_TO_4,
   OP_RIDE_OBJECT_2, OP_RIDE_OBJECT_4, OP_RIDE_OBJECT_8, OP_MONSTER_CHASE,
-  setObstacleChecker,
+  setObstacleChecker, setGlobalEvents, resolveScriptLabel,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -1714,6 +1714,29 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
     tickAutoScripts(gs) // ip4 setObjectGesture → frame 2
     expect(gs.npcs[0]?.scriptedFrame).toBe(2)
     expect(gs.party.x).toBe(px0) // 哨兵 setPartyPos(ip1)从未跑
+  })
+})
+
+describe('全局脚本兜底 resolveScriptLabel(events/all.json,跨 scene 脚本引用)', () => {
+  it('scene/shared 都没有 → 回退 global(李大娘 L_560 等 116 处跨 scene trigger 的根治)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.sceneLabelMap = { L_1: 0 }       // 当前 scene 只有 L_1
+    gs.sceneCommands = [{ op: 'end' }]
+    setSharedEvents([], {})             // shared 空
+    // 全局脚本数组:命令带 label L_560(全局 entry index 1)
+    setGlobalEvents([
+      { op: 'end' },
+      { op: 'showDialog', messageIndex: 0, text: '去去去', label: 'L_560' },
+      { op: 'end' },
+    ])
+    const r = resolveScriptLabel(gs, 'L_560')
+    expect(r?.ip).toBe(1)                          // 命中 global 的 index 1
+    expect(r?.commands?.[1]?.op).toBe('showDialog') // commands 指向 global 数组
+    // scene 优先:scene 有的 label 不会落 global
+    const rScene = resolveScriptLabel(gs, 'L_1')
+    expect(rScene?.ip).toBe(0)
+    expect(rScene?.commands).toBe(gs.sceneCommands)
+    setGlobalEvents([])  // 复位
   })
 })
 

@@ -12,7 +12,7 @@ import type { Command, InputSnapshot, Tilemap } from '@type-pal/shared'
 import type { SceneAssetsCache } from '../assets/loader.js'
 import type { CommandBus } from './command-bus.js'
 import { npcFromEventObject, PARTYOFFSET_X, PARTYOFFSET_Y, type Facing, type GameState, type NpcState } from './game-state.js'
-import { getSharedCommands, getSharedLabelMap, runEnterScript } from './event-system.js'
+import { resolveScriptLabel, runEnterScript } from './event-system.js'
 import { createInGameMenu } from './menu/in-game-menu.js'
 import { openMenu } from './menu/menu-mode.js'
 import { findSearchableNpc } from './scene-system-search.js'
@@ -212,25 +212,24 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
 function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void {
   if (!npc.triggerLabel) return
 
-  // M5.6 W1.a:先查 per-scene labelMap;不命中时 fallback events/shared.json 的 _sharedLabelMap。
-  // sdlpal 真值:events.bin 是 unified 单文件,wTriggerScript 直接是文件内 offset 不分段;
-  // 我们 dump 时拆成 shared.json + scene-NNN.json 两份(便于按场景懒加载),
-  // 因此跨段 label 引用需 runtime 显式 fallback。
+  // M5.6 W1.a:先查 per-scene labelMap;不命中时 scene→shared→global 兜底解析。
+  // sdlpal 真值:events.bin 是 unified 单文件,wTriggerScript 是全局 offset 不分段;我们 dump 时
+  // 拆成 scene-NNN.json + shared.json(按场景懒加载)。跨 scene 设的 trigger(eg. scene-3 把
+  // scene-1 李大娘 trigger 设到只切进 scene-3 的 L_560)需回退全局脚本数组(events/all.json)。
   let ip = ctx.labelMap[npc.triggerLabel]
   let commands = ctx.eventCommands
   let labelMap = ctx.labelMap
   if (ip === undefined) {
-    const sharedLabelMap = getSharedLabelMap()
-    const sharedIp = sharedLabelMap[npc.triggerLabel]
-    if (sharedIp !== undefined) {
-      ip = sharedIp
-      commands = getSharedCommands()
-      labelMap = sharedLabelMap
+    const r = resolveScriptLabel(gs, npc.triggerLabel)
+    if (r) {
+      ip = r.ip
+      commands = r.commands
+      labelMap = r.labelMap
     }
   }
   if (ip === undefined) {
     console.warn(
-      `scene-system: triggerLabel ${npc.triggerLabel} 不在 per-scene 也不在 shared labelMap(NPC id=${npc.id})`,
+      `scene-system: triggerLabel ${npc.triggerLabel} 不在 scene/shared/global labelMap(NPC id=${npc.id})`,
     )
     return
   }

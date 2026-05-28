@@ -10,7 +10,7 @@ import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap, runEnterScript, setFetchPalette,
   setSceneLoader, setMapReloader, setObstacleChecker,
-  setSharedEvents, setStartBattleHandler,
+  setSharedEvents, setGlobalEvents, setStartBattleHandler,
 } from '../core/event-system.js'
 import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
 import { Save } from '../core/save/api.js'
@@ -648,6 +648,24 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   catch (err) {
     console.warn('[bootstrap] shared.json 加载失败,goto shared#L_xxx 跨 scene 跳转将抛错:', err)
   }
+
+  // 全局脚本数组(events/all.json,对应 sdlpal 单一 lprgScriptEntry)注入 event-system。
+  // 跨 scene 设的 trigger/autoScript/call(0x24/0x25 把对象脚本指针设到只切进别的 scene 的脚本)
+  // 在 per-scene / shared 找不到时回退它解析(2026-05-28 李大娘 L_560 等 116 处跨 scene 引用的根治)。
+  // fire-and-forget:5MB 不阻塞首屏;首屏 scene 走 per-scene 快路径,跨 scene trigger 触发前会就绪。
+  void (async () => {
+    try {
+      const allRes = await fetch(`${BASE}/events/all.json`)
+      if (!allRes.ok) throw new Error(`all.json fetch failed (${allRes.status})`)
+      const allJson = (await allRes.json()) as EventFile
+      const allCommands = allJson.segments.flatMap((seg) => seg.commands)
+      setGlobalEvents(allCommands)
+      console.log(`[bootstrap] global events loaded:${allCommands.length} commands(跨 scene 脚本兜底)`)
+    }
+    catch (err) {
+      console.warn('[bootstrap] all.json 加载失败,跨 scene 脚本引用将回退失败:', err)
+    }
+  })()
 
   // P0.e: 注入 startBattle handler — opcode 7 (raw#7 / op:startBattle) 用。
   // 战斗资源闭包持引用,event-system 不污染 import battle/。

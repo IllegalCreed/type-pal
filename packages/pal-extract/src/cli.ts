@@ -222,8 +222,15 @@ async function main(): Promise<void> {
   writeJson(resolve(OUT, 'events', 'shared.json'), sliced.shared)
   writeJson(resolve(OUT, 'events', 'objects.json'), sliced.objects)
 
+  // 全局脚本数组(对应 sdlpal 单一 lprgScriptEntry)。annotated 是未切片的全量命令,索引 = 全局
+  // script entry。runtime 把它当**兜底来源**:trigger/autoScript/call 的 label 在 per-scene /
+  // shared 切片找不到时(跨 scene 设的脚本指针,eg. scene-3 `0x25 [20,560]` 把 scene-1 李大娘
+  // trigger 设到 L_560 —— L_560 只切到 scene-3),回退全局数组解析。label = `L_<全局 entry>`,
+  // 全局 labelMap 在 runtime 由索引直接建(L_<i> → i),故这里只 dump commands。
+  writeJson(resolve(OUT, 'events', 'all.json'), { segments: [{ name: 'all', commands: annotated }] })
+
   console.log(
-    `[pal-extract] events written: ${sliced.scenes.length} scenes + shared(含 ${globalScriptEntries.length} item/spell/enemyObj script entries)+ objects`,
+    `[pal-extract] events written: ${sliced.scenes.length} scenes + shared(含 ${globalScriptEntries.length} item/spell/enemyObj script entries)+ objects + all(${annotated.length} 全局命令)`,
   )
 
   // ── 数据表(全量) ────────────────────────────────────────────────

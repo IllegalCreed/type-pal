@@ -476,6 +476,55 @@ export function getSharedCommands(): Command[] {
   return _sharedCommands
 }
 
+// ── 全局脚本数组(对应 sdlpal 单一 lprgScriptEntry)─────────────────────────────
+// per-scene + shared 切片是优化,但跨 scene 设的脚本指针(0x24/0x25 把 A scene 对象的
+// trigger/autoScript 设到只切进 B scene 的脚本)会在 A scene 解析失败。全局数组兜底:
+// commands[i] = 全局 script entry i(events/all.json,annotated 未切片全量),label = L_<i>。
+let _globalCommands: Command[] = []
+let _globalLabelMap: Record<string, number> = {}
+
+/** bootstrap 注入 events/all.json 的全量命令;labelMap 由带 label 的命令建(L_<i> → i)。 */
+export function setGlobalEvents(commands: Command[]): void {
+  _globalCommands = commands
+  const map: Record<string, number> = {}
+  for (let i = 0; i < commands.length; i++) {
+    const lbl = commands[i]?.label
+    if (lbl) map[lbl] = i
+  }
+  _globalLabelMap = map
+}
+
+export function getGlobalCommands(): Command[] {
+  return _globalCommands
+}
+
+export function getGlobalLabelMap(): Record<string, number> {
+  return _globalLabelMap
+}
+
+/**
+ * 脚本 label → {commands, labelMap, ip}:scene → shared → global 兜底(全局脚本数组)。
+ * trigger / autoScript / call / 条件跳转 跨 scene 引用统一经此解析,对齐 sdlpal 单一脚本数组。
+ */
+export function resolveScriptLabel(
+  gs: GameState,
+  label: string,
+): { commands: Command[]; labelMap: Record<string, number>; ip: number } | null {
+  const sceneIp = gs.sceneLabelMap?.[label]
+  if (sceneIp !== undefined) {
+    return { commands: gs.sceneCommands ?? [], labelMap: gs.sceneLabelMap ?? {}, ip: sceneIp }
+  }
+  const sharedIp = _sharedLabelMap[label]
+  if (sharedIp !== undefined) {
+    return { commands: _sharedCommands, labelMap: _sharedLabelMap, ip: sharedIp }
+  }
+  const globalIp = _globalLabelMap[label]
+  if (globalIp !== undefined) {
+    return { commands: _globalCommands, labelMap: _globalLabelMap, ip: globalIp }
+  }
+  return null
+}
+
 // ── P0.e: opcode 7 startBattle handler 注入 ──────────────────────────────────
 //
 // event-system 不直接持有 enemies/enemyTeams/playerRoles 等战斗资源(避免污染 import 图)。
@@ -1598,23 +1647,20 @@ export interface ScriptCursor {
 function jumpToGlobalIp(gs: GameState, cursor: ScriptCursor | null, globalIp: number): void {
   if (!cursor) return
   const label = `L_${globalIp}`
-  const idx = cursor.labelMap[label]
-  if (idx !== undefined) {
-    cursor.ip = idx - 1
+  // 优先当前来源(保持脚本在同一来源连续执行);否则 scene→shared→global 兜底解析。
+  const here = cursor.labelMap[label]
+  if (here !== undefined) {
+    cursor.ip = here - 1
     return
   }
-  // 跨来源 retry:目标在另一来源(scene↔shared)
-  const onShared = cursor.commands === _sharedCommands
-  const otherCommands = onShared ? (gs.sceneCommands ?? []) : _sharedCommands
-  const otherLabelMap = onShared ? (gs.sceneLabelMap ?? {}) : _sharedLabelMap
-  const oIdx = otherLabelMap[label]
-  if (oIdx !== undefined) {
-    cursor.commands = otherCommands
-    cursor.labelMap = otherLabelMap
-    cursor.ip = oIdx - 1
+  const r = resolveScriptLabel(gs, label)
+  if (r) {
+    cursor.commands = r.commands
+    cursor.labelMap = r.labelMap
+    cursor.ip = r.ip - 1
     return
   }
-  console.debug(`event-system: jump target ${label} 不在 scene/shared labelMap(跳转失效)`)
+  console.debug(`event-system: jump target ${label} 不在 scene/shared/global labelMap(跳转失效)`)
 }
 
 /** 背包内某 item 总数(sdlpal PAL_GetItemAmount 等价)。 */
@@ -1831,36 +1877,17 @@ function applyRawOpcode(
           // 不能拿全局 entry 当本地 ip 直接用(旧 bug:autoCursor.ip 落到错误命令)。
           const label = `L_${entry}`
           npc.autoLabel = label
-          // 先查当前 scene labelMap;多 scene 共用地图时该脚本可能被提升到 shared(eg. 苗人头领
-          // L_406 被 scene-001/003 共引 → shared)→ 回退查 shared。cursor.commands/labelMap 指向
-          // 对应来源(与 EventCursor 同构),供统一解释器跨来源跳转 / call。
-          const localIp = gs.sceneLabelMap?.[label]
-          const sharedIp = localIp === undefined ? getSharedLabelMap()[label] : undefined
-          if (localIp !== undefined) {
-            npc.autoCursor = {
-              ip: localIp,
-              commands: gs.sceneCommands ?? [],
-              labelMap: gs.sceneLabelMap ?? {},
-            }
-          }
-          else if (sharedIp !== undefined) {
-            npc.autoCursor = {
-              ip: sharedIp,
-              commands: getSharedCommands(),
-              labelMap: getSharedLabelMap(),
-            }
+          // scene → shared → global 解析(cursor.commands/labelMap 指向对应来源,与 EventCursor
+          // 同构,供统一解释器跨来源跳转 / call)。跨 scene 设的 autoScript 走 global 兜底。
+          const r = resolveScriptLabel(gs, label)
+          if (r) {
+            npc.autoCursor = { ip: r.ip, commands: r.commands, labelMap: r.labelMap }
           }
           else {
             npc.autoCursor = undefined
-            console.warn(
-              `event-system: setAutoScript id=${npc.id} ${label} 不在 scene/shared labelMap`
-              + `(目标脚本可能被切片剪掉 — 检查 JUMP_TARGET_OPERAND 是否含 0x24)`,
-            )
+            console.warn(`event-system: setAutoScript id=${npc.id} ${label} 不在 scene/shared/global labelMap`)
           }
-          console.debug(
-            `event-system: setAutoScript id=${npc.id} ${label} → `
-            + (localIp !== undefined ? `localIp=${localIp}` : `sharedIp=${sharedIp}`),
-          )
+          console.debug(`event-system: setAutoScript id=${npc.id} ${label} → ip=${r?.ip}`)
         }
       }
       break
@@ -2547,19 +2574,21 @@ function applyRawOpcode(
       // 子脚本 'end' 在 caller runner(trigger / autoScript)弹帧返回。cursor = 传入活动游标。
       const subEntry = operands[0] ?? 0
       if (!cursor || subEntry === 0) break
+      const subLabel = `L_${subEntry}`
+      // 优先当前来源,否则 scene→shared→global 兜底(跨 scene call 走 global)。
       let subCommands = cursor.commands
       let subLabelMap = cursor.labelMap
-      let subIp: number | undefined = cursor.labelMap[`L_${subEntry}`]
+      let subIp: number | undefined = cursor.labelMap[subLabel]
       if (subIp === undefined) {
-        const sIp = _sharedLabelMap[`L_${subEntry}`]
-        if (sIp !== undefined) {
-          subCommands = _sharedCommands
-          subLabelMap = _sharedLabelMap
-          subIp = sIp
+        const r = resolveScriptLabel(gs, subLabel)
+        if (r) {
+          subCommands = r.commands
+          subLabelMap = r.labelMap
+          subIp = r.ip
         }
       }
       if (subIp === undefined) {
-        console.debug(`event-system: callScript L_${subEntry} 不在 scene/shared labelMap`)
+        console.debug(`event-system: callScript ${subLabel} 不在 scene/shared/global labelMap`)
         break
       }
       cursor.callStack = cursor.callStack ?? []
