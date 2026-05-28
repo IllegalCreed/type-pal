@@ -1727,6 +1727,34 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
     expect(gs.npcs[0]!.autoCursor!.ip).toBe(2) // 0x0000 park(原地不动)
   })
 
+  it('丁大伯:autoLabel 入口在全局数组(sceneLabelMap 解不到)→ tickAutoScripts 走全局兜底解析 autoCursor + 跑', () => {
+    // 复刻丁大伯:挥锄 autoScript 入口 entry 36205 在 events/all.json 全局区,不在 scene 切片
+    //   labelMap → scene-load 解析失败 → autoCursor undefined → 冻首帧。tickAutoScripts 应走
+    //   resolveScriptLabel(scene→shared→global)补解析。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // NPC 有 autoLabel 但无 autoCursor(scene-load 时 sceneLabelMap 无 L_5)
+    gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 2, autoLabel: 'L_5' }]
+    gs.sceneCommands = [{ op: 'end' }] // 当前 scene 切片(不含 L_5)
+    gs.sceneLabelMap = {}
+    const globalCmds: Command[] = [
+      { op: 'end' }, { op: 'end' }, { op: 'end' }, { op: 'end' }, { op: 'end' },
+      { op: 'end', advance: true, label: 'L_5' },                        // 5: 0x01 advance → ip6
+      { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [3, 0, 0] }, // 6: 设帧3
+      { op: 'end' },                                                     // 7: park
+    ]
+    setGlobalEvents(globalCmds)
+    try {
+      tickAutoScripts(gs)
+      // 全局兜底解析 autoCursor 指向全局数组,ip 从 5(L_5)起;首帧 0x01 advance → 6
+      expect(gs.npcs[0]?.autoCursor).toBeDefined()
+      expect(gs.npcs[0]?.autoCursor?.commands).toBe(globalCmds)
+      expect(gs.npcs[0]!.autoCursor!.ip).toBe(6)
+    }
+    finally {
+      setGlobalEvents([]) // 清理模块级注入,避免污染后续测试
+    }
+  })
+
   it('0x0002 reset:resetTo 跨文件(labelMap 无)→ 停 autoCursor(不死循环)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 1, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }]
@@ -1935,14 +1963,28 @@ describe('pCurrent(operand[0] 选对象)对象 opcode 类(对齐 sdlpal pCurrent
 
 // ── A 类补全(A1:自包含数据/状态 opcode)──────────────────────────────────────
 describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0x9A setMultiState', () => {
-  it('0x40 setTriggerMethod:operand[0]!=0 → pCurrent.triggerMode = operand[1](script.c:1613-1621)', () => {
+  it('0x40 setTriggerMethod:operand[0]=0xFFFF → self;operand[0]=N → pCurrent(object N-1)(script.c:1613-1621 + 624-639)', () => {
+    // sdlpal pCurrent 选取(script.c:624-639):operand[0]==0/0xFFFF → self(pEvtObj);
+    //   否则 → lprgEventObject[operand[0]-1]。0x40 恒改 self 是旧 bug:水生叔 trigger
+    //   `0x40 [124,6]` 本应激活张四(object 124 = id 123),却复位水生叔 → proximity 对话无限循环。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.npcs = [{ id: 5, x: 0, y: 0, spriteNum: 1, sState: 1, triggerMode: 0 }]
+    gs.npcs = [
+      { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1, triggerMode: 0 },
+      { id: 6, x: 0, y: 0, spriteNum: 1, sState: 1, triggerMode: 0 },
+    ]
     const bus = createCommandBus()
-    loadEvent(gs, [{ op: 'raw', opcode: 0x40, operands: [1, 4, 0] }, { op: 'end' }])
+    // operand[0]=0xFFFF → self(currentEventObjectId=5)
+    loadEvent(gs, [{ op: 'raw', opcode: 0x40, operands: [0xFFFF, 4, 0] }, { op: 'end' }])
     gs.eventCursor!.currentEventObjectId = 5
     tickEventSystem(gs, snap(), bus)
-    expect(gs.npcs[0]?.triggerMode).toBe(4)
+    expect(gs.npcs[0]?.triggerMode).toBe(4)  // self id5
+    expect(gs.npcs[1]?.triggerMode).toBe(0)  // 未动
+    // operand[0]=7 → pCurrent = object[7-1=6] = id6(非 self)
+    loadEvent(gs, [{ op: 'raw', opcode: 0x40, operands: [7, 6, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[1]?.triggerMode).toBe(6)  // pCurrent id6
+    expect(gs.npcs[0]?.triggerMode).toBe(4)  // self id5 不变
   })
 
   it('0x40:operand[0]==0 → no-op(triggerMode 不变)', () => {

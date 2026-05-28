@@ -642,7 +642,20 @@ export function tickAutoScripts(gs: GameState): void {
   if (!gs.sceneCommands) return
   for (const npc of gs.npcs) {
     if ((npc.sState ?? 1) === 0) continue  // sdlpal `sState > 0` 才跑 autoScript
-    if (!npc.autoCursor) continue
+    if (!npc.autoCursor) {
+      // scene-load 切片解析(game-state.sliceSceneEventObjects / npcFromEventObject)只查
+      // sceneLabelMap;**入口在全局数组**(events/all.json 高位 entry,如丁大伯挥锄 autoScript
+      // L_36205)的 NPC 解不到 → autoCursor 留 undefined → 冻在首帧不跑 autoScript,直到对话触发
+      // 0x24 setAutoScript(走 resolveScriptLabel)才解析上。此处补走同一 resolveScriptLabel
+      // (scene→shared→global),与 0x24 同路:sdlpal `wAutoScript` 本是单一全局 lprgScriptEntry
+      // 索引,无 per-scene 概念(play.c:178-183),切片优化后在此补回全局语义。
+      // autoLabel 被 0x24 清空(undefined)的不动;已解析的 autoCursor 在共享 event object 上持久
+      // (保留 autoscript 进度,重进 scene 不重解)。
+      if (!npc.autoLabel) continue
+      const r = resolveScriptLabel(gs, npc.autoLabel)
+      if (!r) continue
+      npc.autoCursor = { ip: r.ip, commands: r.commands, labelMap: r.labelMap }
+    }
     runOneAutoOp(gs, npc)
   }
 }
@@ -2497,9 +2510,14 @@ function applyRawOpcode(
     // ── A 类补全(A1:自包含数据/状态,无跳转)─────────────────────────────────
 
     case OP_SET_TRIGGER_METHOD: {
-      // sdlpal script.c:1613-1621:if operand[0] != 0 → pCurrent.wTriggerMode = operand[1]
-      if ((operands[0] ?? 0) !== 0 && currentEventObjectId !== undefined) {
-        const npc = gs.npcs.find((n) => n.id === currentEventObjectId)
+      // sdlpal script.c:1613-1621:if operand[0] != 0 → pCurrent.wTriggerMode = operand[1]。
+      // pCurrent 由 operand[0] 选(0xFFFF→self,否则 object[operand[0]-1]),**不是恒 self** —
+      //   旧 bug 用 currentEventObjectId 恒改 self:水生叔 trigger `0x40 [0xFFFF,3]`(关自己
+      //   proximity)对,但随后 `0x40 [124,6]` 本应激活**张四**(对象 124 = id 123),却又把水生叔
+      //   mode 复位 6 → 每帧 proximity 重触发 → 对话无限循环(2026-05-29 user 发现)。改用
+      //   resolveTargetNpc(同 0x25 setTriggerScript)。triggerMode 写在共享 event object 上 → 持久。
+      if ((operands[0] ?? 0) !== 0) {
+        const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setTriggerMethod')
         if (npc) npc.triggerMode = operands[1] ?? 0
       }
       break
