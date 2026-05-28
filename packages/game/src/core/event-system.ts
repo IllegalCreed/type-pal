@@ -610,6 +610,15 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
 
   switch (cmd.op) {
     case 'end':
+      // opcode 0x04 call-script 返回:子脚本 'end' → 弹返回帧,恢复 caller ip/shared/作用对象。
+      // (autoScript 调子脚本 eg. 开门;子脚本 end 是 plain,callStack 非空时优先弹帧。)
+      if (cursor.callStack && cursor.callStack.length > 0) {
+        const frame = cursor.callStack.pop()!
+        cursor.ip = frame.returnIp
+        cursor.shared = frame.returnShared
+        cursor.currentEventObjectId = frame.returnEventObjectId
+        return
+      }
       // sdlpal PAL_RunAutoScript 控制流(script.c:3518-3547):
       //  - 0x0000 (plain):原地 park(ip 不变,每帧重读 = no-op)
       //  - 0x0001 (advance):推进至下一行 i+1
@@ -701,10 +710,49 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
         return
       }
 
+      // opcode 0x04 call-script:autoScript 内调子脚本(eg. 苗人进门前 `0x4 [3739]` 开门)。
+      // 主 while 的 OP_CALL_SCRIPT handler 只动 gs.eventCursor(explore 下 undefined)→ 这里
+      // 必须对 autoCursor 自己压栈跳转。子脚本 'end' 在上面 callStack 分支弹回。
+      if (cmd.opcode === OP_CALL_SCRIPT) {
+        const subEntry = cmd.operands[0] ?? 0
+        if (subEntry !== 0) {
+          const label = `L_${subEntry}`
+          // 先查当前来源(scene/shared),再查另一来源
+          const curShared = cursor.shared ?? false
+          const curMap = curShared ? getSharedLabelMap() : (gs.sceneLabelMap ?? {})
+          let targetShared = curShared
+          let subIp = curMap[label]
+          if (subIp === undefined) {
+            const otherMap = curShared ? (gs.sceneLabelMap ?? {}) : getSharedLabelMap()
+            const otherIp = otherMap[label]
+            if (otherIp !== undefined) {
+              targetShared = !curShared
+              subIp = otherIp
+            }
+          }
+          if (subIp !== undefined) {
+            cursor.callStack = cursor.callStack ?? []
+            cursor.callStack.push({
+              returnIp: cursor.ip + 1,
+              returnShared: cursor.shared ?? false,
+              returnEventObjectId: cursor.currentEventObjectId,
+            })
+            // op1 != 0 → 子脚本作用对象 = op1-1(1-based → 0-based);否则沿用当前
+            if ((cmd.operands[1] ?? 0) !== 0) cursor.currentEventObjectId = (cmd.operands[1] ?? 0) - 1
+            cursor.shared = targetShared
+            cursor.ip = subIp
+            return
+          }
+          console.warn(`autoScript: callScript ${label} 不在 scene/shared labelMap,跳过 npc=${npc.id}`)
+        }
+        cursor.ip++
+        return
+      }
+
       // 其余 raw op:sdlpal default case 走 PAL_InterpretInstruction。
-      // 我们用 applyRawOpcode,**传 npc.id 作 currentEventObjectId**(0-based,跟
-      // scene-system.ts:125 trigger 进入约定一致 — **不**加 1)。
-      applyRawOpcode(gs, cmd.opcode, cmd.operands, npc.id)
+      // 作用对象 = cursor.currentEventObjectId(call-script op1 覆盖时)否则 npc.id
+      // (0-based,跟 scene-system.ts:125 trigger 进入约定一致 — **不**加 1)。
+      applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId ?? npc.id)
       cursor.ip++
       return
     }

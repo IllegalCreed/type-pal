@@ -136,6 +136,16 @@ export interface NpcState {
      * runOneAutoOp 从 getSharedCommands()/getSharedLabelMap() 跑,而非 gs.sceneCommands。
      */
     shared?: boolean
+    /**
+     * opcode 0x04 call-script 子脚本返回栈(autoScript 内也会调子脚本,eg. 苗人进门前
+     * `0x4 [3739]` 开门脚本)。'end' 时若栈非空 → 弹帧回 caller(ip/shared/作用对象)。
+     */
+    callStack?: { returnIp: number; returnShared: boolean; returnEventObjectId?: number }[]
+    /**
+     * 当前作用对象 id(sdlpal `wCurEventObjectID`)。默认 = autoScript owner(npc.id);
+     * 0x04 call-script 的 op1 可覆盖(eg. 开门脚本对门对象生效)。子脚本返回时还原。
+     */
+    currentEventObjectId?: number
   }
   /**
    * autoScript 入口 label(`L_<global ip>`)。全局 event object 数组里保留它,供进 scene 切片时

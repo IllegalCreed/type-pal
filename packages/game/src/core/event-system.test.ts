@@ -7,6 +7,7 @@ import {
   OP_SET_PARTY_DIRECTION,
   OP_WAIT_FRAMES, OP_SET_OBJECT_POS,
   OP_SET_OBJECT_GESTURE, OP_SET_EVENT_OBJECT_DIR_AND_FRAME, OP_SET_EVENT_OBJECT_DIR_OR_FRAME,
+  OP_CALL_SCRIPT,
   OP_NPC_WALK_ONE_STEP, OP_PLAYER_WALK_ONE_STEP, OP_SET_PLAYER_SPRITE,
   OP_MOVE_OBJECT, OP_SET_OBJECT_LAYER, OP_ANIMATE_OBJECT,
   OP_NULLIFY_OBJECT, OP_HIDE_OBJECT, OP_CHASE_PAUSE, OP_CHASE_SPEEDUP,
@@ -1638,6 +1639,36 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
     gs.sceneLabelMap = {} // L_9999 不在本 scene
     tickAutoScripts(gs)
     expect(gs.npcs[0]?.autoCursor).toBeUndefined()
+  })
+
+  it('0x04 call-script:autoScript 调子脚本(开门)+ op1 覆盖作用对象 + end 弹帧续跑', () => {
+    // 苗人(id 5)autoScript:call 开门子脚本(作用门对象 id 9)→ 子脚本设门 sState→1 → 返回
+    // 续跑设自己 gesture。验证:门(id 9)被改、苗人(id 5)续跑、autoCursor 返回主脚本。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [
+      { id: 5, x: 0, y: 0, spriteNum: 207, sState: 2, autoCursor: { ip: 0 } },
+      { id: 9, x: 100, y: 100, spriteNum: 54, sState: 0 },  // 门,初始隐藏
+    ]
+    gs.sceneCommands = [
+      // 主脚本 @0
+      { op: 'raw', opcode: OP_CALL_SCRIPT, operands: [50, 10, 0] }, // 0: call L_50,op1=10→对象 id9
+      { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [1, 0, 0] }, // 1: 续跑(作用 self=苗人 5)
+      { op: 'end' },                                                // 2: park
+      // 子脚本 L_50 @3:把当前作用对象(门 id9)设 sState=1
+      { op: 'raw', opcode: OP_SET_SCENE_OBJECT_STATE, operands: [0xFFFF, 1, 0], label: 'L_50' }, // 3
+      { op: 'end' },                                                // 4: 子脚本 end → 弹帧回 ip1
+    ]
+    gs.sceneLabelMap = { L_50: 3 }
+    tickAutoScripts(gs) // 跑 0x04 → 跳子脚本 ip3
+    expect(gs.npcs[0]!.autoCursor!.ip).toBe(3)
+    expect(gs.npcs[0]!.autoCursor!.currentEventObjectId).toBe(9) // op1=10 → 作用对象 id9
+    tickAutoScripts(gs) // 跑子脚本 0x49[65535]→门 sState=1
+    expect(gs.npcs[1]?.sState).toBe(1)  // 门被开(子脚本作用门对象)
+    tickAutoScripts(gs) // 子脚本 end → 弹帧回主脚本 ip1
+    expect(gs.npcs[0]!.autoCursor!.ip).toBe(1)
+    expect(gs.npcs[0]!.autoCursor!.currentEventObjectId).toBeUndefined() // 还原
+    tickAutoScripts(gs) // 主脚本 ip1 setObjectGesture 作用 self(苗人 5)
+    expect(gs.npcs[0]?.scriptedFrame).toBe(1)
   })
 })
 
