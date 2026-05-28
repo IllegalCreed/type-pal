@@ -992,6 +992,12 @@ export function npcFromEventObject(
     // dump 字段保留;present.ts 用 sLayer*8+9(pos.y)/ sLayer*8+2(iLayer)。
     sLayer: eo.sLayer ?? 0,
   }
+  // sdlpal EventObject.wDirection → 初始朝向(scene.c NPC 渲染按 wDirection 选方向帧)。
+  // kDir 0=South/down, 1=West/left, 2=North/up, 3=East/right(palcommon.h:92-95)。
+  // 之前不透传 → NPC 一律朝下(2026-05-28 user 发现苗人初始朝向不对)。
+  if (eo.direction !== undefined) {
+    npc.facing = (['down', 'left', 'up', 'right'] as const)[eo.direction] ?? 'down'
+  }
   // autoLabel 保留(全局数组延迟解析 autoCursor 用;每 scene labelMap 不同)。
   if (eo.autoLabel) npc.autoLabel = eo.autoLabel
   // resolve autoLabel → autoCursor.ip(传 labelMap 时立即解;全局数组建表时不传 → 切片时解)。

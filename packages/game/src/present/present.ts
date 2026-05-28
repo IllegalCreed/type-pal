@@ -315,14 +315,19 @@ export function presentFrame(
     // 的 stand 帧 → 视觉看像"转身"。
     //
     // nSpriteFrames 推断:frames.length / 4(4 方向):12→3 walking, 4→1 single-pose, 1→0 static
+    // sdlpal scene.c:262-280 真值:spriteIdx = wDirection * nSpriteFrames + iFrame,
+    //   iFrame = wCurrentFrameNum(站立时 = 0)。scriptedFrame 或 facing 任一有值就按方向算帧:
+    //   - scriptedFrame 有(走动/pose):iFrame = scriptedFrame
+    //   - 仅 facing 有(静止 NPC 朝某向):iFrame = 0(站立帧)→ 之前一律 fallback frame 0
+    //     (朝下),苗人等初始朝向丢失(2026-05-28 user 发现)。
     let sprite: SpriteImage | undefined
-    if (npc.scriptedFrame !== undefined && ctx.npcSpriteFrames) {
+    if (ctx.npcSpriteFrames && (npc.scriptedFrame !== undefined || npc.facing !== undefined)) {
       const frames = ctx.npcSpriteFrames.get(npc.spriteNum)
       if (frames && frames.length > 0) {
         const dir = npc.facing ? FACING_TO_DIRECTION[npc.facing] : 0
         const nSpriteFrames = frames.length === 1 ? 0
           : (frames.length % 4 === 0 ? frames.length / 4 : 1)
-        let iFrame = npc.scriptedFrame
+        let iFrame = npc.scriptedFrame ?? 0
         // sdlpal scene.c:268-276 真值 nSpriteFrames==3 时 2/3 重映射
         if (nSpriteFrames === 3) {
           if (iFrame === 2) iFrame = 0

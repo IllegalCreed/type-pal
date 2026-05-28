@@ -2770,13 +2770,16 @@ function resolveTargetNpc(
   // → 查 `id == operand0 - 1`(operand0 已减 1 即对应我们的 npc.id)。
   const targetId = operand0 - 1
   const npc = gs.npcs.find((n) => n.id === targetId)
-  if (!npc) {
-    // 注:scene 切换后 gs.npcs 只含当前 scene 的 event objects;但 sdlpal lprgEventObject 是全局表,
-    // 跨 scene id 可能在 lprgEventObject 内但不在当前 gs.npcs。M5 简版:warn + skip。
-    console.warn(`event-system: ${opName} 显式 operand[0]=${operand0} → npc.id=${targetId} 不在当前 scene,跳过`)
-    return null
-  }
-  return npc
+  if (npc) return npc
+  // 不在当前 scene → 回退全局 event object 数组(sdlpal lprgEventObject 是**全局**表,
+  // 脚本按全局 id 改任意对象的状态/位置;gs.npcs 只是当前 scene 的切片**引用**)。
+  // 跨 scene 改动会持久,进对应 scene 时 sliceSceneEventObjects 引用同一对象 → 生效。
+  // eg. 客栈苗人 autoScript `0x49 [25,2,0]`:把房间场景的苗人(全局 obj 24,sState=0 隐藏)
+  // 设 sState=2 显示 —— 跨 scene,必须走全局表,否则"苗人进屋了但屋里没苗人"(2026-05-28 user 发现)。
+  const global = gs.allEventObjects?.[targetId]
+  if (global && global.id === targetId) return global
+  console.warn(`event-system: ${opName} operand[0]=${operand0} → id=${targetId} 不在当前 scene 也不在全局表,跳过`)
+  return null
 }
 
 /** WORD operand 真值 SHORT(SDL Pal C struct 用 SHORT,JS 我们一直当 u16 存)。 */

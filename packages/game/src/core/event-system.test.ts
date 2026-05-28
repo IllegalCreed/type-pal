@@ -1190,6 +1190,28 @@ describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4',
     expect(gs.npcs[0]?.sState).toBe(0)   // 未改
     expect(gs.npcs[1]?.sState).toBe(3)
   })
+
+  it('跨 scene:目标不在当前 scene → 回退全局 allEventObjects 改状态(客栈苗人→房间苗人显形)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    // 当前 scene 只有 id 59(客栈苗人头领);房间苗人头领是全局 obj 24(sState=0 隐藏),不在当前 scene。
+    const roomMiao = { id: 24, x: 544, y: 288, spriteNum: 207, sState: 0 }
+    gs.npcs = [{ id: 59, x: 0, y: 0, spriteNum: 207, sState: 2 }]
+    gs.allEventObjects = [roomMiao, { id: 59, x: 0, y: 0, spriteNum: 207, sState: 2 }]
+    // allEventObjects 需按 id 索引可取(resolveTargetNpc 用 allEventObjects[targetId])
+    const dense: typeof gs.allEventObjects = []
+    dense[24] = roomMiao
+    dense[59] = gs.npcs[0]!
+    gs.allEventObjects = dense
+    loadEvent(gs, [
+      // 0x49 [25,2,0]:operand[0]=25 → id 24(不在当前 scene)→ 全局表 obj 24 sState=2
+      { op: 'raw', opcode: OP_SET_SCENE_OBJECT_STATE, operands: [25, 2, 0] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 59
+    tickEventSystem(gs, snap(), bus)
+    expect(roomMiao.sState).toBe(2)   // 跨 scene 改到全局对象,进房间时 slice 引用即显形
+  })
 })
 
 describe('opcode 0x0065 setPlayerSprite(sdlpal script.c:1999-2004)— fix4', () => {
