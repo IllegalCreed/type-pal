@@ -314,6 +314,18 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }
   }
 
+  // 预载全部可玩角色 overworld sprite(rgwSpriteNum)。sdlpal 在 scene load(kLoadPlayerSprite)
+  // 时按当前 party 各角色加载 sprite(res.c:317-333);我们简化为启动时预载全角色,确保任意
+  // party 组合(剧情入队 / dev-panel P 强制入队)的 follower 都能用**各自**角色 sprite 渲染,
+  // 而非回退到 leader sprite(2026-05-28 user 发现 follower 全显李逍遥的根因)。
+  // fire-and-forget:不阻塞首屏;未载完前 follower 暂回退 partyFrames,载完即正确。
+  void Promise.all(
+    playerRoles.roles
+      .map((r) => r.spriteNum)
+      .filter((sn) => sn > 0)
+      .map((sn) => fetchMissingSprite(sn)),
+  )
+
   // 按需补 fetch 新 scene 的 tile PNG → 写进 tileImagesBySceneId(同 sceneId cache hit 跳过)。
   // 复用 loader.loadAll 同模式:tilesetFiles 列表 → 每张 PNG fetch + decode → regex 取 tile id。
   async function fetchSceneTileImages(

@@ -10,6 +10,7 @@ import { drawDialogBox, type DialogBoxDrawCtx } from './dialog-box.js'
 import { drawMenuStack } from './menu/draw-menu.js'
 import type { BattleBgAsset } from './battle/draw-battle-bg.js'
 import type { GlyphTable } from './font.js'
+import { isWalkable } from '../core/scene-system.js'
 
 export interface PresentContext {
   tilemap: Tilemap
@@ -217,50 +218,69 @@ export function presentFrame(
   }
 
   // --- followers (partyMembers[1..]) ---
-  // sdlpal scene.c:692-707 PAL_UpdatePartyGestures follower 部分:
-  //   第 1 个 follower(partyMembers[1])占 trail[1] 位 + 偏移:
-  //     isWS = (dir == West || dir == South) → left / down
-  //     isWN = (dir == West || dir == North) → left / up
-  //     offsetX = isWS ? 16 : -16
-  //     offsetY = isWN ? 8 : -8
-  //
-  // M5 简版:只做 partyMembers[1],使用 partyFrames(主角占位 sprite)。
-  // partyMembers[2] 后续留 M5+(需 ctx.partyMemberSprites 多角色 map)。
-  if (gs.partyMembers.length > 1 && gs.trail.length > 1) {
-    const t = gs.trail[1]!
-    // sdlpal scene.c:692-707 offset 公式
-    const isWS = t.dir === 'left' || t.dir === 'down'   // West || South
-    const isWN = t.dir === 'left' || t.dir === 'up'     // West || North
-    const offX = isWS ? 16 : -16
-    const offY = isWN ? 8 : -8
-    const followerWorldX = t.x + offX
-    const followerWorldY = t.y + offY
-    const { sx: followerSX, sy: followerSY } = pixelToScreen(
-      { x: followerWorldX, y: followerWorldY },
-      gs.camera,
-    )
-    // follower frame: dir 用 trail[1].dir(M5 简版;sdlpal 真值用 trail[2].dir)
-    const followerDir = FACING_TO_DIRECTION[t.dir]
+  // sdlpal scene.c:213 每个 party member 都用 PAL_GetPlayerSprite(i)(= 该角色 rgwSpriteNum
+  //   对应的 MGO sprite),**不是** leader sprite —— 之前简版用 partyFrames 导致 follower
+  //   全显示李逍遥(user 2026-05-28 发现)。
+  // scene.c:690-730 follower 位置:两 follower 都以 trail[1] 为基,各自偏移不同:
+  //   i==1(partyMembers[1]):offX = West||South ? +16 : -16;offY = West||North ? +8 : -8
+  //   i==2(partyMembers[2]):offX = East||West ? -16 : +16;offY = +8(恒)
+  //   方向帧用 trail[2].wDirection(scene.c:724/728);trail 不足回退 trail[1].dir。
+  //   障碍调整(scene.c:712-717):偏移位若撞墙 → 回退到 trail[1](去偏移)。
+  if (gs.trail.length > 1) {
+    const baseTrail = gs.trail[1]!
+    const baseDir = baseTrail.dir
+    // 方向帧源:trail[2].dir(sdlpal 真值);不足回退 baseDir。
+    const frameDir = FACING_TO_DIRECTION[gs.trail[2]?.dir ?? baseDir]
     let followerFrameIdx: number
     if (gs.walkingFrame.walking) {
       if (walkFrames === 4) {
-        followerFrameIdx = followerDir * 4 + gs.walkingFrame.stepFrame
+        followerFrameIdx = frameDir * 4 + gs.walkingFrame.stepFrame
       } else {
         const iStepFrameFollower = [0, 1, 0, 2][gs.walkingFrame.stepFrame] ?? 0
-        followerFrameIdx = followerDir * walkFrames + iStepFrameFollower
+        followerFrameIdx = frameDir * walkFrames + iStepFrameFollower
       }
     } else {
-      followerFrameIdx = followerDir * walkFrames
+      followerFrameIdx = frameDir * walkFrames
     }
-    const followerFrame = ctx.partyFrames[followerFrameIdx] ?? ctx.partyFrames[0]
-    if (followerFrame) {
+
+    for (let m = 1; m < gs.partyMembers.length; m++) {
+      // 偏移(scene.c:695-707)
+      let offX: number
+      let offY: number
+      if (m === 2) {
+        offX = (baseDir === 'right' || baseDir === 'left') ? -16 : 16  // East||West ? -16 : +16
+        offY = 8
+      } else {
+        offX = (baseDir === 'left' || baseDir === 'down') ? 16 : -16   // West||South ? +16 : -16
+        offY = (baseDir === 'left' || baseDir === 'up') ? 8 : -8       // West||North ? +8 : -8
+      }
+      let followerWorldX = baseTrail.x + offX
+      let followerWorldY = baseTrail.y + offY
+      // 障碍调整(scene.c:712-717):偏移位撞墙 → 回退 trail[1](去偏移)。
+      if (!isWalkable(ctx.tilemap, followerWorldX, followerWorldY, gs.npcs, 0)) {
+        followerWorldX = baseTrail.x
+        followerWorldY = baseTrail.y
+      }
+      const { sx, sy } = pixelToScreen({ x: followerWorldX, y: followerWorldY }, gs.camera)
+
+      // 每个 follower 用自己角色的 sprite(rgwSpriteNum[role] → npcSpriteFrames);
+      // 取不到回退 leader partyFrames(防御)。
+      const roleId = gs.partyMembers[m]!
+      const spriteNum = ctx.playerRoles?.roles[roleId]?.spriteNum
+      const roleFrames = (spriteNum !== undefined && ctx.npcSpriteFrames)
+        ? ctx.npcSpriteFrames.get(spriteNum)
+        : undefined
+      const frames = (roleFrames && roleFrames.length > 0) ? roleFrames : ctx.partyFrames
+      const followerFrame = frames[followerFrameIdx] ?? frames[0]
+      if (!followerFrame) continue
       const capturedFrame = followerFrame
-      const capturedSX = followerSX
-      const capturedSY = followerSY
+      const capturedSX = sx
+      const capturedSY = sy
+      const id = `party-member-${m}`
       entries.push({
         baseY: followerWorldY + 10,
         draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY),
-        id: 'party-member-1',
+        id,
       })
       addCoverTileEntries(
         entries,
@@ -271,7 +291,7 @@ export function presentFrame(
         capturedFrame.width,
         capturedFrame.height,
         gs.camera,
-        'party-member-1',
+        id,
         6,                     // follower iLayer 同 party = 6
       )
     }
