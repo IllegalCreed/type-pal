@@ -1010,7 +1010,12 @@ export function tickEventSystem(
         return
 
       case 'giveItem':
-        console.debug(`event-system: skip M3+ op=${cmd.op} ip=${cursor.ip}`)
+        // sdlpal opcode 0x1F(script.c:970-975)`PAL_AddItemToInventory(itemId, count)` —
+        // pal-extract 反编译为 'giveItem' 具名 op(itemId 已是 ts items.json id;count=0 →
+        // helper 内当 1)。**旧版 skip 是 user 2026-05-29 "调查柜子获得净衣符但道具列表空"
+        // 的根因** — 宝箱 / cutscene 给物品 opcode 全失效。
+        addItemToInventory(gs, cmd.itemId, cmd.count)
+        console.debug(`event-system: giveItem id=${cmd.itemId} count=${cmd.count}`)
         cursor.ip++
         break
 
@@ -1226,18 +1231,24 @@ function signExtendI16(u: number): number {
   return u & 0x8000 ? u - 0x10000 : u
 }
 
-/** I-w1.a 共用 helper:inventory 加/减(qty signed)。port sdlpal global.c PAL_AddItemToInventory。
- *  qty > 0:已有 → count+=qty;无则 push 新条目。
- *  qty < 0:已有 → count clamp 到 0;无则 no-op(简版,不做 sdlpal equipment fallback)。 */
+/** I-w1.a 共用 helper:inventory 加/减(qty signed)。port sdlpal global.c:1063-1172 PAL_AddItemToInventory。
+ *  - **qty == 0 → 1**(sdlpal global.c:1094-1097 真值;giveItem 反编译 count=0 实际给 1 个,
+ *    这是 user 2026-05-29 "调查柜子获得净衣符但列表空" 根因之一)
+ *  - qty > 0:已有 → count+=qty(max 99 clamp,sdlpal global.c:1123/1128);无则 push 新条目(99 clamp)
+ *  - qty < 0:已有 → count clamp 到 0;无则 no-op(简版,不做 sdlpal equipment fallback)
+ *  注:itemId 用 ts items.json id(0..234);id 0 = 观音符是真物品,**不** skip(sdlpal
+ *  `wObjectID==0` 哨兵是 sdlpal OBJECT id 体系,pal-extract 反编译已转 ts id)。 */
 function addItemToInventory(gs: GameState, itemId: number, qty: number): void {
+  // sdlpal global.c:1094 真值:iNum == 0 → 1
+  if (qty === 0) qty = 1
   const entry = gs.inventory.find((e) => e.itemId === itemId)
   if (entry) {
-    entry.count = Math.max(0, entry.count + qty)
+    entry.count = Math.min(99, Math.max(0, entry.count + qty))
     if (entry.count === 0) {
       gs.inventory = gs.inventory.filter((e) => e.itemId !== itemId)
     }
   } else if (qty > 0) {
-    gs.inventory.push({ itemId, count: qty })
+    gs.inventory.push({ itemId, count: Math.min(99, qty) })
   }
 }
 
