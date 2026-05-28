@@ -12,7 +12,8 @@ import {
   setSceneLoader,
   setSharedEvents, setStartBattleHandler,
 } from '../core/event-system.js'
-import { setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
+import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
+import { Save } from '../core/save/api.js'
 import { createOpeningMenu } from '../core/menu/opening-menu.js'
 import { playAvi } from './avi-player.js'
 import { playSplashFallback } from './splash-fallback.js'
@@ -414,46 +415,65 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // onEnterLabel ip → 释放 waiting='scene-load'。
   // 注:cmd.sceneId 是 sdlpal wNumScene 值(1-based,scenes[wNumScene-1] 才是真 scene),
   //     我们 dump 文件 scene/N.json 是 0-based(对应 scenes[N]),所以 dumpFileIndex = wNumScene - 1。
-  setSceneLoader(async (newWNumScene: number) => {
+  /**
+   * 公共 scene reload helper。
+   * - opcode 0x59 loadScene 走 `fromSavedGame=false`:重置 npcs(从 scene dump)+ 跑 onEnter
+   * - C8 SystemMenu Load 走 `fromSavedGame=true`:**保留** SAVEDGAME 内 npcs / mode / eventCursor,
+   *   只 fetch scene assets + apply present(不跑 onEnter,玩家保存时未必在 onEnter)
+   */
+  async function loadSceneCommon(
+    newWNumScene: number,
+    opts: { fromSavedGame: boolean } = { fromSavedGame: false },
+  ): Promise<void> {
     const dumpFileIndex = newWNumScene - 1
-    console.log(`[bootstrap.sceneLoader] loadScene wNumScene=${newWNumScene} → dump scene/${dumpFileIndex}.json`)
+    console.log(
+      `[bootstrap.loadSceneCommon] loadScene wNumScene=${newWNumScene} → dump scene/${dumpFileIndex}.json`
+      + (opts.fromSavedGame ? ' (from saved game)' : ''),
+    )
     const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
     gs.wNumScene = newWNumScene
     // 新 scene 的 commands + labelMap 写入 gs(autoScript runner 用)
     gs.sceneCommands = sceneAssets.eventCommands
     gs.sceneLabelMap = sceneAssets.labelMap
-    // 传 labelMap → 新 scene NPC autoLabel 解 ip
-    gs.npcs = sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
-    // sdlpal scene 切换时 dialog **不**自动清 — sdlpal `PAL_LoadResources` 只重置场景资源,
-    // 文字框留待后续 opcode(0x05 ClearDialog / 0x73 fadeScreen 内部 / setDialogStyleX)清。
-    // 这是 sdlpal "渐变跟着 dialog 一起 fade" 真值机制:
-    //   scene 切换后下条 fadeScreen → VIDEO_BackupScreen 拷当前屏(含 dialog) → 在 backup
-    //   到 current 之间渐变 → 视觉上 dialog 跟着 fade 渐变出。
+    if (!opts.fromSavedGame) {
+      // 正常 loadScene 路径(opcode 0x59):重置 NPC 从 scene dump rebuild
+      gs.npcs = sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
+    }
+    else {
+      // C8 load game 路径:SAVEDGAME 内已含 gs.npcs(玩家保存时的 NPC 运行时状态);保留。
+      // 注:gs.rgEventObject sparse Record 应用到 npcs 的逻辑独立 tick(M5 暂未做 →
+      // load 后 NPC 显示位置等可能跟 scene dump 一致而非 SAVEDGAME 真值,留 follow-up)。
+    }
     applySceneAssetsToPresent(sceneAssets)
-    // sdlpal `fEnteringScene = TRUE` 真值:`PAL_StartFrame` 早期 return → 屏幕冻结直到
-    // 下条 fadeScreen 启动。我们 port:present.ts 见此 flag 跳过 render,fb 保留上一帧
-    // (dream + dialog)→ fadeScreen 启动 backupPixels = 冻结画面 → 渐变 dream → inn。
     gs.fEnteringScene = true
     await preloadCutsceneSprites(sceneAssets.eventCommands)
-    if (sceneAssets.onEnterLabel) {
-      const ip = sceneAssets.labelMap[sceneAssets.onEnterLabel]
-      if (ip !== undefined) {
-        gs.eventCursor = {
-          commands: sceneAssets.eventCommands,
-          labelMap: sceneAssets.labelMap,
-          ip,
+    if (!opts.fromSavedGame) {
+      // 正常 loadScene:跑 onEnter
+      if (sceneAssets.onEnterLabel) {
+        const ip = sceneAssets.labelMap[sceneAssets.onEnterLabel]
+        if (ip !== undefined) {
+          gs.eventCursor = {
+            commands: sceneAssets.eventCommands,
+            labelMap: sceneAssets.labelMap,
+            ip,
+          }
+          gs.mode = 'event'
         }
-        gs.mode = 'event'
+        else {
+          gs.eventCursor = undefined
+          gs.mode = 'explore'
+        }
       }
       else {
         gs.eventCursor = undefined
         gs.mode = 'explore'
       }
     }
-    else {
-      gs.eventCursor = undefined
-      gs.mode = 'explore'
-    }
+    // fromSavedGame:**不**跑 onEnter — SAVEDGAME 内 gs.mode / gs.eventCursor 已恢复
+  }
+
+  setSceneLoader(async (newWNumScene: number) => {
+    await loadSceneCommon(newWNumScene, { fromSavedGame: false })
   })
 
   // M3 T29:dev panel(仅 DEV;生产构建 dead-code)。快捷键 B 弹 fixture picker → 启战。
@@ -671,16 +691,45 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }
   }
 
+  /**
+   * C8(2026-05-29):大世界 SystemMenu Load + OpeningMenu Load 共享 — sdlpal
+   * `PAL_ReloadInNextTick`(global.c:888)真值:fEnteringScene + fNeedToFadeIn +
+   * SetLoadFlags(GlobalData | Scene | PlayerSprite),下一 tick 主循环 reload。
+   *
+   * ts 端整套:Save.loadSlot → gs 字段全替换 → sceneLoader callback 重 load 当前 scene。
+   * 期间 fade out / suspend 等视觉效果留 follow-up(同 startNewGameFromPrimary 简版口径)。
+   */
+  async function loadGameFromSlot(slot: number): Promise<void> {
+    const loadedGs = await Save.loadSlot(slot)
+    if (!loadedGs) {
+      console.warn(`[bootstrap.loadGame] slot ${slot} 空,load skip`)
+      return
+    }
+    console.log(`[bootstrap.loadGame] slot ${slot} loaded`)
+    // mutate gs in-place(外部持有同 ref;无法替换 ref)
+    // 把 loadedGs 全字段拷到 gs(用 Object.assign 浅 + 关键嵌套手动 deepClone)
+    Object.assign(gs, loadedGs)
+    // sdlpal PAL_ReloadInNextTick 真值:fEnteringScene=TRUE 让下帧 reload scene
+    gs.fEnteringScene = true
+    // 关菜单回 explore — sceneLoader 重 load 完毕后渲染恢复
+    gs.menuStack = []
+    gs.mode = 'explore'
+    // 重 load scene assets — 走 fromSavedGame 路径,**不**重置 npcs / **不**跑 onEnter
+    await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })
+  }
+
+  setLoadGameHandler(async (slot) => {
+    await loadGameFromSlot(slot)
+  })
+
   setStartGameHandler(async (choice) => {
     if (choice.kind === 'new-game') {
       await playOpeningAvi()
       startNewGameFromPrimary()
     }
     else {
-      // load-game stub — sdlpal global.c:731 PAL_LoadGame_WIN(slot)真做 .RPG 解,留 M6+
-      console.log(`[bootstrap] TODO M6:load-game slot=${choice.slot}`)
-      // 暂走 primary scene(让游戏可继续 dev / e2e)
-      startNewGameFromPrimary()
+      // C8(2026-05-29):OpeningMenu 选 load-game → 复用 loadGameFromSlot 真做
+      await loadGameFromSlot(choice.slot)
     }
   })
 

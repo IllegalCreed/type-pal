@@ -16,6 +16,7 @@ import type { Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
 import { startOverworldItemScript } from '../event-system.js'
 import { runEquipScript } from '../equip-effect.js'
+import { Save } from '../save/api.js'
 import type { ActiveMenuEntry, GameState } from '../game-state.js'
 import { closeTopMenu, openMenu } from './menu-mode.js'
 import {
@@ -55,7 +56,8 @@ import {
   type PlayerStatusState,
 } from './player-status.js'
 import {
-  createSaveSlotMenu, saveSlotMenuCurrent, saveSlotMenuDown, saveSlotMenuUp,
+  createSaveSlotMenu, fetchSlotMetas,
+  saveSlotMenuCurrent, saveSlotMenuDown, saveSlotMenuUp,
   type SaveSlotMenuState,
 } from './save-slot-menu.js'
 import {
@@ -107,6 +109,27 @@ export function setStartGameHandler(handler: StartGameHandler): void {
 /** 测试用:重置 handler。 */
 export function _resetStartGameHandlerForTest(): void {
   _startGameHandler = undefined
+}
+
+// ── LoadGameHandler(C8:大世界 SystemMenu 读档触发,跟 OpeningMenu Load 共享语义)─
+//
+// sdlpal `PAL_ReloadInNextTick`(global.c:888)真值:
+//   bCurrentSaveSlot = iSaveSlot; SetLoadFlags(...); fEnteringScene = TRUE; fNeedToFadeIn = TRUE
+//   → 下一 tick PAL_GameMain 主循环检 flag,reload SAVEDGAME slot + scene resources。
+//
+// ts 端:bootstrap 注入 handler 实现整套(Save.loadSlot + Object.assign(gs, loaded) +
+// sceneLoader callback 重 load 当前 scene + clear menuStack + mode='explore')。
+// dispatcher 异步 fire,不阻塞 UI(loading state 可后续加视觉提示)。
+export type LoadGameHandler = (slot: number) => void | Promise<void>
+
+let _loadGameHandler: LoadGameHandler | undefined
+
+export function setLoadGameHandler(handler: LoadGameHandler): void {
+  _loadGameHandler = handler
+}
+
+export function _resetLoadGameHandlerForTest(): void {
+  _loadGameHandler = undefined
 }
 
 // ── dispatchMenuInput ─────────────────────────────────────────────────────────
@@ -180,7 +203,9 @@ function dispatchOpeningMenu(gs: GameState, top: ActiveMenuEntry, input: InputSn
       // ts 端 push 'save-slot' kind menu,SaveSlot dispatcher 选完 slot 后由 M6 真做
       // load(现 stub 在 dispatchSaveSlotMenu 内 console.debug)。Cancel 回 OpeningMenu
       // = closeTopMenu(save-slot)pop 回 opening — sdlpal uigame.c:146-151 等价。
-      openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
+      const state = createSaveSlotMenu('load')
+      void fetchSlotMetas(state)
+      openMenu(gs, { kind: 'save-slot', state })
     }
   }
 }
@@ -244,12 +269,18 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
     const choice = systemMenuChoice(s)
     if (!choice) return
     switch (choice) {
-      case 'save':
-        openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('save') })
+      case 'save': {
+        const state = createSaveSlotMenu('save')
+        void fetchSlotMetas(state)
+        openMenu(gs, { kind: 'save-slot', state })
         break
-      case 'load':
-        openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
+      }
+      case 'load': {
+        const state = createSaveSlotMenu('load')
+        void fetchSlotMetas(state)
+        openMenu(gs, { kind: 'save-slot', state })
         break
+      }
       case 'music':
         // sdlpal uigame.c:610-621 真值:toggle gConfig.fIsMusicEnabled + AUDIO_EnableMusic
         // 音频系统(audio.c 70+ 函数)留 M6+,本处 log stub
@@ -619,10 +650,48 @@ function dispatchSaveSlotMenu(
   if (input.pressed.has('Down')) saveSlotMenuDown(s)
   if (input.pressed.has('Confirm')) {
     const slot = saveSlotMenuCurrent(s)
-    if (slot !== undefined) {
-      // M5.6:存档/读档 真实现接 core/save/api.ts Save.saveSlot/loadSlot 留 M6 — 此处仅 log
-      console.debug(`[menu] ${s.mode}Slot stub:slot=${slot}`)
-      closeTopMenu(gs) // pop save-slot,回到 SystemMenu
+    if (slot === undefined) return
+    if (s.mode === 'save') {
+      // sdlpal SystemMenu Save case(uigame.c:578-598)真值:
+      //   iSlot = PAL_SaveSlotMenu(bCurrentSaveSlot)
+      //   if iSlot != CANCELLED:
+      //     bCurrentSaveSlot = iSlot
+      //     wSavedTimes = max(GetSavedTimes(1..5)) + 1
+      //     PAL_SaveGame(iSlot, wSavedTimes + 1)
+      // ts 端 fire-and-forget(menu UI 立即响应,IO 异步):
+      //  1. 算 max savedTimes + 1 (sdlpal 跨 slot counter 真值)
+      //  2. mutate gs.wSavedTimes 才让 Save deep-clone 时包含新 counter
+      //  3. Save.saveSlot 异步写 IndexedDB
+      void Save.listSlots().then(async (slots) => {
+        const maxSaved = slots.reduce(
+          (m, x) => Math.max(m, x.meta.savedTimes ?? 0), 0,
+        )
+        gs.wSavedTimes = maxSaved + 1
+        await Save.saveSlot(slot, gs)
+        console.log(`[save] saved to slot ${slot}(times=${gs.wSavedTimes})`)
+      }).catch((err) => {
+        console.error('[save] saveSlot failed:', err)
+      })
+      closeTopMenu(gs)  // 关 save-slot,回 SystemMenu
+    }
+    else {
+      // sdlpal SystemMenu Load case(uigame.c:601-611)真值:
+      //   iSlot = PAL_SaveSlotMenu(bCurrentSaveSlot)
+      //   if iSlot != CANCELLED:
+      //     AUDIO_PlayMusic(0, FALSE, 1)
+      //     PAL_FadeOut(1)
+      //     PAL_ReloadInNextTick(iSlot)
+      // ts:loadGameHandler 由 bootstrap 注入(整 gs 替换 + scene reload)。
+      // dispatcher 异步 fire,handler 自己关 menuStack。
+      if (_loadGameHandler) {
+        void Promise.resolve(_loadGameHandler(slot)).catch((err) => {
+          console.error('[save] loadSlot failed:', err)
+        })
+      }
+      else {
+        console.warn('[save] loadGameHandler 未注入(bootstrap.ts setLoadGameHandler);load 跳过')
+        closeTopMenu(gs)
+      }
     }
   }
 }

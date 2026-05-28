@@ -22,7 +22,7 @@
 ## audit 进度
 
 - 核对中:user 让"先做完菜单"(暂停 Phase A,改 C 系列菜单补完)
-- 菜单补完进度:**2/6**(C5 ✓ + C7 ✓ — EquipItemMenu / InGameMagicMenu fullscreen UI + scriptOnEquip/scriptOnUse 真接通 + 装备 effect / MP 扣)
+- 菜单补完进度:**3/6**(C5 ✓ + C7 ✓ + C8 ✓ — EquipItemMenu / InGameMagicMenu fullscreen UI + scriptOnEquip/scriptOnUse 真接通 + 装备 effect / MP 扣 + Save/Load 真 IO 接通 IndexedDB)
 - 已 verified ✓:0 / 18 自认 ✓ claimed
 - 已 verified ⚠️:0 / 31 自认 ⚠️ claimed
 - L 段(特殊物品 / 剧情系统):待 Phase B.G7 grep sdlpal 入口
@@ -76,7 +76,7 @@
 | C5 | 装备菜单 EquipItemMenu | ⚠️ claimed | ✓ regress | uigame.c:1793-2056 `PAL_EquipItemMenu` | core/menu/equip-menu.ts + present/menu/draw-equip.ts | **equip-menu.test.ts** 16 用例 + **equip-effect.test.ts** 14 用例(swap 链 / wLastUnequippedItem / playerCursor wrap / rgEquipmentEffect 写入);C5 (2026-05-28) 全屏 UI + scriptOnEquip 真接通 + D14 装备 effect 顺手补;session 2 修简版 → 复用 InventoryMenu grid;session 4 修 filter color + scriptDesc |
 | C6 | 角色状态菜单 PlayerStatus | ⚠️ claimed | ✓ partial | uigame.c:1051-1288 `PAL_PlayerStatus` | core/menu/player-status.ts | player-status.test.ts(prev/next/cancel / done 边界);渲染层完整字段 + poison row ✗ 留 follow-up |
 | C7 | 法术菜单 InGameMagicMenu | ⚠️ claimed | ✓ regress | uigame.c:653-875 `PAL_InGameMagicMenu` + magicmenu.c:413-484 `PAL_MagicSelectionMenu` + uibattle.c:31-269 `PAL_PlayerInfoBox` | core/menu/in-game-magic-menu.ts + magic-script.ts + present/menu/draw-magic.ts | C7 (2026-05-29) 全屏 UI + scriptOnUse/scriptOnSuccess 真接通 + MP 扣 + 循环 picker。**in-game-magic-menu.test.ts** 21 用例 + **magic-script.test.ts** 19 用例(opcode 0x1B/0x1C/0x1D/0x22 真值 + 气疗术/还魂咒/五气朝元真 chain + clamp + dead skip)。撞到 code bug `hasOutsideMagic` 用 `s.id` 而非 `s.magicNumber` 反查 magicNumber — 修。 |
-| C8 | 存档菜单 SaveSlotMenu | ⚠️ claimed | ✓ regress | uigame.c:169 `PAL_SaveSlotMenu` | core/menu/save-slot-menu.ts | **save-slot-menu.test.ts** 8 用例(5 slot list / Up/Down / Current / mode);真 IO(IndexedDB) ✗ — 选 slot 不真存 |
+| C8 | 存档菜单 SaveSlotMenu | ⚠️ claimed | ✓ regress | uigame.c:169-242 `PAL_SaveSlotMenu` + uigame.c:578-611 SystemMenu Save/Load + global.c:844-911 SaveGame_WIN / LoadGame_WIN + ReloadInNextTick | core/menu/save-slot-menu.ts + core/save/api.ts + indexed-db.ts | C8 (2026-05-29) **真 IO 接通**:Save mode → cross-slot max+1 算 wSavedTimes(sdlpal uigame.c:589-597)+ Save.saveSlot IndexedDB;Load mode → loadGameHandler(bootstrap 注入)→ Save.loadSlot + Object.assign(gs, loaded) + loadSceneCommon(fromSavedGame=true)。SaveSlotMenu draw 显示真 SlotMeta(savedTimes / partyLevel / cash)。15 用例 save-slot-menu.test.ts(含 cross-slot max+1 算法 / Save→Load roundtrip / deep clone 隔离)。**残留**:rgEventObject sparse 应用到 npcs 的 follow-up bug(load 后 NPC sState 可能跟 SAVEDGAME 不齐) |
 | C9 | 商店 BuyMenu / SellMenu | ⚠️ claimed | ✗ todo | uigame.c:1615 + 1755 | core/menu/shop-menu.ts | 数据层 shop-menu.ts;渲染 placeholder + 真扣金 ✗;**整 UI 没真做** |
 | C10 | 9-slice 边框 box 渲染 | ✓ claimed | ✓ partial | ui.c:131-240 `PAL_CreateBoxWithShadow` | present/menu/draw-box.ts | draw-box.test.ts;M5.6 完整 port |
 | C11 | 中文字体渲染 Unifont | ⚠️ claimed | ✓ partial | font.c PALFONT 字模 | present/font.ts | font.test.ts;M4 P4 Unifont CN port,stroke 跟 sdlpal 原 PALFONT 字模不同 |
@@ -139,8 +139,8 @@
 | # | 功能 | 状态 | 测试 | sdlpal 真值出处 | ts 路径 | 备注 / 差异 |
 |---|---|---|---|---|---|---|
 | F1 | 默认新游戏初始化 | ⚠️ claimed | ✗ todo | global.c:378 `PAL_LoadDefaultGame` | shell/bootstrap.ts createInitialGameState | hardcode default;sdlpal 真值从 SAVEDGAME slot 0 load |
-| F2 | 存档到 IndexedDB | ⚠️ claimed | ✓ partial | global.c:844 `PAL_SaveGame_WIN` | core/save/api.ts saveSlot | save/api.test.ts;未跟 UI SaveSlotMenu(C8)真接通 |
-| F3 | 读档从 IndexedDB | ⚠️ claimed | ✓ partial | global.c:689 `PAL_LoadGame_WIN` | core/save/api.ts loadSlot | save/api.test.ts;未跟 UI 真接通 |
+| F2 | 存档到 IndexedDB | ⚠️ claimed | ✓ regress | global.c:844 `PAL_SaveGame_WIN` | core/save/api.ts saveSlot | C8 (2026-05-29) **UI 接通完成**:SystemMenu Save → SaveSlotMenu Confirm → Save.saveSlot 真 IO(cross-slot max+1 wSavedTimes 真值)|
+| F3 | 读档从 IndexedDB | ⚠️ claimed | ✓ regress | global.c:689 `PAL_LoadGame_WIN` + global.c:888 `PAL_ReloadInNextTick` | core/save/api.ts loadSlot + shell/bootstrap.ts loadGameFromSlot | C8 (2026-05-29) **UI 接通完成**:SystemMenu Load → SaveSlotMenu Confirm → loadGameHandler → Save.loadSlot + Object.assign(gs) + loadSceneCommon(fromSavedGame=true);OpeningMenu Load 共享同 handler |
 | F4 | sdlpal `*.RPG` 字节兼容 | N/A | N/A | — | — | D37 决策不做 |
 
 ## G. 视觉效果

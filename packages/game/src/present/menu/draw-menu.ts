@@ -366,14 +366,25 @@ function drawSaveSlotMenu(
       color, glyphs, true,
     )
     // sdlpal uigame.c:218 真值:PAL_DrawNumber(GetSavedTimes(i), 4, PAL_XY(270, 38*i-17), kNumColorYellow, kNumAlignRight)
-    // i 是 1-based(uigame.c:213 for i=1..5),y = 38*i-17 = 21/59/97/135/173;
-    // ts 端 cursor i 是 0-based,等价 y = 38*(i+1)-17 = 21+38*i。
-    // M5.6 简版固定 savedTimes=0;真 Save.listSlots 异步注入留 follow-up。
+    // C8(2026-05-29):真接通 IndexedDB SlotMeta(savedTimes / partyLevel / cash);
+    // fetchSlotMetas 异步 fill state.slotMetas Map,draw 每帧读最新值。
+    const meta = state.slotMetas.get(item.id)
+    const savedTimes = meta?.savedTimes ?? 0
     drawNumber(
-      fb, 0, 4,
+      fb, savedTimes, 4,
       { x: SAVE_SLOT_NUMBER_X_RIGHT, y: 21 + 38 * i },
       'yellow', 'right', uiSpriteFrames,
     )
+    // 简版额外信息(sdlpal 原版无,但 user 体验加分):partyLevel / cash 行下
+    if (meta) {
+      const subY = boxY + SAVE_SLOT_LABEL_OFFSET.y + 12
+      renderText(
+        fb, `Lv${meta.partyLevel}  $${meta.cash}`,
+        SAVE_SLOT_BOX_X + SAVE_SLOT_LABEL_OFFSET.x + 60,
+        subY,
+        MENUITEM_COLOR, glyphs, false,
+      )
+    }
   }
   // sdlpal PAL_SaveSlotMenu(uigame.c:169-242)真值无独立标题 — caller(InGameMenu /
   // OpeningMenu)按 mode 自行处理。我之前简版加 "存档/读档" 标题是错的,user 怒怼删。

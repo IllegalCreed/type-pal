@@ -23,6 +23,10 @@ export interface SlotMeta {
   sceneId: number
   /** 保存时间(ms epoch)。 */
   savedAt: number
+  /** sdlpal `SAVEDGAME_WIN.wSavedTimes` — 跨 slot max counter,sdlpal SystemMenu Save case
+   *  真值算法(uigame.c:589-597):`wSavedTimes = max(GetSavedTimes(1..5)) + 1`,
+   *  写到本 slot。用于 SaveSlotMenu 显示"已存 N 次"。 */
+  savedTimes: number
 }
 
 const _slots = new Map<number, { gs: GameState; meta: SlotMeta }>()
@@ -39,6 +43,8 @@ function extractMeta(gs: GameState): SlotMeta {
     cash: gs.dwCash,
     sceneId: gs.wNumScene,
     savedAt: Date.now(),
+    // sdlpal SAVEDGAME_WIN.wSavedTimes 真值,Save 时 dispatcher 先算 max + 1 写 gs.wSavedTimes。
+    savedTimes: gs.wSavedTimes ?? 0,
   }
 }
 
