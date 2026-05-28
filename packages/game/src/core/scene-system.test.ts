@@ -85,6 +85,17 @@ describe('SceneSystem 走路', () => {
     expect(gs.party.facing).toBe('right')
   })
 
+  it('走路:清 pose(partyScriptedFrame)但**保留** sprite override(partyLeaderSpriteId 端酒菜持久)', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    gs.partyScriptedFrame = { 0: 7 }       // 0x15 设的剧情 pose
+    gs.partyLeaderSpriteId = 208           // 0x65 设的端酒菜 sprite
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+    expect(gs.partyScriptedFrame[0]).toBeUndefined()   // pose 清掉(走路覆写 wFrame)
+    expect(gs.partyLeaderSpriteId).toBe(208)           // sprite override 保留(边走边端酒菜)
+  })
+
   it('按住 Up → party.x + 16 / party.y - 8, facing=up (North 右上)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const bus = createCommandBus()

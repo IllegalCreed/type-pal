@@ -359,15 +359,14 @@ export function tickSceneSystem(
   //    party 自身 selfNpcId=0(party 不是 NPC,无需排除自己)。
   const facing = pickFacing(input)
   if (facing) {
-    // Sync.2 fix5:玩家首次按方向键时清剧情期间设的主角 pose / sprite override,
-    // 让 walking stepFrame 公式接管。NPC scriptedFrame 不动(NPC 走动是 cutscene 真值,
-    // 不会因玩家走动而失效;若需 NPC idle 时清,留 M6)。
+    // Sync.2 fix5:玩家首次按方向键时清剧情期间设的主角**pose**(partyScriptedFrame,0x15 写的
+    // 固定姿势:捂头/倒地),让 walking stepFrame 公式接管(sdlpal PAL_UpdatePartyGestures 走路覆写 wFrame)。
     if (Object.keys(gs.partyScriptedFrame).length > 0) {
       gs.partyScriptedFrame = {}
     }
-    if (gs.partyLeaderSpriteId !== undefined) {
-      gs.partyLeaderSpriteId = undefined
-    }
+    // 注:partyLeaderSpriteId(0x65 setPlayerSprite 写的 rgwSpriteNum)**不**在走路时清 ——
+    // sdlpal rgwSpriteNum 持久到下个 0x65,走路用新 sprite 的 walk 帧(eg. 端酒菜 sprite 208
+    // 边走边端,2026-05-28 user 发现走路时退回普通 sprite 的根因)。pose ≠ sprite,只清 pose。
     gs.party.facing = facing
     const { dx, dy } = DIR_DELTA[facing]
     const nx = gs.party.x + dx
