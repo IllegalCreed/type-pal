@@ -846,6 +846,20 @@ export function tickEventSystem(
             return // 等下次 tick Confirm 处理
           }
         }
+        // sdlpal play.c:64 真值:onEnter 脚本跑完把"下一条 entry"存回 scene.wScriptOnEnter。
+        //   0x00(end,无 advance/reset):返回本次起始 entry(原地 replay — "每次进都跑"的脚本);
+        //   0x01(advance):ip+1(推进过本段 — 开场 cutscene 用,落到下一条 0x00 → 重进只跑 0x00);
+        //   0x02(reset):resetTo。
+        // 存进 gs.sceneOnEnterIp[sceneId] → 重进该 scene 从此 ip 跑,实现"开场只播一次"。
+        if (cursor.onEnterSceneId !== undefined) {
+          let nextEntry: number
+          if (cmd.advance) nextEntry = cursor.ip + 1
+          else if (cmd.reset && cmd.resetTo !== undefined) {
+            nextEntry = cursor.labelMap[`L_${cmd.resetTo}`] ?? cursor.onEnterStartIp ?? cursor.ip
+          }
+          else nextEntry = cursor.onEnterStartIp ?? cursor.ip
+          gs.sceneOnEnterIp[cursor.onEnterSceneId] = nextEntry
+        }
         gs.eventCursor = undefined
         gs.dialogBox = undefined
         gs.currentDialogPortraitIcon = undefined

@@ -457,12 +457,17 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     if (!opts.fromSavedGame) {
       // 正常 loadScene:跑 onEnter
       if (sceneAssets.onEnterLabel) {
-        const ip = sceneAssets.labelMap[sceneAssets.onEnterLabel]
+        // sdlpal play.c:64 真值:onEnter 入口 = 上次跑完存回的 wScriptOnEnter(若有),否则 JSON 标签。
+        // 重进已播过的 cutscene scene → 入口已被推进到 0x00 stop → 不重播(开场只播一次)。
+        const overrideIp = gs.sceneOnEnterIp[newWNumScene]
+        const ip = overrideIp ?? sceneAssets.labelMap[sceneAssets.onEnterLabel]
         if (ip !== undefined) {
           gs.eventCursor = {
             commands: sceneAssets.eventCommands,
             labelMap: sceneAssets.labelMap,
             ip,
+            onEnterSceneId: newWNumScene,
+            onEnterStartIp: ip,
           }
           gs.mode = 'event'
           // mode='event':保持 fEnteringScene=true,等 onEnter 内 fadeScreen opcode 清
@@ -672,8 +677,17 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
           runEnterScript(gs, eventCommands, labelMap, ip)
         }
         else {
-          // 正常启动:跑完整 onEnter script(scene 0 梦境对话)— tickEventSystem 步进
-          gs.eventCursor = { commands: eventCommands, labelMap, ip }
+          // 正常启动:跑完整 onEnter script(scene 0 梦境对话)— tickEventSystem 步进。
+          // 打 onEnter tag → 'end' 持久化停点,scene 0 也不重播(同 loadScene 路径)。
+          const overrideIp = gs.sceneOnEnterIp[gs.wNumScene]
+          const startIp = overrideIp ?? ip
+          gs.eventCursor = {
+            commands: eventCommands,
+            labelMap,
+            ip: startIp,
+            onEnterSceneId: gs.wNumScene,
+            onEnterStartIp: startIp,
+          }
           gs.mode = 'event'
         }
       }

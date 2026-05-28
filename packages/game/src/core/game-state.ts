@@ -154,6 +154,16 @@ export interface EventCursor {
    * tickSceneSystem 触发 NPC trigger 时设;此后所有 opcode 内 self = npcs[id-1]。
    */
   currentEventObjectId?: number
+  /**
+   * 本 cursor 是某 scene 的 onEnter 脚本时设(= wNumScene)。sdlpal play.c:64 真值:
+   * `rgScene[i].wScriptOnEnter = PAL_RunTriggerScript(rgScene[i].wScriptOnEnter, ...)` —
+   * onEnter 跑完把"停在哪/下一条 entry"存回 scene.wScriptOnEnter。'end' handler 据此
+   * 持久化到 gs.sceneOnEnterIp[sceneId],实现"开场 cutscene 只播一次,重进不重播"。
+   * undefined = 非 onEnter 脚本(NPC trigger / item script 等),不持久化。
+   */
+  onEnterSceneId?: number
+  /** onEnter 本次运行的起始 ip(0x0000 end 真值返回起始 entry,replay-in-place;见 onEnterSceneId)。 */
+  onEnterStartIp?: number
 }
 
 /**
@@ -625,6 +635,16 @@ export interface GameState {
   rgScene: Record<number, SceneStateMutable>
 
   /**
+   * 各 scene 的 onEnter 脚本运行时 local ip 入口(sdlpal `rgScene[].wScriptOnEnter` 等价)。
+   * 键 = wNumScene(1-based)。稀疏存:只存 onEnter 已跑过、被推进的 scene。
+   *
+   * sdlpal play.c:64 真值:onEnter 跑完返回值存回 wScriptOnEnter。开场 cutscene 以 0x01
+   * (end-advance)收尾 → 推进到下一条 0x00(stop)→ 重进只跑 0x00 不重播。
+   * ts 用 local ip(scene-N.json 内下标,跨重进稳定);缺省 → 用 onEnterLabel。
+   */
+  sceneOnEnterIp: Record<number, number>
+
+  /**
    * Object 运行时可变状态(sdlpal SAVEDGAME_WIN.rgObject[MAX_OBJECTS])。
    * 稀疏存:objectId → state,只存被 script 改过的 object。
    */
@@ -873,6 +893,7 @@ export function createInitialGameState(
     PlayerRolesRuntime: createInitialPlayerRolesRuntime(),
     rgPoisonStatus: {},
     rgScene: {},
+    sceneOnEnterIp: {},
     rgObject: {},
     rgEventObject: {},
     // ── M6 C5: 装备 effect ───────────────────────────────────────────────

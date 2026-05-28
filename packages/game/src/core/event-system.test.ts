@@ -1551,3 +1551,54 @@ describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0
     expect(gs.npcs.map((n) => n.sState)).toEqual([1, 2, 2, 1]) // 仅 id 4/5 改成 2
   })
 })
+
+// ── onEnter 脚本持久化(2026-05-28 开场 cutscene 重进重播回归)──────────────────
+//
+// sdlpal play.c:64:rgScene[i].wScriptOnEnter = PAL_RunTriggerScript(wScriptOnEnter,...)
+// —— onEnter 跑完把"下一条 entry"存回场景。开场 cutscene 以 0x01(advance)收尾 →
+// 推进到下一条 0x00(stop)→ 重进只跑 0x00 → 不重播。
+// bug:ts 每次从 onEnterLabel 重跑,没存回 → 出场景再回去 cutscene 重播。
+function onEnterCursor(gs: GameState, commands: Command[], ip: number, sceneId: number): void {
+  gs.eventCursor = {
+    commands,
+    labelMap: buildLabelMap(commands),
+    ip,
+    onEnterSceneId: sceneId,
+    onEnterStartIp: ip,
+  }
+  gs.mode = 'event'
+}
+
+describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
+  it('0x01(advance)收尾 → sceneOnEnterIp 存 ip+1;重进从 0x00 跑不重播 cutscene', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const commands: Command[] = [
+      { op: 'raw', opcode: 0x15, operands: [0, 0, 0] }, // ip0 cutscene 动作(重进不该再跑)
+      { op: 'end', advance: true }, // ip1 0x01 收尾
+      { op: 'end' }, // ip2 0x00 stop
+    ]
+    // 首次进 scene 2:从 ip0 跑
+    onEnterCursor(gs, commands, 0, 2)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor).toBeUndefined() // onEnter 结束
+    expect(gs.sceneOnEnterIp[2]).toBe(2) // 0x01@ip1 → ip1+1=2(下一条 0x00)
+
+    // 重进 scene 2:用持久化的 override ip=2(0x00)
+    onEnterCursor(gs, commands, gs.sceneOnEnterIp[2]!, 2)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.sceneOnEnterIp[2]).toBe(2) // 0x00 → 原地不推进,cutscene(ip0)不再跑
+  })
+
+  it('0x00 直接收尾 → sceneOnEnterIp 存起始 ip(replay-in-place,"每次进都跑"的脚本)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const commands: Command[] = [
+      { op: 'raw', opcode: 0x15, operands: [0, 0, 0] }, // ip0
+      { op: 'end' }, // ip1 0x00(无 advance)
+    ]
+    onEnterCursor(gs, commands, 0, 3)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.sceneOnEnterIp[3]).toBe(0) // 0x00 → 返回起始 ip 0(下次仍从头跑)
+  })
+})
