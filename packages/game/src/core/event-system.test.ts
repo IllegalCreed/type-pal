@@ -1423,14 +1423,16 @@ describe('I-w1.b 机关 / scene-state opcodes', () => {
     gs.eventCursor!.currentEventObjectId = 3
     tickEventSystem(gs, snap(), bus)
     expect(gs.npcs[0]?.autoLabel).toBe('L_42')
-    expect(gs.npcs[0]?.autoCursor).toEqual({ ip: 7 })   // 本地 ip,非全局 42
+    expect(gs.npcs[0]?.autoCursor?.ip).toBe(7)   // 本地 ip,非全局 42
+    expect(gs.npcs[0]?.autoCursor?.labelMap).toBe(gs.sceneLabelMap) // 来源 = 当前 scene
   })
 
-  it('setAutoScript(0x24):目标在 shared(scene labelMap 没有)→ autoCursor.shared=true', () => {
+  it('setAutoScript(0x24):目标在 shared(scene labelMap 没有)→ cursor 指 shared 来源', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1 }]
     gs.sceneLabelMap = {}                          // scene 没有 → 回退 shared
-    setSharedEvents([{ op: 'end' }], { L_406: 0 }) // shared labelMap 有 L_406
+    const sharedCmds: Command[] = [{ op: 'end' }]
+    setSharedEvents(sharedCmds, { L_406: 0 })      // shared labelMap 有 L_406
     const bus = createCommandBus()
     loadEvent(gs, [
       { op: 'raw', opcode: 0x24, operands: [0xFFFF, 406, 0] },
@@ -1438,7 +1440,8 @@ describe('I-w1.b 机关 / scene-state opcodes', () => {
     ])
     gs.eventCursor!.currentEventObjectId = 3
     tickEventSystem(gs, snap(), bus)
-    expect(gs.npcs[0]?.autoCursor).toEqual({ ip: 0, shared: true })
+    expect(gs.npcs[0]?.autoCursor?.ip).toBe(0)
+    expect(gs.npcs[0]?.autoCursor?.commands).toBe(sharedCmds) // cursor 指向 shared 脚本来源
     setSharedEvents([], {})  // 复位,避免污染其他用例
   })
 
@@ -1669,6 +1672,29 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
     expect(gs.npcs[0]!.autoCursor!.currentEventObjectId).toBeUndefined() // 还原
     tickAutoScripts(gs) // 主脚本 ip1 setObjectGesture 作用 self(苗人 5)
     expect(gs.npcs[0]?.scriptedFrame).toBe(1)
+  })
+
+  it('架构统一:条件跳转(0x95 jumpIfScene)在 autoScript 内生效(经 autoCursor,非 gs.eventCursor)', () => {
+    // 重构前:jumpToGlobalIp 写死 gs.eventCursor(explore 下 undefined)→ autoScript 条件跳转全失效。
+    // 现在 applyRawOpcode 收 cursor → 跳转操作 autoCursor。验证:scene==3 → 跳过哨兵到 L_4。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.wNumScene = 3
+    const px0 = gs.party.x
+    gs.npcs = [{ id: 1, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }]
+    gs.sceneCommands = [
+      { op: 'raw', opcode: 0x95, operands: [3, 4, 0] },                  // 0: scene==3 → jump L_4
+      { op: 'raw', opcode: 0x46, operands: [9, 9, 0] },                  // 1: 哨兵 setPartyPos(绝不能跑)
+      { op: 'end' },                                                     // 2
+      { op: 'end' },                                                     // 3
+      { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [2, 0, 0], label: 'L_4' }, // 4
+      { op: 'end' },                                                     // 5
+    ]
+    gs.sceneLabelMap = { L_4: 4 }
+    tickAutoScripts(gs) // 0x95 scene==3 → 跳 L_4
+    expect(gs.npcs[0]!.autoCursor!.ip).toBe(4)
+    tickAutoScripts(gs) // ip4 setObjectGesture → frame 2
+    expect(gs.npcs[0]?.scriptedFrame).toBe(2)
+    expect(gs.party.x).toBe(px0) // 哨兵 setPartyPos(ip1)从未跑
   })
 })
 

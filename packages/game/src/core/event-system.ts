@@ -598,10 +598,12 @@ export function tickAutoScripts(gs: GameState): void {
 
 function runOneAutoOp(gs: GameState, npc: NpcState): void {
   const cursor = npc.autoCursor!
-  // cursor.shared:autoScript 脚本体在 shared.json(被多 scene 共引,切片提升到 shared)。
-  // 否则跑当前 scene 的 commands。labelMap 同源(goto/reset 的 L_ 解析也走对应表)。
-  const cmds = cursor.shared ? getSharedCommands() : gs.sceneCommands!
-  const autoLabelMap = cursor.shared ? getSharedLabelMap() : (gs.sceneLabelMap ?? {})
+  // 与 EventCursor 同构:cursor.commands/labelMap 指脚本来源(默认当前 scene;0x24 提升到
+  // shared 时已填 shared)。填到 cursor 上 → applyRawOpcode 的 cursor-ops(条件跳转 / call /
+  // 0x06 / 0xA2)能操作本 autoCursor、跨来源(scene↔shared)跳转,与 trigger 共用同一解释器。
+  cursor.commands = cursor.commands ?? gs.sceneCommands ?? []
+  cursor.labelMap = cursor.labelMap ?? gs.sceneLabelMap ?? {}
+  const cmds = cursor.commands
   if (cursor.ip < 0 || cursor.ip >= cmds.length) {
     npc.autoCursor = undefined  // ip 越界 → 停
     return
@@ -610,13 +612,14 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
 
   switch (cmd.op) {
     case 'end':
-      // opcode 0x04 call-script 返回:子脚本 'end' → 弹返回帧,恢复 caller ip/shared/作用对象。
+      // opcode 0x04 call-script 返回:子脚本 'end' → 弹返回帧,恢复 caller ip/commands/labelMap/对象。
       // (autoScript 调子脚本 eg. 开门;子脚本 end 是 plain,callStack 非空时优先弹帧。)
       if (cursor.callStack && cursor.callStack.length > 0) {
         const frame = cursor.callStack.pop()!
         cursor.ip = frame.returnIp
-        cursor.shared = frame.returnShared
-        cursor.currentEventObjectId = frame.returnEventObjectId
+        cursor.commands = frame.returnCommands
+        cursor.labelMap = frame.returnLabelMap
+        cursor.currentEventObjectId = frame.savedEventObjectId
         return
       }
       // sdlpal PAL_RunAutoScript 控制流(script.c:3518-3547):
@@ -634,9 +637,9 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
           idleFrames === 0
           || (cursor.idleFrameCount = (cursor.idleFrameCount ?? 0) + 1) < idleFrames
         ) {
-          // resetTo 是全局 entry 号,经 labelMap['L_<resetTo>'] 解本地 ip(shared 时查 shared 表)
+          // resetTo 是全局 entry 号,经 cursor.labelMap['L_<resetTo>'] 解本地 ip
           const target =
-            cmd.resetTo !== undefined ? autoLabelMap[`L_${cmd.resetTo}`] : undefined
+            cmd.resetTo !== undefined ? cursor.labelMap[`L_${cmd.resetTo}`] : undefined
           if (target !== undefined) cursor.ip = target
           else npc.autoCursor = undefined // resetTo 跨文件/不在本 scene → 停
         }
@@ -657,7 +660,7 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
         if (cursor.idleFrameCount < frameDelay) return
         cursor.idleFrameCount = 0
       }
-      const target = autoLabelMap[cmd.to]
+      const target = cursor.labelMap[cmd.to]
       if (target !== undefined) {
         cursor.ip = target
       }
@@ -710,49 +713,16 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
         return
       }
 
-      // opcode 0x04 call-script:autoScript 内调子脚本(eg. 苗人进门前 `0x4 [3739]` 开门)。
-      // 主 while 的 OP_CALL_SCRIPT handler 只动 gs.eventCursor(explore 下 undefined)→ 这里
-      // 必须对 autoCursor 自己压栈跳转。子脚本 'end' 在上面 callStack 分支弹回。
-      if (cmd.opcode === OP_CALL_SCRIPT) {
-        const subEntry = cmd.operands[0] ?? 0
-        if (subEntry !== 0) {
-          const label = `L_${subEntry}`
-          // 先查当前来源(scene/shared),再查另一来源
-          const curShared = cursor.shared ?? false
-          const curMap = curShared ? getSharedLabelMap() : (gs.sceneLabelMap ?? {})
-          let targetShared = curShared
-          let subIp = curMap[label]
-          if (subIp === undefined) {
-            const otherMap = curShared ? (gs.sceneLabelMap ?? {}) : getSharedLabelMap()
-            const otherIp = otherMap[label]
-            if (otherIp !== undefined) {
-              targetShared = !curShared
-              subIp = otherIp
-            }
-          }
-          if (subIp !== undefined) {
-            cursor.callStack = cursor.callStack ?? []
-            cursor.callStack.push({
-              returnIp: cursor.ip + 1,
-              returnShared: cursor.shared ?? false,
-              returnEventObjectId: cursor.currentEventObjectId,
-            })
-            // op1 != 0 → 子脚本作用对象 = op1-1(1-based → 0-based);否则沿用当前
-            if ((cmd.operands[1] ?? 0) !== 0) cursor.currentEventObjectId = (cmd.operands[1] ?? 0) - 1
-            cursor.shared = targetShared
-            cursor.ip = subIp
-            return
-          }
-          console.warn(`autoScript: callScript ${label} 不在 scene/shared labelMap,跳过 npc=${npc.id}`)
-        }
-        cursor.ip++
-        return
-      }
-
-      // 其余 raw op:sdlpal default case 走 PAL_InterpretInstruction。
-      // 作用对象 = cursor.currentEventObjectId(call-script op1 覆盖时)否则 npc.id
-      // (0-based,跟 scene-system.ts:125 trigger 进入约定一致 — **不**加 1)。
-      applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId ?? npc.id)
+      // 其余 raw op(含 0x04 call / 条件跳转 / 0x06 / 0xA2 等"动游标"opcode)走统一 applyRawOpcode,
+      // 传入本 autoCursor → 跳转 / call 操作它(子脚本 'end' 在上面 callStack 分支弹回),与 trigger
+      // 同一套解释器。作用对象 = cursor.currentEventObjectId(call op1 覆盖时)否则 npc.id(0-based)。
+      // call/jump 改写 cursor.ip 后,下面 cursor.ip++ 抵消 sdlpal `target-1` 偏移(同主 while)。
+      // cursor as ScriptCursor:commands/labelMap 已在函数起手填妥(类型层 optional,运行时必有)。
+      applyRawOpcode(
+        gs, cmd.opcode, cmd.operands,
+        cursor.currentEventObjectId ?? npc.id,
+        cursor as ScriptCursor,
+      )
       cursor.ip++
       return
     }
@@ -1276,7 +1246,8 @@ export function tickEventSystem(
         }
 
         // P0.e: 6 wScriptOnEnter opcode 真生效 + Sync.2 fix3: 4 个 NPC 动作 opcode;其余 D26 兜底 skip
-        applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId)
+        // cursor 传入 → 条件跳转 / call / 随机跳等"动游标"opcode 操作本 trigger cursor。
+        applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId, cursor)
         cursor.ip++
         break
       }
@@ -1600,16 +1571,50 @@ export function startOverworldItemScript(
 }
 
 /**
- * A2 条件跳转的统一跳转:目标是全局 script entry 号(operand 原值),经当前 scene labelMap
- * 解析成 local ip。设 cursor.ip = idx - 1(caller 跑完 applyRawOpcode 后 ip++ → idx)。
- * 对齐 sdlpal jump opcode `wScriptEntry = target - 1` + PAL_InterpretInstruction 末尾 +1。
+ * 脚本游标统一抽象 —— trigger(gs.eventCursor)与 autoScript(npc.autoCursor)同构,
+ * 让 applyRawOpcode 内"动游标"的 opcode(条件跳转 / 0x04 call / 0x06 / 0xA2)操作**传入的**
+ * cursor,而非写死 gs.eventCursor(后者在 autoScript / explore 下 undefined → 这些 opcode 全失效,
+ * 即 2026-05-28 苗人开门 / 跳转漏执行的架构根因)。
  */
-function jumpToGlobalIp(gs: GameState, globalIp: number): void {
-  const cursor = gs.eventCursor
+export interface ScriptCursor {
+  ip: number
+  commands: Command[]
+  labelMap: Record<string, number>
+  callStack?: {
+    returnIp: number
+    returnCommands: Command[]
+    returnLabelMap: Record<string, number>
+    savedEventObjectId?: number
+  }[]
+  currentEventObjectId?: number
+}
+
+/**
+ * 条件 / 随机跳转的统一跳转:目标是全局 script entry 号,经 cursor.labelMap 解析成 local ip。
+ * 设 cursor.ip = idx - 1(caller 跑完 applyRawOpcode 后 ip++ → idx)。对齐 sdlpal jump opcode
+ * `wScriptEntry = target - 1` + PAL_InterpretInstruction 末尾 +1。
+ * 目标若被切片提升到另一来源(scene↔shared)→ 切 cursor.commands/labelMap 再跳。
+ */
+function jumpToGlobalIp(gs: GameState, cursor: ScriptCursor | null, globalIp: number): void {
   if (!cursor) return
-  const idx = cursor.labelMap[`L_${globalIp}`]
-  if (idx !== undefined) cursor.ip = idx - 1
-  else console.debug(`event-system: jump target L_${globalIp} 不在 labelMap(跳转失效)`)
+  const label = `L_${globalIp}`
+  const idx = cursor.labelMap[label]
+  if (idx !== undefined) {
+    cursor.ip = idx - 1
+    return
+  }
+  // 跨来源 retry:目标在另一来源(scene↔shared)
+  const onShared = cursor.commands === _sharedCommands
+  const otherCommands = onShared ? (gs.sceneCommands ?? []) : _sharedCommands
+  const otherLabelMap = onShared ? (gs.sceneLabelMap ?? {}) : _sharedLabelMap
+  const oIdx = otherLabelMap[label]
+  if (oIdx !== undefined) {
+    cursor.commands = otherCommands
+    cursor.labelMap = otherLabelMap
+    cursor.ip = oIdx - 1
+    return
+  }
+  console.debug(`event-system: jump target ${label} 不在 scene/shared labelMap(跳转失效)`)
 }
 
 /** 背包内某 item 总数(sdlpal PAL_GetItemAmount 等价)。 */
@@ -1677,6 +1682,12 @@ function applyRawOpcode(
    * 此种情况下 self-ops 视为 no-op + warn。
    */
   currentEventObjectId?: number,
+  /**
+   * 当前正在解释的脚本游标(trigger = gs.eventCursor;autoScript = npc.autoCursor)。
+   * "动游标"opcode(条件跳转 / 0x04 call / 0x06 / 0xA2)操作它,不再写死 gs.eventCursor —
+   * 这样 trigger / autoScript 共用同一套解释器(架构统一,2026-05-28)。
+   */
+  cursor: ScriptCursor | null = null,
 ): void {
   switch (opcode) {
     case OP_SET_PARTY_POS: {
@@ -1821,14 +1832,23 @@ function applyRawOpcode(
           const label = `L_${entry}`
           npc.autoLabel = label
           // 先查当前 scene labelMap;多 scene 共用地图时该脚本可能被提升到 shared(eg. 苗人头领
-          // L_406 被 scene-001/003 共引 → shared)→ 回退查 shared,标 cursor.shared=true。
+          // L_406 被 scene-001/003 共引 → shared)→ 回退查 shared。cursor.commands/labelMap 指向
+          // 对应来源(与 EventCursor 同构),供统一解释器跨来源跳转 / call。
           const localIp = gs.sceneLabelMap?.[label]
           const sharedIp = localIp === undefined ? getSharedLabelMap()[label] : undefined
           if (localIp !== undefined) {
-            npc.autoCursor = { ip: localIp }
+            npc.autoCursor = {
+              ip: localIp,
+              commands: gs.sceneCommands ?? [],
+              labelMap: gs.sceneLabelMap ?? {},
+            }
           }
           else if (sharedIp !== undefined) {
-            npc.autoCursor = { ip: sharedIp, shared: true }
+            npc.autoCursor = {
+              ip: sharedIp,
+              commands: getSharedCommands(),
+              labelMap: getSharedLabelMap(),
+            }
           }
           else {
             npc.autoCursor = undefined
@@ -2147,24 +2167,8 @@ function applyRawOpcode(
     case OP_JUMP_BY_RATE: {
       // sdlpal script.c:3299-3312:if RandomLong(1,100) >= operand[0] → jump operand[1]
       const rate = operands[0] ?? 0
-      const targetIp = operands[1] ?? 0
       if (Math.floor(Math.random() * 100) + 1 >= rate) {
-        // 跳转 — 但 applyRawOpcode 是 cursor.ip 已 ip++ 的;调用方需用 label 系统
-        // 实际:tickEventSystem 推 ip 是默认 ip++;我们这里改写 cursor.ip 让下一帧从 targetIp 走。
-        // 简化:gs.eventCursor 直接改 ip(注意 targetIp 是 sdlpal global IP — 经 disasm 后用 L_ 查)
-        const labelMap = gs.eventCursor?.labelMap
-        if (labelMap) {
-          const idx = labelMap[`L_${targetIp}`]
-          if (idx !== undefined && gs.eventCursor) {
-            gs.eventCursor.ip = idx - 1 // ip++ 被 default 自动加,这里减 1 抵消
-            console.debug(`event-system: jumpByRate rate=${rate} hit → ip=L_${targetIp} (${idx})`)
-            return
-          }
-        }
-        console.debug(`event-system: jumpByRate rate=${rate} hit but L_${targetIp} 不在 labelMap`)
-      }
-      else {
-        console.debug(`event-system: jumpByRate rate=${rate} miss → fall through`)
+        jumpToGlobalIp(gs, cursor, operands[1] ?? 0) // cursor.ip = target-1,caller ip++ → target
       }
       break
     }
@@ -2451,21 +2455,21 @@ function applyRawOpcode(
     case OP_JUMP_IF_ITEM_LESS: {
       // sdlpal script.c:1864:if GetItemAmount(op0) < (SHORT)op1 → jump op2
       if (countInventoryItem(gs, operands[0] ?? 0) < signExtendI16(operands[1] ?? 0)) {
-        jumpToGlobalIp(gs, operands[2] ?? 0)
+        jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
       }
       break
     }
     case OP_JUMP_IF_NOT_POISON_KIND: {
       // sdlpal script.c:1918:if !IsPlayerPoisonedByKind(role, op0) → jump op1
       if (!isPlayerPoisoned(gs, currentEventObjectId ?? 0, operands[0] ?? 0)) {
-        jumpToGlobalIp(gs, operands[1] ?? 0)
+        jumpToGlobalIp(gs, cursor, operands[1] ?? 0)
       }
       break
     }
     case OP_JUMP_IF_NOT_POISONED: {
       // sdlpal script.c:1961:if !IsPlayerPoisonedByLevel(role, 0) → jump op0
       if (!isPlayerPoisoned(gs, currentEventObjectId ?? 0)) {
-        jumpToGlobalIp(gs, operands[0] ?? 0)
+        jumpToGlobalIp(gs, cursor, operands[0] ?? 0)
       }
       break
     }
@@ -2475,14 +2479,14 @@ function applyRawOpcode(
       const notFull = gs.partyMembers.some(
         (roleId) => (r.rgwHP[roleId] ?? 0) < (r.rgwMaxHP[roleId] ?? 0),
       )
-      if (notFull) jumpToGlobalIp(gs, operands[0] ?? 0)
+      if (notFull) jumpToGlobalIp(gs, cursor, operands[0] ?? 0)
       break
     }
     case OP_JUMP_IF_PLAYER_IN_PARTY: {
       // sdlpal script.c:2234-2242:队伍任一成员 rgwName == op0 → jump op1
       const r = gs.PlayerRolesRuntime
       const inParty = gs.partyMembers.some((roleId) => r.rgwName[roleId] === (operands[0] ?? 0))
-      if (inParty) jumpToGlobalIp(gs, operands[1] ?? 0)
+      if (inParty) jumpToGlobalIp(gs, cursor, operands[1] ?? 0)
       break
     }
     case OP_JUMP_IF_NOT_EQUIPPED: {
@@ -2494,26 +2498,25 @@ function applyRawOpcode(
           if (r.rgwEquipment[slot]?.[roleId] === (operands[0] ?? 0)) count++
         }
       }
-      if (count < (operands[1] ?? 0)) jumpToGlobalIp(gs, operands[2] ?? 0)
+      if (count < (operands[1] ?? 0)) jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
       break
     }
     case OP_JUMP_IF_OBJ_STATE: {
       // sdlpal script.c:2677-2680:if pCurrent.sState == (SHORT)op1 → jump op2
       const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'jumpIfObjState')
       if (npc && (npc.sState ?? 0) === signExtendI16(operands[1] ?? 0)) {
-        jumpToGlobalIp(gs, operands[2] ?? 0)
+        jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
       }
       break
     }
     case OP_JUMP_IF_SCENE: {
       // sdlpal script.c:2687-2690:if wNumScene == op0 → jump op1
-      if (gs.wNumScene === (operands[0] ?? 0)) jumpToGlobalIp(gs, operands[1] ?? 0)
+      if (gs.wNumScene === (operands[0] ?? 0)) jumpToGlobalIp(gs, cursor, operands[1] ?? 0)
       break
     }
     case OP_RANDOM_JUMP: {
       // sdlpal script.c:3020:wScriptEntry += RandomLong(0, op0-1);+ InterpretInstruction 末尾 +1
       //   → 跳到 [cur+1, cur+op0]。ts:cursor.ip += offset(caller ip++ → cur+offset+1)。
-      const cursor = gs.eventCursor
       if (cursor) {
         const n = Math.max(1, operands[0] ?? 1)
         cursor.ip += Math.floor(Math.random() * n) // RandomLong(0, n-1)
@@ -2527,19 +2530,18 @@ function applyRawOpcode(
       const pEvt = gs.npcs.find((n) => n.id === currentEventObjectId)
       if (!pCurrent || !pEvt) {
         // op0 obj 不在当前 scene → 跳(sdlpal g_fScriptSuccess=FALSE)
-        jumpToGlobalIp(gs, operands[2] ?? 0)
+        jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
         break
       }
       const dx = Math.abs(pEvt.x - pCurrent.x)
       const dy = Math.abs((pEvt.y - pCurrent.y) * 2)
-      if (dx + dy >= (operands[1] ?? 0) * 32 + 16) jumpToGlobalIp(gs, operands[2] ?? 0)
+      if (dx + dy >= (operands[1] ?? 0) * 32 + 16) jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
       break
     }
     case OP_CALL_SCRIPT: {
       // sdlpal script.c:3258:PAL_RunTriggerScript(op0, op1==0 ? current : op1) 同步跑子脚本 +
       // wScriptEntry++。ts tick 模型:压返回帧 + 跳子脚本(本 scene labelMap 优先,否则 shared);
-      // 子脚本 'end' 在主 while 弹帧返回 caller。
-      const cursor = gs.eventCursor
+      // 子脚本 'end' 在 caller runner(trigger / autoScript)弹帧返回。cursor = 传入活动游标。
       const subEntry = operands[0] ?? 0
       if (!cursor || subEntry === 0) break
       let subCommands = cursor.commands
@@ -2648,7 +2650,7 @@ function applyRawOpcode(
       //   否则 jump op2。
       const pCurrent = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'jumpIfNotFacing')
       if (!pCurrent) {
-        jumpToGlobalIp(gs, operands[2] ?? 0)
+        jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
         break
       }
       // sdlpal kDir: South=0/West=1/North=2/East=3。party facing → dir。
@@ -2669,7 +2671,7 @@ function applyRawOpcode(
         }
       }
       else {
-        jumpToGlobalIp(gs, operands[2] ?? 0)
+        jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
       }
       break
     }

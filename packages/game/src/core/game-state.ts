@@ -131,16 +131,23 @@ export interface NpcState {
     /** sdlpal `wScriptIdleFrameCountAuto`:opcode 0x09 wait N frames 用,累计 N 后推 ip。 */
     idleFrameCount?: number
     /**
-     * autoScript 脚本体在 shared.json(而非当前 scene)。多 scene 共用同地图时,被 2+ scene
-     * 引用的 NPC autoScript 会被切片提升到 shared(eg. 客栈苗人头领 L_406)。为 true 时
-     * runOneAutoOp 从 getSharedCommands()/getSharedLabelMap() 跑,而非 gs.sceneCommands。
+     * autoScript 脚本体的 commands / labelMap。与 EventCursor 同构 —— 让 trigger / autoScript
+     * 共用同一套解释器(applyRawOpcode 的 jump/call/条件跳转等"动游标"opcode 操作传入的 cursor,
+     * 不再写死 gs.eventCursor)。undefined = 默认当前 scene(runOneAutoOp 起手填 gs.sceneCommands/
+     * sceneLabelMap);被 2+ scene 共引提升到 shared 的 autoScript(eg. 苗人头领 L_406)填 shared。
      */
-    shared?: boolean
+    commands?: Command[]
+    labelMap?: Record<string, number>
     /**
-     * opcode 0x04 call-script 子脚本返回栈(autoScript 内也会调子脚本,eg. 苗人进门前
-     * `0x4 [3739]` 开门脚本)。'end' 时若栈非空 → 弹帧回 caller(ip/shared/作用对象)。
+     * opcode 0x04 call-script 子脚本返回栈(autoScript 内也调子脚本,eg. 苗人进门前 `0x4 [3739]`
+     * 开门)。与 EventCursor.callStack 同构,'end' 时栈非空 → 弹帧回 caller(ip/commands/labelMap/对象)。
      */
-    callStack?: { returnIp: number; returnShared: boolean; returnEventObjectId?: number }[]
+    callStack?: {
+      returnIp: number
+      returnCommands: Command[]
+      returnLabelMap: Record<string, number>
+      savedEventObjectId?: number
+    }[]
     /**
      * 当前作用对象 id(sdlpal `wCurEventObjectID`)。默认 = autoScript owner(npc.id);
      * 0x04 call-script 的 op1 可覆盖(eg. 开门脚本对门对象生效)。子脚本返回时还原。
