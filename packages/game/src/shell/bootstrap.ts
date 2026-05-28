@@ -445,7 +445,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       // load 后 NPC 显示位置等可能跟 scene dump 一致而非 SAVEDGAME 真值,留 follow-up)。
     }
     applySceneAssetsToPresent(sceneAssets)
-    gs.fEnteringScene = true
+    if (!opts.fromSavedGame) {
+      // sdlpal `fEnteringScene = TRUE` 真值:`PAL_StartFrame` 早期 return → 屏幕冻结
+      // 直到 fadeScreen opcode 启动清此 flag(event-system.ts:930)。
+      // **load game 不跑 onEnter 也没 fadeScreen**,若也设 fEnteringScene=true →
+      // 屏幕永远冻结 → 卡死(user 2026-05-29 反馈"读取之后没反应感觉就完全卡死了")。
+      // fromSavedGame 路径:不设 fEnteringScene,跳过这层冻结。
+      gs.fEnteringScene = true
+    }
     await preloadCutsceneSprites(sceneAssets.eventCommands)
     if (!opts.fromSavedGame) {
       // 正常 loadScene:跑 onEnter
@@ -709,13 +716,18 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // mutate gs in-place(外部持有同 ref;无法替换 ref)
     // 把 loadedGs 全字段拷到 gs(用 Object.assign 浅 + 关键嵌套手动 deepClone)
     Object.assign(gs, loadedGs)
-    // sdlpal PAL_ReloadInNextTick 真值:fEnteringScene=TRUE 让下帧 reload scene
-    gs.fEnteringScene = true
-    // 关菜单回 explore — sceneLoader 重 load 完毕后渲染恢复
+    // 关菜单回 explore — loadSceneCommon 完成后 explore tick 接管
     gs.menuStack = []
     gs.mode = 'explore'
+    // sdlpal PAL_ReloadInNextTick 真值是设 fEnteringScene 让下 tick 主循环 reload,
+    // 但 ts 端 loadSceneCommon 已**同步**做完 reload(await 走完),所以**不**留
+    // fEnteringScene=true 余尾(否则 present.ts:114 检测后跳过 render → 屏幕冻结
+    // 卡死,user 2026-05-29 反馈)。
+    gs.fEnteringScene = false
     // 重 load scene assets — 走 fromSavedGame 路径,**不**重置 npcs / **不**跑 onEnter
     await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })
+    // load 完后再次保证清零(loadSceneCommon fromSavedGame 路径已不设,double safe)
+    gs.fEnteringScene = false
   }
 
   setLoadGameHandler(async (slot) => {
