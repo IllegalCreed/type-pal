@@ -28,8 +28,8 @@ import type { SaveSlotMenuState } from '../../core/menu/save-slot-menu.js'
 import type { SelectionMenuState } from '../../core/menu/primitives.js'
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import type { Framebuffer } from '../framebuffer.js'
-import { measureText, renderText, type GlyphTable } from '../font.js'
-import { drawBox, drawSingleLineBox } from './draw-box.js'
+import { renderText, type GlyphTable } from '../font.js'
+import { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'
 import { drawNumber } from '../draw-number.js'
 import { drawEquipMenu } from './draw-equip.js'
 import { drawInventoryMenu } from './draw-inventory.js'
@@ -63,18 +63,7 @@ function selectedColor(): number {
   return MENUITEM_COLOR_SELECTED_FIRST + Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL
 }
 
-/**
- * sdlpal ui.c:783-794 PAL_MenuTextMaxWidth 真值:
- *   for each item: w = (TextWidth(label) + 8) >> 4;return max(w)
- */
-function menuTextMaxWidth(labels: string[], glyphs?: GlyphTable): number {
-  let max = 0
-  for (const label of labels) {
-    const w = (measureText(label, glyphs) + 8) >> 4
-    if (w > max) max = w
-  }
-  return max
-}
+// 菜单文案列表 box 宽统一走 draw-box.ts 的 menuTextMaxCols(port PAL_MenuTextMaxWidth - 1)。
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -237,9 +226,8 @@ function drawInGameMenu(
 ): void {
   const items = state.selection.items
   const labels = items.map((it) => it.label)
-  const maxWidth = menuTextMaxWidth(labels, glyphs)
   // sdlpal uigame.c:990 真值:cols = PAL_MenuTextMaxWidth - 1
-  const cols = Math.max(1, maxWidth - 1)
+  const cols = menuTextMaxCols(labels, glyphs)
   drawBox({
     fb, x: IN_GAME_MENU_BOX.x, y: IN_GAME_MENU_BOX.y,
     rows: IN_GAME_MENU_BOX.rows, cols, style: 0,
@@ -263,8 +251,8 @@ function drawSystemMenu(
 ): void {
   const items = state.selection.items
   const labels = items.map((it) => it.label)
-  const maxWidth = menuTextMaxWidth(labels, glyphs)
-  const cols = Math.max(1, maxWidth - 1)
+  // sdlpal uigame.c:559:cols = PAL_MenuTextMaxWidth - 1
+  const cols = menuTextMaxCols(labels, glyphs)
   // sdlpal uigame.c:559:rows = nSystemMenuItem - 1(5 items → rows 4)
   const rows = Math.max(1, items.length - 1)
   drawBox({
@@ -300,8 +288,8 @@ function drawInventoryActionMenu(
 ): void {
   const items = state.selection.items
   const labels = items.map((it) => it.label)
-  const maxWidth = menuTextMaxWidth(labels, glyphs)
-  const cols = Math.max(1, maxWidth - 1)
+  // sdlpal uigame.c:905:cols = PAL_MenuTextMaxWidth - 1
+  const cols = menuTextMaxCols(labels, glyphs)
   drawBox({
     fb, x: INVENTORY_ACTION_BOX.x, y: INVENTORY_ACTION_BOX.y,
     rows: 1, cols, style: 0,

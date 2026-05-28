@@ -39,7 +39,7 @@ import {
   MENUITEM_COLOR_SELECTED_INACTIVE,
   MENUITEM_COLOR_SELECTED_TOTAL,
 } from '../../core/menu/inventory-menu.js'
-import { drawBox, drawSingleLineBox } from './draw-box.js'
+import { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'
 import { drawNumber } from '../draw-number.js'
 import { renderText, type GlyphTable } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
@@ -165,11 +165,15 @@ function drawPickCaster(input: DrawInGameMagicMenuInput): void {
   const { fb, state, gs, uiSpriteFrames, glyphs, playerRoles } = input
   drawAllPlayerInfoBoxes(fb, state.partyMembers, gs, uiSpriteFrames)
 
-  // caster picker box(uigame.c:717:PAL_CreateBox at (35, 62),rows = wMaxPartyMemberIndex)
+  // caster picker box(uigame.c:717:PAL_CreateBox at (35, 62),
+  //   rows = wMaxPartyMemberIndex,cols = PAL_MenuTextMaxWidth(角色名) - 1)
   const rows = Math.max(1, state.partyMembers.length - 1)
+  const casterNames = state.casterMenu.items.map(
+    (it) => playerRoles.roles[it.id]?._name ?? `role#${it.id}`,
+  )
   drawBox({
     fb, x: CASTER_PICKER_BOX.x, y: CASTER_PICKER_BOX.y,
-    rows, cols: 5, style: 0, uiSpriteFrames,
+    rows, cols: menuTextMaxCols(casterNames, glyphs), style: 0, uiSpriteFrames,
   })
 
   // 4 caster names — sdlpal `rgMenuItem[i].pos = PAL_XY(48, 75 + 18*i)`

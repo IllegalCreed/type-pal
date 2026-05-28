@@ -10,6 +10,26 @@
 
 import type { Framebuffer } from '../framebuffer.js'
 import type { IndexedImage } from '../../assets/png.js'
+import { measureText, type GlyphTable } from '../font.js'
+
+/**
+ * port sdlpal `PAL_MenuTextMaxWidth` - 1(ui.c:762-794 + 797-833 PAL_WordMaxWidth):
+ * 一组菜单项文本的最大宽度(以**全角字符数**计)再减 1 —— 即 `PAL_CreateBox` 的 nColumns。
+ *   每项宽 = `(PAL_TextWidth(text) + 8) >> 4`(像素 → 全角字符数;PAL_CharWidth 全角 16 / 半角 8)。
+ *   PAL_CreateBox(..., PAL_MenuTextMaxWidth(...) - 1, ...) → box 内容列数。
+ *
+ * 角色名 / 菜单文案列表 box 宽统一走此函数,**不要再硬编码 cols**:
+ *   仙术选人 uigame.c:717、装备选人 uigame.c:1920、系统菜单 uigame.c:559、主菜单 989 等。
+ * @returns nColumns(>= 1)
+ */
+export function menuTextMaxCols(texts: readonly string[], glyphs?: GlyphTable): number {
+  let maxW = 0
+  for (const t of texts) {
+    const w = (measureText(t, glyphs) + 8) >> 4
+    if (w > maxW) maxW = w
+  }
+  return Math.max(1, maxW - 1)
+}
 
 // sdlpal palette 黑色 idx,用于 shadow 渲染。
 // M5.6 hotfix(2026-05-27)— shadow color 真值:不是固定纯色,而是基于当前 fb pixel 计算。
