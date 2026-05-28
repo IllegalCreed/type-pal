@@ -282,6 +282,7 @@ export const OP_JUMP_IF_SCENE = 0x0095             // 149 if wNumScene==op0 → 
 export const OP_RANDOM_JUMP = 0x00A2               // 162 cursor.ip += RandomLong(0,op0-1)
 
 // ── A3 数据/状态 opcode ──────────────────────────────────────────────────────
+export const OP_CALL_SCRIPT = 0x0004               // 4   调用子脚本 op0(op1=eventObjId 覆盖),返回后续跑
 export const OP_SET_PARTY = 0x0075                 // 117 operand[0..2]=roleId+1 → partyMembers
 export const OP_SET_OBJECT_SCRIPT = 0x0090         // 144 rgObject[op0].rgwData[2+op2]=op1
 
@@ -862,6 +863,16 @@ export function tickEventSystem(
             cursor.waiting = 'dialog'
             return // 等下次 tick Confirm 处理
           }
+        }
+        // opcode 0x04 call-script 返回:子脚本 'end' → 弹返回帧,恢复 caller 上下文(ip/commands/
+        // labelMap/currentEventObjectId)继续,而非清 cursor(sdlpal PAL_RunTriggerScript 子调用返回)。
+        if (cursor.callStack && cursor.callStack.length > 0) {
+          const frame = cursor.callStack.pop()!
+          cursor.commands = frame.returnCommands
+          cursor.labelMap = frame.returnLabelMap
+          cursor.currentEventObjectId = frame.savedEventObjectId
+          cursor.ip = frame.returnIp
+          break // 继续主 while,从 returnIp 跑 caller 下一条
         }
         // sdlpal play.c:64 真值:onEnter 脚本跑完把"下一条 entry"存回 scene.wScriptOnEnter。
         //   0x00(end,无 advance/reset):返回本次起始 entry(原地 replay — "每次进都跑"的脚本);
@@ -2240,6 +2251,43 @@ function applyRawOpcode(
       if (dx + dy >= (operands[1] ?? 0) * 32 + 16) jumpToGlobalIp(gs, operands[2] ?? 0)
       break
     }
+    case OP_CALL_SCRIPT: {
+      // sdlpal script.c:3258:PAL_RunTriggerScript(op0, op1==0 ? current : op1) 同步跑子脚本 +
+      // wScriptEntry++。ts tick 模型:压返回帧 + 跳子脚本(本 scene labelMap 优先,否则 shared);
+      // 子脚本 'end' 在主 while 弹帧返回 caller。
+      const cursor = gs.eventCursor
+      const subEntry = operands[0] ?? 0
+      if (!cursor || subEntry === 0) break
+      let subCommands = cursor.commands
+      let subLabelMap = cursor.labelMap
+      let subIp: number | undefined = cursor.labelMap[`L_${subEntry}`]
+      if (subIp === undefined) {
+        const sIp = _sharedLabelMap[`L_${subEntry}`]
+        if (sIp !== undefined) {
+          subCommands = _sharedCommands
+          subLabelMap = _sharedLabelMap
+          subIp = sIp
+        }
+      }
+      if (subIp === undefined) {
+        console.debug(`event-system: callScript L_${subEntry} 不在 scene/shared labelMap`)
+        break
+      }
+      cursor.callStack = cursor.callStack ?? []
+      cursor.callStack.push({
+        returnIp: cursor.ip + 1,
+        returnCommands: cursor.commands,
+        returnLabelMap: cursor.labelMap,
+        savedEventObjectId: cursor.currentEventObjectId,
+      })
+      // sdlpal 传 op1 作 wEventObjectID(1-based);op1=0 → 沿用当前。ts currentEventObjectId 0-based。
+      if ((operands[1] ?? 0) !== 0) cursor.currentEventObjectId = (operands[1] ?? 0) - 1
+      cursor.commands = subCommands
+      cursor.labelMap = subLabelMap
+      cursor.ip = subIp - 1 // caller raw-case ip++ → subIp
+      break
+    }
+
     case OP_SET_PARTY: {
       // sdlpal script.c:2164-2197:operand[0..2] = roleId+1(0=空)→ 重设队伍;清 poison。
       //   sprite 重载(kLoadPlayerSprite)= overworld follower 显示,present 层按 partyMembers 处理。

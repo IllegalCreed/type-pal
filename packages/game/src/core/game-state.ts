@@ -161,6 +161,18 @@ export interface EventCursor {
    */
   currentEventObjectId?: number
   /**
+   * opcode 0x04 call-script(script.c:3258)调用栈。sdlpal `PAL_RunTriggerScript(子脚本)`
+   * 同步跑完再回原处 wScriptEntry++。ts tick 模型用栈:0x04 压返回帧 + 跳子脚本;子脚本
+   * 'end' 弹帧返回(恢复 ip/commands/labelMap/currentEventObjectId),而非清 cursor。
+   * 支持子脚本在 shared(跨 scene 复用):保存 caller 的 commands/labelMap。
+   */
+  callStack?: {
+    returnIp: number
+    returnCommands: Command[]
+    returnLabelMap: Record<string, number>
+    savedEventObjectId?: number
+  }[]
+  /**
    * 本 cursor 是某 scene 的 onEnter 脚本时设(= wNumScene)。sdlpal play.c:64 真值:
    * `rgScene[i].wScriptOnEnter = PAL_RunTriggerScript(rgScene[i].wScriptOnEnter, ...)` —
    * onEnter 跑完把"停在哪/下一条 entry"存回 scene.wScriptOnEnter。'end' handler 据此

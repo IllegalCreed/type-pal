@@ -234,6 +234,7 @@ fillUnnamedOpcodes()
  * 0x74:2158 / 0x79:2239 / 0x81:2431 / 0x83:2468 / 0x86:2536 / 0x94:2679 / 0x95:2689。
  */
 export const JUMP_TARGET_OPERAND: Record<number, number> = {
+  0x04: 0, // call-script:op0 = 子脚本入口(非跳转,但同样需收集目标 + 打标签;之后 i+1 继续)
   0x58: 2, // jump if item amount < op1
   0x5d: 1, // jump if player not poisoned by kind op0
   0x5e: 1, // jump if enemy has no poison op0(battle)

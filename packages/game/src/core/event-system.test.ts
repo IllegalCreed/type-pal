@@ -1727,3 +1727,63 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     expect(gs.rgObject[42]?.rgwData[3]).toBe(777) // idx = 2 + op2(1) = 3
   })
 })
+
+// ── 0x04 call-script(2026-05-28,238 次最高频,调用栈)──────────────────────────
+describe('0x04 callScript(script.c:3258 — 调用栈)', () => {
+  it('调用子脚本 → 跑完 → 返回 caller 下一条继续', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 4, x: 0, y: 0, spriteNum: 1, sState: 1 }]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x04, operands: [50, 0, 0] }, // ip0 call L_50
+      { op: 'raw', opcode: 0x46, operands: [30, 30, 0] }, // ip1 返回后:setPartyPos → x=960
+      { op: 'end' }, // ip2 真结束
+      { label: 'L_50', op: 'raw', opcode: 0x49, operands: [5, 7, 0] }, // ip3 子脚本:npc id4 sState=7
+      { op: 'end' }, // ip4 子脚本 end → 弹栈返回 ip1
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.sState).toBe(7) // 子脚本跑了(0x49)
+    expect(gs.party.x).toBe(960) // 返回 caller 后继续跑了 ip1
+    expect(gs.eventCursor).toBeUndefined() // 最终 end 清 cursor
+  })
+
+  it('嵌套调用:A 调 B,B 调 C,逐层返回', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [
+      { id: 4, x: 0, y: 0, spriteNum: 1, sState: 0 },
+      { id: 5, x: 0, y: 0, spriteNum: 1, sState: 0 },
+    ]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x04, operands: [60, 0, 0] }, // ip0 call B(L_60)
+      { op: 'raw', opcode: 0x46, operands: [30, 30, 0] }, // ip1 A 返回后 x=960
+      { op: 'end' }, // ip2
+      { label: 'L_60', op: 'raw', opcode: 0x04, operands: [80, 0, 0] }, // ip3 B call C(L_80)
+      { op: 'raw', opcode: 0x49, operands: [5, 1, 0] }, // ip4 B 返回后:npc id4 sState=1
+      { op: 'end' }, // ip5 B end → 返回 ip1
+      { label: 'L_80', op: 'raw', opcode: 0x49, operands: [6, 2, 0] }, // ip6 C:npc id5 sState=2
+      { op: 'end' }, // ip7 C end → 返回 ip4
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[1]?.sState).toBe(2) // C 跑了
+    expect(gs.npcs[0]?.sState).toBe(1) // B 返回后跑了
+    expect(gs.party.x).toBe(960) // A 返回后跑了
+    expect(gs.eventCursor).toBeUndefined()
+  })
+
+  it('op1!=0 → 子脚本内 currentEventObjectId 覆盖为 op1-1(作用于 op1 指定 npc)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 8, x: 0, y: 0, spriteNum: 1, sState: 1 }]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x04, operands: [50, 9, 0] }, // ip0 call L_50,eventObj=9(1-based)→ id 8
+      { op: 'end' }, // ip1
+      // 子脚本 0x14 setObjectGesture(用 self = currentEventObjectId,被覆盖为 8)→ 设 id8 scriptedFrame
+      { label: 'L_50', op: 'raw', opcode: 0x14, operands: [5, 0, 0] }, // ip2
+      { op: 'end' }, // ip3
+    ])
+    gs.eventCursor!.currentEventObjectId = 0 // caller 的
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.scriptedFrame).toBe(5) // 子脚本 self 作用于 op1 指定的 npc id8
+  })
+})
