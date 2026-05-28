@@ -161,7 +161,10 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
   //    box pos = EquipRoleListBox = (2, 95);PAL_WordMaxWidth(36, 4) - 1 列宽
   drawBox({
     fb, x: EQUIP_ROLE_LIST_BOX.x, y: EQUIP_ROLE_LIST_BOX.y,
-    rows: Math.max(1, state.partyMembers.length - 1), cols: 4, style: 0,
+    // sdlpal uigame.c:1920 真值:nColumns = PAL_WordMaxWidth(36, 4) - 1。
+    // 角色名 36-39(李逍遥/赵灵儿/林月如/阿奴)最宽 3 全角字 → (3*16+8)>>4 = 3 → 3-1 = 2。
+    // 之前写死 4 → 框过宽,右边框盖住装备槽文字(user 2026-05-28 发现)。
+    rows: Math.max(1, state.partyMembers.length - 1), cols: 2, style: 0,
     uiSpriteFrames,
   })
   for (let i = 0; i < state.partyMembers.length; i++) {
