@@ -18,6 +18,7 @@ import type {
   GameState,
 } from '../../core/game-state.js'
 import type { EquipMenuState } from '../../core/menu/equip-menu.js'
+import type { InGameMagicMenuState } from '../../core/menu/in-game-magic-menu.js'
 import type { InGameMenuState, SystemMenuState } from '../../core/menu/in-game-menu.js'
 import type { InventoryActionMenuState } from '../../core/menu/inventory-action-menu.js'
 import type { InventoryMenuState } from '../../core/menu/inventory-menu.js'
@@ -32,6 +33,7 @@ import { drawBox, drawSingleLineBox } from './draw-box.js'
 import { drawNumber } from '../draw-number.js'
 import { drawEquipMenu } from './draw-equip.js'
 import { drawInventoryMenu } from './draw-inventory.js'
+import { drawInGameMagicMenu } from './draw-magic.js'
 import { drawOpeningMenu } from './draw-opening-menu.js'
 import { drawPlayerStatus } from './draw-player-status.js'
 
@@ -94,6 +96,10 @@ export interface DrawMenuExtraCtx {
   levelUpExp?: number[]
   /** C5(2026-05-28):FBP chunk 1 全屏背景(sdlpal `EQUIPMENU_BACKGROUND_FBPNUM=1`)— EquipItemMenu 用。 */
   equipBg?: BattleBgAsset
+  /** C7(2026-05-29):spells catalog(InGameMagicMenu 渲染 spell name + 查 magicNumber)。 */
+  spells?: import('@type-pal/shared').Spell[]
+  /** C7(2026-05-29):magics catalog(InGameMagicMenu 显 costMP)。 */
+  magics?: import('@type-pal/shared').Magic[]
 }
 
 export function drawMenuStack(
@@ -196,9 +202,26 @@ function drawMenuEntry(
       }
       break
     case 'in-game-magic':
+      // C7(2026-05-29):sdlpal uigame.c:653-875 PAL_InGameMagicMenu 1:1 port
+      if (extra?.playerRoles && extra?.spells && extra?.magics) {
+        drawInGameMagicMenu({
+          fb,
+          state: entry.state as InGameMagicMenuState,
+          gs,
+          playerRoles: extra.playerRoles,
+          spells: extra.spells,
+          magics: extra.magics,
+          uiSpriteFrames,
+          glyphs,
+        })
+      }
+      else {
+        drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
+      }
+      break
     case 'shop-buy':
     case 'shop-sell':
-      // C7/C9 待真做 fullscreen UI;此处显式标 TODO 不再装"接通"
+      // C9 待真做 fullscreen UI;此处显式标 TODO 不再装"接通"
       drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
       break
   }

@@ -70,6 +70,10 @@ export interface PresentContext {
    * 数据源 = FBP.MKF chunk 1 → battleBgs.get(1)。bootstrap 注入。
    */
   equipBg?: BattleBgAsset
+  /** C7(2026-05-29):InGameMagicMenu 渲染需 spells catalog(spell name + magicNumber)。 */
+  spells?: import('@type-pal/shared').Spell[]
+  /** C7(2026-05-29):InGameMagicMenu 渲染需 magics catalog(costMP)。 */
+  magics?: import('@type-pal/shared').Magic[]
 }
 
 /** sdlpal `palcommon.h`:kDirSouth=0 / kDirWest=1 / kDirNorth=2 / kDirEast=3。 */
@@ -430,6 +434,8 @@ export function presentFrame(
       portraitIcons: ctx.dialogAssets?.portraitFrames,
       levelUpExp: ctx.levelUpExp,
       equipBg: ctx.equipBg,
+      spells: ctx.spells,
+      magics: ctx.magics,
     })
   }
 }

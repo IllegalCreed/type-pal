@@ -202,6 +202,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     levelUpExp: assets.levelUpExp,
     // C5(2026-05-28):EquipItemMenu 全屏背景 — sdlpal `EQUIPMENU_BACKGROUND_FBPNUM = 1`(ui.h:118)。
     equipBg: assets.battleBgs.get(1),
+    // C7(2026-05-29):InGameMagicMenu 渲染需 spells / magics catalog。
+    spells: assets.spells,
+    magics: assets.magics,
   }
 
   // M3 T28/T29:战斗一帧装配 —— BattlePresent 持有 floating nums 跨帧状态;

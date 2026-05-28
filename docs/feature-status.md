@@ -22,7 +22,7 @@
 ## audit 进度
 
 - 核对中:user 让"先做完菜单"(暂停 Phase A,改 C 系列菜单补完)
-- 菜单补完进度:**1/6**(C5 ✓ — EquipItemMenu fullscreen UI + scriptOnEquip 真接通 + D14 装备 effect 顺手补)
+- 菜单补完进度:**2/6**(C5 ✓ + C7 ✓ — EquipItemMenu / InGameMagicMenu fullscreen UI + scriptOnEquip/scriptOnUse 真接通 + 装备 effect / MP 扣)
 - 已 verified ✓:0 / 18 自认 ✓ claimed
 - 已 verified ⚠️:0 / 31 自认 ⚠️ claimed
 - L 段(特殊物品 / 剧情系统):待 Phase B.G7 grep sdlpal 入口
@@ -75,7 +75,7 @@
 | C4 | 物品使用菜单 ItemUseMenu | ⚠️ claimed | ✓ partial | uigame.c:1289-1473 `PAL_ItemUseMenu` | core/menu/inventory-menu.ts use-target phase + present/menu/draw-inventory.ts | inventory-menu.test.ts use-target phase;渲染层 INNER while loop 真值 by user 实测 |
 | C5 | 装备菜单 EquipItemMenu | ⚠️ claimed | ✓ regress | uigame.c:1793-2056 `PAL_EquipItemMenu` | core/menu/equip-menu.ts + present/menu/draw-equip.ts | **equip-menu.test.ts** 16 用例 + **equip-effect.test.ts** 14 用例(swap 链 / wLastUnequippedItem / playerCursor wrap / rgEquipmentEffect 写入);C5 (2026-05-28) 全屏 UI + scriptOnEquip 真接通 + D14 装备 effect 顺手补;session 2 修简版 → 复用 InventoryMenu grid;session 4 修 filter color + scriptDesc |
 | C6 | 角色状态菜单 PlayerStatus | ⚠️ claimed | ✓ partial | uigame.c:1051-1288 `PAL_PlayerStatus` | core/menu/player-status.ts | player-status.test.ts(prev/next/cancel / done 边界);渲染层完整字段 + poison row ✗ 留 follow-up |
-| C7 | 法术菜单 InGameMagicMenu | ⚠️ claimed | ✗ todo | uigame.c:654 `PAL_InGameMagicMenu` | core/menu/in-game-magic-menu.ts | 数据 state machine 在,渲染 placeholder + scriptOnUse 没真接通;**整 UI 没真做** |
+| C7 | 法术菜单 InGameMagicMenu | ⚠️ claimed | ✓ regress | uigame.c:653-875 `PAL_InGameMagicMenu` + magicmenu.c:413-484 `PAL_MagicSelectionMenu` + uibattle.c:31-269 `PAL_PlayerInfoBox` | core/menu/in-game-magic-menu.ts + magic-script.ts + present/menu/draw-magic.ts | C7 (2026-05-29) 全屏 UI + scriptOnUse/scriptOnSuccess 真接通 + MP 扣 + 循环 picker。**in-game-magic-menu.test.ts** 21 用例 + **magic-script.test.ts** 19 用例(opcode 0x1B/0x1C/0x1D/0x22 真值 + 气疗术/还魂咒/五气朝元真 chain + clamp + dead skip)。撞到 code bug `hasOutsideMagic` 用 `s.id` 而非 `s.magicNumber` 反查 magicNumber — 修。 |
 | C8 | 存档菜单 SaveSlotMenu | ⚠️ claimed | ✓ regress | uigame.c:169 `PAL_SaveSlotMenu` | core/menu/save-slot-menu.ts | **save-slot-menu.test.ts** 8 用例(5 slot list / Up/Down / Current / mode);真 IO(IndexedDB) ✗ — 选 slot 不真存 |
 | C9 | 商店 BuyMenu / SellMenu | ⚠️ claimed | ✗ todo | uigame.c:1615 + 1755 | core/menu/shop-menu.ts | 数据层 shop-menu.ts;渲染 placeholder + 真扣金 ✗;**整 UI 没真做** |
 | C10 | 9-slice 边框 box 渲染 | ✓ claimed | ✓ partial | ui.c:131-240 `PAL_CreateBoxWithShadow` | present/menu/draw-box.ts | draw-box.test.ts;M5.6 完整 port |
@@ -217,8 +217,10 @@
 | [in-game-menu.test.ts](../packages/game/src/core/menu/in-game-menu.test.ts) | InGameMenu + SystemMenu choice / cursor 记忆(C1/C2) | 10 |
 | [inventory-action-menu.test.ts](../packages/game/src/core/menu/inventory-action-menu.test.ts) | 1 级 box 子菜单(装备/使用)+ defaultCursor 记忆 | 3 |
 | [script-desc.test.ts](../packages/game/src/core/menu/script-desc.test.ts) | getScriptDescLines 木剑/玉佛珠真值 + 边界(C3 防"只画 _name" bug) | 6 |
+| [magic-script.test.ts](../packages/game/src/core/menu/magic-script.test.ts) | C7 magic 同步 runner(opcode 0x1B/0x1C/0x1D/0x22 真值 + clamp + dead skip + 气疗 / 还魂咒 真 chain + castOverworldMagic 双层 scriptOnUse + scriptOnSuccess) | 19 |
+| [in-game-magic-menu.test.ts](../packages/game/src/core/menu/in-game-magic-menu.test.ts) | C7 state machine(4 phase 转换 + cancel 回退 + playerCursor 边界 noop + refreshSpellMenu MP 减后 disabled);**测试发现 code bug `hasOutsideMagic` 反查 spell.id 应用 .magicNumber → 修** | 21 |
 
-**计 83 新 case,613 → 674 + 2 skip 全过**。
+**计 123 新 case,613 → 714 + 2 skip 全过**。
 
 ## sdlpal 自身 bug(audit 过程发现,ts port 时显式 fix)
 

@@ -46,8 +46,10 @@ import {
 } from './equip-menu.js'
 import {
   cancelInGameMagic, confirmCaster, confirmSpell, confirmTarget,
-  createInGameMagicMenu, inGameMagicMoveDown, inGameMagicMoveUp, type InGameMagicMenuState,
+  createInGameMagicMenu, inGameMagicMoveDown, inGameMagicMoveUp,
+  refreshSpellMenu, type InGameMagicMenuState,
 } from './in-game-magic-menu.js'
+import { castOverworldMagic } from './magic-script.js'
 import {
   createPlayerStatus, playerStatusCancel, playerStatusNext, playerStatusPrev,
   type PlayerStatusState,
@@ -513,18 +515,61 @@ function dispatchInGameMagicMenu(
     if (s.phase === 'done') closeTopMenu(gs)
     return
   }
-  if (input.pressed.has('Up')) inGameMagicMoveUp(s)
-  if (input.pressed.has('Down')) inGameMagicMoveDown(s)
+  // sdlpal uigame.c:841 真值:pick-target 用 Left/Up 切上一个,Right/Down 切下一个
+  if (input.pressed.has('Up') || (s.phase === 'pick-target' && input.pressed.has('Left'))) {
+    inGameMagicMoveUp(s)
+  }
+  if (input.pressed.has('Down') || (s.phase === 'pick-target' && input.pressed.has('Right'))) {
+    inGameMagicMoveDown(s)
+  }
   if (input.pressed.has('Confirm')) {
     const catalogs = requireCatalogs()
-    if (s.phase === 'pick-caster') confirmCaster(s, catalogs.playerRoles, catalogs.spells, catalogs.magics)
-    else if (s.phase === 'pick-spell') confirmSpell(s, catalogs.playerRoles, gs.partyMembers)
+    if (s.phase === 'pick-caster') {
+      confirmCaster(s, catalogs.playerRoles, catalogs.spells, catalogs.magics)
+    }
+    else if (s.phase === 'pick-spell') {
+      // sdlpal uigame.c:740-861 真值:Confirm spell →
+      //  - applyToAll: 跑 scriptOnUse + scriptOnSuccess + MP 扣 → 留 pick-spell 继续选
+      //  - single target: phase = pick-target → picker 阶段处理
+      const sel = confirmSpell(s, catalogs.spells, catalogs.magics)
+      if (sel) {
+        const spell = catalogs.spells.find((x) => x.id === sel.spellId)
+        if (sel.applyToAll && spell) {
+          // sdlpal uigame.c:740-760 真值
+          const success = castOverworldMagic(gs, spell, sel.costMP, sel.casterId, 0xFFFF)
+          if (success) {
+            // 扣 MP — sdlpal 真值跑完 scriptOnSuccess 才扣
+            const curMP = gs.PlayerRolesRuntime.rgwMP[sel.casterId] ?? 0
+            gs.PlayerRolesRuntime.rgwMP[sel.casterId] = Math.max(0, curMP - sel.costMP)
+            // refresh spell list disabled(MP 减后某些 spell 不可用)
+            refreshSpellMenu(s, catalogs.playerRoles, catalogs.spells, catalogs.magics,
+              gs.PlayerRolesRuntime.rgwMP[sel.casterId] ?? 0)
+          }
+          // phase 保 'pick-spell'(sdlpal 真值 while loop 继续 PAL_MagicSelectionMenu)
+        }
+        // single target → confirmSpell 已切 phase='pick-target'
+      }
+    }
     else if (s.phase === 'pick-target') {
-      const result = confirmTarget(s)
-      if (result) {
-        console.debug(
-          `[menu] castMagic stub:caster=${result.casterId} spell=${result.spellId} target=${result.targetId}`,
-        )
+      const sel = confirmTarget(s, catalogs.spells, catalogs.magics)
+      if (sel) {
+        const spell = catalogs.spells.find((x) => x.id === sel.spellId)
+        if (spell) {
+          // sdlpal uigame.c:810-822 真值:Confirm picker → 跑 scriptOnUse + scriptOnSuccess + 扣 MP
+          const success = castOverworldMagic(gs, spell, sel.costMP, sel.casterId, sel.targetRoleId)
+          if (success) {
+            const curMP = gs.PlayerRolesRuntime.rgwMP[sel.casterId] ?? 0
+            gs.PlayerRolesRuntime.rgwMP[sel.casterId] = Math.max(0, curMP - sel.costMP)
+            // sdlpal uigame.c:828-835 真值:扣完 MP 再检 — 不够 wPlayer=CANCELLED 退 picker
+            const newMP = gs.PlayerRolesRuntime.rgwMP[sel.casterId] ?? 0
+            if (newMP < sel.costMP) {
+              // 退 picker 回 spell list
+              cancelInGameMagic(s) // phase='pick-target' → 'pick-spell'
+            }
+            // refresh spell list disabled
+            refreshSpellMenu(s, catalogs.playerRoles, catalogs.spells, catalogs.magics, newMP)
+          }
+        }
       }
     }
     if (s.phase === 'done') closeTopMenu(gs)
