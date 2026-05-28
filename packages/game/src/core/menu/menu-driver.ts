@@ -437,8 +437,26 @@ function dispatchEquipMenu(
     if (s.phase === 'done') closeTopMenu(gs)
     return
   }
-  if (input.pressed.has('Up') || input.pressed.has('Left')) equipMoveUp(s)
-  if (input.pressed.has('Down') || input.pressed.has('Right')) equipMoveDown(s)
+  // 8 key navigation:
+  //  phase='list' = sdlpal PAL_ItemSelectMenu(equipable) — grid Up/Down/Left/Right/PgUp/PgDn/Home/End
+  //  phase='pick-role' = sdlpal PAL_EquipItemMenu — Up/Left ↔ Down/Right wrap player cursor
+  if (s.phase === 'list') {
+    if (input.pressed.has('Up')) inventoryMoveUp(s.list)
+    if (input.pressed.has('Down')) inventoryMoveDown(s.list)
+    if (input.pressed.has('Left')) inventoryMoveLeft(s.list)
+    if (input.pressed.has('Right')) inventoryMoveRight(s.list)
+    if (input.pressed.has('PgUp')) inventoryPageUp(s.list)
+    if (input.pressed.has('PgDn')) inventoryPageDown(s.list)
+    if (input.pressed.has('Home')) inventoryHome(s.list)
+    if (input.pressed.has('End')) inventoryEnd(s.list)
+    // sdlpal gpGlobals->iCurInvMenuItem 全局记忆同 InventoryMenu kind 共享
+    gs.iCurInvMenuItem = s.list.cursor
+  }
+  else if (s.phase === 'pick-role') {
+    if (input.pressed.has('Up') || input.pressed.has('Left')) equipMoveUp(s)
+    if (input.pressed.has('Down') || input.pressed.has('Right')) equipMoveDown(s)
+  }
+
   if (input.pressed.has('Confirm')) {
     const catalogs = requireCatalogs()
     if (s.phase === 'list') {
@@ -463,14 +481,22 @@ function dispatchEquipMenu(
         }
         // sdlpal uigame.c:1859 真值:下一帧渲染重读 wLastUnequippedItem(0x18 已写)
         s.selectedItemId = gs.wLastUnequippedItem
-        // sdlpal uigame.c:2016-2019 真值:wItem == 0 → return(关菜单)
+        // sdlpal uigame.c:2016-2019 真值:wItem == 0 → return EquipItemMenu → 回 PAL_GameEquipItem
+        // outer while 再 PAL_ItemSelectMenu;ts 等价:回 phase='list'
         if (s.selectedItemId === 0) {
-          s.phase = 'done'
+          s.phase = 'list'
+          // sdlpal createInventoryMenu refresh — 装备完一件后 inventory grid 可能变化(itemCount-1)
+          s.list = createInventoryMenuRefresh(gs, catalogs.items)
         }
       }
     }
     if (s.phase === 'done') closeTopMenu(gs)
   }
+}
+
+/** 装备完一件后重 build inventory grid(sdlpal PAL_ItemSelectMenu 内部每次再调时 refresh)。 */
+function createInventoryMenuRefresh(gs: GameState, items: Item[]) {
+  return createInventoryMenu(gs, items, 'equip')
 }
 
 // ── In-Game Magic(大世界法术)─────────────────────────────────────────

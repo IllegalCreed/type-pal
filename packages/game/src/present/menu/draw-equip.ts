@@ -38,6 +38,7 @@ import {
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { drawBattleBg } from '../battle/draw-battle-bg.js'
 import { drawBox } from './draw-box.js'
+import { drawInventoryMenu } from './draw-inventory.js'
 import { drawNumber } from '../draw-number.js'
 import { renderText, type GlyphTable } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
@@ -110,23 +111,21 @@ export interface DrawEquipMenuInput {
 }
 
 /**
- * phase='list' 渲染(sdlpal `PAL_ItemSelectMenu(equipable)` 简版 — 完整 grid 留 follow-up)。
- * 暂用简单 list:box(110, 60) + cursor row,标 `[简版]` 提示用户当前是降级版。
+ * phase='list' 渲染 — sdlpal `PAL_ItemSelectMenu(equipable)` 完整 grid(itemmenu.c:28-310)。
+ * **直接复用 drawInventoryMenu**,sdlpal 真值是同一个 fn,filter 不同而已。
  */
 function drawEquipList(input: DrawEquipMenuInput): void {
-  const { fb, state, items, uiSpriteFrames, glyphs } = input
-  // 简单 box
-  drawBox({ fb, x: 100, y: 30, rows: 8, cols: 12, style: 1, uiSpriteFrames })
-  const list = state.list
-  for (let i = 0; i < list.items.length && i < 8; i++) {
-    const it = list.items[i]!
-    const item = items.find((x) => x.id === it.id)
-    const label = item?._name ?? `?${it.id}`
-    const color = i === list.cursor ? selectedColor() : MENUITEM_COLOR
-    renderText(fb, label, 115, 42 + i * 18, color, glyphs, true)
-  }
-  // 副标提示当前 phase
-  renderText(fb, '选物品 [简版,M6 grid]', 100, 20, MENUITEM_COLOR_CONFIRMED, glyphs, true)
+  const { fb, state, items, uiSpriteFrames, glyphs, itemIcons } = input
+  drawInventoryMenu({
+    fb,
+    state: state.list,
+    items,
+    uiSpriteFrames,
+    itemIcons,
+    glyphs,
+    // gs/playerRoles 不传 — InventoryMenu use-target overlay 只在 phase='use-target' 触发,
+    // EquipMenu 的 list 子状态永远 'list',不会撞 ItemUseMenu picker。
+  })
 }
 
 /**
