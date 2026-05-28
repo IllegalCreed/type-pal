@@ -185,6 +185,7 @@ export const OP_MONSTER_CHASE = 0x004C          // 76  MonsterChasePlayer(id, sp
 //   trail unshift + party.x += SHORT(operand[0]), party.y += SHORT(operand[1])
 //   wLayer = operand[2] * 8
 export const OP_PLAYER_WALK_ONE_STEP = 0x006E   // 110
+export const OP_SYNC_OBJ_STATE = 0x006F         // 111 if pCurrent.sState==op1 → pEvtObj.sState=op1
 // case 0x0065(101): Set player sprite(script.c:1999-2004)
 //   PlayerRoles.rgwSpriteNum[operand[0]] = operand[1]
 //   operand[2] != 0 → PAL_LoadResources (we just update runtime;实际 load 由 bootstrap 预加载所有)
@@ -1873,12 +1874,25 @@ function applyRawOpcode(
 
     case OP_SET_OBJECT_POS_REL_PARTY: {
       // sdlpal script.c:706-714 真值:pCurrent.x = operand[1] + viewport.x + partyoffset.x
-      //   = operand[1] + party.x(因为 party.world = viewport + partyoffset)
-      const npc = resolveTargetNpc(gs, 0, currentEventObjectId, 'setObjectPosRelParty')
+      //   = operand[1] + party.x(因为 party.world = viewport + partyoffset)。
+      //   pCurrent 由 operand[0] 选(非 self)—— 旧 bug 写死 0(self),op0 选别的对象时错。
+      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setObjectPosRelParty')
       if (npc) {
         npc.x = (operands[1] ?? 0) + gs.party.x
         npc.y = (operands[2] ?? 0) + gs.party.y
         console.debug(`event-system: setObjectPosRelParty id=${npc.id} → (${npc.x},${npc.y})`)
+      }
+      break
+    }
+
+    case OP_SYNC_OBJ_STATE: {
+      // sdlpal script.c 0x006F:if (pCurrent.sState == op1) pEvtObj.sState = op1。
+      //   pCurrent = operand[0] 选的对象;pEvtObj = self(currentEventObjectId)。
+      const pCurrent = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'syncObjState')
+      const pEvt = getSelfNpc(gs, currentEventObjectId, 'syncObjState')
+      if (pCurrent && pEvt && (pCurrent.sState ?? 0) === (operands[1] ?? 0)) {
+        pEvt.sState = operands[1] ?? 0
+        console.debug(`event-system: syncObjState pEvt=${pEvt.id} ← pCurrent=${pCurrent.id} sState=${pEvt.sState}`)
       }
       break
     }

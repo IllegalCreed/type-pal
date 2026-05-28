@@ -1890,6 +1890,36 @@ describe('0x81 jumpIfNotFacing(用桂花酒对酒剑仙 — 设对象 triggerMod
   })
 })
 
+describe('pCurrent(operand[0] 选对象)对象 opcode 类(对齐 sdlpal pCurrent,非 self)', () => {
+  it('0x12 setObjectPosRelParty:operand[0] 选对象(非 self)→ 设该对象相对 party 位置', () => {
+    const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [
+      { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1 },   // self(触发者)
+      { id: 7, x: 0, y: 0, spriteNum: 1, sState: 1 },   // op0 选的对象
+    ]
+    loadEvent(gs, [{ op: 'raw', opcode: 0x12, operands: [8, 16, 8] }, { op: 'end' }]) // op0=8→id7
+    gs.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[1]?.x).toBe(116)   // id7 = op1 + party.x(非 self id5)
+    expect(gs.npcs[1]?.y).toBe(58)
+    expect(gs.npcs[0]?.x).toBe(0)     // self(id5)未动
+  })
+
+  it('0x6F syncObjState:pCurrent.sState==op1 → pEvtObj(self).sState=op1', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = [
+      { id: 5, x: 0, y: 0, spriteNum: 1, sState: 0 },   // self(pEvtObj)
+      { id: 7, x: 0, y: 0, spriteNum: 1, sState: 2 },   // pCurrent(op0 选)
+    ]
+    loadEvent(gs, [{ op: 'raw', opcode: 0x6F, operands: [8, 2, 0] }, { op: 'end' }]) // op0=8→id7,op1=2
+    gs.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.sState).toBe(2)  // pCurrent(id7).sState==2 → self(id5).sState=2
+  })
+})
+
 // ── A 类补全(A1:自包含数据/状态 opcode)──────────────────────────────────────
 describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0x9A setMultiState', () => {
   it('0x40 setTriggerMethod:operand[0]!=0 → pCurrent.triggerMode = operand[1](script.c:1613-1621)', () => {
