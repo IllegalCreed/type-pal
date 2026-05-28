@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createInitialGameState, npcFromEventObject, type Facing, type GameState, type Mode } from './game-state.js'
+import { createInitialGameState, npcFromEventObject, sliceSceneEventObjects, type Facing, type GameState, type Mode } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
 import type { SceneEventObject } from '@type-pal/shared'
 
@@ -197,5 +197,47 @@ describe('npcFromEventObject', () => {
   it('triggerLabel 缺时透传 undefined', () => {
     const eo: SceneEventObject = { id: 0, x: 0, y: 0, spriteNum: 0, triggerMode: 0 }
     expect(npcFromEventObject(eo).triggerLabel).toBeUndefined()
+  })
+})
+
+// ── 忠实全局 event object 数组(2026-05-28 李大娘重进重现回归)──────────────────
+describe('sliceSceneEventObjects(sdlpal lprgEventObject 切片)', () => {
+  it('gs.npcs = 当前 scene 切片,元素是 allEventObjects 引用 → 脚本改动持久', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.allEventObjects = [
+      { id: 0, x: 0, y: 0, spriteNum: 1, sState: 1 },
+      { id: 1, x: 0, y: 0, spriteNum: 1, sState: 1 },
+      { id: 2, x: 0, y: 0, spriteNum: 1, sState: 1 },
+    ]
+    gs.sceneEventRanges = { 1: [1, 3] } // scene index 1(wNum 2)拥有 [1,3)
+    gs.sceneLabelMap = {}
+    const slice = sliceSceneEventObjects(gs, 2)
+    expect(slice?.map((n) => n.id)).toEqual([1, 2])
+    // 引用:改切片元素 = 改全局数组(脚本改动持久,重进保留)
+    slice![0]!.sState = 0
+    expect(gs.allEventObjects[1]!.sState).toBe(0)
+  })
+
+  it('首访延迟解析 autoCursor(用当前 scene labelMap)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.allEventObjects = [{ id: 0, x: 0, y: 0, spriteNum: 1, sState: 1, autoLabel: 'L_100' }]
+    gs.sceneEventRanges = { 0: [0, 1] }
+    gs.sceneLabelMap = { L_100: 42 }
+    expect(sliceSceneEventObjects(gs, 1)?.[0]?.autoCursor).toEqual({ ip: 42 })
+  })
+
+  it('已推进的 autoCursor 不重解(保留 autoscript 进度)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.allEventObjects = [
+      { id: 0, x: 0, y: 0, spriteNum: 1, sState: 1, autoLabel: 'L_100', autoCursor: { ip: 55 } },
+    ]
+    gs.sceneEventRanges = { 0: [0, 1] }
+    gs.sceneLabelMap = { L_100: 42 }
+    expect(sliceSceneEventObjects(gs, 1)?.[0]?.autoCursor).toEqual({ ip: 55 }) // 不重解为 42
+  })
+
+  it('全局表缺失 → undefined(调用方兜底从 dump 建)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    expect(sliceSceneEventObjects(gs, 2)).toBeUndefined()
   })
 })

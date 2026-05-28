@@ -131,6 +131,12 @@ export interface NpcState {
     /** sdlpal `wScriptIdleFrameCountAuto`:opcode 0x09 wait N frames 用,累计 N 后推 ip。 */
     idleFrameCount?: number
   }
+  /**
+   * autoScript 入口 label(`L_<global ip>`)。全局 event object 数组里保留它,供进 scene 切片时
+   * 按**当前 scene labelMap** 延迟解析 autoCursor(每 scene labelMap 不同,不能全局预解析)。
+   * autoCursor 一旦解析/推进过就不再重解(保留 autoscript 进度,sdlpal wScriptOnAutoTrigger 持久)。
+   */
+  autoLabel?: string
 }
 
 export interface EventCursor {
@@ -657,6 +663,21 @@ export interface GameState {
   rgEventObject: Record<number, EventObjectStateMutable>
 
   /**
+   * 忠实 sdlpal `lprgEventObject[MAX_EVENT_OBJECTS]`:全部 scene 的 event object 全局数组,
+   * 下标 = 全局 0-based id(= scene dump 的 `id` 字段 = sss.eventObjects 下标)。
+   * 新游戏一次性加载;脚本按全局 id 改这里(NPC 走了/隐藏/宝箱开了 全持久)。
+   * `gs.npcs` 是当前 scene 的切片(元素**引用**本数组,改动自动持久)。随存档持久化。
+   * undefined = 旧档/未加载(loadSceneCommon 兜底从 scene dump 建,退化为非持久)。
+   */
+  allEventObjects?: NpcState[]
+
+  /**
+   * 各 scene 在 allEventObjects 里的 [start, end) 区间(键 = scene 0-based index = wNumScene-1)。
+   * sdlpal `scene.wEventObjectIndex` 真值。event-objects.json 随 allEventObjects 一起加载。
+   */
+  sceneEventRanges?: Record<number, [number, number]>
+
+  /**
    * sdlpal global.h:521 `rgEquipmentEffect[MAX_PLAYER_EQUIPMENTS + 1]` — 7 部位
    * 装备 stat 加成累加表。`updateAllEquipments` 启动 / 读档时填满,opcode 0x17
    * (set extra attr)期间增量写入,opcode 0x18 (Equip) 入口先 removeEquipmentEffect 清。
@@ -930,7 +951,9 @@ export function npcFromEventObject(
     // dump 字段保留;present.ts 用 sLayer*8+9(pos.y)/ sLayer*8+2(iLayer)。
     sLayer: eo.sLayer ?? 0,
   }
-  // resolve autoLabel → autoCursor.ip(scene 加载时调用方传 labelMap)
+  // autoLabel 保留(全局数组延迟解析 autoCursor 用;每 scene labelMap 不同)。
+  if (eo.autoLabel) npc.autoLabel = eo.autoLabel
+  // resolve autoLabel → autoCursor.ip(传 labelMap 时立即解;全局数组建表时不传 → 切片时解)。
   // sdlpal `wAutoScript != 0 && sState > 0` → autoScript 每帧跑;NPC dump 里 autoLabel 非空才有。
   if (eo.autoLabel && labelMap) {
     const ip = labelMap[eo.autoLabel]
@@ -939,4 +962,28 @@ export function npcFromEventObject(
     }
   }
   return npc
+}
+
+/**
+ * 当前 scene 的 event object 切片(忠实 sdlpal lprgEventObject[scene.eventObjectIndex..])。
+ *
+ * 元素是 `gs.allEventObjects` 的**引用** → 脚本(0x49/移动/0x9A 等)改动自动持久、重进保留
+ *(李大娘走了/宝箱开了 都在)。首访时按**当前 scene labelMap**(gs.sceneLabelMap,loadSceneCommon
+ * 已先设)延迟解析 autoCursor;已解析或已推进过的不重解(保留 autoscript 进度,sdlpal
+ * wScriptOnAutoTrigger 持久)。
+ *
+ * 返回 undefined = 全局数组未加载(旧档 / 加载失败)→ 调用方兜底从 scene dump 重建(退化为非持久)。
+ */
+export function sliceSceneEventObjects(gs: GameState, wNumScene: number): NpcState[] | undefined {
+  if (!gs.allEventObjects || !gs.sceneEventRanges) return undefined
+  const range = gs.sceneEventRanges[wNumScene - 1]
+  if (!range) return undefined
+  const slice = gs.allEventObjects.slice(range[0], range[1])
+  for (const npc of slice) {
+    if (npc.autoCursor === undefined && npc.autoLabel) {
+      const ip = gs.sceneLabelMap?.[npc.autoLabel]
+      if (ip !== undefined) npc.autoCursor = { ip }
+    }
+  }
+  return slice
 }

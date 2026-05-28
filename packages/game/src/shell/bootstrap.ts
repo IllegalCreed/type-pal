@@ -1,11 +1,11 @@
-import type { EventFile, SceneEventObject, Tilemap } from '@type-pal/shared'
+import type { EventFile, EventObjectsFile, SceneEventObject, Tilemap } from '@type-pal/shared'
 import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
 import { fetchPalette, loadAll, SceneAssetsCache, type SceneAssets, type SceneFetcher } from '../assets/loader.js'
 import { loadDialogAssets } from '../assets/dialog-assets.js'
 import { loadGlyphs, renderText } from '../present/font.js'
 import { createCommandBus } from '../core/command-bus.js'
 import type { Command } from '@type-pal/shared'
-import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject } from '../core/game-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject, sliceSceneEventObjects } from '../core/game-state.js'
 import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap, runEnterScript, setFetchPalette,
@@ -122,8 +122,27 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // scene-level commands + label map(autoScript runner 用)
   gs.sceneCommands = eventCommands
   gs.sceneLabelMap = labelMap
-  // 传 labelMap → NPC autoLabel resolve 成 autoCursor.ip
-  gs.npcs = scene.eventObjects.map((eo) => npcFromEventObject(eo, labelMap))
+
+  // 忠实 sdlpal lprgEventObject:一次性加载全局 event object 表 → gs.allEventObjects + 区间。
+  // gs.npcs = 当前 scene 切片(引用全局元素 → 脚本改动持久,重进保留:李大娘走了不复现)。
+  try {
+    const eoRes = await fetch('/extracted/data/event-objects.json')
+    if (eoRes.ok) {
+      const eoFile = (await eoRes.json()) as EventObjectsFile
+      // 全局数组建表时不传 labelMap(autoCursor 留切片时按各 scene labelMap 延迟解)。
+      gs.allEventObjects = eoFile.eventObjects.map((eo) => npcFromEventObject(eo))
+      gs.sceneEventRanges = eoFile.sceneRanges
+    }
+    else {
+      console.warn(`[bootstrap] event-objects.json fetch failed (${eoRes.status}),NPC 状态退化为非持久`)
+    }
+  }
+  catch (err) {
+    console.warn('[bootstrap] event-objects.json 加载失败,NPC 状态退化为非持久:', err)
+  }
+  // 切当前 scene 视图;全局表缺失则兜底从 scene dump 建(传 labelMap 立即解 autoCursor)。
+  gs.npcs = sliceSceneEventObjects(gs, gs.wNumScene)
+    ?? scene.eventObjects.map((eo) => npcFromEventObject(eo, labelMap))
 
   // M5.6 T17:onEnter 启动改由 startNewGameFromPrimary helper 触发,
   // OpeningMenu 选 new-game / ?skip-intro=1 路径都调它。
@@ -436,13 +455,19 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     gs.sceneCommands = sceneAssets.eventCommands
     gs.sceneLabelMap = sceneAssets.labelMap
     if (!opts.fromSavedGame) {
-      // 正常 loadScene 路径(opcode 0x59):重置 NPC 从 scene dump rebuild
-      gs.npcs = sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
+      // 忠实全局 event object 数组(sdlpal lprgEventObject):gs.npcs = 当前 scene 切片
+      //(引用 gs.allEventObjects 元素 → 脚本改动持久,重进保留)。
+      // gs.sceneLabelMap 已在上面设为新 scene → 切片内 autoCursor 延迟解析用对的 labelMap。
+      // 全局表缺失则兜底从 scene dump 建(退化为非持久)。
+      gs.npcs = sliceSceneEventObjects(gs, newWNumScene)
+        ?? sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
     }
     else {
-      // C8 load game 路径:SAVEDGAME 内已含 gs.npcs(玩家保存时的 NPC 运行时状态);保留。
-      // 注:gs.rgEventObject sparse Record 应用到 npcs 的逻辑独立 tick(M5 暂未做 →
-      // load 后 NPC 显示位置等可能跟 scene dump 一致而非 SAVEDGAME 真值,留 follow-up)。
+      // C8 load game 路径:存档 JSON.stringify 会断开 gs.npcs 与 gs.allEventObjects 的引用。
+      // 从加载回的 gs.allEventObjects 重切当前 scene → 重建引用(状态一致,后续脚本改动持久)。
+      // 旧档无 allEventObjects → sliceSceneEventObjects 返 undefined → 保留存档内 gs.npcs。
+      const reslice = sliceSceneEventObjects(gs, newWNumScene)
+      if (reslice) gs.npcs = reslice
     }
     applySceneAssetsToPresent(sceneAssets)
     if (!opts.fromSavedGame) {
@@ -673,8 +698,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       const ip = labelMap[scene.onEnterLabel]
       if (ip !== undefined) {
         if (skipIntroBoot) {
-          // skip-intro: 同步跑 enter script,只取 setPartyPos/Direction,跳过对话(scene 1 客栈)
-          runEnterScript(gs, eventCommands, labelMap, ip)
+          // skip-intro: 同步跑 enter script,只取 setPartyPos/Direction,跳过对话(scene 1 客栈)。
+          // 传 sceneId(gs.wNumScene)→ 跑完持久化 onEnter 停点,重进 scene 不重播开场
+          // (否则从大厅进客栈时 onEnter 重放传说 + setPartyPos 把人拉回起点,覆盖门的落点)。
+          const overrideIp = gs.sceneOnEnterIp[gs.wNumScene]
+          runEnterScript(gs, eventCommands, labelMap, overrideIp ?? ip, gs.wNumScene)
         }
         else {
           // 正常启动:跑完整 onEnter script(scene 0 梦境对话)— tickEventSystem 步进。

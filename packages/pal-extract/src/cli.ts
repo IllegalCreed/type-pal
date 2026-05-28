@@ -42,7 +42,7 @@ import { extractBattleSprites } from './resources/battle-sprite.js'
 import { parseEnemyPos } from './resources/enemy-pos.js'
 import { parseMap } from './resources/map.js'
 import { decodePalette } from './resources/palette.js'
-import { dumpScene } from './resources/scene.js'
+import { dumpAllEventObjects, dumpScene } from './resources/scene.js'
 import { encodeIndexedPng, extractCharacterSprites, framesToOut, parseSpriteChunk } from './resources/sprite.js'
 import {
   parseBattleEffectIndex,
@@ -574,6 +574,16 @@ async function main(): Promise<void> {
       sceneWritten++
     }
     console.log(`[pal-extract] scenes written: ${sceneWritten}`)
+  }
+
+  // 忠实 sdlpal lprgEventObject:全局 event object 表(全部 + 各 scene 区间),运行时一次性加载。
+  {
+    const allEvtObjs = dumpAllEventObjects(sss.scenes, sss.eventObjects)
+    writeJson(resolve(OUT, 'data', 'event-objects.json'), allEvtObjs)
+    console.log(
+      `[pal-extract] event-objects.json written: ${allEvtObjs.eventObjects.length} objects, `
+      + `${Object.keys(allEvtObjs.sceneRanges).length} scene ranges`,
+    )
   }
 
   // 调色板:PAT.MKF 全量 dump

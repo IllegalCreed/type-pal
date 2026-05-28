@@ -859,6 +859,10 @@ export function tickEventSystem(
           }
           else nextEntry = cursor.onEnterStartIp ?? cursor.ip
           gs.sceneOnEnterIp[cursor.onEnterSceneId] = nextEntry
+          // onEnter 结束 → 清 fEnteringScene 解冻渲染(sdlpal play.c:61 真值是无条件清)。
+          // 带 fadeScreen 的开场已在中途(opcode 0x73)清过,这里幂等;override(已推进过
+          // 开场、无 fadeScreen)则靠这里清,否则 present.ts:114 永久 early-return → 卡死。
+          gs.fEnteringScene = false
         }
         gs.eventCursor = undefined
         gs.dialogBox = undefined
@@ -2388,6 +2392,12 @@ export function runEnterScript(
   commands: Command[],
   labelMap: Record<string, number>,
   startIp: number,
+  /**
+   * 本 onEnter 所属 scene(= wNumScene)。传了就在跑完(撞 end)时把"下一条 entry"
+   * 持久化到 gs.sceneOnEnterIp[sceneId](sdlpal play.c:64 真值)。skip-intro 同步跑开场
+   * 也要存,否则重进 scene onEnter 会重播(覆盖门的 setPartyPos)。
+   */
+  sceneId?: number,
 ): void {
   let ip = startIp
   let stepCount = 0
@@ -2405,6 +2415,16 @@ export function runEnterScript(
     const cmd = commands[ip]!
 
     if (cmd.op === 'end') {
+      // sdlpal play.c:64:onEnter 跑完存回下一条 entry(0x00→起始 replay;0x01→ip+1;0x02→resetTo)
+      if (sceneId !== undefined) {
+        let nextEntry: number
+        if (cmd.advance) nextEntry = ip + 1
+        else if (cmd.reset && cmd.resetTo !== undefined) {
+          nextEntry = labelMap[`L_${cmd.resetTo}`] ?? startIp
+        }
+        else nextEntry = startIp
+        gs.sceneOnEnterIp[sceneId] = nextEntry
+      }
       return
     }
 

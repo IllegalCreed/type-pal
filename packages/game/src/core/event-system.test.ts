@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import type { Command, InputSnapshot, AbstractKey, Palette } from '@type-pal/shared'
 import {
-  tickEventSystem, tickAutoScripts, buildLabelMap, runScript, setFetchPalette,
+  tickEventSystem, tickAutoScripts, buildLabelMap, runScript, runEnterScript, setFetchPalette,
   setSharedEvents, setStartBattleHandler,
   OP_START_BATTLE, OP_SET_BATTLE_FIELD, OP_SET_SCENE_OBJECT_STATE,
   OP_SET_PARTY_DIRECTION,
@@ -1600,5 +1600,27 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
     onEnterCursor(gs, commands, 0, 3)
     tickEventSystem(gs, snap(), bus)
     expect(gs.sceneOnEnterIp[3]).toBe(0) // 0x00 → 返回起始 ip 0(下次仍从头跑)
+  })
+
+  it('onEnter 结束清 fEnteringScene(override 入口无 fadeScreen 也解冻,不卡死)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.fEnteringScene = true // loadScene 设的"加载期冻结渲染"标志
+    // override 入口 = 已推进过开场的 0x00(无 fadeScreen 来清 fEnteringScene)
+    onEnterCursor(gs, [{ op: 'end' }], 0, 2)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.fEnteringScene).toBe(false) // onEnter 结束 → 解冻(否则 present 永久跳渲染 → 卡死)
+  })
+
+  it('runEnterScript(skip-intro 同步路径):0x01 收尾也持久化 sceneOnEnterIp(重进不重播)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const commands: Command[] = [
+      { op: 'raw', opcode: 0x46, operands: [10, 10, 0] }, // ip0 setPartyPos(开场起点)
+      { op: 'showDialog', text: '很久很久以前', messageIndex: 0 }, // ip1 同步路径跳过对话
+      { op: 'end', advance: true }, // ip2 0x01 收尾
+      { op: 'end' }, // ip3 0x00
+    ]
+    runEnterScript(gs, commands, buildLabelMap(commands), 0, 2)
+    expect(gs.sceneOnEnterIp[2]).toBe(3) // 0x01@ip2 → ip2+1=3(下一条 0x00),重进不重播开场
   })
 })

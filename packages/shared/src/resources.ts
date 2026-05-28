@@ -96,6 +96,18 @@ export interface SceneObjects {
   eventObjects: SceneEventObject[]
 }
 
+/**
+ * 全局 event object 表 —— 忠实 sdlpal `lprgEventObject[MAX_EVENT_OBJECTS]`。
+ * 一个文件含全部 scene 的 event object(下标 = 全局 0-based id)+ 各 scene 的区间。
+ * 运行时一次性加载成持久全局数组,gs.npcs = 当前 scene 切片(引用全局元素 → 脚本改动持久)。
+ */
+export interface EventObjectsFile {
+  /** 全部 event object,下标 = 全局 0-based id(= SSS.MKF EventObject 数组下标)。 */
+  eventObjects: SceneEventObject[]
+  /** 各 scene 的 [start, end) event object 区间(键 = scene 0-based index = wNumScene-1)。 */
+  sceneRanges: Record<number, [number, number]>
+}
+
 /** 像素坐标(M5 P0.0 起:party / npcs / camera 统一用像素,不再用 cell)。 */
 export interface PixelPos { x: number; y: number }
 
