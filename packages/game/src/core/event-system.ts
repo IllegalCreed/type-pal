@@ -281,6 +281,10 @@ export const OP_JUMP_IF_OBJ_STATE = 0x0094         // 148 if pCurrent.sState==op
 export const OP_JUMP_IF_SCENE = 0x0095             // 149 if wNumScene==op0 → jump op1
 export const OP_RANDOM_JUMP = 0x00A2               // 162 cursor.ip += RandomLong(0,op0-1)
 
+// ── A3 数据/状态 opcode ──────────────────────────────────────────────────────
+export const OP_SET_PARTY = 0x0075                 // 117 operand[0..2]=roleId+1 → partyMembers
+export const OP_SET_OBJECT_SCRIPT = 0x0090         // 144 rgObject[op0].rgwData[2+op2]=op1
+
 // case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
 export const OP_POISON_ENEMY = 0x0028              // 40
 
@@ -2236,6 +2240,35 @@ function applyRawOpcode(
       if (dx + dy >= (operands[1] ?? 0) * 32 + 16) jumpToGlobalIp(gs, operands[2] ?? 0)
       break
     }
+    case OP_SET_PARTY: {
+      // sdlpal script.c:2164-2197:operand[0..2] = roleId+1(0=空)→ 重设队伍;清 poison。
+      //   sprite 重载(kLoadPlayerSprite)= overworld follower 显示,present 层按 partyMembers 处理。
+      //   PAL_UpdateEquipments:新游戏已对全 role 跑过 → effect 已在,不重跑。
+      const members: number[] = []
+      for (let i = 0; i < 3; i++) {
+        const v = operands[i] ?? 0
+        if (v !== 0) members.push(v - 1)
+      }
+      if (members.length === 0) members.push(0) // sdlpal HACK for Dream 2.11
+      gs.partyMembers = members
+      gs.rgPoisonStatus = {} // sdlpal memset rgPoisonStatus
+      break
+    }
+
+    case OP_SET_OBJECT_SCRIPT: {
+      // sdlpal script.c:2605-2611:rgObject[op0].rgwData[2 + op2] = op1(sparse 持久存)
+      const objId = operands[0] ?? 0
+      const idx = 2 + (operands[2] ?? 0)
+      let st = gs.rgObject[objId]
+      if (!st) {
+        st = { rgwData: Array<number>(7).fill(0) }
+        gs.rgObject[objId] = st
+      }
+      while (st.rgwData.length <= idx) st.rgwData.push(0)
+      if (idx >= 0) st.rgwData[idx] = operands[1] ?? 0
+      break
+    }
+
     case OP_JUMP_IF_NOT_FACING: {
       // sdlpal script.c:2390-2435:op0 obj 不在当前 scene → jump op2;否则算 party 朝向前方
       //   一格的屏幕相对位置,在 op0 obj 范围内(op1*32+16)且 sState>0 → 设触发模式(不跳);

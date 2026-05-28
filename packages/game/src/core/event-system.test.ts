@@ -1696,3 +1696,34 @@ describe('A2 条件跳转 opcode', () => {
     expect(gs.party.x).toBe(320) // offset 0 → 跑 ip1
   })
 })
+
+// ── A3 数据 opcode(2026-05-28)──────────────────────────────────────────────────
+describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
+  it('0x75 setParty:operand[0..2]=roleId+1 → partyMembers,清 poison(script.c:2164)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.rgPoisonStatus = { '0_0': { wPoisonID: 5, wPoisonScript: 0 } }
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x75, operands: [1, 2, 3] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.partyMembers).toEqual([0, 1, 2]) // roleId = operand-1
+    expect(gs.rgPoisonStatus).toEqual({}) // poison 清空
+  })
+
+  it('0x75 setParty:全 0 → 兜底 [0](sdlpal HACK)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0, 1, 2]
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x75, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.partyMembers).toEqual([0])
+  })
+
+  it('0x90 setObjectScript:rgObject[op0].rgwData[2+op2]=op1(script.c:2605)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x90, operands: [42, 777, 1] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.rgObject[42]?.rgwData[3]).toBe(777) // idx = 2 + op2(1) = 3
+  })
+})
