@@ -30,6 +30,7 @@ import type { InventoryMenuState } from '../../core/menu/inventory-menu.js'
 import {
   INV_ITEMS_PER_LINE, INV_ITEM_TEXT_WIDTH, INV_LINES_PER_PAGE,
 } from '../../core/menu/inventory-menu.js'
+import { matchesFilter } from '../../core/menu/item-select.js'
 import type { IndexedImage } from '../../assets/png.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { renderText, type GlyphTable } from '../font.js'
@@ -42,6 +43,7 @@ import {
   getPlayerFleeRate,
   getPlayerMagicStrength,
 } from '../../core/equip-effect.js'
+import { getSharedCommands, getSharedLabelMap } from '../../core/event-system.js'
 
 // sdlpal ui.h 真值色
 const MENUITEM_COLOR = 0x4F
@@ -65,6 +67,31 @@ const ITEMBOX_YBASE = 140
 
 function selectedColor(): number {
   return MENUITEM_COLOR_SELECTED_FIRST + Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL
+}
+
+/**
+ * 从 shared.json 取 item.wScriptDesc chain 内所有 showDialog text 行 —
+ * sdlpal itemmenu.c:267-284 WIN95 path:从 wScriptDesc 起 entry,wOperation==0 stop。
+ * 每条 0xFFFF(ts 反编译为 'showDialog')entry 是一行描述。
+ *
+ * 木剑 scriptDesc=40133 真值 chain:
+ *   raw 0xA7 (noop) → showDialog "用木材雕刻的剑，小孩玩具。" → showDialog "武术+2 身法+3" → end
+ */
+function getScriptDescLines(scriptDesc: number): string[] {
+  const labelMap = getSharedLabelMap()
+  const ip = labelMap[`L_${scriptDesc}`]
+  if (ip === undefined) return []
+  const cmds = getSharedCommands()
+  const lines: string[] = []
+  for (let i = ip; i < cmds.length && i < ip + 32; i++) {
+    const cmd = cmds[i]!
+    if (cmd.op === 'end') break
+    if (cmd.op === 'showDialog') {
+      lines.push(cmd.text)
+    }
+    // 其他 op(raw 0xA7 noop / 等)跳过
+  }
+  return lines
 }
 
 /** sprite blit (opaque mask)— 复用 draw-sprite 风格,直接内嵌轻量版本。 */
@@ -264,9 +291,12 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
       const item = items.find((it) => it.id === slot.itemId)
       const isSelected = i === state.cursor
       const diff = slot.count - slot.inUse
-      // sdlpal usable check:item.flags & g_wItemFlags & 该 menu 期望的 flag。
-      // ts 简版:list 默认 usable filter,不可用 = 装备中 (count<=inUse) 或 item 缺
-      const isUsable = item != null && diff > 0 && item.flags.usable
+      // sdlpal itemmenu.c:171 真值:`!(item.wFlags & g_wItemFlags) || nAmount <= nAmountInUse`
+      // → 不满足 menu 入口 filter(equip/usable/...)就是 inactive。
+      // 修(2026-05-29 session 4 user 怒怼"李逍遥能装的木剑红色"):**用 state.filter 判 filter
+      // 命中**,而不是 hardcode `flags.usable` — EquipMenu 复用本 fn 时 filter='equip',原版误把
+      // 装备类全标 INACTIVE 红色,equipable 才被当 "selectable usable"。
+      const isUsable = item != null && diff > 0 && matchesFilter(item, state.filter)
       const isEquipped = slot.count === 0
 
       // 6 case 颜色规则(sdlpal itemmenu.c:135-181)
@@ -325,13 +355,20 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
     blitSpriteOpaque(fb, cursorFrame, cursorScreenPos.x, cursorScreenPos.y)
   }
 
-  // 6. 物品描述(sdlpal itemmenu.c:231-285)— WIN95 走 scriptDesc(M6 真做);
-  //    简版:画 item _name 一行做占位(sdlpal 描述真做留 follow-up,需 RunAutoScript 真接入)
+  // 6. 物品描述(sdlpal itemmenu.c:231-285 WIN95 path)— 跑 item.wScriptDesc chain
+  //    取所有 showDialog text 渲染到底部描述区(sdlpal `PAL_ITEM_DESC_BOTTOM` flag → x=71 y=151
+  //    每行 +16,DESCTEXT_COLOR 0x3C,fShadow=TRUE)。
+  //    脚本 chain 由 pal-extract 反编译时把 sdlpal opcode 0xFFFF(WIN95 message draw,script.c:3607-3637)
+  //    转为 'showDialog' op 带 inline text — 直接遍历即可,不需要解 message 文件。
   const curSlot = state.inventory[state.cursor]
   if (curSlot) {
     const curItem = items.find((it) => it.id === curSlot.itemId)
-    if (curItem) {
-      renderText(fb, curItem._name ?? '', 75, 150, DESCTEXT_COLOR, glyphs, true)
+    const sid = curItem?.scriptDesc ?? 0
+    if (sid !== 0) {
+      const lines = getScriptDescLines(sid)
+      for (let li = 0; li < lines.length; li++) {
+        renderText(fb, lines[li]!, 71, 151 + li * 16, DESCTEXT_COLOR, glyphs, true)
+      }
     }
   }
 

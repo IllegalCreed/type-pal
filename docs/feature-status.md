@@ -63,7 +63,7 @@
 |---|---|---|---|---|---|
 | C1 | ESC 主菜单 InGameMenu | ⚠️ claimed | uigame.c:944 `PAL_InGameMenu` | core/menu/in-game-menu.ts | M5.6 加 hub 输入路由 + box 渲染;8 item 坐标 / 渐变高亮 / DrawText 真值未完整对齐 |
 | C2 | 系统菜单 SystemMenu | ⚠️ claimed | uigame.c:516 `PAL_SystemMenu` | core/menu/menu-driver.ts | 数据 + 输入接通;渲染入口未严格 sdlpal port |
-| C3 | 物品菜单 InventoryMenu | ⚠️ claimed | uigame.c:878-919 `PAL_InventoryMenu` | core/menu/inventory-menu.ts | M5.6 数据 + dispatcher;1 级 box 子菜单(装备/使用)session 3 刚补,user 反馈仍不齐 |
+| C3 | 物品菜单 InventoryMenu | ⚠️ claimed | uigame.c:878-919 `PAL_InventoryMenu` | core/menu/inventory-menu.ts | C5 session 4(2026-05-29) 顺手补 — drawInventoryMenu isUsable 改用 `matchesFilter(item, state.filter)`(EquipMenu 复用时不再误标 INACTIVE);scriptDesc 真做 — 跑 wScriptDesc chain 取 showDialog text 多行渲染到 (71, 151+i*16) DESCTEXT_COLOR(sdlpal itemmenu.c:267-284 WIN95 path)。**残留**:1 级 box 子菜单(装备/使用)逻辑 OK,InventoryMenu 内 sdlpal 真值 `wScriptDesc=0` 边界等小 case 待 user 实测 |
 | C4 | 物品使用菜单 ItemUseMenu | ⚠️ claimed | uigame.c:1289-1473 `PAL_ItemUseMenu` | core/menu/inventory-action-menu.ts | session 3 刚补全屏渲染 + INNER while + amount live 读;applyToAll branch / 9 装备角色 swap 未实测 |
 | C5 | 装备菜单 EquipItemMenu | ⚠️ claimed | uigame.c:1794 `PAL_EquipItemMenu` | core/menu/equip-menu.ts + present/menu/draw-equip.ts | C5 (2026-05-28) 1:1 port — FBP 背景 + 6 装备槽 + 5 stat cyan + 4-case color role list + wLastUnequippedItem swap loop + scriptOnEquip 真接通(via runEquipScript)。**装备 stat 加成已生效**(rgEquipmentEffect + 6 stat getter,顺手补 D14)。phase='list' 简版 SelectionMenu 而非 grid 留 follow-up。|
 | C6 | 角色状态菜单 PlayerStatus | ⚠️ claimed | uigame.c:1051-1288 `PAL_PlayerStatus` | core/menu/player-status.ts | 数据 + 渲染简版;完整字段排版 + 装备格 / 习得法术格未严格 1:1 |
