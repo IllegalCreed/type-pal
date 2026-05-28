@@ -1624,3 +1624,75 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
     expect(gs.sceneOnEnterIp[2]).toBe(3) // 0x01@ip2 → ip2+1=3(下一条 0x00),重进不重播开场
   })
 })
+
+// ── A2 条件跳转 opcode(2026-05-28)──────────────────────────────────────────────
+// 跳转目标 = operand 值(全局 entry),经 labelMap 解析。分支用 setPartyPos(0x46)做哨兵观测:
+// fall-through 落点 vs jump-target 落点不同,看 party.x 判定哪个分支跑了。
+describe('A2 条件跳转 opcode', () => {
+  // 公共脚本:ip0 跳转判断 → 命中跳 L_T(setPartyPos 20,20→x=640);未命中 fall-through(setPartyPos 10,10→x=320)
+  function jumpScript(opcode: number, operands: [number, number, number]): Command[] {
+    return [
+      { op: 'raw', opcode, operands }, // ip0 条件跳转
+      { op: 'raw', opcode: 0x46, operands: [10, 10, 0] }, // ip1 fall-through 哨兵
+      { op: 'end' }, // ip2
+      { label: 'L_99', op: 'raw', opcode: 0x46, operands: [20, 20, 0] }, // ip3 jump 目标哨兵
+      { op: 'end' }, // ip4
+    ]
+  }
+
+  it('0x95 jumpIfScene:wNumScene==op0 → 跳(L_99→x=640);不等 → fall-through(x=320)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.wNumScene = 5
+    const bus = createCommandBus()
+    loadEvent(gs, jumpScript(0x95, [5, 99, 0])) // scene==5 → jump L_99
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.party.x).toBe(640) // 跳了
+
+    const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs2.wNumScene = 6
+    loadEvent(gs2, jumpScript(0x95, [5, 99, 0]))
+    tickEventSystem(gs2, snap(), createCommandBus())
+    expect(gs2.party.x).toBe(320) // 没跳,fall-through
+  })
+
+  it('0x58 jumpIfItemLess:背包不足 op1 → 跳', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.inventory = [{ itemId: 7, count: 2 }]
+    const bus = createCommandBus()
+    loadEvent(gs, jumpScript(0x58, [7, 5, 99])) // item7 数量 2 < 5 → jump op2=99
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.party.x).toBe(640) // 数量不足 → 跳
+  })
+
+  it('0x79 jumpIfPlayerInParty:队伍含 name==op0 → 跳', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.PlayerRolesRuntime.rgwName[0] = 36 // 李逍遥 name=36
+    const bus = createCommandBus()
+    loadEvent(gs, jumpScript(0x79, [36, 99, 0])) // name 36 在队伍 → jump op1=99
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.party.x).toBe(640)
+  })
+
+  it('0x94 jumpIfObjState:pCurrent.sState==op1 → 跳', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 4, x: 0, y: 0, spriteNum: 1, sState: 2 }]
+    const bus = createCommandBus()
+    loadEvent(gs, jumpScript(0x94, [5, 2, 99])) // obj id=5(op0-1=4) sState==2 → jump op2=99
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.party.x).toBe(640)
+  })
+
+  it('0xA2 randomJump:cursor.ip += RandomLong(0,op0-1)(op0=1 → offset 0,确定)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    // op0=1 → RandomLong(0,0)=0 → ip += 0 → caller ip++ → ip1(setPartyPos 10,10 → x=320)
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0xa2, operands: [1, 0, 0] }, // ip0
+      { op: 'raw', opcode: 0x46, operands: [10, 10, 0] }, // ip1
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.party.x).toBe(320) // offset 0 → 跑 ip1
+  })
+})

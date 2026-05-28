@@ -294,6 +294,7 @@ export interface AllExperience {
  * 数组长度 = MAX_PLAYER_ROLES (6),index = roleId。
  */
 export interface PlayerRolesRuntime {
+  rgwName: number[]               // 角色名 WORD 下标(sdlpal rgwName;opcode 0x79 按 name 判队伍用)
   rgwLevel: number[]              // 等级
   rgwMaxHP: number[]              // 最大 HP
   rgwMaxMP: number[]              // 最大 MP
@@ -780,6 +781,7 @@ export function hydratePlayerRolesRuntime(
 ): void {
   for (const role of playerRoles.roles) {
     const i = role.id
+    runtime.rgwName[i] = role.name
     runtime.rgwLevel[i] = role.level
     runtime.rgwMaxHP[i] = role.maxHP
     runtime.rgwMaxMP[i] = role.maxMP
@@ -822,6 +824,7 @@ function createInitialPlayerRolesRuntime(): PlayerRolesRuntime {
   const zeros = () => Array<number>(n).fill(0)
   const mat = (rows: number) => Array.from({ length: rows }, zeros)
   return {
+    rgwName: zeros(),
     rgwLevel: zeros(),
     rgwMaxHP: zeros(),
     rgwMaxMP: zeros(),

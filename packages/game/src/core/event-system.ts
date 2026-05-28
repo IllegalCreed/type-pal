@@ -268,6 +268,19 @@ export const OP_REMOVE_MAGIC = 0x0056              // 86
 //   for id in [operand[0], operand[1]] → eventObject[id-1].sState = operand[2]
 export const OP_SET_MULTI_OBJECT_STATE = 0x009A    // 154
 
+// ── A2 条件跳转(大世界,无 battle 前置)。跳转目标由 disasm/slice JUMP_TARGET_OPERAND 打标签 ──
+export const OP_JUMP_IF_ITEM_LESS = 0x0058         // 88  if itemAmount(op0)<op1 → jump op2
+export const OP_JUMP_IF_NOT_POISON_KIND = 0x005D   // 93  if !poisonedByKind(role,op0) → jump op1
+export const OP_JUMP_IF_NOT_POISONED = 0x0061      // 97  if !poisoned(role) → jump op0
+export const OP_JUMP_IF_NOT_ALL_FULL_HP = 0x0074   // 116 if 任一队员 HP<MaxHP → jump op0
+export const OP_JUMP_IF_PLAYER_IN_PARTY = 0x0079   // 121 if 队伍含 name==op0 → jump op1
+export const OP_JUMP_IF_NOT_FACING = 0x0081        // 129 几何:party 不面对 obj op0 → jump op2
+export const OP_JUMP_IF_OBJ_NOT_IN_ZONE = 0x0083   // 131 几何:obj op0 不在 zone → jump op2
+export const OP_JUMP_IF_NOT_EQUIPPED = 0x0086      // 134 if 装备 op0 数量<op1 → jump op2
+export const OP_JUMP_IF_OBJ_STATE = 0x0094         // 148 if pCurrent.sState==op1 → jump op2
+export const OP_JUMP_IF_SCENE = 0x0095             // 149 if wNumScene==op0 → jump op1
+export const OP_RANDOM_JUMP = 0x00A2               // 162 cursor.ip += RandomLong(0,op0-1)
+
 // case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
 export const OP_POISON_ENEMY = 0x0028              // 40
 
@@ -1401,6 +1414,41 @@ export function startOverworldItemScript(
   return true
 }
 
+/**
+ * A2 条件跳转的统一跳转:目标是全局 script entry 号(operand 原值),经当前 scene labelMap
+ * 解析成 local ip。设 cursor.ip = idx - 1(caller 跑完 applyRawOpcode 后 ip++ → idx)。
+ * 对齐 sdlpal jump opcode `wScriptEntry = target - 1` + PAL_InterpretInstruction 末尾 +1。
+ */
+function jumpToGlobalIp(gs: GameState, globalIp: number): void {
+  const cursor = gs.eventCursor
+  if (!cursor) return
+  const idx = cursor.labelMap[`L_${globalIp}`]
+  if (idx !== undefined) cursor.ip = idx - 1
+  else console.debug(`event-system: jump target L_${globalIp} 不在 labelMap(跳转失效)`)
+}
+
+/** 背包内某 item 总数(sdlpal PAL_GetItemAmount 等价)。 */
+function countInventoryItem(gs: GameState, itemId: number): number {
+  let n = 0
+  for (const e of gs.inventory) {
+    if (e.itemId === itemId) n += e.count
+  }
+  return n
+}
+
+/**
+ * role 是否中毒(sdlpal PAL_IsPlayerPoisonedByKind / ByLevel(role,0) 等价)。
+ * poisonKind 给定 → 只看该种毒(ByKind);省略 → 任意毒(ByLevel 0)。rgPoisonStatus 16 槽/role。
+ */
+function isPlayerPoisoned(gs: GameState, roleId: number, poisonKind?: number): boolean {
+  for (let slot = 0; slot < 16; slot++) {
+    const p = gs.rgPoisonStatus[`${slot}_${roleId}`]
+    if (!p || p.wPoisonID === 0) continue
+    if (poisonKind === undefined || p.wPoisonID === poisonKind) return true
+  }
+  return false
+}
+
 /** sdlpal `PAL_AddMagic`(global.c:2084):已学 → no-op;否则填第一个空槽(spell wObjectID)。 */
 function addMagicToRole(gs: GameState, roleId: number, spellObjId: number): void {
   const rgwMagic = gs.PlayerRolesRuntime.rgwMagic
@@ -2095,6 +2143,127 @@ function applyRawOpcode(
       const state = operands[2] ?? 0
       for (const npc of gs.npcs) {
         if (npc.id >= from && npc.id <= to) npc.sState = state
+      }
+      break
+    }
+
+    // ── A2 条件跳转(目标已由 disasm/slice 打标签 + 收集)─────────────────────────
+
+    case OP_JUMP_IF_ITEM_LESS: {
+      // sdlpal script.c:1864:if GetItemAmount(op0) < (SHORT)op1 → jump op2
+      if (countInventoryItem(gs, operands[0] ?? 0) < signExtendI16(operands[1] ?? 0)) {
+        jumpToGlobalIp(gs, operands[2] ?? 0)
+      }
+      break
+    }
+    case OP_JUMP_IF_NOT_POISON_KIND: {
+      // sdlpal script.c:1918:if !IsPlayerPoisonedByKind(role, op0) → jump op1
+      if (!isPlayerPoisoned(gs, currentEventObjectId ?? 0, operands[0] ?? 0)) {
+        jumpToGlobalIp(gs, operands[1] ?? 0)
+      }
+      break
+    }
+    case OP_JUMP_IF_NOT_POISONED: {
+      // sdlpal script.c:1961:if !IsPlayerPoisonedByLevel(role, 0) → jump op0
+      if (!isPlayerPoisoned(gs, currentEventObjectId ?? 0)) {
+        jumpToGlobalIp(gs, operands[0] ?? 0)
+      }
+      break
+    }
+    case OP_JUMP_IF_NOT_ALL_FULL_HP: {
+      // sdlpal script.c:2153-2161:任一队员 HP < MaxHP → jump op0
+      const r = gs.PlayerRolesRuntime
+      const notFull = gs.partyMembers.some(
+        (roleId) => (r.rgwHP[roleId] ?? 0) < (r.rgwMaxHP[roleId] ?? 0),
+      )
+      if (notFull) jumpToGlobalIp(gs, operands[0] ?? 0)
+      break
+    }
+    case OP_JUMP_IF_PLAYER_IN_PARTY: {
+      // sdlpal script.c:2234-2242:队伍任一成员 rgwName == op0 → jump op1
+      const r = gs.PlayerRolesRuntime
+      const inParty = gs.partyMembers.some((roleId) => r.rgwName[roleId] === (operands[0] ?? 0))
+      if (inParty) jumpToGlobalIp(gs, operands[1] ?? 0)
+      break
+    }
+    case OP_JUMP_IF_NOT_EQUIPPED: {
+      // sdlpal script.c:2522-2537:统计队伍装备 op0 件数 < op1 → jump op2
+      const r = gs.PlayerRolesRuntime
+      let count = 0
+      for (const roleId of gs.partyMembers) {
+        for (let slot = 0; slot < 6; slot++) {
+          if (r.rgwEquipment[slot]?.[roleId] === (operands[0] ?? 0)) count++
+        }
+      }
+      if (count < (operands[1] ?? 0)) jumpToGlobalIp(gs, operands[2] ?? 0)
+      break
+    }
+    case OP_JUMP_IF_OBJ_STATE: {
+      // sdlpal script.c:2677-2680:if pCurrent.sState == (SHORT)op1 → jump op2
+      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'jumpIfObjState')
+      if (npc && (npc.sState ?? 0) === signExtendI16(operands[1] ?? 0)) {
+        jumpToGlobalIp(gs, operands[2] ?? 0)
+      }
+      break
+    }
+    case OP_JUMP_IF_SCENE: {
+      // sdlpal script.c:2687-2690:if wNumScene == op0 → jump op1
+      if (gs.wNumScene === (operands[0] ?? 0)) jumpToGlobalIp(gs, operands[1] ?? 0)
+      break
+    }
+    case OP_RANDOM_JUMP: {
+      // sdlpal script.c:3020:wScriptEntry += RandomLong(0, op0-1);+ InterpretInstruction 末尾 +1
+      //   → 跳到 [cur+1, cur+op0]。ts:cursor.ip += offset(caller ip++ → cur+offset+1)。
+      const cursor = gs.eventCursor
+      if (cursor) {
+        const n = Math.max(1, operands[0] ?? 1)
+        cursor.ip += Math.floor(Math.random() * n) // RandomLong(0, n-1)
+      }
+      break
+    }
+    case OP_JUMP_IF_OBJ_NOT_IN_ZONE: {
+      // sdlpal script.c:2448-2471:op0 obj 不在当前 scene → jump op2;否则
+      //   x=triggerObj.x-op0obj.x, y=同; |x|+|2y| >= op1*32+16 → jump op2(不在 zone)。
+      const pCurrent = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'jumpIfNotInZone')
+      const pEvt = gs.npcs.find((n) => n.id === currentEventObjectId)
+      if (!pCurrent || !pEvt) {
+        // op0 obj 不在当前 scene → 跳(sdlpal g_fScriptSuccess=FALSE)
+        jumpToGlobalIp(gs, operands[2] ?? 0)
+        break
+      }
+      const dx = Math.abs(pEvt.x - pCurrent.x)
+      const dy = Math.abs((pEvt.y - pCurrent.y) * 2)
+      if (dx + dy >= (operands[1] ?? 0) * 32 + 16) jumpToGlobalIp(gs, operands[2] ?? 0)
+      break
+    }
+    case OP_JUMP_IF_NOT_FACING: {
+      // sdlpal script.c:2390-2435:op0 obj 不在当前 scene → jump op2;否则算 party 朝向前方
+      //   一格的屏幕相对位置,在 op0 obj 范围内(op1*32+16)且 sState>0 → 设触发模式(不跳);
+      //   否则 jump op2。
+      const pCurrent = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'jumpIfNotFacing')
+      if (!pCurrent) {
+        jumpToGlobalIp(gs, operands[2] ?? 0)
+        break
+      }
+      // sdlpal kDir: South=0/West=1/North=2/East=3。party facing → dir。
+      const facing = gs.party.facing
+      const isWest = facing === 'left'
+      const isSouth = facing === 'down'
+      const isNorth = facing === 'up'
+      let fx = pCurrent.x + (isWest || isSouth ? 16 : -16)
+      let fy = pCurrent.y + (isWest || isNorth ? 8 : -8)
+      fx -= gs.camera.x + PARTYOFFSET_X
+      fy -= gs.camera.y + PARTYOFFSET_Y
+      const op1 = operands[1] ?? 0
+      if (Math.abs(fx) + Math.abs(fy * 2) < op1 * 32 + 16 && (pCurrent.sState ?? 0) > 0) {
+        // 面对中:设触发对象(pEvt)的触发模式,下一帧可触发(不跳)。kTriggerTouchNormal=5。
+        if (op1 > 0) {
+          const pEvt = gs.npcs.find((n) => n.id === currentEventObjectId)
+          if (pEvt) pEvt.triggerMode = 5 + op1
+        }
+      }
+      else {
+        jumpToGlobalIp(gs, operands[2] ?? 0)
       }
       break
     }

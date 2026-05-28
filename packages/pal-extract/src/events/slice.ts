@@ -20,6 +20,22 @@
 
 import type { Command, EventFile } from '@type-pal/shared'
 import type { EventObject, Scene } from '../io/sss.js'
+import { JUMP_TARGET_OPERAND, RANDOM_JUMP_OPCODE } from './opcodes.js'
+
+/**
+ * 条件跳转 opcode(raw,数字 operand)的目标 → 入队(BFS 字符串扫描扫不到数字 operand)。
+ * 0xA2 随机跳目标 = i+1..i+op0(相对)。见 opcodes.ts JUMP_TARGET_OPERAND 注释。
+ */
+function pushRawJumpTargets(c: Command, i: number, queue: number[]): void {
+  if (c.op !== 'raw') return
+  const tgtIdx = JUMP_TARGET_OPERAND[c.opcode]
+  if (tgtIdx !== undefined) {
+    queue.push(c.operands[tgtIdx]!)
+  }
+  else if (c.opcode === RANDOM_JUMP_OPCODE) {
+    for (let k = 1; k <= (c.operands[0] ?? 0); k++) queue.push(i + k)
+  }
+}
 
 export interface SliceResult {
   scenes: EventFile[] // 长度 = scenes.length
@@ -101,6 +117,7 @@ export function sliceByScene(
           if (t !== null) queue.push(t)
         }
       }
+      pushRawJumpTargets(c, i, queue) // 条件跳转 opcode 的数字 operand 目标
       queue.push(i + 1)
     }
   }
@@ -138,6 +155,7 @@ export function sliceByScene(
           if (t !== null) queue.push(t)
         }
       }
+      pushRawJumpTargets(c, i, queue) // 条件跳转 opcode 的数字 operand 目标
       queue.push(i + 1)
     }
   }

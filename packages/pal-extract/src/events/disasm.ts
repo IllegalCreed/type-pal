@@ -23,7 +23,7 @@ import type {
   SetPaletteCommand,
   ShowDialogCommand,
 } from '@type-pal/shared'
-import { opcodeTable } from './opcodes.js'
+import { JUMP_TARGET_OPERAND, opcodeTable, RANDOM_JUMP_OPCODE } from './opcodes.js'
 
 /**
  * 将字节码反汇编为 Command 数组,同时内联 messages 字符串。
@@ -59,6 +59,15 @@ export function disasm(
 
     if (!def?.named) {
       commands.push({ op: 'raw', opcode: op, operands: [o0, o1, o2] })
+      // 条件跳转 opcode 虽按 raw 产出,但要给跳转目标打 L_ 标签(slice BFS 才能跟随)。
+      const tgtIdx = JUMP_TARGET_OPERAND[op]
+      if (tgtIdx !== undefined) {
+        labelTargets.add([o0, o1, o2][tgtIdx]!)
+      }
+      else if (op === RANDOM_JUMP_OPCODE) {
+        // 0xA2 随机跳:目标 = i+1..i+op0(相对)
+        for (let k = 1; k <= o0; k++) labelTargets.add(i + k)
+      }
       continue
     }
 

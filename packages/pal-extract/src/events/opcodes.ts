@@ -224,6 +224,37 @@ function fillUnnamedOpcodes(): void {
 }
 fillUnnamedOpcodes()
 
+/**
+ * 条件跳转 opcode → 跳转目标在哪个 operand(0-based)。sdlpal script.c 真值。
+ * 这些 opcode 仍按 raw 产出(字节平凡可逆),但 disasm 据此给目标打 L_ 标签、
+ * slice BFS 据此跟随目标 —— 否则跳转目标可能被切片丢弃,运行时 ip 落到错误分支
+ *(同 2026-05-28 黑屏/门 bug 的 fall-through 类问题)。
+ *
+ * 真值出处(script.c):0x58:1864 / 0x5D:1920 / 0x5E:1938 / 0x61:1963 / 0x64:1991 /
+ * 0x74:2158 / 0x79:2239 / 0x81:2431 / 0x83:2468 / 0x86:2536 / 0x94:2679 / 0x95:2689。
+ */
+export const JUMP_TARGET_OPERAND: Record<number, number> = {
+  0x58: 2, // jump if item amount < op1
+  0x5d: 1, // jump if player not poisoned by kind op0
+  0x5e: 1, // jump if enemy has no poison op0(battle)
+  0x61: 0, // jump if player not poisoned
+  0x64: 1, // jump if enemy HP > op0%(battle)
+  0x74: 0, // jump if not all party full HP
+  0x79: 1, // jump if player(name op0)in party
+  0x81: 2, // jump if party not facing event object op0
+  0x83: 2, // jump if event object op0 not in zone
+  0x86: 2, // jump if item op0 not equipped (count < op1)
+  0x94: 2, // jump if current event object state == op1
+  0x95: 1, // jump if current scene == op0
+}
+
+/**
+ * 0x00A2 随机跳:`wScriptEntry += RandomLong(0, op0-1)`(script.c:3020)+ PAL_InterpretInstruction
+ * 末尾 +1(script.c:3083)→ 跳到 [i+1, i+op0] 之一(相对,非固定 operand)。
+ * disasm / slice 据此收集 i+1..i+op0 全部目标(相对偏移在切片重排后失效,必须全收 → 局部相邻保序)。
+ */
+export const RANDOM_JUMP_OPCODE = 0x00a2
+
 // 建立 verb → opcode 的反向索引(仅取每个 verb 最低的 opcode 编号)
 const verbToOpcode = new Map<string, number>()
 for (const [opStr, def] of Object.entries(opcodeTable)) {

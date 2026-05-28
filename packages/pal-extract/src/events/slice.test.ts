@@ -155,4 +155,38 @@ describe('sliceByScene', () => {
     const cmds = result.scenes[0]!.segments[0]!.commands
     expect(cmds).toContainEqual({ label: 'L_3', op: 'raw', opcode: 0x14, operands: [9, 0, 0] })
   })
+
+  // ── 条件跳转 opcode 目标收集(2026-05-28 A2)──────────────────────────────────
+  it('0x95 jumpIfScene:跳转目标(op1)被 BFS 收集进 scene', () => {
+    const result = sliceByScene(
+      [
+        { op: 'end' }, // 0 padding
+        { op: 'raw', opcode: 0x95, operands: [5, 3, 0] }, // 1 scene 0 entry — jump 目标 = op1 = 3
+        { op: 'end' }, // 2 fall-through
+        { op: 'raw', opcode: 0x35, operands: [9, 0, 0] }, // 3 jump 目标 — 必须被收
+      ],
+      [makeScene(1, 0)],
+      [],
+    )
+    const cmds = result.scenes[0]!.segments[0]!.commands
+    expect(cmds).toContainEqual({ op: 'raw', opcode: 0x35, operands: [9, 0, 0] }) // 目标被收集
+  })
+
+  it('0xA2 randomJump:相对目标 i+1..i+op0 全被 BFS 收集', () => {
+    const result = sliceByScene(
+      [
+        { op: 'end' }, // 0 padding
+        { op: 'raw', opcode: 0xa2, operands: [3, 0, 0] }, // 1 entry — 目标 i+1..i+3 = 2,3,4
+        { op: 'raw', opcode: 0x35, operands: [1, 0, 0] }, // 2
+        { op: 'raw', opcode: 0x35, operands: [2, 0, 0] }, // 3
+        { op: 'raw', opcode: 0x35, operands: [3, 0, 0] }, // 4
+        { op: 'end' }, // 5
+      ],
+      [makeScene(1, 0)],
+      [],
+    )
+    const cmds = result.scenes[0]!.segments[0]!.commands
+    expect(cmds).toContainEqual({ op: 'raw', opcode: 0x35, operands: [2, 0, 0] }) // i+2 收集
+    expect(cmds).toContainEqual({ op: 'raw', opcode: 0x35, operands: [3, 0, 0] }) // i+3 收集
+  })
 })
