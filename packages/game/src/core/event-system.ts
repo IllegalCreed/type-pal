@@ -1943,14 +1943,15 @@ function applyRawOpcode(
     case OP_NPC_WALK_ONE_STEP_NORTH:
     case OP_NPC_WALK_ONE_STEP_EAST: {
       // sdlpal script.c:652-661 真值:dir = opcode - 0x000B(0=S, 1=W, 2=N, 3=E),
-      //   pEvtObj.wDirection = dir;PAL_NPCWalkOneStep(wEventObjectID, 2)
-      // scene.c:804-805 方向位移真值:
-      //   S→(-16,+8) W→(-16,-8) N→(+16,-8) E→(+16,+8)
+      //   pEvtObj.wDirection = dir;PAL_NPCWalkOneStep(wEventObjectID, 2)。
+      // scene.c:887-888 PAL_NPCWalkOneStep 真值位移 = (±2 x, ±1 y) * iSpeed,iSpeed=2 →
+      //   S→(-4,+2) W→(-4,-2) N→(+4,-2) E→(+4,+2)。**不是** ±16/±8(那是 party 整 tile step) —
+      //   旧值 4× 过大 → 苗人 autoScript(0xc 走步)移动飞快 + 冲进墙(2026-05-28 user 发现)。
       const npc = resolveTargetNpc(gs, 0, currentEventObjectId, 'npcWalkOneStepDir')
       if (npc) {
         const dirCode = opcode - 0x000B  // 0..3
         const FACINGS = ['down', 'left', 'up', 'right'] as const
-        const DELTAS = [[-16, 8], [-16, -8], [16, -8], [16, 8]] as const
+        const DELTAS = [[-4, 2], [-4, -2], [4, -2], [4, 2]] as const
         npc.facing = FACINGS[dirCode]
         const delta = DELTAS[dirCode]
         if (delta) {

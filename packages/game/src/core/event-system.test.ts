@@ -1582,7 +1582,7 @@ describe('I-w1.b 机关 / scene-state opcodes', () => {
 // ── M5.I-w1.c: NPC contact opcode(walkOneStepDir x4)──────────────────────
 // sdlpal script.c:652-661 真值:0x0B-0x0E 共用 case,dir=opcode-0x0B,走 1 步。
 describe('I-w1.c NPC contact opcodes', () => {
-  it('walkOneStep dir=South(0x0B):facing=down,位移 (-16,+8)', () => {
+  it('walkOneStep dir=South(0x0B):facing=down,位移 (-4,+2)(PAL_NPCWalkOneStep iSpeed=2)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 5, x: 100, y: 50, spriteNum: 1, sState: 1 }]
     const bus = createCommandBus()
@@ -1593,11 +1593,11 @@ describe('I-w1.c NPC contact opcodes', () => {
     gs.eventCursor!.currentEventObjectId = 5
     tickEventSystem(gs, snap(), bus)
     expect(gs.npcs[0]?.facing).toBe('down')
-    expect(gs.npcs[0]?.x).toBe(84)   // 100 - 16
-    expect(gs.npcs[0]?.y).toBe(58)   // 50 + 8
+    expect(gs.npcs[0]?.x).toBe(96)   // 100 + (-2*2)
+    expect(gs.npcs[0]?.y).toBe(52)   // 50 + (1*2)
   })
 
-  it('walkOneStep dir=East(0x0E):facing=right,位移 (+16,+8)', () => {
+  it('walkOneStep dir=East(0x0E):facing=right,位移 (+4,+2)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 5, x: 100, y: 50, spriteNum: 1, sState: 1 }]
     const bus = createCommandBus()
@@ -1608,8 +1608,8 @@ describe('I-w1.c NPC contact opcodes', () => {
     gs.eventCursor!.currentEventObjectId = 5
     tickEventSystem(gs, snap(), bus)
     expect(gs.npcs[0]?.facing).toBe('right')
-    expect(gs.npcs[0]?.x).toBe(116)  // 100 + 16
-    expect(gs.npcs[0]?.y).toBe(58)   // 50 + 8
+    expect(gs.npcs[0]?.x).toBe(104)  // 100 + (2*2)
+    expect(gs.npcs[0]?.y).toBe(52)   // 50 + (1*2)
   })
 
   it('walkOneStep 4 个 opcode dir 映射:0x0B/C/D/E → down/left/up/right', () => {
