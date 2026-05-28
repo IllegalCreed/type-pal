@@ -9,7 +9,9 @@
  * updateAllEquipments 依赖 shared.json runtime,留 e2e。
  */
 
+import type { Command } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import { setSharedEvents } from './event-system.js'
 import { createInitialGameState } from './game-state.js'
 import {
   getPlayerAttackStrength,
@@ -20,6 +22,7 @@ import {
   getPlayerPoisonResistance,
   PLAYERROLES_ROW,
   removeEquipmentEffect,
+  runEquipScript,
   writeEquipmentEffectField,
 } from './equip-effect.js'
 
@@ -160,6 +163,53 @@ describe('equip-effect', () => {
       removeEquipmentEffect(gs, 0, 3)
       expect(getPlayerAttackStrength(gs, 0)).toBe(50)
       expect(getPlayerDexterity(gs, 0)).toBe(40)
+    })
+  })
+
+  // ── opcode 0x18 真换装(2026-05-28 "换不了装备"回归)─────────────────────────
+  // sdlpal script.c:768-811:若该槽当前装备 != op1 → rgwEquipment[part][role]=op1 +
+  // inventory swap(移除新装备、旧装备入包)+ wLastUnequippedItem=旧。之前 ts 无条件跳 swap。
+  describe('runEquipScript 0x18 真换装(script.c:768-811)', () => {
+    // scriptOnEquip = L_500: 0x18 [14,163,0](part 14-0xB=3 Hand,装备 item 163)
+    function setupEquipScript(): void {
+      const cmds: Command[] = [
+        { op: 'raw', opcode: 0x18, operands: [14, 163, 0] },
+        { op: 'end' },
+      ]
+      setSharedEvents(cmds, { L_500: 0 })
+    }
+
+    it('空槽装新装备:rgwEquipment 写入 + 背包移除新装备 + wLastUnequippedItem=0', () => {
+      setupEquipScript()
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.PlayerRolesRuntime.rgwEquipment[3]![2] = 0 // role 2 林月如 手持槽空
+      gs.inventory = [{ itemId: 163, count: 1 }] // 背包有长鞭
+      runEquipScript(gs, 500, 2)
+      expect(gs.PlayerRolesRuntime.rgwEquipment[3]![2]).toBe(163) // 装上了
+      expect(gs.inventory.find((e) => e.itemId === 163)).toBeUndefined() // 背包移除
+      expect(gs.wLastUnequippedItem).toBe(0)
+    })
+
+    it('换下旧装备:新装上 + 旧装备入包 + wLastUnequippedItem=旧', () => {
+      setupEquipScript()
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.PlayerRolesRuntime.rgwEquipment[3]![2] = 100 // 已装旧武器 100
+      gs.inventory = [{ itemId: 163, count: 1 }]
+      runEquipScript(gs, 500, 2)
+      expect(gs.PlayerRolesRuntime.rgwEquipment[3]![2]).toBe(163) // 换成新的
+      expect(gs.inventory.find((e) => e.itemId === 163)).toBeUndefined() // 新装备出包
+      expect(gs.inventory.find((e) => e.itemId === 100)?.count).toBe(1) // 旧装备入包
+      expect(gs.wLastUnequippedItem).toBe(100)
+    })
+
+    it('已装着自己(update 上下文):条件相等 → 不 swap,背包不动', () => {
+      setupEquipScript()
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.PlayerRolesRuntime.rgwEquipment[3]![2] = 163 // 已装 163(=op1)
+      gs.inventory = [{ itemId: 163, count: 1 }]
+      runEquipScript(gs, 500, 2)
+      expect(gs.PlayerRolesRuntime.rgwEquipment[3]![2]).toBe(163)
+      expect(gs.inventory.find((e) => e.itemId === 163)?.count).toBe(1) // 背包不变(没 swap)
     })
   })
 })

@@ -60,29 +60,16 @@ const EQUIP_IMAGE_BOX = { x: 8, y: 8 }
 const EQUIP_ROLE_LIST_BOX = { x: 2, y: 95 }
 const EQUIP_ITEM_NAME = { x: 5, y: 70 }
 const EQUIP_ITEM_AMOUNT = { x: 51, y: 57 }
-const EQUIP_LABELS = [
-  { x: 92, y: 11 }, { x: 92, y: 33 }, { x: 92, y: 55 },
-  { x: 92, y: 77 }, { x: 92, y: 99 }, { x: 92, y: 121 },
-] as const
+// 装备名渲染位置(6 槽)。槽位 label(头戴/肩.../武术 等)在 classic 烤进 FBP 背景图,ts 不画。
 const EQUIP_NAMES = [
   { x: 130, y: 11 }, { x: 130, y: 33 }, { x: 130, y: 55 },
   { x: 130, y: 77 }, { x: 130, y: 99 }, { x: 130, y: 121 },
 ] as const
-const EQUIP_STATUS_LABELS = [
-  { x: 226, y: 10 }, { x: 226, y: 32 }, { x: 226, y: 54 },
-  { x: 226, y: 76 }, { x: 226, y: 98 },
-] as const
+// 5 stat 数字渲染位置(stat label 同样在 FBP 背景图,ts 只画数字值)。
 const EQUIP_STATUS_VALUES = [
   { x: 260, y: 14 }, { x: 260, y: 36 }, { x: 260, y: 58 },
   { x: 260, y: 80 }, { x: 260, y: 102 },
 ] as const
-
-// ── 装备槽 label(sdlpal WORD.DAT EQUIP_LABEL_HEAD/SHOULDER/BODY/HAND/FOOT/NECK)──
-// sdlpal palcommon.h BODYPART 顺序:Head=0/Shoulder=1/Body=2/Hand=3/Foot=4/Wear=5(护身符)
-const SLOT_LABELS = ['头', '肩', '身', '手', '脚', '颈'] as const
-
-// ── stat labels(sdlpal STATUS_LABEL_ATTACKPOWER/MAGICPOWER/RESISTANCE/DEXTERITY/FLEERATE)──
-const STAT_LABELS = ['武术', '灵力', '防御', '身法', '吉运'] as const
 
 // ── sprite blit(opaque mask)── 复用 draw-inventory 模式
 function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
@@ -147,13 +134,13 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
     if (icon) blitSpriteOpaque(fb, icon, EQUIP_IMAGE_BOX.x + 8, EQUIP_IMAGE_BOX.y + 8)
   }
 
-  // 3. 6 装备槽 labels + 当前装备名(sdlpal uigame.c:1879-1906)
-  //    当前 cursor 选中 role 的 6 装备槽显示
+  // 3. 当前选中 role 的 6 装备槽**当前装备名**(sdlpal uigame.c:1899-1906)。
+  //    槽位 label(头戴/肩.../武术 等)在 classic 是烤进 FBP 背景图的(uigame.c:1875 `if
+  //    (fUseCustomScreenLayout)` 才画文字 — classic 为 false)→ ts **不再**画 label 文字,
+  //    否则跟 FBP 背景文字重叠(user 2026-05-28 发现"肩棑"重影)。只画动态装备名。
   const playerRoleId = state.partyMembers[state.playerCursor]
   if (playerRoleId === undefined) return
   for (let slot = 0; slot < 6; slot++) {
-    const labelPos = EQUIP_LABELS[slot]!
-    renderText(fb, SLOT_LABELS[slot]!, labelPos.x, labelPos.y, MENUITEM_COLOR, glyphs, true)
     const eqItemId = gs.PlayerRolesRuntime.rgwEquipment[slot]?.[playerRoleId] ?? 0
     if (eqItemId !== 0) {
       const eqItem = items.find((x) => x.id === eqItemId)
@@ -162,12 +149,8 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
     }
   }
 
-  // 4. 5 stat labels + 5 stat 数字 cyan(装备后预览,sdlpal uigame.c:1879-1915)
-  //    sdlpal 用 GetPlayerXxxStrength 真 effective stat — 含 rgEquipmentEffect 加成
-  for (let i = 0; i < 5; i++) {
-    const lp = EQUIP_STATUS_LABELS[i]!
-    renderText(fb, STAT_LABELS[i]!, lp.x, lp.y, MENUITEM_COLOR, glyphs, true)
-  }
+  // 4. 5 stat 数字 cyan(装备后 effective stat 预览,sdlpal uigame.c:1911-1915)。
+  //    stat label(武术/灵力/防御/身法/吉运)同样在 FBP 背景图里,ts 不画。
   drawNumber(fb, getPlayerAttackStrength(gs, playerRoleId), 4, EQUIP_STATUS_VALUES[0]!, 'cyan', 'right', uiSpriteFrames)
   drawNumber(fb, getPlayerMagicStrength(gs, playerRoleId),  4, EQUIP_STATUS_VALUES[1]!, 'cyan', 'right', uiSpriteFrames)
   drawNumber(fb, getPlayerDefense(gs, playerRoleId),        4, EQUIP_STATUS_VALUES[2]!, 'cyan', 'right', uiSpriteFrames)

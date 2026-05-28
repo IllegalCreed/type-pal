@@ -16,7 +16,7 @@
  */
 
 import type { Item } from '@type-pal/shared'
-import { getSharedCommands, getSharedLabelMap } from './event-system.js'
+import { addItemToInventory, consumeItemFromInventory, getSharedCommands, getSharedLabelMap } from './event-system.js'
 import { createInitialEquipmentEffect, type GameState } from './game-state.js'
 
 const MAX_PLAYER_ROLES = 6
@@ -308,12 +308,25 @@ function runEquipScriptSync(
         break
       }
       case 0x18: {
-        // sdlpal script.c:768-811 真值 — updateAllEquipments 上下文:
-        //  - iCurEquipPart = i;removeEquipmentEffect 清 part(已存在 effect 不再 stack)
-        //  - rgwEquipment[i][role] vs operand[1] — 在 update 上下文一定相等(自己跑自己 chain),跳过 swap
+        // sdlpal script.c:768-811 真值:i=op0-0xB(装备部位);iCurEquipPart=i;removeEquipmentEffect。
+        //   **若该槽当前装备 != op1**(新装备未装在此槽)→ 真换装:
+        //     - rgwEquipment[i][role] = op1
+        //     - inventory swap:移除新装备 1、旧装备入包 1
+        //     - wLastUnequippedItem = 旧装备
+        //   此条件同时服务两上下文:updateAllEquipments(已装着自己 → 相等 → 不 swap,只重算 effect);
+        //   装备菜单(未装 → 不等 → 真换)。之前 ts 无条件跳 swap,导致"换不了装备"。
         const partIdx = (a ?? 0) - 0x0B
+        const newItem = b ?? 0
         gs.iCurEquipPart = partIdx
         removeEquipmentEffect(gs, roleId, partIdx)
+        const rgwEquipment = gs.PlayerRolesRuntime.rgwEquipment
+        const cur = rgwEquipment[partIdx]?.[roleId] ?? 0
+        if (cur !== newItem) {
+          if (rgwEquipment[partIdx]) rgwEquipment[partIdx]![roleId] = newItem
+          consumeItemFromInventory(gs, newItem) // 移除新装备 1
+          if (cur !== 0) addItemToInventory(gs, cur, 1) // 旧装备入包
+          gs.wLastUnequippedItem = cur
+        }
         break
       }
       case 0x19: {

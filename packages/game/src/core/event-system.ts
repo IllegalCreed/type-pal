@@ -1344,7 +1344,7 @@ function signExtendI16(u: number): number {
  *  - qty < 0:已有 → count clamp 到 0;无则 no-op(简版,不做 sdlpal equipment fallback)
  *  注:itemId 用 ts items.json id(0..234);id 0 = 观音符是真物品,**不** skip(sdlpal
  *  `wObjectID==0` 哨兵是 sdlpal OBJECT id 体系,pal-extract 反编译已转 ts id)。 */
-function addItemToInventory(gs: GameState, itemId: number, qty: number): void {
+export function addItemToInventory(gs: GameState, itemId: number, qty: number): void {
   // sdlpal global.c:1094 真值:iNum == 0 → 1
   if (qty === 0) qty = 1
   const entry = gs.inventory.find((e) => e.itemId === itemId)
