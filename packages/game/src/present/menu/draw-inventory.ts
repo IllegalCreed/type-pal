@@ -45,7 +45,7 @@ import {
   getPlayerFleeRate,
   getPlayerMagicStrength,
 } from '../../core/equip-effect.js'
-import { getSharedCommands, getSharedLabelMap } from '../../core/event-system.js'
+import { getScriptDescLines } from '../../core/menu/script-desc.js'
 
 // sdlpal ui.h 真值色 — pickItemRowColor 内部用,本文件直接 reference 仅留 DESCTEXT_COLOR
 const DESCTEXT_COLOR = 0x3C
@@ -65,30 +65,6 @@ function selectedColor(): number {
   return MENUITEM_COLOR_SELECTED_FIRST + Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL
 }
 
-/**
- * 从 shared.json 取 item.wScriptDesc chain 内所有 showDialog text 行 —
- * sdlpal itemmenu.c:267-284 WIN95 path:从 wScriptDesc 起 entry,wOperation==0 stop。
- * 每条 0xFFFF(ts 反编译为 'showDialog')entry 是一行描述。
- *
- * 木剑 scriptDesc=40133 真值 chain:
- *   raw 0xA7 (noop) → showDialog "用木材雕刻的剑，小孩玩具。" → showDialog "武术+2 身法+3" → end
- */
-function getScriptDescLines(scriptDesc: number): string[] {
-  const labelMap = getSharedLabelMap()
-  const ip = labelMap[`L_${scriptDesc}`]
-  if (ip === undefined) return []
-  const cmds = getSharedCommands()
-  const lines: string[] = []
-  for (let i = ip; i < cmds.length && i < ip + 32; i++) {
-    const cmd = cmds[i]!
-    if (cmd.op === 'end') break
-    if (cmd.op === 'showDialog') {
-      lines.push(cmd.text)
-    }
-    // 其他 op(raw 0xA7 noop / 等)跳过
-  }
-  return lines
-}
 
 /** sprite blit (opaque mask)— 复用 draw-sprite 风格,直接内嵌轻量版本。 */
 function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
@@ -348,12 +324,10 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
   const curSlot = state.inventory[state.cursor]
   if (curSlot) {
     const curItem = items.find((it) => it.id === curSlot.itemId)
-    const sid = curItem?.scriptDesc ?? 0
-    if (sid !== 0) {
-      const lines = getScriptDescLines(sid)
-      for (let li = 0; li < lines.length; li++) {
-        renderText(fb, lines[li]!, 71, 151 + li * 16, DESCTEXT_COLOR, glyphs, true)
-      }
+    const sid = (curItem as { scriptDesc?: number } | undefined)?.scriptDesc ?? 0
+    const lines = getScriptDescLines(sid)
+    for (let li = 0; li < lines.length; li++) {
+      renderText(fb, lines[li]!, 71, 151 + li * 16, DESCTEXT_COLOR, glyphs, true)
     }
   }
 
