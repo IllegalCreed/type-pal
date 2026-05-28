@@ -188,10 +188,14 @@ export interface EventCursor {
    *  - 'fade-screen': opcode 0x0073 fade-in 完(Sync.2 fix9,由 gs.fadeState 管)
    *  - 'scene-load': opcode 0x0059 loadScene 异步切场景(bootstrap callback fetch + setSceneContext +
    *                  写 gs.eventCursor 到新 scene 的 onEnterLabel ip,释放 waiting,下一帧 tick 接管)
+   *  - 'delay':      opcode 0x0085 UTIL_Delay(op0*80ms)实时阻塞延迟(script.c:2511-2516);
+   *                  time-based(delayUntilMs),期间 autoScript 暂停(sdlpal 不调 PAL_GameUpdate)
    */
-  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load'
+  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay'
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
+  /** 'delay' 用(opcode 0x85):延迟到此 wall-clock 时间戳(performance.now()),到点 ip++ + clear。 */
+  delayUntilMs?: number
   /**
    * 当前执行 trigger 的 event object id(sdlpal `wEventObjectID` / `pCurrent`)。
    * setObjectPosition / walkOneStep 等 opcode 默认 operate on this 当 operand[0]==0 时。

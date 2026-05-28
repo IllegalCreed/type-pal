@@ -7,7 +7,12 @@
 > 状态:✅ 已实现 · 🟡 部分(extraction 已收集目标,runtime 待) · ⬜ 待实现
 > 类别:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra) · E=战斗 · S=系统/UI
 
-最后更新:2026-05-28(A 类全 + B 类全完成后)
+最后更新:2026-05-29(A 类补 0x84/0x85/0x8D/0x8F/0xA1)
+
+> 剩余 A/S 待实现都需前置子系统(非纯 opcode):
+> - 0x0A goto-if-no:需 yes/no ConfirmMenu UI + 阻塞选择
+> - 0x41 mark-failed:需 fScriptSuccess flag + 把物品消耗改成"脚本末按 success 决定扣"(item-use 流程改)
+> - 0x4D wait-any-key / 0x4E load-game / 0xA0 quit:需 UI 等键 / 存档 reload / 退出子系统
 
 ## 控制流(0x00-0x0A)
 
@@ -46,19 +51,19 @@ setDialogStyle 0x3B-0x3E。
 ### A 控制流/数据 / 系统 S(无 battle 前置,可做)
 | op | 含义 | 状态 | 备注 |
 |----|------|------|------|
-| 0x0A | goto if selected no | ⬜A | 需 dialog yes/no 选择 |
-| 0x41 | mark script failed | ⬜A | 需 gs.fScriptSuccess flag + 消耗物品/还魂等读它 |
+| 0x0A | goto if selected no | ⬜A | 需 dialog yes/no ConfirmMenu(UI + 阻塞选择,前置子系统) |
+| 0x41 | mark script failed | ⬜A | 需 gs.fScriptSuccess flag + **改物品消耗为"脚本末按 success 扣"**(item-use 流程改) |
 | 0x6D | set scene enter/teleport script | ✅A | onEnter 全局 override → loadScene 时解析为 local ip(op2 teleport 暂略) |
-| 0x84 | place used item as event object | ⬜A | 把用过的物品作 event obj 放场景 |
-| 0x85 | delay N | ⬜A | 定时延迟(类 wait) |
-| 0x8D | increase player level | ⬜A | 升级逻辑(stat 重算) |
-| 0x8F | halve cash | ⬜A | dwCash /= 2 |
+| 0x84 | place used item as event object | ✅A | pCurrent(op0)放 party 正前方 + sState=op1;挡→jump op2(2026-05-28) |
+| 0x85 | delay N | ✅A | UTIL_Delay(op0*80ms)time-based waiting='delay'(autoScript 暂停)(script.c:2511,2026-05-29) |
+| 0x8D | increase player level | ✅A | PAL_PlayerLevelUp 端口:level+clamp99 + stat 增长(Math.random)+ Exp 重置(global.c:2347,2026-05-29) |
+| 0x8F | halve cash | ✅A | dwCash = floor(dwCash/2)(script.c:2598,2026-05-29) |
 | 0x98 | set follower | 🟡A | 数据✅(gs.followers+nFollower);视觉随"多 follower per-role sprite 渲染"feature(既有 M5+ gap,party[2] 同) |
 | 0x99 | change map for scene | ✅A | mapNum override + op0=0xFFFF map-only reload hook(换 tilemap 不中断脚本) |
-| 0xA0 | quit game | ⬜S | 退出/回标题 |
-| 0xA1 | set all party pos = first | ⬜A | rgParty 同位 |
-| 0x4D | wait for any key | ⬜S | UI 等键 |
-| 0x4E | load last saved game | ⬜S | 读最近存档 |
+| 0xA0 | quit game | ⬜S | 退出/回标题(需 quit/ending 子系统) |
+| 0xA1 | set all party pos = first | ✅A | 全 trail(5)= 队首世界坐标+朝向 → follower 聚拢(script.c:2998,2026-05-29) |
+| 0x4D | wait for any key | ⬜S | UI 等键(需阻塞键等待子系统) |
+| 0x4E | load last saved game | ⬜S | 读最近存档(需存档/reload 子系统) |
 
 ### B 移动 / NPC / chase — 全部 ✅(2026-05-28)
 | op | 含义 | 状态 | 备注(sdlpal 出处) |

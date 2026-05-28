@@ -2042,6 +2042,99 @@ describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0
   })
 })
 
+// ── A 类补全(2026-05-29):0x8F halveCash / 0xA1 setAllPartyPos / 0x8D levelUp / 0x85 delay ──
+describe('A 类补全:0x8F / 0xA1 / 0x8D / 0x85', () => {
+  it('0x8F halveCash:dwCash /= 2(向下取整)(script.c:2598-2603)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 101
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x8f, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dwCash).toBe(50)
+  })
+
+  it('0xA1 setAllPartyPos:全 trail(5 项)= 队首世界坐标 + 朝向(script.c:2998-3014)', () => {
+    const gs = createInitialGameState({ x: 320, y: 240, facing: 'left' })
+    gs.trail = [{ x: 1, y: 2, dir: 'up' }] // 旧 trail 被覆盖
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0xa1, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.trail).toHaveLength(5)
+    for (const t of gs.trail) expect(t).toEqual({ x: 320, y: 240, dir: 'left' })
+  })
+
+  it('0x8D increasePlayerLevel:level += op0(clamp 99)+ stat 增长 + Exp 重置(global.c:2347-2409)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const r = gs.PlayerRolesRuntime
+    r.rgwLevel[0] = 5
+    r.rgwMaxHP[0] = 100
+    r.rgwAttackStrength[0] = 20
+    gs.Exp.rgPrimaryExp[0] = { wExp: 999, wLevel: 5 }
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x8d, operands: [2, 0, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 0 // role 0
+    tickEventSystem(gs, snap(), bus)
+    expect(r.rgwLevel[0]).toBe(7) // +2
+    // 2 级:MaxHP += (10..17)×2 → [120,134];Atk += (4..5)×2 → [28,30]
+    expect(r.rgwMaxHP[0]).toBeGreaterThanOrEqual(120)
+    expect(r.rgwMaxHP[0]).toBeLessThanOrEqual(134)
+    expect(r.rgwAttackStrength[0]).toBeGreaterThanOrEqual(28)
+    expect(r.rgwAttackStrength[0]).toBeLessThanOrEqual(30)
+    expect(gs.Exp.rgPrimaryExp[0]).toEqual({ wExp: 0, wLevel: 7 }) // 重置 wExp + 同步 level
+  })
+
+  it('0x8D level clamp 99', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.PlayerRolesRuntime.rgwLevel[0] = 98
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x8d, operands: [5, 0, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBe(99)
+  })
+
+  it('0x85 delay:op0>0 → waiting=delay,到 delayUntilMs 后继续跑后续 opcode(script.c:2511-2516)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 100
+    const bus = createCommandBus()
+    const t0 = 1000
+    const spy = vi.spyOn(performance, 'now').mockReturnValue(t0)
+    // 0:delay [3] → 240ms;1:halveCash(延迟后继续的证据);2:end
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x85, operands: [3, 0, 0] },
+      { op: 'raw', opcode: 0x8f, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('delay')
+    expect(gs.eventCursor?.delayUntilMs).toBe(t0 + 240)
+    expect(gs.dwCash).toBe(100) // 还没跑到 halveCash
+    // 未到点:仍等
+    spy.mockReturnValue(t0 + 100)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('delay')
+    expect(gs.dwCash).toBe(100)
+    // 到点:清 waiting + 继续跑 halveCash
+    spy.mockReturnValue(t0 + 240)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dwCash).toBe(50)
+    spy.mockRestore()
+  })
+
+  it('0x85 delay op0=0 → 即时(不进 waiting,本 tick 继续)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 100
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x85, operands: [0, 0, 0] },
+      { op: 'raw', opcode: 0x8f, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dwCash).toBe(50) // op0=0 即时 → 同 tick 跑到 halveCash
+  })
+})
+
 // ── onEnter 脚本持久化(2026-05-28 开场 cutscene 重进重播回归)──────────────────
 //
 // sdlpal play.c:64:rgScene[i].wScriptOnEnter = PAL_RunTriggerScript(wScriptOnEnter,...)

@@ -306,6 +306,18 @@ export const OP_SET_PARTY = 0x0075                 // 117 operand[0..2]=roleId+1
 export const OP_SET_OBJECT_SCRIPT = 0x0090         // 144 rgObject[op0].rgwData[2+op2]=op1
 export const OP_SET_FOLLOWER = 0x0098              // 152 operand[0..1]=follower roleId → gs.followers
 export const OP_CHANGE_MAP = 0x0099                // 153 op0==0xFFFF 当前换图+reload;else 设 scene op0 mapNum
+// case 0x0085(133): Delay for a period(script.c:2511-2516)— UTIL_Delay(operand[0]*80)实时阻塞延迟,
+//   期间不调 PAL_GameUpdate(autoScript 暂停)。ts:time-based waiting='delay'(仿 0x73 fade-screen)。
+export const OP_DELAY = 0x0085                     // 133
+// case 0x008D(141): Increase player level(script.c:2591-2595 → global.c:2347 PAL_PlayerLevelUp)
+//   role = wEventObjectID(=currentEventObjectId);operand[0]=升的级数。stat 按固定+RandomLong 增长,
+//   clamp 999,level clamp MAX_LEVELS(99),重置 rgPrimaryExp.wExp=0 / wLevel=新等级。
+export const OP_INCREASE_PLAYER_LEVEL = 0x008D     // 141
+// case 0x008F(143): Halve the cash amount(script.c:2598-2603)— dwCash /= 2。
+export const OP_HALVE_CASH = 0x008F                // 143
+// case 0x00A1(161): Set positions of all party members = first(script.c:2998-3014)
+//   rgTrail[0..MAX_PLAYABLE-1] 全 = 队首世界坐标 + wPartyDirection → follower 渲染贴队首 = 全队聚拢。
+export const OP_SET_ALL_PARTY_POS = 0x00A1         // 161
 
 // case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
 export const OP_POISON_ENEMY = 0x0028              // 40
@@ -851,6 +863,19 @@ export function tickEventSystem(
     return  // 等 callback 替换 gs.eventCursor
   }
 
+  // 1a''') waiting 处理:delay(opcode 0x0085 UTIL_Delay,script.c:2511-2516)
+  //   time-based:到 delayUntilMs(wall-clock)即完成。期间 autoScript 暂停(mode.ts:event 非
+  //   frame-wait → 不跑),对齐 sdlpal UTIL_Delay 不调 PAL_GameUpdate 的真值。
+  if (cursor.waiting === 'delay') {
+    if (performance.now() < (cursor.delayUntilMs ?? 0)) {
+      return  // 仍在延迟
+    }
+    cursor.delayUntilMs = undefined
+    cursor.waiting = undefined
+    cursor.ip++
+    // fall through to main while loop
+  }
+
   // 1b) waiting 处理:dialog 状态机(port sdlpal text.c:1616 PAL_ShowDialogText)
   //
   // sdlpal 真实交互:
@@ -1245,6 +1270,20 @@ export function tickEventSystem(
           cursor.waiting = 'fade-screen'
           console.debug(`event-system: fadeScreen speed=${speed} → ${totalMs}ms (sdlpal classic 真值)`)
           return  // 等 fade 完
+        }
+
+        // opcode 0x85 delay — sdlpal script.c:2511-2516 UTIL_Delay(operand[0]*80) 实时阻塞延迟。
+        //   time-based(不受 tick 帧率影响),期间 autoScript 暂停(waiting='delay')。op0=0 → 即时 ip++。
+        if (cmd.opcode === OP_DELAY) {
+          const delayMs = (cmd.operands[0] ?? 0) * 80
+          if (delayMs <= 0) {
+            cursor.ip++
+            break  // 本 tick 继续跑下条
+          }
+          cursor.delayUntilMs = performance.now() + delayMs
+          cursor.waiting = 'delay'
+          console.debug(`event-system: delay ${delayMs}ms (op0=${cmd.operands[0]})`)
+          return  // 等延迟完
         }
         // Sync.2 fix20:opcode 0x70/0x7A/0x7B PartyWalkTo — 主角阻塞走到目标。
         //   0x70 speed 2(script.c:2125)/ 0x7A speed 4(script.c:2249)/ 0x7B speed 8(script.c:2256)。
@@ -1866,6 +1905,37 @@ function applyRawOpcode(
       const amount = signExtendI16(operands[0] ?? 0)
       gs.dwCash = Math.max(0, gs.dwCash + amount)
       console.debug(`event-system: addCash amount=${amount} → dwCash=${gs.dwCash}`)
+      break
+    }
+
+    case OP_HALVE_CASH: {
+      // sdlpal script.c:2598-2603:gpGlobals->dwCash /= 2(整数除)。
+      gs.dwCash = Math.floor(gs.dwCash / 2)
+      console.debug(`event-system: halveCash → dwCash=${gs.dwCash}`)
+      break
+    }
+
+    case OP_SET_ALL_PARTY_POS: {
+      // sdlpal script.c:2998-3014:rgTrail[0..MAX_PLAYABLE-1] 全 = 队首世界坐标 + wPartyDirection;
+      //   rgParty[1..max] 也贴队首。我们 follower 渲染靠 trail(present.ts 用 trail[1]/trail[2]),
+      //   把整条 trail 塞成队首当前坐标+朝向 → follower 全贴队首 = 全队聚拢(cutscene 常用)。
+      const lx = gs.party.x
+      const ly = gs.party.y
+      const dir = gs.party.facing
+      gs.trail = [0, 1, 2, 3, 4].map(() => ({ x: lx, y: ly, dir }))
+      console.debug(`event-system: setAllPartyPos → all trail = leader (${lx},${ly}) dir=${dir}`)
+      break
+    }
+
+    case OP_INCREASE_PLAYER_LEVEL: {
+      // sdlpal script.c:2591-2595 → global.c:2347 PAL_PlayerLevelUp(wEventObjectID, operand[0])。
+      //   role = wEventObjectID(=currentEventObjectId,item/特殊脚本上下文里是 role id)。
+      const role = currentEventObjectId
+      if (role === undefined || role === 0xFFFF) {
+        console.warn('event-system: increasePlayerLevel 无 role 上下文,跳过')
+        break
+      }
+      playerLevelUp(gs, role, operands[0] ?? 0)
       break
     }
 
@@ -2842,6 +2912,54 @@ function applyHPMPDelta(
   console.debug(
     `event-system: HP${hp ? '+' : ''}MP${mp ? '+' : ''}Delta applyAll=${applyAll} delta=${delta} → ${targets.length} role(s)`,
   )
+}
+
+/** sdlpal MAX_LEVELS(common.h)— 等级上限 99。 */
+const MAX_LEVELS = 99
+/** sdlpal STAT_LIMIT 宏:单项属性上限 999(global.c:2393)。 */
+const STAT_CAP = 999
+
+/** RandomLong(0, n) 含端点 — 与 0xA2 randomJump 一致用 Math.random(非确定性,save 不可复现)。 */
+function randInclusive(n: number): number {
+  return Math.floor(Math.random() * (n + 1))
+}
+
+/**
+ * port sdlpal `PAL_PlayerLevelUp`(global.c:2347-2409)。
+ *
+ *   rgwLevel[role] += numLevels(clamp MAX_LEVELS);每升一级各属性按 固定+RandomLong 增长:
+ *     MaxHP +10+r(0,7) / MaxMP +8+r(0,5) / Atk +4+r(0,1) / MagStr +4+r(0,1)
+ *     / Def +2+r(0,1) / Dex +2+r(0,1) / FleeRate +2 — 全部 clamp 999。
+ *   重置主经验 rgPrimaryExp[role]:wExp=0,wLevel=新等级。
+ *
+ * 注:stat 增长用 Math.random(同 0xA2);值不与 sdlpal 字节一致,但范围/确定部分(level/Exp 重置/clamp)忠实。
+ * 这是首个 level-up stat 增长实现,后续战斗 level-up(battle-system.ts follow-up)可复用本 helper。
+ */
+function playerLevelUp(gs: GameState, role: number, numLevels: number): void {
+  const r = gs.PlayerRolesRuntime
+  if (r.rgwLevel[role] === undefined) {
+    console.warn(`event-system: playerLevelUp role=${role} 不在 PlayerRoles,跳过`)
+    return
+  }
+  r.rgwLevel[role] = Math.min(MAX_LEVELS, (r.rgwLevel[role] ?? 0) + numLevels)
+  for (let i = 0; i < numLevels; i++) {
+    r.rgwMaxHP[role] = (r.rgwMaxHP[role] ?? 0) + 10 + randInclusive(7)
+    r.rgwMaxMP[role] = (r.rgwMaxMP[role] ?? 0) + 8 + randInclusive(5)
+    r.rgwAttackStrength[role] = (r.rgwAttackStrength[role] ?? 0) + 4 + randInclusive(1)
+    r.rgwMagicStrength[role] = (r.rgwMagicStrength[role] ?? 0) + 4 + randInclusive(1)
+    r.rgwDefense[role] = (r.rgwDefense[role] ?? 0) + 2 + randInclusive(1)
+    r.rgwDexterity[role] = (r.rgwDexterity[role] ?? 0) + 2 + randInclusive(1)
+    r.rgwFleeRate[role] = (r.rgwFleeRate[role] ?? 0) + 2
+  }
+  for (const arr of [r.rgwMaxHP, r.rgwMaxMP, r.rgwAttackStrength, r.rgwMagicStrength, r.rgwDefense, r.rgwDexterity, r.rgwFleeRate]) {
+    if ((arr[role] ?? 0) > STAT_CAP) arr[role] = STAT_CAP
+  }
+  const exp = gs.Exp.rgPrimaryExp[role]
+  if (exp) {
+    exp.wExp = 0
+    exp.wLevel = r.rgwLevel[role] ?? 0
+  }
+  console.debug(`event-system: playerLevelUp role=${role} +${numLevels} → level ${r.rgwLevel[role]}`)
 }
 
 /**
