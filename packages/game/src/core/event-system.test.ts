@@ -8,6 +8,11 @@ import {
   OP_WAIT_FRAMES, OP_SET_OBJECT_POS,
   OP_SET_OBJECT_GESTURE, OP_SET_EVENT_OBJECT_DIR_AND_FRAME, OP_SET_EVENT_OBJECT_DIR_OR_FRAME,
   OP_NPC_WALK_ONE_STEP, OP_PLAYER_WALK_ONE_STEP, OP_SET_PLAYER_SPRITE,
+  OP_MOVE_OBJECT, OP_SET_OBJECT_LAYER, OP_ANIMATE_OBJECT,
+  OP_NULLIFY_OBJECT, OP_HIDE_OBJECT, OP_CHASE_PAUSE, OP_CHASE_SPEEDUP,
+  OP_PARTY_WALK_TO_4, OP_PARTY_WALK_TO_8, OP_NPC_WALK_TO_4,
+  OP_RIDE_OBJECT_2, OP_RIDE_OBJECT_4, OP_RIDE_OBJECT_8, OP_MONSTER_CHASE,
+  setObstacleChecker,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -896,6 +901,177 @@ describe('opcode 0x006C npcWalkOneStep(sdlpal script.c:2056-2063)', () => {
   })
 })
 
+describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
+  function setup(npcs: GameState['npcs']) {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.npcs = npcs
+    return { gs, bus }
+  }
+
+  it('0x7D moveObject:pCurrent.x += SHORT(op1), y += SHORT(op2)(script.c:2277-2283)', () => {
+    const { gs, bus } = setup([{ id: 3, x: 100, y: 50, spriteNum: 1 }])
+    // op0=0 → self(currentEventObjectId);op1 = -8(0xFFF8 SHORT),op2 = +6
+    loadEvent(gs, [{ op: 'raw', opcode: OP_MOVE_OBJECT, operands: [0, 0xFFF8, 6] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 3
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.x).toBe(92)
+    expect(gs.npcs[0]?.y).toBe(56)
+  })
+
+  it('0x7D moveObject:operand[0] 显式选其他 NPC(1-based → id==op0-1)', () => {
+    const { gs, bus } = setup([
+      { id: 3, x: 0, y: 0, spriteNum: 1 },
+      { id: 7, x: 200, y: 100, spriteNum: 1 },
+    ])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_MOVE_OBJECT, operands: [8, 10, 20] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 3   // self=3,但 op0=8 → 选 id=7
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[1]?.x).toBe(210)
+    expect(gs.npcs[1]?.y).toBe(120)
+  })
+
+  it('0x7E setObjectLayer:pCurrent.sLayer = SHORT(op1)(script.c:2285-2290)', () => {
+    const { gs, bus } = setup([{ id: 3, x: 0, y: 0, spriteNum: 1, sLayer: 0 }])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_SET_OBJECT_LAYER, operands: [0, 3, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 3
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.sLayer).toBe(3)
+  })
+
+  it('0x87 animateObject:仅推进动画帧 mod 4,不位移(script.c:2540-2544 PAL_NPCWalkOneStep id,0)', () => {
+    const { gs, bus } = setup([{ id: 3, x: 100, y: 50, spriteNum: 1, scriptedFrame: 0 }])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_ANIMATE_OBJECT, operands: [0, 0, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 3
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.scriptedFrame).toBe(1)
+    expect(gs.npcs[0]?.x).toBe(100)   // 无位移
+    expect(gs.npcs[0]?.y).toBe(50)
+  })
+
+  it('0x4B nullifyObject:self.sVanishTime = -15(script.c:1726-1730)', () => {
+    const { gs, bus } = setup([{ id: 3, x: 0, y: 0, spriteNum: 1 }])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_NULLIFY_OBJECT, operands: [0, 0, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 3
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.sVanishTime).toBe(-15)
+  })
+
+  it('0x52 hideObject:self.sState *= -1; sVanishTime = op0?op0:800(script.c:1794-1799)', () => {
+    const { gs, bus } = setup([{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 2 }])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_HIDE_OBJECT, operands: [0, 0, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 3
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.sState).toBe(-2)
+    expect(gs.npcs[0]?.sVanishTime).toBe(800)   // op0=0 → 默认 800
+  })
+
+  it('0x52 hideObject:op0 非 0 → sVanishTime = op0', () => {
+    const { gs, bus } = setup([{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1 }])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_HIDE_OBJECT, operands: [120, 0, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 3
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.sState).toBe(-1)
+    expect(gs.npcs[0]?.sVanishTime).toBe(120)
+  })
+
+  it('0x62 chasePause:wChasespeedChangeCycles=op0, wChaseRange=0(script.c:1967-1972)', () => {
+    const { gs, bus } = setup([])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_CHASE_PAUSE, operands: [50, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.wChasespeedChangeCycles).toBe(50)
+    expect(gs.wChaseRange).toBe(0)
+  })
+
+  it('0x63 chaseSpeedup:wChasespeedChangeCycles=op0, wChaseRange=3(script.c:1975-1980)', () => {
+    const { gs, bus } = setup([])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_CHASE_SPEEDUP, operands: [30, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.wChasespeedChangeCycles).toBe(30)
+    expect(gs.wChaseRange).toBe(3)
+  })
+
+  it('0x7A partyWalkTo speed 4:每 tick 走 1 step(|dx|>8 → ±8)(script.c:2245-2249)', () => {
+    const { gs, bus } = setup([])
+    gs.party.x = 0; gs.party.y = 0
+    // target (10,0,0) → tx=320,远 → 一步走 speed*2=8
+    loadEvent(gs, [{ op: 'raw', opcode: OP_PARTY_WALK_TO_4, operands: [10, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.party.x).toBe(8)
+    expect(gs.eventCursor?.ip).toBe(0)   // 未到 → 不 ip++,下 tick 续走
+  })
+
+  it('0x7B partyWalkTo speed 8:一步走 16(script.c:2252-2256)', () => {
+    const { gs, bus } = setup([])
+    gs.party.x = 0; gs.party.y = 0
+    loadEvent(gs, [{ op: 'raw', opcode: OP_PARTY_WALK_TO_8, operands: [10, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.party.x).toBe(16)
+  })
+
+  it('0x7C npcWalkTo speed 4:stagger gate TRUE(id 偶 + frameNum 偶)→ 走', () => {
+    const { gs, bus } = setup([{ id: 2, x: 0, y: 0, spriteNum: 1 }])
+    gs.frameNum = 0   // (id+1=3)&1=1 ^ 0&1=0 → 1 → gate TRUE
+    // target (10,10,0):tx=320 ty=160,两轴均 >= speed*2 → 走 1 step(非 snap)
+    loadEvent(gs, [{ op: 'raw', opcode: OP_NPC_WALK_TO_4, operands: [10, 10, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 2
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.x).toBe(8)   // 'right' → +2 * speed4
+    expect(gs.npcs[0]?.y).toBe(4)   // 'right' → +1 * speed4
+  })
+
+  it('0x7C npcWalkTo speed 4:stagger gate FALSE(id 奇 + frameNum 偶)→ 本 tick 不走 + 重试', () => {
+    const { gs, bus } = setup([{ id: 1, x: 0, y: 0, spriteNum: 1 }])
+    gs.frameNum = 0   // (id+1=2)&1=0 ^ 0&1=0 → 0 → gate FALSE
+    loadEvent(gs, [{ op: 'raw', opcode: OP_NPC_WALK_TO_4, operands: [10, 10, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 1
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.x).toBe(0)   // 隔帧:本 tick 跳过
+    expect(gs.eventCursor?.ip).toBe(0)   // 未推进,下 tick 重试
+  })
+
+  it('0x3F/0x44/0x97 rideObject:party + 骑乘对象一起移动 dx/dy(script.c:203-307)', () => {
+    const { gs, bus } = setup([{ id: 5, x: 200, y: 100, spriteNum: 1 }])
+    gs.party.x = 0; gs.party.y = 0
+    // 0x44 speed 4,target (10,0,0) → tx=320,xOffset=320 → dx=8;yOffset=0 → dy=0
+    loadEvent(gs, [{ op: 'raw', opcode: OP_RIDE_OBJECT_4, operands: [10, 0, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.party.x).toBe(8)       // party 移动
+    expect(gs.npcs[0]?.x).toBe(208)  // 骑乘对象同步移动 +8
+    expect(gs.npcs[0]?.y).toBe(100)  // y 不变
+    expect(gs.party.facing).toBe('right')
+  })
+
+  it('0x4C monsterChase:无障碍 → 朝 party 走 1 步 + 设朝向(script.c:309-501)', () => {
+    setObstacleChecker(null)   // 无 checker → isObstacle 恒 false(无障碍)
+    const { gs, bus } = setup([{ id: 4, x: 132, y: 50, spriteNum: 1, facing: 'up' }])
+    gs.party.x = 100; gs.party.y = 60   // party 在怪左下方,x=-32 y=10(均非 0,不触发 random)
+    gs.wChaseRange = 1
+    // op0=maxDist(默认 8),op1=speed(默认 4),op2=floating(0)
+    loadEvent(gs, [{ op: 'raw', opcode: OP_MONSTER_CHASE, operands: [0, 0, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 4
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.facing).toBe('down')   // x<0,y>=0 → kDirSouth=down
+    expect(gs.npcs[0]?.x).toBe(124)           // 132 + (-2 * speed4)
+    expect(gs.npcs[0]?.y).toBe(54)            // 50 + (1 * speed4)
+  })
+
+  it('0x4C monsterChase:wChaseRange==0(驱魔香)→ 原地打转换向,不位移', () => {
+    setObstacleChecker(null)
+    const { gs, bus } = setup([{ id: 4, x: 132, y: 50, spriteNum: 1, facing: 'down' }])
+    gs.party.x = 100; gs.party.y = 60
+    gs.wChaseRange = 0
+    gs.frameNum = 1   // 奇帧 → 换向
+    loadEvent(gs, [{ op: 'raw', opcode: OP_MONSTER_CHASE, operands: [0, 0, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 4
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.facing).toBe('left')   // down(0) → +1 → left(1)
+    expect(gs.npcs[0]?.x).toBe(132)           // wMonsterSpeed=0 → 不位移
+    expect(gs.npcs[0]?.y).toBe(50)
+  })
+})
+
 describe('opcode 0x0005 redrawScreen / PAL_ClearDialog(TRUE)(sdlpal script.c:3267-3297)— fix5', () => {
   it('有 dialog → wait page key(等 Confirm 翻页 + 清屏)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -1210,18 +1386,37 @@ describe('I-w1.b 机关 / scene-state opcodes', () => {
     expect(gs.npcs[0]?.y).toBe(58)   // 8 + 50
   })
 
-  it('setAutoScript(0x24):operand[0]!=0 → npc.autoCursor.ip = operand[1]', () => {
+  it('setAutoScript(0x24):operand[1] 是全局 entry → 经 sceneLabelMap[L_<entry>] 解本地 ip', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1 }]
+    // operand[1]=42 是全局 script entry;切片后映射到本地 ip 7(模拟 sceneLabelMap)
+    gs.sceneLabelMap = { L_42: 7 }
     const bus = createCommandBus()
     loadEvent(gs, [
-      // operand[0]=0xFFFF(self),operand[1]=42(new ip)
+      // operand[0]=0xFFFF(self),operand[1]=42(全局 entry → L_42)
       { op: 'raw', opcode: 0x24, operands: [0xFFFF, 42, 0] },
       { op: 'end' },
     ])
     gs.eventCursor!.currentEventObjectId = 3
     tickEventSystem(gs, snap(), bus)
-    expect(gs.npcs[0]?.autoCursor).toEqual({ ip: 42 })
+    expect(gs.npcs[0]?.autoLabel).toBe('L_42')
+    expect(gs.npcs[0]?.autoCursor).toEqual({ ip: 7 })   // 本地 ip,非全局 42
+  })
+
+  it('setAutoScript(0x24):目标在 shared(scene labelMap 没有)→ autoCursor.shared=true', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1 }]
+    gs.sceneLabelMap = {}                          // scene 没有 → 回退 shared
+    setSharedEvents([{ op: 'end' }], { L_406: 0 }) // shared labelMap 有 L_406
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x24, operands: [0xFFFF, 406, 0] },
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 3
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.autoCursor).toEqual({ ip: 0, shared: true })
+    setSharedEvents([], {})  // 复位,避免污染其他用例
   })
 
   it('setAutoScript:operand[0]==0 → no-op(sdlpal `if (operand[0] != 0)` 真值)', () => {

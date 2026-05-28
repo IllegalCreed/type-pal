@@ -7,7 +7,7 @@
 > 状态:✅ 已实现 · 🟡 部分(extraction 已收集目标,runtime 待) · ⬜ 待实现
 > 类别:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra) · E=战斗 · S=系统/UI
 
-最后更新:2026-05-28(A1/A2/A3-core 后)
+最后更新:2026-05-28(A 类全 + B 类全完成后)
 
 ## 控制流(0x00-0x0A)
 
@@ -37,6 +37,10 @@
 0x94 jumpIfObjState、0x95 jumpIfScene、0x9A setMultiObjState、0xA2 randomJump、
 setDialogStyle 0x3B-0x3E。
 
+**B 类移动全套(2026-05-28)**:0x3F/0x44/0x97 rideObject(speed 2/4/8)、0x4B nullify、
+0x4C monsterChase、0x52 hideObject、0x62/0x63 chasePause/Speedup、0x7A/0x7B partyWalkTo(speed 4/8)、
+0x7C npcWalkTo(speed 4 + stagger)、0x7D moveObject、0x7E setObjectLayer、0x87 animateObject。
+
 ## 数据/动作 0x0B-0xA6 — 待实现 ⬜🟡
 
 ### A 控制流/数据 / 系统 S(无 battle 前置,可做)
@@ -56,24 +60,25 @@ setDialogStyle 0x3B-0x3E。
 | 0x4D | wait for any key | ⬜S | UI 等键 |
 | 0x4E | load last saved game | ⬜S | 读最近存档 |
 
-### B 移动 / NPC / chase
-| op | 含义 | 备注 |
-|----|------|------|
-| 0x3F | ride event object low speed | NPC 载具移动 |
-| 0x44 | ride normal speed | |
-| 0x97 | ride higher speed | |
-| 0x4B | nullify event object short while | |
-| 0x4C | chase player | 敌人追逐 |
-| 0x52 | hide event object(default 800 frames) | |
-| 0x5C | hide for a while | |
-| 0x62 | pause enemy chasing | wChasespeedChangeCycles |
-| 0x63 | speed up enemy chasing | |
-| 0x7A | walk party high speed | |
-| 0x7B | walk party highest speed | |
-| 0x7C | walk straight to pos | |
-| 0x7D | move event object | |
-| 0x7E | set layer of event object | sLayer |
-| 0x87 | animate event object | NPCWalkOneStep(id,0) |
+### B 移动 / NPC / chase — 全部 ✅(2026-05-28)
+| op | 含义 | 状态 | 备注(sdlpal 出处) |
+|----|------|------|------|
+| 0x3F | ride event object low speed | ✅ | partyRideEventObject speed 2(script.c:1609 / fn 203-307);主 while 阻塞 retry |
+| 0x44 | ride normal speed | ✅ | speed 4(script.c:1654) |
+| 0x97 | ride higher speed | ✅ | speed 8(script.c:2705) |
+| 0x4B | nullify event object short while | ✅ | self.sVanishTime=-15(script.c:1726-1730) |
+| 0x4C | chase player | ✅ | monsterChasePlayer(script.c:1733-1751 / fn 309-501);障碍检测经 setObstacleChecker hook(=!isWalkable) |
+| 0x52 | hide event object(default 800) | ✅ | self.sState*=-1 + sVanishTime=op0?op0:800(script.c:1794-1799) |
+| 0x62 | pause enemy chasing | ✅ | wChasespeedChangeCycles=op0, wChaseRange=0(script.c:1967-1972) |
+| 0x63 | speed up enemy chasing | ✅ | wChasespeedChangeCycles=op0, wChaseRange=3(script.c:1975-1980) |
+| 0x7A | walk party high speed | ✅ | partyWalkTo speed 4(script.c:2249) |
+| 0x7B | walk party highest speed | ✅ | partyWalkTo speed 8(script.c:2256) |
+| 0x7C | walk straight to pos | ✅ | npcWalkTo speed 4 + stagger gate `(id&1)^(frameNum&1)`(script.c:2259-2275) |
+| 0x7D | move event object | ✅ | pCurrent.x+=SHORT(op1) y+=SHORT(op2)(script.c:2277-2283) |
+| 0x7E | set layer of event object | ✅ | pCurrent.sLayer=SHORT(op1)(script.c:2285-2290) |
+| 0x87 | animate event object | ✅ | NPCWalkOneStep(id,0):仅推进动画帧(script.c:2540-2544) |
+
+> 注:**0x5C 不是 B 类** —— `g_Battle.iHidingTime = -op0`(script.c:1907-1911)是**战斗**态(party 隐身回合),已移到 E 类。
 
 ### E 战斗(多数需战斗系统/enemy 状态前置)
 | op | 含义 | 备注 |
@@ -89,6 +94,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x57 | set magic base damage by MP | |
 | 0x5A | halve player HP | |
 | 0x5B | halve enemy HP | |
+| 0x5C | hide party for a while(battle) | g_Battle.iHidingTime=-op0(script.c:1907-1911)— 原误判 B,实为战斗态 |
 | 0x5E | jump if enemy no poison | 🟡 extraction 已收集目标,runtime 待 |
 | 0x5F | kill player | |
 | 0x60 | KO enemy | |

@@ -225,16 +225,23 @@ function fillUnnamedOpcodes(): void {
 fillUnnamedOpcodes()
 
 /**
- * 条件跳转 opcode → 跳转目标在哪个 operand(0-based)。sdlpal script.c 真值。
+ * 条件跳转 / 脚本指针设置 opcode → 目标在哪个 operand(0-based)。sdlpal script.c 真值。
  * 这些 opcode 仍按 raw 产出(字节平凡可逆),但 disasm 据此给目标打 L_ 标签、
- * slice BFS 据此跟随目标 —— 否则跳转目标可能被切片丢弃,运行时 ip 落到错误分支
+ * slice BFS 据此跟随目标 —— 否则目标脚本可能被切片丢弃,运行时 ip 落到错误分支
  *(同 2026-05-28 黑屏/门 bug 的 fall-through 类问题)。
+ *
+ * 注:0x24 setAutoScript / 0x25 setTriggerScript 不是"跳转",而是把某 NPC 的
+ * wAutoScript / wTriggerScript 指针设到 op1 指向的脚本(之后该脚本由 autoScript / 交互触发跑)。
+ * 它们的目标脚本若不收集 + 跟随,就会被切片剪掉(2026-05-28 客栈三苗人 cutscene
+ * setAutoScript 目标 373/406/411/420 全被剪 → 苗人不走的根因)。
  *
  * 真值出处(script.c):0x58:1864 / 0x5D:1920 / 0x5E:1938 / 0x61:1963 / 0x64:1991 /
  * 0x74:2158 / 0x79:2239 / 0x81:2431 / 0x83:2468 / 0x86:2536 / 0x94:2679 / 0x95:2689。
  */
 export const JUMP_TARGET_OPERAND: Record<number, number> = {
   0x04: 0, // call-script:op0 = 子脚本入口(非跳转,但同样需收集目标 + 打标签;之后 i+1 继续)
+  0x24: 1, // setAutoScript:op1 = NPC wAutoScript 入口(script.c:1137-1145)— 同 call,需收集+跟随
+  0x25: 1, // setTriggerScript:op1 = NPC wTriggerScript 入口(script.c:1147-1155)— 同上
   0x58: 2, // jump if item amount < op1
   0x5d: 1, // jump if player not poisoned by kind op0
   0x5e: 1, // jump if enemy has no poison op0(battle)

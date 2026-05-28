@@ -130,6 +130,12 @@ export interface NpcState {
     ip: number
     /** sdlpal `wScriptIdleFrameCountAuto`:opcode 0x09 wait N frames 用,累计 N 后推 ip。 */
     idleFrameCount?: number
+    /**
+     * autoScript 脚本体在 shared.json(而非当前 scene)。多 scene 共用同地图时,被 2+ scene
+     * 引用的 NPC autoScript 会被切片提升到 shared(eg. 客栈苗人头领 L_406)。为 true 时
+     * runOneAutoOp 从 getSharedCommands()/getSharedLabelMap() 跑,而非 gs.sceneCommands。
+     */
+    shared?: boolean
   }
   /**
    * autoScript 入口 label(`L_<global ip>`)。全局 event object 数组里保留它,供进 scene 切片时

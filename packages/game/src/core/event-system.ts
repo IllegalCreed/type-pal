@@ -165,6 +165,22 @@ export const OP_PARTY_WALK_TO = 0x0070          // 112
 //   pCurrent.x += SHORT(operand[1]), pCurrent.y += SHORT(operand[2])
 //   PAL_NPCWalkOneStep(wCurEventObjectID, 0)  // speed=0,只更新 wCurrentFrameNum
 export const OP_NPC_WALK_ONE_STEP = 0x006C      // 108
+
+// ── B 类移动 opcode ──────────────────────────────────────────────────────────
+export const OP_PARTY_WALK_TO_4 = 0x007A        // 122 walk party speed 4
+export const OP_PARTY_WALK_TO_8 = 0x007B        // 123 walk party speed 8
+export const OP_NPC_WALK_TO_4 = 0x007C          // 124 NPC walk straight speed 4(隔帧)
+export const OP_MOVE_OBJECT = 0x007D            // 125 pCurrent.x+=op1, y+=op2
+export const OP_SET_OBJECT_LAYER = 0x007E       // 126 pCurrent.sLayer = op1
+export const OP_ANIMATE_OBJECT = 0x0087         // 135 NPCWalkOneStep(id,0):仅推进动画帧
+export const OP_NULLIFY_OBJECT = 0x004B         // 75  pEvtObj.sVanishTime = -15
+export const OP_HIDE_OBJECT = 0x0052            // 82  pEvtObj.sState*=-1 + sVanishTime=op0?op0:800
+export const OP_CHASE_PAUSE = 0x0062            // 98  wChasespeedChangeCycles=op0, wChaseRange=0
+export const OP_CHASE_SPEEDUP = 0x0063          // 99  wChasespeedChangeCycles=op0, wChaseRange=3
+export const OP_RIDE_OBJECT_2 = 0x003F          // 63  PartyRideEventObject speed 2
+export const OP_RIDE_OBJECT_4 = 0x0044          // 68  PartyRideEventObject speed 4
+export const OP_RIDE_OBJECT_8 = 0x0097          // 151 PartyRideEventObject speed 8
+export const OP_MONSTER_CHASE = 0x004C          // 76  MonsterChasePlayer(id, speed, maxDist, floating)
 // case 0x006E(110): Move the player to specified offset in one step(script.c:2091-2113)
 //   trail unshift + party.x += SHORT(operand[0]), party.y += SHORT(operand[1])
 //   wLayer = operand[2] * 8
@@ -329,6 +345,14 @@ const SDLPAL_DIR_TO_FACING: Record<number, 'down' | 'left' | 'up' | 'right'> = {
   3: 'right',  // kDirEast
 }
 
+// 反向:facing → sdlpal kDir 数值(0x4C 驱魔香原地打转 wDirection++ 循环用)
+const FACING_TO_SDLPAL_DIR: Record<'down' | 'left' | 'up' | 'right', number> = {
+  down: 0,   // kDirSouth
+  left: 1,   // kDirWest
+  up: 2,     // kDirNorth
+  right: 3,  // kDirEast
+}
+
 const SINGLE_TICK_LIMIT = 256
 
 // sdlpal text.c:1701 PAL_DialogWaitForKeyWithMaximumSeconds(1.4):kDialogCenterWindow
@@ -406,6 +430,23 @@ let _mapReloader: MapReloaderFn | null = null
 
 export function setMapReloader(fn: MapReloaderFn | null): void {
   _mapReloader = fn
+}
+
+/**
+ * opcode 0x4C MonsterChasePlayer 障碍检测注入(port sdlpal `PAL_CheckObstacle`)。
+ *
+ * 返回 TRUE = 该像素坐标被阻挡(= sdlpal PAL_CheckObstacle 真值)。
+ *   checkObjects=TRUE  → tilemap obstacle bit + 当前 scene event objects(排除 selfId)
+ *   checkObjects=FALSE → 只查 tilemap(忽略 event objects,selfId 无意义)
+ * 用 hook 注入避免 event-system 反向 import scene-system(scene-system 已 import event-system,
+ * 直接 import 会成环)。bootstrap 用 `!isWalkable(presentCtx.tilemap, x, y, ...)` 实现。
+ * 未注入(测试 / 无 tilemap)→ 视为无障碍(返回 false)。
+ */
+type ObstacleCheckerFn = (x: number, y: number, checkObjects: boolean, selfId: number) => boolean
+let _obstacleChecker: ObstacleCheckerFn | null = null
+
+export function setObstacleChecker(fn: ObstacleCheckerFn | null): void {
+  _obstacleChecker = fn
 }
 
 // ── P0.e: shared.json events.bin 跨 scene 共享脚本注入 ─────────────────────────
@@ -557,7 +598,10 @@ export function tickAutoScripts(gs: GameState): void {
 
 function runOneAutoOp(gs: GameState, npc: NpcState): void {
   const cursor = npc.autoCursor!
-  const cmds = gs.sceneCommands!
+  // cursor.shared:autoScript 脚本体在 shared.json(被多 scene 共引,切片提升到 shared)。
+  // 否则跑当前 scene 的 commands。labelMap 同源(goto/reset 的 L_ 解析也走对应表)。
+  const cmds = cursor.shared ? getSharedCommands() : gs.sceneCommands!
+  const autoLabelMap = cursor.shared ? getSharedLabelMap() : (gs.sceneLabelMap ?? {})
   if (cursor.ip < 0 || cursor.ip >= cmds.length) {
     npc.autoCursor = undefined  // ip 越界 → 停
     return
@@ -581,9 +625,9 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
           idleFrames === 0
           || (cursor.idleFrameCount = (cursor.idleFrameCount ?? 0) + 1) < idleFrames
         ) {
-          // resetTo 是全局 entry 号,经 sceneLabelMap['L_<resetTo>'] 解本地 ip
+          // resetTo 是全局 entry 号,经 labelMap['L_<resetTo>'] 解本地 ip(shared 时查 shared 表)
           const target =
-            cmd.resetTo !== undefined ? gs.sceneLabelMap?.[`L_${cmd.resetTo}`] : undefined
+            cmd.resetTo !== undefined ? autoLabelMap[`L_${cmd.resetTo}`] : undefined
           if (target !== undefined) cursor.ip = target
           else npc.autoCursor = undefined // resetTo 跨文件/不在本 scene → 停
         }
@@ -604,7 +648,7 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
         if (cursor.idleFrameCount < frameDelay) return
         cursor.idleFrameCount = 0
       }
-      const target = gs.sceneLabelMap?.[cmd.to]
+      const target = autoLabelMap[cmd.to]
       if (target !== undefined) {
         cursor.ip = target
       }
@@ -626,15 +670,26 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
         return
       }
 
-      // opcode 0x10/0x11/0x82 NPCWalkTo — autoScript 自走目标(NPC 是 autoCursor owner)
+      // opcode 0x10/0x11/0x7C/0x82 NPCWalkTo — autoScript 自走目标(NPC 是 autoCursor owner)
       if (cmd.opcode === OP_NPC_WALK_TO_SPEED_3
         || cmd.opcode === OP_NPC_WALK_TO_SPEED_2
+        || cmd.opcode === OP_NPC_WALK_TO_4
         || cmd.opcode === OP_NPC_WALK_TO_SPEED_8) {
+        // sdlpal 0x11(script.c:692)/ 0x7C(script.c:2263)有隔帧 stagger gate
+        //   `(wEventObjectID & 1) ^ (dwFrameNum & 1)` — gate FALSE → wScriptEntry--(本帧不走,下帧重试)。
+        //   wEventObjectID 1-based = npc.id + 1。0x10 / 0x82 无 gate。
+        const staggered
+          = cmd.opcode === OP_NPC_WALK_TO_SPEED_2 || cmd.opcode === OP_NPC_WALK_TO_4
+        if (staggered && ((((npc.id + 1) & 1) ^ (gs.frameNum & 1)) === 0)) {
+          return  // 隔帧:本 tick 跳过移动 + 重试
+        }
         const speed = cmd.opcode === OP_NPC_WALK_TO_SPEED_3
           ? 3
           : cmd.opcode === OP_NPC_WALK_TO_SPEED_8
             ? 8
-            : 2
+            : cmd.opcode === OP_NPC_WALK_TO_4
+              ? 4
+              : 2
         const arrived = npcWalkTo(
           npc,
           cmd.operands[0] ?? 0,
@@ -1073,15 +1128,23 @@ export function tickEventSystem(
           console.debug(`event-system: fadeScreen speed=${speed} → ${totalMs}ms (sdlpal classic 真值)`)
           return  // 等 fade 完
         }
-        // Sync.2 fix20:opcode 0x70 PartyWalkTo — 主角阻塞走到目标(sdlpal script.c:2125-2130)。
-        // 每 tick 走 1 step (speed=2),arrived 才 ip++。trigger 中常见用法 "主角走到密道" 等。
-        if (cmd.opcode === OP_PARTY_WALK_TO) {
+        // Sync.2 fix20:opcode 0x70/0x7A/0x7B PartyWalkTo — 主角阻塞走到目标。
+        //   0x70 speed 2(script.c:2125)/ 0x7A speed 4(script.c:2249)/ 0x7B speed 8(script.c:2256)。
+        //   每 tick 走 1 step,arrived 才 ip++。trigger 中常见用法 "主角走到密道" 等。
+        if (cmd.opcode === OP_PARTY_WALK_TO
+          || cmd.opcode === OP_PARTY_WALK_TO_4
+          || cmd.opcode === OP_PARTY_WALK_TO_8) {
+          const speed = cmd.opcode === OP_PARTY_WALK_TO_8
+            ? 8
+            : cmd.opcode === OP_PARTY_WALK_TO_4
+              ? 4
+              : 2
           const arrived = partyWalkTo(
             gs,
             cmd.operands[0] ?? 0,
             cmd.operands[1] ?? 0,
             cmd.operands[2] ?? 0,
-            2,
+            speed,
           )
           if (arrived) {
             cursor.ip++
@@ -1090,11 +1153,12 @@ export function tickEventSystem(
           return
         }
 
-        // Sync.2 fix19:opcode 0x10 / 0x11 / 0x82 NPCWalkTo — 阻塞 trigger script,
+        // Sync.2 fix19:opcode 0x10 / 0x11 / 0x7C / 0x82 NPCWalkTo — 阻塞 trigger script,
         // 每 tick 走 1 步,arrived 才 ip++(对应 sdlpal `wScriptEntry--` 下帧 retry 真值)。
         // self = currentEventObjectId(trigger 当前 NPC,scene-system 进入 trigger 时设)。
         if (cmd.opcode === OP_NPC_WALK_TO_SPEED_3
           || cmd.opcode === OP_NPC_WALK_TO_SPEED_2
+          || cmd.opcode === OP_NPC_WALK_TO_4
           || cmd.opcode === OP_NPC_WALK_TO_SPEED_8) {
           const npc = getSelfNpc(gs, cursor.currentEventObjectId, 'npcWalkTo')
           if (!npc) {
@@ -1102,12 +1166,22 @@ export function tickEventSystem(
             cursor.ip++
             break
           }
-          // sdlpal 三档速度:0x10=3, 0x11=2(每隔帧走), 0x82=8
+          // sdlpal 0x11(script.c:692)/ 0x7C(script.c:2263)有隔帧 stagger gate
+          //   `(wEventObjectID & 1) ^ (dwFrameNum & 1)` — gate FALSE → wScriptEntry--(本帧不走重试)。
+          //   wEventObjectID 1-based = npc.id + 1。0x10 / 0x82 无 gate。
+          const staggered
+            = cmd.opcode === OP_NPC_WALK_TO_SPEED_2 || cmd.opcode === OP_NPC_WALK_TO_4
+          if (staggered && ((((npc.id + 1) & 1) ^ (gs.frameNum & 1)) === 0)) {
+            return  // 隔帧:本 tick 跳过移动 + 重试
+          }
+          // sdlpal 四档速度:0x10=3, 0x11=2(隔帧), 0x7C=4(隔帧), 0x82=8
           const speed = cmd.opcode === OP_NPC_WALK_TO_SPEED_3
             ? 3
             : cmd.opcode === OP_NPC_WALK_TO_SPEED_8
               ? 8
-              : 2
+              : cmd.opcode === OP_NPC_WALK_TO_4
+                ? 4
+                : 2
           const arrived = npcWalkTo(
             npc,
             cmd.operands[0] ?? 0,
@@ -1120,6 +1194,37 @@ export function tickEventSystem(
             break  // fall through 跑下条
           }
           return  // 未到 → 下 tick 再跑同条
+        }
+
+        // opcode 0x3F/0x44/0x97 PartyRideEventObject — party 骑乘对象阻塞移动到目标。
+        //   0x3F speed 2(script.c:1609)/ 0x44 speed 4(script.c:1654)/ 0x97 speed 8(script.c:2705)。
+        //   骑乘对象 = wEventObjectID(self)。每 tick 走 1 step,arrived 才 ip++(同 walk-to retry)。
+        if (cmd.opcode === OP_RIDE_OBJECT_2
+          || cmd.opcode === OP_RIDE_OBJECT_4
+          || cmd.opcode === OP_RIDE_OBJECT_8) {
+          const npc = getSelfNpc(gs, cursor.currentEventObjectId, 'rideObject')
+          if (!npc) {
+            cursor.ip++
+            break
+          }
+          const speed = cmd.opcode === OP_RIDE_OBJECT_8
+            ? 8
+            : cmd.opcode === OP_RIDE_OBJECT_4
+              ? 4
+              : 2
+          const arrived = partyRideEventObject(
+            gs,
+            npc,
+            cmd.operands[0] ?? 0,
+            cmd.operands[1] ?? 0,
+            cmd.operands[2] ?? 0,
+            speed,
+          )
+          if (arrived) {
+            cursor.ip++
+            break
+          }
+          return
         }
 
         // P0.e: 6 wScriptOnEnter opcode 真生效 + Sync.2 fix3: 4 个 NPC 动作 opcode;其余 D26 兜底 skip
@@ -1655,9 +1760,40 @@ function applyRawOpcode(
       }
       const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setAutoScript')
       if (npc) {
-        const newIp = operands[1] ?? 0
-        npc.autoCursor = newIp === 0 ? undefined : { ip: newIp }
-        console.debug(`event-system: setAutoScript id=${npc.id} ip=${newIp}`)
+        const entry = operands[1] ?? 0
+        if (entry === 0) {
+          npc.autoLabel = undefined
+          npc.autoCursor = undefined
+          console.debug(`event-system: setAutoScript id=${npc.id} 清空(op1=0)`)
+        }
+        else {
+          // operand[1] 是**全局** script entry。切片后 commands 重排成本地索引,全局 entry
+          // 经 `L_<entry>` label 映射到当前 scene labelMap 的本地 ip(同 autoLabel 解析路径)。
+          // 不能拿全局 entry 当本地 ip 直接用(旧 bug:autoCursor.ip 落到错误命令)。
+          const label = `L_${entry}`
+          npc.autoLabel = label
+          // 先查当前 scene labelMap;多 scene 共用地图时该脚本可能被提升到 shared(eg. 苗人头领
+          // L_406 被 scene-001/003 共引 → shared)→ 回退查 shared,标 cursor.shared=true。
+          const localIp = gs.sceneLabelMap?.[label]
+          const sharedIp = localIp === undefined ? getSharedLabelMap()[label] : undefined
+          if (localIp !== undefined) {
+            npc.autoCursor = { ip: localIp }
+          }
+          else if (sharedIp !== undefined) {
+            npc.autoCursor = { ip: sharedIp, shared: true }
+          }
+          else {
+            npc.autoCursor = undefined
+            console.warn(
+              `event-system: setAutoScript id=${npc.id} ${label} 不在 scene/shared labelMap`
+              + `(目标脚本可能被切片剪掉 — 检查 JUMP_TARGET_OPERAND 是否含 0x24)`,
+            )
+          }
+          console.debug(
+            `event-system: setAutoScript id=${npc.id} ${label} → `
+            + (localIp !== undefined ? `localIp=${localIp}` : `sharedIp=${sharedIp}`),
+          )
+        }
       }
       break
     }
@@ -1823,6 +1959,89 @@ function applyRawOpcode(
           `event-system: npcWalkOneStep id=${npc.id} d=(${dx},${dy}) → (${npc.x},${npc.y})`
           + ` frame=${next}`,
         )
+      }
+      break
+    }
+
+    case OP_MOVE_OBJECT: {
+      // sdlpal script.c:2277-2283:pCurrent->x += SHORT(op1); pCurrent->y += SHORT(op2)
+      // pCurrent = operand[0] 选(0/0xFFFF → self)
+      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'moveObject')
+      if (npc) {
+        npc.x += toInt16(operands[1] ?? 0)
+        npc.y += toInt16(operands[2] ?? 0)
+        console.debug(`event-system: moveObject id=${npc.id} → (${npc.x},${npc.y})`)
+      }
+      break
+    }
+
+    case OP_SET_OBJECT_LAYER: {
+      // sdlpal script.c:2285-2290:pCurrent->sLayer = SHORT(op1)
+      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setObjectLayer')
+      if (npc) {
+        npc.sLayer = toInt16(operands[1] ?? 0)
+        console.debug(`event-system: setObjectLayer id=${npc.id} sLayer=${npc.sLayer}`)
+      }
+      break
+    }
+
+    case OP_ANIMATE_OBJECT: {
+      // sdlpal script.c:2540-2545:PAL_NPCWalkOneStep(wCurEventObjectID, 0)
+      // iSpeed=0 → 仅推进动画帧(scene.c:893-902),不位移。wCurEventObjectID = operand[0] 选。
+      const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'animateObject')
+      if (npc) {
+        npc.scriptedFrame = ((npc.scriptedFrame ?? -1) + 1) % 4
+        console.debug(`event-system: animateObject id=${npc.id} frame=${npc.scriptedFrame}`)
+      }
+      break
+    }
+
+    case OP_NULLIFY_OBJECT: {
+      // sdlpal script.c:1726-1731:pEvtObj->sVanishTime = -15(短暂消失)。pEvtObj = self。
+      const npc = getSelfNpc(gs, currentEventObjectId, 'nullifyObject')
+      if (npc) {
+        npc.sVanishTime = -15
+        console.debug(`event-system: nullifyObject id=${npc.id} sVanishTime=-15`)
+      }
+      break
+    }
+
+    case OP_HIDE_OBJECT: {
+      // sdlpal script.c:1794-1800:pEvtObj->sState *= -1; sVanishTime = op0 ? op0 : 800。pEvtObj = self。
+      const npc = getSelfNpc(gs, currentEventObjectId, 'hideObject')
+      if (npc) {
+        npc.sState = -(npc.sState ?? 1)
+        npc.sVanishTime = (operands[0] ?? 0) ? (operands[0] ?? 0) : 800
+        console.debug(`event-system: hideObject id=${npc.id} sState=${npc.sState} sVanishTime=${npc.sVanishTime}`)
+      }
+      break
+    }
+
+    case OP_CHASE_PAUSE: {
+      // sdlpal script.c:1967-1973:wChasespeedChangeCycles = op0; wChaseRange = 0(暂停追击)
+      gs.wChasespeedChangeCycles = operands[0] ?? 0
+      gs.wChaseRange = 0
+      console.debug(`event-system: chasePause cycles=${gs.wChasespeedChangeCycles}`)
+      break
+    }
+
+    case OP_CHASE_SPEEDUP: {
+      // sdlpal script.c:1975-1981:wChasespeedChangeCycles = op0; wChaseRange = 3(加速追击)
+      gs.wChasespeedChangeCycles = operands[0] ?? 0
+      gs.wChaseRange = 3
+      console.debug(`event-system: chaseSpeedup cycles=${gs.wChasespeedChangeCycles}`)
+      break
+    }
+
+    case OP_MONSTER_CHASE: {
+      // sdlpal script.c:1733-1751:i=op0(max dist,默认 8)/ j=op1(speed,默认 4),
+      //   PAL_MonsterChasePlayer(wEventObjectID, j, i, op2)。怪追 party 1 步(self = trigger NPC)。
+      const npc = getSelfNpc(gs, currentEventObjectId, 'monsterChase')
+      if (npc) {
+        const maxDist = (operands[0] ?? 0) || 8
+        const speed = (operands[1] ?? 0) || 4
+        monsterChasePlayer(gs, npc, speed, maxDist, (operands[2] ?? 0) !== 0)
+        console.debug(`event-system: monsterChase id=${npc.id} speed=${speed} maxDist=${maxDist} → (${npc.x},${npc.y})`)
       }
       break
     }
@@ -2690,6 +2909,173 @@ function partyWalkTo(
     return true
   }
   return false
+}
+
+/**
+ * port sdlpal `PAL_PartyRideEventObject`(script.c:203-307)— **每 tick 走 1 步**,返回是否到达。
+ *
+ * 真值:party 骑乘 event object 一起移动到目标。原版是 blocking while loop(每帧 viewport+对象
+ * 同步 dx/dy,直到 xOffset/yOffset 归零);我们 tick 化:每 tick 走 1 step,未到 caller 不 ip++(retry)。
+ *
+ *   xOffset = x*32 + h*16 - viewport.x - partyoffset.x = 目标世界 X - party 世界 X(= gs.party.x)
+ *   dx = |xOffset| > speed*2 ? speed*±2 : xOffset;dy = |yOffset| > speed ? speed*±1 : yOffset
+ *   viewport += (dx,dy)(= party.x/y += dx/dy,camera 跟随);骑乘对象 npc.x/y += dx/dy(一起动)
+ *   trail[0] = 移动**后**的 party 世界坐标(script.c:287-289 真值,与 PAL_PartyWalkTo 存移动前不同)
+ *   PAL_GameUpdate(FALSE):骑乘期间**不**更新走路 gesture(party 保持站立 pose)
+ */
+function partyRideEventObject(
+  gs: GameState,
+  npc: NpcState,
+  targetX: number,
+  targetY: number,
+  h: number,
+  speed: number,
+): boolean {
+  const tx = targetX * 32 + h * 16
+  const ty = targetY * 16 + h * 8
+  const xOffset = tx - gs.party.x
+  const yOffset = ty - gs.party.y
+
+  if (xOffset === 0 && yOffset === 0) return true
+
+  // facing(sdlpal script.c:252-259,同 NPC 方向选)
+  if (yOffset < 0) {
+    gs.party.facing = xOffset < 0 ? 'left' : 'up'
+  }
+  else {
+    gs.party.facing = xOffset < 0 ? 'down' : 'right'
+  }
+
+  const dx = Math.abs(xOffset) > speed * 2 ? speed * (xOffset < 0 ? -2 : 2) : xOffset
+  const dy = Math.abs(yOffset) > speed ? speed * (yOffset < 0 ? -1 : 1) : yOffset
+
+  // trail unshift:存移动**后**的 party 世界坐标(sdlpal script.c:282-289)
+  gs.trail.unshift({
+    x: gs.party.x + dx,
+    y: gs.party.y + dy,
+    dir: gs.party.facing,
+  })
+  if (gs.trail.length > 5) gs.trail.length = 5
+
+  // viewport(camera)+ party + 骑乘对象一起移动 dx/dy
+  gs.party.x += dx
+  gs.party.y += dy
+  gs.camera.x = gs.party.x - PARTYOFFSET_X
+  gs.camera.y = gs.party.y - PARTYOFFSET_Y
+  npc.x += dx
+  npc.y += dy
+
+  return gs.party.x === tx && gs.party.y === ty
+}
+
+/**
+ * port sdlpal `PAL_MonsterChasePlayer`(script.c:309-501)— 怪物朝 party 追 1 步(opcode 0x4C)。
+ * 单次调用走 1 step,caller ip++(常在 autoScript 每 tick 跑 → 持续追)。
+ *
+ *   wSpeed         追击速度(0x4C op1,默认 4)
+ *   wMaxDist       追击灵敏范围(0x4C op0,默认 8;sdlpal 形参名也叫 wChaseRange,易混)
+ *   fFloating      浮空怪(0x4C op2)→ 忽略障碍
+ *   gs.wChaseRange 全局追击系数(0x62/0x63 改;==0 时"驱魔香"原地打转)
+ */
+function monsterChasePlayer(
+  gs: GameState,
+  npc: NpcState,
+  wSpeed: number,
+  wMaxDist: number,
+  fFloating: boolean,
+): void {
+  let wMonsterSpeed = 0
+
+  if (gs.wChaseRange !== 0) {
+    // party 世界坐标 = viewport + partyoffset = gs.party.x/y
+    let x = gs.party.x - npc.x
+    let y = gs.party.y - npc.y
+    if (x === 0) x = Math.random() < 0.5 ? -1 : 1
+    if (y === 0) y = Math.random() < 0.5 ? -1 : 1
+
+    // snap prevx/prevy(sdlpal script.c:356-388 菱形 tile 回弹基准)
+    let prevx = npc.x
+    let prevy = npc.y
+    const i = prevx % 32
+    const j = prevy % 16
+    prevx = Math.floor(prevx / 32)
+    prevy = Math.floor(prevy / 16)
+    let l = 0
+    if (i + j * 2 >= 16) {
+      if (i + j * 2 >= 48) {
+        prevx++; prevy++
+      }
+      else if (32 - i + j * 2 < 16) {
+        prevx++
+      }
+      else if (32 - i + j * 2 < 48) {
+        l = 1
+      }
+      else {
+        prevy++
+      }
+    }
+    prevx = prevx * 32 + l * 16
+    prevy = prevy * 16 + l * 8
+
+    // party 是否在追击范围内(script.c:393)
+    if (Math.abs(x) + Math.abs(y) * 2 < wMaxDist * 32 * gs.wChaseRange) {
+      // 朝 party 方向(script.c:395-416)
+      if (x < 0) {
+        npc.facing = y < 0 ? 'left' : 'down'   // West / South
+      }
+      else {
+        npc.facing = y < 0 ? 'up' : 'right'    // North / East
+      }
+
+      const cx = x !== 0 ? npc.x + (x < 0 ? -1 : 1) * 16 : npc.x
+      const cy = y !== 0 ? npc.y + (y < 0 ? -1 : 1) * 8 : npc.y
+
+      if (fFloating) {
+        wMonsterSpeed = wSpeed
+      }
+      else {
+        // PAL_CheckObstacle(cx,cy,TRUE,self):无障碍 → 可走;有障碍 → 回弹 prev
+        if (!isObstacle(cx, cy, true, npc.id)) {
+          wMonsterSpeed = wSpeed
+        }
+        else {
+          npc.x = prevx
+          npc.y = prevy
+        }
+        // 4-向微调避障(script.c:452-482):每个偏移落到障碍就回弹
+        for (let k = 0; k < 4; k++) {
+          if (k === 0) { npc.x -= 4; npc.y += 2 }
+          else if (k === 1) { npc.x -= 4; npc.y -= 2 }
+          else if (k === 2) { npc.x += 4; npc.y -= 2 }
+          else { npc.x += 4; npc.y += 2 }
+          if (isObstacle(npc.x, npc.y, false, 0)) {
+            npc.x = prevx
+            npc.y = prevy
+          }
+        }
+      }
+    }
+  }
+  else {
+    // 驱魔香:wChaseRange==0 原地打转,每 2 帧换向(script.c:486-498)
+    if (gs.frameNum & 1) {
+      const dirIdx = (FACING_TO_SDLPAL_DIR[npc.facing ?? 'down'] + 1) % 4
+      npc.facing = SDLPAL_DIR_TO_FACING[dirIdx] ?? 'down'
+    }
+  }
+
+  // PAL_NPCWalkOneStep(id, wMonsterSpeed)(scene.c:887-902):按 facing 走 + 推进动画帧
+  const stepX = (npc.facing === 'left' || npc.facing === 'down') ? -2 : 2
+  const stepY = (npc.facing === 'left' || npc.facing === 'up') ? -1 : 1
+  npc.x += stepX * wMonsterSpeed
+  npc.y += stepY * wMonsterSpeed
+  npc.scriptedFrame = ((npc.scriptedFrame ?? 0) + 1) % 4
+}
+
+/** PAL_CheckObstacle 真值(via 注入 hook);未注入(测试/无 tilemap)视为无障碍。 */
+function isObstacle(x: number, y: number, checkObjects: boolean, selfId: number): boolean {
+  return _obstacleChecker ? _obstacleChecker(x, y, checkObjects, selfId) : false
 }
 
 // runEnterScript: 同步跑 wScriptOnEnter 段(loadScene 不传 partyStart 时调用)。

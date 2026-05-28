@@ -9,7 +9,7 @@ import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject, 
 import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap, runEnterScript, setFetchPalette,
-  setSceneLoader, setMapReloader,
+  setSceneLoader, setMapReloader, setObstacleChecker,
   setSharedEvents, setStartBattleHandler,
 } from '../core/event-system.js'
 import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
@@ -19,7 +19,7 @@ import { playAvi } from './avi-player.js'
 import { playSplashFallback } from './splash-fallback.js'
 import { playTrademarkFallback } from './trademark-fallback.js'
 import { startBattle } from '../core/battle/battle-system.js'
-import { setSceneContext } from '../core/scene-system.js'
+import { setSceneContext, isWalkable } from '../core/scene-system.js'
 import { KeyboardInputSource } from './input.js'
 import { startRafLoop, type LoopContext } from './main-loop.js'
 import { createFramebuffer } from '../present/framebuffer.js'
@@ -543,6 +543,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       labelMap: gs.sceneLabelMap ?? {},
     })
   })
+
+  // opcode 0x4C MonsterChasePlayer 障碍检测注入(port sdlpal PAL_CheckObstacle)。
+  //   checkObjects=TRUE  → tilemap + 当前 scene event objects(排除自身 selfId)
+  //   checkObjects=FALSE → 只查 tilemap(传空 npcs 数组)
+  // isWalkable 返 TRUE=可走;PAL_CheckObstacle 返 TRUE=被阻挡 → 取反。
+  setObstacleChecker((x, y, checkObjects, selfId) =>
+    !isWalkable(presentCtx.tilemap, x, y, checkObjects ? gs.npcs : [], selfId),
+  )
 
   // M3 T29:dev panel(仅 DEV;生产构建 dead-code)。快捷键 B 弹 fixture picker → 启战。
   // M3.5 T16:加 sceneJumps,picker 内多一段 scene jump 列表(T17 接真 loadScene)。
