@@ -57,9 +57,12 @@ function parseItemFlags(raw: number): ItemFlags {
  * M3 T5 重构:flags 从 u16 raw 拆为 `ItemFlags` 具名 bool;`scriptDesc` 字段补齐;
  * 名字改 `_name?`(可选,注释用,引擎不读)与 parseEnemies pattern 一致。
  *
- * **id 是什么**:`id` = 该 item 在 items.json 数组里的索引(0..234),
- * 不是 OBJECT 数组里的绝对 index(那是 61..295)。M3 战斗 / dev panel
- * 选物品时直接 `items[id]`。
+ * **id 是什么**(2026-05-29 改):`id` = **sdlpal OBJECT 数组全局 wObjectID**(61..295)。
+ * 之前用 0-based local id(0..234)跟 sdlpal opcode operand(giveItem / equip /
+ * player-roles equipment 等全用 wObjectID)体系错位 — user 实测"调查柜子获得净衣符
+ * 显示断肠草"根因。统一为 wObjectID 后:giveItem.itemId / rgwEquipment / inventory.itemId
+ * 全用 wObjectID,渲染 `items.find(i => i.id === wObjectID)` 直接命中;0=空 sentinel
+ * 跟任何有效 id(>=61)不冲突。
  *
  * @param objBuf SSS.MKF chunk 2 的原始字节(openMkf + readChunk 取出,不需要解压)
  * @param words  可选;parseWordDat 解出的名称表,用于反向填 `_name`
@@ -77,7 +80,8 @@ export function parseItems(objBuf: Uint8Array, words?: Words): Item[] {
   for (let i = 0; i < ITEM_COUNT; i++) {
     const base = (ITEM_OBJ_START + i) * OBJ_SIZE
     const item: Item = {
-      id: i,
+      id: ITEM_OBJ_START + i, // wObjectID(61..295),见上 id 体系注释
+
       bitmap: u16(view, base, ITEM_OFF.bitmap),
       price: u16(view, base, ITEM_OFF.price),
       scriptOnUse: u16(view, base, ITEM_OFF.scriptOnUse),

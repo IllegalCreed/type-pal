@@ -61,9 +61,9 @@ describe('parseItems', () => {
     expect(items[0]!._name).toBeTruthy()
   })
 
-  it('id 从 0 顺序递增', () => {
-    expect(items[0]!.id).toBe(0)
-    expect(items[234]!.id).toBe(234)
+  it('id = wObjectID(61..295,2026-05-29 id 体系统一)', () => {
+    expect(items[0]!.id).toBe(61)     // ITEM_OBJ_START
+    expect(items[234]!.id).toBe(295)  // 61 + 234
   })
 
   it('至少有一条价格 > 0', () => {
@@ -108,7 +108,7 @@ describe('parseItems', () => {
     // bit 0 (usable) + bit 1 (equipable) = 0b0000_0011
     view.setUint16(61 * 14 + 12, 0b0000_0011, true)
     const fakeItems = parseItems(fake)
-    expect(fakeItems[0]!.id).toBe(0)
+    expect(fakeItems[0]!.id).toBe(61) // wObjectID = ITEM_OBJ_START + 0
     expect(fakeItems[0]!.flags.usable).toBe(true)
     expect(fakeItems[0]!.flags.equipable).toBe(true)
     expect(fakeItems[0]!.flags.throwable).toBe(false)
@@ -143,9 +143,9 @@ describe('parseSpells (M3 T6)', () => {
     expect(spells[0]!._name).toBeTruthy()
   })
 
-  it('id 从 0 顺序递增', () => {
-    expect(spells[0]!.id).toBe(0)
-    expect(spells[101]!.id).toBe(101)
+  it('id = wObjectID(296..397,2026-05-29 id 体系统一)', () => {
+    expect(spells[0]!.id).toBe(296)   // SPELL_OBJ_START
+    expect(spells[101]!.id).toBe(397) // 296 + 101
   })
 
   it('flags 已拆为 SpellFlags 具名 bool', () => {

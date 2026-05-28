@@ -59,11 +59,11 @@ export function createInGameMagicMenu(
     .filter((r): r is NonNullable<typeof r> => r !== undefined)
     .map((r) => {
       // 是否有任何 outside-battle 可用法术
-      // 注:`r.magic` 真值是 sdlpal `rgwMagic[32][role]` SoA = OBJECT.magic.wMagicNumber
-      // (MAGIC 表 id),反查需 spells.find(s => s.magicNumber === magicNumber)。
-      const hasOutsideMagic = (r.magic ?? []).some((magicNumber) => {
-        if (magicNumber === 0) return false
-        const sp = spells.find((s) => s.magicNumber === magicNumber)
+      // 注:`r.magic` 真值是 sdlpal `rgwMagic[32][role]` SoA = spell wObjectID(296..397)。
+      // 2026-05-29 id 体系统一:spells.json id 也是 wObjectID,用 `spells.find(s => s.id === w)`。
+      const hasOutsideMagic = (r.magic ?? []).some((spellObjId) => {
+        if (spellObjId === 0) return false
+        const sp = spells.find((s) => s.id === spellObjId)
         return sp?.flags.usableOutsideBattle ?? false
       })
       return {

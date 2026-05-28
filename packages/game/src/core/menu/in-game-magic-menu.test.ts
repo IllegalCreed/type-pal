@@ -42,29 +42,29 @@ function mkRole(id: number, name: string, mp: number, magic: number[]) {
 
 const PLAYER_ROLES: PlayerRoles = {
   roles: [
-    // role.magic 真值是 magicNumber(MAGIC 表 id),不是 spell.id(OBJECT 表 id)。
-    // sdlpal `rgwMagic[32][role]` 存 OBJECT.magic.wMagicNumber。
-    // createMagicSelectMenu 用 spells.find(s => s.magicNumber === sid) 反查。
-    mkRole(0, '李逍遥', 80, [33, 35, 34, ...Array(29).fill(0)]),  // 气疗 / 观音 / 凝神
-    mkRole(1, '赵灵儿', 100, [33, 46, 36, ...Array(29).fill(0)]), // 气疗 / 五气 / 还魂
-    mkRole(2, '林月如', 30, []),                                   // 0 spell
+    // role.magic 真值是 sdlpal `rgwMagic[32][role]` = spell wObjectID(296..397)。
+    // 2026-05-29 id 体系统一:spells.json id 也是 wObjectID,createMagicSelectMenu /
+    // hasOutsideMagic 用 spells.find(s => s.id === sid) 反查。
+    mkRole(0, '李逍遥', 80, [296, 297, 298, ...Array(29).fill(0)]),  // 气疗 / 观音 / 凝神
+    mkRole(1, '赵灵儿', 100, [296, 299, 300, ...Array(29).fill(0)]), // 气疗 / 五气 / 还魂
+    mkRole(2, '林月如', 30, []),                                      // 0 spell
   ],
 } as unknown as PlayerRoles
 
 const SPELLS: Spell[] = [
-  // id, magicNumber, scriptOnUse, scriptOnSuccess, scriptDesc, flags, _name
-  { id: 1, magicNumber: 33, scriptOnUse: 0, scriptOnSuccess: 43016, scriptDesc: 0,
+  // id = spell wObjectID(296..397);magicNumber = MAGIC 表独立 index(不变)
+  { id: 296, magicNumber: 33, scriptOnUse: 0, scriptOnSuccess: 43016, scriptDesc: 0,
     flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false }, _name: '气疗术' },
-  { id: 2, magicNumber: 35, scriptOnUse: 0, scriptOnSuccess: 43018, scriptDesc: 0,
+  { id: 297, magicNumber: 35, scriptOnUse: 0, scriptOnSuccess: 43018, scriptDesc: 0,
     flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false }, _name: '观音咒' },
-  { id: 3, magicNumber: 34, scriptOnUse: 0, scriptOnSuccess: 43020, scriptDesc: 0,
+  { id: 298, magicNumber: 34, scriptOnUse: 0, scriptOnSuccess: 43020, scriptDesc: 0,
     flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false }, _name: '凝神归元' },
-  { id: 4, magicNumber: 46, scriptOnUse: 0, scriptOnSuccess: 39554, scriptDesc: 0,
+  { id: 299, magicNumber: 46, scriptOnUse: 0, scriptOnSuccess: 39554, scriptDesc: 0,
     flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: true }, _name: '五气朝元' },
-  { id: 5, magicNumber: 36, scriptOnUse: 0, scriptOnSuccess: 43024, scriptDesc: 0,
+  { id: 300, magicNumber: 36, scriptOnUse: 0, scriptOnSuccess: 43024, scriptDesc: 0,
     flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false }, _name: '还魂咒' },
   // battle-only(不该出现在 outside picker)
-  { id: 10, magicNumber: 60, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0,
+  { id: 305, magicNumber: 60, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0,
     flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false }, _name: '飞龙探云手' },
 ] as unknown as Spell[]
 
@@ -152,10 +152,10 @@ describe('confirmSpell', () => {
     const s = mkPickedSpellState()
     s.spellMenu!.cursor = 0 // 气疗术 id 1
     const sel = confirmSpell(s, SPELLS, MAGICS)
-    expect(sel).toEqual({ spellId: 1, casterId: 0, applyToAll: false, costMP: 6 })
+    expect(sel).toEqual({ spellId: 296, casterId: 0, applyToAll: false, costMP: 6 })
     expect(s.phase).toBe('pick-target')
     expect(s.targetCursor).toBe(0)
-    expect(s.selectedSpellId).toBe(1)
+    expect(s.selectedSpellId).toBe(296)
   })
 
   it('Confirm applyToAll spell(灵儿的五气朝元)→ phase 留 pick-spell,sel.applyToAll=true', () => {
@@ -163,7 +163,7 @@ describe('confirmSpell', () => {
     s.casterMenu.cursor = 1 // 灵儿
     confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)
     // 灵儿 knows [1, 4, 5] → outside spells filter → 排序 → 找五气朝元(id 4)
-    const fenIdx = s.spellMenu!.items.findIndex((i) => i.id === 4)
+    const fenIdx = s.spellMenu!.items.findIndex((i) => i.id === 299)
     expect(fenIdx).toBeGreaterThanOrEqual(0)
     s.spellMenu!.cursor = fenIdx
     const sel = confirmSpell(s, SPELLS, MAGICS)
@@ -181,7 +181,7 @@ describe('confirmSpell', () => {
     // re-build with overpriced
     refreshSpellMenu(s, PLAYER_ROLES, SPELLS, overpriced, 80)
     // 找凝神归元(id 3)idx
-    const ningIdx = s.spellMenu!.items.findIndex((i) => i.id === 3)
+    const ningIdx = s.spellMenu!.items.findIndex((i) => i.id === 298)
     expect(ningIdx).toBeGreaterThanOrEqual(0)
     expect(s.spellMenu!.items[ningIdx]?.disabled).toBe(true)
     s.spellMenu!.cursor = ningIdx
@@ -206,7 +206,7 @@ describe('confirmTarget', () => {
     const s = mkPickTargetState()
     s.targetCursor = 1 // 灵儿
     const sel = confirmTarget(s, SPELLS, MAGICS)
-    expect(sel).toEqual({ spellId: 1, casterId: 0, targetRoleId: 1, costMP: 6 })
+    expect(sel).toEqual({ spellId: 296, casterId: 0, targetRoleId: 1, costMP: 6 })
   })
 
   it('phase!=pick-target → 返回 null', () => {
@@ -297,14 +297,14 @@ describe('refreshSpellMenu', () => {
     s.casterMenu.cursor = 0
     confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)
     s.spellMenu!.cursor = 0 // 气疗术(MP=6)
-    s.selectedSpellId = 1
+    s.selectedSpellId = 296
     // 模拟 MP 减到 5(< 6 气疗 cost)
     refreshSpellMenu(s, PLAYER_ROLES, SPELLS, MAGICS, 5)
-    const qi = s.spellMenu!.items.find((i) => i.id === 1)
+    const qi = s.spellMenu!.items.find((i) => i.id === 296)
     expect(qi?.disabled).toBe(true)
     // cursor 落回 selectedSpellId(sdlpal magicmenu.c:402-409 wDefaultMagic)
     const cursorSpellId = s.spellMenu!.items[s.spellMenu!.cursor]?.id
-    expect(cursorSpellId).toBe(1)
+    expect(cursorSpellId).toBe(296)
   })
 })
 
@@ -314,13 +314,13 @@ describe('outside-battle filter', () => {
   it('飞龙探云手(battle-only)不出现 outside spell list', () => {
     const xiaoyao = JSON.parse(JSON.stringify(PLAYER_ROLES))
     // 加飞龙(magicNumber 60)到李逍遥学过的法术
-    xiaoyao.roles[0].magic = [33, 60, 35, ...Array(29).fill(0)]
+    xiaoyao.roles[0].magic = [296, 305, 297, ...Array(29).fill(0)]
     const s = createInGameMagicMenu(xiaoyao, [0, 1, 2], SPELLS)
     s.casterMenu.cursor = 0
     confirmCaster(s, xiaoyao, SPELLS, MAGICS)
     const ids = s.spellMenu!.items.map((i) => i.id)
-    expect(ids).not.toContain(10) // 飞龙 spell.id=10 not in outside picker
-    expect(ids).toContain(1) // 气疗术 spell.id=1 in
-    expect(ids).toContain(2) // 观音咒 spell.id=2 in
+    expect(ids).not.toContain(305) // 飞龙 spell.id=305 not in outside picker
+    expect(ids).toContain(296) // 气疗术 spell.id=296 in
+    expect(ids).toContain(297) // 观音咒 spell.id=297 in
   })
 })

@@ -12,6 +12,12 @@ import { openMkf, readChunk } from '../../io/mkf.js'
 import type { Words } from '../../io/word.js'
 import { PLAYER_ROLES_NUM } from './_utils.js'
 
+// 注:rgwEquipment / rgwMagic 存 sdlpal OBJECT 全局 wObjectID(item 段 61..295,
+// spell 段 296..397,0 = 空槽)。2026-05-29 id 体系统一为 **wObjectID**(items.json
+// id=61.. / spells.json id=296.. 直接对应),所以这里**保持 raw wObjectID 不转**,
+// 渲染层 items.find(id === w) / spells.find(id === w) 直接命中。0=空 sentinel 跟
+// 任何有效 id(>=61)不冲突。
+
 // ── DATA.MKF chunk 3: PLAYERROLES (global.h tagPLAYERROLES) ──────────────
 // sdlpal `global.c LOAD_DATA(... fpDATA 3)` 把整个 PLAYERROLES 结构体作为单条
 // 读入。布局是 **SoA(struct of arrays)**:每个 `PLAYERS = WORD[MAX_PLAYER_ROLES]`
@@ -212,6 +218,8 @@ export function parsePlayerRoles(dataMkfBytes: Uint8Array, words?: Words): Playe
       deathSound: deathSound[i]!,
       coverSound: coverSound[i]!,
       dyingSound: dyingSound[i]!,
+      // 保持 sdlpal OBJECT 全局 wObjectID(item 61.. / spell 296.. / 0=空);
+      // id 体系已统一 wObjectID,items/spells.json id 直接对应。
       equipment: equipRows.map((row) => row[i]!),
       magic: magicRows.map((row) => row[i]!),
       cooperativeMagic: cooperativeMagic[i]!,

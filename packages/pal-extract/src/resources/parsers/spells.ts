@@ -98,9 +98,10 @@ function toMagicType(raw: number): MagicType {
  *   wMagicNumber / wReserved1 / wScriptOnSuccess / wScriptOnUse /
  *   wScriptDesc / wReserved2 / wFlags
  *
- * **id 是什么**:`id` = 该 spell 在 spells.json 数组里的索引(0..101),
- * 不是 OBJECT 数组里的绝对 index(那是 296..397)。M3 战斗 / dev panel
- * 选法术时直接 `spells[id]`,详细 stats 走 `magic[spell.magicNumber]`。
+ * **id 是什么**(2026-05-29 改):`id` = **sdlpal OBJECT 数组全局 wObjectID**(296..397)。
+ * 跟 items.json 同口径(统一 wObjectID 体系)。player-roles `rgwMagic` / addMagic opcode
+ * operand 都是 spell wObjectID,`spells.find(s => s.id === wObjectID)` 直接命中。
+ * 详细 stats 仍走 `magic[spell.magicNumber]`(magicNumber 是 MAGIC 表独立 index,不变)。
  *
  * **`magicNumber`**:指向 Magic[] 详细 stats 表(见 parseMagicTable)。
  *
@@ -119,7 +120,8 @@ export function parseSpells(objBuf: Uint8Array, words?: Words): Spell[] {
   for (let i = 0; i < SPELL_COUNT; i++) {
     const base = (SPELL_OBJ_START + i) * OBJ_SIZE
     const spell: Spell = {
-      id: i,
+      id: SPELL_OBJ_START + i, // wObjectID(296..397),见上 id 体系注释
+
       magicNumber: u16(view, base, SPELL_OFF.magicNumber),
       scriptOnSuccess: u16(view, base, SPELL_OFF.scriptOnSuccess),
       scriptOnUse: u16(view, base, SPELL_OFF.scriptOnUse),
