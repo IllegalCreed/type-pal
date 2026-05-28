@@ -1026,6 +1026,12 @@ export function tickEventSystem(
         // ip 停在本 loadScene 上,callback 完成后 gs.eventCursor 已被重写到新 scene,本 cursor 弃用。
         if (_sceneLoader) {
           cursor.waiting = 'scene-load'
+          // **立刻**设 fEnteringScene=true — present.ts:114 见此 flag 跳过渲染,
+          // 冻结上一帧(切场景前的旧 scene 完整帧)。否则 sceneLoader 是 async fetch,
+          // fetch 期间(几帧)present 会渲染"旧 tilemap + 新 party 坐标(setPartyPos 已改)"
+          // 的中间态 → 旧 scene tilemap 在新坐标处是空 → 黑帧闪现(user 2026-05-29
+          // "闪一下新场景然后黑屏" 的 async race 根因)。sceneLoader 完成后清(loadSceneCommon)。
+          gs.fEnteringScene = true
           _sceneLoader(cmd.sceneId).catch((err: unknown) => {
             console.error(`event-system: sceneLoader(${cmd.sceneId}) failed:`, err)
           })
