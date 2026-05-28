@@ -2725,10 +2725,12 @@ function applyRawOpcode(
       fy -= gs.camera.y + PARTYOFFSET_Y
       const op1 = operands[1] ?? 0
       if (Math.abs(fx) + Math.abs(fy * 2) < op1 * 32 + 16 && (pCurrent.sState ?? 0) > 0) {
-        // 面对中:设触发对象(pEvt)的触发模式,下一帧可触发(不跳)。kTriggerTouchNormal=5。
+        // 面对中:设 **pCurrent**(operand[0] 选的对象,非 self!)的触发模式,下一帧接触可触发。
+        // sdlpal script.c:2426 `pCurrent->wTriggerMode = kTriggerTouchNormal(5) + op1`。
+        // 旧 bug 设 currentEventObjectId(applyToAll 物品 = 0xFFFF → 找不到 → no-op)→ 酒剑仙
+        // triggerMode 没变 contact → 用桂花酒后剧情不自动触发(2026-05-28 user 发现)。
         if (op1 > 0) {
-          const pEvt = gs.npcs.find((n) => n.id === currentEventObjectId)
-          if (pEvt) pEvt.triggerMode = 5 + op1
+          pCurrent.triggerMode = 5 + op1
         }
       }
       else {

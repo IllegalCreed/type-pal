@@ -1874,6 +1874,22 @@ describe('narration dialog 自动消失(sdlpal text.c:1701 PAL_DialogWaitForKeyW
   })
 })
 
+describe('0x81 jumpIfNotFacing(用桂花酒对酒剑仙 — 设对象 triggerMode 触发剧情)', () => {
+  it('面对 → pCurrent(operand[0] 选的对象,非 self)triggerMode = 5+op1(应用 applyToAll 物品 self=0xFFFF)', () => {
+    // facing up 几何:pCurrent.x=116,y=42 → fx=fy=0 命中(< op1*32+16)。
+    const gs = createInitialGameState({ x: 100, y: 50, facing: 'up' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 5, x: 116, y: 42, spriteNum: 1, sState: 1, triggerMode: 1 }]
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x81, operands: [6, 1, 999] }, // op0=6→id5,op1=1
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 0xFFFF // applyToAll 物品上下文(self 找不到)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.triggerMode).toBe(6) // 5+op1=6,设到 pCurrent(id5)非 self
+  })
+})
+
 // ── A 类补全(A1:自包含数据/状态 opcode)──────────────────────────────────────
 describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0x9A setMultiState', () => {
   it('0x40 setTriggerMethod:operand[0]!=0 → pCurrent.triggerMode = operand[1](script.c:1613-1621)', () => {
