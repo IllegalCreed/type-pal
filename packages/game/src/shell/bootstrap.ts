@@ -465,15 +465,24 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
             ip,
           }
           gs.mode = 'event'
+          // mode='event':保持 fEnteringScene=true,等 onEnter 内 fadeScreen opcode 清
+          // (scene 0→1 梦境 fade 演出依赖此机制,event-system.ts:930)
         }
         else {
           gs.eventCursor = undefined
           gs.mode = 'explore'
+          gs.fEnteringScene = false // 见下方说明
         }
       }
       else {
         gs.eventCursor = undefined
         gs.mode = 'explore'
+        // **无 onEnter script 的 scene(door 切换大多如此,eg 客栈→大厅)**:
+        // 没有 fadeScreen opcode 来清 fEnteringScene。若保持 true,present.ts:114
+        // 永远 return → 屏幕冻结在 setPartyPos 改完 camera 后的黑帧(旧 scene tilemap
+        // 在新 scene 坐标处是空)→ user 2026-05-29 "出房间黑色背景" 根因。
+        // sceneLoader await 已完成 = scene 资源 loaded,可以 render → 清 fEnteringScene。
+        gs.fEnteringScene = false
       }
     }
     // fromSavedGame:**不**跑 onEnter — SAVEDGAME 内 gs.mode / gs.eventCursor 已恢复
