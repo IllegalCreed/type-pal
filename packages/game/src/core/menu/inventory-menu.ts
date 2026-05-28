@@ -39,6 +39,49 @@ export const INV_LINES_PER_PAGE = 7
 /** sdlpal itemmenu.c:52 真值:`8 * dwWordLength + 20` = 8*10+20 = 100 px / item label cell width */
 export const INV_ITEM_TEXT_WIDTH = 100
 
+// ── sdlpal ui.h 真值色(InventoryMenu / EquipMenu 共享) ─────────────────────
+export const MENUITEM_COLOR = 0x4F                  // ui.h:29  默认
+export const MENUITEM_COLOR_INACTIVE = 0x18         // ui.h:30  filter 不命中 + 非选
+export const MENUITEM_COLOR_SELECTED_INACTIVE = 0x1C // ui.h:32  filter 不命中 + 选中
+export const MENUITEM_COLOR_EQUIPPEDITEM = 0xC8     // ui.h:38  equipment 中(amount=0)
+export const MENUITEM_COLOR_SELECTED_FIRST = 0xF9   // ui.h:33  闪烁起始色
+export const MENUITEM_COLOR_SELECTED_TOTAL = 6      // ui.h:34  闪烁 cycle
+
+/**
+ * sdlpal itemmenu.c:135-181 真值 6-case 色规则 — InventoryMenu / EquipMenu / Shop 共享。
+ *
+ * | isSelected | isUsable(filter 命中 + count > inUse) | isEquipped(count==0) | color |
+ * |---|---|---|---|
+ * | ✓ | ✗     | -    | MENUITEM_COLOR_SELECTED_INACTIVE 0x1C |
+ * | ✓ | ✓     | ✓    | MENUITEM_COLOR_EQUIPPEDITEM 0xC8 |
+ * | ✓ | ✓     | ✗    | MENUITEM_COLOR_SELECTED_FIRST + tick/100 % 6(闪烁 0xF9..0xFE) |
+ * | ✗ | ✗     | -    | MENUITEM_COLOR_INACTIVE 0x18 |
+ * | ✗ | -     | ✓    | MENUITEM_COLOR_EQUIPPEDITEM 0xC8 |
+ * | ✗ | ✓     | ✗    | MENUITEM_COLOR 0x4F |
+ *
+ * 抽出 pure fn 便于单测 4-case 防回归(2026-05-29 C5 session 4:user 实测 EquipMenu
+ * 全装备红色,根因 isUsable hardcode `flags.usable` 而非 filter 命中)。
+ *
+ * `selectedFlashTickMs` 默认 `Date.now()`;单测传固定值确保 deterministic。
+ */
+export function pickItemRowColor(opts: {
+  isSelected: boolean
+  isUsable: boolean
+  isEquipped: boolean
+  selectedFlashTickMs?: number
+}): number {
+  const { isSelected, isUsable, isEquipped } = opts
+  if (isSelected) {
+    if (!isUsable) return MENUITEM_COLOR_SELECTED_INACTIVE
+    if (isEquipped) return MENUITEM_COLOR_EQUIPPEDITEM
+    const t = opts.selectedFlashTickMs ?? Date.now()
+    return MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(t / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+  }
+  if (!isUsable) return MENUITEM_COLOR_INACTIVE
+  if (isEquipped) return MENUITEM_COLOR_EQUIPPEDITEM
+  return MENUITEM_COLOR
+}
+
 export type InventoryMenuPhase = 'list' | 'use-target' | 'done'
 
 export interface InventorySlot {

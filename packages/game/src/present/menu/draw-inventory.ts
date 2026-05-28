@@ -29,6 +29,8 @@ import type { GameState } from '../../core/game-state.js'
 import type { InventoryMenuState } from '../../core/menu/inventory-menu.js'
 import {
   INV_ITEMS_PER_LINE, INV_ITEM_TEXT_WIDTH, INV_LINES_PER_PAGE,
+  MENUITEM_COLOR, MENUITEM_COLOR_SELECTED_FIRST, MENUITEM_COLOR_SELECTED_TOTAL,
+  pickItemRowColor,
 } from '../../core/menu/inventory-menu.js'
 import { matchesFilter } from '../../core/menu/item-select.js'
 import type { IndexedImage } from '../../assets/png.js'
@@ -45,13 +47,7 @@ import {
 } from '../../core/equip-effect.js'
 import { getSharedCommands, getSharedLabelMap } from '../../core/event-system.js'
 
-// sdlpal ui.h 真值色
-const MENUITEM_COLOR = 0x4F
-const MENUITEM_COLOR_INACTIVE = 0x18
-const MENUITEM_COLOR_SELECTED_INACTIVE = 0x1C
-const MENUITEM_COLOR_EQUIPPEDITEM = 0xC8
-const MENUITEM_COLOR_SELECTED_FIRST = 0xF9
-const MENUITEM_COLOR_SELECTED_TOTAL = 6
+// sdlpal ui.h 真值色 — pickItemRowColor 内部用,本文件直接 reference 仅留 DESCTEXT_COLOR
 const DESCTEXT_COLOR = 0x3C
 
 // sdlpal ui.h:110/114
@@ -294,23 +290,12 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
       // sdlpal itemmenu.c:171 真值:`!(item.wFlags & g_wItemFlags) || nAmount <= nAmountInUse`
       // → 不满足 menu 入口 filter(equip/usable/...)就是 inactive。
       // 修(2026-05-29 session 4 user 怒怼"李逍遥能装的木剑红色"):**用 state.filter 判 filter
-      // 命中**,而不是 hardcode `flags.usable` — EquipMenu 复用本 fn 时 filter='equip',原版误把
-      // 装备类全标 INACTIVE 红色,equipable 才被当 "selectable usable"。
+      // 命中**,而不是 hardcode `flags.usable` — EquipMenu 复用本 fn 时 filter='equip'。
       const isUsable = item != null && diff > 0 && matchesFilter(item, state.filter)
       const isEquipped = slot.count === 0
 
-      // 6 case 颜色规则(sdlpal itemmenu.c:135-181)
-      let color: number
-      if (isSelected) {
-        if (!isUsable) color = MENUITEM_COLOR_SELECTED_INACTIVE
-        else if (isEquipped) color = MENUITEM_COLOR_EQUIPPEDITEM
-        else color = selectedColor()
-      }
-      else {
-        if (!isUsable) color = MENUITEM_COLOR_INACTIVE
-        else if (isEquipped) color = MENUITEM_COLOR_EQUIPPEDITEM
-        else color = MENUITEM_COLOR
-      }
+      // 6 case 颜色规则(sdlpal itemmenu.c:135-181)— 抽 pickItemRowColor pure helper,单测 covered
+      const color = pickItemRowColor({ isSelected, isUsable, isEquipped })
 
       // Item label — sdlpal itemmenu.c:187 PAL_DrawText fShadow=TRUE
       const labelX = 15 + k * INV_ITEM_TEXT_WIDTH
