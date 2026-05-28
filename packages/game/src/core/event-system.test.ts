@@ -1918,6 +1918,19 @@ describe('pCurrent(operand[0] 选对象)对象 opcode 类(对齐 sdlpal pCurrent
     tickEventSystem(gs, snap(), bus)
     expect(gs.npcs[0]?.sState).toBe(2)  // pCurrent(id7).sState==2 → self(id5).sState=2
   })
+
+  it('0x84 placeUsedItem:把 pCurrent(op0)放 party 正前方 + sState=op1(无障碍)', () => {
+    setObstacleChecker(null) // 无 checker → 无障碍
+    const gs = createInitialGameState({ x: 200, y: 100, facing: 'right' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 0 }]
+    loadEvent(gs, [{ op: 'raw', opcode: 0x84, operands: [8, 1, 999] }, { op: 'end' }]) // op0=8→id7
+    gs.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.x).toBe(216)     // facing right → party.x + 16
+    expect(gs.npcs[0]?.y).toBe(108)     // party.y + 8
+    expect(gs.npcs[0]?.sState).toBe(1)  // sState = op1
+  })
 })
 
 // ── A 类补全(A1:自包含数据/状态 opcode)──────────────────────────────────────

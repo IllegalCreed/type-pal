@@ -293,6 +293,7 @@ export const OP_JUMP_IF_NOT_ALL_FULL_HP = 0x0074   // 116 if 任一队员 HP<Max
 export const OP_JUMP_IF_PLAYER_IN_PARTY = 0x0079   // 121 if 队伍含 name==op0 → jump op1
 export const OP_JUMP_IF_NOT_FACING = 0x0081        // 129 几何:party 不面对 obj op0 → jump op2
 export const OP_JUMP_IF_OBJ_NOT_IN_ZONE = 0x0083   // 131 几何:obj op0 不在 zone → jump op2
+export const OP_PLACE_USED_ITEM = 0x0084           // 132 把 obj op0 放 party 正前方 + sState=op1;挡→jump op2
 export const OP_JUMP_IF_NOT_EQUIPPED = 0x0086      // 134 if 装备 op0 数量<op1 → jump op2
 export const OP_JUMP_IF_OBJ_STATE = 0x0094         // 148 if pCurrent.sState==op1 → jump op2
 export const OP_JUMP_IF_SCENE = 0x0095             // 149 if wNumScene==op0 → jump op1
@@ -1090,11 +1091,20 @@ export function tickEventSystem(
           cursor.ip = sharedIp
           break
         }
+        // 先当前来源;否则 scene→shared→global 兜底(跨 scene 设的脚本内部 goto 目标可能在别的来源)。
         const target = cursor.labelMap[cmd.to]
-        if (target === undefined) {
-          throw new Error(`event-system: goto label ${cmd.to} 不在 labelMap`)
+        if (target !== undefined) {
+          cursor.ip = target
+          break
         }
-        cursor.ip = target
+        const r = resolveScriptLabel(gs, cmd.to)
+        if (r) {
+          cursor.commands = r.commands
+          cursor.labelMap = r.labelMap
+          cursor.ip = r.ip
+          break
+        }
+        console.warn(`event-system: goto label ${cmd.to} 不在 scene/shared/global labelMap(跳过)`)
         break
       }
 
@@ -1621,22 +1631,21 @@ export function startOverworldItemScript(
     console.warn(`[item-use] scriptOnUse=0 for itemId=${itemId},不可用`)
     return false
   }
-  const labelMap = getSharedLabelMap()
-  const ip = labelMap[`L_${scriptOnUse}`]
-  if (ip === undefined) {
-    console.warn(
-      `[item-use] L_${scriptOnUse} 不在 shared.json labelMap(itemId=${itemId})— `
-      + `pal-extract sliceByScene globalEntries 是否漏收?`,
-    )
+  // item scriptOnUse 全局 entry → scene→shared→global 三级解析(item 脚本一般在 shared,
+  // 但 global 兜底防漏切)。
+  const r = resolveScriptLabel(gs, `L_${scriptOnUse}`)
+  if (!r) {
+    console.warn(`[item-use] L_${scriptOnUse} 不在 scene/shared/global labelMap(itemId=${itemId})`)
     return false
   }
+  const { commands, labelMap, ip } = r
   // sdlpal play.c:298-302 真值:g_fScriptSuccess 决定是否扣;ts 简版立即扣(脚本失败时不可逆,
   // M6 真做加 success 回调跟踪)。
   if (consuming) {
     addItemToInventory(gs, itemId, -1)
   }
   gs.eventCursor = {
-    commands: getSharedCommands(),
+    commands,
     labelMap,
     ip,
     // sdlpal `script.c:3140 wEventObjectID` 参数 — items 上下文里是 wPlayer(0-based role id)或
@@ -2609,6 +2618,27 @@ function applyRawOpcode(
       const dx = Math.abs(pEvt.x - pCurrent.x)
       const dy = Math.abs((pEvt.y - pCurrent.y) * 2)
       if (dx + dy >= (operands[1] ?? 0) * 32 + 16) jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
+      break
+    }
+    case OP_PLACE_USED_ITEM: {
+      // sdlpal script.c:2473-2509:把 pCurrent(op0 选)放 party 正前方一格 + sState=op1;
+      //   该格有障碍(只查 tilemap)→ jump op2。前方格 = party + facing offset(±16/±8)。
+      const pCurrent = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'placeUsedItem')
+      if (!pCurrent) {
+        jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
+        break
+      }
+      const dir = gs.party.facing
+      const fx = gs.party.x + ((dir === 'left' || dir === 'down') ? -16 : 16)
+      const fy = gs.party.y + ((dir === 'left' || dir === 'up') ? -8 : 8)
+      if (isObstacle(fx, fy, false, 0)) {
+        jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
+      }
+      else {
+        pCurrent.x = fx
+        pCurrent.y = fy
+        pCurrent.sState = operands[1] ?? 0
+      }
       break
     }
     case OP_CALL_SCRIPT: {
