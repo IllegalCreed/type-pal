@@ -22,6 +22,7 @@ import {
   OP_SCROLL_FBP, setScrollFbpHandler,
   OP_ENDING_ANIMATION, setEndingAnimationHandler,
   OP_WAIT_FOR_KEY,
+  OP_LOAD_LAST_SAVE, setLoadLastSaveHandler,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -2839,6 +2840,31 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     expect(gs.paletteFadeState).toBeUndefined()
     expect(gs.eventCursor).toBeUndefined() // end → mode explore,cursor 清
     expect(gs.palette?.colors[0]).toEqual([0, 0, 0])
+  })
+
+  it('0x4E load-last-save → fade-out + reloadSlotAfterFade=当前槽 → 淡完调 handler(slot) + 停脚本', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([200, 100, 50], [200, 100, 50])
+    gs.currentSaveSlot = 3
+    const loaded: number[] = []
+    setLoadLastSaveHandler((slot) => { loaded.push(slot) })
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    loadEvent(gs, [{ op: 'raw', opcode: OP_LOAD_LAST_SAVE, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    // fade-out 启动:waiting=palette-fade,target 黑,记 reloadSlotAfterFade=3,handler 未调
+    expect(gs.eventCursor?.waiting).toBe('palette-fade')
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([0, 0, 0])
+    expect(gs.paletteFadeState?.totalMs).toBe(600) // 同 0x50 delay=1
+    expect(gs.eventCursor?.reloadSlotAfterFade).toBe(3)
+    expect(loaded).toEqual([])
+    expect(gs.needToFadeIn).not.toBe(true) // 0x4E 不在淡黑时设 needToFadeIn(loaded scene 淡入由 handler 设)
+    // 淡完 → fire handler(slot 3)+ 停脚本(cursor 清,对齐 sdlpal return 0)
+    expireFade(gs)
+    tickEventSystem(gs, snap(), bus)
+    expect(loaded).toEqual([3])
+    expect(gs.eventCursor).toBeUndefined()
+    debugSpy.mockRestore()
+    setLoadLastSaveHandler(null)
   })
 
   it('0x51 FadeIn → 黑→base + needToFadeIn=false', () => {

@@ -13,6 +13,7 @@ import {
   setSceneLoader, setMapReloader, setObstacleChecker,
   setGlobalEvents, getGlobalLabelMap, setStartBattleHandler, setShopMenuHandler,
   setRngPlayHandler, setShowFbpHandler, setScrollFbpHandler, setEndingAnimationHandler,
+  setLoadLastSaveHandler,
 } from '../core/event-system.js'
 import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
 import { openMenu } from '../core/menu/menu-mode.js'
@@ -1031,6 +1032,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // mutate gs in-place(外部持有同 ref;无法替换 ref)
     // 把 loadedGs 全字段拷到 gs(用 Object.assign 浅 + 关键嵌套手动 deepClone)
     Object.assign(gs, loadedGs)
+    // sdlpal bCurrentSaveSlot 是 runtime 全局(非 SAVEDGAME)— Object.assign 带入的是存档里那份旧值,
+    // 须用本次读的 slot 覆盖(opcode 0x4E load-last-save 据此重载"上次读/存"的槽)。
+    gs.currentSaveSlot = slot
     // 关菜单回 explore — loadSceneCommon 完成后 explore tick 接管
     gs.menuStack = []
     gs.mode = 'explore'
@@ -1046,6 +1050,17 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   setLoadGameHandler(async (slot) => {
     await loadGameFromSlot(slot)
+  })
+
+  // opcode 0x4E load-last-save(sdlpal script.c:1765 PAL_ReloadInNextTick(bCurrentSaveSlot))。
+  // event-system 已先跑完 fade-out(淡黑)+ 清 cursor;此处只重载槽 + 设 needToFadeIn(对齐
+  // PAL_ReloadInNextTick 的 fNeedToFadeIn=TRUE → loaded scene 经 explore auto fade-in 淡入)。
+  setLoadLastSaveHandler((slot) => {
+    void loadGameFromSlot(slot).then(() => {
+      gs.needToFadeIn = true
+    }).catch((err: unknown) => {
+      console.error('[bootstrap.loadLastSave] failed:', err)
+    })
   })
 
   setStartGameHandler(async (choice) => {

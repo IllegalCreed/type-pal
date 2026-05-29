@@ -221,6 +221,12 @@ export interface EventCursor {
   /** 'delay' 用(opcode 0x85):延迟到此 wall-clock 时间戳(performance.now()),到点 ip++ + clear。 */
   delayUntilMs?: number
   /**
+   * 0x4E load-last-save 用:fade-out(waiting='palette-fade')完成后要重载的存档槽。
+   * sdlpal script.c:1760-1766 `PAL_FadeOut(1); PAL_ReloadInNextTick(slot); return 0;` —— 先淡黑,
+   * 淡完(palette-fade 完成分支)再 fire _loadLastSaveHandler(slot) + 清 cursor(对齐 return 0 停脚本)。
+   */
+  reloadSlotAfterFade?: number
+  /**
    * 当前执行 trigger 的 event object id(sdlpal `wEventObjectID` / `pCurrent`)。
    * setObjectPosition / walkOneStep 等 opcode 默认 operate on this 当 operand[0]==0 时。
    * tickSceneSystem 触发 NPC trigger 时设;此后所有 opcode 内 self = npcs[id-1]。
@@ -671,6 +677,13 @@ export interface GameState {
   wSavedTimes: number
 
   /**
+   * 当前存档槽(sdlpal `gpGlobals->bCurrentSaveSlot`,global.h)。**runtime 全局,不在 SAVEDGAME_WIN**:
+   * save / load 到某槽时记录之。opcode 0x4E load-last-save(PAL_ReloadInNextTick(bCurrentSaveSlot))重载它。
+   * 默认 1(slots 1-5);load 后须显式覆盖(Object.assign 会带入存档里那份旧值)。
+   */
+  currentSaveSlot: number
+
+  /**
    * 当前 scene 编号(sdlpal SAVEDGAME_WIN.wNumScene)。
    * loadScene 写入,存档时持久化供下次读档还原当前场景。
    */
@@ -1089,6 +1102,7 @@ export function createInitialGameState(
 
     // ── M5 Sync.1: SAVEDGAME_WIN 平铺杂项 ──
     wSavedTimes: 0,
+    currentSaveSlot: 1,  // sdlpal bCurrentSaveSlot 默认槽;save/load 时更新(opcode 0x4E 重载它)
     wNumScene: 0,
     wPaletteOffset: 0,
     wNumMusic: 0,

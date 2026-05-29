@@ -722,6 +722,8 @@ function dispatchSaveSlotMenu(
       //  1. 算 max savedTimes + 1 (sdlpal 跨 slot counter 真值)
       //  2. mutate gs.wSavedTimes 才让 Save deep-clone 时包含新 counter
       //  3. Save.saveSlot 异步写 IndexedDB
+      // sdlpal uigame.c:718 `bCurrentSaveSlot = iSlot`:记录当前槽(opcode 0x4E load-last-save 据此重载)。
+      gs.currentSaveSlot = slot
       void Save.listSlots().then(async (slots) => {
         const maxSaved = slots.reduce(
           (m, x) => Math.max(m, x.meta.savedTimes ?? 0), 0,

@@ -371,6 +371,10 @@ export const OP_BACKUP_SCREEN = 0x00A6             // 166
 //   = PAL_WaitForKeyInternal(0, FALSE)(play.c:602-638):**永久等**,只认 kKeySearch|kKeyMenu。
 //   本游戏 0 用(为完整性);设 waiting='wait-key' 阻塞,Confirm/Menu/Cancel 解除。
 export const OP_WAIT_FOR_KEY = 0x004D              // 77
+// case 0x004E(78): load the last saved game — script.c:1760-1766
+//   `PAL_FadeOut(1); PAL_ReloadInNextTick(gpGlobals->bCurrentSaveSlot); return 0;`
+//   淡黑(600ms,同 0x50)→ 重载当前存档槽 → **return 0 终止脚本**(不 break)。本游戏 1 用。
+export const OP_LOAD_LAST_SAVE = 0x004E            // 78
 
 // case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
 export const OP_POISON_ENEMY = 0x0028              // 40
@@ -752,6 +756,18 @@ export function setEndingAnimationHandler(fn: EndingAnimationHandler | null): vo
   _endingAnimationHandler = fn
 }
 
+// ── 0x4E load-last-save handler(sdlpal script.c:1765 PAL_ReloadInNextTick(bCurrentSaveSlot))──
+// event-system 是底层 interpreter,不能 import shell/bootstrap 的存档逻辑(分层约束)。同 modal 模式:
+// bootstrap 注入 handler,内部 loadGameFromSlot(slot) + 设 needToFadeIn(对齐 PAL_ReloadInNextTick
+// 的 fNeedToFadeIn=TRUE → loaded scene 经 explore auto fade-in 淡入)。fade-out 由 event-system 先跑完。
+export type LoadLastSaveHandler = (slot: number) => void
+
+let _loadLastSaveHandler: LoadLastSaveHandler | null = null
+
+export function setLoadLastSaveHandler(fn: LoadLastSaveHandler | null): void {
+  _loadLastSaveHandler = fn
+}
+
 /** 跑事件脚本的运行模式(M3 T17)。 */
 export type RuntimeMode = 'explore' | 'battle'
 
@@ -1060,6 +1076,15 @@ export function tickEventSystem(
       if (gs.palette) finalizePaletteFade(gs.palette.colors, pf)
       gs.paletteFadeState = undefined
       cursor.waiting = undefined
+      // 0x4E load-last-save:淡黑完成 → 重载存档槽 + 终止脚本(sdlpal script.c:1766 return 0)。在 ip++ 前拦截。
+      if (cursor.reloadSlotAfterFade !== undefined) {
+        const slot = cursor.reloadSlotAfterFade
+        cursor.reloadSlotAfterFade = undefined
+        gs.eventCursor = undefined  // 停脚本(对齐 return 0;reload handler 会替换 gs 全字段)
+        if (_loadLastSaveHandler) _loadLastSaveHandler(slot)
+        else console.debug('event-system: loadLastSave(无 _loadLastSaveHandler 注入,skip)')
+        return
+      }
       cursor.ip++
       // fall through to main while loop
     }
@@ -1581,6 +1606,18 @@ export function tickEventSystem(
         //   顶部 'wait-key' 派发分支等 Confirm/Menu/Cancel 解除 + ip++。本 opcode 不 ip++(解除时才推进)。
         if (cmd.opcode === OP_WAIT_FOR_KEY) {
           cursor.waiting = 'wait-key'
+          return
+        }
+        // 0x4E load-last-save(sdlpal script.c:1760-1766 `PAL_FadeOut(1); PAL_ReloadInNextTick(slot); return 0`)。
+        //   复用 0x50 FadeOut 的 buildFadeOut(600ms 淡黑)+ waiting='palette-fade';记 reloadSlotAfterFade =
+        //   当前存档槽 → 淡完(palette-fade 完成分支)fire _loadLastSaveHandler + 清 cursor(对齐 return 0 停脚本)。
+        //   **不**设 needToFadeIn(避免淡黑后旧场景自动淡回;loaded scene 淡入由 handler 重载后设 needToFadeIn 触发)。
+        if (cmd.opcode === OP_LOAD_LAST_SAVE) {
+          const now = performance.now()
+          const curColors = (gs.palette ?? gs.basePalette)?.colors ?? blackColors()
+          startPaletteFade(gs, cursor, buildFadeOut(curColors, 600, now), false, false)
+          cursor.reloadSlotAfterFade = gs.currentSaveSlot
+          console.debug(`event-system: loadLastSave slot=${gs.currentSaveSlot}(fade-out 600ms → reload)`)
           return
         }
         // Sync.2 fix3: opcode 9 wait N frames — 设 waiting='frame-wait',ip 暂不动

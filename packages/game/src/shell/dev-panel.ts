@@ -344,6 +344,7 @@ function openPicker(deps: DevPanelDeps): void {
     saveBtn.textContent = `S${slot} save`
     saveBtn.style.cssText = 'padding:3px 6px; font-size:11px'
     saveBtn.addEventListener('click', async () => {
+      deps.gs.currentSaveSlot = slot  // sdlpal bCurrentSaveSlot(opcode 0x4E 重载它)
       await Save.saveSlot(slot, deps.gs)
       console.log(`[save] slot ${slot} saved`)
     })
@@ -357,6 +358,7 @@ function openPicker(deps: DevPanelDeps): void {
         return
       }
       Object.assign(deps.gs, loaded)
+      deps.gs.currentSaveSlot = slot  // 覆盖存档带入的旧值(opcode 0x4E 重载它)
       console.log(`[load] slot ${slot} loaded → gs.dwCash=${deps.gs.dwCash} scene=${deps.gs.wNumScene}`)
     })
     const delBtn = document.createElement('button')
