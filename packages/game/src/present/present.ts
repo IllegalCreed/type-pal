@@ -110,10 +110,26 @@ export function presentFrame(
     return
   }
 
+  // 特效 A 调色板 ramp fade —— **在 sceneLoading 冻屏判断之前**应用,因为 ramp 改的是 gs.palette.colors
+  // (色表),不依赖 fb 重绘。这样:
+  //   - FadeOut(0x50)冻屏(loadScene→FadeOut,sceneLoading 仍 true)→ 对**冻结的旧帧**染色淡黑,
+  //     忠实 sdlpal:PAL_FadeOut 不调 PAL_MakeScene,只 VIDEO_SetPalette 渐变**当前** gpScreen
+  //     (= 触发脚本前那帧,无 setPartyPos 的瞬移)。若放在 sceneLoading return 之后则冻屏永不淡。
+  //   - 非冻屏 fade(FadeIn / SceneFade / 大世界 auto fade-in)→ 下面正常重绘 scene,色表同步 ramp。
+  // explore 模式 auto fade-in(scene.c:503)无 eventCursor 管完成 → present 到点自清(event 驱动的 fade
+  // 由 event-system waiting handler finalize + ip++,present 不碰)。
+  if (gs.paletteFadeState && gs.palette) {
+    const pf = gs.paletteFadeState
+    stepPaletteFade(gs.palette.colors, pf, performance.now())
+    if (!gs.eventCursor && performance.now() - pf.startTimeMs >= pf.totalMs) {
+      gs.paletteFadeState = undefined // colors 已 = target(stepPaletteFade progress clamp 1)
+    }
+  }
+
   // P2#7:scene 切换期间跳过 render,fb 保留上一帧(= 旧 scene 完整帧)。覆盖 ① async 资源加载窗口
   // (避免渲染"旧 tilemap+新坐标"花屏)② onEnter 跑 setPartyPos 等定位 opcode 期间(避免新场景在
-  // 旧坐标渲染)。直到 onEnter 第一个可渲染 yield(fadeScreen/showDialog,event-system 清 sceneLoading)
-  // 或 no-onEnter/onEnter-end 清 → 此时 camera 已定位。冻屏保留的旧帧供下面 fadeScreen backup 用。
+  // 旧坐标渲染)③ FadeOut 冻屏淡黑(上面色表已 ramp 冻帧)。直到 onEnter 第一个可渲染 yield
+  // (fadeScreen/showDialog,event-system 清 sceneLoading)或 no-onEnter/onEnter-end 清 → camera 已定位。
   if (gs.sceneLoading) {
     return
   }
@@ -460,13 +476,8 @@ export function presentFrame(
     current.set(backupPixels)
   }
 
-  // 7b. 特效 A 调色板 ramp fade(palette.c FadeOut/FadeIn/SceneFade/PaletteFade/ColorFade/FadeToRed)。
-  //     与上面 dither fadeState 正交 —— 本块 mutate **gs.palette.colors**(色表),不动 fb.indices。
-  //     framebuffer 像素已正常画好,只把色表从 start ramp 到 target;flushToCanvas 下游消费新色表。
-  //     time-based(elapsed/totalMs),raf 帧率无关。淡完由 event-system waiting handler finalize + 清。
-  if (gs.paletteFadeState && gs.palette) {
-    stepPaletteFade(gs.palette.colors, gs.paletteFadeState, performance.now())
-  }
+  // 注:特效 A 调色板 ramp(palette.c FadeOut/FadeIn/SceneFade/...)已在函数开头(sceneLoading 判断前)
+  //     应用 —— ramp gs.palette.colors,与上面 dither fadeState(mutate fb.indices)正交。
 
   // M5.6 W0.d:菜单 modal 覆盖最顶层,在 fadeState 后画(避免被 fade 覆盖)。
   // gs.menuStack 空时 drawMenuStack 立即 return,无开销。

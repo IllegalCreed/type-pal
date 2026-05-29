@@ -337,6 +337,10 @@ export function tickSceneSystem(
   // 避免 loadScene 续跑脚本 'end' 后、异步 reload 完成前的几帧里玩家移动或旧 scene trigger 误触发。
   if (gs.sceneLoading) return
 
+  // 特效 A:explore 模式 palette fade 进行中(scene.c:503 auto fade-in)冻结探索 —— 忠实 sdlpal
+  // PAL_FadeIn 阻塞循环,淡入 600ms 内玩家不能移动 / 触发。fade 完(present 自清 paletteFadeState)恢复。
+  if (gs.paletteFadeState) return
+
   // M5.6 W0.v:Menu 键(sdlpal input.c:66 SDLK_ESCAPE → kKeyMenu)→ 开 InGameMenu hub。
   // 早返回:不走 movement / search,避免按 ESC 时同时位移。
   if (input.pressed.has('Menu')) {

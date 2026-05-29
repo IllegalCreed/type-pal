@@ -450,8 +450,12 @@ export function setFetchPalette(fn: FetchPaletteFn | null): void {
 /**
  * 特效 A 共用:启动一个调色板 ramp fade(0x50/0x51/0x80/0x8C/0x4F/0x93)。
  *  - 确保 gs.palette 是可变工作副本(stepPaletteFade 每帧原地改它的 colors);缺则从 basePalette/全黑造。
- *  - 写 gs.paletteFadeState + 清 sceneLoading(fade 是可渲染 yield,解冻渲染,同 fadeScreen)。
- *  - 设 cursor.waiting:sceneUpdating(0x93 / 0x80 fUpdateScene)→ 'scene-fade'(mode.ts 放行 autoScript),
+ *  - 写 gs.paletteFadeState。
+ *  - clearSceneLoading:**FadeOut(0x50)传 false** —— sdlpal PAL_FadeOut 不调 PAL_MakeScene,只
+ *    VIDEO_SetPalette 渐变**触发脚本前的当前帧**。我们 loadScene→FadeOut 序中 sceneLoading 仍 true(冻屏),
+ *    保持冻结 → present 对冻帧染色淡黑(避免 setPartyPos 把主角瞬移到新场景坐标后在旧地图重绘 = 用户报的
+ *    "人物淡出不对")。其余 fade(FadeIn/SceneFade/...)传 true 解冻 → 重绘目标 scene 供淡入。
+ *  - cursor.waiting:sceneUpdating(0x93 / 0x80 fUpdateScene)→ 'scene-fade'(mode.ts 放行 autoScript),
  *    否则 'palette-fade'(冻全场)。调用方随后 `return`(不 ip++;waiting handler 淡完才 finalize + ip++)。
  */
 function startPaletteFade(
@@ -459,14 +463,42 @@ function startPaletteFade(
   cursor: EventCursor,
   pf: PaletteFadeState,
   sceneUpdating: boolean,
+  clearSceneLoading = true,
 ): void {
   if (!gs.palette) {
     const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
     gs.palette = makeWorkingPalette(src)
   }
   gs.paletteFadeState = pf
-  gs.sceneLoading = false
+  if (clearSceneLoading) gs.sceneLoading = false
   cursor.waiting = sceneUpdating ? 'scene-fade' : 'palette-fade'
+}
+
+/**
+ * port sdlpal `PAL_MakeScene` 末尾 auto fade-in(scene.c:503-508):scene 渲染时若 `fNeedToFadeIn`,
+ * 自动 `PAL_FadeIn(wNumPalette, fNight, 1)` + 清 flag。这是 **FadeOut(0x50)→loadScene→无 onEnter 0x51**
+ * 的 door 切换(如 wNumScene 4 无 onEnter)淡黑后屏幕**唯一**恢复机制 —— 缺它则永久黑屏(用户报)。
+ *
+ * 我们在 explore 模式(无 event 脚本运行 = scene 已 settled,对应 sdlpal 主循环 PAL_MakeScene)tick 调:
+ *  - needToFadeIn 且无进行中 fade / 未在 loading → 启动 FadeIn 到 basePalette(delay=1 → 600ms)+ 清 flag。
+ *    waiting 不设(explore 无 cursor)→ present 到点自清 paletteFadeState;movement 由 scene-system 的
+ *    paletteFadeState 守卫冻结(忠实 PAL_FadeIn 阻塞)。
+ *
+ * **不**在 event 模式跑(脚本运行中 sdlpal 不在 opcode 间调 PAL_MakeScene;onEnter 自带 fade 的 scene
+ * 由其 0x51/0x73 处理)。mode.ts 在 explore 分支调本函数。
+ */
+export function tickSceneAutoFadeIn(gs: GameState): void {
+  if (gs.mode !== 'explore' || gs.sceneLoading) return
+  if (gs.paletteFadeState || gs.fadeState) return // fade 进行中(present 自清 explore fade)
+  if (!gs.needToFadeIn) return
+  gs.needToFadeIn = false
+  if (!gs.palette) {
+    const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
+    gs.palette = makeWorkingPalette(src)
+  }
+  const baseColors = (gs.basePalette ?? gs.palette).colors
+  // sdlpal scene.c:506 PAL_FadeIn(..., 1) → delay=1 → 600ms。黑 → basePalette。
+  gs.paletteFadeState = buildFadeIn(baseColors, 600, performance.now())
 }
 
 /**
@@ -1407,8 +1439,9 @@ export function tickEventSystem(
 
           if (cmd.opcode === OP_FADE_OUT) {
             // sdlpal palette.c:163 `time = now + iDelay*10*60` → 时长 (op0||1)*600ms。屏幕 → 全黑。
+            // clearSceneLoading=false:loadScene→FadeOut 序中保持冻屏,淡黑触发前那帧(不重绘 setPartyPos 瞬移)。
             const delay = op0 || 1
-            startPaletteFade(gs, cursor, buildFadeOut(curColors, delay * 600, now), false)
+            startPaletteFade(gs, cursor, buildFadeOut(curColors, delay * 600, now), false, false)
             gs.needToFadeIn = true  // sdlpal script.c:1781
             console.debug(`event-system: FadeOut delay=${delay} → ${delay * 600}ms (→black, needToFadeIn=TRUE)`)
             return

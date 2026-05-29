@@ -16,7 +16,7 @@ import {
   setObstacleChecker, setGlobalEvents, resolveScriptLabel,
   startOverworldItemScript, setSceneLoader,
   OP_FADE_OUT, OP_FADE_IN, OP_SCENE_FADE, OP_PALETTE_FADE, OP_COLOR_FADE,
-  OP_FADE_TO_RED, OP_FADE_TO_SCENE,
+  OP_FADE_TO_RED, OP_FADE_TO_SCENE, tickSceneAutoFadeIn,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -2896,5 +2896,69 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     await vi.waitFor(() => expect(gs.basePalette?.colors[0]).toEqual([50, 60, 70])) // basePalette 更新
     expect(gs.palette).toBe(blackRef) // 屏幕仍黑(needToFadeIn → 不套新色)
     setFetchPalette(() => Promise.resolve(fake))
+  })
+})
+
+describe('特效 A auto fade-in(sdlpal scene.c:503 PAL_MakeScene)+ FadeOut 冻屏', () => {
+  function mkPal(c: [number, number, number]): Palette {
+    return { colors: Array.from({ length: 256 }, () => [c[0], c[1], c[2]] as [number, number, number]), cycles: [] }
+  }
+
+  it('FadeOut 不清 sceneLoading(冻屏淡黑触发前帧,不重绘 setPartyPos 瞬移)', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = mkPal([200, 100, 50])
+    gs.basePalette = mkPal([200, 100, 50])
+    gs.sceneLoading = true // loadScene 已设(door 切换序:setPartyPos→loadScene→FadeOut)
+    loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_OUT, operands: [1, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('palette-fade')
+    expect(gs.sceneLoading).toBe(true) // **关键**:FadeOut 保持冻屏(不像 FadeIn 解冻)
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([0, 0, 0])
+  })
+
+  it('FadeIn 清 sceneLoading(需重绘目标 scene 淡入)', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = mkPal([0, 0, 0])
+    gs.basePalette = mkPal([100, 100, 100])
+    gs.sceneLoading = true
+    loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_IN, operands: [1, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.sceneLoading).toBe(false) // FadeIn 解冻
+  })
+
+  it('tickSceneAutoFadeIn:explore + needToFadeIn → 启动 FadeIn(黑→base)+ 清 flag', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = 'explore'
+    gs.basePalette = mkPal([120, 60, 30])
+    gs.palette = mkPal([0, 0, 0])
+    gs.needToFadeIn = true
+    tickSceneAutoFadeIn(gs)
+    expect(gs.needToFadeIn).toBe(false)
+    expect(gs.paletteFadeState?.mode).toBe('lerp')
+    expect(gs.paletteFadeState?.startColors[0]).toEqual([0, 0, 0])
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([120, 60, 30])
+    expect(gs.paletteFadeState?.totalMs).toBe(600) // PAL_FadeIn(...,1)
+  })
+
+  it('tickSceneAutoFadeIn:不在 event 模式 / fade 进行中 / sceneLoading / 无 needToFadeIn 时不触发', () => {
+    const base = (): GameState => {
+      const g = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      g.basePalette = mkPal([1, 1, 1]); g.palette = mkPal([0, 0, 0]); g.needToFadeIn = true; g.mode = 'explore'
+      return g
+    }
+    // event 模式不触发
+    const g1 = base(); g1.mode = 'event'; tickSceneAutoFadeIn(g1)
+    expect(g1.paletteFadeState).toBeUndefined(); expect(g1.needToFadeIn).toBe(true)
+    // sceneLoading 不触发
+    const g2 = base(); g2.sceneLoading = true; tickSceneAutoFadeIn(g2)
+    expect(g2.paletteFadeState).toBeUndefined()
+    // 已有 fade 进行中不触发
+    const g3 = base(); g3.fadeState = { speed: 2, totalMs: 2160, startTimeMs: 0, appliedSteps: 0 }
+    tickSceneAutoFadeIn(g3); expect(g3.paletteFadeState).toBeUndefined()
+    // 无 needToFadeIn 不触发
+    const g4 = base(); g4.needToFadeIn = false; tickSceneAutoFadeIn(g4)
+    expect(g4.paletteFadeState).toBeUndefined()
   })
 })
