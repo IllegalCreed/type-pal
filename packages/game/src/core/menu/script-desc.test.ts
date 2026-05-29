@@ -7,7 +7,7 @@
 
 import type { Command } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { setSharedEvents } from '../event-system.js'
+import { setGlobalEvents } from '../event-system.js'
 import { getScriptDescLines } from './script-desc.js'
 
 const FIXTURE_COMMANDS: Command[] = [
@@ -24,18 +24,14 @@ const FIXTURE_COMMANDS: Command[] = [
   { op: 'end' },
 ] as Command[]
 
-const FIXTURE_LABELS: Record<string, number> = {
-  L_40133: 0,
-  L_40265: 4,
-}
-
 describe('getScriptDescLines', () => {
   beforeEach(() => {
-    setSharedEvents(FIXTURE_COMMANDS, FIXTURE_LABELS)
+    // P2#5:单一全局脚本数组。labelMap 由命令的 label 字段建(L_40133 在 idx 0,L_40265 在 idx 4)。
+    setGlobalEvents(FIXTURE_COMMANDS)
   })
 
   afterEach(() => {
-    setSharedEvents([], {})
+    setGlobalEvents([])
   })
 
   it('木剑 40133 → 2 行真值描述', () => {

@@ -9,7 +9,7 @@ import {
   OP_SET_PARTY_POS, OP_SET_PARTY_DIRECTION,
   OP_SET_CAMERA, OP_CENTER_CAMERA_ON_PARTY,
   OP_PLAY_MUSIC, OP_SET_SCENE_OBJECT_STATE,
-  setSharedEvents,
+  setGlobalEvents,
 } from './event-system.js'
 
 function makeFlatMap(w: number, h: number): Tilemap {
@@ -203,6 +203,8 @@ describe('SceneSystem NPC 触发', () => {
       { op: 'showDialog' as const, messageIndex: 0, text: '你好', label: 'L_59' },
       { op: 'end' as const },
     ]
+    // P2#5:trigger 解析走全局 labelMap(setGlobalEvents 由命令 label 建 L_59 → index 2)。
+    setGlobalEvents(commands)
     tickSceneSystem(gs, snap([], ['Confirm']), bus, {
       tilemap: map,
       eventCommands: commands,
@@ -229,43 +231,49 @@ describe('SceneSystem NPC 触发', () => {
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    setSharedEvents([], {})
+    // P2#5:全局数组空 → resolveScriptLabel(L_999) = null → loadEventFromNpc warn + 不切 mode。
+    setGlobalEvents([])
     tickSceneSystem(gs, snap([], ['Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.mode).toBe('explore')
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('L_999'))
     warnSpy.mockRestore()
   })
 
-  it('M5.6 W1.a:triggerLabel 不在 per-scene 但在 shared labelMap → fallback shared + 切 event', () => {
+  it('P2#5:triggerLabel 经全局 labelMap 解析 → 切 event,eventCursor.ip = 全局 ip', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_38592', triggerMode: 1, sState: 1 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
-    // 模拟 shared.json 含 L_38592 → ip = 50
-    const sharedCmds = [{ op: 'end' as const }]
-    setSharedEvents(sharedCmds, { L_38592: 50 })
+    // P2#5:不再分 per-scene / shared 层 — 单一全局数组。L_38592 落在 index 50。
+    const globalCmds = Array.from({ length: 51 }, (_, i) =>
+      i === 50 ? { op: 'end' as const, label: 'L_38592' } : { op: 'end' as const },
+    )
+    setGlobalEvents(globalCmds)
     tickSceneSystem(gs, snap([], ['Confirm']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.mode).toBe('event')
     expect(gs.eventCursor?.ip).toBe(50)
-    expect(gs.eventCursor?.commands).toBe(sharedCmds)
-    expect(gs.eventCursor?.labelMap).toEqual({ L_38592: 50 })
+    // P2#5:生产 cursor 不内嵌 commands/labelMap → 默认读全局数组。
+    expect(gs.eventCursor?.commands).toBeUndefined()
+    expect(gs.eventCursor?.labelMap).toBeUndefined()
   })
 
-  it('M5.6 W1.a:per-scene labelMap 优先 — 同名 label 命中 per-scene 不查 shared', () => {
+  it('P2#5:全局 labelMap 唯一决定 triggerLabel → ip(ctx.labelMap 不再参与解析)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, triggerLabel: 'L_X', triggerMode: 1, sState: 1 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
-    const sceneCmds = [{ op: 'end' as const }]
-    const sharedCmds = [{ op: 'end' as const }]
-    setSharedEvents(sharedCmds, { L_X: 999 })
+    // L_X 落在全局 index 10。ctx 传的 labelMap 已不再用于解析,纯渲染上下文。
+    const globalCmds = Array.from({ length: 11 }, (_, i) =>
+      i === 10 ? { op: 'end' as const, label: 'L_X' } : { op: 'end' as const },
+    )
+    setGlobalEvents(globalCmds)
     tickSceneSystem(gs, snap([], ['Confirm']), bus, {
       tilemap: map,
-      eventCommands: sceneCmds,
-      labelMap: { L_X: 10 },
+      eventCommands: [],
+      labelMap: { L_X: 999 }, // 不再被 trigger 解析读取
     })
     expect(gs.eventCursor?.ip).toBe(10)
-    expect(gs.eventCursor?.commands).toBe(sceneCmds)
+    expect(gs.eventCursor?.commands).toBeUndefined()
   })
 })
 
@@ -294,6 +302,7 @@ describe('明雷机制(M3.5 T11 / D32)', () => {
       { op: 'showDialog' as const, messageIndex: 0, text: '草妖来袭', label: 'L_42' },
       { op: 'end' as const },
     ]
+    setGlobalEvents(commands) // P2#5:L_42 → 全局 index 1
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
       eventCommands: commands,
@@ -378,6 +387,8 @@ describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    // P2#5:全局数组不含 L_9999 → resolveScriptLabel = null → warn + 不切 mode。
+    setGlobalEvents([{ op: 'end' as const, label: 'L_OTHER' }])
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
       eventCommands: [{ op: 'end' as const }],
@@ -420,6 +431,7 @@ describe('明雷机制 反例 / edge case(M3.5 T12)', () => {
       { op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' },
       { op: 'end' as const },
     ]
+    setGlobalEvents(commands) // P2#5:L_42 → 全局 index 0
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
       eventCommands: commands,
@@ -496,6 +508,7 @@ describe('M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)', () => {
     }]
     const bus = createCommandBus()
     const map = makeFlatMap(20, 20)
+    setGlobalEvents([{ op: 'end' as const, label: 'L_X' }]) // P2#5:L_X → 全局 index 0
     tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [{ op: 'end' as const }], labelMap: { L_X: 0 } })
     // xOffset = 110-100 = 10 > 0, yOffset = 100-100 = 0 → kDirNorth → ts 'up'
     expect(gs.npcs[0]?.facing).toBe('up')
@@ -516,6 +529,7 @@ describe('M5.6 T8 PAL_Search 视觉效果(play.c:468-490)', () => {
     }]
     const bus = createCommandBus()
     const map = makeFlatMap(20, 20)
+    setGlobalEvents([{ op: 'end' as const, label: 'L_X' }]) // P2#5:L_X → 全局 index 0
     tickSceneSystem(gs, snap([], ['Confirm']), bus, {
       tilemap: map,
       eventCommands: [{ op: 'end' as const }],
@@ -559,6 +573,7 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
       { op: 'showDialog' as const, messageIndex: 0, text: '草妖来袭', label: 'L_42' },
       { op: 'end' as const },
     ]
+    setGlobalEvents(commands) // P2#5:L_42 → 全局 index 0
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
       eventCommands: commands,
@@ -591,6 +606,7 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(128, 128)
+    setGlobalEvents([{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }]) // P2#5:L_42 → 全局 index 0
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
       eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
@@ -607,6 +623,7 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(128, 128)
+    setGlobalEvents([{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }]) // P2#5:L_42 → 全局 index 0
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
       eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
@@ -623,6 +640,7 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(128, 128)
+    setGlobalEvents([{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }]) // P2#5:L_42 → 全局 index 0
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
       eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
@@ -654,6 +672,7 @@ describe('P0.e contact 菱形距离触发(sdlpal scene.c:624)', () => {
     ]
     const bus = createCommandBus()
     const map = makeFlatMap(128, 128)
+    setGlobalEvents([{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }]) // P2#5:L_42 → 全局 index 0
     tickSceneSystem(gs, snap(), bus, {
       tilemap: map,
       eventCommands: [{ op: 'showDialog' as const, messageIndex: 0, text: 'x', label: 'L_42' }, { op: 'end' as const }],
@@ -692,6 +711,9 @@ function makeSceneAssets(
 /**
  * P0.e 测试用:构建含 wScriptOnEnter 入口的 SceneAssets。
  * enterCmds 会加 onEnterLabel='L_enter',被 loadScene 触发。
+ *
+ * P2#5:loadScene 经 resolveScriptLabel(全局 _globalLabelMap)解 onEnterLabel,
+ * 故在此把 commands 注册为全局数组(L_enter → 全局 index 0),scene labelMap 已不参与解析。
  */
 function makeFakeAssetsWithEnterScript(
   sceneId: number,
@@ -702,6 +724,7 @@ function makeFakeAssetsWithEnterScript(
     { op: 'end' as const },
   ]
   const labelMap: Record<string, number> = { L_enter: 0 }
+  setGlobalEvents(commands) // P2#5:onEnterLabel 走全局 labelMap
   return makeSceneAssets(sceneId, [], commands, labelMap, 'L_enter')
 }
 
@@ -776,69 +799,75 @@ describe('loadScene(M3.5 T9 / D33)', () => {
   })
 })
 
-// ── P3.T1: loadScene 注入 eventCommands + labelMap(修 M3.5 ⚠️ a9 #8)────────
+// ── P2#5: trigger 解析走单一全局数组(原 P3.T1 per-scene gating 已废)──────────
 //
-// 问题:dev panel scene jump 通过 loadScene 重置 npcs/party/camera,但之前不重置
-// SceneContext 的 events/labelMap(scene 1 的 labelMap 留在内存)。
-// 当 contact monster 触发 loadEventFromNpc 时,目标 scene 的 triggerLabel 不在
-// 旧 labelMap → 早 return,mode 不切 battle。
+// 原 P3.T1 测的是"loadScene 换入 per-scene labelMap,只有当前 scene 的 label 才能解析"
+// 的 gating 行为。P2#5 故意**移除**该 gating:trigger 现统一经 _globalLabelMap 解析,
+// **与当前加载哪个 scene 无关**(这正是 P2#5 目的 — 支持跨场景 trigger,如李大娘 L_560)。
 //
-// 修法:loadScene 拿到 sceneAssets 后调 setSceneContext 换入新 events + labelMap。
-describe('loadScene 注入 eventCommands+labelMap(P3.T1)', () => {
-  it('loadScene 后 SceneContext 换成新 scene 的 eventCommands + labelMap', async () => {
+// 下面两测改为验证新的全局解析语义:
+//  1. trigger 经 setGlobalEvents 注册的全局 labelMap 解析,loadScene 加载的 scene 不影响。
+//  2. 全局注册一次后,任意 scene 下同一 triggerLabel 都能解析(跨场景 trigger,反 gating)。
+describe('P2#5 trigger 经全局 labelMap 解析(原 P3.T1)', () => {
+  it('contact NPC triggerLabel 经全局 labelMap 解析 → 切 event(loadScene 用 _ctx singleton)', async () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
-    const newCommands = [
+    const globalCommands = [
       { op: 'showDialog' as const, messageIndex: 0, text: '草妖', label: 'L_41179' },
       { op: 'end' as const },
     ]
-    const newLabelMap: Record<string, number> = { L_41179: 0 }
+    // P2#5:trigger 走全局数组 — 注册全局即可解析(loadScene 的 sceneAssets labelMap 不再参与)。
+    setGlobalEvents(globalCommands)
 
     const fetcher = vi.fn(async (id: number) =>
-      makeSceneAssets(id, [], newCommands, newLabelMap),
+      makeSceneAssets(id, [], globalCommands, { L_41179: 0 }),
     )
     const cache = new SceneAssetsCache(fetcher)
     await loadScene({ gs, sceneId: 15, assets: cache })
 
-    // 装一个 contact NPC,triggerLabel 指向新 scene 的 label
+    // 装一个 contact NPC,triggerLabel 指向全局 label
     gs.npcs = [
       { id: 7, x: 5 * 16, y: 5 * 8, spriteNum: 468, triggerLabel: 'L_41179', triggerMode: 5 },
     ]
     const bus = createCommandBus()
-    const map = makeFlatMap(64, 128)
 
-    // tickSceneSystem 用 _ctx(setSceneContext 写入的 singleton)
+    // tickSceneSystem 用 _ctx(loadScene 内 setSceneContext 写入的 singleton)
     tickSceneSystem(gs, snap(), bus)
 
     expect(gs.mode).toBe('event')
-    expect(gs.eventCursor?.ip).toBe(0)
-    expect(gs.eventCursor?.labelMap['L_41179']).toBe(0)
+    expect(gs.eventCursor?.ip).toBe(0) // 全局 ip
+    // P2#5:生产 cursor 不内嵌 labelMap → 默认读全局数组。
+    expect(gs.eventCursor?.labelMap).toBeUndefined()
   })
 
-  it('连续 scene jump:每次 loadScene 都换入对应 scene 的 labelMap', async () => {
+  it('全局 label 跨 scene 解析:任意 scene 下同一 triggerLabel 都能切 event(反 per-scene gating)', async () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
-    const scene1Map: Record<string, number> = { L_scene1: 0 }
-    const scene2Map: Record<string, number> = { L_scene2: 0 }
+    // P2#5:单一全局数组。L_scene2 落在 index 1(L_scene1 在 0)。
+    const globalCommands = [
+      { op: 'end' as const, label: 'L_scene1' },
+      { op: 'end' as const, label: 'L_scene2' },
+    ]
+    setGlobalEvents(globalCommands)
 
     const fetcher = vi.fn(async (id: number) =>
-      id === 1
-        ? makeSceneAssets(1, [], [{ op: 'end' as const, label: 'L_scene1' }], scene1Map)
-        : makeSceneAssets(2, [], [{ op: 'end' as const, label: 'L_scene2' }], scene2Map),
+      makeSceneAssets(id, [], globalCommands, { L_scene1: 0, L_scene2: 1 }),
     )
     const cache = new SceneAssetsCache(fetcher)
 
+    // 加载 scene 1:旧模型下 L_scene2 不在 scene1 labelMap → 不触发。
+    // 新模型:L_scene2 在全局 labelMap → 不论加载哪个 scene 都能触发(跨场景 trigger)。
     await loadScene({ gs, sceneId: 1, assets: cache })
-    // After scene 1: SceneContext should have scene1's labelMap
     gs.npcs = [{ id: 1, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 }]
     tickSceneSystem(gs, snap(), createCommandBus())
-    // L_scene2 不在 scene1 labelMap → 不切 mode
-    expect(gs.mode).toBe('explore')
+    expect(gs.mode).toBe('event') // P2#5:全局解析 → 切 event(原 gating 下是 explore)
+    expect(gs.eventCursor?.ip).toBe(1) // L_scene2 全局 ip
 
-    await loadScene({ gs, sceneId: 2, assets: cache })
-    // After scene 2: SceneContext should have scene2's labelMap
-    gs.npcs = [{ id: 2, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 }]
-    tickSceneSystem(gs, snap(), createCommandBus())
-    // L_scene2 在 scene2 labelMap → 切 event mode
-    expect(gs.mode).toBe('event')
+    // 切到 scene 2 后同样能解析(全局,不分 scene)。
+    const gs2 = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    await loadScene({ gs: gs2, sceneId: 2, assets: cache })
+    gs2.npcs = [{ id: 2, x: 5 * 16, y: 5 * 8, spriteNum: 1, triggerLabel: 'L_scene2', triggerMode: 5 }]
+    tickSceneSystem(gs2, snap(), createCommandBus())
+    expect(gs2.mode).toBe('event')
+    expect(gs2.eventCursor?.ip).toBe(1)
   })
 })
 
@@ -1324,6 +1353,7 @@ describe('P0.e wScriptOnEnter 真跑', () => {
       { op: 'end' as const },
     ]
     const labelMap: Record<string, number> = { L_enter: 0 }
+    setGlobalEvents(commands as any) // P2#5:onEnterLabel 走全局 labelMap(L_enter → index 0)
     const assets = makeSceneAssets(5, [], commands, labelMap, 'L_enter')
     const cache = new SceneAssetsCache(async () => assets)
     await loadScene({ gs, sceneId: 5, assets: cache })

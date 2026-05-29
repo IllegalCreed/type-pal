@@ -210,49 +210,35 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
  * Confirm-search 路径 / contact 明雷路径共享。
  */
 function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void {
-  let commands: Command[]
-  let labelMap: Record<string, number>
+  void ctx // P2#5:不再用 per-scene 切片解析 trigger — 全部走单一全局数组(全局 ip)。
   let ip: number
 
-  // 优先 triggerResume(上次 0x01 advance / 0x02 reset 推进后的续跑位置,sdlpal wTriggerScript
-  // 被改写的等价)→ 不重播已跑过的 cutscene。否则按 triggerLabel 原点解析。
+  // 优先 triggerResume(上次 0x01 advance / 0x02 reset 推进后的续跑位置 = sdlpal wTriggerScript
+  // 被改写的等价)→ 不重播已跑过的 cutscene。否则按 triggerLabel 原点解析(全局 entry)。
   if (npc.triggerResume) {
-    commands = npc.triggerResume.commands
-    labelMap = npc.triggerResume.labelMap
-    ip = npc.triggerResume.ip
+    ip = npc.triggerResume.ip // 全局 ip
   }
   else {
     if (!npc.triggerLabel) return
-    // M5.6 W1.a:先查 per-scene labelMap;不命中时 scene→shared→global 兜底解析。
-    // sdlpal 真值:events.bin 是 unified 单文件,wTriggerScript 是全局 offset 不分段;我们 dump 时
-    // 拆成 scene-NNN.json + shared.json(按场景懒加载)。跨 scene 设的 trigger(eg. scene-3 把
-    // scene-1 李大娘 trigger 设到只切进 scene-3 的 L_560)需回退全局脚本数组(events/all.json)。
-    let resolvedIp = ctx.labelMap[npc.triggerLabel]
-    commands = ctx.eventCommands
-    labelMap = ctx.labelMap
-    if (resolvedIp === undefined) {
-      const r = resolveScriptLabel(gs, npc.triggerLabel)
-      if (r) {
-        resolvedIp = r.ip
-        commands = r.commands
-        labelMap = r.labelMap
-      }
-    }
-    if (resolvedIp === undefined) {
+    // P2#5:triggerLabel(L_<globalIndex>,来自 event-objects.json)→ 全局 ip(identity)。
+    // sdlpal wTriggerScript 本是单一全局 offset(events.bin unified),与此一致。
+    const r = resolveScriptLabel(gs, npc.triggerLabel)
+    if (!r) {
       console.warn(
-        `scene-system: triggerLabel ${npc.triggerLabel} 不在 scene/shared/global labelMap(NPC id=${npc.id})`,
+        `scene-system: triggerLabel ${npc.triggerLabel} 不在全局 labelMap(NPC id=${npc.id})`,
       )
       return
     }
-    ip = resolvedIp
+    ip = r.ip
   }
 
   // sdlpal PAL_RunTriggerScript 入口设 g_fScriptSuccess=TRUE(script.c:3187)— 每段 trigger 脚本起手重置。
   gs.fScriptSuccess = true
   gs.eventCursor = {
-    commands,
-    labelMap,
-    ip,
+    ip, // P2#5:全局 ip,默认读全局数组(不内嵌 commands/labelMap)
+    // 单测可在 triggerResume 上带 override 数组;生产恒 undefined → 默认全局。
+    commands: npc.triggerResume?.commands,
+    labelMap: npc.triggerResume?.labelMap,
     // Sync.2 fix3:trigger 触发时设 currentEventObjectId(= NPC id),让 opcode 0x0013/0x0016/0x006C
     // 在 operand[0]==0 时作用于"自己"(sdlpal `wEventObjectID` / `pCurrent` 等价)。
     currentEventObjectId: npc.id,
@@ -480,9 +466,9 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
   // 直跳的 scene 永远不跑 setBattlefield → 战斗背景永远 default。本 fix 让两者并存:
   // enter script 跑全(含 setPartyPos),partyStart 之后覆写位置。
   if (sceneAssets.onEnterLabel) {
-    const ip = sceneAssets.labelMap[sceneAssets.onEnterLabel]
+    const ip = resolveScriptLabel(gs, sceneAssets.onEnterLabel)?.ip // P2#5:onEnterLabel = L_<global> → 全局 ip
     if (ip !== undefined) {
-      runEnterScript(gs, sceneAssets.eventCommands, sceneAssets.labelMap, ip)
+      runEnterScript(gs, undefined, undefined, ip) // P2#5:默认全局数组
     }
   }
   if (partyStart) {

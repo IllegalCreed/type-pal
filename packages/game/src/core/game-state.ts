@@ -75,9 +75,10 @@ export interface NpcState {
    * trigger 脚本推进后的"续跑位置"(sdlpal `EventObject.wTriggerScript` 被 PAL_RunTriggerScript
    * 返回值改写的等价)。0x01 advance 收尾的 trigger 跑完后存"下一条",下次接触从这里跑(而非
    * triggerLabel 原点重播)。undefined = 用 triggerLabel(原点,可重触发的 0x00 plain 脚本)。
-   * commands/labelMap 指脚本来源(scene/shared/global),同 EventCursor。
+   * P2#5(2026-05-29):**ip 是全局下标**(_globalCommands)。生产只存 {ip},不再内嵌命令数组
+   * (存档膨胀根因)。commands/labelMap 可选 override(单测用),生产/存档恒 undefined。
    */
-  triggerResume?: { commands: Command[]; labelMap: Record<string, number>; ip: number }
+  triggerResume?: { commands?: Command[]; labelMap?: Record<string, number>; ip: number }
   /** sdlpal `EventObject.wTriggerMode`(M3.5 T11 真消費):
    *  - 0       装饰 / 不触发
    *  - 1..3    Confirm-search(M2 用 Confirm 键触发)
@@ -158,9 +159,10 @@ export interface NpcState {
      * 开门)。与 EventCursor.callStack 同构,'end' 时栈非空 → 弹帧回 caller(ip/commands/labelMap/对象)。
      */
     callStack?: {
+      /** P2#5:returnIp 全局下标;returnCommands/returnLabelMap 可选 override(默认全局数组)。 */
       returnIp: number
-      returnCommands: Command[]
-      returnLabelMap: Record<string, number>
+      returnCommands?: Command[]
+      returnLabelMap?: Record<string, number>
       savedEventObjectId?: number
     }[]
     /**
@@ -178,8 +180,14 @@ export interface NpcState {
 }
 
 export interface EventCursor {
-  commands: Command[]
-  labelMap: Record<string, number>
+  /**
+   * P2#5(2026-05-29 单一全局脚本数组):**ip 是全局下标**(events/all.json 的 `_globalCommands` 索引,
+   * = sdlpal 单一 `lprgScriptEntry` 偏移)。生产代码建 cursor 只填 `{ip}`,解释器经 getCmds/getLabels
+   * 默认读 `_globalCommands`/`_globalLabelMap`(单一来源 → 存档只存数字,不再内嵌 5.5MB 命令数组)。
+   * commands/labelMap 为**可选 override**(仅单测传自带数组用;生产/存档恒 undefined)。
+   */
+  commands?: Command[]
+  labelMap?: Record<string, number>
   ip: number
   /**
    * EventSystem 暂停等待原因。undefined = 非 waiting 状态。
@@ -218,9 +226,10 @@ export interface EventCursor {
    * 支持子脚本在 shared(跨 scene 复用):保存 caller 的 commands/labelMap。
    */
   callStack?: {
+    /** P2#5:returnIp 是全局下标;returnCommands/returnLabelMap 可选 override(默认全局数组)。 */
     returnIp: number
-    returnCommands: Command[]
-    returnLabelMap: Record<string, number>
+    returnCommands?: Command[]
+    returnLabelMap?: Record<string, number>
     savedEventObjectId?: number
   }[]
   /**
@@ -716,12 +725,13 @@ export interface GameState {
   rgScene: Record<number, SceneStateMutable>
 
   /**
-   * 各 scene 的 onEnter 脚本运行时 local ip 入口(sdlpal `rgScene[].wScriptOnEnter` 等价)。
+   * 各 scene 的 onEnter 脚本运行时入口 ip(sdlpal `rgScene[].wScriptOnEnter` 等价)。
    * 键 = wNumScene(1-based)。稀疏存:只存 onEnter 已跑过、被推进的 scene。
    *
    * sdlpal play.c:64 真值:onEnter 跑完返回值存回 wScriptOnEnter。开场 cutscene 以 0x01
    * (end-advance)收尾 → 推进到下一条 0x00(stop)→ 重进只跑 0x00 不重播。
-   * ts 用 local ip(scene-N.json 内下标,跨重进稳定);缺省 → 用 onEnterLabel。
+   * P2#5(2026-05-29):**全局** ip(单一全局脚本数组 _globalCommands 下标,= EventCursor.ip 同语义);
+   * 缺省 → 用 onEnterLabel(L_<global>→全局 ip)。-1 = 0x6D 清的"无 onEnter"。
    */
   sceneOnEnterIp: Record<number, number>
 
@@ -1081,17 +1091,22 @@ export function npcFromEventObject(
   if (eo.direction !== undefined) {
     npc.facing = (['down', 'left', 'up', 'right'] as const)[eo.direction] ?? 'down'
   }
-  // autoLabel 保留(全局数组延迟解析 autoCursor 用;每 scene labelMap 不同)。
-  if (eo.autoLabel) npc.autoLabel = eo.autoLabel
-  // resolve autoLabel → autoCursor.ip(传 labelMap 时立即解;全局数组建表时不传 → 切片时解)。
-  // sdlpal `wAutoScript != 0 && sState > 0` → autoScript 每帧跑;NPC dump 里 autoLabel 非空才有。
-  if (eo.autoLabel && labelMap) {
-    const ip = labelMap[eo.autoLabel]
-    if (ip !== undefined) {
-      npc.autoCursor = { ip }
-    }
+  // P2#5:autoLabel = L_<globalIndex>(event-objects.json)→ autoCursor.ip 直接 = 全局下标(identity)。
+  // 不再依赖 per-scene labelMap(每 scene 不同);全局 ip 与 scene 无关,一次解析处处有效。
+  void labelMap
+  if (eo.autoLabel) {
+    npc.autoLabel = eo.autoLabel
+    const ip = globalIpFromLabel(eo.autoLabel)
+    if (ip !== undefined) npc.autoCursor = { ip }
   }
   return npc
+}
+
+/** P2#5:`L_<n>` → 全局下标 n(all.json 标签 = 数组下标恒等,0 违例)。非法 → undefined。 */
+function globalIpFromLabel(label: string): number | undefined {
+  if (!label.startsWith('L_')) return undefined
+  const n = Number(label.slice(2))
+  return Number.isInteger(n) && n >= 0 ? n : undefined
 }
 
 /**
@@ -1111,7 +1126,7 @@ export function sliceSceneEventObjects(gs: GameState, wNumScene: number): NpcSta
   const slice = gs.allEventObjects.slice(range[0], range[1])
   for (const npc of slice) {
     if (npc.autoCursor === undefined && npc.autoLabel) {
-      const ip = gs.sceneLabelMap?.[npc.autoLabel]
+      const ip = globalIpFromLabel(npc.autoLabel) // P2#5:全局下标(identity),不再用 per-scene labelMap
       if (ip !== undefined) npc.autoCursor = { ip }
     }
   }

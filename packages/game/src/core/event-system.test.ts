@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import type { Command, InputSnapshot, AbstractKey, Palette } from '@type-pal/shared'
 import {
   tickEventSystem, tickAutoScripts, buildLabelMap, runScript, runEnterScript, setFetchPalette,
-  setSharedEvents, setStartBattleHandler,
+  setStartBattleHandler,
   OP_START_BATTLE, OP_SET_BATTLE_FIELD, OP_SET_SCENE_OBJECT_STATE,
   OP_SET_PARTY_DIRECTION,
   OP_WAIT_FRAMES, OP_SET_OBJECT_POS,
@@ -593,45 +593,67 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
   })
 })
 
-// ── P0.e: goto "shared#L_xxx" 跨 scene 共享脚本支持 ──────────────────────────
-describe('goto shared#L_xxx(P0.e — events/shared.json 跨 scene 共享脚本)', () => {
-  it('goto shared#L_X → cursor 切到 shared commands + 找对 label', () => {
-    const sharedCommands: Command[] = [
-      { op: 'showDialog', messageIndex: 0, text: 'in shared', label: 'L_S1' },
-      { op: 'end' },
+// ── P2#5: goto "shared#L_xxx" → 单一全局数组(剥 shared# 前缀,经全局 labelMap 解析)──────
+// 旧模型 shared.json 是独立切片(setSharedEvents 切 cursor.commands);P2#5 塌缩成单一全局数组:
+// 'shared#L_X' 前缀剥掉后即全局 L_X,经 _globalLabelMap 解全局 ip,cursor 不再换来源(默认读全局)。
+describe('goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 labelMap 解析)', () => {
+  it('goto shared#L_X → 剥前缀经全局 labelMap 跳到全局 ip + 跑该处命令', () => {
+    // 全局数组:idx0=trigger 入口(goto shared#L_S1),idx2=L_S1 目标(showDialog "in shared")。
+    const globalCommands: Command[] = [
+      { op: 'goto', to: 'shared#L_S1' },                                       // 0: 入口
+      { op: 'end' },                                                           // 1
+      { op: 'showDialog', messageIndex: 0, text: 'in shared', label: 'L_S1' }, // 2: 共享目标
+      { op: 'end' },                                                           // 3
     ]
-    const sharedLabelMap = buildLabelMap(sharedCommands)
-    setSharedEvents(sharedCommands, sharedLabelMap)
+    setGlobalEvents(globalCommands)
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const bus = createCommandBus()
+      // 生产 cursor 只存 ip,默认读全局数组(无 commands/labelMap override)。
+      gs.eventCursor = { ip: 0 }
+      gs.mode = 'event'
 
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
-    loadEvent(gs, [
-      { op: 'goto', to: 'shared#L_S1' },
-      { op: 'end' },
-    ])
+      tickEventSystem(gs, snap(), bus)
 
-    tickEventSystem(gs, snap(), bus)
-
-    expect(gs.eventCursor?.commands).toBe(sharedCommands)
-    expect(gs.eventCursor?.labelMap).toBe(sharedLabelMap)
-    expect(gs.dialogBox?.currentLineText).toBe('in shared')
-    setSharedEvents([], {})
+      // P2#5:cursor 不换来源(commands/labelMap 仍 undefined → 默认全局);ip 落到全局 L_S1 = idx2。
+      expect(gs.eventCursor?.commands).toBeUndefined()
+      expect(gs.eventCursor?.labelMap).toBeUndefined()
+      expect(gs.eventCursor?.ip).toBe(2)
+      expect(gs.dialogBox?.currentLineText).toBe('in shared')
+    }
+    finally {
+      setGlobalEvents([])
+    }
   })
 
-  it('shared label 不存在 → 抛错指明 sharedLabelMap', () => {
-    setSharedEvents([], {})
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
-    loadEvent(gs, [
-      { op: 'goto', to: 'shared#L_DOES_NOT_EXIST' },
-      { op: 'end' },
+  it('shared# label 全局不存在 → warn + skip(不抛错,不死循环)', () => {
+    // 旧模型:缺 shared label 立即抛 `shared goto label` 错。P2#5 设计意图(migration rule 3):
+    //   主 while goto 改 warn + skip(不抛错)。
+    // ⚠ 疑似生产 BUG(留 failing,不 mask):主 while 的 goto case(event-system.ts:1160-1170)
+    //   解不到 label 时只 console.warn + `break`,**不推进 cursor.ip** → 同一 goto 被反复重读 →
+    //   触发 SINGLE_TICK_LIMIT(256)guard 抛 `single-tick instruction limit` 错。
+    //   autoCursor 的 goto(event-system.ts:765-781)解不到时清 cursor(不死循环),两路不一致 —
+    //   主 while goto 应同样在解不到时清 cursor / 推进 ip,而非自旋到 tick-limit。
+    setGlobalEvents([
+      { op: 'goto', to: 'shared#L_DOES_NOT_EXIST' }, // 0: 目标不在全局 labelMap → 应 warn skip
+      { op: 'end' },                                 // 1: 脚本结束
     ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const bus = createCommandBus()
+      gs.eventCursor = { ip: 0 }
+      gs.mode = 'event'
 
-    expect(() => tickEventSystem(gs, snap(), bus)).toThrow(/shared goto label/)
+      expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
+      expect(gs.mode).toBe('explore')
+      expect(gs.eventCursor).toBeUndefined()
+    }
+    finally {
+      setGlobalEvents([])
+    }
   })
 
   it('普通 goto(无 shared# 前缀)走 cursor.labelMap 原路径', () => {
-    setSharedEvents([], {})
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
@@ -645,25 +667,26 @@ describe('goto shared#L_xxx(P0.e — events/shared.json 跨 scene 共享脚本)'
     expect(gs.dialogBox).toBeUndefined()
   })
 
-  it('shared script 内 end → mode 回 explore + 清 cursor', () => {
-    const sharedCommands: Command[] = [
-      { op: 'end', label: 'L_S_END' },
-    ]
-    const sharedLabelMap = buildLabelMap(sharedCommands)
-    setSharedEvents(sharedCommands, sharedLabelMap)
-
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
-    loadEvent(gs, [
-      { op: 'goto', to: 'shared#L_S_END' },
-      { op: 'end' },
+  it('shared# 目标处 end → mode 回 explore + 清 cursor', () => {
+    setGlobalEvents([
+      { op: 'goto', to: 'shared#L_S_END' }, // 0: 入口
+      { op: 'end' },                        // 1
+      { op: 'end', label: 'L_S_END' },      // 2: 共享目标 = end
     ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const bus = createCommandBus()
+      gs.eventCursor = { ip: 0 }
+      gs.mode = 'event'
 
-    tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap(), bus)
 
-    expect(gs.mode).toBe('explore')
-    expect(gs.eventCursor).toBeUndefined()
-    setSharedEvents([], {})
+      expect(gs.mode).toBe('explore')
+      expect(gs.eventCursor).toBeUndefined()
+    }
+    finally {
+      setGlobalEvents([])
+    }
   })
 })
 
@@ -1272,7 +1295,8 @@ describe('NPC trigger 脚本推进持久化(sdlpal play.c pEvtObj->wTriggerScrip
     tickEventSystem(gs, snap(), bus) // 跑 ip0 raw → ip1 end advance → 持久化 + 结束
     expect(gs.mode).toBe('explore')
     expect(gs.npcs[0]?.triggerResume?.ip).toBe(2)             // 续跑指 idx2,不重播 idx0
-    expect(gs.npcs[0]?.triggerResume?.commands).toBe(commands)
+    // P2#5:triggerResume 只存全局 ip(不内嵌 commands)→ 续跑时默认读单一全局数组。
+    expect(gs.npcs[0]?.triggerResume?.commands).toBeUndefined()
   })
 
   it('0x00 plain:trigger 跑完 → triggerResume **不动**(sdlpal 返回起始 entry,原地可重触发)', () => {
@@ -1543,40 +1567,58 @@ describe('I-w1.b 机关 / scene-state opcodes', () => {
     expect(gs.npcs[0]?.y).toBe(58)   // 8 + 50
   })
 
-  it('setAutoScript(0x24):operand[1] 是全局 entry → 经 sceneLabelMap[L_<entry>] 解本地 ip', () => {
+  it('setAutoScript(0x24):operand[1] 是全局 entry → 经全局 labelMap[L_<entry>] 解全局 ip', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1 }]
-    // operand[1]=42 是全局 script entry;切片后映射到本地 ip 7(模拟 sceneLabelMap)
-    gs.sceneLabelMap = { L_42: 7 }
-    const bus = createCommandBus()
-    loadEvent(gs, [
-      // operand[0]=0xFFFF(self),operand[1]=42(全局 entry → L_42)
-      { op: 'raw', opcode: 0x24, operands: [0xFFFF, 42, 0] },
-      { op: 'end' },
-    ])
-    gs.eventCursor!.currentEventObjectId = 3
-    tickEventSystem(gs, snap(), bus)
-    expect(gs.npcs[0]?.autoLabel).toBe('L_42')
-    expect(gs.npcs[0]?.autoCursor?.ip).toBe(7)   // 本地 ip,非全局 42
-    expect(gs.npcs[0]?.autoCursor?.labelMap).toBe(gs.sceneLabelMap) // 来源 = 当前 scene
+    // P2#5:operand[1]=42 是全局 script entry → resolveScriptLabel(L_42)经全局 labelMap 解全局 ip。
+    // 全局数组里 L_42 落在 idx7(单一全局数组 = sdlpal lprgScriptEntry,entry 号 = 下标)。
+    const globalCmds: Command[] = [
+      { op: 'end' }, { op: 'end' }, { op: 'end' }, { op: 'end' },
+      { op: 'end' }, { op: 'end' }, { op: 'end' },
+      { op: 'end', label: 'L_42' }, // 7
+    ]
+    setGlobalEvents(globalCmds)
+    try {
+      const bus = createCommandBus()
+      loadEvent(gs, [
+        // operand[0]=0xFFFF(self),operand[1]=42(全局 entry → L_42)
+        { op: 'raw', opcode: 0x24, operands: [0xFFFF, 42, 0] },
+        { op: 'end' },
+      ])
+      gs.eventCursor!.currentEventObjectId = 3
+      tickEventSystem(gs, snap(), bus)
+      expect(gs.npcs[0]?.autoLabel).toBe('L_42')
+      expect(gs.npcs[0]?.autoCursor?.ip).toBe(7)   // 全局 ip
+      // P2#5:autoCursor 只存全局 ip(无 labelMap override)→ 默认读全局数组。
+      expect(gs.npcs[0]?.autoCursor?.labelMap).toBeUndefined()
+    }
+    finally {
+      setGlobalEvents([])
+    }
   })
 
-  it('setAutoScript(0x24):目标在 shared(scene labelMap 没有)→ cursor 指 shared 来源', () => {
+  it('setAutoScript(0x24):跨 scene 设的 entry → 经全局兜底解全局 ip(autoCursor 默认读全局数组)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 3, x: 0, y: 0, spriteNum: 1, sState: 1 }]
-    gs.sceneLabelMap = {}                          // scene 没有 → 回退 shared
-    const sharedCmds: Command[] = [{ op: 'end' }]
-    setSharedEvents(sharedCmds, { L_406: 0 })      // shared labelMap 有 L_406
-    const bus = createCommandBus()
-    loadEvent(gs, [
-      { op: 'raw', opcode: 0x24, operands: [0xFFFF, 406, 0] },
-      { op: 'end' },
-    ])
-    gs.eventCursor!.currentEventObjectId = 3
-    tickEventSystem(gs, snap(), bus)
-    expect(gs.npcs[0]?.autoCursor?.ip).toBe(0)
-    expect(gs.npcs[0]?.autoCursor?.commands).toBe(sharedCmds) // cursor 指向 shared 脚本来源
-    setSharedEvents([], {})  // 复位,避免污染其他用例
+    gs.sceneLabelMap = {}  // 当前 scene 切片没有 L_406(跨 scene 设的脚本)→ 全局兜底
+    // 全局数组:L_406 落在 idx0(单一全局数组,跨 scene trigger 也在同数组)。
+    const globalCmds: Command[] = [{ op: 'end', label: 'L_406' }]
+    setGlobalEvents(globalCmds)
+    try {
+      const bus = createCommandBus()
+      loadEvent(gs, [
+        { op: 'raw', opcode: 0x24, operands: [0xFFFF, 406, 0] },
+        { op: 'end' },
+      ])
+      gs.eventCursor!.currentEventObjectId = 3
+      tickEventSystem(gs, snap(), bus)
+      expect(gs.npcs[0]?.autoCursor?.ip).toBe(0) // 全局 ip(L_406)
+      // P2#5:autoCursor 不内嵌 commands(默认读全局数组),不再"指向 shared 切片来源"。
+      expect(gs.npcs[0]?.autoCursor?.commands).toBeUndefined()
+    }
+    finally {
+      setGlobalEvents([])
+    }
   })
 
   it('setAutoScript:operand[0]==0 → no-op(sdlpal `if (operand[0] != 0)` 真值)', () => {
@@ -1755,18 +1797,23 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
   it('0x0001 advance:autoscript 推进至下一行(不 park、不停)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 1, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }]
-    gs.sceneCommands = [
+    // P2#5:autoCursor 默认读单一全局数组 → 脚本经 setGlobalEvents 注册(非 gs.sceneCommands)。
+    setGlobalEvents([
       { op: 'end', advance: true },                       // 0 → ip++
       { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [2, 0, 0] }, // 1
       { op: 'end' },                                      // 2: 0x0000 park
-    ]
-    gs.sceneLabelMap = {}
-    tickAutoScripts(gs)
-    expect(gs.npcs[0]!.autoCursor!.ip).toBe(1) // 0x0001 推进到 1
-    tickAutoScripts(gs)
-    expect(gs.npcs[0]!.autoCursor!.ip).toBe(2) // raw 跑完推进到 2
-    tickAutoScripts(gs)
-    expect(gs.npcs[0]!.autoCursor!.ip).toBe(2) // 0x0000 park(原地不动)
+    ])
+    try {
+      tickAutoScripts(gs)
+      expect(gs.npcs[0]!.autoCursor!.ip).toBe(1) // 0x0001 推进到 1
+      tickAutoScripts(gs)
+      expect(gs.npcs[0]!.autoCursor!.ip).toBe(2) // raw 跑完推进到 2
+      tickAutoScripts(gs)
+      expect(gs.npcs[0]!.autoCursor!.ip).toBe(2) // 0x0000 park(原地不动)
+    }
+    finally {
+      setGlobalEvents([])
+    }
   })
 
   it('丁大伯:autoLabel 入口在全局数组(sceneLabelMap 解不到)→ tickAutoScripts 走全局兜底解析 autoCursor + 跑', () => {
@@ -1787,9 +1834,10 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
     setGlobalEvents(globalCmds)
     try {
       tickAutoScripts(gs)
-      // 全局兜底解析 autoCursor 指向全局数组,ip 从 5(L_5)起;首帧 0x01 advance → 6
+      // 全局兜底解析 autoCursor 默认读全局数组,ip 从 5(L_5)起;首帧 0x01 advance → 6
       expect(gs.npcs[0]?.autoCursor).toBeDefined()
-      expect(gs.npcs[0]?.autoCursor?.commands).toBe(globalCmds)
+      // P2#5:autoCursor 只存全局 ip(无 commands override)→ 默认读 _globalCommands。
+      expect(gs.npcs[0]?.autoCursor?.commands).toBeUndefined()
       expect(gs.npcs[0]!.autoCursor!.ip).toBe(6)
     }
     finally {
@@ -1797,13 +1845,18 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
     }
   })
 
-  it('0x0002 reset:resetTo 跨文件(labelMap 无)→ 停 autoCursor(不死循环)', () => {
+  it('0x0002 reset:resetTo 全局 labelMap 无 → 停 autoCursor(不死循环)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [{ id: 1, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }]
-    gs.sceneCommands = [{ op: 'end', reset: true, resetTo: 9999, idleFrames: 0 }]
-    gs.sceneLabelMap = {} // L_9999 不在本 scene
-    tickAutoScripts(gs)
-    expect(gs.npcs[0]?.autoCursor).toBeUndefined()
+    // P2#5:reset resetTo 经全局 labelMap 解析;L_9999 不在全局数组 → 停 autoCursor。
+    setGlobalEvents([{ op: 'end', reset: true, resetTo: 9999, idleFrames: 0 }])
+    try {
+      tickAutoScripts(gs)
+      expect(gs.npcs[0]?.autoCursor).toBeUndefined()
+    }
+    finally {
+      setGlobalEvents([])
+    }
   })
 
   it('0x04 call-script:autoScript 调子脚本(开门)+ op1 覆盖作用对象 + end 弹帧续跑', () => {
@@ -1814,7 +1867,8 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
       { id: 5, x: 0, y: 0, spriteNum: 207, sState: 2, autoCursor: { ip: 0 } },
       { id: 9, x: 100, y: 100, spriteNum: 54, sState: 0 },  // 门,初始隐藏
     ]
-    gs.sceneCommands = [
+    // P2#5:autoCursor 默认读单一全局数组;子脚本 L_50 在同数组 idx3(call 经全局 labelMap 解析)。
+    setGlobalEvents([
       // 主脚本 @0
       { op: 'raw', opcode: OP_CALL_SCRIPT, operands: [50, 10, 0] }, // 0: call L_50,op1=10→对象 id9
       { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [1, 0, 0] }, // 1: 续跑(作用 self=苗人 5)
@@ -1822,18 +1876,22 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
       // 子脚本 L_50 @3:把当前作用对象(门 id9)设 sState=1
       { op: 'raw', opcode: OP_SET_SCENE_OBJECT_STATE, operands: [0xFFFF, 1, 0], label: 'L_50' }, // 3
       { op: 'end' },                                                // 4: 子脚本 end → 弹帧回 ip1
-    ]
-    gs.sceneLabelMap = { L_50: 3 }
-    tickAutoScripts(gs) // 跑 0x04 → 跳子脚本 ip3
-    expect(gs.npcs[0]!.autoCursor!.ip).toBe(3)
-    expect(gs.npcs[0]!.autoCursor!.currentEventObjectId).toBe(9) // op1=10 → 作用对象 id9
-    tickAutoScripts(gs) // 跑子脚本 0x49[65535]→门 sState=1
-    expect(gs.npcs[1]?.sState).toBe(1)  // 门被开(子脚本作用门对象)
-    tickAutoScripts(gs) // 子脚本 end → 弹帧回主脚本 ip1
-    expect(gs.npcs[0]!.autoCursor!.ip).toBe(1)
-    expect(gs.npcs[0]!.autoCursor!.currentEventObjectId).toBeUndefined() // 还原
-    tickAutoScripts(gs) // 主脚本 ip1 setObjectGesture 作用 self(苗人 5)
-    expect(gs.npcs[0]?.scriptedFrame).toBe(1)
+    ])
+    try {
+      tickAutoScripts(gs) // 跑 0x04 → 跳子脚本 ip3
+      expect(gs.npcs[0]!.autoCursor!.ip).toBe(3)
+      expect(gs.npcs[0]!.autoCursor!.currentEventObjectId).toBe(9) // op1=10 → 作用对象 id9
+      tickAutoScripts(gs) // 跑子脚本 0x49[65535]→门 sState=1
+      expect(gs.npcs[1]?.sState).toBe(1)  // 门被开(子脚本作用门对象)
+      tickAutoScripts(gs) // 子脚本 end → 弹帧回主脚本 ip1
+      expect(gs.npcs[0]!.autoCursor!.ip).toBe(1)
+      expect(gs.npcs[0]!.autoCursor!.currentEventObjectId).toBeUndefined() // 还原
+      tickAutoScripts(gs) // 主脚本 ip1 setObjectGesture 作用 self(苗人 5)
+      expect(gs.npcs[0]?.scriptedFrame).toBe(1)
+    }
+    finally {
+      setGlobalEvents([])
+    }
   })
 
   it('架构统一:条件跳转(0x95 jumpIfScene)在 autoScript 内生效(经 autoCursor,非 gs.eventCursor)', () => {
@@ -1843,43 +1901,53 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
     gs.wNumScene = 3
     const px0 = gs.party.x
     gs.npcs = [{ id: 1, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }]
-    gs.sceneCommands = [
+    // P2#5:0x95 jump 经全局 labelMap 解析;L_4 在单一全局数组 idx4。
+    setGlobalEvents([
       { op: 'raw', opcode: 0x95, operands: [3, 4, 0] },                  // 0: scene==3 → jump L_4
       { op: 'raw', opcode: 0x46, operands: [9, 9, 0] },                  // 1: 哨兵 setPartyPos(绝不能跑)
       { op: 'end' },                                                     // 2
       { op: 'end' },                                                     // 3
       { op: 'raw', opcode: OP_SET_OBJECT_GESTURE, operands: [2, 0, 0], label: 'L_4' }, // 4
       { op: 'end' },                                                     // 5
-    ]
-    gs.sceneLabelMap = { L_4: 4 }
-    tickAutoScripts(gs) // 0x95 scene==3 → 跳 L_4
-    expect(gs.npcs[0]!.autoCursor!.ip).toBe(4)
-    tickAutoScripts(gs) // ip4 setObjectGesture → frame 2
-    expect(gs.npcs[0]?.scriptedFrame).toBe(2)
-    expect(gs.party.x).toBe(px0) // 哨兵 setPartyPos(ip1)从未跑
+    ])
+    try {
+      tickAutoScripts(gs) // 0x95 scene==3 → 跳 L_4
+      expect(gs.npcs[0]!.autoCursor!.ip).toBe(4)
+      tickAutoScripts(gs) // ip4 setObjectGesture → frame 2
+      expect(gs.npcs[0]?.scriptedFrame).toBe(2)
+      expect(gs.party.x).toBe(px0) // 哨兵 setPartyPos(ip1)从未跑
+    }
+    finally {
+      setGlobalEvents([])
+    }
   })
 })
 
-describe('全局脚本兜底 resolveScriptLabel(events/all.json,跨 scene 脚本引用)', () => {
-  it('scene/shared 都没有 → 回退 global(李大娘 L_560 等 116 处跨 scene trigger 的根治)', () => {
+describe('全局脚本解析 resolveScriptLabel(P2#5 单一全局数组,跨 scene 脚本引用)', () => {
+  it('label → 全局 ip(李大娘 L_560 等 116 处跨 scene trigger 的根治)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.sceneLabelMap = { L_1: 0 }       // 当前 scene 只有 L_1
-    gs.sceneCommands = [{ op: 'end' }]
-    setSharedEvents([], {})             // shared 空
-    // 全局脚本数组:命令带 label L_560(全局 entry index 1)
+    // P2#5:无 scene/shared 层 — resolveScriptLabel 只查单一全局 labelMap(L_<n> → 全局下标)。
+    // 全局脚本数组:命令带 label L_560(全局 entry index 1)、L_1(index 0)。
     setGlobalEvents([
-      { op: 'end' },
+      { op: 'end', label: 'L_1' },
       { op: 'showDialog', messageIndex: 0, text: '去去去', label: 'L_560' },
       { op: 'end' },
     ])
-    const r = resolveScriptLabel(gs, 'L_560')
-    expect(r?.ip).toBe(1)                          // 命中 global 的 index 1
-    expect(r?.commands?.[1]?.op).toBe('showDialog') // commands 指向 global 数组
-    // scene 优先:scene 有的 label 不会落 global
-    const rScene = resolveScriptLabel(gs, 'L_1')
-    expect(rScene?.ip).toBe(0)
-    expect(rScene?.commands).toBe(gs.sceneCommands)
-    setGlobalEvents([])  // 复位
+    try {
+      const r = resolveScriptLabel(gs, 'L_560')
+      expect(r?.ip).toBe(1)                  // 命中 global 的 index 1
+      // P2#5:返回只含 ip(不内嵌 commands)→ caller 建的 cursor 默认读全局数组。
+      expect(r?.commands).toBeUndefined()
+      // 任何 scene 的 label 都在同一全局数组(不再有 scene 优先 / scene 切片来源)。
+      const rOther = resolveScriptLabel(gs, 'L_1')
+      expect(rOther?.ip).toBe(0)
+      expect(rOther?.commands).toBeUndefined()
+      // 全局无此 label → null。
+      expect(resolveScriptLabel(gs, 'L_NOPE')).toBeNull()
+    }
+    finally {
+      setGlobalEvents([])  // 复位
+    }
   })
 })
 
@@ -2278,53 +2346,69 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
 
   it('物品延迟消耗:脚本成功 → 扣 1;脚本 0x41 失败 → 不扣(play.c:298)', () => {
     const bus = createCommandBus()
-    // 成功脚本:L_1 = 单条 end(无失败 opcode)
+    // P2#5:item.scriptOnUse 是全局 entry → resolveScriptLabel 经全局 labelMap 解全局 ip。
+    // 成功脚本:L_1 = 单条 end(无失败 opcode),落在单一全局数组 idx1。
     const gsOk = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gsOk.inventory = [{ itemId: 5, count: 3 }]
-    gsOk.sceneCommands = [{ op: 'end' }, { op: 'end' }]
-    gsOk.sceneLabelMap = { L_1: 1 }
-    expect(startOverworldItemScript(gsOk, 5, 1, 0, true)).toBe(true)
-    expect(gsOk.pendingItemConsume).toBe(5) // 延迟:还没扣
-    expect(gsOk.inventory[0]?.count).toBe(3)
-    tickEventSystem(gsOk, snap(), bus)
-    expect(gsOk.inventory[0]?.count).toBe(2) // 脚本成功 → 扣 1
-    expect(gsOk.pendingItemConsume).toBeUndefined()
+    setGlobalEvents([{ op: 'end' }, { op: 'end', label: 'L_1' }])
+    try {
+      expect(startOverworldItemScript(gsOk, 5, 1, 0, true)).toBe(true)
+      expect(gsOk.pendingItemConsume).toBe(5) // 延迟:还没扣
+      expect(gsOk.inventory[0]?.count).toBe(3)
+      tickEventSystem(gsOk, snap(), bus)
+      expect(gsOk.inventory[0]?.count).toBe(2) // 脚本成功 → 扣 1
+      expect(gsOk.pendingItemConsume).toBeUndefined()
+    }
+    finally {
+      setGlobalEvents([])
+    }
 
-    // 失败脚本:L_1 跑 0x41 再 end
+    // 失败脚本:L_1 跑 0x41 再 end(L_1 落在全局 idx1)
     const gsFail = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gsFail.inventory = [{ itemId: 5, count: 3 }]
-    gsFail.sceneCommands = [{ op: 'end' }, { op: 'raw', opcode: 0x41, operands: [0, 0, 0] }, { op: 'end' }]
-    gsFail.sceneLabelMap = { L_1: 1 }
-    startOverworldItemScript(gsFail, 5, 1, 0, true)
-    tickEventSystem(gsFail, snap(), bus)
-    expect(gsFail.inventory[0]?.count).toBe(3) // 脚本失败 → 不扣
-    expect(gsFail.pendingItemConsume).toBeUndefined()
+    setGlobalEvents([
+      { op: 'end' },
+      { op: 'raw', opcode: 0x41, operands: [0, 0, 0], label: 'L_1' },
+      { op: 'end' },
+    ])
+    try {
+      startOverworldItemScript(gsFail, 5, 1, 0, true)
+      tickEventSystem(gsFail, snap(), bus)
+      expect(gsFail.inventory[0]?.count).toBe(3) // 脚本失败 → 不扣
+      expect(gsFail.pendingItemConsume).toBeUndefined()
+    }
+    finally {
+      setGlobalEvents([])
+    }
   })
 
   it('applyToAll 物品(0xFFFF)用完 → 关全菜单回 explore(桂花酒);非 applyToAll → 留菜单(INNER 循环)', () => {
     const bus = createCommandBus()
-    // applyToAll(targetRoleIdOrAll=0xFFFF):脚本结束应关菜单回 explore,让世界 trigger 触发
-    const gsAll = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gsAll.menuStack = [{ kind: 'inventory', state: {} }]
-    gsAll.sceneCommands = [{ op: 'end' }, { op: 'end' }]
-    gsAll.sceneLabelMap = { L_1: 1 }
-    startOverworldItemScript(gsAll, 272, 1, 0xFFFF, false) // 桂花酒类:applyToAll consuming=false
-    expect(gsAll.itemUseApplyToAll).toBe(true)
-    tickEventSystem(gsAll, snap(), bus) // L_1 = end → 脚本结束
-    expect(gsAll.mode).toBe('explore')
-    expect(gsAll.menuStack).toEqual([])
-    expect(gsAll.itemUseApplyToAll).toBeUndefined()
+    // P2#5:scriptOnUse=1 → 全局 L_1(idx1 = end)。
+    setGlobalEvents([{ op: 'end' }, { op: 'end', label: 'L_1' }])
+    try {
+      // applyToAll(targetRoleIdOrAll=0xFFFF):脚本结束应关菜单回 explore,让世界 trigger 触发
+      const gsAll = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gsAll.menuStack = [{ kind: 'inventory', state: {} }]
+      startOverworldItemScript(gsAll, 272, 1, 0xFFFF, false) // 桂花酒类:applyToAll consuming=false
+      expect(gsAll.itemUseApplyToAll).toBe(true)
+      tickEventSystem(gsAll, snap(), bus) // L_1 = end → 脚本结束
+      expect(gsAll.mode).toBe('explore')
+      expect(gsAll.menuStack).toEqual([])
+      expect(gsAll.itemUseApplyToAll).toBeUndefined()
 
-    // 非 applyToAll(role 0):脚本结束 menuStack 非空 → 留 'menu'(ItemUseMenu 反复用)
-    const gsOne = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gsOne.menuStack = [{ kind: 'inventory', state: {} }]
-    gsOne.sceneCommands = [{ op: 'end' }, { op: 'end' }]
-    gsOne.sceneLabelMap = { L_1: 1 }
-    startOverworldItemScript(gsOne, 5, 1, 0, true)
-    expect(gsOne.itemUseApplyToAll).toBe(false)
-    tickEventSystem(gsOne, snap(), bus)
-    expect(gsOne.mode).toBe('menu')
-    expect(gsOne.menuStack.length).toBe(1)
+      // 非 applyToAll(role 0):脚本结束 menuStack 非空 → 留 'menu'(ItemUseMenu 反复用)
+      const gsOne = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gsOne.menuStack = [{ kind: 'inventory', state: {} }]
+      startOverworldItemScript(gsOne, 5, 1, 0, true)
+      expect(gsOne.itemUseApplyToAll).toBe(false)
+      tickEventSystem(gsOne, snap(), bus)
+      expect(gsOne.mode).toBe('menu')
+      expect(gsOne.menuStack.length).toBe(1)
+    }
+    finally {
+      setGlobalEvents([])
+    }
   })
 })
 

@@ -10,7 +10,7 @@
 
 import type { Command, Spell } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { setSharedEvents } from '../event-system.js'
+import { getGlobalLabelMap, setGlobalEvents } from '../event-system.js'
 import { createInitialGameState } from '../game-state.js'
 import { castOverworldMagic, runMagicScriptSync } from './magic-script.js'
 
@@ -70,11 +70,28 @@ function mkGs() {
   return gs
 }
 
+// ── P2#5:setGlobalEvents 由 command.label 字段建全局 labelMap(L_<n> → index)──
+// 取代旧 setSharedEvents(cmds, labelMap) 显式 map。这里断言 derive 出的 map 与
+// FIXTURE_LABELS 期望下标一致 —— 即 runMagicScriptSync 经 getGlobalLabelMap 查 L_<scriptId>
+// 解析到的 ip 就是 fixture 命令所在的全局下标。
+
+describe('setGlobalEvents - 由 label 字段 derive 全局 labelMap(P2#5)', () => {
+  afterEach(() => setGlobalEvents([]))
+
+  it('FIXTURE_COMMANDS 注册后 getGlobalLabelMap 与 FIXTURE_LABELS 期望下标一致', () => {
+    setGlobalEvents(FIXTURE_COMMANDS)
+    const map = getGlobalLabelMap()
+    for (const [label, idx] of Object.entries(FIXTURE_LABELS)) {
+      expect(map[label]).toBe(idx)
+    }
+  })
+})
+
 // ── opcode 0x1B OP_INCREASE_HP ────────────────────────────────────────────
 
 describe('runMagicScriptSync - opcode 0x1B OP_INCREASE_HP', () => {
-  beforeEach(() => setSharedEvents(FIXTURE_COMMANDS, FIXTURE_LABELS))
-  afterEach(() => setSharedEvents([], {}))
+  beforeEach(() => setGlobalEvents(FIXTURE_COMMANDS))
+  afterEach(() => setGlobalEvents([]))
 
   it('气疗术 chain (HP+75 single) → target role HP +75 clamp maxHP', () => {
     const gs = mkGs()
@@ -120,8 +137,8 @@ describe('runMagicScriptSync - opcode 0x1B OP_INCREASE_HP', () => {
 // ── opcode 0x1C OP_INCREASE_MP ────────────────────────────────────────────
 
 describe('runMagicScriptSync - opcode 0x1C OP_INCREASE_MP', () => {
-  beforeEach(() => setSharedEvents(FIXTURE_COMMANDS, FIXTURE_LABELS))
-  afterEach(() => setSharedEvents([], {}))
+  beforeEach(() => setGlobalEvents(FIXTURE_COMMANDS))
+  afterEach(() => setGlobalEvents([]))
 
   it('MP +20 single target → clamp maxMP', () => {
     const gs = mkGs()
@@ -140,8 +157,8 @@ describe('runMagicScriptSync - opcode 0x1C OP_INCREASE_MP', () => {
 // ── opcode 0x1D OP_INCREASE_HP_MP ─────────────────────────────────────────
 
 describe('runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP', () => {
-  beforeEach(() => setSharedEvents(FIXTURE_COMMANDS, FIXTURE_LABELS))
-  afterEach(() => setSharedEvents([], {}))
+  beforeEach(() => setGlobalEvents(FIXTURE_COMMANDS))
+  afterEach(() => setGlobalEvents([]))
 
   it('HP+10 + MP+10 同 delta', () => {
     const gs = mkGs()
@@ -154,8 +171,8 @@ describe('runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP', () => {
 // ── opcode 0x22 OP_REVIVE_PLAYER ──────────────────────────────────────────
 
 describe('runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER', () => {
-  beforeEach(() => setSharedEvents(FIXTURE_COMMANDS, FIXTURE_LABELS))
-  afterEach(() => setSharedEvents([], {}))
+  beforeEach(() => setGlobalEvents(FIXTURE_COMMANDS))
+  afterEach(() => setGlobalEvents([]))
 
   it('还魂咒 HP==0 → 复活 maxHP * 1/10 = 20', () => {
     const gs = mkGs()
@@ -213,52 +230,40 @@ describe('runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER', () => {
 // 补 fixture 测 revive applyToAll(用 inline event setShared)
 describe('runMagicScriptSync - revive applyToAll g_fScriptSuccess', () => {
   it('revive applyToAll 全活 → return false', () => {
-    setSharedEvents(
-      [
-        { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_REVIVE_ALL' },
-        { op: 'end' },
-      ] as Command[],
-      { L_REVIVE_ALL: 0 },
-    )
-    const gs = mkGs() // 全活
-    const ok = runMagicScriptSync(gs, 0, 0xFFFF) // scriptId=0 → return true skip — 但我要测 L_REVIVE_ALL
-    void ok
-    // 直接用 label id (重构):用 magic-script.ts 接口 scriptId 应等于 labelMap key 不带 L_ — 数字
-    // L_REVIVE_ALL 我得叫它 number。改 fixture key:
-    setSharedEvents(
+    // P2#5:label 'L_77777' 在全局数组 idx 0 → setGlobalEvents 由 label 字段建 map(L_77777 → 0)。
+    setGlobalEvents(
       [
         { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_77777' },
         { op: 'end' },
       ] as Command[],
-      { L_77777: 0 },
     )
-    const ok2 = runMagicScriptSync(gs, 77777, 0xFFFF)
-    expect(ok2).toBe(false) // 全活
-    setSharedEvents([], {})
+    const gs = mkGs() // 全活
+    const ok = runMagicScriptSync(gs, 77777, 0xFFFF)
+    expect(ok).toBe(false) // 全活
+    setGlobalEvents([])
   })
 
   it('revive applyToAll 至少 1 死 → return true', () => {
-    setSharedEvents(
+    setGlobalEvents(
       [
         { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_77778' },
         { op: 'end' },
       ] as Command[],
-      { L_77778: 0 },
     )
     const gs = mkGs()
     gs.PlayerRolesRuntime.rgwHP[1] = 0 // role 1 dead
     const ok = runMagicScriptSync(gs, 77778, 0xFFFF)
     expect(ok).toBe(true)
     expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(20) // 200 * 1/10
-    setSharedEvents([], {})
+    setGlobalEvents([])
   })
 })
 
 // ── multi-op chain + unknown skip ──────────────────────────────────────────
 
 describe('runMagicScriptSync - 流程控制', () => {
-  beforeEach(() => setSharedEvents(FIXTURE_COMMANDS, FIXTURE_LABELS))
-  afterEach(() => setSharedEvents([], {}))
+  beforeEach(() => setGlobalEvents(FIXTURE_COMMANDS))
+  afterEach(() => setGlobalEvents([]))
 
   it('多 op chain 顺序执行(HP-50 → revive 不触发因 HP>0)', () => {
     const gs = mkGs()
@@ -300,8 +305,8 @@ describe('runMagicScriptSync - 流程控制', () => {
 // ── castOverworldMagic 双层 scriptOnUse + scriptOnSuccess ─────────────────
 
 describe('castOverworldMagic - 双层 script', () => {
-  beforeEach(() => setSharedEvents(FIXTURE_COMMANDS, FIXTURE_LABELS))
-  afterEach(() => setSharedEvents([], {}))
+  beforeEach(() => setGlobalEvents(FIXTURE_COMMANDS))
+  afterEach(() => setGlobalEvents([]))
 
   function mkSpell(scriptOnUse: number, scriptOnSuccess: number): Spell {
     return {

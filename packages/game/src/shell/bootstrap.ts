@@ -10,7 +10,7 @@ import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap, runEnterScript, setFetchPalette,
   setSceneLoader, setMapReloader, setObstacleChecker,
-  setSharedEvents, setGlobalEvents, setStartBattleHandler, setShopMenuHandler,
+  setGlobalEvents, getGlobalLabelMap, setStartBattleHandler, setShopMenuHandler,
 } from '../core/event-system.js'
 import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
 import { openMenu } from '../core/menu/menu-mode.js'
@@ -479,7 +479,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       delete gs.sceneOnEnterOverride![newWNumScene]
       gs.sceneOnEnterIp[newWNumScene] = oeOverride === 0
         ? -1
-        : (sceneAssets.labelMap[`L_${oeOverride}`] ?? -1)
+        : (getGlobalLabelMap()[`L_${oeOverride}`] ?? -1) // P2#5:override 是全局 entry → 全局 ip
     }
     if (!opts.fromSavedGame) {
       // 忠实全局 event object 数组(sdlpal lprgEventObject):gs.npcs = 当前 scene 切片
@@ -506,16 +506,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       // 正常 loadScene:跑 onEnter。入口优先级(sdlpal play.c:64 真值):
       //   sceneOnEnterIp(持久化:上次跑完存回 / 0x6D override 解析后,-1=无 onEnter)> onEnterLabel。
       // 重进已播过的 cutscene scene → 入口已被推进到 0x00 stop → 不重播(开场只播一次)。
-      const persistedIp = gs.sceneOnEnterIp[newWNumScene]
+      const persistedIp = gs.sceneOnEnterIp[newWNumScene] // P2#5:已是全局 ip
       const labelIp = sceneAssets.onEnterLabel
-        ? sceneAssets.labelMap[sceneAssets.onEnterLabel]
+        ? getGlobalLabelMap()[sceneAssets.onEnterLabel] // P2#5:onEnterLabel = L_<global> → 全局 ip
         : undefined
       const ip = persistedIp ?? labelIp
       if (ip !== undefined && ip >= 0) { // ip === -1 = 0x6D 清的"无 onEnter"
         gs.eventCursor = {
-          commands: sceneAssets.eventCommands,
-          labelMap: sceneAssets.labelMap,
-          ip,
+          ip, // P2#5:全局 ip,默认读全局数组(不内嵌 commands/labelMap)
           onEnterSceneId: newWNumScene,
           onEnterStartIp: ip,
         }
@@ -637,38 +635,17 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // 异步拉取新调色板 → 写入 gs.palette → 渲染层下一帧 flushToCanvas 消费。
   setFetchPalette(fetchPalette)
 
-  // P0.e: 加载 events/shared.json 一次 + 注入 event-system → tickEventSystem 解 "shared#L_xxx" 跨 scene goto。
-  // 失败:warn + 继续(scene 内 goto 不撞 shared# 时不影响游戏可运行性)。
-  try {
-    const sharedRes = await fetch(`${BASE}/events/shared.json`)
-    if (!sharedRes.ok) throw new Error(`shared.json fetch failed (${sharedRes.status})`)
-    const sharedJson = (await sharedRes.json()) as EventFile
-    const sharedCommands = sharedJson.segments.flatMap((seg) => seg.commands)
-    const sharedLabelMap = buildLabelMap(sharedCommands)
-    setSharedEvents(sharedCommands, sharedLabelMap)
-    console.log(`[bootstrap] shared events loaded:${sharedCommands.length} commands,${Object.keys(sharedLabelMap).length} labels`)
+  // P2#5(2026-05-29 单一全局脚本数组):events/all.json(= sdlpal 单一 lprgScriptEntry,L_<n>→n 恒等)
+  // 是**唯一**脚本来源 — 所有 cursor 以全局 ip 索引它。必须在任何脚本(onEnter/trigger/skip-intro)跑前
+  // **await 就绪**(不再 fire-and-forget,否则首个 onEnter 撞空数组)。per-scene / shared 切片已废弃。
+  {
+    const allRes = await fetch(`${BASE}/events/all.json`)
+    if (!allRes.ok) throw new Error(`[bootstrap] all.json fetch failed (${allRes.status}) — 脚本系统无法运行`)
+    const allJson = (await allRes.json()) as EventFile
+    const allCommands = allJson.segments.flatMap((seg) => seg.commands)
+    setGlobalEvents(allCommands)
+    console.log(`[bootstrap] global script array loaded:${allCommands.length} commands(单一全局脚本数组)`)
   }
-  catch (err) {
-    console.warn('[bootstrap] shared.json 加载失败,goto shared#L_xxx 跨 scene 跳转将抛错:', err)
-  }
-
-  // 全局脚本数组(events/all.json,对应 sdlpal 单一 lprgScriptEntry)注入 event-system。
-  // 跨 scene 设的 trigger/autoScript/call(0x24/0x25 把对象脚本指针设到只切进别的 scene 的脚本)
-  // 在 per-scene / shared 找不到时回退它解析(2026-05-28 李大娘 L_560 等 116 处跨 scene 引用的根治)。
-  // fire-and-forget:5MB 不阻塞首屏;首屏 scene 走 per-scene 快路径,跨 scene trigger 触发前会就绪。
-  void (async () => {
-    try {
-      const allRes = await fetch(`${BASE}/events/all.json`)
-      if (!allRes.ok) throw new Error(`all.json fetch failed (${allRes.status})`)
-      const allJson = (await allRes.json()) as EventFile
-      const allCommands = allJson.segments.flatMap((seg) => seg.commands)
-      setGlobalEvents(allCommands)
-      console.log(`[bootstrap] global events loaded:${allCommands.length} commands(跨 scene 脚本兜底)`)
-    }
-    catch (err) {
-      console.warn('[bootstrap] all.json 加载失败,跨 scene 脚本引用将回退失败:', err)
-    }
-  })()
 
   // P0.e: 注入 startBattle handler — opcode 7 (raw#7 / op:startBattle) 用。
   // 战斗资源闭包持引用,event-system 不污染 import battle/。
@@ -694,7 +671,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         items,
         spells,
         magics,
-        commands: eventCommands,
+        // P2#5:不再传 per-scene 切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
       })
       console.debug(
         `[bootstrap.startBattleHandler] after.mode=${gs.mode} battleState=${!!gs.battleState}`,
@@ -775,14 +752,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     updateAllEquipments(gs, items)
 
     if (scene.onEnterLabel) {
-      const ip = labelMap[scene.onEnterLabel]
+      const ip = getGlobalLabelMap()[scene.onEnterLabel] // P2#5:onEnterLabel = L_<global> → 全局 ip
       if (ip !== undefined) {
         if (skipIntroBoot) {
           // skip-intro: 同步跑 enter script,只取 setPartyPos/Direction,跳过对话(scene 1 客栈)。
           // 传 sceneId(gs.wNumScene)→ 跑完持久化 onEnter 停点,重进 scene 不重播开场
           // (否则从大厅进客栈时 onEnter 重放传说 + setPartyPos 把人拉回起点,覆盖门的落点)。
           const overrideIp = gs.sceneOnEnterIp[gs.wNumScene]
-          runEnterScript(gs, eventCommands, labelMap, overrideIp ?? ip, gs.wNumScene)
+          runEnterScript(gs, undefined, undefined, overrideIp ?? ip, gs.wNumScene) // P2#5:默认全局数组
         }
         else {
           // 正常启动:跑完整 onEnter script(scene 0 梦境对话)— tickEventSystem 步进。
@@ -790,9 +767,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
           const overrideIp = gs.sceneOnEnterIp[gs.wNumScene]
           const startIp = overrideIp ?? ip
           gs.eventCursor = {
-            commands: eventCommands,
-            labelMap,
-            ip: startIp,
+            ip: startIp, // P2#5:全局 ip,默认读全局数组
             onEnterSceneId: gs.wNumScene,
             onEnterStartIp: startIp,
           }

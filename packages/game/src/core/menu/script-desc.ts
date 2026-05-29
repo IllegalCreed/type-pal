@@ -14,17 +14,18 @@
  * 用于 drawInventoryMenu 描述区(底部 71, 151+i*16,DESCTEXT_COLOR 0x3C)。
  */
 
-import { getSharedCommands, getSharedLabelMap } from '../event-system.js'
+import { getGlobalCommands, getGlobalLabelMap } from '../event-system.js'
 
 /** SAFETY:scriptDesc 实测最长 3-4 行,32 是宽松上限防死循环。 */
 const MAX_DESC_LINES_LOOKAHEAD = 32
 
 export function getScriptDescLines(scriptDesc: number): string[] {
   if (scriptDesc === 0) return []
-  const labelMap = getSharedLabelMap()
+  // P2#5:描述脚本是全局 entry → 全局数组 + 全局 labelMap(identity)。
+  const labelMap = getGlobalLabelMap()
   const ip = labelMap[`L_${scriptDesc}`]
   if (ip === undefined) return []
-  const cmds = getSharedCommands()
+  const cmds = getGlobalCommands()
   const lines: string[] = []
   for (let i = ip; i < cmds.length && i < ip + MAX_DESC_LINES_LOOKAHEAD; i++) {
     const cmd = cmds[i]!

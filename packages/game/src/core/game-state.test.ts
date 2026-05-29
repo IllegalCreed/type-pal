@@ -54,7 +54,7 @@ describe('GameState', () => {
     expect(parsed.eventCursor?.ip).toBe(0)
     expect(parsed.eventCursor?.waiting).toBe('dialog')
     expect(parsed.eventCursor?.commands).toHaveLength(2)
-    expect(parsed.eventCursor?.commands[0]?.op).toBe('showDialog')
+    expect(parsed.eventCursor?.commands?.[0]?.op).toBe('showDialog')
     expect(parsed.dialogBox?.currentLineText).toBe('hi')
     expect(parsed.currentDialogStyle).toBe('top')
   })
@@ -218,12 +218,14 @@ describe('sliceSceneEventObjects(sdlpal lprgEventObject 切片)', () => {
     expect(gs.allEventObjects[1]!.sState).toBe(0)
   })
 
-  it('首访延迟解析 autoCursor(用当前 scene labelMap)', () => {
+  it('首访延迟解析 autoCursor(P2#5:autoLabel = L_<全局下标>,identity 解析)', () => {
+    // P2#5(game-state.ts:1093-1099 globalIpFromLabel):autoLabel = 'L_<n>' → 全局 ip = n(恒等),
+    // 不再走 per-scene sceneLabelMap。sceneLabelMap 即使存在也被忽略。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.allEventObjects = [{ id: 0, x: 0, y: 0, spriteNum: 1, sState: 1, autoLabel: 'L_100' }]
     gs.sceneEventRanges = { 0: [0, 1] }
-    gs.sceneLabelMap = { L_100: 42 }
-    expect(sliceSceneEventObjects(gs, 1)?.[0]?.autoCursor).toEqual({ ip: 42 })
+    gs.sceneLabelMap = { L_100: 42 } // 旧 per-scene 映射:P2#5 下被忽略,不影响解析结果
+    expect(sliceSceneEventObjects(gs, 1)?.[0]?.autoCursor).toEqual({ ip: 100 })
   })
 
   it('已推进的 autoCursor 不重解(保留 autoscript 进度)', () => {

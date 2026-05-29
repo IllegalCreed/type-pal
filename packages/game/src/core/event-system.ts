@@ -472,32 +472,9 @@ export function setObstacleChecker(fn: ObstacleCheckerFn | null): void {
   _obstacleChecker = fn
 }
 
-// ── P0.e: shared.json events.bin 跨 scene 共享脚本注入 ─────────────────────────
-//
-// scene-NNN.json 的 trigger 内常 `goto: "shared#L_xxx"` 跳到 events/shared.json 的某 label
-// 跑 cleanup / 公共序列(如战后隐藏怪 sprite + fade)。
-// bootstrap 启动时 fetch /events/shared.json 一次,注入 commands + labelMap。
-// tickEventSystem 遇到 goto "shared#L_xxx" 时:
-//   - cursor.commands ← _sharedCommands
-//   - cursor.labelMap ← _sharedLabelMap
-//   - cursor.ip       ← labelMap["L_xxx"]
-// 即把 cursor 切到 shared events 上继续执行。shared 内 'end' 退出 event mode 回 explore。
-let _sharedCommands: Command[] = []
-let _sharedLabelMap: Record<string, number> = {}
-
-export function setSharedEvents(commands: Command[], labelMap: Record<string, number>): void {
-  _sharedCommands = commands
-  _sharedLabelMap = labelMap
-}
-
-/** M5.6 W1.a:scene-system loadEventFromNpc fallback 用 — NPC triggerLabel 不在 per-scene 时查 shared。 */
-export function getSharedLabelMap(): Record<string, number> {
-  return _sharedLabelMap
-}
-
-export function getSharedCommands(): Command[] {
-  return _sharedCommands
-}
+// P2#5(2026-05-29):旧 shared.json 切片(_sharedCommands/setSharedEvents/getShared*)已删 —
+// shared 只是全局数组的一个切片,塌缩进单一全局数组后 goto `shared#L_xxx` 由 resolveLabelIp 剥前缀
+// 经全局 labelMap 解析(见 'goto' case)。
 
 // ── 全局脚本数组(对应 sdlpal 单一 lprgScriptEntry)─────────────────────────────
 // per-scene + shared 切片是优化,但跨 scene 设的脚本指针(0x24/0x25 把 A scene 对象的
@@ -526,26 +503,38 @@ export function getGlobalLabelMap(): Record<string, number> {
 }
 
 /**
- * 脚本 label → {commands, labelMap, ip}:scene → shared → global 兜底(全局脚本数组)。
- * trigger / autoScript / call / 条件跳转 跨 scene 引用统一经此解析,对齐 sdlpal 单一脚本数组。
+ * P2#5(2026-05-29 单一全局脚本数组):cursor 的命令数组 / labelMap。
+ * 生产 cursor 不带 commands/labelMap → 默认读单一全局数组(_globalCommands/_globalLabelMap,
+ * = sdlpal 单一 lprgScriptEntry)。单测可传自带数组当 override。
+ */
+export function getCmds(cursor: { commands?: Command[] }): Command[] {
+  return cursor.commands ?? _globalCommands
+}
+function getLabels(cursor: { labelMap?: Record<string, number> }): Record<string, number> {
+  return cursor.labelMap ?? _globalLabelMap
+}
+
+/** goto/call/reset 目标 label(可能带 `shared#` 前缀)→ ip(经 cursor labelMap,默认全局)。 */
+function resolveLabelIp(
+  cursor: { labelMap?: Record<string, number> },
+  to: string,
+): number | undefined {
+  const label = to.startsWith('shared#') ? to.slice('shared#'.length) : to
+  return getLabels(cursor)[label]
+}
+
+/**
+ * 脚本 label → 全局 ip。P2#5 后塌缩成单一全局数组查找(all.json 的 L_<n> → n 恒等,0 违例)。
+ * 返回 ip(全局下标);commands/labelMap 省略 → caller 建的 cursor 默认读全局数组(不再内嵌 → 不膨胀存档)。
+ * 保留 gs 参数 + 可选 commands/labelMap 返回字段,兼容旧 caller 的解构(得 undefined → 默认全局)。
  */
 export function resolveScriptLabel(
   gs: GameState,
   label: string,
-): { commands: Command[]; labelMap: Record<string, number>; ip: number } | null {
-  const sceneIp = gs.sceneLabelMap?.[label]
-  if (sceneIp !== undefined) {
-    return { commands: gs.sceneCommands ?? [], labelMap: gs.sceneLabelMap ?? {}, ip: sceneIp }
-  }
-  const sharedIp = _sharedLabelMap[label]
-  if (sharedIp !== undefined) {
-    return { commands: _sharedCommands, labelMap: _sharedLabelMap, ip: sharedIp }
-  }
-  const globalIp = _globalLabelMap[label]
-  if (globalIp !== undefined) {
-    return { commands: _globalCommands, labelMap: _globalLabelMap, ip: globalIp }
-  }
-  return null
+): { commands?: Command[]; labelMap?: Record<string, number>; ip: number } | null {
+  void gs
+  const ip = _globalLabelMap[label]
+  return ip !== undefined ? { ip } : null
 }
 
 // ── P0.e: opcode 7 startBattle handler 注入 ──────────────────────────────────
@@ -677,7 +666,7 @@ function applySetDialogStyle(
 //   - event mode + cursor.waiting='frame-wait': 跑
 //   - 其他 mode / waiting: 不跑
 export function tickAutoScripts(gs: GameState): void {
-  if (!gs.sceneCommands) return
+  if (_globalCommands.length === 0) return // P2#5:全局脚本数组未就绪(all.json 未载)→ 不跑
   for (const npc of gs.npcs) {
     if ((npc.sState ?? 1) === 0) continue  // sdlpal `sState > 0` 才跑 autoScript
     if (!npc.autoCursor) {
@@ -692,7 +681,7 @@ export function tickAutoScripts(gs: GameState): void {
       if (!npc.autoLabel) continue
       const r = resolveScriptLabel(gs, npc.autoLabel)
       if (!r) continue
-      npc.autoCursor = { ip: r.ip, commands: r.commands, labelMap: r.labelMap }
+      npc.autoCursor = { ip: r.ip } // P2#5:只存全局 ip,默认读 _globalCommands
     }
     runOneAutoOp(gs, npc)
   }
@@ -700,12 +689,8 @@ export function tickAutoScripts(gs: GameState): void {
 
 function runOneAutoOp(gs: GameState, npc: NpcState): void {
   const cursor = npc.autoCursor!
-  // 与 EventCursor 同构:cursor.commands/labelMap 指脚本来源(默认当前 scene;0x24 提升到
-  // shared 时已填 shared)。填到 cursor 上 → applyRawOpcode 的 cursor-ops(条件跳转 / call /
-  // 0x06 / 0xA2)能操作本 autoCursor、跨来源(scene↔shared)跳转,与 trigger 共用同一解释器。
-  cursor.commands = cursor.commands ?? gs.sceneCommands ?? []
-  cursor.labelMap = cursor.labelMap ?? gs.sceneLabelMap ?? {}
-  const cmds = cursor.commands
+  // P2#5:cursor.ip 是全局下标,默认读单一全局数组(getCmds/getLabels);不再按 scene 切片填充。
+  const cmds = getCmds(cursor)
   if (cursor.ip < 0 || cursor.ip >= cmds.length) {
     npc.autoCursor = undefined  // ip 越界 → 停
     return
@@ -739,11 +724,11 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
           idleFrames === 0
           || (cursor.idleFrameCount = (cursor.idleFrameCount ?? 0) + 1) < idleFrames
         ) {
-          // resetTo 是全局 entry 号,经 cursor.labelMap['L_<resetTo>'] 解本地 ip
+          // P2#5:resetTo 是全局 entry 号,直接经 getLabels(默认全局 labelMap)→ 全局 ip。
           const target =
-            cmd.resetTo !== undefined ? cursor.labelMap[`L_${cmd.resetTo}`] : undefined
+            cmd.resetTo !== undefined ? getLabels(cursor)[`L_${cmd.resetTo}`] : undefined
           if (target !== undefined) cursor.ip = target
-          else npc.autoCursor = undefined // resetTo 跨文件/不在本 scene → 停
+          else npc.autoCursor = undefined // resetTo 不在全局数组 → 停(异常)
         }
         else {
           cursor.idleFrameCount = 0
@@ -762,12 +747,12 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
         if (cursor.idleFrameCount < frameDelay) return
         cursor.idleFrameCount = 0
       }
-      const target = cursor.labelMap[cmd.to]
+      const target = resolveLabelIp(cursor, cmd.to) // P2#5:含 shared# 剥前缀 → 全局 ip
       if (target !== undefined) {
         cursor.ip = target
       }
       else {
-        npc.autoCursor = undefined  // shared#L_X 跨文件不支持
+        npc.autoCursor = undefined  // 目标不在全局数组 → 停(异常)
       }
       return
     }
@@ -1024,7 +1009,8 @@ export function tickEventSystem(
       )
     }
 
-    if (cursor.ip < 0 || cursor.ip >= cursor.commands.length) {
+    const cmds = getCmds(cursor) // P2#5:默认单一全局数组(cursor.ip 全局下标)
+    if (cursor.ip < 0 || cursor.ip >= cmds.length) {
       console.warn(`event-system: ip ${cursor.ip} 越界 → 切回 explore / menu`)
       gs.eventCursor = undefined
       gs.dialogBox = undefined
@@ -1035,7 +1021,7 @@ export function tickEventSystem(
       return
     }
 
-    const cmd = cursor.commands[cursor.ip]!
+    const cmd = cmds[cursor.ip]!
 
     // sdlpal script.c:3468-3471 真值:PAL_RunTriggerScript outer switch 的 default case 在跑
     // 任何**非 dialog setup / showDialog / 自带 ClearDialog** 指令前都先 `PAL_ClearDialog(TRUE)`。
@@ -1101,7 +1087,7 @@ export function tickEventSystem(
           let nextEntry: number
           if (cmd.advance) nextEntry = cursor.ip + 1
           else if (cmd.reset && cmd.resetTo !== undefined) {
-            nextEntry = cursor.labelMap[`L_${cmd.resetTo}`] ?? cursor.onEnterStartIp ?? cursor.ip
+            nextEntry = getLabels(cursor)[`L_${cmd.resetTo}`] ?? cursor.onEnterStartIp ?? cursor.ip
           }
           else nextEntry = cursor.onEnterStartIp ?? cursor.ip
           gs.sceneOnEnterIp[cursor.onEnterSceneId] = nextEntry
@@ -1116,14 +1102,13 @@ export function tickEventSystem(
             ?? gs.allEventObjects?.[cursor.triggerOwnerId]
           if (owner) {
             if (cmd.advance) {
-              owner.triggerResume = {
-                commands: cursor.commands, labelMap: cursor.labelMap, ip: cursor.ip + 1,
-              }
+              owner.triggerResume = { ip: cursor.ip + 1 } // P2#5:全局 ip,默认读全局数组
             }
+
             else if (cmd.reset && cmd.resetTo !== undefined) {
-              const t = cursor.labelMap[`L_${cmd.resetTo}`]
+              const t = getLabels(cursor)[`L_${cmd.resetTo}`]
               if (t !== undefined) {
-                owner.triggerResume = { commands: cursor.commands, labelMap: cursor.labelMap, ip: t }
+                owner.triggerResume = { ip: t } // P2#5:全局 ip,默认读全局数组
               }
             }
             // 0x00 plain:sdlpal 返回起始 entry(原地可重触发)→ triggerResume **不动**
@@ -1150,39 +1135,22 @@ export function tickEventSystem(
         return
 
       case 'goto': {
-        // P0.e: 支持 "shared#L_xxx" 跨 scene 共享脚本(events/shared.json)。
-        // shared#L_X → cursor 切到 _sharedCommands + _sharedLabelMap,ip = sharedLabelMap[L_X]。
-        // shared 内 'end' 退出 event mode 回 explore(无需再切回原 scene cursor — 调用 trigger
-        // 已 end + 战斗 / cleanup 跑完即应回 explore)。
-        if (cmd.to.startsWith('shared#')) {
-          const sharedLabel = cmd.to.slice('shared#'.length)
-          const sharedIp = _sharedLabelMap[sharedLabel]
-          if (sharedIp === undefined) {
-            throw new Error(
-              `event-system: shared goto label ${cmd.to} 不在 sharedLabelMap`
-              + `(确认 bootstrap 已 setSharedEvents)`,
-            )
-          }
-          cursor.commands = _sharedCommands
-          cursor.labelMap = _sharedLabelMap
-          cursor.ip = sharedIp
-          break
-        }
-        // 先当前来源;否则 scene→shared→global 兜底(跨 scene 设的脚本内部 goto 目标可能在别的来源)。
-        const target = cursor.labelMap[cmd.to]
+        // P2#5:单一全局数组 — goto 目标(含旧 `shared#L_xxx` 前缀,剥掉即得全局 L_<n>)→ 全局 ip。
+        // resolveLabelIp 经 getLabels(默认全局 labelMap);不再切 cursor 来源。
+        const target = resolveLabelIp(cursor, cmd.to)
         if (target !== undefined) {
           cursor.ip = target
           break
         }
-        const r = resolveScriptLabel(gs, cmd.to)
-        if (r) {
-          cursor.commands = r.commands
-          cursor.labelMap = r.labelMap
-          cursor.ip = r.ip
-          break
-        }
-        console.warn(`event-system: goto label ${cmd.to} 不在 scene/shared/global labelMap(跳过)`)
-        break
+        // 目标 label 不在全局数组(异常数据)→ **终止脚本**,不能 `break`(同 ip 自旋到
+        // SINGLE_TICK_LIMIT 抛错)。同 ip 越界路径:清 cursor + 回 explore/menu。
+        console.warn(`event-system: goto label ${cmd.to} 不在全局 labelMap → 终止脚本`)
+        gs.eventCursor = undefined
+        gs.dialogBox = undefined
+        consumePendingItem(gs)
+        gs.iCurEquipPart = -1
+        restoreModeAfterScript(gs)
+        return
       }
 
       case 'showDialog': {
@@ -1265,7 +1233,7 @@ export function tickEventSystem(
             const owner = gs.npcs.find((n) => n.id === cursor.triggerOwnerId)
               ?? gs.allEventObjects?.[cursor.triggerOwnerId]
             if (owner) {
-              owner.triggerResume = { commands: cursor.commands, labelMap: cursor.labelMap, ip: resumeIp }
+              owner.triggerResume = { ip: resumeIp } // P2#5:全局 ip,默认读全局数组
             }
           }
           if (cursor.onEnterSceneId !== undefined) {
@@ -1756,14 +1724,13 @@ export function startOverworldItemScript(
     console.warn(`[item-use] scriptOnUse=0 for itemId=${itemId},不可用`)
     return false
   }
-  // item scriptOnUse 全局 entry → scene→shared→global 三级解析(item 脚本一般在 shared,
-  // 但 global 兜底防漏切)。
+  // P2#5:item scriptOnUse 是全局 entry → 全局 ip(identity)。
   const r = resolveScriptLabel(gs, `L_${scriptOnUse}`)
   if (!r) {
-    console.warn(`[item-use] L_${scriptOnUse} 不在 scene/shared/global labelMap(itemId=${itemId})`)
+    console.warn(`[item-use] L_${scriptOnUse} 不在全局 labelMap(itemId=${itemId})`)
     return false
   }
-  const { commands, labelMap, ip } = r
+  const { ip } = r
   // sdlpal play.c:298-302 真值:脚本**跑完后** `if (consuming && g_fScriptSuccess) AddItem(-1)`。
   // 我们 tick 模型脚本跨多帧 → 延迟消耗:重置 fScriptSuccess=TRUE(对齐 PAL_RunTriggerScript 入口
   // script.c:3187),记 pendingItemConsume,脚本 cursor 结束时 consumePendingItem 按 fScriptSuccess gate 扣。
@@ -1773,9 +1740,7 @@ export function startOverworldItemScript(
   // → 脚本结束关物品菜单回 explore(让脚本设的世界 trigger 触发,如桂花酒酒剑仙)。非 applyToAll 留菜单。
   gs.itemUseApplyToAll = targetRoleIdOrAll === 0xFFFF
   gs.eventCursor = {
-    commands,
-    labelMap,
-    ip,
+    ip, // P2#5:全局 ip,默认读全局数组(不内嵌 commands/labelMap)
     // sdlpal `script.c:3140 wEventObjectID` 参数 — items 上下文里是 wPlayer(0-based role id)或
     // 0xFFFF(applyToAll)。NPC trigger 用 1-based NPC id;opcode handler 自行按 op 区分语义。
     currentEventObjectId: targetRoleIdOrAll,
@@ -1846,40 +1811,36 @@ function triggerPendingSceneLoad(gs: GameState): void {
  */
 export interface ScriptCursor {
   ip: number
-  commands: Command[]
-  labelMap: Record<string, number>
+  /** P2#5:可选 override;省略时默认单一全局数组(getCmds/getLabels)。 */
+  commands?: Command[]
+  labelMap?: Record<string, number>
   callStack?: {
     returnIp: number
-    returnCommands: Command[]
-    returnLabelMap: Record<string, number>
+    returnCommands?: Command[]
+    returnLabelMap?: Record<string, number>
     savedEventObjectId?: number
   }[]
   currentEventObjectId?: number
 }
 
 /**
- * 条件 / 随机跳转的统一跳转:目标是全局 script entry 号,经 cursor.labelMap 解析成 local ip。
- * 设 cursor.ip = idx - 1(caller 跑完 applyRawOpcode 后 ip++ → idx)。对齐 sdlpal jump opcode
- * `wScriptEntry = target - 1` + PAL_InterpretInstruction 末尾 +1。
- * 目标若被切片提升到另一来源(scene↔shared)→ 切 cursor.commands/labelMap 再跳。
+ * 条件 / 随机跳转的统一跳转:globalIp 是绝对 script entry 号 = 全局数组下标(all.json L_<n>→n 恒等)。
+ * 生产 cursor 无 labelMap → 直接 cursor.ip = globalIp - 1(caller 跑完 applyRawOpcode 后 ip++ → globalIp)。
+ * 对齐 sdlpal `wScriptEntry = target - 1` + PAL_InterpretInstruction 末尾 +1。
+ * 直接用 globalIp(而非 _globalLabelMap[L_<n>] 查表)可覆盖**未打 label 的跳转目标** —— 如 opcode 0x06
+ * jumpByRate 的 91 个目标(disasm 只给 jump-target 打 label,目标若是 end 等则无 label)。
+ * (单测传自带 labelMap 时按本地 ip 解析。)
  */
 function jumpToGlobalIp(gs: GameState, cursor: ScriptCursor | null, globalIp: number): void {
   if (!cursor) return
-  const label = `L_${globalIp}`
-  // 优先当前来源(保持脚本在同一来源连续执行);否则 scene→shared→global 兜底解析。
-  const here = cursor.labelMap[label]
-  if (here !== undefined) {
-    cursor.ip = here - 1
+  void gs
+  // test override labelMap 优先;生产无 override → 全局恒等(globalIp 即数组下标)。
+  const idx = cursor.labelMap ? cursor.labelMap[`L_${globalIp}`] : globalIp
+  if (idx !== undefined) {
+    cursor.ip = idx - 1
     return
   }
-  const r = resolveScriptLabel(gs, label)
-  if (r) {
-    cursor.commands = r.commands
-    cursor.labelMap = r.labelMap
-    cursor.ip = r.ip - 1
-    return
-  }
-  console.debug(`event-system: jump target ${label} 不在 scene/shared/global labelMap(跳转失效)`)
+  console.debug(`event-system: jump target L_${globalIp} 不在 cursor labelMap(跳转失效)`)
 }
 
 /** 背包内某 item 总数(sdlpal PAL_GetItemAmount 等价)。 */
@@ -2135,20 +2096,17 @@ function applyRawOpcode(
           console.debug(`event-system: setAutoScript id=${npc.id} 清空(op1=0)`)
         }
         else {
-          // operand[1] 是**全局** script entry。切片后 commands 重排成本地索引,全局 entry
-          // 经 `L_<entry>` label 映射到当前 scene labelMap 的本地 ip(同 autoLabel 解析路径)。
-          // 不能拿全局 entry 当本地 ip 直接用(旧 bug:autoCursor.ip 落到错误命令)。
+          // P2#5:operand[1] 是全局 script entry → resolveScriptLabel 解全局 ip(L_<n>→n 恒等)。
+          // autoCursor 只存全局 ip,默认读单一全局数组(_globalCommands),不再按 scene 切片重排。
           const label = `L_${entry}`
           npc.autoLabel = label
-          // scene → shared → global 解析(cursor.commands/labelMap 指向对应来源,与 EventCursor
-          // 同构,供统一解释器跨来源跳转 / call)。跨 scene 设的 autoScript 走 global 兜底。
           const r = resolveScriptLabel(gs, label)
           if (r) {
-            npc.autoCursor = { ip: r.ip, commands: r.commands, labelMap: r.labelMap }
+            npc.autoCursor = { ip: r.ip }
           }
           else {
             npc.autoCursor = undefined
-            console.warn(`event-system: setAutoScript id=${npc.id} ${label} 不在 scene/shared/global labelMap`)
+            console.warn(`event-system: setAutoScript id=${npc.id} ${label} 不在全局 labelMap`)
           }
           console.debug(`event-system: setAutoScript id=${npc.id} ${label} → ip=${r?.ip}`)
         }
@@ -2882,35 +2840,22 @@ function applyRawOpcode(
       // 子脚本 'end' 在 caller runner(trigger / autoScript)弹帧返回。cursor = 传入活动游标。
       const subEntry = operands[0] ?? 0
       if (!cursor || subEntry === 0) break
-      const subLabel = `L_${subEntry}`
-      // 优先当前来源,否则 scene→shared→global 兜底(跨 scene call 走 global)。
-      let subCommands = cursor.commands
-      let subLabelMap = cursor.labelMap
-      let subIp: number | undefined = cursor.labelMap[subLabel]
+      // P2#5:子脚本在同一全局数组,getLabels(默认全局 L_<n>→n 恒等)解出全局 ip,不再切来源。
+      const subIp = getLabels(cursor)[`L_${subEntry}`]
       if (subIp === undefined) {
-        const r = resolveScriptLabel(gs, subLabel)
-        if (r) {
-          subCommands = r.commands
-          subLabelMap = r.labelMap
-          subIp = r.ip
-        }
-      }
-      if (subIp === undefined) {
-        console.debug(`event-system: callScript ${subLabel} 不在 scene/shared/global labelMap`)
+        console.debug(`event-system: callScript L_${subEntry} 不在全局 labelMap`)
         break
       }
       cursor.callStack = cursor.callStack ?? []
       cursor.callStack.push({
         returnIp: cursor.ip + 1,
-        returnCommands: cursor.commands,
+        returnCommands: cursor.commands, // 生产恒 undefined(默认全局);单测保留自带数组
         returnLabelMap: cursor.labelMap,
         savedEventObjectId: cursor.currentEventObjectId,
       })
       // sdlpal 传 op1 作 wEventObjectID(1-based);op1=0 → 沿用当前。ts currentEventObjectId 0-based。
       if ((operands[1] ?? 0) !== 0) cursor.currentEventObjectId = (operands[1] ?? 0) - 1
-      cursor.commands = subCommands
-      cursor.labelMap = subLabelMap
-      cursor.ip = subIp - 1 // caller raw-case ip++ → subIp
+      cursor.ip = subIp - 1 // caller raw-case ip++ → subIp(同来源,不改 cursor.commands)
       break
     }
 
@@ -3515,8 +3460,9 @@ function isObstacle(x: number, y: number, checkObjects: boolean, selfId: number)
 // SINGLE_TICK_LIMIT 兜底防死循环。
 export function runEnterScript(
   gs: GameState,
-  commands: Command[],
-  labelMap: Record<string, number>,
+  /** P2#5:可选 override(单测传自带数组);生产省略 → cursor 默认读全局数组,startIp 为全局 onEnter ip。 */
+  commands: Command[] | undefined,
+  labelMap: Record<string, number> | undefined,
   startIp: number,
   /**
    * 本 onEnter 所属 scene(= wNumScene)。传了就在跑完(撞 end)时把"下一条 entry"
@@ -3537,11 +3483,12 @@ export function runEnterScript(
       return
     }
 
-    if (cursor.ip < 0 || cursor.ip >= cursor.commands.length) {
+    const cmds = getCmds(cursor) // P2#5:默认全局数组
+    if (cursor.ip < 0 || cursor.ip >= cmds.length) {
       return
     }
 
-    const cmd = cursor.commands[cursor.ip]!
+    const cmd = cmds[cursor.ip]!
 
     if (cmd.op === 'end') {
       // sdlpal play.c:64:onEnter 跑完存回下一条 entry(0x00→起始 replay;0x01→ip+1;0x02→resetTo)
@@ -3549,7 +3496,7 @@ export function runEnterScript(
         let nextEntry: number
         if (cmd.advance) nextEntry = cursor.ip + 1
         else if (cmd.reset && cmd.resetTo !== undefined) {
-          nextEntry = cursor.labelMap[`L_${cmd.resetTo}`] ?? startIp
+          nextEntry = getLabels(cursor)[`L_${cmd.resetTo}`] ?? startIp
         }
         else nextEntry = startIp
         gs.sceneOnEnterIp[sceneId] = nextEntry
@@ -3558,7 +3505,7 @@ export function runEnterScript(
     }
 
     if (cmd.op === 'goto') {
-      const target = cursor.labelMap[cmd.to]
+      const target = resolveLabelIp(cursor, cmd.to)
       if (target === undefined) {
         console.warn(`runEnterScript: goto label ${cmd.to} 不在 labelMap`)
         return

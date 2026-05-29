@@ -14,7 +14,10 @@ import type { GameState } from '../game-state.js'
 import type { SlotMeta } from './api.js'
 
 const DB_NAME = 'type-pal'
-const DB_VERSION = 1
+// P2#5(2026-05-29):脚本游标 ip 从 per-scene 切片本地下标改成单一全局数组下标。旧档持久化的
+// sceneOnEnterIp / triggerResume.ip / autoCursor.ip 是**本地** ip,新全局解释器会当全局下标 →
+// 静默跳错命令。bump version → onupgradeneeded 清空旧存档(开发期存档可作废,user 已授权)。
+const DB_VERSION = 2
 const STORE = 'save-slots'
 
 interface StoredSlot {
@@ -34,9 +37,11 @@ function openDb(): Promise<IDBDatabase> {
     const req = indexedDB.open(DB_NAME, DB_VERSION)
     req.onupgradeneeded = () => {
       const db = req.result
-      if (!db.objectStoreNames.contains(STORE)) {
-        db.createObjectStore(STORE, { keyPath: 'id' })
+      // P2#5:旧 store 里的存档是 local-ip 格式,与全局 ip 解释器不兼容 → 删旧 store 重建(清空)。
+      if (db.objectStoreNames.contains(STORE)) {
+        db.deleteObjectStore(STORE)
       }
+      db.createObjectStore(STORE, { keyPath: 'id' })
     }
     req.onsuccess = () => resolve(req.result)
     req.onerror = () => reject(req.error)

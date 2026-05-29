@@ -27,7 +27,7 @@
 
 import type { Spell } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
-import { getSharedCommands, getSharedLabelMap } from '../event-system.js'
+import { getGlobalCommands, getGlobalLabelMap } from '../event-system.js'
 
 const MAX_PLAYER_ROLES = 6
 const SCRIPT_TICK_LIMIT = 256
@@ -120,13 +120,14 @@ export function runMagicScriptSync(
   targetRoleIdOrAll: number,
 ): boolean {
   if (scriptId === 0) return true // sdlpal 真值:scriptOnUse=0 视为 success (skip)
-  const labelMap = getSharedLabelMap()
+  // P2#5:法术脚本是全局 entry → 全局数组 + 全局 labelMap(identity)。
+  const labelMap = getGlobalLabelMap()
   const ip0 = labelMap[`L_${scriptId}`]
   if (ip0 === undefined) {
-    console.warn(`runMagicScriptSync: L_${scriptId} 不在 shared.json labelMap`)
+    console.warn(`runMagicScriptSync: L_${scriptId} 不在全局 labelMap`)
     return false
   }
-  const cmds = getSharedCommands()
+  const cmds = getGlobalCommands()
   let ip = ip0
   let step = 0
   // sdlpal `g_fScriptSuccess` 真值 — 默认 TRUE,特定 opcode(0x22 选活人时)设 FALSE。

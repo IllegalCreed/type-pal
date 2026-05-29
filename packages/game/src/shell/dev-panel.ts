@@ -528,7 +528,7 @@ function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
     items: deps.resources.items,
     spells: deps.resources.spells,
     magics: deps.resources.magics,
-    commands: deps.resources.commands,
+    // P2#5:不传切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
   })
 }
 

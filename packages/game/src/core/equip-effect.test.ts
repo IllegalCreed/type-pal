@@ -11,7 +11,7 @@
 
 import type { Command } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { setSharedEvents } from './event-system.js'
+import { setGlobalEvents } from './event-system.js'
 import { createInitialGameState } from './game-state.js'
 import {
   getPlayerAttackStrength,
@@ -173,11 +173,12 @@ describe('equip-effect', () => {
   describe('runEquipScript 0x18 真换装(script.c:768-811)', () => {
     // scriptOnEquip = L_500: 0x18 [14,163,0](part 14-0xB=3 Hand,装备 item 163)
     function setupEquipScript(): void {
+      // P2#5:单一全局脚本数组 — label 由 command 的 label 字段建(L_500 落在 index 0)。
       const cmds: Command[] = [
-        { op: 'raw', opcode: 0x18, operands: [14, 163, 0] },
+        { op: 'raw', opcode: 0x18, operands: [14, 163, 0], label: 'L_500' },
         { op: 'end' },
       ]
-      setSharedEvents(cmds, { L_500: 0 })
+      setGlobalEvents(cmds)
     }
 
     it('空槽装新装备:rgwEquipment 写入 + 背包移除新装备 + wLastUnequippedItem=0', () => {
@@ -233,12 +234,13 @@ describe('equip-effect', () => {
     })
 
     it('runEquipScript:0x18 设 part 后 0x1A redirect 到覆盖层;脚本结束 iCurEquipPart reset=-1', () => {
+      // P2#5:单一全局脚本数组 — L_501 落在 index 0(0x18 那条带 label)。
       const cmds: Command[] = [
-        { op: 'raw', opcode: 0x18, operands: [14, 163, 0] }, // part 14-0xB=3,装 163
+        { op: 'raw', opcode: 0x18, operands: [14, 163, 0], label: 'L_501' }, // part 14-0xB=3,装 163
         { op: 'raw', opcode: 0x1a, operands: [PLAYERROLES_ROW.ATTACK_STRENGTH, 7, 0] }, // 加 Atk 到覆盖层
         { op: 'end' },
       ]
-      setSharedEvents(cmds, { L_501: 0 })
+      setGlobalEvents(cmds)
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
       gs.PlayerRolesRuntime.rgwAttackStrength[2] = 50
       gs.PlayerRolesRuntime.rgwEquipment[3]![2] = 163

@@ -16,7 +16,7 @@
  */
 
 import type { Item } from '@type-pal/shared'
-import { addItemToInventory, consumeItemFromInventory, getSharedCommands, getSharedLabelMap } from './event-system.js'
+import { addItemToInventory, consumeItemFromInventory, getGlobalCommands, getGlobalLabelMap } from './event-system.js'
 import { createInitialEquipmentEffect, type GameState } from './game-state.js'
 
 const MAX_PLAYER_ROLES = 6
@@ -272,11 +272,12 @@ function runEquipScriptSync(
   roleId: number,
 ): void {
   if (scriptOnEquip === 0) return
-  const commands = getSharedCommands()
-  const labelMap = getSharedLabelMap()
+  // P2#5:装备脚本是全局 entry → 全局数组 + 全局 labelMap(identity)。
+  const commands = getGlobalCommands()
+  const labelMap = getGlobalLabelMap()
   const startIp = labelMap[`L_${scriptOnEquip}`]
   if (startIp === undefined) {
-    console.warn(`runEquipScriptSync: L_${scriptOnEquip} 不在 shared.json labelMap`)
+    console.warn(`runEquipScriptSync: L_${scriptOnEquip} 不在全局 labelMap`)
     return
   }
 

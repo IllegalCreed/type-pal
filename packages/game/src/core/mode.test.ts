@@ -10,6 +10,7 @@
 import type { InputSnapshot } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createCommandBus } from './command-bus.js'
+import { setGlobalEvents } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
 import { tickByMode } from './mode.js'
 
@@ -17,12 +18,16 @@ function snap(): InputSnapshot {
   return { held: new Set(), pressed: new Set(), frameNum: 0 }
 }
 
-/** 装一个 autoScript NPC:autoCursor.ip=0,scene 脚本 [0]=end advance(跑一下就 ip++ 到 1)。 */
+/**
+ * 装一个 autoScript NPC:autoCursor.ip=0,**全局**脚本 [0]=end advance(跑一下就 ip++ 到 1)。
+ * P2#5(单一全局脚本数组):autoCursor 不带 commands → 默认读 _globalCommands,故须 setGlobalEvents
+ * 注册全局数组(tickAutoScripts 在全局数组为空时早返回)。
+ */
 function gsWithAutoNpc(): GameState {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
   gs.npcs = [{ id: 0, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }]
-  gs.sceneCommands = [{ op: 'end', advance: true }, { op: 'end' }]
-  gs.sceneLabelMap = {}
+  // P2#5:cursor.ip=0 是全局下标 → 注册全局数组([0]=end advance,跑一帧 ip++ 到 1)。
+  setGlobalEvents([{ op: 'end', advance: true }, { op: 'end' }])
   return gs
 }
 

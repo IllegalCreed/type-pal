@@ -42,7 +42,7 @@ import type {
 } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
 import type { GameState } from '../game-state.js'
-import { runScript, type RunScriptOptions } from '../event-system.js'
+import { getGlobalCommands, runScript, type RunScriptOptions } from '../event-system.js'
 import { createSeedableRng } from '../rng.js'
 import { performAttack } from './actions/attack.js'
 import { performDefend } from './actions/defend.js'
@@ -121,8 +121,12 @@ export interface StartBattleInput {
   spells: Spell[]
   /** magic.json。 */
   magics: Magic[]
-  /** events.bin commands(scriptOnUse 是其全局 ip)。 */
-  commands: Command[]
+  /**
+   * P2#5:战斗脚本(enemy.scriptOnReady / spell.scriptOnUse / item.scriptOnUse)是**全局 entry** —
+   * 省略时默认单一全局数组(getGlobalCommands(),= 探索/菜单同一来源)。单测可传自带数组 override。
+   * (旧版从 bootstrap 传 per-scene 切片 → 全局 ip 索引 16/782 元素切片 → 战斗脚本静默 no-op 的根因。)
+   */
+  commands?: Command[]
   /** RNG seed;undefined → 用 Date.now()(运行时);测试应显式传 seed 保确定性。 */
   rngSeed?: number
   /** 可选注入 runScript(测试 mock 用);默认 = event-system.runScript。 */
@@ -189,7 +193,7 @@ export function startBattle(input: StartBattleInput): void {
     spells: input.spells,
     magics: input.magics,
     playerRoles: input.playerRoles,
-    commands: input.commands,
+    commands: input.commands ?? getGlobalCommands(), // P2#5:默认单一全局数组
   })
 
   // 注入 runScript(测试用)— 通过 BattleState 的 hidden field 走;这里临时挂在 res 上
