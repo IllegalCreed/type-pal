@@ -1295,6 +1295,46 @@ describe('opcode 0x006E playerWalkOneStep(sdlpal script.c:2091-2113)', () => {
   })
 })
 
+describe('autoScript goto 不消耗帧(sdlpal script.c:3549-3557 goto begin)— 张四划船掉船尾修复(2026-05-30)', () => {
+  it('循环 autoscript [move, goto→move] 每 tick 都移动(goto 同帧续跑,不丢帧)', () => {
+    // 张四划船 36147 = 16×移动 op + goto 回头。旧码 goto return 消耗一帧 → 每圈丢 1 帧 → 比船慢 → 掉船尾。
+    // 简化模型:ip0 移动(+4,-2),ip1 goto→ip0。修后每 tick 必移动一次。
+    setGlobalEvents([
+      { op: 'raw', opcode: OP_MOVE_OBJECT, operands: [0, 4, 0xfffe], label: 'L_0' }, // ip0: self.x+=4, y-=2(SHORT)
+      { op: 'goto', to: 'L_0', label: 'L_1' },                                        // ip1: 跳回 ip0
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const npc = { id: 0, x: 100, y: 100, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }
+      gs.npcs = [npc]
+      for (let i = 0; i < 6; i++) tickAutoScripts(gs)
+      // 6 tick = 6 次移动(goto 不丢帧);旧码 goto 消耗帧 → 仅 3 次 → x=112
+      expect(npc.x).toBe(100 + 6 * 4) // 124
+      expect(npc.y).toBe(100 - 6 * 2) // 88
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+
+  it('全-instant goto 自环 → 深度护栏停 autoCursor(不爆栈)', () => {
+    setGlobalEvents([
+      { op: 'goto', to: 'L_0', label: 'L_0' }, // ip0: goto 自身(无移动的死循环)
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const npc: { id: number; x: number; y: number; spriteNum: number; sState: number; autoCursor?: { ip: number } }
+        = { id: 0, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }
+      gs.npcs = [npc]
+      tickAutoScripts(gs) // 不应爆栈/死循环
+      expect(npc.autoCursor).toBeUndefined() // 护栏停掉
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+})
+
 describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4', () => {
   it('operand[0]=0 → silent no-op', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })

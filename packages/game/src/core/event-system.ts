@@ -895,7 +895,7 @@ export function tickAutoScripts(gs: GameState): void {
   }
 }
 
-function runOneAutoOp(gs: GameState, npc: NpcState): void {
+function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
   const cursor = npc.autoCursor!
   // P2#5:cursor.ip 是全局下标,默认读单一全局数组(getCmds/getLabels);不再按 scene 切片填充。
   const cmds = getCmds(cursor)
@@ -956,12 +956,21 @@ function runOneAutoOp(gs: GameState, npc: NpcState): void {
         cursor.idleFrameCount = 0
       }
       const target = resolveLabelIp(cursor, cmd.to) // P2#5:含 shared# 剥前缀 → 全局 ip
-      if (target !== undefined) {
-        cursor.ip = target
-      }
-      else {
+      if (target === undefined) {
         npc.autoCursor = undefined  // 目标不在全局数组 → 停(异常)
+        return
       }
+      cursor.ip = target
+      // sdlpal PAL_RunAutoScript case 0x0003(script.c:3549-3557):frameDelay 满足时 `wScriptEntry=op0; goto begin;`
+      //   —— 跳转**不消耗帧**,同帧续跑目标 op(script.c:3515 注释 "one instruction per frame **except jumping**")。
+      //   旧码此处 return 消耗一帧 → 循环 autoscript(如张四划船 36147:16 移动 op + goto 回头)每圈丢 1 帧 →
+      //   比 ride(每帧 1 步,sdlpal 每步 PAL_GameUpdate 锁步)慢 ~6% → 张四掉到船尾之外(用户 2026-05-30 报)。
+      //   修:同帧递归跑目标 op(深度护栏防全-instant goto 自环爆栈)。
+      if (gotoDepth >= SINGLE_TICK_LIMIT) {
+        npc.autoCursor = undefined // goto 自环超限(异常死循环)→ 停
+        return
+      }
+      runOneAutoOp(gs, npc, gotoDepth + 1)
       return
     }
 
