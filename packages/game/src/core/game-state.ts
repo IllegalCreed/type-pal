@@ -784,6 +784,21 @@ export interface GameState {
   iCurEquipPart: number
 
   /**
+   * sdlpal `g_fScriptSuccess`(script.c:27)。PAL_RunTriggerScript 入口设 TRUE(script.c:3187),
+   * 失败类 opcode(0x1B/0x1C/0x1D HP/MP 无变化、0x22 复活非死者、0x41 markFailed、条件跳转等)设 FALSE。
+   * 调用方据此 gate 副作用:item.consuming 物品仅在脚本成功时扣(play.c:298-302)、魔法 MP 同理。
+   * 我们 port:每个 trigger/item 脚本 cursor 起始重置 TRUE;脚本结束时按它决定是否扣 pendingItemConsume。
+   */
+  fScriptSuccess: boolean
+
+  /**
+   * 当前正在跑的 item.scriptOnUse 待消耗物品 id(consuming 物品)。sdlpal item 消耗是脚本**跑完后**
+   * `if (consuming && g_fScriptSuccess) AddItem(-1)`(play.c:298)。我们 tick 模型脚本跨多帧,故延迟:
+   * startOverworldItemScript 设此(不立即扣),脚本 cursor 结束时按 fScriptSuccess gate 扣。undefined = 无待消耗。
+   */
+  pendingItemConsume?: number
+
+  /**
    * Sync.2 fix9:屏幕淡入状态(sdlpal video.c::VIDEO_FadeScreen,opcode 0x73 触发)。
    *
    * sdlpal 真值(video.c:1130-1280):
@@ -1005,6 +1020,8 @@ export function createInitialGameState(
     rgEquipmentEffect: createInitialEquipmentEffect(),
     wLastUnequippedItem: 0,
     iCurEquipPart: -1,
+    fScriptSuccess: true,
+    pendingItemConsume: undefined,
   }
 }
 

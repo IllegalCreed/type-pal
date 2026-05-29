@@ -273,6 +273,9 @@ export const OP_SET_TRIGGER_SCRIPT = 0x0025        // 37
 // case 0x0040(64): Set trigger method for event object(script.c:1613-1621)
 //   if operand[0] != 0 → pCurrent.wTriggerMode = operand[1]
 export const OP_SET_TRIGGER_METHOD = 0x0040        // 64
+// case 0x0041(65): Mark the script as failed(script.c:1623-1627)— g_fScriptSuccess = FALSE。
+//   调用方据此 gate:item.consuming 不扣 / 魔法 MP 不扣(脚本判定"用了没效果")。
+export const OP_MARK_SCRIPT_FAILED = 0x0041        // 65
 
 // case 0x0055(85): Add magic to player(script.c:1816-1830 → global.c:2084 PAL_AddMagic)
 //   role = operand[1]==0 ? eventObjId : operand[1]-1;spell wObjectID = operand[0]
@@ -991,6 +994,7 @@ export function tickEventSystem(
       console.warn(`event-system: ip ${cursor.ip} 越界 → 切回 explore / menu`)
       gs.eventCursor = undefined
       gs.dialogBox = undefined
+      consumePendingItem(gs)  // item.scriptOnUse 跑完 → 按 g_fScriptSuccess gate 扣物品
       // sdlpal play.c:264-303 PAL_GameUseItem 真值:item script 跑完回到 ItemUseMenu。
       // 等价 ts:menuStack 非空 → mode='menu' 恢复菜单循环(否则回 explore)。
       gs.mode = gs.menuStack.length > 0 ? 'menu' : 'explore'
@@ -1108,6 +1112,7 @@ export function tickEventSystem(
         //   item.scriptOnUse 跑完后 sdlpal **回到** ItemUseMenu(while (TRUE) 顶)— 不退菜单。
         //   ts 等价:若 menuStack 非空 → mode='menu' 恢复菜单循环,而非 mode='explore'。
         //   user 反馈"如果这个物品没用完可以继续使用" — 之前我一律 menuStack=[] 错杀菜单。
+        consumePendingItem(gs)  // item.scriptOnUse 'end' 收尾 → 按 g_fScriptSuccess gate 扣物品
         gs.mode = gs.menuStack.length > 0 ? 'menu' : 'explore'
         return
 
@@ -1692,11 +1697,11 @@ export function startOverworldItemScript(
     return false
   }
   const { commands, labelMap, ip } = r
-  // sdlpal play.c:298-302 真值:g_fScriptSuccess 决定是否扣;ts 简版立即扣(脚本失败时不可逆,
-  // M6 真做加 success 回调跟踪)。
-  if (consuming) {
-    addItemToInventory(gs, itemId, -1)
-  }
+  // sdlpal play.c:298-302 真值:脚本**跑完后** `if (consuming && g_fScriptSuccess) AddItem(-1)`。
+  // 我们 tick 模型脚本跨多帧 → 延迟消耗:重置 fScriptSuccess=TRUE(对齐 PAL_RunTriggerScript 入口
+  // script.c:3187),记 pendingItemConsume,脚本 cursor 结束时 consumePendingItem 按 fScriptSuccess gate 扣。
+  gs.fScriptSuccess = true
+  gs.pendingItemConsume = consuming ? itemId : undefined
   gs.eventCursor = {
     commands,
     labelMap,
@@ -1707,6 +1712,23 @@ export function startOverworldItemScript(
   }
   gs.mode = 'event'
   return true
+}
+
+/**
+ * sdlpal play.c:298-302 / 316-319:item.scriptOnUse 脚本结束后,consuming 物品仅在 g_fScriptSuccess
+ * 时扣 1。我们延迟到脚本 cursor 结束调此(item script 结束的两条路径:ip 越界 / 'end' opcode)。
+ * 非 item 脚本(pendingItemConsume undefined)→ no-op。
+ */
+function consumePendingItem(gs: GameState): void {
+  if (gs.pendingItemConsume === undefined) return
+  if (gs.fScriptSuccess) {
+    addItemToInventory(gs, gs.pendingItemConsume, -1)
+    console.debug(`event-system: item ${gs.pendingItemConsume} 消耗(脚本成功)`)
+  }
+  else {
+    console.debug(`event-system: item ${gs.pendingItemConsume} 不消耗(g_fScriptSuccess=false)`)
+  }
+  gs.pendingItemConsume = undefined
 }
 
 /**
@@ -2424,20 +2446,25 @@ function applyRawOpcode(
     }
 
     case OP_INCREASE_HP: {
-      // sdlpal script.c:867-894:HP delta(applyToAll on operand[0])
-      applyHPMPDelta(gs, currentEventObjectId, operands, /*hp*/ true, /*mp*/ false)
+      // sdlpal script.c:867-894:HP delta。g_fScriptSuccess:applyAll→覆写 anyChanged(873/881);
+      //   单体→仅 !changed 时 FALSE(889-892)。
+      const { applyAll, anyChanged } = applyHPMPDelta(gs, currentEventObjectId, operands, /*hp*/ true, /*mp*/ false)
+      if (applyAll) gs.fScriptSuccess = anyChanged
+      else if (!anyChanged) gs.fScriptSuccess = false
       break
     }
 
     case OP_INCREASE_MP: {
-      // sdlpal script.c:896-921:MP delta
-      applyHPMPDelta(gs, currentEventObjectId, operands, /*hp*/ false, /*mp*/ true)
+      // sdlpal script.c:896-921:MP delta。g_fScriptSuccess:仅单体 !changed → FALSE(918);applyAll 不动。
+      const { applyAll, anyChanged } = applyHPMPDelta(gs, currentEventObjectId, operands, /*hp*/ false, /*mp*/ true)
+      if (!applyAll && !anyChanged) gs.fScriptSuccess = false
       break
     }
 
     case OP_INCREASE_HP_MP: {
-      // sdlpal script.c:923-950:HP & MP 双 delta
-      applyHPMPDelta(gs, currentEventObjectId, operands, /*hp*/ true, /*mp*/ true)
+      // sdlpal script.c:923-950:HP & MP 双 delta。g_fScriptSuccess:仅单体 !changed → FALSE(947);applyAll 不动。
+      const { applyAll, anyChanged } = applyHPMPDelta(gs, currentEventObjectId, operands, /*hp*/ true, /*mp*/ true)
+      if (!applyAll && !anyChanged) gs.fScriptSuccess = false
       break
     }
 
@@ -2448,7 +2475,9 @@ function applyRawOpcode(
     }
 
     case OP_REVIVE_PLAYER: {
-      // sdlpal script.c:1052-1102:HP==0 时 HP = maxHP*op[1]/10 + cure poison level 3 + clear all status
+      // sdlpal script.c:1052-1102:HP==0 时 HP = maxHP*op[1]/10 + cure poison level 3 + clear all status。
+      // g_fScriptSuccess:applyAll→ FALSE 后任一复活则 TRUE(1061/1077);单体→ 非死者(HP!=0)则 FALSE(1099)。
+      // (用复活药在活人身上 → 不消耗物品。)
       const applyAll = (operands[0] ?? 0) !== 0
       const ratioTenths = operands[1] ?? 0
       const targets = applyAll ? gs.partyMembers : (
@@ -2456,16 +2485,20 @@ function applyRawOpcode(
           ? [currentEventObjectId]
           : []
       )
+      let revivedAny = false
       for (const roleId of targets) {
         const curHP = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
         const maxHP = gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0
         if (curHP === 0) {
           gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor(maxHP * ratioTenths / 10)
           curePlayerPoisonByLevel(gs, roleId, 3)
+          revivedAny = true
           // status flags 留 follow-up:无大世界 status 模型,只在 battle 内有 rgwStatus
         }
       }
-      console.debug(`event-system: revivePlayer applyAll=${applyAll} ratio=${ratioTenths}/10`)
+      if (applyAll) gs.fScriptSuccess = revivedAny
+      else if (!revivedAny) gs.fScriptSuccess = false
+      console.debug(`event-system: revivePlayer applyAll=${applyAll} ratio=${ratioTenths}/10 revived=${revivedAny}`)
       break
     }
 
@@ -2594,6 +2627,13 @@ function applyRawOpcode(
         const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setTriggerMethod')
         if (npc) npc.triggerMode = operands[1] ?? 0
       }
+      break
+    }
+
+    case OP_MARK_SCRIPT_FAILED: {
+      // sdlpal script.c:1623-1627:g_fScriptSuccess = FALSE。脚本结束时 item.consuming 不扣 / 魔法 MP 不扣。
+      gs.fScriptSuccess = false
+      console.debug('event-system: markScriptFailed → fScriptSuccess=false')
       break
     }
 
@@ -2895,7 +2935,7 @@ function applyHPMPDelta(
   operands: [number, number, number],
   hp: boolean,
   mp: boolean,
-): void {
+): { applyAll: boolean, anyChanged: boolean } {
   const applyAll = (operands[0] ?? 0) !== 0
   const delta = signExtendI16(operands[1] ?? 0)
   const targets = applyAll ? gs.partyMembers : (
@@ -2903,21 +2943,29 @@ function applyHPMPDelta(
       ? [currentEventObjectId]
       : (currentEventObjectId === 0xFFFF ? gs.partyMembers : [])
   )
+  // sdlpal PAL_IncreaseHPMP 返回是否真改了 HP/MP(死人 / 已到 max·min → 不变 → FALSE)。
+  // anyChanged = 任一 target 的 HP 或 MP 实际发生变化(供 g_fScriptSuccess gate 用)。
+  let anyChanged = false
   for (const roleId of targets) {
     if (hp) {
       const cur = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
       const max = gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0
-      gs.PlayerRolesRuntime.rgwHP[roleId] = Math.max(0, Math.min(max, cur + delta))
+      const next = Math.max(0, Math.min(max, cur + delta))
+      if (next !== cur) anyChanged = true
+      gs.PlayerRolesRuntime.rgwHP[roleId] = next
     }
     if (mp) {
       const cur = gs.PlayerRolesRuntime.rgwMP[roleId] ?? 0
       const max = gs.PlayerRolesRuntime.rgwMaxMP[roleId] ?? 0
-      gs.PlayerRolesRuntime.rgwMP[roleId] = Math.max(0, Math.min(max, cur + delta))
+      const next = Math.max(0, Math.min(max, cur + delta))
+      if (next !== cur) anyChanged = true
+      gs.PlayerRolesRuntime.rgwMP[roleId] = next
     }
   }
   console.debug(
-    `event-system: HP${hp ? '+' : ''}MP${mp ? '+' : ''}Delta applyAll=${applyAll} delta=${delta} → ${targets.length} role(s)`,
+    `event-system: HP${hp ? '+' : ''}MP${mp ? '+' : ''}Delta applyAll=${applyAll} delta=${delta} → ${targets.length} role(s) changed=${anyChanged}`,
   )
+  return { applyAll, anyChanged }
 }
 
 /** sdlpal MAX_LEVELS(common.h)— 等级上限 99。 */

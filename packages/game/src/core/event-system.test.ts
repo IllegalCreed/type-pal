@@ -14,6 +14,7 @@ import {
   OP_PARTY_WALK_TO_4, OP_PARTY_WALK_TO_8, OP_NPC_WALK_TO_4,
   OP_RIDE_OBJECT_2, OP_RIDE_OBJECT_4, OP_RIDE_OBJECT_8, OP_MONSTER_CHASE,
   setObstacleChecker, setGlobalEvents, resolveScriptLabel,
+  startOverworldItemScript,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -2187,6 +2188,76 @@ describe('0x19/0x1A player-stat 行索引(sdlpal global.h tagPLAYERROLES 真值)
     expect(r.rgwLevel[0]).toBe(5)
     expect(r.rgwMagicStrength[0]).toBe(12)
     expect(r.rgwCoveredBy[0]).toBe(1) // 旧错表 CoveredBy=28(写不进)→ 仍 0
+  })
+})
+
+// ── P1#3(2026-05-29):g_fScriptSuccess + 物品延迟消耗 gate(sdlpal play.c:298 / script.c:3187)──
+describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
+  it('默认 fScriptSuccess=true;0x41 markScriptFailed → false', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    expect(gs.fScriptSuccess).toBe(true)
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x41, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.fScriptSuccess).toBe(false)
+  })
+
+  it('0x1B HP delta 单体:满血(无变化)→ false;有变化 → 保持 true(script.c:889-892)', () => {
+    // 满血:HP=max → +50 不变 → false
+    const gs1 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs1.PlayerRolesRuntime.rgwHP[0] = 100
+    gs1.PlayerRolesRuntime.rgwMaxHP[0] = 100
+    const bus = createCommandBus()
+    loadEvent(gs1, [{ op: 'raw', opcode: 0x1b, operands: [0, 50, 0] }, { op: 'end' }])
+    gs1.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs1, snap(), bus)
+    expect(gs1.fScriptSuccess).toBe(false)
+    // 受伤:HP=50 → +50 → 100(变化)→ 仍 true
+    const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs2.PlayerRolesRuntime.rgwHP[0] = 50
+    gs2.PlayerRolesRuntime.rgwMaxHP[0] = 100
+    loadEvent(gs2, [{ op: 'raw', opcode: 0x1b, operands: [0, 50, 0] }, { op: 'end' }])
+    gs2.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs2, snap(), bus)
+    expect(gs2.fScriptSuccess).toBe(true)
+    expect(gs2.PlayerRolesRuntime.rgwHP[0]).toBe(100)
+  })
+
+  it('0x22 revive 单体:活人(HP!=0)→ false(用复活药在活人身上)(script.c:1099)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.PlayerRolesRuntime.rgwHP[0] = 30
+    gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x22, operands: [0, 5, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.fScriptSuccess).toBe(false)
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(30) // 未复活
+  })
+
+  it('物品延迟消耗:脚本成功 → 扣 1;脚本 0x41 失败 → 不扣(play.c:298)', () => {
+    const bus = createCommandBus()
+    // 成功脚本:L_1 = 单条 end(无失败 opcode)
+    const gsOk = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gsOk.inventory = [{ itemId: 5, count: 3 }]
+    gsOk.sceneCommands = [{ op: 'end' }, { op: 'end' }]
+    gsOk.sceneLabelMap = { L_1: 1 }
+    expect(startOverworldItemScript(gsOk, 5, 1, 0, true)).toBe(true)
+    expect(gsOk.pendingItemConsume).toBe(5) // 延迟:还没扣
+    expect(gsOk.inventory[0]?.count).toBe(3)
+    tickEventSystem(gsOk, snap(), bus)
+    expect(gsOk.inventory[0]?.count).toBe(2) // 脚本成功 → 扣 1
+    expect(gsOk.pendingItemConsume).toBeUndefined()
+
+    // 失败脚本:L_1 跑 0x41 再 end
+    const gsFail = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gsFail.inventory = [{ itemId: 5, count: 3 }]
+    gsFail.sceneCommands = [{ op: 'end' }, { op: 'raw', opcode: 0x41, operands: [0, 0, 0] }, { op: 'end' }]
+    gsFail.sceneLabelMap = { L_1: 1 }
+    startOverworldItemScript(gsFail, 5, 1, 0, true)
+    tickEventSystem(gsFail, snap(), bus)
+    expect(gsFail.inventory[0]?.count).toBe(3) // 脚本失败 → 不扣
+    expect(gsFail.pendingItemConsume).toBeUndefined()
   })
 })
 

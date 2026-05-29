@@ -247,6 +247,8 @@ function loadEventFromNpc(gs: GameState, ctx: SceneContext, npc: NpcState): void
     ip = resolvedIp
   }
 
+  // sdlpal PAL_RunTriggerScript 入口设 g_fScriptSuccess=TRUE(script.c:3187)— 每段 trigger 脚本起手重置。
+  gs.fScriptSuccess = true
   gs.eventCursor = {
     commands,
     labelMap,
