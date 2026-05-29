@@ -16,7 +16,7 @@ import {
   setObstacleChecker, setGlobalEvents, resolveScriptLabel,
   startOverworldItemScript, setSceneLoader,
   OP_FADE_OUT, OP_FADE_IN, OP_SCENE_FADE, OP_PALETTE_FADE, OP_COLOR_FADE,
-  OP_FADE_TO_RED, OP_FADE_TO_SCENE, tickSceneAutoFadeIn,
+  OP_FADE_TO_RED, OP_FADE_TO_SCENE, tickSceneAutoFadeIn, OP_REDRAW_SCREEN,
   OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, setRngPlayHandler, type RngPlayHandlerInput,
   OP_SHOW_FBP, setShowFbpHandler, type ShowFbpHandlerInput,
   OP_SCROLL_FBP, setScrollFbpHandler,
@@ -2933,6 +2933,50 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     expect(gs.eventCursor).toBeUndefined()
     debugSpy.mockRestore()
     setLoadLastSaveHandler(null)
+  })
+
+  it('0x05 redraw + needToFadeIn → PAL_MakeScene 自动淡入(仙灵岛靠岸黑屏修复,sdlpal script.c:3290)', () => {
+    // 真因:onEnter(如仙灵岛靠岸 5117)序 setpos→0x05→对话;旧码 0x05 无 dialog 时纯 ip++,
+    //   不重绘/淡入 → FadeOut(0x50)后的黑屏留到对话期(waiting='dialog' 门控挡掉 auto fade-in)→ 对话浮黑屏。
+    //   sdlpal 0x05 = PAL_MakeScene(needToFadeIn → PAL_FadeIn)→ 岛在对话前淡入。
+    const bus = createCommandBus()
+    const gs = gsWithPalette([0, 0, 0], [180, 120, 60]) // 当前黑(FadeOut 后),base 有色
+    gs.needToFadeIn = true   // sail FadeOut(0x50)设
+    gs.sceneLoading = true   // loadScene 后未清
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0] }, // 0x05 redraw(无 dialog)
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    // 0x05 触发淡入:paletteFadeState 黑→base,waiting=palette-fade,needToFadeIn 清,sceneLoading 解冻
+    expect(gs.eventCursor?.waiting).toBe('palette-fade')
+    expect(gs.needToFadeIn).toBe(false)
+    expect(gs.sceneLoading).toBe(false)
+    expect(gs.paletteFadeState?.startColors[0]).toEqual([0, 0, 0])
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([180, 120, 60])
+    expect(gs.paletteFadeState?.totalMs).toBe(600)
+    // 淡完 → ip++ 到 end → explore(cursor 清)
+    expireFade(gs)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor).toBeUndefined()
+    debugSpy.mockRestore()
+  })
+
+  it('0x05 redraw 无 needToFadeIn → 仅解冻 + 续跑(不误触发淡入)', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([180, 120, 60], [180, 120, 60])
+    gs.needToFadeIn = false
+    gs.sceneLoading = true
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0] },
+      { op: 'raw', opcode: OP_SET_OBJECT_POS, operands: [0, 5, 5] }, // 哨兵:0x05 后续跑(无 self → skip + ip++)
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.paletteFadeState).toBeUndefined() // 无 pending 淡入 → 不触发
+    expect(gs.sceneLoading).toBe(false)         // 解冻(PAL_MakeScene 重绘)
+    expect(gs.mode).toBe('explore')             // 续跑到 end
   })
 
   it('0x51 FadeIn → 黑→base + needToFadeIn=false', () => {

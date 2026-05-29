@@ -1679,7 +1679,25 @@ export function tickEventSystem(
             cursor.waiting = 'dialog'
             return  // 等下次 tick Confirm,page-advance 后 dialogBox=undefined + ip++ + 继续
           }
-          // 无 dialog → 直接 ip++,本 tick 继续(下面 ip++)
+          // 无 dialog:sdlpal 0x05 真值(script.c:3283-3294 非 RNG/battle)= PAL_MakeScene() + VIDEO_UpdateScreen。
+          //   PAL_MakeScene 末尾检查 fNeedToFadeIn → PAL_FadeIn(delay=1=600ms)从黑淡入(scene.c:503-508)。
+          //   **仙灵岛靠岸"过场黑屏"真因**:onEnter(如 5117)序 setpos→0x05→对话;旧码 0x05 无对话时纯 ip++,
+          //   不重绘/淡入 → FadeOut 后的黑屏留到对话期(waiting='dialog' 门控挡掉 tickSceneAutoFadeIn 不淡入)
+          //   → 靠岸对话浮在黑屏,对话跑完才淡入(用户报"过场黑屏卡死")。修:0x05 对齐 PAL_MakeScene,
+          //   needToFadeIn 时在此触发淡入(对话前岛就显出),结构性补回 0x05 的重绘/淡入职责。
+          gs.sceneLoading = false  // PAL_MakeScene 重绘 = 解冻渲染(scene 已 load,setPartyPos 已定位 camera)
+          if (gs.needToFadeIn && !gs.paletteFadeState && !gs.fadeState) {
+            if (!gs.palette) {
+              const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
+              gs.palette = makeWorkingPalette(src)
+            }
+            const baseColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
+            startPaletteFade(gs, cursor, buildFadeIn(baseColors, 600, performance.now()), false, true)
+            gs.needToFadeIn = false
+            console.debug('event-system: 0x05 redraw → PAL_MakeScene auto fade-in(needToFadeIn,600ms)')
+            return  // 阻塞等淡入完(对齐 sdlpal PAL_FadeIn);palette-fade 分支完成时 ip++ 到下一条
+          }
+          // 无 dialog 且无 pending 淡入 → 直接 ip++(redraw 由常规渲染覆盖)
           cursor.ip++
           break
         }
