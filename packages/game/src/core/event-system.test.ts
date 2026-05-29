@@ -2626,6 +2626,37 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
       setSceneLoader(null)
     }
   })
+
+  it('scene-load 失败 → 清 sceneLoading + 回 explore(不永久黑屏卡死)— 仙灵岛船渡黑屏根因回归(2026-05-30)', async () => {
+    // 根因:triggerPendingSceneLoad 的 _sceneLoader.catch 旧版只 log,不清 sceneLoading →
+    //   async load 失败时 gs.sceneLoading 永卡 true → tickSceneAutoFadeIn 永远早退 → 0x50 FadeOut
+    //   设的黑屏永不淡入 → 永久黑屏+冻结。对齐 sdlpal play.c:61 fEnteringScene 进场前无条件清。
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    setSceneLoader(async () => { throw new Error('simulate scene asset fetch/decode failed') })
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const bus = createCommandBus()
+      loadEvent(gs, [
+        { op: 'loadScene', sceneId: 15 }, // ip0:仙灵岛船渡目标(wNumScene 15)
+        { op: 'end' },                    // ip1:脚本结束 → triggerPendingSceneLoad
+      ])
+      tickEventSystem(gs, snap(), bus)
+      // 触发瞬间:sceneLoading=true(等 async),cursor 已被 end 清,mode=explore
+      expect(gs.sceneLoading).toBe(true)
+      // 等 _sceneLoader 的 reject + catch 兜底跑完(flush 微任务)
+      await Promise.resolve()
+      await Promise.resolve()
+      // ★ 兜底解冻:不再永久黑屏卡死
+      expect(gs.sceneLoading).toBe(false)
+      expect(gs.mode).toBe('explore')
+      expect(gs.eventCursor).toBeUndefined()
+      expect(errSpy).toHaveBeenCalled() // 真因已记日志供定位
+    }
+    finally {
+      setSceneLoader(null)
+      errSpy.mockRestore()
+    }
+  })
 })
 
 // ── A2 条件跳转 opcode(2026-05-28)──────────────────────────────────────────────

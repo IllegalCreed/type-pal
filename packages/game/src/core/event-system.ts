@@ -2311,6 +2311,14 @@ function triggerPendingSceneLoad(gs: GameState): void {
   gs.sceneLoading = true
   _sceneLoader(sid).catch((err: unknown) => {
     console.error(`event-system: sceneLoader(${sid}) failed:`, err)
+    // 结构性兜底(2026-05-30 仙灵岛船渡黑屏卡死根因):async scene load 失败**必须解冻**。
+    // 否则 gs.sceneLoading 永卡 true → tickSceneAutoFadeIn 守卫(`|| gs.sceneLoading`)永远早退
+    // → 0x50 FadeOut 设的黑屏永不淡入 → 永久黑屏 + 冻结(用户报的"过场黑屏卡死")。
+    // 对齐 sdlpal play.c:61 真值:fEnteringScene 进场前**无条件**清,绝不因加载失败残留。
+    // 加载失败已无法续 cutscene → 恢复到可交互 explore(至少不冻死),console.error 已记真因供定位。
+    gs.sceneLoading = false
+    gs.eventCursor = undefined
+    gs.mode = 'explore'
   })
 }
 
