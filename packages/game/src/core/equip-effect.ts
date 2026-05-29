@@ -156,7 +156,7 @@ export function writeEquipmentEffectField(
 }
 
 /** Helper:给 PlayerRolesRuntime 某 row 给 role 加上 delta(sdlpal opcode 0x19)。 */
-function addPlayerStatRow(gs: GameState, rowIdx: number, roleId: number, delta: number): void {
+export function addPlayerStatRow(gs: GameState, rowIdx: number, roleId: number, delta: number): void {
   const r = gs.PlayerRolesRuntime
   switch (rowIdx) {
     case PLAYERROLES_ROW.LEVEL: r.rgwLevel[roleId] = (r.rgwLevel[roleId] ?? 0) + delta; break
@@ -177,7 +177,7 @@ function addPlayerStatRow(gs: GameState, rowIdx: number, roleId: number, delta: 
 }
 
 /** Helper:set PlayerRolesRuntime 某 row 给 role(sdlpal opcode 0x1A)。 */
-function setPlayerStatRow(gs: GameState, rowIdx: number, roleId: number, value: number): void {
+export function setPlayerStatRow(gs: GameState, rowIdx: number, roleId: number, value: number): void {
   const r = gs.PlayerRolesRuntime
   switch (rowIdx) {
     case PLAYERROLES_ROW.LEVEL: r.rgwLevel[roleId] = value; break

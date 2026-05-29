@@ -31,7 +31,7 @@ import type { CommandBus } from './command-bus.js'
 import type { GameState, NpcState } from './game-state.js'
 import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
-import { removeEquipmentEffect, writeEquipmentEffectField } from './equip-effect.js'
+import { addPlayerStatRow, removeEquipmentEffect, setPlayerStatRow, writeEquipmentEffectField } from './equip-effect.js'
 import {
   startDialogLine,
   appendDialogLine,
@@ -227,10 +227,11 @@ export const OP_EQUIP_ITEM = 0x0018                // 24
 // case 0x0019(25): Increase/decrease player attribute(script.c:813-832)
 //   p[operand[0] * MAX_PLAYER_ROLES + role] += SHORT(operand[1])
 //   role = (operand[2] == 0) ? wEventObjectID : operand[2] - 1
-//   operand[0] 是 PlayerRoles 结构内 row index(sdlpal global.h tagPLAYERROLES):
-//     5=Level / 6=MaxHP / 7=MaxMP / 8=HP / 9=MP / 16=AttackStrength / 17=MagicStrength
-//     18=Defense / 19=Dexterity / 20=FleeRate / 21=PoisonResistance / 28=CoveredBy
-//   其它(0-4 静态字段 / 10-15 Equipment 2D / 22-27 Resistance 等)→ log skip
+//   operand[0] 是 PlayerRoles 结构按 (WORD*) 解读的 row index(sdlpal global.h:299-336 tagPLAYERROLES,
+//   每 PLAYERS 字段=1 row,rgwEquipment[6]/rgwElementalResistance[5] 等 2D 数组占多 row)。真值:
+//     6=Level / 7=MaxHP / 8=MaxMP / 9=HP / 10=MP / 17=AttackStrength / 18=MagicStrength
+//     19=Defense / 20=Dexterity / 21=FleeRate / 22=PoisonResistance / 31=CoveredBy
+//   (行号唯一来源 = equip-effect.ts PLAYERROLES_ROW;handler 走 addPlayerStatRow/setPlayerStatRow)
 export const OP_INCREASE_PLAYER_ATTR = 0x0019      // 25
 
 // case 0x001A(26): Set player stat(script.c:834-865)
@@ -2398,7 +2399,9 @@ function applyRawOpcode(
         console.warn(`event-system: increasePlayerAttr no role context`)
         break
       }
-      mutatePlayerStat(gs, roleId, fieldIdx, (cur) => cur + delta)
+      // 唯一行索引表(equip-effect.ts PLAYERROLES_ROW,sdlpal 真值 Level=6/Atk=17/CoveredBy=31)。
+      // 不再用本地 FIELD_MAP(曾全错位 -1 → 设攻击力实写法力,装备脚本走对表、主解释器走错表的同 opcode 两套行为)。
+      addPlayerStatRow(gs, fieldIdx, roleId, delta)
       console.debug(`event-system: increasePlayerAttr role=${roleId} field=${fieldIdx} +=${delta}`)
       break
     }
@@ -2414,7 +2417,8 @@ function applyRawOpcode(
         console.warn(`event-system: setPlayerStat no role context`)
         break
       }
-      mutatePlayerStat(gs, roleId, fieldIdx, () => newVal)
+      // 唯一行索引表(同 0x19);旧 mutatePlayerStat 已删。
+      setPlayerStatRow(gs, fieldIdx, roleId, newVal)
       console.debug(`event-system: setPlayerStat role=${roleId} field=${fieldIdx} =${newVal}`)
       break
     }
@@ -2609,13 +2613,15 @@ function applyRawOpcode(
     }
 
     case OP_SET_MULTI_OBJECT_STATE: {
-      // sdlpal script.c:2756-2764:for id in [operand[0], operand[1]] → eventObject[id-1].sState = operand[2]
-      // ts:只对当前 scene 已加载 npcs(id 即 1-based 全局 event object id)生效,同 0x49 模型。
+      // sdlpal script.c:2756-2764:`for (i = op0; i <= op1; i++) lprgEventObject[i-1].sState = op2`。
+      // i 是 1-based,遍历**全局**表区间 [op0-1 .. op1-1]。P0#2 修:旧实现 0-based [op0..op1] 且只扫
+      //   gs.npcs(off-by-one + 漏跨 scene 对象)。改走与 0x49 同一 resolveGlobalEventObject(id-1 + 全局兜底)。
       const from = operands[0] ?? 0
       const to = operands[1] ?? 0
       const state = operands[2] ?? 0
-      for (const npc of gs.npcs) {
-        if (npc.id >= from && npc.id <= to) npc.sState = state
+      for (let i = from; i <= to; i++) {
+        const obj = resolveGlobalEventObject(gs, i, 'setMultiObjectState')
+        if (obj) obj.sState = state
       }
       break
     }
@@ -2962,40 +2968,9 @@ function playerLevelUp(gs: GameState, role: number, numLevels: number): void {
   console.debug(`event-system: playerLevelUp role=${role} +${numLevels} → level ${r.rgwLevel[role]}`)
 }
 
-/**
- * 0x0019/0x001A — sdlpal `p[op[0] * MAX_PLAYER_ROLES + role]` 真值直写。
- * operand[0] 是 PlayerRoles 结构内 row index(sdlpal global.h tagPLAYERROLES,见 OP_INCREASE_PLAYER_ATTR 注)。
- * mutator 函数返回新值(set / add 等)。
- */
-function mutatePlayerStat(
-  gs: GameState,
-  roleId: number,
-  fieldIdx: number,
-  mutator: (cur: number) => number,
-): void {
-  const runtime = gs.PlayerRolesRuntime
-  // sdlpal global.h tagPLAYERROLES 真值 field 索引(每 row = MAX_PLAYER_ROLES=6 WORDs)
-  const FIELD_MAP: Record<number, number[]> = {
-    5: runtime.rgwLevel,
-    6: runtime.rgwMaxHP,
-    7: runtime.rgwMaxMP,
-    8: runtime.rgwHP,
-    9: runtime.rgwMP,
-    16: runtime.rgwAttackStrength,
-    17: runtime.rgwMagicStrength,
-    18: runtime.rgwDefense,
-    19: runtime.rgwDexterity,
-    20: runtime.rgwFleeRate,
-    21: runtime.rgwPoisonResistance,
-    28: runtime.rgwCoveredBy,
-  }
-  const arr = FIELD_MAP[fieldIdx]
-  if (!arr) {
-    console.warn(`event-system: mutatePlayerStat unknown fieldIdx=${fieldIdx}(sdlpal global.h tagPLAYERROLES row index)`)
-    return
-  }
-  arr[roleId] = mutator(arr[roleId] ?? 0)
-}
+// 0x0019/0x001A 行索引写入已统一到 equip-effect.ts 的 addPlayerStatRow/setPlayerStatRow
+//(唯一 PLAYERROLES_ROW 表,sdlpal global.h tagPLAYERROLES 真值)。旧 mutatePlayerStat 本地
+// FIELD_MAP 全错位 -1(P0#1,2026-05-29 删除)。
 
 /** sdlpal PAL_CurePoisonByKind(global.c:1936-1955)— roleId × poisonId 清 0。 */
 function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: number): void {
@@ -3058,20 +3033,32 @@ function resolveTargetNpc(
   if (operand0 === 0 || operand0 === 0xFFFF) {
     return getSelfNpc(gs, currentEventObjectId, opName)
   }
-  // sdlpal:`i = operand[0] - 1`;lprgEventObject 是 0-based,wEventObjectID 是 1-based。
-  // 我们 pal-extract scene.ts:46 `id: i`(0-based 全局 eventObject 索引)= sdlpal `i`。
-  // → 查 `id == operand0 - 1`(operand0 已减 1 即对应我们的 npc.id)。
-  const targetId = operand0 - 1
+  // 其它 → lprgEventObject[operand0-1](1-based 全局 NPC id),经唯一全局解析器。
+  return resolveGlobalEventObject(gs, operand0, opName)
+}
+
+/**
+ * 唯一"1-based 全局 event object id → 对象"解析器(sdlpal `lprgEventObject[id-1]`)。
+ *
+ * 所有按全局 id 选对象的 opcode(0x49 单对象 via resolveTargetNpc / 0x9A 多对象范围)共用此函数,
+ * 杜绝各自手搓 `id-1` / scope 而出 off-by-one 或漏全局对象(P0#2,2026-05-29:0x9A 曾 0-based
+ * [op0..op1] + 只扫 gs.npcs)。
+ *
+ * 先查当前 scene 切片 gs.npcs(拿到引用),不在则回退 gs.allEventObjects 全局表 —— sdlpal
+ * lprgEventObject 是单一全局表,脚本可改任意 scene 对象状态;gs.npcs 只是当前 scene 的引用切片,
+ * 跨 scene 改动经全局表持久(eg. 客栈苗人 0x49 [25,2,0] 跨 scene 显隐)。
+ */
+function resolveGlobalEventObject(
+  gs: GameState,
+  oneBasedId: number,
+  opName: string,
+): GameState['npcs'][number] | null {
+  const targetId = oneBasedId - 1
   const npc = gs.npcs.find((n) => n.id === targetId)
   if (npc) return npc
-  // 不在当前 scene → 回退全局 event object 数组(sdlpal lprgEventObject 是**全局**表,
-  // 脚本按全局 id 改任意对象的状态/位置;gs.npcs 只是当前 scene 的切片**引用**)。
-  // 跨 scene 改动会持久,进对应 scene 时 sliceSceneEventObjects 引用同一对象 → 生效。
-  // eg. 客栈苗人 autoScript `0x49 [25,2,0]`:把房间场景的苗人(全局 obj 24,sState=0 隐藏)
-  // 设 sState=2 显示 —— 跨 scene,必须走全局表,否则"苗人进屋了但屋里没苗人"(2026-05-28 user 发现)。
   const global = gs.allEventObjects?.[targetId]
   if (global && global.id === targetId) return global
-  console.warn(`event-system: ${opName} operand[0]=${operand0} → id=${targetId} 不在当前 scene 也不在全局表,跳过`)
+  console.warn(`event-system: ${opName} id(1-based)=${oneBasedId} → idx=${targetId} 不在当前 scene 也不在全局表,跳过`)
   return null
 }
 

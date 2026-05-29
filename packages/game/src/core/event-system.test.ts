@@ -2027,7 +2027,7 @@ describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0
     expect(gs.PlayerRolesRuntime.rgwMagic[1]?.[0]).toBe(351) // 其他不动
   })
 
-  it('0x9A setMultiState:id ∈ [operand[0],operand[1]] 的 NPC sState = operand[2](script.c:2756)', () => {
+  it('0x9A setMultiState:sdlpal `lprgEventObject[i-1]` for i in [op0..op1](1-based)(script.c:2756)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.npcs = [
       { id: 3, x: 0, y: 0, spriteNum: 1, sState: 1 },
@@ -2036,9 +2036,29 @@ describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0
       { id: 6, x: 0, y: 0, spriteNum: 1, sState: 1 },
     ]
     const bus = createCommandBus()
+    // P0#2:operands [4,5,2] → i=4→idx3, i=5→idx4 → 设 id 3/4(不是旧错的 id 4/5)
     loadEvent(gs, [{ op: 'raw', opcode: 0x9a, operands: [4, 5, 2] }, { op: 'end' }])
     tickEventSystem(gs, snap(), bus)
-    expect(gs.npcs.map((n) => n.sState)).toEqual([1, 2, 2, 1]) // 仅 id 4/5 改成 2
+    expect(gs.npcs.map((n) => n.sState)).toEqual([2, 2, 1, 1]) // id 3/4 改成 2
+  })
+
+  it('0x9A setMultiState:范围内不在当前 scene 的对象走全局表 gs.allEventObjects(同 0x49)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // 全局表:id 3..6;当前 scene 只切了 id 4
+    gs.allEventObjects = [
+      { id: 0, x: 0, y: 0, spriteNum: 0, sState: 1 },
+      { id: 1, x: 0, y: 0, spriteNum: 0, sState: 1 },
+      { id: 2, x: 0, y: 0, spriteNum: 0, sState: 1 },
+      { id: 3, x: 0, y: 0, spriteNum: 1, sState: 1 },
+      { id: 4, x: 0, y: 0, spriteNum: 1, sState: 1 },
+      { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1 },
+    ]
+    gs.npcs = [gs.allEventObjects[4]!] // 当前 scene 只含 id 4(引用)
+    const bus = createCommandBus()
+    // [4,6,2] → i=4/5/6 → idx 3/4/5 → 设 id 3/4/5,其中 3/5 只在全局表
+    loadEvent(gs, [{ op: 'raw', opcode: 0x9a, operands: [4, 6, 2] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.allEventObjects.map((n) => n.sState)).toEqual([1, 1, 1, 2, 2, 2]) // id 3/4/5 全改(含跨 scene)
   })
 })
 
@@ -2132,6 +2152,41 @@ describe('A 类补全:0x8F / 0xA1 / 0x8D / 0x85', () => {
     ])
     tickEventSystem(gs, snap(), bus)
     expect(gs.dwCash).toBe(50) // op0=0 即时 → 同 tick 跑到 halveCash
+  })
+})
+
+// ── P0#1(2026-05-29):0x19/0x1A 行索引表错位修复(setAttackStrength 曾误写 MagicStrength)──
+describe('0x19/0x1A player-stat 行索引(sdlpal global.h tagPLAYERROLES 真值)', () => {
+  it('0x1A setPlayerStat operand[0]=17 → 写 AttackStrength(不是 MagicStrength)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const r = gs.PlayerRolesRuntime
+    r.rgwAttackStrength[0] = 10
+    r.rgwMagicStrength[0] = 20
+    const bus = createCommandBus()
+    // operand: [row=17(AttackStrength), value=99, role+1=1→role0]
+    loadEvent(gs, [{ op: 'raw', opcode: 0x1a, operands: [17, 99, 1] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(r.rgwAttackStrength[0]).toBe(99) // 旧错表会写到 MagicStrength → 这里仍是 10
+    expect(r.rgwMagicStrength[0]).toBe(20) // 未被误写
+  })
+
+  it('0x19 increasePlayerAttr operand[0]=6 → 加 Level;18 → MagicStrength;31 → CoveredBy', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const r = gs.PlayerRolesRuntime
+    r.rgwLevel[0] = 3
+    r.rgwMagicStrength[0] = 5
+    r.rgwCoveredBy[0] = 0
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x19, operands: [6, 2, 1] },   // Level += 2
+      { op: 'raw', opcode: 0x19, operands: [18, 7, 1] },  // MagicStrength += 7
+      { op: 'raw', opcode: 0x1a, operands: [31, 1, 1] },  // CoveredBy = 1
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(r.rgwLevel[0]).toBe(5)
+    expect(r.rgwMagicStrength[0]).toBe(12)
+    expect(r.rgwCoveredBy[0]).toBe(1) // 旧错表 CoveredBy=28(写不进)→ 仍 0
   })
 })
 
