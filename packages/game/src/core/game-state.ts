@@ -211,8 +211,11 @@ export interface EventCursor {
    *  - 'show-fbp':   0x76 ShowFBP(script.c:2199)— 全屏 FBP 图(modal,suspendRaf,可选 dither fade-in)。同 rng-play。
    *  - 'scroll-fbp': 0xA4 ScrollFBP(script.c:3038)— FBP 滚动卷入(modal,suspendRaf,220 步)。同 show-fbp。
    *  - 'ending-anim':0x96 EndingAnimation(script.c:2693)— 结局 400 帧 cutscene(modal,suspendRaf)。同 show-fbp。
+   *  - 'wait-key':   0x4D wait-for-any-key(script.c:1753 `PAL_WaitForKey(0)` = PAL_WaitForKeyInternal(0,FALSE),
+   *                  play.c:602-638)— **永久等**,只认 kKeySearch|kKeyMenu(Confirm/Menu/Cancel)。期间冻全场
+   *                  (mode.ts allowlist 不含 → autoScript 不跑)。按键 → 清 waiting + ip++。
    */
-  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play' | 'show-fbp' | 'scroll-fbp' | 'ending-anim'
+  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play' | 'show-fbp' | 'scroll-fbp' | 'ending-anim' | 'wait-key'
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
   /** 'delay' 用(opcode 0x85):延迟到此 wall-clock 时间戳(performance.now()),到点 ip++ + clear。 */

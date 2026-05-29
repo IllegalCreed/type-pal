@@ -21,6 +21,7 @@ import {
   OP_SHOW_FBP, setShowFbpHandler, type ShowFbpHandlerInput,
   OP_SCROLL_FBP, setScrollFbpHandler,
   OP_ENDING_ANIMATION, setEndingAnimationHandler,
+  OP_WAIT_FOR_KEY,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -759,6 +760,66 @@ describe('opcode 0x0009 wait N frames(sdlpal script.c:3593-3604)', () => {
     expect(gs.eventCursor?.waitFramesRemaining).toBe(1)
     tickEventSystem(gs, snap(), bus)
     expect(gs.mode).toBe('explore')
+  })
+})
+
+describe('opcode 0x004D wait-for-any-key(sdlpal script.c:1753 / play.c:602-638 PAL_WaitForKeyInternal(0,FALSE))', () => {
+  it('设 waiting=wait-key 永久阻塞,无按键不前进', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_WAIT_FOR_KEY, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('wait-key')
+    expect(gs.eventCursor?.ip).toBe(0) // 未推进
+    // 连续多 tick 无按键 → 仍卡在 wait-key
+    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('wait-key')
+    expect(gs.mode).toBe('event')
+  })
+
+  it('Confirm(kKeySearch)解除 → 清 waiting + ip++ + 续跑到 end → mode=explore', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_WAIT_FOR_KEY, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('wait-key')
+    tickEventSystem(gs, snap(['Confirm']), bus)
+    expect(gs.mode).toBe('explore') // 解除 + ip++ + end
+  })
+
+  it('Menu(kKeyMenu)与 Cancel 同样解除', () => {
+    for (const key of ['Menu', 'Cancel'] as const) {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const bus = createCommandBus()
+      loadEvent(gs, [
+        { op: 'raw', opcode: OP_WAIT_FOR_KEY, operands: [0, 0, 0] },
+        { op: 'end' },
+      ])
+      tickEventSystem(gs, snap(), bus)
+      expect(gs.eventCursor?.waiting).toBe('wait-key')
+      tickEventSystem(gs, snap([key]), bus)
+      expect(gs.mode).toBe('explore')
+    }
+  })
+
+  it('方向键不解除 wait-key(sdlpal 只认 kKeySearch|kKeyMenu)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_WAIT_FOR_KEY, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap(['Up']), bus)
+    expect(gs.eventCursor?.waiting).toBe('wait-key')
+    expect(gs.mode).toBe('event')
   })
 })
 

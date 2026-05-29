@@ -367,6 +367,10 @@ export const OP_FIXME_78 = 0x0078                  // 120
 // case 0x00A6(166): backup screen — VIDEO_BackupScreen(gpScreen)(script.c:3069-3074)。本游戏 0 调用
 //   (0x73 fadeScreen 内部已含 VIDEO_BackupScreen);独立 opcode 当 no-op(ts present 自管 fade backup)。
 export const OP_BACKUP_SCREEN = 0x00A6             // 166
+// case 0x004D(77): wait for any key — PAL_WaitForKey(0)(script.c:1753-1758)。
+//   = PAL_WaitForKeyInternal(0, FALSE)(play.c:602-638):**永久等**,只认 kKeySearch|kKeyMenu。
+//   本游戏 0 用(为完整性);设 waiting='wait-key' 阻塞,Confirm/Menu/Cancel 解除。
+export const OP_WAIT_FOR_KEY = 0x004D              // 77
 
 // case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
 export const OP_POISON_ENEMY = 0x0028              // 40
@@ -1097,6 +1101,22 @@ export function tickEventSystem(
     return
   }
 
+  // 0x4D wait-for-any-key(sdlpal play.c:602-638 PAL_WaitForKeyInternal(0, FALSE)):永久等,
+  //   sdlpal 只认 `kKeySearch | kKeyMenu`。ts 映射:Confirm(kKeySearch)/Menu(kKeyMenu)/Cancel
+  //   (ts 菜单回退键,与 kKeyMenu 语义等价)。按下任一 → 清 waiting + ip++ fall through;否则本 tick 不动。
+  //   `pressed`(本 tick 新按下)天然实现 sdlpal PAL_ClearKeyState() 后的"等新按键"语义(进 wait 时
+  //   按住的键不在下一 tick 的 pressed 里)。
+  if (cursor.waiting === 'wait-key') {
+    if (input.pressed.has('Confirm') || input.pressed.has('Menu') || input.pressed.has('Cancel')) {
+      cursor.waiting = undefined
+      cursor.ip++
+      // fall through to main while loop
+    }
+    else {
+      return
+    }
+  }
+
   // 1a''') waiting 处理:delay(opcode 0x0085 UTIL_Delay,script.c:2511-2516)
   //   time-based:到 delayUntilMs(wall-clock)即完成。期间 autoScript 暂停(mode.ts:event 非
   //   frame-wait → 不跑),对齐 sdlpal UTIL_Delay 不调 PAL_GameUpdate 的真值。
@@ -1556,6 +1576,12 @@ export function tickEventSystem(
           console.debug('event-system: endingAnimation(无 _endingAnimationHandler 注入,skip)')
           cursor.ip++
           break
+        }
+        // 0x4D wait-for-any-key(sdlpal script.c:1753 `PAL_WaitForKey(0)`)。设 waiting='wait-key'(永久阻塞),
+        //   顶部 'wait-key' 派发分支等 Confirm/Menu/Cancel 解除 + ip++。本 opcode 不 ip++(解除时才推进)。
+        if (cmd.opcode === OP_WAIT_FOR_KEY) {
+          cursor.waiting = 'wait-key'
+          return
         }
         // Sync.2 fix3: opcode 9 wait N frames — 设 waiting='frame-wait',ip 暂不动
         if (cmd.opcode === OP_WAIT_FRAMES) {
