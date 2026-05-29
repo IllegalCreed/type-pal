@@ -42,6 +42,7 @@ import {
   finalizePaletteFade,
   makeWorkingPalette,
   blackColors,
+  resolveNightColors,
   type PaletteFadeState,
 } from './palette-fade.js'
 import {
@@ -500,8 +501,8 @@ export function tickSceneAutoFadeIn(gs: GameState): void {
     const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
     gs.palette = makeWorkingPalette(src)
   }
-  const baseColors = (gs.basePalette ?? gs.palette).colors
-  // sdlpal scene.c:506 PAL_FadeIn(..., 1) → delay=1 → 600ms。黑 → basePalette。
+  // sdlpal scene.c:506 PAL_FadeIn(wNumPalette, **fNightPalette**, 1) → delay=1 → 600ms。黑 → (夜/昼)basePalette。
+  const baseColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
   gs.paletteFadeState = buildFadeIn(baseColors, 600, performance.now())
 }
 
@@ -1486,7 +1487,9 @@ export function tickEventSystem(
         ) {
           const now = performance.now()
           const curColors = (gs.palette ?? gs.basePalette)?.colors ?? blackColors()
-          const baseColors = (gs.basePalette ?? gs.palette)?.colors ?? blackColors()
+          // 特效 A 夜间:fade target 按 gs.nightPalette 选白天/夜间色(sdlpal PAL_GetPalette(n,fNight))。
+          //   curColors(start)= 当前显示色不动;baseColors(target)= 夜场淡入到夜色(#0/#5 有夜间半)。
+          const baseColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
           const op0 = cmd.operands[0] ?? 0
 
           if (cmd.opcode === OP_FADE_OUT) {
@@ -1522,16 +1525,15 @@ export function tickEventSystem(
           if (cmd.opcode === OP_PALETTE_FADE) {
             // sdlpal script.c:2385-2387:fNightPalette = !fNightPalette;PAL_PaletteFade(numPalette, night,
             //   !(op0))。fUpdateScene = !op0。32 步 × (fUpdateScene ? FRAME_TIME : FRAME_TIME/4),FRAME_TIME=100。
-            //   ⚠ 夜间色值未提取(PAT.MKF 后半未 dump,见 game-state.ts nightPalette 注释)→ target 暂 =
-            //   白天 basePalette(data-blocked);flag 仍正确 toggle,crossfade cur → target。
             gs.nightPalette = !gs.nightPalette
             const fUpdateScene = op0 === 0
             const totalMs = 32 * (fUpdateScene ? 100 : 25)
-            const targetColors = baseColors  // PAL_GetPalette(numPalette, night);night 数据缺 → 白天 base
+            // target = PAL_GetPalette(numPalette, **toggled** night)。在 toggle 之后重新按新 flag 选色
+            //   (baseColors 是 toggle 前算的,不能直接用)。#0/#5 有夜间半 → 真切夜色。
+            const targetColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
             startPaletteFade(gs, cursor, buildPaletteFade(curColors, targetColors, totalMs, now), fUpdateScene)
             console.debug(
-              `event-system: PaletteFade night=${gs.nightPalette} fUpdateScene=${fUpdateScene} → ${totalMs}ms`
-              + ` (night data-blocked → day target)`,
+              `event-system: PaletteFade night=${gs.nightPalette} fUpdateScene=${fUpdateScene} → ${totalMs}ms`,
             )
             return
           }
@@ -2387,8 +2389,8 @@ function applyRawOpcode(
       break
 
     case OP_SET_NIGHT_PALETTE:
-      // 特效 A:sdlpal script.c:1809 `gpGlobals->fNightPalette = TRUE`。注:夜间色值未提取,
-      //   视觉暂同白天(待 PAT.MKF 后半 re-extract)— flag 已正确,follow-up 补数据。
+      // 特效 A:sdlpal script.c:1809 `gpGlobals->fNightPalette = TRUE`(instant flag,当帧不重绘)。
+      //   夜间色值已提取(#0/#5);视觉在下次 fade 经 resolveNightColors 选夜色时生效。
       gs.nightPalette = true
       break
 

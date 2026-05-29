@@ -601,8 +601,9 @@ export interface GameState {
   /**
    * 特效 A(2026-05-29):昼夜调色板 flag(sdlpal `gpGlobals->fNightPalette`,默认 FALSE=白天)。
    * 0x53 setDayPalette → false;0x54 setNightPalette → true;0x80 PaletteFade 取反。
-   * **注**:夜间调色板色值(PAT.MKF chunk 后半 768..1535 字节)目前 pal-extract **未提取**
-   * (只 dump 白天半),故 night=true 的视觉暂与白天相同 — 待 re-extract 才正确(已记 follow-up)。
+   * 夜间色值已提取(PAT.MKF #0/#5 后半 256 色 → palette JSON.nightColors);fade target 经
+   * resolveNightColors 据本 flag 选夜/昼色(sdlpal PAL_GetPalette(n,fNight))。flag 本身仅状态,
+   * 视觉在下次 fade(0x51/0x80/0x93/auto fade-in)选 target 时生效(sdlpal 当帧不重绘)。
    */
   nightPalette: boolean
 

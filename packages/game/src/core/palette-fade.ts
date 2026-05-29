@@ -62,6 +62,20 @@ export function cloneColors(colors: readonly RGB[]): RGB[] {
   return colors.map((c) => [c[0]!, c[1]!, c[2]!] as RGB)
 }
 
+/**
+ * 按 fNight flag 选调色板色组 —— port sdlpal palette.c PAL_GetPalette
+ * `buf[(fNight ? 256*3 : 0) + i*3]`(palette.c:99-104)。
+ * night 且该 palette 有 nightColors(实测 PAT.MKF 仅 #0/#5 含夜间半,见 pal-extract decodePalette)
+ * → 用 nightColors;否则白天 colors。fade target 用它选淡入目标(夜场淡入到夜色)。
+ */
+export function resolveNightColors(
+  pal: { colors: RGB[], nightColors?: RGB[] } | undefined,
+  night: boolean,
+): RGB[] {
+  if (!pal) return blackColors()
+  return night && pal.nightColors ? pal.nightColors : pal.colors
+}
+
 /** 256 色全填同一色(ColorFade 的纯色端)。 */
 function solidColors(c: RGB): RGB[] {
   return Array.from({ length: 256 }, () => [c[0], c[1], c[2]] as RGB)

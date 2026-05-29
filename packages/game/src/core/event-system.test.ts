@@ -3017,3 +3017,62 @@ describe('特效 B/C opcode(RNG 0x36/0x37 + wave 0x71)', () => {
     expect(gs.eventCursor).toBeUndefined() // 跑到 end → 脚本结束
   })
 })
+
+describe('特效 A 夜间调色板(resolveNightColors fade target)', () => {
+  function palWithNight(): Palette {
+    return {
+      colors: Array.from({ length: 256 }, () => [200, 200, 200] as [number, number, number]),
+      cycles: [],
+      nightColors: Array.from({ length: 256 }, () => [20, 20, 40] as [number, number, number]),
+    }
+  }
+
+  it('nightPalette=true + basePalette 有 nightColors → FadeIn target = 夜色', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = { colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]), cycles: [] }
+    gs.basePalette = palWithNight()
+    gs.nightPalette = true
+    loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_IN, operands: [1, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([20, 20, 40]) // 夜色,非 [200,200,200]
+  })
+
+  it('nightPalette=false → FadeIn target = 白天色', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = { colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]), cycles: [] }
+    gs.basePalette = palWithNight()
+    gs.nightPalette = false
+    loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_IN, operands: [1, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([200, 200, 200])
+  })
+
+  it('0x80 PaletteFade toggle night → target 用 toggle 后的夜色', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = makeWorkingPaletteFor([100, 100, 100])
+    gs.basePalette = palWithNight()
+    gs.nightPalette = false // toggle → true → 夜色 target
+    loadEvent(gs, [{ op: 'raw', opcode: OP_PALETTE_FADE, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.nightPalette).toBe(true)
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([20, 20, 40])
+  })
+
+  it('basePalette 无 nightColors(白天 only chunk)+ night=true → 回退白天色(不崩)', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = makeWorkingPaletteFor([0, 0, 0])
+    gs.basePalette = { colors: Array.from({ length: 256 }, () => [77, 77, 77] as [number, number, number]), cycles: [] }
+    gs.nightPalette = true
+    loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_IN, operands: [1, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([77, 77, 77]) // 无夜色 → 白天
+  })
+})
+
+function makeWorkingPaletteFor(c: [number, number, number]): Palette {
+  return { colors: Array.from({ length: 256 }, () => [...c] as [number, number, number]), cycles: [] }
+}
