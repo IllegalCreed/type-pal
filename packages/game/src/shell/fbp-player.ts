@@ -12,13 +12,27 @@
  * MGO effect sprite overlay(g_wCurEffectSprite)留 Phase 3(0x76 默认不叠)。
  */
 import type { Palette } from '@type-pal/shared'
+import type { IndexedImage } from '../assets/png.js'
 import type { Framebuffer } from '../present/framebuffer.js'
+import { drawSprite } from '../present/draw-sprite.js'
 import { flushToCanvas } from '../present/present.js'
 
 const SCREEN_W = 320
 const SCREEN_H = 200
 const N = SCREEN_W * SCREEN_H
 const RG_INDEX = [0, 3, 1, 5, 2, 4] as const
+
+/**
+ * 叠 MGO effectSprite 帧到 (0,0)(sdlpal ending.c PAL_ShowFBP/ScrollFBP 里 g_wCurEffectSprite!=0 时:
+ * 每步取 `(SDL_GetTicks()/150)%numFrames` 帧 RLE-blit 到 (0,0))。top-left blit,opaque mask 透明,
+ * writePixel 自动裁剪。frames 空则不叠。
+ */
+function overlayEffectSprite(fb: Framebuffer, frames: IndexedImage[] | undefined): void {
+  if (!frames || frames.length === 0) return
+  const f = Math.floor(performance.now() / 150) % frames.length
+  const frame = frames[f]!
+  drawSprite(fb, { ...frame, anchorX: 0, anchorY: 0 }, 0, 0)
+}
 
 export interface ShowFbpOptions {
   /** 320×200 FBP 目标 indices;长度不符(无图)→ 视作全黑。 */
@@ -34,6 +48,11 @@ export interface ShowFbpOptions {
   palette: Palette
   /** 跳过键,默认 Space/Enter/Escape。 */
   skipKeys?: string[]
+  /**
+   * MGO effectSprite 帧(sdlpal g_wCurEffectSprite,PAL_EndingSetEffectSprite 设)。
+   * 仅 fade>0 时在渐变循环每步叠加(sdlpal 真值:final blit 不叠,故淡完被纯 FBP 覆盖)。
+   */
+  effectSpriteFrames?: IndexedImage[]
 }
 
 function sleep(ms: number): Promise<void> {
@@ -68,6 +87,7 @@ export async function showFbp(o: ShowFbpOptions): Promise<void> {
             back[k] = (a & 0xF0) | (b & 0x0F)
           }
           o.fb.indices.set(back) // VIDEO_RestoreScreen(累积 buffer → 屏幕)
+          overlayEffectSprite(o.fb, o.effectSpriteFrames) // g_wCurEffectSprite 叠加(ending.c:126-131)
           flushToCanvas(o.fb, o.canvasCtx, o.palette)
           await sleep(wFade)
         }
@@ -96,6 +116,8 @@ export interface ScrollFbpOptions {
   canvasCtx: CanvasRenderingContext2D
   palette: Palette
   skipKeys?: string[]
+  /** MGO effectSprite 帧(g_wCurEffectSprite);滚动每步叠 (0,0)(ending.c:257-262)。 */
+  effectSpriteFrames?: IndexedImage[]
 }
 
 /**
@@ -131,6 +153,7 @@ export async function scrollFbp(o: ScrollFbpOptions): Promise<void> {
         next.set(target.subarray(0, i * SCREEN_W), (200 - i) * SCREEN_W)
       }
       o.fb.indices.set(next)
+      overlayEffectSprite(o.fb, o.effectSpriteFrames) // g_wCurEffectSprite 叠加(ending.c:257-262)
       flushToCanvas(o.fb, o.canvasCtx, o.palette)
       await sleep(delay)
     }

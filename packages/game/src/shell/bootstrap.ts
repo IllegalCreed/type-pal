@@ -869,10 +869,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     const BLACK = new Uint8Array(320 * 200)
     const bg = (n: number): Uint8Array => battleBgs.get(n)?.indices ?? BLACK
     const pget = (n: number): Promise<typeof palette> => fetchPalette(n).catch(() => palette)
-    const fbp = (chunk: number, fade: number, pal: typeof palette): Promise<void> =>
-      showFbp({ fbpIndices: bg(chunk), fade, chunkNum: chunk, isWin95: false, fb, canvasCtx: ctx, palette: pal })
-    const scroll = (chunk: number, pal: typeof palette): Promise<void> =>
-      scrollFbp({ fbpIndices: bg(chunk), speed: 0xf, fScrollDown: true, fb, canvasCtx: ctx, palette: pal })
+    const fbp = (chunk: number, fade: number, pal: typeof palette, fx?: IndexedImage[]): Promise<void> =>
+      showFbp({ fbpIndices: bg(chunk), fade, chunkNum: chunk, isWin95: false, fb, canvasCtx: ctx, palette: pal, effectSpriteFrames: fx })
+    const scroll = (chunk: number, pal: typeof palette, fx?: IndexedImage[]): Promise<void> =>
+      scrollFbp({ fbpIndices: bg(chunk), speed: 0xf, fScrollDown: true, fb, canvasCtx: ctx, palette: pal, effectSpriteFrames: fx })
     const rng = (chunkIdx: number, startFrame: number, endFrame: number, speed: number, pal: typeof palette): Promise<void> =>
       playRng({ chunkIdx, startFrame, endFrame, frameDelayMs: 1000 / speed, fb, canvasCtx: ctx, palette: pal })
 
@@ -898,14 +898,16 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     await fadeOutBlocking(fb, ctx, pal0, 1200) // FadeOut(2)
     const pal8 = await pget(8)
     await rng(10, 0, -1, 6, pal8)
-    await fbp(77, 10, pal8)
-    await fbp(76, 7, pal8) // sdlpal 叠 effectSprite 0x27b(MGO),Phase 留
+    await fbp(77, 10, pal8) // EndingSetEffectSprite(0) → 无叠加
+    // EndingSetEffectSprite(0x27b=635):76/73/72/71/68@7 全 sticky 叠这只 21 帧 MGO 精灵(ending.c:467-475)
+    const fx635 = await fetchMgoSprite(635).catch(() => [] as IndexedImage[])
+    await fbp(76, 7, pal8, fx635)
     const pal5b = await pget(5)
-    await fbp(73, 7, pal5b)
-    await scroll(72, pal5b)
-    await fbp(71, 7, pal5b)
-    await fbp(68, 7, pal5b)
-    await fbp(68, 6, pal5b)
+    await fbp(73, 7, pal5b, fx635)
+    await scroll(72, pal5b, fx635)
+    await fbp(71, 7, pal5b, fx635)
+    await fbp(68, 7, pal5b, fx635)
+    await fbp(68, 6, pal5b) // EndingSetEffectSprite(0) → 无叠加(ending.c:477)
     await new Promise((r) => setTimeout(r, 1500)) // WaitForKey → 连续观看用延时
 
     // ── Part B(ending.c:485-511,演职员表卷动 67→59)──

@@ -82,3 +82,22 @@ describe('特效 B fbp-player scrollFbp(PAL_ScrollFBP port)', () => {
     vi.useRealTimers()
   })
 })
+
+describe('特效 B FBP effectSprite 叠加(g_wCurEffectSprite)', () => {
+  it('fade>0 + HACKHACK chunk + effectSprite → 渐变期叠 MGO 精灵帧(末帧无 final blit 故精灵保留)', async () => {
+    vi.useFakeTimers()
+    const fb = createFramebuffer()
+    fb.indices.fill(0x10)
+    // 10×10 全不透明精灵帧,填 0xAB,贴 (0,0)
+    const spr = { width: 10, height: 10, indices: new Uint8Array(100).fill(0xAB), opaque: new Uint8Array(100).fill(1) }
+    const p = showFbp({
+      fbpIndices: fbpFill(0x3C), fade: 1, chunkNum: 68, isWin95: true, // chunk 68 = win95 HACKHACK → 无 final blit
+      fb, canvasCtx: mockCanvasCtx, palette: mockPalette,
+      effectSpriteFrames: [spr],
+    })
+    await vi.runAllTimersAsync()
+    await p
+    expect(fb.indices[0]).toBe(0xAB) // (0,0) 被精灵覆盖(渐变末帧叠加 + 无 final blit)
+    expect(fb.indices[100 * 320]).not.toBe(0xAB) // 精灵 10×10 外(第 100 行)不受影响
+  })
+})
