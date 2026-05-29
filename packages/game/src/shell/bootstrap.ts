@@ -12,7 +12,7 @@ import {
   buildLabelMap, runEnterScript, setFetchPalette,
   setSceneLoader, setMapReloader, setObstacleChecker,
   setGlobalEvents, getGlobalLabelMap, setStartBattleHandler, setShopMenuHandler,
-  setRngPlayHandler, setShowFbpHandler,
+  setRngPlayHandler, setShowFbpHandler, setScrollFbpHandler,
 } from '../core/event-system.js'
 import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
 import { openMenu } from '../core/menu/menu-mode.js'
@@ -21,7 +21,7 @@ import { Save } from '../core/save/api.js'
 import { createOpeningMenu } from '../core/menu/opening-menu.js'
 import { playAvi } from './avi-player.js'
 import { playRng } from './rng-player.js'
-import { showFbp } from './fbp-player.js'
+import { showFbp, scrollFbp } from './fbp-player.js'
 import { playSplashFallback } from './splash-fallback.js'
 import { playTrademarkFallback } from './trademark-fallback.js'
 import { startBattle } from '../core/battle/battle-system.js'
@@ -777,6 +777,25 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }).finally(() => {
       gs.suspendRaf = false
       if (gs.eventCursor?.waiting === 'show-fbp') gs.eventCursor.waiting = undefined
+    })
+  })
+
+  // 特效 B:FBP 滚动卷入 handler(opcode 0xA4 ScrollFBP)。同 showFbp 模式,fScrollDown=TRUE(0xA4 真值)。
+  setScrollFbpHandler(({ gs, chunkIdx, speed }) => {
+    gs.suspendRaf = true
+    const bg = battleBgs.get(chunkIdx)
+    void scrollFbp({
+      fbpIndices: bg?.indices ?? new Uint8Array(320 * 200),
+      speed,
+      fScrollDown: true,
+      fb,
+      canvasCtx: canvasCtx!,
+      palette: gs.palette ?? palette,
+    }).catch((err) => {
+      console.warn('[bootstrap.scrollFbpHandler] scrollFbp failed:', err)
+    }).finally(() => {
+      gs.suspendRaf = false
+      if (gs.eventCursor?.waiting === 'scroll-fbp') gs.eventCursor.waiting = undefined
     })
   })
 

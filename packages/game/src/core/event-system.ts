@@ -232,6 +232,8 @@ export const OP_SET_RNG = 0x0036                // 54 — iCurPlayingRNG = op0(s
 export const OP_PLAY_RNG = 0x0037               // 55 — PAL_RNGPlay(script.c:1544,阻塞 modal,handler 注入)
 export const OP_WAVE_SCREEN = 0x0071            // 113 — wScreenWave/sWaveProgression(script.c:2132,present 层消费)
 export const OP_SHOW_FBP = 0x0076               // 118 — PAL_ShowFBP(全屏图,script.c:2199;WIN95 黑屏/DOS 真显)
+export const OP_SCROLL_FBP = 0x00A4             // 164 — PAL_ScrollFBP(下滑卷入,script.c:3038;DOS-only,0 用)
+export const OP_SHOW_FBP_EFFECT = 0x00A5        // 165 — PAL_ShowFBP+effect sprite(script.c:3055;DOS-only,0 用)
 // case 0x008E(142): Restore the screen(sdlpal script.c:3428-3436)
 //   PAL_ClearDialog(TRUE) + VIDEO_RestoreScreen + VIDEO_UpdateScreen
 //   真值:restore backup buffer(含 title+portrait 像素)→ 视觉 title/portrait 持久,body 空。
@@ -701,6 +703,22 @@ export function setShowFbpHandler(fn: ShowFbpHandler | null): void {
   _showFbpHandler = fn
 }
 
+// ── 特效 B:FBP 滚动卷入 handler(opcode 0x00A4 PAL_ScrollFBP)──────────────────
+export interface ScrollFbpHandlerInput {
+  gs: GameState
+  /** FBP.MKF chunk(operand[0])。 */
+  chunkIdx: number
+  /** 滚动速度(operand[2];0→1,每步 800/speed ms)。 */
+  speed: number
+}
+export type ScrollFbpHandler = (input: ScrollFbpHandlerInput) => void
+
+let _scrollFbpHandler: ScrollFbpHandler | null = null
+
+export function setScrollFbpHandler(fn: ScrollFbpHandler | null): void {
+  _scrollFbpHandler = fn
+}
+
 /** 跑事件脚本的运行模式(M3 T17)。 */
 export type RuntimeMode = 'explore' | 'battle'
 
@@ -1037,6 +1055,11 @@ export function tickEventSystem(
 
   // 特效 B:FBP 全屏图显示中(modal,bootstrap _showFbpHandler 跑 showFbp + suspendRaf)。同 rng-play。
   if (cursor.waiting === 'show-fbp') {
+    return
+  }
+
+  // 特效 B:FBP 滚动卷入中(modal,bootstrap _scrollFbpHandler 跑 scrollFbp + suspendRaf)。同 show-fbp。
+  if (cursor.waiting === 'scroll-fbp') {
     return
   }
 
@@ -1453,6 +1476,37 @@ export function tickEventSystem(
             return
           }
           console.debug(`event-system: showFBP chunk=${chunk} fade=${fade}(无 _showFbpHandler 注入,skip)`)
+          cursor.ip++
+          break
+        }
+        // 特效 B:opcode 0xA4 ScrollFBP(sdlpal script.c:3038)。op0=chunk,op2=speed(op1 未用)。
+        //   sdlpal DOS-only(WIN95 no-op),本游戏 0 调用 —— 仅 devpanel / 结局编排经此/直调 scrollFbp。
+        //   modal:_scrollFbpHandler 开滚 + waiting='scroll-fbp' + ip++ + return。
+        if (cmd.opcode === OP_SCROLL_FBP) {
+          const chunk = cmd.operands[0] ?? 0
+          const speed = cmd.operands[2] ?? 0
+          if (_scrollFbpHandler) {
+            _scrollFbpHandler({ gs, chunkIdx: chunk, speed })
+            cursor.waiting = 'scroll-fbp'
+            cursor.ip++
+            return
+          }
+          console.debug(`event-system: scrollFBP chunk=${chunk} speed=${speed}(无 _scrollFbpHandler 注入,skip)`)
+          cursor.ip++
+          break
+        }
+        // 特效 B:opcode 0xA5 ShowFBP+effect(sdlpal script.c:3055)。op0=chunk,op1=effectSprite(0xFFFF=保持),
+        //   op2=fade。DOS-only,本游戏 0 调用。复用 _showFbpHandler 渲染全屏图;**MGO 特效精灵叠加留 Phase 3**
+        //   (需 MGO sprite RLE 叠加;0x76 默认 effectSprite=0,本 opcode 的 sprite 部分暂跳)。
+        if (cmd.opcode === OP_SHOW_FBP_EFFECT) {
+          const chunk = cmd.operands[0] ?? 0
+          const fade = cmd.operands[2] ?? 0
+          if (_showFbpHandler) {
+            _showFbpHandler({ gs, chunkIdx: chunk, fade })
+            cursor.waiting = 'show-fbp'
+            cursor.ip++
+            return
+          }
           cursor.ip++
           break
         }

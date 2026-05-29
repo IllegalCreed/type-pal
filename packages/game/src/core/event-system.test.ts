@@ -19,6 +19,7 @@ import {
   OP_FADE_TO_RED, OP_FADE_TO_SCENE, tickSceneAutoFadeIn,
   OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, setRngPlayHandler, type RngPlayHandlerInput,
   OP_SHOW_FBP, setShowFbpHandler, type ShowFbpHandlerInput,
+  OP_SCROLL_FBP, setScrollFbpHandler,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -3104,5 +3105,23 @@ describe('特效 B FBP opcode(0x76 ShowFBP)', () => {
     loadEvent(gs, [{ op: 'raw', opcode: OP_SHOW_FBP, operands: [65535, 0, 0] }, { op: 'end' }])
     tickEventSystem(gs, snap(), bus)
     expect(gs.eventCursor).toBeUndefined()
+  })
+})
+
+describe('特效 B ScrollFBP opcode(0xA4)', () => {
+  it('0xA4 → 调注入 handler(chunkIdx=op0, speed=op2)+ waiting=scroll-fbp + ip++', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    let captured: { chunkIdx: number, speed: number } | undefined
+    setScrollFbpHandler((input) => { captured = { chunkIdx: input.chunkIdx, speed: input.speed } })
+    try {
+      loadEvent(gs, [{ op: 'raw', opcode: OP_SCROLL_FBP, operands: [74, 0, 15] }, { op: 'end' }])
+      tickEventSystem(gs, snap(), bus)
+      expect(captured).toEqual({ chunkIdx: 74, speed: 15 }) // op0=chunk, op2=speed(op1 未用)
+      expect(gs.eventCursor?.waiting).toBe('scroll-fbp')
+    }
+    finally {
+      setScrollFbpHandler(null)
+    }
   })
 })

@@ -33,7 +33,7 @@ import {
   buildLabelMap,
   OP_FADE_OUT, OP_FADE_IN, OP_FADE_TO_RED, OP_PALETTE_FADE, OP_COLOR_FADE,
   OP_SCENE_FADE, OP_FADE_TO_SCENE, OP_FADE_SCREEN, OP_SET_DAY_PALETTE, OP_SET_NIGHT_PALETTE,
-  OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, OP_SHAKE_SCREEN, OP_SHOW_FBP,
+  OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, OP_SHAKE_SCREEN, OP_SHOW_FBP, OP_SCROLL_FBP,
 } from '../core/event-system.js'
 import { Save } from '../core/save/api.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
@@ -572,6 +572,18 @@ function openPicker(deps: DevPanelDeps): void {
     }])
   })
   fbpRow.appendChild(fbpBtn)
+  // ScrollFBP(0xA4):chunk = fbp 输入,speed = fade 输入(复用)。220 步下滑卷入。
+  const scrollBtn = document.createElement('button')
+  scrollBtn.textContent = 'Scroll FBP (0xA4)'
+  scrollBtn.addEventListener('click', () => {
+    closePicker()
+    triggerEffectScript(deps, [{
+      op: 'raw',
+      opcode: OP_SCROLL_FBP,
+      operands: [Number(fbpChunkInput.value) || 0, 0, Number(fbpFadeInput.value) || 15],
+    }])
+  })
+  fbpRow.appendChild(scrollBtn)
   div.appendChild(fbpRow)
 
   // 🎬 Videos —— 开场 / 结局 AVI 双版(WIN95 mp4)。DOS 双版:开场用 ?build=dos 启动;结局 DOS 编排待 Phase 3。

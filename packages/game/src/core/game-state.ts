@@ -209,8 +209,9 @@ export interface EventCursor {
    *  - 'rng-play':   0x37 PlayRNG(script.c:1544)— 脚本播 RNG.MKF 动画(modal,suspendRaf)。仿 'shop':
    *                  opcode 调 _rngPlayHandler(注入)开播 + waiting + ip++;播完(bootstrap finally)清 waiting 续跑。
    *  - 'show-fbp':   0x76 ShowFBP(script.c:2199)— 全屏 FBP 图(modal,suspendRaf,可选 dither fade-in)。同 rng-play。
+   *  - 'scroll-fbp': 0xA4 ScrollFBP(script.c:3038)— FBP 滚动卷入(modal,suspendRaf,220 步)。同 show-fbp。
    */
-  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play' | 'show-fbp'
+  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play' | 'show-fbp' | 'scroll-fbp'
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
   /** 'delay' 用(opcode 0x85):延迟到此 wall-clock 时间戳(performance.now()),到点 ip++ + clear。 */

@@ -84,3 +84,60 @@ export async function showFbp(o: ShowFbpOptions): Promise<void> {
   }
   flushToCanvas(o.fb, o.canvasCtx, o.palette)
 }
+
+export interface ScrollFbpOptions {
+  /** 新图 320×200 indices(滚入的目标);长度不符 → 不滚(sdlpal decompress fail return)。 */
+  fbpIndices: Uint8Array
+  /** sdlpal wScrollSpeed(op2;0→1);每步 delay = 800/speed ms。 */
+  speed: number
+  /** TRUE=下滑(0xA4 恒 TRUE);FALSE=上滚。 */
+  fScrollDown: boolean
+  fb: Framebuffer
+  canvasCtx: CanvasRenderingContext2D
+  palette: Palette
+  skipKeys?: string[]
+}
+
+/**
+ * FBP 全屏图滚动卷入(port sdlpal ending.c:152-279 PAL_ScrollFBP)。
+ * 220 步:下滑时旧屏(快照)整体下移、新图自底向上从顶部推入;每步 800/speed ms。末帧整屏 = 新图。
+ * MGO effect sprite overlay + PAL_ApplyWave 留 Phase 3(结局 ScrollFBP(74) g_wCurEffectSprite=0 + wScreenWave=0)。
+ * modal,caller suspendRaf 包。
+ */
+export async function scrollFbp(o: ScrollFbpOptions): Promise<void> {
+  if (o.fbpIndices.length !== N) return // 无图 → 不滚(sdlpal decompress<=0 return)
+  const target = o.fbpIndices
+  const back = new Uint8Array(o.fb.indices) // VIDEO_BackupScreen
+  const speed = o.speed === 0 ? 1 : o.speed
+  const delay = Math.max(1, Math.floor(800 / speed))
+  let skipped = false
+  const skipKeys = new Set(o.skipKeys ?? ['Space', 'Enter', 'Escape'])
+  const onKey = (e: KeyboardEvent): void => {
+    if (skipKeys.has(e.code)) { e.preventDefault(); skipped = true }
+  }
+  window.addEventListener('keydown', onKey, true)
+  try {
+    const next = new Uint8Array(N)
+    for (let l = 0; l < 220 && !skipped; l++) {
+      const i = Math.min(l, 200)
+      if (o.fScrollDown) {
+        // 旧屏 top [0,200-i) → 下移到 [i,200);新图 bottom [200-i,200) → 顶部 [0,i)
+        next.set(back.subarray(0, (200 - i) * SCREEN_W), i * SCREEN_W)
+        next.set(target.subarray((200 - i) * SCREEN_W, N), 0)
+      }
+      else {
+        // 上滚:旧屏 [i,200) → [0,200-i);新图 [0,i) → 底部 [200-i,200)
+        next.set(back.subarray(i * SCREEN_W, N), 0)
+        next.set(target.subarray(0, i * SCREEN_W), (200 - i) * SCREEN_W)
+      }
+      o.fb.indices.set(next)
+      flushToCanvas(o.fb, o.canvasCtx, o.palette)
+      await sleep(delay)
+    }
+  }
+  finally {
+    window.removeEventListener('keydown', onKey, true)
+  }
+  o.fb.indices.set(target) // VIDEO_CopyEntireSurface(p, gpScreen) 末帧整屏新图
+  flushToCanvas(o.fb, o.canvasCtx, o.palette)
+}
