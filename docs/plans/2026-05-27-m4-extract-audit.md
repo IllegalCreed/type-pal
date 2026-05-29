@@ -18,6 +18,7 @@ user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(
 **user 额外要求(已做):**
 - **MAP/GOP #104/#164**(无 scene 引用的非空地图)也提取(cli `uniqueMapNums` 加全非空 chunk)+ 渲染到 `build/tilemap-renders/map-{104,164}.png` 供预览。
 - **SOUNDS.MKF 完整提取**:363 非空 chunk(各为完整 RIFF/WAVE)整块 dump → `sounds/{i}.wav`(原仅 metadata)。
+- **Musics/ 完整提取**:86 MIDI(`{NNN}.mid`)+ 8 CD `TRACKxx.ogg` 纯拷贝 → `music/` + `music-manifest.json`。**至此 raw 下所有游戏资源数据全部落地**(runtime 音频播放系统仍留 M6,但数据无缺)。
 
 **确认非缺口(byte-level 验证):**
 - `GOP.MKF`(16MB)= **tileset 瓦片位图**(非障碍层,旧 doc 写错);sdlpal `global.c` **不开** `gop.mkf` 探测,只 res.c per-mapNum 加载;未引用 map 原版也永不加载。
@@ -25,7 +26,7 @@ user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(
 - 图形/数据/文本/视频(FBP/MGO/F/ABC/FIRE/BALL/RGM/DATA/SSS/RNG/WORD/M.MSG/1-6.avi)全 full。
 
 **仍 deferred(M6 音频里程碑,非漏):**
-- `SOUNDS.MKF` 的 runtime 接入(WAV 已落地)、`Musics/`(86 MIDI + 8 OGG,**本次新登记**,数据未提取)。
+- 只剩**音频 runtime 播放系统接入**(opcode 0x43 setMusic / playSound 真播)。**数据侧已全部落地**:SOUNDS WAV(363)+ Musics MIDI(86)+ CD ogg(8)。至此 raw 下无任何未提取的游戏资源数据。
 
 下方旧表 + 漏洞列表已就地订正过时项(STORE/BALL/WORD 标 ✓、GOP 描述、SOUNDS WAV、PAT 夜间、Musics 新增行)。
 
@@ -79,7 +80,7 @@ user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(
 | **BALL.MKF** | 0-251 | 单帧 RLE bitmap **物品图标** | ✓ decodeBallIcon RLE → 251 PNG(M5.6 T10b 已修)| `images/items/{NNN}.png` + `data/items-icons.json` |
 | **FIRE.MKF** | 0-54 | sprite group YJ2 法术动画 | 全 YJ2 + 帧抽 | `images/magic/fire-NN/frame-NN.png` + `data/fire-sprites.json` |
 | **SOUNDS.MKF** | 0-504 | **WAV/RIFF 音效**(WIN95;363 非空 + 142 空)| ✓ **全 363 非空 chunk dump → wav**(2026-05-29 补)+ metadata | `sounds/{i}.wav` × 363 + `data/sounds-metadata.json` |
-| **Musics/**(非 MKF)| — | 86 MIDI(`{n}.mid`,wNumMusic 编号)+ 8 CD `TRACK*.ogg`(本发行无 mus.mkf,MIDI/OGG 是唯一乐源)| ⚠ **未提取**(M6 音频里程碑;opcode 0x43 setMusic 仅记字段)| — |
+| **Musics/**(非 MKF)| — | 86 MIDI(`{NNN}.mid`,编号 = sdlpal wNumMusic,midi.c:69)+ 8 CD `TRACK*.ogg`(AUDIO_PlayCDTrack;本发行无 mus.mkf,MIDI/OGG 是唯一乐源)| ✓ 纯拷贝(2026-05-29 补)| `music/{NNN}.mid` × 86 + `music/TRACKxx.ogg` × 8 + `data/music-manifest.json` |
 | **M.MSG** | — | 字符串表(SSS.MKF.messageOffsets 索引)| parseMessages | `lookup/strings.json` |
 | **WORD.DAT** | [0..35] 系统/UI 36 条(含 `MAINMENU_LABEL_NEWGAME=7` / `LOADGAME=8`)| ✓ parseWordDat flat+system(2026-05-27 修)| `lookup/words.json` |
 | WORD.DAT | [36..41] 人物名 6 条 | parseWordDat | `lookup/words.json.persons` |

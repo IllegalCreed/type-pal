@@ -23,7 +23,7 @@
  *     rng-frames.json, rgm-raw.json, ball-raw.json (rng: decoded PNG; rgm/ball: raw dump, T18.5+ 真做)
  *     fire-sprites.json                            (FIRE.MKF sprite manifest, M4 P2 T4)
  */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -486,6 +486,32 @@ async function main(): Promise<void> {
   }
   writeJson(resolve(OUT, 'data', 'sounds-metadata.json'), dumpSoundsMetadata(soundsBufs))
   console.log(`[pal-extract] SOUNDS.MKF: ${wavWritten} WAV written + metadata (${soundsN} chunks)`)
+
+  // 音乐:data/raw/Musics/(独立文件,非 MKF)→ data/extracted/music/(纯拷贝)。
+  //   - {NNN}.MID = MIDI 曲,编号 = sdlpal wNumMusic(midi.c:69 `PAL_va("Musics/%.3d.mid", iNumRIX)`)→ 归一化 .mid。
+  //   - TRACKxx.ogg = CD 音轨(sdlpal AUDIO_PlayCDTrack)→ 原名保留。
+  // 2026-05-29 user 要求全提(M6 音频接入前先落地,数据齐)。runtime 播放系统仍留 M6。
+  {
+    const musicsDir = resolve(RAW, 'Musics')
+    const midiNums: number[] = []
+    const cdTracks: string[] = []
+    for (const name of readdirSync(musicsDir).sort()) {
+      const lower = name.toLowerCase()
+      if (lower.endsWith('.mid')) {
+        const num = Number(name.replace(/\.mid$/i, ''))
+        const out = `${String(num).padStart(3, '0')}.mid`
+        writeBinary(resolve(OUT, 'music', out), new Uint8Array(readFileSync(resolve(musicsDir, name))))
+        if (Number.isFinite(num)) midiNums.push(num)
+      }
+      else if (lower.endsWith('.ogg')) {
+        writeBinary(resolve(OUT, 'music', name), new Uint8Array(readFileSync(resolve(musicsDir, name))))
+        cdTracks.push(name)
+      }
+    }
+    midiNums.sort((a, b) => a - b)
+    writeJson(resolve(OUT, 'data', 'music-manifest.json'), { midi: midiNums, cdTracks })
+    console.log(`[pal-extract] Musics: ${midiNums.length} MIDI + ${cdTracks.length} CD ogg → music/`)
+  }
 
   // splash 素材:FBP.MKF chunk 3(BITMAPNUM_SPLASH_UP WIN95=0x03) +
   //             chunk 4(BITMAPNUM_SPLASH_DOWN WIN95=0x04)。
