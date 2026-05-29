@@ -15,7 +15,7 @@
  */
 
 import type { Command, InputSource, Tilemap } from '@type-pal/shared'
-import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
+import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE, FRAME_MS_FADE } from '@type-pal/shared'
 import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
 import { tickByMode } from '../core/mode.js'
@@ -34,8 +34,19 @@ export interface LoopContext {
   partyWalkFrames?: number
 }
 
-/** 按 gs.mode 选 tick interval —— battle 40ms / 其他 100ms。 */
+/**
+ * 按 gs.mode 选 tick interval —— battle 40ms / 其他 100ms。
+ *
+ * 特效 A:fade 进行中(dither gs.fadeState 或 palette gs.paletteFadeState,**scene-fade 除外**)
+ * 提到 ~16ms(60fps)→ present 多采样平滑 fade(sdlpal fade 自带高频内循环,见 FRAME_MS_FADE)。
+ * duration 不变(time-based)。scene-fade(0x93 / 0x80 fUpdateScene)留 10fps:sdlpal PAL_SceneFade
+ * 本就 100ms/步且每步更新 NPC,10fps 才匹配(提速会让淡入期 NPC 过快)。
+ */
 function tickIntervalMs(gs: GameState): number {
+  const fadeActive
+    = gs.fadeState != null
+    || (gs.paletteFadeState != null && gs.eventCursor?.waiting !== 'scene-fade')
+  if (fadeActive) return FRAME_MS_FADE
   return gs.mode === 'battle' ? FRAME_MS_BATTLE : FRAME_MS_EXPLORE
 }
 
