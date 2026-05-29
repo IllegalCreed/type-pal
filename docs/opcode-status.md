@@ -7,12 +7,24 @@
 > 状态:✅ 已实现 · 🟡 部分(extraction 已收集目标,runtime 待) · ⬜ 待实现
 > 类别:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra) · E=战斗 · S=系统/UI
 
-最后更新:2026-05-29(A 类补 0x84/0x85/0x8D/0x8F/0xA1)
+最后更新:2026-05-29 session 5(**C 类调色板全 ✅ + D 类视觉全 ✅** — 特效 A/B/C + 结局 DOS 编排)
 
-> 剩余 A/S 待实现都需前置子系统(非纯 opcode):
-> - 0x0A goto-if-no:需 yes/no ConfirmMenu UI + 阻塞选择
-> - 0x41 mark-failed:需 fScriptSuccess flag + 把物品消耗改成"脚本末按 success 决定扣"(item-use 流程改)
-> - 0x4D wait-any-key / 0x4E load-game / 0xA0 quit:需 UI 等键 / 存档 reload / 退出子系统
+> **2026-05-29 session 5 大批完成**(见各 commit):
+> - C 类调色板:0x53/0x54 昼夜(+ 夜间调色板真值接线)、0x80 PaletteFade、0x8B setPalette —— **全 ✅**
+> - D 类视觉:0x4F FadeToRed、0x50/0x51 FadeOut/In、0x93 SceneFade、0x9B FadeToScene(特效 A);
+>   0x71 wave、0x76 ShowFBP(dither)、0xA4 ScrollFBP、0xA5 ShowFBP+effectSprite(特效 B);
+>   0x36/0x37 RNG(特效 C);0x96 EndingAnimation + PAL_EndingScreen DOS 全编排 —— **全 ✅**
+> - 配套:开场/结局双版 devpanel、夜间调色板/SOUNDS/Musics/map104·164 提取补齐。
+>
+> 剩余 D 类只剩**音频**(需 M6 音频子系统):0x45 battle music、0x77 stop music、0xA3 CD music。
+> 剩余 A/S 待实现(部分已被本 session 建的子系统解锁,可做):
+> - 0x4D wait-any-key:**可做**(已有 ending-player waitForKey 可复用)
+> - 0x4E load-game:**可做**(已有 bootstrap loadGameFromSlot 可复用)
+> - 0xA0 quit/ending:**可做**(已有 PAL_EndingScreen DOS 编排 playDosEnding + WIN95 4/5/6.mp4)
+> - 0x0A goto-if-no:需 yes/no ConfirmMenu UI + 阻塞选择(前置子系统)
+> - 0x41 mark-failed:需 fScriptSuccess flag + 物品消耗改"脚本末按 success 扣"(item-use 流程改)
+> - 0xA6 backup screen:本游戏 0 调用(0x73 fadeScreen 内部已含 backup);独立 opcode 未单接
+> - 0x78:sdlpal 标 FIXME 未知,需查
 
 ## 控制流(0x00-0x0A)
 
@@ -119,28 +131,28 @@ setDialogStyle 0x3B-0x3E。
 | 0x9E | enemy summon | |
 | 0x9F | enemy transform | |
 
-### C palette / D audio·FBP·视觉(需 M6 渲染/音频 infra)
-| op | 含义 | 类 |
-|----|------|-----|
-| 0x36 | set current playing RNG anim | D |
-| 0x37 | play RNG anim | D |
-| 0x45 | set battle music | D |
-| 0x4F | fade screen to red(game over) | 🟡D 部分(OP_ 常量在,效果待) |
-| 0x50 | screen fade out | D |
-| 0x51 | screen fade in | D |
-| 0x53 | use day palette | C |
-| 0x54 | use night palette | C |
-| 0x71 | wave screen | D |
-| 0x76 | show FBP picture | D |
-| 0x77 | stop music | D |
-| 0x78 | FIXME ???(sdlpal 未知) | ? 需查 |
-| 0x80 | toggle day/night palette | C |
-| 0x8B | change current palette | C |
-| 0x8C | fade from/to color | D |
-| 0x93 | fade screen + update scene | D |
-| 0x96 | show ending animation | D |
-| 0x9B | fade to current scene | D |
-| 0xA3 | play CD music(RIX fallback) | D |
-| 0xA4 | scroll FBP to screen | D |
-| 0xA5 | show FBP with sprite effects | D |
-| 0xA6 | backup screen | D |
+### C palette / D audio·FBP·视觉
+| op | 含义 | 类 | 状态 |
+|----|------|-----|------|
+| 0x36 | set current playing RNG anim | D | ✅ 8872b54(特效 C) |
+| 0x37 | play RNG anim | D | ✅ 8872b54(_rngPlayHandler + playRng) |
+| 0x4F | fade screen to red(game over) | D | ✅ fec9a11(特效 A buildFadeToRed) |
+| 0x50 | screen fade out | D | ✅ fec9a11(冻屏淡黑 015f77e) |
+| 0x51 | screen fade in | D | ✅ fec9a11(+ 夜色 target ac8612e) |
+| 0x53 | use day palette | C | ✅ 8fe20e4 |
+| 0x54 | use night palette | C | ✅ 8fe20e4(夜色接线 ac8612e) |
+| 0x71 | wave screen | D | ✅ 8872b54(present screen-wave PAL_ApplyWave) |
+| 0x76 | show FBP picture | D | ✅ 5c7aece(PAL_ShowFBP dither fade-in) |
+| 0x80 | toggle day/night palette | C | ✅ fec9a11(+ 夜色 target ac8612e) |
+| 0x8B | change current palette | C | ✅(_fetchPalette setPalette) |
+| 0x8C | fade from/to color | D | ✅ fec9a11(buildColorFade) |
+| 0x93 | fade screen + update scene | D | ✅ fec9a11(SceneFade,scene-fade 放行 autoScript) |
+| 0x96 | show ending animation | D | ✅ d517919(PAL_EndingAnimation 400 帧) |
+| 0x9B | fade to current scene | D | ✅ fec9a11(复用 dither fadeState) |
+| 0xA4 | scroll FBP to screen | D | ✅ 046a583(PAL_ScrollFBP 220 步) |
+| 0xA5 | show FBP with sprite effects | D | ✅ f600c03(复用 showFbp + effectSprite 叠加) |
+| **0x45** | set battle music | D | ⬜ **M6 音频** |
+| **0x77** | stop music | D | ⬜ **M6 音频** |
+| **0xA3** | play CD music(RIX fallback) | D | ⬜ **M6 音频** |
+| 0xA6 | backup screen | D | ⬜ 本游戏 0 调用(0x73 内部已 backup);独立未接 |
+| 0x78 | FIXME ???(sdlpal 未知) | ? | ⬜ 需查 sdlpal |
