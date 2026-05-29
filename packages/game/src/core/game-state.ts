@@ -801,6 +801,14 @@ export interface GameState {
   pendingItemConsume?: number
 
   /**
+   * 当前 item.scriptOnUse 是 applyToAll 物品(sdlpal play.c:305-322:`RunTriggerScript; consume; return;`
+   * — applyToAll 用完**直接 return 退出 PAL_GameUseItem**,不像非 applyToAll 在 ItemUseMenu INNER while
+   * 循环里反复用)。我们 tick 模型:脚本结束时据此关掉物品菜单回 explore(让脚本设的世界 trigger 触发,
+   * 如桂花酒设酒剑仙 proximity → 回 explore 立即触发喝酒对话)。非 applyToAll 不设 → 留在菜单(INNER 循环)。
+   */
+  itemUseApplyToAll?: boolean
+
+  /**
    * Sync.2 fix9:屏幕淡入状态(sdlpal video.c::VIDEO_FadeScreen,opcode 0x73 触发)。
    *
    * sdlpal 真值(video.c:1130-1280):

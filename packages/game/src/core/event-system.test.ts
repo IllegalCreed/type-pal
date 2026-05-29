@@ -2300,6 +2300,32 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
     expect(gsFail.inventory[0]?.count).toBe(3) // 脚本失败 → 不扣
     expect(gsFail.pendingItemConsume).toBeUndefined()
   })
+
+  it('applyToAll 物品(0xFFFF)用完 → 关全菜单回 explore(桂花酒);非 applyToAll → 留菜单(INNER 循环)', () => {
+    const bus = createCommandBus()
+    // applyToAll(targetRoleIdOrAll=0xFFFF):脚本结束应关菜单回 explore,让世界 trigger 触发
+    const gsAll = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gsAll.menuStack = [{ kind: 'inventory', state: {} }]
+    gsAll.sceneCommands = [{ op: 'end' }, { op: 'end' }]
+    gsAll.sceneLabelMap = { L_1: 1 }
+    startOverworldItemScript(gsAll, 272, 1, 0xFFFF, false) // 桂花酒类:applyToAll consuming=false
+    expect(gsAll.itemUseApplyToAll).toBe(true)
+    tickEventSystem(gsAll, snap(), bus) // L_1 = end → 脚本结束
+    expect(gsAll.mode).toBe('explore')
+    expect(gsAll.menuStack).toEqual([])
+    expect(gsAll.itemUseApplyToAll).toBeUndefined()
+
+    // 非 applyToAll(role 0):脚本结束 menuStack 非空 → 留 'menu'(ItemUseMenu 反复用)
+    const gsOne = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gsOne.menuStack = [{ kind: 'inventory', state: {} }]
+    gsOne.sceneCommands = [{ op: 'end' }, { op: 'end' }]
+    gsOne.sceneLabelMap = { L_1: 1 }
+    startOverworldItemScript(gsOne, 5, 1, 0, true)
+    expect(gsOne.itemUseApplyToAll).toBe(false)
+    tickEventSystem(gsOne, snap(), bus)
+    expect(gsOne.mode).toBe('menu')
+    expect(gsOne.menuStack.length).toBe(1)
+  })
 })
 
 // ── onEnter 脚本持久化(2026-05-28 开场 cutscene 重进重播回归)──────────────────

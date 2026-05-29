@@ -1006,9 +1006,7 @@ export function tickEventSystem(
       gs.dialogBox = undefined
       consumePendingItem(gs)  // item.scriptOnUse 跑完 → 按 g_fScriptSuccess gate 扣物品
       gs.iCurEquipPart = -1   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset — 0x18 设的 part 不泄漏
-      // sdlpal play.c:264-303 PAL_GameUseItem 真值:item script 跑完回到 ItemUseMenu。
-      // 等价 ts:menuStack 非空 → mode='menu' 恢复菜单循环(否则回 explore)。
-      gs.mode = gs.menuStack.length > 0 ? 'menu' : 'explore'
+      restoreModeAfterScript(gs) // applyToAll → 关菜单回 explore;否则 menuStack 非空回 menu(INNER 循环)
       return
     }
 
@@ -1117,13 +1115,12 @@ export function tickEventSystem(
         gs.currentDialogStyle = 'top'
         // Sync.2 fix5:主角 scripted pose / sprite override 不在此清,
         //   由 scene-system 首次走动检测时清(避免单元测试 setX→end 两 opcode 后立即 read 不到值)
-        // M5.6 session 3 修(sdlpal play.c:264-303 PAL_GameUseItem INNER while loop 真值):
-        //   item.scriptOnUse 跑完后 sdlpal **回到** ItemUseMenu(while (TRUE) 顶)— 不退菜单。
-        //   ts 等价:若 menuStack 非空 → mode='menu' 恢复菜单循环,而非 mode='explore'。
-        //   user 反馈"如果这个物品没用完可以继续使用" — 之前我一律 menuStack=[] 错杀菜单。
+        // sdlpal play.c:264-323 PAL_GameUseItem:非 applyToAll item 在 INNER while 循环里反复用
+        //   (用完回 ItemUseMenu,user 反馈"没用完可以继续使用");applyToAll item `return` 退出 →
+        //   关菜单回 explore(让脚本设的世界 trigger 触发,如桂花酒酒剑仙)。NPC trigger / onEnter 同 else 支。
         consumePendingItem(gs)  // item.scriptOnUse 'end' 收尾 → 按 g_fScriptSuccess gate 扣物品
         gs.iCurEquipPart = -1   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset
-        gs.mode = gs.menuStack.length > 0 ? 'menu' : 'explore'
+        restoreModeAfterScript(gs)
         return
 
       case 'goto': {
@@ -1731,6 +1728,9 @@ export function startOverworldItemScript(
   // script.c:3187),记 pendingItemConsume,脚本 cursor 结束时 consumePendingItem 按 fScriptSuccess gate 扣。
   gs.fScriptSuccess = true
   gs.pendingItemConsume = consuming ? itemId : undefined
+  // applyToAll 物品(targetRoleIdOrAll=0xFFFF):sdlpal play.c:305-322 用完 `return` 退出 PAL_GameUseItem
+  // → 脚本结束关物品菜单回 explore(让脚本设的世界 trigger 触发,如桂花酒酒剑仙)。非 applyToAll 留菜单。
+  gs.itemUseApplyToAll = targetRoleIdOrAll === 0xFFFF
   gs.eventCursor = {
     commands,
     labelMap,
@@ -1758,6 +1758,25 @@ function consumePendingItem(gs: GameState): void {
     console.debug(`event-system: item ${gs.pendingItemConsume} 不消耗(g_fScriptSuccess=false)`)
   }
   gs.pendingItemConsume = undefined
+}
+
+/**
+ * item / trigger 脚本结束后恢复 mode。
+ * - applyToAll 物品用完:sdlpal play.c:305-322 `return` 退出 PAL_GameUseItem → 关物品菜单回 explore
+ *   (让脚本设的世界 trigger 触发,如桂花酒酒剑仙 proximity 对话)。
+ * - 否则(非 applyToAll item INNER 循环 / NPC trigger / onEnter):menuStack 非空回 'menu'(ItemUseMenu
+ *   反复用,sdlpal play.c:288-302 INNER while),否则回 'explore'。
+ * itemUseApplyToAll 每次都清(每个 startOverworldItemScript 重设,不残留到下个脚本)。
+ */
+function restoreModeAfterScript(gs: GameState): void {
+  if (gs.itemUseApplyToAll) {
+    gs.itemUseApplyToAll = undefined
+    gs.menuStack = []
+    gs.mode = 'explore'
+    return
+  }
+  gs.itemUseApplyToAll = undefined
+  gs.mode = gs.menuStack.length > 0 ? 'menu' : 'explore'
 }
 
 /**

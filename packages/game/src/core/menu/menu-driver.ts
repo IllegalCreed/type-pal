@@ -399,17 +399,11 @@ function dispatchInventoryMenu(
       const sel = s.inventory[s.cursor]
       const item = sel ? catalogs.items.find((it) => it.id === sel.itemId) : undefined
       if (item && item.flags.usable && item.flags.applyToAll) {
-        // applyToAll 路径:sdlpal play.c:305-322 真值 — runScript + consume + return
-        // (不再 while loop 继续选;applyToAll 用完即退出 PAL_GameUseItem)。
-        // ts:让 phase='done' → tickMenu closeTopMenu 退 inventory 回 inventory-action。
-        // 注:**不再 menuStack=[]**(之前错杀)— event mode 跑 script 完会自动 mode='menu'
-        //     恢复 menuStack 顶 'inventory'(已 phase='done'),即关 inventory 回 inventory-action。
-        const ok = startOverworldItemScript(
-          gs, item.id, item.scriptOnUse, 0xFFFF, item.flags.consuming,
-        )
-        if (ok) {
-          s.phase = 'done'  // script 跑完 mode 切 menu,closeTopMenu 关 inventory
-        }
+        // applyToAll 路径:sdlpal play.c:305-322 真值 — runScript + consume + **return**(退出整个
+        // PAL_GameUseItem,不像非 applyToAll 在 ItemUseMenu INNER while 循环反复用)。
+        // ts:startOverworldItemScript 标 itemUseApplyToAll → 脚本结束 restoreModeAfterScript 关全
+        // 物品菜单回 explore,让脚本设的世界 trigger 触发(桂花酒设酒剑仙 proximity → 回 explore 即对话)。
+        startOverworldItemScript(gs, item.id, item.scriptOnUse, 0xFFFF, item.flags.consuming)
         return
       }
       // 单 target 路径:进 use-target phase
