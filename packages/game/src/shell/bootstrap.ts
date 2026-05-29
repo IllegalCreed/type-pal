@@ -499,9 +499,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     const oeOverride = gs.sceneOnEnterOverride?.[newWNumScene]
     if (oeOverride !== undefined) {
       delete gs.sceneOnEnterOverride![newWNumScene]
-      gs.sceneOnEnterIp[newWNumScene] = oeOverride === 0
-        ? -1
-        : (getGlobalLabelMap()[`L_${oeOverride}`] ?? -1) // P2#5:override 是全局 entry → 全局 ip
+      // 0x6D override(operands[1])是绝对 script entry 号 = 全局数组下标(L_<n>→n 恒等,见 jumpToGlobalIp
+      // event-system.ts:2220)。**直接用**,不查 `L_<n>` label —— 仅被 0x6D 引用的 entry(如香兰报信
+      // cutscene entry 903)在反汇编里没打 label,查表必 →undefined→ -1 → onEnter 漏触发
+      // (bug:码头对话讲传说 NPC 设 0x6D[5,903,0],重进 scene5 香兰应报"李大娘病了",旧码 L_903 不存在 → 不触发)。
+      gs.sceneOnEnterIp[newWNumScene] = oeOverride === 0 ? -1 : oeOverride
     }
     if (!opts.fromSavedGame) {
       // 忠实全局 event object 数组(sdlpal lprgEventObject):gs.npcs = 当前 scene 切片
