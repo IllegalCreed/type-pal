@@ -830,6 +830,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // 关菜单回 explore — loadSceneCommon 完成后 explore tick 接管
     gs.menuStack = []
     gs.mode = 'explore'
+    // sdlpal PAL_InitGameData(global.c:953)真值:PAL_LoadGame 后**无条件** PAL_UpdateEquipments()。
+    // rgEquipmentEffect 是派生字段(不在 SAVEDGAME_WIN),必须从 rgwEquipment 重算 —— 不信存档里那份
+    // (避免存档时 effect 处于脏/旧状态被原样载入;item/script 定义变更后也能自愈)。P1#4(2026-05-29)。
+    updateAllEquipments(gs, items)
+    gs.iCurEquipPart = -1
     // sdlpal PAL_ReloadInNextTick 真值是设 fEnteringScene 让下 tick 主循环 reload,
     // 但 ts 端 loadSceneCommon 已**同步**做完 reload(await 走完),所以**不**留
     // fEnteringScene=true 余尾(否则 present.ts:114 检测后跳过 render → 屏幕冻结

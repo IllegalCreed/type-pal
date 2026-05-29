@@ -995,6 +995,7 @@ export function tickEventSystem(
       gs.eventCursor = undefined
       gs.dialogBox = undefined
       consumePendingItem(gs)  // item.scriptOnUse 跑完 → 按 g_fScriptSuccess gate 扣物品
+      gs.iCurEquipPart = -1   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset — 0x18 设的 part 不泄漏
       // sdlpal play.c:264-303 PAL_GameUseItem 真值:item script 跑完回到 ItemUseMenu。
       // 等价 ts:menuStack 非空 → mode='menu' 恢复菜单循环(否则回 explore)。
       gs.mode = gs.menuStack.length > 0 ? 'menu' : 'explore'
@@ -1113,6 +1114,7 @@ export function tickEventSystem(
         //   ts 等价:若 menuStack 非空 → mode='menu' 恢复菜单循环,而非 mode='explore'。
         //   user 反馈"如果这个物品没用完可以继续使用" — 之前我一律 menuStack=[] 错杀菜单。
         consumePendingItem(gs)  // item.scriptOnUse 'end' 收尾 → 按 g_fScriptSuccess gate 扣物品
+        gs.iCurEquipPart = -1   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset
         gs.mode = gs.menuStack.length > 0 ? 'menu' : 'explore'
         return
 

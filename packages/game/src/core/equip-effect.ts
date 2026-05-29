@@ -176,8 +176,16 @@ export function addPlayerStatRow(gs: GameState, rowIdx: number, roleId: number, 
   }
 }
 
-/** Helper:set PlayerRolesRuntime 某 row 给 role(sdlpal opcode 0x1A)。 */
+/** Helper:set PlayerRolesRuntime 某 row 给 role(sdlpal opcode 0x1A,script.c:834-865)。 */
 export function setPlayerStatRow(gs: GameState, rowIdx: number, roleId: number, value: number): void {
+  // sdlpal script.c:838-847:装备进行中(g_iCurEquipPart != -1)→ 写 rgEquipmentEffect[part] 覆盖层而非 base。
+  // 装备脚本(scriptOnEquip)的 0x1A 把 stat 加进可卸下的效果层;卸装时 removeEquipmentEffect 清掉。
+  // 关键:脚本结束必须 reset iCurEquipPart=-1(event-system trigger-end / runEquipScriptSync 末尾),
+  // 否则后续无关脚本的 0x1A 会误写覆盖层(2026-05-29 P1#4)。
+  if (gs.iCurEquipPart !== -1) {
+    writeEquipmentEffectField(gs, gs.iCurEquipPart, rowIdx, roleId, value)
+    return
+  }
   const r = gs.PlayerRolesRuntime
   switch (rowIdx) {
     case PLAYERROLES_ROW.LEVEL: r.rgwLevel[roleId] = value; break
@@ -274,6 +282,9 @@ function runEquipScriptSync(
 
   let ip = startIp
   let step = 0
+  // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)`g_iCurEquipPart = -1` — 0x18 设的 part 不泄漏到
+  // 后续脚本(否则后续无关 0x1A 误写 rgEquipmentEffect 覆盖层)。try/finally 保证各出口都 reset。
+  try {
   while (step++ < SCRIPT_TICK_LIMIT) {
     if (ip < 0 || ip >= commands.length) {
       console.warn(`runEquipScriptSync: ip ${ip} 越界`)
@@ -352,6 +363,10 @@ function runEquipScriptSync(
     ip++
   }
   console.warn(`runEquipScriptSync: SCRIPT_TICK_LIMIT ${SCRIPT_TICK_LIMIT} 超出 — 死循环?`)
+  }
+  finally {
+    gs.iCurEquipPart = -1
+  }
 }
 
 /**

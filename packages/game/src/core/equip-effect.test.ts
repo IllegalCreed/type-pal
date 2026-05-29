@@ -23,6 +23,7 @@ import {
   PLAYERROLES_ROW,
   removeEquipmentEffect,
   runEquipScript,
+  setPlayerStatRow,
   writeEquipmentEffectField,
 } from './equip-effect.js'
 
@@ -210,6 +211,44 @@ describe('equip-effect', () => {
       runEquipScript(gs, 500, 2)
       expect(gs.PlayerRolesRuntime.rgwEquipment[3]![2]).toBe(163)
       expect(gs.inventory.find((e) => e.itemId === 163)?.count).toBe(1) // 背包不变(没 swap)
+    })
+  })
+
+  // P1#4(2026-05-29):sdlpal 0x1A iCurEquipPart redirect(script.c:838-847)+ 脚本末 reset(3476)
+  describe('setPlayerStatRow iCurEquipPart redirect + reset', () => {
+    it('iCurEquipPart=-1 → 写 base PlayerRolesRuntime', () => {
+      const gs = freshGs()
+      gs.iCurEquipPart = -1
+      setPlayerStatRow(gs, PLAYERROLES_ROW.ATTACK_STRENGTH, 0, 99)
+      expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(99)
+      expect(gs.rgEquipmentEffect[3]!.rgwAttackStrength[0]).toBe(0)
+    })
+
+    it('iCurEquipPart=3(装备进行中)→ 写 rgEquipmentEffect[3] 覆盖层,base 不变', () => {
+      const gs = freshGs()
+      gs.iCurEquipPart = 3
+      setPlayerStatRow(gs, PLAYERROLES_ROW.ATTACK_STRENGTH, 0, 7)
+      expect(gs.rgEquipmentEffect[3]!.rgwAttackStrength[0]).toBe(7)
+      expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(50) // base 不变
+    })
+
+    it('runEquipScript:0x18 设 part 后 0x1A redirect 到覆盖层;脚本结束 iCurEquipPart reset=-1', () => {
+      const cmds: Command[] = [
+        { op: 'raw', opcode: 0x18, operands: [14, 163, 0] }, // part 14-0xB=3,装 163
+        { op: 'raw', opcode: 0x1a, operands: [PLAYERROLES_ROW.ATTACK_STRENGTH, 7, 0] }, // 加 Atk 到覆盖层
+        { op: 'end' },
+      ]
+      setSharedEvents(cmds, { L_501: 0 })
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.PlayerRolesRuntime.rgwAttackStrength[2] = 50
+      gs.PlayerRolesRuntime.rgwEquipment[3]![2] = 163
+      gs.inventory = [{ itemId: 163, count: 1 }]
+      runEquipScript(gs, 501, 2)
+      // 0x1A 经 iCurEquipPart=3 redirect → 写 rgEquipmentEffect[3],base 不动
+      expect(gs.rgEquipmentEffect[3]!.rgwAttackStrength[2]).toBe(7)
+      expect(gs.PlayerRolesRuntime.rgwAttackStrength[2]).toBe(50)
+      // 脚本结束必须 reset,否则后续无关 0x1A 误写覆盖层
+      expect(gs.iCurEquipPart).toBe(-1)
     })
   })
 })
