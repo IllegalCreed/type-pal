@@ -234,6 +234,7 @@ export const OP_WAVE_SCREEN = 0x0071            // 113 — wScreenWave/sWaveProg
 export const OP_SHOW_FBP = 0x0076               // 118 — PAL_ShowFBP(全屏图,script.c:2199;WIN95 黑屏/DOS 真显)
 export const OP_SCROLL_FBP = 0x00A4             // 164 — PAL_ScrollFBP(下滑卷入,script.c:3038;DOS-only,0 用)
 export const OP_SHOW_FBP_EFFECT = 0x00A5        // 165 — PAL_ShowFBP+effect sprite(script.c:3055;DOS-only,0 用)
+export const OP_ENDING_ANIMATION = 0x0096       // 150 — PAL_EndingAnimation(结局 400 帧,script.c:2693;DOS-only,0 用)
 // case 0x008E(142): Restore the screen(sdlpal script.c:3428-3436)
 //   PAL_ClearDialog(TRUE) + VIDEO_RestoreScreen + VIDEO_UpdateScreen
 //   真值:restore backup buffer(含 title+portrait 像素)→ 视觉 title/portrait 持久,body 空。
@@ -719,6 +720,19 @@ export function setScrollFbpHandler(fn: ScrollFbpHandler | null): void {
   _scrollFbpHandler = fn
 }
 
+// ── 结局:结局动画 handler(opcode 0x0096 PAL_EndingAnimation)──────────────────
+// 无 operand;bootstrap 注入:fetch FBP 61/62 + MGO 571/572 → 跑 400 帧 cutscene(modal,suspendRaf)。
+export interface EndingAnimationHandlerInput {
+  gs: GameState
+}
+export type EndingAnimationHandler = (input: EndingAnimationHandlerInput) => void
+
+let _endingAnimationHandler: EndingAnimationHandler | null = null
+
+export function setEndingAnimationHandler(fn: EndingAnimationHandler | null): void {
+  _endingAnimationHandler = fn
+}
+
 /** 跑事件脚本的运行模式(M3 T17)。 */
 export type RuntimeMode = 'explore' | 'battle'
 
@@ -1060,6 +1074,11 @@ export function tickEventSystem(
 
   // 特效 B:FBP 滚动卷入中(modal,bootstrap _scrollFbpHandler 跑 scrollFbp + suspendRaf)。同 show-fbp。
   if (cursor.waiting === 'scroll-fbp') {
+    return
+  }
+
+  // 结局:结局动画播放中(modal,bootstrap _endingAnimationHandler 跑 400 帧 + suspendRaf)。同 show-fbp。
+  if (cursor.waiting === 'ending-anim') {
     return
   }
 
@@ -1507,6 +1526,19 @@ export function tickEventSystem(
             cursor.ip++
             return
           }
+          cursor.ip++
+          break
+        }
+        // 结局:opcode 0x96 EndingAnimation(sdlpal script.c:2693)。无 operand。DOS-only(WIN95 用 AVI),0 调用。
+        //   modal:_endingAnimationHandler 跑 400 帧 + waiting='ending-anim' + ip++ + return。
+        if (cmd.opcode === OP_ENDING_ANIMATION) {
+          if (_endingAnimationHandler) {
+            _endingAnimationHandler({ gs })
+            cursor.waiting = 'ending-anim'
+            cursor.ip++
+            return
+          }
+          console.debug('event-system: endingAnimation(无 _endingAnimationHandler 注入,skip)')
           cursor.ip++
           break
         }

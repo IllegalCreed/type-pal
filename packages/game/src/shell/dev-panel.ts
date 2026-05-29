@@ -34,6 +34,7 @@ import {
   OP_FADE_OUT, OP_FADE_IN, OP_FADE_TO_RED, OP_PALETTE_FADE, OP_COLOR_FADE,
   OP_SCENE_FADE, OP_FADE_TO_SCENE, OP_FADE_SCREEN, OP_SET_DAY_PALETTE, OP_SET_NIGHT_PALETTE,
   OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, OP_SHAKE_SCREEN, OP_SHOW_FBP, OP_SCROLL_FBP,
+  OP_ENDING_ANIMATION,
 } from '../core/event-system.js'
 import { Save } from '../core/save/api.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
@@ -621,7 +622,7 @@ function openPicker(deps: DevPanelDeps): void {
     })
     div.appendChild(btn)
   }
-  // 结局 WIN95 全片(PAL_EndingScreen 的 AVI 序:4→5→6 连播)。DOS 结局编排留 Phase 3。
+  // 结局 WIN95 全片(PAL_EndingScreen 的 AVI 序:4→5→6 连播)。
   const endingBtn = document.createElement('button')
   endingBtn.textContent = '▶ 结局 WIN95 (4→5→6 连播)'
   endingBtn.addEventListener('click', () => {
@@ -630,6 +631,14 @@ function openPicker(deps: DevPanelDeps): void {
     else console.log('[dev] playVideo ending — 无 playVideo 注入')
   })
   div.appendChild(endingBtn)
+  // 结局 DOS 动画(0x96 PAL_EndingAnimation,400 帧:背景上滚 + 妖兽下降 + 女孩行走 + 水波)。
+  const endingAnimBtn = document.createElement('button')
+  endingAnimBtn.textContent = '▶ 结局 DOS 动画 (0x96)'
+  endingAnimBtn.addEventListener('click', () => {
+    closePicker()
+    triggerEffectScript(deps, [{ op: 'raw', opcode: OP_ENDING_ANIMATION, operands: [0, 0, 0] }])
+  })
+  div.appendChild(endingAnimBtn)
 
   document.body.appendChild(div)
   currentPicker = div

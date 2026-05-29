@@ -20,6 +20,7 @@ import {
   OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, setRngPlayHandler, type RngPlayHandlerInput,
   OP_SHOW_FBP, setShowFbpHandler, type ShowFbpHandlerInput,
   OP_SCROLL_FBP, setScrollFbpHandler,
+  OP_ENDING_ANIMATION, setEndingAnimationHandler,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -3122,6 +3123,24 @@ describe('特效 B ScrollFBP opcode(0xA4)', () => {
     }
     finally {
       setScrollFbpHandler(null)
+    }
+  })
+})
+
+describe('结局 EndingAnimation opcode(0x96)', () => {
+  it('0x96 → 调注入 handler + waiting=ending-anim + ip++', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    let called = false
+    setEndingAnimationHandler(() => { called = true })
+    try {
+      loadEvent(gs, [{ op: 'raw', opcode: OP_ENDING_ANIMATION, operands: [0, 0, 0] }, { op: 'end' }])
+      tickEventSystem(gs, snap(), bus)
+      expect(called).toBe(true)
+      expect(gs.eventCursor?.waiting).toBe('ending-anim')
+    }
+    finally {
+      setEndingAnimationHandler(null)
     }
   })
 })

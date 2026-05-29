@@ -12,7 +12,7 @@ import {
   buildLabelMap, runEnterScript, setFetchPalette,
   setSceneLoader, setMapReloader, setObstacleChecker,
   setGlobalEvents, getGlobalLabelMap, setStartBattleHandler, setShopMenuHandler,
-  setRngPlayHandler, setShowFbpHandler, setScrollFbpHandler,
+  setRngPlayHandler, setShowFbpHandler, setScrollFbpHandler, setEndingAnimationHandler,
 } from '../core/event-system.js'
 import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
 import { openMenu } from '../core/menu/menu-mode.js'
@@ -22,6 +22,7 @@ import { createOpeningMenu } from '../core/menu/opening-menu.js'
 import { playAvi } from './avi-player.js'
 import { playRng } from './rng-player.js'
 import { showFbp, scrollFbp } from './fbp-player.js'
+import { playEndingAnimation } from './ending-player.js'
 import { playSplashFallback } from './splash-fallback.js'
 import { playTrademarkFallback } from './trademark-fallback.js'
 import { startBattle } from '../core/battle/battle-system.js'
@@ -803,6 +804,43 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }).finally(() => {
       gs.suspendRaf = false
       if (gs.eventCursor?.waiting === 'scroll-fbp') gs.eventCursor.waiting = undefined
+    })
+  })
+
+  // 结局动画 handler(opcode 0x96 PAL_EndingAnimation)。fetch FBP 61/62(battleBgs)+ MGO 571/572 妖兽/女孩
+  //   sprite(非预载,按需 fetch sprite/{id}.json + 帧 PNG)→ 跑 400 帧 cutscene。modal,suspendRaf。
+  const fetchMgoSprite = async (id: number): Promise<IndexedImage[]> => {
+    const meta = await fetch(`${BASE}/data/sprite/${id}.json`).then((r) => {
+      if (!r.ok) throw new Error(`sprite ${id}.json ${r.status}`)
+      return r.json() as Promise<{ frames: { index: number }[] }>
+    })
+    return Promise.all(meta.frames.map((f) =>
+      fetch(`${BASE}/images/world/npc/${id}/frame-${String(f.index).padStart(2, '0')}.png`)
+        .then((r) => r.blob())
+        .then(decodePngToIndices),
+    ))
+  }
+  setEndingAnimationHandler(({ gs }) => {
+    gs.suspendRaf = true
+    void (async () => {
+      const [beast, girl] = await Promise.all([
+        fetchMgoSprite(571).catch(() => [] as IndexedImage[]),
+        fetchMgoSprite(572).catch(() => [] as IndexedImage[]),
+      ])
+      await playEndingAnimation({
+        upperIndices: battleBgs.get(61)?.indices ?? new Uint8Array(320 * 200),
+        lowerIndices: battleBgs.get(62)?.indices ?? new Uint8Array(320 * 200),
+        beastFrames: beast,
+        girlFrames: girl,
+        fb,
+        canvasCtx: canvasCtx!,
+        palette: gs.palette ?? palette,
+      })
+    })().catch((err) => {
+      console.warn('[bootstrap.endingAnimationHandler] failed:', err)
+    }).finally(() => {
+      gs.suspendRaf = false
+      if (gs.eventCursor?.waiting === 'ending-anim') gs.eventCursor.waiting = undefined
     })
   })
 
