@@ -110,6 +110,8 @@ export interface DevPanelDeps {
   playVideo?: (mp4: string | string[]) => void
   /** devpanel 看开场 DOS 双版:跑 trademark RNG + splash 卷轴 fallback。bootstrap 传(suspendRaf 包)。 */
   playDosOpening?: () => void
+  /** devpanel 看结局 DOS 全片:PAL_EndingScreen DOS 编排(RNG+fade+FBP+scroll+ColorFade+EndingAnim)。 */
+  playDosEnding?: () => void
   resources: {
     enemies: Enemy[]
     enemyTeams: EnemyTeam[]
@@ -639,6 +641,15 @@ function openPicker(deps: DevPanelDeps): void {
     triggerEffectScript(deps, [{ op: 'raw', opcode: OP_ENDING_ANIMATION, operands: [0, 0, 0] }])
   })
   div.appendChild(endingAnimBtn)
+  // 结局 DOS 全片(PAL_EndingScreen 完整 DOS 编排)。
+  const dosEndingBtn = document.createElement('button')
+  dosEndingBtn.textContent = '▶ 结局 DOS 全片 (PAL_EndingScreen)'
+  dosEndingBtn.addEventListener('click', () => {
+    closePicker()
+    if (deps.playDosEnding) deps.playDosEnding()
+    else console.log('[dev] playDosEnding — 无注入')
+  })
+  div.appendChild(dosEndingBtn)
 
   document.body.appendChild(div)
   currentPicker = div

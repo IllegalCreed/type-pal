@@ -22,7 +22,7 @@ import { createOpeningMenu } from '../core/menu/opening-menu.js'
 import { playAvi } from './avi-player.js'
 import { playRng } from './rng-player.js'
 import { showFbp, scrollFbp } from './fbp-player.js'
-import { playEndingAnimation } from './ending-player.js'
+import { playEndingAnimation, fadeOutBlocking, fadeInBlocking, colorFadeBlocking } from './ending-player.js'
 import { playSplashFallback } from './splash-fallback.js'
 import { playTrademarkFallback } from './trademark-fallback.js'
 import { startBattle } from '../core/battle/battle-system.js'
@@ -649,6 +649,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         console.warn('[dev] playDosOpening failed:', err)
       }).finally(() => { gs.suspendRaf = false })
     },
+    // 结局 DOS 全片(PAL_EndingScreen DOS 编排:RNG + FadeOut/In + ShowFBP + ScrollFBP + ColorFade + EndingAnim)。
+    playDosEnding: () => {
+      gs.suspendRaf = true
+      void playDosEnding().catch((err) => {
+        console.warn('[dev] playDosEnding failed:', err)
+      }).finally(() => { gs.suspendRaf = false })
+    },
     resources: {
       enemies, enemyTeams, battleFields,
       playerRoles, items, spells, magics,
@@ -848,6 +855,65 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       if (gs.eventCursor?.waiting === 'ending-anim') gs.eventCursor.waiting = undefined
     })
   })
+
+  /**
+   * 结局 DOS 全片编排(port sdlpal ending.c:396-512 PAL_EndingScreen 的 DOS fallback 分支)。
+   * 一个 suspendRaf 闭包顺序跑全部视觉 beat(RNG/FadeOut-In/ShowFBP/ScrollFBP/ColorFade/EndingAnimation),
+   * fade 用阻塞 palette-scale(全程 suspendRaf,不能走 present 驱动)。caller 包 suspendRaf + finally。
+   * iCurPlayingRNG=9(追真值:游戏 0xA0 结局前 ip 35576 setRNG chunk 9)。
+   * **未做(非视觉/已记)**:音乐(M6 音频系统)、ShowFBP(76) 的 MGO effectSprite 0x27b 叠加(Phase 留)、
+   *   WaitForKey(原版等键,这里连续观看用短延时)。
+   */
+  async function playDosEnding(): Promise<void> {
+    const ctx = canvasCtx!
+    const BLACK = new Uint8Array(320 * 200)
+    const bg = (n: number): Uint8Array => battleBgs.get(n)?.indices ?? BLACK
+    const pget = (n: number): Promise<typeof palette> => fetchPalette(n).catch(() => palette)
+    const fbp = (chunk: number, fade: number, pal: typeof palette): Promise<void> =>
+      showFbp({ fbpIndices: bg(chunk), fade, chunkNum: chunk, isWin95: false, fb, canvasCtx: ctx, palette: pal })
+    const scroll = (chunk: number, pal: typeof palette): Promise<void> =>
+      scrollFbp({ fbpIndices: bg(chunk), speed: 0xf, fScrollDown: true, fb, canvasCtx: ctx, palette: pal })
+    const rng = (chunkIdx: number, startFrame: number, endFrame: number, speed: number, pal: typeof palette): Promise<void> =>
+      playRng({ chunkIdx, startFrame, endFrame, frameDelayMs: 1000 / speed, fb, canvasCtx: ctx, palette: pal })
+
+    // ── Part A(ending.c:420-483)──
+    const curPal = gs.palette ?? palette
+    await rng(9, 110, 150, 7, curPal)
+    await rng(9, 151, -1, 9, curPal)
+    await fadeOutBlocking(fb, ctx, curPal, 1200) // FadeOut(2)
+    const pal5 = await pget(5)
+    await fbp(75, 0, pal5)
+    await fadeInBlocking(fb, ctx, pal5, 600) // FadeIn(5,1)
+    await scroll(74, pal5)
+    await fadeOutBlocking(fb, ctx, pal5, 600) // FadeOut(1)
+    const pal4 = await pget(4)
+    const [beast, girl] = await Promise.all([
+      fetchMgoSprite(571).catch(() => [] as IndexedImage[]),
+      fetchMgoSprite(572).catch(() => [] as IndexedImage[]),
+    ])
+    await playEndingAnimation({ upperIndices: bg(61), lowerIndices: bg(62), beastFrames: beast, girlFrames: girl, fb, canvasCtx: ctx, palette: pal4 })
+    await colorFadeBlocking(fb, ctx, pal4, 15, 64 * 70) // ColorFade(7,15)
+    const pal0 = await pget(0)
+    await rng(11, 0, -1, 7, pal0)
+    await fadeOutBlocking(fb, ctx, pal0, 1200) // FadeOut(2)
+    const pal8 = await pget(8)
+    await rng(10, 0, -1, 6, pal8)
+    await fbp(77, 10, pal8)
+    await fbp(76, 7, pal8) // sdlpal 叠 effectSprite 0x27b(MGO),Phase 留
+    const pal5b = await pget(5)
+    await fbp(73, 7, pal5b)
+    await scroll(72, pal5b)
+    await fbp(71, 7, pal5b)
+    await fbp(68, 7, pal5b)
+    await fbp(68, 6, pal5b)
+    await new Promise((r) => setTimeout(r, 1500)) // WaitForKey → 连续观看用延时
+
+    // ── Part B(ending.c:485-511,演职员表卷动 67→59)──
+    for (const c of [67, 66, 65, 64, 63, 62, 61, 60, 59]) {
+      await scroll(c, pal5b)
+    }
+    await fadeOutBlocking(fb, ctx, pal5b, 1800) // FadeOut(3)
+  }
 
   // Sync.2 fix4:扫 eventCommands 找 setPlayerSprite(opcode 0x65)的 sprite id,预 fetch。
   //   操作:operand[0]=playerIdx, operand[1]=spriteId。playerIdx=0 即主角,需在 npcSpriteFrames 内。

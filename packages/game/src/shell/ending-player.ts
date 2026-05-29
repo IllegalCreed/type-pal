@@ -41,6 +41,75 @@ function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms))
 }
 
+/** 把 palette rgb 整体缩放 factor(0=黑,1=原色)。 */
+function scalePalette(base: Palette, factor: number): Palette {
+  const f = Math.max(0, Math.min(1, factor))
+  return {
+    ...base,
+    colors: base.colors.map((c) => [
+      Math.floor(c[0]! * f), Math.floor(c[1]! * f), Math.floor(c[2]! * f),
+    ] as [number, number, number]),
+  }
+}
+
+/**
+ * 阻塞淡出 —— palette rgb 100%→0%(屏幕内容不变,只暗调色板)。port sdlpal PAL_FadeOut 等价
+ * (我们结局编排全程 suspendRaf,fade 不能走 present 驱动的 paletteFadeState,故用阻塞 palette-scale)。
+ */
+export async function fadeOutBlocking(
+  fb: Framebuffer, canvasCtx: CanvasRenderingContext2D, palette: Palette, durationMs: number,
+): Promise<void> {
+  const start = performance.now()
+  for (;;) {
+    const t = performance.now() - start
+    if (t >= durationMs) break
+    flushToCanvas(fb, canvasCtx, scalePalette(palette, 1 - t / durationMs))
+    await sleep(16)
+  }
+  flushToCanvas(fb, canvasCtx, scalePalette(palette, 0))
+}
+
+/** 阻塞淡入 —— palette rgb 0%→100%(屏幕内容已是目标图,从黑渐亮)。port PAL_FadeIn 等价。 */
+export async function fadeInBlocking(
+  fb: Framebuffer, canvasCtx: CanvasRenderingContext2D, palette: Palette, durationMs: number,
+): Promise<void> {
+  const start = performance.now()
+  for (;;) {
+    const t = performance.now() - start
+    if (t >= durationMs) break
+    flushToCanvas(fb, canvasCtx, scalePalette(palette, t / durationMs))
+    await sleep(16)
+  }
+  flushToCanvas(fb, canvasCtx, palette)
+}
+
+/**
+ * 阻塞 ColorFade —— 整个 palette 朝纯色 colors[colorIdx] crossfade(闪色过渡)。
+ * 近似 sdlpal PAL_ColorFade(结局用 ColorFade(7,15):向 color 15 闪);我们做线性 crossfade 到该色,
+ * 不复刻 64 步 ±4 nibble 细节(视觉等价的闪色;时长对齐 64*(delay*10)ms)。
+ */
+export async function colorFadeBlocking(
+  fb: Framebuffer, canvasCtx: CanvasRenderingContext2D, palette: Palette, colorIdx: number, durationMs: number,
+): Promise<void> {
+  const c = palette.colors[colorIdx] ?? [0, 0, 0]
+  const start = performance.now()
+  const blend = (f: number): Palette => ({
+    ...palette,
+    colors: palette.colors.map((p) => [
+      Math.round(p[0]! + (c[0]! - p[0]!) * f),
+      Math.round(p[1]! + (c[1]! - p[1]!) * f),
+      Math.round(p[2]! + (c[2]! - p[2]!) * f),
+    ] as [number, number, number]),
+  })
+  for (;;) {
+    const t = performance.now() - start
+    if (t >= durationMs) break
+    flushToCanvas(fb, canvasCtx, blend(t / durationMs))
+    await sleep(16)
+  }
+  flushToCanvas(fb, canvasCtx, blend(1))
+}
+
 /** top-left blit 一帧 MGO sprite 到 (x,y)(anchor=0,writePixel 自动裁剪负/越界)。 */
 function blitTopLeft(fb: Framebuffer, frame: IndexedImage, x: number, y: number): void {
   drawSprite(fb, { ...frame, anchorX: 0, anchorY: 0 }, x, y)
