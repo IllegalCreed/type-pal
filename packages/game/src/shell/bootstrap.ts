@@ -266,6 +266,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     labelMap,
     partyWalkFrames,
     onPresent: (drained) => {
+      // suspendRaf 期间:modal 播放器(AVI / trademark / splash / RNG / FBP / 结局动画)**独占** canvas,
+      // 自管 fb + flushToCanvas。主循环这里**完全不碰 canvas** —— 否则下面的 flushToCanvas 会用 gs.palette
+      // (场景调色板)重刷 fb,跟 modal 播放器的 flush(各自 palette)互抢 → 画面在两套色表间闪烁
+      //(2026-05-29 user 从 devpanel 触发开场 DOS 时发现"正常↔偏红"闪烁;开机时 raf 还没起所以不显)。
+      if (gs.suspendRaf) return
       // 按 gs.mode 路由 present:battle → presentBattleFrame(消费 commands 进 floating nums);
       // 否则走 explore/event 路径 presentFrame(commands 由 M2 EventSystem 直接消费 GameState)
       if (!presentBattleFrame(fb, gs, battlePresent, battleAssets, drained)) {
