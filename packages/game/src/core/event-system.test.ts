@@ -15,6 +15,8 @@ import {
   OP_RIDE_OBJECT_2, OP_RIDE_OBJECT_4, OP_RIDE_OBJECT_8, OP_MONSTER_CHASE,
   setObstacleChecker, setGlobalEvents, resolveScriptLabel,
   startOverworldItemScript, setSceneLoader,
+  OP_FADE_OUT, OP_FADE_IN, OP_SCENE_FADE, OP_PALETTE_FADE, OP_COLOR_FADE,
+  OP_FADE_TO_RED, OP_FADE_TO_SCENE,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -2736,5 +2738,163 @@ describe('特效 A — 调色板 state opcode(2026-05-29)', () => {
     loadEvent(gs, [{ op: 'setPalette', paletteIndex: 7 }, { op: 'end' }])
     tickEventSystem(gs, snap(), bus)
     expect(gs.numPalette).toBe(7)
+  })
+})
+
+describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c FadeOut/FadeIn/SceneFade/PaletteFade/ColorFade/FadeToRed)', () => {
+  /** 造 256 色全填同一色的 Palette。 */
+  function mkPal(c: [number, number, number]): Palette {
+    return { colors: Array.from({ length: 256 }, () => [c[0], c[1], c[2]] as [number, number, number]), cycles: [] }
+  }
+  /** 起手:gs 带工作调色板 + 稳定 base(模拟 bootstrap 种子)。 */
+  function gsWithPalette(cur: [number, number, number], base: [number, number, number]): GameState {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = mkPal(cur)
+    gs.basePalette = mkPal(base)
+    return gs
+  }
+  /** 把 fade 时间推到已结束(time-based 完成模拟)。 */
+  function expireFade(gs: GameState): void {
+    if (gs.paletteFadeState) gs.paletteFadeState.startTimeMs = performance.now() - gs.paletteFadeState.totalMs - 100
+  }
+
+  it('0x50 FadeOut → paletteFadeState(lerp→黑)+ waiting=palette-fade + needToFadeIn=true', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([200, 100, 50], [200, 100, 50])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_OUT, operands: [1, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('palette-fade')
+    expect(gs.needToFadeIn).toBe(true)
+    expect(gs.paletteFadeState?.mode).toBe('lerp')
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([0, 0, 0]) // → 黑
+    expect(gs.paletteFadeState?.totalMs).toBe(600) // (op0||1)*600
+    // 淡完 → finalize(工作 palette 变黑)+ 清状态 + ip 推进到 end → explore
+    expireFade(gs)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.paletteFadeState).toBeUndefined()
+    expect(gs.eventCursor).toBeUndefined() // end → mode explore,cursor 清
+    expect(gs.palette?.colors[0]).toEqual([0, 0, 0])
+  })
+
+  it('0x51 FadeIn → 黑→base + needToFadeIn=false', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([0, 0, 0], [180, 120, 60])
+    gs.needToFadeIn = true
+    loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_IN, operands: [2, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('palette-fade')
+    expect(gs.needToFadeIn).toBe(false)
+    expect(gs.paletteFadeState?.startColors[0]).toEqual([0, 0, 0])
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([180, 120, 60]) // → base
+    expect(gs.paletteFadeState?.totalMs).toBe(1200) // delay 2 * 600
+    expireFade(gs)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.palette?.colors[0]).toEqual([180, 120, 60])
+  })
+
+  it('0x51 FadeIn delay 取 (SHORT)op0>0?op0:1 — 负/0 → 1', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([0, 0, 0], [10, 10, 10])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_IN, operands: [0xffff, 0, 0] }, { op: 'end' }]) // (SHORT)0xFFFF=-1 → delay 1
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.paletteFadeState?.totalMs).toBe(600)
+  })
+
+  it('0x93 SceneFade step>0 → scene-fade(放行 autoScript)+ 黑→base + needToFadeIn=false', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([5, 5, 5], [100, 0, 0])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_SCENE_FADE, operands: [2, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('scene-fade') // 关键:放行 autoScript 的 tag
+    expect(gs.needToFadeIn).toBe(false) // step>0
+    expect(gs.paletteFadeState?.startColors[0]).toEqual([0, 0, 0])
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([100, 0, 0])
+    expect(gs.paletteFadeState?.totalMs).toBe(Math.ceil(64 / 2) * 100) // 3200
+  })
+
+  it('0x93 SceneFade step<0 → cur→黑 + needToFadeIn=true', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([100, 0, 0], [100, 0, 0])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_SCENE_FADE, operands: [0xfffe, 0, 0] }, { op: 'end' }]) // (SHORT)0xFFFE = -2
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('scene-fade')
+    expect(gs.needToFadeIn).toBe(true)
+    expect(gs.paletteFadeState?.startColors[0]).toEqual([100, 0, 0])
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([0, 0, 0])
+  })
+
+  it('0x80 PaletteFade → toggle night + crossfade;op0=0 → fUpdateScene → scene-fade;op0!=0 → palette-fade', () => {
+    const bus = createCommandBus()
+    // op0=0:fUpdateScene=true → scene-fade,32*100=3200ms
+    const gs = gsWithPalette([0, 0, 0], [80, 80, 80])
+    expect(gs.nightPalette).toBe(false)
+    loadEvent(gs, [{ op: 'raw', opcode: OP_PALETTE_FADE, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.nightPalette).toBe(true) // toggle
+    expect(gs.eventCursor?.waiting).toBe('scene-fade')
+    expect(gs.paletteFadeState?.totalMs).toBe(3200)
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([80, 80, 80]) // night data-blocked → day base
+
+    // op0!=0:fUpdateScene=false → palette-fade(冻),32*25=800ms
+    const gs2 = gsWithPalette([0, 0, 0], [80, 80, 80])
+    loadEvent(gs2, [{ op: 'raw', opcode: OP_PALETTE_FADE, operands: [1, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs2, snap(), bus)
+    expect(gs2.eventCursor?.waiting).toBe('palette-fade')
+    expect(gs2.paletteFadeState?.totalMs).toBe(800)
+  })
+
+  it('0x8C ColorFade → approach ±4 + needToFadeIn=false;!fFrom 场景→纯色', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([100, 100, 100], [100, 100, 100])
+    gs.basePalette!.colors[7] = [40, 40, 40]
+    // PAL_ColorFade(op1=delay, (BYTE)op0=color, op2=fFrom);!fFrom(op2=0)= 场景淡成纯色
+    loadEvent(gs, [{ op: 'raw', opcode: OP_COLOR_FADE, operands: [7, 1, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('palette-fade')
+    expect(gs.needToFadeIn).toBe(false)
+    expect(gs.paletteFadeState?.mode).toBe('approach')
+    expect(gs.paletteFadeState?.increment).toBe(4)
+    expect(gs.paletteFadeState?.startColors[0]).toEqual([100, 100, 100]) // 场景 base
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([40, 40, 40])   // 纯色 base[7]
+    expect(gs.paletteFadeState?.totalMs).toBe(64 * (1 * 10)) // delay 1 → perStep 10 → 640
+  })
+
+  it('0x4F FadeToRed → approach ±8 + skipIndex 0x4F + remap', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([100, 100, 100], [100, 100, 100])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_TO_RED, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('palette-fade')
+    expect(gs.paletteFadeState?.mode).toBe('approach')
+    expect(gs.paletteFadeState?.increment).toBe(8)
+    expect(gs.paletteFadeState?.skipIndex).toBe(0x4f)
+    expect(gs.paletteFadeState?.remap).toEqual({ from: 0x4f, to: 0x4e })
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([139, 0, 0]) // (300)/4+64
+    expect(gs.paletteFadeState?.totalMs).toBe(2400)
+  })
+
+  it('0x9B fadeToScene → 复用 dither gs.fadeState(speed=2)+ waiting=fade-screen,不建 paletteFadeState', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([10, 10, 10], [10, 10, 10])
+    loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_TO_SCENE, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('fade-screen')
+    expect(gs.fadeState?.speed).toBe(2)
+    expect(gs.fadeState?.totalMs).toBe(2160)
+    expect(gs.paletteFadeState).toBeUndefined() // dither 引擎,不用色表 ramp
+  })
+
+  it('0x8B setPalette needToFadeIn=true 时不立即套屏(只更新 basePalette)', async () => {
+    const fake: Palette = { colors: Array.from({ length: 256 }, () => [50, 60, 70] as [number, number, number]), cycles: [] }
+    setFetchPalette(() => Promise.resolve(fake))
+    const bus = createCommandBus()
+    const gs = gsWithPalette([0, 0, 0], [1, 1, 1])
+    gs.needToFadeIn = true
+    const blackRef = gs.palette
+    loadEvent(gs, [{ op: 'setPalette', paletteIndex: 4 }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    await vi.waitFor(() => expect(gs.basePalette?.colors[0]).toEqual([50, 60, 70])) // basePalette 更新
+    expect(gs.palette).toBe(blackRef) // 屏幕仍黑(needToFadeIn → 不套新色)
+    setFetchPalette(() => Promise.resolve(fake))
   })
 })

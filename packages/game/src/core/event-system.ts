@@ -28,10 +28,22 @@ import type { Command, InputSnapshot, Palette } from '@type-pal/shared'
 import { FPS_EXPLORE } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
-import type { GameState, NpcState } from './game-state.js'
+import type { GameState, NpcState, EventCursor } from './game-state.js'
 import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
 import { addPlayerStatRow, removeEquipmentEffect, setPlayerStatRow, writeEquipmentEffectField } from './equip-effect.js'
+import {
+  buildFadeOut,
+  buildFadeIn,
+  buildSceneFade,
+  buildPaletteFade,
+  buildColorFade,
+  buildFadeToRed,
+  finalizePaletteFade,
+  makeWorkingPalette,
+  blackColors,
+  type PaletteFadeState,
+} from './palette-fade.js'
 import {
   startDialogLine,
   appendDialogLine,
@@ -201,6 +213,15 @@ export const OP_SET_PLAYER_SPRITE = 0x0065      // 101
 //   速度越大越慢:12 outer × 6 inner = 72 步 palette-bit blending
 // M5 简版:writeState fadeState + cursor.waiting='fade-screen' 等淡完;present.ts 画黑色 alpha overlay
 export const OP_FADE_SCREEN = 0x0073            // 115
+// 特效 A(2026-05-29):调色板 ramp fade(sdlpal palette.c + script.c case)。全 'raw'(disasm 未具名)。
+//   handler 在 tickEventSystem 'raw' case 内联(需 return 设 waiting,applyRawOpcode 无法控制主循环)。
+export const OP_FADE_TO_RED = 0x004f            //  79 — PAL_FadeToRed(game over,script.c:1768)
+export const OP_FADE_OUT = 0x0050               //  80 — PAL_FadeOut(屏幕淡黑,script.c:1775)
+export const OP_FADE_IN = 0x0051                //  81 — PAL_FadeIn(屏幕淡回,script.c:1784)
+export const OP_PALETTE_FADE = 0x0080           // 128 — 昼夜 toggle + PAL_PaletteFade(script.c:2381)
+export const OP_COLOR_FADE = 0x008c             // 140 — PAL_ColorFade(from/to 纯色,script.c:2582)
+export const OP_SCENE_FADE = 0x0093             // 147 — PAL_SceneFade(边淡边更新场景,script.c:2664)
+export const OP_FADE_TO_SCENE = 0x009b          // 155 — VIDEO_FadeScreen(2)(dither,复用 fadeState,script.c:2766)
 // 特效 A(2026-05-29):昼夜调色板 flag(sdlpal script.c:1802/1809 case 0x53/0x54 设 fNightPalette)。
 //   instant 非阻塞;视觉在下次 fade-in / scene-load 选调色板 ramp 时生效(sdlpal 当帧不重绘)。
 export const OP_SET_DAY_PALETTE = 0x0053        // 83 — fNightPalette = FALSE
@@ -424,6 +445,28 @@ let _fetchPalette: FetchPaletteFn | null = null
  */
 export function setFetchPalette(fn: FetchPaletteFn | null): void {
   _fetchPalette = fn
+}
+
+/**
+ * 特效 A 共用:启动一个调色板 ramp fade(0x50/0x51/0x80/0x8C/0x4F/0x93)。
+ *  - 确保 gs.palette 是可变工作副本(stepPaletteFade 每帧原地改它的 colors);缺则从 basePalette/全黑造。
+ *  - 写 gs.paletteFadeState + 清 sceneLoading(fade 是可渲染 yield,解冻渲染,同 fadeScreen)。
+ *  - 设 cursor.waiting:sceneUpdating(0x93 / 0x80 fUpdateScene)→ 'scene-fade'(mode.ts 放行 autoScript),
+ *    否则 'palette-fade'(冻全场)。调用方随后 `return`(不 ip++;waiting handler 淡完才 finalize + ip++)。
+ */
+function startPaletteFade(
+  gs: GameState,
+  cursor: EventCursor,
+  pf: PaletteFadeState,
+  sceneUpdating: boolean,
+): void {
+  if (!gs.palette) {
+    const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
+    gs.palette = makeWorkingPalette(src)
+  }
+  gs.paletteFadeState = pf
+  gs.sceneLoading = false
+  cursor.waiting = sceneUpdating ? 'scene-fade' : 'palette-fade'
 }
 
 /**
@@ -864,6 +907,29 @@ export function tickEventSystem(
         return  // 仍在 fade,present.ts 按 elapsed/totalMs 应用对应数量 sdlpal step
       }
       gs.fadeState = undefined
+      cursor.waiting = undefined
+      cursor.ip++
+      // fall through to main while loop
+    }
+  }
+
+  // 1a'½) waiting 处理:palette-fade / scene-fade(特效 A 调色板 ramp,opcode 0x50/0x51/0x80/0x8C/0x4F/0x93)
+  //   两 tag 解析完全相同(time-based,到 totalMs 完成 → finalize 精确套 target + ip++);唯一区别在
+  //   mode.ts autoScript gate:'scene-fade'(0x93 / 0x80 fUpdateScene)放行 NPC 动画,'palette-fade' 冻全场。
+  //   present.ts `stepPaletteFade` 每帧按 elapsed 把 gs.palette.colors ramp 到 target。
+  if (cursor.waiting === 'palette-fade' || cursor.waiting === 'scene-fade') {
+    const pf = gs.paletteFadeState
+    if (!pf) {
+      cursor.waiting = undefined  // 防御:无 paletteFadeState 不应等
+    }
+    else {
+      const elapsed = performance.now() - pf.startTimeMs
+      if (elapsed < pf.totalMs) {
+        return  // 仍在 fade
+      }
+      // 收尾:把工作调色板精确设为 target(present 最后一帧 progress<1 可能差 1 步,这里补齐)。
+      if (gs.palette) finalizePaletteFade(gs.palette.colors, pf)
+      gs.paletteFadeState = undefined
       cursor.waiting = undefined
       cursor.ip++
       // fall through to main while loop
@@ -1322,6 +1388,105 @@ export function tickEventSystem(
           return  // 等 fade 完
         }
 
+        // ── 特效 A(2026-05-29):调色板 ramp fade(sdlpal palette.c FadeOut/FadeIn/SceneFade/
+        //    PaletteFade/ColorFade/FadeToRed)。start/target 取自 gs.palette(可变工作副本)/
+        //    gs.basePalette(稳定场景色);builder 深拷快照进 paletteFadeState;present.ts stepPaletteFade
+        //    每帧 ramp gs.palette.colors。waiting 由 startPaletteFade 设(冻 'palette-fade' / 放行 'scene-fade')。
+        if (
+          cmd.opcode === OP_FADE_OUT
+          || cmd.opcode === OP_FADE_IN
+          || cmd.opcode === OP_SCENE_FADE
+          || cmd.opcode === OP_PALETTE_FADE
+          || cmd.opcode === OP_COLOR_FADE
+          || cmd.opcode === OP_FADE_TO_RED
+        ) {
+          const now = performance.now()
+          const curColors = (gs.palette ?? gs.basePalette)?.colors ?? blackColors()
+          const baseColors = (gs.basePalette ?? gs.palette)?.colors ?? blackColors()
+          const op0 = cmd.operands[0] ?? 0
+
+          if (cmd.opcode === OP_FADE_OUT) {
+            // sdlpal palette.c:163 `time = now + iDelay*10*60` → 时长 (op0||1)*600ms。屏幕 → 全黑。
+            const delay = op0 || 1
+            startPaletteFade(gs, cursor, buildFadeOut(curColors, delay * 600, now), false)
+            gs.needToFadeIn = true  // sdlpal script.c:1781
+            console.debug(`event-system: FadeOut delay=${delay} → ${delay * 600}ms (→black, needToFadeIn=TRUE)`)
+            return
+          }
+          if (cmd.opcode === OP_FADE_IN) {
+            // sdlpal script.c:1789 `((SHORT)op0 > 0) ? op0 : 1`。全黑 → basePalette。
+            const delay = toInt16(op0) > 0 ? op0 : 1
+            startPaletteFade(gs, cursor, buildFadeIn(baseColors, delay * 600, now), false)
+            gs.needToFadeIn = false  // sdlpal script.c:1791
+            console.debug(`event-system: FadeIn delay=${delay} → ${delay * 600}ms (black→base)`)
+            return
+          }
+          if (cmd.opcode === OP_SCENE_FADE) {
+            // sdlpal script.c:2668 `PAL_SceneFade(numPalette, night, (SHORT)op0)`。step>0 淡入 / <0 淡出。
+            //   每步 ~100ms(palette.c:310 `time = now + 100`),iterations ≈ ceil(64/|step|)。
+            //   边淡边 PAL_GameUpdate(FALSE) → waiting='scene-fade'(mode.ts 放行 autoScript,NPC 不冻)。
+            const step = toInt16(op0) || 1
+            const absStep = Math.abs(step)
+            const fadeIn = step > 0
+            const totalMs = Math.ceil(64 / absStep) * 100
+            startPaletteFade(gs, cursor, buildSceneFade(curColors, baseColors, fadeIn, totalMs, now), true)
+            gs.needToFadeIn = step < 0  // sdlpal script.c:2670
+            console.debug(`event-system: SceneFade step=${step} → ${totalMs}ms (${fadeIn ? 'in' : 'out'}, scene-fade)`)
+            return
+          }
+          if (cmd.opcode === OP_PALETTE_FADE) {
+            // sdlpal script.c:2385-2387:fNightPalette = !fNightPalette;PAL_PaletteFade(numPalette, night,
+            //   !(op0))。fUpdateScene = !op0。32 步 × (fUpdateScene ? FRAME_TIME : FRAME_TIME/4),FRAME_TIME=100。
+            //   ⚠ 夜间色值未提取(PAT.MKF 后半未 dump,见 game-state.ts nightPalette 注释)→ target 暂 =
+            //   白天 basePalette(data-blocked);flag 仍正确 toggle,crossfade cur → target。
+            gs.nightPalette = !gs.nightPalette
+            const fUpdateScene = op0 === 0
+            const totalMs = 32 * (fUpdateScene ? 100 : 25)
+            const targetColors = baseColors  // PAL_GetPalette(numPalette, night);night 数据缺 → 白天 base
+            startPaletteFade(gs, cursor, buildPaletteFade(curColors, targetColors, totalMs, now), fUpdateScene)
+            console.debug(
+              `event-system: PaletteFade night=${gs.nightPalette} fUpdateScene=${fUpdateScene} → ${totalMs}ms`
+              + ` (night data-blocked → day target)`,
+            )
+            return
+          }
+          if (cmd.opcode === OP_COLOR_FADE) {
+            // sdlpal script.c:2586 `PAL_ColorFade(op1, (BYTE)op0, op2)` → iDelay=op1, bColor=op0&0xFF, fFrom=op2。
+            //   palette.c:494 `iDelay*=10; if(0) iDelay=10`;64 步 × iDelay ms。approach ±4 收敛。
+            const color = op0 & 0xff
+            const delay = cmd.operands[1] ?? 0
+            const fFrom = (cmd.operands[2] ?? 0) !== 0
+            const perStep = delay * 10 || 10
+            const totalMs = 64 * perStep
+            startPaletteFade(gs, cursor, buildColorFade(baseColors, color, fFrom, totalMs, now), false)
+            gs.needToFadeIn = false  // sdlpal script.c:2588
+            console.debug(`event-system: ColorFade color=${color} fFrom=${fFrom} → ${totalMs}ms`)
+            return
+          }
+          // OP_FADE_TO_RED(0x4F)— sdlpal script.c:1772 `PAL_FadeToRed()`(game over)。
+          //   32 步 × 75ms = 2400ms。approach ±8;target=(base.r+g+b)/4+64/0/0;skip idx 0x4F(文字色);
+          //   present fb 像素 0x4F→0x4E(builder 已带 remap,present 渲染时套用)。
+          startPaletteFade(gs, cursor, buildFadeToRed(baseColors, 32 * 75, now), false)
+          console.debug(`event-system: FadeToRed → 2400ms (→red, skip 0x4F)`)
+          return
+        }
+
+        // opcode 0x9B fade-to-scene — sdlpal script.c:2766 `VIDEO_BackupScreen; PAL_MakeScene; VIDEO_FadeScreen(2)`。
+        //   = dither 引擎(同 0x73),speed 硬编 2。复用 gs.fadeState + waiting='fade-screen'(present 已处理
+        //   backupPixels 快照),**不**用 paletteFadeState。
+        if (cmd.opcode === OP_FADE_TO_SCENE) {
+          const speed = 2
+          const totalMs = (speed + 1) * 10 * 72  // 2160ms,同 0x73 真值
+          gs.fadeState = { speed, totalMs, startTimeMs: performance.now(), appliedSteps: 0 }
+          gs.sceneLoading = false
+          gs.dialogBox = undefined
+          gs.currentDialogPortraitIcon = undefined
+          gs.currentDialogFontColor = 0x4F
+          cursor.waiting = 'fade-screen'
+          console.debug(`event-system: fadeToScene(0x9B) dither speed=2 → ${totalMs}ms`)
+          return
+        }
+
         // opcode 0x85 delay — sdlpal script.c:2511-2516 UTIL_Delay(operand[0]*80) 实时阻塞延迟。
         //   time-based(不受 tick 帧率影响),期间 autoScript 暂停(waiting='delay')。op0=0 → 即时 ip++。
         if (cmd.opcode === OP_DELAY) {
@@ -1486,16 +1651,23 @@ export function tickEventSystem(
 
       case 'setPalette': {
         // M4 P3.T2:真换调色板 —— 异步 fetch,fire-and-forget,tick 同步继续。
-        // gs.palette 写入后渲染层下一帧 flushToCanvas 消费新色表。
-        // 特效 A(2026-05-29):sdlpal 0x8B `gpGlobals->wNumPalette = op[0]` — 记 numPalette,
-        //   供 0x51 FadeIn / 0x93 SceneFade 选淡入目标调色板。
+        // sdlpal script.c:2571-2580 真值(0x8B):`wNumPalette = op0; if (!fNeedToFadeIn) PAL_SetPalette(wNumPalette, FALSE)`。
+        // 特效 A(2026-05-29):
+        //   - gs.numPalette = op0(供 0x51 FadeIn / 0x93 SceneFade 选目标调色板)。
+        //   - gs.basePalette = fetch 回的新调色板(pristine,fade target 参照;makeWorkingPalette 造独立对象,
+        //     避免与 gs.palette 别名 → 否则 fade mutate gs.palette 会污染 target)。
+        //   - **仅 !needToFadeIn 时**才把新调色板套到 gs.palette(屏幕)。needToFadeIn(0x50 FadeOut 后)时
+        //     屏幕在黑,不立即套色,只更新 basePalette 供随后 0x51 FadeIn ramp(sdlpal 真值)。
         const paletteIdx = cmd.paletteIndex
         gs.numPalette = paletteIdx
         if (_fetchPalette) {
           const gsRef = gs
           _fetchPalette(paletteIdx)
             .then((p) => {
-              gsRef.palette = p
+              gsRef.basePalette = makeWorkingPalette(p)  // pristine 独立副本(target 参照)
+              if (!gsRef.needToFadeIn) {
+                gsRef.palette = p  // sdlpal `if (!fNeedToFadeIn) PAL_SetPalette`
+              }
             })
             .catch((err: unknown) => {
               console.warn(`event-system: fetchPalette(${paletteIdx}) failed:`, err)

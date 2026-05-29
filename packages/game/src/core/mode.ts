@@ -21,14 +21,17 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
   // dialog typing/wait-key、0x73 fadeScreen、0x85 delay、scene 重载(这些是真正阻塞的 spin)。
   //
   // 我们 tick 模型映射:explore 每 tick 跑;event 模式下 waiting ∈ {undefined(脚本步进:party-walk/
-  // 滚屏/ride 每 tick re-run 同 ip), 'frame-wait'(0x09)} 跑;waiting ∈ {dialog, fade-screen,
-  // scene-load, delay} 或 sceneLoading(切场景冻屏)不跑。
+  // 滚屏/ride 每 tick re-run 同 ip), 'frame-wait'(0x09), 'scene-fade'(0x93 SceneFade — sdlpal 淡入边
+  // PAL_GameUpdate)} 跑;waiting ∈ {dialog, fade-screen, scene-load, delay, palette-fade} 或 sceneLoading
+  // (切场景冻屏)不跑。
   // P2#6a 修:旧版只在 event+frame-wait 跑 → 脚本控制走路/滚屏/骑乘期间 NPC 冻结(sdlpal 仍在动)。
+  // 特效 A:'scene-fade'(0x93 / 0x80 fUpdateScene)放行 autoScript —— sdlpal PAL_SceneFade 每步调
+  // PAL_GameUpdate(FALSE),NPC/动画淡入期间不冻(否则 SceneFade 进场 NPC 静止,不忠实)。
   const w = gs.eventCursor?.waiting
   const shouldRunAutoScripts =
     !gs.sceneLoading
     && (gs.mode === 'explore'
-      || (gs.mode === 'event' && (w === undefined || w === 'frame-wait')))
+      || (gs.mode === 'event' && (w === undefined || w === 'frame-wait' || w === 'scene-fade')))
   if (shouldRunAutoScripts) {
     tickAutoScripts(gs)
   }

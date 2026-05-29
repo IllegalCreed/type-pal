@@ -11,6 +11,7 @@ import { drawMenuStack } from './menu/draw-menu.js'
 import type { BattleBgAsset } from './battle/draw-battle-bg.js'
 import type { GlyphTable } from './font.js'
 import { isWalkable } from '../core/scene-system.js'
+import { stepPaletteFade } from '../core/palette-fade.js'
 
 export interface PresentContext {
   tilemap: Tilemap
@@ -384,6 +385,18 @@ export function presentFrame(
   // 5. 按排序后顺序绘制所有精灵 + cover tile。
   for (const e of entries) e.draw(fb)
 
+  // 5b. 特效 A FadeToRed(0x4F)fb 像素重映射 — sdlpal palette.c:623-629 `((LPBYTE)pixels)[i]==0x4F → 0x4E`。
+  //     在场景+精灵已画、对话框未画时套用:场景里用 idx 0x4F 的像素改 0x4E(随 palette 染红);
+  //     随后 step 6 画的对话框文字仍用 0x4F → palette skip 0x4F 保原色 → game-over 文字不被染红。
+  //     注:sdlpal 是 fade 起始一次性 remap(其间无 PAL_MakeScene 重画);我们每帧重画 → 每帧 remap(等价)。
+  if (gs.paletteFadeState?.remap) {
+    const { from, to } = gs.paletteFadeState.remap
+    const px = fb.indices  // Uint8Array 内容可变(只读的是引用,非元素);全缓冲扫描天然越界安全。
+    for (let i = 0; i < px.length; i++) {
+      if (px[i] === from) px[i] = to
+    }
+  }
+
   // 6. 对话框(最上层)
   if (gs.dialogBox) {
     drawDialogBox(fb, gs.dialogBox, ctx.glyphs, {
@@ -445,6 +458,14 @@ export function presentFrame(
 
     // 显示 backupPixels(累积态)— 不是 current。fade 全程主角可见因为两 buffer 都画过。
     current.set(backupPixels)
+  }
+
+  // 7b. 特效 A 调色板 ramp fade(palette.c FadeOut/FadeIn/SceneFade/PaletteFade/ColorFade/FadeToRed)。
+  //     与上面 dither fadeState 正交 —— 本块 mutate **gs.palette.colors**(色表),不动 fb.indices。
+  //     framebuffer 像素已正常画好,只把色表从 start ramp 到 target;flushToCanvas 下游消费新色表。
+  //     time-based(elapsed/totalMs),raf 帧率无关。淡完由 event-system waiting handler finalize + 清。
+  if (gs.paletteFadeState && gs.palette) {
+    stepPaletteFade(gs.palette.colors, gs.paletteFadeState, performance.now())
   }
 
   // M5.6 W0.d:菜单 modal 覆盖最顶层,在 fadeState 后画(避免被 fade 覆盖)。

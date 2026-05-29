@@ -6,6 +6,7 @@
 
 import type { Command, DialogBoxStyle, Palette, SceneEventObject } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
+import type { PaletteFadeState } from './palette-fade.js'
 
 export type Facing = 'up' | 'down' | 'left' | 'right'
 
@@ -200,8 +201,13 @@ export interface EventCursor {
    *                  time-based(delayUntilMs),期间 autoScript 暂停(sdlpal 不调 PAL_GameUpdate)
    *  - 'shop':       opcode 0x0026 PAL_BuyMenu / 0x0027 PAL_SellMenu(script.c:1157-1172)— 脚本
    *                  开商店菜单(mode='menu')后阻塞;菜单关闭(menu-mode resume)→ mode='event' 续跑。
+   *  - 'palette-fade': 特效 A 调色板 ramp fade(0x50/0x51/0x80(!update)/0x8C/0x4F)。由 gs.paletteFadeState
+   *                  管,time-based(同 'fade-screen' 解析)。**冻全场**(autoScript 不跑,sdlpal UTIL_Delay 不调
+   *                  PAL_GameUpdate)。淡完 → finalizePaletteFade + ip++ + 清。
+   *  - 'scene-fade': 0x93 SceneFade / 0x80(fUpdateScene)—— sdlpal 淡入时 PAL_GameUpdate 继续跑(NPC/动画
+   *                  不冻)。同 paletteFadeState 管,但 mode.ts 放行 autoScript(同 'frame-wait')。
    */
-  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop'
+  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade'
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
   /** 'delay' 用(opcode 0x85):延迟到此 wall-clock 时间戳(performance.now()),到点 ip++ + clear。 */
@@ -557,6 +563,33 @@ export interface GameState {
    *  flushToCanvas 优先用 gs.palette(若非 undefined),否则 fallback 到 bootstrap 初始 palette。
    */
   palette?: Palette
+
+  /**
+   * 特效 A(2026-05-29):**稳定**的场景调色板(= sdlpal `PAL_GetPalette(wNumPalette, fNight)` 等价)。
+   * fade 引擎**不动它**:`gs.palette` 是可变工作副本(每帧被 ramp),`basePalette` 是 fade 的 target /
+   * snapshot 参照(FadeIn 终点、ColorFade 场景端、FadeToRed 基色)。
+   * 写入点:bootstrap 初始 palette、loadScene(场景调色板)、0x8B setPalette(fetch 回的新调色板)。
+   * **pristine 不可变**:始终与 `gs.palette` 是不同对象(后者可被 fade mutate),不被 fade 改写。
+   * undefined = 未初始化(bootstrap 后恒有值);fade handler 兜底回退 gs.palette / 全黑。
+   */
+  basePalette?: Palette
+
+  /**
+   * 特效 A(2026-05-29):调色板 ramp 淡入淡出状态(palette.c FadeOut/FadeIn/SceneFade/PaletteFade/
+   * ColorFade/FadeToRed)。与 dither `fadeState` 正交 —— 本字段 ramp `gs.palette.colors`(色表),
+   * `fadeState` blend `fb.indices`(像素)。opcode 0x50/0x51/0x93/0x80/0x8C/0x4F 创建;present.ts
+   * `stepPaletteFade` 每帧应用;event-system waiting='palette-fade'/'scene-fade' 等淡完 → finalize + 清。
+   * 见 [palette-fade.ts](./palette-fade.ts)。undefined = 无 palette fade。
+   */
+  paletteFadeState?: PaletteFadeState
+
+  /**
+   * 特效 A(2026-05-29):sdlpal `gpGlobals->fNeedToFadeIn`。0x50 FadeOut → TRUE(屏幕淡黑,
+   * 待 0x51 FadeIn 淡回);0x51 FadeIn / 0x8C ColorFade → FALSE;0x93 SceneFade = (step<0)。
+   * 消费点:0x8B setPalette —— sdlpal script.c:2576 `if (!fNeedToFadeIn) PAL_SetPalette(...)`(屏幕
+   * 在黑时不立即套新色,只更新 basePalette 供 FadeIn 用)。默认 falsy。
+   */
+  needToFadeIn?: boolean
 
   /**
    * 特效 A(2026-05-29):当前调色板索引(sdlpal `gpGlobals->wNumPalette`)。0x8B setPalette 写入;

@@ -6,6 +6,7 @@ import { loadGlyphs, renderText } from '../present/font.js'
 import { createCommandBus } from '../core/command-bus.js'
 import type { Command } from '@type-pal/shared'
 import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject, sliceSceneEventObjects } from '../core/game-state.js'
+import { makeWorkingPalette } from '../core/palette-fade.js'
 import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap, runEnterScript, setFetchPalette,
@@ -116,6 +117,12 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // sdlpal wNumScene 是 1-based,scenes[wNumScene-1] 才是真 scene。dump 文件 scene/N.json 对应
   // scenes[N](0-based),所以 wNumScene = SCENE_ID + 1。loadScene opcode 真做时(callback)会写新值。
   gs.wNumScene = SCENE_ID + 1
+  // 特效 A(2026-05-29):种子调色板。
+  //   gs.palette = 可变工作副本(makeWorkingPalette 深拷 colors;fade 引擎每帧原地 ramp 它,不污染源)。
+  //   gs.basePalette = pristine 场景色(fade target / snapshot 参照;始终与 gs.palette 不同对象)。
+  // 与旧行为等价:flushToCanvas 之前用 `gs.palette ?? palette`,现 gs.palette 已是 palette 深拷 → 同色。
+  gs.palette = makeWorkingPalette(palette)
+  gs.basePalette = palette
 
   const segment = events.segments[0]
   if (!segment) throw new Error('events.json 无 segment[0]')
@@ -472,6 +479,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // 新 scene 的 commands + labelMap 写入 gs(autoScript runner 用)
     gs.sceneCommands = sceneAssets.eventCommands
     gs.sceneLabelMap = sceneAssets.labelMap
+    // 特效 A(2026-05-29):更新 basePalette = 场景调色板(fade target 参照;0x51 FadeIn / 0x93 SceneFade /
+    //   0x8C ColorFade / 0x4F FadeToRed 据此算目标色)。pristine 引用,fade 不动它(gs.palette 才是工作副本)。
+    //   gs.palette(屏幕)不在此重置 —— 仍由 onEnter 的 0x8B setPalette / fade opcode 管理(避免改既有行为)。
+    gs.basePalette = sceneAssets.palette
     // opcode 0x6D 设的 onEnter 全局 override → 解析为本 scene local ip,写入 sceneOnEnterIp(消耗 override)。
     // override===0(清)→ -1 哨兵(下方 onEnter setup 视作"无 onEnter")。
     const oeOverride = gs.sceneOnEnterOverride?.[newWNumScene]
