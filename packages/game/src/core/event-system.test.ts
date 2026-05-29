@@ -2333,14 +2333,14 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
     expect(gs.sceneOnEnterIp[3]).toBe(0) // 0x00 → 返回起始 ip 0(下次仍从头跑)
   })
 
-  it('onEnter 结束清 fEnteringScene(override 入口无 fadeScreen 也解冻,不卡死)', () => {
+  it('onEnter 结束幂等清 sceneLoading(override 入口无 fadeScreen 也不残留)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
-    gs.fEnteringScene = true // loadScene 设的"加载期冻结渲染"标志
-    // override 入口 = 已推进过开场的 0x00(无 fadeScreen 来清 fEnteringScene)
+    gs.sceneLoading = true // P2#7:loadScene 设的"加载期跳渲染"标志(正常已在 loadSceneCommon 清)
+    // override 入口 = 已推进过开场的 0x00(无 fadeScreen)
     onEnterCursor(gs, [{ op: 'end' }], 0, 2)
     tickEventSystem(gs, snap(), bus)
-    expect(gs.fEnteringScene).toBe(false) // onEnter 结束 → 解冻(否则 present 永久跳渲染 → 卡死)
+    expect(gs.sceneLoading).toBe(false) // onEnter 结束 → 幂等清(防御:任何路径不残留)
   })
 
   it('runEnterScript(skip-intro 同步路径):0x01 收尾也持久化 sceneOnEnterIp(重进不重播)', () => {

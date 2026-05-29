@@ -548,17 +548,24 @@ export interface GameState {
   palette?: Palette
 
   /**
-   * sdlpal `gpGlobals->fEnteringScene` 真值:loadScene opcode 设 TRUE → `PAL_StartFrame`
-   * 早期 return(不调 PAL_MakeScene)→ **屏幕冻结**在 loadScene 前那一帧,直到下个
-   * fadeScreen opcode 启动 backup 时屏幕仍是冻结画面(=旧 scene + dialog)。
+   * P2#7(2026-05-29):scene 切换的**异步资源加载窗口** flag(取代旧 fEnteringScene 渲染门)。
    *
-   * 我们 port:sceneLoader callback 设 fEnteringScene=true → present.ts 跳过 render
-   * (fb 保留上一帧 = dream 渲染)→ ip=371 fadeScreen 启动 backupPixels = fb.indices
-   * 含 dream 像素 → fade 视觉 dream 渐变到 inn。
+   * loadScene opcode / loadSceneCommon 起手设 true → present.ts 跳过 render(fb 保留上一帧 = 旧 scene
+   * 完整帧),避免 async fetch 期间渲染"旧 tilemap + 新 party 坐标"的花屏。assets 应用完
+   * (applySceneAssetsToPresent)**立即**清 false → onEnter 正常渲染新场景(含 content-no-fade onEnter
+   * 的对话,如 scene 14)。fade-first onEnter 清门后第一 tick 即跑到 fadeScreen(可等待点)→ present
+   * 直接渲染渐变,不闪未渐变的新场景。
    *
-   * fadeScreen handler 设 fEnteringScene=false 让 render 恢复。
+   * 与旧 fEnteringScene 区别:旧版冻到 fadeScreen 才清 → content-no-fade onEnter 的对话被藏(bug)。
    */
-  fEnteringScene?: boolean
+  sceneLoading?: boolean
+
+  /**
+   * P2#7:跨 scene 渐变(fadeScreen)的 backup 帧 —— 在 sceneLoading 起手那帧由 present.ts 拷下**旧 scene**
+   * 完整帧(此时 fb 还是旧 scene)。后续 fadeScreen opcode 用它做 backup → 渐变从旧 scene 到新 scene。
+   * (旧版靠"冻屏保留旧帧 + fadeScreen 拷 fb"实现;P2#7 不再冻整个 onEnter,故显式拷旧帧。)
+   */
+  sceneFadeBackup?: Uint8Array
 
   /**
    * M5.6 T18 Step 3:AVI / RNG / splash 等"全屏 modal 序列"播放期间暂停 raf loop

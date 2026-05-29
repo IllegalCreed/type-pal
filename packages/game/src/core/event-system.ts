@@ -1077,10 +1077,8 @@ export function tickEventSystem(
           }
           else nextEntry = cursor.onEnterStartIp ?? cursor.ip
           gs.sceneOnEnterIp[cursor.onEnterSceneId] = nextEntry
-          // onEnter 结束 → 清 fEnteringScene 解冻渲染(sdlpal play.c:61 真值是无条件清)。
-          // 带 fadeScreen 的开场已在中途(opcode 0x73)清过,这里幂等;override(已推进过
-          // 开场、无 fadeScreen)则靠这里清,否则 present.ts:114 永久 early-return → 卡死。
-          gs.fEnteringScene = false
+          // P2#7:sceneLoading 已在 loadSceneCommon assets 载入后清,这里幂等防御清一次(任何路径不残留)。
+          gs.sceneLoading = false
         }
         // NPC trigger 脚本推进持久化(sdlpal play.c `pEvtObj->wTriggerScript = PAL_RunTriggerScript(...)`):
         //   0x01 advance → 续跑下一条;0x02 reset → resetTo;0x00 plain → 原点(triggerResume 清空,可重触发)。
@@ -1267,10 +1265,9 @@ export function tickEventSystem(
             startTimeMs: performance.now(),
             appliedSteps: 0,
           }
-          // sdlpal 真值:fEnteringScene 在 PAL_LoadResources 完成 + 第一次 PAL_GameUpdate 后即清。
-          // 我们 port:fadeScreen 启动表示 onEnter 已跑到 fade 这步,scene 已加载完;清 fEnteringScene
-          // 让 present.ts 恢复渲染(新 scene)— fade 从冻结的旧画面渐变到新 scene。
-          gs.fEnteringScene = false
+          // P2#7:sceneLoading 已在 assets 载入后清(onEnter 已在渲染);这里幂等防御清一次。
+          // fade backup 用 sceneLoading 起手拷的旧 scene 帧(present.ts gs.sceneFadeBackup)。
+          gs.sceneLoading = false
           // Sync.2 fix18:sdlpal 真值 — fadeScreen 启动前的 default-case PAL_ClearDialog(TRUE) 已经
           // 把 nCurrentDialogLine 设 0 → 之后 PAL_MakeScene 重画不含 dialog box → fade 是
           // backup(冻结画面有 dialog 像素) → current(重画无 dialog) → 视觉 dialog 跟着渐隐。
@@ -1434,12 +1431,10 @@ export function tickEventSystem(
         // ip 停在本 loadScene 上,callback 完成后 gs.eventCursor 已被重写到新 scene,本 cursor 弃用。
         if (_sceneLoader) {
           cursor.waiting = 'scene-load'
-          // **立刻**设 fEnteringScene=true — present.ts:114 见此 flag 跳过渲染,
-          // 冻结上一帧(切场景前的旧 scene 完整帧)。否则 sceneLoader 是 async fetch,
-          // fetch 期间(几帧)present 会渲染"旧 tilemap + 新 party 坐标(setPartyPos 已改)"
-          // 的中间态 → 旧 scene tilemap 在新坐标处是空 → 黑帧闪现(user 2026-05-29
-          // "闪一下新场景然后黑屏" 的 async race 根因)。sceneLoader 完成后清(loadSceneCommon)。
-          gs.fEnteringScene = true
+          // P2#7:**立刻**设 sceneLoading=true — present.ts 见此跳过渲染、保留上一帧(切场景前旧 scene
+          // 完整帧)+ 拷 sceneFadeBackup。否则 sceneLoader async fetch 期间 present 会渲染"旧 tilemap +
+          // 新坐标"花屏。loadSceneCommon assets 载入后清(不再冻到 fadeScreen)。
+          gs.sceneLoading = true
           _sceneLoader(cmd.sceneId).catch((err: unknown) => {
             console.error(`event-system: sceneLoader(${cmd.sceneId}) failed:`, err)
           })

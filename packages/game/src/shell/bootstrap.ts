@@ -461,6 +461,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       `[bootstrap.loadSceneCommon] loadScene wNumScene=${newWNumScene} → dump scene/${dumpFileIndex}.json`
       + (opts.fromSavedGame ? ' (from saved game)' : ''),
     )
+    // P2#7:async 加载窗口起手设 sceneLoading=true(loadScene opcode 已设过,这里覆盖初始 / skip-intro /
+    // loadGame 路径)→ present 保留旧帧 + 拷 sceneFadeBackup。assets + cutscene sprite 都 ready 后清。
+    gs.sceneLoading = true
     const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
     gs.wNumScene = newWNumScene
     // 新 scene 的 commands + labelMap 写入 gs(autoScript runner 用)
@@ -491,15 +494,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       if (reslice) gs.npcs = reslice
     }
     applySceneAssetsToPresent(sceneAssets)
-    if (!opts.fromSavedGame) {
-      // sdlpal `fEnteringScene = TRUE` 真值:`PAL_StartFrame` 早期 return → 屏幕冻结
-      // 直到 fadeScreen opcode 启动清此 flag(event-system.ts:930)。
-      // **load game 不跑 onEnter 也没 fadeScreen**,若也设 fEnteringScene=true →
-      // 屏幕永远冻结 → 卡死(user 2026-05-29 反馈"读取之后没反应感觉就完全卡死了")。
-      // fromSavedGame 路径:不设 fEnteringScene,跳过这层冻结。
-      gs.fEnteringScene = true
-    }
     await preloadCutsceneSprites(sceneAssets.eventCommands)
+    // P2#7:tilemap + base sprite(applySceneAssetsToPresent)+ cutscene sprite(preload)都 ready →
+    // 清 sceneLoading,present 恢复渲染新场景。onEnter 随后正常跑:fade-first 第一 tick 即到 fadeScreen
+    // (present 渲染渐变,用 sceneFadeBackup 旧帧);content-no-fade onEnter 的对话/动画正常显示(scene 14)。
+    gs.sceneLoading = false
     if (!opts.fromSavedGame) {
       // 正常 loadScene:跑 onEnter。入口优先级(sdlpal play.c:64 真值):
       //   sceneOnEnterIp(持久化:上次跑完存回 / 0x6D override 解析后,-1=无 onEnter)> onEnterLabel。
@@ -518,18 +517,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
           onEnterStartIp: ip,
         }
         gs.mode = 'event'
-        // mode='event':保持 fEnteringScene=true,等 onEnter 内 fadeScreen opcode 清
-        // (scene 0→1 梦境 fade 演出依赖此机制,event-system.ts:930)
+        // P2#7:onEnter 正常渲染(sceneLoading 已清)。fade-first onEnter 第一 tick 跑到 fadeScreen →
+        // present 渲染渐变(sceneFadeBackup 旧帧 → 新场景);content-no-fade onEnter 对话正常显示。
       }
       else {
+        // 无 onEnter script(door 切换):直接 explore,新场景已渲染(sceneLoading 已清)。
         gs.eventCursor = undefined
         gs.mode = 'explore'
-        // **无 onEnter script 的 scene(door 切换大多如此,eg 客栈→大厅)**:
-        // 没有 fadeScreen opcode 来清 fEnteringScene。若保持 true,present.ts:114
-        // 永远 return → 屏幕冻结在 setPartyPos 改完 camera 后的黑帧(旧 scene tilemap
-        // 在新 scene 坐标处是空)→ user 2026-05-29 "出房间黑色背景" 根因。
-        // sceneLoader await 已完成 = scene 资源 loaded,可以 render → 清 fEnteringScene。
-        gs.fEnteringScene = false
       }
     }
     // fromSavedGame:**不**跑 onEnter — SAVEDGAME 内 gs.mode / gs.eventCursor 已恢复
@@ -835,15 +829,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // (避免存档时 effect 处于脏/旧状态被原样载入;item/script 定义变更后也能自愈)。P1#4(2026-05-29)。
     updateAllEquipments(gs, items)
     gs.iCurEquipPart = -1
-    // sdlpal PAL_ReloadInNextTick 真值是设 fEnteringScene 让下 tick 主循环 reload,
-    // 但 ts 端 loadSceneCommon 已**同步**做完 reload(await 走完),所以**不**留
-    // fEnteringScene=true 余尾(否则 present.ts:114 检测后跳过 render → 屏幕冻结
-    // 卡死,user 2026-05-29 反馈)。
-    gs.fEnteringScene = false
+    // P2#7:清存档可能残留的 sceneFadeBackup(transient,正常存档时为空,防御)。sceneLoading 由
+    // loadSceneCommon 管(起手 true blank fetch 窗口,preload 后 false 渲染)→ 不再用 fEnteringScene。
+    gs.sceneFadeBackup = undefined
     // 重 load scene assets — 走 fromSavedGame 路径,**不**重置 npcs / **不**跑 onEnter
     await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })
-    // load 完后再次保证清零(loadSceneCommon fromSavedGame 路径已不设,double safe)
-    gs.fEnteringScene = false
   }
 
   setLoadGameHandler(async (slot) => {
