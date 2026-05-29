@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import type { Tilemap } from '@type-pal/shared'
-import { presentFrame, type PresentContext } from './present.js'
-import { startDialogLine, tickDialog, FRAMES_PER_CHAR } from './dialog-box.js'
+import type { Tilemap, Palette } from '@type-pal/shared'
+import { presentFrame, applyDialogIconPaletteShift, type PresentContext } from './present.js'
+import { startDialogLine, tickDialog, setWaitingEndKey, FRAMES_PER_CHAR } from './dialog-box.js'
 import { createFramebuffer } from './framebuffer.js'
 import { createInitialGameState } from '../core/game-state.js'
 import type { SpriteImage } from './draw-sprite.js'
@@ -706,5 +706,51 @@ describe('P0.b Y-sort + cover-tile', () => {
     // Just verify no palette-7 pixel was written anywhere (tile img fills with 7, which is unique here).
     const anyColor7 = Array.from(fb.indices).some((i) => i === 7)
     expect(anyColor7).toBe(false)
+  })
+})
+
+// sdlpal text.c:1408-1426 PAL_DialogWaitForKey 等键时 palette[0xF9..0xFE] 每 100ms 左轮转一格 →
+//   箭头(像素 idx 0xf9)色彩流动。这是"闪烁"的真值机制(非 show/hide)。
+describe('applyDialogIconPaletteShift(dialog 箭头 palette 轮转)', () => {
+  afterEach(() => vi.restoreAllMocks())
+
+  function palette256(): Palette {
+    return {
+      colors: Array.from({ length: 256 }, (_, i) => [i, i, i] as [number, number, number]),
+      cycles: [],
+    }
+  }
+
+  it('非等键 phase(typing)→ 原样返回 base 同引用', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dialogBox = startDialogLine('A', { style: 'bottom' }) // phase = typing
+    const base = palette256()
+    expect(applyDialogIconPaletteShift(gs, base)).toBe(base)
+  })
+
+  it('等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动', () => {
+    vi.spyOn(performance, 'now').mockReturnValue(100) // floor(100/100)%6 = 1
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dialogBox = startDialogLine('A', { style: 'bottom' })
+    setWaitingEndKey(gs.dialogBox)
+    const base = palette256()
+    const out = applyDialogIconPaletteShift(gs, base)
+    expect(out).not.toBe(base)
+    // 左轮转 1:out[0xF9]=base[0xFA] … out[0xFD]=base[0xFE],out[0xFE]=base[0xF9](回绕)
+    expect(out.colors[0xf9]).toEqual(base.colors[0xfa])
+    expect(out.colors[0xfd]).toEqual(base.colors[0xfe])
+    expect(out.colors[0xfe]).toEqual(base.colors[0xf9])
+    // 区间外像素不变
+    expect(out.colors[0xf8]).toEqual(base.colors[0xf8])
+    expect(out.colors[0x42]).toEqual(base.colors[0x42])
+  })
+
+  it('等键 phase + step=0(整圈起点 t=600ms)→ 原样返回 base', () => {
+    vi.spyOn(performance, 'now').mockReturnValue(600) // floor(600/100)%6 = 0
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dialogBox = startDialogLine('A', { style: 'bottom' })
+    setWaitingEndKey(gs.dialogBox)
+    const base = palette256()
+    expect(applyDialogIconPaletteShift(gs, base)).toBe(base)
   })
 })

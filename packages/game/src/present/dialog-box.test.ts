@@ -106,12 +106,20 @@ describe('Sync.2 DialogBox · tickDialog typing', () => {
     expect(s.phase).toBe('line-done')
   })
 
-  it('非 typing phase 下 keyIconBlink 在 blink-period 内切换', () => {
+  // sdlpal 真值:箭头**常显**,"闪烁"由 present 层 palette 0xF9-0xFE 轮转产生(text.c:1408-1426),
+  //   不是 show/hide。等键期间每帧都应画出 icon(旧版会在 blink-off 帧消失)。
+  it('等键 phase → icon 常显(不随 tick show/hide)', () => {
+    const fb = createFramebuffer()
+    const icon = mockSprite(8, 8, 99)
     const s = startDialogLine('A', { style: 'bottom' })
     completeLine(s)
-    const firstBlink = s.keyIconBlink
-    for (let i = 0; i < 16; i++) tickDialog(s)
-    expect(s.keyIconBlink).not.toBe(firstBlink)
+    setWaitingEndKey(s)
+    for (let n = 0; n < 40; n++) {
+      fb.indices.fill(0)
+      tickDialog(s)
+      drawDialogBox(fb, s, undefined, { iconFrames: new Map([[0, icon]]) })
+      expect(Array.from(fb.indices).some((i) => i === 99)).toBe(true)
+    }
   })
 })
 
@@ -214,13 +222,17 @@ describe('Sync.2 DialogBox · drawDialogBox 不画 box bg', () => {
     expect(count).toBeGreaterThan(0)
   })
 
-  it('shadow=true → 主色 + 阴影色 50 都存在', () => {
+  // sdlpal text.c:1144-1156 真值:文字阴影 = 三层 (+1,0)/(0,+1)/(+1,+1) **color 0**(非旧单层 color 50)。
+  //   color 0 与空 fb 默认值同 → 用非 0 背景填充让阴影像素可辨。
+  it('对话文字 → 主色 200 + 三层阴影 color 0(取代旧单层 color 50)', () => {
     const fb = createFramebuffer()
-    const state = startDialogLine('A', { style: 'bottom', shadow: true, fontColor: 200 })
+    fb.indices.fill(77) // 非 0 背景:阴影 color 0 才能与背景区分
+    const state = startDialogLine('A', { style: 'bottom', fontColor: 200 })
     completeLine(state)
     drawDialogBox(fb, state, undefined, undefined)
-    expect(Array.from(fb.indices).some((i) => i === 200)).toBe(true)
-    expect(Array.from(fb.indices).some((i) => i === 50)).toBe(true)
+    expect(Array.from(fb.indices).some((i) => i === 200)).toBe(true) // 主色
+    expect(Array.from(fb.indices).some((i) => i === 0)).toBe(true)   // 三层阴影 color 0
+    expect(Array.from(fb.indices).some((i) => i === 50)).toBe(false) // 不再是旧单层 color 50
   })
 
   it('4 styles 绘制不抛错', () => {
@@ -285,7 +297,7 @@ describe('Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置)
 })
 
 describe('Sync.2 DialogBox · key icon(sdlpal text.c:1391)', () => {
-  it('waiting-page-key + blink=true → blit icon', () => {
+  it('waiting-page-key → blit icon(常显,不再 gate keyIconBlink)', () => {
     const fb = createFramebuffer()
     const icon = mockSprite(8, 8, 99)
     const state = startDialogLine('A', { style: 'bottom' })
@@ -294,6 +306,33 @@ describe('Sync.2 DialogBox · key icon(sdlpal text.c:1391)', () => {
     tickDialog(state)
     drawDialogBox(fb, state, undefined, { iconFrames: new Map([[0, icon]]) })
     expect(Array.from(fb.indices).some((i) => i === 99)).toBe(true)
+  })
+
+  // sdlpal text.c:1745 `posIcon = PAL_XY(x, y)`:x = 本行文字画完后的末尾 x,y = 本行 y。
+  // 不是固定右下角(旧 bug:iconX=280, iconY=行y+12)。
+  it('icon 位置 = 本行文字末尾 x + 本行 y(sdlpal posIcon 真值)', () => {
+    const fb = createFramebuffer()
+    const icon = mockSprite(8, 8, 99)
+    // style=bottom 无 portrait → basePos=(44,126);glyphs=undefined → measureText 每字 16px。
+    const state = startDialogLine('AB', { style: 'bottom' })
+    completeLine(state)
+    setWaitingEndKey(state)
+    drawDialogBox(fb, state, undefined, { iconFrames: new Map([[0, icon]]) })
+    let minX = 320
+    let minY = 200
+    for (let y = 0; y < 200; y++) {
+      for (let x = 0; x < 320; x++) {
+        if (fb.indices[y * 320 + x] === 99) {
+          if (x < minX) minX = x
+          if (y < minY) minY = y
+        }
+      }
+    }
+    // 'AB' = 2 字 × 16px = 32 → iconX = 44 + 32 = 76;iconY = 126 + 0*18 = 126(无 +12)
+    expect(minX).toBe(76)
+    expect(minY).toBe(126)
+    // 绝不在固定右下角 280
+    expect(minX).toBeLessThan(280)
   })
 
   it('typing 中(phase=typing)→ 不画 icon', () => {

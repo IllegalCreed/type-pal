@@ -514,6 +514,30 @@ export function flushToCanvas(
   ctx2d.putImageData(img, 0, 0)
 }
 
+// dialog 等键箭头的"闪烁" = sdlpal text.c:1408-1426 PAL_DialogWaitForKey 的 palette 轮转(非 show/hide)。
+//   wait loop 每 UTIL_Delay(100ms) 对 palette[0xF9..0xFE] **左轮转一格**:
+//     t = pal[0xF9]; for i in 0xF9..0xFD: pal[i]=pal[i+1]; pal[0xFE]=t;
+//   箭头像素索引落在 0xF8(描边,固定)/0xF9(内部)→ 随轮转循环显示这 6 槽色,产生色彩流动。
+//   整圈 6×100ms = 600ms。按键后 PAL_SetPalette 复原(text.c:1442)。
+const DLG_ICON_ROT_LO = 0xf9   // 轮转区间 [0xF9, 0xFE]
+const DLG_ICON_ROT_LEN = 6     // 共 6 槽
+/**
+ * 当 dialog 处于等键 phase 时,返回 palette 的**瞬态**轮转副本(不改 gs.palette,无需复原);
+ * 否则原样返回 base。轮转步数按 wall-clock 100ms/步,与 sdlpal UTIL_Delay(100) 节奏一致。
+ */
+export function applyDialogIconPaletteShift(gs: GameState, base: Palette): Palette {
+  const dlg = gs.dialogBox
+  if (!dlg || (dlg.phase !== 'waiting-page-key' && dlg.phase !== 'waiting-end-key')) return base
+  const step = Math.floor(performance.now() / 100) % DLG_ICON_ROT_LEN
+  if (step === 0) return base
+  const colors = base.colors.slice()
+  // 左轮转 step 格:pal[0xF9+i] = base[0xF9 + ((i+step) % 6)]
+  for (let i = 0; i < DLG_ICON_ROT_LEN; i++) {
+    colors[DLG_ICON_ROT_LO + i] = base.colors[DLG_ICON_ROT_LO + ((i + step) % DLG_ICON_ROT_LEN)]!
+  }
+  return { ...base, colors }
+}
+
 /**
  * M3 T28 战斗一帧入口 —— 委托 BattlePresent.draw 装配。
  *

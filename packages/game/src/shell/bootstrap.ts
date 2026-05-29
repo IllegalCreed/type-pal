@@ -34,6 +34,7 @@ import {
   presentFrame,
   presentBattleFrame,
   flushToCanvas,
+  applyDialogIconPaletteShift,
   type PresentContext,
 } from '../present/present.js'
 import { BattlePresent, type BattleAssets } from '../present/battle/present-battle.js'
@@ -277,7 +278,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         presentFrame(fb, gs, presentCtx)
       }
       // M4 P3.T2: gs.palette 由 setPalette opcode handler 异步写入;优先用它,否则 fallback 到初始 palette。
-      flushToCanvas(fb, canvasCtx, gs.palette ?? palette)
+      // dialog 等键时,applyDialogIconPaletteShift 套瞬态 palette 轮转(sdlpal text.c:1408-1426 箭头闪烁)。
+      flushToCanvas(fb, canvasCtx, applyDialogIconPaletteShift(gs, gs.palette ?? palette))
     },
   }
 

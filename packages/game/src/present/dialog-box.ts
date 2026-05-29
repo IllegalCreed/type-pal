@@ -26,7 +26,7 @@
 
 import type { DialogBoxStyle } from '@type-pal/shared'
 import type { Framebuffer } from './framebuffer.js'
-import { renderText, type GlyphTable } from './font.js'
+import { renderText, measureText, type GlyphTable } from './font.js'
 import type { DialogBoxState, DialogPhase } from '../core/game-state.js'
 import { drawSingleLineBox } from './menu/draw-box.js'
 import { drawNumber } from './draw-number.js'
@@ -34,8 +34,6 @@ import { drawNumber } from './draw-number.js'
 // ── 常量 ──────────────────────────────────────────────────────────────────────
 
 export const FRAMES_PER_CHAR = 1
-const KEY_ICON_BLINK_PERIOD = 16
-const SHADOW_COLOR = 50
 
 /**
  * sdlpal text.c:29 `#define FONT_COLOR_DEFAULT 0x4F` = 79。
@@ -289,10 +287,8 @@ export function tickDialog(state: DialogBoxState): void {
     }
   }
 
-  // blink key icon — 任何 line-done / wait 状态都 blink,UX 提示玩家"可推进"。
-  if (state.phase !== 'typing') {
-    state.keyIconBlink = (Math.floor(state.typingFrames / KEY_ICON_BLINK_PERIOD) % 2) === 0
-  }
+  // 注:箭头"闪烁"已改为 present 层 palette 0xF9-0xFE 轮转(sdlpal text.c:1408-1426),
+  //   箭头本身常显 → 不再用 keyIconBlink show/hide。字段保留(初始 false)以兼容存档/类型。
 }
 
 // ── confirmDialog ─────────────────────────────────────────────────────────────
@@ -423,25 +419,32 @@ export function drawDialogBox(
     drawTextLine(fb, visible, basePos.x, basePos.y + lineIdx * LINE_HEIGHT_PX, state, glyphs)
   }
 
-  // 3. key icon(等键 / line-done 时右下角闪烁)
-  if (shouldShowKeyIcon(state) && state.keyIconBlink) {
+  // 3. key icon(等键时显示在最后一行文字末尾)。
+  //    sdlpal text.c:1745 `posIcon = PAL_XY(x, y)`:x = 本行 TEXT_DisplayText 画完返回的末尾 x,
+  //    y = 本行 y(posDialogText.y + nCurrentDialogLine*18,自增前)。**不是**固定右下角。
+  //    "闪烁"由 present 层 palette 索引 0xF9-0xFE 每 100ms 轮转产生(text.c:1408-1426),
+  //    箭头本身**常显**(不再 show/hide gate keyIconBlink)。
+  if (shouldShowKeyIcon(state)) {
     const iconSprite = ctx?.iconFrames?.get(KEY_ICON_FRAME)
     if (iconSprite) {
-      // icon 位置:最后一行的右下方,sdlpal text.c:1745 `posIcon = PAL_XY(x, y)`
-      // 简版:lower box 右下固定位置(可后期改 sdlpal 精确位置)
+      // 最后一行:正在显示的 currentLineText(若有)或最后一条 shownLine。
       const lineIdx = state.currentLineText !== null
         ? state.shownLines.length
         : Math.max(0, state.shownLines.length - 1)
-      const iconX = 280
-      const iconY = basePos.y + lineIdx * LINE_HEIGHT_PX + 12
+      const lastLineText = state.currentLineText !== null
+        ? state.currentLineText
+        : (state.shownLines[state.shownLines.length - 1] ?? '')
+      const iconX = basePos.x + measureText(lastLineText, glyphs)
+      const iconY = basePos.y + lineIdx * LINE_HEIGHT_PX
       blitSprite(fb, iconSprite, iconX, iconY)
     }
   }
 }
 
+// sdlpal:icon 只在真正等键处显示 —— PAL_DialogWaitForKey 由 page-break(text.c:1654)
+// 与 dialog 结束(text.c:1772)触发。line-done 是行间自动推进,不显 icon。
 function shouldShowKeyIcon(state: DialogBoxState): boolean {
   return state.phase === 'waiting-page-key' || state.phase === 'waiting-end-key'
-    || state.phase === 'line-done'
 }
 
 function drawTextLine(
@@ -454,11 +457,11 @@ function drawTextLine(
   colorOverride?: number,
 ): void {
   if (text.length === 0) return
-  // Sync.2 fix17:sdlpal text.c:1594/1725 真值,文字都有阴影(`fShadow=TRUE`)。
-  // 我们之前 shadow gated by state.shadow,但 sdlpal 文字渲染 default 带 shadow。
-  // 用 state.shadow ?? true,但当前 startDialogLine 默认 false → fix:都画 shadow。
-  renderText(fb, text, x + 1, y + 1, SHADOW_COLOR, glyphs)
-  renderText(fb, text, x, y, colorOverride ?? state.fontColor, glyphs)
+  // sdlpal 真值:对话正文 TEXT_DisplayText(..., isDialog=FALSE)(text.c:1737)→ fShadow=!isDialog=TRUE;
+  //   姓名 title PAL_DrawText(..., fShadow=TRUE)(text.c:1725)。两者都带阴影。
+  // 阴影算法 = 三层 (+1,0)/(0,+1)/(+1,+1) **color 0**(text.c:1144-1156,DOS triple,sdlpal 统一 triple)。
+  // 旧实现手搓**单层** (+1,+1) color 50 是错的 —— 改用 renderText 内建 fShadow=true(正确三层 color0)。
+  renderText(fb, text, x, y, colorOverride ?? state.fontColor, glyphs, true)
 }
 
 // ── 内部 blit ─────────────────────────────────────────────────────────────────
