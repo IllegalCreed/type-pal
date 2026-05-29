@@ -14,7 +14,7 @@ import {
   OP_PARTY_WALK_TO_4, OP_PARTY_WALK_TO_8, OP_NPC_WALK_TO_4,
   OP_RIDE_OBJECT_2, OP_RIDE_OBJECT_4, OP_RIDE_OBJECT_8, OP_MONSTER_CHASE,
   setObstacleChecker, setGlobalEvents, resolveScriptLabel,
-  startOverworldItemScript,
+  startOverworldItemScript, setSceneLoader,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -2414,6 +2414,28 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
     ]
     runEnterScript(gs, commands, buildLabelMap(commands), 0)
     expect(gs.party.x).toBe(640) // 跳转生效;旧版 no-op 会走 ip1 → x=320
+  })
+
+  it('loadScene 续跑调用脚本(setPartyPos 不被抛弃)+ 脚本结束才触发 reload(sdlpal 0x59 continue,2026-05-29)', () => {
+    // 无 onEnter scene 的 party 位置只能来自 loadScene 后的 setPartyPos(scene 13/wNumScene14 黑屏根因)。
+    let loadedScene = -1
+    setSceneLoader(async (sid) => { loadedScene = sid })
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const bus = createCommandBus()
+      loadEvent(gs, [
+        { op: 'loadScene', sceneId: 14 },                   // ip0
+        { op: 'raw', opcode: 0x46, operands: [21, 55, 0] }, // ip1 setPartyPos(续跑必须执行)
+        { op: 'end' },                                      // ip2
+      ])
+      tickEventSystem(gs, snap(), bus)
+      expect(gs.party.x).toBe(21 * 32) // setPartyPos col21 → x=672(续跑没被抛弃;旧版会丢)
+      expect(gs.sceneLoading).toBe(true) // reload 期间保留旧帧
+      expect(loadedScene).toBe(14)       // 脚本结束触发延迟 reload
+    }
+    finally {
+      setSceneLoader(null)
+    }
   })
 })
 

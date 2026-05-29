@@ -1007,6 +1007,7 @@ export function tickEventSystem(
       consumePendingItem(gs)  // item.scriptOnUse 跑完 → 按 g_fScriptSuccess gate 扣物品
       gs.iCurEquipPart = -1   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset — 0x18 设的 part 不泄漏
       restoreModeAfterScript(gs) // applyToAll → 关菜单回 explore;否则 menuStack 非空回 menu(INNER 循环)
+      triggerPendingSceneLoad(gs) // loadScene 续跑的脚本 ip 越界结束 → 触发延迟 reload
       return
     }
 
@@ -1121,6 +1122,7 @@ export function tickEventSystem(
         consumePendingItem(gs)  // item.scriptOnUse 'end' 收尾 → 按 g_fScriptSuccess gate 扣物品
         gs.iCurEquipPart = -1   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset
         restoreModeAfterScript(gs)
+        triggerPendingSceneLoad(gs) // loadScene 续跑的脚本结束 → 触发延迟 reload(sdlpal 下帧 PAL_LoadResources)
         return
 
       case 'goto': {
@@ -1449,20 +1451,17 @@ export function tickEventSystem(
         break
 
       case 'loadScene': {
-        // sdlpal 0x0059 真做:fEnteringScene + wNumScene = operand[0] → 下帧 PAL_LoadResources 重 load。
-        // 我们用注入的 _sceneLoader async callback:fetch 新 scene assets → setSceneContext + 重置 gs +
-        // 切 gs.eventCursor 到新 scene 的 onEnterLabel ip → 释放 waiting。
-        // ip 停在本 loadScene 上,callback 完成后 gs.eventCursor 已被重写到新 scene,本 cursor 弃用。
+        // sdlpal 0x0059(script.c:1870):设 wNumScene + fEnteringScene 后 **break(继续跑调用脚本)** —
+        // PAL_LoadResources reload 在下一 PAL_StartFrame(脚本 return 之后)。我们 port:记 pendingSceneLoad +
+        // **继续跑**(loadScene 后的 setPartyPos/fade 给新 scene 定位 — 无 onEnter scene 的位置只能来自此处),
+        // 脚本结束('end'/ip 越界)才触发异步 _sceneLoader reload(triggerPendingSceneLoad)。
+        // 旧版立刻 waiting+replace cursor → 抛弃续跑的 setPartyPos → 无 onEnter scene 黑/错位
+        // (2026-05-29 loadScene 14/scene13 黑屏)。sceneLoading=true:续跑 + async fetch 期间 present 保留旧帧。
         if (_sceneLoader) {
-          cursor.waiting = 'scene-load'
-          // P2#7:**立刻**设 sceneLoading=true — present.ts 见此跳过渲染、保留上一帧(切场景前旧 scene
-          // 完整帧,供 fadeScreen backup)。否则 sceneLoader async fetch 期间 present 会渲染"旧 tilemap +
-          // 新坐标"花屏。冻到 onEnter 第一个可渲染 yield(fadeScreen/showDialog)/ no-onEnter / onEnter-end 清。
+          gs.pendingSceneLoad = cmd.sceneId
           gs.sceneLoading = true
-          _sceneLoader(cmd.sceneId).catch((err: unknown) => {
-            console.error(`event-system: sceneLoader(${cmd.sceneId}) failed:`, err)
-          })
-          return
+          cursor.ip++ // 继续跑调用脚本(setPartyPos 等)
+          break
         }
         console.warn(
           `event-system: loadScene sceneId=${cmd.sceneId} 无 _sceneLoader 注入,skip(测试外 bootstrap 应 setSceneLoader)`,
@@ -1777,6 +1776,24 @@ function restoreModeAfterScript(gs: GameState): void {
   }
   gs.itemUseApplyToAll = undefined
   gs.mode = gs.menuStack.length > 0 ? 'menu' : 'explore'
+}
+
+/**
+ * loadScene 续跑的调用脚本结束后,触发延迟的异步 reload(sdlpal:0x59 后脚本继续跑,reload 在脚本
+ * return 后的下一 PAL_StartFrame)。loadScene opcode 记 gs.pendingSceneLoad 并继续跑;脚本 'end' /
+ * ip 越界(整段结束,非 0x04 子调用返回)时调此 → _sceneLoader 异步 fetch+apply 新 scene。
+ * reload 期间 sceneLoading=true(present 保留旧帧 + tickSceneSystem 冻结)。
+ */
+function triggerPendingSceneLoad(gs: GameState): void {
+  if (gs.pendingSceneLoad === undefined || !_sceneLoader) return
+  const sid = gs.pendingSceneLoad
+  gs.pendingSceneLoad = undefined
+  // 重设 sceneLoading=true:onEnter 'end' 可能已清(P2#7),但 async reload 期间需 present 保留旧帧;
+  // loadSceneCommon 起手也设 true,这里覆盖 'end'→reload 之间那帧的空窗(否则漏 blank 渲染旧 scene)。
+  gs.sceneLoading = true
+  _sceneLoader(sid).catch((err: unknown) => {
+    console.error(`event-system: sceneLoader(${sid}) failed:`, err)
+  })
 }
 
 /**

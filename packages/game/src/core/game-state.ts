@@ -563,6 +563,15 @@ export interface GameState {
   sceneLoading?: boolean
 
   /**
+   * loadScene opcode(0x59)的延迟 reload 目标 wNumScene。sdlpal 0x59(script.c:1870)设 wNumScene +
+   * fEnteringScene 后 **break(继续跑调用脚本)** — reload 在下一 PAL_StartFrame。我们 port:loadScene 记此 +
+   * 继续跑脚本(loadScene 后的 setPartyPos/fade 给新 scene 定位,无 onEnter scene 的位置只能来自这里),
+   * 脚本结束('end'/ip 越界)才触发异步 _sceneLoader reload。旧版立刻 waiting+replace cursor 抛弃续跑 →
+   * 无 onEnter scene 黑/错位(2026-05-29 scene 13/wNumScene14 黑屏根因)。undefined = 无待 reload。
+   */
+  pendingSceneLoad?: number
+
+  /**
    * M5.6 T18 Step 3:AVI / RNG / splash 等"全屏 modal 序列"播放期间暂停 raf loop
    * 渲染(canvas 内容冻结,DOM `<video>` overlay 或自管渲染层接管视觉)。
    *
