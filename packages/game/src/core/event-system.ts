@@ -1182,6 +1182,10 @@ export function tickEventSystem(
           appendDialogLine(gs.dialogBox, text)
         }
         cursor.waiting = 'dialog'
+        // P2#7:content-no-fade onEnter(有对话、无 fadeScreen,如 scene 14)— 对话是第一个可渲染 yield,
+        // 此时 setPartyPos 等已跑完(camera 已对)→ 清 sceneLoading 让对话渲染。fade-first onEnter 的
+        // fadeScreen 在对话前已清(此处 sceneLoading 已 false,不重复)。
+        if (gs.sceneLoading) gs.sceneLoading = false
         bus.emit({ op: 'showDialogBox', text, style: gs.currentDialogStyle })
         // ip 停在 showDialog 上,waiting 释放(typing 完后自动 ip++)才推进
         return
@@ -1265,8 +1269,8 @@ export function tickEventSystem(
             startTimeMs: performance.now(),
             appliedSteps: 0,
           }
-          // P2#7:sceneLoading 已在 assets 载入后清(onEnter 已在渲染);这里幂等防御清一次。
-          // fade backup 用 sceneLoading 起手拷的旧 scene 帧(present.ts gs.sceneFadeBackup)。
+          // P2#7:fadeScreen 是 fade-first onEnter 的第一个可渲染 yield(setPartyPos 等已跑、camera 已定位)
+          // → 清 sceneLoading 解冻渲染。fade backup 从冻屏保留的旧 scene 帧拷(present.ts fb.indices)。
           gs.sceneLoading = false
           // Sync.2 fix18:sdlpal 真值 — fadeScreen 启动前的 default-case PAL_ClearDialog(TRUE) 已经
           // 把 nCurrentDialogLine 设 0 → 之后 PAL_MakeScene 重画不含 dialog box → fade 是
@@ -1432,8 +1436,8 @@ export function tickEventSystem(
         if (_sceneLoader) {
           cursor.waiting = 'scene-load'
           // P2#7:**立刻**设 sceneLoading=true — present.ts 见此跳过渲染、保留上一帧(切场景前旧 scene
-          // 完整帧)+ 拷 sceneFadeBackup。否则 sceneLoader async fetch 期间 present 会渲染"旧 tilemap +
-          // 新坐标"花屏。loadSceneCommon assets 载入后清(不再冻到 fadeScreen)。
+          // 完整帧,供 fadeScreen backup)。否则 sceneLoader async fetch 期间 present 会渲染"旧 tilemap +
+          // 新坐标"花屏。冻到 onEnter 第一个可渲染 yield(fadeScreen/showDialog)/ no-onEnter / onEnter-end 清。
           gs.sceneLoading = true
           _sceneLoader(cmd.sceneId).catch((err: unknown) => {
             console.error(`event-system: sceneLoader(${cmd.sceneId}) failed:`, err)

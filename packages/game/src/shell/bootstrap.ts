@@ -462,7 +462,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       + (opts.fromSavedGame ? ' (from saved game)' : ''),
     )
     // P2#7:async 加载窗口起手设 sceneLoading=true(loadScene opcode 已设过,这里覆盖初始 / skip-intro /
-    // loadGame 路径)→ present 保留旧帧 + 拷 sceneFadeBackup。assets + cutscene sprite 都 ready 后清。
+    // loadGame 路径)→ present 保留旧帧(供 fadeScreen backup)。冻到 onEnter 第一个可渲染 yield 才清。
     gs.sceneLoading = true
     const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
     gs.wNumScene = newWNumScene
@@ -495,10 +495,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }
     applySceneAssetsToPresent(sceneAssets)
     await preloadCutsceneSprites(sceneAssets.eventCommands)
-    // P2#7:tilemap + base sprite(applySceneAssetsToPresent)+ cutscene sprite(preload)都 ready →
-    // 清 sceneLoading,present 恢复渲染新场景。onEnter 随后正常跑:fade-first 第一 tick 即到 fadeScreen
-    // (present 渲染渐变,用 sceneFadeBackup 旧帧);content-no-fade onEnter 的对话/动画正常显示(scene 14)。
-    gs.sceneLoading = false
+    // P2#7:**不**在此清 sceneLoading(那样 onEnter 的 setPartyPos 还没跑,camera 在旧坐标 → 渲染
+    // 出"其他地方坐标的场景"再跳。保持冻到 onEnter 的第一个可渲染 yield:fadeScreen(event-system 清)/
+    // showDialog(event-system 清,content-no-fade 场景)/ onEnter-end(幂等清)。setPartyPos 是非等待
+    // opcode,在那之前跑完 → camera 已对。no-onEnter 场景(下方 else)立即清。
     if (!opts.fromSavedGame) {
       // 正常 loadScene:跑 onEnter。入口优先级(sdlpal play.c:64 真值):
       //   sceneOnEnterIp(持久化:上次跑完存回 / 0x6D override 解析后,-1=无 onEnter)> onEnterLabel。
@@ -517,14 +517,20 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
           onEnterStartIp: ip,
         }
         gs.mode = 'event'
-        // P2#7:onEnter 正常渲染(sceneLoading 已清)。fade-first onEnter 第一 tick 跑到 fadeScreen →
-        // present 渲染渐变(sceneFadeBackup 旧帧 → 新场景);content-no-fade onEnter 对话正常显示。
+        // P2#7:onEnter 冻屏中跑(setPartyPos 等定位 opcode),到第一个可渲染 yield 才清 sceneLoading 解冻:
+        // fade-first onEnter → fadeScreen 清(camera 已对,present 从冻屏旧帧拷 backup 渐变到新场景);
+        // content-no-fade onEnter → showDialog 清(对话正常显示,scene 14 修复)。
       }
       else {
-        // 无 onEnter script(door 切换):直接 explore,新场景已渲染(sceneLoading 已清)。
+        // 无 onEnter script(door 切换):无 fadeScreen/dialog 来解冻 → 立即清 sceneLoading 渲染新场景。
         gs.eventCursor = undefined
         gs.mode = 'explore'
+        gs.sceneLoading = false
       }
+    }
+    else {
+      // fromSavedGame:无 onEnter,assets 已应用 → 立即清渲染(SAVEDGAME 已恢复 party/mode)。
+      gs.sceneLoading = false
     }
     // fromSavedGame:**不**跑 onEnter — SAVEDGAME 内 gs.mode / gs.eventCursor 已恢复
   }
@@ -829,10 +835,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // (避免存档时 effect 处于脏/旧状态被原样载入;item/script 定义变更后也能自愈)。P1#4(2026-05-29)。
     updateAllEquipments(gs, items)
     gs.iCurEquipPart = -1
-    // P2#7:清存档可能残留的 sceneFadeBackup(transient,正常存档时为空,防御)。sceneLoading 由
-    // loadSceneCommon 管(起手 true blank fetch 窗口,preload 后 false 渲染)→ 不再用 fEnteringScene。
-    gs.sceneFadeBackup = undefined
-    // 重 load scene assets — 走 fromSavedGame 路径,**不**重置 npcs / **不**跑 onEnter
+    // 重 load scene assets — 走 fromSavedGame 路径,**不**重置 npcs / **不**跑 onEnter。
+    // sceneLoading 由 loadSceneCommon 管(起手 true blank fetch 窗口,fromSavedGame 分支立即清渲染)。
     await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })
   }
 

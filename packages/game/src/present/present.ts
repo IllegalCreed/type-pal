@@ -109,21 +109,19 @@ export function presentFrame(
     return
   }
 
-  // P2#7:scene 切换异步加载窗口 — 跳过 render,fb 保留上一帧(= 旧 scene 完整帧),避免 async fetch
-  // 期间渲染"旧 tilemap + 新坐标"的花屏。同时**首次**进入此窗口拷下旧 scene 帧供跨 scene 渐变 backup
-  // (assets 载入后 sceneLoading 立即清 → onEnter 正常渲染,不再冻到 fadeScreen)。
+  // P2#7:scene 切换期间跳过 render,fb 保留上一帧(= 旧 scene 完整帧)。覆盖 ① async 资源加载窗口
+  // (避免渲染"旧 tilemap+新坐标"花屏)② onEnter 跑 setPartyPos 等定位 opcode 期间(避免新场景在
+  // 旧坐标渲染)。直到 onEnter 第一个可渲染 yield(fadeScreen/showDialog,event-system 清 sceneLoading)
+  // 或 no-onEnter/onEnter-end 清 → 此时 camera 已定位。冻屏保留的旧帧供下面 fadeScreen backup 用。
   if (gs.sceneLoading) {
-    if (!gs.sceneFadeBackup) gs.sceneFadeBackup = new Uint8Array(fb.indices)
     return
   }
 
   // sdlpal video.c:VIDEO_BackupScreen 真值:opcode 0x73 触发那一瞬间,把当前屏幕快照存到 gpScreenBak。
-  // 跨 scene 渐变(loadScene→onEnter fadeScreen):用 sceneLoading 起手拷的旧 scene 帧(sceneFadeBackup)。
-  // 同 scene 内 fadeScreen(无 loadScene):sceneFadeBackup 为空 → 从上一帧 fb.indices 拷(fb 未 clear 前
-  // 还留着上一帧像素)。用于后续 fade 帧 sdlpal 真 rgIndex stride-6 dither blend(主角全程可见)。
+  // fade 第一帧(backupPixels 未拷)从上一帧 fb.indices 拷(fb clear 前还留着上一帧像素 = 冻屏保留的
+  // 旧 scene 帧 / 同 scene 内上一帧)。用于后续 fade 帧 sdlpal 真 rgIndex stride-6 dither blend(主角全程可见)。
   if (gs.fadeState && !gs.fadeState.backupPixels) {
-    gs.fadeState.backupPixels = gs.sceneFadeBackup ?? new Uint8Array(fb.indices)
-    gs.sceneFadeBackup = undefined
+    gs.fadeState.backupPixels = new Uint8Array(fb.indices)
   }
 
   fb.clear()

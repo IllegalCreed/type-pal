@@ -556,16 +556,11 @@ export interface GameState {
    * 的对话,如 scene 14)。fade-first onEnter 清门后第一 tick 即跑到 fadeScreen(可等待点)→ present
    * 直接渲染渐变,不闪未渐变的新场景。
    *
-   * 与旧 fEnteringScene 区别:旧版冻到 fadeScreen 才清 → content-no-fade onEnter 的对话被藏(bug)。
+   * P2#7 关键修(content-no-fade onEnter):旧版只在 fadeScreen / onEnter-end 清 → 有对话无 fadeScreen 的
+   * onEnter(如 scene 14)对话被冻到 onEnter 结束才显。现额外在 **showDialog** 处清(对话是第一个可渲染
+   * yield,此时 setPartyPos 已跑、camera 已定位)→ 对话正常显示。fade-first onEnter 仍在 fadeScreen 清。
    */
   sceneLoading?: boolean
-
-  /**
-   * P2#7:跨 scene 渐变(fadeScreen)的 backup 帧 —— 在 sceneLoading 起手那帧由 present.ts 拷下**旧 scene**
-   * 完整帧(此时 fb 还是旧 scene)。后续 fadeScreen opcode 用它做 backup → 渐变从旧 scene 到新 scene。
-   * (旧版靠"冻屏保留旧帧 + fadeScreen 拷 fb"实现;P2#7 不再冻整个 onEnter,故显式拷旧帧。)
-   */
-  sceneFadeBackup?: Uint8Array
 
   /**
    * M5.6 T18 Step 3:AVI / RNG / splash 等"全屏 modal 序列"播放期间暂停 raf loop
