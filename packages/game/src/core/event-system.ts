@@ -375,6 +375,11 @@ export const OP_WAIT_FOR_KEY = 0x004D              // 77
 //   `PAL_FadeOut(1); PAL_ReloadInNextTick(gpGlobals->bCurrentSaveSlot); return 0;`
 //   淡黑(600ms,同 0x50)→ 重载当前存档槽 → **return 0 终止脚本**(不 break)。本游戏 1 用。
 export const OP_LOAD_LAST_SAVE = 0x004E            // 78
+// case 0x00A0(160): quit game — script.c:2988-2996
+//   `if (fIsWIN95) PAL_EndingScreen(); PAL_AdditionalCredits(); PAL_Shutdown(0);`
+//   WIN95 播结局 AVI(4/5/6);DOS 结局已由前序 opcode 跑完。**用户决策:跳过 PAL_AdditionalCredits**
+//   (SDLPAL 引擎 GNU GPL 版权页,非游戏内容)→ 直接回标题。本游戏 1 用(scene-281 结局,global ip 35621)。
+export const OP_QUIT = 0x00A0                      // 160
 
 // case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
 export const OP_POISON_ENEMY = 0x0028              // 40
@@ -768,6 +773,17 @@ export function setLoadLastSaveHandler(fn: LoadLastSaveHandler | null): void {
   _loadLastSaveHandler = fn
 }
 
+// ── 0xA0 quit handler(sdlpal script.c:2988-2996)──────────────────────────────
+// 用户决策:跳过 PAL_AdditionalCredits(SDLPAL 引擎版权页)→ 回标题。bootstrap 注入:
+// WIN95 → suspendRaf 播结局 mp4(4/5/6)→ 回标题(OpeningMenu);DOS → 结局已由前序 opcode 跑完 → 直接回标题。
+export type QuitHandler = () => void
+
+let _quitHandler: QuitHandler | null = null
+
+export function setQuitHandler(fn: QuitHandler | null): void {
+  _quitHandler = fn
+}
+
 /** 跑事件脚本的运行模式(M3 T17)。 */
 export type RuntimeMode = 'explore' | 'battle'
 
@@ -1140,6 +1156,12 @@ export function tickEventSystem(
     else {
       return
     }
+  }
+
+  // 0xA0 quit:回标题流程进行中(WIN95 结局 mp4 modal / DOS 即时)。_quitHandler 完成后 mode='menu'
+  //   + 清 eventCursor,tickEventSystem 不再被调;期间(suspendRaf 不 gate 逻辑 tick)block 不步进。
+  if (cursor.waiting === 'quit') {
+    return
   }
 
   // 1a''') waiting 处理:delay(opcode 0x0085 UTIL_Delay,script.c:2511-2516)
@@ -1618,6 +1640,19 @@ export function tickEventSystem(
           startPaletteFade(gs, cursor, buildFadeOut(curColors, 600, now), false, false)
           cursor.reloadSlotAfterFade = gs.currentSaveSlot
           console.debug(`event-system: loadLastSave slot=${gs.currentSaveSlot}(fade-out 600ms → reload)`)
+          return
+        }
+        // 0xA0 quit(sdlpal script.c:2988-2996)。用户决策:跳过 PAL_AdditionalCredits → 回标题。
+        //   modal:_quitHandler 注入(WIN95 播结局 mp4 4/5/6 → 回标题;DOS 直接回标题)+ waiting='quit' 阻塞。
+        //   handler 回标题(mode='menu' + 清 cursor)后本分支不再触达。
+        if (cmd.opcode === OP_QUIT) {
+          if (_quitHandler) {
+            _quitHandler()
+            cursor.waiting = 'quit'
+            return
+          }
+          console.debug('event-system: quit(无 _quitHandler 注入,清 cursor)')
+          gs.eventCursor = undefined
           return
         }
         // Sync.2 fix3: opcode 9 wait N frames — 设 waiting='frame-wait',ip 暂不动

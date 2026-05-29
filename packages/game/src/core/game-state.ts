@@ -214,8 +214,10 @@ export interface EventCursor {
    *  - 'wait-key':   0x4D wait-for-any-key(script.c:1753 `PAL_WaitForKey(0)` = PAL_WaitForKeyInternal(0,FALSE),
    *                  play.c:602-638)— **永久等**,只认 kKeySearch|kKeyMenu(Confirm/Menu/Cancel)。期间冻全场
    *                  (mode.ts allowlist 不含 → autoScript 不跑)。按键 → 清 waiting + ip++。
+   *  - 'quit':       0xA0 quit(script.c:2988-2996)— WIN95 播结局 mp4(4/5/6)/ DOS 即时 → 回标题(modal,
+   *                  _quitHandler 注入)。回标题(mode='menu' + OpeningMenu)后本 cursor 弃用;期间 block 不步进。
    */
-  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play' | 'show-fbp' | 'scroll-fbp' | 'ending-anim' | 'wait-key'
+  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play' | 'show-fbp' | 'scroll-fbp' | 'ending-anim' | 'wait-key' | 'quit'
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
   /** 'delay' 用(opcode 0x85):延迟到此 wall-clock 时间戳(performance.now()),到点 ip++ + clear。 */

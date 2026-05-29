@@ -13,7 +13,7 @@ import {
   setSceneLoader, setMapReloader, setObstacleChecker,
   setGlobalEvents, getGlobalLabelMap, setStartBattleHandler, setShopMenuHandler,
   setRngPlayHandler, setShowFbpHandler, setScrollFbpHandler, setEndingAnimationHandler,
-  setLoadLastSaveHandler,
+  setLoadLastSaveHandler, setQuitHandler,
 } from '../core/event-system.js'
 import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
 import { openMenu } from '../core/menu/menu-mode.js'
@@ -1061,6 +1061,33 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }).catch((err: unknown) => {
       console.error('[bootstrap.loadLastSave] failed:', err)
     })
+  })
+
+  /** 回标题(opcode 0xA0 quit / 结局后)— 复用 OpeningMenu 启动路径(同 showTrademarkAndSplash 末尾)。 */
+  function returnToTitle(): void {
+    gs.eventCursor = undefined
+    gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
+    gs.mode = 'menu'
+  }
+
+  // opcode 0xA0 quit(sdlpal script.c:2988-2996)。用户决策:跳过 PAL_AdditionalCredits(SDLPAL 引擎
+  // GNU GPL 版权页,非游戏内容)→ 回标题。WIN95 → 播结局 mp4(4/5/6,对应 PAL_EndingScreen AVI 序)→ 回标题;
+  // DOS → 结局已由 scene-281 前序 opcode(FBP/ScrollFBP/ColorFade/EndingAnimation 等)跑完 → 直接回标题。
+  setQuitHandler(() => {
+    if (buildFlag === 'win95') {
+      gs.suspendRaf = true
+      void (async () => {
+        for (const m of ['4.mp4', '5.mp4', '6.mp4']) await playAvi({ src: `${BASE}/videos/${m}` })
+      })().catch((err: unknown) => {
+        console.warn('[bootstrap.quit] 结局 mp4 播放失败:', err)
+      }).finally(() => {
+        gs.suspendRaf = false
+        returnToTitle()
+      })
+    }
+    else {
+      returnToTitle()
+    }
   })
 
   setStartGameHandler(async (choice) => {

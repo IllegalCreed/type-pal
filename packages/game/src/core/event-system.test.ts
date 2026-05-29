@@ -23,6 +23,7 @@ import {
   OP_ENDING_ANIMATION, setEndingAnimationHandler,
   OP_WAIT_FOR_KEY,
   OP_LOAD_LAST_SAVE, setLoadLastSaveHandler,
+  OP_QUIT, setQuitHandler,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -821,6 +822,42 @@ describe('opcode 0x004D wait-for-any-key(sdlpal script.c:1753 / play.c:602-638 P
     tickEventSystem(gs, snap(['Up']), bus)
     expect(gs.eventCursor?.waiting).toBe('wait-key')
     expect(gs.mode).toBe('event')
+  })
+})
+
+describe('opcode 0x00A0 quit(sdlpal script.c:2988-2996;用户决策:跳过 PAL_AdditionalCredits 回标题)', () => {
+  it('有 _quitHandler:调 handler 一次 + 设 waiting=quit 阻塞(不步进/不重复调)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    let called = 0
+    setQuitHandler(() => { called++ })
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_QUIT, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(called).toBe(1)
+    expect(gs.eventCursor?.waiting).toBe('quit')
+    expect(gs.eventCursor?.ip).toBe(0) // 未步进
+    // 后续 tick:waiting=quit 派发分支 block,handler 不重复调(回标题前 cursor 弃用由 bootstrap 异步做)
+    tickEventSystem(gs, snap(), bus)
+    expect(called).toBe(1)
+    expect(gs.eventCursor?.waiting).toBe('quit')
+    setQuitHandler(null)
+  })
+
+  it('无 _quitHandler:降级清 cursor(不卡死)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    setQuitHandler(null)
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_QUIT, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor).toBeUndefined()
+    debugSpy.mockRestore()
   })
 })
 
