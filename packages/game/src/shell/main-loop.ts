@@ -15,7 +15,7 @@
  */
 
 import type { Command, InputSource, Tilemap } from '@type-pal/shared'
-import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE, FRAME_MS_FADE } from '@type-pal/shared'
+import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
 import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
 import { tickByMode } from '../core/mode.js'
@@ -35,18 +35,14 @@ export interface LoopContext {
 }
 
 /**
- * 按 gs.mode 选 tick interval —— battle 40ms / 其他 100ms。
+ * **逻辑** tick interval —— battle 40ms / 其他 100ms。**fade 不再提速逻辑**。
  *
- * 特效 A:fade 进行中(dither gs.fadeState 或 palette gs.paletteFadeState,**scene-fade 除外**)
- * 提到 ~16ms(60fps)→ present 多采样平滑 fade(sdlpal fade 自带高频内循环,见 FRAME_MS_FADE)。
- * duration 不变(time-based)。scene-fade(0x93 / 0x80 fUpdateScene)留 10fps:sdlpal PAL_SceneFade
- * 本就 100ms/步且每步更新 NPC,10fps 才匹配(提速会让淡入期 NPC 过快)。
+ * 旧设计:fade 进行中把 tick 提到 16ms(60fps)让 present 多采样平滑 fade。副作用:fade 期间
+ * 走步 / 打字 / frame-wait(都是每 tick 推进的逻辑)被一起加速 6×(香兰报信 cutscene 瞬移+一口气根因)。
+ * 现解耦(2026-05-30):逻辑固定 100/40ms;fade 的平滑由 startRafLoop 在 fade 进行中**每 raf 帧** present
+ * 实现(present.ts 内按 wall-clock 步进 fade,duration time-based 不变)。
  */
-function tickIntervalMs(gs: GameState): number {
-  const fadeActive
-    = gs.fadeState != null
-    || (gs.paletteFadeState != null && gs.eventCursor?.waiting !== 'scene-fade')
-  if (fadeActive) return FRAME_MS_FADE
+function logicIntervalMs(gs: GameState): number {
   return gs.mode === 'battle' ? FRAME_MS_BATTLE : FRAME_MS_EXPLORE
 }
 
@@ -83,13 +79,27 @@ export function startRafLoop(ctx: LoopContext): () => void {
     lastTickTime = now
     accumulator += dt
 
-    const interval = tickIntervalMs(ctx.gs)
+    const interval = logicIntervalMs(ctx.gs)
+    let drained: BusEntry[] = []
+    let ticked = false
     while (accumulator >= interval) {
-      singleTick(ctx, dump)
+      const snap = ctx.input.nextSnapshot(ctx.gs.frameNum)
+      tickByMode(ctx.gs, snap, ctx.bus)
+      const d = ctx.bus.drain()
+      if (d.length) drained = drained.length ? [...drained, ...d] : d
+      if (dump?.enabled) dump.push(ctx.gs, ctx.partyWalkFrames ?? 3)
+      ticked = true
       accumulator -= interval
     }
     // mode 切换时 clamp:避免 explore→battle 一下子 catch-up 多 tick
     if (accumulator > interval * 3) accumulator = interval
+
+    // 渲染/逻辑解耦(2026-05-30 香兰 cutscene 修):逻辑 tick 时必 present;此外 fade(dither/palette)
+    //   进行中**每 raf 帧**都 present → present.ts 内按 wall-clock 平滑步进 fade。逻辑(走步/打字/
+    //   frame-wait)不再被 fade 提速。非 fade 且无 tick 时跳过 present(避免空转重画)。
+    if (ticked || ctx.gs.fadeState != null || ctx.gs.paletteFadeState != null) {
+      ctx.onPresent(drained)
+    }
 
     raf = requestAnimationFrame(loop)
   }
