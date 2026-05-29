@@ -94,6 +94,8 @@ function layer1Id(d: number): number {
 export interface RenderTilemapOptions {
   /** sceneId,M2 当前固定 1 = scene 1 / mapNum 12。 */
   sceneId?: number
+  /** 直接指定 mapNum(无 scene 引用的地图,如 #104/#164);给了就跳过 scene 查找。 */
+  mapNum?: number
   /** 调色板号,默认 0(M2 当前固定 0)。 */
   paletteId?: number
   /** 输出 PNG 路径。默认 <repo>/build/scene-1-full.png。 */
@@ -112,10 +114,12 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
   const outPath = opts.outPath ?? DEFAULT_OUT_PATH
 
   // M4 P3.T3: scene→mapNum→tilemap 链:先读 scene JSON 拿到 mapNum,再读 tilemap by mapNum。
-  const sceneMeta = JSON.parse(
-    readFileSync(resolve(DATA, 'data/scene', `${sceneId}.json`), 'utf-8'),
-  ) as { mapNum: number }
-  const mapNum = sceneMeta.mapNum
+  // opts.mapNum 直接指定 mapNum(用于无 scene 引用的地图,如 #104/#164;跳过 scene 查找)。
+  const mapNum
+    = opts.mapNum
+    ?? (JSON.parse(
+      readFileSync(resolve(DATA, 'data/scene', `${sceneId}.json`), 'utf-8'),
+    ) as { mapNum: number }).mapNum
 
   const tilemap = JSON.parse(
     readFileSync(resolve(DATA, 'data/tilemap', `${mapNum}.json`), 'utf-8'),
@@ -224,7 +228,21 @@ export function renderTilemap(opts: RenderTilemapOptions = {}): RenderTilemapRes
 }
 
 // CLI 薄壳:tsx 直接跑此文件时触发(import 时不触发)
+//   无参 → 渲染 scene 1(默认);`--map=N`(可多个)→ 按 mapNum 渲染到 build/tilemap-renders/map-N.png
+//   (用于无 scene 引用的地图,如 #104/#164;user 2026-05-29 "让我看看啥样")。
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const r = renderTilemap()
-  console.log(`[render-tilemap] written → ${r.outPath} (${r.width}×${r.height})`)
+  const maps = process.argv.slice(2)
+    .filter((a) => a.startsWith('--map='))
+    .map((a) => Number(a.slice('--map='.length)))
+  if (maps.length > 0) {
+    for (const mapNum of maps) {
+      const outPath = resolve(REPO_ROOT, 'build', 'tilemap-renders', `map-${mapNum}.png`)
+      const r = renderTilemap({ mapNum, outPath })
+      console.log(`[render-tilemap] map ${mapNum} → ${r.outPath} (${r.width}×${r.height})`)
+    }
+  }
+  else {
+    const r = renderTilemap()
+    console.log(`[render-tilemap] written → ${r.outPath} (${r.width}×${r.height})`)
+  }
 }

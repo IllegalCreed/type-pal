@@ -8,6 +8,29 @@
 
 ---
 
+## 2026-05-29 完整性复审 + 缺口补齐(byte-level 逐 raw 对账)
+
+user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(raw chunk_count vs extracted output + 追 parser)。结论:
+
+**唯一影响还原的真缺口 + 已补:**
+- **PAT.MKF 夜间调色板**:9 chunk 中仅 #0/#5 是 1536B(白天256+夜间256),余 7 个 768B 纯白天。旧 `cli.ts decodePalette(subarray(0,768))` 丢了 #0/#5 夜间半 → 0x54/0x80 night 视觉错。**已补**:`decodePalette` 抽 day+night(buf>768 时),palette JSON 加 `nightColors`;游戏侧 night 选色 wiring 待接。
+
+**user 额外要求(已做):**
+- **MAP/GOP #104/#164**(无 scene 引用的非空地图)也提取(cli `uniqueMapNums` 加全非空 chunk)+ 渲染到 `build/tilemap-renders/map-{104,164}.png` 供预览。
+- **SOUNDS.MKF 完整提取**:363 非空 chunk(各为完整 RIFF/WAVE)整块 dump → `sounds/{i}.wav`(原仅 metadata)。
+
+**确认非缺口(byte-level 验证):**
+- `GOP.MKF`(16MB)= **tileset 瓦片位图**(非障碍层,旧 doc 写错);sdlpal `global.c` **不开** `gop.mkf` 探测,只 res.c per-mapNum 加载;未引用 map 原版也永不加载。
+- `ABC.MKF`/`F.MKF` = 敌/我战斗 sprite(battle.c),全 dump;`ABC` 另在 `PAL_IsWINVersion` 临时开作版本探测。
+- 图形/数据/文本/视频(FBP/MGO/F/ABC/FIRE/BALL/RGM/DATA/SSS/RNG/WORD/M.MSG/1-6.avi)全 full。
+
+**仍 deferred(M6 音频里程碑,非漏):**
+- `SOUNDS.MKF` 的 runtime 接入(WAV 已落地)、`Musics/`(86 MIDI + 8 OGG,**本次新登记**,数据未提取)。
+
+下方旧表 + 漏洞列表已就地订正过时项(STORE/BALL/WORD 标 ✓、GOP 描述、SOUNDS WAV、PAT 夜间、Musics 新增行)。
+
+---
+
 ## 数据基线
 
 - **数据文件**:[data/raw/](../../data/raw/) 14 个 MKF + 4 个 AVI + EXE/DLL/INI/RPG 等
@@ -23,7 +46,7 @@
 | **SSS.MKF** | 1 | rgScene[] scenes 表 | sss.scenes (295) | events 流水线 |
 | | 2 | rgObject[] OBJECT 表 | sss.objects → parseItems / parseSpells / parseEnemyObjects | `data/items.json` + `data/spells.json` + `data/enemy-objects.json` |
 | | 3+ | bytecode + messageOffsets | sliceByScene + recompile round-trip | `events/scene-{NNN}.json` × 295 + `events/shared.json` + `events/objects.json` |
-| **DATA.MKF** | **0** | **STORE 表**(`WORD rgwItems[MAX_STORE_ITEM]` × nStore)| ⚠ **未抽** | — |
+| **DATA.MKF** | **0** | **STORE 表**(`WORD rgwItems[MAX_STORE_ITEM]` × nStore)| ✓ parseStores(M5 shop 已修)| `data/stores.json` |
 | | 1 | ENEMY 战斗属性 | parseEnemies(配合 SSS chunk 2) | `data/enemies.json` |
 | | 2 | ENEMYTEAM 敌队 | parseEnemyTeams + objectIndex→enemyId 翻译 | `data/enemy-teams.json` |
 | | 3 | PlayerRoles 全字段(M5.B 扩) | parsePlayerRoles | `data/player-roles.json` |
@@ -47,19 +70,20 @@
 | | 3 | Splash up(WIN95)`BITMAPNUM_SPLASH_UP (fIsWIN95?0x03:0x26)` | 额外单独写 splash 目录 | `images/splash/splash-up-win95.png` ← **T18 用** |
 | | 4 | Splash down(WIN95)| 同上 | `images/splash/splash-down-win95.png` ← **T18 用** |
 | | 60 | 结局 CG(DOS 主菜单背景,我们 WIN95 不用)| 同上 | `images/battle/bg/060.png` |
-| **PAT.MKF** | 全 chunk(≥768B)| 调色板 6-bit RGB × 256 | decodePalette | `data/palette/{i}.json` × N |
-| **MAP.MKF** | per mapNum YJ2 | 地图 layer | 配合 GOP.MKF parseMap | `data/tilemap/{mapNum}.json` |
-| **GOP.MKF** | per mapNum | 障碍物层(gridObstacles?)| parseMap 内部消费 | (同上 tilemap json) |
-| MAP + GOP | ~120 unique mapNum | 全 295 scene mapNum dedup | per mapNum dump tile + tilemap | `images/world/tileset/map-{n}/tile-XXXX.png` |
+| **PAT.MKF** | 9 chunk | 调色板 6-bit RGB × 256(**#0/#5 = 1536B 含夜间半**,余 768B 纯白天)| ✓ decodePalette 抽**白天 + 夜间**(2026-05-29 补;sdlpal `PAL_GetPalette(n,fNight)` 真值)| `data/palette/{i}.json`(含 `nightColors`) |
+| **MAP.MKF** | 226 chunk per mapNum YJ2 | 地图 tile 排布(128×64×2,含障碍位 `&0x2000` map.c:298)| 配合 GOP.MKF parseMap | `data/tilemap/{mapNum}.json` |
+| **GOP.MKF** | 226 chunk per mapNum | **tileset 瓦片位图组**(`map->pTileSprite`,PAL_SpriteGetFrame 按 tile 取帧)— **不是**障碍层 | parseMap 内部消费 | (同上 tilemap json) |
+| MAP + GOP | 223 非空 mapNum | 222 scene-ref + **2 unreferenced(#104/#164,2026-05-29 user 要求全提)**;空(0/168/171)skip | per mapNum dump tile + tilemap | `images/world/tileset/map-{n}/tile-XXXX.png` |
 | **RNG.MKF** | 0-11 | sub-MKF + RLE delta 动画帧(rngplay.c)| ✓ T18 Step 2:`decodeRngAnim` port `PAL_RNGReadFrame` + `PAL_RNGBlitToSurface` opcode 0x00-0x13 → 1464 frame PNG | `images/animation/rng-{NN}/frame-{NNN}.png` + `data/rng-frames.json` |
 | **RGM.MKF** | 0-91 | 单帧 RLE bitmap **角色头像** | ✓ `parsers/rgm.ts decodeRgmPortrait`(M5.6 T10d 修)RLE → PNG | `images/portraits/{NN}.png` × 88 + `data/portraits.json` |
-| **BALL.MKF** | 0-251 | 单帧 RLE bitmap **物品图标** | ⚠ raw dump **未解 RLE 无 PNG** | `data/ball-raw.json` |
+| **BALL.MKF** | 0-251 | 单帧 RLE bitmap **物品图标** | ✓ decodeBallIcon RLE → 251 PNG(M5.6 T10b 已修)| `images/items/{NNN}.png` + `data/items-icons.json` |
 | **FIRE.MKF** | 0-54 | sprite group YJ2 法术动画 | 全 YJ2 + 帧抽 | `images/magic/fire-NN/frame-NN.png` + `data/fire-sprites.json` |
-| **SOUNDS.MKF** | 0-504 | OGG 音效(M6)| metadata only | `data/sounds-metadata.json` |
+| **SOUNDS.MKF** | 0-504 | **WAV/RIFF 音效**(WIN95;363 非空 + 142 空)| ✓ **全 363 非空 chunk dump → wav**(2026-05-29 补)+ metadata | `sounds/{i}.wav` × 363 + `data/sounds-metadata.json` |
+| **Musics/**(非 MKF)| — | 86 MIDI(`{n}.mid`,wNumMusic 编号)+ 8 CD `TRACK*.ogg`(本发行无 mus.mkf,MIDI/OGG 是唯一乐源)| ⚠ **未提取**(M6 音频里程碑;opcode 0x43 setMusic 仅记字段)| — |
 | **M.MSG** | — | 字符串表(SSS.MKF.messageOffsets 索引)| parseMessages | `lookup/strings.json` |
-| **WORD.DAT** | [0..35] 系统/UI 36 条(含 `MAINMENU_LABEL_NEWGAME=7` / `LOADGAME=8`)| 10 byte/word GBK | ⚠ **未抽** | — |
+| **WORD.DAT** | [0..35] 系统/UI 36 条(含 `MAINMENU_LABEL_NEWGAME=7` / `LOADGAME=8`)| ✓ parseWordDat flat+system(2026-05-27 修)| `lookup/words.json` |
 | WORD.DAT | [36..41] 人物名 6 条 | parseWordDat | `lookup/words.json.persons` |
-| WORD.DAT | [42..60] 战斗/UI 19 条 | ⚠ **未抽** | — |
+| WORD.DAT | [42..60] 战斗/UI 19 条 | ✓ parseWordDat battleUi(2026-05-27 修)| `lookup/words.json` |
 | WORD.DAT | [61..295] 物品名 235 条 | parseWordDat | `lookup/words.json.items` |
 | WORD.DAT | [296..397] 仙术名 102 条 | parseWordDat | `lookup/words.json.spells` |
 | WORD.DAT | [398..550] 敌人名 153 条 | parseWordDat | `lookup/words.json.enemies` |

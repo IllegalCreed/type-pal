@@ -23,10 +23,16 @@ export interface PaletteCycle {
 }
 
 export interface Palette {
-  /** 256 个 RGB(0–255)三元组 */
+  /** 256 个 RGB(0–255)三元组(白天调色板) */
   colors: [number, number, number][]
   /** 调色板循环动画段(水 / 火 …) */
   cycles: PaletteCycle[]
+  /**
+   * 夜间调色板(sdlpal `PAL_GetPalette(n, fNight=TRUE)`,PAT.MKF chunk 后半 256 色)。
+   * 仅含夜间半的 chunk(实测 PAT.MKF 仅 #0/#5 是 1536 字节)才有;纯白天 chunk(768B)为 undefined。
+   * 消费方:0x54/0x80 night flag 置时取 nightColors 否则 colors(见 resolvePaletteColors)。
+   */
+  nightColors?: [number, number, number][]
 }
 
 export interface SpriteFrame {

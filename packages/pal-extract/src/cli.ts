@@ -469,14 +469,23 @@ async function main(): Promise<void> {
     console.log(`[pal-extract] FIRE.MKF written (${n} chunks, ${totalFireFrames} frames total)`)
   }
 
-  // M4 P2 T5: SOUNDS.MKF metadata
-  console.log('[pal-extract] SOUNDS.MKF metadata …')
+  // SOUNDS.MKF 完整提取(2026-05-29 user 要求):每个非空 chunk 本身就是一个完整 RIFF/WAVE 文件
+  // (WIN95 build,实测 505 chunk = 363 RIFF/WAVE + 142 空),sdlpal sound.c SDL_LoadWAV_RW 直接读。
+  // → 整块写 sounds/{i}.wav;空 chunk 不写。仍保留 metadata.json(index→size/empty 索引)。
+  console.log('[pal-extract] SOUNDS.MKF (full WAV dump) …')
   const soundsMkf = openMkf(loadFile('SOUNDS.MKF'))
   const soundsN = chunkCount(soundsMkf)
   const soundsBufs: Uint8Array[] = []
-  for (let i = 0; i < soundsN; i++) soundsBufs.push(readChunk(soundsMkf, i))
+  let wavWritten = 0
+  for (let i = 0; i < soundsN; i++) {
+    const buf = readChunk(soundsMkf, i)
+    soundsBufs.push(buf)
+    if (buf.byteLength === 0) continue // 空 chunk(142 个)skip
+    writeBinary(resolve(OUT, 'sounds', `${i}.wav`), buf)
+    wavWritten++
+  }
   writeJson(resolve(OUT, 'data', 'sounds-metadata.json'), dumpSoundsMetadata(soundsBufs))
-  console.log(`[pal-extract] SOUNDS.MKF metadata written (${soundsN} chunks)`)
+  console.log(`[pal-extract] SOUNDS.MKF: ${wavWritten} WAV written + metadata (${soundsN} chunks)`)
 
   // splash 素材:FBP.MKF chunk 3(BITMAPNUM_SPLASH_UP WIN95=0x03) +
   //             chunk 4(BITMAPNUM_SPLASH_DOWN WIN95=0x04)。
@@ -536,8 +545,15 @@ async function main(): Promise<void> {
       }
       uniqueMapNums.add(scene.mapNum)
     }
+    const sceneRefCount = uniqueMapNums.size
+    // 2026-05-29 user 要求"全部资源提取":未被任何 scene 引用但 chunk 非空的 map(实测 #104/#164)
+    // 也提取(sdlpal 运行时不加载它们,但保留供资源浏览 / 未来使用)。空 chunk(0/168/171)仍 skip。
+    for (let m = 0; m < mapChunkCount; m++) {
+      if (uniqueMapNums.has(m)) continue
+      if (readChunk(mapMkf, m).byteLength > 0) uniqueMapNums.add(m)
+    }
     console.log(
-      `[pal-extract] full scope: ${allSceneCount} scenes, ${uniqueMapNums.size} unique mapNums`,
+      `[pal-extract] full scope: ${allSceneCount} scenes, ${sceneRefCount} scene-ref mapNums + ${uniqueMapNums.size - sceneRefCount} unreferenced non-empty = ${uniqueMapNums.size} total`,
     )
 
     let tilesetsWritten = 0
@@ -604,9 +620,10 @@ async function main(): Promise<void> {
   for (let i = 0; i < patChunkCount; i++) {
     const palBuf = readChunk(patMkf, i)
     if (palBuf.byteLength < 768) continue // 跳过非调色板 chunk
+    // 传**整块**(不再 subarray(0,768))→ decodePalette 自动抽夜间半(1536B chunk,实测 #0/#5)。
     writeJson(
       dataSubdirPath('palette', String(i)),
-      decodePalette(palBuf.subarray(0, 768)),
+      decodePalette(palBuf),
     )
     palWritten++
   }
