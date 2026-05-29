@@ -497,7 +497,16 @@ function startPaletteFade(
  * 由其 0x51/0x73 处理)。mode.ts 在 explore 分支调本函数。
  */
 export function tickSceneAutoFadeIn(gs: GameState): void {
-  if (gs.mode !== 'explore' || gs.sceneLoading) return
+  // sdlpal scene.c:503-507:PAL_MakeScene 内 `if (fNeedToFadeIn) PAL_FadeIn(...)` —— 每帧 PAL_GameUpdate
+  //   跑时都查,**不分模式**。PAL_GameUpdate 在 explore 主循环 + event 的 0x09 wait / PartyWalkTo 步进里
+  //   都跑(= autoScript 同款门控,见 mode.ts)。故 onEnter cutscene(event + frame-wait,如香兰报信
+  //   enter=903 自身无 fade opcode)进场也要按 needToFadeIn 淡入 —— 否则门 FadeOut 后 palette 一直黑
+  //   (autoScripts 在跑 NPC 会动,但屏幕黑)。旧码 explore-only 漏了这条 → 2026-05-30 余杭镇黑屏。
+  const w = gs.eventCursor?.waiting
+  const palGameUpdateRuns =
+    gs.mode === 'explore'
+    || (gs.mode === 'event' && (w === undefined || w === 'frame-wait' || w === 'scene-fade'))
+  if (!palGameUpdateRuns || gs.sceneLoading) return
   if (gs.paletteFadeState || gs.fadeState) return // fade 进行中(present 自清 explore fade)
   if (!gs.needToFadeIn) return
   gs.needToFadeIn = false

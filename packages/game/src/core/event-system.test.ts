@@ -2946,14 +2946,14 @@ describe('特效 A auto fade-in(sdlpal scene.c:503 PAL_MakeScene)+ FadeOut 冻�
     expect(gs.paletteFadeState?.totalMs).toBe(600) // PAL_FadeIn(...,1)
   })
 
-  it('tickSceneAutoFadeIn:不在 event 模式 / fade 进行中 / sceneLoading / 无 needToFadeIn 时不触发', () => {
+  it('tickSceneAutoFadeIn:event 阻塞态 / fade 中 / sceneLoading / 无 needToFadeIn 不触发;event+frame-wait 触发', () => {
     const base = (): GameState => {
       const g = createInitialGameState({ x: 0, y: 0, facing: 'down' })
       g.basePalette = mkPal([1, 1, 1]); g.palette = mkPal([0, 0, 0]); g.needToFadeIn = true; g.mode = 'explore'
       return g
     }
-    // event 模式不触发
-    const g1 = base(); g1.mode = 'event'; tickSceneAutoFadeIn(g1)
+    // event 模式 + 阻塞 waiting(dialog,sdlpal 此时不调 PAL_GameUpdate → 不 PAL_MakeScene)不触发
+    const g1 = base(); g1.mode = 'event'; g1.eventCursor = { ip: 0, waiting: 'dialog' }; tickSceneAutoFadeIn(g1)
     expect(g1.paletteFadeState).toBeUndefined(); expect(g1.needToFadeIn).toBe(true)
     // sceneLoading 不触发
     const g2 = base(); g2.sceneLoading = true; tickSceneAutoFadeIn(g2)
@@ -2964,6 +2964,10 @@ describe('特效 A auto fade-in(sdlpal scene.c:503 PAL_MakeScene)+ FadeOut 冻�
     // 无 needToFadeIn 不触发
     const g4 = base(); g4.needToFadeIn = false; tickSceneAutoFadeIn(g4)
     expect(g4.paletteFadeState).toBeUndefined()
+    // event 模式 + frame-wait(onEnter cutscene 的 0x09 wait;sdlpal PAL_GameUpdate 在 wait 里跑
+    //   → PAL_MakeScene 按 fNeedToFadeIn 淡入)→ **触发**(香兰报信 enter=903 黑屏修复 2026-05-30)
+    const g5 = base(); g5.mode = 'event'; g5.eventCursor = { ip: 0, waiting: 'frame-wait' }; tickSceneAutoFadeIn(g5)
+    expect(g5.paletteFadeState).toBeDefined(); expect(g5.needToFadeIn).toBe(false)
   })
 })
 
