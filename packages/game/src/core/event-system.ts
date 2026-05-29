@@ -124,6 +124,11 @@ export const OP_SET_BATTLE_FIELD = 0x004A       // 74
 // 注:operand[1] = delay 倍数 60(UTIL_Delay),operand[2] != 0 → PAL_UpdatePartyGestures(FALSE)
 //     M5 简版:delay / gesture update 暂不实现(playback 节奏由 typing + frame-wait 覆盖)
 export const OP_REDRAW_SCREEN = 0x0005          // 5
+// case 0x0008(8):   Advance entry and keep running(sdlpal PAL_RunTriggerScript script.c:3335-3341)
+//   `wScriptEntry++; wNextScriptEntry = wScriptEntry;` — 推进 ip **且继续跑**,把持久化 resume 点
+//   设到 0x08 之后(mid-script checkpoint)。后续 0x01/0x02 收尾覆盖;0x00 plain 不覆盖 → checkpoint
+//   保留 → 重触发从 0x08 后续跑(跳过已播内容,如商店对话只播一次)。69 处用(scene-30 药铺等)。
+export const OP_CHECKPOINT_ADVANCE = 0x0008     // 8
 // case 0x0009(9):   Wait for N frames(sdlpal script.c:3593-3604)
 //   operand[0] = frame count;cursor 卡 N frame 再 ip++
 export const OP_WAIT_FRAMES = 0x0009            // 9
@@ -1227,6 +1232,24 @@ export function tickEventSystem(
           gs.eventCursor = undefined
           gs.dialogBox = undefined
           return
+        }
+        // P2#6b: opcode 0x08 checkpoint(sdlpal script.c:3335-3341)— 把持久化 resume 点设到 0x08 之后
+        //   **且继续跑**(ip++)。trigger:写 owner.triggerResume;onEnter:写 sceneOnEnterIp。
+        //   后续 0x01/0x02 'end' 会覆盖(advance/reset);0x00 plain 不动 → checkpoint 保留(重触发续跑)。
+        if (cmd.opcode === OP_CHECKPOINT_ADVANCE) {
+          const resumeIp = cursor.ip + 1
+          if (cursor.triggerOwnerId !== undefined) {
+            const owner = gs.npcs.find((n) => n.id === cursor.triggerOwnerId)
+              ?? gs.allEventObjects?.[cursor.triggerOwnerId]
+            if (owner) {
+              owner.triggerResume = { commands: cursor.commands, labelMap: cursor.labelMap, ip: resumeIp }
+            }
+          }
+          if (cursor.onEnterSceneId !== undefined) {
+            gs.sceneOnEnterIp[cursor.onEnterSceneId] = resumeIp
+          }
+          cursor.ip = resumeIp // 继续跑(本 tick 接下条 opcode)
+          break
         }
         // Sync.2 fix3: opcode 9 wait N frames — 设 waiting='frame-wait',ip 暂不动
         if (cmd.opcode === OP_WAIT_FRAMES) {
@@ -3430,28 +3453,31 @@ export function runEnterScript(
    */
   sceneId?: number,
 ): void {
-  let ip = startIp
+  // P2#6c:用本地 ScriptCursor 跑 → applyRawOpcode 的"动游标"opcode(条件跳转 / 0x04 call / 0x06 /
+  // 0xA2)操作本 cursor,与 trigger / autoScript 同一套解释器契约。旧版不传 cursor → 这些 opcode 在
+  // applyRawOpcode 内 `if (cursor)` 守卫下静默 no-op → skip-intro 同步跑 onEnter 时控制流断(跳转失效)。
+  const cursor: ScriptCursor = { ip: startIp, commands, labelMap }
   let stepCount = 0
 
   while (true) {
     if (++stepCount > SINGLE_TICK_LIMIT) {
-      console.warn(`runEnterScript: single-tick limit exceeded at ip=${ip}`)
+      console.warn(`runEnterScript: single-tick limit exceeded at ip=${cursor.ip}`)
       return
     }
 
-    if (ip < 0 || ip >= commands.length) {
+    if (cursor.ip < 0 || cursor.ip >= cursor.commands.length) {
       return
     }
 
-    const cmd = commands[ip]!
+    const cmd = cursor.commands[cursor.ip]!
 
     if (cmd.op === 'end') {
       // sdlpal play.c:64:onEnter 跑完存回下一条 entry(0x00→起始 replay;0x01→ip+1;0x02→resetTo)
       if (sceneId !== undefined) {
         let nextEntry: number
-        if (cmd.advance) nextEntry = ip + 1
+        if (cmd.advance) nextEntry = cursor.ip + 1
         else if (cmd.reset && cmd.resetTo !== undefined) {
-          nextEntry = labelMap[`L_${cmd.resetTo}`] ?? startIp
+          nextEntry = cursor.labelMap[`L_${cmd.resetTo}`] ?? startIp
         }
         else nextEntry = startIp
         gs.sceneOnEnterIp[sceneId] = nextEntry
@@ -3460,23 +3486,24 @@ export function runEnterScript(
     }
 
     if (cmd.op === 'goto') {
-      const target = labelMap[cmd.to]
+      const target = cursor.labelMap[cmd.to]
       if (target === undefined) {
         console.warn(`runEnterScript: goto label ${cmd.to} 不在 labelMap`)
         return
       }
-      ip = target
+      cursor.ip = target
       continue
     }
 
     if (cmd.op === 'raw') {
-      applyRawOpcode(gs, cmd.opcode, cmd.operands)
-      ip++
+      // cursor 传入 → 条件跳转 / call / 0x06 / 0xA2 操作本 cursor(jumpToGlobalIp 设 target-1,下面 ip++ 落到 target)。
+      applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId, cursor)
+      cursor.ip++
       continue
     }
 
     // 其他具名 op(showDialog / setDialogStyle* / loadScene 等)→ skip(enter 段不阻塞)
-    console.debug(`runEnterScript: skip named op=${cmd.op} ip=${ip}`)
-    ip++
+    console.debug(`runEnterScript: skip named op=${cmd.op} ip=${cursor.ip}`)
+    cursor.ip++
   }
 }

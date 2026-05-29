@@ -1293,6 +1293,25 @@ describe('NPC trigger 脚本推进持久化(sdlpal play.c pEvtObj->wTriggerScrip
     expect(gs.npcs[0]?.triggerResume?.ip).toBe(5)            // plain 不动 → 停在续跑点 5(不回退原点)
   })
 
+  it('0x08 checkpoint:推进 resume 点到 0x08 后 + 继续跑;0x00 plain 不覆盖 → 重触发跳过 0x08 前内容(P2#6b)', () => {
+    // 商店类:[内容..., 0x08, buyMenu, 0x00 end] — 重触发从 0x08 后续(不重播对话)。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.dwCash = 100
+    gs.npcs = [{ id: 5, x: 0, y: 0, spriteNum: 1, sState: 2 }]
+    const commands: Command[] = [
+      { op: 'giveItem', itemId: 1, count: 1 },         // 0:第一次内容(0x08 前)
+      { op: 'raw', opcode: 0x08, operands: [0, 0, 0] }, // 1:0x08 checkpoint
+      { op: 'raw', opcode: 0x8f, operands: [0, 0, 0] }, // 2:halveCash(0x08 后,代表 buyMenu 等)
+      { op: 'end' },                                    // 3:0x00 plain
+    ]
+    gs.eventCursor = { commands, labelMap: {}, ip: 0, currentEventObjectId: 5, triggerOwnerId: 5 }
+    gs.mode = 'event'
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dwCash).toBe(50)                       // 0x08 继续跑到 halveCash(没停)
+    expect(gs.npcs[0]?.triggerResume?.ip).toBe(2)    // checkpoint = 0x08 后(ip1→2);重触发跳过 ip0 giveItem
+  })
+
   it('0x25 setTriggerScript:清 triggerResume(新 trigger label 生效,不被旧续跑点盖)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
@@ -2353,6 +2372,22 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
     ]
     runEnterScript(gs, commands, buildLabelMap(commands), 0, 2)
     expect(gs.sceneOnEnterIp[2]).toBe(3) // 0x01@ip2 → ip2+1=3(下一条 0x00),重进不重播开场
+  })
+
+  it('runEnterScript:cursor 传入 → 条件跳转(0x95 jumpIfScene)生效(旧版不传 cursor → no-op 走 fall-through)', () => {
+    // P2#6c:旧版 runEnterScript 不传 cursor → 跳转类 opcode 在 applyRawOpcode 内 no-op → 走 fall-through
+    //   (party 落 x=320)。修后跳转生效 → 走 jump 目标(x=640)。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.wNumScene = 5
+    const commands: Command[] = [
+      { op: 'raw', opcode: 0x95, operands: [5, 99, 0] },                 // ip0: scene==5 → jump L_99
+      { op: 'raw', opcode: 0x46, operands: [10, 10, 0] },               // ip1: fall-through 哨兵(x=320)
+      { op: 'end' },                                                     // ip2
+      { label: 'L_99', op: 'raw', opcode: 0x46, operands: [20, 20, 0] }, // ip3: jump 目标(x=640)
+      { op: 'end' },                                                     // ip4
+    ]
+    runEnterScript(gs, commands, buildLabelMap(commands), 0)
+    expect(gs.party.x).toBe(640) // 跳转生效;旧版 no-op 会走 ip1 → x=320
   })
 })
 
