@@ -2715,3 +2715,26 @@ describe('0x04 callScript(script.c:3258 — 调用栈)', () => {
     expect(gs.npcs[0]?.scriptedFrame).toBe(5) // 子脚本 self 作用于 op1 指定的 npc id8
   })
 })
+
+describe('特效 A — 调色板 state opcode(2026-05-29)', () => {
+  it('0x53 setDayPalette → gs.nightPalette=false;0x54 setNightPalette → true', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    expect(gs.nightPalette).toBe(false) // 默认白天
+    loadEvent(gs, [{ op: 'raw', opcode: 0x54, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.nightPalette).toBe(true)
+    loadEvent(gs, [{ op: 'raw', opcode: 0x53, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.nightPalette).toBe(false)
+  })
+
+  it('setPalette(0x8B)→ gs.numPalette 记当前调色板索引(供 FadeIn/SceneFade 选目标)', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    expect(gs.numPalette).toBe(0)
+    loadEvent(gs, [{ op: 'setPalette', paletteIndex: 7 }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.numPalette).toBe(7)
+  })
+})

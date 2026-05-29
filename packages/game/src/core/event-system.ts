@@ -201,6 +201,10 @@ export const OP_SET_PLAYER_SPRITE = 0x0065      // 101
 //   速度越大越慢:12 outer × 6 inner = 72 步 palette-bit blending
 // M5 简版:writeState fadeState + cursor.waiting='fade-screen' 等淡完;present.ts 画黑色 alpha overlay
 export const OP_FADE_SCREEN = 0x0073            // 115
+// 特效 A(2026-05-29):昼夜调色板 flag(sdlpal script.c:1802/1809 case 0x53/0x54 设 fNightPalette)。
+//   instant 非阻塞;视觉在下次 fade-in / scene-load 选调色板 ramp 时生效(sdlpal 当帧不重绘)。
+export const OP_SET_DAY_PALETTE = 0x0053        // 83 — fNightPalette = FALSE
+export const OP_SET_NIGHT_PALETTE = 0x0054      // 84 — fNightPalette = TRUE
 // case 0x008E(142): Restore the screen(sdlpal script.c:3428-3436)
 //   PAL_ClearDialog(TRUE) + VIDEO_RestoreScreen + VIDEO_UpdateScreen
 //   真值:restore backup buffer(含 title+portrait 像素)→ 视觉 title/portrait 持久,body 空。
@@ -1483,7 +1487,10 @@ export function tickEventSystem(
       case 'setPalette': {
         // M4 P3.T2:真换调色板 —— 异步 fetch,fire-and-forget,tick 同步继续。
         // gs.palette 写入后渲染层下一帧 flushToCanvas 消费新色表。
+        // 特效 A(2026-05-29):sdlpal 0x8B `gpGlobals->wNumPalette = op[0]` — 记 numPalette,
+        //   供 0x51 FadeIn / 0x93 SceneFade 选淡入目标调色板。
         const paletteIdx = cmd.paletteIndex
+        gs.numPalette = paletteIdx
         if (_fetchPalette) {
           const gsRef = gs
           _fetchPalette(paletteIdx)
@@ -2116,6 +2123,17 @@ function applyRawOpcode(
 
     // OP_BUY_MENU(0x26)/ OP_SELL_MENU(0x27)在 tickEventSystem 主 while 的 'raw' case 内联处理
     //   (需 return 切 menu mode,applyRawOpcode 无法控制主循环)— 2026-05-29 真接入商店菜单。
+
+    case OP_SET_DAY_PALETTE:
+      // 特效 A:sdlpal script.c:1802 `gpGlobals->fNightPalette = FALSE`(instant flag,当帧不重绘)。
+      gs.nightPalette = false
+      break
+
+    case OP_SET_NIGHT_PALETTE:
+      // 特效 A:sdlpal script.c:1809 `gpGlobals->fNightPalette = TRUE`。注:夜间色值未提取,
+      //   视觉暂同白天(待 PAT.MKF 后半 re-extract)— flag 已正确,follow-up 补数据。
+      gs.nightPalette = true
+      break
 
     case OP_SHAKE_SCREEN: {
       // sdlpal script.c:相关 真值:operand[0]=duration,operand[1]=intensity(默认 4)。

@@ -559,6 +559,19 @@ export interface GameState {
   palette?: Palette
 
   /**
+   * 特效 A(2026-05-29):当前调色板索引(sdlpal `gpGlobals->wNumPalette`)。0x8B setPalette 写入;
+   * 0x51 FadeIn / 0x93 SceneFade / 0x80 PaletteFade 据此选淡入目标调色板。默认 0。
+   */
+  numPalette: number
+  /**
+   * 特效 A(2026-05-29):昼夜调色板 flag(sdlpal `gpGlobals->fNightPalette`,默认 FALSE=白天)。
+   * 0x53 setDayPalette → false;0x54 setNightPalette → true;0x80 PaletteFade 取反。
+   * **注**:夜间调色板色值(PAT.MKF chunk 后半 768..1535 字节)目前 pal-extract **未提取**
+   * (只 dump 白天半),故 night=true 的视觉暂与白天相同 — 待 re-extract 才正确(已记 follow-up)。
+   */
+  nightPalette: boolean
+
+  /**
    * P2#7(2026-05-29):scene 切换的**异步资源加载窗口** flag(取代旧 fEnteringScene 渲染门)。
    *
    * loadScene opcode / loadSceneCommon 起手设 true → present.ts 跳过 render(fb 保留上一帧 = 旧 scene
@@ -1038,6 +1051,8 @@ export function createInitialGameState(
     wChasespeedChangeCycles: 0,
     nFollower: 0,
     dwCash: 0,
+    numPalette: 0,        // 特效 A:当前调色板索引(sdlpal wNumPalette)
+    nightPalette: false,  // 特效 A:昼夜 flag(sdlpal fNightPalette,默认白天)
 
     // ── M5 Sync.1: 嵌套 struct ──
     Exp: createEmptyExp(),
