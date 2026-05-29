@@ -361,6 +361,12 @@ export const OP_HALVE_CASH = 0x008F                // 143
 // case 0x00A1(161): Set positions of all party members = first(script.c:2998-3014)
 //   rgTrail[0..MAX_PLAYABLE-1] 全 = 队首世界坐标 + wPartyDirection → follower 渲染贴队首 = 全队聚拢。
 export const OP_SET_ALL_PARTY_POS = 0x00A1         // 161
+// case 0x0078(120): sdlpal 标 `// FIXME: ???` 的字面 no-op(script.c:2224-2228 `case 0x0078: break;`)。
+//   本游戏 35 处用(byte-level 验 all.json),全部空操作 —— 显式 no-op,去掉 default 的 skip debug spam。
+export const OP_FIXME_78 = 0x0078                  // 120
+// case 0x00A6(166): backup screen — VIDEO_BackupScreen(gpScreen)(script.c:3069-3074)。本游戏 0 调用
+//   (0x73 fadeScreen 内部已含 VIDEO_BackupScreen);独立 opcode 当 no-op(ts present 自管 fade backup)。
+export const OP_BACKUP_SCREEN = 0x00A6             // 166
 
 // case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
 export const OP_POISON_ENEMY = 0x0028              // 40
@@ -3397,6 +3403,14 @@ function applyRawOpcode(
       }
       break
     }
+
+    case OP_FIXME_78:
+      // sdlpal script.c:2224-2228 `case 0x0078: // FIXME: ??? break;` — 字面 no-op。本游戏 35 处用,空操作。
+      break
+
+    case OP_BACKUP_SCREEN:
+      // sdlpal script.c:3069-3074 `VIDEO_BackupScreen(gpScreen)`。本游戏 0 调用(0x73 内部已 backup),no-op。
+      break
 
     default:
       console.debug(`event-system: skip raw opcode=0x${opcode.toString(16).padStart(4, '0')}`, operands)
