@@ -17,6 +17,7 @@ import {
   startOverworldItemScript, setSceneLoader,
   OP_FADE_OUT, OP_FADE_IN, OP_SCENE_FADE, OP_PALETTE_FADE, OP_COLOR_FADE,
   OP_FADE_TO_RED, OP_FADE_TO_SCENE, tickSceneAutoFadeIn,
+  OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, setRngPlayHandler, type RngPlayHandlerInput,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -2960,5 +2961,59 @@ describe('特效 A auto fade-in(sdlpal scene.c:503 PAL_MakeScene)+ FadeOut 冻�
     // 无 needToFadeIn 不触发
     const g4 = base(); g4.needToFadeIn = false; tickSceneAutoFadeIn(g4)
     expect(g4.paletteFadeState).toBeUndefined()
+  })
+})
+
+describe('特效 B/C opcode(RNG 0x36/0x37 + wave 0x71)', () => {
+  it('0x36 SetRNG → gs.iCurPlayingRNG = op0(instant 非阻塞)', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    loadEvent(gs, [{ op: 'raw', opcode: OP_SET_RNG, operands: [7, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.iCurPlayingRNG).toBe(7)
+  })
+
+  it('0x71 WaveScreen → wScreenWave=op0,sWaveProgression=(SHORT)op1(负数符号转换)', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // op1=0xFFFE = -2(SHORT):波幅渐弱
+    loadEvent(gs, [{ op: 'raw', opcode: OP_WAVE_SCREEN, operands: [40, 0xFFFE, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.wScreenWave).toBe(40)
+    expect(gs.sWaveProgression).toBe(-2)
+  })
+
+  it('0x37 PlayRNG → 调注入 handler(chunk=iCurPlayingRNG,end/speed 三元真值)+ waiting=rng-play + ip++', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    let captured: RngPlayHandlerInput | undefined
+    setRngPlayHandler((input) => { captured = input })
+    try {
+      // 先 0x36 设 chunk=3,再 0x37(op0=10 start, op1=0 → end=-1, op2=0 → speed=16)
+      loadEvent(gs, [
+        { op: 'raw', opcode: OP_SET_RNG, operands: [3, 0, 0] },
+        { op: 'raw', opcode: OP_PLAY_RNG, operands: [10, 0, 0] },
+        { op: 'end' },
+      ])
+      tickEventSystem(gs, snap(), bus)
+      expect(captured).toBeDefined()
+      expect(captured!.chunkIdx).toBe(3) // 来自 gs.iCurPlayingRNG,非 operand
+      expect(captured!.startFrame).toBe(10)
+      expect(captured!.endFrame).toBe(-1) // op1=0 → -1(播到末帧)
+      expect(captured!.speed).toBe(16) // op2=0 → 16 默认
+      expect(gs.eventCursor?.waiting).toBe('rng-play')
+    }
+    finally {
+      setRngPlayHandler(null)
+    }
+  })
+
+  it('0x37 PlayRNG 无 handler 注入 → skip + ip++(不卡死)', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    setRngPlayHandler(null)
+    loadEvent(gs, [{ op: 'raw', opcode: OP_PLAY_RNG, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor).toBeUndefined() // 跑到 end → 脚本结束
   })
 })

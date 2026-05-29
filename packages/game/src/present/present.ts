@@ -6,6 +6,7 @@ import type { BattlePresent, BattleAssets } from './battle/present-battle.js'
 import { type Framebuffer, SCREEN_W, SCREEN_H } from './framebuffer.js'
 import { drawTilemap, addCoverTileEntries, type TileImages, type DrawEntry } from './draw-tilemap.js'
 import { drawSprite, type SpriteImage } from './draw-sprite.js'
+import { applyScreenWave } from './screen-wave.js'
 import { drawDialogBox, type DialogBoxDrawCtx } from './dialog-box.js'
 import { drawMenuStack } from './menu/draw-menu.js'
 import type { BattleBgAsset } from './battle/draw-battle-bg.js'
@@ -157,6 +158,12 @@ export function presentFrame(
 
   // 2. tilemap layer 1(顶层 — 桌子 / 椅子 / 柱子 / 屋顶 / 门 — sdlpal scene.c:481 全画)
   drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 1)
+
+  // 2b. 特效 B:屏幕波动(sdlpal scene.c:486 PAL_ApplyWave)— 画完两层地图、画 sprite 之前施加,
+  //     只波动地图层(sprite 不受影响,与 sdlpal 同序)。0x71 设 wScreenWave/sWaveProgression 后生效。
+  if (gs.wScreenWave !== 0 || gs.sWaveProgression !== 0) {
+    applyScreenWave(fb.indices, gs)
+  }
 
   // 3. 收集所有精灵 entries(party + NPCs),Y-sort 后逐一绘制。
   //    同时计算每个精灵的 cover tiles(sdlpal PAL_CalcCoverTiles port),

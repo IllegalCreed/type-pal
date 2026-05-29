@@ -29,7 +29,12 @@ import type {
 import type { Facing, GameState } from '../core/game-state.js'
 import { startBattle } from '../core/battle/battle-system.js'
 import { loadScene } from '../core/scene-system.js'
-import { buildLabelMap } from '../core/event-system.js'
+import {
+  buildLabelMap,
+  OP_FADE_OUT, OP_FADE_IN, OP_FADE_TO_RED, OP_PALETTE_FADE, OP_COLOR_FADE,
+  OP_SCENE_FADE, OP_FADE_TO_SCENE, OP_FADE_SCREEN, OP_SET_DAY_PALETTE, OP_SET_NIGHT_PALETTE,
+  OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, OP_SHAKE_SCREEN,
+} from '../core/event-system.js'
 import { Save } from '../core/save/api.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 // M5.6 W2.b + T11:menu units 入口 — 一键 push 各 menu kind 到 menuStack
@@ -97,6 +102,11 @@ export interface DevPanelDeps {
    * 不传则 Font Test 按钮走 console-only spot-check。
    */
   onFontTest?: () => void
+  /**
+   * devpanel 看开场/结局 AVI 双版:播 `/extracted/videos/{mp4}`(WIN95 mp4)。
+   * bootstrap 传(suspendRaf + playAvi 包);不传则 Videos 区按钮 console-only。
+   */
+  playVideo?: (mp4: string) => void
   resources: {
     enemies: Enemy[]
     enemyTeams: EnemyTeam[]
@@ -456,8 +466,123 @@ function openPicker(deps: DevPanelDeps): void {
   })
   div.appendChild(clearInvBtn)
 
+  // ✨ Effects (Opcode) —— 逐特效触发(注入合成 raw 脚本走 tickEventSystem,1:1 真实控制流)。
+  const fxH = document.createElement('h4')
+  fxH.textContent = '✨ Effects (Opcode)'
+  fxH.className = 'tp-dev-section-h'
+  div.appendChild(fxH)
+
+  // 3 个共享 operand 输入(空 = 用该特效的 defaults)。
+  const opRow = document.createElement('div')
+  opRow.style.cssText = 'display:flex; gap:4px; margin-bottom:4px; align-items:center'
+  const opLabel = document.createElement('span')
+  opLabel.textContent = 'op0/1/2:'
+  opRow.appendChild(opLabel)
+  const opInputs: HTMLInputElement[] = []
+  for (let i = 0; i < 3; i++) {
+    const inp = document.createElement('input')
+    inp.type = 'number'
+    inp.placeholder = `op${i}`
+    inp.style.cssText = 'width:56px'
+    opRow.appendChild(inp)
+    opInputs.push(inp)
+  }
+  div.appendChild(opRow)
+
+  const effectOps: Array<{ label: string, opcode: number, defaults: [number, number, number] }> = [
+    { label: 'FadeOut 0x50 (→黑)', opcode: OP_FADE_OUT, defaults: [1, 0, 0] },
+    { label: 'FadeIn 0x51 (黑→场景)', opcode: OP_FADE_IN, defaults: [1, 0, 0] },
+    { label: 'FadeToRed 0x4F (game over)', opcode: OP_FADE_TO_RED, defaults: [0, 0, 0] },
+    { label: 'PaletteFade 0x80 (昼夜)', opcode: OP_PALETTE_FADE, defaults: [0, 0, 0] },
+    { label: 'ColorFade 0x8C', opcode: OP_COLOR_FADE, defaults: [0, 2, 0] },
+    { label: 'SceneFade 0x93', opcode: OP_SCENE_FADE, defaults: [2, 0, 0] },
+    { label: 'FadeToScene 0x9B (dither)', opcode: OP_FADE_TO_SCENE, defaults: [0, 0, 0] },
+    { label: 'FadeScreen 0x73 (dither)', opcode: OP_FADE_SCREEN, defaults: [2, 0, 0] },
+    { label: 'SetDay 0x53', opcode: OP_SET_DAY_PALETTE, defaults: [0, 0, 0] },
+    { label: 'SetNight 0x54', opcode: OP_SET_NIGHT_PALETTE, defaults: [0, 0, 0] },
+    { label: 'WaveScreen 0x71 (波动)', opcode: OP_WAVE_SCREEN, defaults: [40, 2, 0] },
+    { label: 'Shake 0x35 (present stub)', opcode: OP_SHAKE_SCREEN, defaults: [10, 4, 0] },
+  ]
+  const readOperands = (defaults: [number, number, number]): [number, number, number] => {
+    return [0, 1, 2].map((i) => {
+      const v = opInputs[i]!.value.trim()
+      return v === '' ? defaults[i]! : Number(v)
+    }) as [number, number, number]
+  }
+  for (const { label, opcode, defaults } of effectOps) {
+    const btn = document.createElement('button')
+    btn.textContent = label
+    btn.addEventListener('click', () => {
+      closePicker()
+      triggerEffectScript(deps, [{ op: 'raw', opcode, operands: readOperands(defaults) }])
+    })
+    div.appendChild(btn)
+  }
+
+  // RNG(0x36 SetRNG + 0x37 PlayRNG):chunk 输入 + 播放。op0/1/2 = startFrame/endFrame/speed。
+  const rngRow = document.createElement('div')
+  rngRow.style.cssText = 'display:flex; gap:4px; margin:4px 0; align-items:center'
+  const rngLabel = document.createElement('span')
+  rngLabel.textContent = 'RNG chunk(0-11):'
+  rngRow.appendChild(rngLabel)
+  const rngChunkInput = document.createElement('input')
+  rngChunkInput.type = 'number'
+  rngChunkInput.value = '6'
+  rngChunkInput.style.cssText = 'width:56px'
+  rngRow.appendChild(rngChunkInput)
+  const rngBtn = document.createElement('button')
+  rngBtn.textContent = 'Play RNG (0x36+0x37)'
+  rngBtn.addEventListener('click', () => {
+    closePicker()
+    const chunk = Number(rngChunkInput.value) || 0
+    const [start, end, speed] = readOperands([0, 0, 16])
+    triggerEffectScript(deps, [
+      { op: 'raw', opcode: OP_SET_RNG, operands: [chunk, 0, 0] },
+      { op: 'raw', opcode: OP_PLAY_RNG, operands: [start, end, speed] },
+    ])
+  })
+  rngRow.appendChild(rngBtn)
+  div.appendChild(rngRow)
+
+  // 🎬 Videos —— 开场 / 结局 AVI 双版(WIN95 mp4)。DOS 双版:开场用 ?build=dos 启动;结局 DOS 编排待 Phase 3。
+  const vidH = document.createElement('h4')
+  vidH.textContent = '🎬 Videos (开场/结局 mp4)'
+  vidH.className = 'tp-dev-section-h'
+  div.appendChild(vidH)
+  const videos: Array<{ label: string, mp4: string }> = [
+    { label: '开场 1 (1.mp4)', mp4: '1.mp4' },
+    { label: '开场 2 (2.mp4)', mp4: '2.mp4' },
+    { label: '新游戏 (3.mp4)', mp4: '3.mp4' },
+    { label: '结局 4 (4.mp4)', mp4: '4.mp4' },
+    { label: '结局 5 (5.mp4)', mp4: '5.mp4' },
+    { label: '结局 6 (6.mp4)', mp4: '6.mp4' },
+  ]
+  for (const { label, mp4 } of videos) {
+    const btn = document.createElement('button')
+    btn.textContent = label
+    btn.addEventListener('click', () => {
+      closePicker()
+      if (deps.playVideo) deps.playVideo(mp4)
+      else console.log(`[dev] playVideo(${mp4}) — 无 playVideo 注入`)
+    })
+    div.appendChild(btn)
+  }
+
   document.body.appendChild(div)
   currentPicker = div
+}
+
+/**
+ * 特效触发:注入一段合成 raw 命令(+ 'end')到 eventCursor,mode 切 'event' 让 tickEventSystem 跑。
+ * 与 triggerDialogStyleTest 同模式 —— 1:1 复现 opcode 真实控制流(waiting / needToFadeIn / nightPalette
+ * toggle / sceneLoading),不绕过。cursor 带 commands override → 不污染全局脚本数组。
+ */
+function triggerEffectScript(deps: DevPanelDeps, cmds: Command[]): void {
+  const commands: Command[] = [...cmds, { op: 'end' }]
+  const labelMap = buildLabelMap(commands)
+  deps.gs.eventCursor = { commands, labelMap, ip: 0 }
+  deps.gs.mode = 'event'
+  console.log('[dev] trigger effect:', cmds.map((c) => (c.op === 'raw' ? `0x${c.opcode.toString(16)}[${c.operands}]` : c.op)).join(' '))
 }
 
 /**

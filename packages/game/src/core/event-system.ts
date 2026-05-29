@@ -226,6 +226,10 @@ export const OP_FADE_TO_SCENE = 0x009b          // 155 — VIDEO_FadeScreen(2)(d
 //   instant 非阻塞;视觉在下次 fade-in / scene-load 选调色板 ramp 时生效(sdlpal 当帧不重绘)。
 export const OP_SET_DAY_PALETTE = 0x0053        // 83 — fNightPalette = FALSE
 export const OP_SET_NIGHT_PALETTE = 0x0054      // 84 — fNightPalette = TRUE
+// 特效 B/C(2026-05-29):RNG 动画 + 屏幕波动。
+export const OP_SET_RNG = 0x0036                // 54 — iCurPlayingRNG = op0(script.c:1537,instant)
+export const OP_PLAY_RNG = 0x0037               // 55 — PAL_RNGPlay(script.c:1544,阻塞 modal,handler 注入)
+export const OP_WAVE_SCREEN = 0x0071            // 113 — wScreenWave/sWaveProgression(script.c:2132,present 层消费)
 // case 0x008E(142): Restore the screen(sdlpal script.c:3428-3436)
 //   PAL_ClearDialog(TRUE) + VIDEO_RestoreScreen + VIDEO_UpdateScreen
 //   真值:restore backup buffer(含 title+portrait 像素)→ 视觉 title/portrait 持久,body 空。
@@ -655,6 +659,28 @@ export function setShopMenuHandler(fn: ShopMenuHandler | null): void {
   _shopMenuHandler = fn
 }
 
+// ── 特效 C:RNG 动画 handler(opcode 0x0037 PAL_RNGPlay)──────────────────────
+// event-system 是底层 interpreter,不能 import shell 层 rng-player(分层约束)。同 shop 模式:
+// bootstrap 注入 handler,内部 suspendRaf + await playRng(modal 全屏播放),播完清 cursor.waiting 续跑。
+export interface RngPlayHandlerInput {
+  gs: GameState
+  /** RNG.MKF chunk(= gs.iCurPlayingRNG,sdlpal PAL_RNGPlay 第 1 参,**非** operand)。 */
+  chunkIdx: number
+  /** sdlpal op0 起始帧。 */
+  startFrame: number
+  /** sdlpal op1>0?op1:-1(-1 = 播到末帧)。 */
+  endFrame: number
+  /** sdlpal op2>0?op2:16,= 帧率 fps(每帧 1/speed 秒)。 */
+  speed: number
+}
+export type RngPlayHandler = (input: RngPlayHandlerInput) => void
+
+let _rngPlayHandler: RngPlayHandler | null = null
+
+export function setRngPlayHandler(fn: RngPlayHandler | null): void {
+  _rngPlayHandler = fn
+}
+
 /** 跑事件脚本的运行模式(M3 T17)。 */
 export type RuntimeMode = 'explore' | 'battle'
 
@@ -980,6 +1006,12 @@ export function tickEventSystem(
   //   正常路径 mode='menu' 时 tickEventSystem 根本不被调;菜单关闭由 menu-mode resume
   //   清 waiting + 切 mode='event'。此处防御:若残留 mode='event'+waiting='shop' 不步进。
   if (cursor.waiting === 'shop') {
+    return
+  }
+
+  // 特效 C:RNG 动画播放中(modal,bootstrap _rngPlayHandler 跑 playRng + suspendRaf)。
+  //   handler 播完(promise finally)清 cursor.waiting → 下个 tick 落不到这里,从 ip(已 ++)续跑。
+  if (cursor.waiting === 'rng-play') {
     return
   }
 
@@ -1359,6 +1391,26 @@ export function tickEventSystem(
           console.debug(
             `event-system: ${isBuy ? 'buy' : 'sell'} menu storeNum=${cmd.operands[0]}(无 _shopMenuHandler 注入,skip)`,
           )
+          cursor.ip++
+          break
+        }
+        // 特效 C:opcode 0x37 PlayRNG(sdlpal script.c:1544-1552)— 阻塞 modal 播 RNG.MKF 动画。
+        //   PAL_RNGPlay(iCurPlayingRNG, op0=start, op1>0?op1:-1=end, op2>0?op2:16=speed)。
+        //   chunk 号来自 gs.iCurPlayingRNG(0x36 设),**非** operand。同 shop 模式:_rngPlayHandler
+        //   开 modal(suspendRaf + playRng)+ waiting='rng-play' + ip++ + return;播完清 waiting 续跑。
+        if (cmd.opcode === OP_PLAY_RNG) {
+          const startFrame = cmd.operands[0] ?? 0
+          const op1 = cmd.operands[1] ?? 0
+          const op2 = cmd.operands[2] ?? 0
+          const endFrame = op1 > 0 ? op1 : -1
+          const speed = op2 > 0 ? op2 : 16
+          if (_rngPlayHandler) {
+            _rngPlayHandler({ gs, chunkIdx: gs.iCurPlayingRNG, startFrame, endFrame, speed })
+            cursor.waiting = 'rng-play'
+            cursor.ip++
+            return
+          }
+          console.debug(`event-system: playRNG chunk=${gs.iCurPlayingRNG}(无 _rngPlayHandler 注入,skip)`)
           cursor.ip++
           break
         }
@@ -2348,6 +2400,20 @@ function applyRawOpcode(
       console.debug(`event-system: shakeScreen duration=${duration} intensity=${intensity}(present 层 stub)`)
       break
     }
+
+    case OP_SET_RNG:
+      // 特效 C:sdlpal script.c:1541 `gpGlobals->iCurPlayingRNG = operand[0]`(instant,非阻塞)。
+      //   0x37 PlayRNG 据此播。两者解耦(一次 set 可被多条 play 复用同 chunk)。
+      gs.iCurPlayingRNG = operands[0] ?? 0
+      break
+
+    case OP_WAVE_SCREEN:
+      // 特效 B:sdlpal script.c:2136-2137 `wScreenWave = op0; sWaveProgression = (SHORT)op1`(instant)。
+      //   present 层 applyScreenWave 每帧消费(逐扫描线横向卷动 + 每帧 wScreenWave += sWaveProgression)。
+      //   op1 是 SHORT(可负 = 波幅渐弱);disasm 给 UNSIGNED u16 → 这里转回有符号。
+      gs.wScreenWave = operands[0] ?? 0
+      gs.sWaveProgression = toInt16(operands[1] ?? 0)
+      break
 
     case OP_NPC_WALK_ONE_STEP_SOUTH:
     case OP_NPC_WALK_ONE_STEP_WEST:

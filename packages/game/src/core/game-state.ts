@@ -206,8 +206,10 @@ export interface EventCursor {
    *                  PAL_GameUpdate)。淡完 → finalizePaletteFade + ip++ + 清。
    *  - 'scene-fade': 0x93 SceneFade / 0x80(fUpdateScene)—— sdlpal 淡入时 PAL_GameUpdate 继续跑(NPC/动画
    *                  不冻)。同 paletteFadeState 管,但 mode.ts 放行 autoScript(同 'frame-wait')。
+   *  - 'rng-play':   0x37 PlayRNG(script.c:1544)— 脚本播 RNG.MKF 动画(modal,suspendRaf)。仿 'shop':
+   *                  opcode 调 _rngPlayHandler(注入)开播 + waiting + ip++;播完(bootstrap finally)清 waiting 续跑。
    */
-  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade'
+  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play'
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
   /** 'delay' 用(opcode 0x85):延迟到此 wall-clock 时间戳(performance.now()),到点 ip++ + clear。 */
@@ -603,6 +605,19 @@ export interface GameState {
    * (只 dump 白天半),故 night=true 的视觉暂与白天相同 — 待 re-extract 才正确(已记 follow-up)。
    */
   nightPalette: boolean
+
+  /**
+   * 特效 C(2026-05-29):当前 RNG 动画编号(sdlpal `gpGlobals->iCurPlayingRNG`,= RNG.MKF chunk index)。
+   * 0x36 setRNG 写入;0x37 playRNG 据此播。两者解耦(一次 set 可被多条 play 复用)。默认 0。
+   */
+  iCurPlayingRNG: number
+
+  /**
+   * 特效 B(2026-05-29):屏幕波动每帧增量(sdlpal `gpGlobals->sWaveProgression`,SHORT 可负)。
+   * 0x71 waveScreen 写入 operand[1]。每帧渲染时 `wScreenWave += sWaveProgression`;为 0 = 波幅恒定。
+   * present 层 applyScreenWave 消费(配 wScreenWave)。读档恒置 0(sdlpal global.c:611 真值)。默认 0。
+   */
+  sWaveProgression: number
 
   /**
    * P2#7(2026-05-29):scene 切换的**异步资源加载窗口** flag(取代旧 fEnteringScene 渲染门)。
@@ -1086,6 +1101,8 @@ export function createInitialGameState(
     dwCash: 0,
     numPalette: 0,        // 特效 A:当前调色板索引(sdlpal wNumPalette)
     nightPalette: false,  // 特效 A:昼夜 flag(sdlpal fNightPalette,默认白天)
+    iCurPlayingRNG: 0,    // 特效 C:当前 RNG 动画编号(sdlpal iCurPlayingRNG)
+    sWaveProgression: 0,  // 特效 B:屏幕波动每帧增量(sdlpal sWaveProgression)
 
     // ── M5 Sync.1: 嵌套 struct ──
     Exp: createEmptyExp(),

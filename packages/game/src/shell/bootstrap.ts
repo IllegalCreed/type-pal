@@ -12,6 +12,7 @@ import {
   buildLabelMap, runEnterScript, setFetchPalette,
   setSceneLoader, setMapReloader, setObstacleChecker,
   setGlobalEvents, getGlobalLabelMap, setStartBattleHandler, setShopMenuHandler,
+  setRngPlayHandler,
 } from '../core/event-system.js'
 import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
 import { openMenu } from '../core/menu/menu-mode.js'
@@ -19,6 +20,7 @@ import { createBuyMenu, createSellMenu } from '../core/menu/shop-menu.js'
 import { Save } from '../core/save/api.js'
 import { createOpeningMenu } from '../core/menu/opening-menu.js'
 import { playAvi } from './avi-player.js'
+import { playRng } from './rng-player.js'
 import { playSplashFallback } from './splash-fallback.js'
 import { playTrademarkFallback } from './trademark-fallback.js'
 import { startBattle } from '../core/battle/battle-system.js'
@@ -622,6 +624,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     sceneAssetsCache,
     onSceneChanged: applySceneAssetsToPresent,
     onFontTest,
+    // devpanel 看开场/结局 AVI 双版:WIN95 走 mp4(1/2=开场,3=新游戏,4/5/6=结局)。suspendRaf 包,播完恢复。
+    playVideo: (mp4) => {
+      gs.suspendRaf = true
+      void playAvi({ src: `${BASE}/videos/${mp4}` }).catch((err) => {
+        console.warn(`[dev] playVideo ${mp4} failed:`, err)
+      }).finally(() => { gs.suspendRaf = false })
+    },
     resources: {
       enemies, enemyTeams, battleFields,
       playerRoles, items, spells, magics,
@@ -721,6 +730,27 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     else {
       openMenu(gs, { kind: 'shop-sell', state: createSellMenu(gs, items) })
     }
+  })
+
+  // 特效 C:RNG 动画 handler(opcode 0x37 PlayRNG)。event-system 设 cursor.waiting='rng-play' 后调本 handler;
+  //   suspendRaf 期间 present 暂停、playRng 自管 fb 直写 + flushToCanvas;播完 finally 清 suspendRaf + waiting 续跑。
+  //   speed→frameDelayMs = 1000/speed(sdlpal PAL_RNGPlay iDelay = 1/iSpeed 秒);palette 用当前工作 palette。
+  setRngPlayHandler(({ gs, chunkIdx, startFrame, endFrame, speed }) => {
+    gs.suspendRaf = true
+    void playRng({
+      chunkIdx,
+      startFrame,
+      endFrame,
+      frameDelayMs: 1000 / speed,
+      fb,
+      canvasCtx: canvasCtx!,
+      palette: gs.palette ?? palette,
+    }).catch((err) => {
+      console.warn('[bootstrap.rngPlayHandler] playRng failed:', err)
+    }).finally(() => {
+      gs.suspendRaf = false
+      if (gs.eventCursor?.waiting === 'rng-play') gs.eventCursor.waiting = undefined
+    })
   })
 
   // Sync.2 fix4:扫 eventCommands 找 setPlayerSprite(opcode 0x65)的 sprite id,预 fetch。
