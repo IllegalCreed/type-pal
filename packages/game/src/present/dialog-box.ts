@@ -26,7 +26,7 @@
 
 import type { DialogBoxStyle } from '@type-pal/shared'
 import type { Framebuffer } from './framebuffer.js'
-import { renderText, measureText, type GlyphTable } from './font.js'
+import { renderText, renderColoredText, measureText, type GlyphTable } from './font.js'
 import type { DialogBoxState, DialogPhase } from '../core/game-state.js'
 import { drawSingleLineBox } from './menu/draw-box.js'
 import { drawNumber } from './draw-number.js'
@@ -35,28 +35,75 @@ import { drawNumber } from './draw-number.js'
 
 export const FRAMES_PER_CHAR = 1
 
-/**
- * sdlpal text.c:29 `#define FONT_COLOR_DEFAULT 0x4F` = 79。
- * 默认对话字体色 — palette idx 79 在原版调色板里是亮黄/浅米色。
- * 修复 fix1 错把默认设成 255(白)— sdlpal 真值是 0x4F。
- */
+// ── sdlpal text.c:29-34 FONT_COLOR_* 真值(palette index)──────────────────────
+/** 默认对话字体色 0x4F(palette idx 79)。普通对话(isDialog=FALSE)DEFAULT 即此;narration DEFAULT→0。 */
 export const FONT_COLOR_DEFAULT = 0x4F
+/** `"` toggle 黄(text.c:30)。普通对话生效;narration(isDialog=TRUE)被 `!isDialog` 屏蔽。 */
+export const FONT_COLOR_YELLOW = 0x2D
+/** `'` toggle 红(text.c:31)。 */
+export const FONT_COLOR_RED = 0x1A
+/** `-` toggle 青(text.c:32)。 */
+export const FONT_COLOR_CYAN = 0x8D
+/** `@` toggle 红 alt(text.c:34)。 */
+export const FONT_COLOR_RED_ALT = 0x17
 
 /** sdlpal text.c:1649 `nCurrentDialogLine > 3`:超过 3 (即 4) 触发等键 */
 export const MAX_LINES_PER_PAGE = 4
 
+/** parseDialogText 输出:可见文本 + 逐字符色 + 行末色态(跨行持续)+ 等键图标。 */
+export interface ParsedDialogLine {
+  /** 可见文本(控制符已消费/剥离)。 */
+  text: string
+  /** 每个可见字符的调色板色(与 [...text] 等长,按 code point)。 */
+  colors: number[]
+  /** 行末 bCurrentFontColor 状态 —— toggle 跨行持续(下一行的起始色)。 */
+  endColor: number
+  /** `(`/`)` 设的等键图标(sdlpal bIcon:0=默认,1=`)`,2=`(`)。 */
+  icon: number
+}
+
 /**
- * 去掉 sdlpal text.c:1534/1542 的 `$XX` / `~XX` 控制码,只 strip 不显示。
+ * port sdlpal `TEXT_DisplayText` 控制符 state machine(text.c:1458-1613)。把原始对话文本解析成
+ * {可见文本 + 逐字符色},消费控制符(原本被我们字面显示出来 = bug):
+ *   `-` toggle CYAN(0x8D)/ `'` toggle RED(0x1A)/ `@` toggle RED_ALT(0x17)
+ *   `"` toggle YELLOW(0x2D)—— **仅 !isDialog**(text.c:1522 `if(!isDialog)`,但 `"` 总被消费)
+ *   `$NN` typing 速度(text.c:1539 `lpszText+=3` 消费 3 字符,不显;我们暂不改 typing 速度)
+ *   `~` 本行提前结束(text.c:1554 return —— 其后丢弃)
+ *   `)` icon=1(text.c:1560)/ `(` icon=2(text.c:1568)/ `\` 转义下一字符(text.c:1572)
+ * 默认色映射(text.c:1580-1582):isDialog 且当前色 == DEFAULT → 0;否则 = 当前色。
  *
- * 真值(text.c:1534-1554):
- *   `$XX` → 设 iDelayTime = X * 10 / 7(typing 速度),sdlpal 固定 `lpszText += 3` 即吃 3 字符。
- *   `~XX` → 延 X * 80 / 7 ms 后 return(本行立即结束),sdlpal 也是 2 位 decimal。
- *
- * 当前 strip-only:不做 typing 减速 / 自动 end 延时(留下一轮按需补)。
- * 视觉上原版你看不到 `$10` `~30` 字面,我们之前直接 typing 出来是 bug。
+ * @param raw        原始文本(events 数据,含控制符)
+ * @param startColor 起始 bCurrentFontColor(跨行持续:首行 = dialog bFontColor,续行 = 上行 endColor)
+ * @param isDialog   sdlpal isDialog 参数 —— **普通对话(top/bottom/center)= FALSE**;narration(居中小窗)= TRUE
  */
-export function stripDialogControlCodes(text: string): string {
-  return text.replace(/[$~]\d{1,2}/g, '')
+export function parseDialogText(raw: string, startColor: number, isDialog: boolean): ParsedDialogLine {
+  let color = startColor
+  let icon = 0
+  const out: string[] = []
+  const colors: number[] = []
+  const emit = (ch: string): void => {
+    out.push(ch)
+    colors.push(isDialog && color === FONT_COLOR_DEFAULT ? 0 : color) // text.c:1581-1582
+  }
+  const chars = [...raw] // 按 code point 拆(中文 BMP 单点;控制符是 ASCII 单点)
+  for (let i = 0; i < chars.length; i++) {
+    const ch = chars[i]!
+    switch (ch) {
+      case '-': color = color === FONT_COLOR_CYAN ? FONT_COLOR_DEFAULT : FONT_COLOR_CYAN; break
+      case '\'': color = color === FONT_COLOR_RED ? FONT_COLOR_DEFAULT : FONT_COLOR_RED; break
+      case '@': color = color === FONT_COLOR_RED_ALT ? FONT_COLOR_DEFAULT : FONT_COLOR_RED_ALT; break
+      case '"':
+        if (!isDialog) color = color === FONT_COLOR_YELLOW ? FONT_COLOR_DEFAULT : FONT_COLOR_YELLOW
+        break // `"` 总消费(text.c:1531 lpszText++ 在 if 外)
+      case '$': i += 2; break // 消费 $ + 2 位(text.c:1539 lpszText+=3)
+      case '~': return { text: out.join(''), colors, endColor: color, icon } // text.c:1554 return:本行止
+      case ')': icon = 1; break
+      case '(': icon = 2; break
+      case '\\': { const nx = chars[++i]; if (nx !== undefined) emit(nx); break } // 转义:画下一字符字面
+      default: emit(ch)
+    }
+  }
+  return { text: out.join(''), colors, endColor: color, icon }
 }
 
 /** sdlpal text.c:1661 `y + nCurrentDialogLine * 18`:行间距 18 px */
@@ -161,7 +208,7 @@ export function getDialogBoxRect(style: DialogBoxStyle): BoxRect {
  * shownLines=[],currentLineText=text,phase='typing'。
  */
 export function startDialogLine(
-  text: string,
+  rawText: string,
   opts: {
     style?: DialogBoxStyle
     portraitIcon?: number
@@ -169,19 +216,27 @@ export function startDialogLine(
     shadow?: boolean
   },
 ): DialogBoxState {
-  // sdlpal text.c:1715-1727 真值:`:` 结尾的字符串 = 姓名 title,画独立位置,不计入 line。
-  // 我们把它写进 titleText,**不** typing(姓名一闪而出 = sdlpal `PAL_DrawText` 单次绘)。
-  const isTitle = isCharacterNameLine(text)
+  const style = opts.style ?? 'bottom'
+  const startColor = opts.fontColor ?? FONT_COLOR_DEFAULT
+  const isDialog = style === 'narration' // sdlpal isDialog:普通对话=FALSE,narration(居中小窗)=TRUE
+  const parsed = parseDialogText(rawText, startColor, isDialog)
+  // sdlpal text.c:1715-1727 真值:`:` 结尾的字符串 = 姓名 title,画独立位置(CYAN_ALT,PAL_DrawText 不过
+  //   控制符 state machine,不改 bCurrentFontColor),不计入 line。在剥码后的可见文本上判定。
+  const isTitle = isCharacterNameLine(parsed.text)
   return {
-    titleText: isTitle ? text : undefined,
+    titleText: isTitle ? parsed.text : undefined,
     shownLines: [],
-    currentLineText: isTitle ? null : text,
+    shownLineColors: [],
+    currentLineText: isTitle ? null : parsed.text,
+    currentLineColors: isTitle ? undefined : parsed.colors,
+    fontColorState: isTitle ? startColor : parsed.endColor, // title 不改色态
+    iconKind: parsed.icon,
     typingFrames: 0,
-    charsRevealed: isTitle ? 0 : 0,
+    charsRevealed: 0,
     phase: isTitle ? 'line-done' : 'typing',  // title 即出完,让 event-system 立即 ip++ 下条
-    style: opts.style ?? 'bottom',
+    style,
     portraitIcon: opts.portraitIcon,
-    fontColor: opts.fontColor ?? FONT_COLOR_DEFAULT,
+    fontColor: startColor,
     shadow: opts.shadow ?? false,
     keyIconBlink: false,
   }
@@ -196,18 +251,26 @@ export function startDialogLine(
  * **必须先在 caller 中检查 shouldWaitPageKey(state)** — 如果会到第 5 行,
  * 不调本函数,而是 setWaitingPageKey(state) 等键后再调。
  */
-export function appendDialogLine(state: DialogBoxState, text: string): void {
-  // sdlpal text.c:1715 姓名识别 — `:` 结尾的字符串画 title 位置,不进 shownLines。
-  if (isCharacterNameLine(text)) {
-    state.titleText = text
+export function appendDialogLine(state: DialogBoxState, rawText: string): void {
+  const isDialog = state.style === 'narration'
+  // 续行起始色 = 上一行行末色态(toggle 跨行持续,sdlpal g_TextLib.bCurrentFontColor 同段不重置)
+  const startColor = state.fontColorState ?? state.fontColor ?? FONT_COLOR_DEFAULT
+  const parsed = parseDialogText(rawText, startColor, isDialog)
+  // sdlpal text.c:1715 姓名识别 — `:` 结尾的字符串画 title 位置(CYAN_ALT,独立路径),不进 shownLines、不改色态。
+  if (isCharacterNameLine(parsed.text)) {
+    state.titleText = parsed.text
     // **不**修改 currentLineText / phase — title 跟现在 typing 的 dialog 并存
     return
   }
-  // 把"上次 line-done 的 currentLineText"沉入 shownLines
+  // 把"上次 line-done 的 currentLineText"沉入 shownLines(连同其逐字符色)
   if (state.currentLineText !== null) {
     state.shownLines.push(state.currentLineText)
+    ;(state.shownLineColors ??= []).push(state.currentLineColors ?? [])
   }
-  state.currentLineText = text
+  state.currentLineText = parsed.text
+  state.currentLineColors = parsed.colors
+  state.fontColorState = parsed.endColor
+  if (parsed.icon) state.iconKind = parsed.icon
   state.typingFrames = 0
   state.charsRevealed = 0
   state.phase = 'typing'
@@ -317,7 +380,11 @@ export function confirmDialog(state: DialogBoxState): ConfirmResult {
     //           清 gs.dialogBox(让下次 showDialog 重建)
     //   - 空 → 累计 4 行触发,caller 推 cursor.ip(下条 showDialog 会 append 第 5 行)
     state.shownLines = []
+    state.shownLineColors = []
     state.currentLineText = null
+    state.currentLineColors = undefined
+    // 注:fontColorState 不重置 — sdlpal PAL_ClearDialog 仅 kDialogCenter 重置 bCurrentFontColor
+    //   (text.c:1777-1781),普通翻页(kDialogUpper)色态跨页持续。
     state.typingFrames = 0
     state.charsRevealed = 0
     state.phase = 'line-done' // 临时;caller 推 ip → 下条 showDialog 调 append 切到 'typing'
@@ -409,14 +476,20 @@ export function drawDialogBox(
 
   for (let i = 0; i < state.shownLines.length; i++) {
     const line = state.shownLines[i]!
-    drawTextLine(fb, line, basePos.x, basePos.y + i * LINE_HEIGHT_PX, state, glyphs)
+    drawTextLine(
+      fb, line, basePos.x, basePos.y + i * LINE_HEIGHT_PX, state, glyphs,
+      undefined, state.shownLineColors?.[i],
+    )
   }
 
   // 当前行(typing 或 line-done):画在 shownLines 之后第 N 行
   if (state.currentLineText !== null && state.charsRevealed > 0) {
     const lineIdx = state.shownLines.length
     const visible = state.currentLineText.slice(0, state.charsRevealed)
-    drawTextLine(fb, visible, basePos.x, basePos.y + lineIdx * LINE_HEIGHT_PX, state, glyphs)
+    drawTextLine(
+      fb, visible, basePos.x, basePos.y + lineIdx * LINE_HEIGHT_PX, state, glyphs,
+      undefined, state.currentLineColors?.slice(0, state.charsRevealed),
+    )
   }
 
   // 3. key icon(等键时显示在最后一行文字末尾)。
@@ -425,7 +498,9 @@ export function drawDialogBox(
   //    "闪烁"由 present 层 palette 索引 0xF9-0xFE 每 100ms 轮转产生(text.c:1408-1426),
   //    箭头本身**常显**(不再 show/hide gate keyIconBlink)。
   if (shouldShowKeyIcon(state)) {
-    const iconSprite = ctx?.iconFrames?.get(KEY_ICON_FRAME)
+    // sdlpal text.c:1391 `PAL_SpriteGetFrame(bufDialogIcons, bIcon)` —— bIcon 即帧号:
+    //   默认 0;`)` → 1,`(` → 2(parseDialogText 的 iconKind)。
+    const iconSprite = ctx?.iconFrames?.get(state.iconKind ?? KEY_ICON_FRAME)
     if (iconSprite) {
       // 最后一行:正在显示的 currentLineText(若有)或最后一条 shownLine。
       const lineIdx = state.currentLineText !== null
@@ -455,13 +530,24 @@ function drawTextLine(
   state: DialogBoxState,
   glyphs: GlyphTable | undefined,
   colorOverride?: number,
+  colors?: number[],
 ): void {
   if (text.length === 0) return
   // sdlpal 真值:对话正文 TEXT_DisplayText(..., isDialog=FALSE)(text.c:1737)→ fShadow=!isDialog=TRUE;
   //   姓名 title PAL_DrawText(..., fShadow=TRUE)(text.c:1725)。两者都带阴影。
   // 阴影算法 = 三层 (+1,0)/(0,+1)/(+1,+1) **color 0**(text.c:1144-1156,DOS triple,sdlpal 统一 triple)。
   // 旧实现手搓**单层** (+1,+1) color 50 是错的 —— 改用 renderText 内建 fShadow=true(正确三层 color0)。
-  renderText(fb, text, x, y, colorOverride ?? state.fontColor, glyphs, true)
+  // colorOverride(姓名 title CYAN_ALT)优先;否则 colors(parseDialogText 逐字符色,`"`黄/`-`青/`'``@`红)
+  //   逐字符上色;再否则 fallback 单色(state.fontColor)。
+  if (colorOverride !== undefined) {
+    renderText(fb, text, x, y, colorOverride, glyphs, true)
+  }
+  else if (colors) {
+    renderColoredText(fb, text, colors, x, y, glyphs, true)
+  }
+  else {
+    renderText(fb, text, x, y, state.fontColor, glyphs, true)
+  }
 }
 
 // ── 内部 blit ─────────────────────────────────────────────────────────────────
@@ -507,6 +593,8 @@ function drawNarrationDialog(
   // narration 是 1-shot 1 行 — 取 currentLineText(若有)或 shownLines[0]
   const text = state.currentLineText ?? state.shownLines[0] ?? ''
   if (text.length === 0) return
+  // 逐字符色(parseDialogText with isDialog=TRUE:DEFAULT→0;`-`青/`'``@`红;`"`黄被屏蔽)
+  const colors = state.currentLineColors ?? state.shownLineColors?.[0]
 
   // sdlpal len:半角 1 / 全角 2
   let len = 0
@@ -542,6 +630,7 @@ function drawNarrationDialog(
   //   - text.c:1592 PAL_DrawNumber(ch-'0', 1, PAL_XY(x, y+4), kNumColorYellow, kNumAlignLeft)
   //   - text.c:1595 x += PAL_CharWidth(ch)
   let cursorX = textX
+  let ci = 0
   for (const ch of text) {
     if (ch >= '0' && ch <= '9' && ctx?.uiSpriteFrames) {
       // sdlpal text.c:1583-1592 真值:数字字符 yellow sprite digit blit at (x, y+4) left-align
@@ -550,10 +639,12 @@ function drawNarrationDialog(
       cursorX += 6 // sdlpal PAL_CharWidth 数字字符 = 6(digit sprite width)
     }
     else {
-      // sdlpal text.c:1594 PAL_DrawTextUnescape(text, ..., color=0, fShadow=FALSE)
-      // sdlpal text.c:1595 x += PAL_CharWidth(text[0]):半角 8 / 全角 16
-      const advance = renderText(fb, ch, cursorX, textY, 0, glyphs, false)
+      // sdlpal text.c:1594 PAL_DrawTextUnescape(text, ..., color, fShadow=FALSE);color 由 parseDialogText
+      //   逐字符给(narration DEFAULT→0;`-`青/`'``@`红)。text.c:1595 x += PAL_CharWidth:半角 8 / 全角 16。
+      const color = colors?.[ci] ?? 0
+      const advance = renderText(fb, ch, cursorX, textY, color, glyphs, false)
       cursorX += advance
     }
+    ci++
   }
 }

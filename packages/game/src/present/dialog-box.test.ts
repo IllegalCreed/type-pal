@@ -13,7 +13,12 @@ import {
   drawDialogBox,
   FRAMES_PER_CHAR,
   FONT_COLOR_DEFAULT,
+  FONT_COLOR_YELLOW,
+  FONT_COLOR_CYAN,
+  FONT_COLOR_RED,
+  FONT_COLOR_RED_ALT,
   MAX_LINES_PER_PAGE,
+  parseDialogText,
   type DialogSprite,
 } from './dialog-box.js'
 
@@ -31,6 +36,61 @@ function completeLine(s: ReturnType<typeof startDialogLine>): void {
   if (s.currentLineText === null) return
   for (let i = 0; i < FRAMES_PER_CHAR * s.currentLineText.length; i++) tickDialog(s)
 }
+
+describe('parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)', () => {
+  const D = FONT_COLOR_DEFAULT
+  it('普通对话(isDialog=FALSE):`"..."` 整句黄 + 引号消费(用户报的"黄色文字")', () => {
+    const r = parseDialogText('"双手端着物品无法爬下去"', D, false)
+    expect(r.text).toBe('双手端着物品无法爬下去') // 引号不字面显示
+    expect(r.colors.every((c) => c === FONT_COLOR_YELLOW)).toBe(true) // 全黄
+    expect(r.endColor).toBe(D) // 闭合 `"` → 回 DEFAULT
+  })
+
+  it('narration(isDialog=TRUE):`"` 被消费但**不**变黄(text.c:1522 !isDialog 门控)+ DEFAULT→0', () => {
+    const r = parseDialogText('"提示"', D, true)
+    expect(r.text).toBe('提示')
+    expect(r.colors.every((c) => c === 0)).toBe(true) // isDialog DEFAULT→0,黄被屏蔽
+  })
+
+  it('`-` 青 / `\'` 红 / `@` 红alt toggle(普通对话)', () => {
+    expect(parseDialogText('-青-', D, false).colors).toEqual([FONT_COLOR_CYAN]) // 中间 1 字
+    expect(parseDialogText('\'红\'', D, false).colors).toEqual([FONT_COLOR_RED])
+    expect(parseDialogText('@朱@', D, false).colors).toEqual([FONT_COLOR_RED_ALT])
+  })
+
+  it('`$NN` 消费 3 字符(typing 速度,不显字面)', () => {
+    const r = parseDialogText('$10李逍遥', D, false)
+    expect(r.text).toBe('李逍遥') // $10 吃掉
+  })
+
+  it('`~` 本行提前结束(其后丢弃,text.c:1554 return)', () => {
+    const r = parseDialogText('李逍遥！~30后面不显', D, false)
+    expect(r.text).toBe('李逍遥！')
+  })
+
+  it('`(` / `)` 设 icon + 消费(不字面显示括号)', () => {
+    expect(parseDialogText('哦！)', D, false)).toMatchObject({ text: '哦！', icon: 1 })
+    expect(parseDialogText('啊．．(', D, false)).toMatchObject({ text: '啊．．', icon: 2 })
+  })
+
+  it('`\\` 转义:画下一字符字面(\\" → 字面引号)', () => {
+    const r = parseDialogText('\\"', D, false)
+    expect(r.text).toBe('"') // 转义后引号字面显示
+  })
+
+  it('endColor 跨行持续:未闭合 `"` → 下一行起始仍黄', () => {
+    const r1 = parseDialogText('"未闭合', D, false)
+    expect(r1.endColor).toBe(FONT_COLOR_YELLOW) // 奇数个 " → 停在黄
+    const r2 = parseDialogText('续行', r1.endColor, false)
+    expect(r2.colors.every((c) => c === FONT_COLOR_YELLOW)).toBe(true) // 续行继承黄
+  })
+
+  it('混色:默认文本 + `"黄词"` + 默认(逐字符色正确)', () => {
+    const r = parseDialogText('得到"紫金丹"了', D, false)
+    expect(r.text).toBe('得到紫金丹了') // 6 字:得到(默认)紫金丹(黄)了(默认)
+    expect(r.colors).toEqual([D, D, FONT_COLOR_YELLOW, FONT_COLOR_YELLOW, FONT_COLOR_YELLOW, D])
+  })
+})
 
 describe('Sync.2 DialogBox · startDialogLine / appendDialogLine', () => {
   it('startDialogLine 初始化:shownLines 空,currentLineText=text,phase=typing', () => {

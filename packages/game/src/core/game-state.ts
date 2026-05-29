@@ -290,8 +290,23 @@ export interface DialogBoxState {
    * 第 4 行画完后下条 showDialog 触发 waiting-page-key,Confirm 后清空。
    */
   shownLines: string[]
+  /**
+   * 与 shownLines 等长:每行的逐字符调色板色(parseDialogText 解析,sdlpal TEXT_DisplayText 控制符
+   * `-`青/`'`红/`@`红alt/`"`黄 toggle)。colors[lineIdx][charIdx] = 该字符色。
+   */
+  shownLineColors?: number[][]
   /** 当前正在 typing 的那行文本(若 phase='typing'/'line-done')。 */
   currentLineText: string | null
+  /** 与 currentLineText 等长:当前行逐字符色(parseDialogText)。 */
+  currentLineColors?: number[]
+  /**
+   * 跨行持续的 bCurrentFontColor 状态(sdlpal g_TextLib.bCurrentFontColor)。toggle 控制符的色态
+   * 在同一 dialog 段内跨 showDialog 行持续 —— 下一行 parseDialogText 的起始色。
+   * PAL_StartDialog(bFontColor)/ PAL_EndDialog 重置;startDialogLine 用 dialog 起始色初始化。
+   */
+  fontColorState?: number
+  /** `(`/`)` 控制符设的等键图标(sdlpal bIcon:1=`)`,2=`(`);0/undefined = 默认箭头。 */
+  iconKind?: number
   /** 当前行已经过的 frame 数。 */
   typingFrames: number
   /** 当前行已显字符数 = min(floor(typingFrames / FRAMES_PER_CHAR), currentLineText.length)。 */

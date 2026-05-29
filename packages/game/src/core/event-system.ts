@@ -53,7 +53,6 @@ import {
   setWaitingEndKey,
   tickDialog,
   confirmDialog,
-  stripDialogControlCodes,
 } from '../present/dialog-box.js'
 
 // ── P0.e: wScriptOnEnter / 战斗触发 opcode 真值(grep sdlpal reference/sdlpal/script.c) ──
@@ -1451,10 +1450,11 @@ export function tickEventSystem(
         // 若存在但累计 4 行(shouldWaitPageKey)→ setWaitingPageKey,等下次 tick Confirm 后再 append
         // 否则 → appendDialogLine 加新行
         //
-        // sdlpal text.c:1534/1542 `$XX` / `~XX` 控制码 strip(不显示字面值)
-        const text = stripDialogControlCodes(cmd.text)
+        // 传**原始** cmd.text —— startDialogLine/appendDialogLine 内 parseDialogText 解析控制符:
+        //   `"`黄/`-`青/`'``@`红 toggle 逐字符上色,消费 `$~()\` + `~` 提前结束(sdlpal TEXT_DisplayText
+        //   text.c:1458-1613)。旧 stripDialogControlCodes 只剥 `$~\d`、漏颜色 + `"()` 字面显示(2026-05-30 修)。
         if (!gs.dialogBox) {
-          gs.dialogBox = startDialogLine(text, {
+          gs.dialogBox = startDialogLine(cmd.text, {
             style: gs.currentDialogStyle,
             portraitIcon: gs.currentDialogPortraitIcon,
             fontColor: gs.currentDialogFontColor,
@@ -1467,14 +1467,19 @@ export function tickEventSystem(
           return
         }
         else {
-          appendDialogLine(gs.dialogBox, text)
+          appendDialogLine(gs.dialogBox, cmd.text)
         }
         cursor.waiting = 'dialog'
         // P2#7:content-no-fade onEnter(有对话、无 fadeScreen,如 scene 14)— 对话是第一个可渲染 yield,
         // 此时 setPartyPos 等已跑完(camera 已对)→ 清 sceneLoading 让对话渲染。fade-first onEnter 的
         // fadeScreen 在对话前已清(此处 sceneLoading 已 false,不重复)。
         if (gs.sceneLoading) gs.sceneLoading = false
-        bus.emit({ op: 'showDialogBox', text, style: gs.currentDialogStyle })
+        // 通知用解析后可见文本(剥控制符);showDialogBox 仅通知,实际渲染走 gs.dialogBox。
+        bus.emit({
+          op: 'showDialogBox',
+          text: gs.dialogBox?.currentLineText ?? gs.dialogBox?.titleText ?? cmd.text,
+          style: gs.currentDialogStyle,
+        })
         // ip 停在 showDialog 上,waiting 释放(typing 完后自动 ip++)才推进
         return
       }

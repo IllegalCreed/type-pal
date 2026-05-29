@@ -131,6 +131,40 @@ export function renderText(
 }
 
 /**
+ * 逐字符上色版 renderText —— `colors[i]` 是第 i 个 code point 的调色板色(对话控制符 `-`青/`'`红/`@`/`"`黄
+ * toggle 解析出的逐字符色,见 dialog-box.parseDialogText)。port sdlpal TEXT_DisplayText 的 per-char 绘制
+ * (text.c:1594 PAL_DrawTextUnescape 每字符用当时 bCurrentFontColor)。
+ *
+ * @returns 渲染宽度(像素)
+ */
+export function renderColoredText(
+  fb: Framebuffer,
+  text: string,
+  colors: readonly number[],
+  x: number,
+  y: number,
+  glyphs: GlyphTable = EMPTY_GLYPH_TABLE,
+  fShadow = false,
+): number {
+  let cursorX = x
+  let i = 0
+  for (const ch of text) {
+    const cp = ch.codePointAt(0)!
+    const g = glyphs.get(cp) ?? TOFU_GLYPH
+    if (fShadow) {
+      // sdlpal text.c:1144-1155 triple shadow color 0(同 renderText)
+      blitGlyph(fb, cursorX + 1, y, g, 0)
+      blitGlyph(fb, cursorX, y + 1, g, 0)
+      blitGlyph(fb, cursorX + 1, y + 1, g, 0)
+    }
+    blitGlyph(fb, cursorX, y, g, colors[i] ?? 0x4f) // 缺色防御 → DEFAULT 0x4F
+    cursorX += g.width
+    i++
+  }
+  return cursorX - x
+}
+
+/**
  * 测量 `text` 渲染后的总像素宽度(不写 fb)。
  *
  * @param text    要测量的字符串
