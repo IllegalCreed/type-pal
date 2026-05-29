@@ -22,7 +22,7 @@ import { createOpeningMenu } from '../core/menu/opening-menu.js'
 import { playAvi } from './avi-player.js'
 import { playRng } from './rng-player.js'
 import { showFbp, scrollFbp } from './fbp-player.js'
-import { playEndingAnimation, fadeOutBlocking, fadeInBlocking, colorFadeBlocking } from './ending-player.js'
+import { playEndingAnimation, fadeOutBlocking, fadeInBlocking, colorFadeBlocking, waitForKey } from './ending-player.js'
 import { playSplashFallback } from './splash-fallback.js'
 import { playTrademarkFallback } from './trademark-fallback.js'
 import { startBattle } from '../core/battle/battle-system.js'
@@ -908,7 +908,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     await fbp(71, 7, pal5b, fx635)
     await fbp(68, 7, pal5b, fx635)
     await fbp(68, 6, pal5b) // EndingSetEffectSprite(0) → 无叠加(ending.c:477)
-    await new Promise((r) => setTimeout(r, 1500)) // WaitForKey → 连续观看用延时
+    await waitForKey() // sdlpal PAL_WaitForKey(0):等玩家按键再放演职员表(ending.c:480)
 
     // ── Part B(ending.c:485-511,演职员表卷动 67→59)──
     for (const c of [67, 66, 65, 64, 63, 62, 61, 60, 59]) {

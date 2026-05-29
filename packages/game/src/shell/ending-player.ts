@@ -41,6 +41,23 @@ function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms))
 }
 
+/**
+ * 等一次按键(port sdlpal PAL_WaitForKey(0) — 无限等玩家按键)。
+ * 默认 Space/Enter/Escape(游戏 confirm 键);resolve 即继续。modal 序列中"看完按键继续"。
+ */
+export function waitForKey(keys: string[] = ['Space', 'Enter', 'Escape']): Promise<void> {
+  return new Promise((resolve) => {
+    const onKey = (e: KeyboardEvent): void => {
+      if (keys.includes(e.code)) {
+        e.preventDefault()
+        window.removeEventListener('keydown', onKey, true)
+        resolve()
+      }
+    }
+    window.addEventListener('keydown', onKey, true)
+  })
+}
+
 /** 把 palette rgb 整体缩放 factor(0=黑,1=原色)。 */
 function scalePalette(base: Palette, factor: number): Palette {
   const f = Math.max(0, Math.min(1, factor))
