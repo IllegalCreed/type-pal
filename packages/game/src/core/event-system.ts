@@ -1546,6 +1546,11 @@ export function tickEventSystem(
         if (cmd.opcode === OP_WAIT_FRAMES) {
           // sdlpal script.c:3354 `pScript->rgwOperand[0] ? operand[0] : 1`
           const frames = cmd.operands[0] || 1
+          // onEnter cutscene(如香兰报信 enter=903:setObjectPos→setDir→setAutoScript→wait→showDialog)
+          //   在 showDialog 前先 wait → sceneLoading 冻屏不清 → 整个 cutscene 黑屏。sdlpal PAL_MakeScene
+          //   是先画场景再跑 enter script,场景一直可见。撞 wait 时 setPartyPos 等定位已跑完 → 清冻屏让
+          //   场景渲染(同 showDialog 在 ↓ 的清法)。非 onEnter 的 frame-wait 时 sceneLoading 本就 false,no-op。
+          if (gs.sceneLoading) gs.sceneLoading = false
           cursor.waiting = 'frame-wait'
           cursor.waitFramesRemaining = frames
           return
@@ -2454,8 +2459,11 @@ function applyRawOpcode(
       //   pCurrent 由 operand[0] 选(非 self)—— 旧 bug 写死 0(self),op0 选别的对象时错。
       const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setObjectPosRelParty')
       if (npc) {
-        npc.x = (operands[1] ?? 0) + gs.party.x
-        npc.y = (operands[2] ?? 0) + gs.party.y
+        // sdlpal pCurrent->x/y 是 SHORT:`operand + viewport + offset`(int)赋给 SHORT 自动 wrap 16-bit 有符号。
+        //   operand 常是负偏移(如 0xFF80=-128,香兰报信 cutscene script.c idx 903 摆她到队首左侧)。
+        //   旧码直接用无符号 operand(65408)→ 把 NPC 摆到地图外(x=67152)。toInt16 整和 wrap 还原真值。
+        npc.x = toInt16((operands[1] ?? 0) + gs.party.x)
+        npc.y = toInt16((operands[2] ?? 0) + gs.party.y)
         console.debug(`event-system: setObjectPosRelParty id=${npc.id} → (${npc.x},${npc.y})`)
       }
       break
