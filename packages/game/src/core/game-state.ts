@@ -208,8 +208,9 @@ export interface EventCursor {
    *                  不冻)。同 paletteFadeState 管,但 mode.ts 放行 autoScript(同 'frame-wait')。
    *  - 'rng-play':   0x37 PlayRNG(script.c:1544)— 脚本播 RNG.MKF 动画(modal,suspendRaf)。仿 'shop':
    *                  opcode 调 _rngPlayHandler(注入)开播 + waiting + ip++;播完(bootstrap finally)清 waiting 续跑。
+   *  - 'show-fbp':   0x76 ShowFBP(script.c:2199)— 全屏 FBP 图(modal,suspendRaf,可选 dither fade-in)。同 rng-play。
    */
-  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play'
+  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play' | 'show-fbp'
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
   /** 'delay' 用(opcode 0x85):延迟到此 wall-clock 时间戳(performance.now()),到点 ip++ + clear。 */

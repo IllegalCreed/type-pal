@@ -12,7 +12,7 @@ import {
   buildLabelMap, runEnterScript, setFetchPalette,
   setSceneLoader, setMapReloader, setObstacleChecker,
   setGlobalEvents, getGlobalLabelMap, setStartBattleHandler, setShopMenuHandler,
-  setRngPlayHandler,
+  setRngPlayHandler, setShowFbpHandler,
 } from '../core/event-system.js'
 import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
 import { openMenu } from '../core/menu/menu-mode.js'
@@ -21,6 +21,7 @@ import { Save } from '../core/save/api.js'
 import { createOpeningMenu } from '../core/menu/opening-menu.js'
 import { playAvi } from './avi-player.js'
 import { playRng } from './rng-player.js'
+import { showFbp } from './fbp-player.js'
 import { playSplashFallback } from './splash-fallback.js'
 import { playTrademarkFallback } from './trademark-fallback.js'
 import { startBattle } from '../core/battle/battle-system.js'
@@ -624,11 +625,15 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     sceneAssetsCache,
     onSceneChanged: applySceneAssetsToPresent,
     onFontTest,
-    // devpanel 看开场/结局 AVI 双版:WIN95 走 mp4(1/2=开场,3=新游戏,4/5/6=结局)。suspendRaf 包,播完恢复。
-    playVideo: (mp4) => {
+    // devpanel 看开场/结局 AVI 双版:WIN95 走 mp4(1/2=开场,3=新游戏,4/5/6=结局)。
+    //   传数组 → 顺序播(结局 WIN95 = 4→5→6,对应 PAL_EndingScreen AVI 序)。suspendRaf 包,播完恢复。
+    playVideo: (mp4s) => {
+      const list = Array.isArray(mp4s) ? mp4s : [mp4s]
       gs.suspendRaf = true
-      void playAvi({ src: `${BASE}/videos/${mp4}` }).catch((err) => {
-        console.warn(`[dev] playVideo ${mp4} failed:`, err)
+      void (async () => {
+        for (const m of list) await playAvi({ src: `${BASE}/videos/${m}` })
+      })().catch((err) => {
+        console.warn(`[dev] playVideo failed:`, err)
       }).finally(() => { gs.suspendRaf = false })
     },
     resources: {
@@ -750,6 +755,28 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }).finally(() => {
       gs.suspendRaf = false
       if (gs.eventCursor?.waiting === 'rng-play') gs.eventCursor.waiting = undefined
+    })
+  })
+
+  // 特效 B:FBP 全屏图 handler(opcode 0x76 ShowFBP)。chunk 已提取为 battleBgs(FBP.MKF 全 dump);
+  //   有图 → showFbp 真显(DOS 路径 + 可选 dither fade-in);无图(in-game 0xFFFF)→ 全黑(sdlpal 同)。
+  //   suspendRaf 期间 showFbp 自管 fb + flushToCanvas;完成 finally 清 suspendRaf + waiting 续跑。
+  setShowFbpHandler(({ gs, chunkIdx, fade }) => {
+    gs.suspendRaf = true
+    const bg = battleBgs.get(chunkIdx)
+    void showFbp({
+      fbpIndices: bg?.indices ?? new Uint8Array(320 * 200),
+      fade,
+      chunkNum: chunkIdx,
+      isWin95: buildFlag === 'win95',
+      fb,
+      canvasCtx: canvasCtx!,
+      palette: gs.palette ?? palette,
+    }).catch((err) => {
+      console.warn('[bootstrap.showFbpHandler] showFbp failed:', err)
+    }).finally(() => {
+      gs.suspendRaf = false
+      if (gs.eventCursor?.waiting === 'show-fbp') gs.eventCursor.waiting = undefined
     })
   })
 

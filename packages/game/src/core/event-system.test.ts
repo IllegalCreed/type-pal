@@ -18,6 +18,7 @@ import {
   OP_FADE_OUT, OP_FADE_IN, OP_SCENE_FADE, OP_PALETTE_FADE, OP_COLOR_FADE,
   OP_FADE_TO_RED, OP_FADE_TO_SCENE, tickSceneAutoFadeIn,
   OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, setRngPlayHandler, type RngPlayHandlerInput,
+  OP_SHOW_FBP, setShowFbpHandler, type ShowFbpHandlerInput,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -3076,3 +3077,32 @@ describe('特效 A 夜间调色板(resolveNightColors fade target)', () => {
 function makeWorkingPaletteFor(c: [number, number, number]): Palette {
   return { colors: Array.from({ length: 256 }, () => [...c] as [number, number, number]), cycles: [] }
 }
+
+describe('特效 B FBP opcode(0x76 ShowFBP)', () => {
+  it('0x76 → 调注入 handler(chunkIdx=op0, fade=op1)+ waiting=show-fbp + ip++', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    let captured: ShowFbpHandlerInput | undefined
+    setShowFbpHandler((input) => { captured = input })
+    try {
+      loadEvent(gs, [{ op: 'raw', opcode: OP_SHOW_FBP, operands: [75, 7, 0] }, { op: 'end' }])
+      tickEventSystem(gs, snap(), bus)
+      expect(captured).toBeDefined()
+      expect(captured!.chunkIdx).toBe(75)
+      expect(captured!.fade).toBe(7)
+      expect(gs.eventCursor?.waiting).toBe('show-fbp')
+    }
+    finally {
+      setShowFbpHandler(null)
+    }
+  })
+
+  it('0x76 无 handler 注入 → skip + ip++(不卡死)', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    setShowFbpHandler(null)
+    loadEvent(gs, [{ op: 'raw', opcode: OP_SHOW_FBP, operands: [65535, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor).toBeUndefined()
+  })
+})

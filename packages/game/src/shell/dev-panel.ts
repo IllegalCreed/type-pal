@@ -33,7 +33,7 @@ import {
   buildLabelMap,
   OP_FADE_OUT, OP_FADE_IN, OP_FADE_TO_RED, OP_PALETTE_FADE, OP_COLOR_FADE,
   OP_SCENE_FADE, OP_FADE_TO_SCENE, OP_FADE_SCREEN, OP_SET_DAY_PALETTE, OP_SET_NIGHT_PALETTE,
-  OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, OP_SHAKE_SCREEN,
+  OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, OP_SHAKE_SCREEN, OP_SHOW_FBP,
 } from '../core/event-system.js'
 import { Save } from '../core/save/api.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
@@ -104,9 +104,9 @@ export interface DevPanelDeps {
   onFontTest?: () => void
   /**
    * devpanel 看开场/结局 AVI 双版:播 `/extracted/videos/{mp4}`(WIN95 mp4)。
-   * bootstrap 传(suspendRaf + playAvi 包);不传则 Videos 区按钮 console-only。
+   * 传数组 → 顺序播(结局 = 4→5→6)。bootstrap 传(suspendRaf + playAvi 包);不传则 Videos 区按钮 console-only。
    */
-  playVideo?: (mp4: string) => void
+  playVideo?: (mp4: string | string[]) => void
   resources: {
     enemies: Enemy[]
     enemyTeams: EnemyTeam[]
@@ -544,6 +544,36 @@ function openPicker(deps: DevPanelDeps): void {
   rngRow.appendChild(rngBtn)
   div.appendChild(rngRow)
 
+  // FBP(0x76 ShowFBP):chunk + fade 输入。chunk = FBP.MKF 号(battle bg 0-77;结局 CG 74/75/76/77);
+  //   fade=op1(0=瞬时,>0 dither 渐变)。有图真显(DOS 路径),0xFFFF/无图 → 黑。
+  const fbpRow = document.createElement('div')
+  fbpRow.style.cssText = 'display:flex; gap:4px; margin:4px 0; align-items:center'
+  const fbpLabel = document.createElement('span')
+  fbpLabel.textContent = 'FBP chunk/fade:'
+  fbpRow.appendChild(fbpLabel)
+  const fbpChunkInput = document.createElement('input')
+  fbpChunkInput.type = 'number'
+  fbpChunkInput.value = '75'
+  fbpChunkInput.style.cssText = 'width:56px'
+  fbpRow.appendChild(fbpChunkInput)
+  const fbpFadeInput = document.createElement('input')
+  fbpFadeInput.type = 'number'
+  fbpFadeInput.value = '7'
+  fbpFadeInput.style.cssText = 'width:56px'
+  fbpRow.appendChild(fbpFadeInput)
+  const fbpBtn = document.createElement('button')
+  fbpBtn.textContent = 'Show FBP (0x76)'
+  fbpBtn.addEventListener('click', () => {
+    closePicker()
+    triggerEffectScript(deps, [{
+      op: 'raw',
+      opcode: OP_SHOW_FBP,
+      operands: [Number(fbpChunkInput.value) || 0, Number(fbpFadeInput.value) || 0, 0],
+    }])
+  })
+  fbpRow.appendChild(fbpBtn)
+  div.appendChild(fbpRow)
+
   // 🎬 Videos —— 开场 / 结局 AVI 双版(WIN95 mp4)。DOS 双版:开场用 ?build=dos 启动;结局 DOS 编排待 Phase 3。
   const vidH = document.createElement('h4')
   vidH.textContent = '🎬 Videos (开场/结局 mp4)'
@@ -567,6 +597,15 @@ function openPicker(deps: DevPanelDeps): void {
     })
     div.appendChild(btn)
   }
+  // 结局 WIN95 全片(PAL_EndingScreen 的 AVI 序:4→5→6 连播)。DOS 结局编排留 Phase 3。
+  const endingBtn = document.createElement('button')
+  endingBtn.textContent = '▶ 结局 WIN95 (4→5→6 连播)'
+  endingBtn.addEventListener('click', () => {
+    closePicker()
+    if (deps.playVideo) deps.playVideo(['4.mp4', '5.mp4', '6.mp4'])
+    else console.log('[dev] playVideo ending — 无 playVideo 注入')
+  })
+  div.appendChild(endingBtn)
 
   document.body.appendChild(div)
   currentPicker = div

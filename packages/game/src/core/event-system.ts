@@ -231,6 +231,7 @@ export const OP_SET_NIGHT_PALETTE = 0x0054      // 84 — fNightPalette = TRUE
 export const OP_SET_RNG = 0x0036                // 54 — iCurPlayingRNG = op0(script.c:1537,instant)
 export const OP_PLAY_RNG = 0x0037               // 55 — PAL_RNGPlay(script.c:1544,阻塞 modal,handler 注入)
 export const OP_WAVE_SCREEN = 0x0071            // 113 — wScreenWave/sWaveProgression(script.c:2132,present 层消费)
+export const OP_SHOW_FBP = 0x0076               // 118 — PAL_ShowFBP(全屏图,script.c:2199;WIN95 黑屏/DOS 真显)
 // case 0x008E(142): Restore the screen(sdlpal script.c:3428-3436)
 //   PAL_ClearDialog(TRUE) + VIDEO_RestoreScreen + VIDEO_UpdateScreen
 //   真值:restore backup buffer(含 title+portrait 像素)→ 视觉 title/portrait 持久,body 空。
@@ -682,6 +683,24 @@ export function setRngPlayHandler(fn: RngPlayHandler | null): void {
   _rngPlayHandler = fn
 }
 
+// ── 特效 B:FBP 全屏图 handler(opcode 0x0076 PAL_ShowFBP)──────────────────────
+// 同 RNG 模式:bootstrap 注入,内部 suspendRaf + showFbp(全屏 blit + 可选 dither fade-in)。
+// chunkIdx 无对应 FBP(如 in-game 0xFFFF)→ handler 渲染全黑(sdlpal WIN95 SDL_FillRect / DOS decompress fail memset 0)。
+export interface ShowFbpHandlerInput {
+  gs: GameState
+  /** FBP.MKF chunk(operand[0])。 */
+  chunkIdx: number
+  /** 渐变速度(operand[1];0=瞬时,>0 → (fade+1)*10ms/步 × 96 步 nibble dither)。 */
+  fade: number
+}
+export type ShowFbpHandler = (input: ShowFbpHandlerInput) => void
+
+let _showFbpHandler: ShowFbpHandler | null = null
+
+export function setShowFbpHandler(fn: ShowFbpHandler | null): void {
+  _showFbpHandler = fn
+}
+
 /** 跑事件脚本的运行模式(M3 T17)。 */
 export type RuntimeMode = 'explore' | 'battle'
 
@@ -1013,6 +1032,11 @@ export function tickEventSystem(
   // 特效 C:RNG 动画播放中(modal,bootstrap _rngPlayHandler 跑 playRng + suspendRaf)。
   //   handler 播完(promise finally)清 cursor.waiting → 下个 tick 落不到这里,从 ip(已 ++)续跑。
   if (cursor.waiting === 'rng-play') {
+    return
+  }
+
+  // 特效 B:FBP 全屏图显示中(modal,bootstrap _showFbpHandler 跑 showFbp + suspendRaf)。同 rng-play。
+  if (cursor.waiting === 'show-fbp') {
     return
   }
 
@@ -1412,6 +1436,23 @@ export function tickEventSystem(
             return
           }
           console.debug(`event-system: playRNG chunk=${gs.iCurPlayingRNG}(无 _rngPlayHandler 注入,skip)`)
+          cursor.ip++
+          break
+        }
+        // 特效 B:opcode 0x76 ShowFBP(sdlpal script.c:2199)。op0=FBP chunk,op1=fade 速度。
+        //   sdlpal WIN95 = SDL_FillRect 黑屏;DOS = PAL_ShowFBP(decompress + 可选 dither fade-in)。
+        //   我们 handler 统一:chunk 有图 → 真显(DOS 路径,devpanel/结局用);无图(in-game 0xFFFF)→ 黑。
+        //   modal:_showFbpHandler 开播 + waiting='show-fbp' + ip++ + return;完成清 waiting 续跑。
+        if (cmd.opcode === OP_SHOW_FBP) {
+          const chunk = cmd.operands[0] ?? 0
+          const fade = cmd.operands[1] ?? 0
+          if (_showFbpHandler) {
+            _showFbpHandler({ gs, chunkIdx: chunk, fade })
+            cursor.waiting = 'show-fbp'
+            cursor.ip++
+            return
+          }
+          console.debug(`event-system: showFBP chunk=${chunk} fade=${fade}(无 _showFbpHandler 注入,skip)`)
           cursor.ip++
           break
         }
