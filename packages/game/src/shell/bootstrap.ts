@@ -636,6 +636,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         console.warn(`[dev] playVideo failed:`, err)
       }).finally(() => { gs.suspendRaf = false })
     },
+    // 开场 DOS 版(trademark RNG chunk 6 + splash 卷轴):任何 build 下都能跑(资产已加载)。
+    playDosOpening: () => {
+      gs.suspendRaf = true
+      void playDosOpening().catch((err) => {
+        console.warn('[dev] playDosOpening failed:', err)
+      }).finally(() => { gs.suspendRaf = false })
+    },
     resources: {
       enemies, enemyTeams, battleFields,
       playerRoles, items, spells, magics,
@@ -944,6 +951,51 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
    *
    * suspendRaf 包 try/finally,modal 期间 canvas render 暂停。
    */
+  // DOS 开场 fallback(trademark RNG chunk 6 + splash 卷轴)抽成独立闭包 —— showTrademarkAndSplash 的
+  // dos 分支 + devpanel "开场 DOS" 按钮共用(资产 battleBgs/characterSprites/palette 在任何 build 都已加载,
+  // 故 win95 build 下 devpanel 也能跑 DOS 版)。不管 suspendRaf(caller 包)。
+  async function playDosOpening(): Promise<void> {
+    // sdlpal main.c:199-203 DOS Trademark fallback / main.c:223-456 DOS Splash fallback
+    // palette 3:trademark / palette 1:splash(sdlpal PAL_SetPalette / PAL_GetPalette 真值)
+    const palette3 = await fetchPalette(3).catch(() => palette)
+    await playTrademarkFallback({
+      fb,
+      canvasCtx: canvasCtx!,
+      palette: palette3,
+    })
+    const palette1 = await fetchPalette(1).catch(() => palette)
+    const fbpUp = assets.battleBgs.get(3)
+    const fbpDown = assets.battleBgs.get(4)
+    const craneSprite = characterSprites.get(73)
+    const titleSprite = characterSprites.get(71)
+    if (!fbpUp || !fbpDown || !craneSprite || !titleSprite || titleSprite.frames.length === 0) {
+      console.warn('[bootstrap] DOS splash 资产缺失,跳过 splash fallback')
+      return
+    }
+    await playSplashFallback({
+      fb,
+      canvasCtx: canvasCtx!,
+      palette: palette1,
+      // BattleBgAsset(无 opaque)→ wrap 成 IndexedImage(全 opaque)
+      bitmapUp: { ...fbpUp, opaque: new Uint8Array(fbpUp.width * fbpUp.height).fill(1) },
+      bitmapDown: { ...fbpDown, opaque: new Uint8Array(fbpDown.width * fbpDown.height).fill(1) },
+      craneSprite: {
+        frames: craneSprite.frames.map((f) => ({
+          width: f.width, height: f.height,
+          indices: f.indices, opaque: f.opaque,
+        })),
+        anchorX: craneSprite.anchorX,
+        anchorY: craneSprite.anchorY,
+      },
+      titleFrame: {
+        width: titleSprite.frames[0]!.width,
+        height: titleSprite.frames[0]!.height,
+        indices: titleSprite.frames[0]!.indices,
+        opaque: titleSprite.frames[0]!.opaque,
+      },
+    })
+  }
+
   async function showTrademarkAndSplash(): Promise<void> {
     gs.suspendRaf = true
     try {
@@ -953,46 +1005,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         await playAvi({ src: '/extracted/videos/2.mp4' })
       }
       else {
-        // sdlpal main.c:199-203 DOS Trademark fallback / main.c:223-456 DOS Splash fallback
-        // palette 3:trademark / palette 1:splash(sdlpal PAL_SetPalette / PAL_GetPalette 真值)
-        const palette3 = await fetchPalette(3).catch(() => palette)
-        await playTrademarkFallback({
-          fb,
-          canvasCtx: canvasCtx!,
-          palette: palette3,
-        })
-        const palette1 = await fetchPalette(1).catch(() => palette)
-        const fbpUp = assets.battleBgs.get(3)
-        const fbpDown = assets.battleBgs.get(4)
-        const craneSprite = characterSprites.get(73)
-        const titleSprite = characterSprites.get(71)
-        if (!fbpUp || !fbpDown || !craneSprite || !titleSprite || titleSprite.frames.length === 0) {
-          console.warn('[bootstrap] DOS splash 资产缺失,跳过 splash fallback')
-        }
-        else {
-          await playSplashFallback({
-            fb,
-            canvasCtx: canvasCtx!,
-            palette: palette1,
-            // BattleBgAsset(无 opaque)→ wrap 成 IndexedImage(全 opaque)
-            bitmapUp: { ...fbpUp, opaque: new Uint8Array(fbpUp.width * fbpUp.height).fill(1) },
-            bitmapDown: { ...fbpDown, opaque: new Uint8Array(fbpDown.width * fbpDown.height).fill(1) },
-            craneSprite: {
-              frames: craneSprite.frames.map((f) => ({
-                width: f.width, height: f.height,
-                indices: f.indices, opaque: f.opaque,
-              })),
-              anchorX: craneSprite.anchorX,
-              anchorY: craneSprite.anchorY,
-            },
-            titleFrame: {
-              width: titleSprite.frames[0]!.width,
-              height: titleSprite.frames[0]!.height,
-              indices: titleSprite.frames[0]!.indices,
-              opaque: titleSprite.frames[0]!.opaque,
-            },
-          })
-        }
+        await playDosOpening()
       }
     }
     finally {

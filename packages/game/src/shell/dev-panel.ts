@@ -107,6 +107,8 @@ export interface DevPanelDeps {
    * 传数组 → 顺序播(结局 = 4→5→6)。bootstrap 传(suspendRaf + playAvi 包);不传则 Videos 区按钮 console-only。
    */
   playVideo?: (mp4: string | string[]) => void
+  /** devpanel 看开场 DOS 双版:跑 trademark RNG + splash 卷轴 fallback。bootstrap 传(suspendRaf 包)。 */
+  playDosOpening?: () => void
   resources: {
     enemies: Enemy[]
     enemyTeams: EnemyTeam[]
@@ -591,9 +593,19 @@ function openPicker(deps: DevPanelDeps): void {
   vidH.textContent = '🎬 Videos (开场/结局 mp4)'
   vidH.className = 'tp-dev-section-h'
   div.appendChild(vidH)
+  // 开场 DOS 版(trademark RNG + splash 卷轴)— WIN95 mp4 之外的另一版。
+  const dosOpeningBtn = document.createElement('button')
+  dosOpeningBtn.textContent = '开场 DOS (trademark+splash)'
+  dosOpeningBtn.addEventListener('click', () => {
+    closePicker()
+    if (deps.playDosOpening) deps.playDosOpening()
+    else console.log('[dev] playDosOpening — 无注入')
+  })
+  div.appendChild(dosOpeningBtn)
+
   const videos: Array<{ label: string, mp4: string }> = [
-    { label: '开场 1 (1.mp4)', mp4: '1.mp4' },
-    { label: '开场 2 (2.mp4)', mp4: '2.mp4' },
+    { label: '开场 WIN95-1 (1.mp4)', mp4: '1.mp4' },
+    { label: '开场 WIN95-2 (2.mp4)', mp4: '2.mp4' },
     { label: '新游戏 (3.mp4)', mp4: '3.mp4' },
     { label: '结局 4 (4.mp4)', mp4: '4.mp4' },
     { label: '结局 5 (5.mp4)', mp4: '5.mp4' },
