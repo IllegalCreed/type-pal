@@ -190,8 +190,10 @@ export interface EventCursor {
    *                  写 gs.eventCursor 到新 scene 的 onEnterLabel ip,释放 waiting,下一帧 tick 接管)
    *  - 'delay':      opcode 0x0085 UTIL_Delay(op0*80ms)实时阻塞延迟(script.c:2511-2516);
    *                  time-based(delayUntilMs),期间 autoScript 暂停(sdlpal 不调 PAL_GameUpdate)
+   *  - 'shop':       opcode 0x0026 PAL_BuyMenu / 0x0027 PAL_SellMenu(script.c:1157-1172)— 脚本
+   *                  开商店菜单(mode='menu')后阻塞;菜单关闭(menu-mode resume)→ mode='event' 续跑。
    */
-  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay'
+  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop'
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
   /** 'delay' 用(opcode 0x85):延迟到此 wall-clock 时间戳(performance.now()),到点 ip++ + clear。 */

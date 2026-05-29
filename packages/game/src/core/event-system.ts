@@ -570,6 +570,23 @@ export function setStartBattleHandler(fn: StartBattleHandler | null): void {
   _startBattleHandler = fn
 }
 
+// ── 商店菜单 handler(opcode 0x0026 PAL_BuyMenu / 0x0027 PAL_SellMenu)──────────
+// event-system 是底层 interpreter,不能 import menu 层(menu-mode/shop-menu)否则成环。
+// 同 setStartBattleHandler 模式:bootstrap 注入 handler,内部 openMenu + createBuyMenu(catalogs)。
+export interface ShopMenuHandlerInput {
+  gs: GameState
+  mode: 'buy' | 'sell'
+  /** sdlpal 0x0026 operand[0] = store 下标(lprgStore[storeNum]);sell 忽略。 */
+  storeNum: number
+}
+export type ShopMenuHandler = (input: ShopMenuHandlerInput) => void
+
+let _shopMenuHandler: ShopMenuHandler | null = null
+
+export function setShopMenuHandler(fn: ShopMenuHandler | null): void {
+  _shopMenuHandler = fn
+}
+
 /** 跑事件脚本的运行模式(M3 T17)。 */
 export type RuntimeMode = 'explore' | 'battle'
 
@@ -870,6 +887,13 @@ export function tickEventSystem(
   //   完成后 gs.eventCursor 被替换为新 cursor(无 waiting),下一 tick 从新 ip 继续。
   if (cursor.waiting === 'scene-load') {
     return  // 等 callback 替换 gs.eventCursor
+  }
+
+  // 1a'''') waiting 处理:shop(opcode 0x26/0x27)— 脚本开商店菜单后阻塞。
+  //   正常路径 mode='menu' 时 tickEventSystem 根本不被调;菜单关闭由 menu-mode resume
+  //   清 waiting + 切 mode='event'。此处防御:若残留 mode='event'+waiting='shop' 不步进。
+  if (cursor.waiting === 'shop') {
+    return
   }
 
   // 1a''') waiting 处理:delay(opcode 0x0085 UTIL_Delay,script.c:2511-2516)
@@ -1248,6 +1272,24 @@ export function tickEventSystem(
             gs.sceneOnEnterIp[cursor.onEnterSceneId] = resumeIp
           }
           cursor.ip = resumeIp // 继续跑(本 tick 接下条 opcode)
+          break
+        }
+        // opcode 0x26 buy / 0x27 sell(sdlpal script.c:1157-1172)— 脚本开商店菜单后阻塞。
+        //   sdlpal PAL_MakeScene + VIDEO_UpdateScreen + PAL_BuyMenu/SellMenu(modal,玩家退出才返回),
+        //   返回后继续跑下条 opcode。我们 tick 模型:_shopMenuHandler 开 menu(mode='menu') +
+        //   cursor.waiting='shop' + ip++ + return;菜单关(menu-mode resume)→ mode='event' 续跑。
+        if (cmd.opcode === OP_BUY_MENU || cmd.opcode === OP_SELL_MENU) {
+          const isBuy = cmd.opcode === OP_BUY_MENU
+          if (_shopMenuHandler) {
+            _shopMenuHandler({ gs, mode: isBuy ? 'buy' : 'sell', storeNum: cmd.operands[0] ?? 0 })
+            cursor.waiting = 'shop'
+            cursor.ip++ // PAL_BuyMenu 返回后跑下条(菜单关闭时从此 ip 续)
+            return // 切 menu mode,停本 tick 脚本执行
+          }
+          console.debug(
+            `event-system: ${isBuy ? 'buy' : 'sell'} menu storeNum=${cmd.operands[0]}(无 _shopMenuHandler 注入,skip)`,
+          )
+          cursor.ip++
           break
         }
         // Sync.2 fix3: opcode 9 wait N frames — 设 waiting='frame-wait',ip 暂不动
@@ -2114,14 +2156,8 @@ function applyRawOpcode(
       break
     }
 
-    case OP_BUY_MENU:
-    case OP_SELL_MENU: {
-      // M5.M-w3.a 简版:console.debug stub。真做要 emit 'showShopMenu' command +
-      // 进 waiting='shop' phase 等 dev panel / UI 弹 BuyMenu / SellMenu confirm。
-      console.debug(`event-system: ${opcode === OP_BUY_MENU ? 'buy' : 'sell'} menu`
-        + ` operand=${operands.join(',')}(menu UI 真接入留 follow-up)`)
-      break
-    }
+    // OP_BUY_MENU(0x26)/ OP_SELL_MENU(0x27)在 tickEventSystem 主 while 的 'raw' case 内联处理
+    //   (需 return 切 menu mode,applyRawOpcode 无法控制主循环)— 2026-05-29 真接入商店菜单。
 
     case OP_SHAKE_SCREEN: {
       // sdlpal script.c:相关 真值:operand[0]=duration,operand[1]=intensity(默认 4)。

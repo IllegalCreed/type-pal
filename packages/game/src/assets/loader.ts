@@ -13,6 +13,7 @@ import type {
   SceneEventObject,
   SceneObjects,
   Spell,
+  Store,
   Tilemap,
 } from '@type-pal/shared'
 import type { BattleBgAsset } from '../present/battle/draw-battle-bg.js'
@@ -59,6 +60,8 @@ export interface LoadedAssets {
   items: Item[]
   spells: Spell[]
   magics: Magic[]
+  /** 2026-05-29:商店表(DATA.MKF chunk 0)— 买菜单 opcode 0x0026 按 operand[0] 取。 */
+  stores: Store[]
   /** M5.6 W0.d:SPRITEUI 71 frame(DATA.MKF chunk 9)— menu box 9-slice 用前 18 个(style 0/1)。 */
   uiSpriteFrames: IndexedImage[]
   /**
@@ -105,7 +108,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   const scene = await fetchJson<SceneObjects & { mapNum: number }>(`${BASE}/data/scene/${sceneId}.json`)
   const [
     tilemap, palette, events, playerRoles,
-    enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics, levelUpExp,
+    enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics, levelUpExp, stores,
   ] = await Promise.all([
     fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap/${scene.mapNum}.json`),
     fetchJson<Palette>(`${BASE}/data/palette/0.json`),
@@ -120,6 +123,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     fetchJson<Spell[]>(`${BASE}/data/spells.json`),
     fetchJson<Magic[]>(`${BASE}/data/magic.json`),
     fetchJson<number[]>(`${BASE}/data/level-up-exp.json`),
+    fetchJson<Store[]>(`${BASE}/data/stores.json`),
   ])
 
   // P1: tilesetFiles[] 内现在是 `world/tileset/map-{mapNum}/tile-{XXXX}.png` 格式,
@@ -320,6 +324,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     items,
     spells,
     magics,
+    stores,
     uiSpriteFrames,
     itemIcons,
     levelUpExp,

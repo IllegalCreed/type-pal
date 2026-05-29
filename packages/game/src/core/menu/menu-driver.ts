@@ -14,7 +14,7 @@
 import type { InputSnapshot } from '@type-pal/shared'
 import type { Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
-import { startOverworldItemScript } from '../event-system.js'
+import { addItemToInventory, startOverworldItemScript } from '../event-system.js'
 import { runEquipScript } from '../equip-effect.js'
 import { Save } from '../save/api.js'
 import type { ActiveMenuEntry, GameState } from '../game-state.js'
@@ -64,6 +64,10 @@ import {
   openingMenuChoice, openingMenuDown, openingMenuUp,
   type OpeningMenuState,
 } from './opening-menu.js'
+import {
+  buildSellList, shopCancel, shopConfirm, shopMoveDown, shopMoveUp, shopSelectItem,
+  type ShopMenuState,
+} from './shop-menu.js'
 
 // ── Catalogs singleton(bootstrap 注入) ──────────────────────────────────────
 
@@ -168,9 +172,71 @@ export function dispatchMenuInput(gs: GameState, input: InputSnapshot, bus: Comm
       break
     case 'shop-buy':
     case 'shop-sell':
-      // 商店 menu(M5 shop-menu.ts 数据层有)留 M6 — 暂只允许 Menu 关
-      if (input.pressed.has('Menu')) closeTopMenu(gs)
+      dispatchShopMenu(gs, top, input)
       break
+  }
+}
+
+// ── Shop menu(opcode 0x0026 PAL_BuyMenu / 0x0027 PAL_SellMenu)──────────────────
+//
+// sdlpal uigame.c:1615/1755 真值:while 循环 选 item → confirm → 买/卖 1 个 → loop;cancel → break。
+// confirm 默认 No(PAL_ConfirmMenu = PAL_SelectionMenu(2, 0, {No,Yes}))。买不起不弹 confirm。
+// 关菜单(list 阶段 Menu)→ closeTopMenu;menu-mode.resumeAfterMenusClosed 检 cursor.waiting='shop'
+// → 切 mode='event' 续跑脚本。
+function dispatchShopMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
+  const s = top.state as ShopMenuState
+  const cat = requireCatalogs()
+
+  if (s.phase === 'confirm') {
+    // sdlpal PAL_ConfirmMenu 左右两 box(否 / 是)— 方向键在两项间移(toggle)。
+    if (input.pressed.has('Up') || input.pressed.has('Left')) shopMoveUp(s)
+    else if (input.pressed.has('Down') || input.pressed.has('Right')) shopMoveDown(s)
+    if (input.pressed.has('Menu')) {
+      shopCancel(s) // confirm → 回 list
+      return
+    }
+    if (input.pressed.has('Confirm')) {
+      const r = shopConfirm(s)
+      if (r && r.yes) applyShopTransaction(gs, cat.items, r)
+      // 卖出后 inventory 变 → 刷新卖列表(sdlpal SellMenu while 每轮重跑 PAL_ItemSelectMenu)。
+      if (s.mode === 'sell') s.list = buildSellList(gs, cat.items)
+    }
+    return
+  }
+
+  // list 阶段
+  if (input.pressed.has('Up')) shopMoveUp(s)
+  if (input.pressed.has('Down')) shopMoveDown(s)
+  if (input.pressed.has('Menu')) {
+    if (shopCancel(s) === 'close') closeTopMenu(gs) // 关商店 → resume 脚本(menu-mode)
+    return
+  }
+  if (input.pressed.has('Confirm')) {
+    shopSelectItem(s, cat.items, gs.dwCash) // 买不起 / 空列表 → 留 list(无反应)
+  }
+}
+
+/** confirm-yes 真做 cash 扣 / inventory 改(sdlpal uigame.c:1690-1691 买 / 1785-1788 卖)。 */
+function applyShopTransaction(
+  gs: GameState,
+  items: Item[],
+  r: { itemId: number; mode: 'buy' | 'sell'; yes: boolean },
+): void {
+  const item = items.find((it) => it.id === r.itemId)
+  if (!item) return
+  if (r.mode === 'buy') {
+    // 再判 price<=cash(confirm 期间 cash 不会变,但对齐 sdlpal 真值显式判)。
+    if (item.price <= gs.dwCash) {
+      gs.dwCash -= item.price
+      addItemToInventory(gs, item.id, 1)
+    }
+  }
+  else {
+    const had = gs.inventory.find((e) => e.itemId === item.id)
+    if (had && had.count > 0) {
+      addItemToInventory(gs, item.id, -1)
+      gs.dwCash += Math.floor(item.price / 2)
+    }
   }
 }
 

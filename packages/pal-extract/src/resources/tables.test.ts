@@ -27,6 +27,7 @@ import {
   parseMagicTable,
   parsePlayerRoles,
   parseSpells,
+  parseStores,
 } from './tables.js'
 
 const SSS_MKF = resolve(__dirname, '../../../../data/raw/SSS.MKF')
@@ -49,6 +50,8 @@ const magicBuf = readChunk(dataMkf, 4)
 const teamBuf = readChunk(dataMkf, 2)
 // DATA.MKF chunk 5 = BATTLEFIELD 数组 (global.c line 297)
 const fieldBuf = readChunk(dataMkf, 5)
+// DATA.MKF chunk 0 = STORE 商店表 (global.c line 292)
+const storeBuf = readChunk(dataMkf, 0)
 
 describe('parseItems', () => {
   const items = parseItems(objBuf, words)
@@ -689,5 +692,53 @@ describe('parsePlayerRoles (M3 T8)', () => {
     fake.set(offsetTable, 0)
     fake.set(fakeChunk, tableSize)
     expect(() => parsePlayerRoles(fake)).toThrow(/sizeof\(PLAYERROLES\)|cursor/)
+  })
+})
+
+describe('parseStores (2026-05-29 商店买菜单)', () => {
+  const stores = parseStores(storeBuf)
+
+  it('从 DATA.MKF chunk 0 解出 N 条 STORE(每条 18B = WORD × 9)', () => {
+    expect(storeBuf.byteLength % 18).toBe(0)
+    expect(stores.length).toBe(storeBuf.byteLength / 18)
+    expect(stores.length).toBeGreaterThan(0)
+  })
+
+  it('id 从 0 顺序递增', () => {
+    expect(stores[0]!.id).toBe(0)
+    expect(stores[stores.length - 1]!.id).toBe(stores.length - 1)
+  })
+
+  it('items 全是绝对 OBJECT id(61..295,= items.json id 范围)', () => {
+    for (const s of stores) {
+      for (const obj of s.items) {
+        expect(obj).toBeGreaterThanOrEqual(61)
+        expect(obj).toBeLessThanOrEqual(295)
+      }
+    }
+  })
+
+  it('首个 0 截断列表(fake fixture:[100, 95, 0, 99, ...] → [100, 95])', () => {
+    const fake = new Uint8Array(18)
+    const view = new DataView(fake.buffer)
+    view.setUint16(0, 100, true)
+    view.setUint16(2, 95, true)
+    view.setUint16(4, 0, true) // 截断
+    view.setUint16(6, 99, true) // 0 之后的不读
+    const fakeStores = parseStores(fake)
+    expect(fakeStores).toHaveLength(1)
+    expect(fakeStores[0]!.items).toEqual([100, 95])
+  })
+
+  it('满 9 项无 0(fake fixture:9 个非 0 → 全保留)', () => {
+    const fake = new Uint8Array(18)
+    const view = new DataView(fake.buffer)
+    for (let j = 0; j < 9; j++) view.setUint16(j * 2, 61 + j, true)
+    const fakeStores = parseStores(fake)
+    expect(fakeStores[0]!.items).toEqual([61, 62, 63, 64, 65, 66, 67, 68, 69])
+  })
+
+  it('非 18 整除时 throw(与其他 parser 一致)', () => {
+    expect(() => parseStores(new Uint8Array(17))).toThrow(/STORE_RECORD_SIZE|整除/)
   })
 })

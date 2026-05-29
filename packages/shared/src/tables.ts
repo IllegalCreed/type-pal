@@ -351,6 +351,23 @@ export interface BattleField {
 }
 
 /**
+ * 商店(对照 sdlpal `global.h::tagSTORE` = `WORD rgwItems[MAX_STORE_ITEM=9]`,
+ * 由 `global.c:292 LOAD_DATA(... fpDATA 0)` 加载 = DATA.MKF chunk 0)。
+ *
+ * 买菜单 opcode 0x0026(script.c:1163 `PAL_BuyMenu(operand[0])`)按 operand[0]
+ * = store 下标取此条,列出 `items` 供购买。
+ */
+export interface Store {
+  /** 在 stores.json 数组里的下标 = sdlpal `lprgStore[wStoreNum]` 的 wStoreNum。 */
+  id: number
+  /**
+   * 出售物品的**绝对 OBJECT id**(= items.json `id`,61..295),首个 0 即截断。
+   * 对照 sdlpal `rgwItems[9]`(9 个 WORD,首个 0 表列表结束)。
+   */
+  items: number[]
+}
+
+/**
  * 单个角色的战斗 + 探索属性子集(对照 sdlpal `global.h::tagPLAYERROLES`)。
  *
  * **数据布局是 SoA(struct of arrays)**:每个字段是 `PLAYERS = WORD[MAX_PLAYER_ROLES]`,

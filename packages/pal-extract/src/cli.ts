@@ -66,6 +66,7 @@ import {
   parseMagicTable,
   parsePlayerRoles,
   parseSpells,
+  parseStores,
 } from './resources/tables.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -240,6 +241,7 @@ async function main(): Promise<void> {
   // chunk 4 = MAGIC 法术细节;chunk 5 = BATTLEFIELD 战场背景 + 元素 buff
   // (对照 sdlpal global.c::PAL_LoadDefaultGame 的 LOAD_DATA 调用)
   const dataMkf = openMkf(loadFile('DATA.MKF'))
+  const storeBuf = readChunk(dataMkf, 0)
   const enemyBuf = readChunk(dataMkf, 1)
   const teamBuf = readChunk(dataMkf, 2)
   const magicBuf = readChunk(dataMkf, 4)
@@ -268,6 +270,8 @@ async function main(): Promise<void> {
     parseEnemyTeams(teamBuf, enemyObjectNames, objectIndexToEnemyId),
   )
   writeJson(resolve(OUT, 'data', 'battle-fields.json'), parseBattleFields(fieldBuf))
+  // DATA.MKF chunk 0 = STORE 商店表(global.c:292)。买菜单 opcode 0x0026 按 operand[0] 取。
+  writeJson(resolve(OUT, 'data', 'stores.json'), parseStores(storeBuf))
   // M3.5:ENEMYPOS(DATA.MKF chunk 13)= 5×5 PALPOS table。game runtime
   // draw-battle-sprites.ts 按 state.enemies.length 选 layouts[count-1] 行,
   // 替代 M3 simple version 的 hardcoded ENEMY_POSITIONS。

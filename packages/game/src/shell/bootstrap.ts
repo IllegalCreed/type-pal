@@ -10,9 +10,11 @@ import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap, runEnterScript, setFetchPalette,
   setSceneLoader, setMapReloader, setObstacleChecker,
-  setSharedEvents, setGlobalEvents, setStartBattleHandler,
+  setSharedEvents, setGlobalEvents, setStartBattleHandler, setShopMenuHandler,
 } from '../core/event-system.js'
 import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
+import { openMenu } from '../core/menu/menu-mode.js'
+import { createBuyMenu, createSellMenu } from '../core/menu/shop-menu.js'
 import { Save } from '../core/save/api.js'
 import { createOpeningMenu } from '../core/menu/opening-menu.js'
 import { playAvi } from './avi-player.js'
@@ -91,6 +93,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   const {
     tilemap, palette, scene, events, playerRoles, tileImages, characterSprites,
     battleSprites, battleBgs, enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics,
+    stores,
   } = assets
 
   // M5.6 W0.b:注入大世界 menu catalogs(items / spells / playerRoles),
@@ -712,6 +715,23 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       w.__battleStartCount = (w.__battleStartCount ?? 0) + 1
       w.__lastBattleEnemyTeam = enemyTeamId
       w.__lastBattleFieldId = battleFieldId
+    }
+  })
+
+  // 商店买 / 卖菜单(opcode 0x0026 PAL_BuyMenu / 0x0027 PAL_SellMenu)。event-system 不能 import
+  // menu 层,故 bootstrap 注入 handler:开对应 menu(buy 用 store[storeNum] 解析出 Item[])。
+  // cursor.waiting='shop' 由 event-system 设;菜单关 → menu-mode resume 切 mode='event' 续跑脚本。
+  setShopMenuHandler(({ gs, mode, storeNum }) => {
+    if (mode === 'buy') {
+      const store = stores[storeNum]
+      const shopItems = (store?.items ?? [])
+        .map((objId) => items.find((it) => it.id === objId))
+        .filter((it): it is typeof items[number] => it != null)
+      console.debug(`[bootstrap.shopMenuHandler] buy storeNum=${storeNum} items=${shopItems.length}`)
+      openMenu(gs, { kind: 'shop-buy', state: createBuyMenu(shopItems) })
+    }
+    else {
+      openMenu(gs, { kind: 'shop-sell', state: createSellMenu(gs, items) })
     }
   })
 

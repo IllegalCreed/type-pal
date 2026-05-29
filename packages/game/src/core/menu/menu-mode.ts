@@ -16,15 +16,31 @@ import type { ActiveMenuEntry, GameState } from '../game-state.js'
 import { dispatchMenuInput } from './menu-driver.js'
 
 export function tickMenu(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
-  // 栈空(可能由前一帧 closeTopMenu 清空)→ 立即切回 explore
+  // 栈空(可能由前一帧 closeTopMenu 清空)→ 立即切回(脚本开的商店关闭 → resume 脚本)
   if (gs.menuStack.length === 0) {
-    gs.mode = 'explore'
+    resumeAfterMenusClosed(gs)
     return
   }
   // dispatch 输入到当前栈顶 menu;dispatcher 可能调 closeTopMenu / openMenu 改栈
   dispatchMenuInput(gs, input, bus)
   // dispatch 后再次 sync mode(若 dispatcher 关掉了所有菜单)
   if (gs.menuStack.length === 0) {
+    resumeAfterMenusClosed(gs)
+  }
+}
+
+/**
+ * 所有菜单关闭后切回哪个 mode:
+ *  - 商店菜单(opcode 0x26/0x27 开,cursor.waiting='shop')→ 续跑脚本(mode='event' + 清 waiting),
+ *    对齐 sdlpal PAL_BuyMenu 返回后脚本继续(script.c:1163)。
+ *  - 否则(玩家自己开的 in-game/inventory 等)→ 回 explore。
+ */
+function resumeAfterMenusClosed(gs: GameState): void {
+  if (gs.eventCursor?.waiting === 'shop') {
+    gs.eventCursor.waiting = undefined
+    gs.mode = 'event'
+  }
+  else {
     gs.mode = 'explore'
   }
 }

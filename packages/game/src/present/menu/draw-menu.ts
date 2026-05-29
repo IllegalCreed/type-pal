@@ -36,6 +36,8 @@ import { drawInventoryMenu } from './draw-inventory.js'
 import { drawInGameMagicMenu } from './draw-magic.js'
 import { drawOpeningMenu } from './draw-opening-menu.js'
 import { drawPlayerStatus } from './draw-player-status.js'
+import { drawShopMenu } from './draw-shop.js'
+import type { ShopMenuState } from '../../core/menu/shop-menu.js'
 
 // ── sdlpal ui.h / text.c 真值色 ──────────────────────────────────────────────
 const MENUITEM_COLOR = 0x4F            // ui.h:29
@@ -210,8 +212,16 @@ function drawMenuEntry(
       break
     case 'shop-buy':
     case 'shop-sell':
-      // C9 待真做 fullscreen UI;此处显式标 TODO 不再装"接通"
-      drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
+      // 2026-05-29:opcode 0x0026 PAL_BuyMenu / 0x0027 PAL_SellMenu 真接入(曾伯商店)。
+      drawShopMenu({
+        fb,
+        state: entry.state as ShopMenuState,
+        gs,
+        items: extra?.items ?? [],
+        uiSpriteFrames,
+        itemIcons: extra?.itemIcons,
+        glyphs,
+      })
       break
   }
 }
