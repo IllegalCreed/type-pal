@@ -921,7 +921,12 @@ export function tickEventSystem(
       if (input.pressed.has('Confirm')) {
         const result = confirmDialog(ds)
         if (result === 'skip-typing') {
-          // 跳到行末;仍在 typing 行,但已 line-done — 下面 line-done 分支自动推进
+          // sdlpal PAL_ShowDialogText fUserSkip 真值(text.c:1616):Space 跳字后整行**先显示+渲染**
+          // (VIDEO_UpdateScreen)才返回脚本继续。我们 tick 模型:本 tick 把整行设满后 **return**,
+          // 让 presentFrame 渲染满行一帧;**下一 tick** 才走 line-done 自动推进。
+          // 否则若下条 opcode 是 loadScene(渐变)/ fadeScreen 等渲染门,满行那帧没机会画 → 玩家只看到
+          // 上一帧(本行 0 字 / 上一行)就进渐变(2026-05-29 梦境快按 Space 只出 1 行的根因)。
+          return
         }
         else if (result === 'page-advance') {
           // 清屏完成。检查 pendingStyle / pendingFullClear / pendingPreOpClear:

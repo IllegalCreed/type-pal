@@ -61,10 +61,10 @@ describe('EventSystem', () => {
   })
 
   it('waiting=dialog + Confirm 释放 → ip++ + 继续到 end → mode=explore', () => {
-    // Sync.2 4 行/屏:
     //  tick 1: showDialog 入,startDialogLine,waiting=dialog
-    //  tick 2 (Confirm): tickDialog typing 中 → Confirm skip-typing → line-done → 自动 ip++ → end → 有行 → setWaitingEndKey
-    //  tick 3 (Confirm): waiting-end-key → Confirm dialog-end → 清 dialogBox + waiting=undef → end → mode=explore
+    //  tick 2 (Confirm): skip-typing → 整行设满 → **return**(满行渲染一帧,2026-05-29 fix B)
+    //  tick 3 (Confirm): line-done → 自动 ip++ → end → 有行 → setWaitingEndKey
+    //  tick 4 (Confirm): waiting-end-key → dialog-end → 清 dialogBox + waiting=undef → end → mode=explore
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
@@ -74,9 +74,28 @@ describe('EventSystem', () => {
     tickEventSystem(gs, snap(), bus)
     tickEventSystem(gs, snap(['Confirm']), bus)
     tickEventSystem(gs, snap(['Confirm']), bus)
+    tickEventSystem(gs, snap(['Confirm']), bus)
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.dialogBox).toBeUndefined()
+  })
+
+  it('快按 Space:skip-typing 当 tick 整行设满但 cursor **不**推进(留一帧渲染),下一 tick 才 line-done 推进', () => {
+    // 2026-05-29 梦境快按 Space 只出 1 行就渐变的根因修复:skip 后整行先渲染一帧,
+    // 否则下条 opcode(loadScene/fade 等渲染门)那帧把满行盖掉 → 玩家没看见。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'showDialog', messageIndex: 0, text: 'AB' }, // 2 字,typing 2 tick
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)            // tick1: typing(charsRevealed→1)
+    tickEventSystem(gs, snap(['Confirm']), bus) // tick2: Confirm → skip → 整行设满 + return
+    expect(gs.eventCursor?.ip).toBe(0)          // **没**推进(cursor 还在 showDialog,满行本帧渲染)
+    expect(gs.dialogBox?.charsRevealed).toBe(2) // 整行已满(可渲染)
+    expect(gs.dialogBox?.phase).toBe('line-done')
+    tickEventSystem(gs, snap(), bus)            // tick3: line-done 自动推进 → ip=1(end)
+    expect(gs.eventCursor?.ip).toBe(1)          // 已推进到 end
   })
 
   it('setDialogStyle 累积到 currentDialogStyle', () => {
@@ -1349,10 +1368,13 @@ describe('setDialogStyleX 真值 reset(每次 opcode 重设 portrait/fontColor,�
     tickEventSystem(gs, snap(), bus)
     expect(gs.dialogBox?.portraitIcon).toBe(55)
     expect(gs.currentDialogPortraitIcon).toBe(55)
-    // tick 2 Confirm: skip-typing + line-done → ip++ → opcode 5 ClearDialog → wait page key
+    // tick 2 Confirm: skip-typing → 整行设满 → return(满行渲染一帧,2026-05-29 fix B)
+    tickEventSystem(gs, snap(['Confirm']), bus)
+    expect(gs.dialogBox?.phase).toBe('line-done')
+    // tick 3 Confirm: line-done → ip++ → opcode 5 ClearDialog → wait page key
     tickEventSystem(gs, snap(['Confirm']), bus)
     expect(gs.dialogBox?.phase).toBe('waiting-page-key')
-    // tick 3 Confirm: page-advance (no pending) → keep dialogBox (empty) + ip++ → setDialogStyleBottom
+    // tick 4 Confirm: page-advance (no pending) → keep dialogBox (empty) + ip++ → setDialogStyleBottom
     //   → 无 prev dialog 行(shownLines=[]/currentLineText=null)→ 直接 apply + clear dialogBox + ip++
     //   → showDialog → startDialogLine with portraitIcon=undefined
     tickEventSystem(gs, snap(['Confirm']), bus)
