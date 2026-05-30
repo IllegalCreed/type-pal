@@ -10,6 +10,7 @@ import { applyScreenWave } from './screen-wave.js'
 import { drawDialogBox, type DialogBoxDrawCtx } from './dialog-box.js'
 import { drawMenuStack } from './menu/draw-menu.js'
 import { drawConfirmBox } from './menu/draw-confirm.js'
+import { computeFollowerRenderItems } from './follower-render.js'
 import type { BattleBgAsset } from './battle/draw-battle-bg.js'
 import type { GlyphTable } from './font.js'
 import { isWalkable } from '../core/scene-system.js'
@@ -319,6 +320,38 @@ export function presentFrame(
         6,                     // follower iLayer 同 party = 6
       )
     }
+  }
+
+  // --- 0x98 额外跟随者(sdlpal rgParty[maxIdx+i] @ rgTrail[2+i],scene.c:210-226 + 732-743/767-771)---
+  //   与队员同 z-sort 队列;位置直取 trail[3+k](无偏移/无障碍回退),恒 3 帧步,各用自己角色 sprite。
+  for (const it of computeFollowerRenderItems(
+    gs.trail, gs.followers, gs.walkingFrame.walking, gs.walkingFrame.stepFrame,
+  )) {
+    // sprite:角色 rgwSpriteNum[role] → npcSpriteFrames。
+    //   **不**回退 leader partyFrames —— 0x98 越界 role(本游戏 3 用全是 role 0/82/83,82/83 超出
+    //   MAX_PLAYER_ROLES=6 表,疑为剪除内容)取不到 sprite → 跳过不画,对齐 sdlpal PAL_GetPlayerSprite
+    //   越界返回 NULL → continue(res.c:403)。回退 leader 会画出李逍遥分身(假跟随者),更糟。
+    const spriteNum = ctx.playerRoles?.roles[it.roleId]?.spriteNum
+    const roleFrames = (spriteNum !== undefined && ctx.npcSpriteFrames)
+      ? ctx.npcSpriteFrames.get(spriteNum)
+      : undefined
+    if (!roleFrames || roleFrames.length === 0) continue
+    const frame = roleFrames[it.frameIdx] ?? roleFrames[0]
+    if (!frame) continue
+    const { sx, sy } = pixelToScreen({ x: it.worldX, y: it.worldY }, gs.camera)
+    const id = `follower-${it.followerIndex}`
+    const capFrame = frame
+    const capSX = sx
+    const capSY = sy
+    entries.push({
+      baseY: it.worldY + 10,
+      draw: (f) => drawSprite(f, capFrame, capSX, capSY),
+      id,
+    })
+    addCoverTileEntries(
+      entries, ctx.tilemap, ctx.tileImages, it.worldX, it.worldY + 10,
+      capFrame.width, capFrame.height, gs.camera, id, 6,
+    )
   }
 
   // --- NPCs ---
