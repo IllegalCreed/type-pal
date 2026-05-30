@@ -148,6 +148,29 @@ export interface ObjectMagicView {
 }
 
 /**
+ * rgObject 的 **poison-union 视图**(对照 sdlpal `OBJECT.poison`,global.h `tagOBJECT_POISON`)。
+ *
+ * `0x28 apply poison` 的 op1 = poison object id(551..562),需读该 object 的
+ * `wEnemyScript`(敌人每回合中毒时跑的脚本,扣血)。同 ObjectMagicView,把整个 OBJECT
+ * 数组按 poison 段解读 dump 出来,让运行时解析任意 poison id。
+ *
+ * 数据源:SSS.MKF chunk 2,逐 14 字节按 `tagOBJECT_POISON` 解读
+ * (wPoisonLevel@0 / wColor@2 / wPlayerScript@4 / wReserved@6 / wEnemyScript@8)。
+ */
+export interface ObjectPoisonView {
+  /** OBJECT 数组绝对 index(= poison object id)。 */
+  id: number
+  /** 毒等级(wPoisonLevel)。 */
+  level: number
+  /** 中毒头像染色(wColor)。 */
+  color: number
+  /** 玩家中毒每回合脚本(wPlayerScript)。 */
+  playerScript: number
+  /** 敌人中毒每回合脚本(wEnemyScript)—— 0x28 / 毒 tick 用。 */
+  enemyScript: number
+}
+
+/**
  * 法术详细 stats 中的 type 字段具名(对照 sdlpal `global.h::tagMAGIC_TYPE`)。
  *
  * sdlpal 真值:

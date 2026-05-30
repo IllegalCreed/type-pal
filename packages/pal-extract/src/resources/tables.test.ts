@@ -26,6 +26,7 @@ import {
   parseItems,
   parseMagicTable,
   parseObjectMagics,
+  parseObjectPoisons,
   parsePlayerRoles,
   parseSpells,
   parseStores,
@@ -256,6 +257,32 @@ describe('parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic)', (
     expect(parsed[24]!.magicNumber).toBe(0x37)
     expect(parsed[24]!.flags.applyToAll).toBe(true)
     expect(parsed[24]!.flags.usableInBattle).toBe(false)
+  })
+})
+
+describe('parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison)', () => {
+  const poisons = parseObjectPoisons(objBuf)
+
+  it('覆盖整个 OBJECT 数组(每条 14B)', () => {
+    expect(poisons.length).toBe(Math.floor(objBuf.byteLength / 14))
+    expect(poisons[551]!.id).toBe(551)
+  })
+
+  it('poison object 551(0x28 op1 真实引用)enemyScript 与原始字节一致', () => {
+    // tagOBJECT_POISON:wEnemyScript@8
+    const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
+    expect(poisons[551]!.enemyScript).toBe(view.getUint16(551 * 14 + 8, true))
+    expect(poisons[551]!.level).toBe(view.getUint16(551 * 14 + 0, true))
+  })
+
+  it('fake fixture:wEnemyScript@8 / wPoisonLevel@0 offset 对', () => {
+    const fake = new Uint8Array(600 * 14)
+    const view = new DataView(fake.buffer)
+    view.setUint16(555 * 14 + 0, 3, true) // level
+    view.setUint16(555 * 14 + 8, 12345, true) // enemyScript
+    const parsed = parseObjectPoisons(fake)
+    expect(parsed[555]!.level).toBe(3)
+    expect(parsed[555]!.enemyScript).toBe(12345)
   })
 })
 

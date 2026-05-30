@@ -8,7 +8,7 @@
  *
  * 两个文件分别 dump,运行时 `Spell.magicNumber` 索引 Magic[]。
  */
-import type { Magic, MagicType, ObjectMagicView, Spell, SpellFlags } from '@type-pal/shared'
+import type { Magic, MagicType, ObjectMagicView, ObjectPoisonView, Spell, SpellFlags } from '@type-pal/shared'
 import type { Words } from '../../io/word.js'
 import {
   OBJ_SIZE,
@@ -164,6 +164,40 @@ export function parseObjectMagics(objBuf: Uint8Array): ObjectMagicView[] {
       scriptOnSuccess: u16(view, base, SPELL_OFF.scriptOnSuccess),
       scriptOnUse: u16(view, base, SPELL_OFF.scriptOnUse),
       flags: parseSpellFlags(u16(view, base, SPELL_OFF.flags)),
+    })
+  }
+  return out
+}
+
+// ── OBJECT_POISON 字段偏移 (global.h tagOBJECT_POISON) ────────────────────
+// wPoisonLevel(0), wColor(2), wPlayerScript(4), wReserved(6), wEnemyScript(8)
+const POISON_OFF = {
+  level: 0,
+  color: 2,
+  playerScript: 4,
+  enemyScript: 8,
+} as const
+
+/**
+ * 把**整个** OBJECT 数组(SSS.MKF chunk 2)按 `tagOBJECT_POISON` 段解读,dump poison 视图。
+ *
+ * 用途:`0x28 apply poison` 的 op1 = poison object id(551..562),需该 object 的
+ * `wEnemyScript`(敌人中毒每回合脚本)。同 parseObjectMagics,逐 14 字节遍历所有 id。
+ *
+ * @param objBuf SSS.MKF chunk 2 原始字节
+ */
+export function parseObjectPoisons(objBuf: Uint8Array): ObjectPoisonView[] {
+  const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
+  const count = Math.floor(objBuf.byteLength / OBJ_SIZE)
+  const out: ObjectPoisonView[] = []
+  for (let id = 0; id < count; id++) {
+    const base = id * OBJ_SIZE
+    out.push({
+      id,
+      level: u16(view, base, POISON_OFF.level),
+      color: u16(view, base, POISON_OFF.color),
+      playerScript: u16(view, base, POISON_OFF.playerScript),
+      enemyScript: u16(view, base, POISON_OFF.enemyScript),
     })
   }
   return out

@@ -65,6 +65,7 @@ import {
   parseItems,
   parseMagicTable,
   parseObjectMagics,
+  parseObjectPoisons,
   parsePlayerRoles,
   parseSpells,
   parseStores,
@@ -256,6 +257,8 @@ async function main(): Promise<void> {
   // (rgObject[id].magic),投掷物 op0 可低至 24(item 段之下,不在 spells.json [296..397])。
   // dump 完整 OBJECT 数组的 magic-union 视图供运行时解析任意 op0(parseObjectMagics)。
   writeJson(resolve(OUT, 'data', 'object-magics.json'), parseObjectMagics(sssObjBuf))
+  // 0x28 apply poison:poison object 的 wEnemyScript(敌人中毒每回合脚本)。
+  writeJson(resolve(OUT, 'data', 'object-poisons.json'), parseObjectPoisons(sssObjBuf))
   writeJson(resolve(OUT, 'data', 'magic.json'), parseMagicTable(magicBuf))
   const enemies = parseEnemies(enemyBuf, sssObjBuf, words)
   writeJson(resolve(OUT, 'data', 'enemies.json'), enemies)
