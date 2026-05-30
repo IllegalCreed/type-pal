@@ -78,6 +78,15 @@ export const OP_CENTER_CAMERA_ON_PARTY = 0x007F // 127 (operand[0]=0, operand[1]
 // case 0x0043(67):  Set background music
 //   operand[0]=musicId → gs.wNumMusic (M6 接真播,先记字段)
 export const OP_PLAY_MUSIC = 0x0043             // 67
+// case 0x0045(69):  Set battle music(sdlpal script.c:1658)
+//   operand[0]=musicId → gs.wNumBattleMusic(进战斗时用,M6 接真播)
+export const OP_SET_BATTLE_MUSIC = 0x0045       // 69
+// case 0x0077(119): Stop current playing music(sdlpal script.c:2215)
+//   AUDIO_PlayMusic(0,FALSE,op0==0?2.0:op0*3) + gpGlobals->wNumMusic=0(fade 出后停)
+export const OP_STOP_MUSIC = 0x0077             // 119
+// case 0x00A3(163): Play CD music, RIX fallback(sdlpal script.c:3023)
+//   gpGlobals->wNumMusic=op1;CD 可用 → PlayCDTrack(op0,-1→-2)失败回 RIX;否则 PlayMusic(op1)
+export const OP_PLAY_CD_MUSIC = 0x00A3          // 163
 // case 0x0049(73):  Set state of current event object
 //   operand[0]=condition(non-zero → execute), operand[1]=newState
 export const OP_SET_SCENE_OBJECT_STATE = 0x0049 // 73
@@ -2652,6 +2661,32 @@ function applyRawOpcode(
       const musicId = operands[0] ?? 0
       gs.wNumMusic = musicId
       console.debug(`event-system: playMusic id=${musicId} (M6 接真播)`)
+      break
+    }
+
+    case OP_SET_BATTLE_MUSIC: {
+      // sdlpal script.c:1658:gpGlobals->wNumBattleMusic = operand[0]。进战斗时按此选 BGM。
+      //   纯 state-set(不立即播)→ 忠实写 gs.wNumBattleMusic;M6 接真播。
+      gs.wNumBattleMusic = operands[0] ?? 0
+      console.debug(`event-system: setBattleMusic id=${gs.wNumBattleMusic} (M6 接真播)`)
+      break
+    }
+
+    case OP_STOP_MUSIC: {
+      // sdlpal script.c:2215:AUDIO_PlayMusic(0,FALSE,op0==0?2.0:op0*3) + wNumMusic=0。
+      //   op0 = fade-out 秒(0 → 2.0s,否则 op0*3s)。ts:state-set wNumMusic=0;M6 接 fade 停。
+      const fadeSec = (operands[0] ?? 0) === 0 ? 2.0 : (operands[0] ?? 0) * 3
+      gs.wNumMusic = 0
+      console.debug(`event-system: stopMusic fade=${fadeSec}s (M6 接音频)`)
+      break
+    }
+
+    case OP_PLAY_CD_MUSIC: {
+      // sdlpal script.c:3023:gpGlobals->wNumMusic = op1;CD 可用 → PlayCDTrack(op0,-1→-2),失败回
+      //   RIX PlayMusic(op1);CD 不可用 → 直接 RIX PlayMusic(op1)。
+      //   ts 无 CD → 等价"回退 RIX":state-set wNumMusic=op1;M6 接 RIX 真播。op0(CD track)记 log。
+      gs.wNumMusic = operands[1] ?? 0
+      console.debug(`event-system: playCDMusic cdTrack=${toInt16(operands[0] ?? 0)} → RIX id=${gs.wNumMusic} (M6 接真播)`)
       break
     }
 

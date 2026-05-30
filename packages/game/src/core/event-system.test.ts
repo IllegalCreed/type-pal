@@ -26,6 +26,7 @@ import {
   OP_QUIT, setQuitHandler,
   OP_GOTO_IF_NO,
   OP_TRANSFORM_COLLECTED, OP_TELEPORT_OUT, setStoreTable,
+  OP_SET_BATTLE_MUSIC, OP_STOP_MUSIC, OP_PLAY_CD_MUSIC,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -3627,5 +3628,42 @@ describe('opcode 0x38 teleportOut(script.c:1554,归隐符/瞬移)', () => {
     expect(gs.fScriptSuccess).toBe(false)
     expect(gs.iCurPlayingRNG).toBe(0) // idx1 被跳过 → 确实跳转
     expect(gs.eventCursor).toBeUndefined() // 到 end
+  })
+})
+
+// ── Batch D audio:0x45 set-battle-music / 0x77 stop-music / 0xA3 play-cd ──────
+describe('audio opcodes(state-set,M6 接真播)', () => {
+  it('0x45 setBattleMusic → gs.wNumBattleMusic = op0(script.c:1658)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_BATTLE_MUSIC, operands: [7, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.wNumBattleMusic).toBe(7)
+  })
+
+  it('0x77 stopMusic → gs.wNumMusic = 0(script.c:2215)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.wNumMusic = 12
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_STOP_MUSIC, operands: [3, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.wNumMusic).toBe(0)
+  })
+
+  it('0xA3 playCDMusic → gs.wNumMusic = op1(RIX 回退,script.c:3023)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_PLAY_CD_MUSIC, operands: [2, 19, 0] }, // op0=CD track,op1=RIX id
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.wNumMusic).toBe(19)
   })
 })
