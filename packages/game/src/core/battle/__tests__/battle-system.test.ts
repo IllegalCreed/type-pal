@@ -401,6 +401,22 @@ describe('tickBattle finalize', () => {
     expect(gs.Exp.rgPrimaryExp[0]?.wExp).toBeGreaterThan(0)
   })
 
+  it('finalizeBattle 回写战斗 HP/MP → gs.PlayerRolesRuntime(边界同步:战果持久化)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 1, exp: 0, cash: 0 })], // 必秒 → won,队员无伤
+      roles: [makeRole({ id: 0, hp: 88, mp: 22, attackStrength: 999 })], // 进战斗 hp 88 / mp 22
+    })
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(0) // 测试 gs 初始 runtime 全 0(证明回写真发生)
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
+    let safety = 60
+    while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(gs.mode).toBe('explore')
+    // 战斗 HP/MP 战果回写 runtime(原 finalizeBattle 只回写 exp/cash → rgwHP 仍 0,打完复原的 bug)
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(88)
+    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(22)
+  })
+
   it('队员死光 → lost → finalize 切 explore + hp=1', () => {
     const role = makeRole({ id: 0, hp: 1, defense: 0, level: 1 })
     const { gs, bus, emptyInput } = bootstrap({

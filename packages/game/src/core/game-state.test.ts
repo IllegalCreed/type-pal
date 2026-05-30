@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { createInitialGameState, npcFromEventObject, sliceSceneEventObjects, type Facing, type GameState, type Mode } from './game-state.js'
+import { createInitialGameState, npcFromEventObject, projectRuntimeToBattleRoles, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
-import type { SceneEventObject } from '@type-pal/shared'
+import type { PlayerRole, SceneEventObject } from '@type-pal/shared'
 
 describe('GameState', () => {
   it('初始态:无 NPC、explore 模式、无对话框', () => {
@@ -241,5 +241,93 @@ describe('sliceSceneEventObjects(sdlpal lprgEventObject 切片)', () => {
   it('全局表缺失 → undefined(调用方兜底从 dump 建)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     expect(sliceSceneEventObjects(gs, 2)).toBeUndefined()
+  })
+})
+
+// ============================================================================
+// player-roles 数据模型边界:projectRuntimeToBattleRoles(runtime→战斗 object)+
+//   writeBackBattleRolesToRuntime(战斗→runtime)。战斗用 runtime 当前属性 + 战果持久化。
+// ============================================================================
+
+function staticRole(id: number, over: Partial<PlayerRole> = {}): PlayerRole {
+  return {
+    id, _name: `role${id}`, avatar: id, spriteNumInBattle: 10 + id, spriteNum: 0, name: id, attackAll: 0,
+    level: 1, maxHP: 100, maxMP: 30, hp: 100, mp: 30,
+    attackStrength: 5, magicStrength: 5, defense: 5, dexterity: 5, fleeRate: 5,
+    poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    walkFrames: 0, attackSound: 0, weaponSound: 0, criticalSound: 0, magicSound: 0, deathSound: 0,
+    // biome-ignore lint/suspicious/noExplicitAny: 测试只填 PlayerRole 核心字段
+    ...over,
+  } as any as PlayerRole
+}
+
+describe('player-roles 战斗数据模型边界', () => {
+  it('投影:战斗 roles 用 runtime 当前属性(升级后)+ 静态不可变字段(精灵/名字)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const rt = gs.PlayerRolesRuntime
+    // 模拟升级后 runtime:role0 level 50 / hp 123 / maxHP 500 / attack 99 / 风抗 60 / name 7
+    rt.rgwLevel[0] = 50; rt.rgwHP[0] = 123; rt.rgwMaxHP[0] = 500; rt.rgwMP[0] = 40; rt.rgwMaxMP[0] = 80
+    rt.rgwAttackStrength[0] = 99; rt.rgwMagicStrength[0] = 77; rt.rgwDefense[0] = 33
+    rt.rgwDexterity[0] = 44; rt.rgwFleeRate[0] = 22; rt.rgwPoisonResistance[0] = 10
+    rt.rgwElementalResistance[0]![0] = 60; rt.rgwName[0] = 7
+    const staticRoles = { roles: [staticRole(0, { _name: '李逍遥', spriteNumInBattle: 5, level: 1, hp: 100, attackStrength: 5 })] }
+    const r = projectRuntimeToBattleRoles(rt, staticRoles).roles[0]!
+    // runtime 当前属性(非静态 1 级基线)
+    expect(r.level).toBe(50)
+    expect(r.hp).toBe(123)
+    expect(r.maxHP).toBe(500)
+    expect(r.attackStrength).toBe(99)
+    expect(r.magicStrength).toBe(77)
+    expect(r.elemResistance.wind).toBe(60)
+    expect(r.poisonResistance).toBe(10)
+    expect(r.name).toBe(7)
+    // 静态不可变字段
+    expect(r._name).toBe('李逍遥')
+    expect(r.spriteNumInBattle).toBe(5)
+    expect(r.id).toBe(0)
+  })
+
+  it('回写:战斗 HP/MP 战果回写 runtime;仅 party 成员(非 party 不碰)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const rt = gs.PlayerRolesRuntime
+    rt.rgwHP[0] = 50; rt.rgwMP[0] = 10; rt.rgwHP[1] = 80; rt.rgwMP[1] = 20
+    // 战后:role0 残血 30 / 扣 mp 至 5;role1 满血 200;role2(非 party)不该被碰
+    const battleRoles = {
+      roles: [staticRole(0, { hp: 30, mp: 5 }), staticRole(1, { hp: 200, mp: 0 }), staticRole(2, { hp: 999, mp: 999 })],
+    }
+    writeBackBattleRolesToRuntime(battleRoles, rt, [0, 1])
+    expect(rt.rgwHP[0]).toBe(30)
+    expect(rt.rgwMP[0]).toBe(5)
+    expect(rt.rgwHP[1]).toBe(200)
+    expect(rt.rgwMP[1]).toBe(0)
+    expect(rt.rgwHP[2]).toBe(0) // 非 party,未回写(初始 0)
+  })
+
+  it('往返:残血进战斗 → 治满 → 出战斗 → runtime 反映"加满"(原打完复原的 bug 修了)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const rt = gs.PlayerRolesRuntime
+    rt.rgwHP[0] = 50; rt.rgwMaxHP[0] = 200; rt.rgwMP[0] = 10; rt.rgwMaxMP[0] = 50
+    const staticRoles = { roles: [staticRole(0)] }
+    // 进战斗:投影 → 带 runtime 残血 50
+    const battle = projectRuntimeToBattleRoles(rt, staticRoles)
+    expect(battle.roles[0]!.hp).toBe(50)
+    expect(battle.roles[0]!.maxHP).toBe(200)
+    // 战斗里治满(模拟治疗 opcode 写 res.playerRoles)
+    battle.roles[0]!.hp = battle.roles[0]!.maxHP // 200
+    battle.roles[0]!.mp = battle.roles[0]!.maxMP // 50
+    // 出战斗:回写
+    writeBackBattleRolesToRuntime(battle, rt, [0])
+    expect(rt.rgwHP[0]).toBe(200) // 大世界反映满血战果
+    expect(rt.rgwMP[0]).toBe(50)
+  })
+
+  it('往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const rt = gs.PlayerRolesRuntime
+    rt.rgwHP[0] = 200; rt.rgwMaxHP[0] = 200
+    const battle = projectRuntimeToBattleRoles(rt, { roles: [staticRole(0)] })
+    battle.roles[0]!.hp = 45 // 战斗受伤残血
+    writeBackBattleRolesToRuntime(battle, rt, [0])
+    expect(rt.rgwHP[0]).toBe(45) // 伤害持久化(原 finalizeBattle 不回写 → 复原 200)
   })
 })

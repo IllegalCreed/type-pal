@@ -46,6 +46,7 @@ import type {
 import type { CommandBus } from '../command-bus.js'
 import { getGlobalCommands, type RunScriptOptions, runScript } from '../event-system.js'
 import type { GameState } from '../game-state.js'
+import { writeBackBattleRolesToRuntime } from '../game-state.js'
 import { createSeedableRng } from '../rng.js'
 import { performAttack } from './actions/attack.js'
 import { performDefend } from './actions/defend.js'
@@ -1466,6 +1467,11 @@ function finalizeBattle(
     }
     // 'fleed' / 其它:无 hp 改动,无奖励
   }
+
+  // 架构边界:把战斗 roles 的 HP/MP 战果回写 runtime —— projectRuntimeToBattleRoles 的逆向收尾,
+  //   使战斗伤害/治疗持久化进大世界 + 存档对齐(原只回写 exp/cash → 打完血量复原的根因)。
+  //   forced 退出也回写(保留当时战果)。'lost' 上面已把 res.playerRoles hp=1,回写持久化"全灭→1血"。
+  writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
 
   gs.mode = 'explore'
   gs.battleState = undefined

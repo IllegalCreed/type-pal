@@ -1079,6 +1079,80 @@ export function hydratePlayerRolesRuntime(
   }
 }
 
+/**
+ * 投影 PlayerRolesRuntime(运行时 SoA array)→ 战斗用 PlayerRoles(object)—— hydratePlayerRolesRuntime 的逆。
+ *
+ * **架构边界**:战斗原直接用 `assets.playerRoles` 静态 1 级基线,**升级/大世界 stat 改动战斗里全不生效**
+ * (battle 用 base / explore+menu 用 runtime,两者新游戏后即分叉)。本投影在 startBattle 入口用 runtime
+ * **当前**属性(等级/HP/MP/攻防/速度/逃跑/抗性/名字)+ staticRoles 的不可变字段(精灵/音效/avatar/
+ * walkFrames/attackAll/装备槽 等)建战斗 roles,使战斗吃上升级后属性。
+ *
+ * 装备 Extra 层加成(rgEquipmentEffect)暂不并入 —— battle 本就忽略装备 effect(同 attack.ts 残,D14)。
+ *
+ * @param runtime gs.PlayerRolesRuntime —— 可变属性源
+ * @param staticRoles assets.playerRoles —— 不可变字段源 + 角色全集(id 顺序)
+ */
+export function projectRuntimeToBattleRoles(
+  runtime: PlayerRolesRuntime,
+  staticRoles: import('@type-pal/shared').PlayerRoles,
+): import('@type-pal/shared').PlayerRoles {
+  const roles = staticRoles.roles.map((base) => {
+    const i = base.id
+    return {
+      ...base, // 不可变:_name/avatar/spriteNumInBattle/spriteNum/attackAll/walkFrames/sounds/equipment 等
+      name: runtime.rgwName[i] ?? base.name,
+      level: runtime.rgwLevel[i] ?? base.level,
+      maxHP: runtime.rgwMaxHP[i] ?? base.maxHP,
+      maxMP: runtime.rgwMaxMP[i] ?? base.maxMP,
+      hp: runtime.rgwHP[i] ?? base.hp,
+      mp: runtime.rgwMP[i] ?? base.mp,
+      attackStrength: runtime.rgwAttackStrength[i] ?? base.attackStrength,
+      magicStrength: runtime.rgwMagicStrength[i] ?? base.magicStrength,
+      defense: runtime.rgwDefense[i] ?? base.defense,
+      dexterity: runtime.rgwDexterity[i] ?? base.dexterity,
+      fleeRate: runtime.rgwFleeRate[i] ?? base.fleeRate,
+      poisonResistance: runtime.rgwPoisonResistance[i] ?? base.poisonResistance,
+      coveredBy: runtime.rgwCoveredBy[i] ?? base.coveredBy,
+      // 装备 6 槽 / 法术 32 槽:runtime[slot][i] → role 数组(完整 hydrate 逆;battle magic 菜单接真值后可用)
+      equipment: runtime.rgwEquipment.map((slot) => slot[i] ?? 0),
+      magic: runtime.rgwMagic.map((slot) => slot[i] ?? 0),
+      // 元素抗 5 维(0 风/1 雷/2 水/3 火/4 土,同 hydrate)
+      elemResistance: {
+        wind: runtime.rgwElementalResistance[0]?.[i] ?? base.elemResistance.wind,
+        thunder: runtime.rgwElementalResistance[1]?.[i] ?? base.elemResistance.thunder,
+        water: runtime.rgwElementalResistance[2]?.[i] ?? base.elemResistance.water,
+        fire: runtime.rgwElementalResistance[3]?.[i] ?? base.elemResistance.fire,
+        earth: runtime.rgwElementalResistance[4]?.[i] ?? base.elemResistance.earth,
+      },
+    }
+  })
+  return { roles }
+}
+
+/**
+ * 战斗结束把战斗 roles 的可变战果回写 PlayerRolesRuntime —— 投影的逆向收尾,使战斗伤害/治疗**持久化**
+ * 进大世界 + 存档对齐(原 finalizeBattle 只回写 exp/cash,hp/mp 战果丢失,打完血量复原)。
+ *
+ * 战斗只改 HP/MP(伤害/治疗)→ 回写这两项;等级/属性升级(D11)由升级 loop 在回写后直接写 runtime;
+ * 临时增益(0x30 Extra slot)不回写(sdlpal 战末清 Extra)。仅回写在场 party 成员。
+ *
+ * @param battleRoles res.playerRoles —— 战斗结束态(hp/mp 已被伤害/治疗改)
+ * @param runtime gs.PlayerRolesRuntime —— 回写目标
+ * @param partyMembers 在场 party 的 roleId 列表(只回写这些)
+ */
+export function writeBackBattleRolesToRuntime(
+  battleRoles: import('@type-pal/shared').PlayerRoles,
+  runtime: PlayerRolesRuntime,
+  partyMembers: number[],
+): void {
+  for (const roleId of partyMembers) {
+    const role = battleRoles.roles[roleId]
+    if (!role) continue
+    runtime.rgwHP[roleId] = role.hp
+    runtime.rgwMP[roleId] = role.mp
+  }
+}
+
 /** 创建全零 PlayerRolesRuntime(MAX_PLAYER_ROLES=6 角色)。 */
 function createInitialPlayerRolesRuntime(): PlayerRolesRuntime {
   const n = 6 // MAX_PLAYER_ROLES
