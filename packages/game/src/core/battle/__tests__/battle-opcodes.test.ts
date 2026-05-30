@@ -201,3 +201,72 @@ describe('0x42 SimulateMagic (E2)', () => {
     expect(enemies[0]!.e.health).toBe(200)
   })
 })
+
+// ============================================================================
+// 0x66 throw weapon(E2)—— script.c:2007-2014:
+//   w = op1*5 + AttackStrength[movingPlayer] * RandomLong(0,3);
+//   PAL_BattleSimulateMagic((SHORT)eventObjectID, op0, w)
+// ============================================================================
+
+function throwWeaponCtx(
+  enemies: BattleEnemy[],
+  targetIdx: number,
+  attackStrength: number,
+  rangeInclusiveVal: number,
+  objectMagics: ObjectMagicView[],
+  magics: Magic[],
+): BattleCtx {
+  return {
+    state: {
+      enemies,
+      players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      // next()=0 → rngFactor 1.0;rangeInclusive 固定 = RandomLong(0,3) 项
+      rng: { next: () => 0, range: () => 0, rangeInclusive: () => rangeInclusiveVal, getState: () => 0 },
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+    } as any as BattleState,
+    caster: { type: 'player', idx: 0 },
+    target: { type: 'enemy', idx: targetIdx },
+    magicTables: { magics, objectMagics },
+    // biome-ignore lint/suspicious/noExplicitAny: 只填 attackStrength
+    playerRoles: { roles: [{ id: 0, attackStrength } as any] },
+  }
+}
+
+describe('0x66 throw weapon (E2)', () => {
+  it('w = op1*5 + attackStr*RandomLong(0,3) → 目标落血(obj344→magic53 base198 elem0)', () => {
+    // op1=10, attackStr=30, RandomLong→2 → w = 50 + 60 = 110
+    // def=30+(5+6)*4=74;calcBase(110,74)=trunc(220-118.4+0.5)=102;/4=25;+198=223
+    const enemies = [richEnemy({ health: 300, defense: 30, level: 5 })]
+    const ctx = throwWeaponCtx(enemies, 0, 30, 2, [objMagic(344, 53)], [magicStat(53, 198, 0)])
+    const r = dispatchBattleOpcode(0x66, [344, 10, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(enemies[0]!.e.health).toBe(77) // 300 - 223
+  })
+
+  it('attackStr 项随 RandomLong 变(RandomLong→0 → w=op1*5,伤害更低)', () => {
+    // op1=10, attackStr=30, RandomLong→0 → w = 50
+    // calcBase(50,74)=trunc(50-44.4+0.5)=6;/4=1;+198=199
+    const enemies = [richEnemy({ health: 300, defense: 30, level: 5 })]
+    const ctx = throwWeaponCtx(enemies, 0, 30, 0, [objMagic(344, 53)], [magicStat(53, 198, 0)])
+    dispatchBattleOpcode(0x66, [344, 10, 0], ctx)
+    expect(enemies[0]!.e.health).toBe(101) // 300 - 199
+  })
+
+  it('target = eventObjectID(ctx.target):2 敌只打被掷的那个', () => {
+    const enemies = [richEnemy({ health: 300, defense: 30, level: 5 }), richEnemy({ health: 300, defense: 30, level: 5 })]
+    const ctx = throwWeaponCtx(enemies, 1, 30, 2, [objMagic(344, 53)], [magicStat(53, 198, 0)])
+    dispatchBattleOpcode(0x66, [344, 10, 0], ctx)
+    expect(enemies[0]!.e.health).toBe(300) // 未碰
+    expect(enemies[1]!.e.health).toBe(77) // 223
+  })
+
+  it('无 playerRoles 注入 → attackStr=0 → w=op1*5(防御)', () => {
+    const enemies = [richEnemy({ health: 300, defense: 30, level: 5 })]
+    const ctx = throwWeaponCtx(enemies, 0, 30, 2, [objMagic(344, 53)], [magicStat(53, 198, 0)])
+    ctx.playerRoles = undefined
+    dispatchBattleOpcode(0x66, [344, 10, 0], ctx)
+    // w = 50 → 同上 199
+    expect(enemies[0]!.e.health).toBe(101)
+  })
+})

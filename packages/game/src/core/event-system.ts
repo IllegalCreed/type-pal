@@ -24,7 +24,7 @@
  *    等真撞到 raw + console.debug 看到 opcode 号再补。
  */
 
-import type { Command, InputSnapshot, Magic, ObjectMagicView, Palette } from '@type-pal/shared'
+import type { Command, InputSnapshot, Magic, ObjectMagicView, Palette, PlayerRoles } from '@type-pal/shared'
 import { FPS_EXPLORE } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
@@ -812,6 +812,11 @@ export interface BattleCtx {
    * 不注入时 0x42 走 no-op(consumed,防御)。
    */
   magicTables?: { magics: Magic[], objectMagics: ObjectMagicView[] }
+  /**
+   * 0x66 throw weapon 算 w 需 `PAL_GetPlayerAttackStrength(movingPlayer=caster)` ——
+   * 由 performThrowItem 注入(caster 是投掷队员)。不注入 → attackStrength 当 0。
+   */
+  playerRoles?: PlayerRoles
 }
 
 /** runScript 入口选项(M3 T17;T20/T21 caller 填)。 */

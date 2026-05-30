@@ -5,7 +5,7 @@
 > **三表**:[feature-status](feature-status.md)(引擎功能)· opcode-status(事件 / opcode,本表)· [resource-status](resource-status.md)(资源提取)
 > **图例**:✅ done · ⚠️ partial(extraction 已收集目标,runtime 待)· ⬜ todo · N/A
 > **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra)· E=战斗 · S=系统/UI
-> **最后更新**:2026-05-30 — **E 类法术伤害结算 keystone**:E1 inline 攻击法术伤害接进 performMagic(5 元素咒真伤害)+ 0x42 SimulateMagic + 投掷物全链 + 补提取 rgObject(object-magics.json)。剩余 D 类音频(需 M6)+ E 类其余战斗 opcode(0x60/0x66/0x68/0x91/0x9E 等)。
+> **最后更新**:2026-05-30 — **E 类法术伤害结算 keystone + 0x66**:E1 inline 攻击法术伤害接进 performMagic(5 元素咒真伤害)+ 0x42 SimulateMagic + **0x66 throw weapon**(与 0x42 共用 simulateMagic)+ 投掷物全链(符/卵/武器)+ 补提取 rgObject(object-magics.json)。剩余 D 类音频(需 M6)+ E 类其余战斗 opcode(0x60/0x68/0x91/0x9E 等)。
 >
 > sdlpal 真值出处:`reference/sdlpal/script.c`(PAL_InterpretInstruction 587-3115 / PAL_RunTriggerScript 3140+ / PAL_RunAutoScript 3482+)。全集:控制流 0x00-0x0A + 数据/动作 0x0B-0xA6(不存在:0x32 / 0x48 / 0x72 / 0x9D)。
 
@@ -115,8 +115,10 @@ setDialogStyle 0x3B-0x3E。
 > - **共享核心** `applyMagicDamage`(battle/magic-damage.ts):inline 与 0x42 同源,只差 magStr 来源
 >   + minDamage(1 vs 0)。def=(SHORT)defense+(level+6)*4 clamp≥0 → calcMagicDamage(mult=1)→
 >   `max(dmg,minDamage)` → health-=。
-> - **0x42 SimulateMagic ✅**(见下表)+ **投掷物全链**:`performThrowItem`(scriptOnThrow + 扣 1)
->   + throw-item action 派发 + 战斗物品菜单 throwable→throw-item 路由。43 个投掷符/镖/卵/蛊可用。
+> - **0x42 SimulateMagic ✅** + **0x66 throw weapon ✅**(共用 `simulateMagic` 核心,= sdlpal
+>   PAL_BattleSimulateMagic 一个函数;0x66 多 `w=op1*5+attackStrength*RandomLong(0,3)` 一步)
+>   + **投掷物全链**:`performThrowItem`(scriptOnThrow + 扣 1)+ throw-item action 派发 +
+>   战斗物品菜单 throwable→throw-item 路由。符/镖/卵/蛊(0x42)+ 武器(0x66 长鞭/木剑/仙女剑…)全可用。
 > - **补提取 rgObject**:`object-magics.json`(parseObjectMagics dump 完整 OBJECT 数组 magic-union 视图)
 >   —— 0x42 op0 可低至 24(item 段之下,不在 spells.json [296..397]);全 15 个 op0 站点可解析。
 >   object24→magic96 baseDamage=64537=SHORT−999(sentinel)→ 0x42 算 0 伤害(投掷物动画,真伤害靠
@@ -144,7 +146,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x5F | kill player | |
 | 0x60 | KO enemy | |
 | 0x64 | jump if enemy HP > % | ⚠️ extraction 已收集目标,runtime 待 |
-| 0x66 | throw weapon to enemy | |
+| 0x66 | throw weapon to enemy | ✅ script.c:2007-2014:`w=op1*5+PAL_GetPlayerAttackStrength(movingPlayer)*RandomLong(0,3)` → 调**同一** PAL_BattleSimulateMagic(target=eventObjectID,magStr=w)。与 0x42 共用 `simulateMagic`(magic-damage.ts)。32 个可投掷武器(长鞭/木剑/铁剑/仙女剑…)scriptOnThrow 用;op0∈{344,360}。attackStrength 经 BattleCtx.playerRoles 注入(performThrowItem),装备加成略 |
 | 0x67 | enemy use magic | |
 | 0x68 | jump if enemy turn | |
 | 0x69 | enemy escape | |

@@ -82,6 +82,7 @@ describe('performThrowItem (E2)', () => {
       items: [makeItem({ id: 66, scriptOnThrow: 1 })],
       magics: [magicStat(54, 140, 0)],
       objectMagics: [objMagic(349, 54)],
+      playerRoles: { roles: [] },
       bus: createCommandBus(), commands, runScript,
     })
 
@@ -98,6 +99,7 @@ describe('performThrowItem (E2)', () => {
       itemId: 5, targetIdx: 0,
       items: [makeItem({ id: 5, scriptOnThrow: 0 })],
       magics: [], objectMagics: [],
+      playerRoles: { roles: [] },
       bus: createCommandBus(), commands: [{ op: 'end' }], runScript,
     })
     expect(state.enemies[0]!.e.health).toBe(200)
@@ -116,6 +118,7 @@ describe('performThrowItem (E2)', () => {
       itemId: 66, targetIdx: 0,
       items: [makeItem({ id: 66, scriptOnThrow: 1 })],
       magics: [magicStat(54, 140, 0)], objectMagics: [objMagic(349, 54)],
+      playerRoles: { roles: [] },
       bus: createCommandBus(), commands, runScript,
     })
     expect(state.enemies[0]!.e.health).toBe(200) // 没扔成 → 无伤害

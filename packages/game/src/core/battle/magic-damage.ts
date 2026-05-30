@@ -23,7 +23,7 @@
  *     `max(dmg, 0)` 等价 SimulateMagic 的 `if(sDamage<0) sDamage=0`。
  */
 
-import type { ObjectMagicView } from '@type-pal/shared'
+import type { Magic, ObjectMagicView } from '@type-pal/shared'
 import { calcMagicDamage } from './formulas.js'
 import type { BattleState } from './battle-state.js'
 
@@ -99,6 +99,76 @@ export function applyMagicDamage(input: ApplyMagicDamageInput): MagicDamageResul
     results.push({ enemyIdx: idx, damage: dmg })
   }
   return results
+}
+
+export interface SimulateMagicInput {
+  state: BattleState
+  /** magic object id(0x42/0x66 op0)。 */
+  magicObjId: number
+  /**
+   * wMagicStrength —— 0x42=op1(投掷符/卵 常 0);0x66=计算的 w。
+   * **同时**是 sdlpal guard `if (magic.wBaseDamage>0 || wBaseDamage>0)` 里的 wBaseDamage。
+   */
+  magStr: number
+  /**
+   * 显式目标 enemy 索引;undefined → 自动选首活敌
+   * (对齐 sdlpal `sTarget==-1 → PAL_BattleSelectAutoTargetFrom`)。
+   */
+  targetIdx: number | undefined
+  objectMagics: ObjectMagicView[]
+  magics: Magic[]
+  /** rngFactor ∈ [1.0, 1.1)(caller 从 state.rng 算)。 */
+  rngFactor: number
+}
+
+/**
+ * `PAL_BattleSimulateMagic`(fight.c:5300)的 ts 端口 —— **0x42 SimulateMagic 与
+ * 0x66 throw weapon 共用核心**(sdlpal 两个 opcode 都调这一个函数,职责不拆分叉)。
+ *
+ * 流程:解析 op0 magic object → magic → guard(无符号 `magic.baseDamage>0 || magStr>0`)
+ * → 目标(applyToAll flag 优先→全体;否则 targetIdx,undefined→首活敌)→
+ * applyMagicDamage(minDamage=0,SimulateMagic `if(sDamage<0)=0`)。
+ *
+ * caller 各自准备参数:
+ *   - 0x42:magStr=op1,targetIdx=op2-1(<0 用 eventObjectID)
+ *   - 0x66:magStr=w=op1*5+attackStrength*RandomLong(0,3),targetIdx=eventObjectID
+ *
+ * @returns 被命中敌人结算结果;magic 解析失败 / guard 不过 → [](no-op,防御)。
+ */
+export function simulateMagic(input: SimulateMagicInput): MagicDamageResult[] {
+  const objMagic = resolveObjectMagic(input.magicObjId, input.objectMagics)
+  if (!objMagic)
+    return []
+  const magic = input.magics.find(m => m.id === objMagic.magicNumber)
+  if (!magic)
+    return []
+  // sdlpal `if (lprgMagic[..].wBaseDamage > 0 || wBaseDamage > 0)` —— 无符号 WORD 比较
+  if (!(magic.baseDamage > 0 || input.magStr > 0))
+    return []
+
+  let target: number | 'all'
+  if (objMagic.flags.applyToAll) {
+    target = 'all'
+  }
+  else {
+    let i = input.targetIdx ?? -1
+    if (i < 0) {
+      // PAL_BattleSelectAutoTargetFrom:首个活敌
+      i = input.state.enemies.findIndex(e => e.e.health > 0)
+      if (i < 0)
+        i = 0
+    }
+    target = i
+  }
+
+  return applyMagicDamage({
+    state: input.state,
+    target,
+    magStr: input.magStr,
+    magicData: { baseDamage: magic.baseDamage, elemental: magic.elemental },
+    rngFactor: input.rngFactor,
+    minDamage: 0, // SimulateMagic:if (sDamage < 0) sDamage = 0(允许 0)
+  })
 }
 
 /**

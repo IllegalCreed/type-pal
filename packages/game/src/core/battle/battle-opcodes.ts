@@ -16,7 +16,7 @@
  */
 
 import type { BattleCtx } from '../event-system.js'
-import { applyMagicDamage, resolveObjectMagic } from './magic-damage.js'
+import { simulateMagic } from './magic-damage.js'
 
 /** SHORT cast(同 formulas.ts 私函)。 */
 function asShort(n: number): number {
@@ -25,6 +25,9 @@ function asShort(n: number): number {
 
 /** sdlpal `script.c:1630-1640` 0x0042:simulate magic(PAL_BattleSimulateMagic,fight.c:5300)。 */
 const OP_SIMULATE_MAGIC = 0x0042
+
+/** sdlpal `script.c:2007-2014` 0x0066:throw weapon —— 计算 w 后调同一 PAL_BattleSimulateMagic。 */
+const OP_THROW_WEAPON = 0x0066
 
 /** sdlpal `script.c:1983-1993` 0x0064:if enemy.hp * 100 > maxHp * operand[0] → jump operand[1] */
 const OP_JUMP_IF_ENEMY_HP_ABOVE = 0x0064
@@ -61,56 +64,57 @@ export function dispatchBattleOpcode(
   switch (opcode) {
     case OP_SIMULATE_MAGIC: {
       // sdlpal `script.c:1630-1640` + PAL_BattleSimulateMagic(`fight.c:5300-5400`):
-      //   op0 = magic object id;op1 = baseDamage 操作数(投掷物=0,0x66 throw weapon=计算值);
+      //   op0 = magic object id;op1 = baseDamage 操作数(投掷符/卵=0)= 当 magStr;
       //   op2 = target+1(`i = (SHORT)op2 - 1; if (i<0) i = wEventObjectID`)。
-      // 主要由投掷物 scriptOnThrow 用(43 个投掷符/镖/卵/蛊)。
-      const objId = operands[0] ?? 0
-      const opBaseDamage = operands[1] ?? 0
-      const op2 = operands[2] ?? 0
-
+      // 主要由投掷物 scriptOnThrow 用(符/镖/卵/蛊)。
       const tables = ctx.magicTables
       if (!tables)
         return { consumed: true } // 未注入 magic 表 → no-op(防御,避免静默错算)
 
-      const objMagic = resolveObjectMagic(objId, tables.objectMagics)
-      if (!objMagic)
-        return { consumed: true }
-      const magic = tables.magics.find(m => m.id === objMagic.magicNumber)
-      if (!magic)
-        return { consumed: true }
+      const op2 = operands[2] ?? 0
+      const i = asShort(op2) - 1
+      // i>=0 → 显式目标 op2-1;否则 eventObjectID(simulateMagic 内再 <0 → 自动选敌)
+      const targetIdx = i >= 0 ? i : ctx.target?.idx
 
-      // guard:sdlpal `if (lprgMagic[..].wBaseDamage > 0 || wBaseDamage > 0)` —— 无符号 WORD 比较
-      // (与 inline 法术的 `(SHORT)baseDamage > 0` guard 不同;magic96=64537>0 进分支但算出 ~0)
-      if (!(magic.baseDamage > 0 || opBaseDamage > 0))
-        return { consumed: true }
-
-      // target:sdlpal SimulateMagic 先判 applyToAll flag(→ 全体),否则
-      // i = op2-1;<0 用 eventObjectID(= ctx.target);仍 <0 → SelectAutoTargetFrom 首个活敌。
-      let target: number | 'all'
-      if (objMagic.flags.applyToAll) {
-        target = 'all'
-      }
-      else {
-        let i = asShort(op2) - 1
-        if (i < 0)
-          i = ctx.target?.idx ?? -1
-        if (i < 0) {
-          i = state.enemies.findIndex(e => e.e.health > 0)
-          if (i < 0)
-            i = 0
-        }
-        target = i
-      }
-
-      // sdlpal RandomFloat(10,11)/10 → rngFactor ∈ [1.0, 1.1)
-      const rngFactor = 1 + state.rng.next() * 0.1
-      applyMagicDamage({
+      simulateMagic({
         state,
-        target,
-        magStr: opBaseDamage, // sdlpal:CalcMagicDamage(wBaseDamage, ...) —— op1 当 wMagicStrength
-        magicData: { baseDamage: magic.baseDamage, elemental: magic.elemental },
-        rngFactor,
-        minDamage: 0, // SimulateMagic:if (sDamage < 0) sDamage = 0(允许 0)
+        magicObjId: operands[0] ?? 0,
+        magStr: operands[1] ?? 0,
+        targetIdx,
+        objectMagics: tables.objectMagics,
+        magics: tables.magics,
+        rngFactor: 1 + state.rng.next() * 0.1, // sdlpal RandomFloat(10,11)/10
+      })
+      return { consumed: true }
+    }
+
+    case OP_THROW_WEAPON: {
+      // sdlpal `script.c:2007-2014`:
+      //   w = op1*5 + PAL_GetPlayerAttackStrength(movingPlayer) * RandomLong(0,3);
+      //   PAL_BattleSimulateMagic((SHORT)wEventObjectID, op0, w)。
+      // 32 个可投掷武器(长鞭/木剑/铁剑/仙女剑/越女剑…)的 scriptOnThrow 用。
+      const tables = ctx.magicTables
+      if (!tables)
+        return { consumed: true }
+
+      // attackStrength = PAL_GetPlayerAttackStrength(movingPlayer = caster);装备加成略(同 attack.ts)
+      let attackStr = 0
+      if (ctx.caster?.type === 'player' && ctx.playerRoles) {
+        const roleId = state.players[ctx.caster.idx]?.roleId
+        const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
+        if (role)
+          attackStr = asShort(role.attackStrength)
+      }
+      const w = (operands[1] ?? 0) * 5 + attackStr * state.rng.rangeInclusive(0, 3)
+
+      simulateMagic({
+        state,
+        magicObjId: operands[0] ?? 0,
+        magStr: w,
+        targetIdx: ctx.target?.idx, // sdlpal:sTarget = (SHORT)wEventObjectID
+        objectMagics: tables.objectMagics,
+        magics: tables.magics,
+        rngFactor: 1 + state.rng.next() * 0.1,
       })
       return { consumed: true }
     }

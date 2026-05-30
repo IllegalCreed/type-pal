@@ -908,4 +908,38 @@ describe('throw-item action 派发(E2)', () => {
     expect(gs.inventory[0]!.count).toBe(1) // 消耗 1
     void consoleWarn
   })
+
+  it('投掷武器(0x66)→ w=op1*5+attackStr*RandomLong → 敌人落血(playerRoles 全链注入)', () => {
+    const weapon: Item = {
+      id: 163, _name: '长鞭', bitmap: 0, price: 0, scriptOnUse: 0, scriptOnEquip: 0, scriptOnThrow: 1, scriptDesc: 0,
+      flags: { usable: false, equipable: true, throwable: true, consuming: true, applyToAll: false, sellable: true, equipableBy: [false, false, false, false, false, false] },
+    }
+    // ip1 = 0x66 [344,10,0](obj344→magic53 base198 elem0)
+    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x66, operands: [344, 10, 0] }, { op: 'end' }]
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 300, defense: 30, level: 5 })],
+      roles: [makeRole({ id: 0, hp: 300, level: 5, attackStrength: 30 })],
+      items: [weapon],
+      // biome-ignore lint/suspicious/noExplicitAny: 只填伤害字段
+      magics: [{ id: 53, baseDamage: 198, elemental: 0, type: 'normal' } as any as Magic],
+      objectMagics: [{ id: 344, magicNumber: 53, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }],
+      commands,
+      inventory: [{ itemId: 163, count: 1 }],
+    })
+
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    // 固定 rng:rangeInclusive→2(RandomLong 项)、next→0(rngFactor 1.0)
+    gs.battleState!.rng = { next: () => 0, range: () => 0, rangeInclusive: () => 2, getState: () => 0 }
+    gs.battleState!.pendingActions.set(0, { type: 'throw-item', actionId: 163, target: 0 })
+    tickBattle(gs, emptyInput, bus) // selectAction → performAction
+
+    let safety = 20
+    while (gs.battleState?.phase === 'performAction' && safety-- > 0)
+      tickBattle(gs, emptyInput, bus)
+
+    // w = 10*5 + 30*2 = 110;calcBase(110,74)=102;/4=25;+198=223 → 300-223=77
+    expect(gs.battleState?.enemies[0]!.e.health).toBe(77)
+    expect(gs.inventory[0]!.count).toBe(0) // 武器投掉
+    void consoleWarn
+  })
 })

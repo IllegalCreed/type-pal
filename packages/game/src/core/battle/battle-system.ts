@@ -801,6 +801,7 @@ function performBattleAction(
         items: res.items,
         magics: res.magics,
         objectMagics: res.objectMagics,
+        playerRoles: res.playerRoles, // 0x66 throw weapon 需 caster attackStrength
         bus,
         commands: res.commands,
         runScript: getRunScript(gs),
