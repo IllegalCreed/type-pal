@@ -123,6 +123,7 @@ interface BootstrapOpts {
   /** E2 投掷物测试用:注入 items / magics / objectMagics / commands / inventory。 */
   items?: Item[]
   magics?: Magic[]
+  spells?: Spell[]
   objectMagics?: ObjectMagicView[]
   objectPoisons?: ObjectPoisonView[]
   commands?: Command[]
@@ -151,7 +152,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
   }
   const battleFields = [field]
   const items: Item[] = opts.items ?? []
-  const spells: Spell[] = []
+  const spells: Spell[] = opts.spells ?? []
   const magics: Magic[] = opts.magics ?? []
   const objectMagics: ObjectMagicView[] = opts.objectMagics ?? []
   const objectPoisons: ObjectPoisonView[] = opts.objectPoisons ?? []
@@ -502,6 +503,15 @@ describe('tickSelectAction mainMenu input(M3.5 T13)', () => {
     expect(gs.battleState?.phase).toBe('selectAction')
   })
 
+  it('Confirm 攻击 + attackAll 群攻武器(role.attackAll≠0)→ 跳过 targetSelect,直接落 target=-1', () => {
+    const { gs, bus, emptyInput } = bootstrap({ roles: [makeRole({ id: 0, attackAll: 1 })] })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction(cursor=0 攻击)
+    tickBattle(gs, snap(['Confirm']), bus)
+    // 不进 targetSelect,直接落全体攻击 action
+    expect(gs.battleState?.pendingActions.get(0)).toEqual({ type: 'attack', target: -1 })
+    expect(gs.battleState?.uiState).not.toBe('targetSelect')
+  })
+
   it('Confirm 防御(cursor=3)→ pendingActions[0]={type:"defend"} + advance(单队员 → performAction)', () => {
     const { gs, bus, emptyInput } = bootstrap()
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
@@ -588,6 +598,23 @@ describe('tickSelectAction magicMenu / itemMenu / targetSelect(M3.5 T14)', () =>
     expect(gs.battleState?.uiCursor).toBe(0)
     expect(gs.battleState?.pendingActionDraft).toEqual({ type: 'magic', actionId: 20 })
     expect(gs.battleState?.pendingActions.has(0)).toBe(false)
+  })
+
+  it('magicMenu Confirm 全体法术(magic.type=attackAll,flags.applyToAll=false)→ 跳过 targetSelect,落 target=-1', () => {
+    const ctx = bootstrap({
+      spells: [{ id: 296, magicNumber: 5, scriptOnSuccess: 0, scriptOnUse: 0, scriptDesc: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }],
+      // biome-ignore lint/suspicious/noExplicitAny: 只填 type(AoE 判定按 type)
+      magics: [{ id: 5, type: 'attackAll' } as any as Magic],
+    })
+    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // → selectAction
+    const role = ctx.resources.playerRoles.roles[0] as PlayerRole & { learnedSpells: number[] }
+    role.learnedSpells = [296]
+    ctx.gs.battleState!.uiCursor = 1 // 法术
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // mainMenu → magicMenu
+    expect(ctx.gs.battleState?.uiState).toBe('magicMenu')
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // magicMenu Confirm 选 attackAll 法术
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toEqual({ type: 'magic', actionId: 296, target: -1 })
+    expect(ctx.gs.battleState?.uiState).not.toBe('targetSelect')
   })
 
   it('magicMenu Cancel → 回 mainMenu + cursor=0 + 清 draft', () => {

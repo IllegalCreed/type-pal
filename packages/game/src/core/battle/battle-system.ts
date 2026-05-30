@@ -52,6 +52,7 @@ import { performFlee } from './actions/flee.js'
 import { tickStatusEffects } from './status.js'
 import { performItem } from './actions/item.js'
 import { performMagic } from './actions/magic.js'
+import { magicForcesAllTarget } from './magic-damage.js'
 import { performThrowItem } from './actions/throw-item.js'
 import type { BattleAction, BattleState } from './battle-state.js'
 import { createBattleState } from './battle-state.js'
@@ -338,10 +339,10 @@ function tickSelectAction(
   // UI input dispatch(按 uiState 路由);Cancel 在 mainMenu 顶层无意义,不处理。
   switch (state.uiState) {
     case 'mainMenu':
-      handleMainMenuInput(state, input, alivePlayerIdxs)
+      handleMainMenuInput(state, input, alivePlayerIdxs, res.playerRoles)
       break
     case 'magicMenu':
-      handleMagicMenuInput(state, input, res.playerRoles)
+      handleMagicMenuInput(state, input, res.playerRoles, res.spells, res.magics, alivePlayerIdxs)
       break
     case 'itemMenu':
       handleItemMenuInput(state, input, gs, res.items)
@@ -411,6 +412,7 @@ function handleMainMenuInput(
   state: BattleState,
   input: InputSnapshot,
   alivePlayerIdxs: number[],
+  playerRoles: PlayerRoles,
 ): void {
   const playerIdx = state.selectingPlayerIdx
   if (playerIdx === undefined)
@@ -428,11 +430,21 @@ function handleMainMenuInput(
     return
 
   switch (state.uiCursor) {
-    case 0: // 攻击 → targetSelect
-      state.pendingActionDraft = { type: 'attack' }
-      state.uiState = 'targetSelect'
-      state.uiCursor = 0
+    case 0: { // 攻击 → targetSelect(attackAll 群攻武器则跳过选目标,直接全体)
+      const player = state.players[playerIdx]
+      const role = player ? playerRoles.roles[player.roleId] : undefined
+      if (role && (role.attackAll ?? 0) !== 0) {
+        // sdlpal:rgwAttackAll != 0 → sTarget=-1 全体攻击,UI 不选目标
+        state.pendingActions.set(playerIdx, { type: 'attack', target: -1 })
+        advanceSelectingPlayer(state, alivePlayerIdxs)
+      }
+      else {
+        state.pendingActionDraft = { type: 'attack' }
+        state.uiState = 'targetSelect'
+        state.uiCursor = 0
+      }
       break
+    }
     case 1: // 法术 → magicMenu(T14)
       state.pendingActionDraft = { type: 'magic' }
       state.uiState = 'magicMenu'
@@ -494,6 +506,9 @@ function handleMagicMenuInput(
   state: BattleState,
   input: InputSnapshot,
   playerRoles: PlayerRoles,
+  spells: Spell[],
+  magics: Magic[],
+  alivePlayerIdxs: number[],
 ): void {
   if (input.pressed.has('Cancel')) {
     cancelToMainMenu(state)
@@ -528,6 +543,15 @@ function handleMagicMenuInput(
     const spellId = learned[state.uiCursor]
     if (spellId === undefined)
       return
+    // 全体法术(magic.type AttackAll/Whole/Field/ApplyToParty/Summon)跳过选目标,直接 -1 全体。
+    // 对齐 sdlpal FIGHT_DetectMagicTargetChange(按 type,非 flags.applyToAll)。
+    const spell = spells.find(s => s.id === spellId)
+    const magic = spell ? magics.find(m => m.id === spell.magicNumber) : undefined
+    if (magic && magicForcesAllTarget(magic.type)) {
+      state.pendingActions.set(playerIdx, { type: 'magic', actionId: spellId, target: -1 })
+      advanceSelectingPlayer(state, alivePlayerIdxs)
+      return
+    }
     state.pendingActionDraft = { type: 'magic', actionId: spellId }
     state.uiState = 'targetSelect'
     state.uiCursor = 0

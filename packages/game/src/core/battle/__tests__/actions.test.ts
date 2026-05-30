@@ -181,6 +181,35 @@ describe('performAttack', () => {
     expect((cmds[1]!.cmd as { value: number }).value).toBeGreaterThan(0)
   })
 
+  it('群攻(target=-1,attackAll 武器):player 攻击全体活敌', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 }, // str=296;每敌 def=54 → damage 505
+      enemies: [
+        { level: 5, defense: 10, physicalResistance: 1, health: 600 },
+        { level: 5, defense: 10, physicalResistance: 1, health: 600 },
+      ],
+    })
+    performAttack(state, playerActor, -1, bus, playerRoles)
+    expect(state.enemies[0]!.e.health).toBe(94) // 600-506
+    expect(state.enemies[1]!.e.health).toBe(94) // 全体都被打
+    const ops = bus.drain().map(c => c.cmd.op)
+    expect(ops.filter(o => o === 'showDamageNum')).toHaveLength(2) // 2 敌 2 个伤害数字
+    expect(ops).toContain('playPlayerAttack')
+  })
+
+  it('群攻跳过已死敌人', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 },
+      enemies: [
+        { level: 5, defense: 10, physicalResistance: 1, health: 0 }, // 已死
+        { level: 5, defense: 10, physicalResistance: 1, health: 600 },
+      ],
+    })
+    performAttack(state, playerActor, -1, bus, playerRoles)
+    expect(state.enemies[0]!.e.health).toBe(0) // 死敌不动
+    expect(state.enemies[1]!.e.health).toBe(94)
+  })
+
   it('player 低 attackStrength 攻击高 defense enemy:damage 取 1', () => {
     const { state, playerRoles, bus } = makeState({
       role: { level: 1, attackStrength: 0 }, // str = 0 + 7*6 = 42

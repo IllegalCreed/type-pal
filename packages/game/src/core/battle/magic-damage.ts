@@ -32,6 +32,21 @@ function asShort(n: number): number {
   return (n << 16) >> 16
 }
 
+/**
+ * magic.type 强制全体目标的集合 —— 对照 sdlpal `fight.c FIGHT_DetectMagicTargetChange`
+ * 的 "force sTarget=-1" 分支:AttackAll / AttackWhole / AttackField / ApplyToParty / Summon。
+ * (Normal / ApplyToPlayer / Trance 是单体。)**判定按 magic.type,不是 flags.applyToAll**
+ * —— 二者会不一致(如 血魔神功 attackWhole 但 applyToAll=False)。
+ */
+const ALL_TARGET_MAGIC_TYPES: ReadonlySet<Magic['type']> = new Set([
+  'attackAll', 'attackWhole', 'attackField', 'applyToParty', 'summon',
+])
+
+/** 该 magic.type 是否强制全体目标(战斗菜单跳过选目标 + 伤害打全体)。 */
+export function magicForcesAllTarget(type: Magic['type']): boolean {
+  return ALL_TARGET_MAGIC_TYPES.has(type)
+}
+
 export interface ApplyMagicDamageInput {
   /** 战斗状态;`state.enemies[].e.health` 会被改,`state.field.magicEffect` 供战场 buff。 */
   state: BattleState

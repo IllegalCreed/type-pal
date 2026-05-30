@@ -20,7 +20,7 @@ import type { CommandBus } from '../../command-bus.js'
 import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
 import type { BattleState } from '../battle-state.js'
-import { applyMagicDamage } from '../magic-damage.js'
+import { applyMagicDamage, magicForcesAllTarget } from '../magic-damage.js'
 
 /** 注入的 runScript 函数(T17 free function `runScript`,测试可 mock)。 */
 export type RunScriptFn = (opts: RunScriptOptions) => void
@@ -171,7 +171,9 @@ export function performMagic(input: PerformMagicInput): void {
   // 注:`str = PAL_GetPlayerMagicStrength` 含装备 magicStrength 加成;ts 战斗暂不建模
   //     rgEquipmentEffect(同 attack.ts 省略装备),用 role.magicStrength。
   if (!input.casterIsEnemy && !DEFENSIVE_MAGIC_TYPES.has(magic.type) && asShort(magic.baseDamage) > 0) {
-    const target: number | 'all' = spell.flags.applyToAll ? 'all' : input.targetIdx
+    // AoE 判定按 magic.type(对齐 sdlpal FIGHT_DetectMagicTargetChange),不是 flags.applyToAll
+    // —— 修 血魔神功(attackWhole 但 applyToAll=False)以前只打单体的 bug。
+    const target: number | 'all' = magicForcesAllTarget(magic.type) ? 'all' : input.targetIdx
     const role = input.playerRoles.roles[input.state.players[input.casterIdx]?.roleId ?? -1]
     const magStr = role ? asShort(role.magicStrength) : 0
     // sdlpal RandomFloat(10,11)/10 → rngFactor ∈ [1.0, 1.1)

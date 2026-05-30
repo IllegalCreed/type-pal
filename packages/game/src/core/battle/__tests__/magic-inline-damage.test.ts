@@ -190,12 +190,32 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
     performMagic({
       state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
       targetIsEnemy: true, targetIdx: 0,
-      spells: [makeSpell({ flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true } })],
-      magics: [makeMagic({ baseDamage: 45, elemental: 1 })],
+      // AoE 判定按 magic.type(sdlpal FIGHT_DetectMagicTargetChange),非 flags.applyToAll
+      spells: [makeSpell()],
+      magics: [makeMagic({ baseDamage: 45, elemental: 1, type: 'attackAll' })],
       playerRoles, bus, commands, runScript: noopRunScript,
     })
     expect(state.enemies[0]!.e.health).toBe(50)
     expect(state.enemies[1]!.e.health).toBe(50)
+  })
+
+  it('血魔神功式(attackWhole + applyToAll=False)+ 单体 targetIdx → 仍打全体(修 bug)', () => {
+    const { state, playerRoles, bus } = makeState(
+      { mp: 30, magicStrength: 64 },
+      [
+        { health: 100, defense: 30, level: 5, elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 } },
+        { health: 100, defense: 30, level: 5, elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      ],
+    )
+    performMagic({
+      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
+      targetIsEnemy: true, targetIdx: 0, // 给单体目标,但 type=attackWhole → 应全体
+      spells: [makeSpell({ flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } })],
+      magics: [makeMagic({ baseDamage: 45, elemental: 1, type: 'attackWhole' })],
+      playerRoles, bus, commands, runScript: noopRunScript,
+    })
+    expect(state.enemies[0]!.e.health).toBe(50)
+    expect(state.enemies[1]!.e.health).toBe(50) // 第二个也被打(type-based AoE)
   })
 
   it('防御类法术(applyToPlayer)→ 不对敌人结算伤害', () => {

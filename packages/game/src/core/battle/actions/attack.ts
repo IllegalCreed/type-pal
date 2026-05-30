@@ -62,6 +62,23 @@ export function performAttack(
   }
   void casterLevel
 
+  // —— 群攻(attackAll 武器):player 且 targetIdx<0(=-1 全体)→ 全体活敌 ——
+  // sdlpal kBattleActionAttack sTarget==-1 分支(fight.c:3756+)。每敌独立算 def/res。
+  if (!actor.isEnemy && targetIdx < 0) {
+    state.enemies.forEach((be) => {
+      if (be.e.health <= 0)
+        return
+      const def = asShort(be.e.defense) + (be.e.level + 6) * 4
+      let damage = calcPhysicalAttackDamage(str, def, be.e.physicalResistance)
+      if (damage <= 0)
+        damage = 1
+      be.e.health = Math.max(0, be.e.health - damage)
+      bus.emit({ op: 'showDamageNum', x: 0, y: 0, value: damage, color: 'yellow' })
+    })
+    bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: -1 })
+    return
+  }
+
   // —— 算 def + 选择 target HP 句柄 + physRes ——
   let def: number
   let physRes: number
