@@ -48,6 +48,29 @@ function emitDamageNum(
   ctx.bus?.emit({ op: 'showDamageNum', target: { kind, idx }, value, color })
 }
 
+/**
+ * sdlpal `global.c:1254 PAL_IncreaseHPMP` 1:1 port —— 战斗语境作用 ctx.playerRoles.roles[roleId]
+ * (= sdlpal `gpGlobals->g.PlayerRoles`,战斗内外**同一份** HP/MP 真源,battle 直接读这份)。
+ *
+ * 真值要点:
+ *  - **仅活人**(`if (rgwHP > 0)`):死人(hp==0)不被 0x1B/0x1C/0x1D 治疗(复活走 0x22)。
+ *  - HP += sHP clamp [0, maxHP];MP += sMP clamp [0, maxMP]。
+ *  - 返回是否**真改**(over-treatment:已满 / 无变化 → FALSE)→ 上层 g_fScriptSuccess gate。
+ */
+function increaseBattleHPMP(
+  role: { hp: number; mp: number; maxHP: number; maxMP: number },
+  sHP: number,
+  sMP: number,
+): boolean {
+  if (role.hp <= 0)
+    return false // 仅活人(global.c:1290)
+  const origHP = role.hp
+  const origMP = role.mp
+  role.hp = Math.max(0, Math.min(role.maxHP, role.hp + sHP))
+  role.mp = Math.max(0, Math.min(role.maxMP, role.mp + sMP))
+  return role.hp !== origHP || role.mp !== origMP
+}
+
 /** sdlpal `script.c:1630-1640` 0x0042:simulate magic(PAL_BattleSimulateMagic,fight.c:5300)。 */
 const OP_SIMULATE_MAGIC = 0x0042
 
@@ -92,6 +115,18 @@ const OP_DRAIN_HP = 0x0039
 
 /** sdlpal `script.c:005A` 0x005A:halve player HP(wEventObjectID = 目标队员 role)。 */
 const OP_HALVE_PLAYER_HP = 0x005A
+
+/** sdlpal `script.c:001B` 0x001B:player HP delta(治疗术 scriptOnSuccess;global.c:1254 PAL_IncreaseHPMP)。 */
+const OP_INCREASE_HP = 0x001B
+
+/** sdlpal `script.c:001C` 0x001C:player MP delta(凝神归元 等)。 */
+const OP_INCREASE_MP = 0x001C
+
+/** sdlpal `script.c:001D` 0x001D:player HP+MP 双 delta(同 operand[1])。 */
+const OP_INCREASE_HP_MP = 0x001D
+
+/** sdlpal `script.c:0022` 0x0022:revive dead player(HP=maxHP*op1/10 + 清状态/毒;还魂咒/赎魂)。 */
+const OP_REVIVE_PLAYER = 0x0022
 
 /** sdlpal `script.c:005F` 0x005F:kill player immediately(rgwHP[eventObject]=0)。 */
 const OP_KILL_PLAYER = 0x005F
@@ -524,6 +559,116 @@ export function dispatchBattleOpcode(
           role.hp = Math.floor(role.hp / 2)
           emitDamageNum(ctx, 'player', sel.idx, before, role.hp)
         }
+      }
+      return { consumed: true }
+    }
+
+    case OP_INCREASE_HP:
+    case OP_INCREASE_MP:
+    case OP_INCREASE_HP_MP: {
+      // sdlpal `script.c:867-950` + `global.c:1254 PAL_IncreaseHPMP`:player HP/MP delta。
+      //   战斗语境写 ctx.playerRoles(= sdlpal gpGlobals->g.PlayerRoles,战内外同一份 HP 真源)。
+      // 治疗法术 scriptOnSuccess 跑(气疗术=0x1B / 凝神归元=0x1C / …);performMagic 现已在
+      //   scriptOnUse 后跑 scriptOnSuccess(fight.c:4221),故本 handler 在战斗里可达。
+      //
+      // 目标(script.c:871/884):operand[0]!=0 → 全体队员;否则 wEventObjectID = target 队员
+      //   (治疗 magic 的 scriptOnSuccess 用 w = action.sTarget 的 wPlayerRole → ctx.target;退回 caster)。
+      // delta = (SHORT)operand[1]。仅活人 + clamp(increaseBattleHPMP)。
+      if (!ctx.playerRoles)
+        return { consumed: true }
+      const applyAll = (operands[0] ?? 0) !== 0
+      const delta = asShort(operands[1] ?? 0)
+      const doHp = opcode === OP_INCREASE_HP || opcode === OP_INCREASE_HP_MP
+      const doMp = opcode === OP_INCREASE_MP || opcode === OP_INCREASE_HP_MP
+      let targetPlayerIdxs: number[]
+      if (applyAll) {
+        targetPlayerIdxs = state.players.map((_, i) => i)
+      }
+      else {
+        const sel = ctx.target?.type === 'player'
+          ? ctx.target
+          : (ctx.caster?.type === 'player' ? ctx.caster : undefined)
+        targetPlayerIdxs = sel ? [sel.idx] : []
+      }
+      let anyChanged = false
+      for (const pIdx of targetPlayerIdxs) {
+        const roleId = state.players[pIdx]?.roleId
+        const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
+        if (!role)
+          continue
+        const beforeHp = role.hp
+        const beforeMp = role.mp
+        if (increaseBattleHPMP(role, doHp ? delta : 0, doMp ? delta : 0))
+          anyChanged = true
+        // sdlpal PAL_BattleDisplayStatChange(fight.c:602-712):HP 变化 → yellow(回)/blue(损);
+        //   MP **仅增**(sDamage>0)→ cyan(704-709 "Only show MP increasing",减 MP 不画)。
+        if (doHp)
+          emitDamageNum(ctx, 'player', pIdx, beforeHp, role.hp)
+        if (doMp && role.mp > beforeMp)
+          ctx.bus?.emit({ op: 'showDamageNum', target: { kind: 'player', idx: pIdx }, value: role.mp - beforeMp, color: 'cyan' })
+      }
+      // g_fScriptSuccess(script.c:871-892):0x1B applyAll → = anyChanged(873 先 FALSE,880 任一改 TRUE);
+      //   单体 → 仅 !changed FALSE(889)。0x1C/0x1D:applyAll 不动,单体 !changed → FALSE(916/944)。
+      if (ctx.gs) {
+        if (opcode === OP_INCREASE_HP && applyAll)
+          ctx.gs.fScriptSuccess = anyChanged
+        else if (!applyAll && !anyChanged)
+          ctx.gs.fScriptSuccess = false
+      }
+      return { consumed: true }
+    }
+
+    case OP_REVIVE_PLAYER: {
+      // sdlpal `script.c:1052-1102`:revive。operand[0]!=0 → 全体;否则 wEventObjectID = target 队员。
+      //   仅 HP==0 者:rgwHP = maxHP * operand[1] / 10;CurePoisonByLevel(role,3) + 清所有 status。
+      //   g_fScriptSuccess:applyAll → 任一复活 TRUE(否则 1061 FALSE);单体 → 活着的 → FALSE(1099)。
+      // 战斗语境:写 ctx.playerRoles.roles[roleId].hp + 清 state.players[pIdx].status(战内状态)
+      //   + 清 gs.rgPoisonStatus 该 role 毒(同 C7 runner revivePlayerSingle 简版,D15 残)。
+      if (!ctx.playerRoles)
+        return { consumed: true }
+      const applyAll = (operands[0] ?? 0) !== 0
+      const ratioTenths = operands[1] ?? 0
+      const reviveOne = (pIdx: number): boolean => {
+        const roleId = state.players[pIdx]?.roleId
+        const role = roleId !== undefined ? ctx.playerRoles!.roles[roleId] : undefined
+        if (!role || role.hp !== 0)
+          return false
+        role.hp = Math.floor((role.maxHP * ratioTenths) / 10)
+        // 清战斗内状态(kStatusAll 移除)+ 毒(CurePoisonByLevel 3 → 简版全清,D15 残)。
+        const p = state.players[pIdx]
+        if (p) {
+          p.status.sleep = 0
+          p.status.paralyzed = 0
+          p.status.confused = 0
+          p.status.haste = false
+          p.status.slow = false
+        }
+        if (ctx.gs && roleId !== undefined) {
+          for (let slot = 0; slot < MAX_POISONS; slot++) {
+            const key = `${slot}_${roleId}`
+            if (ctx.gs.rgPoisonStatus[key])
+              ctx.gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
+          }
+        }
+        emitDamageNum(ctx, 'player', pIdx, 0, role.hp) // 复活回血 → yellow
+        return true
+      }
+      let anyRevived = false
+      if (applyAll) {
+        state.players.forEach((_, i) => {
+          if (reviveOne(i))
+            anyRevived = true
+        })
+        if (ctx.gs)
+          ctx.gs.fScriptSuccess = anyRevived
+      }
+      else {
+        const sel = ctx.target?.type === 'player'
+          ? ctx.target
+          : (ctx.caster?.type === 'player' ? ctx.caster : undefined)
+        const revived = sel ? reviveOne(sel.idx) : false
+        if (ctx.gs && !revived)
+          ctx.gs.fScriptSuccess = false
       }
       return { consumed: true }
     }

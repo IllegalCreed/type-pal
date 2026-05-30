@@ -580,6 +580,187 @@ describe('0x39 drain HP (script.c:0039,吸星锁 throw)', () => {
 })
 
 // ============================================================================
+// 0x1B/0x1C/0x1D 治疗 HP/MP delta + 0x22 复活(治疗法术 scriptOnSuccess,战斗语境
+//   写 ctx.playerRoles = sdlpal gpGlobals->g.PlayerRoles。global.c:1254 PAL_IncreaseHPMP /
+//   script.c:867-950 / 1052-1102)。
+// ============================================================================
+
+interface HealRoleCfg { hp: number, mp?: number, maxHP?: number, maxMP?: number }
+function healCtx(
+  roles: HealRoleCfg[],
+  target: { type: 'player' | 'enemy', idx: number } | undefined,
+  bus?: ReturnType<typeof createCommandBus>,
+): BattleCtx {
+  return {
+    state: {
+      enemies: [],
+      // status 全置非 0 → 0x22 复活清状态可验证
+      players: roles.map((_, i) => ({
+        roleId: i, prevHp: 0, prevMp: 0, defending: false,
+        status: { sleep: 2, paralyzed: 2, confused: 2, haste: true, slow: true },
+      })),
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+    } as any as BattleState,
+    caster: { type: 'player', idx: 0 },
+    target,
+    playerRoles: {
+      // biome-ignore lint/suspicious/noExplicitAny: 只填 hp/mp/max
+      roles: roles.map((r, i) => ({ id: i, hp: r.hp, mp: r.mp ?? 0, maxHP: r.maxHP ?? 100, maxMP: r.maxMP ?? 50 } as any)),
+    },
+    bus,
+    // biome-ignore lint/suspicious/noExplicitAny: 只填 fScriptSuccess/rgPoisonStatus
+    gs: { fScriptSuccess: true, rgPoisonStatus: {} } as any,
+  }
+}
+
+describe('0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles)', () => {
+  it('0x1B 单体回血:target 队员 hp += delta', () => {
+    const ctx = healCtx([{ hp: 50, maxHP: 200 }], { type: 'player', idx: 0 })
+    const r = dispatchBattleOpcode(0x1B, [0, 80, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(130) // 50+80
+  })
+
+  it('0x1B clamp 到 maxHP(over-treatment 不超)', () => {
+    const ctx = healCtx([{ hp: 180, maxHP: 200 }], { type: 'player', idx: 0 })
+    dispatchBattleOpcode(0x1B, [0, 80, 0], ctx)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(200) // min(200, 260)
+  })
+
+  it('0x1B 仅活人:死人(hp=0)不被治疗(PAL_IncreaseHPMP global.c:1290)+ g_fScriptSuccess=FALSE', () => {
+    const ctx = healCtx([{ hp: 0, maxHP: 200 }], { type: 'player', idx: 0 })
+    dispatchBattleOpcode(0x1B, [0, 80, 0], ctx)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(0)
+    expect(ctx.gs!.fScriptSuccess).toBe(false) // 单体 !changed → FALSE(script.c:889)
+  })
+
+  it('0x1B 单体已满(无变化)→ g_fScriptSuccess=FALSE', () => {
+    const ctx = healCtx([{ hp: 200, maxHP: 200 }], { type: 'player', idx: 0 })
+    dispatchBattleOpcode(0x1B, [0, 80, 0], ctx)
+    expect(ctx.gs!.fScriptSuccess).toBe(false)
+  })
+
+  it('0x1B applyAll(op0!=0):全体回血;g_fScriptSuccess = anyChanged', () => {
+    const ctx = healCtx([{ hp: 50, maxHP: 200 }, { hp: 60, maxHP: 200 }], undefined)
+    dispatchBattleOpcode(0x1B, [1, 30, 0], ctx)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(80)
+    expect(ctx.playerRoles!.roles[1]!.hp).toBe(90)
+    expect(ctx.gs!.fScriptSuccess).toBe(true)
+  })
+
+  it('0x1B applyAll 全员满/死(无改变)→ g_fScriptSuccess=FALSE(script.c:873)', () => {
+    const ctx = healCtx([{ hp: 200, maxHP: 200 }, { hp: 0, maxHP: 200 }], undefined)
+    dispatchBattleOpcode(0x1B, [1, 30, 0], ctx)
+    expect(ctx.gs!.fScriptSuccess).toBe(false)
+  })
+
+  it('0x1B 无 target 退回 caster(单体治 caster idx0)', () => {
+    const ctx = healCtx([{ hp: 50, maxHP: 200 }], undefined)
+    dispatchBattleOpcode(0x1B, [0, 40, 0], ctx)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(90)
+  })
+
+  it('0x1B emit yellow damageNum(回血)', () => {
+    const bus = createCommandBus()
+    const ctx = healCtx([{ hp: 50, maxHP: 200 }], { type: 'player', idx: 0 }, bus)
+    dispatchBattleOpcode(0x1B, [0, 80, 0], ctx)
+    const nums = damageNums(bus)
+    expect(nums).toHaveLength(1)
+    expect(nums[0]).toEqual({ op: 'showDamageNum', target: { kind: 'player', idx: 0 }, value: 80, color: 'yellow' })
+  })
+
+  it('0x1C MP 增:mp += delta clamp;HP 不动 + emit cyan(MP 增,fight.c:704-709)', () => {
+    const bus = createCommandBus()
+    const ctx = healCtx([{ hp: 50, mp: 10, maxMP: 50 }], { type: 'player', idx: 0 }, bus)
+    dispatchBattleOpcode(0x1C, [0, 30, 0], ctx)
+    expect(ctx.playerRoles!.roles[0]!.mp).toBe(40)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(50)
+    const nums = damageNums(bus)
+    expect(nums).toHaveLength(1)
+    expect(nums[0]).toEqual({ op: 'showDamageNum', target: { kind: 'player', idx: 0 }, value: 30, color: 'cyan' })
+  })
+
+  it('0x1C MP 减(负 delta)→ 不 emit(sdlpal Only show MP increasing)', () => {
+    const bus = createCommandBus()
+    const ctx = healCtx([{ hp: 50, mp: 40, maxMP: 50 }], { type: 'player', idx: 0 }, bus)
+    dispatchBattleOpcode(0x1C, [0, 0xFFF6, 0], ctx) // (SHORT)0xFFF6 = -10
+    expect(ctx.playerRoles!.roles[0]!.mp).toBe(30)
+    expect(damageNums(bus)).toHaveLength(0) // 减 MP 不画
+  })
+
+  it('0x1D HP+MP 同增 → emit yellow(HP) + cyan(MP) 两条', () => {
+    const bus = createCommandBus()
+    const ctx = healCtx([{ hp: 50, mp: 10, maxHP: 200, maxMP: 50 }], { type: 'player', idx: 0 }, bus)
+    dispatchBattleOpcode(0x1D, [0, 20, 0], ctx)
+    const nums = damageNums(bus)
+    expect(nums).toHaveLength(2)
+    expect(nums.find(n => n.color === 'yellow')).toMatchObject({ value: 20, target: { kind: 'player', idx: 0 } })
+    expect(nums.find(n => n.color === 'cyan')).toMatchObject({ value: 20, target: { kind: 'player', idx: 0 } })
+  })
+
+  it('0x1D HP+MP 双 delta(同 operand[1])', () => {
+    const ctx = healCtx([{ hp: 50, mp: 10, maxHP: 200, maxMP: 50 }], { type: 'player', idx: 0 })
+    dispatchBattleOpcode(0x1D, [0, 20, 0], ctx)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(70)
+    expect(ctx.playerRoles!.roles[0]!.mp).toBe(30)
+  })
+
+  it('负 delta(中毒类 scriptOnSuccess):(SHORT)0xFFCE=-50 → hp 50→0 clamp', () => {
+    const ctx = healCtx([{ hp: 50, maxHP: 200 }], { type: 'player', idx: 0 })
+    dispatchBattleOpcode(0x1B, [0, 0xFFCE, 0], ctx)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(0)
+  })
+
+  it('无 playerRoles → consumed,不崩', () => {
+    const ctx = healCtx([{ hp: 50 }], { type: 'player', idx: 0 })
+    ctx.playerRoles = undefined
+    expect(dispatchBattleOpcode(0x1B, [0, 80, 0], ctx).consumed).toBe(true)
+  })
+})
+
+describe('0x22 复活 player(还魂咒/赎魂 scriptOnSuccess,战斗语境)', () => {
+  it('单体死人复活:hp=0 → maxHP*op1/10 + 清战斗状态', () => {
+    const ctx = healCtx([{ hp: 0, maxHP: 200 }], { type: 'player', idx: 0 })
+    const r = dispatchBattleOpcode(0x22, [0, 5, 0], ctx) // ratio 5 → 50%
+    expect(r.consumed).toBe(true)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(100) // 200*5/10
+    expect(ctx.state.players[0]!.status.sleep).toBe(0)
+    expect(ctx.state.players[0]!.status.paralyzed).toBe(0)
+    expect(ctx.state.players[0]!.status.confused).toBe(0)
+    expect(ctx.state.players[0]!.status.haste).toBe(false)
+    expect(ctx.state.players[0]!.status.slow).toBe(false)
+  })
+
+  it('单体活人 → 不复活,g_fScriptSuccess=FALSE(script.c:1099)', () => {
+    const ctx = healCtx([{ hp: 50, maxHP: 200 }], { type: 'player', idx: 0 })
+    dispatchBattleOpcode(0x22, [0, 10, 0], ctx)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(50)
+    expect(ctx.gs!.fScriptSuccess).toBe(false)
+  })
+
+  it('applyAll:只复活死人,任一复活 → g_fScriptSuccess=TRUE', () => {
+    const ctx = healCtx([{ hp: 0, maxHP: 200 }, { hp: 80, maxHP: 200 }], undefined)
+    dispatchBattleOpcode(0x22, [1, 10, 0], ctx)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(200) // 复活满(*10/10)
+    expect(ctx.playerRoles!.roles[1]!.hp).toBe(80) // 活人不动
+    expect(ctx.gs!.fScriptSuccess).toBe(true)
+  })
+
+  it('applyAll 全员都活 → g_fScriptSuccess=FALSE(script.c:1061)', () => {
+    const ctx = healCtx([{ hp: 50, maxHP: 200 }, { hp: 80, maxHP: 200 }], undefined)
+    dispatchBattleOpcode(0x22, [1, 10, 0], ctx)
+    expect(ctx.gs!.fScriptSuccess).toBe(false)
+  })
+
+  it('复活清毒(gs.rgPoisonStatus 该 role 槽)', () => {
+    const ctx = healCtx([{ hp: 0, maxHP: 200 }], { type: 'player', idx: 0 })
+    ctx.gs!.rgPoisonStatus['0_0'] = { wPoisonID: 5, wPoisonScript: 100 }
+    dispatchBattleOpcode(0x22, [0, 10, 0], ctx)
+    expect(ctx.gs!.rgPoisonStatus['0_0']).toMatchObject({ wPoisonID: 0, wPoisonScript: 0 })
+  })
+})
+
+// ============================================================================
 // 0x9E enemy summon(战斗中召唤敌人)
 // ============================================================================
 

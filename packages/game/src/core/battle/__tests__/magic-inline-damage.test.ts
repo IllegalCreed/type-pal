@@ -1044,3 +1044,79 @@ describe('performMagic D17: 敌方攻击魔法 EnemyMagic 时间线', () => {
     expect(state.battleAnim).toBeUndefined()
   })
 })
+
+// ============================================================================
+// performMagic scriptOnSuccess —— 治疗/复活/特殊效果真值所在(fight.c:4214-4265)。
+// 旧实现只跑 scriptOnUse → 战斗内治疗值/复活/sentinel 攻击魔法特殊伤害全部不生效。
+// ============================================================================
+
+describe('performMagic scriptOnSuccess(fight.c:4214-4265)', () => {
+  it('scriptOnUse 后跑 scriptOnSuccess,带 target ctx(顺序 use→success)', () => {
+    const { state, playerRoles, bus } = makeState({ hp: 50, maxHP: 200 }, [{ health: 100 }])
+    const calls: Array<{ ip: number, tType?: string, tIdx?: number }> = []
+    const recordRun: RunScriptFn = (opts) => {
+      calls.push({ ip: opts.ip, tType: opts.battleCtx?.target?.type, tIdx: opts.battleCtx?.target?.idx })
+    }
+    performMagic({
+      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
+      targetIsEnemy: false, targetIdx: 0,
+      spells: [makeSpell({ scriptOnUse: 10, scriptOnSuccess: 20 })],
+      magics: [makeMagic({ type: 'applyToPlayer', baseDamage: 0 })],
+      playerRoles, bus, commands, runScript: recordRun,
+    })
+    expect(calls.map(c => c.ip)).toEqual([10, 20]) // use 先,success 后
+    expect(calls[1]).toMatchObject({ ip: 20, tType: 'player', tIdx: 0 }) // success 带 target
+  })
+
+  it('scriptOnUse=0 仍跑 scriptOnSuccess(气疗术真值:use=0 / success=heal)', () => {
+    const { state, playerRoles, bus } = makeState({ hp: 50 }, [])
+    const calls: number[] = []
+    const recordRun: RunScriptFn = (opts) => { calls.push(opts.ip) }
+    performMagic({
+      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
+      targetIsEnemy: false, targetIdx: 0,
+      spells: [makeSpell({ scriptOnUse: 0, scriptOnSuccess: 20 })],
+      magics: [makeMagic({ type: 'applyToPlayer', baseDamage: 0 })],
+      playerRoles, bus, commands, runScript: recordRun,
+    })
+    expect(calls).toEqual([20]) // 仅 success(use=0 skip)
+  })
+
+  it('集成:治疗法术 scriptOnSuccess=0x1B → 目标队友 HP 真涨(50→130)', () => {
+    const { state, playerRoles, bus } = makeState({ hp: 50, maxHP: 200, mp: 100 }, [])
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // scriptOnSuccess ip=1 → 0x1B heal op1=80;ip=2 end(ip=0 占位 end,避免 scriptId=0 被当 skip)
+    const healCommands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x1B, operands: [0, 80, 0] },
+      { op: 'end' },
+    ]
+    performMagic({
+      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
+      targetIsEnemy: false, targetIdx: 0,
+      spells: [makeSpell({ scriptOnUse: 0, scriptOnSuccess: 1 })],
+      magics: [makeMagic({ type: 'applyToPlayer', baseDamage: 0, costMP: 5 })],
+      playerRoles, bus, commands: healCommands, runScript, gs,
+    })
+    expect(playerRoles.roles[0]!.hp).toBe(130) // 50 + 80
+  })
+
+  it('scriptOnUse 置 g_fScriptSuccess=false → 不跑 scriptOnSuccess(fight.c:4217 gate)', () => {
+    const { state, playerRoles, bus } = makeState({ hp: 50 }, [])
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const calls: number[] = []
+    const failingRun: RunScriptFn = (opts) => {
+      calls.push(opts.ip)
+      if (opts.ip === 10)
+        gs.fScriptSuccess = false // scriptOnUse 失败(等价 sdlpal g_fScriptSuccess=FALSE)
+    }
+    performMagic({
+      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
+      targetIsEnemy: false, targetIdx: 0,
+      spells: [makeSpell({ scriptOnUse: 10, scriptOnSuccess: 20 })],
+      magics: [makeMagic({ type: 'applyToPlayer', baseDamage: 0 })],
+      playerRoles, bus, commands, runScript: failingRun, gs,
+    })
+    expect(calls).toEqual([10]) // scriptOnUse 跑了,scriptOnSuccess 被 fScriptSuccess gate 挡
+  })
+})

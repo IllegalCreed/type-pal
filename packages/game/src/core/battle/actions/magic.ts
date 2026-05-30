@@ -143,20 +143,33 @@ export function performMagic(input: PerformMagicInput): void {
     targetIdx: input.targetIdx,
   })
 
-  // —— 跑 scriptOnUse(经 runScript,battleCtx 注入 caster / target) ——
-  // scriptOnUse=0 表示没有 use 时机的脚本(纯动画 / 由 scriptOnSuccess 处理),不调
-  if (spell.scriptOnUse !== 0) {
-    const targetCtx =
-      input.targetIdx === 'all'
-        ? undefined // 全体目标:由 handler 自行循环 state.enemies / players(M3 phase 1 raw skip)
-        : {
-            type: input.targetIsEnemy ? ('enemy' as const) : ('player' as const),
-            idx: input.targetIdx,
-          }
-
+  // —— 跑 scriptOnUse → scriptOnSuccess(经 runScript,battleCtx 注入 caster / target) ——
+  // sdlpal `fight.c:4214-4265`(PAL_BattleCommitAction kBattleActionMagic):
+  //   wScriptOnUse    = RunTriggerScript(wScriptOnUse,    wPlayerRole = caster)
+  //   if (g_fScriptSuccess):
+  //     [DefMagic / OffMagic anim]
+  //     wScriptOnSuccess = RunTriggerScript(wScriptOnSuccess, w)
+  //       防御类(applyToPlayer/Party/Trance,4203-4222):w = action.sTarget 的 wPlayerRole = 目标队员
+  //       攻击类(4264):w = sTarget = 目标敌人
+  //   攻击类再走下方 E1 inline 伤害(baseDamage>0)。
+  //
+  // **关键**:治疗/复活/多数特殊效果真值在 **scriptOnSuccess**(气疗术 scriptOnUse=0 /
+  //   scriptOnSuccess=0x1B 回血)。旧实现只跑 scriptOnUse → 战斗内治疗/复活/sentinel 攻击魔法
+  //   特殊伤害**全部不生效**。战斗 heal opcode(0x1B/0x1C/0x1D/0x22)由 dispatchBattleOpcode
+  //   写 ctx.playerRoles(= sdlpal gpGlobals->g.PlayerRoles,战内外同一份 HP 真源)。
+  const targetCtx =
+    input.targetIdx === 'all'
+      ? undefined // 全体目标:由 handler 自行循环(applyAll operand 处理)
+      : {
+          type: input.targetIsEnemy ? ('enemy' as const) : ('player' as const),
+          idx: input.targetIdx,
+        }
+  const runMagicScript = (scriptId: number): void => {
+    if (scriptId === 0)
+      return // scriptOnUse / scriptOnSuccess = 0 → 无脚本,skip(sdlpal RunTriggerScript(0) 即返回)
     input.runScript({
       commands: input.commands,
-      ip: spell.scriptOnUse,
+      ip: scriptId,
       bus: input.bus,
       runtimeMode: 'battle',
       battleCtx: {
@@ -166,14 +179,26 @@ export function performMagic(input: PerformMagicInput): void {
           idx: input.casterIdx,
         },
         target: targetCtx,
-        // scriptOnUse 里 0x57/0x88(set magic damage by MP/money)需 magicTables(解析 op0
-        // → magicNumber → 改 baseDamage)+ playerRoles(caster MP)+ gs(cash)。
-        // 改后的 baseDamage 被下方 E1 inline 伤害读到(magicTables.magics === input.magics)。
+        // 0x57/0x88(set magic damage by MP/money,scriptOnUse)需 magicTables + playerRoles + gs;
+        // 0x1B/0x1C/0x1D/0x22(治疗/复活,scriptOnSuccess)需 playerRoles(写 battle 角色 HP)+ gs(毒/fScriptSuccess)。
         magicTables: { magics: input.magics, objectMagics: input.objectMagics ?? [] },
         playerRoles: input.playerRoles,
         gs: input.gs,
       },
     })
+  }
+  // sdlpal PAL_RunTriggerScript 入口设 g_fScriptSuccess=TRUE(script.c:3187)。runScript(battle)
+  // 不重置,故此处显式置真,再按 scriptOnUse 结果 gate scriptOnSuccess(fight.c:4217)。
+  if (input.gs)
+    input.gs.fScriptSuccess = true
+  runMagicScript(spell.scriptOnUse)
+  const scriptUseSuccess = input.gs ? input.gs.fScriptSuccess : true
+  if (scriptUseSuccess) {
+    // 每次 PAL_RunTriggerScript 入口重置 g_fScriptSuccess=TRUE(script.c:3187)——
+    // scriptOnSuccess 的成功旗子独立于 scriptOnUse 结果。
+    if (input.gs)
+      input.gs.fScriptSuccess = true
+    runMagicScript(spell.scriptOnSuccess)
   }
 
   // —— E1:inline 攻击法术伤害结算(player→enemy) ——
