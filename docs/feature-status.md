@@ -103,7 +103,7 @@
 | # | 功能 | 状态 | 测试 | sdlpal 真值出处 | ts 路径 | 备注 / 差异 |
 |---|---|---|---|---|---|---|
 | D1 | 战斗启动 StartBattle | ✅ claimed | ✅ partial | battle.c:1531 `PAL_StartBattle` | core/battle/battle-system.ts startBattle + bootstrap startBattleHandler | battle-system.test.ts;opcode 0x07 全链通。enemyTeam slot 当 enemies.json id 直索引的简化映射(T23 对拍待) |
-| D2 | 5 actions(攻/技/防/逃/物) | ⚠️ partial | ✅ partial | fight.c:3577 `PAL_BattlePlayerPerformAction` | core/battle/actions/* | actions.test.ts;5 基础 action 真做。残:BlowAway(0x6B)/ R 重复 prevAction ⬜;summon/trance/throw-item/equip-battle/coop-magic action type 是 stub |
+| D2 | 5 actions(攻/技/防/逃/物) | ⚠️ partial | ✅ partial | fight.c:3577 `PAL_BattlePlayerPerformAction` | core/battle/actions/* | actions.test.ts;5 基础 action 真做 + **throw-item action 已接**(performThrowItem + 投掷物路由)。残:R 重复 prevAction ⬜;summon/trance/equip-battle/coop-magic action type 仍 stub。注:0x6B BlowAway 已写 iBlow 状态(opcode), 但**吹飞位移视觉**待 D17 |
 | D3 | 物理伤害公式 | ✅ claimed | ✅ partial | fight.c:131-289 三公式 | core/battle/formulas.ts | formulas.test.ts;残:fight.c:3641 RandomLong(1,2) 抖动 + crit 系数简化(attack.ts doc 已注明) |
 | D4 | 法术伤害公式 | ✅ claimed | ✅ partial | fight.c:174 `PAL_CalcMagicDamage` | core/battle/formulas.ts calcMagicDamage | formulas.test.ts;5 元素 + 抗 + fieldEffect |
 | D5 | 玩家 dex (haste*3 + 999) | ✅ claimed | ✅ partial | fight.c:336 `PAL_GetPlayerActualDexterity` | core/battle/formulas.ts | formulas.test.ts |
@@ -123,9 +123,9 @@
 | D19 | 战斗背景 wave / cycle / fade | ⚠️ partial | ✅ partial | battle.c:34 `PAL_BattleDrawBackground` + 609 BattleFadeScene | present/battle/draw-battle-bg.ts | 背景静态全屏 blit;wave 扭曲 + palette cycle + BattleFadeScene 淡入 ⬜ |
 | D20 | 死敌 colorShift / 中毒紫色 | ⬜ todo | ⬜ todo | battle.c:505 `PAL_BattleDrawAllSpritesWithColorShift` | — | grep colorShift 0 命中;死敌渐隐 / 中毒紫色 palette shift 未做 |
 | D21 | 战斗结束 status 清 | ⬜ todo | ⬜ todo | global.c:2311 `PAL_ClearAllPlayerStatus` | — | finalizeBattle 未 clear sleep/confused/paralyzed |
-| D22 | 偷盗 StealFromEnemy | ⬜ todo | ⬜ todo | fight.c:5193 `PAL_BattleStealFromEnemy` + 含 Bug-2 | — | opcode 0x6A 未做 |
-| D23 | 战斗 opcode 子集(scripted enemy AI) | ⚠️ partial | ⬜ todo | script.c 0x60/0x61/0x64/0x67/0x69 | core/battle/battle-opcodes.ts dispatchBattleOpcode | commit 4b85636:5 个 battle-context opcode(简版:0x61 默认未中毒直 jump / 0x64 用 prevHp 近似 / 0x67 mutate 未真驱动)。**剩余未做战斗 E 类 opcode**:0x30/0x31/0x33/0x34/0x38/0x39/0x3A/0x42/0x57/0x5A/0x5B/0x5C/0x5F/0x66/0x6B/0x88/0x89/0x8A/0x91/0x92/0x9C/0x9E/0x9F(见 opcode-status.md E 类) |
-| D24 | 战斗隐身 0x5C iHidingTime | ⬜ todo | ⬜ todo | script.c:1907-1911 `g_Battle.iHidingTime = -op0` | — | party 隐身回合机制未做(BattleState 无 hidingTime 字段) |
+| D22 | 偷盗 StealFromEnemy | ✅ claimed | ✅ unit | fight.c:5193 `PAL_BattleStealFromEnemy` + 含 Bug-2 | core/battle/battle-opcodes.ts OP_STEAL_FROM_ENEMY | commit 2d6f98d:0x6A 核心 5253-5297 真做 —— nStealItem>0 && (RandomLong(0,10)<=rate‖rate==0):偷钱 c=n/RandomLong(2,3)→dwCash / 偷物 nStealItem--+AddItem。battle-opcodes.test.ts 7 用例(含 Bug-2 nStealItem==0 守卫)。残:偷窃动画/提示 dialog present-only 跳过(D17) |
+| D23 | 战斗 opcode 子集(scripted enemy AI) | ✅ claimed | ✅ unit | script.c / fight.c 全 E 类 | core/battle/battle-opcodes.ts dispatchBattleOpcode | **2026-05-30 全 E 类收口**(见 opcode-status.md):31 battle-context case 全实现 + explore 0x34/0x38 + audio 0x45/0x77/0xA3。本轮补 0x30/0x31/0x33/0x3A/0x5C/0x5F/0x6B/0x89/0x8A/0x92/0x6A/0x9C/0x9F + 修 0x64 maxHealth。battle-opcodes.test.ts 81 用例。残(文档化): 0x61 battle 恒判未中毒 / 0x69 health=0 触发掉落 / 0x30 持久 / 0x31·0x92 present no-op。逐条 → opcode-status.md |
+| D24 | 战斗隐身 0x5C iHidingTime | ⚠️ partial | ✅ unit | script.c:1907-1911 `g_Battle.iHidingTime = -op0` | core/battle/battle-opcodes.ts OP_HIDE_PARTY + battle-state.ts | commit 444d307:BattleState.iHidingTime 字段 + 0x5C 写入(state.iHidingTime=-op0)真做。残:隐身回合的**战斗效果**(敌不可选队员为目标)未在 target/AI 接 — 待 D9/D18 |
 
 ## E. 脚本 / Cutscene(opcode interpreter)
 
