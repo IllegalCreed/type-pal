@@ -1,4 +1,4 @@
-import type { Enemy, Magic, ObjectMagicView, ObjectPoisonView } from '@type-pal/shared'
+import type { Enemy, EnemyObject, Magic, ObjectMagicView, ObjectPoisonView } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import type { BattleCtx } from '../../event-system.js'
 import type { BattleEnemy, BattleState } from '../battle-state.js'
@@ -496,6 +496,76 @@ describe('0x39 drain HP (script.c:0039,吸星锁 throw)', () => {
     const ctx = drainCtx(100, 0, 190, 200)
     dispatchBattleOpcode(0x39, [40, 0, 0], ctx)
     expect(ctx.playerRoles!.roles[0]!.hp).toBe(200) // min(200, 230)
+  })
+})
+
+// ============================================================================
+// 0x9E enemy summon(战斗中召唤敌人)
+// ============================================================================
+
+function summonCtx(roster: BattleEnemy[], casterIdx: number, allEnemies: Enemy[], enemyObjects: EnemyObject[]): BattleCtx {
+  return {
+    // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+    state: { enemies: roster, players: [] } as any as BattleState,
+    caster: { type: 'enemy', idx: casterIdx },
+    summonTables: { enemies: allEnemies, enemyObjects },
+  }
+}
+
+const ENEMY_OBJ = (objectIndex: number, enemyId: number): EnemyObject => ({ objectIndex, enemyId, resistanceToSorcery: 3, scriptOnTurnStart: 11, scriptOnBattleEnd: 0, scriptOnReady: 22 })
+// biome-ignore lint/suspicious/noExplicitAny: 只填关键字段
+const ENEMY = (id: number, health: number): Enemy => ({ id, health, defense: 0, level: 1 } as any as Enemy)
+
+describe('0x9E enemy summon (script.c:009E)', () => {
+  it('w!=0 召唤指定敌人(obj→enemyId→enemies)+ 满血 + 脚本/抗性', () => {
+    const roster = [richEnemy({ health: 200 })]
+    const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
+    const r = dispatchBattleOpcode(0x9E, [419, 1, 300], ctx)
+    expect(r.consumed).toBe(true)
+    expect(roster).toHaveLength(2)
+    expect(roster[1]!.e.id).toBe(22)
+    expect(roster[1]!.e.health).toBe(80) // 满血(enemies.json base)
+    expect(roster[1]!.scriptOnReady).toBe(22)
+    expect(roster[1]!.resistanceToSorcery).toBe(3)
+    expect(roster[1]!.poisons).toEqual([])
+  })
+
+  it('count op1:召唤 2 只', () => {
+    const roster = [richEnemy({ health: 200 })]
+    dispatchBattleOpcode(0x9E, [419, 2, 300], summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]))
+    expect(roster).toHaveLength(3)
+  })
+
+  it('w=0 召唤自身同种(满血副本)', () => {
+    const self = richEnemy({ health: 30 }) // 当前残血 30
+    self.e.id = 7
+    const roster = [self]
+    dispatchBattleOpcode(0x9E, [0, 1, 300], summonCtx(roster, 0, [ENEMY(7, 150)], [ENEMY_OBJ(500, 7)]))
+    expect(roster).toHaveLength(2)
+    expect(roster[1]!.e.id).toBe(7)
+    expect(roster[1]!.e.health).toBe(150) // 满血,非 self 当前 30
+  })
+
+  it('房间不足(已 5 只)→ fail → jump op2', () => {
+    const roster = [richEnemy({}), richEnemy({}), richEnemy({}), richEnemy({}), richEnemy({})]
+    const r = dispatchBattleOpcode(0x9E, [419, 1, 300], summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]))
+    expect(roster).toHaveLength(5) // 没加
+    expect(r.newIp).toBe(300) // 跳失败分支
+  })
+
+  it('自身睡眠 → fail → jump op2', () => {
+    const self = richEnemy({ health: 200 })
+    self.status.sleep = 3
+    const roster = [self]
+    const r = dispatchBattleOpcode(0x9E, [419, 1, 300], summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]))
+    expect(roster).toHaveLength(1)
+    expect(r.newIp).toBe(300)
+  })
+
+  it('count<=0 → 当 1', () => {
+    const roster = [richEnemy({ health: 200 })]
+    dispatchBattleOpcode(0x9E, [419, 0, 300], summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]))
+    expect(roster).toHaveLength(2)
   })
 })
 

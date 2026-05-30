@@ -47,6 +47,12 @@ const OP_JUMP_IF_NO_POISON = 0x005E
 /** sdlpal `MAX_POISONS`(每敌最多同时中毒槽数)。 */
 const MAX_POISONS = 16
 
+/** sdlpal `script.c:009E` 0x009E:enemy summon(召唤敌人到空槽)。 */
+const OP_ENEMY_SUMMON = 0x009E
+
+/** sdlpal `palcommon.h:60` MAX_ENEMIES_IN_TEAM —— 战斗最多 5 敌(0x9E 召唤房间上限)。 */
+const MAX_ENEMIES_IN_TEAM = 5
+
 /** sdlpal `script.c:005B` 0x005B:halve enemy HP(w=health/2+1,cap op0)。 */
 const OP_HALVE_ENEMY_HP = 0x005B
 
@@ -328,6 +334,71 @@ export function dispatchBattleOpcode(
       })
       if (selfPos > 1)
         return { consumed: true, newIp: operands[0] ?? 0 }
+      return { consumed: true }
+    }
+
+    case OP_ENEMY_SUMMON: {
+      // sdlpal `script.c:009E`:召唤 op1 只 op0(对象 id;0/0xFFFF=自身同种)敌人到空槽。
+      // 房间不足(< count)或自身 睡眠/麻痹/混乱 → fail,op2 非 0 则 jump op2(失败分支)。
+      // (动画帧 + iHidingTime(0x5C 未做)略。)注:召唤兽渲染需 present 层加载其 battle sprite,
+      // 本 handler 只做 logic(加 BattleEnemy → 它会行动/受击);sprite 加载留 present follow-up。
+      const tables = ctx.summonTables
+      if (!tables || ctx.caster?.type !== 'enemy')
+        return { consumed: true }
+      const self = state.enemies[ctx.caster.idx]
+      if (!self)
+        return { consumed: true }
+
+      const w = operands[0] ?? 0
+      let count = asShort(operands[1] ?? 0)
+      if (count <= 0)
+        count = 1
+      const failJump = operands[2] ?? 0
+
+      const room = MAX_ENEMIES_IN_TEAM - state.enemies.length
+      const disabled = (self.status.sleep ?? 0) > 0 || (self.status.paralyzed ?? 0) > 0 || (self.status.confused ?? 0) > 0
+      if (room < count || disabled)
+        return failJump !== 0 ? { consumed: true, newIp: failJump } : { consumed: true }
+
+      // 解析召唤兽:w=0/0xFFFF → 自身同种;否则 enemyObjects[objectIndex==w] → enemyId/scripts/抗性。
+      let enemyId: number
+      let onTurnStart: number
+      let onReady: number
+      let onBattleEnd: number
+      let resist: number
+      if (w === 0 || w === 0xFFFF) {
+        enemyId = self.e.id
+        onTurnStart = self.scriptOnTurnStart
+        onReady = self.scriptOnReady
+        onBattleEnd = self.scriptOnBattleEnd
+        resist = self.resistanceToSorcery ?? 0
+      }
+      else {
+        const eo = tables.enemyObjects.find(o => o.objectIndex === w)
+        if (!eo)
+          return { consumed: true }
+        enemyId = eo.enemyId
+        onTurnStart = eo.scriptOnTurnStart
+        onReady = eo.scriptOnReady
+        onBattleEnd = eo.scriptOnBattleEnd
+        resist = eo.resistanceToSorcery
+      }
+      const base = tables.enemies.find(e => e.id === enemyId)
+      if (!base)
+        return { consumed: true }
+
+      for (let k = 0; k < count; k++) {
+        state.enemies.push({
+          e: { ...base }, // 满血 base stats(sdlpal e = lprgEnemy[enemyID])
+          status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+          prevHp: base.health,
+          scriptOnTurnStart: onTurnStart,
+          scriptOnBattleEnd: onBattleEnd,
+          scriptOnReady: onReady,
+          resistanceToSorcery: resist,
+          poisons: [],
+        })
+      }
       return { consumed: true }
     }
 

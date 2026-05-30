@@ -24,7 +24,7 @@
  *    等真撞到 raw + console.debug 看到 opcode 号再补。
  */
 
-import type { Command, InputSnapshot, Magic, ObjectMagicView, ObjectPoisonView, Palette, PlayerRoles } from '@type-pal/shared'
+import type { Command, Enemy, EnemyObject, InputSnapshot, Magic, ObjectMagicView, ObjectPoisonView, Palette, PlayerRoles } from '@type-pal/shared'
 import { FPS_EXPLORE } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
@@ -821,6 +821,12 @@ export interface BattleCtx {
    * 由 performThrowItem 注入(caster 是投掷队员)。不注入 → attackStrength 当 0。
    */
   playerRoles?: PlayerRoles
+  /**
+   * 0x9E enemy summon 需:enemies(enemies.json,按 enemyId 取召唤兽 stats)+
+   * enemyObjects(enemy-objects.json,按 objectIndex 解 op0 → enemyId/scripts/抗性)。
+   * 由 enemy scriptOnReady 的 runScript 注入(battle-system tickPerformAction)。
+   */
+  summonTables?: { enemies: Enemy[], enemyObjects: EnemyObject[] }
 }
 
 /** runScript 入口选项(M3 T17;T20/T21 caller 填)。 */

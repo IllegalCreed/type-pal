@@ -76,6 +76,10 @@ export interface BattleResources {
   objectMagics: ObjectMagicView[]
   /** rgObject poison-union 视图(object-poisons.json)—— 0x28 apply poison 解析 wEnemyScript。 */
   objectPoisons: ObjectPoisonView[]
+  /** 全部 enemies.json —— 0x9E summon 按 enemyId 取召唤兽 stats。 */
+  enemies: Enemy[]
+  /** 全部 enemy-objects.json —— 0x9E summon 按 objectIndex 解 op0 → enemyId/scripts/抗性。 */
+  enemyObjects: EnemyObject[]
   playerRoles: PlayerRoles
   commands: Command[]
 }
@@ -210,6 +214,8 @@ export function startBattle(input: StartBattleInput): void {
     magics: input.magics,
     objectMagics: input.objectMagics ?? [],
     objectPoisons: input.objectPoisons ?? [],
+    enemies: input.enemies, // 0x9E summon 召唤兽 stats
+    enemyObjects: input.enemyObjects ?? [], // 0x9E summon op0 → enemyId/scripts
     playerRoles: input.playerRoles,
     commands: input.commands ?? getGlobalCommands(), // P2#5:默认单一全局数组
   })
@@ -683,6 +689,8 @@ function tickPerformAction(
           battleCtx: {
             state,
             caster: { type: 'enemy', idx: item.idx },
+            // 0x9E enemy summon 需召唤兽表 + enemy-objects 解析
+            summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
           },
         })
       }

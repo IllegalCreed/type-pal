@@ -5,7 +5,7 @@
 > **三表**:[feature-status](feature-status.md)(引擎功能)· opcode-status(事件 / opcode,本表)· [resource-status](resource-status.md)(资源提取)
 > **图例**:✅ done · ⚠️ partial(extraction 已收集目标,runtime 待)· ⬜ todo · N/A
 > **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra)· E=战斗 · S=系统/UI
-> **最后更新**:2026-05-30 — **E 类法术伤害结算 keystone + 0x66**:E1 inline 攻击法术伤害接进 performMagic(5 元素咒真伤害)+ 0x42 SimulateMagic + **0x66 throw weapon**(与 0x42 共用 simulateMagic)+ 投掷物全链(符/卵/武器)+ 补提取 rgObject(object-magics.json)。+ **0x68/0x91 jump** + **0x21 伤害** + **0x5B/0x39 HP** + **敌人毒 pipeline(0x28/0x5E/tick)** + **0x57/0x88 set-magic-damage**(performMagic 注入 scriptOnUse ctx → 改 baseDamage → E1 结算,酒神/乾坤一掷)。剩余 D 类音频(需 M6)+ E 类其余战斗 opcode(0x60/0x9E summon/0x6B/0x5C/0x30/0x6A steal/0x5A 等)。
+> **最后更新**:2026-05-30 — **E 类法术伤害结算 keystone + 0x66**:E1 inline 攻击法术伤害接进 performMagic(5 元素咒真伤害)+ 0x42 SimulateMagic + **0x66 throw weapon**(与 0x42 共用 simulateMagic)+ 投掷物全链(符/卵/武器)+ 补提取 rgObject(object-magics.json)。+ **0x68/0x91 jump** + **0x21 伤害** + **0x5B/0x39 HP** + **敌人毒 pipeline(0x28/0x5E/tick)** + **0x57/0x88 set-magic-damage**(performMagic 注入 scriptOnUse ctx → 改 baseDamage → E1 结算,酒神/乾坤一掷)。剩余 D 类音频(需 M6)+ E 类其余战斗 opcode(0x6B blow/0x5C hide/0x30 stat-buff/0x6A steal/0x31/0x33/0x34/0x38/0x3A 等)。
 >
 > sdlpal 真值出处:`reference/sdlpal/script.c`(PAL_InterpretInstruction 587-3115 / PAL_RunTriggerScript 3140+ / PAL_RunAutoScript 3482+)。全集:控制流 0x00-0x0A + 数据/动作 0x0B-0xA6(不存在:0x32 / 0x48 / 0x72 / 0x9D)。
 
@@ -160,7 +160,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x91 | jump if enemy not first of kind | ✅ 数同 wObjectID 敌人,self_pos>1(非首个)→ jump op0(script.c:2091)。ts 同种=同 e.id。用途:同种敌人组脚本只在第一个跑。真实数据 op0 全 0(→跳到 end)。battle-opcodes.ts,5 用 |
 | 0x92 | magic casting anim (battle) | |
 | 0x9C | enemy division | |
-| 0x9E | enemy summon | |
+| 0x9E | enemy summon | ✅ **logic**:召唤 op1 只 op0(对象 id;0/0xFFFF=自身同种)敌人到空槽(MAX 5);房间不足/自身睡眠·麻痹·混乱 → fail,op2≠0 jump op2(script.c:009E)。obj→enemyObjects[objectIndex]→enemyId→enemies.json 满血;经 enemy scriptOnReady runScript 注入 summonTables。**注**:召唤兽渲染需 present 层加载 battle sprite(follow-up);logic(行动/受击)已通。battle-opcodes.ts |
 | 0x9F | enemy transform | |
 
 ### C palette / D audio·FBP·视觉

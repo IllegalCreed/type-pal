@@ -183,7 +183,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
   return {
     gs,
     bus,
-    resources: { items, spells, magics, objectMagics, objectPoisons, playerRoles, commands },
+    resources: { items, spells, magics, objectMagics, objectPoisons, enemies, enemyObjects: [], playerRoles, commands },
     emptyInput: { held: new Set(), pressed: new Set(), frameNum: 0 },
   }
 }
@@ -944,6 +944,29 @@ describe('throw-item action 派发(E2)', () => {
     // w = 10*5 + 30*2 = 110;calcBase(110,74)=102;/4=25;+198=223 → 300-223=77
     expect(gs.battleState?.enemies[0]!.e.health).toBe(77)
     expect(gs.inventory[0]!.count).toBe(0) // 武器投掉
+    void consoleWarn
+  })
+
+  it('0x9E summon:敌人 scriptOnReady 召唤自身同种 → state.enemies 增长', () => {
+    // ip1 = 0x9E[0,1,0](w=0 自身同种,count 1)
+    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x9E, operands: [0, 1, 0] }, { op: 'end' }]
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 200, attackStrength: 0 })],
+      roles: [makeRole({ id: 0, hp: 500 })],
+      commands,
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.enemies[0]!.scriptOnReady = 1 // 召唤脚本 @ip1
+    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+
+    let safety = 30
+    while (gs.battleState?.phase !== 'postAction' && gs.mode === 'battle' && safety-- > 0)
+      tickBattle(gs, emptyInput, bus)
+
+    // 敌人行动时 scriptOnReady 跑 0x9E → 召唤 1 只同种(id 100)
+    expect(gs.battleState!.enemies.length).toBe(2)
+    expect(gs.battleState!.enemies[1]!.e.id).toBe(100)
+    expect(gs.battleState!.enemies[1]!.e.health).toBe(200) // 满血
     void consoleWarn
   })
 
