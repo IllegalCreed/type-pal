@@ -89,6 +89,26 @@ const OP_COLLECT_ENEMY = 0x0033
 /** sdlpal `script.c:003A` 0x003A:player flee(boss → jump op0,否则 PlayerEscape)。 */
 const OP_PLAYER_FLEE = 0x003A
 
+/** sdlpal `script.c:0030` 0x0030:temp +op1% 某 stat(op0=row,梦蛇 等)。 */
+const OP_BUFF_PLAYER_STAT_PCT = 0x0030
+
+/** sdlpal `script.c:0031` 0x0031:temp 改战斗精灵(present-only)。 */
+const OP_CHANGE_BATTLE_SPRITE = 0x0031
+
+/** sdlpal `script.c:0092` 0x0092:show magic-casting anim(present-only)。 */
+const OP_SHOW_MAGIC_ANIM = 0x0092
+
+/** sdlpal `script.c:006A` 0x006A:PAL_BattleStealFromEnemy(target, op0=stealRate)。 */
+const OP_STEAL_FROM_ENEMY = 0x006A
+
+/** 0x30 op0(PlayerRoles 结构 WORD row,= PLAYERROLES_ROW)→ PlayerRole stat 字段。 */
+const STAT_ROW_FIELD: Record<number, 'attackStrength' | 'magicStrength' | 'defense' | 'dexterity'> = {
+  17: 'attackStrength',
+  18: 'magicStrength',
+  19: 'defense',
+  20: 'dexterity',
+}
+
 /** sdlpal `script.c:2025-2032` 0x0068:if (g_Battle.fEnemyMoving) jump op0。 */
 const OP_JUMP_IF_ENEMY_TURN = 0x0068
 
@@ -363,6 +383,88 @@ export function dispatchBattleOpcode(
       if (state.isBoss)
         return { consumed: true, newIp: operands[0] ?? 0 }
       state.phase = 'fleed'
+      return { consumed: true }
+    }
+
+    case OP_BUFF_PLAYER_STAT_PCT: {
+      // sdlpal `script.c:0030`:临时按 % 增益某 stat。
+      //   p[Extra][op0*MAX+role] = p1[PlayerRoles][op0*MAX+role] * (SHORT)op1 / 100
+      //   即 Extra slot = base*op1/100,装备 getter 合成后 effective = base + base*op1/100。
+      //   op2==0 → role=wEventObjectID(施法/使用者);else role=op2-1。
+      // ts:battle 直接读 role stat(不走 equip-effect getter,D14 残)→ 直接把 effective 值写回
+      //   role.{stat}(= base + trunc(base*op1/100)),functional in battle。
+      // **残**:sdlpal 用 per-battle Extra slot,战斗末清;ts mutate role 会持久(多次使用叠加)。
+      //   忠实需 per-battle temp-buff 模型 + 战斗末 reset(同 D14 残)。
+      if (!ctx.playerRoles)
+        return { consumed: true }
+      const op2 = operands[2] ?? 0
+      let roleId: number | undefined
+      if (op2 > 0) {
+        roleId = op2 - 1
+      } else {
+        const sel = ctx.caster?.type === 'player'
+          ? ctx.caster
+          : (ctx.target?.type === 'player' ? ctx.target : undefined)
+        roleId = sel ? state.players[sel.idx]?.roleId : undefined
+      }
+      const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
+      const field = STAT_ROW_FIELD[operands[0] ?? 0]
+      if (role && field) {
+        const base = role[field]
+        role[field] = base + Math.trunc(base * asShort(operands[1] ?? 0) / 100)
+      }
+      return { consumed: true }
+    }
+
+    case OP_CHANGE_BATTLE_SPRITE: {
+      // sdlpal `script.c:0031`:rgEquipmentEffect[Extra].rgwSpriteNumInBattle[wEventObjectID] = op0
+      //   —— 临时替换队员战斗精灵号(present-only)。
+      // present-battle 当前只画 idle frame[0] 静态精灵(D17 演出 stub)→ 本逻辑层 no-op,
+      //   待 present 精灵替换实现后接线。
+      return { consumed: true }
+    }
+
+    case OP_SHOW_MAGIC_ANIM: {
+      // sdlpal `script.c:0092`:PAL_BattleShowPlayerPreMagicAnim + 全队 iColorShift 渐变 cycle
+      //   —— 纯施法前摇动画(present-only)。
+      // present-battle 跳过所有战斗动画(D17)→ no-op。
+      return { consumed: true }
+    }
+
+    case OP_STEAL_FROM_ENEMY: {
+      // sdlpal `fight.c:5193 PAL_BattleStealFromEnemy(target, stealRate=op0)`:
+      //   大段是偷窃动画(pos/delay/colorShift)→ present-only 跳过(D17)。核心(5253-5297):
+      //   if (enemy.nStealItem > 0 && (RandomLong(0,10) <= stealRate || stealRate==0)):
+      //     wStealItem==0 → 偷钱:c = nStealItem / RandomLong(2,3); nStealItem-=c; dwCash+=c
+      //     else          → 偷物:nStealItem--; AddItem(wStealItem,1)
+      //   ts:nStealItem=enemy.e.stealItemCount(per-battle copy,偷一次减一次);wStealItem=stealItem。
+      //   偷得提示 dialog(PAL_ShowDialogText)是 present 层 → 跳过。
+      const idx = ctx.target?.idx
+      const enemy = idx !== undefined ? state.enemies[idx] : undefined
+      if (!enemy || !ctx.gs)
+        return { consumed: true }
+      const stealRate = operands[0] ?? 0
+      // sdlpal && 左短路:nStealItem<=0 时不抽 RandomLong
+      if ((enemy.e.stealItemCount ?? 0) > 0) {
+        const roll = state.rng.rangeInclusive(0, 10) // RandomLong(0,10)
+        if (roll <= stealRate || stealRate === 0) {
+          if ((enemy.e.stealItem ?? 0) === 0) {
+            // 偷钱:c = nStealItem / RandomLong(2,3)(整除)
+            const c = Math.trunc(enemy.e.stealItemCount / state.rng.rangeInclusive(2, 3))
+            enemy.e.stealItemCount -= c
+            ctx.gs.dwCash += c
+          } else {
+            // 偷物:nStealItem--; AddItem(wStealItem,1)
+            enemy.e.stealItemCount--
+            const itemId = enemy.e.stealItem
+            const entry = ctx.gs.inventory.find((e) => e.itemId === itemId)
+            if (entry)
+              entry.count = Math.min(99, entry.count + 1)
+            else
+              ctx.gs.inventory.push({ itemId, count: 1 })
+          }
+        }
+      }
       return { consumed: true }
     }
 

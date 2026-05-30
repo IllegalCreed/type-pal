@@ -776,3 +776,172 @@ describe('0x66 throw weapon (E2)', () => {
     expect(enemies[0]!.e.health).toBe(101)
   })
 })
+
+// ============================================================================
+// Batch C battle-context:0x30 stat-buff% / 0x31 sprite-swap / 0x92 magic-anim
+// ============================================================================
+
+// biome-ignore lint/suspicious/noExplicitAny: 只填 stat 字段
+function statBuffCtx(roles: any[], casterIdx = 0): BattleCtx {
+  return {
+    state: {
+      enemies: [],
+      players: roles.map((r, i) => ({ roleId: r.id ?? i, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } })),
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+    } as any as BattleState,
+    caster: { type: 'player', idx: casterIdx },
+    // biome-ignore lint/suspicious/noExplicitAny: roles 直填
+    playerRoles: { roles } as any,
+  }
+}
+
+describe('0x30 buff player stat % (script.c:0030,梦蛇 等)', () => {
+  it('op0=17 attackStrength +100%,op2=0 → caster role(base 30 → 60)', () => {
+    const roles = [{ id: 0, attackStrength: 30, magicStrength: 50, defense: 40, dexterity: 20 }]
+    const r = dispatchBattleOpcode(0x30, [17, 100, 0], statBuffCtx(roles))
+    expect(r.consumed).toBe(true)
+    expect(roles[0]!.attackStrength).toBe(60) // 30 + trunc(30*100/100)
+  })
+
+  it('op2>0 → role=op2-1(指定队员而非 caster)', () => {
+    const roles = [
+      { id: 0, attackStrength: 30, magicStrength: 50, defense: 40, dexterity: 20 },
+      { id: 1, attackStrength: 80, magicStrength: 50, defense: 40, dexterity: 20 },
+    ]
+    dispatchBattleOpcode(0x30, [18, 10, 2], statBuffCtx(roles)) // op0=18 magicStr,op2=2 → roles[1]
+    expect(roles[0]!.magicStrength).toBe(50) // 未碰
+    expect(roles[1]!.magicStrength).toBe(55) // 50 + trunc(50*10/100)
+  })
+
+  it('op1 负值(SHORT)= debuff:op0=19 defense op1=0xFFCE(-50%)→ base40 → 20', () => {
+    const roles = [{ id: 0, attackStrength: 30, magicStrength: 50, defense: 40, dexterity: 20 }]
+    dispatchBattleOpcode(0x30, [19, 0xFFCE, 0], statBuffCtx(roles)) // 0xFFCE = -50
+    expect(roles[0]!.defense).toBe(20) // 40 + trunc(40*-50/100) = 40 - 20
+  })
+
+  it('op0=20 dexterity 走映射', () => {
+    const roles = [{ id: 0, attackStrength: 30, magicStrength: 50, defense: 40, dexterity: 20 }]
+    dispatchBattleOpcode(0x30, [20, 50, 0], statBuffCtx(roles))
+    expect(roles[0]!.dexterity).toBe(30) // 20 + trunc(20*50/100) = 20 + 10
+  })
+
+  it('未知 op0 row → 无字段映射,no-op consumed', () => {
+    const roles = [{ id: 0, attackStrength: 30, magicStrength: 50, defense: 40, dexterity: 20 }]
+    const r = dispatchBattleOpcode(0x30, [99, 100, 0], statBuffCtx(roles))
+    expect(r.consumed).toBe(true)
+    expect(roles[0]!.attackStrength).toBe(30) // 未碰
+  })
+
+  it('无 playerRoles → consumed,不崩', () => {
+    const ctx = statBuffCtx([{ id: 0, attackStrength: 30, magicStrength: 50, defense: 40, dexterity: 20 }])
+    ctx.playerRoles = undefined
+    const r = dispatchBattleOpcode(0x30, [17, 100, 0], ctx)
+    expect(r.consumed).toBe(true)
+  })
+})
+
+describe('0x31 / 0x92 present-only(no-op consumed)', () => {
+  it('0x31 change battle sprite → consumed,不崩(present 精灵替换待)', () => {
+    const r = dispatchBattleOpcode(0x31, [200, 0, 0], statBuffCtx([{ id: 0, attackStrength: 30 }]))
+    expect(r.consumed).toBe(true)
+  })
+
+  it('0x92 show magic anim → consumed,不崩(present 跳过战斗动画 D17)', () => {
+    const r = dispatchBattleOpcode(0x92, [1, 0, 0], statBuffCtx([{ id: 0, attackStrength: 30 }]))
+    expect(r.consumed).toBe(true)
+  })
+})
+
+// ============================================================================
+// 0x6A steal from enemy(fight.c:5193 PAL_BattleStealFromEnemy)
+// ============================================================================
+
+// rangeInclusive(0,10)=roll010;rangeInclusive(2,3)=div23。其余 lo。
+// biome-ignore lint/suspicious/noExplicitAny: 只填 rangeInclusive
+function fakeRng(roll010: number, div23 = 2): any {
+  return {
+    next: () => 0,
+    range: () => 0,
+    rangeInclusive: (lo: number, hi: number) => {
+      if (lo === 0 && hi === 10) return roll010
+      if (lo === 2 && hi === 3) return div23
+      return lo
+    },
+    getState: () => 0,
+  }
+}
+
+// biome-ignore lint/suspicious/noExplicitAny: 最小 ctx
+function stealCtx(enemy: BattleEnemy, rng: any, cash = 0, inventory: Array<{ itemId: number, count: number }> = []): BattleCtx {
+  return {
+    state: {
+      enemies: [enemy],
+      players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+      rng,
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+    } as any as BattleState,
+    caster: { type: 'player', idx: 0 },
+    target: { type: 'enemy', idx: 0 },
+    // biome-ignore lint/suspicious/noExplicitAny: 只填 dwCash/inventory
+    gs: { dwCash: cash, inventory } as any,
+  }
+}
+
+describe('0x6A steal from enemy (fight.c:5193)', () => {
+  it('偷物成功(wStealItem!=0,roll<=rate)→ nStealItem-- + AddItem', () => {
+    const enemy = richEnemy({ stealItem: 42, stealItemCount: 2 })
+    const ctx = stealCtx(enemy, fakeRng(3))
+    const r = dispatchBattleOpcode(0x6A, [5, 0, 0], ctx) // rate=5,roll=3 pass
+    expect(r.consumed).toBe(true)
+    expect(enemy.e.stealItemCount).toBe(1)
+    expect(ctx.gs!.inventory).toEqual([{ itemId: 42, count: 1 }])
+  })
+
+  it('偷钱(wStealItem==0)→ c=nStealItem/RandomLong(2,3);nStealItem-=c;dwCash+=c', () => {
+    const enemy = richEnemy({ stealItem: 0, stealItemCount: 100 })
+    const ctx = stealCtx(enemy, fakeRng(3, 2), 500) // roll=3<=rate;div=2 → c=50
+    dispatchBattleOpcode(0x6A, [5, 0, 0], ctx)
+    expect(enemy.e.stealItemCount).toBe(50) // 100-50
+    expect(ctx.gs!.dwCash).toBe(550) // 500+50
+  })
+
+  it('rate==0 → 必成(即使 roll 大)', () => {
+    const enemy = richEnemy({ stealItem: 42, stealItemCount: 1 })
+    const ctx = stealCtx(enemy, fakeRng(10)) // roll=10 但 rate=0 → pass
+    dispatchBattleOpcode(0x6A, [0, 0, 0], ctx)
+    expect(enemy.e.stealItemCount).toBe(0)
+    expect(ctx.gs!.inventory).toEqual([{ itemId: 42, count: 1 }])
+  })
+
+  it('roll > rate(rate!=0)→ 失败,无变化', () => {
+    const enemy = richEnemy({ stealItem: 42, stealItemCount: 2 })
+    const ctx = stealCtx(enemy, fakeRng(8)) // roll=8 > rate=2
+    dispatchBattleOpcode(0x6A, [2, 0, 0], ctx)
+    expect(enemy.e.stealItemCount).toBe(2) // 未变
+    expect(ctx.gs!.inventory).toEqual([])
+  })
+
+  it('nStealItem==0 → 无可偷,无变化', () => {
+    const enemy = richEnemy({ stealItem: 42, stealItemCount: 0 })
+    const ctx = stealCtx(enemy, fakeRng(0), 500)
+    dispatchBattleOpcode(0x6A, [10, 0, 0], ctx)
+    expect(enemy.e.stealItemCount).toBe(0)
+    expect(ctx.gs!.inventory).toEqual([])
+    expect(ctx.gs!.dwCash).toBe(500)
+  })
+
+  it('偷钱 c=0 边界(nStealItem<div)→ nStealItem 不变,dwCash 不变', () => {
+    const enemy = richEnemy({ stealItem: 0, stealItemCount: 1 })
+    const ctx = stealCtx(enemy, fakeRng(0, 3), 500) // c=trunc(1/3)=0
+    dispatchBattleOpcode(0x6A, [5, 0, 0], ctx)
+    expect(enemy.e.stealItemCount).toBe(1)
+    expect(ctx.gs!.dwCash).toBe(500)
+  })
+
+  it('已有该物品 → count 累加(99 clamp)', () => {
+    const enemy = richEnemy({ stealItem: 42, stealItemCount: 1 })
+    const ctx = stealCtx(enemy, fakeRng(0), 0, [{ itemId: 42, count: 5 }])
+    dispatchBattleOpcode(0x6A, [5, 0, 0], ctx)
+    expect(ctx.gs!.inventory).toEqual([{ itemId: 42, count: 6 }])
+  })
+})
