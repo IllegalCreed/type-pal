@@ -31,6 +31,11 @@ export interface ActionQueueItem {
   dex: number
   /** 仅 dualMove enemy 的第二次行动 = true。 */
   fIsSecond: boolean
+  /**
+   * 敌人 wScriptOnReady 已跑过(本 turn 项一次性)。tickPerformAction 跑 scriptOnReady 后置真,
+   * 防对话 hold 暂停期间重入 tickPerformAction 时重复跑脚本。actionQueue 每轮重建 → 自动新鲜。
+   */
+  scriptReadyRan?: boolean
 }
 
 export interface BuildActionQueueInput {

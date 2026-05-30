@@ -128,6 +128,12 @@ const OP_INCREASE_HP_MP = 0x001D
 /** sdlpal `script.c:0022` 0x0022:revive dead player(HP=maxHP*op1/10 + 清状态/毒;还魂咒/赎魂)。 */
 const OP_REVIVE_PLAYER = 0x0022
 
+/** sdlpal `script.c:3267` 0x05:Redraw screen — PAL_ClearDialog(TRUE)(清当前对话框,另起新段)。 */
+const OP_REDRAW_SCREEN = 0x0005
+
+/** sdlpal `script.c:3428` 0x8E:Restore screen — PAL_ClearDialog(TRUE)(结束/清当前对话框)。 */
+const OP_RESTORE_SCREEN = 0x008E
+
 /** sdlpal `script.c:005F` 0x005F:kill player immediately(rgwHP[eventObject]=0)。 */
 const OP_KILL_PLAYER = 0x005F
 
@@ -670,6 +676,14 @@ export function dispatchBattleOpcode(
         if (ctx.gs && !revived)
           ctx.gs.fScriptSuccess = false
       }
+      return { consumed: true }
+    }
+
+    case OP_REDRAW_SCREEN:
+    case OP_RESTORE_SCREEN: {
+      // sdlpal `script.c:3267 / 3428` PAL_ClearDialog(TRUE):清当前对话框。战斗里标记下条
+      //   showDialog 入队时 clearBefore(另起新框 / 结束当前对话段)。纯渲染 op,无其它副作用。
+      state.battleDialogPendingClear = true
       return { consumed: true }
     }
 

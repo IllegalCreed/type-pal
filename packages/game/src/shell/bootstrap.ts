@@ -316,6 +316,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     uiSpriteFrames: assets.uiSpriteFrames, // D17b:伤害数字弹幕用 UI sprite 数字帧
     effectSprite: assets.effectSprite, // D17a:物理攻击命中特效 overlay sprite(chunk 10)
     magicSprites: assets.magicSprites, // D17:法术 FIRE.MKF sprite overlay(chunk = magic.effect)
+    dialogAssets, // 战斗内对话(scriptOnReady/scriptOnTurnStart showDialog)复用大世界 portrait/icon 渲染
   }
 
   // D17:FIRE.MKF magic sprite 帧数 Map(chunk → frameCount)— performMagic OffMagic 时间线取 n。

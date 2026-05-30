@@ -268,10 +268,10 @@ describe('runScript (M3 T17, battle mode)', () => {
     expect(bus.drain()).toEqual([])
   })
 
-  it('runtimeMode=battle + showDialog → emit showBattleMessage(不阻塞,继续到 end)', () => {
+  it('runtimeMode=battle + showDialog → 入 battleDialogQueue(战斗对话 hold 消费,不再 emit showBattleMessage)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const before = JSON.stringify(gs)
     const bus = createCommandBus()
+    const ctx = makeMinimalBattleCtx()
     runScript({
       commands: [
         { op: 'showDialog', messageIndex: 0, text: '受到攻击' },
@@ -280,15 +280,55 @@ describe('runScript (M3 T17, battle mode)', () => {
       ip: 0,
       bus,
       runtimeMode: 'battle',
-      battleCtx: makeMinimalBattleCtx(),
+      battleCtx: ctx,
     })
-    const drained = bus.drain()
-    expect(drained).toHaveLength(1)
-    expect(drained[0]?.cmd).toEqual({ op: 'showBattleMessage', text: '受到攻击' })
-    // 不改 GameState(不变量)
-    expect(JSON.stringify(gs)).toBe(before)
+    // 改入队(由 tickBattleDialog 复用大世界 gs.dialogBox 渲染 + 等键),不再 emit showBattleMessage
+    expect(bus.drain()).toHaveLength(0)
+    expect(ctx.state.battleDialogQueue).toEqual([
+      { text: '受到攻击', style: 'bottom', portrait: undefined, fontColor: undefined, clearBefore: undefined },
+    ])
+    // runScript 本身不碰 explore gs.dialogBox(由战斗 hold 填)
     expect(gs.dialogBox).toBeUndefined()
-    expect(gs.eventCursor).toBeUndefined()
+  })
+
+  it('runtimeMode=battle + setDialogStyleTop → 下条 showDialog 入队带该风格 + portrait/fontColor', () => {
+    const bus = createCommandBus()
+    const ctx = makeMinimalBattleCtx()
+    runScript({
+      commands: [
+        { op: 'setDialogStyleTop', arg0: 12, arg1: 0x2D },
+        { op: 'showDialog', messageIndex: 0, text: '哼!' },
+        { op: 'end' },
+      ],
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: ctx,
+    })
+    expect(ctx.state.battleDialogQueue).toEqual([
+      { text: '哼!', style: 'top', portrait: 12, fontColor: 0x2D, clearBefore: undefined },
+    ])
+  })
+
+  it('runtimeMode=battle + 0x05 ClearDialog → 下条 showDialog 入队标 clearBefore', () => {
+    const bus = createCommandBus()
+    const ctx = makeMinimalBattleCtx()
+    runScript({
+      commands: [
+        { op: 'showDialog', messageIndex: 0, text: 'A' },
+        { op: 'raw', opcode: 0x05, operands: [0, 0, 0] },
+        { op: 'showDialog', messageIndex: 0, text: 'B' },
+        { op: 'end' },
+      ],
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: ctx,
+    })
+    expect(ctx.state.battleDialogQueue?.map((l) => ({ text: l.text, clearBefore: l.clearBefore }))).toEqual([
+      { text: 'A', clearBefore: undefined },
+      { text: 'B', clearBefore: true }, // 0x05 在 A 后 → B 标 clearBefore
+    ])
   })
 
   it('runtimeMode=battle + raw → console.debug 含 [event-system battle] 前缀 + ip++', () => {

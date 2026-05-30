@@ -34,6 +34,7 @@ import type { GameState } from '../../core/game-state.js'
 import type { GlyphTable } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { type BattleBgAsset, drawBattleBg } from './draw-battle-bg.js'
+import { type DialogBoxDrawCtx, drawDialogBox } from '../dialog-box.js'
 import { drawBattleEffectOverlay, drawBattleMagicOverlay } from './draw-battle-effect.js'
 import { FloatingNumsLayer } from './draw-battle-num.js'
 import {
@@ -73,6 +74,11 @@ export interface BattleAssets {
    * frameIdx 取帧。缺省则法术 overlay 不画(loader 注入)。
    */
   magicSprites?: Map<number, SpriteAsset>
+  /**
+   * 战斗内对话(scriptOnReady / scriptOnTurnStart 的 0xFFFF showDialog)渲染资源 —— 复用大世界
+   * dialog 渲染(portraitFrames / iconFrames),drawDialogBox 用。缺省则对话框只画文字 + 边框(无头像)。
+   */
+  dialogAssets?: DialogBoxDrawCtx
 }
 
 /**
@@ -161,6 +167,16 @@ export class BattlePresent {
 
     // 5. UI overlay(主菜单 / 二级菜单 / 目标光标 / HP/MP 状态栏)
     drawBattleUI(fb, state, assets.playerRoles, assets.spells, assets.items, gs, assets.glyphs)
+
+    // 6. 战斗内对话框(scriptOnReady / scriptOnTurnStart 0xFFFF showDialog)——
+    //    复用大世界 gs.dialogBox 渲染,**覆于战斗场景之上**(sdlpal text.c:1687 box 不擦底,
+    //    战斗精灵仍可见)。tickBattleDialog hold 期间填充 gs.dialogBox;战斗结束 finalizeBattle 清。
+    if (gs.dialogBox) {
+      drawDialogBox(fb, gs.dialogBox, assets.glyphs, {
+        ...assets.dialogAssets,
+        uiSpriteFrames: assets.uiSpriteFrames,
+      })
+    }
   }
 
   /** 战斗结束时清空数字弹幕,避免下次战斗看到上次残留。 */

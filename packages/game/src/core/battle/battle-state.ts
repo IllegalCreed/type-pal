@@ -8,7 +8,7 @@
  * sdlpal `battle.h` / `fight.c` 概念对齐,但不一一映射(M3 只识别状态子集)。
  */
 
-import type { BattleField, Enemy, EnemyPosTable, PlayerRoles } from '@type-pal/shared'
+import type { BattleField, DialogBoxStyle, Enemy, EnemyPosTable, PlayerRoles } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
 import type { SeedableRng } from '../rng.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle-positions.js'
@@ -345,6 +345,46 @@ export interface BattleState {
    * undefined = 无 active 淡出。
    */
   battleFade?: { elapsedMs: number }
+  /**
+   * 战斗内对话队列(战斗脚本 0xFFFF showDialog;scriptOnReady / scriptOnTurnStart 等)。
+   * runScript(battle) 同步跑完时把 dialog 行收集进此队列;tickBattleDialog hold 逐 tick 把队列
+   * 喂进**复用的大世界** gs.dialogBox(startDialogLine/appendDialogLine + page/end-key + 渲染),
+   * 期间**暂停**战斗推进(忠实 sdlpal PAL_ShowDialogText 同步 blocking,text.c:1701)。
+   * CLASSIC 真值:battle dialog 走普通 dialog box(text.c:1660-1772),#ifndef PAL_CLASSIC 的
+   * 战斗飘字 PAL_BattleUIShowText 在 classic build 被编译掉。空/undefined = 无待显对话。
+   */
+  battleDialogQueue?: BattleDialogLine[]
+  /** typing 节拍累加器:BATTLE_DT(40ms) 累到 FRAME_MS_EXPLORE(100ms) 才 tickDialog 一次,保打字速率与大世界一致。 */
+  battleDialogTypingAccMs?: number
+  /** narration 风格自动消失帧计(复用大世界 NARRATION_AUTO_DISMISS_FRAMES,达到 → 自动翻过)。 */
+  battleDialogNarrationFrames?: number
+  /** setDialogStyle*(battle)累积的当前对话风格,下条 showDialog 入队时取。undefined = 默认 'bottom'。 */
+  battleDialogStyle?: { style: DialogBoxStyle, portrait?: number, fontColor?: number }
+  /** 0x05/0x8E ClearDialog 置真 → 下条 showDialog 入队标 clearBefore(另起新框),入队后清。 */
+  battleDialogPendingClear?: boolean
+  /**
+   * 已跑过 scriptOnTurnStart 的轮次(= state.turn)。tickPerformAction 每轮起手对全体活敌跑一次
+   * wScriptOnTurnStart(sdlpal fight.c:1184-1191 fTurnStart gate,每轮一次,行动前),boss 嘲讽对话
+   * 由此入队。!== state.turn → 本轮还没跑。对话 hold 暂停期间重入也不重跑(guard)。
+   */
+  turnStartDoneForTurn?: number
+}
+
+/**
+ * 战斗内对话一行(0xFFFF showDialog 收集 → 复用大世界 dialog 渲染)。
+ * 对照 sdlpal `PAL_ShowDialogText(PAL_GetMsg(op0))`(script.c:3463)+ 前置 PAL_StartDialog 风格。
+ */
+export interface BattleDialogLine {
+  /** 原始文本(含控制符,parseDialogText 解析逐字符上色 / 变速 / 尾暂停)。 */
+  text: string
+  /** dialog 风格(setDialogStyle* 决定:top/bottom/center/narration)。 */
+  style: DialogBoxStyle
+  /** 头像 icon(RGM.MKF chunk;setDialogStyle arg0)。 */
+  portrait?: number
+  /** 字色(setDialogStyle arg1;默认 0x4F)。 */
+  fontColor?: number
+  /** 此行前需清屏另起新框(0x05/0x8E ClearDialog → 上一段 dialog 结束、重开)。 */
+  clearBefore?: boolean
 }
 
 export interface CreateBattleStateInput {

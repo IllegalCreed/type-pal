@@ -317,6 +317,64 @@ describe('tickBattle phase transitions', () => {
     expect(gs.battleState?.phase).toBe('selectAction')
     expect(gs.battleState?.turn).toBe(1)
   })
+
+  it('敌 scriptOnReady 含 showDialog → 行动前先显示对话 + 暂停战斗(guard),Confirm 后才行动', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      // scriptOnReady ip=1 → showDialog '哼哼';ip=2 end。敌/我都不会被秒,保证留在战斗内。
+      enemies: [makeEnemy({ id: 100, health: 99999 })],
+      roles: [makeRole({ id: 0, hp: 99999 })],
+      commands: [{ op: 'end' }, { op: 'showDialog', messageIndex: 0, text: '哼哼' }, { op: 'end' }],
+    })
+    gs.battleState!.enemies[0]!.scriptOnReady = 1 // 挂 AI 脚本(bootstrap 默认 enemyObjects=[] → 0)
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+    tickBattle(gs, emptyInput, bus) // selectAction → performAction
+
+    // 推进直到敌人 turn 跑 scriptOnReady → 队列被填 + tickBattleDialog 起 box
+    let safety = 60
+    while (gs.dialogBox === undefined && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(gs.dialogBox).toBeDefined() // 战斗内对话显示了
+    expect(gs.dialogBox?.currentLineText).toBe('哼哼')
+    expect(gs.battleState?.phase).toBe('performAction') // 仍在 perform(敌人还没结算)
+
+    // 不按键多 tick → 对话仍在,战斗被 hold(scriptOnReady 不重跑 → 队列不增长)
+    const queuedAfterStart = gs.battleState?.battleDialogQueue?.length ?? 0
+    for (let i = 0; i < 10; i++) tickBattle(gs, emptyInput, bus)
+    expect(gs.dialogBox).toBeDefined() // 仍 hold
+    expect(gs.battleState?.battleDialogQueue?.length ?? 0).toBe(queuedAfterStart) // guard:不重跑脚本
+
+    // 打完字 + Confirm 关对话 → 战斗恢复推进
+    let s2 = 60
+    while (gs.dialogBox?.phase !== 'waiting-end-key' && s2-- > 0) tickBattle(gs, emptyInput, bus)
+    bus.drain()
+    const confirmInput: InputSnapshot = { held: new Set(), pressed: new Set(['Confirm']), frameNum: 0 }
+    tickBattle(gs, confirmInput, bus) // dialog-end → 关 box → 放行
+    expect(gs.dialogBox).toBeUndefined()
+  })
+
+  it('敌 scriptOnTurnStart 含 showDialog → 每轮起手(action 前)显示嘲讽对话 + 本轮不重跑', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 99999 })],
+      roles: [makeRole({ id: 0, hp: 99999 })],
+      // scriptOnTurnStart ip=1 → showDialog '不自量力的家伙!';ip=2 end(蜘蛛精式嘲讽)
+      commands: [{ op: 'end' }, { op: 'showDialog', messageIndex: 0, text: '不自量力的家伙!' }, { op: 'end' }],
+    })
+    gs.battleState!.enemies[0]!.scriptOnTurnStart = 1 // bootstrap enemyObjects=[] → 默认 0,手挂
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+    tickBattle(gs, emptyInput, bus) // selectAction → performAction(起手即跑 turnStart)
+
+    // turnStart 在 performAction 起手(任何 action 前)跑 → dialog 入队 → tickBattleDialog 起 box
+    let safety = 30
+    while (gs.dialogBox === undefined && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(gs.dialogBox?.currentLineText).toBe('不自量力的家伙!')
+    expect(gs.battleState?.turnStartDoneForTurn).toBe(gs.battleState?.turn) // 本轮已跑
+
+    // 本轮不重跑(guard:队列不再被 turnStart 重新填)
+    const qlen = gs.battleState?.battleDialogQueue?.length ?? 0
+    for (let i = 0; i < 5; i++) tickBattle(gs, emptyInput, bus)
+    expect(gs.battleState?.battleDialogQueue?.length ?? 0).toBe(qlen)
+  })
 })
 
 // ============================================================================

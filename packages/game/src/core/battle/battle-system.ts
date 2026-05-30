@@ -61,6 +61,16 @@ import { decideEnemyAction } from './enemy-ai.js'
 import { getEnemyDexterity, getPlayerActualDexterity } from './formulas.js'
 import { tickStatusEffects } from './status.js'
 import { type ActionQueueItem, buildActionQueue } from './turn-queue.js'
+import {
+  appendDialogLine,
+  confirmDialog,
+  setWaitingEndKey,
+  setWaitingPageKey,
+  shouldWaitPageKey,
+  startDialogLine,
+  tickDialog,
+} from '../../present/dialog-box.js'
+import { FRAME_MS_EXPLORE } from '@type-pal/shared'
 
 /** 防卡死兜底阈值:1500 ticks ≈ 60s at 25fps(M3 战斗 FPS)。 */
 const PHASE_STALL_TICKS_LIMIT = 1500
@@ -312,6 +322,10 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   // D17 死亡淡出 hold(phase-agnostic):active → 暂停一切后续(perform / postAction / won 前
   //   都挡住,忠实 sdlpal PAL_BattleFadeScene 同步 blocking)。死敌淡出完才放行。
   if (tickBattleFade(state)) return
+
+  // 战斗内对话 hold(phase-agnostic):战斗脚本 0xFFFF showDialog 收集的队列逐 tick 喂进
+  //   复用的大世界 gs.dialogBox + 等键/1.4s,期间暂停战斗(忠实 sdlpal PAL_ShowDialogText 同步 blocking)。
+  if (tickBattleDialog(state, gs, input)) return
 
   switch (state.phase) {
     case 'preBattle':
@@ -927,6 +941,117 @@ function tickBattleFade(state: BattleState): boolean {
   return true
 }
 
+/** narration 风格(物品提示式)自动消失时长 = 1.4s(sdlpal PAL_DialogWaitForKeyWithMaximumSeconds(1.4),text.c:1701)。 */
+const BATTLE_DIALOG_NARRATION_MS = 1400
+
+/**
+ * 战斗内对话 hold —— **phase-agnostic**(忠实 sdlpal PAL_ShowDialogText 同步 blocking,text.c:1701)。
+ *
+ * 战斗脚本(scriptOnReady / scriptOnTurnStart 等)的 0xFFFF showDialog 由 runScript 收集到
+ * state.battleDialogQueue(runScript 同步跑完无法跨 tick 阻塞);此 hold 逐 tick 把队列喂进
+ * **复用的大世界** gs.dialogBox(startDialogLine/appendDialogLine 行累积 + tickDialog 打字 +
+ * confirmDialog page/end-key),期间暂停一切战斗推进。放在 tickBattle 顶层(fade 之后)。
+ *
+ * CLASSIC 真值:battle dialog 走普通 dialog box(top/bottom 多行翻页 + 等键;narration 1.4s 自消),
+ * `#ifndef PAL_CLASSIC` 的战斗飘字 PAL_BattleUIShowText 在 classic build 被编译掉(text.c:1668-1672)。
+ *
+ * 打字节拍:tickDialog 按大世界 10fps(100ms/帧)校准;战斗 tick 40ms → 用 battleDialogTypingAccMs
+ * 累到 100ms 才 tickDialog 一次,保打字总时长与大世界一致。
+ *
+ * @returns true = 有对话在显示(caller 早退,暂停战斗)。
+ */
+export function tickBattleDialog(state: BattleState, gs: GameState, input: InputSnapshot): boolean {
+  const queueLen = state.battleDialogQueue?.length ?? 0
+  // 无 active dialogBox 且队列空 → 无对话(放行)。注:战斗内 gs.dialogBox 仅由本 hold 拥有。
+  if (!gs.dialogBox && queueLen === 0) return false
+
+  // 对话是合法的玩家等待(非卡死)→ 清 phase stall 计数,避免长时间等键被 60s 看门狗强退。
+  state.phaseStallTicks = 0
+
+  // (A) 无 active box 但队列有行 → 起首行
+  if (!gs.dialogBox) {
+    feedNextBattleDialogLine(state, gs)
+    return true
+  }
+
+  const box = gs.dialogBox
+
+  // (B) narration 风格:满 1.4s 或任意键 → 自动消(sdlpal text.c:1663-1710 CenterWindow 计时自清)
+  if (box.style === 'narration') {
+    state.battleDialogNarrationFrames = (state.battleDialogNarrationFrames ?? 0) + BATTLE_DT
+    const anyKey = input.pressed.size > 0
+    if (anyKey || state.battleDialogNarrationFrames >= BATTLE_DIALOG_NARRATION_MS) {
+      gs.dialogBox = undefined
+      state.battleDialogNarrationFrames = 0
+      state.battleDialogTypingAccMs = 0
+      // 队列还有后续行 → 继续 hold(下 tick 起下一行);否则放行战斗。
+      return (state.battleDialogQueue?.length ?? 0) > 0
+    }
+    return true // 仍在显示 narration(等 1.4s / 任意键)
+  }
+
+  // (C) 普通 typing dialog —— 节拍累加,驱动 tickDialog 在 100ms cadence
+  state.battleDialogTypingAccMs = (state.battleDialogTypingAccMs ?? 0) + BATTLE_DT
+  while (state.battleDialogTypingAccMs >= FRAME_MS_EXPLORE) {
+    state.battleDialogTypingAccMs -= FRAME_MS_EXPLORE
+    tickDialog(box)
+  }
+
+  // Confirm 处理(phase 决定):skip-typing / page-advance / dialog-end
+  if (input.pressed.has('Confirm')) {
+    const result = confirmDialog(box)
+    if (result === 'skip-typing') {
+      return true // 本 tick 整行显满;下 tick 才走 line-done 推进(同大世界 fUserSkip)
+    }
+    if (result === 'page-advance') {
+      feedNextBattleDialogLine(state, gs) // 4 行翻页清完 → append 下一行到清空的 box
+      return true
+    }
+    if (result === 'dialog-end') {
+      gs.dialogBox = undefined
+      state.battleDialogTypingAccMs = 0
+      return (state.battleDialogQueue?.length ?? 0) > 0 // 队列还有(clearBefore/换风格)→ 下 tick 起新框
+    }
+    // 'noop':line-done 等 → 落下面自动推进
+  }
+
+  // line-done 自动推进(sdlpal 行间不停):喂下一行 / 满页等键 / 队列空等结束键
+  if (box.phase === 'line-done') {
+    const next = state.battleDialogQueue?.[0]
+    if (!next) {
+      setWaitingEndKey(box) // 无后续 → 等结束键(Confirm 关 box)
+    }
+    else if (next.clearBefore || next.style !== box.style) {
+      setWaitingEndKey(box) // 新段(显式清屏 / 风格变)→ 先结束当前段,下段起新框
+    }
+    else if (shouldWaitPageKey(box)) {
+      setWaitingPageKey(box) // 满 4 行 → 等翻页键
+    }
+    else {
+      feedNextBattleDialogLine(state, gs) // 同段同风格未满页 → append 下一行(继续打字)
+    }
+  }
+  return true
+}
+
+/** 从 battleDialogQueue 取下一行喂进 gs.dialogBox(无 box → startDialogLine;有 → appendDialogLine)。 */
+function feedNextBattleDialogLine(state: BattleState, gs: GameState): void {
+  const line = state.battleDialogQueue?.shift()
+  if (!line) return
+  if (!gs.dialogBox) {
+    gs.dialogBox = startDialogLine(line.text, {
+      style: line.style,
+      portraitIcon: line.portrait,
+      fontColor: line.fontColor,
+    })
+  }
+  else {
+    appendDialogLine(gs.dialogBox, line.text)
+  }
+  state.battleDialogTypingAccMs = 0
+  state.battleDialogNarrationFrames = 0
+}
+
 function tickPerformAction(
   state: BattleState,
   gs: GameState,
@@ -937,6 +1062,35 @@ function tickPerformAction(
   if (state.phase !== 'performAction') return
 
   // 注:死亡淡出 hold 已上移到 tickBattle 顶层(phase-agnostic tickBattleFade)。
+
+  // ── scriptOnTurnStart:每轮起手对全体活敌跑一次(sdlpal fight.c:1184-1191,fTurnStart gate,
+  //    本轮任何 action 执行前)。脚本 0xFFFF showDialog → 入 battleDialogQueue,顶层 tickBattleDialog
+  //    在 action 前显示(boss 嘲讽对话,如蜘蛛精/拜月)。同 scriptOnReady 用 runScript(battle)。
+  //    turnStartDoneForTurn guard 保每轮一次 + 对话 hold 暂停期间重入不重跑。
+  //    注:0x90 自禁(show-once)/ 0x79 队伍条件分支在 battle 上下文未实现 → 这两 opcode gate 的脚本
+  //    会每轮重显 / 分支不准(残;多数嘲讽脚本无此 gate,直接逐轮显 = 忠实)。
+  if (state.turnStartDoneForTurn !== state.turn) {
+    state.turnStartDoneForTurn = state.turn
+    for (let ei = 0; ei < state.enemies.length; ei++) {
+      const en = state.enemies[ei]
+      if (!en || en.e.health <= 0 || en.scriptOnTurnStart <= 0) continue
+      state.battleDialogPendingClear = false // 每脚本重置 ClearDialog 暂存(防跨脚本泄漏)
+      runScript({
+        commands: res.commands,
+        ip: en.scriptOnTurnStart,
+        bus,
+        runtimeMode: 'battle',
+        battleCtx: {
+          state,
+          caster: { type: 'enemy', idx: ei },
+          summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+        },
+      })
+    }
+    state.battleDialogPendingClear = false
+    // 有对话入队 → 暂停本轮,顶层 tickBattleDialog 放完再回来(guard 防重跑)→ 正常处理 action。
+    if (state.battleDialogQueue && state.battleDialogQueue.length > 0) return
+  }
 
   // ── D17a:时间线驱动 ──────────────────────────────────────────────────────
   // 有 active 动画时间线 → 逐 tick 推进帧;不起新 action,不推 currentActionIndex。
@@ -979,7 +1133,9 @@ function tickPerformAction(
       // 后的 state 执行实际动作。
       // 现阶段 opcode handler 仍是 raw skip(留后续 commit 真做),脚本路径已通,
       // mutate 还没生效,默认仍走 decideEnemyAction fallback。
-      if (enemy.scriptOnReady > 0) {
+      if (enemy.scriptOnReady > 0 && !item.scriptReadyRan) {
+        item.scriptReadyRan = true // 本 turn 项一次性(防对话 hold 暂停期间重入重复跑)
+        state.battleDialogPendingClear = false // 脚本起手清 ClearDialog 暂存(防跨脚本泄漏)
         runScript({
           commands: res.commands,
           ip: enemy.scriptOnReady,
@@ -992,6 +1148,10 @@ function tickPerformAction(
             summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
           },
         })
+        // scriptOnReady 里 0xFFFF showDialog 入了对话队列 → 先暂停本 action,让顶层 tickBattleDialog
+        //   放完对话再回来(scriptReadyRan guard 防重跑)→ 决策 + 行动。忠实 sdlpal:
+        //   scriptOnReady 对话在敌人行动前显示(fight.c:1719-1724 脚本先跑,后 PerformAction)。
+        if (state.battleDialogQueue && state.battleDialogQueue.length > 0) return
       }
       const alivePlayers = state.players
         .map((p, i) => ({ idx: i, hp: res.playerRoles.roles[p.roleId]?.hp ?? 0 }))
@@ -1171,7 +1331,6 @@ function performBattleAction(
           `action=${action.type} actionId=${action.actionId}` +
           ` target=${action.target}(handler 真做留后续)`,
       )
-      bus.emit({ op: 'showBattleMessage', text: `[${action.type}] stub` })
       break
   }
 }
@@ -1280,6 +1439,10 @@ function finalizeBattle(
   res: BattleResources,
   forced: boolean,
 ): void {
+  // 战斗内对话用的是复用大世界 gs.dialogBox —— 战斗结束清掉,避免泄漏进 explore 渲染。
+  gs.dialogBox = undefined
+  state.battleDialogQueue = undefined
+
   if (!forced) {
     if (state.phase === 'won') {
       // M5.B-w1.c:sdlpal `PAL_BattleWon` 真值 — iExpGained 加到每 alive

@@ -2238,8 +2238,22 @@ export function runScript(opts: RunScriptOptions): void {
 
       case 'showDialog': {
         if (runtimeMode === 'battle') {
-          // 战斗中改 emit showBattleMessage,**不阻塞**(M3 简单实现;M5 可能更精细)
-          bus.emit({ op: 'showBattleMessage', text: cmd.text })
+          // 战斗脚本对话(0xFFFF showDialog)—— runScript 是同步一次跑完,无法跨 tick 阻塞,故
+          // 收集进 battleCtx.state.battleDialogQueue;tickBattleDialog hold 逐 tick 把队列喂进
+          // **复用的大世界** gs.dialogBox(渲染 + 打字 + page/end-key)并暂停战斗(忠实 sdlpal
+          // text.c:1660-1772:CLASSIC battle dialog 走普通 dialog box,非 #ifndef 战斗飘字)。
+          const bs = battleCtx?.state
+          if (bs) {
+            const st = bs.battleDialogStyle
+            ;(bs.battleDialogQueue ??= []).push({
+              text: cmd.text,
+              style: st?.style ?? 'bottom',
+              portrait: st?.portrait,
+              fontColor: st?.fontColor,
+              clearBefore: bs.battleDialogPendingClear || undefined,
+            })
+            bs.battleDialogPendingClear = false
+          }
           ip++
         } else {
           // explore 模式下,runScript 不持有 GameState,无法走 waiting=dialog 路径
@@ -2252,10 +2266,26 @@ export function runScript(opts: RunScriptOptions): void {
       case 'setDialogStyleTop':
       case 'setDialogStyleCenter':
       case 'setDialogStyleBottom':
-      case 'setDialogStyleNarration':
-        // battle mode 下 dialog style 没有意义(showBattleMessage 不分 style);no-op skip
+      case 'setDialogStyleNarration': {
+        // 战斗脚本设对话风格(sdlpal script.c:3394-3424 PAL_StartDialog 设 bDialogPosition +
+        //   字色/头像)→ 存 battleCtx.state.battleDialogStyle,下条 showDialog 入队时取。
+        const bs = runtimeMode === 'battle' ? battleCtx?.state : undefined
+        if (bs) {
+          const style: import('@type-pal/shared').DialogBoxStyle =
+            cmd.op === 'setDialogStyleTop' ? 'top'
+              : cmd.op === 'setDialogStyleCenter' ? 'center'
+                : cmd.op === 'setDialogStyleNarration' ? 'narration'
+                  : 'bottom'
+          bs.battleDialogStyle = {
+            style,
+            portrait: cmd.arg0 ? cmd.arg0 : undefined,
+            fontColor: cmd.arg1 ? cmd.arg1 : 0x4F,
+          }
+        }
+        // explore mode 不该走 runScript(同 showDialog);no-op skip
         ip++
         break
+      }
 
       case 'raw': {
         // M5.B-w2.a:battle mode 先尝试 dispatchBattleOpcode(scripted enemy AI 入口)
