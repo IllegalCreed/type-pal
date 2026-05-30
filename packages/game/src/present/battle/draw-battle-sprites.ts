@@ -9,41 +9,9 @@
  * blit 规则同 draw-sprite:anchor 在底部中心,索引 0 透明,屏外 clip。
  */
 import type { EnemyPosTable, PlayerRoles } from '@type-pal/shared'
+import { ENEMY_POSITIONS_FALLBACK, getPlayerBasePos } from '../../core/battle/battle-positions.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
 import type { Framebuffer } from '../framebuffer.js'
-
-/**
- * 队员战斗位置(M3.5 fix:对照 sdlpal battle.c::g_rgPlayerPos[3][3][2])。
- *
- * sdlpal 真值(idx 取 maxPartyMemberIndex,即 partyCount-1):
- *   1 player : (240, 170)
- *   2 players: (200, 176), (256, 152)
- *   3 players: (180, 180), (234, 170), (270, 146)
- *
- * M2/M3 simple version 误用 hardcoded 中心 layout,L2 sdlpal baseline 揭穿。
- */
-const PLAYER_POSITIONS_BY_COUNT: ReadonlyArray<ReadonlyArray<{ x: number, y: number }>> = [
-  // 1 player
-  [{ x: 240, y: 170 }],
-  // 2 players
-  [{ x: 200, y: 176 }, { x: 256, y: 152 }],
-  // 3 players
-  [{ x: 180, y: 180 }, { x: 234, y: 170 }, { x: 270, y: 146 }],
-  // 4+ players:sdlpal 表只到 3 人,M3.5 4 人 用 3 人 layout + 加一格
-  [{ x: 180, y: 180 }, { x: 234, y: 170 }, { x: 270, y: 146 }, { x: 280, y: 130 }],
-  // 5 players(罕见)
-  [{ x: 180, y: 180 }, { x: 234, y: 170 }, { x: 270, y: 146 }, { x: 280, y: 130 }, { x: 290, y: 110 }],
-]
-
-/**
- * 敌方位置 fallback(EnemyPosTable 缺时 / 兜底)。M3.5 起优先 EnemyPosTable
- * (DATA.MKF chunk 13 真值,见 sdlpal global.h ENEMYPOS)。
- */
-const ENEMY_POSITIONS_FALLBACK: ReadonlyArray<{ x: number, y: number }> = [
-  { x: 160, y: 80 },
-  { x: 100, y: 60 }, { x: 220, y: 60 },
-  { x: 70, y: 90 }, { x: 250, y: 90 },
-]
 
 /**
  * 敌人战斗精灵底锚屏幕坐标(present 层唯一真值,sprite + 伤害数字共用,杜绝漂移)。
@@ -59,13 +27,12 @@ export function computeEnemyAnchor(
   state: BattleState,
   idx: number,
   enemyPos: EnemyPosTable | undefined,
-): { x: number, y: number } | undefined {
+): { x: number; y: number } | undefined {
   const enemyCount = state.enemies.length
   const layout = enemyPos?.layouts[enemyCount - 1] ?? ENEMY_POSITIONS_FALLBACK
   const pos = layout[idx]
   const enemy = state.enemies[idx]
-  if (!pos || !enemy)
-    return undefined
+  if (!pos || !enemy) return undefined
   return { x: pos.x, y: pos.y + (enemy.e.yPosOffset ?? 0) }
 }
 
@@ -78,12 +45,8 @@ export function computeEnemyAnchor(
 export function computePlayerAnchor(
   state: BattleState,
   idx: number,
-): { x: number, y: number } | undefined {
-  const partyCount = state.players.length
-  const positions
-    = PLAYER_POSITIONS_BY_COUNT[Math.min(partyCount - 1, PLAYER_POSITIONS_BY_COUNT.length - 1)]
-  const pos = positions?.[idx]
-  return pos ? { x: pos.x, y: pos.y } : undefined
+): { x: number; y: number } | undefined {
+  return getPlayerBasePos(state.players.length, idx)
 }
 
 export interface SpriteFrame {
@@ -134,12 +97,19 @@ export function computeIdleFrameIndex(
 /**
  * 把单帧以 (anchorX, anchorY) 为底部中心 anchor 画到 framebuffer。
  * 透明判定走 opaque mask(M3.5 fix,同 draw-sprite / draw-tilemap)。
+ *
+ * D17a iColorShift(sdlpal `palcommon.c:398-411 PAL_RLEBlitWithColorShift`):
+ *   受击 / 法术染色时低 nibble 整体偏移 —— 每个 **opaque** 像素
+ *   `b = (idx & 0x0F) + shift` clamp[0, 0x0F],`out = b | (idx & 0xF0)`。
+ *   透明(opaque mask=0,= RLE-skip run)不参与偏移(sdlpal 同样跳过)。
+ *   shift=0 时退化为原值(等价旧 blit)。
  */
 function blitFrame(
   fb: Framebuffer,
   frame: SpriteFrame,
   anchorX: number,
   anchorY: number,
+  iColorShift = 0,
 ): void {
   const baseX = anchorX - (frame.width >> 1)
   const baseY = anchorY - frame.height
@@ -147,7 +117,15 @@ function blitFrame(
     for (let x = 0; x < frame.width; x++) {
       const srcOff = y * frame.width + x
       if (frame.opaque[srcOff] === 0) continue
-      fb.writePixel(baseX + x, baseY + y, frame.indices[srcOff]!)
+      let idx = frame.indices[srcOff]!
+      if (iColorShift !== 0) {
+        // palcommon.c:397-411:只偏移低 nibble,clamp[0,0x0F],高 nibble(0xF0)保留。
+        let low = (idx & 0x0f) + iColorShift
+        if (low > 0x0f) low = 0x0f
+        else if (low < 0) low = 0
+        idx = (low | (idx & 0xf0)) & 0xff
+      }
+      fb.writePixel(baseX + x, baseY + y, idx)
     }
   }
 }
@@ -170,41 +148,60 @@ export function drawBattleSprites(
   enemyPos: EnemyPosTable | undefined,
   currentFrame: number,
 ): void {
-  // 敌方先画(在背景之上、队员之下)
-  // M3.5 fix:优先 EnemyPosTable.layouts[count-1] 真表(DATA.MKF chunk 13 真值);
-  // 缺时 fallback hardcoded(向后兼容 test 没传 enemyPos 的)。
+  // D17a:把双方收集成一个 draw 列表 → Y 升序(平局 X 降序)排序 → 逐条 blit。
+  // 对照 sdlpal `battle.c:434-469 PAL_BattleSortSpritesByY`:Y 小的先画(靠后),
+  // Y 相等时 X 大的先画;后画的盖前 → 屏幕下方 / 左侧 sprite 在上。
+  interface DrawItem {
+    x: number
+    y: number
+    frame: SpriteFrame
+    iColorShift: number
+  }
+  const items: DrawItem[] = []
+
+  // 敌方
   state.enemies.forEach((enemy, i) => {
     if (enemy.e.health <= 0) return
-    // D17b:走共享 computeEnemyAnchor(含 wYPosOffset,sdlpal battle.c:939),
-    // 与伤害数字锚点同源杜绝漂移。
-    const pos = computeEnemyAnchor(state, i, enemyPos)
+    // D17a:动画期间用 render-state pos(逐帧 mutate);旧 fixture 无 pos → 共享 anchor
+    // (含 wYPosOffset,sdlpal battle.c:939),与伤害数字锚点同源杜绝漂移。
+    const pos = enemy.pos ?? computeEnemyAnchor(state, i, enemyPos)
     if (!pos) return
     const sprite = battleSprites.get(`enemy-${enemy.e.id}`)
     if (!sprite || !sprite.frames[0]) return
-    // D17c:敌人 idle 帧轮播(sdlpal fight.c:991-1019)。睡眠 / 麻痹定格 frame 0,
-    // 否则按 idle 时钟选帧;资源不全(frames[idx] 缺)兜底 frames[0]。
-    const isSleepOrParalyzed
-      = enemy.status.sleep > 0 || enemy.status.paralyzed > 0
-    const idx = computeIdleFrameIndex(
-      currentFrame,
-      enemy.e.idleFrames,
-      enemy.e.idleAnimSpeed,
-      isSleepOrParalyzed,
-    )
-    const frame = sprite.frames[idx] ?? sprite.frames[0]
-    blitFrame(fb, frame, pos.x, pos.y)
+    // 帧号:render-state currentFrame 优先(攻击 / 受击动画);缺则 idle 时钟
+    // (sdlpal fight.c:991-1019,睡眠 / 麻痹定格 frame 0)。资源不全兜底 frames[0]。
+    let frameIdx: number
+    if (enemy.currentFrame !== undefined) {
+      frameIdx = enemy.currentFrame
+    } else {
+      const isSleepOrParalyzed = enemy.status.sleep > 0 || enemy.status.paralyzed > 0
+      frameIdx = computeIdleFrameIndex(
+        currentFrame,
+        enemy.e.idleFrames,
+        enemy.e.idleAnimSpeed,
+        isSleepOrParalyzed,
+      )
+    }
+    const frame = sprite.frames[frameIdx] ?? sprite.frames[0]
+    items.push({ x: pos.x, y: pos.y, frame, iColorShift: enemy.iColorShift ?? 0 })
   })
 
-  // 队员画在敌方之上(屏幕下方靠近玩家视角)
-  // M3.5 fix:position 选 PLAYER_POSITIONS_BY_COUNT[partyCount-1][i],对照 sdlpal
-  // g_rgPlayerPos 真表(1/2/3 队员各自 layout)。
+  // 队员
   state.players.forEach((p, i) => {
     const role = playerRoles.roles[p.roleId]
     if (!role || role.hp <= 0) return
-    const pos = computePlayerAnchor(state, i)
+    const pos = p.pos ?? computePlayerAnchor(state, i)
     if (!pos) return
     const sprite = battleSprites.get(`player-${role.spriteNumInBattle}`)
     if (!sprite || !sprite.frames[0]) return
-    blitFrame(fb, sprite.frames[0], pos.x, pos.y)
+    // 帧号:render-state currentFrame 优先(站立 0 / 攻击 8,9 / 受击 4 …);缺则 frames[0]。
+    const frameIdx = p.currentFrame ?? 0
+    const frame = sprite.frames[frameIdx] ?? sprite.frames[0]
+    items.push({ x: pos.x, y: pos.y, frame, iColorShift: p.iColorShift ?? 0 })
   })
+
+  // Y 升序;平局 X 降序(battle.c:444-466)
+  items.sort((a, b) => (a.y !== b.y ? a.y - b.y : b.x - a.x))
+
+  for (const it of items) blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
 }

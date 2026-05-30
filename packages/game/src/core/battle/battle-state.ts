@@ -8,9 +8,10 @@
  * sdlpal `battle.h` / `fight.c` 概念对齐,但不一一映射(M3 只识别状态子集)。
  */
 
-import type { BattleField, Enemy, PlayerRoles } from '@type-pal/shared'
+import type { BattleField, Enemy, EnemyPosTable, PlayerRoles } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
 import type { SeedableRng } from '../rng.js'
+import { getEnemyBasePos, getPlayerBasePos } from './battle-positions.js'
 import type { ActionQueueItem } from './turn-queue.js'
 
 /**
@@ -25,17 +26,36 @@ export interface BattlePlayer {
   prevMp: number
   /** 本轮是否在 defend。 */
   defending: boolean
+  /**
+   * D17a 物理战斗动画 render state(全 optional 兼容旧 fixture,运行时 ?? 默认)。
+   * 对照 sdlpal `g_Battle.rgPlayer[i]`:
+   *   pos          = 当前屏幕底锚(`PAL_POS`,动画期间逐帧 mutate;fight.c:2079-2262)
+   *   posOriginal  = 站立底锚(动画结束 PAL_BattleUpdateFighters 复位 fight.c:945)
+   *   currentFrame = F.MKF 精灵帧号(0 站立 / 1 濒死 / 2 死 / 3 防御 / 4 受击 / 8,9 攻击)
+   *   iColorShift  = blit 低 nibble 偏移(受击 6;复位 0;palcommon.c:398-411)
+   */
+  pos?: { x: number; y: number }
+  posOriginal?: { x: number; y: number }
+  currentFrame?: number
+  iColorShift?: number
   /** 状态:M3 只识别 sleep / paralyzed / confused 三种 + haste / slow flag。 */
   /** sdlpal `global.h tagSTATUS` 真值 9 种(PAL_CLASSIC):
    *  Confused/Paralyzed/Sleep/Silence/Puppet/Bravery/Protect/Haste/DualAttack。
    *  此外 Slow(revisited 模式独有)我们留兼容。number = 剩余回合数(0 = 无效)。
    *  boolean = 持续生效旗子(Haste/Bravery/Protect/Slow 等 sdlpal `rgwStatus[i] > 0`)。 */
   status: {
-    sleep: number, paralyzed: number, confused: number, haste: boolean, slow: boolean,
+    sleep: number
+    paralyzed: number
+    confused: number
+    haste: boolean
+    slow: boolean
     // M5.B-w0.3 扩 — sdlpal classic 9 种 status:Silence/Puppet/Bravery/Protect/DualAttack
     // 全 optional 保 fixture 向后兼容;运行时 apply 逻辑(B-w1.a)用 ?? 0/false。
-    silence?: number, puppet?: number,
-    bravery?: boolean, protect?: boolean, dualAttack?: boolean,
+    silence?: number
+    puppet?: number
+    bravery?: boolean
+    protect?: boolean
+    dualAttack?: boolean
   }
 }
 
@@ -52,11 +72,18 @@ export interface BattleEnemy {
    *  此外 Slow(revisited 模式独有)我们留兼容。number = 剩余回合数(0 = 无效)。
    *  boolean = 持续生效旗子(Haste/Bravery/Protect/Slow 等 sdlpal `rgwStatus[i] > 0`)。 */
   status: {
-    sleep: number, paralyzed: number, confused: number, haste: boolean, slow: boolean,
+    sleep: number
+    paralyzed: number
+    confused: number
+    haste: boolean
+    slow: boolean
     // M5.B-w0.3 扩 — sdlpal classic 9 种 status:Silence/Puppet/Bravery/Protect/DualAttack
     // 全 optional 保 fixture 向后兼容;运行时 apply 逻辑(B-w1.a)用 ?? 0/false。
-    silence?: number, puppet?: number,
-    bravery?: boolean, protect?: boolean, dualAttack?: boolean,
+    silence?: number
+    puppet?: number
+    bravery?: boolean
+    protect?: boolean
+    dualAttack?: boolean
   }
   prevHp: number
   /**
@@ -81,7 +108,19 @@ export interface BattleEnemy {
    * 0x28 apply 填、0x5E 查、postAction 毒 tick 逐条跑 scriptEntry 扣血。
    * createBattleState 必设 [];optional 仅为旧 fixture 向后兼容(handler 用 ?? [] / 懒初始化)。
    */
-  poisons?: Array<{ poisonId: number, scriptEntry: number }>
+  poisons?: Array<{ poisonId: number; scriptEntry: number }>
+  /**
+   * D17a 物理战斗动画 render state(全 optional 兼容旧 fixture,运行时 ?? 默认)。
+   * 对照 sdlpal `g_Battle.rgEnemy[i]`:
+   *   pos          = 当前屏幕底锚(冲刺 / 击退期间逐帧 mutate;fight.c:4987-5128)
+   *   posOriginal  = idle 底锚(动画结束复位 fight.c:998/5127;= EnemyPos 表 + yPosOffset)
+   *   currentFrame = ABC.MKF 精灵帧号(idle 0..idleFrames-1;攻击 idleFrames+magicFrames+k)
+   *   iColorShift  = blit 低 nibble 偏移(受击 6;复位 0;fight.c:2206/4895)
+   */
+  pos?: { x: number; y: number }
+  posOriginal?: { x: number; y: number }
+  currentFrame?: number
+  iColorShift?: number
 }
 
 /**
@@ -96,8 +135,17 @@ export interface BattleAction {
   //   equip-battle: 战斗内换装(罕见,跟 Menu equip 共享框架)
   // M5 简版 4 个 action 类型 stub:handler 走 console.debug + 不影响 outcome,
   // 真实施留 B-w2.b 后续 commit。
-  type: 'attack' | 'defend' | 'magic' | 'item' | 'flee' | 'pass'
-    | 'summon' | 'trance' | 'throw-item' | 'equip-battle'
+  type:
+    | 'attack'
+    | 'defend'
+    | 'magic'
+    | 'item'
+    | 'flee'
+    | 'pass'
+    | 'summon'
+    | 'trance'
+    | 'throw-item'
+    | 'equip-battle'
     // M5.B-w3.a:coop-magic 协力法术 — sdlpal `fight.c:PAL_BattleCheckCooperativeMagic`
     // 两 player 同 mainmenu confirm 时检测;actionId = cooperativeMagicId(来自
     // PlayerRoles.cooperativeMagic 字段,Sync.2 B-w0 已 dump)。
@@ -114,7 +162,83 @@ export interface BattleAction {
  * preBattle → selectAction → performAction → postAction → (回 selectAction
  * 进下一轮 / 或转 won / lost / fleed 退出)。
  */
-export type BattlePhase = 'preBattle' | 'selectAction' | 'performAction' | 'postAction' | 'won' | 'lost' | 'fleed'
+export type BattlePhase =
+  | 'preBattle'
+  | 'selectAction'
+  | 'performAction'
+  | 'postAction'
+  | 'won'
+  | 'lost'
+  | 'fleed'
+
+// ============================================================================
+// D17a 物理战斗动画时间线(声明式 — anim-timeline.ts builder 产,tickPerformAction 驱动)
+// ============================================================================
+
+/**
+ * 单个 fighter 在某一动画帧上的状态增量(只列要变的字段,缺省 = 不变)。
+ * 对照 sdlpal `g_Battle.rg{Player,Enemy}[idx]` 的逐帧 mutate。
+ */
+export interface FighterDelta {
+  side: 'player' | 'enemy'
+  idx: number
+  /** 新底锚屏幕坐标(冲刺 / 受击位移)。 */
+  pos?: { x: number; y: number }
+  /** 新精灵帧号(站立 / 攻击 / 受击 …)。 */
+  currentFrame?: number
+  /** 新 blit 低 nibble 偏移(受击 6;复位 0)。 */
+  iColorShift?: number
+}
+
+/**
+ * 一帧叠加的特效 sprite(物理攻击的 lpEffectSprite 命中特效 / 后续法术 sprite)。
+ * present 层据 spriteChunk + frameIdx 取帧画到 (x,y)(sprite 之上 UI 之下)。
+ * 本切片:kind='effect',spriteChunk = DATA.MKF chunk 10 lpEffectSprite。
+ */
+export interface BattleAnimOverlay {
+  kind: 'effect' | 'magic'
+  /** present 解析的精灵 chunk(effect = DATA.MKF chunk 10)。 */
+  spriteChunk: number
+  /** 该 chunk 内帧号(player attack = rgwBattleEffectIndex[sprite][1]*3 + i)。 */
+  frameIdx: number
+  /** 落点屏幕坐标(blit 底中 anchor:x - w/2, y - h)。 */
+  x: number
+  y: number
+}
+
+/**
+ * 一帧战斗动画(声明式)。durationMs = 该帧停留时长(= N × BATTLE_FRAME_TIME)。
+ * 进入该帧时 tickPerformAction applyAnimFrame 把 fighters/overlay/damageNum/shake 应用到 state。
+ */
+export interface BattleAnimFrame {
+  /** 该帧停留时长(ms;sdlpal PAL_BattleDelay(N) = N × 40ms)。 */
+  durationMs: number
+  /** 本帧要 mutate 的 fighter 增量。 */
+  fighters?: FighterDelta[]
+  /** 本帧叠加的特效 sprite(= state.battleAnim.overlay,供 present 画)。 */
+  overlay?: BattleAnimOverlay
+  /** 本帧要弹的伤害数字(emit showDamageNum)。 */
+  damageNum?: {
+    target: { kind: 'enemy' | 'player'; idx: number }
+    value: number
+    color: 'yellow' | 'blue' | 'cyan'
+  }
+  /** 本帧音效(present 播;本切片只存值)。 */
+  sound?: number
+  /** 本帧屏幕抖动(screenShake;本切片只存值)。 */
+  shake?: { time: number; level: number }
+}
+
+/** 当前正在播放的动画时间线(performAction 期间存在;播完置 undefined)。 */
+export interface BattleAnimState {
+  frames: BattleAnimFrame[]
+  /** 当前帧 index。 */
+  idx: number
+  /** 当前帧已播放时长(ms)。 */
+  frameElapsedMs: number
+  /** 当前帧 effect overlay(供 present 画;无则 undefined)。 */
+  overlay?: BattleAnimOverlay
+}
 
 /** UI 状态:select-action 阶段在 mainMenu / magicMenu / itemMenu / targetSelect 间切;非选择阶段 hidden。 */
 export type BattleUIState = 'mainMenu' | 'magicMenu' | 'itemMenu' | 'targetSelect' | 'hidden'
@@ -139,7 +263,7 @@ export interface BattleState {
    * 这里(T13 写入,T14 二级菜单 / targetSelect 完成后落 pendingActions)。
    * 完整 BattleAction.target 必填,这里允许缺(尚未选 target)。
    */
-  pendingActionDraft?: { type: BattleAction['type'], actionId?: number, target?: number }
+  pendingActionDraft?: { type: BattleAction['type']; actionId?: number; target?: number }
   /** UI 状态。 */
   uiState: BattleUIState
   /** 当前 UI 选项的高亮 index。 */
@@ -159,6 +283,12 @@ export interface BattleState {
    * 位移击退(present 消费;本层只存值)。createBattleState 必设 0;optional 仅向后兼容。
    */
   iBlow?: number
+  /**
+   * D17a:当前 performAction 正在播放的物理战斗动画时间线。
+   * 存在 → tickPerformAction 逐 tick 推进 frames、播完复位 fighters + currentActionIndex++;
+   * undefined → 无 active 时间线,起下一个 action(未建时间线的 action 即时推进,向后兼容)。
+   */
+  battleAnim?: BattleAnimState
 }
 
 export interface CreateBattleStateInput {
@@ -172,10 +302,20 @@ export interface CreateBattleStateInput {
    * `decideEnemyAction` C 代码 fallback)。
    * 不传或 length 不足 → 全部按 0 处理(向后兼容旧 fixture / 测试)。
    */
-  enemyScripts?: Array<{ onTurnStart: number; onReady: number; onBattleEnd: number; resistanceToSorcery?: number }>
+  enemyScripts?: Array<{
+    onTurnStart: number
+    onReady: number
+    onBattleEnd: number
+    resistanceToSorcery?: number
+  }>
   field: BattleField
   isBoss: boolean
   rng: SeedableRng
+  /**
+   * D17a:ENEMYPOS table(DATA.MKF chunk 13)— enemy 初始 pos/posOriginal 用
+   * (battle.c:936-939 layouts[count-1][i] + yPosOffset)。缺则 fallback 表(向后兼容旧 fixture)。
+   */
+  enemyPos?: EnemyPosTable
 }
 
 /**
@@ -193,25 +333,35 @@ export const MAX_BATTLE_PLAYERS = 3
 export function createBattleState(input: CreateBattleStateInput): BattleState {
   if (input.gs.partyMembers.length > MAX_BATTLE_PLAYERS) {
     throw new Error(
-      `createBattleState: partyMembers.length=${input.gs.partyMembers.length} > ${MAX_BATTLE_PLAYERS}`
-      + `(sdlpal g_rgPlayerPos[3][3][2] 真值:战斗最多 3 player)`,
+      `createBattleState: partyMembers.length=${input.gs.partyMembers.length} > ${MAX_BATTLE_PLAYERS}` +
+        `(sdlpal g_rgPlayerPos[3][3][2] 真值:战斗最多 3 player)`,
     )
   }
-  const players: BattlePlayer[] = input.gs.partyMembers.map((roleId) => {
+  const partyCount = input.gs.partyMembers.length
+  const players: BattlePlayer[] = input.gs.partyMembers.map((roleId, i) => {
     const role = input.playerRoles.roles[roleId]
-    if (!role)
-      throw new Error(`createBattleState: role id ${roleId} not in PlayerRoles`)
+    if (!role) throw new Error(`createBattleState: role id ${roleId} not in PlayerRoles`)
+    // D17a:站立底锚 = g_rgPlayerPos[count-1][i](battle.c:27);pos = posOriginal;
+    // currentFrame=0(站立);iColorShift=0。idx 越界 → undefined(渲染层照旧兜底)。
+    const base = getPlayerBasePos(partyCount, i)
     return {
       roleId,
       prevHp: role.hp,
       prevMp: role.mp,
       defending: false,
       status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+      pos: base ? { ...base } : undefined,
+      posOriginal: base ? { ...base } : undefined,
+      currentFrame: 0,
+      iColorShift: 0,
     }
   })
 
+  const enemyCount = input.enemies.length
   const enemies: BattleEnemy[] = input.enemies.map((e, i) => {
     const scripts = input.enemyScripts?.[i]
+    // D17a:idle 底锚 = EnemyPos.pos[i][maxEnemyIndex] + yPosOffset(battle.c:936-939)。
+    const base = getEnemyBasePos(input.enemyPos, enemyCount, i, e.yPosOffset ?? 0)
     return {
       e: { ...e }, // shallow copy(health 在战斗中会被改)
       status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
@@ -222,6 +372,13 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
       scriptOnReady: scripts?.onReady ?? 0,
       resistanceToSorcery: scripts?.resistanceToSorcery ?? 0,
       poisons: [],
+      pos: base ? { ...base } : undefined,
+      posOriginal: base ? { ...base } : undefined,
+      // 敌人 idle 期 currentFrame **保持 undefined** → draw 走 idle 时钟轮播
+      //   (computeIdleFrameIndex,D17c)。动画期 anim-timeline 才置攻击帧号,
+      //   resetFightersAfterAction 复位回 undefined。置 0 会冻结 idle 轮播(回归)。
+      currentFrame: undefined,
+      iColorShift: 0,
     }
   })
 

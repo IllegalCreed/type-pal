@@ -20,9 +20,29 @@
 
 import type { Enemy, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
-import type { BattleState } from '../battle-state.js'
+import { buildEnemyPhysicalTimeline, buildPlayerAttackTimeline } from '../anim-timeline.js'
+import { startBattleAnim } from '../battle-anim-driver.js'
+import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import { calcPhysicalAttackDamage } from '../formulas.js'
 import type { ActionQueueItem } from '../turn-queue.js'
+
+/**
+ * D17a:player 攻击命中特效帧基号 = rgwBattleEffectIndex[battleSpriteId][1] * 3
+ * (fight.c:2055-2056)。battleEffectIndex 为 rgwBattleEffectIndex[10][2] flat 20 项;
+ * `[sprite][1]` = list[sprite*2 + 1]。表缺 / 越界 → 0(overlay 仍画 chunk10 frame0..2)。
+ */
+function playerEffectFrameBase(
+  battleEffectIndex: number[] | undefined,
+  battleSpriteId: number,
+): number {
+  const v = battleEffectIndex?.[battleSpriteId * 2 + 1] ?? 0
+  return v * 3
+}
+
+/** PAL_IsPlayerDying(fight.c:47-48):hp < min(100, maxHP/5)。 */
+function isPlayerDying(hp: number, maxHp: number): boolean {
+  return hp < Math.min(100, Math.floor(maxHp / 5))
+}
 
 /** SHORT cast(同 formulas.ts 私函)。 */
 function asShort(n: number): number {
@@ -44,6 +64,11 @@ export function performAttack(
   targetIdx: number,
   bus: CommandBus,
   playerRoles: PlayerRoles,
+  /**
+   * D17a:rgwBattleEffectIndex[10][2] flat(player 攻击命中特效帧基号用);
+   * 省略 → effectFrameBase=0(overlay 仍指 chunk10 frame 0..2)。
+   */
+  battleEffectIndex?: number[],
 ): void {
   // —— 算 str ——
   let str: number
@@ -52,10 +77,8 @@ export function performAttack(
     const enemy: Enemy = state.enemies[actor.idx]!.e
     str = asShort(enemy.attackStrength) + (enemy.level + 6) * 6
     casterLevel = enemy.level
-    if (str < 0)
-      str = 0 // sdlpal fight.c:4920
-  }
-  else {
+    if (str < 0) str = 0 // sdlpal fight.c:4920
+  } else {
     const role = playerRoles.roles[state.players[actor.idx]!.roleId]!
     str = asShort(role.attackStrength) + (role.level + 6) * 6
     casterLevel = role.level
@@ -66,16 +89,19 @@ export function performAttack(
   // sdlpal kBattleActionAttack sTarget==-1 分支(fight.c:3756+)。每敌独立算 def/res。
   if (!actor.isEnemy && targetIdx < 0) {
     state.enemies.forEach((be, i) => {
-      if (be.e.health <= 0)
-        return
+      if (be.e.health <= 0) return
       const def = asShort(be.e.defense) + (be.e.level + 6) * 4
       let damage = calcPhysicalAttackDamage(str, def, be.e.physicalResistance)
-      if (damage <= 0)
-        damage = 1
+      if (damage <= 0) damage = 1
       const before = be.e.health
       be.e.health = Math.max(0, be.e.health - damage)
       // D17b:敌人掉血 → blue(sdlpal `fight.c:648-651`)。value 用钳后真实 delta。
-      bus.emit({ op: 'showDamageNum', target: { kind: 'enemy', idx: i }, value: before - be.e.health, color: 'blue' })
+      bus.emit({
+        op: 'showDamageNum',
+        target: { kind: 'enemy', idx: i },
+        value: before - be.e.health,
+        color: 'blue',
+      })
     })
     bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: -1 })
     return
@@ -95,8 +121,7 @@ export function performAttack(
     }
     physRes = 2 // sdlpal fight.c:4934 enemy→player 硬编码 res=2
     isPlayerTarget = true
-  }
-  else {
+  } else {
     // player 攻击 enemy
     const enemy = state.enemies[targetIdx]!.e
     def = asShort(enemy.defense) + (enemy.level + 6) * 4
@@ -106,8 +131,7 @@ export function performAttack(
 
   // —— 算 damage ——
   let damage = calcPhysicalAttackDamage(str, def, physRes)
-  if (damage <= 0)
-    damage = 1 // sdlpal fight.c:3829 / 4943 sDamage<=0 → sDamage=1
+  if (damage <= 0) damage = 1 // sdlpal fight.c:3829 / 4943 sDamage<=0 → sDamage=1
 
   // —— 写回 HP(记 before/after 算钳后真实 delta) ——
   let hpBefore: number
@@ -117,25 +141,105 @@ export function performAttack(
     hpBefore = role.hp
     role.hp = Math.max(0, role.hp - damage)
     hpAfter = role.hp
-  }
-  else {
+  } else {
     hpBefore = state.enemies[targetIdx]!.e.health
     state.enemies[targetIdx]!.e.health = Math.max(0, state.enemies[targetIdx]!.e.health - damage)
     hpAfter = state.enemies[targetIdx]!.e.health
   }
 
-  // —— emit 命令 ——
+  const dealtDamage = hpBefore - hpAfter
+
+  // —— emit 命令(play{Enemy,Player}Attack 留作 present hook;present 当前 no-op)——
   if (actor.isEnemy) {
     bus.emit({ op: 'playEnemyAttack', enemyIdx: actor.idx, targetPlayerIdx: targetIdx })
-  }
-  else {
+  } else {
     bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: targetIdx })
   }
+
+  // —— D17a:建物理攻击/受击动画时间线(damageNum 由时间线 i==0 / 命中帧 emit)——
+  // 缺 fighter render-state pos(旧 fixture)→ 不建时间线,直接即时 emit showDamageNum
+  // (向后兼容:tickPerformAction 见 state.battleAnim 仍 undefined → currentActionIndex++)。
+  const built = buildAttackTimeline({
+    state,
+    actor,
+    targetIdx,
+    isPlayerTarget,
+    damage: dealtDamage,
+    battleEffectIndex,
+    playerRoles,
+  })
+  if (built) {
+    startBattleAnim(state, built, bus)
+    return
+  }
+
   // D17b:target 掉血 → blue(sdlpal `fight.c:648-651/678-681`,sDamage<0)。value 用钳后 delta。
   bus.emit({
     op: 'showDamageNum',
     target: { kind: isPlayerTarget ? 'player' : 'enemy', idx: targetIdx },
-    value: hpBefore - hpAfter,
+    value: dealtDamage,
     color: 'blue',
   })
+}
+
+/**
+ * D17a:为单体物理攻击/受击建动画时间线。返回 frames(非空)→ 调用方 startBattleAnim;
+ * 返回 undefined → fighter render-state 缺(旧 fixture)/ 群攻路径 → 走即时 emit。
+ */
+function buildAttackTimeline(input: {
+  state: BattleState
+  actor: ActionQueueItem
+  targetIdx: number
+  isPlayerTarget: boolean
+  damage: number
+  battleEffectIndex: number[] | undefined
+  playerRoles: PlayerRoles
+}): BattleAnimFrame[] | undefined {
+  const { state, actor, targetIdx, isPlayerTarget, damage, battleEffectIndex, playerRoles } = input
+
+  if (!actor.isEnemy && !isPlayerTarget) {
+    // player → enemy(fight.c:2008-2263)
+    const attacker = state.players[actor.idx]
+    const targetEnemy = state.enemies[targetIdx]
+    if (!attacker?.posOriginal || !targetEnemy?.posOriginal) return undefined
+    const role = playerRoles.roles[attacker.roleId]
+    const battleSpriteId = role?.spriteNumInBattle ?? 0
+    return buildPlayerAttackTimeline({
+      attackerPos: attacker.posOriginal,
+      attackerIdx: actor.idx,
+      targetEnemyPos: targetEnemy.posOriginal,
+      targetIdx,
+      // core 无 sprite 资源 → enemy_h=0(overlay Y 仅退化 +10;present 可后续精修)
+      targetEnemyHeight: 0,
+      effectFrameBase: playerEffectFrameBase(battleEffectIndex, battleSpriteId),
+      damage,
+    })
+  }
+
+  if (actor.isEnemy && isPlayerTarget) {
+    // enemy → player(fight.c:4910-5149 physical 分支,无 cover / autoDefend 简化)
+    const enemyFighter = state.enemies[actor.idx]
+    const targetPlayer = state.players[targetIdx]
+    if (!enemyFighter?.posOriginal || !targetPlayer?.posOriginal) return undefined
+    const role = playerRoles.roles[targetPlayer.roleId]
+    const hp = role?.hp ?? 0
+    const maxHp = role?.maxHP ?? 0
+    return buildEnemyPhysicalTimeline({
+      enemyPos: enemyFighter.posOriginal,
+      enemyIdx: actor.idx,
+      targetPlayerPos: targetPlayer.posOriginal,
+      targetIdx,
+      enemy: {
+        magicFrames: enemyFighter.e.magicFrames,
+        attackFrames: enemyFighter.e.attackFrames,
+        actWaitFrames: enemyFighter.e.actWaitFrames,
+        idleFrames: enemyFighter.e.idleFrames,
+      },
+      damage,
+      targetDied: hp === 0,
+      targetDying: isPlayerDying(hp, maxHp),
+    })
+  }
+
+  return undefined
 }

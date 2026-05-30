@@ -87,7 +87,11 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [minimalRole(0)] },
       enemies: [minimalEnemy(100)],
-      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
       isBoss: false,
       rng: createSeedableRng(42),
     })
@@ -107,7 +111,11 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [role] },
       enemies: [],
-      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
       isBoss: false,
       rng: createSeedableRng(1),
     })
@@ -121,7 +129,11 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [] },
       enemies: [minimalEnemy(100, 75)],
-      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
       isBoss: false,
       rng: createSeedableRng(1),
     })
@@ -132,33 +144,53 @@ describe('createBattleState', () => {
   it('未知 roleId 抛错', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [99]
-    expect(() => createBattleState({
-      gs,
-      playerRoles: { roles: [minimalRole(0)] },
-      enemies: [],
-      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
-      isBoss: false,
-      rng: createSeedableRng(1),
-    })).toThrow(/role id 99/)
+    expect(() =>
+      createBattleState({
+        gs,
+        playerRoles: { roles: [minimalRole(0)] },
+        enemies: [],
+        field: {
+          id: 0,
+          screenWave: 0,
+          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        },
+        isBoss: false,
+        rng: createSeedableRng(1),
+      }),
+    ).toThrow(/role id 99/)
   })
 
   it('phase 字段联合 7 种', () => {
-    const phases: BattlePhase[] = ['preBattle', 'selectAction', 'performAction', 'postAction', 'won', 'lost', 'fleed']
+    const phases: BattlePhase[] = [
+      'preBattle',
+      'selectAction',
+      'performAction',
+      'postAction',
+      'won',
+      'lost',
+      'fleed',
+    ]
     expect(phases).toHaveLength(7)
   })
 
   // ── M5.B-w0.2: PLAYER_POSITIONS 真值(sdlpal battle.c:27 g_rgPlayerPos[3][3][2])──
   it('B-w0.2:partyMembers > 3 抛错(sdlpal g_rgPlayerPos[3][3][2] 真值)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.partyMembers = [0, 1, 2, 3]  // 4 个,超 3 上限
-    expect(() => createBattleState({
-      gs,
-      playerRoles: { roles: [0, 1, 2, 3].map((i) => minimalRole(i)) },
-      enemies: [],
-      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
-      isBoss: false,
-      rng: createSeedableRng(1),
-    })).toThrow(/最多 3 player|partyMembers.length=4 > 3/)
+    gs.partyMembers = [0, 1, 2, 3] // 4 个,超 3 上限
+    expect(() =>
+      createBattleState({
+        gs,
+        playerRoles: { roles: [0, 1, 2, 3].map((i) => minimalRole(i)) },
+        enemies: [],
+        field: {
+          id: 0,
+          screenWave: 0,
+          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        },
+        isBoss: false,
+        rng: createSeedableRng(1),
+      }),
+    ).toThrow(/最多 3 player|partyMembers.length=4 > 3/)
   })
 
   it('B-w0.3:status field 扩 9 种 — silence/puppet/bravery/protect/dualAttack(全 optional)', () => {
@@ -168,7 +200,11 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [minimalRole(0)] },
       enemies: [],
-      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
       isBoss: false,
       rng: createSeedableRng(1),
     })
@@ -188,15 +224,119 @@ describe('createBattleState', () => {
 
   it('B-w0.2:partyMembers <= 3 正常构造', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.partyMembers = [0, 1, 2]  // 3 个,边界 OK
+    gs.partyMembers = [0, 1, 2] // 3 个,边界 OK
     const state = createBattleState({
       gs,
       playerRoles: { roles: [0, 1, 2].map((i) => minimalRole(i)) },
       enemies: [],
-      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
       isBoss: false,
       rng: createSeedableRng(1),
     })
     expect(state.players).toHaveLength(3)
+  })
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // D17a:fighter render state 初值(pos / posOriginal / currentFrame / iColorShift)
+  // ──────────────────────────────────────────────────────────────────────────
+  it('D17a:player pos/posOriginal = g_rgPlayerPos[count-1][i](battle.c:27)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0, 1] // 2 人 layout
+    const state = createBattleState({
+      gs,
+      playerRoles: { roles: [0, 1].map((i) => minimalRole(i)) },
+      enemies: [],
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+      isBoss: false,
+      rng: createSeedableRng(1),
+    })
+    // 2 players:(200,176) / (256,152)(sdlpal g_rgPlayerPos[1])
+    expect(state.players[0]!.pos).toEqual({ x: 200, y: 176 })
+    expect(state.players[0]!.posOriginal).toEqual({ x: 200, y: 176 })
+    expect(state.players[1]!.pos).toEqual({ x: 256, y: 152 })
+    expect(state.players[1]!.posOriginal).toEqual({ x: 256, y: 152 })
+    // pos 与 posOriginal 是独立对象(后续动画 mutate pos 不污染 posOriginal)
+    expect(state.players[0]!.pos).not.toBe(state.players[0]!.posOriginal)
+    expect(state.players[0]!.currentFrame).toBe(0)
+    expect(state.players[0]!.iColorShift).toBe(0)
+  })
+
+  it('D17a:enemy pos/posOriginal = EnemyPos.layouts[count-1][i] + yPosOffset(battle.c:936-939)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    const state = createBattleState({
+      gs,
+      playerRoles: { roles: [minimalRole(0)] },
+      enemies: [minimalEnemy(100), minimalEnemy(200)], // 2 enemies
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+      isBoss: false,
+      rng: createSeedableRng(1),
+      enemyPos: {
+        layouts: [
+          [{ x: 160, y: 80 }],
+          [
+            { x: 100, y: 60 },
+            { x: 220, y: 60 },
+          ],
+        ],
+      },
+    })
+    expect(state.enemies[0]!.pos).toEqual({ x: 100, y: 60 })
+    expect(state.enemies[0]!.posOriginal).toEqual({ x: 100, y: 60 })
+    expect(state.enemies[1]!.pos).toEqual({ x: 220, y: 60 })
+    // 敌人 idle 期 currentFrame = undefined → 渲染层 idle 时钟轮播(D17c 不被冻结)。
+    expect(state.enemies[0]!.currentFrame).toBeUndefined()
+    expect(state.enemies[0]!.iColorShift).toBe(0)
+  })
+
+  it('D17a:无 enemyPos → fallback 表(160,80)(向后兼容旧 fixture)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    const state = createBattleState({
+      gs,
+      playerRoles: { roles: [minimalRole(0)] },
+      enemies: [minimalEnemy(100)],
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+      isBoss: false,
+      rng: createSeedableRng(1),
+    })
+    expect(state.enemies[0]!.pos).toEqual({ x: 160, y: 80 })
+  })
+
+  it('D17a:enemy yPosOffset 叠加到 posOriginal.y', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    const e = minimalEnemy(100)
+    e.yPosOffset = 15
+    const state = createBattleState({
+      gs,
+      playerRoles: { roles: [minimalRole(0)] },
+      enemies: [e],
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+      isBoss: false,
+      rng: createSeedableRng(1),
+      enemyPos: { layouts: [[{ x: 160, y: 80 }]] },
+    })
+    expect(state.enemies[0]!.posOriginal).toEqual({ x: 160, y: 95 }) // 80 + 15
   })
 })

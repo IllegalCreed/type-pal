@@ -2,8 +2,8 @@ import type {
   BattleField,
   Command,
   Enemy,
-  EnemyPosTable,
   EnemyObject,
+  EnemyPosTable,
   EnemyTeam,
   EventFile,
   Item,
@@ -51,6 +51,11 @@ export interface LoadedAssets {
   battleSprites: Map<string, SpriteAsset>
   /** M3 T25:战斗背景 — key = FBP chunk id(= BattleField.id)。 */
   battleBgs: Map<number, BattleBgAsset>
+  /**
+   * D17a:lpEffectSprite(DATA.MKF chunk 10)全 85 frame —— 物理攻击命中特效 overlay。
+   * state.battleAnim.overlay.frameIdx 取帧;缺(加载失败)→ undefined,overlay 不画。
+   */
+  effectSprite?: SpriteAsset
   /** M3 T29:战斗运行所需表 — dev panel / startBattle 用。 */
   enemies: Enemy[]
   /** M5.B-w2.a:OBJECT_ENEMY 段 153 条(scriptOnReady / scriptOnTurnStart 等 AI hook)。 */
@@ -59,6 +64,11 @@ export interface LoadedAssets {
   battleFields: BattleField[]
   /** M3.5:ENEMYPOS table(DATA.MKF chunk 13)— per enemy-count layout 真值。 */
   enemyPos: EnemyPosTable
+  /**
+   * D17a:rgwBattleEffectIndex[10][2] flat(DATA.MKF chunk 11)— player 物理攻击命中特效
+   * 帧基号 `[battleSpriteId][1]*3`(fight.c:2055)。
+   */
+  battleEffectIndex: number[]
   items: Item[]
   spells: Spell[]
   magics: Magic[]
@@ -112,10 +122,27 @@ interface BattleBgsManifest {
 export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   const padded = sceneId.toString().padStart(3, '0')
   // M4 P3.T3: scene→mapNum→tilemap 链:先 fetch scene JSON 拿到 mapNum,再 fetch tilemap by mapNum。
-  const scene = await fetchJson<SceneObjects & { mapNum: number }>(`${BASE}/data/scene/${sceneId}.json`)
+  const scene = await fetchJson<SceneObjects & { mapNum: number }>(
+    `${BASE}/data/scene/${sceneId}.json`,
+  )
   const [
-    tilemap, palette, events, playerRoles,
-    enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics, objectMagics, objectPoisons, levelUpExp, stores,
+    tilemap,
+    palette,
+    events,
+    playerRoles,
+    enemies,
+    enemyObjects,
+    enemyTeams,
+    battleFields,
+    enemyPos,
+    battleEffectIndex,
+    items,
+    spells,
+    magics,
+    objectMagics,
+    objectPoisons,
+    levelUpExp,
+    stores,
   ] = await Promise.all([
     fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap/${scene.mapNum}.json`),
     fetchJson<Palette>(`${BASE}/data/palette/0.json`),
@@ -126,6 +153,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     fetchJson<EnemyTeam[]>(`${BASE}/data/enemy-teams.json`),
     fetchJson<BattleField[]>(`${BASE}/data/battle-fields.json`),
     fetchJson<EnemyPosTable>(`${BASE}/data/enemy-pos.json`),
+    fetchJson<number[]>(`${BASE}/data/battle-effect-index.json`),
     fetchJson<Item[]>(`${BASE}/data/items.json`),
     fetchJson<Spell[]>(`${BASE}/data/spells.json`),
     fetchJson<Magic[]>(`${BASE}/data/magic.json`),
@@ -138,9 +166,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   // P1: tilesetFiles[] 内现在是 `world/tileset/map-{mapNum}/tile-{XXXX}.png` 格式,
   // ${BASE}/images/${name} 仍能拼对(name 含子目录路径)。
   const tileFiles = tilemap.tilesetFiles ?? []
-  const tilePngs = await Promise.all(
-    tileFiles.map((name) => fetchPng(`${BASE}/images/${name}`)),
-  )
+  const tilePngs = await Promise.all(tileFiles.map((name) => fetchPng(`${BASE}/images/${name}`)))
   const tileImages = new Map<number, IndexedImage>()
   tileFiles.forEach((name, i) => {
     const m = /tile-(\d+)\.png$/.exec(name)
@@ -186,8 +212,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
           anchorX: first ? Math.floor(first.width / 2) : 0,
           anchorY: first ? first.height : 0,
         })
-      }
-      catch (err) {
+      } catch (err) {
         console.warn(`assets: sprite ${id} load failed, skip:`, err)
       }
     }),
@@ -199,18 +224,14 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   //   - battle-bgs.json:列出有效 FBP chunk id 集合,逐条加 battle-bg-NNN.png
   // 失败的 entry warn + skip(不抛错,T28 整合时再修)。
   const [battleSpritesManifest, battleBgsManifest] = await Promise.all([
-    fetchJson<BattleSpritesManifest>(`${BASE}/data/battle-sprites.json`).catch(
-      (err: unknown) => {
-        console.warn('assets: battle-sprites.json 缺失,跳过战斗精灵:', err)
-        return { sprites: [] }
-      },
-    ),
-    fetchJson<BattleBgsManifest>(`${BASE}/data/battle-bgs.json`).catch(
-      (err: unknown) => {
-        console.warn('assets: battle-bgs.json 缺失,跳过战斗背景:', err)
-        return { count: 0, ids: [] }
-      },
-    ),
+    fetchJson<BattleSpritesManifest>(`${BASE}/data/battle-sprites.json`).catch((err: unknown) => {
+      console.warn('assets: battle-sprites.json 缺失,跳过战斗精灵:', err)
+      return { sprites: [] }
+    }),
+    fetchJson<BattleBgsManifest>(`${BASE}/data/battle-bgs.json`).catch((err: unknown) => {
+      console.warn('assets: battle-bgs.json 缺失,跳过战斗背景:', err)
+      return { count: 0, ids: [] }
+    }),
   ])
 
   const battleSprites = new Map<string, SpriteAsset>()
@@ -237,12 +258,8 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
             opaque: f.opaque,
           })),
         })
-      }
-      catch (err) {
-        console.warn(
-          `assets: battle sprite ${entry.kind}-${entry.id} load failed, skip:`,
-          err,
-        )
+      } catch (err) {
+        console.warn(`assets: battle sprite ${entry.kind}-${entry.id} load failed, skip:`, err)
       }
     }),
   )
@@ -251,20 +268,46 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   await Promise.all(
     battleBgsManifest.ids.map(async (id) => {
       try {
-        const png = await fetchPng(
-          `${BASE}/images/battle/bg/${id.toString().padStart(3, '0')}.png`,
-        )
+        const png = await fetchPng(`${BASE}/images/battle/bg/${id.toString().padStart(3, '0')}.png`)
         battleBgs.set(id, {
           width: png.width,
           height: png.height,
           indices: png.indices,
         })
-      }
-      catch (err) {
+      } catch (err) {
         console.warn(`assets: battle bg ${id} load failed, skip:`, err)
       }
     }),
   )
+
+  // ── D17a:lpEffectSprite(DATA.MKF chunk 10)加载 —— 物理攻击命中特效 overlay ───
+  let effectSprite: SpriteAsset | undefined
+  try {
+    const meta = await fetchJson<{
+      frameCount: number
+      frames: Array<{ index: number; width: number; height: number }>
+    }>(`${BASE}/data/magic-sprite/effect.json`)
+    const frames = await Promise.all(
+      meta.frames.map((f) =>
+        fetchPng(`${BASE}/images/magic/frame-${f.index.toString().padStart(2, '0')}.png`).catch(
+          (err: unknown) => {
+            console.warn(`assets: effect sprite frame ${f.index} load failed:`, err)
+            return undefined
+          },
+        ),
+      ),
+    )
+    effectSprite = {
+      frames: frames.map((f) =>
+        f
+          ? { width: f.width, height: f.height, indices: f.indices, opaque: f.opaque }
+          : // 缺帧占位 1×1 透明(保 frameIdx 与 chunk 对齐)
+            { width: 1, height: 1, indices: new Uint8Array(1), opaque: new Uint8Array(1) },
+      ),
+    }
+  } catch (err) {
+    console.warn('assets: magic-sprite/effect.json 缺失,战斗命中特效 overlay 将不画:', err)
+  }
 
   // ── M5.6 W0.d:SPRITEUI 加载(menu box 9-slice 用前 18 frame) ─────────────
   const uiSpriteFrames: IndexedImage[] = []
@@ -283,8 +326,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     for (const f of frames) {
       if (f) uiSpriteFrames.push(f)
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.warn('assets: ui-sprite/spriteui.json 缺失,menu box 渲染将抛 frame missing:', err)
   }
 
@@ -304,14 +346,12 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
             `${BASE}/images/items/${icon.chunkIndex.toString().padStart(3, '0')}.png`,
           )
           itemIcons.set(icon.chunkIndex, png)
-        }
-        catch (err) {
+        } catch (err) {
           console.warn(`assets: item icon ${icon.chunkIndex} load failed, skip:`, err)
         }
       }),
     )
-  }
-  catch (err) {
+  } catch (err) {
     console.warn('assets: items-icons.json 缺失,InventoryMenu 物品图标不显示:', err)
   }
 
@@ -325,11 +365,13 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     characterSprites,
     battleSprites,
     battleBgs,
+    effectSprite,
     enemies,
     enemyObjects,
     enemyTeams,
     battleFields,
     enemyPos,
+    battleEffectIndex,
     items,
     spells,
     magics,

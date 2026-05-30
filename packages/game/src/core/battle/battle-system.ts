@@ -33,6 +33,7 @@ import type {
   Command,
   Enemy,
   EnemyObject,
+  EnemyPosTable,
   EnemyTeam,
   InputSnapshot,
   Item,
@@ -43,24 +44,32 @@ import type {
   Spell,
 } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
+import { getGlobalCommands, type RunScriptOptions, runScript } from '../event-system.js'
 import type { GameState } from '../game-state.js'
-import { getGlobalCommands, runScript, type RunScriptOptions } from '../event-system.js'
 import { createSeedableRng } from '../rng.js'
 import { performAttack } from './actions/attack.js'
 import { performDefend } from './actions/defend.js'
 import { performFlee } from './actions/flee.js'
-import { tickStatusEffects } from './status.js'
 import { performItem } from './actions/item.js'
 import { performMagic } from './actions/magic.js'
 import { performThrowItem } from './actions/throw-item.js'
+import { BATTLE_FRAME_TIME } from './anim-timeline.js'
+import { applyAnimFrame, resetFightersAfterAction } from './battle-anim-driver.js'
 import type { BattleAction, BattleState } from './battle-state.js'
 import { createBattleState } from './battle-state.js'
 import { decideEnemyAction } from './enemy-ai.js'
 import { getEnemyDexterity, getPlayerActualDexterity } from './formulas.js'
-import { buildActionQueue, type ActionQueueItem } from './turn-queue.js'
+import { tickStatusEffects } from './status.js'
+import { type ActionQueueItem, buildActionQueue } from './turn-queue.js'
 
 /** 防卡死兜底阈值:1500 ticks ≈ 60s at 25fps(M3 战斗 FPS)。 */
 const PHASE_STALL_TICKS_LIMIT = 1500
+
+/**
+ * D17a:每 tick 推进的动画时间(ms)= BATTLE_FRAME_TIME(battle.h:28-29,25fps → 40ms)。
+ * 战斗 tick 与 BATTLE_FPS 同频 → 每 tick 恰好推进 1 个 battle frame。
+ */
+const BATTLE_DT = BATTLE_FRAME_TIME
 
 /**
  * 战斗运行时所需的资源表 —— 由 startBattle 缓存到 GameState.__battleResources。
@@ -82,6 +91,11 @@ export interface BattleResources {
   enemyObjects: EnemyObject[]
   playerRoles: PlayerRoles
   commands: Command[]
+  /**
+   * D17a:rgwBattleEffectIndex[10][2] flat(battle-effect-index.json)—— player 物理攻击
+   * 命中特效帧基号 `[battleSpriteId][1]*3`(fight.c:2055)。省略 → effectFrameBase=0。
+   */
+  battleEffectIndex?: number[]
 }
 
 /** runScript 注入类型(便于测试 mock 替换 free function)。 */
@@ -97,7 +111,7 @@ function getBattleResources(gs: GameState): BattleResources | undefined {
 
 /** 设置战斗资源(startBattle 用)。 */
 function setBattleResources(gs: GameState, res: BattleResources | undefined): void {
-  (gs as unknown as Record<string, BattleResources | undefined>)[BATTLE_RESOURCES_KEY] = res
+  ;(gs as unknown as Record<string, BattleResources | undefined>)[BATTLE_RESOURCES_KEY] = res
 }
 
 // ============================================================================
@@ -141,6 +155,16 @@ export interface StartBattleInput {
   /** object-poisons.json —— 0x28 apply poison 解析 poison 的 wEnemyScript。省略 → 空表。 */
   objectPoisons?: ObjectPoisonView[]
   /**
+   * D17a:ENEMYPOS table(DATA.MKF chunk 13)— enemy 初始 pos/posOriginal 用
+   * (battle.c:936-939)。省略 → fallback 表(向后兼容旧 fixture / 测试)。
+   */
+  enemyPos?: EnemyPosTable
+  /**
+   * D17a:rgwBattleEffectIndex[10][2] flat(battle-effect-index.json)。
+   * 省略 → effectFrameBase=0(overlay 仍指 chunk10 frame 0..2)。
+   */
+  battleEffectIndex?: number[]
+  /**
    * P2#5:战斗脚本(enemy.scriptOnReady / spell.scriptOnUse / item.scriptOnUse)是**全局 entry** —
    * 省略时默认单一全局数组(getGlobalCommands(),= 探索/菜单同一来源)。单测可传自带数组 override。
    * (旧版从 bootstrap 传 per-scene 切片 → 全局 ip 索引 16/782 元素切片 → 战斗脚本静默 no-op 的根因。)
@@ -163,25 +187,29 @@ export interface StartBattleInput {
  * 找不到 enemyTeam / battleField → 抛错(防 fixture 错配,而非静默失败)。
  */
 export function startBattle(input: StartBattleInput): void {
-  const team = input.enemyTeams.find(t => t.id === input.enemyTeamId)
-  if (!team)
-    throw new Error(`startBattle: enemyTeam id ${input.enemyTeamId} not found`)
+  const team = input.enemyTeams.find((t) => t.id === input.enemyTeamId)
+  if (!team) throw new Error(`startBattle: enemyTeam id ${input.enemyTeamId} not found`)
 
   // 展开 team.enemies(过滤 0 / 0xFFFF;详见 EnemyTeam 注释)
   // 简化:槽位直接当 enemies.json 的 id 索引(T23 baseline 对拍如不对再修)
   // M5.B-w2.a:平行构造 enemyScripts,同 index 对齐;通过 enemyId 反查 enemy-objects.json
   // 第一条匹配项(同 enemyId 多 OBJECT_ENEMY 条目时取首条,精确多版本 script 推后)。
   const enemyList: Enemy[] = []
-  const enemyScripts: Array<{ onTurnStart: number; onReady: number; onBattleEnd: number; resistanceToSorcery: number }> = []
+  const enemyScripts: Array<{
+    onTurnStart: number
+    onReady: number
+    onBattleEnd: number
+    resistanceToSorcery: number
+  }> = []
   for (const slot of team.enemies) {
-    if (slot === 0 || slot === 0xFFFF) continue
-    const e = input.enemies.find(en => en.id === slot)
+    if (slot === 0 || slot === 0xffff) continue
+    const e = input.enemies.find((en) => en.id === slot)
     if (!e) {
       console.warn(`[battle] startBattle: enemy id ${slot} not in enemies.json, skipped`)
       continue
     }
     enemyList.push(e)
-    const objMatch = input.enemyObjects?.find(o => o.enemyId === slot)
+    const objMatch = input.enemyObjects?.find((o) => o.enemyId === slot)
     enemyScripts.push({
       onTurnStart: objMatch?.scriptOnTurnStart ?? 0,
       onReady: objMatch?.scriptOnReady ?? 0,
@@ -190,9 +218,8 @@ export function startBattle(input: StartBattleInput): void {
     })
   }
 
-  const field = input.battleFields.find(f => f.id === input.battleFieldId)
-  if (!field)
-    throw new Error(`startBattle: battleField id ${input.battleFieldId} not found`)
+  const field = input.battleFields.find((f) => f.id === input.battleFieldId)
+  if (!field) throw new Error(`startBattle: battleField id ${input.battleFieldId} not found`)
 
   const rng = createSeedableRng(input.rngSeed ?? Date.now())
 
@@ -204,6 +231,7 @@ export function startBattle(input: StartBattleInput): void {
     field,
     isBoss: input.isBoss,
     rng,
+    enemyPos: input.enemyPos, // D17a:enemy pos/posOriginal 初值(battle.c:936-939)
   })
 
   input.gs.mode = 'battle'
@@ -218,12 +246,13 @@ export function startBattle(input: StartBattleInput): void {
     enemyObjects: input.enemyObjects ?? [], // 0x9E summon op0 → enemyId/scripts
     playerRoles: input.playerRoles,
     commands: input.commands ?? getGlobalCommands(), // P2#5:默认单一全局数组
+    battleEffectIndex: input.battleEffectIndex, // D17a:player 攻击命中特效帧基号
   })
 
   // 注入 runScript(测试用)— 通过 BattleState 的 hidden field 走;这里临时挂在 res 上
   // 默认用 event-system.runScript;测试 mock 时传 runScriptFn
   if (input.runScriptFn) {
-    (input.gs as unknown as Record<string, RunScriptFn>).__battleRunScript = input.runScriptFn
+    ;(input.gs as unknown as Record<string, RunScriptFn>).__battleRunScript = input.runScriptFn
   }
 }
 
@@ -248,8 +277,7 @@ function getRunScript(gs: GameState): RunScriptFn {
  */
 export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
   const state = gs.battleState
-  if (!state)
-    return
+  if (!state) return
 
   const res = getBattleResources(gs)
   if (!res) {
@@ -324,8 +352,7 @@ function tickSelectAction(
   const alivePlayerIdxs: number[] = []
   state.players.forEach((p, i) => {
     const role = res.playerRoles.roles[p.roleId]
-    if (role && role.hp > 0)
-      alivePlayerIdxs.push(i)
+    if (role && role.hp > 0) alivePlayerIdxs.push(i)
   })
 
   // 活队员全死 → 转 lost(防卡死兜底,通常 postAction 已经检测过)
@@ -355,8 +382,7 @@ function tickSelectAction(
   }
 
   // 还没全选完 → 等下一 tick
-  if (state.pendingActions.size < alivePlayerIdxs.length)
-    return
+  if (state.pendingActions.size < alivePlayerIdxs.length) return
 
   // 全选完 → build ActionQueue,进 performAction
   const playerSlots = alivePlayerIdxs.map((i) => {
@@ -414,8 +440,7 @@ function handleMainMenuInput(
   playerRoles: PlayerRoles,
 ): void {
   const playerIdx = state.selectingPlayerIdx
-  if (playerIdx === undefined)
-    return
+  if (playerIdx === undefined) return
 
   if (input.pressed.has('Up')) {
     state.uiCursor = (state.uiCursor - 1 + MAIN_MENU_SIZE) % MAIN_MENU_SIZE
@@ -425,11 +450,11 @@ function handleMainMenuInput(
     state.uiCursor = (state.uiCursor + 1) % MAIN_MENU_SIZE
     return
   }
-  if (!input.pressed.has('Confirm'))
-    return
+  if (!input.pressed.has('Confirm')) return
 
   switch (state.uiCursor) {
-    case 0: { // 攻击 → targetSelect(群攻武器则跳过选目标,直接全体)
+    case 0: {
+      // 攻击 → targetSelect(群攻武器则跳过选目标,直接全体)
       // sdlpal uibattle.c:1094 `PAL_PlayerCanAttackAll(role)` → kBattleUISelectTargetEnemyAll
       //   →(PAL_CLASSIC,uibattle.c:1613)即时 commit。
       // PAL_PlayerCanAttackAll(global.c:2048)= Σ rgEquipmentEffect[i].rgwAttackAll[role] != 0
@@ -442,8 +467,7 @@ function handleMainMenuInput(
       if (role && (role.attackAll ?? 0) !== 0) {
         state.pendingActions.set(playerIdx, { type: 'attack', target: -1 })
         advanceSelectingPlayer(state, alivePlayerIdxs)
-      }
-      else {
+      } else {
         state.pendingActionDraft = { type: 'attack' }
         state.uiState = 'targetSelect'
         state.uiCursor = 0
@@ -478,7 +502,7 @@ function handleMainMenuInput(
  */
 function advanceSelectingPlayer(state: BattleState, alivePlayerIdxs: number[]): void {
   state.pendingActionDraft = undefined
-  const next = alivePlayerIdxs.find(i => !state.pendingActions.has(i))
+  const next = alivePlayerIdxs.find((i) => !state.pendingActions.has(i))
   if (next !== undefined) {
     state.selectingPlayerIdx = next
     state.uiState = 'mainMenu'
@@ -520,14 +544,11 @@ function handleMagicMenuInput(
   }
 
   const playerIdx = state.selectingPlayerIdx
-  if (playerIdx === undefined)
-    return
+  if (playerIdx === undefined) return
   const player = state.players[playerIdx]
-  if (!player)
-    return
+  if (!player) return
   const role = playerRoles.roles[player.roleId]
-  if (!role)
-    return
+  if (!role) return
   const learned: number[] = (role as unknown as { learnedSpells?: number[] }).learnedSpells ?? []
 
   if (learned.length === 0) {
@@ -545,14 +566,13 @@ function handleMagicMenuInput(
   }
   if (input.pressed.has('Confirm')) {
     const spellId = learned[state.uiCursor]
-    if (spellId === undefined)
-      return
+    if (spellId === undefined) return
     // 对敌全体法术跳过选目标 —— 对齐 sdlpal **uibattle.c:1317-1322**:
     //   usableToEnemy + kMagicFlagApplyToAll → kBattleUISelectTargetEnemyAll
     //   →(PAL_CLASSIC,uibattle.c:1613)"Don't bother selecting" 即时 commit(iSelectedIndex=-1)。
     // **菜单判定按 flags.applyToAll**(不是 magic.type;伤害侧才按 type,见 performMagic E1
     //   FIGHT_DetectMagicTargetChange —— 二者是 sdlpal 两套独立判定,故意分开)。
-    const spell = spells.find(s => s.id === spellId)
+    const spell = spells.find((s) => s.id === spellId)
     if (spell?.flags.applyToAll && spell.flags.usableToEnemy) {
       state.pendingActions.set(playerIdx, { type: 'magic', actionId: spellId, target: -1 })
       advanceSelectingPlayer(state, alivePlayerIdxs)
@@ -584,9 +604,8 @@ function handleItemMenuInput(
     return
   }
 
-  const usable = gs.inventory.filter(e => e.count > 0)
-  if (usable.length === 0)
-    return
+  const usable = gs.inventory.filter((e) => e.count > 0)
+  if (usable.length === 0) return
 
   if (input.pressed.has('Up')) {
     state.uiCursor = (state.uiCursor - 1 + usable.length) % usable.length
@@ -598,12 +617,11 @@ function handleItemMenuInput(
   }
   if (input.pressed.has('Confirm')) {
     const entry = usable[state.uiCursor]
-    if (!entry)
-      return
+    if (!entry) return
     // E2:投掷物(throwable + scriptOnThrow)→ 'throw-item' action(performThrowItem
     // 跑 scriptOnThrow + 0x42),否则 'item' action(performItem 跑 scriptOnUse)。
     // sdlpal 战斗物品菜单按 item flag 分 kBattleActionThrowItem / kBattleActionUseItem。
-    const item = items.find(i => i.id === entry.itemId)
+    const item = items.find((i) => i.id === entry.itemId)
     const isThrow = !!item?.flags.throwable && item.scriptOnThrow !== 0
     state.pendingActionDraft = { type: isThrow ? 'throw-item' : 'item', actionId: entry.itemId }
     state.uiState = 'targetSelect'
@@ -637,17 +655,14 @@ function handleTargetSelectInput(
   // 收集活敌 raw index;无 alive 则 Left/Right/Confirm 全 no-op
   const aliveRawIdxs: number[] = []
   state.enemies.forEach((e, i) => {
-    if (e.e.health > 0)
-      aliveRawIdxs.push(i)
+    if (e.e.health > 0) aliveRawIdxs.push(i)
   })
-  if (aliveRawIdxs.length === 0)
-    return
+  if (aliveRawIdxs.length === 0) return
 
   if (input.pressed.has('Left') || input.pressed.has('Right')) {
     // 找当前 cursor 在 aliveRawIdxs 中的位置;若 cursor 指向死敌则取最近的活敌
     let pos = aliveRawIdxs.indexOf(state.uiCursor)
-    if (pos === -1)
-      pos = 0 // cursor 不在活敌中 — 默认从第一个 alive 开始数
+    if (pos === -1) pos = 0 // cursor 不在活敌中 — 默认从第一个 alive 开始数
     const delta = input.pressed.has('Left') ? -1 : 1
     const newPos = (pos + delta + aliveRawIdxs.length) % aliveRawIdxs.length
     state.uiCursor = aliveRawIdxs[newPos]!
@@ -657,8 +672,7 @@ function handleTargetSelectInput(
   if (input.pressed.has('Confirm')) {
     const draft = state.pendingActionDraft
     const playerIdx = state.selectingPlayerIdx
-    if (!draft || playerIdx === undefined)
-      return
+    if (!draft || playerIdx === undefined) return
     // 当前 cursor 必须是活敌(防御性 — UI 应已通过 Left/Right 保证)
     const target = aliveRawIdxs.includes(state.uiCursor) ? state.uiCursor : aliveRawIdxs[0]!
     state.pendingActions.set(playerIdx, {
@@ -689,8 +703,27 @@ function tickPerformAction(
   res: BattleResources,
 ): void {
   // flee 提前转 phase → 早退
-  if (state.phase !== 'performAction')
+  if (state.phase !== 'performAction') return
+
+  // ── D17a:时间线驱动 ──────────────────────────────────────────────────────
+  // 有 active 动画时间线 → 逐 tick 推进帧;不起新 action,不推 currentActionIndex。
+  if (state.battleAnim) {
+    const a = state.battleAnim
+    a.frameElapsedMs += BATTLE_DT
+    // 跨过若干帧(durationMs 可能为 0,见 actWaitFrames=0)→ while 一次跨多帧。
+    while (a.idx < a.frames.length && a.frameElapsedMs >= (a.frames[a.idx]?.durationMs ?? 0)) {
+      a.frameElapsedMs -= a.frames[a.idx]?.durationMs ?? 0
+      a.idx++
+      if (a.idx < a.frames.length) applyAnimFrame(state, a.frames[a.idx]!, bus)
+    }
+    if (a.idx >= a.frames.length) {
+      // 时间线播完 → 复位双方 fighter(PAL_BattleUpdateFighters)+ 清动画 + 推进 action queue。
+      resetFightersAfterAction(state, res.playerRoles)
+      state.battleAnim = undefined
+      state.currentActionIndex++
+    }
     return
+  }
 
   if (state.currentActionIndex >= state.actionQueue.length) {
     state.phase = 'postAction'
@@ -726,25 +759,25 @@ function tickPerformAction(
       }
       const alivePlayers = state.players
         .map((p, i) => ({ idx: i, hp: res.playerRoles.roles[p.roleId]?.hp ?? 0 }))
-        .filter(p => p.hp > 0)
+        .filter((p) => p.hp > 0)
       action = decideEnemyAction({ enemy: enemy.e, alivePlayers, rng: state.rng })
     }
     // enemy dead → skip(action 保持 undefined)
-  }
-  else {
+  } else {
     // player:从 pendingActions 取(skip 死队员的 action)
     const player = state.players[item.idx]
     if (player) {
       const role = res.playerRoles.roles[player.roleId]
-      if (role && role.hp > 0)
-        action = state.pendingActions.get(item.idx)
+      if (role && role.hp > 0) action = state.pendingActions.get(item.idx)
     }
   }
 
-  if (action)
-    performBattleAction(state, gs, item, action, bus, res)
+  if (action) performBattleAction(state, gs, item, action, bus, res)
 
-  state.currentActionIndex++
+  // D17a 向后兼容:performBattleAction 起了动画时间线(物理攻击)→ 本 tick 不推进
+  // currentActionIndex,交给上面时间线分支逐帧驱动播完再推。
+  // 未建时间线的 action(defend/flee/pass/magic/item/throw 等)→ 即时推进(行为不变)。
+  if (!state.battleAnim) state.currentActionIndex++
   // 不 reset phaseStallTicks —— 整个 performAction phase 内 stall 累计;
   // 如卡 60s 没推进(eg. 自死循环),会被 stall 兜底
 }
@@ -765,7 +798,7 @@ function performBattleAction(
 ): void {
   switch (action.type) {
     case 'attack':
-      performAttack(state, actor, action.target, bus, res.playerRoles)
+      performAttack(state, actor, action.target, bus, res.playerRoles, res.battleEffectIndex)
       break
 
     case 'defend':
@@ -775,13 +808,11 @@ function performBattleAction(
 
     case 'flee':
       // flee 只对队员有意义;敌人 flee 写错 no-op(performFlee 通过 playerRoles 解;此情境不应发生)
-      if (!actor.isEnemy)
-        performFlee(state, actor.idx, res.playerRoles)
+      if (!actor.isEnemy) performFlee(state, actor.idx, res.playerRoles)
       break
 
     case 'magic': {
-      if (action.actionId === undefined)
-        break
+      if (action.actionId === undefined) break
       // target=-1 → 'all';否则按 number 走
       const targetIdx: number | 'all' = action.target === -1 ? 'all' : action.target
       // 队员 cast → 默认 target 是敌人;敌人 cast → target 是队员
@@ -807,8 +838,7 @@ function performBattleAction(
     }
 
     case 'item': {
-      if (action.actionId === undefined)
-        break
+      if (action.actionId === undefined) break
       const targetIdx: number | 'all' = action.target === -1 ? 'all' : action.target
       const targetIsEnemy = !actor.isEnemy
       performItem({
@@ -835,8 +865,7 @@ function performBattleAction(
     case 'throw-item': {
       // E2:投掷物(kBattleActionThrowItem,fight.c:4332)—— 跑 item.scriptOnThrow,
       // 脚本里 0x42 SimulateMagic 结算伤害。43 个投掷符/镖/卵/蛊靠这条。
-      if (action.actionId === undefined)
-        break
+      if (action.actionId === undefined) break
       const targetIdx: number | 'all' = action.target === -1 ? 'all' : action.target
       performThrowItem({
         state,
@@ -863,9 +892,9 @@ function performBattleAction(
     case 'equip-battle':
     case 'coop-magic':
       console.debug(
-        `[battle] ${action.type === 'coop-magic' ? 'B-w3.a' : 'B-w2.b'} stub:`
-        + `action=${action.type} actionId=${action.actionId}`
-        + ` target=${action.target}(handler 真做留后续)`,
+        `[battle] ${action.type === 'coop-magic' ? 'B-w3.a' : 'B-w2.b'} stub:` +
+          `action=${action.type} actionId=${action.actionId}` +
+          ` target=${action.target}(handler 真做留后续)`,
       )
       bus.emit({ op: 'showBattleMessage', text: `[${action.type}] stub` })
       break
@@ -883,14 +912,18 @@ function performBattleAction(
  * **flee 不走本 phase** —— performFlee 直接把 phase 设 'fleed',tickBattle 路由会
  * 直接进 finalizeBattle。本 handler 不处理 fleed(防御性提早返回)。
  */
-function tickPostAction(state: BattleState, gs: GameState, bus: CommandBus, res: BattleResources): void {
+function tickPostAction(
+  state: BattleState,
+  gs: GameState,
+  bus: CommandBus,
+  res: BattleResources,
+): void {
   // 毒 tick —— 对照 sdlpal `fight.c:1645-1648`(每回合每敌 rgPoisons[j].wPoisonScript 跑)。
   // 每个活敌的每条 poison 跑其 scriptEntry(毒 wEnemyScript,经 0x21 扣血),target = 该敌人。
   // 放在死亡 exp 累计**之前** → 毒杀的敌人也计入死亡奖励。
   const runPoisonScript = getRunScript(gs)
   state.enemies.forEach((enemy, idx) => {
-    if (enemy.e.health <= 0)
-      return
+    if (enemy.e.health <= 0) return
     for (const poison of enemy.poisons ?? []) {
       if (poison.scriptEntry > 0) {
         runPoisonScript({
@@ -913,8 +946,10 @@ function tickPostAction(state: BattleState, gs: GameState, bus: CommandBus, res:
     e.prevHp = e.e.health
   }
 
-  const aliveCount = state.players.filter(p => (res.playerRoles.roles[p.roleId]?.hp ?? 0) > 0).length
-  const enemyAlive = state.enemies.filter(e => e.e.health > 0).length
+  const aliveCount = state.players.filter(
+    (p) => (res.playerRoles.roles[p.roleId]?.hp ?? 0) > 0,
+  ).length
+  const enemyAlive = state.enemies.filter((e) => e.e.health > 0).length
 
   if (aliveCount === 0) {
     state.phase = 'lost'
@@ -980,13 +1015,11 @@ function finalizeBattle(
         if (entry) entry.wExp += state.expGained
       }
       gs.dwCash += state.cashGained
-    }
-    else if (state.phase === 'lost') {
+    } else if (state.phase === 'lost') {
       // 全员 hp=1(M3 简版,M5 真做 game over)
       for (const playerIdx of gs.partyMembers) {
         const role = res.playerRoles.roles[playerIdx]
-        if (role)
-          role.hp = 1
+        if (role) role.hp = 1
       }
     }
     // 'fleed' / 其它:无 hp 改动,无奖励

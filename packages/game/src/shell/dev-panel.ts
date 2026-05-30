@@ -20,6 +20,7 @@ import type {
   BattleField,
   Command,
   Enemy,
+  EnemyPosTable,
   EnemyTeam,
   Item,
   Magic,
@@ -125,6 +126,10 @@ export interface DevPanelDeps {
     objectMagics: ObjectMagicView[]
     objectPoisons: ObjectPoisonView[]
     commands: Command[]
+    /** D17a:enemy 初始 pos/posOriginal 真值(DATA.MKF chunk13,battle.c:936-939)。 */
+    enemyPos: EnemyPosTable
+    /** D17a:player 物理攻击命中特效帧基号(rgwBattleEffectIndex,DATA.MKF chunk11,fight.c:2055)。 */
+    battleEffectIndex: number[]
   }
 }
 
@@ -774,6 +779,8 @@ function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
     magics: deps.resources.magics,
     objectMagics: deps.resources.objectMagics, // E2:0x42 SimulateMagic 解析 magic object id
     objectPoisons: deps.resources.objectPoisons, // 0x28 apply poison
+    enemyPos: deps.resources.enemyPos, // D17a:enemy 初始 pos/posOriginal(battle.c:936-939)
+    battleEffectIndex: deps.resources.battleEffectIndex, // D17a:命中特效帧基号(fight.c:2055)
     // P2#5:不传切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
   })
 }

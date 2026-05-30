@@ -186,7 +186,9 @@ describe('M3 E2E:战斗 won 链路(attack-only,deterministic seed)', () => {
     expect(gs.battleState!.players).toHaveLength(1)
 
     const bus = createCommandBus()
-    const MAX_TICKS = 600 // ≈ 24s @ 25fps,足够秒杀单只弱怪
+    // D17a:每个物理攻击 action 现跨多 tick(时间线驱动,≈8 帧/次攻击 + 受击动画),
+    // 单回合 tick 数显著上升 → 放宽 maxTicks 上限,断言仍 won + exp/cash 一致。
+    const MAX_TICKS = 2000 // ≈ 80s @ 25fps,容纳多回合 × 多 tick/action 动画
     const ATTACK_TARGET_0: BattleAction = { type: 'attack', target: 0 }
 
     for (let i = 0; i < MAX_TICKS; i++) {
@@ -199,8 +201,7 @@ describe('M3 E2E:战斗 won 链路(attack-only,deterministic seed)', () => {
         const targetIdx = state.enemies.findIndex((e) => e.e.health > 0)
         if (targetIdx < 0) {
           // 全死了:不填 action,等 phase 转;以防万一
-        }
-        else {
+        } else {
           state.players.forEach((p, i) => {
             const role = resources.playerRoles.roles[p.roleId]
             if (role && role.hp > 0 && !state.pendingActions.has(i)) {
@@ -260,7 +261,8 @@ describe('M3 E2E:战斗 won 链路(attack-only,deterministic seed)', () => {
 
     const bus = createCommandBus()
 
-    for (let i = 0; i < 200; i++) {
+    // D17a:flee 自身即时(无时间线),但失败回合敌人物理攻击会播多 tick 动画 → 放宽上限。
+    for (let i = 0; i < 1000; i++) {
       if (gs.mode !== 'battle') break
       const state = gs.battleState
       if (state && state.phase === 'selectAction') {

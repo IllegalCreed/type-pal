@@ -34,8 +34,14 @@ import type { GameState } from '../../core/game-state.js'
 import type { GlyphTable } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { type BattleBgAsset, drawBattleBg } from './draw-battle-bg.js'
+import { drawBattleEffectOverlay } from './draw-battle-effect.js'
 import { FloatingNumsLayer } from './draw-battle-num.js'
-import { computeEnemyAnchor, computePlayerAnchor, drawBattleSprites, type SpriteAsset } from './draw-battle-sprites.js'
+import {
+  computeEnemyAnchor,
+  computePlayerAnchor,
+  drawBattleSprites,
+  type SpriteAsset,
+} from './draw-battle-sprites.js'
 import { drawBattleUI } from './draw-battle-ui.js'
 
 export interface BattleAssets {
@@ -55,6 +61,12 @@ export interface BattleAssets {
    * 数字帧 1:1,对照 sdlpal `PAL_BattleUIUpdate` → `PAL_DrawNumber`)。缺省则数字不画。
    */
   uiSpriteFrames?: IndexedImage[]
+  /**
+   * D17a:lpEffectSprite(DATA.MKF chunk 10)全 frame —— 物理攻击命中特效 overlay 用
+   * (state.battleAnim.overlay.spriteChunk=10,frameIdx 取帧)。缺省则 overlay 不画
+   * (loader 注入留后续叶子)。
+   */
+  effectSprite?: SpriteAsset
 }
 
 /**
@@ -92,17 +104,15 @@ export class BattlePresent {
         //   player HP: x = anchor.x - 9, y = max(anchor.y - 75, 10)
         //   player MP: x = anchor.x - 9, y = max(anchor.y - 67, 10)  (cyan)
         // 再经 PAL_BattleUIShowNum(`uibattle.c:1801`)x -= 15 → 最终 x = anchor.x - 24。
-        const anchor
-          = cmd.target.kind === 'enemy'
+        const anchor =
+          cmd.target.kind === 'enemy'
             ? computeEnemyAnchor(state, cmd.target.idx, assets.enemyPos)
             : computePlayerAnchor(state, cmd.target.idx)
         if (anchor) {
           const x = anchor.x - 24
           let yOff: number
-          if (cmd.target.kind === 'enemy')
-            yOff = 115
-          else
-            yOff = cmd.color === 'cyan' ? 67 : 75 // cyan = MP(-67),HP(-75)
+          if (cmd.target.kind === 'enemy') yOff = 115
+          else yOff = cmd.color === 'cyan' ? 67 : 75 // cyan = MP(-67),HP(-75)
           const y = Math.max(anchor.y - yOff, 10)
           this.floatingNums.emit({ x, y, value: cmd.value, color: cmd.color, currentFrame })
         }
@@ -116,7 +126,19 @@ export class BattlePresent {
     if (bg) drawBattleBg(fb, bg)
 
     // 3. 双方精灵(死亡的不画;sprite 缺资源跳过)
-    drawBattleSprites(fb, state, assets.battleSprites, assets.playerRoles, assets.enemyPos, currentFrame)
+    drawBattleSprites(
+      fb,
+      state,
+      assets.battleSprites,
+      assets.playerRoles,
+      assets.enemyPos,
+      currentFrame,
+    )
+
+    // 3.5 D17a:战斗动画 overlay(物理攻击命中特效 effect sprite),sprite 之上 UI 之下。
+    //     state.battleAnim.overlay 由 tickPerformAction applyAnimFrame 写当前帧;无则不画。
+    if (state.battleAnim?.overlay)
+      drawBattleEffectOverlay(fb, state.battleAnim.overlay, assets.effectSprite)
 
     // 4. 数字弹幕(在精灵之上;过期数字自动清理)。D17b:用 UI sprite 数字帧(drawNumber)。
     this.floatingNums.draw(fb, currentFrame, assets.uiSpriteFrames)

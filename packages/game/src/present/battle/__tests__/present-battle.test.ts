@@ -1,10 +1,6 @@
 import type { Enemy, PlayerRole, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import type {
-  BattleEnemy,
-  BattlePlayer,
-  BattleState,
-} from '../../../core/battle/battle-state.js'
+import type { BattleEnemy, BattlePlayer, BattleState } from '../../../core/battle/battle-state.js'
 import type { BusEntry } from '../../../core/command-bus.js'
 import { createInitialGameState, type GameState } from '../../../core/game-state.js'
 import { createSeedableRng } from '../../../core/rng.js'
@@ -111,7 +107,11 @@ function mkState(
   return {
     players,
     enemies,
-    field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+    field: {
+      id: 0,
+      screenWave: 0,
+      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    },
     isBoss: false,
     phase: 'selectAction',
     turn: 1,
@@ -147,13 +147,15 @@ function mkBgAsset(fill = 4): BattleBgAsset {
 
 function mkSpriteAsset(w: number, h: number, fill: number): SpriteAsset {
   return {
-    frames: [{
-      width: w,
-      height: h,
-      indices: new Uint8Array(w * h).fill(fill),
-      // M3.5 fix:opaque 全 1 = 完全 opaque
-      opaque: new Uint8Array(w * h).fill(1),
-    }],
+    frames: [
+      {
+        width: w,
+        height: h,
+        indices: new Uint8Array(w * h).fill(fill),
+        // M3.5 fix:opaque 全 1 = 完全 opaque
+        opaque: new Uint8Array(w * h).fill(1),
+      },
+    ],
   }
 }
 
@@ -198,9 +200,7 @@ describe('BattlePresent', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()
     const state = mkState([], [])
-    expect(() =>
-      present.draw(fb, mkGs(), state, [], mkAssets(), 0),
-    ).not.toThrow()
+    expect(() => present.draw(fb, mkGs(), state, [], mkAssets(), 0)).not.toThrow()
   })
 
   it('draw —— bg + sprite + UI 联合落在 framebuffer', () => {
@@ -215,10 +215,7 @@ describe('BattlePresent', () => {
       ]),
       playerRoles: { roles: [role] },
     })
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50))],
-    )
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))])
     present.draw(fb, mkGs(), state, [], assets, 0)
     // bg(填 4)在大多数像素;sprite 在锚点;UI 在底部 / 顶部
     expect(fbHasWrites(fb)).toBe(true)
@@ -247,21 +244,31 @@ describe('BattlePresent', () => {
     const fb = createFramebuffer()
     const state = mkState([], [mkBattleEnemy(minimalEnemy(50))])
     // 捕获 floating layer emit 的坐标:用 spy 包 framebuffer.writePixel 收集写点(全 opaque digit)。
-    const writes: Array<{ x: number, y: number }> = []
+    const writes: Array<{ x: number; y: number }> = []
     const origWrite = fb.writePixel.bind(fb)
     fb.writePixel = (x: number, y: number, idx: number) => {
       writes.push({ x, y })
       origWrite(x, y, idx)
     }
-    present.draw(fb, mkGs(), state, [
-      { cmdId: 1, cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 25, color: 'blue' } },
-    ], mkAssets(), 0)
+    present.draw(
+      fb,
+      mkGs(),
+      state,
+      [
+        {
+          cmdId: 1,
+          cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 25, color: 'blue' },
+        },
+      ],
+      mkAssets(),
+      0,
+    )
     // 数字 "25" 右对齐 nLength=5 起点 x = (136) - 6 + 6*5 = 160;最右 digit blit 起 x=154。
     // 关键断言:所有写点 y 都在 anchor.y-115 clamp 到 10 那一行附近(age=0 → y=10),x 在 136 右侧区域。
     expect(writes.length).toBeGreaterThan(0)
-    const minY = Math.min(...writes.map(w => w.y))
+    const minY = Math.min(...writes.map((w) => w.y))
     expect(minY).toBe(10) // clamp(80-115, 10) = 10,age=0 时 y 起点 = 10
-    const minX = Math.min(...writes.map(w => w.x))
+    const minX = Math.min(...writes.map((w) => w.x))
     // 5 位右对齐起点 = (anchor.x-24) - 6 + 6*5 = 136-6+30 = 160;两位数 "25" blit 在 [148..159]
     expect(minX).toBeGreaterThanOrEqual(136)
   })
@@ -271,11 +278,10 @@ describe('BattlePresent', () => {
     const fb2 = createFramebuffer()
     const present = new BattlePresent()
     // uiState=hidden + 空 players → 唯一写入来源 = floating nums(隔离测过期)
-    const state = mkState(
-      [],
-      [mkBattleEnemy(minimalEnemy(50)), mkBattleEnemy(minimalEnemy(51))],
-      { uiState: 'hidden', selectingPlayerIdx: undefined },
-    )
+    const state = mkState([], [mkBattleEnemy(minimalEnemy(50)), mkBattleEnemy(minimalEnemy(51))], {
+      uiState: 'hidden',
+      selectingPlayerIdx: undefined,
+    })
     const assets = mkAssets()
     const commands: BusEntry[] = [
       {
@@ -315,9 +321,7 @@ describe('BattlePresent', () => {
         },
       },
     ]
-    expect(() =>
-      present.draw(fb, mkGs(), state, commands, mkAssets(), 0),
-    ).not.toThrow()
+    expect(() => present.draw(fb, mkGs(), state, commands, mkAssets(), 0)).not.toThrow()
   })
 
   it('clearFloatingNums —— 清空残留数字', () => {
@@ -341,7 +345,13 @@ describe('BattlePresent', () => {
   it('无对应 BattleField bg —— 跳过 bg 绘制,不抛', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()
-    const state = mkState([], [], { field: { id: 99, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } } })
+    const state = mkState([], [], {
+      field: {
+        id: 99,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+    })
     expect(() =>
       present.draw(fb, mkGs(), state, [], mkAssets({ battleBgs: new Map() }), 0),
     ).not.toThrow()
@@ -367,15 +377,88 @@ describe('BattlePresent —— PresentCommand 不影响 state', () => {
     )
     const assets = mkAssets({ playerRoles: { roles: [minimalRole(0)] } })
     // 帧 0:emit 2 个(2 敌)
-    present.draw(fb, mkGs(), state, [
-      { cmdId: 1, cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 1, color: 'blue' } },
-      { cmdId: 2, cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 1 }, value: 2, color: 'blue' } },
-    ], assets, 0)
+    present.draw(
+      fb,
+      mkGs(),
+      state,
+      [
+        {
+          cmdId: 1,
+          cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 1, color: 'blue' },
+        },
+        {
+          cmdId: 2,
+          cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 1 }, value: 2, color: 'blue' },
+        },
+      ],
+      assets,
+      0,
+    )
     // 帧 5:emit 1 个(player 回血)—— 总共 3 个数字飘(都还没过期,< 11 帧)
     const fb2 = createFramebuffer()
-    present.draw(fb2, mkGs(), state, [
-      { cmdId: 3, cmd: { op: 'showDamageNum', target: { kind: 'player', idx: 0 }, value: 3, color: 'yellow' } },
-    ], assets, 5)
+    present.draw(
+      fb2,
+      mkGs(),
+      state,
+      [
+        {
+          cmdId: 3,
+          cmd: {
+            op: 'showDamageNum',
+            target: { kind: 'player', idx: 0 },
+            value: 3,
+            color: 'yellow',
+          },
+        },
+      ],
+      assets,
+      5,
+    )
     expect(fbHasWrites(fb2)).toBe(true)
+  })
+})
+
+describe('BattlePresent —— D17a 动画 overlay', () => {
+  it('state.battleAnim.overlay 存在 + effectSprite 注入 → 画 effect 帧到落点', () => {
+    const fb = createFramebuffer()
+    const present = new BattlePresent()
+    const state = mkState([], [], {
+      battleAnim: {
+        frames: [],
+        idx: 0,
+        frameElapsedMs: 0,
+        overlay: { kind: 'effect', spriteChunk: 10, frameIdx: 1, x: 160, y: 90 },
+      },
+    })
+    // effectSprite:frame1 值 22(2×2);落点 (160,90) → baseX=159,baseY=88
+    const effectSprite: SpriteAsset = {
+      frames: [mkSpriteAsset(2, 2, 11).frames[0]!, mkSpriteAsset(2, 2, 22).frames[0]!],
+    }
+    const assets = mkAssets({ effectSprite })
+    present.draw(fb, mkGs(), state, [], assets, 0)
+    expect(fb.indices[88 * 320 + 159]).toBe(22)
+  })
+
+  it('无 battleAnim → 不画 overlay(不抛)', () => {
+    const fb = createFramebuffer()
+    const present = new BattlePresent()
+    const state = mkState([], [])
+    const assets = mkAssets({ effectSprite: { frames: [mkSpriteAsset(2, 2, 22).frames[0]!] } })
+    expect(() => present.draw(fb, mkGs(), state, [], assets, 0)).not.toThrow()
+  })
+
+  it('battleAnim 有 overlay 但 effectSprite 缺 → no-op(loader 未注入,overlay 不画)', () => {
+    const fb = createFramebuffer()
+    const present = new BattlePresent()
+    const state = mkState([], [], {
+      battleAnim: {
+        frames: [],
+        idx: 0,
+        frameElapsedMs: 0,
+        overlay: { kind: 'effect', spriteChunk: 10, frameIdx: 0, x: 160, y: 90 },
+      },
+    })
+    const assets = mkAssets() // 无 effectSprite
+    expect(() => present.draw(fb, mkGs(), state, [], assets, 0)).not.toThrow()
   })
 })

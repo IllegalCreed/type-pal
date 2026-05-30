@@ -1,48 +1,86 @@
-import type { EventFile, EventObjectsFile, SceneEventObject, Tilemap } from '@type-pal/shared'
-import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
-import { fetchPalette, loadAll, SceneAssetsCache, type SceneAssets, type SceneFetcher } from '../assets/loader.js'
+import type {
+  Command,
+  EventFile,
+  EventObjectsFile,
+  SceneEventObject,
+  Tilemap,
+} from '@type-pal/shared'
 import { loadDialogAssets } from '../assets/dialog-assets.js'
-import { loadGlyphs, renderText } from '../present/font.js'
+import {
+  fetchPalette,
+  loadAll,
+  type SceneAssets,
+  SceneAssetsCache,
+  type SceneFetcher,
+} from '../assets/loader.js'
+import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
+import { startBattle } from '../core/battle/battle-system.js'
 import { createCommandBus } from '../core/command-bus.js'
-import type { Command } from '@type-pal/shared'
-import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject, sliceSceneEventObjects } from '../core/game-state.js'
-import { makeWorkingPalette } from '../core/palette-fade.js'
 import { updateAllEquipments } from '../core/equip-effect.js'
 import {
-  buildLabelMap, runEnterScript, setFetchPalette,
-  setSceneLoader, setMapReloader, setObstacleChecker,
-  setGlobalEvents, getGlobalLabelMap, setStartBattleHandler, setShopMenuHandler,
-  setRngPlayHandler, setShowFbpHandler, setScrollFbpHandler, setEndingAnimationHandler,
-  setLoadLastSaveHandler, setQuitHandler, setStoreTable,
+  buildLabelMap,
+  getGlobalLabelMap,
+  runEnterScript,
+  setEndingAnimationHandler,
+  setFetchPalette,
+  setGlobalEvents,
+  setLoadLastSaveHandler,
+  setMapReloader,
+  setObstacleChecker,
+  setQuitHandler,
+  setRngPlayHandler,
+  setSceneLoader,
+  setScrollFbpHandler,
+  setShopMenuHandler,
+  setShowFbpHandler,
+  setStartBattleHandler,
+  setStoreTable,
 } from '../core/event-system.js'
-import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
-import { openMenu } from '../core/menu/menu-mode.js'
-import { createBuyMenu, createSellMenu } from '../core/menu/shop-menu.js'
-import { Save } from '../core/save/api.js'
-import { createOpeningMenu } from '../core/menu/opening-menu.js'
-import { playAvi } from './avi-player.js'
-import { playRng } from './rng-player.js'
-import { showFbp, scrollFbp } from './fbp-player.js'
-import { playEndingAnimation, fadeOutBlocking, fadeInBlocking, colorFadeBlocking, waitForKey } from './ending-player.js'
-import { playSplashFallback } from './splash-fallback.js'
-import { playTrademarkFallback } from './trademark-fallback.js'
-import { startBattle } from '../core/battle/battle-system.js'
-import { setSceneContext, isWalkable } from '../core/scene-system.js'
-import { KeyboardInputSource } from './input.js'
-import { startRafLoop, type LoopContext } from './main-loop.js'
-import { createFramebuffer } from '../present/framebuffer.js'
 import {
-  presentFrame,
-  presentBattleFrame,
-  flushToCanvas,
-  applyDialogIconPaletteShift,
-  type PresentContext,
-} from '../present/present.js'
-import { BattlePresent, type BattleAssets } from '../present/battle/present-battle.js'
-import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
-import { setupDevPanel, type BattleFixturesData, type SceneJumpsData } from './dev-panel.js'
+  createInitialGameState,
+  hydratePlayerRolesRuntime,
+  npcFromEventObject,
+  sliceSceneEventObjects,
+} from '../core/game-state.js'
+import {
+  setLoadGameHandler,
+  setMenuCatalogs,
+  setStartGameHandler,
+} from '../core/menu/menu-driver.js'
+import { openMenu } from '../core/menu/menu-mode.js'
+import { createOpeningMenu } from '../core/menu/opening-menu.js'
+import { createBuyMenu, createSellMenu } from '../core/menu/shop-menu.js'
+import { makeWorkingPalette } from '../core/palette-fade.js'
+import { Save } from '../core/save/api.js'
+import { isWalkable, setSceneContext } from '../core/scene-system.js'
 import battleFixturesRaw from '../data/battle-fixtures.json' with { type: 'json' }
 import sceneJumpsRaw from '../data/scene-jumps.json' with { type: 'json' }
+import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
+import { type BattleAssets, BattlePresent } from '../present/battle/present-battle.js'
+import { loadGlyphs, renderText } from '../present/font.js'
+import { createFramebuffer } from '../present/framebuffer.js'
+import {
+  applyDialogIconPaletteShift,
+  flushToCanvas,
+  type PresentContext,
+  presentBattleFrame,
+  presentFrame,
+} from '../present/present.js'
+import { playAvi } from './avi-player.js'
+import { type BattleFixturesData, type SceneJumpsData, setupDevPanel } from './dev-panel.js'
+import {
+  colorFadeBlocking,
+  fadeInBlocking,
+  fadeOutBlocking,
+  playEndingAnimation,
+  waitForKey,
+} from './ending-player.js'
+import { scrollFbp, showFbp } from './fbp-player.js'
+import { KeyboardInputSource } from './input.js'
+import { type LoopContext, startRafLoop } from './main-loop.js'
+import { playRng } from './rng-player.js'
+import { playSplashFallback } from './splash-fallback.js'
+import { playTrademarkFallback } from './trademark-fallback.js'
 
 // JSON 静态 import 的 TS 类型推断会把每条 fixture 推成具体 key 集合(eg. fixture-zh1
 // 没 "1" → 推 "1": undefined),与 BattleFixturesData 的 Record<string, ...> 不严格匹配。
@@ -58,8 +96,8 @@ const sceneJumps = sceneJumpsRaw as unknown as SceneJumpsData
 //
 // `?skip-intro=1` URL 参数:跳过开场梦境直接进客栈(scene/1.json,inn),并跳过 cutscene 对话 —
 // e2e / dev verify 用,正常用户路径仍走 scene 0 → loadScene(2) → scene 1 全流程。
-const skipIntroBoot = typeof window !== 'undefined'
-  && new URLSearchParams(window.location.search).has('skip-intro')
+const skipIntroBoot =
+  typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('skip-intro')
 const SCENE_ID = skipIntroBoot ? 1 : 0
 
 /**
@@ -70,9 +108,11 @@ const SCENE_ID = skipIntroBoot ? 1 : 0
  *   playSplashFallback FBP chunk 3/4 + 仙鹤 + 标题 RLE + palette 渐变 200 行 port)
  * `?skip-intro=1` 优先短路全部(同前)。
  */
-const buildFlag: 'win95' | 'dos' = typeof window !== 'undefined'
-  && new URLSearchParams(window.location.search).get('build') === 'dos'
-  ? 'dos' : 'win95'
+const buildFlag: 'win95' | 'dos' =
+  typeof window !== 'undefined' &&
+  new URLSearchParams(window.location.search).get('build') === 'dos'
+    ? 'dos'
+    : 'win95'
 
 export function showError(canvas: HTMLCanvasElement, msg: string): void {
   const ctx = canvas.getContext('2d')
@@ -98,8 +138,24 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   ])
 
   const {
-    tilemap, palette, scene, events, playerRoles, tileImages, characterSprites,
-    battleSprites, battleBgs, enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics,
+    tilemap,
+    palette,
+    scene,
+    events,
+    playerRoles,
+    tileImages,
+    characterSprites,
+    battleSprites,
+    battleBgs,
+    enemies,
+    enemyObjects,
+    enemyTeams,
+    battleFields,
+    enemyPos,
+    battleEffectIndex,
+    items,
+    spells,
+    magics,
     objectMagics,
     objectPoisons,
     stores,
@@ -150,17 +206,18 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       // 全局数组建表时不传 labelMap(autoCursor 留切片时按各 scene labelMap 延迟解)。
       gs.allEventObjects = eoFile.eventObjects.map((eo) => npcFromEventObject(eo))
       gs.sceneEventRanges = eoFile.sceneRanges
+    } else {
+      console.warn(
+        `[bootstrap] event-objects.json fetch failed (${eoRes.status}),NPC 状态退化为非持久`,
+      )
     }
-    else {
-      console.warn(`[bootstrap] event-objects.json fetch failed (${eoRes.status}),NPC 状态退化为非持久`)
-    }
-  }
-  catch (err) {
+  } catch (err) {
     console.warn('[bootstrap] event-objects.json 加载失败,NPC 状态退化为非持久:', err)
   }
   // 切当前 scene 视图;全局表缺失则兜底从 scene dump 建(传 labelMap 立即解 autoCursor)。
-  gs.npcs = sliceSceneEventObjects(gs, gs.wNumScene)
-    ?? scene.eventObjects.map((eo) => npcFromEventObject(eo, labelMap))
+  gs.npcs =
+    sliceSceneEventObjects(gs, gs.wNumScene) ??
+    scene.eventObjects.map((eo) => npcFromEventObject(eo, labelMap))
 
   // M5.6 T17:onEnter 启动改由 startNewGameFromPrimary helper 触发,
   // OpeningMenu 选 new-game / ?skip-intro=1 路径都调它。
@@ -257,6 +314,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     enemyPos,
     glyphs,
     uiSpriteFrames: assets.uiSpriteFrames, // D17b:伤害数字弹幕用 UI sprite 数字帧
+    effectSprite: assets.effectSprite, // D17a:物理攻击命中特效 overlay sprite(chunk 10)
   }
 
   const bus = createCommandBus()
@@ -333,8 +391,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       }))
       npcSpriteFrames.set(id, allFrames)
       npcSprites.set(id, allFrames[0]!)
-    }
-    catch (err) {
+    } catch (err) {
       console.warn(`[bootstrap] scene-jump sprite ${id} fetch failed, skip:`, err)
     }
   }
@@ -380,7 +437,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // M4 P3.T3: scene→mapNum→tilemap 链:先 fetch scene JSON 拿到 mapNum,再 fetch tilemap by mapNum。
     const sceneJson = await fetch(`${BASE}/data/scene/${sceneId}.json`).then((r) => {
       if (!r.ok) throw new Error(`scene-${sceneId}.json fetch failed (${r.status})`)
-      return r.json() as Promise<{ mapNum: number; eventObjects: SceneEventObject[]; onEnterLabel?: string }>
+      return r.json() as Promise<{
+        mapNum: number
+        eventObjects: SceneEventObject[]
+        onEnterLabel?: string
+      }>
     })
     const [tilemapJson, eventsJson] = await Promise.all([
       fetch(`${BASE}/data/tilemap/${sceneJson.mapNum}.json`).then((r) => {
@@ -483,8 +544,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   ): Promise<void> {
     const dumpFileIndex = newWNumScene - 1
     console.log(
-      `[bootstrap.loadSceneCommon] loadScene wNumScene=${newWNumScene} → dump scene/${dumpFileIndex}.json`
-      + (opts.fromSavedGame ? ' (from saved game)' : ''),
+      `[bootstrap.loadSceneCommon] loadScene wNumScene=${newWNumScene} → dump scene/${dumpFileIndex}.json` +
+        (opts.fromSavedGame ? ' (from saved game)' : ''),
     )
     // P2#7:async 加载窗口起手设 sceneLoading=true(loadScene opcode 已设过,这里覆盖初始 / skip-intro /
     // loadGame 路径)→ present 保留旧帧(供 fadeScreen backup)。冻到 onEnter 第一个可渲染 yield 才清。
@@ -514,10 +575,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       //(引用 gs.allEventObjects 元素 → 脚本改动持久,重进保留)。
       // gs.sceneLabelMap 已在上面设为新 scene → 切片内 autoCursor 延迟解析用对的 labelMap。
       // 全局表缺失则兜底从 scene dump 建(退化为非持久)。
-      gs.npcs = sliceSceneEventObjects(gs, newWNumScene)
-        ?? sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
-    }
-    else {
+      gs.npcs =
+        sliceSceneEventObjects(gs, newWNumScene) ??
+        sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
+    } else {
       // C8 load game 路径:存档 JSON.stringify 会断开 gs.npcs 与 gs.allEventObjects 的引用。
       // 从加载回的 gs.allEventObjects 重切当前 scene → 重建引用(状态一致,后续脚本改动持久)。
       // 旧档无 allEventObjects → sliceSceneEventObjects 返 undefined → 保留存档内 gs.npcs。
@@ -539,7 +600,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         ? getGlobalLabelMap()[sceneAssets.onEnterLabel] // P2#5:onEnterLabel = L_<global> → 全局 ip
         : undefined
       const ip = persistedIp ?? labelIp
-      if (ip !== undefined && ip >= 0) { // ip === -1 = 0x6D 清的"无 onEnter"
+      if (ip !== undefined && ip >= 0) {
+        // ip === -1 = 0x6D 清的"无 onEnter"
         gs.eventCursor = {
           ip, // P2#5:全局 ip,默认读全局数组(不内嵌 commands/labelMap)
           onEnterSceneId: newWNumScene,
@@ -549,15 +611,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         // P2#7:onEnter 冻屏中跑(setPartyPos 等定位 opcode),到第一个可渲染 yield 才清 sceneLoading 解冻:
         // fade-first onEnter → fadeScreen 清(camera 已对,present 从冻屏旧帧拷 backup 渐变到新场景);
         // content-no-fade onEnter → showDialog 清(对话正常显示,scene 14 修复)。
-      }
-      else {
+      } else {
         // 无 onEnter script(door 切换):无 fadeScreen/dialog 来解冻 → 立即清 sceneLoading 渲染新场景。
         gs.eventCursor = undefined
         gs.mode = 'explore'
         gs.sceneLoading = false
       }
-    }
-    else {
+    } else {
       // fromSavedGame:无 onEnter,assets 已应用 → 立即清渲染(SAVEDGAME 已恢复 party/mode)。
       gs.sceneLoading = false
     }
@@ -589,8 +649,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   //   checkObjects=TRUE  → tilemap + 当前 scene event objects(排除自身 selfId)
   //   checkObjects=FALSE → 只查 tilemap(传空 npcs 数组)
   // isWalkable 返 TRUE=可走;PAL_CheckObstacle 返 TRUE=被阻挡 → 取反。
-  setObstacleChecker((x, y, checkObjects, selfId) =>
-    !isWalkable(presentCtx.tilemap, x, y, checkObjects ? gs.npcs : [], selfId),
+  setObstacleChecker(
+    (x, y, checkObjects, selfId) =>
+      !isWalkable(presentCtx.tilemap, x, y, checkObjects ? gs.npcs : [], selfId),
   )
 
   // M3 T29:dev panel(仅 DEV;生产构建 dead-code)。快捷键 B 弹 fixture picker → 启战。
@@ -646,28 +707,49 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       gs.suspendRaf = true
       void (async () => {
         for (const m of list) await playAvi({ src: `${BASE}/videos/${m}` })
-      })().catch((err) => {
-        console.warn(`[dev] playVideo failed:`, err)
-      }).finally(() => { gs.suspendRaf = false })
+      })()
+        .catch((err) => {
+          console.warn(`[dev] playVideo failed:`, err)
+        })
+        .finally(() => {
+          gs.suspendRaf = false
+        })
     },
     // 开场 DOS 版(trademark RNG chunk 6 + splash 卷轴):任何 build 下都能跑(资产已加载)。
     playDosOpening: () => {
       gs.suspendRaf = true
-      void playDosOpening().catch((err) => {
-        console.warn('[dev] playDosOpening failed:', err)
-      }).finally(() => { gs.suspendRaf = false })
+      void playDosOpening()
+        .catch((err) => {
+          console.warn('[dev] playDosOpening failed:', err)
+        })
+        .finally(() => {
+          gs.suspendRaf = false
+        })
     },
     // 结局 DOS 全片(PAL_EndingScreen DOS 编排:RNG + FadeOut/In + ShowFBP + ScrollFBP + ColorFade + EndingAnim)。
     playDosEnding: () => {
       gs.suspendRaf = true
-      void playDosEnding().catch((err) => {
-        console.warn('[dev] playDosEnding failed:', err)
-      }).finally(() => { gs.suspendRaf = false })
+      void playDosEnding()
+        .catch((err) => {
+          console.warn('[dev] playDosEnding failed:', err)
+        })
+        .finally(() => {
+          gs.suspendRaf = false
+        })
     },
     resources: {
-      enemies, enemyTeams, battleFields,
-      playerRoles, items, spells, magics, objectMagics, objectPoisons,
+      enemies,
+      enemyTeams,
+      battleFields,
+      playerRoles,
+      items,
+      spells,
+      magics,
+      objectMagics,
+      objectPoisons,
       commands: eventCommands,
+      enemyPos, // D17a:dev 战斗也用真 EnemyPos 表(非 fallback)
+      battleEffectIndex, // D17a:dev 战斗命中特效帧基号
     },
   })
 
@@ -675,12 +757,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // 生产构建 dead-code(Vite tree-shake import.meta.env.DEV 分支)。
   // 用 dev-panel.ts 同模式 cast(避免依赖 vite/client triple-slash 类型)。
   if ((import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV) {
-    ;(window as unknown as {
-      __game: { gs: typeof gs, assets: typeof assets, presentCtx: typeof presentCtx }
-    }).__game = {
+    ;(
+      window as unknown as {
+        __game: { gs: typeof gs; assets: typeof assets; presentCtx: typeof presentCtx }
+      }
+    ).__game = {
       gs,
       assets,
-      presentCtx,  // Sync.2 fix10:暴露 npcSpriteFrames 供 e2e verify cutscene sprite 加载
+      presentCtx, // Sync.2 fix10:暴露 npcSpriteFrames 供 e2e verify cutscene sprite 加载
     }
   }
 
@@ -693,11 +777,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // **await 就绪**(不再 fire-and-forget,否则首个 onEnter 撞空数组)。per-scene / shared 切片已废弃。
   {
     const allRes = await fetch(`${BASE}/events/all.json`)
-    if (!allRes.ok) throw new Error(`[bootstrap] all.json fetch failed (${allRes.status}) — 脚本系统无法运行`)
+    if (!allRes.ok)
+      throw new Error(`[bootstrap] all.json fetch failed (${allRes.status}) — 脚本系统无法运行`)
     const allJson = (await allRes.json()) as EventFile
     const allCommands = allJson.segments.flatMap((seg) => seg.commands)
     setGlobalEvents(allCommands)
-    console.log(`[bootstrap] global script array loaded:${allCommands.length} commands(单一全局脚本数组)`)
+    console.log(
+      `[bootstrap] global script array loaded:${allCommands.length} commands(单一全局脚本数组)`,
+    )
   }
 
   // P0.e: 注入 startBattle handler — opcode 7 (raw#7 / op:startBattle) 用。
@@ -707,8 +794,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   setStartBattleHandler(({ gs, enemyTeamId, isBoss }) => {
     const battleFieldId = gs.wNumBattleField ?? 0
     console.debug(
-      `[bootstrap.startBattleHandler] enemyTeamId=${enemyTeamId} battleFieldId=${battleFieldId}`
-      + ` isBoss=${isBoss} before.mode=${gs.mode} partyMembers=${gs.partyMembers.length}`,
+      `[bootstrap.startBattleHandler] enemyTeamId=${enemyTeamId} battleFieldId=${battleFieldId}` +
+        ` isBoss=${isBoss} before.mode=${gs.mode} partyMembers=${gs.partyMembers.length}`,
     )
     try {
       startBattle({
@@ -726,13 +813,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         magics,
         objectMagics, // E2:0x42 SimulateMagic 解析 magic object id
         objectPoisons, // 0x28 apply poison
+        enemyPos, // D17a:enemy 初始 pos/posOriginal(battle.c:936-939)
+        battleEffectIndex, // D17a:player 攻击命中特效帧基号(fight.c:2055)
         // P2#5:不再传 per-scene 切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
       })
       console.debug(
         `[bootstrap.startBattleHandler] after.mode=${gs.mode} battleState=${!!gs.battleState}`,
       )
-    }
-    catch (e) {
+    } catch (e) {
       console.error('[bootstrap.startBattleHandler] startBattle FAILED:', e)
       throw e
     }
@@ -758,11 +846,12 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       const store = stores[storeNum]
       const shopItems = (store?.items ?? [])
         .map((objId) => items.find((it) => it.id === objId))
-        .filter((it): it is typeof items[number] => it != null)
-      console.debug(`[bootstrap.shopMenuHandler] buy storeNum=${storeNum} items=${shopItems.length}`)
+        .filter((it): it is (typeof items)[number] => it != null)
+      console.debug(
+        `[bootstrap.shopMenuHandler] buy storeNum=${storeNum} items=${shopItems.length}`,
+      )
       openMenu(gs, { kind: 'shop-buy', state: createBuyMenu(shopItems) })
-    }
-    else {
+    } else {
       openMenu(gs, { kind: 'shop-sell', state: createSellMenu(gs, items) })
     }
   })
@@ -783,12 +872,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       fb,
       canvasCtx: canvasCtx!,
       palette: gs.palette ?? palette,
-    }).catch((err) => {
-      console.warn('[bootstrap.rngPlayHandler] playRng failed:', err)
-    }).finally(() => {
-      gs.suspendRaf = false
-      if (gs.eventCursor?.waiting === 'rng-play') gs.eventCursor.waiting = undefined
     })
+      .catch((err) => {
+        console.warn('[bootstrap.rngPlayHandler] playRng failed:', err)
+      })
+      .finally(() => {
+        gs.suspendRaf = false
+        if (gs.eventCursor?.waiting === 'rng-play') gs.eventCursor.waiting = undefined
+      })
   })
 
   // 特效 B:FBP 全屏图 handler(opcode 0x76 ShowFBP)。chunk 已提取为 battleBgs(FBP.MKF 全 dump);
@@ -805,12 +896,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       fb,
       canvasCtx: canvasCtx!,
       palette: gs.palette ?? palette,
-    }).catch((err) => {
-      console.warn('[bootstrap.showFbpHandler] showFbp failed:', err)
-    }).finally(() => {
-      gs.suspendRaf = false
-      if (gs.eventCursor?.waiting === 'show-fbp') gs.eventCursor.waiting = undefined
     })
+      .catch((err) => {
+        console.warn('[bootstrap.showFbpHandler] showFbp failed:', err)
+      })
+      .finally(() => {
+        gs.suspendRaf = false
+        if (gs.eventCursor?.waiting === 'show-fbp') gs.eventCursor.waiting = undefined
+      })
   })
 
   // 特效 B:FBP 滚动卷入 handler(opcode 0xA4 ScrollFBP)。同 showFbp 模式,fScrollDown=TRUE(0xA4 真值)。
@@ -824,12 +917,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       fb,
       canvasCtx: canvasCtx!,
       palette: gs.palette ?? palette,
-    }).catch((err) => {
-      console.warn('[bootstrap.scrollFbpHandler] scrollFbp failed:', err)
-    }).finally(() => {
-      gs.suspendRaf = false
-      if (gs.eventCursor?.waiting === 'scroll-fbp') gs.eventCursor.waiting = undefined
     })
+      .catch((err) => {
+        console.warn('[bootstrap.scrollFbpHandler] scrollFbp failed:', err)
+      })
+      .finally(() => {
+        gs.suspendRaf = false
+        if (gs.eventCursor?.waiting === 'scroll-fbp') gs.eventCursor.waiting = undefined
+      })
   })
 
   // 结局动画 handler(opcode 0x96 PAL_EndingAnimation)。fetch FBP 61/62(battleBgs)+ MGO 571/572 妖兽/女孩
@@ -839,11 +934,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       if (!r.ok) throw new Error(`sprite ${id}.json ${r.status}`)
       return r.json() as Promise<{ frames: { index: number }[] }>
     })
-    return Promise.all(meta.frames.map((f) =>
-      fetch(`${BASE}/images/world/npc/${id}/frame-${String(f.index).padStart(2, '0')}.png`)
-        .then((r) => r.blob())
-        .then(decodePngToIndices),
-    ))
+    return Promise.all(
+      meta.frames.map((f) =>
+        fetch(`${BASE}/images/world/npc/${id}/frame-${String(f.index).padStart(2, '0')}.png`)
+          .then((r) => r.blob())
+          .then(decodePngToIndices),
+      ),
+    )
   }
   setEndingAnimationHandler(({ gs }) => {
     gs.suspendRaf = true
@@ -861,12 +958,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         canvasCtx: canvasCtx!,
         palette: gs.palette ?? palette,
       })
-    })().catch((err) => {
-      console.warn('[bootstrap.endingAnimationHandler] failed:', err)
-    }).finally(() => {
-      gs.suspendRaf = false
-      if (gs.eventCursor?.waiting === 'ending-anim') gs.eventCursor.waiting = undefined
-    })
+    })()
+      .catch((err) => {
+        console.warn('[bootstrap.endingAnimationHandler] failed:', err)
+      })
+      .finally(() => {
+        gs.suspendRaf = false
+        if (gs.eventCursor?.waiting === 'ending-anim') gs.eventCursor.waiting = undefined
+      })
   })
 
   /**
@@ -882,12 +981,48 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     const BLACK = new Uint8Array(320 * 200)
     const bg = (n: number): Uint8Array => battleBgs.get(n)?.indices ?? BLACK
     const pget = (n: number): Promise<typeof palette> => fetchPalette(n).catch(() => palette)
-    const fbp = (chunk: number, fade: number, pal: typeof palette, fx?: IndexedImage[]): Promise<void> =>
-      showFbp({ fbpIndices: bg(chunk), fade, chunkNum: chunk, isWin95: false, fb, canvasCtx: ctx, palette: pal, effectSpriteFrames: fx })
+    const fbp = (
+      chunk: number,
+      fade: number,
+      pal: typeof palette,
+      fx?: IndexedImage[],
+    ): Promise<void> =>
+      showFbp({
+        fbpIndices: bg(chunk),
+        fade,
+        chunkNum: chunk,
+        isWin95: false,
+        fb,
+        canvasCtx: ctx,
+        palette: pal,
+        effectSpriteFrames: fx,
+      })
     const scroll = (chunk: number, pal: typeof palette, fx?: IndexedImage[]): Promise<void> =>
-      scrollFbp({ fbpIndices: bg(chunk), speed: 0xf, fScrollDown: true, fb, canvasCtx: ctx, palette: pal, effectSpriteFrames: fx })
-    const rng = (chunkIdx: number, startFrame: number, endFrame: number, speed: number, pal: typeof palette): Promise<void> =>
-      playRng({ chunkIdx, startFrame, endFrame, frameDelayMs: 1000 / speed, fb, canvasCtx: ctx, palette: pal })
+      scrollFbp({
+        fbpIndices: bg(chunk),
+        speed: 0xf,
+        fScrollDown: true,
+        fb,
+        canvasCtx: ctx,
+        palette: pal,
+        effectSpriteFrames: fx,
+      })
+    const rng = (
+      chunkIdx: number,
+      startFrame: number,
+      endFrame: number,
+      speed: number,
+      pal: typeof palette,
+    ): Promise<void> =>
+      playRng({
+        chunkIdx,
+        startFrame,
+        endFrame,
+        frameDelayMs: 1000 / speed,
+        fb,
+        canvasCtx: ctx,
+        palette: pal,
+      })
 
     // ── Part A(ending.c:420-483)──
     const curPal = gs.palette ?? palette
@@ -904,7 +1039,15 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       fetchMgoSprite(571).catch(() => [] as IndexedImage[]),
       fetchMgoSprite(572).catch(() => [] as IndexedImage[]),
     ])
-    await playEndingAnimation({ upperIndices: bg(61), lowerIndices: bg(62), beastFrames: beast, girlFrames: girl, fb, canvasCtx: ctx, palette: pal4 })
+    await playEndingAnimation({
+      upperIndices: bg(61),
+      lowerIndices: bg(62),
+      beastFrames: beast,
+      girlFrames: girl,
+      fb,
+      canvasCtx: ctx,
+      palette: pal4,
+    })
     await colorFadeBlocking(fb, ctx, pal4, 15, 64 * 70) // ColorFade(7,15)
     const pal0 = await pget(0)
     await rng(11, 0, -1, 7, pal0)
@@ -944,7 +1087,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }
   }
   if (cutsceneSpriteIds.size > 0) {
-    console.log(`[bootstrap] preloading ${cutsceneSpriteIds.size} cutscene party sprite(s):`, [...cutsceneSpriteIds])
+    console.log(`[bootstrap] preloading ${cutsceneSpriteIds.size} cutscene party sprite(s):`, [
+      ...cutsceneSpriteIds,
+    ])
     await Promise.all([...cutsceneSpriteIds].map((id) => fetchMissingSprite(id)))
   }
 
@@ -978,8 +1123,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
           // (否则从大厅进客栈时 onEnter 重放传说 + setPartyPos 把人拉回起点,覆盖门的落点)。
           const overrideIp = gs.sceneOnEnterIp[gs.wNumScene]
           runEnterScript(gs, undefined, undefined, overrideIp ?? ip, gs.wNumScene) // P2#5:默认全局数组
-        }
-        else {
+        } else {
           // 正常启动:跑完整 onEnter script(scene 0 梦境对话)— tickEventSystem 步进。
           // 打 onEnter tag → 'end' 持久化停点,scene 0 也不重播(同 loadScene 路径)。
           const overrideIp = gs.sceneOnEnterIp[gs.wNumScene]
@@ -1016,8 +1160,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     gs.suspendRaf = true
     try {
       await playAvi({ src: '/extracted/videos/3.mp4' })
-    }
-    finally {
+    } finally {
       gs.suspendRaf = false
     }
   }
@@ -1064,11 +1207,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // event-system 已先跑完 fade-out(淡黑)+ 清 cursor;此处只重载槽 + 设 needToFadeIn(对齐
   // PAL_ReloadInNextTick 的 fNeedToFadeIn=TRUE → loaded scene 经 explore auto fade-in 淡入)。
   setLoadLastSaveHandler((slot) => {
-    void loadGameFromSlot(slot).then(() => {
-      gs.needToFadeIn = true
-    }).catch((err: unknown) => {
-      console.error('[bootstrap.loadLastSave] failed:', err)
-    })
+    void loadGameFromSlot(slot)
+      .then(() => {
+        gs.needToFadeIn = true
+      })
+      .catch((err: unknown) => {
+        console.error('[bootstrap.loadLastSave] failed:', err)
+      })
   })
 
   /** 回标题(opcode 0xA0 quit / 结局后)— 复用 OpeningMenu 启动路径(同 showTrademarkAndSplash 末尾)。 */
@@ -1086,14 +1231,15 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       gs.suspendRaf = true
       void (async () => {
         for (const m of ['4.mp4', '5.mp4', '6.mp4']) await playAvi({ src: `${BASE}/videos/${m}` })
-      })().catch((err: unknown) => {
-        console.warn('[bootstrap.quit] 结局 mp4 播放失败:', err)
-      }).finally(() => {
-        gs.suspendRaf = false
-        returnToTitle()
-      })
-    }
-    else {
+      })()
+        .catch((err: unknown) => {
+          console.warn('[bootstrap.quit] 结局 mp4 播放失败:', err)
+        })
+        .finally(() => {
+          gs.suspendRaf = false
+          returnToTitle()
+        })
+    } else {
       returnToTitle()
     }
   })
@@ -1102,8 +1248,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     if (choice.kind === 'new-game') {
       await playOpeningAvi()
       startNewGameFromPrimary()
-    }
-    else {
+    } else {
       // C8(2026-05-29):OpeningMenu 选 load-game → 复用 loadGameFromSlot 真做
       await loadGameFromSlot(choice.slot)
     }
@@ -1146,8 +1291,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       bitmapDown: { ...fbpDown, opaque: new Uint8Array(fbpDown.width * fbpDown.height).fill(1) },
       craneSprite: {
         frames: craneSprite.frames.map((f) => ({
-          width: f.width, height: f.height,
-          indices: f.indices, opaque: f.opaque,
+          width: f.width,
+          height: f.height,
+          indices: f.indices,
+          opaque: f.opaque,
         })),
         anchorX: craneSprite.anchorX,
         anchorY: craneSprite.anchorY,
@@ -1168,12 +1315,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         // sdlpal main.c:197 PAL_PlayAVI("1.avi") / main.c:237 PAL_PlayAVI("2.avi")
         await playAvi({ src: '/extracted/videos/1.mp4' })
         await playAvi({ src: '/extracted/videos/2.mp4' })
-      }
-      else {
+      } else {
         await playDosOpening()
       }
-    }
-    finally {
+    } finally {
       gs.suspendRaf = false
     }
   }
@@ -1181,20 +1326,28 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   if (skipIntroBoot) {
     // ?skip-intro=1 → 跳 trademark + splash + OpeningMenu 直接走 SCENE_ID(=1)新游戏
     startNewGameFromPrimary()
-  }
-  else {
+  } else {
     // 默认:trademark → splash → OpeningMenu
     // 注:await 不阻塞 startRafLoop(后者立即调,raf 已暂停 via suspendRaf)
-    void showTrademarkAndSplash().then(() => {
-      gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
-      gs.mode = 'menu'
-    }).catch((err: unknown) => {
-      console.error('[bootstrap] trademark/splash 失败,直接进 OpeningMenu:', err)
-      gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
-      gs.mode = 'menu'
-    })
+    void showTrademarkAndSplash()
+      .then(() => {
+        gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
+        gs.mode = 'menu'
+      })
+      .catch((err: unknown) => {
+        console.error('[bootstrap] trademark/splash 失败,直接进 OpeningMenu:', err)
+        gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
+        gs.mode = 'menu'
+      })
   }
 
   startRafLoop(loopCtx)
-  console.log('[bootstrap] startup ready, SCENE_ID=', SCENE_ID, 'skipIntro=', skipIntroBoot, 'build=', buildFlag)
+  console.log(
+    '[bootstrap] startup ready, SCENE_ID=',
+    SCENE_ID,
+    'skipIntro=',
+    skipIntroBoot,
+    'build=',
+    buildFlag,
+  )
 }
