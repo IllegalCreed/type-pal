@@ -23,7 +23,7 @@
  *     `max(dmg, 0)` 等价 SimulateMagic 的 `if(sDamage<0) sDamage=0`。
  */
 
-import type { Magic, ObjectMagicView } from '@type-pal/shared'
+import type { Magic, ObjectMagicView, PlayerRoles } from '@type-pal/shared'
 import { calcMagicDamage } from './formulas.js'
 import type { BattleState } from './battle-state.js'
 
@@ -118,6 +118,110 @@ export function applyMagicDamage(input: ApplyMagicDamageInput): MagicDamageResul
     const hpBefore = enemy.e.health
     enemy.e.health = Math.max(0, enemy.e.health - dmg)
     results.push({ enemyIdx: idx, damage: dmg, hpBefore, hpAfter: enemy.e.health })
+  }
+  return results
+}
+
+/** 敌方攻击魔法伤害结算结果(enemy→player,playerIdx = state.players 索引)。 */
+export interface EnemyMagicDamageResult {
+  playerIdx: number
+  damage: number
+  hpBefore: number
+  hpAfter: number
+}
+
+export interface ApplyEnemyMagicDamageInput {
+  state: BattleState
+  /** 施法敌人在 state.enemies 的索引(取 magicStrength / level)。 */
+  casterEnemyIdx: number
+  /** 目标:单体 player idx;或 'all'(magic.type != normal AoE)。 */
+  target: number | 'all'
+  /** 解析后的 magic(`baseDamage` 保 u16 原值,内部 asShort;`elemental`)。 */
+  magicData: { baseDamage: number, elemental: number }
+  /** 玩家角色表(取 def / 抗性 / HP,直接 mutate role.hp)。 */
+  playerRoles: PlayerRoles
+  /** sdlpal RandomFloat(10,11)/10 ∈ [1.0,1.1)。同 applyMagicDamage:每次 perform 取一次,全目标共用。 */
+  rngFactor: number
+}
+
+/**
+ * 敌方攻击魔法伤害结算(enemy→player)—— 对照 sdlpal `fight.c:4772-4853`
+ * PAL_BattleEnemyPerformAction 魔法分支。镜像 player→enemy(applyMagicDamage)但有关键差异:
+ *   - magStr = (SHORT)enemy.wMagicStrength + (wLevel+6)*6,clamp >=0(fight.c:4673-4678)
+ *   - PAL_CalcMagicDamage 用**玩家** def(role.defense+(level+6)*4,clamp>=0)+ 元素抗(`100+mod`)
+ *     + 毒抗(`100+mod`),**wResistanceMultiplier=20**(fight.c:4798/4833;player→enemy 是 1)
+ *   - 除因子 `((fDefending?2:1)*(Protect?2:1)) + (autoDefend?1:0)`(fight.c:4801-4803/4836-4838):
+ *       · autoDefend:该队员**活着 + 非 sleep/paralyzed/confused** 时 RandomLong(0,2)==0(fight.c:4727-4757)
+ *       · Protect status ts 未建模 → 恒 ×1(残)
+ *   - clamp `if (sDamage>hp) sDamage=hp`(fight.c:4805/4840)——**不钳最小 1**(与 player inline 不同)
+ *   - 跳过已死队员(fight.c:4782)
+ *
+ * caller(performMagic enemy 分支)负责 emit showDamageNum(掉血 → blue)。
+ */
+export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyMagicDamageResult[] {
+  const { state, casterEnemyIdx, target, magicData, playerRoles, rngFactor } = input
+  const caster = state.enemies[casterEnemyIdx]
+  if (!caster)
+    return []
+  let magStr = asShort(caster.e.magicStrength) + (caster.e.level + 6) * 6
+  if (magStr < 0)
+    magStr = 0
+  const field = state.field.magicEffect
+
+  const targetIdxs: number[] = target === 'all'
+    ? state.players.map((_, i) => i)
+    : [target]
+
+  const results: EnemyMagicDamageResult[] = []
+  for (const pIdx of targetIdxs) {
+    const slot = state.players[pIdx]
+    const role = slot ? playerRoles.roles[slot.roleId] : undefined
+    if (!slot || !role || role.hp <= 0)
+      continue // 跳过越界 / 已死队员(sdlpal 4782)
+
+    // def = PAL_GetPlayerDefense = role.defense + (level+6)*4,clamp >=0
+    let def = asShort(role.defense) + (role.level + 6) * 4
+    if (def < 0)
+      def = 0
+
+    // 玩家元素抗 / 毒抗 = 100 + min(100, mod)(sdlpal 4794/4830 调 PAL_GetPlayer*Resistance,
+    //   global.c:1969-1971 `if (w>100) w=100` 上限 100 → 倍率 10-(100+w)/20 永 >=5,绝不变负伤)。
+    //   注:装备抗性加成略(同 E1/attack.ts equip-effect 残),只取 role 基础抗。
+    const clampRes = (v: number): number => 100 + Math.min(100, asShort(v))
+    const elemRes = {
+      wind: clampRes(role.elemResistance.wind),
+      thunder: clampRes(role.elemResistance.thunder),
+      water: clampRes(role.elemResistance.water),
+      fire: clampRes(role.elemResistance.fire),
+      earth: clampRes(role.elemResistance.earth),
+    }
+    const poisonRes = clampRes(role.poisonResistance)
+
+    let dmg = calcMagicDamage({
+      magStr,
+      def,
+      elemRes,
+      poisonRes,
+      resistMult: 20, // sdlpal 4798/4833 wResistanceMultiplier=20(player→enemy 是 1)
+      magicData,
+      fieldEffect: field,
+      rngFactor,
+    })
+
+    // 除因子:defending ×2 / Protect ×2(未建模→1)/ autoDefend +1
+    const canAutoDefend = (slot.status.sleep ?? 0) === 0
+      && (slot.status.paralyzed ?? 0) === 0
+      && (slot.status.confused ?? 0) === 0
+    const autoDefend = canAutoDefend && state.rng.range(0, 3) === 0 // RandomLong(0,2)==0
+    const divisor = ((slot.defending ? 2 : 1) * 1) + (autoDefend ? 1 : 0)
+    dmg = Math.trunc(dmg / divisor)
+
+    // clamp:if (sDamage>hp) sDamage=hp(不钳最小 1)
+    if (dmg > role.hp)
+      dmg = role.hp
+    const hpBefore = role.hp
+    role.hp = Math.max(0, role.hp - dmg)
+    results.push({ playerIdx: pIdx, damage: dmg, hpBefore, hpAfter: role.hp })
   }
   return results
 }

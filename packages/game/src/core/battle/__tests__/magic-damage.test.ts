@@ -11,11 +11,11 @@
  * 期望值全部手算(rngFactor=1.0 固定)对照 sdlpal 公式。
  */
 
-import type { BattleField, Enemy, ObjectMagicView } from '@type-pal/shared'
+import type { BattleField, Enemy, ObjectMagicView, PlayerRole, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createSeedableRng } from '../../rng.js'
 import type { BattleEnemy, BattleState } from '../battle-state.js'
-import { applyMagicDamage, resolveObjectMagic } from '../magic-damage.js'
+import { applyEnemyMagicDamage, applyMagicDamage, resolveObjectMagic } from '../magic-damage.js'
 
 function makeEnemy(opts: Partial<Enemy> = {}): Enemy {
   return {
@@ -186,5 +186,167 @@ describe('resolveObjectMagic', () => {
 
   it('未知 id → undefined', () => {
     expect(resolveObjectMagic(999, objMagics)).toBeUndefined()
+  })
+})
+
+// ============================================================================
+// applyEnemyMagicDamage —— 敌方攻击魔法伤害结算(enemy→player,fight.c:4772-4853)。
+// magStr = enemy.magicStrength+(level+6)*6;PAL_CalcMagicDamage resistMult=20 + 玩家抗(100+mod);
+// 除因子 ((defending?2:1)*(protect?2:1=1))+(autoDefend?1:0);clamp dmg>hp→hp(不钳最小 1)。
+// ============================================================================
+
+interface PRoleCfg {
+  hp: number
+  defense?: number
+  level?: number
+  poisonResistance?: number
+  windRes?: number
+  status?: { sleep?: number, paralyzed?: number, confused?: number }
+  defending?: boolean
+}
+
+/** 建带队员 + 单敌(施法者)的 state + playerRoles。rangeVal 控 autoDefend(range(0,3)==0 → 自卫)。 */
+function makeEnemyMagicState(
+  caster: { magicStrength: number, level: number },
+  players: PRoleCfg[],
+  rangeVal = 1, // 默认 !=0 → 不自卫
+): { state: BattleState, playerRoles: PlayerRoles } {
+  const state = makeState([{ magicStrength: caster.magicStrength, level: caster.level }])
+  state.players = players.map((p, i) => ({
+    roleId: i,
+    prevHp: 0,
+    prevMp: 0,
+    defending: p.defending ?? false,
+    status: {
+      sleep: p.status?.sleep ?? 0,
+      paralyzed: p.status?.paralyzed ?? 0,
+      confused: p.status?.confused ?? 0,
+      haste: false,
+      slow: false,
+    },
+  }))
+  state.rng = { ...createSeedableRng(1), range: () => rangeVal }
+  const roles: PlayerRole[] = players.map((p, i) => ({
+    id: i,
+    hp: p.hp,
+    defense: p.defense ?? 0,
+    level: p.level ?? 0,
+    poisonResistance: p.poisonResistance ?? 0,
+    elemResistance: { wind: p.windRes ?? 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    // biome-ignore lint/suspicious/noExplicitAny: 只填伤害相关字段
+  } as any as PlayerRole))
+  return { state, playerRoles: { roles } }
+}
+
+describe('applyEnemyMagicDamage', () => {
+  // magStr = 28 + (0+6)*6 = 64;player def = 30 + (5+6)*4 = 74;baseDmg45 wind(elem1)windRes0
+  // calcBase(64,74)=20; /4=5; +45=50; elem1: *(10-(100+0)/20)=*5=250; /5=50; field0: 50
+  it('单体:手算伤害 50,player HP 100→50(无防御/无自卫)', () => {
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 100, defense: 30, level: 5, windRes: 0 },
+    ])
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+    })
+    expect(r).toEqual([{ playerIdx: 0, damage: 50, hpBefore: 100, hpAfter: 50 }])
+    expect(playerRoles.roles[0]!.hp).toBe(50)
+  })
+
+  it('AoE target="all":全体活队员吃伤害', () => {
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 100, defense: 30, level: 5 },
+      { hp: 80, defense: 30, level: 5 },
+    ])
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 'all',
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+    })
+    expect(r).toEqual([
+      { playerIdx: 0, damage: 50, hpBefore: 100, hpAfter: 50 },
+      { playerIdx: 1, damage: 50, hpBefore: 80, hpAfter: 30 },
+    ])
+  })
+
+  it('defending → 除 2(50→25)', () => {
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 100, defense: 30, level: 5, defending: true },
+    ])
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+    })
+    expect(r[0]!.damage).toBe(25) // 50/((2*1)+0)
+  })
+
+  it('autoDefend(range(0,3)==0)→ 除因子 +1(50→25)', () => {
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 100, defense: 30, level: 5 },
+    ], /* rangeVal */ 0)
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+    })
+    expect(r[0]!.damage).toBe(25) // 50/((1*1)+1)
+  })
+
+  it('defending + autoDefend → 除 3(trunc 50/3=16)', () => {
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 100, defense: 30, level: 5, defending: true },
+    ], 0)
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+    })
+    expect(r[0]!.damage).toBe(16) // trunc(50/((2*1)+1))
+  })
+
+  it('sleep 队员不触发 autoDefend(range==0 也不自卫)→ 满伤 50', () => {
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 100, defense: 30, level: 5, status: { sleep: 3 } },
+    ], 0)
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+    })
+    expect(r[0]!.damage).toBe(50) // 睡眠 → canAutoDefend=false → 除因子 1
+  })
+
+  it('clamp:dmg > 剩余 HP → 钳到 HP(hp30 吃 50 → 掉 30,hp→0)', () => {
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 30, defense: 30, level: 5 },
+    ])
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+    })
+    expect(r[0]!.damage).toBe(30)
+    expect(playerRoles.roles[0]!.hp).toBe(0)
+  })
+
+  it('AoE 跳过已死队员(hp=0 不结算)', () => {
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 0, defense: 30, level: 5 },
+      { hp: 100, defense: 30, level: 5 },
+    ])
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 'all',
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+    })
+    expect(r.map(x => x.playerIdx)).toEqual([1]) // idx0 死 → 跳过
+    expect(playerRoles.roles[0]!.hp).toBe(0)
+  })
+
+  it('元素抗 >100 → clamp 到 100(global.c:1969)→ 倍率不变负、伤害不回血', () => {
+    // windRes=200 → clamp 100 → elemRes=200 → 倍率 10-200/20=0 → 伤害 0(无 clamp 会 10-300/20=-5 负伤回血)
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 100, defense: 30, level: 5, windRes: 200 },
+    ])
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+    })
+    expect(r[0]!.damage).toBe(0) // 倍率 0 → 0 伤害(非负)
+    expect(playerRoles.roles[0]!.hp).toBe(100) // 不回血(clamp 前会 >100)
   })
 })

@@ -489,7 +489,7 @@ describe('performMagic', () => {
       role: { mp: 30 },
     })
     const spell = makeSpell({ id: 5, magicNumber: 2, scriptOnUse: 88 })
-    const magic = makeMagic({ id: 2, costMP: 999 }) // 故意巨大,验证不扣
+    const magic = makeMagic({ id: 2, costMP: 999, baseDamage: 0 }) // costMP 巨大验证不扣;baseDamage=0 避开 E2 伤害(本例只测 MP/emit/runScript)
     const runScript: RunScriptFn = vi.fn()
 
     performMagic({
@@ -522,6 +522,58 @@ describe('performMagic', () => {
     const opts = (runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0]
     expect(opts.battleCtx.caster).toEqual({ type: 'enemy', idx: 0 })
     expect(opts.battleCtx.target).toEqual({ type: 'player', idx: 0 })
+  })
+
+  it('敌人攻击魔法(baseDamage>0)→ 目标队员真掉血 + emit showDamageNum(E2 enemy→player 结算)', () => {
+    // 之前敌方攻击魔法只播动画不结算伤害(纯演出)→ E2 补齐。
+    const { state, playerRoles, bus } = makeState({
+      role: { hp: 500, defense: 30, level: 5 },
+      enemies: [makeEnemy({ magicStrength: 28, level: 0 })], // magStr = 28+(0+6)*6 = 64
+    })
+    const spell = makeSpell({ id: 5, magicNumber: 2 })
+    const magic = makeMagic({ id: 2, type: 'normal', baseDamage: 45, elemental: 1, costMP: 0 })
+    performMagic({
+      state,
+      casterIsEnemy: true,
+      casterIdx: 0,
+      spellId: 5,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      spells: [spell],
+      magics: [magic],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript: () => {},
+    })
+    expect(playerRoles.roles[0]!.hp).toBeLessThan(500) // 敌方魔法真扣血(autoDefend rng 浮动,断言掉血即可)
+    const dmgCmd = bus.drain().find(c => c.cmd.op === 'showDamageNum')
+    expect(dmgCmd?.cmd).toMatchObject({ op: 'showDamageNum', target: { kind: 'player', idx: 0 }, color: 'blue' })
+  })
+
+  it('敌人非攻击 type(summon)但 baseDamage>0 → 仍结算伤害(E2 gate type-agnostic,sdlpal fight.c:4772)', () => {
+    // sdlpal 敌方魔法只看 baseDamage>0,不限 magic.type(summon 等也打)。验证不被 OFF_MAGIC_TYPES 漏掉。
+    const { state, playerRoles, bus } = makeState({
+      role: { hp: 500, defense: 30, level: 5 },
+      enemies: [makeEnemy({ magicStrength: 28, level: 0 })],
+    })
+    const spell = makeSpell({ id: 5, magicNumber: 2 })
+    const magic = makeMagic({ id: 2, type: 'summon', baseDamage: 45, elemental: 1, costMP: 0 })
+    performMagic({
+      state,
+      casterIsEnemy: true,
+      casterIdx: 0,
+      spellId: 5,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      spells: [spell],
+      magics: [magic],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript: () => {},
+    })
+    expect(playerRoles.roles[0]!.hp).toBeLessThan(500) // summon 类也结算(type != normal → 全体,这里单队员)
   })
 
   it('spell id 不存在 → warn + 不 emit + 不 runScript', () => {

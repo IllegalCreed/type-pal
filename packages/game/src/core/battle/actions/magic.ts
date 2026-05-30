@@ -28,7 +28,7 @@ import {
 } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
-import { applyMagicDamage, magicForcesAllTarget } from '../magic-damage.js'
+import { applyEnemyMagicDamage, applyMagicDamage, magicForcesAllTarget } from '../magic-damage.js'
 
 /** 注入的 runScript 函数(T17 free function `runScript`,测试可 mock)。 */
 export type RunScriptFn = (opts: RunScriptOptions) => void
@@ -242,6 +242,41 @@ export function performMagic(input: PerformMagicInput): void {
         input.bus.emit({
           op: 'showDamageNum',
           target: { kind: 'enemy', idx: r.enemyIdx },
+          value: r.hpBefore - r.hpAfter,
+          color: 'blue',
+        })
+      }
+    }
+  }
+
+  // —— E2:inline 敌方攻击魔法伤害结算(enemy→player) ——
+  // sdlpal `fight.c:4772-4853`(PAL_BattleEnemyPerformAction 魔法分支):敌人施法跑完 scriptOnUse/
+  // scriptOnSuccess 后,若 `(SHORT)magic.wBaseDamage > 0` → 用 enemy.wMagicStrength 对目标 / 全体队员
+  // 内联结算伤害(PAL_CalcMagicDamage resistMult=20 + defending/protect/autoDefend 除因子)。
+  // 范围:**仅敌人施法**(casterIsEnemy)+ guard `(SHORT)baseDamage>0`(**type-agnostic**,
+  //   忠实 sdlpal fight.c:4772 —— 只看 baseDamage,不限 magic.type;治疗类 baseDamage<=0 自然排除,
+  //   summon 类 baseDamage>0 也结算)。target:`type==normal → 单体`,否则全体队员(fight.c:4719
+  //   `if (type != kMagicTypeNormal) sTarget=-1`)。之前敌方攻击魔法只播动画不结算伤害 → 本块补齐。
+  if (
+    input.casterIsEnemy &&
+    asShort(magic.baseDamage) > 0
+  ) {
+    const target: number | 'all' = magic.type === 'normal' ? input.targetIdx : 'all'
+    const rngFactor = 1 + input.state.rng.next() * 0.1 // sdlpal RandomFloat(10,11)/10
+    const enemyDmg = applyEnemyMagicDamage({
+      state: input.state,
+      casterEnemyIdx: input.casterIdx,
+      target,
+      magicData: { baseDamage: magic.baseDamage, elemental: magic.elemental },
+      playerRoles: input.playerRoles,
+      rngFactor,
+    })
+    // 掉血 → blue(sdlpal PAL_BattleDisplayStatChange);用钳后真实 delta。
+    for (const r of enemyDmg) {
+      if (r.hpAfter < r.hpBefore) {
+        input.bus.emit({
+          op: 'showDamageNum',
+          target: { kind: 'player', idx: r.playerIdx },
           value: r.hpBefore - r.hpAfter,
           color: 'blue',
         })
