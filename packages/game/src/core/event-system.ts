@@ -110,6 +110,13 @@ export const OP_SET_AUTO_SCRIPT = 0x0024        // 36
 //   M5 简版:存 gs.screenShakeFrames,present 层 viewport ±intensity 抖(M5 不渲染 — 留 follow-up)。
 //   功能 stub 即可,不挡 cutscene 流。
 export const OP_SHAKE_SCREEN = 0x0035           // 53
+// case 0x0034(52): Transform collected enemies into items(script.c:1452,妖魔转化)
+//   wCollectValue>0 → i=RandomLong(1,collectValue) cap 9(PAL_CLASSIC);collectValue-=i;i--;
+//   AddItem(store[0].rgwItems[i],1) + 物品框 dialog。else(collectValue==0)→ jump op0。
+export const OP_TRANSFORM_COLLECTED = 0x0034     // 52
+// case 0x0038(56): Teleport the party out of the scene(script.c:1554,归隐符/瞬移)
+//   !fInBattle && scene.wScriptOnTeleport != 0 → 跑 teleport 脚本;else 失败 → fScriptSuccess=FALSE + jump op0。
+export const OP_TELEPORT_OUT = 0x0038            // 56
 // case 0x0026(38): Buy menu(sdlpal script.c:1157)— PAL_BuyMenu(operand[0]=shop id)
 //   显示购买菜单,operand[0] 是 shop OBJECT id;阻塞等用户选完。
 // M-w3.a 简版:event-system stub console.debug + ip++(真做接 dev panel BuyMenu)。
@@ -699,6 +706,15 @@ let _shopMenuHandler: ShopMenuHandler | null = null
 
 export function setShopMenuHandler(fn: ShopMenuHandler | null): void {
   _shopMenuHandler = fn
+}
+
+// ── store 表(opcode 0x0034 妖魔转化:store[0].rgwItems[i] → inventory)────────────
+// sdlpal `lprgStore[0].rgwItems[i]`。0x34 直接索引 store 0 的物品槽(非 buy menu 过滤)。
+// stores[storeNum].items = rgwItems[9] 截到首个 0 前(leading 项与 rgwItems[i] 同序对齐)。
+let _storeTable: Array<{ items: number[] }> = []
+
+export function setStoreTable(stores: Array<{ items: number[] }>): void {
+  _storeTable = stores
 }
 
 // ── 特效 C:RNG 动画 handler(opcode 0x0037 PAL_RNGPlay)──────────────────────
@@ -2801,6 +2817,44 @@ function applyRawOpcode(
       const duration = operands[0] ?? 0
       const intensity = (operands[1] ?? 0) === 0 ? 4 : (operands[1] ?? 0)
       console.debug(`event-system: shakeScreen duration=${duration} intensity=${intensity}(present 层 stub)`)
+      break
+    }
+
+    case OP_TRANSFORM_COLLECTED: {
+      // sdlpal script.c:1452:把"收集值"换成 store[0] 的物品。
+      //   wCollectValue>0:i=RandomLong(1,collectValue),PAL_CLASSIC cap 9;collectValue-=i;i--;
+      //     AddItem(store[0].rgwItems[i],1) + 物品框 dialog。
+      //   else(==0):jump op0(结束转化循环)。
+      // ts:store[0] 经 setStoreTable 注入(items = rgwItems 截 0,leading 与 rgwItems[i] 同序)。
+      //   物品框 dialog(PAL_StartDialogWithOffset + item 图)是 present 层 → 跳过 + log;**物品发放
+      //   忠实生效**(addItemToInventory)。i>=items.length(rgwItems 尾部 0 槽)→ 不发(对齐 add 0)。
+      if (gs.wCollectValue > 0) {
+        let i = Math.floor(Math.random() * gs.wCollectValue) + 1 // RandomLong(1, collectValue)
+        if (i > 9) i = 9 // PAL_CLASSIC cap
+        gs.wCollectValue -= i
+        i--
+        const item = _storeTable[0]?.items[i] ?? 0
+        if (item > 0) {
+          addItemToInventory(gs, item, 1)
+          console.debug(`event-system: 0x34 transformCollected → item=${item}(collectValue 剩 ${gs.wCollectValue};物品框 dialog present 层跳过)`)
+        }
+      } else {
+        jumpToGlobalIp(gs, cursor, operands[0] ?? 0)
+      }
+      break
+    }
+
+    case OP_TELEPORT_OUT: {
+      // sdlpal script.c:1554:把队伍传送出当前场景(归隐符/瞬移)。
+      //   !fInBattle && scene.wScriptOnTeleport != 0 → PAL_RunTriggerScript(teleport 脚本);
+      //   else 失败 → g_fScriptSuccess=FALSE + jump op0。
+      // ts **残**:静态 scene.wScriptOnTeleport(scene/N.json onTeleportLabel,如 L_11851)未 thread
+      //   进 interpreter —— SceneAssets 只暴露 onEnterLabel(loader.ts:370),也无 run-trigger-script
+      //   子系统。故现仅实现**失败路径**(jump op0):scriptOnTeleport==0 的场景(城镇/野外大多)忠实。
+      //   dungeon 归隐脱出(scene 41/163/226 等 onTeleportLabel != 0)待:SceneAssets 暴露 onTeleportLabel
+      //   + 场景载入时 thread 当前 teleport IP + run-trigger-script。
+      gs.fScriptSuccess = false
+      jumpToGlobalIp(gs, cursor, operands[0] ?? 0)
       break
     }
 

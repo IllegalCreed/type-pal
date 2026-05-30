@@ -25,6 +25,7 @@ import {
   OP_LOAD_LAST_SAVE, setLoadLastSaveHandler,
   OP_QUIT, setQuitHandler,
   OP_GOTO_IF_NO,
+  OP_TRANSFORM_COLLECTED, OP_TELEPORT_OUT, setStoreTable,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -3533,5 +3534,98 @@ describe('结局 EndingAnimation opcode(0x96)', () => {
     finally {
       setEndingAnimationHandler(null)
     }
+  })
+})
+
+// ── Batch C explore:0x34 transform-collected / 0x38 teleport-out ──────────────
+describe('opcode 0x34 transformCollected(script.c:1452,妖魔转化)', () => {
+  it('collectValue>0 → 扣 RandomLong(1,cv) + 发 store[0].rgwItems[i-1]', () => {
+    setStoreTable([{ items: [100, 105, 95] }])
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.wCollectValue = 3
+    vi.spyOn(Math, 'random').mockReturnValue(0) // RandomLong(1,3) = floor(0*3)+1 = 1
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_TRANSFORM_COLLECTED, operands: [99, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.wCollectValue).toBe(2) // 3 - 1
+    expect(gs.inventory).toEqual([{ itemId: 100, count: 1 }]) // items[1-1]=items[0]
+    vi.restoreAllMocks()
+    setStoreTable([])
+  })
+
+  it('PAL_CLASSIC cap:i=RandomLong(1,cv) 截到 9', () => {
+    setStoreTable([{ items: [100, 105, 95, 112, 72, 131, 97, 102, 111] }])
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.wCollectValue = 100
+    vi.spyOn(Math, 'random').mockReturnValue(0.999) // floor(0.999*100)+1 = 100 → cap 9
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_TRANSFORM_COLLECTED, operands: [99, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.wCollectValue).toBe(91) // 100 - 9
+    expect(gs.inventory).toEqual([{ itemId: 111, count: 1 }]) // items[9-1]=items[8]
+    vi.restoreAllMocks()
+    setStoreTable([])
+  })
+
+  it('collectValue==0 → jump op0(跳过线性后继 op)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.wCollectValue = 0
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: OP_TRANSFORM_COLLECTED, operands: [2, 0, 0] }, // jump idx2
+        { op: 'raw', opcode: OP_SET_RNG, operands: [111, 0, 0] }, // 跳过则不设
+        { op: 'end' },
+      ],
+      ip: 0,
+    }
+    gs.mode = 'event'
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.iCurPlayingRNG).toBe(0) // idx1 被跳过
+    expect(gs.inventory).toEqual([]) // 无发放
+  })
+
+  it('i 越过 store items 长度(尾部 0 槽)→ 不发但仍扣 collectValue', () => {
+    setStoreTable([{ items: [] }]) // 空 store
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.wCollectValue = 1
+    vi.spyOn(Math, 'random').mockReturnValue(0) // i=1 → 扣到 0;i--=0;items[0]=undefined→不发
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_TRANSFORM_COLLECTED, operands: [99, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.wCollectValue).toBe(0)
+    expect(gs.inventory).toEqual([])
+    vi.restoreAllMocks()
+    setStoreTable([])
+  })
+})
+
+describe('opcode 0x38 teleportOut(script.c:1554,归隐符/瞬移)', () => {
+  it('失败路径:fScriptSuccess=FALSE + jump op0(scriptOnTeleport==0 场景忠实)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.fScriptSuccess = true
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: OP_TELEPORT_OUT, operands: [2, 0, 0] }, // jump idx2
+        { op: 'raw', opcode: OP_SET_RNG, operands: [111, 0, 0] }, // 跳过则不设
+        { op: 'end' },
+      ],
+      ip: 0,
+    }
+    gs.mode = 'event'
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.fScriptSuccess).toBe(false)
+    expect(gs.iCurPlayingRNG).toBe(0) // idx1 被跳过 → 确实跳转
+    expect(gs.eventCursor).toBeUndefined() // 到 end
   })
 })

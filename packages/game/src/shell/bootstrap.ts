@@ -13,7 +13,7 @@ import {
   setSceneLoader, setMapReloader, setObstacleChecker,
   setGlobalEvents, getGlobalLabelMap, setStartBattleHandler, setShopMenuHandler,
   setRngPlayHandler, setShowFbpHandler, setScrollFbpHandler, setEndingAnimationHandler,
-  setLoadLastSaveHandler, setQuitHandler,
+  setLoadLastSaveHandler, setQuitHandler, setStoreTable,
 } from '../core/event-system.js'
 import { setLoadGameHandler, setMenuCatalogs, setStartGameHandler } from '../core/menu/menu-driver.js'
 import { openMenu } from '../core/menu/menu-mode.js'
@@ -765,6 +765,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       openMenu(gs, { kind: 'shop-sell', state: createSellMenu(gs, items) })
     }
   })
+
+  // opcode 0x0034(妖魔转化)用 store[0].rgwItems 索引发物品。注入完整 store 表。
+  setStoreTable(stores)
 
   // 特效 C:RNG 动画 handler(opcode 0x37 PlayRNG)。event-system 设 cursor.waiting='rng-play' 后调本 handler;
   //   suspendRaf 期间 present 暂停、playRng 自管 fb 直写 + flushToCanvas;播完 finally 清 suspendRaf + waiting 续跑。
