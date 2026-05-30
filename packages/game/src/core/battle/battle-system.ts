@@ -1341,8 +1341,10 @@ export function tickBattleDialog(state: BattleState, gs: GameState, input: Input
       gs.dialogBox = undefined
       state.battleDialogNarrationFrames = 0
       state.battleDialogTypingAccMs = 0
-      // 队列还有后续行 → 继续 hold(下 tick 起下一行);否则放行战斗。
-      return (state.battleDialogQueue?.length ?? 0) > 0
+      // 队列还有后续行 → 继续 hold(下 tick 起下一行)。
+      // **被按键消掉** → 本 tick 仍 hold(吃掉该键),避免同一按键漏进战斗菜单(sdlpal 对话后
+      //   PAL_ClearKeyState,ts 用"消费本 tick"等价);超时消失无键可漏,空队列才放行。
+      return anyKey || (state.battleDialogQueue?.length ?? 0) > 0
     }
     return true // 仍在显示 narration(等 1.4s / 任意键)
   }
@@ -1367,7 +1369,11 @@ export function tickBattleDialog(state: BattleState, gs: GameState, input: Input
     if (result === 'dialog-end') {
       gs.dialogBox = undefined
       state.battleDialogTypingAccMs = 0
-      return (state.battleDialogQueue?.length ?? 0) > 0 // 队列还有(clearBefore/换风格)→ 下 tick 起新框
+      // **本 tick 吃掉关框的 Confirm** —— 否则同一 Confirm 同 tick 漏进战斗菜单触发普通攻击
+      //   (user 2026-05-31 实测:对话最后一个 space 同时结束对话 + 选了普通攻击)。
+      //   sdlpal PAL_ShowDialogText 返回后 PAL_ClearKeyState 清键;ts 用"消费本 tick + 下 tick 菜单
+      //   只认新按下的 pressed(edge)"等价。队列还有(clearBefore/换风格)也 hold,下 tick 起新框。
+      return true
     }
     // 'noop':line-done 等 → 落下面自动推进
   }

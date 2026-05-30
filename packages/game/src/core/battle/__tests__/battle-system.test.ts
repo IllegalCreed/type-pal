@@ -1206,6 +1206,41 @@ describe('多轮战斗集成', () => {
 })
 
 // ============================================================================
+// 战斗对话结束键不漏进菜单(user 2026-05-31 实测:对话最后 space 同时选了普通攻击)
+// ============================================================================
+
+describe('战斗对话结束键不漏进动作菜单', () => {
+  function snapC(pressed: Array<'Confirm'> = []): InputSnapshot {
+    return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
+  }
+
+  it('对话最后一行 Confirm 结束对话 → 不同 tick 触发普通攻击', () => {
+    const { gs, bus, emptyInput } = bootstrap()
+    tickBattle(gs, emptyInput, bus) // → selectMove/main
+    expect(gs.battleState?.uiState).toBe('selectMove')
+    // 注入一条战斗对话(模拟 boss 嘲讽 scriptOnTurnStart 0xFFFF showDialog)
+    gs.battleState!.battleDialogQueue = [{ text: '哼', style: 'bottom' }]
+    // 推进到对话进入 waiting-end-key(打字完 + 无后续行)
+    let guard = 60
+    while (guard-- > 0) {
+      tickBattle(gs, emptyInput, bus)
+      if (gs.dialogBox && gs.dialogBox.phase === 'waiting-end-key') break
+    }
+    expect(gs.dialogBox?.phase).toBe('waiting-end-key')
+    expect(gs.battleState?.pendingActions.size).toBe(0)
+    // 关键:Confirm 结束对话,**不应**同 tick 落 pendingActions(普通攻击)/ 进 target 选择
+    tickBattle(gs, snapC(['Confirm']), bus)
+    expect(gs.dialogBox).toBeUndefined() // 对话已关
+    expect(gs.battleState?.pendingActions.size).toBe(0) // 没误触攻击 commit
+    expect(gs.battleState?.uiState).toBe('selectMove') // 菜单恢复,不是 selectTargetEnemy
+    expect(gs.battleState?.menuState).toBe('main')
+    // 下一 tick 起菜单正常可用(空输入不动作)
+    tickBattle(gs, emptyInput, bus)
+    expect(gs.battleState?.pendingActions.size).toBe(0)
+  })
+})
+
+// ============================================================================
 // Repeat(R)+ perform 期目标重选(adversarial review 修复 #2/#5/#6)
 // ============================================================================
 

@@ -59,7 +59,7 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
     expect(state.phaseStallTicks).toBe(0) // 对话是合法等待 → 清看门狗计数
   })
 
-  it('单行打字完 → 无后续 → waiting-end-key;Confirm 关 box + 返回 false(放行)', () => {
+  it('单行打字完 → 无后续 → waiting-end-key;Confirm 关 box + 返回 true(吃掉关框键防漏进菜单)', () => {
     const gs = makeGs()
     const state = makeState([{ text: '哼', style: 'bottom' }])
     tickBattleDialog(state, gs, input()) // 起行
@@ -67,7 +67,11 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
     expect(gs.dialogBox?.phase).toBe('waiting-end-key') // 无后续行 → 等结束键
     const held = tickBattleDialog(state, gs, input(['Confirm']))
     expect(gs.dialogBox).toBeUndefined() // dialog-end → 关 box
-    expect(held).toBe(false) // 队列空 → 放行战斗
+    // **本 tick 仍 hold(返回 true)**:吃掉关框的 Confirm,避免同一 Confirm 漏进战斗菜单触发普通攻击
+    //   (user 2026-05-31 实测)。放行战斗在**下一 tick**(box 已空 → 顶层 return false)。
+    expect(held).toBe(true)
+    // 下一 tick:无 box / 空队列 → 放行
+    expect(tickBattleDialog(state, gs, input())).toBe(false)
   })
 
   it('同风格多行 → 行间自动累积(append,不等键)', () => {
@@ -110,7 +114,9 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
     tickBattleDialog(state, gs, input()) // 起
     const held = tickBattleDialog(state, gs, input(['ArrowDown'])) // 任意键
     expect(gs.dialogBox).toBeUndefined()
-    expect(held).toBe(false) // 队列空 → 放行
+    // 被按键消掉 → 本 tick 仍 hold(返回 true,吃掉该键防漏进菜单);放行在下一 tick。
+    expect(held).toBe(true)
+    expect(tickBattleDialog(state, gs, input())).toBe(false)
   })
 
   it('clearBefore 行:先结束当前段(等结束键),Confirm 后下段起新框', () => {
