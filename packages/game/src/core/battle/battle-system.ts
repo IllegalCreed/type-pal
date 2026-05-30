@@ -345,6 +345,14 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   //   复用的大世界 gs.dialogBox + 等键/1.4s,期间暂停战斗(忠实 sdlpal PAL_ShowDialogText 同步 blocking)。
   if (tickBattleDialog(state, gs, input)) return
 
+  // scriptOnTurnStart:每轮起手(进 selectAction **菜单之前**)对全体活敌跑一次 → boss 嘲讽对话
+  //   进战斗一开始 / 每轮开头就显示(忠实 sdlpal fight.c:1184-1191 fTurnStart 在 charge/act 前)。
+  //   有对话入队 → 本 tick 不进菜单,下 tick 顶层 tickBattleDialog 先把对话放完(修"先选动作才说话")。
+  if (state.phase === 'selectAction' && state.turnStartDoneForTurn !== state.turn) {
+    runEnemyTurnStartScripts(state, bus, res)
+    if (state.battleDialogQueue && state.battleDialogQueue.length > 0) return
+  }
+
   switch (state.phase) {
     case 'preBattle':
       tickPreBattle(state)
@@ -959,6 +967,36 @@ function tickBattleFade(state: BattleState): boolean {
   return true
 }
 
+/**
+ * scriptOnTurnStart:每轮起手对全体活敌跑一次(sdlpal fight.c:1184-1191,fTurnStart gate)。
+ * 在玩家**选动作之前**跑(tickBattle round-start)→ boss 嘲讽对话(林月如/拜月/蜘蛛精)进战斗
+ * 一开始 / 每轮开头就显示(user 实测:不该先选动作才说话)。脚本 0xFFFF showDialog → 入
+ * battleDialogQueue,顶层 tickBattleDialog 显示。turnStartDoneForTurn guard 保每轮一次。
+ *
+ * 残:0x90 自禁(show-once)/ 0x79 队伍条件分支在 battle 未实现 → 这两 gate 的脚本逐轮重显 / 分支不准
+ * (多数嘲讽脚本无此 gate,逐轮显即忠实)。
+ */
+function runEnemyTurnStartScripts(state: BattleState, bus: CommandBus, res: BattleResources): void {
+  state.turnStartDoneForTurn = state.turn
+  for (let ei = 0; ei < state.enemies.length; ei++) {
+    const en = state.enemies[ei]
+    if (!en || en.e.health <= 0 || en.scriptOnTurnStart <= 0) continue
+    state.battleDialogPendingClear = false // 每脚本重置 ClearDialog 暂存(防跨脚本泄漏)
+    runScript({
+      commands: res.commands,
+      ip: en.scriptOnTurnStart,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: {
+        state,
+        caster: { type: 'enemy', idx: ei },
+        summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+      },
+    })
+  }
+  state.battleDialogPendingClear = false
+}
+
 /** narration 风格(物品提示式)自动消失时长 = 1.4s(sdlpal PAL_DialogWaitForKeyWithMaximumSeconds(1.4),text.c:1701)。 */
 const BATTLE_DIALOG_NARRATION_MS = 1400
 
@@ -1081,34 +1119,8 @@ function tickPerformAction(
 
   // 注:死亡淡出 hold 已上移到 tickBattle 顶层(phase-agnostic tickBattleFade)。
 
-  // ── scriptOnTurnStart:每轮起手对全体活敌跑一次(sdlpal fight.c:1184-1191,fTurnStart gate,
-  //    本轮任何 action 执行前)。脚本 0xFFFF showDialog → 入 battleDialogQueue,顶层 tickBattleDialog
-  //    在 action 前显示(boss 嘲讽对话,如蜘蛛精/拜月)。同 scriptOnReady 用 runScript(battle)。
-  //    turnStartDoneForTurn guard 保每轮一次 + 对话 hold 暂停期间重入不重跑。
-  //    注:0x90 自禁(show-once)/ 0x79 队伍条件分支在 battle 上下文未实现 → 这两 opcode gate 的脚本
-  //    会每轮重显 / 分支不准(残;多数嘲讽脚本无此 gate,直接逐轮显 = 忠实)。
-  if (state.turnStartDoneForTurn !== state.turn) {
-    state.turnStartDoneForTurn = state.turn
-    for (let ei = 0; ei < state.enemies.length; ei++) {
-      const en = state.enemies[ei]
-      if (!en || en.e.health <= 0 || en.scriptOnTurnStart <= 0) continue
-      state.battleDialogPendingClear = false // 每脚本重置 ClearDialog 暂存(防跨脚本泄漏)
-      runScript({
-        commands: res.commands,
-        ip: en.scriptOnTurnStart,
-        bus,
-        runtimeMode: 'battle',
-        battleCtx: {
-          state,
-          caster: { type: 'enemy', idx: ei },
-          summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
-        },
-      })
-    }
-    state.battleDialogPendingClear = false
-    // 有对话入队 → 暂停本轮,顶层 tickBattleDialog 放完再回来(guard 防重跑)→ 正常处理 action。
-    if (state.battleDialogQueue && state.battleDialogQueue.length > 0) return
-  }
+  // 注:scriptOnTurnStart(boss 嘲讽)已上移到 tickBattle round-start(进 selectAction **菜单之前**),
+  //   见 runEnemyTurnStartScripts —— 修"先选动作才开始说话"的顺序 bug(user 实测:林月如应进战斗就说话)。
 
   // ── D17a:时间线驱动 ──────────────────────────────────────────────────────
   // 有 active 动画时间线 → 逐 tick 推进帧;不起新 action,不推 currentActionIndex。

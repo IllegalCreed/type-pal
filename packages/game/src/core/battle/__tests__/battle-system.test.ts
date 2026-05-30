@@ -357,22 +357,21 @@ describe('tickBattle phase transitions', () => {
     expect(gs.dialogBox).toBeUndefined()
   })
 
-  it('敌 scriptOnTurnStart 含 showDialog → 每轮起手(action 前)显示嘲讽对话 + 本轮不重跑', () => {
+  it('敌 scriptOnTurnStart 含 showDialog → 进战斗/每轮起手即显示(玩家选动作之前,user 实测顺序修复)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 99999 })],
       roles: [makeRole({ id: 0, hp: 99999 })],
-      // scriptOnTurnStart ip=1 → showDialog '不自量力的家伙!';ip=2 end(蜘蛛精式嘲讽)
+      // scriptOnTurnStart ip=1 → showDialog '不自量力的家伙!';ip=2 end(蜘蛛精/林月如式嘲讽)
       commands: [{ op: 'end' }, { op: 'showDialog', messageIndex: 0, text: '不自量力的家伙!' }, { op: 'end' }],
     })
     gs.battleState!.enemies[0]!.scriptOnTurnStart = 1 // bootstrap enemyObjects=[] → 默认 0,手挂
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
-    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
-    tickBattle(gs, emptyInput, bus) // selectAction → performAction(起手即跑 turnStart)
 
-    // turnStart 在 performAction 起手(任何 action 前)跑 → dialog 入队 → tickBattleDialog 起 box
+    // 关键:**没有**设 pendingActions(玩家还没选动作)→ turnStart 应在进 selectAction 即触发对话
     let safety = 30
     while (gs.dialogBox === undefined && safety-- > 0) tickBattle(gs, emptyInput, bus)
-    expect(gs.dialogBox?.currentLineText).toBe('不自量力的家伙!')
+    expect(gs.dialogBox?.currentLineText).toBe('不自量力的家伙!') // 选动作之前就说话(原 bug:先选才说)
+    expect(gs.battleState?.phase).toBe('selectAction') // 仍在选动作阶段 — 对话挡着菜单
     expect(gs.battleState?.turnStartDoneForTurn).toBe(gs.battleState?.turn) // 本轮已跑
 
     // 本轮不重跑(guard:队列不再被 turnStart 重新填)

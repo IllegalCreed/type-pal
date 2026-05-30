@@ -5,10 +5,12 @@
  *   - fixture-levelup(lv1 + 1000 经验 vs 灯笼):gs.Exp 设上 + runtime hydrate(打赢触发升级演出)。
  */
 
-import type { Enemy, EnemyObject, EnemyTeam, BattleField, PlayerRole } from '@type-pal/shared'
+import type { Enemy, EnemyObject, EnemyTeam, BattleField, InputSnapshot, PlayerRole } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import fixturesData from '../data/battle-fixtures.json' with { type: 'json' }
+import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState } from '../core/game-state.js'
+import { tickBattle } from '../core/battle/battle-system.js'
 import { applyFixture, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
 
 function minimalEnemy(id: number, over: Partial<Enemy> = {}): Enemy {
@@ -84,6 +86,26 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     // 战斗 roles 经 projection 也吃 override(level 1 / attack 999)
     const battleRole = deps.gs.battleState?.players[0]
     expect(battleRole?.roleId).toBe(0)
+  })
+
+  it('fixture-levelup 端到端:applyFixture → 打赢 → 真升级 + 学法术(我之前没测的全流程)', () => {
+    const deps = makeDeps()
+    applyFixture(deps, levelupFixture)
+    const gs = deps.gs
+    const bus = createCommandBus()
+    const emptyInput: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }
+    const levelBefore = gs.PlayerRolesRuntime.rgwLevel[0]
+    expect(levelBefore).toBe(1)
+    // 推进战斗到 selectAction → 队长攻击(atk999 一击秒灯笼)→ won → finalizeBattle → 升级
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
+    let safety = 80
+    while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(gs.mode).toBe('explore') // 战斗结束
+    // 真升级(1000 经验跨多级 → ~lv7)
+    expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBeGreaterThan(1)
+    expect(gs.Exp.rgPrimaryExp[0]!.wLevel).toBe(gs.PlayerRolesRuntime.rgwLevel[0]) // wLevel 同步
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(gs.PlayerRolesRuntime.rgwMaxHP[0]) // 升级满血
   })
 
   it('fixture-levelup 配置自检:exp 1000 跨多级阈值(lv1→~7)', () => {
