@@ -97,7 +97,7 @@ export class BattlePresent {
     if (bg) drawBattleBg(fb, bg)
 
     // 3. 双方精灵(死亡的不画;sprite 缺资源跳过)
-    drawBattleSprites(fb, state, assets.battleSprites, assets.playerRoles, assets.enemyPos)
+    drawBattleSprites(fb, state, assets.battleSprites, assets.playerRoles, assets.enemyPos, currentFrame)
 
     // 4. 数字弹幕(在精灵之上;过期数字自动清理)
     this.floatingNums.draw(fb, currentFrame, assets.glyphs)

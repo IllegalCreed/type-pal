@@ -59,6 +59,38 @@ export interface SpriteAsset {
 }
 
 /**
+ * 敌人 idle 帧轮播的闭式索引(D17c)。
+ *
+ * 对照 sdlpal `fight.c:991-1019 PAL_BattleUpdateFighters` 敌方段(25fps,
+ * `BATTLE_FRAME_TIME = 1000/25 = 40ms`,`battle.h:28-29`)。sdlpal 逐 video 帧
+ * 跑一个倒计时器:`--wIdleAnimSpeed == 0 → wCurrentFrame++` 并把周期重置回
+ * `lprgEnemy[id].wIdleAnimSpeed`(即每 idleAnimSpeed 帧推进 1 格);随后
+ * `wCurrentFrame >= wIdleFrames → wCurrentFrame = 0` 环绕。我们用与该倒计时器
+ * 同相的闭式 `floor(frameNum / idleAnimSpeed) % idleFrames` 复现整段序列
+ * 0,1,…,idleFrames-1,0,…,无须跨帧保存 wCurrentFrame 状态。
+ *
+ * 门控:
+ *   - 睡眠 / 麻痹(`fight.c:1001-1006`):`wCurrentFrame = 0` 定格,不轮播。
+ *   - `idleFrames <= 1`(`fight.c:1015-1018`,77 条 enemies idleFrames=1)或
+ *     `idleAnimSpeed <= 0`(id0 占位 idleAnimSpeed=0,防除 0)→ 恒定 frame 0。
+ *
+ * @param frameNum           当前 25fps tick 帧号(= gs.frameNum)
+ * @param idleFrames         敌人 idle 序列总帧数(enemies.json[id].idleFrames)
+ * @param idleAnimSpeed      每推进 1 格需经过的帧数(enemies.json[id].idleAnimSpeed)
+ * @param isSleepOrParalyzed sleep>0 || paralyzed>0
+ */
+export function computeIdleFrameIndex(
+  frameNum: number,
+  idleFrames: number,
+  idleAnimSpeed: number,
+  isSleepOrParalyzed: boolean,
+): number {
+  if (isSleepOrParalyzed) return 0 // fight.c:1001-1006 定格 wCurrentFrame=0
+  if (idleFrames <= 1 || idleAnimSpeed <= 0) return 0 // 退化 / 防除 0
+  return Math.floor(frameNum / idleAnimSpeed) % idleFrames
+}
+
+/**
  * 把单帧以 (anchorX, anchorY) 为底部中心 anchor 画到 framebuffer。
  * 透明判定走 opaque mask(M3.5 fix,同 draw-sprite / draw-tilemap)。
  */
@@ -94,7 +126,8 @@ export function drawBattleSprites(
   state: BattleState,
   battleSprites: Map<string, SpriteAsset>,
   playerRoles: PlayerRoles,
-  enemyPos?: EnemyPosTable,
+  enemyPos: EnemyPosTable | undefined,
+  currentFrame: number,
 ): void {
   // 敌方先画(在背景之上、队员之下)
   // M3.5 fix:优先 EnemyPosTable.layouts[count-1] 真表(DATA.MKF chunk 13 真值);
@@ -108,7 +141,18 @@ export function drawBattleSprites(
     if (!pos) return
     const sprite = battleSprites.get(`enemy-${enemy.e.id}`)
     if (!sprite || !sprite.frames[0]) return
-    blitFrame(fb, sprite.frames[0], pos.x, pos.y)
+    // D17c:敌人 idle 帧轮播(sdlpal fight.c:991-1019)。睡眠 / 麻痹定格 frame 0,
+    // 否则按 idle 时钟选帧;资源不全(frames[idx] 缺)兜底 frames[0]。
+    const isSleepOrParalyzed
+      = enemy.status.sleep > 0 || enemy.status.paralyzed > 0
+    const idx = computeIdleFrameIndex(
+      currentFrame,
+      enemy.e.idleFrames,
+      enemy.e.idleAnimSpeed,
+      isSleepOrParalyzed,
+    )
+    const frame = sprite.frames[idx] ?? sprite.frames[0]
+    blitFrame(fb, frame, pos.x, pos.y)
   })
 
   // 队员画在敌方之上(屏幕下方靠近玩家视角)
