@@ -53,6 +53,9 @@ const OP_HALVE_ENEMY_HP = 0x005B
 /** sdlpal `script.c:0039` 0x0039:drain HP from enemy → caster player(clamp maxHP)。 */
 const OP_DRAIN_HP = 0x0039
 
+/** sdlpal `script.c:005A` 0x005A:halve player HP(wEventObjectID = 目标队员 role)。 */
+const OP_HALVE_PLAYER_HP = 0x005A
+
 /** sdlpal `script.c:2025-2032` 0x0068:if (g_Battle.fEnemyMoving) jump op0。 */
 const OP_JUMP_IF_ENEMY_TURN = 0x0068
 
@@ -258,6 +261,23 @@ export function dispatchBattleOpcode(
       if (w > cap)
         w = cap
       enemy.e.health = Math.max(0, enemy.e.health - w)
+      return { consumed: true }
+    }
+
+    case OP_HALVE_PLAYER_HP: {
+      // sdlpal `script.c:005A`:rgwHP[wEventObjectID] /= 2。wEventObjectID = 目标队员 role。
+      // 无影毒 scriptOnUse(使用 → 目标队员 HP 减半)。target=队员;无 player target 退回 caster。
+      // 注:无影毒-use 的可达性待 item **队员**目标路由(performBattleAction 现强制 item→enemy
+      // 目标),handler 本身正确就绪。
+      const sel = ctx.target?.type === 'player'
+        ? ctx.target
+        : (ctx.caster?.type === 'player' ? ctx.caster : undefined)
+      if (sel && ctx.playerRoles) {
+        const roleId = state.players[sel.idx]?.roleId
+        const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
+        if (role)
+          role.hp = Math.floor(role.hp / 2)
+      }
       return { consumed: true }
     }
 

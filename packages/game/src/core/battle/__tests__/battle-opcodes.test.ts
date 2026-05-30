@@ -387,6 +387,28 @@ function setDmgCtx(roleMp: number, cash: number, objectMagics: ObjectMagicView[]
   }
 }
 
+describe('0x5A halve player HP (script.c:005A,无影毒 use)', () => {
+  function playerCtx(hp: number): BattleCtx {
+    return {
+      state: {
+        enemies: [],
+        players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+        // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+      } as any as BattleState,
+      caster: { type: 'player', idx: 0 },
+      target: { type: 'player', idx: 0 },
+      // biome-ignore lint/suspicious/noExplicitAny: 只填 hp
+      playerRoles: { roles: [{ id: 0, hp } as any] },
+    }
+  }
+  it('目标队员 HP 减半(floor)', () => {
+    const ctx = playerCtx(101)
+    const r = dispatchBattleOpcode(0x5A, [0, 0, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(50) // floor(101/2)
+  })
+})
+
 describe('0x57 set magic base damage by MP (script.c:0057,酒神)', () => {
   it('magic.baseDamage = casterMP * (op1||8);casterMP 清 0', () => {
     const magics = [magicStat(75, 3, 0)]

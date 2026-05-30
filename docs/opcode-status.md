@@ -141,7 +141,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x3A | player flee battle | |
 | 0x42 | simulate magic for player | ✅ PAL_BattleSimulateMagic(fight.c:5300)。op0=magic object id / op1=baseDamage(当 magStr)/ op2=target+1(0→eventObjectID)。applyToAll flag 优先→全体,否则 i=op2-1<0 用 eventObjectID / 仍<0 自动选首活敌;guard 无符号 `baseDamage>0‖op1>0`(magic96=−999 进但算 0);minDamage=0;共享 applyMagicDamage。battle-opcodes.ts;script.c:1630-1640。投掷物 scriptOnThrow ×40 站点全靠它 |
 | 0x57 | set magic base damage by MP | ✅ magic[op0→magicNumber].baseDamage = casterMP*(op1||8);清 casterMP(script.c:0057,酒神 scriptOnUse)。performMagic 注入 magicTables/playerRoles → 0x57 改 baseDamage → E1 inline 读新值结算。battle-opcodes.ts |
-| 0x5A | halve player HP | |
+| 0x5A | halve player HP | ✅ handler:目标队员(ctx.target,退回 caster)HP /= 2(floor)(script.c:005A,无影毒 use)。performItem 注入 playerRoles。**注**:无影毒-use 可达性待 item 队员目标路由(现 item→enemy),handler 就绪 |
 | 0x5B | halve enemy HP | ✅ w=floor(health/2)+1,cap op0;health -= w(script.c:005B)。无影毒 scriptOnThrow:enemy=ctx.target。battle-opcodes.ts |
 | 0x5C | hide party for a while(battle) | g_Battle.iHidingTime=-op0(script.c:1907-1911)— 原误判 B,实为战斗态 |
 | 0x5E | jump if enemy no poison | ✅ 敌人(ctx.target)毒槽无 op0 种毒 → jump op1(script.c:005E)。配齐**敌人毒 pipeline**:BattleEnemy.poisons by-ID + 0x28 apply + postAction 毒 tick。battle-opcodes.ts |

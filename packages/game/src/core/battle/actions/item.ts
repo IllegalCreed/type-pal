@@ -107,6 +107,8 @@ export function performItem(input: PerformItemInput): void {
         idx: input.casterIdx,
       },
       target: targetCtx,
+      // scriptOnUse 里 0x5A halve-player 等需 playerRoles(对齐 performMagic/performThrowItem)。
+      playerRoles: input.playerRoles,
     },
   })
 }
