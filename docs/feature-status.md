@@ -4,7 +4,7 @@
 > **职责**:本表 owns 玩家可感知功能(A-M 章)的实现状态。逐 opcode 明细 → [opcode-status](opcode-status.md)(E 章只留框架级 + 指针);逐 chunk 提取明细 → [resource-status](resource-status.md)(K 章只留框架级 + 指针)。
 > **三表**:feature-status(引擎功能,本表)· [opcode-status](opcode-status.md)(事件 / opcode)· [resource-status](resource-status.md)(资源提取)
 > **图例**:✅ done(verified=user 拍板 / claimed=Claude 自认)· ⚠️ partial · ⬜ todo · N/A。详见下方状态定义。
-> **最后更新**:2026-05-30 — 战斗演出/对话刷新:D17 战斗动画时间线全套(物理/法术/受击/死亡淡出/idle/伤害数字)+ D18 友方目标选择 + 新增 D25 战斗内治疗/复活值生效(scriptOnSuccess)+ D26 战斗内对话(scriptOnReady/scriptOnTurnStart)+ D27 敌方攻击魔法伤害结算(enemy→player)+ D10 scriptOnTurnStart 接入 + D19/D20 死敌淡出。此前:全表对照 commit 大刷新 + E/K 章收敛为指针 + 新增 M 运行时架构章。
+> **最后更新**:2026-05-30 — 战斗演出/对话刷新:D17 战斗动画时间线全套(物理/法术/受击/死亡淡出/idle/伤害数字)+ D18 友方目标选择 + 新增 D25 战斗内治疗/复活值生效(scriptOnSuccess)+ D26 战斗内对话(scriptOnReady/scriptOnTurnStart)+ D27 敌方攻击魔法伤害结算(enemy→player)+ D10 scriptOnTurnStart 接入 + D19/D20 死敌淡出 + D11 战斗胜利升级(exp/stat/满血/学法术)+ M5 player-roles 数据模型边界同步(架构)。此前:全表对照 commit 大刷新 + E/K 章收敛为指针 + 新增 M 运行时架构章。
 > 状态由 user 逐条 sdlpal 源核对后拍板,Claude 不自判。
 
 ## 状态定义
@@ -112,7 +112,7 @@
 | D8 | 玩家 status | ⚠️ partial | ✅ partial | fight.c:1023 + status apply 全链 | core/battle/status.ts tickStatusEffects | status.test.ts;number 类衰减真做;boolean 类(haste/protect/dualAttack)不衰减 + confused 攻友军 / paralyzed 跳回合行为未在 selectAction 真接 |
 | D9 | 敌人 AI 选 target | ⚠️ partial | ⬜ todo | fight.c:4520 `PAL_BattleSelectEnemyTargetIndex` | core/battle/enemy-ai.ts | enemy-ai.test.ts;简版 random + magicRate,真值 target 偏好 + Bug-1 safety ⬜ |
 | D10 | 敌人 AI 脚本 wScriptOnReady / wScriptOnTurnStart | ⚠️ partial | ✅ partial | fight.c:4551 `PAL_BattleEnemyPerformAction` + 1184-1191 turnStart | core/battle/battle-system.ts tickPerformAction + battle-opcodes.ts | commit 4b85636:scriptOnReady runScript(runtimeMode='battle')+ battle opcode 已接。**74334e3:scriptOnTurnStart 每轮起手对全体活敌跑一次(fight.c:1184-1191 fTurnStart gate,turnStartDoneForTurn guard)→ boss 嘲讽对话入队(见 D25)**。残:0x67 改 wMagic 后未真驱动 PerformAction(仍走 fallback decideEnemyAction);0x90 自禁(show-once)/ 0x79 队伍条件分支在 battle 未实现;scriptOnBattleEnd 解析存了未调(挂战后 resume)|
-| D11 | 战斗胜利 BattleWon | ⚠️ partial | ✅ partial | battle.c:991 `PAL_BattleWon` | core/battle/battle-system.ts finalizeBattle | exp/cash 真写 gs.Exp.rgPrimaryExp / dwCash;残:levelup loop(查 rgLevelUpExp 阈值)+ 4 段视觉 box ⬜(注:event-system.ts:3706 有 PAL_PlayerLevelUp port 未被 finalizeBattle 调) |
+| D11 | 战斗胜利 BattleWon + 升级 | ✅ claimed | ✅ unit | battle.c:991/1088-1120/1300-1321 `PAL_BattleWon` + global.c:2347 `PAL_PlayerLevelUp` | core/battle/battle-system.ts finalizeBattle + battleWonLevelUp | exp/cash 真写 gs.Exp.rgPrimaryExp / dwCash。**9c74488:战斗胜利升级全套** — exp 阈值循环(rgLevelUpExp)+ stat 成长(maxHP+=10+R(0,7) 等 + STAT cap 999)+ HP/MP 回满 + 学新法术(level-up-magic[j][role] level<=新等级 → AddMagic)。落在边界同步统一源 gs.PlayerRolesRuntime,stat 用 state.rng(确定性)。battle-levelup 9 + 集成 1 例。残:升级**视觉 box**(battle.c:1124-1160,8 属性 + 学法术名)present follow-up |
 | D12 | 战斗逃跑 PlayerEscape | ✅ claimed | ✅ regress | battle.c:1438 `PAL_BattlePlayerEscape` + fight.c:4119-4148 | core/battle/actions/flee.ts | BOSS 不许逃已做(flee.ts:29)+ actions.test.ts:289 钉死;逃跑公式对齐 fight.c |
 | D13 | 敌人主动逃 EnemyEscape | ⚠️ partial | ⬜ todo | battle.c:1376 `PAL_BattleEnemyEscape` | core/battle/battle-opcodes.ts:88 | 0x69 简版 health=0 等价(不掉 exp/cash),battle-context only。残:逃跑动画/飞出屏视觉 ⬜ |
 | D14 | 装备 stat 加成 UpdateEquipments | ⚠️ partial | ✅ regress | global.c:1333 `PAL_UpdateEquipments` | core/equip-effect.ts | equip-effect.test.ts 14;残:scriptOnEquip 内 0x2D/0x29 + Hand 卸下 DualAttack reset 未做 |
@@ -231,6 +231,7 @@
 | M2 | suspendRaf modal 独占 canvas | ✅ claimed | ⬜ todo | —(浏览器特有,SDL 阻塞等价) | shell/main-loop.ts onPresent + bootstrap suspendRaf gate | commit a01cd73:modal 播放器(AVI/trademark/splash/RNG/FBP/结局)期间主循环 present 跳过,修闪烁。含阻塞 fade/colorFade/WaitForKey 工具(ending-player.ts)供 modal 编排 |
 | M3 | scene 转场淡入门控 + 失败兜底解冻 | ✅ claimed | ⬜ todo | scene.c:503-508 `PAL_MakeScene` fNeedToFadeIn | core/event-system.ts:515 tickSceneAutoFadeIn | commit 9293dac/ef70491/9791497/39b5848:onEnter cutscene 黑屏真因=自动淡入门控旧码 explore-only → 对齐 PAL_GameUpdate;scene-load 失败兜底解冻 sceneLoading(架构根因);0x05 redraw 对齐(修仙灵岛靠岸黑屏) |
 | M4 | devpanel 开发工具 | N/A | N/A | —(纯调试工具) | shell/dev-panel.ts | import.meta.env.DEV-gated:Videos(开场/结局 mp4 双版)、DOS 版按钮(trademark RNG + splash 卷轴 + 结局全片)、Effects opcode 触发、font/dialog 测试、Save/Load slot、B 键 battle picker、P 键强制三人入队、加道具/清背包 |
+| M5 | player-roles 数据模型边界同步 | ✅ claimed | ✅ unit | sdlpal 单一 `gpGlobals->g.PlayerRoles`(战内外同源) | core/game-state.ts projectRuntimeToBattleRoles / writeBackBattleRolesToRuntime + bootstrap + finalizeBattle | commit 99e57d3:修架构裂缝 — 战斗原读写 assets.playerRoles(静态 1 级基线 object)而大世界菜单/经验/升级/heal opcode/存档用 gs.PlayerRolesRuntime(运行时 array),仅新游戏 hydrate 一次后分叉(战斗用 1 级属性 + 伤害不持久化)。补两道边界:startBattle 入口投影 runtime→战斗 roles(战斗吃升级后属性)+ finalizeBattle 回写 HP/MP→runtime(战果持久化 + 存档对齐)。game-state +4 / battle-system +1 例(残血进战斗治满出来 runtime 满血 等往返)。adversarial review PASS。残:装备 Extra 抗性加成(D14)/ 战斗 magic 菜单接 role.magic 真值 |
 
 ---
 
