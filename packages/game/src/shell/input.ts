@@ -8,21 +8,18 @@ import type { AbstractKey, InputSnapshot, InputSource } from '@type-pal/shared'
 //   PgUp/PgDn/Home/End + Numpad 9/3/7/1 对应
 //   字母:r=Repeat / a=Auto / d=Defend / e=UseItem / w=ThrowItem / q=Flee / f=Force / s=Status
 //
-// ts 偏离 sdlpal 真值的合理选择:
-//   - 保留 WASD 当方向(浏览器游戏 convention,目标用户非 1995 DOS 玩家)
-//     → KeyW/A/S/D 优先映射方向键,sdlpal SDLK_w/a/d/s 战斗专用键(Auto/Defend/ThrowItem/Status)
-//       仍可通过 NumpadDecimal / 其他键达成;Status 走主菜单 hub
-//   - 'Cancel' 抽象保留(M5 battle UI 用作回退键,sdlpal 实际复用 kKeyMenu 但 ts 显式分键)
+// 键位**以原版为准**(user 2026-05-31 决策:"原版 wasd 就不是用来控制方向的")—— 还原 sdlpal
+// `input.c:83-90` WASD 原义,**不再**把 WASD 当方向键:
+//   方向 = 方向键 + Numpad 8/2/4/6(原版即如此,行走/菜单导航/图标方向选都走方向键)
+//   KeyW=ThrowItem / KeyA=Auto / KeyS=Status / KeyD=Defend(sdlpal input.c:87/84/90/85)
+//   KeyR=Repeat / KeyE=UseItem / KeyQ=Flee / KeyF=Force(sdlpal input.c:83/86/88/89)
+//   'Cancel' = sdlpal kKeyMenu(战斗 UI 回退/取消复用 Menu;'Cancel' 抽象仅留作单测别名)
 const CODE_MAP: Record<string, AbstractKey> = {
-  // ── 方向(sdlpal input.c:58-65) ─────────────────────────────────────
+  // ── 方向(sdlpal input.c:58-65;方向键 + numpad,WASD 不当方向)──────
   ArrowUp: 'Up',
   ArrowDown: 'Down',
   ArrowLeft: 'Left',
   ArrowRight: 'Right',
-  KeyW: 'Up',     // ts 偏离 sdlpal(浏览器 WASD convention,sdlpal 真值 W=ThrowItem)
-  KeyS: 'Down',   // ts 偏离 sdlpal(WASD;sdlpal 真值 S=Status)
-  KeyA: 'Left',   // ts 偏离 sdlpal(WASD;sdlpal 真值 A=Auto)
-  KeyD: 'Right',  // ts 偏离 sdlpal(WASD;sdlpal 真值 D=Defend)
   Numpad8: 'Up',
   Numpad2: 'Down',
   Numpad4: 'Left',
@@ -52,11 +49,15 @@ const CODE_MAP: Record<string, AbstractKey> = {
   End: 'End',
   Numpad1: 'End',
 
-  // ── 战斗 / 大世界专用键(sdlpal input.c:83-90) ────────────────────
+  // ── 战斗 / 大世界专用键(sdlpal input.c:83-90,WASD 还原原义) ─────
   KeyR: 'Repeat',     // sdlpal SDLK_r 战斗重复上回合 action
-  KeyE: 'UseItem',    // sdlpal SDLK_e 大世界直接用物品
+  KeyA: 'Auto',       // sdlpal SDLK_a 战斗 auto 攻击
+  KeyD: 'Defend',     // sdlpal SDLK_d 战斗防御
+  KeyE: 'UseItem',    // sdlpal SDLK_e 战斗/大世界用物品
+  KeyW: 'ThrowItem',  // sdlpal SDLK_w 战斗投掷物品
   KeyQ: 'Flee',       // sdlpal SDLK_q 战斗逃跑
   KeyF: 'Force',      // sdlpal SDLK_f 强制移动 / 战斗 force action
+  KeyS: 'Status',     // sdlpal SDLK_s 状态屏
 }
 
 export function codeToAbstractKey(code: string): AbstractKey | null {

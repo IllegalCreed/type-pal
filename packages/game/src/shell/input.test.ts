@@ -14,11 +14,12 @@ describe('codeToAbstractKey', () => {
     expect(codeToAbstractKey('ArrowRight')).toBe('Right')
   })
 
-  it('WASD 别名', () => {
-    expect(codeToAbstractKey('KeyW')).toBe('Up')
-    expect(codeToAbstractKey('KeyA')).toBe('Left')
-    expect(codeToAbstractKey('KeyS')).toBe('Down')
-    expect(codeToAbstractKey('KeyD')).toBe('Right')
+  // user 2026-05-31 决策"以原版为准":WASD 还原 sdlpal input.c:84-90 原义,**不再**当方向键。
+  it('WASD = sdlpal 原义(input.c:84-90),不是方向', () => {
+    expect(codeToAbstractKey('KeyW')).toBe('ThrowItem') // input.c:87
+    expect(codeToAbstractKey('KeyA')).toBe('Auto')      // input.c:84
+    expect(codeToAbstractKey('KeyS')).toBe('Status')    // input.c:90
+    expect(codeToAbstractKey('KeyD')).toBe('Defend')    // input.c:85
   })
 
   it('确认 / 菜单(sdlpal input.c:66-74 真值)', () => {
@@ -53,10 +54,14 @@ describe('codeToAbstractKey', () => {
   })
 
   it('战斗 / 大世界专用键(sdlpal input.c:83-90)', () => {
-    expect(codeToAbstractKey('KeyR')).toBe('Repeat')
-    expect(codeToAbstractKey('KeyE')).toBe('UseItem')
-    expect(codeToAbstractKey('KeyQ')).toBe('Flee')
-    expect(codeToAbstractKey('KeyF')).toBe('Force')
+    expect(codeToAbstractKey('KeyR')).toBe('Repeat')   // input.c:83
+    expect(codeToAbstractKey('KeyA')).toBe('Auto')     // input.c:84
+    expect(codeToAbstractKey('KeyD')).toBe('Defend')   // input.c:85
+    expect(codeToAbstractKey('KeyE')).toBe('UseItem')  // input.c:86
+    expect(codeToAbstractKey('KeyW')).toBe('ThrowItem')// input.c:87
+    expect(codeToAbstractKey('KeyQ')).toBe('Flee')     // input.c:88
+    expect(codeToAbstractKey('KeyF')).toBe('Force')    // input.c:89
+    expect(codeToAbstractKey('KeyS')).toBe('Status')   // input.c:90
   })
 
   it('未知键 → null', () => {
