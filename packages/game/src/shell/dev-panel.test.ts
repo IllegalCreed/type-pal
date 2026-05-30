@@ -9,9 +9,30 @@ import type { Enemy, EnemyObject, EnemyTeam, BattleField, InputSnapshot, PlayerR
 import { describe, expect, it } from 'vitest'
 import fixturesData from '../data/battle-fixtures.json' with { type: 'json' }
 import { createCommandBus } from '../core/command-bus.js'
-import { createInitialGameState } from '../core/game-state.js'
+import { createInitialGameState, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import { tickBattle } from '../core/battle/battle-system.js'
+import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
 import { applyFixture, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
+
+// 真值(level-up-magic.json / spells.json / player-roles.json):
+//   role0 李逍遥 base 法术 = 气疗术(296, usableOutsideBattle);lv7 学天师符法(349, 仅战斗),
+//   lv10 学凝神归元(298, usableOutsideBattle)。用于验「升级学的大世界法术经 runtime 投影后菜单可见」。
+const R0_BASE_MAGIC = [296]
+const SPELLS_FIX = [
+  { id: 296, _name: '气疗术', magicNumber: 50, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0, flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false } },
+  { id: 298, _name: '凝神归元', magicNumber: 52, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0, flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false } },
+  { id: 349, _name: '天师符法', magicNumber: 54, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } },
+]
+const MAGICS_FIX = [
+  { id: 50, costMP: 5 }, { id: 52, costMP: 10 }, { id: 54, costMP: 8 },
+]
+// levelUpMagic[j][roleId] = {level, magic};只填 role0(inner idx 0)列
+const LEVELUP_MAGIC_FIX = [
+  [{ level: 7, magic: 349 }],
+  [{ level: 10, magic: 298 }],
+]
+// 真 DATA.MKF chunk 14 rgLevelUpExp 前 14 项(够升到 lv12)
+const LEVELUP_EXP_FIX = [0, 15, 40, 90, 165, 265, 390, 540, 715, 915, 1140, 1390, 1665, 1965]
 
 function minimalEnemy(id: number, over: Partial<Enemy> = {}): Enemy {
   // biome-ignore lint/suspicious/noExplicitAny: 测试只填 startBattle/createBattleState 用到的字段
@@ -47,10 +68,13 @@ function makeDeps(): DevPanelDeps {
       enemyObjects,
       enemyTeams,
       battleFields: [field],
-      playerRoles: { roles: [minimalRole(0)] },
-      levelUpExp: [0, 15, 40, 90, 165, 265, 390, 540, 715, 915],
-      levelUpMagic: [],
-      items: [], spells: [], magics: [], objectMagics: [], objectPoisons: [],
+      // biome-ignore lint/suspicious/noExplicitAny: role0 加 base 法术(气疗术)用于菜单可见性验证
+      playerRoles: { roles: [{ ...minimalRole(0), magic: R0_BASE_MAGIC } as any] },
+      levelUpExp: LEVELUP_EXP_FIX,
+      // biome-ignore lint/suspicious/noExplicitAny: 测试 levelUpMagic / spells / magics 占位真值
+      levelUpMagic: LEVELUP_MAGIC_FIX as any,
+      // biome-ignore lint/suspicious/noExplicitAny: 占位
+      items: [], spells: SPELLS_FIX as any, magics: MAGICS_FIX as any, objectMagics: [], objectPoisons: [],
       commands: [{ op: 'end' }],
       // enemyPos undefined → createBattleState 走 fallback 位置表(测试不验位置)
       // biome-ignore lint/suspicious/noExplicitAny: 占位
@@ -72,12 +96,12 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     expect(deps.gs.battleState?.enemies[0]?.scriptOnTurnStart).toBe(41368) // ← 战斗内对话触发器接上
   })
 
-  it('fixture-levelup:gs.Exp 设 1000 + runtime hydrate(lv1/30HP override)→ 打赢能升级', () => {
+  it('fixture-levelup:gs.Exp 设 6000 + runtime hydrate(lv1/30HP override)→ 打赢能升级', () => {
     const deps = makeDeps()
     applyFixture(deps, levelupFixture)
     expect(deps.gs.mode).toBe('battle')
-    // expOverrides → gs.Exp(接近多级阈值)
-    expect(deps.gs.Exp.rgPrimaryExp[0]!.wExp).toBe(1000)
+    // expOverrides → gs.Exp(跨多级阈值,可升到 lv12)
+    expect(deps.gs.Exp.rgPrimaryExp[0]!.wExp).toBe(6000)
     expect(deps.gs.Exp.rgPrimaryExp[0]!.wLevel).toBe(1)
     // playerOverrides hydrate 进 runtime(升级 loop 读 runtime)
     expect(deps.gs.PlayerRolesRuntime.rgwLevel[0]).toBe(1)
@@ -108,9 +132,42 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(gs.PlayerRolesRuntime.rgwMaxHP[0]) // 升级满血
   })
 
-  it('fixture-levelup 配置自检:exp 1000 跨多级阈值(lv1→~7)', () => {
-    // 健全性:1000 经验 + levelUpExp[1..6]=15/40/90/165/265/390 累计 965 < 1000 < +540 → 连升到 7 级附近
+  it('fixture-levelup 配置自检:exp 6000 跨多级阈值(lv1→lv12,过 lv10 学大世界法术)', () => {
+    // 健全性:6000 经验 + 累计到 lv12=5665 < 6000 < lv13=7330 → 连升到 12 级,过 lv10(凝神归元)
     const exp = (levelupFixture.expOverrides!['0'] as { wExp: number }).wExp
-    expect(exp).toBeGreaterThan(965) // 至少跨到 lv7
+    expect(exp).toBeGreaterThan(3135) // 至少跨过 lv10(学凝神归元 298,大世界可用)
+  })
+
+  it('★菜单可见性回归:打赢升到 lv10+ → 大世界仙术菜单出现升级新学的「凝神归元」(298),不再只剩气疗术', () => {
+    // user 2026-05-31 实测:dev 升级 fixture 打赢后开仙术菜单只见「气疗术」,看不到学的法术。
+    // 根因:菜单读静态 catalog.playerRoles(1 级基线),不读 runtime。修复:投影 gs.PlayerRolesRuntime → roles。
+    const deps = makeDeps()
+    applyFixture(deps, levelupFixture)
+    const gs = deps.gs
+    const bus = createCommandBus()
+    const emptyInput: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }
+    // 推进战斗到打赢(atk999 一击秒灯笼)→ finalizeBattle → battleWonLevelUp 升级 + 学法术
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
+    let safety = 80
+    while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(gs.mode).toBe('explore')
+
+    // 1) 升到 ≥ lv10 + battleWonLevelUp 把学的法术写进 runtime.rgwMagic(数据层)
+    expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBeGreaterThanOrEqual(10)
+    const learnedRt = gs.PlayerRolesRuntime.rgwMagic.map((slot) => slot[0]).filter((x) => x)
+    expect(learnedRt).toContain(349) // 天师符法(lv7,仅战斗)
+    expect(learnedRt).toContain(298) // 凝神归元(lv10,大世界可用)
+
+    // 2) ★关键回归:大世界仙术菜单经 runtime 投影构造 → 新学的凝神归元(298)可见,
+    //    基线气疗术(296)仍在,战斗专用的天师符法(349)被 usableOutsideBattle 过滤掉(忠实 sdlpal)
+    const projected = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, deps.resources.playerRoles)
+    const magicMenu = createInGameMagicMenu(projected, gs.partyMembers, deps.resources.spells)
+    expect(magicMenu.casterMenu.items[0]?.disabled).toBe(false) // 有大世界法术 → caster 可选
+    confirmCaster(magicMenu, projected, deps.resources.spells, deps.resources.magics)
+    const ids = magicMenu.spellMenu!.items.map((i) => i.id)
+    expect(ids).toContain(296) // 气疗术(基线)
+    expect(ids).toContain(298) // ★ 凝神归元 — 升级新学,投影后可见(修复前读静态看不到)
+    expect(ids).not.toContain(349) // 天师符法 大世界菜单正确过滤
   })
 })

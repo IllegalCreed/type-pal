@@ -60,13 +60,13 @@
     },
     {
       "id": "fixture-levelup",
-      "label": "★ 升级测试(lv1 + 1000 经验 vs 灯笼 30HP — 打赢看升级演出:连升级/满血/学法术)",
+      "label": "★ 升级测试(lv1 + 6000 经验 vs 灯笼 30HP — 打赢看升级演出:连升到 lv12/满血/学法术,凝神归元 lv10 大世界仙术菜单可见)",
       "partyMembers": [0],
       "playerOverrides": {
         "0": { "level": 1, "hp": 30, "maxHP": 30, "mp": 10, "maxMP": 10, "attackStrength": 999 }
       },
       "expOverrides": {
-        "0": { "wExp": 1000, "wLevel": 1 }
+        "0": { "wExp": 6000, "wLevel": 1 }
       },
       "inventory": [{ "itemId": 61, "count": 5 }],
       "enemyTeamId": 1,

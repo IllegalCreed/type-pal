@@ -470,7 +470,9 @@ function openPicker(deps: DevPanelDeps): void {
       label: 'InGame Magic',
       openFn: () => openMenu(deps.gs, {
         kind: 'in-game-magic',
-        state: createInGameMagicMenu(deps.resources.playerRoles, deps.gs.partyMembers, deps.resources.spells),
+        state: createInGameMagicMenu(
+          projectRuntimeToBattleRoles(deps.gs.PlayerRolesRuntime, deps.resources.playerRoles),
+          deps.gs.partyMembers, deps.resources.spells),
       }),
     },
   ]

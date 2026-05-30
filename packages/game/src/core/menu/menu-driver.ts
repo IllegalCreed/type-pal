@@ -18,6 +18,7 @@ import { addItemToInventory, startOverworldItemScript } from '../event-system.js
 import { runEquipScript } from '../equip-effect.js'
 import { Save } from '../save/api.js'
 import type { ActiveMenuEntry, GameState } from '../game-state.js'
+import { projectRuntimeToBattleRoles } from '../game-state.js'
 import { closeTopMenu, openMenu } from './menu-mode.js'
 import {
   createInGameMenu,
@@ -93,6 +94,19 @@ function requireCatalogs(): MenuCatalogs {
     throw new Error('menu-driver: setMenuCatalogs 未调用 — bootstrap 应在 setup 阶段注入 items/spells/playerRoles catalog')
   }
   return _catalogs
+}
+
+/**
+ * 菜单读「运行时」角色态 —— catalog.playerRoles 是静态 1 级基线,新游戏 hydrate 后即与
+ * gs.PlayerRolesRuntime 分叉(升级/学法术/战斗受伤全写 runtime SoA,静态基线不动)。sdlpal 菜单
+ * 全程读 gpGlobals 运行时(PAL_InGameMagicMenu/PAL_PlayerStatus 等都查 gpGlobals->g.PlayerRoles),
+ * 故选单构造 + 渲染都必须投影 runtime → roles,否则「学会的新仙术 / 升级后等级 / 当前 HP」全不显示。
+ *
+ * Why:user 2026-05-31 用 dev 升级 fixture 打赢后开仙术菜单只见基线「气疗术」,看不到 lv7 学的天师符法(349)
+ * —— battleWonLevelUp 已把 349 写进 rt.rgwMagic,但菜单读静态 catalog.playerRoles 故不可见。
+ */
+function menuRoles(gs: GameState): PlayerRoles {
+  return projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, requireCatalogs().playerRoles)
 }
 
 // ── Start game handler(M5.6 T17:OpeningMenu choice 完成回调) ──────────────────
@@ -305,7 +319,7 @@ function dispatchInGameMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
       case 'magic':
         openMenu(gs, {
           kind: 'in-game-magic',
-          state: createInGameMagicMenu(catalogs.playerRoles, gs.partyMembers, catalogs.spells),
+          state: createInGameMagicMenu(menuRoles(gs), gs.partyMembers, catalogs.spells),
         })
         break
       case 'status':
@@ -473,7 +487,7 @@ function dispatchInventoryMenu(
         return
       }
       // 单 target 路径:进 use-target phase
-      confirmInventoryItem(s, catalogs.items, catalogs.playerRoles, gs.partyMembers)
+      confirmInventoryItem(s, catalogs.items, menuRoles(gs), gs.partyMembers)
     }
     else if (s.phase === 'use-target') {
       const picked = confirmInventoryTarget(s)
@@ -553,7 +567,7 @@ function dispatchEquipMenu(
   if (input.pressed.has('Confirm')) {
     const catalogs = requireCatalogs()
     if (s.phase === 'list') {
-      confirmEquipItem(s, catalogs.items, catalogs.playerRoles, gs.partyMembers)
+      confirmEquipItem(s, catalogs.items, menuRoles(gs), gs.partyMembers)
     }
     else if (s.phase === 'pick-role') {
       const picked = confirmEquipRole(s)
@@ -616,7 +630,7 @@ function dispatchInGameMagicMenu(
   if (input.pressed.has('Confirm')) {
     const catalogs = requireCatalogs()
     if (s.phase === 'pick-caster') {
-      confirmCaster(s, catalogs.playerRoles, catalogs.spells, catalogs.magics)
+      confirmCaster(s, menuRoles(gs), catalogs.spells, catalogs.magics)
     }
     else if (s.phase === 'pick-spell') {
       // sdlpal uigame.c:740-861 真值:Confirm spell →
@@ -633,7 +647,7 @@ function dispatchInGameMagicMenu(
             const curMP = gs.PlayerRolesRuntime.rgwMP[sel.casterId] ?? 0
             gs.PlayerRolesRuntime.rgwMP[sel.casterId] = Math.max(0, curMP - sel.costMP)
             // refresh spell list disabled(MP 减后某些 spell 不可用)
-            refreshSpellMenu(s, catalogs.playerRoles, catalogs.spells, catalogs.magics,
+            refreshSpellMenu(s, menuRoles(gs), catalogs.spells, catalogs.magics,
               gs.PlayerRolesRuntime.rgwMP[sel.casterId] ?? 0)
           }
           // phase 保 'pick-spell'(sdlpal 真值 while loop 继续 PAL_MagicSelectionMenu)
@@ -658,7 +672,7 @@ function dispatchInGameMagicMenu(
               cancelInGameMagic(s) // phase='pick-target' → 'pick-spell'
             }
             // refresh spell list disabled
-            refreshSpellMenu(s, catalogs.playerRoles, catalogs.spells, catalogs.magics, newMP)
+            refreshSpellMenu(s, menuRoles(gs), catalogs.spells, catalogs.magics, newMP)
           }
         }
       }

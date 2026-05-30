@@ -2,6 +2,7 @@ import type { Palette, PlayerRoles, Tilemap } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'
 import type { BusEntry } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
+import { projectRuntimeToBattleRoles } from '../core/game-state.js'
 import type { BattlePresent, BattleAssets } from './battle/present-battle.js'
 import { type Framebuffer, SCREEN_W, SCREEN_H } from './framebuffer.js'
 import { drawTilemap, addCoverTileEntries, type TileImages, type DrawEntry } from './draw-tilemap.js'
@@ -531,7 +532,11 @@ export function presentFrame(
       items: ctx.items,
       itemIcons: ctx.itemIcons,
       statusBg: ctx.statusBg,
-      playerRoles: ctx.playerRoles,
+      // 菜单(状态/仙术/装备/物品)读运行时角色态 —— 投影 gs.PlayerRolesRuntime → roles,反映
+      // 升级后等级/属性、学会的新仙术、战斗受伤的当前 HP。静态 ctx.playerRoles 是 1 级基线,新游戏后即分叉。
+      playerRoles: ctx.playerRoles
+        ? projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, ctx.playerRoles)
+        : undefined,
       // M5.6 T10d:PlayerStatus 头像复用 dialog-assets.portraitFrames(同 RGM PNG 资源)。
       portraitIcons: ctx.dialogAssets?.portraitFrames,
       levelUpExp: ctx.levelUpExp,
