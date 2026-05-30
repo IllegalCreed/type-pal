@@ -114,10 +114,11 @@ export const OP_SET_OBJECT_POS_REL_PARTY = 0x0012  // 18
 //   if (operand[0] != 0) pCurrent.wAutoScript = operand[1]
 //   operand[1] 是 raw commands index ip — 我们 npc.autoCursor.ip 同义。
 export const OP_SET_AUTO_SCRIPT = 0x0024        // 36
-// case 0x0035(53):  Shake screen(script.c:相关)
-//   operand[0] = duration(frames),operand[1] = intensity(0 默认 4 像素)
-//   M5 简版:存 gs.screenShakeFrames,present 层 viewport ±intensity 抖(M5 不渲染 — 留 follow-up)。
-//   功能 stub 即可,不挡 cutscene 流。
+// case 0x0035(53):  Shake screen(script.c:1521-1535)
+//   time=operand[0];level=operand[1];if(level==0)level=4;VIDEO_ShakeScreen(time,level);
+//   if(operand[0]==0) 立即 UpdateScreen 复位(关抖)。VIDEO_ShakeScreen 只写 static
+//   g_wShakeTime/g_wShakeLevel(video.c:59-60,非存档)。真抖在 present 层 applyScreenShake
+//   (video.c:571-616)逐帧奇偶交替 ±level 垂直跳动 + 黑条,末尾自减。
 export const OP_SHAKE_SCREEN = 0x0035           // 53
 // case 0x0034(52): Transform collected enemies into items(script.c:1452,妖魔转化)
 //   wCollectValue>0 → i=RandomLong(1,collectValue) cap 9(PAL_CLASSIC);collectValue-=i;i--;
@@ -2847,11 +2848,17 @@ function applyRawOpcode(
       break
 
     case OP_SHAKE_SCREEN: {
-      // sdlpal script.c:相关 真值:operand[0]=duration,operand[1]=intensity(默认 4)。
-      // M5 简版:stub,console.debug 标 frames + intensity,present 层不实接抖动(留 follow-up)。
-      const duration = operands[0] ?? 0
-      const intensity = (operands[1] ?? 0) === 0 ? 4 : (operands[1] ?? 0)
-      console.debug(`event-system: shakeScreen duration=${duration} intensity=${intensity}(present 层 stub)`)
+      // sdlpal script.c:1521-1535 真值:
+      //   i = operand[1]; if (i == 0) i = 4;   // level 默认 4
+      //   VIDEO_ShakeScreen(operand[0], i);     // 写 g_wShakeTime/g_wShakeLevel(video.c:1029-1053)
+      //   if (!operand[0]) VIDEO_UpdateScreen(NULL);  // time==0 → 立即复位(关抖)
+      const time = operands[0] ?? 0
+      let level = operands[1] ?? 0
+      if (level === 0) level = 4
+      gs.shakeTime = time
+      gs.shakeLevel = level
+      // operand[0]==0:sdlpal 立即 UpdateScreen 复位关抖。我们 shakeTime 已 = 0,present 层
+      //   `if (gs.shakeTime !== 0)` 守卫天然不抖(等价复位)。
       break
     }
 

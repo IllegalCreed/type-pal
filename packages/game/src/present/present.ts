@@ -7,6 +7,7 @@ import { type Framebuffer, SCREEN_W, SCREEN_H } from './framebuffer.js'
 import { drawTilemap, addCoverTileEntries, type TileImages, type DrawEntry } from './draw-tilemap.js'
 import { drawSprite, type SpriteImage } from './draw-sprite.js'
 import { applyScreenWave } from './screen-wave.js'
+import { applyScreenShake } from './screen-shake.js'
 import { drawDialogBox, type DialogBoxDrawCtx } from './dialog-box.js'
 import { drawMenuStack } from './menu/draw-menu.js'
 import { drawConfirmBox } from './menu/draw-confirm.js'
@@ -538,6 +539,14 @@ export function presentFrame(
       spells: ctx.spells,
       magics: ctx.magics,
     })
+  }
+
+  // G9:屏幕摇晃(sdlpal video.c:571-616 VIDEO_UpdateScreen shake 分支)。
+  // sdlpal 在所有层 blit 到 gpScreen 后,UpdateScreen 输出阶段才施加 shake → 我们同序:
+  //   全部图层 + 精灵 + fade + 菜单装配完成后,对最终 fb.indices 整幅垂直跳动。
+  // opcode 0x0035 设 shakeTime/shakeLevel 后逐帧生效,applyScreenShake 末尾自减 shakeTime 至 0 停。
+  if (gs.shakeTime !== 0) {
+    applyScreenShake(fb.indices, gs)
   }
 }
 

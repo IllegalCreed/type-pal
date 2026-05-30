@@ -665,6 +665,20 @@ export interface GameState {
   sWaveProgression: number
 
   /**
+   * G9(2026-05-30):屏幕摇晃剩余帧数(sdlpal `static g_wShakeTime`,video.c:59)。
+   * **瞬态,非存档字段**(sdlpal 是 video.c 文件级 static,不在 SAVEDGAME_WIN)。
+   * opcode 0x0035 shakeScreen 写入 operand[0]。present 层每帧 applyScreenShake 消费:
+   *   奇偶帧整幅 ±shakeLevel 垂直跳动 + 黑条,末尾自减,到 0 停。默认 0。
+   */
+  shakeTime: number
+
+  /**
+   * G9(2026-05-30):屏幕摇晃等级 = 每帧垂直偏移行数(sdlpal `static g_wShakeLevel`,video.c:60)。
+   * **瞬态,非存档字段**。opcode 0x0035 写入 operand[1](==0 时 sdlpal script.c:1527 取默认 4)。默认 0。
+   */
+  shakeLevel: number
+
+  /**
    * P2#7(2026-05-29):scene 切换的**异步资源加载窗口** flag(取代旧 fEnteringScene 渲染门)。
    *
    * loadScene opcode / loadSceneCommon 起手设 true → present.ts 跳过 render(fb 保留上一帧 = 旧 scene
@@ -1164,6 +1178,8 @@ export function createInitialGameState(
     nightPalette: false,  // 特效 A:昼夜 flag(sdlpal fNightPalette,默认白天)
     iCurPlayingRNG: 0,    // 特效 C:当前 RNG 动画编号(sdlpal iCurPlayingRNG)
     sWaveProgression: 0,  // 特效 B:屏幕波动每帧增量(sdlpal sWaveProgression)
+    shakeTime: 0,         // G9:屏幕摇晃剩余帧(sdlpal static g_wShakeTime,video.c:59,瞬态非存档)
+    shakeLevel: 0,        // G9:屏幕摇晃等级=垂直偏移行数(sdlpal static g_wShakeLevel,video.c:60,瞬态)
 
     // ── M5 Sync.1: 嵌套 struct ──
     Exp: createEmptyExp(),

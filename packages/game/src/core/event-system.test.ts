@@ -1942,19 +1942,57 @@ describe('I-w1.b 机关 / scene-state opcodes', () => {
     expect(gs.npcs[0]?.autoCursor).toBeUndefined()
   })
 
-  it('shakeScreen(0x35):console.debug stub 不报错 + ip++', () => {
+  it('shakeScreen(0x35):op0=10,op1=4 → shakeTime=10,shakeLevel=4(script.c:1521-1535)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
-    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
     loadEvent(gs, [
       { op: 'raw', opcode: 0x35, operands: [10, 4, 0] },
       { op: 'end' },
     ])
     expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
     expect(gs.mode).toBe('explore')
-    const calls = debugSpy.mock.calls.map((c) => String(c[0]))
-    expect(calls.some((m) => m.includes('shakeScreen'))).toBe(true)
-    debugSpy.mockRestore()
+    expect(gs.shakeTime).toBe(10)
+    expect(gs.shakeLevel).toBe(4)
+  })
+
+  it('shakeScreen(0x35):op1=0 → shakeLevel 默认 4(script.c:1527 if(i==0)i=4)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x35, operands: [7, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.shakeTime).toBe(7)
+    expect(gs.shakeLevel).toBe(4)
+  })
+
+  it('shakeScreen(0x35):op0=0 → shakeTime=0 立即复位关抖(script.c:1531-1534)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    // 先设一次摇晃,再 op0=0 复位
+    gs.shakeTime = 99
+    gs.shakeLevel = 8
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x35, operands: [0, 8, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.shakeTime).toBe(0)
+    // level 仍写入(sdlpal VIDEO_ShakeScreen 无条件写 g_wShakeLevel),但 shakeTime=0 → present 不抖
+    expect(gs.shakeLevel).toBe(8)
+  })
+
+  it('shakeScreen(0x35):op0=5,op1=8 → shakeTime=5,shakeLevel=8(非默认 level)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x35, operands: [5, 8, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.shakeTime).toBe(5)
+    expect(gs.shakeLevel).toBe(8)
   })
 })
 
