@@ -24,7 +24,7 @@
  *   MAX_LINES_PER_PAGE = 4(text.c:1649 `nCurrentDialogLine > 3` 触发等键)。
  */
 
-import type { DialogBoxStyle } from '@type-pal/shared'
+import { type DialogBoxStyle, FRAME_MS_EXPLORE } from '@type-pal/shared'
 import type { Framebuffer } from './framebuffer.js'
 import { renderText, renderColoredText, measureText, type GlyphTable } from './font.js'
 import type { DialogBoxState, DialogPhase } from '../core/game-state.js'
@@ -50,14 +50,26 @@ export const FONT_COLOR_RED_ALT = 0x17
 /** sdlpal text.c:1649 `nCurrentDialogLine > 3`:超过 3 (即 4) 触发等键 */
 export const MAX_LINES_PER_PAGE = 4
 
-/** parseDialogText 输出:可见文本 + 逐字符色 + 行末色态(跨行持续)+ 等键图标。 */
+/** sdlpal text.c:885 `g_TextLib.iDelayTime = 3` 默认打字延时基数(每字 iDelayTime*8 ms)。 */
+export const DIALOG_IDELAY_DEFAULT = 3
+
+/** parseDialogText 输出:可见文本 + 逐字符色 + 时间驱动打字数据 + 行末状态(跨行持续)+ 等键图标。 */
 export interface ParsedDialogLine {
   /** 可见文本(控制符已消费/剥离)。 */
   text: string
   /** 每个可见字符的调色板色(与 [...text] 等长,按 code point)。 */
   colors: number[]
+  /**
+   * 每个可见字符的出现时刻(ms,相对行起)。sdlpal text.c:1600 每字后 UTIL_Delay(iDelayTime*8);
+   * `$NN` 改 iDelayTime=NN*10/7(text.c:1538)。revealAt[i] = 前 i 字延时累加。
+   */
+  revealAt: number[]
+  /** 本行完全打完时刻(ms):最后一字延时 + `~NN` 尾暂停(text.c:1551 NN*80/7)。 */
+  doneAt: number
   /** 行末 bCurrentFontColor 状态 —— toggle 跨行持续(下一行的起始色)。 */
   endColor: number
+  /** 行末 iDelayTime 状态 —— `$NN` 跨行持续(下一行打字速度基数,sdlpal g_TextLib.iDelayTime 不自动重置)。 */
+  endIDelay: number
   /** `(`/`)` 设的等键图标(sdlpal bIcon:0=默认,1=`)`,2=`(`)。 */
   icon: number
 }
@@ -76,14 +88,24 @@ export interface ParsedDialogLine {
  * @param startColor 起始 bCurrentFontColor(跨行持续:首行 = dialog bFontColor,续行 = 上行 endColor)
  * @param isDialog   sdlpal isDialog 参数 —— **普通对话(top/bottom/center)= FALSE**;narration(居中小窗)= TRUE
  */
-export function parseDialogText(raw: string, startColor: number, isDialog: boolean): ParsedDialogLine {
+export function parseDialogText(
+  raw: string,
+  startColor: number,
+  isDialog: boolean,
+  startIDelay: number = DIALOG_IDELAY_DEFAULT,
+): ParsedDialogLine {
   let color = startColor
+  let iDelay = startIDelay // sdlpal g_TextLib.iDelayTime(跨行持续)
+  let cum = 0 // 累计 ms(下一字出现时刻)
   let icon = 0
   const out: string[] = []
   const colors: number[] = []
+  const revealAt: number[] = []
   const emit = (ch: string): void => {
     out.push(ch)
     colors.push(isDialog && color === FONT_COLOR_DEFAULT ? 0 : color) // text.c:1581-1582
+    revealAt.push(cum) // 本字在 cum 时刻出现
+    cum += iDelay * 8 // text.c:1600 每字后 UTIL_Delay(iDelayTime*8)
   }
   const chars = [...raw] // 按 code point 拆(中文 BMP 单点;控制符是 ASCII 单点)
   for (let i = 0; i < chars.length; i++) {
@@ -95,15 +117,24 @@ export function parseDialogText(raw: string, startColor: number, isDialog: boole
       case '"':
         if (!isDialog) color = color === FONT_COLOR_YELLOW ? FONT_COLOR_DEFAULT : FONT_COLOR_YELLOW
         break // `"` 总消费(text.c:1531 lpszText++ 在 if 外)
-      case '$': i += 2; break // 消费 $ + 2 位(text.c:1539 lpszText+=3)
-      case '~': return { text: out.join(''), colors, endColor: color, icon } // text.c:1554 return:本行止
+      case '$': { // text.c:1538-1539 iDelayTime = NN*10/7;lpszText+=3(消费 $ + 2 位)
+        const nn = Number.parseInt((chars[i + 1] ?? '') + (chars[i + 2] ?? ''), 10)
+        if (!Number.isNaN(nn)) iDelay = Math.floor((nn * 10) / 7)
+        i += 2
+        break
+      }
+      case '~': { // text.c:1551-1554 UTIL_Delay(NN*80/7) + return(本行止,尾暂停)
+        const nn = Number.parseInt((chars[i + 1] ?? '') + (chars[i + 2] ?? ''), 10)
+        const endDelay = Number.isNaN(nn) ? 0 : Math.floor((nn * 80) / 7)
+        return { text: out.join(''), colors, revealAt, doneAt: cum + endDelay, endColor: color, endIDelay: iDelay, icon }
+      }
       case ')': icon = 1; break
       case '(': icon = 2; break
       case '\\': { const nx = chars[++i]; if (nx !== undefined) emit(nx); break } // 转义:画下一字符字面
       default: emit(ch)
     }
   }
-  return { text: out.join(''), colors, endColor: color, icon }
+  return { text: out.join(''), colors, revealAt, doneAt: cum, endColor: color, endIDelay: iDelay, icon }
 }
 
 /** sdlpal text.c:1661 `y + nCurrentDialogLine * 18`:行间距 18 px */
@@ -219,7 +250,8 @@ export function startDialogLine(
   const style = opts.style ?? 'bottom'
   const startColor = opts.fontColor ?? FONT_COLOR_DEFAULT
   const isDialog = style === 'narration' // sdlpal isDialog:普通对话=FALSE,narration(居中小窗)=TRUE
-  const parsed = parseDialogText(rawText, startColor, isDialog)
+  // 新 dialog 段:iDelayTime 重置默认 3(sdlpal g_TextLib.iDelayTime 段内续行继承,这里起手默认)
+  const parsed = parseDialogText(rawText, startColor, isDialog, DIALOG_IDELAY_DEFAULT)
   // sdlpal text.c:1715-1727 真值:`:` 结尾的字符串 = 姓名 title,画独立位置(CYAN_ALT,PAL_DrawText 不过
   //   控制符 state machine,不改 bCurrentFontColor),不计入 line。在剥码后的可见文本上判定。
   const isTitle = isCharacterNameLine(parsed.text)
@@ -229,7 +261,10 @@ export function startDialogLine(
     shownLineColors: [],
     currentLineText: isTitle ? null : parsed.text,
     currentLineColors: isTitle ? undefined : parsed.colors,
+    currentLineRevealAt: isTitle ? undefined : parsed.revealAt,
+    currentLineDoneAt: isTitle ? 0 : parsed.doneAt,
     fontColorState: isTitle ? startColor : parsed.endColor, // title 不改色态
+    iDelayState: isTitle ? DIALOG_IDELAY_DEFAULT : parsed.endIDelay, // title 不改打字速度态
     iconKind: parsed.icon,
     typingFrames: 0,
     charsRevealed: 0,
@@ -255,8 +290,10 @@ export function appendDialogLine(state: DialogBoxState, rawText: string): void {
   const isDialog = state.style === 'narration'
   // 续行起始色 = 上一行行末色态(toggle 跨行持续,sdlpal g_TextLib.bCurrentFontColor 同段不重置)
   const startColor = state.fontColorState ?? state.fontColor ?? FONT_COLOR_DEFAULT
-  const parsed = parseDialogText(rawText, startColor, isDialog)
-  // sdlpal text.c:1715 姓名识别 — `:` 结尾的字符串画 title 位置(CYAN_ALT,独立路径),不进 shownLines、不改色态。
+  // 续行起始 iDelayTime = 上一行行末态(`$NN` 段内跨行持续,sdlpal g_TextLib.iDelayTime 不自动重置)
+  const startIDelay = state.iDelayState ?? DIALOG_IDELAY_DEFAULT
+  const parsed = parseDialogText(rawText, startColor, isDialog, startIDelay)
+  // sdlpal text.c:1715 姓名识别 — `:` 结尾的字符串画 title 位置(CYAN_ALT,独立路径),不进 shownLines、不改色/速态。
   if (isCharacterNameLine(parsed.text)) {
     state.titleText = parsed.text
     // **不**修改 currentLineText / phase — title 跟现在 typing 的 dialog 并存
@@ -269,7 +306,10 @@ export function appendDialogLine(state: DialogBoxState, rawText: string): void {
   }
   state.currentLineText = parsed.text
   state.currentLineColors = parsed.colors
+  state.currentLineRevealAt = parsed.revealAt
+  state.currentLineDoneAt = parsed.doneAt
   state.fontColorState = parsed.endColor
+  state.iDelayState = parsed.endIDelay
   if (parsed.icon) state.iconKind = parsed.icon
   state.typingFrames = 0
   state.charsRevealed = 0
@@ -343,10 +383,27 @@ export function tickDialog(state: DialogBoxState): void {
   state.typingFrames++
 
   if (state.phase === 'typing' && state.currentLineText !== null) {
-    const want = Math.floor(state.typingFrames / FRAMES_PER_CHAR)
-    state.charsRevealed = Math.min(want, state.currentLineText.length)
-    if (state.charsRevealed >= state.currentLineText.length) {
-      state.phase = 'line-done'
+    const len = state.currentLineText.length
+    const revealAt = state.currentLineRevealAt
+    if (revealAt) {
+      // 时间驱动打字(sdlpal text.c:1600 iDelayTime*8/字 + `$NN` 变速 text.c:1538 + `~NN` 尾暂停 text.c:1551)。
+      //   elapsed 用 typingFrames*FRAME_MS_EXPLORE 保持 tick 驱动确定性(可测/可回放);10fps→100ms/tick
+      //   内一次显多字(总时长忠实 sdlpal,受 tick 率限制成块显)。
+      const elapsed = state.typingFrames * FRAME_MS_EXPLORE
+      let shown = 0
+      while (shown < len && (revealAt[shown] ?? 0) <= elapsed) shown++
+      state.charsRevealed = shown
+      // doneAt = 末字延时 +(`~NN` 尾暂停);全字显完后的尾暂停 = `~` 的戏剧停顿,到点才 line-done。
+      if (elapsed >= (state.currentLineDoneAt ?? 0)) {
+        state.charsRevealed = len
+        state.phase = 'line-done'
+      }
+    }
+    else {
+      // fallback(无 revealAt 的手搭 state / 旧测试):恒速 FRAMES_PER_CHAR。
+      const want = Math.floor(state.typingFrames / FRAMES_PER_CHAR)
+      state.charsRevealed = Math.min(want, len)
+      if (state.charsRevealed >= len) state.phase = 'line-done'
     }
   }
 

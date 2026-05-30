@@ -94,14 +94,17 @@ describe('EventSystem', () => {
     // 否则下条 opcode(loadScene/fade 等渲染门)那帧把满行盖掉 → 玩家没看见。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
+    // 时间驱动后短行 1 tick 即打完,用长行(16 字 ≈ 384ms > 100ms/tick)保证 Confirm 时仍在 typing。
+    const longLine = '这是一句比较长的对话需要好几帧才能打完字'
     loadEvent(gs, [
-      { op: 'showDialog', messageIndex: 0, text: 'AB' }, // 2 字,typing 2 tick
+      { op: 'showDialog', messageIndex: 0, text: longLine },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)            // tick1: typing(charsRevealed→1)
+    tickEventSystem(gs, snap(), bus)            // tick1: typing(部分字)
+    expect(gs.dialogBox?.phase).toBe('typing')  // 长行未打完
     tickEventSystem(gs, snap(['Confirm']), bus) // tick2: Confirm → skip → 整行设满 + return
     expect(gs.eventCursor?.ip).toBe(0)          // **没**推进(cursor 还在 showDialog,满行本帧渲染)
-    expect(gs.dialogBox?.charsRevealed).toBe(2) // 整行已满(可渲染)
+    expect(gs.dialogBox?.charsRevealed).toBe(longLine.length) // 整行已满(可渲染)
     expect(gs.dialogBox?.phase).toBe('line-done')
     tickEventSystem(gs, snap(), bus)            // tick3: line-done 自动推进 → ip=1(end)
     expect(gs.eventCursor?.ip).toBe(1)          // 已推进到 end
@@ -1552,19 +1555,16 @@ describe('setDialogStyleX 真值 reset(每次 opcode 重设 portrait/fontColor,�
       { op: 'showDialog', messageIndex: 0, text: '李逍遥B' },
       { op: 'end' },
     ])
-    // tick 1: setDialogStyleTop + showDialog → dialogBox 含 portraitIcon=55
+    // tick 1: setDialogStyleTop + showDialog → dialogBox 含 portraitIcon=55(charsRevealed=0,未 tickDialog)
     tickEventSystem(gs, snap(), bus)
     expect(gs.dialogBox?.portraitIcon).toBe(55)
     expect(gs.currentDialogPortraitIcon).toBe(55)
-    // tick 2 Confirm: skip-typing → 整行设满 → return(满行渲染一帧,2026-05-29 fix B)
-    tickEventSystem(gs, snap(['Confirm']), bus)
-    expect(gs.dialogBox?.phase).toBe('line-done')
-    // tick 3 Confirm: line-done → ip++ → opcode 5 ClearDialog → wait page key
+    // tick 2 Confirm:时间驱动短行('李大娘A' 3 字)1 tick 打完 → line-done 自动推进 → opcode 5 ClearDialog
+    //   → 有 currentLineText → waiting-page-key(等键清屏)
     tickEventSystem(gs, snap(['Confirm']), bus)
     expect(gs.dialogBox?.phase).toBe('waiting-page-key')
-    // tick 4 Confirm: page-advance (no pending) → keep dialogBox (empty) + ip++ → setDialogStyleBottom
-    //   → 无 prev dialog 行(shownLines=[]/currentLineText=null)→ 直接 apply + clear dialogBox + ip++
-    //   → showDialog → startDialogLine with portraitIcon=undefined
+    // tick 3 Confirm: page-advance(fullClear)→ clear dialogBox + ip++ → setDialogStyleBottom(无 arg0)
+    //   → 无 prev dialog 行 → apply + ip++ → showDialog → startDialogLine portraitIcon=undefined
     tickEventSystem(gs, snap(['Confirm']), bus)
     expect(gs.currentDialogPortraitIcon).toBeUndefined()
     expect(gs.currentDialogStyle).toBe('bottom')

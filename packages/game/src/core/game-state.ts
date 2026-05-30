@@ -300,6 +300,15 @@ export interface DialogBoxState {
   /** 与 currentLineText 等长:当前行逐字符色(parseDialogText)。 */
   currentLineColors?: number[]
   /**
+   * 当前行每字符出现时刻(ms,parseDialogText.revealAt)。时间驱动打字:charsRevealed =
+   * typingFrames*FRAME_MS_EXPLORE 内 revealAt[i]<=elapsed 的字数(sdlpal iDelayTime*8/字 + `$NN` 变速)。
+   */
+  currentLineRevealAt?: number[]
+  /** 当前行完全打完时刻(ms,含 `~NN` 尾暂停);elapsed>=doneAt → phase='line-done'。 */
+  currentLineDoneAt?: number
+  /** 跨行持续的 iDelayTime 状态(sdlpal g_TextLib.iDelayTime;`$NN` 改,段内续行继承,startDialogLine 重置默认 3)。 */
+  iDelayState?: number
+  /**
    * 跨行持续的 bCurrentFontColor 状态(sdlpal g_TextLib.bCurrentFontColor)。toggle 控制符的色态
    * 在同一 dialog 段内跨 showDialog 行持续 —— 下一行 parseDialogText 的起始色。
    * PAL_StartDialog(bFontColor)/ PAL_EndDialog 重置;startDialogLine 用 dialog 起始色初始化。

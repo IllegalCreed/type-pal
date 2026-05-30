@@ -90,6 +90,32 @@ describe('parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c
     expect(r.text).toBe('得到紫金丹了') // 6 字:得到(默认)紫金丹(黄)了(默认)
     expect(r.colors).toEqual([D, D, FONT_COLOR_YELLOW, FONT_COLOR_YELLOW, FONT_COLOR_YELLOW, D])
   })
+
+  it('默认 revealAt:每字 iDelayTime(3)*8=24ms(sdlpal text.c:885/1600)', () => {
+    const r = parseDialogText('李逍遥', D, false)
+    expect(r.revealAt).toEqual([0, 24, 48]) // 24ms/字
+    expect(r.doneAt).toBe(72) // 3*24
+    expect(r.endIDelay).toBe(3)
+  })
+
+  it('`$10` 变速:iDelay=floor(100/7)=14 → 112ms/字(text.c:1538)', () => {
+    const r = parseDialogText('$10李逍遥', D, false)
+    expect(r.text).toBe('李逍遥')
+    expect(r.revealAt).toEqual([0, 112, 224]) // 14*8=112ms/字
+    expect(r.endIDelay).toBe(14) // 跨行持续
+  })
+
+  it('`~NN` 尾暂停:doneAt 含 NN*80/7 ms(text.c:1551)', () => {
+    const r = parseDialogText('快走！~30', D, false)
+    expect(r.text).toBe('快走！') // ~30 截断
+    // 3 字 24ms → cum=72;~30 → floor(30*80/7)=342;doneAt=72+342=414
+    expect(r.doneAt).toBe(72 + Math.floor((30 * 80) / 7))
+  })
+
+  it('iDelay 跨行:startIDelay 参数继承上行 endIDelay', () => {
+    const r = parseDialogText('续行', D, false, 14) // 上行 $10 留下 iDelay=14
+    expect(r.revealAt).toEqual([0, 112]) // 继承 112ms/字
+  })
 })
 
 describe('Sync.2 DialogBox · startDialogLine / appendDialogLine', () => {
@@ -144,11 +170,20 @@ describe('Sync.2 DialogBox · startDialogLine / appendDialogLine', () => {
 })
 
 describe('Sync.2 DialogBox · tickDialog typing', () => {
-  it(`每 ${FRAMES_PER_CHAR} frame 出 1 字`, () => {
-    const s = startDialogLine('你好世界', { style: 'bottom' })
-    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(s)
+  it('默认速度时间驱动(sdlpal iDelayTime=3 → 24ms/字):100ms/tick 内一次出多字', () => {
+    const s = startDialogLine('你好世界朋友们大家好啊', { style: 'bottom' }) // 11 字
+    tickDialog(s) // elapsed=100ms,24ms/字 → revealAt 0/24/48/72/96 <=100 → 5 字
+    expect(s.charsRevealed).toBeGreaterThanOrEqual(4)
+    expect(s.charsRevealed).toBeLessThan(s.currentLineText!.length) // 长行未全出
+    expect(s.phase).toBe('typing')
+  })
+
+  it('$NN 变速:$10(iDelay=14 → 112ms/字)远慢 → 1 tick 仅 1 字', () => {
+    const s = startDialogLine('$10李逍遥赵灵儿', { style: 'bottom' }) // $10 消费,iDelay=floor(140/7)=14
+    expect(s.currentLineText).toBe('李逍遥赵灵儿') // $10 不显字面
+    tickDialog(s) // elapsed=100ms < 112 → 仅 revealAt[0]=0<=100 → 1 字
     expect(s.charsRevealed).toBe(1)
-    for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(s)
+    tickDialog(s) // 200ms → revealAt 0,112 <=200 → 2 字
     expect(s.charsRevealed).toBe(2)
   })
 
