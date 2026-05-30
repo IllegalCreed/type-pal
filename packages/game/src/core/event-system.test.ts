@@ -24,6 +24,7 @@ import {
   OP_WAIT_FOR_KEY,
   OP_LOAD_LAST_SAVE, setLoadLastSaveHandler,
   OP_QUIT, setQuitHandler,
+  OP_GOTO_IF_NO,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -825,6 +826,115 @@ describe('opcode 0x004D wait-for-any-key(sdlpal script.c:1753 / play.c:602-638 P
     tickEventSystem(gs, snap(['Up']), bus)
     expect(gs.eventCursor?.waiting).toBe('wait-key')
     expect(gs.mode).toBe('event')
+  })
+})
+
+describe('opcode 0x000A goto-if-no / ConfirmMenu(sdlpal script.c:3373-3387 / uigame.c:342-365)', () => {
+  // sdlpal:PAL_ClearDialog(FALSE) → PAL_ConfirmMenu(否=19/是=20,nDefault=0=否);
+  //   !ConfirmMenu()(否 / cancel)→ wScriptEntry=operand[0](goto);else(是)→ wScriptEntry++。
+  // 本地命令布局:ip0=0x0A(operand[0]=3 → goto L_3),ip1=是分支,ip2=end,ip3=否分支(L_3),ip4=end。
+  function load0a(gs: GameState): void {
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_GOTO_IF_NO, operands: [3, 0, 0] },
+      { op: 'showDialog', messageIndex: 0, text: 'YES' },
+      { op: 'end' },
+      { op: 'showDialog', messageIndex: 1, text: 'NO', label: 'L_3' },
+      { op: 'end' },
+    ])
+  }
+
+  it('进入 → waiting=confirm + 默认 否(confirmYes=false)+ ip 不动', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    load0a(gs)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('confirm')
+    expect(gs.eventCursor?.confirmYes).toBe(false)
+    expect(gs.eventCursor?.ip).toBe(0)
+  })
+
+  it('无按键 → 永久阻塞(autoScript 冻,ip 不动)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    load0a(gs)
+    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap(), bus)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor?.waiting).toBe('confirm')
+    expect(gs.eventCursor?.ip).toBe(0)
+  })
+
+  it('Up/Down/Left/Right 切换选择(2 项 next/prev 均 toggle,sdlpal ui.c wrap),不提交', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    load0a(gs)
+    tickEventSystem(gs, snap(), bus) // enter,默认 否
+    tickEventSystem(gs, snap(['Right']), bus)
+    expect(gs.eventCursor?.confirmYes).toBe(true)
+    tickEventSystem(gs, snap(['Left']), bus)
+    expect(gs.eventCursor?.confirmYes).toBe(false)
+    tickEventSystem(gs, snap(['Up']), bus)
+    expect(gs.eventCursor?.confirmYes).toBe(true)
+    tickEventSystem(gs, snap(['Down']), bus)
+    expect(gs.eventCursor?.confirmYes).toBe(false)
+    // 仍阻塞
+    expect(gs.eventCursor?.waiting).toBe('confirm')
+    expect(gs.eventCursor?.ip).toBe(0)
+  })
+
+  it('是(Right + Confirm)→ ip++ 跨过 0x0A → 跑是分支(showDialog "YES")', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    load0a(gs)
+    tickEventSystem(gs, snap(), bus)          // enter
+    tickEventSystem(gs, snap(['Right']), bus)  // 选 是
+    tickEventSystem(gs, snap(['Confirm']), bus) // 提交 是 → ip++ → showDialog YES
+    expect(gs.eventCursor?.waiting).toBe('dialog')
+    expect(gs.dialogBox?.currentLineText).toBe('YES')
+  })
+
+  it('否(默认 + Confirm)→ goto operand[0] → 跑否分支(showDialog "NO")', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    load0a(gs)
+    tickEventSystem(gs, snap(), bus)            // enter,默认 否
+    tickEventSystem(gs, snap(['Confirm']), bus)  // 提交 否 → goto L_3 → showDialog NO
+    expect(gs.dialogBox?.currentLineText).toBe('NO')
+  })
+
+  it('Cancel / Menu 等价 否(sdlpal CANCELLED→FALSE)→ goto operand[0],即便已选 是', () => {
+    for (const key of ['Cancel', 'Menu'] as const) {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const bus = createCommandBus()
+      load0a(gs)
+      tickEventSystem(gs, snap(), bus)
+      tickEventSystem(gs, snap(['Right']), bus) // 故意选 是
+      tickEventSystem(gs, snap([key]), bus)      // Cancel/Menu → 仍 goto 否分支
+      expect(gs.dialogBox?.currentLineText).toBe('NO')
+    }
+  })
+
+  it('PAL_ClearDialog(FALSE):问句 confirm 期保留可见,选完才清(且不触发 Space-wait pre-op clear)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'showDialog', messageIndex: 0, text: '要不要' },
+      { op: 'raw', opcode: OP_GOTO_IF_NO, operands: [3, 0, 0] },
+      { op: 'end' },
+      { op: 'end', label: 'L_3' },
+    ])
+    // 问句逐字打完 → 自动推进到 0x0A;0x0A 在 isDialogContinuationOp 豁免 →
+    //   不走 default 的 Space-wait pre-op clear,直接进 confirm(问句仍在屏)。
+    for (let i = 0; i < 12 && gs.eventCursor?.waiting !== 'confirm'; i++) {
+      tickEventSystem(gs, snap(), bus)
+    }
+    expect(gs.eventCursor?.waiting).toBe('confirm')        // 不是 'dialog'(Space-wait)
+    expect(gs.dialogBox?.currentLineText).toBe('要不要')    // 问句 confirm 期保留
+    // 选 否(默认)→ goto L_3(end)→ 清问句 + 结束脚本
+    tickEventSystem(gs, snap(['Confirm']), bus)
+    expect(gs.dialogBox).toBeUndefined()
+    expect(gs.eventCursor).toBeUndefined()
+    expect(gs.mode).toBe('explore')
   })
 })
 

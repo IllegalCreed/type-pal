@@ -216,8 +216,14 @@ export interface EventCursor {
    *                  (mode.ts allowlist 不含 → autoScript 不跑)。按键 → 清 waiting + ip++。
    *  - 'quit':       0xA0 quit(script.c:2988-2996)— WIN95 播结局 mp4(4/5/6)/ DOS 即时 → 回标题(modal,
    *                  _quitHandler 注入)。回标题(mode='menu' + OpeningMenu)后本 cursor 弃用;期间 block 不步进。
+   *  - 'confirm':    0x0A goto-if-no(script.c:3373-3387 / uigame.c:342-365 PAL_ConfirmMenu)— 阻塞 否/是
+   *                  确认框(否=WORD 19/是=WORD 20,默认 否 nDefault=0)。期间冻全场(mode.ts allowlist 不含
+   *                  → autoScript 不跑)。Up/Down/Left/Right 切换(confirmYes);Confirm 提交:是→ip++,
+   *                  否→goto operand[0];Cancel/Menu(= sdlpal MENUITEM_VALUE_CANCELLED → FALSE)等价否→goto。
    */
-  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play' | 'show-fbp' | 'scroll-fbp' | 'ending-anim' | 'wait-key' | 'quit'
+  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play' | 'show-fbp' | 'scroll-fbp' | 'ending-anim' | 'wait-key' | 'quit' | 'confirm'
+  /** 'confirm' 用(opcode 0x0A):当前 否/是 选择。sdlpal 默认 否(false);Up/Down/Left/Right 切换。 */
+  confirmYes?: boolean
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
   /** 'delay' 用(opcode 0x85):延迟到此 wall-clock 时间戳(performance.now()),到点 ip++ + clear。 */

@@ -9,6 +9,7 @@ import { drawSprite, type SpriteImage } from './draw-sprite.js'
 import { applyScreenWave } from './screen-wave.js'
 import { drawDialogBox, type DialogBoxDrawCtx } from './dialog-box.js'
 import { drawMenuStack } from './menu/draw-menu.js'
+import { drawConfirmBox } from './menu/draw-confirm.js'
 import type { BattleBgAsset } from './battle/draw-battle-bg.js'
 import type { GlyphTable } from './font.js'
 import { isWalkable } from '../core/scene-system.js'
@@ -426,6 +427,12 @@ export function presentFrame(
       ...ctx.dialogAssets,
       uiSpriteFrames: ctx.uiSpriteFrames,
     })
+  }
+
+  // 6.5 0x0A 确认框(sdlpal script.c:3373 PAL_ConfirmMenu)— event 脚本 waiting='confirm' 时画
+  //     否/是 框,覆于问句 dialog / 场景之上(PAL_ClearDialog(FALSE) 不擦屏 → 问句仍在底层可见)。
+  if (gs.eventCursor?.waiting === 'confirm' && ctx.uiSpriteFrames) {
+    drawConfirmBox(fb, gs.eventCursor.confirmYes ?? false, ctx.uiSpriteFrames, ctx.glyphs)
   }
 
   // 7. fadeState — port sdlpal video.c:1130-1280 VIDEO_FadeScreen 真值 **per-frame 1 step**。

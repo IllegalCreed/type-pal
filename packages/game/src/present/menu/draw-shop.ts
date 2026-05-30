@@ -23,6 +23,7 @@ import type { IndexedImage } from '../../assets/png.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { renderText, type GlyphTable } from '../font.js'
 import { drawBox, drawSingleLineBox } from './draw-box.js'
+import { drawConfirmBox } from './draw-confirm.js'
 import { drawNumber } from '../draw-number.js'
 
 // sdlpal ui.h 真值色
@@ -149,21 +150,4 @@ export function drawShopMenu(input: DrawShopInput): void {
   if (state.phase === 'confirm') {
     drawConfirmBox(fb, state.confirmYes, uiSpriteFrames, glyphs)
   }
-}
-
-/** sdlpal PAL_ConfirmMenu / PAL_SelectionMenu(uigame.c:242-340)— 否(145,110)/ 是(220,110)。 */
-function drawConfirmBox(
-  fb: Framebuffer,
-  confirmYes: boolean,
-  uiSpriteFrames: IndexedImage[],
-  glyphs?: GlyphTable,
-): void {
-  // box: PAL_CreateSingleLineBox(PAL_XY(130 + 75*(i%2), 100 + 50*(i/2)), w+1, TRUE)
-  drawSingleLineBox({ fb, x: 130, y: 100, len: 2, uiSpriteFrames })
-  drawSingleLineBox({ fb, x: 205, y: 100, len: 2, uiSpriteFrames })
-  // 文字 PAL_XY(145, 110) / PAL_XY(220, 110);selected 闪烁(默认 No=index0)
-  const noColor = !confirmYes ? selectedColor() : MENUITEM_COLOR
-  const yesColor = confirmYes ? selectedColor() : MENUITEM_COLOR
-  renderText(fb, '否', 145, 110, noColor, glyphs, true)
-  renderText(fb, '是', 220, 110, yesColor, glyphs, true)
 }

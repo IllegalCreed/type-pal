@@ -7,7 +7,7 @@
 > 状态:✅ 已实现 · 🟡 部分(extraction 已收集目标,runtime 待) · ⬜ 待实现
 > 类别:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra) · E=战斗 · S=系统/UI
 
-最后更新:2026-05-29 session 5(**C 类调色板全 ✅ + D 类视觉全 ✅** — 特效 A/B/C + 结局 DOS 编排)
+最后更新:2026-05-30(**0x0A goto-if-no 收口 → A 类全 ✅**;订正 0x41 误标。剩余只 D 类音频(需 M6)+ E 类战斗)
 
 > **2026-05-29 session 5 大批完成**(见各 commit):
 > - C 类调色板:0x53/0x54 昼夜(+ 夜间调色板真值接线)、0x80 PaletteFade、0x8B setPalette —— **全 ✅**
@@ -17,13 +17,16 @@
 > - 配套:开场/结局双版 devpanel、夜间调色板/SOUNDS/Musics/map104·164 提取补齐。
 >
 > 剩余 D 类只剩**音频**(需 M6 音频子系统):0x45 battle music、0x77 stop music、0xA3 CD music。
-> 剩余 A/S 待实现:
+> **A/S 类至此全 ✅**(逐条记录):
 > - 0x4D wait-any-key:✅ 已实现(2026-05-30,commit 53c8cbf;waiting='wait-key',Confirm/Menu/Cancel 解除)
 > - 0x4E load-game:✅ 已实现(2026-05-30,commit 56fe8b7;fade-out + 重载 gs.currentSaveSlot + 停脚本)
 > - 0xA0 quit/ending:✅ 已实现(2026-05-30,commit 30a4822;WIN95 播 4/5/6.mp4→回标题,DOS 直接回标题,跳过引擎 credits)
 > - 0x78 / 0xA6:✅ 显式 no-op 文档化(2026-05-30,commit 1196faf;0x78 本游戏 35 用全空操作,0xA6 0 用)
-> - 0x0A goto-if-no:需 yes/no ConfirmMenu UI + 阻塞选择(前置子系统)— **唯一剩余 A 类**
-> - 0x41 mark-failed:需 fScriptSuccess flag + 物品消耗改"脚本末按 success 扣"(item-use 流程改)
+> - 0x0A goto-if-no:✅ 已实现(2026-05-30;waiting='confirm' 阻塞否/是确认框,否/cancel→goto operand[0],
+>   是→ip++;复用 drawConfirmBox;否/是 toggle;PAL_ClearDialog(FALSE) 问句留屏 + isDialogContinuationOp 豁免
+>   Space-wait。script.c:3373-3387 / uigame.c:342-365;26 用,水果贩"要不要来几个"等。**A 类至此全 ✅**)
+> - 0x41 mark-failed:✅ **早已实现**(OP_MARK_SCRIPT_FAILED case event-system.ts:3355 → fScriptSuccess=false;
+>   配 consumePendingItem 按 g_fScriptSuccess gate 扣物品。此前本表误标 ⬜,2026-05-30 订正)
 >
 > dialog/text(2026-05-30):逐字符颜色控制符全套 ✅(commit 77f6c2e;`"`黄/`-`青/`'``@`红 toggle + 消费 `()$~\`)
 > + 时间驱动打字 ✅(commit bea9475;$NN 变速 + ~NN 尾暂停,对齐 sdlpal iDelayTime)。
@@ -44,7 +47,7 @@
 | 0x07 | start battle | ✅ | |
 | 0x08 | replace entry with next | ✅ | 默认 raw 路径 ip++ 已等价(continue);wNextScriptEntry resume 边缘情形未做 |
 | 0x09 | wait N frames | ✅ | frame-wait |
-| 0x0A | goto if player selected no | ⬜ | A:dialog yes/no 选择分支,需 dialog choice 状态 |
+| 0x0A | goto if player selected no | ✅ | waiting='confirm' 否/是确认框;否/cancel→goto operand[0],是→ip++(script.c:3373) |
 
 ## 数据/动作 0x0B-0xA6 — 已实现 ✅
 
@@ -64,11 +67,11 @@ setDialogStyle 0x3B-0x3E。
 
 ## 数据/动作 0x0B-0xA6 — 待实现 ⬜🟡
 
-### A 控制流/数据 / 系统 S(无 battle 前置,可做)
+### A 控制流/数据 / 系统 S — **全部 ✅(2026-05-30 0x0A 收口)**
 | op | 含义 | 状态 | 备注 |
 |----|------|------|------|
-| 0x0A | goto if selected no | ⬜A | 需 dialog yes/no ConfirmMenu(UI + 阻塞选择,前置子系统) |
-| 0x41 | mark script failed | ⬜A | 需 gs.fScriptSuccess flag + **改物品消耗为"脚本末按 success 扣"**(item-use 流程改) |
+| 0x0A | goto if selected no | ✅A | waiting='confirm' 阻塞否/是确认框(否=WORD19/是=WORD20,默认否)。否/cancel/Menu→goto operand[0],是→ip++。PAL_ClearDialog(FALSE) 问句留屏 + isDialogContinuationOp 豁免 Space-wait;复用 drawConfirmBox(draw-confirm.ts)。script.c:3373-3387 / uigame.c:342-365,26 用 |
+| 0x41 | mark script failed | ✅A | OP_MARK_SCRIPT_FAILED case(event-system.ts:3355)→ gs.fScriptSuccess=false;consumePendingItem 按 g_fScriptSuccess gate 扣物品(script.c:1623-1627)。此前误标 ⬜,2026-05-30 订正 |
 | 0x6D | set scene enter/teleport script | ✅A | onEnter 全局 override → loadScene 时解析为 local ip(op2 teleport 暂略) |
 | 0x84 | place used item as event object | ✅A | pCurrent(op0)放 party 正前方 + sState=op1;挡→jump op2(2026-05-28) |
 | 0x85 | delay N | ✅A | UTIL_Delay(op0*80ms)time-based waiting='delay'(autoScript 暂停)(script.c:2511,2026-05-29) |

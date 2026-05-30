@@ -379,6 +379,12 @@ export const OP_LOAD_LAST_SAVE = 0x004E            // 78
 //   WIN95 播结局 AVI(4/5/6);DOS 结局已由前序 opcode 跑完。**用户决策:跳过 PAL_AdditionalCredits**
 //   (SDLPAL 引擎 GNU GPL 版权页,非游戏内容)→ 直接回标题。本游戏 1 用(scene-281 结局,global ip 35621)。
 export const OP_QUIT = 0x00A0                      // 160
+// case 0x000A(10): goto address if player selected no — script.c:3373-3387
+//   `PAL_ClearDialog(FALSE); if (!PAL_ConfirmMenu()) wScriptEntry=operand[0]; else wScriptEntry++;`
+//   PAL_ConfirmMenu(uigame.c:342-365)= PAL_SelectionMenu(2, 0, {否=WORD19, 是=WORD20})阻塞确认框,
+//   默认 否(nDefault=0);返回 否(index0)/cancel → FALSE → goto operand[0],是(index1)→ TRUE → ip++。
+//   本游戏 26 用(yes/no 剧情分支:水果贩"要不要来几个"/居民"想听故事吗"等)。
+export const OP_GOTO_IF_NO = 0x000A                // 10
 
 // case 0x0028(40): Apply poison to enemy(script.c:1175-1255)— 战斗 only,log skip
 export const OP_POISON_ENEMY = 0x0028              // 40
@@ -461,6 +467,10 @@ function isDialogContinuationOp(cmd: Command): boolean {
     // opcode 0x73 fadeScreen 内部 sdlpal `VIDEO_BackupScreen` 已含 dialog text;dispatch 前
     // **不**触发 auto pre-op clear,否则 backup 不含 dialog → 渐变 dialog 不跟。
     || (cmd.op === 'raw' && cmd.opcode === OP_FADE_SCREEN)
+    // opcode 0x0A goto-if-no:sdlpal case 用 `PAL_ClearDialog(FALSE)`(script.c:3377)—— **不**等键
+    //   (区别于 default 的 PAL_ClearDialog(TRUE) 会 PAL_DialogWaitForKey)。豁免 default 的 Space-wait
+    //   pre-op clear:问句保持可见,确认框直接弹出,选完才由 confirm 派发清 dialogBox。
+    || (cmd.op === 'raw' && cmd.opcode === OP_GOTO_IF_NO)
 }
 
 /** fetchPalette 注入(M4 P3.T2)—— 模式与 setSceneContext 一致,保持 tickEventSystem 同步签名。 */
@@ -1166,6 +1176,48 @@ export function tickEventSystem(
     }
   }
 
+  // 0x0A goto-if-no 确认框(sdlpal script.c:3373-3387 / uigame.c:342-365 PAL_ConfirmMenu)。
+  //   fire 时未 ip++ → 此处 cursor.ip 仍指 0x0A op,据此读 operand[0](否分支跳转目标)。
+  //   否/是 toggle:sdlpal PAL_ReadMenu 2 项 Down/Right=next、Up/Left=prev 带 wrap → 等价 toggle。
+  //   Confirm 提交:是(confirmYes)→ip++(wScriptEntry++);否→goto operand[0]。
+  //   Cancel/Menu = sdlpal kKeyMenu → MENUITEM_VALUE_CANCELLED → FALSE → 等价否→goto。
+  //   提交清 gs.dialogBox:对齐 PAL_ClearDialog 收尾(问句消失;后续 0x05 因 nCurrentDialogLine=0 不再等键)。
+  if (cursor.waiting === 'confirm') {
+    if (
+      input.pressed.has('Up') || input.pressed.has('Down')
+      || input.pressed.has('Left') || input.pressed.has('Right')
+    ) {
+      cursor.confirmYes = !cursor.confirmYes
+    }
+    if (input.pressed.has('Confirm')) {
+      const yes = cursor.confirmYes === true
+      const cmd0a = getCmds(cursor)[cursor.ip]
+      gs.dialogBox = undefined
+      cursor.waiting = undefined
+      cursor.confirmYes = undefined
+      if (yes) {
+        cursor.ip++ // sdlpal wScriptEntry++;fall through 主 while 同帧跑下条 op
+      }
+      else if (!resolveConfirmGoto(gs, cursor, cmd0a)) {
+        return // 否→goto;目标越界已终止脚本
+      }
+      // fall through to main while loop
+    }
+    else if (input.pressed.has('Cancel') || input.pressed.has('Menu')) {
+      const cmd0a = getCmds(cursor)[cursor.ip]
+      gs.dialogBox = undefined
+      cursor.waiting = undefined
+      cursor.confirmYes = undefined
+      if (!resolveConfirmGoto(gs, cursor, cmd0a)) {
+        return // 终止
+      }
+      // fall through to main while loop(cancel = 否 = goto)
+    }
+    else {
+      return // 等输入(冻全场,autoScript 不跑)
+    }
+  }
+
   // 0xA0 quit:回标题流程进行中(WIN95 结局 mp4 modal / DOS 即时)。_quitHandler 完成后 mode='menu'
   //   + 清 eventCursor,tickEventSystem 不再被调;期间(suspendRaf 不 gate 逻辑 tick)block 不步进。
   if (cursor.waiting === 'quit') {
@@ -1642,6 +1694,15 @@ export function tickEventSystem(
         //   顶部 'wait-key' 派发分支等 Confirm/Menu/Cancel 解除 + ip++。本 opcode 不 ip++(解除时才推进)。
         if (cmd.opcode === OP_WAIT_FOR_KEY) {
           cursor.waiting = 'wait-key'
+          return
+        }
+        // 0x0A goto-if-no(sdlpal script.c:3373-3387):PAL_ClearDialog(FALSE)(不等键,问句留屏)→
+        //   阻塞 PAL_ConfirmMenu(否/是,默认否)。设 waiting='confirm' + confirmYes=false;**不 ip++**
+        //   (resolve 时仍读本 op operand[0] 作否分支跳转)。问句不在此清(PAL_ClearDialog FALSE 不擦屏),
+        //   留到 confirm 派发提交时清。0x0A 已在 isDialogContinuationOp 豁免 → 不触发 default Space-wait。
+        if (cmd.opcode === OP_GOTO_IF_NO) {
+          cursor.waiting = 'confirm'
+          cursor.confirmYes = false
           return
         }
         // 0x4E load-last-save(sdlpal script.c:1760-1766 `PAL_FadeOut(1); PAL_ReloadInNextTick(slot); return 0`)。
@@ -2392,6 +2453,29 @@ function jumpToGlobalIp(gs: GameState, cursor: ScriptCursor | null, globalIp: nu
     return
   }
   console.debug(`event-system: jump target L_${globalIp} 不在 cursor labelMap(跳转失效)`)
+}
+
+/**
+ * 0x0A 否/cancel 分支跳转(sdlpal script.c:3382 `wScriptEntry = operand[0]`)。
+ * operand[0] 是绝对 script entry 号 = 全局数组下标(all.json L_<n>→n 恒等)。生产 cursor 无 labelMap →
+ * cursor.ip = operand[0];单测传自带 labelMap → 查 L_<operand0>。confirm 派发后 fall-through 主 while 直接
+ * 跑目标 op(无 ip++,对齐 sdlpal in-fn cursor steer 无帧 yield,区别于 jumpToGlobalIp 的 -1+applyRawOpcode++)。
+ * 返回 true=已设 ip 续跑;false=目标越界已终止脚本(同 goto 越界路径,清 cursor 回 explore/menu)。
+ */
+function resolveConfirmGoto(gs: GameState, cursor: EventCursor, cmd0a: Command | undefined): boolean {
+  const entry = (cmd0a?.op === 'raw' ? cmd0a.operands[0] : undefined) ?? 0
+  const target = cursor.labelMap ? cursor.labelMap[`L_${entry}`] : entry
+  if (target === undefined || target < 0) {
+    console.warn(`event-system: 0x0A goto entry ${entry} 不在 labelMap → 终止脚本`)
+    gs.eventCursor = undefined
+    gs.dialogBox = undefined
+    consumePendingItem(gs)
+    gs.iCurEquipPart = -1
+    restoreModeAfterScript(gs)
+    return false
+  }
+  cursor.ip = target
+  return true
 }
 
 /** 背包内某 item 总数(sdlpal PAL_GetItemAmount 等价)。 */
