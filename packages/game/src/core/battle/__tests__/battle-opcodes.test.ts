@@ -250,6 +250,59 @@ function kindCtx(kindIds: number[], casterIdx: number): BattleCtx {
   }
 }
 
+// ============================================================================
+// 0x5B halve enemy HP / 0x39 drain HP(投掷物 scriptOnThrow 上下文)
+// ============================================================================
+
+function drainCtx(enemyHealth: number, targetIdx: number, roleHp: number, roleMaxHP: number): BattleCtx {
+  return {
+    state: {
+      enemies: [richEnemy({ health: enemyHealth }), richEnemy({ health: enemyHealth })],
+      players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+    } as any as BattleState,
+    caster: { type: 'player', idx: 0 },
+    target: { type: 'enemy', idx: targetIdx },
+    // biome-ignore lint/suspicious/noExplicitAny: 只填 hp/maxHP
+    playerRoles: { roles: [{ id: 0, hp: roleHp, maxHP: roleMaxHP } as any] },
+  }
+}
+
+describe('0x5B halve enemy HP (script.c:005B,无影毒 throw)', () => {
+  it('w = health/2+1,cap op0:health100 op0=30 → -30 = 70', () => {
+    const ctx = drainCtx(100, 0, 0, 0)
+    const r = dispatchBattleOpcode(0x5B, [30, 0, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(ctx.state.enemies[0]!.e.health).toBe(70) // w=51>30→30
+  })
+  it('cap 不触发:health100 op0=80 → w=51 → 49', () => {
+    const ctx = drainCtx(100, 0, 0, 0)
+    dispatchBattleOpcode(0x5B, [80, 0, 0], ctx)
+    expect(ctx.state.enemies[0]!.e.health).toBe(49)
+  })
+  it('target = ctx.target(被掷敌人):打 idx1 不碰 idx0', () => {
+    const ctx = drainCtx(100, 1, 0, 0)
+    dispatchBattleOpcode(0x5B, [30, 0, 0], ctx)
+    expect(ctx.state.enemies[0]!.e.health).toBe(100)
+    expect(ctx.state.enemies[1]!.e.health).toBe(70)
+  })
+})
+
+describe('0x39 drain HP (script.c:0039,吸星锁 throw)', () => {
+  it('enemy -op0,caster player +op0(clamp maxHP)', () => {
+    const ctx = drainCtx(100, 0, 50, 200)
+    const r = dispatchBattleOpcode(0x39, [40, 0, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(ctx.state.enemies[0]!.e.health).toBe(60) // 100-40
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(90) // 50+40
+  })
+  it('player hp 回满 clamp maxHP', () => {
+    const ctx = drainCtx(100, 0, 190, 200)
+    dispatchBattleOpcode(0x39, [40, 0, 0], ctx)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(200) // min(200, 230)
+  })
+})
+
 describe('0x68 jump if enemy turn (script.c:2025)', () => {
   it('caster=enemy(fEnemyMoving)→ jump op0', () => {
     const ctx = makeCtx(makeEnemy(100)) // caster {type:'enemy'}

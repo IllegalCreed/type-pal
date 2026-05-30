@@ -135,12 +135,12 @@ setDialogStyle 0x3B-0x3E。
 | 0x33 | collect enemy for items | |
 | 0x34 | transform collected enemies to items | |
 | 0x38 | teleport party out of scene | |
-| 0x39 | drain HP from enemy | |
+| 0x39 | drain HP from enemy | ✅ enemy.health -= op0;movingPlayer.hp += op0(clamp maxHP)(script.c:0039)。吸星锁 scriptOnThrow:enemy=ctx.target,player=caster。battle-opcodes.ts |
 | 0x3A | player flee battle | |
 | 0x42 | simulate magic for player | ✅ PAL_BattleSimulateMagic(fight.c:5300)。op0=magic object id / op1=baseDamage(当 magStr)/ op2=target+1(0→eventObjectID)。applyToAll flag 优先→全体,否则 i=op2-1<0 用 eventObjectID / 仍<0 自动选首活敌;guard 无符号 `baseDamage>0‖op1>0`(magic96=−999 进但算 0);minDamage=0;共享 applyMagicDamage。battle-opcodes.ts;script.c:1630-1640。投掷物 scriptOnThrow ×40 站点全靠它 |
 | 0x57 | set magic base damage by MP | |
 | 0x5A | halve player HP | |
-| 0x5B | halve enemy HP | |
+| 0x5B | halve enemy HP | ✅ w=floor(health/2)+1,cap op0;health -= w(script.c:005B)。无影毒 scriptOnThrow:enemy=ctx.target。battle-opcodes.ts |
 | 0x5C | hide party for a while(battle) | g_Battle.iHidingTime=-op0(script.c:1907-1911)— 原误判 B,实为战斗态 |
 | 0x5E | jump if enemy no poison | 🟡 `if 敌人无 op0 种毒 → jump op1`(script.c:2030)。**依赖敌人毒 pipeline**:ts 只有玩家 `gs.rgPoisonStatus`,BattleEnemy **无** rgPoisons by-ID;且战斗中 0x28/0x21 不给敌人挂毒。需先建"敌人 poison 应用+追踪"基础设施(独立子任务),否则实现 0x5E 是空壳(永远 no-poison→jump)。真实数据 op0=poisonId(555-560),op1=0 |
 | 0x5F | kill player | |

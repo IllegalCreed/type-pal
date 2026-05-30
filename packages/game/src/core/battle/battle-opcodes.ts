@@ -29,6 +29,12 @@ const OP_SIMULATE_MAGIC = 0x0042
 /** sdlpal `script.c:2007-2014` 0x0066:throw weapon —— 计算 w 后调同一 PAL_BattleSimulateMagic。 */
 const OP_THROW_WEAPON = 0x0066
 
+/** sdlpal `script.c:005B` 0x005B:halve enemy HP(w=health/2+1,cap op0)。 */
+const OP_HALVE_ENEMY_HP = 0x005B
+
+/** sdlpal `script.c:0039` 0x0039:drain HP from enemy → caster player(clamp maxHP)。 */
+const OP_DRAIN_HP = 0x0039
+
 /** sdlpal `script.c:2025-2032` 0x0068:if (g_Battle.fEnemyMoving) jump op0。 */
 const OP_JUMP_IF_ENEMY_TURN = 0x0068
 
@@ -122,6 +128,42 @@ export function dispatchBattleOpcode(
         magics: tables.magics,
         rngFactor: 1 + state.rng.next() * 0.1,
       })
+      return { consumed: true }
+    }
+
+    case OP_HALVE_ENEMY_HP: {
+      // sdlpal `script.c:005B`:w = enemy.wHealth/2 + 1; if (w > op0) w = op0; wHealth -= w。
+      // 无影毒 scriptOnThrow:wEventObjectID = 被掷敌人 = ctx.target。
+      const idx = ctx.target?.idx
+      if (idx === undefined)
+        return { consumed: true }
+      const enemy = state.enemies[idx]
+      if (!enemy)
+        return { consumed: true }
+      let w = Math.floor(enemy.e.health / 2) + 1
+      const cap = operands[0] ?? 0
+      if (w > cap)
+        w = cap
+      enemy.e.health = Math.max(0, enemy.e.health - w)
+      return { consumed: true }
+    }
+
+    case OP_DRAIN_HP: {
+      // sdlpal `script.c:0039`:enemy.wHealth -= op0; movingPlayer.HP += op0(clamp maxHP)。
+      // 吸星锁 scriptOnThrow:enemy = ctx.target;movingPlayer = caster。
+      const amount = operands[0] ?? 0
+      const idx = ctx.target?.idx
+      if (idx !== undefined) {
+        const enemy = state.enemies[idx]
+        if (enemy)
+          enemy.e.health = Math.max(0, enemy.e.health - amount)
+      }
+      if (ctx.caster?.type === 'player' && ctx.playerRoles) {
+        const roleId = state.players[ctx.caster.idx]?.roleId
+        const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
+        if (role)
+          role.hp = Math.min(role.maxHP, role.hp + amount)
+      }
       return { consumed: true }
     }
 
