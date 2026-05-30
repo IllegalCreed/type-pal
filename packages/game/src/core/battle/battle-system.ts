@@ -297,6 +297,10 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
     return
   }
 
+  // D17 死亡淡出 hold(phase-agnostic):active → 暂停一切后续(perform / postAction / won 前
+  //   都挡住,忠实 sdlpal PAL_BattleFadeScene 同步 blocking)。死敌淡出完才放行。
+  if (tickBattleFade(state)) return
+
   switch (state.phase) {
     case 'preBattle':
       tickPreBattle(state)
@@ -719,6 +723,57 @@ export function selectAutoTargetFrom(
   return -1
 }
 
+/**
+ * D17 死亡淡出 hold 步数 = sdlpal PAL_BattleFadeScene 72 步(battle.c:634-636)。
+ */
+const DEATH_FADE_STEPS = 72
+/** 每个淡出步 16ms(battle.c:639 `time = SDL_GetTicks() + 16`)。 */
+const DEATH_FADE_STEP_MS = 16
+
+/**
+ * port `PAL_BattlePostActionCheck` 死敌检测段(fight.c:740-764):每个 action 后扫敌人,
+ * health<=0 且尚未开始淡出(deathFadeStep===undefined)的 → 标记开始淡出 + emit 死亡音效命令。
+ * 本次有任何新死敌 → 开启 state.battleFade hold(忠实 sdlpal fFade → PAL_BattleFadeScene)。
+ *
+ * 注:exp/cash 累计仍在 tickPostAction(用 prevHp 判重)走真 schema,这里只管淡出 render state。
+ *
+ * @returns 本次是否开启了新淡出(true 时调用方应交给 fade 分支推进,不立即 currentActionIndex++)。
+ */
+function checkEnemyDeaths(state: BattleState, bus: CommandBus): boolean {
+  let fade = false
+  state.enemies.forEach((enemy, idx) => {
+    if (enemy.e.health <= 0 && enemy.deathFadeStep === undefined) {
+      enemy.deathFadeStep = 0 // 开始淡出(0..72,draw 走 crossfade)
+      // sdlpal fight.c:756 AUDIO_PlaySound(wDeathSound):本层 emit 命令,present 播。
+      bus.emit({ op: 'playEnemyDeath', enemyIdx: idx })
+      fade = true
+    }
+  })
+  if (fade && !state.battleFade) state.battleFade = { elapsedMs: 0 }
+  return fade
+}
+
+/**
+ * D17 死亡淡出 hold —— **phase-agnostic**(忠实 sdlpal PAL_BattleFadeScene fight.c:889-893 是
+ * 同步 blocking,挡住一切后续)。有 active 淡出 → 按 BATTLE_DT 累 elapsedMs,推进所有淡出中
+ * 敌人 deathFadeStep = floor(elapsedMs/16)(cap 72);72 步淡完 → 清 hold。
+ * 放在 tickBattle 最前 → performAction(攻击/法术杀敌)与 postAction(毒杀)死亡都能淡出。
+ * currentActionIndex 不在此推进(各 phase 自身管),淡出只是暂停。
+ * @returns true = 淡出中(caller 早退,暂停战斗)。
+ */
+function tickBattleFade(state: BattleState): boolean {
+  if (!state.battleFade) return false
+  state.battleFade.elapsedMs += BATTLE_DT
+  const step = Math.min(DEATH_FADE_STEPS, Math.floor(state.battleFade.elapsedMs / DEATH_FADE_STEP_MS))
+  for (const enemy of state.enemies) {
+    if (enemy.deathFadeStep !== undefined && enemy.deathFadeStep < DEATH_FADE_STEPS) {
+      enemy.deathFadeStep = step // step 到 72 时死敌固定 72(隐,draw 不画)
+    }
+  }
+  if (step >= DEATH_FADE_STEPS) state.battleFade = undefined // 淡完 → 清 hold,下 tick phase 续跑
+  return true
+}
+
 function tickPerformAction(
   state: BattleState,
   gs: GameState,
@@ -727,6 +782,8 @@ function tickPerformAction(
 ): void {
   // flee 提前转 phase → 早退
   if (state.phase !== 'performAction') return
+
+  // 注:死亡淡出 hold 已上移到 tickBattle 顶层(phase-agnostic tickBattleFade)。
 
   // ── D17a:时间线驱动 ──────────────────────────────────────────────────────
   // 有 active 动画时间线 → 逐 tick 推进帧;不起新 action,不推 currentActionIndex。
@@ -740,9 +797,12 @@ function tickPerformAction(
       if (a.idx < a.frames.length) applyAnimFrame(state, a.frames[a.idx]!, bus)
     }
     if (a.idx >= a.frames.length) {
-      // 时间线播完 → 复位双方 fighter(PAL_BattleUpdateFighters)+ 清动画 + 推进 action queue。
+      // 时间线播完 → 复位双方 fighter(PAL_BattleUpdateFighters)+ 清动画。
       resetFightersAfterAction(state, res.playerRoles)
       state.battleAnim = undefined
+      // D17:复位后检死敌(fight.c:889-893 fFade 检测在 action 收尾)→ 开淡出 hold。
+      //   currentActionIndex **总是**推进(action 已完);淡出由顶层 tickBattleFade 暂停。
+      checkEnemyDeaths(state, bus)
       state.currentActionIndex++
     }
     return
@@ -809,8 +869,13 @@ function tickPerformAction(
 
   // D17a 向后兼容:performBattleAction 起了动画时间线(物理攻击)→ 本 tick 不推进
   // currentActionIndex,交给上面时间线分支逐帧驱动播完再推。
-  // 未建时间线的 action(defend/flee/pass/magic/item/throw 等)→ 即时推进(行为不变)。
-  if (!state.battleAnim) state.currentActionIndex++
+  // 未建时间线的 action(defend/flee/pass/magic/item/throw 等)→ 即时路径。
+  if (!state.battleAnim) {
+    // D17:即时 action(法术 / 投掷秒敌)也检死敌(开淡出 hold);currentActionIndex 总是推进,
+    //   淡出由顶层 tickBattleFade 暂停。
+    checkEnemyDeaths(state, bus)
+    state.currentActionIndex++
+  }
   // 不 reset phaseStallTicks —— 整个 performAction phase 内 stall 累计;
   // 如卡 60s 没推进(eg. 自死循环),会被 stall 兜底
 }
@@ -978,6 +1043,10 @@ function tickPostAction(
     }
     e.prevHp = e.e.health
   }
+
+  // D17:毒 tick 杀敌也淡出(sdlpal fight.c:1664 毒后 PAL_BattlePostActionCheck → fFade → FadeScene)。
+  //   开淡出 hold;phase 照常转(won/selectAction),下 tick 顶层 tickBattleFade 先暂停放完淡出。
+  checkEnemyDeaths(state, bus)
 
   const aliveCount = state.players.filter(
     (p) => (res.playerRoles.roles[p.roleId]?.hp ?? 0) > 0,

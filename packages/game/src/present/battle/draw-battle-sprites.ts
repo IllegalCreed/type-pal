@@ -130,6 +130,59 @@ function blitFrame(
   }
 }
 
+/** D17 死亡淡出总步数(PAL_BattleFadeScene 外 12 × 内 6,battle.c:634-636)。 */
+export const DEATH_FADE_TOTAL_STEPS = 72
+
+/**
+ * D17 死亡淡出 crossfade blit —— port `PAL_BattleFadeScene`(battle.c:608-682)的净效果。
+ *
+ * sdlpal:fade 是同步 72 步循环,每步把"敌人还在的旧帧"(b)像素低 nibble 朝
+ * "敌人没了的新帧 = 其下背景"(a)像素低 nibble ±1 逼近,高 nibble 直接取 a;72 步后
+ * 整块拷新帧。净效果:死敌精灵像素逐步 crossfade 成其下方背景 → 渐隐消失。
+ *
+ * 这里**闭式**复现:逐 sprite opaque 像素,取其落点 fb 当前像素 a(= 背景,敌精灵未画前
+ * fb 已含 bg + 其它精灵)作目标,sprite 像素 b 作起点;结果 =
+ *   (a & 0xF0) | nudgeLow(bLow → aLow, by min(step, |aLow - bLow|))
+ * 写回 fb。
+ * - step=0:高 nibble 立即换成背景的(a&0xF0),低 nibble 未移(仍 bLow)。
+ * - step 增大:低 nibble 逐步收敛到 aLow(背景低 nibble)。
+ * - step >= |aLow-bLow|:低 nibble 完全 = aLow → 像素 == 背景(配合 draw 在 step>=72 不画,
+ *   等价完全消失)。
+ * 透明像素(opaque mask=0,= RLE-skip run)不参与(sdlpal 同样跳过非精灵区)。
+ */
+export function blitFrameDeathFade(
+  fb: Framebuffer,
+  frame: SpriteFrame,
+  anchorX: number,
+  anchorY: number,
+  step: number,
+): void {
+  const baseX = anchorX - (frame.width >> 1)
+  const baseY = anchorY - frame.height
+  for (let y = 0; y < frame.height; y++) {
+    for (let x = 0; x < frame.width; x++) {
+      const srcOff = y * frame.width + x
+      if (frame.opaque[srcOff] === 0) continue
+      const px = baseX + x
+      const py = baseY + y
+      if (px < 0 || px >= fb.width || py < 0 || py >= fb.height) continue
+      const a = fb.indices[py * fb.width + px]! // 背景(新帧:敌没了)
+      const b = frame.indices[srcOff]! // 旧帧:敌精灵像素
+      const aLow = a & 0x0f
+      const bLow = b & 0x0f
+      const diff = aLow - bLow
+      // battle.c:634-663:rgIndex[6]={0,3,1,5,2,4} 是 mod-6 置换 → 每像素**每 6 显示帧**(每个
+      //   外层 i)才被 nudge 1 格,且仅 i>0(battle.c:650)→ i=1..11 最多 11 格。
+      //   显示帧 step → 外层 i = floor(step/6)(0..11)→ 低 nibble 朝 aLow 逼近 min(i,|diff|) 格。
+      //   (上一版直接用 step 当位移量 → 收敛快 6×,前 1/6 时长就画完,不忠实。)
+      const move = Math.min(Math.floor(step / 6), Math.abs(diff))
+      const low = diff >= 0 ? bLow + move : bLow - move
+      // 高 nibble 取背景(a&0xF0,battle.c:662),低 nibble = 收敛后的值
+      fb.writePixel(px, py, (a & 0xf0) | (low & 0x0f))
+    }
+  }
+}
+
 /**
  * 画双方战斗精灵。
  *
@@ -156,19 +209,29 @@ export function drawBattleSprites(
     y: number
     frame: SpriteFrame
     iColorShift: number
+    /** D17:>=0 时走 blitFrameDeathFade(死亡淡出步);<0 = 普通 blit。 */
+    fadeStep: number
   }
   const items: DrawItem[] = []
 
   // 敌方
   state.enemies.forEach((enemy, i) => {
-    if (enemy.e.health <= 0) return
+    // D17 死亡淡出(对照 sdlpal:敌人攻击动画期间 wObjectID 仍 !=0 照常画+受击闪白,
+    //   **动画收尾** PAL_BattlePostActionCheck 才 wObjectID=0 + FadeScene 渐隐 battle.c:608-682):
+    //   - deathFadeStep === undefined → 照常画(活着 **或** 刚被打死但淡出未开始 →
+    //     受击帧 / 闪白仍可见,**不**瞬隐。这是修"先消失再淡出"的关键)。
+    //   - 0..71 → crossfade blit(渐隐中)。
+    //   - >= 72 → 不画(已完全淡出消失)。
+    const fadeStep = enemy.deathFadeStep
+    if (fadeStep !== undefined && fadeStep >= DEATH_FADE_TOTAL_STEPS) return
+    const isFading = fadeStep !== undefined // 0..71(>=72 已 return);undefined = 活/刚死未淡
     // D17a:动画期间用 render-state pos(逐帧 mutate);旧 fixture 无 pos → 共享 anchor
     // (含 wYPosOffset,sdlpal battle.c:939),与伤害数字锚点同源杜绝漂移。
     const pos = enemy.pos ?? computeEnemyAnchor(state, i, enemyPos)
     if (!pos) return
     const sprite = battleSprites.get(`enemy-${enemy.e.id}`)
     if (!sprite || !sprite.frames[0]) return
-    // 帧号:render-state currentFrame 优先(攻击 / 受击动画);缺则 idle 时钟
+    // 帧号:render-state currentFrame 优先(攻击 / 受击 / 淡出复位);缺则 idle 时钟
     // (sdlpal fight.c:991-1019,睡眠 / 麻痹定格 frame 0)。资源不全兜底 frames[0]。
     let frameIdx: number
     if (enemy.currentFrame !== undefined) {
@@ -182,8 +245,15 @@ export function drawBattleSprites(
         isSleepOrParalyzed,
       )
     }
-    const frame = sprite.frames[frameIdx] ?? sprite.frames[0]
-    items.push({ x: pos.x, y: pos.y, frame, iColorShift: enemy.iColorShift ?? 0 })
+    const frame = sprite.frames[frameIdx] ?? sprite.frames[0]!
+    items.push({
+      x: pos.x,
+      y: pos.y,
+      frame,
+      // 淡出中 iColorShift 归 0(crossfade 自带渐隐);否则用 render-state(受击闪白 6)。
+      iColorShift: isFading ? 0 : (enemy.iColorShift ?? 0),
+      fadeStep: isFading ? fadeStep : -1,
+    })
   })
 
   // 队员
@@ -197,11 +267,15 @@ export function drawBattleSprites(
     // 帧号:render-state currentFrame 优先(站立 0 / 攻击 8,9 / 受击 4 …);缺则 frames[0]。
     const frameIdx = p.currentFrame ?? 0
     const frame = sprite.frames[frameIdx] ?? sprite.frames[0]
-    items.push({ x: pos.x, y: pos.y, frame, iColorShift: p.iColorShift ?? 0 })
+    items.push({ x: pos.x, y: pos.y, frame, iColorShift: p.iColorShift ?? 0, fadeStep: -1 })
   })
 
   // Y 升序;平局 X 降序(battle.c:444-466)
   items.sort((a, b) => (a.y !== b.y ? a.y - b.y : b.x - a.x))
 
-  for (const it of items) blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
+  for (const it of items) {
+    // D17:死亡淡出像素走 crossfade(读 fb 背景逼近);普通精灵走 iColorShift blit。
+    if (it.fadeStep >= 0) blitFrameDeathFade(fb, it.frame, it.x, it.y, it.fadeStep)
+    else blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
+  }
 }

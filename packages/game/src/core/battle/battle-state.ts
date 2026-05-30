@@ -121,6 +121,16 @@ export interface BattleEnemy {
   posOriginal?: { x: number; y: number }
   currentFrame?: number
   iColorShift?: number
+  /**
+   * D17 敌人死亡淡出步数(PAL_BattleFadeScene,battle.c:608-682)。
+   *   undefined = 活着 / 尚未开始淡出(照常 idle / 动画渲染)
+   *   0..71      = 淡出进行中(draw 走 crossfade blit,像素低 nibble 朝其下背景逼近)
+   *   >= 72      = 已淡出完成(完全消失,不画)
+   * checkEnemyDeaths 在 health<=0 且本字段 undefined 时置 0(开始淡出);
+   * battleFade hold 分支按 elapsedMs/16 同步推进;resetFightersAfterAction 不覆盖。
+   * sdlpal 真值:72 步(外 i=0..11 × 内 j=0..5),每步 16ms,共 1152ms。
+   */
+  deathFadeStep?: number
 }
 
 /**
@@ -295,6 +305,15 @@ export interface BattleState {
    * undefined → 无 active 时间线,起下一个 action(未建时间线的 action 即时推进,向后兼容)。
    */
   battleAnim?: BattleAnimState
+  /**
+   * D17 敌人死亡淡出 hold(PAL_BattleFadeScene,fight.c:889-893 + battle.c:608-682)。
+   * 某 action 后有新死敌 → checkEnemyDeaths 开启 { elapsedMs: 0 };tickPerformAction 的
+   * fade 分支按 BATTLE_DT 累 elapsedMs、推进所有淡出中敌人的 deathFadeStep(= floor(elapsedMs/16),
+   * cap 72)。step 到 72 → 死敌 deathFadeStep=72(隐)、清 battleFade、currentActionIndex++。
+   * 淡出期间**暂停**战斗推进(忠实 sdlpal:fade 是同步 72×16ms blocking loop)。
+   * undefined = 无 active 淡出。
+   */
+  battleFade?: { elapsedMs: number }
 }
 
 export interface CreateBattleStateInput {

@@ -1,0 +1,292 @@
+/**
+ * death-fade.test.ts —— D17 敌人死亡淡出(PAL_BattleFadeScene)数据级断言。
+ *
+ * 覆盖(对照 sdlpal fight.c:740-764 + battle.c:608-682):
+ *  - checkEnemyDeaths(经 tickPerformAction 触发):health<=0 的敌 deathFadeStep 0→开,
+ *    battleFade 开启 + emit playEnemyDeath;无死敌不开。
+ *  - 驱动暂停:battleFade active 时连续 N tick currentActionIndex 不变;step 随
+ *    elapsedMs/16 递增;step>=72 后清 battleFade + currentActionIndex++。
+ *  - 向后兼容:无死敌的 action(defend)不开 battleFade,即时推进(沿用 D17a)。
+ */
+
+import type {
+  BattleField,
+  Enemy,
+  EnemyTeam,
+  InputSnapshot,
+  PlayerRole,
+  PlayerRoles,
+} from '@type-pal/shared'
+import { describe, expect, it } from 'vitest'
+import { type CommandBus, createCommandBus } from '../../command-bus.js'
+import { createInitialGameState, type GameState } from '../../game-state.js'
+import { startBattle, tickBattle } from '../battle-system.js'
+
+function makeRole(opts: Partial<PlayerRole> = {}): PlayerRole {
+  return {
+    id: 0,
+    _name: 'R',
+    avatar: 0,
+    spriteNumInBattle: 0,
+    spriteNum: 0,
+    name: 0,
+    attackAll: 0,
+    level: 10,
+    maxHP: 200,
+    maxMP: 30,
+    hp: 200,
+    mp: 30,
+    attackStrength: 100,
+    magicStrength: 0,
+    defense: 50,
+    dexterity: 50,
+    fleeRate: 50,
+    poisonResistance: 0,
+    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    walkFrames: 0,
+    attackSound: 0,
+    weaponSound: 0,
+    criticalSound: 0,
+    magicSound: 0,
+    deathSound: 0,
+    ...opts,
+  }
+}
+
+function makeEnemy(opts: Partial<Enemy> = {}): Enemy {
+  return {
+    id: 100,
+    _name: 'E',
+    idleFrames: 1,
+    magicFrames: 0,
+    attackFrames: 0,
+    idleAnimSpeed: 1,
+    actWaitFrames: 0,
+    yPosOffset: 0,
+    attackSound: 0,
+    actionSound: 0,
+    magicSound: 0,
+    deathSound: 7,
+    callSound: 0,
+    health: 100,
+    exp: 50,
+    cash: 30,
+    level: 5,
+    magic: 0,
+    magicRate: 0,
+    attackEquivItem: 0,
+    attackEquivItemRate: 0,
+    stealItem: 0,
+    stealItemCount: 0,
+    attackStrength: 10,
+    magicStrength: 0,
+    defense: 10,
+    dexterity: 20,
+    fleeRate: 0,
+    poisonResistance: 0,
+    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    physicalResistance: 1,
+    dualMove: 0,
+    collectValue: 0,
+    ...opts,
+  }
+}
+
+function bootstrap(opts: { enemies?: Enemy[]; roles?: PlayerRole[] } = {}): {
+  gs: GameState
+  bus: CommandBus
+  emptyInput: InputSnapshot
+} {
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  gs.partyMembers = [0]
+  const roles = opts.roles ?? [makeRole({ id: 0 })]
+  const playerRoles: PlayerRoles = { roles }
+  const enemies = opts.enemies ?? [makeEnemy({ id: 100, health: 99999 })]
+  const enemyTeams: EnemyTeam[] = [{ id: 0, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }]
+  const field: BattleField = {
+    id: 0,
+    screenWave: 0,
+    magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+  }
+  startBattle({
+    gs,
+    enemyTeamId: 0,
+    battleFieldId: 0,
+    isBoss: false,
+    enemies,
+    enemyTeams,
+    battleFields: [field],
+    playerRoles,
+    items: [],
+    spells: [],
+    magics: [],
+    commands: [{ op: 'end' }],
+    rngSeed: 42,
+  })
+  return {
+    gs,
+    bus: createCommandBus(),
+    emptyInput: { held: new Set(), pressed: new Set(), frameNum: 0 },
+  }
+}
+
+describe('D17 死亡淡出 — checkEnemyDeaths + battleFade hold', () => {
+  it('物理攻击秒杀:敌 deathFadeStep 从 0 开,battleFade 开启 + emit playEnemyDeath', () => {
+    const drained: { op: string; enemyIdx?: number }[] = []
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 1 })],
+      roles: [makeRole({ id: 0, attackStrength: 9999 })],
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    const state = gs.battleState!
+    state.pendingActions.set(0, { type: 'attack', target: 0 })
+    tickBattle(gs, emptyInput, bus) // → performAction
+
+    // 推进直到 battleFade 开启(物理攻击时间线播完 → checkEnemyDeaths)
+    let safety = 80
+    while (!gs.battleState?.battleFade && safety-- > 0 && gs.battleState?.phase === 'performAction') {
+      tickBattle(gs, emptyInput, bus)
+      for (const { cmd } of bus.drain()) drained.push(cmd as { op: string; enemyIdx?: number })
+    }
+    const s = gs.battleState!
+    expect(s.battleFade, 'battleFade 应开启').toBeDefined()
+    expect(s.enemies[0]!.deathFadeStep, '死敌 deathFadeStep 应已开始(>=0)').toBeGreaterThanOrEqual(0)
+    expect(s.enemies[0]!.deathFadeStep).toBeLessThanOrEqual(72)
+    expect(
+      drained.some((c) => c.op === 'playEnemyDeath' && c.enemyIdx === 0),
+      '应 emit playEnemyDeath',
+    ).toBe(true)
+  })
+
+  it('驱动暂停:battleFade active 期 currentActionIndex 不变;step 随 elapsedMs/16 递增', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 1 })],
+      roles: [makeRole({ id: 0, attackStrength: 9999 })],
+    })
+    tickBattle(gs, emptyInput, bus)
+    const st0 = gs.battleState!
+    st0.pendingActions.set(0, { type: 'attack', target: 0 })
+    tickBattle(gs, emptyInput, bus)
+
+    // 进 battleFade
+    let safety = 80
+    while (!gs.battleState?.battleFade && safety-- > 0 && gs.battleState?.phase === 'performAction') {
+      tickBattle(gs, emptyInput, bus)
+      bus.drain()
+    }
+    const s = gs.battleState!
+    expect(s.battleFade).toBeDefined()
+    const idxAtFadeStart = s.currentActionIndex
+    let prevStep = s.enemies[0]!.deathFadeStep ?? 0
+
+    // 淡出期间:currentActionIndex 不变,step 单调不减
+    let guard = 200
+    let sawIncrease = false
+    while (s.battleFade && guard-- > 0) {
+      tickBattle(gs, emptyInput, bus)
+      bus.drain()
+      if (!s.battleFade) break
+      expect(s.currentActionIndex, '淡出中不推进 action queue').toBe(idxAtFadeStart)
+      const step = s.enemies[0]!.deathFadeStep ?? 0
+      expect(step).toBeGreaterThanOrEqual(prevStep)
+      if (step > prevStep) sawIncrease = true
+      prevStep = step
+    }
+    expect(sawIncrease, 'deathFadeStep 应随 tick 递增过').toBe(true)
+    // 淡完:battleFade 清空 + 死敌 step==72。currentActionIndex 在 action **完成时**已推进
+    //   (淡出前),phase-agnostic hold 只暂停不再推进 → 仍 === idxAtFadeStart。
+    expect(s.battleFade).toBeUndefined()
+    expect(s.currentActionIndex).toBe(idxAtFadeStart)
+    expect(s.enemies[0]!.deathFadeStep).toBe(72)
+  })
+
+  it('约 72 步(72×16=1152ms,40ms/tick → ~29 tick)淡完后才推进', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 1 })],
+      roles: [makeRole({ id: 0, attackStrength: 9999 })],
+    })
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
+    tickBattle(gs, emptyInput, bus)
+    let safety = 80
+    while (!gs.battleState?.battleFade && safety-- > 0 && gs.battleState?.phase === 'performAction') {
+      tickBattle(gs, emptyInput, bus)
+      bus.drain()
+    }
+    const s = gs.battleState!
+    expect(s.battleFade).toBeDefined()
+    // 计淡出 tick 数:elapsedMs 从 0 起,每 tick +40;step=floor(elapsedMs/16)>=72 时止。
+    // 72*16=1152ms,需 elapsedMs>=1152 → ceil(1152/40)=29 tick。
+    let fadeTicks = 0
+    let guard = 200
+    while (s.battleFade && guard-- > 0) {
+      tickBattle(gs, emptyInput, bus)
+      bus.drain()
+      fadeTicks++
+    }
+    expect(fadeTicks).toBeGreaterThanOrEqual(28)
+    expect(fadeTicks).toBeLessThanOrEqual(31)
+  })
+
+  it('向后兼容:无死敌的 defend action 不开 battleFade,即时推进', () => {
+    const { gs, bus, emptyInput } = bootstrap() // enemy health 99999 不死
+    tickBattle(gs, emptyInput, bus)
+    const state = gs.battleState!
+    state.pendingActions.set(0, { type: 'defend', target: -1 })
+    tickBattle(gs, emptyInput, bus)
+
+    let guard = 30
+    let observedDefend = false
+    while (gs.battleState?.phase === 'performAction' && guard-- > 0) {
+      const before = gs.battleState.currentActionIndex
+      tickBattle(gs, emptyInput, bus)
+      bus.drain()
+      const st = gs.battleState
+      if (!st) break
+      if (st.players[0]!.defending && st.phase === 'performAction') {
+        observedDefend = true
+        expect(st.battleFade, 'defend 不应开 battleFade').toBeUndefined()
+        expect(st.currentActionIndex).toBe(before + 1) // 即时推进
+        break
+      }
+    }
+    expect(observedDefend).toBe(true)
+  })
+
+  it('整场战斗(秒杀)不卡死:淡出后转 postAction → won → explore', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 1 })],
+      roles: [makeRole({ id: 0, attackStrength: 9999 })],
+    })
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
+    let guard = 400
+    while (gs.mode === 'battle' && guard-- > 0) {
+      const st = gs.battleState
+      if (st?.phase === 'selectAction') st.pendingActions.set(0, { type: 'attack', target: 0 })
+      tickBattle(gs, emptyInput, bus)
+      bus.drain()
+    }
+    expect(gs.mode, 'won → finalize 回 explore').toBe('explore')
+    // exp/cash 仍入账(淡出不影响 postAction 累计)
+    expect(gs.Exp.rgPrimaryExp[0]?.wExp ?? 0).toBeGreaterThan(0)
+    expect(gs.dwCash).toBeGreaterThan(0)
+  })
+
+  it('毒 / postAction 死亡也触发淡出(sdlpal fight.c:1664 毒后 PostActionCheck→FadeScene)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 100 })],
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    const s = gs.battleState!
+    // 模拟毒 tick 在 postAction 把敌人扣到 0(prevHp 仍 >0 = 新死,deathFadeStep 未开)
+    s.enemies[0]!.e.health = 0
+    s.enemies[0]!.prevHp = 100
+    s.enemies[0]!.deathFadeStep = undefined
+    s.phase = 'postAction'
+    s.phaseStallTicks = 0
+    tickBattle(gs, emptyInput, bus) // tickPostAction → checkEnemyDeaths 开淡出
+    expect(s.battleFade, '毒杀也开淡出 hold(非瞬隐)').toBeDefined()
+    expect(s.enemies[0]!.deathFadeStep, '毒杀敌 deathFadeStep 从 0 开始').toBe(0)
+  })
+})

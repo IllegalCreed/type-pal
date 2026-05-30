@@ -36,13 +36,13 @@
     },
     {
       "id": "fixture-anim",
-      "label": "★ 动画测试(低攻队长 vs 弱怪 — 看受击白闪/死亡淡出)",
+      "label": "★ 动画测试(中攻队长 vs 蓝食火蟾 320HP — 看受击白闪/死亡淡出)",
       "partyMembers": [0],
       "playerOverrides": {
-        "0": { "level": 30, "hp": 600, "maxHP": 600, "mp": 60, "maxMP": 60, "attackStrength": 6 }
+        "0": { "level": 30, "hp": 600, "maxHP": 600, "mp": 60, "maxMP": 60, "attackStrength": 20 }
       },
       "inventory": [{ "itemId": 61, "count": 10 }],
-      "enemyTeamId": 1,
+      "enemyTeamId": 121,
       "battleFieldId": 7
     }
   ]

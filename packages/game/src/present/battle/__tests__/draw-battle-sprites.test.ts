@@ -4,9 +4,12 @@ import type { BattleEnemy, BattlePlayer, BattleState } from '../../../core/battl
 import { createSeedableRng } from '../../../core/rng.js'
 import { createFramebuffer } from '../../framebuffer.js'
 import {
+  blitFrameDeathFade,
   computeIdleFrameIndex,
+  DEATH_FADE_TOTAL_STEPS,
   drawBattleSprites,
   type SpriteAsset,
+  type SpriteFrame,
 } from '../draw-battle-sprites.js'
 
 function minimalRole(id: number, opts: Partial<PlayerRole> = {}): PlayerRole {
@@ -150,7 +153,7 @@ describe('drawBattleSprites', () => {
     expect(fb.indices[79 * 320 + 160]).toBe(9)
   })
 
-  it('死亡(hp ≤ 0)队员 + 敌方不画', () => {
+  it('死亡队员不画;死亡敌方 deathFadeStep undefined(刚死未淡)→ 照常画', () => {
     const fb = createFramebuffer()
     const role = minimalRole(0, { spriteNumInBattle: 1, hp: 0 })
     const playerRoles: PlayerRoles = { roles: [role] }
@@ -161,9 +164,10 @@ describe('drawBattleSprites', () => {
     const deadEnemy = minimalEnemy(50, 0)
     const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(deadEnemy)])
     drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
-    // 两个 sprite 都不该画 — 队员 (159,148) / 敌方 (159,78) 仍 = 0
+    // 死亡队员 (159,148) 仍不画 = 0(注:sdlpal 死队员显 frame2 死尸,ts 暂不画 — 另列 follow-up)
     expect(fb.indices[168 * 320 + 239]).toBe(0)
-    expect(fb.indices[78 * 320 + 159]).toBe(0)
+    // 死亡敌方 (159,78):deathFadeStep undefined(刚被打死、淡出未开始)→ **照常画**(非瞬隐)
+    expect(fb.indices[78 * 320 + 159]).toBe(9)
   })
 
   it('sprite Map 缺资源时跳过,不抛错', () => {
@@ -426,6 +430,144 @@ describe('computeIdleFrameIndex', () => {
 
   it('idleFrames=0(退化):恒 0,不产生负 / NaN 索引', () => {
     for (const f of [0, 1, 5, 100]) expect(computeIdleFrameIndex(f, 0, 5, false)).toBe(0)
+  })
+})
+
+/**
+ * D17 死亡淡出 crossfade blit —— 对照 sdlpal PAL_BattleFadeScene(battle.c:608-682)。
+ * 像素级:step=0 高 nibble 即换 bg、低 nibble 未移;step 增大 → 低 nibble 收敛到 bg low;
+ * step >= |diff| → 完全等于背景。透明像素跳过。
+ */
+describe('blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662)', () => {
+  function mkFrame(values: number[], opaqueVals?: number[]): SpriteFrame {
+    const indices = new Uint8Array(values)
+    const opaque = new Uint8Array(opaqueVals ?? values.map(() => 1))
+    return { width: values.length, height: 1, indices, opaque }
+  }
+
+  it('step=0:高 nibble 立即换背景的(a&0xF0),低 nibble 未移(仍 bLow)', () => {
+    const fb = createFramebuffer()
+    // 背景 a = 0x57(high 5, low 7);sprite b = 0x32(high 3, low 2)
+    // 1×1 frame,anchor 底中 (10,1) → baseX=10, baseY=0 → 落点 (10,0)
+    fb.writePixel(10, 0, 0x57)
+    blitFrameDeathFade(fb, mkFrame([0x32]), 10, 1, 0)
+    // step=0:high = a&0xF0 = 0x50;low = bLow(2,未移) → 0x52
+    expect(fb.indices[0 * 320 + 10]).toBe(0x52)
+  })
+
+  it('step 中途:低 nibble 朝 aLow 逼近 min(floor(step/6),|diff|) 格', () => {
+    const fb = createFramebuffer()
+    fb.writePixel(10, 0, 0x09) // a: high0 low9
+    // b low=2;diff = 9-2 = 7;step=18 → i=floor(18/6)=3 → move=min(3,7)=3 → low=2+3=5;high=0 → 0x05
+    blitFrameDeathFade(fb, mkFrame([0x02]), 10, 1, 18)
+    expect(fb.indices[0 * 320 + 10]).toBe(0x05)
+  })
+
+  it('6 帧节奏:同一外层 i 内(step 0..5)低 nibble 不动,step=6 才推进 1 格(battle.c:634-650)', () => {
+    // diff = 9-2 = 7。step=5 → i=0 → move=0(仅高 nibble 换 bg);step=6 → i=1 → move=1。
+    const fb0 = createFramebuffer(); fb0.writePixel(10, 0, 0x09)
+    blitFrameDeathFade(fb0, mkFrame([0x02]), 10, 1, 5)
+    expect(fb0.indices[0 * 320 + 10]).toBe(0x02) // low 未移(仍 2),high=a&F0=0
+    const fb1 = createFramebuffer(); fb1.writePixel(10, 0, 0x09)
+    blitFrameDeathFade(fb1, mkFrame([0x02]), 10, 1, 6)
+    expect(fb1.indices[0 * 320 + 10]).toBe(0x03) // i=1 → low=2+1=3
+  })
+
+  it('aLow < bLow:低 nibble 朝下逼近(diff<0)', () => {
+    const fb = createFramebuffer()
+    fb.writePixel(10, 0, 0x01) // aLow=1
+    // bLow=9;diff = 1-9 = -8;step=18 → i=3 → move=3 → low=9-3=6;high(a&F0)=0 → 0x06
+    blitFrameDeathFade(fb, mkFrame([0x09]), 10, 1, 18)
+    expect(fb.indices[0 * 320 + 10]).toBe(0x06)
+  })
+
+  it('step >= |diff|:低 nibble 完全收敛到 aLow → 像素 == 背景', () => {
+    const fb = createFramebuffer()
+    fb.writePixel(10, 0, 0x5a) // a high5 low10(0xA)
+    // bLow=2;|diff|=8;step=72 >> 8 → low=aLow=0xA;high=a&F0=0x50 → 0x5A == a
+    blitFrameDeathFade(fb, mkFrame([0x32]), 10, 1, 72)
+    expect(fb.indices[0 * 320 + 10]).toBe(0x5a)
+  })
+
+  it('透明像素(opaque=0)跳过:背景不变', () => {
+    const fb = createFramebuffer()
+    fb.writePixel(10, 0, 0x77)
+    blitFrameDeathFade(fb, mkFrame([0x32], [0]), 10, 1, 5)
+    expect(fb.indices[0 * 320 + 10]).toBe(0x77) // 未写入
+  })
+
+  it('DEATH_FADE_TOTAL_STEPS = 72(battle.c:634-636 外12×内6)', () => {
+    expect(DEATH_FADE_TOTAL_STEPS).toBe(72)
+  })
+})
+
+/**
+ * D17 drawBattleSprites 死亡淡出集成 —— deathFadeStep 0..71 → crossfade blit;
+ * undefined(活/刚死未开淡出)→ 照常画(受击帧可见);>=72(淡完)→ 不画。
+ */
+describe('drawBattleSprites — 敌人死亡淡出集成(D17)', () => {
+  function mkSprite(fill: number): SpriteAsset {
+    const indices = new Uint8Array(4).fill(fill)
+    const opaque = new Uint8Array(4).fill(1)
+    return { frames: [{ width: 2, height: 2, indices, opaque }] }
+  }
+
+  it('health<=0 + deathFadeStep undefined:照常画(刚被打死、淡出未开始 → 受击帧仍可见,不瞬隐)', () => {
+    // 修"先消失再淡出"bug:攻击动画期间敌人 HP 已 0 但淡出未开始,不能提前瞬隐
+    //   (对照 sdlpal:wObjectID 仍 !=0 照常画,动画收尾才 FadeScene)。
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [] }
+    const be = mkBattleEnemy(minimalEnemy(50, 0))
+    be.pos = { x: 160, y: 80 }
+    be.currentFrame = 0
+    // deathFadeStep 留 undefined → **照常 blit**(非瞬隐)
+    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSprite(9)]])
+    const state = mkState([], [be])
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
+    expect(fb.indices[78 * 320 + 159]).toBe(9) // 照常画(非瞬隐 0)
+  })
+
+  it('health<=0 + deathFadeStep=0:crossfade 画(高 nibble 换背景)', () => {
+    const fb = createFramebuffer()
+    // 背景:落点 (159,78) 写 0x50(high5 low0)
+    fb.writePixel(159, 78, 0x50)
+    const playerRoles: PlayerRoles = { roles: [] }
+    const be = mkBattleEnemy(minimalEnemy(50, 0))
+    be.pos = { x: 160, y: 80 }
+    be.deathFadeStep = 0
+    be.currentFrame = 0
+    // sprite 像素 0x33(high3 low3);step=0 → high=a&F0=0x50,low=bLow=3 → 0x53
+    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSprite(0x33)]])
+    const state = mkState([], [be])
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
+    expect(fb.indices[78 * 320 + 159]).toBe(0x53)
+  })
+
+  it('health<=0 + deathFadeStep>=72:不画(淡完消失)', () => {
+    const fb = createFramebuffer()
+    fb.writePixel(159, 78, 0x40)
+    const playerRoles: PlayerRoles = { roles: [] }
+    const be = mkBattleEnemy(minimalEnemy(50, 0))
+    be.pos = { x: 160, y: 80 }
+    be.deathFadeStep = 72
+    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSprite(0x33)]])
+    const state = mkState([], [be])
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
+    expect(fb.indices[78 * 320 + 159]).toBe(0x40) // 背景保留,未画 sprite
+  })
+
+  it('health>0 + deathFadeStep undefined:照常普通 blit(不受淡出影响)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [] }
+    const e = minimalEnemy(50, 50)
+    e.idleFrames = 1
+    e.idleAnimSpeed = 1
+    const be = mkBattleEnemy(e)
+    be.pos = { x: 160, y: 80 }
+    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSprite(9)]])
+    const state = mkState([], [be])
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
+    expect(fb.indices[78 * 320 + 159]).toBe(9) // 普通画
   })
 })
 
