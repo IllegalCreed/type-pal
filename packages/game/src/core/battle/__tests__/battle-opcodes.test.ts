@@ -233,6 +233,78 @@ function throwWeaponCtx(
   }
 }
 
+// ============================================================================
+// 0x68 jump if enemy turn / 0x91 jump if enemy not first of kind
+// ============================================================================
+
+/** 多敌 + caster idx 可控的 ctx(0x91 同类计数用);e.id = 敌人种类。 */
+function kindCtx(kindIds: number[], casterIdx: number): BattleCtx {
+  return {
+    state: {
+      // biome-ignore lint/suspicious/noExplicitAny: 只填 e.id + health
+      enemies: kindIds.map(id => ({ e: { id, health: 100 } as any, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false }, prevHp: 100, scriptOnTurnStart: 0, scriptOnBattleEnd: 0, scriptOnReady: 0 })),
+      players: [],
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+    } as any as BattleState,
+    caster: { type: 'enemy', idx: casterIdx },
+  }
+}
+
+describe('0x68 jump if enemy turn (script.c:2025)', () => {
+  it('caster=enemy(fEnemyMoving)→ jump op0', () => {
+    const ctx = makeCtx(makeEnemy(100)) // caster {type:'enemy'}
+    const r = dispatchBattleOpcode(0x68, [200, 0, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(r.newIp).toBe(200)
+  })
+
+  it('caster=player → 不 jump(ip++)', () => {
+    const ctx = makeCtx(makeEnemy(100))
+    ctx.caster = { type: 'player', idx: 0 }
+    const r = dispatchBattleOpcode(0x68, [200, 0, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(r.newIp).toBeUndefined()
+  })
+
+  it('op0=0 → jump 到 ip 0(全局 end)', () => {
+    const ctx = makeCtx(makeEnemy(100))
+    expect(dispatchBattleOpcode(0x68, [0, 0, 0], ctx).newIp).toBe(0)
+  })
+})
+
+describe('0x91 jump if enemy not first of kind (script.c:2091)', () => {
+  it('同类首个(self_pos=1)→ 不 jump', () => {
+    const ctx = kindCtx([5, 5, 5], 0) // idx0 是第一个 id5
+    const r = dispatchBattleOpcode(0x91, [200, 0, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(r.newIp).toBeUndefined()
+  })
+
+  it('同类第二个(self_pos=2)→ jump op0', () => {
+    const ctx = kindCtx([5, 5, 5], 1)
+    expect(dispatchBattleOpcode(0x91, [200, 0, 0], ctx).newIp).toBe(200)
+  })
+
+  it('同类第三个 → jump', () => {
+    const ctx = kindCtx([5, 5, 5], 2)
+    expect(dispatchBattleOpcode(0x91, [200, 0, 0], ctx).newIp).toBe(200)
+  })
+
+  it('独一份(只有 1 个该种)→ 不 jump', () => {
+    const ctx = kindCtx([5, 7, 9], 0)
+    expect(dispatchBattleOpcode(0x91, [200, 0, 0], ctx).newIp).toBeUndefined()
+  })
+
+  it('混种:[5,7,5] 的第二个 5(idx2)→ jump;第一个 5(idx0)→ 不 jump', () => {
+    expect(dispatchBattleOpcode(0x91, [200, 0, 0], kindCtx([5, 7, 5], 2)).newIp).toBe(200)
+    expect(dispatchBattleOpcode(0x91, [200, 0, 0], kindCtx([5, 7, 5], 0)).newIp).toBeUndefined()
+  })
+
+  it('op0=0(真实数据全 0)→ self_pos>1 时 jump 到 ip 0(end,只首个跑脚本)', () => {
+    expect(dispatchBattleOpcode(0x91, [0, 0, 0], kindCtx([5, 5], 1)).newIp).toBe(0)
+  })
+})
+
 describe('0x66 throw weapon (E2)', () => {
   it('w = op1*5 + attackStr*RandomLong(0,3) → 目标落血(obj344→magic53 base198 elem0)', () => {
     // op1=10, attackStr=30, RandomLong→2 → w = 50 + 60 = 110

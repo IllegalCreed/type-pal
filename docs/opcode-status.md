@@ -5,7 +5,7 @@
 > **三表**:[feature-status](feature-status.md)(引擎功能)· opcode-status(事件 / opcode,本表)· [resource-status](resource-status.md)(资源提取)
 > **图例**:✅ done · ⚠️ partial(extraction 已收集目标,runtime 待)· ⬜ todo · N/A
 > **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra)· E=战斗 · S=系统/UI
-> **最后更新**:2026-05-30 — **E 类法术伤害结算 keystone + 0x66**:E1 inline 攻击法术伤害接进 performMagic(5 元素咒真伤害)+ 0x42 SimulateMagic + **0x66 throw weapon**(与 0x42 共用 simulateMagic)+ 投掷物全链(符/卵/武器)+ 补提取 rgObject(object-magics.json)。剩余 D 类音频(需 M6)+ E 类其余战斗 opcode(0x60/0x68/0x91/0x9E 等)。
+> **最后更新**:2026-05-30 — **E 类法术伤害结算 keystone + 0x66**:E1 inline 攻击法术伤害接进 performMagic(5 元素咒真伤害)+ 0x42 SimulateMagic + **0x66 throw weapon**(与 0x42 共用 simulateMagic)+ 投掷物全链(符/卵/武器)+ 补提取 rgObject(object-magics.json)。+ **0x68/0x91 jump 条件**(enemy-turn / not-first-of-kind)。剩余 D 类音频(需 M6)+ E 类其余战斗 opcode(0x60/0x9E/0x6B/0x30 等 + 0x5E 待敌人毒 pipeline)。
 >
 > sdlpal 真值出处:`reference/sdlpal/script.c`(PAL_InterpretInstruction 587-3115 / PAL_RunTriggerScript 3140+ / PAL_RunAutoScript 3482+)。全集:控制流 0x00-0x0A + 数据/动作 0x0B-0xA6(不存在:0x32 / 0x48 / 0x72 / 0x9D)。
 
@@ -142,20 +142,20 @@ setDialogStyle 0x3B-0x3E。
 | 0x5A | halve player HP | |
 | 0x5B | halve enemy HP | |
 | 0x5C | hide party for a while(battle) | g_Battle.iHidingTime=-op0(script.c:1907-1911)— 原误判 B,实为战斗态 |
-| 0x5E | jump if enemy no poison | ⚠️ extraction 已收集目标,runtime 待 |
+| 0x5E | jump if enemy no poison | 🟡 `if 敌人无 op0 种毒 → jump op1`(script.c:2030)。**依赖敌人毒 pipeline**:ts 只有玩家 `gs.rgPoisonStatus`,BattleEnemy **无** rgPoisons by-ID;且战斗中 0x28/0x21 不给敌人挂毒。需先建"敌人 poison 应用+追踪"基础设施(独立子任务),否则实现 0x5E 是空壳(永远 no-poison→jump)。真实数据 op0=poisonId(555-560),op1=0 |
 | 0x5F | kill player | |
 | 0x60 | KO enemy | |
 | 0x64 | jump if enemy HP > % | ⚠️ extraction 已收集目标,runtime 待 |
 | 0x66 | throw weapon to enemy | ✅ script.c:2007-2014:`w=op1*5+PAL_GetPlayerAttackStrength(movingPlayer)*RandomLong(0,3)` → 调**同一** PAL_BattleSimulateMagic(target=eventObjectID,magStr=w)。与 0x42 共用 `simulateMagic`(magic-damage.ts)。32 个可投掷武器(长鞭/木剑/铁剑/仙女剑…)scriptOnThrow 用;op0∈{344,360}。attackStrength 经 BattleCtx.playerRoles 注入(performThrowItem),装备加成略 |
 | 0x67 | enemy use magic | |
-| 0x68 | jump if enemy turn | |
+| 0x68 | jump if enemy turn | ✅ `if (g_Battle.fEnemyMoving) jump op0`(script.c:2025)。ts:fEnemyMoving ≈ caster 是 enemy(法术 scriptOnSuccess 敌人施法时 caster=enemy → jump,玩家施法 ip++)。op0=0 → jump 全局 end。battle-opcodes.ts,9 用 |
 | 0x69 | enemy escape | |
 | 0x6A | steal from enemy | |
 | 0x6B | blow away enemies | |
 | 0x88 | set magic base damage by money | |
 | 0x89 | set battle result | |
 | 0x8A | enable auto-battle | |
-| 0x91 | jump if enemy not first of kind | |
+| 0x91 | jump if enemy not first of kind | ✅ 数同 wObjectID 敌人,self_pos>1(非首个)→ jump op0(script.c:2091)。ts 同种=同 e.id。用途:同种敌人组脚本只在第一个跑。真实数据 op0 全 0(→跳到 end)。battle-opcodes.ts,5 用 |
 | 0x92 | magic casting anim (battle) | |
 | 0x9C | enemy division | |
 | 0x9E | enemy summon | |

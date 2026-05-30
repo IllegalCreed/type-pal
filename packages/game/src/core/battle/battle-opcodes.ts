@@ -29,6 +29,12 @@ const OP_SIMULATE_MAGIC = 0x0042
 /** sdlpal `script.c:2007-2014` 0x0066:throw weapon —— 计算 w 后调同一 PAL_BattleSimulateMagic。 */
 const OP_THROW_WEAPON = 0x0066
 
+/** sdlpal `script.c:2025-2032` 0x0068:if (g_Battle.fEnemyMoving) jump op0。 */
+const OP_JUMP_IF_ENEMY_TURN = 0x0068
+
+/** sdlpal `script.c:2091-2113` 0x0091:if enemy 不是同种里第一个(self_pos>1) jump op0。 */
+const OP_JUMP_IF_ENEMY_NOT_FIRST = 0x0091
+
 /** sdlpal `script.c:1983-1993` 0x0064:if enemy.hp * 100 > maxHp * operand[0] → jump operand[1] */
 const OP_JUMP_IF_ENEMY_HP_ABOVE = 0x0064
 
@@ -116,6 +122,37 @@ export function dispatchBattleOpcode(
         magics: tables.magics,
         rngFactor: 1 + state.rng.next() * 0.1,
       })
+      return { consumed: true }
+    }
+
+    case OP_JUMP_IF_ENEMY_TURN: {
+      // sdlpal `script.c:2025`:if (g_Battle.fEnemyMoving) wScriptEntry = op0-1。
+      // fEnemyMoving ≈ 当前行动者是敌人 —— 法术 scriptOnSuccess 在敌人施法时跑则 caster=enemy。
+      if (ctx.caster?.type === 'enemy')
+        return { consumed: true, newIp: operands[0] ?? 0 }
+      return { consumed: true }
+    }
+
+    case OP_JUMP_IF_ENEMY_NOT_FIRST: {
+      // sdlpal `script.c:2091`:数同 wObjectID 的敌人,自己排第几(self_pos);self_pos>1 → jump op0。
+      // 用途:让"同种敌人组"的脚本只在**第一个**身上跑(其余 jump 到 end / 跳过)。
+      // ts:同种 = 同 e.id(enemies.json id = wEnemyID,同种敌人共享)。
+      if (ctx.caster?.type !== 'enemy')
+        return { consumed: true }
+      const self = state.enemies[ctx.caster.idx]
+      if (!self)
+        return { consumed: true }
+      let count = 0
+      let selfPos = 0
+      state.enemies.forEach((e, i) => {
+        if (e.e.id === self.e.id) {
+          count++
+          if (i === ctx.caster!.idx)
+            selfPos = count
+        }
+      })
+      if (selfPos > 1)
+        return { consumed: true, newIp: operands[0] ?? 0 }
       return { consumed: true }
     }
 
