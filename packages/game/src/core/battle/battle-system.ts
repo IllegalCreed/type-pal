@@ -403,6 +403,35 @@ function tickPreBattle(state: BattleState): void {
 }
 
 /**
+ * 行动类型 dex 倍率 —— sdlpal `fight.c:1529-1556`(PAL_CLASSIC ActionQueue 填充段)真值:
+ *   coop-magic ×10 / defend ×5 / 辅助法术(非 usableToEnemy)×3 / item ×3 / flee ÷2;其余 ×1。
+ * 决定本轮行动**先后**(dex 越高越先);防御 ×5 让防御方排队首,选防御一进 perform 即先手 → 立刻防御姿。
+ */
+function actionDexMultiplier(
+  action: BattleAction | undefined,
+  spells: import('@type-pal/shared').Spell[],
+): number {
+  if (!action) return 1
+  switch (action.type) {
+    case 'coop-magic':
+      return 10
+    case 'defend':
+      return 5
+    case 'magic': {
+      // 攻击法术(usableToEnemy)×1;辅助/防御法术 ×3(fight.c:1540-1543)
+      const spell = spells.find((s) => s.id === action.actionId)
+      return spell && !spell.flags.usableToEnemy ? 3 : 1
+    }
+    case 'item':
+      return 3
+    case 'flee':
+      return 0.5
+    default:
+      return 1
+  }
+}
+
+/**
  * selectAction:等所有活队员选好 action(由 UI 写 pendingActions),
  * 然后 build ActionQueue + 进 performAction。
  *
@@ -462,13 +491,18 @@ function tickSelectAction(
     // 简化版 PAL_GetPlayerDexterity:role.dexterity(SHORT)+ (level+6)*4
     // sdlpal `fight.c::PAL_GetPlayerDexterity` 还会加装备 modifier,M3 不实现
     const baseDex = role.dexterity + (role.level + 6) * 4
-    return {
-      idx: i,
-      dex: getPlayerActualDexterity(baseDex, {
-        haste: player.status.haste,
-        slow: player.status.slow,
-      }),
-    }
+    let dex = getPlayerActualDexterity(baseDex, {
+      haste: player.status.haste,
+      slow: player.status.slow,
+    })
+    // 行动类型 dex 倍率(sdlpal fight.c:1529-1556):决定本轮行动**先后**。
+    //   防御 ×5 → 排到队首先行动,故选防御后**一开始执行动作序列**就进防御姿(user 2026-05-31)。
+    dex = Math.round(dex * actionDexMultiplier(state.pendingActions.get(i), res.spells))
+    // 濒死 ÷2(fight.c:1558)
+    const maxHp = role.maxHP
+    if (role.hp > 0 && role.hp < Math.min(100, Math.floor(maxHp / 5)))
+      dex = Math.floor(dex / 2)
+    return { idx: i, dex }
   })
 
   const enemySlots = state.enemies
@@ -1242,6 +1276,11 @@ function tickPerformAction(
   // currentActionIndex,交给上面时间线分支逐帧驱动播完再推。
   // 未建时间线的 action(defend/flee/pass/magic/item/throw 等)→ 即时路径。
   if (!state.battleAnim) {
+    // 即时 action(defend/flee/pass/法术/投掷 等无动画路径)也复位 fighter 姿势 —— sdlpal 每帧
+    //   PAL_BattleUpdateFighters(fight.c:940-986)据 fDefending/hp/sleep 重算姿势。我们在 action 收尾
+    //   补这步:**防御 action 一执行(防御 ×5 排队首,故 perform 起手即此)立刻进防御姿 frame 3**,
+    //   不再等下一个有动画的 action 才刷新(user 2026-05-31 实测:防御姿出现太晚)。
+    resetFightersAfterAction(state, res.playerRoles)
     // D17:即时 action(法术 / 投掷秒敌)也检死敌(开淡出 hold);currentActionIndex 总是推进,
     //   淡出由顶层 tickBattleFade 暂停。
     checkEnemyDeaths(state, bus)
@@ -1461,6 +1500,10 @@ function tickPostAction(
   state.players.forEach((p) => {
     p.defending = false
   })
+  // 清完 defending 立刻复位姿势 → 防御方下一帧回站立(frame 0),不再把防御姿带进下一轮
+  //   (user 2026-05-31 实测:一回合结束后还保持防御姿)。sdlpal fight.c:1602-1609 同序(清 fDefending
+  //   + 复位 pos),姿势随每帧 PAL_BattleUpdateFighters 即回站立。
+  resetFightersAfterAction(state, res.playerRoles)
   state.phase = 'selectAction'
   state.selectingPlayerIdx = 0
   state.uiState = 'mainMenu'

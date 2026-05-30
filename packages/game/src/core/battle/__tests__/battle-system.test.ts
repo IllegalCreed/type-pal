@@ -518,6 +518,62 @@ describe('defending flag 单轮失效', () => {
     expect(gs.battleState?.phase).toBe('selectAction')
     expect(gs.battleState?.players[0]?.defending).toBe(false)
   })
+
+  it('防御姿势时机(user 2026-05-31):防御 ×5 排队首 → perform 起手即防御姿 frame3;回合末复位 frame0', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      // 敌人高血扛得住玩家(玩家防御不输出);弱攻击 + 玩家高防 → 玩家不死,回合能正常结束
+      enemies: [makeEnemy({ id: 100, health: 9999, attackStrength: 1, dexterity: 1, idleFrames: 1, attackFrames: 2, actWaitFrames: 1 })],
+      roles: [makeRole({ id: 0, hp: 9999, maxHP: 9999, defense: 999, dexterity: 1 })],
+    })
+    tickBattle(gs, emptyInput, bus) // → selectAction
+    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+
+    // 进 performAction 那一刻:防御 ×5 → 玩家排队首(actionQueue[0] 是玩家,非敌人)
+    let guard = 20
+    while (gs.battleState?.phase === 'selectAction' && guard-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(gs.battleState?.phase).toBe('performAction')
+    expect(gs.battleState?.actionQueue[0]?.isEnemy).toBe(false) // 防御方排队首(×5 生效)
+
+    // perform 全程捕捉:玩家执行 defend 后立刻进防御姿 frame3
+    const prevTurn = gs.battleState!.turn
+    let safety = 80
+    let sawDefendPose = false
+    while (gs.mode === 'battle' && safety-- > 0) {
+      tickBattle(gs, emptyInput, bus)
+      const p = gs.battleState?.players[0]
+      if (p?.defending && p.currentFrame === 3) sawDefendPose = true
+      if ((gs.battleState?.turn ?? prevTurn) > prevTurn && gs.battleState?.phase === 'selectAction') break
+    }
+    expect(sawDefendPose).toBe(true) // 防御姿在 perform 阶段出现(执行 defend 即刻,非等下一动画 action)
+    // 回合结束 → 复位:defending 清 + currentFrame 回站立 0(不把防御姿带进下一轮)
+    expect(gs.battleState?.players[0]?.defending).toBe(false)
+    expect(gs.battleState?.players[0]?.currentFrame).toBe(0)
+  })
+
+  it('敌人攻击动画(林月如 enemy82 型 idleFrames1/attackFrames4)→ currentFrame 逐帧推进,非定格', () => {
+    // user 2026-05-31:和 boss 林月如战斗,连她攻击时都定格不动。enemy82 真值 idleFrames=1(静态待机正常)
+    //   但 attackFrames=4 应有攻击动画。本测验证:敌人攻击时 currentFrame 推过 idle(0)外的攻击帧。
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 82, health: 9999, attackStrength: 1, dexterity: 99, idleFrames: 1, magicFrames: 0, attackFrames: 4, actWaitFrames: 1, magic: 0, magicRate: 0 })],
+      teamSlots: [82, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF],
+      roles: [makeRole({ id: 0, hp: 9999, maxHP: 9999, defense: 999, dexterity: 1 })],
+    })
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 }) // 玩家防御不杀敌 → 敌人能出手
+
+    const seen = new Set<number | undefined>()
+    const prevTurn = gs.battleState!.turn
+    let safety = 150
+    while (gs.mode === 'battle' && safety-- > 0) {
+      tickBattle(gs, emptyInput, bus)
+      if (!gs.battleState) break
+      seen.add(gs.battleState.enemies[0]?.currentFrame)
+      if (gs.battleState.turn > prevTurn) break // 一整轮足够包含敌人一次攻击
+    }
+    // 非定格:攻击动画把 currentFrame 推到 >0 的攻击帧(idleFrames+i-1 = 1..4 中至少一个)
+    const attackFramesSeen = [...seen].filter((f): f is number => typeof f === 'number' && f > 0)
+    expect(attackFramesSeen.length).toBeGreaterThan(0)
+  })
 })
 
 // ============================================================================
