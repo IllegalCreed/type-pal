@@ -121,7 +121,13 @@ function mkState(
     actionQueue: [],
     currentActionIndex: 0,
     pendingActions: new Map(),
-    uiState: 'mainMenu',
+    // 默认 hidden:本文件多数测试隔离 floating nums / bg / sprite,不画动作菜单(空 players 时
+    //   旧 'mainMenu' 早退同效)。需菜单的测试单独 override uiState/menuState。
+    uiState: 'hidden',
+    menuState: 'main',
+    selectedAction: 0,
+    miscMenuCursor: 0,
+    miscSubMenuCursor: 0,
     uiCursor: 0,
     selectingPlayerIdx: 0,
     expGained: 0,

@@ -11,6 +11,7 @@
 import type { BattleField, DialogBoxStyle, Enemy, EnemyPosTable, PlayerRoles } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
 import type { SeedableRng } from '../rng.js'
+import type { SelectionMenuState } from '../menu/primitives.js'
 import type { BattleSettlementState } from './battle-settlement.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle-positions.js'
 import type { ActionQueueItem } from './turn-queue.js'
@@ -272,8 +273,42 @@ export interface BattleAnimState {
   overlays?: BattleAnimOverlay[]
 }
 
-/** UI 状态:select-action 阶段在 mainMenu / magicMenu / itemMenu / targetSelect 间切;非选择阶段 hidden。 */
-export type BattleUIState = 'mainMenu' | 'magicMenu' | 'itemMenu' | 'targetSelect' | 'hidden'
+/**
+ * UI 状态 —— 1:1 对照 sdlpal `BATTLEUISTATE`(uibattle.h:28-36)+ ts 专用 'hidden'。
+ *   wait               = kBattleUIWait(等下一个 ready 队员;advance 直接接管,ts 多为过渡态)
+ *   selectMove         = kBattleUISelectMove(主菜单 4 图标 + menuState 子状态)
+ *   selectTargetEnemy  = kBattleUISelectTargetEnemy(选单个敌人)
+ *   selectTargetPlayer = kBattleUISelectTargetPlayer(选单个队员)
+ *   selectTargetEnemyAll  = kBattleUISelectTargetEnemyAll(CLASSIC 不选,即时 commit)
+ *   selectTargetPlayerAll = kBattleUISelectTargetPlayerAll(CLASSIC 不选,即时 commit)
+ *   hidden             = 非选择阶段(perform/post)不画菜单(ts 专用)
+ */
+export type BattleUIState =
+  | 'wait'
+  | 'selectMove'
+  | 'selectTargetEnemy'
+  | 'selectTargetPlayer'
+  | 'selectTargetEnemyAll'
+  | 'selectTargetPlayerAll'
+  | 'hidden'
+
+/**
+ * 主菜单子状态 —— 1:1 对照 sdlpal `BATTLEMENUSTATE`(uibattle.h:38-46),
+ * **仅 uiState==='selectMove' 时有意义**。
+ *   main            = kBattleMenuMain(4 图标主菜单)
+ *   magicSelect     = kBattleMenuMagicSelect(法术选择网格)
+ *   useItemSelect   = kBattleMenuUseItemSelect(使用物品网格,目标=队友)
+ *   throwItemSelect = kBattleMenuThrowItemSelect(投掷物品网格,目标=敌方)
+ *   misc            = kBattleMenuMisc(杂项盒:围攻/道具/防御/逃跑/状态)
+ *   miscItemSubMenu = kBattleMenuMiscItemSubMenu(物品二级:使用/投掷)
+ */
+export type BattleMenuState =
+  | 'main'
+  | 'magicSelect'
+  | 'useItemSelect'
+  | 'throwItemSelect'
+  | 'misc'
+  | 'miscItemSubMenu'
 
 export interface BattleState {
   players: BattlePlayer[]
@@ -306,10 +341,44 @@ export interface BattleState {
      */
     targetSide?: 'enemy' | 'player'
   }
-  /** UI 状态。 */
+  /** UI 状态(= sdlpal g_Battle.UI.state)。 */
   uiState: BattleUIState
-  /** 当前 UI 选项的高亮 index。 */
+  /**
+   * 主菜单子状态(= sdlpal g_Battle.UI.MenuState),仅 uiState==='selectMove' 时有意义。
+   * createBattleState 初值 'main';preBattle/换队员 PlayerReady 重置 'main'。
+   */
+  menuState: BattleMenuState
+  /**
+   * 主菜单 4 图标当前选中(= sdlpal g_Battle.UI.wSelectedAction):0攻击 1法术 2合击 3杂项。
+   * 方向键直接设值(uibattle.c:1034-1055),非线性光标。
+   */
+  selectedAction: number
+  /** 通用选择光标(target 索引 = sdlpal iSelectedIndex;旧 uiCursor 语义保留)。 */
   uiCursor: number
+  /**
+   * 杂项盒光标(= sdlpal g_iCurMiscMenuItem)。**进菜单不重置、跨次持久**
+   * (sdlpal uibattle.c:1162 `//disabled due to not same as both original version`)。
+   */
+  miscMenuCursor: number
+  /** 物品二级光标(= sdlpal g_iCurSubMenuItem),同样持久(uibattle.c:1374 `//disabled`)。 */
+  miscSubMenuCursor: number
+  /**
+   * 当前法术选择网格状态(进 magicSelect 时 createMagicSelectMenu 建;退出清)。
+   * = sdlpal magicmenu.c 的 g_iCurrentItem / rgMagicItem(战斗与大世界共用 PAL_MagicSelectionMenuUpdate)。
+   */
+  magicSelect?: SelectionMenuState
+  /** 当前物品选择网格状态(进 useItemSelect/throwItemSelect 时建;退出清)。 */
+  itemSelect?: SelectionMenuState
+  /**
+   * 围攻 / Auto 键开启的自动攻击(= sdlpal g_Battle.UI.fAutoAttack)。开 → 每队员起手自动
+   * 攻击(自动目标),Menu/Auto 键关。createBattleState 必设 false;optional 仅向后兼容。
+   */
+  fAutoAttack?: boolean
+  /**
+   * 上一轮每队员已 commit 的 action 快照(= sdlpal prevAction)。postAction 清 pendingActions
+   * 前拷入;Repeat(R 键)重提上一轮 action(sdlpal kKeyRepeat → CommitAction(TRUE))。
+   */
+  prevActions?: Map<number, BattleAction>
   /**
    * 目标光标上次悬停的敌人 index(sdlpal `g_Battle.UI.iPrevEnemyTarget`)。
    * perform 前 selectAutoTargetFrom 重选目标时优先用它(若仍活)。targetSelect UI 设;
@@ -496,7 +565,13 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
     currentActionIndex: 0,
     pendingActions: new Map(),
     uiState: 'hidden',
+    menuState: 'main',
+    selectedAction: 0,
     uiCursor: 0,
+    miscMenuCursor: 0,
+    miscSubMenuCursor: 0,
+    fAutoAttack: false,
+    prevActions: new Map(),
     expGained: 0,
     cashGained: 0,
     rng: input.rng,

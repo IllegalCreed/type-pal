@@ -111,8 +111,12 @@ function mkState(
     actionQueue: [],
     currentActionIndex: 0,
     pendingActions: new Map(),
-    uiState: 'mainMenu',
+    uiState: 'selectMove',
+    menuState: 'main',
+    selectedAction: 0,
     uiCursor: 0,
+    miscMenuCursor: 0,
+    miscSubMenuCursor: 0,
     selectingPlayerIdx: 0,
     expGained: 0,
     cashGained: 0,
@@ -175,202 +179,149 @@ function fbHasWrites(fb: ReturnType<typeof createFramebuffer>): boolean {
   return false
 }
 
-describe('drawBattleUI', () => {
-  it('mainMenu —— 画状态栏 + 主菜单(framebuffer 有写入,不抛错)', () => {
-    const fb = createFramebuffer()
-    const role = minimalRole(0)
-    const playerRoles: PlayerRoles = { roles: [role] }
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      { uiState: 'mainMenu', uiCursor: 1 },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
-    expect(fbHasWrites(fb)).toBe(true)
-  })
+/** 假 SPRITEUI 帧集(80 帧,每帧 4×4 全不透明)—— 让 drawBox / 图标 / cursor / 箭头 sprite 路径可跑。 */
+function fakeUiFrames(): Array<{ width: number; height: number; indices: Uint8Array; opaque: Uint8Array }> {
+  return Array.from({ length: 80 }, () => ({
+    width: 4,
+    height: 4,
+    indices: new Uint8Array(16).fill(15),
+    opaque: new Uint8Array(16).fill(1),
+  }))
+}
 
-  it('magicMenu(无 learnedSpells)—— 走「无法术」分支不抛', () => {
-    const fb = createFramebuffer()
-    const role = minimalRole(0)
-    const playerRoles: PlayerRoles = { roles: [role] }
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      { uiState: 'magicMenu', uiCursor: 0 },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
-    expect(fbHasWrites(fb)).toBe(true)
-  })
+/** 顶部菜单区(y<50)是否有写入 —— 判断动作菜单是否被画。 */
+function topRegionWrites(fb: ReturnType<typeof createFramebuffer>): number {
+  let n = 0
+  for (let y = 0; y < 50; y++) {
+    for (let x = 0; x < 320; x++) {
+      if (fb.indices[y * 320 + x] !== 0) n++
+    }
+  }
+  return n
+}
 
-  it('magicMenu(有 learnedSpells)—— 列法术名,不抛', () => {
-    const fb = createFramebuffer()
-    const role = minimalRole(0) as PlayerRole & { learnedSpells: number[] }
-    role.learnedSpells = [12, 20]
-    const playerRoles: PlayerRoles = { roles: [role] }
-    const spells = [mkSpell(12, '雷震子'), mkSpell(20, '玄冰指')]
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      { uiState: 'magicMenu', uiCursor: 1 },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, spells, [], mkGs())).not.toThrow()
-    expect(fbHasWrites(fb)).toBe(true)
-  })
+const UI = fakeUiFrames() as unknown as Parameters<typeof drawBattleUI>[7]
 
-  it('magicMenu 长列表(100 法术,cursor=50)—— 滚动窗口不越界不抛(dev 全法术)', () => {
-    const fb = createFramebuffer()
-    const role = minimalRole(0) as PlayerRole & { learnedSpells: number[] }
-    role.learnedSpells = Array.from({ length: 100 }, (_, i) => 296 + i)
-    const playerRoles: PlayerRoles = { roles: [role] }
-    const spells = role.learnedSpells.map(id => mkSpell(id, `法术${id}`))
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      { uiState: 'magicMenu', uiCursor: 50 },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, spells, [], mkGs())).not.toThrow()
-    expect(fbHasWrites(fb)).toBe(true)
-  })
-
-  it('itemMenu(空 inventory)—— 走「无物品」分支不抛', () => {
-    const fb = createFramebuffer()
-    const role = minimalRole(0)
-    const playerRoles: PlayerRoles = { roles: [role] }
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      { uiState: 'itemMenu', uiCursor: 0 },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
-    expect(fbHasWrites(fb)).toBe(true)
-  })
-
-  it('itemMenu(有库存)—— 列 count>0 的物品,count=0 不画', () => {
-    const fb = createFramebuffer()
-    const role = minimalRole(0)
-    const playerRoles: PlayerRoles = { roles: [role] }
-    const items = [mkItem(1, '金创药'), mkItem(2, '雪莲'), mkItem(3, '空瓶')]
-    const gs = mkGs({
-      inventory: [
-        { itemId: 1, count: 3 },
-        { itemId: 3, count: 0 }, // 应被过滤
-        { itemId: 2, count: 1 },
-      ],
-    })
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      { uiState: 'itemMenu', uiCursor: 0 },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, [], items, gs)).not.toThrow()
-    expect(fbHasWrites(fb)).toBe(true)
-  })
-
-  it('targetSelect —— 在敌方位置上方画光标,framebuffer 有写入', () => {
-    const fb = createFramebuffer()
-    const role = minimalRole(0)
-    const playerRoles: PlayerRoles = { roles: [role] }
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50)), mkBattleEnemy(minimalEnemy(51))],
-      { uiState: 'targetSelect', uiCursor: 1 },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
-    expect(fbHasWrites(fb)).toBe(true)
-  })
-
-  it('targetSelect —— uiCursor 超界时 clamp 到最后一个敌人,不抛', () => {
-    const fb = createFramebuffer()
-    const role = minimalRole(0)
-    const playerRoles: PlayerRoles = { roles: [role] }
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      { uiState: 'targetSelect', uiCursor: 99 },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
-  })
-
-  it('targetSelect —— 无敌人时 no-op 不抛', () => {
-    const fb = createFramebuffer()
-    const role = minimalRole(0)
-    const playerRoles: PlayerRoles = { roles: [role] }
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [],
-      { uiState: 'targetSelect', uiCursor: 0 },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
-  })
-
-  // ---------- D18:友方目标光标(targetSide=player)----------
-
-  it('targetSelect player 域 —— 光标画在队员屏幕位置,framebuffer 有写入', () => {
-    const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0), minimalRole(1)] }
-    const state = mkState(
-      [mkBattlePlayer(0), mkBattlePlayer(1)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      {
-        uiState: 'targetSelect',
-        uiCursor: 1,
-        pendingActionDraft: { type: 'magic', actionId: 300, targetSide: 'player' },
-      },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
-    expect(fbHasWrites(fb)).toBe(true)
-  })
-
-  it('targetSelect player 域 —— uiCursor 超界 clamp 到最后一个队员,不抛', () => {
-    const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0), minimalRole(1)] }
-    const state = mkState(
-      [mkBattlePlayer(0), mkBattlePlayer(1)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      {
-        uiState: 'targetSelect',
-        uiCursor: 99,
-        pendingActionDraft: { type: 'magic', actionId: 300, targetSide: 'player' },
-      },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
-  })
-
-  it('targetSelect enemy 域(默认,无 player targetSide)—— 仍画敌方光标(回归)', () => {
+describe('drawBattleUI(新模型 1:1)', () => {
+  it('selectMove + main —— 画状态栏 + 4 图标(framebuffer 有写入,不抛)', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50)), mkBattleEnemy(minimalEnemy(51))],
-      {
-        uiState: 'targetSelect',
-        uiCursor: 1,
-        pendingActionDraft: { type: 'attack', targetSide: 'enemy' },
-      },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'main', selectedAction: 0,
+    })
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
     expect(fbHasWrites(fb)).toBe(true)
   })
 
-  it('hidden —— 只画状态栏,不画菜单', () => {
+  it('无 uiSpriteFrames —— 优雅跳过 sprite(只画底部状态栏,不抛)', () => {
     const fb = createFramebuffer()
-    const role = minimalRole(0)
-    const playerRoles: PlayerRoles = { roles: [role] }
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      { uiState: 'hidden', selectingPlayerIdx: undefined },
-    )
-    drawBattleUI(fb, state, playerRoles, [], [], mkGs())
-    // 状态栏写在底部 y=175 附近;菜单区(顶部 y=5)应无写入
-    let topWrites = 0
-    for (let y = 0; y < 50; y++) {
-      for (let x = 0; x < 320; x++) {
-        if (fb.indices[y * 320 + x] !== 0) topWrites++
-      }
-    }
-    expect(topWrites).toBe(0)
-    expect(fbHasWrites(fb)).toBe(true) // 但底部状态栏有写入
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'main',
+    })
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
+    // 4 图标在底部(y 140-180),顶部 y<50 无写入
+    expect(topRegionWrites(fb)).toBe(0)
+    expect(fbHasWrites(fb)).toBe(true) // 底部状态栏
+  })
+
+  it('selectMove + magicSelect —— 画法术网格(不抛,顶部有写入)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'magicSelect',
+      magicSelect: { items: [{ id: 296, label: '雷震子', rightText: 'MP 5', disabled: false }, { id: 297, label: '玄冰指', rightText: 'MP 8', disabled: true }], cursor: 0, pageSize: 15, pageOffset: 0 },
+    })
+    expect(() => drawBattleUI(fb, state, playerRoles, [mkSpell(296), mkSpell(297)], [], mkGs(), undefined, UI)).not.toThrow()
+    expect(topRegionWrites(fb)).toBeGreaterThan(0)
+  })
+
+  it('selectMove + magicSelect(长列表 cursor=50)—— 分页不越界不抛', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const items = Array.from({ length: 100 }, (_, i) => ({ id: 296 + i, label: `法术${i}`, rightText: 'MP 5', disabled: false }))
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'magicSelect',
+      magicSelect: { items, cursor: 50, pageSize: 15, pageOffset: 0 },
+    })
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
+  })
+
+  it('selectMove + useItemSelect —— 画物品网格(不抛)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'useItemSelect',
+      itemSelect: { items: [{ id: 1, label: '金创药', rightText: '×3', disabled: false }], cursor: 0, pageSize: 21, pageOffset: 0 },
+    })
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [mkItem(1)], mkGs(), undefined, UI)).not.toThrow()
+    expect(topRegionWrites(fb)).toBeGreaterThan(0)
+  })
+
+  it('selectMove + misc —— 画杂项盒(不抛)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'misc', miscMenuCursor: 2,
+    })
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
+    expect(topRegionWrites(fb)).toBeGreaterThan(0)
+  })
+
+  it('selectMove + miscItemSubMenu —— 画杂项盒 + 物品二级(不抛)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'miscItemSubMenu', miscSubMenuCursor: 1,
+    })
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
+  })
+
+  it('selectTargetEnemy —— 选中敌人上方画箭头(不抛,有写入)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50)), mkBattleEnemy(minimalEnemy(51))], {
+      uiState: 'selectTargetEnemy', uiCursor: 1, pendingActionDraft: { type: 'attack', targetSide: 'enemy' },
+    })
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
+    expect(fbHasWrites(fb)).toBe(true)
+  })
+
+  it('selectTargetPlayer —— 队员上方画箭头(不抛)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0), minimalRole(1)] }
+    const state = mkState([mkBattlePlayer(0), mkBattlePlayer(1)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectTargetPlayer', uiCursor: 1, pendingActionDraft: { type: 'magic', actionId: 300, targetSide: 'player' },
+    })
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
+    expect(fbHasWrites(fb)).toBe(true)
+  })
+
+  it('selectTargetEnemyAll —— 全体敌人画箭头(不抛)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50)), mkBattleEnemy(minimalEnemy(51))], {
+      uiState: 'selectTargetEnemyAll', pendingActionDraft: { type: 'magic', actionId: 300, targetSide: 'enemy' },
+    })
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
+  })
+
+  it('selectTargetPlayerAll —— 全体队员画箭头(不抛)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0), minimalRole(1)] }
+    const state = mkState([mkBattlePlayer(0), mkBattlePlayer(1)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectTargetPlayerAll', pendingActionDraft: { type: 'magic', actionId: 300, targetSide: 'player' },
+    })
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
+  })
+
+  it('selectTargetEnemy —— 无敌人时 no-op 不抛', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [], {
+      uiState: 'selectTargetEnemy', uiCursor: 0, pendingActionDraft: { type: 'attack', targetSide: 'enemy' },
+    })
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
   })
 
   // ---------- C7:战斗对话显示时隐藏动作菜单(user 2026-05-31 实测 bug)----------
@@ -378,62 +329,40 @@ describe('drawBattleUI', () => {
   it('对话队列非空 —— 隐藏动作菜单(顶部无写入),只画底部状态栏', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      { uiState: 'mainMenu', uiCursor: 0, battleDialogQueue: [{ text: '林月如', style: 'bottom' }] },
-    )
-    drawBattleUI(fb, state, playerRoles, [], [], mkGs())
-    // 菜单区(顶部 y<50)应无写入 —— 对话期被隐藏;底部状态栏仍画。
-    let topWrites = 0
-    for (let y = 0; y < 50; y++) {
-      for (let x = 0; x < 320; x++) {
-        if (fb.indices[y * 320 + x] !== 0) topWrites++
-      }
-    }
-    expect(topWrites).toBe(0)
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'main', battleDialogQueue: [{ text: '林月如', style: 'bottom' }],
+    })
+    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
+    expect(topRegionWrites(fb)).toBe(0)
     expect(fbHasWrites(fb)).toBe(true)
   })
 
   it('gs.dialogBox 非空 —— 隐藏动作菜单(顶部无写入)', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      { uiState: 'mainMenu', uiCursor: 0 },
-    )
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'main',
+    })
     const gs = mkGs({ dialogBox: { phase: 'typing' } as unknown as GameState['dialogBox'] })
-    drawBattleUI(fb, state, playerRoles, [], [], gs)
-    let topWrites = 0
-    for (let y = 0; y < 50; y++) {
-      for (let x = 0; x < 320; x++) {
-        if (fb.indices[y * 320 + x] !== 0) topWrites++
-      }
-    }
-    expect(topWrites).toBe(0)
+    drawBattleUI(fb, state, playerRoles, [], [], gs, undefined, UI)
+    expect(topRegionWrites(fb)).toBe(0)
   })
 
-  it('mainMenu —— selectingPlayerIdx undefined 时只画状态栏(不抛)', () => {
+  it('hidden —— 只画状态栏,不画菜单', () => {
     const fb = createFramebuffer()
-    const role = minimalRole(0)
-    const playerRoles: PlayerRoles = { roles: [role] }
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      { uiState: 'mainMenu', selectingPlayerIdx: undefined },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'hidden', selectingPlayerIdx: undefined,
+    })
+    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
+    expect(topRegionWrites(fb)).toBe(0)
+    expect(fbHasWrites(fb)).toBe(true)
   })
 
   it('状态栏 —— role 找不到时跳过该位,不抛', () => {
     const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [] } // 空
-    const state = mkState(
-      [mkBattlePlayer(99)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      { uiState: 'hidden' },
-    )
-    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
+    const playerRoles: PlayerRoles = { roles: [] }
+    const state = mkState([mkBattlePlayer(99)], [mkBattleEnemy(minimalEnemy(50))], { uiState: 'hidden' })
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
   })
 })

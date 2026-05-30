@@ -41,6 +41,7 @@ import type {
   Magic,
   ObjectMagicView,
   ObjectPoisonView,
+  PlayerRole,
   PlayerRoles,
   Spell,
 } from '@type-pal/shared'
@@ -63,8 +64,9 @@ import { performMagic } from './actions/magic.js'
 import { performThrowItem } from './actions/throw-item.js'
 import { BATTLE_FRAME_TIME } from './anim-timeline.js'
 import { applyAnimFrame, resetFightersAfterAction } from './battle-anim-driver.js'
-import type { BattleAction, BattleState } from './battle-state.js'
+import type { BattleAction, BattlePlayer, BattleState } from './battle-state.js'
 import { createBattleState } from './battle-state.js'
+import { createSelectionMenu, type SelectionMenuState } from '../menu/primitives.js'
 import { decideEnemyAction } from './enemy-ai.js'
 import { getEnemyDexterity, getPlayerActualDexterity } from './formulas.js'
 import { tickStatusEffects } from './status.js'
@@ -393,13 +395,26 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 // Phase handlers
 // ============================================================================
 
-/** preBattle → selectAction(M3 跳过 wScriptOnReady)。 */
+/** preBattle → selectAction(M3 跳过 wScriptOnReady)。起手起第一个队员的选择菜单(PAL_BattleUIPlayerReady)。 */
 function tickPreBattle(state: BattleState): void {
   state.phase = 'selectAction'
-  state.selectingPlayerIdx = 0
-  state.uiState = 'mainMenu'
-  state.uiCursor = 0
+  startPlayerSelection(state, 0)
   state.phaseStallTicks = 0
+}
+
+/**
+ * port sdlpal `PAL_BattleUIPlayerReady`(uibattle.c:581-621):轮到某队员 → 起其动作选择菜单。
+ *   state=SelectMove / MenuState=Main / wSelectedAction=0。ts 额外清 target 光标 + 选择子状态。
+ */
+function startPlayerSelection(state: BattleState, idx: number): void {
+  state.selectingPlayerIdx = idx
+  state.uiState = 'selectMove'
+  state.menuState = 'main'
+  state.selectedAction = 0
+  state.uiCursor = 0
+  state.pendingActionDraft = undefined
+  state.magicSelect = undefined
+  state.itemSelect = undefined
 }
 
 /**
@@ -462,23 +477,20 @@ function tickSelectAction(
     return
   }
 
-  // UI input dispatch(按 uiState 路由);Cancel 在 mainMenu 顶层无意义,不处理。
-  switch (state.uiState) {
-    case 'mainMenu':
-      handleMainMenuInput(state, input, alivePlayerIdxs, res.playerRoles)
-      break
-    case 'magicMenu':
-      handleMagicMenuInput(state, input, res.playerRoles, res.spells, alivePlayerIdxs)
-      break
-    case 'itemMenu':
-      handleItemMenuInput(state, input, gs, res.items, alivePlayerIdxs)
-      break
-    case 'targetSelect':
-      handleTargetSelectInput(state, input, alivePlayerIdxs)
-      break
-    default:
-      // 'hidden' / 其它(含 fixture 模式)— 不处理 input,保留 stub 行为
-      break
+  // fAutoAttack 取消(sdlpal uibattle.c:827-829):auto 模式按 Menu → 关 auto,本 tick 改正常菜单。
+  if (state.fAutoAttack && input.pressed.has('Menu')) {
+    state.fAutoAttack = false
+  }
+
+  // 自动攻击模式(围攻 / Auto 键):队员起手即自动 commit 攻击(sdlpal uibattle.c:977-992),不显示菜单。
+  if (
+    state.uiState === 'selectMove' && state.menuState === 'main' && state.fAutoAttack &&
+    state.selectingPlayerIdx !== undefined
+  ) {
+    commitAutoAttack(state, res.playerRoles, alivePlayerIdxs)
+  } else {
+    // UI input dispatch(按 uiState × menuState 路由,1:1 sdlpal BATTLEUISTATE × BATTLEMENUSTATE)。
+    dispatchSelectInput(state, input, gs, res, alivePlayerIdxs)
   }
 
   // 还没全选完 → 等下一 tick
@@ -522,410 +534,638 @@ function tickSelectAction(
   state.phaseStallTicks = 0
 }
 
-/** mainMenu 5 项数(0=攻击 1=法术 2=物品 3=防御 4=逃跑;对照 sdlpal BATTLE_MENU)。 */
-const MAIN_MENU_SIZE = 5
+// ── sdlpal CLASSIC 战斗菜单常量 ─────────────────────────────────────────────
+/** 主菜单 4 图标 → BATTLEUIACTION(uibattle.c:813-817):0攻击 1法术 2合击 3杂项。 */
+// (图标渲染顺序在 draw 层;此处只用 selectedAction 0-3)
+/** 杂项盒 5 项(CLASSIC 顺序 uibattle.c:368-385):0围攻 1道具 2防御 3逃跑 4状态。 */
+const MISC_MENU_SIZE = 5
+/** 法术选择网格 3 列 × 5 行(magicmenu.c:57-59,CN dwWordLength=10 → 32/10=3,iLinesPerPage=5)。 */
+const MAGIC_GRID_COLS = 3
+const MAGIC_GRID_ROWS = 5
+/** 物品选择网格 3 列 × 7 行(itemmenu.c:51-53)。 */
+const ITEM_GRID_COLS = 3
+const ITEM_GRID_ROWS = 7
+
+// ── 灰项判定 helpers(PAL_IsPlayerHealthy / PAL_BattleUIIsActionValid)──────
+/** port sdlpal `PAL_IsPlayerDying`(global.c):hp>0 且 hp < maxHP/5(濒死)。 */
+function isPlayerDying(role: { hp: number; maxHP: number }): boolean {
+  return role.hp > 0 && role.hp < Math.max(1, Math.floor(role.maxHP / 5))
+}
+
+/** port sdlpal `PAL_IsPlayerHealthy`(fight.c:69-76):非濒死 + 无 sleep/confused/silence/paralyzed/puppet。 */
+function isPlayerHealthy(player: BattlePlayer, role: { hp: number; maxHP: number }): boolean {
+  if (role.hp <= 0 || isPlayerDying(role)) return false
+  const st = player.status
+  return (st.sleep ?? 0) === 0 && (st.confused ?? 0) === 0 && (st.silence ?? 0) === 0 &&
+    (st.paralyzed ?? 0) === 0 && (st.puppet ?? 0) === 0
+}
 
 /**
- * mainMenu input 处理(M3.5 T13):
- *
- * - Up:cursor = (cursor - 1 + 5) % 5
- * - Down:cursor = (cursor + 1) % 5
- * - Confirm:按 cursor 派发:
- *   - 0 攻击 → 切 targetSelect,暂存 pendingActionDraft
- *   - 1 法术 → 切 magicMenu(T14 真消费)
- *   - 2 物品 → 切 itemMenu(T14 真消费)
- *   - 3 防御 → 落 pendingActions[playerIdx] = { type: 'defend', target: -1 } + advance
- *   - 4 逃跑 → 落 pendingActions[playerIdx] = { type: 'flee', target: -1 } + advance
- * - Cancel:顶层菜单,无意义,不处理
+ * port sdlpal `PAL_BattleUIIsActionValid`(uibattle.c:271-341,PAL_CLASSIC 分支):
+ *   0攻击/3杂项 → 恒 valid;1法术 → 非 silence;2合击 → 本人 healthy 且 healthy 人数 > 1。
+ */
+function isActionValid(state: BattleState, action: number, playerRoles: PlayerRoles): boolean {
+  const playerIdx = state.selectingPlayerIdx
+  if (playerIdx === undefined) return false
+  const player = state.players[playerIdx]
+  const role = player ? playerRoles.roles[player.roleId] : undefined
+  if (!player || !role) return false
+  switch (action) {
+    case 0:
+    case 3:
+      return true
+    case 1: // magic — silence 时不可
+      return (player.status.silence ?? 0) === 0
+    case 2: { // coopmagic(CLASSIC):本人 healthy 且 healthy 人数 > 1
+      if (state.players.length <= 1) return false // wMaxPartyMemberIndex==0
+      let healthy = 0
+      state.players.forEach((p) => {
+        const r = playerRoles.roles[p.roleId]
+        if (r && isPlayerHealthy(p, r)) healthy++
+      })
+      return isPlayerHealthy(player, role) && healthy > 1
+    }
+    default:
+      return true
+  }
+}
+
+/** 当前队员已学法术 id 列表 —— runtime role.magic SoA 优先,空则 dev panel learnedSpells。 */
+function getLearnedSpells(role: PlayerRole): number[] {
+  const fromMagic = ((role as unknown as { magic?: number[] }).magic ?? []).filter((x) => x !== 0)
+  if (fromMagic.length > 0) return fromMagic
+  return (role as unknown as { learnedSpells?: number[] }).learnedSpells ?? []
+}
+
+/**
+ * port sdlpal `PAL_BattleUIPickAutoMagic`(uibattle.c:721-782):Force/auto 挑威力最大的可用法术。
+ * 跳过:silence(返回 0=物理)/ costMP==1(极限技)/ costMP>当前MP / baseDamage<=0。返回 spell object id,0=物理。
+ */
+function pickAutoMagic(
+  state: BattleState, playerRoles: PlayerRoles, spells: Spell[], magics: Magic[], range: number,
+): number {
+  const playerIdx = state.selectingPlayerIdx
+  if (playerIdx === undefined) return 0
+  const player = state.players[playerIdx]
+  const role = player ? playerRoles.roles[player.roleId] : undefined
+  if (!player || !role) return 0
+  if ((player.status.silence ?? 0) !== 0) return 0
+  let best = 0
+  let maxPower = 0
+  for (const sid of getLearnedSpells(role)) {
+    const spell = spells.find((s) => s.id === sid)
+    if (!spell) continue
+    const magic = magics.find((m) => m.id === spell.magicNumber)
+    if (!magic) continue
+    if (magic.costMP === 1 || magic.costMP > role.mp || magic.baseDamage <= 0) continue
+    const power = magic.baseDamage + state.rng.rangeInclusive(0, range)
+    if (power > maxPower) {
+      maxPower = power
+      best = sid
+    }
+  }
+  return best
+}
+
+// ── 选择网格 state builders(复用 createSelectionMenu;灰项忠实 sdlpal Init)───
+/**
+ * 建战斗法术选择网格 state —— port sdlpal `PAL_MagicSelectionMenuInit`(magicmenu.c:301-410):
+ *   列已学全部法术;enabled = MP 足够 **且** usableInBattle(magicmenu.c:347-368);按 object id 排序。
+ *   灰项(disabled)光标可停但不可确认。
+ */
+function buildBattleMagicSelect(
+  state: BattleState, playerRoles: PlayerRoles, spells: Spell[], magics: Magic[],
+): SelectionMenuState {
+  const pageSize = MAGIC_GRID_COLS * MAGIC_GRID_ROWS
+  const playerIdx = state.selectingPlayerIdx
+  const role = playerIdx !== undefined ? playerRoles.roles[state.players[playerIdx]!.roleId] : undefined
+  if (!role) return createSelectionMenu([], pageSize)
+  const currentMp = role.mp
+  const items = getLearnedSpells(role)
+    .map((spellId) => {
+      const spell = spells.find((s) => s.id === spellId)
+      if (!spell) return null
+      const magic = magics.find((m) => m.id === spell.magicNumber)
+      const mpCost = magic?.costMP ?? 0
+      const disabled = currentMp < mpCost || !spell.flags.usableInBattle
+      return { id: spellId, label: spell._name ?? `magic#${spellId}`, rightText: `MP ${mpCost}`, disabled }
+    })
+    .filter((x): x is NonNullable<typeof x> => x !== null)
+    .sort((a, b) => a.id - b.id) // sdlpal magicmenu.c:377-397 冒泡按 wMagic(object id)排序
+  return createSelectionMenu(items, pageSize)
+}
+
+/**
+ * 建战斗物品选择网格 state —— port sdlpal `PAL_ItemSelectMenuUpdate`(itemmenu.c):
+ *   列**全部**库存(count>0,= CompressInventory 后);灰项 = flag 不符(usable / throwable);
+ *   战斗内不加可用装备(itemmenu.c:355 `!gpGlobals->fInBattle`)。光标可停灰项但不可确认。
+ */
+function buildBattleItemSelect(
+  gs: GameState, items: Item[], flag: 'usable' | 'throwable',
+): SelectionMenuState {
+  const menuItems = gs.inventory
+    .filter((e) => e.count > 0)
+    .map((e) => {
+      const item = items.find((i) => i.id === e.itemId)
+      const matches = flag === 'usable' ? !!item?.flags.usable : !!item?.flags.throwable
+      return { id: e.itemId, label: item?._name ?? `item#${e.itemId}`, rightText: `×${e.count}`, disabled: !matches }
+    })
+  return createSelectionMenu(menuItems, ITEM_GRID_COLS * ITEM_GRID_ROWS)
+}
+
+/**
+ * 网格光标导航 —— port sdlpal magicmenu.c:67-116 / itemmenu.c:63-112:
+ *   Up/Down ±列数;Left/Right ±1;PgUp/PgDn ±(列×行);Home→0;End→末;**钳 [0,n-1] 不 wrap、不跳灰项**。
+ * @returns true = 按了 Menu/Cancel(取消)
+ */
+function gridNavigate(menu: SelectionMenuState, input: InputSnapshot, cols: number, rows: number): boolean {
+  if (input.pressed.has('Menu') || input.pressed.has('Cancel')) return true
+  let delta = 0
+  if (input.pressed.has('Up')) delta = -cols
+  else if (input.pressed.has('Down')) delta = cols
+  else if (input.pressed.has('Left')) delta = -1
+  else if (input.pressed.has('Right')) delta = 1
+  else if (input.pressed.has('PgUp')) delta = -(cols * rows)
+  else if (input.pressed.has('PgDn')) delta = cols * rows
+  else if (input.pressed.has('Home')) delta = -menu.cursor
+  else if (input.pressed.has('End')) delta = menu.items.length - menu.cursor - 1
+  const next = menu.cursor + delta
+  if (next < 0) menu.cursor = 0
+  else if (next >= menu.items.length) menu.cursor = Math.max(0, menu.items.length - 1)
+  else menu.cursor = next
+  return false
+}
+
+// ── 输入派发(BATTLEUISTATE × BATTLEMENUSTATE)──────────────────────────────
+function dispatchSelectInput(
+  state: BattleState, input: InputSnapshot, gs: GameState, res: BattleResources, alivePlayerIdxs: number[],
+): void {
+  switch (state.uiState) {
+    case 'selectMove':
+      switch (state.menuState) {
+        case 'main':
+          handleMainMenuInput(state, input, alivePlayerIdxs, gs, res)
+          break
+        case 'magicSelect':
+          handleMagicSelectInput(state, input, res)
+          break
+        case 'useItemSelect':
+        case 'throwItemSelect':
+          handleItemSelectInput(state, input, res)
+          break
+        case 'misc':
+          handleMiscMenuInput(state, input, alivePlayerIdxs)
+          break
+        case 'miscItemSubMenu':
+          handleMiscItemSubMenuInput(state, input, gs, res)
+          break
+      }
+      break
+    case 'selectTargetEnemy':
+      handleEnemyTargetSelect(state, input, alivePlayerIdxs)
+      break
+    case 'selectTargetPlayer':
+      handlePlayerTargetSelect(state, input, alivePlayerIdxs)
+      break
+    case 'selectTargetEnemyAll':
+    case 'selectTargetPlayerAll':
+      // CLASSIC 不让选,即时 commit target=-1(uibattle.c:1611-1707)
+      commitDraftAsAction(state, -1, alivePlayerIdxs)
+      break
+    default:
+      break // wait / hidden
+  }
+}
+
+// ── 主菜单(4 图标方向选 + 快捷键)─────────────────────────────────────────
+/**
+ * port sdlpal `PAL_BattleUIUpdate` kBattleMenuMain(uibattle.c:1027-1302,PAL_CLASSIC):
+ *   方向选图标 North→0攻击 / South→3杂项 / West→1法术(valid)/ East→2合击(valid);
+ *   当前 selectedAction 失效 → reset 0(uibattle.c:1058-1061);Confirm 派发;快捷键见下。
  */
 function handleMainMenuInput(
-  state: BattleState,
-  input: InputSnapshot,
-  alivePlayerIdxs: number[],
-  playerRoles: PlayerRoles,
+  state: BattleState, input: InputSnapshot, alivePlayerIdxs: number[], gs: GameState, res: BattleResources,
 ): void {
   const playerIdx = state.selectingPlayerIdx
   if (playerIdx === undefined) return
+  const playerRoles = res.playerRoles
 
-  if (input.pressed.has('Up')) {
-    state.uiCursor = (state.uiCursor - 1 + MAIN_MENU_SIZE) % MAIN_MENU_SIZE
+  // 方向选图标(uibattle.c:1034-1055)
+  if (input.pressed.has('Up')) state.selectedAction = 0
+  else if (input.pressed.has('Down')) state.selectedAction = 3
+  else if (input.pressed.has('Left')) {
+    if (isActionValid(state, 1, playerRoles)) state.selectedAction = 1
+  } else if (input.pressed.has('Right')) {
+    if (isActionValid(state, 2, playerRoles)) state.selectedAction = 2
+  }
+  // 当前选中失效 → 回攻击(uibattle.c:1058-1061)
+  if (!isActionValid(state, state.selectedAction, playerRoles)) state.selectedAction = 0
+
+  // Confirm(kKeySearch)→ 按 selectedAction 派发(uibattle.c:1085-1164)
+  if (input.pressed.has('Confirm')) {
+    confirmMainAction(state, res)
     return
   }
-  if (input.pressed.has('Down')) {
-    state.uiCursor = (state.uiCursor + 1) % MAIN_MENU_SIZE
-    return
-  }
-  if (!input.pressed.has('Confirm')) return
 
-  switch (state.uiCursor) {
-    case 0: {
-      // 攻击 → targetSelect(群攻武器则跳过选目标,直接全体)
-      // sdlpal uibattle.c:1094 `PAL_PlayerCanAttackAll(role)` → kBattleUISelectTargetEnemyAll
-      //   →(PAL_CLASSIC,uibattle.c:1613)即时 commit。
-      // PAL_PlayerCanAttackAll(global.c:2048)= Σ rgEquipmentEffect[i].rgwAttackAll[role] != 0
-      //   —— **装备效果**,非 base role.attackAll(player-roles.json base 全 0)。
-      // ⚠️ ts 装备系统(equip-effect.ts)**尚未建 attackAll getter** → 实战装备群攻武器
-      //   不会置位 → 本分支当前**不触发**(只有 dev/test 手动设 role.attackAll 才进)。
-      //   待装备 rgwAttackAll 接入(D14 残)后改读 effective attackAll。
-      const player = state.players[playerIdx]
-      const role = player ? playerRoles.roles[player.roleId] : undefined
-      if (role && (role.attackAll ?? 0) !== 0) {
-        state.pendingActions.set(playerIdx, { type: 'attack', target: -1 })
-        advanceSelectingPlayer(state, alivePlayerIdxs)
+  // 快捷键(uibattle.c:1166-1302;WASD 已还原 sdlpal 原义,见 shell/input.ts)
+  if (input.pressed.has('Defend')) {
+    commitSimpleAction(state, { type: 'defend', target: -1 }, alivePlayerIdxs)
+  } else if (input.pressed.has('Force')) {
+    commitForceAction(state, alivePlayerIdxs, res)
+  } else if (input.pressed.has('Flee')) {
+    commitSimpleAction(state, { type: 'flee', target: -1 }, alivePlayerIdxs)
+  } else if (input.pressed.has('UseItem')) {
+    state.menuState = 'useItemSelect'
+    state.itemSelect = buildBattleItemSelect(gs, res.items, 'usable')
+  } else if (input.pressed.has('ThrowItem')) {
+    state.menuState = 'throwItemSelect'
+    state.itemSelect = buildBattleItemSelect(gs, res.items, 'throwable')
+  } else if (input.pressed.has('Repeat')) {
+    commitRepeatAction(state, alivePlayerIdxs)
+  } else if (input.pressed.has('Auto')) {
+    state.fAutoAttack = true // 下 tick commitAutoAttack 接管(uibattle.c:882-886 / 977-992)
+  } else if (input.pressed.has('Status')) {
+    // sdlpal PAL_PlayerStatus(uibattle.c:930-934)— 全屏状态屏战斗内调用是独立大世界菜单职责,
+    //   本任务接键不实现新屏(诚实残留);no-op 不改 state。
+  } else if (input.pressed.has('Menu')) {
+    revertToPreviousPlayer(state, alivePlayerIdxs)
+  }
+}
+
+/** Confirm 主菜单图标 → 派发(uibattle.c:1085-1164,PAL_CLASSIC)。 */
+function confirmMainAction(state: BattleState, res: BattleResources): void {
+  const playerRoles = res.playerRoles
+  const playerIdx = state.selectingPlayerIdx!
+  switch (state.selectedAction) {
+    case 0: { // 攻击(uibattle.c:1089-1105):群攻武器 → EnemyAll;否则 Enemy(光标从首活敌)
+      const role = playerRoles.roles[state.players[playerIdx]!.roleId]
+      state.pendingActionDraft = { type: 'attack', targetSide: 'enemy' }
+      if ((role?.attackAll ?? 0) !== 0) {
+        state.uiState = 'selectTargetEnemyAll'
       } else {
-        state.pendingActionDraft = { type: 'attack' }
-        state.uiState = 'targetSelect'
+        state.uiState = 'selectTargetEnemy'
         state.uiCursor = 0
       }
       break
     }
-    case 1: // 法术 → magicMenu(T14)
-      state.pendingActionDraft = { type: 'magic' }
-      state.uiState = 'magicMenu'
-      state.uiCursor = 0
+    case 1: // 法术(uibattle.c:1107-1113)→ magicSelect 网格
+      state.menuState = 'magicSelect'
+      state.magicSelect = buildBattleMagicSelect(state, playerRoles, res.spells, res.magics)
       break
-    case 2: // 物品 → itemMenu(T14)
-      state.pendingActionDraft = { type: 'item' }
-      state.uiState = 'itemMenu'
-      state.uiCursor = 0
+    case 2: { // 合击(uibattle.c:1115-1155)— 选择按真值,执行仍 stub(B-w3.a)
+      const role = playerRoles.roles[state.players[playerIdx]!.roleId]
+      const coopId = (role as unknown as { cooperativeMagic?: number }).cooperativeMagic ?? 0
+      const spell = res.spells.find((s) => s.id === coopId)
+      const toEnemy = spell?.flags.usableToEnemy ?? true
+      const applyToAll = spell?.flags.applyToAll ?? false
+      enterTargetForDraft(state, { type: 'coop-magic', actionId: coopId }, toEnemy, applyToAll)
       break
-    case 3: // 防御 → 直接落 action + advance
-      state.pendingActions.set(playerIdx, { type: 'defend', target: -1 })
-      advanceSelectingPlayer(state, alivePlayerIdxs)
+    }
+    case 3: // 杂项(uibattle.c:1157-1163)→ 杂项盒
+      state.menuState = 'misc'
       break
-    case 4: // 逃跑 → 直接落 action + advance
-      state.pendingActions.set(playerIdx, { type: 'flee', target: -1 })
-      advanceSelectingPlayer(state, alivePlayerIdxs)
+  }
+}
+
+/** Force(F 键):pickAutoMagic → 物理/法术自动 commit(uibattle.c:1171-1204)。 */
+function commitForceAction(state: BattleState, alivePlayerIdxs: number[], res: BattleResources): void {
+  const playerIdx = state.selectingPlayerIdx
+  if (playerIdx === undefined) return
+  const w = pickAutoMagic(state, res.playerRoles, res.spells, res.magics, 60)
+  if (w === 0) {
+    commitAutoAttack(state, res.playerRoles, alivePlayerIdxs)
+    return
+  }
+  const spell = res.spells.find((s) => s.id === w)
+  const applyToAll = spell?.flags.applyToAll ?? false
+  const toEnemy = spell?.flags.usableToEnemy ?? true
+  const target = applyToAll
+    ? -1
+    : toEnemy
+      ? selectAutoTargetFrom(state.enemies, 0, state.iPrevEnemyTarget ?? -1)
+      : playerIdx
+  state.pendingActions.set(playerIdx, { type: 'magic', actionId: w, target, targetSide: toEnemy ? 'enemy' : 'player' })
+  advanceSelectingPlayer(state, alivePlayerIdxs)
+}
+
+/** Repeat(R 键)= 重提上一轮 action(sdlpal kKeyRepeat → CommitAction(TRUE),uibattle.c:1220-1223)。 */
+function commitRepeatAction(state: BattleState, alivePlayerIdxs: number[]): void {
+  const playerIdx = state.selectingPlayerIdx
+  if (playerIdx === undefined) return
+  const prev = state.prevActions?.get(playerIdx)
+  if (prev) {
+    // 原样重提;敌方目标若已死,perform 期 selectAutoTargetFrom 重选(本系统已有)。
+    state.pendingActions.set(playerIdx, { ...prev })
+    advanceSelectingPlayer(state, alivePlayerIdxs)
+  } else {
+    // 首轮无 prev → sdlpal CommitAction(TRUE) pass→attack(fight.c:1862-1867):自动目标物理攻击。
+    const target = selectAutoTargetFrom(state.enemies, 0, state.iPrevEnemyTarget ?? -1)
+    state.pendingActions.set(playerIdx, { type: 'attack', target, targetSide: 'enemy' })
+    advanceSelectingPlayer(state, alivePlayerIdxs)
+  }
+}
+
+/**
+ * fAutoAttack / Force 物理:自动 commit 攻击(自动目标)。port sdlpal uibattle.c:977-992 / 1171-1187。
+ *   群攻武器(canAttackAll)→ target=-1(全体);否则 selectAutoTargetFrom 选首个活敌。
+ */
+function commitAutoAttack(
+  state: BattleState, playerRoles: PlayerRoles, alivePlayerIdxs: number[],
+): void {
+  const playerIdx = state.selectingPlayerIdx
+  if (playerIdx === undefined) return
+  const role = playerRoles.roles[state.players[playerIdx]!.roleId]
+  const target = (role?.attackAll ?? 0) !== 0
+    ? -1
+    : selectAutoTargetFrom(state.enemies, 0, state.iPrevEnemyTarget ?? -1)
+  state.pendingActions.set(playerIdx, { type: 'attack', target, targetSide: 'enemy' })
+  advanceSelectingPlayer(state, alivePlayerIdxs)
+}
+
+// ── 杂项盒(围攻/道具/防御/逃跑/状态)──────────────────────────────────────
+/**
+ * port sdlpal `PAL_BattleUIMiscMenuUpdate`(uibattle.c:416-468)+ 结果派发(uibattle.c:1359-1404,CLASSIC):
+ *   Up|Left → -- wrap5;Down|Right → ++ wrap5;Confirm → idx+1 派发;Menu → 回 Main。cursor 持久(g_iCurMiscMenuItem)。
+ *   派发:0围攻→fAutoAttack / 1道具→物品二级 / 2防御→commit / 3逃跑→commit / 4状态→(残)。
+ */
+function handleMiscMenuInput(
+  state: BattleState, input: InputSnapshot, alivePlayerIdxs: number[],
+): void {
+  if (input.pressed.has('Up') || input.pressed.has('Left')) {
+    state.miscMenuCursor = (state.miscMenuCursor - 1 + MISC_MENU_SIZE) % MISC_MENU_SIZE
+    return
+  }
+  if (input.pressed.has('Down') || input.pressed.has('Right')) {
+    state.miscMenuCursor = (state.miscMenuCursor + 1) % MISC_MENU_SIZE
+    return
+  }
+  if (input.pressed.has('Menu') || input.pressed.has('Cancel')) {
+    state.menuState = 'main' // 取消 → Main(uibattle.c:1364 平取消层级)
+    return
+  }
+  if (!input.pressed.has('Confirm')) return
+  // sdlpal uibattle.c:1364 先置 Main,再按 w(=cursor+1)派发
+  state.menuState = 'main'
+  switch (state.miscMenuCursor) {
+    case 0: // 围攻(auto)→ fAutoAttack(下 tick commitAutoAttack 接管,uibattle.c:1387-1392)
+      state.fAutoAttack = true
+      break
+    case 1: // 道具 → 物品二级(uibattle.c:1369-1375)
+      state.menuState = 'miscItemSubMenu'
+      break
+    case 2: // 防御(uibattle.c:1378-1384)
+      commitSimpleAction(state, { type: 'defend', target: -1 }, alivePlayerIdxs)
+      break
+    case 3: // 逃跑(uibattle.c:1394-1397)
+      commitSimpleAction(state, { type: 'flee', target: -1 }, alivePlayerIdxs)
+      break
+    case 4: // 状态(uibattle.c:1399-1401)→ PAL_PlayerStatus 全屏屏(独立大世界菜单,本任务 no-op 诚实残留)
       break
   }
 }
 
 /**
- * advance 到下一个未填 action 的活队员;全填则保留 selectingPlayerIdx(由
- * tickSelectAction 主流程检测 size 切 performAction)。每次 advance 重置 uiState
- * 回 mainMenu、cursor=0、清 pendingActionDraft。
+ * 物品二级(使用/投掷)—— port sdlpal `PAL_BattleUIMiscItemSubMenuUpdate`(uibattle.c:471-545)
+ * + 结果(uibattle.c:1406-1426)。Up|Left→0使用 / Down|Right→1投掷;Confirm 进对应 select;Menu→Main。cursor 持久。
+ */
+function handleMiscItemSubMenuInput(
+  state: BattleState, input: InputSnapshot, gs: GameState, res: BattleResources,
+): void {
+  if (input.pressed.has('Up') || input.pressed.has('Left')) {
+    state.miscSubMenuCursor = 0
+    return
+  }
+  if (input.pressed.has('Down') || input.pressed.has('Right')) {
+    state.miscSubMenuCursor = 1
+    return
+  }
+  if (input.pressed.has('Menu') || input.pressed.has('Cancel')) {
+    state.menuState = 'main' // 取消 → Main(uibattle.c:1411)
+    return
+  }
+  if (!input.pressed.has('Confirm')) return
+  state.menuState = 'main' // sdlpal uibattle.c:1411 先置 Main
+  if (state.miscSubMenuCursor === 0) {
+    state.menuState = 'useItemSelect'
+    state.itemSelect = buildBattleItemSelect(gs, res.items, 'usable')
+  } else {
+    state.menuState = 'throwItemSelect'
+    state.itemSelect = buildBattleItemSelect(gs, res.items, 'throwable')
+  }
+}
+
+// ── 法术 / 物品选择网格 ─────────────────────────────────────────────────────
+/**
+ * 法术选择网格 —— port sdlpal `PAL_MagicSelectionMenuUpdate`(magicmenu.c:35-299)+ 战斗结果
+ * (uibattle.c:1305-1348)。网格导航(clamp,不跳灰项);Confirm 仅 enabled 可确认 → 据 flags 选目标;Menu→Main。
+ */
+function handleMagicSelectInput(
+  state: BattleState, input: InputSnapshot, res: BattleResources,
+): void {
+  const menu = state.magicSelect
+  if (!menu) {
+    state.menuState = 'main'
+    return
+  }
+  if (input.pressed.has('Confirm')) {
+    const sel = menu.items[menu.cursor]
+    if (sel && !sel.disabled) {
+      const spell = res.spells.find((s) => s.id === sel.id)
+      const toEnemy = spell?.flags.usableToEnemy ?? true
+      const applyToAll = spell?.flags.applyToAll ?? false
+      state.menuState = 'main'
+      state.magicSelect = undefined
+      enterTargetForDraft(state, { type: 'magic', actionId: sel.id }, toEnemy, applyToAll)
+    }
+    return
+  }
+  if (gridNavigate(menu, input, MAGIC_GRID_COLS, MAGIC_GRID_ROWS)) {
+    state.menuState = 'main' // Menu 取消 → Main(uibattle.c:1310 平取消)
+    state.magicSelect = undefined
+  }
+}
+
+/**
+ * 物品选择网格 —— port sdlpal `PAL_ItemSelectMenuUpdate`(itemmenu.c)+ 战斗结果
+ * (PAL_BattleUIUseItem/ThrowItem,uibattle.c:623-719)。useItemSelect→队友目标 / throwItemSelect→敌方目标。
+ */
+function handleItemSelectInput(
+  state: BattleState, input: InputSnapshot, res: BattleResources,
+): void {
+  const menu = state.itemSelect
+  if (!menu) {
+    state.menuState = 'main'
+    return
+  }
+  const isThrow = state.menuState === 'throwItemSelect'
+  if (input.pressed.has('Confirm')) {
+    const sel = menu.items[menu.cursor]
+    if (sel && !sel.disabled) {
+      const item = res.items.find((i) => i.id === sel.id)
+      const applyToAll = !!item?.flags.applyToAll
+      state.menuState = 'main'
+      state.itemSelect = undefined
+      enterTargetForDraft(
+        state,
+        { type: isThrow ? 'throw-item' : 'item', actionId: sel.id },
+        isThrow, applyToAll,
+      )
+    }
+    return
+  }
+  if (gridNavigate(menu, input, ITEM_GRID_COLS, ITEM_GRID_ROWS)) {
+    state.menuState = 'main'
+    state.itemSelect = undefined
+  }
+}
+
+// ── target 路由 / commit helpers ────────────────────────────────────────────
+/**
+ * 据 action 的目标语义设置 target 状态:applyToAll → All 状态(CLASSIC 即时 commit);否则单选状态。
+ *   toEnemy → Enemy / EnemyAll;否则 Player / PlayerAll(uibattle.c:1317-1346 / 653-718)。
+ */
+function enterTargetForDraft(
+  state: BattleState,
+  draft: NonNullable<BattleState['pendingActionDraft']>,
+  toEnemy: boolean,
+  applyToAll: boolean,
+): void {
+  draft.targetSide = toEnemy ? 'enemy' : 'player'
+  state.pendingActionDraft = draft
+  if (applyToAll) {
+    state.uiState = toEnemy ? 'selectTargetEnemyAll' : 'selectTargetPlayerAll'
+  } else {
+    state.uiState = toEnemy ? 'selectTargetEnemy' : 'selectTargetPlayer'
+    state.uiCursor = 0
+  }
+}
+
+/** 落一个完整 action(无 target 选择路径:防御/逃跑)+ advance。 */
+function commitSimpleAction(state: BattleState, action: BattleAction, alivePlayerIdxs: number[]): void {
+  const playerIdx = state.selectingPlayerIdx
+  if (playerIdx === undefined) return
+  state.pendingActions.set(playerIdx, action)
+  advanceSelectingPlayer(state, alivePlayerIdxs)
+}
+
+/** 把当前 pendingActionDraft 以给定 target 落 pendingActions + advance(target=-1 即全体)。 */
+function commitDraftAsAction(state: BattleState, target: number, alivePlayerIdxs: number[]): void {
+  const playerIdx = state.selectingPlayerIdx
+  const draft = state.pendingActionDraft
+  if (playerIdx === undefined || !draft) return
+  state.pendingActions.set(playerIdx, {
+    type: draft.type,
+    actionId: draft.actionId,
+    target,
+    targetSide: draft.targetSide,
+  })
+  advanceSelectingPlayer(state, alivePlayerIdxs)
+}
+
+/**
+ * advance 到下一个未填 action 的活队员(= sdlpal CommitAction 后 CheckReady+PlayerReady)。
+ * 全填完 → uiState='wait'(主流程 size 检测切 performAction)。每次清 draft / select 网格。
  */
 function advanceSelectingPlayer(state: BattleState, alivePlayerIdxs: number[]): void {
   state.pendingActionDraft = undefined
+  state.magicSelect = undefined
+  state.itemSelect = undefined
   const next = alivePlayerIdxs.find((i) => !state.pendingActions.has(i))
-  if (next !== undefined) {
-    state.selectingPlayerIdx = next
-    state.uiState = 'mainMenu'
-    state.uiCursor = 0
-  }
-  // 全填完 → 不动 uiState/cursor;主流程下一步会切 performAction(在那里 uiState='hidden')
+  if (next !== undefined) startPlayerSelection(state, next)
+  else state.uiState = 'wait'
 }
 
 /**
- * Cancel 退回 mainMenu —— magicMenu / itemMenu / targetSelect 三个 handler 共用。
- * 不切 selectingPlayerIdx(还是当前队员重新选)、清 draft、cursor 归 0。
+ * 主菜单按 Menu → 回退上一队员重选(port sdlpal uibattle.c:1225-1272,PAL_CLASSIC)。
+ *   首个队员(无上一个)→ 无操作(sdlpal 留在 Wait);否则撤销上一队员已 commit 的 action,选他重选。
+ *   注:sdlpal 还会 decrement throw/use item 的 nAmountInUse —— ts 选择期不跟踪 inUse,跳过(诚实残留)。
  */
-function cancelToMainMenu(state: BattleState): void {
-  state.uiState = 'mainMenu'
-  state.uiCursor = 0
-  state.pendingActionDraft = undefined
+function revertToPreviousPlayer(state: BattleState, alivePlayerIdxs: number[]): void {
+  const cur = state.selectingPlayerIdx
+  if (cur === undefined) return
+  const pos = alivePlayerIdxs.indexOf(cur)
+  if (pos <= 0) return // 首个队员,无上一个可回退
+  const prevIdx = alivePlayerIdxs[pos - 1]!
+  state.pendingActions.delete(prevIdx)
+  startPlayerSelection(state, prevIdx)
 }
 
+// ── 敌方 / 友方 target picker ────────────────────────────────────────────────
 /**
- * magicMenu input 处理(M3.5 T14):
- *
- * - Up / Down:wrap 在 learnedSpells.length(空表 → 不动 cursor)
- * - Confirm:把 learned[cursor] 写进 draft.actionId,切 targetSelect、cursor=0
- *   - 空表 → no-op(不切)
- * - Cancel:回 mainMenu(清 draft、cursor=0)
- *
- * learnedSpells 不在 PlayerRole schema —— 兼容 dev panel 临时附加(同 draw-battle-ui)。
+ * 敌方单目标选择 —— port sdlpal kBattleUISelectTargetEnemy(uibattle.c:1431-1543,PAL_CLASSIC)。
+ *   无活敌(x==-1)→ 回 selectMove;仅 1 活敌(y==1)→ 跳过选择即时 commit(uibattle.c:1459-1475);
+ *   Left|Down 前 / Right|Up 后 跳过死敌环绕;Confirm → commit;Menu → 回 selectMove。
+ *   iPrevEnemyTarget 在本 CLASSIC build 是死代码(写入注释掉 + iSelectedIndex=0 覆盖)→ 光标恒从首活敌起;
+ *   ts 仍在 Confirm 记 iPrevEnemyTarget 供 perform 期 selectAutoTargetFrom 重选(既有功能)。
  */
-function handleMagicMenuInput(
-  state: BattleState,
-  input: InputSnapshot,
-  playerRoles: PlayerRoles,
-  spells: Spell[],
-  alivePlayerIdxs: number[],
-): void {
-  if (input.pressed.has('Cancel')) {
-    cancelToMainMenu(state)
-    return
-  }
-
-  const playerIdx = state.selectingPlayerIdx
-  if (playerIdx === undefined) return
-  const player = state.players[playerIdx]
-  if (!player) return
-  const role = playerRoles.roles[player.roleId]
-  if (!role) return
-  const learned: number[] = (role as unknown as { learnedSpells?: number[] }).learnedSpells ?? []
-
-  if (learned.length === 0) {
-    // 空表 — Up/Down/Confirm 都 no-op(cursor 保持 0;Cancel 已在上面处理过)
-    return
-  }
-
-  if (input.pressed.has('Up')) {
-    state.uiCursor = (state.uiCursor - 1 + learned.length) % learned.length
-    return
-  }
-  if (input.pressed.has('Down')) {
-    state.uiCursor = (state.uiCursor + 1) % learned.length
-    return
-  }
-  if (input.pressed.has('Confirm')) {
-    const spellId = learned[state.uiCursor]
-    if (spellId === undefined) return
-    // D18:目标域唯一判定 = magic.flags.usableToEnemy(uibattle.c:1317),**不看 magic.type**:
-    //   usableToEnemy=TRUE  → applyToAll? EnemyAll(即时 commit target=-1) : Enemy(选敌,现有流)
-    //   usableToEnemy=FALSE → applyToAll? PlayerAll(即时 commit target=-1) : Player(选队友)
-    // PAL_CLASSIC EnemyAll/PlayerAll 都 "Don't bother selecting" 即时 commit
-    //   (uibattle.c:1616/1667 iSelectedIndex=-1 → PAL_BattleCommitAction)。
-    // **菜单判定按 flags**(不是 magic.type;伤害侧才按 type,见 performMagic E1
-    //   FIGHT_DetectMagicTargetChange —— 二者是 sdlpal 两套独立判定,故意分开)。
-    const spell = spells.find((s) => s.id === spellId)
-    const usableToEnemy = spell?.flags.usableToEnemy ?? true // 缺 spell → 保旧默认(敌方)
-    const applyToAll = spell?.flags.applyToAll ?? false
-    if (usableToEnemy) {
-      if (applyToAll) {
-        // EnemyAll(uibattle.c:1321)→ PAL_CLASSIC 即时 commit target=-1(targetSide 省略=enemy)
-        state.pendingActions.set(playerIdx, { type: 'magic', actionId: spellId, target: -1 })
-        advanceSelectingPlayer(state, alivePlayerIdxs)
-        return
-      }
-      // Enemy(uibattle.c:1327)→ 现有敌方目标选择流
-      state.pendingActionDraft = { type: 'magic', actionId: spellId, targetSide: 'enemy' }
-      state.uiState = 'targetSelect'
-      state.uiCursor = 0
-      return
-    }
-    // 治疗/辅助(usableToEnemy=FALSE)
-    if (applyToAll) {
-      // PlayerAll(uibattle.c:1335)→ PAL_CLASSIC 即时 commit target=-1 targetSide=player
-      state.pendingActions.set(playerIdx, {
-        type: 'magic',
-        actionId: spellId,
-        target: -1,
-        targetSide: 'player',
-      })
-      advanceSelectingPlayer(state, alivePlayerIdxs)
-      return
-    }
-    // Player(uibattle.c:1344)→ 友方目标选择流
-    state.pendingActionDraft = { type: 'magic', actionId: spellId, targetSide: 'player' }
-    state.uiState = 'targetSelect'
-    state.uiCursor = 0
-  }
-}
-
-/**
- * itemMenu input 处理(M3.5 T14):
- *
- * - usable = gs.inventory.filter(count > 0)(与 draw-battle-ui 视图保持一致)
- * - Up / Down:wrap 在 usable.length
- * - Confirm:把 usable[cursor].itemId 写进 draft.actionId,切 targetSelect、cursor=0
- *   - usable 空 → no-op
- * - Cancel:回 mainMenu
- */
-function handleItemMenuInput(
-  state: BattleState,
-  input: InputSnapshot,
-  gs: GameState,
-  items: Item[],
-  alivePlayerIdxs: number[],
-): void {
-  if (input.pressed.has('Cancel')) {
-    cancelToMainMenu(state)
-    return
-  }
-
-  const usable = gs.inventory.filter((e) => e.count > 0)
-  if (usable.length === 0) return
-
-  if (input.pressed.has('Up')) {
-    state.uiCursor = (state.uiCursor - 1 + usable.length) % usable.length
-    return
-  }
-  if (input.pressed.has('Down')) {
-    state.uiCursor = (state.uiCursor + 1) % usable.length
-    return
-  }
-  if (input.pressed.has('Confirm')) {
-    const entry = usable[state.uiCursor]
-    if (!entry) return
-    const playerIdx = state.selectingPlayerIdx
-    if (playerIdx === undefined) return
-    // E2:投掷物(throwable + scriptOnThrow)→ 'throw-item' action(performThrowItem
-    // 跑 scriptOnThrow + 0x42),否则 'item' action(performItem 跑 scriptOnUse)。
-    // sdlpal 战斗物品菜单按 item flag 分 kBattleActionThrowItem / kBattleActionUseItem。
-    const item = items.find((i) => i.id === entry.itemId)
-    const isThrow = !!item?.flags.throwable && item.scriptOnThrow !== 0
-    const applyToAll = !!item?.flags.applyToAll
-    if (isThrow) {
-      // D18:投掷类 —— sdlpal PAL_BattleUIThrowItem(uibattle.c:702)目标 = **敌方**:
-      //   applyToAll? EnemyAll(PAL_CLASSIC 即时 commit target=-1) : Enemy(选敌,现有流)。
-      if (applyToAll) {
-        state.pendingActions.set(playerIdx, {
-          type: 'throw-item',
-          actionId: entry.itemId,
-          target: -1,
-        })
-        advanceSelectingPlayer(state, alivePlayerIdxs)
-        return
-      }
-      state.pendingActionDraft = {
-        type: 'throw-item',
-        actionId: entry.itemId,
-        targetSide: 'enemy',
-      }
-      state.uiState = 'targetSelect'
-      state.uiCursor = 0
-      return
-    }
-    // D18:使用类(治疗药等)—— sdlpal PAL_BattleUIUseItem(uibattle.c:653)目标 = **队友**:
-    //   applyToAll? PlayerAll(PAL_CLASSIC 即时 commit target=-1 targetSide=player) : Player(选队友)。
-    if (applyToAll) {
-      state.pendingActions.set(playerIdx, {
-        type: 'item',
-        actionId: entry.itemId,
-        target: -1,
-        targetSide: 'player',
-      })
-      advanceSelectingPlayer(state, alivePlayerIdxs)
-      return
-    }
-    state.pendingActionDraft = { type: 'item', actionId: entry.itemId, targetSide: 'player' }
-    state.uiState = 'targetSelect'
-    state.uiCursor = 0
-  }
-}
-
-/**
- * targetSelect input 处理(M3.5 T14 + D18 友方目标分流)。
- *
- * 按 `state.pendingActionDraft.targetSide` 分两套域(省略 = 'enemy',向后兼容):
- *   - 'enemy'(默认):现有敌方目标流 —— 光标 = state.enemies raw index,Left/Right
- *     跳过已死敌(health<=0);Confirm 落 { target, targetSide:'enemy' }(省略)。
- *   - 'player'(D18):友方目标流 —— sdlpal kBattleUISelectTargetPlayer(uibattle.c:1545-1609)。
- */
-function handleTargetSelectInput(
-  state: BattleState,
-  input: InputSnapshot,
-  alivePlayerIdxs: number[],
-): void {
-  if (input.pressed.has('Cancel')) {
-    cancelToMainMenu(state)
-    return
-  }
-
-  if (state.pendingActionDraft?.targetSide === 'player') {
-    handlePlayerTargetSelect(state, input, alivePlayerIdxs)
-    return
-  }
-  handleEnemyTargetSelect(state, input, alivePlayerIdxs)
-}
-
-/**
- * 敌方目标域(现有流,不变):光标 = state.enemies raw index;Left/Right 跳过已死敌。
- * Confirm 记 iPrevEnemyTarget + 落 pendingActions(targetSide 省略 = enemy)。
- */
-function handleEnemyTargetSelect(
-  state: BattleState,
-  input: InputSnapshot,
-  alivePlayerIdxs: number[],
-): void {
-  // 收集活敌 raw index;无 alive 则 Left/Right/Confirm 全 no-op
+function handleEnemyTargetSelect(state: BattleState, input: InputSnapshot, alivePlayerIdxs: number[]): void {
   const aliveRawIdxs: number[] = []
   state.enemies.forEach((e, i) => {
     if (e.e.health > 0) aliveRawIdxs.push(i)
   })
-  if (aliveRawIdxs.length === 0) return
-
-  if (input.pressed.has('Left') || input.pressed.has('Right')) {
-    // 找当前 cursor 在 aliveRawIdxs 中的位置;若 cursor 指向死敌则取最近的活敌
-    let pos = aliveRawIdxs.indexOf(state.uiCursor)
-    if (pos === -1) pos = 0 // cursor 不在活敌中 — 默认从第一个 alive 开始数
-    const delta = input.pressed.has('Left') ? -1 : 1
-    const newPos = (pos + delta + aliveRawIdxs.length) % aliveRawIdxs.length
-    state.uiCursor = aliveRawIdxs[newPos]!
+  if (aliveRawIdxs.length === 0) {
+    state.uiState = 'selectMove' // x==-1(uibattle.c:1444-1448)
+    state.menuState = 'main'
     return
   }
+  // 仅 1 活敌 → CLASSIC 跳过选择即时 commit(uibattle.c:1459-1475)
+  if (aliveRawIdxs.length === 1) {
+    commitDraftAsAction(state, aliveRawIdxs[0]!, alivePlayerIdxs)
+    return
+  }
+  // 光标钳到活敌(进入时 uiCursor=0 → 取首个活敌)
+  if (!aliveRawIdxs.includes(state.uiCursor)) state.uiCursor = aliveRawIdxs[0]!
 
+  if (input.pressed.has('Menu') || input.pressed.has('Cancel')) {
+    state.uiState = 'selectMove'
+    state.menuState = 'main'
+    return
+  }
   if (input.pressed.has('Confirm')) {
-    const draft = state.pendingActionDraft
-    const playerIdx = state.selectingPlayerIdx
-    if (!draft || playerIdx === undefined) return
-    // 当前 cursor 必须是活敌(防御性 — UI 应已通过 Left/Right 保证)
-    const target = aliveRawIdxs.includes(state.uiCursor) ? state.uiCursor : aliveRawIdxs[0]!
-    // sdlpal `g_Battle.UI.iPrevEnemyTarget`:记最后选的敌人 → perform 前重选目标优先用它。
-    state.iPrevEnemyTarget = target
-    state.pendingActions.set(playerIdx, {
-      type: draft.type,
-      actionId: draft.actionId,
-      target,
-      targetSide: 'enemy',
-    })
-    advanceSelectingPlayer(state, alivePlayerIdxs)
+    state.iPrevEnemyTarget = state.uiCursor
+    commitDraftAsAction(state, state.uiCursor, alivePlayerIdxs)
+    return
+  }
+  // Left|Down → 前一个活敌;Right|Up → 后一个活敌(uibattle.c:1521-1542,环绕跳死敌)
+  const pos = aliveRawIdxs.indexOf(state.uiCursor)
+  if (input.pressed.has('Left') || input.pressed.has('Down')) {
+    state.uiCursor = aliveRawIdxs[(pos - 1 + aliveRawIdxs.length) % aliveRawIdxs.length]!
+  } else if (input.pressed.has('Right') || input.pressed.has('Up')) {
+    state.uiCursor = aliveRawIdxs[(pos + 1) % aliveRawIdxs.length]!
   }
 }
 
 /**
- * 友方目标域(D18)—— port sdlpal kBattleUISelectTargetPlayer(uibattle.c:1545-1609):
- *
- * - 单人队(players.length === 1 即 wMaxPartyMemberIndex==0)→ 即时 commit idx 0
- *   (uibattle.c:1550-1554 PAL_CLASSIC)。
- * - 否则在 0..players.length-1(= wMaxPartyMemberIndex)间导航:
- *     Left|Down → 减(idx==0 wrap 到 max,uibattle.c:1586-1596)
- *     Right|Up  → 加(idx==max wrap 到 0,uibattle.c:1597-1607)
- *   箭头画在**每个队员**(不按 hp 过滤,uibattle.c:1573)—— 渲染层 drawTargetCursor 处理。
- * - Confirm:落 { target:uiCursor, targetSide:'player' }(uibattle.c:1582-1585)。
- * - Cancel:回主菜单(已在上层 handleTargetSelectInput 统一处理 uibattle.c:1578-1581)。
- *
- * 光标语义:uiCursor 是 **state.players 的 party index**(0..length-1);
- * 不按 hp 过滤(死队员也能被选 —— 复活类法术对死者有效,忠实 sdlpal)。
+ * 友方单目标选择 —— port sdlpal kBattleUISelectTargetPlayer(uibattle.c:1545-1609,PAL_CLASSIC)。
+ *   单人队(wMaxPartyMemberIndex==0)→ 即时 commit idx 0;否则 Left|Down 减 / Right|Up 加 wrap;
+ *   Confirm → commit;Menu → 回 selectMove。光标 = party index(不按 hp 过滤,复活类对死者有效)。
  */
-function handlePlayerTargetSelect(
-  state: BattleState,
-  input: InputSnapshot,
-  alivePlayerIdxs: number[],
-): void {
-  const playerIdx = state.selectingPlayerIdx
+function handlePlayerTargetSelect(state: BattleState, input: InputSnapshot, alivePlayerIdxs: number[]): void {
   const draft = state.pendingActionDraft
-  if (!draft || playerIdx === undefined) return
-
-  const maxIdx = state.players.length - 1 // = sdlpal wMaxPartyMemberIndex
-  if (maxIdx < 0) return // 无队员(防御性)
-
-  // 单人队 → 即时 commit idx 0(uibattle.c:1550-1554)
-  if (maxIdx === 0) {
-    state.pendingActions.set(playerIdx, {
-      type: draft.type,
-      actionId: draft.actionId,
-      target: 0,
-      targetSide: 'player',
-    })
-    advanceSelectingPlayer(state, alivePlayerIdxs)
+  if (!draft || state.selectingPlayerIdx === undefined) return
+  if (input.pressed.has('Menu') || input.pressed.has('Cancel')) {
+    state.uiState = 'selectMove'
+    state.menuState = 'main'
     return
   }
-
-  // 钳光标到 [0, maxIdx](进入友方域时 uiCursor 已被上层置 0)
+  const maxIdx = state.players.length - 1 // = sdlpal wMaxPartyMemberIndex
+  if (maxIdx < 0) return
+  // 单人队 → 即时 commit idx 0(uibattle.c:1550-1554)
+  if (maxIdx === 0) {
+    commitDraftAsAction(state, 0, alivePlayerIdxs)
+    return
+  }
   if (state.uiCursor < 0 || state.uiCursor > maxIdx) state.uiCursor = 0
-
   if (input.pressed.has('Left') || input.pressed.has('Down')) {
-    // 减(uibattle.c:1586-1596):0 → max,否则 -1
     state.uiCursor = state.uiCursor === 0 ? maxIdx : state.uiCursor - 1
     return
   }
   if (input.pressed.has('Right') || input.pressed.has('Up')) {
-    // 加(uibattle.c:1597-1607):max → 0,否则 +1
     state.uiCursor = state.uiCursor >= maxIdx ? 0 : state.uiCursor + 1
     return
   }
-
   if (input.pressed.has('Confirm')) {
-    state.pendingActions.set(playerIdx, {
-      type: draft.type,
-      actionId: draft.actionId,
-      target: state.uiCursor,
-      targetSide: 'player',
-    })
-    advanceSelectingPlayer(state, alivePlayerIdxs)
+    commitDraftAsAction(state, state.uiCursor, alivePlayerIdxs)
   }
 }
 
@@ -1495,6 +1735,8 @@ function tickPostAction(
   // 简版不衰减(等装备 / 法术 follow-up)
   tickStatusEffects(state)
   state.turn++
+  // 备份本轮已选 action 供 Repeat(R 键)重提(sdlpal fight.c:1434-1437 prevAction backup),再清。
+  state.prevActions = new Map(state.pendingActions)
   state.pendingActions.clear()
   // defend 单轮失效(sdlpal `fight.c:1604` `g_Battle.rgPlayer[i].fDefending = FALSE`)
   state.players.forEach((p) => {
@@ -1504,10 +1746,9 @@ function tickPostAction(
   //   (user 2026-05-31 实测:一回合结束后还保持防御姿)。sdlpal fight.c:1602-1609 同序(清 fDefending
   //   + 复位 pos),姿势随每帧 PAL_BattleUpdateFighters 即回站立。
   resetFightersAfterAction(state, res.playerRoles)
+  // 进下一轮选择 —— 起第一个队员的菜单(= PAL_BattleUIPlayerReady;fAutoAttack 跨轮保持)。
   state.phase = 'selectAction'
-  state.selectingPlayerIdx = 0
-  state.uiState = 'mainMenu'
-  state.uiCursor = 0
+  startPlayerSelection(state, 0)
   state.phaseStallTicks = 0
 }
 

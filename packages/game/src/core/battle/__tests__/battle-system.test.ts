@@ -295,7 +295,8 @@ describe('tickBattle phase transitions', () => {
     const { gs, bus, emptyInput } = bootstrap()
     tickBattle(gs, emptyInput, bus)
     expect(gs.battleState?.phase).toBe('selectAction')
-    expect(gs.battleState?.uiState).toBe('mainMenu')
+    expect(gs.battleState?.uiState).toBe('selectMove')
+    expect(gs.battleState?.menuState).toBe('main')
     expect(gs.battleState?.selectingPlayerIdx).toBe(0)
   })
 
@@ -631,703 +632,546 @@ describe('finalize 清状态', () => {
 })
 
 // ============================================================================
-// tickSelectAction mainMenu input(M3.5 T13)
+// 战斗动作菜单 1:1(sdlpal CLASSIC)—— 4 图标主菜单 / 杂项盒 / 物品二级 /
+//   法术·物品选择网格 / target picker。replaces 旧线性 uiState 模型测试。
 // ============================================================================
 
-describe('tickSelectAction mainMenu input(M3.5 T13)', () => {
-  /** 构造一个只含一个键 pressed 的 InputSnapshot。 */
-  function snap(pressed: Array<'Up' | 'Down' | 'Left' | 'Right' | 'Confirm' | 'Cancel' | 'Menu'> = []): InputSnapshot {
-    return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
+/** 新模型测试通用 snap(支持全部抽象键)。 */
+function mSnap(
+  pressed: Array<
+    | 'Up' | 'Down' | 'Left' | 'Right' | 'Confirm' | 'Cancel' | 'Menu'
+    | 'Defend' | 'Force' | 'Flee' | 'UseItem' | 'ThrowItem' | 'Repeat' | 'Auto' | 'Status'
+    | 'PgUp' | 'PgDn' | 'Home' | 'End'
+  > = [],
+): InputSnapshot {
+  return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
+}
+
+function mkSpell(id: number, flags: Partial<Spell['flags']> = {}): Spell {
+  return {
+    id,
+    _name: `spell${id}`,
+    magicNumber: id,
+    scriptOnSuccess: 0,
+    scriptOnUse: 0,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: false,
+      usableInBattle: true,
+      usableToEnemy: true,
+      applyToAll: false,
+      ...flags,
+    },
   }
+}
 
-  it('Up wrap:cursor=0 + Up → cursor=4', () => {
-    const { gs, bus, emptyInput } = bootstrap()
-    tickBattle(gs, emptyInput, bus) // preBattle → selectAction(uiState=mainMenu, cursor=0)
-    expect(gs.battleState?.uiState).toBe('mainMenu')
-    expect(gs.battleState?.uiCursor).toBe(0)
-    tickBattle(gs, snap(['Up']), bus)
-    expect(gs.battleState?.uiCursor).toBe(4)
-    expect(gs.battleState?.uiState).toBe('mainMenu')
-    expect(gs.battleState?.phase).toBe('selectAction')
+function mkMagic(id: number, opts: Partial<Magic> = {}): Magic {
+  return {
+    id,
+    effect: 0,
+    type: 'normal' as Magic['type'],
+    xOffset: 0,
+    yOffset: 0,
+    special: 0,
+    speed: 0,
+    keepEffect: 0,
+    fireDelay: 0,
+    effectTimes: 0,
+    shake: 0,
+    wave: 0,
+    unknown: 0,
+    costMP: 5,
+    baseDamage: 30,
+    elemental: 0,
+    sound: 0,
+    ...opts,
+  }
+}
+
+function mkItem(id: number, flags: Partial<Item['flags']> = {}): Item {
+  return {
+    id,
+    _name: `item${id}`,
+    bitmap: 0,
+    price: 0,
+    scriptOnUse: 0,
+    scriptOnEquip: 0,
+    scriptOnThrow: 0,
+    scriptDesc: 0,
+    flags: {
+      usable: true,
+      equipable: false,
+      throwable: false,
+      consuming: true,
+      applyToAll: false,
+      sellable: false,
+      equipableBy: [false, false, false, false, false, false],
+      ...flags,
+    },
+  }
+}
+
+/** preBattle → selectMove(起手 = PAL_BattleUIPlayerReady)。 */
+function enterSelectMove(ctx: { gs: GameState; bus: CommandBus; emptyInput: InputSnapshot }): void {
+  tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
+}
+
+describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
+  it('preBattle → selectMove + menuState=main + selectedAction=0', () => {
+    const ctx = bootstrap()
+    enterSelectMove(ctx)
+    expect(ctx.gs.battleState?.uiState).toBe('selectMove')
+    expect(ctx.gs.battleState?.menuState).toBe('main')
+    expect(ctx.gs.battleState?.selectedAction).toBe(0)
   })
 
-  it('Down wrap:cursor=4 + Down → cursor=0', () => {
-    const { gs, bus, emptyInput } = bootstrap()
-    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
-    gs.battleState!.uiCursor = 4
-    tickBattle(gs, snap(['Down']), bus)
-    expect(gs.battleState?.uiCursor).toBe(0)
-    expect(gs.battleState?.uiState).toBe('mainMenu')
+  it('方向选图标:Down→3(杂项) / Up→0(攻击)', () => {
+    const ctx = bootstrap()
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Down']), ctx.bus)
+    expect(ctx.gs.battleState?.selectedAction).toBe(3)
+    tickBattle(ctx.gs, mSnap(['Up']), ctx.bus)
+    expect(ctx.gs.battleState?.selectedAction).toBe(0)
   })
 
-  it('Confirm 攻击(cursor=0)→ uiState=targetSelect + pendingActionDraft={type:"attack"}', () => {
-    const { gs, bus, emptyInput } = bootstrap()
-    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
-    expect(gs.battleState?.uiCursor).toBe(0)
-    tickBattle(gs, snap(['Confirm']), bus)
-    expect(gs.battleState?.uiState).toBe('targetSelect')
-    expect(gs.battleState?.uiCursor).toBe(0)
-    expect(gs.battleState?.pendingActionDraft).toEqual({ type: 'attack' })
-    // 攻击未落 pendingActions(还要选 target)
-    expect(gs.battleState?.pendingActions.has(0)).toBe(false)
-    expect(gs.battleState?.phase).toBe('selectAction')
+  it('Left→1(法术),非 silence 时有效', () => {
+    const ctx = bootstrap()
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Left']), ctx.bus)
+    expect(ctx.gs.battleState?.selectedAction).toBe(1)
   })
 
-  it('Confirm 攻击 + attackAll 群攻武器(role.attackAll≠0)→ 跳过 targetSelect,直接落 target=-1', () => {
-    const { gs, bus, emptyInput } = bootstrap({ roles: [makeRole({ id: 0, attackAll: 1 })] })
-    tickBattle(gs, emptyInput, bus) // preBattle → selectAction(cursor=0 攻击)
-    tickBattle(gs, snap(['Confirm']), bus)
-    // 不进 targetSelect,直接落全体攻击 action
-    expect(gs.battleState?.pendingActions.get(0)).toEqual({ type: 'attack', target: -1 })
-    expect(gs.battleState?.uiState).not.toBe('targetSelect')
+  it('Left→法术:silence 时无效,selectedAction 不变(灰项)', () => {
+    const ctx = bootstrap()
+    enterSelectMove(ctx)
+    ctx.gs.battleState!.players[0]!.status.silence = 2
+    tickBattle(ctx.gs, mSnap(['Left']), ctx.bus)
+    expect(ctx.gs.battleState?.selectedAction).toBe(0) // 法术无效 → 不切 + reset 0
   })
 
-  it('Confirm 防御(cursor=3)→ pendingActions[0]={type:"defend"} + advance(单队员 → performAction)', () => {
-    const { gs, bus, emptyInput } = bootstrap()
-    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
-    gs.battleState!.uiCursor = 3
-    tickBattle(gs, snap(['Confirm']), bus)
-    expect(gs.battleState?.pendingActions.has(0)).toBe(true)
-    const action = gs.battleState!.pendingActions.get(0)!
-    expect(action.type).toBe('defend')
-    // 单队员 party — pendingActions 填满后由 tickSelectAction 主流程切 performAction
-    expect(gs.battleState?.phase).toBe('performAction')
+  it('Right→2(合击):单人队合击无效(healthy 人数<=1),selectedAction 不切', () => {
+    const ctx = bootstrap() // 单人队
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Right']), ctx.bus)
+    expect(ctx.gs.battleState?.selectedAction).toBe(0)
   })
 
-  it('Confirm 逃跑(cursor=4)→ pendingActions[0]={type:"flee"} + advance', () => {
-    const { gs, bus, emptyInput } = bootstrap()
-    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
-    gs.battleState!.uiCursor = 4
-    tickBattle(gs, snap(['Confirm']), bus)
-    expect(gs.battleState?.pendingActions.has(0)).toBe(true)
-    const action = gs.battleState!.pendingActions.get(0)!
-    expect(action.type).toBe('flee')
-    expect(gs.battleState?.phase).toBe('performAction')
+  it('Confirm 攻击(无群攻)→ selectTargetEnemy + draft attack/enemy', () => {
+    const ctx = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // selectedAction=0 攻击
+    expect(ctx.gs.battleState?.uiState).toBe('selectTargetEnemy')
+    expect(ctx.gs.battleState?.pendingActionDraft).toMatchObject({ type: 'attack', targetSide: 'enemy' })
+  })
+
+  it('Confirm 攻击(群攻武器 attackAll)→ selectTargetEnemyAll', () => {
+    const ctx = bootstrap({ roles: [makeRole({ id: 0, attackAll: 1 })], enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('selectTargetEnemyAll')
+  })
+
+  it('Confirm 法术(selectedAction=1)→ menuState=magicSelect + magicSelect 建表', () => {
+    const role = makeRole({ id: 0 }) as PlayerRole & { learnedSpells: number[] }
+    role.learnedSpells = [296, 297]
+    const ctx = bootstrap({ roles: [role], spells: [mkSpell(296), mkSpell(297)], magics: [mkMagic(296), mkMagic(297)] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Left']), ctx.bus) // → selectedAction=1
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.menuState).toBe('magicSelect')
+    expect(ctx.gs.battleState?.magicSelect?.items.length).toBe(2)
+  })
+
+  it('Confirm 杂项(selectedAction=3)→ menuState=misc', () => {
+    const ctx = bootstrap()
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Down']), ctx.bus) // → 3
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.menuState).toBe('misc')
   })
 })
 
-// ============================================================================
-// tickSelectAction magicMenu / itemMenu / targetSelect input(M3.5 T14)
-// ============================================================================
+describe('主菜单快捷键(uibattle.c:1166-1302;WASD 还原 sdlpal 原义)', () => {
+  it('Defend → 落 defend + advance(单人 → performAction)', () => {
+    const ctx = bootstrap()
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Defend']), ctx.bus)
+    expect(ctx.gs.battleState?.pendingActions.get(0)?.type).toBe('defend')
+    expect(ctx.gs.battleState?.phase).toBe('performAction')
+  })
 
-describe('tickSelectAction magicMenu / itemMenu / targetSelect(M3.5 T14)', () => {
-  function snap(pressed: Array<'Up' | 'Down' | 'Left' | 'Right' | 'Confirm' | 'Cancel' | 'Menu'> = []): InputSnapshot {
-    return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
+  it('Flee → 落 flee', () => {
+    const ctx = bootstrap()
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Flee']), ctx.bus)
+    expect(ctx.gs.battleState?.pendingActions.get(0)?.type).toBe('flee')
+  })
+
+  it('UseItem → menuState=useItemSelect + itemSelect 建表', () => {
+    const ctx = bootstrap({ items: [mkItem(1)], inventory: [{ itemId: 1, count: 3 }] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['UseItem']), ctx.bus)
+    expect(ctx.gs.battleState?.menuState).toBe('useItemSelect')
+    expect(ctx.gs.battleState?.itemSelect?.items.length).toBe(1)
+  })
+
+  it('ThrowItem → menuState=throwItemSelect', () => {
+    const ctx = bootstrap({ items: [mkItem(1, { throwable: true })], inventory: [{ itemId: 1, count: 3 }] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['ThrowItem']), ctx.bus)
+    expect(ctx.gs.battleState?.menuState).toBe('throwItemSelect')
+  })
+
+  it('Auto → fAutoAttack=true → 下 tick 自动 commit 攻击', () => {
+    const ctx = bootstrap()
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Auto']), ctx.bus)
+    expect(ctx.gs.battleState?.fAutoAttack).toBe(true)
+    // 下 tick:自动攻击 commit(单人 → performAction)
+    tickBattle(ctx.gs, mSnap(), ctx.bus)
+    const act = ctx.gs.battleState?.pendingActions.get(0)
+    // 已进 performAction 或 已 commit attack
+    expect(ctx.gs.battleState?.phase === 'performAction' || act?.type === 'attack').toBe(true)
+  })
+
+  it('Menu(首个队员,无上一个)→ 留在 selectMove(无回退)', () => {
+    const ctx = bootstrap()
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Menu']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('selectMove')
+    expect(ctx.gs.battleState?.menuState).toBe('main')
+  })
+})
+
+describe('杂项盒 围攻/道具/防御/逃跑/状态(uibattle.c:416-468 / 1359-1404)', () => {
+  function enterMisc(ctx: ReturnType<typeof bootstrap>): void {
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Down']), ctx.bus) // selectedAction=3 杂项
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // → menuState=misc
   }
 
-  /**
-   * 把 BattleState 推进到 'magicMenu' uiState(模拟 mainMenu 上 Confirm 法术)。
-   * 顺便往 role 上挂 learnedSpells。
-   */
-  function enterMagicMenu(learned: number[]) {
+  it('nav:Down→1 / Up wrap→4(0..4 环绕)', () => {
     const ctx = bootstrap()
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // preBattle → selectAction
-    // 直接 mutate 已 bootstrap 的 role
-    const role = ctx.resources.playerRoles.roles[0] as PlayerRole & { learnedSpells: number[] }
+    enterMisc(ctx)
+    expect(ctx.gs.battleState?.menuState).toBe('misc')
+    tickBattle(ctx.gs, mSnap(['Down']), ctx.bus)
+    expect(ctx.gs.battleState?.miscMenuCursor).toBe(1)
+    // 回 0 再 Up wrap → 4
+    ctx.gs.battleState!.miscMenuCursor = 0
+    tickBattle(ctx.gs, mSnap(['Up']), ctx.bus)
+    expect(ctx.gs.battleState?.miscMenuCursor).toBe(4)
+  })
+
+  it('Confirm cursor=2(防御)→ 落 defend', () => {
+    const ctx = bootstrap()
+    enterMisc(ctx)
+    ctx.gs.battleState!.miscMenuCursor = 2
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.pendingActions.get(0)?.type).toBe('defend')
+  })
+
+  it('Confirm cursor=3(逃跑)→ 落 flee', () => {
+    const ctx = bootstrap()
+    enterMisc(ctx)
+    ctx.gs.battleState!.miscMenuCursor = 3
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.pendingActions.get(0)?.type).toBe('flee')
+  })
+
+  it('Confirm cursor=1(道具)→ menuState=miscItemSubMenu', () => {
+    const ctx = bootstrap()
+    enterMisc(ctx)
+    ctx.gs.battleState!.miscMenuCursor = 1
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.menuState).toBe('miscItemSubMenu')
+  })
+
+  it('Confirm cursor=0(围攻)→ fAutoAttack=true + 回 main', () => {
+    const ctx = bootstrap()
+    enterMisc(ctx)
+    ctx.gs.battleState!.miscMenuCursor = 0
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.fAutoAttack).toBe(true)
+  })
+
+  it('Menu → 回 main(平取消层级)', () => {
+    const ctx = bootstrap()
+    enterMisc(ctx)
+    tickBattle(ctx.gs, mSnap(['Menu']), ctx.bus)
+    expect(ctx.gs.battleState?.menuState).toBe('main')
+    expect(ctx.gs.battleState?.uiState).toBe('selectMove')
+  })
+
+  it('miscMenuCursor 跨次持久(进菜单不重置,uibattle.c:1162)', () => {
+    const ctx = bootstrap()
+    enterMisc(ctx)
+    ctx.gs.battleState!.miscMenuCursor = 3
+    tickBattle(ctx.gs, mSnap(['Menu']), ctx.bus) // 回 main
+    // 再进 misc:cursor 仍是 3(不重置)
+    tickBattle(ctx.gs, mSnap(['Down']), ctx.bus) // selectedAction=3
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.miscMenuCursor).toBe(3)
+  })
+})
+
+describe('物品二级 使用/投掷(uibattle.c:471-545 / 1406-1426)', () => {
+  function enterSub(ctx: ReturnType<typeof bootstrap>): void {
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Down']), ctx.bus)
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // misc
+    ctx.gs.battleState!.miscMenuCursor = 1
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // → miscItemSubMenu
+  }
+
+  it('Down→1投掷 / Up→0使用', () => {
+    const ctx = bootstrap()
+    enterSub(ctx)
+    tickBattle(ctx.gs, mSnap(['Down']), ctx.bus)
+    expect(ctx.gs.battleState?.miscSubMenuCursor).toBe(1)
+    tickBattle(ctx.gs, mSnap(['Up']), ctx.bus)
+    expect(ctx.gs.battleState?.miscSubMenuCursor).toBe(0)
+  })
+
+  it('Confirm 0(使用)→ useItemSelect', () => {
+    const ctx = bootstrap({ items: [mkItem(1)], inventory: [{ itemId: 1, count: 2 }] })
+    enterSub(ctx)
+    ctx.gs.battleState!.miscSubMenuCursor = 0
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.menuState).toBe('useItemSelect')
+  })
+
+  it('Confirm 1(投掷)→ throwItemSelect', () => {
+    const ctx = bootstrap({ items: [mkItem(1, { throwable: true })], inventory: [{ itemId: 1, count: 2 }] })
+    enterSub(ctx)
+    ctx.gs.battleState!.miscSubMenuCursor = 1
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.menuState).toBe('throwItemSelect')
+  })
+
+  it('Menu → 回 main(平取消)', () => {
+    const ctx = bootstrap()
+    enterSub(ctx)
+    tickBattle(ctx.gs, mSnap(['Menu']), ctx.bus)
+    expect(ctx.gs.battleState?.menuState).toBe('main')
+  })
+})
+
+describe('法术选择网格(magicmenu.c:35-410)', () => {
+  function enterMagic(learned: number[], spells: Spell[], magics: Magic[], roleOpts: Partial<PlayerRole> = {}) {
+    const role = makeRole({ id: 0, ...roleOpts }) as PlayerRole & { learnedSpells: number[] }
     role.learnedSpells = learned
-    // cursor=1 → Confirm 进 magicMenu
-    ctx.gs.battleState!.uiCursor = 1
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.uiState).toBe('magicMenu')
-    expect(ctx.gs.battleState?.uiCursor).toBe(0)
+    const ctx = bootstrap({ roles: [role], spells, magics, enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Left']), ctx.bus) // selectedAction=1
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // → magicSelect
     return ctx
   }
 
-  function enterItemMenu(inventory: Array<{ itemId: number, count: number }>) {
-    const ctx = bootstrap()
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
-    ctx.gs.inventory = inventory
-    ctx.gs.battleState!.uiCursor = 2
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.uiState).toBe('itemMenu')
-    expect(ctx.gs.battleState?.uiCursor).toBe(0)
-    return ctx
-  }
-
-  // ---------- magicMenu ----------
-
-  it('magicMenu Up wrap(learned=[12,20,33]):cursor=0 + Up → cursor=2', () => {
-    const { gs, bus } = enterMagicMenu([12, 20, 33])
-    tickBattle(gs, snap(['Up']), bus)
-    expect(gs.battleState?.uiCursor).toBe(2)
-    expect(gs.battleState?.uiState).toBe('magicMenu')
+  it('建表:MP 不足 → disabled 灰项(magicmenu.c:347-352)', () => {
+    const ctx = enterMagic([296, 297], [mkSpell(296), mkSpell(297)], [mkMagic(296, { costMP: 5 }), mkMagic(297, { costMP: 999 })], { mp: 10 })
+    const items = ctx.gs.battleState!.magicSelect!.items
+    expect(items.find((i) => i.id === 296)?.disabled).toBe(false)
+    expect(items.find((i) => i.id === 297)?.disabled).toBe(true) // MP 不够
   })
 
-  it('magicMenu Down wrap(learned=[12,20,33]):cursor=2 + Down → cursor=0', () => {
-    const { gs, bus } = enterMagicMenu([12, 20, 33])
-    gs.battleState!.uiCursor = 2
-    tickBattle(gs, snap(['Down']), bus)
-    expect(gs.battleState?.uiCursor).toBe(0)
+  it('建表:非 usableInBattle → disabled(magicmenu.c:355-368)', () => {
+    const ctx = enterMagic([296], [mkSpell(296, { usableInBattle: false })], [mkMagic(296)])
+    expect(ctx.gs.battleState!.magicSelect!.items[0]?.disabled).toBe(true)
   })
 
-  it('magicMenu Confirm(选中 spellId=20)→ uiState=targetSelect + draft.actionId=20', () => {
-    const { gs, bus } = enterMagicMenu([12, 20, 33])
-    gs.battleState!.uiCursor = 1 // 选中 learned[1] = 20
-    tickBattle(gs, snap(['Confirm']), bus)
-    expect(gs.battleState?.uiState).toBe('targetSelect')
-    expect(gs.battleState?.uiCursor).toBe(0)
-    // D18:spell 20 不在 spells 表 → usableToEnemy 缺省 = true(敌方),draft 显式 targetSide='enemy'
-    expect(gs.battleState?.pendingActionDraft).toEqual({
-      type: 'magic',
-      actionId: 20,
-      targetSide: 'enemy',
-    })
-    expect(gs.battleState?.pendingActions.has(0)).toBe(false)
+  it('Confirm 攻击法术(usableToEnemy)→ selectTargetEnemy', () => {
+    const ctx = enterMagic([296], [mkSpell(296, { usableToEnemy: true })], [mkMagic(296)])
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('selectTargetEnemy')
+    expect(ctx.gs.battleState?.pendingActionDraft).toMatchObject({ type: 'magic', actionId: 296, targetSide: 'enemy' })
   })
 
-  it('magicMenu Confirm 对敌全体法术(flags.applyToAll+usableToEnemy)→ 跳过 targetSelect,落 target=-1', () => {
-    // 菜单判定按 flags(uibattle.c:1319 kMagicFlagApplyToAll),不是 magic.type
-    const ctx = bootstrap({
-      spells: [{ id: 296, magicNumber: 5, scriptOnSuccess: 0, scriptOnUse: 0, scriptDesc: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true } }],
-    })
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // → selectAction
-    const role = ctx.resources.playerRoles.roles[0] as PlayerRole & { learnedSpells: number[] }
-    role.learnedSpells = [296]
-    ctx.gs.battleState!.uiCursor = 1 // 法术
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // mainMenu → magicMenu
-    expect(ctx.gs.battleState?.uiState).toBe('magicMenu')
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // magicMenu Confirm 选全体法术
-    expect(ctx.gs.battleState?.pendingActions.get(0)).toEqual({ type: 'magic', actionId: 296, target: -1 })
-    expect(ctx.gs.battleState?.uiState).not.toBe('targetSelect')
+  it('Confirm 治疗法术(非 usableToEnemy)→ selectTargetPlayer', () => {
+    const ctx = enterMagic([296], [mkSpell(296, { usableToEnemy: false })], [mkMagic(296)])
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('selectTargetPlayer')
+    expect(ctx.gs.battleState?.pendingActionDraft?.targetSide).toBe('player')
   })
 
-  it('magicMenu Confirm flags.applyToAll=false 法术 → 仍进 targetSelect(即便 type 是 AoE,菜单按 flag)', () => {
-    const ctx = bootstrap({
-      spells: [{ id: 296, magicNumber: 5, scriptOnSuccess: 0, scriptOnUse: 0, scriptDesc: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }],
-    })
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
-    const role = ctx.resources.playerRoles.roles[0] as PlayerRole & { learnedSpells: number[] }
-    role.learnedSpells = [296]
-    ctx.gs.battleState!.uiCursor = 1
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.uiState).toBe('targetSelect') // 血魔神功式:菜单仍选单体(伤害侧才全体)
+  it('Confirm 对敌全体(usableToEnemy+applyToAll)→ selectTargetEnemyAll → 即时 commit target=-1', () => {
+    const ctx = enterMagic([296], [mkSpell(296, { usableToEnemy: true, applyToAll: true })], [mkMagic(296)])
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('selectTargetEnemyAll')
+    tickBattle(ctx.gs, mSnap(), ctx.bus) // All 状态即时 commit
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'magic', target: -1 })
   })
 
-  it('magicMenu Cancel → 回 mainMenu + cursor=0 + 清 draft', () => {
-    const { gs, bus } = enterMagicMenu([12, 20])
-    expect(gs.battleState?.pendingActionDraft).toBeDefined()
-    tickBattle(gs, snap(['Cancel']), bus)
-    expect(gs.battleState?.uiState).toBe('mainMenu')
-    expect(gs.battleState?.uiCursor).toBe(0)
-    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
-  })
-
-  it('magicMenu(无 learnedSpells)Confirm → 不切 targetSelect(空表 no-op)', () => {
-    const { gs, bus } = enterMagicMenu([])
-    tickBattle(gs, snap(['Confirm']), bus)
-    // 仍停在 magicMenu(没有可选项)
-    expect(gs.battleState?.uiState).toBe('magicMenu')
-    expect(gs.battleState?.pendingActionDraft).toEqual({ type: 'magic' })
-  })
-
-  // ---------- itemMenu ----------
-
-  it('itemMenu Up wrap(inv=[a,b,c count>0]):cursor=0 + Up → cursor=2', () => {
-    const { gs, bus } = enterItemMenu([
-      { itemId: 10, count: 1 },
-      { itemId: 11, count: 2 },
-      { itemId: 12, count: 3 },
-    ])
-    tickBattle(gs, snap(['Up']), bus)
-    expect(gs.battleState?.uiCursor).toBe(2)
-    expect(gs.battleState?.uiState).toBe('itemMenu')
-  })
-
-  it('itemMenu Down wrap(inv=2 entries):cursor=1 + Down → cursor=0', () => {
-    const { gs, bus } = enterItemMenu([
-      { itemId: 10, count: 1 },
-      { itemId: 11, count: 2 },
-    ])
-    gs.battleState!.uiCursor = 1
-    tickBattle(gs, snap(['Down']), bus)
-    expect(gs.battleState?.uiCursor).toBe(0)
-  })
-
-  it('itemMenu Confirm(选中 itemId=11)→ uiState=targetSelect + draft.actionId=11', () => {
-    // D18:使用类物品(非投掷)目标 = 队友(uibattle.c:653)→ draft.targetSide='player'。
-    // item 11 不在 items 表 → applyToAll 缺省 false → Player(选队友),不即时 commit。
-    const { gs, bus } = enterItemMenu([
-      { itemId: 10, count: 1 },
-      { itemId: 11, count: 2 },
-    ])
-    gs.battleState!.uiCursor = 1
-    tickBattle(gs, snap(['Confirm']), bus)
-    expect(gs.battleState?.uiState).toBe('targetSelect')
-    expect(gs.battleState?.uiCursor).toBe(0)
-    expect(gs.battleState?.pendingActionDraft).toEqual({
-      type: 'item',
-      actionId: 11,
-      targetSide: 'player',
-    })
-  })
-
-  it('itemMenu Confirm 选投掷物(throwable + scriptOnThrow)→ draft type=throw-item(E2)', () => {
-    const throwItem: Item = {
-      id: 66, _name: '天师符', bitmap: 0, price: 0, scriptOnUse: 0, scriptOnEquip: 0, scriptOnThrow: 1, scriptDesc: 0,
-      flags: { usable: false, equipable: false, throwable: true, consuming: true, applyToAll: false, sellable: true, equipableBy: [false, false, false, false, false, false] },
-    }
-    const ctx = bootstrap({ items: [throwItem], inventory: [{ itemId: 66, count: 2 }] })
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // preBattle → selectAction
-    ctx.gs.battleState!.uiCursor = 2 // 物品
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // mainMenu → itemMenu
-    expect(ctx.gs.battleState?.uiState).toBe('itemMenu')
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // itemMenu Confirm 选投掷物
-    // D18:投掷类目标 = 敌方(uibattle.c:702)→ draft.targetSide='enemy'。
-    expect(ctx.gs.battleState?.pendingActionDraft).toEqual({
-      type: 'throw-item',
-      actionId: 66,
-      targetSide: 'enemy',
-    })
-    expect(ctx.gs.battleState?.uiState).toBe('targetSelect')
-  })
-
-  it('itemMenu Up wrap 跳过 count=0(只算可用)', () => {
-    const { gs, bus } = enterItemMenu([
-      { itemId: 10, count: 1 },
-      { itemId: 11, count: 0 }, // 已用完,不计入
-      { itemId: 12, count: 3 },
-    ])
-    // 可用 = [10, 12],N=2;cursor=0 + Up → cursor=1
-    tickBattle(gs, snap(['Up']), bus)
-    expect(gs.battleState?.uiCursor).toBe(1)
-    // Confirm 拿 itemId=12(usable[1])
-    tickBattle(gs, snap(['Confirm']), bus)
-    expect(gs.battleState?.pendingActionDraft?.actionId).toBe(12)
-  })
-
-  it('itemMenu Cancel → 回 mainMenu + 清 draft', () => {
-    const { gs, bus } = enterItemMenu([{ itemId: 10, count: 1 }])
-    tickBattle(gs, snap(['Cancel']), bus)
-    expect(gs.battleState?.uiState).toBe('mainMenu')
-    expect(gs.battleState?.uiCursor).toBe(0)
-    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
-  })
-
-  // ---------- targetSelect ----------
-
-  /**
-   * 推进到 targetSelect uiState(走完 mainMenu Confirm 攻击的路径)。
-   * 默认 2 个活敌人,raw index = [0, 1]。
-   */
-  function enterTargetSelectViaAttack(opts: { enemies?: Enemy[] } = {}) {
-    const enemies = opts.enemies ?? [makeEnemy({ id: 100 }), makeEnemy({ id: 200 })]
-    const ctx = bootstrap({
-      enemies,
-      teamSlots: [100, 200, 0xFFFF, 0xFFFF, 0xFFFF],
-    })
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // preBattle → selectAction
-    // cursor=0 = 攻击;Confirm 切 targetSelect
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.uiState).toBe('targetSelect')
-    expect(ctx.gs.battleState?.pendingActionDraft).toEqual({ type: 'attack' })
-    return ctx
-  }
-
-  it('targetSelect Left wrap(2 个活敌):cursor=0 + Left → cursor=1', () => {
-    const { gs, bus } = enterTargetSelectViaAttack()
-    tickBattle(gs, snap(['Left']), bus)
-    expect(gs.battleState?.uiCursor).toBe(1)
-  })
-
-  it('targetSelect Right wrap(2 个活敌):cursor=1 + Right → cursor=0', () => {
-    const { gs, bus } = enterTargetSelectViaAttack()
-    gs.battleState!.uiCursor = 1
-    tickBattle(gs, snap(['Right']), bus)
-    expect(gs.battleState?.uiCursor).toBe(0)
-  })
-
-  it('targetSelect 跳过已死敌人:enemies[0].health=0 → Right 从 1 跳回 1(N=1 自旋)', () => {
-    const { gs, bus } = enterTargetSelectViaAttack()
-    gs.battleState!.enemies[0]!.e.health = 0
-    gs.battleState!.uiCursor = 1
-    tickBattle(gs, snap(['Right']), bus)
-    // 只剩 1 个活敌 → cursor 仍 1
-    expect(gs.battleState?.uiCursor).toBe(1)
-  })
-
-  it('targetSelect Confirm → pendingActions 落 + advance(单队员 → performAction)', () => {
-    const { gs, bus } = enterTargetSelectViaAttack()
-    gs.battleState!.uiCursor = 1
-    tickBattle(gs, snap(['Confirm']), bus)
-    expect(gs.battleState?.pendingActions.has(0)).toBe(true)
-    const action = gs.battleState!.pendingActions.get(0)!
-    expect(action.type).toBe('attack')
-    expect(action.target).toBe(1)
-    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
-    // 单队员 → 切 performAction
-    expect(gs.battleState?.phase).toBe('performAction')
-  })
-
-  it('targetSelect Cancel → 回 mainMenu + cursor=0 + 清 draft', () => {
-    const { gs, bus } = enterTargetSelectViaAttack()
-    expect(gs.battleState?.pendingActionDraft).toBeDefined()
-    tickBattle(gs, snap(['Cancel']), bus)
-    expect(gs.battleState?.uiState).toBe('mainMenu')
-    expect(gs.battleState?.uiCursor).toBe(0)
-    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
-  })
-
-  it('targetSelect Confirm 带 magic draft → action.target 为 raw enemy index', () => {
-    const ctx = bootstrap({
-      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 200 })],
-      teamSlots: [100, 200, 0xFFFF, 0xFFFF, 0xFFFF],
-    })
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
-    const role = ctx.resources.playerRoles.roles[0] as PlayerRole & { learnedSpells: number[] }
-    role.learnedSpells = [7]
-    // 1) main → magicMenu
-    ctx.gs.battleState!.uiCursor = 1
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.uiState).toBe('magicMenu')
-    // 2) magicMenu(cursor=0)Confirm → targetSelect
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.uiState).toBe('targetSelect')
-    // D18:spell 7 不在 spells 表 → usableToEnemy 缺省 = true(敌方),draft 显式 targetSide='enemy'
-    expect(ctx.gs.battleState?.pendingActionDraft).toEqual({
-      type: 'magic',
-      actionId: 7,
-      targetSide: 'enemy',
-    })
-    // 3) targetSelect cursor=1 → Confirm
-    ctx.gs.battleState!.uiCursor = 1
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    const action = ctx.gs.battleState!.pendingActions.get(0)!
-    expect(action).toEqual({ type: 'magic', actionId: 7, target: 1, targetSide: 'enemy' })
-  })
-})
-
-// ============================================================================
-// D18 友方目标选择(治疗 / 辅助法术 + 治疗物品)
-// ============================================================================
-
-describe('D18 友方目标选择', () => {
-  function snap(pressed: Array<'Up' | 'Down' | 'Left' | 'Right' | 'Confirm' | 'Cancel' | 'Menu'> = []): InputSnapshot {
-    return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
-  }
-
-  /** 治疗/辅助法术(usableToEnemy=false)。applyToAll 可选。 */
-  function healSpell(id: number, applyToAll = false): Spell {
-    return {
-      id,
-      _name: '气',
-      magicNumber: 0,
-      scriptOnSuccess: 0,
-      scriptOnUse: 0,
-      scriptDesc: 0,
-      flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: false, applyToAll },
-    }
-  }
-
-  /** 攻击法术(usableToEnemy=true)。 */
-  function attackSpell(id: number, applyToAll = false): Spell {
-    return {
-      id,
-      _name: '剑',
-      magicNumber: 0,
-      scriptOnSuccess: 0,
-      scriptOnUse: 0,
-      scriptDesc: 0,
-      flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll },
-    }
-  }
-
-  /**
-   * 推进到「队员 0 在 magicMenu 选了 learned[cursor] 法术后」的状态(已按 Confirm)。
-   * party 由 partyMembers 控制(多人队走导航测试)。
-   */
-  function selectMagic(opts: {
-    spells: Spell[]
-    learned: number[]
-    cursor?: number
-    partyMembers?: number[]
-    roles?: PlayerRole[]
-  }) {
-    const ctx = bootstrap({
-      spells: opts.spells,
-      partyMembers: opts.partyMembers ?? [0],
-      roles: opts.roles,
-    })
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // preBattle → selectAction
-    const role = ctx.resources.playerRoles.roles[0] as PlayerRole & { learnedSpells: number[] }
-    role.learnedSpells = opts.learned
-    ctx.gs.battleState!.uiCursor = 1 // 法术
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // mainMenu → magicMenu
-    expect(ctx.gs.battleState?.uiState).toBe('magicMenu')
-    ctx.gs.battleState!.uiCursor = opts.cursor ?? 0
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // magicMenu Confirm
-    return ctx
-  }
-
-  // ---------- 菜单分域(handleMagicMenuInput) ----------
-
-  it('治疗法术(usableToEnemy=false,非 applyToAll)Confirm → targetSelect 域=player', () => {
-    const ctx = selectMagic({
-      spells: [healSpell(300)],
-      learned: [300],
-      partyMembers: [0, 1], // 多人队 → 不即时 commit,进 targetSelect 选队友
-    })
-    expect(ctx.gs.battleState?.uiState).toBe('targetSelect')
-    expect(ctx.gs.battleState?.pendingActionDraft).toEqual({
-      type: 'magic',
-      actionId: 300,
-      targetSide: 'player',
-    })
-  })
-
-  it('攻击法术(usableToEnemy=true,非 applyToAll)Confirm → targetSelect 域=enemy(回归)', () => {
-    const ctx = selectMagic({
-      spells: [attackSpell(300)],
-      learned: [300],
-      partyMembers: [0, 1],
-    })
-    expect(ctx.gs.battleState?.uiState).toBe('targetSelect')
-    expect(ctx.gs.battleState?.pendingActionDraft).toEqual({
-      type: 'magic',
-      actionId: 300,
-      targetSide: 'enemy',
-    })
-  })
-
-  it('applyToParty(usableToEnemy=false + applyToAll)→ 即时 commit target=-1 targetSide=player', () => {
-    const ctx = selectMagic({
-      spells: [healSpell(300, true)],
-      learned: [300],
-      partyMembers: [0, 1],
-    })
-    expect(ctx.gs.battleState?.uiState).not.toBe('targetSelect')
-    expect(ctx.gs.battleState?.pendingActions.get(0)).toEqual({
-      type: 'magic',
-      actionId: 300,
-      target: -1,
-      targetSide: 'player',
-    })
-  })
-
-  it('对敌全体(usableToEnemy=true + applyToAll)→ 即时 commit target=-1,无 player targetSide(回归)', () => {
-    const ctx = selectMagic({
-      spells: [attackSpell(300, true)],
-      learned: [300],
-      partyMembers: [0, 1],
-    })
-    expect(ctx.gs.battleState?.pendingActions.get(0)).toEqual({
-      type: 'magic',
-      actionId: 300,
-      target: -1,
-    })
-  })
-
-  // ---------- 友方目标导航(handlePlayerTargetSelect) ----------
-
-  it('友方域多人队:进入即 cursor=0;Right|Up 加,Left|Down 减(0..length-1 wrap)', () => {
-    const roles = [makeRole({ id: 0 }), makeRole({ id: 1 }), makeRole({ id: 2 })]
-    const ctx = selectMagic({
-      spells: [healSpell(300)],
-      learned: [300],
-      partyMembers: [0, 1, 2],
-      roles,
-    })
-    const st = ctx.gs.battleState!
-    expect(st.uiState).toBe('targetSelect')
-    expect(st.uiCursor).toBe(0)
-    // Right:0 → 1
-    tickBattle(ctx.gs, snap(['Right']), ctx.bus)
-    expect(st.uiCursor).toBe(1)
-    // Up:1 → 2(Right|Up 同向加)
-    tickBattle(ctx.gs, snap(['Up']), ctx.bus)
-    expect(st.uiCursor).toBe(2)
-    // Right:2(=max)→ wrap 0
-    tickBattle(ctx.gs, snap(['Right']), ctx.bus)
-    expect(st.uiCursor).toBe(0)
-    // Left:0 → wrap max(2)
-    tickBattle(ctx.gs, snap(['Left']), ctx.bus)
-    expect(st.uiCursor).toBe(2)
-    // Down:2 → 1(Left|Down 同向减)
-    tickBattle(ctx.gs, snap(['Down']), ctx.bus)
-    expect(st.uiCursor).toBe(1)
-  })
-
-  it('友方域不按 hp 过滤:死队员也能选(忠实 uibattle.c:1573)', () => {
-    const roles = [makeRole({ id: 0 }), makeRole({ id: 1, hp: 0 }), makeRole({ id: 2 })]
-    const ctx = selectMagic({
-      spells: [healSpell(300)],
-      learned: [300],
-      partyMembers: [0, 1, 2],
-      roles,
-    })
-    const st = ctx.gs.battleState!
-    // alive 队员 = [0, 2](idx 1 死)。但友方导航不按 hp 过滤 → Right 仍能停 idx 1。
-    tickBattle(ctx.gs, snap(['Right']), ctx.bus)
-    expect(st.uiCursor).toBe(1) // 死队员 idx 1 可被选中
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    // 队员 0 落 action target=1(死者),targetSide=player
-    expect(st.pendingActions.get(0)).toEqual({
-      type: 'magic',
-      actionId: 300,
-      target: 1,
-      targetSide: 'player',
-    })
-  })
-
-  it('友方域 Confirm → 落 { target:uiCursor, targetSide:player }', () => {
-    const roles = [makeRole({ id: 0 }), makeRole({ id: 1 })]
-    const ctx = selectMagic({
-      spells: [healSpell(300)],
-      learned: [300],
-      partyMembers: [0, 1],
-      roles,
-    })
-    const st = ctx.gs.battleState!
-    tickBattle(ctx.gs, snap(['Right']), ctx.bus) // cursor 0 → 1
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    expect(st.pendingActions.get(0)).toEqual({
-      type: 'magic',
-      actionId: 300,
-      target: 1,
-      targetSide: 'player',
-    })
-  })
-
-  it('友方域 Cancel → 回 mainMenu + 清 draft', () => {
-    const ctx = selectMagic({
-      spells: [healSpell(300)],
-      learned: [300],
-      partyMembers: [0, 1],
-    })
-    expect(ctx.gs.battleState?.uiState).toBe('targetSelect')
-    tickBattle(ctx.gs, snap(['Cancel']), ctx.bus)
-    expect(ctx.gs.battleState?.uiState).toBe('mainMenu')
-    expect(ctx.gs.battleState?.uiCursor).toBe(0)
+  it('Confirm 灰项 → no-op(不可确认,magicmenu.c:277-296)', () => {
+    const ctx = enterMagic([296], [mkSpell(296)], [mkMagic(296, { costMP: 999 })], { mp: 1 })
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.menuState).toBe('magicSelect') // 仍在网格
     expect(ctx.gs.battleState?.pendingActionDraft).toBeUndefined()
   })
 
-  it('友方域单人队:targetSelect 一进就即时 commit idx 0(uibattle.c:1550-1554)', () => {
-    // 单人队:magicMenu Confirm → draft.targetSide=player + uiState=targetSelect;
-    // 下一 tick handlePlayerTargetSelect 即时 commit idx 0。
-    const ctx = selectMagic({
-      spells: [healSpell(300)],
-      learned: [300],
-      partyMembers: [0], // 单人队
-    })
-    // selectMagic 末尾按了 magicMenu Confirm → 进 targetSelect(draft player)
-    expect(ctx.gs.battleState?.pendingActionDraft?.targetSide).toBe('player')
-    // 再 tick 一次 targetSelect → 单人队即时 commit idx 0(此时已切 performAction)
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
-    // 单人队 size 满 → performAction;action 已落
-    const action = ctx.gs.battleState?.pendingActions.get(0)
-    expect(action).toEqual({ type: 'magic', actionId: 300, target: 0, targetSide: 'player' })
+  it('网格导航:Right→cursor+1,clamp 不 wrap;Down→+3(列数)', () => {
+    const spells = [296, 297, 298, 299].map((id) => mkSpell(id))
+    const magics = [296, 297, 298, 299].map((id) => mkMagic(id))
+    const ctx = enterMagic([296, 297, 298, 299], spells, magics)
+    expect(ctx.gs.battleState?.magicSelect?.cursor).toBe(0)
+    tickBattle(ctx.gs, mSnap(['Right']), ctx.bus)
+    expect(ctx.gs.battleState?.magicSelect?.cursor).toBe(1)
+    tickBattle(ctx.gs, mSnap(['Down']), ctx.bus) // +3 → 4 越界 → clamp 末项 3
+    expect(ctx.gs.battleState?.magicSelect?.cursor).toBe(3)
   })
 
-  // ---------- 治疗物品(handleItemMenuInput) ----------
+  it('Menu → 回 main + 清 magicSelect(平取消)', () => {
+    const ctx = enterMagic([296], [mkSpell(296)], [mkMagic(296)])
+    tickBattle(ctx.gs, mSnap(['Menu']), ctx.bus)
+    expect(ctx.gs.battleState?.menuState).toBe('main')
+    expect(ctx.gs.battleState?.magicSelect).toBeUndefined()
+  })
+})
 
-  it('治疗物品(use 类,applyToAll=false)→ draft.targetSide=player', () => {
-    const healItem: Item = {
-      id: 20, _name: '金疮药', bitmap: 0, price: 0, scriptOnUse: 1, scriptOnEquip: 0, scriptOnThrow: 0, scriptDesc: 0,
-      flags: { usable: true, equipable: false, throwable: false, consuming: true, applyToAll: false, sellable: true, equipableBy: [false, false, false, false, false, false] },
-    }
-    const ctx = bootstrap({ items: [healItem], inventory: [{ itemId: 20, count: 3 }], partyMembers: [0, 1] })
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
-    ctx.gs.battleState!.uiCursor = 2 // 物品
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // → itemMenu
-    expect(ctx.gs.battleState?.uiState).toBe('itemMenu')
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // 选金疮药
-    expect(ctx.gs.battleState?.uiState).toBe('targetSelect')
-    expect(ctx.gs.battleState?.pendingActionDraft).toEqual({
-      type: 'item',
-      actionId: 20,
-      targetSide: 'player',
-    })
+describe('物品选择网格(itemmenu.c:28-377)', () => {
+  function enterUseItem(items: Item[], inventory: Array<{ itemId: number; count: number }>) {
+    const ctx = bootstrap({ items, inventory, enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['UseItem']), ctx.bus)
+    return ctx
+  }
+
+  it('建表:非 usable(useItemSelect 模式)→ disabled 灰项', () => {
+    const ctx = enterUseItem([mkItem(1, { usable: true }), mkItem(2, { usable: false })], [{ itemId: 1, count: 2 }, { itemId: 2, count: 1 }])
+    const items = ctx.gs.battleState!.itemSelect!.items
+    expect(items.find((i) => i.id === 1)?.disabled).toBe(false)
+    expect(items.find((i) => i.id === 2)?.disabled).toBe(true)
   })
 
-  it('治疗物品(use 类,applyToAll=true)→ 即时 commit target=-1 targetSide=player', () => {
-    const healAllItem: Item = {
-      id: 21, _name: '蜡烛', bitmap: 0, price: 0, scriptOnUse: 1, scriptOnEquip: 0, scriptOnThrow: 0, scriptDesc: 0,
-      flags: { usable: true, equipable: false, throwable: false, consuming: true, applyToAll: true, sellable: true, equipableBy: [false, false, false, false, false, false] },
-    }
-    const ctx = bootstrap({ items: [healAllItem], inventory: [{ itemId: 21, count: 1 }], partyMembers: [0, 1] })
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
-    ctx.gs.battleState!.uiCursor = 2
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.uiState).not.toBe('targetSelect')
-    expect(ctx.gs.battleState?.pendingActions.get(0)).toEqual({
-      type: 'item',
-      actionId: 21,
-      target: -1,
-      targetSide: 'player',
-    })
+  it('Confirm 使用类(治疗药)→ selectTargetPlayer + draft item/player', () => {
+    const ctx = enterUseItem([mkItem(1, { usable: true })], [{ itemId: 1, count: 2 }])
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('selectTargetPlayer')
+    expect(ctx.gs.battleState?.pendingActionDraft).toMatchObject({ type: 'item', actionId: 1, targetSide: 'player' })
   })
 
-  it('投掷物 → draft.targetSide=enemy(回归;uibattle.c:702)', () => {
-    const throwItem: Item = {
-      id: 66, _name: '梅花镖', bitmap: 0, price: 0, scriptOnUse: 0, scriptOnEquip: 0, scriptOnThrow: 1, scriptDesc: 0,
-      flags: { usable: false, equipable: false, throwable: true, consuming: true, applyToAll: false, sellable: true, equipableBy: [false, false, false, false, false, false] },
-    }
-    const ctx = bootstrap({ items: [throwItem], inventory: [{ itemId: 66, count: 2 }], partyMembers: [0, 1] })
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
-    ctx.gs.battleState!.uiCursor = 2
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.pendingActionDraft).toEqual({
-      type: 'throw-item',
-      actionId: 66,
-      targetSide: 'enemy',
-    })
+  it('投掷类(throwItemSelect)Confirm → selectTargetEnemy + draft throw-item/enemy', () => {
+    const ctx = bootstrap({ items: [mkItem(1, { throwable: true })], inventory: [{ itemId: 1, count: 2 }], enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['ThrowItem']), ctx.bus)
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('selectTargetEnemy')
+    expect(ctx.gs.battleState?.pendingActionDraft).toMatchObject({ type: 'throw-item', targetSide: 'enemy' })
   })
 
-  // ---------- perform 路由(resolveTargetIsEnemy → performMagic targetIsEnemy) ----------
+  it('applyToAll 使用类 → selectTargetPlayerAll → 即时 commit target=-1 targetSide=player', () => {
+    const ctx = enterUseItem([mkItem(1, { usable: true, applyToAll: true })], [{ itemId: 1, count: 2 }])
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('selectTargetPlayerAll')
+    tickBattle(ctx.gs, mSnap(), ctx.bus)
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'item', target: -1, targetSide: 'player' })
+  })
 
-  it('perform:targetSide=player 的 magic → playMagicAnim targetType=player(targetIsEnemy=false)', () => {
-    // 端到端:单人队自疗。spell+magic 都注入,走 performMagic player target 路径。
-    const heal = healSpell(300)
-    heal.magicNumber = 5
-    const magic: Magic = {
-      id: 5,
-      effect: 0,
-      type: 'applyToPlayer',
-      xOffset: 0,
-      yOffset: 0,
-      special: 0,
-      speed: 0,
-      keepEffect: 0,
-      fireDelay: 0,
-      effectTimes: 0,
-      shake: 0,
-      wave: 0,
-      unknown: 0,
-      costMP: 0,
-      baseDamage: 0,
-      elemental: 0,
-      sound: 0,
-    }
-    const ctx = bootstrap({
-      spells: [heal],
-      magics: [magic],
-      partyMembers: [0],
-      roles: [makeRole({ id: 0, mp: 50 })],
+  it('Menu → 回 main + 清 itemSelect', () => {
+    const ctx = enterUseItem([mkItem(1)], [{ itemId: 1, count: 2 }])
+    tickBattle(ctx.gs, mSnap(['Menu']), ctx.bus)
+    expect(ctx.gs.battleState?.menuState).toBe('main')
+    expect(ctx.gs.battleState?.itemSelect).toBeUndefined()
+  })
+})
+
+describe('敌方 target picker(uibattle.c:1431-1543,PAL_CLASSIC)', () => {
+  it('仅 1 活敌(y==1)→ 跳过选择即时 commit(uibattle.c:1459-1475)', () => {
+    const ctx = bootstrap() // 单敌
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // 攻击 → selectTargetEnemy
+    // 单敌 → 进 selectTargetEnemy 同 tick 即时 commit;下 tick 起 performAction
+    tickBattle(ctx.gs, mSnap(), ctx.bus)
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'attack', target: 0 })
+  })
+
+  it('多敌:Right/Up 后跳,Left/Down 前跳(跳过死敌环绕)', () => {
+    const ctx = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 }), makeEnemy({ id: 102 })], teamSlots: [100, 101, 102, 0xFFFF, 0xFFFF] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // selectTargetEnemy, cursor=0
+    expect(ctx.gs.battleState?.uiState).toBe('selectTargetEnemy')
+    expect(ctx.gs.battleState?.uiCursor).toBe(0)
+    tickBattle(ctx.gs, mSnap(['Right']), ctx.bus)
+    expect(ctx.gs.battleState?.uiCursor).toBe(1)
+    tickBattle(ctx.gs, mSnap(['Left']), ctx.bus)
+    expect(ctx.gs.battleState?.uiCursor).toBe(0)
+    tickBattle(ctx.gs, mSnap(['Left']), ctx.bus) // wrap → 2
+    expect(ctx.gs.battleState?.uiCursor).toBe(2)
+  })
+
+  it('死敌跳过:enemy[1] 死 → Right 从 0 跳到 2', () => {
+    const ctx = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 }), makeEnemy({ id: 102 })], teamSlots: [100, 101, 102, 0xFFFF, 0xFFFF] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    ctx.gs.battleState!.enemies[1]!.e.health = 0
+    tickBattle(ctx.gs, mSnap(['Right']), ctx.bus)
+    expect(ctx.gs.battleState?.uiCursor).toBe(2)
+  })
+
+  it('Confirm → commit + 记 iPrevEnemyTarget', () => {
+    const ctx = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    tickBattle(ctx.gs, mSnap(['Right']), ctx.bus) // cursor=1
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'attack', target: 1, targetSide: 'enemy' })
+    expect(ctx.gs.battleState?.iPrevEnemyTarget).toBe(1)
+  })
+
+  it('Menu → 回 selectMove + menuState=main', () => {
+    const ctx = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    tickBattle(ctx.gs, mSnap(['Menu']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('selectMove')
+    expect(ctx.gs.battleState?.menuState).toBe('main')
+  })
+})
+
+describe('友方 target picker(uibattle.c:1545-1609,PAL_CLASSIC)', () => {
+  function enterPlayerTarget(party: number[]) {
+    const roles = party.map((id) => {
+      const r = makeRole({ id }) as PlayerRole & { learnedSpells: number[] }
+      r.learnedSpells = [296]
+      return r
     })
-    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // → selectAction
-    const role = ctx.resources.playerRoles.roles[0] as PlayerRole & { learnedSpells: number[] }
-    role.learnedSpells = [300]
-    ctx.gs.battleState!.uiCursor = 1
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // → magicMenu
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // 选 heal → targetSelect(player)
-    expect(ctx.gs.battleState?.pendingActionDraft?.targetSide).toBe('player')
-    ctx.bus.drain() // 清掉 selectAction 期 emit
-    // 单人队即时 commit + 进 performAction;多 tick 跑完 magic action
-    let guard = 0
-    let found: ReturnType<CommandBus['drain']>[number] | undefined
-    while (guard++ < 50 && ctx.gs.battleState && ctx.gs.battleState.phase !== 'won') {
-      tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
-      const drained = ctx.bus.drain()
-      const hit = drained.find((e) => e.cmd.op === 'playMagicAnim')
-      if (hit) { found = hit; break }
-    }
-    expect(found).toBeDefined()
-    const cmd = found!.cmd as Extract<PresentCommand, { op: 'playMagicAnim' }>
-    expect(cmd.targetType).toBe('player') // targetIsEnemy=false → player target
-    expect(cmd.targetIdx).toBe(0) // 自疗 idx 0
-    expect(cmd.casterType).toBe('player')
+    const ctx = bootstrap({ partyMembers: party, roles, spells: [mkSpell(296, { usableToEnemy: false })], magics: [mkMagic(296)] })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['Left']), ctx.bus) // selectedAction=1 法术
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // magicSelect
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // 选治疗法术 → selectTargetPlayer
+    return ctx
+  }
+
+  it('单人队 → 进 selectTargetPlayer 即时 commit idx 0(uibattle.c:1550-1554)', () => {
+    const ctx = enterPlayerTarget([0])
+    // 单人:进 selectTargetPlayer 同 tick / 下 tick 即时 commit idx0
+    tickBattle(ctx.gs, mSnap(), ctx.bus)
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'magic', target: 0, targetSide: 'player' })
+  })
+
+  it('多人队:Right|Up 加 / Left|Down 减 wrap', () => {
+    const ctx = enterPlayerTarget([0, 1, 2])
+    expect(ctx.gs.battleState?.uiState).toBe('selectTargetPlayer')
+    expect(ctx.gs.battleState?.uiCursor).toBe(0)
+    tickBattle(ctx.gs, mSnap(['Right']), ctx.bus)
+    expect(ctx.gs.battleState?.uiCursor).toBe(1)
+    tickBattle(ctx.gs, mSnap(['Left']), ctx.bus)
+    expect(ctx.gs.battleState?.uiCursor).toBe(0)
+    tickBattle(ctx.gs, mSnap(['Left']), ctx.bus) // wrap → 2
+    expect(ctx.gs.battleState?.uiCursor).toBe(2)
+  })
+
+  it('Confirm → commit { target:uiCursor, targetSide:player }', () => {
+    const ctx = enterPlayerTarget([0, 1])
+    tickBattle(ctx.gs, mSnap(['Right']), ctx.bus) // cursor=1
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ target: 1, targetSide: 'player' })
+  })
+
+  it('Menu → 回 selectMove', () => {
+    const ctx = enterPlayerTarget([0, 1])
+    tickBattle(ctx.gs, mSnap(['Menu']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('selectMove')
   })
 })
 
@@ -1365,73 +1209,55 @@ describe('多轮战斗集成', () => {
 // tickSelectAction 端到端 input 序列(M3.5 T15)
 // ============================================================================
 
-describe('tickSelectAction 端到端 input 序列(M3.5 T15)', () => {
-  function snap(pressed: Array<'Up' | 'Down' | 'Left' | 'Right' | 'Confirm' | 'Cancel' | 'Menu'> = []): InputSnapshot {
+describe('战斗菜单端到端序列(新模型)', () => {
+  function eSnap(
+    pressed: Array<'Up' | 'Down' | 'Left' | 'Right' | 'Confirm' | 'Menu' | 'Defend'> = [],
+  ): InputSnapshot {
     return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
   }
 
-  it('攻击路径:Confirm → targetSelect → Right → Cancel → mainMenu → Confirm → Confirm → pendingActions + performAction', () => {
-    // 单 player + 2 enemy fixture(让 targetSelect Right 真能切到 idx 1)
+  it('攻击路径(多敌):Confirm → selectTargetEnemy → Right → Menu → selectMove → Confirm → Confirm → commit + performAction', () => {
     const { gs, bus, emptyInput } = bootstrap({
-      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 200 })],
-      teamSlots: [100, 200, 0xFFFF, 0xFFFF, 0xFFFF],
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF],
     })
-
-    // preBattle → selectAction(uiState=mainMenu, uiCursor=0)
     tickBattle(gs, emptyInput, bus)
-    expect(gs.battleState?.phase).toBe('selectAction')
-    expect(gs.battleState?.uiState).toBe('mainMenu')
-    expect(gs.battleState?.uiCursor).toBe(0)
+    expect(gs.battleState?.uiState).toBe('selectMove')
+    expect(gs.battleState?.menuState).toBe('main')
 
-    // Step 1: Confirm 选攻击 → targetSelect
-    tickBattle(gs, snap(['Confirm']), bus)
-    expect(gs.battleState?.uiState).toBe('targetSelect')
-    expect(gs.battleState?.uiCursor).toBe(0)
-    expect(gs.battleState?.pendingActionDraft).toEqual({ type: 'attack' })
-
-    // Step 2: Right → target 切到 idx 1
-    tickBattle(gs, snap(['Right']), bus)
+    tickBattle(gs, eSnap(['Confirm']), bus) // 攻击 → selectTargetEnemy
+    expect(gs.battleState?.uiState).toBe('selectTargetEnemy')
+    tickBattle(gs, eSnap(['Right']), bus)
     expect(gs.battleState?.uiCursor).toBe(1)
-    expect(gs.battleState?.uiState).toBe('targetSelect')
+    tickBattle(gs, eSnap(['Menu']), bus) // 退回 selectMove
+    expect(gs.battleState?.uiState).toBe('selectMove')
+    expect(gs.battleState?.menuState).toBe('main')
 
-    // Step 3: Cancel → 回 mainMenu + 清 draft + cursor=0
-    tickBattle(gs, snap(['Cancel']), bus)
-    expect(gs.battleState?.uiState).toBe('mainMenu')
-    expect(gs.battleState?.uiCursor).toBe(0)
-    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
-    expect(gs.battleState?.pendingActions.has(0)).toBe(false)
-
-    // Step 4: 再 Confirm 选攻击 → targetSelect
-    tickBattle(gs, snap(['Confirm']), bus)
-    expect(gs.battleState?.uiState).toBe('targetSelect')
-    expect(gs.battleState?.uiCursor).toBe(0)
-    expect(gs.battleState?.pendingActionDraft).toEqual({ type: 'attack' })
-
-    // Step 5: Confirm 选 target 0 → pendingActions 落 + 单队员 → 切 performAction
-    tickBattle(gs, snap(['Confirm']), bus)
-    const action = gs.battleState!.pendingActions.get(0)!
-    expect(action.type).toBe('attack')
-    expect(action.target).toBe(0)
-    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
-
-    // Step 6: 单 player fixture → pendingActions 全填 → 切 performAction
+    tickBattle(gs, eSnap(['Confirm']), bus) // 攻击 → selectTargetEnemy(cursor 重置 0)
+    tickBattle(gs, eSnap(['Confirm']), bus) // 确认目标 0 → commit
+    expect(gs.battleState?.pendingActions.get(0)?.type).toBe('attack')
     expect(gs.battleState?.phase).toBe('performAction')
   })
 
-  it('防御路径:cursor=3 + Confirm → 直接填 pendingActions + 切 performAction', () => {
+  it('防御路径(经杂项盒):Confirm(杂项)→ Down Down(防御)→ Confirm → commit + performAction', () => {
     const { gs, bus, emptyInput } = bootstrap()
-
-    // preBattle → selectAction
     tickBattle(gs, emptyInput, bus)
-    expect(gs.battleState?.uiState).toBe('mainMenu')
+    tickBattle(gs, eSnap(['Down']), bus) // selectedAction=3 杂项
+    tickBattle(gs, eSnap(['Confirm']), bus) // → misc(cursor 0 围攻)
+    expect(gs.battleState?.menuState).toBe('misc')
+    tickBattle(gs, eSnap(['Down']), bus) // 1 道具
+    tickBattle(gs, eSnap(['Down']), bus) // 2 防御
+    expect(gs.battleState?.miscMenuCursor).toBe(2)
+    tickBattle(gs, eSnap(['Confirm']), bus)
+    expect(gs.battleState?.pendingActions.get(0)?.type).toBe('defend')
+    expect(gs.battleState?.phase).toBe('performAction')
+  })
 
-    // cursor=3 = 防御;Confirm → 不进 targetSelect,直接落 pendingActions
-    gs.battleState!.uiCursor = 3
-    tickBattle(gs, snap(['Confirm']), bus)
-    expect(gs.battleState?.pendingActions.has(0)).toBe(true)
-    const action = gs.battleState!.pendingActions.get(0)!
-    expect(action.type).toBe('defend')
-    expect(gs.battleState?.pendingActionDraft).toBeUndefined()
+  it('防御快捷键:Defend → 直接 commit defend + performAction(不进任何子菜单)', () => {
+    const { gs, bus, emptyInput } = bootstrap()
+    tickBattle(gs, emptyInput, bus)
+    tickBattle(gs, eSnap(['Defend']), bus)
+    expect(gs.battleState?.pendingActions.get(0)?.type).toBe('defend')
     expect(gs.battleState?.phase).toBe('performAction')
   })
 })

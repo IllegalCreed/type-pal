@@ -166,8 +166,11 @@ export class BattlePresent {
     // 4. 数字弹幕(在精灵之上;过期数字自动清理)。D17b:用 UI sprite 数字帧(drawNumber)。
     this.floatingNums.draw(fb, currentFrame, assets.uiSpriteFrames)
 
-    // 5. UI overlay(主菜单 / 二级菜单 / 目标光标 / HP/MP 状态栏)
-    drawBattleUI(fb, state, assets.playerRoles, assets.spells, assets.items, gs, assets.glyphs)
+    // 5. UI overlay(4 图标主菜单 / 杂项盒 / 物品二级 / 法术物品网格 / target 箭头 / HP/MP 状态栏)
+    drawBattleUI(
+      fb, state, assets.playerRoles, assets.spells, assets.items, gs, assets.glyphs,
+      assets.uiSpriteFrames, assets.enemyPos,
+    )
 
     // 6. 战斗内对话框(scriptOnReady / scriptOnTurnStart 0xFFFF showDialog)——
     //    复用大世界 gs.dialogBox 渲染,**覆于战斗场景之上**(sdlpal text.c:1687 box 不擦底,

@@ -1,97 +1,176 @@
 /**
- * 战斗 UI 渲染(M3 T26)。
+ * 战斗 UI 渲染 —— 1:1 忠实 port sdlpal PAL_CLASSIC `PAL_BattleUIUpdate`(uibattle.c:785-1767)。
  *
- * 主菜单(攻击 / 法术 / 物品 / 防御 / 逃跑)+ 二级菜单(法术 / 物品)+
- * 目标光标 + HP/MP 数字。`uiState` 决定画什么:
- *   - `mainMenu`     —— 5 项主菜单
- *   - `magicMenu`    —— 队员已学法术列表(M3 简版,前 5 个)
- *   - `itemMenu`     —— 持有物品列表(M3 简版,前 5 个)
- *   - `targetSelect` —— 敌方位置上方画 ▽(M3 简版,只画 enemy 目标)
- *   - `hidden`       —— 选择阶段以外不画菜单
+ * 主菜单是 **4 个图标**(攻击/法术/合击/杂项,方向选),物品/防御/逃跑/状态/围攻在**杂项盒**里;
+ * 法术/物品选择是 **3 列分页网格 + 灰项 + MP/数量**;target picker 单敌跳选 / 全体即时 commit。
  *
- * HP / MP 数字 + 队员名:每帧固定显示(屏幕底部状态栏)。
+ * 渲染按 `(uiState × menuState)` 分支(= sdlpal BATTLEUISTATE × BATTLEMENUSTATE):
+ *   selectMove + main            → 4 图标(selectedAction 高亮 + 灰项 MonoColor)
+ *   selectMove + magicSelect     → 4 图标 + 法术网格(magicmenu.c)
+ *   selectMove + useItem/throwItem→ 4 图标 + 物品网格(itemmenu.c)
+ *   selectMove + misc            → 4 图标 + 杂项盒(围攻/道具/防御/逃跑/状态)
+ *   selectMove + miscItemSubMenu → 4 图标 + 杂项盒 + 物品二级(使用/投掷)
+ *   selectTargetEnemy            → 4 图标(mono)+ 选中敌人上方箭头
+ *   selectTargetPlayer           → 4 图标(mono)+ 选中队员上方箭头
+ *   selectTargetEnemyAll/PlayerAll→ 即时 commit 的过渡态(画全体箭头)
+ *   wait / hidden                → 只画底部队员状态栏
  *
- * 文字渲染依赖 M2 `renderText(fb, text, x, y, colorIndex)`(色块占位版,
- * 真字形 M3+ 替换);颜色用 PAL 索引 1(白色,FBP 调色板下能见)。
+ * 对话显示期间(gs.dialogBox / battleDialogQueue)**隐藏动作菜单**(只画状态栏),对话结束恢复。
  *
- * **本 task 不处理输入** —— UI 只画。input 推 T27;dev panel 整合推 T29。
+ * sdlpal UI sprite 真值(SPRITEUI / DATA.MKF chunk 9):
+ *   40-43 = 战斗图标 ATTACK/MAGIC/COOPMAGIC/MISCMENU(uibattle.h:56-59)
+ *   66/67 = SELECTEDPLAYER 箭头 红/常(uibattle.h:64-65);68/69 = CURRENTPLAYER 箭头
+ *   69 = 菜单 cursor;39 = "/" slash;44-46 = 单行 box;0-17 = 9-slice box(style 0/1)
  *
- * 关键简化(实施过程发现 #N 留 M5 / M6 补全):
- *   - learnedSpells 不在 PlayerRole schema —— 通过 `(role as any).learnedSpells`
- *     兼容 T29 dev panel 临时附加。schema 真补到 PlayerRoles 推 M5。
- *   - target kind 默认 enemy —— spell.type=applyToPlayer / applyToParty 的目标光标
- *     落在队员位置上的逻辑推 M5。
- *   - 字符用 ASCII '>' / 'v' —— Unifont CN 子集对真 Unicode '▶' / '▽' 的覆盖
- *     M2 占位版本不验证,色块占位下任何字符都画一个 8×16 框。
+ * 灰项 / 文字色用 sdlpal `ui.h:29-41` MENUITEM_COLOR_*;像素保真(font / palette)留 user 验。
  */
 
-import type { Item, PlayerRoles, Spell } from '@type-pal/shared'
-import { getPlayerBasePos } from '../../core/battle/battle-positions.js'
+import type { Item, EnemyPosTable, PlayerRoles, Spell } from '@type-pal/shared'
+import type { IndexedImage } from '../../assets/png.js'
+import { getEnemyBasePos, getPlayerBasePos } from '../../core/battle/battle-positions.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
+import type { SelectionMenuState } from '../../core/menu/primitives.js'
+import {
+  MENUITEM_COLOR,
+  MENUITEM_COLOR_INACTIVE,
+  MENUITEM_COLOR_SELECTED_FIRST,
+  MENUITEM_COLOR_SELECTED_INACTIVE,
+  MENUITEM_COLOR_SELECTED_TOTAL,
+} from '../../core/menu/inventory-menu.js'
 import type { GameState } from '../../core/game-state.js'
+import { drawBox, menuTextMaxCols, drawSingleLineBox } from '../menu/draw-box.js'
+import { drawNumber } from '../draw-number.js'
 import { renderText, type GlyphTable } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 
-/** PAL 索引 1 —— 白色(M3 战斗 UI 默认前景色)。M5 时按 sdlpal `MENUITEM_COLOR_*` 真值。 */
+/** PAL 索引 1 —— 白色(底部状态栏文字)。 */
 const UI_TEXT_COLOR = 1
 
-const MAIN_MENU: ReadonlyArray<{ label: string, action: string }> = [
-  { label: '攻击', action: 'attack' },
-  { label: '法术', action: 'magic' },
-  { label: '物品', action: 'item' },
-  { label: '防御', action: 'defend' },
-  { label: '逃跑', action: 'flee' },
-]
+// ── sdlpal SPRITEUI frame 真值 ──────────────────────────────────────────────
+const SPRITENUM_BATTLEICON_ATTACK = 40
+const SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER = 67
+const SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER_RED = 66
+const SPRITENUM_CURSOR = 69
+const SPRITENUM_SLASH = 39
 
 /**
- * 敌方位置(与 draw-battle-sprites.ts ENEMY_POSITIONS 对齐 —— M3 简版 5 槽)。
- * targetSelect 光标的 anchor 取自该数组。
+ * 主菜单 4 图标(uibattle.c:813-817,PAL_CLASSIC):sprite 号 = ATTACK+i,pos = sdlpal 真值。
+ * 顺序对齐 selectedAction:0攻击 1法术 2合击 3杂项。
  */
-const ENEMY_POSITIONS: ReadonlyArray<{ x: number, y: number }> = [
-  { x: 160, y: 80 },
-  { x: 100, y: 60 }, { x: 220, y: 60 },
-  { x: 70, y: 90 }, { x: 250, y: 90 },
+const MAIN_ICONS: ReadonlyArray<{ sprite: number; x: number; y: number }> = [
+  { sprite: SPRITENUM_BATTLEICON_ATTACK + 0, x: 27, y: 140 }, // 攻击
+  { sprite: SPRITENUM_BATTLEICON_ATTACK + 1, x: 0, y: 155 },  // 法术
+  { sprite: SPRITENUM_BATTLEICON_ATTACK + 2, x: 54, y: 155 }, // 合击
+  { sprite: SPRITENUM_BATTLEICON_ATTACK + 3, x: 27, y: 170 }, // 杂项
 ]
 
-/**
- * 队员状态栏位置(屏幕底部一行,每人 60px 间距)。
- * 与 draw-battle-sprites PLAYER_POSITIONS y=145-160 错开,状态栏在更下方。
- */
+// 杂项盒(uibattle.c:368-413):box(2,20),5 项 (16, 32/50/68/86/104),WORD.DAT CLASSIC 顺序
+const MISC_BOX = { x: 2, y: 20, rows: 4 }
+const MISC_ITEM_X = 16
+const MISC_ITEM_Y0 = 32
+const MISC_ITEM_DY = 18
+/** WORD.DAT 真值(verify lookup/words.json):56围攻 / 57道具 / 58防御 / 59逃跑 / 60状态。 */
+const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
+
+// 物品二级(uibattle.c:471-545):box(30,50) rows1,使用(44,62)/投掷(44,80)
+const MISC_ITEM_SUB_BOX = { x: 30, y: 50, rows: 1 }
+const MISC_ITEM_SUB = [
+  { label: '使用', x: 44, y: 62 }, // WORD.DAT 23
+  { label: '投掷', x: 44, y: 80 }, // WORD.DAT 24
+] as const
+
+// 法术网格(magicmenu.c:75-80,CN dwWordLength=10):box(10,42) 4×16 style1;item (35,54)+k*87+j*18
+const MAGIC_GRID_BOX = { x: 10, y: 42, rows: 4, cols: 16 }
+const MAGIC_ITEM_X0 = 35
+const MAGIC_ITEM_Y0 = 54
+const MAGIC_ITEM_W = 87
+const MAGIC_LINE_DY = 18
+const MAGIC_CURSOR_X_OFF = 25 // dwWordLength*5/2
+const MAGIC_COLS = 3
+const MAGIC_ROWS = 5
+const MAGIC_PAGE_LINE_OFFSET = Math.floor(MAGIC_ROWS / 2)
+// cash box(magicmenu.c:130-142,非 WIN95)+ MP box
+const CASH_BOX = { x: 0, y: 0, len: 5 }
+const CASH_LABEL = { x: 10, y: 10 }
+const CASH_NUM = { x: 49, y: 14 }
+const MP_BOX = { x: 215, y: 0, len: 5 }
+const MP_NEEDED = { x: 230, y: 14 }
+const MP_SLASH = { x: 260, y: 14 }
+const MP_CURRENT = { x: 265, y: 14 }
+
+// 物品网格(itemmenu.c:51-57,CN):box(2,0) 6×17 style1;item (15,12)+k*100+j*18
+const ITEM_GRID_BOX = { x: 2, y: 0, rows: 6, cols: 17 }
+const ITEM_ITEM_X0 = 15
+const ITEM_ITEM_Y0 = 12
+const ITEM_ITEM_W = 100
+const ITEM_LINE_DY = 18
+const ITEM_CURSOR_X_OFF = 25
+const ITEM_AMOUNT_X_OFF = 81 // dwWordLength*8+1
+const ITEM_COLS = 3
+const ITEM_ROWS = 7
+const ITEM_PAGE_LINE_OFFSET = Math.floor((ITEM_ROWS + 1) / 2)
+
+// 底部队员状态栏(M3 文字版,PAL_PlayerInfoBox sprite 化是独立函数,非本任务范围)
 const PARTY_STATUS_BASE_X = 5
 const PARTY_STATUS_BASE_Y = 175
 const PARTY_STATUS_STRIDE_X = 60
 
-/** 主菜单 / 二级菜单的统一锚点。 */
-const MENU_BASE_X = 5
-const MENU_BASE_Y = 5
-const MENU_ITEM_STRIDE_Y = 12
-/** 法术/物品二级菜单一屏可见条数(超过则滚动窗口)。 */
-const MENU_VISIBLE = 5
+/** 目标箭头相对 anchor 的偏移(anchor = 精灵底中,箭头画头顶上方)。 */
+const TARGET_ARROW_DX = -8
+const TARGET_ARROW_DY_ENEMY = -50
+const TARGET_ARROW_DY_PLAYER = -67 // uibattle.c:1574 `y - 67`
 
-/**
- * 滚动窗口起点:5 条窗口尽量把 `cursor` 放中间,夹在 [0, len-VISIBLE]。
- * 短列表(≤5)→ 0(行为同旧 slice(0,5))。
- */
-function menuWindowStart(cursor: number, len: number): number {
-  return Math.min(Math.max(0, cursor - 2), Math.max(0, len - MENU_VISIBLE))
+/** 闪烁选中色(sdlpal ui.h:36-39:0xF9 + SDL_GetTicks 周期)。 */
+function selectedColor(): number {
+  return MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
 }
 
-/** 目标光标在敌方 anchor 上方的偏移。 */
-const TARGET_CURSOR_DY = -50
-const TARGET_CURSOR_DX = -4
+/** s_iFrame & 1 等价的红/常箭头闪烁(sdlpal uibattle.c:1564-1568 用 s_iFrame,这里用时钟)。 */
+function arrowBlinkRed(): boolean {
+  return (Math.floor(Date.now() / 40) & 1) === 1
+}
+
+// ── sprite blit helpers ─────────────────────────────────────────────────────
+function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
+  for (let y = 0; y < frame.height; y++) {
+    for (let x = 0; x < frame.width; x++) {
+      const off = y * frame.width + x
+      if (frame.opaque[off]! > 0) fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
+    }
+  }
+}
+
+/**
+ * port sdlpal `PAL_RLEBlitMonoColor`(palcommon.c:446-640):单色描边 blit。
+ *   每不透明像素:b = clamp((src & 0x0F) + iColorShift, 0, 0x0F);输出 = b | (bColor & 0xF0)。
+ * 战斗图标:可用 = MonoColor(0, -4)灰阶;不可用 = MonoColor(0x10, -4)更暗(uibattle.c:1070-1078)。
+ */
+function blitSpriteMonoColor(
+  fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number, bColor: number, iColorShift: number,
+): void {
+  const band = bColor & 0xf0
+  for (let y = 0; y < frame.height; y++) {
+    for (let x = 0; x < frame.width; x++) {
+      const off = y * frame.width + x
+      if (frame.opaque[off]! === 0) continue
+      let b = (frame.indices[off]! & 0x0f) + iColorShift
+      if (b > 0x0f) b = 0x0f
+      else if (b < 0) b = 0
+      fb.writePixel(dstX + x, dstY + y, b | band)
+    }
+  }
+}
+
+/** uiSpriteFrames 是否够画 9-slice box(style 0 需 frame 0-8,style 1 需 9-17)。 */
+function hasBoxFrames(uiSpriteFrames: IndexedImage[] | undefined, style: 0 | 1): boolean {
+  return !!uiSpriteFrames && uiSpriteFrames.length > style * 9 + 8
+}
 
 /**
  * 画战斗 UI。每帧调用一次(在 bg + sprites 之上)。
  *
- * - 队员状态栏:每帧固定显示(不受 uiState 影响)。
- * - 菜单 / 光标:按 uiState 分支画。
- *
- * @param fb 屏幕 framebuffer(320×200 索引)。
- * @param state BattleState(读 uiState / uiCursor / selectingPlayerIdx / players / enemies)。
- * @param playerRoles 角色表(显示 _name / hp / mp / maxHP / maxMP)。
- * @param spells 法术表(magicMenu 时查 _name)。
- * @param items 物品表(itemMenu 时查 _name)。
- * @param gs GameState(itemMenu 时读 inventory)。
+ * @param uiSpriteFrames SPRITEUI 全 frame(图标/box/cursor/箭头/数字);缺省 → 跳过 sprite 相关绘制。
+ * @param enemyPos       ENEMYPOS 表(敌方 target 箭头定位);缺省 → fallback 表。
  */
 export function drawBattleUI(
   fb: Framebuffer,
@@ -101,40 +180,63 @@ export function drawBattleUI(
   items: Item[],
   gs: GameState,
   glyphs?: GlyphTable,
+  uiSpriteFrames?: IndexedImage[],
+  enemyPos?: EnemyPosTable,
 ): void {
   drawPartyStatus(fb, state, playerRoles, glyphs)
 
-  // 战斗内对话显示期间**隐藏动作菜单**(user 2026-05-31 实测:对话框下面还画着菜单)。
-  //   sdlpal 真值:PAL_ShowDialogText 是同步 blocking,对话期 PAL_BattleUIUpdate 不刷新菜单
-  //   (且 PerformAction 阶段 uibattle.c:889 goto end 同样不画选择 UI)。这里对齐:
-  //   gs.dialogBox 已起(本帧在显示)或 battleDialogQueue 尚有待显行(下帧要起)→ 只保留底部
-  //   队员状态栏,跳过主菜单 / 杂项盒 / 法术物品选择 / target 光标。对话结束(两者皆空)自动恢复。
+  // 战斗内对话显示期间隐藏动作菜单(user 2026-05-31 实测 bug):只保留底部状态栏。
+  //   sdlpal:PAL_ShowDialogText 同步 blocking,对话期菜单不刷(uibattle.c:889 PerformAction goto end 同理)。
   const dialogActive = gs.dialogBox != null || (state.battleDialogQueue?.length ?? 0) > 0
   if (dialogActive) return
 
   switch (state.uiState) {
-    case 'mainMenu':
-      drawMainMenu(fb, state, playerRoles, glyphs)
+    case 'selectMove':
+      drawMainIcons(fb, state, playerRoles, uiSpriteFrames, /* highlight= */ true)
+      switch (state.menuState) {
+        case 'main':
+          break
+        case 'magicSelect':
+          drawMagicSelectGrid(fb, state, gs, spells, glyphs, uiSpriteFrames)
+          break
+        case 'useItemSelect':
+        case 'throwItemSelect':
+          drawItemSelectGrid(fb, state, items, glyphs, uiSpriteFrames)
+          break
+        case 'misc':
+          drawMiscMenu(fb, state, glyphs, uiSpriteFrames)
+          break
+        case 'miscItemSubMenu':
+          drawMiscMenu(fb, state, glyphs, uiSpriteFrames)
+          drawMiscItemSubMenu(fb, state, glyphs, uiSpriteFrames)
+          break
+      }
       break
-    case 'magicMenu':
-      drawMagicMenu(fb, state, playerRoles, spells, glyphs)
+    case 'selectTargetEnemy':
+      drawMainIcons(fb, state, playerRoles, uiSpriteFrames, /* highlight= */ false)
+      drawEnemyTargetArrow(fb, state, uiSpriteFrames, enemyPos, /* all= */ false)
       break
-    case 'itemMenu':
-      drawItemMenu(fb, state, items, gs, glyphs)
+    case 'selectTargetEnemyAll':
+      drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)
+      drawEnemyTargetArrow(fb, state, uiSpriteFrames, enemyPos, /* all= */ true)
       break
-    case 'targetSelect':
-      drawTargetCursor(fb, state, glyphs)
+    case 'selectTargetPlayer':
+      drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)
+      drawPlayerTargetArrow(fb, state, uiSpriteFrames, /* all= */ false)
       break
+    case 'selectTargetPlayerAll':
+      drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)
+      drawPlayerTargetArrow(fb, state, uiSpriteFrames, /* all= */ true)
+      break
+    case 'wait':
     case 'hidden':
       break
   }
 }
 
 /**
- * 屏幕底部状态栏:每个 party 成员显示 名字 / HP / MP。
- *
- * - role 找不到(fixture 错配)→ 跳过该位(不抛)。
- * - 超过 5 个成员的位置默认 stride 计算,屏外会被 framebuffer.writePixel clip。
+ * 底部队员状态栏:每个 party 成员显示 名字 / HP / MP(M3 文字版)。
+ * sdlpal PAL_PlayerInfoBox(sprite 头像 + 时间槽)是独立函数,sprite 化非本任务范围。
  */
 function drawPartyStatus(
   fb: Framebuffer,
@@ -154,172 +256,296 @@ function drawPartyStatus(
 }
 
 /**
- * 主菜单(5 项):攻击 / 法术 / 物品 / 防御 / 逃跑。
- * 高亮项以 `> ` 前缀标记(uiCursor 决定)。
- * selectingPlayerIdx 未定义(不在选择阶段)→ no-op。
+ * 主菜单 4 图标(uibattle.c:1063-1080)。
+ *   selectedAction(highlight 时)= 全彩 blit;可用未选 = MonoColor(0, -4);不可用 = MonoColor(0x10, -4)。
+ *   highlight=false(target 状态)→ 全部 MonoColor(0, -4),无高亮。
+ * 灰项判定用 selectMove 的 isBattleActionValid(silence / coop healthy)。
  */
-function drawMainMenu(
+function drawMainIcons(
   fb: Framebuffer,
   state: BattleState,
   playerRoles: PlayerRoles,
-  glyphs?: GlyphTable,
+  uiSpriteFrames: IndexedImage[] | undefined,
+  highlight: boolean,
 ): void {
-  if (state.selectingPlayerIdx === undefined) return
-  const player = state.players[state.selectingPlayerIdx]
-  if (!player) return
-  const role = playerRoles.roles[player.roleId]
-  if (!role) return
-  renderText(fb, `${role._name ?? 'P'} 行动:`, MENU_BASE_X, MENU_BASE_Y, UI_TEXT_COLOR, glyphs)
-  MAIN_MENU.forEach((it, i) => {
-    const prefix = i === state.uiCursor ? '> ' : '  '
-    renderText(
-      fb,
-      prefix + it.label,
-      MENU_BASE_X,
-      MENU_BASE_Y + (i + 1) * MENU_ITEM_STRIDE_Y + 3,
-      UI_TEXT_COLOR,
-      glyphs,
-    )
-  })
-}
-
-/**
- * 法术二级菜单 —— 列当前队员已学法术的前 5 个。
- *
- * M3 简版:`learnedSpells` 不在 PlayerRole schema(M5 时按 sdlpal `wMagic[]`
- * 数组补)。当前通过 `(role as any).learnedSpells` 兼容 T29 dev panel 临时附加;
- * 缺失或空数组 → 显示「(无法术)」。
- */
-function drawMagicMenu(
-  fb: Framebuffer,
-  state: BattleState,
-  playerRoles: PlayerRoles,
-  spells: Spell[],
-  glyphs?: GlyphTable,
-): void {
-  if (state.selectingPlayerIdx === undefined) return
-  const player = state.players[state.selectingPlayerIdx]
-  if (!player) return
-  const role = playerRoles.roles[player.roleId]
-  if (!role) return
-  const learned: number[] = (role as unknown as { learnedSpells?: number[] }).learnedSpells ?? []
-  if (learned.length === 0) {
-    renderText(fb, '(无法术)', MENU_BASE_X, MENU_BASE_Y, UI_TEXT_COLOR, glyphs)
-    renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 20, UI_TEXT_COLOR, glyphs)
-    return
+  if (!uiSpriteFrames) return
+  for (let i = 0; i < MAIN_ICONS.length; i++) {
+    const icon = MAIN_ICONS[i]!
+    const frame = uiSpriteFrames[icon.sprite]
+    if (!frame) continue
+    const valid = isBattleActionValidForDraw(state, i, playerRoles)
+    if (highlight && state.selectedAction === i) {
+      blitSpriteOpaque(fb, frame, icon.x, icon.y) // 选中 = 全彩(uibattle.c:1067-1068)
+    } else if (valid) {
+      blitSpriteMonoColor(fb, frame, icon.x, icon.y, 0, -4) // 可用 = 灰阶(uibattle.c:1071-1073)
+    } else {
+      blitSpriteMonoColor(fb, frame, icon.x, icon.y, 0x10, -4) // 不可用 = 更暗(uibattle.c:1076-1078)
+    }
   }
-  // 滚动窗口:列 5 条,以 uiCursor 为中心,长列表(dev 全法术 ~100 条)也能选到任意一条。
-  const start = menuWindowStart(state.uiCursor, learned.length)
-  learned.slice(start, start + MENU_VISIBLE).forEach((spellId, i) => {
-    const absoluteIdx = start + i
-    const spell = spells.find(s => s.id === spellId)
-    if (!spell) return
-    const prefix = absoluteIdx === state.uiCursor ? '> ' : '  '
-    renderText(
-      fb,
-      prefix + (spell._name ?? `Spell ${spellId}`),
-      MENU_BASE_X,
-      MENU_BASE_Y + i * MENU_ITEM_STRIDE_Y,
-      UI_TEXT_COLOR,
-      glyphs,
-    )
-  })
-  renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 70, UI_TEXT_COLOR, glyphs)
 }
 
 /**
- * 物品二级菜单 —— 列持有物品的前 5 个(count > 0)。
- *
- * inventory 在 T14 已加,T21 item action 已扣 count。M3 此处读 count > 0 的 entry,
- * 显示「名字 x{count}」。物品表查不到 itemId → 跳过该位。
+ * 灰项判定(渲染侧)—— 镜像 battle-system isActionValid(uibattle.c:271-341,PAL_CLASSIC):
+ *   0攻击/3杂项恒可用;1法术 → 非 silence;2合击 → 本人 healthy 且 healthy 人数 > 1。
+ * 渲染层独立实现避免循环依赖 core/battle-system(只读 state,不改)。
  */
-function drawItemMenu(
+function isBattleActionValidForDraw(state: BattleState, action: number, playerRoles: PlayerRoles): boolean {
+  const idx = state.selectingPlayerIdx
+  if (idx === undefined) return action === 0 || action === 3
+  const player = state.players[idx]
+  const role = player ? playerRoles.roles[player.roleId] : undefined
+  if (!player || !role) return action === 0 || action === 3
+  const healthy = (p: typeof player, r: typeof role): boolean => {
+    if (r.hp <= 0 || (r.hp > 0 && r.hp < Math.max(1, Math.floor(r.maxHP / 5)))) return false
+    const st = p.status
+    return (st.sleep ?? 0) === 0 && (st.confused ?? 0) === 0 && (st.silence ?? 0) === 0 &&
+      (st.paralyzed ?? 0) === 0 && (st.puppet ?? 0) === 0
+  }
+  switch (action) {
+    case 1:
+      return (player.status.silence ?? 0) === 0
+    case 2: {
+      if (state.players.length <= 1) return false
+      let n = 0
+      state.players.forEach((p) => {
+        const r = playerRoles.roles[p.roleId]
+        if (r && healthy(p, r)) n++
+      })
+      return healthy(player, role) && n > 1
+    }
+    default:
+      return true
+  }
+}
+
+/** 杂项盒(uibattle.c:343-413):box(2,20) + 5 项 围攻/道具/防御/逃跑/状态,miscMenuCursor 高亮。 */
+function drawMiscMenu(
+  fb: Framebuffer,
+  state: BattleState,
+  glyphs: GlyphTable | undefined,
+  uiSpriteFrames: IndexedImage[] | undefined,
+): void {
+  if (hasBoxFrames(uiSpriteFrames, 0)) {
+    drawBox({
+      fb, x: MISC_BOX.x, y: MISC_BOX.y, rows: MISC_BOX.rows,
+      cols: menuTextMaxCols(MISC_LABELS as readonly string[], glyphs), style: 0, uiSpriteFrames: uiSpriteFrames!,
+    })
+  }
+  for (let i = 0; i < MISC_LABELS.length; i++) {
+    const color = i === state.miscMenuCursor ? selectedColor() : MENUITEM_COLOR
+    renderText(fb, MISC_LABELS[i]!, MISC_ITEM_X, MISC_ITEM_Y0 + i * MISC_ITEM_DY, color, glyphs, true)
+  }
+}
+
+/** 物品二级(uibattle.c:471-545):box(30,50) + 使用/投掷,miscSubMenuCursor 高亮。 */
+function drawMiscItemSubMenu(
+  fb: Framebuffer,
+  state: BattleState,
+  glyphs: GlyphTable | undefined,
+  uiSpriteFrames: IndexedImage[] | undefined,
+): void {
+  if (hasBoxFrames(uiSpriteFrames, 0)) {
+    drawBox({
+      fb, x: MISC_ITEM_SUB_BOX.x, y: MISC_ITEM_SUB_BOX.y, rows: MISC_ITEM_SUB_BOX.rows,
+      cols: menuTextMaxCols(MISC_ITEM_SUB.map((m) => m.label), glyphs), style: 0, uiSpriteFrames: uiSpriteFrames!,
+    })
+  }
+  MISC_ITEM_SUB.forEach((it, i) => {
+    const color = i === state.miscSubMenuCursor ? selectedColor() : MENUITEM_COLOR
+    renderText(fb, it.label, it.x, it.y, color, glyphs, true)
+  })
+}
+
+/**
+ * 法术选择网格(magicmenu.c:35-299)—— box(10,42) + 3列分页 + cursor + cash/MP box。
+ * 灰项色:选中enabled=闪烁 / 选中disabled=SELECTED_INACTIVE / 未选disabled=INACTIVE / 未选enabled=MENUITEM_COLOR。
+ */
+function drawMagicSelectGrid(
+  fb: Framebuffer,
+  state: BattleState,
+  gs: GameState,
+  spells: Spell[],
+  glyphs: GlyphTable | undefined,
+  uiSpriteFrames: IndexedImage[] | undefined,
+): void {
+  const menu = state.magicSelect
+  if (!menu) return
+  void spells
+
+  if (hasBoxFrames(uiSpriteFrames, 1)) {
+    drawBox({
+      fb, x: MAGIC_GRID_BOX.x, y: MAGIC_GRID_BOX.y, rows: MAGIC_GRID_BOX.rows, cols: MAGIC_GRID_BOX.cols,
+      style: 1, shadowOffset: 0, uiSpriteFrames: uiSpriteFrames!,
+    })
+  }
+
+  // cash + MP box(magicmenu.c:128-142,非 WIN95)
+  if (uiSpriteFrames) {
+    if (uiSpriteFrames.length > 46) {
+      drawSingleLineBox({ fb, x: CASH_BOX.x, y: CASH_BOX.y, len: CASH_BOX.len, uiSpriteFrames })
+      renderText(fb, '金钱', CASH_LABEL.x, CASH_LABEL.y, 0, glyphs, false)
+      drawNumber(fb, gs.dwCash, 6, CASH_NUM, 'yellow', 'right', uiSpriteFrames)
+      drawSingleLineBox({ fb, x: MP_BOX.x, y: MP_BOX.y, len: MP_BOX.len, uiSpriteFrames })
+    }
+    const sel = menu.items[menu.cursor]
+    const needed = parseRightNumber(sel?.rightText)
+    const role = state.selectingPlayerIdx !== undefined
+      ? state.players[state.selectingPlayerIdx]
+      : undefined
+    const currentMp = role ? (gs.PlayerRolesRuntime.rgwMP[role.roleId] ?? 0) : 0
+    const slash = uiSpriteFrames[SPRITENUM_SLASH]
+    if (slash) blitSpriteOpaque(fb, slash, MP_SLASH.x, MP_SLASH.y)
+    drawNumber(fb, needed, 4, MP_NEEDED, 'yellow', 'right', uiSpriteFrames)
+    drawNumber(fb, currentMp, 4, MP_CURRENT, 'cyan', 'right', uiSpriteFrames)
+  }
+
+  drawSelectGridItems(fb, menu, glyphs, uiSpriteFrames, {
+    cols: MAGIC_COLS, rows: MAGIC_ROWS, pageLineOffset: MAGIC_PAGE_LINE_OFFSET,
+    itemX0: MAGIC_ITEM_X0, itemY0: MAGIC_ITEM_Y0, itemW: MAGIC_ITEM_W, lineDy: MAGIC_LINE_DY,
+    cursorXOff: MAGIC_CURSOR_X_OFF, cursorYOff: 10, amountXOff: undefined,
+  })
+}
+
+/** 物品选择网格(itemmenu.c:28-311)—— box(2,0) + 3列分页 + cursor + 数量。 */
+function drawItemSelectGrid(
   fb: Framebuffer,
   state: BattleState,
   items: Item[],
-  gs: GameState,
-  glyphs?: GlyphTable,
+  glyphs: GlyphTable | undefined,
+  uiSpriteFrames: IndexedImage[] | undefined,
 ): void {
-  if (state.selectingPlayerIdx === undefined) return
-  const inventory = gs.inventory.filter(e => e.count > 0)
-  if (inventory.length === 0) {
-    renderText(fb, '(无物品)', MENU_BASE_X, MENU_BASE_Y, UI_TEXT_COLOR, glyphs)
-    renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 20, UI_TEXT_COLOR, glyphs)
-    return
+  const menu = state.itemSelect
+  if (!menu) return
+  void items
+
+  if (hasBoxFrames(uiSpriteFrames, 1)) {
+    drawBox({
+      fb, x: ITEM_GRID_BOX.x, y: ITEM_GRID_BOX.y, rows: ITEM_GRID_BOX.rows, cols: ITEM_GRID_BOX.cols,
+      style: 1, shadowOffset: 0, uiSpriteFrames: uiSpriteFrames!,
+    })
   }
-  const start = menuWindowStart(state.uiCursor, inventory.length)
-  inventory.slice(start, start + MENU_VISIBLE).forEach((entry, i) => {
-    const absoluteIdx = start + i
-    const item = items.find(it => it.id === entry.itemId)
-    if (!item) return
-    const prefix = absoluteIdx === state.uiCursor ? '> ' : '  '
-    renderText(
-      fb,
-      `${prefix + (item._name ?? `Item ${entry.itemId}`)} x${entry.count}`,
-      MENU_BASE_X,
-      MENU_BASE_Y + i * MENU_ITEM_STRIDE_Y,
-      UI_TEXT_COLOR,
-      glyphs,
-    )
+
+  drawSelectGridItems(fb, menu, glyphs, uiSpriteFrames, {
+    cols: ITEM_COLS, rows: ITEM_ROWS, pageLineOffset: ITEM_PAGE_LINE_OFFSET,
+    itemX0: ITEM_ITEM_X0, itemY0: ITEM_ITEM_Y0, itemW: ITEM_ITEM_W, lineDy: ITEM_LINE_DY,
+    cursorXOff: ITEM_CURSOR_X_OFF, cursorYOff: 10, amountXOff: ITEM_AMOUNT_X_OFF,
   })
-  renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 70, UI_TEXT_COLOR, glyphs)
+}
+
+interface GridLayout {
+  cols: number
+  rows: number
+  pageLineOffset: number
+  itemX0: number
+  itemY0: number
+  itemW: number
+  lineDy: number
+  cursorXOff: number
+  cursorYOff: number
+  /** 数量数字相对 itemX 的偏移(物品网格用;法术网格 undefined = 不画)。 */
+  amountXOff: number | undefined
 }
 
 /**
- * 目标选择光标:在 `uiCursor` 指向的目标位置上方画 `v`(简化 ▽)。
- *
- * D18:按 `state.pendingActionDraft.targetSide` 分敌方 / 友方:
- *   - 'player'(治疗/辅助法术、治疗物品)→ 画在 state.players[uiCursor] 屏幕位置
- *     (sdlpal kBattleUISelectTargetPlayer uibattle.c:1564-1576;双帧闪本层略,M3 占位)。
- *     player 屏幕位置用 battle-positions getPlayerBasePos(PLAYER_POSITIONS_BY_COUNT)。
- *   - 'enemy'(默认 / 省略;物理攻击、攻击魔法、投掷)→ 现有敌方流(画在敌人上方)。
+ * 通用 N 列分页网格绘制(magicmenu.c:222-275 / itemmenu.c:122-224 共同结构)。
+ *   page 起 = cursor/cols*cols - cols*pageLineOffset(钳 >=0);逐 cell 上色 + cursor 精灵 + (物品)数量。
  */
-function drawTargetCursor(fb: Framebuffer, state: BattleState, glyphs?: GlyphTable): void {
-  if (state.pendingActionDraft?.targetSide === 'player') {
-    drawPlayerTargetCursor(fb, state, glyphs)
-    return
+function drawSelectGridItems(
+  fb: Framebuffer,
+  menu: SelectionMenuState,
+  glyphs: GlyphTable | undefined,
+  uiSpriteFrames: IndexedImage[] | undefined,
+  lay: GridLayout,
+): void {
+  let pageStart = Math.floor(menu.cursor / lay.cols) * lay.cols - lay.cols * lay.pageLineOffset
+  if (pageStart < 0) pageStart = 0
+  let i = pageStart
+  outer: for (let j = 0; j < lay.rows; j++) {
+    for (let k = 0; k < lay.cols; k++) {
+      if (i >= menu.items.length) break outer
+      const it = menu.items[i]!
+      const selected = i === menu.cursor
+      let color: number
+      if (selected) color = it.disabled ? MENUITEM_COLOR_SELECTED_INACTIVE : selectedColor()
+      else color = it.disabled ? MENUITEM_COLOR_INACTIVE : MENUITEM_COLOR
+      const x = lay.itemX0 + k * lay.itemW
+      const y = lay.itemY0 + j * lay.lineDy
+      renderText(fb, it.label, x, y, color, glyphs, true)
+      // 数量(物品网格:if amount>1 cyan right;itemmenu.c:211-215)
+      if (lay.amountXOff !== undefined && uiSpriteFrames) {
+        const amount = parseRightNumber(it.rightText)
+        if (amount > 1) {
+          drawNumber(fb, amount, 2, { x: x + lay.amountXOff, y: y + 5 }, 'cyan', 'right', uiSpriteFrames)
+        }
+      }
+      if (selected && uiSpriteFrames) {
+        const cursor = uiSpriteFrames[SPRITENUM_CURSOR]
+        if (cursor) blitSpriteOpaque(fb, cursor, x + lay.cursorXOff, y + lay.cursorYOff)
+      }
+      i++
+    }
   }
-  drawEnemyTargetCursor(fb, state, glyphs)
+}
+
+/** 从 rightText 解析数字(`MP 12` / `×3` → 12 / 3),无 → 0。 */
+function parseRightNumber(rightText: string | undefined): number {
+  if (!rightText) return 0
+  const m = rightText.match(/\d+/)
+  return m ? Number(m[0]) : 0
 }
 
 /**
- * 敌方目标光标(现有流):在 `uiCursor` 指向的敌方位置上方画 `v`。
- * - 无敌人(全 dead 但 phase 还在 selectAction)→ no-op,不抛。
- * - uiCursor 超界 → clamp 到最后一个敌人。
+ * 敌方 target 箭头 —— sdlpal CLASSIC 用 ColorShift 高亮敌人精灵(uibattle.c:1498-1510);
+ * ts 简化为箭头标在敌人头顶(精灵 ColorShift 高亮属 sprite 层,留 user 验/后续)。
+ * all=true(EnemyAll 过渡态)→ 全部活敌画箭头。
  */
-function drawEnemyTargetCursor(fb: Framebuffer, state: BattleState, glyphs?: GlyphTable): void {
-  if (state.enemies.length === 0) return
-  const targetIdx = Math.min(Math.max(state.uiCursor, 0), state.enemies.length - 1)
-  const pos = ENEMY_POSITIONS[targetIdx]
-  if (!pos) return
-  renderText(
-    fb,
-    'v',
-    pos.x + TARGET_CURSOR_DX,
-    pos.y + TARGET_CURSOR_DY,
-    UI_TEXT_COLOR,
-    glyphs,
-  )
+function drawEnemyTargetArrow(
+  fb: Framebuffer,
+  state: BattleState,
+  uiSpriteFrames: IndexedImage[] | undefined,
+  enemyPos: EnemyPosTable | undefined,
+  all: boolean,
+): void {
+  if (!uiSpriteFrames) return
+  const arrow = uiSpriteFrames[arrowBlinkRed()
+    ? SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER_RED
+    : SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER]
+  if (!arrow) return
+  const draw = (idx: number): void => {
+    const anchor = getEnemyBasePos(enemyPos, state.enemies.length, idx, state.enemies[idx]?.e.yPosOffset ?? 0)
+    if (!anchor) return
+    blitSpriteOpaque(fb, arrow, anchor.x + TARGET_ARROW_DX, anchor.y + TARGET_ARROW_DY_ENEMY)
+  }
+  if (all) {
+    state.enemies.forEach((e, i) => { if (e.e.health > 0) draw(i) })
+  } else {
+    draw(state.uiCursor)
+  }
 }
 
 /**
- * 友方目标光标(D18):在 `uiCursor` 指向的队员屏幕位置上方画 `v`(死活不限,忠实
- * sdlpal uibattle.c:1573 箭头画在每个队员)。
- * - 无队员 → no-op。
- * - uiCursor 超界 → clamp 到最后一个队员。
- * - 该队员无屏幕位置(layout 越界)→ no-op。
+ * 友方 target 箭头(uibattle.c:1564-1576 / PlayerAll 1670-1695)。
+ *   sprite 67(常)/ 66(红)闪烁;箭头画在队员头顶(anchor.y - 67)。all=true → 全部队员。
  */
-function drawPlayerTargetCursor(fb: Framebuffer, state: BattleState, glyphs?: GlyphTable): void {
-  if (state.players.length === 0) return
-  const targetIdx = Math.min(Math.max(state.uiCursor, 0), state.players.length - 1)
-  const pos = getPlayerBasePos(state.players.length, targetIdx)
-  if (!pos) return
-  renderText(
-    fb,
-    'v',
-    pos.x + TARGET_CURSOR_DX,
-    pos.y + TARGET_CURSOR_DY,
-    UI_TEXT_COLOR,
-    glyphs,
-  )
+function drawPlayerTargetArrow(
+  fb: Framebuffer,
+  state: BattleState,
+  uiSpriteFrames: IndexedImage[] | undefined,
+  all: boolean,
+): void {
+  if (!uiSpriteFrames) return
+  const arrow = uiSpriteFrames[arrowBlinkRed()
+    ? SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER_RED
+    : SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER]
+  if (!arrow) return
+  const draw = (idx: number): void => {
+    const anchor = getPlayerBasePos(state.players.length, idx)
+    if (!anchor) return
+    blitSpriteOpaque(fb, arrow, anchor.x + TARGET_ARROW_DX, anchor.y + TARGET_ARROW_DY_PLAYER)
+  }
+  if (all) {
+    for (let i = 0; i < state.players.length; i++) draw(i)
+  } else {
+    draw(state.uiCursor)
+  }
 }
