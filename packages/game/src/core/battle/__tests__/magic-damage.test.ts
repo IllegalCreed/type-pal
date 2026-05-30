@@ -103,7 +103,7 @@ describe('applyMagicDamage', () => {
       rngFactor: 1.0,
       minDamage: 1,
     })
-    expect(results).toEqual([{ enemyIdx: 0, damage: 50 }])
+    expect(results).toEqual([{ enemyIdx: 0, damage: 50, hpBefore: 100, hpAfter: 50 }])
     expect(state.enemies[0]!.e.health).toBe(50)
   })
 
@@ -120,7 +120,10 @@ describe('applyMagicDamage', () => {
       rngFactor: 1.0,
       minDamage: 1,
     })
-    expect(results).toEqual([{ enemyIdx: 0, damage: 50 }, { enemyIdx: 1, damage: 50 }])
+    expect(results).toEqual([
+      { enemyIdx: 0, damage: 50, hpBefore: 100, hpAfter: 50 },
+      { enemyIdx: 1, damage: 50, hpBefore: 80, hpAfter: 30 },
+    ])
     expect(state.enemies[0]!.e.health).toBe(50)
     expect(state.enemies[1]!.e.health).toBe(30)
   })
@@ -137,7 +140,7 @@ describe('applyMagicDamage', () => {
       rngFactor: 1.0,
       minDamage: 0,
     })
-    expect(results).toEqual([{ enemyIdx: 0, damage: 0 }])
+    expect(results).toEqual([{ enemyIdx: 0, damage: 0, hpBefore: 100, hpAfter: 100 }])
     expect(state.enemies[0]!.e.health).toBe(100)
   })
 

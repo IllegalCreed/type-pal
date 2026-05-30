@@ -186,9 +186,17 @@ export function performMagic(input: PerformMagicInput): void {
       rngFactor,
       minDamage: 1, // sdlpal inline:if (sDamage <= 0) sDamage = 1
     })
+    // D17b:每个被命中敌人 emit showDamageNum(掉血 → blue,sdlpal `fight.c:648-651`)。
+    // 用钳后真实 delta(hpBefore-hpAfter)对齐 PAL_BattleDisplayStatChange(钳到 0 时显示真实损失)。
     for (const r of results) {
-      if (r.damage > 0)
-        input.bus.emit({ op: 'showDamageNum', x: 0, y: 0, value: r.damage, color: 'yellow' })
+      if (r.hpAfter < r.hpBefore) {
+        input.bus.emit({
+          op: 'showDamageNum',
+          target: { kind: 'enemy', idx: r.enemyIdx },
+          value: r.hpBefore - r.hpAfter,
+          color: 'blue',
+        })
+      }
     }
   }
 }

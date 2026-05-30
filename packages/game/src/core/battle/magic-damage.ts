@@ -65,7 +65,12 @@ export interface ApplyMagicDamageInput {
 /** 每个被命中敌人的结算结果(供 caller emit 弹幕 / log 验)。 */
 export interface MagicDamageResult {
   enemyIdx: number
+  /** 原始计算伤害(钳到 minDamage 后,未减 HP 前)。 */
   damage: number
+  /** 减血前 HP(D17b:caller emit showDamageNum 用钳后真实 delta = hpBefore-hpAfter)。 */
+  hpBefore: number
+  /** 减血后 HP(`max(0, hpBefore-damage)`)。 */
+  hpAfter: number
 }
 
 /**
@@ -110,8 +115,9 @@ export function applyMagicDamage(input: ApplyMagicDamageInput): MagicDamageResul
     if (dmg < minDamage)
       dmg = minDamage
 
+    const hpBefore = enemy.e.health
     enemy.e.health = Math.max(0, enemy.e.health - dmg)
-    results.push({ enemyIdx: idx, damage: dmg })
+    results.push({ enemyIdx: idx, damage: dmg, hpBefore, hpAfter: enemy.e.health })
   }
   return results
 }

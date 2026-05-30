@@ -27,14 +27,15 @@
  */
 
 import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
+import type { IndexedImage } from '../../assets/png.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
 import type { BusEntry } from '../../core/command-bus.js'
 import type { GameState } from '../../core/game-state.js'
-import type { Framebuffer } from '../framebuffer.js'
 import type { GlyphTable } from '../font.js'
+import type { Framebuffer } from '../framebuffer.js'
 import { type BattleBgAsset, drawBattleBg } from './draw-battle-bg.js'
 import { FloatingNumsLayer } from './draw-battle-num.js'
-import { drawBattleSprites, type SpriteAsset } from './draw-battle-sprites.js'
+import { computeEnemyAnchor, computePlayerAnchor, drawBattleSprites, type SpriteAsset } from './draw-battle-sprites.js'
 import { drawBattleUI } from './draw-battle-ui.js'
 
 export interface BattleAssets {
@@ -49,6 +50,11 @@ export interface BattleAssets {
   enemyPos?: EnemyPosTable
   /** M4 P4.T3: Unifont glyph table(启动时 loadGlyphs 注入,缺省则战斗文字渲染为 tofu)。 */
   glyphs?: GlyphTable
+  /**
+   * D17b:SPRITEUI(DATA.MKF chunk 9)全 frame —— 伤害数字弹幕用 drawNumber(UI sprite
+   * 数字帧 1:1,对照 sdlpal `PAL_BattleUIUpdate` → `PAL_DrawNumber`)。缺省则数字不画。
+   */
+  uiSpriteFrames?: IndexedImage[]
 }
 
 /**
@@ -80,13 +86,26 @@ export class BattlePresent {
     // 1. 消费战斗命令(M3 简版:只 showDamageNum;其他命令 M5 真补)
     for (const { cmd } of commands) {
       if (cmd.op === 'showDamageNum') {
-        this.floatingNums.emit({
-          x: cmd.x,
-          y: cmd.y,
-          value: cmd.value,
-          color: cmd.color,
-          currentFrame,
-        })
+        // D17b:逻辑 target → 屏幕坐标(与精灵共用 computeEnemyAnchor/computePlayerAnchor,杜绝漂移)。
+        // sdlpal `fight.c:640-708` 真值 offset(基于精灵底锚 pos):
+        //   enemy:     x = anchor.x - 9, y = max(anchor.y - 115, 10)
+        //   player HP: x = anchor.x - 9, y = max(anchor.y - 75, 10)
+        //   player MP: x = anchor.x - 9, y = max(anchor.y - 67, 10)  (cyan)
+        // 再经 PAL_BattleUIShowNum(`uibattle.c:1801`)x -= 15 → 最终 x = anchor.x - 24。
+        const anchor
+          = cmd.target.kind === 'enemy'
+            ? computeEnemyAnchor(state, cmd.target.idx, assets.enemyPos)
+            : computePlayerAnchor(state, cmd.target.idx)
+        if (anchor) {
+          const x = anchor.x - 24
+          let yOff: number
+          if (cmd.target.kind === 'enemy')
+            yOff = 115
+          else
+            yOff = cmd.color === 'cyan' ? 67 : 75 // cyan = MP(-67),HP(-75)
+          const y = Math.max(anchor.y - yOff, 10)
+          this.floatingNums.emit({ x, y, value: cmd.value, color: cmd.color, currentFrame })
+        }
       }
       // 其他 op(playEnemyAttack / playMagicAnim / flashEnemy / showBattleMessage
       // / playEnemyDeath / showBattleUI / showDialogBox / clearDialogBox 等)M3 简版跳过
@@ -99,8 +118,8 @@ export class BattlePresent {
     // 3. 双方精灵(死亡的不画;sprite 缺资源跳过)
     drawBattleSprites(fb, state, assets.battleSprites, assets.playerRoles, assets.enemyPos, currentFrame)
 
-    // 4. 数字弹幕(在精灵之上;过期数字自动清理)
-    this.floatingNums.draw(fb, currentFrame, assets.glyphs)
+    // 4. 数字弹幕(在精灵之上;过期数字自动清理)。D17b:用 UI sprite 数字帧(drawNumber)。
+    this.floatingNums.draw(fb, currentFrame, assets.uiSpriteFrames)
 
     // 5. UI overlay(主菜单 / 二级菜单 / 目标光标 / HP/MP 状态栏)
     drawBattleUI(fb, state, assets.playerRoles, assets.spells, assets.items, gs, assets.glyphs)

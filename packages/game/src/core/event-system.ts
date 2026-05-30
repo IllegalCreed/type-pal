@@ -832,6 +832,13 @@ export interface BattleCtx {
   caster?: { type: 'player' | 'enemy', idx: number }
   target?: { type: 'player' | 'enemy', idx: number }
   /**
+   * Present 命令通道 —— D17b:HP-mutate opcode(0x21/0x5B/0x39/0x5A/0x5F/0x60/0x69)
+   * 结算后 emit `showDamageNum`(对照 sdlpal `PAL_BattleDisplayStatChange` 在每次行动后
+   * 对所有 wPrevHP!=wHealth 的敌/我画数字)。caller 不传时 runScript 自动从 opts.bus 注入
+   * (所有 runScript caller 都已透传 bus)。
+   */
+  bus?: CommandBus
+  /**
    * E 类伤害 opcode(0x42 SimulateMagic / 0x66 throw weapon)解析 magic 用 ——
    * `0x42` op0 是 magic object id,需 objectMagics 解析成 magicNumber/flags,
    * 再 magics 取 baseDamage/elemental。由 performThrowItem(及未来 0x66 caller)注入;
@@ -2191,6 +2198,10 @@ export function runScript(opts: RunScriptOptions): void {
   if (runtimeMode === 'explore' && battleCtx) {
     throw new Error('runScript: runtimeMode=explore 不应传 battleCtx')
   }
+
+  // D17b:让 battle opcode 拿到 bus emit showDamageNum(caller 未塞则默认 = opts.bus)。
+  if (battleCtx && battleCtx.bus === undefined)
+    battleCtx.bus = bus
 
   const logPrefix = runtimeMode === 'battle' ? '[event-system battle]' : '[event-system explore]'
 

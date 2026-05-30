@@ -177,7 +177,8 @@ describe('performAttack', () => {
     expect(state.enemies[0]!.e.health).toBe(0) // 100 - 505 → max(0, -)
     const cmds = bus.drain()
     expect(cmds[0]!.cmd).toEqual({ op: 'playPlayerAttack', playerIdx: 0, targetEnemyIdx: 0 })
-    expect(cmds[1]!.cmd).toMatchObject({ op: 'showDamageNum', color: 'yellow' })
+    // D17b:敌人掉血 → blue(sdlpal fight.c:648-651,sDamage<0);target={kind:'enemy',idx:0}
+    expect(cmds[1]!.cmd).toMatchObject({ op: 'showDamageNum', color: 'blue', target: { kind: 'enemy', idx: 0 } })
     expect((cmds[1]!.cmd as { value: number }).value).toBeGreaterThan(0)
   })
 
@@ -231,6 +232,9 @@ describe('performAttack', () => {
     expect(playerRoles.roles[0]!.hp).toBe(0) // 200 - 252 → max(0, -)
     const cmds = bus.drain()
     expect(cmds[0]!.cmd).toEqual({ op: 'playEnemyAttack', enemyIdx: 0, targetPlayerIdx: 0 })
+    // D17b:player 掉血 → blue,target={kind:'player',idx:0};value=钳后 delta=200(被打死)
+    expect(cmds[1]!.cmd).toMatchObject({ op: 'showDamageNum', color: 'blue', target: { kind: 'player', idx: 0 } })
+    expect((cmds[1]!.cmd as { value: number }).value).toBe(200)
   })
 
   it('player defending → enemy 攻击 damage 显著减小(def *= 2)', () => {

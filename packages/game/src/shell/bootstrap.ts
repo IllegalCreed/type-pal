@@ -256,6 +256,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     items,
     enemyPos,
     glyphs,
+    uiSpriteFrames: assets.uiSpriteFrames, // D17b:伤害数字弹幕用 UI sprite 数字帧
   }
 
   const bus = createCommandBus()

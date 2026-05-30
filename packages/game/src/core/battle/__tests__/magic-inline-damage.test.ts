@@ -175,8 +175,11 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
     })
     // def=30+44=74; calcBase(64,74)=20; /4=5; +45=50; elem1 windRes5: *5 /5=50; field0: *10/10=50
     expect(state.enemies[0]!.e.health).toBe(50)
-    const ops = bus.drain().map(c => c.cmd.op)
-    expect(ops).toContain('showDamageNum')
+    const cmds = bus.drain()
+    // D17b:敌人掉血 → blue,target={kind:'enemy',idx:0},value=钳后 delta=50
+    const dmgCmd = cmds.find(c => c.cmd.op === 'showDamageNum')
+    expect(dmgCmd).toBeDefined()
+    expect(dmgCmd!.cmd).toMatchObject({ op: 'showDamageNum', color: 'blue', target: { kind: 'enemy', idx: 0 }, value: 50 })
   })
 
   it('applyToAll 法术 → 全体敌人落血', () => {
@@ -197,6 +200,12 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
     })
     expect(state.enemies[0]!.e.health).toBe(50)
     expect(state.enemies[1]!.e.health).toBe(50)
+    // D17b:E1 群攻每敌各 emit 一条 showDamageNum,target idx 各异(blue)。
+    const dmgs = bus.drain().filter(c => c.cmd.op === 'showDamageNum').map(c => c.cmd)
+    expect(dmgs).toHaveLength(2)
+    expect(dmgs.map(d => (d as { target: { idx: number } }).target.idx).sort()).toEqual([0, 1])
+    for (const d of dmgs)
+      expect(d).toMatchObject({ color: 'blue', target: { kind: 'enemy' }, value: 50 })
   })
 
   it('血魔神功式(attackWhole + applyToAll=False)+ 单体 targetIdx → 仍打全体(修 bug)', () => {

@@ -65,15 +65,17 @@ export function performAttack(
   // —— 群攻(attackAll 武器):player 且 targetIdx<0(=-1 全体)→ 全体活敌 ——
   // sdlpal kBattleActionAttack sTarget==-1 分支(fight.c:3756+)。每敌独立算 def/res。
   if (!actor.isEnemy && targetIdx < 0) {
-    state.enemies.forEach((be) => {
+    state.enemies.forEach((be, i) => {
       if (be.e.health <= 0)
         return
       const def = asShort(be.e.defense) + (be.e.level + 6) * 4
       let damage = calcPhysicalAttackDamage(str, def, be.e.physicalResistance)
       if (damage <= 0)
         damage = 1
+      const before = be.e.health
       be.e.health = Math.max(0, be.e.health - damage)
-      bus.emit({ op: 'showDamageNum', x: 0, y: 0, value: damage, color: 'yellow' })
+      // D17b:敌人掉血 → blue(sdlpal `fight.c:648-651`)。value 用钳后真实 delta。
+      bus.emit({ op: 'showDamageNum', target: { kind: 'enemy', idx: i }, value: before - be.e.health, color: 'blue' })
     })
     bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: -1 })
     return
@@ -107,13 +109,19 @@ export function performAttack(
   if (damage <= 0)
     damage = 1 // sdlpal fight.c:3829 / 4943 sDamage<=0 → sDamage=1
 
-  // —— 写回 HP ——
+  // —— 写回 HP(记 before/after 算钳后真实 delta) ——
+  let hpBefore: number
+  let hpAfter: number
   if (isPlayerTarget) {
     const role = playerRoles.roles[state.players[targetIdx]!.roleId]!
+    hpBefore = role.hp
     role.hp = Math.max(0, role.hp - damage)
+    hpAfter = role.hp
   }
   else {
+    hpBefore = state.enemies[targetIdx]!.e.health
     state.enemies[targetIdx]!.e.health = Math.max(0, state.enemies[targetIdx]!.e.health - damage)
+    hpAfter = state.enemies[targetIdx]!.e.health
   }
 
   // —— emit 命令 ——
@@ -123,5 +131,11 @@ export function performAttack(
   else {
     bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: targetIdx })
   }
-  bus.emit({ op: 'showDamageNum', x: 0, y: 0, value: damage, color: 'yellow' })
+  // D17b:target 掉血 → blue(sdlpal `fight.c:648-651/678-681`,sDamage<0)。value 用钳后 delta。
+  bus.emit({
+    op: 'showDamageNum',
+    target: { kind: isPlayerTarget ? 'player' : 'enemy', idx: targetIdx },
+    value: hpBefore - hpAfter,
+    color: 'blue',
+  })
 }

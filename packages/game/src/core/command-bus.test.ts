@@ -48,7 +48,7 @@ describe('Battle PresentCommands', () => {
   it('PresentCommand 联合含 9 战斗命令', () => {
     const cmds: PresentCommand[] = [
       { op: 'showBattleMessage', text: 'hit!' },
-      { op: 'showDamageNum', x: 100, y: 50, value: 25, color: 'yellow' },
+      { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 25, color: 'blue' },
       { op: 'flashEnemy', enemyIdx: 0, durationMs: 300 },
       { op: 'flashPlayer', playerIdx: 0, durationMs: 300 },
       { op: 'playEnemyAttack', enemyIdx: 0, targetPlayerIdx: 0 },
@@ -61,12 +61,15 @@ describe('Battle PresentCommands', () => {
     expect(cmds.length).toBeGreaterThan(0)
   })
 
-  it('showDamageNum color 只接受 yellow / blue', () => {
-    // type-only test:不应 compile 错就 OK
-    const yellow: PresentCommand = { op: 'showDamageNum', x: 0, y: 0, value: 0, color: 'yellow' }
-    const blue: PresentCommand = { op: 'showDamageNum', x: 0, y: 0, value: 0, color: 'blue' }
+  it('showDamageNum color 接受 yellow / blue / cyan + 逻辑 target', () => {
+    // type-only test:不应 compile 错就 OK。颜色真值(fight.c:602-716):
+    //   blue=掉血 / yellow=回血 / cyan=回 MP。
+    const blue: PresentCommand = { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 25, color: 'blue' }
+    const yellow: PresentCommand = { op: 'showDamageNum', target: { kind: 'player', idx: 1 }, value: 30, color: 'yellow' }
+    const cyan: PresentCommand = { op: 'showDamageNum', target: { kind: 'player', idx: 2 }, value: 5, color: 'cyan' }
     expect(yellow).toBeDefined()
     expect(blue).toBeDefined()
+    expect(cyan).toBeDefined()
   })
 
   it('showBattleUI state 联合', () => {

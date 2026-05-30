@@ -23,6 +23,31 @@ function asShort(n: number): number {
   return (n << 16) >> 16
 }
 
+/**
+ * D17b:HP-mutate 后 emit 战斗数字弹幕(对照 sdlpal `fight.c:602-716
+ * PAL_BattleDisplayStatChange` —— 每次行动后对所有 wPrevHP!=wHealth 的敌/我画数字)。
+ *
+ * sdlpal:`sDamage = wHealth - wPrevHP`(= after - before),
+ *   sDamage < 0(掉血)→ kNumColorBlue,value = before - after;
+ *   sDamage > 0(回血)→ kNumColorYellow,value = after - before;
+ *   sDamage == 0 → 不画。
+ * 用 before/after(钳后实际 HP)算 value —— 与 sdlpal 一致(钳到 0 时显示真实损失,
+ *   非原始伤害)。`ctx.bus` 缺省(未注入 / 测试不传)→ 静默 no-op(不抛)。
+ */
+function emitDamageNum(
+  ctx: BattleCtx,
+  kind: 'enemy' | 'player',
+  idx: number,
+  before: number,
+  after: number,
+): void {
+  if (after === before)
+    return
+  const color = after < before ? 'blue' : 'yellow'
+  const value = after < before ? before - after : after - before
+  ctx.bus?.emit({ op: 'showDamageNum', target: { kind, idx }, value, color })
+}
+
 /** sdlpal `script.c:1630-1640` 0x0042:simulate magic(PAL_BattleSimulateMagic,fight.c:5300)。 */
 const OP_SIMULATE_MAGIC = 0x0042
 
@@ -162,7 +187,7 @@ export function dispatchBattleOpcode(
       // i>=0 → 显式目标 op2-1;否则 eventObjectID(simulateMagic 内再 <0 → 自动选敌)
       const targetIdx = i >= 0 ? i : ctx.target?.idx
 
-      simulateMagic({
+      const results = simulateMagic({
         state,
         magicObjId: operands[0] ?? 0,
         magStr: operands[1] ?? 0,
@@ -171,6 +196,8 @@ export function dispatchBattleOpcode(
         magics: tables.magics,
         rngFactor: 1 + state.rng.next() * 0.1, // sdlpal RandomFloat(10,11)/10
       })
+      for (const r of results)
+        emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter)
       return { consumed: true }
     }
 
@@ -193,7 +220,7 @@ export function dispatchBattleOpcode(
       }
       const w = (operands[1] ?? 0) * 5 + attackStr * state.rng.rangeInclusive(0, 3)
 
-      simulateMagic({
+      const results = simulateMagic({
         state,
         magicObjId: operands[0] ?? 0,
         magStr: w,
@@ -202,6 +229,8 @@ export function dispatchBattleOpcode(
         magics: tables.magics,
         rngFactor: 1 + state.rng.next() * 0.1,
       })
+      for (const r of results)
+        emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter)
       return { consumed: true }
     }
 
@@ -210,14 +239,20 @@ export function dispatchBattleOpcode(
       // 梅花镖/银针 scriptOnThrow 真伤害(0x42 是 0 伤害动画 sentinel)。毒系投掷物 + 毒 tick 也用。
       const dmg = operands[1] ?? 0
       if ((operands[0] ?? 0) !== 0) {
-        for (const e of state.enemies)
+        state.enemies.forEach((e, i) => {
+          const before = e.e.health
           e.e.health = Math.max(0, e.e.health - dmg)
+          emitDamageNum(ctx, 'enemy', i, before, e.e.health)
+        })
       }
       else {
         const idx = ctx.target?.idx
         const enemy = idx !== undefined ? state.enemies[idx] : undefined
-        if (enemy)
+        if (enemy) {
+          const before = enemy.e.health
           enemy.e.health = Math.max(0, enemy.e.health - dmg)
+          emitDamageNum(ctx, 'enemy', idx!, before, enemy.e.health)
+        }
       }
       return { consumed: true }
     }
@@ -313,7 +348,9 @@ export function dispatchBattleOpcode(
       const cap = operands[0] ?? 0
       if (w > cap)
         w = cap
+      const before = enemy.e.health
       enemy.e.health = Math.max(0, enemy.e.health - w)
+      emitDamageNum(ctx, 'enemy', idx, before, enemy.e.health)
       return { consumed: true }
     }
 
@@ -325,8 +362,11 @@ export function dispatchBattleOpcode(
       if (sel && ctx.playerRoles) {
         const roleId = state.players[sel.idx]?.roleId
         const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
-        if (role)
+        if (role) {
+          const before = role.hp
           role.hp = 0
+          emitDamageNum(ctx, 'player', sel.idx, before, role.hp)
+        }
       }
       return { consumed: true }
     }
@@ -479,8 +519,11 @@ export function dispatchBattleOpcode(
       if (sel && ctx.playerRoles) {
         const roleId = state.players[sel.idx]?.roleId
         const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
-        if (role)
+        if (role) {
+          const before = role.hp
           role.hp = Math.floor(role.hp / 2)
+          emitDamageNum(ctx, 'player', sel.idx, before, role.hp)
+        }
       }
       return { consumed: true }
     }
@@ -492,14 +535,21 @@ export function dispatchBattleOpcode(
       const idx = ctx.target?.idx
       if (idx !== undefined) {
         const enemy = state.enemies[idx]
-        if (enemy)
+        if (enemy) {
+          const before = enemy.e.health
           enemy.e.health = Math.max(0, enemy.e.health - amount)
+          emitDamageNum(ctx, 'enemy', idx, before, enemy.e.health)
+        }
       }
       if (ctx.caster?.type === 'player' && ctx.playerRoles) {
         const roleId = state.players[ctx.caster.idx]?.roleId
         const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
-        if (role)
+        if (role) {
+          const before = role.hp
           role.hp = Math.min(role.maxHP, role.hp + amount)
+          // 回血 → yellow(sDamage>0),与受伤 blue 区分。
+          emitDamageNum(ctx, 'player', ctx.caster.idx, before, role.hp)
+        }
       }
       return { consumed: true }
     }
@@ -553,7 +603,11 @@ export function dispatchBattleOpcode(
         w = 1
       const x = w + 1
       const newHealth = Math.floor((self.e.health + w) / x)
+      const beforeHealth = self.e.health
       self.e.health = newHealth
+      // sdlpal 0x9C 在 enemy AI 脚本里跑,被 PAL_BattleBackupStat/DisplayStatChange(fight.c:1614/1665)
+      //   夹住 → 原敌 HP 下降触发 wPrevHP!=wHealth → 画 blue 数字(新副本不画:backup 在它们存在前)。
+      emitDamageNum(ctx, 'enemy', ctx.caster.idx, beforeHealth, newHealth)
       const copies = Math.min(w, MAX_ENEMIES_IN_TEAM - state.enemies.length)
       for (let k = 0; k < copies; k++) {
         state.enemies.push({
@@ -712,7 +766,12 @@ export function dispatchBattleOpcode(
         ? (ctx.caster?.type === 'enemy' ? ctx.caster.idx : 0)
         : (operands[0] ?? 0)
       const enemy = state.enemies[targetIdx]
-      if (enemy) enemy.e.health = 0
+      if (enemy) {
+        // sdlpal `script.c:1954` 把 wHealth=0(掉血)→ PAL_BattleDisplayStatChange 会画 blue 数字。
+        const before = enemy.e.health
+        enemy.e.health = 0
+        emitDamageNum(ctx, 'enemy', targetIdx, before, enemy.e.health)
+      }
       return { consumed: true }
     }
 

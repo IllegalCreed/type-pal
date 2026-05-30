@@ -45,6 +45,47 @@ const ENEMY_POSITIONS_FALLBACK: ReadonlyArray<{ x: number, y: number }> = [
   { x: 70, y: 90 }, { x: 250, y: 90 },
 ]
 
+/**
+ * 敌人战斗精灵底锚屏幕坐标(present 层唯一真值,sprite + 伤害数字共用,杜绝漂移)。
+ *
+ * 对照 sdlpal `battle.c:936-942`:
+ *   x = EnemyPos.pos[i][maxEnemyIndex].x;
+ *   y = EnemyPos.pos[i][maxEnemyIndex].y + wYPosOffset;
+ * ts:layouts[count-1][i] 是已翻转的 `pos[i][maxEnemyIndex]`,再加 enemy.e.yPosOffset。
+ *
+ * @returns 该敌人 idx 的底锚 {x,y};idx 越界 / 无 layout → undefined。
+ */
+export function computeEnemyAnchor(
+  state: BattleState,
+  idx: number,
+  enemyPos: EnemyPosTable | undefined,
+): { x: number, y: number } | undefined {
+  const enemyCount = state.enemies.length
+  const layout = enemyPos?.layouts[enemyCount - 1] ?? ENEMY_POSITIONS_FALLBACK
+  const pos = layout[idx]
+  const enemy = state.enemies[idx]
+  if (!pos || !enemy)
+    return undefined
+  return { x: pos.x, y: pos.y + (enemy.e.yPosOffset ?? 0) }
+}
+
+/**
+ * 队员战斗精灵底锚屏幕坐标(sprite + HP/MP 数字共用)。
+ * 对照 sdlpal `battle.c g_rgPlayerPos[3][3][2]`(ts PLAYER_POSITIONS_BY_COUNT)。
+ *
+ * @returns 该队员 idx 的底锚 {x,y};idx 越界 / 无 layout → undefined。
+ */
+export function computePlayerAnchor(
+  state: BattleState,
+  idx: number,
+): { x: number, y: number } | undefined {
+  const partyCount = state.players.length
+  const positions
+    = PLAYER_POSITIONS_BY_COUNT[Math.min(partyCount - 1, PLAYER_POSITIONS_BY_COUNT.length - 1)]
+  const pos = positions?.[idx]
+  return pos ? { x: pos.x, y: pos.y } : undefined
+}
+
 export interface SpriteFrame {
   width: number
   height: number
@@ -132,12 +173,11 @@ export function drawBattleSprites(
   // 敌方先画(在背景之上、队员之下)
   // M3.5 fix:优先 EnemyPosTable.layouts[count-1] 真表(DATA.MKF chunk 13 真值);
   // 缺时 fallback hardcoded(向后兼容 test 没传 enemyPos 的)。
-  const enemyCount = state.enemies.length
-  const enemyLayout
-    = enemyPos?.layouts[enemyCount - 1] ?? ENEMY_POSITIONS_FALLBACK
   state.enemies.forEach((enemy, i) => {
     if (enemy.e.health <= 0) return
-    const pos = enemyLayout[i]
+    // D17b:走共享 computeEnemyAnchor(含 wYPosOffset,sdlpal battle.c:939),
+    // 与伤害数字锚点同源杜绝漂移。
+    const pos = computeEnemyAnchor(state, i, enemyPos)
     if (!pos) return
     const sprite = battleSprites.get(`enemy-${enemy.e.id}`)
     if (!sprite || !sprite.frames[0]) return
@@ -158,14 +198,10 @@ export function drawBattleSprites(
   // 队员画在敌方之上(屏幕下方靠近玩家视角)
   // M3.5 fix:position 选 PLAYER_POSITIONS_BY_COUNT[partyCount-1][i],对照 sdlpal
   // g_rgPlayerPos 真表(1/2/3 队员各自 layout)。
-  const partyCount = state.players.length
-  const positions
-    = PLAYER_POSITIONS_BY_COUNT[Math.min(partyCount - 1, PLAYER_POSITIONS_BY_COUNT.length - 1)]
-  if (!positions) return
   state.players.forEach((p, i) => {
     const role = playerRoles.roles[p.roleId]
     if (!role || role.hp <= 0) return
-    const pos = positions[i]
+    const pos = computePlayerAnchor(state, i)
     if (!pos) return
     const sprite = battleSprites.get(`player-${role.spriteNumInBattle}`)
     if (!sprite || !sprite.frames[0]) return

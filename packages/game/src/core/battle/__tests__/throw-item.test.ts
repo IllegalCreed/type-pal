@@ -91,6 +91,27 @@ describe('performThrowItem (E2)', () => {
     expect(gs.inventory[0]!.count).toBe(1) // 消耗 1
   })
 
+  it('D17b:投掷 0x42 经真 runScript → 自动注入 bus → emit showDamageNum(blue)', () => {
+    const state = makeState([{ health: 200, defense: 30, level: 5 }])
+    const gs = makeGameState([{ itemId: 66, count: 2 }])
+    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x42, operands: [349, 0, 0] }, { op: 'end' }]
+    const bus = createCommandBus()
+    // 注:performThrowItem 不显式塞 battleCtx.bus,靠 runScript 默认从 opts.bus 注入。
+    performThrowItem({
+      state, gs, casterIsEnemy: false, casterIdx: 0,
+      itemId: 66, targetIdx: 0,
+      items: [makeItem({ id: 66, scriptOnThrow: 1 })],
+      magics: [magicStat(54, 140, 0)],
+      objectMagics: [objMagic(349, 54)],
+      objectPoisons: [],
+      playerRoles: { roles: [] },
+      bus, commands, runScript,
+    })
+    const nums = bus.drain().map(e => e.cmd).filter(c => c.op === 'showDamageNum')
+    expect(nums).toHaveLength(1)
+    expect(nums[0]).toMatchObject({ op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 140, color: 'blue' })
+  })
+
   it('scriptOnThrow=0(非投掷物)→ warn + 不跑 + 不扣', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const state = makeState([{ health: 200 }])

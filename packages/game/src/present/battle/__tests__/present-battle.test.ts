@@ -157,6 +157,23 @@ function mkSpriteAsset(w: number, h: number, fill: number): SpriteAsset {
   }
 }
 
+/**
+ * D17b:假 SPRITEUI 数字帧数组 —— drawNumber 用 base+digit 帧(yellow 19-28 / blue 29-38
+ * / cyan 56-65)。每帧 6×8 全 opaque(index=1),让 drawNumber 一定写像素。
+ */
+function mkUiSpriteFrames(): import('../../../assets/png.js').IndexedImage[] {
+  const frames: import('../../../assets/png.js').IndexedImage[] = []
+  for (let i = 0; i < 66; i++) {
+    frames.push({
+      width: 6,
+      height: 8,
+      indices: new Uint8Array(6 * 8).fill(1),
+      opaque: new Uint8Array(6 * 8).fill(1),
+    })
+  }
+  return frames
+}
+
 function mkAssets(overrides: Partial<BattleAssets> = {}): BattleAssets {
   return {
     battleSprites: new Map(),
@@ -164,6 +181,7 @@ function mkAssets(overrides: Partial<BattleAssets> = {}): BattleAssets {
     playerRoles: { roles: [] },
     spells: [],
     items: [],
+    uiSpriteFrames: mkUiSpriteFrames(),
     ...overrides,
   }
 }
@@ -208,38 +226,70 @@ describe('BattlePresent', () => {
     expect(fb.indices[0]).toBe(4)
   })
 
-  it('showDamageNum 命令 → floating nums 写入 framebuffer', () => {
+  it('showDamageNum 命令(enemy target)→ floating nums 写入 framebuffer', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()
-    const state = mkState([], [])
+    const state = mkState([], [mkBattleEnemy(minimalEnemy(50))])
     const commands: BusEntry[] = [
       {
         cmdId: 1,
-        cmd: { op: 'showDamageNum', x: 100, y: 80, value: 25, color: 'yellow' },
+        cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 25, color: 'blue' },
       },
     ]
     present.draw(fb, mkGs(), state, commands, mkAssets(), 0)
     expect(fbHasWrites(fb)).toBe(true)
   })
 
+  it('showDamageNum 坐标解析(enemy):x=anchor.x-24, y=clamp(anchor.y-115, 10)', () => {
+    // 1 enemy fallback layout = (160,80),yPosOffset=0 → anchor=(160,80)。
+    //   sdlpal fight.c:640-641 enemy x=-9,y=-115;再 PAL_BattleUIShowNum x-=15 → x=160-24=136,y=clamp(80-115,10)=10。
+    const present = new BattlePresent()
+    const fb = createFramebuffer()
+    const state = mkState([], [mkBattleEnemy(minimalEnemy(50))])
+    // 捕获 floating layer emit 的坐标:用 spy 包 framebuffer.writePixel 收集写点(全 opaque digit)。
+    const writes: Array<{ x: number, y: number }> = []
+    const origWrite = fb.writePixel.bind(fb)
+    fb.writePixel = (x: number, y: number, idx: number) => {
+      writes.push({ x, y })
+      origWrite(x, y, idx)
+    }
+    present.draw(fb, mkGs(), state, [
+      { cmdId: 1, cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 25, color: 'blue' } },
+    ], mkAssets(), 0)
+    // 数字 "25" 右对齐 nLength=5 起点 x = (136) - 6 + 6*5 = 160;最右 digit blit 起 x=154。
+    // 关键断言:所有写点 y 都在 anchor.y-115 clamp 到 10 那一行附近(age=0 → y=10),x 在 136 右侧区域。
+    expect(writes.length).toBeGreaterThan(0)
+    const minY = Math.min(...writes.map(w => w.y))
+    expect(minY).toBe(10) // clamp(80-115, 10) = 10,age=0 时 y 起点 = 10
+    const minX = Math.min(...writes.map(w => w.x))
+    // 5 位右对齐起点 = (anchor.x-24) - 6 + 6*5 = 136-6+30 = 160;两位数 "25" blit 在 [148..159]
+    expect(minX).toBeGreaterThanOrEqual(136)
+  })
+
   it('多 showDamageNum + 跨帧 —— 数字飘上去,旧数字过期', () => {
     const fb1 = createFramebuffer()
     const fb2 = createFramebuffer()
     const present = new BattlePresent()
-    const state = mkState([], [])
+    // uiState=hidden + 空 players → 唯一写入来源 = floating nums(隔离测过期)
+    const state = mkState(
+      [],
+      [mkBattleEnemy(minimalEnemy(50)), mkBattleEnemy(minimalEnemy(51))],
+      { uiState: 'hidden', selectingPlayerIdx: undefined },
+    )
+    const assets = mkAssets()
     const commands: BusEntry[] = [
       {
         cmdId: 1,
-        cmd: { op: 'showDamageNum', x: 100, y: 80, value: 25, color: 'yellow' },
+        cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 25, color: 'blue' },
       },
       {
         cmdId: 2,
-        cmd: { op: 'showDamageNum', x: 200, y: 100, value: 50, color: 'blue' },
+        cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 1 }, value: 50, color: 'yellow' },
       },
     ]
-    present.draw(fb1, mkGs(), state, commands, mkAssets(), 0)
-    // 100 帧后(超 duration=15)同 layer 再 draw,数字应过期(画面只剩 0)
-    present.draw(fb2, mkGs(), state, [], mkAssets(), 100)
+    present.draw(fb1, mkGs(), state, commands, assets, 0)
+    // 11+ 帧后(超 LIFETIME_FRAMES=11)同 layer 再 draw,数字应过期(画面只剩 0)
+    present.draw(fb2, mkGs(), state, [], assets, 100)
     expect(fbHasWrites(fb1)).toBe(true)
     expect(fbHasWrites(fb2)).toBe(false)
   })
@@ -273,11 +323,11 @@ describe('BattlePresent', () => {
   it('clearFloatingNums —— 清空残留数字', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()
-    const state = mkState([], [])
+    const state = mkState([], [mkBattleEnemy(minimalEnemy(50))])
     const cmds: BusEntry[] = [
       {
         cmdId: 1,
-        cmd: { op: 'showDamageNum', x: 100, y: 80, value: 25, color: 'yellow' },
+        cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 25, color: 'blue' },
       },
     ]
     present.draw(fb, mkGs(), state, cmds, mkAssets(), 0)
@@ -311,17 +361,21 @@ describe('BattlePresent —— PresentCommand 不影响 state', () => {
   it('showDamageNum 多帧累积,合并到一个 floating layer', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()
-    const state = mkState([], [])
-    // 帧 0:emit 2 个
+    const state = mkState(
+      [mkBattlePlayer(0)],
+      [mkBattleEnemy(minimalEnemy(50)), mkBattleEnemy(minimalEnemy(51))],
+    )
+    const assets = mkAssets({ playerRoles: { roles: [minimalRole(0)] } })
+    // 帧 0:emit 2 个(2 敌)
     present.draw(fb, mkGs(), state, [
-      { cmdId: 1, cmd: { op: 'showDamageNum', x: 50, y: 50, value: 1, color: 'yellow' } },
-      { cmdId: 2, cmd: { op: 'showDamageNum', x: 60, y: 60, value: 2, color: 'blue' } },
-    ], mkAssets(), 0)
-    // 帧 5:emit 1 个 —— 总共 3 个数字飘
+      { cmdId: 1, cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 1, color: 'blue' } },
+      { cmdId: 2, cmd: { op: 'showDamageNum', target: { kind: 'enemy', idx: 1 }, value: 2, color: 'blue' } },
+    ], assets, 0)
+    // 帧 5:emit 1 个(player 回血)—— 总共 3 个数字飘(都还没过期,< 11 帧)
     const fb2 = createFramebuffer()
     present.draw(fb2, mkGs(), state, [
-      { cmdId: 3, cmd: { op: 'showDamageNum', x: 70, y: 70, value: 3, color: 'yellow' } },
-    ], mkAssets(), 5)
+      { cmdId: 3, cmd: { op: 'showDamageNum', target: { kind: 'player', idx: 0 }, value: 3, color: 'yellow' } },
+    ], assets, 5)
     expect(fbHasWrites(fb2)).toBe(true)
   })
 })

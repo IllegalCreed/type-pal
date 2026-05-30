@@ -1,5 +1,6 @@
 import type { Enemy, EnemyObject, Magic, ObjectMagicView, ObjectPoisonView } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import { createCommandBus, type PresentCommand } from '../../command-bus.js'
 import type { BattleCtx } from '../../event-system.js'
 import type { BattleEnemy, BattleState } from '../battle-state.js'
 import { dispatchBattleOpcode } from '../battle-opcodes.js'
@@ -951,5 +952,169 @@ describe('0x6A steal from enemy (fight.c:5193)', () => {
     const ctx = stealCtx(enemy, fakeRng(0), 0, [{ itemId: 42, count: 5 }])
     dispatchBattleOpcode(0x6A, [5, 0, 0], ctx)
     expect(ctx.gs!.inventory).toEqual([{ itemId: 42, count: 6 }])
+  })
+})
+
+// ============================================================================
+// D17b:HP-mutate opcode → emit showDamageNum(对照 sdlpal fight.c:602-716
+//   PAL_BattleDisplayStatChange;sDamage=newHP-oldHP,<0=blue/掉血,>0=yellow/回血)
+// ============================================================================
+
+/** drain showDamageNum 命令(过滤其他 op)。 */
+function damageNums(bus: ReturnType<typeof createCommandBus>): Array<Extract<PresentCommand, { op: 'showDamageNum' }>> {
+  return bus.drain()
+    .map(e => e.cmd)
+    .filter((c): c is Extract<PresentCommand, { op: 'showDamageNum' }> => c.op === 'showDamageNum')
+}
+
+describe('D17b showDamageNum emit', () => {
+  it('0x21 单体扣血 → emit blue,target enemy,value=钳后 delta', () => {
+    const bus = createCommandBus()
+    const enemies = [richEnemy({ health: 100 })]
+    const ctx: BattleCtx = {
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 state
+      state: { enemies, players: [] } as any as BattleState,
+      target: { type: 'enemy', idx: 0 },
+      bus,
+    }
+    dispatchBattleOpcode(0x21, [0, 30], ctx) // op0=0 单体,op1=30 伤害
+    expect(enemies[0]!.e.health).toBe(70)
+    const nums = damageNums(bus)
+    expect(nums).toHaveLength(1)
+    expect(nums[0]).toEqual({ op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 30, color: 'blue' })
+  })
+
+  it('0x21 致死钳到 0 → value = 钳后真实 delta(非原始伤害)', () => {
+    const bus = createCommandBus()
+    const enemies = [richEnemy({ health: 20 })]
+    const ctx: BattleCtx = {
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 state
+      state: { enemies, players: [] } as any as BattleState,
+      target: { type: 'enemy', idx: 0 },
+      bus,
+    }
+    dispatchBattleOpcode(0x21, [0, 100], ctx) // 伤害 100 但只剩 20
+    expect(enemies[0]!.e.health).toBe(0)
+    const nums = damageNums(bus)
+    expect(nums[0]!.value).toBe(20) // 钳后 delta = 20,不是 100
+  })
+
+  it('0x21 全体扣血 → 每敌各 emit 一条 blue,target idx 各异', () => {
+    const bus = createCommandBus()
+    const enemies = [richEnemy({ health: 100 }), richEnemy({ health: 80 })]
+    const ctx: BattleCtx = {
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 state
+      state: { enemies, players: [] } as any as BattleState,
+      bus,
+    }
+    dispatchBattleOpcode(0x21, [1, 30], ctx) // op0!=0 全体
+    const nums = damageNums(bus)
+    expect(nums).toHaveLength(2)
+    expect(nums.map(n => n.target.idx).sort()).toEqual([0, 1])
+    expect(nums.every(n => n.color === 'blue' && n.target.kind === 'enemy')).toBe(true)
+  })
+
+  it('0x21 不传 bus → 不 emit 不抛(防御)', () => {
+    const enemies = [richEnemy({ health: 100 })]
+    const ctx: BattleCtx = {
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 state(无 bus)
+      state: { enemies, players: [] } as any as BattleState,
+      target: { type: 'enemy', idx: 0 },
+    }
+    expect(() => dispatchBattleOpcode(0x21, [0, 30], ctx)).not.toThrow()
+    expect(enemies[0]!.e.health).toBe(70)
+  })
+
+  it('0x42 SimulateMagic → emit blue per 命中敌人(钳后 delta)', () => {
+    const bus = createCommandBus()
+    const enemies = [richEnemy({ health: 200, defense: 30, level: 5 })]
+    const ctx = simulateCtx(enemies, 0, [objMagic(349, 54)], [magicStat(54, 140, 0)])
+    ctx.bus = bus
+    dispatchBattleOpcode(0x42, [349, 0, 0], ctx)
+    expect(enemies[0]!.e.health).toBe(60) // 200-140
+    const nums = damageNums(bus)
+    expect(nums).toHaveLength(1)
+    expect(nums[0]).toEqual({ op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 140, color: 'blue' })
+  })
+
+  it('0x5B halve enemy HP → emit blue', () => {
+    const bus = createCommandBus()
+    const enemies = [richEnemy({ health: 100 })]
+    const ctx: BattleCtx = {
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 state
+      state: { enemies, players: [] } as any as BattleState,
+      target: { type: 'enemy', idx: 0 },
+      bus,
+    }
+    dispatchBattleOpcode(0x5B, [9999], ctx) // w=50+1=51 cap 大 → 减 51
+    const nums = damageNums(bus)
+    expect(nums).toHaveLength(1)
+    expect(nums[0]).toMatchObject({ color: 'blue', target: { kind: 'enemy', idx: 0 }, value: 51 })
+  })
+
+  it('0x39 drain HP → enemy blue(掉血) + caster player yellow(回血)', () => {
+    const bus = createCommandBus()
+    const ctx = drainCtx(100, 0, 50, 200) // enemy 100, role hp 50/maxHP 200
+    ctx.bus = bus
+    dispatchBattleOpcode(0x39, [30], ctx) // 吸 30
+    const nums = damageNums(bus)
+    expect(nums).toHaveLength(2)
+    const enemyNum = nums.find(n => n.target.kind === 'enemy')!
+    const playerNum = nums.find(n => n.target.kind === 'player')!
+    expect(enemyNum).toMatchObject({ color: 'blue', value: 30 }) // 敌掉血
+    expect(playerNum).toMatchObject({ color: 'yellow', target: { kind: 'player', idx: 0 }, value: 30 }) // 队员回血
+  })
+
+  it('0x5A halve player HP → emit blue,target player', () => {
+    const bus = createCommandBus()
+    const ctx: BattleCtx = {
+      state: {
+        enemies: [],
+        players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+        // biome-ignore lint/suspicious/noExplicitAny: 最小 state
+      } as any as BattleState,
+      target: { type: 'player', idx: 0 },
+      // biome-ignore lint/suspicious/noExplicitAny: 只填 hp
+      playerRoles: { roles: [{ id: 0, hp: 80 } as any] },
+      bus,
+    }
+    dispatchBattleOpcode(0x5A, [0], ctx)
+    const nums = damageNums(bus)
+    expect(nums).toHaveLength(1)
+    expect(nums[0]).toMatchObject({ color: 'blue', target: { kind: 'player', idx: 0 }, value: 40 }) // 80→40
+  })
+
+  it('0x5F kill player → emit blue value=full HP', () => {
+    const bus = createCommandBus()
+    const ctx: BattleCtx = {
+      state: {
+        enemies: [],
+        players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+        // biome-ignore lint/suspicious/noExplicitAny: 最小 state
+      } as any as BattleState,
+      target: { type: 'player', idx: 0 },
+      // biome-ignore lint/suspicious/noExplicitAny: 只填 hp
+      playerRoles: { roles: [{ id: 0, hp: 123 } as any] },
+      bus,
+    }
+    dispatchBattleOpcode(0x5F, [0], ctx)
+    const nums = damageNums(bus)
+    expect(nums).toHaveLength(1)
+    expect(nums[0]).toMatchObject({ color: 'blue', target: { kind: 'player', idx: 0 }, value: 123 })
+  })
+
+  it('0x60 immediate KO → emit blue value=enemy 当前 HP', () => {
+    const bus = createCommandBus()
+    const enemies = [richEnemy({ health: 77 })]
+    const ctx: BattleCtx = {
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 state
+      state: { enemies, players: [] } as any as BattleState,
+      caster: { type: 'enemy', idx: 0 },
+      bus,
+    }
+    dispatchBattleOpcode(0x60, [0xFFFF], ctx)
+    const nums = damageNums(bus)
+    expect(nums).toHaveLength(1)
+    expect(nums[0]).toMatchObject({ color: 'blue', target: { kind: 'enemy', idx: 0 }, value: 77 })
   })
 })

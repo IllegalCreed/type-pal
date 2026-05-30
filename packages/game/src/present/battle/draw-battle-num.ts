@@ -1,20 +1,33 @@
+import type { IndexedImage } from '../../assets/png.js'
 import type { Framebuffer } from '../framebuffer.js'
-import { renderText, type GlyphTable } from '../font.js'
+import { drawNumber, type NumColor } from '../draw-number.js'
 
 interface FloatingNum {
   x: number
   y: number
   value: number
-  color: 'yellow' | 'blue'
+  color: NumColor
   startFrame: number
-  duration: number
 }
 
 /**
- * 数字弹幕层 —— from sdlpal `PAL_BattleUIShowNum`。
- * 受伤数字向上飘 15 帧(0.6s @ 25fps)然后消失。
- * yellow = 伤害,blue = 治疗(对照 sdlpal palette;真 palette idx 实施时 verify)。
+ * 战斗数字弹幕层 —— 对照 sdlpal `PAL_BattleUIShowNum`(`uibattle.c:1769-1808`)+
+ * `PAL_BattleUIUpdate` 的数字绘制段(`uibattle.c:1746-1764`)。
+ *
+ * 寿命 / 位移真值(`uibattle.c:1753-1761`,BATTLE_FRAME_TIME=40ms,`battle.h:28`):
+ *   age = (now - dwTime) / BATTLE_FRAME_TIME  ∈ 每 40ms +1
+ *   age > 10 → wNum=0(清除)→ **显示 age 0..10 共 11 帧**
+ *   每帧绘制位置 y = pos.y - age(每帧上移 1px)
+ *
+ * 颜色 / 字形:`PAL_DrawNumber(wNum, 5, pos, color, kNumAlignRight)`
+ *   —— UI sprite 数字帧(yellow 起 frame19 / blue 29 / cyan 56),5 位右对齐。
+ *   本层走 ts 忠实 `drawNumber`(present/draw-number.ts,sdlpal `ui.c:640-732` 1:1)。
+ *
+ * 颜色语义(`fight.c:602-716`):blue=掉血 / yellow=回血 / cyan=回 MP。
  */
+const LIFETIME_FRAMES = 11 // sdlpal:age 0..10 显示,age>10 清除 → 11 帧
+const NLENGTH = 5 // sdlpal PAL_BattleUIUpdate:PAL_DrawNumber(wNum, 5, ...)
+
 export class FloatingNumsLayer {
   private nums: FloatingNum[] = []
 
@@ -22,7 +35,7 @@ export class FloatingNumsLayer {
     x: number
     y: number
     value: number
-    color: 'yellow' | 'blue'
+    color: NumColor
     currentFrame: number
   }): void {
     this.nums.push({
@@ -31,20 +44,25 @@ export class FloatingNumsLayer {
       value: opts.value,
       color: opts.color,
       startFrame: opts.currentFrame,
-      duration: 15,
     })
   }
 
-  draw(fb: Framebuffer, currentFrame: number, glyphs?: GlyphTable): void {
-    // 清掉过期 nums
-    this.nums = this.nums.filter((n) => currentFrame - n.startFrame < n.duration)
+  /**
+   * 画当前所有活的 floating nums(过期的先剔除)。
+   *
+   * @param fb             目标 framebuffer
+   * @param currentFrame   当前 25fps tick 帧号(= gs.frameNum)
+   * @param uiSpriteFrames SPRITEUI(DATA.MKF chunk 9)全 frame;缺则不画(防御)
+   */
+  draw(fb: Framebuffer, currentFrame: number, uiSpriteFrames?: IndexedImage[]): void {
+    // sdlpal age>10 清除 → age ∈ [0,10] 显示;age = currentFrame - startFrame
+    this.nums = this.nums.filter(n => currentFrame - n.startFrame < LIFETIME_FRAMES)
+    if (!uiSpriteFrames)
+      return
     for (const n of this.nums) {
       const age = currentFrame - n.startFrame
-      const dy = -Math.floor(age * 1.5) // 每帧 up 1.5 px
-      const text = n.value.toString()
-      // M3 简版色板索引:yellow ≈ 0x0a,blue ≈ 0x10(占位 — sdlpal 真值实施时 verify by PAL_BattleUIShowNum)
-      const colorIdx = n.color === 'yellow' ? 0x0a : 0x10
-      renderText(fb, text, n.x, n.y + dy, colorIdx, glyphs)
+      // sdlpal `uibattle.c:1760`:y = pos.y - age(每帧上移 1px)
+      drawNumber(fb, n.value, NLENGTH, { x: n.x, y: n.y - age }, n.color, 'right', uiSpriteFrames)
     }
   }
 

@@ -11,7 +11,21 @@ export type PresentCommand =
   | { op: 'clearDialogBox' }
   // M3 战斗 UI 命令(T15)
   | { op: 'showBattleMessage'; text: string }
-  | { op: 'showDamageNum'; x: number; y: number; value: number; color: 'yellow' | 'blue' /* yellow=伤害, blue=治疗 */ }
+  /**
+   * 战斗数字弹幕(HP/MP 变化)。逻辑 target(present 层解析屏幕坐标,杜绝漂移)。
+   *
+   * sdlpal 真值颜色(`fight.c:602-716 PAL_BattleDisplayStatChange`,sDamage=newHP-oldHP):
+   *   - blue   = 掉血(受伤;sDamage<0 → value=oldHP-newHP)  `fight.c:648-651,678-681`
+   *   - yellow = 回血(治疗;sDamage>0 → value=newHP-oldHP)  `fight.c:652-655,682-685`
+   *   - cyan   = 回 MP(仅上升;`fight.c:706-709`)
+   *  (旧注释 'yellow=伤害, blue=治疗' 与真值正好相反 — 已修正。)
+   */
+  | {
+      op: 'showDamageNum'
+      target: { kind: 'enemy' | 'player'; idx: number }
+      value: number
+      color: 'yellow' | 'blue' | 'cyan'
+    }
   | { op: 'flashEnemy'; enemyIdx: number; durationMs: number }
   | { op: 'flashPlayer'; playerIdx: number; durationMs: number }
   | { op: 'playEnemyAttack'; enemyIdx: number; targetPlayerIdx: number }
