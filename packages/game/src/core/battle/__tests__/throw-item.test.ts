@@ -82,6 +82,7 @@ describe('performThrowItem (E2)', () => {
       items: [makeItem({ id: 66, scriptOnThrow: 1 })],
       magics: [magicStat(54, 140, 0)],
       objectMagics: [objMagic(349, 54)],
+      objectPoisons: [],
       playerRoles: { roles: [] },
       bus: createCommandBus(), commands, runScript,
     })
@@ -99,6 +100,7 @@ describe('performThrowItem (E2)', () => {
       itemId: 5, targetIdx: 0,
       items: [makeItem({ id: 5, scriptOnThrow: 0 })],
       magics: [], objectMagics: [],
+      objectPoisons: [],
       playerRoles: { roles: [] },
       bus: createCommandBus(), commands: [{ op: 'end' }], runScript,
     })
@@ -118,6 +120,7 @@ describe('performThrowItem (E2)', () => {
       itemId: 66, targetIdx: 0,
       items: [makeItem({ id: 66, scriptOnThrow: 1 })],
       magics: [magicStat(54, 140, 0)], objectMagics: [objMagic(349, 54)],
+      objectPoisons: [],
       playerRoles: { roles: [] },
       bus: createCommandBus(), commands, runScript,
     })

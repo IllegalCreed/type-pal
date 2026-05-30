@@ -63,6 +63,19 @@ export interface BattleEnemy {
   scriptOnTurnStart: number
   scriptOnBattleEnd: number
   scriptOnReady: number
+  /**
+   * 敌人毒抗(OBJECT_ENEMY.wResistanceToSorcery,0-10)—— 0x28 apply poison
+   * 的 `RandomLong(0,9) >= resistanceToSorcery` 抗性判定用。0 = 无抗(总中毒)。
+   * createBattleState 必设;optional 仅为旧 fixture 向后兼容(handler 用 ?? 0)。
+   */
+  resistanceToSorcery?: number
+  /**
+   * 敌人当前所中的毒(对照 sdlpal `g_Battle.rgEnemy[].rgPoisons[MAX_POISONS]`)。
+   * 每条 = { poisonId(毒种 object id), scriptEntry(该毒 wEnemyScript ip,每回合 tick 跑) }。
+   * 0x28 apply 填、0x5E 查、postAction 毒 tick 逐条跑 scriptEntry 扣血。
+   * createBattleState 必设 [];optional 仅为旧 fixture 向后兼容(handler 用 ?? [] / 懒初始化)。
+   */
+  poisons?: Array<{ poisonId: number, scriptEntry: number }>
 }
 
 /**
@@ -143,7 +156,7 @@ export interface CreateBattleStateInput {
    * `decideEnemyAction` C 代码 fallback)。
    * 不传或 length 不足 → 全部按 0 处理(向后兼容旧 fixture / 测试)。
    */
-  enemyScripts?: Array<{ onTurnStart: number; onReady: number; onBattleEnd: number }>
+  enemyScripts?: Array<{ onTurnStart: number; onReady: number; onBattleEnd: number; resistanceToSorcery?: number }>
   field: BattleField
   isBoss: boolean
   rng: SeedableRng
@@ -190,6 +203,8 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
       scriptOnTurnStart: scripts?.onTurnStart ?? 0,
       scriptOnBattleEnd: scripts?.onBattleEnd ?? 0,
       scriptOnReady: scripts?.onReady ?? 0,
+      resistanceToSorcery: scripts?.resistanceToSorcery ?? 0,
+      poisons: [],
     }
   })
 

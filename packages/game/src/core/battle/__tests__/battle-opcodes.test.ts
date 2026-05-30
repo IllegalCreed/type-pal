@@ -1,4 +1,4 @@
-import type { Enemy, Magic, ObjectMagicView } from '@type-pal/shared'
+import type { Enemy, Magic, ObjectMagicView, ObjectPoisonView } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import type { BattleCtx } from '../../event-system.js'
 import type { BattleEnemy, BattleState } from '../battle-state.js'
@@ -267,6 +267,105 @@ function drainCtx(enemyHealth: number, targetIdx: number, roleHp: number, roleMa
     playerRoles: { roles: [{ id: 0, hp: roleHp, maxHP: roleMaxHP } as any] },
   }
 }
+
+// ============================================================================
+// 0x28 apply poison / 0x5E jump if no poison(毒系投掷物)
+// ============================================================================
+
+function poisonEnemy(resist: number, health = 100): BattleEnemy {
+  return {
+    // biome-ignore lint/suspicious/noExplicitAny: 只填伤害/抗性字段
+    e: { id: 100, health, defense: 30, level: 5, poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } } as any as Enemy,
+    status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+    prevHp: health,
+    scriptOnTurnStart: 0,
+    scriptOnBattleEnd: 0,
+    scriptOnReady: 0,
+    resistanceToSorcery: resist,
+    poisons: [],
+  }
+}
+
+/** 稀疏 objectPoisons 数组(index = poison id)。 */
+function makeObjectPoisons(map: Record<number, number>): ObjectPoisonView[] {
+  const out: ObjectPoisonView[] = []
+  for (const [id, enemyScript] of Object.entries(map))
+    out[Number(id)] = { id: Number(id), level: 0, color: 0, playerScript: 0, enemyScript }
+  return out
+}
+
+function poisonCtx(enemies: BattleEnemy[], targetIdx: number, rangeVal: number, objectPoisons: ObjectPoisonView[]): BattleCtx {
+  return {
+    state: {
+      enemies,
+      players: [],
+      rng: { next: () => 0, range: () => 0, rangeInclusive: () => rangeVal, getState: () => 0 },
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+    } as any as BattleState,
+    caster: { type: 'player', idx: 0 },
+    target: { type: 'enemy', idx: targetIdx },
+    objectPoisons,
+  }
+}
+
+describe('0x28 apply poison (script.c:0028,毒蛇卵/卵/蛊 throw)', () => {
+  const op = makeObjectPoisons({ 555: 40889, 558: 40911 })
+
+  it('抗性通过(RandomLong>=resist)→ 加毒 {poisonId, scriptEntry}', () => {
+    const enemies = [poisonEnemy(0)] // resist 0 → 总中
+    const r = dispatchBattleOpcode(0x28, [0, 558, 0], poisonCtx(enemies, 0, 5, op))
+    expect(r.consumed).toBe(true)
+    expect(enemies[0]!.poisons).toEqual([{ poisonId: 558, scriptEntry: 40911 }])
+  })
+
+  it('抗性挡住(RandomLong<resist)→ 不中毒', () => {
+    const enemies = [poisonEnemy(8)] // resist 8;RandomLong→5 → 5<8 挡住
+    dispatchBattleOpcode(0x28, [0, 558, 0], poisonCtx(enemies, 0, 5, op))
+    expect(enemies[0]!.poisons).toEqual([])
+  })
+
+  it('去重:同毒应用两次 → 一条', () => {
+    const enemies = [poisonEnemy(0)]
+    const ctx = poisonCtx(enemies, 0, 5, op)
+    dispatchBattleOpcode(0x28, [0, 555, 0], ctx)
+    dispatchBattleOpcode(0x28, [0, 555, 0], ctx)
+    expect(enemies[0]!.poisons).toHaveLength(1)
+  })
+
+  it('全体(op0!=0)→ 所有敌人中毒', () => {
+    const enemies = [poisonEnemy(0), poisonEnemy(0)]
+    dispatchBattleOpcode(0x28, [1, 558, 0], poisonCtx(enemies, 0, 5, op))
+    expect(enemies[0]!.poisons).toHaveLength(1)
+    expect(enemies[1]!.poisons).toHaveLength(1)
+  })
+})
+
+describe('0x5E jump if enemy no poison (script.c:005E)', () => {
+  const op = makeObjectPoisons({ 558: 40911 })
+
+  it('敌人无该毒 → jump op1', () => {
+    const enemies = [poisonEnemy(0)]
+    const r = dispatchBattleOpcode(0x5E, [558, 300, 0], poisonCtx(enemies, 0, 5, op))
+    expect(r.consumed).toBe(true)
+    expect(r.newIp).toBe(300)
+  })
+
+  it('敌人有该毒 → 不 jump', () => {
+    const enemies = [poisonEnemy(0)]
+    const ctx = poisonCtx(enemies, 0, 5, op)
+    dispatchBattleOpcode(0x28, [0, 558, 0], ctx) // 先中毒 558
+    const r = dispatchBattleOpcode(0x5E, [558, 300, 0], ctx)
+    expect(r.newIp).toBeUndefined()
+  })
+
+  it('有别的毒但无 op0 种 → 仍 jump', () => {
+    const op2 = makeObjectPoisons({ 555: 40889, 558: 40911 })
+    const enemies = [poisonEnemy(0)]
+    const ctx = poisonCtx(enemies, 0, 5, op2)
+    dispatchBattleOpcode(0x28, [0, 555, 0], ctx) // 中毒 555
+    expect(dispatchBattleOpcode(0x5E, [558, 300, 0], ctx).newIp).toBe(300) // 查 558 → 无 → jump
+  })
+})
 
 describe('0x21 inflict damage to enemy (script.c:0021,梅花镖/银针 throw)', () => {
   it('单体(op0=0):ctx.target -op1', () => {

@@ -14,7 +14,7 @@
  * 43 个投掷物(天师符/风灵符/梅花镖/银针/各种卵·蛊·毒草)的 scriptOnThrow 都靠这条。
  */
 
-import type { Command, Item, Magic, ObjectMagicView, PlayerRoles } from '@type-pal/shared'
+import type { Command, Item, Magic, ObjectMagicView, ObjectPoisonView, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
@@ -41,6 +41,8 @@ export interface PerformThrowItemInput {
   magics: Magic[]
   /** rgObject magic-union 视图(object-magics.json)—— 0x42 解析 op0 magic object id。 */
   objectMagics: ObjectMagicView[]
+  /** rgObject poison-union 视图(object-poisons.json)—— 0x28 apply poison 解析 wEnemyScript。 */
+  objectPoisons: ObjectPoisonView[]
   /** PlayerRoles —— 0x66 throw weapon 算 w 需 caster 的 attackStrength。 */
   playerRoles: PlayerRoles
   /** Present 命令通道。 */
@@ -95,6 +97,7 @@ export function performThrowItem(input: PerformThrowItemInput): void {
       caster: { type: input.casterIsEnemy ? 'enemy' : 'player', idx: input.casterIdx },
       target: targetCtx,
       magicTables: { magics: input.magics, objectMagics: input.objectMagics },
+      objectPoisons: input.objectPoisons, // 0x28 apply poison
       playerRoles: input.playerRoles, // 0x66 throw weapon 算 w 需 caster attackStrength
     },
   })

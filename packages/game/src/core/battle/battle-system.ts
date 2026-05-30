@@ -38,6 +38,7 @@ import type {
   Item,
   Magic,
   ObjectMagicView,
+  ObjectPoisonView,
   PlayerRoles,
   Spell,
 } from '@type-pal/shared'
@@ -73,6 +74,8 @@ export interface BattleResources {
   magics: Magic[]
   /** rgObject magic-union 视图(object-magics.json)—— 0x42 SimulateMagic 解析 magic object id。 */
   objectMagics: ObjectMagicView[]
+  /** rgObject poison-union 视图(object-poisons.json)—— 0x28 apply poison 解析 wEnemyScript。 */
+  objectPoisons: ObjectPoisonView[]
   playerRoles: PlayerRoles
   commands: Command[]
 }
@@ -131,6 +134,8 @@ export interface StartBattleInput {
    * 省略 → 空表(0x42 走 no-op,投掷物伤害失效,会 console.warn)。
    */
   objectMagics?: ObjectMagicView[]
+  /** object-poisons.json —— 0x28 apply poison 解析 poison 的 wEnemyScript。省略 → 空表。 */
+  objectPoisons?: ObjectPoisonView[]
   /**
    * P2#5:战斗脚本(enemy.scriptOnReady / spell.scriptOnUse / item.scriptOnUse)是**全局 entry** —
    * 省略时默认单一全局数组(getGlobalCommands(),= 探索/菜单同一来源)。单测可传自带数组 override。
@@ -163,7 +168,7 @@ export function startBattle(input: StartBattleInput): void {
   // M5.B-w2.a:平行构造 enemyScripts,同 index 对齐;通过 enemyId 反查 enemy-objects.json
   // 第一条匹配项(同 enemyId 多 OBJECT_ENEMY 条目时取首条,精确多版本 script 推后)。
   const enemyList: Enemy[] = []
-  const enemyScripts: Array<{ onTurnStart: number; onReady: number; onBattleEnd: number }> = []
+  const enemyScripts: Array<{ onTurnStart: number; onReady: number; onBattleEnd: number; resistanceToSorcery: number }> = []
   for (const slot of team.enemies) {
     if (slot === 0 || slot === 0xFFFF) continue
     const e = input.enemies.find(en => en.id === slot)
@@ -177,6 +182,7 @@ export function startBattle(input: StartBattleInput): void {
       onTurnStart: objMatch?.scriptOnTurnStart ?? 0,
       onReady: objMatch?.scriptOnReady ?? 0,
       onBattleEnd: objMatch?.scriptOnBattleEnd ?? 0,
+      resistanceToSorcery: objMatch?.resistanceToSorcery ?? 0, // 0x28 apply poison 抗性判定
     })
   }
 
@@ -203,6 +209,7 @@ export function startBattle(input: StartBattleInput): void {
     spells: input.spells,
     magics: input.magics,
     objectMagics: input.objectMagics ?? [],
+    objectPoisons: input.objectPoisons ?? [],
     playerRoles: input.playerRoles,
     commands: input.commands ?? getGlobalCommands(), // P2#5:默认单一全局数组
   })
@@ -267,7 +274,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
       tickPerformAction(state, gs, bus, res)
       break
     case 'postAction':
-      tickPostAction(state, res)
+      tickPostAction(state, gs, bus, res)
       break
     case 'won':
     case 'lost':
@@ -801,6 +808,7 @@ function performBattleAction(
         items: res.items,
         magics: res.magics,
         objectMagics: res.objectMagics,
+        objectPoisons: res.objectPoisons, // 0x28 apply poison
         playerRoles: res.playerRoles, // 0x66 throw weapon 需 caster attackStrength
         bus,
         commands: res.commands,
@@ -835,7 +843,27 @@ function performBattleAction(
  * **flee 不走本 phase** —— performFlee 直接把 phase 设 'fleed',tickBattle 路由会
  * 直接进 finalizeBattle。本 handler 不处理 fleed(防御性提早返回)。
  */
-function tickPostAction(state: BattleState, res: BattleResources): void {
+function tickPostAction(state: BattleState, gs: GameState, bus: CommandBus, res: BattleResources): void {
+  // 毒 tick —— 对照 sdlpal `fight.c:1645-1648`(每回合每敌 rgPoisons[j].wPoisonScript 跑)。
+  // 每个活敌的每条 poison 跑其 scriptEntry(毒 wEnemyScript,经 0x21 扣血),target = 该敌人。
+  // 放在死亡 exp 累计**之前** → 毒杀的敌人也计入死亡奖励。
+  const runPoisonScript = getRunScript(gs)
+  state.enemies.forEach((enemy, idx) => {
+    if (enemy.e.health <= 0)
+      return
+    for (const poison of enemy.poisons ?? []) {
+      if (poison.scriptEntry > 0) {
+        runPoisonScript({
+          commands: res.commands,
+          ip: poison.scriptEntry,
+          bus,
+          runtimeMode: 'battle',
+          battleCtx: { state, target: { type: 'enemy', idx } },
+        })
+      }
+    }
+  })
+
   // 累计死的 enemy 的 exp / cash(避免重复:用 prevHp 判)
   for (const e of state.enemies) {
     if (e.e.health <= 0 && e.prevHp > 0) {

@@ -32,6 +32,15 @@ const OP_THROW_WEAPON = 0x0066
 /** sdlpal `script.c:0021` 0x0021:inflict flat damage to enemy(op0!=0 全体,op1=damage)。 */
 const OP_INFLICT_DAMAGE = 0x0021
 
+/** sdlpal `script.c:0028` 0x0028:apply poison to enemy(抗性判定 + 去重,op1=poison id)。 */
+const OP_APPLY_POISON = 0x0028
+
+/** sdlpal `script.c:005E` 0x005E:jump if enemy 无 op0 种毒 → op1。 */
+const OP_JUMP_IF_NO_POISON = 0x005E
+
+/** sdlpal `MAX_POISONS`(每敌最多同时中毒槽数)。 */
+const MAX_POISONS = 16
+
 /** sdlpal `script.c:005B` 0x005B:halve enemy HP(w=health/2+1,cap op0)。 */
 const OP_HALVE_ENEMY_HP = 0x005B
 
@@ -148,6 +157,49 @@ export function dispatchBattleOpcode(
         if (enemy)
           enemy.e.health = Math.max(0, enemy.e.health - dmg)
       }
+      return { consumed: true }
+    }
+
+    case OP_APPLY_POISON: {
+      // sdlpal `script.c:0028`:op0!=0 → 全体;否则单体(wEventObjectID=ctx.target)。op1 = poison id。
+      // 每目标:RandomLong(0,9) >= resistanceToSorcery 通过 → 若 op1 未在 poisons 且槽未满 → 加
+      // { poisonId: op1, scriptEntry: objectPoisons[op1].enemyScript }(scriptEntry 每回合 tick 跑)。
+      // 毒蛇卵/卵/蛊 scriptOnThrow 用。注:sdlpal 立即跑一次 wEnemyScript,ts 改由 postAction tick 跑
+      //(差一拍,总伤害近似)。
+      const poisonId = operands[1] ?? 0
+      const poison = ctx.objectPoisons?.[poisonId]
+      const scriptEntry = poison && poison.id === poisonId ? poison.enemyScript : 0
+      const applyTo = (enemyIdx: number): void => {
+        const enemy = state.enemies[enemyIdx]
+        if (!enemy)
+          return
+        // 抗性:RandomLong(0,9) >= resistanceToSorcery 才中毒(resist 0 → 总中)
+        if (state.rng.rangeInclusive(0, 9) < (enemy.resistanceToSorcery ?? 0))
+          return
+        const poisons = (enemy.poisons ??= [])
+        if (poisons.some(p => p.poisonId === poisonId))
+          return // 已中同毒(去重)
+        if (poisons.length >= MAX_POISONS)
+          return // 槽满
+        poisons.push({ poisonId, scriptEntry })
+      }
+      if ((operands[0] ?? 0) !== 0) {
+        state.enemies.forEach((_, i) => applyTo(i))
+      }
+      else if (ctx.target?.idx !== undefined) {
+        applyTo(ctx.target.idx)
+      }
+      return { consumed: true }
+    }
+
+    case OP_JUMP_IF_NO_POISON: {
+      // sdlpal `script.c:005E`:遍历敌人(wEventObjectID)毒槽,若无 op0 种毒 → jump op1。
+      // wEventObjectID = 被作用敌人:throw 时 ctx.target;敌人自身脚本/毒 tick 时 caster。
+      const idx = ctx.target?.idx ?? (ctx.caster?.type === 'enemy' ? ctx.caster.idx : undefined)
+      const enemy = idx !== undefined ? state.enemies[idx] : undefined
+      const has = enemy?.poisons?.some(p => p.poisonId === (operands[0] ?? 0)) ?? false
+      if (!has)
+        return { consumed: true, newIp: operands[1] ?? 0 }
       return { consumed: true }
     }
 

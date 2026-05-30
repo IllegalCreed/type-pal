@@ -5,7 +5,7 @@
 > **三表**:[feature-status](feature-status.md)(引擎功能)· opcode-status(事件 / opcode,本表)· [resource-status](resource-status.md)(资源提取)
 > **图例**:✅ done · ⚠️ partial(extraction 已收集目标,runtime 待)· ⬜ todo · N/A
 > **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra)· E=战斗 · S=系统/UI
-> **最后更新**:2026-05-30 — **E 类法术伤害结算 keystone + 0x66**:E1 inline 攻击法术伤害接进 performMagic(5 元素咒真伤害)+ 0x42 SimulateMagic + **0x66 throw weapon**(与 0x42 共用 simulateMagic)+ 投掷物全链(符/卵/武器)+ 补提取 rgObject(object-magics.json)。+ **0x68/0x91 jump 条件**(enemy-turn / not-first-of-kind)。剩余 D 类音频(需 M6)+ E 类其余战斗 opcode(0x60/0x9E/0x6B/0x30 等 + 0x5E 待敌人毒 pipeline)。
+> **最后更新**:2026-05-30 — **E 类法术伤害结算 keystone + 0x66**:E1 inline 攻击法术伤害接进 performMagic(5 元素咒真伤害)+ 0x42 SimulateMagic + **0x66 throw weapon**(与 0x42 共用 simulateMagic)+ 投掷物全链(符/卵/武器)+ 补提取 rgObject(object-magics.json)。+ **0x68/0x91 jump** + **0x21 伤害** + **0x5B/0x39 HP** + **敌人毒 pipeline(0x28 apply + 0x5E check + postAction 毒 tick)**。剩余 D 类音频(需 M6)+ E 类其余战斗 opcode(0x60/0x9E/0x6B/0x30 等)。
 >
 > sdlpal 真值出处:`reference/sdlpal/script.c`(PAL_InterpretInstruction 587-3115 / PAL_RunTriggerScript 3140+ / PAL_RunAutoScript 3482+)。全集:控制流 0x00-0x0A + 数据/动作 0x0B-0xA6(不存在:0x32 / 0x48 / 0x72 / 0x9D)。
 
@@ -133,6 +133,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x30 | increase player stat temp by % | battle buff |
 | 0x31 | change battle sprite temp | |
 | 0x21 | inflict flat damage to enemy | ✅ **battle handler**(此前只 explore 主干):op0!=0 全体 / 否则单体(ctx.target),health -= op1 clamp≥0(script.c:0021)。梅花镖/银针 scriptOnThrow 真伤害(0x42=0 动画 sentinel,真伤靠这);毒 tick 也用。battle-opcodes.ts |
+| 0x28 | apply poison to enemy | ✅ **battle handler**:op0!=0 全体 / 否则单体(ctx.target);`RandomLong(0,9)>=resistanceToSorcery` 抗性判定 + 去重 + 槽满(MAX_POISONS 16)→ 加 {poisonId:op1, scriptEntry:objectPoisons[op1].enemyScript}(script.c:0028)。毒蛇卵/卵/蛊 throw。注:sdlpal 立即跑一次 wEnemyScript,ts 改 postAction tick 跑(差一拍)。battle-opcodes.ts |
 | 0x33 | collect enemy for items | |
 | 0x34 | transform collected enemies to items | |
 | 0x38 | teleport party out of scene | |
@@ -143,7 +144,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x5A | halve player HP | |
 | 0x5B | halve enemy HP | ✅ w=floor(health/2)+1,cap op0;health -= w(script.c:005B)。无影毒 scriptOnThrow:enemy=ctx.target。battle-opcodes.ts |
 | 0x5C | hide party for a while(battle) | g_Battle.iHidingTime=-op0(script.c:1907-1911)— 原误判 B,实为战斗态 |
-| 0x5E | jump if enemy no poison | 🟡 `if 敌人无 op0 种毒 → jump op1`(script.c:2030)。**依赖敌人毒 pipeline**:ts 只有玩家 `gs.rgPoisonStatus`,BattleEnemy **无** rgPoisons by-ID;且战斗中 0x28/0x21 不给敌人挂毒。需先建"敌人 poison 应用+追踪"基础设施(独立子任务),否则实现 0x5E 是空壳(永远 no-poison→jump)。真实数据 op0=poisonId(555-560),op1=0 |
+| 0x5E | jump if enemy no poison | ✅ 敌人(ctx.target)毒槽无 op0 种毒 → jump op1(script.c:005E)。配齐**敌人毒 pipeline**:BattleEnemy.poisons by-ID + 0x28 apply + postAction 毒 tick。battle-opcodes.ts |
 | 0x5F | kill player | |
 | 0x60 | KO enemy | |
 | 0x64 | jump if enemy HP > % | ⚠️ extraction 已收集目标,runtime 待 |

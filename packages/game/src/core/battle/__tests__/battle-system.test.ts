@@ -24,6 +24,7 @@ import type {
   Item,
   Magic,
   ObjectMagicView,
+  ObjectPoisonView,
   PlayerRole,
   PlayerRoles,
   Spell,
@@ -123,6 +124,7 @@ interface BootstrapOpts {
   items?: Item[]
   magics?: Magic[]
   objectMagics?: ObjectMagicView[]
+  objectPoisons?: ObjectPoisonView[]
   commands?: Command[]
   inventory?: { itemId: number, count: number }[]
 }
@@ -152,6 +154,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
   const spells: Spell[] = []
   const magics: Magic[] = opts.magics ?? []
   const objectMagics: ObjectMagicView[] = opts.objectMagics ?? []
+  const objectPoisons: ObjectPoisonView[] = opts.objectPoisons ?? []
   const commands: Command[] = opts.commands ?? [{ op: 'end' }]
   if (opts.inventory)
     gs.inventory = opts.inventory
@@ -171,6 +174,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
     spells,
     magics,
     objectMagics,
+    objectPoisons,
     commands,
     rngSeed: opts.rngSeed ?? 42,
     runScriptFn: opts.runScriptFn,
@@ -179,7 +183,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
   return {
     gs,
     bus,
-    resources: { items, spells, magics, objectMagics, playerRoles, commands },
+    resources: { items, spells, magics, objectMagics, objectPoisons, playerRoles, commands },
     emptyInput: { held: new Set(), pressed: new Set(), frameNum: 0 },
   }
 }
@@ -940,6 +944,29 @@ describe('throw-item action 派发(E2)', () => {
     // w = 10*5 + 30*2 = 110;calcBase(110,74)=102;/4=25;+198=223 → 300-223=77
     expect(gs.battleState?.enemies[0]!.e.health).toBe(77)
     expect(gs.inventory[0]!.count).toBe(0) // 武器投掉
+    void consoleWarn
+  })
+
+  it('毒 tick(postAction):中毒敌人每回合跑 wEnemyScript(0x21)扣血', () => {
+    // commands ip1 = 0x21[0,50,0](毒 wEnemyScript,扣 50)
+    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x21, operands: [0, 50, 0] }, { op: 'end' }]
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 200, defense: 999, level: 99 })], // 高防免普攻干扰
+      roles: [makeRole({ id: 0, hp: 300, attackStrength: 0 })],
+      commands,
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    // 敌人中毒:scriptEntry=1(0x21[0,50,0])
+    gs.battleState!.enemies[0]!.poisons = [{ poisonId: 558, scriptEntry: 1 }]
+    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+
+    let safety = 30
+    while (gs.battleState?.phase !== 'postAction' && gs.mode === 'battle' && safety-- > 0)
+      tickBattle(gs, emptyInput, bus)
+    tickBattle(gs, emptyInput, bus) // 跑 postAction(毒 tick)
+
+    // 敌人 200 - 50(毒)= 150
+    expect(gs.battleState?.enemies[0]!.e.health).toBe(150)
     void consoleWarn
   })
 })
