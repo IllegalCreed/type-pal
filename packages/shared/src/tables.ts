@@ -118,6 +118,36 @@ export interface Spell {
 }
 
 /**
+ * rgObject 的 **magic-union 视图**(对照 sdlpal `OBJECT.magic`)。
+ *
+ * sdlpal 的 `gpGlobals->g.rgObject[id]` 是个 union(global.h `tagOBJECT`),
+ * 同一段字节既可当 item、又可当 magic、enemy 解读。`0x42 SimulateMagic` /
+ * `0x66 throw weapon` 把**任意** object id 当 magic 解读
+ * (`rgObject[id].magic.wMagicNumber` / `.wFlags`),不分该 id 在哪个语义段。
+ *
+ * `Spell`(spells.json)只覆盖玩家可学法术段 [296..397];而投掷物(梅花镖/银针/卵)
+ * 的 `scriptOnThrow` 用 `0x42` 引用的 magic object id 可低至 **24**(item 段之下),
+ * 不在 spells.json 范围内。本视图把**整个** OBJECT 数组按 magic 段解读 dump 出来,
+ * 让运行时 `0x42` handler 能解析任意 op0。
+ *
+ * 数据源:SSS.MKF chunk 2(OBJECT 数组),逐 14 字节按 `tagOBJECT_MAGIC` 解读。
+ * 非真法术段的条目(item / enemy / poison 段)字段是 union 重解读结果,通常无意义,
+ * 但 `0x42` 只引用真正当 magic 用的 id(24 / 296+),所以无害。
+ */
+export interface ObjectMagicView {
+  /** OBJECT 数组里的**绝对 index**(= sdlpal wObjectID,0..N)。 */
+  id: number
+  /** 当 magic 解读的 `wMagicNumber` —— 指向 Magic[](magic.json)。 */
+  magicNumber: number
+  /** 当 magic 解读的 `wScriptOnSuccess`。 */
+  scriptOnSuccess: number
+  /** 当 magic 解读的 `wScriptOnUse`。 */
+  scriptOnUse: number
+  /** 当 magic 解读的 `wFlags`(拆 bit,主要用 applyToAll)。 */
+  flags: SpellFlags
+}
+
+/**
  * 法术详细 stats 中的 type 字段具名(对照 sdlpal `global.h::tagMAGIC_TYPE`)。
  *
  * sdlpal 真值:

@@ -25,6 +25,7 @@ import {
   parseEnemyTeams,
   parseItems,
   parseMagicTable,
+  parseObjectMagics,
   parsePlayerRoles,
   parseSpells,
   parseStores,
@@ -206,6 +207,55 @@ describe('parseSpells (M3 T6)', () => {
   it('截断时 throw(与 parseEnemies / parseMagicTable 一致)', () => {
     const tiny = new Uint8Array(100)
     expect(() => parseSpells(tiny)).toThrow(/truncated/)
+  })
+})
+
+describe('parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic)', () => {
+  const objMagics = parseObjectMagics(objBuf)
+
+  it('覆盖整个 OBJECT 数组(每条 14B)', () => {
+    expect(objMagics.length).toBe(Math.floor(objBuf.byteLength / 14))
+    expect(objMagics.length).toBeGreaterThan(397) // 至少覆盖到法术段尾
+    // id = 数组绝对 index
+    expect(objMagics[0]!.id).toBe(0)
+    expect(objMagics[24]!.id).toBe(24)
+    expect(objMagics[349]!.id).toBe(349)
+  })
+
+  it('法术段 [296..397] 与 parseSpells 逐字段一致(magicNumber/scripts/flags)', () => {
+    const spells = parseSpells(objBuf)
+    for (let id = 296; id <= 397; id++) {
+      const v = objMagics[id]!
+      const s = spells[id - 296]!
+      expect(v.magicNumber).toBe(s.magicNumber)
+      expect(v.scriptOnUse).toBe(s.scriptOnUse)
+      expect(v.scriptOnSuccess).toBe(s.scriptOnSuccess)
+      expect(v.flags).toEqual(s.flags)
+    }
+  })
+
+  it('object 349(天师符法,0x42 op0 真实引用)→ magicNumber 54', () => {
+    expect(objMagics[349]!.magicNumber).toBe(54)
+  })
+
+  it('object 24(梅花镖/银针/卵 共用,0x42 op0=24)可解析 —— 与原始字节一致', () => {
+    // 直接从 objBuf 读 OBJECT_MAGIC offset(wMagicNumber@0, wFlags@12),独立核对 parser
+    const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
+    const rawMagicNumber = view.getUint16(24 * 14 + 0, true)
+    expect(objMagics[24]!.magicNumber).toBe(rawMagicNumber)
+    // 该 magicNumber 必须 > 0(真指向 magic.json 一条),否则 65% 投掷物算不出伤害
+    expect(objMagics[24]!.magicNumber).toBeGreaterThan(0)
+  })
+
+  it('fake fixture:applyToAll(bit4)+ magicNumber offset 对', () => {
+    const fake = new Uint8Array(64 * 14)
+    const view = new DataView(fake.buffer)
+    view.setUint16(24 * 14 + 0, 0x37, true) // wMagicNumber@0 = 55
+    view.setUint16(24 * 14 + 12, 0x10, true) // wFlags@12 = applyToAll
+    const parsed = parseObjectMagics(fake)
+    expect(parsed[24]!.magicNumber).toBe(0x37)
+    expect(parsed[24]!.flags.applyToAll).toBe(true)
+    expect(parsed[24]!.flags.usableInBattle).toBe(false)
   })
 })
 

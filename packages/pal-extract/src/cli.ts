@@ -64,6 +64,7 @@ import {
   parseEnemyTeams,
   parseItems,
   parseMagicTable,
+  parseObjectMagics,
   parsePlayerRoles,
   parseSpells,
   parseStores,
@@ -251,6 +252,10 @@ async function main(): Promise<void> {
   // M3 T6:Spell wrapper(SSS chunk 2) + Magic 详细 stats(DATA chunk 4)分两个文件 dump。
   // Spell.magicNumber 指向 magic[] 索引;运行时按需 join。
   writeJson(resolve(OUT, 'data', 'spells.json'), spells)
+  // E 类 0x42 SimulateMagic / 0x66 throw weapon:把任意 object id 当 magic 解读
+  // (rgObject[id].magic),投掷物 op0 可低至 24(item 段之下,不在 spells.json [296..397])。
+  // dump 完整 OBJECT 数组的 magic-union 视图供运行时解析任意 op0(parseObjectMagics)。
+  writeJson(resolve(OUT, 'data', 'object-magics.json'), parseObjectMagics(sssObjBuf))
   writeJson(resolve(OUT, 'data', 'magic.json'), parseMagicTable(magicBuf))
   const enemies = parseEnemies(enemyBuf, sssObjBuf, words)
   writeJson(resolve(OUT, 'data', 'enemies.json'), enemies)

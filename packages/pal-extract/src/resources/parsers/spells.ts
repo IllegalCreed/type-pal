@@ -8,7 +8,7 @@
  *
  * 两个文件分别 dump,运行时 `Spell.magicNumber` 索引 Magic[]。
  */
-import type { Magic, MagicType, Spell, SpellFlags } from '@type-pal/shared'
+import type { Magic, MagicType, ObjectMagicView, Spell, SpellFlags } from '@type-pal/shared'
 import type { Words } from '../../io/word.js'
 import {
   OBJ_SIZE,
@@ -131,6 +131,40 @@ export function parseSpells(objBuf: Uint8Array, words?: Words): Spell[] {
     const nm = words?.spells[i]
     if (nm) spell._name = nm
     out.push(spell)
+  }
+  return out
+}
+
+/**
+ * 把**整个** OBJECT 数组(SSS.MKF chunk 2)按 `tagOBJECT_MAGIC` 段解读,dump 出
+ * magic-union 视图。
+ *
+ * 用途:`0x42 SimulateMagic` / `0x66 throw weapon` 把任意 object id 当 magic 解读
+ * (`rgObject[id].magic.wMagicNumber` / `.wFlags`)。投掷物(梅花镖/银针/卵 共 26 处)
+ * 的 op0 = **24**,在 item 段之下、不在 `parseSpells` 的 [296..397] 范围内,无法用
+ * spells.json 解析 → 必须 dump 完整 OBJECT 数组的 magic 视图。
+ *
+ * 与 `parseSpells` 的区别:不限于法术段,逐 14 字节遍历**所有** object id(0..N),
+ * id = OBJECT 数组绝对 index(= sdlpal wObjectID)。非法术段的条目是 union 重解读结果,
+ * 通常无意义,但 `0x42` 只引用真当 magic 用的 id(24 / 296+),无害。
+ *
+ * 偏移与 `parseSpells` 同(`SPELL_OFF`,Win9x `tagOBJECT_MAGIC`)。
+ *
+ * @param objBuf SSS.MKF chunk 2 原始字节
+ */
+export function parseObjectMagics(objBuf: Uint8Array): ObjectMagicView[] {
+  const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
+  const count = Math.floor(objBuf.byteLength / OBJ_SIZE)
+  const out: ObjectMagicView[] = []
+  for (let id = 0; id < count; id++) {
+    const base = id * OBJ_SIZE
+    out.push({
+      id,
+      magicNumber: u16(view, base, SPELL_OFF.magicNumber),
+      scriptOnSuccess: u16(view, base, SPELL_OFF.scriptOnSuccess),
+      scriptOnUse: u16(view, base, SPELL_OFF.scriptOnUse),
+      flags: parseSpellFlags(u16(view, base, SPELL_OFF.flags)),
+    })
   }
   return out
 }
