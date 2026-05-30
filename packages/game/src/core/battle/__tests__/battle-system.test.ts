@@ -372,7 +372,9 @@ describe('tickBattle phase transitions', () => {
     while (gs.dialogBox === undefined && safety-- > 0) tickBattle(gs, emptyInput, bus)
     expect(gs.dialogBox?.currentLineText).toBe('不自量力的家伙!') // 选动作之前就说话(原 bug:先选才说)
     expect(gs.battleState?.phase).toBe('selectAction') // 仍在选动作阶段 — 对话挡着菜单
-    expect(gs.battleState?.turnStartDoneForTurn).toBe(gs.battleState?.turn) // 本轮已跑
+    // **show-once**:跑完置 scriptOnTurnStart=0(sdlpal 返回值写回)→ 后面回合不再重复(user 实测:
+    //   林月如进战斗说一次,后面正常战斗;原 bug 每轮重复显)
+    expect(gs.battleState?.enemies[0]?.scriptOnTurnStart).toBe(0)
 
     // 本轮不重跑(guard:队列不再被 turnStart 重新填)
     const qlen = gs.battleState?.battleDialogQueue?.length ?? 0

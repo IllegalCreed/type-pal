@@ -993,6 +993,11 @@ function runEnemyTurnStartScripts(state: BattleState, bus: CommandBus, res: Batt
         summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
       },
     })
+    // **show-once**:sdlpal `wScriptOnTurnStart = PAL_RunTriggerScript(...)` 把脚本**返回值**写回 —
+    //   正常跑到 end 的脚本返回 0 → wScriptOnTurnStart=0 → 之后不再跑(user 实测:林月如进战斗说一次,
+    //   后面正常战斗;原来每轮重复显)。本 ts runScript 不返回,故跑完置 0 等价(嘲讽脚本都正常 end)。
+    //   残:条件 re-arm 脚本(自设非 0 entry)的"每轮再触发"未建模 —— 现有嘲讽脚本均无此结构。
+    en.scriptOnTurnStart = 0
   }
   state.battleDialogPendingClear = false
 }

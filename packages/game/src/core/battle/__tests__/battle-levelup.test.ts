@@ -7,9 +7,8 @@
  * stat 成长用可控 rng(rangeInclusive:()=>0 → 增长取确定下界 base),核对精确值。
  */
 
-import type { LevelUpMagicEntry } from '@type-pal/shared'
+import type { LevelUpMagicEntry, PlayerRole } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import type { PlayerRole } from '@type-pal/shared'
 import { battleWonLevelUp } from '../battle-system.js'
 import { createInitialGameState, projectRuntimeToBattleRoles, type GameState } from '../../game-state.js'
 import { createSeedableRng, type SeedableRng } from '../../rng.js'
@@ -185,5 +184,25 @@ describe('battleWonLevelUp —— D11 战斗胜利升级', () => {
     expect(battleRoles.roles[0]!.attackStrength).toBe(24) // 战斗吃升级后攻击
     expect(battleRoles.roles[0]!.level).toBe(2)
     expect(battleRoles.roles[0]!.hp).toBe(gs.PlayerRolesRuntime.rgwHP[0]) // 满血战果也带入
+  })
+
+  it('真值表:lv1 + 1000 经验 → lv7 → 学会 天师符法(magic 349;user 实测"没学新法术"真因核查)', () => {
+    // 真值表内联(level-up-exp.json 前 10 项 + 李逍遥 role0 真值 level-up-magic:lv7=349 天师符法)
+    const realExp = [0, 15, 40, 90, 165, 265, 390, 540, 715, 915]
+    const realMagic: LevelUpMagicEntry[][] = [
+      [{ level: 7, magic: 349 }], // role0 lv7 学 天师符法(其余角色省略 → entry[0] 即 role0)
+      [{ level: 8, magic: 311 }], // role0 lv8 学 天罡战气(本例升不到 8,验证 level 门控)
+    ]
+    const gs = makeGs({ level: 1, hp: 30, maxHP: 30, exp: 1000 }) // fixture-levelup expOverrides=1000
+    const results = battleWonLevelUp({
+      gs, partyMembers: [0], expGained: 0,
+      levelUpExp: realExp, levelUpMagic: realMagic, rng: rng0(),
+    })
+    // 1000 经验跨 15/40/90/165/265/390=965,余 35<540 → lv7
+    expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBe(7)
+    // lv7 学 349(天师符法)→ learnedMagics + 写进 runtime.rgwMagic 首槽;lv8 的 311 不学(8>7 门控)
+    expect(results[0]!.learnedMagics).toEqual([349])
+    expect(gs.PlayerRolesRuntime.rgwMagic.some((slot) => slot[0] === 349)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwMagic.some((slot) => slot[0] === 311)).toBe(false)
   })
 })
