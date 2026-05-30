@@ -9,6 +9,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   BATTLE_FRAME_TIME,
+  buildEnemyMagicCastIntro,
   buildEnemyMagicTimeline,
   buildEnemyPhysicalTimeline,
   buildPlayerAttackTimeline,
@@ -807,5 +808,47 @@ describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
     expect(f[16]!.shake).toEqual({ time: 16, level: 3 })
     // shake 区不产施法帧(fight.c:2932-2938 在 l-i>shake 分支内)
     expect(f[14]!.fighters).toBeUndefined()
+  })
+})
+
+describe('buildEnemyMagicCastIntro (fight.c:4680-4717)', () => {
+  // 林月如 enemy82:idleFrames=1 / magicFrames=0 / attackFrames=4 / actWaitFrames=1;magic360→鞭击 fireDelay=0。
+  // user 2026-05-31:她施法时「完全不动、不位移」—— 真因是漏 port 这段施法起手(前移 + attackFrames 手势)。
+  const f = buildEnemyMagicCastIntro({
+    enemyCasterIdx: 0,
+    enemyPos: { x: 100, y: 80 },
+    idleFrames: 1,
+    magicFrames: 0,
+    attackFrames: 4,
+    actWaitFrames: 1,
+    fireDelay: 0,
+  })
+
+  it('前移 2 帧:pos += (12,6) → += (4,2)(fight.c:4683-4693)', () => {
+    expect(f[0]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 112, y: 86 } }])
+    expect(f[1]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 116, y: 88 } }])
+    expect(f[0]!.durationMs).toBe(D)
+  })
+
+  it('magicFrames==0 → 补 1 帧停顿(fight.c:4704-4707)', () => {
+    // 前移 2 帧后,magicFrames=0 → 无手势帧 → 第 3 帧是纯停顿(无 fighters)
+    expect(f[2]!.fighters).toBeUndefined()
+    expect(f[2]!.durationMs).toBe(D)
+  })
+
+  it('fireDelay==0 → attackFrames 手势 currentFrame 0,1,2,3,4(fight.c:4709-4717)', () => {
+    // f[3..7] = 5 帧手势(i=0..4),currentFrame = i-1+idleFrames(1)+magicFrames(0) = i
+    const gesture = f.slice(3).map((fr) => fr.fighters?.[0]?.currentFrame)
+    expect(gesture).toEqual([0, 1, 2, 3, 4]) // ★ 这就是林月如施法时该动的帧
+  })
+
+  it('magicFrames>0:用 magicFrames 帧手势 currentFrame=idleFrames+i,且不补停顿帧', () => {
+    const g = buildEnemyMagicCastIntro({
+      enemyCasterIdx: 1, enemyPos: { x: 0, y: 0 },
+      idleFrames: 2, magicFrames: 3, attackFrames: 0, actWaitFrames: 2, fireDelay: 5,
+    })
+    // 前移 2 帧 + magicFrames=3 手势(currentFrame 2,3,4);fireDelay=5(!=0)→ 无 attackFrames 段;magicFrames!=0 → 无停顿帧
+    expect(g).toHaveLength(5)
+    expect(g.slice(2).map((fr) => fr.fighters?.[0]?.currentFrame)).toEqual([2, 3, 4])
   })
 })

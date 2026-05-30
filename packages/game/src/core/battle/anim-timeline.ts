@@ -704,6 +704,70 @@ export interface BuildEnemyMagicInput {
   targetPlayerPos?: { x: number; y: number }
 }
 
+export interface BuildEnemyMagicIntroInput {
+  enemyCasterIdx: number
+  /** 敌人施法起手位(= posOriginal)。 */
+  enemyPos: { x: number; y: number }
+  idleFrames: number
+  magicFrames: number
+  attackFrames: number
+  actWaitFrames: number
+  /** magic.fireDelay —— ==0 时额外用 attackFrames 当施法手势(fight.c:4709-4717)。 */
+  fireDelay: number
+}
+
+/**
+ * 敌人施法**起手**动画(port fight.c:4680-4717 PAL_BattleEnemyPerformAction magic 分支前段)——
+ * 落点特效(PAL_BattleShowEnemyMagicAnim)**之前**敌人本体的表演:前移 + 施法手势。
+ *
+ *   - 前移 2 帧:pos += (12,6) Delay(1) → += (4,2) Delay(1)(fight.c:4683-4693)
+ *   - magicFrames 帧施法手势:currentFrame = idleFrames + i,Delay(actWaitFrames)(fight.c:4697-4702)
+ *   - magicFrames==0 → 补 Delay(1)(fight.c:4704-4707)
+ *   - fireDelay==0 → 用 attackFrames(+1)帧手势:currentFrame = i-1+idleFrames+magicFrames,
+ *     Delay(actWaitFrames)(fight.c:4709-4717)
+ *
+ * **「敌人施法没动画/没位移」的真因**:之前只 port 了落点特效 loop(其内 fireDelay=0 时不动敌帧),
+ * 漏了这整段起手。林月如(enemy82:magic360→鞭击 fireDelay=0;idleFrames=1/magicFrames=0/attackFrames=4)
+ * 即靠 fireDelay==0 分支动:frame 0→1→2→3→4,并前移两步。
+ */
+export function buildEnemyMagicCastIntro(input: BuildEnemyMagicIntroInput): BattleAnimFrame[] {
+  const { enemyCasterIdx, enemyPos, idleFrames, magicFrames, attackFrames, actWaitFrames, fireDelay } = input
+  const frames: BattleAnimFrame[] = []
+  let ex = enemyPos.x
+  let ey = enemyPos.y
+
+  // 前移 2 帧(fight.c:4683-4693)
+  ex += 12
+  ey += 6
+  frames.push({ durationMs: delayMs(1), fighters: [{ side: 'enemy', idx: enemyCasterIdx, pos: { x: ex, y: ey } }] })
+  ex += 4
+  ey += 2
+  frames.push({ durationMs: delayMs(1), fighters: [{ side: 'enemy', idx: enemyCasterIdx, pos: { x: ex, y: ey } }] })
+
+  // magicFrames 施法手势(fight.c:4697-4702)
+  for (let i = 0; i < magicFrames; i++) {
+    frames.push({
+      durationMs: delayMs(actWaitFrames),
+      fighters: [{ side: 'enemy', idx: enemyCasterIdx, currentFrame: idleFrames + i }],
+    })
+  }
+  // magicFrames==0 → 补 1 帧停顿(fight.c:4704-4707)
+  if (magicFrames === 0)
+    frames.push({ durationMs: delayMs(1) })
+
+  // fireDelay==0 → attackFrames(+1)帧手势(fight.c:4709-4717)
+  if (fireDelay === 0) {
+    for (let i = 0; i <= attackFrames; i++) {
+      frames.push({
+        durationMs: delayMs(actWaitFrames),
+        fighters: [{ side: 'enemy', idx: enemyCasterIdx, currentFrame: i - 1 + idleFrames + magicFrames }],
+      })
+    }
+  }
+
+  return frames
+}
+
 /**
  * 敌方 EnemyMagic 动画时间线(port fight.c:2846-3069 PAL_BattleShowEnemyMagicAnim)——
  * **OffMagic 镜像**:同总帧数公式 / 帧循环 k / shake 区,落点对**队员**而非敌人。

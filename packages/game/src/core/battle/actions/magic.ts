@@ -20,6 +20,7 @@ import type { CommandBus } from '../../command-bus.js'
 import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
 import {
+  buildEnemyMagicCastIntro,
   buildEnemyMagicTimeline,
   buildPlayerDefMagicTimeline,
   buildPlayerOffMagicTimeline,
@@ -481,7 +482,23 @@ function buildAndStartEnemyMagicAnim(input: PerformMagicInput, magic: Magic): vo
     if (!targetPlayerPos) return
   }
 
-  const frames = buildEnemyMagicTimeline({
+  // 施法起手:敌人前移 + 施法手势(fight.c:4680-4717)—— 落点特效之前的敌人本体表演。
+  //   林月如(magic360→鞭击 fireDelay=0)即靠这段动:前移两步 + attackFrames 手势 frame 0..4。
+  const introFrames = buildEnemyMagicCastIntro({
+    enemyCasterIdx: input.casterIdx,
+    enemyPos: caster.posOriginal,
+    idleFrames: caster.e.idleFrames,
+    magicFrames: caster.e.magicFrames,
+    attackFrames: caster.e.attackFrames,
+    actWaitFrames: caster.e.actWaitFrames,
+    fireDelay: magic.fireDelay,
+  })
+  // 特效前 snap 回原位(fight.c:2842 PAL_BattleShowEnemyMagicAnim 起手把全敌 pos 复位 posOriginal)。
+  const posResetFrame: BattleAnimFrame = {
+    durationMs: 0,
+    fighters: [{ side: 'enemy', idx: input.casterIdx, pos: { x: caster.posOriginal.x, y: caster.posOriginal.y } }],
+  }
+  const effectFrames = buildEnemyMagicTimeline({
     enemyCasterIdx: input.casterIdx,
     magic: {
       effect: magic.effect,
@@ -502,5 +519,5 @@ function buildAndStartEnemyMagicAnim(input: PerformMagicInput, magic: Magic): vo
     targetPlayerIdx,
     targetPlayerPos,
   })
-  startBattleAnim(input.state, frames, input.bus)
+  startBattleAnim(input.state, [...introFrames, posResetFrame, ...effectFrames], input.bus)
 }
