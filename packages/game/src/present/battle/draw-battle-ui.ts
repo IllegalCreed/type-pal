@@ -103,6 +103,15 @@ export function drawBattleUI(
   glyphs?: GlyphTable,
 ): void {
   drawPartyStatus(fb, state, playerRoles, glyphs)
+
+  // 战斗内对话显示期间**隐藏动作菜单**(user 2026-05-31 实测:对话框下面还画着菜单)。
+  //   sdlpal 真值:PAL_ShowDialogText 是同步 blocking,对话期 PAL_BattleUIUpdate 不刷新菜单
+  //   (且 PerformAction 阶段 uibattle.c:889 goto end 同样不画选择 UI)。这里对齐:
+  //   gs.dialogBox 已起(本帧在显示)或 battleDialogQueue 尚有待显行(下帧要起)→ 只保留底部
+  //   队员状态栏,跳过主菜单 / 杂项盒 / 法术物品选择 / target 光标。对话结束(两者皆空)自动恢复。
+  const dialogActive = gs.dialogBox != null || (state.battleDialogQueue?.length ?? 0) > 0
+  if (dialogActive) return
+
   switch (state.uiState) {
     case 'mainMenu':
       drawMainMenu(fb, state, playerRoles, glyphs)

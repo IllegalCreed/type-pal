@@ -373,6 +373,47 @@ describe('drawBattleUI', () => {
     expect(fbHasWrites(fb)).toBe(true) // 但底部状态栏有写入
   })
 
+  // ---------- C7:战斗对话显示时隐藏动作菜单(user 2026-05-31 实测 bug)----------
+
+  it('对话队列非空 —— 隐藏动作菜单(顶部无写入),只画底部状态栏', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState(
+      [mkBattlePlayer(0)],
+      [mkBattleEnemy(minimalEnemy(50))],
+      { uiState: 'mainMenu', uiCursor: 0, battleDialogQueue: [{ text: '林月如', style: 'bottom' }] },
+    )
+    drawBattleUI(fb, state, playerRoles, [], [], mkGs())
+    // 菜单区(顶部 y<50)应无写入 —— 对话期被隐藏;底部状态栏仍画。
+    let topWrites = 0
+    for (let y = 0; y < 50; y++) {
+      for (let x = 0; x < 320; x++) {
+        if (fb.indices[y * 320 + x] !== 0) topWrites++
+      }
+    }
+    expect(topWrites).toBe(0)
+    expect(fbHasWrites(fb)).toBe(true)
+  })
+
+  it('gs.dialogBox 非空 —— 隐藏动作菜单(顶部无写入)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState(
+      [mkBattlePlayer(0)],
+      [mkBattleEnemy(minimalEnemy(50))],
+      { uiState: 'mainMenu', uiCursor: 0 },
+    )
+    const gs = mkGs({ dialogBox: { phase: 'typing' } as unknown as GameState['dialogBox'] })
+    drawBattleUI(fb, state, playerRoles, [], [], gs)
+    let topWrites = 0
+    for (let y = 0; y < 50; y++) {
+      for (let x = 0; x < 320; x++) {
+        if (fb.indices[y * 320 + x] !== 0) topWrites++
+      }
+    }
+    expect(topWrites).toBe(0)
+  })
+
   it('mainMenu —— selectingPlayerIdx undefined 时只画状态栏(不抛)', () => {
     const fb = createFramebuffer()
     const role = minimalRole(0)
