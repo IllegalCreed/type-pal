@@ -1,194 +1,232 @@
 # M4 chunk inventory
 
-> 14 个 MKF 全 chunk 覆盖率明细。M1-M3.5 已抽部分 ✅,M4 P2 待抽部分 🔲,留 M5/M6 部分 ⏸。
+> 14 个 MKF + 非 MKF 资源(WORD.DAT / M.MSG / Musics / AVI / BDF)全 chunk 覆盖率明细。
 >
-> 数据来源:`reference/sdlpal/global.c::PAL_LoadDefaultGame` + 各 .c 文件 grep 真值(raw dump `/tmp/sdlpal-chunks-raw.md`)。
-> MKF 文件存在性:STUFF.MKF 和 SAVE.MKF 在本项目 `data/raw/` 中不存在。
-> 状态记录时间:2026-05-24(M4 P2 T1 阶段)。
+> **真值 single source of truth = [docs/plans/2026-05-27-m4-extract-audit.md](plans/2026-05-27-m4-extract-audit.md)(2026-05-29 复审段)。** 本文件是 chunk **语义参考** + 提取状态镜像。
+>
+> 数据来源:`reference/sdlpal/global.c::PAL_LoadDefaultGame` + 各 .c 文件 grep 真值;状态列由 2026-05-30 byte-level 复核(逐 MKF header chunk_count vs `data/extracted/` 实际输出数 + 追 parser 源码确认 dump-all)刷新。
+> 提取入口/路由:[packages/pal-extract/src/cli.ts](../packages/pal-extract/src/cli.ts)。
+>
+> **状态结论:M4 提取实质 100% 完成,零真实数据 gap。** 全部 14 MKF + 非 MKF 资源的每个**非空** chunk 都已落地。被 skip 的一律是引擎从不加载的 0 字节空槽。唯一残留是 M6 的 runtime 音频播放 wiring(opcode 0x43 setMusic / playSound),属功能里程碑,非提取 gap。
+>
+> 图例:✅ 已抽(byte-level 确认) · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap) · 🎵 同源冗余(已有其他格式覆盖)
+>
+> MKF 文件存在性:STUFF.MKF / SAVE.MKF 在本项目 `data/raw/` 中不存在(WIN95+ 用 .RPG 存档)。`mus.mkf` 存在但与 MIDI 同源(见末段)。
+> 状态记录时间:2026-05-30(byte-level 复核刷新;原快照 2026-05-24 M4 P2 T1 起手时全部状态已过时,本次全量订正)。
 
 ---
 
 ## DATA.MKF
 
-真实 chunk count = **15**(index 0–14)。chunk 7、8 为空(0 字节)。
+真实 chunk count = **15**(index 0–14)。chunk 7、8 为空(0 字节)。**13 个非空 chunk 全抽。**
 
-| Chunk | 字节数 | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | 字节数 | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|---|
-| 0 | 378 | `global.c:292 LOAD_DATA … chunk 0 fpDATA` | STORE 数组(21 条,每条 9 个 WORD 商品槽 = 18 字节,MAX_STORE_ITEM=9) | 🔲 P2.T2 | typed `stores.json` |
-| 1 | 10780 | `global.c:293 LOAD_DATA … chunk 1 fpDATA` | ENEMY 数组(154 条,70 字节/条) | ✅ M1+M3 | typed `enemies.json` |
-| 2 | 3800 | `global.c:294 LOAD_DATA … chunk 2 fpDATA` | ENEMYTEAM 数组(380 条,10 字节/条) | ✅ M3 | typed `enemy-teams.json` |
-| 3 | 900 | `global.c:428 PAL_MKFReadChunk … chunk 3 fpDATA` | PLAYERROLES(整块 900 字节,MAX_PLAYER_ROLES=6,字段含 Level/HP/MP/Sprite 等) | ✅ M3 | typed `player-roles.json` |
-| 4 | 3328 | `global.c:296 LOAD_DATA … chunk 4 fpDATA` | MAGIC 数组(104 条,32 字节/条) | ✅ M3 | typed `magic.json` |
-| 5 | 696 | `global.c:297 LOAD_DATA … chunk 5 fpDATA` | BATTLEFIELD 数组(58 条,12 字节/条) | ✅ M3 | typed `battle-fields.json` |
-| 6 | 400 | `global.c:299 LOAD_DATA … chunk 6 fpDATA` | LEVELUPMAGIC_ALL 数组(20 级档 × 5 角色 × LEVELUPMAGIC{wLevel,wMagic} = 400 字节) | 🔲 P2.T2 | typed `level-up-magic.json` |
-| 7 | 0 | (no sdlpal reference) | 空 chunk | ⏸ N/A | skip |
-| 8 | 0 | (no sdlpal reference) | 空 chunk | ⏸ N/A | skip |
-| 9 | 25532 | `ui.c:75 CHUNKNUM_SPRITEUI=9 fpDATA` | UI sprite sheet(战斗/菜单通用 sprite 集) | 🔲 P2.T3 | raw sprite 导出 M5 |
-| 10 | 17478 | `battle.c:1787 chunk 10 fpDATA → g_Battle.lpEffectSprite` | 战斗效果 sprite(非 YJ2 压缩,直接 read) | 🔲 P2.T3 | raw sprite 导出 M5 |
-| 11 | 40 | `global.c:301 LOAD_DATA … chunk 11 fpDATA → rgwBattleEffectIndex[10][2]` | 角色战斗效果索引(10 套 × 2 WORD = 20 WORD = 40 字节) | 🔲 P2.T2 | typed `battle-effect-index.json` |
-| 12 | 282 | `text.c:891 PAL_MKFReadChunk … chunk 12 fpDATA → bufDialogIcons` | 对话框图标 sprite(282 字节) | 🔲 P2.T3 | raw sprite 导出 M5 |
-| 13 | 100 | `global.c:303 PAL_MKFReadChunk … chunk 13 fpDATA → EnemyPos` | 敌人出场位置表(5 队型 × 5 槽 × {x,y} = 100 字节) | ✅ M3.5 | typed `enemy-pos.json` |
-| 14 | 200 | `global.c:306 PAL_MKFReadChunk … chunk 14 fpDATA → rgLevelUpExp[100]` | 升级经验表(100 WORD = MAX_LEVELS+1=100 条) | 🔲 P2.T2 | typed `level-up-exp.json` |
+| 0 | 378 | `global.c:292 LOAD_DATA … chunk 0 fpDATA` | STORE 数组(21 条,9 个 WORD 商品槽/条) | ✅ | `data/stores.json`(parseStores,21 条) |
+| 1 | 10780 | `global.c:293 LOAD_DATA … chunk 1 fpDATA` | ENEMY 数组(154 条,70 字节/条) | ✅ | `data/enemies.json` |
+| 2 | 3800 | `global.c:294 LOAD_DATA … chunk 2 fpDATA` | ENEMYTEAM 数组(380 条,10 字节/条) | ✅ | `data/enemy-teams.json` |
+| 3 | 900 | `global.c:428 PAL_MKFReadChunk … chunk 3 fpDATA` | PLAYERROLES(整块 900 字节,6 角色) | ✅ | `data/player-roles.json` |
+| 4 | 3328 | `global.c:296 LOAD_DATA … chunk 4 fpDATA` | MAGIC 数组(104 条,32 字节/条) | ✅ | `data/magic.json` |
+| 5 | 696 | `global.c:297 LOAD_DATA … chunk 5 fpDATA` | BATTLEFIELD 数组(58 条,12 字节/条) | ✅ | `data/battle-fields.json` |
+| 6 | 400 | `global.c:299 LOAD_DATA … chunk 6 fpDATA` | LEVELUPMAGIC_ALL(20 级 × 5 角色 × {wLevel,wMagic}) | ✅ | `data/level-up-magic.json`(parseLevelUpMagic,20 条) |
+| 7 | 0 | (no sdlpal reference) | 空 chunk | ⬛ | skip |
+| 8 | 0 | (no sdlpal reference) | 空 chunk | ⬛ | skip |
+| 9 | 25532 | `ui.c:75 CHUNKNUM_SPRITEUI=9 fpDATA` | UI sprite sheet(战斗/菜单通用) | ✅ | `images/ui/frame-NN.png` × 71 + `data/ui-sprite/spriteui.json`(尾帧 idx71 offset=0 "Bloody-Mouth Bug" pad,引擎从不索引) |
+| 10 | 17478 | `battle.c:1787 chunk 10 fpDATA → g_Battle.lpEffectSprite` | 战斗效果 sprite | ✅ | `images/magic/frame-NN.png` × 85 + `data/magic-sprite/effect.json`(尾帧 idx85 同上 pad) |
+| 11 | 40 | `global.c:301 LOAD_DATA … chunk 11 fpDATA → rgwBattleEffectIndex[10][2]` | 角色战斗效果索引(10 套 × 2 WORD) | ✅ | `data/battle-effect-index.json`(parseBattleEffectIndex,20 WORD) |
+| 12 | 282 | `text.c:891 PAL_MKFReadChunk … chunk 12 fpDATA → bufDialogIcons` | 对话框图标 sprite | ✅ | `data/dialog-icons-raw.json`(raw base64,runtime 解 RLE) |
+| 13 | 100 | `global.c:303 PAL_MKFReadChunk … chunk 13 fpDATA → EnemyPos` | 敌人出场位置表(5 队型 × 5 槽 × {x,y}) | ✅ | `data/enemy-pos.json` |
+| 14 | 200 | `global.c:306 PAL_MKFReadChunk … chunk 14 fpDATA → rgLevelUpExp[100]` | 升级经验表(100 WORD) | ✅ | `data/level-up-exp.json`(parseLevelUpExp,100 条) |
 
 ---
 
 ## SSS.MKF
 
-真实 chunk count = **5**(index 0–4)。
+真实 chunk count = **5**(index 0–4)。**5 chunk 全消费。**
 
-| Chunk | 字节数 | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | 字节数 | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|---|
-| 0 | 162464 | `global.c:348 PAL_DOALLOCATE fpSSS chunk 0 EVENTOBJECT` | EVENTOBJECT 数组(4512 条,36 字节/条;含场景坐标/触发脚本/精灵编号) | ✅ M1 | typed 嵌入 scene JSON |
-| 1 | 2360 | `global.c:404 PAL_MKFReadChunk … chunk 1 fpSSS → rgScene` | SCENE 数组(295 条,8 字节/条;wMapNum/wScriptOnEnter 等) | ✅ M1 | typed `scene/N.json` |
-| 2 | 7910 | `global.c:408 PAL_MKFReadChunk … chunk 2 fpSSS → rgObject` | OBJECT 数组(565 条,14 字节/条 WIN;物品/法术/敌人/角色 联合体) | ✅ M1 | typed `items.json` / `spells.json` |
-| 3 | 54056 | `text.c:795 PAL_MKFGetChunkSize chunk 3 fpSSS` | 游戏对话消息偏移表(13514 个 DWORD → nMsgs=13513) | ⏸ M5/M6 | 配合 M.MSG 字符串数据 |
-| 4 | 348024 | `global.c:351 PAL_DOALLOCATE fpSSS chunk 4 SCRIPTENTRY` | 脚本字节码(43503 条 SCRIPTENTRY,8 字节/条;wOperation + 3×wOperand) | ✅ M1 | typed `events/scene-NNN.json` |
+| 0 | 162464 | `global.c:348 PAL_DOALLOCATE fpSSS chunk 0 EVENTOBJECT` | EVENTOBJECT 数组(5077 条,32 字节/条) | ✅ | `data/event-objects.json`(5077 obj / 295 sceneRange) |
+| 1 | 2360 | `global.c:404 PAL_MKFReadChunk … chunk 1 fpSSS → rgScene` | SCENE 数组(295 条,8 字节/条) | ✅ | `data/scene/N.json` × 295 |
+| 2 | 7910 | `global.c:408 PAL_MKFReadChunk … chunk 2 fpSSS → rgObject` | OBJECT 数组(3955 个 u16;物品/法术/敌人/角色 联合体) | ✅ | `data/items.json` / `spells.json` / `enemy-objects.json` |
+| 3 | 54056 | `text.c:795 PAL_MKFGetChunkSize chunk 3 fpSSS` | 消息偏移表(13514 个 DWORD → 13513 条消息) | ✅ | `cli.ts:153` parseMessageOffsets 全消费 → `lookup/strings.json`(13513 条)+ 嵌入 disasm |
+| 4 | 348024 | `global.c:351 PAL_DOALLOCATE fpSSS chunk 4 SCRIPTENTRY` | 脚本字节码(43503 条 SCRIPTENTRY,8 字节/条) | ✅ | `events/scene-NNN.json` × 295 + `shared.json` + `objects.json`(disasm+recompile round-trip OK) |
 
 ---
 
 ## MGO.MKF
 
-真实 chunk count = **637**(index 0–636)。按 chunk index 动态访问,无固定分段。
+真实 chunk count = **637**(index 0–636);chunk 0 空,**636 非空全 dump**(M5.Sync.2 改 dump-first/filter-never)。
 
-| Chunk | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–636 | `res.c:289 PAL_MKFDecompressChunk … fpMGO`(event object sprite);`res.c:327`(player sprite);`main.c:267 SPRITENUM_SPLASH_TITLE=0x47`;`ending.c:321 chunk 571,572` | YJ2 压缩 sprite 集:地图 NPC/玩家行走精灵 + 过场动画 | ✅ M1 地图 NPC 行走读出;⏸ 全量 P3.T3 导出 | YJ2 decompress → sprite frame |
+| 1–636 | `res.c:289 PAL_MKFDecompressChunk … fpMGO`;`res.c:327`(player sprite);`ending.c:321 chunk 571,572` | YJ2 压缩 sprite 集:地图 NPC/玩家行走精灵 + 过场动画 | ✅ | `images/world/npc/{id}/frame-NN.png`(636 dir,4133 PNG)+ `data/sprite/{id}.json` × 636(cli.ts:668-686 `for id<mgoChunkCount`) |
 
 ---
 
 ## MAP.MKF
 
-真实 chunk count = **226**(index 0–225)。每 chunk 对应一个 map 的 tile 数据。
+真实 chunk count = **226**(index 0–225);空 chunk 0/168/171,**223 非空全抽**(含无 scene 引用的 #104/#164)。
 
-| Chunk | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–225 | `map.c:60 PAL_MKFGetChunkCount fpMapMKF`;`map.c:70 PAL_MKFGetChunkSize(iMapNum fpMapMKF)` | 地图 tile 层数据(raw 格式,每个 tile 索引 2 字节,配合 GOP.MKF 渲染) | ✅ M1/M3 tilemap;⏸ 全量 P3 扩 | typed tilemap JSON |
+| 0–225 | `map.c:60 PAL_MKFGetChunkCount fpMapMKF`;`map.c:70 PAL_MKFGetChunkSize(iMapNum fpMapMKF)` | 地图 tile 层数据(128×64×2,含障碍位 `&0x2000` map.c:298) | ✅ | `data/tilemap/{mapNum}.json` × 223(cli.ts:577-580 全非空 chunk) |
 
 ---
 
 ## GOP.MKF
 
-真实 chunk count = **226**(index 0–225)。与 MAP.MKF 1:1 对应。
+真实 chunk count = **226**(index 0–225);与 MAP.MKF 1:1,空索引相同 → **223 非空全抽**。
 
-| Chunk | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–225 | `map.c:130 PAL_MKFReadChunk(iMapNum fpGopMKF)`;`res.c:234 UTIL_OpenRequiredFile("gop.mkf")` | tile sprite 图集(每张地图的 tile 贴图;raw,非 YJ2 压缩) | ✅ M1/M3 tilemap;⏸ 全量 P3 扩 | raw tile sheet |
+| 0–225 | `map.c:130 PAL_MKFReadChunk(iMapNum fpGopMKF)`;`res.c:234 "gop.mkf"` | tileset 瓦片位图组(`map->pTileSprite`,PAL_SpriteGetFrame 按 tile 取帧;raw 非 YJ2) | ✅ | `images/world/tileset/map-{n}/tile-XXXX.png`(223 dir,67715 tile PNG;parseMap 内消费) |
 
 ---
 
 ## F.MKF
 
-真实 chunk count = **19**(index 0–18)。
+真实 chunk count = **19**(index 0–18),**全非空全抽**(M5.Sync.2 改 dump-all,原仅 6 角色)。
 
-| Chunk | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–18 | `battle.c:888 PAL_MKFGetDecompressedSize(s fpF)` → 玩家战斗精灵;`fight.c:3136 PAL_MKFDecompressChunk … fpF` → 召唤兽精灵 | YJ2 压缩战斗精灵集(玩家战斗动画 + 召唤兽);chunk index = `PlayerRoles.rgwSpriteNumInBattle` | ⏸ P3/M5 sprite 导出 | YJ2 decompress → sprite frame |
+| 0–18 | `battle.c:888 PAL_MKFGetDecompressedSize(s fpF)` → 玩家战斗精灵;`fight.c:3136 … fpF` → 召唤兽 | YJ2 压缩战斗精灵(chunk index = `rgwSpriteNumInBattle`) | ✅ | `images/battle/player/{id}/frame-NN.png`(19 dir,149 PNG)+ `data/battle-sprite/player/{id}.json` × 19(loadBattleMkf `for id<total`) |
 
 ---
 
 ## ABC.MKF
 
-真实 chunk count = **154**(index 0–153)。
+真实 chunk count = **154**(index 0–153);chunk 0 空,**153 非空全抽**。
 
-| Chunk | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–153 | `battle.c:879 UTIL_OpenRequiredFile("abc.mkf")`;`battle.c:930 PAL_MKFDecompressChunk(enemy.wEnemyID fp)` | YJ2 压缩敌人战斗精灵(154 条与 DATA.MKF chunk 1 ENEMY 数组 1:1 对应;chunk index = enemy.wEnemyID) | ⏸ P3/M5 sprite 导出 | YJ2 decompress → sprite frame |
+| 1–153 | `battle.c:879 "abc.mkf"`;`battle.c:930 PAL_MKFDecompressChunk(enemy.wEnemyID fp)` | YJ2 压缩敌人战斗精灵(chunk index = enemy.wEnemyID) | ✅ | `images/battle/enemy/{id}/frame-NN.png` × 153(loadBattleMkf dump-all) |
 
 ---
 
 ## FBP.MKF
 
-真实 chunk count = **78**(index 0–77)。
+真实 chunk count = **78**(index 0–77);空 chunk 5/58,**76 非空全抽**。
 
-| Chunk | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0 | `ui.h:83 STATUS_BACKGROUND_FBPNUM=0`;`uigame.c:1089 PAL_MKFDecompressChunk … fpFBP` | 状态栏背景图(320×200 raw bitmap) | ⏸ P3 图片导出 | YJ2 decompress → bitmap |
-| 3,4 / 38,39 | `main.c:261 BITMAPNUM_SPLASH_UP=WIN95?3:38`;`main.c:264 BITMAPNUM_SPLASH_DOWN=WIN95?4:39` | 标题画面上/下半(WIN95/DOS 双版本) | ⏸ P3 图片导出 | YJ2/raw → bitmap |
-| 61,62 / 69,70 | `ending.c:315,318` | 结局背景图(DOS:61/62;WIN95:69/70) | ⏸ M6 | YJ2 decompress → bitmap |
-| 其余 | `battle.c:982 PAL_MKFDecompressChunk(wNumBattleField fpFBP)`;`ending.c:76,183` | 各关卡战斗背景/过场背景(按 wNumBattleField 动态索引) | ⏸ P3 图片导出 | YJ2 decompress → bitmap |
+| 0 | `ui.h:83 STATUS_BACKGROUND_FBPNUM=0`;`uigame.c:1089 … fpFBP` | 状态栏背景图(320×200) | ✅ | `images/battle/bg/000.png` |
+| 2 | `uigame.c MAINMENU_BACKGROUND_FBPNUM (fIsWIN95?2:60)` | OpeningMenu 主菜单背景(WIN95) | ✅ | `images/battle/bg/002.png` |
+| 3,4 | `main.c:261 BITMAPNUM_SPLASH_UP=WIN95?3:38`;`main.c:264 …DOWN=WIN95?4:39` | 标题画面上/下半(WIN95) | ✅ | `images/battle/bg/{003,004}.png` + 另写 `images/splash/splash-{up,down}-win95.png` |
+| 5,58 | — | 空 chunk(0 字节) | ⬛ | skip |
+| 其余 | `battle.c:982 PAL_MKFDecompressChunk(wNumBattleField fpFBP)`;`ending.c:76,183,315,318` | 各关卡战斗背景 / 过场 / 结局背景(按 wNumBattleField 动态索引) | ✅ | `images/battle/bg/{NNN}.png`(共 76 张;cli.ts:768-798 `for i<fbpChunkCount`) |
 
 ---
 
 ## PAT.MKF
 
-真实 chunk count = **9**(index 0–8)。
+真实 chunk count = **9**(index 0–8),**全抽**;#0/#5 = 1536B 含夜间半(2026-05-29 补 night)。
 
-| Chunk | 字节数 | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | 字节数 | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|---|
-| 0 | 1536 | `palette.c:53 UTIL_OpenRequiredFile("pat.mkf")`;`palette.c:58 PAL_MKFReadChunk(buf 1536 iPaletteNum fp)` | 调色板(256色 × 3字节 × 2 = day + night 各一份) | ✅ M1/M3 palette | typed `palette/N.json` |
-| 1–4 | 768 | 同上 | 调色板(日间版,768=256×3;夜间无副本) | ✅/⏸ | typed |
-| 5 | 1536 | 同上 | 日间+夜间调色板 | ⏸ | typed |
-| 6–8 | 768 | 同上 | 日间调色板 | ⏸ | typed |
+| 0 | 1536 | `palette.c:53 "pat.mkf"`;`palette.c:58 PAL_MKFReadChunk(buf 1536 iPaletteNum fp)` | 调色板(白天 256 + 夜间 256) | ✅ | `data/palette/0.json`(含 `nightColors`×256) |
+| 1–4 | 768 | 同上 | 调色板(纯白天) | ✅ | `data/palette/{1..4}.json` |
+| 5 | 1536 | 同上 | 白天 + 夜间 | ✅ | `data/palette/5.json`(含 `nightColors`×256) |
+| 6–8 | 768 | 同上 | 纯白天 | ✅ | `data/palette/{6..8}.json` |
+
+> decodePalette(palette.ts:32-37)`buf>768` 时抽 day+night,匹配 sdlpal `PAL_GetPalette(n,fNight)`。
 
 ---
 
 ## RNG.MKF
 
-真实 chunk count = **12**(index 0–11)。
+真实 chunk count = **12**(index 0–11),**全解**(T18 `decodeRngAnim` port `PAL_RNGReadFrame` + `PAL_RNGBlitToSurface` opcode 0x00-0x13)。
 
-| Chunk | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–11 | `rngplay.c:402 UTIL_OpenRequiredFile("rng.mkf")`;`rngplay.c:74 PAL_MKFGetChunkCount(fpRngMKF)`;`rngplay.c:416 PAL_RNGReadFrame(buf iNumRNG iStartFrame fp)`;`main.c:200 PAL_RNGPlay(6 …)` | RLE 压缩片段动画(12 段;PAL_RNGReadFrame 解压逐帧;包含片头动画等) | ⏸ M5/M6 | RNG decode → frame sequence |
+| 0–11 | `rngplay.c:74 PAL_MKFGetChunkCount(fpRngMKF)`;`rngplay.c:416 PAL_RNGReadFrame(…)`;`main.c:200 PAL_RNGPlay(6 …)` | RLE 压缩片段动画(sub-MKF + delta 逐帧;片头等) | ✅ | `images/animation/rng-{NN}/frame-{NNN}.png`(12 dir,**1464 帧**)+ `data/rng-frames.json` |
+
+> ⚠ runtime mirror:RNG PNG 尚未拷到 `packages/game/public/extracted/`(0 份)— 这是 M6 runtime asset-copy 步骤,**非提取 gap**。
 
 ---
 
 ## RGM.MKF
 
-真实 chunk count = **92**(index 0–91)。
+真实 chunk count = **92**(index 0–91);空 chunk 0/20/78/79,**88 非空全解**(M5.6 T10d RLE 修)。
 
-| Chunk | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–91 | `uigame.c:1132 PAL_MKFReadChunk(buf iPlayerRole.rgwAvatar fpRGM)`;`text.c:1285,1330 PAL_MKFReadChunk(buf iNumCharFace fpRGM)`;`global.h:455 "character face bitmaps"` | 角色立绘/头像 sprite(92 张;chunk index = `PlayerRoles.rgwAvatar` 或 iNumCharFace;非压缩 RLE) | 🔲 P2.T4 | raw sprite 解析,metadata JSON |
+| 1–91(非空)| `uigame.c:1132 PAL_MKFReadChunk(buf iPlayerRole.rgwAvatar fpRGM)`;`text.c:1285,1330 …(iNumCharFace)` | 角色立绘/头像(chunk index = rgwAvatar / iNumCharFace;skip 4B file header `02 00 00 00`)| ✅ | `images/portraits/{NN}.png` × 88 + `data/portraits.json`(decodeRgmPortrait) |
 
 ---
 
 ## BALL.MKF
 
-真实 chunk count = **252**(index 0–251)。
+真实 chunk count = **252**(index 0–251);chunk 0 空,**251 非空全解**(M5.6 T10b RLE 修)。
 
-| Chunk | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–251 | `uigame.c:1155 PAL_MKFReadChunk(bufImage 2048 rgObject.item.wBitmap fpBALL)`;`global.h:147 "bitmap number in BALL.MKF"`;`global.h:158 同上`(magic 也有 wBitmap);`itemmenu.c:202`;`script.c:1496` | 道具/法术 UI 图标 sprite(252 张;chunk index = OBJECT.item.wBitmap / OBJECT.magic.wBitmap;每张 ≤2048 字节) | 🔲 P2.T4 | raw sprite 解析,metadata JSON + 图标导出 M5 |
+| 1–251 | `uigame.c:1155 PAL_MKFReadChunk(bufImage 2048 rgObject.item.wBitmap fpBALL)`;`itemmenu.c:202`;`script.c:1496` | 道具/法术 UI 图标(chunk index = OBJECT.item/magic.wBitmap;skip 4B header)| ✅ | `images/items/{NNN}.png` × 251 + `data/items-icons.json` + `data/ball-raw.json`(decodeBallIcon) |
 
 ---
 
 ## FIRE.MKF
 
-真实 chunk count = **55**(index 0–54)。
+真实 chunk count = **55**(index 0–54),**全非空全解**。
 
-| Chunk | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–54 | `fight.c:2480,2488 PAL_MKFGetDecompressedSize/PAL_MKFDecompressChunk(iEffectNum fpFIRE)`;`fight.c:2642,2650`;`fight.c:2877,2885`;`global.h:454 "fire effect sprites"` | 战斗特效 sprite(YJ2 压缩;55 段;chunk index = iEffectNum,用于技能/法术 visual effect) | 🔲 P2.T4 | YJ2 decompress → sprite frame,metadata JSON |
+| 0–54 | `fight.c:2480,2488 PAL_MKFGetDecompressedSize/PAL_MKFDecompressChunk(iEffectNum fpFIRE)` | 战斗特效 sprite(YJ2;chunk index = iEffectNum) | ✅ | `images/magic/fire-NN/frame-NN.png`(55 dir,**837 帧**)+ `data/fire-sprites.json`(parseFirSprite) |
 
 ---
 
 ## SOUNDS.MKF
 
-真实 chunk count = **505**(index 0–504)。
+真实 chunk count = **505**(index 0–504);142 空,**363 非空全 dump → WAV**(2026-05-29 补)。
 
-| Chunk | sdlpal 引用 | 含义 | 状态 | 抽法 |
+| Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–504 | `sound.c:964 mkfs[0]="sounds.mkf" func=SOUND_LoadWAVEData`;`sound.c:777 PAL_MKFGetChunkSize(iSoundNum player->mkf)`;`sound.c:792 PAL_MKFReadChunk(buf iSoundNum player->mkf)`;`util.c:743 "voc.mkf"/"sounds.mkf"` | 音效 WAV 数据(505 个;每 chunk 一个独立 WAV/VOC 音效;chunk index = iSoundNum) | 🔲 P2.T5 | metadata JSON(文件名/大小/格式);WAV 导出 M6 |
+| 0–504 | `sound.c:964 "sounds.mkf" func=SOUND_LoadWAVEData`;`sound.c:792 PAL_MKFReadChunk(buf iSoundNum player->mkf)` | 音效 WAV/RIFF(chunk index = iSoundNum) | ✅ | `sounds/{i}.wav` × 363 + `data/sounds-metadata.json`(cli.ts:480-486 loop-over-all) |
+
+> runtime 音频**播放**接入(opcode 0x43 setMusic / playSound)留 M6 — 数据侧已全落地。
 
 ---
 
-## 覆盖率自检
+## 非 MKF 资源
 
-| MKF | chunk 数 | ✅ M1-M3.5 已抽 | 🔲 P2 待抽 | ⏸ M5/M6 留 |
-|---|---|---|---|---|
-| DATA | 15 | 6(1-6,13) | 5(0,6,11,12,14) | 2(7,8 空;9,10 sprite) |
-| SSS | 5 | 4(0,1,2,4) | 0 | 1(3 消息偏移) |
-| MGO | 637 | 部分(M1 NPC) | 0 | 全量(P3.T3) |
-| MAP | 226 | 部分(M1/M3) | 0 | 全量(P3) |
-| GOP | 226 | 部分(M1/M3) | 0 | 全量(P3) |
-| F | 19 | 0 | 0 | 全部(P3/M5) |
-| ABC | 154 | 0 | 0 | 全部(P3/M5) |
-| FBP | 78 | 部分(M3 palette/battle) | 0 | 全量(P3) |
-| PAT | 9 | 部分(M1/M3) | 0 | 余量(P3) |
-| RNG | 12 | 0 | 0 | 全部(M5/M6) |
-| RGM | 92 | 0 | 全部 | — |
-| BALL | 252 | 0 | 全部 | 图标导出 M5 |
-| FIRE | 55 | 0 | 全部 | — |
-| SOUNDS | 505 | 0 | metadata | WAV 导出 M6 |
+| 资源 | 含义 | 状态 | 输出 |
+|---|---|---|---|
+| **WORD.DAT** | 565 条词条(system36 / persons6 / battleUi19 / items235 / spells102 / enemies153 / scenes14) | ✅ | `lookup/words.json`(parseWordDat flat 565 + 7 category) |
+| **M.MSG** | 对话字符串表(SSS chunk3 偏移索引) | ✅ | `lookup/strings.json`(13513 条) |
+| **Musics/** | 86 MIDI(`{NNN}.mid`)+ 8 CD `TRACKxx.ogg` | ✅ | `music/` × 94 + `data/music-manifest.json`(纯拷贝) |
+| **mus.mkf** | RIX/OPL(AdLib FM)乐库,88 chunk / 86 非空 | 🎵 | **无需解码** — 见下段 |
+| **1–6.avi** | trademark / splash / opening / cutscene / 结局 | ✅ | `videos/{1-6}.mp4`(离线 ffmpeg H.264 CRF18 + AAC 96k) |
+| **unifont-cn.bdf** | Unifont CN 字形 | ✅ | `data/font/glyphs.json`(57083 字形;仅丢 ENCODING 0 .notdef) |
 
-> STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在,DOS 版以 `.RPG` 文件存档,不计入 MKF 覆盖范围。
+### mus.mkf — 同源冗余,非 gap
+
+`mus.mkf` 确实存在(331284 字节,header `356/4-1=88` chunk、86 非空、首非空 chunk magic `0xaa55` = RIX 签名),但 **set-diff 证明它的 86 个非空 chunk track 号 `{1..87}\{29}` 与已提取的 86 个 MIDI 完全一致**(连两边都缺的 track 29 都对上)。它是 RIX/OPL 格式,与 MIDI 是同一音乐的另一编码:`audio.c:304-305` 仅在 `MUSIC_RIX` 时开,WIN95 忠实乐源走 `midi.c:67-69` 的 `Musics/%.3d.mid`,同 track 号索引。packages/ 内无任何 RIX/OPL 解码器,也不需要。**故无需解码 mus.mkf。**
+
+---
+
+## 覆盖率自检(2026-05-30 byte-level 复核)
+
+| MKF / 资源 | 总 chunk | 空 chunk | 非空 | 已抽 | 输出 |
+|---|---|---|---|---|---|
+| DATA | 15 | 7,8 | 13 | ✅ 13/13 | 13 表 + UI 71 帧 + magic 85 帧 |
+| SSS | 5 | — | 5 | ✅ 5/5 | events 298 + scene 295 + strings 13513 |
+| MGO | 637 | 0 | 636 | ✅ 636/636 | 636 JSON + 4133 PNG |
+| MAP | 226 | 0,168,171 | 223 | ✅ 223/223 | 223 tilemap JSON |
+| GOP | 226 | 0,168,171 | 223 | ✅ 223/223 | 223 tileset dir + 67715 tile PNG |
+| F | 19 | — | 19 | ✅ 19/19 | 19 JSON + 149 PNG |
+| ABC | 154 | 0 | 153 | ✅ 153/153 | 153 enemy dir |
+| FBP | 78 | 5,58 | 76 | ✅ 76/76 | 76 bg PNG + 2 splash |
+| PAT | 9 | — | 9 | ✅ 9/9 | 9 palette(#0/#5 含夜间) |
+| RNG | 12 | — | 12 | ✅ 12/12 | 1464 帧 PNG |
+| RGM | 92 | 0,20,78,79 | 88 | ✅ 88/88 | 88 头像 PNG |
+| BALL | 252 | 0 | 251 | ✅ 251/251 | 251 图标 PNG |
+| FIRE | 55 | — | 55 | ✅ 55/55 | 837 帧 PNG |
+| SOUNDS | 505 | 142 个 | 363 | ✅ 363/363 | 363 WAV |
+| WORD.DAT | — | — | 565 词 | ✅ | words.json |
+| M.MSG | — | — | 13513 条 | ✅ | strings.json |
+| Musics | — | — | 94 文件 | ✅ | 86 mid + 8 ogg |
+| mus.mkf | 88 | 0,29 | 86 | 🎵 同源冗余 | 无需解码(MIDI 覆盖) |
+| 1–6.avi | — | — | 6 | ✅ | 6 mp4 |
+| unifont BDF | — | — | 57083 | ✅ | glyphs.json |
+
+> **结论:无真实数据 gap。** STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(DOS/WIN95 以 `.RPG` 存档),不计入。残留仅 M6 runtime 音频播放 wiring(非数据)+ RNG PNG 的 runtime mirror(asset-copy 步骤)。

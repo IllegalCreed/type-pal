@@ -80,7 +80,7 @@ user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(
 | **BALL.MKF** | 0-251 | 单帧 RLE bitmap **物品图标** | ✓ decodeBallIcon RLE → 251 PNG(M5.6 T10b 已修)| `images/items/{NNN}.png` + `data/items-icons.json` |
 | **FIRE.MKF** | 0-54 | sprite group YJ2 法术动画 | 全 YJ2 + 帧抽 | `images/magic/fire-NN/frame-NN.png` + `data/fire-sprites.json` |
 | **SOUNDS.MKF** | 0-504 | **WAV/RIFF 音效**(WIN95;363 非空 + 142 空)| ✓ **全 363 非空 chunk dump → wav**(2026-05-29 补)+ metadata | `sounds/{i}.wav` × 363 + `data/sounds-metadata.json` |
-| **Musics/**(非 MKF)| — | 86 MIDI(`{NNN}.mid`,编号 = sdlpal wNumMusic,midi.c:69)+ 8 CD `TRACK*.ogg`(AUDIO_PlayCDTrack;本发行无 mus.mkf,MIDI/OGG 是唯一乐源)| ✓ 纯拷贝(2026-05-29 补)| `music/{NNN}.mid` × 86 + `music/TRACKxx.ogg` × 8 + `data/music-manifest.json` |
+| **Musics/**(非 MKF)| — | 86 MIDI(`{NNN}.mid`,编号 = sdlpal wNumMusic,midi.c:69)+ 8 CD `TRACK*.ogg`(AUDIO_PlayCDTrack)。`mus.mkf` **存在**(RIX/OPL 格式,88 chunk / 86 非空)但 set-diff 证明是同 track 号的 86 个 MIDI 的另一编码;WIN95 忠实乐源走 `midi.c:67-69` MIDI,`mus.mkf` 仅 `MUSIC_RIX` 时用(`audio.c:304-305`),**无需解码**| ✓ MIDI/OGG 纯拷贝(2026-05-29 补);mus.mkf 同源冗余跳过(2026-05-30 复核)| `music/{NNN}.mid` × 86 + `music/TRACKxx.ogg` × 8 + `data/music-manifest.json` |
 | **M.MSG** | — | 字符串表(SSS.MKF.messageOffsets 索引)| parseMessages | `lookup/strings.json` |
 | **WORD.DAT** | [0..35] 系统/UI 36 条(含 `MAINMENU_LABEL_NEWGAME=7` / `LOADGAME=8`)| ✓ parseWordDat flat+system(2026-05-27 修)| `lookup/words.json` |
 | WORD.DAT | [36..41] 人物名 6 条 | parseWordDat | `lookup/words.json.persons` |
