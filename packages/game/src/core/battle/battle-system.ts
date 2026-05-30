@@ -37,6 +37,7 @@ import type {
   EnemyTeam,
   InputSnapshot,
   Item,
+  LevelUpMagicEntry,
   Magic,
   ObjectMagicView,
   ObjectPoisonView,
@@ -45,9 +46,9 @@ import type {
 } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
 import { getGlobalCommands, type RunScriptOptions, runScript } from '../event-system.js'
-import type { GameState } from '../game-state.js'
+import type { GameState, PlayerRolesRuntime } from '../game-state.js'
 import { writeBackBattleRolesToRuntime } from '../game-state.js'
-import { createSeedableRng } from '../rng.js'
+import { createSeedableRng, type SeedableRng } from '../rng.js'
 import { performAttack } from './actions/attack.js'
 import { performDefend } from './actions/defend.js'
 import { performFlee } from './actions/flee.js'
@@ -113,6 +114,16 @@ export interface BattleResources {
    * 省略或缺 chunk → performMagic 不建攻击魔法时间线(走原即时路径,向后兼容)。
    */
   magicSpriteFrameCounts?: Map<number, number>
+  /**
+   * D11:LevelUpExp[100](level-up-exp.json)—— 战斗胜利升级 `dwExp >= rgLevelUpExp[level]` 阈值
+   * (battle.c:1106)。省略 → finalizeBattle 升级 loop 跳过(只入 exp,不升级,向后兼容旧 fixture/测试)。
+   */
+  levelUpExp?: number[]
+  /**
+   * D11:LEVELUPMAGIC_ALL[20][5](level-up-magic.json)—— 升级时学新法术(battle.c:1300-1321)。
+   * 省略 → 不学法术。
+   */
+  levelUpMagic?: LevelUpMagicEntry[][]
 }
 
 /** runScript 注入类型(便于测试 mock 替换 free function)。 */
@@ -186,6 +197,10 @@ export interface StartBattleInput {
    * performMagic build OffMagic 时间线取 `n`。省略 → 不建攻击魔法时间线(向后兼容)。
    */
   magicSpriteFrameCounts?: Map<number, number>
+  /** D11:LevelUpExp[100](level-up-exp.json)—— 战斗胜利升级阈值。省略 → 升级 loop 跳过。 */
+  levelUpExp?: number[]
+  /** D11:LEVELUPMAGIC_ALL[20][5](level-up-magic.json)—— 升级学新法术。省略 → 不学。 */
+  levelUpMagic?: LevelUpMagicEntry[][]
   /**
    * P2#5:战斗脚本(enemy.scriptOnReady / spell.scriptOnUse / item.scriptOnUse)是**全局 entry** —
    * 省略时默认单一全局数组(getGlobalCommands(),= 探索/菜单同一来源)。单测可传自带数组 override。
@@ -270,6 +285,8 @@ export function startBattle(input: StartBattleInput): void {
     commands: input.commands ?? getGlobalCommands(), // P2#5:默认单一全局数组
     battleEffectIndex: input.battleEffectIndex, // D17a:player 攻击命中特效帧基号
     magicSpriteFrameCounts: input.magicSpriteFrameCounts, // D17:OffMagic 时间线 n
+    levelUpExp: input.levelUpExp, // D11:战斗胜利升级阈值
+    levelUpMagic: input.levelUpMagic, // D11:升级学新法术
   })
 
   // 注入 runScript(测试用)— 通过 BattleState 的 hidden field 走;这里临时挂在 res 上
@@ -1444,38 +1461,162 @@ function finalizeBattle(
   gs.dialogBox = undefined
   state.battleDialogQueue = undefined
 
+  // 架构边界 + D11:write-back HP/MP 战果 → runtime,**先于**升级(升级的 alive 判定 + 满血都读 runtime)。
   if (!forced) {
     if (state.phase === 'won') {
-      // M5.B-w1.c:sdlpal `PAL_BattleWon` 真值 — iExpGained 加到每 alive
-      // partyMember 的 rgPrimaryExp(wExp);levelup loop 触发查 rgLevelUpExp 阈值
-      // 留 follow-up(需注入 LevelUpExp 表 + stat 加成 random 公式)。
-      // alive 判定用 res.playerRoles.roles[roleId].hp(fixture 真值来源),
-      // PlayerRolesRuntime.rgwHP 在装备/savegame 体系完工后接管。
-      for (const roleId of gs.partyMembers) {
-        const role = res.playerRoles.roles[roleId]
-        if (!role || role.hp <= 0) continue // dead 不获 exp
-        const entry = gs.Exp.rgPrimaryExp[roleId]
-        if (entry) entry.wExp += state.expGained
-      }
+      // 1. 回写战斗 HP/MP → runtime(伤害/治疗持久化 + 存档对齐;原只回写 exp/cash → 打完血量复原)。
+      writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
+      // 2. D11 升级:exp 阈值循环 + PAL_PlayerLevelUp stat 成长 + 满血 + 学新法术(读 post-battle runtime hp 判活)。
+      battleWonLevelUp({
+        gs,
+        partyMembers: gs.partyMembers,
+        expGained: state.expGained,
+        levelUpExp: res.levelUpExp ?? [],
+        levelUpMagic: res.levelUpMagic ?? [],
+        rng: state.rng,
+      })
       gs.dwCash += state.cashGained
-    } else if (state.phase === 'lost') {
-      // 全员 hp=1(M3 简版,M5 真做 game over)
+    }
+    else if (state.phase === 'lost') {
+      // 全员 hp=1(M3 简版,M5 真做 game over)→ 回写 runtime 持久化"全灭→1血"。
       for (const playerIdx of gs.partyMembers) {
         const role = res.playerRoles.roles[playerIdx]
         if (role) role.hp = 1
       }
+      writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
     }
-    // 'fleed' / 其它:无 hp 改动,无奖励
+    else {
+      // 'fleed' / 其它:无奖励,但回写战果(逃跑时的残血持久化)。
+      writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
+    }
   }
-
-  // 架构边界:把战斗 roles 的 HP/MP 战果回写 runtime —— projectRuntimeToBattleRoles 的逆向收尾,
-  //   使战斗伤害/治疗持久化进大世界 + 存档对齐(原只回写 exp/cash → 打完血量复原的根因)。
-  //   forced 退出也回写(保留当时战果)。'lost' 上面已把 res.playerRoles hp=1,回写持久化"全灭→1血"。
-  writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
+  else {
+    // forced(watchdog 强退):回写当时战果。
+    writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
+  }
 
   gs.mode = 'explore'
   gs.battleState = undefined
   setBattleResources(gs, undefined)
   // 清 injected runScript(若有)
   delete (gs as unknown as Record<string, RunScriptFn | undefined>).__battleRunScript
+}
+
+/** sdlpal `MAX_LEVELS`(global.h)。 */
+const LEVELUP_MAX_LEVELS = 99
+/** sdlpal `STAT_LIMIT` cap(global.c:2440 宏,值上限 999)。 */
+const LEVELUP_STAT_CAP = 999
+
+/** D11 升级演出结果(单个升级队员)—— 供 present 升级 box(level/HP/MP/属性 增长 + 学得法术)。 */
+export interface BattleLevelUpResult {
+  roleId: number
+  fromLevel: number
+  toLevel: number
+  /** 本次升级新学的法术(spell object id)。 */
+  learnedMagics: number[]
+}
+
+/**
+ * 战斗胜利升级 —— 对照 sdlpal `PAL_BattleWon`(battle.c:1088-1120 升级 loop + 1300-1321 学法术)
+ * + `PAL_PlayerLevelUp`(global.c:2347-2454 stat 成长)。写 gs.PlayerRolesRuntime(统一源,边界回写后跑)。
+ *
+ * 对每个活着的 party 成员(post-battle runtime hp>0):
+ *   dwExp = rgPrimaryExp.wExp + expGained;
+ *   while dwExp >= rgLevelUpExp[level]:
+ *     dwExp -= rgLevelUpExp[level];
+ *     if level < MAX:level++; stat 成长(maxHP+=10+R(0,7) 等)+ STAT_LIMIT cap + HP/MP 满;
+ *   rgPrimaryExp = { wExp: dwExp 余, wLevel: level };
+ *   升级了 → 学新法术(level-up-magic[j][roleId],level<=新等级 + magic!=0 + 未学 → AddMagic)。
+ *
+ * stat 成长用 state.rng(种子,**确定性 + 忠实 RandomLong**;区别于 opcode 0x8D playerLevelUp 的
+ * Math.random 版 —— 战斗胜利在确定 rng 流里,可复现/可测)。
+ */
+export function battleWonLevelUp(input: {
+  gs: GameState
+  partyMembers: number[]
+  expGained: number
+  levelUpExp: number[]
+  levelUpMagic: LevelUpMagicEntry[][]
+  rng: SeedableRng
+}): BattleLevelUpResult[] {
+  const { gs, partyMembers, expGained, levelUpExp, levelUpMagic, rng } = input
+  const rt = gs.PlayerRolesRuntime
+  const out: BattleLevelUpResult[] = []
+
+  for (const roleId of partyMembers) {
+    if ((rt.rgwHP[roleId] ?? 0) <= 0)
+      continue // 死人不获 exp / 不升级(battle.c:1093)
+
+    const fromLevel = Math.min(LEVELUP_MAX_LEVELS, rt.rgwLevel[roleId] ?? 0)
+    let level = fromLevel
+    rt.rgwLevel[roleId] = level
+    let dwExp = (gs.Exp.rgPrimaryExp[roleId]?.wExp ?? 0) + expGained
+    let leveled = false
+
+    while (true) {
+      const threshold = levelUpExp[level]
+      if (threshold === undefined || threshold <= 0 || dwExp < threshold)
+        break
+      dwExp -= threshold
+      if (level >= LEVELUP_MAX_LEVELS)
+        continue // 满级:继续扣 exp 不再升(battle.c:1110 `if (level < MAX)`)
+      leveled = true
+      level++
+      rt.rgwLevel[roleId] = level
+      // PAL_PlayerLevelUp stat 成长(global.c:2347-2454)
+      rt.rgwMaxHP[roleId] = (rt.rgwMaxHP[roleId] ?? 0) + 10 + rng.rangeInclusive(0, 7)
+      rt.rgwMaxMP[roleId] = (rt.rgwMaxMP[roleId] ?? 0) + 8 + rng.rangeInclusive(0, 5)
+      rt.rgwAttackStrength[roleId] = (rt.rgwAttackStrength[roleId] ?? 0) + 4 + rng.rangeInclusive(0, 1)
+      rt.rgwMagicStrength[roleId] = (rt.rgwMagicStrength[roleId] ?? 0) + 4 + rng.rangeInclusive(0, 1)
+      rt.rgwDefense[roleId] = (rt.rgwDefense[roleId] ?? 0) + 2 + rng.rangeInclusive(0, 1)
+      rt.rgwDexterity[roleId] = (rt.rgwDexterity[roleId] ?? 0) + 2 + rng.rangeInclusive(0, 1)
+      rt.rgwFleeRate[roleId] = (rt.rgwFleeRate[roleId] ?? 0) + 2
+      for (const arr of [rt.rgwMaxHP, rt.rgwMaxMP, rt.rgwAttackStrength, rt.rgwMagicStrength, rt.rgwDefense, rt.rgwDexterity, rt.rgwFleeRate]) {
+        if ((arr[roleId] ?? 0) > LEVELUP_STAT_CAP)
+          arr[roleId] = LEVELUP_STAT_CAP
+      }
+      // 升级 HP/MP 回满(battle.c:1115-1116)
+      rt.rgwHP[roleId] = rt.rgwMaxHP[roleId]!
+      rt.rgwMP[roleId] = rt.rgwMaxMP[roleId]!
+    }
+
+    // 写回余 exp + level(battle.c:1120 / global.c:2450-2452)
+    const exp = gs.Exp.rgPrimaryExp[roleId]
+    if (exp) {
+      exp.wExp = dwExp
+      exp.wLevel = level
+    }
+
+    // 学新法术(battle.c:1300-1321):level-up-magic[j][roleId] 仅 5 角色(0-4),role5 取到 undefined 自动跳过
+    if (leveled) {
+      const learned: number[] = []
+      for (const entry of levelUpMagic) {
+        const m = entry[roleId]
+        if (!m || m.magic === 0 || m.level > level)
+          continue
+        if (addMagicToRoleRuntime(rt, roleId, m.magic))
+          learned.push(m.magic)
+      }
+      out.push({ roleId, fromLevel, toLevel: level, learnedMagics: learned })
+    }
+  }
+  return out
+}
+
+/** sdlpal `PAL_AddMagic`(global.c:2084):已学 → false;否则填第一个空槽(spell object id)→ true。写 runtime.rgwMagic。 */
+function addMagicToRoleRuntime(rt: PlayerRolesRuntime, roleId: number, spellObjId: number): boolean {
+  if (roleId < 0 || spellObjId === 0)
+    return false
+  const rgwMagic = rt.rgwMagic
+  for (const slot of rgwMagic) {
+    if (slot?.[roleId] === spellObjId)
+      return false // 已学
+  }
+  for (const slot of rgwMagic) {
+    if ((slot?.[roleId] ?? 0) === 0) {
+      slot[roleId] = spellObjId
+      return true
+    }
+  }
+  return false // 槽满
 }

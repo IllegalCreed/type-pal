@@ -11,6 +11,7 @@ import type {
   ObjectMagicView,
   ObjectPoisonView,
   Palette,
+  LevelUpMagicEntry,
   PlayerRoles,
   SceneEventObject,
   SceneObjects,
@@ -98,6 +99,11 @@ export interface LoadedAssets {
    * 用于 PlayerStatus 显示 RoleNextExp(等级 N 升至 N+1 所需累积经验阈值)。
    */
   levelUpExp: number[]
+  /**
+   * DATA.MKF chunk 6 LEVELUPMAGIC_ALL — sdlpal `global.h::lprgLevelUpMagic`(20 级 × 5 角色 ×
+   * {wLevel,wMagic})。战斗胜利升级时按 `[j][roleIdx].level <= 新等级` 学新法术(battle.c:1300-1321)。
+   */
+  levelUpMagic: LevelUpMagicEntry[][]
 }
 
 interface UiSpriteManifest {
@@ -148,6 +154,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     objectMagics,
     objectPoisons,
     levelUpExp,
+    levelUpMagic,
     stores,
   ] = await Promise.all([
     fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap/${scene.mapNum}.json`),
@@ -166,6 +173,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     fetchJson<ObjectMagicView[]>(`${BASE}/data/object-magics.json`),
     fetchJson<ObjectPoisonView[]>(`${BASE}/data/object-poisons.json`),
     fetchJson<number[]>(`${BASE}/data/level-up-exp.json`),
+    fetchJson<LevelUpMagicEntry[][]>(`${BASE}/data/level-up-magic.json`),
     fetchJson<Store[]>(`${BASE}/data/stores.json`),
   ])
 
@@ -439,6 +447,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     uiSpriteFrames,
     itemIcons,
     levelUpExp,
+    levelUpMagic,
   }
 }
 

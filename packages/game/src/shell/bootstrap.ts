@@ -828,6 +828,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         enemyPos, // D17a:enemy 初始 pos/posOriginal(battle.c:936-939)
         battleEffectIndex, // D17a:player 攻击命中特效帧基号(fight.c:2055)
         magicSpriteFrameCounts, // D17:OffMagic 时间线 n(FIRE.MKF chunk 帧数)
+        levelUpExp: assets.levelUpExp, // D11:战斗胜利升级阈值
+        levelUpMagic: assets.levelUpMagic, // D11:升级学新法术
         // P2#5:不再传 per-scene 切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
       })
       console.debug(

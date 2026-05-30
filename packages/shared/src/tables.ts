@@ -441,6 +441,17 @@ export interface Store {
  * 5 个 sound 字段在 sdlpal `tagPLAYERROLES` 中也是 PLAYERS = WORD,但 `fight.c` /
  * `sound.c` 实际播放时按 SHORT 处理(-1 = 无声音),与 Enemy 5 个 sound 行为一致。
  */
+/**
+ * level-up-magic 一格 —— sdlpal `global.h::LEVELUPMAGICENTRY.m[role]`(20 级 × 5 角色)。
+ * 战斗胜利升级时按 `{ level }<=新等级 && magic!=0 && 未学` 学新法术(battle.c:1300-1321)。
+ */
+export interface LevelUpMagicEntry {
+  /** 学得所需等级。 */
+  level: number
+  /** spell object id(0 = 空)。 */
+  magic: number
+}
+
 export interface PlayerRole {
   /** 在 player-roles.json 数组里的索引(0..MAX_PLAYER_ROLES-1 = 0..5)。 */
   id: number

@@ -129,6 +129,9 @@ interface BootstrapOpts {
   objectPoisons?: ObjectPoisonView[]
   commands?: Command[]
   inventory?: { itemId: number, count: number }[]
+  /** D11:升级阈值表(稀疏)+ 学法术表;省略 → 不升级。 */
+  levelUpExp?: number[]
+  levelUpMagic?: import('@type-pal/shared').LevelUpMagicEntry[][]
 }
 
 function bootstrap(opts: BootstrapOpts = {}): {
@@ -178,6 +181,8 @@ function bootstrap(opts: BootstrapOpts = {}): {
     objectMagics,
     objectPoisons,
     commands,
+    levelUpExp: opts.levelUpExp,
+    levelUpMagic: opts.levelUpMagic,
     rngSeed: opts.rngSeed ?? 42,
     runScriptFn: opts.runScriptFn,
   })
@@ -415,6 +420,28 @@ describe('tickBattle finalize', () => {
     // 战斗 HP/MP 战果回写 runtime(原 finalizeBattle 只回写 exp/cash → rgwHP 仍 0,打完复原的 bug)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(88)
     expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(22)
+  })
+
+  it('D11 整合:打赢 + exp 进阈值 → finalizeBattle 触发升级(rt.rgwLevel 1→2 + 满血)', () => {
+    const lvExp: number[] = []
+    lvExp[1] = 100 // 1 级升 2 级需 100 exp
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 1, exp: 100, cash: 0 })], // 必秒,给 100 exp
+      roles: [makeRole({ id: 0, hp: 50, maxHP: 100, attackStrength: 999 })],
+      levelUpExp: lvExp,
+    })
+    // 手设 runtime 基线(测试 gs 默认 runtime 全 0;升级读 runtime,需有 level/maxHP 基线)
+    const rt = gs.PlayerRolesRuntime
+    rt.rgwLevel[0] = 1; rt.rgwHP[0] = 50; rt.rgwMaxHP[0] = 100; rt.rgwMP[0] = 10; rt.rgwMaxMP[0] = 30
+    gs.Exp.rgPrimaryExp[0] = { wExp: 0, wLevel: 1 }
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
+    let safety = 60
+    while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(gs.mode).toBe('explore')
+    expect(rt.rgwLevel[0]).toBe(2) // exp 100 >= 阈值 100 → 升 1 级
+    expect(rt.rgwHP[0]).toBe(rt.rgwMaxHP[0]) // 升级满血
+    expect(gs.Exp.rgPrimaryExp[0]!.wExp).toBe(0) // 余 0
   })
 
   it('队员死光 → lost → finalize 切 explore + hp=1', () => {
