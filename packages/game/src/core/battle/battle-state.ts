@@ -11,6 +11,7 @@
 import type { BattleField, DialogBoxStyle, Enemy, EnemyPosTable, PlayerRoles } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
 import type { SeedableRng } from '../rng.js'
+import type { BattleSettlementState } from './battle-settlement.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle-positions.js'
 import type { ActionQueueItem } from './turn-queue.js'
 
@@ -368,6 +369,12 @@ export interface BattleState {
    * 由此入队。!== state.turn → 本轮还没跑。对话 hold 暂停期间重入也不重跑(guard)。
    */
   turnStartDoneForTurn?: number
+  /**
+   * D11b 战斗胜利结算演出(PAL_BattleWon 多屏 PAL_WaitForAnyKey 序列)。phase==='won' 首 tick
+   * 处理战果(回写 HP/MP + 升级 + cash)后建;顶层 tickBattleSettlement hold 逐屏等键/超时翻,
+   * 放完 → Phase F 半血恢复 + finalize → explore。undefined = 未进入结算 / 非 won。
+   */
+  settlement?: BattleSettlementState
 }
 
 /**

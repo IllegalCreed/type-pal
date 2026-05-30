@@ -195,6 +195,18 @@ function bootstrap(opts: BootstrapOpts = {}): {
   }
 }
 
+/**
+ * 推进战斗到 explore。D11b:胜利后有结算演出 hold(逐屏等键/超时)—— settlement active 时按
+ * Confirm 快速翻屏;其余阶段空输入(动作由测试直填 pendingActions,不需按键)。
+ */
+function driveBattleToExplore(gs: GameState, bus: CommandBus, max = 400): void {
+  const empty: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }
+  const advance: InputSnapshot = { held: new Set(), pressed: new Set(['Confirm']), frameNum: 0 }
+  let safety = max
+  while (gs.mode === 'battle' && safety-- > 0)
+    tickBattle(gs, gs.battleState?.settlement ? advance : empty, bus)
+}
+
 // ============================================================================
 // startBattle
 // ============================================================================
@@ -396,9 +408,7 @@ describe('tickBattle finalize', () => {
     tickBattle(gs, emptyInput, bus)
     gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
 
-    let safety = 100
-    while (gs.mode === 'battle' && safety-- > 0)
-      tickBattle(gs, emptyInput, bus)
+    driveBattleToExplore(gs, bus)
 
     expect(gs.mode).toBe('explore')
     expect(gs.battleState).toBeUndefined()
@@ -413,12 +423,16 @@ describe('tickBattle finalize', () => {
       roles: [makeRole({ id: 0, hp: 88, mp: 22, attackStrength: 999 })], // 进战斗 hp 88 / mp 22
     })
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(0) // 测试 gs 初始 runtime 全 0(证明回写真发生)
+    // 满血基线 maxHP=88/maxMP=22(= 入战值)→ Phase F 半血恢复对满血 noop,回写值不被改。
+    // (真游戏 runtime 始终 hydrate;此测试只验回写,故显式设 maxHP 等于 hp 以隔离 Phase F。)
+    gs.PlayerRolesRuntime.rgwMaxHP[0] = 88
+    gs.PlayerRolesRuntime.rgwMaxMP[0] = 22
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
-    let safety = 60
-    while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    driveBattleToExplore(gs, bus)
     expect(gs.mode).toBe('explore')
     // 战斗 HP/MP 战果回写 runtime(原 finalizeBattle 只回写 exp/cash → rgwHP 仍 0,打完复原的 bug)
+    // 注:exp/cash=0 → 无升级、无 exp-cash 屏 → 结算 screens 空 → 立即收尾;Phase F 半血恢复对满血 noop。
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(88)
     expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(22)
   })
@@ -437,8 +451,7 @@ describe('tickBattle finalize', () => {
     gs.Exp.rgPrimaryExp[0] = { wExp: 0, wLevel: 1 }
     tickBattle(gs, emptyInput, bus)
     gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
-    let safety = 60
-    while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    driveBattleToExplore(gs, bus)
     expect(gs.mode).toBe('explore')
     expect(rt.rgwLevel[0]).toBe(2) // exp 100 >= 阈值 100 → 升 1 级
     expect(rt.rgwHP[0]).toBe(rt.rgwMaxHP[0]) // 升级满血
@@ -536,9 +549,7 @@ describe('finalize 清状态', () => {
     tickBattle(gs, emptyInput, bus)
     gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
 
-    let safety = 100
-    while (gs.mode === 'battle' && safety-- > 0)
-      tickBattle(gs, emptyInput, bus)
+    driveBattleToExplore(gs, bus)
 
     expect(gs.battleState).toBeUndefined()
     expect((gs as unknown as { __battleResources?: BattleResources }).__battleResources).toBeUndefined()

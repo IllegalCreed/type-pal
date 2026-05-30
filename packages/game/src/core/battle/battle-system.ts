@@ -48,7 +48,13 @@ import type { CommandBus } from '../command-bus.js'
 import { getGlobalCommands, type RunScriptOptions, runScript } from '../event-system.js'
 import type { GameState, PlayerRolesRuntime } from '../game-state.js'
 import { writeBackBattleRolesToRuntime } from '../game-state.js'
+import {
+  getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity,
+  getPlayerFleeRate, getPlayerMagicStrength,
+} from '../equip-effect.js'
 import { createSeedableRng, type SeedableRng } from '../rng.js'
+import type { BattleSettlementScreen, LevelUpScreenData } from './battle-settlement.js'
+import { settlementScreenTimeoutMs } from './battle-settlement.js'
 import { performAttack } from './actions/attack.js'
 import { performDefend } from './actions/defend.js'
 import { performFlee } from './actions/flee.js'
@@ -345,6 +351,10 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   //   复用的大世界 gs.dialogBox + 等键/1.4s,期间暂停战斗(忠实 sdlpal PAL_ShowDialogText 同步 blocking)。
   if (tickBattleDialog(state, gs, input)) return
 
+  // D11b 胜利结算演出 hold(phase-agnostic):active → 逐屏显示升级/学法术,暂停战斗推进,
+  //   放完 → finishBattleWon → explore(忠实 PAL_BattleWon 多屏 PAL_WaitForAnyKey)。
+  if (tickBattleSettlement(state, gs, input)) return
+
   // scriptOnTurnStart:每轮起手(进 selectAction **菜单之前**)对全体活敌跑一次 → boss 嘲讽对话
   //   进战斗一开始 / 每轮开头就显示(忠实 sdlpal fight.c:1184-1191 fTurnStart 在 charge/act 前)。
   //   有对话入队 → 本 tick 不进菜单,下 tick 顶层 tickBattleDialog 先把对话放完(修"先选动作才说话")。
@@ -367,6 +377,11 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
       tickPostAction(state, gs, bus, res)
       break
     case 'won':
+      // 首次进 won:处理战果 + 建结算演出(下 tick 起顶层 tickBattleSettlement 逐屏放;screens 空则
+      //   该 hold 首 tick 即 finishBattleWon → explore)。已建 → 等 hold 接管,不重入。
+      if (!state.settlement)
+        buildBattleWonSettlement(gs, state, res)
+      break
     case 'lost':
     case 'fleed':
       finalizeBattle(gs, state, res, /* forced= */ false)
@@ -1474,49 +1489,118 @@ function finalizeBattle(
   res: BattleResources,
   forced: boolean,
 ): void {
-  // 战斗内对话用的是复用大世界 gs.dialogBox —— 战斗结束清掉,避免泄漏进 explore 渲染。
-  gs.dialogBox = undefined
   state.battleDialogQueue = undefined
 
-  // 架构边界 + D11:write-back HP/MP 战果 → runtime,**先于**升级(升级的 alive 判定 + 满血都读 runtime)。
-  if (!forced) {
-    if (state.phase === 'won') {
-      // 1. 回写战斗 HP/MP → runtime(伤害/治疗持久化 + 存档对齐;原只回写 exp/cash → 打完血量复原)。
-      writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
-      // 2. D11 升级:exp 阈值循环 + PAL_PlayerLevelUp stat 成长 + 满血 + 学新法术(读 post-battle runtime hp 判活)。
-      battleWonLevelUp({
-        gs,
-        partyMembers: gs.partyMembers,
-        expGained: state.expGained,
-        levelUpExp: res.levelUpExp ?? [],
-        levelUpMagic: res.levelUpMagic ?? [],
-        rng: state.rng,
-      })
-      gs.dwCash += state.cashGained
-    }
-    else if (state.phase === 'lost') {
-      // 全员 hp=1(M3 简版,M5 真做 game over)→ 回写 runtime 持久化"全灭→1血"。
-      for (const playerIdx of gs.partyMembers) {
-        const role = res.playerRoles.roles[playerIdx]
-        if (role) role.hp = 1
-      }
-      writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
-    }
-    else {
-      // 'fleed' / 其它:无奖励,但回写战果(逃跑时的残血持久化)。
-      writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
+  // won 走结算演出(buildBattleWonSettlement + tickBattleSettlement),不经此函数;此处只处理
+  // lost / fleed / forced(watchdog 强退)。回写 HP/MP 战果 → runtime(伤害/治疗持久化 + 存档对齐)。
+  if (!forced && state.phase === 'lost') {
+    // 全员 hp=1(M3 简版,M5 真做 game over)→ 回写 runtime 持久化"全灭→1血"。
+    for (const playerIdx of gs.partyMembers) {
+      const role = res.playerRoles.roles[playerIdx]
+      if (role) role.hp = 1
     }
   }
-  else {
-    // forced(watchdog 强退):回写当时战果。
-    writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
-  }
+  writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
+  finalizeBattleCleanup(gs)
+}
 
+/** 战斗收尾清状态(won 结算放完 / lost / fleed / forced 共用)→ 回 explore。 */
+function finalizeBattleCleanup(gs: GameState): void {
+  // 战斗内对话用的是复用大世界 gs.dialogBox —— 战斗结束清掉,避免泄漏进 explore 渲染。
+  gs.dialogBox = undefined
   gs.mode = 'explore'
   gs.battleState = undefined
   setBattleResources(gs, undefined)
   // 清 injected runScript(若有)
   delete (gs as unknown as Record<string, RunScriptFn | undefined>).__battleRunScript
+}
+
+/**
+ * D11b phase==='won' 首 tick:处理战果 + 建结算演出序列(对照 PAL_BattleWon battle.c:1025-1328)。
+ *  1. 回写战斗 HP/MP → runtime(先于升级,升级读 runtime 判活 + 满血)
+ *  2. Phase A exp/cash 屏(iExpGained>0)+ dwCash += cash
+ *  3. battleWonLevelUp 升级数据(写 runtime)→ 每升级队员排 Phase B 升级 box,其后排该队员 Phase D 练成屏
+ * 不在此 finalize;顶层 tickBattleSettlement 逐屏放完后才 finishBattleWon(Phase F 半血 + cleanup)。
+ */
+function buildBattleWonSettlement(gs: GameState, state: BattleState, res: BattleResources): void {
+  // 1. 回写战斗 HP/MP → runtime(伤害/治疗持久化 + 存档对齐;升级读 runtime hp 判活 + 满血)
+  writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
+
+  const screens: BattleSettlementScreen[] = []
+  // Phase A:获得经验值 / 打败敌人得文钱(battle.c:1025;仅 iExpGained>0)
+  if (state.expGained > 0)
+    screens.push({ kind: 'exp-cash', expGained: state.expGained, cashGained: state.cashGained, isBoss: state.isBoss })
+  // 加 cash(battle.c:1054,无条件)
+  gs.dwCash += state.cashGained
+
+  // 升级数据 + 排升级/练成屏(sdlpal 顺序:per 队员先 Phase B 升级 box,再该队员 Phase D 练成屏)
+  const results = battleWonLevelUp({
+    gs,
+    partyMembers: gs.partyMembers,
+    expGained: state.expGained,
+    levelUpExp: res.levelUpExp ?? [],
+    levelUpMagic: res.levelUpMagic ?? [],
+    rng: state.rng,
+  })
+  for (const r of results) {
+    const name = res.playerRoles.roles[r.roleId]?._name ?? `role#${r.roleId}`
+    if (r.snapshot)
+      screens.push({ kind: 'level-up', data: { ...r.snapshot, name } })
+    for (const magicId of r.learnedMagics) {
+      const magicName = res.spells.find((s) => s.id === magicId)?._name ?? `仙术#${magicId}`
+      screens.push({ kind: 'learn-magic', data: { roleId: r.roleId, name, magicName } })
+    }
+  }
+
+  state.settlement = { screens, index: 0, shownMs: 0 }
+}
+
+/**
+ * D11b 结算演出放完(index 越界)→ Phase F 每战后半血恢复(battle.c:1342-1372 PAL_CLASSIC:
+ * HP += (maxHP-HP)/2,MP 同)+ finalize → explore。
+ *
+ * Phase E post-battle scriptOnBattleEnd(battle.c:1334-1337)暂未跑 —— enemy 脚本已存但接 explore
+ * script runner 是独立任务,诚实留 follow-up(见 battle-settlement.ts 模块头注)。
+ */
+function finishBattleWon(gs: GameState): void {
+  const rt = gs.PlayerRolesRuntime
+  for (const roleId of gs.partyMembers) {
+    const maxHP = rt.rgwMaxHP[roleId] ?? 0
+    const hp = rt.rgwHP[roleId] ?? 0
+    rt.rgwHP[roleId] = hp + Math.floor((maxHP - hp) / 2)
+    const maxMP = rt.rgwMaxMP[roleId] ?? 0
+    const mp = rt.rgwMP[roleId] ?? 0
+    rt.rgwMP[roleId] = mp + Math.floor((maxMP - mp) / 2)
+  }
+  finalizeBattleCleanup(gs)
+}
+
+/**
+ * D11b 结算演出 hold(phase-agnostic,同 tickBattleDialog 模式)。settlement active → 暂停一切战斗推进,
+ * 逐屏显示(每屏等任意键 / 超时自动翻,sdlpal PAL_WaitForAnyKey)。放完 → finishBattleWon → explore。
+ * 返回 true = 本 tick 被结算占用(tickBattle 早退)。
+ */
+export function tickBattleSettlement(state: BattleState, gs: GameState, input: InputSnapshot): boolean {
+  const s = state.settlement
+  if (!s) return false
+  // 等键是合法玩家等待(非卡死)→ 清 stall 计数,避免被 60s 看门狗强退。
+  state.phaseStallTicks = 0
+
+  if (s.index >= s.screens.length) {
+    finishBattleWon(gs) // 放完 → 半血恢复 + 收尾回 explore
+    return true
+  }
+
+  s.shownMs += BATTLE_DT
+  const screen = s.screens[s.index]!
+  const timeoutMs = settlementScreenTimeoutMs(screen)
+  const anyKey = input.pressed.size > 0
+  // 首帧(shownMs==BATTLE_DT)不收键,避免上个动作残留 Confirm 同帧误推下一屏。
+  if ((anyKey && s.shownMs > BATTLE_DT) || s.shownMs >= timeoutMs) {
+    s.index++
+    s.shownMs = 0
+  }
+  return true
 }
 
 /** sdlpal `MAX_LEVELS`(global.h)。 */
@@ -1531,6 +1615,12 @@ export interface BattleLevelUpResult {
   toLevel: number
   /** 本次升级新学的法术(spell object id)。 */
   learnedMagics: number[]
+  /**
+   * D11b 升级 box 数值快照(仅 toLevel>fromLevel 有意义)—— old(升级前)/cur(升级后)。
+   * level/hp/mp 为 runtime 直读值;attack/magic/defense/dexterity/flee 为 PAL_GetPlayerXxx 有效值
+   * (含装备加成,battle.c:1184-1212 真值)。name/magicName 在 buildBattleWonSettlement 用 res 补。
+   */
+  snapshot?: Omit<LevelUpScreenData, 'name'>
 }
 
 /**
@@ -1563,6 +1653,18 @@ export function battleWonLevelUp(input: {
   for (const roleId of partyMembers) {
     if ((rt.rgwHP[roleId] ?? 0) <= 0)
       continue // 死人不获 exp / 不升级(battle.c:1093)
+
+    // 升级 box old→new 快照:升级 loop 前抓 old(HP/MP 此刻是 post-battle 受伤值;sdlpal
+    // OrigPlayerRoles 在 PAL_BattleWon 起手抓 = 同语义)。attack 等的 old 用 base,渲染时 +装备加成。
+    const oldHP = rt.rgwHP[roleId] ?? 0
+    const oldMaxHP = rt.rgwMaxHP[roleId] ?? 0
+    const oldMP = rt.rgwMP[roleId] ?? 0
+    const oldMaxMP = rt.rgwMaxMP[roleId] ?? 0
+    const oldAtkBase = rt.rgwAttackStrength[roleId] ?? 0
+    const oldMagBase = rt.rgwMagicStrength[roleId] ?? 0
+    const oldDefBase = rt.rgwDefense[roleId] ?? 0
+    const oldDexBase = rt.rgwDexterity[roleId] ?? 0
+    const oldFleeBase = rt.rgwFleeRate[roleId] ?? 0
 
     const fromLevel = Math.min(LEVELUP_MAX_LEVELS, rt.rgwLevel[roleId] ?? 0)
     let level = fromLevel
@@ -1604,18 +1706,43 @@ export function battleWonLevelUp(input: {
       exp.wLevel = level
     }
 
-    // 学新法术(battle.c:1300-1321):level-up-magic[j][roleId] 仅 5 角色(0-4),role5 取到 undefined 自动跳过
+    // 升级 box 快照(battle.c:1153-1212):level/HP/MP 直读;attack 等用 PAL_GetPlayerXxx 有效值
+    //   (含装备加成)。old 有效值 = old base + 装备加成(= 有效 - cur base,装备不随升级变,故等价
+    //   sdlpal `OrigBase + GetPlayerXxx() - curBase`)。仅升级了才建快照。
+    let snapshot: Omit<LevelUpScreenData, 'name'> | undefined
     if (leveled) {
-      const learned: number[] = []
-      for (const entry of levelUpMagic) {
-        const m = entry[roleId]
-        if (!m || m.magic === 0 || m.level > level)
-          continue
-        if (addMagicToRoleRuntime(rt, roleId, m.magic))
-          learned.push(m.magic)
+      const effAtk = getPlayerAttackStrength(gs, roleId)
+      const effMag = getPlayerMagicStrength(gs, roleId)
+      const effDef = getPlayerDefense(gs, roleId)
+      const effDex = getPlayerDexterity(gs, roleId)
+      const effFlee = getPlayerFleeRate(gs, roleId)
+      snapshot = {
+        roleId,
+        level: { old: fromLevel, cur: level },
+        hp: { old: oldHP, oldMax: oldMaxHP, cur: rt.rgwHP[roleId] ?? 0, curMax: rt.rgwMaxHP[roleId] ?? 0 },
+        mp: { old: oldMP, oldMax: oldMaxMP, cur: rt.rgwMP[roleId] ?? 0, curMax: rt.rgwMaxMP[roleId] ?? 0 },
+        attack: { old: oldAtkBase + (effAtk - (rt.rgwAttackStrength[roleId] ?? 0)), cur: effAtk },
+        magic: { old: oldMagBase + (effMag - (rt.rgwMagicStrength[roleId] ?? 0)), cur: effMag },
+        defense: { old: oldDefBase + (effDef - (rt.rgwDefense[roleId] ?? 0)), cur: effDef },
+        dexterity: { old: oldDexBase + (effDex - (rt.rgwDexterity[roleId] ?? 0)), cur: effDex },
+        flee: { old: oldFleeBase + (effFlee - (rt.rgwFleeRate[roleId] ?? 0)), cur: effFlee },
       }
-      out.push({ roleId, fromLevel, toLevel: level, learnedMagics: learned })
     }
+
+    // 学新法术(battle.c:1298-1328):**在 if(fLevelUp) 之外**,对每个活队员按当前等级学(level-up-magic
+    //   [j][roleId] 仅 5 角色 0-4,role5 取 undefined 自动跳过)。非升级队员若漏学(应有却没)也补上。
+    const learned: number[] = []
+    for (const entry of levelUpMagic) {
+      const m = entry[roleId]
+      if (!m || m.magic === 0 || m.level > level)
+        continue
+      if (addMagicToRoleRuntime(rt, roleId, m.magic))
+        learned.push(m.magic)
+    }
+
+    // 升级了 或 学到新法术 → 产出结算条目(present 据此排 level-up box + learn-magic 屏)。
+    if (leveled || learned.length > 0)
+      out.push({ roleId, fromLevel, toLevel: level, learnedMagics: learned, snapshot })
   }
   return out
 }

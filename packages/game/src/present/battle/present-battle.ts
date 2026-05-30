@@ -44,6 +44,7 @@ import {
   type SpriteAsset,
 } from './draw-battle-sprites.js'
 import { drawBattleUI } from './draw-battle-ui.js'
+import { drawBattleSettlement } from './draw-battle-settlement.js'
 
 export interface BattleAssets {
   /** sprite key 规约见 draw-battle-sprites:`player-${spriteNumInBattle}` / `enemy-${enemy.id}`。 */
@@ -175,6 +176,17 @@ export class BattlePresent {
       drawDialogBox(fb, gs.dialogBox, assets.glyphs, {
         ...assets.dialogAssets,
         uiSpriteFrames: assets.uiSpriteFrames,
+      })
+    }
+
+    // 7. D11b 胜利结算演出(PAL_BattleWon 多屏)—— settlement active 时叠当前一屏 box 于战斗场景上。
+    const settlement = state.settlement
+    if (settlement && settlement.index < settlement.screens.length) {
+      drawBattleSettlement({
+        fb,
+        screen: settlement.screens[settlement.index]!,
+        uiSpriteFrames: assets.uiSpriteFrames,
+        glyphs: assets.glyphs,
       })
     }
   }

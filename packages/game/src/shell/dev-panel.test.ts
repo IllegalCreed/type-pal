@@ -88,6 +88,15 @@ function makeDeps(): DevPanelDeps {
 const dialogFixture = fixturesData.fixtures.find(f => f.id === 'fixture-dialog')! as unknown as BattleFixture
 const levelupFixture = fixturesData.fixtures.find(f => f.id === 'fixture-levelup')! as unknown as BattleFixture
 
+/** 推进战斗到 explore:D11b 胜利结算演出 active 时按 Confirm 快速翻屏,其余阶段空输入。 */
+function driveToExplore(gs: ReturnType<typeof createInitialGameState>, bus: ReturnType<typeof createCommandBus>, max = 400): void {
+  const empty: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }
+  const advance: InputSnapshot = { held: new Set(), pressed: new Set(['Confirm']), frameNum: 0 }
+  let safety = max
+  while (gs.mode === 'battle' && safety-- > 0)
+    tickBattle(gs, gs.battleState?.settlement ? advance : empty, bus)
+}
+
 describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
   it('fixture-dialog:敌人 scriptOnTurnStart 设上(林月如一嘲讽能触发,team 21 → enemyId 82 → 41368)', () => {
     const deps = makeDeps()
@@ -123,8 +132,7 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     // 推进战斗到 selectAction → 队长攻击(atk999 一击秒灯笼)→ won → finalizeBattle → 升级
     tickBattle(gs, emptyInput, bus)
     gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
-    let safety = 80
-    while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    driveToExplore(gs, bus)
     expect(gs.mode).toBe('explore') // 战斗结束
     // 真升级(1000 经验跨多级 → ~lv7)
     expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBeGreaterThan(1)
@@ -149,8 +157,7 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     // 推进战斗到打赢(atk999 一击秒灯笼)→ finalizeBattle → battleWonLevelUp 升级 + 学法术
     tickBattle(gs, emptyInput, bus)
     gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
-    let safety = 80
-    while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    driveToExplore(gs, bus)
     expect(gs.mode).toBe('explore')
 
     // 1) 升到 ≥ lv10 + battleWonLevelUp 把学的法术写进 runtime.rgwMagic(数据层)
@@ -169,5 +176,43 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     expect(ids).toContain(296) // 气疗术(基线)
     expect(ids).toContain(298) // ★ 凝神归元 — 升级新学,投影后可见(修复前读静态看不到)
     expect(ids).not.toContain(349) // 天师符法 大世界菜单正确过滤
+  })
+
+  it('★结算演出序列:打赢建 settlement screens —— exp-cash → 升级 box(lv1→12 / 8 属性 old→cur)→ 练成屏', () => {
+    const deps = makeDeps()
+    applyFixture(deps, levelupFixture)
+    const gs = deps.gs
+    const bus = createCommandBus()
+    const emptyInput: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
+    // 推进到 won 首 tick(buildBattleWonSettlement 建 screens),capture 前不让 driveToExplore 消费掉
+    let safety = 100
+    while (gs.mode === 'battle' && !gs.battleState?.settlement && safety-- > 0)
+      tickBattle(gs, emptyInput, bus)
+    const settlement = gs.battleState?.settlement
+    expect(settlement).toBeDefined()
+    const screens = settlement!.screens
+
+    // 1) 首屏 = Phase A exp/cash(expGained = 灯笼 exp 1,本场所得;6000 是既有累积,不计本屏)
+    expect(screens[0]).toMatchObject({ kind: 'exp-cash', expGained: 1 })
+
+    // 2) Phase B 升级 box(role0 lv1 → lv12,8 属性 old→cur)
+    // biome-ignore lint/suspicious/noExplicitAny: union narrowing
+    const lv = screens.find((s) => s.kind === 'level-up') as any
+    expect(lv).toBeDefined()
+    expect(lv.data.level).toEqual({ old: 1, cur: 12 })
+    expect(lv.data.hp.old).toBe(30) // 入战满血 30(一击秒未受伤)→ old
+    expect(lv.data.hp.oldMax).toBe(30)
+    expect(lv.data.hp.cur).toBe(lv.data.hp.curMax) // 升级满血
+    expect(lv.data.defense.cur).toBeGreaterThan(lv.data.defense.old) // 升 11 级 → 防御涨(base 5 起)
+
+    // 3) Phase D 练成屏:天师符法(349)+ 凝神归元(298)各一屏
+    const learned = screens
+      .filter((s) => s.kind === 'learn-magic')
+      // biome-ignore lint/suspicious/noExplicitAny: union narrowing
+      .map((s) => (s as any).data.magicName)
+    expect(learned).toContain('天师符法')
+    expect(learned).toContain('凝神归元')
   })
 })

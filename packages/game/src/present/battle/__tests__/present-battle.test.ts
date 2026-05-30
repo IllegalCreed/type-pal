@@ -9,6 +9,8 @@ import type { BattleBgAsset } from '../draw-battle-bg.js'
 import type { SpriteAsset } from '../draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present-battle.js'
 import { startDialogLine } from '../../dialog-box.js'
+import { drawBattleSettlement } from '../draw-battle-settlement.js'
+import type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'
 
 function minimalRole(id: number, opts: Partial<PlayerRole> = {}): PlayerRole {
   return {
@@ -527,6 +529,61 @@ describe('BattlePresent —— D17 法术 magic overlays', () => {
     for (let i = 0; i < fbDialog.indices.length; i++) {
       if (fbDialog.indices[i] !== fbBase.indices[i]) diff++
     }
+    expect(diff).toBeGreaterThan(0)
+  })
+})
+
+describe('drawBattleSettlement —— D11b 胜利结算演出渲染', () => {
+  const ui = mkUiSpriteFrames()
+  const lvData: LevelUpScreenData = {
+    roleId: 0, name: '李逍遥',
+    level: { old: 1, cur: 12 },
+    hp: { old: 30, oldMax: 30, cur: 120, curMax: 120 },
+    mp: { old: 10, oldMax: 10, cur: 60, curMax: 60 },
+    attack: { old: 5, cur: 40 }, magic: { old: 5, cur: 35 },
+    defense: { old: 5, cur: 30 }, dexterity: { old: 5, cur: 25 }, flee: { old: 5, cur: 20 },
+  }
+
+  it('exp-cash 屏:画 box + 经验/文钱数字 → framebuffer 有写入', () => {
+    const fb = createFramebuffer()
+    drawBattleSettlement({ fb, screen: { kind: 'exp-cash', expGained: 200, cashGained: 999, isBoss: false }, uiSpriteFrames: ui })
+    expect(fbHasWrites(fb)).toBe(true)
+  })
+
+  it('level-up 屏:画主 box + 8 属性 old→cur 数字 + 箭头/斜杠 → framebuffer 有写入', () => {
+    const fb = createFramebuffer()
+    drawBattleSettlement({ fb, screen: { kind: 'level-up', data: lvData }, uiSpriteFrames: ui })
+    expect(fbHasWrites(fb)).toBe(true)
+  })
+
+  it('learn-magic 屏:画 box + name/练成/magicName → framebuffer 有写入', () => {
+    const fb = createFramebuffer()
+    drawBattleSettlement({ fb, screen: { kind: 'learn-magic', data: { roleId: 0, name: '李逍遥', magicName: '天师符法' } }, uiSpriteFrames: ui })
+    expect(fbHasWrites(fb)).toBe(true)
+  })
+
+  it('无 uiSpriteFrames → 安全 no-op(不抛)', () => {
+    const fb = createFramebuffer()
+    drawBattleSettlement({ fb, screen: { kind: 'level-up', data: lvData } })
+    expect(fbHasWrites(fb)).toBe(false)
+  })
+
+  it('BattlePresent.draw:state.settlement active → 结算屏叠加渲染(端到端经 present-battle)', () => {
+    const fbBase = createFramebuffer()
+    const fbSet = createFramebuffer()
+    const present = new BattlePresent()
+    const enemy = mkBattleEnemy({ id: 100, _name: 'e', health: 10 } as Enemy)
+    const stateBase = mkState([], [enemy])
+    const stateSet = mkState([], [enemy], {
+      settlement: { screens: [{ kind: 'level-up', data: lvData }], index: 0, shownMs: 0 },
+    })
+    const assets = mkAssets()
+    present.draw(fbBase, mkGs(), stateBase, [], assets, 0)
+    present.draw(fbSet, mkGs(), stateSet, [], assets, 0)
+    // 有结算屏的帧应比无结算屏的帧多写像素(证明 present-battle 调了 drawBattleSettlement)
+    let diff = 0
+    for (let i = 0; i < fbSet.indices.length; i++)
+      if (fbSet.indices[i] !== fbBase.indices[i]) diff++
     expect(diff).toBeGreaterThan(0)
   })
 })

@@ -69,7 +69,15 @@ describe('battleWonLevelUp —— D11 战斗胜利升级', () => {
     // exp 余数 0(100-100)+ wLevel 同步
     expect(gs.Exp.rgPrimaryExp[0]!.wExp).toBe(0)
     expect(gs.Exp.rgPrimaryExp[0]!.wLevel).toBe(2)
-    expect(results).toEqual([{ roleId: 0, fromLevel: 1, toLevel: 2, learnedMagics: [] }])
+    expect(results).toMatchObject([{ roleId: 0, fromLevel: 1, toLevel: 2, learnedMagics: [] }])
+    // D11b 升级 box 快照(old→cur):无装备 → 有效值=base
+    expect(results[0]!.snapshot).toMatchObject({
+      level: { old: 1, cur: 2 },
+      hp: { old: 50, oldMax: 100, cur: 110, curMax: 110 },
+      mp: { old: 10, oldMax: 30, cur: 38, curMax: 38 },
+      attack: { old: 20, cur: 24 },
+      defense: { old: 10, cur: 12 },
+    })
   })
 
   it('exp 不够 → 不升级,exp 累积(余数 = 旧+得),不动属性/HP', () => {
