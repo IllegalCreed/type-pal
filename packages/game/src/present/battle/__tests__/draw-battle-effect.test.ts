@@ -6,7 +6,7 @@
 import { describe, expect, it } from 'vitest'
 import type { BattleAnimOverlay } from '../../../core/battle/battle-state.js'
 import { createFramebuffer } from '../../framebuffer.js'
-import { drawBattleEffectOverlay } from '../draw-battle-effect.js'
+import { drawBattleEffectOverlay, drawBattleMagicOverlay } from '../draw-battle-effect.js'
 import type { SpriteAsset } from '../draw-battle-sprites.js'
 
 function mkSprite(frames: Array<{ w: number; h: number; fill: number }>): SpriteAsset {
@@ -82,5 +82,57 @@ describe('drawBattleEffectOverlay', () => {
     }
     drawBattleEffectOverlay(fb, overlay, sprite)
     expect(fb.indices[88 * 320 + 159]).toBe(77) // 背景保留
+  })
+})
+
+describe('drawBattleMagicOverlay (D17 法术 FIRE.MKF overlay)', () => {
+  it('从 magicSprites.get(spriteChunk) 取帧 blit 到落点(底中 anchor)', () => {
+    const fb = createFramebuffer()
+    // chunk 12 → 2 帧;frameIdx=1(值 44);落点 (160,90),帧 2×2 → baseX=159,baseY=88。
+    const magicSprites = new Map<number, SpriteAsset>([
+      [
+        12,
+        mkSprite([
+          { w: 2, h: 2, fill: 33 },
+          { w: 2, h: 2, fill: 44 },
+        ]),
+      ],
+    ])
+    const overlay: BattleAnimOverlay = {
+      kind: 'magic',
+      spriteChunk: 12,
+      frameIdx: 1,
+      x: 160,
+      y: 90,
+    }
+    drawBattleMagicOverlay(fb, overlay, magicSprites)
+    expect(fb.indices[88 * 320 + 159]).toBe(44)
+    expect(fb.indices[89 * 320 + 160]).toBe(44)
+  })
+
+  it('chunk 缺(magicSprites 无该 key)→ no-op,不抛', () => {
+    const fb = createFramebuffer()
+    const magicSprites = new Map<number, SpriteAsset>()
+    const overlay: BattleAnimOverlay = {
+      kind: 'magic',
+      spriteChunk: 99,
+      frameIdx: 0,
+      x: 160,
+      y: 90,
+    }
+    expect(() => drawBattleMagicOverlay(fb, overlay, magicSprites)).not.toThrow()
+    expect(fb.indices[90 * 320 + 160]).toBe(0)
+  })
+
+  it('magicSprites 整个 undefined → no-op,不抛', () => {
+    const fb = createFramebuffer()
+    const overlay: BattleAnimOverlay = {
+      kind: 'magic',
+      spriteChunk: 12,
+      frameIdx: 0,
+      x: 160,
+      y: 90,
+    }
+    expect(() => drawBattleMagicOverlay(fb, overlay, undefined)).not.toThrow()
   })
 })

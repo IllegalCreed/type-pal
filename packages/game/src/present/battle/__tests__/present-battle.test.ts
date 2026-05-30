@@ -462,3 +462,46 @@ describe('BattlePresent —— D17a 动画 overlay', () => {
     expect(() => present.draw(fb, mkGs(), state, [], assets, 0)).not.toThrow()
   })
 })
+
+describe('BattlePresent —— D17 法术 magic overlays', () => {
+  it('state.battleAnim.overlays(kind=magic)+ magicSprites 注入 → 逐个 blit', () => {
+    const fb = createFramebuffer()
+    const present = new BattlePresent()
+    const state = mkState([], [], {
+      battleAnim: {
+        frames: [],
+        idx: 0,
+        frameElapsedMs: 0,
+        overlays: [
+          { kind: 'magic', spriteChunk: 12, frameIdx: 1, x: 160, y: 90 },
+          { kind: 'magic', spriteChunk: 12, frameIdx: 1, x: 100, y: 60 },
+        ],
+      },
+    })
+    // chunk 12 → 2 帧;frameIdx=1 值 44(2×2)。
+    const magicSprites = new Map<number, SpriteAsset>([
+      [12, { frames: [mkSpriteAsset(2, 2, 33).frames[0]!, mkSpriteAsset(2, 2, 44).frames[0]!] }],
+    ])
+    const assets = mkAssets({ magicSprites })
+    present.draw(fb, mkGs(), state, [], assets, 0)
+    // 落点1 (160,90) → baseX=159,baseY=88
+    expect(fb.indices[88 * 320 + 159]).toBe(44)
+    // 落点2 (100,60) → baseX=99,baseY=58
+    expect(fb.indices[58 * 320 + 99]).toBe(44)
+  })
+
+  it('magicSprites 缺 → magic overlays no-op,不抛', () => {
+    const fb = createFramebuffer()
+    const present = new BattlePresent()
+    const state = mkState([], [], {
+      battleAnim: {
+        frames: [],
+        idx: 0,
+        frameElapsedMs: 0,
+        overlays: [{ kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 160, y: 90 }],
+      },
+    })
+    const assets = mkAssets() // 无 magicSprites
+    expect(() => present.draw(fb, mkGs(), state, [], assets, 0)).not.toThrow()
+  })
+})

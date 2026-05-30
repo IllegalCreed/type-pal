@@ -34,7 +34,7 @@ import type { GameState } from '../../core/game-state.js'
 import type { GlyphTable } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { type BattleBgAsset, drawBattleBg } from './draw-battle-bg.js'
-import { drawBattleEffectOverlay } from './draw-battle-effect.js'
+import { drawBattleEffectOverlay, drawBattleMagicOverlay } from './draw-battle-effect.js'
 import { FloatingNumsLayer } from './draw-battle-num.js'
 import {
   computeEnemyAnchor,
@@ -67,6 +67,12 @@ export interface BattleAssets {
    * (loader 注入留后续叶子)。
    */
   effectSprite?: SpriteAsset
+  /**
+   * D17:FIRE.MKF magic sprite 表 —— 法术特效 overlay 用(kind='magic',
+   * key = chunk index = magic.effect)。state.battleAnim.overlays[].spriteChunk 取 chunk,
+   * frameIdx 取帧。缺省则法术 overlay 不画(loader 注入)。
+   */
+  magicSprites?: Map<number, SpriteAsset>
 }
 
 /**
@@ -135,10 +141,20 @@ export class BattlePresent {
       currentFrame,
     )
 
-    // 3.5 D17a:战斗动画 overlay(物理攻击命中特效 effect sprite),sprite 之上 UI 之下。
-    //     state.battleAnim.overlay 由 tickPerformAction applyAnimFrame 写当前帧;无则不画。
-    if (state.battleAnim?.overlay)
-      drawBattleEffectOverlay(fb, state.battleAnim.overlay, assets.effectSprite)
+    // 3.5 D17a/D17:战斗动画 overlay(物理攻击命中特效 / 法术 FIRE.MKF sprite),sprite 之上 UI 之下。
+    //     applyAnimFrame 写当前帧的 overlay(单数,effect)+ overlays(复数,magic AttackAll 三落点)。
+    //     两者可并存(理论上不会同帧),都画;magic overlays 逐个 blit。
+    if (state.battleAnim?.overlay) {
+      const ov = state.battleAnim.overlay
+      if (ov.kind === 'magic') drawBattleMagicOverlay(fb, ov, assets.magicSprites)
+      else drawBattleEffectOverlay(fb, ov, assets.effectSprite)
+    }
+    if (state.battleAnim?.overlays) {
+      for (const ov of state.battleAnim.overlays) {
+        if (ov.kind === 'magic') drawBattleMagicOverlay(fb, ov, assets.magicSprites)
+        else drawBattleEffectOverlay(fb, ov, assets.effectSprite)
+      }
+    }
 
     // 4. 数字弹幕(在精灵之上;过期数字自动清理)。D17b:用 UI sprite 数字帧(drawNumber)。
     this.floatingNums.draw(fb, currentFrame, assets.uiSpriteFrames)

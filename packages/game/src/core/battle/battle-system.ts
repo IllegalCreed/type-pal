@@ -96,6 +96,12 @@ export interface BattleResources {
    * 命中特效帧基号 `[battleSpriteId][1]*3`(fight.c:2055)。省略 → effectFrameBase=0。
    */
   battleEffectIndex?: number[]
+  /**
+   * D17:FIRE.MKF magic sprite 帧数 Map(chunk index = magic.effect → frameCount)——
+   * performMagic build OffMagic 时间线取 `n`(总帧数公式 fight.c:2652/2661)。
+   * 省略或缺 chunk → performMagic 不建攻击魔法时间线(走原即时路径,向后兼容)。
+   */
+  magicSpriteFrameCounts?: Map<number, number>
 }
 
 /** runScript 注入类型(便于测试 mock 替换 free function)。 */
@@ -164,6 +170,11 @@ export interface StartBattleInput {
    * 省略 → effectFrameBase=0(overlay 仍指 chunk10 frame 0..2)。
    */
   battleEffectIndex?: number[]
+  /**
+   * D17:FIRE.MKF magic sprite 帧数 Map(chunk index = magic.effect → frameCount)——
+   * performMagic build OffMagic 时间线取 `n`。省略 → 不建攻击魔法时间线(向后兼容)。
+   */
+  magicSpriteFrameCounts?: Map<number, number>
   /**
    * P2#5:战斗脚本(enemy.scriptOnReady / spell.scriptOnUse / item.scriptOnUse)是**全局 entry** —
    * 省略时默认单一全局数组(getGlobalCommands(),= 探索/菜单同一来源)。单测可传自带数组 override。
@@ -247,6 +258,7 @@ export function startBattle(input: StartBattleInput): void {
     playerRoles: input.playerRoles,
     commands: input.commands ?? getGlobalCommands(), // P2#5:默认单一全局数组
     battleEffectIndex: input.battleEffectIndex, // D17a:player 攻击命中特效帧基号
+    magicSpriteFrameCounts: input.magicSpriteFrameCounts, // D17:OffMagic 时间线 n
   })
 
   // 注入 runScript(测试用)— 通过 BattleState 的 hidden field 走;这里临时挂在 res 上
@@ -764,7 +776,10 @@ function checkEnemyDeaths(state: BattleState, bus: CommandBus): boolean {
 function tickBattleFade(state: BattleState): boolean {
   if (!state.battleFade) return false
   state.battleFade.elapsedMs += BATTLE_DT
-  const step = Math.min(DEATH_FADE_STEPS, Math.floor(state.battleFade.elapsedMs / DEATH_FADE_STEP_MS))
+  const step = Math.min(
+    DEATH_FADE_STEPS,
+    Math.floor(state.battleFade.elapsedMs / DEATH_FADE_STEP_MS),
+  )
   for (const enemy of state.enemies) {
     if (enemy.deathFadeStep !== undefined && enemy.deathFadeStep < DEATH_FADE_STEPS) {
       enemy.deathFadeStep = step // step 到 72 时死敌固定 72(隐,draw 不画)
@@ -858,9 +873,17 @@ function tickPerformAction(
   // sdlpal `PAL_BattlePlayerValidateAction`(fight.c:3500-3507):perform 前重选目标 ——
   //   攻击的目标敌人若**已死**(被本回合先手队友打死),重选一个活敌(否则会打空位)。
   //   attack 的 target>=0 必指敌人;target<0(全体)由 performAttack 自身遍历活敌,不需重选。
-  if (action && action.type === 'attack' && action.target >= 0
-    && (state.enemies[action.target]?.e.health ?? 0) <= 0) {
-    const newTarget = selectAutoTargetFrom(state.enemies, action.target, state.iPrevEnemyTarget ?? -1)
+  if (
+    action &&
+    action.type === 'attack' &&
+    action.target >= 0 &&
+    (state.enemies[action.target]?.e.health ?? 0) <= 0
+  ) {
+    const newTarget = selectAutoTargetFrom(
+      state.enemies,
+      action.target,
+      state.iPrevEnemyTarget ?? -1,
+    )
     if (newTarget >= 0) action = { ...action, target: newTarget }
     // newTarget<0(全敌已死)→ 保持原 target;performAttack 对死敌 no-op,本回合即将结束转 postAction
   }
@@ -931,6 +954,8 @@ function performBattleAction(
         runScript: getRunScript(gs),
         objectMagics: res.objectMagics, // 0x57/0x88 scriptOnUse 解析 magic object id
         gs, // 0x88 set magic damage by money 需 gs.dwCash
+        magicSpriteFrameCounts: res.magicSpriteFrameCounts, // D17:OffMagic 时间线 n
+        battleEffectIndex: res.battleEffectIndex, // D17:PreMagic cast 特效帧基号
       })
       break
     }

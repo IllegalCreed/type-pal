@@ -10,7 +10,15 @@
  * only(enemy 施法是另一 sdlpal 函数),故只在 `!casterIsEnemy` 触发。
  */
 
-import type { BattleField, Command, Enemy, Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
+import type {
+  BattleField,
+  Command,
+  Enemy,
+  Magic,
+  PlayerRole,
+  PlayerRoles,
+  Spell,
+} from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
 import { runScript } from '../../event-system.js'
@@ -122,25 +130,53 @@ function makeSpell(opts: Partial<Spell> = {}): Spell {
     scriptOnSuccess: 0,
     scriptOnUse: 0,
     scriptDesc: 0,
-    flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false },
+    flags: {
+      usableOutsideBattle: false,
+      usableInBattle: true,
+      usableToEnemy: true,
+      applyToAll: false,
+    },
     ...opts,
   }
 }
 
-function makeState(role: Partial<PlayerRole>, enemies: Partial<Enemy>[], fieldEffect?: BattleField['magicEffect']): {
+function makeState(
+  role: Partial<PlayerRole>,
+  enemies: Partial<Enemy>[],
+  fieldEffect?: BattleField['magicEffect'],
+): {
   state: BattleState
   playerRoles: PlayerRoles
   bus: CommandBus
 } {
   const r = makeRole(role)
-  const field: BattleField = { id: 0, screenWave: 0, magicEffect: fieldEffect ?? { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }
+  const field: BattleField = {
+    id: 0,
+    screenWave: 0,
+    magicEffect: fieldEffect ?? { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+  }
   // 固定 rngFactor = 1.0(next()=0 → 1 + 0*0.1)
   const rng = { ...createSeedableRng(1), next: () => 0 }
   const state: BattleState = {
-    players: [{ roleId: 0, prevHp: r.hp, prevMp: r.mp, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+    players: [
+      {
+        roleId: 0,
+        prevHp: r.hp,
+        prevMp: r.mp,
+        defending: false,
+        status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+      },
+    ],
     enemies: enemies.map((e) => {
       const en = makeEnemy(e)
-      return { e: en, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false }, prevHp: en.health, scriptOnTurnStart: 0, scriptOnBattleEnd: 0, scriptOnReady: 0 }
+      return {
+        e: en,
+        status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+        prevHp: en.health,
+        scriptOnTurnStart: 0,
+        scriptOnBattleEnd: 0,
+        scriptOnReady: 0,
+      }
     }),
     field,
     isBoss: false,
@@ -163,115 +199,221 @@ const commands: Command[] = [{ op: 'end' }]
 
 describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
   it('单体攻击法术 → enemy 落血(手算 50)+ emit showDamageNum', () => {
-    const { state, playerRoles, bus } = makeState(
-      { mp: 30, magicStrength: 64 },
-      [{ health: 100, defense: 30, level: 5, elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 } }],
-    )
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      {
+        health: 100,
+        defense: 30,
+        level: 5,
+        elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+    ])
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
-      targetIsEnemy: true, targetIdx: 0,
-      spells: [makeSpell()], magics: [makeMagic({ baseDamage: 45, elemental: 1 })],
-      playerRoles, bus, commands, runScript: noopRunScript,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [makeMagic({ baseDamage: 45, elemental: 1 })],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
     })
     // def=30+44=74; calcBase(64,74)=20; /4=5; +45=50; elem1 windRes5: *5 /5=50; field0: *10/10=50
     expect(state.enemies[0]!.e.health).toBe(50)
     const cmds = bus.drain()
     // D17b:敌人掉血 → blue,target={kind:'enemy',idx:0},value=钳后 delta=50
-    const dmgCmd = cmds.find(c => c.cmd.op === 'showDamageNum')
+    const dmgCmd = cmds.find((c) => c.cmd.op === 'showDamageNum')
     expect(dmgCmd).toBeDefined()
-    expect(dmgCmd!.cmd).toMatchObject({ op: 'showDamageNum', color: 'blue', target: { kind: 'enemy', idx: 0 }, value: 50 })
+    expect(dmgCmd!.cmd).toMatchObject({
+      op: 'showDamageNum',
+      color: 'blue',
+      target: { kind: 'enemy', idx: 0 },
+      value: 50,
+    })
   })
 
   it('applyToAll 法术 → 全体敌人落血', () => {
-    const { state, playerRoles, bus } = makeState(
-      { mp: 30, magicStrength: 64 },
-      [
-        { health: 100, defense: 30, level: 5, elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 } },
-        { health: 100, defense: 30, level: 5, elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 } },
-      ],
-    )
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      {
+        health: 100,
+        defense: 30,
+        level: 5,
+        elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+      {
+        health: 100,
+        defense: 30,
+        level: 5,
+        elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+    ])
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
-      targetIsEnemy: true, targetIdx: 0,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
       // AoE 判定按 magic.type(sdlpal FIGHT_DetectMagicTargetChange),非 flags.applyToAll
       spells: [makeSpell()],
       magics: [makeMagic({ baseDamage: 45, elemental: 1, type: 'attackAll' })],
-      playerRoles, bus, commands, runScript: noopRunScript,
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
     })
     expect(state.enemies[0]!.e.health).toBe(50)
     expect(state.enemies[1]!.e.health).toBe(50)
     // D17b:E1 群攻每敌各 emit 一条 showDamageNum,target idx 各异(blue)。
-    const dmgs = bus.drain().filter(c => c.cmd.op === 'showDamageNum').map(c => c.cmd)
+    const dmgs = bus
+      .drain()
+      .filter((c) => c.cmd.op === 'showDamageNum')
+      .map((c) => c.cmd)
     expect(dmgs).toHaveLength(2)
-    expect(dmgs.map(d => (d as { target: { idx: number } }).target.idx).sort()).toEqual([0, 1])
+    expect(dmgs.map((d) => (d as { target: { idx: number } }).target.idx).sort()).toEqual([0, 1])
     for (const d of dmgs)
       expect(d).toMatchObject({ color: 'blue', target: { kind: 'enemy' }, value: 50 })
   })
 
   it('血魔神功式(attackWhole + applyToAll=False)+ 单体 targetIdx → 仍打全体(修 bug)', () => {
-    const { state, playerRoles, bus } = makeState(
-      { mp: 30, magicStrength: 64 },
-      [
-        { health: 100, defense: 30, level: 5, elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 } },
-        { health: 100, defense: 30, level: 5, elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 } },
-      ],
-    )
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      {
+        health: 100,
+        defense: 30,
+        level: 5,
+        elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+      {
+        health: 100,
+        defense: 30,
+        level: 5,
+        elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+    ])
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
-      targetIsEnemy: true, targetIdx: 0, // 给单体目标,但 type=attackWhole → 应全体
-      spells: [makeSpell({ flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } })],
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0, // 给单体目标,但 type=attackWhole → 应全体
+      spells: [
+        makeSpell({
+          flags: {
+            usableOutsideBattle: false,
+            usableInBattle: true,
+            usableToEnemy: true,
+            applyToAll: false,
+          },
+        }),
+      ],
       magics: [makeMagic({ baseDamage: 45, elemental: 1, type: 'attackWhole' })],
-      playerRoles, bus, commands, runScript: noopRunScript,
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
     })
     expect(state.enemies[0]!.e.health).toBe(50)
     expect(state.enemies[1]!.e.health).toBe(50) // 第二个也被打(type-based AoE)
   })
 
   it('防御类法术(applyToPlayer)→ 不对敌人结算伤害', () => {
-    const { state, playerRoles, bus } = makeState(
-      { mp: 30, magicStrength: 64 },
-      [{ health: 100, defense: 30, level: 5 }],
-    )
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5 },
+    ])
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
-      targetIsEnemy: false, targetIdx: 0,
-      spells: [makeSpell()], magics: [makeMagic({ type: 'applyToPlayer', baseDamage: 45 })],
-      playerRoles, bus, commands, runScript: noopRunScript,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [makeMagic({ type: 'applyToPlayer', baseDamage: 45 })],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
     })
     expect(state.enemies[0]!.e.health).toBe(100)
   })
 
   it('负 baseDamage 法术((SHORT)≤0)→ inline guard 不触发,不结算', () => {
-    const { state, playerRoles, bus } = makeState(
-      { mp: 30, magicStrength: 64 },
-      [{ health: 100, defense: 30, level: 5 }],
-    )
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5 },
+    ])
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
-      targetIsEnemy: true, targetIdx: 0,
-      spells: [makeSpell()], magics: [makeMagic({ baseDamage: 64537, elemental: 0 })], // SHORT −999
-      playerRoles, bus, commands, runScript: noopRunScript,
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [makeMagic({ baseDamage: 64537, elemental: 0 })], // SHORT −999
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
     })
     expect(state.enemies[0]!.e.health).toBe(100)
   })
 
   it('乾坤一掷:scriptOnUse 0x88 set baseDamage by cash → E1 全体伤害(全链)', () => {
-    const { state, playerRoles, bus } = makeState(
-      { mp: 30, magicStrength: 0 },
-      [{ health: 500, defense: 30, level: 5 }, { health: 500, defense: 30, level: 5 }],
-    )
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 0 }, [
+      { health: 500, defense: 30, level: 5 },
+      { health: 500, defense: 30, level: 5 },
+    ])
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.dwCash = 1000
     // ip1 = 0x88[394,0,0]
-    const cmds: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x88, operands: [394, 0, 0] }, { op: 'end' }]
-    const spell = makeSpell({ id: 394, magicNumber: 100, scriptOnUse: 1, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true } })
+    const cmds: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x88, operands: [394, 0, 0] },
+      { op: 'end' },
+    ]
+    const spell = makeSpell({
+      id: 394,
+      magicNumber: 100,
+      scriptOnUse: 1,
+      flags: {
+        usableOutsideBattle: false,
+        usableInBattle: true,
+        usableToEnemy: true,
+        applyToAll: true,
+      },
+    })
     const magic = makeMagic({ id: 100, baseDamage: 0, elemental: 0, type: 'attackAll', costMP: 0 })
     performMagic({
-      state, casterIsEnemy: false, casterIdx: 0, spellId: 394,
-      targetIsEnemy: true, targetIdx: 'all',
-      spells: [spell], magics: [magic],
-      playerRoles, bus, commands: cmds, runScript,
-      objectMagics: [{ id: 394, magicNumber: 100, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true } }],
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 394,
+      targetIsEnemy: true,
+      targetIdx: 'all',
+      spells: [spell],
+      magics: [magic],
+      playerRoles,
+      bus,
+      commands: cmds,
+      runScript,
+      objectMagics: [
+        {
+          id: 394,
+          magicNumber: 100,
+          scriptOnSuccess: 0,
+          scriptOnUse: 0,
+          flags: {
+            usableOutsideBattle: false,
+            usableInBattle: true,
+            usableToEnemy: true,
+            applyToAll: true,
+          },
+        },
+      ],
       gs,
     })
     // 0x88:cash 1000 → baseDamage floor(1000*2/5)=400,cash 0;
@@ -282,16 +424,300 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
   })
 
   it('敌人施法 → 不走 inline path(player-only),enemy 不被自己打', () => {
-    const { state, playerRoles, bus } = makeState(
-      { mp: 30, magicStrength: 64 },
-      [{ health: 100, defense: 30, level: 5 }],
-    )
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5 },
+    ])
     performMagic({
-      state, casterIsEnemy: true, casterIdx: 0, spellId: 7,
-      targetIsEnemy: false, targetIdx: 0,
-      spells: [makeSpell()], magics: [makeMagic({ baseDamage: 45, elemental: 1 })],
-      playerRoles, bus, commands, runScript: noopRunScript,
+      state,
+      casterIsEnemy: true,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [makeMagic({ baseDamage: 45, elemental: 1 })],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
     })
     expect(state.enemies[0]!.e.health).toBe(100)
+  })
+})
+
+// ============================================================================
+// D17:player 攻击魔法动画链(PreMagic + OffMagic + PostMagic → state.battleAnim)
+// ============================================================================
+describe('performMagic D17: 攻击魔法 build 时间线', () => {
+  /** 给 player/enemy 补上 fighter render-state(posOriginal),否则不建链。 */
+  function withFighterPos(
+    state: BattleState,
+    playerPos: { x: number; y: number },
+    enemyPositions: Array<{ x: number; y: number }>,
+  ): void {
+    for (const p of state.players) {
+      p.pos = { ...playerPos }
+      p.posOriginal = { ...playerPos }
+      p.currentFrame = 0
+    }
+    state.enemies.forEach((e, i) => {
+      const pos = enemyPositions[i] ?? { x: 100, y: 80 }
+      e.pos = { ...pos }
+      e.posOriginal = { ...pos }
+    })
+  }
+
+  const frameCounts = new Map<number, number>([[12, 8]]) // FIRE.MKF chunk 12 → 8 frames
+
+  it('单体攻击法术(normal)→ state.battleAnim 有 frames(pre+off+post),非空', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5 },
+    ])
+    withFighterPos(state, { x: 240, y: 170 }, [{ x: 160, y: 80 }])
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [
+        makeMagic({
+          effect: 12,
+          type: 'normal',
+          baseDamage: 45,
+          fireDelay: 2,
+          effectTimes: 1,
+          shake: 0,
+          speed: 2,
+        }),
+      ],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+      battleEffectIndex: [0, 0], // sprite0 → cast base list[0]=0 → frameBase=15
+    })
+    expect(state.battleAnim).toBeDefined()
+    const f = state.battleAnim!.frames
+    // PreMagic = 17(4+1+1+10+1);OffMagic l=(8-2)*1+8=14;PostMagic=4(受伤敌抖3+复位)= 35
+    expect(f.length).toBe(17 + 14 + 4)
+    // OffMagic 段(从 idx 17 起)有 magic overlays
+    const offFrame = f[17]!
+    expect(offFrame.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 12 })
+  })
+
+  it('sentinel baseDamage(−999)攻击法术仍建链:FIRE 动画对**所有**攻击魔法都放,不 gate baseDamage', () => {
+    // sdlpal PAL_BattleShowPlayerOffMagicAnim 对一切攻击魔法都放 FIRE 特效;baseDamage 只决定
+    //   **内联**伤害(sentinel −999 的特殊法术伤害靠 scriptOnSuccess opcode)。修:动画曾误 gate 在
+    //   baseDamage>0 块内 → sentinel 法术(御剑/special)不动画。现移出 gate。
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5 },
+    ])
+    withFighterPos(state, { x: 240, y: 170 }, [{ x: 160, y: 80 }])
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      // 64537 = (SHORT)−999 sentinel:asShort(baseDamage) <= 0 → E1 内联伤害跳过
+      magics: [makeMagic({ effect: 12, type: 'normal', baseDamage: 64537, fireDelay: 2, effectTimes: 1, shake: 0, speed: 2 })],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+      battleEffectIndex: [0, 0],
+    })
+    // PreMagic + OffMagic FIRE 动画仍建链(尽管无内联伤害)
+    expect(state.battleAnim, 'sentinel 攻击魔法 FIRE 动画应建链').toBeDefined()
+    expect(state.battleAnim!.frames[17]?.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 12 })
+    // 敌人 HP 未变(sentinel 不走 E1 内联伤害,伤害靠 scriptOnSuccess opcode)
+    expect(state.enemies[0]!.e.health).toBe(100)
+  })
+
+  it('单体 normal:OffMagic 落点 = enemy.posOriginal + (xOff,yOff)', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5 },
+    ])
+    withFighterPos(state, { x: 240, y: 170 }, [{ x: 160, y: 80 }])
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [
+        makeMagic({
+          effect: 12,
+          type: 'normal',
+          baseDamage: 45,
+          fireDelay: 2,
+          effectTimes: 1,
+          xOffset: 4,
+          yOffset: -6,
+        }),
+      ],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    const off = state.battleAnim!.frames[17]!
+    expect(off.overlays![0]).toMatchObject({ x: 164, y: 74 })
+  })
+
+  it('全体攻击法术(attackAll)→ OffMagic overlays 三落点', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5 },
+      { health: 100, defense: 30, level: 5 },
+    ])
+    withFighterPos(state, { x: 240, y: 170 }, [
+      { x: 160, y: 80 },
+      { x: 100, y: 60 },
+    ])
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 'all',
+      spells: [
+        makeSpell({
+          flags: {
+            usableOutsideBattle: false,
+            usableInBattle: true,
+            usableToEnemy: true,
+            applyToAll: true,
+          },
+        }),
+      ],
+      magics: [
+        makeMagic({ effect: 12, type: 'attackAll', baseDamage: 45, fireDelay: 2, effectTimes: 1 }),
+      ],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    const off = state.battleAnim!.frames[17]!
+    expect(off.overlays).toHaveLength(3)
+  })
+
+  it('防御类法术(applyToPlayer)→ 不建时间线(走原即时,state.battleAnim undefined)', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5 },
+    ])
+    withFighterPos(state, { x: 240, y: 170 }, [{ x: 160, y: 80 }])
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [makeMagic({ effect: 12, type: 'applyToPlayer', baseDamage: 45 })],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    expect(state.battleAnim).toBeUndefined()
+  })
+
+  it('缺 magicSpriteFrameCounts(无该 chunk)→ 不建时间线(向后兼容)', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5 },
+    ])
+    withFighterPos(state, { x: 240, y: 170 }, [{ x: 160, y: 80 }])
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [makeMagic({ effect: 99, type: 'normal', baseDamage: 45 })], // chunk 99 不在 frameCounts
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    expect(state.battleAnim).toBeUndefined()
+    // 伤害仍即时结算(E1 不依赖时间线)
+    expect(state.enemies[0]!.e.health).toBeLessThan(100)
+  })
+
+  it('缺 fighter posOriginal(旧 fixture)→ 不建时间线', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5 },
+    ])
+    // 不调 withFighterPos:players[0].posOriginal undefined
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [makeMagic({ effect: 12, type: 'normal', baseDamage: 45 })],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    expect(state.battleAnim).toBeUndefined()
+  })
+
+  it('PostMagic 段:受伤敌(掉血)抖动帧;i==1 帧 iColorShift=6', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5 },
+    ])
+    withFighterPos(state, { x: 240, y: 170 }, [{ x: 160, y: 80 }])
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [
+        makeMagic({
+          effect: 12,
+          type: 'normal',
+          baseDamage: 45,
+          fireDelay: 2,
+          effectTimes: 1,
+          shake: 0,
+        }),
+      ],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    const frames = state.battleAnim!.frames
+    // PostMagic 段 = 末 4 帧;i==1 抖动帧(总倒数第 3 帧)iColorShift=6
+    const post = frames.slice(frames.length - 4)
+    const colorShiftFrame = post[1]!
+    expect(colorShiftFrame.fighters?.[0]).toMatchObject({ side: 'enemy', idx: 0, iColorShift: 6 })
   })
 })

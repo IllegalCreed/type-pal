@@ -315,6 +315,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     glyphs,
     uiSpriteFrames: assets.uiSpriteFrames, // D17b:伤害数字弹幕用 UI sprite 数字帧
     effectSprite: assets.effectSprite, // D17a:物理攻击命中特效 overlay sprite(chunk 10)
+    magicSprites: assets.magicSprites, // D17:法术 FIRE.MKF sprite overlay(chunk = magic.effect)
+  }
+
+  // D17:FIRE.MKF magic sprite 帧数 Map(chunk → frameCount)— performMagic OffMagic 时间线取 n。
+  const magicSpriteFrameCounts = new Map<number, number>()
+  for (const [chunk, sprite] of assets.magicSprites) {
+    magicSpriteFrameCounts.set(chunk, sprite.frames.length)
   }
 
   const bus = createCommandBus()
@@ -750,6 +757,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       commands: eventCommands,
       enemyPos, // D17a:dev 战斗也用真 EnemyPos 表(非 fallback)
       battleEffectIndex, // D17a:dev 战斗命中特效帧基号
+      magicSpriteFrameCounts, // D17:dev 战斗 OffMagic 时间线 n
     },
   })
 
@@ -815,6 +823,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         objectPoisons, // 0x28 apply poison
         enemyPos, // D17a:enemy 初始 pos/posOriginal(battle.c:936-939)
         battleEffectIndex, // D17a:player 攻击命中特效帧基号(fight.c:2055)
+        magicSpriteFrameCounts, // D17:OffMagic 时间线 n(FIRE.MKF chunk 帧数)
         // P2#5:不再传 per-scene 切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
       })
       console.debug(

@@ -201,15 +201,19 @@ export interface FighterDelta {
 }
 
 /**
- * 一帧叠加的特效 sprite(物理攻击的 lpEffectSprite 命中特效 / 后续法术 sprite)。
+ * 一帧叠加的特效 sprite(物理攻击的 lpEffectSprite 命中特效 / 法术 FIRE.MKF sprite)。
  * present 层据 spriteChunk + frameIdx 取帧画到 (x,y)(sprite 之上 UI 之下)。
- * 本切片:kind='effect',spriteChunk = DATA.MKF chunk 10 lpEffectSprite。
+ *   - kind='effect':spriteChunk = DATA.MKF chunk 10 lpEffectSprite(物理攻击命中特效),
+ *     present 走 assets.effectSprite。
+ *   - kind='magic'(D17):spriteChunk = magic.wEffect(= FIRE.MKF chunk 号),
+ *     present 走 assets.magicSprites.get(spriteChunk)。frameIdx = OffMagic 帧循环公式 k。
+ *     落点 = magic.wType 落点 +(wXOffset,wYOffset)(fight.c:2742-2825)。
  */
 export interface BattleAnimOverlay {
   kind: 'effect' | 'magic'
-  /** present 解析的精灵 chunk(effect = DATA.MKF chunk 10)。 */
+  /** present 解析的精灵 chunk(effect = DATA.MKF chunk 10;magic = FIRE.MKF chunk = magic.effect)。 */
   spriteChunk: number
-  /** 该 chunk 内帧号(player attack = rgwBattleEffectIndex[sprite][1]*3 + i)。 */
+  /** 该 chunk 内帧号(player attack = rgwBattleEffectIndex[sprite][1]*3 + i;magic = 帧循环 k)。 */
   frameIdx: number
   /** 落点屏幕坐标(blit 底中 anchor:x - w/2, y - h)。 */
   x: number
@@ -225,8 +229,14 @@ export interface BattleAnimFrame {
   durationMs: number
   /** 本帧要 mutate 的 fighter 增量。 */
   fighters?: FighterDelta[]
-  /** 本帧叠加的特效 sprite(= state.battleAnim.overlay,供 present 画)。 */
+  /** 本帧叠加的单个特效 sprite(物理攻击 effect overlay;= state.battleAnim.overlay,供 present 画)。 */
   overlay?: BattleAnimOverlay
+  /**
+   * 本帧叠加的**多个**特效 sprite(D17 法术 AttackAll 三落点同帧;= state.battleAnim.overlays)。
+   * 兼容原 `overlay`(单数):driver applyAnimFrame 把 overlay/overlays 都落到 battleAnim,
+   * present 优先画 overlays(非空)否则画 overlay。单落点(Normal/Whole/Field)仍可用 overlays:[一条]。
+   */
+  overlays?: BattleAnimOverlay[]
   /** 本帧要弹的伤害数字(emit showDamageNum)。 */
   damageNum?: {
     target: { kind: 'enemy' | 'player'; idx: number }
@@ -246,8 +256,10 @@ export interface BattleAnimState {
   idx: number
   /** 当前帧已播放时长(ms)。 */
   frameElapsedMs: number
-  /** 当前帧 effect overlay(供 present 画;无则 undefined)。 */
+  /** 当前帧单个 effect overlay(供 present 画;无则 undefined)。 */
   overlay?: BattleAnimOverlay
+  /** 当前帧多个 magic overlay(AttackAll 三落点;present 优先画此,非空时盖过 overlay)。 */
+  overlays?: BattleAnimOverlay[]
 }
 
 /** UI 状态:select-action 阶段在 mainMenu / magicMenu / itemMenu / targetSelect 间切;非选择阶段 hidden。 */

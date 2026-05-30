@@ -31,8 +31,13 @@ export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: 
       if (d.iColorShift !== undefined) fighter.iColorShift = d.iColorShift
     }
   }
-  // overlay 落到 battleAnim(present 取当前帧 effect sprite);无 overlay → 清空。
-  if (state.battleAnim) state.battleAnim.overlay = frame.overlay
+  // overlay / overlays 落到 battleAnim(present 取当前帧 effect / magic sprite);无则清空。
+  //   - overlay(单数):物理攻击命中特效。
+  //   - overlays(复数):D17 法术 sprite(AttackAll 三落点 / 单落点一条)。
+  if (state.battleAnim) {
+    state.battleAnim.overlay = frame.overlay
+    state.battleAnim.overlays = frame.overlays
+  }
 
   if (frame.damageNum) {
     bus.emit({

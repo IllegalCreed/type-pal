@@ -56,6 +56,12 @@ export interface LoadedAssets {
    * state.battleAnim.overlay.frameIdx 取帧;缺(加载失败)→ undefined,overlay 不画。
    */
   effectSprite?: SpriteAsset
+  /**
+   * D17:FIRE.MKF magic sprite 表 —— 法术特效 overlay(kind='magic')。
+   * key = chunk index(= magic.effect)。只含被 magics[].effect 引用的 chunk 子集。
+   * state.battleAnim.overlays[].spriteChunk 取 chunk,frameIdx 取帧;缺 chunk → overlay 不画。
+   */
+  magicSprites: Map<number, SpriteAsset>
   /** M3 T29:战斗运行所需表 — dev panel / startBattle 用。 */
   enemies: Enemy[]
   /** M5.B-w2.a:OBJECT_ENEMY 段 153 条(scriptOnReady / scriptOnTurnStart 等 AI hook)。 */
@@ -309,6 +315,57 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     console.warn('assets: magic-sprite/effect.json 缺失,战斗命中特效 overlay 将不画:', err)
   }
 
+  // ── D17:FIRE.MKF magic sprite 加载 —— 法术特效 overlay(kind='magic') ─────────
+  //   fire-sprites.json = { chunkCount, chunks:[{chunkIndex, frameCount, frames:[{index,width,height}]}] }
+  //   帧 PNG: images/magic/fire-NN/frame-MM.png(NN/MM 两位补零)。
+  //   只加载被 magics[].effect 引用的 chunk 子集(去重)避免全量 55 chunk fetch 慢;
+  //   每 chunk key = chunkIndex(= magic.effect)。容错:缺帧占位 1×1 透明。
+  const magicSprites = new Map<number, SpriteAsset>()
+  try {
+    const fireMeta = await fetchJson<{
+      chunkCount: number
+      chunks: Array<{
+        chunkIndex: number
+        frameCount: number
+        frames: Array<{ index: number; width: number; height: number }>
+      }>
+    }>(`${BASE}/data/fire-sprites.json`)
+    // 被 magics 引用的 effect chunk 去重(magic.effect=0 也是合法 chunk index)。
+    const usedEffects = new Set<number>(magics.map((m) => m.effect))
+    const chunksToLoad = fireMeta.chunks.filter(
+      (c) => usedEffects.has(c.chunkIndex) && c.frameCount > 0,
+    )
+    await Promise.all(
+      chunksToLoad.map(async (chunk) => {
+        try {
+          const nn = chunk.chunkIndex.toString().padStart(2, '0')
+          const frames = await Promise.all(
+            chunk.frames.map((f) =>
+              fetchPng(
+                `${BASE}/images/magic/fire-${nn}/frame-${f.index.toString().padStart(2, '0')}.png`,
+              ).catch((err: unknown) => {
+                console.warn(`assets: magic sprite fire-${nn} frame ${f.index} load failed:`, err)
+                return undefined
+              }),
+            ),
+          )
+          magicSprites.set(chunk.chunkIndex, {
+            frames: frames.map((f) =>
+              f
+                ? { width: f.width, height: f.height, indices: f.indices, opaque: f.opaque }
+                : // 缺帧占位 1×1 透明(保 frameIdx 与 chunk 对齐)
+                  { width: 1, height: 1, indices: new Uint8Array(1), opaque: new Uint8Array(1) },
+            ),
+          })
+        } catch (err) {
+          console.warn(`assets: magic sprite chunk ${chunk.chunkIndex} load failed, skip:`, err)
+        }
+      }),
+    )
+  } catch (err) {
+    console.warn('assets: fire-sprites.json 缺失,法术特效 overlay 将不画:', err)
+  }
+
   // ── M5.6 W0.d:SPRITEUI 加载(menu box 9-slice 用前 18 frame) ─────────────
   const uiSpriteFrames: IndexedImage[] = []
   try {
@@ -366,6 +423,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     battleSprites,
     battleBgs,
     effectSprite,
+    magicSprites,
     enemies,
     enemyObjects,
     enemyTeams,

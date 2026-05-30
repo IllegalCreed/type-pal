@@ -4,15 +4,19 @@
  * tickPerformAction 逐帧驱动(applyAnimFrame)。
  *
  * 本切片:物理攻击(player→enemy)/ 物理受击(enemy→player)/ 死亡帧。
- * 6 种法术动画 + 平滑 fade-scene 留后续叶子(明确 defer)。
+ * D17:player **攻击魔法**链(PreMagic → OffMagic → PostMagic)。
+ * 治疗/防御 DefMagic、召唤 Summon、敌方 EnemyMagic 留后续叶子(明确 defer)。
  *
  * 出处:
- *   - buildPlayerAttackTimeline  ← fight.c:2008-2263 PAL_BattleShowPlayerAttackAnim
- *   - buildEnemyPhysicalTimeline ← fight.c:4910-5149 PAL_BattleEnemyPerformAction(physical 分支)
+ *   - buildPlayerAttackTimeline   ← fight.c:2008-2263 PAL_BattleShowPlayerAttackAnim
+ *   - buildEnemyPhysicalTimeline  ← fight.c:4910-5149 PAL_BattleEnemyPerformAction(physical 分支)
+ *   - buildPreMagicTimeline       ← fight.c:2337-2445 PAL_BattleShowPlayerPreMagicAnim
+ *   - buildPlayerOffMagicTimeline ← fight.c:2608-2844 PAL_BattleShowPlayerOffMagicAnim
+ *   - buildPostMagicTimeline      ← fight.c:3189-3246 PAL_BattleShowPostMagicAnim
  *   - 帧时长 PAL_BattleDelay(N) = N × BATTLE_FRAME_TIME(battle.h:28-29,BATTLE_FPS=25 → 40ms)
  */
 
-import type { BattleAnimFrame } from './battle-state.js'
+import type { BattleAnimFrame, BattleAnimOverlay } from './battle-state.js'
 
 /** BATTLE_FRAME_TIME = 1000 / BATTLE_FPS = 1000/25 = 40ms(battle.h:28-29)。 */
 export const BATTLE_FRAME_TIME = 40
@@ -289,4 +293,288 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
   frames.push({ durationMs: delayMs(4) })
 
   return frames
+}
+
+// ============================================================================
+// D17 player 攻击魔法动画链(PreMagic → OffMagic → PostMagic)
+// ============================================================================
+
+export interface BuildPreMagicInput {
+  /** caster 站立底锚(g_Battle.rgPlayer[idx].pos)。 */
+  casterPos: { x: number; y: number }
+  /** caster idx(players[])。 */
+  casterIdx: number
+  /**
+   * 施法 cast 特效帧基号 = rgwBattleEffectIndex[battleSpriteId][0] * 10 + 15(fight.c:2387-2389)。
+   * 调用方先查表算好传入;非 summon 时该 10 帧 lpEffectSprite(DATA.MKF chunk 10)叠到 caster 头顶。
+   */
+  castEffectFrameBase: number
+  /** 是否召唤魔法(fSummon);true → 跳过 10 帧 cast 特效(fight.c:2380)。本切片只攻击法术,恒 false。 */
+  isSummon: boolean
+}
+
+/**
+ * player PreMagic 动画时间线(port fight.c:2337-2445 PAL_BattleShowPlayerPreMagicAnim)。
+ *
+ *   - i=0..3:caster 上移 4 帧,pos.x-=(4-i),pos.y-=(4-i)/2,各 Delay(1)(fight.c:2363-2370)
+ *   - Delay(2)(fight.c:2372)
+ *   - currentFrame=5(施法手势,fight.c:2374)
+ *   - 非 summon:10 帧 cast 特效(fight.c:2394-2441),overlay kind='effect' chunk10,
+ *     frameIdx = castEffectFrameBase + j,落点 caster 头顶 (caster_x, caster_y),各 Delay(1)
+ *   - Delay(1)(fight.c:2444)
+ *
+ * 注:cast 特效落点 sdlpal 用上移后的 caster pos(fight.c:2384-2385 x/y = 当前 pos);
+ *     上移 4 帧后 pos = (casterX - 10, casterY - 5)(累 (4+3+2+1)=10,/2=5),固定不再动。
+ */
+export function buildPreMagicTimeline(input: BuildPreMagicInput): BattleAnimFrame[] {
+  const { casterPos, casterIdx, castEffectFrameBase, isSummon } = input
+  const frames: BattleAnimFrame[] = []
+
+  // —— i=0..3:上移 4 帧(fight.c:2363-2370)——
+  let cx = casterPos.x
+  let cy = casterPos.y
+  for (let i = 0; i < 4; i++) {
+    cx -= 4 - i
+    cy -= Math.trunc((4 - i) / 2)
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: casterIdx, pos: { x: cx, y: cy } }],
+    })
+  }
+
+  // —— Delay(2)(fight.c:2372)——
+  frames.push({ durationMs: delayMs(2) })
+
+  // —— currentFrame=5(施法手势,fight.c:2374)——
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'player', idx: casterIdx, currentFrame: 5 }],
+  })
+
+  // —— 非 summon:10 帧 cast 特效(fight.c:2394-2441),落点上移后 caster pos ——
+  if (!isSummon) {
+    for (let j = 0; j < 10; j++) {
+      frames.push({
+        durationMs: delayMs(1),
+        overlay: {
+          kind: 'effect',
+          spriteChunk: EFFECT_SPRITE_CHUNK,
+          frameIdx: castEffectFrameBase + j,
+          x: cx,
+          y: cy,
+        },
+      })
+    }
+  }
+
+  // —— Delay(1)(fight.c:2444)——
+  frames.push({ durationMs: delayMs(1) })
+
+  return frames
+}
+
+export interface BuildOffMagicInput {
+  /** caster idx(players[]);-1 = 无 caster(summon 内调,本切片不走)。 */
+  casterIdx: number
+  /** 解析后的 magic 参数(对照 sdlpal `lprgMagic[iMagicNum]`)。 */
+  magic: {
+    /** FIRE.MKF chunk 号(= overlay.spriteChunk)。 */
+    effect: number
+    /** 法术类型(落点分支)。 */
+    type: 'normal' | 'attackAll' | 'attackWhole' | 'attackField'
+    /** SHORT — (speed+5)*10 = 帧 durationMs。 */
+    speed: number
+    /** wFireDelay — 帧循环 / 总帧数。 */
+    fireDelay: number
+    /** wEffectTimes — 总帧数循环次数。 */
+    effectTimes: number
+    /** wShake — 末尾震屏帧数。 */
+    shake: number
+    /** wXOffset / wYOffset — 落点偏移。 */
+    xOffset: number
+    yOffset: number
+  }
+  /** FIRE.MKF chunk[effect] 帧数 n(performMagic 从 fire-sprites.json 取)。 */
+  n: number
+  /** 单体目标 enemy idx(type=normal 用);全体类型时无意义传 -1。 */
+  targetIdx: number
+  /** 单体目标 enemy 落点(type=normal 用;EnemyPos + yPosOffset 底锚)。type 全体时可传 undefined。 */
+  targetEnemyPos?: { x: number; y: number }
+  /**
+   * 吹飞强度(g_Battle.iBlow)—— 敌方 pos 逐帧位移 (blow, blow/2)。
+   * 本切片无 per-enemy pos 追踪(纯函数不 mutate state)→ 仅当需要时由调用方处理;
+   * iBlow 缺(本切片恒 0)则不产生位移(标注 defer:blow 位移需 per-enemy pos,留 present)。
+   */
+  iBlow?: number
+}
+
+/**
+ * player OffMagic 动画时间线(port fight.c:2608-2844 PAL_BattleShowPlayerOffMagicAnim)。
+ *
+ * 总帧数 l = (n - fireDelay) * effectTimes + n + shake(fight.c:2661-2664)。
+ * 每帧:
+ *   - durationMs = (speed+5)*10(fight.c:2729-2730)。
+ *   - caster.currentFrame=6 当 i==fireDelay(PAL_CLASSIC,fight.c:2677-2680)。
+ *   - 帧 index k:
+ *       非 shake 区(l - i > shake):i<n ? i : ((i-fireDelay)%(n-fireDelay)+fireDelay)(fight.c:2698-2707)
+ *       shake 区(l - i <= shake):k=(l-shake-1)%n,带 shake:{time:i,level:3}(fight.c:2716-2720)
+ *   - overlay kind='magic' spriteChunk=effect frameIdx=k,落点按 type:
+ *       normal(target!=-1):enemy[target].pos + (xOff,yOff)(fight.c:2746-2750)
+ *       attackAll:三点 {70,140}{100,110}{160,100} 各 +off → overlays[3](fight.c:2766-2776)
+ *       attackWhole:(120,100)+off ; attackField:(160,200)+off(fight.c:2796-2808)
+ *
+ * blow 位移(iBlow) / keepEffect 烙背景(0xFFFF) / wScreenWave 增复位 → defer(标注;
+ * 需 per-enemy pos mutate / present-only background blit,本数据级切片不建模)。
+ */
+export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAnimFrame[] {
+  // targetIdx 透传供调用方语义对齐;落点由 magic.type + targetEnemyPos 决定,本体不直接读 targetIdx。
+  const { casterIdx, magic, n, targetEnemyPos } = input
+  const { effect, type, speed, fireDelay, effectTimes, shake, xOffset, yOffset } = magic
+
+  const frames: BattleAnimFrame[] = []
+
+  // 总帧数 l(fight.c:2661-2664)。effectTimes 是 (SHORT) 强转(fight.c:2662 `l *= (SHORT)wEffectTimes`)
+  //   —— 攻击魔法都是小正值,但严格忠实:>=32768 当负(召唤类才有,本 builder 未来若复用需正确)。
+  const l = (n - fireDelay) * asShortLocal(effectTimes) + n + shake
+  const frameDuration = (speed + 5) * 10
+
+  for (let i = 0; i < l; i++) {
+    const fighters: BattleAnimFrame['fighters'] = []
+    // PAL_CLASSIC:i==fireDelay 帧把 caster 切到施法帧 6(fight.c:2677-2680)。
+    if (casterIdx >= 0 && i === fireDelay) {
+      fighters.push({ side: 'player', idx: casterIdx, currentFrame: 6 })
+    }
+
+    // 帧 index k + shake 判定(fight.c:2696-2720)。
+    let k: number
+    let shakeOverlay: BattleAnimFrame['shake']
+    if (l - i > shake) {
+      if (i < n) {
+        k = i
+      } else {
+        k = ((i - fireDelay) % (n - fireDelay)) + fireDelay
+      }
+    } else {
+      // shake 区:震屏 + 定帧 (l-shake-1)%n(fight.c:2716-2720)。
+      k = (l - shake - 1) % n
+      shakeOverlay = { time: i, level: 3 }
+    }
+
+    // 落点 overlay(按 magic.type;fight.c:2742-2825)。
+    const overlays: BattleAnimOverlay[] = []
+    if (type === 'normal') {
+      // target!=-1:enemy[target].pos + (xOff,yOff)(fight.c:2746-2750)。
+      const ep = targetEnemyPos ?? { x: 0, y: 0 }
+      overlays.push({
+        kind: 'magic',
+        spriteChunk: effect,
+        frameIdx: k,
+        x: ep.x + asShortLocal(xOffset),
+        y: ep.y + asShortLocal(yOffset),
+      })
+    } else if (type === 'attackAll') {
+      // 三点 {70,140}{100,110}{160,100} 各 +off(fight.c:2766-2776)。
+      const pts: Array<[number, number]> = [
+        [70, 140],
+        [100, 110],
+        [160, 100],
+      ]
+      for (const [px, py] of pts) {
+        overlays.push({
+          kind: 'magic',
+          spriteChunk: effect,
+          frameIdx: k,
+          x: px + asShortLocal(xOffset),
+          y: py + asShortLocal(yOffset),
+        })
+      }
+    } else {
+      // attackWhole(120,100) / attackField(160,200)(fight.c:2796-2808)。
+      const px = type === 'attackWhole' ? 120 : 160
+      const py = type === 'attackWhole' ? 100 : 200
+      overlays.push({
+        kind: 'magic',
+        spriteChunk: effect,
+        frameIdx: k,
+        x: px + asShortLocal(xOffset),
+        y: py + asShortLocal(yOffset),
+      })
+    }
+
+    const frame: BattleAnimFrame = {
+      durationMs: frameDuration,
+      overlays,
+    }
+    if (fighters.length > 0) frame.fighters = fighters
+    if (shakeOverlay) frame.shake = shakeOverlay
+    frames.push(frame)
+  }
+
+  return frames
+}
+
+export interface BuildPostMagicInput {
+  /**
+   * 受伤的敌人(health != prevHP)idx + idle 底锚 pos —— 本帧抖动这些敌人。
+   * 调用方过滤好(只传 health != prevHP 的);空 → 无敌人抖,但仍产 3 帧 delay + 复位(忠实 sdlpal)。
+   */
+  hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }>
+}
+
+/**
+ * PostMagic 动画时间线(port fight.c:3189-3246 PAL_BattleShowPostMagicAnim)。
+ *
+ *   - i=0..2:受伤敌 pos.x-=dist(dist 8→-4→2),iColorShift=(i==1?6:0),各 Delay(1)(fight.c:3216-3237)
+ *   - 末:所有敌 pos=posBak 复位,Delay(1)(fight.c:3240-3245)
+ *
+ * 注:sdlpal y 不变(fight.c:3229 注释掉 y -= dist/2)。
+ *     iColorShift 复位由 resetFightersAfterAction 兜底,但末复位帧仍显式带 iColorShift=0
+ *     (i=2 帧已 iColorShift=0;复位帧只动 pos)。
+ */
+export function buildPostMagicTimeline(input: BuildPostMagicInput): BattleAnimFrame[] {
+  const { hurtEnemies } = input
+  const frames: BattleAnimFrame[] = []
+
+  let dist = 8
+  // 累积 x 位移(每帧基于上一帧 pos 再 -=dist,对齐 sdlpal in-place mutate)。
+  const curX = new Map<number, number>()
+  for (const he of hurtEnemies) curX.set(he.idx, he.pos.x)
+
+  for (let i = 0; i < 3; i++) {
+    const fighters: BattleAnimFrame['fighters'] = []
+    for (const he of hurtEnemies) {
+      const nx = (curX.get(he.idx) ?? he.pos.x) - dist
+      curX.set(he.idx, nx)
+      fighters.push({
+        side: 'enemy',
+        idx: he.idx,
+        pos: { x: nx, y: he.pos.y },
+        iColorShift: i === 1 ? 6 : 0,
+      })
+    }
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: fighters.length > 0 ? fighters : undefined,
+    })
+    dist = Math.trunc(dist / -2)
+  }
+
+  // —— 末:复位 pos = posBak,Delay(1)(fight.c:3240-3245)——
+  const resetFighters: BattleAnimFrame['fighters'] = hurtEnemies.map((he) => ({
+    side: 'enemy' as const,
+    idx: he.idx,
+    pos: { x: he.pos.x, y: he.pos.y },
+    iColorShift: 0,
+  }))
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: resetFighters.length > 0 ? resetFighters : undefined,
+  })
+
+  return frames
+}
+
+/** SHORT cast(xOffset/yOffset 是 WORD 但 sdlpal 用 (SHORT) 强转,fight.c:2749)。 */
+function asShortLocal(n: number): number {
+  return (n << 16) >> 16
 }
