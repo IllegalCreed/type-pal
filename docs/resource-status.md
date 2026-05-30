@@ -1,18 +1,13 @@
-# M4 chunk inventory
+# Resource Status · type-pal
 
-> 14 个 MKF + 非 MKF 资源(WORD.DAT / M.MSG / Musics / AVI / BDF)全 chunk 覆盖率明细。
+> MKF + 非 MKF 资源(WORD.DAT / M.MSG / Musics / AVI / BDF)逐 chunk 提取覆盖率。**资源提取的单一真值源。**
+> **职责**:本表 owns 每个 MKF / 非 MKF 资源每 chunk 的提取状态。runtime 功能(渲染 / 播放)→ [feature-status](feature-status.md);逐 opcode → [opcode-status](opcode-status.md)。
+> **三表**:[feature-status](feature-status.md)(引擎功能)· [opcode-status](opcode-status.md)(事件 / opcode)· resource-status(资源提取,本表)
+> **图例**:✅ done(已抽,byte-level 确认)· ⚠️ partial · ⬜ todo · N/A · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap)· 🎵 同源冗余(已有其他格式覆盖)
+> **最后更新**:2026-05-30 — byte-level 复核;M4 提取实质 100% 完成,零真实数据 gap(全非空 chunk 已落地,skip 的都是引擎从不加载的空槽)。唯一残留 = M6 runtime 音频播放 wiring(opcode 0x43 setMusic / playSound),属功能里程碑,非提取 gap。
 >
-> **真值 single source of truth = [docs/plans/2026-05-27-m4-extract-audit.md](plans/2026-05-27-m4-extract-audit.md)(2026-05-29 复审段)。** 本文件是 chunk **语义参考** + 提取状态镜像。
->
-> 数据来源:`reference/sdlpal/global.c::PAL_LoadDefaultGame` + 各 .c 文件 grep 真值;状态列由 2026-05-30 byte-level 复核(逐 MKF header chunk_count vs `data/extracted/` 实际输出数 + 追 parser 源码确认 dump-all)刷新。
-> 提取入口/路由:[packages/pal-extract/src/cli.ts](../packages/pal-extract/src/cli.ts)。
->
-> **状态结论:M4 提取实质 100% 完成,零真实数据 gap。** 全部 14 MKF + 非 MKF 资源的每个**非空** chunk 都已落地。被 skip 的一律是引擎从不加载的 0 字节空槽。唯一残留是 M6 的 runtime 音频播放 wiring(opcode 0x43 setMusic / playSound),属功能里程碑,非提取 gap。
->
-> 图例:✅ 已抽(byte-level 确认) · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap) · 🎵 同源冗余(已有其他格式覆盖)
->
-> MKF 文件存在性:STUFF.MKF / SAVE.MKF 在本项目 `data/raw/` 中不存在(WIN95+ 用 .RPG 存档)。`mus.mkf` 存在但与 MIDI 同源(见末段)。
-> 状态记录时间:2026-05-30(byte-level 复核刷新;原快照 2026-05-24 M4 P2 T1 起手时全部状态已过时,本次全量订正)。
+> 数据来源:`reference/sdlpal/global.c::PAL_LoadDefaultGame` + 各 .c grep;状态列由 byte-level 复核(逐 MKF header chunk_count vs `data/extracted/` 实际输出数 + 追 parser 源码确认 dump-all)。提取入口:[packages/pal-extract/src/cli.ts](../packages/pal-extract/src/cli.ts)。
+> MKF 文件存在性:STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(WIN95+ 用 .RPG 存档);`mus.mkf` 存在但与 MIDI 同源(见末段)。
 
 ---
 

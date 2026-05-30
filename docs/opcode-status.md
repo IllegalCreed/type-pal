@@ -1,13 +1,13 @@
-# Script opcode 实现状态(sdlpal `PAL_InterpretInstruction` / `PAL_RunTriggerScript`)
+# Opcode Status · type-pal
 
-> 目的:**标注清楚所有 opcode 的实现状态,最后不漏任何一个**。
-> sdlpal 真值出处:`reference/sdlpal/script.c`(PAL_InterpretInstruction 587-3115 / PAL_RunTriggerScript 3140+ / PAL_RunAutoScript 3482+)。
-> 全集:控制流 0x00-0x0A + 数据/动作 0x0B-0xA6(不存在:0x32 / 0x48 / 0x72 / 0x9D)。
+> 脚本 opcode / 事件解释器逐指令实现状态 —— **标注清楚所有 opcode,最后不漏任何一个**。**事件 / opcode 的单一真值源**(163 全集)。
+> **职责**:本表 owns 每个 opcode 的实现状态。引擎功能(menu / battle / scene / cutscene)→ [feature-status](feature-status.md);资源提取 → [resource-status](resource-status.md)。
+> **三表**:[feature-status](feature-status.md)(引擎功能)· opcode-status(事件 / opcode,本表)· [resource-status](resource-status.md)(资源提取)
+> **图例**:✅ done · ⚠️ partial(extraction 已收集目标,runtime 待)· ⬜ todo · N/A
+> **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra)· E=战斗 · S=系统/UI
+> **最后更新**:2026-05-30 — 0x0A goto-if-no 收口 → A 类全 ✅;订正 0x41 误标。剩余只 D 类音频(需 M6)+ E 类战斗。
 >
-> 状态:✅ 已实现 · 🟡 部分(extraction 已收集目标,runtime 待) · ⬜ 待实现
-> 类别:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra) · E=战斗 · S=系统/UI
-
-最后更新:2026-05-30(**0x0A goto-if-no 收口 → A 类全 ✅**;订正 0x41 误标。剩余只 D 类音频(需 M6)+ E 类战斗)
+> sdlpal 真值出处:`reference/sdlpal/script.c`(PAL_InterpretInstruction 587-3115 / PAL_RunTriggerScript 3140+ / PAL_RunAutoScript 3482+)。全集:控制流 0x00-0x0A + 数据/动作 0x0B-0xA6(不存在:0x32 / 0x48 / 0x72 / 0x9D)。
 
 > **2026-05-29 session 5 大批完成**(见各 commit):
 > - C 类调色板:0x53/0x54 昼夜(+ 夜间调色板真值接线)、0x80 PaletteFade、0x8B setPalette —— **全 ✅**
@@ -65,7 +65,7 @@ setDialogStyle 0x3B-0x3E。
 0x4C monsterChase、0x52 hideObject、0x62/0x63 chasePause/Speedup、0x7A/0x7B partyWalkTo(speed 4/8)、
 0x7C npcWalkTo(speed 4 + stagger)、0x7D moveObject、0x7E setObjectLayer、0x87 animateObject。
 
-## 数据/动作 0x0B-0xA6 — 待实现 ⬜🟡
+## 数据/动作 0x0B-0xA6 — 待实现 ⬜⚠️
 
 ### A 控制流/数据 / 系统 S — **全部 ✅(2026-05-30 0x0A 收口)**
 | op | 含义 | 状态 | 备注 |
@@ -119,10 +119,10 @@ setDialogStyle 0x3B-0x3E。
 | 0x5A | halve player HP | |
 | 0x5B | halve enemy HP | |
 | 0x5C | hide party for a while(battle) | g_Battle.iHidingTime=-op0(script.c:1907-1911)— 原误判 B,实为战斗态 |
-| 0x5E | jump if enemy no poison | 🟡 extraction 已收集目标,runtime 待 |
+| 0x5E | jump if enemy no poison | ⚠️ extraction 已收集目标,runtime 待 |
 | 0x5F | kill player | |
 | 0x60 | KO enemy | |
-| 0x64 | jump if enemy HP > % | 🟡 extraction 已收集目标,runtime 待 |
+| 0x64 | jump if enemy HP > % | ⚠️ extraction 已收集目标,runtime 待 |
 | 0x66 | throw weapon to enemy | |
 | 0x67 | enemy use magic | |
 | 0x68 | jump if enemy turn | |

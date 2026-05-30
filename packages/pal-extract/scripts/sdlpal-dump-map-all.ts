@@ -9,7 +9,7 @@
  *  3. 每 sceneId:
  *     b. renderTilemap({ sceneId, outPath }) → build/m4-maps/{sceneId}.png
  *     c. pixelmatch 两图 → pass / fail
- *  4. 失败 scene 进 docs/M4_KNOWN_DEVIATIONS.md
+ *  4. 失败 scene 进 build/m4-map-diff.md(一次性 diff 报告,不入 git)
  *
  * 注意:
  *  - sdlpal 调用用 execFileSync(防 shell injection)
@@ -202,9 +202,9 @@ const mdLines = [
 ]
 
 writeFileSync(
-  resolve(REPO_ROOT, 'docs/M4_KNOWN_DEVIATIONS.md'),
+  resolve(REPO_ROOT, 'build/m4-map-diff.md'),
   mdLines.join('\n'),
 )
 
-console.log(`[M4 P3.T7] failures written to docs/M4_KNOWN_DEVIATIONS.md`)
+console.log(`[M4 P3.T7] failures written to build/m4-map-diff.md`)
 console.log(`[M4 P3.T7] full report at build/m4-map-diff-report.json`)
