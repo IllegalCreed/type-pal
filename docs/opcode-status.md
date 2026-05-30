@@ -17,14 +17,18 @@
 > - 配套:开场/结局双版 devpanel、夜间调色板/SOUNDS/Musics/map104·164 提取补齐。
 >
 > 剩余 D 类只剩**音频**(需 M6 音频子系统):0x45 battle music、0x77 stop music、0xA3 CD music。
-> 剩余 A/S 待实现(部分已被本 session 建的子系统解锁,可做):
-> - 0x4D wait-any-key:**可做**(已有 ending-player waitForKey 可复用)
-> - 0x4E load-game:**可做**(已有 bootstrap loadGameFromSlot 可复用)
-> - 0xA0 quit/ending:**可做**(已有 PAL_EndingScreen DOS 编排 playDosEnding + WIN95 4/5/6.mp4)
-> - 0x0A goto-if-no:需 yes/no ConfirmMenu UI + 阻塞选择(前置子系统)
+> 剩余 A/S 待实现:
+> - 0x4D wait-any-key:✅ 已实现(2026-05-30,commit 53c8cbf;waiting='wait-key',Confirm/Menu/Cancel 解除)
+> - 0x4E load-game:✅ 已实现(2026-05-30,commit 56fe8b7;fade-out + 重载 gs.currentSaveSlot + 停脚本)
+> - 0xA0 quit/ending:✅ 已实现(2026-05-30,commit 30a4822;WIN95 播 4/5/6.mp4→回标题,DOS 直接回标题,跳过引擎 credits)
+> - 0x78 / 0xA6:✅ 显式 no-op 文档化(2026-05-30,commit 1196faf;0x78 本游戏 35 用全空操作,0xA6 0 用)
+> - 0x0A goto-if-no:需 yes/no ConfirmMenu UI + 阻塞选择(前置子系统)— **唯一剩余 A 类**
 > - 0x41 mark-failed:需 fScriptSuccess flag + 物品消耗改"脚本末按 success 扣"(item-use 流程改)
-> - 0xA6 backup screen:本游戏 0 调用(0x73 fadeScreen 内部已含 backup);独立 opcode 未单接
-> - 0x78:sdlpal 标 FIXME 未知,需查
+>
+> dialog/text(2026-05-30):逐字符颜色控制符全套 ✅(commit 77f6c2e;`"`黄/`-`青/`'``@`红 toggle + 消费 `()$~\`)
+> + 时间驱动打字 ✅(commit bea9475;$NN 变速 + ~NN 尾暂停,对齐 sdlpal iDelayTime)。
+> scene:0x05 redraw 对齐 PAL_MakeScene 自动淡入(commit ef70491,修仙灵岛靠岸黑屏);autoScript goto 不消耗帧
+> (commit eaaa1d5,修张四划船掉船尾);scene-load 失败兜底解冻(commit 9791497)。
 
 ## 控制流(0x00-0x0A)
 
@@ -35,7 +39,7 @@
 | 0x02 | end reset(resetTo) | ✅ | autoScript reset loop |
 | 0x03 | goto | ✅ | 含 shared#L_x 跨 scene |
 | 0x04 | call script(子脚本) | ✅ | 调用栈(238 次最高频) |
-| 0x05 | redraw screen / ClearDialog | ✅ | |
+| 0x05 | redraw screen / ClearDialog | ✅ | 对齐 sdlpal PAL_MakeScene(needToFadeIn→淡入,修仙灵岛靠岸黑屏,ef70491) |
 | 0x06 | jump by rate | ✅ | OP_JUMP_BY_RATE |
 | 0x07 | start battle | ✅ | |
 | 0x08 | replace entry with next | ✅ | 默认 raw 路径 ip++ 已等价(continue);wNextScriptEntry resume 边缘情形未做 |
@@ -72,10 +76,10 @@ setDialogStyle 0x3B-0x3E。
 | 0x8F | halve cash | ✅A | dwCash = floor(dwCash/2)(script.c:2598,2026-05-29) |
 | 0x98 | set follower | 🟡A | 数据✅(gs.followers+nFollower);视觉随"多 follower per-role sprite 渲染"feature(既有 M5+ gap,party[2] 同) |
 | 0x99 | change map for scene | ✅A | mapNum override + op0=0xFFFF map-only reload hook(换 tilemap 不中断脚本) |
-| 0xA0 | quit game | ⬜S | 退出/回标题(需 quit/ending 子系统) |
+| 0xA0 | quit game | ✅S | _quitHandler:WIN95 播 4/5/6.mp4→回标题,DOS 直接回标题(跳引擎 credits)(script.c:2988,30a4822) |
 | 0xA1 | set all party pos = first | ✅A | 全 trail(5)= 队首世界坐标+朝向 → follower 聚拢(script.c:2998,2026-05-29) |
-| 0x4D | wait for any key | ⬜S | UI 等键(需阻塞键等待子系统) |
-| 0x4E | load last saved game | ⬜S | 读最近存档(需存档/reload 子系统) |
+| 0x4D | wait for any key | ✅S | waiting='wait-key',Confirm(kKeySearch)/Menu/Cancel(kKeyMenu)解除(play.c:602,53c8cbf) |
+| 0x4E | load last saved game | ✅S | fade-out + _loadLastSaveHandler(gs.currentSaveSlot)+ 停脚本(script.c:1760,56fe8b7) |
 
 ### B 移动 / NPC / chase — 全部 ✅(2026-05-28)
 | op | 含义 | 状态 | 备注(sdlpal 出处) |
@@ -154,5 +158,5 @@ setDialogStyle 0x3B-0x3E。
 | **0x45** | set battle music | D | ⬜ **M6 音频** |
 | **0x77** | stop music | D | ⬜ **M6 音频** |
 | **0xA3** | play CD music(RIX fallback) | D | ⬜ **M6 音频** |
-| 0xA6 | backup screen | D | ⬜ 本游戏 0 调用(0x73 内部已 backup);独立未接 |
-| 0x78 | FIXME ???(sdlpal 未知) | ? | ⬜ 需查 sdlpal |
+| 0xA6 | backup screen | D | ✅ 显式 no-op(本游戏 0 调用;0x73 内部已 backup)(script.c:3069,1196faf) |
+| 0x78 | FIXME ???(sdlpal `case 0x78: break;`) | — | ✅ 显式 no-op(sdlpal 标 FIXME 字面空操作;本游戏 35 用全空)(script.c:2224,1196faf) |
