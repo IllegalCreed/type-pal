@@ -387,7 +387,7 @@ function tickSelectAction(
       handleMagicMenuInput(state, input, res.playerRoles, res.spells, alivePlayerIdxs)
       break
     case 'itemMenu':
-      handleItemMenuInput(state, input, gs, res.items)
+      handleItemMenuInput(state, input, gs, res.items, alivePlayerIdxs)
       break
     case 'targetSelect':
       handleTargetSelectInput(state, input, alivePlayerIdxs)
@@ -583,18 +583,43 @@ function handleMagicMenuInput(
   if (input.pressed.has('Confirm')) {
     const spellId = learned[state.uiCursor]
     if (spellId === undefined) return
-    // 对敌全体法术跳过选目标 —— 对齐 sdlpal **uibattle.c:1317-1322**:
-    //   usableToEnemy + kMagicFlagApplyToAll → kBattleUISelectTargetEnemyAll
-    //   →(PAL_CLASSIC,uibattle.c:1613)"Don't bother selecting" 即时 commit(iSelectedIndex=-1)。
-    // **菜单判定按 flags.applyToAll**(不是 magic.type;伤害侧才按 type,见 performMagic E1
+    // D18:目标域唯一判定 = magic.flags.usableToEnemy(uibattle.c:1317),**不看 magic.type**:
+    //   usableToEnemy=TRUE  → applyToAll? EnemyAll(即时 commit target=-1) : Enemy(选敌,现有流)
+    //   usableToEnemy=FALSE → applyToAll? PlayerAll(即时 commit target=-1) : Player(选队友)
+    // PAL_CLASSIC EnemyAll/PlayerAll 都 "Don't bother selecting" 即时 commit
+    //   (uibattle.c:1616/1667 iSelectedIndex=-1 → PAL_BattleCommitAction)。
+    // **菜单判定按 flags**(不是 magic.type;伤害侧才按 type,见 performMagic E1
     //   FIGHT_DetectMagicTargetChange —— 二者是 sdlpal 两套独立判定,故意分开)。
     const spell = spells.find((s) => s.id === spellId)
-    if (spell?.flags.applyToAll && spell.flags.usableToEnemy) {
-      state.pendingActions.set(playerIdx, { type: 'magic', actionId: spellId, target: -1 })
+    const usableToEnemy = spell?.flags.usableToEnemy ?? true // 缺 spell → 保旧默认(敌方)
+    const applyToAll = spell?.flags.applyToAll ?? false
+    if (usableToEnemy) {
+      if (applyToAll) {
+        // EnemyAll(uibattle.c:1321)→ PAL_CLASSIC 即时 commit target=-1(targetSide 省略=enemy)
+        state.pendingActions.set(playerIdx, { type: 'magic', actionId: spellId, target: -1 })
+        advanceSelectingPlayer(state, alivePlayerIdxs)
+        return
+      }
+      // Enemy(uibattle.c:1327)→ 现有敌方目标选择流
+      state.pendingActionDraft = { type: 'magic', actionId: spellId, targetSide: 'enemy' }
+      state.uiState = 'targetSelect'
+      state.uiCursor = 0
+      return
+    }
+    // 治疗/辅助(usableToEnemy=FALSE)
+    if (applyToAll) {
+      // PlayerAll(uibattle.c:1335)→ PAL_CLASSIC 即时 commit target=-1 targetSide=player
+      state.pendingActions.set(playerIdx, {
+        type: 'magic',
+        actionId: spellId,
+        target: -1,
+        targetSide: 'player',
+      })
       advanceSelectingPlayer(state, alivePlayerIdxs)
       return
     }
-    state.pendingActionDraft = { type: 'magic', actionId: spellId }
+    // Player(uibattle.c:1344)→ 友方目标选择流
+    state.pendingActionDraft = { type: 'magic', actionId: spellId, targetSide: 'player' }
     state.uiState = 'targetSelect'
     state.uiCursor = 0
   }
@@ -614,6 +639,7 @@ function handleItemMenuInput(
   input: InputSnapshot,
   gs: GameState,
   items: Item[],
+  alivePlayerIdxs: number[],
 ): void {
   if (input.pressed.has('Cancel')) {
     cancelToMainMenu(state)
@@ -634,29 +660,60 @@ function handleItemMenuInput(
   if (input.pressed.has('Confirm')) {
     const entry = usable[state.uiCursor]
     if (!entry) return
+    const playerIdx = state.selectingPlayerIdx
+    if (playerIdx === undefined) return
     // E2:投掷物(throwable + scriptOnThrow)→ 'throw-item' action(performThrowItem
     // 跑 scriptOnThrow + 0x42),否则 'item' action(performItem 跑 scriptOnUse)。
     // sdlpal 战斗物品菜单按 item flag 分 kBattleActionThrowItem / kBattleActionUseItem。
     const item = items.find((i) => i.id === entry.itemId)
     const isThrow = !!item?.flags.throwable && item.scriptOnThrow !== 0
-    state.pendingActionDraft = { type: isThrow ? 'throw-item' : 'item', actionId: entry.itemId }
+    const applyToAll = !!item?.flags.applyToAll
+    if (isThrow) {
+      // D18:投掷类 —— sdlpal PAL_BattleUIThrowItem(uibattle.c:702)目标 = **敌方**:
+      //   applyToAll? EnemyAll(PAL_CLASSIC 即时 commit target=-1) : Enemy(选敌,现有流)。
+      if (applyToAll) {
+        state.pendingActions.set(playerIdx, {
+          type: 'throw-item',
+          actionId: entry.itemId,
+          target: -1,
+        })
+        advanceSelectingPlayer(state, alivePlayerIdxs)
+        return
+      }
+      state.pendingActionDraft = {
+        type: 'throw-item',
+        actionId: entry.itemId,
+        targetSide: 'enemy',
+      }
+      state.uiState = 'targetSelect'
+      state.uiCursor = 0
+      return
+    }
+    // D18:使用类(治疗药等)—— sdlpal PAL_BattleUIUseItem(uibattle.c:653)目标 = **队友**:
+    //   applyToAll? PlayerAll(PAL_CLASSIC 即时 commit target=-1 targetSide=player) : Player(选队友)。
+    if (applyToAll) {
+      state.pendingActions.set(playerIdx, {
+        type: 'item',
+        actionId: entry.itemId,
+        target: -1,
+        targetSide: 'player',
+      })
+      advanceSelectingPlayer(state, alivePlayerIdxs)
+      return
+    }
+    state.pendingActionDraft = { type: 'item', actionId: entry.itemId, targetSide: 'player' }
     state.uiState = 'targetSelect'
     state.uiCursor = 0
   }
 }
 
 /**
- * targetSelect input 处理(M3.5 T14):
+ * targetSelect input 处理(M3.5 T14 + D18 友方目标分流)。
  *
- * 光标语义:uiCursor 是 **state.enemies 的 raw index**(与 draw-battle-ui 一致),
- * Left/Right 移动时跳过已死 enemy(health <= 0)。
- *
- * - Left:从当前 raw index 往左找下一个 alive(wrap)
- * - Right:类似
- * - Confirm:把 (draft + target=uiCursor) 写进 pendingActions,advance
- *   - 当前光标位置是死敌 / 无 alive enemy → no-op
- *   - draft 缺失 → no-op(防御性)
- * - Cancel:回 mainMenu(清 draft)
+ * 按 `state.pendingActionDraft.targetSide` 分两套域(省略 = 'enemy',向后兼容):
+ *   - 'enemy'(默认):现有敌方目标流 —— 光标 = state.enemies raw index,Left/Right
+ *     跳过已死敌(health<=0);Confirm 落 { target, targetSide:'enemy' }(省略)。
+ *   - 'player'(D18):友方目标流 —— sdlpal kBattleUISelectTargetPlayer(uibattle.c:1545-1609)。
  */
 function handleTargetSelectInput(
   state: BattleState,
@@ -668,6 +725,22 @@ function handleTargetSelectInput(
     return
   }
 
+  if (state.pendingActionDraft?.targetSide === 'player') {
+    handlePlayerTargetSelect(state, input, alivePlayerIdxs)
+    return
+  }
+  handleEnemyTargetSelect(state, input, alivePlayerIdxs)
+}
+
+/**
+ * 敌方目标域(现有流,不变):光标 = state.enemies raw index;Left/Right 跳过已死敌。
+ * Confirm 记 iPrevEnemyTarget + 落 pendingActions(targetSide 省略 = enemy)。
+ */
+function handleEnemyTargetSelect(
+  state: BattleState,
+  input: InputSnapshot,
+  alivePlayerIdxs: number[],
+): void {
   // 收集活敌 raw index;无 alive 则 Left/Right/Confirm 全 no-op
   const aliveRawIdxs: number[] = []
   state.enemies.forEach((e, i) => {
@@ -697,6 +770,71 @@ function handleTargetSelectInput(
       type: draft.type,
       actionId: draft.actionId,
       target,
+      targetSide: 'enemy',
+    })
+    advanceSelectingPlayer(state, alivePlayerIdxs)
+  }
+}
+
+/**
+ * 友方目标域(D18)—— port sdlpal kBattleUISelectTargetPlayer(uibattle.c:1545-1609):
+ *
+ * - 单人队(players.length === 1 即 wMaxPartyMemberIndex==0)→ 即时 commit idx 0
+ *   (uibattle.c:1550-1554 PAL_CLASSIC)。
+ * - 否则在 0..players.length-1(= wMaxPartyMemberIndex)间导航:
+ *     Left|Down → 减(idx==0 wrap 到 max,uibattle.c:1586-1596)
+ *     Right|Up  → 加(idx==max wrap 到 0,uibattle.c:1597-1607)
+ *   箭头画在**每个队员**(不按 hp 过滤,uibattle.c:1573)—— 渲染层 drawTargetCursor 处理。
+ * - Confirm:落 { target:uiCursor, targetSide:'player' }(uibattle.c:1582-1585)。
+ * - Cancel:回主菜单(已在上层 handleTargetSelectInput 统一处理 uibattle.c:1578-1581)。
+ *
+ * 光标语义:uiCursor 是 **state.players 的 party index**(0..length-1);
+ * 不按 hp 过滤(死队员也能被选 —— 复活类法术对死者有效,忠实 sdlpal)。
+ */
+function handlePlayerTargetSelect(
+  state: BattleState,
+  input: InputSnapshot,
+  alivePlayerIdxs: number[],
+): void {
+  const playerIdx = state.selectingPlayerIdx
+  const draft = state.pendingActionDraft
+  if (!draft || playerIdx === undefined) return
+
+  const maxIdx = state.players.length - 1 // = sdlpal wMaxPartyMemberIndex
+  if (maxIdx < 0) return // 无队员(防御性)
+
+  // 单人队 → 即时 commit idx 0(uibattle.c:1550-1554)
+  if (maxIdx === 0) {
+    state.pendingActions.set(playerIdx, {
+      type: draft.type,
+      actionId: draft.actionId,
+      target: 0,
+      targetSide: 'player',
+    })
+    advanceSelectingPlayer(state, alivePlayerIdxs)
+    return
+  }
+
+  // 钳光标到 [0, maxIdx](进入友方域时 uiCursor 已被上层置 0)
+  if (state.uiCursor < 0 || state.uiCursor > maxIdx) state.uiCursor = 0
+
+  if (input.pressed.has('Left') || input.pressed.has('Down')) {
+    // 减(uibattle.c:1586-1596):0 → max,否则 -1
+    state.uiCursor = state.uiCursor === 0 ? maxIdx : state.uiCursor - 1
+    return
+  }
+  if (input.pressed.has('Right') || input.pressed.has('Up')) {
+    // 加(uibattle.c:1597-1607):max → 0,否则 +1
+    state.uiCursor = state.uiCursor >= maxIdx ? 0 : state.uiCursor + 1
+    return
+  }
+
+  if (input.pressed.has('Confirm')) {
+    state.pendingActions.set(playerIdx, {
+      type: draft.type,
+      actionId: draft.actionId,
+      target: state.uiCursor,
+      targetSide: 'player',
     })
     advanceSelectingPlayer(state, alivePlayerIdxs)
   }
@@ -904,6 +1042,19 @@ function tickPerformAction(
 }
 
 /**
+ * D18:解析一个 magic/item action 的目标方是否敌方。
+ *
+ * 公式(对齐 plan §4):`(action.targetSide ?? (actor.isEnemy ? 'player' : 'enemy')) === 'enemy'`
+ *   - 显式 targetSide → 按它(治疗法术/治疗物品 'player' → false → performMagic/Item 走 player target)。
+ *   - 省略(旧 action / 攻击魔法 enemy 流也可能省略,但 enemy 流会显式设 'enemy')→ 保旧语义:
+ *     玩家施法默认指敌方,敌人施法默认指队员。
+ */
+function resolveTargetIsEnemy(action: BattleAction, actor: ActionQueueItem): boolean {
+  const side = action.targetSide ?? (actor.isEnemy ? 'player' : 'enemy')
+  return side === 'enemy'
+}
+
+/**
  * 派发单个 BattleAction 到对应 perform*。
  *
  * action.target 为 -1 表示「全体」(BattleState.BattleAction 的 doc);
@@ -936,9 +1087,9 @@ function performBattleAction(
       if (action.actionId === undefined) break
       // target=-1 → 'all';否则按 number 走
       const targetIdx: number | 'all' = action.target === -1 ? 'all' : action.target
-      // 队员 cast → 默认 target 是敌人;敌人 cast → target 是队员
-      // (sdlpal 实际逻辑允许治疗 / 辅助 targetIsEnemy=false,但 M3 简版默认按 caster 对立面)
-      const targetIsEnemy = !actor.isEnemy
+      // D18:目标方按 action.targetSide(显式);省略时保旧语义(玩家施法→敌方,敌人施法→队员)。
+      //   targetIsEnemy=false → performMagic 走 player target(DefMagic 动画 + 治疗 opcode 打队友)。
+      const targetIsEnemy = resolveTargetIsEnemy(action, actor)
       performMagic({
         state,
         casterIsEnemy: actor.isEnemy,
@@ -963,7 +1114,8 @@ function performBattleAction(
     case 'item': {
       if (action.actionId === undefined) break
       const targetIdx: number | 'all' = action.target === -1 ? 'all' : action.target
-      const targetIsEnemy = !actor.isEnemy
+      // D18:治疗物品 targetSide='player' → targetIsEnemy=false(打到队友)。
+      const targetIsEnemy = resolveTargetIsEnemy(action, actor)
       performItem({
         state,
         gs,

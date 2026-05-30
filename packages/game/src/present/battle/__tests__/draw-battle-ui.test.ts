@@ -303,6 +303,55 @@ describe('drawBattleUI', () => {
     expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
   })
 
+  // ---------- D18:友方目标光标(targetSide=player)----------
+
+  it('targetSelect player 域 —— 光标画在队员屏幕位置,framebuffer 有写入', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0), minimalRole(1)] }
+    const state = mkState(
+      [mkBattlePlayer(0), mkBattlePlayer(1)],
+      [mkBattleEnemy(minimalEnemy(50))],
+      {
+        uiState: 'targetSelect',
+        uiCursor: 1,
+        pendingActionDraft: { type: 'magic', actionId: 300, targetSide: 'player' },
+      },
+    )
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
+    expect(fbHasWrites(fb)).toBe(true)
+  })
+
+  it('targetSelect player 域 —— uiCursor 超界 clamp 到最后一个队员,不抛', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0), minimalRole(1)] }
+    const state = mkState(
+      [mkBattlePlayer(0), mkBattlePlayer(1)],
+      [mkBattleEnemy(minimalEnemy(50))],
+      {
+        uiState: 'targetSelect',
+        uiCursor: 99,
+        pendingActionDraft: { type: 'magic', actionId: 300, targetSide: 'player' },
+      },
+    )
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
+  })
+
+  it('targetSelect enemy 域(默认,无 player targetSide)—— 仍画敌方光标(回归)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState(
+      [mkBattlePlayer(0)],
+      [mkBattleEnemy(minimalEnemy(50)), mkBattleEnemy(minimalEnemy(51))],
+      {
+        uiState: 'targetSelect',
+        uiCursor: 1,
+        pendingActionDraft: { type: 'attack', targetSide: 'enemy' },
+      },
+    )
+    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
+    expect(fbHasWrites(fb)).toBe(true)
+  })
+
   it('hidden —— 只画状态栏,不画菜单', () => {
     const fb = createFramebuffer()
     const role = minimalRole(0)

@@ -26,6 +26,7 @@
  */
 
 import type { Item, PlayerRoles, Spell } from '@type-pal/shared'
+import { getPlayerBasePos } from '../../core/battle/battle-positions.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
 import type { GameState } from '../../core/game-state.js'
 import { renderText, type GlyphTable } from '../font.js'
@@ -256,18 +257,53 @@ function drawItemMenu(
 }
 
 /**
- * 目标选择光标:在 `uiCursor` 指向的敌方位置上方画 `v`(简化 ▽)。
+ * 目标选择光标:在 `uiCursor` 指向的目标位置上方画 `v`(简化 ▽)。
  *
- * M3 简版:只画 enemy 目标(适用物理攻击 / spell.flags.usableToEnemy)。
- * applyToPlayer / applyToParty 把光标画到队员位置上的逻辑推 M5。
- *
+ * D18:按 `state.pendingActionDraft.targetSide` 分敌方 / 友方:
+ *   - 'player'(治疗/辅助法术、治疗物品)→ 画在 state.players[uiCursor] 屏幕位置
+ *     (sdlpal kBattleUISelectTargetPlayer uibattle.c:1564-1576;双帧闪本层略,M3 占位)。
+ *     player 屏幕位置用 battle-positions getPlayerBasePos(PLAYER_POSITIONS_BY_COUNT)。
+ *   - 'enemy'(默认 / 省略;物理攻击、攻击魔法、投掷)→ 现有敌方流(画在敌人上方)。
+ */
+function drawTargetCursor(fb: Framebuffer, state: BattleState, glyphs?: GlyphTable): void {
+  if (state.pendingActionDraft?.targetSide === 'player') {
+    drawPlayerTargetCursor(fb, state, glyphs)
+    return
+  }
+  drawEnemyTargetCursor(fb, state, glyphs)
+}
+
+/**
+ * 敌方目标光标(现有流):在 `uiCursor` 指向的敌方位置上方画 `v`。
  * - 无敌人(全 dead 但 phase 还在 selectAction)→ no-op,不抛。
  * - uiCursor 超界 → clamp 到最后一个敌人。
  */
-function drawTargetCursor(fb: Framebuffer, state: BattleState, glyphs?: GlyphTable): void {
+function drawEnemyTargetCursor(fb: Framebuffer, state: BattleState, glyphs?: GlyphTable): void {
   if (state.enemies.length === 0) return
   const targetIdx = Math.min(Math.max(state.uiCursor, 0), state.enemies.length - 1)
   const pos = ENEMY_POSITIONS[targetIdx]
+  if (!pos) return
+  renderText(
+    fb,
+    'v',
+    pos.x + TARGET_CURSOR_DX,
+    pos.y + TARGET_CURSOR_DY,
+    UI_TEXT_COLOR,
+    glyphs,
+  )
+}
+
+/**
+ * 友方目标光标(D18):在 `uiCursor` 指向的队员屏幕位置上方画 `v`(死活不限,忠实
+ * sdlpal uibattle.c:1573 箭头画在每个队员)。
+ * - 无队员 → no-op。
+ * - uiCursor 超界 → clamp 到最后一个队员。
+ * - 该队员无屏幕位置(layout 越界)→ no-op。
+ */
+function drawPlayerTargetCursor(fb: Framebuffer, state: BattleState, glyphs?: GlyphTable): void {
+  if (state.players.length === 0) return
+  const targetIdx = Math.min(Math.max(state.uiCursor, 0), state.players.length - 1)
+  const pos = getPlayerBasePos(state.players.length, targetIdx)
   if (!pos) return
   renderText(
     fb,

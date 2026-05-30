@@ -165,6 +165,15 @@ export interface BattleAction {
   actionId?: number
   /** target 索引(0..4 或 0..N enemy);-1 = 全体。 */
   target: number
+  /**
+   * D18:目标方 —— 'enemy' = target 是 state.enemies 索引(攻击/攻击魔法/投掷);
+   * 'player' = target 是 state.players(party)索引(治疗/辅助法术/治疗物品)。
+   * sdlpal 真值:`action.sTarget` 单 number 域靠 wActionType+magic.flags 隐含目标方
+   * (player-target uibattle.c:1344 / enemy-target uibattle.c:1327);ts number 域无法
+   * 区分指向 player/enemy,需显式 targetSide。
+   * **省略 / undefined = 'enemy'**(向后兼容:旧 action 全是敌方目标)。
+   */
+  targetSide?: 'enemy' | 'player'
 }
 
 /**
@@ -285,7 +294,17 @@ export interface BattleState {
    * 这里(T13 写入,T14 二级菜单 / targetSelect 完成后落 pendingActions)。
    * 完整 BattleAction.target 必填,这里允许缺(尚未选 target)。
    */
-  pendingActionDraft?: { type: BattleAction['type']; actionId?: number; target?: number }
+  pendingActionDraft?: {
+    type: BattleAction['type']
+    actionId?: number
+    target?: number
+    /**
+     * D18:目标方(同 BattleAction.targetSide)。mainMenu/二级菜单 Confirm 后按
+     * sdlpal magic.flags.usableToEnemy / item kItemFlagApplyToAll 设;
+     * handleTargetSelectInput 据此分敌方域 / 友方域导航。省略 = 'enemy'。
+     */
+    targetSide?: 'enemy' | 'player'
+  }
   /** UI 状态。 */
   uiState: BattleUIState
   /** 当前 UI 选项的高亮 index。 */
