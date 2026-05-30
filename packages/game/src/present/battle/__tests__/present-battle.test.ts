@@ -8,6 +8,7 @@ import { createFramebuffer } from '../../framebuffer.js'
 import type { BattleBgAsset } from '../draw-battle-bg.js'
 import type { SpriteAsset } from '../draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present-battle.js'
+import { startDialogLine } from '../../dialog-box.js'
 
 function minimalRole(id: number, opts: Partial<PlayerRole> = {}): PlayerRole {
   return {
@@ -503,5 +504,29 @@ describe('BattlePresent —— D17 法术 magic overlays', () => {
     })
     const assets = mkAssets() // 无 magicSprites
     expect(() => present.draw(fb, mkGs(), state, [], assets, 0)).not.toThrow()
+  })
+
+  it('战斗内对话:gs.dialogBox 存在 → 对话覆于战斗场景渲染(framebuffer 差异)', () => {
+    const present = new BattlePresent()
+    const assets = mkAssets({ battleBgs: new Map([[0, mkBgAsset(4)]]) }) // bg 填 4 铺满
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))])
+
+    // (a) 无对话 → 基线 framebuffer(bg + sprite + UI)
+    const fbBase = createFramebuffer()
+    present.draw(fbBase, mkGs(), state, [], assets, 0)
+
+    // (b) 有对话(bottom 风格 + 已显字)→ 对话覆于战斗场景之上
+    const gsDialog = mkGs()
+    gsDialog.dialogBox = startDialogLine('哼哼', { style: 'bottom' })
+    gsDialog.dialogBox.charsRevealed = gsDialog.dialogBox.currentLineText?.length ?? 0 // 显满(typing 0 字不画)
+    const fbDialog = createFramebuffer()
+    present.draw(fbDialog, gsDialog, state, [], assets, 0)
+
+    // 两帧应有差异 = 对话渲染了像素(renderText tofu 占位也写像素;证明 present-battle 调了 drawDialogBox)
+    let diff = 0
+    for (let i = 0; i < fbDialog.indices.length; i++) {
+      if (fbDialog.indices[i] !== fbBase.indices[i]) diff++
+    }
+    expect(diff).toBeGreaterThan(0)
   })
 })

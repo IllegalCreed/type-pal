@@ -9,8 +9,9 @@
 
 import type { LevelUpMagicEntry } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import type { PlayerRole } from '@type-pal/shared'
 import { battleWonLevelUp } from '../battle-system.js'
-import { createInitialGameState, type GameState } from '../../game-state.js'
+import { createInitialGameState, projectRuntimeToBattleRoles, type GameState } from '../../game-state.js'
 import { createSeedableRng, type SeedableRng } from '../../rng.js'
 
 /** rng 取确定下界(rangeInclusive 恒返 0)→ stat 增长 = base(10/8/4/4/2/2/2)。 */
@@ -164,5 +165,25 @@ describe('battleWonLevelUp —— D11 战斗胜利升级', () => {
     battleWonLevelUp({ gs, partyMembers: [0], expGained: 5000, levelUpExp: [], levelUpMagic: [], rng: rng0() })
     expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBe(1)
     expect(gs.Exp.rgPrimaryExp[0]!.wExp).toBe(5010) // 10+5000
+  })
+
+  it('D11×M5:升级写 runtime → 投影 → 下一场战斗吃升级后属性(整链闭环)', () => {
+    const gs = makeGs({ level: 1, hp: 50, maxHP: 100, attackStrength: 20, magicStrength: 15 })
+    battleWonLevelUp({
+      gs, partyMembers: [0], expGained: 100,
+      levelUpExp: expTable({ 1: 100 }), levelUpMagic: [], rng: rng0(),
+    })
+    // 升级后 runtime(攻击 20→24,等级 1→2)
+    expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(24)
+    expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBe(2)
+    // 投影到战斗 roles —— 下一场战斗用的是升级后属性(原架构裂缝:战斗永远用 1 级基线)
+    const staticRoles = {
+      // biome-ignore lint/suspicious/noExplicitAny: 只需 id + 不可变字段占位
+      roles: [{ id: 0, _name: 'r0', level: 1, attackStrength: 20, hp: 100, maxHP: 100, mp: 0, maxMP: 30, magicStrength: 15, defense: 0, dexterity: 0, fleeRate: 0, poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } } as any as PlayerRole],
+    }
+    const battleRoles = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles)
+    expect(battleRoles.roles[0]!.attackStrength).toBe(24) // 战斗吃升级后攻击
+    expect(battleRoles.roles[0]!.level).toBe(2)
+    expect(battleRoles.roles[0]!.hp).toBe(gs.PlayerRolesRuntime.rgwHP[0]) // 满血战果也带入
   })
 })
