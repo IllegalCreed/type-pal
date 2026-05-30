@@ -938,6 +938,42 @@ describe('opcode 0x000A goto-if-no / ConfirmMenu(sdlpal script.c:3373-3387 / uig
   })
 })
 
+describe('opcode 0x0046 setPartyPos 填 trail(sdlpal script.c 0x46:rgTrail[0..4]=队伍位置+身后偏移)', () => {
+  // sdlpal:进场景定位时把 rgTrail[0..4] 全填成队伍世界坐标 + i*(xOffset,yOffset)(每槽往身后退一格),
+  //   朝向 = wPartyDirection。→ 队员 / 0x98 跟随者进场景立刻排好(否则 trail 残留旧场景 / 空)。
+  //   xOffset = (左||下)?16:-16;yOffset = (左||上)?8:-8。
+
+  it('设位置 → gs.trail 填满 5 槽,每槽身后偏 i*(xOff,yOff),朝向=队伍朝向(down:xOff=16,yOff=-8)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x46, operands: [2, 3, 0] }, // px=2*32=64, py=3*16=48
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.trail).toHaveLength(5)
+    expect(gs.trail[0]).toEqual({ x: 64, y: 48, dir: 'down' })
+    expect(gs.trail[1]).toEqual({ x: 64 + 16, y: 48 - 8, dir: 'down' })
+    expect(gs.trail[4]).toEqual({ x: 64 + 4 * 16, y: 48 - 4 * 8, dir: 'down' })
+  })
+
+  it('朝向决定 offset 符号(left→+16/+8;right→-16/-8;up→-16/+8;down→+16/-8)', () => {
+    const cases = [
+      ['left', 16, 8], ['right', -16, -8], ['up', -16, 8], ['down', 16, -8],
+    ] as const
+    for (const [facing, xOff, yOff] of cases) {
+      const gs = createInitialGameState({ x: 0, y: 0, facing })
+      const bus = createCommandBus()
+      loadEvent(gs, [
+        { op: 'raw', opcode: 0x46, operands: [1, 1, 0] }, // px=32, py=16
+        { op: 'end' },
+      ])
+      tickEventSystem(gs, snap(), bus)
+      expect(gs.trail[2]).toEqual({ x: 32 + 2 * xOff, y: 16 + 2 * yOff, dir: facing })
+    }
+  })
+})
+
 describe('opcode 0x00A0 quit(sdlpal script.c:2988-2996;用户决策:跳过 PAL_AdditionalCredits 回标题)', () => {
   it('有 _quitHandler:调 handler 一次 + 设 waiting=quit 阻塞(不步进/不重复调)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })

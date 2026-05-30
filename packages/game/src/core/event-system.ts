@@ -2561,7 +2561,14 @@ function applyRawOpcode(
       gs.party.y = py
       gs.camera.x = px - PARTYOFFSET_X
       gs.camera.y = py - PARTYOFFSET_Y
-      console.debug(`event-system: setPartyPos col=${col} row=${row} h=${h} → px=${px} py=${py}`)
+      // sdlpal script.c 0x46:还把 rgTrail[0..4] 全填成队伍世界坐标 + i*(xOffset,yOffset)(每槽往身后
+      //   退一格),朝向 = wPartyDirection。→ 进场景队员 / 0x98 跟随者立刻排好(否则 trail 残留旧场景坐标
+      //   或为空 → 跟随者要走几步把 trail 铺满才定位)。xOffset=(西/南?16:-16)、yOffset=(西/北?8:-8)。
+      const dir = gs.party.facing
+      const xOff = (dir === 'left' || dir === 'down') ? 16 : -16
+      const yOff = (dir === 'left' || dir === 'up') ? 8 : -8
+      gs.trail = [0, 1, 2, 3, 4].map((i) => ({ x: px + i * xOff, y: py + i * yOff, dir }))
+      console.debug(`event-system: setPartyPos col=${col} row=${row} h=${h} → px=${px} py=${py},trail filled`)
       break
     }
 
