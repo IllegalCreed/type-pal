@@ -77,7 +77,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x85 | delay N | ✅A | UTIL_Delay(op0*80ms)time-based waiting='delay'(autoScript 暂停)(script.c:2511,2026-05-29) |
 | 0x8D | increase player level | ✅A | PAL_PlayerLevelUp 端口:level+clamp99 + stat 增长(Math.random)+ Exp 重置(global.c:2347,2026-05-29) |
 | 0x8F | halve cash | ✅A | dwCash = floor(dwCash/2)(script.c:2598,2026-05-29) |
-| 0x98 | set follower | ✅A | 数据✅(gs.followers+nFollower)+ 视觉✅(present computeFollowerRenderItems,trail[3+k]/恒3帧/iStepFrameFollower[0,2,0,1],sdlpal scene.c:210-226/732-743/767-771,6 单测)。**注**:本游戏仅 3 用 role 0/82/83,82/83 超 MAX_PLAYER_ROLES=6 表(疑剪除内容)→ 无 sprite 不画(对齐 sdlpal PAL_GetPlayerSprite 越界 NULL,res.c:403),正常流程看不到跟随者 |
+| 0x98 | set follower | ✅A | 数据✅(gs.followers+nFollower)+ 视觉✅(present computeFollowerRenderItems,trail[3+k]/恒3帧/iStepFrameFollower[0,2,0,1],sdlpal scene.c:210-226/732-743/767-771,6 单测)。**operand = MGO sprite chunk 直接**(res.c:335-348 follower 路径,**不**走队员 rgwSpriteNum[role] 查表,res.c:325)→ 临时同行 NPC(scene 102 书生 = chunk 82/83,非 6 人角色表)直接 npcSpriteFrames.get(chunk)。chunk 未载入→跳过(防御)。残:跨场景 follower sprite 持久加载(sdlpal kLoadPlayerSprite)未做→走出该 scene 可能消失,follow-up |
 | 0x99 | change map for scene | ✅A | mapNum override + op0=0xFFFF map-only reload hook(换 tilemap 不中断脚本) |
 | 0xA0 | quit game | ✅S | _quitHandler:WIN95 播 4/5/6.mp4→回标题,DOS 直接回标题(跳引擎 credits)(script.c:2988,30a4822) |
 | 0xA1 | set all party pos = first | ✅A | 全 trail(5)= 队首世界坐标+朝向 → follower 聚拢(script.c:2998,2026-05-29) |

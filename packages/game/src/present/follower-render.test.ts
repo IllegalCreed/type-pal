@@ -28,7 +28,7 @@ describe('computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-7
     expect(r).toHaveLength(1)
     expect(r[0]!.worldX).toBe(100)
     expect(r[0]!.worldY).toBe(200)
-    expect(r[0]!.roleId).toBe(82)
+    expect(r[0]!.spriteNum).toBe(82) // 0x98 operand = MGO chunk 直接(res.c:340)
     expect(r[0]!.followerIndex).toBe(0)
   })
 
@@ -61,7 +61,7 @@ describe('computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-7
     )
     const r = computeFollowerRenderItems(t, [82, 83], false, 0)
     expect(r).toHaveLength(2)
-    expect(r[0]).toMatchObject({ worldX: 100, worldY: 200, roleId: 82, followerIndex: 0, frameIdx: 2 * 3 })
-    expect(r[1]).toMatchObject({ worldX: 90, worldY: 190, roleId: 83, followerIndex: 1, frameIdx: 0 * 3 })
+    expect(r[0]).toMatchObject({ worldX: 100, worldY: 200, spriteNum: 82, followerIndex: 0, frameIdx: 2 * 3 })
+    expect(r[1]).toMatchObject({ worldX: 90, worldY: 190, spriteNum: 83, followerIndex: 1, frameIdx: 0 * 3 })
   })
 })

@@ -327,14 +327,10 @@ export function presentFrame(
   for (const it of computeFollowerRenderItems(
     gs.trail, gs.followers, gs.walkingFrame.walking, gs.walkingFrame.stepFrame,
   )) {
-    // sprite:角色 rgwSpriteNum[role] → npcSpriteFrames。
-    //   **不**回退 leader partyFrames —— 0x98 越界 role(本游戏 3 用全是 role 0/82/83,82/83 超出
-    //   MAX_PLAYER_ROLES=6 表,疑为剪除内容)取不到 sprite → 跳过不画,对齐 sdlpal PAL_GetPlayerSprite
-    //   越界返回 NULL → continue(res.c:403)。回退 leader 会画出李逍遥分身(假跟随者),更糟。
-    const spriteNum = ctx.playerRoles?.roles[it.roleId]?.spriteNum
-    const roleFrames = (spriteNum !== undefined && ctx.npcSpriteFrames)
-      ? ctx.npcSpriteFrames.get(spriteNum)
-      : undefined
+    // sprite:跟随者 sprite num = 0x98 operand **直接当 MGO chunk**(res.c:340 follower 路径,
+    //   **不**走队员 rgwSpriteNum[role] 查表)→ ctx.npcSpriteFrames.get(chunk)。临时同行 NPC
+    //   (如 scene 102 书生 = chunk 82/83),不在 6 人角色表。chunk 未载入 → 跳过不画(防御)。
+    const roleFrames = ctx.npcSpriteFrames?.get(it.spriteNum)
     if (!roleFrames || roleFrames.length === 0) continue
     const frame = roleFrames[it.frameIdx] ?? roleFrames[0]
     if (!frame) continue

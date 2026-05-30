@@ -5,6 +5,9 @@
  * sdlpal 真值(scene.c):
  *  - 统一渲染循环 scene.c:210-226:`for i in 0..maxIdx+nFollower` 各用 PAL_GetPlayerSprite(i) 自己的
  *    sprite 在 rgParty[i].x/y 画 —— 跟随者与队员同一 z-sort 队列。
+ *  - **sprite 来源**(res.c:335-348):跟随者 sprite num = `rgParty[maxIdx+i].wPlayerRole` —— 即 0x98
+ *    operand **直接当 MGO chunk 号**,**不**走队员的 `rgwSpriteNum[role]` 查表(res.c:325)。故 0x98
+ *    operand 是临时同行 NPC 的 sprite chunk(如 scene 102 书生 = chunk 82/83),不在 6 人角色表里。
  *  - 位置 scene.c:737-740(moving):`rgParty[maxIdx+i] = rgTrail[2+i] - viewport`。跟随者直接坐在
  *    **更靠后的 trail 槽**(i 从 1 起 → rgTrail[3]/[4]),**无**队员的左右偏移、**无**障碍回退。
  *  - 帧 scene.c:741-742(moving)/769-770(standing):`rgTrail[2+i].wDirection * 3 + iStepFrameFollower`
@@ -26,8 +29,8 @@ export interface FollowerRenderItem {
   worldY: number
   /** sprite 帧下标(dir*3 + step)。 */
   frameIdx: number
-  /** 该跟随者角色 id(0x98 operand)。 */
-  roleId: number
+  /** 该跟随者 MGO sprite chunk 号(= 0x98 operand 直接当 sprite num,res.c:340,非 role id)。 */
+  spriteNum: number
   /** 0-based follower 序号(渲染 id 用)。 */
   followerIndex: number
 }
@@ -53,7 +56,7 @@ export function computeFollowerRenderItems(
       worldX: t.x,
       worldY: t.y,
       frameIdx: dir * 3 + step,
-      roleId: fs[k]!,
+      spriteNum: fs[k]!,
       followerIndex: k,
     })
   }
