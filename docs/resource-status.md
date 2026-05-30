@@ -4,7 +4,7 @@
 > **职责**:本表 owns 每个 MKF / 非 MKF 资源每 chunk 的提取状态。runtime 功能(渲染 / 播放)→ [feature-status](feature-status.md);逐 opcode → [opcode-status](opcode-status.md)。
 > **三表**:[feature-status](feature-status.md)(引擎功能)· [opcode-status](opcode-status.md)(事件 / opcode)· resource-status(资源提取,本表)
 > **图例**:✅ done(已抽,byte-level 确认)· ⚠️ partial · ⬜ todo · N/A · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap)· 🎵 同源冗余(已有其他格式覆盖)
-> **最后更新**:2026-05-30 — byte-level 复核;M4 提取实质 100% 完成,零真实数据 gap(全非空 chunk 已落地,skip 的都是引擎从不加载的空槽)。唯一残留 = M6 runtime 音频播放 wiring(opcode 0x43 setMusic / playSound),属功能里程碑,非提取 gap。
+> **最后更新**:2026-05-30 — byte-level 复核;M4 提取实质 100% 完成,零真实数据 gap(全非空 chunk 已落地,skip 的都是引擎从不加载的空槽)。新增 SSS chunk 2 的两个 **union-view**(`object-magics.json` / `object-poisons.json`,非新源数据,见下表 SSS chunk 2)供战斗 opcode 按 object id 解析。唯一残留 = M6 runtime 音频播放 wiring(opcode 0x43 setMusic / playSound),属功能里程碑,非提取 gap。
 >
 > 数据来源:`reference/sdlpal/global.c::PAL_LoadDefaultGame` + 各 .c grep;状态列由 byte-level 复核(逐 MKF header chunk_count vs `data/extracted/` 实际输出数 + 追 parser 源码确认 dump-all)。提取入口:[packages/pal-extract/src/cli.ts](../packages/pal-extract/src/cli.ts)。
 > MKF 文件存在性:STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(WIN95+ 用 .RPG 存档);`mus.mkf` 存在但与 MIDI 同源(见末段)。
@@ -43,7 +43,7 @@
 |---|---|---|---|---|---|
 | 0 | 162464 | `global.c:348 PAL_DOALLOCATE fpSSS chunk 0 EVENTOBJECT` | EVENTOBJECT 数组(5077 条,32 字节/条) | ✅ | `data/event-objects.json`(5077 obj / 295 sceneRange) |
 | 1 | 2360 | `global.c:404 PAL_MKFReadChunk … chunk 1 fpSSS → rgScene` | SCENE 数组(295 条,8 字节/条) | ✅ | `data/scene/N.json` × 295 |
-| 2 | 7910 | `global.c:408 PAL_MKFReadChunk … chunk 2 fpSSS → rgObject` | OBJECT 数组(3955 个 u16;物品/法术/敌人/角色 联合体) | ✅ | `data/items.json` / `spells.json` / `enemy-objects.json` |
+| 2 | 7910 | `global.c:408 PAL_MKFReadChunk … chunk 2 fpSSS → rgObject` | OBJECT 数组(565 条 × 7 u16 = 3955;物品/法术/敌人/毒/角色 **联合体**,`global.h tagOBJECT`) | ✅ | `data/items.json` / `spells.json` / `enemy-objects.json` + **union-views**:`object-magics.json`(565,magic-union:magicNumber/scriptOnSuccess/scriptOnUse/flags)· `object-poisons.json`(565,poison-union:level/color/playerScript/enemyScript)。后两个是**同一 chunk 的另两种联合体视图**(非新增源数据),供战斗 opcode 按 object id 解析用:`object-magics` 给 0x57/0x88(set magic damage by MP/money)+ performMagic scriptOnSuccess 解析;`object-poisons` 给 0x28 apply poison(解 wEnemyScript 每回合 tick)/ 0x5E jump-if-no-poison。提取见 `cli.ts:258-261` parseObjectMagics / parseObjectPoisons(同 sssObjBuf,各按 union 字段重解)|
 | 3 | 54056 | `text.c:795 PAL_MKFGetChunkSize chunk 3 fpSSS` | 消息偏移表(13514 个 DWORD → 13513 条消息) | ✅ | `cli.ts:153` parseMessageOffsets 全消费 → `lookup/strings.json`(13513 条)+ 嵌入 disasm |
 | 4 | 348024 | `global.c:351 PAL_DOALLOCATE fpSSS chunk 4 SCRIPTENTRY` | 脚本字节码(43503 条 SCRIPTENTRY,8 字节/条) | ✅ | `events/scene-NNN.json` × 295 + `shared.json` + `objects.json`(disasm+recompile round-trip OK) |
 

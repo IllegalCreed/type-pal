@@ -23,7 +23,10 @@
 
 近期(0529–0530)落地:对话逐字变速 + 颜色控制符、过场黑屏架构根因修复、结局 DOS 全片编排、
 特效栈(FBP / 调色板 / RNG 动画 / 屏幕波动)、跨场景跟随者(opcode 0x98 / 0x46)、
-战斗法术伤害结算 keystone(inline 攻击法术 + 0x42 SimulateMagic)。
+战斗法术伤害结算 keystone(inline 攻击法术 + 0x42 SimulateMagic)、
+**战斗演出全套**(时间线架构:物理/法术动画 + 受击变白 + 死亡淡出 + 敌 idle 帧 + 伤害数字)、
+**战斗友方目标选择**(治疗法术/物品可选队友)+ **战斗内治疗/复活值生效**(magic scriptOnSuccess)、
+**战斗内对话**(boss 嘲讽 scriptOnReady/scriptOnTurnStart,复用大世界对话框覆于战斗场景)。
 战斗底层机制真值(伤害 / 暴击 / 隐藏经验 / 五灵抗性 / 出手顺序等)另见 [`docs/game-mechanics.md`](docs/game-mechanics.md)。
 
 进度 / 重排 M6 见 [`docs/plans/2026-05-28-feature-audit-and-replanning.md`](docs/plans/2026-05-28-feature-audit-and-replanning.md)。
