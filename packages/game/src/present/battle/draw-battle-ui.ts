@@ -291,10 +291,11 @@ function drawMainIcons(
  */
 function isBattleActionValidForDraw(state: BattleState, action: number, playerRoles: PlayerRoles): boolean {
   const idx = state.selectingPlayerIdx
-  if (idx === undefined) return action === 0 || action === 3
+  // 无有效队员 context → 全部 invalid(镜像 battle-system isActionValid:undefined/缺 role 返回 false)。
+  if (idx === undefined) return false
   const player = state.players[idx]
   const role = player ? playerRoles.roles[player.roleId] : undefined
-  if (!player || !role) return action === 0 || action === 3
+  if (!player || !role) return false
   const healthy = (p: typeof player, r: typeof role): boolean => {
     if (r.hp <= 0 || (r.hp > 0 && r.hp < Math.max(1, Math.floor(r.maxHP / 5)))) return false
     const st = p.status

@@ -1206,6 +1206,68 @@ describe('多轮战斗集成', () => {
 })
 
 // ============================================================================
+// Repeat(R)+ perform 期目标重选(adversarial review 修复 #2/#5/#6)
+// ============================================================================
+
+describe('Repeat(R 键)+ 敌方目标重选(fight.c:1858-1867 / 3487-3507)', () => {
+  function rSnap(pressed: Array<'Repeat'> = []): InputSnapshot {
+    return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
+  }
+
+  it('Repeat 非 pass(防御)→ 原样重提 defend', () => {
+    const { gs, bus, emptyInput } = bootstrap()
+    tickBattle(gs, emptyInput, bus) // selectMove
+    gs.battleState!.prevActions = new Map([[0, { type: 'defend', target: -1 }]])
+    tickBattle(gs, rSnap(['Repeat']), bus)
+    expect(gs.battleState?.pendingActions.get(0)?.type).toBe('defend')
+  })
+
+  it('Repeat prev=pass → 转物理攻击(fight.c:1862-1867)', () => {
+    const { gs, bus, emptyInput } = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.prevActions = new Map([[0, { type: 'pass', target: -1 }]])
+    tickBattle(gs, rSnap(['Repeat']), bus)
+    const act = gs.battleState?.pendingActions.get(0)
+    expect(act?.type).toBe('attack')
+  })
+
+  it('Repeat 首轮无 prev → 物理攻击(自动目标);群攻武器 target=-1', () => {
+    const { gs, bus, emptyInput } = bootstrap({ roles: [makeRole({ id: 0, attackAll: 1 })], enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    tickBattle(gs, emptyInput, bus)
+    tickBattle(gs, rSnap(['Repeat']), bus)
+    const act = gs.battleState?.pendingActions.get(0)
+    expect(act?.type).toBe('attack')
+    expect(act?.target).toBe(-1) // 群攻 → 全体
+  })
+
+  it('perform 期:攻击魔法目标敌人已死 → 重选活敌(fight.c:3407/3500-3507)', () => {
+    // 2 敌;player 法术指 enemy 1。perform 前手动杀 enemy 1 → 应重选到 enemy 0(唯一活敌)。
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 50 }), makeEnemy({ id: 101, health: 50 })],
+      teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF],
+      spells: [{ id: 296, _name: 's', magicNumber: 296, scriptOnSuccess: 0, scriptOnUse: 0, scriptDesc: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }],
+      magics: [{ id: 296, effect: 0, type: 'normal', xOffset: 0, yOffset: 0, special: 0, speed: 0, keepEffect: 0, fireDelay: 0, effectTimes: 0, shake: 0, wave: 0, unknown: 0, costMP: 5, baseDamage: 30, elemental: 0, sound: 0 } as Magic],
+    })
+    tickBattle(gs, emptyInput, bus)
+    // 直接落一个指向 enemy 1 的 magic action,绕过菜单
+    gs.battleState!.pendingActions.set(0, { type: 'magic', actionId: 296, target: 1, targetSide: 'enemy' })
+    // 杀掉 enemy 1
+    gs.battleState!.enemies[1]!.e.health = 0
+    // 进 performAction
+    gs.battleState!.phase = 'performAction'
+    gs.battleState!.uiState = 'hidden'
+    gs.battleState!.selectingPlayerIdx = undefined
+    gs.battleState!.actionQueue = [{ isEnemy: false, idx: 0, dexterity: 100 } as never]
+    gs.battleState!.currentActionIndex = 0
+    // 跑一 tick perform —— magic 应被重选到活敌 enemy 0(不再打死敌 1)
+    const before = gs.battleState!.enemies[0]!.e.health
+    tickBattle(gs, emptyInput, bus)
+    // enemy 0 受到伤害(被重选),或至少没对死敌 1 施法 / 不抛
+    expect(gs.battleState!.enemies[0]!.e.health).toBeLessThanOrEqual(before)
+  })
+})
+
+// ============================================================================
 // tickSelectAction 端到端 input 序列(M3.5 T15)
 // ============================================================================
 

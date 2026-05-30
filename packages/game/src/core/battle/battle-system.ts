@@ -478,7 +478,7 @@ function tickSelectAction(
   }
 
   // fAutoAttack 取消(sdlpal uibattle.c:827-829):auto 模式按 Menu → 关 auto,本 tick 改正常菜单。
-  if (state.fAutoAttack && input.pressed.has('Menu')) {
+  if (state.fAutoAttack && (input.pressed.has('Menu') || input.pressed.has('Cancel'))) {
     state.fAutoAttack = false
   }
 
@@ -781,7 +781,7 @@ function handleMainMenuInput(
     state.menuState = 'throwItemSelect'
     state.itemSelect = buildBattleItemSelect(gs, res.items, 'throwable')
   } else if (input.pressed.has('Repeat')) {
-    commitRepeatAction(state, alivePlayerIdxs)
+    commitRepeatAction(state, alivePlayerIdxs, playerRoles)
   } else if (input.pressed.has('Auto')) {
     state.fAutoAttack = true // 下 tick commitAutoAttack 接管(uibattle.c:882-886 / 977-992)
   } else if (input.pressed.has('Status')) {
@@ -849,20 +849,25 @@ function commitForceAction(state: BattleState, alivePlayerIdxs: number[], res: B
 }
 
 /** Repeat(R 键)= 重提上一轮 action(sdlpal kKeyRepeat → CommitAction(TRUE),uibattle.c:1220-1223)。 */
-function commitRepeatAction(state: BattleState, alivePlayerIdxs: number[]): void {
+function commitRepeatAction(state: BattleState, alivePlayerIdxs: number[], playerRoles: PlayerRoles): void {
   const playerIdx = state.selectingPlayerIdx
   if (playerIdx === undefined) return
   const prev = state.prevActions?.get(playerIdx)
-  if (prev) {
+  // sdlpal CommitAction(TRUE)(fight.c:1858-1867):prevAction 复制后,若是 pass(上轮睡/被控)
+  //   → 转物理攻击 id0 target=-1(全体)。无 prev(首轮)同此默认 pass→attack。
+  if (prev && prev.type !== 'pass') {
     // 原样重提;敌方目标若已死,perform 期 selectAutoTargetFrom 重选(本系统已有)。
     state.pendingActions.set(playerIdx, { ...prev })
     advanceSelectingPlayer(state, alivePlayerIdxs)
-  } else {
-    // 首轮无 prev → sdlpal CommitAction(TRUE) pass→attack(fight.c:1862-1867):自动目标物理攻击。
-    const target = selectAutoTargetFrom(state.enemies, 0, state.iPrevEnemyTarget ?? -1)
-    state.pendingActions.set(playerIdx, { type: 'attack', target, targetSide: 'enemy' })
-    advanceSelectingPlayer(state, alivePlayerIdxs)
+    return
   }
+  // pass / 无 prev → 物理攻击;群攻武器 target=-1,否则自动目标(对齐 commitAutoAttack)。
+  const role = playerRoles.roles[state.players[playerIdx]!.roleId]
+  const target = (role?.attackAll ?? 0) !== 0
+    ? -1
+    : selectAutoTargetFrom(state.enemies, 0, state.iPrevEnemyTarget ?? -1)
+  state.pendingActions.set(playerIdx, { type: 'attack', target, targetSide: 'enemy' })
+  advanceSelectingPlayer(state, alivePlayerIdxs)
 }
 
 /**
@@ -1119,6 +1124,7 @@ function handleEnemyTargetSelect(state: BattleState, input: InputSnapshot, alive
   if (input.pressed.has('Menu') || input.pressed.has('Cancel')) {
     state.uiState = 'selectMove'
     state.menuState = 'main'
+    state.pendingActionDraft = undefined // 取消 target → 清半成品 draft(防陈旧目标残留)
     return
   }
   if (input.pressed.has('Confirm')) {
@@ -1146,6 +1152,7 @@ function handlePlayerTargetSelect(state: BattleState, input: InputSnapshot, aliv
   if (input.pressed.has('Menu') || input.pressed.has('Cancel')) {
     state.uiState = 'selectMove'
     state.menuState = 'main'
+    state.pendingActionDraft = undefined // 取消 target → 清半成品 draft(防陈旧目标残留)
     return
   }
   const maxIdx = state.players.length - 1 // = sdlpal wMaxPartyMemberIndex
@@ -1492,13 +1499,17 @@ function tickPerformAction(
     }
   }
 
-  // sdlpal `PAL_BattlePlayerValidateAction`(fight.c:3500-3507):perform 前重选目标 ——
-  //   攻击的目标敌人若**已死**(被本回合先手队友打死),重选一个活敌(否则会打空位)。
-  //   attack 的 target>=0 必指敌人;target<0(全体)由 performAttack 自身遍历活敌,不需重选。
+  // sdlpal `PAL_BattlePlayerValidateAction`(fight.c:3487-3507):perform 前重选目标 ——
+  //   **所有指向敌方的动作**(攻击 / 攻击魔法 / 投掷 / 合击)若目标敌人**已死**(被本回合先手队友
+  //   打死),重选一个活敌(否则打空位)。sdlpal 对 attack(3339)/ magic 攻击(3407)/ throwItem(3491)
+  //   皆 fToEnemy 时校验。target<0(全体)由 perform* 自身遍历活敌,不需重选。
+  //   注:magic/item 的 targetSide 省略默认 'enemy'(玩家施法默认敌方,见 resolveTargetIsEnemy)。
   if (
-    action &&
-    action.type === 'attack' &&
+    action != null &&
     action.target >= 0 &&
+    (action.type === 'attack' ||
+      ((action.type === 'magic' || action.type === 'throw-item' || action.type === 'coop-magic') &&
+        (action.targetSide ?? 'enemy') === 'enemy')) &&
     (state.enemies[action.target]?.e.health ?? 0) <= 0
   ) {
     const newTarget = selectAutoTargetFrom(
@@ -1507,7 +1518,7 @@ function tickPerformAction(
       state.iPrevEnemyTarget ?? -1,
     )
     if (newTarget >= 0) action = { ...action, target: newTarget }
-    // newTarget<0(全敌已死)→ 保持原 target;performAttack 对死敌 no-op,本回合即将结束转 postAction
+    // newTarget<0(全敌已死)→ 保持原 target;perform* 对死敌 no-op,本回合即将结束转 postAction
   }
 
   if (action) performBattleAction(state, gs, item, action, bus, res)
