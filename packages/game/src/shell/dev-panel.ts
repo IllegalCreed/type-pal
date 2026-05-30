@@ -20,9 +20,11 @@ import type {
   BattleField,
   Command,
   Enemy,
+  EnemyObject,
   EnemyPosTable,
   EnemyTeam,
   Item,
+  LevelUpMagicEntry,
   Magic,
   ObjectMagicView,
   ObjectPoisonView,
@@ -30,6 +32,7 @@ import type {
   Spell,
 } from '@type-pal/shared'
 import type { Facing, GameState } from '../core/game-state.js'
+import { hydratePlayerRolesRuntime, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import { startBattle } from '../core/battle/battle-system.js'
 import { loadScene } from '../core/scene-system.js'
 import {
@@ -61,6 +64,11 @@ export interface BattleFixture {
    * 类型刻意宽松 —— JSON import 推断会给具体 key 类型,本字段只用于 Object.assign 写入。
    */
   playerOverrides?: Record<string, Partial<Record<string, number | number[]>>>
+  /**
+   * D11 升级测试:gs.Exp.rgPrimaryExp[role] override(key = roleId 字符串)。设接近升级阈值的经验,
+   * 打赢后 finalizeBattle 触发升级演出。省略 → 经验不变。
+   */
+  expOverrides?: Record<string, { wExp: number; wLevel: number }>
   inventory?: { itemId: number; count: number }[]
   enemyTeamId: number
   battleFieldId: number
@@ -117,9 +125,14 @@ export interface DevPanelDeps {
   playDosEnding?: () => void
   resources: {
     enemies: Enemy[]
+    /** D10/对话:enemy-objects.json — 战斗内 scriptOnReady/scriptOnTurnStart(boss 嘲讽对话)需要。 */
+    enemyObjects: EnemyObject[]
     enemyTeams: EnemyTeam[]
     battleFields: BattleField[]
     playerRoles: PlayerRoles
+    /** D11:升级阈值 + 学法术表(战斗胜利升级用)。 */
+    levelUpExp: number[]
+    levelUpMagic: LevelUpMagicEntry[][]
     items: Item[]
     spells: Spell[]
     magics: Magic[]
@@ -748,7 +761,7 @@ function closePicker(): void {
   }
 }
 
-function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
+export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
   // 1. 应用 playerOverrides —— 直接 mutate playerRoles(M3 简版;M5 考虑 immutable 备份恢复)
   for (const [idStr, override] of Object.entries(fixture.playerOverrides ?? {})) {
     const id = Number(idStr)
@@ -765,6 +778,17 @@ function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
   deps.gs.partyMembers = [...fixture.partyMembers]
   deps.gs.inventory = (fixture.inventory ?? []).map(i => ({ ...i }))
 
+  // 2.5 边界同步:把(override 后的)静态 roles hydrate 进 gs.PlayerRolesRuntime —— 战斗经 projection
+  //     吃这份当前属性,战后回写/升级也读这份(原 fixture 绕过 runtime → 升级/持久化读不到)。
+  hydratePlayerRolesRuntime(deps.gs.PlayerRolesRuntime, deps.resources.playerRoles)
+
+  // 2.6 D11:expOverrides → gs.Exp.rgPrimaryExp(设接近阈值的经验,打赢触发升级演出)。
+  for (const [idStr, exp] of Object.entries(fixture.expOverrides ?? {})) {
+    const id = Number(idStr)
+    deps.gs.Exp.rgPrimaryExp[id] = { wExp: exp.wExp, wLevel: exp.wLevel }
+    if (deps.gs.PlayerRolesRuntime.rgwLevel[id] !== undefined) deps.gs.PlayerRolesRuntime.rgwLevel[id] = exp.wLevel
+  }
+
   // 3. 启战(rngSeed 不传 → 用 Date.now()=非确定性,符合 dev 自由探索意图)
   // try/catch:fixture 错配(team/field id 不存在)startBattle 会抛(by design fail-fast),
   //   dev 工具不该因此整个崩 → 捕获 + 清晰报错,方便定位是哪个 fixture 配错。
@@ -776,9 +800,13 @@ function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
       battleFieldId: fixture.battleFieldId,
       isBoss: false,
       enemies: deps.resources.enemies,
+      enemyObjects: deps.resources.enemyObjects, // 对话:enemy scriptOnReady/scriptOnTurnStart(boss 嘲讽)
       enemyTeams: deps.resources.enemyTeams,
       battleFields: deps.resources.battleFields,
-      playerRoles: deps.resources.playerRoles,
+      // 边界:用 runtime 当前属性投影战斗 roles(吃升级后属性;与真实 startBattleHandler 一致)
+      playerRoles: projectRuntimeToBattleRoles(deps.gs.PlayerRolesRuntime, deps.resources.playerRoles),
+      levelUpExp: deps.resources.levelUpExp, // D11:战斗胜利升级阈值
+      levelUpMagic: deps.resources.levelUpMagic, // D11:升级学新法术
       items: deps.resources.items,
       spells: deps.resources.spells,
       magics: deps.resources.magics,

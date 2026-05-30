@@ -748,9 +748,12 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     },
     resources: {
       enemies,
+      enemyObjects, // 对话:dev 战斗 enemy scriptOnReady/scriptOnTurnStart(boss 嘲讽)
       enemyTeams,
       battleFields,
       playerRoles,
+      levelUpExp: assets.levelUpExp, // D11:dev 战斗胜利升级阈值
+      levelUpMagic: assets.levelUpMagic, // D11:dev 战斗升级学法术
       items,
       spells,
       magics,

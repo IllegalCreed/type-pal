@@ -46,6 +46,31 @@
       "inventory": [{ "itemId": 61, "count": 10 }],
       "enemyTeamId": 121,
       "battleFieldId": 7
+    },
+    {
+      "id": "fixture-dialog",
+      "label": "★ 对话测试(vs 林月如一 — 每回合起手看战斗对话框/boss 嘲讽)",
+      "partyMembers": [0],
+      "playerOverrides": {
+        "0": { "level": 20, "hp": 800, "maxHP": 800, "mp": 80, "maxMP": 80, "attackStrength": 40, "defense": 60 }
+      },
+      "inventory": [{ "itemId": 61, "count": 10 }],
+      "enemyTeamId": 21,
+      "battleFieldId": 7
+    },
+    {
+      "id": "fixture-levelup",
+      "label": "★ 升级测试(lv1 + 1000 经验 vs 灯笼 30HP — 打赢看升级演出:连升级/满血/学法术)",
+      "partyMembers": [0],
+      "playerOverrides": {
+        "0": { "level": 1, "hp": 30, "maxHP": 30, "mp": 10, "maxMP": 10, "attackStrength": 999 }
+      },
+      "expOverrides": {
+        "0": { "wExp": 1000, "wLevel": 1 }
+      },
+      "inventory": [{ "itemId": 61, "count": 5 }],
+      "enemyTeamId": 1,
+      "battleFieldId": 7
     }
   ]
 }
