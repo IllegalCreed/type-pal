@@ -25,14 +25,16 @@
     },
     {
       "id": "fixture-end",
-      "label": "通关前(满级队伍 vs 强敌)",
-      "partyMembers": [0, 1, 2, 3],
+      "label": "通关前(满级 3 人 vs 强敌:五毒巨蝎×2 + 金蟾)",
+      "partyMembers": [0, 1, 2],
       "playerOverrides": {
-        "0": { "level": 99, "hp": 9999, "maxHP": 9999, "mp": 999, "maxMP": 999 }
+        "0": { "level": 99, "hp": 9999, "maxHP": 9999, "mp": 999, "maxMP": 999 },
+        "1": { "level": 99, "hp": 9999, "maxHP": 9999, "mp": 999, "maxMP": 999 },
+        "2": { "level": 99, "hp": 9999, "maxHP": 9999, "mp": 999, "maxMP": 999 }
       },
       "inventory": [{ "itemId": 61, "count": 99 }],
-      "enemyTeamId": 50,
-      "battleFieldId": 70
+      "enemyTeamId": 367,
+      "battleFieldId": 40
     },
     {
       "id": "fixture-anim",

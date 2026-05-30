@@ -764,25 +764,31 @@ function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
   deps.gs.inventory = (fixture.inventory ?? []).map(i => ({ ...i }))
 
   // 3. 启战(rngSeed 不传 → 用 Date.now()=非确定性,符合 dev 自由探索意图)
+  // try/catch:fixture 错配(team/field id 不存在)startBattle 会抛(by design fail-fast),
+  //   dev 工具不该因此整个崩 → 捕获 + 清晰报错,方便定位是哪个 fixture 配错。
   console.log(`[dev-panel] applyFixture ${fixture.id} → startBattle(team=${fixture.enemyTeamId}, field=${fixture.battleFieldId})`)
-  startBattle({
-    gs: deps.gs,
-    enemyTeamId: fixture.enemyTeamId,
-    battleFieldId: fixture.battleFieldId,
-    isBoss: false,
-    enemies: deps.resources.enemies,
-    enemyTeams: deps.resources.enemyTeams,
-    battleFields: deps.resources.battleFields,
-    playerRoles: deps.resources.playerRoles,
-    items: deps.resources.items,
-    spells: deps.resources.spells,
-    magics: deps.resources.magics,
-    objectMagics: deps.resources.objectMagics, // E2:0x42 SimulateMagic 解析 magic object id
-    objectPoisons: deps.resources.objectPoisons, // 0x28 apply poison
-    enemyPos: deps.resources.enemyPos, // D17a:enemy 初始 pos/posOriginal(battle.c:936-939)
-    battleEffectIndex: deps.resources.battleEffectIndex, // D17a:命中特效帧基号(fight.c:2055)
-    // P2#5:不传切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
-  })
+  try {
+    startBattle({
+      gs: deps.gs,
+      enemyTeamId: fixture.enemyTeamId,
+      battleFieldId: fixture.battleFieldId,
+      isBoss: false,
+      enemies: deps.resources.enemies,
+      enemyTeams: deps.resources.enemyTeams,
+      battleFields: deps.resources.battleFields,
+      playerRoles: deps.resources.playerRoles,
+      items: deps.resources.items,
+      spells: deps.resources.spells,
+      magics: deps.resources.magics,
+      objectMagics: deps.resources.objectMagics, // E2:0x42 SimulateMagic 解析 magic object id
+      objectPoisons: deps.resources.objectPoisons, // 0x28 apply poison
+      enemyPos: deps.resources.enemyPos, // D17a:enemy 初始 pos/posOriginal(battle.c:936-939)
+      battleEffectIndex: deps.resources.battleEffectIndex, // D17a:命中特效帧基号(fight.c:2055)
+      // P2#5:不传切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
+    })
+  } catch (e) {
+    console.error(`[dev-panel] fixture ${fixture.id} 启战失败(team=${fixture.enemyTeamId} / field=${fixture.battleFieldId} 可能错配):`, e)
+  }
 }
 
 /**

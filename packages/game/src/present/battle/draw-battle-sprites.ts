@@ -140,16 +140,20 @@ export const DEATH_FADE_TOTAL_STEPS = 72
  * "敌人没了的新帧 = 其下背景"(a)像素低 nibble ±1 逼近,高 nibble 直接取 a;72 步后
  * 整块拷新帧。净效果:死敌精灵像素逐步 crossfade 成其下方背景 → 渐隐消失。
  *
- * 这里**闭式**复现:逐 sprite opaque 像素,取其落点 fb 当前像素 a(= 背景,敌精灵未画前
- * fb 已含 bg + 其它精灵)作目标,sprite 像素 b 作起点;结果 =
- *   (a & 0xF0) | nudgeLow(bLow → aLow, by min(step, |aLow - bLow|))
- * 写回 fb。
- * - step=0:高 nibble 立即换成背景的(a&0xF0),低 nibble 未移(仍 bLow)。
- * - step 增大:低 nibble 逐步收敛到 aLow(背景低 nibble)。
- * - step >= |aLow-bLow|:低 nibble 完全 = aLow → 像素 == 背景(配合 draw 在 step>=72 不画,
- *   等价完全消失)。
- * 透明像素(opaque mask=0,= RLE-skip run)不参与(sdlpal 同样跳过非精灵区)。
+ * **逐像素忠实复现**(含 sdlpal 的 rgIndex 抖动交错):取落点 fb 当前像素 a(= 背景,
+ * 敌精灵未画前 fb 已含 bg + 其它精灵)作目标,sprite 像素 b 作起点。
+ *
+ * sdlpal(battle.c:634-663)72 步 = 外 i=0..11 × 内 j=0..5,每步 16ms。第 (i,j) 步只处理
+ * linear 下标 k ≡ rgIndex[j] (mod 6) 的像素(rgIndex={0,3,1,5,2,4});写 (a&0xF0)|(b&0x0F),
+ * 且仅 i>0 时把 b 低 nibble 朝 a ±1。所以**每个像素按其 k%6 决定首次被处理的子步 jr**:
+ *   - 显示帧 step < jr:本像素还没被碰过 → 仍显原敌像素 b(抖动交错的起点,不同像素错峰渐隐)。
+ *   - step >= jr:高 nibble 立即换背景(a&0xF0);低 nibble 朝 aLow 逼近 floor((step-jr)/6) 格
+ *     (每个外层 i>0 推进 1,i=1..11 最多 11 格),clamp |diff|。
+ * 透明像素(opaque mask=0,= RLE-skip run)不参与。step>=72 时 draw 层直接不画(等价完全消失)。
  */
+// rgIndex={0,3,1,5,2,4} 的逆:像素 residue(k%6)→ 它在 6 步块内被处理的子步 jr。
+const RG_INDEX_INV = [0, 2, 4, 1, 5, 3]
+
 export function blitFrameDeathFade(
   fb: Framebuffer,
   frame: SpriteFrame,
@@ -166,18 +170,21 @@ export function blitFrameDeathFade(
       const px = baseX + x
       const py = baseY + y
       if (px < 0 || px >= fb.width || py < 0 || py >= fb.height) continue
-      const a = fb.indices[py * fb.width + px]! // 背景(新帧:敌没了)
       const b = frame.indices[srcOff]! // 旧帧:敌精灵像素
+      // sdlpal k = py*pitch+px(pitch=fb.width=320);该像素在块内子步 jr = rgIndexInv[k%6]。
+      const jr = RG_INDEX_INV[(py * fb.width + px) % 6]!
+      if (step < jr) {
+        fb.writePixel(px, py, b) // 还没轮到本像素 → 显原敌像素(抖动错峰起点)
+        continue
+      }
+      const a = fb.indices[py * fb.width + px]! // 背景(新帧:敌没了)
       const aLow = a & 0x0f
       const bLow = b & 0x0f
       const diff = aLow - bLow
-      // battle.c:634-663:rgIndex[6]={0,3,1,5,2,4} 是 mod-6 置换 → 每像素**每 6 显示帧**(每个
-      //   外层 i)才被 nudge 1 格,且仅 i>0(battle.c:650)→ i=1..11 最多 11 格。
-      //   显示帧 step → 外层 i = floor(step/6)(0..11)→ 低 nibble 朝 aLow 逼近 min(i,|diff|) 格。
-      //   (上一版直接用 step 当位移量 → 收敛快 6×,前 1/6 时长就画完,不忠实。)
-      const move = Math.min(Math.floor(step / 6), Math.abs(diff))
-      const low = diff >= 0 ? bLow + move : bLow - move
-      // 高 nibble 取背景(a&0xF0,battle.c:662),低 nibble = 收敛后的值
+      // 已处理:block i=0(step=jr)只换高 nibble 不 nudge;之后每外层 i(>0)推进 1 格 →
+      //   nudge 次数 = floor((step-jr)/6),clamp |diff|(battle.c:650-662)。
+      const nudges = Math.min(Math.floor((step - jr) / 6), Math.abs(diff))
+      const low = diff >= 0 ? bLow + nudges : bLow - nudges
       fb.writePixel(px, py, (a & 0xf0) | (low & 0x0f))
     }
   }

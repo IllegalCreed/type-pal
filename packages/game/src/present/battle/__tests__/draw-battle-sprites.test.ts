@@ -445,55 +445,66 @@ describe('blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662)', 
     return { width: values.length, height: 1, indices, opaque }
   }
 
-  it('step=0:高 nibble 立即换背景的(a&0xF0),低 nibble 未移(仍 bLow)', () => {
+  // 注:像素落点 (12,0) → k=12 → residue 0 → jr=rgIndexInv[0]=0(块内第一个处理,step=0 即生效)。
+  it('residue 0 像素:step=0 高 nibble 立即换背景,低 nibble 未移(仍 bLow)', () => {
     const fb = createFramebuffer()
-    // 背景 a = 0x57(high 5, low 7);sprite b = 0x32(high 3, low 2)
-    // 1×1 frame,anchor 底中 (10,1) → baseX=10, baseY=0 → 落点 (10,0)
+    // 背景 a = 0x57;sprite b = 0x32。1×1 frame anchor (12,1) → 落点 (12,0)
+    fb.writePixel(12, 0, 0x57)
+    blitFrameDeathFade(fb, mkFrame([0x32]), 12, 1, 0)
+    expect(fb.indices[0 * 320 + 12]).toBe(0x52) // high=a&0xF0=0x50;low=bLow(2 未移)
+  })
+
+  it('residue 0 像素 step 中途:低 nibble 朝 aLow 逼近 floor((step-jr)/6) 格', () => {
+    const fb = createFramebuffer()
+    fb.writePixel(12, 0, 0x09) // a high0 low9
+    // jr=0;b low=2;diff=9-2=7;step=18 → nudges=floor(18/6)=3 → low=2+3=5;high=0 → 0x05
+    blitFrameDeathFade(fb, mkFrame([0x02]), 12, 1, 18)
+    expect(fb.indices[0 * 320 + 12]).toBe(0x05)
+  })
+
+  it('6 帧节奏:同一外层 i 内(jr..jr+5)低 nibble 不动,+6 才推进 1 格(battle.c:634-650)', () => {
+    // residue 0(jr=0):diff=9-2=7。step=5 → nudges=0(仅高换 bg);step=6 → nudges=1。
+    const fb0 = createFramebuffer(); fb0.writePixel(12, 0, 0x09)
+    blitFrameDeathFade(fb0, mkFrame([0x02]), 12, 1, 5)
+    expect(fb0.indices[0 * 320 + 12]).toBe(0x02) // low 未移(仍 2),high=0
+    const fb1 = createFramebuffer(); fb1.writePixel(12, 0, 0x09)
+    blitFrameDeathFade(fb1, mkFrame([0x02]), 12, 1, 6)
+    expect(fb1.indices[0 * 320 + 12]).toBe(0x03) // nudges=1 → low=3
+  })
+
+  it('rgIndex 抖动错峰:residue!=0 的像素淡出起点 jr 滞后(step<jr 仍显原敌像素)', () => {
+    // (10,0):k=10,residue 4 → jr=rgIndexInv[4]=5;(12,0):residue 0 → jr=0。step=2 时:
+    //   r0 已换高 nibble,r4 还没轮到(显原敌像素)→ 抖动错峰的核心证据。
+    const fb = createFramebuffer()
     fb.writePixel(10, 0, 0x57)
-    blitFrameDeathFade(fb, mkFrame([0x32]), 10, 1, 0)
-    // step=0:high = a&0xF0 = 0x50;low = bLow(2,未移) → 0x52
-    expect(fb.indices[0 * 320 + 10]).toBe(0x52)
-  })
-
-  it('step 中途:低 nibble 朝 aLow 逼近 min(floor(step/6),|diff|) 格', () => {
-    const fb = createFramebuffer()
-    fb.writePixel(10, 0, 0x09) // a: high0 low9
-    // b low=2;diff = 9-2 = 7;step=18 → i=floor(18/6)=3 → move=min(3,7)=3 → low=2+3=5;high=0 → 0x05
-    blitFrameDeathFade(fb, mkFrame([0x02]), 10, 1, 18)
-    expect(fb.indices[0 * 320 + 10]).toBe(0x05)
-  })
-
-  it('6 帧节奏:同一外层 i 内(step 0..5)低 nibble 不动,step=6 才推进 1 格(battle.c:634-650)', () => {
-    // diff = 9-2 = 7。step=5 → i=0 → move=0(仅高 nibble 换 bg);step=6 → i=1 → move=1。
-    const fb0 = createFramebuffer(); fb0.writePixel(10, 0, 0x09)
-    blitFrameDeathFade(fb0, mkFrame([0x02]), 10, 1, 5)
-    expect(fb0.indices[0 * 320 + 10]).toBe(0x02) // low 未移(仍 2),high=a&F0=0
-    const fb1 = createFramebuffer(); fb1.writePixel(10, 0, 0x09)
-    blitFrameDeathFade(fb1, mkFrame([0x02]), 10, 1, 6)
-    expect(fb1.indices[0 * 320 + 10]).toBe(0x03) // i=1 → low=2+1=3
+    fb.writePixel(12, 0, 0x57)
+    blitFrameDeathFade(fb, mkFrame([0x32]), 10, 1, 2) // r4 jr5:step2<5 → 原像素 0x32
+    blitFrameDeathFade(fb, mkFrame([0x32]), 12, 1, 2) // r0 jr0:step2>=0 → 0x52
+    expect(fb.indices[0 * 320 + 10]).toBe(0x32) // 还没轮到 → 原敌像素
+    expect(fb.indices[0 * 320 + 12]).toBe(0x52) // 已换高 nibble
   })
 
   it('aLow < bLow:低 nibble 朝下逼近(diff<0)', () => {
     const fb = createFramebuffer()
-    fb.writePixel(10, 0, 0x01) // aLow=1
-    // bLow=9;diff = 1-9 = -8;step=18 → i=3 → move=3 → low=9-3=6;high(a&F0)=0 → 0x06
-    blitFrameDeathFade(fb, mkFrame([0x09]), 10, 1, 18)
-    expect(fb.indices[0 * 320 + 10]).toBe(0x06)
+    fb.writePixel(12, 0, 0x01) // aLow=1
+    // jr=0;bLow=9;diff=1-9=-8;step=18 → nudges=3 → low=9-3=6;high=0 → 0x06
+    blitFrameDeathFade(fb, mkFrame([0x09]), 12, 1, 18)
+    expect(fb.indices[0 * 320 + 12]).toBe(0x06)
   })
 
-  it('step >= |diff|:低 nibble 完全收敛到 aLow → 像素 == 背景', () => {
+  it('step 足够大:低 nibble 完全收敛到 aLow → 像素 == 背景', () => {
     const fb = createFramebuffer()
-    fb.writePixel(10, 0, 0x5a) // a high5 low10(0xA)
-    // bLow=2;|diff|=8;step=72 >> 8 → low=aLow=0xA;high=a&F0=0x50 → 0x5A == a
-    blitFrameDeathFade(fb, mkFrame([0x32]), 10, 1, 72)
-    expect(fb.indices[0 * 320 + 10]).toBe(0x5a)
+    fb.writePixel(12, 0, 0x5a) // a high5 low10(0xA)
+    // jr=0;bLow=2;|diff|=8;step=66 → nudges=min(floor(66/6),8)=min(11,8)=8 → low=0xA;high=0x50 → 0x5A
+    blitFrameDeathFade(fb, mkFrame([0x32]), 12, 1, 66)
+    expect(fb.indices[0 * 320 + 12]).toBe(0x5a)
   })
 
   it('透明像素(opaque=0)跳过:背景不变', () => {
     const fb = createFramebuffer()
-    fb.writePixel(10, 0, 0x77)
-    blitFrameDeathFade(fb, mkFrame([0x32], [0]), 10, 1, 5)
-    expect(fb.indices[0 * 320 + 10]).toBe(0x77) // 未写入
+    fb.writePixel(12, 0, 0x77)
+    blitFrameDeathFade(fb, mkFrame([0x32], [0]), 12, 1, 5)
+    expect(fb.indices[0 * 320 + 12]).toBe(0x77) // 未写入
   })
 
   it('DEATH_FADE_TOTAL_STEPS = 72(battle.c:634-636 外12×内6)', () => {
@@ -527,16 +538,17 @@ describe('drawBattleSprites — 敌人死亡淡出集成(D17)', () => {
     expect(fb.indices[78 * 320 + 159]).toBe(9) // 照常画(非瞬隐 0)
   })
 
-  it('health<=0 + deathFadeStep=0:crossfade 画(高 nibble 换背景)', () => {
+  it('health<=0 + deathFadeStep 已开始:crossfade 画(高 nibble 换背景)', () => {
     const fb = createFramebuffer()
     // 背景:落点 (159,78) 写 0x50(high5 low0)
     fb.writePixel(159, 78, 0x50)
     const playerRoles: PlayerRoles = { roles: [] }
     const be = mkBattleEnemy(minimalEnemy(50, 0))
     be.pos = { x: 160, y: 80 }
-    be.deathFadeStep = 0
+    // (159,78):k=78*320+159=25119,residue 3 → jr=rgIndexInv[3]=1 → step=1 是该像素首次处理。
+    be.deathFadeStep = 1
     be.currentFrame = 0
-    // sprite 像素 0x33(high3 low3);step=0 → high=a&F0=0x50,low=bLow=3 → 0x53
+    // sprite 像素 0x33(high3 low3);step=1>=jr=1,nudges=0 → high=a&F0=0x50,low=bLow=3 → 0x53
     const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSprite(0x33)]])
     const state = mkState([], [be])
     drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
