@@ -5,7 +5,7 @@
 > **三表**:[feature-status](feature-status.md)(引擎功能)· opcode-status(事件 / opcode,本表)· [resource-status](resource-status.md)(资源提取)
 > **图例**:✅ done · ⚠️ partial(extraction 已收集目标,runtime 待)· ⬜ todo · N/A
 > **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra)· E=战斗 · S=系统/UI
-> **最后更新**:2026-05-30 — 0x0A goto-if-no 收口 → A 类全 ✅;订正 0x41 误标。剩余只 D 类音频(需 M6)+ E 类战斗。
+> **最后更新**:2026-05-30 — **E 类法术伤害结算 keystone**:E1 inline 攻击法术伤害接进 performMagic(5 元素咒真伤害)+ 0x42 SimulateMagic + 投掷物全链 + 补提取 rgObject(object-magics.json)。剩余 D 类音频(需 M6)+ E 类其余战斗 opcode(0x60/0x66/0x68/0x91/0x9E 等)。
 >
 > sdlpal 真值出处:`reference/sdlpal/script.c`(PAL_InterpretInstruction 587-3115 / PAL_RunTriggerScript 3140+ / PAL_RunAutoScript 3482+)。全集:控制流 0x00-0x0A + 数据/动作 0x0B-0xA6(不存在:0x32 / 0x48 / 0x72 / 0x9D)。
 
@@ -105,6 +105,27 @@ setDialogStyle 0x3B-0x3E。
 > 注:**0x5C 不是 B 类** —— `g_Battle.iHidingTime = -op0`(script.c:1907-1911)是**战斗**态(party 隐身回合),已移到 E 类。
 
 ### E 战斗(多数需战斗系统/enemy 状态前置)
+
+> **2026-05-30 法术伤害结算 keystone 完成**(commit 见下):
+> - **E1 inline 攻击法术伤害**:`performMagic` 接上 `PAL_BattleCommitAction kBattleActionMagic`
+>   offensive 内联结算(fight.c:4270-4318)。此前 `calcMagicDamage` **零 caller**,5 个元素咒
+>   (风/雷/水/火/土,mn0-5,baseDamage>0)打 0 血 → 现真伤害。player→enemy only(enemy 施法是
+>   另一 sdlpal 函数);guard `(SHORT)baseDamage>0`;str=role.magicStrength(装备加成暂略);
+>   minDamage=1;applyToAll→全体;防御类(applyToPlayer/Party/Trance)不结算。
+> - **共享核心** `applyMagicDamage`(battle/magic-damage.ts):inline 与 0x42 同源,只差 magStr 来源
+>   + minDamage(1 vs 0)。def=(SHORT)defense+(level+6)*4 clamp≥0 → calcMagicDamage(mult=1)→
+>   `max(dmg,minDamage)` → health-=。
+> - **0x42 SimulateMagic ✅**(见下表)+ **投掷物全链**:`performThrowItem`(scriptOnThrow + 扣 1)
+>   + throw-item action 派发 + 战斗物品菜单 throwable→throw-item 路由。43 个投掷符/镖/卵/蛊可用。
+> - **补提取 rgObject**:`object-magics.json`(parseObjectMagics dump 完整 OBJECT 数组 magic-union 视图)
+>   —— 0x42 op0 可低至 24(item 段之下,不在 spells.json [296..397]);全 15 个 op0 站点可解析。
+>   object24→magic96 baseDamage=64537=SHORT−999(sentinel)→ 0x42 算 0 伤害(投掷物动画,真伤害靠
+>   后随 0x21/0x28 opcode);真伤害投掷物如 天师符 obj349→magic54 baseDamage140。
+>
+> **仍待**:0x42 不 emit 伤害弹幕(BattleCtx 无 bus,同其它战斗 opcode);offensive 特效法术的
+> scriptOnSuccess(回梦/夺魂 0x60 KO / 0x68 jump 等)未跑 —— 依赖 0x60/0x68/0x91/0x9E 等 E 类待做
+> opcode,keystone 元素咒(scriptOnSuccess=0)不受影响。
+
 | op | 含义 | 备注 |
 |----|------|------|
 | 0x30 | increase player stat temp by % | battle buff |
@@ -114,7 +135,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x38 | teleport party out of scene | |
 | 0x39 | drain HP from enemy | |
 | 0x3A | player flee battle | |
-| 0x42 | simulate magic for player | PAL_BattleSimulateMagic |
+| 0x42 | simulate magic for player | ✅ PAL_BattleSimulateMagic(fight.c:5300)。op0=magic object id / op1=baseDamage(当 magStr)/ op2=target+1(0→eventObjectID)。applyToAll flag 优先→全体,否则 i=op2-1<0 用 eventObjectID / 仍<0 自动选首活敌;guard 无符号 `baseDamage>0‖op1>0`(magic96=−999 进但算 0);minDamage=0;共享 applyMagicDamage。battle-opcodes.ts;script.c:1630-1640。投掷物 scriptOnThrow ×40 站点全靠它 |
 | 0x57 | set magic base damage by MP | |
 | 0x5A | halve player HP | |
 | 0x5B | halve enemy HP | |

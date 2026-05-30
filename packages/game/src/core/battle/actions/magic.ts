@@ -19,9 +19,21 @@ import type { Command, Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import type { RunScriptOptions } from '../../event-system.js'
 import type { BattleState } from '../battle-state.js'
+import { applyMagicDamage } from '../magic-damage.js'
 
 /** 注入的 runScript 函数(T17 free function `runScript`,测试可 mock)。 */
 export type RunScriptFn = (opts: RunScriptOptions) => void
+
+/** SHORT cast(同 formulas.ts 私函)。 */
+function asShort(n: number): number {
+  return (n << 16) >> 16
+}
+
+/**
+ * 防御 / 辅助类 magic type(对照 sdlpal `kMagicTypeApplyToPlayer/Party/Trance`)——
+ * 这几类不走 inline 敌人伤害结算分支(fight.c:4196-4244 是 defensive 分支)。
+ */
+const DEFENSIVE_MAGIC_TYPES: ReadonlySet<Magic['type']> = new Set(['applyToPlayer', 'applyToParty', 'trance'])
 
 export interface PerformMagicInput {
   state: BattleState
@@ -129,5 +141,38 @@ export function performMagic(input: PerformMagicInput): void {
         target: targetCtx,
       },
     })
+  }
+
+  // —— E1:inline 攻击法术伤害结算(player→enemy) ——
+  // sdlpal `fight.c:4245-4318`(PAL_BattleCommitAction kBattleActionMagic offensive 分支):
+  // 跑完 scriptOnUse 后,若 `(SHORT)magic.wBaseDamage > 0` → 用
+  // `str = PAL_GetPlayerMagicStrength(role)` 对单体 / 全体敌人内联结算伤害。
+  //
+  // 范围(忠实 sdlpal):
+  //   - **仅队员施法**(`!casterIsEnemy`)—— inline 路径是 player→enemy,敌人施法是另一函数。
+  //   - **非防御类**(applyToPlayer/Party/Trance 走 defensive 分支,不打敌人)。
+  //   - guard 用 `(SHORT)baseDamage > 0`(magic96=−999 等 sentinel 不触发,与 SimulateMagic
+  //     的无符号 guard 不同 —— 见 magic-damage.ts)。
+  //
+  // 注:`str = PAL_GetPlayerMagicStrength` 含装备 magicStrength 加成;ts 战斗暂不建模
+  //     rgEquipmentEffect(同 attack.ts 省略装备),用 role.magicStrength。
+  if (!input.casterIsEnemy && !DEFENSIVE_MAGIC_TYPES.has(magic.type) && asShort(magic.baseDamage) > 0) {
+    const target: number | 'all' = spell.flags.applyToAll ? 'all' : input.targetIdx
+    const role = input.playerRoles.roles[input.state.players[input.casterIdx]?.roleId ?? -1]
+    const magStr = role ? asShort(role.magicStrength) : 0
+    // sdlpal RandomFloat(10,11)/10 → rngFactor ∈ [1.0, 1.1)
+    const rngFactor = 1 + input.state.rng.next() * 0.1
+    const results = applyMagicDamage({
+      state: input.state,
+      target,
+      magStr,
+      magicData: { baseDamage: magic.baseDamage, elemental: magic.elemental },
+      rngFactor,
+      minDamage: 1, // sdlpal inline:if (sDamage <= 0) sDamage = 1
+    })
+    for (const r of results) {
+      if (r.damage > 0)
+        input.bus.emit({ op: 'showDamageNum', x: 0, y: 0, value: r.damage, color: 'yellow' })
+    }
   }
 }

@@ -100,6 +100,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   const {
     tilemap, palette, scene, events, playerRoles, tileImages, characterSprites,
     battleSprites, battleBgs, enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics,
+    objectMagics,
     stores,
   } = assets
 
@@ -663,7 +664,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     },
     resources: {
       enemies, enemyTeams, battleFields,
-      playerRoles, items, spells, magics,
+      playerRoles, items, spells, magics, objectMagics,
       commands: eventCommands,
     },
   })
@@ -721,6 +722,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         items,
         spells,
         magics,
+        objectMagics, // E2:0x42 SimulateMagic 解析 magic object id
         // P2#5:不再传 per-scene 切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
       })
       console.debug(

@@ -37,6 +37,7 @@ import type {
   InputSnapshot,
   Item,
   Magic,
+  ObjectMagicView,
   PlayerRoles,
   Spell,
 } from '@type-pal/shared'
@@ -50,6 +51,7 @@ import { performFlee } from './actions/flee.js'
 import { tickStatusEffects } from './status.js'
 import { performItem } from './actions/item.js'
 import { performMagic } from './actions/magic.js'
+import { performThrowItem } from './actions/throw-item.js'
 import type { BattleAction, BattleState } from './battle-state.js'
 import { createBattleState } from './battle-state.js'
 import { decideEnemyAction } from './enemy-ai.js'
@@ -69,6 +71,8 @@ export interface BattleResources {
   items: Item[]
   spells: Spell[]
   magics: Magic[]
+  /** rgObject magic-union 视图(object-magics.json)—— 0x42 SimulateMagic 解析 magic object id。 */
+  objectMagics: ObjectMagicView[]
   playerRoles: PlayerRoles
   commands: Command[]
 }
@@ -121,6 +125,12 @@ export interface StartBattleInput {
   spells: Spell[]
   /** magic.json。 */
   magics: Magic[]
+  /**
+   * object-magics.json(完整 rgObject 的 magic-union 视图)—— 0x42 SimulateMagic / 投掷物
+   * scriptOnThrow 解析 magic object id(可低至 24,不在 spells.json [296..397])。
+   * 省略 → 空表(0x42 走 no-op,投掷物伤害失效,会 console.warn)。
+   */
+  objectMagics?: ObjectMagicView[]
   /**
    * P2#5:战斗脚本(enemy.scriptOnReady / spell.scriptOnUse / item.scriptOnUse)是**全局 entry** —
    * 省略时默认单一全局数组(getGlobalCommands(),= 探索/菜单同一来源)。单测可传自带数组 override。
@@ -192,6 +202,7 @@ export function startBattle(input: StartBattleInput): void {
     items: input.items,
     spells: input.spells,
     magics: input.magics,
+    objectMagics: input.objectMagics ?? [],
     playerRoles: input.playerRoles,
     commands: input.commands ?? getGlobalCommands(), // P2#5:默认单一全局数组
   })
@@ -320,7 +331,7 @@ function tickSelectAction(
       handleMagicMenuInput(state, input, res.playerRoles)
       break
     case 'itemMenu':
-      handleItemMenuInput(state, input, gs)
+      handleItemMenuInput(state, input, gs, res.items)
       break
     case 'targetSelect':
       handleTargetSelectInput(state, input, alivePlayerIdxs)
@@ -523,6 +534,7 @@ function handleItemMenuInput(
   state: BattleState,
   input: InputSnapshot,
   gs: GameState,
+  items: Item[],
 ): void {
   if (input.pressed.has('Cancel')) {
     cancelToMainMenu(state)
@@ -545,7 +557,12 @@ function handleItemMenuInput(
     const entry = usable[state.uiCursor]
     if (!entry)
       return
-    state.pendingActionDraft = { type: 'item', actionId: entry.itemId }
+    // E2:投掷物(throwable + scriptOnThrow)→ 'throw-item' action(performThrowItem
+    // 跑 scriptOnThrow + 0x42),否则 'item' action(performItem 跑 scriptOnUse)。
+    // sdlpal 战斗物品菜单按 item flag 分 kBattleActionThrowItem / kBattleActionUseItem。
+    const item = items.find(i => i.id === entry.itemId)
+    const isThrow = !!item?.flags.throwable && item.scriptOnThrow !== 0
+    state.pendingActionDraft = { type: isThrow ? 'throw-item' : 'item', actionId: entry.itemId }
     state.uiState = 'targetSelect'
     state.uiCursor = 0
   }
@@ -768,10 +785,32 @@ function performBattleAction(
       // pass:no-op(enemy 死掉后 decideEnemyAction 返回的兜底)
       break
 
-    // M5.B-w2.b + B-w3.a stub:5 个新 action type — handler 真做留后续 commit
+    case 'throw-item': {
+      // E2:投掷物(kBattleActionThrowItem,fight.c:4332)—— 跑 item.scriptOnThrow,
+      // 脚本里 0x42 SimulateMagic 结算伤害。43 个投掷符/镖/卵/蛊靠这条。
+      if (action.actionId === undefined)
+        break
+      const targetIdx: number | 'all' = action.target === -1 ? 'all' : action.target
+      performThrowItem({
+        state,
+        gs,
+        casterIsEnemy: actor.isEnemy,
+        casterIdx: actor.idx,
+        itemId: action.actionId,
+        targetIdx,
+        items: res.items,
+        magics: res.magics,
+        objectMagics: res.objectMagics,
+        bus,
+        commands: res.commands,
+        runScript: getRunScript(gs),
+      })
+      break
+    }
+
+    // M5.B-w2.b + B-w3.a stub:4 个新 action type — handler 真做留后续 commit
     case 'summon':
     case 'trance':
-    case 'throw-item':
     case 'equip-battle':
     case 'coop-magic':
       console.debug(

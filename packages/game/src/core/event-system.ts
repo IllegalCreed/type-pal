@@ -24,7 +24,7 @@
  *    等真撞到 raw + console.debug 看到 opcode 号再补。
  */
 
-import type { Command, InputSnapshot, Palette } from '@type-pal/shared'
+import type { Command, InputSnapshot, Magic, ObjectMagicView, Palette } from '@type-pal/shared'
 import { FPS_EXPLORE } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
@@ -805,6 +805,13 @@ export interface BattleCtx {
   state: BattleState
   caster?: { type: 'player' | 'enemy', idx: number }
   target?: { type: 'player' | 'enemy', idx: number }
+  /**
+   * E 类伤害 opcode(0x42 SimulateMagic / 0x66 throw weapon)解析 magic 用 ——
+   * `0x42` op0 是 magic object id,需 objectMagics 解析成 magicNumber/flags,
+   * 再 magics 取 baseDamage/elemental。由 performThrowItem(及未来 0x66 caller)注入;
+   * 不注入时 0x42 走 no-op(consumed,防御)。
+   */
+  magicTables?: { magics: Magic[], objectMagics: ObjectMagicView[] }
 }
 
 /** runScript 入口选项(M3 T17;T20/T21 caller 填)。 */

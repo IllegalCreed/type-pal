@@ -23,6 +23,7 @@ import type {
   InputSnapshot,
   Item,
   Magic,
+  ObjectMagicView,
   PlayerRole,
   PlayerRoles,
   Spell,
@@ -118,6 +119,12 @@ interface BootstrapOpts {
   isBoss?: boolean
   rngSeed?: number
   runScriptFn?: RunScriptFn
+  /** E2 投掷物测试用:注入 items / magics / objectMagics / commands / inventory。 */
+  items?: Item[]
+  magics?: Magic[]
+  objectMagics?: ObjectMagicView[]
+  commands?: Command[]
+  inventory?: { itemId: number, count: number }[]
 }
 
 function bootstrap(opts: BootstrapOpts = {}): {
@@ -141,10 +148,13 @@ function bootstrap(opts: BootstrapOpts = {}): {
     magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
   }
   const battleFields = [field]
-  const items: Item[] = []
+  const items: Item[] = opts.items ?? []
   const spells: Spell[] = []
-  const magics: Magic[] = []
-  const commands: Command[] = [{ op: 'end' }]
+  const magics: Magic[] = opts.magics ?? []
+  const objectMagics: ObjectMagicView[] = opts.objectMagics ?? []
+  const commands: Command[] = opts.commands ?? [{ op: 'end' }]
+  if (opts.inventory)
+    gs.inventory = opts.inventory
 
   const bus = createCommandBus()
 
@@ -160,6 +170,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
     items,
     spells,
     magics,
+    objectMagics,
     commands,
     rngSeed: opts.rngSeed ?? 42,
     runScriptFn: opts.runScriptFn,
@@ -168,7 +179,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
   return {
     gs,
     bus,
-    resources: { items, spells, magics, playerRoles, commands },
+    resources: { items, spells, magics, objectMagics, playerRoles, commands },
     emptyInput: { held: new Set(), pressed: new Set(), frameNum: 0 },
   }
 }
@@ -627,6 +638,21 @@ describe('tickSelectAction magicMenu / itemMenu / targetSelect(M3.5 T14)', () =>
     expect(gs.battleState?.pendingActionDraft).toEqual({ type: 'item', actionId: 11 })
   })
 
+  it('itemMenu Confirm 选投掷物(throwable + scriptOnThrow)→ draft type=throw-item(E2)', () => {
+    const throwItem: Item = {
+      id: 66, _name: '天师符', bitmap: 0, price: 0, scriptOnUse: 0, scriptOnEquip: 0, scriptOnThrow: 1, scriptDesc: 0,
+      flags: { usable: false, equipable: false, throwable: true, consuming: true, applyToAll: false, sellable: true, equipableBy: [false, false, false, false, false, false] },
+    }
+    const ctx = bootstrap({ items: [throwItem], inventory: [{ itemId: 66, count: 2 }] })
+    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // preBattle → selectAction
+    ctx.gs.battleState!.uiCursor = 2 // 物品
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // mainMenu → itemMenu
+    expect(ctx.gs.battleState?.uiState).toBe('itemMenu')
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // itemMenu Confirm 选投掷物
+    expect(ctx.gs.battleState?.pendingActionDraft).toEqual({ type: 'throw-item', actionId: 66 })
+    expect(ctx.gs.battleState?.uiState).toBe('targetSelect')
+  })
+
   it('itemMenu Up wrap 跳过 count=0(只算可用)', () => {
     const { gs, bus } = enterItemMenu([
       { itemId: 10, count: 1 },
@@ -839,5 +865,47 @@ describe('tickSelectAction 端到端 input 序列(M3.5 T15)', () => {
     expect(action.type).toBe('defend')
     expect(gs.battleState?.pendingActionDraft).toBeUndefined()
     expect(gs.battleState?.phase).toBe('performAction')
+  })
+})
+
+// ============================================================================
+// E2:throw-item action → performThrowItem → 0x42 SimulateMagic 全链集成
+// ============================================================================
+
+describe('throw-item action 派发(E2)', () => {
+  let consoleWarn: ReturnType<typeof vi.spyOn>
+  beforeEach(() => {
+    consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  })
+
+  it('投掷物 action → 跑 scriptOnThrow(0x42)→ 敌人落血 + 扣 inventory', () => {
+    const throwItem: Item = {
+      id: 66, _name: '天师符', bitmap: 0, price: 0, scriptOnUse: 0, scriptOnEquip: 0, scriptOnThrow: 1, scriptDesc: 0,
+      flags: { usable: false, equipable: false, throwable: true, consuming: true, applyToAll: false, sellable: true, equipableBy: [false, false, false, false, false, false] },
+    }
+    // ip1 = 0x42 [349,0,0](天师符法 obj349 → magic54 baseDmg140 elem0)
+    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x42, operands: [349, 0, 0] }, { op: 'end' }]
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 200, defense: 30, level: 5 })],
+      roles: [makeRole({ id: 0, hp: 300, level: 5 })],
+      items: [throwItem],
+      // biome-ignore lint/suspicious/noExplicitAny: 只填伤害字段
+      magics: [{ id: 54, baseDamage: 140, elemental: 0, type: 'normal' } as any as Magic],
+      objectMagics: [{ id: 349, magicNumber: 54, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }],
+      commands,
+      inventory: [{ itemId: 66, count: 2 }],
+    })
+
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.pendingActions.set(0, { type: 'throw-item', actionId: 66, target: 0 })
+    tickBattle(gs, emptyInput, bus) // selectAction → performAction(build queue)
+
+    let safety = 20
+    while (gs.battleState?.phase === 'performAction' && safety-- > 0)
+      tickBattle(gs, emptyInput, bus)
+
+    expect(gs.battleState?.enemies[0]!.e.health).toBe(60) // 200 - 140
+    expect(gs.inventory[0]!.count).toBe(1) // 消耗 1
+    void consoleWarn
   })
 })

@@ -8,6 +8,7 @@ import type {
   EventFile,
   Item,
   Magic,
+  ObjectMagicView,
   Palette,
   PlayerRoles,
   SceneEventObject,
@@ -60,6 +61,9 @@ export interface LoadedAssets {
   items: Item[]
   spells: Spell[]
   magics: Magic[]
+  /** E 类 0x42 SimulateMagic:完整 rgObject 的 magic-union 视图(object-magics.json)。
+   *  投掷物 scriptOnThrow 用 0x42 解析 magic object id(可低至 24,不在 spells.json [296..397])。 */
+  objectMagics: ObjectMagicView[]
   /** 2026-05-29:商店表(DATA.MKF chunk 0)— 买菜单 opcode 0x0026 按 operand[0] 取。 */
   stores: Store[]
   /** M5.6 W0.d:SPRITEUI 71 frame(DATA.MKF chunk 9)— menu box 9-slice 用前 18 个(style 0/1)。 */
@@ -108,7 +112,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   const scene = await fetchJson<SceneObjects & { mapNum: number }>(`${BASE}/data/scene/${sceneId}.json`)
   const [
     tilemap, palette, events, playerRoles,
-    enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics, levelUpExp, stores,
+    enemies, enemyObjects, enemyTeams, battleFields, enemyPos, items, spells, magics, objectMagics, levelUpExp, stores,
   ] = await Promise.all([
     fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap/${scene.mapNum}.json`),
     fetchJson<Palette>(`${BASE}/data/palette/0.json`),
@@ -122,6 +126,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     fetchJson<Item[]>(`${BASE}/data/items.json`),
     fetchJson<Spell[]>(`${BASE}/data/spells.json`),
     fetchJson<Magic[]>(`${BASE}/data/magic.json`),
+    fetchJson<ObjectMagicView[]>(`${BASE}/data/object-magics.json`),
     fetchJson<number[]>(`${BASE}/data/level-up-exp.json`),
     fetchJson<Store[]>(`${BASE}/data/stores.json`),
   ])
@@ -324,6 +329,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     items,
     spells,
     magics,
+    objectMagics,
     stores,
     uiSpriteFrames,
     itemIcons,

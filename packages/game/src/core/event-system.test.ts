@@ -294,7 +294,9 @@ describe('runScript (M3 T17, battle mode)', () => {
     const bus = createCommandBus()
     runScript({
       commands: [
-        { op: 'raw', opcode: 0x42, operands: [1, 2, 3] },
+        // 0xC0(192)+ 0x99 都不在 dispatchBattleOpcode 具名集 → D26 debug skip。
+        // (注:0x42 SimulateMagic 现已具名 consumed,不再走 skip,故此处换用 0xC0 当未具名样例。)
+        { op: 'raw', opcode: 0xC0, operands: [1, 2, 3] },
         { op: 'raw', opcode: 0x99, operands: [0, 0, 0] },
         { op: 'end' },
       ],
@@ -307,7 +309,7 @@ describe('runScript (M3 T17, battle mode)', () => {
     // 前缀含 battle 标记,方便 T20/T21 grep
     const firstCall = debugSpy.mock.calls[0]?.[0] as string
     expect(firstCall).toMatch(/\[event-system battle\]/)
-    expect(firstCall).toMatch(/opcode=66/) // 0x42 = 66
+    expect(firstCall).toMatch(/opcode=192/) // 0xC0 = 192(未具名样例)
     debugSpy.mockRestore()
   })
 

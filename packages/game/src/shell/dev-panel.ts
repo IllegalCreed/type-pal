@@ -23,6 +23,7 @@ import type {
   EnemyTeam,
   Item,
   Magic,
+  ObjectMagicView,
   PlayerRoles,
   Spell,
 } from '@type-pal/shared'
@@ -120,6 +121,7 @@ export interface DevPanelDeps {
     items: Item[]
     spells: Spell[]
     magics: Magic[]
+    objectMagics: ObjectMagicView[]
     commands: Command[]
   }
 }
@@ -738,6 +740,7 @@ function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
     items: deps.resources.items,
     spells: deps.resources.spells,
     magics: deps.resources.magics,
+    objectMagics: deps.resources.objectMagics, // E2:0x42 SimulateMagic 解析 magic object id
     // P2#5:不传切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
   })
 }

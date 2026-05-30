@@ -370,7 +370,8 @@ describe('performMagic', () => {
       role: { mp: 30, maxMP: 30 },
     })
     const spell = makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 42 })
-    const magic = makeMagic({ id: 3, costMP: 8 })
+    // baseDamage:0 —— 本测专注 MP/anim/runScript 派发,inline 伤害由 magic-inline-damage.test.ts 覆盖
+    const magic = makeMagic({ id: 3, costMP: 8, baseDamage: 0 })
     const runScript: RunScriptFn = vi.fn()
     const commands: Command[] = [{ op: 'end' }]
 
@@ -586,7 +587,8 @@ describe('performMagic', () => {
       role: { mp: 30 },
     })
     const spell = makeSpell({ id: 1, magicNumber: 1, scriptOnUse: 0 }) // 关键
-    const magic = makeMagic({ id: 1, costMP: 7 })
+    // baseDamage:0 → 真·纯动画法术(offensive baseDamage>0 会走 inline 伤害,另有专测)
+    const magic = makeMagic({ id: 1, costMP: 7, baseDamage: 0 })
     const runScript: RunScriptFn = vi.fn()
 
     performMagic({

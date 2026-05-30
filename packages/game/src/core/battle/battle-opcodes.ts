@@ -16,6 +16,15 @@
  */
 
 import type { BattleCtx } from '../event-system.js'
+import { applyMagicDamage, resolveObjectMagic } from './magic-damage.js'
+
+/** SHORT cast(同 formulas.ts 私函)。 */
+function asShort(n: number): number {
+  return (n << 16) >> 16
+}
+
+/** sdlpal `script.c:1630-1640` 0x0042:simulate magic(PAL_BattleSimulateMagic,fight.c:5300)。 */
+const OP_SIMULATE_MAGIC = 0x0042
 
 /** sdlpal `script.c:1983-1993` 0x0064:if enemy.hp * 100 > maxHp * operand[0] → jump operand[1] */
 const OP_JUMP_IF_ENEMY_HP_ABOVE = 0x0064
@@ -50,6 +59,62 @@ export function dispatchBattleOpcode(
   const state = ctx.state
 
   switch (opcode) {
+    case OP_SIMULATE_MAGIC: {
+      // sdlpal `script.c:1630-1640` + PAL_BattleSimulateMagic(`fight.c:5300-5400`):
+      //   op0 = magic object id;op1 = baseDamage 操作数(投掷物=0,0x66 throw weapon=计算值);
+      //   op2 = target+1(`i = (SHORT)op2 - 1; if (i<0) i = wEventObjectID`)。
+      // 主要由投掷物 scriptOnThrow 用(43 个投掷符/镖/卵/蛊)。
+      const objId = operands[0] ?? 0
+      const opBaseDamage = operands[1] ?? 0
+      const op2 = operands[2] ?? 0
+
+      const tables = ctx.magicTables
+      if (!tables)
+        return { consumed: true } // 未注入 magic 表 → no-op(防御,避免静默错算)
+
+      const objMagic = resolveObjectMagic(objId, tables.objectMagics)
+      if (!objMagic)
+        return { consumed: true }
+      const magic = tables.magics.find(m => m.id === objMagic.magicNumber)
+      if (!magic)
+        return { consumed: true }
+
+      // guard:sdlpal `if (lprgMagic[..].wBaseDamage > 0 || wBaseDamage > 0)` —— 无符号 WORD 比较
+      // (与 inline 法术的 `(SHORT)baseDamage > 0` guard 不同;magic96=64537>0 进分支但算出 ~0)
+      if (!(magic.baseDamage > 0 || opBaseDamage > 0))
+        return { consumed: true }
+
+      // target:sdlpal SimulateMagic 先判 applyToAll flag(→ 全体),否则
+      // i = op2-1;<0 用 eventObjectID(= ctx.target);仍 <0 → SelectAutoTargetFrom 首个活敌。
+      let target: number | 'all'
+      if (objMagic.flags.applyToAll) {
+        target = 'all'
+      }
+      else {
+        let i = asShort(op2) - 1
+        if (i < 0)
+          i = ctx.target?.idx ?? -1
+        if (i < 0) {
+          i = state.enemies.findIndex(e => e.e.health > 0)
+          if (i < 0)
+            i = 0
+        }
+        target = i
+      }
+
+      // sdlpal RandomFloat(10,11)/10 → rngFactor ∈ [1.0, 1.1)
+      const rngFactor = 1 + state.rng.next() * 0.1
+      applyMagicDamage({
+        state,
+        target,
+        magStr: opBaseDamage, // sdlpal:CalcMagicDamage(wBaseDamage, ...) —— op1 当 wMagicStrength
+        magicData: { baseDamage: magic.baseDamage, elemental: magic.elemental },
+        rngFactor,
+        minDamage: 0, // SimulateMagic:if (sDamage < 0) sDamage = 0(允许 0)
+      })
+      return { consumed: true }
+    }
+
     case OP_JUMP_IF_ENEMY_HP_ABOVE: {
       // 0x0064: 真值用 wEventObjectID 拿 caster enemy;我们 caster.idx 等价。
       if (ctx.caster?.type !== 'enemy') return { consumed: true }
