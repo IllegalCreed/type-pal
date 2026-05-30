@@ -52,7 +52,6 @@ import { performFlee } from './actions/flee.js'
 import { tickStatusEffects } from './status.js'
 import { performItem } from './actions/item.js'
 import { performMagic } from './actions/magic.js'
-import { magicForcesAllTarget } from './magic-damage.js'
 import { performThrowItem } from './actions/throw-item.js'
 import type { BattleAction, BattleState } from './battle-state.js'
 import { createBattleState } from './battle-state.js'
@@ -342,7 +341,7 @@ function tickSelectAction(
       handleMainMenuInput(state, input, alivePlayerIdxs, res.playerRoles)
       break
     case 'magicMenu':
-      handleMagicMenuInput(state, input, res.playerRoles, res.spells, res.magics, alivePlayerIdxs)
+      handleMagicMenuInput(state, input, res.playerRoles, res.spells, alivePlayerIdxs)
       break
     case 'itemMenu':
       handleItemMenuInput(state, input, gs, res.items)
@@ -430,11 +429,17 @@ function handleMainMenuInput(
     return
 
   switch (state.uiCursor) {
-    case 0: { // 攻击 → targetSelect(attackAll 群攻武器则跳过选目标,直接全体)
+    case 0: { // 攻击 → targetSelect(群攻武器则跳过选目标,直接全体)
+      // sdlpal uibattle.c:1094 `PAL_PlayerCanAttackAll(role)` → kBattleUISelectTargetEnemyAll
+      //   →(PAL_CLASSIC,uibattle.c:1613)即时 commit。
+      // PAL_PlayerCanAttackAll(global.c:2048)= Σ rgEquipmentEffect[i].rgwAttackAll[role] != 0
+      //   —— **装备效果**,非 base role.attackAll(player-roles.json base 全 0)。
+      // ⚠️ ts 装备系统(equip-effect.ts)**尚未建 attackAll getter** → 实战装备群攻武器
+      //   不会置位 → 本分支当前**不触发**(只有 dev/test 手动设 role.attackAll 才进)。
+      //   待装备 rgwAttackAll 接入(D14 残)后改读 effective attackAll。
       const player = state.players[playerIdx]
       const role = player ? playerRoles.roles[player.roleId] : undefined
       if (role && (role.attackAll ?? 0) !== 0) {
-        // sdlpal:rgwAttackAll != 0 → sTarget=-1 全体攻击,UI 不选目标
         state.pendingActions.set(playerIdx, { type: 'attack', target: -1 })
         advanceSelectingPlayer(state, alivePlayerIdxs)
       }
@@ -507,7 +512,6 @@ function handleMagicMenuInput(
   input: InputSnapshot,
   playerRoles: PlayerRoles,
   spells: Spell[],
-  magics: Magic[],
   alivePlayerIdxs: number[],
 ): void {
   if (input.pressed.has('Cancel')) {
@@ -543,11 +547,13 @@ function handleMagicMenuInput(
     const spellId = learned[state.uiCursor]
     if (spellId === undefined)
       return
-    // 全体法术(magic.type AttackAll/Whole/Field/ApplyToParty/Summon)跳过选目标,直接 -1 全体。
-    // 对齐 sdlpal FIGHT_DetectMagicTargetChange(按 type,非 flags.applyToAll)。
+    // 对敌全体法术跳过选目标 —— 对齐 sdlpal **uibattle.c:1317-1322**:
+    //   usableToEnemy + kMagicFlagApplyToAll → kBattleUISelectTargetEnemyAll
+    //   →(PAL_CLASSIC,uibattle.c:1613)"Don't bother selecting" 即时 commit(iSelectedIndex=-1)。
+    // **菜单判定按 flags.applyToAll**(不是 magic.type;伤害侧才按 type,见 performMagic E1
+    //   FIGHT_DetectMagicTargetChange —— 二者是 sdlpal 两套独立判定,故意分开)。
     const spell = spells.find(s => s.id === spellId)
-    const magic = spell ? magics.find(m => m.id === spell.magicNumber) : undefined
-    if (magic && magicForcesAllTarget(magic.type)) {
+    if (spell?.flags.applyToAll && spell.flags.usableToEnemy) {
       state.pendingActions.set(playerIdx, { type: 'magic', actionId: spellId, target: -1 })
       advanceSelectingPlayer(state, alivePlayerIdxs)
       return

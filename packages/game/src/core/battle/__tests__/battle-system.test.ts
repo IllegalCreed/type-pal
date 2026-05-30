@@ -600,11 +600,10 @@ describe('tickSelectAction magicMenu / itemMenu / targetSelect(M3.5 T14)', () =>
     expect(gs.battleState?.pendingActions.has(0)).toBe(false)
   })
 
-  it('magicMenu Confirm 全体法术(magic.type=attackAll,flags.applyToAll=false)→ 跳过 targetSelect,落 target=-1', () => {
+  it('magicMenu Confirm 对敌全体法术(flags.applyToAll+usableToEnemy)→ 跳过 targetSelect,落 target=-1', () => {
+    // 菜单判定按 flags(uibattle.c:1319 kMagicFlagApplyToAll),不是 magic.type
     const ctx = bootstrap({
-      spells: [{ id: 296, magicNumber: 5, scriptOnSuccess: 0, scriptOnUse: 0, scriptDesc: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }],
-      // biome-ignore lint/suspicious/noExplicitAny: 只填 type(AoE 判定按 type)
-      magics: [{ id: 5, type: 'attackAll' } as any as Magic],
+      spells: [{ id: 296, magicNumber: 5, scriptOnSuccess: 0, scriptOnUse: 0, scriptDesc: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true } }],
     })
     tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // → selectAction
     const role = ctx.resources.playerRoles.roles[0] as PlayerRole & { learnedSpells: number[] }
@@ -612,9 +611,22 @@ describe('tickSelectAction magicMenu / itemMenu / targetSelect(M3.5 T14)', () =>
     ctx.gs.battleState!.uiCursor = 1 // 法术
     tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // mainMenu → magicMenu
     expect(ctx.gs.battleState?.uiState).toBe('magicMenu')
-    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // magicMenu Confirm 选 attackAll 法术
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus) // magicMenu Confirm 选全体法术
     expect(ctx.gs.battleState?.pendingActions.get(0)).toEqual({ type: 'magic', actionId: 296, target: -1 })
     expect(ctx.gs.battleState?.uiState).not.toBe('targetSelect')
+  })
+
+  it('magicMenu Confirm flags.applyToAll=false 法术 → 仍进 targetSelect(即便 type 是 AoE,菜单按 flag)', () => {
+    const ctx = bootstrap({
+      spells: [{ id: 296, magicNumber: 5, scriptOnSuccess: 0, scriptOnUse: 0, scriptDesc: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }],
+    })
+    tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
+    const role = ctx.resources.playerRoles.roles[0] as PlayerRole & { learnedSpells: number[] }
+    role.learnedSpells = [296]
+    ctx.gs.battleState!.uiCursor = 1
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
+    tickBattle(ctx.gs, snap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('targetSelect') // 血魔神功式:菜单仍选单体(伤害侧才全体)
   })
 
   it('magicMenu Cancel → 回 mainMenu + cursor=0 + 清 draft', () => {
