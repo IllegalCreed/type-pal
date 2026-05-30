@@ -10,11 +10,21 @@
 - **参考而非 fork**:sdlpal 的 C 源码作为引擎逻辑的"规格说明书"(战斗公式、脚本语义、数据格式),我们照着它用 TS 重写。
 - **个人自用**:自己游玩,不公开发布。
 
-## 状态(2026-05-28)
+## 状态(2026-05-30)
 
-M5/M5.5/M5.6 完工后,user 实测发现自报完成度被反复夸大。已停"做新功能",
-转入 **Phase A/B feature audit** — 逐功能 sdlpal 源 1:1 核对 + user 拍板,
-落到 [`docs/feature-status.md`](docs/feature-status.md) 权威表。
+仍在 **Phase A/B feature audit**:逐功能对 sdlpal 源 1:1 核对、commit 引行号,不再"自报完成度"。
+功能 / opcode / 资源三类实现状态分别落到三张权威表:
+
+- [`docs/feature-status.md`](docs/feature-status.md) —— 玩家可感知功能(A–M 章)
+- [`docs/opcode-status.md`](docs/opcode-status.md) —— 事件脚本逐 opcode
+- [`docs/resource-status.md`](docs/resource-status.md) —— 资源提取逐 chunk
+
+> 完成度表述一律以三表为准,README 不写百分比。截至 0530,三表状态多为 `claimed`(Claude 自认完成 + 带 sdlpal 行号),**user 逐条核对后的 `verified` 仍为 0**。
+
+近期(0529–0530)落地:对话逐字变速 + 颜色控制符、过场黑屏架构根因修复、结局 DOS 全片编排、
+特效栈(FBP / 调色板 / RNG 动画 / 屏幕波动)、跨场景跟随者(opcode 0x98 / 0x46)、
+战斗法术伤害结算 keystone(inline 攻击法术 + 0x42 SimulateMagic)。
+战斗底层机制真值(伤害 / 暴击 / 隐藏经验 / 五灵抗性 / 出手顺序等)另见 [`docs/game-mechanics.md`](docs/game-mechanics.md)。
 
 进度 / 重排 M6 见 [`docs/plans/2026-05-28-feature-audit-and-replanning.md`](docs/plans/2026-05-28-feature-audit-and-replanning.md)。
 
@@ -31,13 +41,17 @@ M5/M5.5/M5.6 完工后,user 实测发现自报完成度被反复夸大。已停"
 
 ## 仓库结构
 
-- `docs/` —— 设计文档(**从这里开始读**)
+- `docs/` —— 设计文档 + 状态表(**从这里开始读**)
   - `01-feasibility.md` 背景与可行性
   - `02-architecture.md` 架构设计
   - `03-development-plan.md` 开发计划 / 里程碑
   - `04-decisions.md` 决策记录(D1–D21)
   - `05-events-schema.md` events.json 格式设计
   - `06-testing.md` 测试策略
+  - `feature-status.md` · `opcode-status.md` · `resource-status.md` —— 三张权威实现状态表
+  - `game-mechanics.md` —— 战斗底层机制真值(逐条对照 sdlpal,带行号出处)
+  - `sdlpal-runbook.md` —— sdlpal build / headless 差分测试参考
+  - `plans/` —— 各里程碑计划 + audit doc
 - `reference/sdlpal/` —— sdlpal 源码,作为引擎逻辑参考(见 `reference/README.md`)
 - `data/raw/` —— 放原版数据文件的地方(见 `data/raw/README.md`)
 
@@ -50,7 +64,7 @@ brew install make sdl3   # sdlpal 差分测试用,见 docs/06-testing.md
 
 # 项目本身
 pnpm install
-pnpm check               # 全部包的 typecheck + 测试(407+ 单测)
+pnpm check               # 全部包的 typecheck + 测试(98 文件 / 1234 单测全过,2 skip)
 pnpm extract             # 跑 pal-extract 一次性产出 data/extracted/
 pnpm --filter @type-pal/game dev  # 起网页游戏的 Vite 开发服务器
 
