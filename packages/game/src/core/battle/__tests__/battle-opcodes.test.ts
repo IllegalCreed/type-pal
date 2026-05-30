@@ -41,6 +41,14 @@ describe('B-w2.a battle-opcodes dispatch', () => {
     expect(r.newIp).toBeUndefined()
   })
 
+  it('0x0064 用 maxHealth(满血)非逐回合 prevHp:cur40 / max100 / prevHp50 + pct50 → 不 jump', () => {
+    // cur*100=4000;max100*50=5000 → 不 jump。若误用 prevHp50:4000 > 50*50=2500 会误 jump。
+    const enemy = { ...makeEnemy(40), maxHealth: 100, prevHp: 50 }
+    const ctx = makeCtx(enemy)
+    const r = dispatchBattleOpcode(0x0064, [50, 200, 0], ctx)
+    expect(r.newIp).toBeUndefined()
+  })
+
   it('0x0067 enemy use magic:operand[0]=12, operand[1]=20 → enemy.e.magic=12, magicRate=20', () => {
     const enemy = makeEnemy(100)
     const ctx = makeCtx(enemy)

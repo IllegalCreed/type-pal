@@ -59,6 +59,12 @@ export interface BattleEnemy {
     bravery?: boolean, protect?: boolean, dualAttack?: boolean,
   }
   prevHp: number
+  /**
+   * 战斗开始时的满血(= 创建时 e.health,战中不变)。0x64 jump-if-HP-above-% 真值需稳定 maxHp
+   * (sdlpal `gpGlobals->g.lprgEnemy[id].wHealth`),不能用逐回合更新的 prevHp 近似。
+   * createBattleState 必设;optional 仅为旧 fixture 向后兼容(handler 用 ?? prevHp ?? e.health)。
+   */
+  maxHealth?: number
   /** 从 OBJECT 数组的 OBJECT_ENEMY 派生(M3 不实际运行,但字段预留 M5)。 */
   scriptOnTurnStart: number
   scriptOnBattleEnd: number
@@ -210,6 +216,7 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
       e: { ...e }, // shallow copy(health 在战斗中会被改)
       status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
       prevHp: e.health,
+      maxHealth: e.health, // 战中不变的满血(0x64 真值用)
       scriptOnTurnStart: scripts?.onTurnStart ?? 0,
       scriptOnBattleEnd: scripts?.onBattleEnd ?? 0,
       scriptOnReady: scripts?.onReady ?? 0,

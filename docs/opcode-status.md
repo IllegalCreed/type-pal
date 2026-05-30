@@ -5,7 +5,13 @@
 > **三表**:[feature-status](feature-status.md)(引擎功能)· opcode-status(事件 / opcode,本表)· [resource-status](resource-status.md)(资源提取)
 > **图例**:✅ done · ⚠️ partial(extraction 已收集目标,runtime 待)· ⬜ todo · N/A
 > **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra)· E=战斗 · S=系统/UI
-> **最后更新**:2026-05-30 — **E 类法术伤害结算 keystone + 0x66**:E1 inline 攻击法术伤害接进 performMagic(5 元素咒真伤害)+ 0x42 SimulateMagic + **0x66 throw weapon**(与 0x42 共用 simulateMagic)+ 投掷物全链(符/卵/武器)+ 补提取 rgObject(object-magics.json)。+ **0x68/0x91 jump** + **0x21 伤害** + **0x5B/0x39 HP** + **敌人毒 pipeline(0x28/0x5E/tick)** + **0x57/0x88 set-magic-damage**(performMagic 注入 scriptOnUse ctx → 改 baseDamage → E1 结算,酒神/乾坤一掷)。剩余 D 类音频(需 M6)+ E 类其余战斗 opcode(0x6B blow/0x5C hide/0x30 stat-buff/0x6A steal/0x31/0x33/0x34/0x38/0x3A 等)。
+> **最后更新**:2026-05-30 — **E 类 + D 音频全收口(全 opcode ✅,无 todo 剩余)**。本轮补齐:
+>   battle 0x5F kill-player / 0x5C hide / 0x6B blow / 0x89 set-result / 0x8A auto-battle / 0x33 collect /
+>   0x3A flee / 0x9C division / 0x9F transform / 0x30 stat-buff% / 0x31 sprite(present no-op)/
+>   0x92 magic-anim(present no-op)/ 0x6A steal;explore 0x34 妖魔转化 / 0x38 teleport-out(fail-path);
+>   audio 0x45/0x77/0xA3(state-set,真播待 M6);并修 0x64 maxHp 用 BattleEnemy.maxHealth(非 prevHp 近似)。
+>   带文档化残:0x38(dungeon teleport script)/ 0x69(escaped 不掉落)/ 0x30(per-battle Extra 战末清)。
+>   早前:法术伤害结算 keystone + 0x42/0x66 simulateMagic + 投掷物全链 + 毒 pipeline + 0x57/0x88 set-magic-damage。
 >
 > sdlpal 真值出处:`reference/sdlpal/script.c`(PAL_InterpretInstruction 587-3115 / PAL_RunTriggerScript 3140+ / PAL_RunAutoScript 3482+)。全集:控制流 0x00-0x0A + 数据/动作 0x0B-0xA6(不存在:0x32 / 0x48 / 0x72 / 0x9D)。
 
@@ -16,7 +22,7 @@
 >   0x36/0x37 RNG(特效 C);0x96 EndingAnimation + PAL_EndingScreen DOS 全编排 —— **全 ✅**
 > - 配套:开场/结局双版 devpanel、夜间调色板/SOUNDS/Musics/map104·164 提取补齐。
 >
-> 剩余 D 类只剩**音频**(需 M6 音频子系统):0x45 battle music、0x77 stop music、0xA3 CD music。
+> D 类**音频** 0x45/0x77/0xA3 已接 **state-set**(gs.wNumBattleMusic / wNumMusic);真播(RIX/fade)待 M6 音频子系统。
 > **A/S 类至此全 ✅**(逐条记录):
 > - 0x4D wait-any-key:✅ 已实现(2026-05-30,commit 53c8cbf;waiting='wait-key',Confirm/Menu/Cancel 解除)
 > - 0x4E load-game:✅ 已实现(2026-05-30,commit 56fe8b7;fade-out + 重载 gs.currentSaveSlot + 停脚本)
@@ -65,7 +71,14 @@ setDialogStyle 0x3B-0x3E。
 0x4C monsterChase、0x52 hideObject、0x62/0x63 chasePause/Speedup、0x7A/0x7B partyWalkTo(speed 4/8)、
 0x7C npcWalkTo(speed 4 + stagger)、0x7D moveObject、0x7E setObjectLayer、0x87 animateObject。
 
-## 数据/动作 0x0B-0xA6 — 待实现 ⬜⚠️
+## 数据/动作 0x0B-0xA6 — 收口完成 ✅(2026-05-30)
+
+> **全 opcode 收口**:A/B/C/D/E/S 类逐条 ✅。**无 ⬜(todo)剩余**。
+> 仅两处带 **✅/⚠️ 残**(逻辑已接、有文档化子系统缺口):
+> - **0x38** teleport-out:失败路径忠实;dungeon 归隐脱出(scriptOnTeleport!=0)待 SceneAssets 暴露 onTeleportLabel + run-trigger-script。
+> - **0x69** enemy escape:health=0 触发死亡掉落,sdlpal 逃跑不掉战利品 — 待 escaped 标志。
+> 另:0x30(per-battle Extra 战末清,ts mutate 持久)、0x31/0x92(present 演出 stub no-op)、
+> 0x45/0x77/0xA3(state-set,真播待 M6 音频)—— 均逻辑层就绪,缺口为既有子系统(present/audio/equip-effect)。
 
 ### A 控制流/数据 / 系统 S — **全部 ✅(2026-05-30 0x0A 收口)**
 | op | 含义 | 状态 | 备注 |
@@ -104,7 +117,7 @@ setDialogStyle 0x3B-0x3E。
 
 > 注:**0x5C 不是 B 类** —— `g_Battle.iHidingTime = -op0`(script.c:1907-1911)是**战斗**态(party 隐身回合),已移到 E 类。
 
-### E 战斗(多数需战斗系统/enemy 状态前置)
+### E 战斗 — **全部 ✅(2026-05-30 E 类收口;0x38/0x69 带文档化残)**
 
 > **2026-05-30 法术伤害结算 keystone 完成**(commit 见下):
 > - **E1 inline 攻击法术伤害**:`performMagic` 接上 `PAL_BattleCommitAction kBattleActionMagic`
@@ -130,38 +143,38 @@ setDialogStyle 0x3B-0x3E。
 
 | op | 含义 | 备注 |
 |----|------|------|
-| 0x30 | increase player stat temp by % | battle buff |
-| 0x31 | change battle sprite temp | |
+| 0x30 | increase player stat temp by % | ✅ Extra slot=base*(SHORT)op1/100,合成 effective 写回 role stat(op0 row 17atk/18mag/19def/20dex)(script.c:0030,梦蛇)。battle 直读 stat(D14 残)→ 直接 mutate role;**残**:sdlpal per-battle Extra 战末清,ts mutate 持久。battle-opcodes.ts |
+| 0x31 | change battle sprite temp | ✅ **present-only no-op**:临时换战斗精灵(script.c:0031);present-battle 只画 idle frame[0] 静态精灵(D17)→ 逻辑层 no-op,精灵替换待 present |
 | 0x21 | inflict flat damage to enemy | ✅ **battle handler**(此前只 explore 主干):op0!=0 全体 / 否则单体(ctx.target),health -= op1 clamp≥0(script.c:0021)。梅花镖/银针 scriptOnThrow 真伤害(0x42=0 动画 sentinel,真伤靠这);毒 tick 也用。battle-opcodes.ts |
 | 0x28 | apply poison to enemy | ✅ **battle handler**:op0!=0 全体 / 否则单体(ctx.target);`RandomLong(0,9)>=resistanceToSorcery` 抗性判定 + 去重 + 槽满(MAX_POISONS 16)→ 加 {poisonId:op1, scriptEntry:objectPoisons[op1].enemyScript}(script.c:0028)。毒蛇卵/卵/蛊 throw。注:sdlpal 立即跑一次 wEnemyScript,ts 改 postAction tick 跑(差一拍)。battle-opcodes.ts |
-| 0x33 | collect enemy for items | |
-| 0x34 | transform collected enemies to items | |
-| 0x38 | teleport party out of scene | |
+| 0x33 | collect enemy for items | ✅ enemy(caster).collectValue!=0 → gs.wCollectValue += collectValue;否则 jump op0(script.c:0033)。battle-opcodes.ts |
+| 0x34 | transform collected enemies to items | ✅ **explore**:wCollectValue>0 → RandomLong(1,cv) cap9(PAL_CLASSIC)扣 cv + 发 store[0].rgwItems[i] 入包(setStoreTable 注入);cv==0 → jump op0(script.c:1452,妖魔转化)。物品框 dialog 是 present 层 → 跳过。event-system.ts |
+| 0x38 | teleport party out of scene | ✅/⚠️ **explore**:失败路径 fScriptSuccess=FALSE + jump op0(script.c:1554),scriptOnTeleport==0 场景(城镇/野外)忠实。**残**:dungeon 归隐脱出(onTeleportLabel!=0)待 SceneAssets 暴露 onTeleportLabel + run-trigger-script。event-system.ts |
 | 0x39 | drain HP from enemy | ✅ enemy.health -= op0;movingPlayer.hp += op0(clamp maxHP)(script.c:0039)。吸星锁 scriptOnThrow:enemy=ctx.target,player=caster。battle-opcodes.ts |
-| 0x3A | player flee battle | |
+| 0x3A | player flee battle | ✅ isBoss → jump op0(不可逃);否则 phase='fleed'(PAL_BattlePlayerEscape)(script.c:003A)。battle-opcodes.ts |
 | 0x42 | simulate magic for player | ✅ PAL_BattleSimulateMagic(fight.c:5300)。op0=magic object id / op1=baseDamage(当 magStr)/ op2=target+1(0→eventObjectID)。applyToAll flag 优先→全体,否则 i=op2-1<0 用 eventObjectID / 仍<0 自动选首活敌;guard 无符号 `baseDamage>0‖op1>0`(magic96=−999 进但算 0);minDamage=0;共享 applyMagicDamage。battle-opcodes.ts;script.c:1630-1640。投掷物 scriptOnThrow ×40 站点全靠它 |
 | 0x57 | set magic base damage by MP | ✅ magic[op0→magicNumber].baseDamage = casterMP*(op1||8);清 casterMP(script.c:0057,酒神 scriptOnUse)。performMagic 注入 magicTables/playerRoles → 0x57 改 baseDamage → E1 inline 读新值结算。battle-opcodes.ts |
 | 0x5A | halve player HP | ✅ handler:目标队员(ctx.target,退回 caster)HP /= 2(floor)(script.c:005A,无影毒 use)。performItem 注入 playerRoles。**注**:无影毒-use 可达性待 item 队员目标路由(现 item→enemy),handler 就绪 |
 | 0x5B | halve enemy HP | ✅ w=floor(health/2)+1,cap op0;health -= w(script.c:005B)。无影毒 scriptOnThrow:enemy=ctx.target。battle-opcodes.ts |
-| 0x5C | hide party for a while(battle) | g_Battle.iHidingTime=-op0(script.c:1907-1911)— 原误判 B,实为战斗态 |
+| 0x5C | hide party for a while(battle) | ✅ state.iHidingTime = -op0(party 隐身回合,script.c:1907-1911)。原误判 B 类,实为战斗态。battle-opcodes.ts |
 | 0x5E | jump if enemy no poison | ✅ 敌人(ctx.target)毒槽无 op0 种毒 → jump op1(script.c:005E)。配齐**敌人毒 pipeline**:BattleEnemy.poisons by-ID + 0x28 apply + postAction 毒 tick。battle-opcodes.ts |
-| 0x5F | kill player | |
-| 0x60 | KO enemy | |
-| 0x64 | jump if enemy HP > % | ⚠️ extraction 已收集目标,runtime 待 |
+| 0x5F | kill player | ✅ 目标队员(ctx.target,退回 caster)role.hp=0(script.c:005F)。battle-opcodes.ts |
+| 0x60 | KO enemy | ✅ op0==0xFFFF → self(caster enemy)否则 enemies[op0];health=0(script.c:0060,回梦/夺魂 scriptOnSuccess)。battle-opcodes.ts |
+| 0x64 | jump if enemy HP > % | ✅ (currentHp*100 > maxHp*op0) → jump op1(script.c:1989)。maxHp 用 **BattleEnemy.maxHealth**(满血,战中不变),非逐回合 prevHp(2026-05-30 修近似失真 + 加 maxHealth 字段)。battle-opcodes.ts |
 | 0x66 | throw weapon to enemy | ✅ script.c:2007-2014:`w=op1*5+PAL_GetPlayerAttackStrength(movingPlayer)*RandomLong(0,3)` → 调**同一** PAL_BattleSimulateMagic(target=eventObjectID,magStr=w)。与 0x42 共用 `simulateMagic`(magic-damage.ts)。32 个可投掷武器(长鞭/木剑/铁剑/仙女剑…)scriptOnThrow 用;op0∈{344,360}。attackStrength 经 BattleCtx.playerRoles 注入(performThrowItem),装备加成略 |
-| 0x67 | enemy use magic | |
+| 0x67 | enemy use magic | ✅ enemy(caster).e.magic=op0;magicRate=op1?op1:10(script.c:0067)。battle-opcodes.ts |
 | 0x68 | jump if enemy turn | ✅ `if (g_Battle.fEnemyMoving) jump op0`(script.c:2025)。ts:fEnemyMoving ≈ caster 是 enemy(法术 scriptOnSuccess 敌人施法时 caster=enemy → jump,玩家施法 ip++)。op0=0 → jump 全局 end。battle-opcodes.ts,9 用 |
-| 0x69 | enemy escape | |
-| 0x6A | steal from enemy | |
-| 0x6B | blow away enemies | |
+| 0x69 | enemy escape | ✅/⚠️ caster enemy.e.health=0(script.c:0069)。**残**:sdlpal 逃跑移除敌人**不掉战利品**,ts health=0 会触发死亡+掉落 — 待 escaped 标志区分。battle-opcodes.ts |
+| 0x6A | steal from enemy | ✅ PAL_BattleStealFromEnemy(target,op0=rate)(fight.c:5193)。nStealItem>0 && (RandomLong(0,10)<=rate‖rate==0):wStealItem==0 偷钱 c=n/RandomLong(2,3)→dwCash;else 偷物 nStealItem--+AddItem。动画/提示 dialog present-only 跳过。battle-opcodes.ts |
+| 0x6B | blow away enemies | ✅ state.iBlow = (SHORT)op0(吹飞敌人位移,script.c:006B)。battle-opcodes.ts |
 | 0x88 | set magic base damage by money | ✅ i=min(dwCash,5000);dwCash-=i;magic[op0→mn].baseDamage=floor(i*2/5)(script.c:0088,乾坤一掷 scriptOnUse)。performMagic 注入 magicTables/gs → 0x88 改 baseDamage + 扣钱 → E1 全体结算。battle-opcodes.ts |
-| 0x89 | set battle result | |
-| 0x8A | enable auto-battle | |
+| 0x89 | set battle result | ✅ op0:3→won/1→lost/(0xFFFF·0)→fleed/1000+→不改(script.c:0089)。battle-opcodes.ts |
+| 0x8A | enable auto-battle | ✅ gs.fAutoBattle=true(script.c:008A)。battle-opcodes.ts |
 | 0x91 | jump if enemy not first of kind | ✅ 数同 wObjectID 敌人,self_pos>1(非首个)→ jump op0(script.c:2091)。ts 同种=同 e.id。用途:同种敌人组脚本只在第一个跑。真实数据 op0 全 0(→跳到 end)。battle-opcodes.ts,5 用 |
-| 0x92 | magic casting anim (battle) | |
-| 0x9C | enemy division | |
+| 0x92 | magic casting anim (battle) | ✅ **present-only no-op**:PAL_BattleShowPlayerPreMagicAnim + iColorShift cycle(script.c:0092,施法前摇);present-battle 跳过所有战斗动画(D17)→ no-op |
+| 0x9C | enemy division | ✅ 分裂:仅 1 活敌 + health>1 → 分裂 op0+1 份各 floor((h+w)/(w+1));否则 jump op1(script.c:009C)。battle-opcodes.ts |
 | 0x9E | enemy summon | ✅ **logic**:召唤 op1 只 op0(对象 id;0/0xFFFF=自身同种)敌人到空槽(MAX 5);房间不足/自身睡眠·麻痹·混乱 → fail,op2≠0 jump op2(script.c:009E)。obj→enemyObjects[objectIndex]→enemyId→enemies.json 满血;经 enemy scriptOnReady runScript 注入 summonTables。**注**:召唤兽渲染需 present 层加载 battle sprite(follow-up);logic(行动/受击)已通。battle-opcodes.ts |
-| 0x9F | enemy transform | |
+| 0x9F | enemy transform | ✅ 变身:非隐身/睡眠 → self.e={...base, health:keepHealth}(summonTables 取 base id op0)(script.c:009F)。battle-opcodes.ts |
 
 ### C palette / D audio·FBP·视觉
 | op | 含义 | 类 | 状态 |
@@ -183,8 +196,8 @@ setDialogStyle 0x3B-0x3E。
 | 0x9B | fade to current scene | D | ✅ fec9a11(复用 dither fadeState) |
 | 0xA4 | scroll FBP to screen | D | ✅ 046a583(PAL_ScrollFBP 220 步) |
 | 0xA5 | show FBP with sprite effects | D | ✅ f600c03(复用 showFbp + effectSprite 叠加) |
-| **0x45** | set battle music | D | ⬜ **M6 音频** |
-| **0x77** | stop music | D | ⬜ **M6 音频** |
-| **0xA3** | play CD music(RIX fallback) | D | ⬜ **M6 音频** |
+| 0x45 | set battle music | D | ✅ gs.wNumBattleMusic = op0(script.c:1658,进战斗选 BGM)。纯 state-set,真播待 M6。event-system.ts |
+| 0x77 | stop music | D | ✅ gs.wNumMusic = 0(script.c:2215,op0 fade 秒:0→2.0,否则 op0*3)。state-set,真停待 M6。event-system.ts |
+| 0xA3 | play CD music(RIX fallback) | D | ✅ gs.wNumMusic = op1(script.c:3023);ts 无 CD → 等价 sdlpal "CD 不可用回退 RIX"(PlayMusic(op1));op0(CD track,SHORT)记 log。真播待 M6。event-system.ts |
 | 0xA6 | backup screen | D | ✅ 显式 no-op(本游戏 0 调用;0x73 内部已 backup)(script.c:3069,1196faf) |
 | 0x78 | FIXME ???(sdlpal `case 0x78: break;`) | — | ✅ 显式 no-op(sdlpal 标 FIXME 字面空操作;本游戏 35 用全空)(script.c:2224,1196faf) |

@@ -668,11 +668,11 @@ export function dispatchBattleOpcode(
       if (ctx.caster?.type !== 'enemy') return { consumed: true }
       const enemy = state.enemies[ctx.caster.idx]
       if (!enemy) return { consumed: true }
-      // sdlpal:(currentHp * 100 > maxHp * operand[0])
-      // 我们 BattleEnemy.e.health = current(战中改),e.health 初值即 maxHp 缺乏;
-      // 用 prevHp 当 maxHp 近似(简化;sdlpal 真值用 gpGlobals->g.lprgEnemy[id].wHealth)
+      // sdlpal `script.c:1989`:(currentHp * 100 > maxHp * operand[0]) → jump operand[1]。
+      // maxHp = sdlpal `gpGlobals->g.lprgEnemy[id].wHealth`(满血,战中不变)= BattleEnemy.maxHealth
+      //   (createBattleState 设 = 创建时 e.health)。旧实现用逐回合更新的 prevHp 近似 → 受伤后失真,已修。
       const cur = enemy.e.health
-      const max = enemy.prevHp || cur
+      const max = enemy.maxHealth ?? enemy.prevHp ?? cur
       const pct = operands[0] ?? 0
       if (cur * 100 > max * pct) {
         // jump operand[1] - 1?sdlpal: wScriptEntry = operand[1] - 1;外层 wScriptEntry++ 抵消。
