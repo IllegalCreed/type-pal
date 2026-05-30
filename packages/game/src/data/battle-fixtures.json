@@ -33,6 +33,17 @@
       "inventory": [{ "itemId": 61, "count": 99 }],
       "enemyTeamId": 50,
       "battleFieldId": 70
+    },
+    {
+      "id": "fixture-anim",
+      "label": "★ 动画测试(低攻队长 vs 弱怪 — 看受击白闪/死亡淡出)",
+      "partyMembers": [0],
+      "playerOverrides": {
+        "0": { "level": 30, "hp": 600, "maxHP": 600, "mp": 60, "maxMP": 60, "attackStrength": 6 }
+      },
+      "inventory": [{ "itemId": 61, "count": 10 }],
+      "enemyTeamId": 1,
+      "battleFieldId": 7
     }
   ]
 }

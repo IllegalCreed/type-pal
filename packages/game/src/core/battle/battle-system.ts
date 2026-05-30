@@ -675,6 +675,8 @@ function handleTargetSelectInput(
     if (!draft || playerIdx === undefined) return
     // 当前 cursor 必须是活敌(防御性 — UI 应已通过 Left/Right 保证)
     const target = aliveRawIdxs.includes(state.uiCursor) ? state.uiCursor : aliveRawIdxs[0]!
+    // sdlpal `g_Battle.UI.iPrevEnemyTarget`:记最后选的敌人 → perform 前重选目标优先用它。
+    state.iPrevEnemyTarget = target
     state.pendingActions.set(playerIdx, {
       type: draft.type,
       actionId: draft.actionId,
@@ -696,6 +698,27 @@ function handleTargetSelectInput(
  *
  * queue 跑完 → 转 postAction。
  */
+/**
+ * port sdlpal `PAL_BattleSelectAutoTargetFrom`(fight.c:86-128):自动挑一个**活**敌人 index。
+ * 先用 prevTarget(UI 上次悬停目标,若活);否则从 begin 起循环找第一个活敌(环绕);全死 → -1。
+ */
+export function selectAutoTargetFrom(
+  enemies: BattleState['enemies'],
+  begin: number,
+  prevTarget = -1,
+): number {
+  const n = enemies.length
+  if (n === 0) return -1
+  if (prevTarget >= 0 && prevTarget < n && (enemies[prevTarget]?.e.health ?? 0) > 0)
+    return prevTarget
+  let i = begin >= 0 ? begin % n : 0
+  for (let count = 0; count < n; count++) {
+    if ((enemies[i]?.e.health ?? 0) > 0) return i
+    i = (i + 1) % n
+  }
+  return -1
+}
+
 function tickPerformAction(
   state: BattleState,
   gs: GameState,
@@ -770,6 +793,16 @@ function tickPerformAction(
       const role = res.playerRoles.roles[player.roleId]
       if (role && role.hp > 0) action = state.pendingActions.get(item.idx)
     }
+  }
+
+  // sdlpal `PAL_BattlePlayerValidateAction`(fight.c:3500-3507):perform 前重选目标 ——
+  //   攻击的目标敌人若**已死**(被本回合先手队友打死),重选一个活敌(否则会打空位)。
+  //   attack 的 target>=0 必指敌人;target<0(全体)由 performAttack 自身遍历活敌,不需重选。
+  if (action && action.type === 'attack' && action.target >= 0
+    && (state.enemies[action.target]?.e.health ?? 0) <= 0) {
+    const newTarget = selectAutoTargetFrom(state.enemies, action.target, state.iPrevEnemyTarget ?? -1)
+    if (newTarget >= 0) action = { ...action, target: newTarget }
+    // newTarget<0(全敌已死)→ 保持原 target;performAttack 对死敌 no-op,本回合即将结束转 postAction
   }
 
   if (action) performBattleAction(state, gs, item, action, bus, res)

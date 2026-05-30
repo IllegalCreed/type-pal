@@ -268,6 +268,12 @@ export interface BattleState {
   uiState: BattleUIState
   /** 当前 UI 选项的高亮 index。 */
   uiCursor: number
+  /**
+   * 目标光标上次悬停的敌人 index(sdlpal `g_Battle.UI.iPrevEnemyTarget`)。
+   * perform 前 selectAutoTargetFrom 重选目标时优先用它(若仍活)。targetSelect UI 设;
+   * optional 兼容旧 fixture(未设 → -1 fallback 到首个活敌)。
+   */
+  iPrevEnemyTarget?: number
   expGained: number
   cashGained: number
   rng: SeedableRng

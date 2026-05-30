@@ -32,7 +32,8 @@ import type {
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
-import { startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
+import { selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
+import type { BattleEnemy } from '../battle-state.js'
 
 // ============================================================================
 // Fixture helpers
@@ -1030,5 +1031,45 @@ describe('throw-item action 派发(E2)', () => {
     // 敌人 200 - 50(毒)= 150
     expect(gs.battleState?.enemies[0]!.e.health).toBe(150)
     void consoleWarn
+  })
+})
+
+// ============================================================================
+// selectAutoTargetFrom —— 目标重选(sdlpal PAL_BattleSelectAutoTargetFrom fight.c:86-128)
+//   修 bug:先手队友打死目标敌人后,后手队友攻击应自动切到活敌(不再打死敌空位)。
+// ============================================================================
+
+describe('selectAutoTargetFrom (fight.c:86-128)', () => {
+  // biome-ignore lint/suspicious/noExplicitAny: 只填 health
+  const en = (health: number): BattleEnemy => ({ e: { health } as any } as BattleEnemy)
+
+  it('目标敌人已死 → 从 begin 起找下一个活敌(环绕)', () => {
+    const enemies = [en(0), en(50), en(30)] // 敌 0 死
+    // begin=0(原目标,已死)→ 返回第一个活敌 idx 1
+    expect(selectAutoTargetFrom(enemies, 0)).toBe(1)
+  })
+
+  it('prevTarget 仍活 → 优先返回 prevTarget', () => {
+    const enemies = [en(0), en(50), en(30)]
+    // begin=0 死,但 prevTarget=2 仍活 → 返回 2(而非 1)
+    expect(selectAutoTargetFrom(enemies, 0, 2)).toBe(2)
+  })
+
+  it('prevTarget 也死 → 退回 begin 起首个活敌', () => {
+    const enemies = [en(0), en(50), en(0)]
+    expect(selectAutoTargetFrom(enemies, 0, 2)).toBe(1) // prevTarget 2 死 → 找到 idx 1
+  })
+
+  it('环绕:begin 之后全死,绕回 begin 之前的活敌', () => {
+    const enemies = [en(40), en(0), en(0)] // 仅敌 0 活
+    expect(selectAutoTargetFrom(enemies, 1)).toBe(0) // 从 1 起绕回 0
+  })
+
+  it('全部敌人已死 → -1', () => {
+    expect(selectAutoTargetFrom([en(0), en(0)], 0)).toBe(-1)
+  })
+
+  it('空敌列表 → -1', () => {
+    expect(selectAutoTargetFrom([], 0)).toBe(-1)
   })
 })
