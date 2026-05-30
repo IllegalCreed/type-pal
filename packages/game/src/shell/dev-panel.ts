@@ -256,6 +256,36 @@ function openPicker(deps: DevPanelDeps): void {
     div.appendChild(btn)
   }
 
+  // 法术测试战斗:李逍遥(0)/赵灵儿(1)/林月如(2)学会**全部战斗法术** + 高 HP/MP/灵力,
+  // vs 5 敌(team 7)。用来测 E 类法术伤害结算(inline / 0x42 / 0x57·0x88 等)。
+  // learnedSpells 动态取自 spells.json `usableInBattle`(~100 条),避免硬编码 id 漂移。
+  const spellTestBtn = document.createElement('button')
+  spellTestBtn.textContent = '★ 法术测试(三人全法术 vs 5 敌)'
+  spellTestBtn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left; background:#3a2a48; font-weight:bold'
+  spellTestBtn.addEventListener('click', () => {
+    closePicker()
+    const inBattleSpells = deps.resources.spells.filter(s => s.flags.usableInBattle).map(s => s.id)
+    const makeOverride = (): Partial<Record<string, number | number[]>> => ({
+      learnedSpells: [...inBattleSpells],
+      level: 99,
+      hp: 9999,
+      maxHP: 9999,
+      mp: 999,
+      maxMP: 999,
+      magicStrength: 200, // 灵力拉高 → 法术伤害可见
+    })
+    applyFixture(deps, {
+      id: 'spell-test',
+      label: '法术测试(三人全法术)',
+      partyMembers: [0, 1, 2], // MAX_BATTLE_PLAYERS=3
+      playerOverrides: { 0: makeOverride(), 1: makeOverride(), 2: makeOverride() },
+      inventory: [{ itemId: 61, count: 99 }],
+      enemyTeamId: 7, // [7,6,7,6,6] = 5 敌,测全体法术
+      battleFieldId: 7,
+    })
+  })
+  div.appendChild(spellTestBtn)
+
   // M4 P3 T6: scene jump section —— input + filter list(294 entries)。
   const sceneH = document.createElement('h4')
   sceneH.textContent = '🗺 Scene Jump'

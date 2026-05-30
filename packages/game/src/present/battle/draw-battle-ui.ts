@@ -64,6 +64,16 @@ const PARTY_STATUS_STRIDE_X = 60
 const MENU_BASE_X = 5
 const MENU_BASE_Y = 5
 const MENU_ITEM_STRIDE_Y = 12
+/** 法术/物品二级菜单一屏可见条数(超过则滚动窗口)。 */
+const MENU_VISIBLE = 5
+
+/**
+ * 滚动窗口起点:5 条窗口尽量把 `cursor` 放中间,夹在 [0, len-VISIBLE]。
+ * 短列表(≤5)→ 0(行为同旧 slice(0,5))。
+ */
+function menuWindowStart(cursor: number, len: number): number {
+  return Math.min(Math.max(0, cursor - 2), Math.max(0, len - MENU_VISIBLE))
+}
 
 /** 目标光标在敌方 anchor 上方的偏移。 */
 const TARGET_CURSOR_DY = -50
@@ -188,10 +198,13 @@ function drawMagicMenu(
     renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 20, UI_TEXT_COLOR, glyphs)
     return
   }
-  learned.slice(0, 5).forEach((spellId, i) => {
+  // 滚动窗口:列 5 条,以 uiCursor 为中心,长列表(dev 全法术 ~100 条)也能选到任意一条。
+  const start = menuWindowStart(state.uiCursor, learned.length)
+  learned.slice(start, start + MENU_VISIBLE).forEach((spellId, i) => {
+    const absoluteIdx = start + i
     const spell = spells.find(s => s.id === spellId)
     if (!spell) return
-    const prefix = i === state.uiCursor ? '> ' : '  '
+    const prefix = absoluteIdx === state.uiCursor ? '> ' : '  '
     renderText(
       fb,
       prefix + (spell._name ?? `Spell ${spellId}`),
@@ -224,10 +237,12 @@ function drawItemMenu(
     renderText(fb, '(Esc 返回)', MENU_BASE_X, MENU_BASE_Y + 20, UI_TEXT_COLOR, glyphs)
     return
   }
-  inventory.slice(0, 5).forEach((entry, i) => {
+  const start = menuWindowStart(state.uiCursor, inventory.length)
+  inventory.slice(start, start + MENU_VISIBLE).forEach((entry, i) => {
+    const absoluteIdx = start + i
     const item = items.find(it => it.id === entry.itemId)
     if (!item) return
-    const prefix = i === state.uiCursor ? '> ' : '  '
+    const prefix = absoluteIdx === state.uiCursor ? '> ' : '  '
     renderText(
       fb,
       `${prefix + (item._name ?? `Item ${entry.itemId}`)} x${entry.count}`,

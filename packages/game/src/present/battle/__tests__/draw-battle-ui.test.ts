@@ -217,6 +217,21 @@ describe('drawBattleUI', () => {
     expect(fbHasWrites(fb)).toBe(true)
   })
 
+  it('magicMenu 长列表(100 法术,cursor=50)—— 滚动窗口不越界不抛(dev 全法术)', () => {
+    const fb = createFramebuffer()
+    const role = minimalRole(0) as PlayerRole & { learnedSpells: number[] }
+    role.learnedSpells = Array.from({ length: 100 }, (_, i) => 296 + i)
+    const playerRoles: PlayerRoles = { roles: [role] }
+    const spells = role.learnedSpells.map(id => mkSpell(id, `法术${id}`))
+    const state = mkState(
+      [mkBattlePlayer(0)],
+      [mkBattleEnemy(minimalEnemy(50))],
+      { uiState: 'magicMenu', uiCursor: 50 },
+    )
+    expect(() => drawBattleUI(fb, state, playerRoles, spells, [], mkGs())).not.toThrow()
+    expect(fbHasWrites(fb)).toBe(true)
+  })
+
   it('itemMenu(空 inventory)—— 走「无物品」分支不抛', () => {
     const fb = createFramebuffer()
     const role = minimalRole(0)
