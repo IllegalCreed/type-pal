@@ -20,6 +20,8 @@ import type { CommandBus } from '../../command-bus.js'
 import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
 import {
+  buildEnemyMagicTimeline,
+  buildPlayerDefMagicTimeline,
   buildPlayerOffMagicTimeline,
   buildPostMagicTimeline,
   buildPreMagicTimeline,
@@ -222,14 +224,23 @@ export function performMagic(input: PerformMagicInput): void {
     }
   }
 
-  // —— D17:攻击魔法动画链(PreMagic → OffMagic → PostMagic)→ startBattleAnim ——
-  //   对**所有** player 攻击类型(normal/attackAll/attackWhole/attackField)播放,**不 gate baseDamage**:
-  //   sdlpal PAL_BattleShowPlayerOffMagicAnim 对一切攻击魔法都放 FIRE 特效,baseDamage 只决定**内联**
-  //   伤害(sentinel −999 的特殊法术伤害靠 scriptOnSuccess opcode,但 FIRE 动画照放)。
-  //   伤害已在上方 E1 即时结算;dmgResults 为空(sentinel)→ PostMagic 无受伤敌抖动(script 伤害的
-  //   抖动待 scriptOnSuccess 接入,标 residual),但 PreMagic/OffMagic sprite 仍播。
-  //   仅 player 施法(敌方施法的镜像动画 EnemyMagic 是另一个 deferred builder)。
-  if (!input.casterIsEnemy) buildAndStartMagicAnim(input, magic, dmgResults)
+  // —— D17:法术动画链 → startBattleAnim ——
+  //   3 类分发(各自前置都满足才建链,否则 no-op 走原即时路径,向后兼容):
+  //   (1) player 攻击魔法(!casterIsEnemy && OFF_MAGIC_TYPES):PreMagic → OffMagic → PostMagic 链(既有,不动)。
+  //   (2) player 防御/治疗魔法(!casterIsEnemy && DEFENSIVE_MAGIC_TYPES 中 applyToPlayer/applyToParty):
+  //       DefMagic(目标队员处放 FIRE 特效 + 14 帧辉光;fight.c:2447-2606)。
+  //   (3) enemy 攻击魔法(casterIsEnemy && OFF_MAGIC_TYPES):EnemyMagic(FIRE 特效在队员处,OffMagic 镜像;
+  //       fight.c:2846-3069)。当前敌方施法**无任何动画**,本切片补齐。
+  //   trance / summon 留 defer(不在 OFF/DEF 集合)。
+  if (!input.casterIsEnemy) {
+    if (OFF_MAGIC_TYPES.has(magic.type)) {
+      buildAndStartMagicAnim(input, magic, dmgResults)
+    } else if (magic.type === 'applyToPlayer' || magic.type === 'applyToParty') {
+      buildAndStartDefMagicAnim(input, magic)
+    }
+  } else if (OFF_MAGIC_TYPES.has(magic.type)) {
+    buildAndStartEnemyMagicAnim(input, magic)
+  }
 }
 
 /** sdlpal 攻击魔法 4 落点类型(OffMagic 时间线支持)。 */
@@ -314,4 +325,122 @@ function buildAndStartMagicAnim(
 
   const chain: BattleAnimFrame[] = [...preFrames, ...offFrames, ...postFrames]
   startBattleAnim(input.state, chain, input.bus)
+}
+
+/**
+ * D17:为 player 防御/治疗魔法(applyToPlayer / applyToParty)build DefMagic 链并 startBattleAnim
+ * (port fight.c:2447-2606 PAL_BattleShowPlayerDefMagicAnim)。
+ *
+ * 前置都满足才建链(否则 no-op,走原即时路径,向后兼容):
+ *   - magicSpriteFrameCounts 有该 effect chunk(→ n)
+ *   - caster fighter render-state(posOriginal)存在
+ *   - applyToPlayer:resolved target 队员 posOriginal 存在;applyToParty:至少一个队员有 posOriginal
+ *
+ * 治疗值本身靠 scriptOnUse/scriptOnSuccess 的治疗 opcode(动画独立 — 同 OffMagic 模式)。
+ */
+function buildAndStartDefMagicAnim(input: PerformMagicInput, magic: Magic): void {
+  if (magic.type !== 'applyToPlayer' && magic.type !== 'applyToParty') return
+  const n = input.magicSpriteFrameCounts?.get(magic.effect)
+  if (n === undefined || n <= 0) return
+
+  const caster = input.state.players[input.casterIdx]
+  if (!caster?.posOriginal) return
+
+  if (magic.type === 'applyToPlayer') {
+    // 单体目标队员:resolved idx(targetIdx 必为 number;'all' 不会落到 applyToPlayer)。
+    const tIdx = typeof input.targetIdx === 'number' ? input.targetIdx : -1
+    const targetPos = input.state.players[tIdx]?.posOriginal
+    if (!targetPos) return
+    const frames = buildPlayerDefMagicTimeline({
+      casterIdx: input.casterIdx,
+      magic: {
+        effect: magic.effect,
+        type: 'applyToPlayer',
+        speed: magic.speed,
+        xOffset: magic.xOffset,
+        yOffset: magic.yOffset,
+      },
+      n,
+      targetPlayerIdx: tIdx,
+      targetPlayerPos: targetPos,
+    })
+    startBattleAnim(input.state, frames, input.bus)
+    return
+  }
+
+  // applyToParty:全队员落点(有 posOriginal 的都收)。
+  const partyPlayerPositions: Array<{ idx: number; pos: { x: number; y: number } }> = []
+  input.state.players.forEach((p, idx) => {
+    if (p.posOriginal) partyPlayerPositions.push({ idx, pos: p.posOriginal })
+  })
+  if (partyPlayerPositions.length === 0) return
+  const frames = buildPlayerDefMagicTimeline({
+    casterIdx: input.casterIdx,
+    magic: {
+      effect: magic.effect,
+      type: 'applyToParty',
+      speed: magic.speed,
+      xOffset: magic.xOffset,
+      yOffset: magic.yOffset,
+    },
+    n,
+    targetPlayerIdx: -1,
+    partyPlayerPositions,
+  })
+  startBattleAnim(input.state, frames, input.bus)
+}
+
+/**
+ * D17:为 enemy 攻击魔法(normal/attackAll/attackWhole/attackField)build EnemyMagic 链并
+ * startBattleAnim(port fight.c:2846-3069 PAL_BattleShowEnemyMagicAnim,OffMagic 镜像)。
+ *
+ * 前置都满足才建链(否则 no-op,走原即时路径,向后兼容):
+ *   - magicSpriteFrameCounts 有该 effect chunk(→ n)
+ *   - enemy caster fighter render-state(posOriginal — 仅作 fixture 是否完整的探针)存在
+ *   - normal:resolved target 队员 posOriginal 存在
+ *
+ * 敌人 idleFrames/magicFrames/attackFrames 从 state.enemies[casterIdx].e 取(敌施法帧 currentFrame 用)。
+ * 伤害值的实际结算靠敌方 AI / script(本切片只做动画 — 同 OffMagic / DefMagic 模式),标 residual。
+ */
+function buildAndStartEnemyMagicAnim(input: PerformMagicInput, magic: Magic): void {
+  if (!OFF_MAGIC_TYPES.has(magic.type)) return
+  const n = input.magicSpriteFrameCounts?.get(magic.effect)
+  if (n === undefined || n <= 0) return
+
+  const caster = input.state.enemies[input.casterIdx]
+  if (!caster?.posOriginal) return
+
+  const offType = magic.type as OffMagicType
+  let targetPlayerIdx = -1
+  let targetPlayerPos: { x: number; y: number } | undefined
+  if (offType === 'normal') {
+    const tIdx = typeof input.targetIdx === 'number' ? input.targetIdx : -1
+    targetPlayerIdx = tIdx
+    targetPlayerPos = input.state.players[tIdx]?.posOriginal
+    // 单体目标队员缺 posOriginal(旧 fixture)→ 不建链。
+    if (!targetPlayerPos) return
+  }
+
+  const frames = buildEnemyMagicTimeline({
+    enemyCasterIdx: input.casterIdx,
+    magic: {
+      effect: magic.effect,
+      type: offType,
+      speed: magic.speed,
+      fireDelay: magic.fireDelay,
+      effectTimes: magic.effectTimes,
+      shake: magic.shake,
+      xOffset: magic.xOffset,
+      yOffset: magic.yOffset,
+    },
+    n,
+    enemy: {
+      idleFrames: caster.e.idleFrames,
+      magicFrames: caster.e.magicFrames,
+      attackFrames: caster.e.attackFrames,
+    },
+    targetPlayerIdx,
+    targetPlayerPos,
+  })
+  startBattleAnim(input.state, frames, input.bus)
 }

@@ -614,7 +614,9 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
     expect(off.overlays).toHaveLength(3)
   })
 
-  it('防御类法术(applyToPlayer)→ 不建时间线(走原即时,state.battleAnim undefined)', () => {
+  it('防御类法术(applyToPlayer)→ 不走 OFF_MAGIC 攻击链(D17 补全后改走 DefMagic)', () => {
+    // 旧断言:applyToPlayer 不建任何时间线(DefMagic 尚未实现)。D17 法术补全后,applyToPlayer
+    // 改走 DefMagic 链(目标队员处 FIRE 特效 + 辉光),帧形态 ≠ OFF_MAGIC 攻击链(无 PreMagic 上移段)。
     const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
       { health: 100, defense: 30, level: 5 },
     ])
@@ -634,7 +636,11 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
       runScript: noopRunScript,
       magicSpriteFrameCounts: frameCounts,
     })
-    expect(state.battleAnim).toBeUndefined()
+    // DefMagic:caster帧6 + n(8)magic + 14 辉光 = 23(非 OffMagic 链 17+14+4=35)。
+    expect(state.battleAnim).toBeDefined()
+    expect(state.battleAnim!.frames.length).toBe(1 + 8 + 14)
+    // 不打敌人(防御类:E1 inline 伤害不触发)
+    expect(state.enemies[0]!.e.health).toBe(100)
   })
 
   it('缺 magicSpriteFrameCounts(无该 chunk)→ 不建时间线(向后兼容)', () => {
@@ -719,5 +725,322 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
     const post = frames.slice(frames.length - 4)
     const colorShiftFrame = post[1]!
     expect(colorShiftFrame.fighters?.[0]).toMatchObject({ side: 'enemy', idx: 0, iColorShift: 6 })
+  })
+})
+
+// ============================================================================
+// D17 法术补全:player 防御/治疗魔法 DefMagic(state.battleAnim,fight.c:2447-2606)
+// ============================================================================
+describe('performMagic D17: player 防御/治疗魔法 DefMagic 时间线', () => {
+  /** 给 player/enemy 补 fighter render-state(posOriginal)。 */
+  function withFighterPos(
+    state: BattleState,
+    playerPositions: Array<{ x: number; y: number }>,
+    enemyPositions: Array<{ x: number; y: number }>,
+  ): void {
+    state.players.forEach((p, i) => {
+      const pos = playerPositions[i] ?? { x: 240, y: 170 }
+      p.pos = { ...pos }
+      p.posOriginal = { ...pos }
+      p.currentFrame = 0
+    })
+    state.enemies.forEach((e, i) => {
+      const pos = enemyPositions[i] ?? { x: 100, y: 80 }
+      e.pos = { ...pos }
+      e.posOriginal = { ...pos }
+    })
+  }
+
+  /** 多队员 state(makeState 只造 1 player,这里手动扩)。 */
+  function makeStateMulti(
+    role: Partial<PlayerRole>,
+    roleCount: number,
+  ): { state: BattleState; playerRoles: PlayerRoles; bus: CommandBus } {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64, ...role }, [
+      { health: 100, defense: 30, level: 5 },
+    ])
+    // 复制 player slot 到 roleCount 个(共享 role 0)。
+    for (let i = 1; i < roleCount; i++) {
+      state.players.push({
+        roleId: 0,
+        prevHp: 200,
+        prevMp: 30,
+        defending: false,
+        status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+      })
+    }
+    return { state, playerRoles, bus }
+  }
+
+  const frameCounts = new Map<number, number>([[15, 5]]) // FIRE.MKF chunk 15 → 5 frames
+
+  it('applyToPlayer → state.battleAnim 有 frames(caster帧6 + 5 magic + 14 辉光 = 20)', () => {
+    const { state, playerRoles, bus } = makeStateMulti({}, 2)
+    withFighterPos(
+      state,
+      [
+        { x: 240, y: 170 },
+        { x: 180, y: 150 },
+      ],
+      [{ x: 160, y: 80 }],
+    )
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 1, // 治疗队友 idx1
+      spells: [makeSpell()],
+      magics: [
+        makeMagic({ effect: 15, type: 'applyToPlayer', speed: 2, xOffset: 4, yOffset: -6 }),
+      ],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    expect(state.battleAnim).toBeDefined()
+    const f = state.battleAnim!.frames
+    expect(f.length).toBe(1 + 5 + 14) // 20
+    // frame0 = caster 帧6
+    expect(f[0]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 6 }])
+    // magic 帧(frame1)落点 = target 队员 posOriginal + (xOff,yOff) = (184,144)
+    expect(f[1]!.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 15, x: 184, y: 144 })
+    // 辉光帧设 target 队员 idx1
+    const glowPeak = f[1 + 5 + 6]! // 辉光 i=6 峰值
+    expect(glowPeak.fighters).toEqual([{ side: 'player', idx: 1, iColorShift: 6 }])
+  })
+
+  it('applyToParty → 全队员落点 + 全队员辉光', () => {
+    const { state, playerRoles, bus } = makeStateMulti({}, 3)
+    withFighterPos(
+      state,
+      [
+        { x: 240, y: 170 },
+        { x: 200, y: 150 },
+        { x: 160, y: 130 },
+      ],
+      [{ x: 160, y: 80 }],
+    )
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 'all',
+      spells: [makeSpell()],
+      magics: [makeMagic({ effect: 15, type: 'applyToParty', speed: 0, xOffset: 0, yOffset: 0 })],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    const f = state.battleAnim!.frames
+    // magic 帧落点 = 3 队员
+    expect(f[1]!.overlays).toHaveLength(3)
+    // 辉光首帧设 3 队员
+    const glow0 = f[1 + 5]!
+    expect(glow0.fighters).toHaveLength(3)
+  })
+
+  it('applyToPlayer 缺 target 队员 posOriginal → 不建链(向后兼容)', () => {
+    const { state, playerRoles, bus } = makeStateMulti({}, 2)
+    // 只给 caster posOriginal,target(idx1)缺
+    state.players[0]!.pos = { x: 240, y: 170 }
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 1,
+      spells: [makeSpell()],
+      magics: [makeMagic({ effect: 15, type: 'applyToPlayer' })],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    expect(state.battleAnim).toBeUndefined()
+  })
+
+  it('applyToPlayer 缺 magicSpriteFrameCounts(无该 chunk)→ 不建链', () => {
+    const { state, playerRoles, bus } = makeStateMulti({}, 2)
+    withFighterPos(
+      state,
+      [
+        { x: 240, y: 170 },
+        { x: 180, y: 150 },
+      ],
+      [{ x: 160, y: 80 }],
+    )
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 1,
+      spells: [makeSpell()],
+      magics: [makeMagic({ effect: 99, type: 'applyToPlayer' })], // chunk 99 不在表
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    expect(state.battleAnim).toBeUndefined()
+  })
+})
+
+// ============================================================================
+// D17 法术补全:敌方攻击魔法 EnemyMagic(state.battleAnim,fight.c:2846-3069)
+// ============================================================================
+describe('performMagic D17: 敌方攻击魔法 EnemyMagic 时间线', () => {
+  function withFighterPos(
+    state: BattleState,
+    playerPos: { x: number; y: number },
+    enemyPos: { x: number; y: number },
+  ): void {
+    for (const p of state.players) {
+      p.pos = { ...playerPos }
+      p.posOriginal = { ...playerPos }
+      p.currentFrame = 0
+    }
+    for (const e of state.enemies) {
+      e.pos = { ...enemyPos }
+      e.posOriginal = { ...enemyPos }
+    }
+  }
+
+  const frameCounts = new Map<number, number>([[12, 8]]) // FIRE.MKF chunk 12 → 8 frames
+
+  it('enemy normal 攻击魔法 → state.battleAnim 有 EnemyMagic frames(l=(8-2)*1+8=14)', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5, idleFrames: 4, magicFrames: 2, attackFrames: 3 },
+    ])
+    withFighterPos(state, { x: 240, y: 170 }, { x: 160, y: 80 })
+    performMagic({
+      state,
+      casterIsEnemy: true,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0, // 打队员 idx0
+      spells: [makeSpell()],
+      magics: [
+        makeMagic({
+          effect: 12,
+          type: 'normal',
+          baseDamage: 45,
+          fireDelay: 2,
+          effectTimes: 1,
+          shake: 0,
+          speed: 2,
+          xOffset: 4,
+          yOffset: -6,
+        }),
+      ],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    expect(state.battleAnim).toBeDefined()
+    const f = state.battleAnim!.frames
+    expect(f.length).toBe((8 - 2) * 1 + 8 + 0) // 14
+    // 落点 = player.posOriginal + (xOff,yOff) = (244,164)
+    expect(f[0]!.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 12, x: 244, y: 164 })
+    // 敌施法帧 i=2(fireDelay)→ currentFrame = 2-2+4+2 = 6
+    expect(f[2]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 6 }])
+    // 敌人 HP 不被改(敌方伤害靠 AI/script,本切片只动画)
+    expect(state.enemies[0]!.e.health).toBe(100)
+  })
+
+  it('enemy attackAll → overlays 三落点(敌方坐标)', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5, idleFrames: 4 },
+    ])
+    withFighterPos(state, { x: 240, y: 170 }, { x: 160, y: 80 })
+    performMagic({
+      state,
+      casterIsEnemy: true,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 'all',
+      spells: [makeSpell()],
+      magics: [
+        makeMagic({ effect: 12, type: 'attackAll', fireDelay: 0, effectTimes: 1, shake: 0 }),
+      ],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    const f = state.battleAnim!.frames
+    expect(f[0]!.overlays).toHaveLength(3)
+    // 敌方 attackAll 第一落点 {180,180}(异于 OffMagic 的 {70,140})
+    expect(f[0]!.overlays?.[0]).toMatchObject({ x: 180, y: 180 })
+  })
+
+  it('player 攻击魔法仍走 OffMagic(回归:enemy 分支不污染 player)', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5 },
+    ])
+    withFighterPos(state, { x: 240, y: 170 }, { x: 160, y: 80 })
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [
+        makeMagic({ effect: 12, type: 'normal', baseDamage: 45, fireDelay: 2, effectTimes: 1 }),
+      ],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+      battleEffectIndex: [0, 0],
+    })
+    // OffMagic 链 = PreMagic(17) + OffMagic(14) + PostMagic(4) = 35;EnemyMagic 只 14。
+    expect(state.battleAnim!.frames.length).toBe(17 + 14 + 4)
+  })
+
+  it('enemy 缺 target 队员 posOriginal(旧 fixture)→ 不建链', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5, idleFrames: 4 },
+    ])
+    // 只给 enemy posOriginal,player 缺
+    state.enemies[0]!.pos = { x: 160, y: 80 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    performMagic({
+      state,
+      casterIsEnemy: true,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [makeMagic({ effect: 12, type: 'normal', fireDelay: 2 })],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: frameCounts,
+    })
+    expect(state.battleAnim).toBeUndefined()
   })
 })

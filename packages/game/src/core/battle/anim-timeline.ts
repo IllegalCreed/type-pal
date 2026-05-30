@@ -5,7 +5,8 @@
  *
  * 本切片:物理攻击(player→enemy)/ 物理受击(enemy→player)/ 死亡帧。
  * D17:player **攻击魔法**链(PreMagic → OffMagic → PostMagic)。
- * 治疗/防御 DefMagic、召唤 Summon、敌方 EnemyMagic 留后续叶子(明确 defer)。
+ * D17 法术补全:player **防御/治疗魔法** DefMagic + **敌方攻击魔法** EnemyMagic。
+ * 召唤 Summon、trance 留后续叶子(明确 defer)。
  *
  * 出处:
  *   - buildPlayerAttackTimeline   ← fight.c:2008-2263 PAL_BattleShowPlayerAttackAnim
@@ -13,10 +14,12 @@
  *   - buildPreMagicTimeline       ← fight.c:2337-2445 PAL_BattleShowPlayerPreMagicAnim
  *   - buildPlayerOffMagicTimeline ← fight.c:2608-2844 PAL_BattleShowPlayerOffMagicAnim
  *   - buildPostMagicTimeline      ← fight.c:3189-3246 PAL_BattleShowPostMagicAnim
+ *   - buildPlayerDefMagicTimeline ← fight.c:2447-2606 PAL_BattleShowPlayerDefMagicAnim
+ *   - buildEnemyMagicTimeline     ← fight.c:2846-3069 PAL_BattleShowEnemyMagicAnim
  *   - 帧时长 PAL_BattleDelay(N) = N × BATTLE_FRAME_TIME(battle.h:28-29,BATTLE_FPS=25 → 40ms)
  */
 
-import type { BattleAnimFrame, BattleAnimOverlay } from './battle-state.js'
+import type { BattleAnimFrame, BattleAnimOverlay, FighterDelta } from './battle-state.js'
 
 /** BATTLE_FRAME_TIME = 1000 / BATTLE_FPS = 1000/25 = 40ms(battle.h:28-29)。 */
 export const BATTLE_FRAME_TIME = 40
@@ -570,6 +573,240 @@ export function buildPostMagicTimeline(input: BuildPostMagicInput): BattleAnimFr
     durationMs: delayMs(1),
     fighters: resetFighters.length > 0 ? resetFighters : undefined,
   })
+
+  return frames
+}
+
+// ============================================================================
+// D17 法术补全:player DefMagic(治疗/防御) + 敌方 EnemyMagic(攻击)
+// ============================================================================
+
+export interface BuildPlayerDefMagicInput {
+  /** caster idx(players[])。 */
+  casterIdx: number
+  /** 解析后的 magic 参数(对照 sdlpal `lprgMagic[iMagicNum]`)。 */
+  magic: {
+    /** FIRE.MKF chunk 号(= overlay.spriteChunk)。 */
+    effect: number
+    /** 防御类落点分支:applyToPlayer(单体队员)/ applyToParty(全队员)。 */
+    type: 'applyToPlayer' | 'applyToParty'
+    /** SHORT — (speed+5)*10 = 帧 durationMs。 */
+    speed: number
+    /** wXOffset / wYOffset — 落点偏移。 */
+    xOffset: number
+    yOffset: number
+  }
+  /** FIRE.MKF chunk[effect] 帧数 n(magic sprite 帧序 + 总帧数;DefMagic 无 effectTimes/shake 循环)。 */
+  n: number
+  /** applyToPlayer 目标队员 idx(applyToParty 时 -1,无意义)。 */
+  targetPlayerIdx: number
+  /** applyToPlayer 目标队员落点底锚(applyToParty 时 undefined)。 */
+  targetPlayerPos?: { x: number; y: number }
+  /** applyToParty 全队员落点底锚列表(applyToPlayer 时 undefined / 空)。 */
+  partyPlayerPositions?: Array<{ idx: number; pos: { x: number; y: number } }>
+}
+
+/**
+ * player DefMagic 动画时间线(port fight.c:2447-2606 PAL_BattleShowPlayerDefMagicAnim)。
+ *
+ * 与 OffMagic 的关键差异:
+ *   - **n 帧直放**(无 l = (n-fireDelay)*effectTimes+n+shake 循环;fight.c:2495 `for i in 0..n-1`)。
+ *   - caster.currentFrame=6 在**第一帧之前就设**(fight.c:2492),不是 i==fireDelay。
+ *   - 落点对**队员**:applyToParty → 每个队员 pos+(xOff,yOff)(fight.c:2525-2541);
+ *     applyToPlayer → target 队员 pos+(xOff,yOff)(fight.c:2543-2557)。
+ *   - 末:iColorShift 辉光(fight.c:2573-2605)—— i=0..6 渐亮 + i=6..0 渐暗 = 14 帧,
+ *     各 Delay(1)=40ms;applyToParty 设全队员 iColorShift,applyToPlayer 设 target。
+ *
+ * 总帧数 = 1(caster 切施法帧 6,Delay(1))+ n(magic sprite)+ 14(辉光)。
+ * 帧间时长:magic 帧 (speed+5)*10(fight.c:2512-2513);caster 帧 + 辉光帧 = Delay(1)=40ms。
+ */
+export function buildPlayerDefMagicTimeline(input: BuildPlayerDefMagicInput): BattleAnimFrame[] {
+  const { casterIdx, magic, n, targetPlayerIdx, targetPlayerPos, partyPlayerPositions } = input
+  const { effect, type, speed, xOffset, yOffset } = magic
+  const frames: BattleAnimFrame[] = []
+  const frameDuration = (speed + 5) * 10
+
+  // —— caster.currentFrame=6 + PAL_BattleDelay(1)(fight.c:2492-2493)——
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'player', idx: casterIdx, currentFrame: 6 }],
+  })
+
+  // 落点表(按 type;fight.c:2525-2557)。
+  // applyToParty:全队员各放一份;applyToPlayer:仅 target 一份。
+  const dropPoints: Array<{ x: number; y: number }> = []
+  if (type === 'applyToParty') {
+    for (const pp of partyPlayerPositions ?? []) {
+      dropPoints.push({ x: pp.pos.x + asShortLocal(xOffset), y: pp.pos.y + asShortLocal(yOffset) })
+    }
+  } else {
+    const tp = targetPlayerPos ?? { x: 0, y: 0 }
+    dropPoints.push({ x: tp.x + asShortLocal(xOffset), y: tp.y + asShortLocal(yOffset) })
+  }
+
+  // —— n 帧 magic sprite,frameIdx=i 直放,各 (speed+5)*10ms(fight.c:2495-2569)——
+  for (let i = 0; i < n; i++) {
+    const overlays: BattleAnimOverlay[] = dropPoints.map((p) => ({
+      kind: 'magic',
+      spriteChunk: effect,
+      frameIdx: i,
+      x: p.x,
+      y: p.y,
+    }))
+    frames.push({ durationMs: frameDuration, overlays })
+  }
+
+  // —— iColorShift 辉光(fight.c:2573-2605):i=0..6 渐亮 + i=6..0 渐暗 = 14 帧 ——
+  const glowSeq = [0, 1, 2, 3, 4, 5, 6, 6, 5, 4, 3, 2, 1, 0]
+  for (const shift of glowSeq) {
+    const fighters: FighterDelta[] = []
+    if (type === 'applyToParty') {
+      for (const pp of partyPlayerPositions ?? []) {
+        fighters.push({ side: 'player', idx: pp.idx, iColorShift: shift })
+      }
+    } else {
+      fighters.push({ side: 'player', idx: targetPlayerIdx, iColorShift: shift })
+    }
+    frames.push({ durationMs: delayMs(1), fighters })
+  }
+
+  return frames
+}
+
+export interface BuildEnemyMagicInput {
+  /** 施法敌人 idx(enemies[])。 */
+  enemyCasterIdx: number
+  /** 解析后的 magic 参数(对照 sdlpal `lprgMagic[iMagicNum]`)。 */
+  magic: {
+    /** FIRE.MKF chunk 号(= overlay.spriteChunk)。 */
+    effect: number
+    /** 法术类型(落点分支;敌方攻击魔法 4 类型 — 落点对队员/全队)。 */
+    type: 'normal' | 'attackAll' | 'attackWhole' | 'attackField'
+    /** SHORT — (speed+5)*10 = 帧 durationMs。 */
+    speed: number
+    /** wFireDelay — 帧循环 / 敌施法帧 gate。 */
+    fireDelay: number
+    /** wEffectTimes — 总帧数循环次数。 */
+    effectTimes: number
+    /** wShake — 末尾震屏帧数。 */
+    shake: number
+    /** wXOffset / wYOffset — 落点偏移。 */
+    xOffset: number
+    yOffset: number
+  }
+  /** FIRE.MKF chunk[effect] 帧数 n(总帧数公式 fight.c:2887/2889)。 */
+  n: number
+  /** 敌人精灵帧参数(enemies.json[id];敌施法帧 currentFrame 用)。 */
+  enemy: { idleFrames: number; magicFrames: number; attackFrames: number }
+  /** 单体目标 player idx(type=normal 用);全体类型时无意义传 -1。 */
+  targetPlayerIdx: number
+  /** 单体目标 player 落点(type=normal 用;底锚)。type 全体时可传 undefined。 */
+  targetPlayerPos?: { x: number; y: number }
+}
+
+/**
+ * 敌方 EnemyMagic 动画时间线(port fight.c:2846-3069 PAL_BattleShowEnemyMagicAnim)——
+ * **OffMagic 镜像**:同总帧数公式 / 帧循环 k / shake 区,落点对**队员**而非敌人。
+ *
+ * 总帧数 l = (n - fireDelay) * (SHORT)effectTimes + n + shake(fight.c:2889-2892)。
+ * 每帧:
+ *   - durationMs = (speed+5)*10(fight.c:2954-2955)。
+ *   - 帧 index k:
+ *       非 shake 区(l - i > shake):i<n ? i : ((i-fireDelay)%(n-fireDelay)+fireDelay)(fight.c:2911-2922)
+ *       shake 区(l - i <= shake):k=(l-shake-1)%n,带 shake:{time:i,level:3}(fight.c:2942-2943)
+ *   - 敌施法帧(仅非 shake 区,fight.c:2932-2938):fireDelay>0 且
+ *       fireDelay<=i<fireDelay+attackFrames → enemy.currentFrame = i-fireDelay+idleFrames+magicFrames。
+ *   - overlay kind='magic' spriteChunk=effect frameIdx=k,落点按 type **对队员**(fight.c:2967-3046):
+ *       normal(target!=-1):player[target].pos + (xOff,yOff)(fight.c:2971-2975)
+ *       attackAll:三点 {180,180}{234,170}{270,146} 各 +off → overlays[3](fight.c:2991-3001)
+ *       attackWhole:(240,150)+off ; attackField:(160,200)+off(fight.c:3021-3033)
+ *
+ * iBlow 抖队员(fight.c:2901-2909) / wWave 屏波 / keepEffect 烙背景 → defer(同 OffMagic 标注)。
+ */
+export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnimFrame[] {
+  // targetPlayerIdx 透传供调用方语义对齐;落点由 magic.type + targetPlayerPos 决定,本体不直接读 idx。
+  const { enemyCasterIdx, magic, n, enemy, targetPlayerPos } = input
+  const { effect, type, speed, fireDelay, effectTimes, shake, xOffset, yOffset } = magic
+  const { idleFrames, magicFrames, attackFrames } = enemy
+
+  const frames: BattleAnimFrame[] = []
+
+  // 总帧数 l(fight.c:2889-2892)。effectTimes 是 (SHORT) 强转(fight.c:2890)。
+  const l = (n - fireDelay) * asShortLocal(effectTimes) + n + shake
+  const frameDuration = (speed + 5) * 10
+
+  for (let i = 0; i < l; i++) {
+    const fighters: FighterDelta[] = []
+
+    // 帧 index k + shake 判定(fight.c:2911-2944)。
+    let k: number
+    let shakeOverlay: BattleAnimFrame['shake']
+    if (l - i > shake) {
+      if (i < n) {
+        k = i
+      } else {
+        k = ((i - fireDelay) % (n - fireDelay)) + fireDelay
+      }
+      // 敌施法帧(仅非 shake 区;fight.c:2932-2938)。
+      if (fireDelay > 0 && i >= fireDelay && i < fireDelay + attackFrames) {
+        fighters.push({
+          side: 'enemy',
+          idx: enemyCasterIdx,
+          currentFrame: i - fireDelay + idleFrames + magicFrames,
+        })
+      }
+    } else {
+      // shake 区:震屏 + 定帧 (l-shake-1)%n(fight.c:2942-2943)。
+      k = (l - shake - 1) % n
+      shakeOverlay = { time: i, level: 3 }
+    }
+
+    // 落点 overlay(按 magic.type **对队员**;fight.c:2967-3046)。
+    const overlays: BattleAnimOverlay[] = []
+    if (type === 'normal') {
+      // target!=-1:player[target].pos + (xOff,yOff)(fight.c:2971-2975)。
+      const pp = targetPlayerPos ?? { x: 0, y: 0 }
+      overlays.push({
+        kind: 'magic',
+        spriteChunk: effect,
+        frameIdx: k,
+        x: pp.x + asShortLocal(xOffset),
+        y: pp.y + asShortLocal(yOffset),
+      })
+    } else if (type === 'attackAll') {
+      // 三点 {180,180}{234,170}{270,146} 各 +off(fight.c:2991-3001)。
+      const pts: Array<[number, number]> = [
+        [180, 180],
+        [234, 170],
+        [270, 146],
+      ]
+      for (const [px, py] of pts) {
+        overlays.push({
+          kind: 'magic',
+          spriteChunk: effect,
+          frameIdx: k,
+          x: px + asShortLocal(xOffset),
+          y: py + asShortLocal(yOffset),
+        })
+      }
+    } else {
+      // attackWhole(240,150) / attackField(160,200)(fight.c:3021-3033)。
+      const px = type === 'attackWhole' ? 240 : 160
+      const py = type === 'attackWhole' ? 150 : 200
+      overlays.push({
+        kind: 'magic',
+        spriteChunk: effect,
+        frameIdx: k,
+        x: px + asShortLocal(xOffset),
+        y: py + asShortLocal(yOffset),
+      })
+    }
+
+    const frame: BattleAnimFrame = { durationMs: frameDuration, overlays }
+    if (fighters.length > 0) frame.fighters = fighters
+    if (shakeOverlay) frame.shake = shakeOverlay
+    frames.push(frame)
+  }
 
   return frames
 }

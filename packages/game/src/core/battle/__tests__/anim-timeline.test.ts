@@ -9,8 +9,10 @@
 import { describe, expect, it } from 'vitest'
 import {
   BATTLE_FRAME_TIME,
+  buildEnemyMagicTimeline,
   buildEnemyPhysicalTimeline,
   buildPlayerAttackTimeline,
+  buildPlayerDefMagicTimeline,
   buildPlayerOffMagicTimeline,
   buildPostMagicTimeline,
   buildPreMagicTimeline,
@@ -551,5 +553,259 @@ describe('buildPostMagicTimeline (fight.c:3189-3246)', () => {
     expect(frames).toHaveLength(4)
     expect(frames.every((f) => f.fighters === undefined)).toBe(true)
     expect(frames.every((f) => f.durationMs === 1 * D)).toBe(true)
+  })
+})
+
+// ============================================================================
+// D17 法术补全:player DefMagic(fight.c:2447-2606)
+// ============================================================================
+describe('buildPlayerDefMagicTimeline (fight.c:2447-2606)', () => {
+  // applyToPlayer:target 队员 idx1 站立 (180,150);n=5;speed=2 → magic 帧 (2+5)*10=70。
+  // xOff=4, yOff=-6 → 落点 (184,144)。
+  function buildToPlayer(opts: { n?: number; speed?: number } = {}) {
+    return buildPlayerDefMagicTimeline({
+      casterIdx: 0,
+      magic: { effect: 15, type: 'applyToPlayer', speed: opts.speed ?? 2, xOffset: 4, yOffset: -6 },
+      n: opts.n ?? 5,
+      targetPlayerIdx: 1,
+      targetPlayerPos: { x: 180, y: 150 },
+    })
+  }
+
+  it('总帧数 = 1(caster 帧6)+ n + 14(辉光)', () => {
+    expect(buildToPlayer({ n: 5 })).toHaveLength(1 + 5 + 14) // 20
+    expect(buildToPlayer({ n: 8 })).toHaveLength(1 + 8 + 14) // 23
+  })
+
+  it('frame0:caster.currentFrame=6,Delay(1)', () => {
+    const f = buildToPlayer()
+    expect(f[0]!.durationMs).toBe(1 * D)
+    expect(f[0]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 6 }])
+    expect(f[0]!.overlays).toBeUndefined()
+  })
+
+  it('magic 帧:frameIdx=i 直放,落点 target.pos+(xOff,yOff)=(184,144),durationMs=(speed+5)*10', () => {
+    const f = buildToPlayer({ n: 5, speed: 2 })
+    // frame1..5 = magic sprite i=0..4
+    for (let i = 0; i < 5; i++) {
+      const mf = f[1 + i]!
+      expect(mf.durationMs).toBe(70)
+      expect(mf.overlays).toEqual([
+        { kind: 'magic', spriteChunk: 15, frameIdx: i, x: 184, y: 144 },
+      ])
+    }
+  })
+
+  it('辉光 14 帧:iColorShift 序列 0..6..0(渐亮 7 + 渐暗 7),设 target 队员,各 Delay(1)', () => {
+    const f = buildToPlayer({ n: 5 })
+    const glow = f.slice(1 + 5) // 末 14 帧
+    expect(glow).toHaveLength(14)
+    const expectedShifts = [0, 1, 2, 3, 4, 5, 6, 6, 5, 4, 3, 2, 1, 0]
+    glow.forEach((gf, idx) => {
+      expect(gf.durationMs).toBe(1 * D)
+      expect(gf.fighters).toEqual([{ side: 'player', idx: 1, iColorShift: expectedShifts[idx] }])
+    })
+  })
+
+  it('applyToParty:落点对每个队员各放一份(overlays 多落点);辉光设全队员', () => {
+    const f = buildPlayerDefMagicTimeline({
+      casterIdx: 0,
+      magic: { effect: 16, type: 'applyToParty', speed: 0, xOffset: 0, yOffset: 0 },
+      n: 3,
+      targetPlayerIdx: -1,
+      partyPlayerPositions: [
+        { idx: 0, pos: { x: 240, y: 170 } },
+        { idx: 1, pos: { x: 200, y: 150 } },
+        { idx: 2, pos: { x: 160, y: 130 } },
+      ],
+    })
+    // frame0=caster帧6; frame1..3 = magic; frame4..17 = 辉光
+    const mf = f[1]!
+    expect(mf.overlays).toEqual([
+      { kind: 'magic', spriteChunk: 16, frameIdx: 0, x: 240, y: 170 },
+      { kind: 'magic', spriteChunk: 16, frameIdx: 0, x: 200, y: 150 },
+      { kind: 'magic', spriteChunk: 16, frameIdx: 0, x: 160, y: 130 },
+    ])
+    // 辉光首帧:全队员 iColorShift=0
+    const glow0 = f[4]!
+    expect(glow0.fighters).toEqual([
+      { side: 'player', idx: 0, iColorShift: 0 },
+      { side: 'player', idx: 1, iColorShift: 0 },
+      { side: 'player', idx: 2, iColorShift: 0 },
+    ])
+    // 辉光峰值帧(i=6)全队员 iColorShift=6
+    const glowPeak = f[4 + 6]!
+    expect(glowPeak.fighters).toEqual([
+      { side: 'player', idx: 0, iColorShift: 6 },
+      { side: 'player', idx: 1, iColorShift: 6 },
+      { side: 'player', idx: 2, iColorShift: 6 },
+    ])
+  })
+})
+
+// ============================================================================
+// D17 法术补全:敌方 EnemyMagic(fight.c:2846-3069)—— OffMagic 镜像
+// ============================================================================
+describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
+  // n=8, fireDelay=2, effectTimes=1, shake=0 → l=(8-2)*1+8=14。speed=2 → durationMs=70。
+  // type=normal,target player pos (240,170),xOff=4,yOff=-6 → 落点 (244,164)。
+  // enemy idleFrames=4, magicFrames=2, attackFrames=3。
+  function buildNormal(
+    opts: {
+      n?: number
+      fireDelay?: number
+      effectTimes?: number
+      shake?: number
+      speed?: number
+      idleFrames?: number
+      magicFrames?: number
+      attackFrames?: number
+    } = {},
+  ) {
+    return buildEnemyMagicTimeline({
+      enemyCasterIdx: 0,
+      magic: {
+        effect: 12,
+        type: 'normal',
+        speed: opts.speed ?? 2,
+        fireDelay: opts.fireDelay ?? 2,
+        effectTimes: opts.effectTimes ?? 1,
+        shake: opts.shake ?? 0,
+        xOffset: 4,
+        yOffset: -6,
+      },
+      n: opts.n ?? 8,
+      enemy: {
+        idleFrames: opts.idleFrames ?? 4,
+        magicFrames: opts.magicFrames ?? 2,
+        attackFrames: opts.attackFrames ?? 3,
+      },
+      targetPlayerIdx: 1,
+      targetPlayerPos: { x: 240, y: 170 },
+    })
+  }
+
+  it('总帧数 l = (n-fireDelay)*effectTimes + n + shake(OffMagic 镜像公式)', () => {
+    expect(buildNormal()).toHaveLength((8 - 2) * 1 + 8 + 0) // 14
+    expect(buildNormal({ effectTimes: 2, shake: 3 })).toHaveLength((8 - 2) * 2 + 8 + 3) // 23
+  })
+
+  it('每帧 durationMs = (speed+5)*10', () => {
+    expect(buildNormal({ speed: 2 })[0]!.durationMs).toBe(70)
+    expect(buildNormal({ speed: 3 })[0]!.durationMs).toBe(80)
+  })
+
+  it('帧 index k:i<n → k=i;i>=n → ((i-fireDelay)%(n-fireDelay))+fireDelay', () => {
+    // n=8, fireDelay=2, effectTimes=2 → l=20.
+    const f = buildNormal({ effectTimes: 2 })
+    expect(f[0]!.overlays![0]!.frameIdx).toBe(0)
+    expect(f[7]!.overlays![0]!.frameIdx).toBe(7)
+    // i=8 → ((8-2)%6)+2 = 0+2 = 2
+    expect(f[8]!.overlays![0]!.frameIdx).toBe(2)
+    // i=9 → ((9-2)%6)+2 = 1+2 = 3
+    expect(f[9]!.overlays![0]!.frameIdx).toBe(3)
+  })
+
+  it('敌施法帧:fireDelay>0 且 fireDelay<=i<fireDelay+attackFrames → currentFrame=i-fireDelay+idleFrames+magicFrames', () => {
+    // fireDelay=2, attackFrames=3, idleFrames=4, magicFrames=2 → 施法帧区 i=2,3,4.
+    const f = buildNormal({ fireDelay: 2, attackFrames: 3, idleFrames: 4, magicFrames: 2 })
+    // i=2 → currentFrame = 2-2+4+2 = 6
+    expect(f[2]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 6 }])
+    // i=3 → 3-2+4+2 = 7
+    expect(f[3]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 7 }])
+    // i=4 → 4-2+4+2 = 8
+    expect(f[4]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 8 }])
+    // i=1(< fireDelay)无施法帧
+    expect(f[1]!.fighters).toBeUndefined()
+    // i=5(= fireDelay+attackFrames)无施法帧
+    expect(f[5]!.fighters).toBeUndefined()
+  })
+
+  it('fireDelay=0:不产敌施法帧(gate fireDelay>0)', () => {
+    const f = buildNormal({ fireDelay: 0, attackFrames: 3, n: 8, effectTimes: 1 })
+    expect(f.every((fr) => fr.fighters === undefined)).toBe(true)
+  })
+
+  it('normal 落点 = player.pos + (xOff,yOff) = (244,164),overlay kind=magic chunk=effect', () => {
+    const f = buildNormal()
+    expect(f[0]!.overlays).toEqual([{ kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 244, y: 164 }])
+  })
+
+  it('attackAll:三落点 {180,180}{234,170}{270,146} 各 +off → overlays[3] 同帧(敌方坐标,异于 OffMagic)', () => {
+    const f = buildEnemyMagicTimeline({
+      enemyCasterIdx: 0,
+      magic: {
+        effect: 20,
+        type: 'attackAll',
+        speed: 0,
+        fireDelay: 0,
+        effectTimes: 1,
+        shake: 0,
+        xOffset: 5,
+        yOffset: 10,
+      },
+      n: 4,
+      enemy: { idleFrames: 4, magicFrames: 0, attackFrames: 0 },
+      targetPlayerIdx: -1,
+    })
+    expect(f[0]!.overlays).toEqual([
+      { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 185, y: 190 },
+      { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 239, y: 180 },
+      { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 275, y: 156 },
+    ])
+  })
+
+  it('attackWhole:(240,150)+off ; attackField:(160,200)+off(敌方坐标)', () => {
+    const fw = buildEnemyMagicTimeline({
+      enemyCasterIdx: 0,
+      magic: {
+        effect: 30,
+        type: 'attackWhole',
+        speed: 0,
+        fireDelay: 0,
+        effectTimes: 1,
+        shake: 0,
+        xOffset: 0,
+        yOffset: 0,
+      },
+      n: 4,
+      enemy: { idleFrames: 4, magicFrames: 0, attackFrames: 0 },
+      targetPlayerIdx: -1,
+    })
+    expect(fw[0]!.overlays).toEqual([
+      { kind: 'magic', spriteChunk: 30, frameIdx: 0, x: 240, y: 150 },
+    ])
+    const ff = buildEnemyMagicTimeline({
+      enemyCasterIdx: 0,
+      magic: {
+        effect: 31,
+        type: 'attackField',
+        speed: 0,
+        fireDelay: 0,
+        effectTimes: 1,
+        shake: 0,
+        xOffset: 0,
+        yOffset: 0,
+      },
+      n: 4,
+      enemy: { idleFrames: 4, magicFrames: 0, attackFrames: 0 },
+      targetPlayerIdx: -1,
+    })
+    expect(ff[0]!.overlays).toEqual([
+      { kind: 'magic', spriteChunk: 31, frameIdx: 0, x: 160, y: 200 },
+    ])
+  })
+
+  it('shake 区末 shake 帧:带 shake{time:i,level:3} + 定帧 k=(l-shake-1)%n;施法帧 gate 仅非 shake 区', () => {
+    // n=8, fireDelay=2, effectTimes=1, shake=3 → l=17. shake 区 = 末 3 帧 i=14,15,16.
+    const f = buildNormal({ n: 8, fireDelay: 2, effectTimes: 1, shake: 3 })
+    expect(f).toHaveLength(17)
+    expect(f[13]!.shake).toBeUndefined()
+    expect(f[14]!.shake).toEqual({ time: 14, level: 3 })
+    // k=(17-3-1)%8 = 13%8 = 5
+    expect(f[14]!.overlays![0]!.frameIdx).toBe(5)
+    expect(f[16]!.shake).toEqual({ time: 16, level: 3 })
+    // shake 区不产施法帧(fight.c:2932-2938 在 l-i>shake 分支内)
+    expect(f[14]!.fighters).toBeUndefined()
   })
 })
