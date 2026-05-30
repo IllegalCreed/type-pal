@@ -387,6 +387,77 @@ function setDmgCtx(roleMp: number, cash: number, objectMagics: ObjectMagicView[]
   }
 }
 
+describe('Batch A 状态/数据 opcode', () => {
+  function stateCtx(over: Partial<BattleState> = {}, caster?: BattleCtx['caster'], target?: BattleCtx['target'], gs?: BattleCtx['gs']): BattleCtx {
+    return {
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+      state: { enemies: [], players: [], phase: 'performAction', iHidingTime: 0, iBlow: 0, isBoss: false, ...over } as any as BattleState,
+      caster,
+      target,
+      gs,
+    }
+  }
+
+  it('0x5F kill player:目标队员 HP=0', () => {
+    const ctx = stateCtx(
+      { players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }] },
+      undefined, { type: 'player', idx: 0 },
+    )
+    // biome-ignore lint/suspicious/noExplicitAny: 只填 hp
+    ctx.playerRoles = { roles: [{ id: 0, hp: 100 } as any] }
+    const r = dispatchBattleOpcode(0x5F, [0, 0, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(ctx.playerRoles.roles[0]!.hp).toBe(0)
+  })
+
+  it('0x5C hide party:iHidingTime = -op0', () => {
+    const ctx = stateCtx()
+    dispatchBattleOpcode(0x5C, [3, 0, 0], ctx)
+    expect(ctx.state.iHidingTime).toBe(-3)
+  })
+
+  it('0x6B blow away:iBlow = op0', () => {
+    const ctx = stateCtx()
+    dispatchBattleOpcode(0x6B, [5, 0, 0], ctx)
+    expect(ctx.state.iBlow).toBe(5)
+  })
+
+  it('0x89 set battle result:3→won / 1→lost / 0xFFFF→fleed', () => {
+    expect((() => { const c = stateCtx(); dispatchBattleOpcode(0x89, [3, 0, 0], c); return c.state.phase })()).toBe('won')
+    expect((() => { const c = stateCtx(); dispatchBattleOpcode(0x89, [1, 0, 0], c); return c.state.phase })()).toBe('lost')
+    expect((() => { const c = stateCtx(); dispatchBattleOpcode(0x89, [0xFFFF, 0, 0], c); return c.state.phase })()).toBe('fleed')
+  })
+
+  it('0x8A enable auto-battle:gs.fAutoBattle=true', () => {
+    // biome-ignore lint/suspicious/noExplicitAny: 只填 fAutoBattle
+    const gs = { fAutoBattle: false } as any
+    dispatchBattleOpcode(0x8A, [0, 0, 0], stateCtx({}, undefined, undefined, gs))
+    expect(gs.fAutoBattle).toBe(true)
+  })
+
+  it('0x33 collect:有 collectValue → gs.wCollectValue 累加;无 → jump op0', () => {
+    // biome-ignore lint/suspicious/noExplicitAny: 只填 wCollectValue
+    const gs = { wCollectValue: 5 } as any
+    const ctx = stateCtx({ enemies: [richEnemy({})] }, undefined, { type: 'enemy', idx: 0 }, gs)
+    ctx.state.enemies[0]!.e.collectValue = 10
+    dispatchBattleOpcode(0x33, [200, 0, 0], ctx)
+    expect(gs.wCollectValue).toBe(15) // 5+10
+    // collectValue 0 → jump op0
+    const gs2 = { wCollectValue: 0 } as any
+    const ctx2 = stateCtx({ enemies: [richEnemy({})] }, undefined, { type: 'enemy', idx: 0 }, gs2)
+    ctx2.state.enemies[0]!.e.collectValue = 0
+    expect(dispatchBattleOpcode(0x33, [200, 0, 0], ctx2).newIp).toBe(200)
+  })
+
+  it('0x3A player flee:非 boss → fleed;boss → jump op0', () => {
+    const ctx = stateCtx({ isBoss: false })
+    dispatchBattleOpcode(0x3A, [200, 0, 0], ctx)
+    expect(ctx.state.phase).toBe('fleed')
+    const bossCtx = stateCtx({ isBoss: true })
+    expect(dispatchBattleOpcode(0x3A, [200, 0, 0], bossCtx).newIp).toBe(200)
+  })
+})
+
 describe('0x5A halve player HP (script.c:005A,无影毒 use)', () => {
   function playerCtx(hp: number): BattleCtx {
     return {
@@ -515,6 +586,50 @@ function summonCtx(roster: BattleEnemy[], casterIdx: number, allEnemies: Enemy[]
 const ENEMY_OBJ = (objectIndex: number, enemyId: number): EnemyObject => ({ objectIndex, enemyId, resistanceToSorcery: 3, scriptOnTurnStart: 11, scriptOnBattleEnd: 0, scriptOnReady: 22 })
 // biome-ignore lint/suspicious/noExplicitAny: 只填关键字段
 const ENEMY = (id: number, health: number): Enemy => ({ id, health, defense: 0, level: 1 } as any as Enemy)
+
+describe('0x9C enemy division (script.c:009C)', () => {
+  it('恰 1 活敌 + health>1 → 分裂 op0+1 份(各 floor((h+w)/(w+1)))', () => {
+    const roster = [richEnemy({ health: 100 })]
+    const ctx = summonCtx(roster, 0, [], [])
+    const r = dispatchBattleOpcode(0x9C, [2, 300, 0], ctx) // 分裂成 3
+    expect(r.consumed).toBe(true)
+    expect(roster).toHaveLength(3)
+    // floor((100+2)/3)=34
+    expect(roster[0]!.e.health).toBe(34)
+    expect(roster[1]!.e.health).toBe(34)
+    expect(roster[2]!.e.health).toBe(34)
+  })
+  it('不止 1 活敌 → 不分裂,jump op1', () => {
+    const roster = [richEnemy({ health: 100 }), richEnemy({ health: 100 })]
+    const r = dispatchBattleOpcode(0x9C, [2, 300, 0], summonCtx(roster, 0, [], []))
+    expect(roster).toHaveLength(2)
+    expect(r.newIp).toBe(300)
+  })
+  it('self health<=1 → 不分裂,jump op1', () => {
+    const roster = [richEnemy({ health: 1 })]
+    expect(dispatchBattleOpcode(0x9C, [2, 300, 0], summonCtx(roster, 0, [], [])).newIp).toBe(300)
+  })
+})
+
+describe('0x9F enemy transform (script.c:009F)', () => {
+  it('变身成 op0 对象(保留当前 health)', () => {
+    const self = richEnemy({ health: 30 })
+    self.e.id = 5
+    const roster = [self]
+    dispatchBattleOpcode(0x9F, [419, 0, 0], summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]))
+    expect(roster[0]!.e.id).toBe(22) // 变成新种
+    expect(roster[0]!.e.health).toBe(30) // 保留当前血
+    expect(roster[0]!.scriptOnReady).toBe(22)
+  })
+  it('自身睡眠 → 不变身', () => {
+    const self = richEnemy({ health: 30 })
+    self.e.id = 5
+    self.status.sleep = 3
+    const roster = [self]
+    dispatchBattleOpcode(0x9F, [419, 0, 0], summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]))
+    expect(roster[0]!.e.id).toBe(5) // 没变
+  })
+})
 
 describe('0x9E enemy summon (script.c:009E)', () => {
   it('w!=0 召唤指定敌人(obj→enemyId→enemies)+ 满血 + 脚本/抗性', () => {

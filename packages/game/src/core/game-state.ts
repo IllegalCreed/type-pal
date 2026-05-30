@@ -812,6 +812,13 @@ export interface GameState {
    */
   dwCash: number
 
+  /**
+   * 下一场战斗自动战斗(sdlpal `gpGlobals->fAutoBattle`)—— 0x8A 置 true。
+   * (消费方:auto-battle 自动选队员动作,尚未实现;本层只存旗子。)
+   * 注:收集值用已有的 `wCollectValue`(0x33 累加 / 0x34 换物品)。
+   */
+  fAutoBattle: boolean
+
   // ── SAVEDGAME_WIN 倒推: 嵌套 struct ──────────────────────────────────────
 
   /**
@@ -1152,6 +1159,7 @@ export function createInitialGameState(
     wChasespeedChangeCycles: 0,
     nFollower: 0,
     dwCash: 0,
+    fAutoBattle: false,
     numPalette: 0,        // 特效 A:当前调色板索引(sdlpal wNumPalette)
     nightPalette: false,  // 特效 A:昼夜 flag(sdlpal fNightPalette,默认白天)
     iCurPlayingRNG: 0,    // 特效 C:当前 RNG 动画编号(sdlpal iCurPlayingRNG)

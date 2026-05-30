@@ -143,6 +143,16 @@ export interface BattleState {
   rng: SeedableRng
   /** 防卡死:phase 卡 60s tickBattle 报错跳出(T22 用)。 */
   phaseStallTicks: number
+  /**
+   * 队伍隐身计时(sdlpal `g_Battle.iHidingTime`)—— 0x5C hide 设 `-op0`。>0 时敌方
+   * 跳过瞄准队员 / 0x9E·0x9F 召唤·变身失败。createBattleState 必设 0;optional 仅向后兼容。
+   */
+  iHidingTime?: number
+  /**
+   * 吹飞强度(sdlpal `g_Battle.iBlow`)—— 0x6B blow 设 op0。敌方行动时按 RandomLong(0,iBlow)
+   * 位移击退(present 消费;本层只存值)。createBattleState 必设 0;optional 仅向后兼容。
+   */
+  iBlow?: number
 }
 
 export interface CreateBattleStateInput {
@@ -224,5 +234,7 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
     cashGained: 0,
     rng: input.rng,
     phaseStallTicks: 0,
+    iHidingTime: 0,
+    iBlow: 0,
   }
 }

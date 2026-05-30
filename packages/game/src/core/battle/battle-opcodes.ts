@@ -53,6 +53,12 @@ const OP_ENEMY_SUMMON = 0x009E
 /** sdlpal `palcommon.h:60` MAX_ENEMIES_IN_TEAM —— 战斗最多 5 敌(0x9E 召唤房间上限)。 */
 const MAX_ENEMIES_IN_TEAM = 5
 
+/** sdlpal `script.c:009C` 0x009C:enemy division(仅 1 活敌时分裂)。 */
+const OP_ENEMY_DIVISION = 0x009C
+
+/** sdlpal `script.c:009F` 0x009F:enemy transform into another(保留 health)。 */
+const OP_ENEMY_TRANSFORM = 0x009F
+
 /** sdlpal `script.c:005B` 0x005B:halve enemy HP(w=health/2+1,cap op0)。 */
 const OP_HALVE_ENEMY_HP = 0x005B
 
@@ -61,6 +67,27 @@ const OP_DRAIN_HP = 0x0039
 
 /** sdlpal `script.c:005A` 0x005A:halve player HP(wEventObjectID = 目标队员 role)。 */
 const OP_HALVE_PLAYER_HP = 0x005A
+
+/** sdlpal `script.c:005F` 0x005F:kill player immediately(rgwHP[eventObject]=0)。 */
+const OP_KILL_PLAYER = 0x005F
+
+/** sdlpal `script.c:005C` 0x005C:hide party(iHidingTime = -op0)。 */
+const OP_HIDE_PARTY = 0x005C
+
+/** sdlpal `script.c:006B` 0x006B:blow away enemies(iBlow = (SHORT)op0)。 */
+const OP_BLOW_AWAY = 0x006B
+
+/** sdlpal `script.c:0089` 0x0089:set battle result(BattleResult = op0)。 */
+const OP_SET_BATTLE_RESULT = 0x0089
+
+/** sdlpal `script.c:008A` 0x008A:enable auto-battle for next battle(fAutoBattle=TRUE)。 */
+const OP_ENABLE_AUTO_BATTLE = 0x008A
+
+/** sdlpal `script.c:0033` 0x0033:collect enemy for items(wCollectValue += enemy.collectValue,否则 jump op0)。 */
+const OP_COLLECT_ENEMY = 0x0033
+
+/** sdlpal `script.c:003A` 0x003A:player flee(boss → jump op0,否则 PlayerEscape)。 */
+const OP_PLAYER_FLEE = 0x003A
 
 /** sdlpal `script.c:2025-2032` 0x0068:if (g_Battle.fEnemyMoving) jump op0。 */
 const OP_JUMP_IF_ENEMY_TURN = 0x0068
@@ -270,6 +297,75 @@ export function dispatchBattleOpcode(
       return { consumed: true }
     }
 
+    case OP_KILL_PLAYER: {
+      // sdlpal `script.c:005F`:rgwHP[wEventObjectID] = 0。target 队员(退回 caster)。
+      const sel = ctx.target?.type === 'player'
+        ? ctx.target
+        : (ctx.caster?.type === 'player' ? ctx.caster : undefined)
+      if (sel && ctx.playerRoles) {
+        const roleId = state.players[sel.idx]?.roleId
+        const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
+        if (role)
+          role.hp = 0
+      }
+      return { consumed: true }
+    }
+
+    case OP_HIDE_PARTY: {
+      // sdlpal `script.c:005C`:g_Battle.iHidingTime = -(INT)op0。
+      state.iHidingTime = -(operands[0] ?? 0)
+      return { consumed: true }
+    }
+
+    case OP_BLOW_AWAY: {
+      // sdlpal `script.c:006B`:g_Battle.iBlow = (SHORT)op0。(present 消费位移击退;本层存值。)
+      state.iBlow = asShort(operands[0] ?? 0)
+      return { consumed: true }
+    }
+
+    case OP_SET_BATTLE_RESULT: {
+      // sdlpal `script.c:0089`:g_Battle.BattleResult = op0。
+      // battle.h:3=Won / 1=Lost / 0xFFFF=Fleed / 0=Terminated(结束无奖励)/ 1000+=OnGoing(不改)。
+      const r = operands[0] ?? 0
+      if (r === 3)
+        state.phase = 'won'
+      else if (r === 1)
+        state.phase = 'lost'
+      else if (r === 0xFFFF || r === 0)
+        state.phase = 'fleed'
+      // 1000+(ongoing / pause)不改 phase
+      return { consumed: true }
+    }
+
+    case OP_ENABLE_AUTO_BATTLE: {
+      // sdlpal `script.c:008A`:gpGlobals->fAutoBattle = TRUE。(消费方 auto-pick 未做。)
+      if (ctx.gs)
+        ctx.gs.fAutoBattle = true
+      return { consumed: true }
+    }
+
+    case OP_COLLECT_ENEMY: {
+      // sdlpal `script.c:0033`:if (enemy.wCollectValue != 0) gpGlobals->wCollectValue += it;
+      //   else jump op0(无可收集 → 失败分支)。enemy = wEventObjectID(ctx.target / caster)。
+      const idx = ctx.target?.idx ?? (ctx.caster?.type === 'enemy' ? ctx.caster.idx : undefined)
+      const enemy = idx !== undefined ? state.enemies[idx] : undefined
+      const cv = enemy?.e.collectValue ?? 0
+      if (cv !== 0) {
+        if (ctx.gs)
+          ctx.gs.wCollectValue += cv
+        return { consumed: true }
+      }
+      return { consumed: true, newIp: operands[0] ?? 0 }
+    }
+
+    case OP_PLAYER_FLEE: {
+      // sdlpal `script.c:003A`:if (fIsBoss) jump op0; else PAL_BattlePlayerEscape()。
+      if (state.isBoss)
+        return { consumed: true, newIp: operands[0] ?? 0 }
+      state.phase = 'fleed'
+      return { consumed: true }
+    }
+
     case OP_HALVE_PLAYER_HP: {
       // sdlpal `script.c:005A`:rgwHP[wEventObjectID] /= 2。wEventObjectID = 目标队员 role。
       // 无影毒 scriptOnUse(使用 → 目标队员 HP 减半)。target=队员;无 player target 退回 caster。
@@ -334,6 +430,69 @@ export function dispatchBattleOpcode(
       })
       if (selfPos > 1)
         return { consumed: true, newIp: operands[0] ?? 0 }
+      return { consumed: true }
+    }
+
+    case OP_ENEMY_DIVISION: {
+      // sdlpal `script.c:009C`:仅当**恰 1 活敌**且 self.health>1 才分裂成 op0+1 份,
+      //   各 floor((self.health + w)/(w+1));不满足 → op1≠0 jump op1。
+      if (ctx.caster?.type !== 'enemy')
+        return { consumed: true }
+      const self = state.enemies[ctx.caster.idx]
+      if (!self)
+        return { consumed: true }
+      const aliveCount = state.enemies.filter(e => e.e.health > 0).length
+      if (aliveCount !== 1 || self.e.health <= 1) {
+        const failJump = operands[1] ?? 0
+        return failJump !== 0 ? { consumed: true, newIp: failJump } : { consumed: true }
+      }
+      let w = operands[0] ?? 0
+      if (w === 0)
+        w = 1
+      const x = w + 1
+      const newHealth = Math.floor((self.e.health + w) / x)
+      self.e.health = newHealth
+      const copies = Math.min(w, MAX_ENEMIES_IN_TEAM - state.enemies.length)
+      for (let k = 0; k < copies; k++) {
+        state.enemies.push({
+          e: { ...self.e, health: newHealth },
+          status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+          prevHp: newHealth,
+          scriptOnTurnStart: self.scriptOnTurnStart,
+          scriptOnBattleEnd: self.scriptOnBattleEnd,
+          scriptOnReady: self.scriptOnReady,
+          resistanceToSorcery: self.resistanceToSorcery ?? 0,
+          poisons: [],
+        })
+      }
+      return { consumed: true }
+    }
+
+    case OP_ENEMY_TRANSFORM: {
+      // sdlpal `script.c:009F`:iHidingTime<=0 且 self 非 睡眠/麻痹/混乱 → self 变身成 op0
+      //   (新 enemy object 的 stats,**保留当前 health**)。否则 no-op。
+      if (ctx.caster?.type !== 'enemy')
+        return { consumed: true }
+      const self = state.enemies[ctx.caster.idx]
+      const tables = ctx.summonTables
+      if (!self || !tables)
+        return { consumed: true }
+      const hiding = (state.iHidingTime ?? 0) > 0
+      const disabled = (self.status.sleep ?? 0) > 0 || (self.status.paralyzed ?? 0) > 0 || (self.status.confused ?? 0) > 0
+      if (hiding || disabled)
+        return { consumed: true }
+      const eo = tables.enemyObjects.find(o => o.objectIndex === (operands[0] ?? 0))
+      if (!eo)
+        return { consumed: true }
+      const base = tables.enemies.find(e => e.id === eo.enemyId)
+      if (!base)
+        return { consumed: true }
+      const keepHealth = self.e.health
+      self.e = { ...base, health: keepHealth }
+      self.scriptOnTurnStart = eo.scriptOnTurnStart
+      self.scriptOnReady = eo.scriptOnReady
+      self.scriptOnBattleEnd = eo.scriptOnBattleEnd
+      self.resistanceToSorcery = eo.resistanceToSorcery
       return { consumed: true }
     }
 
