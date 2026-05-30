@@ -16,7 +16,7 @@
  */
 
 import type { BattleCtx } from '../event-system.js'
-import { simulateMagic } from './magic-damage.js'
+import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
 
 /** SHORT cast(同 formulas.ts 私函)。 */
 function asShort(n: number): number {
@@ -34,6 +34,12 @@ const OP_INFLICT_DAMAGE = 0x0021
 
 /** sdlpal `script.c:0028` 0x0028:apply poison to enemy(抗性判定 + 去重,op1=poison id)。 */
 const OP_APPLY_POISON = 0x0028
+
+/** sdlpal `script.c:0057` 0x0057:set magic baseDamage = casterMP * (op1||8),清 casterMP(酒神)。 */
+const OP_SET_MAGIC_DAMAGE_BY_MP = 0x0057
+
+/** sdlpal `script.c:0088` 0x0088:set magic baseDamage = min(cash,5000)*2/5,扣 cash(乾坤一掷)。 */
+const OP_SET_MAGIC_DAMAGE_BY_MONEY = 0x0088
 
 /** sdlpal `script.c:005E` 0x005E:jump if enemy 无 op0 种毒 → op1。 */
 const OP_JUMP_IF_NO_POISON = 0x005E
@@ -200,6 +206,41 @@ export function dispatchBattleOpcode(
       const has = enemy?.poisons?.some(p => p.poisonId === (operands[0] ?? 0)) ?? false
       if (!has)
         return { consumed: true, newIp: operands[1] ?? 0 }
+      return { consumed: true }
+    }
+
+    case OP_SET_MAGIC_DAMAGE_BY_MP: {
+      // sdlpal `script.c:0057`:i = op1?op1:8; magic[rgObject[op0].magic.magicNumber].wBaseDamage
+      //   = casterMP * i; casterMP = 0。caster = wEventObjectID = 施法队员。酒神 scriptOnUse。
+      // 之后 performMagic 的 E1 inline 伤害读这个新 baseDamage 结算。
+      const tables = ctx.magicTables
+      const objMagic = tables ? resolveObjectMagic(operands[0] ?? 0, tables.objectMagics) : undefined
+      const magic = objMagic ? tables!.magics.find(m => m.id === objMagic.magicNumber) : undefined
+      if (!magic)
+        return { consumed: true }
+      const i = (operands[1] ?? 0) === 0 ? 8 : (operands[1] ?? 0)
+      let role
+      if (ctx.caster?.type === 'player' && ctx.playerRoles) {
+        const roleId = state.players[ctx.caster.idx]?.roleId
+        role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
+      }
+      magic.baseDamage = (role?.mp ?? 0) * i
+      if (role)
+        role.mp = 0
+      return { consumed: true }
+    }
+
+    case OP_SET_MAGIC_DAMAGE_BY_MONEY: {
+      // sdlpal `script.c:0088`:i = min(dwCash, 5000); dwCash -= i;
+      //   magic[..].wBaseDamage = i * 2 / 5。乾坤一掷 scriptOnUse。之后 E1 读新 baseDamage。
+      const tables = ctx.magicTables
+      const objMagic = tables ? resolveObjectMagic(operands[0] ?? 0, tables.objectMagics) : undefined
+      const magic = objMagic ? tables!.magics.find(m => m.id === objMagic.magicNumber) : undefined
+      if (!magic || !ctx.gs)
+        return { consumed: true }
+      const i = Math.min(ctx.gs.dwCash, 5000)
+      ctx.gs.dwCash -= i
+      magic.baseDamage = Math.floor((i * 2) / 5)
       return { consumed: true }
     }
 

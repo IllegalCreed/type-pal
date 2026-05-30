@@ -762,6 +762,8 @@ function performBattleAction(
         bus,
         commands: res.commands,
         runScript: getRunScript(gs),
+        objectMagics: res.objectMagics, // 0x57/0x88 scriptOnUse 解析 magic object id
+        gs, // 0x88 set magic damage by money 需 gs.dwCash
       })
       break
     }

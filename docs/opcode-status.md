@@ -5,7 +5,7 @@
 > **三表**:[feature-status](feature-status.md)(引擎功能)· opcode-status(事件 / opcode,本表)· [resource-status](resource-status.md)(资源提取)
 > **图例**:✅ done · ⚠️ partial(extraction 已收集目标,runtime 待)· ⬜ todo · N/A
 > **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra)· E=战斗 · S=系统/UI
-> **最后更新**:2026-05-30 — **E 类法术伤害结算 keystone + 0x66**:E1 inline 攻击法术伤害接进 performMagic(5 元素咒真伤害)+ 0x42 SimulateMagic + **0x66 throw weapon**(与 0x42 共用 simulateMagic)+ 投掷物全链(符/卵/武器)+ 补提取 rgObject(object-magics.json)。+ **0x68/0x91 jump** + **0x21 伤害** + **0x5B/0x39 HP** + **敌人毒 pipeline(0x28 apply + 0x5E check + postAction 毒 tick)**。剩余 D 类音频(需 M6)+ E 类其余战斗 opcode(0x60/0x9E/0x6B/0x30 等)。
+> **最后更新**:2026-05-30 — **E 类法术伤害结算 keystone + 0x66**:E1 inline 攻击法术伤害接进 performMagic(5 元素咒真伤害)+ 0x42 SimulateMagic + **0x66 throw weapon**(与 0x42 共用 simulateMagic)+ 投掷物全链(符/卵/武器)+ 补提取 rgObject(object-magics.json)。+ **0x68/0x91 jump** + **0x21 伤害** + **0x5B/0x39 HP** + **敌人毒 pipeline(0x28/0x5E/tick)** + **0x57/0x88 set-magic-damage**(performMagic 注入 scriptOnUse ctx → 改 baseDamage → E1 结算,酒神/乾坤一掷)。剩余 D 类音频(需 M6)+ E 类其余战斗 opcode(0x60/0x9E summon/0x6B/0x5C/0x30/0x6A steal/0x5A 等)。
 >
 > sdlpal 真值出处:`reference/sdlpal/script.c`(PAL_InterpretInstruction 587-3115 / PAL_RunTriggerScript 3140+ / PAL_RunAutoScript 3482+)。全集:控制流 0x00-0x0A + 数据/动作 0x0B-0xA6(不存在:0x32 / 0x48 / 0x72 / 0x9D)。
 
@@ -140,7 +140,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x39 | drain HP from enemy | ✅ enemy.health -= op0;movingPlayer.hp += op0(clamp maxHP)(script.c:0039)。吸星锁 scriptOnThrow:enemy=ctx.target,player=caster。battle-opcodes.ts |
 | 0x3A | player flee battle | |
 | 0x42 | simulate magic for player | ✅ PAL_BattleSimulateMagic(fight.c:5300)。op0=magic object id / op1=baseDamage(当 magStr)/ op2=target+1(0→eventObjectID)。applyToAll flag 优先→全体,否则 i=op2-1<0 用 eventObjectID / 仍<0 自动选首活敌;guard 无符号 `baseDamage>0‖op1>0`(magic96=−999 进但算 0);minDamage=0;共享 applyMagicDamage。battle-opcodes.ts;script.c:1630-1640。投掷物 scriptOnThrow ×40 站点全靠它 |
-| 0x57 | set magic base damage by MP | |
+| 0x57 | set magic base damage by MP | ✅ magic[op0→magicNumber].baseDamage = casterMP*(op1||8);清 casterMP(script.c:0057,酒神 scriptOnUse)。performMagic 注入 magicTables/playerRoles → 0x57 改 baseDamage → E1 inline 读新值结算。battle-opcodes.ts |
 | 0x5A | halve player HP | |
 | 0x5B | halve enemy HP | ✅ w=floor(health/2)+1,cap op0;health -= w(script.c:005B)。无影毒 scriptOnThrow:enemy=ctx.target。battle-opcodes.ts |
 | 0x5C | hide party for a while(battle) | g_Battle.iHidingTime=-op0(script.c:1907-1911)— 原误判 B,实为战斗态 |
@@ -154,7 +154,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x69 | enemy escape | |
 | 0x6A | steal from enemy | |
 | 0x6B | blow away enemies | |
-| 0x88 | set magic base damage by money | |
+| 0x88 | set magic base damage by money | ✅ i=min(dwCash,5000);dwCash-=i;magic[op0→mn].baseDamage=floor(i*2/5)(script.c:0088,乾坤一掷 scriptOnUse)。performMagic 注入 magicTables/gs → 0x88 改 baseDamage + 扣钱 → E1 全体结算。battle-opcodes.ts |
 | 0x89 | set battle result | |
 | 0x8A | enable auto-battle | |
 | 0x91 | jump if enemy not first of kind | ✅ 数同 wObjectID 敌人,self_pos>1(非首个)→ jump op0(script.c:2091)。ts 同种=同 e.id。用途:同种敌人组脚本只在第一个跑。真实数据 op0 全 0(→跳到 end)。battle-opcodes.ts,5 用 |

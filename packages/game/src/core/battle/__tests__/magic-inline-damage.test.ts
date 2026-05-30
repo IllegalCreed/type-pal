@@ -13,6 +13,8 @@
 import type { BattleField, Command, Enemy, Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
+import { runScript } from '../../event-system.js'
+import { createInitialGameState } from '../../game-state.js'
 import { createSeedableRng } from '../../rng.js'
 import { performMagic, type RunScriptFn } from '../actions/magic.js'
 import type { BattleState } from '../battle-state.js'
@@ -222,6 +224,32 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
       playerRoles, bus, commands, runScript: noopRunScript,
     })
     expect(state.enemies[0]!.e.health).toBe(100)
+  })
+
+  it('乾坤一掷:scriptOnUse 0x88 set baseDamage by cash → E1 全体伤害(全链)', () => {
+    const { state, playerRoles, bus } = makeState(
+      { mp: 30, magicStrength: 0 },
+      [{ health: 500, defense: 30, level: 5 }, { health: 500, defense: 30, level: 5 }],
+    )
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 1000
+    // ip1 = 0x88[394,0,0]
+    const cmds: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x88, operands: [394, 0, 0] }, { op: 'end' }]
+    const spell = makeSpell({ id: 394, magicNumber: 100, scriptOnUse: 1, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true } })
+    const magic = makeMagic({ id: 100, baseDamage: 0, elemental: 0, type: 'attackAll', costMP: 0 })
+    performMagic({
+      state, casterIsEnemy: false, casterIdx: 0, spellId: 394,
+      targetIsEnemy: true, targetIdx: 'all',
+      spells: [spell], magics: [magic],
+      playerRoles, bus, commands: cmds, runScript,
+      objectMagics: [{ id: 394, magicNumber: 100, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true } }],
+      gs,
+    })
+    // 0x88:cash 1000 → baseDamage floor(1000*2/5)=400,cash 0;
+    // E1:magStr0 → calcBase(0,74)=0 /4=0 +400=400(applyToAll → 全体)
+    expect(state.enemies[0]!.e.health).toBe(100) // 500-400
+    expect(state.enemies[1]!.e.health).toBe(100)
+    expect(gs.dwCash).toBe(0)
   })
 
   it('敌人施法 → 不走 inline path(player-only),enemy 不被自己打', () => {

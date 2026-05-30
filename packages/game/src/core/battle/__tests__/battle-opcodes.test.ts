@@ -367,6 +367,60 @@ describe('0x5E jump if enemy no poison (script.c:005E)', () => {
   })
 })
 
+// ============================================================================
+// 0x57 set magic dmg by MP / 0x88 set magic dmg by money(scriptOnUse 改 baseDamage)
+// ============================================================================
+
+function setDmgCtx(roleMp: number, cash: number, objectMagics: ObjectMagicView[], magics: Magic[]): BattleCtx {
+  return {
+    state: {
+      enemies: [],
+      players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+    } as any as BattleState,
+    caster: { type: 'player', idx: 0 },
+    magicTables: { magics, objectMagics },
+    // biome-ignore lint/suspicious/noExplicitAny: 只填 mp
+    playerRoles: { roles: [{ id: 0, mp: roleMp } as any] },
+    // biome-ignore lint/suspicious/noExplicitAny: 只填 dwCash
+    gs: { dwCash: cash } as any,
+  }
+}
+
+describe('0x57 set magic base damage by MP (script.c:0057,酒神)', () => {
+  it('magic.baseDamage = casterMP * (op1||8);casterMP 清 0', () => {
+    const magics = [magicStat(75, 3, 0)]
+    const ctx = setDmgCtx(100, 0, [objMagic(370, 75)], magics)
+    const r = dispatchBattleOpcode(0x57, [370, 0, 0], ctx) // op1=0 → i=8
+    expect(r.consumed).toBe(true)
+    expect(magics[0]!.baseDamage).toBe(800) // 100*8
+    expect(ctx.playerRoles!.roles[0]!.mp).toBe(0)
+  })
+  it('op1 显式倍率', () => {
+    const magics = [magicStat(75, 3, 0)]
+    dispatchBattleOpcode(0x57, [370, 5, 0], setDmgCtx(50, 0, [objMagic(370, 75)], magics))
+    expect(magics[0]!.baseDamage).toBe(250) // 50*5
+  })
+})
+
+describe('0x88 set magic base damage by money (script.c:0088,乾坤一掷)', () => {
+  it('magic.baseDamage = min(cash,5000)*2/5;扣 cash', () => {
+    const magics = [magicStat(100, 0, 0)]
+    const ctx = setDmgCtx(0, 1000, [objMagic(394, 100)], magics)
+    const r = dispatchBattleOpcode(0x88, [394, 0, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(magics[0]!.baseDamage).toBe(400) // 1000*2/5
+    expect(ctx.gs!.dwCash).toBe(0) // 扣 1000
+  })
+  it('cash > 5000 → cap 5000', () => {
+    const magics = [magicStat(100, 0, 0)]
+    const ctx = setDmgCtx(0, 8000, [objMagic(394, 100)], magics)
+    dispatchBattleOpcode(0x88, [394, 0, 0], ctx)
+    expect(magics[0]!.baseDamage).toBe(2000) // 5000*2/5
+    expect(ctx.gs!.dwCash).toBe(3000) // 8000-5000
+  })
+})
+
 describe('0x21 inflict damage to enemy (script.c:0021,梅花镖/银针 throw)', () => {
   it('单体(op0=0):ctx.target -op1', () => {
     const ctx = drainCtx(100, 0, 0, 0)

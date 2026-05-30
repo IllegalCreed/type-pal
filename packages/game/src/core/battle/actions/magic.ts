@@ -15,9 +15,10 @@
  * 通过 input.runScript + input.commands 注入(便于 unit test mock)。
  */
 
-import type { Command, Magic, PlayerRoles, Spell } from '@type-pal/shared'
+import type { Command, Magic, ObjectMagicView, PlayerRoles, Spell } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import type { RunScriptOptions } from '../../event-system.js'
+import type { GameState } from '../../game-state.js'
 import type { BattleState } from '../battle-state.js'
 import { applyMagicDamage } from '../magic-damage.js'
 
@@ -59,6 +60,13 @@ export interface PerformMagicInput {
   commands: Command[]
   /** EventSystem.runScript 注入(T17 free function)。 */
   runScript: RunScriptFn
+  /**
+   * object-magics.json —— scriptOnUse 里的 0x57/0x88(set magic damage)需经此解析
+   * op0(magic object id)→ magicNumber → magics[]。省略 → 空表(0x57/0x88 no-op)。
+   */
+  objectMagics?: ObjectMagicView[]
+  /** GameState —— scriptOnUse 里的 0x88(set magic damage by money)需 gs.dwCash。 */
+  gs?: GameState
 }
 
 /**
@@ -139,6 +147,12 @@ export function performMagic(input: PerformMagicInput): void {
           idx: input.casterIdx,
         },
         target: targetCtx,
+        // scriptOnUse 里 0x57/0x88(set magic damage by MP/money)需 magicTables(解析 op0
+        // → magicNumber → 改 baseDamage)+ playerRoles(caster MP)+ gs(cash)。
+        // 改后的 baseDamage 被下方 E1 inline 伤害读到(magicTables.magics === input.magics)。
+        magicTables: { magics: input.magics, objectMagics: input.objectMagics ?? [] },
+        playerRoles: input.playerRoles,
+        gs: input.gs,
       },
     })
   }
