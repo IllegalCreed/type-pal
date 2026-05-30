@@ -29,6 +29,9 @@ const OP_SIMULATE_MAGIC = 0x0042
 /** sdlpal `script.c:2007-2014` 0x0066:throw weapon —— 计算 w 后调同一 PAL_BattleSimulateMagic。 */
 const OP_THROW_WEAPON = 0x0066
 
+/** sdlpal `script.c:0021` 0x0021:inflict flat damage to enemy(op0!=0 全体,op1=damage)。 */
+const OP_INFLICT_DAMAGE = 0x0021
+
 /** sdlpal `script.c:005B` 0x005B:halve enemy HP(w=health/2+1,cap op0)。 */
 const OP_HALVE_ENEMY_HP = 0x005B
 
@@ -128,6 +131,23 @@ export function dispatchBattleOpcode(
         magics: tables.magics,
         rngFactor: 1 + state.rng.next() * 0.1,
       })
+      return { consumed: true }
+    }
+
+    case OP_INFLICT_DAMAGE: {
+      // sdlpal `script.c:0021`:op0!=0 → 全体敌人 health -= op1;否则单体(wEventObjectID=ctx.target)。
+      // 梅花镖/银针 scriptOnThrow 真伤害(0x42 是 0 伤害动画 sentinel)。毒系投掷物 + 毒 tick 也用。
+      const dmg = operands[1] ?? 0
+      if ((operands[0] ?? 0) !== 0) {
+        for (const e of state.enemies)
+          e.e.health = Math.max(0, e.e.health - dmg)
+      }
+      else {
+        const idx = ctx.target?.idx
+        const enemy = idx !== undefined ? state.enemies[idx] : undefined
+        if (enemy)
+          enemy.e.health = Math.max(0, enemy.e.health - dmg)
+      }
       return { consumed: true }
     }
 

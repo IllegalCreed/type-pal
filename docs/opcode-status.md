@@ -132,6 +132,7 @@ setDialogStyle 0x3B-0x3E。
 |----|------|------|
 | 0x30 | increase player stat temp by % | battle buff |
 | 0x31 | change battle sprite temp | |
+| 0x21 | inflict flat damage to enemy | ✅ **battle handler**(此前只 explore 主干):op0!=0 全体 / 否则单体(ctx.target),health -= op1 clamp≥0(script.c:0021)。梅花镖/银针 scriptOnThrow 真伤害(0x42=0 动画 sentinel,真伤靠这);毒 tick 也用。battle-opcodes.ts |
 | 0x33 | collect enemy for items | |
 | 0x34 | transform collected enemies to items | |
 | 0x38 | teleport party out of scene | |

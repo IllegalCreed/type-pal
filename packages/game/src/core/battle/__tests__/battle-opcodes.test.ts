@@ -268,6 +268,27 @@ function drainCtx(enemyHealth: number, targetIdx: number, roleHp: number, roleMa
   }
 }
 
+describe('0x21 inflict damage to enemy (script.c:0021,梅花镖/银针 throw)', () => {
+  it('单体(op0=0):ctx.target -op1', () => {
+    const ctx = drainCtx(100, 0, 0, 0)
+    const r = dispatchBattleOpcode(0x21, [0, 90, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(ctx.state.enemies[0]!.e.health).toBe(10) // 100-90
+    expect(ctx.state.enemies[1]!.e.health).toBe(100) // 未碰
+  })
+  it('全体(op0!=0):每个敌人 -op1', () => {
+    const ctx = drainCtx(100, 0, 0, 0)
+    dispatchBattleOpcode(0x21, [1, 50, 0], ctx)
+    expect(ctx.state.enemies[0]!.e.health).toBe(50)
+    expect(ctx.state.enemies[1]!.e.health).toBe(50)
+  })
+  it('clamp ≥0', () => {
+    const ctx = drainCtx(30, 0, 0, 0)
+    dispatchBattleOpcode(0x21, [0, 90, 0], ctx)
+    expect(ctx.state.enemies[0]!.e.health).toBe(0)
+  })
+})
+
 describe('0x5B halve enemy HP (script.c:005B,无影毒 throw)', () => {
   it('w = health/2+1,cap op0:health100 op0=30 → -30 = 70', () => {
     const ctx = drainCtx(100, 0, 0, 0)
