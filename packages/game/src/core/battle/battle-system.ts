@@ -57,6 +57,7 @@ import { createSeedableRng, type SeedableRng } from '../rng.js'
 import type { BattleSettlementScreen, LevelUpScreenData } from './battle-settlement.js'
 import { settlementScreenTimeoutMs } from './battle-settlement.js'
 import { performAttack } from './actions/attack.js'
+import { performAttackMate } from './actions/attack-mate.js'
 import { performDefend } from './actions/defend.js'
 import { performFlee } from './actions/flee.js'
 import { performItem } from './actions/item.js'
@@ -477,6 +478,15 @@ function tickSelectAction(
     return
   }
 
+  // B1/D8:失能(睡眠/麻痹/混乱)活队员自动填占位 action + 跳菜单
+  //   (sdlpal fight.c:1398-1404 不开菜单 + 1505-1527 queue 自动填 Attack id0;
+  //    perform 时再解算 Pass/AttackMate)。
+  autoFillIncapacitatedActions(state, alivePlayerIdxs)
+  // 当前选择若落在已自动填的失能队员上 → 跳到下一个待填活队员(或全填完 → wait)。
+  if (state.selectingPlayerIdx !== undefined && state.pendingActions.has(state.selectingPlayerIdx)) {
+    advanceSelectingPlayer(state, alivePlayerIdxs)
+  }
+
   // fAutoAttack 取消(sdlpal uibattle.c:827-829):auto 模式按 Menu → 关 auto,本 tick 改正常菜单。
   if (state.fAutoAttack && (input.pressed.has('Menu') || input.pressed.has('Cancel'))) {
     state.fAutoAttack = false
@@ -500,6 +510,8 @@ function tickSelectAction(
   const playerSlots = alivePlayerIdxs.map((i) => {
     const player = state.players[i]!
     const role = res.playerRoles.roles[player.roleId]!
+    // B1/D8:睡眠/麻痹队员 dex=0(排队尾;sdlpal fight.c:1513 "同回合恢复则物理攻,否则 Pass")
+    if (player.status.sleep > 0 || player.status.paralyzed > 0) return { idx: i, dex: 0 }
     // 简化版 PAL_GetPlayerDexterity:role.dexterity(SHORT)+ (level+6)*4
     // sdlpal `fight.c::PAL_GetPlayerDexterity` 还会加装备 modifier,M3 不实现
     const baseDex = role.dexterity + (role.level + 6) * 4
@@ -1068,6 +1080,22 @@ function commitDraftAsAction(state: BattleState, target: number, alivePlayerIdxs
 }
 
 /**
+ * B1/D8:对失能(睡眠/麻痹/混乱)活队员自动填占位 action(sdlpal fight.c:1505-1527 action
+ * queue 填充段)—— 这些队员**不开动作菜单**(fight.c:1398-1404 selectAction skip)。
+ * 占位用 `attack` actionId=0(sdlpal 1514/1524 同);perform 时按状态覆盖为 Pass / AttackMate
+ * (见 tickPerformAction)。已有 pendingAction 的队员不动(防覆盖 UI 选好的 / 重入)。
+ */
+function autoFillIncapacitatedActions(state: BattleState, alivePlayerIdxs: number[]): void {
+  for (const i of alivePlayerIdxs) {
+    if (state.pendingActions.has(i)) continue
+    const st = state.players[i]!.status
+    if (st.sleep > 0 || st.paralyzed > 0 || st.confused > 0) {
+      state.pendingActions.set(i, { type: 'attack', actionId: 0, target: 0 })
+    }
+  }
+}
+
+/**
  * advance 到下一个未填 action 的活队员(= sdlpal CommitAction 后 CheckReady+PlayerReady)。
  * 全填完 → uiState='wait'(主流程 size 检测切 performAction)。每次清 draft / select 网格。
  */
@@ -1526,7 +1554,20 @@ function tickPerformAction(
     const player = state.players[item.idx]
     if (player) {
       const role = res.playerRoles.roles[player.roleId]
-      if (role && role.hp > 0) action = state.pendingActions.get(item.idx)
+      if (role && role.hp > 0) {
+        action = state.pendingActions.get(item.idx)
+        // B1/D8:perform 时失能解算(sdlpal fight.c:1731-1747)——
+        //   睡眠/麻痹 → Pass;混乱 → 濒死?Pass : AttackMate(攻随机活友军)。
+        //   覆盖 pendingActions 里的占位 action(自动填的 attack id0)。
+        const st = player.status
+        if (st.sleep > 0 || st.paralyzed > 0) {
+          action = { type: 'pass', target: -1 }
+        } else if (st.confused > 0) {
+          action = isPlayerDying({ hp: role.hp, maxHP: role.maxHP })
+            ? { type: 'pass', target: -1 }
+            : { type: 'attack-mate', target: -1 }
+        }
+      }
     }
   }
 
@@ -1665,7 +1706,12 @@ function performBattleAction(
     }
 
     case 'pass':
-      // pass:no-op(enemy 死掉后 decideEnemyAction 返回的兜底)
+      // pass:no-op(enemy 死掉后 decideEnemyAction 返回的兜底 / 睡眠·麻痹·濒死混乱队员)
+      break
+
+    case 'attack-mate':
+      // B1/D8:混乱队员攻随机活友军(sdlpal fight.c:3760-3853)。caster=玩家;无活友军→Pass。
+      if (!actor.isEnemy) performAttackMate(state, actor.idx, bus, res.playerRoles)
       break
 
     case 'throw-item': {

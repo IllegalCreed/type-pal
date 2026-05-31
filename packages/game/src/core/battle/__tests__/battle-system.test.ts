@@ -498,6 +498,90 @@ describe('tickBattle finalize', () => {
 })
 
 // ============================================================================
+// B1 / D8 —— 失能玩家行为(sleep/paralyzed → Pass;confused → AttackMate)
+// ============================================================================
+
+describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-3853)', () => {
+  /** 手工构造 perform:只放某队员入 queue(隔离敌人行动)+ 推进到 postAction。 */
+  function drivePerformPlayerOnly(gs: GameState, bus: CommandBus, empty: InputSnapshot, playerIdx: number): void {
+    const st = gs.battleState!
+    st.phase = 'performAction'
+    st.actionQueue = [{ isEnemy: false, idx: playerIdx, dex: 100, fIsSecond: false }]
+    st.currentActionIndex = 0
+    st.pendingActions.set(playerIdx, { type: 'attack', actionId: 0, target: 0 })
+    let safety = 60
+    while (st.phase === 'performAction' && safety-- > 0) tickBattle(gs, empty, bus)
+  }
+
+  it('selectAction:睡眠队员自动填 action + 菜单跳过(不停在其身上)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1],
+      roles: [makeRole({ id: 0 }), makeRole({ id: 1 })],
+      enemies: [makeEnemy({ id: 100, health: 99999 })],
+    })
+    gs.battleState!.players[0]!.status.sleep = 2
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction(startPlayerSelection 0)
+    tickBattle(gs, emptyInput, bus) // selectAction tick → autoFill player0 + advance
+    expect(gs.battleState!.pendingActions.has(0)).toBe(true) // player0 自动填(失能)
+    expect(gs.battleState!.selectingPlayerIdx).toBe(1) // 菜单跳到 player1(未失能)
+  })
+
+  it('selectAction:睡眠/麻痹队员入 queue dex=0(排最后)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1],
+      roles: [makeRole({ id: 0 }), makeRole({ id: 1 })],
+      enemies: [makeEnemy({ id: 100, health: 99999 })],
+    })
+    gs.battleState!.players[0]!.status.paralyzed = 2
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.pendingActions.set(1, { type: 'defend', target: -1 }) // player1 正常选
+    tickBattle(gs, emptyInput, bus) // selectAction → performAction(build queue)
+    const item0 = gs.battleState!.actionQueue.find((q) => !q.isEnemy && q.idx === 0)
+    expect(item0?.dex).toBe(0) // 麻痹队员 dex=0(fight.c:1513)
+  })
+
+  it('perform:混乱队员 → AttackMate 攻随机活友军(45 伤害)', () => {
+    const ally = makeRole({ id: 1, hp: 200, defense: 0, level: 10 })
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1],
+      roles: [makeRole({ id: 0, hp: 200, attackStrength: 0, level: 10 }), ally],
+      enemies: [makeEnemy({ id: 100, health: 99999 })],
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.players[0]!.status.confused = 3
+    drivePerformPlayerOnly(gs, bus, emptyInput, 0)
+    expect(ally.hp).toBe(155) // str96/def64/res2 → 45;200-45
+  })
+
+  it('perform:混乱濒死队员 → Pass(不攻友军)', () => {
+    const ally = makeRole({ id: 1, hp: 200, defense: 0, level: 10 })
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1],
+      // player0 濒死:hp < min(100, maxHP/5)=min(100,40)=40
+      roles: [makeRole({ id: 0, hp: 30, maxHP: 200, attackStrength: 0, level: 10 }), ally],
+      enemies: [makeEnemy({ id: 100, health: 99999 })],
+    })
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.players[0]!.status.confused = 3
+    drivePerformPlayerOnly(gs, bus, emptyInput, 0)
+    expect(ally.hp).toBe(200) // 濒死混乱 → Pass,友军不掉血
+  })
+
+  it('perform:睡眠队员 → Pass(不攻敌)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0],
+      roles: [makeRole({ id: 0, hp: 200, attackStrength: 999, level: 10 })],
+      enemies: [makeEnemy({ id: 100, health: 99999, defense: 0 })],
+    })
+    tickBattle(gs, emptyInput, bus)
+    const enemyHpBefore = gs.battleState!.enemies[0]!.e.health
+    gs.battleState!.players[0]!.status.sleep = 3
+    drivePerformPlayerOnly(gs, bus, emptyInput, 0)
+    expect(gs.battleState!.enemies[0]!.e.health).toBe(enemyHpBefore) // 睡眠 Pass,敌不掉血
+  })
+})
+
+// ============================================================================
 // tickBattle —— defending 单轮失效
 // ============================================================================
 

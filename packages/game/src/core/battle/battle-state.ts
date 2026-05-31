@@ -142,6 +142,8 @@ export interface BattleAction {
     | 'item'
     | 'flee'
     | 'pass'
+    // B1/D8:混乱队员攻随机活友军(sdlpal kBattleActionAttackMate,fight.c:3760-3853)。
+    | 'attack-mate'
     | 'summon'
     | 'trance'
     | 'throw-item'
