@@ -8,7 +8,7 @@
  *  - tickBattle:selectAction 等 pendingActions 填好 → 进 performAction
  *  - tickBattle:performAction → postAction → 回 selectAction 推下一轮
  *  - tickBattle:enemy 死光 → won → finalize 切 explore + exp/cash 入账
- *  - tickBattle:队员死光 → lost → finalize 切 explore + hp=1
+ *  - tickBattle:队员死光 → lost → finalize 切 explore(不复活,死员 hp=0,靠 0x4E 读档恢复)
  *  - tickBattle:flee 成功 → fleed → finalize 切 explore(无 hp 改动)
  *  - tickBattle:phase stall > 1500 → 兜底切 explore
  *  - finalize 清 __battleResources + battleState
@@ -460,7 +460,7 @@ describe('tickBattle finalize', () => {
     expect(gs.Exp.rgPrimaryExp[0]!.wExp).toBe(0) // 余 0
   })
 
-  it('队员死光 → lost → finalize 切 explore + hp=1', () => {
+  it('队员死光 → lost → finalize 切 explore(不复活,hp 保持战斗结算 0;真死亡靠死亡脚本 0x4E 读档恢复)', () => {
     const role = makeRole({ id: 0, hp: 1, defense: 0, level: 1 })
     const { gs, bus, emptyInput } = bootstrap({
       roles: [role],
@@ -474,7 +474,9 @@ describe('tickBattle finalize', () => {
       tickBattle(gs, emptyInput, bus)
 
     expect(gs.mode).toBe('explore')
-    expect(role.hp).toBe(1) // M3 简版 lost 后回 1 hp
+    // sdlpal 战败不复活(script.c:3320 → 死亡脚本 0x4F 红屏 + 0x4E 读档)。删旧 M3"回 1 血"复活桩:
+    //   死员保持 hp=0,present 据此画倒下帧(修"起立");HP 由读档恢复存档值。
+    expect(role.hp).toBe(0)
   })
 
   it('flee 成功 → fleed → finalize 切 explore(无 hp 改动)', () => {

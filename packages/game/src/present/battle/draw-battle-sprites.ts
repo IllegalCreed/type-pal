@@ -234,15 +234,18 @@ export function confusedShakeDelta(rand01: number): number {
 }
 
 /**
- * 玩家战斗空闲帧 —— sdlpal `PAL_BattleUpdateFighters`(fight.c:961-984,CLASSIC):
- *   sleep != 0 或濒死 → 帧 1(濒死姿)/ 防御 → 帧 3 / else → 帧 0。
- *   (dead 帧 2 / puppet 帧 0 由 draw 上层 hp<=0 skip 处理;**confused 无特殊帧** → 0。)
- * 纯函数,可单测。仅空闲(无 battleAnim/fleeAnim 动画覆盖)时用。
+ * 玩家战斗空闲帧 —— sdlpal `PAL_BattleUpdateFighters`(fight.c:948-984,CLASSIC):
+ *   hp==0:非傀儡 → 帧 2(倒下死姿,fight.c:952);傀儡(死后仍可动)→ 帧 0(fight.c:956)。**死帧最高优先**。
+ *   hp>0:sleep != 0 或濒死 → 帧 1(濒死姿)/ 防御 → 帧 3 / else → 帧 0。
+ *   (**confused 无特殊帧** → 0。)
+ * 纯函数,可单测。仅空闲(无 battleAnim/fleeAnim 动画覆盖)时用;动画期由 battle-anim-driver 写 currentFrame。
  */
 export function computePlayerBattleIdleFrame(
-  player: { status: { sleep: number }; defending: boolean },
+  player: { status: { sleep: number; puppet?: number }; defending: boolean },
   role: { hp: number; maxHP: number },
 ): number {
+  // fight.c:948-957:死帧先判(优先于 sleep/濒死/防御)。傀儡 = 死后仍站立可动 → 帧 0。
+  if (role.hp <= 0) return (player.status.puppet ?? 0) > 0 ? 0 : 2
   if (player.status.sleep > 0 || isPlayerDyingFrame(role.hp, role.maxHP)) return 1
   if (player.defending) return 3
   return 0
@@ -322,14 +325,17 @@ export function drawBattleSprites(
   // 队员
   state.players.forEach((p, i) => {
     const role = playerRoles.roles[p.roleId]
-    if (!role || role.hp <= 0) return
+    // sdlpal fight.c:948-957:死员(hp==0)**照画**倒下帧 2(非傀儡)/ 站立帧 0(傀儡),**不**跳过。
+    //   旧版 `hp<=0 return` 让死员凭空消失 + 死亡定格露站立姿(user 报"起立");此处删 skip 改画死帧。
+    //   (注:本函数须收到**战斗 live roles**,非 static 满血基线 —— present-battle 传 getBattleResources().playerRoles。)
+    if (!role) return
     const pos = p.pos ?? computePlayerAnchor(state, i)
     if (!pos) return
     const sprite = battleSprites.get(`player-${role.spriteNumInBattle}`)
     if (!sprite || !sprite.frames[0]) return
-    // 帧号:动画 / 逃跑期间用 render-state currentFrame(攻击 8,9 / 受击 4 / 逃跑站立 0);
-    //   空闲(无 battleAnim/fleeAnim)据 status 算(sdlpal PAL_BattleUpdateFighters fight.c:961-984):
-    //   sleep 或濒死 → 1(濒死姿)/ 防御 → 3 / else → 0(confused 无特殊帧)。
+    // 帧号:动画 / 逃跑期间用 render-state currentFrame(攻击 8,9 / 受击 4 / 逃跑站立 0 / 死帧 2 由 anim-driver 写);
+    //   空闲(无 battleAnim/fleeAnim)据 status 算(sdlpal PAL_BattleUpdateFighters fight.c:948-984):
+    //   死(hp==0)→ 2/0 傀儡 / sleep 或濒死 → 1 / 防御 → 3 / else → 0(confused 无特殊帧)。
     const frameIdx = (state.battleAnim || state.fleeAnim)
       ? (p.currentFrame ?? 0)
       : computePlayerBattleIdleFrame(p, role)

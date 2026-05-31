@@ -160,7 +160,7 @@ describe('drawBattleSprites', () => {
     expect(fb.indices[79 * 320 + 160]).toBe(9)
   })
 
-  it('死亡队员不画;死亡敌方 deathFadeStep undefined(刚死未淡)→ 照常画', () => {
+  it('死亡队员画倒下帧(sdlpal fight.c:948-952,不再消失);死亡敌方 deathFadeStep undefined(刚死未淡)→ 照常画', () => {
     const fb = createFramebuffer()
     const role = minimalRole(0, { spriteNumInBattle: 1, hp: 0 })
     const playerRoles: PlayerRoles = { roles: [role] }
@@ -171,8 +171,9 @@ describe('drawBattleSprites', () => {
     const deadEnemy = minimalEnemy(50, 0)
     const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(deadEnemy)])
     drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0)
-    // 死亡队员 (159,148) 仍不画 = 0(注:sdlpal 死队员显 frame2 死尸,ts 暂不画 — 另列 follow-up)
-    expect(fb.indices[168 * 320 + 239]).toBe(0)
+    // 死亡队员 (239,168):hp==0 非傀儡 → 倒下帧 2(此单帧 fixture → fallback frames[0]=8)→ **照画**(修"起立":
+    //   旧版 hp<=0 skip 让死员凭空消失 + 死亡定格露站立姿)。
+    expect(fb.indices[168 * 320 + 239]).toBe(8)
     // 死亡敌方 (159,78):deathFadeStep undefined(刚被打死、淡出未开始)→ **照常画**(非瞬隐)
     expect(fb.indices[78 * 320 + 159]).toBe(9)
   })
@@ -687,10 +688,22 @@ describe('enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibatt
   })
 })
 
-describe('computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:961-984)', () => {
-  const P = (s: Partial<{ sleep: number }>, defending = false) =>
-    ({ status: { sleep: 0, ...s }, defending }) as { status: { sleep: number }; defending: boolean }
+describe('computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984)', () => {
+  const P = (s: Partial<{ sleep: number; puppet: number }>, defending = false) =>
+    ({ status: { sleep: 0, puppet: 0, ...s }, defending }) as { status: { sleep: number; puppet: number }; defending: boolean }
   const R = (hp: number, maxHP = 200) => ({ hp, maxHP })
+
+  // sdlpal fight.c:948-957:hp==0 非傀儡 → 帧2(倒下死姿);傀儡(死后仍可动)→ 帧0 站立。死帧优先于眠/濒死/防御。
+  it('hp==0 非傀儡 → 帧2(倒下死姿)', () => {
+    expect(computePlayerBattleIdleFrame(P({}), R(0))).toBe(2)
+  })
+  it('hp==0 + 傀儡 → 帧0(站立)', () => {
+    expect(computePlayerBattleIdleFrame(P({ puppet: 5 }), R(0))).toBe(0)
+  })
+  it('hp==0 即使 sleep/defend 也优先死帧2(死帧最高优先,fight.c:948 先判)', () => {
+    expect(computePlayerBattleIdleFrame(P({ sleep: 3 }), R(0))).toBe(2)
+    expect(computePlayerBattleIdleFrame(P({}, true), R(0))).toBe(2)
+  })
 
   it('sleep>0 → 帧1(濒死姿)', () => {
     expect(computePlayerBattleIdleFrame(P({ sleep: 2 }), R(200))).toBe(1)

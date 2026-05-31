@@ -149,6 +149,15 @@ function getBattleResources(gs: GameState): BattleResources | undefined {
   return (gs as unknown as Record<string, BattleResources | undefined>)[BATTLE_RESOURCES_KEY]
 }
 
+/**
+ * 取战斗中**实时**队员 roles —— 伤害 / 死亡(hp→0)持久写于此份(projectRuntimeToBattleRoles 投影,
+ * 含装备 effect)。**present 精灵 / UI 必须读这份**,不能读 bootstrap 的 static 满血基线
+ * (`battleAssets.playerRoles`)——否则死员仍按满血画站立帧(user 报"起立")。无战斗时 undefined。
+ */
+export function getBattleLiveRoles(gs: GameState): BattleResources['playerRoles'] | undefined {
+  return getBattleResources(gs)?.playerRoles
+}
+
 /** 设置战斗资源(startBattle 用)。 */
 function setBattleResources(gs: GameState, res: BattleResources | undefined): void {
   ;(gs as unknown as Record<string, BattleResources | undefined>)[BATTLE_RESOURCES_KEY] = res
@@ -2064,13 +2073,9 @@ function finalizeBattle(
 
   // won 走结算演出(buildBattleWonSettlement + tickBattleSettlement),不经此函数;此处只处理
   // lost / fleed / forced(watchdog 强退)。回写 HP/MP 战果 → runtime(伤害/治疗持久化 + 存档对齐)。
-  if (!forced && state.phase === 'lost') {
-    // 全员 hp=1(M3 简版,M5 真做 game over)→ 回写 runtime 持久化"全灭→1血"。
-    for (const playerIdx of gs.partyMembers) {
-      const role = res.playerRoles.roles[playerIdx]
-      if (role) role.hp = 1
-    }
-  }
+  // sdlpal 战败**不复活**:script.c:3320 战败 → 死亡脚本(0x4F 红屏 + 0x4E 读档恢复存档)。
+  //   旧 M3 简版在此把全员 hp 重置为 1(伪复活)→ 死员变"活着站立"(配合渲染读 live roles = "起立")。
+  //   已删。死员保持 hp=0,present 据此画倒下帧;真正恢复靠 0x4E 读档。
   writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
   // forced(watchdog 强退)按"胜"接回(续跑下一条);否则按 phase 分支(lost→op[1] / fleed→op[2])。
   finalizeBattleCleanup(gs, forced ? 'won' : (state.phase === 'lost' ? 'lost' : 'fled'))

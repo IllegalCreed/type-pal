@@ -29,6 +29,7 @@
 import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
+import { getBattleLiveRoles } from '../../core/battle/battle-system.js'
 import type { BusEntry } from '../../core/command-bus.js'
 import type { GameState } from '../../core/game-state.js'
 import type { GlyphTable } from '../font.js'
@@ -151,12 +152,16 @@ export class BattlePresent {
     const bg = assets.battleBgs.get(state.field.id)
     if (bg) drawBattleBg(fb, bg)
 
-    // 3. 双方精灵(死亡的不画;sprite 缺资源跳过)
+    // 战斗实时 roles(伤害/死亡写于此;死员据此画倒下帧)。无战斗资源(单测/兜底)→ static 基线。
+    //   修"起立":精灵 + UI 都读 live,死员 hp==0 → 倒下帧 2(draw-battle-sprites)/ HP 条显实时血。
+    const liveRoles = getBattleLiveRoles(gs) ?? assets.playerRoles
+
+    // 3. 双方精灵(死员画倒下帧 2,不再凭空消失;sprite 缺资源跳过)
     drawBattleSprites(
       fb,
       state,
       assets.battleSprites,
-      assets.playerRoles,
+      liveRoles,
       assets.enemyPos,
       currentFrame,
     )
@@ -181,7 +186,7 @@ export class BattlePresent {
 
     // 5. UI overlay(4 图标主菜单 / 杂项盒 / 物品二级 / 法术物品网格 / target 箭头 / HP/MP 状态栏)
     drawBattleUI(
-      fb, state, assets.playerRoles, assets.spells, assets.items, gs, assets.glyphs,
+      fb, state, liveRoles, assets.spells, assets.items, gs, assets.glyphs,
       assets.uiSpriteFrames, assets.enemyPos, assets.objectPoisons,
     )
 
