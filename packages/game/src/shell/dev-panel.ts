@@ -286,8 +286,13 @@ function openPicker(deps: DevPanelDeps): void {
   spellTestBtn.addEventListener('click', () => {
     closePicker()
     const inBattleSpells = deps.resources.spells.filter(s => s.flags.usableInBattle).map(s => s.id)
+    // rgwMagic 硬上限 32 槽(MAX_PLAYER_MAGICS)→ 装不下全 100 个 in-battle 法术。取**末 32**(高级法术,
+    //   含飞龙探云手 id377 偷取 / 夺魂 等),再保证飞龙探云手在内(prepend 去重)。
+    //   **key 必须是 `magic`**(PlayerRole 真字段;hydratePlayerRolesRuntime 读 role.magic → rgwMagic →
+    //   战斗投影 → 法术菜单)。原 `learnedSpells` 是无效字段(Object.assign 后没人读)→ 进战斗只剩默认气疗术。
+    const learned = [...new Set([377, ...inBattleSpells.slice(-31)])].slice(0, 32)
     const makeOverride = (): Partial<Record<string, number | number[]>> => ({
-      learnedSpells: [...inBattleSpells],
+      magic: [...learned],
       level: 99,
       hp: 9999,
       maxHP: 9999,
