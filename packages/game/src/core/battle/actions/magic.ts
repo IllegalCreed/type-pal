@@ -15,7 +15,7 @@
  * 通过 input.runScript + input.commands 注入(便于 unit test mock)。
  */
 
-import type { Command, Magic, ObjectMagicView, PlayerRoles, Spell } from '@type-pal/shared'
+import type { Command, Item, Magic, ObjectMagicView, PlayerRoles, Spell } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
@@ -66,6 +66,8 @@ export interface PerformMagicInput {
   spells: Spell[]
   /** magics 表(magic.json),Spell.magicNumber 指向其索引/id。 */
   magics: Magic[]
+  /** items 表 —— scriptOnSuccess 的 0x6A 偷取成功"获得 物品名"提示需按 id 取名;省略 → 偷物提示退化为通用文案。 */
+  items?: Item[]
   /** PlayerRoles(扣 MP 用)。 */
   playerRoles: PlayerRoles
   /** Present 命令通道(emit playMagicAnim)。 */
@@ -186,6 +188,7 @@ export function performMagic(input: PerformMagicInput): void {
         magicTables: { magics: input.magics, objectMagics: input.objectMagics ?? [] },
         playerRoles: input.playerRoles,
         gs: input.gs,
+        items: input.items, // 0x6A 偷取成功"获得 物品名"提示需 item 名
       },
     })
   }

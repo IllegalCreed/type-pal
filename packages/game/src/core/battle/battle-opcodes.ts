@@ -16,6 +16,8 @@
  */
 
 import type { BattleCtx } from '../event-system.js'
+import { buildStealTimeline } from './anim-timeline.js'
+import { startBattleAnim } from './battle-anim-driver.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
 
 /** SHORT cast(同 formulas.ts 私函)。 */
@@ -524,6 +526,11 @@ export function dispatchBattleOpcode(
       const enemy = idx !== undefined ? state.enemies[idx] : undefined
       if (!enemy || !ctx.gs)
         return { consumed: true }
+      // 偷窃动画(fight.c:5218-5246):caster=偷窃队员,冲到敌前 5 步 + 敌闪白。
+      const casterIdx = ctx.caster?.type === 'player' ? ctx.caster.idx : undefined
+      if (ctx.bus && casterIdx !== undefined && idx !== undefined && enemy.posOriginal) {
+        startBattleAnim(state, buildStealTimeline(casterIdx, idx, enemy.posOriginal), ctx.bus)
+      }
       const stealRate = operands[0] ?? 0
       // sdlpal && 左短路:nStealItem<=0 时不抽 RandomLong
       if ((enemy.e.stealItemCount ?? 0) > 0) {
@@ -534,6 +541,14 @@ export function dispatchBattleOpcode(
             const c = Math.trunc(enemy.e.stealItemCount / state.rng.rangeInclusive(2, 3))
             enemy.e.stealItemCount -= c
             ctx.gs.dwCash += c
+            // 偷取成功提示 —— CLASSIC 真值 fight.c:5267-5296 `PAL_StartDialog(kDialogCenterWindow)
+            //   + PAL_ShowDialogText`(**非 banner**;banner 那条在 `#ifndef PAL_CLASSIC` text.c:1671)。
+            //   推 battleDialogQueue narration(= kDialogCenterWindow 居中单行阴影框,跟大世界"获得XX"
+            //   同一 UI,drawNarrationDialog)。`@` toggle 红(text.c:1504-1516);WORD34 获得 / WORD10 文钱。
+            //   tickBattleDialog 的 `!battleAnim` 守卫让此框在偷窃冲刺动画播完后才显示(对齐 sdlpal
+            //   先 5218-5251 动画后 5288-5296 对话)。
+            state.battleDialogQueue ??= []
+            state.battleDialogQueue.push({ text: `@获得 @${c} @文钱@`, style: 'narration', clearBefore: true })
           } else {
             // 偷物:nStealItem--; AddItem(wStealItem,1)
             enemy.e.stealItemCount--
@@ -543,6 +558,10 @@ export function dispatchBattleOpcode(
               entry.count = Math.min(99, entry.count + 1)
             else
               ctx.gs.inventory.push({ itemId, count: 1 })
+            // 偷取成功提示居中框"获得 物品名"(同偷钱;sdlpal "%ls@%ls@" → 获得 默认色 + 物品名红)。
+            const name = ctx.items?.find((it) => it.id === itemId)?._name ?? '道具'
+            state.battleDialogQueue ??= []
+            state.battleDialogQueue.push({ text: `获得@${name}@`, style: 'narration', clearBefore: true })
           }
         }
       }

@@ -24,7 +24,7 @@
  *    等真撞到 raw + console.debug 看到 opcode 号再补。
  */
 
-import type { Command, Enemy, EnemyObject, InputSnapshot, Magic, ObjectMagicView, ObjectPoisonView, Palette, PlayerRoles } from '@type-pal/shared'
+import type { Command, Enemy, EnemyObject, InputSnapshot, Item, Magic, ObjectMagicView, ObjectPoisonView, Palette, PlayerRoles } from '@type-pal/shared'
 import { FPS_EXPLORE } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
@@ -860,6 +860,8 @@ export interface BattleCtx {
    * 由 enemy scriptOnReady 的 runScript 注入(battle-system tickPerformAction)。
    */
   summonTables?: { enemies: Enemy[], enemyObjects: EnemyObject[] }
+  /** 0x6A 偷取成功"获得 物品名"提示需 items(按 stealItem id 取 _name)—— performMagic 注入。 */
+  items?: Item[]
 }
 
 /** runScript 入口选项(M3 T17;T20/T21 caller 填)。 */

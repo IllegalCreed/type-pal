@@ -1111,6 +1111,30 @@ describe('0x6A steal from enemy (fight.c:5193)', () => {
     expect(ctx.gs!.inventory).toEqual([])
   })
 
+  it('偷钱成功 → battleDialogQueue 居中框"获得 N 文钱"(fight.c:5267-5296 CenterWindow,@红 text.c:1504)', () => {
+    const enemy = richEnemy({ stealItem: 0, stealItemCount: 100 })
+    const ctx = stealCtx(enemy, fakeRng(3, 2), 500) // c=trunc(100/2)=50
+    dispatchBattleOpcode(0x6A, [5, 0, 0], ctx)
+    const q = ctx.state.battleDialogQueue ?? []
+    expect(q.length).toBe(1)
+    expect(q[0]).toMatchObject({ text: '@获得 @50 @文钱@', style: 'narration', clearBefore: true })
+  })
+
+  it('偷物成功 + items → battleDialogQueue 居中框"获得 物品名"', () => {
+    const enemy = richEnemy({ stealItem: 42, stealItemCount: 2 })
+    // biome-ignore lint/suspicious/noExplicitAny: 最小 items
+    const ctx = { ...stealCtx(enemy, fakeRng(3)), items: [{ id: 42, _name: '金创药' }] as any }
+    dispatchBattleOpcode(0x6A, [5, 0, 0], ctx)
+    expect(ctx.state.battleDialogQueue?.[0]).toMatchObject({ text: '获得@金创药@', style: 'narration' })
+  })
+
+  it('偷取失败 → 不入对话队列(sdlpal 仅成功显示)', () => {
+    const enemy = richEnemy({ stealItem: 42, stealItemCount: 2 })
+    const ctx = stealCtx(enemy, fakeRng(8)) // roll=8 > rate=2 失败
+    dispatchBattleOpcode(0x6A, [2, 0, 0], ctx)
+    expect(ctx.state.battleDialogQueue ?? []).toHaveLength(0)
+  })
+
   it('nStealItem==0 → 无可偷,无变化', () => {
     const enemy = richEnemy({ stealItem: 42, stealItemCount: 0 })
     const ctx = stealCtx(enemy, fakeRng(0), 500)

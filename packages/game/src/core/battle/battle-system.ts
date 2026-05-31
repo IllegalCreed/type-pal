@@ -358,7 +358,15 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 
   // 战斗内对话 hold(phase-agnostic):战斗脚本 0xFFFF showDialog 收集的队列逐 tick 喂进
   //   复用的大世界 gs.dialogBox + 等键/1.4s,期间暂停战斗(忠实 sdlpal PAL_ShowDialogText 同步 blocking)。
-  if (tickBattleDialog(state, gs, input)) return
+  //
+  // **排序守卫(!battleAnim)**:ts 把脚本里的动画(battleAnim)与对话(battleDialogQueue)分两条
+  //   异步队列,丢了 sdlpal 脚本顺序执行的"动画 blocking → 对话 blocking"次序。这些**结果消息**
+  //   (偷取"获得X"fight.c:5288 在 5218 动画后、法术失败"没有效果"在施法特效后)真值都在动画**之后**。
+  //   故 battleAnim active 时**不**起新对话(让动画先播完)——动画完(tickPerformAction 清 battleAnim)
+  //   下 tick 才放对话。已显示中的 box(gs.dialogBox)不受影响:对话 blocking 时 tickPerformAction
+  //   不跑 → 不会有 battleAnim 与 active box 并存。turnStart/scriptReady 的**前置**对话入队时无
+  //   battleAnim,照旧立即显示(各自早退,见 372/1637),不被本守卫推迟。
+  if (!state.battleAnim && tickBattleDialog(state, gs, input)) return
 
   // D11b 胜利结算演出 hold(phase-agnostic):active → 逐屏显示升级/学法术,暂停战斗推进,
   //   放完 → finishBattleWon → explore(忠实 PAL_BattleWon 多屏 PAL_WaitForAnyKey)。
@@ -1794,6 +1802,7 @@ function performBattleAction(
         targetIdx,
         spells: res.spells,
         magics: res.magics,
+        items: res.items, // 0x6A 偷取成功"获得 物品名"提示需 item 名
         playerRoles: res.playerRoles,
         bus,
         commands: res.commands,

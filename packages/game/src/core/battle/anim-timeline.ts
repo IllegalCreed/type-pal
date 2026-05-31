@@ -58,6 +58,34 @@ export function buildFleeFailTimeline(playerIdx: number, startPos: { x: number, 
   return frames
 }
 
+/**
+ * 偷窃动画(sdlpal fight.c:5218-5246,PAL_BattleStealFromEnemy 动画段):
+ *   玩家 frame 10(偷窃姿);offset=(target-player)*8;冲到敌前 (enemy.x+64-offset, enemy.y+22+offset) Delay(1);
+ *   5 步逼近:每步 x-=(i+8) y-=4,第 5 步(i==4)敌 iColorShift=6 闪白,各 Delay(1);
+ *   收尾:敌 iColorShift=0,x--,Delay(3)。enemyPos = 目标敌 posOriginal(底锚)。
+ */
+export function buildStealTimeline(playerIdx: number, targetEnemyIdx: number, enemyPos: { x: number, y: number }): BattleAnimFrame[] {
+  const offset = (targetEnemyIdx - playerIdx) * 8
+  let x = enemyPos.x + 64 - offset
+  let y = enemyPos.y + 22 + offset
+  const frames: BattleAnimFrame[] = [
+    { durationMs: delayMs(1), fighters: [{ side: 'player', idx: playerIdx, currentFrame: 10, pos: { x, y } }] },
+  ]
+  for (let i = 0; i < 5; i++) {
+    x -= i + 8
+    y -= 4
+    const fighters: FighterDelta[] = [{ side: 'player', idx: playerIdx, currentFrame: 10, pos: { x, y } }]
+    if (i === 4) fighters.push({ side: 'enemy', idx: targetEnemyIdx, iColorShift: 6 }) // 敌闪白
+    frames.push({ durationMs: delayMs(1), fighters })
+  }
+  x -= 1
+  frames.push({
+    durationMs: delayMs(3),
+    fighters: [{ side: 'player', idx: playerIdx, pos: { x, y } }, { side: 'enemy', idx: targetEnemyIdx, iColorShift: 0 }],
+  })
+  return frames
+}
+
 export interface BuildPlayerAttackInput {
   /** 攻击者站立底锚(g_rgPlayerPos[count-1][playerIdx])。 */
   attackerPos: { x: number; y: number }
