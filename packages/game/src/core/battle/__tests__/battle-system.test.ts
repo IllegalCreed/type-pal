@@ -594,6 +594,31 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     expect(role.hp).toBeLessThan(200)
   })
 
+  it('打死最后一个敌人后,后续我方角色不再行动(sdlpal fEnemyCleared 中止剩余 queue)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1],
+      roles: [makeRole({ id: 0, attackStrength: 100, hp: 200 }), makeRole({ id: 1, attackStrength: 100, hp: 200 })],
+      enemies: [makeEnemy({ id: 100, health: 1, defense: 0 })], // 一击必死
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    const st = gs.battleState!
+    // 手工队列:p0 先攻、p1 后攻,都打 enemy0;p0 一击秒杀 → p1 不应再攻
+    st.phase = 'performAction'
+    st.uiState = 'hidden'
+    st.actionQueue = [
+      { isEnemy: false, idx: 0, dex: 200, fIsSecond: false },
+      { isEnemy: false, idx: 1, dex: 100, fIsSecond: false },
+    ]
+    st.currentActionIndex = 0
+    st.pendingActions.set(0, { type: 'attack', target: 0 })
+    st.pendingActions.set(1, { type: 'attack', target: 0 })
+    let safety = 300
+    while (st.phase === 'performAction' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    const attacks = bus.drain().filter((e) => e.cmd.op === 'playPlayerAttack')
+    expect(attacks.length).toBe(1) // 只 p0 攻击一次;p1 被全敌清空中止(bug 时 = 2)
+    expect(attacks[0]!.cmd).toMatchObject({ playerIdx: 0 })
+  })
+
   it('perform:睡眠队员 → Pass(不攻敌)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       partyMembers: [0],

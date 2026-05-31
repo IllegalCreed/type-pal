@@ -1505,6 +1505,23 @@ function tickPerformAction(
     return
   }
 
+  // sdlpal `PAL_BattleStartFrame`(fight.c:1116-1152):每帧**先**检 fEnemyCleared(全敌死→won)
+  //   / fEnded(全队员死 puppet 除外→lost),命中即 return,**不再处理剩余 action queue**。
+  //   ts 对齐(修 user 实测:本轮第一个角色打死最后敌人后,后续我方角色仍继续攻击)——
+  //   放在 battleAnim hold 之后(杀敌动画播完)+ tickBattleFade 死亡淡出 hold 在 tickBattle 顶层
+  //   已先于本函数(淡出完才到此)→ 此处判全死并中止队列,转 postAction 由其定 won/lost。
+  if (state.actionQueue.length > 0) {
+    const anyEnemyAlive = state.enemies.some((e) => e.e.health > 0)
+    const anyPlayerAlive = state.players.some(
+      (p) => (res.playerRoles.roles[p.roleId]?.hp ?? 0) > 0,
+    )
+    if (!anyEnemyAlive || !anyPlayerAlive) {
+      state.phase = 'postAction'
+      state.phaseStallTicks = 0
+      return
+    }
+  }
+
   if (state.currentActionIndex >= state.actionQueue.length) {
     state.phase = 'postAction'
     state.phaseStallTicks = 0
