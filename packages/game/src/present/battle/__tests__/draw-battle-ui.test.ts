@@ -277,7 +277,7 @@ describe('drawBattleUI(新模型 1:1)', () => {
     expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
   })
 
-  it('selectTargetEnemy —— 选中敌人上方画箭头(不抛,有写入)', () => {
+  it('selectTargetEnemy —— 无箭头(选中敌人由 sprite 层 ColorShift 高亮),只画主菜单图标(不抛,有写入)', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
     const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50)), mkBattleEnemy(minimalEnemy(51))], {
@@ -297,7 +297,7 @@ describe('drawBattleUI(新模型 1:1)', () => {
     expect(fbHasWrites(fb)).toBe(true)
   })
 
-  it('selectTargetEnemyAll —— 全体敌人画箭头(不抛)', () => {
+  it('selectTargetEnemyAll —— 无箭头(全体敌人 sprite 层 ColorShift 高亮),只画主菜单图标(不抛)', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
     const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50)), mkBattleEnemy(minimalEnemy(51))], {

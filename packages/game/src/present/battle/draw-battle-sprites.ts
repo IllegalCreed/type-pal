@@ -200,6 +200,25 @@ export function blitFrameDeathFade(
  *   - 我方:`player-${spriteNumInBattle}`
  *   - 敌方:`enemy-${enemy.e.id}`
  */
+/** sdlpal `s_iFrame & 1` 等价(同 draw-battle-ui arrowBlinkRed):敌方 target 高亮 / 箭头闪烁 toggle。 */
+function battleSelectBlinkOn(): boolean {
+  return (Math.floor(Date.now() / 40) & 1) === 1
+}
+
+/**
+ * 敌方 target 选择时该敌人的 ColorShift 高亮值 —— sdlpal `uibattle.c:1495-1510`(PAL_CLASSIC):
+ *   kBattleUISelectTargetEnemy / EnemyAll 在 `s_iFrame & 1`(blinkOn)帧对**选中敌人**(单体:iSelectedIndex;
+ *   全体:每个活敌)`PAL_RLEBlitWithColorShift(sprite, pos, 7)` 重 blit 高亮。**无箭头**(箭头是 ts 旧错实现)。
+ * 纯函数(blinkOn 作参数 → 可确定性单测)。返回 7 = 高亮,0 = 不高亮。
+ */
+export function enemyTargetHighlightShift(state: BattleState, enemyIdx: number, blinkOn: boolean): number {
+  if (!blinkOn) return 0
+  if ((state.enemies[enemyIdx]?.e.health ?? 0) <= 0) return 0
+  if (state.uiState === 'selectTargetEnemyAll') return 7
+  if (state.uiState === 'selectTargetEnemy') return enemyIdx === state.uiCursor ? 7 : 0
+  return 0
+}
+
 export function drawBattleSprites(
   fb: Framebuffer,
   state: BattleState,
@@ -208,6 +227,7 @@ export function drawBattleSprites(
   enemyPos: EnemyPosTable | undefined,
   currentFrame: number,
 ): void {
+  const targetBlinkOn = battleSelectBlinkOn()
   // D17a:把双方收集成一个 draw 列表 → Y 升序(平局 X 降序)排序 → 逐条 blit。
   // 对照 sdlpal `battle.c:434-469 PAL_BattleSortSpritesByY`:Y 小的先画(靠后),
   // Y 相等时 X 大的先画;后画的盖前 → 屏幕下方 / 左侧 sprite 在上。
@@ -253,12 +273,14 @@ export function drawBattleSprites(
       )
     }
     const frame = sprite.frames[frameIdx] ?? sprite.frames[0]!
+    // 敌方 target 选择高亮(sdlpal uibattle.c:1495-1510,ColorShift 7,无箭头)优先于受击闪白。
+    const highlight = enemyTargetHighlightShift(state, i, targetBlinkOn)
     items.push({
       x: pos.x,
       y: pos.y,
       frame,
-      // 淡出中 iColorShift 归 0(crossfade 自带渐隐);否则用 render-state(受击闪白 6)。
-      iColorShift: isFading ? 0 : (enemy.iColorShift ?? 0),
+      // 淡出中 iColorShift 归 0(crossfade 自带渐隐);target 高亮 7 优先;否则 render-state(受击闪白 6)。
+      iColorShift: isFading ? 0 : (highlight !== 0 ? highlight : (enemy.iColorShift ?? 0)),
       fadeStep: isFading ? fadeStep : -1,
     })
   })

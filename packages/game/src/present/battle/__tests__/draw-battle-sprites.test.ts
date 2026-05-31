@@ -8,6 +8,7 @@ import {
   computeIdleFrameIndex,
   DEATH_FADE_TOTAL_STEPS,
   drawBattleSprites,
+  enemyTargetHighlightShift,
   type SpriteAsset,
   type SpriteFrame,
 } from '../draw-battle-sprites.js'
@@ -652,5 +653,34 @@ describe('drawBattleSprites — 敌人 idle 帧轮播(D17c)', () => {
     const fb = createFramebuffer()
     expect(() => drawBattleSprites(fb, state, sprites, playerRoles, undefined, 1)).not.toThrow()
     expect(fb.indices[78 * 320 + 159]).toBe(33) // fallback frames[0]
+  })
+})
+
+describe('enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510)', () => {
+  const mk = (uiState: string, uiCursor: number, healths: number[]): BattleState =>
+    ({
+      uiState,
+      uiCursor,
+      enemies: healths.map((h) => ({ e: { health: h } })),
+    }) as unknown as BattleState
+
+  it('blinkOn=false → 恒 0(blink off 帧不高亮,sprite 正常)', () => {
+    expect(enemyTargetHighlightShift(mk('selectTargetEnemy', 0, [100]), 0, false)).toBe(0)
+  })
+  it('selectTargetEnemy:选中敌人(idx===uiCursor)+ 活 + blinkOn → 7,非选中 → 0', () => {
+    const s = mk('selectTargetEnemy', 1, [100, 100])
+    expect(enemyTargetHighlightShift(s, 1, true)).toBe(7)
+    expect(enemyTargetHighlightShift(s, 0, true)).toBe(0)
+  })
+  it('selectTargetEnemyAll:每个活敌 blinkOn → 7', () => {
+    const s = mk('selectTargetEnemyAll', 0, [100, 100])
+    expect(enemyTargetHighlightShift(s, 0, true)).toBe(7)
+    expect(enemyTargetHighlightShift(s, 1, true)).toBe(7)
+  })
+  it('死敌(health<=0)→ 0(不高亮)', () => {
+    expect(enemyTargetHighlightShift(mk('selectTargetEnemyAll', 0, [0, 100]), 0, true)).toBe(0)
+  })
+  it('非 target 选择阶段(selectMove)→ 0', () => {
+    expect(enemyTargetHighlightShift(mk('selectMove', 0, [100]), 0, true)).toBe(0)
   })
 })

@@ -48,8 +48,11 @@ const UI_TEXT_COLOR = 1
 
 // ── sdlpal SPRITEUI frame 真值 ──────────────────────────────────────────────
 const SPRITENUM_BATTLEICON_ATTACK = 40
+// sdlpal uibattle.h:61-65 箭头精灵帧:目标选中(SELECTEDPLAYER 67 / 红 66)、当前行动队员(CURRENTPLAYER 69 / 红 68)。
 const SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER = 67
 const SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER_RED = 66
+const SPRITENUM_BATTLE_ARROW_CURRENTPLAYER = 69
+const SPRITENUM_BATTLE_ARROW_CURRENTPLAYER_RED = 68
 const SPRITENUM_CURSOR = 69
 const SPRITENUM_SLASH = 39
 const SPRITENUM_PLAYERINFOBOX = 18 // 队员信息框背景(uibattle.h:SPRITENUM_PLAYERINFOBOX)
@@ -122,10 +125,10 @@ const PARTY_STATUS_BASE_X = 5
 const PARTY_STATUS_BASE_Y = 175
 const PARTY_STATUS_STRIDE_X = 60
 
-/** 目标箭头相对 anchor 的偏移(anchor = 精灵底中,箭头画头顶上方)。 */
+/** 箭头相对 anchor 的偏移(anchor = 精灵底中,箭头画头顶上方;sdlpal 真值 x-8)。 */
 const TARGET_ARROW_DX = -8
-const TARGET_ARROW_DY_ENEMY = -50
-const TARGET_ARROW_DY_PLAYER = -67 // uibattle.c:1574 `y - 67`
+const TARGET_ARROW_DY_PLAYER = -67 // 选中友方:uibattle.c:1574 `y - 67`
+const TARGET_ARROW_DY_CURRENT_PLAYER = -74 // 当前行动队员:uibattle.c:1004 `y - 74`
 
 /** 闪烁选中色(sdlpal ui.h:36-39:0xF9 + SDL_GetTicks 周期)。 */
 function selectedColor(): number {
@@ -202,6 +205,11 @@ export function drawBattleUI(
   const showInfoBoxes = state.uiState !== 'hidden' && !state.fAutoAttack
   if (showInfoBoxes) drawPlayerInfoBoxes(fb, state, playerRoles, glyphs, uiSpriteFrames)
 
+  // 当前行动队员头顶箭头(sdlpal uibattle.c:994-1007:`state != Wait` 时无条件画,blink 68红/69)。
+  //   selectMove + 所有 target 选择阶段都显示,指向 selectingPlayerIdx(= wCurPlayerIndex)。
+  if (state.uiState !== 'hidden' && state.uiState !== 'wait')
+    drawCurrentPlayerArrow(fb, state, uiSpriteFrames)
+
   switch (state.uiState) {
     case 'selectMove':
       drawMainIcons(fb, state, playerRoles, uiSpriteFrames, /* highlight= */ true)
@@ -225,12 +233,10 @@ export function drawBattleUI(
       }
       break
     case 'selectTargetEnemy':
-      drawMainIcons(fb, state, playerRoles, uiSpriteFrames, /* highlight= */ false)
-      drawEnemyTargetArrow(fb, state, uiSpriteFrames, enemyPos, /* all= */ false)
-      break
     case 'selectTargetEnemyAll':
+      // 敌方目标选择**无箭头** —— 选中敌人由 sprite 层 ColorShift 7 闪烁高亮(draw-battle-sprites
+      //   enemyTargetHighlightShift,sdlpal uibattle.c:1495-1510)。此处只画主菜单图标(mono)。
       drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)
-      drawEnemyTargetArrow(fb, state, uiSpriteFrames, enemyPos, /* all= */ true)
       break
     case 'selectTargetPlayer':
       drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)
@@ -546,32 +552,24 @@ function parseRightNumber(rightText: string | undefined): number {
 }
 
 /**
- * 敌方 target 箭头 —— sdlpal CLASSIC 用 ColorShift 高亮敌人精灵(uibattle.c:1498-1510);
- * ts 简化为箭头标在敌人头顶(精灵 ColorShift 高亮属 sprite 层,留 user 验/后续)。
- * all=true(EnemyAll 过渡态)→ 全部活敌画箭头。
+ * 当前行动队员头顶箭头 —— sdlpal uibattle.c:994-1007(`state != Wait` 时无条件画)。
+ *   blink:`i = CURRENTPLAYER_RED(68); if (s_iFrame & 1) i = CURRENTPLAYER(69)` → odd 帧 69 / even 68。
+ *   位置:当前队员(selectingPlayerIdx = wCurPlayerIndex)精灵底锚 + (x-8, y-74)。
+ *   (敌方目标选择**无箭头**,改 sprite 层 ColorShift 高亮 —— 见 draw-battle-sprites.enemyTargetHighlightShift。)
  */
-function drawEnemyTargetArrow(
+function drawCurrentPlayerArrow(
   fb: Framebuffer,
   state: BattleState,
   uiSpriteFrames: IndexedImage[] | undefined,
-  enemyPos: EnemyPosTable | undefined,
-  all: boolean,
 ): void {
-  if (!uiSpriteFrames) return
+  if (!uiSpriteFrames || state.selectingPlayerIdx === undefined) return
   const arrow = uiSpriteFrames[arrowBlinkRed()
-    ? SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER_RED
-    : SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER]
+    ? SPRITENUM_BATTLE_ARROW_CURRENTPLAYER
+    : SPRITENUM_BATTLE_ARROW_CURRENTPLAYER_RED]
   if (!arrow) return
-  const draw = (idx: number): void => {
-    const anchor = getEnemyBasePos(enemyPos, state.enemies.length, idx, state.enemies[idx]?.e.yPosOffset ?? 0)
-    if (!anchor) return
-    blitSpriteOpaque(fb, arrow, anchor.x + TARGET_ARROW_DX, anchor.y + TARGET_ARROW_DY_ENEMY)
-  }
-  if (all) {
-    state.enemies.forEach((e, i) => { if (e.e.health > 0) draw(i) })
-  } else {
-    draw(state.uiCursor)
-  }
+  const anchor = getPlayerBasePos(state.players.length, state.selectingPlayerIdx)
+  if (!anchor) return
+  blitSpriteOpaque(fb, arrow, anchor.x + TARGET_ARROW_DX, anchor.y + TARGET_ARROW_DY_CURRENT_PLAYER)
 }
 
 /**
