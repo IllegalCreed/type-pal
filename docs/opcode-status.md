@@ -46,35 +46,33 @@
 > 方法:全 163 opcode 拿 ts 实现(applyRawOpcode + dispatchBattleOpcode + tickEventSystem/runScript + runOneAutoOp 全 dispatch 路径)对 sdlpal `script.c`/`fight.c`/`global.c` **逐分支**核对(38-agent 审计),再 35-agent **对抗复核**滤假阳性。下表所列 opcode 的真实状态以此为准。
 > 图例:🐞 bug(逻辑错,需修) · ⬜ missing-branch(分支/实现缺) · ⚠️ 简版(主干对、子分支缺)
 
-### 真问题 25 处(此前误标 ✅)
+### 审计真问题 25 处 → **16 已修 ✅ / 8 子系统待修 ⬜ / 1 CLASSIC 本就对**
 
-| op | 真实状态 | sev | 缺口 |
-|----|---------|-----|------|
-| 0x02 | 🐞 bug | high | trigger 脚本(tickEventSystem)的 reset 缺 idleFrames(op[1])延迟 gate;只 autoScript 路径有 → trigger 内每帧立即 reset |
-| 0x03 | 🐞 bug | high | goto 在 tickEventSystem(trigger/onEnter)+ runScript(战斗)缺 frameDelay(op[1])gate;只 autoScript 有 |
-| 0x05 | ⬜ missing | medium | 缺 PAL_DialogIsPlayingRNG→RestoreScreen 分支 + 战斗场景重绘分支(只做大世界 else) |
-| 0x1B | 🐞 bug | high | 大世界 applyHPMPDelta 缺活人 gate(HP==0 死人也加 HP)→ 违 sdlpal 仅活人;战斗路径已有 gate |
-| 0x1C | 🐞 bug | high | 同 0x1B(MP) |
-| 0x1D | 🐞 bug | high | 同 0x1B(HP+MP),且 fScriptSuccess 判定受影响 |
-| 0x20 | ⚠️ 简版 | high | removeItem 缺:条件检查 / 装备槽消耗循环 / 不足时跳 op[2] / RemoveEquipmentEffect |
-| 0x22 | ⚠️ 简版 | medium | revive 缺清全 status 循环(大世界无 status 模型;战斗路径正确) |
-| 0x23 | 🐞 bug | high | removeEquipment 缺 RemoveEquipmentEffect → 装备攻/防/魔加成残留不撤销 |
-| 0x2A | ⬜ missing | high | 战斗 cure-enemy-poison-by-kind 未实现(dispatchBattleOpcode 无 case,落 skip) |
-| 0x2D | ⬜ missing | high | set-player-status(战斗内异常状态设置,confuse/sleep/…)未实现 |
-| 0x2E | ⬜ missing | high | set-enemy-status(抗性判定 RandomLong>resist + 条件跳 op[2])未实现 |
-| 0x2F | ⬜ missing | medium | remove-player-status 未实现 |
-| 0x30 | ⚠️ 简版 | high | stat-buff% 直接 mutate role 持久值(应存 per-battle Extra slot 战末清)→ 战后残留 + 重复叠加 |
-| 0x38 | ⚠️ 简版 | medium | teleport-out 只失败路径;成功 teleport 脚本缺(需 SceneAssets 透传 onTeleportLabel) |
-| 0x59 | ⬜ missing | high | loadScene 缺 bounds(>0 && ≤MAX)+ 同场景跳过 guard |
-| 0x60 | 🐞 bug | high | KO-enemy 错用 operand[0];sdlpal 无 operand,用 wEventObjectID(= caster 敌人自身) |
-| 0x61 | 🐞 bug | high | jumpIfPlayerNotPoisoned 错用 op[1](应 op[0])+ 恒跳(应查 isPlayerPoisoned) |
-| 0x69 | ⚠️ 简版 | high | enemy-escape 设 health=0(应 BattleResult=Terminated 终止战斗无奖励;现一敌死战斗续) |
-| 0x6D | ⬜ missing | medium | setTriggerScript 缺 op[2]!=0 设 onTeleport 分支 |
-| 0x6F | 🐞 bug | medium | syncObjState 缺 SHORT cast → sState≥0x8000 误为大正数 |
-| 0x7F | ⬜ missing | high | setCamera 缺动画平移 loop(只 center-on-party;pan cutscene 失效/瞬跳) |
-| 0x8E | ⚠️ 简版 | medium | 探索模式 0x8E 缺 VIDEO_RestoreScreen(只做对话 partialClear) |
-| 0x96 | ⬜ missing | medium | ending-anim 缺 !fIsWIN95 平台 gate(WIN95 应 noop) |
-| 0x9E | 🐞 bug | high | enemy-summon 缺 `iHidingTime>0` fail 检查 → 我方隐身时敌人仍可召唤,破隐身保护 |
+| op | 状态 | commit | 缺口 / 修法 |
+|----|------|--------|------|
+| 0x1B/1C/1D | ✅ 已修 | 2c3d25d | applyHPMPDelta 加活人 gate(`rgwHP>0`,死人不加 HP/MP);战斗路径本已有 |
+| 0x20 | ✅ 已修 | f98ab33 | removeItem 全逻辑:条件检查 + 装备槽消耗 + 不足跳 op[2] + RemoveEquipmentEffect |
+| 0x22 | ✅ 已修 | de0424f | battle revive 清全 9 状态;大世界无 status 模型(N/A) |
+| 0x23 | ✅ 已修 | 1b24ea9 | removeEquipment 卸装备先 RemoveEquipmentEffect 撤加成(+全移无条件 1:1) |
+| 0x2A | ✅ 已修 | d91e9a8 | 战斗 cure-enemy-poison-by-kind 新增(dispatchBattleOpcode) |
+| 0x2D/2E/2F | ✅ 已修 | b8eb7da | set/remove player·enemy status(kStatus CLASSIC 映射 + 0x2E 抗性判定+跳) |
+| 0x59 | ✅ 已修 | 2c3d25d | loadScene guard:`>0 && ≤MAX_SCENES(300) && !=cur` |
+| 0x60 | ✅ 已修 | 2c3d25d | KO-enemy 用 ctx.target(wEventObjectID),非 operand[0](数据恒0→恒杀 enemy[0]) |
+| 0x61 | ✅ 已修 | d91e9a8 | jumpIfPlayerNotPoisoned 用 op[0] + 查 isPlayerPoisoned(非恒跳) |
+| 0x69 | ✅ 已修 | 40ef07c | enemy-escape → phase=fleed(Terminated 无奖励),非 health=0 误给击杀 |
+| 0x6F | ✅ 已修 | 2c3d25d | syncObjState operand[1] 加 SHORT cast(signExtendI16) |
+| 0x9E | ✅ 已修 | 2c3d25d | enemy-summon 加 `iHidingTime>0` fail 检查(隐身保护) |
+| **0x30** | ⬜ 待修 | — | stat-buff% 直接 mutate role 持久(应存 per-battle Extra slot 战末清)**纠缠 D14**(战斗读 raw stat 非 base+Extra) |
+| **0x38 / 0x6D** | ⬜ 待修 | — | teleport-out 只失败路径 / setTriggerScript 缺 op[2] onTeleport;需 SceneAssets 透传 onTeleportLabel(场景子系统) |
+| **0x05** | ⬜ 待修 | — | 缺 PAL_DialogIsPlayingRNG→RestoreScreen + 战斗场景重绘分支(present 演出) |
+| **0x7F** | ⬜ 待修 | — | setCamera 缺动画平移 loop(pan cutscene 失效/瞬跳;需 present 摄像机动画) |
+| **0x8E** | ⬜ 待修 | — | 探索模式缺 VIDEO_RestoreScreen(只做对话 partialClear) |
+| **0x02 / 0x03** | ⬜ 待修 | — | trigger(tickEventSystem)goto/reset 缺 frameDelay gate;一 tick 多 op ≠ autoScript,需 yield 模型(谨慎,17 goto+11 reset 在用) |
+| 0x96 | ✅ 本就对 | — | CLASSIC/DOS build fIsWIN95=false → 总是调 PAL_EndingAnimation 正确(audit 误判) |
+
+> 另:**跳转基建 c386653**(jumpToGlobalIp 无 label fall back globalIp)让上述 0x1E/0x20/0x61 等战斗条件跳转到
+> 未打 label 失败分支(乾坤一掷"钱不够"/酒神"酒不足")真正可达;**法术 commit 顺序 a7c8cd2**(效果动画/伤害
+> gate 在 scriptOnUse 成功)修"没钱/没道具仍放动画"。
 
 ### 审计假阳性 5 处(复核维持 ✅ — 审计 agent 误判)
 
@@ -239,12 +237,12 @@ setDialogStyle 0x3B-0x3E。
 | 0x5C | hide party for a while(battle) | ✅ state.iHidingTime = -op0(party 隐身回合,script.c:1907-1911)。原误判 B 类,实为战斗态。battle-opcodes.ts |
 | 0x5E | jump if enemy no poison | ✅ 敌人(ctx.target)毒槽无 op0 种毒 → jump op1(script.c:005E)。配齐**敌人毒 pipeline**:BattleEnemy.poisons by-ID + 0x28 apply + postAction 毒 tick。battle-opcodes.ts |
 | 0x5F | kill player | ✅ 目标队员(ctx.target,退回 caster)role.hp=0(script.c:005F)。battle-opcodes.ts |
-| 0x60 | KO enemy | ✅ op0==0xFFFF → self(caster enemy)否则 enemies[op0];health=0(script.c:0060,回梦/夺魂 scriptOnSuccess)。battle-opcodes.ts |
+| 0x60 | KO enemy | ✅(2c3d25d 修)KO `ctx.target`(=wEventObjectID,夺魂/灵葫咒 scriptOnSuccess 的目标敌)否则 caster;health=0(script.c:1950 无 operand)。**此前误用 operand[0](数据恒0→恒杀 enemy[0])已修**。battle-opcodes.ts |
 | 0x64 | jump if enemy HP > % | ✅ (currentHp*100 > maxHp*op0) → jump op1(script.c:1989)。maxHp 用 **BattleEnemy.maxHealth**(满血,战中不变),非逐回合 prevHp(2026-05-30 修近似失真 + 加 maxHealth 字段)。battle-opcodes.ts |
 | 0x66 | throw weapon to enemy | ✅ script.c:2007-2014:`w=op1*5+PAL_GetPlayerAttackStrength(movingPlayer)*RandomLong(0,3)` → 调**同一** PAL_BattleSimulateMagic(target=eventObjectID,magStr=w)。与 0x42 共用 `simulateMagic`(magic-damage.ts)。32 个可投掷武器(长鞭/木剑/铁剑/仙女剑…)scriptOnThrow 用;op0∈{344,360}。attackStrength 经 BattleCtx.playerRoles 注入(performThrowItem),装备加成略 |
 | 0x67 | enemy use magic | ✅ enemy(caster).e.magic=op0;magicRate=op1?op1:10(script.c:0067)。battle-opcodes.ts |
 | 0x68 | jump if enemy turn | ✅ `if (g_Battle.fEnemyMoving) jump op0`(script.c:2025)。ts:fEnemyMoving ≈ caster 是 enemy(法术 scriptOnSuccess 敌人施法时 caster=enemy → jump,玩家施法 ip++)。op0=0 → jump 全局 end。battle-opcodes.ts,9 用 |
-| 0x69 | enemy escape | ✅/⚠️ caster enemy.e.health=0(script.c:0069)。**残**:sdlpal 逃跑移除敌人**不掉战利品**,ts health=0 会触发死亡+掉落 — 待 escaped 标志区分。battle-opcodes.ts |
+| 0x69 | enemy escape | ✅(40ef07c 修)→ `phase='fleed'`(sdlpal battle.c:1434 PAL_BattleEnemyEscape 设 kBattleResultTerminated,**终止战斗无奖励**)。**此前 health=0 被当击杀误给 exp/cash 已修**。battle-opcodes.ts |
 | 0x6A | steal from enemy | ✅ PAL_BattleStealFromEnemy(target,op0=rate)(fight.c:5193)。nStealItem>0 && (RandomLong(0,10)<=rate‖rate==0):wStealItem==0 偷钱 c=n/RandomLong(2,3)→dwCash;else 偷物 nStealItem--+AddItem。动画/提示 dialog present-only 跳过。battle-opcodes.ts |
 | 0x6B | blow away enemies | ✅ state.iBlow = (SHORT)op0(吹飞敌人位移,script.c:006B)。battle-opcodes.ts |
 | 0x88 | set magic base damage by money | ✅ i=min(dwCash,5000);dwCash-=i;magic[op0→mn].baseDamage=floor(i*2/5)(script.c:0088,乾坤一掷 scriptOnUse)。performMagic 注入 magicTables/gs → 0x88 改 baseDamage + 扣钱 → E1 全体结算。battle-opcodes.ts |
@@ -253,7 +251,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x91 | jump if enemy not first of kind | ✅ 数同 wObjectID 敌人,self_pos>1(非首个)→ jump op0(script.c:2091)。ts 同种=同 e.id。用途:同种敌人组脚本只在第一个跑。真实数据 op0 全 0(→跳到 end)。battle-opcodes.ts,5 用 |
 | 0x92 | magic casting anim (battle) | ✅ **present-only no-op**:PAL_BattleShowPlayerPreMagicAnim + iColorShift cycle(script.c:0092,施法前摇);present-battle 跳过所有战斗动画(D17)→ no-op |
 | 0x9C | enemy division | ✅ 分裂:仅 1 活敌 + health>1 → 分裂 op0+1 份各 floor((h+w)/(w+1));否则 jump op1(script.c:009C)。battle-opcodes.ts |
-| 0x9E | enemy summon | ✅ **logic**:召唤 op1 只 op0(对象 id;0/0xFFFF=自身同种)敌人到空槽(MAX 5);房间不足/自身睡眠·麻痹·混乱 → fail,op2≠0 jump op2(script.c:009E)。obj→enemyObjects[objectIndex]→enemyId→enemies.json 满血;经 enemy scriptOnReady runScript 注入 summonTables。**注**:召唤兽渲染需 present 层加载 battle sprite(follow-up);logic(行动/受击)已通。battle-opcodes.ts |
+| 0x9E | enemy summon | ✅ **logic**:召唤 op1 只 op0(对象 id;0/0xFFFF=自身同种)敌人到空槽(MAX 5);房间不足/**我方隐身 iHidingTime>0(2c3d25d 补)**/自身睡眠·麻痹·混乱 → fail,op2≠0 jump op2(script.c:009E)。obj→enemyObjects[objectIndex]→enemyId→enemies.json 满血;经 enemy scriptOnReady runScript 注入 summonTables。**注**:召唤兽渲染需 present 层加载 battle sprite(follow-up);logic(行动/受击)已通。battle-opcodes.ts |
 | 0x9F | enemy transform | ✅ 变身:非隐身/睡眠 → self.e={...base, health:keepHealth}(summonTables 取 base id op0)(script.c:009F)。battle-opcodes.ts |
 
 ### C palette / D audio·FBP·视觉
