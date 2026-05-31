@@ -391,8 +391,8 @@ describe('performAttack', () => {
     const { state, playerRoles, bus } = makeState({
       role: { level: 5, defense: 10, hp: 200 },
       enemies: [{ level: 10, attackStrength: 200 }], // str = 200 + 16*6 = 296
-      // player def = 10 + 11*4 = 54
-      // calcBase = trunc(296*2 - 54*1.6 + 0.5) = 505 ; res=2 → 252
+      forceRoll: 0, // 关闭随机 fAutoDefend(0>=10 false)+ jitter=0
+      // player def = 10(无 level 项,c2 修);calcBase=trunc(296*2-10*1.6+0.5)=576;/2=288 → 击杀
     })
     performAttack(state, enemyActor, 0, bus, playerRoles)
     expect(playerRoles.roles[0]!.hp).toBe(0) // 200 - 252 → max(0, -)
@@ -457,12 +457,45 @@ describe('performAttack', () => {
     expect(dmgProt).toBe(Math.trunc(dmgNo / 2)) // 486 → 243
   })
 
+  // ── B2 c3a:fAutoDefend 自动防御全闪避(fight.c:4938 + 5052 !fAutoDefend gate)──────
+  it('B2:fAutoDefend(RandomLong(0,16)>=10)命中 → 整次免伤(全闪避)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, defense: 100, hp: 5000 },
+      enemies: [{ level: 5, attackStrength: 500 }],
+      forceRoll: 10, // rangeInclusive(0,16)=10 → 10>=10 → fAutoDefend true → 闪避
+    })
+    performAttack(state, enemyActor, 0, bus, playerRoles)
+    expect(playerRoles.roles[0]!.hp).toBe(5000) // 全闪避,血不掉
+  })
+
+  it('B2:fAutoDefend 未命中(forceRoll=0 → 0>=10 false)→ 正常结算', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, defense: 100, hp: 5000 },
+      enemies: [{ level: 5, attackStrength: 500 }],
+      forceRoll: 0, // 0>=10 false → 不闪避
+    })
+    performAttack(state, enemyActor, 0, bus, playerRoles)
+    expect(playerRoles.roles[0]!.hp).toBeLessThan(5000) // 挨打
+  })
+
+  it('B2:混乱/睡眠/麻痹目标无替挡 → 强制挨打(fight.c:4975-4985,即便 fAutoDefend 命中)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, defense: 100, hp: 5000 },
+      enemies: [{ level: 5, attackStrength: 500 }],
+      forceRoll: 10, // fAutoDefend 本会命中
+      playerStatus: { sleep: 1 }, // 但睡眠 + 无替挡 → 强制 fAutoDefend=FALSE
+    })
+    performAttack(state, enemyActor, 0, bus, playerRoles)
+    expect(playerRoles.roles[0]!.hp).toBeLessThan(5000) // 睡眠中躲不掉
+  })
+
   it('player defending → enemy 攻击 damage 显著减小(def *= 2)', () => {
     // 不 defend
     const a = makeState({
       role: { level: 5, defense: 10, hp: 1000 },
       enemies: [{ level: 10, attackStrength: 200 }],
       defending: false,
+      forceRoll: 0, // 关闭随机闪避 + jitter,确定对拍
     })
     performAttack(a.state, enemyActor, 0, a.bus, a.playerRoles)
     const dmgNoDef = 1000 - a.playerRoles.roles[0]!.hp
@@ -472,6 +505,7 @@ describe('performAttack', () => {
       role: { level: 5, defense: 10, hp: 1000 },
       enemies: [{ level: 10, attackStrength: 200 }],
       defending: true,
+      forceRoll: 0,
     })
     performAttack(b.state, enemyActor, 0, b.bus, b.playerRoles)
     const dmgDef = 1000 - b.playerRoles.roles[0]!.hp
@@ -485,9 +519,10 @@ describe('performAttack', () => {
       role: { level: 1, defense: 1000, hp: 100 },
       // SHORT cast:-32700 仍为负;str = -32700 + (1+6)*6 = -32658 → clamp 0
       enemies: [{ level: 1, attackStrength: -32700 }],
+      forceRoll: 0, // 关闭随机闪避 + jitter
     })
     performAttack(state, enemyActor, 0, bus, playerRoles)
-    // str=0, def=1000+7*4=1028 → atk<=def*0.6=616.8 实际 0 → calcBase=0 → damage=1
+    // str=0, def=1000(无 level 项) → calcBase(0,1000)=0 → damage<=0→1
     expect(playerRoles.roles[0]!.hp).toBe(99)
   })
 

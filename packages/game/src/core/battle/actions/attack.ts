@@ -225,6 +225,21 @@ export function performAttack(
   //   Protect→sDamage/=2(5059-5062 truthy);<=0→1。
   // 残(c3):fAutoDefend evade(7/17 全免)+ 守护 cover。
   const targetRole = playerRoles.roles[state.players[targetIdx]!.roleId]!
+  const targetStatus = state.players[targetIdx]!.status
+
+  // B2 c3a:自动防御闪避(fight.c:4936-4985)。fAutoDefend 命中 = 整次物理攻击全免伤
+  //   (5052 !fAutoDefend gate 罩住整个伤害块)。cover(rgwCoveredBy 替挡)留 c3b,此处 iCoverIndex 恒 -1。
+  let fAutoDefend = state.rng.rangeInclusive(0, 16) >= 10 // fight.c:4938 7/17
+  const targetBad = (targetStatus.confused ?? 0) > 0 || (targetStatus.sleep ?? 0) > 0
+    || (targetStatus.paralyzed ?? 0) > 0
+  // fight.c:4975-4985:无替挡(iCoverIndex==-1)+ 坏状态(混乱/睡眠/麻痹 CLASSIC) → 强制不闪避
+  if (targetBad) fAutoDefend = false
+  if (fAutoDefend) {
+    // 全闪避:不结算伤害(sdlpal 仅播躲避帧 currentFrame=3)。present hook 留作动画。
+    bus.emit({ op: 'playEnemyAttack', enemyIdx: actor.idx, targetPlayerIdx: targetIdx })
+    return
+  }
+
   let def = asShort(targetRole.defense)
   if (state.players[targetIdx]!.defending) def *= 2
   const physRes = 2
