@@ -2137,16 +2137,16 @@ export function tickEventSystem(
         // 脚本结束('end'/ip 越界)才触发异步 _sceneLoader reload(triggerPendingSceneLoad)。
         // 旧版立刻 waiting+replace cursor → 抛弃续跑的 setPartyPos → 无 onEnter scene 黑/错位
         // (2026-05-29 loadScene 14/scene13 黑屏)。sceneLoading=true:续跑 + async fetch 期间 present 保留旧帧。
-        // sdlpal script.c:1870-1885 guard:仅 `sceneId > 0`(0 哨兵)且 `wNumScene != sceneId`(已在该场景跳过
-        //   reload)才换场景(审计 bug:此前无条件 set → 无效 id / 同场景冗余 reload)。
-        if (_sceneLoader && cmd.sceneId > 0 && gs.wNumScene !== cmd.sceneId) {
+        // sdlpal script.c:1870-1885 guard:`sceneId > 0 && sceneId <= MAX_SCENES(300) && wNumScene != sceneId`
+        //   才换场景(0 哨兵 / 越界 / 同场景冗余 reload 都跳过)。MAX_SCENES=300(palcommon.h)。
+        if (_sceneLoader && cmd.sceneId > 0 && cmd.sceneId <= 300 && gs.wNumScene !== cmd.sceneId) {
           gs.pendingSceneLoad = cmd.sceneId
           gs.sceneLoading = true
           cursor.ip++ // 继续跑调用脚本(setPartyPos 等)
           break
         }
-        if (cmd.sceneId <= 0 || gs.wNumScene === cmd.sceneId) {
-          // 越界 / 同场景 → 不 reload,仅推进(sdlpal 跳过)
+        if (cmd.sceneId <= 0 || cmd.sceneId > 300 || gs.wNumScene === cmd.sceneId) {
+          // 0 / 越界 / 同场景 → 不 reload,仅推进(sdlpal 跳过)
           cursor.ip++
           break
         }
@@ -3497,21 +3497,26 @@ function applyRawOpcode(
       const roleId = operands[0] ?? 0
       const slotPlus1 = operands[1] ?? 0  // 0 = 全部 / 非 0 = slot-1
       const eq = gs.PlayerRolesRuntime.rgwEquipment
-      const removeSlot = (slot: number) => {
+      if (slotPlus1 === 0) {
+        // 全移(sdlpal script.c:1110-1126):每槽 if(w!=0){回包+清};然后**无条件** RemoveEquipmentEffect(role,i)。
+        for (let s = 0; s < 6; s++) {
+          const w = eq[s]?.[roleId] ?? 0
+          if (w !== 0) {
+            addItemToInventory(gs, w, 1)
+            eq[s]![roleId] = 0
+          }
+          removeEquipmentEffect(gs, roleId, s) // 无条件(空槽 no-op,1:1 sdlpal)
+        }
+      }
+      else {
+        // 单移(sdlpal script.c:1128-1134):仅 w!=0 时先 RemoveEquipmentEffect 再回包+清。
+        const slot = slotPlus1 - 1
         const w = eq[slot]?.[roleId] ?? 0
         if (w !== 0) {
-          // sdlpal script.c:1104-1135:卸装备**先撤销其属性加成** PAL_RemoveEquipmentEffect(role,slot),
-          //   再回收入包。此前 ts 漏 → 攻/防/魔加成残留不撤(审计 bug)。(单移/全移顺序无关:两操作独立。)
           removeEquipmentEffect(gs, roleId, slot)
           addItemToInventory(gs, w, 1)
           eq[slot]![roleId] = 0
         }
-      }
-      if (slotPlus1 === 0) {
-        for (let s = 0; s < 6; s++) removeSlot(s)
-      }
-      else {
-        removeSlot(slotPlus1 - 1)
       }
       console.debug(`event-system: removeEquipment role=${roleId} slot=${slotPlus1 === 0 ? 'all' : slotPlus1 - 1}`)
       break
