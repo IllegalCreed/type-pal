@@ -217,8 +217,8 @@
 
 | # | 功能 | 状态 | 测试 | sdlpal 真值出处 | ts 路径 | 备注 / 差异 |
 |---|---|---|---|---|---|---|
-| L1 | 炼丹系统(紫金葫芦 + 灵葫咒) | ⬜ todo | ⬜ todo | script.c case 0x34/0x33 + 0x64/0x60 + fight.c collect | — | 紫金葫芦 scriptOnUse=0x34(transformEnemiesToItems);灵葫咒 scriptOnSuccess=0x64+0x33(collectEnemy)+0x60(KO)。这些战斗 opcode 全 default-skip。灵葫仙丹(纯治疗 0x1D)已能跑 |
-| L2 | 蛊虫 / 练蛊皿系统 | ⬜ todo | ⬜ todo | script.c case 0x66/0x33/0x34 + fight.c PAL_BattleThrowWeapon | — | 蛊靠 flags.throwable → 战斗投掷 0x66;炼蛊皿(id 207)scriptOnUse=0x20 + 收妖 0x33/0x34。同 L1 gate=战斗 opcode |
+| L1 | 炼丹系统(紫金葫芦 + 灵葫咒) | ⬜ todo | ⬜ todo | script.c case 0x34/0x33 + 0x64/0x60 + fight.c collect | — | **玩法(user 2026-05-31 明确)**:① 战斗中敌人 HP 低于阈值 → 灵葫咒可**秒杀**该敌 + 积累**灵葫值**;② 大世界用紫金葫芦**消耗灵葫值制作丹药**。映射:灵葫咒 scriptOnSuccess=0x64(jump if enemy HP>阈值% → 高于则失败跳走,低于才往下)+ 0x60(KO 秒杀)+ 0x33(collectEnemy → gs.wCollectValue += collectValue = 灵葫值);紫金葫芦 scriptOnUse=0x34(大世界消耗 wCollectValue 产丹药)。这些战斗 opcode 全 default-skip。灵葫仙丹(纯治疗 0x1D)已能跑 |
+| L2 | 蛊虫 / 练蛊皿系统 | ⬜ todo | ⬜ todo | script.c case 0x66/0x33/0x34 + fight.c PAL_BattleThrowWeapon | — | **玩法(user 2026-05-31 明确)**:① 战斗中向敌人投掷蛊**附身**(poison-like);② 若干回合后获得**更强力的蛊道具**;③ 炼蛊皿大世界使用,**消耗蛊制作高级蛊道具**。映射:蛊 flags.throwable → 战斗投掷 0x66(+ 0x28 apply poison 附身 + 毒 tick 若干回合);炼蛊皿(id 207)scriptOnUse=0x20。同 L1 gate=战斗 opcode |
 | L? | 御剑 / 打铁 / 双修 / 小游戏 | N/A | N/A | — | — | 查无新独立系统:御剑术(spell 49/65)走普通战斗/移动魔法(0x3F/0x44/0x97 已做);打铁/双修是 dialog 文本 + 给物品 opcode(0x20 已做) |
 
 ## M. 运行时架构 / 工具
