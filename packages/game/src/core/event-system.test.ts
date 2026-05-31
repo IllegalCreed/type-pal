@@ -2778,6 +2778,18 @@ describe('P1#3 g_fScriptSuccess + 物品消耗 gate', () => {
     expect(gs2.PlayerRolesRuntime.rgwHP[0]).toBe(100)
   })
 
+  it('0x1B HP delta:死人(HP==0)→ 不改 HP + false(sdlpal PAL_IncreaseHPMP 仅活人,global.c:1287)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.PlayerRolesRuntime.rgwHP[0] = 0 // 死人
+    gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x1b, operands: [0, 50, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(0) // 死人 HP 不变(此前 bug:加成 50)
+    expect(gs.fScriptSuccess).toBe(false) // 无变化 → false
+  })
+
   it('0x22 revive 单体:活人(HP!=0)→ false(用复活药在活人身上)(script.c:1099)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.PlayerRolesRuntime.rgwHP[0] = 30

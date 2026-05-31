@@ -846,8 +846,9 @@ export function dispatchBattleOpcode(
 
     case OP_ENEMY_SUMMON: {
       // sdlpal `script.c:009E`:召唤 op1 只 op0(对象 id;0/0xFFFF=自身同种)敌人到空槽。
-      // 房间不足(< count)或自身 睡眠/麻痹/混乱 → fail,op2 非 0 则 jump op2(失败分支)。
-      // (动画帧 + iHidingTime(0x5C 未做)略。)注:召唤兽渲染需 present 层加载其 battle sprite,
+      // 房间不足(< count)**或我方隐身中(iHidingTime>0)**或自身 睡眠/麻痹/混乱 → fail,op2 非 0 则 jump op2。
+      //   iHidingTime 检查此前漏(审计 bug:隐身时敌仍可召唤破隐身保护;0x5C hide 已实现,见 line 433)。
+      // 注:召唤兽渲染需 present 层加载其 battle sprite,
       // 本 handler 只做 logic(加 BattleEnemy → 它会行动/受击);sprite 加载留 present follow-up。
       const tables = ctx.summonTables
       if (!tables || ctx.caster?.type !== 'enemy')
@@ -864,7 +865,8 @@ export function dispatchBattleOpcode(
 
       const room = MAX_ENEMIES_IN_TEAM - state.enemies.length
       const disabled = (self.status.sleep ?? 0) > 0 || (self.status.paralyzed ?? 0) > 0 || (self.status.confused ?? 0) > 0
-      if (room < count || disabled)
+      const hiding = (state.iHidingTime ?? 0) > 0 // sdlpal:我方隐身中不可召唤(对齐 0x9F)
+      if (room < count || hiding || disabled)
         return failJump !== 0 ? { consumed: true, newIp: failJump } : { consumed: true }
 
       // 解析召唤兽:w=0/0xFFFF → 自身同种;否则 enemyObjects[objectIndex==w] → enemyId/scripts/抗性。
@@ -963,13 +965,14 @@ export function dispatchBattleOpcode(
     }
 
     case OP_ENEMY_IMMEDIATE_KO: {
-      // 0x0060: KO operand[0] 指定 enemy(default = self caster)
-      const targetIdx = (operands[0] ?? 0) === 0xFFFF
-        ? (ctx.caster?.type === 'enemy' ? ctx.caster.idx : 0)
-        : (operands[0] ?? 0)
-      const enemy = state.enemies[targetIdx]
-      if (enemy) {
-        // sdlpal `script.c:1954` 把 wHealth=0(掉血)→ PAL_BattleDisplayStatChange 会画 blue 数字。
+      // sdlpal `script.c:1950`:`rgEnemy[wEventObjectID].wHealth = 0`(**无 operand**;wEventObjectID = 脚本上下文)。
+      //   夺魂(304)/灵葫咒(384)scriptOnSuccess 的 wEventObjectID = 目标敌人(sTarget)→ ctx.target;
+      //   敌自身脚本 → ctx.caster。**审计 bug**:此前用 operand[0](真实数据恒 0 → 恒 KO enemy[0],夺魂/灵葫咒失效)。
+      const sel = ctx.target?.type === 'enemy' ? ctx.target : ctx.caster?.type === 'enemy' ? ctx.caster : undefined
+      const targetIdx = sel?.idx
+      const enemy = targetIdx !== undefined ? state.enemies[targetIdx] : undefined
+      if (enemy && targetIdx !== undefined) {
+        // wHealth=0(掉血)→ PAL_BattleDisplayStatChange 画 blue 数字。
         const before = enemy.e.health
         enemy.e.health = 0
         emitDamageNum(ctx, 'enemy', targetIdx, before, enemy.e.health)

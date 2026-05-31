@@ -2137,10 +2137,17 @@ export function tickEventSystem(
         // 脚本结束('end'/ip 越界)才触发异步 _sceneLoader reload(triggerPendingSceneLoad)。
         // 旧版立刻 waiting+replace cursor → 抛弃续跑的 setPartyPos → 无 onEnter scene 黑/错位
         // (2026-05-29 loadScene 14/scene13 黑屏)。sceneLoading=true:续跑 + async fetch 期间 present 保留旧帧。
-        if (_sceneLoader) {
+        // sdlpal script.c:1870-1885 guard:仅 `sceneId > 0`(0 哨兵)且 `wNumScene != sceneId`(已在该场景跳过
+        //   reload)才换场景(审计 bug:此前无条件 set → 无效 id / 同场景冗余 reload)。
+        if (_sceneLoader && cmd.sceneId > 0 && gs.wNumScene !== cmd.sceneId) {
           gs.pendingSceneLoad = cmd.sceneId
           gs.sceneLoading = true
           cursor.ip++ // 继续跑调用脚本(setPartyPos 等)
+          break
+        }
+        if (cmd.sceneId <= 0 || gs.wNumScene === cmd.sceneId) {
+          // 越界 / 同场景 → 不 reload,仅推进(sdlpal 跳过)
+          cursor.ip++
           break
         }
         console.warn(
@@ -2898,8 +2905,11 @@ function applyRawOpcode(
       //   pCurrent = operand[0] 选的对象;pEvtObj = self(currentEventObjectId)。
       const pCurrent = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'syncObjState')
       const pEvt = getSelfNpc(gs, currentEventObjectId, 'syncObjState')
-      if (pCurrent && pEvt && (pCurrent.sState ?? 0) === (operands[1] ?? 0)) {
-        pEvt.sState = operands[1] ?? 0
+      // sdlpal script.c:2119/2121 对 operand[1] 取 SHORT(负 sState 如 -32767=0x8001);此前 ts 当无符号比较/赋值
+      //   → sState>=0x8000 失真(审计 bug,对照 0x94 已用 signExtendI16)。
+      const sStateVal = signExtendI16(operands[1] ?? 0)
+      if (pCurrent && pEvt && (pCurrent.sState ?? 0) === sStateVal) {
+        pEvt.sState = sStateVal
         console.debug(`event-system: syncObjState pEvt=${pEvt.id} ← pCurrent=${pCurrent.id} sState=${pEvt.sState}`)
       }
       break
@@ -3906,6 +3916,9 @@ function applyHPMPDelta(
   // anyChanged = 任一 target 的 HP 或 MP 实际发生变化(供 g_fScriptSuccess gate 用)。
   let anyChanged = false
   for (const roleId of targets) {
+    // sdlpal PAL_IncreaseHPMP(global.c:1287)真值:**仅活人**(rgwHP>0)处理;死人(HP==0)不改 HP/MP、
+    //   返回 FALSE(不计入 anyChanged → g_fScriptSuccess 判定正确)。此前 ts 缺此 gate(0x1B/1C/1D 审计 bug)。
+    if ((gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0) <= 0) continue
     if (hp) {
       const cur = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
       const max = gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0

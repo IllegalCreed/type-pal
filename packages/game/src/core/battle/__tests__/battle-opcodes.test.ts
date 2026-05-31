@@ -89,12 +89,22 @@ describe('B-w2.a battle-opcodes dispatch', () => {
     expect(enemy.e.health).toBe(0)
   })
 
-  it('0x0060 immediate KO:operand[0]=0xFFFF(self)→ caster enemy health=0', () => {
+  it('0x0060 immediate KO:无 target(敌自身脚本)→ fallback caster enemy health=0', () => {
     const enemy = makeEnemy(100)
     const ctx = makeCtx(enemy)
     const r = dispatchBattleOpcode(0x0060, [0xFFFF, 0, 0], ctx)
     expect(r.consumed).toBe(true)
     expect(enemy.e.health).toBe(0)
+  })
+
+  it('0x0060 immediate KO:夺魂/灵葫咒 scriptOnSuccess → KO ctx.target 目标敌人(非 enemy[0])(审计修:operand 恒0)', () => {
+    const e0 = makeEnemy(100)
+    const e1 = makeEnemy(100)
+    // biome-ignore lint/suspicious/noExplicitAny: 最小 state
+    const ctx = { state: { enemies: [e0, e1], players: [{ roleId: 0 }] } as any as BattleState, caster: { type: 'player', idx: 0 }, target: { type: 'enemy', idx: 1 } } as BattleCtx
+    dispatchBattleOpcode(0x0060, [0, 0, 0], ctx) // 真实数据 operand 恒 [0,0,0]
+    expect(e0.e.health).toBe(100) // 非目标不死(此前 bug:恒 KO enemy[0])
+    expect(e1.e.health).toBe(0) // 目标 KO
   })
 
   it('未具名 opcode 返回 consumed=false(走 raw skip)', () => {
@@ -873,6 +883,16 @@ describe('0x9E enemy summon (script.c:009E)', () => {
     expect(roster).toHaveLength(2)
     expect(roster[1]!.e.id).toBe(7)
     expect(roster[1]!.e.health).toBe(150) // 满血,非 self 当前 30
+  })
+
+  it('我方隐身中(iHidingTime>0)→ 不召唤,jump op2(审计 bug:此前漏 iHidingTime 检查)', () => {
+    const roster = [richEnemy({ health: 200 })]
+    const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
+    // biome-ignore lint/suspicious/noExplicitAny: 设 iHidingTime
+    ;(ctx.state as any).iHidingTime = 1
+    const r = dispatchBattleOpcode(0x9E, [419, 1, 300], ctx)
+    expect(roster).toHaveLength(1) // 未召唤(隐身保护)
+    expect(r.newIp).toBe(300) // jump op2 失败分支
   })
 
   it('房间不足(已 5 只)→ fail → jump op2', () => {
