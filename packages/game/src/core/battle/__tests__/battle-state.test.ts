@@ -160,6 +160,39 @@ describe('createBattleState', () => {
     ).toThrow(/role id 99/)
   })
 
+  // ── D14:持久 gs.rgPlayerStatus → 开战 seed 进 player.status(装备授 DualAttack 等)──
+  it('D14:gs.rgPlayerStatus 装备授状态 seed 进 BattleState.players[].status', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.rgPlayerStatus[0]![8] = 32760 // kStatusDualAttack=8(仙女剑授,永久)
+    gs.rgPlayerStatus[0]![5] = 50 // kStatusBravery=5
+    const state = createBattleState({
+      gs,
+      playerRoles: { roles: [minimalRole(0)] },
+      enemies: [],
+      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      isBoss: false,
+      rng: createSeedableRng(1),
+    })
+    expect(state.players[0]?.status.dualAttack).toBe(32760)
+    expect(state.players[0]?.status.bravery).toBe(50)
+  })
+
+  it('D14:无装备状态 → player.status 全 0(默认)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    const state = createBattleState({
+      gs,
+      playerRoles: { roles: [minimalRole(0)] },
+      enemies: [],
+      field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      isBoss: false,
+      rng: createSeedableRng(1),
+    })
+    expect(state.players[0]?.status.dualAttack ?? 0).toBe(0)
+    expect(state.players[0]?.status.sleep).toBe(0)
+  })
+
   it('phase 字段联合 7 种', () => {
     const phases: BattlePhase[] = [
       'preBattle',

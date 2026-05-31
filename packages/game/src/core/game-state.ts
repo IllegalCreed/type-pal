@@ -875,6 +875,18 @@ export interface GameState {
   rgPoisonStatus: Record<string, PoisonStatus>
 
   /**
+   * 持久玩家状态(sdlpal global.h:522 `rgPlayerStatus[MAX_PLAYER_ROLES][kStatusAll]`)。
+   * `[role][status]`,9 status(CLASSIC 序:0 Confused/1 Paralyzed/2 Sleep/3 Silence/
+   * 4 Puppet/5 Bravery/6 Protect/7 Haste/8 DualAttack)。
+   *
+   * **D14 用途**:装备 scriptOnEquip 0x2D(PAL_SetPlayerStatus)把装备授的状态(如仙女剑
+   * 的 DualAttack=32760)写这里;开战 createBattleState 把本表 seed 进 BattleState.players[].status。
+   * 战斗局部状态仍 battle-local(B1 决策不回退),本表只承载**装备授**的持久状态(value>999
+   * 免被 ClearAllPlayerStatus 清,唯一清除点 = removeEquipmentEffect 卸对应装备)。
+   */
+  rgPlayerStatus: number[][]
+
+  /**
    * Scene 运行时可变状态(sdlpal SAVEDGAME_WIN.rgScene[MAX_SCENES])。
    * 稀疏存:sceneId → state,只存被 script 改过的 scene。
    */
@@ -1373,6 +1385,11 @@ export function createInitialEquipmentEffect(): EquipmentEffectRoles[] {
   return Array.from({ length: 7 }, slot)
 }
 
+/** 创建全零持久玩家状态(MAX_PLAYER_ROLES=6 × kStatusAll=9,sdlpal global.h:522)。 */
+export function createInitialPlayerStatus(): number[][] {
+  return Array.from({ length: 6 }, () => Array<number>(9).fill(0))
+}
+
 export function createInitialGameState(
   partyStart: { x: number; y: number; facing: Facing },
 ): GameState {
@@ -1425,6 +1442,7 @@ export function createInitialGameState(
     Exp: createEmptyExp(),
     PlayerRolesRuntime: createInitialPlayerRolesRuntime(),
     rgPoisonStatus: {},
+    rgPlayerStatus: createInitialPlayerStatus(),
     rgScene: {},
     sceneOnEnterIp: {},
     rgObject: {},

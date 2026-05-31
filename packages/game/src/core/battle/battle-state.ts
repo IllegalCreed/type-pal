@@ -535,6 +535,28 @@ export interface CreateBattleStateInput {
  *  party 可有 5(MAX_PLAYABLE_PLAYER_ROLES),但战斗 layout 只 3 位。 */
 export const MAX_BATTLE_PLAYERS = 3
 
+/**
+ * D14:把持久 `gs.rgPlayerStatus[role]`(CLASSIC kStatus 序 9 项)seed 成战斗 BattleStatus。
+ * 索引序对齐 global.h:42-55:0 Confused/1 Paralyzed/2 Sleep/3 Silence/4 Puppet/
+ * 5 Bravery/6 Protect/7 Haste/8 DualAttack(CLASSIC 无 Slow,留 0)。
+ * 持久层只承载装备授状态(value>999),其余战斗局部状态仍每场新建(B1)。
+ */
+function seedBattleStatus(persistent: number[] | undefined): BattleStatus {
+  const p = persistent
+  return {
+    confused: p?.[0] ?? 0,
+    paralyzed: p?.[1] ?? 0,
+    sleep: p?.[2] ?? 0,
+    silence: p?.[3] ?? 0,
+    puppet: p?.[4] ?? 0,
+    bravery: p?.[5] ?? 0,
+    protect: p?.[6] ?? 0,
+    haste: p?.[7] ?? 0,
+    dualAttack: p?.[8] ?? 0,
+    slow: 0,
+  }
+}
+
 export function createBattleState(input: CreateBattleStateInput): BattleState {
   if (input.gs.partyMembers.length > MAX_BATTLE_PLAYERS) {
     throw new Error(
@@ -554,7 +576,8 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
       prevHp: role.hp,
       prevMp: role.mp,
       defending: false,
-      status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
+      // D14:从持久 gs.rgPlayerStatus[role] seed 装备授状态(DualAttack 等);无 → 全 0。
+      status: seedBattleStatus(input.gs.rgPlayerStatus?.[roleId]),
       pos: base ? { ...base } : undefined,
       posOriginal: base ? { ...base } : undefined,
       currentFrame: 0,
