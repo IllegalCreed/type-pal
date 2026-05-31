@@ -130,6 +130,25 @@ const TARGET_ARROW_DX = -8
 const TARGET_ARROW_DY_PLAYER = -67 // 选中友方:uibattle.c:1574 `y - 67`
 const TARGET_ARROW_DY_CURRENT_PLAYER = -74 // 当前行动队员:uibattle.c:1004 `y - 74`
 
+/**
+ * 信息框状态文字(sdlpal uibattle.c:240-255 + 66-98 rgwStatusWord/rgStatusPos/rgbStatusColor,CLASSIC)。
+ * 只 confused/paralyzed/sleep/silence 有 WORD(buff 类 puppet/bravery/protect/haste/dualAttack word=0 不显示)。
+ * WORD.DAT 真值(xxd data/raw/WORD.DAT id N*10):乱=0x1D / 定=0x1B / 眠=0x1C / 封=0x1A(单字)。
+ * pos/color 相对框 pos(框原点 91+77*i,165 与 sdlpal 一致 → 直接用 sdlpal 偏移)。
+ */
+const BATTLE_STATUS_LABELS: ReadonlyArray<{
+  key: 'confused' | 'paralyzed' | 'sleep' | 'silence'
+  char: string
+  dx: number
+  dy: number
+  color: number
+}> = [
+  { key: 'confused', char: '乱', dx: 35, dy: 19, color: 0x5F },
+  { key: 'paralyzed', char: '定', dx: 44, dy: 12, color: 0xBF },
+  { key: 'sleep', char: '眠', dx: 54, dy: 1, color: 0x0E },
+  { key: 'silence', char: '封', dx: 55, dy: 20, color: 0x3C },
+]
+
 /** 闪烁选中色(sdlpal ui.h:36-39:0xF9 + SDL_GetTicks 周期)。 */
 function selectedColor(): number {
   return MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
@@ -308,6 +327,13 @@ function drawPlayerInfoBoxes(
     if (slash) blitSpriteOpaque(fb, slash, x + 49, y + 22)
     drawNumber(fb, role.maxMP, 4, { x: x + 47, y: y + 24 }, 'cyan', 'right', uiSpriteFrames)
     drawNumber(fb, role.mp, 4, { x: x + 26, y: y + 21 }, 'cyan', 'right', uiSpriteFrames)
+    // 状态文字(乱/定/眠/封)—— sdlpal uibattle.c:240-255,仅活人,各 status>0 时画单字。
+    if (role.hp > 0) {
+      for (const s of BATTLE_STATUS_LABELS) {
+        if ((p.status[s.key] ?? 0) > 0)
+          renderText(fb, s.char, x + s.dx, y + s.dy, s.color, glyphs, true)
+      }
+    }
   })
 }
 
