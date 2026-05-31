@@ -319,6 +319,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     effectSprite: assets.effectSprite, // D17a:物理攻击命中特效 overlay sprite(chunk 10)
     magicSprites: assets.magicSprites, // D17:法术 FIRE.MKF sprite overlay(chunk = magic.effect)
     dialogAssets, // 战斗内对话(scriptOnReady/scriptOnTurnStart showDialog)复用大世界 portrait/icon 渲染
+    // 毒头像染色表(PAL_PlayerInfoBox 中毒/死亡 mono 重染,uibattle.c:114-162)。
+    objectPoisons: new Map(objectPoisons.map((p) => [p.id, { level: p.level, color: p.color }])),
   }
 
   // D17:FIRE.MKF magic sprite 帧数 Map(chunk → frameCount)— performMagic OffMagic 时间线取 n。

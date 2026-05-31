@@ -211,6 +211,7 @@ export function drawBattleUI(
   glyphs?: GlyphTable,
   uiSpriteFrames?: IndexedImage[],
   enemyPos?: EnemyPosTable,
+  objectPoisons?: Map<number, { level: number; color: number }>,
 ): void {
   // 战斗内对话显示期间**整个战斗 UI 都不画**(动作菜单 + 血量信息框都隐藏)——
   //   user 2026-05-31 实测:对话时不显示战斗 UI,血量面板当然也不显示。
@@ -222,7 +223,7 @@ export function drawBattleUI(
   // 底部队员信息框(PAL_PlayerInfoBox)—— sdlpal **仅选择阶段**画(uibattle.c:888-928:
   //   `Phase != PerformAction && !fAutoAttack`)。perform 阶段(uiState='hidden')隐藏,只剩飘字。
   const showInfoBoxes = state.uiState !== 'hidden' && !state.fAutoAttack
-  if (showInfoBoxes) drawPlayerInfoBoxes(fb, state, playerRoles, glyphs, uiSpriteFrames)
+  if (showInfoBoxes) drawPlayerInfoBoxes(fb, state, playerRoles, gs, objectPoisons, glyphs, uiSpriteFrames)
 
   // 当前行动队员头顶箭头(sdlpal uibattle.c:994-1007:`state != Wait` 时无条件画,blink 68红/69)。
   //   selectMove + 所有 target 选择阶段都显示,指向 selectingPlayerIdx(= wCurPlayerIndex)。
@@ -299,10 +300,41 @@ function drawPartyStatus(
  *   中毒变色 / 状态图标(confused/slow/sleep/silence)简化省略;CLASSIC 无 time-meter bar。
  * HP/MP 读 **战斗 playerRoles**(战内活值);无 uiSpriteFrames(单测)→ 文字版兜底。
  */
+/**
+ * 头像染色色号 —— port sdlpal `PAL_PlayerInfoBox`(uibattle.c:114-162)bPoisonColor 逻辑:
+ *   默认 0xFF(满色,正常 blit);遍历该队员 16 毒槽(gs.rgPoisonStatus 全局)取**最高 level(≤3)**毒的
+ *   wColor;死亡 hp==0 强制 0(黑白 mono)。返回 0xFF → 调用方走满色 blit,否则 mono 重染(band=color&0xF0)。
+ * level>3 的毒(如 561/562 L4)不影响头像色(sdlpal `wPoisonLevel <= 3` 守卫)。
+ */
+export function computePlayerFaceColor(
+  gs: GameState,
+  roleId: number,
+  hp: number,
+  objectPoisons: Map<number, { level: number; color: number }> | undefined,
+): number {
+  let bPoisonColor = 0xff
+  let maxLevel = 0
+  if (objectPoisons) {
+    for (let slot = 0; slot < 16; slot++) {
+      const ps = gs.rgPoisonStatus[`${slot}_${roleId}`]
+      if (!ps || ps.wPoisonID === 0) continue
+      const pd = objectPoisons.get(ps.wPoisonID)
+      if (pd && pd.level <= 3 && pd.level >= maxLevel) {
+        maxLevel = pd.level
+        bPoisonColor = pd.color & 0xff
+      }
+    }
+  }
+  if (hp === 0) bPoisonColor = 0 // 死亡:黑白 mono(uibattle.c:143-151)
+  return bPoisonColor
+}
+
 function drawPlayerInfoBoxes(
   fb: Framebuffer,
   state: BattleState,
   playerRoles: PlayerRoles,
+  gs: GameState,
+  objectPoisons: Map<number, { level: number; color: number }> | undefined,
   glyphs: GlyphTable | undefined,
   uiSpriteFrames: IndexedImage[] | undefined,
 ): void {
@@ -319,7 +351,11 @@ function drawPlayerInfoBoxes(
     const y = PLAYERINFO_Y
     if (box) blitSpriteOpaque(fb, box, x, y) // 框背景(uibattle.c:108)
     const face = uiSpriteFrames[SPRITENUM_PLAYERFACE_FIRST + p.roleId]
-    if (face) blitSpriteOpaque(fb, face, x - 2, y - 4) // 头像(uibattle.c:155)
+    if (face) {
+      const bPoisonColor = computePlayerFaceColor(gs, p.roleId, role.hp, objectPoisons)
+      if (bPoisonColor === 0xff) blitSpriteOpaque(fb, face, x - 2, y - 4) // 满色(uibattle.c:155)
+      else blitSpriteMonoColor(fb, face, x - 2, y - 4, bPoisonColor, 0) // 中毒/死亡单色(uibattle.c:160)
+    }
     // CLASSIC HP/MP(uibattle.c:210-238)
     if (slash) blitSpriteOpaque(fb, slash, x + 49, y + 6)
     drawNumber(fb, role.maxHP, 4, { x: x + 47, y: y + 8 }, 'yellow', 'right', uiSpriteFrames)

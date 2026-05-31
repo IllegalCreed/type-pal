@@ -81,6 +81,11 @@ export interface BattleAssets {
    * dialog 渲染(portraitFrames / iconFrames),drawDialogBox 用。缺省则对话框只画文字 + 边框(无头像)。
    */
   dialogAssets?: DialogBoxDrawCtx
+  /**
+   * 毒 OBJECT 头像染色表(id→{level,color})—— PAL_PlayerInfoBox 中毒/死亡头像 mono 重染用
+   * (uibattle.c:114-162)。缺省则头像恒满色(无中毒变色)。由 bootstrap/dev-panel 从 objectPoisons 构建。
+   */
+  objectPoisons?: Map<number, { level: number; color: number }>
 }
 
 /**
@@ -177,7 +182,7 @@ export class BattlePresent {
     // 5. UI overlay(4 图标主菜单 / 杂项盒 / 物品二级 / 法术物品网格 / target 箭头 / HP/MP 状态栏)
     drawBattleUI(
       fb, state, assets.playerRoles, assets.spells, assets.items, gs, assets.glyphs,
-      assets.uiSpriteFrames, assets.enemyPos,
+      assets.uiSpriteFrames, assets.enemyPos, assets.objectPoisons,
     )
 
     // 5.5 战斗单行消息条(偷取"获得 X" / 逃跑失败)—— sdlpal 逃跑失败 label 31 @(130,75) 色15。
