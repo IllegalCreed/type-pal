@@ -128,11 +128,11 @@ function makeState(opts: MakeStateOpts = {}): {
       prevHp: role.hp,
       prevMp: role.mp,
       defending: opts.defending ?? false,
-      status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+      status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
     }],
     enemies: enemies.map(e => ({
       e: { ...e },
-      status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+      status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
       prevHp: e.health,
       scriptOnTurnStart: 0,
       scriptOnBattleEnd: 0,

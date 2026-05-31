@@ -25,10 +25,10 @@ function makeEnemy(opts: Partial<Enemy>): Enemy {
 
 function makeState(enemies: Partial<Enemy>[]): BattleState {
   return {
-    players: [{ roleId: 0, prevHp: 100, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+    players: [{ roleId: 0, prevHp: 100, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
     enemies: enemies.map((e) => {
       const en = makeEnemy(e)
-      return { e: en, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false }, prevHp: en.health, scriptOnTurnStart: 0, scriptOnBattleEnd: 0, scriptOnReady: 0 }
+      return { e: en, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 }, prevHp: en.health, scriptOnTurnStart: 0, scriptOnBattleEnd: 0, scriptOnReady: 0 }
     }),
     field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
     isBoss: false,

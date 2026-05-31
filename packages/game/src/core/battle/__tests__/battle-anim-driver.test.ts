@@ -20,7 +20,7 @@ function mkPlayer(roleId: number, opts: Partial<BattlePlayer> = {}): BattlePlaye
     prevHp: 200,
     prevMp: 30,
     defending: false,
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
     pos: { x: 240, y: 170 },
     posOriginal: { x: 240, y: 170 },
     currentFrame: 0,
@@ -32,7 +32,7 @@ function mkPlayer(roleId: number, opts: Partial<BattlePlayer> = {}): BattlePlaye
 function mkEnemy(opts: Partial<BattleEnemy> = {}): BattleEnemy {
   return {
     e: { health: 100, id: 50, idleFrames: 2, idleAnimSpeed: 1 } as BattleEnemy['e'],
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
     prevHp: 100,
     scriptOnTurnStart: 0,
     scriptOnBattleEnd: 0,
@@ -247,11 +247,11 @@ describe('resetFightersAfterAction (fight.c:940-1019)', () => {
 
   it('player 睡眠(sleep>0,活)→ currentFrame=1(睡倒);puppet 死后 → 0(站立)', () => {
     // fight.c:957-960 sleep→帧1;fight.c:965-972 hp0&&puppet→帧0
-    const sleepState = mkState([mkPlayer(0, { currentFrame: 0, status: { sleep: 3, paralyzed: 0, confused: 0, haste: false, slow: false } })], [])
+    const sleepState = mkState([mkPlayer(0, { currentFrame: 0, status: { sleep: 3, paralyzed: 0, confused: 0, haste: 0, slow: 0 } })], [])
     resetFightersAfterAction(sleepState, mkRoles({ hp: 200, maxHP: 200 }))
     expect(sleepState.players[0]!.currentFrame).toBe(1)
 
-    const puppetState = mkState([mkPlayer(0, { currentFrame: 4, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false, puppet: 2 } })], [])
+    const puppetState = mkState([mkPlayer(0, { currentFrame: 4, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, puppet: 2 } })], [])
     resetFightersAfterAction(puppetState, mkRoles({ hp: 0, maxHP: 200 }))
     expect(puppetState.players[0]!.currentFrame).toBe(0)
   })

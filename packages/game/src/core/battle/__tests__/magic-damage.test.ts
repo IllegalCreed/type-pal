@@ -64,7 +64,7 @@ function makeState(enemies: Partial<Enemy>[], fieldEffect?: BattleField['magicEf
   }
   const battleEnemies: BattleEnemy[] = enemies.map(e => ({
     e: makeEnemy(e),
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
     prevHp: (makeEnemy(e)).health,
     scriptOnTurnStart: 0,
     scriptOnBattleEnd: 0,
@@ -225,8 +225,8 @@ function makeEnemyMagicState(
       sleep: p.status?.sleep ?? 0,
       paralyzed: p.status?.paralyzed ?? 0,
       confused: p.status?.confused ?? 0,
-      haste: false,
-      slow: false,
+      haste: 0,
+      slow: 0,
     },
   }))
   state.rng = { ...createSeedableRng(1), range: () => rangeVal }

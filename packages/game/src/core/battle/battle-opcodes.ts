@@ -646,8 +646,8 @@ export function dispatchBattleOpcode(
           p.status.sleep = 0
           p.status.paralyzed = 0
           p.status.confused = 0
-          p.status.haste = false
-          p.status.slow = false
+          p.status.haste = 0
+          p.status.slow = 0
         }
         if (ctx.gs && roleId !== undefined) {
           for (let slot = 0; slot < MAX_POISONS; slot++) {
@@ -771,7 +771,7 @@ export function dispatchBattleOpcode(
       for (let k = 0; k < copies; k++) {
         state.enemies.push({
           e: { ...self.e, health: newHealth },
-          status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+          status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
           prevHp: newHealth,
           scriptOnTurnStart: self.scriptOnTurnStart,
           scriptOnBattleEnd: self.scriptOnBattleEnd,
@@ -864,7 +864,7 @@ export function dispatchBattleOpcode(
       for (let k = 0; k < count; k++) {
         state.enemies.push({
           e: { ...base }, // 满血 base stats(sdlpal e = lprgEnemy[enemyID])
-          status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+          status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
           prevHp: base.health,
           scriptOnTurnStart: onTurnStart,
           scriptOnBattleEnd: onBattleEnd,

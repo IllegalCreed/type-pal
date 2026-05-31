@@ -211,15 +211,15 @@ describe('createBattleState', () => {
     // 新字段写入 + JSON round-trip 保留
     state.players[0]!.status.silence = 3
     state.players[0]!.status.puppet = 5
-    state.players[0]!.status.bravery = true
-    state.players[0]!.status.protect = true
-    state.players[0]!.status.dualAttack = true
+    state.players[0]!.status.bravery = 4
+    state.players[0]!.status.protect = 4
+    state.players[0]!.status.dualAttack = 4
     const parsed = JSON.parse(JSON.stringify(state)) as typeof state
     expect(parsed.players[0]?.status.silence).toBe(3)
     expect(parsed.players[0]?.status.puppet).toBe(5)
-    expect(parsed.players[0]?.status.bravery).toBe(true)
-    expect(parsed.players[0]?.status.protect).toBe(true)
-    expect(parsed.players[0]?.status.dualAttack).toBe(true)
+    expect(parsed.players[0]?.status.bravery).toBe(4)
+    expect(parsed.players[0]?.status.protect).toBe(4)
+    expect(parsed.players[0]?.status.dualAttack).toBe(4)
   })
 
   it('B-w0.2:partyMembers <= 3 正常构造', () => {

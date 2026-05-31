@@ -81,14 +81,14 @@ function mkBattlePlayer(roleId: number): BattlePlayer {
     prevHp: 200,
     prevMp: 30,
     defending: false,
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
   }
 }
 
 function mkBattleEnemy(e: Enemy): BattleEnemy {
   return {
     e: { ...e },
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
     prevHp: e.health,
     scriptOnTurnStart: 0,
     scriptOnBattleEnd: 0,

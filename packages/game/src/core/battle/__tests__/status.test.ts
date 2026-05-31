@@ -4,7 +4,7 @@ import { canAct, canCastMagic, tickStatusEffects } from '../status.js'
 
 function makePlayerStatus(s: Partial<BattleState['players'][number]['status']>): BattleState['players'][number]['status'] {
   return {
-    sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false,
+    sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0,
     ...s,
   }
 }
@@ -33,6 +33,27 @@ describe('B-w1.a status tick', () => {
     expect(state.players[0]?.status.sleep).toBe(0)
     tickStatusEffects(state)
     expect(state.players[0]?.status.sleep).toBe(0)  // 不变负
+  })
+
+  it('全部 9 种 status 逐回合 -1(含 boolean 类 haste/protect/bravery/dualAttack,对齐 fight.c:1632-1638)', () => {
+    const state = makeBattleState({})
+    state.players[0]!.status = makePlayerStatus({
+      confused: 2, paralyzed: 1, sleep: 3, silence: 1, puppet: 1,
+      bravery: 5, protect: 5, haste: 5, slow: 0, dualAttack: 5,
+    })
+    tickStatusEffects(state)
+    const s = state.players[0]!.status
+    expect(s.confused).toBe(1)
+    expect(s.paralyzed).toBe(0)
+    expect(s.sleep).toBe(2)
+    expect(s.silence).toBe(0)
+    expect(s.puppet).toBe(0)
+    // boolean 类(sdlpal 全是 WORD 计数器,统一递减)
+    expect(s.bravery).toBe(4)
+    expect(s.protect).toBe(4)
+    expect(s.haste).toBe(4)
+    expect(s.slow).toBe(0) // 0 不变负
+    expect(s.dualAttack).toBe(4)
   })
 
   it('paralyzed 同 sleep 同样衰减', () => {

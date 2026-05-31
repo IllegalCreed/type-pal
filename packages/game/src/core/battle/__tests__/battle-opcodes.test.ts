@@ -9,7 +9,7 @@ function makeEnemy(health: number, magic = 0, magicRate = 0): BattleEnemy {
   return {
     // biome-ignore lint/suspicious/noExplicitAny: minimal Enemy shape
     e: { id: 1, health, magic, magicRate } as any,
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
     prevHp: 100,
     scriptOnTurnStart: 0,
     scriptOnBattleEnd: 0,
@@ -112,7 +112,7 @@ function richEnemy(opts: Partial<Enemy>): BattleEnemy {
       ...opts,
       // biome-ignore lint/suspicious/noExplicitAny: 只填伤害公式相关字段
     } as any as Enemy,
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
     prevHp: opts.health ?? 200,
     scriptOnTurnStart: 0,
     scriptOnBattleEnd: 0,
@@ -228,7 +228,7 @@ function throwWeaponCtx(
   return {
     state: {
       enemies,
-      players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+      players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
       field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
       // next()=0 → rngFactor 1.0;rangeInclusive 固定 = RandomLong(0,3) 项
       rng: { next: () => 0, range: () => 0, rangeInclusive: () => rangeInclusiveVal, getState: () => 0 },
@@ -251,7 +251,7 @@ function kindCtx(kindIds: number[], casterIdx: number): BattleCtx {
   return {
     state: {
       // biome-ignore lint/suspicious/noExplicitAny: 只填 e.id + health
-      enemies: kindIds.map(id => ({ e: { id, health: 100 } as any, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false }, prevHp: 100, scriptOnTurnStart: 0, scriptOnBattleEnd: 0, scriptOnReady: 0 })),
+      enemies: kindIds.map(id => ({ e: { id, health: 100 } as any, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 }, prevHp: 100, scriptOnTurnStart: 0, scriptOnBattleEnd: 0, scriptOnReady: 0 })),
       players: [],
       // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
@@ -267,7 +267,7 @@ function drainCtx(enemyHealth: number, targetIdx: number, roleHp: number, roleMa
   return {
     state: {
       enemies: [richEnemy({ health: enemyHealth }), richEnemy({ health: enemyHealth })],
-      players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+      players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
       // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'player', idx: 0 },
@@ -285,7 +285,7 @@ function poisonEnemy(resist: number, health = 100): BattleEnemy {
   return {
     // biome-ignore lint/suspicious/noExplicitAny: 只填伤害/抗性字段
     e: { id: 100, health, defense: 30, level: 5, poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } } as any as Enemy,
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
     prevHp: health,
     scriptOnTurnStart: 0,
     scriptOnBattleEnd: 0,
@@ -384,7 +384,7 @@ function setDmgCtx(roleMp: number, cash: number, objectMagics: ObjectMagicView[]
   return {
     state: {
       enemies: [],
-      players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+      players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
       // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'player', idx: 0 },
@@ -409,7 +409,7 @@ describe('Batch A 状态/数据 opcode', () => {
 
   it('0x5F kill player:目标队员 HP=0', () => {
     const ctx = stateCtx(
-      { players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }] },
+      { players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }] },
       undefined, { type: 'player', idx: 0 },
     )
     // biome-ignore lint/suspicious/noExplicitAny: 只填 hp
@@ -472,7 +472,7 @@ describe('0x5A halve player HP (script.c:005A,无影毒 use)', () => {
     return {
       state: {
         enemies: [],
-        players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+        players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
         // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
       } as any as BattleState,
       caster: { type: 'player', idx: 0 },
@@ -597,7 +597,7 @@ function healCtx(
       // status 全置非 0 → 0x22 复活清状态可验证
       players: roles.map((_, i) => ({
         roleId: i, prevHp: 0, prevMp: 0, defending: false,
-        status: { sleep: 2, paralyzed: 2, confused: 2, haste: true, slow: true },
+        status: { sleep: 2, paralyzed: 2, confused: 2, haste: 1, slow: 1 },
       })),
       // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
@@ -727,8 +727,8 @@ describe('0x22 复活 player(还魂咒/赎魂 scriptOnSuccess,战斗语境)', ()
     expect(ctx.state.players[0]!.status.sleep).toBe(0)
     expect(ctx.state.players[0]!.status.paralyzed).toBe(0)
     expect(ctx.state.players[0]!.status.confused).toBe(0)
-    expect(ctx.state.players[0]!.status.haste).toBe(false)
-    expect(ctx.state.players[0]!.status.slow).toBe(false)
+    expect(ctx.state.players[0]!.status.haste).toBe(0)
+    expect(ctx.state.players[0]!.status.slow).toBe(0)
   })
 
   it('单体活人 → 不复活,g_fScriptSuccess=FALSE(script.c:1099)', () => {
@@ -976,7 +976,7 @@ function statBuffCtx(roles: any[], casterIdx = 0): BattleCtx {
   return {
     state: {
       enemies: [],
-      players: roles.map((r, i) => ({ roleId: r.id ?? i, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } })),
+      players: roles.map((r, i) => ({ roleId: r.id ?? i, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } })),
       // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'player', idx: casterIdx },
@@ -1066,7 +1066,7 @@ function stealCtx(enemy: BattleEnemy, rng: any, cash = 0, inventory: Array<{ ite
   return {
     state: {
       enemies: [enemy],
-      players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+      players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
       rng,
       // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
@@ -1251,7 +1251,7 @@ describe('D17b showDamageNum emit', () => {
     const ctx: BattleCtx = {
       state: {
         enemies: [],
-        players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+        players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
         // biome-ignore lint/suspicious/noExplicitAny: 最小 state
       } as any as BattleState,
       target: { type: 'player', idx: 0 },
@@ -1270,7 +1270,7 @@ describe('D17b showDamageNum emit', () => {
     const ctx: BattleCtx = {
       state: {
         enemies: [],
-        players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false } }],
+        players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
         // biome-ignore lint/suspicious/noExplicitAny: 最小 state
       } as any as BattleState,
       target: { type: 'player', idx: 0 },

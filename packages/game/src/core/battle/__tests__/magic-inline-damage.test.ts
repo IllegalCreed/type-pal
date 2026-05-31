@@ -164,14 +164,14 @@ function makeState(
         prevHp: r.hp,
         prevMp: r.mp,
         defending: false,
-        status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
       },
     ],
     enemies: enemies.map((e) => {
       const en = makeEnemy(e)
       return {
         e: en,
-        status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
         prevHp: en.health,
         scriptOnTurnStart: 0,
         scriptOnBattleEnd: 0,
@@ -770,7 +770,7 @@ describe('performMagic D17: player 防御/治疗魔法 DefMagic 时间线', () =
         prevHp: 200,
         prevMp: 30,
         defending: false,
-        status: { sleep: 0, paralyzed: 0, confused: 0, haste: false, slow: false },
+        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
       })
     }
     return { state, playerRoles, bus }

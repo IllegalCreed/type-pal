@@ -504,8 +504,8 @@ function tickSelectAction(
     // sdlpal `fight.c::PAL_GetPlayerDexterity` 还会加装备 modifier,M3 不实现
     const baseDex = role.dexterity + (role.level + 6) * 4
     let dex = getPlayerActualDexterity(baseDex, {
-      haste: player.status.haste,
-      slow: player.status.slow,
+      haste: player.status.haste > 0,
+      slow: player.status.slow > 0,
     })
     // 行动类型 dex 倍率(sdlpal fight.c:1529-1556):决定本轮行动**先后**。
     //   防御 ×5 → 排到队首先行动,故选防御后**一开始执行动作序列**就进防御姿(user 2026-05-31)。
