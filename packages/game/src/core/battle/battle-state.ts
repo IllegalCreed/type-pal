@@ -248,6 +248,28 @@ export interface BattleAnimFrame {
   sound?: number
   /** 本帧屏幕抖动(screenShake;本切片只存值)。 */
   shake?: { time: number; level: number }
+  /** 本帧召唤神演出状态(set → 隐队员改画召唤神;driver 落到 battleAnim.summon,present 读)。 */
+  summon?: SummonFrameState
+}
+
+/**
+ * 召唤神演出帧状态(sdlpal PAL_BattleShowPlayerSummonMagicAnim,fight.c:3072-3187)。
+ * 帧设此 → present 隐藏全体队员、改画召唤神精灵(替换 battle.c:386-405 lpSummonSprite!=NULL 分支),
+ * 并按 bgColorShift 给战斗背景低 nibble 染色(battle.c:63-67),fadeStep 时走 dither crossfade(淡入/淡出)。
+ */
+export interface SummonFrameState {
+  /** 召唤神精灵 key(battleSprites 'player-{wSummonEffect+10}',F.MKF chunk)。 */
+  spriteKey: string
+  /** 当前帧 index(iSummonFrame)。 */
+  frame: number
+  /** 召唤神屏幕底锚(posSummon = 240+xOffset, 165+yOffset,fight.c:3143)。 */
+  pos: { x: number; y: number }
+  /** 背景染色低 nibble 偏移(sBackgroundColorShift = (SHORT)magic.effectTimes,fight.c:3145/63-67)。 */
+  bgColorShift: number
+  /** crossfade dither 步 0..71(淡入/淡出中);undefined = 全显不淡(loop / OffMagic 期)。 */
+  fadeStep?: number
+  /** fade 方向:'in' 队员→召唤神 / 'out' 召唤神→队员(PAL_BattleFadeScene 双向)。 */
+  fadeDir?: 'in' | 'out'
 }
 
 /** 当前正在播放的动画时间线(performAction 期间存在;播完置 undefined)。 */
@@ -257,6 +279,8 @@ export interface BattleAnimState {
   idx: number
   /** 当前帧已播放时长(ms)。 */
   frameElapsedMs: number
+  /** 当前帧召唤神演出状态(set → present 改画召唤神替换队员;无则正常画队员)。 */
+  summon?: SummonFrameState
   /** 当前帧单个 effect overlay(供 present 画;无则 undefined)。 */
   overlay?: BattleAnimOverlay
   /** 当前帧多个 magic overlay(AttackAll 三落点;present 优先画此,非空时盖过 overlay)。 */

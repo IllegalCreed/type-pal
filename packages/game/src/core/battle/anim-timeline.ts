@@ -734,6 +734,75 @@ export function buildCoopMagicTimeline(input: BuildCoopMagicInput): BattleAnimFr
   return frames
 }
 
+/** PAL_BattleFadeScene crossfade 步数(battle.c:632 12 outer × 6 inner = 72)。 */
+export const SUMMON_FADE_STEPS = 72
+/** crossfade 每步时长(battle.c:631 time = SDL_GetTicks()+16)。 */
+const SUMMON_FADE_STEP_MS = 16
+
+/**
+ * 召唤全员变亮(sdlpal fight.c:3120-3128):i=1..10,所有队员 iColorShift=i,各 Delay(1)。
+ * 召唤神精灵载入前的"聚光"前奏。
+ */
+export function buildSummonBrightenTimeline(partySize: number): BattleAnimFrame[] {
+  const frames: BattleAnimFrame[] = []
+  for (let i = 1; i <= 10; i++) {
+    const fighters: FighterDelta[] = []
+    for (let j = 0; j < partySize; j++) fighters.push({ side: 'player', idx: j, iColorShift: i })
+    frames.push({ durationMs: delayMs(1), fighters })
+  }
+  return frames
+}
+
+export interface BuildSummonInput {
+  /** 召唤神精灵 key('player-{wSummonEffect+10}',F.MKF chunk)。 */
+  spriteKey: string
+  /** 召唤神屏幕底锚(posSummon = 240+xOffset, 165+yOffset)。 */
+  pos: { x: number; y: number }
+  /** 背景染色低 nibble 偏移(= (SHORT)magic.effectTimes)。 */
+  bgColorShift: number
+  /** 召唤神精灵帧数(F.MKF chunk numFrames)。 */
+  totalFrames: number
+  /** 召唤神逐帧时长 = (magic.speed + 5) * 10 ms(fight.c:3170-3171)。 */
+  frameTimeMs: number
+  /** 二次法术效果(FIRE.MKF)时间线 —— 调用方用 buildPlayerOffMagicTimeline(casterIdx=-1)建好传入。 */
+  offMagicFrames: BattleAnimFrame[]
+}
+
+/**
+ * 召唤神演出序列(port fight.c:3072-3187 PAL_BattleShowPlayerSummonMagicAnim 主体 + fight.c:897-912 淡出)。
+ *
+ *  fadeIn(3151-3152 PAL_BattleFadeScene):召唤神 frame0,72 步 dither crossfade(队员→召唤神),各 16ms。
+ *  loop(3160-3181):召唤神 frame 0..totalFrames-2,各 (speed+5)*10 ms(隐队员只画召唤神)。
+ *  offMagic(3186):二次法术效果落敌;召唤神定格 last frame 仍在场(精灵未释放,PAL_BattleMakeScene 续画)。
+ *  fadeOut(897-912 cleanup):72 步 dither crossfade(召唤神→队员),各 16ms;末态清 summon → 队员归位。
+ *
+ * 全程 summon.bgColorShift 给背景染色(battle.c:63-67)。present 据 summon.fadeDir 决定渲染"召唤神场景"
+ * (in/loop)还是"队员场景"(out),并 dither crossfade 对侧快照。
+ */
+export function buildSummonGodSequence(input: BuildSummonInput): BattleAnimFrame[] {
+  const { spriteKey, pos, bgColorShift, totalFrames, frameTimeMs, offMagicFrames } = input
+  const frames: BattleAnimFrame[] = []
+  const lastFrame = Math.max(0, totalFrames - 1)
+
+  // —— fadeIn:召唤神 frame0,72 步 crossfade(队员→召唤神)——
+  for (let s = 0; s < SUMMON_FADE_STEPS; s++) {
+    frames.push({ durationMs: SUMMON_FADE_STEP_MS, summon: { spriteKey, frame: 0, pos, bgColorShift, fadeStep: s, fadeDir: 'in' } })
+  }
+  // —— loop:召唤神 frame 0..totalFrames-2(fight.c while iSummonFrame < numFrames-1)——
+  for (let f = 0; f < totalFrames - 1; f++) {
+    frames.push({ durationMs: frameTimeMs, summon: { spriteKey, frame: f, pos, bgColorShift } })
+  }
+  // —— offMagic:二次效果落敌,召唤神定格 last frame 在场 ——
+  for (const f of offMagicFrames) {
+    frames.push({ ...f, summon: { spriteKey, frame: lastFrame, pos, bgColorShift } })
+  }
+  // —— fadeOut:72 步 crossfade(召唤神→队员)——
+  for (let s = 0; s < SUMMON_FADE_STEPS; s++) {
+    frames.push({ durationMs: SUMMON_FADE_STEP_MS, summon: { spriteKey, frame: lastFrame, pos, bgColorShift, fadeStep: s, fadeDir: 'out' } })
+  }
+  return frames
+}
+
 // ============================================================================
 // D17 法术补全:player DefMagic(治疗/防御) + 敌方 EnemyMagic(攻击)
 // ============================================================================

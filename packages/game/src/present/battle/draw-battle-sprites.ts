@@ -104,7 +104,7 @@ export function computeIdleFrameIndex(
  *   透明(opaque mask=0,= RLE-skip run)不参与偏移(sdlpal 同样跳过)。
  *   shift=0 时退化为原值(等价旧 blit)。
  */
-function blitFrame(
+export function blitFrame(
   fb: Framebuffer,
   frame: SpriteFrame,
   anchorX: number,
@@ -258,6 +258,8 @@ export function drawBattleSprites(
   playerRoles: PlayerRoles,
   enemyPos: EnemyPosTable | undefined,
   currentFrame: number,
+  /** 召唤演出期:隐藏全体队员(改画召唤神,battle.c:386-405 lpSummonSprite!=NULL 分支)。 */
+  hidePlayers = false,
 ): void {
   const targetBlinkOn = battleSelectBlinkOn()
   // D17a:把双方收集成一个 draw 列表 → Y 升序(平局 X 降序)排序 → 逐条 blit。
@@ -322,8 +324,8 @@ export function drawBattleSprites(
     })
   })
 
-  // 队员
-  state.players.forEach((p, i) => {
+  // 队员(召唤演出期隐藏 → 改画召唤神)
+  if (!hidePlayers) state.players.forEach((p, i) => {
     const role = playerRoles.roles[p.roleId]
     // sdlpal fight.c:948-957:死员(hp==0)**照画**倒下帧 2(非傀儡)/ 站立帧 0(傀儡),**不**跳过。
     //   旧版 `hp<=0 return` 让死员凭空消失 + 死亡定格露站立姿(user 报"起立");此处删 skip 改画死帧。

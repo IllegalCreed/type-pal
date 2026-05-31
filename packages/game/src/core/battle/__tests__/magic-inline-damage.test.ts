@@ -239,6 +239,30 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
     })
   })
 
+  it('召唤魔法(type summon)→ 建召唤动画链(state.battleAnim.summon set,精灵 player-{special+10})+ 敌落血', () => {
+    const { state, playerRoles, bus } = makeState({ hp: 500, mp: 30, magicStrength: 60 }, [{ health: 9000, defense: 0, level: 5 }])
+    // 补 posOriginal(召唤动画前置:发起者底锚)
+    ;(state.players[0] as unknown as { posOriginal: { x: number, y: number } }).posOriginal = { x: 240, y: 170 }
+    performMagic({
+      state, casterIsEnemy: false, casterIdx: 0, spellId: 7, targetIsEnemy: true, targetIdx: 0,
+      spells: [makeSpell({ magicNumber: 19 })],
+      // 召唤 magic id19(special2→F.MKF chunk12,effect18 指向二次 magic);二次 magic id18(FIRE.MKF chunk18)
+      magics: [
+        makeMagic({ id: 19, type: 'summon', special: 2, effect: 18, baseDamage: 80, speed: 5, effectTimes: 3 }),
+        makeMagic({ id: 18, type: 'attackAll', effect: 18, baseDamage: 0 }),
+      ],
+      playerRoles, bus, commands, runScript: noopRunScript,
+      magicSpriteFrameCounts: new Map([[18, 6]]), // 二次效果 FIRE.MKF 帧数
+      summonSpriteFrameCounts: new Map([[12, 4]]), // 召唤神精灵 chunk 12(special 2 + 10)= 4 帧
+    })
+    expect(state.battleAnim).toBeDefined()
+    const godFrame = state.battleAnim!.frames.find((f) => f.summon !== undefined)
+    expect(godFrame).toBeDefined() // 链含召唤神演出帧
+    expect(godFrame!.summon!.spriteKey).toBe('player-12') // special 2 + 10
+    // 召唤伤害走 inline 路径(magic.baseDamage 80 + 施法者 magicStrength)→ 敌落血
+    expect(state.enemies[0]!.e.health).toBeLessThan(9000)
+  })
+
   it('applyToAll 法术 → 全体敌人落血', () => {
     const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
       {

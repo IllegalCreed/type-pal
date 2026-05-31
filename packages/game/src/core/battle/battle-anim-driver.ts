@@ -37,6 +37,7 @@ export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: 
   if (state.battleAnim) {
     state.battleAnim.overlay = frame.overlay
     state.battleAnim.overlays = frame.overlays
+    state.battleAnim.summon = frame.summon // 召唤神演出帧(set → present 隐队员改画召唤神);无则清
   }
 
   if (frame.damageNum) {

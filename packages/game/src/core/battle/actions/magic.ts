@@ -27,6 +27,8 @@ import {
   buildPlayerOffMagicTimeline,
   buildPostMagicTimeline,
   buildPreMagicTimeline,
+  buildSummonBrightenTimeline,
+  buildSummonGodSequence,
 } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
@@ -94,6 +96,12 @@ export interface PerformMagicInput {
    * `[battleSpriteId][0] * 10 + 15`(fight.c:2387-2389)。省略 → base=15(只缺 list 系数)。
    */
   battleEffectIndex?: number[]
+  /**
+   * 召唤神精灵帧数 Map(F.MKF chunk index = magic.special+10 → frameCount)——
+   * build 召唤动画取召唤神逐帧 loop 帧数(fight.c:3160 PAL_SpriteGetNumFrames)。
+   * 省略 / 缺 chunk → 不建召唤动画(走即时路径,向后兼容)。
+   */
+  summonSpriteFrameCounts?: Map<number, number>
 }
 
 /**
@@ -306,6 +314,9 @@ export function performMagic(input: PerformMagicInput): void {
       built = buildAndStartMagicAnim(input, magic, dmgResults, pendingNums)
     } else if (magic.type === 'applyToPlayer' || magic.type === 'applyToParty') {
       buildAndStartDefMagicAnim(input, magic)
+    } else if (magic.type === 'summon') {
+      // 召唤魔法(火神/雷神/武神/剑神/酒神…):变亮→召唤神出场动画→二次法术效果。伤害走上方 inline 路径。
+      built = buildAndStartSummonAnim(input, magic, pendingNums)
     }
   } else if (OFF_MAGIC_TYPES.has(magic.type)) {
     built = buildAndStartEnemyMagicAnim(input, magic, pendingNums, hitPlayerIdxs)
@@ -403,6 +414,69 @@ function buildAndStartMagicAnim(
 
   const chain: BattleAnimFrame[] = [...preFrames, ...offFrames, ...postFrames]
   startBattleAnim(input.state, chain, input.bus, pendingNums)
+  return true
+}
+
+/**
+ * D17:player 召唤魔法(kMagicTypeSummon)build 召唤动画链 + startBattleAnim
+ * (port fight.c:3072-3187 PAL_BattleShowPlayerSummonMagicAnim + fight.c:2380 PreMagic fSummon 分支)。
+ *
+ * 链:PreMagic(发起者上移 + 施法姿,跳过施法特效)→ 全员变亮 10 帧 → 召唤神序列(fadeIn crossfade →
+ *   逐帧 loop → 二次法术效果 OffMagic → fadeOut crossfade)。伤害(召唤 magic.baseDamage + 施法者
+ *   magicStrength)已由上方 inline 路径结算,数字延迟到链末 emit(pendingNums)。
+ *
+ * 前置:summonSpriteFrameCounts 有召唤神精灵帧数(F.MKF chunk = special+10)+ 发起者底锚。
+ *   缺 → 返回 false 走即时路径(向后兼容)。二次效果 magic(magic.effect 指向的 magic)缺则只演召唤神不放二次效果。
+ */
+function buildAndStartSummonAnim(
+  input: PerformMagicInput,
+  magic: Magic,
+  pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'],
+): boolean {
+  if (magic.type !== 'summon') return false
+  const summonChunk = magic.special + 10 // F.MKF chunk = wSummonEffect + 10(fight.c:3135)
+  const totalFrames = input.summonSpriteFrameCounts?.get(summonChunk)
+  if (totalFrames === undefined || totalFrames <= 0) return false
+  const caster = input.state.players[input.casterIdx]
+  if (!caster?.posOriginal) return false
+
+  // PreMagic(fSummon=TRUE):上移 4 帧 + 施法姿,跳过 10 帧施法特效(fight.c:2380)。
+  const preFrames = buildPreMagicTimeline({
+    casterPos: caster.posOriginal, casterIdx: input.casterIdx, castEffectFrameBase: 0, isSummon: true,
+  })
+  // 全员变亮 iColorShift 1..10(fight.c:3120-3128)。
+  const brightenFrames = buildSummonBrightenTimeline(input.state.players.length)
+
+  // 二次法术效果:secondary = magics[summonMagic.effect](wEffect 是 magic 编号,fight.c:3098-3105),
+  //   PAL_BattleShowPlayerOffMagicAnim(-1, ..., -1, TRUE) → 全敌 + secondary 落点(fight.c:3186)。
+  let offMagicFrames: BattleAnimFrame[] = []
+  const secondary = input.magics.find((m) => m.id === magic.effect)
+  if (secondary && OFF_MAGIC_TYPES.has(secondary.type)) {
+    const sn = input.magicSpriteFrameCounts?.get(secondary.effect)
+    if (sn !== undefined && sn > 0) {
+      offMagicFrames = buildPlayerOffMagicTimeline({
+        casterIdx: -1,
+        magic: {
+          effect: secondary.effect, type: secondary.type as OffMagicType, speed: secondary.speed,
+          fireDelay: secondary.fireDelay, effectTimes: secondary.effectTimes, shake: secondary.shake,
+          xOffset: secondary.xOffset, yOffset: secondary.yOffset,
+        },
+        n: sn, targetIdx: -1, iBlow: input.state.iBlow,
+      })
+    }
+  }
+
+  // 召唤神序列(fadeIn 72 步 crossfade → 逐帧 loop → 二次效果 → fadeOut 72 步 crossfade)。
+  const godFrames = buildSummonGodSequence({
+    spriteKey: `player-${summonChunk}`,
+    pos: { x: 240 + asShort(magic.xOffset), y: 165 + asShort(magic.yOffset) },
+    bgColorShift: asShort(magic.effectTimes),
+    totalFrames,
+    frameTimeMs: (magic.speed + 5) * 10,
+    offMagicFrames,
+  })
+
+  startBattleAnim(input.state, [...preFrames, ...brightenFrames, ...godFrames], input.bus, pendingNums)
   return true
 }
 

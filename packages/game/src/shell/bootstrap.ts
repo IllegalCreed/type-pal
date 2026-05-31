@@ -329,6 +329,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     magicSpriteFrameCounts.set(chunk, sprite.frames.length)
   }
 
+  // 召唤神精灵帧数 Map(F.MKF chunk = magic.special+10 → frameCount)— performMagic 召唤动画取逐帧 loop 帧数。
+  //   召唤神精灵存于 battleSprites 'player-{chunk}'(F.MKF dump-all,chunk 10..18 = 9 个召唤神)。
+  const summonSpriteFrameCounts = new Map<number, number>()
+  for (const [key, sprite] of battleSprites) {
+    const m = /^player-(\d+)$/.exec(key)
+    if (m) summonSpriteFrameCounts.set(Number(m[1]), sprite.frames.length)
+  }
+
   const bus = createCommandBus()
   const input = new KeyboardInputSource(window)
 
@@ -775,6 +783,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       enemyPos, // D17a:dev 战斗也用真 EnemyPos 表(非 fallback)
       battleEffectIndex, // D17a:dev 战斗命中特效帧基号
       magicSpriteFrameCounts, // D17:dev 战斗 OffMagic 时间线 n
+      summonSpriteFrameCounts, // 召唤神逐帧 loop 帧数
     },
   })
 
@@ -844,6 +853,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         enemyPos, // D17a:enemy 初始 pos/posOriginal(battle.c:936-939)
         battleEffectIndex, // D17a:player 攻击命中特效帧基号(fight.c:2055)
         magicSpriteFrameCounts, // D17:OffMagic 时间线 n(FIRE.MKF chunk 帧数)
+        summonSpriteFrameCounts, // 召唤神逐帧 loop 帧数(F.MKF chunk 帧数)
         levelUpExp: assets.levelUpExp, // D11:战斗胜利升级阈值
         levelUpMagic: assets.levelUpMagic, // D11:升级学新法术
         // P2#5:不再传 per-scene 切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。

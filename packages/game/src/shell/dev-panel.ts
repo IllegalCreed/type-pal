@@ -147,6 +147,8 @@ export interface DevPanelDeps {
     battleEffectIndex: number[]
     /** D17:FIRE.MKF magic sprite 帧数 Map(chunk = magic.effect → frameCount)— OffMagic 时间线 n。 */
     magicSpriteFrameCounts: Map<number, number>
+    /** 召唤神精灵帧数 Map(F.MKF chunk = magic.special+10 → frameCount)— 召唤动画逐帧 loop。 */
+    summonSpriteFrameCounts?: Map<number, number>
   }
 }
 
@@ -909,6 +911,7 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
       enemyPos: deps.resources.enemyPos, // D17a:enemy 初始 pos/posOriginal(battle.c:936-939)
       battleEffectIndex: deps.resources.battleEffectIndex, // D17a:命中特效帧基号(fight.c:2055)
       magicSpriteFrameCounts: deps.resources.magicSpriteFrameCounts, // D17:OffMagic 时间线 n
+      summonSpriteFrameCounts: deps.resources.summonSpriteFrameCounts, // 召唤神逐帧 loop 帧数
       // P2#5:不传切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
     })
   } catch (e) {

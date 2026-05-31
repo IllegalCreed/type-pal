@@ -18,10 +18,51 @@ import {
   buildPlayerOffMagicTimeline,
   buildPostMagicTimeline,
   buildPreMagicTimeline,
+  buildSummonBrightenTimeline,
+  buildSummonGodSequence,
   EFFECT_SPRITE_CHUNK,
+  SUMMON_FADE_STEPS,
 } from '../anim-timeline.js'
 
 const D = BATTLE_FRAME_TIME // 40ms
+
+describe('召唤动画 builders (fight.c:3072-3187 / 3120-3128)', () => {
+  it('buildSummonBrightenTimeline:10 帧,各帧全员 iColorShift=i(1..10)', () => {
+    const f = buildSummonBrightenTimeline(3)
+    expect(f.length).toBe(10)
+    expect(f[0]!.fighters).toEqual([
+      { side: 'player', idx: 0, iColorShift: 1 },
+      { side: 'player', idx: 1, iColorShift: 1 },
+      { side: 'player', idx: 2, iColorShift: 1 },
+    ])
+    expect(f[9]!.fighters!.every((d) => d.iColorShift === 10)).toBe(true)
+  })
+
+  it('buildSummonGodSequence:fadeIn 72 + loop(totalFrames-1) + offMagic + fadeOut 72', () => {
+    const off = [
+      { durationMs: 100, overlays: [] },
+      { durationMs: 100, overlays: [] },
+    ]
+    const seq = buildSummonGodSequence({
+      spriteKey: 'player-12', pos: { x: 240, y: 165 }, bgColorShift: 5, totalFrames: 4, frameTimeMs: 100, offMagicFrames: off,
+    })
+    expect(seq.length).toBe(SUMMON_FADE_STEPS + 3 + 2 + SUMMON_FADE_STEPS) // 72+3+2+72
+    // fadeIn:召唤神 frame0,fadeStep 0..71,dir in,背景染色 5
+    expect(seq[0]!.summon).toEqual({ spriteKey: 'player-12', frame: 0, pos: { x: 240, y: 165 }, bgColorShift: 5, fadeStep: 0, fadeDir: 'in' })
+    expect(seq[71]!.summon!.fadeStep).toBe(71)
+    // loop:召唤神 frame 0..2,无 fadeStep,durationMs 100
+    expect(seq[72]!.summon).toEqual({ spriteKey: 'player-12', frame: 0, pos: { x: 240, y: 165 }, bgColorShift: 5 })
+    expect(seq[72]!.durationMs).toBe(100)
+    expect(seq[74]!.summon!.frame).toBe(2)
+    // offMagic:召唤神定格 last frame 3,overlays 保留
+    expect(seq[75]!.summon!.frame).toBe(3)
+    expect(seq[75]!.overlays).toEqual([])
+    // fadeOut:dir out,召唤神 last frame 3
+    const last = seq[seq.length - 1]!
+    expect(last.summon!.fadeDir).toBe('out')
+    expect(last.summon!.frame).toBe(3)
+  })
+})
 
 describe('buildCoopMagicTimeline (协力合击,fight.c:3856-4107 CLASSIC)', () => {
   // 3 人队全 healthy,casterIdx=0;原位 caster(240,170)/p1(280,150)/p2(300,130)。

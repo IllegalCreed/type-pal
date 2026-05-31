@@ -127,6 +127,11 @@ export interface BattleResources {
    */
   magicSpriteFrameCounts?: Map<number, number>
   /**
+   * 召唤神精灵帧数 Map(F.MKF chunk index = magic.special+10 → frameCount)—— performMagic build
+   * 召唤动画取召唤神逐帧 loop 帧数(fight.c:3160)。省略 → 不建召唤动画(走即时路径)。
+   */
+  summonSpriteFrameCounts?: Map<number, number>
+  /**
    * D11:LevelUpExp[100](level-up-exp.json)—— 战斗胜利升级 `dwExp >= rgLevelUpExp[level]` 阈值
    * (battle.c:1106)。省略 → finalizeBattle 升级 loop 跳过(只入 exp,不升级,向后兼容旧 fixture/测试)。
    */
@@ -218,6 +223,8 @@ export interface StartBattleInput {
    * performMagic build OffMagic 时间线取 `n`。省略 → 不建攻击魔法时间线(向后兼容)。
    */
   magicSpriteFrameCounts?: Map<number, number>
+  /** 召唤神精灵帧数 Map(F.MKF chunk = magic.special+10 → frameCount)。省略 → 不建召唤动画。 */
+  summonSpriteFrameCounts?: Map<number, number>
   /** D11:LevelUpExp[100](level-up-exp.json)—— 战斗胜利升级阈值。省略 → 升级 loop 跳过。 */
   levelUpExp?: number[]
   /** D11:LEVELUPMAGIC_ALL[20][5](level-up-magic.json)—— 升级学新法术。省略 → 不学。 */
@@ -311,6 +318,7 @@ export function startBattle(input: StartBattleInput): void {
     commands: input.commands ?? getGlobalCommands(), // P2#5:默认单一全局数组
     battleEffectIndex: input.battleEffectIndex, // D17a:player 攻击命中特效帧基号
     magicSpriteFrameCounts: input.magicSpriteFrameCounts, // D17:OffMagic 时间线 n
+    summonSpriteFrameCounts: input.summonSpriteFrameCounts, // 召唤神逐帧 loop 帧数
     levelUpExp: input.levelUpExp, // D11:战斗胜利升级阈值
     levelUpMagic: input.levelUpMagic, // D11:升级学新法术
   })
@@ -1851,6 +1859,7 @@ function performBattleAction(
         gs, // 0x88 set magic damage by money 需 gs.dwCash
         magicSpriteFrameCounts: res.magicSpriteFrameCounts, // D17:OffMagic 时间线 n
         battleEffectIndex: res.battleEffectIndex, // D17:PreMagic cast 特效帧基号
+        summonSpriteFrameCounts: res.summonSpriteFrameCounts, // 召唤神逐帧 loop 帧数
       })
       break
     }

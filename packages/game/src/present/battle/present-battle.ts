@@ -28,7 +28,7 @@
 
 import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
-import type { BattleState } from '../../core/battle/battle-state.js'
+import type { BattleState, SummonFrameState } from '../../core/battle/battle-state.js'
 import { getBattleLiveRoles } from '../../core/battle/battle-system.js'
 import type { BusEntry } from '../../core/command-bus.js'
 import type { GameState } from '../../core/game-state.js'
@@ -39,6 +39,7 @@ import { type DialogBoxDrawCtx, drawDialogBox } from '../dialog-box.js'
 import { drawBattleEffectOverlay, drawBattleMagicOverlay } from './draw-battle-effect.js'
 import { FloatingNumsLayer } from './draw-battle-num.js'
 import {
+  blitFrame,
   computeEnemyAnchor,
   computePlayerAnchor,
   drawBattleSprites,
@@ -98,6 +99,11 @@ export class BattlePresent {
   private readonly floatingNums = new FloatingNumsLayer()
   /** 战斗单行消息条(偷取"获得 X" / 逃跑失败);currentFrame >= expiryFrame 时消失。 */
   private battleMsg: { text: string, expiryFrame: number } | undefined
+  /** 召唤 crossfade(PAL_BattleFadeScene)用:上一帧渲染快照(fade 起手 = 对侧"from"场景)。 */
+  private lastFrameBuf: Uint8Array | undefined
+  /** 召唤 crossfade 累积态(from 逐步 dither 逼近 to,显示此 buf);+ 已应用到第几步。 */
+  private summonFadeBuf: Uint8Array | undefined
+  private summonFadeApplied = -1
 
   /**
    * 画一帧战斗画面 + drain 战斗命令到弹幕层。
@@ -148,15 +154,20 @@ export class BattlePresent {
       // / showDialogBox / clearDialogBox 等)M3 简版跳过
     }
 
-    // 2. 战斗背景(M3 dev fixture 用 BattleField.id=0;实际 id 由 state.field.id 提供)
+    // 召唤演出(state.battleAnim.summon):in/loop 期画召唤神替换队员 + 背景染色;out 期(淡出)正常画队员。
+    //   crossfade(淡入/淡出)在本帧 UI 画完后统一处理(applySummonFade)。
+    const summon = state.battleAnim?.summon
+    const summonGodMode = summon !== undefined && summon.fadeDir !== 'out'
+
+    // 2. 战斗背景(召唤期按 sBackgroundColorShift 染色,battle.c:62-76)
     const bg = assets.battleBgs.get(state.field.id)
-    if (bg) drawBattleBg(fb, bg)
+    if (bg) drawBattleBg(fb, bg, summonGodMode ? summon.bgColorShift : 0)
 
     // 战斗实时 roles(伤害/死亡写于此;死员据此画倒下帧)。无战斗资源(单测/兜底)→ static 基线。
     //   修"起立":精灵 + UI 都读 live,死员 hp==0 → 倒下帧 2(draw-battle-sprites)/ HP 条显实时血。
     const liveRoles = getBattleLiveRoles(gs) ?? assets.playerRoles
 
-    // 3. 双方精灵(死员画倒下帧 2,不再凭空消失;sprite 缺资源跳过)
+    // 3. 双方精灵(死员画倒下帧 2;召唤 god 模式隐队员)
     drawBattleSprites(
       fb,
       state,
@@ -164,7 +175,15 @@ export class BattlePresent {
       liveRoles,
       assets.enemyPos,
       currentFrame,
+      summonGodMode, // 召唤神出场 → 隐队员
     )
+
+    // 3.1 召唤神精灵(替换队员;battle.c:163-212/386-405 lpSummonSprite!=NULL)。pos = posSummon 底中锚。
+    if (summonGodMode) {
+      const god = assets.battleSprites.get(summon.spriteKey)
+      const frame = god?.frames[summon.frame] ?? god?.frames[0]
+      if (frame) blitFrame(fb, frame, summon.pos.x, summon.pos.y)
+    }
 
     // 3.5 D17a/D17:战斗动画 overlay(物理攻击命中特效 / 法术 FIRE.MKF sprite),sprite 之上 UI 之下。
     //     applyAnimFrame 写当前帧的 overlay(单数,effect)+ overlays(复数,magic AttackAll 三落点)。
@@ -227,6 +246,54 @@ export class BattlePresent {
         glyphs: assets.glyphs,
       })
     }
+
+    // 8. 召唤 crossfade(PAL_BattleFadeScene)—— 所有内容画完后,fade 帧把累积态盖上(淡入:队员→召唤神 /
+    //    淡出:召唤神→队员);非 fade 帧只快照本帧供下次 fade 起手。
+    this.applySummonFade(fb, state.battleAnim?.summon, !!state.battleAnim)
+  }
+
+  /**
+   * 召唤 crossfade —— port sdlpal PAL_BattleFadeScene(battle.c:608-682)的 rgIndex stride-6 dither blend。
+   * fade 起手快照"from"场景(上一帧),逐步把低 nibble dither 逼近本帧渲染的"to"场景,显示累积态。
+   * 高 nibble(调色板块)立即切换,低 nibble(亮度)渐变 → PAL 特征淡变。
+   */
+  private applySummonFade(fb: Framebuffer, summon: SummonFrameState | undefined, battleAnimActive: boolean): void {
+    const current = fb.indices as Uint8Array
+    if (!summon || summon.fadeStep === undefined) {
+      // 非 fade 帧:快照本帧(下次 fade 起手的 "from" 场景);清 fade 累积态。
+      if (battleAnimActive) {
+        if (!this.lastFrameBuf || this.lastFrameBuf.length !== current.length) this.lastFrameBuf = new Uint8Array(current.length)
+        this.lastFrameBuf.set(current)
+      }
+      this.summonFadeBuf = undefined
+      this.summonFadeApplied = -1
+      return
+    }
+    const rgIndex = [0, 3, 1, 5, 2, 4] as const
+    // fade 起手:morphing buf = 上一帧快照("from")。
+    if (summon.fadeStep === 0 || !this.summonFadeBuf || this.summonFadeBuf.length !== current.length) {
+      this.summonFadeBuf = new Uint8Array(this.lastFrameBuf && this.lastFrameBuf.length === current.length ? this.lastFrameBuf : current)
+      this.summonFadeApplied = -1
+    }
+    const buf = this.summonFadeBuf
+    // 应用 dither 步 (applied+1 .. fadeStep):累积把 buf 的低 nibble 逼近 current("to",battle.c:639-661)。
+    for (let s = this.summonFadeApplied + 1; s <= summon.fadeStep; s++) {
+      const outerI = Math.floor(s / 6)
+      const phaseOffset = rgIndex[s % 6]!
+      for (let k = phaseOffset; k < current.length; k += 6) {
+        const a = current[k]!
+        let b = buf[k]!
+        if (outerI > 0) {
+          const aLow = a & 0x0F
+          const bLow = b & 0x0F
+          if (aLow > bLow) b++
+          else if (aLow < bLow) b--
+        }
+        buf[k] = ((a & 0xF0) | (b & 0x0F)) & 0xFF
+      }
+    }
+    this.summonFadeApplied = summon.fadeStep
+    current.set(buf) // 显示累积态(from 渐变到 to)
   }
 
   /** 战斗结束时清空数字弹幕 + 消息条,避免下次战斗看到上次残留。 */
