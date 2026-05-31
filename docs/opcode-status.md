@@ -5,7 +5,9 @@
 > **三表**:[feature-status](feature-status.md)(引擎功能)· opcode-status(事件 / opcode,本表)· [resource-status](resource-status.md)(资源提取)
 > **图例**:✅ done · ⚠️ partial(extraction 已收集目标,runtime 待)· ⬜ todo · N/A
 > **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra)· E=战斗 · S=系统/UI
-> **最后更新**:2026-05-30 — **E 类 + D 音频全收口(全 opcode ✅,无 todo 剩余)**。本轮补齐:
+> **⚠️ 2026-05-31 逐 opcode 审计修正**:对全 163 opcode 拿 ts 实现对 sdlpal 源逐分支核对(38-agent 审计 + 35-agent 对抗复核)发现 **25 处真问题**(此前误标 ✅):10 🐞bug / 9 ⬜missing-branch / 6 ⚠️简版。**详见下方「审计修正表」,该表对所列 opcode 覆盖本文件正文表格的 ✅ 标注**。此前"全 opcode ✅ 无 todo"的断言**不成立**。
+>
+> **历史最后更新**:2026-05-30 — E 类 + D 音频收口(opcode handler 存在 + 单测,但**非全分支 1:1**,见审计表)。本轮补齐:
 >   battle 0x5F kill-player / 0x5C hide / 0x6B blow / 0x89 set-result / 0x8A auto-battle / 0x33 collect /
 >   0x3A flee / 0x9C division / 0x9F transform / 0x30 stat-buff% / 0x31 sprite(present no-op)/
 >   0x92 magic-anim(present no-op)/ 0x6A steal;explore 0x34 妖魔转化 / 0x38 teleport-out(fail-path);
@@ -39,16 +41,73 @@
 > scene:0x05 redraw 对齐 PAL_MakeScene 自动淡入(commit ef70491,修仙灵岛靠岸黑屏);autoScript goto 不消耗帧
 > (commit eaaa1d5,修张四划船掉船尾);scene-load 失败兜底解冻(commit 9791497)。
 
+## 🔬 2026-05-31 逐 opcode 审计修正表(权威 — 覆盖正文 ✅)
+
+> 方法:全 163 opcode 拿 ts 实现(applyRawOpcode + dispatchBattleOpcode + tickEventSystem/runScript + runOneAutoOp 全 dispatch 路径)对 sdlpal `script.c`/`fight.c`/`global.c` **逐分支**核对(38-agent 审计),再 35-agent **对抗复核**滤假阳性。下表所列 opcode 的真实状态以此为准。
+> 图例:🐞 bug(逻辑错,需修) · ⬜ missing-branch(分支/实现缺) · ⚠️ 简版(主干对、子分支缺)
+
+### 真问题 25 处(此前误标 ✅)
+
+| op | 真实状态 | sev | 缺口 |
+|----|---------|-----|------|
+| 0x02 | 🐞 bug | high | trigger 脚本(tickEventSystem)的 reset 缺 idleFrames(op[1])延迟 gate;只 autoScript 路径有 → trigger 内每帧立即 reset |
+| 0x03 | 🐞 bug | high | goto 在 tickEventSystem(trigger/onEnter)+ runScript(战斗)缺 frameDelay(op[1])gate;只 autoScript 有 |
+| 0x05 | ⬜ missing | medium | 缺 PAL_DialogIsPlayingRNG→RestoreScreen 分支 + 战斗场景重绘分支(只做大世界 else) |
+| 0x1B | 🐞 bug | high | 大世界 applyHPMPDelta 缺活人 gate(HP==0 死人也加 HP)→ 违 sdlpal 仅活人;战斗路径已有 gate |
+| 0x1C | 🐞 bug | high | 同 0x1B(MP) |
+| 0x1D | 🐞 bug | high | 同 0x1B(HP+MP),且 fScriptSuccess 判定受影响 |
+| 0x20 | ⚠️ 简版 | high | removeItem 缺:条件检查 / 装备槽消耗循环 / 不足时跳 op[2] / RemoveEquipmentEffect |
+| 0x22 | ⚠️ 简版 | medium | revive 缺清全 status 循环(大世界无 status 模型;战斗路径正确) |
+| 0x23 | 🐞 bug | high | removeEquipment 缺 RemoveEquipmentEffect → 装备攻/防/魔加成残留不撤销 |
+| 0x2A | ⬜ missing | high | 战斗 cure-enemy-poison-by-kind 未实现(dispatchBattleOpcode 无 case,落 skip) |
+| 0x2D | ⬜ missing | high | set-player-status(战斗内异常状态设置,confuse/sleep/…)未实现 |
+| 0x2E | ⬜ missing | high | set-enemy-status(抗性判定 RandomLong>resist + 条件跳 op[2])未实现 |
+| 0x2F | ⬜ missing | medium | remove-player-status 未实现 |
+| 0x30 | ⚠️ 简版 | high | stat-buff% 直接 mutate role 持久值(应存 per-battle Extra slot 战末清)→ 战后残留 + 重复叠加 |
+| 0x38 | ⚠️ 简版 | medium | teleport-out 只失败路径;成功 teleport 脚本缺(需 SceneAssets 透传 onTeleportLabel) |
+| 0x59 | ⬜ missing | high | loadScene 缺 bounds(>0 && ≤MAX)+ 同场景跳过 guard |
+| 0x60 | 🐞 bug | high | KO-enemy 错用 operand[0];sdlpal 无 operand,用 wEventObjectID(= caster 敌人自身) |
+| 0x61 | 🐞 bug | high | jumpIfPlayerNotPoisoned 错用 op[1](应 op[0])+ 恒跳(应查 isPlayerPoisoned) |
+| 0x69 | ⚠️ 简版 | high | enemy-escape 设 health=0(应 BattleResult=Terminated 终止战斗无奖励;现一敌死战斗续) |
+| 0x6D | ⬜ missing | medium | setTriggerScript 缺 op[2]!=0 设 onTeleport 分支 |
+| 0x6F | 🐞 bug | medium | syncObjState 缺 SHORT cast → sState≥0x8000 误为大正数 |
+| 0x7F | ⬜ missing | high | setCamera 缺动画平移 loop(只 center-on-party;pan cutscene 失效/瞬跳) |
+| 0x8E | ⚠️ 简版 | medium | 探索模式 0x8E 缺 VIDEO_RestoreScreen(只做对话 partialClear) |
+| 0x96 | ⬜ missing | medium | ending-anim 缺 !fIsWIN95 平台 gate(WIN95 应 noop) |
+| 0x9E | 🐞 bug | high | enemy-summon 缺 `iHidingTime>0` fail 检查 → 我方隐身时敌人仍可召唤,破隐身保护 |
+
+### 审计假阳性 5 处(复核维持 ✅ — 审计 agent 误判)
+
+| op | 维持 ✅ 原因 |
+|----|-----------|
+| 0x09 | wait:increment-compare 模式下 op[0]==0 与 ==1 等价,ts(`||1`)行为与 sdlpal 一致 |
+| 0x21 | inflict-damage:审计漏看 dispatchBattleOpcode(battle-opcodes:280 已实现 consumed),applyRawOpcode 的 skip 是大世界 stub |
+| 0x42 | simulate-magic:本就 battle-only,经 dispatchBattleOpcode 处理;simulateMagic = PAL_BattleSimulateMagic 等价 |
+| 0x98 | set-follower:审计指的 sprite/位置在 present 层(computeFollowerRenderItems)已做,非 opcode 缺 |
+| 0x9C | enemy-division:复核认 sdlpal 计数语义被审计误读,ts 逻辑实际对 |
+
+### 非 bug 简版 5 处(by design / 待 M6,已记残)
+
+| op | 说明 |
+|----|------|
+| 0x07 | start-battle 缺 onLose/onFlee 续跑(P0.e by design,留 M5 P1-Battle 系列) |
+| 0x18 | equip 缺 slot-swap 优化(库存顺序差异,净值正确,无玩法影响) |
+| 0x28 | apply-poison 战斗内分支/抗性已对,仅毒脚本 tick 差一拍(postAction,文档化残) |
+| 0x43 | play-music 缺 loop/fade 参数(真播待 M6 音频) |
+| 0x47 | play-sound 纯 stub(真播待 M6 音频) |
+
+> **修复推进**:poison/status 相关(0x2A/0x2D/0x2E/0x2F/0x61)随中毒机制实现一并修;其余 bug(0x02/0x03/0x1B-1D/0x23/0x60/0x6F/0x9E/0x59/0x7F 等)单独批次。
+
 ## 控制流(0x00-0x0A)
 
 | op | 含义 | 状态 | 备注 |
 |----|------|------|------|
 | 0x00 | end(stop,park) | ✅ | event-system 'end' |
 | 0x01 | end advance(下一行) | ✅ | onEnter 持久化 + autoScript |
-| 0x02 | end reset(resetTo) | ✅ | autoScript reset loop |
-| 0x03 | goto | ✅ | 含 shared#L_x 跨 scene |
+| 0x02 | end reset(resetTo) | 🐞 bug | autoScript reset loop ✅;但 **trigger(tickEventSystem)缺 idleFrames 延迟 gate**(见审计表) |
+| 0x03 | goto | 🐞 bug | 跳转 ✅;但 **trigger + 战斗路径缺 frameDelay(op[1])gate**(见审计表) |
 | 0x04 | call script(子脚本) | ✅ | 调用栈(238 次最高频) |
-| 0x05 | redraw screen / ClearDialog | ✅ | 对齐 sdlpal PAL_MakeScene(needToFadeIn→淡入,修仙灵岛靠岸黑屏,ef70491) |
+| 0x05 | redraw screen / ClearDialog | ⬜ missing | 大世界 else 分支 ✅(PAL_MakeScene needToFadeIn→淡入,ef70491);**缺 RNG-playback restore + 战斗场景重绘分支**(见审计表) |
 | 0x06 | jump by rate | ✅ | OP_JUMP_BY_RATE |
 | 0x07 | start battle | ✅ | |
 | 0x08 | replace entry with next | ✅ | 默认 raw 路径 ip++ 已等价(continue);wNextScriptEntry resume 边缘情形未做 |
