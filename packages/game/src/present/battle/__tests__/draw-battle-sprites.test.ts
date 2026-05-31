@@ -7,6 +7,7 @@ import {
   blitFrameDeathFade,
   computeIdleFrameIndex,
   computePlayerBattleIdleFrame,
+  confusedShakeDelta,
   DEATH_FADE_TOTAL_STEPS,
   drawBattleSprites,
   enemyTargetHighlightShift,
@@ -703,8 +704,16 @@ describe('computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:961-
   it('正常(非眠/非濒死/非防御)→ 帧0', () => {
     expect(computePlayerBattleIdleFrame(P({}), R(200))).toBe(0)
   })
-  it('混乱无特殊帧 → 帧0(sdlpal confused 无 idle 特殊帧/晃动)', () => {
-    // confused 不在 sleep/dying/defending 判定里 → 走 else 帧0
+  it('混乱无特殊帧 → 帧0(confused 抖动是 pos 特效,非帧;见 confusedShakeDelta)', () => {
+    // confused 不在 sleep/dying/defending 判定里 → 走 else 帧0(抖动靠 confusedShakeDelta 位移)
     expect(computePlayerBattleIdleFrame(P({}), R(200))).toBe(0)
+  })
+})
+
+describe('confusedShakeDelta(混乱 ±1px 抖动,sdlpal battle.c:121/196)', () => {
+  it('rand01 → {-1,0,1}(RandomLong(-1,1) 等价)', () => {
+    expect(confusedShakeDelta(0)).toBe(-1) // [0,1/3)
+    expect(confusedShakeDelta(0.5)).toBe(0) // [1/3,2/3)
+    expect(confusedShakeDelta(0.99)).toBe(1) // [2/3,1)
   })
 })

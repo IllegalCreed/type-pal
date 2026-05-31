@@ -225,6 +225,15 @@ function isPlayerDyingFrame(hp: number, maxHP: number): boolean {
 }
 
 /**
+ * 混乱抖动 ±1px(sdlpal `PAL_BattleMakeScene`,battle.c:121 敌 X 轴 / 196 玩家 Y 轴)。
+ * 每帧重随机 `RandomLong(-1,1)` = {-1,0,1}。rand01 ∈ [0,1)(运行时 Math.random,测试注入)。
+ * 条件由调用方判:敌 `confused>0 && !sleep && !paralyzed`;玩家额外 `hp>0 && !濒死`。
+ */
+export function confusedShakeDelta(rand01: number): number {
+  return Math.floor(rand01 * 3) - 1 // [0,1)→{0,1,2}→{-1,0,1}
+}
+
+/**
  * 玩家战斗空闲帧 —— sdlpal `PAL_BattleUpdateFighters`(fight.c:961-984,CLASSIC):
  *   sleep != 0 或濒死 → 帧 1(濒死姿)/ 防御 → 帧 3 / else → 帧 0。
  *   (dead 帧 2 / puppet 帧 0 由 draw 上层 hp<=0 skip 处理;**confused 无特殊帧** → 0。)
@@ -295,8 +304,13 @@ export function drawBattleSprites(
     const frame = sprite.frames[frameIdx] ?? sprite.frames[0]!
     // 敌方 target 选择高亮(sdlpal uibattle.c:1495-1510,ColorShift 7,无箭头)优先于受击闪白。
     const highlight = enemyTargetHighlightShift(state, i, targetBlinkOn)
+    // 混乱抖动:X 轴 ±1px(sdlpal battle.c:114-121,confused>0 && !sleep && !paralyzed;淡出中不抖)。
+    const enemyShakeX = (!isFading && enemy.status.confused > 0
+      && enemy.status.sleep <= 0 && enemy.status.paralyzed <= 0)
+      ? confusedShakeDelta(Math.random())
+      : 0
     items.push({
-      x: pos.x,
+      x: pos.x + enemyShakeX,
       y: pos.y,
       frame,
       // 淡出中 iColorShift 归 0(crossfade 自带渐隐);target 高亮 7 优先;否则 render-state(受击闪白 6)。
@@ -320,7 +334,12 @@ export function drawBattleSprites(
       ? (p.currentFrame ?? 0)
       : computePlayerBattleIdleFrame(p, role)
     const frame = sprite.frames[frameIdx] ?? sprite.frames[0]
-    items.push({ x: pos.x, y: pos.y, frame, iColorShift: p.iColorShift ?? 0, fadeStep: -1 })
+    // 混乱抖动:Y 轴 ±1px(sdlpal battle.c:187-196,confused && !sleep && !paralyzed && hp>0 && !濒死)。
+    const playerShakeY = (p.status.confused > 0 && p.status.sleep <= 0 && p.status.paralyzed <= 0
+      && !isPlayerDyingFrame(role.hp, role.maxHP))
+      ? confusedShakeDelta(Math.random())
+      : 0
+    items.push({ x: pos.x, y: pos.y + playerShakeY, frame, iColorShift: p.iColorShift ?? 0, fadeStep: -1 })
   })
 
   // Y 升序;平局 X 降序(battle.c:444-466)
