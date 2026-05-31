@@ -215,7 +215,7 @@
 ## 进度跟踪
 
 - [x] B1 — 玩家状态行为正确性(D8/D21)✅ 2026-05-31 commit 970ff88/3bb440f/42eda6b(详 d-batch1 plan;1343 测试绿)。注:D21 Extra 清不反转 0x30 直接 mutate(D23/0x30 残仍待 B6/D14,**不是** B1 解决)
-- [ ] B2 — 敌方 AI 真值 + 脚本驱动(D9/D10/D24/D27残)
+- [x] B2 — 敌方 AI 真值 + 脚本驱动(D9/D10/D24/D27残)✅ 2026-06-01 commit(c1-c10 + c7;详 [d-batch2 plan](2026-05-31-d-batch2-enemy-ai.md) 13/13)。c1 状态门(sleep/paralyzed/silence/confused)/ c2-c4 enemy→player 物理+魔法公式(def 修/jitter/Protect/autoDefend)/ c3b cover 守护替挡 / c5 iHidingTime 隐身整轮跳过 / c6 scriptOnBattleEnd 战后 resume / c7 真 show-once/re-arm(runScript 返回 wNextScriptEntry 回写)/ c8 dualMove 二动 / c9 群体魔法 target=-1 / c10 D9 RNG 对拍。全绿 1506 + tsc。**不误改坐实**:D9 无 target 偏好(纯随机)/ autotarget 无 Bug-1 / 0x90 不加 battle sync。残:B2 内无
 - [ ] B3 — 战斗内毒系统(D15/D20紫色)
 - [ ] B4 — 缺失玩家动作类型(D2/D16/D18残)
 - [ ] B5 — 战斗演出视觉残留(D17残/D19/D13视觉/D20 Trance)
