@@ -2506,7 +2506,8 @@ function tryStartBattle(gs: GameState, enemyTeamId: number, fleeArg: number): vo
     return
   }
   const isBoss = fleeArg === 0  // sdlpal !operand[2]:operand[2]==0 → isBoss true
-  console.debug(`event-system: startBattle enemyTeamId=${enemyTeamId} isBoss=${isBoss}`)
+  // 战斗背景 = gs.wNumBattleField(0x4A setBattlefield 设;持久全局,scene enter 脚本逐场设)。
+  console.debug(`event-system: startBattle enemyTeamId=${enemyTeamId} isBoss=${isBoss} scene=${gs.wNumScene} battleField=${gs.wNumBattleField}`)
   _startBattleHandler({ gs, enemyTeamId, isBoss })
 }
 
