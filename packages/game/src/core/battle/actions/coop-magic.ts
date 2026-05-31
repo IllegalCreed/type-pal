@@ -18,6 +18,8 @@
 
 import type { Magic, ObjectMagicView, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
+import { buildCoopMagicTimeline } from '../anim-timeline.js'
+import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleState } from '../battle-state.js'
 import { applyMagicDamage, magicForcesAllTarget, resolveObjectMagic } from '../magic-damage.js'
 
@@ -33,6 +35,14 @@ export interface PerformCoopMagicInput {
   magics: Magic[]
   objectMagics: ObjectMagicView[]
   bus: CommandBus
+  /** D17:FIRE.MKF chunk[effect] 帧数 Map(= res.magicSpriteFrameCounts)。有则建合击动画;缺则即时数字(向后兼容)。 */
+  magicSpriteFrameCounts?: Map<number, number>
+}
+
+/** sdlpal 攻击魔法 4 落点类型(OffMagic / 合击动画支持)。 */
+type OffMagicType = 'normal' | 'attackAll' | 'attackWhole' | 'attackField'
+function isOffMagicType(t: Magic['type']): t is OffMagicType {
+  return t === 'normal' || t === 'attackAll' || t === 'attackWhole' || t === 'attackField'
 }
 
 /** SHORT cast(同 magic-damage.ts)。 */
@@ -53,7 +63,7 @@ function isHealthy(role: { hp: number, maxHP: number }, status: { sleep?: number
 }
 
 export function performCoopMagic(input: PerformCoopMagicInput): void {
-  const { state, coopObjId, targetIdx, playerRoles, magics, objectMagics, bus } = input
+  const { state, casterIdx, coopObjId, targetIdx, playerRoles, magics, objectMagics, bus, magicSpriteFrameCounts } = input
 
   // 解析合击 magic object → magicNumber → magic(sdlpal fight.c:3860-3861)。
   const objMagic = resolveObjectMagic(coopObjId, objectMagics)
@@ -103,7 +113,50 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
     minDamage: 1,
   })
 
-  // D17b:掉血 → blue showDamageNum(present 动画 = D17 跳过,直接 emit 数字)。
+  // —— 动画:聚拢队形 → 施法 → OffMagic 法术效果 → 滑回(fight.c:3856-4107)。
+  //   前置满足(攻击类 magic + 有 FIRE.MKF 帧数 + 发起者有底锚)→ 建链;伤害数字延迟到特效落完才弹(pendingNums)。
+  //   不满足(治疗/召唤类合击 / 无帧数 / 旧 fixture)→ 回落即时数字,向后兼容。
+  const n = magicSpriteFrameCounts?.get(magic.effect)
+  const casterPos = state.players[casterIdx]?.posOriginal
+  if (isOffMagicType(magic.type) && n !== undefined && n > 0 && casterPos) {
+    const offType = magic.type
+    // 伤害数字延迟到 OffMagic 落完(sdlpal PAL_BattleDisplayStatChange 在 OffMagic 后,fight.c:4045)。
+    const pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
+    const hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }> = []
+    for (const r of results) {
+      if (r.hpAfter < r.hpBefore) pendingNums.push({ target: { kind: 'enemy', idx: r.enemyIdx }, value: r.hpBefore - r.hpAfter, color: 'blue' })
+      if (r.hpAfter !== r.hpBefore) {
+        const pos = state.enemies[r.enemyIdx]?.posOriginal
+        if (pos) hurtEnemies.push({ idx: r.enemyIdx, pos })
+      }
+    }
+    // OffMagic 落点:normal → 单体目标 idle 底锚;全体类型 → -1(落点表)。
+    let offTargetIdx = -1
+    let offTargetPos: { x: number; y: number } | undefined
+    if (offType === 'normal' && typeof target === 'number') {
+      offTargetIdx = target
+      offTargetPos = state.enemies[target]?.posOriginal
+    }
+    const frames = buildCoopMagicTimeline({
+      casterIdx,
+      partySize: state.players.length,
+      contributorIdxs: contributors,
+      originalPositions: state.players.map(p => p.posOriginal),
+      magic: {
+        effect: magic.effect, type: offType, speed: magic.speed, fireDelay: magic.fireDelay,
+        effectTimes: magic.effectTimes, shake: magic.shake, xOffset: magic.xOffset, yOffset: magic.yOffset,
+      },
+      n,
+      targetIdx: offTargetIdx,
+      targetEnemyPos: offTargetPos,
+      iBlow: state.iBlow,
+      hurtEnemies,
+    })
+    startBattleAnim(state, frames, bus, pendingNums)
+    return
+  }
+
+  // 回落(无动画):D17b 掉血 → blue showDamageNum 即时弹。
   for (const r of results) {
     if (r.hpAfter < r.hpBefore) {
       bus.emit({ op: 'showDamageNum', target: { kind: 'enemy', idx: r.enemyIdx }, value: r.hpBefore - r.hpAfter, color: 'blue' })

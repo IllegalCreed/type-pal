@@ -127,4 +127,20 @@ describe('performCoopMagic(协力合击,fight.c:3856-4043 CLASSIC)', () => {
     expect(state.enemies[0]!.e.health).toBe(before) // 不结算
     expect(roles[0]!.hp).toBe(500) // 不付 HP
   })
+
+  it('有 magicSpriteFrameCounts + 底锚 → 建合击动画链(聚拢/施法/法术效果/滑回),伤害数字延迟到特效后', () => {
+    const roles = [makeRole(0, { attackStrength: 40, magicStrength: 60 }), makeRole(1, { attackStrength: 20, magicStrength: 40 })]
+    const { state, playerRoles } = makeCoopState(roles)
+    // 补 posOriginal(动画前置:发起者 + 贡献者底锚)
+    state.players.forEach((p, i) => { (p as unknown as { posOriginal: { x: number, y: number } }).posOriginal = { x: 240 - i * 20, y: 170 } })
+    performCoopMagic({ state, casterIdx: 0, coopObjId: 351, targetIdx: 'all', playerRoles, magics: [COOP_MAGIC], objectMagics: OBJ_MAGICS, bus: createCommandBus(), magicSpriteFrameCounts: new Map([[0, 8]]) })
+    // 建链:Phase1 聚拢 6 帧 + Phase2/3/4 + OffMagic(14 帧)+ PostMagic + 滑回 6 帧 → 远超 6。
+    expect(state.battleAnim).toBeDefined()
+    expect(state.battleAnim!.frames.length).toBeGreaterThan(6)
+    // 第 6 帧发起者已插值移向 COOP_POS[0]=(208,157)(队形聚拢,验"站成一列"动起来)。
+    const f6Caster = state.battleAnim!.frames[5]!.fighters!.find(d => d.side === 'player' && d.idx === 0)!
+    expect(f6Caster.pos).toEqual({ x: 208, y: 157 })
+    // 伤害数字延迟(pendingDamageNums)而非即时弹 —— sdlpal PAL_BattleDisplayStatChange 在 OffMagic 后。
+    expect(state.battleAnim!.pendingDamageNums?.length).toBeGreaterThan(0)
+  })
 })

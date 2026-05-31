@@ -1925,6 +1925,7 @@ function performBattleAction(
         magics: res.magics,
         objectMagics: res.objectMagics,
         bus,
+        magicSpriteFrameCounts: res.magicSpriteFrameCounts, // 有 → 建合击动画(聚拢/施法/法术效果/滑回)
       })
       break
     }
