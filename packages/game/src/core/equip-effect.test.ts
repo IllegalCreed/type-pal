@@ -257,6 +257,62 @@ describe('equip-effect', () => {
     })
   })
 
+  // D14(2026-05-31):0x2D scriptOnEquip → PAL_SetPlayerStatus(script.c:1367 / global.c:2173)
+  describe('0x2D scriptOnEquip → setPlayerStatus(gs.rgPlayerStatus)', () => {
+    it('0x2D DualAttack(仙女剑 真值)→ gs.rgPlayerStatus[role][8]=32760', () => {
+      const cmds: Command[] = [
+        { op: 'raw', opcode: 0x2d, operands: [8, 32760, 0], label: 'L_510' }, // status=DualAttack rounds=32760
+        { op: 'end' },
+      ]
+      setGlobalEvents(cmds)
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.PlayerRolesRuntime.rgwHP[1] = 100 // good 状态需 HP!=0(global.c:2264)
+      runEquipScript(gs, 510, 1)
+      expect(gs.rgPlayerStatus[1]![8]).toBe(32760)
+    })
+
+    it('0x2D good 状态 set-if-longer:已有更久 → 不覆盖(global.c:2264-2268)', () => {
+      const cmds: Command[] = [
+        { op: 'raw', opcode: 0x2d, operands: [8, 50, 0], label: 'L_511' },
+        { op: 'end' },
+      ]
+      setGlobalEvents(cmds)
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.PlayerRolesRuntime.rgwHP[1] = 100
+      gs.rgPlayerStatus[1]![8] = 100 // 已有 100 回合
+      runEquipScript(gs, 511, 1)
+      expect(gs.rgPlayerStatus[1]![8]).toBe(100) // 50 < 100 → 不覆盖
+    })
+
+    it('0x2D good 状态 HP==0 → 不施加(global.c:2264)', () => {
+      const cmds: Command[] = [
+        { op: 'raw', opcode: 0x2d, operands: [8, 32760, 0], label: 'L_512' },
+        { op: 'end' },
+      ]
+      setGlobalEvents(cmds)
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.PlayerRolesRuntime.rgwHP[1] = 0 // 死
+      runEquipScript(gs, 512, 1)
+      expect(gs.rgPlayerStatus[1]![8]).toBe(0)
+    })
+  })
+
+  describe('D14:removeEquipmentEffect 卸装副作用(global.c:1406-1412)', () => {
+    it('卸 Hand(part3)→ reset DualAttack(global.c:1411)', () => {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.rgPlayerStatus[1]![8] = 32760
+      removeEquipmentEffect(gs, 1, 3) // Hand
+      expect(gs.rgPlayerStatus[1]![8]).toBe(0)
+    })
+
+    it('卸非 Hand(part0 Head)→ DualAttack 不动', () => {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.rgPlayerStatus[1]![8] = 32760
+      removeEquipmentEffect(gs, 1, 0) // Head
+      expect(gs.rgPlayerStatus[1]![8]).toBe(32760)
+    })
+  })
+
   // P1#4(2026-05-29):sdlpal 0x1A iCurEquipPart redirect(script.c:838-847)+ 脚本末 reset(3476)
   describe('setPlayerStatRow iCurEquipPart redirect + reset', () => {
     it('iCurEquipPart=-1 → 写 base PlayerRolesRuntime', () => {

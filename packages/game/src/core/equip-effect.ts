@@ -249,12 +249,54 @@ export function removeEquipmentEffect(gs: GameState, roleId: number, partIdx: nu
     if (row) row[roleId] = 0
   }
   eff.rgwCoveredBy[roleId] = 0
-  // DualAttack status reset(Hand)/ poison level 99 清(Wear):留 follow-up
+
+  // sdlpal global.c:1406-1412:卸 Hand(part3)→ reset DualAttack status(装备授的 32760 唯一清除点)
+  if (partIdx === 3 /* kBodyPartHand */) {
+    const st = gs.rgPlayerStatus[roleId]
+    if (st) st[K_STATUS_DUAL_ATTACK] = 0
+  }
+  // Wear(part5)→ 清 level≥99 毒(寿葫芦等):c6 接
 }
 
 /** SHORT signed 16-bit cast(sdlpal `(SHORT)operand[N]` 真值)。 */
 function signExtendI16(u: number): number {
   return (u & 0x8000) ? u - 0x10000 : u
+}
+
+// kStatus(CLASSIC,global.h:42-55)
+const K_STATUS_PUPPET = 4
+const K_STATUS_DUAL_ATTACK = 8
+
+/**
+ * sdlpal `PAL_SetPlayerStatus`(global.c:2173-2277,CLASSIC)写持久 `gs.rgPlayerStatus`。
+ * scriptOnEquip 0x2D 用(装备授状态,如仙女剑 DualAttack=32760)。
+ *  - bad(Confused0/Paralyzed1/Sleep2/Silence3):仅当当前 0 才 set(global.c:2234)
+ *  - Puppet(4):仅死人 + set-if-longer(global.c:2244)
+ *  - good(Bravery5/Protect6/Haste7/DualAttack8):HP!=0 && cur<rounds(global.c:2264)
+ */
+function setPersistentPlayerStatus(gs: GameState, roleId: number, statusId: number, rounds: number): void {
+  const arr = gs.rgPlayerStatus[roleId]
+  if (!arr) return
+  const hp = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
+  switch (statusId) {
+    case 0: // Confused
+    case 1: // Paralyzed(CLASSIC)
+    case 2: // Sleep
+    case 3: // Silence
+      if ((arr[statusId] ?? 0) === 0) arr[statusId] = rounds
+      break
+    case K_STATUS_PUPPET:
+      if (hp === 0 && (arr[statusId] ?? 0) < rounds) arr[statusId] = rounds
+      break
+    case 5: // Bravery
+    case 6: // Protect
+    case 7: // Haste
+    case K_STATUS_DUAL_ATTACK:
+      if (hp !== 0 && (arr[statusId] ?? 0) < rounds) arr[statusId] = rounds
+      break
+    default:
+      console.warn(`setPersistentPlayerStatus: 未知 status ${statusId}`)
+  }
 }
 
 /**
@@ -362,8 +404,14 @@ function runEquipScriptSync(
         setPlayerStatRow(gs, a ?? 0, targetRole, signExtendI16(b ?? 0))
         break
       }
+      case 0x2d: {
+        // sdlpal script.c:1367 PAL_SetPlayerStatus(wEventObjectID=role, op0=statusId, op1=rounds)
+        //   装备授状态(仙女剑等 5 把 Hand 武器授 DualAttack=32760)。写持久 gs.rgPlayerStatus。
+        setPersistentPlayerStatus(gs, roleId, a ?? 0, b ?? 0)
+        break
+      }
       default:
-        // 0x2D set player status / 0x29 / 其它:scriptOnEquip 实测共 7 次,留 follow-up
+        // 0x29 add poison(c6 接)/ 其它:scriptOnEquip 实测剩 0x29 共 2 次
         console.debug(
           `runEquipScriptSync: opcode 0x${cmd.opcode.toString(16)} ip=${ip} `
           + `op=${JSON.stringify(cmd.operands)} — skip(follow-up)`,
