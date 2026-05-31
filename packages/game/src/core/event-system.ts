@@ -2869,12 +2869,39 @@ function applyRawOpcode(
     }
 
     case OP_REMOVE_ITEM: {
-      // sdlpal script.c:977+:operand[0]=itemId, operand[1]=qty(0→1), operand[2]=consumeEquipped。
-      // 简版:不消费 equipment,只从 inventory 走 negative add。
+      // sdlpal script.c:977-1024:operand[0]=itemId, operand[1]=qty(0→1), operand[2]=失败跳转目标。
+      //   条件 `x <= CountItem(item) || op[2]==0`:
+      //     真 → 从库存移除(最多 have);不足部分(库存不够)→ 遍历全队 6 装备槽移除匹配装备
+      //       (PAL_RemoveEquipmentEffect 撤加成 + 清槽)直至足额。
+      //     假(库存不足 且 op[2]!=0)→ jump op[2](失败分支)。
+      //   此前 ts 简版只 negative-add 库存,无条件检查 / 装备消耗 / 失败跳转(审计 bug)。
       const itemId = operands[0] ?? 0
-      const qty = (operands[1] ?? 0) === 0 ? 1 : (operands[1] ?? 0)
-      addItemToInventory(gs, itemId, -qty)
-      console.debug(`event-system: removeItem id=${itemId} qty=${qty}`)
+      let x = (operands[1] ?? 0) === 0 ? 1 : (operands[1] ?? 0)
+      const failJump = operands[2] ?? 0
+      const have = countInventoryItem(gs, itemId)
+      if (x <= have || failJump === 0) {
+        const fromInv = Math.min(x, have)
+        if (fromInv > 0) addItemToInventory(gs, itemId, -fromInv)
+        let remaining = x - fromInv
+        if (remaining > 0) {
+          // 库存不足 → 从装备槽补足(撤装备效果 + 清槽),遍历全队 × 6 槽
+          outer: for (const roleId of gs.partyMembers) {
+            for (let slot = 0; slot < 6; slot++) { // MAX_PLAYER_EQUIPMENTS=6(同 0x23)
+              if ((gs.PlayerRolesRuntime.rgwEquipment[slot]?.[roleId] ?? 0) === itemId) {
+                removeEquipmentEffect(gs, roleId, slot)
+                gs.PlayerRolesRuntime.rgwEquipment[slot]![roleId] = 0
+                remaining--
+                if (remaining === 0) break outer
+              }
+            }
+          }
+        }
+        console.debug(`event-system: removeItem id=${itemId} qty=${x}(inv=${fromInv} equip=${x - fromInv})`)
+      } else {
+        // 总量不足 + 有失败分支 → 跳 op[2](sdlpal wScriptEntry=op[2]-1)
+        jumpToGlobalIp(gs, cursor, failJump)
+        console.debug(`event-system: removeItem id=${itemId} 不足(have ${have} need ${x})→ jump L_${failJump}`)
+      }
       break
     }
 

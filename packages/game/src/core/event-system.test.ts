@@ -1920,6 +1920,46 @@ describe('I-w1.a chest opcodes', () => {
     expect(gs.inventory.find((e) => e.itemId === 88)?.count).toBe(1) // 回包
   })
 
+  it('0x20 removeItem:库存足 → 从库存移除', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.inventory = [{ itemId: 42, count: 3 }]
+    gs.partyMembers = [0]
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x20, operands: [42, 2, 100] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.inventory.find((e) => e.itemId === 42)?.count).toBe(1) // 3-2
+  })
+
+  it('0x20 removeItem:库存不足 + op[2]==0 → 消耗装备槽匹配装备(撤效果)(审计修)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.inventory = []
+    gs.partyMembers = [0]
+    gs.PlayerRolesRuntime.rgwEquipment[1]![0] = 42 // role0 slot1 装备 item42
+    gs.rgEquipmentEffect[1]!.rgwDefense[0] = 30
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x20, operands: [42, 1, 0] }, { op: 'end' }]) // op[2]=0 无失败分支
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.PlayerRolesRuntime.rgwEquipment[1]![0]).toBe(0) // 装备被消耗
+    expect(gs.rgEquipmentEffect[1]!.rgwDefense[0]).toBe(0) // 效果撤销
+  })
+
+  it('0x20 removeItem:库存不足 + op[2]!=0 → jump op[2] 失败分支', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.inventory = []
+    gs.partyMembers = [0]
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x20, operands: [42, 1, 3], label: 'L_0' }, // 不足 + op[2]=3 → 跳 L_3
+      { op: 'raw', opcode: 0x1F, operands: [99, 1, 0] }, // 成功路径给 99(跳过)
+      { op: 'end' },
+      { op: 'raw', opcode: 0x1F, operands: [88, 1, 0], label: 'L_3' }, // 失败分支给 88
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.inventory.find((e) => e.itemId === 88)?.count).toBe(1) // 跳到失败分支
+    expect(gs.inventory.find((e) => e.itemId === 99)).toBeUndefined() // 成功路径未走
+  })
+
   it('addItem:已有 itemId → count 累加', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = [{ itemId: 42, count: 2 }]
