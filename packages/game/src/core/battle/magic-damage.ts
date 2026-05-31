@@ -208,12 +208,13 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
       rngFactor,
     })
 
-    // 除因子:defending ×2 / Protect ×2(未建模→1)/ autoDefend +1
+    // 除因子(sdlpal fight.c:4801-4803 / 4836-4838):((defending?2:1) * (Protect>0?2:1)) + (autoDefend?1:0)
     const canAutoDefend = (slot.status.sleep ?? 0) === 0
       && (slot.status.paralyzed ?? 0) === 0
       && (slot.status.confused ?? 0) === 0
     const autoDefend = canAutoDefend && state.rng.range(0, 3) === 0 // RandomLong(0,2)==0
-    const divisor = ((slot.defending ? 2 : 1) * 1) + (autoDefend ? 1 : 0)
+    const protectFactor = (slot.status.protect ?? 0) > 0 ? 2 : 1 // B2 c4:护体减半
+    const divisor = ((slot.defending ? 2 : 1) * protectFactor) + (autoDefend ? 1 : 0)
     dmg = Math.trunc(dmg / divisor)
 
     // clamp:if (sDamage>hp) sDamage=hp(不钳最小 1)

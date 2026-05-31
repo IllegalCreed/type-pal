@@ -205,7 +205,7 @@ interface PRoleCfg {
   level?: number
   poisonResistance?: number
   windRes?: number
-  status?: { sleep?: number, paralyzed?: number, confused?: number }
+  status?: { sleep?: number, paralyzed?: number, confused?: number, protect?: number }
   defending?: boolean
 }
 
@@ -225,6 +225,7 @@ function makeEnemyMagicState(
       sleep: p.status?.sleep ?? 0,
       paralyzed: p.status?.paralyzed ?? 0,
       confused: p.status?.confused ?? 0,
+      protect: p.status?.protect ?? 0,
       haste: 0,
       slow: 0,
     },
@@ -281,6 +282,28 @@ describe('applyEnemyMagicDamage', () => {
       magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
     })
     expect(r[0]!.damage).toBe(25) // 50/((2*1)+0)
+  })
+
+  it('B2 c4:Protect 状态 → 除因子 ×2(50→25,fight.c:4802/4837)', () => {
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 100, defense: 30, level: 5, status: { protect: 1 } },
+    ])
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+    })
+    expect(r[0]!.damage).toBe(25) // 50/((1*2)+0)
+  })
+
+  it('B2 c4:Protect + defending → 除因子 ×2×2=4(50→12)', () => {
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 100, defense: 30, level: 5, defending: true, status: { protect: 1 } },
+    ])
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+    })
+    expect(r[0]!.damage).toBe(12) // trunc(50/((2*2)+0))=trunc(12.5)
   })
 
   it('autoDefend(range(0,3)==0)→ 除因子 +1(50→25)', () => {
