@@ -208,33 +208,67 @@ describe('performAttack', () => {
     expect((cmds[1]!.cmd as { value: number }).value).toBeGreaterThan(0)
   })
 
-  it('群攻(target=-1,attackAll 武器):player 攻击全体活敌', () => {
+  it('群攻(target=-1,attackAll 武器):player 攻击全体活敌(命中序 + division 减半)', () => {
     const { state, playerRoles, bus } = makeState({
-      role: { level: 10, attackStrength: 200 }, // str=296;每敌 def=54 → damage 505
+      role: { level: 10, attackStrength: 200 }, // str=296;每敌 def=54 → base 506
       enemies: [
         { level: 5, defense: 10, physicalResistance: 1, health: 600 },
         { level: 5, defense: 10, physicalResistance: 1, health: 600 },
       ],
+      forceRoll: 1, // crit roll=1(不暴击)
     })
     performAttack(state, playerActor, -1, bus, playerRoles)
-    expect(state.enemies[0]!.e.health).toBe(94) // 600-506
-    expect(state.enemies[1]!.e.health).toBe(94) // 全体都被打
+    // sdlpal fight.c:3684 命中序 {2,1,0,4,3};2 敌(slot 0/1)→ slot1 先打(division1,全额 506)
+    //   → slot0 后打(division2,506/2=253)。trunc(600-x)。
+    expect(state.enemies[1]!.e.health).toBe(94) // 600-506(满额,先打)
+    expect(state.enemies[0]!.e.health).toBe(347) // 600-253(半额,后打)
     const ops = bus.drain().map(c => c.cmd.op)
     expect(ops.filter(o => o === 'showDamageNum')).toHaveLength(2) // 2 敌 2 个伤害数字
     expect(ops).toContain('playPlayerAttack')
   })
 
-  it('群攻跳过已死敌人', () => {
+  it('群攻跳过已死敌人(死敌不计 division)', () => {
     const { state, playerRoles, bus } = makeState({
       role: { level: 10, attackStrength: 200 },
       enemies: [
-        { level: 5, defense: 10, physicalResistance: 1, health: 0 }, // 已死
+        { level: 5, defense: 10, physicalResistance: 1, health: 0 }, // 已死(skip,不双 division)
         { level: 5, defense: 10, physicalResistance: 1, health: 600 },
       ],
+      forceRoll: 1,
     })
     performAttack(state, playerActor, -1, bus, playerRoles)
     expect(state.enemies[0]!.e.health).toBe(0) // 死敌不动
+    // 仅 slot1 活 → division 全程 1 → 全额 506
     expect(state.enemies[1]!.e.health).toBe(94)
+  })
+
+  // ── D3-b 群攻 crit + division 逐敌减半(fight.c:3681-3748)────────────────────
+
+  it('D3:群攻 division 逐敌减半(3 敌,命中序 {2,1,0})', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 }, // base 506
+      enemies: [
+        { level: 5, defense: 10, physicalResistance: 1, health: 2000 }, // slot0:division4 → 126.5
+        { level: 5, defense: 10, physicalResistance: 1, health: 2000 }, // slot1:division2 → 253
+        { level: 5, defense: 10, physicalResistance: 1, health: 2000 }, // slot2:division1 → 506
+      ],
+      forceRoll: 1, // 不暴击
+    })
+    performAttack(state, playerActor, -1, bus, playerRoles)
+    expect(state.enemies[2]!.e.health).toBe(2000 - 506) // 先打,全额
+    expect(state.enemies[1]!.e.health).toBe(2000 - 253) // 半额
+    expect(state.enemies[0]!.e.health).toBe(1873) // 506/4=126.5 → trunc(2000-126.5)=1873
+  })
+
+  it('D3:群攻 bravery → 全敌暴击 ×3', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 }, // base 506
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 5000 }],
+      playerStatus: { bravery: 1 },
+      forceRoll: 1, // crit roll≠0,但 bravery 强制暴击
+    })
+    performAttack(state, playerActor, -1, bus, playerRoles)
+    expect(state.enemies[0]!.e.health).toBe(5000 - 506 * 3) // 单敌 division1,506*3=1518
   })
 
   it('player 低 attackStrength 攻击高 defense enemy:damage 取 1', () => {

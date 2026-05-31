@@ -138,24 +138,37 @@ export function performAttack(
   }
   void casterLevel
 
-  // —— 群攻(attackAll 武器):player 且 targetIdx<0(=-1 全体)→ 全体活敌 ——
-  // sdlpal kBattleActionAttack sTarget==-1 分支(fight.c:3756+)。每敌独立算 def/res。
+  // —— 群攻(attackAll 武器):player 且 targetIdx<0(=-1 全体)——
+  // sdlpal kBattleActionAttack sTarget==-1 分支(fight.c:3681-3748):
+  //   - fCritical 整轮摇一次(RandomLong(0,5)==0 || bravery)→ 全敌 ×3
+  //   - 命中序固定 index[]={2,1,0,4,3}(fight.c:3684)
+  //   - division 初 1,每命中一个活敌后 *=2(逐敌减半;首敌全额)
+  //   - **无** jitter / RandomFloat(真值即如此,区别于单体)
   if (!actor.isEnemy && targetIdx < 0) {
-    state.enemies.forEach((be, i) => {
-      if (be.e.health <= 0) return
+    const bravery = state.players[actor.idx]?.status.bravery ?? 0
+    const fCritical = state.rng.rangeInclusive(0, 5) === 0 || bravery > 0
+    let division = 1
+    const HIT_ORDER = [2, 1, 0, 4, 3] // fight.c:3684 const int index[MAX_ENEMIES_IN_TEAM]
+    for (const slot of HIT_ORDER) {
+      const be = state.enemies[slot]
+      if (!be || be.e.health <= 0) continue // sdlpal:wObjectID==0 || idx>maxEnemyIndex
       const def = asShort(be.e.defense) + (be.e.level + 6) * 4
       let damage = calcPhysicalAttackDamage(str, def, be.e.physicalResistance)
+      if (fCritical) damage *= 3
+      damage = damage / division // FLOAT 除(逐敌减半)
       if (damage <= 0) damage = 1
       const before = be.e.health
-      be.e.health = Math.max(0, be.e.health - damage)
+      // sdlpal `wHealth -= (FLOAT)sDamage` → WORD 回写截断(trunc),等价 floor(health - dmg)
+      be.e.health = Math.max(0, Math.trunc(be.e.health - damage))
       // D17b:敌人掉血 → blue(sdlpal `fight.c:648-651`)。value 用钳后真实 delta。
       bus.emit({
         op: 'showDamageNum',
-        target: { kind: 'enemy', idx: i },
+        target: { kind: 'enemy', idx: slot },
         value: before - be.e.health,
         color: 'blue',
       })
-    })
+      division *= 2 // fight.c:3729 命中一个活敌后翻倍
+    }
     bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: -1 })
     return
   }
