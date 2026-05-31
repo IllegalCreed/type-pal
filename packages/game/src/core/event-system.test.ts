@@ -412,6 +412,30 @@ describe('runScript (M3 T17, battle mode)', () => {
     expect(gs.dwCash).toBe(5) // 未扣(走了 jump 分支)
   })
 
+  it('runtimeMode=battle:条件跳转目标**未打 label** → fall back globalIp(修乾坤一掷43064/酒神43078)', () => {
+    // 真 bug(user 报):乾坤一掷"钱不够"分支 @43064 / 酒神"酒不足"@43078 **无 label**;cursor 带 labelMap
+    //   时 jumpToGlobalIp 查 L_<n> 查不到 → 旧逻辑静默不跳 → 没钱仍放乾坤一掷且 0 伤害。修:fall back globalIp。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 0 // 没钱
+    const bus = createCommandBus()
+    const ctx = { ...makeMinimalBattleCtx(), gs }
+    runScript({
+      commands: [
+        { op: 'raw', opcode: 0x1E, operands: [0xFFFF, 3, 0], label: 'L_0' }, // -1;cash=0<1 → 跳 index3(**无 label**)
+        { op: 'raw', opcode: 0x88, operands: [394, 0, 0] }, // 成功路径 set-damage-by-money(应跳过)
+        { op: 'end' },
+        { op: 'showDialog', messageIndex: 0, text: '钱不够，只好作罢' }, // index3:无 label 失败分支
+        { op: 'end' },
+      ],
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: ctx,
+    })
+    // 跳到未打 label 的 index3 → "钱不够"入队(0x88 成功路径未走)
+    expect(ctx.state.battleDialogQueue?.[0]?.text).toBe('钱不够，只好作罢')
+  })
+
   it('runtimeMode=battle 缺 battleCtx 抛错', () => {
     const bus = createCommandBus()
     expect(() =>

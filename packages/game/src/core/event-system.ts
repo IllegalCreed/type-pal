@@ -2600,13 +2600,13 @@ export interface ScriptCursor {
 function jumpToGlobalIp(gs: GameState, cursor: ScriptCursor | null, globalIp: number): void {
   if (!cursor) return
   void gs
-  // test override labelMap 优先;生产无 override → 全局恒等(globalIp 即数组下标)。
-  const idx = cursor.labelMap ? cursor.labelMap[`L_${globalIp}`] : globalIp
-  if (idx !== undefined) {
-    cursor.ip = idx - 1
-    return
-  }
-  console.debug(`event-system: jump target L_${globalIp} 不在 cursor labelMap(跳转失效)`)
+  // test override labelMap 优先;**查不到则 fall back 到 globalIp**(globalIp 即全局数组下标恒等)。
+  //   修真 bug(2026-05-31,user 报乾坤一掷/酒神):战斗 runScript 的 cursor 带 labelMap(buildLabelMap),
+  //   但 disasm 只给"命名 goto 的跳转目标"打 label;raw-opcode 条件跳转(0x1E 钱不够/0x20 缺道具/0x06
+  //   概率/JUMP_IF_*)的目标常**未打 label**(如"钱不够，只好作罢"@43064)→ 旧逻辑 labelMap 查不到 →
+  //   静默不跳 → 法术不走失败分支(没钱仍放乾坤一掷且 0 伤害)。globalIp 即数组下标,直接用恒正确。
+  const mapped = cursor.labelMap?.[`L_${globalIp}`]
+  cursor.ip = (mapped ?? globalIp) - 1
 }
 
 /**
