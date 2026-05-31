@@ -114,6 +114,8 @@ export const PLAYERROLES_ROW = {
   ELEM_RESIST_0: 23, ELEM_RESIST_1: 24, ELEM_RESIST_2: 25,
   ELEM_RESIST_3: 26, ELEM_RESIST_4: 27,
   COVERED_BY: 31,
+  // row 32-63 = rgwMagic[32][6];64 = rgwWalkFrames;65 = rgwCooperativeMagic(装备改合击,圣灵珠 0x1A[65,...])
+  COOPERATIVE_MAGIC: 65,
 } as const
 
 /** Helper:把 EquipmentEffectRoles 某 row 给 role 写入(sdlpal opcode 0x17 真值)。 */
@@ -128,6 +130,10 @@ export function writeEquipmentEffectField(
   const eff = gs.rgEquipmentEffect[partIdx]
   if (!eff) return
   switch (rowIdx) {
+    // 装备 override 类(sdlpal flat WORD row;长鞭 sprite=6/attackAll=1、圣灵珠 coopMagic=351)
+    case PLAYERROLES_ROW.SPRITE_NUM_IN_BATTLE: eff.rgwSpriteNumInBattle[roleId] = value; break
+    case PLAYERROLES_ROW.ATTACK_ALL: eff.rgwAttackAll[roleId] = value; break
+    case PLAYERROLES_ROW.COOPERATIVE_MAGIC: eff.rgwCooperativeMagic[roleId] = value; break
     case PLAYERROLES_ROW.LEVEL: eff.rgwLevel[roleId] = value; break
     case PLAYERROLES_ROW.MAX_HP: eff.rgwMaxHP[roleId] = value; break
     case PLAYERROLES_ROW.MAX_MP: eff.rgwMaxMP[roleId] = value; break
@@ -224,6 +230,9 @@ export function removeEquipmentEffect(gs: GameState, roleId: number, partIdx: nu
   if (partIdx < 0 || partIdx > MAX_PLAYER_EQUIPMENTS) return
   const eff = gs.rgEquipmentEffect[partIdx]
   if (!eff) return
+  eff.rgwSpriteNumInBattle[roleId] = 0
+  eff.rgwAttackAll[roleId] = 0
+  eff.rgwCooperativeMagic[roleId] = 0
   eff.rgwLevel[roleId] = 0
   eff.rgwMaxHP[roleId] = 0
   eff.rgwMaxMP[roleId] = 0

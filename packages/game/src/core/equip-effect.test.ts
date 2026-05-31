@@ -10,7 +10,7 @@
  */
 
 import type { Command } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { setGlobalEvents } from './event-system.js'
 import { createInitialGameState } from './game-state.js'
 import {
@@ -70,6 +70,37 @@ describe('equip-effect', () => {
         expect(gs.rgEquipmentEffect[i]!.rgwAttackStrength[0]).toBe(0)
       }
     })
+
+    // 装备 override 类 effect(sdlpal flat WORD 数组 row,此前 struct 无字段 → 丢弃 + warn):
+    //   row 1 spriteNumInBattle(长鞭 0x1A[1,6,0])/ row 4 attackAll(长鞭 0x1A[4,1,0])/
+    //   row 65 cooperativeMagic(圣灵珠 0x1A[65,351,0])。global.h tagPLAYERROLES 行偏移。
+    it('writes SPRITE_NUM_IN_BATTLE row 1(长鞭 0x1A[1,6,0])→ rgwSpriteNumInBattle', () => {
+      const gs = freshGs()
+      writeEquipmentEffectField(gs, 3 /* Hand */, PLAYERROLES_ROW.SPRITE_NUM_IN_BATTLE, 2, 6)
+      expect(gs.rgEquipmentEffect[3]!.rgwSpriteNumInBattle[2]).toBe(6)
+    })
+
+    it('writes ATTACK_ALL row 4(长鞭 0x1A[4,1,0])→ rgwAttackAll', () => {
+      const gs = freshGs()
+      writeEquipmentEffectField(gs, 3, PLAYERROLES_ROW.ATTACK_ALL, 2, 1)
+      expect(gs.rgEquipmentEffect[3]!.rgwAttackAll[2]).toBe(1)
+    })
+
+    it('writes COOPERATIVE_MAGIC row 65(圣灵珠 0x1A[65,351,0])→ rgwCooperativeMagic', () => {
+      const gs = freshGs()
+      writeEquipmentEffectField(gs, 5 /* Wear */, PLAYERROLES_ROW.COOPERATIVE_MAGIC, 3, 351)
+      expect(gs.rgEquipmentEffect[5]!.rgwCooperativeMagic[3]).toBe(351)
+    })
+
+    it('rows 1/4/65 不再 console.warn(此前未支持 → updateAllEquipments 启动刷 3 条警告)', () => {
+      const gs = freshGs()
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      writeEquipmentEffectField(gs, 3, PLAYERROLES_ROW.SPRITE_NUM_IN_BATTLE, 0, 6)
+      writeEquipmentEffectField(gs, 3, PLAYERROLES_ROW.ATTACK_ALL, 0, 1)
+      writeEquipmentEffectField(gs, 5, PLAYERROLES_ROW.COOPERATIVE_MAGIC, 0, 351)
+      expect(warn).not.toHaveBeenCalled()
+      warn.mockRestore()
+    })
   })
 
   describe('removeEquipmentEffect(sdlpal global.c:1372)', () => {
@@ -87,6 +118,17 @@ describe('equip-effect', () => {
       expect(gs.rgEquipmentEffect[3]!.rgwDexterity[0]).toBe(0)
       expect(gs.rgEquipmentEffect[3]!.rgwDefense[0]).toBe(0)
       expect(gs.rgEquipmentEffect[3]!.rgwElementalResistance[2]![0]).toBe(0)
+    })
+
+    it('清 override 类字段 sprite/attackAll/coopMagic(sdlpal 清整 PLAYERROLES 行)', () => {
+      const gs = freshGs()
+      writeEquipmentEffectField(gs, 3, PLAYERROLES_ROW.SPRITE_NUM_IN_BATTLE, 0, 6)
+      writeEquipmentEffectField(gs, 3, PLAYERROLES_ROW.ATTACK_ALL, 0, 1)
+      writeEquipmentEffectField(gs, 3, PLAYERROLES_ROW.COOPERATIVE_MAGIC, 0, 351)
+      removeEquipmentEffect(gs, 0, 3)
+      expect(gs.rgEquipmentEffect[3]!.rgwSpriteNumInBattle[0]).toBe(0)
+      expect(gs.rgEquipmentEffect[3]!.rgwAttackAll[0]).toBe(0)
+      expect(gs.rgEquipmentEffect[3]!.rgwCooperativeMagic[0]).toBe(0)
     })
 
     it('only clears given role(其他 role 不受影响)', () => {

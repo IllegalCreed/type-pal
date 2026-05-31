@@ -465,6 +465,8 @@ export interface PoisonStatus {
  * 见 [equip-effect.ts](./equip-effect.ts) 6 个 getter(`getPlayerAttackStrength` 等)。
  */
 export interface EquipmentEffectRoles {
+  rgwSpriteNumInBattle: number[]  // sdlpal global.h:302 row 1(装备换战斗精灵;长鞭 0x1A[1,6,0])
+  rgwAttackAll: number[]          // row 4(装备授群攻;长鞭 0x1A[4,1,0]→PAL_PlayerCanAttackAll)
   rgwLevel: number[]              // sdlpal global.h:307 row 6
   rgwMaxHP: number[]              // row 7
   rgwMaxMP: number[]              // row 8
@@ -478,6 +480,7 @@ export interface EquipmentEffectRoles {
   rgwPoisonResistance: number[]   // row 22
   rgwElementalResistance: number[][] // row 23-27 (5 elem × 6 roles)
   rgwCoveredBy: number[]          // row 31
+  rgwCooperativeMagic: number[]   // row 65(装备改合击;圣灵珠 0x1A[65,351,0]→PAL_GetPlayerCooperativeMagic)
 }
 
 /**
@@ -1064,6 +1067,7 @@ export function hydratePlayerRolesRuntime(
     runtime.rgwFleeRate[i] = role.fleeRate
     runtime.rgwPoisonResistance[i] = role.poisonResistance
     runtime.rgwCoveredBy[i] = role.coveredBy ?? 0
+    runtime.rgwCooperativeMagic[i] = role.cooperativeMagic ?? 0 // base 合击(装备 override 之上,P2 foundation)
     // 装备 6 槽
     const eq = role.equipment ?? []
     for (let slot = 0; slot < 6; slot++) {
@@ -1133,6 +1137,23 @@ export function projectRuntimeToBattleRoles(
     return s
   }
   const clamp100 = (v: number): number => Math.max(0, Math.min(100, v)) // sdlpal 抗性 clamp(>100→100)
+  // sdlpal override 类 getter:某槽非 0 即覆盖(非累加)。
+  //   PAL_PlayerCanAttackAll(global.c:2047):任一槽 rgwAttackAll!=0 → 群攻。
+  //   PAL_GetPlayerBattleSprite(2009)/ PAL_GetPlayerCooperativeMagic(2044):末个非 0 槽 override base。
+  const anyEquip = (field: 'rgwAttackAll', i: number): boolean => {
+    if (!equipmentEffect) return false
+    for (let slot = 0; slot <= 6; slot++) if ((equipmentEffect[slot]?.[field][i] ?? 0) !== 0) return true
+    return false
+  }
+  const lastNonzeroEquip = (field: 'rgwSpriteNumInBattle' | 'rgwCooperativeMagic', i: number): number => {
+    if (!equipmentEffect) return 0
+    let w = 0
+    for (let slot = 0; slot <= 6; slot++) {
+      const v = equipmentEffect[slot]?.[field][i] ?? 0
+      if (v !== 0) w = v
+    }
+    return w
+  }
   const roles = staticRoles.roles.map((base) => {
     const i = base.id
     const baseElem = {
@@ -1143,13 +1164,19 @@ export function projectRuntimeToBattleRoles(
       earth: runtime.rgwElementalResistance[4]?.[i] ?? base.elemResistance.earth,
     }
     return {
-      ...base, // 不可变:_name/avatar/spriteNumInBattle/spriteNum/attackAll/walkFrames/sounds/equipment 等
+      ...base, // 不可变:_name/avatar/spriteNum/walkFrames/sounds/equipment 等
       name: runtime.rgwName[i] ?? base.name,
       level: runtime.rgwLevel[i] ?? base.level,
       maxHP: runtime.rgwMaxHP[i] ?? base.maxHP,
       maxMP: runtime.rgwMaxMP[i] ?? base.maxMP,
       hp: runtime.rgwHP[i] ?? base.hp,
       mp: runtime.rgwMP[i] ?? base.mp,
+      // 装备 override(sdlpal getter):长鞭 attackAll/sprite、圣灵珠 coopMagic。装备授群攻 → role.attackAll=1
+      //   (battle-system 读此判全体攻);sprite/coopMagic 末非 0 槽 override base(coopMagic 执行待 P2)。
+      attackAll: anyEquip('rgwAttackAll', i) ? 1 : base.attackAll,
+      spriteNumInBattle: lastNonzeroEquip('rgwSpriteNumInBattle', i) || base.spriteNumInBattle,
+      cooperativeMagic: lastNonzeroEquip('rgwCooperativeMagic', i)
+        || (runtime.rgwCooperativeMagic[i] ?? base.cooperativeMagic ?? 0),
       // effective = base + Σ 装备 effect(含 Extra),mirror sdlpal PAL_GetPlayerXxx getter
       attackStrength: (runtime.rgwAttackStrength[i] ?? base.attackStrength) + sumEff('rgwAttackStrength', i),
       magicStrength: (runtime.rgwMagicStrength[i] ?? base.magicStrength) + sumEff('rgwMagicStrength', i),
@@ -1234,6 +1261,8 @@ export function createInitialEquipmentEffect(): EquipmentEffectRoles[] {
   const zeros = () => Array<number>(n).fill(0)
   const mat = (rows: number) => Array.from({ length: rows }, zeros)
   const slot = (): EquipmentEffectRoles => ({
+    rgwSpriteNumInBattle: zeros(),
+    rgwAttackAll: zeros(),
     rgwLevel: zeros(),
     rgwMaxHP: zeros(),
     rgwMaxMP: zeros(),
@@ -1247,6 +1276,7 @@ export function createInitialEquipmentEffect(): EquipmentEffectRoles[] {
     rgwPoisonResistance: zeros(),
     rgwElementalResistance: mat(5),
     rgwCoveredBy: zeros(),
+    rgwCooperativeMagic: zeros(),
   })
   // sdlpal MAX_PLAYER_EQUIPMENTS + 1 = 7 部位(0..5 真实 + 1 reserved)
   return Array.from({ length: 7 }, slot)

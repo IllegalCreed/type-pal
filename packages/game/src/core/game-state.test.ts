@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createInitialGameState, npcFromEventObject, projectRuntimeToBattleRoles, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject, projectRuntimeToBattleRoles, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
 import type { PlayerRole, SceneEventObject } from '@type-pal/shared'
 
@@ -308,6 +308,30 @@ describe('player-roles 战斗数据模型边界', () => {
     expect(r.fleeRate).toBe(10)
     expect(r.poisonResistance).toBe(100) // clamp [0,100]
     expect(r.elemResistance.fire).toBe(30) // 25 + 5
+  })
+
+  it('装备 override:attackAll(任一槽非0)/ spriteNumInBattle(末个非0 override)/ cooperativeMagic(末个非0 override)', () => {
+    // sdlpal PAL_PlayerCanAttackAll(global.c:2047,任一槽 !=0)/ PAL_GetPlayerBattleSprite(2009,末非0 override)
+    //   / PAL_GetPlayerCooperativeMagic(2044,末非0 override)。长鞭 attackAll=1 + sprite=6;圣灵珠 coopMagic=351。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const staticRoles = { roles: [staticRole(0, { attackAll: 0, spriteNumInBattle: 10, cooperativeMagic: 5 })] }
+    gs.rgEquipmentEffect[3]!.rgwAttackAll[0] = 1   // 长鞭(Hand)群攻
+    gs.rgEquipmentEffect[3]!.rgwSpriteNumInBattle[0] = 6 // 长鞭换战斗精灵
+    gs.rgEquipmentEffect[5]!.rgwCooperativeMagic[0] = 351 // 圣灵珠(Wear)改合击
+    const r = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles, gs.rgEquipmentEffect).roles[0]!
+    expect(r.attackAll).toBe(1)          // 装备群攻 → 战斗 role.attackAll!=0(battle-system 读此判全体攻)
+    expect(r.spriteNumInBattle).toBe(6)  // 末个非0 override 静态 10
+    expect(r.cooperativeMagic).toBe(351) // 末个非0 override 静态 5
+  })
+
+  it('装备 override:无装备 effect → attackAll/sprite/coopMagic 退回 base(coopMagic 走 hydrate 后 runtime)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const staticRoles = { roles: [staticRole(0, { attackAll: 0, spriteNumInBattle: 10, cooperativeMagic: 5 })] }
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, staticRoles) // base coopMagic 5 → runtime(真实流程)
+    const r = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles, gs.rgEquipmentEffect).roles[0]!
+    expect(r.attackAll).toBe(0)        // attackAll/sprite 无 runtime 行 → 直读静态 base
+    expect(r.spriteNumInBattle).toBe(10)
+    expect(r.cooperativeMagic).toBe(5) // hydrate 后 runtime.rgwCooperativeMagic=5
   })
 
   it('D14:不传 equipmentEffect → 投影退回纯 base(向后兼容,装备 effect 不并入)', () => {
