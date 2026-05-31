@@ -102,6 +102,14 @@
 >   0x59 scene guard+上界(2c3d25d+fe…)/ 0x23 RemoveEquipmentEffect(1b24ea9+1:1)/ 0x20 removeItem 装备消耗+失败跳(f98ab33)/
 >   0x69 escape→terminate 无奖励(已确认 battle.c:1434)/ 0x2D/0x2E/0x2F 状态 opcode(b8eb7da,kStatus CLASSIC 映射)/
 >   0x22 revive 清全 9 状态(de0424f)。配套:玩家毒 tick + cure-by-level + 头像染色 + 敌普攻 equivItem 中毒。
+> - ✅ **战斗控制流基建修(c386653,关键)**:`jumpToGlobalIp` 跳转目标无 label 时 fall back globalIp ——
+>   disasm 只给"命名 goto 目标"打 label,raw-opcode 条件跳转(0x1E 钱/0x20 道具/0x06 概率/JUMP_IF_*)的失败
+>   分支目标常**无 label**(如乾坤一掷"钱不够"@43064 / 酒神"酒不足"@43078),旧逻辑查 labelMap 不到 → 静默不跳
+>   → 没钱仍放乾坤一掷且 0 伤害。修后这类失败/分支跳转**全部恢复**。（user 真机报,已验。）
+> - ✅ **法术 commit 顺序修(a7c8cd2)**:performMagic 把效果动画/inline 伤害/scriptOnSuccess **gate 在
+>   scriptOnUse 成功**上(对齐 fight.c:4196/4231 `if(g_fScriptSuccess)`);此前没钱/没道具失败仍放动画 + 结算。
+>   MP 仍总扣(fight.c:4190)。注:战斗法术菜单变红只看 MP/UsableInBattle,**不看钱**(magicmenu.c:340-365)——
+>   绝招(costMP=1)+ usableInBattle 可选(白),没钱用了才弹失败提示,非红。
 > - ⬜ **剩 4 个(非纯 logic bug,子系统纠缠,需专门做)**:
 >   - **0x30** stat-buff%:需 per-battle Extra slot 模型 + **battle 读 base+Extra 有效值(D14 残:战斗现读 raw role stat)**
 >     纠缠;现 mutate role 持久(buff 生效但战末不反转)。
