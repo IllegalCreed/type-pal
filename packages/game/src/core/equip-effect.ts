@@ -16,7 +16,7 @@
  */
 
 import type { Item } from '@type-pal/shared'
-import { addItemToInventory, consumeItemFromInventory, getGlobalCommands, getGlobalLabelMap } from './event-system.js'
+import { addItemToInventory, addPoisonForPlayer, consumeItemFromInventory, getGlobalCommands, getGlobalLabelMap, removePoisonLevel99 } from './event-system.js'
 import { createInitialEquipmentEffect, type GameState } from './game-state.js'
 
 const MAX_PLAYER_ROLES = 6
@@ -254,8 +254,10 @@ export function removeEquipmentEffect(gs: GameState, roleId: number, partIdx: nu
   if (partIdx === 3 /* kBodyPartHand */) {
     const st = gs.rgPlayerStatus[roleId]
     if (st) st[K_STATUS_DUAL_ATTACK] = 0
+  } else if (partIdx === 5 /* kBodyPartWear */) {
+    // 卸 Wear → 清 level≥99 毒(寿葫芦的常驻回血"毒"随饰品卸下消失,global.c:1413-1454)
+    removePoisonLevel99(gs, roleId)
   }
-  // Wear(part5)→ 清 level≥99 毒(寿葫芦等):c6 接
 }
 
 /** SHORT signed 16-bit cast(sdlpal `(SHORT)operand[N]` 真值)。 */
@@ -410,8 +412,22 @@ function runEquipScriptSync(
         setPersistentPlayerStatus(gs, roleId, a ?? 0, b ?? 0)
         break
       }
+      case 0x29: {
+        // sdlpal script.c:1257 apply poison to player(寿葫芦 Wear 授 level-99 正面"毒":
+        //   毒 563=+20HP/回合 / 564=+20MP/回合)。op0=applyAll, op1=poisonId。
+        //   gate:RandomLong(1,100) > poisonResistance(script.c:1280;五毒珠 resist=100 → 永不中)。
+        const applyAll = (a ?? 0) !== 0
+        const poisonId = b ?? 0
+        const targets = applyAll ? gs.partyMembers : [roleId]
+        for (const r of targets) {
+          if (Math.floor(Math.random() * 100) + 1 > getPlayerPoisonResistance(gs, r)) {
+            addPoisonForPlayer(gs, r, poisonId)
+          }
+        }
+        break
+      }
       default:
-        // 0x29 add poison(c6 接)/ 其它:scriptOnEquip 实测剩 0x29 共 2 次
+        // scriptOnEquip 实测 opcode 已全覆盖(0x17/0x18/0x19/0x1A/0x2D/0x29);其它意外 op 记日志
         console.debug(
           `runEquipScriptSync: opcode 0x${cmd.opcode.toString(16)} ip=${ip} `
           + `op=${JSON.stringify(cmd.operands)} — skip(follow-up)`,

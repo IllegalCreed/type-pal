@@ -3673,28 +3673,13 @@ function applyRawOpcode(
           : []
       )
       // sdlpal script.c:1257-1285 + PAL_AddPoisonForPlayer(global.c:1459):
-      //   仅当 RandomLong(1,100) > poisonResistance(0-100)才中毒;PAL_AddPoisonForPlayer 去重(已有同毒
-      //   skip)+ 找首空槽,wPoisonScript = obj.wPlayerScript(每回合 tick 跑)。
-      const playerScript = _objectPoisons.get(poisonId)?.playerScript ?? 0
+      //   仅当 RandomLong(1,100) > poisonResistance(0-100)才中毒;add 逻辑见 addPoisonForPlayer。
       for (const roleId of targets) {
         // 抗性突破判定(玩家 0-100,> 而非 >=,区别于敌人 0x28 的 0-10 >=)
         if (Math.floor(Math.random() * 100) + 1 <= getPlayerPoisonResistance(gs, roleId)) continue
-        // 去重:已有同毒 → skip(PAL_AddPoisonForPlayer 真值)
-        let already = false
-        for (let slot = 0; slot < 16; slot++) {
-          if (gs.rgPoisonStatus[`${slot}_${roleId}`]?.wPoisonID === poisonId) { already = true; break }
-        }
-        if (already) continue
-        // 找首空槽加(wPoisonScript = playerScript,供每回合 tick)
-        for (let slot = 0; slot < 16; slot++) {
-          const key = `${slot}_${roleId}`
-          if (!gs.rgPoisonStatus[key] || gs.rgPoisonStatus[key]!.wPoisonID === 0) {
-            gs.rgPoisonStatus[key] = { wPoisonID: poisonId, wPoisonScript: playerScript }
-            break
-          }
-        }
+        addPoisonForPlayer(gs, roleId, poisonId)
       }
-      console.debug(`event-system: poisonPlayer applyAll=${applyAll} poisonId=${poisonId} script=${playerScript}`)
+      console.debug(`event-system: poisonPlayer applyAll=${applyAll} poisonId=${poisonId}`)
       break
     }
 
@@ -4161,6 +4146,42 @@ function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: number)
     if (ps && ps.wPoisonID === poisonId) {
       gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
     }
+  }
+}
+
+/**
+ * sdlpal `PAL_AddPoisonForPlayer`(global.c:1459-1505):去重(已有同毒 skip)+ 首空槽加,
+ * wPoisonScript = obj.wPlayerScript(每回合 tick 跑)。**不含**抗性 gate —— gate 在调用方
+ * (0x29 / 敌普攻 attackEquivItem),sdlpal 真值同此分工。
+ * 战斗内(0x29 battle ctx)与大世界 / 装备 scriptOnEquip(寿葫芦)共用。
+ */
+export function addPoisonForPlayer(gs: GameState, roleId: number, poisonId: number): void {
+  const playerScript = _objectPoisons.get(poisonId)?.playerScript ?? 0
+  // 去重:已有同毒 → skip
+  for (let slot = 0; slot < 16; slot++) {
+    if (gs.rgPoisonStatus[`${slot}_${roleId}`]?.wPoisonID === poisonId) return
+  }
+  // 首空槽加
+  for (let slot = 0; slot < 16; slot++) {
+    const key = `${slot}_${roleId}`
+    if (!gs.rgPoisonStatus[key] || gs.rgPoisonStatus[key]!.wPoisonID === 0) {
+      gs.rgPoisonStatus[key] = { wPoisonID: poisonId, wPoisonScript: playerScript }
+      return
+    }
+  }
+}
+
+/**
+ * sdlpal `PAL_RemoveEquipmentEffect` Wear 分支(global.c:1413-1454):清该 role 的 level≥99 毒
+ * (level<99 保留)。卸 Wear 装备(如寿葫芦)时调 —— 装备授的常驻"毒"(回血/诅咒)随卸下消失。
+ */
+export function removePoisonLevel99(gs: GameState, roleId: number): void {
+  for (let slot = 0; slot < 16; slot++) {
+    const key = `${slot}_${roleId}`
+    const ps = gs.rgPoisonStatus[key]
+    if (!ps || ps.wPoisonID === 0) continue
+    const level = _objectPoisons.get(ps.wPoisonID)?.level ?? 0
+    if (level >= 99) gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
   }
 }
 

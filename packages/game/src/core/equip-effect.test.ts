@@ -11,7 +11,7 @@
 
 import type { Command } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
-import { setGlobalEvents } from './event-system.js'
+import { setGlobalEvents, setObjectPoisons } from './event-system.js'
 import { createInitialGameState } from './game-state.js'
 import {
   getPlayerAttackStrength,
@@ -297,7 +297,24 @@ describe('equip-effect', () => {
     })
   })
 
-  describe('D14:removeEquipmentEffect 卸装副作用(global.c:1406-1412)', () => {
+  // D14(2026-05-31):0x29 scriptOnEquip → 装备授毒(寿葫芦每回合回血回蓝,正面"毒")
+  describe('0x29 scriptOnEquip → addPoisonForPlayer(script.c:1257)', () => {
+    it('0x29 寿葫芦 → 给 role 加 level-99 正面"毒"(resist 0 必中)', () => {
+      const cmds: Command[] = [
+        { op: 'raw', opcode: 0x29, operands: [0, 563, 0], label: 'L_520' }, // applyAll=0,毒 563
+        { op: 'end' },
+      ]
+      setGlobalEvents(cmds)
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.partyMembers = [1]
+      // poisonResistance 默认 0 → RandomLong(1,100) > 0 必 true → 中
+      runEquipScript(gs, 520, 1)
+      const has563 = Object.values(gs.rgPoisonStatus).some((p) => p.wPoisonID === 563)
+      expect(has563).toBe(true)
+    })
+  })
+
+  describe('D14:removeEquipmentEffect 卸装副作用(global.c:1406-1454)', () => {
     it('卸 Hand(part3)→ reset DualAttack(global.c:1411)', () => {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
       gs.rgPlayerStatus[1]![8] = 32760
@@ -310,6 +327,19 @@ describe('equip-effect', () => {
       gs.rgPlayerStatus[1]![8] = 32760
       removeEquipmentEffect(gs, 1, 0) // Head
       expect(gs.rgPlayerStatus[1]![8]).toBe(32760)
+    })
+
+    it('卸 Wear(part5)→ 清 level≥99 毒(寿葫芦),低级毒保留(global.c:1413-1454)', () => {
+      setObjectPoisons([
+        { id: 563, level: 99, color: 0, playerScript: 40860, enemyScript: 0 }, // 寿葫芦正面毒
+        { id: 552, level: 1, color: 64, playerScript: 40866, enemyScript: 40868 }, // 低级伤害毒
+      ])
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.rgPoisonStatus['0_1'] = { wPoisonID: 563, wPoisonScript: 40860 }
+      gs.rgPoisonStatus['1_1'] = { wPoisonID: 552, wPoisonScript: 40866 }
+      removeEquipmentEffect(gs, 1, 5) // Wear
+      expect(gs.rgPoisonStatus['0_1']!.wPoisonID).toBe(0) // level99 清
+      expect(gs.rgPoisonStatus['1_1']!.wPoisonID).toBe(552) // 低级保留
     })
   })
 
