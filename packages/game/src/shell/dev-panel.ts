@@ -37,6 +37,8 @@ import { startBattle } from '../core/battle/battle-system.js'
 import { loadScene } from '../core/scene-system.js'
 import {
   buildLabelMap,
+  getGlobalCommands,
+  OP_ADD_MAGIC,
   OP_FADE_OUT, OP_FADE_IN, OP_FADE_TO_RED, OP_PALETTE_FADE, OP_COLOR_FADE,
   OP_SCENE_FADE, OP_FADE_TO_SCENE, OP_FADE_SCREEN, OP_SET_DAY_PALETTE, OP_SET_NIGHT_PALETTE,
   OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, OP_SHAKE_SCREEN, OP_SHOW_FBP, OP_SCROLL_FBP,
@@ -287,14 +289,28 @@ function openPicker(deps: DevPanelDeps): void {
   spellTestBtn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left; background:#3a2a48; font-weight:bold'
   spellTestBtn.addEventListener('click', () => {
     closePicker()
-    // 某角色原本会的技能 = 起手 magic + 升级习得 magic(去重,rgwMagic 32 槽上限)。
+    // 某角色**能学会的全部技能** = 起手 magic(playerRoles[i].magic)+ 升级习得(levelUpMagic[i])
+    //   + 剧情/法宝授予(全局脚本里 `0x55 addMagic` op[1]!=0 指定该 role 的 op[0])。
+    //   sdlpal script.c:1816 `0x55`:op[1]==0 → wEventObjectID(dynamic),!=0 → role=op[1]-1(fixed);
+    //   本游戏全 0x55 都是 fixed role,故扫一遍即得每角色全集。
+    const grantsByRole = new Map<number, Set<number>>()
+    for (const c of getGlobalCommands()) {
+      if (c.op !== 'raw' || c.opcode !== OP_ADD_MAGIC) continue
+      const r1 = c.operands[1] ?? 0
+      if (r1 === 0) continue // dynamic(本游戏无)
+      const role = r1 - 1
+      let set = grantsByRole.get(role)
+      if (!set) { set = new Set(); grantsByRole.set(role, set) }
+      set.add(c.operands[0] ?? 0)
+    }
     const roleMagics = (roleId: number): number[] => {
       const role = deps.resources.playerRoles.roles.find(r => r.id === roleId)
       const start = (role?.magic ?? []).filter(x => x > 0)
       const learned = (deps.resources.levelUpMagic?.[roleId] ?? [])
         .filter(e => e.magic > 0)
         .map(e => e.magic)
-      return [...new Set([...start, ...learned])].slice(0, 32) // MAX_PLAYER_MAGICS=32
+      const granted = [...(grantsByRole.get(roleId) ?? [])].filter(x => x > 0)
+      return [...new Set([...start, ...learned, ...granted])].slice(0, 32) // MAX_PLAYER_MAGICS=32
     }
     const makeOverride = (roleId: number): Partial<Record<string, number | number[]>> => ({
       magic: roleMagics(roleId),
