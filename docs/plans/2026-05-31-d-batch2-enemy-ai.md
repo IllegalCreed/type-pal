@@ -109,17 +109,18 @@ sdlpal fight.c:4719 `wType!=kMagicTypeNormal → sTarget=-1`(全队)。
 
 ## 4. 进度(2026-05-31)
 - [x] **c1a** 敌方状态门 — sleep/paralyzed→pass + silence→强制物理(真bug) + 0xFFFF哨兵(enemy-ai.ts)
-- [ ] c1b 混乱敌打友敌(新 perform 路径:PAL_BattleEnemySelectEnemyTargetIndex + CalcBaseDamage*2/physRes)
+- [x] **c1b** 混乱敌打友敌(decideEnemyAction confused 选随机活敌 + performEnemyConfusedAttack CalcBaseDamage*2/physRes;复用 'attack-mate' 按 actor.isEnemy 路由)
 - [x] **c2** enemy→player 物理公式修 — def 去 (level+6)*4(真bug) + str/damage jitter + Protect/=2(attack.ts)
 - [x] **c3a** 物理 fAutoDefend 闪避 — 7/17 整次全免伤 + 坏状态强制挨打(attack.ts)
 - [ ] c3b 守护 cover — rgwCoveredBy 替挡查找(需 BattleState player coveredBy 字段 + projection)
 - [x] **c4** 魔法 autoDefend + Protect 除因子 ×2(magic-damage.ts)
-- [ ] c5 iHidingTime 隐身全套(负值转正 CLASSIC 无缩放 + 每回合衰减 + 敌整轮跳过)
-- [ ] c6 scriptOnBattleEnd 战后 resume(仅胜利,半血恢复前,返回值不回写)
+- [x] **c5** iHidingTime 隐身全套(activateHidingEffect 取反 CLASSIC 无缩放 + decrementHidingEffect 每轮衰减 + 敌整轮跳过 gate)
+- [x] **c6** scriptOnBattleEnd 战后 resume(finishBattleWon 半血前逐敌跑,仅胜利,返回值不回写)
 - [ ] c7 真 show-once / re-arm(runScript 返回 entry 回写)
 - [ ] c8 dualMove 二动真值(>=2 必 || !=0 RandomLong(0,1) 50%)
 - [ ] c9 敌群体魔法 target=-1(wType!=Normal)
 - [ ] c10 D9 RNG 对拍(full-party 抽+while)+ stale 注释清(0x67/0x79/0x90)
 
-> 已落 main(全绿 1482 测 + typecheck):c1a/c2/c3a/c4。D27 敌方攻击结算(物理+魔法 Protect/jitter/闪避)
-> 与 D10 状态门已基本收口;剩 c1b/c3b(混乱敌·守护)+ c5-c10。
+> 已落 main(全绿 1494 测 + typecheck):c1a/c2/c3a/c4/c1b/c5/c6(8 commit)。
+> D27 敌方攻击结算(物理+魔法 Protect/jitter/闪避/守护force)+ D10 状态门/confused/scriptOnBattleEnd
+> + D24 隐身 已收口;剩 **c3b 守护替挡 · c7 真 show-once · c8 dualMove · c9 敌群体魔法 · c10 D9 RNG**。
