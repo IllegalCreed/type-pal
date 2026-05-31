@@ -116,12 +116,12 @@ sdlpal fight.c:4719 `wType!=kMagicTypeNormal → sTarget=-1`(全队)。
 - [x] **c4** 魔法 autoDefend + Protect 除因子 ×2(magic-damage.ts)
 - [x] **c5** iHidingTime 隐身全套(activateHidingEffect 取反 CLASSIC 无缩放 + decrementHidingEffect 每轮衰减 + 敌整轮跳过 gate)
 - [x] **c6** scriptOnBattleEnd 战后 resume(finishBattleWon 半血前逐敌跑,仅胜利,返回值不回写)
-- [ ] **c7 真 show-once / re-arm(唯一剩余项;已彻查 scope,见下)**
+- [x] **c7** 真 show-once / re-arm —— runScript 返回 wNextScriptEntry(0x00→起始 entry 每轮重显 / 0x01→该行+1 show-once / 0x02→resetTo re-arm);runEnemyTurnStartScripts + scriptOnReady 调用点回写 en.scriptOnTurnStart/scriptOnReady(替换硬置 0 近似)。修 enemyId 23/25(scriptOnTurnStart=42840,0x00 每轮重显)被错误禁掉
 - [x] **c8** dualMove 二动真值(turn-queue 建队列 dualMove boolean = wDualMove>=2 || (!=0 && RandomLong(0,1)))
 - [x] **c9** 敌群体魔法 target=-1 —— **核查已实现**(magic.ts:284 `magic.type==='normal'?targetIdx:'all'`,忠实 fight.c:4719)
 - [x] **c10** D9 RNG 对拍(decideEnemyAction party reject 采样 RandomLong+while)+ 清 stale 注释(0x67/0x79/0x90)
 
-> 已落 main(全绿 1500 测 + typecheck):c1a/c2/c3a/c4/c1b/c5/c6/c3b/c8/c10(+ c9 核查已实现)= **12/13**。
+> 已落 main(全绿 + typecheck):c1a/c2/c3a/c4/c1b/c5/c6/c3b/c8/c10/c7(+ c9 核查已实现)= **13/13 ✅ B2 完成**。
 
 ### c7 精确 scope(已彻查 sdlpal PAL_RunTriggerScript script.c:3140-3478,留专项做)
 sdlpal **真 show-once = 返回值回写**:`wScriptOnTurnStart = PAL_RunTriggerScript(wScriptOnTurnStart, i)`(fight.c:1186/1689 等)。

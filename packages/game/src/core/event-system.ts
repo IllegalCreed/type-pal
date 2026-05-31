@@ -2283,7 +2283,7 @@ export function tickEventSystem(
  *
  * 战斗 opcode 具名 handler 延 T20/T21(等真跑 spell.scriptOnUse 撞到 raw 时再补)。
  */
-export function runScript(opts: RunScriptOptions): void {
+export function runScript(opts: RunScriptOptions): number {
   const { commands, bus, runtimeMode, battleCtx } = opts
   let ip = opts.ip
 
@@ -2323,7 +2323,8 @@ export function runScript(opts: RunScriptOptions): void {
 
     if (ip < 0 || ip >= commands.length) {
       console.warn(`${logPrefix} ip ${ip} 越界 → 退出`)
-      return
+      // B2 c7:脚本未达 end opcode 异常退出 → 返回起始 entry(保持 armed,不误禁该脚本)。
+      return opts.ip
     }
 
     const cmd = commands[ip]!
@@ -2338,7 +2339,15 @@ export function runScript(opts: RunScriptOptions): void {
           curEventObjId = frame.savedEventObjectId
           break
         }
-        return
+        // B2 c7:脚本真结束 → 返回 sdlpal wNextScriptEntry(script.c:3204-3237 + 3478):
+        //   0x01 advance → 本行 ip+1(指针前移 = show-once);
+        //   0x02 reset → resetTo 标签解析的 entry(re-arm 到指定);
+        //   0x00 plain → 起始 entry opts.ip(每轮从头重跑 = 每轮重显)。
+        //   敌 turnStart/ready 调用方据此回写 wScriptOnTurnStart/Ready(fight.c:1186/1226/1689/1719)。
+        //   (与 explore 'end' 路径 event-system.ts:1519-1534 同款 nextEntry 语义)。
+        if (cmd.advance) return ip + 1
+        if (cmd.reset && cmd.resetTo !== undefined) return labelMap[`L_${cmd.resetTo}`] ?? opts.ip
+        return opts.ip
 
       case 'goto': {
         const target = labelMap[cmd.to]

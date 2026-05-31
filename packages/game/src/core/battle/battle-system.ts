@@ -1437,7 +1437,12 @@ function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: Comman
     const en = state.enemies[ei]
     if (!en || en.e.health <= 0 || en.scriptOnTurnStart <= 0) continue
     state.battleDialogPendingClear = false // 每脚本重置 ClearDialog 暂存(防跨脚本泄漏)
-    runScript({
+    // B2 c7:真 show-once / re-arm —— sdlpal `wScriptOnTurnStart = PAL_RunTriggerScript(...)`
+    //   (fight.c:1186-1187 / 1689-1690)把脚本**返回值**写回。runScript 返回 wNextScriptEntry:
+    //   0x01 收尾 → 推进过本段(show-once,多数 boss 嘲讽);0x00 收尾 → 起始 entry(每轮重显,
+    //   如 enemyId 23 跳跳蛙 / 25 怪老子 scriptOnTurnStart=42840);0x02 → re-arm 指定 entry。
+    //   runScript 同步跑到 end 才返回(showDialog 只入队不挂起),故此回写每轮一次(turnStartDoneForTurn 守)。
+    en.scriptOnTurnStart = runScript({
       commands: res.commands,
       ip: en.scriptOnTurnStart,
       bus,
@@ -1449,11 +1454,6 @@ function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: Comman
         gs, // raw opcode fall 到 applyRawOpcode 需 gs
       },
     })
-    // **show-once**:sdlpal `wScriptOnTurnStart = PAL_RunTriggerScript(...)` 把脚本**返回值**写回 —
-    //   正常跑到 end 的脚本返回 0 → wScriptOnTurnStart=0 → 之后不再跑(user 实测:林月如进战斗说一次,
-    //   后面正常战斗;原来每轮重复显)。本 ts runScript 不返回,故跑完置 0 等价(嘲讽脚本都正常 end)。
-    //   残:条件 re-arm 脚本(自设非 0 entry)的"每轮再触发"未建模 —— 现有嘲讽脚本均无此结构。
-    en.scriptOnTurnStart = 0
   }
   state.battleDialogPendingClear = false
 }
@@ -1699,7 +1699,10 @@ function tickPerformAction(
       if (enemy.scriptOnReady > 0 && !item.scriptReadyRan) {
         item.scriptReadyRan = true // 本 turn 项一次性(防对话 hold 暂停期间重入重复跑)
         state.battleDialogPendingClear = false // 脚本起手清 ClearDialog 暂存(防跨脚本泄漏)
-        runScript({
+        // B2 c7:真 show-once / re-arm —— sdlpal `wScriptOnReady = PAL_RunTriggerScript(...)`
+        //   (fight.c:1226-1227 / 1719-1720)返回值回写。0x01 收尾 → 推进(show-once);0x00 → 起始
+        //   entry(每次 ready 重跑);0x02 → re-arm 指定。scriptReadyRan guard 保本 action 一次性。
+        enemy.scriptOnReady = runScript({
           commands: res.commands,
           ip: enemy.scriptOnReady,
           bus,

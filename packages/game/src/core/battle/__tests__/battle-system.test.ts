@@ -410,14 +410,31 @@ describe('tickBattle phase transitions', () => {
     while (gs.dialogBox === undefined && safety-- > 0) tickBattle(gs, emptyInput, bus)
     expect(gs.dialogBox?.currentLineText).toBe('不自量力的家伙!') // 选动作之前就说话(原 bug:先选才说)
     expect(gs.battleState?.phase).toBe('selectAction') // 仍在选动作阶段 — 对话挡着菜单
-    // **show-once**:跑完置 scriptOnTurnStart=0(sdlpal 返回值写回)→ 后面回合不再重复(user 实测:
-    //   林月如进战斗说一次,后面正常战斗;原 bug 每轮重复显)
-    expect(gs.battleState?.enemies[0]?.scriptOnTurnStart).toBe(0)
+    // B2 c7:0x00(plain end)收尾 → sdlpal 返回值回写**起始 entry**(script.c:3204/3478,fight.c:1186)→
+    //   wScriptOnTurnStart 保持 = 起跑 entry 1(每轮从头重显,如 enemyId 23 跳跳蛙 / 25 怪老子)。
+    //   原断言 `=0` 是近似(错误把每轮重显的脚本禁掉);真值 = re-arm 到起始。
+    expect(gs.battleState?.enemies[0]?.scriptOnTurnStart).toBe(1)
 
     // 本轮不重跑(guard:队列不再被 turnStart 重新填)
     const qlen = gs.battleState?.battleDialogQueue?.length ?? 0
     for (let i = 0; i < 5; i++) tickBattle(gs, emptyInput, bus)
     expect(gs.battleState?.battleDialogQueue?.length ?? 0).toBe(qlen)
+  })
+
+  it('B2 c7:scriptOnTurnStart 0x01(advance)收尾 → show-once(返回值推进过本段,对照 0x00 每轮重显)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 99999 })],
+      roles: [makeRole({ id: 0, hp: 99999 })],
+      // ip1 showDialog;ip2 = 0x01 advance end → sdlpal 返回 ip2+1=3(指针前移 = show-once,fight.c:1186)
+      commands: [{ op: 'end' }, { op: 'showDialog', messageIndex: 0, text: '哼,识相的快滚!' }, { op: 'end', advance: true }],
+    })
+    gs.battleState!.enemies[0]!.scriptOnTurnStart = 1
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    let safety = 30
+    while (gs.dialogBox === undefined && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(gs.dialogBox?.currentLineText).toBe('哼,识相的快滚!') // turn1 显示
+    // 0x01 advance → wScriptOnTurnStart 推进到 end 行 +1 = 3(跳过本段;≠ 起始 1 的每轮重显)
+    expect(gs.battleState?.enemies[0]?.scriptOnTurnStart).toBe(3)
   })
 })
 
