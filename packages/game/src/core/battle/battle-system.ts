@@ -572,7 +572,9 @@ function tickSelectAction(
     .map(({ e, i }) => ({
       idx: i,
       dex: getEnemyDexterity({ level: e.e.level, dexterity: e.e.dexterity }),
-      dualMove: e.e.dualMove === 1,
+      // B2 c8:sdlpal fight.c:1239-1242 真值 — wDualMove>=2 必二动 || (wDualMove!=0 && RandomLong(0,1) 50%)。
+      //   原 ts `===1 必二动` 漏了 >=2 必动 + ==1 的 50% 概率。
+      dualMove: e.e.dualMove >= 2 || (e.e.dualMove !== 0 && state.rng.rangeInclusive(0, 1) === 1),
     }))
 
   state.actionQueue = buildActionQueue({ players: playerSlots, enemies: enemySlots })

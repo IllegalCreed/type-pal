@@ -318,6 +318,30 @@ describe('tickBattle phase transitions', () => {
     expect(gs.battleState?.uiState).toBe('hidden')
   })
 
+  it('B2 c8:dualMove>=2 敌 → 必二动(actionQueue 含 2 条该敌 entry,fight.c:1239)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, dualMove: 2, health: 99999 })],
+      roles: [makeRole({ id: 0, hp: 99999 })],
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+    tickBattle(gs, emptyInput, bus) // selectAction → performAction(建 queue)
+    const enemyEntries = gs.battleState!.actionQueue.filter((q) => q.isEnemy)
+    expect(enemyEntries.length).toBe(2) // dualMove>=2 必二动
+    expect(enemyEntries.some((q) => q.fIsSecond)).toBe(true)
+  })
+
+  it('B2 c8:dualMove=0 敌 → 单动(actionQueue 仅 1 条该敌 entry)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, dualMove: 0, health: 99999 })],
+      roles: [makeRole({ id: 0, hp: 99999 })],
+    })
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+    tickBattle(gs, emptyInput, bus)
+    expect(gs.battleState!.actionQueue.filter((q) => q.isEnemy).length).toBe(1)
+  })
+
   it('performAction → postAction(queue 跑完)→ 下一轮 selectAction(双方都活)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 99999 })], // 不会被一击秒,保证不进 won
