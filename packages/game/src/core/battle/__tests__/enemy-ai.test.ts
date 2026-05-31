@@ -138,6 +138,20 @@ describe('decideEnemyAction', () => {
     expect(action.type).toBe('pass')
   })
 
+  // ── B2 c10:D9 RNG 对拍(party reject 采样,fight.c:4540-4545)────────────────────
+  it('B2:party 传入 → 用 full-party RandomLong + while 重摇(跳过死者)', () => {
+    // party idx0 死、idx1 活;rng 第一次摇 0(死)→ 重摇 1(活)→ 选 idx1
+    const seq = [0, 1]
+    let k = 0
+    const action = decideEnemyAction({
+      enemy: minimalEnemy({ magic: 0, magicRate: 0 }),
+      alivePlayers: [{ idx: 1, hp: 50 }],
+      party: [{ idx: 0, hp: 0 }, { idx: 1, hp: 50 }], // idx0 死
+      rng: { ...createSeedableRng(1), rangeInclusive: () => seq[k++] ?? 1 },
+    })
+    expect(action.target).toBe(1) // 跳过死者 idx0,重摇命中活者 idx1
+  })
+
   // ── B2 c1b:confused 敌打友敌(fight.c:4591-4655)──────────────────────────────
   it('B2:敌 confused → attack-mate 打另一活敌(fight.c:4593)', () => {
     // 两敌 idx 0/1,self=1;rng 选中 idx 0(非自己)→ attack-mate target 0

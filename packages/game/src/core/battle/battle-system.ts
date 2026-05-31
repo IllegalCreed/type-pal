@@ -1426,8 +1426,8 @@ function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
  * 一开始 / 每轮开头就显示(user 实测:不该先选动作才说话)。脚本 0xFFFF showDialog → 入
  * battleDialogQueue,顶层 tickBattleDialog 显示。turnStartDoneForTurn guard 保每轮一次。
  *
- * 残:0x90 自禁(show-once)/ 0x79 队伍条件分支在 battle 未实现 → 这两 gate 的脚本逐轮重显 / 分支不准
- * (多数嘲讽脚本无此 gate,逐轮显即忠实)。
+ * B2:0x79 队伍条件分支经 explore handler fallthrough 已生效;真 show-once = 脚本返回值回写
+ * (跑完置 scriptOnTurnStart,见函数末)。0x90 写 gs.rgObject,与战斗内敌脚本字段无关(sdlpal 不回读)。
  */
 function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: CommandBus, res: BattleResources): void {
   state.turnStartDoneForTurn = state.turn
@@ -1690,12 +1690,12 @@ function tickPerformAction(
   } else if (item.isEnemy) {
     const enemy = state.enemies[item.idx]
     if (enemy && enemy.e.health > 0) {
-      // M5.B-w2.a:sdlpal `fight.c:1719-1724` 真值 — enemy 轮到时跑 wScriptOnReady
-      // bytecode AI 脚本,脚本通过 opcode 0x0067 enemy use magic / 0x0064 jump if hp>
-      // 等 mutate enemy state(wMagic / wMagicRate);随后 PerformAction 用 mutate
-      // 后的 state 执行实际动作。
-      // 现阶段 opcode handler 仍是 raw skip(留后续 commit 真做),脚本路径已通,
-      // mutate 还没生效,默认仍走 decideEnemyAction fallback。
+      // sdlpal `fight.c:1719-1724` 真值 — enemy 轮到时跑 wScriptOnReady bytecode AI 脚本,
+      // 脚本通过 opcode 0x67 enemy use magic / 0x64 jump if hp> 等 mutate enemy state
+      // (wMagic / wMagicRate);随后 decideEnemyAction 读 mutate 后值执行实际动作。
+      // B2:0x67 已真驱动(battle-opcodes OP_ENEMY_USE_MAGIC + decideEnemyAction 读 enemy.magic);
+      // 0x79 队伍条件分支经 explore handler fallthrough 已生效;0x90 写 gs.rgObject(sdlpal 战斗内
+      // 本就不回读敌运行时脚本字段);真 show-once = scriptOnTurnStart/Ready 返回值回写(见 runEnemyTurnStartScripts)。
       if (enemy.scriptOnReady > 0 && !item.scriptReadyRan) {
         item.scriptReadyRan = true // 本 turn 项一次性(防对话 hold 暂停期间重入重复跑)
         state.battleDialogPendingClear = false // 脚本起手清 ClearDialog 暂存(防跨脚本泄漏)
@@ -1718,9 +1718,9 @@ function tickPerformAction(
         //   scriptOnReady 对话在敌人行动前显示(fight.c:1719-1724 脚本先跑,后 PerformAction)。
         if (state.battleDialogQueue && state.battleDialogQueue.length > 0) return
       }
-      const alivePlayers = state.players
-        .map((p, i) => ({ idx: i, hp: res.playerRoles.roles[p.roleId]?.hp ?? 0 }))
-        .filter((p) => p.hp > 0)
+      // B2 c10:传全 party(含死者)→ decideEnemyAction 用 sdlpal RNG 真值选目标(reject 重摇)
+      const party = state.players.map((p, i) => ({ idx: i, hp: res.playerRoles.roles[p.roleId]?.hp ?? 0 }))
+      const alivePlayers = party.filter((p) => p.hp > 0)
       // B2 c1:敌方状态门(sleep/paralyzed→pass;silence→强制物理;confused→打友敌;fight.c:4582-4655)
       const aliveEnemies = state.enemies
         .map((e, i) => ({ idx: i, health: e.e.health }))
@@ -1728,6 +1728,7 @@ function tickPerformAction(
       action = decideEnemyAction({
         enemy: enemy.e,
         alivePlayers,
+        party,
         rng: state.rng,
         status: enemy.status,
         selfIdx: item.idx,

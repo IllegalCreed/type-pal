@@ -39,6 +39,12 @@ export interface DecideEnemyActionInput {
   selfIdx?: number
   /** 活着的敌人列表(含自己)—— confused 从中随机选打击目标(fight.c:4593 SelectEnemyTargetIndex)。 */
   aliveEnemies?: Array<{ idx: number }>
+  /**
+   * 全 party(含死者,idx = state.players 索引)—— D9 RNG 对拍(c10):传入则用 sdlpal 真值选目标
+   * `RandomLong(0, maxPartyIdx) + while(HP==0) 重摇`(fight.c:4540-4545),RNG 流逐抽对齐;
+   * 省略 → 回退 `range over alivePlayers`(旧路径,分布相同 RNG 流不同)。
+   */
+  party?: Array<{ idx: number, hp: number }>
 }
 
 /** sdlpal `wMagic == 0xFFFF` 哨兵:进魔法分支即 goto end 什么不做(fight.c:4663)。 */
@@ -53,13 +59,23 @@ const MAGIC_SENTINEL_NOOP = 0xffff
  * 即 [0, 10) = 0..9)。
  */
 export function decideEnemyAction(input: DecideEnemyActionInput): BattleAction {
-  const { enemy, alivePlayers, rng, status } = input
-  if (alivePlayers.length === 0) {
+  const { enemy, alivePlayers, rng, status, party } = input
+  const anyAlive = party ? party.some((p) => p.hp > 0) : alivePlayers.length > 0
+  if (!anyAlive) {
     return { type: 'pass', target: -1 }
   }
   // sdlpal fight.c:4578:先无条件选目标(消耗 RNG),再判分支(sleep 时结果被丢弃)
-  const targetIdx = rng.range(0, alivePlayers.length)
-  const target = alivePlayers[targetIdx]!.idx
+  let target: number
+  if (party) {
+    // c10 RNG 对拍:RandomLong(0, maxPartyIdx) + while(HP==0) 拒绝重摇(fight.c:4540-4545)
+    let pi = rng.rangeInclusive(0, party.length - 1)
+    let guard = 0
+    while ((party[pi]?.hp ?? 0) === 0 && guard++ < 64) pi = rng.rangeInclusive(0, party.length - 1)
+    // 兜底(rng 越界/异常,sdlpal 靠"战斗未结束⇒至少一活者"规避无限循环):取首个活者
+    target = (party[pi]?.hp ?? 0) > 0 ? party[pi]!.idx : (party.find((p) => p.hp > 0)?.idx ?? party[0]!.idx)
+  } else {
+    target = alivePlayers[rng.range(0, alivePlayers.length)]!.idx
+  }
 
   // sdlpal fight.c:4582-4589:sleep / paralyzed → do nothing(iHidingTime gate 在 c5 tick 层)
   if ((status?.sleep ?? 0) > 0 || (status?.paralyzed ?? 0) > 0) {
