@@ -957,10 +957,11 @@ export function dispatchBattleOpcode(
     }
 
     case OP_ENEMY_ESCAPE: {
-      // 0x0069: enemy escape — health 设 0 等价(外层判 dead 处理 + 不掉战利品)
-      if (ctx.caster?.type !== 'enemy') return { consumed: true }
-      const enemy = state.enemies[ctx.caster.idx]
-      if (enemy) enemy.e.health = 0
+      // sdlpal `script.c:2035` → PAL_BattleEnemyEscape(battle.c:1376):播逃跑动画 + 设
+      //   `BattleResult = kBattleResultTerminated`(0)→ **终止整场战斗,无奖励**(全队不掉 exp/cash)。
+      //   **审计修**:此前设 enemy.health=0 → 被 postAction 当击杀**给了 exp/cash**(注释"不掉战利品"是错的)。
+      //   改对齐 0x89 的 Terminated 映射 → phase='fleed'(结束无奖励)。逃跑动画属 present 演出,略。
+      state.phase = 'fleed'
       return { consumed: true }
     }
 

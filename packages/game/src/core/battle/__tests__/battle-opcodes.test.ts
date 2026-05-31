@@ -81,12 +81,13 @@ describe('B-w2.a battle-opcodes dispatch', () => {
     expect(r.newIp).toBeUndefined() // 已中毒不跳
   })
 
-  it('0x0069 enemy escape:enemy.e.health 设 0', () => {
+  it('0x0069 enemy escape → phase=fleed 终止战斗无奖励(审计修:此前 health=0 误给击杀奖励)', () => {
     const enemy = makeEnemy(50)
     const ctx = makeCtx(enemy)
     const r = dispatchBattleOpcode(0x0069, [0, 0, 0], ctx)
     expect(r.consumed).toBe(true)
-    expect(enemy.e.health).toBe(0)
+    expect(ctx.state.phase).toBe('fleed') // kBattleResultTerminated → fleed(无奖励)
+    expect(enemy.e.health).toBe(50) // 未当击杀(此前 bug:设 0 → 给 exp/cash)
   })
 
   it('0x0060 immediate KO:无 target(敌自身脚本)→ fallback caster enemy health=0', () => {
