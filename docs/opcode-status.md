@@ -66,7 +66,7 @@
 | **0x30** | ✅ 已修 | — | per-battle Extra slot:0x30 写 rgEquipmentEffect[6]=trunc(base*op1/100)不叠加 + 战末清;projectRuntimeToBattleRoles 并入装备 effect → 战斗读 effective(**D14 修**)(script.c:1406-1427) |
 | **0x38 / 0x6D** | ✅ 已修 | — | 0x38 成功路径 call+return 跑 teleport 脚本(onTeleportLabel→sceneOnTeleportEntry,override 优先)；0x6D op2→sceneOnTeleportOverride + both-zero 清(script.c:1558/2069-2087) |
 | 0x05 | ✅ 逻辑done/残pacing | — | ClearDialog(TRUE)逻辑 + needToFadeIn 淡入**已做**(explore+battle);RNG-restore/BattleMakeScene 分支**对 ts 自动渲染 N/A**;残仅 no-dialog 分支 `UTIL_Delay(op1*60)` 帧延迟 —— **与 0x03 同源**(见下) |
-| **0x02 / 0x03** | ⬜ 待修 | — | trigger(tickEventSystem @1556)+ battle(runScript @2276)的 goto/reset 缺 frameDelay gate(autoScript runOneAutoOp @1035 已有)。frameDelay goto 实为 **trigger 过场"NPC 走 N 步"循环**(`0x6C 走一步→0x05 重绘+延迟→0x03 goto frameDelay 计步`,@191/2615/7339 等 17 处)→ ts 无 frameDelay 计数会死循环(SINGLE_TICK_LIMIT)。需 **yield-per-step 模型**(每帧走一步)+ 0x05 的 UTIL_Delay pacing 一起修。谨慎,弄错破过场。 |
+| **0x02 / 0x03** | ✅ 已修 | — | trigger 0x03 frameDelay 已补(event-system.ts:1574:++scriptIdleFrame >= fd → reset+ip++ 退出走步循环);归属分析定位 6 trigger 站点(`0x6E;0x09;goto-back[fd]`,0x09 逐 tick yield)。0x02 reset 归属全非 trigger(autoScript 已处理);battle 无 0x6E 走步循环 N/A(script.c:3239-3256) |
 | **0x7F** | ✅ 已修 | — | 三分支:回正/绝对跳(op2=0xFFFF camera=op0*32-160,op1*16-112)/相对 pan;多帧 pan→waiting='camera-pan' 逐帧移 camera(script.c:2292-2379) |
 | **0x8E** | ✅ 本就忠实 | — | 复核订正:sdlpal 备份在画完 title/portrait 后取(text.c:1734)→ RestoreScreen 留 title/portrait 清 body = ts partialClear 净视觉等价,非残 |
 | 0x96 | ✅ 本就对 | — | CLASSIC/DOS build fIsWIN95=false → 总是调 PAL_EndingAnimation 正确(audit 误判) |
@@ -135,13 +135,19 @@
 >   后、画首条 body 前**(`nCurrentDialogLine==0`)取 → VIDEO_RestoreScreen 恢复 = **title/portrait 留、body 清**。
 >   ts state-driven 的 `partialClear`(保 titleText+portraitIcon 清 body,event-system.ts:1481)**净视觉等价**,
 >   无需 pixel backup buffer。原"缺 VIDEO_RestoreScreen"残注系误判,已订正。
-> - ⬜ **剩 1 组子系统(非纯 logic bug,需专门做)**:
->   - **0x02 / 0x03 (+0x05 pacing) cutscene NPC 走步循环**:frameDelay goto 实为 trigger 过场"NPC 走 N 步"
->     循环(`0x6C 走一步 → 0x05 重绘+UTIL_Delay → 0x03 goto frameDelay 计步`,17 处)。autoScript(runOneAutoOp)
->     已处理 frameDelay;**trigger(tickEventSystem @1556)+ battle(runScript @2276)缺** → ts 无计数会死循环。
->     需 yield-per-step 模型(每帧走一步)+ 0x05 no-dialog 分支 UTIL_Delay pacing。谨慎,弄错破过场时序。
+> - ✅ **0x03 goto frameDelay 收口(本轮,trigger cutscene 走步循环)**:script.c:3239-3256(PAL_InterpretInstruction)。
+>   先做**归属分析**(reachability BFS:autoLabel=auto 根 / triggerLabel+onEnter+onTeleport+item 脚本=trigger 根):
+>   17 个 frameDelay goto 中 **6 个确属 trigger**(ip 32097/33696/33964/33972/35054/35062,全 `0x6E 走一步; 0x09 wait;
+>   0x03 goto-back[fd]` 同构)、5 个 auto(runOneAutoOp 已处理)、6 个 NEITHER(call 链/条件支/re-entry,BFS 欠采)。
+>   修 trigger goto(event-system.ts:1574):`frameDelay>0 → ++scriptIdleFrame; >= fd → reset+ip++(退出);< fd → 跳回`
+>   (cursor.scriptIdleFrame = sdlpal pEvtObj->nScriptIdleFrame)。loop 内 0x09 提供逐 tick yield → **每 tick 走一步,
+>   fd 帧后退出**(缺计数前跳转恒成立 → NPC 无限走)。battle(runScript 同步)无 0x6E 走步循环,N/A。验:fd 计数退出/
+>   退出时机/frameDelay==0 普通 goto(3 单测)。**残**:走步视觉时序待真引擎实测确认。
+> - ⚪ **0x02 idleFrame reset(11 处)**:归属分析全 NEITHER(非 trigger 根可达;trigger 0x02 是 end+resume,需脚本
+>   逐帧 re-fire 才成循环,而 trigger/onEnter 不逐帧 re-run)→ 实为 autoScript 模式(runOneAutoOp cmd.reset 已处理)。
+>   trigger 'end'(event-system.ts:1496)的 cmd.reset 已做 resume 持久化,无需加 frameDelay 循环。
 > - ✅ **0x05 主体已做**(复核):ClearDialog 逻辑 + 淡入(explore+battle);RNG/battle 重绘分支 N/A(ts 自动渲染);
->   残仅 cutscene 走步的 UTIL_Delay pacing(并入上面 0x02/03)。
+>   走步循环的逐 tick 节拍由 loop 内 0x09(frame-wait)提供,非 0x05。
 > - ✅ **本就对(无需改)**:0x96(CLASSIC/DOS build "总是调"正确)/ 0x09·0x21·0x42·0x98·0x9C(审计假阳性,复核维持 ✅)。
 
 ## 控制流(0x00-0x0A)
@@ -150,8 +156,8 @@
 |----|------|------|------|
 | 0x00 | end(stop,park) | ✅ | event-system 'end' |
 | 0x01 | end advance(下一行) | ✅ | onEnter 持久化 + autoScript |
-| 0x02 | end reset(resetTo) | 🐞 bug | autoScript reset loop ✅;但 **trigger(tickEventSystem)缺 idleFrames 延迟 gate**(见审计表) |
-| 0x03 | goto | 🐞 bug | 跳转 ✅;但 **trigger + 战斗路径缺 frameDelay(op[1])gate**(见审计表) |
+| 0x02 | end reset(resetTo) | ✅ | autoScript reset loop ✅;trigger 0x02 是 end+resume(归属分析 11 处全非 trigger 根可达,trigger 不逐帧 re-fire 不成循环 → autoScript 模式,runOneAutoOp 已处理) |
+| 0x03 | goto | ✅ | autoScript ✅;**trigger frameDelay 已补**(event-system.ts:1574:++scriptIdleFrame >= fd → reset+ip++ 退出走步循环;6 trigger 站点 `0x6E;0x09;goto-back[fd]`);battle 无 0x6E 走步 N/A(script.c:3239-3256) |
 | 0x04 | call script(子脚本) | ✅ | 调用栈(238 次最高频) |
 | 0x05 | redraw screen / ClearDialog | ✅ 逻辑done | ClearDialog(TRUE)+ needToFadeIn 淡入 ✅(ef70491);RNG-restore/BattleMakeScene 分支对 ts 自动渲染 **N/A**;残仅 no-dialog UTIL_Delay pacing(与 0x03 cutscene 走步同源,见审计表) |
 | 0x06 | jump by rate | ✅ | OP_JUMP_BY_RATE |

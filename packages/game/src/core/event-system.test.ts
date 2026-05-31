@@ -4076,6 +4076,76 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
   })
 })
 
+// ── 0x03 goto frameDelay(trigger cutscene NPC 走步循环,script.c:3239-3256)────
+describe('opcode 0x03 goto frameDelay(trigger 走步循环,script.c:3239-3256)', () => {
+  it('frameDelay 计数:loop 跑 fd 次(0x09 逐 tick yield)后退出续跑,非死循环', () => {
+    // 真值 loop:`0x6E walk; 0x09 wait; 0x03 goto-back[fd]`(6 个真站点同构)。
+    //   ++idleFrame < fd → 跳回 loop;>= fd → reset + ip++ 退出。0x09 提供逐 tick yield。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: 0x36, operands: [11, 0, 0] }, // ip0:loop 体(setRNG=11,标记跑了)
+        { op: 'raw', opcode: 0x09, operands: [0, 0, 0] },  // ip1:wait 1 帧(逐 tick yield)
+        { op: 'goto', to: 'L_0', frameDelay: 3 },           // ip2:goto 回 ip0,fd=3
+        { op: 'raw', opcode: 0x45, operands: [7, 0, 0] },  // ip3:退出后跑(wNumBattleMusic=7)
+        { op: 'end' },
+      ],
+      labelMap: { L_0: 0 },
+      ip: 0,
+    }
+    gs.mode = 'event'
+    // 跑足够多 tick(若死循环则 wNumBattleMusic 永不置 / SINGLE_TICK_LIMIT 抛)。
+    for (let i = 0; i < 8; i++) tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.iCurPlayingRNG).toBe(11)   // loop 体跑过
+    expect(gs.wNumBattleMusic).toBe(7)   // fd=3 次后退出 → 续跑 ip3
+    expect(gs.eventCursor).toBeUndefined() // 到 end
+  })
+
+  it('frameDelay 退出时机:fd=3 → 第 3 次 0x03 才退出(前 2 次跳回)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: 0x36, operands: [11, 0, 0] }, // ip0
+        { op: 'raw', opcode: 0x09, operands: [0, 0, 0] },  // ip1:yield
+        { op: 'goto', to: 'L_0', frameDelay: 3 },           // ip2
+        { op: 'raw', opcode: 0x45, operands: [7, 0, 0] },  // ip3
+        { op: 'end' },
+      ],
+      labelMap: { L_0: 0 },
+      ip: 0,
+    }
+    gs.mode = 'event'
+    // tick1: ip0 setRNG + ip1 0x09 yield
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.wNumBattleMusic).toBe(0) // 还在 loop
+    // tick2: 0x03(idle=1<3 跳)+ ip0 + 0x09 yield;tick3: 0x03(idle=2<3 跳)+ ...
+    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.wNumBattleMusic).toBe(0) // 仍在 loop(idle=2<3)
+    // tick4: 0x03(idle=3>=3 → 退出)→ ip3 setBattleMusic
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.wNumBattleMusic).toBe(7) // 退出
+  })
+
+  it('frameDelay==0 → 普通 goto(不计数,现有行为不变)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.eventCursor = {
+      commands: [
+        { op: 'goto', to: 'L_2' },                          // ip0:跳 ip2
+        { op: 'raw', opcode: 0x36, operands: [99, 0, 0] }, // ip1:跳过
+        { op: 'raw', opcode: 0x45, operands: [7, 0, 0] },  // ip2
+        { op: 'end' },
+      ],
+      labelMap: { L_2: 2 },
+      ip: 0,
+    }
+    gs.mode = 'event'
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.iCurPlayingRNG).toBe(0) // ip1 跳过
+    expect(gs.wNumBattleMusic).toBe(7)
+  })
+})
+
 // ── Batch D audio:0x45 set-battle-music / 0x77 stop-music / 0xA3 play-cd ──────
 describe('audio opcodes(state-set,M6 接真播)', () => {
   it('0x45 setBattleMusic → gs.wNumBattleMusic = op0(script.c:1658)', () => {

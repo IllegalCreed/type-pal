@@ -1575,19 +1575,33 @@ export function tickEventSystem(
         // P2#5:单一全局数组 — goto 目标(含旧 `shared#L_xxx` 前缀,剥掉即得全局 L_<n>)→ 全局 ip。
         // resolveLabelIp 经 getLabels(默认全局 labelMap);不再切 cursor 来源。
         const target = resolveLabelIp(cursor, cmd.to)
-        if (target !== undefined) {
-          cursor.ip = target
-          break
+        if (target === undefined) {
+          // 目标 label 不在全局数组(异常数据)→ **终止脚本**,不能 `break`(同 ip 自旋到
+          // SINGLE_TICK_LIMIT 抛错)。同 ip 越界路径:清 cursor + 回 explore/menu。
+          console.warn(`event-system: goto label ${cmd.to} 不在全局 labelMap → 终止脚本`)
+          gs.eventCursor = undefined
+          gs.dialogBox = undefined
+          consumePendingItem(gs)
+          gs.iCurEquipPart = -1
+          restoreModeAfterScript(gs)
+          return
         }
-        // 目标 label 不在全局数组(异常数据)→ **终止脚本**,不能 `break`(同 ip 自旋到
-        // SINGLE_TICK_LIMIT 抛错)。同 ip 越界路径:清 cursor + 回 explore/menu。
-        console.warn(`event-system: goto label ${cmd.to} 不在全局 labelMap → 终止脚本`)
-        gs.eventCursor = undefined
-        gs.dialogBox = undefined
-        consumePendingItem(gs)
-        gs.iCurEquipPart = -1
-        restoreModeAfterScript(gs)
-        return
+        // frameDelay(sdlpal trigger PAL_InterpretInstruction 0x03,script.c:3243-3255):
+        //   `if (op[1]==0 || ++nScriptIdleFrame < op[1]) wScriptEntry=op[0]; else { idle=0; ip++ }`。
+        //   cutscene NPC 走步循环(`0x6E/0x6C 走一步; 0x09 wait; 0x03 goto-back[fd]`,6 个 trigger 真站点):
+        //   计数中 → 跳回 loop 头(同 tick 续跑,loop 内 0x09 提供逐 tick yield → 每 tick 走一步);
+        //   满 fd → reset + ip++ 退出。**缺此计数 → 跳转恒成立 → 走步无限循环**(NPC 走不停)。
+        const frameDelay = cmd.frameDelay ?? 0
+        if (frameDelay > 0) {
+          cursor.scriptIdleFrame = (cursor.scriptIdleFrame ?? 0) + 1
+          if (cursor.scriptIdleFrame >= frameDelay) {
+            cursor.scriptIdleFrame = 0
+            cursor.ip++ // 满 fd 帧 → 退出循环,续跑下条
+            break
+          }
+        }
+        cursor.ip = target
+        break
       }
 
       case 'showDialog': {

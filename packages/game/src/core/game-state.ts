@@ -226,6 +226,10 @@ export interface EventCursor {
   confirmYes?: boolean
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
+  /** 0x03 goto frameDelay 计数(sdlpal pEvtObj->nScriptIdleFrame,trigger 路径 PAL_InterpretInstruction
+   * script.c:3243-3255):++scriptIdleFrame < frameDelay → 跳(loop);>= → reset 0 + ip++(退出 cutscene 走步循环)。
+   * 配 loop 内 0x09 逐 tick yield → 每 tick 走一步,frameDelay 帧后退出。 */
+  scriptIdleFrame?: number
   /** 'camera-pan' 用(opcode 0x7F 多帧 viewport 平移):剩余帧数 + 每帧 (dx,dy) px(SHORT)。
    * sdlpal script.c:2331-2377 逐帧 `viewport += (op0,op1)` do-while op2 次。每 tick 移 camera + 自减,
    * 归 0 时 ip++ + clear。pan cutscene(180 站点)逐帧平移摄像机。 */
