@@ -1328,11 +1328,13 @@ function tickBattleFade(state: BattleState): boolean {
 
 /** 逃跑动画步数(sdlpal battle.c:1473 `for i<16`)。 */
 const FLEE_ANIM_STEPS = 16
-/** 逐步右下位移(battle.c:1484-1510):p0 +4/+6(单人队 fall through +4/+4)、p1 +4/+4、p2 +6/+3。 */
-function fleeStepDelta(j: number, partyLen: number): [number, number] {
-  if (j === 0 && partyLen > 1) return [4, 6]
-  if (j === 2) return [6, 3]
-  return [4, 4] // j===1 或 单人队 j===0(case 0 fall through case 1)
+/**
+ * 逐步逃跑位移 —— **统一方向**(user 2026-05-31 拍板:忠于原版,三人同向同速,不要 sdlpal 的扇形散开)。
+ * sdlpal 真值是 p0 +4/+6·p1 +4/+4·p2 +6/+3(扇形,其源码自带 TODO 承认跟原版不一致);
+ * 这里**主动偏离 sdlpal 朝原版靠**:全员统一右下 +5/+4(队伍在右侧,整体跑出右下方)。
+ */
+function fleeStepDelta(_j: number, _partyLen: number): [number, number] {
+  return [5, 4]
 }
 
 /**
@@ -1647,8 +1649,10 @@ function tickPerformAction(
       const role = res.playerRoles.roles[player.roleId]
       if (role && role.hp > 0) {
         action = state.pendingActions.get(item.idx)
-        // B1/D8:perform 时失能解算(sdlpal fight.c:1731-1747)——
-        //   睡眠/麻痹 → Pass;混乱 → 濒死?Pass : AttackMate(攻随机活友军)。
+        // perform 时失能解算(sdlpal fight.c:1731-1747 + 原版混乱)——
+        //   睡眠/麻痹 → Pass;混乱 → 濒死?Pass : **随机攻击任一存活目标(敌方或友方)**。
+        //   **混乱按原版**(user 2026-05-31 拍板:sdlpal 改成只打友军 AttackMate 且独自时 Pass,
+        //   但 sdlpal 注释自承"original version behaviour is not same";原版是随机敌/友普攻 → 改回原版)。
         //   覆盖 pendingActions 里的占位 action(自动填的 attack id0)。
         const st = player.status
         if (st.sleep > 0 || st.paralyzed > 0) {
@@ -1656,7 +1660,7 @@ function tickPerformAction(
         } else if (st.confused > 0) {
           action = isPlayerDying({ hp: role.hp, maxHP: role.maxHP })
             ? { type: 'pass', target: -1 }
-            : { type: 'attack-mate', target: -1 }
+            : resolveConfusedAttack(state, res, item.idx)
         }
       }
     }
@@ -1707,6 +1711,28 @@ function tickPerformAction(
   }
   // 不 reset phaseStallTicks —— 整个 performAction phase 内 stall 累计;
   // 如卡 60s 没推进(eg. 自死循环),会被 stall 兜底
+}
+
+/**
+ * 原版混乱(user 2026-05-31 拍板忠于原版):随机攻击**任一存活目标**(敌方或友方,排除自己),
+ * 走普通物理攻击。敌方目标 → 'attack'(performAttack 完整动画);友方目标 → 'attack-mate'(performAttackMate 打该友军)。
+ * 池空(无任何可打目标)→ Pass。sdlpal CLASSIC 改成只打友军(AttackMate)且独自时 Pass,
+ * 其源码注释 `since original version behaviour is not same` 已承认偏离原版 —— 此处改回原版随机敌/友。
+ */
+function resolveConfusedAttack(state: BattleState, res: BattleResources, casterIdx: number): BattleAction {
+  const pool: Array<{ kind: 'enemy' | 'ally', idx: number }> = []
+  state.enemies.forEach((e, i) => {
+    if (e.e.health > 0) pool.push({ kind: 'enemy', idx: i })
+  })
+  state.players.forEach((p, i) => {
+    if (i === casterIdx) return
+    if ((res.playerRoles.roles[p.roleId]?.hp ?? 0) > 0) pool.push({ kind: 'ally', idx: i })
+  })
+  if (pool.length === 0) return { type: 'pass', target: -1 }
+  const pick = pool[state.rng.range(0, pool.length)]! // range 上限 exclusive → [0, len)
+  return pick.kind === 'enemy'
+    ? { type: 'attack', target: pick.idx, targetSide: 'enemy' }
+    : { type: 'attack-mate', target: pick.idx }
 }
 
 /**
@@ -1806,8 +1832,10 @@ function performBattleAction(
       break
 
     case 'attack-mate':
-      // B1/D8:混乱队员攻随机活友军(sdlpal fight.c:3760-3853)。caster=玩家;无活友军→Pass。
-      if (!actor.isEnemy) performAttackMate(state, actor.idx, bus, res.playerRoles)
+      // 混乱队员攻友军(原版随机目标命中友军时 → action.target 已是选定友军 idx;
+      //   传 forcedTarget 打该友军。fight.c:3760-3853 伤害公式)。caster=玩家。
+      if (!actor.isEnemy)
+        performAttackMate(state, actor.idx, bus, res.playerRoles, action.target >= 0 ? action.target : undefined)
       break
 
     case 'throw-item': {

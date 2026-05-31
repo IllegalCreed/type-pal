@@ -27,33 +27,40 @@ function asShort(n: number): number {
 }
 
 /**
- * 执行混乱队员的 AttackMate。caster/target 都是 players[] 索引。
- * 无活友军 → no-op(Pass)。target HP 写回 playerRoles.roles[roleId]。
+ * 执行混乱队员对**友军**的物理攻击。caster/target 都是 players[] 索引。
+ * `forcedTarget` 给定(原版混乱随机目标命中友军时,由 resolveConfusedAttack 选定)→ 打该友军;
+ * 省略 → 自行随机选活友军(sdlpal AttackMate fight.c:3786-3789;无活友军 → no-op Pass)。
+ * target HP 写回 playerRoles.roles[roleId]。
  */
 export function performAttackMate(
   state: BattleState,
   casterIdx: number,
   bus: CommandBus,
   playerRoles: PlayerRoles,
+  forcedTarget?: number,
 ): void {
   const maxIdx = state.players.length - 1 // = sdlpal wMaxPartyMemberIndex
   const hpOf = (idx: number): number => playerRoles.roles[state.players[idx]!.roleId]?.hp ?? 0
 
-  // 1. 是否有其他活友军(fight.c:3768-3779)
-  let anyAlive = false
-  for (let i = 0; i <= maxIdx; i++) {
-    if (i !== casterIdx && hpOf(i) > 0) {
-      anyAlive = true
-      break
-    }
-  }
-  if (!anyAlive) return // 无活友军 → Pass(fight.c:3781 do-while 不进)
-
-  // 2. 随机活友军目标(fight.c:3786-3789):do RandomLong(0,maxIdx) while(self || HP==0)
   let target: number
-  do {
-    target = state.rng.rangeInclusive(0, maxIdx)
-  } while (target === casterIdx || hpOf(target) === 0)
+  if (forcedTarget !== undefined && forcedTarget !== casterIdx && hpOf(forcedTarget) > 0) {
+    target = forcedTarget // 原版混乱随机目标已选定该友军
+  }
+  else {
+    // 1. 是否有其他活友军(fight.c:3768-3779)
+    let anyAlive = false
+    for (let i = 0; i <= maxIdx; i++) {
+      if (i !== casterIdx && hpOf(i) > 0) {
+        anyAlive = true
+        break
+      }
+    }
+    if (!anyAlive) return // 无活友军 → Pass(fight.c:3781 do-while 不进)
+    // 2. 随机活友军目标(fight.c:3786-3789):do RandomLong(0,maxIdx) while(self || HP==0)
+    do {
+      target = state.rng.rangeInclusive(0, maxIdx)
+    } while (target === casterIdx || hpOf(target) === 0)
+  }
 
   // 3. str(攻者)/ def(目标,防御×2)
   const casterRole = playerRoles.roles[state.players[casterIdx]!.roleId]!

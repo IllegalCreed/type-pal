@@ -571,7 +571,7 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     expect(item0?.dex).toBe(0) // 麻痹队员 dex=0(fight.c:1513)
   })
 
-  it('perform:混乱队员 → AttackMate 攻随机活友军(45 伤害)', () => {
+  it('perform:混乱队员随机命中友方 → 打该友军(原版随机敌/友;pool=[敌0,友1] rng→1)', () => {
     const ally = makeRole({ id: 1, hp: 200, defense: 0, level: 10 })
     const { gs, bus, emptyInput } = bootstrap({
       partyMembers: [0, 1],
@@ -580,8 +580,22 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     gs.battleState!.players[0]!.status.confused = 3
+    gs.battleState!.rng.range = () => 1 // pool=[{敌0},{友1}] → 选友军 idx1
     drivePerformPlayerOnly(gs, bus, emptyInput, 0)
     expect(ally.hp).toBe(155) // str96/def64/res2 → 45;200-45
+  })
+
+  it('perform:混乱队员随机命中敌方 → 普攻打敌(原版,有活队友也可能打敌)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1],
+      roles: [makeRole({ id: 0, hp: 200, attackStrength: 100, level: 10 }), makeRole({ id: 1, hp: 200 })],
+      enemies: [makeEnemy({ id: 100, health: 200, defense: 0 })],
+    })
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.players[0]!.status.confused = 3
+    gs.battleState!.rng.range = () => 0 // pool=[{敌0},{友1}] → 选敌 idx0
+    drivePerformPlayerOnly(gs, bus, emptyInput, 0)
+    expect(gs.battleState!.enemies[0]!.e.health).toBeLessThan(200) // 敌被普攻
   })
 
   it('perform:混乱濒死队员 → Pass(不攻友军)', () => {
