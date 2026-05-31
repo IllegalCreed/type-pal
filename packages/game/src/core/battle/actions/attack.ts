@@ -18,13 +18,27 @@
  *      和 crit / coop 系数,M3 简化为不加 rng jitter / 无 crit。
  */
 
-import type { Enemy, PlayerRoles } from '@type-pal/shared'
+import type { Command, Enemy, Item, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
+import { getPlayerPoisonResistance } from '../../equip-effect.js'
+import type { GameState } from '../../game-state.js'
 import { buildEnemyPhysicalTimeline, buildPlayerAttackTimeline } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import { calcPhysicalAttackDamage } from '../formulas.js'
+import type { RunScriptFn } from './magic.js'
 import type { ActionQueueItem } from '../turn-queue.js'
+
+/**
+ * 敌人普攻附带等价物品中毒所需上下文(sdlpal fight.c:5139-5146 wAttackEquivItem)。
+ * 省略 → 不施加(向后兼容旧 caller / 单测)。
+ */
+export interface EquivPoisonCtx {
+  gs: GameState
+  items: Item[]
+  commands: Command[]
+  runScript: RunScriptFn
+}
 
 /**
  * D17a:player 攻击命中特效帧基号 = rgwBattleEffectIndex[battleSpriteId][1] * 3
@@ -69,6 +83,8 @@ export function performAttack(
    * 省略 → effectFrameBase=0(overlay 仍指 chunk10 frame 0..2)。
    */
   battleEffectIndex?: number[],
+  /** 敌普攻 equivItem 中毒上下文(fight.c:5139);省略 → 不施加。 */
+  equivPoison?: EquivPoisonCtx,
 ): void {
   // —— 算 str ——
   let str: number
@@ -148,6 +164,34 @@ export function performAttack(
   }
 
   const dealtDamage = hpBefore - hpAfter
+
+  // —— 敌人普通攻击附带等价物品中毒(sdlpal fight.c:5139-5146)——
+  //   敌→我 命中后:`attackEquivItemRate >= RandomLong(1,10)` && `poisonResistance < RandomLong(1,100)`
+  //   → 跑 rgObject[attackEquivItem].item.wScriptOnUse(wEventObjectID = 被打队员 role)。该毒物品脚本是
+  //   0x29 单体毒(毒蛇卵→毒551 / 尸腐肉→552 / 缠魂丝→554 …29 个敌人:蜜蜂/僵尸/蜘蛛/瘟神等)。
+  if (actor.isEnemy && isPlayerTarget && equivPoison) {
+    const enemy = state.enemies[actor.idx]!.e
+    const equivId = enemy.attackEquivItem ?? 0
+    const rate = enemy.attackEquivItemRate ?? 0
+    const roleId = state.players[targetIdx]!.roleId
+    if (
+      equivId !== 0
+      && rate >= state.rng.rangeInclusive(1, 10)
+      && getPlayerPoisonResistance(equivPoison.gs, roleId) < state.rng.rangeInclusive(1, 100)
+    ) {
+      const scriptOnUse = equivPoison.items.find((it) => it.id === equivId)?.scriptOnUse ?? 0
+      if (scriptOnUse > 0) {
+        equivPoison.runScript({
+          commands: equivPoison.commands,
+          ip: scriptOnUse,
+          bus,
+          runtimeMode: 'battle',
+          eventObjectId: roleId, // wEventObjectID = 被打队员 → 脚本 0x29 单体毒之
+          battleCtx: { state, target: { type: 'player', idx: targetIdx }, gs: equivPoison.gs },
+        })
+      }
+    }
+  }
 
   // —— emit 命令(play{Enemy,Player}Attack 留作 present hook;present 当前 no-op)——
   if (actor.isEnemy) {

@@ -1775,7 +1775,9 @@ function performBattleAction(
 ): void {
   switch (action.type) {
     case 'attack':
-      performAttack(state, actor, action.target, bus, res.playerRoles, res.battleEffectIndex)
+      performAttack(state, actor, action.target, bus, res.playerRoles, res.battleEffectIndex,
+        // 敌普攻 equivItem 中毒(fight.c:5139):敌→我 命中后按几率 + 抗性跑毒物品 scriptOnUse(0x29)。
+        { gs, items: res.items, commands: res.commands, runScript: getRunScript(gs) })
       break
 
     case 'defend':

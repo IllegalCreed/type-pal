@@ -15,6 +15,7 @@ import { performDefend } from '../actions/defend.js'
 import { performFlee } from '../actions/flee.js'
 import { performItem } from '../actions/item.js'
 import { performMagic, type RunScriptFn } from '../actions/magic.js'
+import { runScript, setObjectPoisons } from '../../event-system.js'
 import type { BattleState } from '../battle-state.js'
 import type { ActionQueueItem } from '../turn-queue.js'
 
@@ -273,6 +274,42 @@ describe('performAttack', () => {
     performAttack(state, enemyActor, 0, bus, playerRoles)
     // str=0, def=1000+7*4=1028 → atk<=def*0.6=616.8 实际 0 → calcBase=0 → damage=1
     expect(playerRoles.roles[0]!.hp).toBe(99)
+  })
+
+  // 敌人普攻 attackEquivItem 中毒(fight.c:5139-5146)—— 29 个敌人(蜜蜂/僵尸/蜘蛛…)普攻附带毒物品
+  it('敌普攻 equivItem 中毒:rate+抗性过 → 跑毒物品 scriptOnUse(0x29)单体毒队员', () => {
+    setObjectPoisons([{ id: 551, level: 0, color: 16, playerScript: 40862, enemyScript: 0 }])
+    // forceRoll=1:rate(10)>=1 过 + poisonResistance(0)<1 过 → 施毒
+    const { state, playerRoles, bus } = makeState({
+      enemies: [{ attackEquivItem: 117, attackEquivItemRate: 10 }],
+      forceRoll: 1,
+    })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 0
+    performAttack(state, enemyActor, 0, bus, playerRoles, undefined, {
+      gs,
+      items: [{ id: 117, scriptOnUse: 1 } as Item], // 毒蛇卵 scriptOnUse @ip1(0=无脚本哨兵)
+      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x29, operands: [0, 551, 0] }, { op: 'end' }], // ip1:0x29 单体毒 551
+      runScript,
+    })
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 551, wPoisonScript: 40862 })
+  })
+
+  it('敌普攻 equivItem:rate roll 不过 → 不中毒', () => {
+    setObjectPoisons([{ id: 551, level: 0, color: 16, playerScript: 40862, enemyScript: 0 }])
+    // forceRoll=10:rate(2)>=10 假 → 不施毒
+    const { state, playerRoles, bus } = makeState({
+      enemies: [{ attackEquivItem: 117, attackEquivItemRate: 2 }],
+      forceRoll: 10,
+    })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    performAttack(state, enemyActor, 0, bus, playerRoles, undefined, {
+      gs,
+      items: [{ id: 117, scriptOnUse: 0 } as Item],
+      commands: [{ op: 'raw', opcode: 0x29, operands: [0, 551, 0] }, { op: 'end' }],
+      runScript,
+    })
+    expect(gs.rgPoisonStatus['0_0']).toBeUndefined()
   })
 })
 

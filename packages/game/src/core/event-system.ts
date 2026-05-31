@@ -889,6 +889,12 @@ export interface RunScriptOptions {
   runtimeMode: RuntimeMode
   /** 战斗 ctx —— 仅 runtimeMode='battle' 提供。 */
   battleCtx?: BattleCtx
+  /**
+   * 初始 wEventObjectID(sdlpal PAL_RunTriggerScript 第 2 参)—— 0x29/0x61 等 single-target opcode 用。
+   * 如敌人普攻 equivItem.scriptOnUse(wPlayerRole)需 seed 为被打队员 role,使脚本里 0x29 单体毒该队员。
+   * 省略 → undefined(单体类 opcode 无目标 → no-op)。
+   */
+  eventObjectId?: number
 }
 
 export function buildLabelMap(commands: Command[]): Record<string, number> {
@@ -2229,8 +2235,9 @@ export function runScript(opts: RunScriptOptions): void {
   //   概率/条件失败分支(如"失败 没有效果")永不触发(2026-05-31 修)。call/return 用持久 callStack +
   //   curEventObjId(循环外声明,raw case 共享给重建的 cursor),'end' 弹帧返回。
   const callStack: NonNullable<ScriptCursor['callStack']> = []
-  // battle 脚本无大世界 NPC self-context(0x46 等 self-op 不出现);0x04 call 的 op1 eventObjId 覆盖经此持久。
-  let curEventObjId: number | undefined
+  // battle 脚本 wEventObjectID:opts.eventObjectId seed(如敌普攻 equivItem.scriptOnUse(wPlayerRole)→
+  //   脚本 0x29 单体毒该队员);0x04 call 的 op1 eventObjId 覆盖经此持久。
+  let curEventObjId: number | undefined = opts.eventObjectId
 
   let stepCount = 0
   while (true) {
