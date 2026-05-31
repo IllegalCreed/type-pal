@@ -32,6 +32,32 @@ function delayMs(frames: number): number {
   return frames * BATTLE_FRAME_TIME
 }
 
+/**
+ * 逃跑失败动画(sdlpal fight.c:4155-4168,kBattleActionFlee 失败分支):
+ *   frame 0;3 步每步 pos +=(4,2) Delay(1);最后 frame 1(濒死姿)Delay(8)。
+ *   末帧 message = BATTLE_LABEL_ESCAPEFAIL(逃跑失败文字,present 战斗消息条显示)。
+ * startPos = 失败队员 posOriginal(站立锚)。
+ */
+export function buildFleeFailTimeline(playerIdx: number, startPos: { x: number, y: number }): BattleAnimFrame[] {
+  const frames: BattleAnimFrame[] = []
+  let x = startPos.x
+  let y = startPos.y
+  for (let i = 0; i < 3; i++) {
+    x += 4
+    y += 2
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: playerIdx, currentFrame: 0, pos: { x, y } }],
+    })
+  }
+  // frame 1(濒死姿)hold 8 帧(逃跑失败文字 BATTLE_LABEL_ESCAPEFAIL=31 由战斗消息条另接,见 showBattleMessage)
+  frames.push({
+    durationMs: delayMs(8),
+    fighters: [{ side: 'player', idx: playerIdx, currentFrame: 1 }],
+  })
+  return frames
+}
+
 export interface BuildPlayerAttackInput {
   /** 攻击者站立底锚(g_rgPlayerPos[count-1][playerIdx])。 */
   attackerPos: { x: number; y: number }

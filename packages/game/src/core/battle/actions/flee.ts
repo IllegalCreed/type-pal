@@ -17,6 +17,9 @@
  */
 
 import type { PlayerRoles } from '@type-pal/shared'
+import type { CommandBus } from '../../command-bus.js'
+import { buildFleeFailTimeline } from '../anim-timeline.js'
+import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleState } from '../battle-state.js'
 
 /** SHORT cast。 */
@@ -24,7 +27,7 @@ function asShort(n: number): number {
   return (n << 16) >> 16
 }
 
-export function performFlee(state: BattleState, playerIdx: number, playerRoles: PlayerRoles): void {
+export function performFlee(state: BattleState, playerIdx: number, playerRoles: PlayerRoles, bus?: CommandBus): void {
   // boss 不可逃(sdlpal fight.c:4143 `!g_Battle.fIsBoss` 条件)
   if (state.isBoss)
     return
@@ -47,5 +50,13 @@ export function performFlee(state: BattleState, playerIdx: number, playerRoles: 
     //   动画放完(tickBattleFleeAnim)才 phase='fleed' → finalize。不直接设 fleed(原跳过整段动画)。
     state.fleeAnim = { step: 0 }
   }
-  // 失败:phase 不变,T22 继续推 actionQueue
+  else {
+    // 失败 → 逃跑失败动画(sdlpal fight.c:4155-4168):该队员 3 步右下挪 + 帧1 濒死姿。
+    //   走 battleAnim 时间线(per-player),播完 tickPerformAction 复位 + 推进队列(下个队员/敌人继续)。
+    //   逃跑失败文字 BATTLE_LABEL_ESCAPEFAIL 由战斗消息条另接(follow-up)。
+    const p = state.players[playerIdx]
+    if (bus && p?.posOriginal) {
+      startBattleAnim(state, buildFleeFailTimeline(playerIdx, p.posOriginal), bus)
+    }
+  }
 }

@@ -356,6 +356,18 @@ describe('performFlee', () => {
     performFlee(state, 0, playerRoles)
     expect(state.fleeAnim).toBeDefined()
   })
+
+  it('逃跑失败 → 起失败动画 battleAnim(sdlpal fight.c:4155-4168,3步右下挪+帧1)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { fleeRate: 0 },
+      enemies: [{ level: 50, dexterity: 100 }],
+      forceRoll: 1, // roll>0 击败 fleeRate=0 → 失败
+    })
+    state.players[0]!.posOriginal = { x: 100, y: 100 }
+    performFlee(state, 0, playerRoles, bus)
+    expect(state.fleeAnim).toBeUndefined() // 未成功(无逃离动画)
+    expect(state.battleAnim).toBeDefined() // 起了失败动画时间线(per-player 3步+帧1)
+  })
 })
 
 // ============================================================================

@@ -1774,7 +1774,8 @@ function performBattleAction(
 
     case 'flee':
       // flee 只对队员有意义;敌人 flee 写错 no-op(performFlee 通过 playerRoles 解;此情境不应发生)
-      if (!actor.isEnemy) performFlee(state, actor.idx, res.playerRoles)
+      //   bus 传入 → 逃跑失败时起失败动画(performFlee 内 buildFleeFailTimeline)。
+      if (!actor.isEnemy) performFlee(state, actor.idx, res.playerRoles, bus)
       break
 
     case 'magic': {
