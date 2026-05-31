@@ -477,6 +477,7 @@ function buildAndStartSummonAnim(
   })
 
   startBattleAnim(input.state, [...preFrames, ...brightenFrames, ...godFrames], input.bus, pendingNums)
+  if (input.state.battleAnim) input.state.battleAnim.hasSummonFade = true // present 据此在非 fade 帧快照场景
   return true
 }
 

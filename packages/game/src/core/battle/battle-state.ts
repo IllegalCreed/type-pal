@@ -281,6 +281,8 @@ export interface BattleAnimState {
   frameElapsedMs: number
   /** 当前帧召唤神演出状态(set → present 改画召唤神替换队员;无则正常画队员)。 */
   summon?: SummonFrameState
+  /** 本动画含召唤 crossfade(buildAndStartSummonAnim 置)→ present 才在非 fade 帧快照场景供 fade 起手。 */
+  hasSummonFade?: boolean
   /** 当前帧单个 effect overlay(供 present 画;无则 undefined)。 */
   overlay?: BattleAnimOverlay
   /** 当前帧多个 magic overlay(AttackAll 三落点;present 优先画此,非空时盖过 overlay)。 */

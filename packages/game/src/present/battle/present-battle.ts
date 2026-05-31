@@ -200,6 +200,11 @@ export class BattlePresent {
       }
     }
 
+    // 3.9 召唤 crossfade(PAL_BattleFadeScene)—— **在 UI/对话之前**对**场景层**(bg+精灵+召唤神+特效)做
+    //   dither 渐变;UI 随后画在渐变后的场景上(对齐 sdlpal battle.c:665-671 PAL_BattleFadeScene 后
+    //   PAL_BattleUIUpdate 重画 UI,fade 期 UI 始终清晰不被卷进渐变)。非 fade 帧只快照场景供下次 fade 起手。
+    this.applySummonFade(fb, state.battleAnim?.summon, state.battleAnim?.hasSummonFade ?? false)
+
     // 4. 数字弹幕(在精灵之上;过期数字自动清理)。D17b:用 UI sprite 数字帧(drawNumber)。
     this.floatingNums.draw(fb, currentFrame, assets.uiSpriteFrames)
 
@@ -246,10 +251,6 @@ export class BattlePresent {
         glyphs: assets.glyphs,
       })
     }
-
-    // 8. 召唤 crossfade(PAL_BattleFadeScene)—— 所有内容画完后,fade 帧把累积态盖上(淡入:队员→召唤神 /
-    //    淡出:召唤神→队员);非 fade 帧只快照本帧供下次 fade 起手。
-    this.applySummonFade(fb, state.battleAnim?.summon, !!state.battleAnim)
   }
 
   /**
@@ -257,11 +258,11 @@ export class BattlePresent {
    * fade 起手快照"from"场景(上一帧),逐步把低 nibble dither 逼近本帧渲染的"to"场景,显示累积态。
    * 高 nibble(调色板块)立即切换,低 nibble(亮度)渐变 → PAL 特征淡变。
    */
-  private applySummonFade(fb: Framebuffer, summon: SummonFrameState | undefined, battleAnimActive: boolean): void {
+  private applySummonFade(fb: Framebuffer, summon: SummonFrameState | undefined, hasSummonFade: boolean): void {
     const current = fb.indices as Uint8Array
     if (!summon || summon.fadeStep === undefined) {
-      // 非 fade 帧:快照本帧(下次 fade 起手的 "from" 场景);清 fade 累积态。
-      if (battleAnimActive) {
+      // 非 fade 帧:仅召唤动画期快照本帧场景(下次 fade 起手的 "from");非召唤动画不快照(省 64KB/帧 memcpy)。
+      if (hasSummonFade) {
         if (!this.lastFrameBuf || this.lastFrameBuf.length !== current.length) this.lastFrameBuf = new Uint8Array(current.length)
         this.lastFrameBuf.set(current)
       }
