@@ -60,6 +60,7 @@ import { performAttack } from './actions/attack.js'
 import { performAttackMate } from './actions/attack-mate.js'
 import { performDefend } from './actions/defend.js'
 import { performFlee } from './actions/flee.js'
+import { performCoopMagic } from './actions/coop-magic.js'
 import { performItem } from './actions/item.js'
 import { performMagic } from './actions/magic.js'
 import { performThrowItem } from './actions/throw-item.js'
@@ -1877,14 +1878,29 @@ function performBattleAction(
       break
     }
 
-    // M5.B-w2.b + B-w3.a stub:4 个新 action type — handler 真做留后续 commit
+    case 'coop-magic': {
+      // 协力合击(fight.c:3856-4043 CLASSIC):coopObjId = action.actionId(= role.cooperativeMagic,
+      //   装备 override 已经 projection 投影)。仅 player 发起;扣全 healthy 队员 HP + Σ(atk+mag)/4 伤害。
+      if (actor.isEnemy || action.actionId === undefined) break
+      performCoopMagic({
+        state,
+        casterIdx: actor.idx,
+        coopObjId: action.actionId,
+        targetIdx: action.target === -1 ? 'all' : action.target,
+        playerRoles: res.playerRoles,
+        magics: res.magics,
+        objectMagics: res.objectMagics,
+        bus,
+      })
+      break
+    }
+
+    // M5.B-w2.b stub:3 个新 action type — handler 真做留后续 commit
     case 'summon':
     case 'trance':
     case 'equip-battle':
-    case 'coop-magic':
       console.debug(
-        `[battle] ${action.type === 'coop-magic' ? 'B-w3.a' : 'B-w2.b'} stub:` +
-          `action=${action.type} actionId=${action.actionId}` +
+        `[battle] B-w2.b stub:action=${action.type} actionId=${action.actionId}` +
           ` target=${action.target}(handler 真做留后续)`,
       )
       break
