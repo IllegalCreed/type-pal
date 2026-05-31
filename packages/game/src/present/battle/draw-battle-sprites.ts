@@ -219,6 +219,26 @@ export function enemyTargetHighlightShift(state: BattleState, enemyIdx: number, 
   return 0
 }
 
+/** PAL_IsPlayerDying(fight.c:47-48):hp < min(100, maxHP/5)。 */
+function isPlayerDyingFrame(hp: number, maxHP: number): boolean {
+  return hp < Math.min(100, Math.floor(maxHP / 5))
+}
+
+/**
+ * 玩家战斗空闲帧 —— sdlpal `PAL_BattleUpdateFighters`(fight.c:961-984,CLASSIC):
+ *   sleep != 0 或濒死 → 帧 1(濒死姿)/ 防御 → 帧 3 / else → 帧 0。
+ *   (dead 帧 2 / puppet 帧 0 由 draw 上层 hp<=0 skip 处理;**confused 无特殊帧** → 0。)
+ * 纯函数,可单测。仅空闲(无 battleAnim/fleeAnim 动画覆盖)时用。
+ */
+export function computePlayerBattleIdleFrame(
+  player: { status: { sleep: number }; defending: boolean },
+  role: { hp: number; maxHP: number },
+): number {
+  if (player.status.sleep > 0 || isPlayerDyingFrame(role.hp, role.maxHP)) return 1
+  if (player.defending) return 3
+  return 0
+}
+
 export function drawBattleSprites(
   fb: Framebuffer,
   state: BattleState,
@@ -293,8 +313,12 @@ export function drawBattleSprites(
     if (!pos) return
     const sprite = battleSprites.get(`player-${role.spriteNumInBattle}`)
     if (!sprite || !sprite.frames[0]) return
-    // 帧号:render-state currentFrame 优先(站立 0 / 攻击 8,9 / 受击 4 …);缺则 frames[0]。
-    const frameIdx = p.currentFrame ?? 0
+    // 帧号:动画 / 逃跑期间用 render-state currentFrame(攻击 8,9 / 受击 4 / 逃跑站立 0);
+    //   空闲(无 battleAnim/fleeAnim)据 status 算(sdlpal PAL_BattleUpdateFighters fight.c:961-984):
+    //   sleep 或濒死 → 1(濒死姿)/ 防御 → 3 / else → 0(confused 无特殊帧)。
+    const frameIdx = (state.battleAnim || state.fleeAnim)
+      ? (p.currentFrame ?? 0)
+      : computePlayerBattleIdleFrame(p, role)
     const frame = sprite.frames[frameIdx] ?? sprite.frames[0]
     items.push({ x: pos.x, y: pos.y, frame, iColorShift: p.iColorShift ?? 0, fadeStep: -1 })
   })

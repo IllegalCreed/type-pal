@@ -6,6 +6,7 @@ import { createFramebuffer } from '../../framebuffer.js'
 import {
   blitFrameDeathFade,
   computeIdleFrameIndex,
+  computePlayerBattleIdleFrame,
   DEATH_FADE_TOTAL_STEPS,
   drawBattleSprites,
   enemyTargetHighlightShift,
@@ -682,5 +683,28 @@ describe('enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibatt
   })
   it('非 target 选择阶段(selectMove)→ 0', () => {
     expect(enemyTargetHighlightShift(mk('selectMove', 0, [100]), 0, true)).toBe(0)
+  })
+})
+
+describe('computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:961-984)', () => {
+  const P = (s: Partial<{ sleep: number }>, defending = false) =>
+    ({ status: { sleep: 0, ...s }, defending }) as { status: { sleep: number }; defending: boolean }
+  const R = (hp: number, maxHP = 200) => ({ hp, maxHP })
+
+  it('sleep>0 → 帧1(濒死姿)', () => {
+    expect(computePlayerBattleIdleFrame(P({ sleep: 2 }), R(200))).toBe(1)
+  })
+  it('濒死(hp<min(100,maxHP/5))→ 帧1', () => {
+    expect(computePlayerBattleIdleFrame(P({}), R(30, 200))).toBe(1) // 30 < min(100,40)
+  })
+  it('防御 → 帧3', () => {
+    expect(computePlayerBattleIdleFrame(P({}, true), R(200))).toBe(3)
+  })
+  it('正常(非眠/非濒死/非防御)→ 帧0', () => {
+    expect(computePlayerBattleIdleFrame(P({}), R(200))).toBe(0)
+  })
+  it('混乱无特殊帧 → 帧0(sdlpal confused 无 idle 特殊帧/晃动)', () => {
+    // confused 不在 sleep/dying/defending 判定里 → 走 else 帧0
+    expect(computePlayerBattleIdleFrame(P({}), R(200))).toBe(0)
   })
 })
