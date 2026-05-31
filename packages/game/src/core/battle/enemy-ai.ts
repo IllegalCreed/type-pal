@@ -35,6 +35,10 @@ export interface DecideEnemyActionInput {
    * confused → 打友敌(c1b)。省略 → 无状态(向后兼容旧 caller)。
    */
   status?: { sleep?: number, paralyzed?: number, silence?: number, confused?: number }
+  /** 本敌自身 idx(state.enemies 索引)—— confused 选中自己时 pass(fight.c:4594)。 */
+  selfIdx?: number
+  /** 活着的敌人列表(含自己)—— confused 从中随机选打击目标(fight.c:4593 SelectEnemyTargetIndex)。 */
+  aliveEnemies?: Array<{ idx: number }>
 }
 
 /** sdlpal `wMagic == 0xFFFF` 哨兵:进魔法分支即 goto end 什么不做(fight.c:4663)。 */
@@ -62,7 +66,15 @@ export function decideEnemyAction(input: DecideEnemyActionInput): BattleAction {
     return { type: 'pass', target }
   }
 
-  // confused(打友敌)在 c1b 的 decideEnemyAction 上游(battle-system)解算 — 此处暂 fall through。
+  // sdlpal fight.c:4591-4655:confused → 随机选一活敌(含自己)打;选中自己 → 什么不做(4594)
+  if ((status?.confused ?? 0) > 0) {
+    const pool = input.aliveEnemies ?? []
+    if (pool.length === 0) return { type: 'pass', target }
+    const pick = pool[rng.range(0, pool.length)]!
+    if (pick.idx === input.selfIdx) return { type: 'pass', target } // 选中自己 → goto end
+    // 复用 'attack-mate'(打同阵营)— perform 按 actor.isEnemy 路由到 performEnemyConfusedAttack
+    return { type: 'attack-mate', target: pick.idx }
+  }
 
   // sdlpal fight.c:4656-4658 魔法门:wMagic!=0 && RandomLong(0,9)<magicRate && silence==0
   if (

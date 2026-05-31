@@ -138,6 +138,33 @@ describe('decideEnemyAction', () => {
     expect(action.type).toBe('pass')
   })
 
+  // ── B2 c1b:confused 敌打友敌(fight.c:4591-4655)──────────────────────────────
+  it('B2:敌 confused → attack-mate 打另一活敌(fight.c:4593)', () => {
+    // 两敌 idx 0/1,self=1;rng 选中 idx 0(非自己)→ attack-mate target 0
+    const action = decideEnemyAction({
+      enemy: minimalEnemy({ magic: 50, magicRate: 10 }),
+      alivePlayers: [{ idx: 0, hp: 100 }],
+      rng: { ...createSeedableRng(1), range: () => 0 }, // 选 aliveEnemies[0]
+      status: { confused: 1 },
+      selfIdx: 1,
+      aliveEnemies: [{ idx: 0 }, { idx: 1 }],
+    })
+    expect(action.type).toBe('attack-mate')
+    expect(action.target).toBe(0)
+  })
+
+  it('B2:敌 confused 选中自己 → pass(fight.c:4594 iTarget==self goto end)', () => {
+    const action = decideEnemyAction({
+      enemy: minimalEnemy(),
+      alivePlayers: [{ idx: 0, hp: 100 }, { idx: 1, hp: 100 }], // 2 个防 range()=>1 越界
+      rng: { ...createSeedableRng(1), range: () => 1 }, // 选 aliveEnemies[1]=self
+      status: { confused: 1 },
+      selfIdx: 1,
+      aliveEnemies: [{ idx: 0 }, { idx: 1 }],
+    })
+    expect(action.type).toBe('pass')
+  })
+
   it('同 seed 决策稳定(确定性 — T23 baseline 对拍前提)', () => {
     const a1 = decideEnemyAction({
       enemy: minimalEnemy({ magic: 50, magicRate: 5 }),

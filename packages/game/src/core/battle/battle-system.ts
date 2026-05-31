@@ -56,7 +56,7 @@ import {
 import { createSeedableRng, type SeedableRng } from '../rng.js'
 import type { BattleSettlementScreen, LevelUpScreenData } from './battle-settlement.js'
 import { settlementScreenTimeoutMs } from './battle-settlement.js'
-import { performAttack } from './actions/attack.js'
+import { performAttack, performEnemyConfusedAttack } from './actions/attack.js'
 import { performAttackMate } from './actions/attack-mate.js'
 import { performDefend } from './actions/defend.js'
 import { performFlee } from './actions/flee.js'
@@ -1693,8 +1693,18 @@ function tickPerformAction(
       const alivePlayers = state.players
         .map((p, i) => ({ idx: i, hp: res.playerRoles.roles[p.roleId]?.hp ?? 0 }))
         .filter((p) => p.hp > 0)
-      // B2 c1:敌方状态门(sleep/paralyzed→pass;silence→强制物理;fight.c:4582-4658)
-      action = decideEnemyAction({ enemy: enemy.e, alivePlayers, rng: state.rng, status: enemy.status })
+      // B2 c1:敌方状态门(sleep/paralyzed→pass;silence→强制物理;confused→打友敌;fight.c:4582-4655)
+      const aliveEnemies = state.enemies
+        .map((e, i) => ({ idx: i, health: e.e.health }))
+        .filter((e) => e.health > 0)
+      action = decideEnemyAction({
+        enemy: enemy.e,
+        alivePlayers,
+        rng: state.rng,
+        status: enemy.status,
+        selfIdx: item.idx,
+        aliveEnemies,
+      })
     }
     // enemy dead → skip(action 保持 undefined)
   } else {
@@ -1892,9 +1902,11 @@ function performBattleAction(
       break
 
     case 'attack-mate':
-      // 混乱队员攻友军(原版随机目标命中友军时 → action.target 已是选定友军 idx;
-      //   传 forcedTarget 打该友军。fight.c:3760-3853 伤害公式)。caster=玩家。
-      if (!actor.isEnemy)
+      // 'attack-mate' = 攻同阵营。玩家混乱 → 打友军(fight.c:3760-3853);
+      //   敌人混乱(B2 c1b)→ 打另一活敌(fight.c:4596-4654,CalcBaseDamage*2/physRes)。
+      if (actor.isEnemy)
+        performEnemyConfusedAttack(state, actor.idx, action.target, bus)
+      else
         performAttackMate(state, actor.idx, bus, res.playerRoles, action.target >= 0 ? action.target : undefined)
       break
 

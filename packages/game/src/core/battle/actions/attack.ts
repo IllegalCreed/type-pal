@@ -25,7 +25,7 @@ import type { GameState } from '../../game-state.js'
 import { buildEnemyPhysicalTimeline, buildPlayerAttackTimeline } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
-import { calcPhysicalAttackDamage } from '../formulas.js'
+import { calcBaseDamage, calcPhysicalAttackDamage } from '../formulas.js'
 import type { SeedableRng } from '../../rng.js'
 import type { RunScriptFn } from './magic.js'
 import type { ActionQueueItem } from '../turn-queue.js'
@@ -311,6 +311,45 @@ export function performAttack(
     op: 'showDamageNum',
     target: { kind: isPlayerTarget ? 'player' : 'enemy', idx: targetIdx },
     value: dealtDamage,
+    color: 'blue',
+  })
+}
+
+/**
+ * B2 c1b:混乱敌人攻击另一只敌人(sdlpal fight.c:4596-4654 confused 分支)。
+ *
+ * 真值伤害公式(与普通物理不同,**无 jitter / crit**):
+ *   str = (SHORT)attacker.attackStrength + (attacker.level+6)*6   (无 <0 clamp,confused 分支真值)
+ *   def = (SHORT)target.defense + (target.level+6)*4
+ *   sDamage = CalcBaseDamage(str, def) * 2 / target.physicalResistance
+ *   if (sDamage <= 0) sDamage = 1
+ *
+ * @param state 战斗状态(target 敌 health 会被改)
+ * @param attackerIdx 混乱敌 idx(enemies[])
+ * @param targetEnemyIdx 被打的友敌 idx(enemies[];decideEnemyAction 已排除自己)
+ */
+export function performEnemyConfusedAttack(
+  state: BattleState,
+  attackerIdx: number,
+  targetEnemyIdx: number,
+  bus: CommandBus,
+): void {
+  const attacker = state.enemies[attackerIdx]?.e
+  const target = state.enemies[targetEnemyIdx]
+  if (!attacker || !target || target.e.health <= 0) return
+
+  const str = asShort(attacker.attackStrength) + (attacker.level + 6) * 6
+  const def = asShort(target.e.defense) + (target.e.level + 6) * 4
+  const base2 = calcBaseDamage(str, def) * 2
+  let damage = target.e.physicalResistance !== 0 ? Math.trunc(base2 / target.e.physicalResistance) : base2
+  if (damage <= 0) damage = 1
+
+  const before = target.e.health
+  target.e.health = Math.max(0, before - damage)
+  bus.emit({
+    op: 'showDamageNum',
+    target: { kind: 'enemy', idx: targetEnemyIdx },
+    value: before - target.e.health,
     color: 'blue',
   })
 }

@@ -10,7 +10,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
 import { createInitialGameState, type GameState, type InventoryEntry } from '../../game-state.js'
 import { createSeedableRng } from '../../rng.js'
-import { performAttack } from '../actions/attack.js'
+import { performAttack, performEnemyConfusedAttack } from '../actions/attack.js'
 import { performDefend } from '../actions/defend.js'
 import { performFlee } from '../actions/flee.js'
 import { performItem } from '../actions/item.js'
@@ -566,6 +566,31 @@ describe('performAttack', () => {
 // ============================================================================
 // performDefend
 // ============================================================================
+
+describe('performEnemyConfusedAttack(B2 c1b,fight.c:4596-4654)', () => {
+  it('混乱敌打友敌:CalcBaseDamage(str,def)*2/physRes', () => {
+    const { state, bus } = makeState({
+      enemies: [
+        { level: 5, attackStrength: 500 }, // 攻击者 idx0:str=500+(5+6)*6=566
+        { level: 5, defense: 10, physicalResistance: 2, health: 2000 }, // 目标 idx1:def=10+(5+6)*4=54
+      ],
+    })
+    performEnemyConfusedAttack(state, 0, 1, bus)
+    // calcBase(566,54)=trunc(566*2-54*1.6+0.5)=trunc(1046.1)=1046;*2=2092;/physRes2=1046
+    expect(state.enemies[1]!.e.health).toBe(2000 - 1046)
+  })
+
+  it('混乱敌打友敌:伤害<=0 钳 1', () => {
+    const { state, bus } = makeState({
+      enemies: [
+        { level: 1, attackStrength: 0 }, // str=0+7*6=42
+        { level: 50, defense: 10000, physicalResistance: 1, health: 500 }, // def 巨大 → base 0
+      ],
+    })
+    performEnemyConfusedAttack(state, 0, 1, bus)
+    expect(state.enemies[1]!.e.health).toBe(499) // base 0 → *2=0 → <=0 → 1
+  })
+})
 
 describe('performDefend', () => {
   it('设 players[idx].defending = true', () => {
