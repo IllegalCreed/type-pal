@@ -408,6 +408,12 @@ export interface BattleState {
    */
   battleAnim?: BattleAnimState
   /**
+   * 逃跑动画 hold(sdlpal `PAL_BattlePlayerEscape`,battle.c:1438-1527)。flee roll 成功 → 设
+   * { step: 0 };tickBattleFleeAnim 每 tick 把活队员往右下挪(p0 +4/+6、p1 +4/+4、p2 +6/+3),
+   * 16 步后全员移出屏(9999,9999)→ phase='fleed' → finalize。undefined = 无逃跑动画。
+   */
+  fleeAnim?: { step: number }
+  /**
    * D17 敌人死亡淡出 hold(PAL_BattleFadeScene,fight.c:889-893 + battle.c:608-682)。
    * 某 action 后有新死敌 → checkEnemyDeaths 开启 { elapsedMs: 0 };tickPerformAction 的
    * fade 分支按 BATTLE_DT 累 elapsedMs、推进所有淡出中敌人的 deathFadeStep(= floor(elapsedMs/16),

@@ -526,6 +526,36 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     expect(gs.battleState!.selectingPlayerIdx).toBe(1) // 菜单跳到 player1(未失能)
   })
 
+  it('逃跑动画:flee 成功 → 播逃跑动画(队员右移)→ fleed → explore(sdlpal PAL_BattlePlayerEscape)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0],
+      roles: [makeRole({ id: 0, fleeRate: 99999, hp: 150 })],
+      enemies: [makeEnemy({ id: 100, dexterity: 0, level: 1 })],
+    })
+    gs.battleState!.rng.rangeInclusive = () => 0 // flee 必成
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.pendingActions.set(0, { type: 'flee', target: -1 })
+    let sawFleeAnim = false
+    let startX: number | undefined
+    let maxX = -Infinity
+    let safety = 200
+    while (gs.mode === 'battle' && safety-- > 0) {
+      tickBattle(gs, emptyInput, bus)
+      const fa = gs.battleState?.fleeAnim
+      if (fa) {
+        sawFleeAnim = true
+        const px = gs.battleState?.players[0]?.pos?.x
+        if (px !== undefined) {
+          startX ??= px
+          maxX = Math.max(maxX, px)
+        }
+      }
+    }
+    expect(gs.mode).toBe('explore') // 逃离成功
+    expect(sawFleeAnim).toBe(true) // 播了逃跑动画(非直接 fleed)
+    expect(maxX).toBeGreaterThan(startX!) // 队员逐帧右移
+  })
+
   it('selectAction:睡眠/麻痹队员入 queue dex=0(排最后)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       partyMembers: [0, 1],

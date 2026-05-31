@@ -350,6 +350,10 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   //   都挡住,忠实 sdlpal PAL_BattleFadeScene 同步 blocking)。死敌淡出完才放行。
   if (tickBattleFade(state)) return
 
+  // 逃跑动画 hold(phase-agnostic):flee 成功后 16 步右下滑 + 移出屏(PAL_BattlePlayerEscape),
+  //   放完才 phase='fleed' → finalize。期间暂停一切推进。
+  if (tickBattleFleeAnim(state, res)) return
+
   // 战斗内对话 hold(phase-agnostic):战斗脚本 0xFFFF showDialog 收集的队列逐 tick 喂进
   //   复用的大世界 gs.dialogBox + 等键/1.4s,期间暂停战斗(忠实 sdlpal PAL_ShowDialogText 同步 blocking)。
   if (tickBattleDialog(state, gs, input)) return
@@ -1304,6 +1308,45 @@ function tickBattleFade(state: BattleState): boolean {
     }
   }
   if (step >= DEATH_FADE_STEPS) state.battleFade = undefined // 淡完 → 清 hold,下 tick phase 续跑
+  return true
+}
+
+/** 逃跑动画步数(sdlpal battle.c:1473 `for i<16`)。 */
+const FLEE_ANIM_STEPS = 16
+/** 逐步右下位移(battle.c:1484-1510):p0 +4/+6(单人队 fall through +4/+4)、p1 +4/+4、p2 +6/+3。 */
+function fleeStepDelta(j: number, partyLen: number): [number, number] {
+  if (j === 0 && partyLen > 1) return [4, 6]
+  if (j === 2) return [6, 3]
+  return [4, 4] // j===1 或 单人队 j===0(case 0 fall through case 1)
+}
+
+/**
+ * 逃跑动画 hold(phase-agnostic;sdlpal `PAL_BattlePlayerEscape` battle.c:1438-1527)。
+ * flee roll 成功(performFlee 设 state.fleeAnim)→ 16 步把活队员往右下挪 + 站立帧,满步移出屏
+ * (9999,9999)→ phase='fleed'(下 tick finalize)。返回 true = 本 tick 被逃跑动画占用(暂停推进)。
+ * 注:音效 45(battle.c:1459)走 M6 音频,本期跳过。
+ */
+function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
+  const fa = state.fleeAnim
+  if (!fa) return false
+  if (fa.step < FLEE_ANIM_STEPS) {
+    const partyLen = state.players.length
+    state.players.forEach((p, j) => {
+      const role = res.playerRoles.roles[p.roleId]
+      if (!role || role.hp <= 0) return
+      p.currentFrame = 0 // 站立帧(battle.c:1469)
+      if (!p.pos) return
+      const [dx, dy] = fleeStepDelta(j, partyLen)
+      p.pos = { x: p.pos.x + dx, y: p.pos.y + dy }
+    })
+    fa.step++
+    return true
+  }
+  // 16 步完 → 全员移出屏(battle.c:1520-1523)→ fleed → 下 tick finalize
+  for (const p of state.players) p.pos = { x: 9999, y: 9999 }
+  state.fleeAnim = undefined
+  state.phase = 'fleed'
+  state.phaseStallTicks = 0
   return true
 }
 

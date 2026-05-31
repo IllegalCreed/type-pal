@@ -299,14 +299,15 @@ describe('performDefend', () => {
 // ============================================================================
 
 describe('performFlee', () => {
-  it('fleeRate 远大于 rng 上限(roll 必小)→ phase=fleed', () => {
+  it('fleeRate 远大于 rng 上限(roll 必小)→ 触发逃跑动画(fleeAnim)', () => {
     const { state, playerRoles } = makeState({
       role: { fleeRate: 9999 },
       enemies: [{ level: 1, dexterity: 0 }],
       forceRoll: 0, // 必摇出 0
     })
     performFlee(state, 0, playerRoles)
-    expect(state.phase).toBe('fleed')
+    // 成功 → 设 fleeAnim(逃跑动画放完才 phase='fleed';不再直接 fleed)
+    expect(state.fleeAnim).toBeDefined()
   })
 
   it('fleeRate=0 + 多个高 dex 敌人(roll 必大)→ phase 不变', () => {
@@ -331,6 +332,7 @@ describe('performFlee', () => {
       forceRoll: 0,
     })
     performFlee(state, 0, playerRoles)
+    expect(state.fleeAnim).toBeUndefined() // boss 不可逃 → 不触发逃跑动画
     expect(state.phase).not.toBe('fleed')
   })
 
@@ -341,7 +343,7 @@ describe('performFlee', () => {
       forceRoll: 0,
     })
     performFlee(state, 0, playerRoles)
-    expect(state.phase).toBe('fleed')
+    expect(state.fleeAnim).toBeDefined()
   })
 
   it('def 为 SHORT 负溢出 → clamp 0(sdlpal fight.c:4139)', () => {
@@ -352,7 +354,7 @@ describe('performFlee', () => {
       forceRoll: 0,
     })
     performFlee(state, 0, playerRoles)
-    expect(state.phase).toBe('fleed')
+    expect(state.fleeAnim).toBeDefined()
   })
 })
 

@@ -43,7 +43,9 @@ export function performFlee(state: BattleState, playerIdx: number, playerRoles: 
   // RandomLong(0, def) sdlpal 语义 = 闭区间 0..def(def+1 个值)
   const roll = state.rng.rangeInclusive(0, def)
   if (str >= roll) {
-    state.phase = 'fleed'
+    // 成功 → 触发逃跑动画(PAL_BattlePlayerEscape,battle.c:1438-1527):16 帧右下滑 + 移出屏,
+    //   动画放完(tickBattleFleeAnim)才 phase='fleed' → finalize。不直接设 fleed(原跳过整段动画)。
+    state.fleeAnim = { step: 0 }
   }
   // 失败:phase 不变,T22 继续推 actionQueue
 }
