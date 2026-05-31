@@ -116,11 +116,17 @@ sdlpal fight.c:4719 `wType!=kMagicTypeNormal → sTarget=-1`(全队)。
 - [x] **c4** 魔法 autoDefend + Protect 除因子 ×2(magic-damage.ts)
 - [x] **c5** iHidingTime 隐身全套(activateHidingEffect 取反 CLASSIC 无缩放 + decrementHidingEffect 每轮衰减 + 敌整轮跳过 gate)
 - [x] **c6** scriptOnBattleEnd 战后 resume(finishBattleWon 半血前逐敌跑,仅胜利,返回值不回写)
-- [ ] c7 真 show-once / re-arm(runScript 返回 entry 回写)
-- [ ] c8 dualMove 二动真值(>=2 必 || !=0 RandomLong(0,1) 50%)
-- [ ] c9 敌群体魔法 target=-1(wType!=Normal)
-- [ ] c10 D9 RNG 对拍(full-party 抽+while)+ stale 注释清(0x67/0x79/0x90)
+- [ ] **c7 真 show-once / re-arm(唯一剩余项;已彻查 scope,见下)**
+- [x] **c8** dualMove 二动真值(turn-queue 建队列 dualMove boolean = wDualMove>=2 || (!=0 && RandomLong(0,1)))
+- [x] **c9** 敌群体魔法 target=-1 —— **核查已实现**(magic.ts:284 `magic.type==='normal'?targetIdx:'all'`,忠实 fight.c:4719)
+- [x] **c10** D9 RNG 对拍(decideEnemyAction party reject 采样 RandomLong+while)+ 清 stale 注释(0x67/0x79/0x90)
 
-> 已落 main(全绿 1494 测 + typecheck):c1a/c2/c3a/c4/c1b/c5/c6(8 commit)。
-> D27 敌方攻击结算(物理+魔法 Protect/jitter/闪避/守护force)+ D10 状态门/confused/scriptOnBattleEnd
-> + D24 隐身 已收口;剩 **c3b 守护替挡 · c7 真 show-once · c8 dualMove · c9 敌群体魔法 · c10 D9 RNG**。
+> 已落 main(全绿 1500 测 + typecheck):c1a/c2/c3a/c4/c1b/c5/c6/c3b/c8/c10(+ c9 核查已实现)= **12/13**。
+
+### c7 精确 scope(已彻查 sdlpal PAL_RunTriggerScript script.c:3140-3478,留专项做)
+sdlpal **真 show-once = 返回值回写**:`wScriptOnTurnStart = PAL_RunTriggerScript(wScriptOnTurnStart, i)`(fight.c:1186/1689 等)。
+PAL_RunTriggerScript 返回 `wNextScriptEntry`:**0x00 Stop → 起始 entry(每轮重跑)** / **0x01 → 该行+1(前移=show-once)** / **0x02 → operand[0](re-arm 指定)**。
+**真实数据**:多数 boss scriptOnTurnStart 以 0x01 结尾(show-once);但 **enemyId 23/25 以 0x00 结尾(本该每轮重显)**。
+**当前 ts**:`runEnemyTurnStartScripts` 跑完硬置 `en.scriptOnTurnStart=0`(观察上 0x01 类 show-once 等价,但 **0x00 类被错误禁掉**=真 gap)。
+**c7 改动**:① `runScript`(event-system.ts:2286)返回 `number` = wNextScriptEntry('end' 处:advance→ip+1 / resetTo→target / 否则→opts.ip;explore 路径 1520-1526 已有同款 nextEntry 逻辑可参照)② `runEnemyTurnStartScripts` + scriptOnReady 调用点 `en.scriptOnTurnStart = runScript(...)` 写回(替换硬置 0)。
+**风险**:runScript 多处 early-return(dialog 入队挂起 / call-return / 错误)都要返回合理 entry;dialog 入队中途返回的 nextEntry 语义需对齐。**故留专项谨慎做,不在 marathon turn 末仓促改核心函数**。
