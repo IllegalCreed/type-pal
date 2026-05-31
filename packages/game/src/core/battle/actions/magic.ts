@@ -137,16 +137,6 @@ export function performMagic(input: PerformMagicInput): void {
     role.mp -= magic.costMP
   }
 
-  // —— emit 法术动画命令 ——
-  input.bus.emit({
-    op: 'playMagicAnim',
-    magicId: magic.id,
-    casterType: input.casterIsEnemy ? 'enemy' : 'player',
-    casterIdx: input.casterIdx,
-    targetType: input.targetIsEnemy ? 'enemy' : 'player',
-    targetIdx: input.targetIdx,
-  })
-
   // —— 跑 scriptOnUse → scriptOnSuccess(经 runScript,battleCtx 注入 caster / target) ——
   // sdlpal `fight.c:4214-4265`(PAL_BattleCommitAction kBattleActionMagic):
   //   wScriptOnUse    = RunTriggerScript(wScriptOnUse,    wPlayerRole = caster)
@@ -198,13 +188,28 @@ export function performMagic(input: PerformMagicInput): void {
     input.gs.fScriptSuccess = true
   runMagicScript(spell.scriptOnUse)
   const scriptUseSuccess = input.gs ? input.gs.fScriptSuccess : true
-  if (scriptUseSuccess) {
-    // 每次 PAL_RunTriggerScript 入口重置 g_fScriptSuccess=TRUE(script.c:3187)——
-    // scriptOnSuccess 的成功旗子独立于 scriptOnUse 结果。
-    if (input.gs)
-      input.gs.fScriptSuccess = true
-    runMagicScript(spell.scriptOnSuccess)
-  }
+
+  // **scriptOnUse 失败 → 早退**(sdlpal fight.c:4196/4231 `if (g_fScriptSuccess)` gate):没钱(乾坤一掷 0x1E
+  //   跳"钱不够")/ 没道具(酒神 0x20 跳"酒不足")/ 0x41 mark-failed → **不放效果动画、不结算伤害、不跑
+  //   scriptOnSuccess**(失败提示已由 scriptOnUse 跳失败分支入 battleDialogQueue)。MP 仍已扣(sdlpal 总扣,
+  //   fight.c:4190 在 scriptOnUse 前)。修 user 报"物品不够还有技能动画"。
+  if (!scriptUseSuccess)
+    return
+
+  // —— scriptOnUse 成功 → emit 法术动画命令 + scriptOnSuccess(fight.c:4233-4264)——
+  input.bus.emit({
+    op: 'playMagicAnim',
+    magicId: magic.id,
+    casterType: input.casterIsEnemy ? 'enemy' : 'player',
+    casterIdx: input.casterIdx,
+    targetType: input.targetIsEnemy ? 'enemy' : 'player',
+    targetIdx: input.targetIdx,
+  })
+  // 每次 PAL_RunTriggerScript 入口重置 g_fScriptSuccess=TRUE(script.c:3187)——
+  // scriptOnSuccess 的成功旗子独立于 scriptOnUse 结果。
+  if (input.gs)
+    input.gs.fScriptSuccess = true
+  runMagicScript(spell.scriptOnSuccess)
 
   // —— E1:inline 攻击法术伤害结算(player→enemy) ——
   // sdlpal `fight.c:4245-4318`(PAL_BattleCommitAction kBattleActionMagic offensive 分支):

@@ -506,6 +506,26 @@ describe('performMagic', () => {
     })
   })
 
+  it('scriptOnUse 失败(fScriptSuccess=false)→ MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess(乾坤一掷没钱/酒神没酒)', () => {
+    const { state, playerRoles, bus } = makeState({ role: { mp: 30, maxMP: 30 } })
+    const spell = makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 42, scriptOnSuccess: 99 })
+    const magic = makeMagic({ id: 3, costMP: 8, baseDamage: 0 })
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // scriptOnUse(ip42)模拟 0x41 mark-failed(没钱"钱不够"/没酒"酒不足"分支)→ fScriptSuccess=false
+    const runScript: RunScriptFn = vi.fn((opts) => {
+      if (opts.ip === 42) gs.fScriptSuccess = false
+    })
+    performMagic({
+      state, casterIsEnemy: false, casterIdx: 0, spellId: 7, targetIsEnemy: true, targetIdx: 0,
+      spells: [spell], magics: [magic], playerRoles, bus, commands: [{ op: 'end' }], runScript, gs,
+    })
+    expect(playerRoles.roles[0]!.mp).toBe(22) // MP 仍扣(sdlpal fight.c:4190 总扣)
+    expect(bus.drain().filter((c) => c.cmd.op === 'playMagicAnim')).toHaveLength(0) // 失败 → 无效果动画
+    const calls = (runScript as ReturnType<typeof vi.fn>).mock.calls
+    expect(calls.some((c) => c[0]!.ip === 42)).toBe(true) // scriptOnUse 跑了
+    expect(calls.every((c) => c[0]!.ip !== 99)).toBe(true) // scriptOnSuccess 未跑(早退)
+  })
+
   it('队员 cast,MP 不足 → 不扣 + 不 emit + 不 runScript + console.warn', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { state, playerRoles, bus } = makeState({
