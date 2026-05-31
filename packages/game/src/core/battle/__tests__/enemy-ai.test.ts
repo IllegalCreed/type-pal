@@ -98,6 +98,46 @@ describe('decideEnemyAction', () => {
     expect(action.target).toBe(-1)
   })
 
+  // ── B2 c1a:敌方状态门(fight.c:4582-4658)──────────────────────────────────
+  it('B2:敌 sleep>0 → pass(do nothing,fight.c:4582-4589)', () => {
+    const action = decideEnemyAction({
+      enemy: minimalEnemy({ magic: 50, magicRate: 10 }),
+      alivePlayers: [{ idx: 0, hp: 100 }],
+      rng: createSeedableRng(1),
+      status: { sleep: 1 },
+    })
+    expect(action.type).toBe('pass')
+  })
+
+  it('B2:敌 paralyzed>0 → pass(fight.c:4583)', () => {
+    const action = decideEnemyAction({
+      enemy: minimalEnemy({ magic: 50, magicRate: 10 }),
+      alivePlayers: [{ idx: 0, hp: 100 }],
+      rng: createSeedableRng(1),
+      status: { paralyzed: 1 },
+    })
+    expect(action.type).toBe('pass')
+  })
+
+  it('B2:敌 silence>0 → 强制物理(不出魔法,fight.c:4658 silence==0 门;原 ts 漏判=bug)', () => {
+    const action = decideEnemyAction({
+      enemy: minimalEnemy({ magic: 50, magicRate: 10 }), // magicRate=10 本必出魔法
+      alivePlayers: [{ idx: 0, hp: 100 }],
+      rng: createSeedableRng(1),
+      status: { silence: 1 },
+    })
+    expect(action.type).toBe('attack') // 沉默 → 退化物理
+  })
+
+  it('B2:wMagic==0xFFFF + 必出魔法 → pass(哨兵,fight.c:4663 goto end 什么不做)', () => {
+    const action = decideEnemyAction({
+      enemy: minimalEnemy({ magic: 0xFFFF, magicRate: 10 }),
+      alivePlayers: [{ idx: 0, hp: 100 }],
+      rng: createSeedableRng(1),
+    })
+    expect(action.type).toBe('pass')
+  })
+
   it('同 seed 决策稳定(确定性 — T23 baseline 对拍前提)', () => {
     const a1 = decideEnemyAction({
       enemy: minimalEnemy({ magic: 50, magicRate: 5 }),

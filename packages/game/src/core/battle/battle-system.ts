@@ -1693,7 +1693,8 @@ function tickPerformAction(
       const alivePlayers = state.players
         .map((p, i) => ({ idx: i, hp: res.playerRoles.roles[p.roleId]?.hp ?? 0 }))
         .filter((p) => p.hp > 0)
-      action = decideEnemyAction({ enemy: enemy.e, alivePlayers, rng: state.rng })
+      // B2 c1:敌方状态门(sleep/paralyzed→pass;silence→强制物理;fight.c:4582-4658)
+      action = decideEnemyAction({ enemy: enemy.e, alivePlayers, rng: state.rng, status: enemy.status })
     }
     // enemy dead → skip(action 保持 undefined)
   } else {
