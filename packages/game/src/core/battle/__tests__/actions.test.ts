@@ -403,6 +403,60 @@ describe('performAttack', () => {
     expect((cmds[1]!.cmd as { value: number }).value).toBe(200)
   })
 
+  // ── B2 c2:enemy→player 物理公式真值(fight.c:4917-4929 + 5056-5075)──────────
+  // def = PlayerDefense(基础+装备防,**无 level 项**)×(defending?2:1);physRes 硬编码 2;
+  // sDamage = CalcPhysical(str+RandomLong(0,2), def, 2) + RandomLong(0,1);Protect→/=2
+
+  it('B2:enemy→player def 无 (level+6)*4 项(global.c:1821-1826 真值;修旧 bug)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, defense: 100, hp: 5000 }, // def 真值=100(旧 bug:+ (10+6)*4=164)
+      enemies: [{ level: 5, attackStrength: 500 }], // str = 500 + (5+6)*6 = 566
+      forceRoll: 0, // str jitter=0 / damage jitter=0
+    })
+    performAttack(state, enemyActor, 0, bus, playerRoles)
+    // base = trunc(566*2 - 100*1.6 + 0.5)=972;/physRes2=486;+0
+    expect(5000 - playerRoles.roles[0]!.hp).toBe(486) // 旧 bug 值会是 435(def 164)
+  })
+
+  it('B2:enemy→player str+RandomLong(0,2) jitter(forceRoll=2 → str+2 伤害更高)', () => {
+    const base = makeState({
+      role: { level: 10, defense: 100, hp: 5000 },
+      enemies: [{ level: 5, attackStrength: 500 }],
+      forceRoll: 0,
+    })
+    performAttack(base.state, enemyActor, 0, base.bus, base.playerRoles)
+    const dmg0 = 5000 - base.playerRoles.roles[0]!.hp
+
+    const hi = makeState({
+      role: { level: 10, defense: 100, hp: 5000 },
+      enemies: [{ level: 5, attackStrength: 500 }],
+      forceRoll: 2, // str+2 + damage jitter+2
+    })
+    performAttack(hi.state, enemyActor, 0, hi.bus, hi.playerRoles)
+    const dmg2 = 5000 - hi.playerRoles.roles[0]!.hp
+    expect(dmg2).toBeGreaterThan(dmg0) // jitter 真加进伤害
+  })
+
+  it('B2:enemy→player Protect 状态 → 伤害 /=2(fight.c:5059-5062)', () => {
+    const noProt = makeState({
+      role: { level: 10, defense: 100, hp: 5000 },
+      enemies: [{ level: 5, attackStrength: 500 }],
+      forceRoll: 0,
+    })
+    performAttack(noProt.state, enemyActor, 0, noProt.bus, noProt.playerRoles)
+    const dmgNo = 5000 - noProt.playerRoles.roles[0]!.hp // 486
+
+    const prot = makeState({
+      role: { level: 10, defense: 100, hp: 5000 },
+      enemies: [{ level: 5, attackStrength: 500 }],
+      forceRoll: 0,
+      playerStatus: { protect: 1 },
+    })
+    performAttack(prot.state, enemyActor, 0, prot.bus, prot.playerRoles)
+    const dmgProt = 5000 - prot.playerRoles.roles[0]!.hp
+    expect(dmgProt).toBe(Math.trunc(dmgNo / 2)) // 486 → 243
+  })
+
   it('player defending → enemy 攻击 damage 显著减小(def *= 2)', () => {
     // 不 defend
     const a = makeState({

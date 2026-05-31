@@ -219,17 +219,24 @@ export function performAttack(
   }
 
   // —— 以下仅 enemy → player(player→enemy 已在上方分支处理)——
-  // enemy 攻击 player:def = PlayerDefense + (level+6)*4,fDefending → def*=2,
-  //   physRes 硬编码 2(fight.c:4924-4934)。D3 残(str+RandomLong(0,2)/+RandomLong(0,1)/
-  //   fAutoDefend evade / Protect /=2,fight.c:4938/5056-5062)归 D27残 / B2,此处简版。
+  // B2 c2:sdlpal fight.c:4924-4929 + 5056-5075 真值:
+  //   def = PAL_GetPlayerDefense(基础+装备防,**无 level 项**,global.c:1821-1826),fDefending→×2
+  //   physRes 硬编码 2;sDamage = CalcPhysical(str+RandomLong(0,2), def, 2) + RandomLong(0,1);
+  //   Protect→sDamage/=2(5059-5062 truthy);<=0→1。
+  // 残(c3):fAutoDefend evade(7/17 全免)+ 守护 cover。
   const targetRole = playerRoles.roles[state.players[targetIdx]!.roleId]!
-  let def = asShort(targetRole.defense) + (targetRole.level + 6) * 4
+  let def = asShort(targetRole.defense)
   if (state.players[targetIdx]!.defending) def *= 2
   const physRes = 2
   const isPlayerTarget = true
 
-  let damage = calcPhysicalAttackDamage(str, def, physRes)
-  if (damage <= 0) damage = 1
+  // str + RandomLong(0,2) 在 CalcPhysical 入参内(fight.c:5056)
+  let damage = calcPhysicalAttackDamage(str + state.rng.rangeInclusive(0, 2), def, physRes)
+  damage += state.rng.rangeInclusive(0, 1) // fight.c:5057
+  if ((state.players[targetIdx]!.status.protect ?? 0) > 0) {
+    damage = Math.trunc(damage / 2) // fight.c:5059-5062 Protect 减半
+  }
+  if (damage <= 0) damage = 1 // fight.c:5069-5072
 
   // —— 写回 player HP(记 before/after 算钳后真实 delta)——
   const hpBefore = targetRole.hp
