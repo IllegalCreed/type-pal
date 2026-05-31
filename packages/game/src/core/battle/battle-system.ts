@@ -2039,7 +2039,7 @@ function finalizeBattleCleanup(gs: GameState): void {
   //     → 自动满足,无需显式清(若未来 status 持久化到 gs 再补 clearAllPlayerStatus≤999)。
   //   - 每角色 PAL_CurePoisonByLevel(w, 3):清持久 gs.rgPoisonStatus(level≤3 = 全部,毒等级上限 3)。
   //   - 每角色 PAL_RemoveEquipmentEffect(w, kBodyPartExtra):清 per-battle 临时 Extra 装备效果槽。
-  //     注:0x30 临时 stat buff 当前直接 mutate role(非写 Extra slot)→ 本清不反转之(D23/D14 残)。
+  //     0x30 临时 stat buff 写 rgEquipmentEffect[6](Extra)→ 本清反转之(2026-05-31 D14/0x30 收口)。
   const kBodyPartExtra = 6 // sdlpal global.h BODYPART:kBodyPartExtra = MAX_PLAYER_EQUIPMENTS
   for (const roleId of gs.partyMembers) {
     curePlayerPoisonByLevel(gs, roleId, 3)

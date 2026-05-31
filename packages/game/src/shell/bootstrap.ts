@@ -825,7 +825,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         battleFields,
         // 架构边界:用 runtime 当前属性(等级/HP/MP/攻防 等)投影战斗 roles,使战斗吃上升级后属性
         //   (原直接传 playerRoles 静态 1 级基线)。staticRoles=playerRoles 供不可变字段(精灵/音效/名字)。
-        playerRoles: projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, playerRoles),
+        // D14:第 3 参 gs.rgEquipmentEffect → 战斗 stat = effective(base + 装备 + Extra),mirror sdlpal getter。
+        playerRoles: projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, playerRoles, gs.rgEquipmentEffect),
         items,
         spells,
         magics,

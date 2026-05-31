@@ -63,7 +63,7 @@
 | 0x69 | ✅ 已修 | 40ef07c | enemy-escape → phase=fleed(Terminated 无奖励),非 health=0 误给击杀 |
 | 0x6F | ✅ 已修 | 2c3d25d | syncObjState operand[1] 加 SHORT cast(signExtendI16) |
 | 0x9E | ✅ 已修 | 2c3d25d | enemy-summon 加 `iHidingTime>0` fail 检查(隐身保护) |
-| **0x30** | ⬜ 待修 | — | stat-buff% 直接 mutate role 持久(应存 per-battle Extra slot 战末清)**纠缠 D14**(战斗读 raw stat 非 base+Extra) |
+| **0x30** | ✅ 已修 | — | per-battle Extra slot:0x30 写 rgEquipmentEffect[6]=trunc(base*op1/100)不叠加 + 战末清;projectRuntimeToBattleRoles 并入装备 effect → 战斗读 effective(**D14 修**)(script.c:1406-1427) |
 | **0x38 / 0x6D** | ⬜ 待修 | — | teleport-out 只失败路径 / setTriggerScript 缺 op[2] onTeleport;需 SceneAssets 透传 onTeleportLabel(场景子系统) |
 | 0x05 | ✅ 逻辑done/残pacing | — | ClearDialog(TRUE)逻辑 + needToFadeIn 淡入**已做**(explore+battle);RNG-restore/BattleMakeScene 分支**对 ts 自动渲染 N/A**;残仅 no-dialog 分支 `UTIL_Delay(op1*60)` 帧延迟 —— **与 0x03 同源**(见下) |
 | **0x02 / 0x03** | ⬜ 待修 | — | trigger(tickEventSystem @1556)+ battle(runScript @2276)的 goto/reset 缺 frameDelay gate(autoScript runOneAutoOp @1035 已有)。frameDelay goto 实为 **trigger 过场"NPC 走 N 步"循环**(`0x6C 走一步→0x05 重绘+延迟→0x03 goto frameDelay 计步`,@191/2615/7339 等 17 处)→ ts 无 frameDelay 计数会死循环(SINGLE_TICK_LIMIT)。需 **yield-per-step 模型**(每帧走一步)+ 0x05 的 UTIL_Delay pacing 一起修。谨慎,弄错破过场。 |
@@ -109,9 +109,15 @@
 >   scriptOnUse 成功**上(对齐 fight.c:4196/4231 `if(g_fScriptSuccess)`);此前没钱/没道具失败仍放动画 + 结算。
 >   MP 仍总扣(fight.c:4190)。注:战斗法术菜单变红只看 MP/UsableInBattle,**不看钱**(magicmenu.c:340-365)——
 >   绝招(costMP=1)+ usableInBattle 可选(白),没钱用了才弹失败提示,非红。
-> - ⬜ **剩 4 组子系统(非纯 logic bug,需专门做)**:
->   - **0x30** stat-buff%:需 per-battle Extra slot 模型 + **battle 读 base+Extra 有效值(D14 残:战斗现读 raw role stat)**
->     纠缠;现 mutate role 持久(buff 生效但战末不反转)。
+> - ✅ **0x30 stat-buff% + D14 收口(本轮)**:per-battle Extra slot 模型 1:1 sdlpal `script.c:1406-1427`。
+>   ① `projectRuntimeToBattleRoles` 第 3 参 `gs.rgEquipmentEffect` → 战斗 stat 投影成 **effective = base +
+>   Σ rgEquipmentEffect[0..6]**(mirror `PAL_GetPlayerAttackStrength` 等 getter global.c:1736-1975,PAL_CLASSIC
+>   i=0..6 含 Extra;attack/magic/def/dex/flee/poison/elem,后两 clamp [0,100];maxHP/MP/level 无 getter 不并入)
+>   → 战斗吃装备加成(**D14 修**)。② 0x30 写 `gs.rgEquipmentEffect[6]`(Extra)`= trunc(base_runtime *
+>   (SHORT)op1 / 100)`,base 取**未 buff** 的 PlayerRolesRuntime(→ 多次不叠加)+ 经 getter recompute snapshot
+>   立即生效。③ 战末 finalizeBattleCleanup `removeEquipmentEffect(role, Extra)`(battle-system.ts:2046)清 → 战后消失。
+>   验:Extra slot 写入 / effective=base+Extra / 多次不叠加 / 战后回 base / 负 op1 debuff / 投影并入装备(8+2 单测)。
+> - ⬜ **剩 3 组子系统(非纯 logic bug,需专门做)**:
 >   - **0x38 / 0x6D** teleport script:需 SceneAssets 暴露 onTeleportLabel + run-trigger-script(场景子系统)。
 >   - **0x02 / 0x03 (+0x05 pacing) cutscene NPC 走步循环**:frameDelay goto 实为 trigger 过场"NPC 走 N 步"
 >     循环(`0x6C 走一步 → 0x05 重绘+UTIL_Delay → 0x03 goto frameDelay 计步`,17 处)。autoScript(runOneAutoOp)
@@ -226,7 +232,7 @@ setDialogStyle 0x3B-0x3E。
 
 | op | 含义 | 备注 |
 |----|------|------|
-| 0x30 | increase player stat temp by % | ✅ Extra slot=base*(SHORT)op1/100,合成 effective 写回 role stat(op0 row 17atk/18mag/19def/20dex)(script.c:0030,梦蛇)。battle 直读 stat(D14 残)→ 直接 mutate role;**残**:sdlpal per-battle Extra 战末清,ts mutate 持久。battle-opcodes.ts |
+| 0x30 | increase player stat temp by % | ✅ **per-battle Extra slot 1:1**(script.c:1406-1427,梦蛇):写 `gs.rgEquipmentEffect[6][rgwX][role] = trunc(base_runtime*(SHORT)op1/100)`,base 取**未 buff** PlayerRolesRuntime(op0 row 17atk/18mag/19def/20dex)→ 多次不叠加 + 经 getter recompute snapshot。战斗读 effective 经 projectRuntimeToBattleRoles 并入装备 effect(**D14 修**)。战末 removeEquipmentEffect(role,Extra) 清 → 战后消失。battle-opcodes.ts / game-state.ts |
 | 0x31 | change battle sprite temp | ✅ **present-only no-op**:临时换战斗精灵(script.c:0031);present-battle 只画 idle frame[0] 静态精灵(D17)→ 逻辑层 no-op,精灵替换待 present |
 | 0x21 | inflict flat damage to enemy | ✅ **battle handler**(此前只 explore 主干):op0!=0 全体 / 否则单体(ctx.target),health -= op1 clamp≥0(script.c:0021)。梅花镖/银针 scriptOnThrow 真伤害(0x42=0 动画 sentinel,真伤靠这);毒 tick 也用。battle-opcodes.ts |
 | 0x28 | apply poison to enemy | ✅ **battle handler**:op0!=0 全体 / 否则单体(ctx.target);`RandomLong(0,9)>=resistanceToSorcery` 抗性判定 + 去重 + 槽满(MAX_POISONS 16)→ 加 {poisonId:op1, scriptEntry:objectPoisons[op1].enemyScript}(script.c:0028)。毒蛇卵/卵/蛊 throw。注:sdlpal 立即跑一次 wEnemyScript,ts 改 postAction tick 跑(差一拍)。battle-opcodes.ts |

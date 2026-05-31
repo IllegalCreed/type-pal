@@ -17,6 +17,7 @@
 
 import type { BattleCtx } from '../event-system.js'
 import type { BattleStatus } from './battle-state.js'
+import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength } from '../equip-effect.js'
 import { buildStealTimeline } from './anim-timeline.js'
 import { startBattleAnim } from './battle-anim-driver.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
@@ -189,13 +190,19 @@ const OP_SHOW_MAGIC_ANIM = 0x0092
 /** sdlpal `script.c:006A` 0x006A:PAL_BattleStealFromEnemy(target, op0=stealRate)。 */
 const OP_STEAL_FROM_ENEMY = 0x006A
 
-/** 0x30 op0(PlayerRoles 结构 WORD row,= PLAYERROLES_ROW)→ PlayerRole stat 字段。 */
-const STAT_ROW_FIELD: Record<number, 'attackStrength' | 'magicStrength' | 'defense' | 'dexterity'> = {
-  17: 'attackStrength',
-  18: 'magicStrength',
-  19: 'defense',
-  20: 'dexterity',
-}
+/**
+ * 0x30 op0(PlayerRoles 结构 WORD row,= PLAYERROLES_ROW)→ stat 三件套:
+ *   - field:战斗 snapshot(PlayerRole)字段名
+ *   - rgw:PlayerRolesRuntime / EquipmentEffectRoles 行字段名(读 base + 写 Extra 槽)
+ *   - getter:effective getter(base + Σ rgEquipmentEffect[0..6],含 Extra)recompute snapshot 用
+ * row 17 atk / 18 mag / 19 def / 20 dex(sdlpal global.h tagPLAYERROLES)。
+ */
+const STAT_ROW_BUFF = {
+  17: { field: 'attackStrength', rgw: 'rgwAttackStrength', getter: getPlayerAttackStrength },
+  18: { field: 'magicStrength', rgw: 'rgwMagicStrength', getter: getPlayerMagicStrength },
+  19: { field: 'defense', rgw: 'rgwDefense', getter: getPlayerDefense },
+  20: { field: 'dexterity', rgw: 'rgwDexterity', getter: getPlayerDexterity },
+} as const
 
 /** sdlpal `script.c:2025-2032` 0x0068:if (g_Battle.fEnemyMoving) jump op0。 */
 const OP_JUMP_IF_ENEMY_TURN = 0x0068
@@ -550,16 +557,15 @@ export function dispatchBattleOpcode(
     }
 
     case OP_BUFF_PLAYER_STAT_PCT: {
-      // sdlpal `script.c:0030`:临时按 % 增益某 stat。
-      //   p[Extra][op0*MAX+role] = p1[PlayerRoles][op0*MAX+role] * (SHORT)op1 / 100
-      //   即 Extra slot = base*op1/100,装备 getter 合成后 effective = base + base*op1/100。
+      // sdlpal `script.c:1406-1427`(PAL_CLASSIC)临时按 % 增益某 stat:
+      //   p  = (WORD*)&rgEquipmentEffect[kBodyPartExtra=6];  p1 = (WORD*)&g.PlayerRoles;
+      //   p[op0*MAX_ROLES+role] = p1[op0*MAX_ROLES+role] * (SHORT)op1 / 100
+      //   —— **只把 bonus 存 Extra 槽**;base 永远取**未 buff** 的 g.PlayerRoles 表(→ 多次不叠加)。
+      //   战斗读 effective = base + Σ rgEquipmentEffect[0..6](含 Extra):
+      //     · projectRuntimeToBattleRoles 投影时已烤入(战内装备 + 起手 Extra=0)
+      //     · 此处 0x30 写 Extra 后,经 getter recompute snapshot 受影响 stat → 战斗 immediately 生效
+      //   战末 finalizeBattleCleanup removeEquipmentEffect(role, Extra)(battle-system.ts:2046)清 → 战后消失。
       //   op2==0 → role=wEventObjectID(施法/使用者);else role=op2-1。
-      // ts:battle 直接读 role stat(不走 equip-effect getter,D14 残)→ 直接把 effective 值写回
-      //   role.{stat}(= base + trunc(base*op1/100)),functional in battle。
-      // **残**:sdlpal 用 per-battle Extra slot,战斗末清;ts mutate role 会持久(多次使用叠加)。
-      //   忠实需 per-battle temp-buff 模型 + 战斗末 reset(同 D14 残)。
-      if (!ctx.playerRoles)
-        return { consumed: true }
       const op2 = operands[2] ?? 0
       let roleId: number | undefined
       if (op2 > 0) {
@@ -570,11 +576,26 @@ export function dispatchBattleOpcode(
           : (ctx.target?.type === 'player' ? ctx.target : undefined)
         roleId = sel ? state.players[sel.idx]?.roleId : undefined
       }
-      const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
-      const field = STAT_ROW_FIELD[operands[0] ?? 0]
-      if (role && field) {
-        const base = role[field]
-        role[field] = base + Math.trunc(base * asShort(operands[1] ?? 0) / 100)
+      const map = STAT_ROW_BUFF[(operands[0] ?? 0) as keyof typeof STAT_ROW_BUFF]
+      if (roleId === undefined || !map)
+        return { consumed: true } // 未知 row / 无 role → no-op(consumed)
+      const gs = ctx.gs
+      if (gs) {
+        // 真值路径:写 Extra 槽(bonus = trunc(base * SHORT(op1) / 100))+ recompute snapshot
+        const base = gs.PlayerRolesRuntime[map.rgw][roleId] ?? 0
+        const bonus = Math.trunc(base * asShort(operands[1] ?? 0) / 100)
+        const extra = gs.rgEquipmentEffect[6]
+        if (extra) extra[map.rgw][roleId] = bonus
+        const role = ctx.playerRoles?.roles[roleId]
+        if (role) role[map.field] = map.getter(gs, roleId)
+      } else if (ctx.playerRoles) {
+        // degraded fallback(无 gs;真实 caller performMagic/performItem/performThrowItem 总注入 gs)——
+        // 直接 mutate snapshot(老行为,base 取已 buff 值 → 会叠加;仅合成测试无 gs 时走此)。
+        const role = ctx.playerRoles.roles[roleId]
+        if (role) {
+          const b = role[map.field]
+          role[map.field] = b + Math.trunc(b * asShort(operands[1] ?? 0) / 100)
+        }
       }
       return { consumed: true }
     }

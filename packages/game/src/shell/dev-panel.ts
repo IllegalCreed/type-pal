@@ -876,7 +876,8 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
       enemyTeams: deps.resources.enemyTeams,
       battleFields: deps.resources.battleFields,
       // 边界:用 runtime 当前属性投影战斗 roles(吃升级后属性;与真实 startBattleHandler 一致)
-      playerRoles: projectRuntimeToBattleRoles(deps.gs.PlayerRolesRuntime, deps.resources.playerRoles),
+      // D14:第 3 参 gs.rgEquipmentEffect → 战斗 stat = effective(base + 装备 + Extra),与 startBattleHandler 一致。
+      playerRoles: projectRuntimeToBattleRoles(deps.gs.PlayerRolesRuntime, deps.resources.playerRoles, deps.gs.rgEquipmentEffect),
       levelUpExp: deps.resources.levelUpExp, // D11:战斗胜利升级阈值
       levelUpMagic: deps.resources.levelUpMagic, // D11:升级学新法术
       items: deps.resources.items,
