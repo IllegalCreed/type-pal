@@ -890,6 +890,21 @@ export interface GameState {
   sceneOnEnterOverride?: Record<number, number>
 
   /**
+   * opcode 0x6D op2 设的 scene onTeleport 脚本覆盖(键 = wNumScene 1-based,值 = **全局 script entry**,
+   * 0 = 清除/无 teleport)。sdlpal script.c:2079 `rgScene[op0-1].wScriptOnTeleport = op2`。
+   * 与 onEnter override 不同:**持久**(不在 loadScene 时消耗/删),对齐 sdlpal rgScene 常驻 saved 状态。
+   * 0x38 teleportOut 读 `override[wNumScene] ?? sceneOnTeleportEntry`(base)判归隐脱出。
+   */
+  sceneOnTeleportOverride?: Record<number, number>
+
+  /**
+   * 当前场景(gs.wNumScene)的 base onTeleport 脚本全局 entry(0 = 无)—— loadScene 时由 scene dump
+   * 的 onTeleportLabel(L_<n>→n)解析缓存。0x38 teleportOut 用作 base(override 优先)。
+   * sdlpal 真值是 g.rgScene[wNumScene-1].wScriptOnTeleport(常驻 saved);ts 懒加载 → 仅缓存当前场景 base。
+   */
+  sceneOnTeleportEntry?: number
+
+  /**
    * opcode 0x99 设的 scene mapNum 覆盖(键 = wNumScene,值 = 新 mapNum)。
    * sdlpal script.c:2740 `rgScene[op0-1].wMapNum = op1`。loadScene 时优先用此 mapNum 取 tilemap。
    */

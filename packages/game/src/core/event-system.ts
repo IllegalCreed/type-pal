@@ -3030,16 +3030,35 @@ function applyRawOpcode(
     }
 
     case OP_TELEPORT_OUT: {
-      // sdlpal script.c:1554:把队伍传送出当前场景(归隐符/瞬移)。
-      //   !fInBattle && scene.wScriptOnTeleport != 0 → PAL_RunTriggerScript(teleport 脚本);
-      //   else 失败 → g_fScriptSuccess=FALSE + jump op0。
-      // ts **残**:静态 scene.wScriptOnTeleport(scene/N.json onTeleportLabel,如 L_11851)未 thread
-      //   进 interpreter —— SceneAssets 只暴露 onEnterLabel(loader.ts:370),也无 run-trigger-script
-      //   子系统。故现仅实现**失败路径**(jump op0):scriptOnTeleport==0 的场景(城镇/野外大多)忠实。
-      //   dungeon 归隐脱出(scene 41/163/226 等 onTeleportLabel != 0)待:SceneAssets 暴露 onTeleportLabel
-      //   + 场景载入时 thread 当前 teleport IP + run-trigger-script。
-      gs.fScriptSuccess = false
-      jumpToGlobalIp(gs, cursor, operands[0] ?? 0)
+      // sdlpal script.c:1554-1571:把队伍传送出当前场景(归隐符/瞬移)。
+      //   if (!fInBattle && scene.wScriptOnTeleport != 0)
+      //     PAL_RunTriggerScript(scene.wScriptOnTeleport, 0xFFFF);   // 成功:跑归隐脱出脚本
+      //   else { g_fScriptSuccess = FALSE; wScriptEntry = op0 - 1; } // 失败:jump op0
+      // ts:effective teleport entry = sceneOnTeleportOverride[wNumScene](0x6D op2)?? sceneOnTeleportEntry(base)。
+      //   成功 → 仿 0x04 call:压返回帧 + 跳 teleport entry(子脚本 end 弹帧回 caller 续跑 0x47/0xA1)。
+      //   teleport 脚本(scene 163/226 = loadScene+setPartyPos+fade;scene 41 = dialog cutscene)走异步
+      //   cursor 全 opcode 支持;loadScene 延迟 reload(到脚本全 end)→ callStack 返回帧不丢。
+      const inBattle = gs.battleState !== undefined // sdlpal !fInBattle gate
+      const teleportEntry = gs.sceneOnTeleportOverride?.[gs.wNumScene] ?? gs.sceneOnTeleportEntry ?? 0
+      if (!inBattle && teleportEntry !== 0 && cursor) {
+        // PAL_RunTriggerScript(teleportEntry, 0xFFFF):labelMap 缺(生产 / L_<n>→n 恒等)→ 直接当全局 ip。
+        const subIp = cursor.labelMap?.[`L_${teleportEntry}`] ?? teleportEntry
+        cursor.callStack = cursor.callStack ?? []
+        cursor.callStack.push({
+          returnIp: cursor.ip + 1,
+          returnCommands: cursor.commands,
+          returnLabelMap: cursor.labelMap,
+          savedEventObjectId: cursor.currentEventObjectId,
+        })
+        // sdlpal 传 wEventObjectID=0xFFFF(无具体对象)→ teleport 脚本(loadScene/setPartyPos/fade/dialog)
+        //   不引用 pCurrent,故 currentEventObjectId 不变(保持 caller 的)。
+        cursor.ip = subIp - 1 // caller raw-case ip++ → subIp
+        // 成功:g_fScriptSuccess 不置 false。
+      }
+      else {
+        gs.fScriptSuccess = false
+        jumpToGlobalIp(gs, cursor, operands[0] ?? 0)
+      }
       break
     }
 
@@ -3839,13 +3858,23 @@ function applyRawOpcode(
     }
 
     case OP_SET_SCENE_SCRIPTS: {
-      // sdlpal script.c:2065-2089:if op0: op1!=0 → rgScene[op0-1].wScriptOnEnter=op1(全局 entry);
-      //   op1==0&&op2==0 → 清(=0)。op2(teleport)ts 暂不消费。存全局 override,loadScene 时解析。
+      // sdlpal script.c:2065-2089:if op0:
+      //   op1!=0 → rgScene[op0-1].wScriptOnEnter = op1(全局 entry);
+      //   op2!=0 → rgScene[op0-1].wScriptOnTeleport = op2(全局 entry,0x38 归隐脱出脚本);
+      //   op1==0 && op2==0 → 清 BOTH(onEnter=0 + onTeleport=0)。
+      // ts:onEnter override loadScene 时消耗(临时);onTeleport override 持久(0x38 随时读)。
       const sceneId = operands[0] ?? 0 // 1-based wNumScene
+      const op1 = operands[1] ?? 0
+      const op2 = operands[2] ?? 0
       if (sceneId !== 0) {
         gs.sceneOnEnterOverride = gs.sceneOnEnterOverride ?? {}
-        if ((operands[1] ?? 0) !== 0) gs.sceneOnEnterOverride[sceneId] = operands[1] ?? 0
-        else if ((operands[2] ?? 0) === 0) gs.sceneOnEnterOverride[sceneId] = 0 // 清
+        gs.sceneOnTeleportOverride = gs.sceneOnTeleportOverride ?? {}
+        if (op1 !== 0) gs.sceneOnEnterOverride[sceneId] = op1
+        if (op2 !== 0) gs.sceneOnTeleportOverride[sceneId] = op2
+        if (op1 === 0 && op2 === 0) {
+          gs.sceneOnEnterOverride[sceneId] = 0 // 清 onEnter(loadScene 消耗 → -1 哨兵)
+          gs.sceneOnTeleportOverride[sceneId] = 0 // 清 onTeleport
+        }
       }
       break
     }

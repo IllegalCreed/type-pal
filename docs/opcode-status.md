@@ -64,7 +64,7 @@
 | 0x6F | ✅ 已修 | 2c3d25d | syncObjState operand[1] 加 SHORT cast(signExtendI16) |
 | 0x9E | ✅ 已修 | 2c3d25d | enemy-summon 加 `iHidingTime>0` fail 检查(隐身保护) |
 | **0x30** | ✅ 已修 | — | per-battle Extra slot:0x30 写 rgEquipmentEffect[6]=trunc(base*op1/100)不叠加 + 战末清;projectRuntimeToBattleRoles 并入装备 effect → 战斗读 effective(**D14 修**)(script.c:1406-1427) |
-| **0x38 / 0x6D** | ⬜ 待修 | — | teleport-out 只失败路径 / setTriggerScript 缺 op[2] onTeleport;需 SceneAssets 透传 onTeleportLabel(场景子系统) |
+| **0x38 / 0x6D** | ✅ 已修 | — | 0x38 成功路径 call+return 跑 teleport 脚本(onTeleportLabel→sceneOnTeleportEntry,override 优先)；0x6D op2→sceneOnTeleportOverride + both-zero 清(script.c:1558/2069-2087) |
 | 0x05 | ✅ 逻辑done/残pacing | — | ClearDialog(TRUE)逻辑 + needToFadeIn 淡入**已做**(explore+battle);RNG-restore/BattleMakeScene 分支**对 ts 自动渲染 N/A**;残仅 no-dialog 分支 `UTIL_Delay(op1*60)` 帧延迟 —— **与 0x03 同源**(见下) |
 | **0x02 / 0x03** | ⬜ 待修 | — | trigger(tickEventSystem @1556)+ battle(runScript @2276)的 goto/reset 缺 frameDelay gate(autoScript runOneAutoOp @1035 已有)。frameDelay goto 实为 **trigger 过场"NPC 走 N 步"循环**(`0x6C 走一步→0x05 重绘+延迟→0x03 goto frameDelay 计步`,@191/2615/7339 等 17 处)→ ts 无 frameDelay 计数会死循环(SINGLE_TICK_LIMIT)。需 **yield-per-step 模型**(每帧走一步)+ 0x05 的 UTIL_Delay pacing 一起修。谨慎,弄错破过场。 |
 | **0x7F** | ⬜ 待修 | — | setCamera 缺动画平移 loop(pan cutscene 失效/瞬跳;需 present 摄像机动画) |
@@ -117,8 +117,15 @@
 >   (SHORT)op1 / 100)`,base 取**未 buff** 的 PlayerRolesRuntime(→ 多次不叠加)+ 经 getter recompute snapshot
 >   立即生效。③ 战末 finalizeBattleCleanup `removeEquipmentEffect(role, Extra)`(battle-system.ts:2046)清 → 战后消失。
 >   验:Extra slot 写入 / effective=base+Extra / 多次不叠加 / 战后回 base / 负 op1 debuff / 投影并入装备(8+2 单测)。
-> - ⬜ **剩 3 组子系统(非纯 logic bug,需专门做)**:
->   - **0x38 / 0x6D** teleport script:需 SceneAssets 暴露 onTeleportLabel + run-trigger-script(场景子系统)。
+> - ✅ **0x38 / 0x6D teleport script 收口(本轮)**:① extractor 已 dump `onTeleportLabel`(scene.ts:78,67 场景);
+>   plumb 过 SceneAssets(loader.ts)+ bootstrap fetch/return + loadSceneCommon 缓存 `gs.sceneOnTeleportEntry`
+>   (onTeleportLabel L_<n>→n 全局 entry)。② 0x6D op2 → `gs.sceneOnTeleportOverride[scene]`(持久,对称 onEnter
+>   override)+ op1==0&&op2==0 清 both(script.c:2069-2087)。③ 0x38 成功路径(`!fInBattle && teleport!=0`):
+>   仿 0x04 call 压返回帧 + 跳 teleport entry(子脚本 end 弹帧回 caller 续跑 0x47/0xA1);override 优先 base;
+>   battle 中走失败(script.c:1558-1569)。归隐脱出(scene 41 dialog cutscene / 163·226 loadScene+fade)走异步
+>   cursor;loadScene 延迟 reload → callStack 返回帧不丢。验:0x6D op2/both-zero-clear、0x38 call+return、override
+>   优先、battle gate(9 单测)。**残**:scene 41 dialog-heavy teleport 全链时序待真引擎实测确认。
+> - ⬜ **剩 2 组子系统(非纯 logic bug,需专门做)**:
 >   - **0x02 / 0x03 (+0x05 pacing) cutscene NPC 走步循环**:frameDelay goto 实为 trigger 过场"NPC 走 N 步"
 >     循环(`0x6C 走一步 → 0x05 重绘+UTIL_Delay → 0x03 goto frameDelay 计步`,17 处)。autoScript(runOneAutoOp)
 >     已处理 frameDelay;**trigger(tickEventSystem @1556)+ battle(runScript @2276)缺** → ts 无计数会死循环。
@@ -174,7 +181,7 @@ setDialogStyle 0x3B-0x3E。
 |----|------|------|------|
 | 0x0A | goto if selected no | ✅A | waiting='confirm' 阻塞否/是确认框(否=WORD19/是=WORD20,默认否)。否/cancel/Menu→goto operand[0],是→ip++。PAL_ClearDialog(FALSE) 问句留屏 + isDialogContinuationOp 豁免 Space-wait;复用 drawConfirmBox(draw-confirm.ts)。script.c:3373-3387 / uigame.c:342-365,26 用 |
 | 0x41 | mark script failed | ✅A | OP_MARK_SCRIPT_FAILED case(event-system.ts:3355)→ gs.fScriptSuccess=false;consumePendingItem 按 g_fScriptSuccess gate 扣物品(script.c:1623-1627)。此前误标 ⬜,2026-05-30 订正 |
-| 0x6D | set scene enter/teleport script | ✅A | onEnter 全局 override → loadScene 时解析为 local ip(op2 teleport 暂略) |
+| 0x6D | set scene enter/teleport script | ✅A | op1→onEnter 全局 override(loadScene 解析消耗)；**op2→onTeleport 全局 override(sceneOnTeleportOverride 持久)**；op1==0&&op2==0 清 both(script.c:2069-2087) |
 | 0x84 | place used item as event object | ✅A | pCurrent(op0)放 party 正前方 + sState=op1;挡→jump op2(2026-05-28) |
 | 0x85 | delay N | ✅A | UTIL_Delay(op0*80ms)time-based waiting='delay'(autoScript 暂停)(script.c:2511,2026-05-29) |
 | 0x8D | increase player level | ✅A | PAL_PlayerLevelUp 端口:level+clamp99 + stat 增长(Math.random)+ Exp 重置(global.c:2347,2026-05-29) |
@@ -238,7 +245,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x28 | apply poison to enemy | ✅ **battle handler**:op0!=0 全体 / 否则单体(ctx.target);`RandomLong(0,9)>=resistanceToSorcery` 抗性判定 + 去重 + 槽满(MAX_POISONS 16)→ 加 {poisonId:op1, scriptEntry:objectPoisons[op1].enemyScript}(script.c:0028)。毒蛇卵/卵/蛊 throw。注:sdlpal 立即跑一次 wEnemyScript,ts 改 postAction tick 跑(差一拍)。battle-opcodes.ts |
 | 0x33 | collect enemy for items | ✅ enemy(caster).collectValue!=0 → gs.wCollectValue += collectValue;否则 jump op0(script.c:0033)。battle-opcodes.ts |
 | 0x34 | transform collected enemies to items | ✅ **explore**:wCollectValue>0 → RandomLong(1,cv) cap9(PAL_CLASSIC)扣 cv + 发 store[0].rgwItems[i] 入包(setStoreTable 注入);cv==0 → jump op0(script.c:1452,妖魔转化)。物品框 dialog 是 present 层 → 跳过。event-system.ts |
-| 0x38 | teleport party out of scene | ✅/⚠️ **explore**:失败路径 fScriptSuccess=FALSE + jump op0(script.c:1554),scriptOnTeleport==0 场景(城镇/野外)忠实。**残**:dungeon 归隐脱出(onTeleportLabel!=0)待 SceneAssets 暴露 onTeleportLabel + run-trigger-script。event-system.ts |
+| 0x38 | teleport party out of scene | ✅ **explore**(script.c:1554-1571):成功(`!fInBattle && teleport!=0`)→ 仿 0x04 call 压返回帧 + 跳 teleport entry(`sceneOnTeleportOverride[scene] ?? sceneOnTeleportEntry`),子脚本 end 弹帧回 caller(续跑 0x47/0xA1);失败 → fScriptSuccess=FALSE + jump op0。归隐脱出 scene 41/163/226 等(onTeleportLabel,67 场景）。**残**:scene 41 dialog-heavy 全链时序待真引擎确认。event-system.ts |
 | 0x39 | drain HP from enemy | ✅ enemy.health -= op0;movingPlayer.hp += op0(clamp maxHP)(script.c:0039)。吸星锁 scriptOnThrow:enemy=ctx.target,player=caster。battle-opcodes.ts |
 | 0x3A | player flee battle | ✅ isBoss → jump op0(不可逃);否则 phase='fleed'(PAL_BattlePlayerEscape)(script.c:003A)。battle-opcodes.ts |
 | 0x42 | simulate magic for player | ✅ PAL_BattleSimulateMagic(fight.c:5300)。op0=magic object id / op1=baseDamage(当 magStr)/ op2=target+1(0→eventObjectID)。applyToAll flag 优先→全体,否则 i=op2-1<0 用 eventObjectID / 仍<0 自动选首活敌;guard 无符号 `baseDamage>0‖op1>0`(magic96=−999 进但算 0);minDamage=0;共享 applyMagicDamage。battle-opcodes.ts;script.c:1630-1640。投掷物 scriptOnThrow ×40 站点全靠它 |

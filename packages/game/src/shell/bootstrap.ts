@@ -453,6 +453,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         mapNum: number
         eventObjects: SceneEventObject[]
         onEnterLabel?: string
+        onTeleportLabel?: string
       }>
     })
     const [tilemapJson, eventsJson] = await Promise.all([
@@ -497,6 +498,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       labelMap: sceneLabelMap,
       // P0.e: 透传 wScriptOnEnter label → loadScene 跑 enter script 设 party 起点
       onEnterLabel: sceneJson.onEnterLabel,
+      // 0x38 归隐脱出:透传 wScriptOnTeleport label → loadSceneCommon 解析缓存 gs.sceneOnTeleportEntry
+      onTeleportLabel: sceneJson.onTeleportLabel,
     }
   }
   const sceneAssetsCache = new SceneAssetsCache(sceneFetcher)
@@ -564,6 +567,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     gs.sceneLoading = true
     const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
     gs.wNumScene = newWNumScene
+    // 0x38 归隐脱出:缓存当前场景 base onTeleport 全局 entry(onTeleportLabel L_<n>→n;无则 0)。
+    //   sdlpal g.rgScene[wNumScene-1].wScriptOnTeleport;0x6D op2 override 优先。
+    gs.sceneOnTeleportEntry = sceneAssets.onTeleportLabel
+      ? (getGlobalLabelMap()[sceneAssets.onTeleportLabel] ?? 0)
+      : 0
     // 新 scene 的 commands + labelMap 写入 gs(autoScript runner 用)
     gs.sceneCommands = sceneAssets.eventCommands
     gs.sceneLabelMap = sceneAssets.labelMap

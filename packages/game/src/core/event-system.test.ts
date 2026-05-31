@@ -3252,6 +3252,31 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     expect(gs2.sceneOnEnterOverride?.[3]).toBe(0) // 清
   })
 
+  it('0x6D op2!=0 → sceneOnTeleportOverride[op0]=op2(script.c:2077-2081)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    loadEvent(gs, [{ op: 'raw', opcode: 0x6d, operands: [5, 0, 9139] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.sceneOnTeleportOverride?.[5]).toBe(9139)
+    expect(gs.sceneOnEnterOverride?.[5]).toBeUndefined() // op1=0 不动 onEnter(op2!=0,非 both-zero)
+  })
+
+  it('0x6D op1!=0 && op2!=0 → 同时设 onEnter + onTeleport', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    loadEvent(gs, [{ op: 'raw', opcode: 0x6d, operands: [5, 500, 9139] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.sceneOnEnterOverride?.[5]).toBe(500)
+    expect(gs.sceneOnTeleportOverride?.[5]).toBe(9139)
+  })
+
+  it('0x6D op1=0 && op2=0 → 清 onEnter + onTeleport(script.c:2083-2086)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.sceneOnTeleportOverride = { 5: 9139 }
+    loadEvent(gs, [{ op: 'raw', opcode: 0x6d, operands: [5, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.sceneOnEnterOverride?.[5]).toBe(0)
+    expect(gs.sceneOnTeleportOverride?.[5]).toBe(0)
+  })
+
   it('0x98 setFollower:operand[0..1]>0 → gs.followers + nFollower(script.c:2709)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
@@ -3916,6 +3941,72 @@ describe('opcode 0x38 teleportOut(script.c:1554,归隐符/瞬移)', () => {
     expect(gs.fScriptSuccess).toBe(false)
     expect(gs.iCurPlayingRNG).toBe(0) // idx1 被跳过 → 确实跳转
     expect(gs.eventCursor).toBeUndefined() // 到 end
+  })
+
+  it('成功路径:!fInBattle && scene.wScriptOnTeleport!=0 → call+return 跑 teleport 脚本(script.c:1558-1562)', () => {
+    // PAL_RunTriggerScript(teleport, 0xFFFF) = 压返回帧 + 跳子脚本;子脚本 end → 弹帧回 caller 续跑。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.fScriptSuccess = true
+    gs.wNumScene = 42
+    gs.sceneOnTeleportEntry = 3 // 当前场景 base teleport entry(= 内嵌 commands 下标,labelMap 缺→直接当 ip)
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: OP_TELEPORT_OUT, operands: [99, 0, 0] }, // ip0:成功不走 op0=99
+        { op: 'raw', opcode: 0x45, operands: [7, 0, 0] },              // ip1:返回后跑 → wNumBattleMusic=7
+        { op: 'end' },                                                 // ip2:caller end
+        { op: 'raw', opcode: 0x36, operands: [111, 0, 0] },            // ip3:teleport 脚本 → iCurPlayingRNG=111
+        { op: 'end' },                                                 // ip4:teleport end → 弹帧回 ip1
+      ],
+      ip: 0,
+    }
+    gs.mode = 'event'
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.iCurPlayingRNG).toBe(111)   // teleport 脚本跑了
+    expect(gs.wNumBattleMusic).toBe(7)     // 弹帧回 caller 续跑 0x47 后续(call+return)
+    expect(gs.fScriptSuccess).toBe(true)   // 成功不置 false
+    expect(gs.eventCursor).toBeUndefined() // caller end
+  })
+
+  it('成功路径:sceneOnTeleportOverride[scene] 优先于 base(0x6D op2 改写)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.fScriptSuccess = true
+    gs.wNumScene = 42
+    gs.sceneOnTeleportEntry = 3 // base
+    gs.sceneOnTeleportOverride = { 42: 6 } // override → 跳 ip6 而非 ip3
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: OP_TELEPORT_OUT, operands: [99, 0, 0] }, // ip0
+        { op: 'end' },                                                // ip1 caller end
+        { op: 'end' }, { op: 'end' }, { op: 'end' }, { op: 'end' },   // ip2-5 填充
+        { op: 'raw', opcode: 0x36, operands: [222, 0, 0] },           // ip6:override teleport → RNG=222
+        { op: 'end' },                                                // ip7
+      ],
+      ip: 0,
+    }
+    gs.mode = 'event'
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.iCurPlayingRNG).toBe(222) // 走 override entry(ip6),非 base(ip3)
+  })
+
+  it('battle 中(gs.battleState 存在)→ 失败路径(sdlpal !fInBattle gate)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.fScriptSuccess = true
+    gs.wNumScene = 42
+    gs.sceneOnTeleportEntry = 3
+    // biome-ignore lint/suspicious/noExplicitAny: 仅置非 undefined 触发 inBattle gate
+    gs.battleState = {} as any
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: OP_TELEPORT_OUT, operands: [2, 0, 0] }, // ip0:fail → jump op0=2
+        { op: 'raw', opcode: 0x36, operands: [111, 0, 0] },          // ip1:跳过
+        { op: 'end' },                                               // ip2
+      ],
+      ip: 0,
+    }
+    gs.mode = 'event'
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.fScriptSuccess).toBe(false) // 战斗中 → 失败
+    expect(gs.iCurPlayingRNG).toBe(0)     // ip1 跳过(跳到 ip2 end)
   })
 })
 

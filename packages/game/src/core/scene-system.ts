@@ -449,6 +449,10 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
   // 传 labelMap → autoLabel 解 ip 写入 autoCursor;sceneCommands/sceneLabelMap 写 gs
   gs.sceneCommands = sceneAssets.eventCommands
   gs.sceneLabelMap = sceneAssets.labelMap
+  // 0x38 归隐脱出:缓存当前场景 base onTeleport 全局 entry(onTeleportLabel L_<n>→n;无则 0)。
+  gs.sceneOnTeleportEntry = sceneAssets.onTeleportLabel
+    ? (resolveScriptLabel(gs, sceneAssets.onTeleportLabel)?.ip ?? 0)
+    : 0
   gs.npcs = sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
 
   // P3.T1: 切 scene 时同步更新 SceneContext 的 events + labelMap,

@@ -477,6 +477,12 @@ export interface SceneAssets {
    * loadScene 不传 partyStart 时自动跑 wScriptOnEnter 段设 party 位置。
    */
   onEnterLabel?: string
+  /**
+   * 归隐脱出脚本入口 label(对应 sdlpal SCENE.wScriptOnTeleport)。
+   * undefined = 该 scene 无 teleport script(城镇/野外大多;dungeon 如 scene 41/163/226 有)。
+   * opcode 0x38 teleportOut 据此跑 PAL_RunTriggerScript(归隐符/瞬移)。
+   */
+  onTeleportLabel?: string
 }
 
 export type SceneFetcher = (sceneId: number) => Promise<SceneAssets>
