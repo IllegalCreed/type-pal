@@ -219,7 +219,7 @@
 - [ ] B3 — 战斗内毒系统(D15/D20紫色)
 - [ ] B4 — 缺失玩家动作类型(D2/D16/D18残)
 - [ ] B5 — 战斗演出视觉残留(D17残/D19/D13视觉/D20 Trance)
-- [ ] B6 — 数值精度 + 装备(D3残/D14残)
+- [x] B6 — 数值精度 + 装备(D3残/D14残)✅ 2026-05-31 commit(c1-c6:rng rangeFloat+单体公式 / 群攻 crit+division / DualAttack 双击 / 持久 gs.rgPlayerStatus 桥 / 0x2D+Hand reset / 0x29+Wear poison99)。全装备审计坐实特殊效果仅 DualAttack(仙女剑等5把)+ 寿葫芦 regen 未做,已收口;余皆既有 stat 系统已工作。详 [2026-05-31-d-batch6-numeric-equip.md](2026-05-31-d-batch6-numeric-equip.md)。残:enemy→player jitter/autoDefend/Protect → D27/B2;crit 视觉 → D17/M6
 - [ ] B7 — 全 D 段 sdlpal 逐行复核 + 用例交付
 
 > 每批进入实施前另起 `2026-05-31-d-batchN-<name>.md` 详细 TDD plan(read 清单 → 差异表 → bite-sized steps)。

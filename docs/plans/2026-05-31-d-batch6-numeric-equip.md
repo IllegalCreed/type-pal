@@ -123,10 +123,16 @@ ts 战斗 status 是 BattleState 局部、每场重建(B1/D21 决策),**无持�
 
 ---
 
-## 3. 完成判据(对齐 roadmap B6)
-- [ ] 物理伤害含 RandomLong(1,2) jitter + crit(1/6 OR bravery ×3)+ 李逍遥 1/12 ×2 + RandomFloat(1,1.125) 浮动
-- [ ] 群攻含 crit + division 逐敌减半(命中序 {2,1,0,4,3})
-- [ ] DualAttack 武器(仙女剑等 5 件)开战真的攻击两次;卸 Hand 装备后失效
-- [ ] 寿葫芦(269,Wear)装上 → level-99 正面"毒"(每回合 +20HP/+20MP);卸 Wear 装备后清除
-- [ ] attack.test / equip-effect.test / battle-state.test / event-system.test 覆盖每条
-- [ ] `pnpm test` 全绿 + typecheck;每 commit 引 sdlpal `file:行号`
+## 3. 完成判据(对齐 roadmap B6)—— ✅ 全达成(2026-05-31)
+- [x] 物理伤害含 RandomLong(1,2) jitter + crit(1/6 OR bravery ×3)+ 李逍遥 1/12 ×2 + RandomFloat(1,1.125) 浮动(c1)
+- [x] 群攻含 crit + division 逐敌减半(命中序 {2,1,0,4,3})(c2)
+- [x] DualAttack 武器(仙女剑等 5 件)开战真的攻击两次;卸 Hand 装备后失效(c3 双击 / c4 桥 / c5 0x2D+reset)
+- [x] 寿葫芦(269,Wear)装上 → level-99 正面"毒"(每回合 +20HP/+20MP);卸 Wear 装备后清除(c6)
+- [x] attack.test(+11)/ equip-effect.test(+8)/ battle-state.test(+2)/ rng.test(+2)覆盖每条
+- [x] `pnpm test` 全绿(1472 passed / 2 skip)+ typecheck 干净;6 commit 各引 sdlpal `file:行号`
+- [x] 真实数据 e2e 验:role 装仙女剑 → rgPlayerStatus[8]=32760;装寿葫芦 → 中毒 563/564
+
+> 实现 commit(均已落 main):c1 单体公式 / c2 群攻 crit+division / c3 DualAttack 双击 /
+> c4 持久 gs.rgPlayerStatus 桥 / c5 0x2D+Hand reset / c6 0x29+Wear poison99。
+> **残(明确移交,非偷懒)**:enemy→player 物理 jitter/autoDefend evade/Protect 除因子 → D27残/B2;
+> crit 视觉(criticalSound + 闪)→ D17/M6。
