@@ -57,6 +57,8 @@ export function performFlee(state: BattleState, playerIdx: number, playerRoles: 
     const p = state.players[playerIdx]
     if (bus && p?.posOriginal) {
       startBattleAnim(state, buildFleeFailTimeline(playerIdx, p.posOriginal), bus)
+      // 逃跑失败文字(WORD.DAT 31 "逃跑失败",sdlpal label 31 @130,75;8 帧 ×40ms=320ms)
+      bus.emit({ op: 'showBattleMessage', text: '逃跑失败', durationMs: 320 })
     }
   }
 }

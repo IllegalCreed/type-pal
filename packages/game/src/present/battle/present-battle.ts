@@ -45,6 +45,7 @@ import {
 } from './draw-battle-sprites.js'
 import { drawBattleUI } from './draw-battle-ui.js'
 import { drawBattleSettlement } from './draw-battle-settlement.js'
+import { renderText } from '../font.js'
 
 export interface BattleAssets {
   /** sprite key 规约见 draw-battle-sprites:`player-${spriteNumInBattle}` / `enemy-${enemy.id}`。 */
@@ -89,6 +90,8 @@ export interface BattleAssets {
  */
 export class BattlePresent {
   private readonly floatingNums = new FloatingNumsLayer()
+  /** 战斗单行消息条(偷取"获得 X" / 逃跑失败);currentFrame >= expiryFrame 时消失。 */
+  private battleMsg: { text: string, expiryFrame: number } | undefined
 
   /**
    * 画一帧战斗画面 + drain 战斗命令到弹幕层。
@@ -130,8 +133,13 @@ export class BattlePresent {
           this.floatingNums.emit({ x, y, value: cmd.value, color: cmd.color, currentFrame })
         }
       }
-      // 其他 op(playEnemyAttack / playMagicAnim / flashEnemy / showBattleMessage
-      // / playEnemyDeath / showBattleUI / showDialogBox / clearDialogBox 等)M3 简版跳过
+      else if (cmd.op === 'showBattleMessage') {
+        // 战斗单行消息条(偷取"获得 X" / 逃跑失败);显示 durationMs(缺省 800ms,battle tick 40ms/帧)。
+        const frames = Math.ceil((cmd.durationMs ?? 800) / 40)
+        this.battleMsg = { text: cmd.text, expiryFrame: currentFrame + frames }
+      }
+      // 其他 op(playEnemyAttack / playMagicAnim / flashEnemy / playEnemyDeath / showBattleUI
+      // / showDialogBox / clearDialogBox 等)M3 简版跳过
     }
 
     // 2. 战斗背景(M3 dev fixture 用 BattleField.id=0;实际 id 由 state.field.id 提供)
@@ -172,6 +180,15 @@ export class BattlePresent {
       assets.uiSpriteFrames, assets.enemyPos,
     )
 
+    // 5.5 战斗单行消息条(偷取"获得 X" / 逃跑失败)—— sdlpal 逃跑失败 label 31 @(130,75) 色15。
+    //   (CLASSIC 偷取真值走对话,此处统一消息条近似;currentFrame 过期自动消失。)
+    if (this.battleMsg) {
+      if (currentFrame < this.battleMsg.expiryFrame && assets.glyphs)
+        renderText(fb, this.battleMsg.text, 130, 75, 15, assets.glyphs, true)
+      else if (currentFrame >= this.battleMsg.expiryFrame)
+        this.battleMsg = undefined
+    }
+
     // 6. 战斗内对话框(scriptOnReady / scriptOnTurnStart 0xFFFF showDialog)——
     //    复用大世界 gs.dialogBox 渲染,**覆于战斗场景之上**(sdlpal text.c:1687 box 不擦底,
     //    战斗精灵仍可见)。tickBattleDialog hold 期间填充 gs.dialogBox;战斗结束 finalizeBattle 清。
@@ -202,8 +219,9 @@ export class BattlePresent {
     }
   }
 
-  /** 战斗结束时清空数字弹幕,避免下次战斗看到上次残留。 */
+  /** 战斗结束时清空数字弹幕 + 消息条,避免下次战斗看到上次残留。 */
   clearFloatingNums(): void {
     this.floatingNums.clear()
+    this.battleMsg = undefined
   }
 }
