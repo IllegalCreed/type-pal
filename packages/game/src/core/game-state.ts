@@ -574,6 +574,15 @@ export interface GameState {
   sceneLabelMap?: Record<string, number>
   eventCursor?: EventCursor
   dialogBox?: DialogBoxState
+  /**
+   * 上下同屏共存的**另一位置**对话框(对照 sdlpal:PAL_StartDialog 切位置不擦旧框,upper/lower
+   * 两框同屏到 PAL_EndDialog)。dialogBox 是当前活动框(正在打字/等键);dialogBoxKept 是**反位置**的
+   * 已显满冻结框(渲染在活动框之下)。top↔bottom 切换时把旧框移入此槽,新框成 dialogBox;对话整段
+   * 结束时一并清。单槽即可 —— 任一时刻只有 top + bottom 各一个,kept 永远是非活动的那个位置。
+   * 战斗对话(tickBattleDialog)管理;present-battle 渲染。大世界 cutscene 暂未接(event-system
+   * dialog 逻辑复杂,留后续)。
+   */
+  dialogBoxKept?: DialogBoxState
   /** 由 setDialogStyle* 命令累积。默认 'center'。 */
   currentDialogStyle: DialogBoxStyle
   /**

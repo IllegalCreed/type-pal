@@ -175,6 +175,14 @@ export class BattlePresent {
     // 6. 战斗内对话框(scriptOnReady / scriptOnTurnStart 0xFFFF showDialog)——
     //    复用大世界 gs.dialogBox 渲染,**覆于战斗场景之上**(sdlpal text.c:1687 box 不擦底,
     //    战斗精灵仍可见)。tickBattleDialog hold 期间填充 gs.dialogBox;战斗结束 finalizeBattle 清。
+    // 上下同屏共存:先画反位置的冻结框(dialogBoxKept,如林月如 top),再画活动框(如李逍遥 bottom)。
+    //   sdlpal upper/lower 两框同屏共存(PAL_StartDialog 不擦旧框);present 画两次即可。
+    if (gs.dialogBoxKept) {
+      drawDialogBox(fb, gs.dialogBoxKept, assets.glyphs, {
+        ...assets.dialogAssets,
+        uiSpriteFrames: assets.uiSpriteFrames,
+      })
+    }
     if (gs.dialogBox) {
       drawDialogBox(fb, gs.dialogBox, assets.glyphs, {
         ...assets.dialogAssets,

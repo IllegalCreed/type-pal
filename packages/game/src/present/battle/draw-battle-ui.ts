@@ -193,7 +193,8 @@ export function drawBattleUI(
   // 战斗内对话显示期间**整个战斗 UI 都不画**(动作菜单 + 血量信息框都隐藏)——
   //   user 2026-05-31 实测:对话时不显示战斗 UI,血量面板当然也不显示。
   //   sdlpal:PAL_ShowDialogText 同步 blocking,对话期 PAL_BattleUIUpdate 完全不刷(菜单/信息框都不画)。
-  const dialogActive = gs.dialogBox != null || (state.battleDialogQueue?.length ?? 0) > 0
+  const dialogActive = gs.dialogBox != null || gs.dialogBoxKept != null
+    || (state.battleDialogQueue?.length ?? 0) > 0
   if (dialogActive) return
 
   // 底部队员信息框(PAL_PlayerInfoBox)—— sdlpal **仅选择阶段**画(uibattle.c:888-928:

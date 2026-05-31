@@ -138,7 +138,7 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
     expect(state.battleDialogQueue?.length).toBe(0)
   })
 
-  it('风格切换(top→bottom)也另起新框(不混页)', () => {
+  it('风格切换(top→bottom)另起新框(不混页)', () => {
     const gs = makeGs()
     const state = makeState([
       { text: '上', style: 'top' },
@@ -149,5 +149,43 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
     // 不同风格 → 先结束"上"段(不 append 到 top 框)
     expect(gs.dialogBox?.phase).toBe('waiting-end-key')
     expect(state.battleDialogQueue?.length).toBe(1) // "下"还在队列
+  })
+
+  // ── 上下同屏共存(user 2026-05-31:林月如 top 不消失,李逍遥 bottom 接出)──────
+  it('top↔bottom 切换 → 旧框移入 dialogBoxKept(同屏共存),整段结束清两者', () => {
+    const gs = makeGs()
+    const state = makeState([
+      { text: '让开!', style: 'top', portrait: 1 },
+      { text: '你是谁', style: 'bottom', portrait: 0 },
+    ])
+    tickBattleDialog(state, gs, input()) // 起 top(林月如)
+    driveUntil(state, gs, () => gs.dialogBox?.phase === 'waiting-end-key')
+    expect(gs.dialogBox?.style).toBe('top')
+    expect(gs.dialogBoxKept).toBeUndefined()
+    // Confirm 关 top 段:因下一行是 bottom(反位置)→ top 框移入 dialogBoxKept(不消失)
+    tickBattleDialog(state, gs, input(['Confirm']))
+    expect(gs.dialogBoxKept?.style).toBe('top') // 林月如 top 框保留
+    expect(gs.dialogBox).toBeUndefined()
+    // 下 tick 起 bottom(李逍遥):top kept + bottom active 同屏
+    tickBattleDialog(state, gs, input())
+    expect(gs.dialogBox?.style).toBe('bottom')
+    expect(gs.dialogBoxKept?.style).toBe('top')
+    // bottom 打完 + Confirm 结束整段(末行无 next)→ 两框都清
+    driveUntil(state, gs, () => gs.dialogBox?.phase === 'waiting-end-key')
+    tickBattleDialog(state, gs, input(['Confirm']))
+    expect(tickBattleDialog(state, gs, input())).toBe(false) // 放行
+    expect(gs.dialogBox).toBeUndefined()
+    expect(gs.dialogBoxKept).toBeUndefined() // 整段结束清掉共存框
+  })
+
+  it('同位置续行(都 bottom)→ 不进 dialogBoxKept(正常翻页/append)', () => {
+    const gs = makeGs()
+    const state = makeState([
+      { text: 'A', style: 'bottom' },
+      { text: 'B', style: 'bottom' },
+    ])
+    tickBattleDialog(state, gs, input())
+    driveUntil(state, gs, () => (state.battleDialogQueue?.length ?? 0) === 0)
+    expect(gs.dialogBoxKept).toBeUndefined()
   })
 })

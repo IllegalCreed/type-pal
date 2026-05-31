@@ -1317,10 +1317,21 @@ const BATTLE_DIALOG_NARRATION_MS = 1400
  *
  * @returns true = 有对话在显示(caller 早退,暂停战斗)。
  */
+/** 上下位置互换(top↔bottom)—— 同屏共存的两位置对话框判定(center/narration 不参与)。 */
+function isVerticalDialogSwap(
+  a: import('@type-pal/shared').DialogBoxStyle,
+  b: import('@type-pal/shared').DialogBoxStyle,
+): boolean {
+  return (a === 'top' && b === 'bottom') || (a === 'bottom' && b === 'top')
+}
+
 export function tickBattleDialog(state: BattleState, gs: GameState, input: InputSnapshot): boolean {
   const queueLen = state.battleDialogQueue?.length ?? 0
-  // 无 active dialogBox 且队列空 → 无对话(放行)。注:战斗内 gs.dialogBox 仅由本 hold 拥有。
-  if (!gs.dialogBox && queueLen === 0) return false
+  // 无 active dialogBox 且队列空 → 对话整段结束(放行)。一并清掉同屏共存的反位置框。
+  if (!gs.dialogBox && queueLen === 0) {
+    gs.dialogBoxKept = undefined
+    return false
+  }
 
   // 对话是合法的玩家等待(非卡死)→ 清 phase stall 计数,避免长时间等键被 60s 看门狗强退。
   state.phaseStallTicks = 0
@@ -1367,6 +1378,15 @@ export function tickBattleDialog(state: BattleState, gs: GameState, input: Input
       return true
     }
     if (result === 'dialog-end') {
+      const next = state.battleDialogQueue?.[0]
+      // 上下位置切换(top↔bottom,非 clearBefore)→ **保留旧框**(林月如 top 不消失,下面接着出李逍遥
+      //   bottom),对照 sdlpal upper/lower 同屏共存(PAL_StartDialog 不擦旧框)。把旧框移入 dialogBoxKept
+      //   (反位置冻结框);否则普通结束 → 清掉两者。
+      if (next && !next.clearBefore && isVerticalDialogSwap(gs.dialogBox.style, next.style)) {
+        gs.dialogBoxKept = gs.dialogBox
+      } else {
+        gs.dialogBoxKept = undefined
+      }
       gs.dialogBox = undefined
       state.battleDialogTypingAccMs = 0
       // **本 tick 吃掉关框的 Confirm** —— 否则同一 Confirm 同 tick 漏进战斗菜单触发普通攻击
@@ -1814,6 +1834,7 @@ function finalizeBattle(
 function finalizeBattleCleanup(gs: GameState): void {
   // 战斗内对话用的是复用大世界 gs.dialogBox —— 战斗结束清掉,避免泄漏进 explore 渲染。
   gs.dialogBox = undefined
+  gs.dialogBoxKept = undefined
   gs.mode = 'explore'
   gs.battleState = undefined
   setBattleResources(gs, undefined)
