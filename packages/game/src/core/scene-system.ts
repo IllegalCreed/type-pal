@@ -449,6 +449,7 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
   // 传 labelMap → autoLabel 解 ip 写入 autoCursor;sceneCommands/sceneLabelMap 写 gs
   gs.sceneCommands = sceneAssets.eventCommands
   gs.sceneLabelMap = sceneAssets.labelMap
+  gs.gameOverActive = false // 死亡读档 → 新场景 → 清 game-over 演出标记
   // 0x38 归隐脱出:缓存当前场景 base onTeleport 全局 entry(onTeleportLabel L_<n>→n;无则 0)。
   gs.sceneOnTeleportEntry = sceneAssets.onTeleportLabel
     ? (resolveScriptLabel(gs, sceneAssets.onTeleportLabel)?.ip ?? 0)

@@ -408,15 +408,15 @@ describe('player-roles 战斗数据模型边界', () => {
     expect(gs.eventCursor?.ip).toBe(1)
   })
 
-  it('resumePostBattleScript:lost 冻屏 sceneLoading=true(死亡红屏染战斗帧,非先露大世界);won/fled 不冻', () => {
+  it('resumePostBattleScript:lost 置 gameOverActive(present 保持战斗帧 + 只画死亡对话);won/fled 不置', () => {
     const gsL = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gsL.postBattleResume = { wonIp: 1, lostIp: 41075 }
     resumePostBattleScript(gsL, 'lost')
-    expect(gsL.sceneLoading).toBe(true) // 0x4F FadeToRed 染冻住的战斗最后一帧
+    expect(gsL.gameOverActive).toBe(true) // present 保持战斗帧,0x4F 染红,不露大世界
     const gsW = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gsW.postBattleResume = { wonIp: 1 }
     resumePostBattleScript(gsW, 'won')
-    expect(gsW.sceneLoading).toBeFalsy() // 胜利返回大世界正常渲染
+    expect(gsW.gameOverActive).toBeFalsy() // 胜利返回大世界正常渲染
   })
 
   it('resumePostBattleScript:无 postBattleResume → no-op(非 0x07 触发的战斗 / dev panel 战斗)', () => {

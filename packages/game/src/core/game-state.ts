@@ -910,6 +910,13 @@ export interface GameState {
    */
   prevBattleActions?: Map<number, import('./battle/battle-state.js').BattleAction>
 
+  /**
+   * 战败死亡演出标记(sdlpal 死亡脚本 L_41075:0x4F FadeToRed + "大侠重新来过" + 0x4E 读档)。
+   * present 据此**保持战斗最后一帧 + 只画死亡对话**(不重绘大世界场景),0x4F 把战斗帧染红。
+   * resumePostBattleScript(lost) 置;0x4E 读档 / 场景重载清。专用标记(showDialog 不清,区别于 sceneLoading)。
+   */
+  gameOverActive?: boolean
+
   postBattleResume?: {
     wonIp: number             // 胜(或负/逃无对应分支)→ resume 此 ip(= 0x07 后下一条)
     lostIp?: number           // 负 → op[1](已解析为全局 ip;0/无 → undefined → 用 wonIp)
@@ -1278,10 +1285,11 @@ export function resumePostBattleScript(gs: GameState, outcome: BattleOutcome): v
     callStack: r.callStack,
   }
   gs.mode = 'event'
-  // 死亡(lost):**冻住战斗最后一帧**,让死亡脚本(L_41075:0x43 音乐→0x4F FadeToRed→大侠重新来过→0x4E 读档)
-  //   的 0x4F 把**战斗帧**染红,而非先露一帧大世界场景再红(user 报"先回大世界才出红屏")。0x4F 用
-  //   clearSceneLoading=false 保持冻屏。胜/逃返回大世界(正常渲染),不冻。
-  if (outcome === 'lost') gs.sceneLoading = true
+  // 死亡(lost):置 game-over 演出标记 → present **保持战斗最后一帧 + 只画死亡对话**(不重绘大世界场景),
+  //   死亡脚本(L_41075:0x43 音乐→0x4F FadeToRed→"大侠重新来过"→0x4E 读档)的 0x4F 把**战斗帧**染红。
+  //   修 user 报"死→起立→红屏→出字同时回大世界":sceneLoading 会被 showDialog 清 → 露大世界;gameOverActive
+  //   是专用标记,只被 0x4E 读档 / 场景重载清,showDialog 不清 → 死亡全程不露大世界。胜/逃不置(正常返回大世界)。
+  if (outcome === 'lost') gs.gameOverActive = true
 }
 
 /**

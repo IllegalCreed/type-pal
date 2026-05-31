@@ -2033,9 +2033,9 @@ export function tickEventSystem(
           // OP_FADE_TO_RED(0x4F)— sdlpal script.c:1772 `PAL_FadeToRed()`(game over)。
           //   32 步 × 75ms = 2400ms。approach ±8;target=(base.r+g+b)/4+64/0/0;skip idx 0x4F(文字色);
           //   present fb 像素 0x4F→0x4E(builder 已带 remap,present 渲染时套用)。
-          // clearSceneLoading=false:FadeToRed 只在死亡脚本(L_41075)用,前置 resumePostBattleScript(lost) 已
-          //   冻屏(sceneLoading=true)→ 保持冻结让**战斗最后一帧**染红,而非露大世界(user 报先回大世界才红)。
-          startPaletteFade(gs, cursor, buildFadeToRed(baseColors, 32 * 75, now), false, false)
+          // FadeToRed 只在死亡脚本(L_41075)用;death 演出靠 gs.gameOverActive(present 保持战斗帧 + 只画对话),
+          //   palette ramp 把保持的**战斗帧**染红。clearSceneLoading 默认(与冻屏机制无关,gameOverActive 主导)。
+          startPaletteFade(gs, cursor, buildFadeToRed(baseColors, 32 * 75, now), false)
           console.debug(`event-system: FadeToRed → 2400ms (→red, skip 0x4F)`)
           return
         }

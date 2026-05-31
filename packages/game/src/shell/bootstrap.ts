@@ -567,6 +567,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     gs.sceneLoading = true
     const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
     gs.wNumScene = newWNumScene
+    gs.gameOverActive = false // 死亡读档 → 新场景加载 → 清 game-over 演出标记(present 恢复正常渲染)
     // 0x38 归隐脱出:缓存当前场景 base onTeleport 全局 entry(onTeleportLabel L_<n>→n;无则 0)。
     //   sdlpal g.rgScene[wNumScene-1].wScriptOnTeleport;0x6D op2 override 优先。
     gs.sceneOnTeleportEntry = sceneAssets.onTeleportLabel
