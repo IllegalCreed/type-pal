@@ -68,6 +68,8 @@ import { applyAnimFrame, resetFightersAfterAction } from './battle-anim-driver.j
 import type { BattleAction, BattlePlayer, BattleState } from './battle-state.js'
 import { createBattleState } from './battle-state.js'
 import { createSelectionMenu, type SelectionMenuState } from '../menu/primitives.js'
+import { openMenu } from '../menu/menu-mode.js'
+import { createPlayerStatus } from '../menu/player-status.js'
 import { decideEnemyAction } from './enemy-ai.js'
 import { getEnemyDexterity, getPlayerActualDexterity } from './formulas.js'
 import { tickStatusEffects } from './status.js'
@@ -730,7 +732,7 @@ function dispatchSelectInput(
           handleItemSelectInput(state, input, res)
           break
         case 'misc':
-          handleMiscMenuInput(state, input, alivePlayerIdxs)
+          handleMiscMenuInput(state, input, alivePlayerIdxs, gs, res)
           break
         case 'miscItemSubMenu':
           handleMiscItemSubMenuInput(state, input, gs, res)
@@ -801,8 +803,8 @@ function handleMainMenuInput(
   } else if (input.pressed.has('Auto')) {
     state.fAutoAttack = true // 下 tick commitAutoAttack 接管(uibattle.c:882-886 / 977-992)
   } else if (input.pressed.has('Status')) {
-    // sdlpal PAL_PlayerStatus(uibattle.c:930-934)— 全屏状态屏战斗内调用是独立大世界菜单职责,
-    //   本任务接键不实现新屏(诚实残留);no-op 不改 state。
+    // sdlpal PAL_PlayerStatus(uibattle.c:930-934)— 战斗内开全屏状态屏(复用大世界 player-status 菜单)。
+    openBattleStatusView(state, gs, res)
   } else if (input.pressed.has('Menu')) {
     revertToPreviousPlayer(state, alivePlayerIdxs)
   }
@@ -907,10 +909,10 @@ function commitAutoAttack(
 /**
  * port sdlpal `PAL_BattleUIMiscMenuUpdate`(uibattle.c:416-468)+ 结果派发(uibattle.c:1359-1404,CLASSIC):
  *   Up|Left → -- wrap5;Down|Right → ++ wrap5;Confirm → idx+1 派发;Menu → 回 Main。cursor 持久(g_iCurMiscMenuItem)。
- *   派发:0围攻→fAutoAttack / 1道具→物品二级 / 2防御→commit / 3逃跑→commit / 4状态→(残)。
+ *   派发:0围攻→fAutoAttack / 1道具→物品二级 / 2防御→commit / 3逃跑→全队逃 / 4状态→开状态屏。
  */
 function handleMiscMenuInput(
-  state: BattleState, input: InputSnapshot, alivePlayerIdxs: number[],
+  state: BattleState, input: InputSnapshot, alivePlayerIdxs: number[], gs: GameState, res: BattleResources,
 ): void {
   if (input.pressed.has('Up') || input.pressed.has('Left')) {
     state.miscMenuCursor = (state.miscMenuCursor - 1 + MISC_MENU_SIZE) % MISC_MENU_SIZE
@@ -940,7 +942,8 @@ function handleMiscMenuInput(
     case 3: // 逃跑(uibattle.c:1394-1397)—— sdlpal fFlee 全队逃(fight.c:1773-1799/1976-1978)
       commitFleeAllPlayers(state, alivePlayerIdxs)
       break
-    case 4: // 状态(uibattle.c:1399-1401)→ PAL_PlayerStatus 全屏屏(独立大世界菜单,本任务 no-op 诚实残留)
+    case 4: // 状态(uibattle.c:1399-1401)→ PAL_PlayerStatus 全屏屏(复用大世界 player-status 菜单)
+      openBattleStatusView(state, gs, res)
       break
   }
 }
@@ -1075,6 +1078,18 @@ function commitFleeAllPlayers(state: BattleState, alivePlayerIdxs: number[]): vo
   state.magicSelect = undefined
   state.itemSelect = undefined
   state.uiState = 'wait'
+}
+
+/**
+ * 战斗内打开状态查看屏(sdlpal uigame/uibattle PAL_PlayerStatus,杂项菜单"状态" uibattle.c:1399-1401
+ * + 主菜单 Status 键 uibattle.c:930-934)。复用大世界 player-status 菜单(openMenu → mode='menu' +
+ * menuStack;battleState 保留)。关闭后 menu-mode.resumeAfterMenusClosed 检 gs.battleState → 回 mode='battle'
+ * 续选动作。先回写战斗 HP/MP → runtime,让状态屏显示**当前**血量(非战前快照;battle 仍用 res.playerRoles 不受影响)。
+ */
+function openBattleStatusView(state: BattleState, gs: GameState, res: BattleResources): void {
+  void state
+  writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
+  openMenu(gs, { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) })
 }
 
 /** 落一个完整 action(无 target 选择路径:防御/逃跑)+ advance。 */

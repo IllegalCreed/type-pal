@@ -33,6 +33,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus, type PresentCommand } from '../../command-bus.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
 import { selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
+import { tickMenu } from '../../menu/menu-mode.js'
 import type { BattleEnemy } from '../battle-state.js'
 
 // ============================================================================
@@ -622,6 +623,23 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     }).not.toThrow()
     // 玩家被正常攻击(掉血),不是越界打到不存在的目标
     expect(role.hp).toBeLessThan(200)
+  })
+
+  it('战斗状态屏:Status 键 → 开 player-status 菜单(mode=menu);关闭 → 回 battle(uibattle.c:930-934)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1, 2],
+      roles: [makeRole({ id: 0 }), makeRole({ id: 1 }), makeRole({ id: 2 })],
+      enemies: [makeEnemy({ id: 100, health: 99999 })],
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction(main menu)
+    const statusInput: InputSnapshot = { held: new Set(), pressed: new Set(['Status']), frameNum: 0 }
+    tickBattle(gs, statusInput, bus) // Status 键 → 开状态屏
+    expect(gs.mode).toBe('menu')
+    expect(gs.menuStack[gs.menuStack.length - 1]?.kind).toBe('player-status')
+    // 状态屏关闭(menuStack 空)→ tickMenu 检 battleState → 回 battle(非 explore)
+    gs.menuStack = []
+    tickMenu(gs, emptyInput, bus)
+    expect(gs.mode).toBe('battle')
   })
 
   it('逃跑全队:一人选逃跑 → 全体活队员都逃(sdlpal fFlee,fight.c:1773-1799)', () => {

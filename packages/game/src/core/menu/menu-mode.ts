@@ -31,12 +31,17 @@ export function tickMenu(gs: GameState, input: InputSnapshot, bus: CommandBus): 
 
 /**
  * 所有菜单关闭后切回哪个 mode:
+ *  - 战斗中开的状态屏(gs.battleState 仍在)→ 回 mode='battle' 续选动作
+ *    (sdlpal PAL_PlayerStatus 战斗内调用返回后回战斗 UI,uibattle.c:930-934/1399-1401)。
  *  - 商店菜单(opcode 0x26/0x27 开,cursor.waiting='shop')→ 续跑脚本(mode='event' + 清 waiting),
  *    对齐 sdlpal PAL_BuyMenu 返回后脚本继续(script.c:1163)。
  *  - 否则(玩家自己开的 in-game/inventory 等)→ 回 explore。
  */
 function resumeAfterMenusClosed(gs: GameState): void {
-  if (gs.eventCursor?.waiting === 'shop') {
+  if (gs.battleState) {
+    gs.mode = 'battle'
+  }
+  else if (gs.eventCursor?.waiting === 'shop') {
     gs.eventCursor.waiting = undefined
     gs.mode = 'event'
   }
