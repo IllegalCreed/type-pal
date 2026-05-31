@@ -567,6 +567,33 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     expect(ally.hp).toBe(200) // 濒死混乱 → Pass,友军不掉血
   })
 
+  it('敌人攻击玩家时不被玩家专用 target 重选块误伤(玩家目标索引恰为死敌槽 → 不越界崩溃)', () => {
+    // 回归 attack.ts:117 崩溃:re-target 块(PAL_BattlePlayerValidateAction 玩家专用)未按施法方 gate,
+    //   敌人攻击玩家(target=玩家索引)被当敌索引重选 → 越界。
+    const role = makeRole({ id: 0, hp: 200, defense: 0, level: 10 })
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0], // 1 玩家(player idx 0)
+      roles: [role],
+      // 3 敌:enemies[0]/[1] 待会儿置死,enemies[2] 活=攻击者。玩家目标 idx=0 恰映射死敌槽 enemies[0]。
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 }), makeEnemy({ id: 102, attackStrength: 10 })],
+      teamSlots: [100, 101, 102, 0xFFFF, 0xFFFF],
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    const st = gs.battleState!
+    st.enemies[0]!.e.health = 0
+    st.enemies[1]!.e.health = 0
+    // 手工 perform:只放 enemy2 入队 → 它 attack player0;若 re-target 块误判 enemies[0] 死 → 重选敌索引 2 → 崩
+    st.phase = 'performAction'
+    st.actionQueue = [{ isEnemy: true, idx: 2, dex: 100, fIsSecond: false }]
+    st.currentActionIndex = 0
+    let safety = 60
+    expect(() => {
+      while (st.phase === 'performAction' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    }).not.toThrow()
+    // 玩家被正常攻击(掉血),不是越界打到不存在的目标
+    expect(role.hp).toBeLessThan(200)
+  })
+
   it('perform:睡眠队员 → Pass(不攻敌)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       partyMembers: [0],

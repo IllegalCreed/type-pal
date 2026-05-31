@@ -1576,7 +1576,12 @@ function tickPerformAction(
   //   打死),重选一个活敌(否则打空位)。sdlpal 对 attack(3339)/ magic 攻击(3407)/ throwItem(3491)
   //   皆 fToEnemy 时校验。target<0(全体)由 perform* 自身遍历活敌,不需重选。
   //   注:magic/item 的 targetSide 省略默认 'enemy'(玩家施法默认敌方,见 resolveTargetIsEnemy)。
+  //   **!item.isEnemy gate(回归 attack.ts:117 崩溃)**:本块是**玩家专用**校验(PAL_BattlePlayerValidateAction)。
+  //   敌人攻击/施法的 action.target 是**玩家索引**,绝不能当敌索引来 selectAutoTargetFrom 重选
+  //   (否则玩家索引恰为死敌槽时会重选成敌索引 → enemy→player 路径越界 state.players[敌索引])。
+  //   敌人目标在 decideEnemyAction 时已从当前活玩家里选,无需重选。
   if (
+    !item.isEnemy &&
     action != null &&
     action.target >= 0 &&
     (action.type === 'attack' ||
