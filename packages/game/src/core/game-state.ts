@@ -221,11 +221,17 @@ export interface EventCursor {
    *                  → autoScript 不跑)。Up/Down/Left/Right 切换(confirmYes);Confirm 提交:是→ip++,
    *                  否→goto operand[0];Cancel/Menu(= sdlpal MENUITEM_VALUE_CANCELLED → FALSE)等价否→goto。
    */
-  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play' | 'show-fbp' | 'scroll-fbp' | 'ending-anim' | 'wait-key' | 'quit' | 'confirm'
+  waiting?: 'dialog' | 'frame-wait' | 'fade-screen' | 'scene-load' | 'delay' | 'shop' | 'palette-fade' | 'scene-fade' | 'rng-play' | 'show-fbp' | 'scroll-fbp' | 'ending-anim' | 'wait-key' | 'quit' | 'confirm' | 'camera-pan'
   /** 'confirm' 用(opcode 0x0A):当前 否/是 选择。sdlpal 默认 否(false);Up/Down/Left/Right 切换。 */
   confirmYes?: boolean
   /** 'frame-wait' 用:剩余帧数,每 tick 自减,归 0 时 ip++ + clear waiting。 */
   waitFramesRemaining?: number
+  /** 'camera-pan' 用(opcode 0x7F 多帧 viewport 平移):剩余帧数 + 每帧 (dx,dy) px(SHORT)。
+   * sdlpal script.c:2331-2377 逐帧 `viewport += (op0,op1)` do-while op2 次。每 tick 移 camera + 自减,
+   * 归 0 时 ip++ + clear。pan cutscene(180 站点)逐帧平移摄像机。 */
+  cameraPanFramesRemaining?: number
+  cameraPanDx?: number
+  cameraPanDy?: number
   /** 'delay' 用(opcode 0x85):延迟到此 wall-clock 时间戳(performance.now()),到点 ip++ + clear。 */
   delayUntilMs?: number
   /**

@@ -4010,6 +4010,72 @@ describe('opcode 0x38 teleportOut(script.c:1554,归隐符/瞬移)', () => {
   })
 })
 
+// ── 0x7F move viewport / camera pan(script.c:2292-2379)──────────────────────
+describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
+  it('center(op0==0&&op1==0)→ camera = party - (160,112)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.party = { x: 300, y: 200, facing: 'down' }
+    gs.camera = { x: -999, y: -999 }
+    loadEvent(gs, [{ op: 'raw', opcode: 0x7f, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.camera).toEqual({ x: 140, y: 88 }) // 300-160, 200-112
+  })
+
+  it('abs-jump(op2==0xFFFF)→ camera = (op0*32-160, op1*16-112)(脱离 party,显示绝对地图区)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.party = { x: 300, y: 200, facing: 'down' }
+    gs.camera = { x: 0, y: 0 }
+    loadEvent(gs, [{ op: 'raw', opcode: 0x7f, operands: [5, 3, 0xFFFF] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.camera).toEqual({ x: 0, y: -64 }) // 5*32-160=0, 3*16-112=-64
+  })
+
+  it('单帧 pan(op2<=1)→ camera += (SHORT op0, SHORT op1) 一次', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.camera = { x: 100, y: 100 }
+    loadEvent(gs, [{ op: 'raw', opcode: 0x7f, operands: [8, 4, 0] }, { op: 'end' }]) // op2=0 → 1 帧
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.camera).toEqual({ x: 108, y: 104 })
+  })
+
+  it('多帧 pan(op2=3)→ waiting=camera-pan,逐帧移 (8,4),3 帧后 (24,12) + 续跑', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.camera = { x: 0, y: 0 }
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: 0x7f, operands: [8, 4, 3] }, // ip0:3 帧 pan
+        { op: 'raw', opcode: 0x36, operands: [77, 0, 0] }, // ip1:pan 完续跑 → iCurPlayingRNG=77
+        { op: 'end' },
+      ],
+      ip: 0,
+    }
+    gs.mode = 'event'
+    tickEventSystem(gs, snap(), createCommandBus()) // 帧1
+    expect(gs.camera).toEqual({ x: 8, y: 4 })
+    expect(gs.eventCursor?.waiting).toBe('camera-pan')
+    tickEventSystem(gs, snap(), createCommandBus()) // 帧2
+    expect(gs.camera).toEqual({ x: 16, y: 8 })
+    tickEventSystem(gs, snap(), createCommandBus()) // 帧3 → 完成 + 续跑 ip1
+    expect(gs.camera).toEqual({ x: 24, y: 12 })
+    expect(gs.iCurPlayingRNG).toBe(77) // pan 完弹回续跑
+    expect(gs.eventCursor).toBeUndefined()
+  })
+
+  it('多帧 pan 负 SHORT(op0=65528=-8,op1=65532=-4,op2=2)→ 逐帧 (-8,-4)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.camera = { x: 100, y: 100 }
+    gs.eventCursor = {
+      commands: [{ op: 'raw', opcode: 0x7f, operands: [65528, 65532, 2] }, { op: 'end' }],
+      ip: 0,
+    }
+    gs.mode = 'event'
+    tickEventSystem(gs, snap(), createCommandBus()) // 帧1
+    expect(gs.camera).toEqual({ x: 92, y: 96 })
+    tickEventSystem(gs, snap(), createCommandBus()) // 帧2 → 完成
+    expect(gs.camera).toEqual({ x: 84, y: 92 })
+  })
+})
+
 // ── Batch D audio:0x45 set-battle-music / 0x77 stop-music / 0xA3 play-cd ──────
 describe('audio opcodes(state-set,M6 接真播)', () => {
   it('0x45 setBattleMusic → gs.wNumBattleMusic = op0(script.c:1658)', () => {

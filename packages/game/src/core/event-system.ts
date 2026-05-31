@@ -1149,6 +1149,24 @@ export function tickEventSystem(
     // fall through to main while loop
   }
 
+  // 1a'') waiting 处理:camera-pan(opcode 0x7F 多帧 viewport 平移,sdlpal script.c:2331-2377)
+  //   每 tick 移 camera += (dx,dy) + 自减;归 0 时 clear + ip++,fall through 续跑下条 opcode。
+  if (cursor.waiting === 'camera-pan') {
+    gs.camera.x += cursor.cameraPanDx ?? 0
+    gs.camera.y += cursor.cameraPanDy ?? 0
+    const remaining = (cursor.cameraPanFramesRemaining ?? 1) - 1
+    if (remaining > 0) {
+      cursor.cameraPanFramesRemaining = remaining
+      return
+    }
+    cursor.cameraPanFramesRemaining = undefined
+    cursor.cameraPanDx = undefined
+    cursor.cameraPanDy = undefined
+    cursor.waiting = undefined
+    cursor.ip++
+    // fall through to main while loop
+  }
+
   // 1a') waiting 处理:fade-screen(opcode 0x0073 fade-in)
   //   time-based:elapsed = performance.now() - startTimeMs;到 totalMs 即完成。
   //   raf 帧率(60Hz / 20Hz 都行)不影响实际时长 — 1:1 还原 sdlpal video.c wall-clock 节拍。
@@ -1818,6 +1836,28 @@ export function tickEventSystem(
           cursor.waiting = 'frame-wait'
           cursor.waitFramesRemaining = frames
           return
+        }
+        // 0x7F moveViewport 多帧 pan(op0|op1 != 0 && op2 != 0xFFFF && frames>1)→ waiting='camera-pan'
+        //   逐帧移 camera。单帧(frames<=1)/ 回正 / 绝对跳 落到 applyRawOpcode(不拦)。
+        //   sdlpal script.c:2331-2377 do-while op2 次,每次 viewport += (op0,op1)。
+        if (cmd.opcode === OP_SET_CAMERA) {
+          const [cx, cy, flag] = cmd.operands
+          const isPan = !((cx ?? 0) === 0 && (cy ?? 0) === 0) && flag !== 0xFFFF
+          const frames = Math.max(cmd.operands[2] ?? 0, 1)
+          if (isPan && frames > 1) {
+            if (gs.sceneLoading) gs.sceneLoading = false
+            const dx = toInt16(cx ?? 0)
+            const dy = toInt16(cy ?? 0)
+            // sdlpal do-while 第一帧立即移;余 frames-1 帧由 waiting 逐 tick 移。
+            gs.camera.x += dx
+            gs.camera.y += dy
+            cursor.waiting = 'camera-pan'
+            cursor.cameraPanFramesRemaining = frames - 1
+            cursor.cameraPanDx = dx
+            cursor.cameraPanDy = dy
+            return
+          }
+          // 否则 fall through 到 applyRawOpcode(回正 / 绝对 / 单帧)
         }
         // Sync.2 fix5: opcode 5 redrawScreen / PAL_ClearDialog(TRUE) — sdlpal script.c:3267-3297
         //   有 dialog → 等 Confirm 翻页清屏(让后续 NPC 动作 / 场景重画显);无 dialog → no-op + ip++
@@ -2745,6 +2785,13 @@ function applyRawOpcode(
     }
 
     case OP_SET_CAMERA: {
+      // sdlpal script.c:2292-2379 MoveViewport(viewport = ts gs.camera = world-space 镜头左上)。
+      //   ① op0==0 && op1==0 → 回正:camera = party - (160,112)(party 居中)。
+      //   ② op2==0xFFFF → 绝对跳:camera = (op0*32-160, op1*16-112)(脱离 party,显示绝对 tile 区)。
+      //   ③ else → 相对 pan:camera += (SHORT op0, SHORT op1)。多帧动画(op2 帧)由 tickEventSystem 拦截做
+      //      waiting='camera-pan' 逐帧;本 applyRawOpcode 路径(autoScript / 单帧 op2<=1)即移一次。
+      // ts 模型 party_screen = party.world - camera → 只移 camera 即等价 sdlpal 三联(viewport/party.world/
+      //   partyoffset)的净视觉(party.world 不动 + camera 移 = sdlpal partyoffset 移)。
       const [cx, cy, flag] = operands
       if ((cx ?? 0) === 0 && (cy ?? 0) === 0) {
         gs.camera.x = gs.party.x - PARTYOFFSET_X
@@ -2752,14 +2799,14 @@ function applyRawOpcode(
         console.debug('event-system: centerCameraOnParty')
       }
       else if (flag === 0xFFFF) {
-        // Absolute set: camera follows party in System A
-        gs.camera.x = gs.party.x - PARTYOFFSET_X
-        gs.camera.y = gs.party.y - PARTYOFFSET_Y
-        console.debug(`event-system: setCamera col=${cx} row=${cy} → follows party`)
+        gs.camera.x = (cx ?? 0) * 32 - PARTYOFFSET_X
+        gs.camera.y = (cy ?? 0) * 16 - PARTYOFFSET_Y
+        console.debug(`event-system: setCamera abs col=${cx} row=${cy} → camera(${gs.camera.x},${gs.camera.y})`)
       }
       else {
-        // Relative move (animated): no-op, log only
-        console.debug(`event-system: setCamera relative dx=${cx} dy=${cy} (skip)`)
+        gs.camera.x += toInt16(cx ?? 0)
+        gs.camera.y += toInt16(cy ?? 0)
+        console.debug(`event-system: setCamera pan-step dx=${toInt16(cx ?? 0)} dy=${toInt16(cy ?? 0)}`)
       }
       break
     }

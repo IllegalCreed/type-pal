@@ -67,8 +67,8 @@
 | **0x38 / 0x6D** | ✅ 已修 | — | 0x38 成功路径 call+return 跑 teleport 脚本(onTeleportLabel→sceneOnTeleportEntry,override 优先)；0x6D op2→sceneOnTeleportOverride + both-zero 清(script.c:1558/2069-2087) |
 | 0x05 | ✅ 逻辑done/残pacing | — | ClearDialog(TRUE)逻辑 + needToFadeIn 淡入**已做**(explore+battle);RNG-restore/BattleMakeScene 分支**对 ts 自动渲染 N/A**;残仅 no-dialog 分支 `UTIL_Delay(op1*60)` 帧延迟 —— **与 0x03 同源**(见下) |
 | **0x02 / 0x03** | ⬜ 待修 | — | trigger(tickEventSystem @1556)+ battle(runScript @2276)的 goto/reset 缺 frameDelay gate(autoScript runOneAutoOp @1035 已有)。frameDelay goto 实为 **trigger 过场"NPC 走 N 步"循环**(`0x6C 走一步→0x05 重绘+延迟→0x03 goto frameDelay 计步`,@191/2615/7339 等 17 处)→ ts 无 frameDelay 计数会死循环(SINGLE_TICK_LIMIT)。需 **yield-per-step 模型**(每帧走一步)+ 0x05 的 UTIL_Delay pacing 一起修。谨慎,弄错破过场。 |
-| **0x7F** | ⬜ 待修 | — | setCamera 缺动画平移 loop(pan cutscene 失效/瞬跳;需 present 摄像机动画) |
-| **0x8E** | ⬜ 待修 | — | 探索模式缺 VIDEO_RestoreScreen(只做对话 partialClear) |
+| **0x7F** | ✅ 已修 | — | 三分支:回正/绝对跳(op2=0xFFFF camera=op0*32-160,op1*16-112)/相对 pan;多帧 pan→waiting='camera-pan' 逐帧移 camera(script.c:2292-2379) |
+| **0x8E** | ✅ 本就忠实 | — | 复核订正:sdlpal 备份在画完 title/portrait 后取(text.c:1734)→ RestoreScreen 留 title/portrait 清 body = ts partialClear 净视觉等价,非残 |
 | 0x96 | ✅ 本就对 | — | CLASSIC/DOS build fIsWIN95=false → 总是调 PAL_EndingAnimation 正确(audit 误判) |
 
 > 另:**跳转基建 c386653**(jumpToGlobalIp 无 label fall back globalIp)让上述 0x1E/0x20/0x61 等战斗条件跳转到
@@ -125,12 +125,21 @@
 >   battle 中走失败(script.c:1558-1569)。归隐脱出(scene 41 dialog cutscene / 163·226 loadScene+fade)走异步
 >   cursor;loadScene 延迟 reload → callStack 返回帧不丢。验:0x6D op2/both-zero-clear、0x38 call+return、override
 >   优先、battle gate(9 单测)。**残**:scene 41 dialog-heavy teleport 全链时序待真引擎实测确认。
-> - ⬜ **剩 2 组子系统(非纯 logic bug,需专门做)**:
+> - ✅ **0x7F moveViewport / camera pan 收口(本轮)**:script.c:2292-2379。三分支:① 回正(op0==0&&op1==0)
+>   camera=party-(160,112);② 绝对跳(op2==0xFFFF)camera=(op0*32-160, op1*16-112)脱离 party;③ 相对 pan
+>   camera += (SHORT op0, SHORT op1)。**多帧 pan(op2 帧,180 站点)** → tickEventSystem 拦截设 waiting='camera-pan'
+>   逐 tick 移 camera(do-while 第一帧立即移 + 余 op2-1 帧 waiting);单帧/autoScript 走 applyRawOpcode 即移一次。
+>   ts 模型 party_screen=party.world-camera → 只移 camera 即等价 sdlpal 三联(viewport/party.world/partyoffset)净视觉。
+>   验:回正/绝对跳/单帧/多帧逐帧/负 SHORT(6 单测)。**残**:pan cutscene 视觉时序待真引擎实测确认。
+> - ✅ **0x8E RestoreScreen 本就忠实**(复核订正,非残):sdlpal text.c:1727-1737 真值 — 备份在**画完 title/portrait
+>   后、画首条 body 前**(`nCurrentDialogLine==0`)取 → VIDEO_RestoreScreen 恢复 = **title/portrait 留、body 清**。
+>   ts state-driven 的 `partialClear`(保 titleText+portraitIcon 清 body,event-system.ts:1481)**净视觉等价**,
+>   无需 pixel backup buffer。原"缺 VIDEO_RestoreScreen"残注系误判,已订正。
+> - ⬜ **剩 1 组子系统(非纯 logic bug,需专门做)**:
 >   - **0x02 / 0x03 (+0x05 pacing) cutscene NPC 走步循环**:frameDelay goto 实为 trigger 过场"NPC 走 N 步"
 >     循环(`0x6C 走一步 → 0x05 重绘+UTIL_Delay → 0x03 goto frameDelay 计步`,17 处)。autoScript(runOneAutoOp)
 >     已处理 frameDelay;**trigger(tickEventSystem @1556)+ battle(runScript @2276)缺** → ts 无计数会死循环。
 >     需 yield-per-step 模型(每帧走一步)+ 0x05 no-dialog 分支 UTIL_Delay pacing。谨慎,弄错破过场时序。
->   - **0x7F / 0x8E** present 演出:0x7F 摄像机动画平移(pan cutscene)/ 0x8E 探索 RestoreScreen(present 层)。
 > - ✅ **0x05 主体已做**(复核):ClearDialog 逻辑 + 淡入(explore+battle);RNG/battle 重绘分支 N/A(ts 自动渲染);
 >   残仅 cutscene 走步的 UTIL_Delay pacing(并入上面 0x02/03)。
 > - ✅ **本就对(无需改)**:0x96(CLASSIC/DOS build "总是调"正确)/ 0x09·0x21·0x42·0x98·0x9C(审计假阳性,复核维持 ✅)。
