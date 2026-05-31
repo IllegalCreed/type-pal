@@ -1096,17 +1096,52 @@ export function hydratePlayerRolesRuntime(
  * **当前**属性(等级/HP/MP/攻防/速度/逃跑/抗性/名字)+ staticRoles 的不可变字段(精灵/音效/avatar/
  * walkFrames/attackAll/装备槽 等)建战斗 roles,使战斗吃上升级后属性。
  *
- * 装备 Extra 层加成(rgEquipmentEffect)暂不并入 —— battle 本就忽略装备 effect(同 attack.ts 残,D14)。
+ * **D14 修(2026-05-31)**:传入 `equipmentEffect`(gs.rgEquipmentEffect)后,把战斗 stat 投影成
+ * **effective = base + Σ rgEquipmentEffect[0..6]**,1:1 mirror sdlpal `PAL_GetPlayerAttackStrength` 等
+ * getter(global.c:1736-1975,PAL_CLASSIC i=0..MAX_PLAYER_EQUIPMENTS 含 Extra 槽)。这样战斗吃上装备
+ * 攻/防/魔/速/逃/毒抗/元素抗加成 + per-battle Extra 槽(0x30 临时 buff)。装备在战斗中不变 → 投影时
+ * 烤入即等价 sdlpal 每次 live 读;0x30 战内写 Extra 后由 battle-opcodes 经 getter recompute snapshot。
+ * 省略 `equipmentEffect`(旧 caller / 不关心装备的测试)→ 退回纯 base 投影(向后兼容)。
+ *
+ * 注:maxHP/maxMP/level **不**并入装备 effect —— sdlpal 无对应 getter(rgwMaxHP 等无 PAL_GetPlayerMaxHP),
+ * battle 直读 g.PlayerRoles.rgwMaxHP base,故此处也只投影 runtime base。
  *
  * @param runtime gs.PlayerRolesRuntime —— 可变属性源
  * @param staticRoles assets.playerRoles —— 不可变字段源 + 角色全集(id 顺序)
+ * @param equipmentEffect gs.rgEquipmentEffect —— 装备 + Extra effect 槽(0..6);省略 → 纯 base 投影
  */
 export function projectRuntimeToBattleRoles(
   runtime: PlayerRolesRuntime,
   staticRoles: import('@type-pal/shared').PlayerRoles,
+  equipmentEffect?: EquipmentEffectRoles[],
 ): import('@type-pal/shared').PlayerRoles {
+  // sdlpal getter:base + Σ_{slot=0..MAX_PLAYER_EQUIPMENTS(=6,含 Extra)} rgEquipmentEffect[slot].field[role]
+  const sumEff = (field: keyof Omit<EquipmentEffectRoles, 'rgwElementalResistance'>, i: number): number => {
+    if (!equipmentEffect) return 0
+    let s = 0
+    for (let slot = 0; slot <= 6; slot++) {
+      s += equipmentEffect[slot]?.[field][i] ?? 0
+    }
+    return s
+  }
+  const sumElemEff = (elem: number, i: number): number => {
+    if (!equipmentEffect) return 0
+    let s = 0
+    for (let slot = 0; slot <= 6; slot++) {
+      s += equipmentEffect[slot]?.rgwElementalResistance[elem]?.[i] ?? 0
+    }
+    return s
+  }
+  const clamp100 = (v: number): number => Math.max(0, Math.min(100, v)) // sdlpal 抗性 clamp(>100→100)
   const roles = staticRoles.roles.map((base) => {
     const i = base.id
+    const baseElem = {
+      wind: runtime.rgwElementalResistance[0]?.[i] ?? base.elemResistance.wind,
+      thunder: runtime.rgwElementalResistance[1]?.[i] ?? base.elemResistance.thunder,
+      water: runtime.rgwElementalResistance[2]?.[i] ?? base.elemResistance.water,
+      fire: runtime.rgwElementalResistance[3]?.[i] ?? base.elemResistance.fire,
+      earth: runtime.rgwElementalResistance[4]?.[i] ?? base.elemResistance.earth,
+    }
     return {
       ...base, // 不可变:_name/avatar/spriteNumInBattle/spriteNum/attackAll/walkFrames/sounds/equipment 等
       name: runtime.rgwName[i] ?? base.name,
@@ -1115,23 +1150,24 @@ export function projectRuntimeToBattleRoles(
       maxMP: runtime.rgwMaxMP[i] ?? base.maxMP,
       hp: runtime.rgwHP[i] ?? base.hp,
       mp: runtime.rgwMP[i] ?? base.mp,
-      attackStrength: runtime.rgwAttackStrength[i] ?? base.attackStrength,
-      magicStrength: runtime.rgwMagicStrength[i] ?? base.magicStrength,
-      defense: runtime.rgwDefense[i] ?? base.defense,
-      dexterity: runtime.rgwDexterity[i] ?? base.dexterity,
-      fleeRate: runtime.rgwFleeRate[i] ?? base.fleeRate,
-      poisonResistance: runtime.rgwPoisonResistance[i] ?? base.poisonResistance,
+      // effective = base + Σ 装备 effect(含 Extra),mirror sdlpal PAL_GetPlayerXxx getter
+      attackStrength: (runtime.rgwAttackStrength[i] ?? base.attackStrength) + sumEff('rgwAttackStrength', i),
+      magicStrength: (runtime.rgwMagicStrength[i] ?? base.magicStrength) + sumEff('rgwMagicStrength', i),
+      defense: (runtime.rgwDefense[i] ?? base.defense) + sumEff('rgwDefense', i),
+      dexterity: (runtime.rgwDexterity[i] ?? base.dexterity) + sumEff('rgwDexterity', i),
+      fleeRate: (runtime.rgwFleeRate[i] ?? base.fleeRate) + sumEff('rgwFleeRate', i),
+      poisonResistance: clamp100((runtime.rgwPoisonResistance[i] ?? base.poisonResistance) + sumEff('rgwPoisonResistance', i)),
       coveredBy: runtime.rgwCoveredBy[i] ?? base.coveredBy,
       // 装备 6 槽 / 法术 32 槽:runtime[slot][i] → role 数组(完整 hydrate 逆;battle magic 菜单接真值后可用)
       equipment: runtime.rgwEquipment.map((slot) => slot[i] ?? 0),
       magic: runtime.rgwMagic.map((slot) => slot[i] ?? 0),
-      // 元素抗 5 维(0 风/1 雷/2 水/3 火/4 土,同 hydrate)
+      // 元素抗 5 维(0 风/1 雷/2 水/3 火/4 土,同 hydrate)+ 装备 effect,clamp [0,100]
       elemResistance: {
-        wind: runtime.rgwElementalResistance[0]?.[i] ?? base.elemResistance.wind,
-        thunder: runtime.rgwElementalResistance[1]?.[i] ?? base.elemResistance.thunder,
-        water: runtime.rgwElementalResistance[2]?.[i] ?? base.elemResistance.water,
-        fire: runtime.rgwElementalResistance[3]?.[i] ?? base.elemResistance.fire,
-        earth: runtime.rgwElementalResistance[4]?.[i] ?? base.elemResistance.earth,
+        wind: clamp100(baseElem.wind + sumElemEff(0, i)),
+        thunder: clamp100(baseElem.thunder + sumElemEff(1, i)),
+        water: clamp100(baseElem.water + sumElemEff(2, i)),
+        fire: clamp100(baseElem.fire + sumElemEff(3, i)),
+        earth: clamp100(baseElem.earth + sumElemEff(4, i)),
       },
     }
   })

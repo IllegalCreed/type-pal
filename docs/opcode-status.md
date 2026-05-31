@@ -46,7 +46,8 @@
 > 方法:全 163 opcode 拿 ts 实现(applyRawOpcode + dispatchBattleOpcode + tickEventSystem/runScript + runOneAutoOp 全 dispatch 路径)对 sdlpal `script.c`/`fight.c`/`global.c` **逐分支**核对(38-agent 审计),再 35-agent **对抗复核**滤假阳性。下表所列 opcode 的真实状态以此为准。
 > 图例:🐞 bug(逻辑错,需修) · ⬜ missing-branch(分支/实现缺) · ⚠️ 简版(主干对、子分支缺)
 
-### 审计真问题 25 处 → **16 已修 ✅ / 8 子系统待修 ⬜ / 1 CLASSIC 本就对**
+### 审计真问题 25 处 → **17 已修/逻辑done ✅ / 7 子系统待修 ⬜ / 1 CLASSIC 本就对**
+> (0x05 复核后实为"逻辑已做、残仅 cutscene pacing",并入 0x02/03 同源;0x96 audit 误判,CLASSIC 本就对。)
 
 | op | 状态 | commit | 缺口 / 修法 |
 |----|------|--------|------|
@@ -64,10 +65,10 @@
 | 0x9E | ✅ 已修 | 2c3d25d | enemy-summon 加 `iHidingTime>0` fail 检查(隐身保护) |
 | **0x30** | ⬜ 待修 | — | stat-buff% 直接 mutate role 持久(应存 per-battle Extra slot 战末清)**纠缠 D14**(战斗读 raw stat 非 base+Extra) |
 | **0x38 / 0x6D** | ⬜ 待修 | — | teleport-out 只失败路径 / setTriggerScript 缺 op[2] onTeleport;需 SceneAssets 透传 onTeleportLabel(场景子系统) |
-| **0x05** | ⬜ 待修 | — | 缺 PAL_DialogIsPlayingRNG→RestoreScreen + 战斗场景重绘分支(present 演出) |
+| 0x05 | ✅ 逻辑done/残pacing | — | ClearDialog(TRUE)逻辑 + needToFadeIn 淡入**已做**(explore+battle);RNG-restore/BattleMakeScene 分支**对 ts 自动渲染 N/A**;残仅 no-dialog 分支 `UTIL_Delay(op1*60)` 帧延迟 —— **与 0x03 同源**(见下) |
+| **0x02 / 0x03** | ⬜ 待修 | — | trigger(tickEventSystem @1556)+ battle(runScript @2276)的 goto/reset 缺 frameDelay gate(autoScript runOneAutoOp @1035 已有)。frameDelay goto 实为 **trigger 过场"NPC 走 N 步"循环**(`0x6C 走一步→0x05 重绘+延迟→0x03 goto frameDelay 计步`,@191/2615/7339 等 17 处)→ ts 无 frameDelay 计数会死循环(SINGLE_TICK_LIMIT)。需 **yield-per-step 模型**(每帧走一步)+ 0x05 的 UTIL_Delay pacing 一起修。谨慎,弄错破过场。 |
 | **0x7F** | ⬜ 待修 | — | setCamera 缺动画平移 loop(pan cutscene 失效/瞬跳;需 present 摄像机动画) |
 | **0x8E** | ⬜ 待修 | — | 探索模式缺 VIDEO_RestoreScreen(只做对话 partialClear) |
-| **0x02 / 0x03** | ⬜ 待修 | — | trigger(tickEventSystem)goto/reset 缺 frameDelay gate;一 tick 多 op ≠ autoScript,需 yield 模型(谨慎,17 goto+11 reset 在用) |
 | 0x96 | ✅ 本就对 | — | CLASSIC/DOS build fIsWIN95=false → 总是调 PAL_EndingAnimation 正确(audit 误判) |
 
 > 另:**跳转基建 c386653**(jumpToGlobalIp 无 label fall back globalIp)让上述 0x1E/0x20/0x61 等战斗条件跳转到
@@ -108,13 +109,17 @@
 >   scriptOnUse 成功**上(对齐 fight.c:4196/4231 `if(g_fScriptSuccess)`);此前没钱/没道具失败仍放动画 + 结算。
 >   MP 仍总扣(fight.c:4190)。注:战斗法术菜单变红只看 MP/UsableInBattle,**不看钱**(magicmenu.c:340-365)——
 >   绝招(costMP=1)+ usableInBattle 可选(白),没钱用了才弹失败提示,非红。
-> - ⬜ **剩 4 个(非纯 logic bug,子系统纠缠,需专门做)**:
+> - ⬜ **剩 4 组子系统(非纯 logic bug,需专门做)**:
 >   - **0x30** stat-buff%:需 per-battle Extra slot 模型 + **battle 读 base+Extra 有效值(D14 残:战斗现读 raw role stat)**
 >     纠缠;现 mutate role 持久(buff 生效但战末不反转)。
 >   - **0x38 / 0x6D** teleport script:需 SceneAssets 暴露 onTeleportLabel + run-trigger-script(场景子系统)。
->   - **0x05 / 0x7F / 0x8E** present 演出:RNG/战斗场景重绘分支 / 摄像机动画平移 / 探索 RestoreScreen(present 层)。
->   - **0x02 / 0x03** 控制流 frameDelay:tickEventSystem 一 tick 多 op ≠ autoScript 一 tick 一 op,frameDelay 不能照搬
->     (17 个 frameDelay goto + 11 idleFrames reset 在用);需追哪些是 trigger vs autoScript + 正确 yield 模型,弄错破 cutscene 时序。
+>   - **0x02 / 0x03 (+0x05 pacing) cutscene NPC 走步循环**:frameDelay goto 实为 trigger 过场"NPC 走 N 步"
+>     循环(`0x6C 走一步 → 0x05 重绘+UTIL_Delay → 0x03 goto frameDelay 计步`,17 处)。autoScript(runOneAutoOp)
+>     已处理 frameDelay;**trigger(tickEventSystem @1556)+ battle(runScript @2276)缺** → ts 无计数会死循环。
+>     需 yield-per-step 模型(每帧走一步)+ 0x05 no-dialog 分支 UTIL_Delay pacing。谨慎,弄错破过场时序。
+>   - **0x7F / 0x8E** present 演出:0x7F 摄像机动画平移(pan cutscene)/ 0x8E 探索 RestoreScreen(present 层)。
+> - ✅ **0x05 主体已做**(复核):ClearDialog 逻辑 + 淡入(explore+battle);RNG/battle 重绘分支 N/A(ts 自动渲染);
+>   残仅 cutscene 走步的 UTIL_Delay pacing(并入上面 0x02/03)。
 > - ✅ **本就对(无需改)**:0x96(CLASSIC/DOS build "总是调"正确)/ 0x09·0x21·0x42·0x98·0x9C(审计假阳性,复核维持 ✅)。
 
 ## 控制流(0x00-0x0A)
@@ -126,7 +131,7 @@
 | 0x02 | end reset(resetTo) | 🐞 bug | autoScript reset loop ✅;但 **trigger(tickEventSystem)缺 idleFrames 延迟 gate**(见审计表) |
 | 0x03 | goto | 🐞 bug | 跳转 ✅;但 **trigger + 战斗路径缺 frameDelay(op[1])gate**(见审计表) |
 | 0x04 | call script(子脚本) | ✅ | 调用栈(238 次最高频) |
-| 0x05 | redraw screen / ClearDialog | ⬜ missing | 大世界 else 分支 ✅(PAL_MakeScene needToFadeIn→淡入,ef70491);**缺 RNG-playback restore + 战斗场景重绘分支**(见审计表) |
+| 0x05 | redraw screen / ClearDialog | ✅ 逻辑done | ClearDialog(TRUE)+ needToFadeIn 淡入 ✅(ef70491);RNG-restore/BattleMakeScene 分支对 ts 自动渲染 **N/A**;残仅 no-dialog UTIL_Delay pacing(与 0x03 cutscene 走步同源,见审计表) |
 | 0x06 | jump by rate | ✅ | OP_JUMP_BY_RATE |
 | 0x07 | start battle | ✅ | |
 | 0x08 | replace entry with next | ✅ | 默认 raw 路径 ip++ 已等价(continue);wNextScriptEntry resume 边缘情形未做 |

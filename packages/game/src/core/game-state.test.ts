@@ -287,6 +287,38 @@ describe('player-roles 战斗数据模型边界', () => {
     expect(r.id).toBe(0)
   })
 
+  it('D14:投影并入装备 effect — 战斗 stat = base + Σ rgEquipmentEffect[0..6](attack/magic/def/dex/flee/poison/elem)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const rt = gs.PlayerRolesRuntime
+    rt.rgwAttackStrength[0] = 100; rt.rgwMagicStrength[0] = 60; rt.rgwDefense[0] = 40
+    rt.rgwDexterity[0] = 20; rt.rgwFleeRate[0] = 10; rt.rgwPoisonResistance[0] = 30
+    rt.rgwElementalResistance[3]![0] = 25 // 火抗 base
+    // 装备 effect:手(part 3)+15 攻 / +5 火抗;Extra(part 6,0x30 战内 buff)+30 攻
+    gs.rgEquipmentEffect[3]!.rgwAttackStrength[0] = 15
+    gs.rgEquipmentEffect[3]!.rgwElementalResistance[3]![0] = 5
+    gs.rgEquipmentEffect[6]!.rgwAttackStrength[0] = 30
+    gs.rgEquipmentEffect[2]!.rgwDefense[0] = 7
+    gs.rgEquipmentEffect[1]!.rgwPoisonResistance[0] = 90 // → clamp 30+90=120 → 100
+    const staticRoles = { roles: [staticRole(0)] }
+    const r = projectRuntimeToBattleRoles(rt, staticRoles, gs.rgEquipmentEffect).roles[0]!
+    expect(r.attackStrength).toBe(145) // 100 + 15(手)+ 30(Extra)
+    expect(r.magicStrength).toBe(60)   // 无装备 effect
+    expect(r.defense).toBe(47)         // 40 + 7
+    expect(r.dexterity).toBe(20)
+    expect(r.fleeRate).toBe(10)
+    expect(r.poisonResistance).toBe(100) // clamp [0,100]
+    expect(r.elemResistance.fire).toBe(30) // 25 + 5
+  })
+
+  it('D14:不传 equipmentEffect → 投影退回纯 base(向后兼容,装备 effect 不并入)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const rt = gs.PlayerRolesRuntime
+    rt.rgwAttackStrength[0] = 100
+    gs.rgEquipmentEffect[3]!.rgwAttackStrength[0] = 15
+    const r = projectRuntimeToBattleRoles(rt, { roles: [staticRole(0)] }).roles[0]!
+    expect(r.attackStrength).toBe(100) // 装备 effect 未并入(无 3rd 参)
+  })
+
   it('回写:战斗 HP/MP 战果回写 runtime;仅 party 成员(非 party 不碰)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const rt = gs.PlayerRolesRuntime

@@ -2,6 +2,8 @@ import type { Enemy, EnemyObject, Magic, ObjectMagicView, ObjectPoisonView } fro
 import { describe, expect, it } from 'vitest'
 import { createCommandBus, type PresentCommand } from '../../command-bus.js'
 import type { BattleCtx } from '../../event-system.js'
+import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength, removeEquipmentEffect } from '../../equip-effect.js'
+import { createInitialGameState, type GameState } from '../../game-state.js'
 import type { BattleEnemy, BattleState } from '../battle-state.js'
 import { dispatchBattleOpcode } from '../battle-opcodes.js'
 
@@ -1080,46 +1082,127 @@ function statBuffCtx(roles: any[], casterIdx = 0): BattleCtx {
   }
 }
 
-describe('0x30 buff player stat % (script.c:0030,梦蛇 等)', () => {
-  it('op0=17 attackStrength +100%,op2=0 → caster role(base 30 → 60)', () => {
-    const roles = [{ id: 0, attackStrength: 30, magicStrength: 50, defense: 40, dexterity: 20 }]
-    const r = dispatchBattleOpcode(0x30, [17, 100, 0], statBuffCtx(roles))
+// 0x30 真值(script.c:1406-1427,PAL_CLASSIC):
+//   p[Extra=6][op0*6+role] = PlayerRoles[op0*6+role] * (SHORT)op1 / 100  —— 只把 bonus 存 Extra slot,
+//   base 永远取**未 buff** 的 g.PlayerRoles 表;战斗读 effective = base + Σ rgEquipmentEffect[0..6](含 Extra)。
+//   战末 PAL_RemoveEquipmentEffect(role, kBodyPartExtra) 清 Extra → 战后消失 + 多次不叠加。
+//
+// statBuffCtxReal:用真 gs(含 PlayerRolesRuntime base + rgEquipmentEffect Extra 槽)+ 投影 snapshot,
+//   驱动新模型(0x30 写 Extra + recompute snapshot 经 getter)。
+function statBuffCtxReal(
+  gs: GameState,
+  base: { atk?: number, mag?: number, def?: number, dex?: number },
+  opts: { roleId?: number, casterIdx?: number, snapshotRoles?: number } = {},
+): BattleCtx {
+  const roleId = opts.roleId ?? 0
+  const casterIdx = opts.casterIdx ?? 0
+  const rt = gs.PlayerRolesRuntime
+  rt.rgwAttackStrength[roleId] = base.atk ?? 0
+  rt.rgwMagicStrength[roleId] = base.mag ?? 0
+  rt.rgwDefense[roleId] = base.def ?? 0
+  rt.rgwDexterity[roleId] = base.dex ?? 0
+  const n = opts.snapshotRoles ?? roleId + 1
+  // snapshot 初值随便填(handler 会经 getter recompute 受影响 stat)。
+  const roles = Array.from({ length: n }, (_, i) => ({
+    id: i,
+    attackStrength: rt.rgwAttackStrength[i] ?? 0,
+    magicStrength: rt.rgwMagicStrength[i] ?? 0,
+    defense: rt.rgwDefense[i] ?? 0,
+    dexterity: rt.rgwDexterity[i] ?? 0,
+  }))
+  return {
+    state: {
+      enemies: [],
+      players: roles.map((r, i) => ({ roleId: r.id ?? i, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } })),
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+    } as any as BattleState,
+    caster: { type: 'player', idx: casterIdx },
+    // biome-ignore lint/suspicious/noExplicitAny: roles 直填 snapshot
+    playerRoles: { roles } as any,
+    gs,
+  }
+}
+
+describe('0x30 buff player stat % (script.c:1406-1427,梦蛇 等)', () => {
+  it('写 Extra slot 而非 mutate base:op0=17 +100%,base atk 100 → Extra=100 / effective=200 / base 不变', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = statBuffCtxReal(gs, { atk: 100 })
+    const r = dispatchBattleOpcode(0x30, [17, 100, 0], ctx)
     expect(r.consumed).toBe(true)
-    expect(roles[0]!.attackStrength).toBe(60) // 30 + trunc(30*100/100)
+    // Extra slot = trunc(base * 100 / 100) = 100
+    expect(gs.rgEquipmentEffect[6]!.rgwAttackStrength[0]).toBe(100)
+    // base 未被 mutate(0x30 只写 Extra)
+    expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(100)
+    // effective = base + Extra = 200(经 getter)
+    expect(getPlayerAttackStrength(gs, 0)).toBe(200)
+    // snapshot recompute 反映 effective(战斗读 snapshot)
+    expect(ctx.playerRoles!.roles[0]!.attackStrength).toBe(200)
   })
 
-  it('op2>0 → role=op2-1(指定队员而非 caster)', () => {
-    const roles = [
-      { id: 0, attackStrength: 30, magicStrength: 50, defense: 40, dexterity: 20 },
-      { id: 1, attackStrength: 80, magicStrength: 50, defense: 40, dexterity: 20 },
-    ]
-    dispatchBattleOpcode(0x30, [18, 10, 2], statBuffCtx(roles)) // op0=18 magicStr,op2=2 → roles[1]
-    expect(roles[0]!.magicStrength).toBe(50) // 未碰
-    expect(roles[1]!.magicStrength).toBe(55) // 50 + trunc(50*10/100)
+  it('多次不叠加:连调两次 0x30(+100%)→ Extra 仍 100 / effective 仍 200', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = statBuffCtxReal(gs, { atk: 100 })
+    dispatchBattleOpcode(0x30, [17, 100, 0], ctx)
+    dispatchBattleOpcode(0x30, [17, 100, 0], ctx)
+    expect(gs.rgEquipmentEffect[6]!.rgwAttackStrength[0]).toBe(100) // 覆盖而非累加
+    expect(getPlayerAttackStrength(gs, 0)).toBe(200)
+    expect(ctx.playerRoles!.roles[0]!.attackStrength).toBe(200)
   })
 
-  it('op1 负值(SHORT)= debuff:op0=19 defense op1=0xFFCE(-50%)→ base40 → 20', () => {
-    const roles = [{ id: 0, attackStrength: 30, magicStrength: 50, defense: 40, dexterity: 20 }]
-    dispatchBattleOpcode(0x30, [19, 0xFFCE, 0], statBuffCtx(roles)) // 0xFFCE = -50
-    expect(roles[0]!.defense).toBe(20) // 40 + trunc(40*-50/100) = 40 - 20
+  it('战末清 Extra(removeEquipmentEffect)→ buff 消失,effective 回 base', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = statBuffCtxReal(gs, { atk: 100 })
+    dispatchBattleOpcode(0x30, [17, 100, 0], ctx)
+    expect(getPlayerAttackStrength(gs, 0)).toBe(200)
+    // 战末 finalizeBattleCleanup 对每 party 成员调此(battle-system.ts:2046)
+    removeEquipmentEffect(gs, 0, 6)
+    expect(gs.rgEquipmentEffect[6]!.rgwAttackStrength[0]).toBe(0)
+    expect(getPlayerAttackStrength(gs, 0)).toBe(100) // 回 base
   })
 
-  it('op0=20 dexterity 走映射', () => {
-    const roles = [{ id: 0, attackStrength: 30, magicStrength: 50, defense: 40, dexterity: 20 }]
-    dispatchBattleOpcode(0x30, [20, 50, 0], statBuffCtx(roles))
-    expect(roles[0]!.dexterity).toBe(30) // 20 + trunc(20*50/100) = 20 + 10
+  it('op2>0 → role=op2-1(指定队员而非 caster);op0=18 magicStr base 50 +10% → Extra=5 / eff=55', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = statBuffCtxReal(gs, { mag: 80 }, { roleId: 0, snapshotRoles: 2 })
+    gs.PlayerRolesRuntime.rgwMagicStrength[1] = 50
+    ctx.playerRoles!.roles[1]!.magicStrength = 50
+    dispatchBattleOpcode(0x30, [18, 10, 2], ctx) // op2=2 → roles[1]
+    expect(gs.rgEquipmentEffect[6]!.rgwMagicStrength[0]).toBe(0) // role0 未碰
+    expect(gs.rgEquipmentEffect[6]!.rgwMagicStrength[1]).toBe(5) // trunc(50*10/100)
+    expect(getPlayerMagicStrength(gs, 1)).toBe(55)
+    expect(ctx.playerRoles!.roles[1]!.magicStrength).toBe(55)
   })
 
-  it('未知 op0 row → 无字段映射,no-op consumed', () => {
-    const roles = [{ id: 0, attackStrength: 30, magicStrength: 50, defense: 40, dexterity: 20 }]
-    const r = dispatchBattleOpcode(0x30, [99, 100, 0], statBuffCtx(roles))
+  it('op1 负值(SHORT)= debuff:op0=19 defense op1=0xFFCE(-50%),base 40 → Extra=-20 / eff=20', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = statBuffCtxReal(gs, { def: 40 })
+    dispatchBattleOpcode(0x30, [19, 0xFFCE, 0], ctx) // 0xFFCE = -50
+    expect(gs.rgEquipmentEffect[6]!.rgwDefense[0]).toBe(-20) // trunc(40*-50/100)
+    expect(getPlayerDefense(gs, 0)).toBe(20) // 40 + (-20)
+    expect(ctx.playerRoles!.roles[0]!.defense).toBe(20)
+  })
+
+  it('op0=20 dexterity 走映射:base 20 +50% → Extra=10 / eff=30', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = statBuffCtxReal(gs, { dex: 20 })
+    dispatchBattleOpcode(0x30, [20, 50, 0], ctx)
+    expect(gs.rgEquipmentEffect[6]!.rgwDexterity[0]).toBe(10)
+    expect(getPlayerDexterity(gs, 0)).toBe(30)
+    expect(ctx.playerRoles!.roles[0]!.dexterity).toBe(30)
+  })
+
+  it('未知 op0 row → 无字段映射,no-op consumed(Extra 全 0)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = statBuffCtxReal(gs, { atk: 30 })
+    const r = dispatchBattleOpcode(0x30, [99, 100, 0], ctx)
     expect(r.consumed).toBe(true)
-    expect(roles[0]!.attackStrength).toBe(30) // 未碰
+    expect(gs.rgEquipmentEffect[6]!.rgwAttackStrength[0]).toBe(0) // 未碰
+    expect(getPlayerAttackStrength(gs, 0)).toBe(30)
   })
 
-  it('无 playerRoles → consumed,不崩', () => {
-    const ctx = statBuffCtx([{ id: 0, attackStrength: 30, magicStrength: 50, defense: 40, dexterity: 20 }])
-    ctx.playerRoles = undefined
+  it('无 gs → consumed,不崩(degraded fallback,真实 caller 总注入 gs)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctx = statBuffCtxReal(gs, { atk: 30 })
+    ctx.gs = undefined
     const r = dispatchBattleOpcode(0x30, [17, 100, 0], ctx)
     expect(r.consumed).toBe(true)
   })
