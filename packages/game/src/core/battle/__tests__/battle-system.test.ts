@@ -598,6 +598,29 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     expect(gs.battleState!.enemies[0]!.e.health).toBeLessThan(200) // 敌被普攻
   })
 
+  it('混乱真机全流程:autoFill→queue→perform,混乱角色真出手攻敌(回归 user 实测"无动作")', () => {
+    const enemy = makeEnemy({ id: 100, health: 200, defense: 0 })
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1, 2],
+      roles: [makeRole({ id: 0, hp: 200, attackStrength: 100, level: 10 }), makeRole({ id: 1, hp: 200 }), makeRole({ id: 2, hp: 200 })],
+      enemies: [enemy],
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction(selectingPlayerIdx=0)
+    const st = gs.battleState!
+    st.players[0]!.status.confused = 5
+    st.rng.range = () => 0 // 混乱 pool 第 0 个 = 敌 0 → 普攻敌
+    tickBattle(gs, emptyInput, bus) // selectAction:autoFill player0(混乱)+ advance
+    expect(st.pendingActions.has(0)).toBe(true) // 混乱玩家被 autoFill
+    // 手填 player1/2(模拟玩家选防御),触发 queue build
+    st.pendingActions.set(1, { type: 'defend', target: -1 })
+    st.pendingActions.set(2, { type: 'defend', target: -1 })
+    let safety = 200
+    while (st.phase !== 'postAction' && st.phase !== 'won' && gs.mode === 'battle' && safety-- > 0)
+      tickBattle(gs, emptyInput, bus)
+    // 注:createBattleState 对敌人 {...e} 浅拷贝 → 战斗改的是 st.enemies[0].e 副本,非传入 enemy。
+    expect(st.enemies[0]!.e.health).toBeLessThan(200) // 混乱 player0 普攻敌 0 → 敌掉血(非"无动作")
+  })
+
   it('perform:混乱濒死队员 → Pass(不攻友军)', () => {
     const ally = makeRole({ id: 1, hp: 200, defense: 0, level: 10 })
     const { gs, bus, emptyInput } = bootstrap({
