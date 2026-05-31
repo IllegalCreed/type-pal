@@ -581,6 +581,28 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
   })
 })
 
+describe('B1 D21 战末清状态/毒/Extra(battle.c:1822-1830)', () => {
+  it('战斗结束清党 poison(CurePoisonByLevel 3)+ Extra 装备效果(RemoveEquipmentEffect Extra)', () => {
+    const role = makeRole({ id: 0, hp: 1, defense: 0, level: 1 })
+    const { gs, bus, emptyInput } = bootstrap({
+      roles: [role],
+      enemies: [makeEnemy({ id: 100, attackStrength: 999, level: 50 })], // 强敌 → lost
+    })
+    // 战前:party member 0 中毒 + Extra slot(6=kBodyPartExtra)装备效果非零
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 5, wPoisonScript: 0 }
+    gs.rgEquipmentEffect[6]!.rgwAttackStrength[0] = 50
+
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+    let safety = 200
+    while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+
+    expect(gs.mode).toBe('explore')
+    expect(gs.rgPoisonStatus['0_0']?.wPoisonID ?? 0).toBe(0) // 毒清(battle.c:1828)
+    expect(gs.rgEquipmentEffect[6]!.rgwAttackStrength[0]).toBe(0) // Extra 清(battle.c:1829)
+  })
+})
+
 // ============================================================================
 // tickBattle —— defending 单轮失效
 // ============================================================================

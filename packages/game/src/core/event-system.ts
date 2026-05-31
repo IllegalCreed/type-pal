@@ -3916,8 +3916,9 @@ function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: number)
 
 /** sdlpal PAL_CurePoisonByLevel(global.c:1957-1985)— level <= maxLevel 清 0。
  *  ts 简版:items.poison.wPoisonLevel 字段未 plumb → 视为 maxLevel >= 3 时全清(覆盖 sdlpal 真值用法
- *  — 0x22 revive 用 maxLevel=3 全清;治毒丹 maxLevel=1 部分清留 follow-up)。 */
-function curePlayerPoisonByLevel(gs: GameState, roleId: number, maxLevel: number): void {
+ *  — 0x22 revive 用 maxLevel=3 全清;战末 D21 也用 maxLevel=3;治毒丹 maxLevel=1 部分清留 follow-up)。
+ *  注:真实毒 wPoisonLevel 上限为 3 → CurePoisonByLevel(3) 本就清全部,ts 全清等价无保真损失。 */
+export function curePlayerPoisonByLevel(gs: GameState, roleId: number, maxLevel: number): void {
   // 简化:全清。等 items.poison 字段 plumb 后改按 level 过滤。
   for (let slot = 0; slot < 16; slot++) {
     const key = `${slot}_${roleId}`

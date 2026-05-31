@@ -46,12 +46,12 @@ import type {
   Spell,
 } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
-import { getGlobalCommands, type RunScriptOptions, runScript } from '../event-system.js'
+import { curePlayerPoisonByLevel, getGlobalCommands, type RunScriptOptions, runScript } from '../event-system.js'
 import type { GameState, PlayerRolesRuntime } from '../game-state.js'
 import { writeBackBattleRolesToRuntime } from '../game-state.js'
 import {
   getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity,
-  getPlayerFleeRate, getPlayerMagicStrength,
+  getPlayerFleeRate, getPlayerMagicStrength, removeEquipmentEffect,
 } from '../equip-effect.js'
 import { createSeedableRng, type SeedableRng } from '../rng.js'
 import type { BattleSettlementScreen, LevelUpScreenData } from './battle-settlement.js'
@@ -1878,6 +1878,18 @@ function finalizeBattle(
 
 /** 战斗收尾清状态(won 结算放完 / lost / fleed / forced 共用)→ 回 explore。 */
 function finalizeBattleCleanup(gs: GameState): void {
+  // D21 sdlpal battle.c:1822-1830(无条件 won/lost/fleed):清 player status + 毒 + 临时 Extra 装备效果。
+  //   - PAL_ClearAllPlayerStatus:ts 战斗 status 是 battle-local(随 gs.battleState=undefined 丢弃)
+  //     → 自动满足,无需显式清(若未来 status 持久化到 gs 再补 clearAllPlayerStatus≤999)。
+  //   - 每角色 PAL_CurePoisonByLevel(w, 3):清持久 gs.rgPoisonStatus(level≤3 = 全部,毒等级上限 3)。
+  //   - 每角色 PAL_RemoveEquipmentEffect(w, kBodyPartExtra):清 per-battle 临时 Extra 装备效果槽。
+  //     注:0x30 临时 stat buff 当前直接 mutate role(非写 Extra slot)→ 本清不反转之(D23/D14 残)。
+  const kBodyPartExtra = 6 // sdlpal global.h BODYPART:kBodyPartExtra = MAX_PLAYER_EQUIPMENTS
+  for (const roleId of gs.partyMembers) {
+    curePlayerPoisonByLevel(gs, roleId, 3)
+    removeEquipmentEffect(gs, roleId, kBodyPartExtra)
+  }
+
   // 战斗内对话用的是复用大世界 gs.dialogBox —— 战斗结束清掉,避免泄漏进 explore 渲染。
   gs.dialogBox = undefined
   gs.dialogBoxKept = undefined
