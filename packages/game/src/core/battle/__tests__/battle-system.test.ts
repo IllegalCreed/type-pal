@@ -1031,6 +1031,25 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
     expect(st.pendingActions.get(2)?.type).toBe('pass')
   })
 
+  it('R 跨战斗:gs.prevBattleActions 战末持久 + 下一场 startBattle 带入(sdlpal g_Battle 全局不重置)', () => {
+    const ctx = bootstrap({ partyMembers: [0], roles: [makeRole({ id: 0 })] })
+    // 模拟战斗1最后一回合已持久到 gs(tickPostAction 每轮做的事)
+    // biome-ignore lint/suspicious/noExplicitAny: 只填 action 核心字段
+    ctx.gs.prevBattleActions = new Map([[0, { type: 'magic', actionId: 296, target: 0 } as any]])
+    driveBattleToExplore(ctx.gs, ctx.bus) // 结束战斗1
+    expect(ctx.gs.prevBattleActions?.get(0)?.actionId).toBe(296) // 战末不清(持久跨场)
+    // 开战斗2(同 gs):带入"上一场最后一回合"的 prevActions
+    startBattle({
+      gs: ctx.gs, enemyTeamId: 0, battleFieldId: 0, isBoss: false,
+      enemies: [makeEnemy({ id: 100 })],
+      enemyTeams: [{ id: 0, enemies: [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }],
+      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      playerRoles: { roles: [makeRole({ id: 0 })] },
+      items: [], spells: [], magics: [], objectMagics: [], objectPoisons: [], commands: [{ op: 'end' }],
+    })
+    expect(ctx.gs.battleState?.prevActions?.get(0)?.actionId).toBe(296) // 带入上场
+  })
+
   it('合击 commit 不覆盖失能队员(confused 队员保留 autoFill action,非 pass)', () => {
     const ctx = bootstrap({
       partyMembers: [0, 1, 2],

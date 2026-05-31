@@ -904,6 +904,12 @@ export interface GameState {
    * 胜/无对应分支 → 下一条 ip,负 → op[1],逃 → op[2])。ts 战斗异步 → 0x07 存此,战末 resumePostBattleScript
    * 接回触发脚本。**修"打完怪不消失"**:`0x07; 0x52 隐藏怪; end` 的 0x52 此前永不跑(0x07 直接清 cursor)。
    */
+  /**
+   * R(重提)跨战斗持久:上一场战斗最后一回合各队员 action(按 party 槽 index)。sdlpal g_Battle 全局
+   * 不随战斗重置 → "上回合"可跨场。tickPostAction 每轮更新,startBattle 带入新场 BattleState.prevActions。
+   */
+  prevBattleActions?: Map<number, import('./battle/battle-state.js').BattleAction>
+
   postBattleResume?: {
     wonIp: number             // 胜(或负/逃无对应分支)→ resume 此 ip(= 0x07 后下一条)
     lostIp?: number           // 负 → op[1](已解析为全局 ip;0/无 → undefined → 用 wonIp)

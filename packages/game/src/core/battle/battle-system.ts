@@ -283,6 +283,11 @@ export function startBattle(input: StartBattleInput): void {
     enemyPos: input.enemyPos, // D17a:enemy pos/posOriginal 初值(battle.c:936-939)
   })
 
+  // R(重提)跨战斗:sdlpal g_Battle.rgPlayer[i].prevAction 是全局不随战斗重置,故"上回合"可以是
+  //   **上一场战斗的最后一回合**(user 2026-05-31 报)。ts BattleState 每场重建会丢 → 从 gs.prevBattleActions
+  //   (上一场战末持久,tickPostAction 每轮更新)带入本场初始 prevActions(按 party 槽 index,同 sdlpal)。
+  battleState.prevActions = new Map(input.gs.prevBattleActions ?? [])
+
   input.gs.mode = 'battle'
   input.gs.battleState = battleState
   setBattleResources(input.gs, {
@@ -2017,6 +2022,8 @@ function tickPostAction(
   state.turn++
   // 备份本轮已选 action 供 Repeat(R 键)重提(sdlpal fight.c:1434-1437 prevAction backup),再清。
   state.prevActions = new Map(state.pendingActions)
+  // R 跨战斗:同步持久到 gs(sdlpal prevAction 全局不重置)→ 下一场战斗带入"上场最后一回合"。
+  gs.prevBattleActions = new Map(state.prevActions)
   state.pendingActions.clear()
   // defend 单轮失效(sdlpal `fight.c:1604` `g_Battle.rgPlayer[i].fDefending = FALSE`)
   state.players.forEach((p) => {
