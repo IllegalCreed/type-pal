@@ -84,6 +84,8 @@ const OP_INFLICT_DAMAGE = 0x0021
 
 /** sdlpal `script.c:0028` 0x0028:apply poison to enemy(抗性判定 + 去重,op1=poison id)。 */
 const OP_APPLY_POISON = 0x0028
+/** sdlpal `script.c:1287-1329` 0x002A:战斗 cure enemy poison by kind(op0!=0 全敌 / 否则单敌;清 poisonId==op1)。 */
+const OP_CURE_ENEMY_POISON_KIND = 0x002A
 
 /** sdlpal `script.c:0057` 0x0057:set magic baseDamage = casterMP * (op1||8),清 casterMP(酒神)。 */
 const OP_SET_MAGIC_DAMAGE_BY_MP = 0x0057
@@ -329,6 +331,18 @@ export function dispatchBattleOpcode(
       else if (ctx.target?.idx !== undefined) {
         applyTo(ctx.target.idx)
       }
+      return { consumed: true }
+    }
+
+    case OP_CURE_ENEMY_POISON_KIND: {
+      // sdlpal `script.c:1287-1329`:op0!=0 → 全敌;否则单敌(ctx.target)。遍历毒槽清 poisonId==op1。
+      const poisonId = operands[1] ?? 0
+      const cure = (enemyIdx: number): void => {
+        const enemy = state.enemies[enemyIdx]
+        if (enemy?.poisons) enemy.poisons = enemy.poisons.filter((p) => p.poisonId !== poisonId)
+      }
+      if ((operands[0] ?? 0) !== 0) state.enemies.forEach((_, i) => cure(i))
+      else if (ctx.target?.type === 'enemy' && ctx.target.idx !== undefined) cure(ctx.target.idx)
       return { consumed: true }
     }
 
@@ -925,9 +939,19 @@ export function dispatchBattleOpcode(
     }
 
     case OP_JUMP_IF_PLAYER_NOT_POISONED: {
-      // 0x0061: 简版 — 我们没 poison status apply 真做,默认"未中毒",直接 jump。
-      // sdlpal 真值:遍历 rgPoisonStatus[player] 查任何 poison existence。
-      return { consumed: true, newIp: operands[1] ?? 0 }
+      // sdlpal script.c:1957-1965:`if (!PAL_IsPlayerPoisonedByLevel(wEventObjectID, 0)) wScriptEntry = operand[0]-1`。
+      //   **跳转目标 = operand[0]**(此前误用 operand[1]),且**恒跳**(此前未查毒)—— 2026-05-31 审计修。
+      //   wEventObjectID = 目标队员 role:ctx.target(player)优先,否则 ctx.caster(player)。
+      const sel = ctx.target?.type === 'player' ? ctx.target : ctx.caster?.type === 'player' ? ctx.caster : undefined
+      const roleId = sel ? state.players[sel.idx]?.roleId : undefined
+      let poisoned = false
+      if (ctx.gs && roleId !== undefined) {
+        for (let slot = 0; slot < 16; slot++) {
+          if ((ctx.gs.rgPoisonStatus[`${slot}_${roleId}`]?.wPoisonID ?? 0) !== 0) { poisoned = true; break }
+        }
+      }
+      // 未中毒 → jump operand[0];已中毒 → ip++(不跳)
+      return poisoned ? { consumed: true } : { consumed: true, newIp: operands[0] ?? 0 }
     }
 
     case OP_ENEMY_ESCAPE: {

@@ -66,12 +66,19 @@ describe('B-w2.a battle-opcodes dispatch', () => {
     expect(enemy.e.magicRate).toBe(10)
   })
 
-  it('0x0061 jump if player not poisoned:简版无 poison apply → 总是 jump', () => {
-    const enemy = makeEnemy(100)
-    const ctx = makeCtx(enemy)
-    const r = dispatchBattleOpcode(0x0061, [0, 300, 0], ctx)
+  it('0x0061 jump if player not poisoned:未中毒 → jump operand[0](2026-05-31 修:此前误用 op[1]+恒跳)', () => {
+    // biome-ignore lint/suspicious/noExplicitAny: 最小 ctx
+    const ctx = { state: { enemies: [], players: [{ roleId: 0 }] } as any as BattleState, target: { type: 'player', idx: 0 }, gs: { rgPoisonStatus: {} } as any } as BattleCtx
+    const r = dispatchBattleOpcode(0x0061, [300, 0, 0], ctx)
     expect(r.consumed).toBe(true)
-    expect(r.newIp).toBe(300)
+    expect(r.newIp).toBe(300) // 跳转目标 = operand[0]
+  })
+
+  it('0x0061:已中毒 → 不 jump(ip++)', () => {
+    // biome-ignore lint/suspicious/noExplicitAny: 最小 ctx
+    const ctx = { state: { enemies: [], players: [{ roleId: 0 }] } as any as BattleState, target: { type: 'player', idx: 0 }, gs: { rgPoisonStatus: { '0_0': { wPoisonID: 552, wPoisonScript: 0 } } } as any } as BattleCtx
+    const r = dispatchBattleOpcode(0x0061, [300, 0, 0], ctx)
+    expect(r.newIp).toBeUndefined() // 已中毒不跳
   })
 
   it('0x0069 enemy escape:enemy.e.health 设 0', () => {
@@ -346,6 +353,23 @@ describe('0x28 apply poison (script.c:0028,毒蛇卵/卵/蛊 throw)', () => {
     dispatchBattleOpcode(0x28, [1, 558, 0], poisonCtx(enemies, 0, 5, op))
     expect(enemies[0]!.poisons).toHaveLength(1)
     expect(enemies[1]!.poisons).toHaveLength(1)
+  })
+})
+
+describe('0x2A cure enemy poison by kind (script.c:1287-1329)', () => {
+  it('单敌(ctx.target):清匹配 poisonId,留其余', () => {
+    const enemy = poisonEnemy(0)
+    enemy.poisons = [{ poisonId: 552, scriptEntry: 1 }, { poisonId: 555, scriptEntry: 2 }]
+    dispatchBattleOpcode(0x2A, [0, 552, 0], poisonCtx([enemy], 0, 0, []))
+    expect(enemy.poisons).toEqual([{ poisonId: 555, scriptEntry: 2 }]) // 552 清,555 留
+  })
+
+  it('applyAll(op0!=0):全敌清匹配毒', () => {
+    const e0 = poisonEnemy(0); e0.poisons = [{ poisonId: 552, scriptEntry: 1 }]
+    const e1 = poisonEnemy(0); e1.poisons = [{ poisonId: 552, scriptEntry: 1 }]
+    dispatchBattleOpcode(0x2A, [1, 552, 0], poisonCtx([e0, e1], 0, 0, []))
+    expect(e0.poisons).toEqual([])
+    expect(e1.poisons).toEqual([])
   })
 })
 
