@@ -1278,6 +1278,10 @@ export function resumePostBattleScript(gs: GameState, outcome: BattleOutcome): v
     callStack: r.callStack,
   }
   gs.mode = 'event'
+  // 死亡(lost):**冻住战斗最后一帧**,让死亡脚本(L_41075:0x43 音乐→0x4F FadeToRed→大侠重新来过→0x4E 读档)
+  //   的 0x4F 把**战斗帧**染红,而非先露一帧大世界场景再红(user 报"先回大世界才出红屏")。0x4F 用
+  //   clearSceneLoading=false 保持冻屏。胜/逃返回大世界(正常渲染),不冻。
+  if (outcome === 'lost') gs.sceneLoading = true
 }
 
 /**

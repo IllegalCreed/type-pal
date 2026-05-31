@@ -669,6 +669,19 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
     setStartBattleHandler(null)
   })
 
+  it('showDialog 纯控制符行("$00"/"$02")→ 跳过不加空行(死亡脚本 L_41075,sdlpal 无可见字不开行)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    loadEvent(gs, [
+      { op: 'showDialog', text: '$00', messageIndex: 0 },           // 纯打字速度码 → 跳过,不加空行
+      { op: 'showDialog', text: '大侠请重新来过吧', messageIndex: 0 }, // 真行
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), createCommandBus())
+    // 首个真行(大侠...)= currentLine;$00 没加空行 → 无 shown 空行堆积
+    expect(gs.dialogBox?.currentLineText ?? '').toContain('大侠')
+    expect(gs.dialogBox?.shownLines.length ?? 0).toBe(0)
+  })
+
   it('raw#7 存 postBattleResume(战后接回触发脚本 → 修打完怪不消失,script.c:3318-3331)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     setStartBattleHandler(({ gs: g }: { gs: GameState }) => { g.mode = 'battle' })

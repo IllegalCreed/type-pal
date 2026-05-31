@@ -48,6 +48,7 @@ import {
 import {
   startDialogLine,
   appendDialogLine,
+  parseDialogText,
   shouldWaitPageKey,
   setWaitingPageKey,
   setWaitingEndKey,
@@ -1610,6 +1611,16 @@ export function tickEventSystem(
         // 若存在但累计 4 行(shouldWaitPageKey)→ setWaitingPageKey,等下次 tick Confirm 后再 append
         // 否则 → appendDialogLine 加新行
         //
+        // 纯控制符行(无可见字符且无等键图标,如死亡脚本 L_41075 的 showDialog "$00"/"$02" 只设打字速度)→
+        //   sdlpal TEXT_DisplayText 不增 nCurrentDialogLine(无可见字 → 不开新行)→ ts 跳过,不加空行
+        //   (否则死亡对话框多出空行,user 报"死亡文字渲染")。带图标的(/) 单行保留。advance + 同 tick 续跑。
+        {
+          const parsed = parseDialogText(cmd.text, 0, true)
+          if (parsed.text.length === 0 && parsed.icon === 0) {
+            cursor.ip++
+            break
+          }
+        }
         // 传**原始** cmd.text —— startDialogLine/appendDialogLine 内 parseDialogText 解析控制符:
         //   `"`黄/`-`青/`'``@`红 toggle 逐字符上色,消费 `$~()\` + `~` 提前结束(sdlpal TEXT_DisplayText
         //   text.c:1458-1613)。旧 stripDialogControlCodes 只剥 `$~\d`、漏颜色 + `"()` 字面显示(2026-05-30 修)。
@@ -2022,7 +2033,9 @@ export function tickEventSystem(
           // OP_FADE_TO_RED(0x4F)— sdlpal script.c:1772 `PAL_FadeToRed()`(game over)。
           //   32 步 × 75ms = 2400ms。approach ±8;target=(base.r+g+b)/4+64/0/0;skip idx 0x4F(文字色);
           //   present fb 像素 0x4F→0x4E(builder 已带 remap,present 渲染时套用)。
-          startPaletteFade(gs, cursor, buildFadeToRed(baseColors, 32 * 75, now), false)
+          // clearSceneLoading=false:FadeToRed 只在死亡脚本(L_41075)用,前置 resumePostBattleScript(lost) 已
+          //   冻屏(sceneLoading=true)→ 保持冻结让**战斗最后一帧**染红,而非露大世界(user 报先回大世界才红)。
+          startPaletteFade(gs, cursor, buildFadeToRed(baseColors, 32 * 75, now), false, false)
           console.debug(`event-system: FadeToRed → 2400ms (→red, skip 0x4F)`)
           return
         }
