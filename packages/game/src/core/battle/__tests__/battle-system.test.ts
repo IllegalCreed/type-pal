@@ -1012,6 +1012,41 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
     expect(ctx.gs.battleState?.selectedAction).toBe(0)
   })
 
+  it('合击是整队一回合一次:player0 commit coop → 其余 healthy 队员设 pass(不各自再选 coop)', () => {
+    // sdlpal fight.c:1417-1424:选 coop 即结束选择;3973 coop 把全 healthy contributor 设 kFighterWait → 跳过。
+    // → 整队一回合就这一次 coop。此前 bug:每人各 commit 一次 coop → 一回合放 3 次(user 报)。
+    const ctx = bootstrap({
+      partyMembers: [0, 1, 2],
+      roles: [makeRole({ id: 0 }), makeRole({ id: 1 }), makeRole({ id: 2 })],
+    })
+    enterSelectMove(ctx)
+    const st = ctx.gs.battleState!
+    expect(st.selectingPlayerIdx).toBe(0)
+    // 直接摆 player0 的 coop 全体目标待 commit(绕过需 magic data 的 coop 菜单)
+    st.pendingActionDraft = { type: 'coop-magic', actionId: 351, targetSide: 'enemy' }
+    st.uiState = 'selectTargetEnemyAll'
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // Confirm → commit coop(target=-1)
+    expect(st.pendingActions.get(0)?.type).toBe('coop-magic')
+    expect(st.pendingActions.get(1)?.type).toBe('pass') // 被 coop 消耗,不单独行动
+    expect(st.pendingActions.get(2)?.type).toBe('pass')
+  })
+
+  it('合击 commit 不覆盖失能队员(confused 队员保留 autoFill action,非 pass)', () => {
+    const ctx = bootstrap({
+      partyMembers: [0, 1, 2],
+      roles: [makeRole({ id: 0 }), makeRole({ id: 1 }), makeRole({ id: 2 })],
+    })
+    enterSelectMove(ctx)
+    const st = ctx.gs.battleState!
+    st.players[2]!.status.confused = 3 // player2 混乱 → 非 healthy contributor
+    st.selectingPlayerIdx = 0
+    st.pendingActionDraft = { type: 'coop-magic', actionId: 351, targetSide: 'enemy' }
+    st.uiState = 'selectTargetEnemyAll'
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(st.pendingActions.get(1)?.type).toBe('pass') // healthy → 消耗 pass
+    expect(st.pendingActions.get(2)?.type).not.toBe('pass') // confused → 保留(autoFill attack→perform attackmate)
+  })
+
   it('Confirm 攻击(无群攻)→ selectTargetEnemy + draft attack/enemy', () => {
     const ctx = bootstrap({ enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
     enterSelectMove(ctx)

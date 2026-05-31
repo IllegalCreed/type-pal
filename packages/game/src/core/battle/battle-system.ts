@@ -885,6 +885,8 @@ function commitRepeatAction(state: BattleState, alivePlayerIdxs: number[], playe
   if (prev && prev.type !== 'pass') {
     // 原样重提;敌方目标若已死,perform 期 selectAutoTargetFrom 重选(本系统已有)。
     state.pendingActions.set(playerIdx, { ...prev })
+    // R 重提 coop 同样是整队一回合一次 → 其余 healthy 队员被消耗 pass(同 commitDraftAsAction)。
+    if (prev.type === 'coop-magic') applyCoopConsumesOthers(state, playerIdx, alivePlayerIdxs)
     advanceSelectingPlayer(state, alivePlayerIdxs)
     return
   }
@@ -1120,7 +1122,25 @@ function commitDraftAsAction(state: BattleState, target: number, alivePlayerIdxs
     target,
     targetSide: draft.targetSide,
   })
+  if (draft.type === 'coop-magic') applyCoopConsumesOthers(state, playerIdx, alivePlayerIdxs)
   advanceSelectingPlayer(state, alivePlayerIdxs)
+}
+
+/**
+ * 合击是**整队一回合一次**的动作(sdlpal fight.c:1417-1424:选 coop 即结束选择,其余未选队员不再选;
+ *   3973:coop 把全 healthy contributor 设 kFighterWait → 行动队列里被跳过)。ts 净效果:整回合就这一次
+ *   coop,其余 healthy 队员(= coop contributor)不单独行动 → 设 pass。失能(睡眠/混乱/麻痹)队员非
+ *   contributor(coop 不消耗),保留其 autoFill action(如混乱→attackmate);若尚未填则补 pass 保证回合收尾。
+ */
+function applyCoopConsumesOthers(state: BattleState, casterIdx: number, alivePlayerIdxs: number[]): void {
+  for (const i of alivePlayerIdxs) {
+    if (i === casterIdx) continue
+    const st = state.players[i]!.status
+    const incapacitated = (st.sleep ?? 0) > 0 || (st.confused ?? 0) > 0 || (st.paralyzed ?? 0) > 0
+    if (!incapacitated || !state.pendingActions.has(i)) {
+      state.pendingActions.set(i, { type: 'pass', target: -1 })
+    }
+  }
 }
 
 /**
