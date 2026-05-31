@@ -594,6 +594,19 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     expect(role.hp).toBeLessThan(200)
   })
 
+  it('逃跑全队:一人选逃跑 → 全体活队员都逃(sdlpal fFlee,fight.c:1773-1799)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1, 2],
+      roles: [makeRole({ id: 0 }), makeRole({ id: 1 }), makeRole({ id: 2 })],
+      enemies: [makeEnemy({ id: 100, health: 99999 })],
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction(selectingPlayerIdx=0)
+    const fleeInput: InputSnapshot = { held: new Set(), pressed: new Set(['Flee']), frameNum: 0 }
+    tickBattle(gs, fleeInput, bus) // player 0 按 Flee → 应全队逃
+    const fleeCount = [...gs.battleState!.pendingActions.values()].filter((a) => a.type === 'flee').length
+    expect(fleeCount).toBe(3) // 全 3 活队员都 flee(bug 时 = 1)
+  })
+
   it('打死最后一个敌人后,后续我方角色不再行动(sdlpal fEnemyCleared 中止剩余 queue)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       partyMembers: [0, 1],

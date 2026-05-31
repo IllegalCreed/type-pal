@@ -785,7 +785,7 @@ function handleMainMenuInput(
   } else if (input.pressed.has('Force')) {
     commitForceAction(state, alivePlayerIdxs, res)
   } else if (input.pressed.has('Flee')) {
-    commitSimpleAction(state, { type: 'flee', target: -1 }, alivePlayerIdxs)
+    commitFleeAllPlayers(state, alivePlayerIdxs)
   } else if (input.pressed.has('UseItem')) {
     state.menuState = 'useItemSelect'
     state.itemSelect = buildBattleItemSelect(gs, res.items, 'usable')
@@ -933,8 +933,8 @@ function handleMiscMenuInput(
     case 2: // 防御(uibattle.c:1378-1384)
       commitSimpleAction(state, { type: 'defend', target: -1 }, alivePlayerIdxs)
       break
-    case 3: // 逃跑(uibattle.c:1394-1397)
-      commitSimpleAction(state, { type: 'flee', target: -1 }, alivePlayerIdxs)
+    case 3: // 逃跑(uibattle.c:1394-1397)—— sdlpal fFlee 全队逃(fight.c:1773-1799/1976-1978)
+      commitFleeAllPlayers(state, alivePlayerIdxs)
       break
     case 4: // 状态(uibattle.c:1399-1401)→ PAL_PlayerStatus 全屏屏(独立大世界菜单,本任务 no-op 诚实残留)
       break
@@ -1055,6 +1055,22 @@ function enterTargetForDraft(
     state.uiState = toEnemy ? 'selectTargetEnemy' : 'selectTargetPlayer'
     state.uiCursor = 0
   }
+}
+
+/**
+ * 逃跑全队 —— sdlpal fFlee(fight.c:1976-1978 设 fFlee=TRUE,1797-1799 后续强制全队 kKeyFlee)。
+ * 一人选逃跑 → 全体活队员 action 都置 flee(行动队列按 dex 排序逐个 PAL_BattlePlayerEscape,
+ * 首个 roll 成功即 phase='fleed' 全队逃离;全失败则各自空过该回合)。
+ */
+function commitFleeAllPlayers(state: BattleState, alivePlayerIdxs: number[]): void {
+  for (const i of alivePlayerIdxs) {
+    state.pendingActions.set(i, { type: 'flee', target: -1 })
+  }
+  // 全填完 → 清选择子状态 + uiState='wait'(主流程 size 检测切 performAction)。
+  state.pendingActionDraft = undefined
+  state.magicSelect = undefined
+  state.itemSelect = undefined
+  state.uiState = 'wait'
 }
 
 /** 落一个完整 action(无 target 选择路径:防御/逃跑)+ advance。 */
