@@ -16,6 +16,7 @@
  */
 
 import type { BattleCtx } from '../event-system.js'
+import type { BattleStatus } from './battle-state.js'
 import { buildStealTimeline } from './anim-timeline.js'
 import { startBattleAnim } from './battle-anim-driver.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
@@ -86,6 +87,23 @@ const OP_INFLICT_DAMAGE = 0x0021
 const OP_APPLY_POISON = 0x0028
 /** sdlpal `script.c:1287-1329` 0x002A:战斗 cure enemy poison by kind(op0!=0 全敌 / 否则单敌;清 poisonId==op1)。 */
 const OP_CURE_ENEMY_POISON_KIND = 0x002A
+/** sdlpal `script.c:002D` 0x002D:PAL_SetPlayerStatus(role, op0=statusId, op1=duration)。 */
+const OP_SET_PLAYER_STATUS = 0x002D
+/** sdlpal `script.c:002E` 0x002E:set enemy status(RandomLong(0,9)>resist → rgwStatus[op0]=op1;else jump op2)。 */
+const OP_SET_ENEMY_STATUS = 0x002E
+/** sdlpal `script.c:002F` 0x002F:PAL_RemovePlayerStatus(role, op0)。 */
+const OP_REMOVE_PLAYER_STATUS = 0x002F
+
+/**
+ * kStatus 索引(**PAL_CLASSIC** global.h:40-56)→ ts BattleStatus key。
+ * CLASSIC:0=Confused 1=Paralyzed 2=Sleep 3=Silence 4=Puppet 5=Bravery 6=Protect 7=Haste 8=DualAttack。
+ * (注:CLASSIC index 1 = Paralyzed,**非** Slow;Slow 是 #ifndef PAL_CLASSIC 的 index 1,本 build 无。)
+ */
+const KSTATUS_KEY: readonly (keyof BattleStatus | undefined)[] = [
+  'confused', 'paralyzed', 'sleep', 'silence', 'puppet', 'bravery', 'protect', 'haste', 'dualAttack',
+]
+/** "坏"状态(confused/paralyzed/sleep/silence):已有(>0)则不刷新(PAL_SetPlayerStatus global.c)。 */
+const BAD_STATUS = new Set<keyof BattleStatus>(['confused', 'paralyzed', 'sleep', 'silence'])
 
 /** sdlpal `script.c:0057` 0x0057:set magic baseDamage = casterMP * (op1||8),清 casterMP(酒神)。 */
 const OP_SET_MAGIC_DAMAGE_BY_MP = 0x0057
@@ -343,6 +361,54 @@ export function dispatchBattleOpcode(
       }
       if ((operands[0] ?? 0) !== 0) state.enemies.forEach((_, i) => cure(i))
       else if (ctx.target?.type === 'enemy' && ctx.target.idx !== undefined) cure(ctx.target.idx)
+      return { consumed: true }
+    }
+
+    case OP_SET_PLAYER_STATUS: {
+      // sdlpal script.c:002D → PAL_SetPlayerStatus(role, op0=statusId, op1=duration)(global.c)。
+      //   坏状态(confused/paralyzed/sleep/silence):已有(>0)不刷新;puppet:仅死人(HP==0)设且更久,
+      //   否则 fSuccess=FALSE → g_fScriptSuccess=FALSE;好状态(bravery/protect/dualAttack/haste):仅活人 + 更久。
+      //   wEventObjectID = 目标队员:ctx.target(player)优先,否则 ctx.caster(自 buff)。
+      const sel = ctx.target?.type === 'player' ? ctx.target : ctx.caster?.type === 'player' ? ctx.caster : undefined
+      const player = sel ? state.players[sel.idx] : undefined
+      const key = KSTATUS_KEY[operands[0] ?? 0]
+      if (player && key) {
+        const dur = operands[1] ?? 0
+        const cur = player.status[key] ?? 0
+        const hp = ctx.playerRoles?.roles[player.roleId]?.hp ?? 0
+        if (BAD_STATUS.has(key)) {
+          if (cur === 0) player.status[key] = dur
+        } else if (key === 'puppet') {
+          if (hp === 0) { if (cur < dur) player.status[key] = dur }
+          else if (ctx.gs) ctx.gs.fScriptSuccess = false // 活人上 puppet 失败
+        } else { // bravery/protect/dualAttack/haste(好状态)
+          if (hp !== 0 && cur < dur) player.status[key] = dur
+        }
+      }
+      return { consumed: true }
+    }
+
+    case OP_SET_ENEMY_STATUS: {
+      // sdlpal script.c:002E(CLASSIC i=9):`RandomLong(0,9) > enemy.wResistanceToSorcery` → rgwStatus[op0]=op1;
+      //   else jump op2(失败分支)。wEventObjectID = 目标敌(ctx.target)。
+      const sel = ctx.target?.type === 'enemy' ? ctx.target : ctx.caster?.type === 'enemy' ? ctx.caster : undefined
+      const enemy = sel ? state.enemies[sel.idx] : undefined
+      const key = KSTATUS_KEY[operands[0] ?? 0]
+      if (!enemy || !key) return { consumed: true }
+      if (state.rng.rangeInclusive(0, 9) > (enemy.resistanceToSorcery ?? 0)) {
+        enemy.status[key] = operands[1] ?? 0
+        return { consumed: true }
+      }
+      return { consumed: true, newIp: operands[2] ?? 0 } // 抵抗 → 跳失败分支
+    }
+
+    case OP_REMOVE_PLAYER_STATUS: {
+      // sdlpal script.c:002F → PAL_RemovePlayerStatus(role, op0)(global.c:2304):status<=999 才清(>=1000
+      //   装备永久效果不清;战斗内 status 计数都 <999)。wEventObjectID = ctx.target(player)优先,否则 caster。
+      const sel = ctx.target?.type === 'player' ? ctx.target : ctx.caster?.type === 'player' ? ctx.caster : undefined
+      const player = sel ? state.players[sel.idx] : undefined
+      const key = KSTATUS_KEY[operands[0] ?? 0]
+      if (player && key && (player.status[key] ?? 0) <= 999) player.status[key] = 0
       return { consumed: true }
     }
 

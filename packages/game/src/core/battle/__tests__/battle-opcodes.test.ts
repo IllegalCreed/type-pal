@@ -384,6 +384,56 @@ describe('0x2A cure enemy poison by kind (script.c:1287-1329)', () => {
   })
 })
 
+describe('0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击)', () => {
+  // biome-ignore lint/suspicious/noExplicitAny: 最小 player ctx
+  const playerCtx = (hp: number, status: Partial<Record<string, number>> = {}): BattleCtx => ({
+    state: { players: [{ roleId: 0, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, ...status } }], enemies: [] } as any as BattleState,
+    target: { type: 'player', idx: 0 },
+    playerRoles: { roles: [{ hp }] } as any,
+    gs: { fScriptSuccess: true } as any,
+  } as BattleCtx)
+
+  it('0x2E set enemy status:RandomLong(0,9)>resist → 设状态(op0=2 sleep)', () => {
+    const e = poisonEnemy(3) // resistanceToSorcery=3
+    dispatchBattleOpcode(0x2E, [2, 4, 300], poisonCtx([e], 0, 5, [])) // rng=5>3 → 设
+    expect(e.status.sleep).toBe(4)
+  })
+
+  it('0x2E:抵抗(RandomLong<=resist)→ jump op2', () => {
+    const e = poisonEnemy(8)
+    const r = dispatchBattleOpcode(0x2E, [2, 4, 300], poisonCtx([e], 0, 5, [])) // 5<=8 → 抵抗
+    expect(e.status.sleep).toBe(0)
+    expect(r.newIp).toBe(300)
+  })
+
+  it('0x2D set player status:坏状态 sleep 首次设 dur', () => {
+    const ctx = playerCtx(100)
+    dispatchBattleOpcode(0x2D, [2, 5, 0], ctx)
+    expect(ctx.state.players[0]!.status.sleep).toBe(5)
+  })
+
+  it('0x2D 坏状态已有(>0)→ 不刷新', () => {
+    const ctx = playerCtx(100, { sleep: 2 })
+    dispatchBattleOpcode(0x2D, [2, 9, 0], ctx)
+    expect(ctx.state.players[0]!.status.sleep).toBe(2) // 不刷新
+  })
+
+  it('0x2D puppet(op0=4)上活人 → 失败 fScriptSuccess=false', () => {
+    const ctx = playerCtx(100) // 活人
+    dispatchBattleOpcode(0x2D, [4, 5, 0], ctx)
+    expect(ctx.gs!.fScriptSuccess).toBe(false)
+    expect(ctx.state.players[0]!.status.puppet ?? 0).toBe(0)
+  })
+
+  it('0x2D 好状态 haste(op0=7)活人设;0x2F 移除', () => {
+    const ctx = playerCtx(100)
+    dispatchBattleOpcode(0x2D, [7, 6, 0], ctx)
+    expect(ctx.state.players[0]!.status.haste).toBe(6)
+    dispatchBattleOpcode(0x2F, [7, 0, 0], ctx)
+    expect(ctx.state.players[0]!.status.haste).toBe(0)
+  })
+})
+
 describe('0x5E jump if enemy no poison (script.c:005E)', () => {
   const op = makeObjectPoisons({ 558: 40911 })
 
