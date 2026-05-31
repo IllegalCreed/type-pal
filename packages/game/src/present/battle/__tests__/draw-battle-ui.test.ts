@@ -324,20 +324,19 @@ describe('drawBattleUI(新模型 1:1)', () => {
     expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
   })
 
-  // ---------- C7:战斗对话显示时隐藏动作菜单(user 2026-05-31 实测 bug)----------
+  // ---------- 对话显示时**整个战斗 UI 都不画**(菜单 + 血量信息框都隐藏,user 2026-05-31)----------
 
-  it('对话队列非空 —— 隐藏动作菜单(顶部无写入),只画底部状态栏', () => {
+  it('对话队列非空 —— 战斗 UI 全不画(菜单 + 信息框)', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
     const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
       uiState: 'selectMove', menuState: 'main', battleDialogQueue: [{ text: '林月如', style: 'bottom' }],
     })
     drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
-    expect(topRegionWrites(fb)).toBe(0)
-    expect(fbHasWrites(fb)).toBe(true)
+    expect(fbHasWrites(fb)).toBe(false) // 对话期连血量面板都不画
   })
 
-  it('gs.dialogBox 非空 —— 隐藏动作菜单(顶部无写入)', () => {
+  it('gs.dialogBox 非空 —— 战斗 UI 全不画', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
     const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
@@ -345,7 +344,7 @@ describe('drawBattleUI(新模型 1:1)', () => {
     })
     const gs = mkGs({ dialogBox: { phase: 'typing' } as unknown as GameState['dialogBox'] })
     drawBattleUI(fb, state, playerRoles, [], [], gs, undefined, UI)
-    expect(topRegionWrites(fb)).toBe(0)
+    expect(fbHasWrites(fb)).toBe(false)
   })
 
   it('hidden(perform 阶段)—— 啥都不画(信息框仅选择阶段;sdlpal Phase!=PerformAction)', () => {

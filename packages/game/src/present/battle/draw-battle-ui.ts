@@ -190,16 +190,16 @@ export function drawBattleUI(
   uiSpriteFrames?: IndexedImage[],
   enemyPos?: EnemyPosTable,
 ): void {
-  // 底部队员信息框(PAL_PlayerInfoBox)—— sdlpal **仅选择阶段**画(uibattle.c:888-928:
-  //   `Phase != PerformAction && !fAutoAttack`)。perform 阶段(uiState='hidden')隐藏,只剩飘字。
-  //   对话期仍画(sdlpal 冻结上一选择帧)。
-  const showInfoBoxes = state.uiState !== 'hidden' && !state.fAutoAttack
-  if (showInfoBoxes) drawPlayerInfoBoxes(fb, state, playerRoles, glyphs, uiSpriteFrames)
-
-  // 战斗内对话显示期间隐藏动作菜单(user 2026-05-31 实测 bug):只保留底部信息框。
-  //   sdlpal:PAL_ShowDialogText 同步 blocking,对话期菜单不刷(uibattle.c:889 PerformAction goto end 同理)。
+  // 战斗内对话显示期间**整个战斗 UI 都不画**(动作菜单 + 血量信息框都隐藏)——
+  //   user 2026-05-31 实测:对话时不显示战斗 UI,血量面板当然也不显示。
+  //   sdlpal:PAL_ShowDialogText 同步 blocking,对话期 PAL_BattleUIUpdate 完全不刷(菜单/信息框都不画)。
   const dialogActive = gs.dialogBox != null || (state.battleDialogQueue?.length ?? 0) > 0
   if (dialogActive) return
+
+  // 底部队员信息框(PAL_PlayerInfoBox)—— sdlpal **仅选择阶段**画(uibattle.c:888-928:
+  //   `Phase != PerformAction && !fAutoAttack`)。perform 阶段(uiState='hidden')隐藏,只剩飘字。
+  const showInfoBoxes = state.uiState !== 'hidden' && !state.fAutoAttack
+  if (showInfoBoxes) drawPlayerInfoBoxes(fb, state, playerRoles, glyphs, uiSpriteFrames)
 
   switch (state.uiState) {
     case 'selectMove':
