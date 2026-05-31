@@ -96,7 +96,9 @@
 | 0x43 | play-music 缺 loop/fade 参数(真播待 M6 音频) |
 | 0x47 | play-sound 纯 stub(真播待 M6 音频) |
 
-> **修复推进**:poison/status 相关(0x2A/0x2D/0x2E/0x2F/0x61)随中毒机制实现一并修;其余 bug(0x02/0x03/0x1B-1D/0x23/0x60/0x6F/0x9E/0x59/0x7F 等)单独批次。
+> **修复进度(2026-05-31)**:
+> - ✅ **已修**:0x1E(cde56f2 钱不足跳转)/ 0x29 poison-player 抗性+真毒脚本(a6ecf64)/ 0x61 jumpIfPlayerNotPoisoned(d91e9a8 op[0]+查毒)/ 0x2A cure-enemy-poison(d91e9a8)。配套:玩家每回合毒 tick + cure 按 level(a6ecf64)+ 头像中毒/死亡染色(1de0444)+ 敌普攻 equivItem 中毒(3a0f90f)。
+> - ⬜ **待修**:0x2D/0x2E/0x2F(set/remove player·enemy status,需 kStatus→BattleStatus 映射)/ 0x02/0x03(trigger 延迟 gate)/ 0x1B-1D(大世界活人 gate)/ 0x23(RemoveEquipmentEffect)/ 0x60(operand→caster)/ 0x6F(SHORT cast)/ 0x9E(iHidingTime)/ 0x59(scene guard)/ 0x7F(camera pan)/ 0x20(equip 消耗)/ 0x05/0x6D/0x8E/0x96。
 
 ## 控制流(0x00-0x0A)
 
