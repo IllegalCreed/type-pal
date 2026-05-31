@@ -669,6 +669,25 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
     setStartBattleHandler(null)
   })
 
+  it('raw#7 存 postBattleResume(战后接回触发脚本 → 修打完怪不消失,script.c:3318-3331)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    setStartBattleHandler(({ gs: g }: { gs: GameState }) => { g.mode = 'battle' })
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_START_BATTLE, operands: [15, 41075, 41073] }, // ip0
+      { op: 'raw', opcode: 0x52, operands: [150, 0, 0] },                   // ip1:0x52 隐藏怪
+      { op: 'end' },                                                       // ip2
+    ])
+    gs.eventCursor!.currentEventObjectId = 3 // 开战那只怪的 event object id
+    gs.eventCursor!.triggerOwnerId = 3
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.eventCursor).toBeUndefined() // 战斗中清 cursor
+    expect(gs.postBattleResume?.wonIp).toBe(1) // 胜 → 0x07 后下一条(0x52)
+    expect(gs.postBattleResume?.lostIp).toBe(41075) // 负 → op[1]
+    expect(gs.postBattleResume?.fledIp).toBe(41073) // 逃 → op[2]
+    expect(gs.postBattleResume?.currentEventObjectId).toBe(3) // 战末 0x52 隐藏的是这只怪
+    setStartBattleHandler(null)
+  })
+
   it('operand[2]=0 → isBoss=true(sdlpal !operand[2])', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject, projectRuntimeToBattleRoles, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
 import type { PlayerRole, SceneEventObject } from '@type-pal/shared'
 
@@ -375,6 +375,45 @@ describe('player-roles 战斗数据模型边界', () => {
     writeBackBattleRolesToRuntime(battle, rt, [0])
     expect(rt.rgwHP[0]).toBe(200) // 大世界反映满血战果
     expect(rt.rgwMP[0]).toBe(50)
+  })
+
+  it('resumePostBattleScript:胜→wonIp + 恢复 currentEventObjectId + mode=event(打完怪接回 0x52 隐藏)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = 'explore'
+    gs.postBattleResume = { wonIp: 1, lostIp: 41075, fledIp: 41073, currentEventObjectId: 3, triggerOwnerId: 3 }
+    resumePostBattleScript(gs, 'won')
+    expect(gs.eventCursor?.ip).toBe(1)
+    expect(gs.eventCursor?.currentEventObjectId).toBe(3) // 隐藏的是开战那只怪
+    expect(gs.eventCursor?.triggerOwnerId).toBe(3)
+    expect(gs.mode).toBe('event')
+    expect(gs.postBattleResume).toBeUndefined() // 消耗
+  })
+
+  it('resumePostBattleScript:负→lostIp(op[1]) / 逃→fledIp(op[2])', () => {
+    const gsL = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gsL.postBattleResume = { wonIp: 1, lostIp: 41075, fledIp: 41073 }
+    resumePostBattleScript(gsL, 'lost')
+    expect(gsL.eventCursor?.ip).toBe(41075)
+
+    const gsF = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gsF.postBattleResume = { wonIp: 1, lostIp: 41075, fledIp: 41073 }
+    resumePostBattleScript(gsF, 'fled')
+    expect(gsF.eventCursor?.ip).toBe(41073)
+  })
+
+  it('resumePostBattleScript:负/逃但无对应分支 → 退回 wonIp(sdlpal else ip++)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.postBattleResume = { wonIp: 1 } // 无 lostIp/fledIp
+    resumePostBattleScript(gs, 'lost')
+    expect(gs.eventCursor?.ip).toBe(1)
+  })
+
+  it('resumePostBattleScript:无 postBattleResume → no-op(非 0x07 触发的战斗 / dev panel 战斗)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = 'explore'
+    resumePostBattleScript(gs, 'won')
+    expect(gs.eventCursor).toBeUndefined()
+    expect(gs.mode).toBe('explore')
   })
 
   it('往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)', () => {

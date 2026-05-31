@@ -900,6 +900,24 @@ export interface GameState {
   sceneOnEnterOverride?: Record<number, number>
 
   /**
+   * opcode 0x07 startBattle 的战后接回上下文(sdlpal script.c:3318-3331:战斗是同步的,返回后脚本继续;
+   * 胜/无对应分支 → 下一条 ip,负 → op[1],逃 → op[2])。ts 战斗异步 → 0x07 存此,战末 resumePostBattleScript
+   * 接回触发脚本。**修"打完怪不消失"**:`0x07; 0x52 隐藏怪; end` 的 0x52 此前永不跑(0x07 直接清 cursor)。
+   */
+  postBattleResume?: {
+    wonIp: number             // 胜(或负/逃无对应分支)→ resume 此 ip(= 0x07 后下一条)
+    lostIp?: number           // 负 → op[1](已解析为全局 ip;0/无 → undefined → 用 wonIp)
+    fledIp?: number           // 逃 → op[2]
+    commands?: import('@type-pal/shared').Command[]
+    labelMap?: Record<string, number>
+    currentEventObjectId?: number
+    triggerOwnerId?: number
+    onEnterSceneId?: number
+    onEnterStartIp?: number
+    callStack?: EventCursor['callStack']
+  }
+
+  /**
    * opcode 0x6D op2 设的 scene onTeleport 脚本覆盖(键 = wNumScene 1-based,值 = **全局 script entry**,
    * 0 = 清除/无 teleport)。sdlpal script.c:2079 `rgScene[op0-1].wScriptOnTeleport = op2`。
    * 与 onEnter override 不同:**持久**(不在 loadScene 时消耗/删),对齐 sdlpal rgScene 常驻 saved 状态。
@@ -1224,6 +1242,36 @@ export function projectRuntimeToBattleRoles(
     }
   })
   return { roles }
+}
+
+/** 战斗结局(0x07 战后接回分支用)。 */
+export type BattleOutcome = 'won' | 'lost' | 'fled'
+
+/**
+ * opcode 0x07 触发的战斗结束后,接回原触发脚本(sdlpal script.c:3318-3331)。
+ * 胜(或负/逃但 op 无对应分支)→ wonIp(0x07 后下一条);负 → lostIp(op[1]);逃 → fledIp(op[2])。
+ * **修"打完怪不消失"**:让 `0x07; 0x52 隐藏怪; end` 的 0x52 真跑(0x07 此前直接清 cursor → 永不跑)。
+ * 恢复 currentEventObjectId → 0x52 隐藏的是开战的那只怪。无 postBattleResume → no-op(非 0x07 触发的战斗)。
+ */
+export function resumePostBattleScript(gs: GameState, outcome: BattleOutcome): void {
+  const r = gs.postBattleResume
+  if (!r) return
+  gs.postBattleResume = undefined
+  // sdlpal script.c:3320-3331:负+op[1]!=0 → op[1];逃+op[2]!=0 → op[2];否则(胜/无分支)→ 下一条。
+  let ip = r.wonIp
+  if (outcome === 'lost' && r.lostIp !== undefined) ip = r.lostIp
+  else if (outcome === 'fled' && r.fledIp !== undefined) ip = r.fledIp
+  gs.eventCursor = {
+    ip,
+    commands: r.commands,
+    labelMap: r.labelMap,
+    currentEventObjectId: r.currentEventObjectId,
+    triggerOwnerId: r.triggerOwnerId,
+    onEnterSceneId: r.onEnterSceneId,
+    onEnterStartIp: r.onEnterStartIp,
+    callStack: r.callStack,
+  }
+  gs.mode = 'event'
 }
 
 /**

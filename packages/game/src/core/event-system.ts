@@ -1674,8 +1674,9 @@ export function tickEventSystem(
       }
 
       case 'raw': {
-        // P0.e: opcode 7 startBattle 切 mode='battle' → 释放 cursor,return 退出 tickEventSystem
+        // P0.e: opcode 7 startBattle 切 mode='battle' → 存战后接回 + 释放 cursor,return 退出 tickEventSystem
         if (cmd.opcode === OP_START_BATTLE) {
+          savePostBattleResume(gs, cursor, cmd.operands) // 战末接回触发脚本(0x52 隐藏怪 等)
           tryStartBattle(gs, cmd.operands[0] ?? 0, cmd.operands[2] ?? 0)
           gs.eventCursor = undefined
           gs.dialogBox = undefined
@@ -2163,13 +2164,12 @@ export function tickEventSystem(
 
       case 'startBattle':
         // P0.e: 具名 startBattle(若 disassembler 升级具名)— 走同 raw#7 handler。
-        // sdlpal script.c:3318 真值 PAL_StartBattle(operand[0], !operand[2])。
-        // 简化版:切 mode 'battle' + 清 eventCursor;战后 finalizeBattle 回 explore mode。
-        // 战后 cursor.ip++ resume + onLose/onFlee 分支留 M5 P1-Battle 股。
+        // sdlpal script.c:3318 真值 PAL_StartBattle(operand[0], !operand[2]);战后接回触发脚本
+        //   (胜→下一条 / 负→op[1] / 逃→op[2],script.c:3320-3331)。
         if (cmd.operands) {
+          savePostBattleResume(gs, cursor, cmd.operands)
           tryStartBattle(gs, cmd.operands[0], cmd.operands[2])
         }
-        // mode 已切 'battle' / explore(取决于 handler 是否注入);释放 cursor 不再 resume
         gs.eventCursor = undefined
         gs.dialogBox = undefined
         return
@@ -2462,6 +2462,28 @@ export function runScript(opts: RunScriptOptions): void {
 //
 // 简化版(P0.e 范围):切 mode 'battle' + 释放 cursor;不 resume cursor.ip 跑 onLose/onFlee。
 // 真做战后 resume 留 M5 P1-Battle B-w0 系列(`wScriptOnWin/Lose` cleanup 一并)。
+/**
+ * 0x07 startBattle 起手存战后接回上下文(sdlpal script.c:3318-3331:战斗同步返回后脚本继续)。
+ * 胜 → wonIp(0x07 后下一条);负 → op[1];逃 → op[2](op[1]/op[2] = 全局 entry,经 cursor.labelMap 解析)。
+ * 战末 finalizeBattleCleanup → resumePostBattleScript 接回。修"打完怪不消失"(0x52 隐藏怪此前永不跑)。
+ */
+function savePostBattleResume(gs: GameState, cursor: EventCursor, operands: readonly number[]): void {
+  const resolve = (entry: number): number | undefined =>
+    entry !== 0 ? (cursor.labelMap?.[`L_${entry}`] ?? entry) : undefined
+  gs.postBattleResume = {
+    wonIp: cursor.ip + 1,
+    lostIp: resolve(operands[1] ?? 0),
+    fledIp: resolve(operands[2] ?? 0),
+    commands: cursor.commands,
+    labelMap: cursor.labelMap,
+    currentEventObjectId: cursor.currentEventObjectId,
+    triggerOwnerId: cursor.triggerOwnerId,
+    onEnterSceneId: cursor.onEnterSceneId,
+    onEnterStartIp: cursor.onEnterStartIp,
+    callStack: cursor.callStack,
+  }
+}
+
 function tryStartBattle(gs: GameState, enemyTeamId: number, fleeArg: number): void {
   if (!_startBattleHandler) {
     console.warn(

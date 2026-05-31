@@ -48,7 +48,7 @@ import type {
 import type { CommandBus } from '../command-bus.js'
 import { curePlayerPoisonByLevel, getGlobalCommands, type RunScriptOptions, runScript } from '../event-system.js'
 import type { GameState, PlayerRolesRuntime } from '../game-state.js'
-import { writeBackBattleRolesToRuntime } from '../game-state.js'
+import { type BattleOutcome, resumePostBattleScript, writeBackBattleRolesToRuntime } from '../game-state.js'
 import {
   getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity,
   getPlayerFleeRate, getPlayerMagicStrength, removeEquipmentEffect,
@@ -2065,11 +2065,12 @@ function finalizeBattle(
     }
   }
   writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
-  finalizeBattleCleanup(gs)
+  // forced(watchdog 强退)按"胜"接回(续跑下一条);否则按 phase 分支(lost→op[1] / fleed→op[2])。
+  finalizeBattleCleanup(gs, forced ? 'won' : (state.phase === 'lost' ? 'lost' : 'fled'))
 }
 
-/** 战斗收尾清状态(won 结算放完 / lost / fleed / forced 共用)→ 回 explore。 */
-function finalizeBattleCleanup(gs: GameState): void {
+/** 战斗收尾清状态(won 结算放完 / lost / fleed / forced 共用)→ 回 explore;0x07 触发的战斗接回触发脚本。 */
+function finalizeBattleCleanup(gs: GameState, outcome: BattleOutcome): void {
   // D21 sdlpal battle.c:1822-1830(无条件 won/lost/fleed):清 player status + 毒 + 临时 Extra 装备效果。
   //   - PAL_ClearAllPlayerStatus:ts 战斗 status 是 battle-local(随 gs.battleState=undefined 丢弃)
   //     → 自动满足,无需显式清(若未来 status 持久化到 gs 再补 clearAllPlayerStatus≤999)。
@@ -2090,6 +2091,9 @@ function finalizeBattleCleanup(gs: GameState): void {
   setBattleResources(gs, undefined)
   // 清 injected runScript(若有)
   delete (gs as unknown as Record<string, RunScriptFn | undefined>).__battleRunScript
+  // 0x07 触发的战斗 → 接回触发脚本(胜→下一条跑 0x52 隐藏怪 / 负→op[1] / 逃→op[2],script.c:3318-3331)。
+  //   会把 gs.mode 改回 'event' + 设 eventCursor;非 0x07 触发(dev panel / 0x07 无 resume)→ no-op 留 explore。
+  resumePostBattleScript(gs, outcome)
 }
 
 /**
@@ -2149,7 +2153,7 @@ function finishBattleWon(gs: GameState): void {
     const mp = rt.rgwMP[roleId] ?? 0
     rt.rgwMP[roleId] = mp + Math.floor((maxMP - mp) / 2)
   }
-  finalizeBattleCleanup(gs)
+  finalizeBattleCleanup(gs, 'won')
 }
 
 /**
