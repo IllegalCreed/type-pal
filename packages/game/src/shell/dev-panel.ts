@@ -277,22 +277,27 @@ function openPicker(deps: DevPanelDeps): void {
     div.appendChild(btn)
   }
 
-  // 法术测试战斗:李逍遥(0)/赵灵儿(1)/林月如(2)学会**全部战斗法术** + 高 HP/MP/灵力,
+  // 法术测试战斗:李逍遥(0)/赵灵儿(1)/林月如(2)各自学会**本角色原本会的技能** + 高 HP/MP/灵力,
   // vs 5 敌(team 7)。用来测 E 类法术伤害结算(inline / 0x42 / 0x57·0x88 等)。
-  // learnedSpells 动态取自 spells.json `usableInBattle`(~100 条),避免硬编码 id 漂移。
+  // 每角色技能 = 起手 magic(playerRoles[i].magic)+ 升级习得(levelUpMagic[i]),非全员同一套
+  //   (user 2026-05-31:"按照每个人原本会的技能分配")。**key 必须是 `magic`**(PlayerRole 真字段;
+  //   hydratePlayerRolesRuntime 读 role.magic → rgwMagic → 战斗投影 → 法术菜单)。
   const spellTestBtn = document.createElement('button')
-  spellTestBtn.textContent = '★ 法术测试(三人全法术 vs 5 敌)'
+  spellTestBtn.textContent = '★ 法术测试(三人各自技能 vs 5 敌)'
   spellTestBtn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left; background:#3a2a48; font-weight:bold'
   spellTestBtn.addEventListener('click', () => {
     closePicker()
-    const inBattleSpells = deps.resources.spells.filter(s => s.flags.usableInBattle).map(s => s.id)
-    // rgwMagic 硬上限 32 槽(MAX_PLAYER_MAGICS)→ 装不下全 100 个 in-battle 法术。取**末 32**(高级法术,
-    //   含飞龙探云手 id377 偷取 / 夺魂 等),再保证飞龙探云手在内(prepend 去重)。
-    //   **key 必须是 `magic`**(PlayerRole 真字段;hydratePlayerRolesRuntime 读 role.magic → rgwMagic →
-    //   战斗投影 → 法术菜单)。原 `learnedSpells` 是无效字段(Object.assign 后没人读)→ 进战斗只剩默认气疗术。
-    const learned = [...new Set([377, ...inBattleSpells.slice(-31)])].slice(0, 32)
-    const makeOverride = (): Partial<Record<string, number | number[]>> => ({
-      magic: [...learned],
+    // 某角色原本会的技能 = 起手 magic + 升级习得 magic(去重,rgwMagic 32 槽上限)。
+    const roleMagics = (roleId: number): number[] => {
+      const role = deps.resources.playerRoles.roles.find(r => r.id === roleId)
+      const start = (role?.magic ?? []).filter(x => x > 0)
+      const learned = (deps.resources.levelUpMagic?.[roleId] ?? [])
+        .filter(e => e.magic > 0)
+        .map(e => e.magic)
+      return [...new Set([...start, ...learned])].slice(0, 32) // MAX_PLAYER_MAGICS=32
+    }
+    const makeOverride = (roleId: number): Partial<Record<string, number | number[]>> => ({
+      magic: roleMagics(roleId),
       level: 99,
       hp: 9999,
       maxHP: 9999,
@@ -302,9 +307,9 @@ function openPicker(deps: DevPanelDeps): void {
     })
     applyFixture(deps, {
       id: 'spell-test',
-      label: '法术测试(三人全法术)',
+      label: '法术测试(三人各自技能)',
       partyMembers: [0, 1, 2], // MAX_BATTLE_PLAYERS=3
-      playerOverrides: { 0: makeOverride(), 1: makeOverride(), 2: makeOverride() },
+      playerOverrides: { 0: makeOverride(0), 1: makeOverride(1), 2: makeOverride(2) },
       inventory: [{ itemId: 61, count: 99 }],
       enemyTeamId: 7, // [7,6,7,6,6] = 5 敌,测全体法术
       battleFieldId: 7,
