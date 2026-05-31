@@ -489,6 +489,66 @@ describe('performAttack', () => {
     expect(playerRoles.roles[0]!.hp).toBeLessThan(5000) // 睡眠中躲不掉
   })
 
+  // ── B2 c3b:守护替挡 cover(rgwCoveredBy,fight.c:4943-4985)──────────────────────
+  // 坏状态(混乱/睡眠/麻痹)目标 + fAutoDefend 命中 → 查 coveredBy 找健康替挡者 → 仍闪避(全免伤);
+  // 无替挡 / 替挡者也坏状态 → 强制挨打。
+
+  /** 给 state 加第二名队员(守护者)+ playerRoles。 */
+  function addCoverer(
+    state: BattleState,
+    playerRoles: PlayerRoles,
+    covererRole: Partial<PlayerRole>,
+    covererStatus: Partial<BattleStatus> = {},
+  ): void {
+    const role = makeRole({ id: 1, hp: 5000, maxHP: 5000, ...covererRole })
+    playerRoles.roles[1] = role
+    state.players[1] = {
+      roleId: 1,
+      prevHp: role.hp,
+      prevMp: role.mp,
+      defending: false,
+      status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, ...covererStatus },
+    }
+  }
+
+  it('B2 c3b:混乱目标 + 健康守护者(coveredBy)→ 替挡闪避(免伤)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { id: 0, level: 10, defense: 100, hp: 5000 },
+      enemies: [{ level: 5, attackStrength: 500 }],
+      forceRoll: 10, // fAutoDefend 命中
+      playerStatus: { confused: 1 }, // 目标坏状态
+    })
+    playerRoles.roles[0]!.coveredBy = 1 // 被 role 1 守护
+    addCoverer(state, playerRoles, { hp: 5000 }) // role 1 健康
+    performAttack(state, enemyActor, 0, bus, playerRoles)
+    expect(playerRoles.roles[0]!.hp).toBe(5000) // 守护者替挡 → 闪避免伤
+  })
+
+  it('B2 c3b:混乱目标 + 守护者也坏状态 → 无效替挡 → 强制挨打', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { id: 0, level: 10, defense: 100, hp: 5000 },
+      enemies: [{ level: 5, attackStrength: 500 }],
+      forceRoll: 10,
+      playerStatus: { confused: 1 },
+    })
+    playerRoles.roles[0]!.coveredBy = 1
+    addCoverer(state, playerRoles, { hp: 5000 }, { sleep: 1 }) // 守护者睡眠 → 挡不了
+    performAttack(state, enemyActor, 0, bus, playerRoles)
+    expect(playerRoles.roles[0]!.hp).toBeLessThan(5000) // 无有效替挡 → 挨打
+  })
+
+  it('B2 c3b:混乱目标 + coveredBy 指向不在队的角色 → 无替挡 → 挨打', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { id: 0, level: 10, defense: 100, hp: 5000 },
+      enemies: [{ level: 5, attackStrength: 500 }],
+      forceRoll: 10,
+      playerStatus: { confused: 1 },
+    })
+    playerRoles.roles[0]!.coveredBy = 3 // role 3 不在队
+    performAttack(state, enemyActor, 0, bus, playerRoles)
+    expect(playerRoles.roles[0]!.hp).toBeLessThan(5000)
+  })
+
   it('player defending → enemy 攻击 damage 显著减小(def *= 2)', () => {
     // 不 defend
     const a = makeState({

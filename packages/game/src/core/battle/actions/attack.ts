@@ -227,13 +227,34 @@ export function performAttack(
   const targetRole = playerRoles.roles[state.players[targetIdx]!.roleId]!
   const targetStatus = state.players[targetIdx]!.status
 
-  // B2 c3a:自动防御闪避(fight.c:4936-4985)。fAutoDefend 命中 = 整次物理攻击全免伤
-  //   (5052 !fAutoDefend gate 罩住整个伤害块)。cover(rgwCoveredBy 替挡)留 c3b,此处 iCoverIndex 恒 -1。
+  // B2 c3a/c3b:自动防御闪避 + 守护替挡(fight.c:4936-4985)。fAutoDefend 命中 = 整次物理攻击全免伤
+  //   (5052 !fAutoDefend gate 罩住整个伤害块)。
   let fAutoDefend = state.rng.rangeInclusive(0, 16) >= 10 // fight.c:4938 7/17
+  const targetDying = isPlayerDying(targetRole.hp, targetRole.maxHP)
   const targetBad = (targetStatus.confused ?? 0) > 0 || (targetStatus.sleep ?? 0) > 0
     || (targetStatus.paralyzed ?? 0) > 0
+  // c3b cover(fight.c:4943-4968):坏状态/濒死目标 + fAutoDefend → 查 coveredBy 找健康替挡者
+  let iCoverIndex = -1
+  if ((targetDying || targetBad) && fAutoDefend) {
+    const coveredByRoleId = targetRole.coveredBy ?? 0
+    // sdlpal 真值无 w==0 guard:literal 匹配 roleId===coveredBy(0→role0 若在队)
+    const coverIdx = state.players.findIndex((p) => p.roleId === coveredByRoleId)
+    if (coverIdx >= 0) {
+      iCoverIndex = coverIdx
+      // 替挡者自身坏状态/濒死 → 挡不了(fight.c:4961-4967)
+      const coverer = state.players[coverIdx]!
+      const cRole = playerRoles.roles[coverer.roleId]
+      const cs = coverer.status
+      if (
+        isPlayerDying(cRole?.hp ?? 0, cRole?.maxHP ?? 0)
+        || (cs.confused ?? 0) > 0 || (cs.sleep ?? 0) > 0 || (cs.paralyzed ?? 0) > 0
+      ) {
+        iCoverIndex = -1
+      }
+    }
+  }
   // fight.c:4975-4985:无替挡(iCoverIndex==-1)+ 坏状态(混乱/睡眠/麻痹 CLASSIC) → 强制不闪避
-  if (targetBad) fAutoDefend = false
+  if (iCoverIndex === -1 && targetBad) fAutoDefend = false
   if (fAutoDefend) {
     // 全闪避:不结算伤害(sdlpal 仅播躲避帧 currentFrame=3)。present hook 留作动画。
     bus.emit({ op: 'playEnemyAttack', enemyIdx: actor.idx, targetPlayerIdx: targetIdx })
