@@ -875,6 +875,40 @@ export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnim
   return frames
 }
 
+/**
+ * 队员被敌方法术命中的**受击动画**(port fight.c:4861-4899,PAL_BattleEnemyPerformAction 魔法分支)。
+ * sdlpal 在 ShowEnemyMagicAnim + 伤害结算 + DisplayStatChange **之后**对**受伤队员**跑 5 帧:
+ *   for i=0..4:wCurrentFrame=4(受击姿);i>0 → pos += (8>>i, 4>>i)(递减击退 4,2/2,1/1,0/0,0);
+ *   iColorShift=(i<3 ? 6 : 0)(前 3 帧红闪);各 PAL_BattleDelay(1)。
+ * 之后 resetFightersAfterAction 复位 pos/frame。**之前 ts 完全没播 → user 实测"我方受击动画还是没有"**。
+ *
+ * @param affected 受伤队员 + 其复位底锚(posOriginal)。AoE 时多个;单体一个。
+ */
+export function buildPlayerMagicHitReaction(
+  affected: ReadonlyArray<{ idx: number; pos: { x: number; y: number } }>,
+): BattleAnimFrame[] {
+  if (affected.length === 0) return []
+  const cur = affected.map((a) => ({ idx: a.idx, x: a.pos.x, y: a.pos.y }))
+  const frames: BattleAnimFrame[] = []
+  for (let i = 0; i < 5; i++) {
+    const fighters: FighterDelta[] = cur.map((c) => {
+      if (i > 0) {
+        c.x += 8 >> i
+        c.y += 4 >> i
+      }
+      return {
+        side: 'player' as const,
+        idx: c.idx,
+        currentFrame: 4,
+        iColorShift: i < 3 ? 6 : 0,
+        pos: { x: c.x, y: c.y },
+      }
+    })
+    frames.push({ durationMs: delayMs(1), fighters })
+  }
+  return frames
+}
+
 /** SHORT cast(xOffset/yOffset 是 WORD 但 sdlpal 用 (SHORT) 强转,fight.c:2749)。 */
 function asShortLocal(n: number): number {
   return (n << 16) >> 16

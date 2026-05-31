@@ -959,17 +959,25 @@ describe('performMagic D17: 敌方攻击魔法 EnemyMagic 时间线', () => {
     })
     expect(state.battleAnim).toBeDefined()
     const f = state.battleAnim!.frames
-    // 帧链 = 施法起手(前移+手势,buildEnemyMagicCastIntro)+ posReset + 落点特效。
-    //   特效段从第一个带 overlays 的帧起(起手段无 overlays);只断言特效部分(起手另有专测)。
+    // 帧链 = 施法起手(前移+手势,buildEnemyMagicCastIntro)+ posReset + 落点特效(14)+ 队员受击(5)。
+    //   特效段从第一个带 overlays 的帧起(起手段无 overlays)。
     const effStart = f.findIndex((fr) => (fr.overlays?.length ?? 0) > 0)
     const eff = f.slice(effStart)
-    expect(eff.length).toBe((8 - 2) * 1 + 8 + 0) // 落点特效 l=14
+    // 落点特效 14 帧(都带 overlays)+ 受击 5 帧(fight.c:4861-4899,无 overlays)
+    expect(eff.filter((fr) => (fr.overlays?.length ?? 0) > 0).length).toBe((8 - 2) * 1 + 8) // l=14
+    expect(eff.length).toBe(14 + 5)
     // 落点 = player.posOriginal + (xOff,yOff) = (244,164)
     expect(eff[0]!.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 12, x: 244, y: 164 })
     // 特效内敌施法帧 i=2(fireDelay)→ currentFrame = 2-2+4+2 = 6
     expect(eff[2]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 6 }])
     // 起手段(磁frames=2)应有前移 + 施法手势,证明施法本体动画接上(修「敌人施法定格」)
     expect(f[0]!.fighters?.[0]).toMatchObject({ side: 'enemy', idx: 0, pos: { x: 172, y: 86 } }) // 前移 +12/+6
+    // 受击动画(末 5 帧):受伤队员 idx0 frame4 + 红闪;i=0 不位移(pos=posOriginal 240,170)
+    const hurt = f.slice(f.length - 5)
+    expect(hurt[0]!.fighters).toEqual([
+      { side: 'player', idx: 0, currentFrame: 4, iColorShift: 6, pos: { x: 240, y: 170 } },
+    ])
+    expect(hurt[4]!.fighters?.[0]).toMatchObject({ side: 'player', idx: 0, currentFrame: 4, iColorShift: 0 })
     // 敌人 HP 不被改(敌方伤害靠 AI/script,本切片只动画)
     expect(state.enemies[0]!.e.health).toBe(100)
   })

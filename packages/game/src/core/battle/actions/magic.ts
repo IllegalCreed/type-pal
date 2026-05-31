@@ -23,6 +23,7 @@ import {
   buildEnemyMagicCastIntro,
   buildEnemyMagicTimeline,
   buildPlayerDefMagicTimeline,
+  buildPlayerMagicHitReaction,
   buildPlayerOffMagicTimeline,
   buildPostMagicTimeline,
   buildPreMagicTimeline,
@@ -219,6 +220,8 @@ export function performMagic(input: PerformMagicInput): void {
   //   之后,fight.c:4322/4369/4405)。这里先 collect,下方据是否建动画链决定:建链 → 交时间线播完 emit;
   //   未建链(旧 fixture / 无 sprite)→ 立即 emit(向后兼容)。修 user 实测"掉血数字比攻击动画早出"。
   const pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
+  // 敌方法术受伤的队员 idx(受击动画 fight.c:4861-4899 用;E2 填)。
+  const hitPlayerIdxs: number[] = []
   let dmgResults: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number }> = []
   if (
     !input.casterIsEnemy &&
@@ -276,6 +279,7 @@ export function performMagic(input: PerformMagicInput): void {
     for (const r of enemyDmg) {
       if (r.hpAfter < r.hpBefore) {
         pendingNums.push({ target: { kind: 'player', idx: r.playerIdx }, value: r.hpBefore - r.hpAfter, color: 'blue' })
+        hitPlayerIdxs.push(r.playerIdx) // 受伤队员 → 受击动画(fight.c:4861-4899)
       }
     }
   }
@@ -296,7 +300,7 @@ export function performMagic(input: PerformMagicInput): void {
       buildAndStartDefMagicAnim(input, magic)
     }
   } else if (OFF_MAGIC_TYPES.has(magic.type)) {
-    built = buildAndStartEnemyMagicAnim(input, magic, pendingNums)
+    built = buildAndStartEnemyMagicAnim(input, magic, pendingNums, hitPlayerIdxs)
   }
 
   // 未建动画链(旧 fixture / 无 sprite 资源 / 非 OFF 类型)→ 立即 emit 伤害数字(向后兼容;
@@ -473,6 +477,7 @@ function buildAndStartEnemyMagicAnim(
   input: PerformMagicInput,
   magic: Magic,
   pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'],
+  hitPlayerIdxs: number[],
 ): boolean {
   if (!OFF_MAGIC_TYPES.has(magic.type)) return false
   const n = input.magicSpriteFrameCounts?.get(magic.effect)
@@ -529,6 +534,21 @@ function buildAndStartEnemyMagicAnim(
     targetPlayerIdx,
     targetPlayerPos,
   })
-  startBattleAnim(input.state, [...introFrames, posResetFrame, ...effectFrames], input.bus, pendingNums)
+  // 队员受击动画(fight.c:4861-4899):受伤队员 frame4 + 红闪 + 递减击退,接在特效之后。
+  //   单体('normal')→ 该 target;AoE → E2 结算出的受伤队员(hitPlayerIdxs)。各取 posOriginal 复位锚。
+  const affectedIdxs = offType === 'normal'
+    ? (targetPlayerIdx >= 0 ? [targetPlayerIdx] : [])
+    : hitPlayerIdxs
+  const affected = affectedIdxs
+    .map((idx) => ({ idx, pos: input.state.players[idx]?.posOriginal }))
+    .filter((a): a is { idx: number; pos: { x: number; y: number } } => a.pos != null)
+  const hurtFrames = buildPlayerMagicHitReaction(affected)
+
+  startBattleAnim(
+    input.state,
+    [...introFrames, posResetFrame, ...effectFrames, ...hurtFrames],
+    input.bus,
+    pendingNums,
+  )
   return true
 }
