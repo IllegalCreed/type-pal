@@ -153,7 +153,8 @@ export function setupDevPanel(deps: DevPanelDeps): void {
   if (!(import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV) return
 
   window.addEventListener('keydown', (e) => {
-    if (e.code === 'KeyB' && deps.gs.mode === 'explore') {
+    if (e.code === 'KeyB' && (deps.gs.mode === 'explore' || deps.gs.mode === 'battle')) {
+      // explore:起战斗 picker;battle:同一 picker 顶部「战斗状态调试」section 可给队员挂异常状态。
       e.preventDefault()
       openPicker(deps)
     }
@@ -305,6 +306,70 @@ function openPicker(deps: DevPanelDeps): void {
     })
   })
   div.appendChild(spellTestBtn)
+
+  // ── ⚔ 战斗状态调试(B1/D8 等)——只在战斗中生效,给 player 0(李逍遥)挂异常状态/buff ──
+  //   sdlpal CLASSIC kStatus 全 9 种 + 中毒。点按钮 → 设到 player 0 status[key]=5 回合(中毒设 rgPoisonStatus),
+  //   closePicker 让战斗继续观察。需先在战斗中(B 键战斗中也能开本 picker)。
+  const statusH = document.createElement('h4')
+  statusH.textContent = '⚔ 战斗状态调试(挂到 P0 李逍遥)'
+  statusH.className = 'tp-dev-section-h'
+  div.appendChild(statusH)
+
+  // [label, statusKey | 'poison' | 'clear', 中文说明]
+  const STATUS_BTNS: Array<[string, string]> = [
+    ['混乱 confused(攻友军)', 'confused'],
+    ['定身/麻痹 paralyzed(跳回合)', 'paralyzed'],
+    ['睡眠 sleep(跳回合)', 'sleep'],
+    ['沉默 silence(禁施法)', 'silence'],
+    ['傀儡 puppet(死后续战)', 'puppet'],
+    ['狂暴 bravery(必暴击)', 'bravery'],
+    ['护体 protect(减半受伤)', 'protect'],
+    ['加速 haste(dex×3)', 'haste'],
+    ['双攻 dualAttack(双击)', 'dualAttack'],
+    ['中毒 poison(战末解)', 'poison'],
+    ['✗ 清除 P0 全部状态/毒', 'clear'],
+  ]
+  const statusNote = document.createElement('div')
+  statusNote.style.cssText = 'font-size:11px; color:#aaa; margin:2px 0 4px'
+  statusNote.textContent = '注:需在战斗中(可按 B 在战斗里开本面板)。混乱/AttackMate 需先按 P 组三人队。'
+  div.appendChild(statusNote)
+  for (const [label, key] of STATUS_BTNS) {
+    const btn = document.createElement('button')
+    btn.textContent = label
+    btn.style.cssText = 'display:block; margin:3px 0; padding:4px 8px; width:100%; text-align:left; font-size:12px'
+    btn.addEventListener('click', () => {
+      const st = deps.gs.battleState
+      if (!st || deps.gs.mode !== 'battle') {
+        console.warn('[dev] 战斗状态调试:需在战斗中(当前 mode=' + deps.gs.mode + ')')
+        return
+      }
+      const p0 = st.players[0]
+      const role0 = deps.gs.partyMembers[0]
+      if (!p0) {
+        console.warn('[dev] 战斗状态调试:无 player 0')
+        return
+      }
+      if (key === 'poison') {
+        if (role0 !== undefined)
+          deps.gs.rgPoisonStatus[`0_${role0}`] = { wPoisonID: 5, wPoisonScript: 0 }
+        console.log(`[dev] P0(role ${role0})中毒 rgPoisonStatus[0_${role0}]=id5;打完战斗应被清(D21)`)
+      }
+      else if (key === 'clear') {
+        const s = p0.status as unknown as Record<string, number>
+        for (const k of ['confused', 'paralyzed', 'sleep', 'silence', 'puppet', 'bravery', 'protect', 'haste', 'slow', 'dualAttack'])
+          s[k] = 0
+        if (role0 !== undefined)
+          for (let slot = 0; slot < 16; slot++) delete deps.gs.rgPoisonStatus[`${slot}_${role0}`]
+        console.log('[dev] P0 全部状态/毒已清')
+      }
+      else {
+        ;(p0.status as unknown as Record<string, number>)[key] = 5
+        console.log(`[dev] P0 status.${key}=5(5 回合)。回合末逐回合 -1`)
+      }
+      closePicker()
+    })
+    div.appendChild(btn)
+  }
 
   // M4 P3 T6: scene jump section —— input + filter list(294 entries)。
   const sceneH = document.createElement('h4')
