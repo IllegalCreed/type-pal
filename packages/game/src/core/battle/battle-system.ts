@@ -393,7 +393,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 
   // D11b 胜利结算演出 hold(phase-agnostic):active → 逐屏显示升级/学法术,暂停战斗推进,
   //   放完 → finishBattleWon → explore(忠实 PAL_BattleWon 多屏 PAL_WaitForAnyKey)。
-  if (tickBattleSettlement(state, gs, input)) return
+  if (tickBattleSettlement(state, gs, input, res, bus)) return
 
   // scriptOnTurnStart:每轮起手(进 selectAction **菜单之前**)对全体活敌跑一次 → boss 嘲讽对话
   //   进战斗一开始 / 每轮开头就显示(忠实 sdlpal fight.c:1184-1191 fTurnStart 在 charge/act 前)。
@@ -2203,10 +2203,29 @@ function buildBattleWonSettlement(gs: GameState, state: BattleState, res: Battle
  * D11b 结算演出放完(index 越界)→ Phase F 每战后半血恢复(battle.c:1342-1372 PAL_CLASSIC:
  * HP += (maxHP-HP)/2,MP 同)+ finalize → explore。
  *
- * Phase E post-battle scriptOnBattleEnd(battle.c:1334-1337)暂未跑 —— enemy 脚本已存但接 explore
- * script runner 是独立任务,诚实留 follow-up(见 battle-settlement.ts 模块头注)。
+ * B2 c6:Phase E post-battle scriptOnBattleEnd(battle.c:1334-1337)在半血恢复**之前**、
+ * 仅胜利时,对每只敌跑一次(返回值**不回写**,与 turnStart/ready 的 show-once 不同)。
  */
-function finishBattleWon(gs: GameState): void {
+function finishBattleWon(gs: GameState, state: BattleState, res: BattleResources, bus: CommandBus): void {
+  // B2 c6:逐敌跑 scriptOnBattleEnd(battle.c:1334-1337,在半血恢复前)。胜利时全敌已死,
+  //   但 sdlpal 仍对 i=0..wMaxEnemyIndex 跑(不按 health 过滤);返回值不回写。
+  for (let ei = 0; ei < state.enemies.length; ei++) {
+    const en = state.enemies[ei]
+    if (!en || (en.scriptOnBattleEnd ?? 0) <= 0) continue
+    getRunScript(gs)({
+      commands: res.commands,
+      ip: en.scriptOnBattleEnd,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: {
+        state,
+        caster: { type: 'enemy', idx: ei },
+        summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+        gs,
+      },
+    })
+  }
+
   const rt = gs.PlayerRolesRuntime
   for (const roleId of gs.partyMembers) {
     const maxHP = rt.rgwMaxHP[roleId] ?? 0
@@ -2224,14 +2243,20 @@ function finishBattleWon(gs: GameState): void {
  * 逐屏显示(每屏等任意键 / 超时自动翻,sdlpal PAL_WaitForAnyKey)。放完 → finishBattleWon → explore。
  * 返回 true = 本 tick 被结算占用(tickBattle 早退)。
  */
-export function tickBattleSettlement(state: BattleState, gs: GameState, input: InputSnapshot): boolean {
+export function tickBattleSettlement(
+  state: BattleState,
+  gs: GameState,
+  input: InputSnapshot,
+  res: BattleResources,
+  bus: CommandBus,
+): boolean {
   const s = state.settlement
   if (!s) return false
   // 等键是合法玩家等待(非卡死)→ 清 stall 计数,避免被 60s 看门狗强退。
   state.phaseStallTicks = 0
 
   if (s.index >= s.screens.length) {
-    finishBattleWon(gs) // 放完 → 半血恢复 + 收尾回 explore
+    finishBattleWon(gs, state, res, bus) // 放完 → scriptOnBattleEnd + 半血恢复 + 收尾回 explore
     return true
   }
 

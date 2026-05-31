@@ -419,6 +419,36 @@ describe('tickBattle finalize', () => {
     expect(gs.Exp.rgPrimaryExp[0]?.wExp).toBeGreaterThan(0)
   })
 
+  it('B2 c6:胜利后跑各敌 scriptOnBattleEnd(battle.c:1334-1337;仅胜利)', () => {
+    const calls: number[] = []
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 1 })], // 必秒 → 胜利
+      roles: [makeRole({ id: 0, attackStrength: 999 })],
+      runScriptFn: (input) => { calls.push(input.ip) }, // 记录所有 runScript 调用
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.enemies[0]!.scriptOnBattleEnd = 777 // boss 死后剧情脚本
+    gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
+    driveBattleToExplore(gs, bus)
+    expect(calls).toContain(777) // 战后 scriptOnBattleEnd 真被跑(即便敌已死)
+  })
+
+  it('B2 c6:逃跑/战败不跑 scriptOnBattleEnd(仅胜利 PAL_BattleWon)', () => {
+    const calls: number[] = []
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 9999, attackStrength: 0 })],
+      roles: [makeRole({ id: 0, hp: 1, maxHP: 1 })],
+      runScriptFn: (input) => { calls.push(input.ip) }, // 注入才能真验证"没被调"
+    })
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.enemies[0]!.scriptOnBattleEnd = 777
+    // 强制逃跑结束(非胜利)
+    gs.battleState!.phase = 'fleed'
+    let safety = 30
+    while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(calls).not.toContain(777) // 非胜利 → 不跑
+  })
+
   it('finalizeBattle 回写战斗 HP/MP → gs.PlayerRolesRuntime(边界同步:战果持久化)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 1, exp: 0, cash: 0 })], // 必秒 → won,队员无伤
