@@ -146,85 +146,95 @@ export function performAttack(
   //   - **无** jitter / RandomFloat(真值即如此,区别于单体)
   if (!actor.isEnemy && targetIdx < 0) {
     const bravery = state.players[actor.idx]?.status.bravery ?? 0
-    const fCritical = state.rng.rangeInclusive(0, 5) === 0 || bravery > 0
-    let division = 1
+    // DualAttack(0x2D 装备授,如玄冥宝刀)→ 整段群攻做两次(fight.c:3681 for t<(dualAttack?2:1))
+    const hits = (state.players[actor.idx]?.status.dualAttack ?? 0) > 0 ? 2 : 1
     const HIT_ORDER = [2, 1, 0, 4, 3] // fight.c:3684 const int index[MAX_ENEMIES_IN_TEAM]
-    for (const slot of HIT_ORDER) {
-      const be = state.enemies[slot]
-      if (!be || be.e.health <= 0) continue // sdlpal:wObjectID==0 || idx>maxEnemyIndex
-      const def = asShort(be.e.defense) + (be.e.level + 6) * 4
-      let damage = calcPhysicalAttackDamage(str, def, be.e.physicalResistance)
-      if (fCritical) damage *= 3
-      damage = damage / division // FLOAT 除(逐敌减半)
-      if (damage <= 0) damage = 1
-      const before = be.e.health
-      // sdlpal `wHealth -= (FLOAT)sDamage` → WORD 回写截断(trunc),等价 floor(health - dmg)
-      be.e.health = Math.max(0, Math.trunc(be.e.health - damage))
-      // D17b:敌人掉血 → blue(sdlpal `fight.c:648-651`)。value 用钳后真实 delta。
-      bus.emit({
-        op: 'showDamageNum',
-        target: { kind: 'enemy', idx: slot },
-        value: before - be.e.health,
-        color: 'blue',
-      })
-      division *= 2 // fight.c:3729 命中一个活敌后翻倍
+    for (let t = 0; t < hits; t++) {
+      // 每轮 crit 重摇、division 重置(fight.c:3683-3688 在 t-loop 内)
+      const fCritical = state.rng.rangeInclusive(0, 5) === 0 || bravery > 0
+      let division = 1
+      for (const slot of HIT_ORDER) {
+        const be = state.enemies[slot]
+        if (!be || be.e.health <= 0) continue // sdlpal:wObjectID==0 || idx>maxEnemyIndex
+        const def = asShort(be.e.defense) + (be.e.level + 6) * 4
+        let damage = calcPhysicalAttackDamage(str, def, be.e.physicalResistance)
+        if (fCritical) damage *= 3
+        damage = damage / division // FLOAT 除(逐敌减半)
+        if (damage <= 0) damage = 1
+        const before = be.e.health
+        // sdlpal `wHealth -= (FLOAT)sDamage` → WORD 回写截断(trunc),等价 floor(health - dmg)
+        be.e.health = Math.max(0, Math.trunc(be.e.health - damage))
+        // D17b:敌人掉血 → blue(sdlpal `fight.c:648-651`)。value 用钳后真实 delta。
+        bus.emit({
+          op: 'showDamageNum',
+          target: { kind: 'enemy', idx: slot },
+          value: before - be.e.health,
+          color: 'blue',
+        })
+        division *= 2 // fight.c:3729 命中一个活敌后翻倍
+      }
     }
     bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: -1 })
     return
   }
 
-  // —— 算 def + 选择 target HP 句柄 + physRes ——
-  let def: number
-  let physRes: number
-  let isPlayerTarget: boolean
-
-  if (actor.isEnemy) {
-    // enemy 攻击 player
-    const role = playerRoles.roles[state.players[targetIdx]!.roleId]!
-    def = asShort(role.defense) + (role.level + 6) * 4
-    if (state.players[targetIdx]!.defending) {
-      def *= 2 // sdlpal fight.c:4926 fDefending → def *= 2(不是 dmg /= 2)
-    }
-    physRes = 2 // sdlpal fight.c:4934 enemy→player 硬编码 res=2
-    isPlayerTarget = true
-  } else {
-    // player 攻击 enemy
-    const enemy = state.enemies[targetIdx]!.e
-    def = asShort(enemy.defense) + (enemy.level + 6) * 4
-    physRes = enemy.physicalResistance
-    isPlayerTarget = false
-  }
-
-  // —— 算 damage ——
-  let damage: number
-  if (actor.isEnemy) {
-    // enemy→player:D3 残(str+RandomLong(0,2) / +RandomLong(0,1) / fAutoDefend evade / Protect /=2,
-    //   fight.c:4938/5056-5062)归 D27残 / B2,此处保持简版。
-    damage = calcPhysicalAttackDamage(str, def, physRes)
-    if (damage <= 0) damage = 1
-  } else {
-    // player→enemy:D3 全套修饰(jitter / crit / 李逍遥 / RandomFloat,fight.c:3636-3663)
-    const base = calcPhysicalAttackDamage(str, def, physRes)
+  // —— player → enemy 单体(含 DualAttack 双击,fight.c:3618-3674)——
+  // sdlpal kBattleActionAttack sTarget!=-1 分支,外层 for t<(dualAttack?2:1) 把整套
+  // 伤害(jitter/crit/李逍遥/RandomFloat)+ 攻击动画做两次(仙女剑等武器)。
+  if (!actor.isEnemy) {
+    const targetEnemy = state.enemies[targetIdx]!
     const bravery = state.players[actor.idx]?.status.bravery ?? 0
     const roleId = state.players[actor.idx]!.roleId
-    damage = applyPlayerAttackModifiers(base, state.rng, roleId, bravery).damage
+    const hits = (state.players[actor.idx]?.status.dualAttack ?? 0) > 0 ? 2 : 1
+    const def = asShort(targetEnemy.e.defense) + (targetEnemy.e.level + 6) * 4
+    const physRes = targetEnemy.e.physicalResistance
+
+    bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: targetIdx })
+
+    const segments: BattleAnimFrame[] = []
+    for (let t = 0; t < hits; t++) {
+      const base = calcPhysicalAttackDamage(str, def, physRes)
+      const damage = applyPlayerAttackModifiers(base, state.rng, roleId, bravery).damage
+      const before = targetEnemy.e.health
+      targetEnemy.e.health = Math.max(0, before - damage)
+      const dealt = before - targetEnemy.e.health
+      // 每击建一段攻击时间线(damageNum 嵌帧);缺 pos(旧 fixture)→ 即时 emit
+      const seg = buildAttackTimeline({
+        state,
+        actor,
+        targetIdx,
+        isPlayerTarget: false,
+        damage: dealt,
+        battleEffectIndex,
+        playerRoles,
+      })
+      if (seg) {
+        segments.push(...seg)
+      } else {
+        bus.emit({ op: 'showDamageNum', target: { kind: 'enemy', idx: targetIdx }, value: dealt, color: 'blue' })
+      }
+    }
+    if (segments.length > 0) startBattleAnim(state, segments, bus)
+    return
   }
 
-  // —— 写回 HP(记 before/after 算钳后真实 delta) ——
-  let hpBefore: number
-  let hpAfter: number
-  if (isPlayerTarget) {
-    const role = playerRoles.roles[state.players[targetIdx]!.roleId]!
-    hpBefore = role.hp
-    role.hp = Math.max(0, role.hp - damage)
-    hpAfter = role.hp
-  } else {
-    hpBefore = state.enemies[targetIdx]!.e.health
-    state.enemies[targetIdx]!.e.health = Math.max(0, state.enemies[targetIdx]!.e.health - damage)
-    hpAfter = state.enemies[targetIdx]!.e.health
-  }
+  // —— 以下仅 enemy → player(player→enemy 已在上方分支处理)——
+  // enemy 攻击 player:def = PlayerDefense + (level+6)*4,fDefending → def*=2,
+  //   physRes 硬编码 2(fight.c:4924-4934)。D3 残(str+RandomLong(0,2)/+RandomLong(0,1)/
+  //   fAutoDefend evade / Protect /=2,fight.c:4938/5056-5062)归 D27残 / B2,此处简版。
+  const targetRole = playerRoles.roles[state.players[targetIdx]!.roleId]!
+  let def = asShort(targetRole.defense) + (targetRole.level + 6) * 4
+  if (state.players[targetIdx]!.defending) def *= 2
+  const physRes = 2
+  const isPlayerTarget = true
 
-  const dealtDamage = hpBefore - hpAfter
+  let damage = calcPhysicalAttackDamage(str, def, physRes)
+  if (damage <= 0) damage = 1
+
+  // —— 写回 player HP(记 before/after 算钳后真实 delta)——
+  const hpBefore = targetRole.hp
+  targetRole.hp = Math.max(0, targetRole.hp - damage)
+  const dealtDamage = hpBefore - targetRole.hp
 
   // —— 敌人普通攻击附带等价物品中毒(sdlpal fight.c:5139-5146)——
   //   敌→我 命中后:`attackEquivItemRate >= RandomLong(1,10)` && `poisonResistance < RandomLong(1,100)`
@@ -254,12 +264,8 @@ export function performAttack(
     }
   }
 
-  // —— emit 命令(play{Enemy,Player}Attack 留作 present hook;present 当前 no-op)——
-  if (actor.isEnemy) {
-    bus.emit({ op: 'playEnemyAttack', enemyIdx: actor.idx, targetPlayerIdx: targetIdx })
-  } else {
-    bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: targetIdx })
-  }
+  // —— emit 命令(playEnemyAttack 留作 present hook;present 当前 no-op)——
+  bus.emit({ op: 'playEnemyAttack', enemyIdx: actor.idx, targetPlayerIdx: targetIdx })
 
   // —— D17a:建物理攻击/受击动画时间线(damageNum 由时间线 i==0 / 命中帧 emit)——
   // 缺 fighter render-state pos(旧 fixture)→ 不建时间线,直接即时 emit showDamageNum

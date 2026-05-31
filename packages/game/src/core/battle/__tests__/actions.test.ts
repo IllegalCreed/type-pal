@@ -271,6 +271,49 @@ describe('performAttack', () => {
     expect(state.enemies[0]!.e.health).toBe(5000 - 506 * 3) // 单敌 division1,506*3=1518
   })
 
+  // ── D3 DualAttack 双击武器(仙女剑/玄冥宝刀 等,fight.c:3628/3681 t-loop)──────
+
+  it('D3:DualAttack 武器 → 单体攻击两次', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 }, // base 506,+jitter1=507
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 3000 }],
+      playerStatus: { dualAttack: 1 },
+      forceRoll: 1, // 不暴击;jitter=1
+      forceFloat: 1,
+    })
+    performAttack(state, playerActor, 0, bus, playerRoles)
+    expect(state.enemies[0]!.e.health).toBe(3000 - 507 * 2) // 两次各 507 = 1014
+    const dmgNums = bus.drain().filter(c => c.cmd.op === 'showDamageNum')
+    expect(dmgNums).toHaveLength(2) // 两次攻击 → 两个伤害数字
+  })
+
+  it('D3:无 DualAttack → 单体只攻击一次(对照)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 },
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 3000 }],
+      forceRoll: 1,
+      forceFloat: 1,
+    })
+    performAttack(state, playerActor, 0, bus, playerRoles)
+    expect(state.enemies[0]!.e.health).toBe(3000 - 507) // 一次 507
+    const dmgNums = bus.drain().filter(c => c.cmd.op === 'showDamageNum')
+    expect(dmgNums).toHaveLength(1)
+  })
+
+  it('D3:DualAttack + attackAll(玄冥宝刀)→ 全体攻击两次', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 }, // base 506
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 5000 }],
+      playerStatus: { dualAttack: 1 },
+      forceRoll: 1, // 不暴击
+    })
+    performAttack(state, playerActor, -1, bus, playerRoles)
+    // 两 sweep,每 sweep division 重置 1 → 单敌各全额 506 → 共 1012
+    expect(state.enemies[0]!.e.health).toBe(5000 - 506 * 2)
+    const dmgNums = bus.drain().filter(c => c.cmd.op === 'showDamageNum')
+    expect(dmgNums).toHaveLength(2)
+  })
+
   it('player 低 attackStrength 攻击高 defense enemy:damage 取 1', () => {
     const { state, playerRoles, bus } = makeState({
       role: { level: 1, attackStrength: 0 }, // str = 0 + 7*6 = 42
