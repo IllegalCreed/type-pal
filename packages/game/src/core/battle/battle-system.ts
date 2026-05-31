@@ -376,7 +376,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   //   进战斗一开始 / 每轮开头就显示(忠实 sdlpal fight.c:1184-1191 fTurnStart 在 charge/act 前)。
   //   有对话入队 → 本 tick 不进菜单,下 tick 顶层 tickBattleDialog 先把对话放完(修"先选动作才说话")。
   if (state.phase === 'selectAction' && state.turnStartDoneForTurn !== state.turn) {
-    runEnemyTurnStartScripts(state, bus, res)
+    runEnemyTurnStartScripts(state, gs, bus, res)
     if (state.battleDialogQueue && state.battleDialogQueue.length > 0) return
   }
 
@@ -1384,7 +1384,7 @@ function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
  * 残:0x90 自禁(show-once)/ 0x79 队伍条件分支在 battle 未实现 → 这两 gate 的脚本逐轮重显 / 分支不准
  * (多数嘲讽脚本无此 gate,逐轮显即忠实)。
  */
-function runEnemyTurnStartScripts(state: BattleState, bus: CommandBus, res: BattleResources): void {
+function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: CommandBus, res: BattleResources): void {
   state.turnStartDoneForTurn = state.turn
   for (let ei = 0; ei < state.enemies.length; ei++) {
     const en = state.enemies[ei]
@@ -1399,6 +1399,7 @@ function runEnemyTurnStartScripts(state: BattleState, bus: CommandBus, res: Batt
         state,
         caster: { type: 'enemy', idx: ei },
         summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+        gs, // raw opcode fall 到 applyRawOpcode 需 gs
       },
     })
     // **show-once**:sdlpal `wScriptOnTurnStart = PAL_RunTriggerScript(...)` 把脚本**返回值**写回 —
@@ -1637,6 +1638,8 @@ function tickPerformAction(
             caster: { type: 'enemy', idx: item.idx },
             // 0x9E enemy summon 需召唤兽表 + enemy-objects 解析
             summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+            // raw opcode(0x06 概率跳等)fall 到 applyRawOpcode 需 gs
+            gs,
           },
         })
         // scriptOnReady 里 0xFFFF showDialog 入了对话队列 → 先暂停本 action,让顶层 tickBattleDialog
@@ -1916,7 +1919,7 @@ function tickPostAction(
           ip: poison.scriptEntry,
           bus,
           runtimeMode: 'battle',
-          battleCtx: { state, target: { type: 'enemy', idx } },
+          battleCtx: { state, target: { type: 'enemy', idx }, gs },
         })
       }
     }

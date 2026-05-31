@@ -359,6 +359,58 @@ describe('runScript (M3 T17, battle mode)', () => {
     debugSpy.mockRestore()
   })
 
+  it('runtimeMode=battle + 未具名 raw(0x06 概率跳)+ gs → fall 到 applyRawOpcode 真生效:法术失败分支可达', () => {
+    // 结构修(2026-05-31):battle raw 未被 dispatchBattleOpcode 消费 → fall 到大世界统一解释器 applyRawOpcode
+    //   (对齐 sdlpal 单一 PAL_InterpretInstruction)。0x06 jump-by-rate rate=0 → RandomLong(1,100)>=0 恒真
+    //   → 必跳 operand[1](L_3 失败分支)。旧:battle raw 直接 skip → 0x06 不跳 → 失败分支(setDialogStyle
+    //   Narration + showDialog "失败 没有效果" msg13364)永不达。需 gs(applyRawOpcode 形参)。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const ctx = { ...makeMinimalBattleCtx(), gs }
+    runScript({
+      commands: [
+        { op: 'raw', opcode: 0x06, operands: [0, 3, 0], label: 'L_0' }, // rate=0 恒跳 → L_3
+        { op: 'showDialog', messageIndex: 0, text: '成功路径(被跳过)' }, // index 1(跳过)
+        { op: 'end' }, // index 2
+        { op: 'setDialogStyleNarration', arg0: 0, arg1: 0, label: 'L_3' }, // index 3
+        { op: 'showDialog', messageIndex: 13364, text: '失败　没有效果' }, // index 4
+        { op: 'end' }, // index 5
+      ],
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: ctx,
+    })
+    // 跳到失败分支 → narration 居中框入队(成功路径文本未入队)
+    expect(ctx.state.battleDialogQueue?.map((l) => ({ text: l.text, style: l.style }))).toEqual([
+      { text: '失败　没有效果', style: 'narration' },
+    ])
+  })
+
+  it('runtimeMode=battle + 0x1E 减钱不足 → 跳 operand[1](资源条件跳转在战斗内真生效)', () => {
+    // 0x1E:operand[0]<0 且 dwCash < |operand[0]| → jump operand[1];否则 dwCash += operand[0]。
+    //   钱不足分支(sdlpal script.c:952-968)在战斗法术脚本(花钱法术)中靠它。结构修后 fall 到 applyRawOpcode。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 5 // 不足以扣 100
+    const bus = createCommandBus()
+    const ctx = { ...makeMinimalBattleCtx(), gs }
+    runScript({
+      commands: [
+        { op: 'raw', opcode: 0x1E, operands: [0xFF9C, 3, 0], label: 'L_0' }, // -100;cash=5<100 → 跳 L_3
+        { op: 'showDialog', messageIndex: 0, text: '够钱(跳过)' },
+        { op: 'end' },
+        { op: 'showDialog', messageIndex: 0, text: '钱不够', label: 'L_3' },
+        { op: 'end' },
+      ],
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: ctx,
+    })
+    expect(ctx.state.battleDialogQueue?.map((l) => l.text)).toEqual(['钱不够'])
+    expect(gs.dwCash).toBe(5) // 未扣(走了 jump 分支)
+  })
+
   it('runtimeMode=battle 缺 battleCtx 抛错', () => {
     const bus = createCommandBus()
     expect(() =>
@@ -1816,16 +1868,32 @@ describe('I-w1.a chest opcodes', () => {
     expect(gs.dwCash).toBe(299) // 100+200-1
   })
 
-  it('addCash:dwCash 不足时 clamp 到 0(简版,不做 sdlpal onFail goto 分支)', () => {
+  it('addCash:钱足 → 扣钱继续(operand[0]<0 且够)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 100
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x1E, operands: [0xFFCE, 3, 0], label: 'L_0' }, // -50;cash=100≥50 → 扣
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dwCash).toBe(50) // 100-50
+  })
+
+  it('addCash:钱不足 → 跳 operand[1] 失败分支(sdlpal script.c:961,不再简版 clamp 到 0)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.dwCash = 10
     const bus = createCommandBus()
     loadEvent(gs, [
-      { op: 'raw', opcode: 0x1E, operands: [0xFFCE, 0, 0] },  // signed -50
+      { op: 'raw', opcode: 0x1E, operands: [0xFFCE, 3, 0], label: 'L_0' }, // -50;cash=10<50 → 跳 L_3
+      { op: 'raw', opcode: 0x1F, operands: [42, 1, 0] }, // 够钱分支给道具42(被跳过)
+      { op: 'end' },
+      { op: 'raw', opcode: 0x1F, operands: [99, 1, 0], label: 'L_3' }, // 失败分支给道具99
       { op: 'end' },
     ])
     tickEventSystem(gs, snap(), bus)
-    expect(gs.dwCash).toBe(0)
+    expect(gs.dwCash).toBe(10) // 未扣(走 jump 分支)
+    expect(gs.inventory).toEqual([{ itemId: 99, count: 1 }]) // 跳到 L_3 → 给道具99(非42)
   })
 
   it('addItem(0x1F):空 inventory → 新增条目', () => {

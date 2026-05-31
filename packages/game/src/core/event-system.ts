@@ -2210,6 +2210,15 @@ export function runScript(opts: RunScriptOptions): void {
   // 局部 labelMap —— goto 用;runScript 跑一段子脚本,labelMap 在全 commands 中查
   const labelMap = buildLabelMap(commands)
 
+  // battle 模式统一解释器(对齐 sdlpal 单一 PAL_InterpretInstruction):未被 dispatchBattleOpcode
+  //   消费的 raw opcode → fall 到 applyRawOpcode(大世界已实现的控制流/数据/资源 opcode:0x06 概率跳、
+  //   0x1E 钱、0x1F/0x20 物品、0x55/0x56 法术、各 JUMP_IF_*、0x04 call…)。否则只 skip → 法术脚本的
+  //   概率/条件失败分支(如"失败 没有效果")永不触发(2026-05-31 修)。call/return 用持久 callStack +
+  //   curEventObjId(循环外声明,raw case 共享给重建的 cursor),'end' 弹帧返回。
+  const callStack: NonNullable<ScriptCursor['callStack']> = []
+  // battle 脚本无大世界 NPC self-context(0x46 等 self-op 不出现);0x04 call 的 op1 eventObjId 覆盖经此持久。
+  let curEventObjId: number | undefined
+
   let stepCount = 0
   while (true) {
     if (++stepCount > SINGLE_TICK_LIMIT) {
@@ -2227,6 +2236,14 @@ export function runScript(opts: RunScriptOptions): void {
 
     switch (cmd.op) {
       case 'end':
+        // 0x04 call 返回:子脚本 'end' → callStack 非空时弹帧回 caller(对齐 applyOneTick/runEnterScript
+        //   的 callStack 约定,event-system.ts:978)。栈空 → 整段结束退出。
+        if (callStack.length > 0) {
+          const frame = callStack.pop()!
+          ip = frame.returnIp
+          curEventObjId = frame.savedEventObjectId
+          break
+        }
         return
 
       case 'goto': {
@@ -2290,16 +2307,35 @@ export function runScript(opts: RunScriptOptions): void {
       }
 
       case 'raw': {
-        // M5.B-w2.a:battle mode 先尝试 dispatchBattleOpcode(scripted enemy AI 入口)
+        // M5.B-w2.a:battle mode 先尝试 dispatchBattleOpcode(scripted enemy AI 入口 + 战斗特定 opcode)
         if (runtimeMode === 'battle' && battleCtx) {
           const r = dispatchBattleOpcode(cmd.opcode, cmd.operands, battleCtx)
           if (r.consumed) {
             ip = r.newIp !== undefined ? r.newIp : (ip + 1)
             break
           }
+          // dispatchBattleOpcode 未消费(非战斗特定 opcode)→ fall 到大世界统一解释器 applyRawOpcode
+          //   (对齐 sdlpal 单一 PAL_InterpretInstruction:battle 脚本与大世界共用解释器)。控制流 / 资源 /
+          //   数据 opcode(0x06 概率跳、0x1E 钱、0x1F/0x20 物品、0x55/0x56 法术、JUMP_IF_*、0x04 call)
+          //   由此在战斗内真生效 → 法术失败分支("失败 没有效果"等)、花钱/耗材法术正确执行(2026-05-31)。
+          //   需 gs(applyRawOpcode 读写 gs.inventory/dwCash/PlayerRolesRuntime…);缺 gs(旧 caller 未塞)
+          //   → 退回 D26 skip(优雅降级,不崩)。cursor 复用持久 callStack/curEventObjId 支持 call/return;
+          //   commands/labelMap = 全局(jumpToGlobalIp / getLabels 解析跳转目标)。
+          if (battleCtx.gs) {
+            const cursor: ScriptCursor = {
+              ip,
+              commands,
+              labelMap,
+              callStack,
+              currentEventObjectId: curEventObjId,
+            }
+            applyRawOpcode(battleCtx.gs, cmd.opcode, cmd.operands, curEventObjId, cursor)
+            ip = cursor.ip + 1 // 跳转 opcode 设 cursor.ip=target-1 → ip=target;非跳转保持 → ip+1
+            curEventObjId = cursor.currentEventObjectId // 0x04 call op1 覆盖持久化
+            break
+          }
         }
-        // D26:无具名 opcode 兜底 skip + console.debug;battle mode 加前缀方便
-        // T20/T21 implementer grep 撞到的真实 opcode 号
+        // D26:无具名 opcode 兜底 skip + console.debug(battle 缺 gs / explore mode)
         console.debug(`${logPrefix} skip raw opcode=${cmd.opcode} ip=${ip}`, cmd.operands)
         ip++
         break
@@ -2751,10 +2787,17 @@ function applyRawOpcode(
 
     case OP_ADD_CASH: {
       // sdlpal script.c:952-968 真值:operand[0] signed amount(SHORT cast)。
-      // 简版:不做 "cash 不足 goto" 分支(operand[1] = onFail label);chest 主要 use 是 add positive。
+      //   if (amount<0 && dwCash < -amount) wScriptEntry = operand[1]-1  // 钱不足 → 跳失败分支
+      //   else dwCash += amount
+      // (花钱法术/购买脚本靠"钱不足跳转"分支;2026-05-31 补全,此前简版只 clamp 不跳。)
       const amount = signExtendI16(operands[0] ?? 0)
-      gs.dwCash = Math.max(0, gs.dwCash + amount)
-      console.debug(`event-system: addCash amount=${amount} → dwCash=${gs.dwCash}`)
+      if (amount < 0 && gs.dwCash < -amount) {
+        jumpToGlobalIp(gs, cursor, operands[1] ?? 0) // 钱不足 → cursor.ip=target-1,caller ip++ → target
+        console.debug(`event-system: addCash 钱不足(have ${gs.dwCash} need ${-amount})→ jump L_${operands[1]}`)
+      } else {
+        gs.dwCash = Math.max(0, gs.dwCash + amount)
+        console.debug(`event-system: addCash amount=${amount} → dwCash=${gs.dwCash}`)
+      }
       break
     }
 

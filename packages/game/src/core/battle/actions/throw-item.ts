@@ -99,6 +99,7 @@ export function performThrowItem(input: PerformThrowItemInput): void {
       magicTables: { magics: input.magics, objectMagics: input.objectMagics },
       objectPoisons: input.objectPoisons, // 0x28 apply poison
       playerRoles: input.playerRoles, // 0x66 throw weapon 算 w 需 caster attackStrength
+      gs: input.gs, // raw opcode fall 到 applyRawOpcode(控制流/资源/数据)需 gs
     },
   })
 

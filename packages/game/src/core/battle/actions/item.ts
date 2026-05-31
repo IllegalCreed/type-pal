@@ -109,6 +109,8 @@ export function performItem(input: PerformItemInput): void {
       target: targetCtx,
       // scriptOnUse 里 0x5A halve-player 等需 playerRoles(对齐 performMagic/performThrowItem)。
       playerRoles: input.playerRoles,
+      // 未被 dispatchBattleOpcode 消费的 raw opcode fall 到 applyRawOpcode(控制流/资源/数据)需 gs。
+      gs: input.gs,
     },
   })
 }
