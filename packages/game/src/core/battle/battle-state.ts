@@ -271,6 +271,17 @@ export interface BattleAnimState {
   overlay?: BattleAnimOverlay
   /** 当前帧多个 magic overlay(AttackAll 三落点;present 优先画此,非空时盖过 overlay)。 */
   overlays?: BattleAnimOverlay[]
+  /**
+   * 时间线**播完后**才 emit 的伤害数字(掉血/MP 弹幕)。
+   * 对照 sdlpal:法术 `PAL_BattleDisplayStatChange()` 在 PAL_BattleShow{Off,Enemy}MagicAnim
+   * **之后**调(fight.c:4322/4369/4405)→ 数字在魔法特效落完才出,而非施法起手。物理攻击的数字仍
+   * 在时间线命中帧 emit(frame.damageNum),不走这里。tickPerformAction 在 idx 越界那刻 emit。
+   */
+  pendingDamageNums?: Array<{
+    target: { kind: 'enemy' | 'player'; idx: number }
+    value: number
+    color: 'yellow' | 'blue' | 'cyan'
+  }>
 }
 
 /**

@@ -1132,3 +1132,61 @@ describe('performMagic scriptOnSuccess(fight.c:4214-4265)', () => {
     expect(calls).toEqual([10]) // scriptOnUse 跑了,scriptOnSuccess 被 fScriptSuccess gate 挡
   })
 })
+
+describe('D17:法术伤害数字延迟到特效播完(sdlpal DisplayStatChange after anim,fight.c:4322)', () => {
+  it('建了动画链 → performMagic 不立即 emit showDamageNum,而存 battleAnim.pendingDamageNums', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+    ])
+    // 建动画链前置:caster + target posOriginal + magicSpriteFrameCounts 有该 effect
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [makeMagic({ baseDamage: 45, elemental: 0, effect: 1, type: 'normal' })],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+      magicSpriteFrameCounts: new Map([[1, 5]]),
+    })
+    // 伤害已结算(HP 落),但数字**未立即 emit**
+    expect(state.enemies[0]!.e.health).toBeLessThan(100)
+    const cmds = bus.drain()
+    expect(cmds.find((c) => c.cmd.op === 'showDamageNum')).toBeUndefined()
+    // 数字存到时间线播完后 emit
+    expect(state.battleAnim).toBeDefined()
+    expect(state.battleAnim!.pendingDamageNums).toEqual([
+      { target: { kind: 'enemy', idx: 0 }, value: expect.any(Number), color: 'blue' },
+    ])
+  })
+
+  it('未建动画链(无 magicSpriteFrameCounts)→ 立即 emit(向后兼容 fallback)', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      { health: 100, defense: 30, level: 5, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+    ])
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [makeMagic({ baseDamage: 45, elemental: 0, effect: 1, type: 'normal' })],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+    })
+    const cmds = bus.drain()
+    expect(cmds.find((c) => c.cmd.op === 'showDamageNum')).toBeDefined() // fallback 立即 emit
+    expect(state.battleAnim).toBeUndefined()
+  })
+})

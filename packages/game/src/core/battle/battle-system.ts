@@ -1441,6 +1441,11 @@ function tickPerformAction(
       if (a.idx < a.frames.length) applyAnimFrame(state, a.frames[a.idx]!, bus)
     }
     if (a.idx >= a.frames.length) {
+      // 法术伤害数字在**特效播完后**才 emit(对照 sdlpal PAL_BattleDisplayStatChange 在 magic anim
+      //   之后,fight.c:4322/4369/4405)—— 修 user 实测"掉血数字比攻击动画早出"(林月如鞭击/法术)。
+      for (const dn of a.pendingDamageNums ?? []) {
+        bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
+      }
       // 时间线播完 → 复位双方 fighter(PAL_BattleUpdateFighters)+ 清动画。
       resetFightersAfterAction(state, res.playerRoles)
       state.battleAnim = undefined

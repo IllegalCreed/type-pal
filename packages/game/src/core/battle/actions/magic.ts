@@ -215,6 +215,10 @@ export function performMagic(input: PerformMagicInput): void {
   //
   // 注:`str = PAL_GetPlayerMagicStrength` 含装备 magicStrength 加成;ts 战斗暂不建模
   //     rgEquipmentEffect(同 attack.ts 省略装备),用 role.magicStrength。
+  // 法术伤害数字**延迟到特效播完后**才 emit(对照 sdlpal PAL_BattleDisplayStatChange 在 magic anim
+  //   之后,fight.c:4322/4369/4405)。这里先 collect,下方据是否建动画链决定:建链 → 交时间线播完 emit;
+  //   未建链(旧 fixture / 无 sprite)→ 立即 emit(向后兼容)。修 user 实测"掉血数字比攻击动画早出"。
+  const pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
   let dmgResults: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number }> = []
   if (
     !input.casterIsEnemy &&
@@ -236,16 +240,12 @@ export function performMagic(input: PerformMagicInput): void {
       rngFactor,
       minDamage: 1, // sdlpal inline:if (sDamage <= 0) sDamage = 1
     })
-    // D17b:每个被命中敌人 emit showDamageNum(掉血 → blue,sdlpal `fight.c:648-651`)。
+    // D17b:每个被命中敌人 collect showDamageNum(掉血 → blue,sdlpal `fight.c:648-651`)。
     // 用钳后真实 delta(hpBefore-hpAfter)对齐 PAL_BattleDisplayStatChange(钳到 0 时显示真实损失)。
+    //   延迟到魔法特效播完才 emit(见 pendingNums 注释)。
     for (const r of dmgResults) {
       if (r.hpAfter < r.hpBefore) {
-        input.bus.emit({
-          op: 'showDamageNum',
-          target: { kind: 'enemy', idx: r.enemyIdx },
-          value: r.hpBefore - r.hpAfter,
-          color: 'blue',
-        })
+        pendingNums.push({ target: { kind: 'enemy', idx: r.enemyIdx }, value: r.hpBefore - r.hpAfter, color: 'blue' })
       }
     }
   }
@@ -272,15 +272,10 @@ export function performMagic(input: PerformMagicInput): void {
       playerRoles: input.playerRoles,
       rngFactor,
     })
-    // 掉血 → blue(sdlpal PAL_BattleDisplayStatChange);用钳后真实 delta。
+    // 掉血 → blue(sdlpal PAL_BattleDisplayStatChange);用钳后真实 delta。延迟到特效播完才 emit。
     for (const r of enemyDmg) {
       if (r.hpAfter < r.hpBefore) {
-        input.bus.emit({
-          op: 'showDamageNum',
-          target: { kind: 'player', idx: r.playerIdx },
-          value: r.hpBefore - r.hpAfter,
-          color: 'blue',
-        })
+        pendingNums.push({ target: { kind: 'player', idx: r.playerIdx }, value: r.hpBefore - r.hpAfter, color: 'blue' })
       }
     }
   }
@@ -293,14 +288,23 @@ export function performMagic(input: PerformMagicInput): void {
   //   (3) enemy 攻击魔法(casterIsEnemy && OFF_MAGIC_TYPES):EnemyMagic(FIRE 特效在队员处,OffMagic 镜像;
   //       fight.c:2846-3069)。当前敌方施法**无任何动画**,本切片补齐。
   //   trance / summon 留 defer(不在 OFF/DEF 集合)。
+  let built = false
   if (!input.casterIsEnemy) {
     if (OFF_MAGIC_TYPES.has(magic.type)) {
-      buildAndStartMagicAnim(input, magic, dmgResults)
+      built = buildAndStartMagicAnim(input, magic, dmgResults, pendingNums)
     } else if (magic.type === 'applyToPlayer' || magic.type === 'applyToParty') {
       buildAndStartDefMagicAnim(input, magic)
     }
   } else if (OFF_MAGIC_TYPES.has(magic.type)) {
-    buildAndStartEnemyMagicAnim(input, magic)
+    built = buildAndStartEnemyMagicAnim(input, magic, pendingNums)
+  }
+
+  // 未建动画链(旧 fixture / 无 sprite 资源 / 非 OFF 类型)→ 立即 emit 伤害数字(向后兼容;
+  //   无动画可挂,只能即时显示)。建了链 → 交时间线播完后 emit(startBattleAnim 已收 pendingNums)。
+  if (!built) {
+    for (const dn of pendingNums) {
+      input.bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
+    }
   }
 }
 
@@ -325,13 +329,14 @@ function buildAndStartMagicAnim(
   input: PerformMagicInput,
   magic: Magic,
   results: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number }>,
-): void {
-  if (!OFF_MAGIC_TYPES.has(magic.type)) return
+  pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'],
+): boolean {
+  if (!OFF_MAGIC_TYPES.has(magic.type)) return false
   const n = input.magicSpriteFrameCounts?.get(magic.effect)
-  if (n === undefined || n <= 0) return
+  if (n === undefined || n <= 0) return false
 
   const caster = input.state.players[input.casterIdx]
-  if (!caster?.posOriginal) return
+  if (!caster?.posOriginal) return false
 
   // —— PreMagic:cast 特效帧基号 = rgwBattleEffectIndex[battleSpriteId][0] * 10 + 15(fight.c:2387-2389)——
   const role = input.playerRoles.roles[caster.roleId]
@@ -385,7 +390,8 @@ function buildAndStartMagicAnim(
   const postFrames = buildPostMagicTimeline({ hurtEnemies })
 
   const chain: BattleAnimFrame[] = [...preFrames, ...offFrames, ...postFrames]
-  startBattleAnim(input.state, chain, input.bus)
+  startBattleAnim(input.state, chain, input.bus, pendingNums)
+  return true
 }
 
 /**
@@ -463,13 +469,17 @@ function buildAndStartDefMagicAnim(input: PerformMagicInput, magic: Magic): void
  * 敌人 idleFrames/magicFrames/attackFrames 从 state.enemies[casterIdx].e 取(敌施法帧 currentFrame 用)。
  * 伤害值的实际结算靠敌方 AI / script(本切片只做动画 — 同 OffMagic / DefMagic 模式),标 residual。
  */
-function buildAndStartEnemyMagicAnim(input: PerformMagicInput, magic: Magic): void {
-  if (!OFF_MAGIC_TYPES.has(magic.type)) return
+function buildAndStartEnemyMagicAnim(
+  input: PerformMagicInput,
+  magic: Magic,
+  pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'],
+): boolean {
+  if (!OFF_MAGIC_TYPES.has(magic.type)) return false
   const n = input.magicSpriteFrameCounts?.get(magic.effect)
-  if (n === undefined || n <= 0) return
+  if (n === undefined || n <= 0) return false
 
   const caster = input.state.enemies[input.casterIdx]
-  if (!caster?.posOriginal) return
+  if (!caster?.posOriginal) return false
 
   const offType = magic.type as OffMagicType
   let targetPlayerIdx = -1
@@ -479,7 +489,7 @@ function buildAndStartEnemyMagicAnim(input: PerformMagicInput, magic: Magic): vo
     targetPlayerIdx = tIdx
     targetPlayerPos = input.state.players[tIdx]?.posOriginal
     // 单体目标队员缺 posOriginal(旧 fixture)→ 不建链。
-    if (!targetPlayerPos) return
+    if (!targetPlayerPos) return false
   }
 
   // 施法起手:敌人前移 + 施法手势(fight.c:4680-4717)—— 落点特效之前的敌人本体表演。
@@ -519,5 +529,6 @@ function buildAndStartEnemyMagicAnim(input: PerformMagicInput, magic: Magic): vo
     targetPlayerIdx,
     targetPlayerPos,
   })
-  startBattleAnim(input.state, [...introFrames, posResetFrame, ...effectFrames], input.bus)
+  startBattleAnim(input.state, [...introFrames, posResetFrame, ...effectFrames], input.bus, pendingNums)
+  return true
 }

@@ -12,7 +12,7 @@
 
 import type { PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
-import type { BattleAnimFrame, BattleState } from './battle-state.js'
+import type { BattleAnimFrame, BattleAnimState, BattleState } from './battle-state.js'
 
 /**
  * 把一帧动画应用到 state:
@@ -52,14 +52,18 @@ export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: 
 /**
  * 启动一条动画时间线:set state.battleAnim(idx=0, frameElapsedMs=0)并立即应用 frame[0]。
  * frames 为空 → 不建时间线(no-op;调用方据此走即时推进)。
+ *
+ * @param pendingDamageNums 时间线**播完后**才 emit 的伤害数字(法术:特效落完才出,
+ *   对照 sdlpal PAL_BattleDisplayStatChange 在 magic anim 之后;物理走 frame.damageNum 不传此参)。
  */
 export function startBattleAnim(
   state: BattleState,
   frames: BattleAnimFrame[],
   bus: CommandBus,
+  pendingDamageNums?: BattleAnimState['pendingDamageNums'],
 ): void {
   if (frames.length === 0) return
-  state.battleAnim = { frames, idx: 0, frameElapsedMs: 0, overlay: undefined }
+  state.battleAnim = { frames, idx: 0, frameElapsedMs: 0, overlay: undefined, pendingDamageNums }
   applyAnimFrame(state, frames[0]!, bus)
 }
 
