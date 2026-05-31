@@ -52,6 +52,13 @@ const SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER = 67
 const SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER_RED = 66
 const SPRITENUM_CURSOR = 69
 const SPRITENUM_SLASH = 39
+const SPRITENUM_PLAYERINFOBOX = 18 // 队员信息框背景(uibattle.h:SPRITENUM_PLAYERINFOBOX)
+const SPRITENUM_PLAYERFACE_FIRST = 48 // 头像起,+ wPlayerRole(uibattle.c:155)
+
+// 战斗队员信息框(PAL_PlayerInfoBox)位置:PAL_XY(91 + 77*i, 165)(uibattle.c:925)。
+const PLAYERINFO_X_BASE = 91
+const PLAYERINFO_X_STEP = 77
+const PLAYERINFO_Y = 165
 
 /**
  * 主菜单 4 图标(uibattle.c:813-817,PAL_CLASSIC):sprite 号 = ATTACK+i,pos = sdlpal 真值。
@@ -183,9 +190,13 @@ export function drawBattleUI(
   uiSpriteFrames?: IndexedImage[],
   enemyPos?: EnemyPosTable,
 ): void {
-  drawPartyStatus(fb, state, playerRoles, glyphs)
+  // 底部队员信息框(PAL_PlayerInfoBox)—— sdlpal **仅选择阶段**画(uibattle.c:888-928:
+  //   `Phase != PerformAction && !fAutoAttack`)。perform 阶段(uiState='hidden')隐藏,只剩飘字。
+  //   对话期仍画(sdlpal 冻结上一选择帧)。
+  const showInfoBoxes = state.uiState !== 'hidden' && !state.fAutoAttack
+  if (showInfoBoxes) drawPlayerInfoBoxes(fb, state, playerRoles, glyphs, uiSpriteFrames)
 
-  // 战斗内对话显示期间隐藏动作菜单(user 2026-05-31 实测 bug):只保留底部状态栏。
+  // 战斗内对话显示期间隐藏动作菜单(user 2026-05-31 实测 bug):只保留底部信息框。
   //   sdlpal:PAL_ShowDialogText 同步 blocking,对话期菜单不刷(uibattle.c:889 PerformAction goto end 同理)。
   const dialogActive = gs.dialogBox != null || (state.battleDialogQueue?.length ?? 0) > 0
   if (dialogActive) return
@@ -252,6 +263,44 @@ function drawPartyStatus(
     renderText(fb, role._name ?? `P${i + 1}`, x, y, UI_TEXT_COLOR, glyphs)
     renderText(fb, `HP:${role.hp}/${role.maxHP}`, x, y + 8, UI_TEXT_COLOR, glyphs)
     renderText(fb, `MP:${role.mp}/${role.maxMP}`, x, y + 16, UI_TEXT_COLOR, glyphs)
+  })
+}
+
+/**
+ * 底部队员信息框 —— port sdlpal `PAL_PlayerInfoBox`(uibattle.c:30-269,PAL_CLASSIC)。
+ *   每队员 PAL_XY(91+77*i, 165):box 背景(frame 18)+ 头像(frame 48+roleId,(x-2,y-4))
+ *   + HP/MP(CLASSIC 布局 uibattle.c:210-238):slash + maxHP/HP(yellow)+ maxMP/MP(cyan)。
+ *   中毒变色 / 状态图标(confused/slow/sleep/silence)简化省略;CLASSIC 无 time-meter bar。
+ * HP/MP 读 **战斗 playerRoles**(战内活值);无 uiSpriteFrames(单测)→ 文字版兜底。
+ */
+function drawPlayerInfoBoxes(
+  fb: Framebuffer,
+  state: BattleState,
+  playerRoles: PlayerRoles,
+  glyphs: GlyphTable | undefined,
+  uiSpriteFrames: IndexedImage[] | undefined,
+): void {
+  if (!uiSpriteFrames || uiSpriteFrames.length <= SPRITENUM_PLAYERFACE_FIRST) {
+    drawPartyStatus(fb, state, playerRoles, glyphs) // 无 sprite 资源 → 文字兜底(单测)
+    return
+  }
+  const box = uiSpriteFrames[SPRITENUM_PLAYERINFOBOX]
+  const slash = uiSpriteFrames[SPRITENUM_SLASH]
+  state.players.forEach((p, i) => {
+    const role = playerRoles.roles[p.roleId]
+    if (!role) return
+    const x = PLAYERINFO_X_BASE + i * PLAYERINFO_X_STEP
+    const y = PLAYERINFO_Y
+    if (box) blitSpriteOpaque(fb, box, x, y) // 框背景(uibattle.c:108)
+    const face = uiSpriteFrames[SPRITENUM_PLAYERFACE_FIRST + p.roleId]
+    if (face) blitSpriteOpaque(fb, face, x - 2, y - 4) // 头像(uibattle.c:155)
+    // CLASSIC HP/MP(uibattle.c:210-238)
+    if (slash) blitSpriteOpaque(fb, slash, x + 49, y + 6)
+    drawNumber(fb, role.maxHP, 4, { x: x + 47, y: y + 8 }, 'yellow', 'right', uiSpriteFrames)
+    drawNumber(fb, role.hp, 4, { x: x + 26, y: y + 5 }, 'yellow', 'right', uiSpriteFrames)
+    if (slash) blitSpriteOpaque(fb, slash, x + 49, y + 22)
+    drawNumber(fb, role.maxMP, 4, { x: x + 47, y: y + 24 }, 'cyan', 'right', uiSpriteFrames)
+    drawNumber(fb, role.mp, 4, { x: x + 26, y: y + 21 }, 'cyan', 'right', uiSpriteFrames)
   })
 }
 

@@ -348,15 +348,43 @@ describe('drawBattleUI(新模型 1:1)', () => {
     expect(topRegionWrites(fb)).toBe(0)
   })
 
-  it('hidden —— 只画状态栏,不画菜单', () => {
+  it('hidden(perform 阶段)—— 啥都不画(信息框仅选择阶段;sdlpal Phase!=PerformAction)', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
     const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
       uiState: 'hidden', selectingPlayerIdx: undefined,
     })
     drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
-    expect(topRegionWrites(fb)).toBe(0)
-    expect(fbHasWrites(fb)).toBe(true)
+    expect(fbHasWrites(fb)).toBe(false) // perform 期信息框隐藏,飘字由其它 draw 层负责
+  })
+
+  it('selectMove —— 画底部队员信息框(PAL_PlayerInfoBox:框+头像+HP/MP,y≈165)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0, { hp: 123, maxHP: 200, mp: 45, maxMP: 60 })] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'main',
+    })
+    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
+    // 信息框在底部(y≈165)有写入
+    let bottomWrites = 0
+    for (let y = 160; y < 200; y++) {
+      for (let x = 80; x < 200; x++) if (fb.indices[y * 320 + x] !== 0) bottomWrites++
+    }
+    expect(bottomWrites).toBeGreaterThan(0)
+  })
+
+  it('fAutoAttack —— 信息框隐藏(sdlpal !fAutoAttack)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'main', fAutoAttack: true,
+    })
+    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
+    let bottomWrites = 0
+    for (let y = 160; y < 200; y++) {
+      for (let x = 80; x < 200; x++) if (fb.indices[y * 320 + x] !== 0) bottomWrites++
+    }
+    expect(bottomWrites).toBe(0) // auto 模式不画信息框
   })
 
   it('状态栏 —— role 找不到时跳过该位,不抛', () => {
