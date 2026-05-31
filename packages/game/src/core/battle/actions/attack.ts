@@ -26,6 +26,7 @@ import { buildEnemyPhysicalTimeline, buildPlayerAttackTimeline } from '../anim-t
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import { calcPhysicalAttackDamage } from '../formulas.js'
+import type { SeedableRng } from '../../rng.js'
 import type { RunScriptFn } from './magic.js'
 import type { ActionQueueItem } from '../turn-queue.js'
 
@@ -61,6 +62,42 @@ function isPlayerDying(hp: number, maxHp: number): boolean {
 /** SHORT cast(同 formulas.ts 私函)。 */
 function asShort(n: number): number {
   return (n << 16) >> 16
+}
+
+/**
+ * D3 玩家物理攻击伤害修饰(fight.c:3636-3663,**仅 player→enemy**)。
+ *
+ * 流程严格对齐 sdlpal:
+ *   base + RandomLong(1,2)                         // 3637 jitter
+ *   if (RandomLong(0,5)==0 || bravery>0) ×3        // 3639-3647 暴击(1/6 或勇敢)
+ *   if (role==0 && RandomLong(0,11)==0) ×2         // 3649-3656 李逍遥额外暴击(1/12)
+ *   (SHORT)(damage * RandomFloat(1,1.125))          // 3658 末浮动 + SHORT 截断
+ *   if (damage<=0) damage=1                          // 3660-3663
+ *
+ * 注:`RandomLong(0,5)` 即使 bravery>0 也照样消费一次(C `==0 || bravery` 左操作数先求值),
+ *     故 RNG 调用序固定为 jitter→crit→(role0)李逍遥→float,测试脚本化 rng 按此序喂值。
+ *
+ * @returns damage(钳后)+ fCritical(暴击 flag,供 D17 暴击演出;本批仅用 damage)。
+ */
+function applyPlayerAttackModifiers(
+  base: number,
+  rng: SeedableRng,
+  roleId: number,
+  bravery: number,
+): { damage: number; fCritical: boolean } {
+  let damage = base + rng.rangeInclusive(1, 2)
+  let fCritical = false
+  if (rng.rangeInclusive(0, 5) === 0 || bravery > 0) {
+    damage *= 3
+    fCritical = true
+  }
+  if (roleId === 0 && rng.rangeInclusive(0, 11) === 0) {
+    damage *= 2
+    fCritical = true
+  }
+  damage = asShort(Math.trunc(damage * rng.rangeFloat(1, 1.125)))
+  if (damage <= 0) damage = 1
+  return { damage, fCritical }
 }
 
 /**
@@ -146,8 +183,19 @@ export function performAttack(
   }
 
   // —— 算 damage ——
-  let damage = calcPhysicalAttackDamage(str, def, physRes)
-  if (damage <= 0) damage = 1 // sdlpal fight.c:3829 / 4943 sDamage<=0 → sDamage=1
+  let damage: number
+  if (actor.isEnemy) {
+    // enemy→player:D3 残(str+RandomLong(0,2) / +RandomLong(0,1) / fAutoDefend evade / Protect /=2,
+    //   fight.c:4938/5056-5062)归 D27残 / B2,此处保持简版。
+    damage = calcPhysicalAttackDamage(str, def, physRes)
+    if (damage <= 0) damage = 1
+  } else {
+    // player→enemy:D3 全套修饰(jitter / crit / 李逍遥 / RandomFloat,fight.c:3636-3663)
+    const base = calcPhysicalAttackDamage(str, def, physRes)
+    const bravery = state.players[actor.idx]?.status.bravery ?? 0
+    const roleId = state.players[actor.idx]!.roleId
+    damage = applyPlayerAttackModifiers(base, state.rng, roleId, bravery).damage
+  }
 
   // —— 写回 HP(记 before/after 算钳后真实 delta) ——
   let hpBefore: number

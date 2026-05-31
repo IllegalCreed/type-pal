@@ -13,6 +13,8 @@ export interface SeedableRng {
   range(lo: number, hi: number): number
   /** 返回 [lo, hi](含两端)的整数。 */
   rangeInclusive(lo: number, hi: number): number
+  /** 返回 [lo, hi) 的浮点数(对齐 sdlpal `RandomFloat`,util.c:250)。 */
+  rangeFloat(lo: number, hi: number): number
   /** dump 当前 seed state(便于 save / restore)。 */
   getState(): number
 }
@@ -35,6 +37,9 @@ export function createSeedableRng(seed: number): SeedableRng {
     },
     rangeInclusive(lo, hi) {
       return lo + Math.floor(next() * (hi - lo + 1))
+    },
+    rangeFloat(lo, hi) {
+      return lo + next() * (hi - lo)
     },
     getState() {
       return state

@@ -1732,7 +1732,7 @@ describe('throw-item action 派发(E2)', () => {
 
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     // 固定 rng:rangeInclusive→2(RandomLong 项)、next→0(rngFactor 1.0)
-    gs.battleState!.rng = { next: () => 0, range: () => 0, rangeInclusive: () => 2, getState: () => 0 }
+    gs.battleState!.rng = { next: () => 0, range: () => 0, rangeInclusive: () => 2, rangeFloat: (lo) => lo, getState: () => 0 }
     gs.battleState!.pendingActions.set(0, { type: 'throw-item', actionId: 163, target: 0 })
     tickBattle(gs, emptyInput, bus) // selectAction → performAction
 

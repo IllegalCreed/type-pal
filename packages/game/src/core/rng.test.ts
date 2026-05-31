@@ -37,6 +37,28 @@ describe('SeedableRng (mulberry32)', () => {
     expect(counts.size).toBe(11)
   })
 
+  it('rangeFloat(1, 1.125) 总在 [1, 1.125)(对齐 sdlpal RandomFloat 伤害浮动)', () => {
+    const r = createSeedableRng(2026)
+    let sawLow = false
+    let sawHigh = false
+    for (let i = 0; i < 5000; i++) {
+      const v = r.rangeFloat(1, 1.125)
+      expect(v).toBeGreaterThanOrEqual(1)
+      expect(v).toBeLessThan(1.125)
+      if (v < 1.01) sawLow = true
+      if (v > 1.11) sawHigh = true
+    }
+    // 覆盖到区间两端附近(非退化常量)
+    expect(sawLow).toBe(true)
+    expect(sawHigh).toBe(true)
+  })
+
+  it('rangeFloat 同 seed 确定性', () => {
+    const a = createSeedableRng(7)
+    const b = createSeedableRng(7)
+    expect(a.rangeFloat(1, 2)).toBe(b.rangeFloat(1, 2))
+  })
+
   it('getState 返回当前 state,可用于 save', () => {
     const r = createSeedableRng(789)
     r.next()

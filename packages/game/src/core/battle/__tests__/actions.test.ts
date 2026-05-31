@@ -16,7 +16,7 @@ import { performFlee } from '../actions/flee.js'
 import { performItem } from '../actions/item.js'
 import { performMagic, type RunScriptFn } from '../actions/magic.js'
 import { runScript, setObjectPoisons } from '../../event-system.js'
-import type { BattleState } from '../battle-state.js'
+import type { BattleState, BattleStatus } from '../battle-state.js'
 import type { ActionQueueItem } from '../turn-queue.js'
 
 // ============================================================================
@@ -99,8 +99,12 @@ interface MakeStateOpts {
   defending?: boolean
   isBoss?: boolean
   rngSeed?: number
-  /** mock rng:固定返回此值的 rangeInclusive(逃跑判定测试用)。 */
+  /** mock rng:固定返回此值的 rangeInclusive(逃跑判定 / crit / jitter 测试用)。 */
   forceRoll?: number
+  /** mock rng:固定返回此值的 rangeFloat(D3 伤害浮动 RandomFloat 精确断言用)。 */
+  forceFloat?: number
+  /** 覆盖玩家战斗状态(bravery/dualAttack 等,D3 crit / 双击测试用)。 */
+  playerStatus?: Partial<BattleStatus>
 }
 
 function makeState(opts: MakeStateOpts = {}): {
@@ -116,10 +120,11 @@ function makeState(opts: MakeStateOpts = {}): {
     magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
   }
   const baseRng = createSeedableRng(opts.rngSeed ?? 42)
-  const rng = opts.forceRoll !== undefined
+  const rng = (opts.forceRoll !== undefined || opts.forceFloat !== undefined)
     ? {
         ...baseRng,
-        rangeInclusive: () => opts.forceRoll!,
+        ...(opts.forceRoll !== undefined ? { rangeInclusive: () => opts.forceRoll! } : {}),
+        ...(opts.forceFloat !== undefined ? { rangeFloat: () => opts.forceFloat! } : {}),
       }
     : baseRng
 
@@ -129,7 +134,7 @@ function makeState(opts: MakeStateOpts = {}): {
       prevHp: role.hp,
       prevMp: role.mp,
       defending: opts.defending ?? false,
-      status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
+      status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, ...opts.playerStatus },
     }],
     enemies: enemies.map(e => ({
       e: { ...e },
@@ -164,6 +169,22 @@ function makeState(opts: MakeStateOpts = {}): {
 
 const playerActor: ActionQueueItem = { isEnemy: false, idx: 0, dex: 30, fIsSecond: false }
 const enemyActor: ActionQueueItem = { isEnemy: true, idx: 0, dex: 20, fIsSecond: false }
+
+/**
+ * 按序回放 rangeInclusive / rangeFloat 的脚本化 rng(D3 多次 RNG 调用精确控制用)。
+ * ints 依次喂 rangeInclusive(jitter→crit roll→李逍遥 roll …),floats 依次喂 rangeFloat。
+ * 用尽后 ints 回退 1 / floats 回退 1。
+ */
+function scriptedRng(ints: number[], floats: number[] = []) {
+  const base = createSeedableRng(1)
+  let i = 0
+  let f = 0
+  return {
+    ...base,
+    rangeInclusive: () => ints[i++] ?? 1,
+    rangeFloat: () => floats[f++] ?? 1,
+  }
+}
 
 // ============================================================================
 // performAttack
@@ -220,10 +241,73 @@ describe('performAttack', () => {
     const { state, playerRoles, bus } = makeState({
       role: { level: 1, attackStrength: 0 }, // str = 0 + 7*6 = 42
       enemies: [{ level: 50, defense: 10000, physicalResistance: 1, health: 100 }],
-      // def 巨大 → calcBase = 0 → damage<=0 → 取 1
+      // def 巨大 → calcBase = 0;+jitter(1) → 1;无 crit;×float(1) → 1;max(1)=1
+      forceRoll: 1, // jitter=1 / crit roll=1(≠0 不暴击)
+      forceFloat: 1,
     })
     performAttack(state, playerActor, 0, bus, playerRoles)
     expect(state.enemies[0]!.e.health).toBe(99) // 100 - 1
+  })
+
+  // ── D3-a 单体物理攻击公式真值(fight.c:3636-3663)──────────────────────────
+  // damage = CalcPhysical(str,def,res) + RandomLong(1,2) → crit(×3) → 李逍遥(×2)
+  //          → ×RandomFloat(1,1.125) → max(1)
+
+  it('D3:单体伤害含 RandomLong(1,2) jitter(无暴击,base+1)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 }, // base = 506(296*2-54*1.6+0.5)
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 600 }],
+      forceRoll: 1, // jitter=1;crit roll=1(不暴击)
+      forceFloat: 1, // 浮动 ×1
+    })
+    performAttack(state, playerActor, 0, bus, playerRoles)
+    expect(state.enemies[0]!.e.health).toBe(600 - 507) // base506 + jitter1 = 507
+  })
+
+  it('D3:jitter 取 2 时 damage = base+2', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 },
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 600 }],
+      forceRoll: 2, // jitter=2;crit roll=2(不暴击)
+      forceFloat: 1,
+    })
+    performAttack(state, playerActor, 0, bus, playerRoles)
+    expect(state.enemies[0]!.e.health).toBe(600 - 508) // base506 + jitter2 = 508
+  })
+
+  it('D3:bravery 状态 → 必暴击 ×3(fight.c:3640)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 }, // base 506
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 3000 }],
+      playerStatus: { bravery: 1 },
+      forceRoll: 1, // jitter=1;crit roll 即使 1(≠0)也因 bravery 暴击
+      forceFloat: 1,
+    })
+    performAttack(state, playerActor, 0, bus, playerRoles)
+    expect(state.enemies[0]!.e.health).toBe(3000 - 507 * 3) // (506+1)*3 = 1521
+  })
+
+  it('D3:RandomFloat(1,1.125) 末乘浮动(forceFloat=1.125)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 },
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 1000 }],
+      forceRoll: 1, // jitter=1 / 不暴击
+      forceFloat: 1.125,
+    })
+    performAttack(state, playerActor, 0, bus, playerRoles)
+    // trunc((506+1) * 1.125) = trunc(570.375) = 570
+    expect(state.enemies[0]!.e.health).toBe(1000 - 570)
+  })
+
+  it('D3:李逍遥(role 0)额外暴击 ×2(fight.c:3649,RandomLong(0,11)==0)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { id: 0, level: 10, attackStrength: 200 }, // role 0 = 李逍遥;base 506
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 3000 }],
+    })
+    // 脚本化:jitter=1,crit roll=3(≠0 无普通暴击),李逍遥 roll=0(×2),float=1
+    state.rng = scriptedRng([1, 3, 0], [1])
+    performAttack(state, playerActor, 0, bus, playerRoles)
+    expect(state.enemies[0]!.e.health).toBe(3000 - 507 * 2) // (506+1)*2 = 1014
   })
 
   it('enemy 攻击 player:扣 role.hp + emit playEnemyAttack', () => {
