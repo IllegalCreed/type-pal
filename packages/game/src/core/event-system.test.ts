@@ -27,6 +27,7 @@ import {
   OP_GOTO_IF_NO,
   OP_TRANSFORM_COLLECTED, OP_TELEPORT_OUT, setStoreTable,
   OP_SET_BATTLE_MUSIC, OP_STOP_MUSIC, OP_PLAY_CD_MUSIC,
+  setObjectPoisons, curePlayerPoisonByLevel,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
@@ -3099,6 +3100,55 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     loadEvent(gs, [{ op: 'raw', opcode: 0x90, operands: [42, 777, 1] }, { op: 'end' }])
     tickEventSystem(gs, snap(), bus)
     expect(gs.rgObject[42]?.rgwData[3]).toBe(777) // idx = 2 + op2(1) = 3
+  })
+
+  // ── 中毒机制(2026-05-31 批次 1:0x29 抗性 + 真 wPlayerScript + cure-by-level) ──
+  it('0x29 apply-player applyAll:抗性=0 → 全队中毒,存真 wPlayerScript(setObjectPoisons)', () => {
+    setObjectPoisons([{ id: 5, level: 1, color: 64, playerScript: 40866, enemyScript: 0 }])
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0, 1]
+    gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 0
+    gs.PlayerRolesRuntime.rgwPoisonResistance[1] = 0
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x29, operands: [1, 5, 0] }, { op: 'end' }]) // applyAll poison=5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 5, wPoisonScript: 40866 })
+    expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 5, wPoisonScript: 40866 })
+  })
+
+  it('0x29 apply-player:抗性=100 → 不中毒(RandomLong(1,100) > 100 永假)', () => {
+    setObjectPoisons([{ id: 5, level: 1, color: 64, playerScript: 40866, enemyScript: 0 }])
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 100
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x29, operands: [1, 5, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.rgPoisonStatus['0_0']).toBeUndefined()
+  })
+
+  it('0x29 apply-player:去重 — 已有同毒不加第二槽(PAL_AddPoisonForPlayer)', () => {
+    setObjectPoisons([{ id: 5, level: 1, color: 64, playerScript: 40866, enemyScript: 0 }])
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 0
+    gs.rgPoisonStatus = { '0_0': { wPoisonID: 5, wPoisonScript: 40866 } }
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x29, operands: [1, 5, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.rgPoisonStatus['1_0']).toBeUndefined() // 未加第二槽
+  })
+
+  it('curePlayerPoisonByLevel:maxLevel=1 只清 level≤1,留 level3(用真 level)', () => {
+    setObjectPoisons([
+      { id: 5, level: 1, color: 64, playerScript: 1, enemyScript: 0 },
+      { id: 6, level: 3, color: 128, playerScript: 2, enemyScript: 0 },
+    ])
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.rgPoisonStatus = { '0_0': { wPoisonID: 5, wPoisonScript: 1 }, '1_0': { wPoisonID: 6, wPoisonScript: 2 } }
+    curePlayerPoisonByLevel(gs, 0, 1)
+    expect(gs.rgPoisonStatus['0_0']!.wPoisonID).toBe(0) // level1 清
+    expect(gs.rgPoisonStatus['1_0']!.wPoisonID).toBe(6) // level3 留
   })
 
   it('0x6D setSceneScripts:op1!=0 → sceneOnEnterOverride[op0]=op1;op1=0&&op2=0 → 0(清)', () => {

@@ -1910,6 +1910,23 @@ function tickPostAction(
   // 每个活敌的每条 poison 跑其 scriptEntry(毒 wEnemyScript,经 0x21 扣血),target = 该敌人。
   // 放在死亡 exp 累计**之前** → 毒杀的敌人也计入死亡奖励。
   const runPoisonScript = getRunScript(gs)
+  // 玩家毒 tick —— sdlpal fight.c:1657-1697(PAL_BattleStartFrame,action queue 耗尽时):每队员每毒槽
+  //   跑 wPlayerScript(target=该队员;毒脚本 0x1B 负 delta 扣血,0x1B battle handler 自带活人 gate)。
+  //   玩家毒存全局 gs.rgPoisonStatus[`${slot}_${roleId}`](持久,16 槽/role)。sdlpal 先玩家后敌。
+  state.players.forEach((player, idx) => {
+    for (let slot = 0; slot < 16; slot++) {
+      const ps = gs.rgPoisonStatus[`${slot}_${player.roleId}`]
+      if (ps && ps.wPoisonID !== 0 && ps.wPoisonScript > 0) {
+        runPoisonScript({
+          commands: res.commands,
+          ip: ps.wPoisonScript,
+          bus,
+          runtimeMode: 'battle',
+          battleCtx: { state, target: { type: 'player', idx }, gs, playerRoles: res.playerRoles },
+        })
+      }
+    }
+  })
   state.enemies.forEach((enemy, idx) => {
     if (enemy.e.health <= 0) return
     for (const poison of enemy.poisons ?? []) {

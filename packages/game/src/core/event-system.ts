@@ -31,7 +31,7 @@ import type { CommandBus } from './command-bus.js'
 import type { GameState, NpcState, EventCursor } from './game-state.js'
 import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
-import { addPlayerStatRow, removeEquipmentEffect, setPlayerStatRow, writeEquipmentEffectField } from './equip-effect.js'
+import { addPlayerStatRow, getPlayerPoisonResistance, removeEquipmentEffect, setPlayerStatRow, writeEquipmentEffectField } from './equip-effect.js'
 import {
   buildFadeOut,
   buildFadeIn,
@@ -725,6 +725,19 @@ let _storeTable: Array<{ items: number[] }> = []
 
 export function setStoreTable(stores: Array<{ items: number[] }>): void {
   _storeTable = stores
+}
+
+// ── 毒 OBJECT 表注入(0x29 apply-player 取 wPlayerScript / cure-by-level 取真 level)──
+//   ObjectPoisonView{id,level,color,playerScript,enemyScript};id→数据。applyRawOpcode(大世界 + 战斗
+//   fall-through)的 0x29 / curePlayerPoisonByLevel 用。未注入(旧测试)→ 空 Map,playerScript=0/level=0 退化。
+let _objectPoisons = new Map<number, { level: number; color: number; playerScript: number; enemyScript: number }>()
+
+export function setObjectPoisons(
+  poisons: ReadonlyArray<{ id: number; level: number; color: number; playerScript: number; enemyScript: number }>,
+): void {
+  _objectPoisons = new Map(
+    poisons.map((p) => [p.id, { level: p.level, color: p.color, playerScript: p.playerScript, enemyScript: p.enemyScript }]),
+  )
 }
 
 // ── 特效 C:RNG 动画 handler(opcode 0x0037 PAL_RNGPlay)──────────────────────
@@ -3491,18 +3504,29 @@ function applyRawOpcode(
           ? [currentEventObjectId]
           : []
       )
+      // sdlpal script.c:1257-1285 + PAL_AddPoisonForPlayer(global.c:1459):
+      //   仅当 RandomLong(1,100) > poisonResistance(0-100)才中毒;PAL_AddPoisonForPlayer 去重(已有同毒
+      //   skip)+ 找首空槽,wPoisonScript = obj.wPlayerScript(每回合 tick 跑)。
+      const playerScript = _objectPoisons.get(poisonId)?.playerScript ?? 0
       for (const roleId of targets) {
-        // 简版:不模拟 RandomLong 抗性检查(沿用 sdlpal 但简化),直接添加(scriptOnUse 物品用,
-        // 调用方设计为"必中"或 g_fScriptSuccess 路径已含 random 判定;follow-up 加抗性)
+        // 抗性突破判定(玩家 0-100,> 而非 >=,区别于敌人 0x28 的 0-10 >=)
+        if (Math.floor(Math.random() * 100) + 1 <= getPlayerPoisonResistance(gs, roleId)) continue
+        // 去重:已有同毒 → skip(PAL_AddPoisonForPlayer 真值)
+        let already = false
+        for (let slot = 0; slot < 16; slot++) {
+          if (gs.rgPoisonStatus[`${slot}_${roleId}`]?.wPoisonID === poisonId) { already = true; break }
+        }
+        if (already) continue
+        // 找首空槽加(wPoisonScript = playerScript,供每回合 tick)
         for (let slot = 0; slot < 16; slot++) {
           const key = `${slot}_${roleId}`
           if (!gs.rgPoisonStatus[key] || gs.rgPoisonStatus[key]!.wPoisonID === 0) {
-            gs.rgPoisonStatus[key] = { wPoisonID: poisonId, wPoisonScript: 0 }
+            gs.rgPoisonStatus[key] = { wPoisonID: poisonId, wPoisonScript: playerScript }
             break
           }
         }
       }
-      console.debug(`event-system: poisonPlayer applyAll=${applyAll} poisonId=${poisonId}`)
+      console.debug(`event-system: poisonPlayer applyAll=${applyAll} poisonId=${poisonId} script=${playerScript}`)
       break
     }
 
@@ -3959,19 +3983,19 @@ function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: number)
   }
 }
 
-/** sdlpal PAL_CurePoisonByLevel(global.c:1957-1985)— level <= maxLevel 清 0。
- *  ts 简版:items.poison.wPoisonLevel 字段未 plumb → 视为 maxLevel >= 3 时全清(覆盖 sdlpal 真值用法
- *  — 0x22 revive 用 maxLevel=3 全清;战末 D21 也用 maxLevel=3;治毒丹 maxLevel=1 部分清留 follow-up)。
- *  注:真实毒 wPoisonLevel 上限为 3 → CurePoisonByLevel(3) 本就清全部,ts 全清等价无保真损失。 */
+/** sdlpal PAL_CurePoisonByLevel(global.c:1567-1614)— 该毒 wPoisonLevel <= maxLevel 才清 0。
+ *  用注入的 _objectPoisons 取真 level(2026-05-31 plumb;此前简版全清)。
+ *  sdlpal 特殊:level==99(装备毒)被跳过(不清);治毒丹 maxLevel=1 只清低级毒。 */
 export function curePlayerPoisonByLevel(gs: GameState, roleId: number, maxLevel: number): void {
-  // 简化:全清。等 items.poison 字段 plumb 后改按 level 过滤。
   for (let slot = 0; slot < 16; slot++) {
     const key = `${slot}_${roleId}`
-    if (gs.rgPoisonStatus[key]) {
+    const ps = gs.rgPoisonStatus[key]
+    if (!ps || ps.wPoisonID === 0) continue
+    const level = _objectPoisons.get(ps.wPoisonID)?.level ?? 0
+    if (level !== 99 && level <= maxLevel) {
       gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
     }
   }
-  void maxLevel  // explicit unused — 见上注
 }
 
 /** 取 trigger 的 self NPC(sdlpal `pEvtObj`,纯 self 类 opcode 0x14 / 0xF 用)。无效 id 时 warn + 返回 null。 */

@@ -47,6 +47,28 @@ if rgwHP[role]==0: bPoisonColor = 0    # 死亡强制黑白 mono + 无 time mete
 | 投掷毒 | E2 throw 部分(0x28) | 复核全链 |
 | 法术中毒 | ? | spell scriptOnUse 0x28/0x29 |
 
-## 执行顺序(user 定)
-1. **先等 opcode 审计(wwezfx3es)完 → 更新 opcode-status.md(不该标 ✅ 的不标)**。
-2. 再实现中毒机制 + 头像色(审计会给出 0x28/0x29/0x5D/0x5E/0x61/0x22 精确状态)。
+## 理解 workflow(wnt5uzmt7)关键修正(2026-05-31)
+
+- **真毒 12 个**:object id 551-562。基础 4(551 L0c16 / 552 L1c64 / 553 L1c33 / 554 L2c224)+ 高级 8(555-560 L3 各色 / 561-562 L4 c0 仅 enemyScript)。**数据驱动,数量自动适配**(user 说 7 高级 ≈ 555-561 有 player 效果的)。
+- **玩家中毒 = opcode 0x29**(非 0x28!0x28=敌人毒)。抗性 `poisonResistance` **0-100** scale,判定 `RandomLong(1,100) > resist`(敌人 0x28 用 wResistanceToSorcery 0-10,`RandomLong(0,9) >= resist`)。
+- **cure 玩家毒 = 0x2B(byKind)/ 0x2C(byLevel)**;cure 敌人毒 = 0x2A(byKind,battle)。
+- 玩家毒存**全局 `gs.rgPoisonStatus[`${slot}_${role}`]`**(持久,16 槽/role);`{wPoisonID, wPoisonScript}`,wPoisonScript = obj.playerScript。
+- **每回合玩家毒 tick**(fight.c:1670-1697,PAL_BattleStartFrame action queue 耗尽时):遍历队员每毒槽跑 wPlayerScript(target=该队员 role)+ 状态 -1 衰减。**ts 缺**(敌毒 tick 在 tickPostAction 有,玩家没)。
+- **已有 helper**:`getPlayerPoisonResistance`(equip-effect.ts:75)、`curePlayerPoisonByKind/ByLevel`(event-system)。`poisonResistance` 字段已在 PlayerRole(tables.ts:303)。`objectPoisons`(ObjectPoisonView level/color/playerScript/enemyScript)已 plumb 进 BattleResources/loader。
+- **注入**:event-system 用模块级 `set*` pattern → 加 `setObjectPoisons` 供 applyRawOpcode 0x29/cure 取 scriptEntry+level。
+
+## 全部中毒**施加**路径(user 2026-05-31 补充,别遗漏)
+
+1. **投掷毒**:毒物品 scriptOnThrow → 0x28(敌)/ 0x29(我方)。performThrowItem,cde56f2 后脚本控制流通。
+2. **法术/技能中毒(双向)**:skill scriptOnUse/Success → 0x28 毒敌 / 0x29 毒我方。performMagic,经 dispatchBattleOpcode(0x28)+ applyRawOpcode fall(0x29)。
+3. **敌人普通攻击中毒**(fight.c:5139-5146):敌物理命中(`iCoverIndex==-1 && !fAutoDefend`)→ `attackEquivItemRate >= RandomLong(1,10)` && `poisonResistance < RandomLong(1,100)` → 跑 `rgObject[attackEquivItem].item.wScriptOnUse`(target=被打队员)→ 等价毒物品脚本 0x29 中毒。**ts attack.ts 敌→我 分支需补此段**;enemies.json 已有 attackEquivItem/attackEquivItemRate;equiv-item scriptOnUse 经 runScript(battle)。
+
+## 实现批次(TDD,逐批 commit)
+
+1. **核心毒 runtime**:setObjectPoisons 注入 + 0x29 加抗性 + 存真 scriptEntry(playerScript)+ curePlayerPoisonByLevel 用真 level + tickPostAction 加玩家毒 tick。
+2. **战斗状态/毒 opcode**:0x2A cure-enemy-kind(dispatchBattleOpcode)/ 0x2E set-enemy-status(抗性+jump)/ 0x2D set-player-status / 0x2F remove-player-status / 0x61 fix(op[0]+isPlayerPoisoned)。
+3. **头像色**:drawPlayerInfoBoxes 读 gs.rgPoisonStatus + objectPoisons → bPoisonColor(最高 level≤3 色 / 死亡 0 / 默认 0xFF)→ blitSpriteMonoColor 重染(复用现有 helper)。
+
+## 执行顺序(user 定)— 已完成审计 + 文档
+1. ~~opcode 审计 → opcode-status.md 修正~~ ✅(55d52cc)。
+2. 实现中毒机制 + 头像色(本文档批次 1-3)。poison/status bug(0x2A/2D/2E/2F/61)随批次 1-2 修。

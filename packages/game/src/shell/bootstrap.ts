@@ -24,6 +24,7 @@ import {
   setEndingAnimationHandler,
   setFetchPalette,
   setGlobalEvents,
+  setObjectPoisons,
   setLoadLastSaveHandler,
   setMapReloader,
   setObstacleChecker,
@@ -876,6 +877,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   // opcode 0x0034(妖魔转化)用 store[0].rgwItems 索引发物品。注入完整 store 表。
   setStoreTable(stores)
+
+  // 毒 OBJECT 表(0x29 apply-player 取 wPlayerScript / cure-by-level 取真 level)。
+  setObjectPoisons(objectPoisons)
 
   // 特效 C:RNG 动画 handler(opcode 0x37 PlayRNG)。event-system 设 cursor.waiting='rng-play' 后调本 handler;
   //   suspendRaf 期间 present 暂停、playRng 自管 fb 直写 + flushToCanvas;播完 finally 清 suspendRaf + waiting 续跑。
