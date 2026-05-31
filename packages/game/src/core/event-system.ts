@@ -3473,6 +3473,9 @@ function applyRawOpcode(
       const removeSlot = (slot: number) => {
         const w = eq[slot]?.[roleId] ?? 0
         if (w !== 0) {
+          // sdlpal script.c:1104-1135:卸装备**先撤销其属性加成** PAL_RemoveEquipmentEffect(role,slot),
+          //   再回收入包。此前 ts 漏 → 攻/防/魔加成残留不撤(审计 bug)。(单移/全移顺序无关:两操作独立。)
+          removeEquipmentEffect(gs, roleId, slot)
           addItemToInventory(gs, w, 1)
           eq[slot]![roleId] = 0
         }

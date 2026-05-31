@@ -1908,6 +1908,18 @@ describe('I-w1.a chest opcodes', () => {
     expect(gs.inventory).toEqual([{ itemId: 42, count: 3 }])
   })
 
+  it('0x23 removeEquipment:卸装备撤销属性加成 removeEquipmentEffect(审计修:此前残留)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = 88 // role0 slot0 装备 item 88
+    gs.rgEquipmentEffect[0]!.rgwAttackStrength[0] = 50 // 该装备的攻击加成
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x23, operands: [0, 0, 0] }, { op: 'end' }]) // role0 全卸
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.PlayerRolesRuntime.rgwEquipment[0]![0]).toBe(0) // 装备卸下
+    expect(gs.rgEquipmentEffect[0]!.rgwAttackStrength[0]).toBe(0) // 加成撤销(此前残留 50)
+    expect(gs.inventory.find((e) => e.itemId === 88)?.count).toBe(1) // 回包
+  })
+
   it('addItem:已有 itemId → count 累加', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = [{ itemId: 42, count: 2 }]
