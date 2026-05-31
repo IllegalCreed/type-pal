@@ -96,9 +96,20 @@
 | 0x43 | play-music 缺 loop/fade 参数(真播待 M6 音频) |
 | 0x47 | play-sound 纯 stub(真播待 M6 音频) |
 
-> **修复进度(2026-05-31)**:
-> - ✅ **已修**:0x1E(cde56f2 钱不足跳转)/ 0x29 poison-player 抗性+真毒脚本(a6ecf64)/ 0x61 jumpIfPlayerNotPoisoned(d91e9a8 op[0]+查毒)/ 0x2A cure-enemy-poison(d91e9a8)。配套:玩家每回合毒 tick + cure 按 level(a6ecf64)+ 头像中毒/死亡染色(1de0444)+ 敌普攻 equivItem 中毒(3a0f90f)。
-> - ⬜ **待修**:0x2D/0x2E/0x2F(set/remove player·enemy status,需 kStatus→BattleStatus 映射)/ 0x02/0x03(trigger 延迟 gate)/ 0x1B-1D(大世界活人 gate)/ 0x23(RemoveEquipmentEffect)/ 0x60(operand→caster)/ 0x6F(SHORT cast)/ 0x9E(iHidingTime)/ 0x59(scene guard)/ 0x7F(camera pan)/ 0x20(equip 消耗)/ 0x05/0x6D/0x8E/0x96。
+> **修复进度(2026-05-31,全部对 sdlpal 源逐行核对)**:
+> - ✅ **已修 19 个**:0x1E(cde56f2)/ 0x29 poison 抗性+真脚本(a6ecf64)/ 0x61(d91e9a8)/ 0x2A(d91e9a8)/
+>   0x1B-1D 活人 gate(2c3d25d)/ 0x6F SHORT cast(2c3d25d)/ 0x60 用 ctx.target(2c3d25d)/ 0x9E iHidingTime(2c3d25d)/
+>   0x59 scene guard+上界(2c3d25d+fe…)/ 0x23 RemoveEquipmentEffect(1b24ea9+1:1)/ 0x20 removeItem 装备消耗+失败跳(f98ab33)/
+>   0x69 escape→terminate 无奖励(已确认 battle.c:1434)/ 0x2D/0x2E/0x2F 状态 opcode(b8eb7da,kStatus CLASSIC 映射)/
+>   0x22 revive 清全 9 状态(de0424f)。配套:玩家毒 tick + cure-by-level + 头像染色 + 敌普攻 equivItem 中毒。
+> - ⬜ **剩 4 个(非纯 logic bug,子系统纠缠,需专门做)**:
+>   - **0x30** stat-buff%:需 per-battle Extra slot 模型 + **battle 读 base+Extra 有效值(D14 残:战斗现读 raw role stat)**
+>     纠缠;现 mutate role 持久(buff 生效但战末不反转)。
+>   - **0x38 / 0x6D** teleport script:需 SceneAssets 暴露 onTeleportLabel + run-trigger-script(场景子系统)。
+>   - **0x05 / 0x7F / 0x8E** present 演出:RNG/战斗场景重绘分支 / 摄像机动画平移 / 探索 RestoreScreen(present 层)。
+>   - **0x02 / 0x03** 控制流 frameDelay:tickEventSystem 一 tick 多 op ≠ autoScript 一 tick 一 op,frameDelay 不能照搬
+>     (17 个 frameDelay goto + 11 idleFrames reset 在用);需追哪些是 trigger vs autoScript + 正确 yield 模型,弄错破 cutscene 时序。
+> - ✅ **本就对(无需改)**:0x96(CLASSIC/DOS build "总是调"正确)/ 0x09·0x21·0x42·0x98·0x9C(审计假阳性,复核维持 ✅)。
 
 ## 控制流(0x00-0x0A)
 
