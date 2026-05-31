@@ -739,14 +739,10 @@ export function dispatchBattleOpcode(
         if (!role || role.hp !== 0)
           return false
         role.hp = Math.floor((role.maxHP * ratioTenths) / 10)
-        // 清战斗内状态(kStatusAll 移除)+ 毒(CurePoisonByLevel 3 → 简版全清,D15 残)。
+        // 清战斗内状态(sdlpal script.c:1052-1102 revive 清**所有** kStatus,全 9 项)+ 毒(CurePoisonByLevel 3)。
         const p = state.players[pIdx]
         if (p) {
-          p.status.sleep = 0
-          p.status.paralyzed = 0
-          p.status.confused = 0
-          p.status.haste = 0
-          p.status.slow = 0
+          p.status = { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, silence: 0, puppet: 0, bravery: 0, protect: 0, dualAttack: 0 }
         }
         if (ctx.gs && roleId !== undefined) {
           for (let slot = 0; slot < MAX_POISONS; slot++) {
