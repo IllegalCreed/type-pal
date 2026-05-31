@@ -1429,6 +1429,8 @@ function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
  */
 function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: CommandBus, res: BattleResources): void {
   state.turnStartDoneForTurn = state.turn
+  // B2 c5 / D24:隐身期间(iHidingTime>0)敌整轮跳过 → 不跑 turnStart 脚本(sdlpal fight.c:1680 ==0 才跑)
+  if ((state.iHidingTime ?? 0) > 0) return
   for (let ei = 0; ei < state.enemies.length; ei++) {
     const en = state.enemies[ei]
     if (!en || en.e.health <= 0 || en.scriptOnTurnStart <= 0) continue
@@ -1452,6 +1454,23 @@ function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: Comman
     en.scriptOnTurnStart = 0
   }
   state.battleDialogPendingClear = false
+}
+
+/**
+ * B2 c5 / D24:激活隐身效果(sdlpal `PAL_BattleCheckHidingEffect` fight.c:3529-3532)。
+ * 0x5C 把 iHidingTime 存为**负值**(待激活标记);CLASSIC 激活 = **纯取反**(`-iHidingTime`),
+ * **无 *20 / 无 bBattleSpeed 缩放**(那是非 CLASSIC 分支,type-pal 走 CLASSIC)。
+ */
+export function activateHidingEffect(state: BattleState): void {
+  if ((state.iHidingTime ?? 0) < 0) state.iHidingTime = -(state.iHidingTime ?? 0)
+}
+
+/**
+ * B2 c5 / D24:每轮衰减隐身(sdlpal CLASSIC fight.c:1670-1672):iHidingTime>0 → -1(到 0 = 隐身结束)。
+ * CLASSIC 每轮无条件 -1(非 CLASSIC 才有充能速度门控)。
+ */
+export function decrementHidingEffect(state: BattleState): void {
+  if ((state.iHidingTime ?? 0) > 0) state.iHidingTime = (state.iHidingTime ?? 0) - 1
 }
 
 /** narration 风格(物品提示式)自动消失时长 = 1.4s(sdlpal PAL_DialogWaitForKeyWithMaximumSeconds(1.4),text.c:1701)。 */
@@ -1656,10 +1675,17 @@ function tickPerformAction(
     return
   }
 
+  // B2 c5 / D24:激活隐身(0x5C 存的负值 → 取反,CLASSIC 无缩放)。在处理本动作前激活,
+  //   使隐身后队列里后续敌人动作被下面的 gate 跳过。
+  activateHidingEffect(state)
+
   const item = state.actionQueue[state.currentActionIndex]!
   let action: BattleAction | undefined
 
-  if (item.isEnemy) {
+  // B2 c5 / D24:隐身期间(iHidingTime>0)敌整轮跳过(连选目标都不做,sdlpal fight.c:1716 ==0 才行动)
+  if (item.isEnemy && (state.iHidingTime ?? 0) > 0) {
+    // action 保持 undefined → 不 perform;下方 currentActionIndex++ 推进队列
+  } else if (item.isEnemy) {
     const enemy = state.enemies[item.idx]
     if (enemy && enemy.e.health > 0) {
       // M5.B-w2.a:sdlpal `fight.c:1719-1724` 真值 — enemy 轮到时跑 wScriptOnReady
@@ -2051,6 +2077,8 @@ function tickPostAction(
   // sleep/paralyzed/confused/silence/puppet 各 -1 直到 0;boolean 类 haste/slow/...
   // 简版不衰减(等装备 / 法术 follow-up)
   tickStatusEffects(state)
+  // B2 c5 / D24:每轮衰减隐身(CLASSIC 每轮 -1,到 0 = 隐身结束;fight.c:1670-1672)
+  decrementHidingEffect(state)
   state.turn++
   // 备份本轮已选 action 供 Repeat(R 键)重提(sdlpal fight.c:1434-1437 prevAction backup),再清。
   state.prevActions = new Map(state.pendingActions)

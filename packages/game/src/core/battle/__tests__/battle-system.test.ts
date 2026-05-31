@@ -32,7 +32,7 @@ import type {
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus, type PresentCommand } from '../../command-bus.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
-import { selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
+import { activateHidingEffect, decrementHidingEffect, selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
 import { tickMenu } from '../../menu/menu-mode.js'
 import type { BattleEnemy } from '../battle-state.js'
 
@@ -1830,5 +1830,49 @@ describe('selectAutoTargetFrom (fight.c:86-128)', () => {
 
   it('空敌列表 → -1', () => {
     expect(selectAutoTargetFrom([], 0)).toBe(-1)
+  })
+})
+
+// ── B2 c5 / D24:隐身回合 iHidingTime(fight.c:3529-3548 + 1670-1725)──────────────
+describe('iHidingTime 隐身(D24)', () => {
+  it('activateHidingEffect:负值取反激活(CLASSIC 纯取反,无 *20/缩放)', () => {
+    const s = { iHidingTime: -5 } as unknown as Parameters<typeof activateHidingEffect>[0]
+    activateHidingEffect(s)
+    expect(s.iHidingTime).toBe(5) // 不是 -5*20=100
+  })
+
+  it('activateHidingEffect:正值不动(已激活)', () => {
+    const s = { iHidingTime: 3 } as unknown as Parameters<typeof activateHidingEffect>[0]
+    activateHidingEffect(s)
+    expect(s.iHidingTime).toBe(3)
+  })
+
+  it('decrementHidingEffect:正值每次 -1,到 0 停', () => {
+    const s = { iHidingTime: 2 } as unknown as Parameters<typeof decrementHidingEffect>[0]
+    decrementHidingEffect(s)
+    expect(s.iHidingTime).toBe(1)
+    decrementHidingEffect(s)
+    expect(s.iHidingTime).toBe(0)
+    decrementHidingEffect(s)
+    expect(s.iHidingTime).toBe(0) // 不变负
+  })
+
+  it('隐身期间(iHidingTime>0)敌人整轮跳过 → 玩家不掉血 + 每轮衰减', () => {
+    const { gs, bus, emptyInput, resources } = bootstrap({
+      enemies: [makeEnemy({ id: 100, attackStrength: 9999, health: 999 })], // 高攻,若行动必重创
+      roles: [makeRole({ id: 0, hp: 500, maxHP: 500 })],
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.iHidingTime = 3 // 激活态隐身 3 回合(正值)
+    let safety = 80
+    while (gs.battleState && (gs.battleState.iHidingTime ?? 0) >= 2 && safety-- > 0) {
+      if (gs.battleState.phase === 'selectAction')
+        gs.battleState.pendingActions.set(0, { type: 'defend', target: -1 })
+      tickBattle(gs, emptyInput, bus)
+    }
+    // 敌整轮被隐身挡住没打 → 玩家满血 500 未损
+    expect(resources.playerRoles.roles[0]!.hp).toBe(500)
+    // 隐身每轮衰减:已从 3 降到 <=2
+    expect(gs.battleState?.iHidingTime ?? 0).toBeLessThanOrEqual(2)
   })
 })
