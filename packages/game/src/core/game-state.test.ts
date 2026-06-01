@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
-import type { PlayerRole, SceneEventObject } from '@type-pal/shared'
+import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'
 
 describe('GameState', () => {
   it('初始态:无 NPC、explore 模式、无对话框', () => {
@@ -425,6 +425,37 @@ describe('player-roles 战斗数据模型边界', () => {
     resumePostBattleScript(gs, 'won')
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.mode).toBe('explore')
+  })
+
+  // ── C1(gameOverActive 重构):scriptRunHits0x4F 死亡帧预判 ──
+  // 从 lostIp 起线性扫描脚本 run(遇首个 end/goto 停),命中 0x4F(死亡红屏)→ true。
+  // 数据真值:死亡脚本 L_41075 = 41075 0x43 → 41076 0x4F;team21 lostIp=6186 在 0x4F 前撞 goto。
+  describe('scriptRunHits0x4F(死亡帧预判)', () => {
+    const raw = (opcode: number): Command => ({ op: 'raw', opcode, operands: [0, 0, 0] })
+
+    it('run 含 0x4F(死亡脚本 41075:0x43→0x4F)→ true', () => {
+      const cmds: Command[] = [raw(0x43), raw(0x4f), { op: 'end' }]
+      expect(scriptRunHits0x4F(cmds, 0)).toBe(true)
+    })
+
+    it('run 在 0x4F 前撞 goto(team21:对白→goto L_41075)→ false(不跨 goto 追)', () => {
+      const cmds: Command[] = [raw(0x4b), { op: 'goto', to: 'L_41075' }, raw(0x4f)]
+      expect(scriptRunHits0x4F(cmds, 0)).toBe(false)
+    })
+
+    it('run 遇 end 前无 0x4F(续剧情)→ false', () => {
+      const cmds: Command[] = [raw(0x78), raw(0x49), { op: 'end' }, raw(0x4f)]
+      expect(scriptRunHits0x4F(cmds, 0)).toBe(false)
+    })
+
+    it('commands undefined → false', () => {
+      expect(scriptRunHits0x4F(undefined, 0)).toBe(false)
+    })
+
+    it('startIp 越过 0x43 从 0x4F 处起 → true', () => {
+      const cmds: Command[] = [raw(0x43), raw(0x4f), { op: 'end' }]
+      expect(scriptRunHits0x4F(cmds, 1)).toBe(true)
+    })
   })
 
   it('往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)', () => {

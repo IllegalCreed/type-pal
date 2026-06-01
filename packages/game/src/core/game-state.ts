@@ -1272,6 +1272,29 @@ export function projectRuntimeToBattleRoles(
 /** 战斗结局(0x07 战后接回分支用)。 */
 export type BattleOutcome = 'won' | 'lost' | 'fled'
 
+/** sdlpal 死亡红屏 opcode 0x4F PAL_FadeToRed(script.c:1768),全游戏唯一在死亡脚本 L_41075。 */
+const OP_FADE_TO_RED = 0x4f
+
+/**
+ * 死亡帧预判(gameOverActive 重构):从 startIp 起**线性扫描**脚本 run(遇首个 end/goto 即停),
+ * 是否命中 0x4F(死亡红屏)。命中 → 本场战败是"立即进死亡帧"的真死亡(L_41075:0x43→0x4F)。
+ *
+ * sdlpal 真值(data/extracted/events/all.json):0x4F 全游戏唯一在 index 41076(死亡脚本)。
+ * **遇 goto 停**(不跨 goto 追):team21 林月如 lostIp=6186 在 0x4F 前先 `goto L_41075`(6189)→ 返 false,
+ *   让它先在正常重绘的场景上播两句对白,goto 后再由 0x4F handler 自然点亮死亡视觉(比 pre-light 更忠实)。
+ * 续剧情战(team29 / 石长老 / 林天南撑7回合 Terminated)run 内无 0x4F → 返 false,绝不误 hold 死亡帧。
+ */
+export function scriptRunHits0x4F(commands: Command[] | undefined, startIp: number): boolean {
+  if (!commands) return false
+  for (let i = startIp; i >= 0 && i < commands.length; i++) {
+    const c = commands[i]
+    if (!c) return false
+    if (c.op === 'end' || c.op === 'goto') return false // run 边界:不跨 goto/end 追
+    if (c.op === 'raw' && c.opcode === OP_FADE_TO_RED) return true
+  }
+  return false
+}
+
 /**
  * opcode 0x07 触发的战斗结束后,接回原触发脚本(sdlpal script.c:3318-3331)。
  * 胜(或负/逃但 op 无对应分支)→ wonIp(0x07 后下一条);负 → lostIp(op[1]);逃 → fledIp(op[2])。
