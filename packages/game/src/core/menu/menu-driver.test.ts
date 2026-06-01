@@ -146,26 +146,28 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     expect(sys.confirmYes).toBe(false)
   })
 
-  it('confirm 选 否(Confirm@No)→ 回 menu 阶段,不清栈、不退出', () => {
+  // sdlpal 真值:选 QUIT 后(是/否)PAL_SystemMenu return TRUE → PAL_InGameMenu goto out → 关整个菜单回 explore
+  //   (uigame.c:650/1031)。故「否」不是回系统菜单层,而是关掉整个菜单栈(= 加确认前的旧 menuStack=[] 行为)。
+  it('confirm 选 否(Confirm@No)→ 关整个菜单回 explore(sdlpal goto out)', () => {
     const gs = mkGs()
     const sys = createSystemMenu()
     sys.selection.cursor = sys.selection.items.length - 1
     openMenu(gs, { kind: 'system', state: sys })
     tickMenu(gs, snap(['Confirm']), createCommandBus()) // 进 confirm(No)
-    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 选 No
-    expect(sys.phase).toBe('menu')
-    expect(gs.menuStack.length).toBe(1)
+    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 选 No → 关整个菜单
+    expect(gs.menuStack.length).toBe(0)
+    expect(gs.mode).toBe('explore')
   })
 
-  it('confirm 按 Menu(取消,等价 PAL_ConfirmMenu CANCELLED→FALSE)→ 回 menu 阶段', () => {
+  it('confirm 按 Menu(取消,等价 PAL_ConfirmMenu CANCELLED→FALSE)→ 同「否」关整个菜单回 explore', () => {
     const gs = mkGs()
     const sys = createSystemMenu()
     sys.selection.cursor = sys.selection.items.length - 1
     openMenu(gs, { kind: 'system', state: sys })
     tickMenu(gs, snap(['Confirm']), createCommandBus())
     tickMenu(gs, snap(['Menu']), createCommandBus())
-    expect(sys.phase).toBe('menu')
-    expect(gs.menuStack.length).toBe(1)
+    expect(gs.menuStack.length).toBe(0)
+    expect(gs.mode).toBe('explore')
   })
 
   it('confirm 选 是(Confirm@Yes)→ 调 systemQuitHandler(回标题),不复用 0xA0 结局 handler', () => {

@@ -31,7 +31,7 @@ function selectedColor(): number {
 /**
  * sdlpal uigame.c:107-108 真值坐标公式(已忠实移植,非简版):
  *   x = 125 - (w > 4 ? (w - 4) * 8 : 0),w = PAL_WordWidth(label)(font.ts palWordWidth)。
- * shipped 真 label '新的故事'/'读取存档' 都是 4 全宽字 → w=4 → 公式退化 x=125(与旧硬编码一致,零像素变化);
+ * shipped 真 label getWord(7)='新的故事' / getWord(8)='旧的回忆' 都是 4 全宽字 → w=4 → 公式退化 x=125(与旧硬编码一致,零像素变化);
  * 长于 4 全宽单位的文案(modded WORD.DAT / 其它语言)按公式左移对齐。y 恒 95(新)/ 112(读档)。
  */
 export function openingItemX(label: string): number {

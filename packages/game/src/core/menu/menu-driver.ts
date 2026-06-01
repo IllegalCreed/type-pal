@@ -31,7 +31,6 @@ import {
   systemMenuUp,
   systemMenuEnterConfirm,
   systemMenuToggleConfirm,
-  systemMenuCancelConfirm,
   type InGameMenuState,
   type SystemMenuState,
 } from './in-game-menu.js'
@@ -359,18 +358,22 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
   const s = top.state as SystemMenuState
 
   // C2-quit:二次确认阶段(sdlpal PAL_ConfirmMenu)— 左右两 box 否/是,方向键 toggle。
+  //   sdlpal 真值控制流:PAL_QuitGame 选「否」/取消 → PAL_ConfirmMenu 返 FALSE → PAL_QuitGame 直接返回 →
+  //   PAL_SystemMenu case5 break → **return TRUE**(uigame.c:650;非 CANCELLED 一律 TRUE)→
+  //   PAL_InGameMenu `if(PAL_SystemMenu()) goto out`(uigame.c:1031)→ DeleteBox cash+menu → **关整个菜单回 explore**。
+  //   故「否」不是回系统菜单层,而是关掉整个 in-game 菜单栈(= 本 commit 前 `menuStack=[]` 的旧行为,只是现在多一道确认)。
   if (s.phase === 'confirm') {
     if (input.pressed.has('Up') || input.pressed.has('Down')
       || input.pressed.has('Left') || input.pressed.has('Right')) {
       systemMenuToggleConfirm(s)
     }
     if (input.pressed.has('Menu')) {
-      systemMenuCancelConfirm(s) // 取消 = PAL_ConfirmMenu CANCELLED → FALSE → 回系统菜单
+      gs.menuStack = [] // 取消 = PAL_ConfirmMenu CANCELLED → 同「否」→ goto out 关整个菜单回 explore
       return
     }
     if (input.pressed.has('Confirm')) {
       if (s.confirmYes) _systemQuitHandler?.() // 是 → PAL_Shutdown(0) 映射为回标题
-      else systemMenuCancelConfirm(s)          // 否 → 回系统菜单本体
+      else gs.menuStack = []                    // 否 → goto out 关整个菜单回 explore(sdlpal uigame.c:1031)
     }
     return
   }

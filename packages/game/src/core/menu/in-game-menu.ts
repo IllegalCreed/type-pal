@@ -104,11 +104,8 @@ export function systemMenuEnterConfirm(s: SystemMenuState): void {
 export function systemMenuToggleConfirm(s: SystemMenuState): void {
   s.confirmYes = !s.confirmYes
 }
-
-/** confirm 阶段选「否」/ 取消 → 回系统菜单本体(PAL_ConfirmMenu 返 FALSE,PAL_QuitGame 直接返回)。 */
-export function systemMenuCancelConfirm(s: SystemMenuState): void {
-  s.phase = 'menu'
-}
+// 注:选「否」/取消不回系统菜单层 —— sdlpal PAL_SystemMenu 选 QUIT 后(无论是/否)return TRUE →
+//   PAL_InGameMenu goto out 关整个菜单(uigame.c:650/1031),故「否」由 dispatcher 直接 menuStack=[]，无需 cancel-confirm helper。
 
 export function systemMenuChoice(s: SystemMenuState): SystemMenuChoice | undefined {
   const sel = s.selection.items[s.selection.cursor]

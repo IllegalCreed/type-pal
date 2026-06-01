@@ -185,17 +185,20 @@ export function measureText(
 }
 
 /**
- * sdlpal `PAL_CharWidth`(font.c:611-629)忠实移植:返回 `font_width[ch] >> 1`。
- * 标准字体 font_width 默认表:ASCII(<0x80)= 16 → 8px,CJK = 32 → 16px。
- * **静态判定**(纯按 codepoint),不读字体资源、不依赖 glyph 加载 —— 与 measureText 区别:后者依赖
- * glyphs 且 ASCII 缺失 fallback 成 16px(font.ts measureText),会让 ASCII 宽度翻倍,**不可**用于布局公式。
+ * sdlpal `PAL_CharWidth`(font.c:611-629)= `font_width[ch] >> 1` 的**近似**(非逐 codepoint 忠实):
+ *   可打印 ASCII(0x20-0x7E)= 16→8px ✓;CJK = 32→16px ✓ —— 菜单文案(纯 CJK / 可打印 ASCII)完全正确。
+ * **已知近似偏差**(对真实游戏菜单文案零影响,故不修运行逻辑):font_width 默认表(fontglyph.h)里
+ *   控制字符 0x00-0x1F / 0x7F = 32(本函数返 8)、Latin-1/希腊/西里尔 0xA0-0xFF 多为 16(本函数返 16 但真值 8);
+ *   且未移植 unicode 代理/私用区裁剪(font.c:615-625 返 0 宽)。仅当未来用于含这些字符的布局才需查真 font_width 表。
+ * **静态判定**(纯按 codepoint),不读字体资源/不依赖 glyph 加载 —— 与 measureText 区别:后者依赖 glyphs 且
+ *   ASCII 缺失 fallback 成 16px,会让 ASCII 宽度翻倍,**不可**用于布局公式。
  */
 export function palCharWidth(cp: number): number {
   return cp < 0x80 ? 8 : 16
 }
 
 /**
- * sdlpal `PAL_WordWidth`(ui.c:836-861)忠实移植:`(Σ PAL_CharWidth + 8) >> 4` —— 返回"全宽字数"(量化值),
+ * sdlpal `PAL_WordWidth`(ui.c:836-861):`(Σ palCharWidth + 8) >> 4` —— 返回"全宽字数"(量化值),
  * 非像素、非 string.length。纯 CJK 时碰巧 == 字数,但 ASCII 文案会分叉(8 个 ASCII → 4 而非 8)。
  * 用于菜单项 x 坐标公式(OpeningMenu uigame.c:107-108、动作菜单等)。
  */

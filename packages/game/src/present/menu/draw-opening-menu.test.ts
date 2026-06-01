@@ -6,11 +6,11 @@ import { drawOpeningMenu, openingItemX } from './draw-opening-menu.js'
 
 // ── A4:OpeningMenu 选项 x 坐标公式(sdlpal uigame.c:107-108)──
 //   x = 125 - (w > 4 ? (w-4)*8 : 0),w = PAL_WordWidth(label)。
-//   shipped 真值 label '新的故事'/'读取存档' 都是 4 字 → w=4 → x=125(与旧硬编码一致,零像素回归)。
+//   shipped 真值 label = getWord(7)='新的故事' / getWord(8)='旧的回忆'(words.json flat[7/8]),都是 4 字 → w=4 → x=125。
 describe('openingItemX — 选项 x 公式(uigame.c:107-108)', () => {
-  it("4 字 label('新的故事')→ w=4 → x=125(回归钉死:对 shipped 数据零变化)", () => {
-    expect(openingItemX('新的故事')).toBe(125)
-    expect(openingItemX('读取存档')).toBe(125)
+  it("真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)", () => {
+    expect(openingItemX('新的故事')).toBe(125) // flat[7] 新游戏
+    expect(openingItemX('旧的回忆')).toBe(125) // flat[8] 读档(真 label,非"读取存档")
   })
 
   it('5 字 → w=5 → x=117;6 字 → w=6 → x=109(公式对长文案左移)', () => {
