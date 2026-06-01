@@ -397,6 +397,13 @@ export interface BattleState {
    */
   fAutoAttack?: boolean
   /**
+   * 持久自动战斗(= sdlpal gpGlobals->fAutoBattle,0x8A 剧情脚本设)。开 → 整场每队员自动
+   * 选最强法术或物理(PickAutoMagic 阈值 9999,uibattle.c:839-878),**单场有效**(战斗结束
+   * finalizeBattleCleanup 清 gs.fAutoBattle,script.c:3332)。与 fAutoAttack 区别:后者 A 键单回合纯物理、
+   * 可 Menu 关;前者整场自动会选法术、不可手动关。createBattleState 从 gs.fAutoBattle seed。
+   */
+  fAutoBattle?: boolean
+  /**
    * 上一轮每队员已 commit 的 action 快照(= sdlpal prevAction)。postAction 清 pendingActions
    * 前拷入;Repeat(R 键)重提上一轮 action(sdlpal kKeyRepeat → CommitAction(TRUE))。
    */
@@ -622,6 +629,7 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
     miscMenuCursor: 0,
     miscSubMenuCursor: 0,
     fAutoAttack: false,
+    fAutoBattle: input.gs.fAutoBattle ?? false, // B4(3):0x8A 持久 flag seed 进战斗
     prevActions: new Map(),
     expGained: 0,
     cashGained: 0,

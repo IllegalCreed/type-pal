@@ -524,20 +524,27 @@ function tickSelectAction(
     advanceSelectingPlayer(state, alivePlayerIdxs)
   }
 
-  // fAutoAttack 取消(sdlpal uibattle.c:827-829):auto 模式按 Menu → 关 auto,本 tick 改正常菜单。
-  if (state.fAutoAttack && (input.pressed.has('Menu') || input.pressed.has('Cancel'))) {
-    state.fAutoAttack = false
+  // B4(3):持久 fAutoBattle(0x8A,sdlpal uibattle.c:839-878)**优先**于手动/fAutoAttack(:822 互斥)。
+  //   整场每 ready 队员自动 PickAutoMagic(阈值 9999)→ 有可用法术选法术、否则物理,不显示菜单、不可手动关。
+  if (state.fAutoBattle && state.selectingPlayerIdx !== undefined) {
+    commitForceAction(state, alivePlayerIdxs, res, 9999)
   }
+  else {
+    // fAutoAttack 取消(sdlpal uibattle.c:827-829):auto 模式按 Menu → 关 auto,本 tick 改正常菜单。
+    if (state.fAutoAttack && (input.pressed.has('Menu') || input.pressed.has('Cancel'))) {
+      state.fAutoAttack = false
+    }
 
-  // 自动攻击模式(围攻 / Auto 键):队员起手即自动 commit 攻击(sdlpal uibattle.c:977-992),不显示菜单。
-  if (
-    state.uiState === 'selectMove' && state.menuState === 'main' && state.fAutoAttack &&
-    state.selectingPlayerIdx !== undefined
-  ) {
-    commitAutoAttack(state, res.playerRoles, alivePlayerIdxs)
-  } else {
-    // UI input dispatch(按 uiState × menuState 路由,1:1 sdlpal BATTLEUISTATE × BATTLEMENUSTATE)。
-    dispatchSelectInput(state, input, gs, res, alivePlayerIdxs)
+    // 自动攻击模式(围攻 / Auto 键):队员起手即自动 commit 攻击(sdlpal uibattle.c:977-992),不显示菜单。
+    if (
+      state.uiState === 'selectMove' && state.menuState === 'main' && state.fAutoAttack &&
+      state.selectingPlayerIdx !== undefined
+    ) {
+      commitAutoAttack(state, res.playerRoles, alivePlayerIdxs)
+    } else {
+      // UI input dispatch(按 uiState × menuState 路由,1:1 sdlpal BATTLEUISTATE × BATTLEMENUSTATE)。
+      dispatchSelectInput(state, input, gs, res, alivePlayerIdxs)
+    }
   }
 
   // 还没全选完 → 等下一 tick
@@ -887,11 +894,15 @@ function confirmMainAction(state: BattleState, res: BattleResources): void {
   }
 }
 
-/** Force(F 键):pickAutoMagic → 物理/法术自动 commit(uibattle.c:1171-1204)。 */
-function commitForceAction(state: BattleState, alivePlayerIdxs: number[], res: BattleResources): void {
+/**
+ * Force(F 键):pickAutoMagic → 物理/法术自动 commit(uibattle.c:1171-1204)。
+ * threshold:pickAutoMagic 选法术的 MP 阈值 —— Force 键 60(uibattle.c:1173);
+ *   fAutoBattle(0x8A 整场自动)9999(uibattle.c:854,几乎必选可用法术)。
+ */
+function commitForceAction(state: BattleState, alivePlayerIdxs: number[], res: BattleResources, threshold = 60): void {
   const playerIdx = state.selectingPlayerIdx
   if (playerIdx === undefined) return
-  const w = pickAutoMagic(state, res.playerRoles, res.spells, res.magics, 60)
+  const w = pickAutoMagic(state, res.playerRoles, res.spells, res.magics, threshold)
   if (w === 0) {
     commitAutoAttack(state, res.playerRoles, alivePlayerIdxs)
     return
@@ -2150,6 +2161,9 @@ function finalizeBattleCleanup(gs: GameState, outcome: BattleOutcome): void {
     curePlayerPoisonByLevel(gs, roleId, 3)
     removeEquipmentEffect(gs, roleId, kBodyPartExtra)
   }
+
+  // B4(3):持久 fAutoBattle 单场有效 —— 战斗结束清(sdlpal script.c:3332 `fAutoBattle = FALSE`)。
+  gs.fAutoBattle = false
 
   // 战斗内对话用的是复用大世界 gs.dialogBox —— 战斗结束清掉,避免泄漏进 explore 渲染。
   gs.dialogBox = undefined

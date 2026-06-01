@@ -44,17 +44,22 @@
 
 ---
 
-## W2 — trance 觉醒演出 + 持久 fAutoBattle(逻辑层,部分接演出)
+## W2 — 持久 fAutoBattle(~~+ trance 觉醒演出~~ 经核实 N/A)
 
-> **起手第一动作**(软前置,非 blocker):确认 present 层支持 player `iColorShift` 渲染(summon 有 fSummonColorShift,player 未必)+ 觉醒态 sprite 资源(PAL_LoadBattleSprites 切 spriteNum 后贴图)已提取。任一缺 → 该项转 blocked,先扩 present/补资源。
+> **2026-06-01 起手前置核查结论**:
+> - **trance 觉醒演出 = N/A,不做**(同 D20-2 中毒紫色):trance magic id 47 在仙剑1 **完全未被引用** —
+>   `_name: null` / `scriptOnUse·scriptOnSuccess: null` / 不在任何 spell·object-magic·level-up-magic·role·enemy。
+>   是 sdlpal 引擎占位数据,仙剑1 不可触发。给不可施放、无 success 脚本的法术建觉醒演出 = 投机死代码,
+>   违反"修改须在 sdlpal source 找出处 + 真值"。present 渲染层其实就绪(iColorShift blit draw-battle-sprites.ts:121),
+>   但**没有可驱动它的真实游戏路径**。→ 从 W2 移除。
+> - **0x8A auto-battle = 真缺口,做**(不依赖资源)。
 
 | 项 | effort | gap | 落点 |
 |---|---|---|---|
 | **B4(3) 0x8A 持久 fAutoBattle 消费** | M | A 键 fAutoAttack 已做;0x8A 写 gs.fAutoBattle 但无消费方 + 战斗结束不清 | battle-system.ts init 读 gs.fAutoBattle→整队自动走 pickAutoMagic(655)/commitForceAction(882,阈值传 **9999** 对 uibattle.c:854,非现 60);finalizeBattleCleanup 清 flag(script.c:3332 单场有效)|
-| **A(2)+D20-1 trance 觉醒演出**(同一演出两面,合并) | M | trance-as-magic 伤害/MP/脚本已对(走 defensive);magic.ts:312-320 anim 分发**无 trance 分支** | magic.ts 加 `else if(magic.type==='trance')` → 新增 **buildAndStartTranceAnim**(仿 buildAndStartSummonAnim magic.ts:431):iColorShift 斜坡 0/2/4/6/8/10 共 6 帧 + 第7帧切觉醒精灵复位 0 + DefMagicAnim + fade,对齐 fight.c:4226-4241。blit 原语(draw-battle-sprites.ts:121)+ FighterDelta.iColorShift 字段已在 |
 
-**effort ≈ M-L(5-7h)**。A(2)+D20-1 必须同批(逻辑分发 + 渲染斜坡,否则半成品)。
-**风险锚**:别被"trance=独立 action+buff"误导写 handler——buff 是 trance 法术 wScriptOnUse 脚本干的;真正要 port 的是 magic.ts trance anim 分支(colorShift+sprite 重载)。区分 BattleAction.type(删)vs Magic['type']（保留）。fAutoBattle ≠ fAutoAttack(前者自动选法术 uibattle.c:839-880,后者纯物理)。
+**effort ≈ M(2-3h)**。
+**风险锚**:fAutoBattle ≠ fAutoAttack(前者 0x8A 整场、自动选法术 uibattle.c:839-880;后者 A 键单回合纯物理)。fAutoBattle 单场有效(战斗结束 script.c:3332 清,非永久)。
 
 ---
 

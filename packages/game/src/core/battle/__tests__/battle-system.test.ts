@@ -122,6 +122,8 @@ interface BootstrapOpts {
   isBoss?: boolean
   rngSeed?: number
   runScriptFn?: RunScriptFn
+  /** B4(3):0x8A 持久 fAutoBattle —— startBattle 前设 gs.fAutoBattle(整场自动)。 */
+  fAutoBattle?: boolean
   /** E2 投掷物测试用:注入 items / magics / objectMagics / commands / inventory。 */
   items?: Item[]
   magics?: Magic[]
@@ -164,6 +166,8 @@ function bootstrap(opts: BootstrapOpts = {}): {
   const commands: Command[] = opts.commands ?? [{ op: 'end' }]
   if (opts.inventory)
     gs.inventory = opts.inventory
+  if (opts.fAutoBattle)
+    gs.fAutoBattle = true // B4(3):startBattle 前设 → createBattleState seed state.fAutoBattle
 
   const bus = createCommandBus()
 
@@ -356,6 +360,33 @@ describe('tickBattle phase transitions', () => {
     const enemyEntry = gs.battleState!.actionQueue.find((q) => q.isEnemy)
     // base 63 * 0.9 = 56.7 → trunc 56(WORD 截断);现状无抖动则恒 63 → 失败
     expect(enemyEntry?.dex).toBe(56)
+  })
+
+  // ── B4(3)(2026-06-01 W2):0x8A 持久 fAutoBattle 整场自动(sdlpal uibattle.c:839-878)──
+  it('B4(3):gs.fAutoBattle → 队员**无输入**自动 commit(攻击/法术)→ 自动进 performAction', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 99999, attackStrength: 0 })],
+      roles: [makeRole({ id: 0, hp: 99999, attackStrength: 100 })],
+      fAutoBattle: true, // 0x8A 设的持久 flag
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    // **不设 pendingActions**(玩家无输入)。fAutoBattle → 自动填动作 → 直接进 performAction。
+    tickBattle(gs, emptyInput, bus)
+    expect(gs.battleState?.players[0]).toBeDefined()
+    // 自动 commit 了一个动作(无 magic 时 = 物理攻击全体活敌)→ phase 推进出 selectAction
+    expect(gs.battleState?.phase).not.toBe('selectAction')
+  })
+
+  it('B4(3):战斗结束 → gs.fAutoBattle 清 false(sdlpal script.c:3332 单场有效)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 1 })], // 必秒 → 胜利
+      roles: [makeRole({ id: 0, attackStrength: 999 })],
+      fAutoBattle: true,
+    })
+    expect(gs.fAutoBattle).toBe(true) // 入战时 true
+    driveBattleToExplore(gs, bus)
+    expect(gs.mode).toBe('explore')
+    expect(gs.fAutoBattle).toBe(false) // 战斗结束清(非永久)
   })
 
   it('performAction → postAction(queue 跑完)→ 下一轮 selectAction(双方都活)', () => {
