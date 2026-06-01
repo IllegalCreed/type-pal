@@ -138,6 +138,7 @@ import { createInventoryMenu } from './inventory-menu.js'
 import { createInventoryActionMenu } from './inventory-action-menu.js'
 import { createEquipMenu } from './equip-menu.js'
 import { createInGameMagicMenu } from './in-game-magic-menu.js'
+import { setGlobalEvents } from '../event-system.js'
 import { createPlayerStatus } from './player-status.js'
 import { createSaveSlotMenu } from './save-slot-menu.js'
 
@@ -218,6 +219,48 @@ describe('M5.6 T9 dispatchEquipMenu', () => {
     openMenu(gs, { kind: 'equip', state: createEquipMenu(gs, []) })
     tickMenu(gs, snap(['Menu']), createCommandBus())
     expect(gs.menuStack.length).toBe(0)
+  })
+
+  // ── user 2026-06-01 报:换完装备回到装备列表,列表没刷新 —— 应显示刚换下的旧装备、
+  //    刚装上的新装备应从列表消失。sdlpal:PAL_GameEquipItem 外层 while 每次回 PAL_ItemSelectMenu
+  //    (equipable)用**当前背包**重建列表(uigame.c:328-359 + itemmenu.c)。 ──
+  it('换装后回 list:grid 用当前背包重建(旧装备入列、新装备出列)', () => {
+    const gs = mkGs()
+    gs.partyMembers = [0]
+    // role 0 手持槽(part 3)已装旧武器 100;背包有新武器 163
+    gs.PlayerRolesRuntime.rgwEquipment[3]![0] = 100
+    gs.inventory = [{ itemId: 163, count: 1 }]
+    // scriptOnEquip L_500:0x18[14,163,0] → swap(装 163,旧 100 入包)+ wLastUnequippedItem=100
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x18, operands: [14, 163, 0], label: 'L_500' },
+      { op: 'end' },
+    ])
+    const mkItem = (id: number, name: string, soe: number): Item => ({
+      id, _name: name, bitmap: 0, price: 0, scriptOnUse: 0, scriptOnEquip: soe,
+      scriptOnThrow: 0, flags: { equipable: true, equipableBy: { 0: true } }, equipPart: 3,
+    } as unknown as Item)
+    // 新装备 163 + 旧装备 100 都是 equipable catalog 项(回包后旧装备能进 equipable 列表)
+    const items = [mkItem(163, '长鞭', 500), mkItem(100, '旧武器', 0)]
+    setMenuCatalogs({ ...MOCK_CATALOGS, items, playerRoles: { roles: [{ id: 0 } as any] } as any })
+
+    openMenu(gs, { kind: 'equip', state: createEquipMenu(gs, items) })
+    const st = gs.menuStack[gs.menuStack.length - 1]!.state as ReturnType<typeof createEquipMenu>
+    // list 选中新装备(163)→ Confirm 进 pick-role
+    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    expect(st.phase).toBe('pick-role')
+    expect(st.selectedItemId).toBe(163)
+    // Confirm role 0 → 跑 scriptOnEquip(0x18 swap)
+    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    expect(gs.PlayerRolesRuntime.rgwEquipment[3]![0]).toBe(163) // 新装备装上
+    expect(gs.wLastUnequippedItem).toBe(100) // 0x18 写旧装备
+    expect(st.selectedItemId).toBe(100) // 选中物品显示刷新为换下的旧装备(状态层已对)
+    // ★核心 bug:背包此刻 = [旧装备100](新163 出包,旧100 入包)。
+    //   回到 list 时 grid 应反映当前背包 —— 含 100、不含 163。
+    expect(gs.inventory.map(e => e.itemId).sort()).toEqual([100])
+    // 取消回 list(Menu)→ 列表应是当前背包(旧装备 100),而非装备前的旧快照(新装备 163)
+    tickMenu(gs, snap(['Menu']), createCommandBus())
+    expect(st.phase).toBe('list')
+    expect(st.list.inventory.map(s => s.itemId)).toEqual([100]) // 旧装备入列、新装备出列
   })
 })
 

@@ -540,7 +540,10 @@ function dispatchEquipMenu(
 ): void {
   const s = top.state as EquipMenuState
   if (input.pressed.has('Menu')) {
+    const wasPickRole = s.phase === 'pick-role'
     cancelEquipMenu(s)
+    // pick-role → list 回退:同换装出口,grid 按当前背包重建(sdlpal 外层 while 重进 ItemSelectMenu)。
+    if (wasPickRole && s.phase === 'list') s.list = createInventoryMenuRefresh(gs, requireCatalogs().items)
     if (s.phase === 'done') closeTopMenu(gs)
     return
   }
@@ -588,12 +591,15 @@ function dispatchEquipMenu(
         }
         // sdlpal uigame.c:1859 真值:下一帧渲染重读 wLastUnequippedItem(0x18 已写)
         s.selectedItemId = gs.wLastUnequippedItem
+        // user 2026-06-01 报根因:换装后 0x18 swap 改了背包(新装备出包 / 旧装备入包),
+        //   list grid 必须用**当前背包**重建,否则回 list 仍显示装备前旧快照(新装备还在/旧装备没出现)。
+        //   sdlpal PAL_GameEquipItem 外层 while 每次回 PAL_ItemSelectMenu(equipable) 都按当前背包重建
+        //   (uigame.c:328-359)→ 无论换没换下东西都刷新。原 ts 只在 selectedItemId===0(空槽)分支刷,漏了真换装。
+        s.list = createInventoryMenuRefresh(gs, catalogs.items)
         // sdlpal uigame.c:2016-2019 真值:wItem == 0 → return EquipItemMenu → 回 PAL_GameEquipItem
-        // outer while 再 PAL_ItemSelectMenu;ts 等价:回 phase='list'
+        //   outer while 再 PAL_ItemSelectMenu;ts 等价:回 phase='list'
         if (s.selectedItemId === 0) {
           s.phase = 'list'
-          // sdlpal createInventoryMenu refresh — 装备完一件后 inventory grid 可能变化(itemCount-1)
-          s.list = createInventoryMenuRefresh(gs, catalogs.items)
         }
       }
     }
