@@ -3611,6 +3611,28 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     expect(gs.paletteFadeState?.totalMs).toBe(2400)
   })
 
+  // C4(gameOverActive 重构):0x4F handler 真执行时接管死亡演出标记。
+  //   C2 已移除 resumePostBattleScript 里 `outcome==='lost'` 无条件置 gameOverActive,
+  //   故 gameOverActive 现只由这里(脚本真跑到 0x4F)置 → 死亡红屏纯由 opcode 驱动,无"按战斗结局"判据。
+  it('0x4F FadeToRed → 置 gameOverActive=true(死亡演出由 opcode 驱动,非战斗结局)', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([100, 100, 100], [100, 100, 100])
+    expect(gs.gameOverActive).toBeFalsy() // 前置:未置
+    loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_TO_RED, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.gameOverActive).toBe(true)
+  })
+
+  it('0x4F FadeToRed → 清 deathHoldActive(过渡帧 hold 交棒给 gameOverActive)', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([100, 100, 100], [100, 100, 100])
+    gs.deathHoldActive = true // 模拟:T0 resume 预置了过渡帧 hold,等脚本跑到 0x4F
+    loadEvent(gs, [{ op: 'raw', opcode: OP_FADE_TO_RED, operands: [0, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.deathHoldActive).toBe(false) // 交棒:纯 hold 结束,转 gameOverActive(hold+染红+画死亡对话)
+    expect(gs.gameOverActive).toBe(true)
+  })
+
   it('0x9B fadeToScene → 复用 dither gs.fadeState(speed=2)+ waiting=fade-screen,不建 paletteFadeState', () => {
     const bus = createCommandBus()
     const gs = gsWithPalette([10, 10, 10], [10, 10, 10])

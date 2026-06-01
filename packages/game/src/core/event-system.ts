@@ -2033,10 +2033,14 @@ export function tickEventSystem(
           // OP_FADE_TO_RED(0x4F)— sdlpal script.c:1772 `PAL_FadeToRed()`(game over)。
           //   32 步 × 75ms = 2400ms。approach ±8;target=(base.r+g+b)/4+64/0/0;skip idx 0x4F(文字色);
           //   present fb 像素 0x4F→0x4E(builder 已带 remap,present 渲染时套用)。
-          // FadeToRed 只在死亡脚本(L_41075)用;death 演出靠 gs.gameOverActive(present 保持战斗帧 + 只画对话),
-          //   palette ramp 把保持的**战斗帧**染红。clearSceneLoading 默认(与冻屏机制无关,gameOverActive 主导)。
+          // FadeToRed 全游戏唯一在死亡脚本 L_41075(0x4F 唯一在 index 41076,byte-level 核 all.json)。
+          //   gameOverActive 重构(C4):死亡演出标记**由本 opcode 真执行时点亮**(不再按 outcome==='lost' 预判),
+          //   present 据此保持战斗帧 + 只画死亡对话,palette ramp 把保持的**战斗帧**染红。
+          //   交棒:T0 过渡帧用 deathHoldActive(纯 hold)→ 跑到这里清掉,转 gameOverActive(hold+染红+画对话)。
+          gs.gameOverActive = true
+          gs.deathHoldActive = false
           startPaletteFade(gs, cursor, buildFadeToRed(baseColors, 32 * 75, now), false)
-          console.debug(`event-system: FadeToRed → 2400ms (→red, skip 0x4F)`)
+          console.debug(`event-system: FadeToRed → 2400ms (→red, skip 0x4F);gameOverActive=true`)
           return
         }
 
