@@ -1992,16 +1992,6 @@ function performBattleAction(
       })
       break
     }
-
-    // M5.B-w2.b stub:3 个新 action type — handler 真做留后续 commit
-    case 'summon':
-    case 'trance':
-    case 'equip-battle':
-      console.debug(
-        `[battle] B-w2.b stub:action=${action.type} actionId=${action.actionId}` +
-          ` target=${action.target}(handler 真做留后续)`,
-      )
-      break
   }
 }
 

@@ -128,13 +128,12 @@ export interface BattleEnemy {
  * actionId 仅对 magic / item 有效;target = -1 表示全体。
  */
 export interface BattleAction {
-  // M5.B-w2.b 扩 4 个 action type(sdlpal `battle.h kBattleAction*`):
-  //   summon: 召唤(special magic 调 special script + 召唤兽 sprite)
-  //   trance: 觉醒态切换(player sprite 改 + buff atk/def/dex 翻倍持续 N 回合)
-  //   throw-item: 物品投掷(item.scriptOnThrow 跑 — 类法术效果但消耗 item)
-  //   equip-battle: 战斗内换装(罕见,跟 Menu equip 共享框架)
-  // M5 简版 4 个 action 类型 stub:handler 走 console.debug + 不影响 outcome,
-  // 真实施留 B-w2.b 后续 commit。
+  // sdlpal `battle.h:49-60` BATTLEACTIONTYPE 9 成员(无 Summon/Trance/Equip kBattleAction):
+  //   Pass/Defend/Attack/Magic/CoopMagic/Flee/ThrowItem/UseItem/AttackMate。
+  // W1(2026-06-01 死代码清理):summon/trance/equip-battle 不是独立 action —
+  //   summon/trance 是 **magic 类型**(kMagicTypeSummon/Trance,走 performMagic defensive/summon 分支,
+  //   见 actions/magic.ts);equip-battle 在 CLASSIC 战斗主菜单(4 图标:攻/法/合击/杂项)无入口。
+  //   故从 BattleAction union 删除(保留 Magic['type']='trance'/'summon')。
   type:
     | 'attack'
     | 'defend'
@@ -144,16 +143,12 @@ export interface BattleAction {
     | 'pass'
     // B1/D8:混乱队员攻随机活友军(sdlpal kBattleActionAttackMate,fight.c:3760-3853)。
     | 'attack-mate'
-    | 'summon'
-    | 'trance'
     | 'throw-item'
-    | 'equip-battle'
     // M5.B-w3.a:coop-magic 协力法术 — sdlpal `fight.c:PAL_BattleCheckCooperativeMagic`
     // 两 player 同 mainmenu confirm 时检测;actionId = cooperativeMagicId(来自
     // PlayerRoles.cooperativeMagic 字段,Sync.2 B-w0 已 dump)。
     | 'coop-magic'
-  /** magic / item 的 id;attack/defend/flee 不用。summon = magicId,trance = roleId,
-   *  throw-item = itemId,equip-battle = itemId。 */
+  /** magic / item 的 id;attack/defend/flee 不用。throw-item = itemId。 */
   actionId?: number
   /** target 索引(0..4 或 0..N enemy);-1 = 全体。 */
   target: number
