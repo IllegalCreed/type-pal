@@ -27,13 +27,15 @@
 
 import type { SelectionMenuState } from './primitives.js'
 import { createSelectionMenu, moveSelectionDown, moveSelectionUp } from './primitives.js'
+import { getWord } from '../word-lookup.js'
 
 export type InventoryActionChoice = 'equip' | 'use'
 
-/** sdlpal WORD.DAT 真值:22=装备 / 23=使用(verify via lookup/words.json flat[]) */
-const INVENTORY_ACTION_LABELS: Array<{ id: number; choice: InventoryActionChoice; label: string }> = [
-  { id: 0, choice: 'equip', label: '装备' },
-  { id: 1, choice: 'use', label: '使用' },
+// sdlpal ui.h:80-81 INVMENU_LABEL_EQUIP=22 / USE=23(真 WORD id,EQUIP 在上 USE 在下,uigame.c:901-902)。
+//   文案 getWord(id) 取(WORD.DAT 单一源),fallback byte-level 核 flat[id]。
+const INVENTORY_ACTION_LABELS: ReadonlyArray<{ id: number; choice: InventoryActionChoice; fallback: string }> = [
+  { id: 22, choice: 'equip', fallback: '装备' },
+  { id: 23, choice: 'use', fallback: '使用' },
 ]
 
 export interface InventoryActionMenuState {
@@ -47,7 +49,9 @@ export interface InventoryActionMenuState {
  * @param defaultCursor 上次选择(0=equip, 1=use);首次进入 0。
  */
 export function createInventoryActionMenu(defaultCursor = 0): InventoryActionMenuState {
-  const selection = createSelectionMenu(INVENTORY_ACTION_LABELS)
+  const selection = createSelectionMenu(
+    INVENTORY_ACTION_LABELS.map((d) => ({ id: d.id, label: getWord(d.id, d.fallback) })),
+  )
   if (defaultCursor > 0 && defaultCursor < selection.items.length) {
     selection.cursor = defaultCursor
   }

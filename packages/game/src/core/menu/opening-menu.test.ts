@@ -45,12 +45,12 @@ describe('opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu'
     expect(openingMenuChoice(s)).toBe<OpeningMenuChoice>('new-game')
   })
 
-  it('openingMenuLabels 暴露 2 项 + id 0/1 真值给渲染层', () => {
+  it('openingMenuLabels 暴露 2 项 + 真 WORD id 7/8 给渲染层(ui.h:48-49 MAINMENU_LABEL)', () => {
     const labels = openingMenuLabels()
     expect(labels).toHaveLength(2)
-    expect(labels[0]!.id).toBe(0)
-    expect(labels[1]!.id).toBe(1)
-    expect(labels[0]!.label).not.toBe('')
+    expect(labels[0]!.id).toBe(7) // MAINMENU_LABEL_NEWGAME
+    expect(labels[1]!.id).toBe(8) // MAINMENU_LABEL_LOADGAME
+    expect(labels[0]!.label).not.toBe('') // 表未载 → fallback '新的故事'(非空)
     expect(labels[1]!.label).not.toBe('')
   })
 })

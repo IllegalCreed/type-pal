@@ -86,6 +86,8 @@ export interface LoadedAssets {
   objectPoisons: ObjectPoisonView[]
   /** 2026-05-29:商店表(DATA.MKF chunk 0)— 买菜单 opcode 0x0026 按 operand[0] 取。 */
   stores: Store[]
+  /** W3 C1/C2:WORD.DAT 词表 flat[](index=真 WORD id,565 条);bootstrap setWordTable 注入,getWord 取菜单文案。 */
+  words: string[]
   /** M5.6 W0.d:SPRITEUI 71 frame(DATA.MKF chunk 9)— menu box 9-slice 用前 18 个(style 0/1)。 */
   uiSpriteFrames: IndexedImage[]
   /**
@@ -156,6 +158,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     levelUpExp,
     levelUpMagic,
     stores,
+    wordsRaw,
   ] = await Promise.all([
     fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap/${scene.mapNum}.json`),
     fetchJson<Palette>(`${BASE}/data/palette/0.json`),
@@ -175,6 +178,11 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     fetchJson<number[]>(`${BASE}/data/level-up-exp.json`),
     fetchJson<LevelUpMagicEntry[][]>(`${BASE}/data/level-up-magic.json`),
     fetchJson<Store[]>(`${BASE}/data/stores.json`),
+    // W3 C1/C2:WORD.DAT 词表(lookup/words.json),取 .flat[](index=真 WORD id)。
+    fetchJson<{ flat?: string[] }>(`${BASE}/lookup/words.json`).catch((err: unknown) => {
+      console.warn('[loader] words.json 加载失败,菜单文案退化到硬编码 fallback:', err)
+      return { flat: [] as string[] }
+    }),
   ])
 
   // P1: tilesetFiles[] 内现在是 `world/tileset/map-{mapNum}/tile-{XXXX}.png` 格式,
@@ -444,6 +452,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     objectMagics,
     objectPoisons,
     stores,
+    words: wordsRaw.flat ?? [],
     uiSpriteFrames,
     itemIcons,
     levelUpExp,

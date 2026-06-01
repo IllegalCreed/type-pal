@@ -51,6 +51,7 @@ import {
   setStartGameHandler,
 } from '../core/menu/menu-driver.js'
 import { openMenu } from '../core/menu/menu-mode.js'
+import { setWordTable } from '../core/word-lookup.js'
 import { createOpeningMenu } from '../core/menu/opening-menu.js'
 import { createBuyMenu, createSellMenu } from '../core/menu/shop-menu.js'
 import { makeWorkingPalette } from '../core/palette-fade.js'
@@ -162,7 +163,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     objectMagics,
     objectPoisons,
     stores,
+    words,
   } = assets
+
+  // W3 C1/C2:注入 WORD.DAT 词表(words.json flat[]),getWord(id) 取菜单文案(单一文案源,替代各处硬编码)。
+  setWordTable(words)
 
   // M5.6 W0.b:注入大世界 menu catalogs(items / spells / playerRoles),
   // menu-driver 内 dispatchInGameMenu 在 Confirm 时调 createInventoryMenu / createInGameMagicMenu 等需要。

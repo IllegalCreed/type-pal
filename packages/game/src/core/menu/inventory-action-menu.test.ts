@@ -17,6 +17,11 @@ describe('InventoryActionMenu(物品 / 装备 / 使用)', () => {
     expect(inventoryActionChoice(s)).toBe('equip')
   })
 
+  it('id = 真 WORD id 22/23(ui.h:80-81 INVMENU_LABEL_EQUIP/USE,非下标)', () => {
+    const s = createInventoryActionMenu()
+    expect(s.selection.items.map((it) => it.id)).toEqual([22, 23])
+  })
+
   it('defaultCursor=1 → 起手 use(sdlpal `static WORD w = 0` 跨调用记忆)', () => {
     const s = createInventoryActionMenu(1)
     expect(inventoryActionChoice(s)).toBe('use')

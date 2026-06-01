@@ -79,8 +79,8 @@
 
 | # | 功能 | 状态 | 测试 | sdlpal 真值出处 | ts 路径 | 备注 / 差异 |
 |---|---|---|---|---|---|---|
-| C1 | ESC 主菜单 InGameMenu | ⚠️ partial | ✅ regress | uigame.c:944 `PAL_InGameMenu` | core/menu/in-game-menu.ts | in-game-menu.test.ts;残:label hardcode(IN_GAME_LABELS)而非 PAL_GetWord lookup,WORD.DAT 链断(全菜单通病) |
-| C2 | 系统菜单 SystemMenu | ⚠️ partial | ✅ regress | uigame.c:516 `PAL_SystemMenu` | core/menu/in-game-menu.ts SystemMenuState | in-game-menu.test.ts:5 choice + cursor 记忆;残:Quit(menu-driver.ts:359)直接关菜单,没弹 PAL_TripleMenu/ConfirmMenu 二次确认(现有 C15 drawConfirmBox 可复用) |
+| C1 | ESC 主菜单 InGameMenu | ✅ claimed | ✅ regress | uigame.c:944 `PAL_InGameMenu` | core/menu/in-game-menu.ts + core/word-lookup.ts | in-game-menu.test.ts。**W3 getWord 链已通(2026-06-01)**:菜单项 id 改真 WORD id(GAMEMENU 3/4/5/6,ui.h:61-64,此前是 0-based 下标),label 由 `getWord(id)` 取 words.json flat[565](WORD.DAT 单一文案源),fallback=byte-level 核过的硬编码(words.json 加载失败时容错,同 glyphs→tofu)。loader 加 fetch words.json + bootstrap setWordTable 注入。波及 opening/inventory-action/CASH 同批 |
+| C2 | 系统菜单 SystemMenu | ⚠️ partial | ✅ regress | uigame.c:516 `PAL_SystemMenu` | core/menu/in-game-menu.ts SystemMenuState + core/word-lookup.ts | in-game-menu.test.ts:5 choice + cursor 记忆。**W3 getWord 已通**:id 改真 WORD id(SYSMENU 11-15,ui.h:66-70;BATTLEMODE 第6项 606 PAL_CLASSIC 编译掉故仍 5 项),label getWord。**残:Quit(menu-driver.ts:373)直接关菜单,没弹 ConfirmMenu 二次确认**(下一项 W3 C2-quit,drawConfirmBox 已现成) |
 | C3 | 物品菜单 InventoryMenu | ✅ claimed | ✅ regress | uigame.c:878-919 `PAL_InventoryMenu` + itemmenu.c:28-466 `PAL_ItemSelectMenu` | core/menu/inventory-menu.ts + script-desc.ts | inventory-menu.test.ts 26 用例 + script-desc.test.ts 6 用例 |
 | C4 | 物品使用菜单 ItemUseMenu | ⚠️ partial | ✅ partial | uigame.c:1289-1473 `PAL_ItemUseMenu` | core/menu/inventory-menu.ts use-target + present/menu/draw-inventory.ts | inventory-menu.test.ts use-target phase;INNER while loop 真值 by user 实测 |
 | C5 | 装备菜单 EquipItemMenu | ✅ claimed | ✅ regress | uigame.c:1793-2056 `PAL_EquipItemMenu` | core/menu/equip-menu.ts + present/menu/draw-equip.ts | equip-menu.test.ts 16 + equip-effect.test.ts 14;全屏 UI + scriptOnEquip 真接通 + 装备 effect |

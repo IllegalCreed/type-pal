@@ -29,6 +29,7 @@ import type { SelectionMenuState } from '../../core/menu/primitives.js'
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { renderText, type GlyphTable } from '../font.js'
+import { getWord } from '../../core/word-lookup.js'
 import { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'
 import { drawNumber } from '../draw-number.js'
 import { drawEquipMenu } from './draw-equip.js'
@@ -323,9 +324,9 @@ function drawCashBox(
   drawSingleLineBox({
     fb, x: CASH_BOX.x, y: CASH_BOX.y, len: CASH_BOX.len, uiSpriteFrames,
   })
-  // sdlpal uigame.c:483 真值:PAL_DrawText("金钱", PAL_XY(10, 10), 0, FALSE, ...)
-  //   color=0(黑色) + fShadow=FALSE(无阴影)— 不要带 shadow 也不要用 MENUITEM_COLOR
-  renderText(fb, '金钱', CASH_LABEL_POS.x, CASH_LABEL_POS.y, 0, glyphs, false)
+  // sdlpal uigame.c:483 真值:PAL_DrawText(PAL_GetWord(CASH_LABEL), PAL_XY(10, 10), 0, FALSE, ...)
+  //   CASH_LABEL=21(ui.h:56)→ getWord(21)="金钱";color=0(黑) + fShadow=FALSE(无阴影)。
+  renderText(fb, getWord(21, '金钱'), CASH_LABEL_POS.x, CASH_LABEL_POS.y, 0, glyphs, false)
   // sdlpal uigame.c:488 真值:PAL_DrawNumber(dwCash, 6, PAL_XY(49, 14), kNumColorYellow, kNumAlignRight)
   // M5.6 Step A:port PAL_DrawNumber 真做 sprite-based digit(SPRITEUI frame 19-28
   // yellow,每 digit 6px),不再用 Unifont char measureText 算右对齐(位置不准)。

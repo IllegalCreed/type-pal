@@ -9,6 +9,12 @@
 
 import type { SelectionMenuState } from './primitives.js'
 import { createSelectionMenu, moveSelectionDown, moveSelectionUp } from './primitives.js'
+import { getWord } from '../word-lookup.js'
+
+/** {真 WORD id, choice, fallback文案} → SelectionMenuItem{id, label=getWord(id, fallback)}。 */
+function toItems<C>(defs: ReadonlyArray<{ id: number; choice: C; fallback: string }>) {
+  return defs.map((d) => ({ id: d.id, label: getWord(d.id, d.fallback) }))
+}
 
 export type InGameMenuChoice = 'status' | 'magic' | 'inventory' | 'system'
 export type SystemMenuChoice = 'save' | 'load' | 'music' | 'sound' | 'quit'
@@ -17,34 +23,27 @@ export type SystemMenuChoice = 'save' | 'load' | 'music' | 'sound' | 'quit'
  * sdlpal `uigame.c:961-966` PAL_InGameMenu 真值菜单项 — 顺序:状态/法术/物品/系统。
  * 每行 PAL_XY(16, 50 + i*18)— 间距 18px,起点 (16, 50);box 在 PAL_XY(3, 37) rows=3 cols=auto。
  */
-// sdlpal WORD.DAT 真值(verify by `flat[id]` from extracted/lookup/words.json):
-//   GAMEMENU_LABEL_STATUS=3    → "状态"
-//   GAMEMENU_LABEL_MAGIC=4     → "仙术"(我之前 hardcode "法术" 错)
-//   GAMEMENU_LABEL_INVENTORY=5 → "物品"
-//   GAMEMENU_LABEL_SYSTEM=6    → "系统"
-const IN_GAME_LABELS: Array<{ id: number; choice: InGameMenuChoice; label: string }> = [
-  { id: 0, choice: 'status', label: '状态' },
-  { id: 1, choice: 'magic', label: '仙术' },
-  { id: 2, choice: 'inventory', label: '物品' },
-  { id: 3, choice: 'system', label: '系统' },
+// sdlpal ui.h:61-64 GAMEMENU_LABEL_* = 真 WORD id;文案由 getWord(id) 取(words.json flat[],单一源),
+//   fallback = 表未载时的硬编码兜底(byte-level 核 flat[id] 验过):3 状态 / 4 仙术 / 5 物品 / 6 系统。
+const IN_GAME_LABELS: ReadonlyArray<{ id: number; choice: InGameMenuChoice; fallback: string }> = [
+  { id: 3, choice: 'status', fallback: '状态' },
+  { id: 4, choice: 'magic', fallback: '仙术' },
+  { id: 5, choice: 'inventory', fallback: '物品' },
+  { id: 6, choice: 'system', fallback: '系统' },
 ]
 
 /**
  * sdlpal `uigame.c:543-552` PAL_SystemMenu PAL_CLASSIC 真值 — 5 项:存档/读档/音乐/音效/退出。
  * box pos (40, 60),items PAL_XY(53, 72 + i*18)。ATB build 还有第 6 项 battlemode,classic 省略。
  */
-// sdlpal WORD.DAT 真值(verify by `flat[id]` from extracted/lookup/words.json):
-//   SYSMENU_LABEL_SAVE=11   → "储存进度"(我之前 hardcode "存档" 错)
-//   SYSMENU_LABEL_LOAD=12   → "读取进度"(我之前 hardcode "读档" 错)
-//   SYSMENU_LABEL_MUSIC=13  → "音乐"
-//   SYSMENU_LABEL_SOUND=14  → "音效"
-//   SYSMENU_LABEL_QUIT=15   → "结束游戏"(我之前 hardcode "退出" 错)
-const SYSTEM_LABELS: Array<{ id: number; choice: SystemMenuChoice; label: string }> = [
-  { id: 0, choice: 'save', label: '储存进度' },
-  { id: 1, choice: 'load', label: '读取进度' },
-  { id: 2, choice: 'music', label: '音乐' },
-  { id: 3, choice: 'sound', label: '音效' },
-  { id: 4, choice: 'quit', label: '结束游戏' },
+// sdlpal ui.h:66-70 SYSMENU_LABEL_* = 真 WORD id(classic 5 项,第 6 项 BATTLEMODE=606 被 PAL_CLASSIC 编译掉)。
+//   fallback byte-level 核 flat[id]:11 储存进度 / 12 读取进度 / 13 音乐 / 14 音效 / 15 结束游戏。
+const SYSTEM_LABELS: ReadonlyArray<{ id: number; choice: SystemMenuChoice; fallback: string }> = [
+  { id: 11, choice: 'save', fallback: '储存进度' },
+  { id: 12, choice: 'load', fallback: '读取进度' },
+  { id: 13, choice: 'music', fallback: '音乐' },
+  { id: 14, choice: 'sound', fallback: '音效' },
+  { id: 15, choice: 'quit', fallback: '结束游戏' },
 ]
 
 export interface InGameMenuState {
@@ -56,7 +55,7 @@ export interface InGameMenuState {
  * @param defaultCursor sdlpal iCurMainMenuItem 全局记忆 — 上次选哪项,这次默认那项(M5.6 T6)。
  */
 export function createInGameMenu(defaultCursor = 0): InGameMenuState {
-  const selection = createSelectionMenu(IN_GAME_LABELS)
+  const selection = createSelectionMenu(toItems(IN_GAME_LABELS))
   if (defaultCursor > 0 && defaultCursor < selection.items.length) {
     selection.cursor = defaultCursor
   }
@@ -81,7 +80,7 @@ export interface SystemMenuState {
  * @param defaultCursor sdlpal iCurSystemMenuItem 全局记忆(M5.6 T6)。
  */
 export function createSystemMenu(defaultCursor = 0): SystemMenuState {
-  const selection = createSelectionMenu(SYSTEM_LABELS)
+  const selection = createSelectionMenu(toItems(SYSTEM_LABELS))
   if (defaultCursor > 0 && defaultCursor < selection.items.length) {
     selection.cursor = defaultCursor
   }
