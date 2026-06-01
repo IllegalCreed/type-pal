@@ -15,7 +15,7 @@ import {
   OP_RIDE_OBJECT_2, OP_RIDE_OBJECT_4, OP_RIDE_OBJECT_8, OP_MONSTER_CHASE,
   setObstacleChecker, setGlobalEvents, resolveScriptLabel,
   startOverworldItemScript, setSceneLoader,
-  OP_FADE_OUT, OP_FADE_IN, OP_SCENE_FADE, OP_PALETTE_FADE, OP_COLOR_FADE,
+  OP_PLAY_MUSIC, OP_FADE_OUT, OP_FADE_IN, OP_SCENE_FADE, OP_PALETTE_FADE, OP_COLOR_FADE,
   OP_FADE_TO_RED, OP_FADE_TO_SCENE, tickSceneAutoFadeIn, OP_REDRAW_SCREEN,
   OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, setRngPlayHandler, type RngPlayHandlerInput,
   OP_SHOW_FBP, setShowFbpHandler, type ShowFbpHandlerInput,
@@ -30,7 +30,7 @@ import {
   setObjectPoisons, curePlayerPoisonByLevel,
   type BattleCtx,
 } from './event-system.js'
-import { createInitialGameState, type GameState } from './game-state.js'
+import { createInitialGameState, resumePostBattleScript, type GameState } from './game-state.js'
 import { createCommandBus } from './command-bus.js'
 import type { BattleState } from './battle/battle-state.js'
 import { createSeedableRng } from './rng.js'
@@ -3648,6 +3648,36 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     tickEventSystem(gs, snap(), bus)
     expect(gs.deathHoldActive).toBe(false) // 交棒:纯 hold 结束,转 gameOverActive(hold+染红+画死亡对话)
     expect(gs.gameOverActive).toBe(true)
+  })
+
+  // C7(gameOverActive 重构):死亡序列端到端时序 —— 跨 game-state(resume 判据)+ event-system(0x4F handler)。
+  //   验证两标记的交棒在真事件循环里成立:T0 战败接回置 deathHoldActive(纯 hold,gameOver 未亮)→
+  //   脚本跑到 0x4F → 同一拍清 deathHold、亮 gameOver、起染红 ramp。补 C1-C4 各单测没覆盖的"接缝时序"。
+  it('C7 死亡序列端到端:resume→deathHold(纯hold)→0x4F→交棒 gameOver(染红)', () => {
+    const bus = createCommandBus()
+    const gs = gsWithPalette([100, 100, 100], [100, 100, 100])
+    // mini 死亡脚本(mimic L_41075):0x43 music → 0x4F FadeToRed → showDialog → end。lostIp 指 ip1 避开"=0 续"语义。
+    const deathScript: Command[] = [
+      { op: 'end' },                                                    // ip0 filler
+      { op: 'raw', opcode: OP_PLAY_MUSIC, operands: [1, 1, 0] },        // ip1 ← lostIp(非阻塞)
+      { op: 'raw', opcode: OP_FADE_TO_RED, operands: [0, 0, 0] },       // ip2 死亡红屏
+      { op: 'showDialog', messageIndex: 0, text: '大侠请重新来过吧' },  // ip3 死亡对话
+      { op: 'end' },                                                    // ip4
+    ]
+    gs.postBattleResume = { wonIp: 0, lostIp: 1, commands: deathScript, labelMap: buildLabelMap(deathScript) }
+
+    // T0:战败接回 → 判据扫到 0x4F → 预置 deathHoldActive(纯 hold;此刻 gameOver 还没亮,palette 还没 ramp)。
+    resumePostBattleScript(gs, 'lost')
+    expect(gs.deathHoldActive).toBe(true)
+    expect(gs.gameOverActive).toBeFalsy()
+    expect(gs.paletteFadeState).toBeFalsy() // 还没染红
+
+    // tick1:0x43(非阻塞,ip++)→ 0x4F → 同一拍交棒。
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.deathHoldActive).toBe(false)         // 纯 hold 结束
+    expect(gs.gameOverActive).toBe(true)           // 死亡演出接管(present 改 hold+画对话)
+    expect(gs.paletteFadeState?.totalMs).toBe(2400) // FadeToRed ramp 起(染保持的战斗帧)
+    expect(gs.eventCursor?.waiting).toBe('palette-fade')
   })
 
   it('0x9B fadeToScene → 复用 dither gs.fadeState(speed=2)+ waiting=fade-screen,不建 paletteFadeState', () => {
