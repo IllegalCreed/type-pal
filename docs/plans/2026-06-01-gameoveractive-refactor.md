@@ -5,7 +5,13 @@
 > **方法**:2 轮 workflow(穷尽映射 + 收窄难点)+ 对抗验证 5 反例全 CORRECT。判据收敛到"脚本是否真执行 0x4F"。
 > **数据真值**:0x4F 全游戏唯一在 all.json index 41076(死亡脚本 L_41075);team21/29/石长老续剧情路径线性扫描(遇 goto/end 停)均不命中 0x4F。
 > **对抗验证(5/5 CORRECT)**:① T0 空窗帧倒地不丢 ② 石长老不红屏 ③ team21 不误 hold ④ 普通胜利正常重绘 ⑤ 红黑不插帧。
-> **状态**:设计 review 阶段,待 user 拍板后按 §4 TDD 逐 commit 实施。
+> **状态(2026-06-01 完成)**:C1-C7 全部实施完毕,7 commit(1dba2fd→dea6692),全包 1529 测全绿 + tsc 干净。
+>   后续 user 校正战斗分类(林月如=必胜战,非续剧情;毒娘子真 boss=team42 lost=0 必败,非门口黑蜘蛛 team43):
+>   已 byte-level 核 all.json 0x07 全表(434条/56剧情战)确认判据对全部命名战正确,订正注释(commit 7bf717a)。
+>   **已知差异(非 bug,user 未报)**:team21 林月如 lost→对白→`goto L_41075`,judge 遇 goto 停 → 不预置 deathHold,
+>   战败红屏结局仍由 0x4F handler 点亮(正确),仅那两句"多管闲事"对白期 hold 的是战后场景帧而非战斗帧。
+>   若日后要 1:1 需上"通用战后保持帧+叠对白"机制(非简单跨 goto 追,会让对白 hold 时不绘)。详见 §2(a) judge 注。
+>   战斗真值表已落 memory: battle-win-lose-taxonomy-verified。
 
 ---
 
