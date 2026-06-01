@@ -148,7 +148,8 @@ export interface ApplyEnemyMagicDamageInput {
  * 敌方攻击魔法伤害结算(enemy→player)—— 对照 sdlpal `fight.c:4772-4853`
  * PAL_BattleEnemyPerformAction 魔法分支。镜像 player→enemy(applyMagicDamage)但有关键差异:
  *   - magStr = (SHORT)enemy.wMagicStrength + (wLevel+6)*6,clamp >=0(fight.c:4673-4678)
- *   - PAL_CalcMagicDamage 用**玩家** def(role.defense+(level+6)*4,clamp>=0)+ 元素抗(`100+mod`)
+ *   - PAL_CalcMagicDamage 用**玩家** def = PAL_GetPlayerDefense(global.c:1800-1828:role.defense + Σ装备,
+ *     **无 level 项**;role.defense 已投影含装备)+ 元素抗(`100+mod`)
  *     + 毒抗(`100+mod`),**wResistanceMultiplier=20**(fight.c:4798/4833;player→enemy 是 1)
  *   - 除因子 `((fDefending?2:1)*(Protect?2:1)) + (autoDefend?1:0)`(fight.c:4801-4803/4836-4838):
  *       · autoDefend:该队员**活着 + 非 sleep/paralyzed/confused** 时 RandomLong(0,2)==0(fight.c:4727-4757)
@@ -179,10 +180,12 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
     if (!slot || !role || role.hp <= 0)
       continue // 跳过越界 / 已死队员(sdlpal 4782)
 
-    // def = PAL_GetPlayerDefense = role.defense + (level+6)*4,clamp >=0
-    let def = asShort(role.defense) + (role.level + 6) * 4
+    // def = PAL_GetPlayerDefense(global.c:1800-1828)= rgwDefense + Σ装备,**无 level 项**(等级项是敌方被打才有,
+    //   fight.c:4012)。role.defense 已 = base + Σ装备(projectRuntimeToBattleRoles game-state.ts:1281)→ 直接用,
+    //   绝不再加 (level+6)*4(那是 M3 把敌方公式误套玩家的 bug,2026-06-02 审计核源订正)。
+    let def = asShort(role.defense)
     if (def < 0)
-      def = 0
+      def = 0 // 兜底(getter 返 WORD 不为负;防投影负值)
 
     // 玩家元素抗 / 毒抗 = 100 + min(100, mod)(sdlpal 4794/4830 调 PAL_GetPlayer*Resistance,
     //   global.c:1969-1971 `if (w>100) w=100` 上限 100 → 倍率 10-(100+w)/20 永 >=5,绝不变负伤)。

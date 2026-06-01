@@ -244,9 +244,26 @@ function makeEnemyMagicState(
 }
 
 describe('applyEnemyMagicDamage', () => {
-  // magStr = 28 + (0+6)*6 = 64;player def = 30 + (5+6)*4 = 74;baseDmg45 wind(elem1)windRes0
-  // calcBase(64,74)=20; /4=5; +45=50; elem1: *(10-(100+0)/20)=*5=250; /5=50; field0: 50
-  it('单体:手算伤害 50,player HP 100→50(无防御/无自卫)', () => {
+  // P0#3(2026-06-02 审计核源):玩家 def = PAL_GetPlayerDefense(global.c:1800-1828)= rgwDefense + Σ装备,
+  //   **无 level 项**(等级项是敌方被打才有,fight.c:4012)。此前 ts 误加 (level+6)*4(M3 简化把敌方公式套玩家)。
+  //   role.defense 已是 projected(base+装备,game-state.ts:1281)→ 直接用,改后玩家 def 不随 level 变。
+  it('P0#3:玩家 def 不含 level 项(level 5 vs 99 同 defense → 同伤害)', () => {
+    const dmgAt = (lvl: number): number => {
+      const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+        { hp: 9999, defense: 30, level: lvl, windRes: 0 },
+      ])
+      return applyEnemyMagicDamage({
+        state, casterEnemyIdx: 0, target: 0,
+        magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+      })[0]!.damage
+    }
+    expect(dmgAt(5)).toBe(dmgAt(99)) // def=role.defense(30),与 level 无关
+    expect(dmgAt(5)).toBe(65) // def=30:calcBase(64,30) 走 atk>def 分支=80;/4=20;+45=65;wind*5/5=65(旧 bug def=74→50)
+  })
+
+  // magStr = 28 + (0+6)*6 = 64(敌 magStr 含 level,正确);player def = 30(无 level 项);baseDmg45 wind(elem1)windRes0
+  // calcBase(64,30):64>30 → trunc(64*2-30*1.6+0.5)=80; /4=20; +45=65; elem1: *5/5=65; field0: 65
+  it('单体:手算伤害 65,player HP 100→35(无防御/无自卫)', () => {
     const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
       { hp: 100, defense: 30, level: 5, windRes: 0 },
     ])
@@ -254,8 +271,8 @@ describe('applyEnemyMagicDamage', () => {
       state, casterEnemyIdx: 0, target: 0,
       magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
     })
-    expect(r).toEqual([{ playerIdx: 0, damage: 50, hpBefore: 100, hpAfter: 50 }])
-    expect(playerRoles.roles[0]!.hp).toBe(50)
+    expect(r).toEqual([{ playerIdx: 0, damage: 65, hpBefore: 100, hpAfter: 35 }])
+    expect(playerRoles.roles[0]!.hp).toBe(35)
   })
 
   it('AoE target="all":全体活队员吃伤害', () => {
@@ -268,12 +285,12 @@ describe('applyEnemyMagicDamage', () => {
       magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
     })
     expect(r).toEqual([
-      { playerIdx: 0, damage: 50, hpBefore: 100, hpAfter: 50 },
-      { playerIdx: 1, damage: 50, hpBefore: 80, hpAfter: 30 },
+      { playerIdx: 0, damage: 65, hpBefore: 100, hpAfter: 35 },
+      { playerIdx: 1, damage: 65, hpBefore: 80, hpAfter: 15 },
     ])
   })
 
-  it('defending → 除 2(50→25)', () => {
+  it('defending → 除 2(65→32)', () => {
     const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
       { hp: 100, defense: 30, level: 5, defending: true },
     ])
@@ -281,10 +298,10 @@ describe('applyEnemyMagicDamage', () => {
       state, casterEnemyIdx: 0, target: 0,
       magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
     })
-    expect(r[0]!.damage).toBe(25) // 50/((2*1)+0)
+    expect(r[0]!.damage).toBe(32) // trunc(65/((2*1)+0))=32
   })
 
-  it('B2 c4:Protect 状态 → 除因子 ×2(50→25,fight.c:4802/4837)', () => {
+  it('B2 c4:Protect 状态 → 除因子 ×2(65→32,fight.c:4802/4837)', () => {
     const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
       { hp: 100, defense: 30, level: 5, status: { protect: 1 } },
     ])
@@ -292,10 +309,10 @@ describe('applyEnemyMagicDamage', () => {
       state, casterEnemyIdx: 0, target: 0,
       magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
     })
-    expect(r[0]!.damage).toBe(25) // 50/((1*2)+0)
+    expect(r[0]!.damage).toBe(32) // trunc(65/((1*2)+0))=32
   })
 
-  it('B2 c4:Protect + defending → 除因子 ×2×2=4(50→12)', () => {
+  it('B2 c4:Protect + defending → 除因子 ×2×2=4(65→16)', () => {
     const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
       { hp: 100, defense: 30, level: 5, defending: true, status: { protect: 1 } },
     ])
@@ -303,10 +320,10 @@ describe('applyEnemyMagicDamage', () => {
       state, casterEnemyIdx: 0, target: 0,
       magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
     })
-    expect(r[0]!.damage).toBe(12) // trunc(50/((2*2)+0))=trunc(12.5)
+    expect(r[0]!.damage).toBe(16) // trunc(65/((2*2)+0))=16
   })
 
-  it('autoDefend(range(0,3)==0)→ 除因子 +1(50→25)', () => {
+  it('autoDefend(range(0,3)==0)→ 除因子 +1(65→32)', () => {
     const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
       { hp: 100, defense: 30, level: 5 },
     ], /* rangeVal */ 0)
@@ -314,10 +331,10 @@ describe('applyEnemyMagicDamage', () => {
       state, casterEnemyIdx: 0, target: 0,
       magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
     })
-    expect(r[0]!.damage).toBe(25) // 50/((1*1)+1)
+    expect(r[0]!.damage).toBe(32) // trunc(65/((1*1)+1))=32
   })
 
-  it('defending + autoDefend → 除 3(trunc 50/3=16)', () => {
+  it('defending + autoDefend → 除 3(trunc 65/3=21)', () => {
     const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
       { hp: 100, defense: 30, level: 5, defending: true },
     ], 0)
@@ -325,10 +342,10 @@ describe('applyEnemyMagicDamage', () => {
       state, casterEnemyIdx: 0, target: 0,
       magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
     })
-    expect(r[0]!.damage).toBe(16) // trunc(50/((2*1)+1))
+    expect(r[0]!.damage).toBe(21) // trunc(65/((2*1)+1))=21
   })
 
-  it('sleep 队员不触发 autoDefend(range==0 也不自卫)→ 满伤 50', () => {
+  it('sleep 队员不触发 autoDefend(range==0 也不自卫)→ 满伤 65', () => {
     const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
       { hp: 100, defense: 30, level: 5, status: { sleep: 3 } },
     ], 0)
@@ -336,10 +353,10 @@ describe('applyEnemyMagicDamage', () => {
       state, casterEnemyIdx: 0, target: 0,
       magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
     })
-    expect(r[0]!.damage).toBe(50) // 睡眠 → canAutoDefend=false → 除因子 1
+    expect(r[0]!.damage).toBe(65) // 睡眠 → canAutoDefend=false → 除因子 1
   })
 
-  it('clamp:dmg > 剩余 HP → 钳到 HP(hp30 吃 50 → 掉 30,hp→0)', () => {
+  it('clamp:dmg > 剩余 HP → 钳到 HP(hp30 吃 65 → 掉 30,hp→0)', () => {
     const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
       { hp: 30, defense: 30, level: 5 },
     ])
