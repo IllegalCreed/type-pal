@@ -73,6 +73,23 @@ describe('EventSystem', () => {
     expect(bus.drain()[0]?.cmd.op).toBe('showDialogBox')
   })
 
+  // C5(gameOverActive 重构):死亡序列 L_41075 是 0x4F 后跟 4 句 showDialog。showDialog 会清 sceneLoading
+  //   (event-system.ts:1647),若死亡 hold 复用 sceneLoading,这 4 句对话就会露大世界 —— 这正是当初发明
+  //   gameOverActive 的根因。回归保证:showDialog 清 sceneLoading,但**绝不**碰 gameOverActive / deathHoldActive。
+  it('showDialog 清 sceneLoading 但不碰 gameOverActive/deathHoldActive(死亡4句对话不露大世界)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.gameOverActive = true   // 0x4F 已点亮死亡演出
+    gs.sceneLoading = true     // 同时有冻屏(对照:showDialog 该清它)
+    loadEvent(gs, [
+      { op: 'showDialog', messageIndex: 0, text: '大侠请重新来过吧' }, // 死亡对话之一
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.sceneLoading).toBe(false)   // showDialog 清了 sceneLoading
+    expect(gs.gameOverActive).toBe(true)  // 但死亡演出标记原样保留 → present 续 hold 染红帧 + 画对话
+  })
+
   it('waiting=dialog + Confirm 释放 → ip++ + 继续到 end → mode=explore', () => {
     //  tick 1: showDialog 入,startDialogLine,waiting=dialog
     //  tick 2 (Confirm): skip-typing → 整行设满 → **return**(满行渲染一帧,2026-05-29 fix B)
