@@ -200,13 +200,30 @@ function scriptedRng(ints: number[], floats: number[] = []) {
 // ============================================================================
 
 describe('performAttack', () => {
+  // P0#1(2026-06-02 审计核源):玩家物攻 str = PAL_GetPlayerAttackStrength(global.c:1757-1764)
+  //   = rgwAttackStrength + Σ装备,**无 level 项**。此前 ts 误加 (level+6)*6(M3 把敌方公式套玩家,fight.c:4917)。
+  //   role.attackStrength 已 projected(base+装备)→ 直接用,改后玩家伤害不随 level 虚高。敌方分支(:131)不动。
+  it('P0#1:玩家攻击 str 不含 level 项(同 attackStrength 不同 level → 同伤害)', () => {
+    const dmg = (lvl: number): number => {
+      const { state, playerRoles, bus } = makeState({
+        role: { level: lvl, attackStrength: 200 },
+        enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 99999 }],
+        forceRoll: 1, forceFloat: 1, // 固定 +1 / 不暴击 / jitter=1,隔离 str 变量
+      })
+      const before = state.enemies[0]!.e.health
+      performAttack(state, playerActor, 0, bus, playerRoles)
+      return before - state.enemies[0]!.e.health
+    }
+    expect(dmg(1)).toBe(dmg(99)) // str=role.attackStrength(200),与 level 无关(旧 bug:242 vs 830)
+  })
+
   it('player 攻击 enemy:扣 enemy.health + emit playPlayerAttack / showDamageNum', () => {
     const { state, playerRoles, bus } = makeState({
-      role: { level: 10, attackStrength: 200 }, // str = 200 + 16*6 = 296
+      role: { level: 10, attackStrength: 200 }, // str = 200(P0#1:无 level 项)
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 100 }],
-      // enemy def = 10 + 11*4 = 54
-      // atk(296) > def(54) → calcBase = trunc(296*2 - 54*1.6 + 0.5) = trunc(505.9) = 505
-      // physRes=1 → damage = 505
+      // enemy def = 10 + (5+6)*4 = 54(敌方 def 含 level,正确)
+      // atk(200) > def(54) → calcBase = trunc(200*2 - 54*1.6 + 0.5) = trunc(314.1) = 314
+      // physRes=1 → damage = 314(>100 → 击杀)
     })
     performAttack(state, playerActor, 0, bus, playerRoles)
     expect(state.enemies[0]!.e.health).toBe(0) // 100 - 505 → max(0, -)
@@ -219,7 +236,7 @@ describe('performAttack', () => {
 
   it('群攻(target=-1,attackAll 武器):player 攻击全体活敌(命中序 + division 减半)', () => {
     const { state, playerRoles, bus } = makeState({
-      role: { level: 10, attackStrength: 200 }, // str=296;每敌 def=54 → base 506
+      role: { level: 10, attackStrength: 200 }, // str=200(P0#1 修:无 level 项);每敌 def=54 → base 314
       enemies: [
         { level: 5, defense: 10, physicalResistance: 1, health: 600 },
         { level: 5, defense: 10, physicalResistance: 1, health: 600 },
@@ -227,10 +244,10 @@ describe('performAttack', () => {
       forceRoll: 1, // crit roll=1(不暴击)
     })
     performAttack(state, playerActor, -1, bus, playerRoles)
-    // sdlpal fight.c:3684 命中序 {2,1,0,4,3};2 敌(slot 0/1)→ slot1 先打(division1,全额 506)
-    //   → slot0 后打(division2,506/2=253)。trunc(600-x)。
-    expect(state.enemies[1]!.e.health).toBe(94) // 600-506(满额,先打)
-    expect(state.enemies[0]!.e.health).toBe(347) // 600-253(半额,后打)
+    // sdlpal fight.c:3684 命中序 {2,1,0,4,3};2 敌(slot 0/1)→ slot1 先打(division1,全额 314)
+    //   → slot0 后打(division2,314/2=157)。trunc(600-x)。
+    expect(state.enemies[1]!.e.health).toBe(286) // 600-314(满额,先打)
+    expect(state.enemies[0]!.e.health).toBe(443) // 600-157(半额,后打)
     const ops = bus.drain().map(c => c.cmd.op)
     expect(ops.filter(o => o === 'showDamageNum')).toHaveLength(2) // 2 敌 2 个伤害数字
     expect(ops).toContain('playPlayerAttack')
@@ -247,51 +264,51 @@ describe('performAttack', () => {
     })
     performAttack(state, playerActor, -1, bus, playerRoles)
     expect(state.enemies[0]!.e.health).toBe(0) // 死敌不动
-    // 仅 slot1 活 → division 全程 1 → 全额 506
-    expect(state.enemies[1]!.e.health).toBe(94)
+    // 仅 slot1 活 → division 全程 1 → 全额 314
+    expect(state.enemies[1]!.e.health).toBe(286)
   })
 
   // ── D3-b 群攻 crit + division 逐敌减半(fight.c:3681-3748)────────────────────
 
   it('D3:群攻 division 逐敌减半(3 敌,命中序 {2,1,0})', () => {
     const { state, playerRoles, bus } = makeState({
-      role: { level: 10, attackStrength: 200 }, // base 506
+      role: { level: 10, attackStrength: 200 }, // base 314
       enemies: [
-        { level: 5, defense: 10, physicalResistance: 1, health: 2000 }, // slot0:division4 → 126.5
-        { level: 5, defense: 10, physicalResistance: 1, health: 2000 }, // slot1:division2 → 253
-        { level: 5, defense: 10, physicalResistance: 1, health: 2000 }, // slot2:division1 → 506
+        { level: 5, defense: 10, physicalResistance: 1, health: 2000 }, // slot0:division4 → 78.5
+        { level: 5, defense: 10, physicalResistance: 1, health: 2000 }, // slot1:division2 → 157
+        { level: 5, defense: 10, physicalResistance: 1, health: 2000 }, // slot2:division1 → 314
       ],
       forceRoll: 1, // 不暴击
     })
     performAttack(state, playerActor, -1, bus, playerRoles)
-    expect(state.enemies[2]!.e.health).toBe(2000 - 506) // 先打,全额
-    expect(state.enemies[1]!.e.health).toBe(2000 - 253) // 半额
-    expect(state.enemies[0]!.e.health).toBe(1873) // 506/4=126.5 → trunc(2000-126.5)=1873
+    expect(state.enemies[2]!.e.health).toBe(2000 - 314) // 先打,全额
+    expect(state.enemies[1]!.e.health).toBe(2000 - 157) // 半额
+    expect(state.enemies[0]!.e.health).toBe(1921) // 314/4=78.5 → trunc(2000-78.5)=1921
   })
 
   it('D3:群攻 bravery → 全敌暴击 ×3', () => {
     const { state, playerRoles, bus } = makeState({
-      role: { level: 10, attackStrength: 200 }, // base 506
+      role: { level: 10, attackStrength: 200 }, // base 314
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 5000 }],
       playerStatus: { bravery: 1 },
       forceRoll: 1, // crit roll≠0,但 bravery 强制暴击
     })
     performAttack(state, playerActor, -1, bus, playerRoles)
-    expect(state.enemies[0]!.e.health).toBe(5000 - 506 * 3) // 单敌 division1,506*3=1518
+    expect(state.enemies[0]!.e.health).toBe(5000 - 314 * 3) // 单敌 division1,314*3=942
   })
 
   // ── D3 DualAttack 双击武器(仙女剑/玄冥宝刀 等,fight.c:3628/3681 t-loop)──────
 
   it('D3:DualAttack 武器 → 单体攻击两次', () => {
     const { state, playerRoles, bus } = makeState({
-      role: { level: 10, attackStrength: 200 }, // base 506,+jitter1=507
+      role: { level: 10, attackStrength: 200 }, // base 314,+jitter1=315
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 3000 }],
       playerStatus: { dualAttack: 1 },
       forceRoll: 1, // 不暴击;jitter=1
       forceFloat: 1,
     })
     performAttack(state, playerActor, 0, bus, playerRoles)
-    expect(state.enemies[0]!.e.health).toBe(3000 - 507 * 2) // 两次各 507 = 1014
+    expect(state.enemies[0]!.e.health).toBe(3000 - 315 * 2) // 两次各 315 = 630
     const dmgNums = bus.drain().filter(c => c.cmd.op === 'showDamageNum')
     expect(dmgNums).toHaveLength(2) // 两次攻击 → 两个伤害数字
   })
@@ -304,28 +321,28 @@ describe('performAttack', () => {
       forceFloat: 1,
     })
     performAttack(state, playerActor, 0, bus, playerRoles)
-    expect(state.enemies[0]!.e.health).toBe(3000 - 507) // 一次 507
+    expect(state.enemies[0]!.e.health).toBe(3000 - 315) // 一次 315
     const dmgNums = bus.drain().filter(c => c.cmd.op === 'showDamageNum')
     expect(dmgNums).toHaveLength(1)
   })
 
   it('D3:DualAttack + attackAll(玄冥宝刀)→ 全体攻击两次', () => {
     const { state, playerRoles, bus } = makeState({
-      role: { level: 10, attackStrength: 200 }, // base 506
+      role: { level: 10, attackStrength: 200 }, // base 314
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 5000 }],
       playerStatus: { dualAttack: 1 },
       forceRoll: 1, // 不暴击
     })
     performAttack(state, playerActor, -1, bus, playerRoles)
-    // 两 sweep,每 sweep division 重置 1 → 单敌各全额 506 → 共 1012
-    expect(state.enemies[0]!.e.health).toBe(5000 - 506 * 2)
+    // 两 sweep,每 sweep division 重置 1 → 单敌各全额 314 → 共 628
+    expect(state.enemies[0]!.e.health).toBe(5000 - 314 * 2)
     const dmgNums = bus.drain().filter(c => c.cmd.op === 'showDamageNum')
     expect(dmgNums).toHaveLength(2)
   })
 
   it('player 低 attackStrength 攻击高 defense enemy:damage 取 1', () => {
     const { state, playerRoles, bus } = makeState({
-      role: { level: 1, attackStrength: 0 }, // str = 0 + 7*6 = 42
+      role: { level: 1, attackStrength: 0 }, // str = 0(无 level 项);def 巨大 → calcBase=0
       enemies: [{ level: 50, defense: 10000, physicalResistance: 1, health: 100 }],
       // def 巨大 → calcBase = 0;+jitter(1) → 1;无 crit;×float(1) → 1;max(1)=1
       forceRoll: 1, // jitter=1 / crit roll=1(≠0 不暴击)
@@ -341,13 +358,13 @@ describe('performAttack', () => {
 
   it('D3:单体伤害含 RandomLong(1,2) jitter(无暴击,base+1)', () => {
     const { state, playerRoles, bus } = makeState({
-      role: { level: 10, attackStrength: 200 }, // base = 506(296*2-54*1.6+0.5)
+      role: { level: 10, attackStrength: 200 }, // base = 314(200*2-54*1.6+0.5)
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 600 }],
       forceRoll: 1, // jitter=1;crit roll=1(不暴击)
       forceFloat: 1, // 浮动 ×1
     })
     performAttack(state, playerActor, 0, bus, playerRoles)
-    expect(state.enemies[0]!.e.health).toBe(600 - 507) // base506 + jitter1 = 507
+    expect(state.enemies[0]!.e.health).toBe(600 - 315) // base314 + jitter1 = 315
   })
 
   it('D3:jitter 取 2 时 damage = base+2', () => {
@@ -358,19 +375,19 @@ describe('performAttack', () => {
       forceFloat: 1,
     })
     performAttack(state, playerActor, 0, bus, playerRoles)
-    expect(state.enemies[0]!.e.health).toBe(600 - 508) // base506 + jitter2 = 508
+    expect(state.enemies[0]!.e.health).toBe(600 - 316) // base314 + jitter2 = 316
   })
 
   it('D3:bravery 状态 → 必暴击 ×3(fight.c:3640)', () => {
     const { state, playerRoles, bus } = makeState({
-      role: { level: 10, attackStrength: 200 }, // base 506
+      role: { level: 10, attackStrength: 200 }, // base 314
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 3000 }],
       playerStatus: { bravery: 1 },
       forceRoll: 1, // jitter=1;crit roll 即使 1(≠0)也因 bravery 暴击
       forceFloat: 1,
     })
     performAttack(state, playerActor, 0, bus, playerRoles)
-    expect(state.enemies[0]!.e.health).toBe(3000 - 507 * 3) // (506+1)*3 = 1521
+    expect(state.enemies[0]!.e.health).toBe(3000 - 315 * 3) // (314+1)*3 = 945
   })
 
   it('D3:RandomFloat(1,1.125) 末乘浮动(forceFloat=1.125)', () => {
@@ -381,19 +398,19 @@ describe('performAttack', () => {
       forceFloat: 1.125,
     })
     performAttack(state, playerActor, 0, bus, playerRoles)
-    // trunc((506+1) * 1.125) = trunc(570.375) = 570
-    expect(state.enemies[0]!.e.health).toBe(1000 - 570)
+    // trunc((314+1) * 1.125) = trunc(354.375) = 354
+    expect(state.enemies[0]!.e.health).toBe(1000 - 354)
   })
 
   it('D3:李逍遥(role 0)额外暴击 ×2(fight.c:3649,RandomLong(0,11)==0)', () => {
     const { state, playerRoles, bus } = makeState({
-      role: { id: 0, level: 10, attackStrength: 200 }, // role 0 = 李逍遥;base 506
+      role: { id: 0, level: 10, attackStrength: 200 }, // role 0 = 李逍遥;base 314
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 3000 }],
     })
     // 脚本化:jitter=1,crit roll=3(≠0 无普通暴击),李逍遥 roll=0(×2),float=1
     state.rng = scriptedRng([1, 3, 0], [1])
     performAttack(state, playerActor, 0, bus, playerRoles)
-    expect(state.enemies[0]!.e.health).toBe(3000 - 507 * 2) // (506+1)*2 = 1014
+    expect(state.enemies[0]!.e.health).toBe(3000 - 315 * 2) // (314+1)*2 = 630
   })
 
   it('enemy 攻击 player:扣 role.hp + emit playEnemyAttack', () => {

@@ -3,12 +3,12 @@
  *
  * 三向路径(implementer verify sdlpal 真值):
  *   - player → enemy   from `reference/sdlpal/fight.c:3625-3635` —— PAL_BattlePlayerPerformAction kBattleActionAttack
- *     str = PAL_GetPlayerAttackStrength(role)  (M3 简化:role.attackStrength as SHORT + (level+6)*6)
- *     def = enemy.wDefense (SHORT) + (level+6)*4
+ *     str = PAL_GetPlayerAttackStrength(role) = role.attackStrength(已含装备,**无 level 项**,global.c:1757-1764)
+ *     def = enemy.wDefense (SHORT) + (enemy.level+6)*4   ← 等级项是**敌方**被打才有
  *     res = enemy.wPhysicalResistance
  *   - enemy → player   from `reference/sdlpal/fight.c:4917-4927` —— PAL_BattleEnemyPerformAction physical
- *     str = (SHORT)enemy.wAttackStrength + (level+6)*6  (str<0 → str=0)
- *     def = PAL_GetPlayerDefense(role)  (M3 简化:role.defense as SHORT + (level+6)*4)
+ *     str = (SHORT)enemy.wAttackStrength + (enemy.level+6)*6  (str<0 → str=0)  ← 等级项是**敌方**专属
+ *     def = PAL_GetPlayerDefense(role) = role.defense(已含装备,**无 level 项**,global.c:1800-1828)
  *     if (player.fDefending) def *= 2
  *     res = 2 (sdlpal 硬编码 2,见 fight.c:4934)
  *
@@ -133,7 +133,10 @@ export function performAttack(
     if (str < 0) str = 0 // sdlpal fight.c:4920
   } else {
     const role = playerRoles.roles[state.players[actor.idx]!.roleId]!
-    str = asShort(role.attackStrength) + (role.level + 6) * 6
+    // str = PAL_GetPlayerAttackStrength(global.c:1757-1764)= rgwAttackStrength + Σ装备,**无 level 项**
+    //   (等级项是敌方专属,fight.c:4917)。role.attackStrength 已 = base+装备(projectRuntimeToBattleRoles
+    //   game-state.ts:1279)→ 直接用,绝不再加 (level+6)*6(M3 误套敌方公式的 bug,2026-06-02 审计核源订正)。
+    str = asShort(role.attackStrength)
     casterLevel = role.level
   }
   void casterLevel
