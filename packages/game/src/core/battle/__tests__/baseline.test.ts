@@ -70,7 +70,7 @@ import type {
 } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
 import { createCommandBus } from '../../command-bus.js'
-import { createInitialGameState } from '../../game-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime } from '../../game-state.js'
 import type { BattleState } from '../battle-state.js'
 import { startBattle, tickBattle } from '../battle-system.js'
 
@@ -386,6 +386,10 @@ function runFixture(
   gs.inventory = fixture.inventory.map((e) => ({ ...e }))
 
   const playerRolesCopy = applyPlayerOverrides(resources.playerRoles, fixture.playerOverrides)
+  // D12(2026-06-01 W1):生产路径 startBattle 前 gs.PlayerRolesRuntime 已 hydrate(bootstrap.ts:847
+  //   projectRuntimeToBattleRoles 从 runtime 投影)。performFlee 现读 getPlayerFleeRate(gs)=runtime+装备,
+  //   故 harness 须同样 hydrate runtime(否则 rgwFleeRate 全 0,逃跑率丢失,b4-flee 对拍偏)。
+  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRolesCopy)
 
   const bus = createCommandBus()
   const emptyInput: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }

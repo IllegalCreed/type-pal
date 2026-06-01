@@ -4,7 +4,7 @@
  * from `reference/sdlpal/fight.c:4119-4148` —— PAL_BattlePlayerPerformAction kBattleActionFlee。
  *
  * 公式:
- *   str = PAL_GetPlayerFleeRate(role)  (M3 简化:role.fleeRate raw)
+ *   str = PAL_GetPlayerFleeRate(role)  (D12 W1:runtime base + 装备加成,global.c:1868-1897)
  *   def = Σ enemies ((SHORT)dexterity + (level+6)*4)
  *   if ((SHORT)def < 0) def = 0
  *   success = (str >= RandomLong(0, def)) && !isBoss
@@ -18,6 +18,8 @@
 
 import type { PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
+import type { GameState } from '../../game-state.js'
+import { getPlayerFleeRate } from '../../equip-effect.js'
 import { buildFleeFailTimeline } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleState } from '../battle-state.js'
@@ -27,13 +29,15 @@ function asShort(n: number): number {
   return (n << 16) >> 16
 }
 
-export function performFlee(state: BattleState, playerIdx: number, playerRoles: PlayerRoles, bus?: CommandBus): void {
+export function performFlee(state: BattleState, gs: GameState, playerIdx: number, playerRoles: PlayerRoles, bus?: CommandBus): void {
   // boss 不可逃(sdlpal fight.c:4143 `!g_Battle.fIsBoss` 条件)
   if (state.isBoss)
     return
 
-  const role = playerRoles.roles[state.players[playerIdx]!.roleId]!
-  const str = role.fleeRate
+  const roleId = state.players[playerIdx]!.roleId
+  // D12(2026-06-01 W1):str = PAL_GetPlayerFleeRate(role)(global.c:1868-1897)= runtime base
+  //   + Σ rgEquipmentEffect[i].rgwFleeRate[role]。原 M3 简化用 role.fleeRate raw 漏装备加成。
+  const str = getPlayerFleeRate(gs, roleId)
 
   let def = 0
   for (const be of state.enemies) {

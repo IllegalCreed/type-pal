@@ -105,12 +105,15 @@ interface MakeStateOpts {
   forceFloat?: number
   /** 覆盖玩家战斗状态(bravery/dualAttack 等,D3 crit / 双击测试用)。 */
   playerStatus?: Partial<BattleStatus>
+  /** D12:role 0 装备授予的逃跑率加成(写 gs.rgEquipmentEffect[0].rgwFleeRate[0])。 */
+  equipFleeRate?: number
 }
 
 function makeState(opts: MakeStateOpts = {}): {
   state: BattleState
   playerRoles: PlayerRoles
   bus: CommandBus
+  gs: GameState
 } {
   const role = makeRole(opts.role)
   const enemies = (opts.enemies ?? [makeEnemy()]).map(e => makeEnemy(e))
@@ -164,7 +167,13 @@ function makeState(opts: MakeStateOpts = {}): {
   }
 
   const playerRoles: PlayerRoles = { roles: [role] }
-  return { state, playerRoles, bus: createCommandBus() }
+  // D12:performFlee 用 getPlayerFleeRate(gs,role) = runtime base + 装备加成。
+  //   seed runtime base = role.fleeRate(等价旧 raw 行为),equipFleeRate 写装备槽 0。
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  gs.PlayerRolesRuntime.rgwFleeRate[0] = role.fleeRate
+  if (opts.equipFleeRate !== undefined)
+    gs.rgEquipmentEffect[0]!.rgwFleeRate[0] = opts.equipFleeRate
+  return { state, playerRoles, bus: createCommandBus(), gs }
 }
 
 const playerActor: ActionQueueItem = { isEnemy: false, idx: 0, dex: 30, fIsSecond: false }
@@ -672,18 +681,18 @@ describe('performDefend', () => {
 
 describe('performFlee', () => {
   it('fleeRate 远大于 rng 上限(roll 必小)→ 触发逃跑动画(fleeAnim)', () => {
-    const { state, playerRoles } = makeState({
+    const { state, playerRoles, gs } = makeState({
       role: { fleeRate: 9999 },
       enemies: [{ level: 1, dexterity: 0 }],
       forceRoll: 0, // 必摇出 0
     })
-    performFlee(state, 0, playerRoles)
+    performFlee(state, gs, 0, playerRoles)
     // 成功 → 设 fleeAnim(逃跑动画放完才 phase='fleed';不再直接 fleed)
     expect(state.fleeAnim).toBeDefined()
   })
 
   it('fleeRate=0 + 多个高 dex 敌人(roll 必大)→ phase 不变', () => {
-    const { state, playerRoles } = makeState({
+    const { state, playerRoles, gs } = makeState({
       role: { fleeRate: 0 },
       enemies: [
         { level: 50, dexterity: 100 },
@@ -692,53 +701,66 @@ describe('performFlee', () => {
       forceRoll: 1, // 任何 >0 的 roll 都击败 str=0
     })
     const before = state.phase
-    performFlee(state, 0, playerRoles)
+    performFlee(state, gs, 0, playerRoles)
     expect(state.phase).toBe(before) // 不变
   })
 
   it('isBoss=true → 无论 fleeRate 多高都不可逃', () => {
-    const { state, playerRoles } = makeState({
+    const { state, playerRoles, gs } = makeState({
       role: { fleeRate: 99999 },
       enemies: [{ level: 1, dexterity: 0 }],
       isBoss: true,
       forceRoll: 0,
     })
-    performFlee(state, 0, playerRoles)
+    performFlee(state, gs, 0, playerRoles)
     expect(state.fleeAnim).toBeUndefined() // boss 不可逃 → 不触发逃跑动画
     expect(state.phase).not.toBe('fleed')
   })
 
   it('无 enemy 时 def=0 → roll∈[0,0]=0,fleeRate>=0 → 命中', () => {
-    const { state, playerRoles } = makeState({
+    const { state, playerRoles, gs } = makeState({
       role: { fleeRate: 0 },
       enemies: [], // def 累加为 0
       forceRoll: 0,
     })
-    performFlee(state, 0, playerRoles)
+    performFlee(state, gs, 0, playerRoles)
     expect(state.fleeAnim).toBeDefined()
   })
 
   it('def 为 SHORT 负溢出 → clamp 0(sdlpal fight.c:4139)', () => {
-    const { state, playerRoles } = makeState({
+    const { state, playerRoles, gs } = makeState({
       role: { fleeRate: 0 },
       // SHORT(累加结果) < 0 → def=0;rng(0,0)=0;str=0 >= 0 → 命中
       enemies: [{ level: 1, dexterity: -32700 }],
       forceRoll: 0,
     })
-    performFlee(state, 0, playerRoles)
+    performFlee(state, gs, 0, playerRoles)
     expect(state.fleeAnim).toBeDefined()
   })
 
   it('逃跑失败 → 起失败动画 battleAnim(sdlpal fight.c:4155-4168,3步右下挪+帧1)', () => {
-    const { state, playerRoles, bus } = makeState({
+    const { state, playerRoles, bus, gs } = makeState({
       role: { fleeRate: 0 },
       enemies: [{ level: 50, dexterity: 100 }],
       forceRoll: 1, // roll>0 击败 fleeRate=0 → 失败
     })
     state.players[0]!.posOriginal = { x: 100, y: 100 }
-    performFlee(state, 0, playerRoles, bus)
+    performFlee(state, gs, 0, playerRoles, bus)
     expect(state.fleeAnim).toBeUndefined() // 未成功(无逃离动画)
     expect(state.battleAnim).toBeDefined() // 起了失败动画时间线(per-player 3步+帧1)
+  })
+
+  // ── D12(2026-06-01 W1):装备逃跑率加成生效(sdlpal global.c:1868-1897 PAL_GetPlayerFleeRate)──
+  it('装备授逃跑率 → base+装备 决定成功(base 0 单凭装备 50 即可逃)', () => {
+    const { state, playerRoles, gs } = makeState({
+      role: { fleeRate: 0 }, // runtime base = 0
+      equipFleeRate: 50, // 装备槽 0 授 +50
+      enemies: [{ level: 1, dexterity: 0 }], // def = 0 + (1+6)*4 = 28
+      forceRoll: 28, // roll=28;base-only str=0 < 28 失败,equip-aware str=50 >= 28 成功
+    })
+    performFlee(state, gs, 0, playerRoles)
+    // 装备感知:str = getPlayerFleeRate = 0+50 = 50 >= 28 → 成功(若仍用 raw base 0 则失败,fleeAnim undefined)
+    expect(state.fleeAnim).toBeDefined()
   })
 })
 
