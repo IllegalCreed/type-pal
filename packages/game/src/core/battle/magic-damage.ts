@@ -186,7 +186,9 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
 
     // 玩家元素抗 / 毒抗 = 100 + min(100, mod)(sdlpal 4794/4830 调 PAL_GetPlayer*Resistance,
     //   global.c:1969-1971 `if (w>100) w=100` 上限 100 → 倍率 10-(100+w)/20 永 >=5,绝不变负伤)。
-    //   注:装备抗性加成略(同 E1/attack.ts equip-effect 残),只取 role 基础抗。
+    //   **装备抗性加成已含**(D27 W1 核实 2026-06-01):role 来自 projectRuntimeToBattleRoles(game-state.ts:1260-1266),
+    //   其 elemResistance/poisonResistance = clamp100(base + Σ rgEquipmentEffect[].rgwElem/PoisonResistance),
+    //   即已等价 sdlpal PAL_GetPlayerElementalResistance/PoisonResistance(global.c:1937/1900)。此处再叠装备会双计。
     const clampRes = (v: number): number => 100 + Math.min(100, asShort(v))
     const elemRes = {
       wind: clampRes(role.elemResistance.wind),
