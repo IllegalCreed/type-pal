@@ -19,9 +19,15 @@ export interface PlayerSlot {
 
 export interface EnemySlot {
   idx: number
-  /** getEnemyDexterity 算出的值。 */
+  /** getEnemyDexterity 算出的值(第一抽,含 jitter)。 */
   dex: number
   dualMove: boolean
+  /**
+   * D7(W1):dualMove 第二行动的**独立**dex 二抽(sdlpal fight.c:1483-1489 第二 entry 也
+   *   GetEnemyDexterity*RandomFloat 再摇一次)。提供时用 dex/dex2 比较定 fIsSecond(小者当第二动);
+   *   省略时回退旧 `dex-1` 近似(兼容未传 dex2 的调用方)。
+   */
+  dex2?: number
 }
 
 export interface ActionQueueItem {
@@ -61,10 +67,21 @@ export function buildActionQueue(input: BuildActionQueueInput): ActionQueueItem[
   }
 
   for (const e of input.enemies) {
-    items.push({ isEnemy: true, idx: e.idx, dex: e.dex, fIsSecond: false })
+    const first: ActionQueueItem = { isEnemy: true, idx: e.idx, dex: e.dex, fIsSecond: false }
+    items.push(first)
     if (e.dualMove) {
-      // dualMove enemy 第二次行动:dex 减 1,保证排在第一次之后(sdlpal `fight.c:1486-1489`)
-      items.push({ isEnemy: true, idx: e.idx, dex: e.dex - 1, fIsSecond: true })
+      // D7(W1):dualMove 第二行动 — sdlpal fight.c:1483-1489 第二 entry 独立二抽 dex(GetEnemyDexterity*RandomFloat),
+      //   然后 `if (second.dex <= first.dex) second.fIsSecond=TRUE; else first.fIsSecond=TRUE`(小 dex 者当第二动)。
+      //   dex2 提供则真值比较;省略回退旧 `dex-1`(第二条恒 fIsSecond,排第一条之后)。
+      if (e.dex2 !== undefined) {
+        const second: ActionQueueItem = { isEnemy: true, idx: e.idx, dex: e.dex2, fIsSecond: false }
+        if (e.dex2 <= e.dex) second.fIsSecond = true
+        else first.fIsSecond = true
+        items.push(second)
+      }
+      else {
+        items.push({ isEnemy: true, idx: e.idx, dex: e.dex - 1, fIsSecond: true })
+      }
     }
   }
 

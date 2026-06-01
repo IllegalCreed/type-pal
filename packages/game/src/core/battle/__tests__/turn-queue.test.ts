@@ -54,7 +54,7 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
       ],
       enemies: [
         { idx: 0, dex: 80, dualMove: false },
-        { idx: 1, dex: 60, dualMove: true },
+        { idx: 1, dex: 60, dualMove: true, dex2: 59 },
       ],
     })
     // 期望顺序:p0(100) > e0(80) > e1(60) > e1-second(59) > p1(50)
@@ -62,5 +62,32 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
     expect(queue[0]?.idx).toBe(0)
     expect(queue[0]?.isEnemy).toBe(false)
     expect(queue[3]?.fIsSecond).toBe(true)
+  })
+
+  // ── D7(2026-06-01 W1):dualMove fIsSecond = CLASSIC 独立二抽 dex 比较(fight.c:1483-1489)──
+  it('dualMove 第二抽 dex <= 第一抽 → fIsSecond 标在**第二条**(小者当第二动)', () => {
+    const queue = buildActionQueue({
+      players: [{ idx: 0, dex: 200 }],
+      enemies: [{ idx: 0, dex: 60, dualMove: true, dex2: 50 }], // 二抽 50 <= 一抽 60
+    })
+    const e = queue.filter(q => q.isEnemy)
+    expect(e).toHaveLength(2)
+    const first = e.find(q => q.dex === 60)
+    const second = e.find(q => q.dex === 50)
+    expect(first?.fIsSecond).toBe(false)
+    expect(second?.fIsSecond).toBe(true)
+  })
+
+  it('dualMove 第二抽 dex > 第一抽 → fIsSecond 标在**第一条**(sdlpal fight.c:1488 else 支)', () => {
+    const queue = buildActionQueue({
+      players: [{ idx: 0, dex: 200 }],
+      enemies: [{ idx: 0, dex: 50, dualMove: true, dex2: 70 }], // 二抽 70 > 一抽 50
+    })
+    const e = queue.filter(q => q.isEnemy)
+    expect(e).toHaveLength(2)
+    const lo = e.find(q => q.dex === 50) // 更小 → 当第二动
+    const hi = e.find(q => q.dex === 70)
+    expect(lo?.fIsSecond).toBe(true)
+    expect(hi?.fIsSecond).toBe(false)
   })
 })

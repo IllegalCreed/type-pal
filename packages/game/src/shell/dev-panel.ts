@@ -856,7 +856,7 @@ function closePicker(): void {
   }
 }
 
-export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
+export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed?: number): void {
   // 1. 应用 playerOverrides —— 直接 mutate playerRoles(M3 简版;M5 考虑 immutable 备份恢复)
   for (const [idStr, override] of Object.entries(fixture.playerOverrides ?? {})) {
     const id = Number(idStr)
@@ -884,7 +884,8 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
     if (deps.gs.PlayerRolesRuntime.rgwLevel[id] !== undefined) deps.gs.PlayerRolesRuntime.rgwLevel[id] = exp.wLevel
   }
 
-  // 3. 启战(rngSeed 不传 → 用 Date.now()=非确定性,符合 dev 自由探索意图)
+  // 3. 启战。rngSeed 省略 → startBattle 用 Date.now()=非确定性,符合 dev 自由探索意图;
+  //    测试传固定 seed → 确定性(D7 W1:dex jitter 后 fixture 战斗结果对 RNG 敏感,测试须显式 seed)。
   // try/catch:fixture 错配(team/field id 不存在)startBattle 会抛(by design fail-fast),
   //   dev 工具不该因此整个崩 → 捕获 + 清晰报错,方便定位是哪个 fixture 配错。
   console.log(`[dev-panel] applyFixture ${fixture.id} → startBattle(team=${fixture.enemyTeamId}, field=${fixture.battleFieldId})`)
@@ -912,6 +913,7 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture): void {
       battleEffectIndex: deps.resources.battleEffectIndex, // D17a:命中特效帧基号(fight.c:2055)
       magicSpriteFrameCounts: deps.resources.magicSpriteFrameCounts, // D17:OffMagic 时间线 n
       summonSpriteFrameCounts: deps.resources.summonSpriteFrameCounts, // 召唤神逐帧 loop 帧数
+      rngSeed, // 省略 → startBattle 用 Date.now();测试传固定值保确定性
       // P2#5:不传切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
     })
   } catch (e) {

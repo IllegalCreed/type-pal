@@ -543,14 +543,32 @@ function tickSelectAction(
   // 还没全选完 → 等下一 tick
   if (state.pendingActions.size < alivePlayerIdxs.length) return
 
-  // 全选完 → build ActionQueue,进 performAction
+  // 全选完 → build ActionQueue,进 performAction。
+  // D7(W1):sdlpal fight.c CLASSIC 填队列 **先全敌后全玩家**,每条 dex `*= RandomFloat(0.9,1.1)`(WORD 截断)。
+  //   RNG 抽取次序必须复刻(先 enemy 含 dualMove 二抽,再 player)→ 故 enemySlots 先算。
+  //   dualMove 第二行动独立二抽 dex(fight.c:1483-1489),传 dex2 让 buildActionQueue 比较定 fIsSecond。
+  const jitter = (d: number): number => Math.trunc(d * state.rng.rangeFloat(0.9, 1.1)) // RandomFloat(0.9,1.1)
+
+  const enemySlots = state.enemies
+    .map((e, i) => ({ e, i }))
+    .filter(({ e }) => e.e.health > 0)
+    .map(({ e, i }) => {
+      const baseDex = getEnemyDexterity({ level: e.e.level, dexterity: e.e.dexterity })
+      const dex = jitter(baseDex) // 第一抽
+      // B2 c8:sdlpal fight.c:1239-1242 真值 — wDualMove>=2 必二动 || (wDualMove!=0 && RandomLong(0,1) 50%)。
+      const dualMove = e.e.dualMove >= 2 || (e.e.dualMove !== 0 && state.rng.rangeInclusive(0, 1) === 1)
+      // dualMove 第二抽独立摇(GetEnemyDexterity*RandomFloat 再一次,fight.c:1483-1486)
+      const dex2 = dualMove ? jitter(baseDex) : undefined
+      return { idx: i, dex, dualMove, dex2 }
+    })
+
   const playerSlots = alivePlayerIdxs.map((i) => {
     const player = state.players[i]!
     const role = res.playerRoles.roles[player.roleId]!
-    // B1/D8:睡眠/麻痹队员 dex=0(排队尾;sdlpal fight.c:1513 "同回合恢复则物理攻,否则 Pass")
+    // B1/D8:睡眠/麻痹队员 dex=0(排队尾;sdlpal fight.c:1505-1517 "同回合恢复则物理攻,否则 Pass")。
+    //   注:此分支 sdlpal **不摇** RandomFloat(直接 wDexterity=0),故不消耗 RNG。
     if (player.status.sleep > 0 || player.status.paralyzed > 0) return { idx: i, dex: 0 }
     // 简化版 PAL_GetPlayerDexterity:role.dexterity(SHORT)+ (level+6)*4
-    // sdlpal `fight.c::PAL_GetPlayerDexterity` 还会加装备 modifier,M3 不实现
     const baseDex = role.dexterity + (role.level + 6) * 4
     let dex = getPlayerActualDexterity(baseDex, {
       haste: player.status.haste > 0,
@@ -563,19 +581,10 @@ function tickSelectAction(
     const maxHp = role.maxHP
     if (role.hp > 0 && role.hp < Math.min(100, Math.floor(maxHp / 5)))
       dex = Math.floor(dex / 2)
+    // D7:末尾 jitter `*= RandomFloat(0.9,1.1)`(fight.c:1556),在所有倍率/濒死之后(sdlpal 同序)。
+    dex = jitter(dex)
     return { idx: i, dex }
   })
-
-  const enemySlots = state.enemies
-    .map((e, i) => ({ e, i }))
-    .filter(({ e }) => e.e.health > 0)
-    .map(({ e, i }) => ({
-      idx: i,
-      dex: getEnemyDexterity({ level: e.e.level, dexterity: e.e.dexterity }),
-      // B2 c8:sdlpal fight.c:1239-1242 真值 — wDualMove>=2 必二动 || (wDualMove!=0 && RandomLong(0,1) 50%)。
-      //   原 ts `===1 必二动` 漏了 >=2 必动 + ==1 的 50% 概率。
-      dualMove: e.e.dualMove >= 2 || (e.e.dualMove !== 0 && state.rng.rangeInclusive(0, 1) === 1),
-    }))
 
   state.actionQueue = buildActionQueue({ players: playerSlots, enemies: enemySlots })
   state.currentActionIndex = 0

@@ -100,14 +100,14 @@ function driveToExplore(gs: ReturnType<typeof createInitialGameState>, bus: Retu
 describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
   it('fixture-dialog:敌人 scriptOnTurnStart 设上(林月如一嘲讽能触发,team 21 → enemyId 82 → 41368)', () => {
     const deps = makeDeps()
-    applyFixture(deps, dialogFixture)
+    applyFixture(deps, dialogFixture, 42)
     expect(deps.gs.mode).toBe('battle')
     expect(deps.gs.battleState?.enemies[0]?.scriptOnTurnStart).toBe(41368) // ← 战斗内对话触发器接上
   })
 
   it('fixture-levelup:gs.Exp 设 6000 + runtime hydrate(lv1/30HP override)→ 打赢能升级', () => {
     const deps = makeDeps()
-    applyFixture(deps, levelupFixture)
+    applyFixture(deps, levelupFixture, 42)
     expect(deps.gs.mode).toBe('battle')
     // expOverrides → gs.Exp(跨多级阈值,可升到 lv12)
     expect(deps.gs.Exp.rgPrimaryExp[0]!.wExp).toBe(6000)
@@ -123,7 +123,7 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
 
   it('fixture-levelup 端到端:applyFixture → 打赢 → 真升级 + 学法术(我之前没测的全流程)', () => {
     const deps = makeDeps()
-    applyFixture(deps, levelupFixture)
+    applyFixture(deps, levelupFixture, 42)
     const gs = deps.gs
     const bus = createCommandBus()
     const emptyInput: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }
@@ -150,7 +150,7 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     // user 2026-05-31 实测:dev 升级 fixture 打赢后开仙术菜单只见「气疗术」,看不到学的法术。
     // 根因:菜单读静态 catalog.playerRoles(1 级基线),不读 runtime。修复:投影 gs.PlayerRolesRuntime → roles。
     const deps = makeDeps()
-    applyFixture(deps, levelupFixture)
+    applyFixture(deps, levelupFixture, 42)
     const gs = deps.gs
     const bus = createCommandBus()
     const emptyInput: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }
@@ -180,7 +180,7 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
 
   it('★结算演出序列:打赢建 settlement screens —— exp-cash → 升级 box(lv1→12 / 8 属性 old→cur)→ 练成屏', () => {
     const deps = makeDeps()
-    applyFixture(deps, levelupFixture)
+    applyFixture(deps, levelupFixture, 42)
     const gs = deps.gs
     const bus = createCommandBus()
     const emptyInput: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }

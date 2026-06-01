@@ -342,6 +342,22 @@ describe('tickBattle phase transitions', () => {
     expect(gs.battleState!.actionQueue.filter((q) => q.isEnemy).length).toBe(1)
   })
 
+  // ── D7(2026-06-01 W1):dex 抖动 RandomFloat(0.9,1.1)(sdlpal fight.c:1474/1556)──
+  it('D7:敌 dex 乘 RandomFloat(0.9,1.1)→ actionQueue dex = trunc(baseDex*float)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      // enemy dex base = getEnemyDexterity({level:5,dexterity:30}) = (5+6)*3+30 = 63
+      enemies: [makeEnemy({ id: 100, level: 5, dexterity: 30, dualMove: 0, health: 99999 })],
+      roles: [makeRole({ id: 0, hp: 99999, dexterity: 0, level: 0 })], // player dex 低,不抢戏
+    })
+    tickBattle(gs, emptyInput, bus) // → selectAction
+    gs.battleState!.rng.rangeFloat = () => 0.9 // 固定抖动因子 0.9
+    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+    tickBattle(gs, emptyInput, bus) // 建 queue
+    const enemyEntry = gs.battleState!.actionQueue.find((q) => q.isEnemy)
+    // base 63 * 0.9 = 56.7 → trunc 56(WORD 截断);现状无抖动则恒 63 → 失败
+    expect(enemyEntry?.dex).toBe(56)
+  })
+
   it('performAction → postAction(queue 跑完)→ 下一轮 selectAction(双方都活)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 99999 })], // 不会被一击秒,保证不进 won
@@ -538,11 +554,15 @@ describe('tickBattle finalize', () => {
       enemies: [makeEnemy({ id: 100, attackStrength: 999, level: 50 })], // 强敌
     })
     tickBattle(gs, emptyInput, bus)
-    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
 
+    // D7(W1):dex 加 RandomFloat 抖动后,濒死队员某轮可能 fAutoDefend 闪避强敌(c3)→ 不保证 turn0 即死。
+    //   每轮补 defend 驱动,直到强敌某轮命中打死(seed-robust,不依赖单轮必死)。
     let safety = 200
-    while (gs.mode === 'battle' && safety-- > 0)
+    while (gs.mode === 'battle' && safety-- > 0) {
+      if (gs.battleState?.phase === 'selectAction' && gs.battleState.pendingActions.size === 0)
+        gs.battleState.pendingActions.set(0, { type: 'defend', target: -1 })
       tickBattle(gs, emptyInput, bus)
+    }
 
     expect(gs.mode).toBe('explore')
     // sdlpal 战败不复活(script.c:3320 → 死亡脚本 0x4F 红屏 + 0x4E 读档)。删旧 M3"回 1 血"复活桩:
@@ -816,9 +836,13 @@ describe('B1 D21 战末清状态/毒/Extra(battle.c:1822-1830)', () => {
     gs.rgEquipmentEffect[6]!.rgwAttackStrength[0] = 50
 
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
-    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+    // D7(W1):同 lost 测 —— 濒死队员某轮 fAutoDefend 闪避,每轮补 defend 直到强敌打死(seed-robust)。
     let safety = 200
-    while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    while (gs.mode === 'battle' && safety-- > 0) {
+      if (gs.battleState?.phase === 'selectAction' && gs.battleState.pendingActions.size === 0)
+        gs.battleState.pendingActions.set(0, { type: 'defend', target: -1 })
+      tickBattle(gs, emptyInput, bus)
+    }
 
     expect(gs.mode).toBe('explore')
     expect(gs.rgPoisonStatus['0_0']?.wPoisonID ?? 0).toBe(0) // 毒清(battle.c:1828)
@@ -889,16 +913,21 @@ describe('defending flag 单轮失效', () => {
       roles: [makeRole({ id: 0, hp: 9999, maxHP: 9999, defense: 999, dexterity: 1 })],
     })
     tickBattle(gs, emptyInput, bus)
-    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 }) // 玩家防御不杀敌 → 敌人能出手
 
+    // D7(W1):dex 加 RandomFloat 抖动后 RNG 流偏移 → 濒死外的玩家(hp 满)某些轮会 fAutoDefend 闪避
+    //   敌方物理(7/17,c3,闪避时 sdlpal 不播命中动画 → 该轮无攻击帧)。闪避可连续几轮,故跨 ~15 轮
+    //   采样,确保覆盖至少一次未闪避的敌人攻击(seed-robust;player hp9999/def999 不会死,可长跑)。
     const seen = new Set<number | undefined>()
-    const prevTurn = gs.battleState!.turn
-    let safety = 150
+    const startTurn = gs.battleState!.turn
+    let safety = 600
     while (gs.mode === 'battle' && safety-- > 0) {
+      if (gs.battleState?.phase === 'selectAction' && gs.battleState.pendingActions.size === 0)
+        gs.battleState.pendingActions.set(0, { type: 'defend', target: -1 }) // 玩家防御不杀敌 → 敌人能出手
       tickBattle(gs, emptyInput, bus)
       if (!gs.battleState) break
       seen.add(gs.battleState.enemies[0]?.currentFrame)
-      if (gs.battleState.turn > prevTurn) break // 一整轮足够包含敌人一次攻击
+      const attackSeen = [...seen].some((f) => typeof f === 'number' && f > 0)
+      if (attackSeen || gs.battleState.turn > startTurn + 15) break // 命中一次攻击帧即停;否则跑满 15 轮
     }
     // 非定格:攻击动画把 currentFrame 推到 >0 的攻击帧(idleFrames+i-1 = 1..4 中至少一个)
     const attackFramesSeen = [...seen].filter((f): f is number => typeof f === 'number' && f > 0)
