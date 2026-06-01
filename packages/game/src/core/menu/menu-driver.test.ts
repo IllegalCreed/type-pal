@@ -7,8 +7,10 @@ import { createInGameMenu, createSystemMenu } from './in-game-menu.js'
 import { createOpeningMenu } from './opening-menu.js'
 import {
   _resetStartGameHandlerForTest, setMenuCatalogs, setStartGameHandler,
+  setSystemQuitHandler, _resetSystemQuitHandlerForTest,
   type StartGameChoice,
 } from './menu-driver.js'
+import type { SystemMenuState } from './in-game-menu.js'
 
 function snap(pressed: AbstractKey[] = []): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
@@ -119,14 +121,65 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     expect(gs.menuStack.length).toBe(0)
   })
 
-  it('Confirm "quit" → 清空 menuStack', () => {
+  // C2-quit(sdlpal PAL_QuitGame uigame.c:2059-2076 → PAL_ConfirmMenu:经典版弹 2 项 是/否,默认 No)。
+  //   旧行为(quit 直接清栈)是缺口 —— 现改为先弹确认框。
+  it('Confirm "quit" → 进 confirm 阶段(默认 No),**不**清 menuStack', () => {
     const gs = mkGs()
     const sys = createSystemMenu()
     sys.selection.cursor = sys.selection.items.length - 1 // quit 在最后
     openMenu(gs, { kind: 'system', state: sys })
     tickMenu(gs, snap(['Confirm']), createCommandBus())
-    expect(gs.menuStack.length).toBe(0)
-    expect(gs.mode).toBe('explore')
+    expect(sys.phase).toBe('confirm')      // 进确认阶段
+    expect(sys.confirmYes).toBe(false)      // 默认高亮 No(PAL_ConfirmMenu nDefault=0)
+    expect(gs.menuStack.length).toBe(1)     // 未清栈
+  })
+
+  it('confirm 阶段方向键 toggle 是/否', () => {
+    const gs = mkGs()
+    const sys = createSystemMenu()
+    sys.selection.cursor = sys.selection.items.length - 1
+    openMenu(gs, { kind: 'system', state: sys })
+    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 进 confirm
+    tickMenu(gs, snap(['Right']), createCommandBus())
+    expect(sys.confirmYes).toBe(true)
+    tickMenu(gs, snap(['Left']), createCommandBus())
+    expect(sys.confirmYes).toBe(false)
+  })
+
+  it('confirm 选 否(Confirm@No)→ 回 menu 阶段,不清栈、不退出', () => {
+    const gs = mkGs()
+    const sys = createSystemMenu()
+    sys.selection.cursor = sys.selection.items.length - 1
+    openMenu(gs, { kind: 'system', state: sys })
+    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 进 confirm(No)
+    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 选 No
+    expect(sys.phase).toBe('menu')
+    expect(gs.menuStack.length).toBe(1)
+  })
+
+  it('confirm 按 Menu(取消,等价 PAL_ConfirmMenu CANCELLED→FALSE)→ 回 menu 阶段', () => {
+    const gs = mkGs()
+    const sys = createSystemMenu()
+    sys.selection.cursor = sys.selection.items.length - 1
+    openMenu(gs, { kind: 'system', state: sys })
+    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    tickMenu(gs, snap(['Menu']), createCommandBus())
+    expect(sys.phase).toBe('menu')
+    expect(gs.menuStack.length).toBe(1)
+  })
+
+  it('confirm 选 是(Confirm@Yes)→ 调 systemQuitHandler(回标题),不复用 0xA0 结局 handler', () => {
+    let quitCalled = 0
+    setSystemQuitHandler(() => { quitCalled++ })
+    const gs = mkGs()
+    const sys = createSystemMenu()
+    sys.selection.cursor = sys.selection.items.length - 1
+    openMenu(gs, { kind: 'system', state: sys })
+    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 进 confirm
+    tickMenu(gs, snap(['Right']), createCommandBus())    // → Yes
+    tickMenu(gs, snap(['Confirm']), createCommandBus())  // 选 Yes
+    expect(quitCalled).toBe(1)
+    _resetSystemQuitHandlerForTest()
   })
 })
 

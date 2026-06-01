@@ -30,6 +30,7 @@ import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { renderText, type GlyphTable } from '../font.js'
 import { getWord } from '../../core/word-lookup.js'
+import { drawConfirmBox } from './draw-confirm.js'
 import { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'
 import { drawNumber } from '../draw-number.js'
 import { drawEquipMenu } from './draw-equip.js'
@@ -277,6 +278,10 @@ function drawSystemMenu(
     // sdlpal ui.c:458 PAL_ReadMenu 真值 fShadow=TRUE
     renderText(fb, item.label, SYSTEM_MENU_ITEM_START.x, y, color, glyphs, true)
   })
+  // C2-quit:选 QUIT 进 confirm 阶段 → 在系统菜单之上叠 2 项 是/否 确认框(sdlpal PAL_QuitGame→PAL_ConfirmMenu)。
+  if (state.phase === 'confirm') {
+    drawConfirmBox(fb, state.confirmYes, uiSpriteFrames, glyphs)
+  }
 }
 
 // ── Inventory Action submenu(装备/使用 1 级 box) ────────────────────────

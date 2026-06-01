@@ -49,6 +49,25 @@ describe('M5.6 v2 drawMenuStack(sdlpal 真值坐标)', () => {
     expect(fb.indices[60 * fb.width + 40]).toBe(1)
   })
 
+  it('C2-quit:system phase=confirm → 叠确认框(130,100)/(205,100);menu 阶段不画', () => {
+    // menu 阶段:确认框位置无 SingleLineBox corner
+    const fbMenu = createFramebuffer()
+    const gsMenu = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    openMenu(gsMenu, { kind: 'system', state: createSystemMenu() })
+    drawMenuStack(fbMenu, gsMenu, mockUiFrames())
+    expect(fbMenu.indices[100 * fbMenu.width + 130]).not.toBe(45)
+
+    // confirm 阶段:(130,100) 否框 + (205,100) 是框 corner = SingleLineBox frame 44(idx 45)
+    const fb = createFramebuffer()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const sys = createSystemMenu()
+    sys.phase = 'confirm'
+    openMenu(gs, { kind: 'system', state: sys })
+    drawMenuStack(fb, gs, mockUiFrames())
+    expect(fb.indices[100 * fb.width + 130]).toBe(45) // 否框左 corner
+    expect(fb.indices[100 * fb.width + 205]).toBe(45) // 是框左 corner
+  })
+
   it('两层栈(in-game + system) → 都画 + cash 框在 in-game 时画', () => {
     const fb = createFramebuffer()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })

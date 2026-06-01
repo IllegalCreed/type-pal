@@ -73,6 +73,13 @@ export function inGameMenuDown(s: InGameMenuState): void { moveSelectionDown(s.s
 
 export interface SystemMenuState {
   selection: SelectionMenuState
+  /**
+   * C2-quit:选 QUIT 后进 'confirm' 阶段弹二次确认(sdlpal PAL_QuitGame → PAL_ConfirmMenu,uigame.c:2066)。
+   * 'menu' = 系统菜单本体;'confirm' = 2 项 是/否 确认框(默认 No)。
+   */
+  phase: 'menu' | 'confirm'
+  /** confirm 阶段当前高亮 是(true)/ 否(false);进 confirm 时默认 false(PAL_ConfirmMenu nDefault=0=否)。 */
+  confirmYes: boolean
 }
 
 /**
@@ -84,7 +91,23 @@ export function createSystemMenu(defaultCursor = 0): SystemMenuState {
   if (defaultCursor > 0 && defaultCursor < selection.items.length) {
     selection.cursor = defaultCursor
   }
-  return { selection }
+  return { selection, phase: 'menu', confirmYes: false }
+}
+
+/** 选 QUIT → 进二次确认阶段(默认高亮 否,sdlpal PAL_ConfirmMenu nDefault=0)。 */
+export function systemMenuEnterConfirm(s: SystemMenuState): void {
+  s.phase = 'confirm'
+  s.confirmYes = false
+}
+
+/** confirm 阶段方向键 toggle 是/否(PAL_SelectionMenu 两 box 左右排列,四方向皆 toggle)。 */
+export function systemMenuToggleConfirm(s: SystemMenuState): void {
+  s.confirmYes = !s.confirmYes
+}
+
+/** confirm 阶段选「否」/ 取消 → 回系统菜单本体(PAL_ConfirmMenu 返 FALSE,PAL_QuitGame 直接返回)。 */
+export function systemMenuCancelConfirm(s: SystemMenuState): void {
+  s.phase = 'menu'
 }
 
 export function systemMenuChoice(s: SystemMenuState): SystemMenuChoice | undefined {

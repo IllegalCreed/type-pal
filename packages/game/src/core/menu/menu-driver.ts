@@ -29,6 +29,9 @@ import {
   systemMenuChoice,
   systemMenuDown,
   systemMenuUp,
+  systemMenuEnterConfirm,
+  systemMenuToggleConfirm,
+  systemMenuCancelConfirm,
   type InGameMenuState,
   type SystemMenuState,
 } from './in-game-menu.js'
@@ -127,6 +130,23 @@ export function setStartGameHandler(handler: StartGameHandler): void {
 /** 测试用:重置 handler。 */
 export function _resetStartGameHandlerForTest(): void {
   _startGameHandler = undefined
+}
+
+// ── SystemQuitHandler(C2-quit:系统菜单 QUIT 二次确认选「是」)─────────────────
+//
+// sdlpal PAL_QuitGame(uigame.c:2068-2074)选「是」→ PAL_Shutdown(0)(进程退出)。浏览器无进程退出语义,
+// 既定项目约定映射为回标题(OpeningMenu,同 returnToTitle)。bootstrap 注入。
+// **不复用** opcode 0xA0 的 _quitHandler(那是「结局/credits 后回标题」,WIN95 会先播结局 mp4 4/5/6,语义不同)。
+export type SystemQuitHandler = () => void
+
+let _systemQuitHandler: SystemQuitHandler | undefined
+
+export function setSystemQuitHandler(handler: SystemQuitHandler): void {
+  _systemQuitHandler = handler
+}
+
+export function _resetSystemQuitHandlerForTest(): void {
+  _systemQuitHandler = undefined
 }
 
 // ── LoadGameHandler(C8:大世界 SystemMenu 读档触发,跟 OpeningMenu Load 共享语义)─
@@ -337,6 +357,24 @@ function dispatchInGameMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
 
 function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as SystemMenuState
+
+  // C2-quit:二次确认阶段(sdlpal PAL_ConfirmMenu)— 左右两 box 否/是,方向键 toggle。
+  if (s.phase === 'confirm') {
+    if (input.pressed.has('Up') || input.pressed.has('Down')
+      || input.pressed.has('Left') || input.pressed.has('Right')) {
+      systemMenuToggleConfirm(s)
+    }
+    if (input.pressed.has('Menu')) {
+      systemMenuCancelConfirm(s) // 取消 = PAL_ConfirmMenu CANCELLED → FALSE → 回系统菜单
+      return
+    }
+    if (input.pressed.has('Confirm')) {
+      if (s.confirmYes) _systemQuitHandler?.() // 是 → PAL_Shutdown(0) 映射为回标题
+      else systemMenuCancelConfirm(s)          // 否 → 回系统菜单本体
+    }
+    return
+  }
+
   if (input.pressed.has('Menu')) {
     closeTopMenu(gs)
     return
@@ -371,8 +409,8 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
         console.debug('SystemMenu: sound toggle (audio system M6+)')
         break
       case 'quit':
-        // 浏览器无 quit;关掉所有菜单返回 explore
-        gs.menuStack = []
+        // C2-quit:sdlpal PAL_QuitGame → PAL_ConfirmMenu 二次确认。不再直接清栈,进 confirm 阶段(默认 No)。
+        systemMenuEnterConfirm(s)
         break
     }
   }

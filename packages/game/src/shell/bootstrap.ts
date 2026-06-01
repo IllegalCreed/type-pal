@@ -49,6 +49,7 @@ import {
   setLoadGameHandler,
   setMenuCatalogs,
   setStartGameHandler,
+  setSystemQuitHandler,
 } from '../core/menu/menu-driver.js'
 import { openMenu } from '../core/menu/menu-mode.js'
 import { setWordTable } from '../core/word-lookup.js'
@@ -1291,6 +1292,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
     gs.mode = 'menu'
   }
+
+  // C2-quit:系统菜单 QUIT → ConfirmMenu 选「是」(sdlpal PAL_QuitGame PAL_Shutdown(0))。浏览器映射为回标题。
+  //   **不**复用下方 0xA0 setQuitHandler(那含 WIN95 结局 mp4 播放,语义不同):系统菜单退出不放任何结局动画。
+  setSystemQuitHandler(returnToTitle)
 
   // opcode 0xA0 quit(sdlpal script.c:2988-2996)。用户决策:跳过 PAL_AdditionalCredits(SDLPAL 引擎
   // GNU GPL 版权页,非游戏内容)→ 回标题。WIN95 → 播结局 mp4(4/5/6,对应 PAL_EndingScreen AVI 序)→ 回标题;
