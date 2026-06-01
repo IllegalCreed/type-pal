@@ -786,6 +786,20 @@ describe('loadScene(M3.5 T9 / D33)', () => {
     expect(gs.party.facing).toBe('right')
   })
 
+  // C6(gameOverActive 重构):死亡读档/场景重载是死亡演出的退出点。loadScene 必须把两个死亡标记都清掉,
+  //   否则残留的 deathHoldActive(纯 hold)会让 present 永久保持上一帧、冻住新场景渲染。
+  it('loadScene 清 gameOverActive + deathHoldActive(死亡演出退出 → 新场景恢复正常渲染)', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.gameOverActive = true
+    gs.deathHoldActive = true
+    const cache = new SceneAssetsCache(async (id) => makeSceneAssets(id))
+
+    await loadScene({ gs, sceneId: 3, assets: cache })
+
+    expect(gs.gameOverActive).toBe(false)
+    expect(gs.deathHoldActive).toBe(false)
+  })
+
   it('SceneAssetsCache lazy hit:第二次切回同 scene,fetcher 不再调', async () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const fetcher = vi.fn(async (id: number) => makeSceneAssets(id))

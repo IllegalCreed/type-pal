@@ -450,6 +450,7 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
   gs.sceneCommands = sceneAssets.eventCommands
   gs.sceneLabelMap = sceneAssets.labelMap
   gs.gameOverActive = false // 死亡读档 → 新场景 → 清 game-over 演出标记
+  gs.deathHoldActive = false // 同清过渡帧 hold(残留会冻住新场景渲染);死亡演出退出点
   // 0x38 归隐脱出:缓存当前场景 base onTeleport 全局 entry(onTeleportLabel L_<n>→n;无则 0)。
   gs.sceneOnTeleportEntry = sceneAssets.onTeleportLabel
     ? (resolveScriptLabel(gs, sceneAssets.onTeleportLabel)?.ip ?? 0)

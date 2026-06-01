@@ -576,6 +576,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
     gs.wNumScene = newWNumScene
     gs.gameOverActive = false // 死亡读档 → 新场景加载 → 清 game-over 演出标记(present 恢复正常渲染)
+    gs.deathHoldActive = false // 同清过渡帧 hold(残留会冻住新场景渲染)
     // 0x38 归隐脱出:缓存当前场景 base onTeleport 全局 entry(onTeleportLabel L_<n>→n;无则 0)。
     //   sdlpal g.rgScene[wNumScene-1].wScriptOnTeleport;0x6D op2 override 优先。
     gs.sceneOnTeleportEntry = sceneAssets.onTeleportLabel
@@ -1227,7 +1228,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // 死亡读档判定:读 **Object.assign 之前** 的当前会话态(resumePostBattleScript(lost) 置 gameOverActive=true)。
     //   不读 assign 之后的值 —— Save 走 deepClone(gs) 全量序列化,理论上可能带入存档的 gameOverActive(虽然
     //   实际无法在死亡演出期存档);用 assign 前的会话态作判据,与存档内容彻底解耦,菜单 Load 永为 false。
-    const isDeathReload = gs.gameOverActive === true
+    // 正常死亡序列跑到 0x4E 读档时,0x4F 已置 gameOverActive=true(且清了 deathHoldActive),故主判据是它;
+    //   deathHoldActive 兜底:万一过渡帧 hold 未经 0x4F 就触发读档(防御),也按死亡读档强制黑屏,杜绝战斗帧闪现。
+    const isDeathReload = gs.gameOverActive === true || gs.deathHoldActive === true
     // mutate gs in-place(外部持有同 ref;无法替换 ref)
     // 把 loadedGs 全字段拷到 gs(用 Object.assign 浅 + 关键嵌套手动 deepClone)
     Object.assign(gs, loadedGs)
