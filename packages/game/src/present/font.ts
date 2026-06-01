@@ -183,3 +183,24 @@ export function measureText(
   }
   return w
 }
+
+/**
+ * sdlpal `PAL_CharWidth`(font.c:611-629)忠实移植:返回 `font_width[ch] >> 1`。
+ * 标准字体 font_width 默认表:ASCII(<0x80)= 16 → 8px,CJK = 32 → 16px。
+ * **静态判定**(纯按 codepoint),不读字体资源、不依赖 glyph 加载 —— 与 measureText 区别:后者依赖
+ * glyphs 且 ASCII 缺失 fallback 成 16px(font.ts measureText),会让 ASCII 宽度翻倍,**不可**用于布局公式。
+ */
+export function palCharWidth(cp: number): number {
+  return cp < 0x80 ? 8 : 16
+}
+
+/**
+ * sdlpal `PAL_WordWidth`(ui.c:836-861)忠实移植:`(Σ PAL_CharWidth + 8) >> 4` —— 返回"全宽字数"(量化值),
+ * 非像素、非 string.length。纯 CJK 时碰巧 == 字数,但 ASCII 文案会分叉(8 个 ASCII → 4 而非 8)。
+ * 用于菜单项 x 坐标公式(OpeningMenu uigame.c:107-108、动作菜单等)。
+ */
+export function palWordWidth(text: string): number {
+  let w = 0
+  for (const ch of text) w += palCharWidth(ch.codePointAt(0)!)
+  return (w + 8) >> 4
+}

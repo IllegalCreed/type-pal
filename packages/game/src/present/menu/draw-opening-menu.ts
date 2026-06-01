@@ -14,7 +14,7 @@ import { openingMenuLabels } from '../../core/menu/opening-menu.js'
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { drawBattleBg } from '../battle/draw-battle-bg.js'
 import type { Framebuffer } from '../framebuffer.js'
-import { renderText, type GlyphTable } from '../font.js'
+import { renderText, palWordWidth, type GlyphTable } from '../font.js'
 
 // sdlpal ui.h:29 / 33-34
 const MENUITEM_COLOR = 0x4F
@@ -29,17 +29,17 @@ function selectedColor(): number {
 }
 
 /**
- * sdlpal uigame.c:107-109 真值坐标公式:
- *   x = 125 - (w > 4 ? (w - 4) * 8 : 0),y = 95 / 112
- *   w = PAL_WordWidth(wordNum)
- *
- * 中文 "新游戏"(3 字)/ "读取存档"(4 字)— PAL_WordWidth 返回的"词宽"通常 <= 4
- * (每 word 单位 = 字符数 / 2 类),所以 padding 公式取 0 → x = 125 起点。
- *
- * 简版直接用 x = 125;真精确坐标需 PAL_WordWidth 实测(留 T20 audit v2)。
+ * sdlpal uigame.c:107-108 真值坐标公式(已忠实移植,非简版):
+ *   x = 125 - (w > 4 ? (w - 4) * 8 : 0),w = PAL_WordWidth(label)(font.ts palWordWidth)。
+ * shipped 真 label '新的故事'/'读取存档' 都是 4 全宽字 → w=4 → 公式退化 x=125(与旧硬编码一致,零像素变化);
+ * 长于 4 全宽单位的文案(modded WORD.DAT / 其它语言)按公式左移对齐。y 恒 95(新)/ 112(读档)。
  */
-const ITEM_NEW_GAME_POS = { x: 125, y: 95 }
-const ITEM_LOAD_GAME_POS = { x: 125, y: 112 }
+export function openingItemX(label: string): number {
+  const w = palWordWidth(label)
+  return 125 - (w > 4 ? (w - 4) * 8 : 0)
+}
+
+const ITEM_Y = [95, 112]
 
 export interface DrawOpeningMenuInput {
   fb: Framebuffer
@@ -61,11 +61,11 @@ export function drawOpeningMenu(input: DrawOpeningMenuInput): void {
   // 2. 2 行字(无 box)— sdlpal ui.c:458 PAL_ReadMenu 真值 PAL_DrawText(...fShadow=TRUE)
   //    triple shadow(黑色 color 0,offset (+1,0)/(0,+1)/(+1,+1))+ 主色字
   const labels = openingMenuLabels()
-  const positions = [ITEM_NEW_GAME_POS, ITEM_LOAD_GAME_POS]
   labels.forEach((entry, i) => {
-    const pos = positions[i]
-    if (!pos) return
+    const y = ITEM_Y[i]
+    if (y === undefined) return
+    const x = openingItemX(entry.label) // uigame.c:107-108 公式(对 4 字 label 退化为 125)
     const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
-    renderText(fb, entry.label, pos.x, pos.y, color, glyphs, true)
+    renderText(fb, entry.label, x, y, color, glyphs, true)
   })
 }

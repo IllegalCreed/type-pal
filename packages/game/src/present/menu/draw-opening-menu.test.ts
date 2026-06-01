@@ -2,7 +2,26 @@ import { describe, it, expect } from 'vitest'
 import { createFramebuffer } from '../framebuffer.js'
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { createOpeningMenu, openingMenuDown } from '../../core/menu/opening-menu.js'
-import { drawOpeningMenu } from './draw-opening-menu.js'
+import { drawOpeningMenu, openingItemX } from './draw-opening-menu.js'
+
+// ── A4:OpeningMenu 选项 x 坐标公式(sdlpal uigame.c:107-108)──
+//   x = 125 - (w > 4 ? (w-4)*8 : 0),w = PAL_WordWidth(label)。
+//   shipped 真值 label '新的故事'/'读取存档' 都是 4 字 → w=4 → x=125(与旧硬编码一致,零像素回归)。
+describe('openingItemX — 选项 x 公式(uigame.c:107-108)', () => {
+  it("4 字 label('新的故事')→ w=4 → x=125(回归钉死:对 shipped 数据零变化)", () => {
+    expect(openingItemX('新的故事')).toBe(125)
+    expect(openingItemX('读取存档')).toBe(125)
+  })
+
+  it('5 字 → w=5 → x=117;6 字 → w=6 → x=109(公式对长文案左移)', () => {
+    expect(openingItemX('新新新新新')).toBe(125 - 1 * 8) // w=5
+    expect(openingItemX('读取上次存档')).toBe(125 - 2 * 8) // w=6
+  })
+
+  it('w<=4 不左移(8 ASCII → w=4 → x=125,非 length 8)', () => {
+    expect(openingItemX('NEWGAME!')).toBe(125)
+  })
+})
 
 /** 全屏 320×200 mock bg,所有像素 = 0xAB(便于验证 bg blit)。 */
 function mockBg(): BattleBgAsset {
