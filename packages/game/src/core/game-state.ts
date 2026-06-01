@@ -923,11 +923,19 @@ export interface GameState {
   prevBattleActions?: Map<number, import('./battle/battle-state.js').BattleAction>
 
   /**
-   * 战败死亡演出标记(sdlpal 死亡脚本 L_41075:0x4F FadeToRed + "大侠重新来过" + 0x4E 读档)。
-   * present 据此**保持战斗最后一帧 + 只画死亡对话**(不重绘大世界场景),0x4F 把战斗帧染红。
-   * resumePostBattleScript(lost) 置;0x4E 读档 / 场景重载清。专用标记(showDialog 不清,区别于 sceneLoading)。
+   * 死亡演出标记(0x4F 已执行后)。present 据此**保持战斗帧 + 画死亡对话**,palette ramp 把战斗帧染红。
+   * **由 0x4F handler 置**(非 outcome==='lost' —— 那误伤石长老/team21/team29 续剧情战);0x4E 读档 / 场景重载清。
+   * 专用标记(showDialog 不清,区别于 sceneLoading)。sdlpal 死亡脚本 L_41075:0x43→0x4F→对话→0x4E。
    */
   gameOverActive?: boolean
+
+  /**
+   * 死亡**过渡帧** hold(gameOverActive 重构):T0 战斗结算 → 0x4F 真执行之间那几帧。
+   * present 据此保持战斗最后一帧(角色倒地)不重绘,**不画 dialog**(此刻还没死亡对话、0x4F 也没染红)。
+   * 由 resumePostBattleScript 用 scriptRunHits0x4F 预判 lostIp 指向死亡脚本时置;0x4F handler 真执行时
+   * 移交给 gameOverActive(置后者 + 清此);0x4E 读档 / 场景重载兜底清。补 0x4F 前的 fb.clear 露大世界空窗。
+   */
+  deathHoldActive?: boolean
 
   postBattleResume?: {
     wonIp: number             // 胜(或负/逃无对应分支)→ resume 此 ip(= 0x07 后下一条)
@@ -1320,11 +1328,14 @@ export function resumePostBattleScript(gs: GameState, outcome: BattleOutcome): v
     callStack: r.callStack,
   }
   gs.mode = 'event'
-  // 死亡(lost):置 game-over 演出标记 → present **保持战斗最后一帧 + 只画死亡对话**(不重绘大世界场景),
-  //   死亡脚本(L_41075:0x43 音乐→0x4F FadeToRed→"大侠重新来过"→0x4E 读档)的 0x4F 把**战斗帧**染红。
-  //   修 user 报"死→起立→红屏→出字同时回大世界":sceneLoading 会被 showDialog 清 → 露大世界;gameOverActive
-  //   是专用标记,只被 0x4E 读档 / 场景重载清,showDialog 不清 → 死亡全程不露大世界。胜/逃不置(正常返回大世界)。
-  if (outcome === 'lost') gs.gameOverActive = true
+  // gameOverActive 重构(2026-06-01,修石长老必败续剧情误红屏):**不再** `outcome==='lost'` 无条件置死亡演出
+  //   (那误伤石长老 lostIp=0 续剧情 / team21 林月如先对白 / team29 续剧情 / 林天南撑7回合 Terminated→fled)。
+  //   改判据 = lostIp 指向的脚本 run 是否真含 0x4F(死亡红屏)。命中 → 置 deathHoldActive 补 T0→0x4F 过渡帧
+  //   (present 保持战斗倒地帧不重绘);0x4F handler 真执行时移交 gameOverActive(C4)。team21 遇 goto 停 → 不预置,
+  //   先正常播对白,goto L_41075 后由 0x4F 自然点亮。详 docs/plans/2026-06-01-gameoveractive-refactor.md。
+  if (outcome === 'lost' && r.lostIp !== undefined && scriptRunHits0x4F(r.commands, ip)) {
+    gs.deathHoldActive = true
+  }
 }
 
 /**

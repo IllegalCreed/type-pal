@@ -408,15 +408,52 @@ describe('player-roles 战斗数据模型边界', () => {
     expect(gs.eventCursor?.ip).toBe(1)
   })
 
-  it('resumePostBattleScript:lost 置 gameOverActive(present 保持战斗帧 + 只画死亡对话);won/fled 不置', () => {
+  // ── C2(gameOverActive 重构):lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive(过渡帧 hold) ──
+  // 不再由 outcome==='lost' 无条件置 gameOverActive(它误伤石长老/team21/team29 续剧情);
+  // 改用 scriptRunHits0x4F 预判 lostIp 指向的脚本是否真死亡。gameOverActive 改由 0x4F handler 置(C4)。
+  it('resumePostBattleScript:lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive,不置 gameOverActive', () => {
+    const death: Command[] = [
+      { op: 'raw', opcode: 0x43, operands: [1, 1, 0] }, // ip0 音乐
+      { op: 'raw', opcode: 0x4f, operands: [0, 0, 0] }, // ip1 FadeToRed
+      { op: 'end' },
+    ]
     const gsL = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gsL.postBattleResume = { wonIp: 1, lostIp: 41075 }
+    gsL.postBattleResume = { wonIp: 9, lostIp: 0, commands: death } // lostIp=0(死亡脚本起点)
     resumePostBattleScript(gsL, 'lost')
-    expect(gsL.gameOverActive).toBe(true) // present 保持战斗帧,0x4F 染红,不露大世界
+    expect(gsL.eventCursor?.ip).toBe(0) // 跳进死亡脚本
+    expect(gsL.deathHoldActive).toBe(true) // T0 过渡帧 hold(0x4F 预判命中)
+    expect(gsL.gameOverActive).toBeFalsy() // 不在此置(改由 0x4F handler)
+  })
+
+  it('resumePostBattleScript:lost + lostIp 续剧情(0x4F 前撞 goto,team21 式)→ 不置 deathHoldActive', () => {
+    const cont: Command[] = [
+      { op: 'raw', opcode: 0x4b, operands: [0, 0, 0] }, // ip0 对白前
+      { op: 'goto', to: 'L_41075' }, // ip1 跳死亡脚本(0x4F 之前)
+      { op: 'raw', opcode: 0x4f, operands: [0, 0, 0] },
+    ]
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.postBattleResume = { wonIp: 9, lostIp: 0, commands: cont }
+    resumePostBattleScript(gs, 'lost')
+    expect(gs.eventCursor?.ip).toBe(0) // 跳进续剧情(先播对白)
+    expect(gs.deathHoldActive).toBeFalsy() // 遇 goto 停 → 不 pre-light(正常重绘对白)
+    expect(gs.gameOverActive).toBeFalsy()
+  })
+
+  it('resumePostBattleScript:lost 但 lostIp=undefined(石长老 op[1]=0)→ 回退 wonIp,不置死亡 hold', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.postBattleResume = { wonIp: 5 } // 无 lostIp
+    resumePostBattleScript(gs, 'lost')
+    expect(gs.eventCursor?.ip).toBe(5) // 续剧情(石长老必败续剧情)
+    expect(gs.deathHoldActive).toBeFalsy()
+    expect(gs.gameOverActive).toBeFalsy()
+  })
+
+  it('resumePostBattleScript:won → 不置任何死亡 hold(正常返回大世界)', () => {
     const gsW = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gsW.postBattleResume = { wonIp: 1 }
     resumePostBattleScript(gsW, 'won')
-    expect(gsW.gameOverActive).toBeFalsy() // 胜利返回大世界正常渲染
+    expect(gsW.deathHoldActive).toBeFalsy()
+    expect(gsW.gameOverActive).toBeFalsy()
   })
 
   it('resumePostBattleScript:无 postBattleResume → no-op(非 0x07 触发的战斗 / dev panel 战斗)', () => {
