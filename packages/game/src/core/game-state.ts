@@ -1287,10 +1287,17 @@ const OP_FADE_TO_RED = 0x4f
  * 死亡帧预判(gameOverActive 重构):从 startIp 起**线性扫描**脚本 run(遇首个 end/goto 即停),
  * 是否命中 0x4F(死亡红屏)。命中 → 本场战败是"立即进死亡帧"的真死亡(L_41075:0x43→0x4F)。
  *
- * sdlpal 真值(data/extracted/events/all.json):0x4F 全游戏唯一在 index 41076(死亡脚本)。
- * **遇 goto 停**(不跨 goto 追):team21 林月如 lostIp=6186 在 0x4F 前先 `goto L_41075`(6189)→ 返 false,
- *   让它先在正常重绘的场景上播两句对白,goto 后再由 0x4F handler 自然点亮死亡视觉(比 pre-light 更忠实)。
- * 续剧情战(team29 / 石长老 / 林天南撑7回合 Terminated)run 内无 0x4F → 返 false,绝不误 hold 死亡帧。
+ * sdlpal 真值(data/extracted/events/all.json,byte-level 核对):0x4F 全游戏**唯一**在 index 41076,
+ *   0x4E(FadeOut+reload)唯一在 41082 —— 全游戏只有一条 game-over 序列 L_41075。
+ *
+ * **遇 goto 停**(不跨 goto 追)的取舍:全部"立即死亡"战 lostJump 直接 = 41075(run 内首条就近见 0x4F)。
+ *   唯一例外是 team21 **林月如(必胜战)**:lostIp=6186 先播 `林月如:多管闲事..活该!` 两句对白,再 `goto L_41075`
+ *   (6189)进死亡序列(红屏+读档)。本判据扫到 6189 goto 即停 → 返 false → **不**预置 deathHoldActive。
+ *   后果:战败红屏+读档**结局仍正确**(脚本真跑到 goto→41076 时由 0x4F handler 置 gameOverActive 点亮),
+ *   只是那两句对白期间 hold 的是战后场景帧而非战斗帧(中间态视觉小瑕疵,user 未报,留作已知差异)。
+ *   若日后要 1:1,需上"通用战后保持帧+叠对白"机制(见 plan),而非简单跨 goto 追(会让对白 hold 时不绘)。
+ * 续剧情战(石长老 team34 / 天鬼皇 team293 / 彩依 team37 lostJump=0 落 wonIp;林天南 team24 撑7回合 Terminated→fled)
+ *   run 内无 0x4F → 返 false,绝不误 hold 死亡帧。
  */
 export function scriptRunHits0x4F(commands: Command[] | undefined, startIp: number): boolean {
   if (!commands) return false
@@ -1328,11 +1335,13 @@ export function resumePostBattleScript(gs: GameState, outcome: BattleOutcome): v
     callStack: r.callStack,
   }
   gs.mode = 'event'
-  // gameOverActive 重构(2026-06-01,修石长老必败续剧情误红屏):**不再** `outcome==='lost'` 无条件置死亡演出
-  //   (那误伤石长老 lostIp=0 续剧情 / team21 林月如先对白 / team29 续剧情 / 林天南撑7回合 Terminated→fled)。
-  //   改判据 = lostIp 指向的脚本 run 是否真含 0x4F(死亡红屏)。命中 → 置 deathHoldActive 补 T0→0x4F 过渡帧
-  //   (present 保持战斗倒地帧不重绘);0x4F handler 真执行时移交 gameOverActive(C4)。team21 遇 goto 停 → 不预置,
-  //   先正常播对白,goto L_41075 后由 0x4F 自然点亮。详 docs/plans/2026-06-01-gameoveractive-refactor.md。
+  // gameOverActive 重构(2026-06-01,修石长老必败续剧情误红屏):**不再** `outcome==='lost'` 无条件置死亡演出。
+  //   误伤过的续剧情战(byte-level 核对 all.json 0x07 全表):石长老 team34 / 天鬼皇 team293 / 彩依 team37
+  //   (lostJump=0 → lostIp=undefined → 落 wonIp 续);林天南 team24(撑7回合 Terminated→fled)。它们 lost 路无 0x4F,
+  //   旧逻辑却因 outcome==='lost' 一律红屏 → user 报"石长老必败却出红屏"。
+  //   改判据 = lostIp 指向脚本 run 是否真含 0x4F。命中 → 置 deathHoldActive 补 T0→0x4F 过渡帧(present 保持战斗倒地帧)。
+  //   0x4F handler 真执行时移交 gameOverActive(C4)。**必胜战**(林月如 team21 lost→对白→goto 41075)遇 goto 停 →
+  //   不预置,结局红屏仍由 0x4F handler 点亮(见上 scriptRunHits0x4F 注)。详 docs/plans/2026-06-01-gameoveractive-refactor.md。
   if (outcome === 'lost' && r.lostIp !== undefined && scriptRunHits0x4F(r.commands, ip)) {
     gs.deathHoldActive = true
   }
