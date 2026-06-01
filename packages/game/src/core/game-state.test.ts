@@ -1,7 +1,36 @@
 import { describe, it, expect } from 'vitest'
-import { createInitialGameState, hydratePlayerRolesRuntime, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime, initExpLevelsFromLevels, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
 import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'
+
+// F1(新游戏默认值核对):sdlpal PAL_LoadDefaultGame(global.c:455-465)memset Exp 全 0 后,
+//   for i<MAX_PLAYER_ROLES 把全 8 类经验的 .wLevel 设为 rgwLevel[i](角色等级),wExp 保持 0。
+//   ts createEmptyExp 全 0、hydrate 不碰 Exp → 新游戏后 Exp.wLevel 全 0,与真值不符(本测锁定修复)。
+describe('initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465)', () => {
+  it('8 类经验 × 6 角色 wLevel 全 = 对应等级,wExp 不动', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    expect(gs.Exp.rgPrimaryExp[3]?.wLevel).toBe(0) // 前置:createEmptyExp 全 0
+    const levels = [1, 5, 3, 48, 28, 40] // player-roles.json role0..5 真默认等级
+    initExpLevelsFromLevels(gs.Exp, levels)
+    const cats = [
+      gs.Exp.rgPrimaryExp, gs.Exp.rgHealthExp, gs.Exp.rgMagicExp, gs.Exp.rgAttackExp,
+      gs.Exp.rgMagicPowerExp, gs.Exp.rgDefenseExp, gs.Exp.rgDexterityExp, gs.Exp.rgFleeExp,
+    ]
+    for (const cat of cats) {
+      for (let i = 0; i < 6; i++) {
+        expect(cat[i]?.wLevel).toBe(levels[i])
+        expect(cat[i]?.wExp).toBe(0)
+      }
+    }
+  })
+
+  it('rgwLevel 缺项(undefined)→ 该角色 wLevel 退化 0,不抛错', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    initExpLevelsFromLevels(gs.Exp, [7]) // 只给 role0
+    expect(gs.Exp.rgPrimaryExp[0]?.wLevel).toBe(7)
+    expect(gs.Exp.rgPrimaryExp[5]?.wLevel).toBe(0)
+  })
+})
 
 describe('GameState', () => {
   it('初始态:无 NPC、explore 模式、无对话框', () => {

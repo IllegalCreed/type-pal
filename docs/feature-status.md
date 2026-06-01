@@ -147,7 +147,7 @@
 
 | # | 功能 | 状态 | 测试 | sdlpal 真值出处 | ts 路径 | 备注 / 差异 |
 |---|---|---|---|---|---|---|
-| F1 | 默认新游戏初始化 | ⚠️ partial | ⬜ todo | global.c:378 `PAL_LoadDefaultGame` | shell/bootstrap.ts createInitialGameState | hardcode default + player-roles.json 注入;sdlpal 真值从 SAVEDGAME slot 0 反序列化 |
+| F1 | 默认新游戏初始化 | ✅ claimed | ✅ unit | global.c:434-467 `PAL_LoadDefaultGame` | shell/bootstrap.ts startNewGameFromPrimary + game-state.ts hydrate/initExpLevelsFromLevels | **W3 逐字段核对完成(2026-06-01)**:绝大多数字段早已对齐(dwCash=0/wNumScene=1/viewport(0,0)/party 空待 onEnter 加主角/rgInventory·rgPoisonStatus·rgPlayerStatus 全零/wChaseRange=1/PAL_UpdateEquipments 已调/PlayerRoles 整表 hydrate)。**唯一真缺口已修**:Exp 全 8 类 `.wLevel` 初始化为 rgwLevel[i](role0=1/1=5/2=3/3=48/4=28/5=40),此前全 0 —— 新增 `initExpLevelsFromLevels`(对 global.c:455-465)新游戏路径调,wExp 保持 0,仅新游戏不碰读档。次要:currentSaveSlot=1 vs sdlpal bCurrentSaveSlot=0(runtime 指针非存档字段,gameplay 无影响,不动)。「真值从 SAVEDGAME slot0 反序列化」是旧误解:sdlpal 新游戏是读 MKF chunk + 字段初始化,非读存档 |
 | F2 | 存档到 IndexedDB | ✅ claimed | ✅ regress | global.c:844 `PAL_SaveGame_WIN` | core/save/api.ts saveSlot + menu-driver.ts | C8 真 IO:Save → cross-slot max+1 wSavedTimes(uigame.c:589-597)→ IndexedDB put;deepClone 隔离 |
 | F3 | 读档从 IndexedDB | ⚠️ partial | ✅ regress | global.c:689 `PAL_LoadGame_WIN` + 888 `PAL_ReloadInNextTick` | core/save/api.ts loadSlot + shell/bootstrap.ts loadGameFromSlot | C8 读档 IO + scene reload;OpeningMenu/SystemMenu/opcode 0x4E 共享 handler;eecfbc4 修读档卡死。残:rgEventObject sparse → 旧档 NPC sState 可能不齐 |
 | F4 | sdlpal `*.RPG` 字节兼容 | N/A | N/A | — | — | D37 决策不做(IndexedDB 存 typed GameState JSON,非二进制 SAVEDGAME) |

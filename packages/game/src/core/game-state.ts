@@ -1115,6 +1115,28 @@ function createEmptyExp(): AllExperience {
 }
 
 /**
+ * 新游戏:把全 8 类经验的 `wLevel` 初始化为对应角色等级(sdlpal global.c:455-465 PAL_LoadDefaultGame:
+ * `memset(&Exp,0)` 后 `for i<MAX_PLAYER_ROLES: Exp.rg{Primary,Health,Magic,Attack,MagicPower,Defense,
+ * Dexterity,Flee}Exp[i].wLevel = PlayerRoles.rgwLevel[i]`)。wExp 保持 0(memset 后只设 wLevel)。
+ * **仅新游戏调** —— 读档时 Exp 整体从存档反序列化,不可重置(否则覆盖玩家真实升级进度)。
+ * 入参 `rgwLevel` = hydrate 后的 PlayerRolesRuntime.rgwLevel(= sdlpal `p->PlayerRoles.rgwLevel`)。
+ */
+export function initExpLevelsFromLevels(exp: AllExperience, rgwLevel: number[]): void {
+  const cats = [
+    exp.rgPrimaryExp, exp.rgHealthExp, exp.rgMagicExp, exp.rgAttackExp,
+    exp.rgMagicPowerExp, exp.rgDefenseExp, exp.rgDexterityExp, exp.rgFleeExp,
+  ]
+  const n = exp.rgPrimaryExp.length // = MAX_PLAYER_ROLES(6),避免魔法常量
+  for (let i = 0; i < n; i++) {
+    const lv = rgwLevel[i] ?? 0
+    for (const cat of cats) {
+      const entry = cat[i]
+      if (entry) entry.wLevel = lv
+    }
+  }
+}
+
+/**
  * 新游戏起手:从 playerRoles.json 静态基线 hydrate 到 PlayerRolesRuntime 运行时可变副本。
  *
  * sdlpal `global.c PAL_NewGame` → `PAL_LoadDefaultGame` 真值:把 DATA.MKF chunk 3 解出的

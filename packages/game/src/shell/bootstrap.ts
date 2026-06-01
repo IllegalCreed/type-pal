@@ -40,6 +40,7 @@ import {
 import {
   createInitialGameState,
   hydratePlayerRolesRuntime,
+  initExpLevelsFromLevels,
   projectRuntimeToBattleRoles,
   npcFromEventObject,
   sliceSceneEventObjects,
@@ -1154,6 +1155,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // 否则 rgwHP/MaxHP/AttackStrength 等都是 0,HP 加减 opcode clamp 失效。
     // sdlpal global.c PAL_NewGame → PAL_LoadDefaultGame 真值等价。
     hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
+    // F1(2026-06-01):sdlpal PAL_LoadDefaultGame(global.c:455-465)hydrate 后把全 8 类经验 wLevel
+    //   设为各角色等级(rgwLevel)。此前 ts 新游戏后 Exp.wLevel 全 0,与真值不符。**仅新游戏调**(读档走存档)。
+    initExpLevelsFromLevels(gs.Exp, gs.PlayerRolesRuntime.rgwLevel)
     // C5(2026-05-28):hydrate 后 sdlpal PAL_LoadDefaultGame 真值再调 PAL_UpdateEquipments
     // (global.c:1333)— 跨 role × 6 part 跑每件装备 scriptOnEquip 累加 stat 到 rgEquipmentEffect。
     // 否则 effective Atk/Def/Mag 等 stat getter 永远 = base,跟 sdlpal 真值偏差(D14 装备 effect 根因)。
