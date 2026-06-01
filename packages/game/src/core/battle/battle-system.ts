@@ -575,8 +575,11 @@ function tickSelectAction(
     // B1/D8:睡眠/麻痹队员 dex=0(排队尾;sdlpal fight.c:1505-1517 "同回合恢复则物理攻,否则 Pass")。
     //   注:此分支 sdlpal **不摇** RandomFloat(直接 wDexterity=0),故不消耗 RNG。
     if (player.status.sleep > 0 || player.status.paralyzed > 0) return { idx: i, dex: 0 }
-    // 简化版 PAL_GetPlayerDexterity:role.dexterity(SHORT)+ (level+6)*4
-    const baseDex = role.dexterity + (role.level + 6) * 4
+    // baseDex = PAL_GetPlayerDexterity(global.c:1849-1864)= rgwDexterity + Σ装备,**无 level 项**
+    //   (等级项是**敌方** PAL_GetEnemyDexterity 才有,且乘数 *3 非 *4,fight.c:311-312)。
+    //   role.dexterity 已 = base+装备(projectRuntimeToBattleRoles game-state.ts:1282)→ 直接用,
+    //   绝不再加 (level+6)*4(M3 误套敌方公式 + 连乘数都对不上的 bug,2026-06-02 审计核源订正)。
+    const baseDex = role.dexterity
     let dex = getPlayerActualDexterity(baseDex, {
       haste: player.status.haste > 0,
       slow: player.status.slow > 0,

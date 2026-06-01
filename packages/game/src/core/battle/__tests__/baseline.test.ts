@@ -528,7 +528,10 @@ describe('D29 battle baseline diff', () => {
 
   // 已知 deviation 的 fixture(详见文件顶 doc),skip + 走 partial-report
   // 不阻塞 pnpm check;diff 报告留在 console.warn 给开发者参考
-  const KNOWN_DEVIATION_FIXTURES = new Set<string>(['b2-magic', 'b5-defend'])
+  // b3-item 同 b2-magic:fixture item/spell id 是 OBJECT 段绝对 index → performItem 无效(doc 注 #2)。
+  //   此前靠 P0#2 玩家 dex bug(+level)抢先一击侥幸打赢而"对上",2026-06-02 修 dex 后玩家正常出手顺序 +
+  //   物品无效 → 打不赢(lost),回归到本就该有的 known-deviation。
+  const KNOWN_DEVIATION_FIXTURES = new Set<string>(['b2-magic', 'b3-item', 'b5-defend'])
   // 严格 fixture 走 full turn-by-turn 断言
   const STRICT_FIXTURES = new Set<string>(['b1-easy'])
 

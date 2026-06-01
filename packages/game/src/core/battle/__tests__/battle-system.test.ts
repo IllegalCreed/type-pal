@@ -904,11 +904,33 @@ describe('defending flag 单轮失效', () => {
     expect(gs.battleState?.players[0]?.defending).toBe(false)
   })
 
+  // P0#2(2026-06-02 审计核源):玩家行动队列 base dex = PAL_GetPlayerDexterity(global.c:1849-1864)
+  //   = role.dexterity + Σ装备,**无 level 项**(等级项是敌方 PAL_GetEnemyDexterity 才有,且 *3 非 *4)。
+  //   此前误加 (level+6)*4 → 玩家 level 越高出手越快(失真)。本测锁定:同 dex 不同 level 出手顺序不变。
+  it('P0#2:玩家 base dex 不含 level 项(同 dexterity 不同 level → 同出手顺序)', () => {
+    const firstIsEnemy = (lvl: number): boolean => {
+      const { gs, bus, emptyInput } = bootstrap({
+        // 敌 getEnemyDex{level1,dex20} = (1+6)*3+20 = 41;玩家真 dex 10 < 41 → 敌应始终先手(与 level 无关)
+        enemies: [makeEnemy({ id: 100, level: 1, dexterity: 20, health: 9999, attackStrength: 0 })],
+        roles: [makeRole({ id: 0, level: lvl, dexterity: 10, hp: 9999, maxHP: 9999 })],
+      })
+      tickBattle(gs, emptyInput, bus)
+      gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
+      let guard = 20
+      while (gs.battleState?.phase === 'selectAction' && guard-- > 0) tickBattle(gs, emptyInput, bus)
+      return gs.battleState!.actionQueue[0]!.isEnemy === true
+    }
+    // 旧 bug:lv99 玩家 dex=10+(99+6)*4=430 > 41 会抢先(false);修复后真 dex 10 始终 < 41 → 敌先(true,与 level 无关)
+    expect(firstIsEnemy(1)).toBe(firstIsEnemy(99))
+    expect(firstIsEnemy(99)).toBe(true)
+  })
+
   it('防御姿势时机(user 2026-05-31):防御 ×5 排队首 → perform 起手即防御姿 frame3;回合末复位 frame0', () => {
     const { gs, bus, emptyInput } = bootstrap({
-      // 敌人高血扛得住玩家(玩家防御不输出);弱攻击 + 玩家高防 → 玩家不死,回合能正常结束
+      // 敌人高血扛得住玩家(玩家防御不输出);弱攻击 + 玩家高防 → 玩家不死,回合能正常结束。
+      // P0#2 后:玩家 base dex 无 level 项 → 用真实 dex 20 让 defend×5=100 稳压敌方(getEnemyDex{lv,dex1}≈19-22)排队首。
       enemies: [makeEnemy({ id: 100, health: 9999, attackStrength: 1, dexterity: 1, idleFrames: 1, attackFrames: 2, actWaitFrames: 1 })],
-      roles: [makeRole({ id: 0, hp: 9999, maxHP: 9999, defense: 999, dexterity: 1 })],
+      roles: [makeRole({ id: 0, hp: 9999, maxHP: 9999, defense: 999, dexterity: 20 })],
     })
     tickBattle(gs, emptyInput, bus) // → selectAction
     gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
