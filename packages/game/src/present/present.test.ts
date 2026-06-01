@@ -66,6 +66,47 @@ describe('presentFrame', () => {
     const hasTextPx = Array.from(fb.indices).some((i) => i === 200)
     expect(hasTextPx).toBe(true)
   })
+
+  // ── C3(gameOverActive 重构):死亡 hold 双分支 ──
+  // deathHoldActive(T0 过渡帧):纯保持上一帧(战斗倒地帧),不画 dialog、不 fb.clear。
+  // gameOverActive(0x4F 后):保持帧 + 画死亡 dialog。两者都跳过 fb.clear()+世界重绘。
+  const minimalCtx = (): PresentContext => ({
+    tilemap: flatMap(3, 3),
+    tileImages: { get: () => undefined },
+    partyFrames: [{ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 }],
+    partyWalkFrames: 3,
+    npcSprites: new Map(),
+  })
+
+  it('deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活', () => {
+    const fb = createFramebuffer()
+    fb.indices[0] = 173 // 哨兵:模拟战斗倒地帧像素(世界重绘会清成 0/tilemap)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.deathHoldActive = true
+    presentFrame(fb, gs, minimalCtx())
+    expect(fb.indices[0]).toBe(173) // 哨兵存活 = 没 fb.clear()+重绘 = hold 住战斗帧
+  })
+
+  it('gameOverActive=true + dialogBox → 保持上一帧 + 画死亡对话', () => {
+    const fb = createFramebuffer()
+    fb.indices[0] = 173 // 战斗帧哨兵
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.gameOverActive = true
+    gs.dialogBox = startDialogLine('大侠请重新来过吧', { style: 'center', fontColor: 200 })
+    for (let i = 0; i < FRAMES_PER_CHAR * 8; i++) tickDialog(gs.dialogBox)
+    presentFrame(fb, gs, minimalCtx())
+    expect(fb.indices[0]).toBe(173) // 战斗帧 hold(未被世界重绘)
+    expect(Array.from(fb.indices).some((i) => i === 200)).toBe(true) // 死亡对话画上去了
+  })
+
+  it('两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清', () => {
+    const fb = createFramebuffer()
+    fb.indices[0] = 173
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // deathHoldActive/gameOverActive 都未置 → 正常重绘
+    presentFrame(fb, gs, minimalCtx())
+    expect(fb.indices[0]).not.toBe(173) // 被 fb.clear()+世界重绘覆盖(不 hold)
+  })
 })
 
 // ── P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)───────────────────

@@ -131,7 +131,15 @@ export function presentFrame(
     }
   }
 
-  // 战败死亡演出(gs.gameOverActive,死亡脚本 L_41075):**保持上一帧(战斗最后一帧)不重绘场景**,
+  // 死亡过渡帧 hold(gs.deathHoldActive):T0 战斗结算 tick → 死亡脚本跑到 0x4F 之间的空窗。
+  //   此刻 0x4F 还没执行(palette 未染红)、死亡 dialog 还没出 —— 纯保持战斗最后一帧不重绘,
+  //   避免这一两 tick 内露出大世界(= user 报"红屏转黑屏前插了一帧战斗画面"的反向同款空窗)。
+  //   一旦死亡脚本跑到 0x4F handler,会清本标记 + 置 gameOverActive(见 event-system 0x4F)。
+  if (gs.deathHoldActive) {
+    return
+  }
+
+  // 战败死亡演出(gs.gameOverActive,死亡脚本 L_41075 的 0x4F 已执行):**保持上一帧(战斗最后一帧)不重绘场景**,
   //   palette 已 ramp(0x4F FadeToRed)→ 战斗帧染红;只在最上层画死亡对话("大侠请重新来过吧")。
   //   **不**走下面 fb.clear() + scene 重绘(否则露大世界,user 报"出字同时回大世界")。0x4E 读档 / 场景重载清标记。
   if (gs.gameOverActive) {
