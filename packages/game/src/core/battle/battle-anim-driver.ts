@@ -40,6 +40,15 @@ export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: 
     state.battleAnim.summon = frame.summon // 召唤神演出帧(set → present 隐队员改画召唤神);无则清
   }
 
+  // W4 keepEffect:本帧标记烙背景 → 把 overlays 的魔法精灵追加到 persistentBgBlits(跨帧持久,present 画在 bg 上)。
+  //   对 sdlpal fight.c:2757-2762 PAL_RLEBlitToSurface(*b, lpBackground)。空 overlays 不烙。
+  if (frame.keepEffect && frame.overlays && frame.overlays.length > 0) {
+    state.persistentBgBlits ??= []
+    for (const ov of frame.overlays) {
+      state.persistentBgBlits.push({ spriteChunk: ov.spriteChunk, frameIdx: ov.frameIdx, x: ov.x, y: ov.y })
+    }
+  }
+
   if (frame.damageNum) {
     bus.emit({
       op: 'showDamageNum',

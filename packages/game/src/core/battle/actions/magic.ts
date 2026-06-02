@@ -395,6 +395,7 @@ function buildAndStartMagicAnim(
       xOffset: magic.xOffset,
       yOffset: magic.yOffset,
       wave: magic.wave, // W4 屏波(present applyScreenWave)
+      keepEffect: magic.keepEffect, // W4 烙背景(末帧 0xFFFF)
     },
     n,
     targetIdx: offTargetIdx,
@@ -546,6 +547,7 @@ function buildAndStartDefMagicAnim(input: PerformMagicInput, magic: Magic): void
       xOffset: magic.xOffset,
       yOffset: magic.yOffset,
       wave: magic.wave, // W4 屏波(present applyScreenWave)
+      keepEffect: magic.keepEffect, // W4 烙背景(末帧 0xFFFF)
     },
     n,
     targetPlayerIdx: -1,
@@ -618,6 +620,7 @@ function buildAndStartEnemyMagicAnim(
       xOffset: magic.xOffset,
       yOffset: magic.yOffset,
       wave: magic.wave, // W4 屏波(present applyScreenWave)
+      keepEffect: magic.keepEffect, // W4 烙背景(末帧 0xFFFF)
     },
     n,
     enemy: {

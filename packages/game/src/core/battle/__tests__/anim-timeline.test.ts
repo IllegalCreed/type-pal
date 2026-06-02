@@ -462,6 +462,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       shake?: number
       speed?: number
       wave?: number
+      keepEffect?: number
     } = {},
   ) {
     return buildPlayerOffMagicTimeline({
@@ -476,12 +477,22 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
         xOffset: 4,
         yOffset: -6,
         wave: opts.wave,
+        keepEffect: opts.keepEffect,
       },
       n: opts.n ?? 8,
       targetIdx: 1,
       targetEnemyPos: { x: 160, y: 80 },
     })
   }
+
+  it('W4 keepEffect:keepEffect==0xFFFF && wave<9 → 仅末帧 keepEffect=true;否则全无(fight.c:2757)', () => {
+    const kf = buildNormal({ keepEffect: 0xffff })
+    expect(kf[kf.length - 1]!.keepEffect).toBe(true) // 末帧烙背景
+    expect(kf.slice(0, -1).every((f) => f.keepEffect === undefined)).toBe(true) // 仅末帧
+    expect(buildNormal({ keepEffect: 0xffff, wave: 9 }).every((f) => f.keepEffect === undefined)).toBe(true) // wave>=9 不烙
+    expect(buildNormal({ keepEffect: 0 }).every((f) => f.keepEffect === undefined)).toBe(true) // 非 0xFFFF 不烙
+    expect(buildNormal().every((f) => f.keepEffect === undefined)).toBe(true) // 缺省不烙
+  })
 
   it('W4 iBlow:iBlow!=0 → 全体活敌逐帧累加 (blow, trunc(blow/2)),末帧复位 posOriginal(fight.c:2681-2694)', () => {
     const frames = buildPlayerOffMagicTimeline({

@@ -132,6 +132,21 @@ describe('applyAnimFrame', () => {
     })
   })
 
+  it('W4 keepEffect 帧 → overlays 烙进 persistentBgBlits(fight.c:2757-2762)', () => {
+    const state = mkState([mkPlayer(0)], [mkEnemy()])
+    state.battleAnim = { frames: [], idx: 0, frameElapsedMs: 0 }
+    const bus = createCommandBus()
+    // 非 keepEffect 帧 → 不烙
+    applyAnimFrame(state, { durationMs: 40, overlays: [{ kind: 'magic', spriteChunk: 7, frameIdx: 3, x: 160, y: 80 }] }, bus)
+    expect(state.persistentBgBlits ?? []).toHaveLength(0)
+    // keepEffect 帧 → overlays 追加到 persistentBgBlits
+    applyAnimFrame(state, {
+      durationMs: 40, keepEffect: true,
+      overlays: [{ kind: 'magic', spriteChunk: 7, frameIdx: 5, x: 160, y: 80 }],
+    }, bus)
+    expect(state.persistentBgBlits).toEqual([{ spriteChunk: 7, frameIdx: 5, x: 160, y: 80 }])
+  })
+
   it('damageNum → emit showDamageNum', () => {
     const state = mkState([mkPlayer(0)], [mkEnemy()])
     state.battleAnim = { frames: [], idx: 0, frameElapsedMs: 0 }

@@ -164,6 +164,12 @@ export class BattlePresent {
     const bg = assets.battleBgs.get(state.field.id)
     if (bg) drawBattleBg(fb, bg, summonGodMode ? summon.bgColorShift : 0)
 
+    // 2.1 W4 keepEffect:烙进背景的魔法精灵(persistentBgBlits)— 画在 bg 上、精灵之下(对齐 sdlpal
+    //     lpBackground 永久 blit,fight.c:2757-2762)。每帧重画(战斗结束随 BattleState 清)。
+    for (const blit of state.persistentBgBlits ?? []) {
+      drawBattleMagicOverlay(fb, { kind: 'magic', ...blit }, assets.magicSprites)
+    }
+
     // 战斗实时 roles(伤害/死亡写于此;死员据此画倒下帧)。无战斗资源(单测/兜底)→ static 基线。
     //   修"起立":精灵 + UI 都读 live,死员 hp==0 → 倒下帧 2(draw-battle-sprites)/ HP 条显实时血。
     const liveRoles = getBattleLiveRoles(gs) ?? assets.playerRoles

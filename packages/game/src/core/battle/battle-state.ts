@@ -249,6 +249,12 @@ export interface BattleAnimFrame {
    * (transient,不写 gs 存档字段)。0/缺 → 无屏波。
    */
   screenWave?: number
+  /**
+   * W4 keepEffect:本帧(攻击魔法末帧 + wKeepEffect==0xFFFF + wScreenWave<9)把 overlays 的魔法精灵
+   * **烙进战斗背景**(sdlpal PAL_RLEBlitToSurface→lpBackground,fight.c:2757-2762)。driver 据此把本帧
+   * overlays 追加到 state.persistentBgBlits(跨帧持久,present 每帧画在 bg 上,战斗结束清)。
+   */
+  keepEffect?: boolean
   /** 本帧召唤神演出状态(set → 隐队员改画召唤神;driver 落到 battleAnim.summon,present 读)。 */
   summon?: SummonFrameState
 }
@@ -441,6 +447,12 @@ export interface BattleState {
    * undefined → 无 active 时间线,起下一个 action(未建时间线的 action 即时推进,向后兼容)。
    */
   battleAnim?: BattleAnimState
+  /**
+   * W4 keepEffect:被"烙进背景"的魔法精灵(sdlpal lpBackground 的永久 blit,fight.c:2757-2762)。
+   * 每条 = { spriteChunk, frameIdx, x, y }(x/y = overlay 底中锚)。present 每帧在战斗背景上画这些(精灵之下),
+   * 直到战斗结束。startBattle 清空(每场重置)。undefined/空 = 无烙背景。
+   */
+  persistentBgBlits?: Array<{ spriteChunk: number; frameIdx: number; x: number; y: number }>
   /**
    * 逃跑动画 hold(sdlpal `PAL_BattlePlayerEscape`,battle.c:1438-1527)。flee roll 成功 → 设
    * { step: 0 };tickBattleFleeAnim 每 tick 把活队员往右下挪(p0 +4/+6、p1 +4/+4、p2 +6/+3),
