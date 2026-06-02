@@ -394,13 +394,15 @@ export interface DialogBoxState {
 // ── M5 Sync.1: SAVEDGAME_WIN 倒推 typed ─────────────────────────────────────
 
 /**
- * sdlpal global.h `EXPERIENCE` struct(tagEXPERIENCE)。
- * 每类经验对应一个 ExpEntry:wExp 当前累积值,wLevel 当前等级。
- * `wReserved` 和 `wCount` 仅供兼容,运行时不需要。
+ * sdlpal global.h `EXPERIENCE` struct(tagEXPERIENCE):{ wExp, wReserved, wLevel, wCount }。
+ * wExp 当前累积值,wLevel 当前等级,**wCount = 本场战斗动作累积计数**(隐藏属性经验子系统 E04 核心:
+ * 战前清零、战中按动作累积、战后 CHECK_HIDDEN_EXP 按占比转隐藏经验涨属性,battle.c:1226-1293)。
+ * wReserved(恒 0)不建模。
  */
 export interface ExpEntry {
-  wExp: number    // 当前累积经验
-  wLevel: number  // 等级
+  wExp: number     // 当前累积经验
+  wLevel: number   // 等级
+  wCount?: number  // 本场战斗累积计数(E04 隐藏属性经验;缺省 0,旧档反序列化 ?? 0)
 }
 
 /**
@@ -1096,7 +1098,19 @@ export interface GameState {
 
 /** 创建全零 ExpEntry。 */
 function makeExpEntry(): ExpEntry {
-  return { wExp: 0, wLevel: 0 }
+  return { wExp: 0, wLevel: 0, wCount: 0 }
+}
+
+/**
+ * 战前清零 7 个**隐藏**经验池的 wCount(sdlpal battle.c:1565-1586 PAL_StartBattle:rgHealthExp..rgFleeExp
+ * 各 wCount=0)。rgPrimaryExp.wCount **不清**(主经验不用 wCount)。wCount 是 per-battle 临时计数,跨战不累积。
+ */
+export function clearHiddenExpCounts(gs: GameState): void {
+  const pools = [
+    gs.Exp.rgHealthExp, gs.Exp.rgMagicExp, gs.Exp.rgAttackExp, gs.Exp.rgMagicPowerExp,
+    gs.Exp.rgDefenseExp, gs.Exp.rgDexterityExp, gs.Exp.rgFleeExp,
+  ]
+  for (const pool of pools) for (const e of pool) e.wCount = 0
 }
 
 /** 创建全零 AllExperience(8 类 × MAX_PLAYER_ROLES=6 角色)。 */

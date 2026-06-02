@@ -1,7 +1,29 @@
 import { describe, it, expect } from 'vitest'
-import { createInitialGameState, hydratePlayerRolesRuntime, initExpLevelsFromLevels, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
+import { clearHiddenExpCounts, createInitialGameState, hydratePlayerRolesRuntime, initExpLevelsFromLevels, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
 import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'
+
+// E04(隐藏属性经验):wCount 是 ExpEntry 第三字段(sdlpal EXPERIENCE.wCount),战前清零 7 隐藏池(非主经验)。
+describe('clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586)', () => {
+  it('清 7 隐藏池各 role 的 wCount,**不动** rgPrimaryExp', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // 预置:7 隐藏池 + 主经验都给 wCount
+    const pools = [
+      gs.Exp.rgHealthExp, gs.Exp.rgMagicExp, gs.Exp.rgAttackExp, gs.Exp.rgMagicPowerExp,
+      gs.Exp.rgDefenseExp, gs.Exp.rgDexterityExp, gs.Exp.rgFleeExp,
+    ]
+    for (const p of pools) for (const e of p) e.wCount = 5
+    gs.Exp.rgPrimaryExp[0]!.wCount = 7 // 主经验不该被清
+    clearHiddenExpCounts(gs)
+    for (const p of pools) for (const e of p) expect(e.wCount).toBe(0)
+    expect(gs.Exp.rgPrimaryExp[0]!.wCount).toBe(7) // 主经验保留
+  })
+
+  it('createInitialGameState 的 Exp wCount 初始 0', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    expect(gs.Exp.rgAttackExp[0]!.wCount).toBe(0)
+  })
+})
 
 // F1(新游戏默认值核对):sdlpal PAL_LoadDefaultGame(global.c:455-465)memset Exp 全 0 后,
 //   for i<MAX_PLAYER_ROLES 把全 8 类经验的 .wLevel 设为 rgwLevel[i](角色等级),wExp 保持 0。

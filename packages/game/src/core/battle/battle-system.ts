@@ -48,7 +48,7 @@ import type {
 import type { CommandBus } from '../command-bus.js'
 import { curePlayerPoisonByLevel, getGlobalCommands, type RunScriptOptions, runScript } from '../event-system.js'
 import type { GameState, PlayerRolesRuntime } from '../game-state.js'
-import { type BattleOutcome, resumePostBattleScript, writeBackBattleRolesToRuntime } from '../game-state.js'
+import { type BattleOutcome, clearHiddenExpCounts, resumePostBattleScript, writeBackBattleRolesToRuntime } from '../game-state.js'
 import {
   getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity,
   getPlayerFleeRate, getPlayerMagicStrength, removeEquipmentEffect,
@@ -303,6 +303,9 @@ export function startBattle(input: StartBattleInput): void {
   //   **上一场战斗的最后一回合**(user 2026-05-31 报)。ts BattleState 每场重建会丢 → 从 gs.prevBattleActions
   //   (上一场战末持久,tickPostAction 每轮更新)带入本场初始 prevActions(按 party 槽 index,同 sdlpal)。
   battleState.prevActions = new Map(input.gs.prevBattleActions ?? [])
+
+  // E04:sdlpal PAL_StartBattle(battle.c:1565-1586)战前清 7 隐藏经验池 wCount(per-battle 计数)。
+  clearHiddenExpCounts(input.gs)
 
   input.gs.mode = 'battle'
   input.gs.battleState = battleState
