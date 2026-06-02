@@ -461,6 +461,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       effectTimes?: number
       shake?: number
       speed?: number
+      wave?: number
     } = {},
   ) {
     return buildPlayerOffMagicTimeline({
@@ -474,12 +475,20 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
         shake: opts.shake ?? 0,
         xOffset: 4,
         yOffset: -6,
+        wave: opts.wave,
       },
       n: opts.n ?? 8,
       targetIdx: 1,
       targetEnemyPos: { x: 160, y: 80 },
     })
   }
+
+  it('W4 wWave:magic.wave>0 → 每帧带 screenWave=wave;wave=0/缺 → 无 screenWave(fight.c:2667)', () => {
+    const fw = buildNormal({ wave: 5 })
+    expect(fw.every((f) => f.screenWave === 5)).toBe(true) // 动画全程屏波
+    expect(buildNormal().every((f) => f.screenWave === undefined)).toBe(true) // 默认无 wave → 无屏波
+    expect(buildNormal({ wave: 0 }).every((f) => f.screenWave === undefined)).toBe(true)
+  })
 
   it('总帧数 l = (n-fireDelay)*effectTimes + n + shake', () => {
     expect(buildNormal()).toHaveLength((8 - 2) * 1 + 8 + 0) // 14

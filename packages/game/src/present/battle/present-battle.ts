@@ -35,6 +35,7 @@ import type { GameState } from '../../core/game-state.js'
 import type { GlyphTable } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { type BattleBgAsset, drawBattleBg } from './draw-battle-bg.js'
+import { applyScreenWave } from '../screen-wave.js'
 import { type DialogBoxDrawCtx, drawDialogBox } from '../dialog-box.js'
 import { drawBattleEffectOverlay, drawBattleMagicOverlay } from './draw-battle-effect.js'
 import { FloatingNumsLayer } from './draw-battle-num.js'
@@ -198,6 +199,14 @@ export class BattlePresent {
         if (ov.kind === 'magic') drawBattleMagicOverlay(fb, ov, assets.magicSprites)
         else drawBattleEffectOverlay(fb, ov, assets.effectSprite)
       }
+    }
+
+    // 3.95 W4 屏波(wWave,fight.c:2667/2895):攻击魔法动画帧带 screenWave → 扭曲场景层(bg+精灵+特效),
+    //   **UI 之前**应用(对齐 sdlpal PAL_BattleMakeScene 内 PAL_ApplyWave;UI 随后画在扭曲后的场景上不被卷入)。
+    //   transient:每帧用临时 {wScreenWave, sWaveProgression:0},不写 gs 存档字段。
+    const animFrame = state.battleAnim?.frames[state.battleAnim.idx]
+    if (animFrame?.screenWave && animFrame.screenWave > 0) {
+      applyScreenWave(fb.indices, { wScreenWave: animFrame.screenWave, sWaveProgression: 0 })
     }
 
     // 3.9 召唤 crossfade(PAL_BattleFadeScene)—— **在 UI/对话之前**对**场景层**(bg+精灵+召唤神+特效)做

@@ -394,6 +394,7 @@ function buildAndStartMagicAnim(
       shake: magic.shake,
       xOffset: magic.xOffset,
       yOffset: magic.yOffset,
+      wave: magic.wave, // W4 屏波(present applyScreenWave)
     },
     n,
     targetIdx: offTargetIdx,
@@ -536,6 +537,7 @@ function buildAndStartDefMagicAnim(input: PerformMagicInput, magic: Magic): void
       speed: magic.speed,
       xOffset: magic.xOffset,
       yOffset: magic.yOffset,
+      wave: magic.wave, // W4 屏波(present applyScreenWave)
     },
     n,
     targetPlayerIdx: -1,
@@ -607,6 +609,7 @@ function buildAndStartEnemyMagicAnim(
       shake: magic.shake,
       xOffset: magic.xOffset,
       yOffset: magic.yOffset,
+      wave: magic.wave, // W4 屏波(present applyScreenWave)
     },
     n,
     enemy: {

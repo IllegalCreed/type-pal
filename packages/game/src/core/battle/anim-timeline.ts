@@ -450,6 +450,8 @@ export interface BuildOffMagicInput {
     /** wXOffset / wYOffset — 落点偏移。 */
     xOffset: number
     yOffset: number
+    /** W4 wWave — 动画期间 wScreenWave += 此值(屏波扭曲);0/缺 = 无屏波(陆战常 0)。fight.c:2667/2895。 */
+    wave?: number
   }
   /** FIRE.MKF chunk[effect] 帧数 n(performMagic 从 fire-sprites.json 取)。 */
   n: number
@@ -486,7 +488,7 @@ export interface BuildOffMagicInput {
 export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAnimFrame[] {
   // targetIdx 透传供调用方语义对齐;落点由 magic.type + targetEnemyPos 决定,本体不直接读 targetIdx。
   const { casterIdx, magic, n, targetEnemyPos } = input
-  const { effect, type, speed, fireDelay, effectTimes, shake, xOffset, yOffset } = magic
+  const { effect, type, speed, fireDelay, effectTimes, shake, xOffset, yOffset, wave } = magic
 
   const frames: BattleAnimFrame[] = []
 
@@ -564,6 +566,8 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
     }
     if (fighters.length > 0) frame.fighters = fighters
     if (shakeOverlay) frame.shake = shakeOverlay
+    // W4 屏波:动画期间 wScreenWave += magic.wave(陆战 base 0 → 帧值 = wave),present applyScreenWave。fight.c:2667。
+    if (wave && wave > 0) frame.screenWave = wave
     frames.push(frame)
   }
 
@@ -821,6 +825,8 @@ export interface BuildPlayerDefMagicInput {
     /** wXOffset / wYOffset — 落点偏移。 */
     xOffset: number
     yOffset: number
+    /** W4 wWave — 动画期间 wScreenWave += 此值(屏波扭曲);0/缺 = 无屏波(陆战常 0)。fight.c:2667/2895。 */
+    wave?: number
   }
   /** FIRE.MKF chunk[effect] 帧数 n(magic sprite 帧序 + 总帧数;DefMagic 无 effectTimes/shake 循环)。 */
   n: number
@@ -919,6 +925,8 @@ export interface BuildEnemyMagicInput {
     /** wXOffset / wYOffset — 落点偏移。 */
     xOffset: number
     yOffset: number
+    /** W4 wWave — 动画期间 wScreenWave += 此值(屏波扭曲);0/缺 = 无屏波(陆战常 0)。fight.c:2667/2895。 */
+    wave?: number
   }
   /** FIRE.MKF chunk[effect] 帧数 n(总帧数公式 fight.c:2887/2889)。 */
   n: number
@@ -1016,7 +1024,7 @@ export function buildEnemyMagicCastIntro(input: BuildEnemyMagicIntroInput): Batt
 export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnimFrame[] {
   // targetPlayerIdx 透传供调用方语义对齐;落点由 magic.type + targetPlayerPos 决定,本体不直接读 idx。
   const { enemyCasterIdx, magic, n, enemy, targetPlayerPos } = input
-  const { effect, type, speed, fireDelay, effectTimes, shake, xOffset, yOffset } = magic
+  const { effect, type, speed, fireDelay, effectTimes, shake, xOffset, yOffset, wave } = magic
   const { idleFrames, magicFrames, attackFrames } = enemy
 
   const frames: BattleAnimFrame[] = []
@@ -1095,6 +1103,7 @@ export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnim
     const frame: BattleAnimFrame = { durationMs: frameDuration, overlays }
     if (fighters.length > 0) frame.fighters = fighters
     if (shakeOverlay) frame.shake = shakeOverlay
+    if (wave && wave > 0) frame.screenWave = wave // W4 屏波(fight.c:2895)
     frames.push(frame)
   }
 

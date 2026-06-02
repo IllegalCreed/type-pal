@@ -243,6 +243,12 @@ export interface BattleAnimFrame {
   sound?: number
   /** 本帧屏幕抖动(screenShake;本切片只存值)。 */
   shake?: { time: number; level: number }
+  /**
+   * W4 屏波:本帧 wScreenWave 值(sdlpal 攻击魔法动画期间 wScreenWave += magic.wWave,末复位;
+   * fight.c:2666-2667/2835)。陆战 base=0 → 帧值 = magic.wave。present 据此 applyScreenWave 扭曲战斗场景
+   * (transient,不写 gs 存档字段)。0/缺 → 无屏波。
+   */
+  screenWave?: number
   /** 本帧召唤神演出状态(set → 隐队员改画召唤神;driver 落到 battleAnim.summon,present 读)。 */
   summon?: SummonFrameState
 }
