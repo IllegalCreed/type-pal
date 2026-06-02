@@ -45,10 +45,11 @@ sdlpal global state mutated: gpGlobals->g.PlayerRoles.rgwHP[role]
 
 ## 测试 / 验证
 
+- **真引擎 / 视觉验证 = user 做,不是 Claude 做。** Claude **绝不**开浏览器 / chrome-devtools / playwright MCP / dev server 去"实测"或"复现"。Claude 只跑单测 + sdlpal 源推理,改完把"改了什么 + 单测结果 + 请你看 X"交给 user,由 user 真引擎确认。(2026-06-02 user 连发四条怒斥我擅自拉 chrome-devtools 实测;详 memory `claude-no-browser-user-does-visual-test`。)
 - **图是给用户看的,不是 Claude 测试过不过的标准。** Claude 不识别截图。
-- **Claude 用数据 / log 测试**:gs 状态 dump、log line 对比、字节级 diff。
-- 数据不够 → 加 log,不要靠截图。
-- "vitest 全过" 不等于 "功能对" — 单元测试只测单 opcode 字段写入,**不**测 sdlpal 真值视觉行为。不要拿"测试通过"当"修好"的证据。
+- **Claude 用数据 / log 测试**:gs 状态 dump、log line 对比、字节级 diff —— 但都在 **vitest 单测里**做(写跑真 tickEventSystem / 真 opcode 序列的集成测,不 stub 关键 loader),不是开浏览器。
+- 数据不够 → 加 log / 加单测,不要靠截图、不要自己开浏览器。
+- "vitest 全过" 不等于 "功能对" — 单元测试只测单 opcode 字段写入,**不**测 sdlpal 真值视觉行为。不要拿"测试通过"当"修好"的证据;视觉对不对等 user 真引擎反馈。
 
 ## sdlpal 真值
 
