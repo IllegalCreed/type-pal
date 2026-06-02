@@ -38,8 +38,9 @@ import { drawInventoryMenu } from './draw-inventory.js'
 import { drawInGameMagicMenu } from './draw-magic.js'
 import { drawOpeningMenu } from './draw-opening-menu.js'
 import { drawPlayerStatus } from './draw-player-status.js'
-import { drawShopMenu } from './draw-shop.js'
+import { drawSellOverlay, drawShopMenu } from './draw-shop.js'
 import type { ShopMenuState } from '../../core/menu/shop-menu.js'
+import type { SellMenuState } from '../../core/menu/sell-menu.js'
 
 // ── sdlpal ui.h / text.c 真值色 ──────────────────────────────────────────────
 const MENUITEM_COLOR = 0x4F            // ui.h:29
@@ -216,8 +217,7 @@ function drawMenuEntry(
       }
       break
     case 'shop-buy':
-    case 'shop-sell':
-      // 2026-05-29:opcode 0x0026 PAL_BuyMenu / 0x0027 PAL_SellMenu 真接入(曾伯商店)。
+      // opcode 0x0026 PAL_BuyMenu — 紧凑布局(曾伯商店,sdlpal PAL_BuyMenu 本就紧凑)。
       drawShopMenu({
         fb,
         state: entry.state as ShopMenuState,
@@ -228,6 +228,30 @@ function drawMenuEntry(
         glyphs,
       })
       break
+    case 'shop-sell': {
+      // opcode 0x0027 PAL_SellMenu — 全屏 picker(sdlpal PAL_ItemSelectMenu,noDesc=g_fNoDesc)
+      //   + PAL_SellMenu_OnItemChange overlay(金钱/售价)+ confirm 框。C9(2026-06-02)。
+      const sell = entry.state as SellMenuState
+      drawInventoryMenu({
+        fb,
+        state: sell.grid,
+        items: extra?.items ?? [],
+        uiSpriteFrames,
+        itemIcons: extra?.itemIcons,
+        glyphs,
+        noDesc: true,
+      })
+      drawSellOverlay({
+        fb,
+        gs,
+        items: extra?.items ?? [],
+        cursorItemId: sell.grid.inventory[sell.grid.cursor]?.itemId,
+        uiSpriteFrames,
+        glyphs,
+      })
+      if (sell.phase === 'confirm') drawConfirmBox(fb, sell.confirmYes, uiSpriteFrames, glyphs)
+      break
+    }
   }
 }
 

@@ -1,20 +1,19 @@
 /**
- * 商店买 / 卖菜单 — sdlpal `uigame.c:1615 PAL_BuyMenu` / `uigame.c:1755 PAL_SellMenu` 1:1 状态机。
+ * 商店**买**菜单(紧凑布局)— sdlpal `uigame.c:1615 PAL_BuyMenu` 1:1 状态机。
  *
- * sdlpal 真值流程(**无数量选择** — 每次确认买 / 卖 1 个,然后 loop 留在菜单):
+ * sdlpal 真值流程(**无数量选择** — 每次确认买 1 个,然后 loop 留在菜单):
  *  买(PAL_BuyMenu, store.rgwItems):
  *    while: 选 item → if price<=cash: PAL_ConfirmMenu() → yes: cash-=price; AddItem(w,1) → loop
  *    cancel → break(关菜单)
- *  卖(PAL_SellMenu, inventory 中 sellable):
- *    while: 选 item → PAL_ConfirmMenu() → yes: AddItem(w,-1) 成功 → cash += price/2 → loop
- *    cancel(w==0)→ break
+ *
+ * 注:PAL_BuyMenu 在 sdlpal 本就是紧凑列表布局(`PAL_CreateBox(122,8)` + 预览窗),忠实保留。
+ * **卖**菜单走全屏 picker(sdlpal PAL_SellMenu → PAL_ItemSelectMenu)→ 见 [sell-menu.ts](./sell-menu.ts)。
  *
  * confirm 默认 No(sdlpal `PAL_ConfirmMenu` → `PAL_SelectionMenu(2, 0, {No,Yes})`,nDefault=0=No)。
  * cash 扣 / inventory 改由 menu-driver 在 confirm-yes 时做(本文件纯状态机)。
  */
 
 import type { Item } from '@type-pal/shared'
-import type { GameState } from '../game-state.js'
 import {
   type SelectionMenuState,
   createSelectionMenu,
@@ -46,20 +45,6 @@ function toListItem(it: Item, price: number) {
 export function createBuyMenu(shopItems: Item[]): ShopMenuState {
   const items = shopItems.map((it) => toListItem(it, it.price))
   return { mode: 'buy', phase: 'list', list: createSelectionMenu(items, 8), confirmYes: false }
-}
-
-/** 卖菜单 list = 玩家 inventory 中 sellable 物品(sdlpal `kItemFlagSellable`,显售价 price/2)。 */
-export function createSellMenu(gs: GameState, items: Item[]): ShopMenuState {
-  return { mode: 'sell', phase: 'list', list: buildSellList(gs, items), confirmYes: false }
-}
-
-/** 重建卖列表(卖出一个后 inventory 变,刷新)— sdlpal PAL_SellMenu while 每轮重跑 PAL_ItemSelectMenu。 */
-export function buildSellList(gs: GameState, items: Item[]): SelectionMenuState {
-  const sellable = gs.inventory
-    .map((e) => items.find((it) => it.id === e.itemId))
-    .filter((it): it is Item => it != null && it.flags.sellable)
-    .map((it) => toListItem(it, Math.floor(it.price / 2)))
-  return createSelectionMenu(sellable, 8)
 }
 
 export function shopMoveUp(s: ShopMenuState): void {

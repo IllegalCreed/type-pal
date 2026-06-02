@@ -151,3 +151,39 @@ export function drawShopMenu(input: DrawShopInput): void {
     drawConfirmBox(fb, state.confirmYes, uiSpriteFrames, glyphs)
   }
 }
+
+// ── 卖菜单 overlay(sdlpal uigame.c:1709-1752 PAL_SellMenu_OnItemChange)─────────────
+// 全屏 picker(draw-inventory.ts noDesc=true)之上叠两个单行框:金钱 @(100,150) + 售价 @(224,150)。
+const SELL_CASH_BOX = { x: 100, y: 150, len: 5 }   // PAL_CreateSingleLineBoxWithShadow(PAL_XY(100,150),5,...)
+const SELL_PRICE_BOX = { x: 224, y: 150, len: 5 }  // x += 124 → 224
+
+export interface DrawSellOverlayInput {
+  fb: Framebuffer
+  gs: GameState
+  items: Item[]
+  /** 当前 grid 选中物品 id(画售价 = price/2;空列表时 undefined → 只画空价框)。 */
+  cursorItemId?: number
+  uiSpriteFrames: IndexedImage[]
+  glyphs?: GlyphTable
+}
+
+/** sdlpal `PAL_SellMenu_OnItemChange`(uigame.c:1709-1752)1:1 port。 */
+export function drawSellOverlay(input: DrawSellOverlayInput): void {
+  const { fb, gs, items, cursorItemId, uiSpriteFrames, glyphs } = input
+
+  // 金钱框 @(100,150)(uigame.c:1735-1737):CASH_LABEL=21 "金钱" color0 无影 + dwCash yellow right 6
+  drawSingleLineBox({ fb, x: SELL_CASH_BOX.x, y: SELL_CASH_BOX.y, len: SELL_CASH_BOX.len, uiSpriteFrames })
+  renderText(fb, '金钱', SELL_CASH_BOX.x + 10, SELL_CASH_BOX.y + 10, 0, glyphs, false)
+  drawNumber(fb, gs.dwCash, 6, { x: SELL_CASH_BOX.x + 48, y: SELL_CASH_BOX.y + 15 }, 'yellow', 'right', uiSpriteFrames)
+
+  // 售价框 @(224,150)(uigame.c:1744-1751):框无条件画;sellable 时 SELLMENU_LABEL_PRICE=25 "售价" + price/2
+  drawSingleLineBox({ fb, x: SELL_PRICE_BOX.x, y: SELL_PRICE_BOX.y, len: SELL_PRICE_BOX.len, uiSpriteFrames })
+  const item = cursorItemId !== undefined ? items.find((it) => it.id === cursorItemId) : undefined
+  if (item && item.flags.sellable) {
+    renderText(fb, '售价', SELL_PRICE_BOX.x + 10, SELL_PRICE_BOX.y + 10, 0, glyphs, false)
+    drawNumber(
+      fb, Math.floor(item.price / 2), 6,
+      { x: SELL_PRICE_BOX.x + 48, y: SELL_PRICE_BOX.y + 15 }, 'yellow', 'right', uiSpriteFrames,
+    )
+  }
+}

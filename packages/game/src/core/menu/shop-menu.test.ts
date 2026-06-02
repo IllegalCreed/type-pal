@@ -13,9 +13,10 @@ import {
 import { openMenu, tickMenu } from './menu-mode.js'
 import { dispatchMenuInput, setMenuCatalogs } from './menu-driver.js'
 import {
-  buildSellList, createBuyMenu, createSellMenu,
+  createBuyMenu,
   shopCancel, shopConfirm, shopMoveDown, shopSelectItem,
 } from './shop-menu.js'
+import { createSellMenu } from './sell-menu.js'
 
 function snap(pressed: AbstractKey[] = []): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
@@ -88,14 +89,6 @@ describe('shop-menu 状态机(sdlpal uigame.c:1615/1755)', () => {
     expect(shopCancel(s)).toBe('back')
     expect(s.phase).toBe('list')
     expect(shopCancel(s)).toBe('close')
-  })
-
-  it('buildSellList:只列 inventory 中 sellable 物品,价=price/2', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.inventory = [{ itemId: 87, count: 2 }, { itemId: 105, count: 1 }] // 87 不可卖,105 可卖
-    const list = buildSellList(gs, CATALOG)
-    expect(list.items.map((i) => i.id)).toEqual([105])
-    expect(list.items[0]!.rightText).toBe('25') // 50 / 2
   })
 })
 

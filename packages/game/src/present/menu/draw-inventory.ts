@@ -106,6 +106,12 @@ export interface DrawInventoryInput {
    *  HP/MP/stat 等)+ playerRoles(取 _name)。缺省时 use-target 还是只画 list 不画 player picker。 */
   gs?: GameState
   playerRoles?: PlayerRoles
+  /**
+   * sdlpal `g_fNoDesc`(itemmenu.c:413/233/267):带 OnItemChange callback 的入口(卖菜单
+   * PAL_SellMenu / 买菜单)— 不画物品描述(改叠 callback 的 overlay)。缺省 false(物品/装备
+   * 菜单 callback=NULL → 画描述)。
+   */
+  noDesc?: boolean
 }
 
 // sdlpal `uigame.c:1289-1473` PAL_ItemUseMenu 真值常量
@@ -236,7 +242,7 @@ function drawItemUseMenu(
 }
 
 export function drawInventoryMenu(input: DrawInventoryInput): void {
-  const { fb, state, items, uiSpriteFrames, itemIcons, glyphs, gs, playerRoles } = input
+  const { fb, state, items, uiSpriteFrames, itemIcons, glyphs, gs, playerRoles, noDesc } = input
 
   // 1. Box — sdlpal itemmenu.c:117 真值 PAL_CreateBoxWithShadow(PAL_XY(2, 0), 6, 17, style=1, FALSE, 0)
   drawBox({
@@ -321,8 +327,9 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
   //    每行 +16,DESCTEXT_COLOR 0x3C,fShadow=TRUE)。
   //    脚本 chain 由 pal-extract 反编译时把 sdlpal opcode 0xFFFF(WIN95 message draw,script.c:3607-3637)
   //    转为 'showDialog' op 带 inline text — 直接遍历即可,不需要解 message 文件。
+  // sdlpal `g_fNoDesc`(itemmenu.c:233/267):带 callback 的卖/买菜单不画描述(改叠 overlay)。
   const curSlot = state.inventory[state.cursor]
-  if (curSlot) {
+  if (!noDesc && curSlot) {
     const curItem = items.find((it) => it.id === curSlot.itemId)
     const sid = (curItem as { scriptDesc?: number } | undefined)?.scriptDesc ?? 0
     const lines = getScriptDescLines(sid)

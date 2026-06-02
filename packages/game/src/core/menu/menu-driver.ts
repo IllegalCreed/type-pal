@@ -68,9 +68,14 @@ import {
   type OpeningMenuState,
 } from './opening-menu.js'
 import {
-  buildSellList, shopCancel, shopConfirm, shopMoveDown, shopMoveUp, shopSelectItem,
+  shopCancel, shopConfirm, shopMoveDown, shopMoveUp, shopSelectItem,
   type ShopMenuState,
 } from './shop-menu.js'
+import {
+  refreshSellGrid, sellCancel, sellConfirm, sellEnd, sellHome,
+  sellMoveDown, sellMoveLeft, sellMoveRight, sellMoveUp,
+  sellPageDown, sellPageUp, sellSelectItem, type SellMenuState,
+} from './sell-menu.js'
 
 // ── Catalogs singleton(bootstrap 注入) ──────────────────────────────────────
 
@@ -204,18 +209,20 @@ export function dispatchMenuInput(gs: GameState, input: InputSnapshot, bus: Comm
       dispatchSaveSlotMenu(gs, top, input, bus)
       break
     case 'shop-buy':
-    case 'shop-sell':
       dispatchShopMenu(gs, top, input)
+      break
+    case 'shop-sell':
+      dispatchSellMenu(gs, top, input)
       break
   }
 }
 
-// ── Shop menu(opcode 0x0026 PAL_BuyMenu / 0x0027 PAL_SellMenu)──────────────────
+// ── Buy menu(opcode 0x0026 PAL_BuyMenu,紧凑布局)─────────────────────────────────
 //
-// sdlpal uigame.c:1615/1755 真值:while 循环 选 item → confirm → 买/卖 1 个 → loop;cancel → break。
+// sdlpal uigame.c:1615 真值:while 循环 选 item → if price<=cash confirm → 买 1 个 → loop;cancel → break。
 // confirm 默认 No(PAL_ConfirmMenu = PAL_SelectionMenu(2, 0, {No,Yes}))。买不起不弹 confirm。
 // 关菜单(list 阶段 Menu)→ closeTopMenu;menu-mode.resumeAfterMenusClosed 检 cursor.waiting='shop'
-// → 切 mode='event' 续跑脚本。
+// → 切 mode='event' 续跑脚本。卖菜单(全屏)见 dispatchSellMenu。
 function dispatchShopMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as ShopMenuState
   const cat = requireCatalogs()
@@ -231,8 +238,6 @@ function dispatchShopMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnaps
     if (input.pressed.has('Confirm')) {
       const r = shopConfirm(s)
       if (r && r.yes) applyShopTransaction(gs, cat.items, r)
-      // 卖出后 inventory 变 → 刷新卖列表(sdlpal SellMenu while 每轮重跑 PAL_ItemSelectMenu)。
-      if (s.mode === 'sell') s.list = buildSellList(gs, cat.items)
     }
     return
   }
@@ -270,6 +275,56 @@ function applyShopTransaction(
       addItemToInventory(gs, item.id, -1)
       gs.dwCash += Math.floor(item.price / 2)
     }
+  }
+}
+
+// ── Sell menu(opcode 0x0027 PAL_SellMenu,全屏 picker)──────────────────────────
+//
+// sdlpal uigame.c:1755 真值:while { w = PAL_ItemSelectMenu(OnItemChange, kItemFlagSellable);
+//   if (w==0) break; if (PAL_ConfirmMenu()) if (AddItem(w,-1)) cash += price/2; }
+// = 全屏物品 grid(8-key 导航,同 PAL_ItemSelectMenuUpdate)+ confirm(默认 No)→ 卖 1 个 → 刷新 grid。
+// 关菜单(list 阶段 Menu)→ closeTopMenu → menu-mode resume 续跑脚本。
+function dispatchSellMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
+  const s = top.state as SellMenuState
+  const cat = requireCatalogs()
+
+  if (s.phase === 'confirm') {
+    // PAL_ConfirmMenu 否/是两框,方向键 toggle。
+    if (input.pressed.has('Up') || input.pressed.has('Left')) sellMoveUp(s)
+    else if (input.pressed.has('Down') || input.pressed.has('Right')) sellMoveDown(s)
+    if (input.pressed.has('Menu')) {
+      sellCancel(s) // confirm → 回 list
+      return
+    }
+    if (input.pressed.has('Confirm')) {
+      const r = sellConfirm(s)
+      if (r && r.yes) {
+        applyShopTransaction(gs, cat.items, { itemId: r.itemId, mode: 'sell', yes: true })
+        refreshSellGrid(s, gs, cat.items) // 卖出后列表变,刷新(sdlpal while 每轮重跑 PAL_ItemSelectMenu)
+      }
+    }
+    return
+  }
+
+  // list 阶段(全屏 grid)
+  if (input.pressed.has('Menu')) {
+    if (sellCancel(s) === 'close') closeTopMenu(gs) // 关商店 → resume 脚本(menu-mode)
+    return
+  }
+  // sdlpal itemmenu.c:63-94 真值:8-key grid 导航
+  if (input.pressed.has('Up')) sellMoveUp(s)
+  if (input.pressed.has('Down')) sellMoveDown(s)
+  if (input.pressed.has('Left')) sellMoveLeft(s)
+  if (input.pressed.has('Right')) sellMoveRight(s)
+  if (input.pressed.has('PgUp')) sellPageUp(s)
+  if (input.pressed.has('PgDn')) sellPageDown(s)
+  if (input.pressed.has('Home')) sellHome(s)
+  if (input.pressed.has('End')) sellEnd(s)
+  // 每帧刷新 snapshot(物品数 live)+ 全局 cursor 记忆,同 dispatchInventoryMenu
+  refreshSellGrid(s, gs, cat.items)
+  gs.iCurInvMenuItem = s.grid.cursor
+  if (input.pressed.has('Confirm')) {
+    sellSelectItem(s, cat.items) // 不可卖 / 空列表 → 留 list(无反应)
   }
 }
 
