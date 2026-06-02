@@ -333,7 +333,8 @@ export function drawBattleSprites(
     if (!role) return
     const pos = p.pos ?? computePlayerAnchor(state, i)
     if (!pos) return
-    const sprite = battleSprites.get(`player-${role.spriteNumInBattle}`)
+    // D17 0x31:spriteNumOverride(梦蛇295 变身)优先于 role.spriteNumInBattle。
+    const sprite = battleSprites.get(`player-${p.spriteNumOverride ?? role.spriteNumInBattle}`)
     if (!sprite || !sprite.frames[0]) return
     // 帧号:动画 / 逃跑期间用 render-state currentFrame(攻击 8,9 / 受击 4 / 逃跑站立 0 / 死帧 2 由 anim-driver 写);
     //   空闲(无 battleAnim/fleeAnim)据 status 算(sdlpal PAL_BattleUpdateFighters fight.c:948-984):

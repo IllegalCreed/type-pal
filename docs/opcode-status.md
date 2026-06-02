@@ -255,7 +255,7 @@ setDialogStyle 0x3B-0x3E。
 | op | 含义 | 备注 |
 |----|------|------|
 | 0x30 | increase player stat temp by % | ✅ **per-battle Extra slot 1:1**(script.c:1406-1427,梦蛇):写 `gs.rgEquipmentEffect[6][rgwX][role] = trunc(base_runtime*(SHORT)op1/100)`,base 取**未 buff** PlayerRolesRuntime(op0 row 17atk/18mag/19def/20dex)→ 多次不叠加 + 经 getter recompute snapshot。战斗读 effective 经 projectRuntimeToBattleRoles 并入装备 effect(**D14 修**)。战末 removeEquipmentEffect(role,Extra) 清 → 战后消失。battle-opcodes.ts / game-state.ts |
-| 0x31 | change battle sprite temp | ✅ **present-only no-op**:临时换战斗精灵(script.c:0031);present-battle 只画 idle frame[0] 静态精灵(D17)→ 逻辑层 no-op,精灵替换待 present |
+| 0x31 | change battle sprite temp | ✅ **已接(2026-06-02 D17)**:临时换战斗精灵(script.c:0031,梦蛇295 变身)。dispatchBattleOpcode 写 BattlePlayer.spriteNumOverride(caster);draw-battle-sprites 优先于 role.spriteNumInBattle 渲染 `player-${override}`;per-battle 自动清(= sdlpal Extra slot 战末清)。视觉需 F.MKF chunk 存在 + user 真机验 |
 | 0x21 | inflict flat damage to enemy | ✅ **battle handler**(此前只 explore 主干):op0!=0 全体 / 否则单体(ctx.target),health -= op1 clamp≥0(script.c:0021)。梅花镖/银针 scriptOnThrow 真伤害(0x42=0 动画 sentinel,真伤靠这);毒 tick 也用。battle-opcodes.ts |
 | 0x28 | apply poison to enemy | ✅ **battle handler**:op0!=0 全体 / 否则单体(ctx.target);`RandomLong(0,9)>=resistanceToSorcery` 抗性判定 + 去重 + 槽满(MAX_POISONS 16)→ 加 {poisonId:op1, scriptEntry:objectPoisons[op1].enemyScript}(script.c:0028)。毒蛇卵/卵/蛊 throw。注:sdlpal 立即跑一次 wEnemyScript,ts 改 postAction tick 跑(差一拍)。battle-opcodes.ts |
 | 0x33 | collect enemy for items | ✅ enemy(caster).collectValue!=0 → gs.wCollectValue += collectValue;否则 jump op0(script.c:0033)。battle-opcodes.ts |

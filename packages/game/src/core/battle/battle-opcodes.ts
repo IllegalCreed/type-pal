@@ -674,9 +674,12 @@ export function dispatchBattleOpcode(
 
     case OP_CHANGE_BATTLE_SPRITE: {
       // sdlpal `script.c:0031`:rgEquipmentEffect[Extra].rgwSpriteNumInBattle[wEventObjectID] = op0
-      //   —— 临时替换队员战斗精灵号(present-only)。
-      // present-battle 当前只画 idle frame[0] 静态精灵(D17 演出 stub)→ 本逻辑层 no-op,
-      //   待 present 精灵替换实现后接线。
+      //   —— 临时换队员战斗精灵号(梦蛇295 scriptOnUse 变身)。wEventObjectID = 用物品的队员(caster 优先)。
+      //   ts:存 BattlePlayer.spriteNumOverride(per-battle;draw-battle-sprites 优先于 role.spriteNumInBattle);
+      //   战末 BattleState 清 = sdlpal Extra slot 战末清,语义等价(2026-06-02 D17:此前 present-only no-op)。
+      const sel = ctx.caster?.type === 'player' ? ctx.caster : ctx.target?.type === 'player' ? ctx.target : undefined
+      const player = sel ? state.players[sel.idx] : undefined
+      if (player) player.spriteNumOverride = operands[0] ?? 0
       return { consumed: true }
     }
 

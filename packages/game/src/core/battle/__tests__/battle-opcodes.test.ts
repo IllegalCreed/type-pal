@@ -443,6 +443,19 @@ describe('0x29/0x2B/0x2C player poison 战斗单目标(ctx.target 解析,绕开 
   })
 })
 
+describe('0x31 change battle sprite (script.c:0031 — 梦蛇295 临时换战斗精灵)', () => {
+  it('用物品队员(caster)→ spriteNumOverride = op0(present 优先用)', () => {
+    const players = [{ roleId: 0, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }]
+    const ctx = {
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+      state: { enemies: [], players, rng: { next: () => 0, range: () => 0, rangeInclusive: () => 0, getState: () => 0 } } as any as BattleState,
+      caster: { type: 'player', idx: 0 },
+    } as BattleCtx
+    dispatchBattleOpcode(0x31, [5, 0, 0], ctx)
+    expect((players[0] as { spriteNumOverride?: number }).spriteNumOverride).toBe(5)
+  })
+})
+
 describe('0x2A cure enemy poison by kind (script.c:1287-1329)', () => {
   it('单敌(ctx.target):清匹配 poisonId,留其余', () => {
     const enemy = poisonEnemy(0)

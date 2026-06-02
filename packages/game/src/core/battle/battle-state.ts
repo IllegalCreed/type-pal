@@ -61,6 +61,12 @@ export interface BattlePlayer {
   posOriginal?: { x: number; y: number }
   currentFrame?: number
   iColorShift?: number
+  /**
+   * D17 0x31:战斗精灵临时替换号(梦蛇295 scriptOnUse 变身;sdlpal script.c:0031
+   * `rgEquipmentEffect[Extra].rgwSpriteNumInBattle[role]=op0`)。present 优先于 role.spriteNumInBattle 用此覆盖。
+   * per-battle:存 BattleState → 随战斗结束自动清(= sdlpal Extra slot 战末清,语义等价)。
+   */
+  spriteNumOverride?: number
   /** 战斗状态计数器(sdlpal `rgPlayerStatus[role][kStatusAll]`)。详 BattleStatus。 */
   status: BattleStatus
 }
