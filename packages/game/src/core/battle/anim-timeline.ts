@@ -86,6 +86,51 @@ export function buildStealTimeline(playerIdx: number, targetEnemyIdx: number, en
   return frames
 }
 
+/**
+ * 混乱队员攻击友军的**走入动画**(port fight.c:3791-3858,kBattleActionAttackMate 演出,PAL_CLASSIC)。
+ *   windup frame8/0 ×2 各 Delay(1)(3791-3798)→ Delay(2)(3800)→ 走到 target+(30,12) frame8 Delay(5)
+ *   (3802-3807)→ frame9(+武器音 M6,3809-3810)+ 友军击退 pos-(12,6)(3837-3840)Delay(1)→ 友军
+ *   iColorShift 6 闪白 Delay(1)(3842-3843)→ iColorShift 0 Delay(4)(3847-3848)→ UpdateFighters
+ *   复位 caster+target Delay(4)(3850-3851)。pos 均用 posOriginal 底锚。
+ * D8(2026-06-02):此前 attack-mate 只做伤害结算,无走入精灵动画 → 补齐。
+ */
+export function buildAttackMateTimeline(input: {
+  casterIdx: number
+  casterPos: { x: number; y: number }
+  targetIdx: number
+  targetPos: { x: number; y: number }
+}): BattleAnimFrame[] {
+  const { casterIdx, casterPos, targetIdx, targetPos } = input
+  const frames: BattleAnimFrame[] = []
+  // windup frame8/0 ×2(fight.c:3791-3798)
+  for (let j = 0; j < 2; j++) {
+    frames.push({ durationMs: delayMs(1), fighters: [{ side: 'player', idx: casterIdx, currentFrame: 8 }] })
+    frames.push({ durationMs: delayMs(1), fighters: [{ side: 'player', idx: casterIdx, currentFrame: 0 }] })
+  }
+  frames.push({ durationMs: delayMs(2) }) // Delay(2)(fight.c:3800)
+  // 走到 target+(30,12) frame8 Delay(5)(fight.c:3802-3807)
+  const lungeX = targetPos.x + 30
+  const lungeY = targetPos.y + 12
+  frames.push({ durationMs: delayMs(5), fighters: [{ side: 'player', idx: casterIdx, currentFrame: 8, pos: { x: lungeX, y: lungeY } }] })
+  // frame9(武器音 M6)+ 友军击退 pos-(12,6)(fight.c:3809-3840)
+  const knockX = targetPos.x - 12
+  const knockY = targetPos.y - 6
+  frames.push({ durationMs: delayMs(1), fighters: [
+    { side: 'player', idx: casterIdx, currentFrame: 9, pos: { x: lungeX, y: lungeY } },
+    { side: 'player', idx: targetIdx, pos: { x: knockX, y: knockY } },
+  ] })
+  // 友军 iColorShift 6 闪白 Delay(1)(fight.c:3842-3843)
+  frames.push({ durationMs: delayMs(1), fighters: [{ side: 'player', idx: targetIdx, iColorShift: 6, pos: { x: knockX, y: knockY } }] })
+  // 友军 iColorShift 0 Delay(4)(fight.c:3847-3848)
+  frames.push({ durationMs: delayMs(4), fighters: [{ side: 'player', idx: targetIdx, iColorShift: 0, pos: { x: knockX, y: knockY } }] })
+  // UpdateFighters 复位 caster+target Delay(4)(fight.c:3850-3851)
+  frames.push({ durationMs: delayMs(4), fighters: [
+    { side: 'player', idx: casterIdx, currentFrame: 0, pos: casterPos },
+    { side: 'player', idx: targetIdx, currentFrame: 0, pos: targetPos },
+  ] })
+  return frames
+}
+
 export interface BuildPlayerAttackInput {
   /** 攻击者站立底锚(g_rgPlayerPos[count-1][playerIdx])。 */
   attackerPos: { x: number; y: number }

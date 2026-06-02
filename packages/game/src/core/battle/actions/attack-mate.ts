@@ -20,6 +20,8 @@ import type { PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import type { BattleState } from '../battle-state.js'
 import { calcPhysicalAttackDamage } from '../formulas.js'
+import { buildAttackMateTimeline } from '../anim-timeline.js'
+import { startBattleAnim } from '../battle-anim-driver.js'
 
 /** SHORT cast(同 attack.ts / formulas.ts 私函)。 */
 function asShort(n: number): number {
@@ -62,11 +64,14 @@ export function performAttackMate(
     } while (target === casterIdx || hpOf(target) === 0)
   }
 
-  // 3. str(攻者)/ def(目标,防御×2)
+  // 3. str(攻者)/ def(目标,防御×2)。**P0 一致修(2026-06-02)**:sdlpal fight.c:3833-3834 用
+  //    PAL_GetPlayerAttackStrength / PAL_GetPlayerDefense(global.c:1757/1800 = base+装备,**无 level 项**);
+  //    role 已投影含装备 = getter,故 str=role.attackStrength / def=role.defense,不加 `(level+6)*K`
+  //    (此前误套敌方公式 → attack.ts/magic-damage P0#1/#3 已删,attack-mate 漏,此处补)。
   const casterRole = playerRoles.roles[state.players[casterIdx]!.roleId]!
   const targetRole = playerRoles.roles[state.players[target]!.roleId]!
-  const str = asShort(casterRole.attackStrength) + (casterRole.level + 6) * 6
-  let def = asShort(targetRole.defense) + (targetRole.level + 6) * 4
+  const str = asShort(casterRole.attackStrength)
+  let def = asShort(targetRole.defense)
   if (state.players[target]!.defending) def *= 2 // fight.c:3814-3817
 
   // 4. 伤害:res=2;Protect /=2;<=0→1;clamp 到目标 HP
@@ -76,7 +81,14 @@ export function performAttackMate(
   const before = targetRole.hp
   if (damage > before) damage = before // fight.c:3830-3833 clamp
 
-  // 5. 扣血 + 蓝色掉血弹幕(present 受击精灵动画属 B5 残留)
+  // 5. 扣血 + 蓝色掉血弹幕
   targetRole.hp = before - damage
   bus.emit({ op: 'showDamageNum', target: { kind: 'player', idx: target }, value: damage, color: 'blue' })
+
+  // 6. D8(2026-06-02):走入精灵动画(fight.c:3791-3858)。caster/target posOriginal 底锚;缺锚 → 跳过(纯逻辑)。
+  const casterPos = state.players[casterIdx]!.posOriginal
+  const targetPos = state.players[target]!.posOriginal
+  if (casterPos && targetPos) {
+    startBattleAnim(state, buildAttackMateTimeline({ casterIdx, casterPos, targetIdx: target, targetPos }), bus)
+  }
 }

@@ -6,10 +6,11 @@
  *
  * 真值要点:
  *  - 随机活友军目标:do RandomLong(0, wMaxPartyMemberIndex) while(self || HP==0)
- *  - str = GetPlayerAttackStrength(caster) = asShort(attackStrength) + (level+6)*6
- *  - def = GetPlayerDefense(target) = asShort(defense) + (level+6)*4;target 防御 → def*=2
+ *  - str = PAL_GetPlayerAttackStrength(caster)(global.c:1757 = base+装备,**无 level 项**;role 已投影含装备)
+ *  - def = PAL_GetPlayerDefense(target)(global.c:1800 = base+装备,无 level);target 防御 → def*=2
  *  - sDamage = CalcPhysicalAttackDamage(str, def, 2);target Protect>0 → /=2;<=0 → 1;clamp 到 target HP
  *  - 无其他活友军 → 不攻击(Pass,fight.c:3781 do 不进)
+ *  注:fixture attackStrength=96 / defense=64 = 真实 role 攻防(新公式直接用,2026-06-02 P0 一致修去 level 项)。
  */
 
 import type { PlayerRole, PlayerRoles } from '@type-pal/shared'
@@ -23,7 +24,7 @@ function makeRole(opts: Partial<PlayerRole> = {}): PlayerRole {
   return {
     id: 0, _name: 'R', avatar: 0, spriteNumInBattle: 0, spriteNum: 0, name: 0, attackAll: 0,
     level: 10, maxHP: 200, maxMP: 30, hp: 200, mp: 30,
-    attackStrength: 0, magicStrength: 0, defense: 0, dexterity: 30, fleeRate: 5,
+    attackStrength: 96, magicStrength: 0, defense: 64, dexterity: 30, fleeRate: 5,
     poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
     walkFrames: 0, attackSound: 0, weaponSound: 0, criticalSound: 0, magicSound: 0, deathSound: 0,
     ...opts,

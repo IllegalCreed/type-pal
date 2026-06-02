@@ -9,6 +9,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   BATTLE_FRAME_TIME,
+  buildAttackMateTimeline,
   buildCoopMagicTimeline,
   buildEnemyMagicCastIntro,
   buildEnemyMagicTimeline,
@@ -1046,5 +1047,34 @@ describe('buildEnemyMagicCastIntro (fight.c:4680-4717)', () => {
     // 前移 2 帧 + magicFrames=3 手势(currentFrame 2,3,4);fireDelay=5(!=0)→ 无 attackFrames 段;magicFrames!=0 → 无停顿帧
     expect(g).toHaveLength(5)
     expect(g.slice(2).map((fr) => fr.fighters?.[0]?.currentFrame)).toEqual([2, 3, 4])
+  })
+})
+
+describe('buildAttackMateTimeline (fight.c:3791-3858 混乱攻友军走入动画)', () => {
+  it('windup frame8/0×2 → 走到 target+(30,12) frame8 → frame9+友军击退 pos-(12,6) → 复位', () => {
+    const frames = buildAttackMateTimeline({
+      casterIdx: 0, casterPos: { x: 100, y: 180 },
+      targetIdx: 1, targetPos: { x: 140, y: 170 },
+    })
+    // windup: frame 0..3 = 8/0/8/0
+    expect(frames[0]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 8 }])
+    expect(frames[1]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 0 }])
+    expect(frames[2]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 8 }])
+    expect(frames[3]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 0 }])
+    // frame 4 = Delay(2) 无 fighters
+    expect(frames[4]!.fighters).toBeUndefined()
+    expect(frames[4]!.durationMs).toBe(D * 2)
+    // frame 5 = 走到 target+(30,12)=(170,182) frame8 Delay(5)
+    expect(frames[5]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 8, pos: { x: 170, y: 182 } }])
+    expect(frames[5]!.durationMs).toBe(D * 5)
+    // frame 6 = caster frame9 + 友军击退 target-(12,6)=(128,164)
+    expect(frames[6]!.fighters).toContainEqual({ side: 'player', idx: 0, currentFrame: 9, pos: { x: 170, y: 182 } })
+    expect(frames[6]!.fighters).toContainEqual({ side: 'player', idx: 1, pos: { x: 128, y: 164 } })
+    // frame 7 = 友军 iColorShift 6 闪白
+    expect(frames[7]!.fighters).toEqual([{ side: 'player', idx: 1, iColorShift: 6, pos: { x: 128, y: 164 } }])
+    // 末帧 = 复位 caster(100,180) + target(140,170) frame0
+    const last = frames[frames.length - 1]!.fighters!
+    expect(last).toContainEqual({ side: 'player', idx: 0, currentFrame: 0, pos: { x: 100, y: 180 } })
+    expect(last).toContainEqual({ side: 'player', idx: 1, currentFrame: 0, pos: { x: 140, y: 170 } })
   })
 })

@@ -94,6 +94,21 @@ export function drawBattleSettlement(input: DrawBattleSettlementInput): void {
   }
 }
 
+// rgwName[0..5] = 6 角色名 word(PERSONS_OFFSET=36:李逍遥..盖罗娇);8 状态标签 word(48-55:
+//   修行/体力/真气/武术/灵力/防御/身法/吉运 = LEVEL/HP/MP/ATTACK/MAGIC/RES/DEX/FLEE)。
+const ROLE_NAME_WORDS = [36, 37, 38, 39, 40, 41]
+const STAT_LABEL_WORDS = [48, 49, 50, 51, 52, 53, 54, 55]
+
+/**
+ * sdlpal battle.c:1270 hidden-exp 涨点数字右对齐 x = `183 + (maxNameWidth + maxPropertyWidth - 3) * 8`。
+ * maxNameWidth = PAL_MenuTextMaxWidth(6 角色名)、maxPropertyWidth = PAL_MenuTextMaxWidth(8 状态标签) - 1,
+ * 单位 = `(PAL_TextWidth + 8) >> 4`(= wordWidthCols),均为**全局最大值**(非单行宽)。
+ * **D11 修(2026-06-02)**:此前误用单行 `90 + 16*(w1+w2+w3) + 4`≈206 → 正确 191(仙剑 maxName=3/maxProp=1)。
+ */
+export function hiddenExpUpNumberX(maxNameWidth: number, maxPropertyWidth: number): number {
+  return 183 + (maxNameWidth + maxPropertyWidth - 3) * 8
+}
+
 // ── E04:隐藏属性涨点 box(sdlpal CHECK_HIDDEN_EXP,battle.c:1264-1273)──────────────
 //   PAL_CreateSingleLineBox(PAL_XY(offsetX+78,60)) + "{name}{statLabel}{提升}" + 涨点数(yellow,右对齐)。
 function drawHiddenExpUpScreen(
@@ -101,6 +116,9 @@ function drawHiddenExpUpScreen(
 ): void {
   const statLabel = getWord(data.statLabelWord, '')
   const upLabel = getWord(32, '提升') // BATTLEWIN_LEVELUP_LABEL
+  // 全局 maxNameWidth / maxPropertyWidth(sdlpal rgFakeMenuItem 用全 6 角色名 + 8 状态标签)
+  const maxNameWidth = Math.max(...ROLE_NAME_WORDS.map(id => wordWidthCols(getWord(id, ''))), 1)
+  const maxPropertyWidth = Math.max(...STAT_LABEL_WORDS.map(id => wordWidthCols(getWord(id, ''))), 1) - 1
   const w1 = Math.max(wordWidthCols(data.name), 3)
   const w2 = Math.max(wordWidthCols(statLabel), 2)
   const w3 = Math.max(wordWidthCols(upLabel), 2)
@@ -108,7 +126,7 @@ function drawHiddenExpUpScreen(
   renderText(fb, data.name, 90, 70, 0, glyphs, false)
   renderText(fb, statLabel, 90 + 16 * w1, 70, 0, glyphs, false)
   renderText(fb, upLabel, 90 + 16 * (w1 + w2), 70, 0, glyphs, false)
-  drawNumber(fb, data.delta, 5, { x: 90 + 16 * (w1 + w2 + w3) + 4, y: 74 }, 'yellow', 'right', ui)
+  drawNumber(fb, data.delta, 5, { x: hiddenExpUpNumberX(maxNameWidth, maxPropertyWidth), y: 74 }, 'yellow', 'right', ui)
 }
 
 // ── Phase A:获得经验值 / 打败敌人得 N 文钱(battle.c:1037-1045)─────────────────

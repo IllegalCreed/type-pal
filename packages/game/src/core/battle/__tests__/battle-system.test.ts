@@ -813,10 +813,11 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
   })
 
   it('perform:混乱队员随机命中友方 → 打该友军(原版随机敌/友;pool=[敌0,友1] rng→1)', () => {
-    const ally = makeRole({ id: 1, hp: 200, defense: 0, level: 10 })
+    // P0 一致(2026-06-02):AttackMate str/def 无 level 项 → fixture 直接给真实攻防 96/64(此前靠 level 凑)
+    const ally = makeRole({ id: 1, hp: 200, defense: 64, level: 10 })
     const { gs, bus, emptyInput } = bootstrap({
       partyMembers: [0, 1],
-      roles: [makeRole({ id: 0, hp: 200, attackStrength: 0, level: 10 }), ally],
+      roles: [makeRole({ id: 0, hp: 200, attackStrength: 96, level: 10 }), ally],
       enemies: [makeEnemy({ id: 100, health: 99999 })],
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
