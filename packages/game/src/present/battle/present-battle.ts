@@ -36,6 +36,7 @@ import type { GlyphTable } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { type BattleBgAsset, drawBattleBg } from './draw-battle-bg.js'
 import { applyScreenWave } from '../screen-wave.js'
+import { applyDitherSteps, DITHER_TOTAL_STEPS } from '../dither-fade.js'
 import { type DialogBoxDrawCtx, drawDialogBox } from '../dialog-box.js'
 import { drawBattleEffectOverlay, drawBattleMagicOverlay } from './draw-battle-effect.js'
 import { FloatingNumsLayer } from './draw-battle-num.js'
@@ -102,6 +103,10 @@ export class BattlePresent {
   private battleMsg: { text: string, expiryFrame: number } | undefined
   /** 召唤 crossfade(PAL_BattleFadeScene)用:上一帧渲染快照(fade 起手 = 对侧"from"场景)。 */
   private lastFrameBuf: Uint8Array | undefined
+
+  /** D19 入场 fade:入场前大世界帧快照(dither backup)+ 已应用 step。introFade 清时复位。 */
+  private introBackup: Uint8Array | undefined
+  private introApplied = 0
   /** 召唤 crossfade 累积态(from 逐步 dither 逼近 to,显示此 buf);+ 已应用到第几步。 */
   private summonFadeBuf: Uint8Array | undefined
   private summonFadeApplied = -1
@@ -124,6 +129,14 @@ export class BattlePresent {
     assets: BattleAssets,
     currentFrame: number,
   ): void {
+    // D19 入场 fade:首帧(introFade 激活 + 尚无 backup)快照入场前 fb(= 上一帧大世界,fb 跨帧保留)作 dither
+    //   backup;无 introFade(已进战斗)→ 清。须在任何 fb 绘制前快照。
+    if (state.introFade) {
+      if (!this.introBackup) { this.introBackup = new Uint8Array(fb.indices); this.introApplied = 0 }
+    } else {
+      this.introBackup = undefined
+    }
+
     // 1. 消费战斗命令(M3 简版:只 showDamageNum;其他命令 M5 真补)
     for (const { cmd } of commands) {
       if (cmd.op === 'showDamageNum') {
@@ -219,6 +232,17 @@ export class BattlePresent {
     //   dither 渐变;UI 随后画在渐变后的场景上(对齐 sdlpal battle.c:665-671 PAL_BattleFadeScene 后
     //   PAL_BattleUIUpdate 重画 UI,fade 期 UI 始终清晰不被卷进渐变)。非 fade 帧只快照场景供下次 fade 起手。
     this.applySummonFade(fb, state.battleAnim?.summon, state.battleAnim?.hasSummonFade ?? false)
+
+    // 3.95 D19 入场 dither fade-in(PAL_BattleFadeScene battle.c:609):把战斗**场景层**(bg+精灵+特效)从入场前
+    //   大世界 backup nibble-dither 揭示;UI/弹幕随后画清(对齐 sdlpal fade 后 PAL_BattleUIUpdate 重画 UI)。
+    //   progress = introFade.step/total → dither step;显示累积 backup(= sdlpal 显示 backup buffer)。
+    if (state.introFade && this.introBackup) {
+      const { step, total } = state.introFade
+      const targetStep = Math.floor((total > 0 ? step / total : 1) * DITHER_TOTAL_STEPS)
+      applyDitherSteps(fb.indices, this.introBackup, this.introApplied, targetStep)
+      this.introApplied = targetStep
+      fb.indices.set(this.introBackup)
+    }
 
     // 4. 数字弹幕(在精灵之上;过期数字自动清理)。D17b:用 UI sprite 数字帧(drawNumber)。
     this.floatingNums.draw(fb, currentFrame, assets.uiSpriteFrames)

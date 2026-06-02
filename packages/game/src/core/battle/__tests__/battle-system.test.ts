@@ -79,6 +79,25 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     ])
   })
 
+  // D19 入场 fade-in gate:introFadeTicks → preBattle 停住 N tick(gate 输入)再进 selectAction。
+  it('D19:introFadeTicks → preBattle gate N tick 后才进 selectAction;不传则瞬时进', () => {
+    const a = bootstrap({ introFadeTicks: 3 })
+    expect(a.gs.battleState!.phase).toBe('preBattle')
+    expect(a.gs.battleState!.introFade).toEqual({ step: 0, total: 3 })
+    tickBattle(a.gs, a.emptyInput, createCommandBus()); expect(a.gs.battleState!.phase).toBe('preBattle') // step 1
+    tickBattle(a.gs, a.emptyInput, createCommandBus()); expect(a.gs.battleState!.phase).toBe('preBattle') // step 2
+    tickBattle(a.gs, a.emptyInput, createCommandBus()); expect(a.gs.battleState!.phase).toBe('preBattle') // step 3 (==total)
+    tickBattle(a.gs, a.emptyInput, createCommandBus()) // step>=total → 进 selectAction + 清 introFade
+    expect(a.gs.battleState!.phase).toBe('selectAction')
+    expect(a.gs.battleState!.introFade).toBeUndefined()
+
+    // 不传 introFadeTicks(默认)→ 无 fade,首 tick 即 selectAction(既有测行为不变)
+    const b = bootstrap({})
+    expect(b.gs.battleState!.introFade).toBeUndefined()
+    tickBattle(b.gs, b.emptyInput, createCommandBus())
+    expect(b.gs.battleState!.phase).toBe('selectAction')
+  })
+
   // E04-c 集成:真战斗里玩家攻击 → wCount 累积(performBattleAction 接 fight.c:3756-3757)。
   it('集成:startBattle 清 wCount;玩家攻击 → rgAttackExp+1 / rgHealthExp+R(2,3)', () => {
     const { gs, bus, emptyInput } = bootstrap({
@@ -203,6 +222,8 @@ interface BootstrapOpts {
   runScriptFn?: RunScriptFn
   /** B4(3):0x8A 持久 fAutoBattle —— startBattle 前设 gs.fAutoBattle(整场自动)。 */
   fAutoBattle?: boolean
+  /** D19:入场 dither fade-in gate 时长(tick);省略 → 无入场淡入(默认,大多数测不走演出)。 */
+  introFadeTicks?: number
   /** E2 投掷物测试用:注入 items / magics / objectMagics / commands / inventory。 */
   items?: Item[]
   magics?: Magic[]
@@ -269,6 +290,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
     levelUpMagic: opts.levelUpMagic,
     rngSeed: opts.rngSeed ?? 42,
     runScriptFn: opts.runScriptFn,
+    introFadeTicks: opts.introFadeTicks,
   })
 
   return {

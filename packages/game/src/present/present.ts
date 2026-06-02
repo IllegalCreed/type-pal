@@ -1,4 +1,5 @@
 import type { Palette, PlayerRoles, Tilemap } from '@type-pal/shared'
+import { applyDitherSteps, DITHER_TOTAL_STEPS } from './dither-fade.js'
 import type { IndexedImage } from '../assets/png.js'
 import type { BusEntry } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
@@ -514,30 +515,14 @@ export function presentFrame(
   if (gs.fadeState && gs.fadeState.backupPixels) {
     const { totalMs, startTimeMs, appliedSteps, backupPixels } = gs.fadeState
     const current = fb.indices as Uint8Array
-    const rgIndex = [0, 3, 1, 5, 2, 4] as const
-    const TOTAL_STEPS = 72  // sdlpal video.c:1178 真值 12 outer × 6 inner
 
     // time-based:elapsedMs / totalMs * 72 = target step。raf 慢就一帧多跑几步追上。
     const elapsedMs = performance.now() - startTimeMs
     const progress = Math.min(elapsedMs / totalMs, 1)
-    const targetSteps = Math.floor(progress * TOTAL_STEPS)
+    const targetSteps = Math.floor(progress * DITHER_TOTAL_STEPS)
 
-    for (let stepIdx = appliedSteps; stepIdx < targetSteps; stepIdx++) {
-      const outerI = Math.floor(stepIdx / 6)
-      const innerJ = stepIdx % 6
-      const phaseOffset = rgIndex[innerJ]!
-      for (let k = phaseOffset; k < current.length; k += 6) {
-        const a = current[k]!
-        let b = backupPixels[k]!
-        if (outerI > 0) {
-          const aLow = a & 0x0F
-          const bLow = b & 0x0F
-          if (aLow > bLow) b++
-          else if (aLow < bLow) b--
-        }
-        backupPixels[k] = ((a & 0xF0) | (b & 0x0F)) & 0xFF
-      }
-    }
+    // 复用 nibble-dither 纯 helper(同 battle intro fade D19,dither-fade.ts):推进 [appliedSteps, targetSteps) 步。
+    applyDitherSteps(current, backupPixels, appliedSteps, targetSteps)
     gs.fadeState.appliedSteps = targetSteps
 
     // 显示 backupPixels(累积态)— 不是 current。fade 全程主角可见因为两 buffer 都画过。

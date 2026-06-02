@@ -94,6 +94,8 @@ const PHASE_STALL_TICKS_LIMIT = 1500
  * 战斗 tick 与 BATTLE_FPS 同频 → 每 tick 恰好推进 1 个 battle frame。
  */
 const BATTLE_DT = BATTLE_FRAME_TIME
+/** D19 入场 fade-in gate 时长(tick)≈ PAL_BattleFadeScene 72 step × 16ms / 40ms tick(battle.c:609)。 */
+export const INTRO_FADE_TICKS = 29
 
 /**
  * 战斗运行时所需的资源表 —— 由 startBattle 缓存到 GameState.__battleResources。
@@ -239,6 +241,8 @@ export interface StartBattleInput {
   rngSeed?: number
   /** 可选注入 runScript(测试 mock 用);默认 = event-system.runScript。 */
   runScriptFn?: RunScriptFn
+  /** D19 入场 dither fade-in gate 时长(tick)。生产传 INTRO_FADE_TICKS;省略/0 → 无入场淡入(单测/dev)。 */
+  introFadeTicks?: number
 }
 
 /**
@@ -306,6 +310,13 @@ export function startBattle(input: StartBattleInput): void {
 
   // E04:sdlpal PAL_StartBattle(battle.c:1565-1586)战前清 7 隐藏经验池 wCount(per-battle 计数)。
   clearHiddenExpCounts(input.gs)
+
+  // D19:入场 dither fade-in(PAL_BattleFadeScene,battle.c:609)。**显式 opt-in**(生产 tryStartBattle 传
+  //   introFadeTicks=INTRO_FADE_TICKS;单测/dev 不传 → 无 fade、无 gate,行为不变)。preBattle 期间 gate 输入,
+  //   present-battle 把战斗场景从入场前大世界帧 dither 揭示。
+  if (input.introFadeTicks && input.introFadeTicks > 0) {
+    battleState.introFade = { step: 0, total: input.introFadeTicks }
+  }
 
   input.gs.mode = 'battle'
   input.gs.battleState = battleState
@@ -438,6 +449,12 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 
 /** preBattle → selectAction(M3 跳过 wScriptOnReady)。起手起第一个队员的选择菜单(PAL_BattleUIPlayerReady)。 */
 function tickPreBattle(state: BattleState): void {
+  // D19:入场 fade-in 期间停在 preBattle gate 输入(present 放 dither 淡入);fade 完才进 selectAction。
+  if (state.introFade && state.introFade.step < state.introFade.total) {
+    state.introFade.step++
+    return
+  }
+  state.introFade = undefined
   state.phase = 'selectAction'
   startPlayerSelection(state, 0)
   state.phaseStallTicks = 0

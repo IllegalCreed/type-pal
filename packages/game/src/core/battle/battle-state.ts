@@ -454,6 +454,12 @@ export interface BattleState {
    */
   persistentBgBlits?: Array<{ spriteChunk: number; frameIdx: number; x: number; y: number }>
   /**
+   * D19 战斗入场 dither fade-in(sdlpal `PAL_BattleFadeScene`,battle.c:609-680)。step/total = 进度;
+   * preBattle phase 期间 gate 输入(fade 完才进 selectAction),present-battle 据此把战斗场景从入场前的
+   * 大世界帧 nibble-dither 揭示出来。完成 → 清。undefined = 无入场淡入(已进战斗 / 单测)。
+   */
+  introFade?: { step: number; total: number }
+  /**
    * 逃跑动画 hold(sdlpal `PAL_BattlePlayerEscape`,battle.c:1438-1527)。flee roll 成功 → 设
    * { step: 0 };tickBattleFleeAnim 每 tick 把活队员往右下挪(p0 +4/+6、p1 +4/+4、p2 +6/+3),
    * 16 步后全员移出屏(9999,9999)→ phase='fleed' → finalize。undefined = 无逃跑动画。

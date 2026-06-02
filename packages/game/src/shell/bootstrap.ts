@@ -14,7 +14,7 @@ import {
   type SceneFetcher,
 } from '../assets/loader.js'
 import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
-import { startBattle } from '../core/battle/battle-system.js'
+import { startBattle, INTRO_FADE_TICKS } from '../core/battle/battle-system.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { updateAllEquipments } from '../core/equip-effect.js'
 import {
@@ -867,6 +867,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         levelUpExp: assets.levelUpExp, // D11:战斗胜利升级阈值
         levelUpMagic: assets.levelUpMagic, // D11:升级学新法术
         // P2#5:不再传 per-scene 切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
+        introFadeTicks: INTRO_FADE_TICKS, // D19:生产入场 dither fade-in(present-battle 揭示);单测/dev 不传
       })
       console.debug(
         `[bootstrap.startBattleHandler] after.mode=${gs.mode} battleState=${!!gs.battleState}`,
