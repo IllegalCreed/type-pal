@@ -213,6 +213,9 @@ export function performMagic(input: PerformMagicInput): void {
     targetType: input.targetIsEnemy ? 'enemy' : 'player',
     targetIdx: input.targetIdx,
   })
+  // M6 法术 SFX(sdlpal fight.c:2501 AUDIO_PlaySound(lprgMagic[iMagicNum].wSound)):magic.sound 入
+  //   gs.pendingSounds(同 explore 0x47 通道,shell AudioManager 播)。0 = 无音。
+  if (magic.sound > 0 && input.gs) (input.gs.pendingSounds ??= []).push(magic.sound)
   // 每次 PAL_RunTriggerScript 入口重置 g_fScriptSuccess=TRUE(script.c:3187)——
   // scriptOnSuccess 的成功旗子独立于 scriptOnUse 结果。
   if (input.gs)
