@@ -184,12 +184,10 @@ setDialogStyle 0x3B-0x3E。
 
 ## 数据/动作 0x0B-0xA6 — 收口完成 ✅(2026-05-30)
 
-> **全 opcode 收口**:A/B/C/D/E/S 类逐条 ✅。**无 ⬜(todo)剩余**。
-> 仅两处带 **✅/⚠️ 残**(逻辑已接、有文档化子系统缺口):
-> - **0x38** teleport-out:失败路径忠实;dungeon 归隐脱出(scriptOnTeleport!=0)待 SceneAssets 暴露 onTeleportLabel + run-trigger-script。
-> - **0x69** enemy escape:health=0 触发死亡掉落,sdlpal 逃跑不掉战利品 — 待 escaped 标志。
-> 另:0x30(per-battle Extra 战末清,ts mutate 持久)、0x31/0x92(present 演出 stub no-op)、
-> 0x45/0x77/0xA3(state-set,真播待 M6 音频)—— 均逻辑层就绪,缺口为既有子系统(present/audio/equip-effect)。
+> **全 opcode 收口**:A/B/C/D/E/S 类逐条 ✅。**无 ⬜(todo)剩余**(2026-06-02 对抗复核更新)。
+> 0x38(teleport-out call+return)/ 0x69(enemy escape→terminated 无奖励)/ 0x30(per-battle Extra slot 战末清)/ 0x31(战斗精灵替换,D17 已接)**均已做**。
+> **唯一 present 缺口:0x92** pre-magic 前摇 anim 待 wire(见 0x92 行)。
+> 0x45/0x77/0xA3(state-set,真播待 M6 音频)= 数据就绪,缺音频子系统。
 
 ### A 控制流/数据 / 系统 S — **全部 ✅(2026-05-30 0x0A 收口)**
 | op | 含义 | 状态 | 备注 |
@@ -282,7 +280,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x89 | set battle result | ✅ op0:3→won/1→lost/(0xFFFF·0)→fleed/1000+→不改(script.c:0089)。battle-opcodes.ts |
 | 0x8A | enable auto-battle | ✅ gs.fAutoBattle=true(script.c:008A)。battle-opcodes.ts |
 | 0x91 | jump if enemy not first of kind | ✅ 数同 wObjectID 敌人,self_pos>1(非首个)→ jump op0(script.c:2091)。ts 同种=同 e.id。用途:同种敌人组脚本只在第一个跑。真实数据 op0 全 0(→跳到 end)。battle-opcodes.ts,5 用 |
-| 0x92 | magic casting anim (battle) | ✅ **present-only no-op**:PAL_BattleShowPlayerPreMagicAnim + iColorShift cycle(script.c:0092,施法前摇);present-battle 跳过所有战斗动画(D17)→ no-op |
+| 0x92 | magic casting anim (battle) | ⚠️ **待 wire present anim**(2026-06-02 对抗复核 high-conf):handler consumed-only 但未播前摇 —— 原"present-battle 跳过所有战斗动画→no-op"**FALSE**,D17 实际渲染战斗动画(magic.ts:425 startBattleAnim 全链)。sdlpal script.c:2637-2662 = PAL_BattleShowPlayerPreMagicAnim(op0-1)(fight.c:2338-2445)+ 全队 5 步 iColorShift=i*2 cycle;buildPreMagicTimeline 已存在(anim-timeline.ts:431-476),待 startBattleAnim wire。唯一站点 all.json cmd@42319(赵灵儿觉醒 cutscene)|
 | 0x9C | enemy division | ✅ 分裂:仅 1 活敌 + health>1 → 分裂 op0+1 份各 floor((h+w)/(w+1));否则 jump op1(script.c:009C)。battle-opcodes.ts |
 | 0x9E | enemy summon | ✅ **logic**:召唤 op1 只 op0(对象 id;0/0xFFFF=自身同种)敌人到空槽(MAX 5);房间不足/**我方隐身 iHidingTime>0(2c3d25d 补)**/自身睡眠·麻痹·混乱 → fail,op2≠0 jump op2(script.c:009E)。obj→enemyObjects[objectIndex]→enemyId→enemies.json 满血;经 enemy scriptOnReady runScript 注入 summonTables。**注**:召唤兽渲染需 present 层加载 battle sprite(follow-up);logic(行动/受击)已通。battle-opcodes.ts |
 | 0x9F | enemy transform | ✅ 变身:非隐身/睡眠 → self.e={...base, health:keepHealth}(summonTables 取 base id op0)(script.c:009F)。battle-opcodes.ts |

@@ -15,11 +15,11 @@
  * 上挂一个非可见字段 __battleResources 缓存,startBattle 写入、finalizeBattle 清理。
  * M5 可改成 module-level Map 或 DI;本任务先用此简化方案,T23 baseline 对拍后再优化。
  *
- * **enemy id 映射决策**(本 task):enemyTeam.enemies 槽位在 sdlpal 中是 OBJECT 数组绝对
- * index → OBJECT_ENEMY.wEnemyID → DATA.MKF chunk 1(enemies.json id)。当前 enemy-teams.json
- * 中存的是 OBJECT 索引(D28 dumper),enemies.json 用 enemy id。本 task 简化方案:
- * **直接把 enemyTeam.enemies 当作 enemies.json 的 id 索引**(`.find(e => e.id === slot)`)。
- * T23 baseline 对拍发现真实映射不直接时再修(可能需要中间一张 OBJECT → enemyId 的查找表)。
+ * **enemy id 映射**(已对齐 sdlpal,2026-06-02 核验订正):enemyTeam.rgwEnemy[j] 在 sdlpal 中是
+ * OBJECT 数组绝对 index → OBJECT_ENEMY.wEnemyID → DATA.MKF chunk 1(enemies.json id;battle.c:1602-1611)。
+ * 该两级间接**已在提取期完成**(enemy-teams.ts translate mode 经 buildObjectIndexToEnemyIdMap 把
+ * OBJECT 索引解析成 enemyId 写入 enemy-teams.json)→ 运行时 `.find(e => e.id === slot)` 直接命中即正确,
+ * 无需运行时中间表。(原"本 task 简化方案 / T23 对拍待"备注 FALSE:映射不是简化,是已解析真值。)
  *
  * **select-action UI input 处理**(本 task):tickSelectAction 是 stub — 只检测
  * pendingActions 是否填满,**不处理 Up/Down/Confirm/Cancel 真菜单逻辑**。T26 真画菜单 +

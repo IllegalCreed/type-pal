@@ -684,9 +684,11 @@ export function dispatchBattleOpcode(
     }
 
     case OP_SHOW_MAGIC_ANIM: {
-      // sdlpal `script.c:0092`:PAL_BattleShowPlayerPreMagicAnim + 全队 iColorShift 渐变 cycle
-      //   —— 纯施法前摇动画(present-only)。
-      // present-battle 跳过所有战斗动画(D17)→ no-op。
+      // sdlpal `script.c:2637-2662 (0x0092)`:PAL_BattleShowPlayerPreMagicAnim(op0-1) + 全队
+      //   5 步 iColorShift=i*2 cycle —— 施法前摇动画(赵灵儿觉醒 cutscene cmd@42319 唯一站点)。
+      // TODO(0x92,2026-06-02 核验):原注"present-battle 跳过所有战斗动画→no-op"**FALSE** —— D17
+      //   实际渲染战斗动画,其它战斗 opcode(如 OP_STEAL_FROM_ENEMY)也 startBattleAnim。此处应 wire
+      //   buildPreMagicTimeline(已存在 anim-timeline.ts) + iColorShift cycle 进 startBattleAnim;当前仍 consumed-only。
       return { consumed: true }
     }
 

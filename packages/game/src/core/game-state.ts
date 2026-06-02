@@ -1297,7 +1297,7 @@ export function projectRuntimeToBattleRoles(
       fleeRate: (runtime.rgwFleeRate[i] ?? base.fleeRate) + sumEff('rgwFleeRate', i),
       poisonResistance: clamp100((runtime.rgwPoisonResistance[i] ?? base.poisonResistance) + sumEff('rgwPoisonResistance', i)),
       coveredBy: runtime.rgwCoveredBy[i] ?? base.coveredBy,
-      // 装备 6 槽 / 法术 32 槽:runtime[slot][i] → role 数组(完整 hydrate 逆;battle magic 菜单接真值后可用)
+      // 装备 6 槽 / 法术 32 槽:runtime[slot][i] → role 数组(完整 hydrate 逆;battle magic 菜单已接此 role.magic 真值,见 buildBattleMagicSelect)
       equipment: runtime.rgwEquipment.map((slot) => slot[i] ?? 0),
       magic: runtime.rgwMagic.map((slot) => slot[i] ?? 0),
       // 元素抗 5 维(0 风/1 雷/2 水/3 火/4 土,同 hydrate)+ 装备 effect,clamp [0,100]

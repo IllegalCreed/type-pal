@@ -136,7 +136,7 @@
 |---|---|---|---|---|
 | 0–11 | `rngplay.c:74 PAL_MKFGetChunkCount(fpRngMKF)`;`rngplay.c:416 PAL_RNGReadFrame(…)`;`main.c:200 PAL_RNGPlay(6 …)` | RLE 压缩片段动画(sub-MKF + delta 逐帧;片头等) | ✅ | `images/animation/rng-{NN}/frame-{NNN}.png`(12 dir,**1464 帧**)+ `data/rng-frames.json` |
 
-> ⚠ runtime mirror:RNG PNG 尚未拷到 `packages/game/public/extracted/`(0 份)— 这是 M6 runtime asset-copy 步骤,**非提取 gap**。
+> ✅ runtime serve(2026-06-02 对抗复核订正):RNG PNG 经 `packages/game/public/extracted` → `data/extracted` **软链** + vite `fs.allow`(vite.config.ts:14-19)直接服务全 1464 帧(live dev curl `rng-06/frame-000.png` 200 image/png)。**无需 asset-copy**;原"0 份/M6 步骤"备注 FALSE 已订正(项目从不 serve production build,dev/playwright 均 vite dev)。
 
 ---
 
@@ -224,4 +224,4 @@
 | 1–6.avi | — | — | 6 | ✅ | 6 mp4 |
 | unifont BDF | — | — | 57083 | ✅ | glyphs.json |
 
-> **结论:无真实数据 gap。** STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(DOS/WIN95 以 `.RPG` 存档),不计入。残留仅 M6 runtime 音频播放 wiring(非数据)+ RNG PNG 的 runtime mirror(asset-copy 步骤)。
+> **结论:无真实数据 gap。** STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(DOS/WIN95 以 `.RPG` 存档),不计入。残留仅 M6 runtime 音频播放 wiring(非数据)。(RNG PNG runtime mirror 原备注已订正:软链 + vite fs.allow 已服务全帧,非 gap。)
