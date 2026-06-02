@@ -73,7 +73,7 @@ import {
   presentBattleFrame,
   presentFrame,
 } from '../present/present.js'
-import { createAudioManager, pickMusicTrack, sfxForBattleEvent } from './audio.js'
+import { createAudioManager, createOggMusicBackend, pickMusicTrack, sfxForBattleEvent } from './audio.js'
 import { playAvi } from './avi-player.js'
 import { type BattleFixturesData, type SceneJumpsData, setupDevPanel } from './dev-panel.js'
 import {
@@ -341,6 +341,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // M6 音频:shell 层 Web Audio。core 发意图(gs.pendingSounds SFX 队列 / gs.wNumMusic BGM),
   //   每帧 onPresent 调 audio.sync 消费。首个 keydown resume AudioContext(浏览器 autoplay policy)。
   const audio = createAudioManager('/extracted')
+  // BGM 后端:预渲染 OGG 播放(MIDI 离线渲染成 music/{NNN}.ogg,见 docs;CD track 本就 OGG)。
+  audio.setMusicBackend(createOggMusicBackend('/extracted'))
   window.addEventListener('keydown', () => audio.resume(), { once: true, capture: true })
 
   const loopCtx: LoopContext = {

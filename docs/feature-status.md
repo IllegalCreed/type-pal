@@ -174,15 +174,26 @@
 | G13 | ShowFBP / ScrollFBP runtime(0x76/0xA4/0xA5) | ✅ claimed | ✅ partial | ending.c:48-150 `PAL_ShowFBP` + 152-279 `PAL_ScrollFBP` + g_wCurEffectSprite | shell/fbp-player.ts showFbp/scrollFbp/overlayEffectSprite | commit 5c7aece/046a583/f600c03:0x76 96 步 nibble dither 渐变 + 0xA4 220 步下滑卷入 + 0xA5 MGO effectSprite 叠加。本游戏 in-game 多 0 调用,结局编排 + devpanel 用。fbp-player.test.ts |
 | G14 | ColorFade / PaletteFade 昼夜(0x8C/0x80 + 0x53/0x54) | ✅ claimed | ✅ partial | palette.c:432/494 + script.c:1802/1809 fNightPalette | core/palette-fade.ts buildColorFade/buildPaletteFade + resolveNightColors | commit fec9a11/ac8612e/8fe20e4:0x8C 场景↔纯色双向 64 步 + 0x80 昼夜 toggle 32 步 lerp;夜色经 PAL_GetPalette(n,fNight)选(PAT.MKF #0/#5 夜间半,已提取见 K8)。palette-fade.test.ts |
 
-## H. 音频
+## H. 音频(M6,2026-06-03)
 
-> runtime 播放全部 ⬜(M6 Web Audio);**资源已提取落地**(见 K6 Musics / K7 SOUNDS),数据≠零进展但播放层待 M6。
+> **架构**:core/event-system 不碰 Web Audio,只发意图到 GameState(SFX 队列 `gs.pendingSounds` /
+> BGM `gs.wNumMusic`+`musicLoop`);shell `AudioManager`(shell/audio.ts)每帧 `sync` 消费 → Web Audio。
+> **资源 M4 已提取**(363 WAV + 86 MIDI + 8 CD OGG)。**实际发声 = user 真引擎听验**(Claude 不能听);
+> 本层只保证"何时播什么"逻辑正确(audio.test / event-system.test 覆盖)。
 
 | # | 功能 | 状态 | 测试 | sdlpal 真值出处 | ts 路径 | 备注 / 差异 |
 |---|---|---|---|---|---|---|
-| H1 | BGM(MIDI/MP3/OGG/OPUS) | ⬜ todo | N/A | audio.c + midi*.c + mp3/ogg/opusplay.c | — | opcode 0x43 playMusic 仅写 wNumMusic 字段不播;资源已提取(K6)。M6 Web Audio + SpessaSynth |
-| H2 | SFX sound.c | ⬜ todo | N/A | sound.c 14 fn | — | opcode 0x47 playSound 仅 console.debug;363 WAV 已提取(K7)。M6 |
-| H3 | CD audio | ⬜ todo | N/A | audio.c CD 相关 | — | 8 TRACKxx.ogg 已提取(K6);opcode 0xA3 未接播。M6 |
+| H1 | BGM(MIDI/CD) | ✅ 待听验 | ✅ unit | audio.c + midi.c:67 + battle.c:728/1849 | core 意图 + shell/audio.ts(AudioManager + createOggMusicBackend) | opcode 0x43/0x45/0x73 → wNumMusic+musicLoop;战斗 BGM 切换(pickMusicTrack:战斗→wNumBattleMusic、退出→场景乐)。**播放后端 = 预渲染 OGG**(HTMLAudio looped):浏览器不能播 MIDI,沿用 AVI→mp4 离线模式(见下 §MIDI 渲染),user 一次性 fluidsynth 渲染 music/{NNN}.ogg;CD track 本就 OGG。残:per-track 听验 + OGG 渲染(user 离线步) |
+| H2 | SFX sound.c | ✅ 待听验 | ✅ unit | sound.c + fight.c:756/2124 + battle.c:1397 | core 0x47→gs.pendingSounds + shell sfxForBattleEvent | opcode 0x47 playSound → pendingSounds 队列 → AudioManager 播 /extracted/sounds/{id}.wav(decodeAudioData 缓存)。战斗 SFX:敌死 deathSound / 敌攻 attackSound / 我攻 weaponSound(shell 读 bus 事件+单位声数据)。残:法术 magic.sound / 暴击 / 阵亡 / 菜单光标声(同模式可扩展)+ 听验 |
+| H3 | CD audio | ✅ 待听验 | ✅ unit | audio.c CD 相关 | 同 H1(0xA3→wNumMusic looped) | 8 TRACKxx.ogg 已提取;0xA3 playCDMusic → wNumMusic looped → OGG backend 直接播(CD track 原生 OGG)。残:听验 |
+
+### MIDI → OGG 离线渲染(BGM 发声前置,user 一次性 build 步)
+
+浏览器无法直接播 `Musics/{NNN}.mid`。沿用本项目媒体惯例(AVI 走离线 ffmpeg→mp4,memory
+`avi-offline-ffmpeg-to-mp4`):**离线**用 fluidsynth + 一个 GM SoundFont(`.sf2`)把 86 个 MIDI
+渲染成 `data/extracted/music/{NNN}.ogg`,运行时 `createOggMusicBackend` 播标准 OGG —— 无需运行时
+synth / 巨型 soundfont 进仓。示例:`for f in data/extracted/music/*.mid; do fluidsynth -F "${f%.mid}.ogg" GM.sf2 "$f"; done`。
+SoundFont 选择 / 音色 / 听感由 user 定(licensing + 听验只能 user 做)。渲染前 BGM 静默(不报错)。
 
 ## I. 通关 / Ending
 
