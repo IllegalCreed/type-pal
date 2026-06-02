@@ -466,6 +466,12 @@ export interface BattleState {
    */
   fleeAnim?: { step: number }
   /**
+   * D13 敌人主动逃飞出屏(sdlpal `PAL_BattleEnemyEscape`,battle.c:1399-1434)。0x69 opcode 设 { step:0 } →
+   * tickBattleEnemyEscapeAnim 每 tick 把全体活敌往**左**挪(x-=ENEMY_FLYOUT_DX,y 不变),全部移出左屏 →
+   * phase='fleed'(Terminated 无奖励;**不**改 health 避免误给 exp)。undefined = 无敌逃动画。
+   */
+  enemyEscapeAnim?: { step: number }
+  /**
    * D17 敌人死亡淡出 hold(PAL_BattleFadeScene,fight.c:889-893 + battle.c:608-682)。
    * 某 action 后有新死敌 → checkEnemyDeaths 开启 { elapsedMs: 0 };tickPerformAction 的
    * fade 分支按 BATTLE_DT 累 elapsedMs、推进所有淡出中敌人的 deathFadeStep(= floor(elapsedMs/16),

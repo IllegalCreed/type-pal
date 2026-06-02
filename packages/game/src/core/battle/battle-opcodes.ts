@@ -1040,11 +1040,11 @@ export function dispatchBattleOpcode(
     }
 
     case OP_ENEMY_ESCAPE: {
-      // sdlpal `script.c:2035` → PAL_BattleEnemyEscape(battle.c:1376):播逃跑动画 + 设
-      //   `BattleResult = kBattleResultTerminated`(0)→ **终止整场战斗,无奖励**(全队不掉 exp/cash)。
-      //   **审计修**:此前设 enemy.health=0 → 被 postAction 当击杀**给了 exp/cash**(注释"不掉战利品"是错的)。
-      //   改对齐 0x89 的 Terminated 映射 → phase='fleed'(结束无奖励)。逃跑动画属 present 演出,略。
-      state.phase = 'fleed'
+      // sdlpal `script.c:2035` → PAL_BattleEnemyEscape(battle.c:1399-1434):**先播飞出屏动画**(全活敌往左挪
+      //   到出屏)再设 `BattleResult = kBattleResultTerminated`(0)→ 终止整场战斗,无奖励(不掉 exp/cash)。
+      //   **审计修**:此前设 enemy.health=0 → 被 postAction 当击杀给了 exp/cash。**D13**:改触发 enemyEscapeAnim
+      //   (tickBattleEnemyEscapeAnim 飞出 → phase='fleed' 无奖励),**不**改 health(避免误给 exp)。
+      state.enemyEscapeAnim = { step: 0 }
       return { consumed: true }
     }
 

@@ -393,6 +393,9 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   //   放完才 phase='fleed' → finalize。期间暂停一切推进。
   if (tickBattleFleeAnim(state, res)) return
 
+  // D13 敌人主动逃飞出屏 hold(phase-agnostic):0x69 触发后全活敌往左挪到出屏 → phase='fleed'。
+  if (tickBattleEnemyEscapeAnim(state)) return
+
   // 战斗内对话 hold(phase-agnostic):战斗脚本 0xFFFF showDialog 收集的队列逐 tick 喂进
   //   复用的大世界 gs.dialogBox + 等键/1.4s,期间暂停战斗(忠实 sdlpal PAL_ShowDialogText 同步 blocking)。
   //
@@ -1458,6 +1461,34 @@ function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
   // 16 步完 → 全员移出屏(battle.c:1520-1523)→ fleed → 下 tick finalize
   for (const p of state.players) p.pos = { x: 9999, y: 9999 }
   state.fleeAnim = undefined
+  state.phase = 'fleed'
+  state.phaseStallTicks = 0
+  return true
+}
+
+/** D13 入场 fade 同尺度:全活敌每 tick 往左 ENEMY_FLYOUT_DX,全过 -ENEMY_FLYOUT_OFFSCREEN → fleed。 */
+const ENEMY_FLYOUT_DX = 20 // sdlpal 5px/10ms ≈ 20px/40ms tick(battle.c:1413)
+const ENEMY_FLYOUT_OFFSCREEN = 160 // x <= -160 视为精灵全出左屏(近似 x+width<=0,battle.c:1420)
+const ENEMY_FLYOUT_MAX_STEPS = 40 // 安全上限(最右敌 ~320 / 20 + margin)
+
+/**
+ * D13 敌人主动逃飞出屏(sdlpal `PAL_BattleEnemyEscape`,battle.c:1399-1434):0x69 设 enemyEscapeAnim 后,
+ * 每 tick 把全体活敌往**左**挪(x-=ENEMY_FLYOUT_DX,y 不变);全部 x<=-OFFSCREEN(或超安全步数)→ phase='fleed'
+ * (Terminated 无奖励,**不**改 health 避免误给 exp)。返回 true = 本 tick 被该 hold 占用。
+ */
+function tickBattleEnemyEscapeAnim(state: BattleState): boolean {
+  const ea = state.enemyEscapeAnim
+  if (!ea) return false
+  let anyOnScreen = false
+  for (const e of state.enemies) {
+    if (e.e.health <= 0 || !e.pos) continue // 死敌(wObjectID==0)跳过(battle.c:1408)
+    e.pos = { x: e.pos.x - ENEMY_FLYOUT_DX, y: e.pos.y }
+    if (e.pos.x > -ENEMY_FLYOUT_OFFSCREEN) anyOnScreen = true // 仍在屏(x+width>0,battle.c:1420)
+  }
+  ea.step++
+  if (anyOnScreen && ea.step < ENEMY_FLYOUT_MAX_STEPS) return true // 继续飞
+  // 全出屏 → 终止整场(无奖励);不动 health(fled 不结算 exp)
+  state.enemyEscapeAnim = undefined
   state.phase = 'fleed'
   state.phaseStallTicks = 0
   return true

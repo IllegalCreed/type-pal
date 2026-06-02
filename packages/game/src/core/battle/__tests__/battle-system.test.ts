@@ -98,6 +98,22 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     expect(b.gs.battleState!.phase).toBe('selectAction')
   })
 
+  // D13 敌人主动逃飞出屏(sdlpal PAL_BattleEnemyEscape,battle.c:1399-1434)。
+  it('D13:enemyEscapeAnim → 全活敌往左挪到出屏 → phase=fleed;health 不变(fled 无 exp)', () => {
+    const { gs, bus, emptyInput } = bootstrap({ enemies: [makeEnemy({ id: 100, health: 50 })] })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction(无 introFade)
+    const state = gs.battleState!
+    state.enemies[0]!.pos = { x: 200, y: 80 } // 确保有 pos
+    const startHp = state.enemies[0]!.e.health
+    state.enemyEscapeAnim = { step: 0 } // 模拟 0x69 触发
+    tickBattle(gs, emptyInput, bus)
+    expect(state.enemies[0]!.pos!.x).toBe(180) // 200 - 20(往左 ENEMY_FLYOUT_DX）
+    let guard = 50
+    while (state.enemyEscapeAnim && guard-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(state.phase).toBe('fleed') // 出屏 → 终止
+    expect(state.enemies[0]!.e.health).toBe(startHp) // 不改 health(避免误给 exp)
+  })
+
   // E04-c 集成:真战斗里玩家攻击 → wCount 累积(performBattleAction 接 fight.c:3756-3757)。
   it('集成:startBattle 清 wCount;玩家攻击 → rgAttackExp+1 / rgHealthExp+R(2,3)', () => {
     const { gs, bus, emptyInput } = bootstrap({
