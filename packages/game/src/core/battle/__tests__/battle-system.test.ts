@@ -32,9 +32,52 @@ import type {
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus, type PresentCommand } from '../../command-bus.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
-import { activateHidingEffect, decrementHidingEffect, selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
+import { activateHidingEffect, applyHiddenExpGrowth, decrementHidingEffect, selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
 import { tickMenu } from '../../menu/menu-mode.js'
 import type { BattleEnemy } from '../battle-state.js'
+
+// E04-b 隐藏属性经验分配公式(sdlpal battle.c:1226-1293 CHECK_HIDDEN_EXP)。
+describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () => {
+  const oneRng = { rangeInclusive: (_a: number, _b: number) => 1 } // R(1,2) 恒 1,确定性
+
+  it('单池:d=trunc(exp*wCount/total)*2+wExp,逐级扣阈值涨属性,余写 wExp', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.Exp.rgHealthExp[0] = { wExp: 0, wLevel: 0, wCount: 1 } // 仅 health 累积 → iTotalCount=1
+    gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
+    const levelUpExp = Array(100).fill(100) // 每级阈值 100
+    // d = trunc(100*1/1)*2+0 = 200 → 扣 100(lv0→1,maxHP+1)→ 扣 100(lv1→2,maxHP+1)→ 余 0
+    const res = applyHiddenExpGrowth({ exp: gs.Exp, rt: gs.PlayerRolesRuntime, roleId: 0, expGained: 100, levelUpExp, rng: oneRng })
+    expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(102) // +2(两级各 R(1,2)=1)
+    expect(gs.Exp.rgHealthExp[0]!.wExp).toBe(0)
+    expect(gs.Exp.rgHealthExp[0]!.wLevel).toBe(2)
+    expect(res).toEqual([{ stat: 'rgwMaxHP', label: 'maxHP', delta: 2 }])
+  })
+
+  it('iTotalCount=0(无累积)→ 整段跳过,无属性变化,返回 []', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
+    const res = applyHiddenExpGrowth({ exp: gs.Exp, rt: gs.PlayerRolesRuntime, roleId: 0, expGained: 999, levelUpExp: Array(100).fill(10), rng: oneRng })
+    expect(res).toEqual([])
+    expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(100)
+  })
+
+  it('多池按 wCount 占比分(health:2 / attack:1,total=3)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.Exp.rgHealthExp[0] = { wExp: 0, wLevel: 0, wCount: 2 }
+    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 0, wCount: 1 }
+    gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
+    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 50
+    const levelUpExp = Array(100).fill(100)
+    // health: d=trunc(300*2/3)*2=400 → 4 级(maxHP+4);attack: d=trunc(300*1/3)*2=200 → 2 级(atk+2)
+    const res = applyHiddenExpGrowth({ exp: gs.Exp, rt: gs.PlayerRolesRuntime, roleId: 0, expGained: 300, levelUpExp, rng: oneRng })
+    expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(104)
+    expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(52)
+    expect(res).toEqual([
+      { stat: 'rgwMaxHP', label: 'maxHP', delta: 4 },
+      { stat: 'rgwAttackStrength', label: 'attack', delta: 2 },
+    ])
+  })
+})
 
 // ============================================================================
 // Fixture helpers

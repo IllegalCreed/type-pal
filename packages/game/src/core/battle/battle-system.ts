@@ -47,7 +47,7 @@ import type {
 } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
 import { curePlayerPoisonByLevel, getGlobalCommands, type RunScriptOptions, runScript } from '../event-system.js'
-import type { GameState, PlayerRolesRuntime } from '../game-state.js'
+import type { AllExperience, GameState, PlayerRolesRuntime } from '../game-state.js'
 import { type BattleOutcome, clearHiddenExpCounts, resumePostBattleScript, writeBackBattleRolesToRuntime } from '../game-state.js'
 import {
   getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity,
@@ -2315,6 +2315,76 @@ export interface BattleLevelUpResult {
    * (含装备加成,battle.c:1184-1212 真值)。name/magicName 在 buildBattleWonSettlement 用 res 补。
    */
   snapshot?: Omit<LevelUpScreenData, 'name'>
+}
+
+/**
+ * E04 隐藏属性经验池 → runtime 属性字段映射(sdlpal CHECK_HIDDEN_EXP 调用顺序 battle.c:1276-1282):
+ *   Health→rgwMaxHP / Magic→rgwMaxMP / Attack→rgwAttackStrength / MagicPower→rgwMagicStrength /
+ *   Defense→rgwDefense / Dexterity→rgwDexterity / Flee→rgwFleeRate。**顺序严格**(影响 RandomLong 消耗序)。
+ */
+const HIDDEN_EXP_POOLS: ReadonlyArray<{
+  key: 'rgHealthExp' | 'rgMagicExp' | 'rgAttackExp' | 'rgMagicPowerExp' | 'rgDefenseExp' | 'rgDexterityExp' | 'rgFleeExp'
+  stat: 'rgwMaxHP' | 'rgwMaxMP' | 'rgwAttackStrength' | 'rgwMagicStrength' | 'rgwDefense' | 'rgwDexterity' | 'rgwFleeRate'
+  label: string
+}> = [
+  { key: 'rgHealthExp', stat: 'rgwMaxHP', label: 'maxHP' },
+  { key: 'rgMagicExp', stat: 'rgwMaxMP', label: 'maxMP' },
+  { key: 'rgAttackExp', stat: 'rgwAttackStrength', label: 'attack' },
+  { key: 'rgMagicPowerExp', stat: 'rgwMagicStrength', label: 'magic' },
+  { key: 'rgDefenseExp', stat: 'rgwDefense', label: 'defense' },
+  { key: 'rgDexterityExp', stat: 'rgwDexterity', label: 'dexterity' },
+  { key: 'rgFleeExp', stat: 'rgwFleeRate', label: 'fleeRate' },
+]
+
+/** 隐藏属性经验某池涨点结果(供结算屏显示)。 */
+export interface HiddenExpGrowthResult { stat: string; label: string; delta: number }
+
+/**
+ * 隐藏属性经验分配 —— sdlpal `CHECK_HIDDEN_EXP`(battle.c:1226-1293),per-role 在主升级之后跑。
+ *
+ * iTotalCount = 7 隐藏池 wCount 之和(**不含主经验**)。iTotalCount<=0 → 整段跳过(忠实零行为)。
+ * 每池(严格 Health→…→Flee 序):
+ *   dwExp = trunc(expGained * wCount / iTotalCount) * 2 + wExp  (逐步整数,截断在 /iTotalCount 处,*2 在其后)
+ *   wLevel>99 → 钳 99;while dwExp >= levelUpExp[wLevel]:dwExp-=阈值;**rt.stat += RandomLong(1,2)**;wLevel<99→++
+ *   wExp = (WORD)dwExp
+ * 写 rt(PlayerRolesRuntime raw base,与主升级同源)—— **不**写 projected role(否则装备加成被当 base 错涨,D27)。
+ * **不做 STAT_LIMIT 钳**(sdlpal CHECK_HIDDEN_EXP 与主升级不同,无 cap)。返回各池涨点(供结算屏 hidden-exp-up box)。
+ */
+export function applyHiddenExpGrowth(input: {
+  exp: AllExperience
+  rt: PlayerRolesRuntime
+  roleId: number
+  expGained: number
+  levelUpExp: number[]
+  rng: { rangeInclusive: (a: number, b: number) => number }
+}): HiddenExpGrowthResult[] {
+  const { exp, rt, roleId, expGained, levelUpExp, rng } = input
+  let iTotalCount = 0
+  for (const p of HIDDEN_EXP_POOLS) iTotalCount += exp[p.key][roleId]?.wCount ?? 0
+  if (iTotalCount <= 0) return [] // 无累积 → 跳过
+
+  const results: HiddenExpGrowthResult[] = []
+  for (const p of HIDDEN_EXP_POOLS) {
+    const entry = exp[p.key][roleId]
+    const statRow = rt[p.stat]
+    if (!entry || !statRow) continue
+    const wCount = entry.wCount ?? 0
+    let dwExp = Math.trunc((expGained * wCount) / iTotalCount) * 2 + entry.wExp
+    if (entry.wLevel > 99) entry.wLevel = 99
+    let delta = 0
+    while (true) {
+      const threshold = levelUpExp[entry.wLevel]
+      if (threshold === undefined || threshold <= 0 || dwExp < threshold) break
+      dwExp -= threshold
+      const inc = rng.rangeInclusive(1, 2) // RandomLong(1,2)
+      statRow[roleId] = (statRow[roleId] ?? 0) + inc
+      delta += inc
+      if (entry.wLevel < 99) entry.wLevel++
+    }
+    entry.wExp = dwExp & 0xffff // WORD 截断
+    if (delta > 0) results.push({ stat: p.stat, label: p.label, delta })
+  }
+  return results
 }
 
 /**
