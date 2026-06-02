@@ -2945,9 +2945,12 @@ function applyRawOpcode(
     }
 
     case OP_PLAY_MUSIC: {
+      // sdlpal script.c:1647 AUDIO_PlayMusic(op0, op1!=1, op1==3&&op0!=9 ? 3.0 : 0)。
+      //   op0 = music track;loop = op1!=1;fade = op1==3 时 3s。ts:写 wNumMusic + musicLoop,
+      //   shell 每帧轮询切 BGM(Musics/{op0}.mid)。
       const musicId = operands[0] ?? 0
       gs.wNumMusic = musicId
-      console.debug(`event-system: playMusic id=${musicId} (M6 接真播)`)
+      gs.musicLoop = (operands[1] ?? 0) !== 1
       break
     }
 
@@ -2971,9 +2974,9 @@ function applyRawOpcode(
     case OP_PLAY_CD_MUSIC: {
       // sdlpal script.c:3023:gpGlobals->wNumMusic = op1;CD 可用 → PlayCDTrack(op0,-1→-2),失败回
       //   RIX PlayMusic(op1);CD 不可用 → 直接 RIX PlayMusic(op1)。
-      //   ts 无 CD → 等价"回退 RIX":state-set wNumMusic=op1;M6 接 RIX 真播。op0(CD track)记 log。
+      //   ts 无 CD → 等价"回退 RIX":wNumMusic=op1 looped(sdlpal AUDIO_PlayMusic(op1,TRUE,0))。
       gs.wNumMusic = operands[1] ?? 0
-      console.debug(`event-system: playCDMusic cdTrack=${toInt16(operands[0] ?? 0)} → RIX id=${gs.wNumMusic} (M6 接真播)`)
+      gs.musicLoop = true
       break
     }
 
@@ -3086,8 +3089,9 @@ function applyRawOpcode(
     }
 
     case OP_PLAY_SOUND: {
-      // sdlpal script.c:1704-1709:AUDIO_PlaySound(operand[0])。M6 接音频。
-      console.debug(`event-system: playSound id=${operands[0] ?? 0}(M6 接音频系统)`)
+      // sdlpal script.c:1704-1709:AUDIO_PlaySound(operand[0])。M6:push 进 gs.pendingSounds 队列,
+      //   shell AudioManager 每帧 drain → Web Audio 播 SOUNDS.MKF chunk。
+      ;(gs.pendingSounds ??= []).push(operands[0] ?? 0)
       break
     }
 

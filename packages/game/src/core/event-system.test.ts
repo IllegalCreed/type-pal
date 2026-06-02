@@ -15,7 +15,7 @@ import {
   OP_RIDE_OBJECT_2, OP_RIDE_OBJECT_4, OP_RIDE_OBJECT_8, OP_MONSTER_CHASE,
   setObstacleChecker, setGlobalEvents, resolveScriptLabel,
   startOverworldItemScript, setSceneLoader,
-  OP_PLAY_MUSIC, OP_FADE_OUT, OP_FADE_IN, OP_SCENE_FADE, OP_PALETTE_FADE, OP_COLOR_FADE,
+  OP_PLAY_MUSIC, OP_PLAY_SOUND, OP_FADE_OUT, OP_FADE_IN, OP_SCENE_FADE, OP_PALETTE_FADE, OP_COLOR_FADE,
   OP_FADE_TO_RED, OP_FADE_TO_SCENE, tickSceneAutoFadeIn, OP_REDRAW_SCREEN, OP_RESTORE_SCREEN,
   OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, setRngPlayHandler, type RngPlayHandlerInput,
   OP_SHOW_FBP, setShowFbpHandler, type ShowFbpHandlerInput,
@@ -2250,18 +2250,16 @@ describe('I-w1.a chest opcodes', () => {
     expect(gs.inventory).toEqual([])
   })
 
-  it('playSound(0x47):console.debug 不报错 + ip++', () => {
+  it('playSound(0x47):push gs.pendingSounds + ip++(M6 音频意图,不再 console.debug stub)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
-    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
     loadEvent(gs, [
       { op: 'raw', opcode: 0x47, operands: [10, 0, 0] },
       { op: 'end' },
     ])
     expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
     expect(gs.mode).toBe('explore') // 一帧跑完
-    expect(debugSpy).toHaveBeenCalled()
-    debugSpy.mockRestore()
+    expect(gs.pendingSounds).toEqual([10]) // M6:soundId 入队供 shell AudioManager 播
   })
 })
 
@@ -4484,7 +4482,7 @@ describe('audio opcodes(state-set,M6 接真播)', () => {
     expect(gs.wNumMusic).toBe(0)
   })
 
-  it('0xA3 playCDMusic → gs.wNumMusic = op1(RIX 回退,script.c:3023)', () => {
+  it('0xA3 playCDMusic → gs.wNumMusic = op1(RIX 回退,script.c:3023)+ looped', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
@@ -4493,6 +4491,34 @@ describe('audio opcodes(state-set,M6 接真播)', () => {
     ])
     tickEventSystem(gs, snap(), bus)
     expect(gs.wNumMusic).toBe(19)
+    expect(gs.musicLoop).toBe(true) // AUDIO_PlayMusic(op1, TRUE, 0)
+  })
+
+  // M6 音频意图层:opcode → gs 字段(shell AudioManager 每帧消费 → Web Audio)。
+  it('0x43 playMusic → wNumMusic=op0 + musicLoop=(op1!=1)(script.c:1647)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    // op1=0 → loop
+    loadEvent(gs, [{ op: 'raw', opcode: OP_PLAY_MUSIC, operands: [16, 0, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.wNumMusic).toBe(16)
+    expect(gs.musicLoop).toBe(true)
+    // op1=1 → no-loop(一次性 stinger)
+    loadEvent(gs, [{ op: 'raw', opcode: OP_PLAY_MUSIC, operands: [16, 1, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.musicLoop).toBe(false)
+  })
+
+  it('0x47 playSound → push gs.pendingSounds(队列,shell drain 播)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_PLAY_SOUND, operands: [88, 0, 0] },
+      { op: 'raw', opcode: OP_PLAY_SOUND, operands: [47, 0, 0] }, // "啧～" 不可用音
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.pendingSounds).toEqual([88, 47])
   })
 })
 

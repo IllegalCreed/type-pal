@@ -1,0 +1,143 @@
+/**
+ * M6 AudioManager —— shell 层 Web Audio 播放。
+ *
+ * 架构:core / event-system **不碰 Web Audio**,只发音频意图到 GameState:
+ *   - SFX:`gs.pendingSounds`(number[] 队列;opcode 0x47 / 战斗 / 菜单 push)→ 本 manager 每帧 drain 播。
+ *   - BGM:`gs.wNumMusic`(当前 track,0=停)+ `gs.musicLoop` → 本 manager 轮询 track 变化即切。
+ *
+ * 资源(M4 已提取,public/extracted 软链):
+ *   - SFX:SOUNDS.MKF chunk → `/extracted/sounds/{id}.wav`(RIFF,decodeAudioData 直接解)。
+ *   - BGM:Musics → `/extracted/music/{NNN}.mid`(MIDI;M6b 接 synth/预渲染,见 setMusicBackend)。
+ *
+ * sdlpal 真值:`AUDIO_PlaySound(num)`(sound.c) / `AUDIO_PlayMusic(num, loop, fade)`(audio.c)。
+ *
+ * 浏览器 autoplay policy:AudioContext 须在用户手势后 resume() —— shell 在首个 keydown 调 resume()。
+ * 测试 / SSR(无 window.AudioContext)→ 退化为 no-op(loadSfx/play 静默跳过),syncAudio 纯逻辑仍可单测。
+ */
+
+/** BGM 播放后端(M6b 注入:MIDI synth 或预渲染 OGG)。M6a 缺省 no-op。 */
+export interface MusicBackend {
+  /** 播 track(looped);track 同号重复调应幂等(已在播则不重启)。 */
+  play(track: number, loop: boolean): void
+  /** 停(可选淡出)。 */
+  stop(fadeMs?: number): void
+}
+
+export interface AudioManager {
+  /**
+   * 每帧调:① drain pendingSounds → 播 SFX(并清空队列)② 轮询 music.track 变化 → 切 BGM。
+   * 纯转发到 Web Audio / MusicBackend;无副作用可测部分见 sfxUrl / 队列清空。
+   */
+  sync(pendingSounds: number[] | undefined, music: { track: number; loop: boolean }): void
+  /** 用户手势(首个 keydown)后 resume AudioContext(autoplay policy)。 */
+  resume(): void
+  /** C1 系统菜单「音效」开关。 */
+  setSfxEnabled(on: boolean): void
+  /** C1 系统菜单「音乐」开关。 */
+  setMusicEnabled(on: boolean): void
+  /** M6b:注入 BGM 后端(MIDI synth / 预渲染播放器)。 */
+  setMusicBackend(backend: MusicBackend | undefined): void
+}
+
+/** SFX chunk id → WAV url(纯,可测)。baseUrl 约定 '/extracted'(public/extracted 软链→data/extracted)。 */
+export function sfxUrl(baseUrl: string, soundId: number): string {
+  return `${baseUrl}/sounds/${soundId}.wav`
+}
+
+/** BGM track → MIDI url(纯,可测;sdlpal midi.c:67 `Musics/%.3d.mid`,3 位零填充)。 */
+export function musicUrl(baseUrl: string, track: number): string {
+  return `${baseUrl}/music/${track.toString().padStart(3, '0')}.mid`
+}
+
+type WebAudioWindow = typeof globalThis & {
+  AudioContext?: typeof AudioContext
+  webkitAudioContext?: typeof AudioContext
+}
+
+export function createAudioManager(baseUrl = ''): AudioManager {
+  const w = (typeof window !== 'undefined' ? window : undefined) as WebAudioWindow | undefined
+  const AudioCtor = w?.AudioContext ?? w?.webkitAudioContext
+  // 无 Web Audio(测试 / SSR)→ ctx 恒 undefined,所有播放静默跳过。
+  let ctx: AudioContext | undefined
+  const sfxBuffers = new Map<number, AudioBuffer>()
+  const sfxPending = new Set<number>() // 正在 fetch/decode,避免重复请求
+  let sfxEnabled = true
+  let musicEnabled = true
+  let musicBackend: MusicBackend | undefined
+  let curMusicTrack = -1 // -1 = 未初始化;轮询时与 music.track 比较
+
+  function ensureCtx(): AudioContext | undefined {
+    if (!AudioCtor) return undefined
+    if (!ctx) ctx = new AudioCtor()
+    return ctx
+  }
+
+  async function loadSfx(soundId: number): Promise<AudioBuffer | undefined> {
+    const c = ensureCtx()
+    if (!c) return undefined
+    const cached = sfxBuffers.get(soundId)
+    if (cached) return cached
+    if (sfxPending.has(soundId)) return undefined
+    sfxPending.add(soundId)
+    try {
+      const res = await fetch(sfxUrl(baseUrl, soundId))
+      if (!res.ok) return undefined
+      const buf = await c.decodeAudioData(await res.arrayBuffer())
+      sfxBuffers.set(soundId, buf)
+      return buf
+    } catch {
+      return undefined // SFX 缺失 / 解码失败 → 静默(不阻塞游戏)
+    } finally {
+      sfxPending.delete(soundId)
+    }
+  }
+
+  function playSfx(soundId: number): void {
+    const c = ensureCtx()
+    if (!c || !sfxEnabled) return
+    const buf = sfxBuffers.get(soundId)
+    if (buf) {
+      const src = c.createBufferSource()
+      src.buffer = buf
+      src.connect(c.destination)
+      src.start()
+      return
+    }
+    // 未缓存 → 异步加载完后**不**补播(SFX 是即时反馈,迟到无意义);仅预热缓存供下次。
+    void loadSfx(soundId)
+  }
+
+  return {
+    sync(pendingSounds, music) {
+      // ① SFX:drain 队列(就地清空,core 复用同一数组引用)
+      if (pendingSounds && pendingSounds.length > 0) {
+        for (const id of pendingSounds) playSfx(id)
+        pendingSounds.length = 0
+      }
+      // ② BGM:track 变化即切(0 = 停)
+      if (music.track !== curMusicTrack) {
+        curMusicTrack = music.track
+        if (!musicEnabled) return
+        if (music.track === 0) musicBackend?.stop()
+        else musicBackend?.play(music.track, music.loop)
+      }
+    },
+    resume() {
+      const c = ensureCtx()
+      if (c && c.state === 'suspended') void c.resume()
+    },
+    setSfxEnabled(on) {
+      sfxEnabled = on
+    },
+    setMusicEnabled(on) {
+      musicEnabled = on
+      if (!on) musicBackend?.stop()
+      else if (curMusicTrack > 0) musicBackend?.play(curMusicTrack, true)
+    },
+    setMusicBackend(backend) {
+      musicBackend = backend
+      // 注入后端时若已有当前 track → 立即起播(覆盖 M6a no-op 期间漏播的 BGM)。
+      if (backend && musicEnabled && curMusicTrack > 0) backend.play(curMusicTrack, true)
+    },
+  }
+}

@@ -44,6 +44,16 @@ export type PresentCommand =
     }
   | { op: 'playEnemyDeath'; enemyIdx: number }
   | { op: 'showBattleUI'; state: 'mainMenu' | 'magicMenu' | 'itemMenu' | 'targetSelect' | 'hidden' }
+  // M6 音频意图(core 发,shell AudioManager Web Audio 消费;core 不碰 Web Audio):
+  /** SFX 一次性播放(sdlpal `AUDIO_PlaySound(num)`,script.c:1708 0x47 / 战斗攻击受击 / 菜单)。soundId = SOUNDS.MKF chunk。 */
+  | { op: 'playSound'; soundId: number }
+  /**
+   * BGM 播放(sdlpal `AUDIO_PlayMusic(num, loop, fade)`,script.c:1647 0x43 / 3032 CD / 战斗起手)。
+   * musicId = Musics/{NNN}.mid track;loop = op1!=1(0x43 真值);fadeMs = 淡入毫秒(0x43 op1==3 → 3000)。
+   */
+  | { op: 'playMusic'; musicId: number; loop: boolean; fadeMs: number }
+  /** 停 BGM(sdlpal `AUDIO_PlayMusic(0, FALSE, fade)`,script.c:2219 0x45 / 0x77 战斗停乐)。fadeMs = 淡出毫秒。 */
+  | { op: 'stopMusic'; fadeMs: number }
 
 export interface BusEntry {
   cmdId: number

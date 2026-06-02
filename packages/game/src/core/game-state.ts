@@ -787,11 +787,22 @@ export interface GameState {
   wPaletteOffset: number
 
   /**
-   * 当前 BGM id(sdlpal global.h:534 `wNumMusic`)。
+   * 当前 BGM id(sdlpal global.h:534 `wNumMusic`)。0 = 停乐。
    *
-   * P0.e:opcode 0x43 `playMusic` 写入。M6 接真播,本阶段只记字段值供 sync 校验。
+   * M6:opcode 0x43/0x45/0x73 + 战斗起手写入;shell AudioManager 每帧轮询此值,变化即切 BGM
+   * (Musics/{NNN}.mid,looped)/ 0 停。
    */
   wNumMusic: number
+  /**
+   * M6 BGM 循环标志(sdlpal `AUDIO_PlayMusic(num, loop, fade)` 的 loop = op1!=1,script.c:1647)。
+   * 0x43 写入;默认 true(游戏 BGM 几乎全循环)。shell 切 BGM 时按此决定 loop。
+   */
+  musicLoop?: boolean
+  /**
+   * M6 SFX 一次性播放队列(sdlpal `AUDIO_PlaySound(num)`)。opcode 0x47 / 战斗攻击受击 / 菜单 push
+   * SOUNDS.MKF chunk 号;shell AudioManager 每帧 drain → Web Audio 播 → 清空。**transient,不存档**。
+   */
+  pendingSounds?: number[]
 
   /**
    * 战斗 BGM 编号(sdlpal SAVEDGAME_WIN.wNumBattleMusic)。
