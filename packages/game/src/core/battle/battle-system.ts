@@ -2232,6 +2232,9 @@ function buildBattleWonSettlement(gs: GameState, state: BattleState, res: Battle
     const name = res.playerRoles.roles[r.roleId]?._name ?? `role#${r.roleId}`
     if (r.snapshot)
       screens.push({ kind: 'level-up', data: { ...r.snapshot, name } })
+    // E04:隐藏属性涨点 box(sdlpal CHECK_HIDDEN_EXP battle.c:1264-1273)— 主升级 box 之后、学法术之前,逐属性一屏。
+    for (const g of r.hiddenExpGrowth ?? [])
+      screens.push({ kind: 'hidden-exp-up', data: { roleId: r.roleId, name, statLabelWord: g.statLabelWord, delta: g.delta } })
     for (const magicId of r.learnedMagics) {
       const magicName = res.spells.find((s) => s.id === magicId)?._name ?? `仙术#${magicId}`
       screens.push({ kind: 'learn-magic', data: { roleId: r.roleId, name, magicName } })
@@ -2345,18 +2348,20 @@ const HIDDEN_EXP_POOLS: ReadonlyArray<{
   key: 'rgHealthExp' | 'rgMagicExp' | 'rgAttackExp' | 'rgMagicPowerExp' | 'rgDefenseExp' | 'rgDexterityExp' | 'rgFleeExp'
   stat: 'rgwMaxHP' | 'rgwMaxMP' | 'rgwAttackStrength' | 'rgwMagicStrength' | 'rgwDefense' | 'rgwDexterity' | 'rgwFleeRate'
   label: string
+  /** 结算屏属性 WORD id(sdlpal STATUS_LABEL_*,ui.h:86-96):49体力/50真气/51武术/52灵力/53防御/54身法/55吉运。 */
+  statLabelWord: number
 }> = [
-  { key: 'rgHealthExp', stat: 'rgwMaxHP', label: 'maxHP' },
-  { key: 'rgMagicExp', stat: 'rgwMaxMP', label: 'maxMP' },
-  { key: 'rgAttackExp', stat: 'rgwAttackStrength', label: 'attack' },
-  { key: 'rgMagicPowerExp', stat: 'rgwMagicStrength', label: 'magic' },
-  { key: 'rgDefenseExp', stat: 'rgwDefense', label: 'defense' },
-  { key: 'rgDexterityExp', stat: 'rgwDexterity', label: 'dexterity' },
-  { key: 'rgFleeExp', stat: 'rgwFleeRate', label: 'fleeRate' },
+  { key: 'rgHealthExp', stat: 'rgwMaxHP', label: 'maxHP', statLabelWord: 49 },
+  { key: 'rgMagicExp', stat: 'rgwMaxMP', label: 'maxMP', statLabelWord: 50 },
+  { key: 'rgAttackExp', stat: 'rgwAttackStrength', label: 'attack', statLabelWord: 51 },
+  { key: 'rgMagicPowerExp', stat: 'rgwMagicStrength', label: 'magic', statLabelWord: 52 },
+  { key: 'rgDefenseExp', stat: 'rgwDefense', label: 'defense', statLabelWord: 53 },
+  { key: 'rgDexterityExp', stat: 'rgwDexterity', label: 'dexterity', statLabelWord: 54 },
+  { key: 'rgFleeExp', stat: 'rgwFleeRate', label: 'fleeRate', statLabelWord: 55 },
 ]
 
-/** 隐藏属性经验某池涨点结果(供结算屏显示)。 */
-export interface HiddenExpGrowthResult { stat: string; label: string; delta: number }
+/** 隐藏属性经验某池涨点结果(供结算屏显示)。statLabelWord = STATUS_LABEL_* WORD id。 */
+export interface HiddenExpGrowthResult { stat: string; label: string; statLabelWord: number; delta: number }
 
 /**
  * 隐藏属性经验分配 —— sdlpal `CHECK_HIDDEN_EXP`(battle.c:1226-1293),per-role 在主升级之后跑。
@@ -2401,7 +2406,7 @@ export function applyHiddenExpGrowth(input: {
       if (entry.wLevel < 99) entry.wLevel++
     }
     entry.wExp = dwExp & 0xffff // WORD 截断
-    if (delta > 0) results.push({ stat: p.stat, label: p.label, delta })
+    if (delta > 0) results.push({ stat: p.stat, label: p.label, statLabelWord: p.statLabelWord, delta })
   }
   return results
 }

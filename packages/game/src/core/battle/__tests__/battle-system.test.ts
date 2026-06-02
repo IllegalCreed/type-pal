@@ -32,7 +32,8 @@ import type {
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus, type PresentCommand } from '../../command-bus.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
-import { activateHidingEffect, applyHiddenExpGrowth, decrementHidingEffect, selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
+import { activateHidingEffect, applyHiddenExpGrowth, battleWonLevelUp, decrementHidingEffect, selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
+import { createSeedableRng } from '../../rng.js'
 import { tickMenu } from '../../menu/menu-mode.js'
 import type { BattleEnemy } from '../battle-state.js'
 
@@ -50,7 +51,7 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(102) // +2(两级各 R(1,2)=1)
     expect(gs.Exp.rgHealthExp[0]!.wExp).toBe(0)
     expect(gs.Exp.rgHealthExp[0]!.wLevel).toBe(2)
-    expect(res).toEqual([{ stat: 'rgwMaxHP', label: 'maxHP', delta: 2 }])
+    expect(res).toEqual([{ stat: 'rgwMaxHP', label: 'maxHP', statLabelWord: 49, delta: 2 }])
   })
 
   it('iTotalCount=0(无累积)→ 整段跳过,无属性变化,返回 []', () => {
@@ -73,8 +74,8 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(104)
     expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(52)
     expect(res).toEqual([
-      { stat: 'rgwMaxHP', label: 'maxHP', delta: 4 },
-      { stat: 'rgwAttackStrength', label: 'attack', delta: 2 },
+      { stat: 'rgwMaxHP', label: 'maxHP', statLabelWord: 49, delta: 4 },
+      { stat: 'rgwAttackStrength', label: 'attack', statLabelWord: 51, delta: 2 },
     ])
   })
 
@@ -94,6 +95,23 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
       tickBattle(gs, gs.battleState?.settlement ? confirm as unknown as typeof emptyInput : emptyInput, bus)
     expect(gs.Exp.rgAttackExp[0]!.wCount).toBe(1) // 攻击 1 次 → +1
     expect(gs.Exp.rgHealthExp[0]!.wCount ?? 0).toBeGreaterThanOrEqual(2) // RandomLong(2,3)
+  })
+
+  // E04-d:battleWonLevelUp 把隐藏经验涨点放进 result.hiddenExpGrowth(供结算屏 hidden-exp-up box)。
+  it('battleWonLevelUp result.hiddenExpGrowth 含累积属性的涨点(attack)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.PlayerRolesRuntime.rgwHP[0] = 100 // 活着才升级
+    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 50
+    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 0, wCount: 1 } // 仅 attack 累积
+    const res = battleWonLevelUp({
+      gs, partyMembers: [0], expGained: 500,
+      levelUpExp: Array(100).fill(100), levelUpMagic: [], rng: createSeedableRng(42),
+    })
+    const r0 = res.find((r) => r.roleId === 0)
+    const atkGrowth = r0?.hiddenExpGrowth?.find((g) => g.stat === 'rgwAttackStrength')
+    expect(atkGrowth).toBeDefined()
+    expect(atkGrowth!.statLabelWord).toBe(51) // 武术
+    expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBeGreaterThan(50) // 实际涨了
   })
 })
 

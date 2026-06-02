@@ -23,7 +23,8 @@
  */
 
 import type { IndexedImage } from '../../assets/png.js'
-import type { BattleSettlementScreen, LevelUpScreenData } from '../../core/battle/battle-settlement.js'
+import type { BattleSettlementScreen, HiddenExpUpScreenData, LevelUpScreenData } from '../../core/battle/battle-settlement.js'
+import { getWord } from '../../core/word-lookup.js'
 import { drawNumber } from '../draw-number.js'
 import { renderText, type GlyphTable } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
@@ -84,10 +85,30 @@ export function drawBattleSettlement(input: DrawBattleSettlementInput): void {
     case 'level-up':
       drawLevelUpScreen(fb, screen.data, uiSpriteFrames, glyphs)
       break
+    case 'hidden-exp-up':
+      drawHiddenExpUpScreen(fb, screen.data, uiSpriteFrames, glyphs)
+      break
     case 'learn-magic':
       drawLearnMagicScreen(fb, screen.data.name, screen.data.magicName, uiSpriteFrames, glyphs)
       break
   }
+}
+
+// ── E04:隐藏属性涨点 box(sdlpal CHECK_HIDDEN_EXP,battle.c:1264-1273)──────────────
+//   PAL_CreateSingleLineBox(PAL_XY(offsetX+78,60)) + "{name}{statLabel}{提升}" + 涨点数(yellow,右对齐)。
+function drawHiddenExpUpScreen(
+  fb: Framebuffer, data: HiddenExpUpScreenData, ui: IndexedImage[], glyphs?: GlyphTable,
+): void {
+  const statLabel = getWord(data.statLabelWord, '')
+  const upLabel = getWord(32, '提升') // BATTLEWIN_LEVELUP_LABEL
+  const w1 = Math.max(wordWidthCols(data.name), 3)
+  const w2 = Math.max(wordWidthCols(statLabel), 2)
+  const w3 = Math.max(wordWidthCols(upLabel), 2)
+  drawSingleLineBox({ fb, x: 78, y: 60, len: w1 + w2 + w3 + 2, uiSpriteFrames: ui })
+  renderText(fb, data.name, 90, 70, 0, glyphs, false)
+  renderText(fb, statLabel, 90 + 16 * w1, 70, 0, glyphs, false)
+  renderText(fb, upLabel, 90 + 16 * (w1 + w2), 70, 0, glyphs, false)
+  drawNumber(fb, data.delta, 5, { x: 90 + 16 * (w1 + w2 + w3) + 4, y: 74 }, 'yellow', 'right', ui)
 }
 
 // ── Phase A:获得经验值 / 打败敌人得 N 文钱(battle.c:1037-1045)─────────────────

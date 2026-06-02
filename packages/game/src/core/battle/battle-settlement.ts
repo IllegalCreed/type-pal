@@ -54,10 +54,21 @@ export interface LearnMagicScreenData {
   magicName: string
 }
 
+/** E04 隐藏属性涨点屏数据(sdlpal CHECK_HIDDEN_EXP box,battle.c:1264-1273)。 */
+export interface HiddenExpUpScreenData {
+  roleId: number
+  name: string
+  /** 属性名 WORD id(STATUS_LABEL_*:49体力/50真气/51武术/52灵力/53防御/54身法/55吉运)。 */
+  statLabelWord: number
+  /** 涨点数(本场该属性 +delta)。 */
+  delta: number
+}
+
 /** 一屏结算(对应 sdlpal 一次 PAL_WaitForAnyKey)。 */
 export type BattleSettlementScreen =
   | { kind: 'exp-cash'; expGained: number; cashGained: number; isBoss: boolean }
   | { kind: 'level-up'; data: LevelUpScreenData }
+  | { kind: 'hidden-exp-up'; data: HiddenExpUpScreenData }
   | { kind: 'learn-magic'; data: LearnMagicScreenData }
 
 /** 结算演出运行态:挂 BattleState.settlement。won 首 tick 处理战果后建,顶层 hold 逐屏推进。 */
