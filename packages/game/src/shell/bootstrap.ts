@@ -73,7 +73,7 @@ import {
   presentBattleFrame,
   presentFrame,
 } from '../present/present.js'
-import { createAudioManager } from './audio.js'
+import { createAudioManager, pickMusicTrack } from './audio.js'
 import { playAvi } from './avi-player.js'
 import { type BattleFixturesData, type SceneJumpsData, setupDevPanel } from './dev-panel.js'
 import {
@@ -357,8 +357,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       // (场景调色板)重刷 fb,跟 modal 播放器的 flush(各自 palette)互抢 → 画面在两套色表间闪烁
       //(2026-05-29 user 从 devpanel 触发开场 DOS 时发现"正常↔偏红"闪烁;开机时 raf 还没起所以不显)。
       if (gs.suspendRaf) return
-      // M6 音频:每帧 drain gs.pendingSounds(SFX)+ 轮询 gs.wNumMusic(BGM)。suspendRaf(modal)期间跳过。
-      audio.sync(gs.pendingSounds, { track: gs.wNumMusic, loop: gs.musicLoop ?? true })
+      // M6 音频:每帧 drain gs.pendingSounds(SFX)+ 轮询有效 BGM(战斗中→wNumBattleMusic looped,
+      //   否则→wNumMusic 场景乐;battle.c:728/1849)。suspendRaf(modal)期间跳过。
+      const inBattle = gs.battleState !== undefined
+      audio.sync(gs.pendingSounds, {
+        track: pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic),
+        loop: inBattle ? true : (gs.musicLoop ?? true),
+      })
       // 按 gs.mode 路由 present:battle → presentBattleFrame(消费 commands 进 floating nums);
       // 否则走 explore/event 路径 presentFrame(commands 由 M2 EventSystem 直接消费 GameState)
       if (!presentBattleFrame(fb, gs, battlePresent, battleAssets, drained)) {

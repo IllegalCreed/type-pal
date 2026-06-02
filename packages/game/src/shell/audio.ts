@@ -49,6 +49,15 @@ export function musicUrl(baseUrl: string, track: number): string {
   return `${baseUrl}/music/${track.toString().padStart(3, '0')}.mid`
 }
 
+/**
+ * 有效 BGM track(纯,可测)。sdlpal:进战斗 `AUDIO_PlayMusic(wNumBattleMusic, TRUE)`(battle.c:728),
+ * 战后 `AUDIO_PlayMusic(wNumMusic, TRUE)` 恢复场景乐(battle.c:1849)。ts:wNumMusic 持有场景 field 乐
+ * (不被战斗覆盖),战斗中有效 track 切到 wNumBattleMusic;退出战斗自动回 wNumMusic。
+ */
+export function pickMusicTrack(inBattle: boolean, wNumMusic: number, wNumBattleMusic: number): number {
+  return inBattle ? wNumBattleMusic : wNumMusic
+}
+
 type WebAudioWindow = typeof globalThis & {
   AudioContext?: typeof AudioContext
   webkitAudioContext?: typeof AudioContext

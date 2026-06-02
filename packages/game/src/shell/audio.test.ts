@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createAudioManager, sfxUrl, musicUrl } from './audio.js'
+import { createAudioManager, sfxUrl, musicUrl, pickMusicTrack } from './audio.js'
 
 // 注:Web Audio(AudioContext / decodeAudioData)在 node/jsdom 测试环境不可用 → SFX 实际播放
 //   退化为 no-op(无法单测发声,归 user 真引擎听验)。此处测**可测逻辑**:url 映射 + sync 队列
@@ -14,6 +14,11 @@ describe('M6 audio url 映射(纯)', () => {
     expect(musicUrl('/extracted', 1)).toBe('/extracted/music/001.mid')
     expect(musicUrl('/extracted', 16)).toBe('/extracted/music/016.mid')
     expect(musicUrl('/extracted', 94)).toBe('/extracted/music/094.mid')
+  })
+  it('pickMusicTrack:战斗中→wNumBattleMusic,否则→wNumMusic(battle.c:728/1849)', () => {
+    expect(pickMusicTrack(false, 16, 7)).toBe(16) // 场景:field 乐
+    expect(pickMusicTrack(true, 16, 7)).toBe(7) // 战斗:battle 乐
+    expect(pickMusicTrack(true, 16, 0)).toBe(0) // 战斗乐 0 → 停(沿用场景静音惯例)
   })
 })
 
