@@ -51,10 +51,12 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
       || (gs.mode === 'event' && (w === undefined || w === 'frame-wait' || w === 'scene-fade')))
   if (shouldRunAutoScripts) {
     tickAutoScripts(gs)
+    // sdlpal play.c:235-238 PAL_GameUpdate 体内每帧:追逐 timer 自减(0x62 驱魔香/0x63 十里香 到期复位 wChaseRange)。
+    //   必须与 tickAutoScripts 共享 shouldRunAutoScripts 门 —— PAL_GameUpdate 在 dialog typing / 0x85 delay /
+    //   palette-fade 等 spin-loop 不被调用;否则长对话/延时会多扣 cycles 使追逐暂停/加速提前到期
+    //   (2026-06-02 review 修:此前在门外每帧无条件扣)。
+    tickChaseTimer(gs)
   }
-
-  // sdlpal play.c:235-238 PAL_UpdateParty 每帧:追逐 timer 自减(0x62 驱魔香/0x63 十里香 到期复位 wChaseRange)。
-  if (gs.mode === 'explore' || gs.mode === 'event') tickChaseTimer(gs)
 
   switch (gs.mode) {
     case 'explore':

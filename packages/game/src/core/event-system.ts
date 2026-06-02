@@ -3758,8 +3758,10 @@ function applyRawOpcode(
     }
 
     case OP_SET_PLAYER_STATUS: {
-      // sdlpal global.c PAL_SetPlayerStatus(role, op0=statusId, op1=numRound)。写持久 gs.rgPlayerStatus
-      //   (开战 seed 进 BattleState)。target:applyToAll item(currentEventObjectId=0xFFFF/undefined)→ 全队;
+      // sdlpal global.c PAL_SetPlayerStatus(role, op0=statusId, op1=numRound)恒单目标(wEventObjectID)。
+      //   写持久 gs.rgPlayerStatus(开战 seed 进 BattleState)。target 解析:sdlpal 的 applyToAll buff 物品靠
+      //   PAL_GameUseItem 外层逐队员循环(eventObjectId=roleId)实现;type-pal 把 applyToAll item 跑一次
+      //   (currentEventObjectId=0xFFFF)→ 故此处 0xFFFF/undefined 展开全队(与既有 0x1B applyHPMPDelta 同适配),
       //   否则单 role。bad(0-3 Confused/Paralyzed/Sleep/Silence):cur==0 才设;puppet(4):仅死人且更久,
       //   活人→fScriptSuccess=FALSE;good(5-8 Bravery/Protect/Haste/DualAttack):活人且更久。金刚符63/黑狗血85。
       const statusId = operands[0] ?? 0
@@ -4257,16 +4259,18 @@ export function removePoisonLevel99(gs: GameState, roleId: number): void {
   }
 }
 
-/** sdlpal PAL_CurePoisonByLevel(global.c:1567-1614)— 该毒 wPoisonLevel <= maxLevel 才清 0。
- *  用注入的 _objectPoisons 取真 level(2026-05-31 plumb;此前简版全清)。
- *  sdlpal 特殊:level==99(装备毒)被跳过(不清);治毒丹 maxLevel=1 只清低级毒。 */
+/** sdlpal PAL_CurePoisonByLevel(global.c:1567-1614)— 该毒 wPoisonLevel <= maxLevel 就清 0(**无** level==99 例外)。
+ *  用注入的 _objectPoisons 取真 level(2026-05-31 plumb;此前简版全清)。装备毒(level 99)靠 cure 物品 maxLevel
+ *  都是 1-3(九节菖蒲 2 / 鬼枯藤 2 / 毒龙胆 3)< 99 自然不被清;装备毒由 removePoisonLevel99(卸装备)清。
+ *  2026-06-02 review:旧 `level!==99` 守卫 + 注释("sdlpal 跳过 level 99")偏离 sdlpal —— 那是
+ *  PAL_RemoveEquipmentEffect(global.c:1440)的行为,不是本函数;已删守卫对齐真值(行为对真物品不变)。 */
 export function curePlayerPoisonByLevel(gs: GameState, roleId: number, maxLevel: number): void {
   for (let slot = 0; slot < 16; slot++) {
     const key = `${slot}_${roleId}`
     const ps = gs.rgPoisonStatus[key]
     if (!ps || ps.wPoisonID === 0) continue
     const level = _objectPoisons.get(ps.wPoisonID)?.level ?? 0
-    if (level !== 99 && level <= maxLevel) {
+    if (level <= maxLevel) {
       gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
     }
   }
@@ -4527,7 +4531,7 @@ function partyRideEventObject(
 }
 
 /**
- * sdlpal `PAL_UpdateParty`(play.c:235-238)每帧:`if (--wChasespeedChangeCycles == 0) wChaseRange = 1`。
+ * sdlpal `PAL_GameUpdate`(play.c:235-238)每帧:`if (--wChasespeedChangeCycles == 0) wChaseRange = 1`。
  * 0x62 驱魔香(wChaseRange=0 暂停追逐)/ 0x63 十里香(wChaseRange=3 加速)设 cycles=op0,本 timer 逐帧自减,
  * 到 0 复位 wChaseRange=1 —— 缺此则效果永久(2026-06-02 审计 MED gap:cycles 只写不消费)。
  * 大世界每帧 tick(mode.ts)调。cycles<=0 不动(不 underflow;sdlpal WORD 会绕回但无游戏意义)。
