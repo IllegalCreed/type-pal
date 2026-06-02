@@ -2061,6 +2061,51 @@ describe('throw-item action 派发(E2)', () => {
     expect(gs.battleState?.enemies[0]!.e.health).toBe(150)
     void consoleWarn
   })
+
+  it('蛊孵化链(食妖虫附→灵蛊):毒脚本自推进 — 逐回合递增吸灵气 + 炼成灵蛊(sdlpal fight.c:1647 回写)', () => {
+    // 自推进毒链(对照 data 真值 食妖虫附 561 @40917):入口(0x0001 advance)→
+    //   [0x21 dmg N][0x0001] ×2 → giveItem(145 灵蛊) + 0x2a 移除 561。
+    // 每回合 tickPostAction 必须回写 poison.scriptEntry = runScript(...) 才会推进。
+    const commands: Command[] = Array.from({ length: 10 }, () => ({ op: 'end' as const }))
+    commands.push({ op: 'end', advance: true }) // 10 入口 0x0001
+    commands.push({ op: 'raw', opcode: 0x21, operands: [0, 1, 0] }) // 11 吸灵气 1
+    commands.push({ op: 'end', advance: true }) // 12
+    commands.push({ op: 'raw', opcode: 0x21, operands: [0, 2, 0] }) // 13 吸灵气 2
+    commands.push({ op: 'end', advance: true }) // 14
+    commands.push({ op: 'giveItem', itemId: 145, count: 0 }) // 15 炼成灵蛊
+    commands.push({ op: 'raw', opcode: 0x2a, operands: [0, 561, 0] }) // 16 移除食妖虫附
+    commands.push({ op: 'end', advance: true }) // 17
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 200, defense: 999, level: 99 })],
+      roles: [makeRole({ id: 0, hp: 9999, attackStrength: 0 })],
+      commands,
+      inventory: [],
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.enemies[0]!.poisons = [{ poisonId: 561, scriptEntry: 10 }]
+
+    const runRound = (): void => {
+      gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+      let safety = 30
+      while (gs.battleState?.phase !== 'postAction' && gs.mode === 'battle' && safety-- > 0)
+        tickBattle(gs, emptyInput, bus)
+      tickBattle(gs, emptyInput, bus) // postAction(毒 tick)
+    }
+    const enemy = (): BattleEnemy => gs.battleState!.enemies[0]!
+
+    runRound() // 入口 0x0001 → 推进到 11,无伤
+    expect(enemy().poisons?.[0]?.scriptEntry).toBe(11)
+    expect(enemy().e.health).toBe(200)
+    runRound() // 吸灵气 1 → 199,推进到 13
+    expect(enemy().e.health).toBe(199)
+    expect(enemy().poisons?.[0]?.scriptEntry).toBe(13)
+    runRound() // 吸灵气 2 → 197,推进到 15
+    expect(enemy().e.health).toBe(197)
+    runRound() // 炼成灵蛊:giveItem(145) + 移除食妖虫附
+    expect(gs.inventory.find(e => e.itemId === 145)?.count ?? 0).toBeGreaterThanOrEqual(1)
+    expect(enemy().poisons?.some(p => p.poisonId === 561)).toBe(false)
+    void consoleWarn
+  })
 })
 
 // ============================================================================

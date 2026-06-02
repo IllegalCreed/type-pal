@@ -876,6 +876,16 @@ export interface BattleCtx {
   summonTables?: { enemies: Enemy[], enemyObjects: EnemyObject[] }
   /** 0x6A 偷取成功"获得 物品名"提示需 items(按 stealItem id 取 _name)—— performMagic 注入。 */
   items?: Item[]
+  /**
+   * 0x28 apply poison 施毒时跑一次 poison.wEnemyScript —— sdlpal `script.c:1213`
+   * `wPoisonScript = PAL_RunTriggerScript(rgObject[id].poison.wEnemyScript, wEventObjectID)`:
+   * 施毒当下跑一次入口脚本(跳过 0x0001 入口 terminator → 存推进后的 entry),后续每回合
+   * tick 再推进。自推进蛊孵化链(食妖虫附→灵蛊)的"九回合"精确计数靠此。
+   * 需 commands(脚本所在)+ runScript(自身,递归跑)—— performThrowItem / performMagic 注入。
+   * 不注入 → fallback 存原始 enemyScript(差一拍,链晚一回合推进,仍能炼成)。
+   */
+  commands?: Command[]
+  runScript?: (opts: RunScriptOptions) => number
 }
 
 /** runScript 入口选项(M3 T17;T20/T21 caller 填)。 */
@@ -2449,8 +2459,23 @@ export function runScript(opts: RunScriptOptions): number {
       }
 
       case 'giveItem':
+        // sdlpal 0x1F `PAL_AddItemToInventory(itemId, count)`。蛊孵化链(食妖虫附→灵蛊 /
+        //   碧血蚕附→赤血蚕)在战斗毒 tick 跑 poison wEnemyScript,末尾 giveItem 炼成蛊
+        //   (data 真值 @40936/40959)→ battle 模式必须真给物品,不能 skip。
+        //   count=0 → addItemToInventory 内当 1(sdlpal global.c:1094-1097)。
+        if (runtimeMode === 'battle' && battleCtx?.gs) {
+          addItemToInventory(battleCtx.gs, cmd.itemId, cmd.count)
+          console.debug(`${logPrefix} giveItem id=${cmd.itemId} count=${cmd.count}`)
+        }
+        else {
+          // explore mode 不走 runScript(走 stepEvent 的 giveItem);此处仅 battle 缺 gs 兜底
+          console.debug(`${logPrefix} skip op=${cmd.op} ip=${ip}`)
+        }
+        ip++
+        break
+
       case 'startBattle':
-        // 战斗脚本里出现这些 op 不合理;沿用 M2 skip 行为
+        // 战斗脚本里出现 startBattle 不合理;沿用 M2 skip 行为
         console.debug(`${logPrefix} skip op=${cmd.op} ip=${ip}`)
         ip++
         break

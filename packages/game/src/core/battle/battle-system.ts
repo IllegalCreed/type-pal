@@ -2105,13 +2105,17 @@ function tickPostAction(
     for (let slot = 0; slot < 16; slot++) {
       const ps = gs.rgPoisonStatus[`${slot}_${player.roleId}`]
       if (ps && ps.wPoisonID !== 0 && ps.wPoisonScript > 0) {
-        runPoisonScript({
+        const next = (runPoisonScript as (o: RunScriptOptions) => number)({
           commands: res.commands,
           ip: ps.wPoisonScript,
           bus,
           runtimeMode: 'battle',
           battleCtx: { state, target: { type: 'player', idx }, gs, playerRoles: res.playerRoles },
         })
+        // sdlpal fight.c:1624 `wPoisonScript = PAL_RunTriggerScript(wPoisonScript, ...)` —— 回写
+        // 推进自推进毒链(0x0001 advance / 0x03 jump / 0x2b 重施);不回写则永卡入口。
+        if (typeof next === 'number')
+          ps.wPoisonScript = next
       }
     }
   })
@@ -2119,13 +2123,17 @@ function tickPostAction(
     if (enemy.e.health <= 0) return
     for (const poison of enemy.poisons ?? []) {
       if (poison.scriptEntry > 0) {
-        runPoisonScript({
+        const next = (runPoisonScript as (o: RunScriptOptions) => number)({
           commands: res.commands,
           ip: poison.scriptEntry,
           bus,
           runtimeMode: 'battle',
           battleCtx: { state, target: { type: 'enemy', idx }, gs },
         })
+        // sdlpal fight.c:1647 `wPoisonScript = PAL_RunTriggerScript(wPoisonScript, i)` —— 回写推进。
+        // 蛊孵化链(食妖虫附→灵蛊 / 碧血蚕附→赤血蚕)+ 递增毒(三尸蛊毒)全靠此自推进。
+        if (typeof next === 'number')
+          poison.scriptEntry = next
       }
     }
   })

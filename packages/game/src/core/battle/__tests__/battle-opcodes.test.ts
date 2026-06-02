@@ -1,7 +1,7 @@
-import type { Enemy, EnemyObject, Magic, ObjectMagicView, ObjectPoisonView } from '@type-pal/shared'
+import type { Command, Enemy, EnemyObject, Magic, ObjectMagicView, ObjectPoisonView } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createCommandBus, type PresentCommand } from '../../command-bus.js'
-import type { BattleCtx } from '../../event-system.js'
+import { type BattleCtx, runScript } from '../../event-system.js'
 import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength, removeEquipmentEffect } from '../../equip-effect.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
 import type { BattleEnemy, BattleState } from '../battle-state.js'
@@ -367,6 +367,28 @@ describe('0x28 apply poison (script.c:0028,毒蛇卵/卵/蛊 throw)', () => {
     dispatchBattleOpcode(0x28, [1, 558, 0], poisonCtx(enemies, 0, 5, op))
     expect(enemies[0]!.poisons).toHaveLength(1)
     expect(enemies[1]!.poisons).toHaveLength(1)
+  })
+
+  it('施毒跑一次 wEnemyScript(sdlpal script.c:1213):带 commands+runScript → scriptEntry 推进过入口', () => {
+    // 入口 ip5 = 0x0001 advance → 施毒当下跑一次返回 6(跳过入口 terminator)
+    const commands: Command[] = Array.from({ length: 5 }, () => ({ op: 'end' as const }))
+    commands.push({ op: 'end', advance: true }) // ip5 入口
+    const op2 = makeObjectPoisons({ 561: 5 })
+    const enemies = [poisonEnemy(0)]
+    const ctx = poisonCtx(enemies, 0, 5, op2)
+    ctx.commands = commands
+    ctx.runScript = runScript
+    ctx.bus = createCommandBus()
+    ctx.gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    dispatchBattleOpcode(0x28, [0, 561, 0], ctx)
+    expect(enemies[0]!.poisons).toEqual([{ poisonId: 561, scriptEntry: 6 }])
+  })
+
+  it('施毒缺 commands/runScript → fallback 存原始 enemyScript(差一拍,仍能推进)', () => {
+    const op2 = makeObjectPoisons({ 561: 5 })
+    const enemies = [poisonEnemy(0)]
+    dispatchBattleOpcode(0x28, [0, 561, 0], poisonCtx(enemies, 0, 5, op2))
+    expect(enemies[0]!.poisons).toEqual([{ poisonId: 561, scriptEntry: 5 }])
   })
 })
 

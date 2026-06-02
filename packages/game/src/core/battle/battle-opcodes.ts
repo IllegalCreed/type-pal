@@ -330,9 +330,11 @@ export function dispatchBattleOpcode(
     case OP_APPLY_POISON: {
       // sdlpal `script.c:0028`:op0!=0 → 全体;否则单体(wEventObjectID=ctx.target)。op1 = poison id。
       // 每目标:RandomLong(0,9) >= resistanceToSorcery 通过 → 若 op1 未在 poisons 且槽未满 → 加
-      // { poisonId: op1, scriptEntry: objectPoisons[op1].enemyScript }(scriptEntry 每回合 tick 跑)。
-      // 毒蛇卵/卵/蛊 scriptOnThrow 用。注:sdlpal 立即跑一次 wEnemyScript,ts 改由 postAction tick 跑
-      //(差一拍,总伤害近似)。
+      // { poisonId: op1, scriptEntry }。毒蛇卵/卵/蛊 scriptOnThrow 用。
+      // sdlpal `script.c:1213`:施毒当下 `wPoisonScript = PAL_RunTriggerScript(poison.wEnemyScript, 敌idx)`
+      //   —— 跑一次入口脚本存返回值(跳过 0x0001 入口 terminator),后续每回合 tick 再推进。
+      //   自推进蛊孵化链(食妖虫附→灵蛊)的"九回合"精确计数靠此。缺 commands/runScript(老 caller /
+      //   纯状态单测)→ fallback 存原始 enemyScript(差一拍,链晚一回合,仍能炼成)。
       const poisonId = operands[1] ?? 0
       const poison = ctx.objectPoisons?.[poisonId]
       const scriptEntry = poison && poison.id === poisonId ? poison.enemyScript : 0
@@ -348,7 +350,26 @@ export function dispatchBattleOpcode(
           return // 已中同毒(去重)
         if (poisons.length >= MAX_POISONS)
           return // 槽满
-        poisons.push({ poisonId, scriptEntry })
+        // 施毒跑一次入口(sdlpal script.c:1213)。需 bus(脚本内 0x21 等 emit 伤害数字)。
+        let entry = scriptEntry
+        if (scriptEntry > 0 && ctx.commands && ctx.runScript && ctx.bus) {
+          entry = ctx.runScript({
+            commands: ctx.commands,
+            ip: scriptEntry,
+            bus: ctx.bus,
+            runtimeMode: 'battle',
+            battleCtx: {
+              state,
+              target: { type: 'enemy', idx: enemyIdx },
+              gs: ctx.gs,
+              bus: ctx.bus,
+              commands: ctx.commands,
+              runScript: ctx.runScript,
+              objectPoisons: ctx.objectPoisons,
+            },
+          })
+        }
+        poisons.push({ poisonId, scriptEntry: entry })
       }
       if ((operands[0] ?? 0) !== 0) {
         state.enemies.forEach((_, i) => applyTo(i))
