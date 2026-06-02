@@ -400,6 +400,14 @@ function buildAndStartMagicAnim(
     targetIdx: offTargetIdx,
     targetEnemyPos: offTargetPos,
     iBlow: input.state.iBlow,
+    // W4 iBlow:吹飞全体活敌(wObjectID!=0,fight.c:2685);仅 iBlow!=0 时 builder 真摇 rng。posOriginal 底锚。
+    blowTargets: input.state.iBlow
+      ? input.state.enemies
+          .map((e, idx) => ({ e, idx }))
+          .filter(({ e }) => e.e.health > 0 && e.posOriginal)
+          .map(({ e, idx }) => ({ side: 'enemy' as const, idx, pos: e.posOriginal! }))
+      : undefined,
+    rng: input.state.rng,
   })
 
   // —— PostMagic:HP **有变化**的敌人抖动(sdlpal fight.c:3220 `if (wHealth == wPrevHP) continue`,

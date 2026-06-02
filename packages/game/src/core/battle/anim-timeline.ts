@@ -460,11 +460,16 @@ export interface BuildOffMagicInput {
   /** 单体目标 enemy 落点(type=normal 用;EnemyPos + yPosOffset 底锚)。type 全体时可传 undefined。 */
   targetEnemyPos?: { x: number; y: number }
   /**
-   * 吹飞强度(g_Battle.iBlow)—— 敌方 pos 逐帧位移 (blow, blow/2)。
-   * 本切片无 per-enemy pos 追踪(纯函数不 mutate state)→ 仅当需要时由调用方处理;
-   * iBlow 缺(本切片恒 0)则不产生位移(标注 defer:blow 位移需 per-enemy pos,留 present)。
+   * 吹飞强度(g_Battle.iBlow,fight.c:2681)。每帧 blow = iBlow>0?RandomLong(0,iBlow):RandomLong(iBlow,0),
+   * 全体受击方逐帧累加 (x+=blow, y+=trunc(blow/2)),末帧复位 posOriginal(fight.c:2840+)。
+   * **仅 iBlow!=0 时生效**(iBlow==0 sdlpal 仍每帧 RandomLong(0,0) 消耗 rng,但 ts rng 算法本异、且 blow 恒 0
+   *  无视觉,故 iBlow==0 跳过 blow 不摇 rng —— 文档化 deviation,避免污染常见无吹飞法术的 rng 序)。
    */
   iBlow?: number
+  /** W4 iBlow:受吹飞的对象(player off-magic = 全体活敌;含 posOriginal 底锚)。空/缺 → 不吹飞。 */
+  blowTargets?: Array<{ side: 'player' | 'enemy'; idx: number; pos: { x: number; y: number } }>
+  /** W4 iBlow:每帧 blow 取值 rng(仅 iBlow!=0 用);缺 → 不吹飞。 */
+  rng?: { rangeInclusive: (a: number, b: number) => number }
 }
 
 /**
@@ -487,8 +492,11 @@ export interface BuildOffMagicInput {
  */
 export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAnimFrame[] {
   // targetIdx 透传供调用方语义对齐;落点由 magic.type + targetEnemyPos 决定,本体不直接读 targetIdx。
-  const { casterIdx, magic, n, targetEnemyPos } = input
+  const { casterIdx, magic, n, targetEnemyPos, iBlow, blowTargets, rng } = input
   const { effect, type, speed, fireDelay, effectTimes, shake, xOffset, yOffset, wave } = magic
+  // W4 iBlow:吹飞累加态(per target 运行 x/y),仅 iBlow!=0 + 有 targets + rng 时启用。
+  const blowOn = !!iBlow && iBlow !== 0 && !!blowTargets && blowTargets.length > 0 && !!rng
+  const blowAcc = blowOn ? blowTargets!.map((t) => ({ ...t, x: t.pos.x, y: t.pos.y })) : []
 
   const frames: BattleAnimFrame[] = []
 
@@ -558,6 +566,17 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
         x: px + asShortLocal(xOffset),
         y: py + asShortLocal(yOffset),
       })
+    }
+
+    // W4 iBlow:本帧 blow 位移 —— 全体受击方累加 (x+=blow, y+=trunc(blow/2));末帧复位 posOriginal(fight.c:2681-2694/2840+)。
+    if (blowOn) {
+      const blow = iBlow! > 0 ? rng!.rangeInclusive(0, iBlow!) : rng!.rangeInclusive(iBlow!, 0)
+      const isLast = i === l - 1
+      for (const t of blowAcc) {
+        if (isLast) { t.x = t.pos.x; t.y = t.pos.y } // 末帧复位 posOriginal
+        else { t.x += blow; t.y += Math.trunc(blow / 2) }
+        fighters.push({ side: t.side, idx: t.idx, pos: { x: t.x, y: t.y } })
+      }
     }
 
     const frame: BattleAnimFrame = {

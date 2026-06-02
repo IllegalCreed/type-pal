@@ -483,6 +483,36 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
     })
   }
 
+  it('W4 iBlow:iBlow!=0 → 全体活敌逐帧累加 (blow, trunc(blow/2)),末帧复位 posOriginal(fight.c:2681-2694)', () => {
+    const frames = buildPlayerOffMagicTimeline({
+      casterIdx: 0,
+      magic: { effect: 12, type: 'normal', speed: 2, fireDelay: 2, effectTimes: 1, shake: 0, xOffset: 0, yOffset: 0 },
+      n: 8, targetIdx: 1, targetEnemyPos: { x: 160, y: 80 },
+      iBlow: 4,
+      blowTargets: [{ side: 'enemy', idx: 0, pos: { x: 100, y: 50 } }],
+      rng: { rangeInclusive: (_a: number, _b: number) => 2 }, // blow 恒 2 → 每帧 +2 / +1
+    })
+    const at = (fi: number): { x: number; y: number } | undefined =>
+      frames[fi]!.fighters?.find((f) => f.side === 'enemy' && f.idx === 0)?.pos
+    expect(at(0)).toEqual({ x: 102, y: 51 }) // 100+2, 50+trunc(2/2)
+    expect(at(1)).toEqual({ x: 104, y: 52 }) // 累加
+    expect(at(frames.length - 1)).toEqual({ x: 100, y: 50 }) // 末帧复位 posOriginal
+  })
+
+  it('W4 iBlow=0 → 不摇 rng + 无 enemy 位移(常见无吹飞法术不污染 rng)', () => {
+    let calls = 0
+    const frames = buildPlayerOffMagicTimeline({
+      casterIdx: 0,
+      magic: { effect: 12, type: 'normal', speed: 2, fireDelay: 2, effectTimes: 1, shake: 0, xOffset: 0, yOffset: 0 },
+      n: 8, targetIdx: 1, targetEnemyPos: { x: 160, y: 80 },
+      iBlow: 0,
+      blowTargets: [{ side: 'enemy', idx: 0, pos: { x: 100, y: 50 } }],
+      rng: { rangeInclusive: () => { calls++; return 2 } },
+    })
+    expect(calls).toBe(0) // iBlow=0 → 不摇 blow rng
+    expect(frames[0]!.fighters?.find((f) => f.side === 'enemy')).toBeUndefined() // 无吹飞位移
+  })
+
   it('W4 wWave:magic.wave>0 → 每帧带 screenWave=wave;wave=0/缺 → 无 screenWave(fight.c:2667)', () => {
     const fw = buildNormal({ wave: 5 })
     expect(fw.every((f) => f.screenWave === 5)).toBe(true) // 动画全程屏波
