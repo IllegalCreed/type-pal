@@ -522,16 +522,23 @@ export interface BattleState {
  * 对照 sdlpal `PAL_ShowDialogText(PAL_GetMsg(op0))`(script.c:3463)+ 前置 PAL_StartDialog 风格。
  */
 export interface BattleDialogLine {
-  /** 原始文本(含控制符,parseDialogText 解析逐字符上色 / 变速 / 尾暂停)。 */
-  text: string
-  /** dialog 风格(setDialogStyle* 决定:top/bottom/center/narration)。 */
-  style: DialogBoxStyle
+  /** 原始文本(含控制符,parseDialogText 解析逐字符上色 / 变速 / 尾暂停)。effect 条目无此字段。 */
+  text?: string
+  /** dialog 风格(setDialogStyle* 决定:top/bottom/center/narration)。effect 条目无关。 */
+  style?: DialogBoxStyle
   /** 头像 icon(RGM.MKF chunk;setDialogStyle arg0)。 */
   portrait?: number
   /** 字色(setDialogStyle arg1;默认 0x4F)。 */
   fontColor?: number
   /** 此行前需清屏另起新框(0x05/0x8E ClearDialog → 上一段 dialog 结束、重开)。 */
   clearBefore?: boolean
+  /**
+   * D26(2b):dialog 序列中**内联可见 effect**(目前仅 0x69 敌逃跑动画)。runScript 同步收集对话时,
+   * 夹在 dialog 之间的可见 effect 若立即跑会错序(逃跑动画跑在嘲讽台词之前)→ 改入队按位置保序;
+   * tickBattleDialog 处理到此条目时 dispatch,保 sdlpal 真值时序(嘲讽对话→逃跑动画→narration)。
+   * 非 undefined 时本条目是 effect 而非 dialog(无 text)。
+   */
+  effect?: { opcode: number; operands: readonly number[] }
 }
 
 export interface CreateBattleStateInput {

@@ -366,6 +366,40 @@ describe('runScript (M3 T17, battle mode)', () => {
     ])
   })
 
+  it('D26(2b):dialog 序列中 0x69 敌逃跑入队为 effect(保序);队列空时立即跑', () => {
+    const bus = createCommandBus()
+    // (a) 已有 dialog 入队(蛇女灵儿 obj502@41060:嘲讽 → 0x69 → narration)→ 0x69 defer 为 effect 条目,
+    //     保 sdlpal 序(嘲讽对话 → 逃跑动画 → narration),不在收集时立即跑。
+    const ctx = makeMinimalBattleCtx()
+    runScript({
+      commands: [
+        { op: 'showDialog', messageIndex: 0, text: '何方妖孽' },
+        { op: 'raw', opcode: 0x69, operands: [0, 0, 0] },
+        { op: 'showDialog', messageIndex: 0, text: '半人蛇妖逃走了' },
+        { op: 'end' },
+      ],
+      ip: 0, bus, runtimeMode: 'battle', battleCtx: ctx,
+    })
+    expect(ctx.state.battleDialogQueue).toEqual([
+      { text: '何方妖孽', style: 'bottom', portrait: undefined, fontColor: undefined, clearBefore: undefined },
+      { effect: { opcode: 0x69, operands: [0, 0, 0] } },
+      { text: '半人蛇妖逃走了', style: 'bottom', portrait: undefined, fontColor: undefined, clearBefore: undefined },
+    ])
+    expect(ctx.state.enemyEscapeAnim).toBeUndefined() // defer:收集时不立即跑逃跑动画
+
+    // (b) 队列空(无前置对话)→ 0x69 立即跑(set enemyEscapeAnim),不入队(0x69→narration 序天然对)
+    const ctx2 = makeMinimalBattleCtx()
+    runScript({
+      commands: [
+        { op: 'raw', opcode: 0x69, operands: [0, 0, 0] },
+        { op: 'end' },
+      ],
+      ip: 0, bus, runtimeMode: 'battle', battleCtx: ctx2,
+    })
+    expect(ctx2.state.enemyEscapeAnim).toEqual({ step: 0 }) // 立即跑
+    expect(ctx2.state.battleDialogQueue ?? []).toEqual([])    // 未入队
+  })
+
   it('runtimeMode=battle + 0x05 ClearDialog → 下条 showDialog 入队标 clearBefore', () => {
     const bus = createCommandBus()
     const ctx = makeMinimalBattleCtx()

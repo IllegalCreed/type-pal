@@ -1590,8 +1590,21 @@ export function tickBattleDialog(state: BattleState, gs: GameState, input: Input
   // 对话是合法的玩家等待(非卡死)→ 清 phase stall 计数,避免长时间等键被 60s 看门狗强退。
   state.phaseStallTicks = 0
 
-  // (A) 无 active box 但队列有行 → 起首行
+  // (A) 无 active box 但队列有行 → 起首行 / 或处理内联 effect(D26(2b))
   if (!gs.dialogBox) {
+    const next = state.battleDialogQueue?.[0]
+    if (next?.effect) {
+      // D26(2b):dialog 序列中的内联可见 effect 按位置 dispatch(目前仅 0x69 敌逃跑)。
+      //   0x69 → set enemyEscapeAnim(= dispatchBattleOpcode 的 0x69 handler,battle.c:1399
+      //   PAL_BattleEnemyEscape)→ 下 tick tickBattleEnemyEscapeAnim(397,优先于本 hold)飞出敌人
+      //   → phase='fleed';飞完后队列后续 narration 仍由本 hold 显示,再 finalize。
+      //   时序:嘲讽对话 → [逃跑动画] → narration「逃走了」→ fleed,忠实 sdlpal 脚本顺序。
+      state.battleDialogQueue!.shift()
+      if (next.effect.opcode === 0x69) {
+        state.enemyEscapeAnim = { step: 0 }
+      }
+      return true
+    }
     feedNextBattleDialogLine(state, gs)
     return true
   }
@@ -1636,7 +1649,8 @@ export function tickBattleDialog(state: BattleState, gs: GameState, input: Input
       // 上下位置切换(top↔bottom,非 clearBefore)→ **保留旧框**(林月如 top 不消失,下面接着出李逍遥
       //   bottom),对照 sdlpal upper/lower 同屏共存(PAL_StartDialog 不擦旧框)。把旧框移入 dialogBoxKept
       //   (反位置冻结框);否则普通结束 → 清掉两者。
-      if (next && !next.clearBefore && isVerticalDialogSwap(gs.dialogBox.style, next.style)) {
+      // effect 条目(next.style undefined)非上下位置切换 → 不保留旧框。
+      if (next && next.style && !next.clearBefore && isVerticalDialogSwap(gs.dialogBox.style, next.style)) {
         gs.dialogBoxKept = gs.dialogBox
       } else {
         gs.dialogBoxKept = undefined
@@ -1675,15 +1689,21 @@ export function tickBattleDialog(state: BattleState, gs: GameState, input: Input
 function feedNextBattleDialogLine(state: BattleState, gs: GameState): void {
   const line = state.battleDialogQueue?.shift()
   if (!line) return
+  // D26(2b)防御:effect 条目正常由 tickBattleDialog (A) 分支处理;若经此(段边界 page-advance)→ 同样 dispatch。
+  if (line.effect) {
+    if (line.effect.opcode === 0x69) state.enemyEscapeAnim = { step: 0 }
+    return
+  }
+  const text = line.text ?? ''
   if (!gs.dialogBox) {
-    gs.dialogBox = startDialogLine(line.text, {
-      style: line.style,
+    gs.dialogBox = startDialogLine(text, {
+      style: line.style ?? 'bottom',
       portraitIcon: line.portrait,
       fontColor: line.fontColor,
     })
   }
   else {
-    appendDialogLine(gs.dialogBox, line.text)
+    appendDialogLine(gs.dialogBox, text)
   }
   state.battleDialogTypingAccMs = 0
   state.battleDialogNarrationFrames = 0

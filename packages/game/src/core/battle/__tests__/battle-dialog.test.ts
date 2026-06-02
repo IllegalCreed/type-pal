@@ -188,4 +188,42 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
     driveUntil(state, gs, () => (state.battleDialogQueue?.length ?? 0) === 0)
     expect(gs.dialogBoxKept).toBeUndefined()
   })
+
+  // D26(2b):dialog 序列中的内联可见 effect(0x69 敌逃跑)按位置入队,tickBattleDialog 按序 dispatch。
+  it('D26(2b) effect 条目 → dispatch 0x69(set enemyEscapeAnim)+ 消费 + hold,不开 dialog', () => {
+    const gs = makeGs()
+    const state = makeState([{ effect: { opcode: 0x69, operands: [0, 0, 0] } }])
+    const held = tickBattleDialog(state, gs, input())
+    expect(held).toBe(true)
+    expect(state.enemyEscapeAnim).toEqual({ step: 0 }) // 0x69 PAL_BattleEnemyEscape 触发飞出
+    expect(state.battleDialogQueue?.length).toBe(0) // effect 已消费
+    expect(gs.dialogBox).toBeUndefined() // effect 不开 dialog box
+  })
+
+  it('D26(2b) 时序:嘲讽对话 → effect(0x69) → narration 按队列顺序处理', () => {
+    const gs = makeGs()
+    const state = makeState([
+      { text: '何方妖孽', style: 'top' },
+      { effect: { opcode: 0x69, operands: [0, 0, 0] } },
+      { text: '半人蛇妖逃走了', style: 'narration' },
+    ])
+    // 1) 起嘲讽对话(top)
+    tickBattleDialog(state, gs, input())
+    expect(gs.dialogBox?.style).toBe('top')
+    // 打完 → 下一条是 effect(style≠top)→ 段结束等键
+    driveUntil(state, gs, () => gs.dialogBox?.phase === 'waiting-end-key')
+    tickBattleDialog(state, gs, input(['Confirm'])) // 关嘲讽框
+    expect(gs.dialogBox).toBeUndefined()
+    expect(state.enemyEscapeAnim).toBeUndefined() // effect 还没处理
+    // 2) 队首 = effect → dispatch 逃跑动画;narration 仍在队列(真机由 tickBattleEnemyEscapeAnim
+    //    优先 hold 飞出,飞完才轮到 narration;此处单测 tickBattleDialog 验顺序与消费)
+    tickBattleDialog(state, gs, input())
+    expect(state.enemyEscapeAnim).toEqual({ step: 0 })
+    expect(state.battleDialogQueue?.[0]?.text).toBe('半人蛇妖逃走了')
+    // 3) narration 显示(在 effect 之后)
+    tickBattleDialog(state, gs, input())
+    expect(gs.dialogBox?.style).toBe('narration')
+    expect(state.battleDialogQueue?.length).toBe(0)
+  })
+
 })

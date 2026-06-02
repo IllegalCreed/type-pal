@@ -2457,6 +2457,17 @@ export function runScript(opts: RunScriptOptions): number {
       case 'raw': {
         // M5.B-w2.a:battle mode 先尝试 dispatchBattleOpcode(scripted enemy AI 入口 + 战斗特定 opcode)
         if (runtimeMode === 'battle' && battleCtx) {
+          // D26(2b):0x69 敌逃跑动画夹在 dialog 序列中(蛇女灵儿 obj502 turnStart@41060:嘲讽对话 →
+          //   0x69 → narration「逃走了」)。runScript 同步若立即跑 → 逃跑动画跑在所有对话前(错序)。
+          //   故 **dialog 已入队时**(mid-sequence)把 0x69 也入队按位置保序,tickBattleDialog 处理到时
+          //   才 dispatch(set enemyEscapeAnim)→ sdlpal 真值序:对话 → 逃跑动画 → narration → fleed。
+          //   队列空(无前置对话)→ 不 defer,照旧立即跑(0x69 → narration 顺序天然对)。
+          const bs = battleCtx.state
+          if (cmd.opcode === 0x69 && (bs.battleDialogQueue?.length ?? 0) > 0) {
+            ;(bs.battleDialogQueue ??= []).push({ effect: { opcode: cmd.opcode, operands: cmd.operands } })
+            ip++
+            break
+          }
           const r = dispatchBattleOpcode(cmd.opcode, cmd.operands, battleCtx)
           if (r.consumed) {
             ip = r.newIp !== undefined ? r.newIp : (ip + 1)
