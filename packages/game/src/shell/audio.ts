@@ -29,6 +29,8 @@ export interface AudioManager {
    * 纯转发到 Web Audio / MusicBackend;无副作用可测部分见 sfxUrl / 队列清空。
    */
   sync(pendingSounds: number[] | undefined, music: { track: number; loop: boolean }): void
+  /** 即时播一个 SFX(soundId = SOUNDS.MKF chunk)。战斗 SFX(shell 读 bus 事件 + gs.battleState 数据)用。 */
+  playSound(soundId: number): void
   /** 用户手势(首个 keydown)后 resume AudioContext(autoplay policy)。 */
   resume(): void
   /** C1 系统菜单「音效」开关。 */
@@ -56,6 +58,32 @@ export function musicUrl(baseUrl: string, track: number): string {
  */
 export function pickMusicTrack(inBattle: boolean, wNumMusic: number, wNumBattleMusic: number): number {
   return inBattle ? wNumBattleMusic : wNumMusic
+}
+
+/**
+ * 战斗视觉 bus 事件 → SFX id(纯,可测)。sdlpal 在各战斗 event 调 AUDIO_PlaySound(per-单位声):
+ *   - 敌死(fight.c:756 wDeathSound)/ 敌攻(enemy.attackSound)/ 我攻(fight.c:2124 role.weaponSound)。
+ * shell 读 bus 事件 + gs.battleState.enemies[].e / playerRoles 数据映射,返回 0 = 无音。
+ * (法术 SFX = magic.sound、暴击 criticalSound 等可同模式扩展。)
+ */
+export function sfxForBattleEvent(
+  cmd: { op: string; enemyIdx?: number; playerIdx?: number },
+  enemies: ReadonlyArray<{ e: { deathSound: number; attackSound: number } }> | undefined,
+  partyMembers: ReadonlyArray<number> | undefined,
+  roles: Record<number, { weaponSound: number }> | undefined,
+): number {
+  switch (cmd.op) {
+    case 'playEnemyDeath':
+      return cmd.enemyIdx !== undefined ? (enemies?.[cmd.enemyIdx]?.e.deathSound ?? 0) : 0
+    case 'playEnemyAttack':
+      return cmd.enemyIdx !== undefined ? (enemies?.[cmd.enemyIdx]?.e.attackSound ?? 0) : 0
+    case 'playPlayerAttack': {
+      const roleId = cmd.playerIdx !== undefined ? partyMembers?.[cmd.playerIdx] : undefined
+      return roleId !== undefined ? (roles?.[roleId]?.weaponSound ?? 0) : 0
+    }
+    default:
+      return 0
+  }
 }
 
 type WebAudioWindow = typeof globalThis & {
@@ -130,6 +158,9 @@ export function createAudioManager(baseUrl = ''): AudioManager {
         if (music.track === 0) musicBackend?.stop()
         else musicBackend?.play(music.track, music.loop)
       }
+    },
+    playSound(soundId) {
+      if (soundId > 0) playSfx(soundId)
     },
     resume() {
       const c = ensureCtx()

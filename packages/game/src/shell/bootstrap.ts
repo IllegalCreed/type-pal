@@ -73,7 +73,7 @@ import {
   presentBattleFrame,
   presentFrame,
 } from '../present/present.js'
-import { createAudioManager, pickMusicTrack } from './audio.js'
+import { createAudioManager, pickMusicTrack, sfxForBattleEvent } from './audio.js'
 import { playAvi } from './avi-player.js'
 import { type BattleFixturesData, type SceneJumpsData, setupDevPanel } from './dev-panel.js'
 import {
@@ -364,6 +364,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         track: pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic),
         loop: inBattle ? true : (gs.musicLoop ?? true),
       })
+      // M6 战斗 SFX:扫本帧 bus 视觉事件 → per-单位声(敌死 deathSound / 敌攻 attackSound /
+      //   我攻 role.weaponSound,fight.c/battle.c AUDIO_PlaySound)。explore SFX 走 gs.pendingSounds。
+      if (inBattle) {
+        for (const { cmd } of drained) {
+          const s = sfxForBattleEvent(cmd, gs.battleState?.enemies, gs.partyMembers, playerRoles.roles)
+          if (s > 0) audio.playSound(s)
+        }
+      }
       // 按 gs.mode 路由 present:battle → presentBattleFrame(消费 commands 进 floating nums);
       // 否则走 explore/event 路径 presentFrame(commands 由 M2 EventSystem 直接消费 GameState)
       if (!presentBattleFrame(fb, gs, battlePresent, battleAssets, drained)) {
