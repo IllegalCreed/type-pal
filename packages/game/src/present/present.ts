@@ -163,6 +163,13 @@ export function presentFrame(
     return
   }
 
+  // FadeOut(0x50)冻屏淡黑:sdlpal PAL_FadeOut(palette.c:123-190)只 VIDEO_SetPalette 渐黑当前 gpScreen,
+  // **从不 PAL_MakeScene 重绘**。故此 fade 期间不重绘 scene,保留上一帧 fb(上面 stepPaletteFade 已渐黑色表)。
+  // 否则 fadeout 前一刻脚本改的数据(密道 op0x13 把地板瞬间设回原位)会被实时画出 = "原地地板突然关上" bug。
+  if (gs.paletteFadeState?.freeze) {
+    return
+  }
+
   // sdlpal video.c:VIDEO_BackupScreen 真值:opcode 0x73 触发那一瞬间,把当前屏幕快照存到 gpScreenBak。
   // fade 第一帧(backupPixels 未拷)从上一帧 fb.indices 拷(fb clear 前还留着上一帧像素 = 冻屏保留的
   // 旧 scene 帧 / 同 scene 内上一帧)。用于后续 fade 帧 sdlpal 真 rgIndex stride-6 dither blend(主角全程可见)。
@@ -588,6 +595,9 @@ const DLG_ICON_ROT_LEN = 6     // 共 6 槽
 export function applyDialogIconPaletteShift(gs: GameState, base: Palette): Palette {
   const dlg = gs.dialogBox
   if (!dlg || (dlg.phase !== 'waiting-page-key' && dlg.phase !== 'waiting-end-key')) return base
+  // sdlpal text.c:1412-1426/1439-1443 同守卫:center(kDialogCenter)等键也**不**做 0xF9-0xFE palette 轮转
+  //   (无箭头 → 无闪烁)。narration 不进等键 phase,故只需排除 center。
+  if (dlg.style === 'center') return base
   const step = Math.floor(performance.now() / 100) % DLG_ICON_ROT_LEN
   if (step === 0) return base
   const colors = base.colors.slice()

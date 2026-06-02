@@ -50,6 +50,15 @@ export interface PaletteFadeState {
   skipIndex?: number
   /** FadeToRed:渲染前把 fb 像素 from→to 重映射(sdlpal `((LPBYTE)pixels)[i]==0x4F → 0x4E`)。 */
   remap?: { from: number; to: number }
+  /**
+   * FadeOut(0x50)专用:**冻屏淡黑**。sdlpal `PAL_FadeOut`(palette.c:123-190)整个函数只
+   * `VIDEO_SetPalette(palette[i]*j>>6)` 把当前调色板渐缩到黑,**从不调 PAL_MakeScene 重绘 gpScreen** —
+   * 淡黑的是 fadeout 触发前那一帧像素。故 present 在此 fade 期间须冻屏(保留上一帧 fb + 仅 palette 渐黑),
+   * 不实时重绘 scene;否则 fadeout 前一刻脚本改的数据(如 op0x13 把密道地板瞬间设回原位)会被画出来
+   * = "原地、下坠前地板突然关上" bug(2026-06-02 真机 trace 定位:ip105 setObjectPos→ip106 FadeOut)。
+   * FadeIn / SceneFade 不设此标志(它们要重绘淡入新场景)。
+   */
+  freeze?: boolean
 }
 
 /** 全黑 256 色(FadeOut/SceneFade-out target、FadeIn/SceneFade-in start)。每次新数组。 */
@@ -104,6 +113,7 @@ export function buildFadeOut(
     mode: 'lerp',
     steps: 60,
     increment: 0,
+    freeze: true, // sdlpal PAL_FadeOut 只 SetPalette 不 MakeScene → present 冻屏淡黑(见 PaletteFadeState.freeze)
   }
 }
 

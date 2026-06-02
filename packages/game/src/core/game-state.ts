@@ -336,6 +336,20 @@ export interface DialogBoxState {
   typingFrames: number
   /** 当前行已显字符数 = min(floor(typingFrames / FRAMES_PER_CHAR), currentLineText.length)。 */
   charsRevealed: number
+  /**
+   * port sdlpal `g_TextLib.nCurrentDialogLine`(text.c)。当前页已显示的**正文**行数,决定段末/清屏/end
+   * 是否等键画箭头:
+   *  - 正文行显示后 +1(text.c:1746);姓名 title 行**不**计入(text.c:1715-1726 走独立绘制不 ++)
+   *  - 以 `~` 收尾的行复位 0(text.c:1552 置 -1 → ++ 后 0)
+   *  - 翻页 / PAL_ClearDialog 后归 0(text.c:1655/1775)
+   * sdlpal text.c:1770 `if (nCurrentDialogLine > 0 && fWaitForKey) PAL_DialogWaitForKey()` —— 仅
+   * `dialogLineCount > 0` 才在清屏/段末阻塞等键 + 画黄色箭头。`~` 收尾句 count==0 → 不等键、不画箭头、
+   * 自动推进(开场梦境三句的原版真值)。
+   *
+   * 注:翻页判定 shouldWaitPageKey 仍按可见行数(shownLines)算 —— `~` 几乎总紧跟清屏 opcode,
+   * 翻页边界不受 `~` 复位影响,沿用旧逻辑避免回归。
+   */
+  dialogLineCount: number
   /** 状态机 phase(详见 DialogPhase 注释)。 */
   phase: DialogPhase
   /** 对话框位置样式 */

@@ -54,7 +54,7 @@ describe('tickByMode autoScript gate (P2#6a)', () => {
     gs.eventCursor = { commands: [{ op: 'end' }], labelMap: {}, ip: 0, waiting: 'dialog' }
     gs.dialogBox = {
       titleText: undefined, shownLines: [], currentLineText: '在', typingFrames: 0,
-      charsRevealed: 0, phase: 'typing', style: 'bottom', fontColor: 0x4f, shadow: true, keyIconBlink: false,
+      charsRevealed: 0, dialogLineCount: 1, phase: 'typing', style: 'bottom', fontColor: 0x4f, shadow: true, keyIconBlink: false,
     }
     tickByMode(gs, snap(), createCommandBus())
     expect(gs.npcs[0]?.autoCursor?.ip).toBe(0) // 未推进

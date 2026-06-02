@@ -16,7 +16,7 @@ import {
   setObstacleChecker, setGlobalEvents, resolveScriptLabel,
   startOverworldItemScript, setSceneLoader,
   OP_PLAY_MUSIC, OP_FADE_OUT, OP_FADE_IN, OP_SCENE_FADE, OP_PALETTE_FADE, OP_COLOR_FADE,
-  OP_FADE_TO_RED, OP_FADE_TO_SCENE, tickSceneAutoFadeIn, OP_REDRAW_SCREEN,
+  OP_FADE_TO_RED, OP_FADE_TO_SCENE, tickSceneAutoFadeIn, OP_REDRAW_SCREEN, OP_RESTORE_SCREEN,
   OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, setRngPlayHandler, type RngPlayHandlerInput,
   OP_SHOW_FBP, setShowFbpHandler, type ShowFbpHandlerInput,
   OP_SCROLL_FBP, setScrollFbpHandler,
@@ -108,6 +108,39 @@ describe('EventSystem', () => {
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.dialogBox).toBeUndefined()
+  })
+
+  // BUG fix(2026-06-02):开场梦境三句对话均以 ~NN 收尾。sdlpal text.c:1552 `~` → nCurrentDialogLine=-1,
+  //   回 PAL_ShowDialogText ++ → 0 → 段末/清屏的 PAL_ClearDialog(TRUE) 见 line==0 不调 PAL_DialogWaitForKey
+  //   (text.c:1770)→ **无黄色向下箭头 + 自动推进**。旧实现用恒真的 shownLines/currentLineText 代理 → 误等键画箭头。
+  it('梦境序列:`~` 收尾的 center/bottom 三句遇 0x05/0x8E/end 全程不等键、自动推进(sdlpal nCurrentDialogLine=0)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'setDialogStyleCenter' },
+      { op: 'showDialog', messageIndex: 0, text: '李逍遥，李逍遥！~30' }, // center,~ 收尾
+      { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0] },     // 0x05 PAL_ClearDialog(TRUE)+MakeScene
+      { op: 'setDialogStyleBottom' },
+      { op: 'showDialog', messageIndex: 1, text: '李逍遥:' },           // 姓名 title(不计行)
+      { op: 'showDialog', messageIndex: 2, text: '哇哇！~40' },          // bottom,~ 收尾
+      { op: 'raw', opcode: OP_RESTORE_SCREEN, operands: [0, 0, 0] },    // 0x8E PAL_ClearDialog(TRUE)+RestoreScreen
+      { op: 'showDialog', messageIndex: 3, text: '既然落在你的手里，' }, // 正文(count→1)
+      { op: 'showDialog', messageIndex: 4, text: '要杀要剐！~60' },      // ~ 收尾(count→0)
+      { op: 'end' },                                                     // PAL_EndDialog line==0 不等键
+    ])
+    // 全程不按任何键(原版梦境是自动 cutscene)。逐 tick 检查绝不进等键 phase。
+    let everWaited = false
+    let ticks = 0
+    for (; ticks < 300; ticks++) {
+      tickEventSystem(gs, snap(), bus)
+      const ph = gs.dialogBox?.phase
+      if (ph === 'waiting-end-key' || ph === 'waiting-page-key') everWaited = true
+      if (gs.eventCursor === undefined) break // 脚本自动跑完
+    }
+    expect(everWaited).toBe(false)          // 三句全程无等键 → 无黄色箭头(BUG 修复核心断言)
+    expect(gs.eventCursor).toBeUndefined()  // 无按键也自动推进到 end
+    expect(gs.dialogBox).toBeUndefined()    // 末句 ~ 收尾 → end 直接关 dialog 不等键
+    expect(gs.mode).toBe('explore')
   })
 
   it('快按 Space:skip-typing 当 tick 整行设满但 cursor **不**推进(留一帧渲染),下一 tick 才 line-done 推进', () => {
@@ -1615,6 +1648,33 @@ describe('opcode 0x006E playerWalkOneStep(sdlpal script.c:2091-2113)', () => {
     tickEventSystem(gs, snap(), bus)
     expect(gs.walkingFrame.stepFrame).toBe(2)
     expect(gs.walkingFrame.walking).toBe(false)
+  })
+
+  it('密道帧修:0x6E 设 walking=true 后,0x15 给 leader 设 pose → 清 walking(scene1 李逍遥爬密道帧错乱根因)', () => {
+    const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 16, 0] }, // 移动 → 0x6E 设 walking=true
+      { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [0, 4, 0] },   // leader pose 帧 = dir0*3+4 = 4
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    // sdlpal 0x15 写 rgParty.wFrame 覆盖步频(script.c:737)→ ts:0x15 清 walking,present 用 scriptedFrame
+    //   (密道爬帧 chunk193[4]),否则 0x6E 的 walking=true 把爬帧拽成步频帧 0,1,0,2。
+    expect(gs.partyScriptedFrame[0]).toBe(4)
+    expect(gs.walkingFrame.walking).toBe(false)
+  })
+
+  it('0x15 给 follower(member>0)设 pose 不清 leader walking(只 leader 帧被 0x15 覆盖)', () => {
+    const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 16, 0] }, // walking=true
+      { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [0, 4, 1] },   // member 1(follower)
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.walkingFrame.walking).toBe(true) // leader walking 不被 follower 的 0x15 清(gate member===0)
   })
 })
 

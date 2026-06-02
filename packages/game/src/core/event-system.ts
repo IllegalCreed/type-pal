@@ -52,6 +52,7 @@ import {
   shouldWaitPageKey,
   setWaitingPageKey,
   setWaitingEndKey,
+  resetDialogBody,
   tickDialog,
   confirmDialog,
 } from '../present/dialog-box.js'
@@ -942,7 +943,9 @@ function applySetDialogStyle(
   fontColor: number,
 ): boolean {
   const ds = gs.dialogBox
-  if (ds && (ds.shownLines.length > 0 || ds.currentLineText !== null)) {
+  // sdlpal script.c:3389-3426 setDialogStyleX 入口 PAL_ClearDialog(TRUE):仅 nCurrentDialogLine>0 才等键
+  //   (text.c:1770)。`~` 收尾句 → dialogLineCount==0 → 不等键,直接清旧框 + apply 新 style(走下方 fall-through)。
+  if (ds && ds.dialogLineCount > 0) {
     setWaitingPageKey(ds, { style, portraitIcon, fontColor })
     cursor.waiting = 'dialog'
     return true
@@ -1495,32 +1498,44 @@ export function tickEventSystem(
       // RestoreScreen 用 VIDEO_RestoreScreen restore backup buffer 含 title/portrait → 持久)。
       //
       // 我们 port:
-      //   - 0x8E:partialClear → page-advance 保 titleText + portraitIcon,清 body
+      //   - 0x8E:partialClear → 保 titleText + portraitIcon,清 body
       //   - 其他 op (NPC 动画 / wait / pose 切换):fullClear → 清整 dialogBox(title+portrait 都消失)
       const isRestoreScreen = cmd.op === 'raw' && cmd.opcode === OP_RESTORE_SCREEN
-      setWaitingPageKey(
-        gs.dialogBox,
-        undefined,
-        !isRestoreScreen,  // fullClear:非 0x8E 都 true
-        true,              // preOpClear:opcode 尚未消费
-        isRestoreScreen,   // partialClear:仅 0x8E true
-      )
-      cursor.waiting = 'dialog'
-      return
+      // sdlpal script.c:3468 default → PAL_ClearDialog(TRUE):仅 nCurrentDialogLine>0 才 PAL_DialogWaitForKey
+      //   (text.c:1770)。`~` 收尾句 / 仅 title 行 → dialogLineCount==0 → **不等键、不画箭头**,但仍要清屏
+      //   (后续非 dialog opcode 会重画覆盖对话区)。
+      if (gs.dialogBox.dialogLineCount > 0) {
+        setWaitingPageKey(
+          gs.dialogBox,
+          undefined,
+          !isRestoreScreen,  // fullClear:非 0x8E 都 true
+          true,              // preOpClear:opcode 尚未消费
+          isRestoreScreen,   // partialClear:仅 0x8E true
+        )
+        cursor.waiting = 'dialog'
+        return
+      }
+      // dialogLineCount==0:不等键,立即清(0x8E 保 title 清 body;其余清整框),**不 return** —
+      //   本 tick 继续跑该 opcode(opcode 尚未消费)。
+      if (isRestoreScreen) {
+        resetDialogBody(gs.dialogBox)
+      } else {
+        gs.dialogBox = undefined
+      }
     }
 
     switch (cmd.op) {
       case 'end':
-        // sdlpal script.c:3475 PAL_EndDialog → PAL_ClearDialog(TRUE)
-        // 若 dialog 有过行(shownLines.length > 0 或 currentLineText 非空)→ 等 Confirm 关 dialog
+        // sdlpal script.c:3475 PAL_EndDialog → PAL_ClearDialog(TRUE):仅 nCurrentDialogLine>0 才
+        //   PAL_DialogWaitForKey(text.c:1770)→ 等 Confirm 关 dialog + 画箭头。
         if (gs.dialogBox && gs.dialogBox.phase !== 'waiting-end-key') {
-          const hasLines = gs.dialogBox.shownLines.length > 0
-            || (gs.dialogBox.currentLineText !== null && gs.dialogBox.charsRevealed > 0)
-          if (hasLines) {
+          if (gs.dialogBox.dialogLineCount > 0) {
             setWaitingEndKey(gs.dialogBox)
             cursor.waiting = 'dialog'
             return // 等下次 tick Confirm 处理
           }
+          // dialogLineCount==0(`~` 收尾句,如梦境末句):不等键不画箭头,直接关 dialog 继续收尾
+          gs.dialogBox = undefined
         }
         // opcode 0x04 call-script 返回:子脚本 'end' → 弹返回帧,恢复 caller 上下文(ip/commands/
         // labelMap/currentEventObjectId)继续,而非清 cursor(sdlpal PAL_RunTriggerScript 子调用返回)。
@@ -1906,12 +1921,15 @@ export function tickEventSystem(
         // Sync.2 fix8:翻页后**必须完全清 gs.dialogBox**(对应 sdlpal PAL_ClearDialog(TRUE)),
         //              不只清 shownLines/currentLineText;否则 portrait 残留遮挡后续 NPC 动画。
         if (cmd.opcode === OP_REDRAW_SCREEN) {
-          if (gs.dialogBox
-            && (gs.dialogBox.shownLines.length > 0 || gs.dialogBox.currentLineText !== null)) {
+          // sdlpal script.c:3271 PAL_ClearDialog(TRUE):仅 nCurrentDialogLine>0 才 PAL_DialogWaitForKey
+          //   (text.c:1770)等键 + 画箭头;随后 script.c:3290 PAL_MakeScene 重画覆盖对话区。
+          if (gs.dialogBox && gs.dialogBox.dialogLineCount > 0) {
             setWaitingPageKey(gs.dialogBox, undefined, true)  // fullClear=true(0x05 = PAL_ClearDialog(TRUE))
             cursor.waiting = 'dialog'
             return  // 等下次 tick Confirm,page-advance 后 dialogBox=undefined + ip++ + 继续
           }
+          // dialogLineCount==0(`~` 收尾梦境句):不等键。残留对话框被 PAL_MakeScene 重画覆盖等价清掉。
+          if (gs.dialogBox) gs.dialogBox = undefined
           // 无 dialog:sdlpal 0x05 真值(script.c:3283-3294 非 RNG/battle)= PAL_MakeScene() + VIDEO_UpdateScreen。
           //   PAL_MakeScene 末尾检查 fNeedToFadeIn → PAL_FadeIn(delay=1=600ms)从黑淡入(scene.c:503-508)。
           //   **仙灵岛靠岸"过场黑屏"真因**:onEnter(如 5117)序 setpos→0x05→对话;旧码 0x05 无对话时纯 ip++,
@@ -2856,7 +2874,6 @@ function applyRawOpcode(
       const xOff = (dir === 'left' || dir === 'down') ? 16 : -16
       const yOff = (dir === 'left' || dir === 'up') ? 8 : -8
       gs.trail = [0, 1, 2, 3, 4].map((i) => ({ x: px + i * xOff, y: py + i * yOff, dir }))
-      console.debug(`event-system: setPartyPos col=${col} row=${row} h=${h} → px=${px} py=${py},trail filled`)
       break
     }
 
@@ -2871,10 +2888,14 @@ function applyRawOpcode(
       gs.party.facing = facing
       // wFrame = dir * 3 + frameOffset(sdlpal walkFrames default 3)
       gs.partyScriptedFrame[memberIdx] = dirCode * 3 + frameOffset
-      console.debug(
-        `event-system: setPartyDirectionAndFrame dir=${dirCode} frameOff=${frameOffset} member=${memberIdx}`
-        + ` → facing=${facing} wFrame=${gs.partyScriptedFrame[memberIdx]}`,
-      )
+      // 密道帧错乱修(scene 1 李逍遥爬密道,2026-06-02 真机 log 定位):sdlpal 0x15 直接写
+      //   `rgParty[op2].wFrame`(script.c:737),**覆盖**任何走路步频(玩家帧是单一 wFrame)。ts 把玩家帧
+      //   拆成 walking 步频 + scriptedFrame,present 用 walking 标志择一 → 0x6E playerWalkOneStep
+      //   (script.c:2109 调 UpdatePartyGestures(TRUE))设的 walking=true **持续**生效,覆盖后续 0x15 的
+      //   scripted pose,把密道爬行精灵(chunk193 逐帧 3,4,5,6…)拽成普通走路步频帧 0,1,0,2
+      //   (= user 报"爬帧错乱 / 地板突然关上")。修:leader(member 0)被 0x15 显式设 pose 时清 walking,
+      //   让 present 用 scriptedFrame —— 对齐 sdlpal "0x15 覆盖 wFrame"。普通脚本走路(只 0x6E 无后续 0x15)不受影响。
+      if (memberIdx === 0) gs.walkingFrame.walking = false
       break
     }
 
@@ -3355,12 +3376,7 @@ function applyRawOpcode(
         // M5 简版:从 undefined 起始 0,循环 mod 4(NPC sprite 通常 4 帧 = 4 dirs × 1 / 或 4 步动画)
         //         真 nSpriteFrames 由渲染层从 ctx.npcSpriteFrames 反查;event-system 拿不到 ctx,
         //         默认 mod 4 已足以让"走 5 步动画 0→1→2→3→0→1"循环视觉。
-        const next = ((npc.scriptedFrame ?? -1) + 1) % 4
-        npc.scriptedFrame = next
-        console.debug(
-          `event-system: npcWalkOneStep id=${npc.id} d=(${dx},${dy}) → (${npc.x},${npc.y})`
-          + ` frame=${next}`,
-        )
+        npc.scriptedFrame = ((npc.scriptedFrame ?? -1) + 1) % 4
       }
       break
     }
@@ -3393,7 +3409,6 @@ function applyRawOpcode(
       const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'animateObject')
       if (npc) {
         npc.scriptedFrame = ((npc.scriptedFrame ?? -1) + 1) % 4
-        console.debug(`event-system: animateObject id=${npc.id} frame=${npc.scriptedFrame}`)
       }
       break
     }
@@ -3492,7 +3507,6 @@ function applyRawOpcode(
       if (playerIdx === 0) {
         gs.partyLeaderSpriteId = spriteId
       }
-      console.debug(`event-system: setPlayerSprite player=${playerIdx} spriteId=${spriteId}`)
       break
     }
 

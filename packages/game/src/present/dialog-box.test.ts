@@ -63,9 +63,15 @@ describe('parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c
     expect(r.text).toBe('李逍遥') // $10 吃掉
   })
 
-  it('`~` 本行提前结束(其后丢弃,text.c:1554 return)', () => {
+  it('`~` 本行提前结束(其后丢弃,text.c:1554 return)+ endedWithTilde=true(text.c:1552 line=-1)', () => {
     const r = parseDialogText('李逍遥！~30后面不显', D, false)
     expect(r.text).toBe('李逍遥！')
+    expect(r.endedWithTilde).toBe(true) // `~` 收尾 → 行计数复位 0 → 段末不等键不画箭头
+  })
+
+  it('普通行(无 `~` 收尾)endedWithTilde=false → 正文行计数 ++', () => {
+    expect(parseDialogText('李逍遥', D, false).endedWithTilde).toBe(false)
+    expect(parseDialogText('哦！)', D, false).endedWithTilde).toBe(false) // `)` 设 icon 但非 `~`
   })
 
   it('`(` / `)` 设 icon + 消费(不字面显示括号)', () => {
@@ -166,6 +172,31 @@ describe('Sync.2 DialogBox · startDialogLine / appendDialogLine', () => {
     appendDialogLine(s, 'l4'); completeLine(s)
     // shownLines=[l1,l2,l3] currentLineText='l4' phase='line-done' → effective=4
     expect(shouldWaitPageKey(s)).toBe(true)
+  })
+
+  // sdlpal nCurrentDialogLine(text.c)真值:正文行 ++,`~` 收尾复位 0,title 不计入。
+  it('dialogLineCount:普通正文行 ++,`~` 收尾复位 0(text.c:1746/1552)', () => {
+    const s = startDialogLine('line1', { style: 'bottom' })
+    expect(s.dialogLineCount).toBe(1) // PAL_StartDialog 置 0 → 正文行 ++ → 1
+    appendDialogLine(s, 'line2')
+    expect(s.dialogLineCount).toBe(2)
+    appendDialogLine(s, '快走！~30') // `~` 收尾 → 硬复位 0(无视前面累计 2 行)
+    expect(s.dialogLineCount).toBe(0)
+    appendDialogLine(s, 'line4') // 复位后正文行 → 1
+    expect(s.dialogLineCount).toBe(1)
+  })
+
+  it('dialogLineCount:首行即 `~` 收尾 → 0(梦境画外音"李逍遥！~30")', () => {
+    const s = startDialogLine('$10李～逍～遥，李～逍～遥！~30', { style: 'center' })
+    expect(s.dialogLineCount).toBe(0) // → 段末/清屏不等键不画箭头
+  })
+
+  it('dialogLineCount:姓名 title 行不计入(text.c:1715-1726)', () => {
+    const s = startDialogLine('李逍遥:', { style: 'bottom' })
+    expect(s.dialogLineCount).toBe(0) // title 走独立绘制,不 ++
+    expect(s.titleText).toBe('李逍遥:')
+    appendDialogLine(s, '哇哇！~40') // 紧接 `~` 正文 → 仍 0
+    expect(s.dialogLineCount).toBe(0)
   })
 })
 
@@ -437,6 +468,17 @@ describe('Sync.2 DialogBox · key icon(sdlpal text.c:1391)', () => {
     tickDialog(state)
     drawDialogBox(fb, state, undefined, { iconFrames: new Map([[0, icon]]) })
     expect(Array.from(fb.indices).some((i) => i === 99)).toBe(false)
+  })
+
+  // sdlpal text.c:1385-1386 守卫:bDialogPosition==kDialogCenter 即便等键也**不**画 icon。
+  it('center style 即使 waiting → 不画 icon(sdlpal kDialogCenter 守卫)', () => {
+    const fb = createFramebuffer()
+    const icon = mockSprite(8, 8, 99)
+    const state = startDialogLine('画外音', { style: 'center' })
+    completeLine(state)
+    setWaitingEndKey(state) // 即便强行进等键态
+    drawDialogBox(fb, state, undefined, { iconFrames: new Map([[0, icon]]) })
+    expect(Array.from(fb.indices).some((i) => i === 99)).toBe(false) // center 无箭头
   })
 })
 

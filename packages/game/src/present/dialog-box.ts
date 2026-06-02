@@ -72,6 +72,13 @@ export interface ParsedDialogLine {
   endIDelay: number
   /** `(`/`)` 设的等键图标(sdlpal bIcon:0=默认,1=`)`,2=`(`)。 */
   icon: number
+  /**
+   * 本行是否以 `~` 控制码收尾(sdlpal text.c:1542-1554 `case '~'`:`nCurrentDialogLine = -1; return`)。
+   * 回到 PAL_ShowDialogText 后 `nCurrentDialogLine++`(text.c:1746)→ 0,即 `~` 收尾的行**行计数复位 0**:
+   * 之后的 PAL_ClearDialog(TRUE) 见 `nCurrentDialogLine == 0` → **不等键、不画黄色箭头**(text.c:1770)。
+   * 这是"开场梦境三句(均 `~NN` 收尾)原版无结尾光标 + 自动推进"的真值根因。
+   */
+  endedWithTilde: boolean
 }
 
 /**
@@ -126,7 +133,7 @@ export function parseDialogText(
       case '~': { // text.c:1551-1554 UTIL_Delay(NN*80/7) + return(本行止,尾暂停)
         const nn = Number.parseInt((chars[i + 1] ?? '') + (chars[i + 2] ?? ''), 10)
         const endDelay = Number.isNaN(nn) ? 0 : Math.floor((nn * 80) / 7)
-        return { text: out.join(''), colors, revealAt, doneAt: cum + endDelay, endColor: color, endIDelay: iDelay, icon }
+        return { text: out.join(''), colors, revealAt, doneAt: cum + endDelay, endColor: color, endIDelay: iDelay, icon, endedWithTilde: true }
       }
       case ')': icon = 1; break
       case '(': icon = 2; break
@@ -134,7 +141,7 @@ export function parseDialogText(
       default: emit(ch)
     }
   }
-  return { text: out.join(''), colors, revealAt, doneAt: cum, endColor: color, endIDelay: iDelay, icon }
+  return { text: out.join(''), colors, revealAt, doneAt: cum, endColor: color, endIDelay: iDelay, icon, endedWithTilde: false }
 }
 
 /** sdlpal text.c:1661 `y + nCurrentDialogLine * 18`:行间距 18 px */
@@ -268,6 +275,9 @@ export function startDialogLine(
     iconKind: parsed.icon,
     typingFrames: 0,
     charsRevealed: 0,
+    // sdlpal nCurrentDialogLine:PAL_StartDialog 置 0(text.c:1262)→ 本行 PAL_ShowDialogText 后:
+    //   title 不 ++(0);`~` 收尾 -1→++→0;普通正文 ++→1。
+    dialogLineCount: isTitle ? 0 : (parsed.endedWithTilde ? 0 : 1),
     phase: isTitle ? 'line-done' : 'typing',  // title 即出完,让 event-system 立即 ip++ 下条
     style,
     portraitIcon: opts.portraitIcon,
@@ -311,6 +321,9 @@ export function appendDialogLine(state: DialogBoxState, rawText: string): void {
   state.fontColorState = parsed.endColor
   state.iDelayState = parsed.endIDelay
   if (parsed.icon) state.iconKind = parsed.icon
+  // sdlpal nCurrentDialogLine:正文行显示后 ++(text.c:1746);`~` 收尾 -1→++→0(text.c:1552 硬复位,
+  //   无视前面累计行数)。title 行在上面 isCharacterNameLine 分支已 return,不到这里(不计入,对齐 text.c:1715-1726)。
+  state.dialogLineCount = parsed.endedWithTilde ? 0 : state.dialogLineCount + 1
   state.typingFrames = 0
   state.charsRevealed = 0
   state.phase = 'typing'
@@ -370,6 +383,26 @@ export function setWaitingEndKey(state: DialogBoxState): void {
   state.phase = 'waiting-end-key'
   state.typingFrames = 0
   state.keyIconBlink = true
+}
+
+/**
+ * 清当前页正文(shownLines + currentLine)并把行计数归 0,phase→'line-done'。保留 titleText / portraitIcon
+ * / style / fontColorState(对应 sdlpal PAL_ClearDialog 把 nCurrentDialogLine=0 但不擦 title/portrait,
+ * text.c:1775;0x8E VIDEO_RestoreScreen 也只 restore 到"含 title、无 body"的 backup)。
+ * 用于:翻页 Confirm 后(confirmDialog)、`~` 收尾句 count==0 时被 0x8E 立即清 body(event-system)。
+ */
+export function resetDialogBody(state: DialogBoxState): void {
+  state.shownLines = []
+  state.shownLineColors = []
+  state.currentLineText = null
+  state.currentLineColors = undefined
+  state.currentLineRevealAt = undefined
+  state.currentLineDoneAt = undefined
+  state.dialogLineCount = 0
+  state.typingFrames = 0
+  state.charsRevealed = 0
+  state.phase = 'line-done'
+  state.keyIconBlink = false
 }
 
 // ── tickDialog ────────────────────────────────────────────────────────────────
@@ -436,16 +469,11 @@ export function confirmDialog(state: DialogBoxState): ConfirmResult {
     //   - 非空 → 由 setDialogStyleX 触发的 ClearDialog,caller 应 apply pendingStyle 到 gs +
     //           清 gs.dialogBox(让下次 showDialog 重建)
     //   - 空 → 累计 4 行触发,caller 推 cursor.ip(下条 showDialog 会 append 第 5 行)
-    state.shownLines = []
-    state.shownLineColors = []
-    state.currentLineText = null
-    state.currentLineColors = undefined
+    // 清正文 + 行计数归 0(sdlpal PAL_ClearDialog text.c:1775 nCurrentDialogLine=0)。phase→'line-done'(临时;
+    //   caller 推 ip → 下条 showDialog 调 append 切到 'typing')。
     // 注:fontColorState 不重置 — sdlpal PAL_ClearDialog 仅 kDialogCenter 重置 bCurrentFontColor
     //   (text.c:1777-1781),普通翻页(kDialogUpper)色态跨页持续。
-    state.typingFrames = 0
-    state.charsRevealed = 0
-    state.phase = 'line-done' // 临时;caller 推 ip → 下条 showDialog 调 append 切到 'typing'
-    state.keyIconBlink = false
+    resetDialogBody(state)
     return 'page-advance'
   }
   if (state.phase === 'waiting-end-key') {
@@ -575,7 +603,13 @@ export function drawDialogBox(
 
 // sdlpal:icon 只在真正等键处显示 —— PAL_DialogWaitForKey 由 page-break(text.c:1654)
 // 与 dialog 结束(text.c:1772)触发。line-done 是行间自动推进,不显 icon。
+//
+// sdlpal text.c:1385-1386 真值守卫:`if (bDialogPosition != kDialogCenterWindow && != kDialogCenter)` 才画 icon。
+//   → center(kDialogCenter)即便等键也**不画**黄色箭头(也不做 0xF9-0xFE palette 闪烁,见 present.ts)。
+//   narration(kDialogCenterWindow)已在 drawDialogBox short-circuit(走 drawNarrationDialog 不画 icon),
+//   故此处只需补 center 排除。
 function shouldShowKeyIcon(state: DialogBoxState): boolean {
+  if (state.style === 'center') return false
   return state.phase === 'waiting-page-key' || state.phase === 'waiting-end-key'
 }
 
