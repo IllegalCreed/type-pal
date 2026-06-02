@@ -630,6 +630,15 @@ function buildAndStartEnemyMagicAnim(
     },
     targetPlayerIdx,
     targetPlayerPos,
+    iBlow: input.state.iBlow,
+    // W4 iBlow 镜像:敌方魔法吹**全体队员**(fight.c:2903 k<=wMaxPartyMemberIndex,无活人 filter);posOriginal 底锚。
+    blowTargets: input.state.iBlow
+      ? input.state.players
+          .map((p, idx) => ({ p, idx }))
+          .filter(({ p }) => p.posOriginal)
+          .map(({ p, idx }) => ({ side: 'player' as const, idx, pos: p.posOriginal! }))
+      : undefined,
+    rng: input.state.rng,
   })
   // 队员受击动画(fight.c:4861-4899):受伤队员 frame4 + 红闪 + 递减击退,接在特效之后。
   //   单体('normal')→ 该 target;AoE → E2 结算出的受伤队员(hitPlayerIdxs)。各取 posOriginal 复位锚。

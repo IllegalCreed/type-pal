@@ -969,6 +969,42 @@ describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
     // shake 区不产施法帧(fight.c:2932-2938 在 l-i>shake 分支内)
     expect(f[14]!.fighters).toBeUndefined()
   })
+
+  it('W4 iBlow:iBlow!=0 → 全体队员逐帧累加 (blow, trunc(blow/2)),末帧复位 posOriginal(fight.c:2901-2909)', () => {
+    const frames = buildEnemyMagicTimeline({
+      enemyCasterIdx: 0,
+      magic: { effect: 12, type: 'normal', speed: 2, fireDelay: 2, effectTimes: 1, shake: 0, xOffset: 0, yOffset: 0 },
+      n: 8,
+      enemy: { idleFrames: 4, magicFrames: 2, attackFrames: 3 },
+      targetPlayerIdx: 1,
+      targetPlayerPos: { x: 240, y: 170 },
+      iBlow: 4,
+      blowTargets: [{ side: 'player', idx: 0, pos: { x: 120, y: 180 } }],
+      rng: { rangeInclusive: (_a: number, _b: number) => 2 }, // blow 恒 2 → 每帧 +2 / +1
+    })
+    const at = (fi: number): { x: number; y: number } | undefined =>
+      frames[fi]!.fighters?.find((f) => f.side === 'player' && f.idx === 0)?.pos
+    expect(at(0)).toEqual({ x: 122, y: 181 }) // 120+2, 180+trunc(2/2)
+    expect(at(1)).toEqual({ x: 124, y: 182 }) // 累加
+    expect(at(frames.length - 1)).toEqual({ x: 120, y: 180 }) // 末帧复位 posOriginal
+  })
+
+  it('W4 iBlow=0 → 不摇 rng + 无队员位移(常见无吹飞敌法术不污染 rng)', () => {
+    let calls = 0
+    const frames = buildEnemyMagicTimeline({
+      enemyCasterIdx: 0,
+      magic: { effect: 12, type: 'normal', speed: 2, fireDelay: 2, effectTimes: 1, shake: 0, xOffset: 0, yOffset: 0 },
+      n: 8,
+      enemy: { idleFrames: 4, magicFrames: 2, attackFrames: 3 },
+      targetPlayerIdx: 1,
+      targetPlayerPos: { x: 240, y: 170 },
+      iBlow: 0,
+      blowTargets: [{ side: 'player', idx: 0, pos: { x: 120, y: 180 } }],
+      rng: { rangeInclusive: () => { calls++; return 2 } },
+    })
+    expect(calls).toBe(0) // iBlow=0 → 不摇 blow rng
+    expect(frames[0]!.fighters?.find((f) => f.side === 'player')).toBeUndefined() // 无吹飞位移
+  })
 })
 
 describe('buildEnemyMagicCastIntro (fight.c:4680-4717)', () => {

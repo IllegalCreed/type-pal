@@ -963,6 +963,16 @@ export interface BuildEnemyMagicInput {
   targetPlayerIdx: number
   /** 单体目标 player 落点(type=normal 用;底锚)。type 全体时可传 undefined。 */
   targetPlayerPos?: { x: number; y: number }
+  /**
+   * 吹飞强度(g_Battle.iBlow,fight.c:2901)。每帧 blow = iBlow>0?RandomLong(0,iBlow):RandomLong(iBlow,0),
+   * **全体队员**逐帧累加 (x+=blow, y+=trunc(blow/2)),末帧复位 posOriginal(fight.c:2901-2909)。
+   * 仅 iBlow!=0 时生效(同 OffMagic:iBlow==0 跳过不摇 rng,避免污染常见无吹飞敌法术 rng 序)。
+   */
+  iBlow?: number
+  /** W4 iBlow:受吹飞对象(enemy off-magic 镜像 = 全体队员;含 posOriginal 底锚)。空/缺 → 不吹飞。 */
+  blowTargets?: Array<{ side: 'player' | 'enemy'; idx: number; pos: { x: number; y: number } }>
+  /** W4 iBlow:每帧 blow 取值 rng(仅 iBlow!=0 用);缺 → 不吹飞。 */
+  rng?: { rangeInclusive: (a: number, b: number) => number }
 }
 
 export interface BuildEnemyMagicIntroInput {
@@ -1046,13 +1056,17 @@ export function buildEnemyMagicCastIntro(input: BuildEnemyMagicIntroInput): Batt
  *       attackAll:三点 {180,180}{234,170}{270,146} 各 +off → overlays[3](fight.c:2991-3001)
  *       attackWhole:(240,150)+off ; attackField:(160,200)+off(fight.c:3021-3033)
  *
- * iBlow 抖队员(fight.c:2901-2909) / wWave 屏波 / keepEffect 烙背景 → defer(同 OffMagic 标注)。
+ * W4 演出全套(镜像 OffMagic):wWave 屏波(fight.c:2895)+ keepEffect 烙背景(fight.c:2983)+
+ *   iBlow 抖**队员**(fight.c:2901-2909,2026-06-02 补,需调用方传 iBlow/blowTargets=全体队员/rng)。
  */
 export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnimFrame[] {
   // targetPlayerIdx 透传供调用方语义对齐;落点由 magic.type + targetPlayerPos 决定,本体不直接读 idx。
-  const { enemyCasterIdx, magic, n, enemy, targetPlayerPos } = input
+  const { enemyCasterIdx, magic, n, enemy, targetPlayerPos, iBlow, blowTargets, rng } = input
   const { effect, type, speed, fireDelay, effectTimes, shake, xOffset, yOffset, wave, keepEffect } = magic
   const { idleFrames, magicFrames, attackFrames } = enemy
+  // W4 iBlow:吹飞累加态(per target 运行 x/y),仅 iBlow!=0 + 有 targets + rng 时启用。镜像 OffMagic,吹**全体队员**。
+  const blowOn = !!iBlow && iBlow !== 0 && !!blowTargets && blowTargets.length > 0 && !!rng
+  const blowAcc = blowOn ? blowTargets!.map((t) => ({ ...t, x: t.pos.x, y: t.pos.y })) : []
 
   const frames: BattleAnimFrame[] = []
 
@@ -1125,6 +1139,17 @@ export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnim
         x: px + asShortLocal(xOffset),
         y: py + asShortLocal(yOffset),
       })
+    }
+
+    // W4 iBlow:本帧 blow 位移 —— 全体队员累加 (x+=blow, y+=trunc(blow/2));末帧复位 posOriginal(fight.c:2901-2909)。
+    if (blowOn) {
+      const blow = iBlow! > 0 ? rng!.rangeInclusive(0, iBlow!) : rng!.rangeInclusive(iBlow!, 0)
+      const isLast = i === l - 1
+      for (const t of blowAcc) {
+        if (isLast) { t.x = t.pos.x; t.y = t.pos.y } // 末帧复位 posOriginal
+        else { t.x += blow; t.y += Math.trunc(blow / 2) }
+        fighters.push({ side: t.side, idx: t.idx, pos: { x: t.x, y: t.y } })
+      }
     }
 
     const frame: BattleAnimFrame = { durationMs: frameDuration, overlays }
