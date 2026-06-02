@@ -363,6 +363,13 @@ export interface DialogBoxState {
   /** 等键时右下角 icon 的闪烁状态(偶数 blink-period = true) */
   keyIconBlink: boolean
   /**
+   * L1 紫金葫芦炼丹物品框(style='item-box',sdlpal script.c:1480-1512 / SPRITENUM_ITEMBOX)。
+   * 非 undefined 时 present 画屏幕居中 ITEMBOX 精灵 + 物品 BALL 图标 + 2 行居中文字。
+   * present 用 itemId 经 ctx.items 查 bitmap → ctx.itemIcons 取图标;line1="炼出"=getWord(42)、
+   * line2=物品名=getWord(itemId)。复用 narration 1.4s 自动关 / 任意键提前关时序。
+   */
+  itemBox?: { itemId: number; line1: string; line2: string }
+  /**
    * 暂存的 setDialogStyleX 切换(sdlpal script.c:3389-3426 真值:每 setDialogStyleX
    * 入口先 PAL_ClearDialog(TRUE) 阻塞等键)。
    *

@@ -36,9 +36,9 @@ describe('Command 联合类型', () => {
 })
 
 describe('SetDialogStyle commands', () => {
-  it('DialogBoxStyle 四个具名样式', () => {
+  it('DialogBoxStyle 具名样式(含 item-box 物品框)', () => {
     expectTypeOf<DialogBoxStyle>().toEqualTypeOf<
-      'top' | 'center' | 'bottom' | 'narration'
+      'top' | 'center' | 'bottom' | 'narration' | 'item-box'
     >()
   })
 

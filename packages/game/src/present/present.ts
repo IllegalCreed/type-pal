@@ -491,6 +491,8 @@ export function presentFrame(
     drawDialogBox(fb, gs.dialogBox, ctx.glyphs, {
       ...ctx.dialogAssets,
       uiSpriteFrames: ctx.uiSpriteFrames,
+      itemIcons: ctx.itemIcons, // L1 物品框('item-box')图标
+      items: ctx.items,         // L1 物品框:itemId → bitmap 解析
     })
   }
 

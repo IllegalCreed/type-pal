@@ -31,6 +31,7 @@ import type { CommandBus } from './command-bus.js'
 import type { GameState, NpcState, EventCursor } from './game-state.js'
 import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
+import { getWord } from './word-lookup.js'
 import { addPlayerStatRow, getPlayerPoisonResistance, removeEquipmentEffect, setPlayerStatRow, writeEquipmentEffectField } from './equip-effect.js'
 import {
   buildFadeOut,
@@ -1363,8 +1364,8 @@ export function tickEventSystem(
       // 防御:waiting=dialog 但 dialogBox 不存在 → 清状态退出 waiting,继续步进
       cursor.waiting = undefined
     }
-    else if (gs.dialogBox.style === 'narration') {
-      // sdlpal text.c:1663-1710 kDialogCenterWindow(物品提示 "得到XX"):全文瞬显 +
+    else if (gs.dialogBox.style === 'narration' || gs.dialogBox.style === 'item-box') {
+      // sdlpal text.c:1663-1710 kDialogCenterWindow(物品提示 "得到XX" / 'item-box' 炼丹物品框):全文瞬显 +
       // PAL_DialogWaitForKeyWithMaximumSeconds(1.4)→ 最多 1.4s(NARRATION_AUTO_DISMISS_FRAMES 帧)
       // 自动消失 / 按键提前 → PAL_DeleteBox + PAL_EndDialog(nCurrentDialogLine=0)。
       //
@@ -2209,6 +2210,12 @@ export function tickEventSystem(
         // P0.e: 6 wScriptOnEnter opcode 真生效 + Sync.2 fix3: 4 个 NPC 动作 opcode;其余 D26 兜底 skip
         // cursor 传入 → 条件跳转 / call / 随机跳等"动游标"opcode 操作本 trigger cursor。
         applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId, cursor)
+        // 0x34 炼丹弹了物品框(applyRawOpcode 设 gs.dialogBox style='item-box')→ 设 waiting + 暂停本
+        //   tick,**不** ip++;dismiss 由 waiting handler('item-box' 同 narration 分支)做 ip++(否则双进)。
+        if (gs.dialogBox?.style === 'item-box') {
+          cursor.waiting = 'dialog'
+          return
+        }
         cursor.ip++
         break
       }
@@ -3173,8 +3180,8 @@ function applyRawOpcode(
       //     AddItem(store[0].rgwItems[i],1) + 物品框 dialog。
       //   else(==0):jump op0(结束转化循环)。
       // ts:store[0] 经 setStoreTable 注入(items = rgwItems 截 0,leading 与 rgwItems[i] 同序)。
-      //   物品框 dialog(PAL_StartDialogWithOffset + item 图)是 present 层 → 跳过 + log;**物品发放
-      //   忠实生效**(addItemToInventory)。i>=items.length(rgwItems 尾部 0 槽)→ 不发(对齐 add 0)。
+      //   物品发放忠实生效(addItemToInventory)+ 弹**物品框 dialog**(style='item-box',下方)。
+      //   i>=items.length(rgwItems 尾部 0 槽)→ 不发(对齐 add 0)。
       if (gs.wCollectValue > 0) {
         let i = Math.floor(Math.random() * gs.wCollectValue) + 1 // RandomLong(1, collectValue)
         if (i > 9) i = 9 // PAL_CLASSIC cap
@@ -3183,7 +3190,26 @@ function applyRawOpcode(
         const item = _storeTable[0]?.items[i] ?? 0
         if (item > 0) {
           addItemToInventory(gs, item, 1)
-          console.debug(`event-system: 0x34 transformCollected → item=${item}(collectValue 剩 ${gs.wCollectValue};物品框 dialog present 层跳过)`)
+          // sdlpal script.c:1479-1513:iDialogShadow=5 + PAL_StartDialogWithOffset(kDialogCenterWindow,
+          //   0,0,FALSE,0,-10) + ITEMBOX 精灵屏幕居中 + 物品 BALL 图标@box+(8,7) + PAL_ShowDialogText
+          //   ("PAL_GetWord(42)@物品名@")。复用 narration 1.4s 自动关 / 任意键提前关时序(下方 'narration'
+          //   == 'item-box' 分支)。仅异步 cursor(紫金葫芦 eventCursor)能 pause 渲染;同步 runScript/battle
+          //   context(cursor.waiting 不被消费)设了无害,modal 不显(0x34 仅大世界炼丹用)。
+          // 仅设 gs.dialogBox;异步 trigger loop 的 raw case(检测 style==='item-box')再设
+          //   cursor.waiting='dialog' + 暂停(applyRawOpcode 的 cursor 是 ScriptCursor 无 waiting 字段)。
+          gs.dialogBox = {
+            shownLines: [],
+            currentLineText: null,
+            typingFrames: 0,
+            charsRevealed: 0,
+            dialogLineCount: 0,
+            phase: 'line-done',
+            style: 'item-box',
+            fontColor: 0,
+            shadow: true, // sdlpal iDialogShadow=5
+            keyIconBlink: false,
+            itemBox: { itemId: item, line1: getWord(42), line2: getWord(item) },
+          }
         }
       } else {
         jumpToGlobalIp(gs, cursor, operands[0] ?? 0)

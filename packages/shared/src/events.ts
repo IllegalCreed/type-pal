@@ -33,7 +33,9 @@ export interface GotoCommand {
  *  + ShowDialogCommand.box 直接使用,实施时提前放在 events.ts。Task 2 实施
  *  resources.ts 时无需重复定义。
  */
-export type DialogBoxStyle = 'top' | 'center' | 'bottom' | 'narration'
+// 'item-box' = L1 紫金葫芦炼丹物品框(opcode 0x34 / SPRITENUM_ITEMBOX,script.c:1480-1512):
+//   屏幕居中 ITEMBOX 精灵 + 物品 BALL 图标 + 2 行居中文字,复用 narration 1.4s 自动关时序。
+export type DialogBoxStyle = 'top' | 'center' | 'bottom' | 'narration' | 'item-box'
 
 export interface ShowDialogCommand {
   op: 'showDialog'

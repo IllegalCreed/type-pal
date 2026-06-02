@@ -32,6 +32,7 @@ import {
 } from './event-system.js'
 import { createInitialGameState, resumePostBattleScript, type GameState } from './game-state.js'
 import { createCommandBus } from './command-bus.js'
+import { setWordTable } from './word-lookup.js'
 import type { BattleState } from './battle/battle-state.js'
 import { createSeedableRng } from './rng.js'
 
@@ -4106,6 +4107,37 @@ describe('opcode 0x34 transformCollected(script.c:1452,妖魔转化)', () => {
     expect(gs.inventory).toEqual([{ itemId: 111, count: 1 }]) // items[9-1]=items[8]
     vi.restoreAllMocks()
     setStoreTable([])
+  })
+
+  it('L1 物品框:发物品弹 item-box dialog(炼出+物品名)+ waiting,按键关 + 推进脚本', () => {
+    // sdlpal script.c:1479-1513 PAL_StartDialogWithOffset(kDialogCenterWindow,...) + ITEMBOX + PAL_ShowDialogText
+    const words: string[] = []
+    words[42] = '炼出'   // PAL_GetWord(42)
+    words[100] = '金创药' // 物品名 = PAL_GetWord(itemId)
+    setWordTable(words)
+    setStoreTable([{ items: [100, 105, 95] }])
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.wCollectValue = 1
+    vi.spyOn(Math, 'random').mockReturnValue(0) // RandomLong(1,1) = 1 → i-1 = 0 → items[0]=100
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_TRANSFORM_COLLECTED, operands: [99, 0, 0] },
+      { op: 'end' },
+    ])
+    // tick1:发物品 + 弹物品框 + 暂停(不推进 ip)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.inventory).toEqual([{ itemId: 100, count: 1 }])
+    expect(gs.wCollectValue).toBe(0)
+    expect(gs.dialogBox?.style).toBe('item-box')
+    expect(gs.dialogBox?.itemBox).toEqual({ itemId: 100, line1: '炼出', line2: '金创药' })
+    expect(gs.eventCursor?.waiting).toBe('dialog')
+    expect(gs.eventCursor?.ip).toBe(0) // 暂停在 0x34,未推进
+    // tick2:任意键关物品框(复用 narration auto-dismiss)→ 推进 ip → 'end' 结束
+    tickEventSystem(gs, snap(['Confirm']), bus)
+    expect(gs.dialogBox).toBeUndefined()
+    vi.restoreAllMocks()
+    setStoreTable([])
+    setWordTable([])
   })
 
   it('collectValue==0 → jump op0(跳过线性后继 op)', () => {

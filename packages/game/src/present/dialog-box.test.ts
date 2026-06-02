@@ -361,12 +361,42 @@ describe('Sync.2 DialogBox · drawDialogBox 不画 box bg', () => {
     expect(Array.from(fb.indices).some((i) => i === 50)).toBe(false) // 不再是旧单层 color 50
   })
 
-  it('4 styles 绘制不抛错', () => {
-    for (const style of ['top', 'center', 'bottom', 'narration'] as const) {
+  it('5 styles 绘制不抛错(无 ctx)', () => {
+    for (const style of ['top', 'center', 'bottom', 'narration', 'item-box'] as const) {
       const fb = createFramebuffer()
       const state = startDialogLine('x', { style })
       expect(() => drawDialogBox(fb, state, undefined, undefined)).not.toThrow()
     }
+  })
+
+  it('item-box 物品框:居中 ITEMBOX 精灵 + 物品 BALL 图标@box+(8,7)(script.c:1483-1508)', () => {
+    const fb = createFramebuffer()
+    // uiSpriteFrames:SingleLineBox(44/45/46)+ ITEMBOX(70,64×64)
+    const ui: unknown[] = []
+    ui[44] = mockSprite(4, 16, 11)
+    ui[45] = mockSprite(8, 16, 11)
+    ui[46] = mockSprite(4, 16, 11)
+    ui[70] = mockSprite(64, 64, 22)
+    const icon = mockSprite(24, 24, 33) // 物品 BALL 图标(bitmap=5)
+    const state = {
+      shownLines: [], currentLineText: null, typingFrames: 0, charsRevealed: 0,
+      dialogLineCount: 0, phase: 'line-done' as const, style: 'item-box' as const,
+      fontColor: 0, shadow: true, keyIconBlink: false,
+      itemBox: { itemId: 100, line1: '炼出', line2: '金创药' },
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    drawDialogBox(fb, state as any, undefined, {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      uiSpriteFrames: ui as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      itemIcons: new Map([[5, icon as any]]),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      items: [{ id: 100, bitmap: 5 } as any],
+    })
+    // ITEMBOX 屏幕居中:(320-64)/2=128, (200-64)/2=68 → 画了 22
+    expect(fb.indices[68 * 320 + 128]).toBe(22)
+    // 物品图标 @ box+(8,7) = (136, 75) → 画了 33
+    expect(fb.indices[75 * 320 + 136]).toBe(33)
   })
 })
 

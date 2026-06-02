@@ -163,6 +163,8 @@ export function getDialogTextPos(style: DialogBoxStyle, hasPortrait: boolean): T
     case 'bottom':
     case 'narration':
       return { x: hasPortrait ? 20 : 44, y: 126 }
+    case 'item-box':
+      return { x: 160, y: 30 } // kDialogCenterWindow posDialogText(160,40)+offset -10;实际走 drawItemBoxDialog
   }
 }
 
@@ -181,6 +183,8 @@ export function getDialogTitlePos(style: DialogBoxStyle, hasPortrait: boolean): 
     case 'bottom':
     case 'narration':
       return { x: hasPortrait ? 4 : 12, y: 108 }
+    case 'item-box':
+      return { x: 160, y: 30 } // 物品框无 title;走 drawItemBoxDialog,此返回不被用
   }
 }
 
@@ -215,7 +219,8 @@ function getPortraitPos(
     case 'narration':
       return { x: 270 - Math.floor(width / 2), y: 144 - Math.floor(height / 2) }
     case 'center':
-      return null
+    case 'item-box':
+      return null // 物品框无头像(走 drawItemBoxDialog)
   }
 }
 
@@ -233,6 +238,7 @@ const STYLE_RECTS: Record<DialogBoxStyle, BoxRect> = {
   center:    { x: 8, y: 80,  w: 304, h: 48 },
   bottom:    { x: 8, y: 144, w: 304, h: 48 },
   narration: { x: 8, y: 144, w: 304, h: 48 },
+  'item-box': { x: 8, y: 80, w: 304, h: 48 }, // 物品框实际居中动态画(drawItemBoxDialog),此 rect 仅占位/测试
 }
 
 export function getDialogBoxRect(style: DialogBoxStyle): BoxRect {
@@ -499,6 +505,10 @@ export interface DialogBoxDrawCtx {
   iconFrames?: Map<number, DialogSprite>
   /** T14:narration style(kDialogCenterWindow)画 SingleLineBox 背景,需 SPRITEUI frame 44/45/46。 */
   uiSpriteFrames?: import('../assets/png.js').IndexedImage[]
+  /** L1 物品框(style='item-box'):物品 BALL 图标 Map<bitmap, icon>(SPRITENUM_ITEMBOX 也在 uiSpriteFrames[70])。 */
+  itemIcons?: Map<number, import('../assets/png.js').IndexedImage>
+  /** L1 物品框:物品 catalog(itemId → bitmap),解析图标用。 */
+  items?: import('@type-pal/shared').Item[]
 }
 
 const KEY_ICON_FRAME = 0
@@ -517,6 +527,13 @@ export function drawDialogBox(
   glyphs: GlyphTable | undefined,
   ctx?: DialogBoxDrawCtx,
 ): void {
+  // L1 紫金葫芦炼丹物品框(style='item-box')— sdlpal script.c:1479-1513。**在 hasActiveContent 守卫前**
+  //   short-circuit:物品框无 shownLines/currentLineText(内容是 itemBox 字段),否则被守卫误判空而不画。
+  if (state.style === 'item-box') {
+    drawItemBoxDialog(fb, state, glyphs, ctx)
+    return
+  }
+
   // Sync.2 fix10:dialog 无活跃内容(shownLines=[]+currentLineText=null)时 整个 dialog 不画 —
   //   包括 portrait + key icon。对应 sdlpal `nCurrentDialogLine=0` 后 PAL_ShowDialogText 不被
   //   调,自然 portrait 不再 blit。我们 retainstate 但渲染层 short-circuit。
@@ -738,4 +755,74 @@ function drawNarrationDialog(
     }
     ci++
   }
+}
+
+/** sdlpal ui.h:110 SPRITENUM_ITEMBOX = 70(物品框背景 sprite,在 SPRITEUI 组)。 */
+const SPRITENUM_ITEMBOX = 70
+
+/**
+ * L1 紫金葫芦炼丹物品框(style='item-box')— sdlpal script.c:1479-1513 1:1 port。
+ *
+ * 视觉:屏幕居中 ITEMBOX 精灵(UI 70)+ 物品 BALL 图标@box+(8,7) + 2 行居中文字
+ *   (line1="炼出"=getWord(42) / line2=物品名=getWord(itemId))。
+ *
+ * sdlpal 真值:
+ *   - PAL_StartDialogWithOffset(kDialogCenterWindow, 0, 0, FALSE, 0, -10)
+ *     → posDialogText = (160,40) + (0,-10) = (160,30)(text.c:1345/1350)
+ *   - iDialogShadow = 5(script.c:1479)→ 每行 SingleLineBox shadow=5
+ *   - ITEMBOX: iBG_X=(320-w)/2, iBG_Y=(200-h)/2(script.c:1485);图标@(iBG_X+8, iBG_Y+7)(:1507)
+ *   - 文字行 y = posDialogText.y + nLine*18(text.c:1661):line0=30, line1=48
+ */
+function drawItemBoxDialog(
+  fb: Framebuffer,
+  state: DialogBoxState,
+  glyphs: GlyphTable | undefined,
+  ctx?: DialogBoxDrawCtx,
+): void {
+  const ib = state.itemBox
+  if (!ib) return
+
+  // ITEMBOX 精灵 + 物品图标(屏幕居中,script.c:1483-1508)
+  const box = ctx?.uiSpriteFrames?.[SPRITENUM_ITEMBOX]
+  if (box) {
+    const bx = Math.floor((320 - box.width) / 2)
+    const by = Math.floor((200 - box.height) / 2)
+    blitSprite(fb, box, bx, by)
+    const item = ctx?.items?.find((it) => it.id === ib.itemId)
+    const icon = item ? ctx?.itemIcons?.get(item.bitmap) : undefined
+    if (icon) blitSprite(fb, icon, bx + 8, by + 7) // script.c:1507 (pos.x+8, pos.y+7)
+  }
+
+  // 2 行居中文字(kDialogCenterWindow posDialogText=(160,30),行距 18;每行各自一个 SingleLineBox)
+  drawItemBoxLine(fb, ib.line1, 160, 30, glyphs, ctx)
+  drawItemBoxLine(fb, ib.line2, 160, 30 + 18, glyphs, ctx)
+}
+
+/** 物品框单行:居中 SingleLineBox(shadow=5)+ 居中文字(sdlpal text.c:1681-1698 kDialogCenterWindow 路径)。 */
+function drawItemBoxLine(
+  fb: Framebuffer,
+  text: string,
+  posX: number,
+  posY: number,
+  glyphs: GlyphTable | undefined,
+  ctx?: DialogBoxDrawCtx,
+): void {
+  if (!text) return
+  // sdlpal len:半角 1 / 全角 2(text.c:1681)
+  let len = 0
+  for (const ch of text) len += ch.codePointAt(0)! < 0x80 ? 1 : 2
+  const boxX = posX - len * 4 // text.c:1685 pos.x = posDialogText.x - len*4
+  if (ctx?.uiSpriteFrames) {
+    drawSingleLineBox({
+      fb,
+      x: boxX,
+      y: posY,
+      len: Math.floor((len + 1) / 2),
+      uiSpriteFrames: ctx.uiSpriteFrames,
+      shadowOffset: 5, // iDialogShadow=5(script.c:1479)
+    })
+  }
+  // 文字 pos(text.c:1698):x = boxX + 8 + ((len&1)<<2), y = posY + 10;isDialog DEFAULT 色=0(text.c:1581),fShadow=FALSE
+  const textX = boxX + 8 + ((len & 1) << 2)
+  renderText(fb, text, textX, posY + 10, 0, glyphs, false)
 }
