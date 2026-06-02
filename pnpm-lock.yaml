@@ -23,6 +23,9 @@ importers:
       '@type-pal/shared':
         specifier: workspace:*
         version: link:../shared
+      spessasynth_lib:
+        specifier: ^4.3.6
+        version: 4.3.6
     devDependencies:
       '@playwright/test':
         specifier: ^1.60.0
@@ -879,6 +882,12 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
+  spessasynth_core@4.3.7:
+    resolution: {integrity: sha512-ut9KOPUPjm9n1n4kD4utAluA4pRpFRNtaObR4ocPmhjRnUoGCGtOCkAZod58YoHVEmcXjDtHVz0cmGfjSJEYPg==}
+
+  spessasynth_lib@4.3.6:
+    resolution: {integrity: sha512-EXMQaBHnbsnkTaLKzBYweZsNdT2oOgvF6wUR5AhdEuxwi0s0EAb7hAEVASEuj33E7tiGaH5Nf03jB10MoxCqZg==}
+
   stackback@0.0.2:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
 
@@ -1734,6 +1743,12 @@ snapshots:
       simple-concat: 1.0.1
 
   source-map-js@1.2.1: {}
+
+  spessasynth_core@4.3.7: {}
+
+  spessasynth_lib@4.3.6:
+    dependencies:
+      spessasynth_core: 4.3.7
 
   stackback@0.0.2: {}
 

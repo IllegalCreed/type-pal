@@ -183,17 +183,20 @@
 
 | # | 功能 | 状态 | 测试 | sdlpal 真值出处 | ts 路径 | 备注 / 差异 |
 |---|---|---|---|---|---|---|
-| H1 | BGM(MIDI/CD) | ✅ 待听验 | ✅ unit | audio.c + midi.c:67 + battle.c:728/1849 | core 意图 + shell/audio.ts(AudioManager + createOggMusicBackend) | opcode 0x43/0x45/0x73 → wNumMusic+musicLoop;战斗 BGM 切换(pickMusicTrack:战斗→wNumBattleMusic、退出→场景乐)。**播放后端 = 预渲染 OGG**(HTMLAudio looped):浏览器不能播 MIDI,沿用 AVI→mp4 离线模式(见下 §MIDI 渲染),user 一次性 fluidsynth 渲染 music/{NNN}.ogg;CD track 本就 OGG。残:per-track 听验 + OGG 渲染(user 离线步) |
+| H1 | BGM(MIDI/CD) | ✅ 待听验 | ✅ unit + build | audio.c + midi.c:67 + battle.c:728/1849 | core 意图 + shell/audio.ts + shell/audio-midi.ts(SpessaSynth) | opcode 0x43/0x45/0x73 → wNumMusic+musicLoop;战斗 BGM 切换(pickMusicTrack:战斗→wNumBattleMusic、退出→场景乐)。**播放后端 = SpessaSynth 运行时 MIDI 合成**(WorkletSynthesizer + Sequencer,直接播 Musics/{NNN}.mid,开箱即响)。typecheck + vite build + 单测过;**user 前置:放 GM soundfont 到 public/soundfont.sf3**(缺则 BGM 静默+warn,见下 §soundfont)。残:soundfont + per-track 听验 |
 | H2 | SFX sound.c | ✅ 待听验 | ✅ unit | sound.c + fight.c:756/2124 + battle.c:1397 | core 0x47→gs.pendingSounds + shell sfxForBattleEvent | opcode 0x47 playSound → pendingSounds 队列 → AudioManager 播 /extracted/sounds/{id}.wav(decodeAudioData 缓存)。战斗 SFX:敌死 deathSound / 敌攻 attackSound / 我攻 weaponSound(shell 读 bus 事件+单位声数据)。残:法术 magic.sound / 暴击 / 阵亡 / 菜单光标声(同模式可扩展)+ 听验 |
 | H3 | CD audio | ✅ 待听验 | ✅ unit | audio.c CD 相关 | 同 H1(0xA3→wNumMusic looped) | 8 TRACKxx.ogg 已提取;0xA3 playCDMusic → wNumMusic looped → OGG backend 直接播(CD track 原生 OGG)。残:听验 |
 
-### MIDI → OGG 离线渲染(BGM 发声前置,user 一次性 build 步)
+### BGM soundfont(发声前置,user 一次性放一个文件)
 
-浏览器无法直接播 `Musics/{NNN}.mid`。沿用本项目媒体惯例(AVI 走离线 ffmpeg→mp4,memory
-`avi-offline-ffmpeg-to-mp4`):**离线**用 fluidsynth + 一个 GM SoundFont(`.sf2`)把 86 个 MIDI
-渲染成 `data/extracted/music/{NNN}.ogg`,运行时 `createOggMusicBackend` 播标准 OGG —— 无需运行时
-synth / 巨型 soundfont 进仓。示例:`for f in data/extracted/music/*.mid; do fluidsynth -F "${f%.mid}.ogg" GM.sf2 "$f"; done`。
-SoundFont 选择 / 音色 / 听感由 user 定(licensing + 听验只能 user 做)。渲染前 BGM 静默(不报错)。
+浏览器无法裸播 `Musics/{NNN}.mid`(MIDI 只有音符,需 soundfont 音色库)。**方案 = 运行时
+SpessaSynth 软合成**(user 选,2026-06-03):直接播提取的 .mid,无需离线渲染。
+- **前置**:放一个**免费 GM SoundFont** 到 `packages/game/public/soundfont.sf3`(或 .sf2)。
+  licensing / 音色听感由 user 定(听验只能 user 做);sf3 压缩体积小。缺失 → SpessaSynth init
+  失败 + warn,BGM 静默(不阻塞)。
+- worklet `spessasynth_processor.min.js` 已随 lib vendored 到 public/(spessasynth_lib 更新需重拷)。
+- 备用后端 `createOggMusicBackend`(audio.ts)仍在:若改走离线渲染,fluidsynth 把 .mid → music/{NNN}.ogg
+  即可(同 AVI→mp4 模式,memory avi-offline-ffmpeg-to-mp4)。
 
 ## I. 通关 / Ending
 
