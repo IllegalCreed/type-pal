@@ -1588,3 +1588,39 @@ describe('D17b showDamageNum emit', () => {
     expect(nums[0]).toMatchObject({ color: 'blue', target: { kind: 'enemy', idx: 0 }, value: 77 })
   })
 })
+
+describe('0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene)', () => {
+  it('op0!=0 + bus → state.battleAnim 设(preMagic + 全队 5 步 iColorShift + 复位 = 24 帧)', () => {
+    const bus = createCommandBus()
+    const state = {
+      enemies: [],
+      players: [
+        { roleId: 0, posOriginal: { x: 240, y: 170 } },
+        { roleId: 1, posOriginal: { x: 280, y: 150 } },
+      ],
+    } as any as BattleState
+    const ctx = {
+      state,
+      bus,
+      playerRoles: { roles: [{ id: 0, spriteNumInBattle: 1 }, { id: 1, spriteNumInBattle: 2 }] },
+      battleEffectIndex: [2, 0, 3, 0], // sprite1 → [1*2]=idx2=3 → castBase=3*10+15=45
+    } as any as BattleCtx
+    dispatchBattleOpcode(0x0092, [1, 0, 0], ctx) // op0=1 → casterIdx 0
+    expect(state.battleAnim).toBeDefined()
+    expect(state.battleAnim!.frames).toHaveLength(24) // 17 preMagic + 1 frame6 + 5 cycle + 1 reset
+    // 末帧:全队 iColorShift 复位 0
+    expect(state.battleAnim!.frames[23]!.fighters).toEqual([
+      { side: 'player', idx: 0, iColorShift: 0 },
+      { side: 'player', idx: 1, iColorShift: 0 },
+    ])
+  })
+
+  it('op0==0 → 不播动画(consumed no-op,sdlpal `if (operand[0]!=0)` 守卫)', () => {
+    const bus = createCommandBus()
+    const state = { enemies: [], players: [{ roleId: 0, posOriginal: { x: 240, y: 170 } }] } as any as BattleState
+    const ctx = { state, bus } as any as BattleCtx
+    const r = dispatchBattleOpcode(0x0092, [0, 0, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(state.battleAnim).toBeUndefined()
+  })
+})

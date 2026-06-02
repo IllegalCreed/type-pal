@@ -133,14 +133,14 @@
 
 ## E. 脚本 / Cutscene(opcode interpreter)
 
-> **逐 opcode 实现状态以 [docs/opcode-status.md](opcode-status.md) 为单一真值源**(163 opcode 全集,2026-05-30:控制流 0x00-0x0A + A/B/C/S 类 + D 视觉类 + **战斗 E 类全收口** ✅(2026-05-30,见 opcode-status 审计表);仅剩 3 音频 D 类(0x45/0x77/0xA3 → M6)+ 0x92 pre-magic anim 待 wire present)。
+> **逐 opcode 实现状态以 [docs/opcode-status.md](opcode-status.md) 为单一真值源**(163 opcode 全集,2026-05-30:控制流 0x00-0x0A + A/B/C/S 类 + D 视觉类 + **战斗 E 类全收口** ✅(2026-05-30,见 opcode-status 审计表;0x92 pre-magic anim 2026-06-02 已 wire);仅剩 3 音频 D 类(0x45/0x77/0xA3 → M6))。
 > 本章只列**框架 / 架构级**条目,不再逐 opcode 平铺(避免与 opcode-status.md 两表漂移)。
 > 特效栈(fade / wave / FBP / RNG)→ 见 **G 章**;对话打字引擎 → 见 **C13**;follower → 见 **B11**。
 
 | # | 功能 | 状态 | 测试 | sdlpal 真值出处 | ts 路径 | 备注 / 差异 |
 |---|---|---|---|---|---|---|
 | E1 | opcode interpreter 框架 | ✅ claimed | ✅ partial | script.c:587 `PAL_InterpretInstruction` | core/event-system.ts tickEventSystem + applyRawOpcode | event-system.test.ts;先按 cmd.op 解析分流,'raw' 再进 OP_ 具名大 switch |
-| E2 | opcode 总体覆盖 | ✅ claimed | ✅ partial | script.c 0x00-0xA6 全集(减不存在 0x32/0x48/0x72/0x9D) | core/event-system.ts(126 个 OP_ 常量)+ battle-opcodes.ts | **126 OP_ 具名常量 / 约 134-of-163 opcode 有实现(含 stub)**(2026-06-01 审计:122→126);**战斗 E 类全收口**(opcode-status 审计表,2026-06-02 对抗复核确认);仅剩 3 音频 D 类(M6)+ 0x92 pre-magic anim 待 wire present。逐条状态 → opcode-status.md |
+| E2 | opcode 总体覆盖 | ✅ claimed | ✅ partial | script.c 0x00-0xA6 全集(减不存在 0x32/0x48/0x72/0x9D) | core/event-system.ts(126 个 OP_ 常量)+ battle-opcodes.ts | **126 OP_ 具名常量 / 约 134-of-163 opcode 有实现(含 stub)**(2026-06-01 审计:122→126);**战斗 E 类全收口**(opcode-status 审计表,2026-06-02 对抗复核确认 + 0x92 pre-magic anim 已 wire);仅剩 3 音频 D 类(M6)。逐条状态 → opcode-status.md |
 | E3 | RunAutoScript NPC 自动 | ✅ claimed | ✅ partial | script.c:3482-3515 `PAL_RunAutoScript` | core/event-system.ts:962 tickAutoScripts | 0x00 park / 0x01 advance / 0x02 reset(idleFrames)/ 0x03 goto(不消耗帧同帧续跑)/ call / wait 全 port;1 op/tick 对齐 sdlpal 真值。commit 2d5a8c5 / eaaa1d5 / 4701d34。event-system.test.ts 有断言(2026-06-01 审计:测试列 ⬜→✅ partial)。残:无(2026-06-02 核验:原"wScriptOnAnimate 态"是幽灵注,sdlpal 0 命中)|
 | E4 | 唯一全局脚本数组 / 行索引架构 | ✅ claimed | ✅ partial | script.c 单一 lprgScriptEntry 全局寻址 | core/event-system.ts:607 _globalCommands / resolveScriptLabel | commit 6b58f9e(P2#5 单一全局数组,cursor 只存 globalIp,根治存档膨胀)+ 1f99417(P0 唯一行索引,修 0x19/0x1A/0x9A 同 opcode 两套行为)+ 4701d34(116 处跨 scene 引用兜底) |
 

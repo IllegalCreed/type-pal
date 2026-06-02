@@ -869,6 +869,12 @@ export interface BattleCtx {
    */
   playerRoles?: PlayerRoles
   /**
+   * 0x92 show-magic-anim:cast 特效帧基号 = `rgwBattleEffectIndex[battleSprite][0]*10+15`
+   * (fight.c:2387-2389)需此表(rgwBattleEffectIndex[10][2] flat,battle-effect-index.json)。
+   * 由 enemy turnStart/ready 的 runScript 注入(0x92 在 scripted battle cutscene 内,如赵灵儿力量觉醒)。
+   */
+  battleEffectIndex?: number[]
+  /**
    * 0x9E enemy summon 需:enemies(enemies.json,按 enemyId 取召唤兽 stats)+
    * enemyObjects(enemy-objects.json,按 objectIndex 解 op0 → enemyId/scripts/抗性)。
    * 由 enemy scriptOnReady 的 runScript 注入(battle-system tickPerformAction)。

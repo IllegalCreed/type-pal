@@ -1526,6 +1526,9 @@ function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: Comman
         caster: { type: 'enemy', idx: ei },
         summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
         gs, // raw opcode fall 到 applyRawOpcode 需 gs
+        // 0x92 show-magic-anim(赵灵儿觉醒 cutscene scriptOnTurnStart)需 cast 特效帧基号 + 角色战斗精灵
+        playerRoles: res.playerRoles,
+        battleEffectIndex: res.battleEffectIndex,
       },
     })
   }
@@ -1788,6 +1791,9 @@ function tickPerformAction(
             summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
             // raw opcode(0x06 概率跳等)fall 到 applyRawOpcode 需 gs
             gs,
+            // 0x92 show-magic-anim(scriptOnReady 出场施法演出)需 cast 特效帧基号 + 角色战斗精灵
+            playerRoles: res.playerRoles,
+            battleEffectIndex: res.battleEffectIndex,
           },
         })
         // scriptOnReady 里 0xFFFF showDialog 入了对话队列 → 先暂停本 action,让顶层 tickBattleDialog

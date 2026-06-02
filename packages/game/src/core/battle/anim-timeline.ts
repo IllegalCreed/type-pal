@@ -475,6 +475,43 @@ export function buildPreMagicTimeline(input: BuildPreMagicInput): BattleAnimFram
   return frames
 }
 
+export interface BuildShowMagicAnimInput {
+  casterPos: { x: number; y: number }
+  casterIdx: number
+  /** rgwBattleEffectIndex[battleSprite][0]*10+15(caller 算好,fight.c:2387-2389)。 */
+  castEffectFrameBase: number
+  /** 全体在场队员 idx(iColorShift cycle 作用对象,sdlpal j=0..wMaxPartyMemberIndex)。 */
+  partyIndices: number[]
+}
+
+/**
+ * sdlpal `script.c:2637-2662 (0x0092)` show-magic-casting-anim 1:1 port(scripted 施法前摇,
+ * 如赵灵儿力量觉醒 cutscene)。
+ *  - PreMagic 上移 4 帧 + 施法姿 + 10 帧 cast 特效(buildPreMagicTimeline,fight.c:2363-2444)
+ *  - caster wCurrentFrame=6(script.c:2646)
+ *  - 全队 5 步 iColorShift=i*2 cycle(script.c:2649-2656,"力量觉醒"白闪蓄势)
+ *  - 末复位 iColorShift=0(对齐 BattleFadeScene 后正常色;ts present 自动重绘)
+ */
+export function buildShowMagicAnimTimeline(input: BuildShowMagicAnimInput): BattleAnimFrame[] {
+  const { casterPos, casterIdx, castEffectFrameBase, partyIndices } = input
+  const frames = buildPreMagicTimeline({ casterPos, casterIdx, castEffectFrameBase, isSummon: false })
+  // script.c:2646:施法者 wCurrentFrame=6
+  frames.push({ durationMs: delayMs(1), fighters: [{ side: 'player', idx: casterIdx, currentFrame: 6 }] })
+  // script.c:2649-2656:全队 5 步 iColorShift=i*2(0/2/4/6/8)
+  for (let i = 0; i < 5; i++) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: partyIndices.map((idx) => ({ side: 'player' as const, idx, iColorShift: i * 2 })),
+    })
+  }
+  // 末复位(BattleFadeScene 重绘 → 正常色)
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: partyIndices.map((idx) => ({ side: 'player' as const, idx, iColorShift: 0 })),
+  })
+  return frames
+}
+
 export interface BuildOffMagicInput {
   /** caster idx(players[]);-1 = 无 caster(summon 内调,本切片不走)。 */
   casterIdx: number

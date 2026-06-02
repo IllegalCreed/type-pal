@@ -18,7 +18,7 @@
 import { type BattleCtx, addPoisonForPlayer, curePlayerPoisonByKind, curePlayerPoisonByLevel } from '../event-system.js'
 import type { BattleStatus } from './battle-state.js'
 import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength, getPlayerPoisonResistance } from '../equip-effect.js'
-import { buildStealTimeline } from './anim-timeline.js'
+import { buildShowMagicAnimTimeline, buildStealTimeline } from './anim-timeline.js'
 import { startBattleAnim } from './battle-anim-driver.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
 
@@ -684,11 +684,26 @@ export function dispatchBattleOpcode(
     }
 
     case OP_SHOW_MAGIC_ANIM: {
-      // sdlpal `script.c:2637-2662 (0x0092)`:PAL_BattleShowPlayerPreMagicAnim(op0-1) + 全队
-      //   5 步 iColorShift=i*2 cycle —— 施法前摇动画(赵灵儿觉醒 cutscene cmd@42319 唯一站点)。
-      // TODO(0x92,2026-06-02 核验):原注"present-battle 跳过所有战斗动画→no-op"**FALSE** —— D17
-      //   实际渲染战斗动画,其它战斗 opcode(如 OP_STEAL_FROM_ENEMY)也 startBattleAnim。此处应 wire
-      //   buildPreMagicTimeline(已存在 anim-timeline.ts) + iColorShift cycle 进 startBattleAnim;当前仍 consumed-only。
+      // sdlpal `script.c:2637-2662 (0x0092)`:仅 fInBattle。op0!=0 → PreMagicAnim(op0-1)+ 该员
+      //   wCurrentFrame=6(2646);全队 5 步 iColorShift=i*2 cycle(2649-2656)+ BattleFadeScene。
+      //   施法前摇演出(赵灵儿力量觉醒 cutscene,all.json cmd@42319,op=[2,0,0])。
+      // cast 特效帧基号 = rgwBattleEffectIndex[battleSprite][0]*10+15(fight.c:2387-2389)。
+      const playerOperand = operands[0] ?? 0
+      if (playerOperand !== 0 && ctx.bus) {
+        const casterIdx = playerOperand - 1
+        const caster = state.players[casterIdx]
+        if (caster?.posOriginal) {
+          const role = ctx.playerRoles?.roles[caster.roleId]
+          const battleSpriteId = role?.spriteNumInBattle ?? 0
+          const castEffectFrameBase = (ctx.battleEffectIndex?.[battleSpriteId * 2] ?? 0) * 10 + 15
+          startBattleAnim(state, buildShowMagicAnimTimeline({
+            casterPos: caster.posOriginal,
+            casterIdx,
+            castEffectFrameBase,
+            partyIndices: state.players.map((_, idx) => idx), // 全队(sdlpal j=0..wMaxPartyMemberIndex)
+          }), ctx.bus)
+        }
+      }
       return { consumed: true }
     }
 

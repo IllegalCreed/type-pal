@@ -19,6 +19,7 @@ import {
   buildPlayerOffMagicTimeline,
   buildPostMagicTimeline,
   buildPreMagicTimeline,
+  buildShowMagicAnimTimeline,
   buildSummonBrightenTimeline,
   buildSummonGodSequence,
   EFFECT_SPRITE_CHUNK,
@@ -1076,5 +1077,47 @@ describe('buildAttackMateTimeline (fight.c:3791-3858 混乱攻友军走入动画
     const last = frames[frames.length - 1]!.fighters!
     expect(last).toContainEqual({ side: 'player', idx: 0, currentFrame: 0, pos: { x: 100, y: 180 } })
     expect(last).toContainEqual({ side: 'player', idx: 1, currentFrame: 0, pos: { x: 140, y: 170 } })
+  })
+})
+
+describe('buildShowMagicAnimTimeline (0x92, script.c:2637-2662)', () => {
+  // caster idx0 站立 (240,170);castEffectFrameBase=35;全队 3 人(idx 0/1/2)。
+  const frames = buildShowMagicAnimTimeline({
+    casterPos: { x: 240, y: 170 },
+    casterIdx: 0,
+    castEffectFrameBase: 35,
+    partyIndices: [0, 1, 2],
+  })
+
+  it('总帧数 = 17 preMagic + 1 frame6 + 5 iColorShift + 1 reset = 24', () => {
+    expect(frames).toHaveLength(24)
+  })
+
+  it('preMagic 段(前 17 帧)等同 buildPreMagicTimeline', () => {
+    const pre = buildPreMagicTimeline({ casterPos: { x: 240, y: 170 }, casterIdx: 0, castEffectFrameBase: 35, isSummon: false })
+    expect(frames.slice(0, 17)).toEqual(pre)
+  })
+
+  it('frame17:施法者 wCurrentFrame=6(script.c:2646)', () => {
+    expect(frames[17]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 6 }])
+  })
+
+  it('frame18..22:全队 5 步 iColorShift=i*2(0/2/4/6/8,script.c:2649-2656)', () => {
+    for (let i = 0; i < 5; i++) {
+      expect(frames[18 + i]!.fighters).toEqual([
+        { side: 'player', idx: 0, iColorShift: i * 2 },
+        { side: 'player', idx: 1, iColorShift: i * 2 },
+        { side: 'player', idx: 2, iColorShift: i * 2 },
+      ])
+      expect(frames[18 + i]!.durationMs).toBe(1 * D)
+    }
+  })
+
+  it('末帧:全队 iColorShift 复位 0(BattleFadeScene 重绘)', () => {
+    expect(frames[23]!.fighters).toEqual([
+      { side: 'player', idx: 0, iColorShift: 0 },
+      { side: 'player', idx: 1, iColorShift: 0 },
+      { side: 'player', idx: 2, iColorShift: 0 },
+    ])
   })
 })
