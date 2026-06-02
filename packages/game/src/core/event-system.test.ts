@@ -1638,6 +1638,32 @@ describe('opcode 0x006E playerWalkOneStep(sdlpal script.c:2091-2113)', () => {
     expect(gs.trail[0]).toEqual({ x: 100, y: 50, dir: 'down' })
   })
 
+  // B2:多步 trail 时序 render-chain —— 连续 op6e,trail 累积 leader 历史(最近在前,cap 5),
+  //   followers 消费 trail[1..](= leader N 步前位置)实现"滞后跟随"。
+  //   单步 unshift / cap5 / 单帧 follower 位置已分散测;此处补**连续走的完整时序**(B2 残留)。
+  it('B2 连走 4 步 → trail 逐步 unshift 累积 leader 历史 + follower 滞后跟随', () => {
+    const gs = createInitialGameState({ x: 100, y: 100, facing: 'down' })
+    const bus = createCommandBus()
+    gs.trail = [{ x: 100, y: 100, dir: 'down' }] // 起点
+    // op6e unshift 用"走前"的 party 位置(scene.c:2097-2101);每步 +16 y(向下)
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 16, 0] },
+      { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 16, 0] },
+      { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 16, 0] },
+      { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [0, 16, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus) // 无 waitable,一 tick 跑完 4 步
+    expect(gs.party).toMatchObject({ x: 100, y: 164 }) // 100 + 4*16
+    // trail = [第4步走前, 第3步走前, 第2步走前, 第1步走前, 初始残留](cap 5,最近在前)
+    expect(gs.trail).toHaveLength(5)
+    expect(gs.trail.map((t) => t.y)).toEqual([148, 132, 116, 100, 100])
+    // 渲染链:party-member follower 跟 trail[1](leader 1 步前)→ 恒在 leader 身后(y 更小)
+    expect(gs.trail[1]!.y).toBeLessThan(gs.party.y)
+    // 0x98 follower 跟 trail[3](更深)→ 滞后更多(更靠后)
+    expect(gs.trail[3]!.y).toBeLessThan(gs.trail[1]!.y)
+  })
+
   it('operand[0]==0 && operand[1]==0 → 不推 stepFrame(sdlpal 真值)', () => {
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })
     const bus = createCommandBus()

@@ -796,3 +796,45 @@ describe('applyDialogIconPaletteShift(dialog 箭头 palette 轮转)', () => {
     expect(applyDialogIconPaletteShift(gs, base)).toBe(base)
   })
 })
+
+describe('G8 SceneFade 72 帧 dither e2e(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen)', () => {
+  afterEach(() => vi.restoreAllMocks())
+
+  // dither 数学(nibble blend)由 dither-fade.test.ts 覆盖;此处测 present 层**集成驱动**:
+  //   ① 首帧从 fb(clear 前)snapshot backupPixels ② 按 elapsedMs/totalMs 推进 appliedSteps 0→72
+  //   ③ 显示 backupPixels(current.set(backupPixels),fade 全程主角可见)。
+  it('snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels', () => {
+    const nowSpy = vi.spyOn(performance, 'now')
+    const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
+    const ctx = baseCtx(flatMap(20, 20))
+    const fb = createFramebuffer()
+    fb.indices.fill(0x35) // "旧场景"像素(snapshot 源)
+    // totalMs=720 → 10ms/step;speed 字段仅记录,present 用 totalMs。
+    gs.fadeState = { speed: 2, totalMs: 720, startTimeMs: 0, appliedSteps: 0 }
+
+    // 帧1(elapsed 0):snapshot 旧场景 0x35 → backupPixels;target step floor(0)=0
+    nowSpy.mockReturnValue(0)
+    presentFrame(fb, gs, ctx)
+    expect(gs.fadeState?.backupPixels).toBeDefined()
+    expect(gs.fadeState!.backupPixels!.length).toBe(320 * 200)
+    expect(gs.fadeState!.backupPixels![0]).toBe(0x35) // clear 前快照,非 clear 后的 0
+    expect(gs.fadeState!.appliedSteps).toBe(0)
+    expect(Array.from(fb.indices)).toEqual(Array.from(gs.fadeState!.backupPixels!)) // 显示 = backupPixels
+
+    // 帧2(elapsed = totalMs/2 = 360):target step floor(0.5*72)=36
+    nowSpy.mockReturnValue(360)
+    presentFrame(fb, gs, ctx)
+    expect(gs.fadeState!.appliedSteps).toBe(36)
+
+    // 帧3(elapsed = totalMs = 720):progress clamp 1 → target step 72(满)
+    nowSpy.mockReturnValue(720)
+    presentFrame(fb, gs, ctx)
+    expect(gs.fadeState!.appliedSteps).toBe(72)
+    expect(Array.from(fb.indices)).toEqual(Array.from(gs.fadeState!.backupPixels!))
+
+    // 帧4(elapsed 超时 9999):progress clamp 1 → 仍 72(不溢出)
+    nowSpy.mockReturnValue(9999)
+    presentFrame(fb, gs, ctx)
+    expect(gs.fadeState!.appliedSteps).toBe(72)
+  })
+})
