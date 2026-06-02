@@ -440,3 +440,44 @@ describe('M5.6 T9 dispatchSaveSlotMenu', () => {
     expect(gs.menuStack.length).toBe(0) // 已 pop save-slot
   })
 })
+
+// C4 INNER while loop(play.c:288-303):非 applyToAll 可消耗物品用后 phase revert 'use-target'
+//   (picker 保持开,可重复用同物品);count→0 时 auto-cancel 回 'list'。防回归(此前仅 user 实测)。
+describe('C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)', () => {
+  function usableItem(id: number): Item {
+    return {
+      id, _name: '止血草', bitmap: 0, price: 0, scriptOnUse: 500, scriptOnEquip: 0, scriptOnThrow: 0, scriptDesc: 0,
+      // biome-ignore lint/suspicious/noExplicitAny: 只填本测用 flag
+      flags: { usable: true, consuming: true, applyToAll: false, equipable: false, throwable: false, sellable: false, equipableBy: [false, false, false, false, false, false] } as any,
+    } as unknown as Item
+  }
+
+  it('用后 phase revert use-target(非 done) — INNER loop picker 不关', () => {
+    const gs = mkGs()
+    gs.partyMembers = [0]
+    gs.inventory = [{ itemId: 10, count: 2 }]
+    const items = [usableItem(10)]
+    setMenuCatalogs({ ...MOCK_CATALOGS, items })
+    setGlobalEvents([{ op: 'end' }, { op: 'raw', opcode: 0x05, operands: [0, 0, 0], label: 'L_500' }, { op: 'end' }])
+    const inv = createInventoryMenu(gs, items)
+    openMenu(gs, { kind: 'inventory', state: inv })
+    tickMenu(gs, snap(['Confirm']), createCommandBus()) // list → 非 applyToAll → use-target
+    expect(inv.phase).toBe('use-target')
+    tickMenu(gs, snap(['Confirm']), createCommandBus()) // use-target Confirm → startScript ok → revert use-target
+    expect(inv.phase).toBe('use-target') // 非 'done'(INNER loop 继续)
+  })
+
+  it('count→0 → auto-cancel 回 list(uigame.c:1468)', () => {
+    const gs = mkGs()
+    gs.partyMembers = [0]
+    gs.inventory = [{ itemId: 10, count: 0 }] // 已耗尽
+    const items = [usableItem(10)]
+    setMenuCatalogs({ ...MOCK_CATALOGS, items })
+    const inv = createInventoryMenu(gs, items)
+    inv.phase = 'use-target'
+    inv.selectedItemId = 10
+    openMenu(gs, { kind: 'inventory', state: inv })
+    tickMenu(gs, snap([]), createCommandBus()) // 顶部 count<=0 检查 → cancel 回 list
+    expect(inv.phase).toBe('list')
+  })
+})

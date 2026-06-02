@@ -42,8 +42,56 @@ export interface LoopContext {
  * 现解耦(2026-05-30):逻辑固定 100/40ms;fade 的平滑由 startRafLoop 在 fade 进行中**每 raf 帧** present
  * 实现(present.ts 内按 wall-clock 步进 fade,duration time-based 不变)。
  */
-function logicIntervalMs(gs: GameState): number {
+export function logicIntervalMs(gs: GameState): number {
   return gs.mode === 'battle' ? FRAME_MS_BATTLE : FRAME_MS_EXPLORE
+}
+
+/** rAF 累积器状态(startRafLoop 持有,advanceRafFrame mutate)。 */
+export interface RafLoopState {
+  lastTickTime: number
+  accumulator: number
+}
+
+/**
+ * 单 raf 帧推进(从 startRafLoop 抽出便于单测,无需 mock rAF)。三不变量:
+ *  ① 逻辑 interval = logicIntervalMs(battle 40 / 否则 100,fade 不提速)
+ *  ② mode 切换 clamp:accumulator > 3×interval → 设为 interval(避免 explore→battle 一下 catch-up 多 tick)
+ *  ③ present 门控:逻辑 tick 时 / fade(dither/palette)进行中才 present(否则跳过,避免空转重画)
+ * 返回 {ticked, presented}。
+ */
+export function advanceRafFrame(
+  state: RafLoopState,
+  now: number,
+  ctx: LoopContext,
+  dump?: ReturnType<typeof initStateDump>,
+): { ticked: boolean, presented: boolean } {
+  const dt = now - state.lastTickTime
+  state.lastTickTime = now
+  state.accumulator += dt
+
+  const interval = logicIntervalMs(ctx.gs)
+  // ② clamp 在 while **之前**(2026-06-02 修:此前在 while 之后是死代码 —— while 跑完 accumulator<interval,
+  //   `>3×interval` 恒 false 永不触发)。长暂停/后台切回 dt 巨大 → 限到 1×interval 跑单 tick,
+  //   避免一帧 catch-up 几十 tick(时间跳跃 / 走步/动画 fast-forward)。
+  if (state.accumulator > interval * 3) state.accumulator = interval
+  let drained: BusEntry[] = []
+  let ticked = false
+  while (state.accumulator >= interval) {
+    const snap = ctx.input.nextSnapshot(ctx.gs.frameNum)
+    tickByMode(ctx.gs, snap, ctx.bus)
+    const d = ctx.bus.drain()
+    if (d.length) drained = drained.length ? [...drained, ...d] : d
+    if (dump?.enabled) dump.push(ctx.gs, ctx.partyWalkFrames ?? 3)
+    ticked = true
+    state.accumulator -= interval
+  }
+
+  let presented = false
+  if (ticked || ctx.gs.fadeState != null || ctx.gs.paletteFadeState != null) { // ③ 门控
+    ctx.onPresent(drained)
+    presented = true
+  }
+  return { ticked, presented }
 }
 
 function singleTick(ctx: LoopContext, dump?: ReturnType<typeof initStateDump>): void {
@@ -71,36 +119,10 @@ export function tickN(n: number, ctx: LoopContext): void {
 export function startRafLoop(ctx: LoopContext): () => void {
   applySceneContext(ctx)
   const dump = initStateDump()
-  let lastTickTime = performance.now()
-  let accumulator = 0
+  const state: RafLoopState = { lastTickTime: performance.now(), accumulator: 0 }
   let raf = 0
   const loop = (now: number): void => {
-    const dt = now - lastTickTime
-    lastTickTime = now
-    accumulator += dt
-
-    const interval = logicIntervalMs(ctx.gs)
-    let drained: BusEntry[] = []
-    let ticked = false
-    while (accumulator >= interval) {
-      const snap = ctx.input.nextSnapshot(ctx.gs.frameNum)
-      tickByMode(ctx.gs, snap, ctx.bus)
-      const d = ctx.bus.drain()
-      if (d.length) drained = drained.length ? [...drained, ...d] : d
-      if (dump?.enabled) dump.push(ctx.gs, ctx.partyWalkFrames ?? 3)
-      ticked = true
-      accumulator -= interval
-    }
-    // mode 切换时 clamp:避免 explore→battle 一下子 catch-up 多 tick
-    if (accumulator > interval * 3) accumulator = interval
-
-    // 渲染/逻辑解耦(2026-05-30 香兰 cutscene 修):逻辑 tick 时必 present;此外 fade(dither/palette)
-    //   进行中**每 raf 帧**都 present → present.ts 内按 wall-clock 平滑步进 fade。逻辑(走步/打字/
-    //   frame-wait)不再被 fade 提速。非 fade 且无 tick 时跳过 present(避免空转重画)。
-    if (ticked || ctx.gs.fadeState != null || ctx.gs.paletteFadeState != null) {
-      ctx.onPresent(drained)
-    }
-
+    advanceRafFrame(state, now, ctx, dump) // 累积/tick/clamp/present 见 advanceRafFrame 三不变量
     raf = requestAnimationFrame(loop)
   }
   raf = requestAnimationFrame(loop)
