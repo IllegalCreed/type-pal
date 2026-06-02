@@ -248,15 +248,16 @@ export function presentFrame(
     // wLayer=0 → pos.y = party.y - viewport.y + 10,iLayer = 6。
     // sort key = pos.y = world.y + 10(viewport 相消)。
     // blit_y = pos.y - height - iLayer = world.y + 10 - height - 6 = world.y + 4 - height。
-    // 我们 drawSprite(fb, frame, cx, cy) 会在 cy - anchorY 处画顶边。
-    // 原版 blit 用 top-left;我们用 anchor 中心底部 → 等价。
+    // drawSprite(cx, cy):在 cy - anchorY(= cy - height)画顶边、cy 画脚底。
+    // ⇒ cy 传 capturedSY + 4(净 +10 - iLayer6),脚底落屏幕 y=116 = sdlpal rgParty.y+4。
+    // (与下面 addCoverTileEntries 的 sy=party.y+10 / iLayer=6 推出的 occlusion 脚底同为 +4,一致。)
     const capturedFrame = partyFrame
     const capturedSX = partySX
     const capturedSY = partySY
     entries.push({
       // sdlpal party sort key: world.y + 10(wLayer=0)
       baseY: gs.party.y + 10,
-      draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY),
+      draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY + 4),
       id: 'party',
     })
     // cover tiles for party
@@ -337,7 +338,8 @@ export function presentFrame(
       const id = `party-member-${m}`
       entries.push({
         baseY: followerWorldY + 10,
-        draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY),
+        // +4 同 leader:脚底对齐 sdlpal rgParty[i].y+4(scene.c:225-226,follower 同 loop 同公式)。
+        draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY + 4),
         id,
       })
       addCoverTileEntries(
@@ -374,7 +376,8 @@ export function presentFrame(
     const capSY = sy
     entries.push({
       baseY: it.worldY + 10,
-      draw: (f) => drawSprite(f, capFrame, capSX, capSY),
+      // +4 同 leader:脚底对齐 sdlpal rgParty[maxIdx+i].y+4(scene.c:225-226 同 loop)。
+      draw: (f) => drawSprite(f, capFrame, capSX, capSY + 4),
       id,
     })
     addCoverTileEntries(

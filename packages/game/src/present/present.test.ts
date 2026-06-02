@@ -303,17 +303,18 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     // leader + follower = 2 drawSprite calls
     expect(calls).toHaveLength(2)
 
-    // screen = world - camera(camera 已含 -partyoffset)
-    //   leader: 300-140=160, 150-38=112 → screen anchor (160, 112)
-    //   follower world = (252, 126) → screen (112, 88)
+    // screen = world - camera(camera 已含 -partyoffset);drawSprite cy = screenY + 4
+    //   (sdlpal scene.c:225-226 脚底净偏 +10-iLayer6 = +4,present 已对齐 116=112+4)。
+    //   leader: 300-140=160, 150-38=112 → screen (160,112) → drawSprite cy=116
+    //   follower world = (252, 126) → screen (112, 88) → drawSprite cy=92
     const leaderScreenX = 160
-    const leaderScreenY = 112
-    const leaderCalls = calls.filter((c) => c.cx === leaderScreenX && c.cy === leaderScreenY)
-    const followerCalls = calls.filter((c) => c.cx !== leaderScreenX || c.cy !== leaderScreenY)
+    const leaderDrawCy = 112 + 4
+    const leaderCalls = calls.filter((c) => c.cx === leaderScreenX && c.cy === leaderDrawCy)
+    const followerCalls = calls.filter((c) => c.cx !== leaderScreenX || c.cy !== leaderDrawCy)
     expect(leaderCalls).toHaveLength(1)
     expect(followerCalls).toHaveLength(1)
     expect(followerCalls[0]!.cx).toBe(112)
-    expect(followerCalls[0]!.cy).toBe(88)
+    expect(followerCalls[0]!.cy).toBe(88 + 4)
   })
 
   it('dir=left(West): isWS=true→offsetX=+16; isWN=true→offsetY=+8', () => {
@@ -339,10 +340,10 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     expect(calls).toHaveLength(2)
     // dir=left: isWS=true→offsetX=16; isWN=true→offsetY=8
     // followerWorld = (332+16, 166+8) = (348, 174);camera=(140, 38)
-    // screen = world - camera → (208, 136)
+    // screen = world - camera → (208, 136);drawSprite cy = 136 + 4(脚底净偏)
     const followerCalls = calls.filter((c) => c.cx !== 160)
     expect(followerCalls[0]!.cx).toBe(208)
-    expect(followerCalls[0]!.cy).toBe(136)
+    expect(followerCalls[0]!.cy).toBe(136 + 4)
   })
 
   it('dir=down(South): isWS=true→offsetX=+16; isWN=false→offsetY=-8', () => {
@@ -368,10 +369,10 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     expect(calls).toHaveLength(2)
     // dir=down: isWS=true→offsetX=16; isWN=false→offsetY=-8
     // followerWorld = (332+16, 134-8) = (348, 126);camera=(140, 38)
-    // screen = world - camera → (208, 88)
+    // screen = world - camera → (208, 88);drawSprite cy = 88 + 4(脚底净偏)
     const followerCalls = calls.filter((c) => c.cx !== 160)
     expect(followerCalls[0]!.cx).toBe(208)
-    expect(followerCalls[0]!.cy).toBe(88)
+    expect(followerCalls[0]!.cy).toBe(88 + 4)
   })
 
   it('dir=up(North): isWS=false→offsetX=-16; isWN=true→offsetY=+8', () => {
@@ -397,10 +398,10 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     expect(calls).toHaveLength(2)
     // dir=up: isWS=false→offsetX=-16; isWN=true→offsetY=8
     // followerWorld = (268-16, 166+8) = (252, 174);camera=(140, 38)
-    // screen = world - camera → (112, 136)
+    // screen = world - camera → (112, 136);drawSprite cy = 136 + 4(脚底净偏)
     const followerCalls = calls.filter((c) => c.cx !== 160)
     expect(followerCalls[0]!.cx).toBe(112)
-    expect(followerCalls[0]!.cy).toBe(136)
+    expect(followerCalls[0]!.cy).toBe(136 + 4)
   })
 
   it('partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)', () => {

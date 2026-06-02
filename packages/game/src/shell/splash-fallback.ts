@@ -120,8 +120,9 @@ function blitRows(
 }
 
 /**
- * Sprite blit(透明)— anchor 偏移到 (posX, posY) — anchor 即 sprite 中底中心
- * (sdlpal scene.c:807 等价)。透明像素由 opaque mask 决定(0 = 透明,跳过)。
+ * 通用 sprite blit(透明):左上角画在 (posX - anchorX, posY - anchorY)。
+ * 开场 splash 的仙鹤 / 标题都走 sdlpal main.c PAL_RLEBlitToSurface = **左上角** blit,
+ * 故 caller 传 anchor (0,0)。透明像素由 opaque mask 决定(0 = 透明,跳过)。
  */
 function blitSpriteAt(
   fb: Framebuffer,
@@ -225,10 +226,10 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
         // iImgPos 奇数时向下飘 1px
         if (iImgPos > 1 && (iImgPos & 1)) c.y += 1
         const frame = options.craneSprite.frames[c.frameIdx]!
-        blitSpriteAt(
-          options.fb, frame, options.craneSprite.anchorX, options.craneSprite.anchorY,
-          c.x, c.y,
-        )
+        // sdlpal main.c:369-370 PAL_RLEBlitToSurface(lpFrame, PAL_XY(cranepos.x, cranepos.y)):
+        //   **左上角** blit,不减 anchor(cranepos = RandomLong(300,600)/(0,80) 即左上角)。
+        //   故 anchor 传 (0,0)(同标题 main.c:378-389)。之前误传中底中心 anchor(15,32)→ 仙鹤偏 (−15,−32)。
+        blitSpriteAt(options.fb, frame, 0, 0, c.x, c.y)
         c.x -= 1 // 向左飘
       }
       iCraneFrame++
