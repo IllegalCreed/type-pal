@@ -32,4 +32,48 @@ describe('parseWordDat', () => {
     expect(words.system.length).toBe(36)
     expect(words.battleUi.length).toBe(19)
   })
+
+  // K3 content-pin(byte-truth 内容回归):counts 已上面钉,此处钉 system(36)+battleUi(19)
+  //   两类**全部内容**(GBK 解码值),防 parser / 编码 / 偏移漂移导致菜单/战斗 UI 文案变味。
+  it('content-pin:system 全 36 条内容(GBK byte-truth)', () => {
+    expect(words.system).toEqual([
+      '', '', 'Exp', '状态', '仙术', '物品', '系统', '新的故事', '旧的回忆', '打败敌人得',
+      '文钱', '储存进度', '读取进度', '音乐', '音效', '结束游戏', '储存完毕', '关', '开', '否',
+      '是', '金钱', '装备', '使用', '投掷', '售价', '封', '定', '眠', '乱',
+      '获得经验值', '逃跑失败', '提升', '练成', '获得', '现有',
+    ])
+  })
+
+  it('content-pin:battleUi 全 19 条内容(GBK byte-truth)', () => {
+    expect(words.battleUi).toEqual([
+      '炼出', '进度一', '进度二', '进度三', '进度四', '进度五', '修行', '体力', '真气', '武术',
+      '灵力', '防御', '身法', '吉运', '围攻', '道具', '防御', '逃跑', '状态',
+    ])
+  })
+
+  // 游戏代码 getWord(id) 实际引用的 label —— 内容漂移 = 玩家可见错字。逐 id 钉死,
+  //   注明引用点(grep getWord 字面 + 菜单 def 数组真 WORD id)。
+  it('content-pin:代码引用的 flat[id] 菜单/UI 文案', () => {
+    // OpeningMenu(opening-menu.ts:35-36,ui.h:48-49 MAINMENU_LABEL_NEWGAME/LOADGAME)
+    expect(words.flat[7]).toBe('新的故事')
+    expect(words.flat[8]).toBe('旧的回忆')
+    // 主菜单 GAMEMENU(in-game-menu.ts:29-32,ui.h:61-64)
+    expect(words.flat[3]).toBe('状态')
+    expect(words.flat[4]).toBe('仙术')
+    expect(words.flat[5]).toBe('物品')
+    expect(words.flat[6]).toBe('系统')
+    // 系统子菜单 SYSMENU(in-game-menu.ts:42-46,ui.h:66-70)
+    expect(words.flat[11]).toBe('储存进度')
+    expect(words.flat[12]).toBe('读取进度')
+    expect(words.flat[13]).toBe('音乐')
+    expect(words.flat[14]).toBe('音效')
+    expect(words.flat[15]).toBe('结束游戏')
+    // CASH 金钱(draw-menu.ts:361,ui.h:56)/ 物品动作(inventory-action-menu.ts:37-38,ui.h:80-81)
+    expect(words.flat[21]).toBe('金钱')
+    expect(words.flat[22]).toBe('装备')
+    expect(words.flat[23]).toBe('使用')
+    // 战斗结算升级(draw-battle-settlement.ts:118)/ L1 炼丹物品框(event-system 0x34,script.c:1481)
+    expect(words.flat[32]).toBe('提升')
+    expect(words.flat[42]).toBe('炼出')
+  })
 })

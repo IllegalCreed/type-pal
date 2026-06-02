@@ -210,7 +210,7 @@
 |---|---|---|---|---|---|---|
 | K1 | pal-extract 提取器框架 | ✅ claimed | ✅ partial | palcommon.c MKF 5 fn + 各 resources parser | pal-extract io/ + resources/ + cli.ts | 14 MKF + M.MSG + WORD.DAT + Musics / SOUNDS / AVI;25 test 文件 / 210 cases |
 | K2 | 提取总体覆盖 | ✅ claimed | ✅ partial | — | data/extracted/ | byte-level 复核:全非空 chunk 已落地,零真实数据 gap(逐 chunk 明细见 resource-status.md 覆盖率自检) |
-| K3 | 已知残留 | ⚠️ partial | N/A | — | — | runtime 音频播放 wiring(M6,非提取 gap)。**2026-06-02 对抗复核订正**:RNG PNG runtime mirror = **已服务**(public/extracted 软链→data/extracted + vite fs.allow,live curl 200 image/png,非 asset-copy gap);WORD.DAT 55 条 regress = **已有**(word.test.ts:29-34 钉死 counts 36+19=55 + flat[7];残仅其余 54 条 content-pin 可选) |
+| K3 | 已知残留 | ⚠️ partial | N/A | — | — | runtime 音频播放 wiring(M6,非提取 gap)。**2026-06-02 对抗复核订正**:RNG PNG runtime mirror = **已服务**(public/extracted 软链→data/extracted + vite fs.allow,live curl 200 image/png,非 asset-copy gap);WORD.DAT regress = **已有**(word.test.ts 钉死 counts 36+19=55 + flat[7]);**content-pin 已补**(word.test.ts:system 全 36 + battleUi 全 19 内容 GBK byte-truth + 代码 getWord(id) 引用的 16 个菜单/UI label 逐 id 钉) |
 
 ## L. 特殊物品 / 剧情系统
 
