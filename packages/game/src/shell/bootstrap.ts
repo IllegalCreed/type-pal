@@ -302,6 +302,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     statusBg: assets.battleBgs.get(0),
     // PlayerStatus 渲染读 stat / equipment / avatar(rgwAvatar→portrait chunk index)。
     playerRoles: assets.playerRoles,
+    // C6:PlayerStatus 毒 row(uigame.c:1245-1253)— object-poisons.json id→{level,color}。
+    objectPoisons: new Map(objectPoisons.map((p) => [p.id, { level: p.level, color: p.color }])),
     // PlayerStatus 显示 RoleNextExp 用 LevelUpExp[level] 阈值(DATA.MKF chunk 14)。
     levelUpExp: assets.levelUpExp,
     // C5(2026-05-28):EquipItemMenu 全屏背景 — sdlpal `EQUIPMENU_BACKGROUND_FBPNUM = 1`(ui.h:118)。

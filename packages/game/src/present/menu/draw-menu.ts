@@ -78,6 +78,8 @@ export interface DrawMenuExtraCtx {
   itemIcons?: Map<number, IndexedImage>
   /** M5.6 T10d:PlayerStatus 全屏背景(FBP chunk 0,sdlpal ui.h:83 STATUS_BACKGROUND_FBPNUM=0)。 */
   statusBg?: BattleBgAsset
+  /** C6:中毒数据(id→{level,color})— PlayerStatus 毒 row。 */
+  objectPoisons?: Map<number, { level: number; color: number }>
   /** M5.6 T10d:PlayerStatus 渲染需 PlayerRoles 全字段(stat / equipment / avatar)。 */
   playerRoles?: PlayerRoles
   /**
@@ -169,6 +171,7 @@ function drawMenuEntry(
           portraitIcons: extra.portraitIcons,
           itemIcons: extra.itemIcons,
           levelUpExp: extra.levelUpExp,
+          objectPoisons: extra.objectPoisons,
         })
       }
       else {

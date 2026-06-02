@@ -33,6 +33,7 @@ import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { drawBattleBg } from '../battle/draw-battle-bg.js'
 import { drawNumber } from '../draw-number.js'
 import { renderText, type GlyphTable } from '../font.js'
+import { getWord } from '../../core/word-lookup.js'
 import type { Framebuffer } from '../framebuffer.js'
 import {
   getPlayerAttackStrength,
@@ -149,12 +150,14 @@ export interface DrawPlayerStatusInput {
   itemIcons?: Map<number, IndexedImage>
   /** DATA.MKF chunk 14 LevelUpExp[100](RoleNextExp 显示用)。 */
   levelUpExp?: number[]
+  /** C6:中毒数据(object id→{level,color})— 毒 row(uigame.c:1245-1253)。 */
+  objectPoisons?: Map<number, { level: number; color: number }>
 }
 
 export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
   const {
     fb, state, gs, playerRoles, items, uiSpriteFrames, glyphs,
-    statusBg, portraitIcons, itemIcons, levelUpExp,
+    statusBg, portraitIcons, itemIcons, levelUpExp, objectPoisons,
   } = input
 
   const roleId = state.partyMembers[state.cursor]
@@ -249,6 +252,19 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
   drawNumber(fb, getPlayerDexterity(gs, roleId),      4, ROLE_STATUS_VALUES[3]!, 'yellow', 'right', uiSpriteFrames)
   drawNumber(fb, getPlayerFleeRate(gs, roleId),       4, ROLE_STATUS_VALUES[4]!, 'yellow', 'right', uiSpriteFrames)
 
-  // 10. poisons(sdlpal uigame.c:1245-1253)— 首版 skip;留 follow-up 待
-  //     items[poisonId].poison.wPoisonLevel + .wColor 字段 + gs.rgPoisonStatus 完整接入
+  // 10. poisons(sdlpal uigame.c:1245-1253):遍历 rgPoisonStatus[slot][role] 的 wPoisonID,
+  //   仅 poison.wPoisonLevel <= 3 显示(诅咒类毒;高级/装备毒哨兵不显)。名 = getWord(wPoisonID),
+  //   色 = poison.wColor + 10,fShadow=TRUE。位置 RolePoisonNames[j](185, 58+j*18,j 仅显示项递增;
+  //   末两项重叠 184,sdlpal palcfg.c:370 默认布局)。j 是显示计数,跨空 slot 不递增。
+  const MAX_POISONS = 16
+  let j = 0
+  for (let slot = 0; slot < MAX_POISONS && j < 10; slot++) {
+    const wPoisonID = gs.rgPoisonStatus[`${slot}_${roleId}`]?.wPoisonID ?? 0
+    if (wPoisonID === 0) continue
+    const pd = objectPoisons?.get(wPoisonID)
+    if (!pd || pd.level > 3) continue // 无数据 / 高级毒(level>3)不显
+    const y = 58 + Math.min(j, 7) * 18 // j=0→58 … j=7→184;j=8/9 → 184(同 sdlpal 末两项重叠)
+    renderText(fb, getWord(wPoisonID, ''), 185, y, pd.color + 10, glyphs, true) // fShadow=TRUE
+    j++
+  }
 }

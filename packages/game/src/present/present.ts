@@ -61,6 +61,8 @@ export interface PresentContext {
    * loadAll 通过 battleBgs.get(0) 拿到;bootstrap 注入此字段。
    */
   statusBg?: BattleBgAsset
+  /** C6:中毒数据(object-poisons.json id→{level,color})— PlayerStatus 毒 row 显示(uigame.c:1245-1253)。 */
+  objectPoisons?: Map<number, { level: number; color: number }>
   /**
    * M5.6 T10d:PlayerStatus 渲染需 PlayerRoles 全字段(stat / equipment / avatar / maxHP 等)。
    * 与 BattleAssets.playerRoles 同源(LoadedAssets.playerRoles)。
@@ -553,6 +555,8 @@ export function presentFrame(
       items: ctx.items,
       itemIcons: ctx.itemIcons,
       statusBg: ctx.statusBg,
+      objectPoisons: ctx.objectPoisons, // C6:PlayerStatus 毒 row
+
       // 菜单(状态/仙术/装备/物品)读运行时角色态 —— 投影 gs.PlayerRolesRuntime → roles,反映
       // 升级后等级/属性、学会的新仙术、战斗受伤的当前 HP。静态 ctx.playerRoles 是 1 级基线,新游戏后即分叉。
       playerRoles: ctx.playerRoles
