@@ -64,5 +64,8 @@ export function performFlee(state: BattleState, gs: GameState, playerIdx: number
       // 逃跑失败文字(WORD.DAT 31 "逃跑失败",sdlpal label 31 @130,75;8 帧 ×40ms=320ms)
       bus.emit({ op: 'showBattleMessage', text: '逃跑失败', durationMs: 320 })
     }
+    // E04:逃跑**失败**累积 rgFleeExp.wCount += 2(sdlpal fight.c:4170;成功逃跑不累积,无 RNG)。
+    const fleeExp = gs.Exp.rgFleeExp[roleId]
+    if (fleeExp) fleeExp.wCount = (fleeExp.wCount ?? 0) + 2
   }
 }

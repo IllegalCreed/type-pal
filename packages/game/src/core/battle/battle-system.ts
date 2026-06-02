@@ -1885,16 +1885,30 @@ function performBattleAction(
   bus: CommandBus,
   res: BattleResources,
 ): void {
+  // E04:玩家动作累积隐藏经验 wCount(sdlpal fight.c 各 case 末尾,enemy 不累积;coop 回合队员走 pass/coop-magic
+  //   两 case 无累积,天然满足 sdlpal `if(fThisTurnCoop) break`)。helper 闭包绑 gs/roleId。
+  const addHiddenExp = (poolKey: keyof AllExperience, delta: number): void => {
+    if (actor.isEnemy) return
+    const roleId = state.players[actor.idx]?.roleId
+    if (roleId === undefined) return
+    const e = gs.Exp[poolKey][roleId]
+    if (e) e.wCount = (e.wCount ?? 0) + delta
+  }
+
   switch (action.type) {
     case 'attack':
       performAttack(state, actor, action.target, bus, res.playerRoles, res.battleEffectIndex,
         // 敌普攻 equivItem 中毒(fight.c:5139):敌→我 命中后按几率 + 抗性跑毒物品 scriptOnUse(0x29)。
         { gs, items: res.items, commands: res.commands, runScript: getRunScript(gs) })
+      // E04:攻击 → rgAttackExp.wCount++ + rgHealthExp.wCount += RandomLong(2,3)(fight.c:3756-3757,序固定)
+      addHiddenExp('rgAttackExp', 1)
+      addHiddenExp('rgHealthExp', state.rng.rangeInclusive(2, 3))
       break
 
     case 'defend':
       // defend 只对队员有意义(敌人不 defend);写错也安全(performDefend 越界 no-op)
       performDefend(state, actor.idx)
+      addHiddenExp('rgDefenseExp', 2) // E04:防御 → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG)
       break
 
     case 'flee':
@@ -1930,6 +1944,9 @@ function performBattleAction(
         battleEffectIndex: res.battleEffectIndex, // D17:PreMagic cast 特效帧基号
         summonSpriteFrameCounts: res.summonSpriteFrameCounts, // 召唤神逐帧 loop 帧数
       })
+      // E04:施法 → rgMagicExp.wCount += RandomLong(2,3) + rgMagicPowerExp.wCount++(fight.c:4328-4329,序固定)
+      addHiddenExp('rgMagicExp', state.rng.rangeInclusive(2, 3))
+      addHiddenExp('rgMagicPowerExp', 1)
       break
     }
 
@@ -2315,6 +2332,8 @@ export interface BattleLevelUpResult {
    * (含装备加成,battle.c:1184-1212 真值)。name/magicName 在 buildBattleWonSettlement 用 res 补。
    */
   snapshot?: Omit<LevelUpScreenData, 'name'>
+  /** E04:隐藏属性经验涨点(CHECK_HIDDEN_EXP),供结算屏 hidden-exp-up box;无涨点则空/省略。 */
+  hiddenExpGrowth?: HiddenExpGrowthResult[]
 }
 
 /**
@@ -2493,6 +2512,15 @@ export function battleWonLevelUp(input: {
       }
     }
 
+    // E04:CHECK_HIDDEN_EXP(battle.c:1226-1293)在主升级 box 之后、学法术之前跑(sdlpal 同序)。
+    //   写 rt base + 收集各池涨点供结算屏。隐藏经验有独立 box,不并入主升级 snapshot。
+    const hiddenExpGrowth = applyHiddenExpGrowth({ exp: gs.Exp, rt, roleId, expGained, levelUpExp, rng })
+    // 隐藏经验可能抬高 maxHP/MP;若本场**主升级**则 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292 if fLevelUp)。
+    if (leveled) {
+      rt.rgwHP[roleId] = rt.rgwMaxHP[roleId]!
+      rt.rgwMP[roleId] = rt.rgwMaxMP[roleId]!
+    }
+
     // 学新法术(battle.c:1298-1328):**在 if(fLevelUp) 之外**,对每个活队员按当前等级学(level-up-magic
     //   [j][roleId] 仅 5 角色 0-4,role5 取 undefined 自动跳过)。非升级队员若漏学(应有却没)也补上。
     const learned: number[] = []
@@ -2504,9 +2532,9 @@ export function battleWonLevelUp(input: {
         learned.push(m.magic)
     }
 
-    // 升级了 或 学到新法术 → 产出结算条目(present 据此排 level-up box + learn-magic 屏)。
-    if (leveled || learned.length > 0)
-      out.push({ roleId, fromLevel, toLevel: level, learnedMagics: learned, snapshot })
+    // 升级了 / 学到新法术 / 隐藏属性涨点 → 产出结算条目(present 据此排 level-up box + 隐藏涨点 box + learn-magic 屏)。
+    if (leveled || learned.length > 0 || hiddenExpGrowth.length > 0)
+      out.push({ roleId, fromLevel, toLevel: level, learnedMagics: learned, snapshot, hiddenExpGrowth })
   }
   return out
 }

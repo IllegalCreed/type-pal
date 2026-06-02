@@ -77,6 +77,24 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
       { stat: 'rgwAttackStrength', label: 'attack', delta: 2 },
     ])
   })
+
+  // E04-c 集成:真战斗里玩家攻击 → wCount 累积(performBattleAction 接 fight.c:3756-3757)。
+  it('集成:startBattle 清 wCount;玩家攻击 → rgAttackExp+1 / rgHealthExp+R(2,3)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 99999, attackStrength: 0, dexterity: 1, level: 1 })],
+      roles: [makeRole({ id: 0, hp: 9999, maxHP: 9999, dexterity: 50, attackStrength: 10 })],
+    })
+    expect(gs.Exp.rgAttackExp[0]!.wCount).toBe(0) // startBattle clearHiddenExpCounts 已清
+    tickBattle(gs, emptyInput, bus)
+    gs.battleState!.pendingActions.set(0, { type: 'attack', target: 0 })
+    // 玩家 dex 50 > 敌 getEnemyDex{1,1}≈19 → 先手攻击;驱动到 wCount 累积即停
+    let guard = 40
+    const confirm = { held: new Set<never>(), pressed: new Set(['Confirm'] as const), frameNum: 0 }
+    while (gs.mode === 'battle' && (gs.Exp.rgAttackExp[0]!.wCount ?? 0) === 0 && guard-- > 0)
+      tickBattle(gs, gs.battleState?.settlement ? confirm as unknown as typeof emptyInput : emptyInput, bus)
+    expect(gs.Exp.rgAttackExp[0]!.wCount).toBe(1) // 攻击 1 次 → +1
+    expect(gs.Exp.rgHealthExp[0]!.wCount ?? 0).toBeGreaterThanOrEqual(2) // RandomLong(2,3)
+  })
 })
 
 // ============================================================================
