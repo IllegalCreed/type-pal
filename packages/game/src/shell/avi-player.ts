@@ -87,6 +87,11 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
     const onKey = (e: KeyboardEvent): void => {
       if (skipKeys.has(e.code)) {
         e.preventDefault()
+        // sdlpal 用单源 g_InputState.dwKeyPress,无并行监听器:跳过 AVI 的键被消费后不会泄漏给别处。
+        // ts 这边 onKey 挂 window capture 阶段,而全局 KeyboardInputSource(input.ts)挂 window 冒泡且整局常驻 —
+        //   不 stopImmediatePropagation 的话,跳过 splash 的同一个 Space keydown 会继续冒泡进 KeyboardInputSource
+        //   被记成 'Confirm' 残留,下一帧 OpeningMenu 一上线即被当确认直接开新游戏(user 报"没看到主菜单")。
+        e.stopImmediatePropagation()
         cleanup()
       }
     }

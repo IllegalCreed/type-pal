@@ -177,6 +177,10 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
   const onKey = (e: KeyboardEvent): void => {
     if (skipKeys.has(e.code)) {
       e.preventDefault()
+      // 同 avi-player.ts:跳过 splash 的键(capture 阶段消费)必须 stopImmediatePropagation,
+      // 否则同一个 keydown 继续冒泡进常驻 KeyboardInputSource 被记成 'Confirm' 残留 →
+      // 下一帧 OpeningMenu 一上线即被当确认直接开新游戏(DOS 回退路径同 WIN95 AVI 路径的键泄漏)。
+      e.stopImmediatePropagation()
       skipped = true
     }
   }

@@ -101,6 +101,17 @@ export class KeyboardInputSource implements InputSource {
     return snap
   }
 
+  /**
+   * 等价 sdlpal `PAL_ClearKeyState()`(input.c:1206 `g_InputState.dwKeyPress = 0`)。
+   * 清掉累积但尚未消费的"初次按下"键。用于 modal 边界(如跳过开场 AVI 后进 OpeningMenu 前):
+   * sdlpal 在 PAL_ReadMenu 每轮(ui.c:473)/ 主循环每帧(game.c:70)/ PAL_PlayAVI 入口(aviplay.c:667)
+   * 都显式清键,故跨 modal 不会有残留键被误读;ts 异步监听器累积 pressed,需在边界手动清。
+   * 只清 pressed(本帧待消费的初次按下);held(物理按住态)保留,由 keyup 自然配对。
+   */
+  clearPressed(): void {
+    this.pressed.clear()
+  }
+
   detach(): void {
     this.target.removeEventListener('keydown', this.handleDown)
     this.target.removeEventListener('keyup', this.handleUp)

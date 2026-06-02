@@ -90,6 +90,21 @@ describe('KeyboardInputSource', () => {
     }
   })
 
+  // BUG fix(2026-06-02):跳过开场 AVI 的残留 Space 泄漏进 OpeningMenu 被误确认开新游戏。
+  //   clearPressed = sdlpal PAL_ClearKeyState()(input.c:1206),进 menu 前清残留初次按下键。
+  it('clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留', () => {
+    const src = new KeyboardInputSource(window)
+    try {
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
+      src.clearPressed()
+      const s = src.nextSnapshot(0)
+      expect(s.pressed.has('Confirm')).toBe(false) // 残留 Space 被清 → 菜单首帧不会误确认
+      expect(s.held.has('Confirm')).toBe(true)      // held(物理按住态)保留,由 keyup 自然配对
+    } finally {
+      src.detach()
+    }
+  })
+
   // sdlpal input.c:180-189 PAL_GetCurrDirection — "最后按的方向键优先"。
   describe('last-press priority (sdlpal input.c:180-189)', () => {
     it('Up 然后 Down → held Set 末位 = Down', () => {

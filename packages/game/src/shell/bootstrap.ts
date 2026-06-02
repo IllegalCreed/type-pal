@@ -63,6 +63,7 @@ import battleFixturesRaw from '../data/battle-fixtures.json' with { type: 'json'
 import sceneJumpsRaw from '../data/scene-jumps.json' with { type: 'json' }
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present/battle/present-battle.js'
+import { toSpriteImages } from '../present/draw-sprite.js'
 import { loadGlyphs, renderText } from '../present/font.js'
 import { createFramebuffer } from '../present/framebuffer.js'
 import {
@@ -242,14 +243,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   const partyData = characterSprites.get(partyLeaderSpriteId)
   if (!partyData) throw new Error(`队长 sprite (id ${partyLeaderSpriteId}) 加载失败`)
   if (partyData.frames.length === 0) throw new Error('队长 sprite 无 frame')
-  const partyFrames = partyData.frames.map((f) => ({
-    width: f.width,
-    height: f.height,
-    indices: f.indices,
-    opaque: f.opaque,
-    anchorX: partyData.anchorX,
-    anchorY: partyData.anchorY,
-  }))
+  // 逐帧 anchor(sdlpal scene.c:224/358 PAL_RLEGetWidth/Height 用当前帧)— 见 toSpriteImages。
+  const partyFrames = toSpriteImages(partyData.frames)
   // playerRoles.rgwWalkFrames[role]:M4 简版 fallback 3(sdlpal `scene.c:752 if (i == 0) i = 3`)。
   // M5 真做时按 PlayerRoles[leaderRole].walkFrames 取。
   const partyWalkFrames = 3
@@ -258,14 +253,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // Sync.2 fix3 pose:per-spriteId 全帧数组,opcode 0x0014/0x0016/0x000F 写 npc.scriptedFrame 用。
   const npcSpriteFrames = new Map<number, NpcSprite[]>()
   for (const [id, data] of characterSprites) {
-    const allFrames: NpcSprite[] = data.frames.map((f) => ({
-      width: f.width,
-      height: f.height,
-      indices: f.indices,
-      opaque: f.opaque,
-      anchorX: data.anchorX,
-      anchorY: data.anchorY,
-    }))
+    const allFrames: NpcSprite[] = toSpriteImages(data.frames)
     npcSpriteFrames.set(id, allFrames)
     if (allFrames[0]) npcSprites.set(id, allFrames[0])
   }
@@ -406,19 +394,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
           return decodePngToIndices(await r.blob())
         }),
       )
-      const first = frames[0]
-      if (!first) return
-      const anchorX = Math.floor(first.width / 2)
-      const anchorY = first.height
-      // Sync.2 fix3 pose:存全帧 + frame 0
-      const allFrames: NpcSprite[] = frames.map((f) => ({
-        width: f.width,
-        height: f.height,
-        indices: f.indices,
-        opaque: f.opaque,
-        anchorX,
-        anchorY,
-      }))
+      if (!frames[0]) return
+      // Sync.2 fix3 pose:存全帧 + frame 0。逐帧 anchor(爬行 chunk193 各帧高度 31~73 不等,
+      // 必须每帧用自身高度,否则高帧脚底下溢 = 密道攀爬偏下 bug)— 见 toSpriteImages。
+      const allFrames: NpcSprite[] = toSpriteImages(frames)
       npcSpriteFrames.set(id, allFrames)
       npcSprites.set(id, allFrames[0]!)
     } catch (err) {
@@ -1220,6 +1199,12 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     try {
       await playAvi({ src: '/extracted/videos/3.mp4' })
     } finally {
+      // 3.mp4 是 <video> 浮层,suspendRaf 期间 canvas 底下残留的是 OpeningMenu 那一帧(菜单是 AVI 前
+      // 最后 flush 的)。video 一移除到下一 raf 画梦境之间会露出旧菜单 → 闪一帧(user 2026-06-02 报)。
+      // 恢复渲染前先把 canvas 清成黑:过渡变 菜单→[3.mp4]→黑→梦境,无菜单残帧。
+      //   对齐 sdlpal:PAL_PlayAVI 结束屏幕本就黑屏,随后 PAL_MakeScene 淡入(黑过渡忠实)。
+      fb.clear()
+      flushToCanvas(fb, canvasCtx!, gs.palette ?? palette)
       gs.suspendRaf = false
     }
   }
@@ -1409,11 +1394,16 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // 注:await 不阻塞 startRafLoop(后者立即调,raf 已暂停 via suspendRaf)
     void showTrademarkAndSplash()
       .then(() => {
+        // sdlpal ui.c:473 PAL_ReadMenu 每轮先 PAL_ClearKeyState 再读输入 —— 进 OpeningMenu 前清掉跳过
+        // splash 的残留 Space('Confirm'),否则菜单首帧即被误确认开新游戏。覆盖 DOS fallback 分支
+        // (playDosOpening 不经 avi-player 的 stopImmediatePropagation)。
+        input.clearPressed()
         gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
         gs.mode = 'menu'
       })
       .catch((err: unknown) => {
         console.error('[bootstrap] trademark/splash 失败,直接进 OpeningMenu:', err)
+        input.clearPressed()
         gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
         gs.mode = 'menu'
       })
