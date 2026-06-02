@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import type { Command, InputSnapshot, AbstractKey, Palette } from '@type-pal/shared'
 import {
-  tickEventSystem, tickAutoScripts, buildLabelMap, runScript, runEnterScript, setFetchPalette,
+  tickEventSystem, tickAutoScripts, tickChaseTimer, buildLabelMap, runScript, runEnterScript, setFetchPalette,
   setStartBattleHandler,
   OP_START_BATTLE, OP_SET_BATTLE_FIELD, OP_SET_SCENE_OBJECT_STATE,
   OP_SET_PARTY_DIRECTION,
@@ -1991,6 +1991,66 @@ describe('I-w1.a chest opcodes', () => {
     expect(gs.PlayerRolesRuntime.rgwEquipment[0]![0]).toBe(0) // 装备卸下
     expect(gs.rgEquipmentEffect[0]!.rgwAttackStrength[0]).toBe(0) // 加成撤销(此前残留 50)
     expect(gs.inventory.find((e) => e.itemId === 88)?.count).toBe(1) // 回包
+  })
+
+  it('0x2D SetPlayerStatus 大世界(金刚符/黑狗血 buff):写 gs.rgPlayerStatus(审计修:此前 stub no-op)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.PlayerRolesRuntime.rgwHP[0] = 100 // 活人
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x2D, operands: [6, 20, 0] }, { op: 'end' }]) // statusId 6=Protect dur 20
+    gs.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.rgPlayerStatus[0]![6]).toBe(20) // 此前 stub → 0
+  })
+
+  it('0x2D puppet(4)活人 → fScriptSuccess=false 且不设', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.PlayerRolesRuntime.rgwHP[0] = 100
+    gs.fScriptSuccess = true
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x2D, operands: [4, 20, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.rgPlayerStatus[0]![4]).toBe(0)
+    expect(gs.fScriptSuccess).toBe(false)
+  })
+
+  it('0x2F RemovePlayerStatus 大世界(灵心符/银针 解状态):清 <=999', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.rgPlayerStatus[0]![2] = 5 // sleep 5
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x2F, operands: [2, 0, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.rgPlayerStatus[0]![2]).toBe(0)
+  })
+
+  it('0x2F 不清装备永久状态(>999)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.rgPlayerStatus[0]![8] = 32760 // 装备授 DualAttack 永久哨兵
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x2F, operands: [8, 0, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.rgPlayerStatus[0]![8]).toBe(32760) // >999 不清
+  })
+
+  it('0x22 revive 大世界:复活同时清 <=999 状态(审计修:此前残留)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.PlayerRolesRuntime.rgwHP[0] = 0 // 死
+    gs.PlayerRolesRuntime.rgwMaxHP[0] = 100
+    gs.rgPlayerStatus[0]![2] = 5 // sleep
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x22, operands: [0, 5, 0] }, { op: 'end' }]) // 单体复活 50%
+    gs.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50) // 复活
+    expect(gs.rgPlayerStatus[0]![2]).toBe(0) // 状态清(此前残留)
   })
 
   it('0x20 removeItem:库存足 → 从库存移除', () => {
@@ -4281,5 +4341,28 @@ describe('audio opcodes(state-set,M6 接真播)', () => {
     ])
     tickEventSystem(gs, snap(), bus)
     expect(gs.wNumMusic).toBe(19)
+  })
+})
+
+describe('tickChaseTimer (sdlpal play.c:235-238 — 0x62/0x63 追逐 timer 到期复位)', () => {
+  it('cycles 逐帧自减,到 0 → wChaseRange=1(驱魔香暂停到期恢复追逐)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.wChaseRange = 0 // 0x62 驱魔香暂停
+    gs.wChasespeedChangeCycles = 2
+    tickChaseTimer(gs)
+    expect(gs.wChasespeedChangeCycles).toBe(1)
+    expect(gs.wChaseRange).toBe(0) // 未到期,仍暂停
+    tickChaseTimer(gs)
+    expect(gs.wChasespeedChangeCycles).toBe(0)
+    expect(gs.wChaseRange).toBe(1) // 到期 → 恢复默认追逐
+  })
+
+  it('cycles=0 → 不动(不 underflow,不误改 wChaseRange)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.wChaseRange = 3 // 0x63 十里香加速中(无 timer 时本应永久)
+    gs.wChasespeedChangeCycles = 0
+    tickChaseTimer(gs)
+    expect(gs.wChasespeedChangeCycles).toBe(0)
+    expect(gs.wChaseRange).toBe(3)
   })
 })

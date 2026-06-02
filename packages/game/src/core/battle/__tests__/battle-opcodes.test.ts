@@ -1,7 +1,7 @@
 import type { Command, Enemy, EnemyObject, Magic, ObjectMagicView, ObjectPoisonView } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createCommandBus, type PresentCommand } from '../../command-bus.js'
-import { type BattleCtx, runScript } from '../../event-system.js'
+import { type BattleCtx, runScript, setObjectPoisons } from '../../event-system.js'
 import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength, removeEquipmentEffect } from '../../equip-effect.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
 import type { BattleEnemy, BattleState } from '../battle-state.js'
@@ -389,6 +389,57 @@ describe('0x28 apply poison (script.c:0028,毒蛇卵/卵/蛊 throw)', () => {
     const enemies = [poisonEnemy(0)]
     dispatchBattleOpcode(0x28, [0, 561, 0], poisonCtx(enemies, 0, 5, op2))
     expect(enemies[0]!.poisons).toEqual([{ poisonId: 561, scriptEntry: 5 }])
+  })
+})
+
+describe('0x29/0x2B/0x2C player poison 战斗单目标(ctx.target 解析,绕开 eventObjectId — HIGH#1 修)', () => {
+  function playerPoisonCtx(gs: GameState, players = [{ roleId: 0 }]): BattleCtx {
+    return {
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState(players 带 roleId + rng)
+      state: {
+        enemies: [],
+        players: players.map(p => ({ roleId: p.roleId, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } })),
+        rng: { next: () => 0, range: () => 0, rangeInclusive: () => 50, getState: () => 0 },
+      } as any as BattleState,
+      target: { type: 'player', idx: 0 },
+      gs,
+    } as BattleCtx
+  }
+
+  it('0x2B 治毒 by kind 单目标:清目标队员该种毒(此前 eventObjectId=undefined → no-op)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 555, wPoisonScript: 10 }
+    dispatchBattleOpcode(0x2B, [0, 555, 0], playerPoisonCtx(gs))
+    expect(gs.rgPoisonStatus['0_0']?.wPoisonID ?? 0).toBe(0)
+  })
+
+  it('0x2C 治毒 by level 单目标:清 level<=max 的毒', () => {
+    setObjectPoisons([{ id: 555, level: 3, color: 0, playerScript: 0, enemyScript: 0 }])
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 555, wPoisonScript: 10 }
+    dispatchBattleOpcode(0x2C, [0, 3, 0], playerPoisonCtx(gs))
+    expect(gs.rgPoisonStatus['0_0']?.wPoisonID ?? 0).toBe(0)
+  })
+
+  it('0x29 施毒 单目标:抗性通过(rng>resist)→ 目标队员中毒', () => {
+    setObjectPoisons([{ id: 556, level: 3, color: 0, playerScript: 99, enemyScript: 0 }])
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    dispatchBattleOpcode(0x29, [0, 556, 0], playerPoisonCtx(gs))
+    const has = Object.keys(gs.rgPoisonStatus).some(k => gs.rgPoisonStatus[k]?.wPoisonID === 556)
+    expect(has).toBe(true)
+  })
+
+  it('applyAll(op0!=0):全队治毒', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0, 1]
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 555, wPoisonScript: 10 }
+    gs.rgPoisonStatus['0_1'] = { wPoisonID: 555, wPoisonScript: 10 }
+    dispatchBattleOpcode(0x2B, [1, 555, 0], playerPoisonCtx(gs, [{ roleId: 0 }, { roleId: 1 }]))
+    expect(gs.rgPoisonStatus['0_0']?.wPoisonID ?? 0).toBe(0)
+    expect(gs.rgPoisonStatus['0_1']?.wPoisonID ?? 0).toBe(0)
   })
 })
 

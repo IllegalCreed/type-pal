@@ -3637,7 +3637,10 @@ function applyRawOpcode(
           gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor(maxHP * ratioTenths / 10)
           curePlayerPoisonByLevel(gs, roleId, 3)
           revivedAny = true
-          // status flags 留 follow-up:无大世界 status 模型,只在 battle 内有 rgwStatus
+          // sdlpal script.c:1072-1075:复活同时清全状态(for x<kStatusAll rgPlayerStatus[role][x]=0)。
+          //   <=999 才清(>999 = 装备永久效果保留,对齐 D14;sdlpal 靠开战重设,type-pal 用哨兵)。
+          const stRow = gs.rgPlayerStatus[roleId]
+          if (stRow) for (let x = 0; x < stRow.length; x++) if ((stRow[x] ?? 0) <= 999) stRow[x] = 0
         }
       }
       if (applyAll) gs.fScriptSuccess = revivedAny
@@ -3754,11 +3757,42 @@ function applyRawOpcode(
       break
     }
 
-    case OP_SET_PLAYER_STATUS:
+    case OP_SET_PLAYER_STATUS: {
+      // sdlpal global.c PAL_SetPlayerStatus(role, op0=statusId, op1=numRound)。写持久 gs.rgPlayerStatus
+      //   (开战 seed 进 BattleState)。target:applyToAll item(currentEventObjectId=0xFFFF/undefined)→ 全队;
+      //   否则单 role。bad(0-3 Confused/Paralyzed/Sleep/Silence):cur==0 才设;puppet(4):仅死人且更久,
+      //   活人→fScriptSuccess=FALSE;good(5-8 Bravery/Protect/Haste/DualAttack):活人且更久。金刚符63/黑狗血85。
+      const statusId = operands[0] ?? 0
+      const numRound = operands[1] ?? 0
+      const stTargets = (currentEventObjectId === undefined || currentEventObjectId === 0xFFFF) ? gs.partyMembers : [currentEventObjectId]
+      for (const roleId of stTargets) {
+        const row = gs.rgPlayerStatus[roleId]
+        if (!row || statusId >= row.length) continue
+        const cur = row[statusId] ?? 0
+        const hp = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
+        if (statusId <= 3) { // bad:已有则不刷新
+          if (cur === 0) row[statusId] = numRound
+        }
+        else if (statusId === 4) { // puppet:仅死人,且更久才设;活人 → 失败
+          if (hp === 0) { if (cur < numRound) row[statusId] = numRound }
+          else gs.fScriptSuccess = false
+        }
+        else { // good 5-8:活人且更久
+          if (hp !== 0 && cur < numRound) row[statusId] = numRound
+        }
+      }
+      break
+    }
+
     case OP_REMOVE_PLAYER_STATUS: {
-      // sdlpal script.c:1367/1399 — 无大世界 player status 模型(battle.rgwStatus only)
-      // 大世界 buff(如 blessing)持久化留 M6 follow-up
-      console.debug(`event-system: ${opcode === OP_SET_PLAYER_STATUS ? 'set' : 'remove'}PlayerStatus(no overworld status model)op=${operands}`)
+      // sdlpal global.c:2304 PAL_RemovePlayerStatus:status<=999 才清(>999 = 装备永久效果不清,对齐 D14)。
+      //   灵心符65/银针255 大世界解负面状态。
+      const statusId = operands[0] ?? 0
+      const rmTargets = (currentEventObjectId === undefined || currentEventObjectId === 0xFFFF) ? gs.partyMembers : [currentEventObjectId]
+      for (const roleId of rmTargets) {
+        const row = gs.rgPlayerStatus[roleId]
+        if (row && statusId < row.length && (row[statusId] ?? 0) <= 999) row[statusId] = 0
+      }
       break
     }
 
@@ -4177,7 +4211,7 @@ function playerLevelUp(gs: GameState, role: number, numLevels: number): void {
 // FIELD_MAP 全错位 -1(P0#1,2026-05-29 删除)。
 
 /** sdlpal PAL_CurePoisonByKind(global.c:1936-1955)— roleId × poisonId 清 0。 */
-function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: number): void {
+export function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: number): void {
   for (let slot = 0; slot < 16; slot++) {
     const key = `${slot}_${roleId}`
     const ps = gs.rgPoisonStatus[key]
@@ -4490,6 +4524,18 @@ function partyRideEventObject(
   npc.y += dy
 
   return gs.party.x === tx && gs.party.y === ty
+}
+
+/**
+ * sdlpal `PAL_UpdateParty`(play.c:235-238)每帧:`if (--wChasespeedChangeCycles == 0) wChaseRange = 1`。
+ * 0x62 驱魔香(wChaseRange=0 暂停追逐)/ 0x63 十里香(wChaseRange=3 加速)设 cycles=op0,本 timer 逐帧自减,
+ * 到 0 复位 wChaseRange=1 —— 缺此则效果永久(2026-06-02 审计 MED gap:cycles 只写不消费)。
+ * 大世界每帧 tick(mode.ts)调。cycles<=0 不动(不 underflow;sdlpal WORD 会绕回但无游戏意义)。
+ */
+export function tickChaseTimer(gs: GameState): void {
+  if (gs.wChasespeedChangeCycles > 0 && --gs.wChasespeedChangeCycles === 0) {
+    gs.wChaseRange = 1
+  }
 }
 
 /**

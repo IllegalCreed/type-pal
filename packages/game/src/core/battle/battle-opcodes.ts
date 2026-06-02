@@ -15,9 +15,9 @@
  *  - 返回 -1:opcode 消费但不改 ip(caller 应 ip++,等价于默认)
  */
 
-import type { BattleCtx } from '../event-system.js'
+import { type BattleCtx, addPoisonForPlayer, curePlayerPoisonByKind, curePlayerPoisonByLevel } from '../event-system.js'
 import type { BattleStatus } from './battle-state.js'
-import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength } from '../equip-effect.js'
+import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength, getPlayerPoisonResistance } from '../equip-effect.js'
 import { buildStealTimeline } from './anim-timeline.js'
 import { startBattleAnim } from './battle-anim-driver.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
@@ -88,6 +88,12 @@ const OP_INFLICT_DAMAGE = 0x0021
 const OP_APPLY_POISON = 0x0028
 /** sdlpal `script.c:1287-1329` 0x002A:战斗 cure enemy poison by kind(op0!=0 全敌 / 否则单敌;清 poisonId==op1)。 */
 const OP_CURE_ENEMY_POISON_KIND = 0x002A
+/** sdlpal `script.c:1257-1285` 0x0029:apply poison to PLAYER(op0!=0 全队 / 否则 ctx.target;抗性 rng(1,100)>resist 才中)。 */
+const OP_POISON_PLAYER = 0x0029
+/** sdlpal `script.c:1331-1347` 0x002B:cure PLAYER poison by kind(清 wPoisonID==op1)。 */
+const OP_CURE_PLAYER_POISON_KIND = 0x002B
+/** sdlpal `script.c:1349-1365` 0x002C:cure PLAYER poison by level(清 level<=op1 的毒,level==99 装备毒不清)。 */
+const OP_CURE_PLAYER_POISON_LEVEL = 0x002C
 /** sdlpal `script.c:002D` 0x002D:PAL_SetPlayerStatus(role, op0=statusId, op1=duration)。 */
 const OP_SET_PLAYER_STATUS = 0x002D
 /** sdlpal `script.c:002E` 0x002E:set enemy status(RandomLong(0,9)>resist → rgwStatus[op0]=op1;else jump op2)。 */
@@ -235,6 +241,20 @@ interface DispatchResult {
 /**
  * 派发 battle-context opcode。返回 consumed=false 时 caller 走 raw skip。
  */
+/**
+ * 战斗 player-poison opcode(0x29/0x2B/0x2C)的目标 roleId 解析。
+ * op0!=0 → 全队;否则 ctx.target(player)优先,其次 ctx.caster(self buff)。
+ * 绕开 applyRawOpcode 依赖的 eventObjectId —— battle item.ts performItem 不 seed eventObjectId,
+ * 致单目标治毒/解毒/施毒 no-op(HIGH#1)。sdlpal fight.c:4390 wEventObjectID = 目标 wPlayerRole。
+ */
+function resolvePlayerPoisonTargets(ctx: BattleCtx, op0: number): number[] {
+  const players = ctx.state.players
+  if (op0 !== 0) return players.map(p => p.roleId)
+  const sel = ctx.target?.type === 'player' ? ctx.target : ctx.caster?.type === 'player' ? ctx.caster : undefined
+  const idx = sel?.idx
+  return idx !== undefined && players[idx] ? [players[idx]!.roleId] : []
+}
+
 export function dispatchBattleOpcode(
   opcode: number,
   operands: readonly number[],
@@ -389,6 +409,37 @@ export function dispatchBattleOpcode(
       }
       if ((operands[0] ?? 0) !== 0) state.enemies.forEach((_, i) => cure(i))
       else if (ctx.target?.type === 'enemy' && ctx.target.idx !== undefined) cure(ctx.target.idx)
+      return { consumed: true }
+    }
+
+    case OP_CURE_PLAYER_POISON_KIND: {
+      // sdlpal script.c:1331-1347:清队员 wPoisonID==op1 的毒。HIGH#1 修:performItem 不 seed eventObjectId
+      //   → applyRawOpcode 单目标 no-op;改由 ctx.target 解析(净衣符64 战斗解单个队员毒)。
+      const poisonId = operands[1] ?? 0
+      if (ctx.gs)
+        for (const roleId of resolvePlayerPoisonTargets(ctx, operands[0] ?? 0))
+          curePlayerPoisonByKind(ctx.gs, roleId, poisonId)
+      return { consumed: true }
+    }
+
+    case OP_CURE_PLAYER_POISON_LEVEL: {
+      // sdlpal script.c:1349-1365:清 level<=op1 的毒(level==99 装备毒不清)。HIGH#1 修(ctx.target)。
+      //   九节菖蒲89/鬼枯藤129/毒龙胆278 战斗按等级治目标队员毒。
+      const maxLevel = operands[1] ?? 0
+      if (ctx.gs)
+        for (const roleId of resolvePlayerPoisonTargets(ctx, operands[0] ?? 0))
+          curePlayerPoisonByLevel(ctx.gs, roleId, maxLevel)
+      return { consumed: true }
+    }
+
+    case OP_POISON_PLAYER: {
+      // sdlpal script.c:1257-1285:抗性 rng(1,100) > poisonResist 才中毒。HIGH#1 修(ctx.target)。
+      const poisonId = operands[1] ?? 0
+      if (ctx.gs)
+        for (const roleId of resolvePlayerPoisonTargets(ctx, operands[0] ?? 0)) {
+          if (state.rng.rangeInclusive(1, 100) > getPlayerPoisonResistance(ctx.gs, roleId))
+            addPoisonForPlayer(ctx.gs, roleId, poisonId)
+        }
       return { consumed: true }
     }
 

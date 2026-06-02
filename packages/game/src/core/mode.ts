@@ -8,7 +8,7 @@ import type { InputSnapshot } from '@type-pal/shared'
 import { tickBattle } from './battle/battle-system.js'
 import type { CommandBus } from './command-bus.js'
 import type { GameState } from './game-state.js'
-import { tickAutoScripts, tickEventSystem, tickSceneAutoFadeIn } from './event-system.js'
+import { tickAutoScripts, tickChaseTimer, tickEventSystem, tickSceneAutoFadeIn } from './event-system.js'
 import { tickMenu } from './menu/menu-mode.js'
 import { tickSceneSystem } from './scene-system.js'
 
@@ -52,6 +52,9 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
   if (shouldRunAutoScripts) {
     tickAutoScripts(gs)
   }
+
+  // sdlpal play.c:235-238 PAL_UpdateParty 每帧:追逐 timer 自减(0x62 驱魔香/0x63 十里香 到期复位 wChaseRange)。
+  if (gs.mode === 'explore' || gs.mode === 'event') tickChaseTimer(gs)
 
   switch (gs.mode) {
     case 'explore':
