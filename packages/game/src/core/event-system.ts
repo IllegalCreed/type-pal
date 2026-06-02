@@ -685,9 +685,9 @@ export function resolveScriptLabel(
 // event-system 不直接持有 enemies/enemyTeams/playerRoles 等战斗资源(避免污染 import 图)。
 // bootstrap 启动时把 startBattle 包成闭包注入 — handler 接收 enemyTeamId/isBoss 自驱动 battle-system。
 //
-// 简化版(P0.e 范围):opcode 7 切 mode='battle' + 清 eventCursor(战后 finalizeBattle
-// 自动回 explore mode),不实现"战后 cursor.ip++ 跑 onLose/onFlee 分支"路径。
-// 真做战后 resume 留 M5 P1-Battle 股。
+// opcode 7 切 mode='battle' + 存战后接回上下文(savePostBattleResume)。**战后 resume 已做**
+// (game-state.ts resumePostBattleScript 按 outcome 选 wonIp / lostIp(op1) / fledIp(op2) 接回,
+// C 系列 gameOverActive 工作);旧"不实现 onLose/onFlee"注释已过时(2026-06-02 订正)。
 export interface StartBattleHandlerInput {
   gs: GameState
   enemyTeamId: number
@@ -2511,8 +2511,8 @@ export function runScript(opts: RunScriptOptions): number {
 // operand[0]=enemyTeamId;operand[2]=flee 跳转目标(也兼"是否允许逃跑"标志,非 0 = 允许)。
 // → isBoss = !operand[2](operand[2]==0 → 不可逃跑)
 //
-// 简化版(P0.e 范围):切 mode 'battle' + 释放 cursor;不 resume cursor.ip 跑 onLose/onFlee。
-// 真做战后 resume 留 M5 P1-Battle B-w0 系列(`wScriptOnWin/Lose` cleanup 一并)。
+// 切 mode 'battle' + savePostBattleResume 存 won/lost/fled IP;战末 resumePostBattleScript
+// 按 outcome 接回(已做,见 game-state.ts;旧"不 resume onLose/onFlee"注释已过时,2026-06-02 订正)。
 /**
  * 0x07 startBattle 起手存战后接回上下文(sdlpal script.c:3318-3331:战斗同步返回后脚本继续)。
  * 胜 → wonIp(0x07 后下一条);负 → op[1];逃 → op[2](op[1]/op[2] = 全局 entry,经 cursor.labelMap 解析)。
