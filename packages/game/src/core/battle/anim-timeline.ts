@@ -544,6 +544,8 @@ export interface BuildOffMagicInput {
     wave?: number
     /** W4 wKeepEffect — ==0xFFFF 时末帧把魔法精灵烙进战斗背景(持久);其它值/缺 = 不烙。fight.c:2758/2983。 */
     keepEffect?: number
+    /** M6 wSound — 法术效果音。CLASSIC 在 (i-fireDelay)%n==0 帧播(fight.c:2713);0/缺 = 无音。 */
+    sound?: number
   }
   /** FIRE.MKF chunk[effect] 帧数 n(performMagic 从 fire-sprites.json 取)。 */
   n: number
@@ -585,7 +587,7 @@ export interface BuildOffMagicInput {
 export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAnimFrame[] {
   // targetIdx 透传供调用方语义对齐;落点由 magic.type + targetEnemyPos 决定,本体不直接读 targetIdx。
   const { casterIdx, magic, n, targetEnemyPos, iBlow, blowTargets, rng } = input
-  const { effect, type, speed, fireDelay, effectTimes, shake, xOffset, yOffset, wave, keepEffect } = magic
+  const { effect, type, speed, fireDelay, effectTimes, shake, xOffset, yOffset, wave, keepEffect, sound } = magic
   // W4 iBlow:吹飞累加态(per target 运行 x/y),仅 iBlow!=0 + 有 targets + rng 时启用。
   const blowOn = !!iBlow && iBlow !== 0 && !!blowTargets && blowTargets.length > 0 && !!rng
   const blowAcc = blowOn ? blowTargets!.map((t) => ({ ...t, x: t.pos.x, y: t.pos.y })) : []
@@ -681,6 +683,10 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
     if (wave && wave > 0) frame.screenWave = wave
     // W4 keepEffect:末帧 + wKeepEffect==0xFFFF + wScreenWave(=wave 陆战)<9 → 烙背景(fight.c:2757-2762)。
     if (i === l - 1 && keepEffect === 0xffff && (wave ?? 0) < 9) frame.keepEffect = true
+    // M6 法术效果音帧同步:sdlpal CLASSIC 在 `(i-fireDelay)%n==0` 帧播 magic.wSound(fight.c:2713,!fIsWIN95)——
+    //   即 fireDelay 帧起、每 n 帧一次,与效果精灵 loop 同步。**修"音效比动画提前"**(此前 magic.ts cast 起手
+    //   就 push,等价 WIN95 早播)。i<fireDelay 不播(i-fireDelay<0)。
+    if (sound && sound > 0 && i >= fireDelay && (i - fireDelay) % n === 0) frame.sound = sound
     frames.push(frame)
   }
 

@@ -231,9 +231,8 @@ export function performMagic(input: PerformMagicInput): void {
     targetType: input.targetIsEnemy ? 'enemy' : 'player',
     targetIdx: input.targetIdx,
   })
-  // M6 法术 SFX(sdlpal fight.c:2501 AUDIO_PlaySound(lprgMagic[iMagicNum].wSound)):magic.sound 入
-  //   gs.pendingSounds(同 explore 0x47 通道,shell AudioManager 播)。0 = 无音。
-  if (magic.sound > 0 && input.gs) (input.gs.pendingSounds ??= []).push(magic.sound)
+  // M6 法术效果音 magic.sound:**player 攻击魔法(OffMagic)已挪到动画时间线帧同步**(见下方动画派发后),
+  //   此处不再 cast 起手立即 push(那样比效果动画提前,user 2026-06-03 报"音效没对齐")。其余类型在派发后即时 push。
   // 每次 PAL_RunTriggerScript 入口重置 g_fScriptSuccess=TRUE(script.c:3187)——
   // scriptOnSuccess 的成功旗子独立于 scriptOnUse 结果。
   if (input.gs)
@@ -343,6 +342,12 @@ export function performMagic(input: PerformMagicInput): void {
     built = buildAndStartEnemyMagicAnim(input, magic, pendingNums, hitPlayerIdxs)
   }
 
+  // M6 法术效果音 magic.sound:player 攻击魔法(OffMagic)已在 buildPlayerOffMagicTimeline 的
+  //   (i-fireDelay)%n 帧挂 frame.sound(帧同步,对齐 sdlpal CLASSIC fight.c:2713),**不在此 push**;
+  //   其余(防御/召唤/敌方/无动画)无帧同步 → 即时 push 到 gs.pendingSounds(同 0x47 通道)。
+  const offMagicSynced = built && !input.casterIsEnemy && OFF_MAGIC_TYPES.has(magic.type)
+  if (magic.sound > 0 && input.gs && !offMagicSynced) (input.gs.pendingSounds ??= []).push(magic.sound)
+
   // 未建动画链(旧 fixture / 无 sprite 资源 / 非 OFF 类型)→ 立即 emit 伤害数字(向后兼容;
   //   无动画可挂,只能即时显示)。建了链 → 交时间线播完后 emit(startBattleAnim 已收 pendingNums)。
   if (!built) {
@@ -417,6 +422,7 @@ function buildAndStartMagicAnim(
       yOffset: magic.yOffset,
       wave: magic.wave, // W4 屏波(present applyScreenWave)
       keepEffect: magic.keepEffect, // W4 烙背景(末帧 0xFFFF)
+      sound: magic.sound, // M6 效果音帧同步((i-fireDelay)%n==0 帧播,fight.c:2713)
     },
     n,
     targetIdx: offTargetIdx,

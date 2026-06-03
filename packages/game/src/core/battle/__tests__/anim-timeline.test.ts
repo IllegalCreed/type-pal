@@ -483,6 +483,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       speed?: number
       wave?: number
       keepEffect?: number
+      sound?: number
     } = {},
   ) {
     return buildPlayerOffMagicTimeline({
@@ -498,12 +499,24 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
         yOffset: -6,
         wave: opts.wave,
         keepEffect: opts.keepEffect,
+        sound: opts.sound,
       },
       n: opts.n ?? 8,
       targetIdx: 1,
       targetEnemyPos: { x: 160, y: 80 },
     })
   }
+
+  // M6 效果音帧同步(fight.c:2713,CLASSIC):magic.sound 在 (i-fireDelay)%n==0 帧播,fireDelay 起每 n 帧一次。
+  //   修"法术音效比动画提前"(此前 cast 起手就 push)。
+  it('M6 效果音:sound 挂在 (i-fireDelay)%n==0 帧(n=8/fireDelay=2 → i=2,10);i<fireDelay 不挂', () => {
+    const f = buildNormal({ sound: 55 }) // l = (8-2)*1 + 8 + 0 = 14
+    const soundFrames = f.map((fr, i) => (fr.sound === 55 ? i : -1)).filter(i => i >= 0)
+    expect(soundFrames).toEqual([2, 10]) // fireDelay(2)起、每 n(8)帧
+    expect(f.slice(0, 2).every(fr => fr.sound === undefined)).toBe(true) // i<fireDelay 不播
+    // sound=0/缺 → 不挂任何帧
+    expect(buildNormal({ sound: 0 }).every(fr => fr.sound === undefined)).toBe(true)
+  })
 
   it('W4 keepEffect:keepEffect==0xFFFF && wave<9 → 仅末帧 keepEffect=true;否则全无(fight.c:2757)', () => {
     const kf = buildNormal({ keepEffect: 0xffff })
