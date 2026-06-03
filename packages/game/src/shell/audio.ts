@@ -176,9 +176,13 @@ export function createAudioManager(baseUrl = ''): AudioManager {
 
   function playSfx(soundId: number): void {
     const c = ensureCtx()
-    if (!c || !sfxEnabled) return
+    if (!c || !sfxEnabled) {
+      console.log(`[sfx] playSfx(${soundId}) SKIP ctx=${!!c} sfxEnabled=${sfxEnabled}`) // M6 诊断
+      return
+    }
     const buf = sfxBuffers.get(soundId)
     if (buf) {
+      console.log(`[sfx] playSfx(${soundId}) CACHED→播`) // M6 诊断
       const src = c.createBufferSource()
       src.buffer = buf
       src.connect(c.destination)
@@ -186,6 +190,7 @@ export function createAudioManager(baseUrl = ''): AudioManager {
       return
     }
     // 未缓存 → 异步加载完后**不**补播(SFX 是即时反馈,迟到无意义);仅预热缓存供下次。
+    console.log(`[sfx] playSfx(${soundId}) MISS→预热(本次静音,下次才响)`) // M6 诊断
     void loadSfx(soundId)
   }
 

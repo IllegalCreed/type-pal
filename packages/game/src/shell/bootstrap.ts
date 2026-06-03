@@ -384,10 +384,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         for (const { cmd } of drained) {
           // core 已解析好的固定声(出招/暴击 attack.ts、濒死/阵亡 battle-system 等 AUDIO_PlaySound)→ 直接播。
           if (cmd.op === 'playSound') {
+            console.log(`[sfx] cmd=playSound soundId=${cmd.soundId}`) // M6 诊断:玩家出招/暴击/濒死/阵亡声
             if (cmd.soundId > 0) audio.playSound(cmd.soundId)
             continue
           }
           const s = sfxForBattleEvent(cmd, gs.battleState?.enemies, gs.partyMembers, playerRoles.roles)
+          if (cmd.op === 'playPlayerAttack' || cmd.op === 'playEnemyAttack' || cmd.op === 'playEnemyDeath')
+            console.log(`[sfx] cmd=${cmd.op} → resolved=${s} (partyMembers=[${gs.partyMembers}])`) // M6 诊断
           if (s > 0) audio.playSound(s)
         }
       }
