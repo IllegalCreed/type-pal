@@ -159,6 +159,7 @@ function simulateCtx(
     caster: { type: 'player', idx: 0 },
     target: targetIdx === undefined ? undefined : { type: 'enemy', idx: targetIdx },
     magicTables: { magics, objectMagics },
+    gs: createInitialGameState({ x: 0, y: 0, facing: 'down' }), // M6 模拟法术效果音 push gs.pendingSounds
   }
 }
 
@@ -166,9 +167,9 @@ function objMagic(id: number, magicNumber: number, applyToAll = false): ObjectMa
   return { id, magicNumber, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll } }
 }
 
-function magicStat(id: number, baseDamage: number, elemental: number): Magic {
+function magicStat(id: number, baseDamage: number, elemental: number, sound = 0): Magic {
   // biome-ignore lint/suspicious/noExplicitAny: 只填伤害相关字段
-  return { id, baseDamage, elemental, type: 'normal' } as any as Magic
+  return { id, baseDamage, elemental, type: 'normal', sound } as any as Magic
 }
 
 describe('0x42 SimulateMagic (E2)', () => {
@@ -180,6 +181,18 @@ describe('0x42 SimulateMagic (E2)', () => {
     const r = dispatchBattleOpcode(0x42, [349, 0, 0], ctx)
     expect(r.consumed).toBe(true)
     expect(enemies[0]!.e.health).toBe(60)
+  })
+
+  // M6 模拟法术效果音(sdlpal PAL_BattleSimulateMagic → OffMagicAnim → AUDIO_PlaySound(magic.wSound))。
+  it('magic.sound>0 → push gs.pendingSounds;0 不 push', () => {
+    const enemies = [richEnemy({ health: 200, defense: 30, level: 5 })]
+    const ctx = simulateCtx(enemies, 0, [objMagic(349, 54)], [magicStat(54, 140, 0, 88)])
+    dispatchBattleOpcode(0x42, [349, 0, 0], ctx)
+    expect(ctx.gs!.pendingSounds).toEqual([88])
+    // sound=0 → 不 push
+    const ctx0 = simulateCtx([richEnemy({ health: 200 })], 0, [objMagic(349, 54)], [magicStat(54, 140, 0, 0)])
+    dispatchBattleOpcode(0x42, [349, 0, 0], ctx0)
+    expect(ctx0.gs!.pendingSounds ?? []).toEqual([])
   })
 
   it('applyToAll(火灵符法 obj367→magic59 elem4 fire)→ 全体敌人落血', () => {

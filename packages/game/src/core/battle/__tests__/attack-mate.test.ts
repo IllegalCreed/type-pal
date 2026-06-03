@@ -63,6 +63,20 @@ describe('B1 AttackMate(混乱攻随机友军,fight.c:3760-3853)', () => {
     expect(playerRoles.roles[2]!.hp).toBe(200)
   })
 
+  // M6 武器声(sdlpal fight.c:3810 AUDIO_PlaySound(rgwWeaponSound[role]),混乱打友军强制物理只播武器声)。
+  it('M6 攻击者武器声 → emit playSound(weaponSound);0 不 emit', () => {
+    const roles = [makeRole({ id: 0, weaponSound: 2 }), makeRole({ id: 1 })]
+    const { state, playerRoles, bus } = makeState(roles, [1])
+    performAttackMate(state, 0, bus, playerRoles)
+    const sounds = bus.drain().filter(c => c.cmd.op === 'playSound').map(c => (c.cmd as { soundId: number }).soundId)
+    expect(sounds).toEqual([2])
+    // weaponSound=0 → 不 emit
+    const roles0 = [makeRole({ id: 0, weaponSound: 0 }), makeRole({ id: 1 })]
+    const s0 = makeState(roles0, [1])
+    performAttackMate(s0.state, 0, s0.bus, s0.playerRoles)
+    expect(s0.bus.drain().filter(c => c.cmd.op === 'playSound')).toHaveLength(0)
+  })
+
   it('目标有 Protect → 伤害减半(45→22)', () => {
     const roles = [makeRole({ id: 0 }), makeRole({ id: 1 })]
     const { state, playerRoles, bus } = makeState(roles, [1])

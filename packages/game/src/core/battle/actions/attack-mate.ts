@@ -84,6 +84,9 @@ export function performAttackMate(
   // 5. 扣血 + 蓝色掉血弹幕
   targetRole.hp = before - damage
   bus.emit({ op: 'showDamageNum', target: { kind: 'player', idx: target }, value: damage, color: 'blue' })
+  // M6 武器声(sdlpal fight.c:3810 AUDIO_PlaySound(rgwWeaponSound[role]);混乱/迷惑下打友军是强制物理,
+  //   只播武器声,无起手/暴击声)。经 bus playSound → bootstrap 战斗 drain 播。
+  if (casterRole.weaponSound > 0) bus.emit({ op: 'playSound', soundId: casterRole.weaponSound })
 
   // 6. D8(2026-06-02):走入精灵动画(fight.c:3791-3858)。caster/target posOriginal 底锚;缺锚 → 跳过(纯逻辑)。
   const casterPos = state.players[casterIdx]!.posOriginal

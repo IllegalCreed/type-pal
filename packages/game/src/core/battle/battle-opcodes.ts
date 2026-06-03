@@ -288,6 +288,13 @@ export function dispatchBattleOpcode(
       })
       for (const r of results)
         emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter)
+      // M6 模拟法术效果音(sdlpal PAL_BattleSimulateMagic → OffMagicAnim → AUDIO_PlaySound(magic.wSound),
+      //   fight.c:2501;投掷符/卵/蛊的 scriptOnThrow 走 0x42)。
+      {
+        const om = resolveObjectMagic(operands[0] ?? 0, tables.objectMagics)
+        const mg = om ? tables.magics.find(m => m.id === om.magicNumber) : undefined
+        if (mg && mg.sound > 0 && ctx.gs) (ctx.gs.pendingSounds ??= []).push(mg.sound)
+      }
       return { consumed: true }
     }
 
@@ -321,6 +328,12 @@ export function dispatchBattleOpcode(
       })
       for (const r of results)
         emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter)
+      // M6 投掷武器效果音(同 0x42:OffMagicAnim AUDIO_PlaySound(magic.wSound),fight.c:2501)。
+      {
+        const om = resolveObjectMagic(operands[0] ?? 0, tables.objectMagics)
+        const mg = om ? tables.magics.find(m => m.id === om.magicNumber) : undefined
+        if (mg && mg.sound > 0 && ctx.gs) (ctx.gs.pendingSounds ??= []).push(mg.sound)
+      }
       return { consumed: true }
     }
 
