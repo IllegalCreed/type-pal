@@ -16,11 +16,12 @@ function role(opts: { hp: number; maxHP?: number; deathSound?: number; dyingSoun
   return { hp: opts.hp, maxHP: opts.maxHP ?? 100, deathSound: opts.deathSound ?? 23, dyingSound: opts.dyingSound ?? 19 } as unknown as PlayerRole
 }
 
-function run(roleOpts: Parameters<typeof role>[0], prevHp: number): { sounds: number[]; prevHp: number } {
+function run(roleOpts: Parameters<typeof role>[0], prevHp: number, prePoisonHp?: number): { sounds: number[]; prevHp: number } {
   const bus = createCommandBus()
   const players = [{ roleId: 0, prevHp }]
   const playerRoles: PlayerRoles = { roles: [role(roleOpts)] }
-  emitPlayerCasualtySounds(players, playerRoles, bus)
+  const pre = prePoisonHp === undefined ? undefined : new Map([[0, prePoisonHp]])
+  emitPlayerCasualtySounds(players, playerRoles, bus, pre)
   const sounds = bus.drain().filter(c => c.cmd.op === 'playSound').map(c => (c.cmd as { soundId: number }).soundId)
   return { sounds, prevHp: players[0]!.prevHp }
 }
@@ -58,5 +59,19 @@ describe('M6 emitPlayerCasualtySounds', () => {
 
   it('dyingSound=0 → 跨入濒死也不 emit', () => {
     expect(run({ hp: 15, dyingSound: 0 }, 100).sounds).toEqual([])
+  })
+
+  // M6 死因门控(2026-06-03 审计:sdlpal deathSound 仅敌攻致死播,毒杀不播,fight.c:4816/4851/5110 vs 毒 tick 无)。
+  it('敌攻致死(prePoisonHp=0,毒前已死)→ 播 deathSound', () => {
+    // prevHp=100(回合初活)→ hp=0;毒前已 0(死于动作)→ 播
+    expect(run({ hp: 0, deathSound: 23 }, 100, 0).sounds).toEqual([23])
+  })
+  it('毒杀致死(prePoisonHp>0,毒后才→0)→ 不播 deathSound', () => {
+    // prevHp=100(回合初活)→ hp=0,但毒前 hp=40(>0)→ 死于毒,不播
+    expect(run({ hp: 0, deathSound: 23 }, 100, 40).sounds).toEqual([])
+  })
+  it('毒致濒死(非死)→ dyingSound 照播(不门控死因)', () => {
+    // 毒前 hp=40,毒后 hp=15(<阈值20,>0),回合初 100 → 跨入濒死,dyingSound 播
+    expect(run({ hp: 15, dyingSound: 19 }, 100, 40).sounds).toEqual([19])
   })
 })

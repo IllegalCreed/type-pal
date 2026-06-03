@@ -657,14 +657,23 @@ function isPlayerDying(role: { hp: number; maxHP: number }): boolean {
  *   prevHp:① hp===0 且 prevHp>0(本回合阵亡)→ rgwDeathSound;② hp>0 且跌入濒死(hp<maxHP/5)且
  *   回合初尚在阈值上(prevHp>=maxHP/5,即刚跨入)→ rgwDyingSound。判完把 prevHp 快照为当前 hp 供下回合。
  *
- * sdlpal 真值里死亡音内联在各 enemy 攻击分支、濒死音在 PostActionCheck;ts 集中此一处近似(时序差
- * 不超过一回合,音色仍正确)。玩家 prevHp 此前未维护(只敌方用),由本函数建立回合粒度快照。
+ * **阵亡音仅敌攻致死播,毒杀不播**(2026-06-03 音效审计确认:sdlpal rgwDeathSound 只在 3 个 enemy
+ *   攻击分支内联 fight.c:4816/4851/5110,毒 tick 1657-1700 / PostActionCheck 都不播玩家 deathSound)。
+ *   ts 集中 sweep 在毒 tick **后**跑,无法区分死因 → 传 prePoisonHp(毒 tick 前 hp):仅 prePoisonHp===0
+ *   (本回合死于动作/敌攻,在毒前已死)才播 deathSound;毒杀(毒前 hp>0,毒后→0)不播。
+ *   濒死音 dyingSound 不门控死因(sdlpal PostActionCheck 在毒后也调 fight.c:1664,毒致濒死同样播)。
+ *
+ * sdlpal 死亡音内联在 enemy 攻击(即时)、濒死音在 PostActionCheck;ts 集中此一处近似(死亡音时序差
+ * 不超过一回合,音色 + 死因门控正确)。玩家 prevHp 此前未维护(只敌方用),由本函数建立回合粒度快照。
  * 声经 bus {op:'playSound'} 发 → bootstrap 战斗 drain 播(>0 守卫;0 = 无音,跳过)。
  */
 export function emitPlayerCasualtySounds(
   players: ReadonlyArray<{ roleId: number; prevHp: number }>,
   playerRoles: PlayerRoles,
   bus: CommandBus,
+  /** 毒 tick 前各 roleId 的 hp(tickPostAction 起手快照)。仅 prePoisonHp===0(敌攻致死)才播 deathSound;
+   *  省略 → 退化为旧行为(任何致死都播,向后兼容旧测试)。 */
+  prePoisonHp?: ReadonlyMap<number, number>,
 ): void {
   for (const p of players) {
     const role = playerRoles.roles[p.roleId]
@@ -674,7 +683,9 @@ export function emitPlayerCasualtySounds(
     const dyingSound = role.dyingSound ?? 0
     if (role.hp < p.prevHp) {
       if (role.hp === 0 && p.prevHp > 0) {
-        if (deathSound > 0) bus.emit({ op: 'playSound', soundId: deathSound })
+        // 死于敌攻(毒前已死,prePoisonHp===0)才播阵亡音;毒杀不播。无 prePoisonHp 入参 → 旧行为。
+        const diedFromAttack = prePoisonHp === undefined || (prePoisonHp.get(p.roleId) ?? 0) === 0
+        if (deathSound > 0 && diedFromAttack) bus.emit({ op: 'playSound', soundId: deathSound })
       } else if (role.hp > 0 && role.hp < dyingThreshold && p.prevHp >= dyingThreshold) {
         if (dyingSound > 0) bus.emit({ op: 'playSound', soundId: dyingSound })
       }
@@ -2162,6 +2173,13 @@ function tickPostAction(
   bus: CommandBus,
   res: BattleResources,
 ): void {
+  // M6 阵亡音死因门控:毒 tick 前快照各队员 hp。下方 emitPlayerCasualtySounds 仅 prePoisonHp===0
+  //   (本回合死于敌攻、毒前已死)才播 deathSound;毒杀(毒前>0、毒后→0)不播(sdlpal 毒死无 deathSound)。
+  const prePoisonHp = new Map<number, number>()
+  for (const p of state.players) {
+    const role = res.playerRoles.roles[p.roleId]
+    if (role) prePoisonHp.set(p.roleId, role.hp)
+  }
   // 毒 tick —— 对照 sdlpal `fight.c:1645-1648`(每回合每敌 rgPoisons[j].wPoisonScript 跑)。
   // 每个活敌的每条 poison 跑其 scriptEntry(毒 wEnemyScript,经 0x21 扣血),target = 该敌人。
   // 放在死亡 exp 累计**之前** → 毒杀的敌人也计入死亡奖励。
@@ -2215,8 +2233,9 @@ function tickPostAction(
     e.prevHp = e.e.health
   }
 
-  // M6 玩家濒死/阵亡音(毒 tick 后判,与 sdlpal fight.c:1664 顺序一致)。详见 emitPlayerCasualtySounds。
-  emitPlayerCasualtySounds(state.players, res.playerRoles, bus)
+  // M6 玩家濒死/阵亡音(毒 tick 后判,与 sdlpal fight.c:1664 顺序一致)。prePoisonHp 门控阵亡音死因
+  //   (仅敌攻致死播,毒杀不播)。详见 emitPlayerCasualtySounds。
+  emitPlayerCasualtySounds(state.players, res.playerRoles, bus, prePoisonHp)
 
   // D17:毒 tick 杀敌也淡出(sdlpal fight.c:1664 毒后 PAL_BattlePostActionCheck → fFade → FadeScene)。
   //   开淡出 hold;phase 照常转(won/selectAction),下 tick 顶层 tickBattleFade 先暂停放完淡出。
