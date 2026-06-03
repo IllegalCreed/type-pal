@@ -63,6 +63,17 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       const sf = await fetch(soundfontUrl)
       if (!sf.ok) throw new Error(`soundfont ${soundfontUrl} 取不到(HTTP ${sf.status})—— 放一个 GM .sf3/.sf2 到 packages/game/public/soundfont.sf3`)
       const sfBytes = await sf.arrayBuffer()
+      // 守卫:soundfont(SF2/SF3/DLS)都是 RIFF 容器(魔数 "RIFF")。文件不存在时 vite dev server 会回
+      //   SPA fallback(index.html,几 KB),sf.ok=true 但内容是 HTML → 这里识破,给清晰报错而非卡死解析。
+      const head = new Uint8Array(sfBytes.slice(0, 4))
+      const magic = String.fromCharCode(...head)
+      if (magic !== 'RIFF') {
+        throw new Error(
+          `${soundfontUrl} 不是有效 soundfont(取到 ${sfBytes.byteLength} 字节,魔数 "${magic}" 非 "RIFF")。`
+          + `多半是文件不存在 → dev server 回了 index.html。请把一个真 GM soundfont(.sf2/.sf3,通常 MB 级)`
+          + `放到 packages/game/public/soundfont.sf3`,
+        )
+      }
       console.log(`[audio] MIDI: soundfont 已下载(${(sfBytes.byteLength / 1024 / 1024).toFixed(1)}MB),载入中…`)
       await synth.soundBankManager.addSoundBank(sfBytes, 'main')
       await synth.isReady
