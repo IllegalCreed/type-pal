@@ -175,6 +175,9 @@ export function createAudioManager(baseUrl = ''): AudioManager {
   }
 
   function play(c: AudioContext, buf: AudioBuffer): void {
+    // ctx 未解锁(autoplay 挂起)→ 跳过(src.start 会抛 "AudioContext was not allowed to start";
+    //   且用户尚未交互,丢这一下 SFX 无妨)。解锁(首个手势 resume)后 ctx='running' 才真播。
+    if (c.state !== 'running') return
     const src = c.createBufferSource()
     src.buffer = buf
     src.connect(c.destination)

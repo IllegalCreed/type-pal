@@ -349,7 +349,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     workletUrl: '/spessasynth_processor.min.js',
     soundfontUrl: '/soundfont.sf3',
   }))
-  window.addEventListener('keydown', () => audio.resume(), { once: true, capture: true })
+  // autoplay 解锁:浏览器要求 AudioContext 在用户手势后 resume。**不能用 { once:true } 只听首个
+  //   keydown** —— 若首个手势是鼠标点击(如点 devpanel 触发战斗/BGM)keydown 不触发,ctx 永久挂起
+  //   → BGM/SFX 全哑(user 2026-06-03 实测控制台 "AudioContext was not allowed to start")。改:
+  //   keydown + pointerdown 都听、**持续触发**(audio.resume 内部 + backend.resume 都有 suspended 守卫,
+  //   解锁后重复调是 no-op,不会重启 BGM)。
+  const unlockAudio = (): void => audio.resume()
+  window.addEventListener('keydown', unlockAudio, { capture: true })
+  window.addEventListener('pointerdown', unlockAudio, { capture: true })
 
   const loopCtx: LoopContext = {
     gs,

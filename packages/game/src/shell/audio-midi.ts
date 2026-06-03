@@ -41,6 +41,7 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
   let ready = false
   // 当前想播的曲(play 写入)。用于:① init 完成后补播 ② autoplay 解锁(resume)后补播。
   let last: { track: number; loop: boolean } | undefined
+  let resuming = false // resume() 防重入(解锁监听持续触发,ctx.resume() pending 期间不重复 doPlay)
 
   async function doPlay(track: number, loop: boolean): Promise<void> {
     if (!seq) return
@@ -110,12 +111,16 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       last = undefined
     },
     resume() {
-      // 用户手势里调(bootstrap keydown → AudioManager.resume → 此):resume 本后端 AudioContext 解
-      //   autoplay。此前曲被 autoplay 挡掉没出声 → resume 后重播当前曲一次确保发声。
-      if (ctx.state !== 'suspended') return
+      // 用户手势里调(bootstrap keydown/pointerdown → AudioManager.resume → 此):resume 本后端
+      //   AudioContext 解 autoplay。此前曲被 autoplay 挡掉没出声 → resume 后重播当前曲一次确保发声。
+      //   resuming 守卫:解锁监听持续触发,ctx.resume() pending 期间(ctx 仍 'suspended')多个手势不重复
+      //   doPlay(否则 BGM 在解锁瞬间被重启多次)。
+      if (resuming || ctx.state !== 'suspended') return
+      resuming = true
       void ctx.resume().then(() => {
+        resuming = false
         if (ready && last) void doPlay(last.track, last.loop)
-      }).catch(() => {})
+      }).catch(() => { resuming = false })
     },
   }
 }
