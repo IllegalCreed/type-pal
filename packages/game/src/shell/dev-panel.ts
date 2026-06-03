@@ -308,8 +308,12 @@ function openPicker(deps: DevPanelDeps): void {
     const roleMagics = (roleId: number): number[] => {
       const role = deps.resources.playerRoles.roles.find(r => r.id === roleId)
       const start = (role?.magic ?? []).filter(x => x > 0)
-      const learned = (deps.resources.levelUpMagic?.[roleId] ?? [])
-        .filter(e => e.magic > 0)
+      // level-up-magic 是 [ROW][ROLE](sdlpal lprgLevelUpMagic[j].m[w],20 行学习条目 × 5 角色列)。
+      //   角色 roleId 的习得 = **遍历所有 row 取该角色列** entry[roleId](对齐 battle.c:1302 / battleWonLevelUp
+      //   battle-system.ts:2653-2658)。此前误写 levelUpMagic[roleId] = 取第 roleId **行** → 全员技能错乱。
+      const learned = (deps.resources.levelUpMagic ?? [])
+        .map(row => row[roleId])
+        .filter((e): e is LevelUpMagicEntry => !!e && e.magic > 0)
         .map(e => e.magic)
       const granted = [...(grantsByRole.get(roleId) ?? [])].filter(x => x > 0)
       return [...new Set([...start, ...learned, ...granted])].slice(0, 32) // MAX_PLAYER_MAGICS=32
