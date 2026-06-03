@@ -944,6 +944,7 @@ function summonCtx(roster: BattleEnemy[], casterIdx: number, allEnemies: Enemy[]
     state: { enemies: roster, players: [] } as any as BattleState,
     caster: { type: 'enemy', idx: casterIdx },
     summonTables: { enemies: allEnemies, enemyObjects },
+    gs: createInitialGameState({ x: 0, y: 0, facing: 'down' }), // M6 召唤/变身音 push gs.pendingSounds
   }
 }
 
@@ -976,22 +977,26 @@ describe('0x9C enemy division (script.c:009C)', () => {
 })
 
 describe('0x9F enemy transform (script.c:009F)', () => {
-  it('变身成 op0 对象(保留当前 health)', () => {
+  it('变身成 op0 对象(保留当前 health)+ M6 变身音 47', () => {
     const self = richEnemy({ health: 30 })
     self.e.id = 5
     const roster = [self]
-    dispatchBattleOpcode(0x9F, [419, 0, 0], summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]))
+    const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
+    dispatchBattleOpcode(0x9F, [419, 0, 0], ctx)
     expect(roster[0]!.e.id).toBe(22) // 变成新种
     expect(roster[0]!.e.health).toBe(30) // 保留当前血
     expect(roster[0]!.scriptOnReady).toBe(22)
+    expect(ctx.gs!.pendingSounds).toEqual([47]) // sdlpal script.c:2980
   })
-  it('自身睡眠 → 不变身', () => {
+  it('自身睡眠 → 不变身(无变身音)', () => {
     const self = richEnemy({ health: 30 })
     self.e.id = 5
     self.status.sleep = 3
     const roster = [self]
-    dispatchBattleOpcode(0x9F, [419, 0, 0], summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]))
+    const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
+    dispatchBattleOpcode(0x9F, [419, 0, 0], ctx)
     expect(roster[0]!.e.id).toBe(5) // 没变
+    expect(ctx.gs!.pendingSounds ?? []).toEqual([]) // 失败不播 47
   })
 })
 
@@ -1007,6 +1012,7 @@ describe('0x9E enemy summon (script.c:009E)', () => {
     expect(roster[1]!.scriptOnReady).toBe(22)
     expect(roster[1]!.resistanceToSorcery).toBe(3)
     expect(roster[1]!.poisons).toEqual([])
+    expect(ctx.gs!.pendingSounds).toEqual([212]) // M6 召唤音(sdlpal script.c:2937)
   })
 
   it('count op1:召唤 2 只', () => {
@@ -1033,6 +1039,7 @@ describe('0x9E enemy summon (script.c:009E)', () => {
     const r = dispatchBattleOpcode(0x9E, [419, 1, 300], ctx)
     expect(roster).toHaveLength(1) // 未召唤(隐身保护)
     expect(r.newIp).toBe(300) // jump op2 失败分支
+    expect(ctx.gs!.pendingSounds ?? []).toEqual([]) // 失败不播 212
   })
 
   it('房间不足(已 5 只)→ fail → jump op2', () => {

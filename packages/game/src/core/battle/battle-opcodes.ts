@@ -1016,6 +1016,8 @@ export function dispatchBattleOpcode(
       self.scriptOnReady = eo.scriptOnReady
       self.scriptOnBattleEnd = eo.scriptOnBattleEnd
       self.resistanceToSorcery = eo.resistanceToSorcery
+      // M6 变身音(sdlpal script.c:2980 AUDIO_PlaySound(47),变身成功 iColorShift 演出后)。
+      if (ctx.gs) (ctx.gs.pendingSounds ??= []).push(47)
       return { consumed: true }
     }
 
@@ -1083,6 +1085,8 @@ export function dispatchBattleOpcode(
           poisons: [],
         })
       }
+      // M6 召唤音(sdlpal script.c:2937 AUDIO_PlaySound(212),召唤成功 BattleMakeScene 后的施法手势音)。
+      if (ctx.gs) (ctx.gs.pendingSounds ??= []).push(212)
       return { consumed: true }
     }
 
