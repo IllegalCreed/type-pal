@@ -286,15 +286,12 @@ function openPicker(deps: DevPanelDeps): void {
   // 每角色技能 = 起手 magic(playerRoles[i].magic)+ 升级习得(levelUpMagic[i]),非全员同一套
   //   (user 2026-05-31:"按照每个人原本会的技能分配")。**key 必须是 `magic`**(PlayerRole 真字段;
   //   hydratePlayerRolesRuntime 读 role.magic → rgwMagic → 战斗投影 → 法术菜单)。
-  const spellTestBtn = document.createElement('button')
-  spellTestBtn.textContent = '★ 法术测试(三人各自技能 vs 5 敌)'
-  spellTestBtn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left; background:#3a2a48; font-weight:bold'
-  spellTestBtn.addEventListener('click', () => {
+  // 法术测试:三人各带**本角色原本会的技能**(起手 magic + 升级习得 + 剧情授予)+ 高 HP/MP/灵力,vs 5 敌。
+  //   分两组覆盖全 6 角色:A 组 0/1/2(李逍遥/赵灵儿/林月如),B 组 0/3/4(李逍遥/阿奴/巫后)。
+  const runSpellTest = (members: number[], label: string): void => {
     closePicker()
-    // 某角色**能学会的全部技能** = 起手 magic(playerRoles[i].magic)+ 升级习得(levelUpMagic[i])
-    //   + 剧情/法宝授予(全局脚本里 `0x55 addMagic` op[1]!=0 指定该 role 的 op[0])。
-    //   sdlpal script.c:1816 `0x55`:op[1]==0 → wEventObjectID(dynamic),!=0 → role=op[1]-1(fixed);
-    //   本游戏全 0x55 都是 fixed role,故扫一遍即得每角色全集。
+    // 某角色**能学会的全部技能** = 起手 magic(playerRoles[i].magic)+ 升级习得 + 剧情/法宝授予
+    //   (全局脚本 `0x55 addMagic` op[1]!=0 指定该 role 的 op[0];script.c:1816 op[1]!=0 → role=op[1]-1 fixed)。
     const grantsByRole = new Map<number, Set<number>>()
     for (const c of getGlobalCommands()) {
       if (c.op !== 'raw' || c.opcode !== OP_ADD_MAGIC) continue
@@ -327,17 +324,28 @@ function openPicker(deps: DevPanelDeps): void {
       maxMP: 999,
       magicStrength: 200, // 灵力拉高 → 法术伤害可见
     })
+    const playerOverrides: Record<number, Partial<Record<string, number | number[]>>> = {}
+    for (const m of members) playerOverrides[m] = makeOverride(m)
     applyFixture(deps, {
       id: 'spell-test',
-      label: '法术测试(三人各自技能)',
-      partyMembers: [0, 1, 2], // MAX_BATTLE_PLAYERS=3
-      playerOverrides: { 0: makeOverride(0), 1: makeOverride(1), 2: makeOverride(2) },
+      label,
+      partyMembers: members, // MAX_BATTLE_PLAYERS=3
+      playerOverrides,
       inventory: [{ itemId: 61, count: 99 }],
       enemyTeamId: 7, // [7,6,7,6,6] = 5 敌,测全体法术
       battleFieldId: 7,
     })
-  })
-  div.appendChild(spellTestBtn)
+  }
+  for (const [members, text, label] of [
+    [[0, 1, 2], '★ 法术测试 A(李逍遥/赵灵儿/林月如 vs 5 敌)', '法术测试A(李/灵/月)'],
+    [[0, 3, 4], '★ 法术测试 B(李逍遥/阿奴/巫后 vs 5 敌)', '法术测试B(李/阿奴/巫后)'],
+  ] as Array<[number[], string, string]>) {
+    const btn = document.createElement('button')
+    btn.textContent = text
+    btn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left; background:#3a2a48; font-weight:bold'
+    btn.addEventListener('click', () => runSpellTest(members, label))
+    div.appendChild(btn)
+  }
 
   // ── ⚔ 战斗状态调试(B1/D8 等)——只在战斗中生效,给 player 0(李逍遥)挂异常状态/buff ──
   //   sdlpal CLASSIC kStatus 全 9 种 + 中毒。点按钮 → 设到 player 0 status[key]=5 回合(中毒设 rgPoisonStatus),
