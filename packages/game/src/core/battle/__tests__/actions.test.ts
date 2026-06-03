@@ -923,9 +923,12 @@ describe('performMagic', () => {
       })
       expect(gs.pendingSounds).toEqual([28, 55])
     }
-    // 敌方施法 → 无 windup 28(敌方法术走 wMagicSound,另路);只效果音
+    // 敌方施法 → 无 windup 28;播敌人自身 cast 音 enemy.magicSound(62,sdlpal fight.c:4695)+ 效果音
     {
-      const { state, playerRoles, bus, gs } = makeState({ role: { mp: 30, maxMP: 30 } })
+      const { state, playerRoles, bus, gs } = makeState({
+        role: { mp: 30, maxMP: 30 },
+        enemies: [{ magicSound: 62 }],
+      })
       performMagic({
         state, casterIsEnemy: true, casterIdx: 0, spellId: 7,
         targetIsEnemy: false, targetIdx: 0,
@@ -933,7 +936,7 @@ describe('performMagic', () => {
         magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, sound: 55 })],
         playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
       })
-      expect(gs.pendingSounds ?? []).toEqual([55]) // 无 28
+      expect(gs.pendingSounds ?? []).toEqual([62, 55]) // 敌 cast 音 62 + 效果音 55,无 28
     }
   })
 
