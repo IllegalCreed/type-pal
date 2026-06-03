@@ -41,31 +41,40 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
   async function doPlay(track: number, loop: boolean): Promise<void> {
     if (!seq) return
     if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
-    const res = await fetch(`${baseUrl}/music/${track.toString().padStart(3, '0')}.mid`)
-    if (!res.ok) return // MIDI 缺 → 静默
+    const url = `${baseUrl}/music/${track.toString().padStart(3, '0')}.mid`
+    const res = await fetch(url)
+    if (!res.ok) {
+      console.warn(`[audio] MIDI track ${track} 取不到(${url} HTTP ${res.status})`)
+      return
+    }
     seq.loadNewSongList([{ binary: await res.arrayBuffer(), fileName: `${track}.mid` }])
     seq.loopCount = loop ? Infinity : 0
     seq.play()
+    console.log(`[audio] MIDI ▶ track ${track}(ctx=${ctx.state}, loop=${loop})`)
   }
 
-  // 异步初始化:worklet + synth + soundfont + sequencer。失败(soundfont/worklet 缺)→ warn,BGM 静默。
+  // 异步初始化:worklet + synth + soundfont + sequencer。分步日志,失败 → warn 静默(不阻塞)。
   void (async () => {
     try {
       await ctx.audioWorklet.addModule(workletUrl)
+      console.log('[audio] MIDI: worklet 已载')
       const synth = new WorkletSynthesizer(ctx)
       synth.connect(ctx.destination)
       const sf = await fetch(soundfontUrl)
-      if (!sf.ok) throw new Error(`soundfont ${soundfontUrl} 缺失(HTTP ${sf.status});放一个 GM .sf3/.sf2 到 public/`)
-      await synth.soundBankManager.addSoundBank(await sf.arrayBuffer(), 'main')
+      if (!sf.ok) throw new Error(`soundfont ${soundfontUrl} 取不到(HTTP ${sf.status})—— 放一个 GM .sf3/.sf2 到 packages/game/public/soundfont.sf3`)
+      const sfBytes = await sf.arrayBuffer()
+      console.log(`[audio] MIDI: soundfont 已下载(${(sfBytes.byteLength / 1024 / 1024).toFixed(1)}MB),载入中…`)
+      await synth.soundBankManager.addSoundBank(sfBytes, 'main')
       await synth.isReady
       seq = new Sequencer(synth, { skipToFirstNoteOn: true })
       ready = true
+      console.log('[audio] MIDI BGM 后端就绪 ✓')
       if (pending) {
         void doPlay(pending.track, pending.loop)
         pending = undefined
       }
     } catch (err) {
-      console.warn('[audio] MIDI BGM 后端初始化失败 → BGM 静默(放 soundfont 到 public/soundfont.sf3):', err)
+      console.warn('[audio] ✗ MIDI BGM 后端初始化失败 → BGM 静默。多半是没放 soundfont(public/soundfont.sf3):', err)
     }
   })()
 
