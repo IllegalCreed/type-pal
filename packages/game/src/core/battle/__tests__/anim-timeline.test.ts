@@ -436,6 +436,15 @@ describe('buildPreMagicTimeline (fight.c:2337-2445)', () => {
     expect(frames[5]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 5 }])
   })
 
+  // M6 施法音帧同步:castSound 挂在施法姿帧(frame5,前摇 4 移动 + Delay(2) 之后),修"略快"(不在 cast 起手播)。
+  it('castSound>0 → 仅 frame5(施法姿)带 sound;前摇移动帧不带', () => {
+    const f = buildPreMagicTimeline({ casterPos: { x: 240, y: 170 }, casterIdx: 0, castEffectFrameBase: 35, isSummon: false, castSound: 9 })
+    expect(f[5]!.sound).toBe(9) // 施法姿帧
+    expect(f.filter((fr, i) => i !== 5 && fr.sound !== undefined)).toHaveLength(0) // 其余帧无 sound
+    // castSound=0/缺 → 不挂
+    expect(frames[5]!.sound).toBeUndefined()
+  })
+
   it('10 帧 cast 特效:overlay effect chunk10 frameIdx=base+j 落点上移后 caster (230,166)', () => {
     // frame6..15 = cast 特效 j=0..9
     for (let j = 0; j < 10; j++) {

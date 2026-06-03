@@ -421,6 +421,8 @@ export interface BuildPreMagicInput {
   castEffectFrameBase: number
   /** 是否召唤魔法(fSummon);true → 跳过 10 帧 cast 特效(fight.c:2380)。本切片只攻击法术,恒 false。 */
   isSummon: boolean
+  /** M6 施法音(rgwMagicSound[role]):挂到"施法姿"帧(fight.c:2375-2377 CLASSIC,前摇后才播)。0/缺 = 不挂。 */
+  castSound?: number
 }
 
 /**
@@ -437,7 +439,7 @@ export interface BuildPreMagicInput {
  *     上移 4 帧后 pos = (casterX - 10, casterY - 5)(累 (4+3+2+1)=10,/2=5),固定不再动。
  */
 export function buildPreMagicTimeline(input: BuildPreMagicInput): BattleAnimFrame[] {
-  const { casterPos, casterIdx, castEffectFrameBase, isSummon } = input
+  const { casterPos, casterIdx, castEffectFrameBase, isSummon, castSound } = input
   const frames: BattleAnimFrame[] = []
 
   // —— i=0..3:上移 4 帧(fight.c:2363-2370)——
@@ -455,10 +457,11 @@ export function buildPreMagicTimeline(input: BuildPreMagicInput): BattleAnimFram
   // —— Delay(2)(fight.c:2372)——
   frames.push({ durationMs: delayMs(2) })
 
-  // —— currentFrame=5(施法手势,fight.c:2374)——
+  // —— currentFrame=5(施法手势,fight.c:2374)+ 施法音(fight.c:2375-2377 CLASSIC,前摇后才播)——
   frames.push({
     durationMs: delayMs(1),
     fighters: [{ side: 'player', idx: casterIdx, currentFrame: 5 }],
+    ...(castSound && castSound > 0 ? { sound: castSound } : {}),
   })
 
   // —— 非 summon:10 帧 cast 特效(fight.c:2394-2441),落点上移后 caster pos ——

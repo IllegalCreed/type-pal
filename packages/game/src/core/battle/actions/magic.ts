@@ -152,11 +152,14 @@ export function performMagic(input: PerformMagicInput): void {
   //     PAL_BattleShowPlayerUseItemAnim(fight.c:2300)—— 读串了函数边界,28 根本不是魔法音。
   //   - 敌方:sdlpal fight.c:4695 AUDIO_PlaySound(enemy.wMagicSound)(敌人自身 cast 音,先于效果)。
   //   均入 gs.pendingSounds(同 0x47 通道,shell 播)。
+  //   **玩家施法音延后,不在此立即播**:sdlpal 在前摇动画"施法姿"帧(约 6 帧后)才播(fight.c:2375-2377),
+  //   立即播比动画早 ~6 帧(user 报"略快")。捕获到 pendingCastSound,成功 OffMagic/Summon → 帧同步到前摇帧;
+  //   fizzle / DefMagic / 未建链 → 即时播(见下)。敌方施法音无前摇动画,仍即时播。
+  let pendingCastSound = 0
   if (input.gs) {
     if (!input.casterIsEnemy) {
       const casterRoleId = input.state.players[input.casterIdx]?.roleId
-      const castSound = casterRoleId !== undefined ? (input.playerRoles.roles[casterRoleId]?.magicSound ?? 0) : 0
-      if (castSound > 0) (input.gs.pendingSounds ??= []).push(castSound)
+      pendingCastSound = casterRoleId !== undefined ? (input.playerRoles.roles[casterRoleId]?.magicSound ?? 0) : 0
     } else {
       const enemyCastSound = input.state.enemies[input.casterIdx]?.e.magicSound ?? 0
       if (enemyCastSound > 0) (input.gs.pendingSounds ??= []).push(enemyCastSound)
@@ -219,8 +222,12 @@ export function performMagic(input: PerformMagicInput): void {
   //   跳"钱不够")/ 没道具(酒神 0x20 跳"酒不足")/ 0x41 mark-failed → **不放效果动画、不结算伤害、不跑
   //   scriptOnSuccess**(失败提示已由 scriptOnUse 跳失败分支入 battleDialogQueue)。MP 仍已扣(sdlpal 总扣,
   //   fight.c:4190 在 scriptOnUse 前)。修 user 报"物品不够还有技能动画"。
-  if (!scriptUseSuccess)
+  if (!scriptUseSuccess) {
+    // fizzle(道具/钱不足):sdlpal 前摇动画+施法音已在 scriptOnUse 之前播(fight.c:4184 vs 4215),故仍播施法音
+    //   (保持忠实 sdlpal;user 选"只改略快、fizzle 仍播")。ts 此时无前摇动画可挂 → 即时播。
+    if (pendingCastSound > 0 && input.gs) (input.gs.pendingSounds ??= []).push(pendingCastSound)
     return
+  }
 
   // —— scriptOnUse 成功 → emit 法术动画命令 + scriptOnSuccess(fight.c:4233-4264)——
   input.bus.emit({
@@ -342,6 +349,12 @@ export function performMagic(input: PerformMagicInput): void {
     built = buildAndStartEnemyMagicAnim(input, magic, pendingNums, hitPlayerIdxs)
   }
 
+  // M6 玩家施法音 pendingCastSound:OffMagic/Summon 成功建链 → 已在前摇"施法姿"帧帧同步
+  //   (buildPreMagicTimeline,对齐 sdlpal fight.c:2377),**不在此 push**;其余(DefMagic / 未建链)→ 即时播。
+  //   放在效果音之前 push(施法音先于效果音,顺序对齐 sdlpal)。
+  const castFrameSynced = built && !input.casterIsEnemy && (OFF_MAGIC_TYPES.has(magic.type) || magic.type === 'summon')
+  if (pendingCastSound > 0 && input.gs && !castFrameSynced) (input.gs.pendingSounds ??= []).push(pendingCastSound)
+
   // M6 法术效果音 magic.sound:player 攻击魔法(OffMagic)已在 buildPlayerOffMagicTimeline 的
   //   (i-fireDelay)%n 帧挂 frame.sound(帧同步,对齐 sdlpal CLASSIC fight.c:2713),**不在此 push**;
   //   其余(防御/召唤/敌方/无动画)无帧同步 → 即时 push 到 gs.pendingSounds(同 0x47 通道)。
@@ -397,6 +410,7 @@ function buildAndStartMagicAnim(
     casterIdx: input.casterIdx,
     castEffectFrameBase,
     isSummon: false,
+    castSound: role?.magicSound ?? 0, // M6 施法音帧同步到"施法姿"帧(修"略快")
   })
 
   // —— OffMagic:单体取 target enemy idle pos;全体类型 target=-1 走落点表(fight.c:2742-2825)——
@@ -480,6 +494,7 @@ function buildAndStartSummonAnim(
   // PreMagic(fSummon=TRUE):上移 4 帧 + 施法姿,跳过 10 帧施法特效(fight.c:2380)。
   const preFrames = buildPreMagicTimeline({
     casterPos: caster.posOriginal, casterIdx: input.casterIdx, castEffectFrameBase: 0, isSummon: true,
+    castSound: input.playerRoles.roles[caster.roleId]?.magicSound ?? 0, // M6 施法音帧同步(修"略快")
   })
   // 全员变亮 iColorShift 1..10(fight.c:3120-3128)。
   const brightenFrames = buildSummonBrightenTimeline(input.state.players.length)
