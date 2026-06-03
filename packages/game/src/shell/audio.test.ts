@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createAudioManager, sfxUrl, musicUrl, pickMusicTrack, sfxForBattleEvent } from './audio.js'
+import { battleVictoryTrack, createAudioManager, sfxUrl, musicUrl, pickMusicTrack, sfxForBattleEvent } from './audio.js'
 
 // 注:Web Audio(AudioContext / decodeAudioData)在 node/jsdom 测试环境不可用 → SFX 实际播放
 //   退化为 no-op(无法单测发声,归 user 真引擎听验)。此处测**可测逻辑**:url 映射 + sync 队列
@@ -19,6 +19,14 @@ describe('M6 audio url 映射(纯)', () => {
     expect(pickMusicTrack(false, 16, 7)).toBe(16) // 场景:field 乐
     expect(pickMusicTrack(true, 16, 7)).toBe(7) // 战斗:battle 乐
     expect(pickMusicTrack(true, 16, 0)).toBe(0) // 战斗乐 0 → 停(沿用场景静音惯例)
+  })
+
+  it('battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)', () => {
+    expect(battleVictoryTrack({ phase: 'won', isBoss: false, expGained: 100 })).toBe(3) // 普通战胜利曲
+    expect(battleVictoryTrack({ phase: 'won', isBoss: true, expGained: 100 })).toBe(2) // boss 战胜利曲
+    expect(battleVictoryTrack({ phase: 'won', isBoss: false, expGained: 0 })).toBe(-1) // 无 exp → 不放(battle.c:1030 gate)
+    expect(battleVictoryTrack({ phase: 'selectAction', isBoss: false, expGained: 100 })).toBe(-1) // 非 won → 战斗乐
+    expect(battleVictoryTrack(undefined)).toBe(-1) // 非战斗
   })
 })
 

@@ -73,7 +73,7 @@ import {
   presentBattleFrame,
   presentFrame,
 } from '../present/present.js'
-import { createAudioManager, pickMusicTrack, sfxForBattleEvent } from './audio.js'
+import { battleVictoryTrack, createAudioManager, pickMusicTrack, sfxForBattleEvent } from './audio.js'
 import { createSpessaSynthBackend } from './audio-midi.js'
 import { playAvi } from './avi-player.js'
 import { type BattleFixturesData, type SceneJumpsData, setupDevPanel } from './dev-panel.js'
@@ -372,9 +372,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       //   setter 幂等(无变化 no-op),每帧调安全。
       audio.setMusicEnabled(gs.fMusicEnabled ?? true)
       audio.setSfxEnabled(gs.fSoundEnabled ?? true)
+      // 战斗胜利曲(battle.c:1030-1032,'won' 结算期 isBoss?2:3 不循环;结算完 battleState 清→场景乐恢复)。
+      const victoryTrack = battleVictoryTrack(gs.battleState)
       audio.sync(gs.pendingSounds, {
-        track: pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic),
-        loop: inBattle ? true : (gs.musicLoop ?? true),
+        track: victoryTrack > 0 ? victoryTrack : pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic),
+        loop: victoryTrack > 0 ? false : (inBattle ? true : (gs.musicLoop ?? true)),
       })
       // M6 战斗 SFX:扫本帧 bus 视觉事件 → per-单位声(敌死 deathSound / 敌攻 attackSound /
       //   我攻 role.weaponSound,fight.c/battle.c AUDIO_PlaySound)。explore SFX 走 gs.pendingSounds。

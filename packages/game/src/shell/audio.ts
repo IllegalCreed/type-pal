@@ -63,6 +63,19 @@ export function pickMusicTrack(inBattle: boolean, wNumMusic: number, wNumBattleM
 }
 
 /**
+ * 战斗胜利曲(纯,可测)。sdlpal `PAL_BattleWon`(battle.c:1030-1032):仅 `iExpGained > 0` 时
+ * `AUDIO_PlayMusic(fIsBoss ? 2 : 3, FALSE)` —— boss 战胜利曲 track 2、普通 track 3,**不循环**(FALSE)。
+ * 在 'won' 结算演出期间放,结算完战斗结束(battleState 清)→ 场景乐 wNumMusic 自动恢复(battle.c:1849)。
+ * 返回 -1 = 不适用(非 won / 无 exp),调用方回落 pickMusicTrack。
+ */
+export function battleVictoryTrack(
+  battle: { phase: string; isBoss: boolean; expGained: number } | undefined,
+): number {
+  if (battle && battle.phase === 'won' && battle.expGained > 0) return battle.isBoss ? 2 : 3
+  return -1
+}
+
+/**
  * 战斗视觉 bus 事件 → SFX id(纯,可测)。sdlpal 在各战斗 event 调 AUDIO_PlaySound(per-单位声):
  *   - 敌死(fight.c:756 wDeathSound)/ 敌攻(enemy.attackSound)/ 我攻(fight.c:2124 role.weaponSound)。
  * shell 读 bus 事件 + gs.battleState.enemies[].e / playerRoles 数据映射,返回 0 = 无音。
