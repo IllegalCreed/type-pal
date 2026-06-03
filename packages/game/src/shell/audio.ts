@@ -174,24 +174,26 @@ export function createAudioManager(baseUrl = ''): AudioManager {
     }
   }
 
+  function play(c: AudioContext, buf: AudioBuffer): void {
+    const src = c.createBufferSource()
+    src.buffer = buf
+    src.connect(c.destination)
+    src.start()
+  }
+
   function playSfx(soundId: number): void {
     const c = ensureCtx()
-    if (!c || !sfxEnabled) {
-      console.log(`[sfx] playSfx(${soundId}) SKIP ctx=${!!c} sfxEnabled=${sfxEnabled}`) // M6 诊断
-      return
-    }
+    if (!c || !sfxEnabled) return
     const buf = sfxBuffers.get(soundId)
     if (buf) {
-      console.log(`[sfx] playSfx(${soundId}) CACHED→播`) // M6 诊断
-      const src = c.createBufferSource()
-      src.buffer = buf
-      src.connect(c.destination)
-      src.start()
+      play(c, buf)
       return
     }
-    // 未缓存 → 异步加载完后**不**补播(SFX 是即时反馈,迟到无意义);仅预热缓存供下次。
-    console.log(`[sfx] playSfx(${soundId}) MISS→预热(本次静音,下次才响)`) // M6 诊断
-    void loadSfx(soundId)
+    // 未缓存 → 加载完**即补播**(首次也响;fetch+decode 仅数十 ms,远胜旧"迟到不补播"的首次静音 —
+    //   sdlpal 声音常驻内存无此 gap)。再 check sfxEnabled(加载途中可能被菜单关掉)。
+    void loadSfx(soundId).then((b) => {
+      if (b && sfxEnabled) play(c, b)
+    })
   }
 
   return {
