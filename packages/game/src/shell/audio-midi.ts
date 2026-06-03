@@ -89,7 +89,9 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
         synth.controllerChange(ch, REVERB_CC, reverbAmount)
         synth.midiChannels[ch]?.lockController(REVERB_CC, true)
       }
-      seq = new Sequencer(synth, { skipToFirstNoteOn: true })
+      // skipToFirstNoteOn: false —— **不**跳 MIDI 头部静音。作曲者在曲头设的那段静音就是循环间隔;
+      //   设 true 会把它跳掉 → 循环显赶(user 报)。默认 false,显式写明意图。
+      seq = new Sequencer(synth, { skipToFirstNoteOn: false })
       ready = true
       console.log('[audio] MIDI BGM 后端就绪 ✓')
       if (last) void doPlay(last.track, last.loop) // 就绪前已请求的曲 → 补播

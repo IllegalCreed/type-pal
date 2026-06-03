@@ -802,6 +802,37 @@ function openPicker(deps: DevPanelDeps): void {
   })
   div.appendChild(dosEndingBtn)
 
+  // ── M6 MIDI 音乐调试 ─────────────────────────────────────────────────────
+  // 点 track 号 → gs.wNumMusic = N → AudioManager 每帧轮询切 BGM(SpessaSynth 播 music/{NNN}.mid)。
+  //   注:会覆盖当前场景乐(调试副作用,重进场景恢复)。manifest midi:[1..87] 缺 29。
+  const musicH = document.createElement('h4')
+  musicH.textContent = '♪ MIDI 音乐(点号试听;停=0)'
+  musicH.className = 'tp-dev-section-h'
+  div.appendChild(musicH)
+
+  const musicGrid = document.createElement('div')
+  musicGrid.style.cssText = 'display:flex; flex-wrap:wrap; gap:3px; max-width:340px'
+  // sdlpal music track 号(MIDI manifest midi:[1..87],缺 29)。停曲按钮 = 0。
+  const MIDI_TRACKS = Array.from({ length: 87 }, (_, i) => i + 1).filter((n) => n !== 29)
+  const stopBtn = document.createElement('button')
+  stopBtn.textContent = '■停'
+  stopBtn.style.cssText = 'padding:2px 6px; min-width:34px; background:#48282a'
+  stopBtn.addEventListener('click', () => { deps.gs.wNumMusic = 0; deps.gs.musicLoop = true })
+  musicGrid.appendChild(stopBtn)
+  for (const track of MIDI_TRACKS) {
+    const btn = document.createElement('button')
+    btn.textContent = String(track)
+    btn.style.cssText = 'padding:2px 5px; min-width:30px; text-align:center'
+    btn.addEventListener('click', () => {
+      // 不 closePicker —— 方便连续点不同曲对比。设 wNumMusic + loop,AudioManager 下帧切。
+      deps.gs.wNumMusic = track
+      deps.gs.musicLoop = true
+      console.log(`[dev] 试听 MIDI track ${track}`)
+    })
+    musicGrid.appendChild(btn)
+  }
+  div.appendChild(musicGrid)
+
   document.body.appendChild(div)
   currentPicker = div
 }
