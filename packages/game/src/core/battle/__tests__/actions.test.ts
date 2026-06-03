@@ -234,6 +234,34 @@ describe('performAttack', () => {
     expect((cmds[1]!.cmd as { value: number }).value).toBeGreaterThan(0)
   })
 
+  // M6 出招声:sdlpal PAL_BattleShowPlayerAttackAnim 起手(fight.c:2058-2071)HP>0 时
+  //   !crit→AUDIO_PlaySound(attackSound),crit→criticalSound;在 dual-attack t-loop 内每击一次(fight.c:3673)。
+  //   ts 经 bus {op:'playSound'} → bootstrap audio.playSound。命中"武器声"weaponSound 仍由 playPlayerAttack 接。
+  it('M6 出招声:玩家物攻起手 emit playSound(非暴击=attackSound,暴击=criticalSound)', () => {
+    const drainSounds = (bus: CommandBus): number[] =>
+      bus.drain().filter(c => c.cmd.op === 'playSound').map(c => (c.cmd as { soundId: number }).soundId)
+    // 非暴击(forceRoll=1 → crit roll≠0)→ attackSound(37)
+    {
+      const { state, playerRoles, bus } = makeState({
+        role: { level: 10, attackStrength: 200, attackSound: 37, criticalSound: 5 },
+        enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 100 }],
+        forceRoll: 1, forceFloat: 1,
+      })
+      performAttack(state, playerActor, 0, bus, playerRoles)
+      expect(drainSounds(bus)).toEqual([37])
+    }
+    // 暴击(forceRoll=0 → crit roll===0)→ criticalSound(5)
+    {
+      const { state, playerRoles, bus } = makeState({
+        role: { level: 10, attackStrength: 200, attackSound: 37, criticalSound: 5 },
+        enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 100 }],
+        forceRoll: 0, forceFloat: 1,
+      })
+      performAttack(state, playerActor, 0, bus, playerRoles)
+      expect(drainSounds(bus)).toEqual([5])
+    }
+  })
+
   it('群攻(target=-1,attackAll 武器):player 攻击全体活敌(命中序 + division 减半)', () => {
     const { state, playerRoles, bus } = makeState({
       role: { level: 10, attackStrength: 200 }, // str=200(P0#1 修:无 level 项);每敌 def=54 → base 314

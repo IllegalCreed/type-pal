@@ -152,9 +152,14 @@ export function performAttack(
     // DualAttack(0x2D 装备授,如玄冥宝刀)→ 整段群攻做两次(fight.c:3681 for t<(dualAttack?2:1))
     const hits = (state.players[actor.idx]?.status.dualAttack ?? 0) > 0 ? 2 : 1
     const HIT_ORDER = [2, 1, 0, 4, 3] // fight.c:3684 const int index[MAX_ENEMIES_IN_TEAM]
+    const voiceRole = playerRoles.roles[state.players[actor.idx]!.roleId]
     for (let t = 0; t < hits; t++) {
       // 每轮 crit 重摇、division 重置(fight.c:3683-3688 在 t-loop 内)
       const fCritical = state.rng.rangeInclusive(0, 5) === 0 || bravery > 0
+      // M6 出招声(sdlpal fight.c:2058-2071 PAL_BattleShowPlayerAttackAnim 起手,在 t-loop 内 fight.c:3673
+      //   每击一次):!crit→attackSound,crit→criticalSound。命中"武器声"weaponSound 由下方 playPlayerAttack 接。
+      const voice = fCritical ? voiceRole?.criticalSound : voiceRole?.attackSound
+      if (voice && voice > 0) bus.emit({ op: 'playSound', soundId: voice })
       let division = 1
       for (const slot of HIT_ORDER) {
         const be = state.enemies[slot]
@@ -194,10 +199,16 @@ export function performAttack(
 
     bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: targetIdx })
 
+    const voiceRole = playerRoles.roles[roleId]
     const segments: BattleAnimFrame[] = []
     for (let t = 0; t < hits; t++) {
       const base = calcPhysicalAttackDamage(str, def, physRes)
-      const damage = applyPlayerAttackModifiers(base, state.rng, roleId, bravery).damage
+      const mod = applyPlayerAttackModifiers(base, state.rng, roleId, bravery)
+      const damage = mod.damage
+      // M6 出招声(sdlpal fight.c:2058-2071 PAL_BattleShowPlayerAttackAnim 起手,在 t-loop 内 fight.c:3673
+      //   每击一次):!crit→attackSound,crit→criticalSound。命中"武器声"weaponSound 由上方 playPlayerAttack 接。
+      const voice = mod.fCritical ? voiceRole?.criticalSound : voiceRole?.attackSound
+      if (voice && voice > 0) bus.emit({ op: 'playSound', soundId: voice })
       const before = targetEnemy.e.health
       targetEnemy.e.health = Math.max(0, before - damage)
       const dealt = before - targetEnemy.e.health

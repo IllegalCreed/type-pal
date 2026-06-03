@@ -380,6 +380,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       //   我攻 role.weaponSound,fight.c/battle.c AUDIO_PlaySound)。explore SFX 走 gs.pendingSounds。
       if (inBattle) {
         for (const { cmd } of drained) {
+          // core 已解析好的固定声(出招/暴击 attack.ts、濒死/阵亡 battle-system 等 AUDIO_PlaySound)→ 直接播。
+          if (cmd.op === 'playSound') {
+            if (cmd.soundId > 0) audio.playSound(cmd.soundId)
+            continue
+          }
           const s = sfxForBattleEvent(cmd, gs.battleState?.enemies, gs.partyMembers, playerRoles.roles)
           if (s > 0) audio.playSound(s)
         }
