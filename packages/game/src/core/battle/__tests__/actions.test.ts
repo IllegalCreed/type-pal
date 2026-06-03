@@ -931,12 +931,13 @@ describe('performMagic', () => {
     })
   })
 
-  // M6 法术起手 windup —— sdlpal PAL_BattleShowPlayerPreMagicAnim 内 AUDIO_PlaySound(28)
-  //   (fight.c:2300/4184,每次玩家施法 perform 起手,先于效果音 magic.sound)。仅队员施法。
-  it('M6 法术音:队员施法 push windup 28 + 效果音(gs.pendingSounds);敌方施法无 windup', () => {
-    // 队员施法 → [28(windup), 55(magic.sound 效果)]
+  // M6 法术起手音 —— sdlpal PAL_BattleShowPlayerPreMagicAnim CLASSIC 分支(fight.c:2377,!fIsWIN95)播
+  //   AUDIO_PlaySound(rgwMagicSound[role]) = **每角色自己的施法音**(非固定;李逍遥9/赵灵儿10/林月如11)。
+  //   2026-06-03 user 实听 9/10/11 纠正:此前误用固定 28(实为物品演出音 PAL_BattleShowPlayerUseItemAnim)。
+  it('M6 法术音:队员施法 push 本角色 magicSound + 效果音;敌方施法播 enemy.magicSound', () => {
+    // 队员施法 → [role.magicSound(9), 55(magic.sound 效果)]
     {
-      const { state, playerRoles, bus, gs } = makeState({ role: { mp: 30, maxMP: 30 } })
+      const { state, playerRoles, bus, gs } = makeState({ role: { mp: 30, maxMP: 30, magicSound: 9 } })
       performMagic({
         state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
         targetIsEnemy: true, targetIdx: 0,
@@ -944,9 +945,9 @@ describe('performMagic', () => {
         magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, sound: 55 })],
         playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
       })
-      expect(gs.pendingSounds).toEqual([28, 55])
+      expect(gs.pendingSounds).toEqual([9, 55])
     }
-    // 敌方施法 → 无 windup 28;播敌人自身 cast 音 enemy.magicSound(62,sdlpal fight.c:4695)+ 效果音
+    // 敌方施法 → 播敌人自身 cast 音 enemy.magicSound(62,sdlpal fight.c:4695)+ 效果音(走 enemy 分支,非 role)
     {
       const { state, playerRoles, bus, gs } = makeState({
         role: { mp: 30, maxMP: 30 },
@@ -959,7 +960,7 @@ describe('performMagic', () => {
         magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, sound: 55 })],
         playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
       })
-      expect(gs.pendingSounds ?? []).toEqual([62, 55]) // 敌 cast 音 62 + 效果音 55,无 28
+      expect(gs.pendingSounds ?? []).toEqual([62, 55]) // 敌 cast 音 62 + 效果音 55
     }
   })
 

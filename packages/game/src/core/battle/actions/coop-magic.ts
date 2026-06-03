@@ -80,10 +80,15 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
   // healthy <= 1 → sdlpal 退化普通攻击(fight.c:3374-3378);执行端防御:no-op(选单 validity 已门控)。
   if (contributors.length <= 1) return
 
-  // M6 合击音 —— sdlpal 合体法术 perform(fight.c:3861-3875):summon 类经 PAL_BattleShowPlayerPreMagicAnim
-  //   播 AUDIO_PlaySound(28),非 summon 播 AUDIO_PlaySound(29);随后 OffMagic/Summon 动画播 magic.wSound
-  //   (效果音,fight.c:2501/3114)。coop 此前完全无声;经 bus {op:'playSound'} → bootstrap 战斗 drain 播。
-  bus.emit({ op: 'playSound', soundId: magic.type === 'summon' ? 28 : 29 })
+  // M6 合击音 —— sdlpal 合体法术 perform(PAL_BattlePlayerPerformAction kBattleActionCoopMagic,fight.c:3856-3875):
+  //   - summon 类:PAL_BattleShowPlayerPreMagicAnim(TRUE)→ CLASSIC 播 rgwMagicSound[caster](fight.c:2377);
+  //   - 非 summon:AUDIO_PlaySound(29)(fight.c:3875 fixed);
+  //   随后动画播 magic.wSound(效果音)。**修正(2026-06-03):summon 此前误用固定 28(物品演出音)**,
+  //   应为施法角色自己的 magicSound。
+  const casterCastSound = magic.type === 'summon'
+    ? (playerRoles.roles[state.players[casterIdx]?.roleId ?? -1]?.magicSound ?? 0)
+    : 29
+  if (casterCastSound > 0) bus.emit({ op: 'playSound', soundId: casterCastSound })
   if (magic.sound > 0) bus.emit({ op: 'playSound', soundId: magic.sound })
 
   // HP 代价(**非 MP**):每个 contributor role.hp -= magic.costMP,<=0 钳 1(fight.c:3961-3967)。

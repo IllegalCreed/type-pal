@@ -222,18 +222,19 @@ export function performAttack(
     const def = asShort(targetEnemy.e.defense) + (targetEnemy.e.level + 6) * 4
     const physRes = targetEnemy.e.physicalResistance
 
-    bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: targetIdx })
-
     const voiceRole = playerRoles.roles[roleId]
     const segments: BattleAnimFrame[] = []
     for (let t = 0; t < hits; t++) {
       const base = calcPhysicalAttackDamage(str, def, physRes)
       const mod = applyPlayerAttackModifiers(base, state.rng, roleId, bravery)
       const damage = mod.damage
-      // M6 出招声(sdlpal fight.c:2058-2071 PAL_BattleShowPlayerAttackAnim 起手,在 t-loop 内 fight.c:3673
-      //   每击一次):!crit→attackSound,crit→criticalSound。命中"武器声"weaponSound 由上方 playPlayerAttack 接。
+      // M6 攻击音(sdlpal PAL_BattleShowPlayerAttackAnim 在 dual-attack t-loop 内 fight.c:3673 **每击调一次**):
+      //   起手出招声 attackSound(暴击换 criticalSound,fight.c:2065/2069)→ 命中武器声 weaponSound(fight.c:2124)。
+      //   **playPlayerAttack(→weaponSound)也必须放 loop 内每击 emit** —— 此前在 loop 外 emit 一次,双击只响一下
+      //   (user 2026-06-03 报"两次出手武器音只播一次")。
       const voice = mod.fCritical ? voiceRole?.criticalSound : voiceRole?.attackSound
       if (voice && voice > 0) bus.emit({ op: 'playSound', soundId: voice })
+      bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: targetIdx })
       const before = targetEnemy.e.health
       targetEnemy.e.health = Math.max(0, before - damage)
       const dealt = before - targetEnemy.e.health

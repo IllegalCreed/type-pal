@@ -146,13 +146,17 @@ export function performMagic(input: PerformMagicInput): void {
   }
 
   // M6 法术起手音(先于效果音 magic.sound):
-  //   - 队员:sdlpal `PAL_BattleShowPlayerPreMagicAnim` 内 AUDIO_PlaySound(28)(fight.c:2300;经 4184
-  //     每次施法 perform 起手无条件调,summon 也走故仍 28);scriptOnUse fizzle(没钱/没道具)也已播。
+  //   - 队员:sdlpal `PAL_BattleShowPlayerPreMagicAnim` CLASSIC 分支(fight.c:2375-2377,!fIsWIN95)起手播
+  //     **AUDIO_PlaySound(rgwMagicSound[role])** —— 每角色自己的施法音(李逍遥9/赵灵儿10/林月如11),
+  //     所有玩家魔法都播一次。**修正(2026-06-03,user 实听 9/10/11 纠错)**:此前误用固定 28 = 物品演出音
+  //     PAL_BattleShowPlayerUseItemAnim(fight.c:2300)—— 读串了函数边界,28 根本不是魔法音。
   //   - 敌方:sdlpal fight.c:4695 AUDIO_PlaySound(enemy.wMagicSound)(敌人自身 cast 音,先于效果)。
   //   均入 gs.pendingSounds(同 0x47 通道,shell 播)。
   if (input.gs) {
     if (!input.casterIsEnemy) {
-      (input.gs.pendingSounds ??= []).push(28)
+      const casterRoleId = input.state.players[input.casterIdx]?.roleId
+      const castSound = casterRoleId !== undefined ? (input.playerRoles.roles[casterRoleId]?.magicSound ?? 0) : 0
+      if (castSound > 0) (input.gs.pendingSounds ??= []).push(castSound)
     } else {
       const enemyCastSound = input.state.enemies[input.casterIdx]?.e.magicSound ?? 0
       if (enemyCastSound > 0) (input.gs.pendingSounds ??= []).push(enemyCastSound)

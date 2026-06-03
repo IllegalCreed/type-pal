@@ -71,25 +71,26 @@ describe('performCoopMagic(协力合击,fight.c:3856-4043 CLASSIC)', () => {
     expect(roles[0]!.mp).toBe(30)  // MP 不动
   })
 
-  // M6 合击音:sdlpal fight.c:3861-3875 —— 非 summon 合击 AUDIO_PlaySound(29),summon 经
-  //   PAL_BattleShowPlayerPreMagicAnim 播 AUDIO_PlaySound(28);随后效果音 magic.wSound。coop 此前无声。
-  it('M6 合击音:非 summon → 29 + 效果音;summon → 28', () => {
+  // M6 合击音:sdlpal kBattleActionCoopMagic(fight.c:3856-3875)—— 非 summon 合击 AUDIO_PlaySound(29 fixed);
+  //   summon 经 PAL_BattleShowPlayerPreMagicAnim → CLASSIC 播 rgwMagicSound[caster](fight.c:2377);随后效果音
+  //   magic.wSound。**修正(2026-06-03):summon 此前误用固定 28(物品演出音),应为施法角色 magicSound。**
+  it('M6 合击音:非 summon → 29 + 效果音;summon → 施法者 magicSound', () => {
     const drainSounds = (bus: ReturnType<typeof createCommandBus>): number[] =>
       bus.drain().filter(c => c.cmd.op === 'playSound').map(c => (c.cmd as { soundId: number }).soundId)
-    const roles = [makeRole(0, { attackStrength: 40, magicStrength: 60 }), makeRole(1, { attackStrength: 20, magicStrength: 40 })]
-    // 非 summon(attackAll)→ windup 29 + 效果音 77
+    const roles = [makeRole(0, { attackStrength: 40, magicStrength: 60, magicSound: 9 }), makeRole(1, { attackStrength: 20, magicStrength: 40 })]
+    // 非 summon(attackAll)→ 29 + 效果音 77
     {
       const { state, playerRoles } = makeCoopState(roles.map(r => ({ ...r })))
       const bus = createCommandBus()
       performCoopMagic({ state, casterIdx: 0, coopObjId: 351, targetIdx: 'all', playerRoles, magics: [{ ...COOP_MAGIC, sound: 77 }], objectMagics: OBJ_MAGICS, bus })
       expect(drainSounds(bus)).toEqual([29, 77])
     }
-    // summon 类合击 → windup 28(magic.sound=0 → 无效果音)
+    // summon 类合击 → 施法者(role 0)magicSound=9(magic.sound=0 → 无效果音)
     {
       const { state, playerRoles } = makeCoopState(roles.map(r => ({ ...r })))
       const bus = createCommandBus()
       performCoopMagic({ state, casterIdx: 0, coopObjId: 351, targetIdx: 'all', playerRoles, magics: [{ ...COOP_MAGIC, type: 'summon' as Magic['type'] }], objectMagics: OBJ_MAGICS, bus })
-      expect(drainSounds(bus)).toEqual([28])
+      expect(drainSounds(bus)).toEqual([9])
     }
   })
 
