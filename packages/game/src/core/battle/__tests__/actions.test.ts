@@ -908,6 +908,35 @@ describe('performMagic', () => {
     })
   })
 
+  // M6 法术起手 windup —— sdlpal PAL_BattleShowPlayerPreMagicAnim 内 AUDIO_PlaySound(28)
+  //   (fight.c:2300/4184,每次玩家施法 perform 起手,先于效果音 magic.sound)。仅队员施法。
+  it('M6 法术音:队员施法 push windup 28 + 效果音(gs.pendingSounds);敌方施法无 windup', () => {
+    // 队员施法 → [28(windup), 55(magic.sound 效果)]
+    {
+      const { state, playerRoles, bus, gs } = makeState({ role: { mp: 30, maxMP: 30 } })
+      performMagic({
+        state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
+        targetIsEnemy: true, targetIdx: 0,
+        spells: [makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 0 })],
+        magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, sound: 55 })],
+        playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
+      })
+      expect(gs.pendingSounds).toEqual([28, 55])
+    }
+    // 敌方施法 → 无 windup 28(敌方法术走 wMagicSound,另路);只效果音
+    {
+      const { state, playerRoles, bus, gs } = makeState({ role: { mp: 30, maxMP: 30 } })
+      performMagic({
+        state, casterIsEnemy: true, casterIdx: 0, spellId: 7,
+        targetIsEnemy: false, targetIdx: 0,
+        spells: [makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 0 })],
+        magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, sound: 55 })],
+        playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
+      })
+      expect(gs.pendingSounds ?? []).toEqual([55]) // 无 28
+    }
+  })
+
   it('scriptOnUse 失败(fScriptSuccess=false)→ MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess(乾坤一掷没钱/酒神没酒)', () => {
     const { state, playerRoles, bus } = makeState({ role: { mp: 30, maxMP: 30 } })
     const spell = makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 42, scriptOnSuccess: 99 })

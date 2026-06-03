@@ -145,6 +145,12 @@ export function performMagic(input: PerformMagicInput): void {
     role.mp -= magic.costMP
   }
 
+  // M6 法术起手 windup —— sdlpal `PAL_BattleShowPlayerPreMagicAnim` 内 AUDIO_PlaySound(28)
+  //   (fight.c:2300;经 fight.c:4184 在每次玩家施法 perform 起手无条件调,先于 scriptOnUse / 效果音;
+  //   summon 也走 PreMagicAnim 故仍是 28)。仅队员施法(敌方法术走 wMagicSound,无此 windup);
+  //   scriptOnUse fizzle(没钱/没道具)时 28 也已播(在 script 之前)。0x47 同 gs.pendingSounds 通道。
+  if (!input.casterIsEnemy && input.gs) (input.gs.pendingSounds ??= []).push(28)
+
   // —— 跑 scriptOnUse → scriptOnSuccess(经 runScript,battleCtx 注入 caster / target) ——
   // sdlpal `fight.c:4214-4265`(PAL_BattleCommitAction kBattleActionMagic):
   //   wScriptOnUse    = RunTriggerScript(wScriptOnUse,    wPlayerRole = caster)

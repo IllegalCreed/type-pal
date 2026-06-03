@@ -71,6 +71,28 @@ describe('performCoopMagic(协力合击,fight.c:3856-4043 CLASSIC)', () => {
     expect(roles[0]!.mp).toBe(30)  // MP 不动
   })
 
+  // M6 合击音:sdlpal fight.c:3861-3875 —— 非 summon 合击 AUDIO_PlaySound(29),summon 经
+  //   PAL_BattleShowPlayerPreMagicAnim 播 AUDIO_PlaySound(28);随后效果音 magic.wSound。coop 此前无声。
+  it('M6 合击音:非 summon → 29 + 效果音;summon → 28', () => {
+    const drainSounds = (bus: ReturnType<typeof createCommandBus>): number[] =>
+      bus.drain().filter(c => c.cmd.op === 'playSound').map(c => (c.cmd as { soundId: number }).soundId)
+    const roles = [makeRole(0, { attackStrength: 40, magicStrength: 60 }), makeRole(1, { attackStrength: 20, magicStrength: 40 })]
+    // 非 summon(attackAll)→ windup 29 + 效果音 77
+    {
+      const { state, playerRoles } = makeCoopState(roles.map(r => ({ ...r })))
+      const bus = createCommandBus()
+      performCoopMagic({ state, casterIdx: 0, coopObjId: 351, targetIdx: 'all', playerRoles, magics: [{ ...COOP_MAGIC, sound: 77 }], objectMagics: OBJ_MAGICS, bus })
+      expect(drainSounds(bus)).toEqual([29, 77])
+    }
+    // summon 类合击 → windup 28(magic.sound=0 → 无效果音)
+    {
+      const { state, playerRoles } = makeCoopState(roles.map(r => ({ ...r })))
+      const bus = createCommandBus()
+      performCoopMagic({ state, casterIdx: 0, coopObjId: 351, targetIdx: 'all', playerRoles, magics: [{ ...COOP_MAGIC, type: 'summon' as Magic['type'] }], objectMagics: OBJ_MAGICS, bus })
+      expect(drainSounds(bus)).toEqual([28])
+    }
+  })
+
   it('HP 代价 <=0 钳 1(healthy 但低血 contributor 不死)', () => {
     // role0 maxHP100 hp25(healthy:25>=maxHP/5=20)→ 25-30 钳 1。需 2 healthy contributor。
     const roles = [makeRole(0, { maxHP: 100, hp: 25, attackStrength: 40, magicStrength: 60 }), makeRole(1, { hp: 500, attackStrength: 20, magicStrength: 40 })]

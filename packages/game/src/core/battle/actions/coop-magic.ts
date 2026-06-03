@@ -80,6 +80,12 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
   // healthy <= 1 → sdlpal 退化普通攻击(fight.c:3374-3378);执行端防御:no-op(选单 validity 已门控)。
   if (contributors.length <= 1) return
 
+  // M6 合击音 —— sdlpal 合体法术 perform(fight.c:3861-3875):summon 类经 PAL_BattleShowPlayerPreMagicAnim
+  //   播 AUDIO_PlaySound(28),非 summon 播 AUDIO_PlaySound(29);随后 OffMagic/Summon 动画播 magic.wSound
+  //   (效果音,fight.c:2501/3114)。coop 此前完全无声;经 bus {op:'playSound'} → bootstrap 战斗 drain 播。
+  bus.emit({ op: 'playSound', soundId: magic.type === 'summon' ? 28 : 29 })
+  if (magic.sound > 0) bus.emit({ op: 'playSound', soundId: magic.sound })
+
   // HP 代价(**非 MP**):每个 contributor role.hp -= magic.costMP,<=0 钳 1(fight.c:3961-3967)。
   for (const i of contributors) {
     const role = playerRoles.roles[state.players[i]!.roleId]!
