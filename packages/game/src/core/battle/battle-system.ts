@@ -645,6 +645,38 @@ function isPlayerDying(role: { hp: number; maxHP: number }): boolean {
   return role.hp > 0 && role.hp < Math.max(1, Math.floor(role.maxHP / 5))
 }
 
+/**
+ * M6 玩家濒死/阵亡音 —— port sdlpal `PAL_BattlePostActionCheck` dying-sweep(fight.c:834-850)
+ *   + enemy 攻击致死内联 deathSound(fight.c:4816/4851/5110)。每回合后处理调一次,比对本回合初
+ *   prevHp:① hp===0 且 prevHp>0(本回合阵亡)→ rgwDeathSound;② hp>0 且跌入濒死(hp<maxHP/5)且
+ *   回合初尚在阈值上(prevHp>=maxHP/5,即刚跨入)→ rgwDyingSound。判完把 prevHp 快照为当前 hp 供下回合。
+ *
+ * sdlpal 真值里死亡音内联在各 enemy 攻击分支、濒死音在 PostActionCheck;ts 集中此一处近似(时序差
+ * 不超过一回合,音色仍正确)。玩家 prevHp 此前未维护(只敌方用),由本函数建立回合粒度快照。
+ * 声经 bus {op:'playSound'} 发 → bootstrap 战斗 drain 播(>0 守卫;0 = 无音,跳过)。
+ */
+export function emitPlayerCasualtySounds(
+  players: ReadonlyArray<{ roleId: number; prevHp: number }>,
+  playerRoles: PlayerRoles,
+  bus: CommandBus,
+): void {
+  for (const p of players) {
+    const role = playerRoles.roles[p.roleId]
+    if (!role) continue
+    const dyingThreshold = Math.max(1, Math.floor(role.maxHP / 5))
+    const deathSound = role.deathSound ?? 0
+    const dyingSound = role.dyingSound ?? 0
+    if (role.hp < p.prevHp) {
+      if (role.hp === 0 && p.prevHp > 0) {
+        if (deathSound > 0) bus.emit({ op: 'playSound', soundId: deathSound })
+      } else if (role.hp > 0 && role.hp < dyingThreshold && p.prevHp >= dyingThreshold) {
+        if (dyingSound > 0) bus.emit({ op: 'playSound', soundId: dyingSound })
+      }
+    }
+    p.prevHp = role.hp
+  }
+}
+
 /** port sdlpal `PAL_IsPlayerHealthy`(fight.c:69-76):非濒死 + 无 sleep/confused/silence/paralyzed/puppet。 */
 function isPlayerHealthy(player: BattlePlayer, role: { hp: number; maxHP: number }): boolean {
   if (role.hp <= 0 || isPlayerDying(role)) return false
@@ -2176,6 +2208,9 @@ function tickPostAction(
     }
     e.prevHp = e.e.health
   }
+
+  // M6 玩家濒死/阵亡音(毒 tick 后判,与 sdlpal fight.c:1664 顺序一致)。详见 emitPlayerCasualtySounds。
+  emitPlayerCasualtySounds(state.players, res.playerRoles, bus)
 
   // D17:毒 tick 杀敌也淡出(sdlpal fight.c:1664 毒后 PAL_BattlePostActionCheck → fFade → FadeScene)。
   //   开淡出 hold;phase 照常转(won/selectAction),下 tick 顶层 tickBattleFade 先暂停放完淡出。
