@@ -53,6 +53,8 @@ export function performFlee(state: BattleState, gs: GameState, playerIdx: number
     // 成功 → 触发逃跑动画(PAL_BattlePlayerEscape,battle.c:1438-1527):16 帧右下滑 + 移出屏,
     //   动画放完(tickBattleFleeAnim)才 phase='fleed' → finalize。不直接设 fleed(原跳过整段动画)。
     state.fleeAnim = { step: 0 }
+    // M6 逃跑音(sdlpal battle.c:1459 AUDIO_PlaySound(45))→ gs.pendingSounds,shell AudioManager 播。
+    ;(gs.pendingSounds ??= []).push(45)
   }
   else {
     // 失败 → 逃跑失败动画(sdlpal fight.c:4155-4168):该队员 3 步右下挪 + 帧1 濒死姿。

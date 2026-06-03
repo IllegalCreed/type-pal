@@ -1602,6 +1602,7 @@ export function tickBattleDialog(state: BattleState, gs: GameState, input: Input
       state.battleDialogQueue!.shift()
       if (next.effect.opcode === 0x69) {
         state.enemyEscapeAnim = { step: 0 }
+        ;(gs.pendingSounds ??= []).push(45) // 敌逃跑音(battle.c:1397)
       }
       return true
     }
@@ -1691,7 +1692,10 @@ function feedNextBattleDialogLine(state: BattleState, gs: GameState): void {
   if (!line) return
   // D26(2b)防御:effect 条目正常由 tickBattleDialog (A) 分支处理;若经此(段边界 page-advance)→ 同样 dispatch。
   if (line.effect) {
-    if (line.effect.opcode === 0x69) state.enemyEscapeAnim = { step: 0 }
+    if (line.effect.opcode === 0x69) {
+      state.enemyEscapeAnim = { step: 0 }
+      ;(gs.pendingSounds ??= []).push(45) // 敌逃跑音(battle.c:1397)
+    }
     return
   }
   const text = line.text ?? ''

@@ -1137,6 +1137,8 @@ export function dispatchBattleOpcode(
       //   **审计修**:此前设 enemy.health=0 → 被 postAction 当击杀给了 exp/cash。**D13**:改触发 enemyEscapeAnim
       //   (tickBattleEnemyEscapeAnim 飞出 → phase='fleed' 无奖励),**不**改 health(避免误给 exp)。
       state.enemyEscapeAnim = { step: 0 }
+      // M6 敌逃跑音(sdlpal battle.c:1397 AUDIO_PlaySound(45))→ gs.pendingSounds。
+      if (ctx.gs) (ctx.gs.pendingSounds ??= []).push(45)
       return { consumed: true }
     }
 
