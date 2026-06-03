@@ -262,6 +262,8 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
       idleFrames?: number
       targetDied?: boolean
       targetDying?: boolean
+      actionSound?: number
+      callSound?: number
     } = {},
   ) {
     return buildEnemyPhysicalTimeline({
@@ -274,6 +276,8 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
         attackFrames: opts.attackFrames ?? 2,
         actWaitFrames: opts.actWaitFrames ?? 1,
         idleFrames: opts.idleFrames ?? 4,
+        actionSound: opts.actionSound ?? 0,
+        callSound: opts.callSound ?? 0,
       },
       damage: 12,
       targetDied: opts.targetDied ?? false,
@@ -288,6 +292,20 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
     expect(frames[1]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 156, y: 78 } }])
     expect(frames[2]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 154, y: 77 } }])
     expect(frames[0]!.durationMs).toBe(1 * D)
+  })
+
+  // M6:actionSound(fight.c:5005,接近 Delay 帧)/ callSound(fight.c:5084,命中帧)帧同步 frame.sound。
+  it('M6 actionSound 落接近帧、callSound 落命中帧(与 damageNum 同帧)', () => {
+    const frames = build({ actionSound: 39, callSound: 90 })
+    // actionSound 帧 = 接近 Delay(1)(无 fighters/damageNum,仅 sound)
+    const actionFrame = frames.find(f => f.sound === 39)
+    expect(actionFrame).toBeDefined()
+    expect(actionFrame!.fighters).toBeUndefined()
+    // callSound 帧 = 命中帧(有 damageNum + iColorShift=6)
+    const hitFrame = frames.find(f => f.damageNum)
+    expect(hitFrame!.sound).toBe(90)
+    // 0 音 → 不设 sound(无音帧)
+    expect(build({ actionSound: 0, callSound: 0 }).every(f => f.sound === undefined)).toBe(true)
   })
 
   it('magicFrames=2:前 2 帧 currentFrame=idleFrames+i,只 1 帧前移', () => {

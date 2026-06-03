@@ -266,8 +266,8 @@ export interface BuildEnemyPhysicalInput {
   targetPlayerPos: { x: number; y: number }
   /** 目标队员 idx(players[])。 */
   targetIdx: number
-  /** 敌人精灵帧参数(enemies.json[id])。 */
-  enemy: { magicFrames: number; attackFrames: number; actWaitFrames: number; idleFrames: number }
+  /** 敌人精灵帧参数(enemies.json[id])+ M6 攻击中段/命中音(actionSound/callSound,fight.c:5003/5084)。 */
+  enemy: { magicFrames: number; attackFrames: number; actWaitFrames: number; idleFrames: number; actionSound: number; callSound: number }
   /** 钳后真实掉血(damageNum value)。 */
   damage: number
   /** 命中后队员是否死亡(hp→0)。 */
@@ -295,7 +295,7 @@ export interface BuildEnemyPhysicalInput {
 export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): BattleAnimFrame[] {
   const { enemyPos, enemyIdx, targetPlayerPos, targetIdx, enemy, damage, targetDied, targetDying } =
     input
-  const { magicFrames, attackFrames, actWaitFrames, idleFrames } = enemy
+  const { magicFrames, attackFrames, actWaitFrames, idleFrames, actionSound, callSound } = enemy
 
   const frames: BattleAnimFrame[] = []
   let ex = enemyPos.x
@@ -319,8 +319,8 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
     })
   }
 
-  // —— Delay(1)(actionSound;fight.c:5005)——
-  frames.push({ durationMs: delayMs(1) })
+  // —— Delay(1) + actionSound(fight.c:5001-5005,classic 即使 0 也播,ts 0 视为无音跳过)——
+  frames.push({ durationMs: delayMs(1), ...(actionSound > 0 ? { sound: actionSound } : {}) })
 
   // —— 冲到队员前(fight.c:5007-5050)——
   const chargeX = targetPlayerPos.x - 44
@@ -354,11 +354,13 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
     }
   }
 
-  // —— 命中:target.currentFrame=4,iColorShift=6 + damageNum,Delay(1)(fight.c:5052-5086)——
+  // —— 命中:target.currentFrame=4,iColorShift=6 + damageNum + callSound,Delay(1)(fight.c:5052-5086)——
+  //   callSound(iSound=enemy.wCallSound,fight.c:5010/5084)在命中帧播(classic 即使 0 也播,ts 0 跳过)。
   frames.push({
     durationMs: delayMs(1),
     fighters: [{ side: 'player', idx: targetIdx, currentFrame: 4, iColorShift: 6 }],
     damageNum: { target: { kind: 'player', idx: targetIdx }, value: damage, color: 'blue' },
+    ...(callSound > 0 ? { sound: callSound } : {}),
   })
 
   // —— iColorShift=0;击退 target.pos += (8,4),Delay(1)(fight.c:5088-5106)——

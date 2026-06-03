@@ -441,6 +441,9 @@ function buildAttackTimeline(input: {
         attackFrames: enemyFighter.e.attackFrames,
         actWaitFrames: enemyFighter.e.actWaitFrames,
         idleFrames: enemyFighter.e.idleFrames,
+        // M6 敌方物攻中段/命中音(fight.c:5003 wActionSound / 5084 wCallSound;frame.sound 帧同步播)。
+        actionSound: enemyFighter.e.actionSound,
+        callSound: enemyFighter.e.callSound,
       },
       damage,
       targetDied: hp === 0,

@@ -168,6 +168,21 @@ describe('applyAnimFrame', () => {
       color: 'blue',
     })
   })
+
+  // M6 帧同步 SFX:frame.sound>0 → emit playSound;0/缺 → 不 emit。
+  it('frame.sound → emit playSound(0/缺不 emit)', () => {
+    const state = mkState([mkPlayer(0)], [mkEnemy()])
+    state.battleAnim = { frames: [], idx: 0, frameElapsedMs: 0 }
+    const bus = createCommandBus()
+    applyAnimFrame(state, { durationMs: 40, sound: 90 }, bus)
+    const drained = bus.drain()
+    expect(drained).toHaveLength(1)
+    expect(drained[0]!.cmd).toEqual({ op: 'playSound', soundId: 90 })
+    // sound=0 / 无 sound → 不 emit
+    applyAnimFrame(state, { durationMs: 40, sound: 0 }, bus)
+    applyAnimFrame(state, { durationMs: 40 }, bus)
+    expect(bus.drain()).toHaveLength(0)
+  })
 })
 
 describe('startBattleAnim', () => {

@@ -57,6 +57,14 @@ export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: 
       color: frame.damageNum.color,
     })
   }
+
+  // M6 帧同步 SFX —— 本帧 frame.sound>0 → 播。敌方物攻的 actionSound(接近,fight.c:5005)/
+  //   callSound(命中,fight.c:5084)等散布在动画帧上,对照 sdlpal AUDIO_PlaySound 在各 PAL_BattleDelay
+  //   之间逐帧触发(非动作起手一次性)。applyAnimFrame 每帧只调一次(battle-system 推进 idx++ 后),
+  //   故每帧一次不重播。经 bus {op:'playSound'} → bootstrap 战斗 drain → audio.playSound。
+  if (frame.sound && frame.sound > 0) {
+    bus.emit({ op: 'playSound', soundId: frame.sound })
+  }
 }
 
 /**
