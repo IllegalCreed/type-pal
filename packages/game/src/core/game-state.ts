@@ -803,6 +803,13 @@ export interface GameState {
    * SOUNDS.MKF chunk 号;shell AudioManager 每帧 drain → Web Audio 播 → 清空。**transient,不存档**。
    */
   pendingSounds?: number[]
+  /**
+   * M6 系统菜单「音乐」「音效」开关(sdlpal gConfig.fIsMusicEnabled / fIsSoundEnabled,
+   * AUDIO_EnableMusic/EnableSound,uigame.c:618/629)。undefined 视为 true(默认开)。
+   * 系统菜单 PAL_SwitchMenu 子选单切换;shell AudioManager 每帧读 → setMusicEnabled/setSfxEnabled。
+   */
+  fMusicEnabled?: boolean
+  fSoundEnabled?: boolean
 
   /**
    * 战斗 BGM 编号(sdlpal SAVEDGAME_WIN.wNumBattleMusic)。

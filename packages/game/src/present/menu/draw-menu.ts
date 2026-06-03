@@ -309,6 +309,10 @@ function drawSystemMenu(
   if (state.phase === 'confirm') {
     drawConfirmBox(fb, state.confirmYes, uiSpriteFrames, glyphs)
   }
+  // 音乐/音效:选中进 switch 阶段 → 叠 2 项 关/开 选框(sdlpal PAL_SwitchMenu,uigame.c:368-388;关=index0,开=index1)。
+  else if (state.phase === 'switch') {
+    drawConfirmBox(fb, state.confirmYes, uiSpriteFrames, glyphs, { left: '关', right: '开' })
+  }
 }
 
 // ── Inventory Action submenu(装备/使用 1 级 box) ────────────────────────

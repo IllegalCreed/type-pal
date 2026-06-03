@@ -23,18 +23,24 @@ function selectedColor(): number {
   return MENUITEM_COLOR_SELECTED_FIRST + Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL
 }
 
+/**
+ * 2 项左右选框(sdlpal PAL_SelectionMenu 2 项布局)。默认 否/是(PAL_ConfirmMenu);
+ * 音乐/音效 开关(PAL_SwitchMenu,uigame.c:368-388)传 labels={left:'关', right:'开'} 复用同布局。
+ * rightSelected = 右项高亮(confirmYes / switch 的"开")。
+ */
 export function drawConfirmBox(
   fb: Framebuffer,
-  confirmYes: boolean,
+  rightSelected: boolean,
   uiSpriteFrames: IndexedImage[],
   glyphs?: GlyphTable,
+  labels: { left: string; right: string } = { left: '否', right: '是' },
 ): void {
   // box: PAL_CreateSingleLineBox(PAL_XY(130 + 75*(i%2), 100 + 50*(i/2)), w+1, TRUE)
   drawSingleLineBox({ fb, x: 130, y: 100, len: 2, uiSpriteFrames })
   drawSingleLineBox({ fb, x: 205, y: 100, len: 2, uiSpriteFrames })
-  // 文字 PAL_XY(145, 110) 否 / PAL_XY(220, 110) 是;selected 闪烁(默认 No=index0)
-  const noColor = !confirmYes ? selectedColor() : MENUITEM_COLOR
-  const yesColor = confirmYes ? selectedColor() : MENUITEM_COLOR
-  renderText(fb, '否', 145, 110, noColor, glyphs, true)
-  renderText(fb, '是', 220, 110, yesColor, glyphs, true)
+  // 文字 PAL_XY(145, 110) 左 / PAL_XY(220, 110) 右;selected 闪烁(默认左 index0)
+  const leftColor = !rightSelected ? selectedColor() : MENUITEM_COLOR
+  const rightColor = rightSelected ? selectedColor() : MENUITEM_COLOR
+  renderText(fb, labels.left, 145, 110, leftColor, glyphs, true)
+  renderText(fb, labels.right, 220, 110, rightColor, glyphs, true)
 }

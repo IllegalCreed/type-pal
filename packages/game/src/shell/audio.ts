@@ -203,9 +203,10 @@ export function createAudioManager(baseUrl = ''): AudioManager {
       musicBackend?.resume?.()
     },
     setSfxEnabled(on) {
-      sfxEnabled = on
+      sfxEnabled = on // 幂等:仅影响后续 playSfx 是否发声,无副作用,可每帧调
     },
     setMusicEnabled(on) {
+      if (on === musicEnabled) return // 幂等:无变化不重启/不重停(shell 可每帧调)
       musicEnabled = on
       if (!on) musicBackend?.stop()
       else if (curMusicTrack > 0) musicBackend?.play(curMusicTrack, true)

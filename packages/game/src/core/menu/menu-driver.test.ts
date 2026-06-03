@@ -170,6 +170,41 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     expect(gs.mode).toBe('explore')
   })
 
+  // M6:选「音乐」/「音效」→ PAL_SwitchMenu 关/开子选单(uigame.c:618/629)。默认高亮当前态,
+  //   Confirm 写 gs.f{Music,Sound}Enabled(shell AudioManager 读)→ 回系统菜单;Menu 取消保持。
+  it('选「音乐」(cursor 2)→ switch 阶段(默认高亮当前态);Left 切关 + Confirm 写 gs.fMusicEnabled + 回 menu', () => {
+    const gs = mkGs()
+    gs.fMusicEnabled = true
+    const sys = createSystemMenu()
+    sys.selection.cursor = 2 // save/load/music/sound/quit → music
+    openMenu(gs, { kind: 'system', state: sys })
+    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    expect(sys.phase).toBe('switch')
+    expect(sys.switchTarget).toBe('music')
+    expect(sys.confirmYes).toBe(true) // 默认高亮当前态(开)
+    expect(gs.menuStack.length).toBe(1) // 未清栈
+    tickMenu(gs, snap(['Left']), createCommandBus()) // toggle → 关
+    expect(sys.confirmYes).toBe(false)
+    tickMenu(gs, snap(['Confirm']), createCommandBus()) // 确认关
+    expect(gs.fMusicEnabled).toBe(false) // 写入
+    expect(sys.phase).toBe('menu') // 回系统菜单(非关整个菜单)
+    expect(gs.menuStack.length).toBe(1)
+  })
+
+  it('选「音效」(cursor 3)→ switch;Menu 取消 → 保持当前态、回 menu(不写)', () => {
+    const gs = mkGs()
+    gs.fSoundEnabled = true
+    const sys = createSystemMenu()
+    sys.selection.cursor = 3 // sound
+    openMenu(gs, { kind: 'system', state: sys })
+    tickMenu(gs, snap(['Confirm']), createCommandBus())
+    expect(sys.switchTarget).toBe('sound')
+    tickMenu(gs, snap(['Left']), createCommandBus()) // 切到关
+    tickMenu(gs, snap(['Menu']), createCommandBus()) // 取消
+    expect(gs.fSoundEnabled).toBe(true) // 取消不写,保持当前态
+    expect(sys.phase).toBe('menu')
+  })
+
   it('confirm 选 是(Confirm@Yes)→ 调 systemQuitHandler(回标题),不复用 0xA0 结局 handler', () => {
     let quitCalled = 0
     setSystemQuitHandler(() => { quitCalled++ })

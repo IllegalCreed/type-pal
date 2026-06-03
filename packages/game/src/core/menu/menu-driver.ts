@@ -31,6 +31,7 @@ import {
   systemMenuUp,
   systemMenuEnterConfirm,
   systemMenuToggleConfirm,
+  systemMenuEnterSwitch,
   type InGameMenuState,
   type SystemMenuState,
 } from './in-game-menu.js'
@@ -417,6 +418,29 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
   //   PAL_SystemMenu case5 break → **return TRUE**(uigame.c:650;非 CANCELLED 一律 TRUE)→
   //   PAL_InGameMenu `if(PAL_SystemMenu()) goto out`(uigame.c:1031)→ DeleteBox cash+menu → **关整个菜单回 explore**。
   //   故「否」不是回系统菜单层,而是关掉整个 in-game 菜单栈(= 本 commit 前 `menuStack=[]` 的旧行为,只是现在多一道确认)。
+  // 音乐/音效 开关子选单(sdlpal PAL_SwitchMenu,uigame.c:368-388):关/开 左右两 box,方向键 toggle;
+  //   confirm → 写 gs.f{Music,Sound}Enabled(shell AudioManager 下帧应用);cancel(Menu)→ 保持当前态、回菜单。
+  //   sdlpal PAL_SwitchMenu 返回后系统菜单 loop 继续(case break),故确认/取消都回 'menu' 不关整个菜单。
+  if (s.phase === 'switch') {
+    if (input.pressed.has('Up') || input.pressed.has('Down')
+      || input.pressed.has('Left') || input.pressed.has('Right')) {
+      systemMenuToggleConfirm(s) // 复用:confirmYes 即"开(右)高亮"
+    }
+    if (input.pressed.has('Menu')) {
+      s.phase = 'menu' // 取消 = PAL_SwitchMenu CANCELLED → 保持当前态(fEnabled)
+      s.switchTarget = undefined
+      return
+    }
+    if (input.pressed.has('Confirm')) {
+      const on = s.confirmYes // 开=true / 关=false
+      if (s.switchTarget === 'music') gs.fMusicEnabled = on
+      else if (s.switchTarget === 'sound') gs.fSoundEnabled = on
+      s.phase = 'menu'
+      s.switchTarget = undefined
+    }
+    return
+  }
+
   if (s.phase === 'confirm') {
     if (input.pressed.has('Up') || input.pressed.has('Down')
       || input.pressed.has('Left') || input.pressed.has('Right')) {
@@ -458,13 +482,13 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
         break
       }
       case 'music':
-        // sdlpal uigame.c:610-621 真值:toggle gConfig.fIsMusicEnabled + AUDIO_EnableMusic
-        // 音频系统(audio.c 70+ 函数)留 M6+,本处 log stub
-        console.debug('SystemMenu: music toggle (audio system M6+)')
+        // sdlpal uigame.c:618:AUDIO_EnableMusic(PAL_SwitchMenu(AUDIO_MusicEnabled()))。
+        //   进 switch 阶段弹关/开子选单,默认高亮当前态;confirm 后写 gs.fMusicEnabled → shell AudioManager。
+        systemMenuEnterSwitch(s, 'music', gs.fMusicEnabled ?? true)
         break
       case 'sound':
-        // 同上,toggle gConfig.fIsSoundEnabled
-        console.debug('SystemMenu: sound toggle (audio system M6+)')
+        // sdlpal uigame.c:629:AUDIO_EnableSound(PAL_SwitchMenu(AUDIO_SoundEnabled()))。
+        systemMenuEnterSwitch(s, 'sound', gs.fSoundEnabled ?? true)
         break
       case 'quit':
         // C2-quit:sdlpal PAL_QuitGame → PAL_ConfirmMenu 二次确认。不再直接清栈,进 confirm 阶段(默认 No)。

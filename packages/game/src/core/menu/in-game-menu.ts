@@ -74,12 +74,14 @@ export function inGameMenuDown(s: InGameMenuState): void { moveSelectionDown(s.s
 export interface SystemMenuState {
   selection: SelectionMenuState
   /**
-   * C2-quit:选 QUIT 后进 'confirm' 阶段弹二次确认(sdlpal PAL_QuitGame → PAL_ConfirmMenu,uigame.c:2066)。
-   * 'menu' = 系统菜单本体;'confirm' = 2 项 是/否 确认框(默认 No)。
+   * 'menu' = 系统菜单本体;'confirm' = QUIT 二次确认(是/否,sdlpal PAL_QuitGame→PAL_ConfirmMenu,uigame.c:2066);
+   * 'switch' = 音乐/音效 开关子选单(关/开,sdlpal PAL_SwitchMenu,uigame.c:368-388 + 618/629)。
    */
-  phase: 'menu' | 'confirm'
-  /** confirm 阶段当前高亮 是(true)/ 否(false);进 confirm 时默认 false(PAL_ConfirmMenu nDefault=0=否)。 */
+  phase: 'menu' | 'confirm' | 'switch'
+  /** confirm 阶段:高亮 是(true)/否(false),默认 false(nDefault=0)。switch 阶段:高亮 开(true)/关(false),默认=当前开关态。 */
   confirmYes: boolean
+  /** switch 阶段切的是哪个开关('music'/'sound');其余阶段 undefined。 */
+  switchTarget?: 'music' | 'sound'
 }
 
 /**
@@ -103,6 +105,16 @@ export function systemMenuEnterConfirm(s: SystemMenuState): void {
 /** confirm 阶段方向键 toggle 是/否(PAL_SelectionMenu 两 box 左右排列,四方向皆 toggle)。 */
 export function systemMenuToggleConfirm(s: SystemMenuState): void {
   s.confirmYes = !s.confirmYes
+}
+
+/**
+ * 选「音乐」/「音效」→ 进 'switch' 阶段弹关/开子选单(sdlpal PAL_SwitchMenu(fEnabled),uigame.c:618/629)。
+ * PAL_SwitchMenu = PAL_SelectionMenu(2, fEnabled?1:0, {关,开}) —— 默认高亮当前态(开=confirmYes true)。
+ */
+export function systemMenuEnterSwitch(s: SystemMenuState, target: 'music' | 'sound', currentOn: boolean): void {
+  s.phase = 'switch'
+  s.switchTarget = target
+  s.confirmYes = currentOn // 默认高亮当前开关态(fEnabled?开:关)
 }
 // 注:选「否」/取消不回系统菜单层 —— sdlpal PAL_SystemMenu 选 QUIT 后(无论是/否)return TRUE →
 //   PAL_InGameMenu goto out 关整个菜单(uigame.c:650/1031),故「否」由 dispatcher 直接 menuStack=[]，无需 cancel-confirm helper。

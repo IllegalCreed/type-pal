@@ -368,6 +368,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       // M6 音频:每帧 drain gs.pendingSounds(SFX)+ 轮询有效 BGM(战斗中→wNumBattleMusic looped,
       //   否则→wNumMusic 场景乐;battle.c:728/1849)。suspendRaf(modal)期间跳过。
       const inBattle = gs.battleState !== undefined
+      // 系统菜单「音乐」「音效」开关(gs.fMusicEnabled/fSoundEnabled,PAL_SwitchMenu 切)→ AudioManager。
+      //   setter 幂等(无变化 no-op),每帧调安全。
+      audio.setMusicEnabled(gs.fMusicEnabled ?? true)
+      audio.setSfxEnabled(gs.fSoundEnabled ?? true)
       audio.sync(gs.pendingSounds, {
         track: pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic),
         loop: inBattle ? true : (gs.musicLoop ?? true),
