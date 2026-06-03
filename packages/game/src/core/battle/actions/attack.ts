@@ -152,7 +152,15 @@ export function performAttack(
     // DualAttack(0x2D 装备授,如玄冥宝刀)→ 整段群攻做两次(fight.c:3681 for t<(dualAttack?2:1))
     const hits = (state.players[actor.idx]?.status.dualAttack ?? 0) > 0 ? 2 : 1
     const HIT_ORDER = [2, 1, 0, 4, 3] // fight.c:3684 const int index[MAX_ENEMIES_IN_TEAM]
-    const voiceRole = playerRoles.roles[state.players[actor.idx]!.roleId]
+    const roleId = state.players[actor.idx]!.roleId
+    const voiceRole = playerRoles.roles[roleId]
+    // 挥砍前记每个活敌 HP —— 伤害数字 = 总 delta,**挥砍动画播完后**弹(对齐 sdlpal
+    //   PAL_BattleDisplayStatChange 在 PAL_BattleShowPlayerAttackAnim 之后,fight.c:3748)。
+    const beforeHp = new Map<number, number>()
+    for (const slot of HIT_ORDER) {
+      const be = state.enemies[slot]
+      if (be && be.e.health > 0) beforeHp.set(slot, be.e.health)
+    }
     for (let t = 0; t < hits; t++) {
       // 每轮 crit 重摇、division 重置(fight.c:3683-3688 在 t-loop 内)
       const fCritical = state.rng.rangeInclusive(0, 5) === 0 || bravery > 0
@@ -169,20 +177,37 @@ export function performAttack(
         if (fCritical) damage *= 3
         damage = damage / division // FLOAT 除(逐敌减半)
         if (damage <= 0) damage = 1
-        const before = be.e.health
         // sdlpal `wHealth -= (FLOAT)sDamage` → WORD 回写截断(trunc),等价 floor(health - dmg)
         be.e.health = Math.max(0, Math.trunc(be.e.health - damage))
-        // D17b:敌人掉血 → blue(sdlpal `fight.c:648-651`)。value 用钳后真实 delta。
-        bus.emit({
-          op: 'showDamageNum',
-          target: { kind: 'enemy', idx: slot },
-          value: before - be.e.health,
-          color: 'blue',
-        })
         division *= 2 // fight.c:3729 命中一个活敌后翻倍
       }
     }
     bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: -1 })
+    // 各敌伤害数字(钳后总 delta;掉血 → blue)
+    const pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
+    for (const [slot, before] of beforeHp) {
+      const dealt = before - (state.enemies[slot]?.e.health ?? 0)
+      if (dealt > 0) pendingNums.push({ target: { kind: 'enemy', idx: slot }, value: dealt, color: 'blue' })
+    }
+    // M6/D17a:群攻挥砍动画 —— sdlpal 整套群攻只调一次 PAL_BattleShowPlayerAttackAnim(fight.c:3745),
+    //   sTarget==-1 → 挥向固定中心 (150,100)(fight.c:2050-2055)。此前群攻**完全无动画**(只即时弹数字 —
+    //   林月如等 attackAll 鞭武器看着没攻击动画,user 2026-06-03 报)。伤害数字经 pendingDamageNums 挥砍后弹。
+    const attacker = state.players[actor.idx]
+    if (attacker?.posOriginal) {
+      const swing = buildPlayerAttackTimeline({
+        attackerPos: attacker.posOriginal,
+        attackerIdx: actor.idx,
+        targetEnemyPos: { x: 150, y: 100 }, // sdlpal sTarget==-1 中心落点
+        targetIdx: -1, // 群攻无单体目标 → buildPlayerAttackTimeline 跳过单敌染色/伤害数字/抖动
+        targetEnemyHeight: 0,
+        effectFrameBase: playerEffectFrameBase(battleEffectIndex, voiceRole?.spriteNumInBattle ?? 0),
+        damage: 0,
+      })
+      startBattleAnim(state, swing, bus, pendingNums)
+    } else {
+      // 旧 fixture 无 posOriginal → 不建时间线,即时弹伤害数字(向后兼容)
+      for (const dn of pendingNums) bus.emit({ op: 'showDamageNum', ...dn })
+    }
     return
   }
 

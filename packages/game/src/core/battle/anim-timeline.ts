@@ -208,8 +208,9 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
     if (i === 0) {
       // currentFrame=9 自 effect frame 0 起(fight.c:2120)
       fighters.push({ side: 'player', idx: attackerIdx, currentFrame: 9 })
-      // i==0:target 染色 + 伤害数字(fight.c:2195-2209)
-      fighters.push({ side: 'enemy', idx: targetIdx, iColorShift: 6 })
+      // i==0:target 染色 + 伤害数字(fight.c:2195-2209)。群攻(targetIdx<0,sTarget==-1 挥向中心)无单体目标
+      //   → 跳过单敌染色/伤害数字(各敌染色+总伤数字由调用方 pendingDamageNums 在挥砍后弹)。
+      if (targetIdx >= 0) fighters.push({ side: 'enemy', idx: targetIdx, iColorShift: 6 })
     }
     if (i === 1) {
       // i==1:attacker pos += (2,1)(fight.c:2215-2220)
@@ -225,7 +226,7 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
         x: overlayX,
         y: overlayY,
       },
-      ...(i === 0
+      ...(i === 0 && targetIdx >= 0
         ? {
             damageNum: {
               target: { kind: 'enemy' as const, idx: targetIdx },
@@ -243,6 +244,11 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
   let sx = ex
   let sy = ey
   for (let i = 0; i < 3; i++) {
+    // 群攻(targetIdx<0)无单体受击敌 → 保留 3 帧延时(挥砍收势节奏)但不抖单敌。
+    if (targetIdx < 0) {
+      frames.push({ durationMs: delayMs(1) })
+      continue
+    }
     sx -= dist
     dist = Math.trunc(dist / -2)
     sy += dist

@@ -365,7 +365,30 @@ describe('performAttack', () => {
     // 两 sweep,每 sweep division 重置 1 → 单敌各全额 314 → 共 628
     expect(state.enemies[0]!.e.health).toBe(5000 - 314 * 2)
     const dmgNums = bus.drain().filter(c => c.cmd.op === 'showDamageNum')
-    expect(dmgNums).toHaveLength(2)
+    // 群攻每敌弹**一个总 delta**(对齐 sdlpal PAL_BattleDisplayStatChange 按 prevHP 比对,挥砍后一次;
+    //   旧 ts 每击弹一个是 artifact)。单敌 dual-attack → 1 个数字 = 628。
+    expect(dmgNums).toHaveLength(1)
+    expect((dmgNums[0]!.cmd as { value: number }).value).toBe(628)
+  })
+
+  // M6/D17a 群攻挥砍动画(林月如等 attackAll 鞭武器):此前群攻**完全无动画**(只即时弹数字),
+  //   user 2026-06-03 报"林月如没攻击动画"。修:有 posOriginal → buildPlayerAttackTimeline 挥向中心
+  //   (150,100,sdlpal sTarget==-1)+ 伤害数字经 pendingDamageNums 挥砍后弹。
+  it('M6 群攻挥砍动画:有 posOriginal → 建挥砍时间线 + 伤害数字延后弹', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 },
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 600 }],
+      forceRoll: 1,
+    })
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    performAttack(state, playerActor, -1, bus, playerRoles)
+    expect(state.battleAnim, '群攻应建挥砍动画时间线(此前无)').toBeDefined()
+    expect(state.battleAnim!.frames.length).toBeGreaterThan(0)
+    // 伤害数字延后到 pendingDamageNums(挥砍播完才弹),不在本帧即时 emit
+    expect(bus.drain().filter(c => c.cmd.op === 'showDamageNum')).toHaveLength(0)
+    expect(state.battleAnim!.pendingDamageNums).toHaveLength(1)
+    expect(state.battleAnim!.pendingDamageNums![0]!.value).toBe(314)
   })
 
   it('player 低 attackStrength 攻击高 defense enemy:damage 取 1', () => {
