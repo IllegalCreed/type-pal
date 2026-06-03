@@ -21,6 +21,8 @@ export interface MusicBackend {
   play(track: number, loop: boolean): void
   /** 停(可选淡出)。 */
   stop(fadeMs?: number): void
+  /** 用户手势后 resume 后端自己的 AudioContext(autoplay policy)。后端若自管 ctx 须实现此。 */
+  resume?(): void
 }
 
 export interface AudioManager {
@@ -197,6 +199,8 @@ export function createAudioManager(baseUrl = ''): AudioManager {
     resume() {
       const c = ensureCtx()
       if (c && c.state === 'suspended') void c.resume()
+      // BGM 后端自管 AudioContext(SpessaSynth)→ 也得在用户手势里 resume,否则 autoplay 禁声。
+      musicBackend?.resume?.()
     },
     setSfxEnabled(on) {
       sfxEnabled = on

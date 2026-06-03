@@ -25,10 +25,13 @@ export interface SpessaSynthBackendOptions {
   workletUrl: string
   /** GM SoundFont url(public/ 下,user 提供,约定 '/soundfont.sf3')。 */
   soundfontUrl: string
+  /** 混响量 CC91 reverb send(0~127,锁定防 MIDI 覆盖)。默认 0=全干(仙剑原 OPL/MIDI 偏干);
+   *  嫌太干想回一点把这调成低值(如 12)。 */
+  reverbAmount?: number
 }
 
 export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): MusicBackend {
-  const { baseUrl, workletUrl, soundfontUrl } = opts
+  const { baseUrl, workletUrl, soundfontUrl, reverbAmount = 0 } = opts
   const w = typeof window !== 'undefined' ? (window as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext }) : undefined
   const AudioCtor = w?.AudioContext ?? w?.webkitAudioContext
   if (!AudioCtor) return { play() {}, stop() {} } // SSR / 测试无 Web Audio → no-op
@@ -36,7 +39,8 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
   const ctx = new AudioCtor()
   let seq: Sequencer | undefined
   let ready = false
-  let pending: { track: number; loop: boolean } | undefined
+  // 当前想播的曲(play 写入)。用于:① init 完成后补播 ② autoplay 解锁(resume)后补播。
+  let last: { track: number; loop: boolean } | undefined
 
   async function doPlay(track: number, loop: boolean): Promise<void> {
     if (!seq) return
@@ -77,13 +81,18 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       console.log(`[audio] MIDI: soundfont 已下载(${(sfBytes.byteLength / 1024 / 1024).toFixed(1)}MB),载入中…`)
       await synth.soundBankManager.addSoundBank(sfBytes, 'main')
       await synth.isReady
+      // user 报"混响太严重"。仙剑原 OPL/MIDI 本就偏干 → 关混响:每 channel 设 reverb send(CC91)=0
+      //   + lockController 锁住,防 MIDI 自带的 CC91 把混响重新拉高。reverbAmount(0~127)可调:0=全干,
+      //   想回一点混响把 0 改成低值(如 12)。chorus(CC93)暂不动(user 只提混响)。
+      const REVERB_CC = 91 as Parameters<typeof synth.controllerChange>[1]
+      for (let ch = 0; ch < 16; ch++) {
+        synth.controllerChange(ch, REVERB_CC, reverbAmount)
+        synth.midiChannels[ch]?.lockController(REVERB_CC, true)
+      }
       seq = new Sequencer(synth, { skipToFirstNoteOn: true })
       ready = true
       console.log('[audio] MIDI BGM 后端就绪 ✓')
-      if (pending) {
-        void doPlay(pending.track, pending.loop)
-        pending = undefined
-      }
+      if (last) void doPlay(last.track, last.loop) // 就绪前已请求的曲 → 补播
     } catch (err) {
       console.warn('[audio] ✗ MIDI BGM 后端初始化失败 → BGM 静默。多半是没放 soundfont(public/soundfont.sf3):', err)
     }
@@ -91,14 +100,20 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
 
   return {
     play(track, loop) {
-      if (!ready) {
-        pending = { track, loop } // 初始化未完 → 暂存最后一次请求,ready 后补播
-        return
-      }
-      void doPlay(track, loop)
+      last = { track, loop } // 记当前曲(就绪前 init 补播 / autoplay 解锁后 resume 补播都用)
+      if (ready) void doPlay(track, loop)
     },
     stop() {
       seq?.pause()
+      last = undefined
+    },
+    resume() {
+      // 用户手势里调(bootstrap keydown → AudioManager.resume → 此):resume 本后端 AudioContext 解
+      //   autoplay。此前曲被 autoplay 挡掉没出声 → resume 后重播当前曲一次确保发声。
+      if (ctx.state !== 'suspended') return
+      void ctx.resume().then(() => {
+        if (ready && last) void doPlay(last.track, last.loop)
+      }).catch(() => {})
     },
   }
 }
