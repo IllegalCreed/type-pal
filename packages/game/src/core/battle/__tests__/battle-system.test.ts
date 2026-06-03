@@ -1111,14 +1111,15 @@ describe('defending flag 单轮失效', () => {
 // ============================================================================
 
 describe('phase stall 兜底', () => {
-  it('selectAction 卡 > 1500 tick → 兜底切 explore', () => {
+  // 2026-06-03 user 报:每次正选技能(selectAction)就被 stall 踢回大世界。stall 是 ts 自加的防死锁兜底
+  //   (非 sdlpal 真值,sdlpal 玩家选指令可无限等)。改:selectAction 不计 stall。
+  it('selectAction 等玩家选指令 → 永不因 stall 被踢(慢选技能不回大世界)', () => {
     const { gs, bus, emptyInput } = bootstrap()
-    // 不填 pendingActions → selectAction 永远等
-    let safety = 2000
-    while (gs.mode === 'battle' && safety-- > 0)
-      tickBattle(gs, emptyInput, bus)
-    expect(gs.mode).toBe('explore')
-    expect(gs.battleState).toBeUndefined()
+    // 不填 pendingActions → selectAction 永远等;tick 远超旧 1500 上限
+    for (let i = 0; i < 2000; i++) tickBattle(gs, emptyInput, bus)
+    expect(gs.mode, 'selectAction 久等不应被踢').toBe('battle')
+    expect(gs.battleState).toBeDefined()
+    expect(gs.battleState!.phaseStallTicks).toBe(0) // selectAction 期持续 reset,不累积
   })
 })
 

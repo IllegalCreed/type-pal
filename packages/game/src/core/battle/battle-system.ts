@@ -375,14 +375,20 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
     return
   }
 
-  // 死循环保护(每 phase 内独立计数,phase 转换时 reset = 0)
-  state.phaseStallTicks++
-  if (state.phaseStallTicks > PHASE_STALL_TICKS_LIMIT) {
-    console.error(
-      `[battle] phase ${state.phase} stall > ${PHASE_STALL_TICKS_LIMIT} ticks (~60s),强制退出 explore`,
-    )
-    finalizeBattle(gs, state, res, /* forced= */ true)
-    return
+  // 死循环保护(**非 sdlpal 真值**,ts 自加的防死锁兜底:sdlpal 玩家选指令可无限等、无任何超时)。
+  //   仅对**应自动推进**的 phase 计数;**selectAction 是等玩家选指令的合法无限等待,绝不计 stall**
+  //   —— 否则玩家慢慢翻技能菜单 60s 就被强退回大世界(user 2026-06-03 报:每次正选技能就被踢)。
+  if (state.phase === 'selectAction') {
+    state.phaseStallTicks = 0
+  } else {
+    state.phaseStallTicks++
+    if (state.phaseStallTicks > PHASE_STALL_TICKS_LIMIT) {
+      console.error(
+        `[battle] phase ${state.phase} stall > ${PHASE_STALL_TICKS_LIMIT} ticks (~60s),强制退出 explore`,
+      )
+      finalizeBattle(gs, state, res, /* forced= */ true)
+      return
+    }
   }
 
   // D17 死亡淡出 hold(phase-agnostic):active → 暂停一切后续(perform / postAction / won 前
@@ -2312,6 +2318,14 @@ function finalizeBattleCleanup(gs: GameState, outcome: BattleOutcome): void {
   // 战斗内对话用的是复用大世界 gs.dialogBox —— 战斗结束清掉,避免泄漏进 explore 渲染。
   gs.dialogBox = undefined
   gs.dialogBoxKept = undefined
+  // 战斗法术脚本(如斩龙诀)可能跑 0x35 ShakeScreen / 0x71 WaveScreen 写**全局** gs.shakeTime/
+  //   wScreenWave —— 战斗结束须清,否则竖向抖动/屏波泄漏进大世界(user 2026-06-03 报斩龙诀杀敌回
+  //   大世界后屏幕仍上下抖)。sdlpal VIDEO_ShakeScreen 在战斗内同步阻塞放完不留尾;ts 异步逐帧
+  //   自减,战斗提前结束会残留 → 此处归零。
+  gs.shakeTime = 0
+  gs.shakeLevel = 0
+  gs.wScreenWave = 0
+  gs.sWaveProgression = 0
   gs.mode = 'explore'
   gs.battleState = undefined
   setBattleResources(gs, undefined)
