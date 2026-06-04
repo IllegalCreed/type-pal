@@ -628,8 +628,8 @@ export interface BuildOffMagicInput {
  *       attackAll:三点 {70,140}{100,110}{160,100} 各 +off → overlays[3](fight.c:2766-2776)
  *       attackWhole:(120,100)+off ; attackField:(160,200)+off(fight.c:2796-2808)
  *
- * blow 位移(iBlow) / keepEffect 烙背景(0xFFFF) / wScreenWave 增复位 → defer(标注;
- * 需 per-enemy pos mutate / present-only background blit,本数据级切片不建模)。
+ * blow 位移(iBlow,line 697)/ keepEffect 烙背景(0xFFFF,line 732)/ wScreenWave(line 730)
+ * 均已实现(此前残注称 defer,已落地)。
  */
 export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAnimFrame[] {
   // targetIdx 透传供调用方语义对齐;落点由 magic.type + targetEnemyPos 决定,本体不直接读 targetIdx。

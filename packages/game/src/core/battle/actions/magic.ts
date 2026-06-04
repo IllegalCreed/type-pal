@@ -335,7 +335,8 @@ export function performMagic(input: PerformMagicInput): void {
   //       DefMagic(目标队员处放 FIRE 特效 + 14 帧辉光;fight.c:2447-2606)。
   //   (3) enemy 攻击魔法(casterIsEnemy && OFF_MAGIC_TYPES):EnemyMagic(FIRE 特效在队员处,OffMagic 镜像;
   //       fight.c:2846-3069)。当前敌方施法**无任何动画**,本切片补齐。
-  //   trance / summon 留 defer(不在 OFF/DEF 集合)。
+  //   summon 已实现(buildAndStartSummonAnim);trance 留 defer —— 但 trance(magic47)/other(magic32)
+  //   无任何玩家法术指向(spells.json 核),玩家打不出 → 不影响。
   let built = false
   if (!input.casterIsEnemy) {
     if (OFF_MAGIC_TYPES.has(magic.type)) {
