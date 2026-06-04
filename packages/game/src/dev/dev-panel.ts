@@ -35,6 +35,7 @@ import type {
 import type { DialogSprite } from '../assets/dialog-assets.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 import type { IndexedImage } from '../assets/png.js'
+import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { startBattle } from '../core/battle/battle-system.js'
 import {
   buildLabelMap,
@@ -211,6 +212,12 @@ export interface DevPanelDeps {
   portraitFrames?: Map<number, DialogSprite>
   /** 物品作弊列表图标:BALL.MKF 物品图标(by item.bitmap,复用 assets.itemIcons)。 */
   itemIcons?: Map<number, IndexedImage>
+  /**
+   * 自定义战斗(A)/ boss 入口(B)敌人缩略图:战斗精灵 Map(key `enemy-{id}` / `player-{chunk}`,
+   * 复用 bootstrap battleSprites)。`get('enemy-{id}').frames[0]` 是 SpriteFrame(兼容 indexImageToCanvas)。
+   * 省略 → 缩略图占位块。
+   */
+  battleSprites?: Map<string, SpriteAsset>
   /** 头像 / 图标上色用调色板(index→RGB);省略 → 占位块。 */
   palette?: Palette
   /** T17:dev jump 用的 per-scene lazy 缓存(由 bootstrap 构造、首屏 palette / sprites 复用)。 */
@@ -354,6 +361,157 @@ function injectDevPanelCSS(): void {
     }
   `
   document.head.appendChild(style)
+}
+
+/**
+ * 自定义战斗 UI section(devpanel A,战斗 tab):敌人多选缩略图网格 + 选队员 + 设等级 + 全道具开关 + 开战。
+ * DOM-only(启战数据逻辑见 applyCustomBattle,已单测);返回 section 容器供 openPicker append。
+ *
+ *  - 敌人缩略图:battleSprites.get(`enemy-{id}`).frames[0] → indexImageToCanvas(palette 上色);点选 toggle,≤5。
+ *  - 队员:5 个可玩角色按钮(默认 [0] 李逍遥),toggle,≤3(MAX_BATTLE_PLAYERS)。
+ *  - 等级 input(仙术按等级习得)+ 全道具 ×99 开关 → applyCustomBattle。
+ */
+function buildCustomBattleSection(deps: DevPanelDeps): HTMLDivElement {
+  const section = document.createElement('div')
+  const h = document.createElement('h4')
+  h.textContent = '⚔ 自定义战斗'
+  h.className = 'tp-dev-section-h'
+  section.appendChild(h)
+
+  // 选中态(闭包):敌人有序(站位顺序),队员默认李逍遥。
+  const selectedEnemies: number[] = []
+  const selectedParty: number[] = [0]
+
+  // —— 敌人多选缩略图网格 ——
+  const enemyHint = document.createElement('div')
+  enemyHint.style.cssText = 'font-size:11px; margin:2px 0; color:#bbb'
+  const updateCount = (): void => {
+    enemyHint.textContent = `敌人(点选,≤5):已选 ${selectedEnemies.length}/5`
+  }
+  updateCount()
+  section.appendChild(enemyHint)
+
+  const grid = document.createElement('div')
+  grid.style.cssText =
+    'display:flex; flex-wrap:wrap; gap:3px; max-height:180px; overflow-y:auto; padding:3px; background:#1a1a1a; border:1px solid #444; margin-bottom:6px'
+  for (const e of deps.resources.enemies.filter((en) => en.id > 0 && en._name)) {
+    const cell = document.createElement('button')
+    cell.title = e._name ?? `enemy ${e.id}`
+    cell.style.cssText =
+      'width:54px; padding:2px; cursor:pointer; border:2px solid #555; background:#222; display:flex; flex-direction:column; align-items:center'
+    const frame = deps.battleSprites?.get(`enemy-${e.id}`)?.frames[0]
+    if (frame && deps.palette) {
+      const c = indexImageToCanvas(frame, deps.palette)
+      c.style.cssText = 'max-width:48px; max-height:40px; image-rendering:pixelated'
+      cell.appendChild(c)
+    } else {
+      const ph = document.createElement('div')
+      ph.style.cssText = 'width:40px; height:40px; background:#333'
+      cell.appendChild(ph)
+    }
+    const nm = document.createElement('div')
+    nm.textContent = e._name ?? String(e.id)
+    nm.style.cssText =
+      'font-size:9px; max-width:50px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#ddd'
+    cell.appendChild(nm)
+    const refresh = (): void => {
+      const on = selectedEnemies.includes(e.id)
+      cell.style.borderColor = on ? '#ffd700' : '#555'
+      cell.style.background = on ? '#4a3a18' : '#222'
+    }
+    cell.addEventListener('click', () => {
+      const idx = selectedEnemies.indexOf(e.id)
+      if (idx >= 0) selectedEnemies.splice(idx, 1)
+      else {
+        if (selectedEnemies.length >= 5) return // 战斗最多 5 敌
+        selectedEnemies.push(e.id)
+      }
+      refresh()
+      updateCount()
+    })
+    refresh()
+    grid.appendChild(cell)
+  }
+  section.appendChild(grid)
+
+  // —— 选队员(≤3) ——
+  const partyHint = document.createElement('div')
+  partyHint.textContent = '队员(≤3):'
+  partyHint.style.cssText = 'font-size:11px; margin:2px 0; color:#bbb'
+  section.appendChild(partyHint)
+  const partyRow = document.createElement('div')
+  partyRow.style.cssText = 'display:flex; gap:4px; flex-wrap:wrap; margin-bottom:6px'
+  for (const roleId of [0, 1, 2, 3, 4]) {
+    const role = deps.resources.playerRoles.roles.find((r) => r.id === roleId)
+    const btn = document.createElement('button')
+    btn.textContent = role?._name ?? `角色${roleId}`
+    btn.style.cssText = 'padding:3px 8px; cursor:pointer; border:2px solid #555; background:#222; color:#ddd'
+    const refresh = (): void => {
+      const on = selectedParty.includes(roleId)
+      btn.style.borderColor = on ? '#7fd' : '#555'
+      btn.style.background = on ? '#1d3a3a' : '#222'
+    }
+    btn.addEventListener('click', () => {
+      const idx = selectedParty.indexOf(roleId)
+      if (idx >= 0) selectedParty.splice(idx, 1)
+      else {
+        if (selectedParty.length >= 3) return // MAX_BATTLE_PLAYERS=3
+        selectedParty.push(roleId)
+      }
+      refresh()
+    })
+    refresh()
+    partyRow.appendChild(btn)
+  }
+  section.appendChild(partyRow)
+
+  // —— 等级(仙术按等级)+ 全道具 ——
+  const optsRow = document.createElement('div')
+  optsRow.style.cssText = 'display:flex; align-items:center; gap:12px; margin-bottom:6px; font-size:12px; color:#ddd'
+  const lvLabel = document.createElement('label')
+  lvLabel.textContent = '等级:'
+  const lvInput = document.createElement('input')
+  lvInput.type = 'number'
+  lvInput.min = '1'
+  lvInput.max = '99'
+  lvInput.value = '99'
+  lvInput.style.cssText = 'width:52px; margin-left:4px'
+  lvLabel.appendChild(lvInput)
+  const itemsLabel = document.createElement('label')
+  itemsLabel.style.cssText = 'cursor:pointer'
+  const itemsChk = document.createElement('input')
+  itemsChk.type = 'checkbox'
+  itemsChk.checked = true
+  itemsLabel.append(itemsChk, document.createTextNode(' 全道具×99'))
+  optsRow.append(lvLabel, itemsLabel)
+  section.appendChild(optsRow)
+
+  // —— 开战 ——
+  const startBtn = document.createElement('button')
+  startBtn.textContent = '▶ 开战'
+  startBtn.style.cssText =
+    'display:block; width:100%; padding:6px; cursor:pointer; background:#3a482a; font-weight:bold; border:1px solid #6a8; color:#fff'
+  startBtn.addEventListener('click', () => {
+    if (selectedEnemies.length === 0) {
+      enemyHint.textContent = '敌人(点选,≤5):⚠ 至少选 1 个敌人'
+      return
+    }
+    if (selectedParty.length === 0) {
+      partyHint.textContent = '队员(≤3):⚠ 至少选 1 个队员'
+      return
+    }
+    const level = Math.max(1, Math.min(99, Number(lvInput.value) || 99))
+    closePicker()
+    applyCustomBattle(deps, {
+      enemyIds: [...selectedEnemies],
+      partyMembers: [...selectedParty],
+      level,
+      allItems: itemsChk.checked,
+    })
+  })
+  section.appendChild(startBtn)
+
+  return section
 }
 
 function openPicker(deps: DevPanelDeps): void {
@@ -500,6 +658,9 @@ function openPicker(deps: DevPanelDeps): void {
     btn.addEventListener('click', () => runSpellTest(members, label))
     body.appendChild(btn)
   }
+
+  // ── ⚔ 自定义战斗(A):敌人多选缩略图 + 选队员 + 设等级(仙术按等级)+ 全道具 → 开战 ──
+  body.appendChild(buildCustomBattleSection(deps))
 
   // ── ⚔ 战斗状态调试(B1/D8 等)——只在战斗中生效,给 player 0(李逍遥)挂异常状态/buff ──
   //   sdlpal CLASSIC kStatus 全 9 种 + 中毒。点按钮 → 设到 player 0 status[key]=5 回合(中毒设 rgPoisonStatus),
