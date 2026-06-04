@@ -58,6 +58,7 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
     tickChaseTimer(gs)
   }
 
+  const prevMode = gs.mode
   switch (gs.mode) {
     case 'explore':
       tickSceneSystem(gs, input, bus)
@@ -73,5 +74,16 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
       // 栈空时 tickMenu 自动切回 'explore'。
       tickMenu(gs, input, bus)
       break
+  }
+
+  // BUG1 修(2026-06-04 user 报"出战斗后还能看见死怪,再 fade 才把怪刷掉"):0x07 触发的战斗结束后
+  //   finalizeBattle→resumePostBattleScript 把 mode 翻 'event' + 设 eventCursor,但**不执行 opcode**;
+  //   续跑脚本的 0x52 隐怪要等下一个 event tick 才跑,中间会 present 一帧大世界露出未隐藏的死怪(sState>0)。
+  //   sdlpal PAL_StartBattle 同步返回后,0x07 handler 在同一调用栈立刻续跑 goto→0x52(隐怪)→0x50(FadeOut),
+  //   中间不重绘 → 死怪在任何画面出现前就隐了。这里对齐:战斗结束转 'event' 时,**同 tick** 立即驱动一次
+  //   tickEventSystem 把续跑脚本步进到首个 waitable(0x52 在任何 present 前执行),消除"先露一帧死怪"。
+  //   仅 0x07 续跑(battle→'event')触发;转 'explore'(非 0x07 战斗)或仍 'battle' 不步进。
+  if (prevMode === 'battle' && gs.mode === 'event') {
+    tickEventSystem(gs, input, bus)
   }
 }

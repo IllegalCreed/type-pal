@@ -94,8 +94,16 @@ const PHASE_STALL_TICKS_LIMIT = 1500
  * 战斗 tick 与 BATTLE_FPS 同频 → 每 tick 恰好推进 1 个 battle frame。
  */
 const BATTLE_DT = BATTLE_FRAME_TIME
-/** D19 入场 fade-in gate 时长(tick)≈ PAL_BattleFadeScene 72 step × 16ms / 40ms tick(battle.c:609)。 */
-export const INTRO_FADE_TICKS = 29
+/**
+ * D19 入场揭示 gate 时长(tick)。对齐 sdlpal `PAL_StartBattle` 入场真值 = `VIDEO_SwitchScreen(5)`
+ * (video.c:1089-1126:wSpeed=5→6→×10=60,外层 6 band × UTIL_Delay(60) = 360ms),≈ 360ms / 40ms-per-tick
+ * (FRAME_MS_BATTLE)= 9 tick。
+ *
+ * 注(2026-06-04 修 user 报"进战斗到菜单过渡偏长"):入场揭示出处是 video.c VIDEO_SwitchScreen(5)=360ms,
+ * **不是** PAL_BattleFadeScene(battle.c:608-682,72×16ms≈1152ms)—— 后者是战斗内动作刷新/法术效果用,
+ * PAL_StartBattle 入场 callpath(battle.c:706-737)根本不调它。旧值 29(≈1160ms)对标错了函数,过渡比真值长约 3 倍。
+ */
+export const INTRO_FADE_TICKS = 9
 
 /**
  * 战斗运行时所需的资源表 —— 由 startBattle 缓存到 GameState.__battleResources。

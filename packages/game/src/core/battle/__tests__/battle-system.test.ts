@@ -29,11 +29,14 @@ import type {
   PlayerRoles,
   Spell,
 } from '@type-pal/shared'
+import { FPS_BATTLE } from '@type-pal/shared'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus, type PresentCommand } from '../../command-bus.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
-import { activateHidingEffect, applyHiddenExpGrowth, battleWonLevelUp, decrementHidingEffect, selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
+import { activateHidingEffect, applyHiddenExpGrowth, battleWonLevelUp, decrementHidingEffect, INTRO_FADE_TICKS, selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
 import { createSeedableRng } from '../../rng.js'
+import { tickByMode } from '../../mode.js'
+import { setGlobalEvents } from '../../event-system.js'
 import { tickMenu } from '../../menu/menu-mode.js'
 import type { BattleEnemy } from '../battle-state.js'
 
@@ -2191,5 +2194,57 @@ describe('iHidingTime 隐身(D24)', () => {
     expect(resources.playerRoles.roles[0]!.hp).toBe(500)
     // 隐身每轮衰减:已从 3 降到 <=2
     expect(gs.battleState?.iHidingTime ?? 0).toBeLessThanOrEqual(2)
+  })
+})
+
+// ── 战斗过渡时序 bug(2026-06-04 user 报)─────────────────────────────────────
+describe('战斗过渡时序(sdlpal port)', () => {
+  // BUG2:进战斗→战斗菜单过渡偏长。sdlpal PAL_StartBattle 入场揭示 = VIDEO_SwitchScreen(5)
+  //   (video.c:1089-1126:6 band × UTIL_Delay(60) = 360ms),**不是** PAL_BattleFadeScene
+  //   (battle.c:608-682,72×16ms≈1152ms,那是战斗内动作刷新用,入场 callpath 不调)。
+  //   旧 INTRO_FADE_TICKS=29(≈1160ms @40ms/tick)对标错了函数 → 过渡比真值长约 3 倍。
+  it('BUG2:INTRO_FADE_TICKS 入场揭示时长对齐 sdlpal VIDEO_SwitchScreen(5)≈360ms', () => {
+    const introMs = INTRO_FADE_TICKS * (1000 / FPS_BATTLE) // 战斗 tick = FRAME_MS_BATTLE
+    expect(introMs).toBeGreaterThanOrEqual(320) // ≈360ms,容差下限
+    expect(introMs).toBeLessThanOrEqual(420) // 容差上限(旧 1160ms 远超 → 回归会失败)
+  })
+
+  // BUG1:0x07 接触怪(明雷)胜利续跑 `0x52 隐怪 → 0x50 FadeOut`(all.json L_41127 真值)。
+  //   sdlpal PAL_StartBattle 同步返回后,0x07 handler 在同一调用栈立刻续跑 goto→0x52→0x50,中间不重绘,
+  //   死怪在任何大世界帧出现前就被 0x52 隐(sState 取反)。ts 异步 tick 制:finalizeBattle→resumePostBattleScript
+  //   只把 mode 翻 'event' + 设 cursor,不执行 opcode → 0x52 延后到下一 event tick 才跑,中间 present 一帧
+  //   大世界露出未隐藏的死怪(sState>0)。修:tickByMode 战斗结束转 'event' 时同 tick 立即步进续跑脚本,
+  //   让 0x52 在任何 present 前执行。
+  it('BUG1:0x07 接触怪胜利 → 战斗结束转出同 tick 即跑 0x52 隐怪(死怪不残留一帧)', () => {
+    // 续跑脚本(全局):ip0 = 0x52 hideObject(隐开战那只怪)→ end
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x52, operands: [0, 0, 0], label: 'L_won' },
+      { op: 'end' },
+    ])
+    try {
+      const { gs, bus } = bootstrap({
+        enemies: [makeEnemy({ id: 100, health: 1 })], // 必秒 → 胜利
+        roles: [makeRole({ id: 0, attackStrength: 999 })],
+        fAutoBattle: true, // 队员自动出手,无需填 pendingActions
+      })
+      // 场上明雷怪 NPC(开战那只,id 7),sState>0 = 可见
+      gs.npcs = [{ id: 7, x: 100, y: 100, spriteNum: 1, sState: 1, facing: 'down' }]
+      // 模拟 0x07 触发战斗存的接回上下文:胜 → wonIp=0(全局 L_won 的 0x52),作用对象 = 怪 id 7
+      gs.postBattleResume = { wonIp: 0, currentEventObjectId: 7, triggerOwnerId: 7 }
+
+      // 用 tickByMode 驱动(走 mode.ts 修复路径,而非直接 tickBattle)
+      const empty: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }
+      const advance: InputSnapshot = { held: new Set(), pressed: new Set(['Confirm']), frameNum: 0 }
+      let safety = 400
+      while (gs.mode === 'battle' && safety-- > 0)
+        tickByMode(gs, gs.battleState?.settlement ? advance : empty, bus)
+
+      // 战斗结束(转出 battle)的那一 tick,0x52 应已执行 → 死怪 sState 取反隐藏(<0),不残留可见帧。
+      expect(gs.mode).not.toBe('battle')
+      expect(gs.npcs[0]!.sState!).toBeLessThan(0)
+    }
+    finally {
+      setGlobalEvents([])
+    }
   })
 })
