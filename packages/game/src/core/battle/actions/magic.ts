@@ -359,8 +359,10 @@ export function performMagic(input: PerformMagicInput): void {
   // M6 法术效果音 magic.sound:player 攻击魔法(OffMagic)已在 buildPlayerOffMagicTimeline 的
   //   **起手帧 i==0** 挂 frame.sound(WIN95 式声画同步,sdlpal fight.c:2669;user 2026-06-05 选),**不在此 push**;
   //   其余(防御/召唤/敌方/无动画)无帧同步 → 即时 push 到 gs.pendingSounds(同 0x47 通道)。
-  const offMagicSynced = built && !input.casterIsEnemy && OFF_MAGIC_TYPES.has(magic.type)
-  if (magic.sound > 0 && input.gs && !offMagicSynced) (input.gs.pendingSounds ??= []).push(magic.sound)
+  // OffMagic 在起手帧帧同步(上方);summon 自身 magic.sound 在 PreMagic 后首个变亮帧帧同步
+  //   (buildAndStartSummonAnim,WIN95 fight.c:3112)→ 二者都**不在此即时 push**(否则 dispatch 时就响、过早)。
+  const soundFrameSynced = built && !input.casterIsEnemy && (OFF_MAGIC_TYPES.has(magic.type) || magic.type === 'summon')
+  if (magic.sound > 0 && input.gs && !soundFrameSynced) (input.gs.pendingSounds ??= []).push(magic.sound)
 
   // 未建动画链(旧 fixture / 无 sprite 资源 / 非 OFF 类型)→ 立即 emit 伤害数字(向后兼容;
   //   无动画可挂,只能即时显示)。建了链 → 交时间线播完后 emit(startBattleAnim 已收 pendingNums)。
@@ -500,6 +502,10 @@ function buildAndStartSummonAnim(
   })
   // 全员变亮 iColorShift 1..10(fight.c:3120-3128)。
   const brightenFrames = buildSummonBrightenTimeline(input.state.players.length)
+  // 召唤自身 magic.sound(如天剑 304):WIN95 在召唤函数**起手**(PreMagic 之后、变亮之前)播一次
+  //   (fight.c:3110-3115 "Sound should be played before magic begins")→ 挂首个变亮帧;不再 dispatch 即时 push
+  //   (此前在 PreMagic 之前就 push → user 2026-06-05 报"天剑音效又提前了")。
+  if (magic.sound > 0 && brightenFrames.length > 0) brightenFrames[0]!.sound = magic.sound
 
   // 二次法术效果:secondary = magics[summonMagic.effect](wEffect 是 magic 编号,fight.c:3098-3105),
   //   PAL_BattleShowPlayerOffMagicAnim(-1, ..., -1, TRUE) → 全敌 + secondary 落点(fight.c:3186)。

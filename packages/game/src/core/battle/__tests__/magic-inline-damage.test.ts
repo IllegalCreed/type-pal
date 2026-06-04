@@ -299,6 +299,34 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
     expect(state.enemies[0]!.e.health).toBeLessThan(9000)
   })
 
+  // 召唤自身 magic.sound(如天剑 304):WIN95 在召唤函数**起手**(PreMagic 之后、变亮之前)播一次
+  //   (fight.c:3110-3115 "Sound should be played before magic begins")。此前 ts 在 dispatch **即时 push**
+  //   gs.pendingSounds(PreMagic 之前)→ 召唤音比真值早整个 PreMagic(user 2026-06-05 报"天剑音效又提前了")。
+  //   修:挂到 PreMagic 后首个变亮帧,不再 dispatch 即时 push。(召唤二次效果音另算,天剑二次 sound=0。)
+  it('召唤 magic.sound:挂 PreMagic 后首个变亮帧,不 dispatch 即时 push(WIN95 fight.c:3112)', () => {
+    const { state, playerRoles, bus } = makeState({ hp: 500, mp: 45, magicStrength: 60 }, [{ health: 9000, defense: 0, level: 5 }])
+    ;(state.players[0] as unknown as { posOriginal: { x: number, y: number } }).posOriginal = { x: 240, y: 170 }
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    performMagic({
+      state, casterIsEnemy: false, casterIdx: 0, spellId: 7, targetIsEnemy: true, targetIdx: 0,
+      spells: [makeSpell({ magicNumber: 19 })],
+      magics: [
+        makeMagic({ id: 19, type: 'summon', special: 2, effect: 18, baseDamage: 80, speed: 5, effectTimes: 3, sound: 304 }),
+        makeMagic({ id: 18, type: 'attackAll', effect: 18, baseDamage: 0 }),
+      ],
+      playerRoles, bus, commands, runScript: noopRunScript, gs,
+      magicSpriteFrameCounts: new Map([[18, 6]]),
+      summonSpriteFrameCounts: new Map([[12, 4]]),
+    })
+    const frames = state.battleAnim!.frames
+    const soundFrameIdx = frames.findIndex((f) => f.sound === 304)
+    expect(soundFrameIdx, '召唤音挂在 PreMagic 之后某帧(非 frame0)').toBeGreaterThan(0)
+    // 该帧是变亮帧(全员 iColorShift set)→ 确认在 PreMagic 之后
+    expect(frames[soundFrameIdx]!.fighters?.some((d) => d.side === 'player' && d.iColorShift !== undefined)).toBe(true)
+    // 不再 dispatch 即时 push gs.pendingSounds
+    expect(gs.pendingSounds ?? []).not.toContain(304)
+  })
+
   it('applyToAll 法术 → 全体敌人落血', () => {
     const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
       {
