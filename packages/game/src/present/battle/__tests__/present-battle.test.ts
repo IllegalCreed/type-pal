@@ -212,6 +212,33 @@ describe('BattlePresent', () => {
     expect(() => present.draw(fb, mkGs(), state, [], mkAssets(), 0)).not.toThrow()
   })
 
+  // 战斗法术振屏(山神/泰山压顶等):当前 battleAnim 帧的 frame.shake 须在整帧合成后施加
+  //   (对齐 sdlpal video.c VIDEO_UpdateScreen)。此前 frame.shake 只在 presentFrame(大世界)处理,
+  //   战斗走 presentBattleFrame/BattlePresent.draw 不施加 → 振屏不显示(user 2026-06-05 报)。
+  it('frame.shake → draw 末尾施加屏幕摇晃(偶帧下移 + 顶部填黑)', () => {
+    const fb = createFramebuffer()
+    const present = new BattlePresent()
+    const state = mkState([], [], {
+      battleAnim: { frames: [{ durationMs: 50, shake: { time: 0, level: 3 } }], idx: 0, frameElapsedMs: 0 },
+    })
+    const assets = mkAssets({ battleBgs: new Map([[0, mkBgAsset(4)]]) })
+    present.draw(fb, mkGs(), state, [], assets, 0)
+    // 偶帧(time&1==0)下移 3 行 → 顶部 3 行(0..959)填黑(0),第 4 行起为下移后的 bg(4)
+    expect(fb.indices[0]).toBe(0)
+    expect(fb.indices[3 * 320 - 1]).toBe(0)
+    expect(fb.indices[3 * 320]).toBe(4)
+  })
+
+  // 无 frame.shake(对照):整帧 = bg 填充,顶部不填黑。
+  it('无 frame.shake → 不施加摇晃(顶部仍是 bg)', () => {
+    const fb = createFramebuffer()
+    const present = new BattlePresent()
+    const state = mkState([], [])
+    const assets = mkAssets({ battleBgs: new Map([[0, mkBgAsset(4)]]) })
+    present.draw(fb, mkGs(), state, [], assets, 0)
+    expect(fb.indices[0]).toBe(4)
+  })
+
   it('draw —— bg + sprite + UI 联合落在 framebuffer', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()

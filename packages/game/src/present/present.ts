@@ -572,17 +572,10 @@ export function presentFrame(
   // sdlpal 在所有层 blit 到 gpScreen 后,UpdateScreen 输出阶段才施加 shake → 我们同序:
   //   全部图层 + 精灵 + fade + 菜单装配完成后,对最终 fb.indices 整幅垂直跳动。
   // opcode 0x0035 设 shakeTime/shakeLevel 后逐帧生效,applyScreenShake 末尾自减 shakeTime 至 0 停。
+  //   注:战斗法术 frame.shake(magic.shake → anim-timeline shake 区)在 present-battle.ts BattlePresent.draw
+  //   末尾施加(战斗走 presentBattleFrame,不经本函数)→ 此处只认大世界/cutscene 的 gs.shakeTime。
   if (gs.shakeTime !== 0) {
     applyScreenShake(fb.indices, gs)
-  } else {
-    // 战斗法术振屏:当前 battleAnim 帧的 shake(anim-timeline 据 magic.shake 生成 shake 区,fight.c:2716-2720;
-    //   present 施加对齐 video.c UpdateScreen)。此前 present 只认 0x35 的 gs.shakeTime,漏了法术帧 shake →
-    //   泰山压顶等振屏特效不显示(user 2026-06-04)。frame.shake.time 提供奇偶帧方向,传临时对象不污染 gs。
-    const anim = gs.battleState?.battleAnim
-    const fshake = anim ? anim.frames[anim.idx]?.shake : undefined
-    if (fshake && fshake.level > 0) {
-      applyScreenShake(fb.indices, { shakeTime: fshake.time, shakeLevel: fshake.level })
-    }
   }
 }
 

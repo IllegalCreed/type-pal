@@ -36,6 +36,7 @@ import type { GlyphTable } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { type BattleBgAsset, drawBattleBg } from './draw-battle-bg.js'
 import { applyScreenWave } from '../screen-wave.js'
+import { applyScreenShake } from '../screen-shake.js'
 import { applyDitherSteps, DITHER_TOTAL_STEPS } from '../dither-fade.js'
 import { type DialogBoxDrawCtx, drawDialogBox } from '../dialog-box.js'
 import { drawBattleEffectOverlay, drawBattleMagicOverlay } from './draw-battle-effect.js'
@@ -289,6 +290,20 @@ export class BattlePresent {
         uiSpriteFrames: assets.uiSpriteFrames,
         glyphs: assets.glyphs,
       })
+    }
+
+    // 8. 屏幕摇晃 —— 在整帧合成后(所有图层+精灵+召唤fade+UI+对话+结算之上)施加,对齐 sdlpal
+    //    video.c VIDEO_UpdateScreen shake 分支(输出阶段)。战斗法术 shake 区(magic.shake,fight.c:2716)
+    //    经 anim-timeline 生成当前帧 frame.shake;0x35 设的 gs.shakeTime 优先。纯垂直跳动。
+    //    **修**:此前 frame.shake 只在大世界 presentFrame 施加,战斗走 presentBattleFrame/draw 漏掉 →
+    //    山神/泰山压顶等振屏不显示(user 2026-06-05 报)。
+    if (gs.shakeTime !== 0) {
+      applyScreenShake(fb.indices, gs)
+    } else {
+      const fshake = state.battleAnim?.frames[state.battleAnim.idx]?.shake
+      if (fshake && fshake.level > 0) {
+        applyScreenShake(fb.indices, { shakeTime: fshake.time, shakeLevel: fshake.level })
+      }
     }
   }
 
