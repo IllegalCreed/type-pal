@@ -983,6 +983,14 @@ export function tickAutoScripts(gs: GameState): void {
   if (_globalCommands.length === 0) return // P2#5:全局脚本数组未就绪(all.json 未载)→ 不跑
   for (const npc of gs.npcs) {
     if ((npc.sState ?? 1) === 0) continue  // sdlpal `sState > 0` 才跑 autoScript
+    // sdlpal PAL_RunTriggerScript(play.c:153/499)是阻塞调用:被触发的 owner NPC 卡在脚本里,
+    // 其 autoScript 在整段触发脚本期间绝不运行。TS tick 模型下 talk 触发后下一 tick(showDialog 尚未
+    // 步进、cursor.waiting 仍 undefined → mode.ts 门放行 autoScript),若不跳过 owner,它自己的 idle/
+    // 巡逻 autoScript(0x0B-0x0E/0x0F/0x14/0x16/0x4C 等写 npc.facing)会把 applySearchVisualEffect 刚设的
+    // "面向玩家"朝向覆盖回去 → 用户看到"转向一帧立刻转回"(2026-06-03 user 报)。
+    // 只跳过 owner 这一个 NPC:场上其它 NPC 在脚本控制的 party-walk/滚屏步进(waiting=undefined)期仍照常
+    // 跑 autoScript(忠实 sdlpal PAL_GameUpdate(FALSE) 每步跑全场 autoScript),不破坏 P2#6a 修复。
+    if (gs.eventCursor?.triggerOwnerId !== undefined && npc.id === gs.eventCursor.triggerOwnerId) continue
     if (!npc.autoCursor) {
       // scene-load 切片解析(game-state.sliceSceneEventObjects / npcFromEventObject)只查
       // sceneLabelMap;**入口在全局数组**(events/all.json 高位 entry,如丁大伯挥锄 autoScript

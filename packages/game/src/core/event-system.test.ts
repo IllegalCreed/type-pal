@@ -1779,6 +1779,52 @@ describe('autoScript goto 不消耗帧(sdlpal script.c:3549-3557 goto begin)— 
   })
 })
 
+describe('对话期触发 NPC 的 autoScript 冻结 — NPC 转向玩家后保持(sdlpal PAL_RunTriggerScript 阻塞期 owner autoScript 不跑)', () => {
+  // 根因(2026-06-03):tickByMode 在 tickEventSystem 之前先跑 tickAutoScripts;talk 触发后下一 tick
+  // eventCursor.waiting 仍 undefined(showDialog 尚未步进),mode.ts 门放行 autoScript。若 tickAutoScripts
+  // 不排除正被触发的那个 NPC(triggerOwnerId),它自己的 idle/巡逻 autoScript(0x0B-0x0E/0x0F/0x14/0x16/0x4C
+  // 等写 npc.facing)会在 showDialog 锁屏前抢跑一步,把 applySearchVisualEffect 设的"面向玩家"覆盖回去 →
+  // 用户看到"转向一帧立刻转回"。sdlpal:PAL_RunTriggerScript 阻塞期 owner NPC 卡在脚本里,autoScript 绝不跑。
+  it('eventCursor.triggerOwnerId 对应 NPC → tickAutoScripts 跳过它,facing 保持面向玩家', () => {
+    // autoScript = 0x0B walkOneStepSouth:跑一步会把 self.facing 改成 'down'(模拟会转向的 idle/巡逻 autoScript)
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x0B, operands: [0, 0, 0], label: 'L_0' },
+      { op: 'end' },
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      // applySearchVisualEffect 等价:NPC 已被 talk 触发、面向玩家(此处 'up')
+      gs.npcs = [{ id: 0, x: 100, y: 100, spriteNum: 1, sState: 1, facing: 'up', autoCursor: { ip: 0 } }]
+      // talk 触发后:mode='event' + eventCursor(triggerOwnerId=该 NPC, waiting 未设=undefined)
+      gs.eventCursor = { ip: 0, currentEventObjectId: 0, triggerOwnerId: 0 }
+      tickAutoScripts(gs)
+      expect(gs.npcs[0]!.facing).toBe('up')        // owner autoScript 未跑 → 保持面向玩家
+      expect(gs.npcs[0]!.autoCursor?.ip).toBe(0)    // autoCursor 未推进(被跳过)
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+
+  it('非 owner NPC 的 autoScript 仍正常跑(不过度冻结 — party-walk 期场上其它 NPC 照动)', () => {
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x0B, operands: [0, 0, 0], label: 'L_0' },
+      { op: 'end' },
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.npcs = [{ id: 5, x: 100, y: 100, spriteNum: 1, sState: 1, facing: 'up', autoCursor: { ip: 0 } }]
+      // 触发 owner 是另一个 NPC(id 3),当前 NPC(id 5)非 owner → 应照常跑 autoScript
+      gs.eventCursor = { ip: 0, currentEventObjectId: 3, triggerOwnerId: 3 }
+      tickAutoScripts(gs)
+      expect(gs.npcs[0]!.facing).toBe('down')       // 非 owner → walkOneStepSouth 改 facing
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+})
+
 describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4', () => {
   it('operand[0]=0 → silent no-op', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
