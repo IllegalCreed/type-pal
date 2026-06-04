@@ -28,33 +28,35 @@ import type {
   Magic,
   ObjectMagicView,
   ObjectPoisonView,
+  Palette,
   PlayerRoles,
   Spell,
 } from '@type-pal/shared'
-import type { Facing, GameState } from '../core/game-state.js'
-import { hydratePlayerRolesRuntime, projectRuntimeToBattleRoles } from '../core/game-state.js'
+import type { DialogSprite } from '../assets/dialog-assets.js'
+import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
+import type { IndexedImage } from '../assets/png.js'
 import { startBattle } from '../core/battle/battle-system.js'
-import { loadScene } from '../core/scene-system.js'
 import {
   buildLabelMap,
   getGlobalCommands,
   OP_ADD_MAGIC,
-  OP_FADE_OUT, OP_FADE_IN, OP_FADE_TO_RED, OP_PALETTE_FADE, OP_COLOR_FADE,
-  OP_SCENE_FADE, OP_FADE_TO_SCENE, OP_FADE_SCREEN, OP_SET_DAY_PALETTE, OP_SET_NIGHT_PALETTE,
-  OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, OP_SHAKE_SCREEN, OP_SHOW_FBP, OP_SCROLL_FBP,
+  OP_COLOR_FADE,
   OP_ENDING_ANIMATION,
+  OP_FADE_IN,
+  OP_FADE_OUT,
+  OP_FADE_SCREEN,
+  OP_FADE_TO_RED,
+  OP_FADE_TO_SCENE,
+  OP_PALETTE_FADE,
+  OP_SCENE_FADE,
+  OP_SET_DAY_PALETTE,
+  OP_SET_NIGHT_PALETTE,
+  OP_SHAKE_SCREEN,
+  OP_WAVE_SCREEN,
 } from '../core/event-system.js'
-import { Save } from '../core/save/api.js'
-import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
-// M5.6 W2.b + T11:menu units 入口 — 一键 push 各 menu kind 到 menuStack
-import { createInGameMenu, createSystemMenu } from '../core/menu/in-game-menu.js'
-import { createSaveSlotMenu } from '../core/menu/save-slot-menu.js'
-import { createInventoryActionMenu } from '../core/menu/inventory-action-menu.js'
-import { createPlayerStatus } from '../core/menu/player-status.js'
-import { createInventoryMenu } from '../core/menu/inventory-menu.js'
-import { createEquipMenu } from '../core/menu/equip-menu.js'
-import { createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
-import { openMenu } from '../core/menu/menu-mode.js'
+import type { Facing, GameState } from '../core/game-state.js'
+import { hydratePlayerRolesRuntime, projectRuntimeToBattleRoles } from '../core/game-state.js'
+import { loadScene } from '../core/scene-system.js'
 
 /** fixture JSON entry —— 与 `packages/game/src/dev/fixtures/battle-fixtures.json` 对齐。 */
 export interface BattleFixture {
@@ -98,10 +100,55 @@ export interface SceneJumpsData {
   jumps: SceneJump[]
 }
 
+/**
+ * 队伍在队开关纯逻辑(devpanel 队伍 tab 用):返回 toggle roleId 后的 partyMembers。
+ * - role 0(队首李逍遥)常驻,toggle 无效(user 2026-06-04:至少保留队首)。
+ * - 不在队 → push 末尾(站位顺序);在队 → 保序移除。
+ * - 纯函数,不 mutate 入参。
+ */
+export function togglePartyMembership(members: readonly number[], roleId: number): number[] {
+  if (roleId === 0) return [...members]
+  if (members.includes(roleId)) return members.filter((m) => m !== roleId)
+  return [...members, roleId]
+}
+
+/**
+ * 把索引位图头像(DialogSprite:R=G=B=palette index + opaque mask)用调色板上色画到 DOM canvas。
+ * portraits PNG 是索引位图(非真彩),直接 <img> 会错色 —— 必须 palette 上色(同 framebuffer.toImageData)。
+ */
+function indexImageToCanvas(
+  img: { width: number; height: number; indices: Uint8Array; opaque: Uint8Array },
+  palette: Palette,
+): HTMLCanvasElement {
+  const canvas = document.createElement('canvas')
+  canvas.width = img.width
+  canvas.height = img.height
+  const ctx = canvas.getContext('2d')
+  if (ctx) {
+    const data = new Uint8ClampedArray(img.width * img.height * 4)
+    for (let i = 0; i < img.indices.length; i++) {
+      const col = palette.colors[img.indices[i]!] ?? [0, 0, 0]
+      data[i * 4] = col[0]
+      data[i * 4 + 1] = col[1]
+      data[i * 4 + 2] = col[2]
+      data[i * 4 + 3] = img.opaque[i] ? 255 : 0 // RLE-skip 透明 → alpha 0
+    }
+    ctx.putImageData(new ImageData(data, img.width, img.height), 0, 0)
+  }
+  // 只画像素(canvas 内在尺寸 = 原始);显示尺寸由 caller 设 style(头像 88 高 cover / 道具图标 22×22)。
+  return canvas
+}
+
 export interface DevPanelDeps {
   gs: GameState
   fixtures: BattleFixturesData
   sceneJumps: SceneJumpsData
+  /** 队伍 tab 头像渲染:RGM 头像帧(by role.avatar chunkIndex,复用 dialogAssets.portraitFrames)。 */
+  portraitFrames?: Map<number, DialogSprite>
+  /** 物品作弊列表图标:BALL.MKF 物品图标(by item.bitmap,复用 assets.itemIcons)。 */
+  itemIcons?: Map<number, IndexedImage>
+  /** 头像 / 图标上色用调色板(index→RGB);省略 → 占位块。 */
+  palette?: Palette
   /** T17:dev jump 用的 per-scene lazy 缓存(由 bootstrap 构造、首屏 palette / sprites 复用)。 */
   sceneAssetsCache: SceneAssetsCache
   /**
@@ -161,24 +208,16 @@ export function setupDevPanel(deps: DevPanelDeps): void {
       // explore:起战斗 picker;battle:同一 picker 顶部「战斗状态调试」section 可给队员挂异常状态。
       e.preventDefault()
       openPicker(deps)
-    }
-    else if (e.code === 'F1') {
+    } else if (e.code === 'F1') {
       e.preventDefault()
       // 深拷贝 dump —— 让用户在 console 翻 GameState 不被后续 mutate 影响
       console.log('[dev] GameState dump:', JSON.parse(JSON.stringify(deps.gs)))
     }
-    else if (e.code === 'KeyP') {
-      e.preventDefault()
-      // 强制 李逍遥(role 0)+ 赵灵儿(role 1)+ 林月如(role 2)入队,测多人状态/装备/道具。
-      // 三人 runtime stats 新游戏已 hydrate(hydratePlayerRolesRuntime 遍历全 role),
-      // 直接设 partyMembers 即可驱动 status/equip/magic/item 菜单显示三人。
-      deps.gs.partyMembers = [0, 1, 2]
-      deps.gs.partyLeaderSpriteId = deps.resources.playerRoles.roles[0]?.spriteNum ?? deps.gs.partyLeaderSpriteId
-      console.log('[dev] 强制入队:李逍遥(0)+赵灵儿(1)+林月如(2)。partyMembers=', deps.gs.partyMembers)
-    }
   })
 
-  console.log('[dev-panel] 装配完成。快捷键:B = battle picker / F1 = GameState dump / P = 强制三人入队(测多人菜单)/ picker 内 "Test 4 Styles" = dialog 验证')
+  console.log(
+    '[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump',
+  )
 }
 
 /** 当前打开的 picker root —— 同一时刻只允许一个。 */
@@ -234,6 +273,21 @@ function injectDevPanelCSS(): void {
       border: 1px solid #45454f; border-radius: 4px;
     }
     .tp-dev-panel input:focus { outline: none; border-color: #6c8eef; }
+    .tp-dev-tabbar {
+      display: flex; gap: 2px; margin-bottom: 8px; flex-wrap: wrap;
+      border-bottom: 1px solid #3a3a42;
+    }
+    .tp-dev-tab {
+      flex: 1; min-width: 52px; padding: 5px 4px !important;
+      font-size: 11px; background: #24242a !important;
+      border: 1px solid #3a3a42 !important; border-bottom: none !important;
+      border-radius: 5px 5px 0 0 !important; color: #aaa !important;
+    }
+    .tp-dev-tab:hover { background: #30303a !important; color: #ddd !important; }
+    .tp-dev-tab-active {
+      background: #3a3a48 !important; color: #fdf6a8 !important;
+      border-color: #6c8eef !important; font-weight: 600;
+    }
   `
   document.head.appendChild(style)
 }
@@ -255,30 +309,69 @@ function openPicker(deps: DevPanelDeps): void {
   const h3 = document.createElement('h3')
   h3.textContent = 'Dev Panel'
   h3.className = 'tp-dev-panel-title'
-  div.appendChild(h3)
 
   // M5.6 UX hotfix:close 按钮右上角 X(user 怒怼"Cancel 在底部不顺手")
   const closeBtn = document.createElement('button')
   closeBtn.textContent = '×'
   closeBtn.title = 'Close (Esc)'
-  closeBtn.style.cssText = 'position:absolute; top:6px; right:8px; padding:0 8px; cursor:pointer; font-size:20px; line-height:1; background:transparent; border:none; color:#fff; font-weight:bold'
+  closeBtn.style.cssText =
+    'position:absolute; top:6px; right:8px; padding:0 8px; cursor:pointer; font-size:20px; line-height:1; background:transparent; border:none; color:#fff; font-weight:bold'
   closeBtn.addEventListener('click', closePicker)
-  div.appendChild(closeBtn)
+
+  // ── Tab 栏 + 5 个 content 容器(战斗 / 队伍 / 场景 / 演出 / 系统);各 section 开头切 `body` 决定归属 ──
+  const TAB_DEFS = [
+    ['battle', '⚔ 战斗'],
+    ['party', '👥 队伍'],
+    ['scene', '🗺 场景'],
+    ['effect', '🎬 演出'],
+    ['system', '⚙ 系统'],
+  ] as const
+  const tabBar = document.createElement('div')
+  tabBar.className = 'tp-dev-tabbar'
+  const contents = {} as Record<string, HTMLDivElement>
+  const tabButtons = {} as Record<string, HTMLButtonElement>
+  const showTab = (key: string): void => {
+    for (const [k] of TAB_DEFS) {
+      contents[k]!.style.display = k === key ? 'block' : 'none'
+      tabButtons[k]!.classList.toggle('tp-dev-tab-active', k === key)
+    }
+  }
+  for (const [key, label] of TAB_DEFS) {
+    const c = document.createElement('div')
+    c.style.display = 'none'
+    contents[key] = c
+    const tb = document.createElement('button')
+    tb.textContent = label
+    tb.className = 'tp-dev-tab'
+    tb.addEventListener('click', () => showTab(key))
+    tabButtons[key] = tb
+    tabBar.appendChild(tb)
+  }
+  const tabBattle = contents.battle!
+  const tabParty = contents.party!
+  const tabScene = contents.scene!
+  const tabEffect = contents.effect!
+  const tabSystem = contents.system!
+  div.append(h3, closeBtn, tabBar, tabBattle, tabParty, tabScene, tabEffect, tabSystem)
+
+  // 当前 section 的 append 目标(每个 section 开头重设);初始 = 战斗 tab。
+  let body: HTMLDivElement = tabBattle
 
   const battleH = document.createElement('h4')
-  battleH.textContent = '⚔ Battle Fixtures'
+  battleH.textContent = '⚔ 快捷战斗'
   battleH.className = 'tp-dev-section-h'
-  div.appendChild(battleH)
+  body.appendChild(battleH)
 
   for (const fixture of deps.fixtures.fixtures) {
     const btn = document.createElement('button')
-    btn.textContent = `${fixture.id}: ${fixture.label}`
-    btn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width: 100%; text-align: left'
+    btn.textContent = fixture.label
+    btn.style.cssText =
+      'display:block; margin:4px 0; padding:4px 8px; width: 100%; text-align: left'
     btn.addEventListener('click', () => {
       closePicker()
       applyFixture(deps, fixture)
     })
-    div.appendChild(btn)
+    body.appendChild(btn)
   }
 
   // 法术测试战斗:李逍遥(0)/赵灵儿(1)/林月如(2)各自学会**本角色原本会的技能** + 高 HP/MP/灵力,
@@ -299,20 +392,23 @@ function openPicker(deps: DevPanelDeps): void {
       if (r1 === 0) continue // dynamic(本游戏无)
       const role = r1 - 1
       let set = grantsByRole.get(role)
-      if (!set) { set = new Set(); grantsByRole.set(role, set) }
+      if (!set) {
+        set = new Set()
+        grantsByRole.set(role, set)
+      }
       set.add(c.operands[0] ?? 0)
     }
     const roleMagics = (roleId: number): number[] => {
-      const role = deps.resources.playerRoles.roles.find(r => r.id === roleId)
-      const start = (role?.magic ?? []).filter(x => x > 0)
+      const role = deps.resources.playerRoles.roles.find((r) => r.id === roleId)
+      const start = (role?.magic ?? []).filter((x) => x > 0)
       // level-up-magic 是 [ROW][ROLE](sdlpal lprgLevelUpMagic[j].m[w],20 行学习条目 × 5 角色列)。
       //   角色 roleId 的习得 = **遍历所有 row 取该角色列** entry[roleId](对齐 battle.c:1302 / battleWonLevelUp
       //   battle-system.ts:2653-2658)。此前误写 levelUpMagic[roleId] = 取第 roleId **行** → 全员技能错乱。
       const learned = (deps.resources.levelUpMagic ?? [])
-        .map(row => row[roleId])
+        .map((row) => row[roleId])
         .filter((e): e is LevelUpMagicEntry => !!e && e.magic > 0)
-        .map(e => e.magic)
-      const granted = [...(grantsByRole.get(roleId) ?? [])].filter(x => x > 0)
+        .map((e) => e.magic)
+      const granted = [...(grantsByRole.get(roleId) ?? [])].filter((x) => x > 0)
       return [...new Set([...start, ...learned, ...granted])].slice(0, 32) // MAX_PLAYER_MAGICS=32
     }
     const makeOverride = (roleId: number): Partial<Record<string, number | number[]>> => ({
@@ -335,112 +431,147 @@ function openPicker(deps: DevPanelDeps): void {
       enemyTeamId: 7, // [7,6,7,6,6] = 5 敌,测全体法术
       battleFieldId: 7,
     })
+    // 敌人加血(法术测试要持久观察伤害,默认敌人死太快;user 2026-06-04)。
+    for (const be of deps.gs.battleState?.enemies ?? []) {
+      be.e.health = 9999
+      be.prevHp = 9999
+    }
+    // 全道具 ×99 + 金钱(测物品 / 法宝)。
+    for (const item of deps.resources.items) {
+      const entry = deps.gs.inventory.find((e) => e.itemId === item.id)
+      if (entry) entry.count = 99
+      else deps.gs.inventory.push({ itemId: item.id, count: 99 })
+    }
+    deps.gs.dwCash = 1_000_000
   }
   for (const [members, text, label] of [
-    [[0, 1, 2], '★ 法术测试 A(李逍遥/赵灵儿/林月如 vs 5 敌)', '法术测试A(李/灵/月)'],
-    [[0, 3, 4], '★ 法术测试 B(李逍遥/阿奴/巫后 vs 5 敌)', '法术测试B(李/阿奴/巫后)'],
+    [[0, 1, 2], '★ 法术测试(李/灵/月)', '法术测试A'],
+    [[0, 3, 4], '★ 法术测试(李/阿奴/巫后)', '法术测试B'],
   ] as Array<[number[], string, string]>) {
     const btn = document.createElement('button')
     btn.textContent = text
-    btn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left; background:#3a2a48; font-weight:bold'
+    btn.style.cssText =
+      'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left; background:#3a2a48; font-weight:bold'
     btn.addEventListener('click', () => runSpellTest(members, label))
-    div.appendChild(btn)
+    body.appendChild(btn)
   }
 
   // ── ⚔ 战斗状态调试(B1/D8 等)——只在战斗中生效,给 player 0(李逍遥)挂异常状态/buff ──
   //   sdlpal CLASSIC kStatus 全 9 种 + 中毒。点按钮 → 设到 player 0 status[key]=5 回合(中毒设 rgPoisonStatus),
   //   closePicker 让战斗继续观察。需先在战斗中(B 键战斗中也能开本 picker)。
-  const statusH = document.createElement('h4')
-  statusH.textContent = '⚔ 战斗状态调试(挂到 P0 李逍遥)'
-  statusH.className = 'tp-dev-section-h'
-  div.appendChild(statusH)
+  // 仅战斗中显示(user 2026-06-04):非战斗时整段不渲染。
+  if (deps.gs.mode === 'battle') {
+    const statusH = document.createElement('h4')
+    statusH.textContent = '⚔ 战斗状态调试(挂到 P0 李逍遥)'
+    statusH.className = 'tp-dev-section-h'
+    body.appendChild(statusH)
 
-  // [label, statusKey | 'poison' | 'clear', 中文说明]
-  const STATUS_BTNS: Array<[string, string]> = [
-    ['混乱 confused(攻友军)', 'confused'],
-    ['定身/麻痹 paralyzed(跳回合)', 'paralyzed'],
-    ['睡眠 sleep(跳回合)', 'sleep'],
-    ['沉默 silence(禁施法)', 'silence'],
-    ['傀儡 puppet(死后续战)', 'puppet'],
-    ['狂暴 bravery(必暴击)', 'bravery'],
-    ['护体 protect(减半受伤)', 'protect'],
-    ['加速 haste(dex×3)', 'haste'],
-    ['双攻 dualAttack(双击)', 'dualAttack'],
-    ['中毒 poison(战末解)', 'poison'],
-    ['✗ 清除 P0 全部状态/毒', 'clear'],
-  ]
-  const statusNote = document.createElement('div')
-  statusNote.style.cssText = 'font-size:11px; color:#aaa; margin:2px 0 4px'
-  statusNote.textContent = '注:需在战斗中(可按 B 在战斗里开本面板)。混乱/AttackMate 需先按 P 组三人队。'
-  div.appendChild(statusNote)
-  for (const [label, key] of STATUS_BTNS) {
-    const btn = document.createElement('button')
-    btn.textContent = label
-    btn.style.cssText = 'display:block; margin:3px 0; padding:4px 8px; width:100%; text-align:left; font-size:12px'
-    btn.addEventListener('click', () => {
-      const st = deps.gs.battleState
-      if (!st || deps.gs.mode !== 'battle') {
-        console.warn('[dev] 战斗状态调试:需在战斗中(当前 mode=' + deps.gs.mode + ')')
-        return
-      }
-      const p0 = st.players[0]
-      const role0 = deps.gs.partyMembers[0]
-      if (!p0) {
-        console.warn('[dev] 战斗状态调试:无 player 0')
-        return
-      }
-      if (key === 'poison') {
-        if (role0 !== undefined)
-          deps.gs.rgPoisonStatus[`0_${role0}`] = { wPoisonID: 5, wPoisonScript: 0 }
-        console.log(`[dev] P0(role ${role0})中毒 rgPoisonStatus[0_${role0}]=id5;打完战斗应被清(D21)`)
-      }
-      else if (key === 'clear') {
-        const s = p0.status as unknown as Record<string, number>
-        for (const k of ['confused', 'paralyzed', 'sleep', 'silence', 'puppet', 'bravery', 'protect', 'haste', 'slow', 'dualAttack'])
-          s[k] = 0
-        if (role0 !== undefined)
-          for (let slot = 0; slot < 16; slot++) delete deps.gs.rgPoisonStatus[`${slot}_${role0}`]
-        console.log('[dev] P0 全部状态/毒已清')
-      }
-      else {
-        ;(p0.status as unknown as Record<string, number>)[key] = 5
-        console.log(`[dev] P0 status.${key}=5(5 回合)。回合末逐回合 -1`)
-      }
-      closePicker()
-    })
-    div.appendChild(btn)
-  }
+    // [label, statusKey | 'poison' | 'clear', 中文说明]
+    const STATUS_BTNS: Array<[string, string]> = [
+      ['混乱 confused(攻友军)', 'confused'],
+      ['定身/麻痹 paralyzed(跳回合)', 'paralyzed'],
+      ['睡眠 sleep(跳回合)', 'sleep'],
+      ['沉默 silence(禁施法)', 'silence'],
+      ['傀儡 puppet(死后续战)', 'puppet'],
+      ['狂暴 bravery(必暴击)', 'bravery'],
+      ['护体 protect(减半受伤)', 'protect'],
+      ['加速 haste(dex×3)', 'haste'],
+      ['双攻 dualAttack(双击)', 'dualAttack'],
+      ['中毒 poison(战末解)', 'poison'],
+      ['✗ 清除 P0 全部状态/毒', 'clear'],
+    ]
+    const statusNote = document.createElement('div')
+    statusNote.style.cssText = 'font-size:11px; color:#aaa; margin:2px 0 4px'
+    statusNote.textContent =
+      '注:需在战斗中(可按 B 在战斗里开本面板)。混乱/AttackMate 需先在「队伍」tab 组多人队。'
+    body.appendChild(statusNote)
+    for (const [label, key] of STATUS_BTNS) {
+      const btn = document.createElement('button')
+      btn.textContent = label
+      btn.style.cssText =
+        'display:block; margin:3px 0; padding:4px 8px; width:100%; text-align:left; font-size:12px'
+      btn.addEventListener('click', () => {
+        const st = deps.gs.battleState
+        if (!st || deps.gs.mode !== 'battle') {
+          console.warn('[dev] 战斗状态调试:需在战斗中(当前 mode=' + deps.gs.mode + ')')
+          return
+        }
+        const p0 = st.players[0]
+        const role0 = deps.gs.partyMembers[0]
+        if (!p0) {
+          console.warn('[dev] 战斗状态调试:无 player 0')
+          return
+        }
+        if (key === 'poison') {
+          if (role0 !== undefined)
+            deps.gs.rgPoisonStatus[`0_${role0}`] = { wPoisonID: 5, wPoisonScript: 0 }
+          console.log(
+            `[dev] P0(role ${role0})中毒 rgPoisonStatus[0_${role0}]=id5;打完战斗应被清(D21)`,
+          )
+        } else if (key === 'clear') {
+          const s = p0.status as unknown as Record<string, number>
+          for (const k of [
+            'confused',
+            'paralyzed',
+            'sleep',
+            'silence',
+            'puppet',
+            'bravery',
+            'protect',
+            'haste',
+            'slow',
+            'dualAttack',
+          ])
+            s[k] = 0
+          if (role0 !== undefined)
+            for (let slot = 0; slot < 16; slot++) delete deps.gs.rgPoisonStatus[`${slot}_${role0}`]
+          console.log('[dev] P0 全部状态/毒已清')
+        } else {
+          ;(p0.status as unknown as Record<string, number>)[key] = 5
+          console.log(`[dev] P0 status.${key}=5(5 回合)。回合末逐回合 -1`)
+        }
+        closePicker()
+      })
+      body.appendChild(btn)
+    }
+  } // end if (mode==='battle') — 战斗状态调试仅战斗中显示
 
   // M4 P3 T6: scene jump section —— input + filter list(294 entries)。
+  // ── 🗺 场景 tab ──
+  body = tabScene
   const sceneH = document.createElement('h4')
-  sceneH.textContent = '🗺 Scene Jump'
+  sceneH.textContent = '🗺 场景跳转'
   sceneH.className = 'tp-dev-section-h'
-  div.appendChild(sceneH)
+  body.appendChild(sceneH)
 
   const sceneInput = document.createElement('input')
   sceneInput.type = 'text'
   sceneInput.placeholder = 'scene id / map id (1-294)'
-  sceneInput.style.cssText = 'width:200px; margin-bottom:6px; padding:3px 6px; font-family:monospace; font-size:12px'
-  div.appendChild(sceneInput)
+  sceneInput.style.cssText =
+    'width:200px; margin-bottom:6px; padding:3px 6px; font-family:monospace; font-size:12px'
+  body.appendChild(sceneInput)
 
   const sceneList = document.createElement('div')
   sceneList.style.cssText = 'max-height:200px; overflow-y:auto'
-  div.appendChild(sceneList)
+  body.appendChild(sceneList)
 
   const renderSceneList = (filter: string): void => {
     sceneList.textContent = ''
-    const filtered = deps.sceneJumps.jumps.filter((e) => {
-      if (!filter) return true
-      return (
-        String(e.sceneId).includes(filter)
-        || e.label.includes(filter)
-        || (e.mapNum !== undefined && String(e.mapNum).includes(filter))
-      )
-    }).slice(0, 30)
+    const filtered = deps.sceneJumps.jumps
+      .filter((e) => {
+        if (!filter) return true
+        return (
+          String(e.sceneId).includes(filter) ||
+          e.label.includes(filter) ||
+          (e.mapNum !== undefined && String(e.mapNum).includes(filter))
+        )
+      })
+      .slice(0, 30)
     for (const jump of filtered) {
       const btn = document.createElement('button')
       btn.textContent = jump.label
-      btn.style.cssText = 'display:block; margin:2px 0; padding:3px 8px; width:100%; text-align:left; font-family:monospace; font-size:11px'
+      btn.style.cssText =
+        'display:block; margin:2px 0; padding:3px 8px; width:100%; text-align:left; font-family:monospace; font-size:11px'
       btn.addEventListener('click', () => {
         closePicker()
         void applySceneJump(deps, jump)
@@ -455,190 +586,234 @@ function openPicker(deps: DevPanelDeps): void {
   // M5.6 UX hotfix:底部 Cancel 按钮删除 — 走右上角 X(已加在 div 内)
 
   // P4.T5: Font Test sheet — 渲染中英文混合字符串到 fb,spot-check Unifont glyph 真显示
+  // ── 🎬 演出 tab(字体 / 对话 / 特效 / RNG / FBP / 视频)──
+  body = tabEffect
   const fontTestH = document.createElement('h4')
-  fontTestH.textContent = '🔤 Font Test'
+  fontTestH.textContent = '🔤 字体测试'
   fontTestH.className = 'tp-dev-section-h'
-  div.appendChild(fontTestH)
+  body.appendChild(fontTestH)
 
   const fontTestBtn = document.createElement('button')
-  fontTestBtn.textContent = 'Font Test'
-  fontTestBtn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left'
+  fontTestBtn.textContent = '渲染字体 sheet(中英混排）'
+  fontTestBtn.style.cssText =
+    'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left'
   fontTestBtn.addEventListener('click', () => {
     closePicker()
     if (deps.onFontTest) {
       deps.onFontTest()
-    }
-    else {
+    } else {
       // fallback:console only spot-check(bootstrap 未传 onFontTest 时)
       console.warn('[font-test] onFontTest 未注入,仅 console spot-check')
     }
   })
-  div.appendChild(fontTestBtn)
+  body.appendChild(fontTestBtn)
 
   // Sync.v Step 2: Dialog Style Test —— 4 style 各一段,验证 typing / 头像 / key icon / 多页
   const dialogH = document.createElement('h4')
-  dialogH.textContent = '💬 Dialog Styles'
+  dialogH.textContent = '💬 对话样式'
   dialogH.className = 'tp-dev-section-h'
-  div.appendChild(dialogH)
+  body.appendChild(dialogH)
 
   const dialogBtn = document.createElement('button')
-  dialogBtn.textContent = 'Test 4 Styles(top→center→bottom→narration)'
-  dialogBtn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left'
+  dialogBtn.textContent = '测试 4 种对话样式(上→中→下→旁白)'
+  dialogBtn.style.cssText =
+    'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left'
   dialogBtn.addEventListener('click', () => {
     closePicker()
     triggerDialogStyleTest(deps)
   })
-  div.appendChild(dialogBtn)
+  body.appendChild(dialogBtn)
 
   // M5.S-w2.1: Save / Load / List / Clear entry
-  const saveH = document.createElement('h4')
-  saveH.textContent = '💾 Save Slots (IndexedDB)'
-  saveH.className = 'tp-dev-section-h'
-  div.appendChild(saveH)
+  // ── Save Slots + Menu Units 已删(2026-06-04 user:游戏内已实现,dev 入口冗余)──
+  //   系统 tab 现在 = 物品作弊(精细化)+ MIDI 音乐(各自 body=tabSystem)。
 
-  for (let slot = 1; slot <= 5; slot++) {
-    const row = document.createElement('div')
-    row.style.cssText = 'display:flex; gap:4px; margin:2px 0'
-    const saveBtn = document.createElement('button')
-    saveBtn.textContent = `S${slot} save`
-    saveBtn.style.cssText = 'padding:3px 6px; font-size:11px'
-    saveBtn.addEventListener('click', async () => {
-      deps.gs.currentSaveSlot = slot  // sdlpal bCurrentSaveSlot(opcode 0x4E 重载它)
-      await Save.saveSlot(slot, deps.gs)
-      console.log(`[save] slot ${slot} saved`)
-    })
-    const loadBtn = document.createElement('button')
-    loadBtn.textContent = 'load'
-    loadBtn.style.cssText = 'padding:3px 6px; font-size:11px'
-    loadBtn.addEventListener('click', async () => {
-      const loaded = await Save.loadSlot(slot)
-      if (!loaded) {
-        console.warn(`[load] slot ${slot} 为空`)
-        return
+  // ── 👥 队伍 tab:6 角色在队开关(头像 + 灯,绿=在队/红=离队;队首李逍遥 role0 常驻)──
+  body = tabParty
+  const partyH = document.createElement('h4')
+  partyH.textContent = '👥 队伍编辑(点头像切换在队;队首李逍遥常驻)'
+  partyH.className = 'tp-dev-section-h'
+  body.appendChild(partyH)
+
+  const partyGrid = document.createElement('div')
+  partyGrid.style.cssText =
+    'display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin:4px 0' // 2 行 × 3 列
+  const renderPartyCards = (): void => {
+    partyGrid.textContent = ''
+    for (let roleId = 0; roleId <= 5; roleId++) {
+      const role = deps.resources.playerRoles.roles.find((r) => r.id === roleId)
+      const inParty = deps.gs.partyMembers.includes(roleId)
+      const isLeader = roleId === 0
+      const card = document.createElement('button')
+      card.style.cssText =
+        `display:flex; flex-direction:column; align-items:center;` +
+        ` padding:0; overflow:hidden; height:140px; cursor:${isLeader ? 'default' : 'pointer'};` +
+        ` background:${inParty ? '#1f3a24' : '#3a1f1f'};` +
+        ` border:1px solid ${inParty ? '#4c8' : '#c55'}; border-radius:4px`
+      // 头像:object-fit:cover 自适应裁剪(统一尺寸、不变形、顶对齐显示脸);缺 palette/帧 → 名字占位块
+      const sprite = deps.portraitFrames?.get(role?.avatar ?? -1)
+      if (sprite && deps.palette) {
+        const c = indexImageToCanvas(sprite, deps.palette)
+        c.style.cssText =
+          'width:100%; height:90px; object-fit:cover; object-position:top center; display:block'
+        card.appendChild(c)
+      } else {
+        const ph = document.createElement('div')
+        ph.style.cssText =
+          'width:100%; height:90px; background:#555; display:flex; align-items:center; justify-content:center; font-size:9px; color:#ccc'
+        ph.textContent = role?._name ?? `R${roleId}`
+        card.appendChild(ph)
       }
-      Object.assign(deps.gs, loaded)
-      deps.gs.currentSaveSlot = slot  // 覆盖存档带入的旧值(opcode 0x4E 重载它)
-      console.log(`[load] slot ${slot} loaded → gs.dwCash=${deps.gs.dwCash} scene=${deps.gs.wNumScene}`)
-    })
-    const delBtn = document.createElement('button')
-    delBtn.textContent = 'del'
-    delBtn.style.cssText = 'padding:3px 6px; font-size:11px'
-    delBtn.addEventListener('click', async () => {
-      await Save.deleteSlot(slot)
-      console.log(`[save] slot ${slot} deleted`)
-    })
-    row.appendChild(saveBtn)
-    row.appendChild(loadBtn)
-    row.appendChild(delBtn)
-    div.appendChild(row)
+      const nm = document.createElement('div')
+      nm.style.cssText = 'font-size:11px; white-space:nowrap; margin-top:4px'
+      nm.textContent = role?._name ?? `role${roleId}`
+      card.appendChild(nm)
+      // 灯:绿=在队 / 红=离队;margin-top:auto 推到卡片底部 → 6 个灯统一对齐
+      const lamp = document.createElement('div')
+      lamp.style.cssText =
+        `width:9px; height:9px; border-radius:50%; margin:auto 0 7px;` +
+        ` background:${inParty ? '#4f4' : '#f44'}; box-shadow:0 0 4px ${inParty ? '#4f4' : '#f44'}`
+      card.appendChild(lamp)
+      card.title = isLeader ? '队首李逍遥常驻,不可离队' : inParty ? '点击离队' : '点击入队'
+      if (!isLeader) {
+        card.addEventListener('click', () => {
+          deps.gs.partyMembers = togglePartyMembership(deps.gs.partyMembers, roleId)
+          // 同步队首 sprite(partyMembers[0] = leader,present 渲染走 gs.partyLeaderSpriteId)
+          const leader = deps.gs.partyMembers[0]
+          if (leader !== undefined) {
+            deps.gs.partyLeaderSpriteId =
+              deps.resources.playerRoles.roles.find((r) => r.id === leader)?.spriteNum ??
+              deps.gs.partyLeaderSpriteId
+          }
+          renderPartyCards()
+        })
+      }
+      partyGrid.appendChild(card)
+    }
   }
+  renderPartyCards()
+  body.appendChild(partyGrid)
 
-  const listBtn = document.createElement('button')
-  listBtn.textContent = 'List All Slots'
-  listBtn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left'
-  listBtn.addEventListener('click', async () => {
-    const list = await Save.listSlots()
-    console.log('[save] slots:', list)
-  })
-  div.appendChild(listBtn)
-
-  // ── M5.6 W2.b: Menu Units ─────────────────────────────────────────
-  // 每按钮一键 push 对应 menu kind 到 menuStack — 验证 W0 渲染 + 输入路由真通。
-  const menuH = document.createElement('h4')
-  menuH.textContent = '📋 Menu Units (M5.6 W0)'
-  menuH.className = 'tp-dev-section-h'
-  div.appendChild(menuH)
-
-  const menuUnits: Array<{ label: string; openFn: () => void }> = [
-    { label: 'InGame Menu (ESC)', openFn: () => openMenu(deps.gs, { kind: 'in-game', state: createInGameMenu() }) },
-    { label: 'System Menu', openFn: () => openMenu(deps.gs, { kind: 'system', state: createSystemMenu() }) },
-    { label: 'Save Slot (save mode)', openFn: () => openMenu(deps.gs, { kind: 'save-slot', state: createSaveSlotMenu('save') }) },
-    { label: 'Player Status', openFn: () => openMenu(deps.gs, { kind: 'player-status', state: createPlayerStatus(deps.gs.partyMembers) }) },
-    // T11 补 3 个 sub-menu(catalog 已通过 setMenuCatalogs 注入,createX 内部读 catalogs)
-    // M5.6 session 3 加:Inventory Action 1 级 box submenu(sdlpal uigame.c:878-919 真值)
-    {
-      label: 'Inventory Action (装备/使用 box)',
-      openFn: () => openMenu(deps.gs, {
-        kind: 'inventory-action',
-        state: createInventoryActionMenu(deps.gs.iCurInvActionMenuItem),
-      }),
-    },
-    {
-      label: 'Inventory (直跳 fullscreen list,dev only)',
-      openFn: () => openMenu(deps.gs, { kind: 'inventory', state: createInventoryMenu(deps.gs, deps.resources.items) }),
-    },
-    {
-      label: 'Equip',
-      openFn: () => openMenu(deps.gs, { kind: 'equip', state: createEquipMenu(deps.gs, deps.resources.items) }),
-    },
-    {
-      label: 'InGame Magic',
-      openFn: () => openMenu(deps.gs, {
-        kind: 'in-game-magic',
-        state: createInGameMagicMenu(
-          projectRuntimeToBattleRoles(deps.gs.PlayerRolesRuntime, deps.resources.playerRoles),
-          deps.gs.partyMembers, deps.resources.spells),
-      }),
-    },
-  ]
-  for (const unit of menuUnits) {
-    const btn = document.createElement('button')
-    btn.textContent = unit.label
-    btn.style.cssText = 'display:block; margin:2px 0; padding:4px 8px; width:100%; text-align:left; font-size:11px'
-    btn.addEventListener('click', () => {
-      closePicker()
-      unit.openFn()
-    })
-    div.appendChild(btn)
-  }
-
-  // ── M5.6 T11(user 加需求):添加全物品 — 帮 manual 测物品菜单完整显示 ──
+  // ── 🎒 物品作弊(2026-06-04 user:挪系统 tab + 精细化)——全道具 / 清空 / 逐道具数量编辑 ──
+  //   (道具图标待第 2 批:需 bootstrap 预加载 item sprite,与敌人/boss 缩略图同类接线。)
+  body = tabSystem
   const inventoryAllH = document.createElement('h4')
-  inventoryAllH.textContent = '🎒 Inventory Cheats'
+  inventoryAllH.textContent = '🎒 物品作弊'
   inventoryAllH.className = 'tp-dev-section-h'
-  div.appendChild(inventoryAllH)
+  body.appendChild(inventoryAllH)
 
-  const addAllBtn = document.createElement('button')
-  addAllBtn.textContent = `+ 添加全部 ${deps.resources.items.length} 物品 ×99`
-  addAllBtn.style.cssText = 'display:block; margin:2px 0; padding:4px 8px; width:100%; text-align:left; font-size:11px'
-  addAllBtn.addEventListener('click', () => {
-    closePicker()
-    // 直接 mutate gs.inventory(同 event-system addItemToInventory 等价语义,但批量)
-    // 修(2026-05-27 session 3,user 反馈"添加全物品没看到观音符"):**不能** skip id===0,
-    // 观音符 items.json id=0 是真值物品(items.json id 0..234 对 sdlpal OBJECT 61..295)。
-    // 旧 `if (item.id === 0) continue` 错误把 items.json id 0 当 sdlpal 内部 wItem=0 "no item"
-    // 哨兵 — 两套 id 系统混淆,导致 观音符 永远添加不进 inventory。
-    for (const item of deps.resources.items) {
+  // 道具列表(搜索过滤 + 逐项数量编辑)— 提前声明,全道具 / 清空后刷新。
+  const invSearch = document.createElement('input')
+  invSearch.type = 'text'
+  invSearch.placeholder = '搜索道具名 / id 过滤'
+  invSearch.style.cssText = 'width:200px; margin:4px 0; padding:3px 6px; font-size:12px'
+  const invList = document.createElement('div')
+  invList.style.cssText = 'max-height:240px; overflow-y:auto; margin-top:4px'
+  const buildInvRow = (item: Item): HTMLDivElement => {
+    const row = document.createElement('div')
+    row.style.cssText = 'display:flex; align-items:center; gap:6px; margin:2px 0; font-size:11px'
+    // 图标(item.bitmap → BALL.MKF itemIcons;缺 → 占位保持对齐)
+    const icon = deps.itemIcons?.get(item.bitmap)
+    if (icon && deps.palette) {
+      const c = indexImageToCanvas(icon, deps.palette)
+      c.style.cssText =
+        'width:22px; height:22px; object-fit:contain; image-rendering:pixelated; flex:none'
+      row.appendChild(c)
+    } else {
+      const sp = document.createElement('span')
+      sp.style.cssText = 'width:22px; flex:none'
+      row.appendChild(sp)
+    }
+    const nm = document.createElement('span')
+    nm.style.cssText = 'flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis'
+    nm.textContent = `${item.id} ${item._name ?? ''}`
+    const qty = document.createElement('input')
+    qty.type = 'number'
+    qty.min = '0'
+    qty.max = '99'
+    qty.value = String(deps.gs.inventory.find((e) => e.itemId === item.id)?.count ?? 0)
+    qty.style.cssText = 'width:48px; padding:2px 4px; font-size:11px; flex:none'
+    const apply = (): void => {
+      const n = Math.max(0, Math.min(99, Math.trunc(Number(qty.value) || 0)))
       const entry = deps.gs.inventory.find((e) => e.itemId === item.id)
-      if (entry) {
-        entry.count = Math.min(99, entry.count + 99)
-      }
-      else {
-        deps.gs.inventory.push({ itemId: item.id, count: 99 })
+      if (n === 0) deps.gs.inventory = deps.gs.inventory.filter((e) => e.itemId !== item.id)
+      else if (entry) entry.count = n
+      else deps.gs.inventory.push({ itemId: item.id, count: n })
+    }
+    qty.addEventListener('input', apply) // 边输边生效(实时)
+    qty.addEventListener('change', apply) // 失焦 / 回车兜底
+    row.appendChild(nm)
+    row.appendChild(qty)
+    return row
+  }
+  const renderInvList = (filter: string): void => {
+    invList.textContent = ''
+    const matched = deps.resources.items.filter((it) => {
+      if (!filter) return true
+      return (it._name ?? '').includes(filter) || String(it.id).includes(filter)
+    })
+    // 分组:装备(scriptOnEquip != 0 可装备)/ 道具(消耗·使用类)
+    const groups: Array<[string, Item[]]> = [
+      ['🎒 道具(可用)', matched.filter((it) => it.scriptOnEquip === 0)],
+      ['⚔ 装备', matched.filter((it) => it.scriptOnEquip !== 0)],
+    ]
+    let shown = 0
+    for (const [groupName, groupItems] of groups) {
+      if (groupItems.length === 0) continue
+      const gh = document.createElement('div')
+      gh.style.cssText =
+        'font-size:11px; color:#8ab4d8; font-weight:600; margin:6px 0 2px; border-bottom:1px solid #3a3a42'
+      gh.textContent = `${groupName}(${groupItems.length})`
+      invList.appendChild(gh)
+      for (const item of groupItems) {
+        if (shown >= 140) break // 总上限防 DOM 过重(搜索缩小范围)
+        invList.appendChild(buildInvRow(item))
+        shown++
       }
     }
-    // 加 1,000,000 金钱方便商店测试
+  }
+
+  const addAllBtn = document.createElement('button')
+  addAllBtn.textContent = `全道具 ×99(+100万钱)`
+  addAllBtn.style.cssText =
+    'display:block; margin:2px 0; padding:4px 8px; width:100%; text-align:left; font-size:11px'
+  addAllBtn.addEventListener('click', () => {
+    // items.json id 0(观音符)也是真值物品 → 不 skip(2026-05-27 user 报"加全物品没观音符")。
+    for (const item of deps.resources.items) {
+      const entry = deps.gs.inventory.find((e) => e.itemId === item.id)
+      if (entry) entry.count = 99
+      else deps.gs.inventory.push({ itemId: item.id, count: 99 })
+    }
     deps.gs.dwCash = 1_000_000
-    console.log(`[dev] 添加了 ${deps.resources.items.length} 种物品 ×99 + 金钱 1,000,000`)
+    renderInvList(invSearch.value.trim()) // 刷新列表(不关面板,方便继续编辑)
+    console.log(`[dev] 全道具 ×99 + 金钱 100 万`)
   })
-  div.appendChild(addAllBtn)
+  body.appendChild(addAllBtn)
 
   const clearInvBtn = document.createElement('button')
-  clearInvBtn.textContent = '🗑 清空背包'
-  clearInvBtn.style.cssText = 'display:block; margin:2px 0; padding:4px 8px; width:100%; text-align:left; font-size:11px'
+  clearInvBtn.textContent = '🗑 清空背包(钱归 0)'
+  clearInvBtn.style.cssText =
+    'display:block; margin:2px 0; padding:4px 8px; width:100%; text-align:left; font-size:11px'
   clearInvBtn.addEventListener('click', () => {
-    closePicker()
     deps.gs.inventory = []
     deps.gs.dwCash = 0
+    renderInvList(invSearch.value.trim())
     console.log('[dev] 背包清空 + 金钱归 0')
   })
-  div.appendChild(clearInvBtn)
+  body.appendChild(clearInvBtn)
+
+  invSearch.addEventListener('input', () => renderInvList(invSearch.value.trim()))
+  body.appendChild(invSearch)
+  renderInvList('')
+  body.appendChild(invList)
 
   // ✨ Effects (Opcode) —— 逐特效触发(注入合成 raw 脚本走 tickEventSystem,1:1 真实控制流)。
+  // ── 回到 🎬 演出 tab(特效 opcode / RNG / FBP / 视频)──
+  body = tabEffect
   const fxH = document.createElement('h4')
-  fxH.textContent = '✨ Effects (Opcode)'
+  fxH.textContent = '✨ 特效(opcode 触发)'
   fxH.className = 'tp-dev-section-h'
-  div.appendChild(fxH)
+  body.appendChild(fxH)
 
   // 3 个共享 operand 输入(空 = 用该特效的 defaults)。
   const opRow = document.createElement('div')
@@ -655,21 +830,21 @@ function openPicker(deps: DevPanelDeps): void {
     opRow.appendChild(inp)
     opInputs.push(inp)
   }
-  div.appendChild(opRow)
+  body.appendChild(opRow)
 
-  const effectOps: Array<{ label: string, opcode: number, defaults: [number, number, number] }> = [
-    { label: 'FadeOut 0x50 (→黑)', opcode: OP_FADE_OUT, defaults: [1, 0, 0] },
-    { label: 'FadeIn 0x51 (黑→场景)', opcode: OP_FADE_IN, defaults: [1, 0, 0] },
-    { label: 'FadeToRed 0x4F (game over)', opcode: OP_FADE_TO_RED, defaults: [0, 0, 0] },
-    { label: 'PaletteFade 0x80 (昼夜)', opcode: OP_PALETTE_FADE, defaults: [0, 0, 0] },
-    { label: 'ColorFade 0x8C', opcode: OP_COLOR_FADE, defaults: [0, 2, 0] },
-    { label: 'SceneFade 0x93', opcode: OP_SCENE_FADE, defaults: [2, 0, 0] },
-    { label: 'FadeToScene 0x9B (dither)', opcode: OP_FADE_TO_SCENE, defaults: [0, 0, 0] },
-    { label: 'FadeScreen 0x73 (dither)', opcode: OP_FADE_SCREEN, defaults: [2, 0, 0] },
-    { label: 'SetDay 0x53', opcode: OP_SET_DAY_PALETTE, defaults: [0, 0, 0] },
-    { label: 'SetNight 0x54', opcode: OP_SET_NIGHT_PALETTE, defaults: [0, 0, 0] },
-    { label: 'WaveScreen 0x71 (波动)', opcode: OP_WAVE_SCREEN, defaults: [40, 2, 0] },
-    { label: 'Shake 0x35 (present stub)', opcode: OP_SHAKE_SCREEN, defaults: [10, 4, 0] },
+  const effectOps: Array<{ label: string; opcode: number; defaults: [number, number, number] }> = [
+    { label: '淡出→黑 0x50', opcode: OP_FADE_OUT, defaults: [1, 0, 0] },
+    { label: '淡入←黑 0x51', opcode: OP_FADE_IN, defaults: [1, 0, 0] },
+    { label: '渐红(死亡)0x4F', opcode: OP_FADE_TO_RED, defaults: [0, 0, 0] },
+    { label: '调色板渐变(昼夜)0x80', opcode: OP_PALETTE_FADE, defaults: [0, 0, 0] },
+    { label: '色彩渐变 0x8C', opcode: OP_COLOR_FADE, defaults: [0, 2, 0] },
+    { label: '场景渐变 0x93', opcode: OP_SCENE_FADE, defaults: [2, 0, 0] },
+    { label: '抖动切场景 0x9B', opcode: OP_FADE_TO_SCENE, defaults: [0, 0, 0] },
+    { label: '抖动渐变屏 0x73', opcode: OP_FADE_SCREEN, defaults: [2, 0, 0] },
+    { label: '设为白天 0x53', opcode: OP_SET_DAY_PALETTE, defaults: [0, 0, 0] },
+    { label: '设为夜晚 0x54', opcode: OP_SET_NIGHT_PALETTE, defaults: [0, 0, 0] },
+    { label: '屏幕波动 0x71', opcode: OP_WAVE_SCREEN, defaults: [40, 2, 0] },
+    { label: '震屏 0x35', opcode: OP_SHAKE_SCREEN, defaults: [10, 4, 0] },
   ]
   const readOperands = (defaults: [number, number, number]): [number, number, number] => {
     return [0, 1, 2].map((i) => {
@@ -680,147 +855,62 @@ function openPicker(deps: DevPanelDeps): void {
   for (const { label, opcode, defaults } of effectOps) {
     const btn = document.createElement('button')
     btn.textContent = label
+    btn.style.cssText =
+      'display:block; width:100%; margin:2px 0; padding:4px 8px; text-align:left; font-size:11px' // 整齐单列(原 inline 挤成一团)
     btn.addEventListener('click', () => {
       closePicker()
       triggerEffectScript(deps, [{ op: 'raw', opcode, operands: readOperands(defaults) }])
     })
-    div.appendChild(btn)
+    body.appendChild(btn)
   }
 
-  // RNG(0x36 SetRNG + 0x37 PlayRNG):chunk 输入 + 播放。op0/1/2 = startFrame/endFrame/speed。
-  const rngRow = document.createElement('div')
-  rngRow.style.cssText = 'display:flex; gap:4px; margin:4px 0; align-items:center'
-  const rngLabel = document.createElement('span')
-  rngLabel.textContent = 'RNG chunk(0-11):'
-  rngRow.appendChild(rngLabel)
-  const rngChunkInput = document.createElement('input')
-  rngChunkInput.type = 'number'
-  rngChunkInput.value = '6'
-  rngChunkInput.style.cssText = 'width:56px'
-  rngRow.appendChild(rngChunkInput)
-  const rngBtn = document.createElement('button')
-  rngBtn.textContent = 'Play RNG (0x36+0x37)'
-  rngBtn.addEventListener('click', () => {
-    closePicker()
-    const chunk = Number(rngChunkInput.value) || 0
-    const [start, end, speed] = readOperands([0, 0, 16])
-    triggerEffectScript(deps, [
-      { op: 'raw', opcode: OP_SET_RNG, operands: [chunk, 0, 0] },
-      { op: 'raw', opcode: OP_PLAY_RNG, operands: [start, end, speed] },
-    ])
-  })
-  rngRow.appendChild(rngBtn)
-  div.appendChild(rngRow)
+  // (RNG / FBP 调试块已删 —— 2026-06-04 user)
 
-  // FBP(0x76 ShowFBP):chunk + fade 输入。chunk = FBP.MKF 号(battle bg 0-77;结局 CG 74/75/76/77);
-  //   fade=op1(0=瞬时,>0 dither 渐变)。有图真显(DOS 路径),0xFFFF/无图 → 黑。
-  const fbpRow = document.createElement('div')
-  fbpRow.style.cssText = 'display:flex; gap:4px; margin:4px 0; align-items:center'
-  const fbpLabel = document.createElement('span')
-  fbpLabel.textContent = 'FBP chunk/fade:'
-  fbpRow.appendChild(fbpLabel)
-  const fbpChunkInput = document.createElement('input')
-  fbpChunkInput.type = 'number'
-  fbpChunkInput.value = '75'
-  fbpChunkInput.style.cssText = 'width:56px'
-  fbpRow.appendChild(fbpChunkInput)
-  const fbpFadeInput = document.createElement('input')
-  fbpFadeInput.type = 'number'
-  fbpFadeInput.value = '7'
-  fbpFadeInput.style.cssText = 'width:56px'
-  fbpRow.appendChild(fbpFadeInput)
-  const fbpBtn = document.createElement('button')
-  fbpBtn.textContent = 'Show FBP (0x76)'
-  fbpBtn.addEventListener('click', () => {
-    closePicker()
-    triggerEffectScript(deps, [{
-      op: 'raw',
-      opcode: OP_SHOW_FBP,
-      operands: [Number(fbpChunkInput.value) || 0, Number(fbpFadeInput.value) || 0, 0],
-    }])
-  })
-  fbpRow.appendChild(fbpBtn)
-  // ScrollFBP(0xA4):chunk = fbp 输入,speed = fade 输入(复用)。220 步下滑卷入。
-  const scrollBtn = document.createElement('button')
-  scrollBtn.textContent = 'Scroll FBP (0xA4)'
-  scrollBtn.addEventListener('click', () => {
-    closePicker()
-    triggerEffectScript(deps, [{
-      op: 'raw',
-      opcode: OP_SCROLL_FBP,
-      operands: [Number(fbpChunkInput.value) || 0, 0, Number(fbpFadeInput.value) || 15],
-    }])
-  })
-  fbpRow.appendChild(scrollBtn)
-  div.appendChild(fbpRow)
-
-  // 🎬 Videos —— 开场 / 结局 AVI 双版(WIN95 mp4)。DOS 双版:开场用 ?build=dos 启动;结局 DOS 编排待 Phase 3。
+  // 🎬 视频(开场 / 结局)—— 一行一个按钮,简化中文文案。
   const vidH = document.createElement('h4')
-  vidH.textContent = '🎬 Videos (开场/结局 mp4)'
+  vidH.textContent = '🎬 视频(开场/结局)'
   vidH.className = 'tp-dev-section-h'
-  div.appendChild(vidH)
-  // 开场 DOS 版(trademark RNG + splash 卷轴)— WIN95 mp4 之外的另一版。
-  const dosOpeningBtn = document.createElement('button')
-  dosOpeningBtn.textContent = '开场 DOS (trademark+splash)'
-  dosOpeningBtn.addEventListener('click', () => {
-    closePicker()
-    if (deps.playDosOpening) deps.playDosOpening()
-    else console.log('[dev] playDosOpening — 无注入')
-  })
-  div.appendChild(dosOpeningBtn)
-
-  const videos: Array<{ label: string, mp4: string }> = [
-    { label: '开场 WIN95-1 (1.mp4)', mp4: '1.mp4' },
-    { label: '开场 WIN95-2 (2.mp4)', mp4: '2.mp4' },
-    { label: '新游戏 (3.mp4)', mp4: '3.mp4' },
-    { label: '结局 4 (4.mp4)', mp4: '4.mp4' },
-    { label: '结局 5 (5.mp4)', mp4: '5.mp4' },
-    { label: '结局 6 (6.mp4)', mp4: '6.mp4' },
+  body.appendChild(vidH)
+  const VID_BTN =
+    'display:block; width:100%; margin:2px 0; padding:4px 8px; text-align:left; font-size:11px'
+  const vidBtns: Array<[string, () => void]> = [
+    ['开场 DOS 版(商标 + 卷轴)', () => deps.playDosOpening?.()],
+    ['开场 WIN95(上)', () => deps.playVideo?.('1.mp4')],
+    ['开场 WIN95(下)', () => deps.playVideo?.('2.mp4')],
+    ['新游戏动画', () => deps.playVideo?.('3.mp4')],
+    ['结局片段 4', () => deps.playVideo?.('4.mp4')],
+    ['结局片段 5', () => deps.playVideo?.('5.mp4')],
+    ['结局片段 6', () => deps.playVideo?.('6.mp4')],
+    ['▶ 结局 WIN95 全片(4→5→6)', () => deps.playVideo?.(['4.mp4', '5.mp4', '6.mp4'])],
+    [
+      '▶ 结局 DOS 动画',
+      () =>
+        triggerEffectScript(deps, [
+          { op: 'raw', opcode: OP_ENDING_ANIMATION, operands: [0, 0, 0] },
+        ]),
+    ],
+    ['▶ 结局 DOS 全片', () => deps.playDosEnding?.()],
   ]
-  for (const { label, mp4 } of videos) {
+  for (const [label, onClick] of vidBtns) {
     const btn = document.createElement('button')
     btn.textContent = label
+    btn.style.cssText = VID_BTN
     btn.addEventListener('click', () => {
       closePicker()
-      if (deps.playVideo) deps.playVideo(mp4)
-      else console.log(`[dev] playVideo(${mp4}) — 无 playVideo 注入`)
+      onClick()
     })
-    div.appendChild(btn)
+    body.appendChild(btn)
   }
-  // 结局 WIN95 全片(PAL_EndingScreen 的 AVI 序:4→5→6 连播)。
-  const endingBtn = document.createElement('button')
-  endingBtn.textContent = '▶ 结局 WIN95 (4→5→6 连播)'
-  endingBtn.addEventListener('click', () => {
-    closePicker()
-    if (deps.playVideo) deps.playVideo(['4.mp4', '5.mp4', '6.mp4'])
-    else console.log('[dev] playVideo ending — 无 playVideo 注入')
-  })
-  div.appendChild(endingBtn)
-  // 结局 DOS 动画(0x96 PAL_EndingAnimation,400 帧:背景上滚 + 妖兽下降 + 女孩行走 + 水波)。
-  const endingAnimBtn = document.createElement('button')
-  endingAnimBtn.textContent = '▶ 结局 DOS 动画 (0x96)'
-  endingAnimBtn.addEventListener('click', () => {
-    closePicker()
-    triggerEffectScript(deps, [{ op: 'raw', opcode: OP_ENDING_ANIMATION, operands: [0, 0, 0] }])
-  })
-  div.appendChild(endingAnimBtn)
-  // 结局 DOS 全片(PAL_EndingScreen 完整 DOS 编排)。
-  const dosEndingBtn = document.createElement('button')
-  dosEndingBtn.textContent = '▶ 结局 DOS 全片 (PAL_EndingScreen)'
-  dosEndingBtn.addEventListener('click', () => {
-    closePicker()
-    if (deps.playDosEnding) deps.playDosEnding()
-    else console.log('[dev] playDosEnding — 无注入')
-  })
-  div.appendChild(dosEndingBtn)
 
   // ── M6 MIDI 音乐调试 ─────────────────────────────────────────────────────
   // 点 track 号 → gs.wNumMusic = N → AudioManager 每帧轮询切 BGM(SpessaSynth 播 music/{NNN}.mid)。
   //   注:会覆盖当前场景乐(调试副作用,重进场景恢复)。manifest midi:[1..87] 缺 29。
+  // ── 回到 ⚙ 系统 tab(MIDI 音乐)──
+  body = tabSystem
   const musicH = document.createElement('h4')
   musicH.textContent = '♪ MIDI 音乐(点号试听;停=0)'
   musicH.className = 'tp-dev-section-h'
-  div.appendChild(musicH)
+  body.appendChild(musicH)
 
   const musicGrid = document.createElement('div')
   musicGrid.style.cssText = 'display:flex; flex-wrap:wrap; gap:3px; max-width:340px'
@@ -829,7 +919,10 @@ function openPicker(deps: DevPanelDeps): void {
   const stopBtn = document.createElement('button')
   stopBtn.textContent = '■停'
   stopBtn.style.cssText = 'padding:2px 6px; min-width:34px; background:#48282a'
-  stopBtn.addEventListener('click', () => { deps.gs.wNumMusic = 0; deps.gs.musicLoop = true })
+  stopBtn.addEventListener('click', () => {
+    deps.gs.wNumMusic = 0
+    deps.gs.musicLoop = true
+  })
   musicGrid.appendChild(stopBtn)
   for (const track of MIDI_TRACKS) {
     const btn = document.createElement('button')
@@ -843,8 +936,9 @@ function openPicker(deps: DevPanelDeps): void {
     })
     musicGrid.appendChild(btn)
   }
-  div.appendChild(musicGrid)
+  body.appendChild(musicGrid)
 
+  showTab('battle') // 默认显示战斗 tab
   document.body.appendChild(div)
   currentPicker = div
 }
@@ -859,7 +953,12 @@ function triggerEffectScript(deps: DevPanelDeps, cmds: Command[]): void {
   const labelMap = buildLabelMap(commands)
   deps.gs.eventCursor = { commands, labelMap, ip: 0 }
   deps.gs.mode = 'event'
-  console.log('[dev] trigger effect:', cmds.map((c) => (c.op === 'raw' ? `0x${c.opcode.toString(16)}[${c.operands}]` : c.op)).join(' '))
+  console.log(
+    '[dev] trigger effect:',
+    cmds
+      .map((c) => (c.op === 'raw' ? `0x${c.opcode.toString(16)}[${c.operands}]` : c.op))
+      .join(' '),
+  )
 }
 
 /**
@@ -906,15 +1005,14 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
     const role = deps.resources.playerRoles.roles[id]
     if (role) {
       Object.assign(role, override)
-    }
-    else {
+    } else {
       console.warn(`[dev-panel] fixture ${fixture.id} override role ${id} 不存在,跳过`)
     }
   }
 
   // 2. 设 partyMembers + inventory(浅拷贝 inventory 防 fixture 数据被 mutate 影响下次)
   deps.gs.partyMembers = [...fixture.partyMembers]
-  deps.gs.inventory = (fixture.inventory ?? []).map(i => ({ ...i }))
+  deps.gs.inventory = (fixture.inventory ?? []).map((i) => ({ ...i }))
 
   // 2.5 边界同步:把(override 后的)静态 roles hydrate 进 gs.PlayerRolesRuntime —— 战斗经 projection
   //     吃这份当前属性,战后回写/升级也读这份(原 fixture 绕过 runtime → 升级/持久化读不到)。
@@ -924,14 +1022,17 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
   for (const [idStr, exp] of Object.entries(fixture.expOverrides ?? {})) {
     const id = Number(idStr)
     deps.gs.Exp.rgPrimaryExp[id] = { wExp: exp.wExp, wLevel: exp.wLevel }
-    if (deps.gs.PlayerRolesRuntime.rgwLevel[id] !== undefined) deps.gs.PlayerRolesRuntime.rgwLevel[id] = exp.wLevel
+    if (deps.gs.PlayerRolesRuntime.rgwLevel[id] !== undefined)
+      deps.gs.PlayerRolesRuntime.rgwLevel[id] = exp.wLevel
   }
 
   // 3. 启战。rngSeed 省略 → startBattle 用 Date.now()=非确定性,符合 dev 自由探索意图;
   //    测试传固定 seed → 确定性(D7 W1:dex jitter 后 fixture 战斗结果对 RNG 敏感,测试须显式 seed)。
   // try/catch:fixture 错配(team/field id 不存在)startBattle 会抛(by design fail-fast),
   //   dev 工具不该因此整个崩 → 捕获 + 清晰报错,方便定位是哪个 fixture 配错。
-  console.log(`[dev-panel] applyFixture ${fixture.id} → startBattle(team=${fixture.enemyTeamId}, field=${fixture.battleFieldId})`)
+  console.log(
+    `[dev-panel] applyFixture ${fixture.id} → startBattle(team=${fixture.enemyTeamId}, field=${fixture.battleFieldId})`,
+  )
   try {
     startBattle({
       gs: deps.gs,
@@ -944,7 +1045,11 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
       battleFields: deps.resources.battleFields,
       // 边界:用 runtime 当前属性投影战斗 roles(吃升级后属性;与真实 startBattleHandler 一致)
       // D14:第 3 参 gs.rgEquipmentEffect → 战斗 stat = effective(base + 装备 + Extra),与 startBattleHandler 一致。
-      playerRoles: projectRuntimeToBattleRoles(deps.gs.PlayerRolesRuntime, deps.resources.playerRoles, deps.gs.rgEquipmentEffect),
+      playerRoles: projectRuntimeToBattleRoles(
+        deps.gs.PlayerRolesRuntime,
+        deps.resources.playerRoles,
+        deps.gs.rgEquipmentEffect,
+      ),
       levelUpExp: deps.resources.levelUpExp, // D11:战斗胜利升级阈值
       levelUpMagic: deps.resources.levelUpMagic, // D11:升级学新法术
       items: deps.resources.items,
@@ -960,7 +1065,10 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
       // P2#5:不传切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
     })
   } catch (e) {
-    console.error(`[dev-panel] fixture ${fixture.id} 启战失败(team=${fixture.enemyTeamId} / field=${fixture.battleFieldId} 可能错配):`, e)
+    console.error(
+      `[dev-panel] fixture ${fixture.id} 启战失败(team=${fixture.enemyTeamId} / field=${fixture.battleFieldId} 可能错配):`,
+      e,
+    )
   }
 }
 
@@ -975,10 +1083,7 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
  *
  * 不跑 onEnter(D34 dev shortcut)。tile PNG / palette 留首屏(已知 visual 错;M5 升)。
  */
-async function applySceneJump(
-  deps: DevPanelDeps,
-  jump: SceneJump,
-): Promise<void> {
+async function applySceneJump(deps: DevPanelDeps, jump: SceneJump): Promise<void> {
   try {
     // P0.e: partyStart 字段已从 scene-jumps.json 删除;loadScene 不传 → 走 wScriptOnEnter。
     // 若 jump.partyStart 仍存在(极端 dev override),仍可透传。
@@ -995,8 +1100,7 @@ async function applySceneJump(
     const sceneAssets = await deps.sceneAssetsCache.loadScene(jump.sceneId)
     await deps.onSceneChanged?.(sceneAssets)
     console.log('[dev-panel] scene jump done:', jump.sceneId)
-  }
-  catch (e) {
+  } catch (e) {
     console.error('[dev-panel] scene jump failed:', e)
   }
 }

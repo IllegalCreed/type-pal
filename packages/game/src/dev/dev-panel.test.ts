@@ -12,7 +12,7 @@ import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import { tickBattle } from '../core/battle/battle-system.js'
 import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
-import { applyFixture, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
+import { applyFixture, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
 
 // 真值(level-up-magic.json / spells.json / player-roles.json):
 //   role0 李逍遥 base 法术 = 气疗术(296, usableOutsideBattle);lv7 学天师符法(349, 仅战斗),
@@ -96,6 +96,26 @@ function driveToExplore(gs: ReturnType<typeof createInitialGameState>, bus: Retu
   while (gs.mode === 'battle' && safety-- > 0)
     tickBattle(gs, gs.battleState?.settlement ? advance : empty, bus)
 }
+
+describe('togglePartyMembership(队伍在队开关:role0 队首常驻)', () => {
+  it('role0 队首常驻:toggle 无效(返回原队伍)', () => {
+    expect(togglePartyMembership([0, 1], 0)).toEqual([0, 1])
+    expect(togglePartyMembership([0], 0)).toEqual([0])
+  })
+  it('不在队的角色 → 入队(push 末尾站位)', () => {
+    expect(togglePartyMembership([0], 2)).toEqual([0, 2])
+    expect(togglePartyMembership([0, 1], 4)).toEqual([0, 1, 4])
+  })
+  it('在队的角色 → 离队(保序移除)', () => {
+    expect(togglePartyMembership([0, 1, 2], 1)).toEqual([0, 2])
+    expect(togglePartyMembership([0, 3], 3)).toEqual([0])
+  })
+  it('不 mutate 入参(返回新数组)', () => {
+    const orig = [0, 1]
+    togglePartyMembership(orig, 2)
+    expect(orig).toEqual([0, 1])
+  })
+})
 
 describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
   it('fixture-dialog:敌人 scriptOnTurnStart 设上(林月如一嘲讽能触发,team 21 → enemyId 82 → 41368)', () => {

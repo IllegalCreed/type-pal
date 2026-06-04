@@ -775,6 +775,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     gs,
     fixtures: battleFixtures,
     sceneJumps,
+    // 队伍 tab 头像 + 物品作弊图标:RGM 头像帧(by role.avatar)/ BALL 物品图标(by item.bitmap)+ 主调色板上色。
+    portraitFrames: dialogAssets.portraitFrames,
+    itemIcons: assets.itemIcons,
+    palette,
     sceneAssetsCache,
     onSceneChanged: applySceneAssetsToPresent,
     onFontTest,
