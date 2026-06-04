@@ -730,10 +730,12 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
     if (wave && wave > 0) frame.screenWave = wave
     // W4 keepEffect:末帧 + wKeepEffect==0xFFFF + wScreenWave(=wave 陆战)<9 → 烙背景(fight.c:2757-2762)。
     if (i === l - 1 && keepEffect === 0xffff && (wave ?? 0) < 9) frame.keepEffect = true
-    // M6 法术效果音帧同步:sdlpal CLASSIC 在 `(i-fireDelay)%n==0` 帧播 magic.wSound(fight.c:2713,!fIsWIN95)——
-    //   即 fireDelay 帧起、每 n 帧一次,与效果精灵 loop 同步。**修"音效比动画提前"**(此前 magic.ts cast 起手
-    //   就 push,等价 WIN95 早播)。i<fireDelay 不播(i-fireDelay<0)。
-    if (sound && sound > 0 && i >= fireDelay && (i - fireDelay) % n === 0) frame.sound = sound
+    // M6 法术效果音(user 2026-06-05 选 WIN95 式):在 OffMagic **起手帧 i==0** 播一次 magic.wSound
+    //   (sdlpal WIN95 fight.c:2669-2672 `if (fIsWIN95 && !fSummon && wSound) AUDIO_PlaySound` 在帧循环前)。
+    //   CLASSIC 真值本是 `(i-fireDelay)%n==0` 命中帧才播(fight.c:2713,!fIsWIN95)→ user 反馈万剑诀声音比剑
+    //   出现晚、滞后,故按其选择统一改 WIN95 起手播(声画同步)。
+    //   **召唤二次 OffMagic(casterIdx=-1)不传 sound → undefined → 不挂帧**,与 WIN95 `!fSummon` gate 一致,不碰召唤路径。
+    if (sound && sound > 0 && i === 0) frame.sound = sound
     frames.push(frame)
   }
 

@@ -357,7 +357,7 @@ export function performMagic(input: PerformMagicInput): void {
   if (pendingCastSound > 0 && input.gs && !castFrameSynced) (input.gs.pendingSounds ??= []).push(pendingCastSound)
 
   // M6 法术效果音 magic.sound:player 攻击魔法(OffMagic)已在 buildPlayerOffMagicTimeline 的
-  //   (i-fireDelay)%n 帧挂 frame.sound(帧同步,对齐 sdlpal CLASSIC fight.c:2713),**不在此 push**;
+  //   **起手帧 i==0** 挂 frame.sound(WIN95 式声画同步,sdlpal fight.c:2669;user 2026-06-05 选),**不在此 push**;
   //   其余(防御/召唤/敌方/无动画)无帧同步 → 即时 push 到 gs.pendingSounds(同 0x47 通道)。
   const offMagicSynced = built && !input.casterIsEnemy && OFF_MAGIC_TYPES.has(magic.type)
   if (magic.sound > 0 && input.gs && !offMagicSynced) (input.gs.pendingSounds ??= []).push(magic.sound)

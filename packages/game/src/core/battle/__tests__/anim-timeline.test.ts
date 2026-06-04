@@ -548,13 +548,14 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
     })
   }
 
-  // M6 效果音帧同步(fight.c:2713,CLASSIC):magic.sound 在 (i-fireDelay)%n==0 帧播,fireDelay 起每 n 帧一次。
-  //   修"法术音效比动画提前"(此前 cast 起手就 push)。
-  it('M6 效果音:sound 挂在 (i-fireDelay)%n==0 帧(n=8/fireDelay=2 → i=2,10);i<fireDelay 不挂', () => {
+  // M6 效果音(user 2026-06-05 选 WIN95 式):magic.sound 在 OffMagic **起手帧 i==0** 播一次
+  //   (sdlpal WIN95 fight.c:2669-2672 `if (fIsWIN95 && !fSummon && wSound) AUDIO_PlaySound` 在帧循环前)。
+  //   CLASSIC 真值是 (i-fireDelay)%n==0 帧(fight.c:2713,命中帧才播)→ user 反馈万剑诀"比剑出现晚、滞后",
+  //   故按其选择统一改 WIN95 起手播(声画同步)。**召唤二次 OffMagic 不传 sound → 不受影响**。
+  it('M6 效果音(WIN95):sound 只挂 OffMagic 起手帧 i==0(fight.c:2669)', () => {
     const f = buildNormal({ sound: 55 }) // l = (8-2)*1 + 8 + 0 = 14
     const soundFrames = f.map((fr, i) => (fr.sound === 55 ? i : -1)).filter(i => i >= 0)
-    expect(soundFrames).toEqual([2, 10]) // fireDelay(2)起、每 n(8)帧
-    expect(f.slice(0, 2).every(fr => fr.sound === undefined)).toBe(true) // i<fireDelay 不播
+    expect(soundFrames).toEqual([0]) // 仅起手帧(WIN95)
     // sound=0/缺 → 不挂任何帧
     expect(buildNormal({ sound: 0 }).every(fr => fr.sound === undefined)).toBe(true)
   })
