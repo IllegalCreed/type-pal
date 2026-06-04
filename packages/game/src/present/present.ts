@@ -574,6 +574,15 @@ export function presentFrame(
   // opcode 0x0035 设 shakeTime/shakeLevel 后逐帧生效,applyScreenShake 末尾自减 shakeTime 至 0 停。
   if (gs.shakeTime !== 0) {
     applyScreenShake(fb.indices, gs)
+  } else {
+    // 战斗法术振屏:当前 battleAnim 帧的 shake(anim-timeline 据 magic.shake 生成 shake 区,fight.c:2716-2720;
+    //   present 施加对齐 video.c UpdateScreen)。此前 present 只认 0x35 的 gs.shakeTime,漏了法术帧 shake →
+    //   泰山压顶等振屏特效不显示(user 2026-06-04)。frame.shake.time 提供奇偶帧方向,传临时对象不污染 gs。
+    const anim = gs.battleState?.battleAnim
+    const fshake = anim ? anim.frames[anim.idx]?.shake : undefined
+    if (fshake && fshake.level > 0) {
+      applyScreenShake(fb.indices, { shakeTime: fshake.time, shakeLevel: fshake.level })
+    }
   }
 }
 
