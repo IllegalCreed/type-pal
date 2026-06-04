@@ -154,13 +154,10 @@ export function performAttack(
     const HIT_ORDER = [2, 1, 0, 4, 3] // fight.c:3684 const int index[MAX_ENEMIES_IN_TEAM]
     const roleId = state.players[actor.idx]!.roleId
     const voiceRole = playerRoles.roles[roleId]
-    // 挥砍前记每个活敌 HP —— 伤害数字 = 总 delta,**挥砍动画播完后**弹(对齐 sdlpal
-    //   PAL_BattleDisplayStatChange 在 PAL_BattleShowPlayerAttackAnim 之后,fight.c:3748)。
-    const beforeHp = new Map<number, number>()
-    for (const slot of HIT_ORDER) {
-      const be = state.enemies[slot]
-      if (be && be.e.health > 0) beforeHp.set(slot, be.e.health)
-    }
+    // 各敌完整伤害累加(挥砍动画播完后弹,对齐 sdlpal DisplayStatChange 在 ShowPlayerAttackAnim 之后,
+    //   fight.c:3748)。sdlpal `wHealth -= sDamage`(fight.c:3726)WORD **下溢不钳**,显示
+    //   (SHORT)(wHealth-wPrevHP) = 完整累加伤害,非剩余血。故累加每击**钳前扣减**(超杀时即完整伤害)。
+    const damagePerSlot = new Map<number, number>()
     for (let t = 0; t < hits; t++) {
       // 每轮 crit 重摇、division 重置(fight.c:3683-3688 在 t-loop 内)
       const fCritical = state.rng.rangeInclusive(0, 5) === 0 || bravery > 0
@@ -178,16 +175,19 @@ export function performAttack(
         damage = damage / division // FLOAT 除(逐敌减半)
         if (damage <= 0) damage = 1
         // sdlpal `wHealth -= (FLOAT)sDamage` → WORD 回写截断(trunc),等价 floor(health - dmg)
-        be.e.health = Math.max(0, Math.trunc(be.e.health - damage))
+        const hpBeforeHit = be.e.health
+        const hpAfterUnclamped = Math.trunc(hpBeforeHit - damage)
+        be.e.health = Math.max(0, hpAfterUnclamped)
+        // 累加钳前扣减(超杀 = 完整伤害,对齐 sdlpal WORD 下溢显示)
+        damagePerSlot.set(slot, (damagePerSlot.get(slot) ?? 0) + (hpBeforeHit - hpAfterUnclamped))
         division *= 2 // fight.c:3729 命中一个活敌后翻倍
       }
     }
     bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: -1 })
-    // 各敌伤害数字(钳后总 delta;掉血 → blue)
+    // 各敌伤害数字(完整累加伤害;掉血 → blue)
     const pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
-    for (const [slot, before] of beforeHp) {
-      const dealt = before - (state.enemies[slot]?.e.health ?? 0)
-      if (dealt > 0) pendingNums.push({ target: { kind: 'enemy', idx: slot }, value: dealt, color: 'blue' })
+    for (const [slot, dmg] of damagePerSlot) {
+      if (dmg > 0) pendingNums.push({ target: { kind: 'enemy', idx: slot }, value: dmg, color: 'blue' })
     }
     // M6/D17a:群攻挥砍动画 —— sdlpal 整套群攻只调一次 PAL_BattleShowPlayerAttackAnim(fight.c:3745),
     //   sTarget==-1 → 挥向固定中心 (150,100)(fight.c:2050-2055)。此前群攻**完全无动画**(只即时弹数字 —
@@ -237,21 +237,24 @@ export function performAttack(
       bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: targetIdx })
       const before = targetEnemy.e.health
       targetEnemy.e.health = Math.max(0, before - damage)
-      const dealt = before - targetEnemy.e.health
+      // sdlpal 玩家打敌人:wHealth 是 WORD,`wHealth -= sDamage`(fight.c:3665)超杀**下溢不钳**,
+      //   DisplayStatChange 用 (SHORT)(wHealth-wPrevHP)(fight.c:638)→ 显示**完整算出伤害**,非剩余血。
+      //   (敌打玩家才 `if (hp<sDamage) sDamage=hp` 钳剩余血,fight.c:5064 —— 故意不对称。)故 damageNum
+      //   用算出的完整 damage,不用钳后 delta;health 仍钳 0 供内部死亡逻辑。
       // 每击建一段攻击时间线(damageNum 嵌帧);缺 pos(旧 fixture)→ 即时 emit
       const seg = buildAttackTimeline({
         state,
         actor,
         targetIdx,
         isPlayerTarget: false,
-        damage: dealt,
+        damage,
         battleEffectIndex,
         playerRoles,
       })
       if (seg) {
         segments.push(...seg)
       } else {
-        bus.emit({ op: 'showDamageNum', target: { kind: 'enemy', idx: targetIdx }, value: dealt, color: 'blue' })
+        bus.emit({ op: 'showDamageNum', target: { kind: 'enemy', idx: targetIdx }, value: damage, color: 'blue' })
       }
     }
     if (segments.length > 0) startBattleAnim(state, segments, bus)

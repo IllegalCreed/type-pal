@@ -265,7 +265,7 @@ export function performMagic(input: PerformMagicInput): void {
   const pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
   // 敌方法术受伤的队员 idx(受击动画 fight.c:4861-4899 用;E2 填)。
   const hitPlayerIdxs: number[] = []
-  let dmgResults: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number }> = []
+  let dmgResults: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number; damage: number }> = []
   if (
     !input.casterIsEnemy &&
     !DEFENSIVE_MAGIC_TYPES.has(magic.type) &&
@@ -287,11 +287,12 @@ export function performMagic(input: PerformMagicInput): void {
       minDamage: 1, // sdlpal inline:if (sDamage <= 0) sDamage = 1
     })
     // D17b:每个被命中敌人 collect showDamageNum(掉血 → blue,sdlpal `fight.c:648-651`)。
-    // 用钳后真实 delta(hpBefore-hpAfter)对齐 PAL_BattleDisplayStatChange(钳到 0 时显示真实损失)。
-    //   延迟到魔法特效播完才 emit(见 pendingNums 注释)。
+    // 玩家法术打敌人:wHealth WORD 下溢不钳(fight.c:638),超杀显示**完整算出伤害**,非剩余血 delta
+    //   —— 用 r.damage(钳 minDamage 后的完整伤害),非 hpBefore-hpAfter。(敌法术打玩家才钳 hp,
+    //   fight.c:4805,见下方 enemy 分支。)延迟到魔法特效播完才 emit(见 pendingNums 注释)。
     for (const r of dmgResults) {
       if (r.hpAfter < r.hpBefore) {
-        pendingNums.push({ target: { kind: 'enemy', idx: r.enemyIdx }, value: r.hpBefore - r.hpAfter, color: 'blue' })
+        pendingNums.push({ target: { kind: 'enemy', idx: r.enemyIdx }, value: r.damage, color: 'blue' })
       }
     }
   }

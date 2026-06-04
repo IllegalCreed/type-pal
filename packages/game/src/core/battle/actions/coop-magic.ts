@@ -134,8 +134,9 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
     // 伤害数字延迟到 OffMagic 落完(sdlpal PAL_BattleDisplayStatChange 在 OffMagic 后,fight.c:4045)。
     const pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
     const hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }> = []
+    // 合击打敌人:wHealth WORD 下溢不钳(fight.c:638),超杀显示**完整算出伤害** r.damage,非剩余血 delta。
     for (const r of results) {
-      if (r.hpAfter < r.hpBefore) pendingNums.push({ target: { kind: 'enemy', idx: r.enemyIdx }, value: r.hpBefore - r.hpAfter, color: 'blue' })
+      if (r.hpAfter < r.hpBefore) pendingNums.push({ target: { kind: 'enemy', idx: r.enemyIdx }, value: r.damage, color: 'blue' })
       if (r.hpAfter !== r.hpBefore) {
         const pos = state.enemies[r.enemyIdx]?.posOriginal
         if (pos) hurtEnemies.push({ idx: r.enemyIdx, pos })
@@ -170,7 +171,7 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
   // 回落(无动画):D17b 掉血 → blue showDamageNum 即时弹。
   for (const r of results) {
     if (r.hpAfter < r.hpBefore) {
-      bus.emit({ op: 'showDamageNum', target: { kind: 'enemy', idx: r.enemyIdx }, value: r.hpBefore - r.hpAfter, color: 'blue' })
+      bus.emit({ op: 'showDamageNum', target: { kind: 'enemy', idx: r.enemyIdx }, value: r.damage, color: 'blue' })
     }
   }
 }

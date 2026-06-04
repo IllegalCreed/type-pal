@@ -239,6 +239,42 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
     })
   })
 
+  // sdlpal 玩家法术打敌人同物理:wHealth WORD 下溢不钳(fight.c:638),超杀显示完整伤害,非剩余血。
+  //   (敌法术打玩家才 `if (sDamage>hp) sDamage=hp` 钳剩余血,fight.c:4805 —— 故意不对称。)
+  it('超杀:单体攻击法术击杀敌显示完整伤害而非剩余血(fight.c:638)', () => {
+    const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
+      {
+        health: 30, // < 伤害 50 → 超杀
+        defense: 30,
+        level: 5,
+        elemResistance: { wind: 5, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+    ])
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell()],
+      magics: [makeMagic({ baseDamage: 45, elemental: 1 })],
+      playerRoles,
+      bus,
+      commands,
+      runScript: noopRunScript,
+    })
+    expect(state.enemies[0]!.e.health).toBe(0) // 50 > 30 → 击杀
+    const cmds = bus.drain()
+    const dmgCmd = cmds.find((c) => c.cmd.op === 'showDamageNum')
+    expect(dmgCmd!.cmd).toMatchObject({
+      op: 'showDamageNum',
+      color: 'blue',
+      target: { kind: 'enemy', idx: 0 },
+      value: 50, // 完整伤害 50,非剩余血 30
+    })
+  })
+
   it('召唤魔法(type summon)→ 建召唤动画链(state.battleAnim.summon set,精灵 player-{special+10})+ 敌落血', () => {
     const { state, playerRoles, bus } = makeState({ hp: 500, mp: 30, magicStrength: 60 }, [{ health: 9000, defense: 0, level: 5 }])
     // 补 posOriginal(召唤动画前置:发起者底锚)

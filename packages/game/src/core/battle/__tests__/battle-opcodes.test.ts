@@ -183,6 +183,19 @@ describe('0x42 SimulateMagic (E2)', () => {
     expect(enemies[0]!.e.health).toBe(60)
   })
 
+  // sdlpal 玩家方脚本伤害打敌人(SimulateMagic)同攻击:wHealth WORD 下溢不钳(fight.c:638),
+  //   超杀显示完整伤害,非剩余血。
+  it('超杀:模拟法术击杀敌显示完整伤害而非剩余血(player→enemy,fight.c:638)', () => {
+    const enemies = [richEnemy({ health: 50, defense: 30, level: 5 })] // < 140 → 超杀
+    const ctx = simulateCtx(enemies, 0, [objMagic(349, 54)], [magicStat(54, 140, 0)])
+    const bus = createCommandBus()
+    ctx.bus = bus
+    dispatchBattleOpcode(0x42, [349, 0, 0], ctx)
+    expect(enemies[0]!.e.health).toBe(0) // 140 > 50 → 击杀
+    const dmgCmd = bus.drain().find(c => c.cmd.op === 'showDamageNum')!.cmd as { value: number }
+    expect(dmgCmd.value).toBe(140) // 完整伤害 140,非剩余血 50
+  })
+
   // M6 模拟法术效果音(sdlpal PAL_BattleSimulateMagic → OffMagicAnim → AUDIO_PlaySound(magic.wSound))。
   it('magic.sound>0 → push gs.pendingSounds;0 不 push', () => {
     const enemies = [richEnemy({ health: 200, defense: 30, level: 5 })]
@@ -1474,7 +1487,10 @@ describe('D17b showDamageNum emit', () => {
     expect(nums[0]).toEqual({ op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 30, color: 'blue' })
   })
 
-  it('0x21 致死钳到 0 → value = 钳后真实 delta(非原始伤害)', () => {
+  // 2026-06-04 订正:旧测试断言"钳后 delta 20"是基于错误真值理解(同旧 emitDamageNum 注释)。
+  //   sdlpal 玩家方打敌人 wHealth 是 WORD,超杀**下溢不钳**,DisplayStatChange 用 (SHORT)(wHealth-wPrevHP)
+  //   → 显示**完整伤害**(fight.c:638)。user 2026-06-04 实测暴击超杀只显示剩余血即此 bug。
+  it('0x21 致死超杀 → value = 完整伤害(player→enemy wHealth WORD 下溢,fight.c:638)', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 20 })]
     const ctx: BattleCtx = {
@@ -1483,10 +1499,10 @@ describe('D17b showDamageNum emit', () => {
       target: { type: 'enemy', idx: 0 },
       bus,
     }
-    dispatchBattleOpcode(0x21, [0, 100], ctx) // 伤害 100 但只剩 20
+    dispatchBattleOpcode(0x21, [0, 100], ctx) // 伤害 100 但只剩 20 → 超杀
     expect(enemies[0]!.e.health).toBe(0)
     const nums = damageNums(bus)
-    expect(nums[0]!.value).toBe(20) // 钳后 delta = 20,不是 100
+    expect(nums[0]!.value).toBe(100) // 完整伤害 100(玩家打敌显示完整,非剩余血 20)
   })
 
   it('0x21 全体扣血 → 每敌各 emit 一条 blue,target idx 各异', () => {

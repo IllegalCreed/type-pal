@@ -126,6 +126,20 @@ describe('performCoopMagic(协力合击,fight.c:3856-4043 CLASSIC)', () => {
     expect(state.enemies[0]!.e.health).toBe(before - refDmg) // str=40 命中
   })
 
+  // 协法术合击敌人同玩家法术:wHealth WORD 下溢不钳(fight.c:638),超杀显示完整伤害,非剩余血。
+  it('超杀:协法术击杀敌显示完整伤害而非剩余血(player→enemy,fight.c:638)', () => {
+    const roles = [makeRole(0, { attackStrength: 40, magicStrength: 60 }), makeRole(1, { attackStrength: 20, magicStrength: 40 })]
+    const { state, playerRoles } = makeCoopState(roles)
+    const ref = makeCoopState([makeRole(0), makeRole(1)])
+    const refDmg = applyMagicDamage({ state: ref.state, target: 0, magStr: 40, magicData: { baseDamage: 80, elemental: 1 }, rngFactor: 1.0, minDamage: 1 })[0]!.damage
+    state.enemies[0]!.e.health = 5 // < refDmg → 超杀
+    const bus = createCommandBus()
+    performCoopMagic({ state, casterIdx: 0, coopObjId: 351, targetIdx: 'all', playerRoles, magics: [COOP_MAGIC], objectMagics: OBJ_MAGICS, bus })
+    expect(state.enemies[0]!.e.health).toBe(0)
+    const dmgCmd = bus.drain().find(c => c.cmd.op === 'showDamageNum')!.cmd as { value: number }
+    expect(dmgCmd.value).toBe(refDmg) // 完整伤害,非剩余血 5
+  })
+
   it('仅 healthy 参与:sleeping 队员不付 HP、不计入 str(需 2 healthy)', () => {
     // role0+role1 healthy contributor;role2 sleep → 排除。str = (40+60 + 20+40)/4 = 40。
     const roles = [

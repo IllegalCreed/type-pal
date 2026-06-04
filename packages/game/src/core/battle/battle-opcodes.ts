@@ -32,11 +32,13 @@ function asShort(n: number): number {
  * PAL_BattleDisplayStatChange` —— 每次行动后对所有 wPrevHP!=wHealth 的敌/我画数字)。
  *
  * sdlpal:`sDamage = wHealth - wPrevHP`(= after - before),
- *   sDamage < 0(掉血)→ kNumColorBlue,value = before - after;
- *   sDamage > 0(回血)→ kNumColorYellow,value = after - before;
- *   sDamage == 0 → 不画。
- * 用 before/after(钳后实际 HP)算 value —— 与 sdlpal 一致(钳到 0 时显示真实损失,
- *   非原始伤害)。`ctx.bus` 缺省(未注入 / 测试不传)→ 静默 no-op(不抛)。
+ *   sDamage < 0(掉血)→ kNumColorBlue;sDamage > 0(回血)→ kNumColorYellow;== 0 不画。
+ * **显示值关键区分**(sdlpal 故意不对称,2026-06-04 订正旧"钳后真实损失"误判):
+ *   - 玩家方打敌人掉血:enemy wHealth 是 WORD,`wHealth -= sDamage` 超杀**下溢不钳**,
+ *     DisplayStatChange 用 (SHORT)(wHealth-wPrevHP) → 显示**完整算出伤害**(传 fullDamage)。
+ *   - 回血 / 敌方打玩家:sdlpal 钳 maxHP / `if(hp<sDamage)sDamage=hp`(fight.c:5064/4805)→
+ *     显示钳后真实 delta(不传 fullDamage)。
+ * `ctx.bus` 缺省(未注入 / 测试不传)→ 静默 no-op(不抛)。
  */
 function emitDamageNum(
   ctx: BattleCtx,
@@ -44,11 +46,13 @@ function emitDamageNum(
   idx: number,
   before: number,
   after: number,
+  /** 掉血时优先显示的完整算出伤害(玩家打敌人 WORD 下溢);省略 → 用钳后 delta(回血/敌打玩家)。 */
+  fullDamage?: number,
 ): void {
   if (after === before)
     return
   const color = after < before ? 'blue' : 'yellow'
-  const value = after < before ? before - after : after - before
+  const value = after < before ? (fullDamage ?? before - after) : after - before
   ctx.bus?.emit({ op: 'showDamageNum', target: { kind, idx }, value, color })
 }
 
@@ -287,7 +291,7 @@ export function dispatchBattleOpcode(
         rngFactor: 1 + state.rng.next() * 0.1, // sdlpal RandomFloat(10,11)/10
       })
       for (const r of results)
-        emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter)
+        emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter, r.damage) // 玩家方法术打敌:显示完整伤害
       // M6 模拟法术效果音(sdlpal PAL_BattleSimulateMagic → OffMagicAnim → AUDIO_PlaySound(magic.wSound),
       //   fight.c:2501;投掷符/卵/蛊的 scriptOnThrow 走 0x42)。
       {
@@ -327,7 +331,7 @@ export function dispatchBattleOpcode(
         rngFactor: 1 + state.rng.next() * 0.1,
       })
       for (const r of results)
-        emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter)
+        emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter, r.damage) // 玩家方法术打敌:显示完整伤害
       // M6 投掷武器效果音(同 0x42:OffMagicAnim AUDIO_PlaySound(magic.wSound),fight.c:2501)。
       {
         const om = resolveObjectMagic(operands[0] ?? 0, tables.objectMagics)
@@ -345,7 +349,7 @@ export function dispatchBattleOpcode(
         state.enemies.forEach((e, i) => {
           const before = e.e.health
           e.e.health = Math.max(0, e.e.health - dmg)
-          emitDamageNum(ctx, 'enemy', i, before, e.e.health)
+          emitDamageNum(ctx, 'enemy', i, before, e.e.health, dmg) // 投掷暗器打敌:显示完整 dmg(超杀下溢)
         })
       }
       else {
@@ -354,7 +358,7 @@ export function dispatchBattleOpcode(
         if (enemy) {
           const before = enemy.e.health
           enemy.e.health = Math.max(0, enemy.e.health - dmg)
-          emitDamageNum(ctx, 'enemy', idx!, before, enemy.e.health)
+          emitDamageNum(ctx, 'enemy', idx!, before, enemy.e.health, dmg) // 投掷暗器单体打敌:显示完整 dmg
         }
       }
       return { consumed: true }

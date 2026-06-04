@@ -234,6 +234,36 @@ describe('performAttack', () => {
     expect((cmds[1]!.cmd as { value: number }).value).toBeGreaterThan(0)
   })
 
+  // sdlpal 玩家打敌人 wHealth 是 WORD,`wHealth -= sDamage`(fight.c:3665)超杀**下溢不钳**,
+  //   PAL_BattleDisplayStatChange 用 (SHORT)(wHealth-wPrevHP)(fight.c:638)→ 显示**完整算出伤害**,
+  //   非剩余血。(敌打玩家才 `if (hp<sDamage) sDamage=hp` 钳剩余血,fight.c:5064 —— 故意不对称。)
+  it('超杀:玩家打敌人显示完整伤害而非剩余血(fight.c:638/3665)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 },
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 100 }],
+      forceRoll: 1, forceFloat: 1, // base+1 / 不暴击 / 不李逍遥 / jitter×1 → 完整伤害 = 314+1 = 315
+    })
+    performAttack(state, playerActor, 0, bus, playerRoles)
+    expect(state.enemies[0]!.e.health).toBe(0) // 315 > 100 → 击杀
+    const cmds = bus.drain()
+    const dmg = cmds.find(c => (c.cmd as { op: string }).op === 'showDamageNum')!.cmd as { value: number }
+    expect(dmg.value).toBe(315) // 完整伤害 315,非剩余血 100
+  })
+
+  // 群攻同理:sdlpal `wHealth -= sDamage`(fight.c:3726)WORD 下溢,显示完整累加伤害。
+  it('超杀:群攻击杀敌显示完整伤害而非剩余血(fight.c:3726)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 },
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 50 }], // 单敌 division 1
+      forceRoll: 1, // 不暴击;群攻无 jitter
+    })
+    performAttack(state, playerActor, -1, bus, playerRoles) // targetIdx<0 = attackAll 群攻
+    expect(state.enemies[0]!.e.health).toBe(0) // 314 > 50 → 击杀
+    const cmds = bus.drain()
+    const dmg = cmds.find(c => (c.cmd as { op: string }).op === 'showDamageNum')!.cmd as { value: number }
+    expect(dmg.value).toBe(314) // 完整伤害 314(群攻无 +1/jitter),非剩余血 50
+  })
+
   // M6 出招声:sdlpal PAL_BattleShowPlayerAttackAnim 起手(fight.c:2058-2071)HP>0 时
   //   !crit→AUDIO_PlaySound(attackSound),crit→criticalSound;在 dual-attack t-loop 内每击一次(fight.c:3673)。
   //   ts 经 bus {op:'playSound'} → bootstrap audio.playSound。命中"武器声"weaponSound 仍由 playPlayerAttack 接。
