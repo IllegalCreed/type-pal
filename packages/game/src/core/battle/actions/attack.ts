@@ -149,22 +149,28 @@ export function performAttack(
   //   - **无** jitter / RandomFloat(真值即如此,区别于单体)
   if (!actor.isEnemy && targetIdx < 0) {
     const bravery = state.players[actor.idx]?.status.bravery ?? 0
-    // DualAttack(0x2D 装备授,如玄冥宝刀)→ 整段群攻做两次(fight.c:3681 for t<(dualAttack?2:1))
+    // DualAttack(0x2D 装备/法术授,如玄冥宝刀 / 醉仙望月步)→ 整段群攻做两次(fight.c:3681 for t<(dualAttack?2:1))
     const hits = (state.players[actor.idx]?.status.dualAttack ?? 0) > 0 ? 2 : 1
     const HIT_ORDER = [2, 1, 0, 4, 3] // fight.c:3684 const int index[MAX_ENEMIES_IN_TEAM]
     const roleId = state.players[actor.idx]!.roleId
     const voiceRole = playerRoles.roles[roleId]
-    // 各敌完整伤害累加(挂挥砍 i==0 帧弹,对齐 sdlpal PAL_BattleDisplayStatChange 在 ShowPlayerAttackAnim
-    //   挥砍特效**首帧 i==0** 调,fight.c:2209/626-659,非挥砍后)。sdlpal `wHealth -= sDamage`(fight.c:3726)
-    //   WORD **下溢不钳**,显示 (SHORT)(wHealth-wPrevHP) = 完整累加伤害,非剩余血。故累加每击**钳前扣减**(超杀时即完整伤害)。
-    const damagePerSlot = new Map<number, number>()
+    const attacker = state.players[actor.idx]
+    const hasAnim = !!attacker?.posOriginal
+    // sdlpal 群攻每 sweep 各调一次 PAL_BattleShowPlayerAttackAnim(fight.c:3745,在 t-loop 内)→ **每 sweep
+    //   一次完整挥砍**(双击 = 两次),各自 i==0 弹该 sweep 伤害数字(PAL_BattleBackupStat 每 swing 后
+    //   wPrevHP=wHealth,fight.c:2210/588 → 双击显示两个数字,非一个总和)+ 起手出招声 + 命中武器声各一遍。
+    //   故逐 sweep 建挥砍段累加(与单体双击 :217 同构);此前群攻整段只建一次挥砍 + 武器声一遍(user 2026-06-05 报)。
+    const segments: BattleAnimFrame[] = []
+    const legacyNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
     for (let t = 0; t < hits; t++) {
-      // 每轮 crit 重摇、division 重置(fight.c:3683-3688 在 t-loop 内)
+      // 每 sweep crit 重摇、division 重置(fight.c:3683-3688 在 t-loop 内)
       const fCritical = state.rng.rangeInclusive(0, 5) === 0 || bravery > 0
-      // M6 出招声(sdlpal fight.c:2058-2071 PAL_BattleShowPlayerAttackAnim 起手,在 t-loop 内 fight.c:3673
-      //   每击一次):!crit→attackSound,crit→criticalSound。命中"武器声"weaponSound 由下方 playPlayerAttack 接。
+      // M6 出招声(sdlpal fight.c:2058-2071 ShowPlayerAttackAnim 起手,每 sweep 一次):!crit→attackSound,crit→criticalSound。
       const voice = fCritical ? voiceRole?.criticalSound : voiceRole?.attackSound
       if (voice && voice > 0) bus.emit({ op: 'playSound', soundId: voice })
+      // 命中武器声 weaponSound(sdlpal fight.c:2124,每 sweep 一次)→ 经 playPlayerAttack 接,放 t-loop 内每 sweep emit。
+      bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: -1 })
+      const sweepNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
       let division = 1
       for (const slot of HIT_ORDER) {
         const be = state.enemies[slot]
@@ -174,42 +180,36 @@ export function performAttack(
         if (fCritical) damage *= 3
         damage = damage / division // FLOAT 除(逐敌减半)
         if (damage <= 0) damage = 1
-        // sdlpal `wHealth -= (FLOAT)sDamage` → WORD 回写截断(trunc),等价 floor(health - dmg)
+        // sdlpal `wHealth -= (FLOAT)sDamage` → WORD 回写截断(trunc);超杀 WORD 下溢不钳,显示完整算出伤害(钳前扣减)。
         const hpBeforeHit = be.e.health
         const hpAfterUnclamped = Math.trunc(hpBeforeHit - damage)
         be.e.health = Math.max(0, hpAfterUnclamped)
-        // 累加钳前扣减(超杀 = 完整伤害,对齐 sdlpal WORD 下溢显示)
-        damagePerSlot.set(slot, (damagePerSlot.get(slot) ?? 0) + (hpBeforeHit - hpAfterUnclamped))
+        const dealt = hpBeforeHit - hpAfterUnclamped
+        if (dealt > 0) sweepNums.push({ target: { kind: 'enemy', idx: slot }, value: dealt, color: 'blue' })
         division *= 2 // fight.c:3729 命中一个活敌后翻倍
       }
+      // M6/D17a:每 sweep 一次挥砍动画 —— sTarget==-1 挥向固定中心 (150,100)(fight.c:2050-2055)。
+      //   该 sweep 各掉血敌数字挂其挥砍 i==0 帧(sdlpal DisplayStatChange,fight.c:2209/626-659)。
+      if (hasAnim) {
+        const swing = buildPlayerAttackTimeline({
+          attackerPos: attacker!.posOriginal!,
+          attackerIdx: actor.idx,
+          targetEnemyPos: { x: 150, y: 100 },
+          targetIdx: -1, // 群攻无单体目标 → 跳过单敌染色/抖动
+          targetEnemyHeight: 0,
+          effectFrameBase: playerEffectFrameBase(battleEffectIndex, voiceRole?.spriteNumInBattle ?? 0),
+          damage: 0,
+          groupDamageNums: sweepNums,
+        })
+        segments.push(...swing)
+      } else {
+        legacyNums.push(...sweepNums) // 旧 fixture 无 posOriginal → 即时弹(向后兼容)
+      }
     }
-    bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: -1 })
-    // 各敌伤害数字(完整累加伤害;掉血 → blue)
-    const pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
-    for (const [slot, dmg] of damagePerSlot) {
-      if (dmg > 0) pendingNums.push({ target: { kind: 'enemy', idx: slot }, value: dmg, color: 'blue' })
-    }
-    // M6/D17a:群攻挥砍动画 —— sdlpal 整套群攻只调一次 PAL_BattleShowPlayerAttackAnim(fight.c:3745),
-    //   sTarget==-1 → 挥向固定中心 (150,100)(fight.c:2050-2055)。此前群攻**完全无动画**(只即时弹数字 —
-    //   林月如等 attackAll 鞭武器看着没攻击动画,user 2026-06-03 报)。
-    // 伤害数字挂挥砍 i==0 帧(sdlpal DisplayStatChange 在 ShowPlayerAttackAnim i==0 调,fight.c:2209),
-    //   非 pendingDamageNums 时间线后弹(那是法术 PostMagic 机制)。user 2026-06-04 报"群攻掉血数字偏晚"。
-    const attacker = state.players[actor.idx]
-    if (attacker?.posOriginal) {
-      const swing = buildPlayerAttackTimeline({
-        attackerPos: attacker.posOriginal,
-        attackerIdx: actor.idx,
-        targetEnemyPos: { x: 150, y: 100 }, // sdlpal sTarget==-1 中心落点
-        targetIdx: -1, // 群攻无单体目标 → buildPlayerAttackTimeline 跳过单敌染色/抖动
-        targetEnemyHeight: 0,
-        effectFrameBase: playerEffectFrameBase(battleEffectIndex, voiceRole?.spriteNumInBattle ?? 0),
-        damage: 0,
-        groupDamageNums: pendingNums, // 各掉血敌数字挂挥砍 i==0 帧(fight.c:2209/626-659)
-      })
-      startBattleAnim(state, swing, bus)
+    if (hasAnim) {
+      if (segments.length > 0) startBattleAnim(state, segments, bus)
     } else {
-      // 旧 fixture 无 posOriginal → 不建时间线,即时弹伤害数字(向后兼容)
-      for (const dn of pendingNums) bus.emit({ op: 'showDamageNum', ...dn })
+      for (const dn of legacyNums) bus.emit({ op: 'showDamageNum', ...dn })
     }
     return
   }

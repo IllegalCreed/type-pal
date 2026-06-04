@@ -421,10 +421,41 @@ describe('performAttack', () => {
     // 两 sweep,每 sweep division 重置 1 → 单敌各全额 314 → 共 628
     expect(state.enemies[0]!.e.health).toBe(5000 - 314 * 2)
     const dmgNums = bus.drain().filter(c => c.cmd.op === 'showDamageNum')
-    // 群攻每敌弹**一个总 delta**(对齐 sdlpal PAL_BattleDisplayStatChange 按 prevHP 比对,挥砍后一次;
-    //   旧 ts 每击弹一个是 artifact)。单敌 dual-attack → 1 个数字 = 628。
-    expect(dmgNums).toHaveLength(1)
-    expect((dmgNums[0]!.cmd as { value: number }).value).toBe(628)
+    // sdlpal 每 sweep 各调一次 ShowPlayerAttackAnim → 各 sweep i==0 弹自己的数字(PAL_BattleBackupStat 每 swing
+    //   后重置 wPrevHP,fight.c:2210/588)→ **两个数字各 314**,非一个总和 628(旧测试"一个总 delta"假设不忠实)。
+    expect(dmgNums).toHaveLength(2)
+    expect((dmgNums[0]!.cmd as { value: number }).value).toBe(314)
+    expect((dmgNums[1]!.cmd as { value: number }).value).toBe(314)
+  })
+
+  // 群攻双击(醉仙望月步授 dualAttack,fight.c:3681 t<(dualAttack?2:1)):sdlpal 每 sweep 各调一次
+  //   PAL_BattleShowPlayerAttackAnim(fight.c:3745,在 t-loop 内)→ **两次完整挥砍**,各 sweep i==0 弹自己的
+  //   伤害数字(BackupStat 每 swing 后重置 prevHP,fight.c:2210/588)+ 起手出招声 + 命中武器声各播一次。
+  //   user 2026-06-05 报"群攻没触发两次 / 出招音效没播两遍"。此前 ts 群攻整段只建一次挥砍 + 武器声一遍。
+  it('群攻双击:两次完整挥砍段 + 各 sweep i==0 弹自己数字 + 出招/武器声各两遍(fight.c:3681/3745)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200, attackSound: 37 },
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 5000 }],
+      playerStatus: { dualAttack: 1 },
+      forceRoll: 1, // 不暴击
+    })
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    performAttack(state, playerActor, -1, bus, playerRoles)
+    // 两次完整挥砍 → 两个带 damageNums 的命中 i==0 帧,各该 sweep 的 314
+    const numFrames = state.battleAnim!.frames.filter((f) => (f.damageNums?.length ?? 0) > 0)
+    expect(numFrames, '两个 sweep 各一个 i==0 数字帧').toHaveLength(2)
+    expect(numFrames[0]!.damageNums![0]!.value).toBe(314)
+    expect(numFrames[1]!.damageNums![0]!.value).toBe(314)
+    // 两个完整挥砍段 → 两个命中特效 i==0 帧(currentFrame=9 起手)
+    const swingStarts = state.battleAnim!.frames.filter(
+      (f) => f.overlay?.kind === 'effect' && f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 9),
+    )
+    expect(swingStarts, '两次挥砍各一个起手帧').toHaveLength(2)
+    // 出招声(37)+ 命中武器声(playPlayerAttack)各两遍
+    const cmds = bus.drain()
+    expect(cmds.filter((c) => c.cmd.op === 'playSound' && (c.cmd as { soundId: number }).soundId === 37)).toHaveLength(2)
+    expect(cmds.filter((c) => c.cmd.op === 'playPlayerAttack')).toHaveLength(2)
   })
 
   // M6/D17a 群攻挥砍动画(林月如等 attackAll 鞭武器):此前群攻**完全无动画**(只即时弹数字),
