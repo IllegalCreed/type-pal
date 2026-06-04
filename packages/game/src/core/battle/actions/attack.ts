@@ -154,22 +154,23 @@ export function performAttack(
     const HIT_ORDER = [2, 1, 0, 4, 3] // fight.c:3684 const int index[MAX_ENEMIES_IN_TEAM]
     const roleId = state.players[actor.idx]!.roleId
     const voiceRole = playerRoles.roles[roleId]
+    const weaponSound = voiceRole?.weaponSound ?? 0
     const attacker = state.players[actor.idx]
     const hasAnim = !!attacker?.posOriginal
     // sdlpal 群攻每 sweep 各调一次 PAL_BattleShowPlayerAttackAnim(fight.c:3745,在 t-loop 内)→ **每 sweep
     //   一次完整挥砍**(双击 = 两次),各自 i==0 弹该 sweep 伤害数字(PAL_BattleBackupStat 每 swing 后
     //   wPrevHP=wHealth,fight.c:2210/588 → 双击显示两个数字,非一个总和)+ 起手出招声 + 命中武器声各一遍。
-    //   故逐 sweep 建挥砍段累加(与单体双击 :217 同构);此前群攻整段只建一次挥砍 + 武器声一遍(user 2026-06-05 报)。
+    //   故逐 sweep 建挥砍段累加(与单体双击 :220 同构);此前群攻整段只建一次挥砍 + 武器声一遍(user 2026-06-05 报)。
     const segments: BattleAnimFrame[] = []
     const legacyNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
     for (let t = 0; t < hits; t++) {
       // 每 sweep crit 重摇、division 重置(fight.c:3683-3688 在 t-loop 内)
       const fCritical = state.rng.rangeInclusive(0, 5) === 0 || bravery > 0
       // M6 出招声(sdlpal fight.c:2058-2071 ShowPlayerAttackAnim 起手,每 sweep 一次):!crit→attackSound,crit→criticalSound。
+      //   **改挂时间线 frame.sound**(出招声→swing frame0、武器声→currentFrame=9 帧),由 driver 逐 tick 播 →
+      //   双击两 sweep 声音随帧错开各响;此前 loop 内同步 bus.emit voice + playPlayerAttack,两 sweep 同 tick
+      //   drain 同 id 重叠成一次(user 2026-06-05 报"群攻双击出招音重叠")。legacy(无 posOriginal)路径仍同步 emit。
       const voice = fCritical ? voiceRole?.criticalSound : voiceRole?.attackSound
-      if (voice && voice > 0) bus.emit({ op: 'playSound', soundId: voice })
-      // 命中武器声 weaponSound(sdlpal fight.c:2124,每 sweep 一次)→ 经 playPlayerAttack 接,放 t-loop 内每 sweep emit。
-      bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: -1 })
       const sweepNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
       let division = 1
       for (const slot of HIT_ORDER) {
@@ -200,9 +201,14 @@ export function performAttack(
           effectFrameBase: playerEffectFrameBase(battleEffectIndex, voiceRole?.spriteNumInBattle ?? 0),
           damage: 0,
           groupDamageNums: sweepNums,
+          attackVoice: voice, // 出招声挂 swing frame0(fight.c:2061-2071)
+          weaponSound, // 武器声挂 currentFrame=9 命中帧(fight.c:2124)
         })
         segments.push(...swing)
       } else {
+        // legacy(无 posOriginal):无时间线帧承载声音 → 保留同步 emit(出招声 + 武器声 playPlayerAttack)+ 即时数字
+        if (voice && voice > 0) bus.emit({ op: 'playSound', soundId: voice })
+        bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: -1 })
         legacyNums.push(...sweepNums) // 旧 fixture 无 posOriginal → 即时弹(向后兼容)
       }
     }
@@ -226,6 +232,7 @@ export function performAttack(
     const physRes = targetEnemy.e.physicalResistance
 
     const voiceRole = playerRoles.roles[roleId]
+    const weaponSound = voiceRole?.weaponSound ?? 0
     const segments: BattleAnimFrame[] = []
     for (let t = 0; t < hits; t++) {
       const base = calcPhysicalAttackDamage(str, def, physRes)
@@ -233,18 +240,17 @@ export function performAttack(
       const damage = mod.damage
       // M6 攻击音(sdlpal PAL_BattleShowPlayerAttackAnim 在 dual-attack t-loop 内 fight.c:3673 **每击调一次**):
       //   起手出招声 attackSound(暴击换 criticalSound,fight.c:2065/2069)→ 命中武器声 weaponSound(fight.c:2124)。
-      //   **playPlayerAttack(→weaponSound)也必须放 loop 内每击 emit** —— 此前在 loop 外 emit 一次,双击只响一下
-      //   (user 2026-06-03 报"两次出手武器音只播一次")。
+      //   **改挂时间线 frame.sound**(出招声→swing frame0,武器声→currentFrame=9 帧),由 driver 逐 tick 播 →
+      //   双击两段声音随帧错开各响;此前 loop 内同步 bus.emit voice + playPlayerAttack,两击同 tick drain 同 id
+      //   重叠成一次(user 2026-06-05 报"单体双击出招音只响一次")。
       const voice = mod.fCritical ? voiceRole?.criticalSound : voiceRole?.attackSound
-      if (voice && voice > 0) bus.emit({ op: 'playSound', soundId: voice })
-      bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: targetIdx })
       const before = targetEnemy.e.health
       targetEnemy.e.health = Math.max(0, before - damage)
       // sdlpal 玩家打敌人:wHealth 是 WORD,`wHealth -= sDamage`(fight.c:3665)超杀**下溢不钳**,
       //   DisplayStatChange 用 (SHORT)(wHealth-wPrevHP)(fight.c:638)→ 显示**完整算出伤害**,非剩余血。
       //   (敌打玩家才 `if (hp<sDamage) sDamage=hp` 钳剩余血,fight.c:5064 —— 故意不对称。)故 damageNum
       //   用算出的完整 damage,不用钳后 delta;health 仍钳 0 供内部死亡逻辑。
-      // 每击建一段攻击时间线(damageNum 嵌帧);缺 pos(旧 fixture)→ 即时 emit
+      // 每击建一段攻击时间线(damageNum + 出招/武器声嵌帧);缺 pos(旧 fixture)→ 即时 emit(legacy 同步声音)
       const seg = buildAttackTimeline({
         state,
         actor,
@@ -253,10 +259,15 @@ export function performAttack(
         damage,
         battleEffectIndex,
         playerRoles,
+        attackVoice: voice,
+        weaponSound,
       })
       if (seg) {
         segments.push(...seg)
       } else {
+        // legacy(无 posOriginal):无时间线帧承载声音 → 保留同步 emit(出招声 + 武器声 playPlayerAttack)+ 即时数字
+        if (voice && voice > 0) bus.emit({ op: 'playSound', soundId: voice })
+        bus.emit({ op: 'playPlayerAttack', playerIdx: actor.idx, targetEnemyIdx: targetIdx })
         bus.emit({ op: 'showDamageNum', target: { kind: 'enemy', idx: targetIdx }, value: damage, color: 'blue' })
       }
     }
@@ -452,6 +463,10 @@ function buildAttackTimeline(input: {
   playerRoles: PlayerRoles
   /** 敌→我 被动格挡(fAutoDefend):玩家 frame 3 格挡姿 + coverSound,不结算伤害(fight.c:5023-5085)。 */
   autoDefend?: { coverSound: number }
+  /** M6 出招声(attackSound/criticalSound,fight.c:2061-2071;player→enemy 用,挂 swing frame0)。 */
+  attackVoice?: number
+  /** M6 武器声(weaponSound,fight.c:2124;player→enemy 用,挂 currentFrame=9 命中帧)。 */
+  weaponSound?: number
 }): BattleAnimFrame[] | undefined {
   const { state, actor, targetIdx, isPlayerTarget, damage, battleEffectIndex, playerRoles } = input
 
@@ -471,6 +486,8 @@ function buildAttackTimeline(input: {
       targetEnemyHeight: 0,
       effectFrameBase: playerEffectFrameBase(battleEffectIndex, battleSpriteId),
       damage,
+      attackVoice: input.attackVoice,
+      weaponSound: input.weaponSound,
     })
   }
 

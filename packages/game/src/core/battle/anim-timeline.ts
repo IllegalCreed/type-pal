@@ -150,6 +150,17 @@ export interface BuildPlayerAttackInput {
   /** 钳后真实掉血(damageNum value;掉血 → blue)。单体目标用;群攻传 0(各敌数字走 groupDamageNums)。 */
   damage: number
   /**
+   * M6 出招声(attackSound / criticalSound,fight.c:2061-2071):ShowPlayerAttackAnim 起手(frame=8 前)播一次
+   * → 挂 frame0 冲刺帧 frame.sound。0/缺 = 不挂。**改帧同步**而非 attack.ts loop 内同步 bus.emit ——
+   * 后者双击两段同 tick drain 重叠成一次(user 2026-06-05 报"单体双击出招音只响一次")。
+   */
+  attackVoice?: number
+  /**
+   * M6 武器声(weaponSound,fight.c:2124):currentFrame=9 后、命中特效循环前播一次 → 挂特效 i==0 帧
+   * (该帧 currentFrame=9)frame.sound。0/缺 = 不挂。同 attackVoice 改帧同步避免双击重叠。
+   */
+  weaponSound?: number
+  /**
    * 群攻(sTarget==-1)各掉血敌的伤害数字 —— 挂挥砍 i==0 帧(sdlpal PAL_BattleDisplayStatChange
    * 在 ShowPlayerAttackAnim i==0 遍历全敌,fight.c:2209/626-659),非挥砍后。单体目标走单数 damage
    * (嵌 i==0 帧 damageNum),不传此。
@@ -182,6 +193,8 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
     effectFrameBase,
     damage,
     groupDamageNums,
+    attackVoice,
+    weaponSound,
   } = input
   const ex = targetEnemyPos.x
   const ey = targetEnemyPos.y
@@ -189,7 +202,7 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
 
   const frames: BattleAnimFrame[] = []
 
-  // —— frame 0:currentFrame=8,冲刺到敌前(fight.c:2076-2097)——
+  // —— frame 0:currentFrame=8,冲刺到敌前(fight.c:2076-2097)+ 出招声(fight.c:2061-2071 起手)——
   // x = enemy_x - dist + 64;y = enemy_y + dist + 20(dist=0 单体简化)
   const rushX0 = ex + 64
   const rushY0 = ey + 20
@@ -198,6 +211,7 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
     fighters: [
       { side: 'player', idx: attackerIdx, currentFrame: 8, pos: { x: rushX0, y: rushY0 } },
     ],
+    ...(attackVoice && attackVoice > 0 ? { sound: attackVoice } : {}),
   })
 
   // —— frame 1:x-=10,y-=2(fight.c:2099-2118)——
@@ -250,6 +264,8 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
       ...(i === 0 && groupDamageNums && groupDamageNums.length > 0
         ? { damageNums: groupDamageNums }
         : {}),
+      // M6 武器声(fight.c:2124):currentFrame=9 后、特效循环前播 → 挂特效 i==0 帧(currentFrame=9 同帧)。
+      ...(i === 0 && weaponSound && weaponSound > 0 ? { sound: weaponSound } : {}),
     })
   }
 

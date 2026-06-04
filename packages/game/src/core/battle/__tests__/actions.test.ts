@@ -397,6 +397,28 @@ describe('performAttack', () => {
     expect(dmgNums).toHaveLength(2) // 两次攻击 → 两个伤害数字
   })
 
+  // 单体双击出招音只响一次(user 2026-06-05 报):此前 attack.ts loop 内两次 voice + playPlayerAttack 都在
+  //   performAttack 同 tick 同步 bus.emit → bootstrap 同帧 drain 同 id 重叠成一次。修:出招声/武器声改挂
+  //   时间线 frame.sound(driver 逐 tick 经 bus emit)→ 两段挥砍声音随帧错开各响。sdlpal:每次
+  //   ShowPlayerAttackAnim 起手播 attackSound(fight.c:2061-2071)+ currentFrame=9 后播 weaponSound(fight.c:2124)。
+  it('单体双击:出招声/武器声挂时间线各帧(逐 tick 播),不再同 tick 同步 emit 重叠(fight.c:2061/2124)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200, attackSound: 37, weaponSound: 88 },
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 3000 }],
+      playerStatus: { dualAttack: 1 },
+      forceRoll: 1, forceFloat: 1, // 不暴击 → 出招声=attackSound(37)
+    })
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    performAttack(state, playerActor, 0, bus, playerRoles)
+    const frames = state.battleAnim!.frames
+    // 两段挥砍各 frame0 挂出招声(37)→ 共 2;各 currentFrame=9 特效 i==0 帧挂武器声(88)→ 共 2
+    expect(frames.filter(f => f.sound === 37)).toHaveLength(2)
+    expect(frames.filter(f => f.sound === 88)).toHaveLength(2)
+    // 武器声不再走 playPlayerAttack 同步命令(已改帧同步,避免双击同 tick 重叠)
+    expect(bus.drain().filter(c => c.cmd.op === 'playPlayerAttack')).toHaveLength(0)
+  })
+
   it('D3:无 DualAttack → 单体只攻击一次(对照)', () => {
     const { state, playerRoles, bus } = makeState({
       role: { level: 10, attackStrength: 200 },
@@ -432,9 +454,10 @@ describe('performAttack', () => {
   //   PAL_BattleShowPlayerAttackAnim(fight.c:3745,在 t-loop 内)→ **两次完整挥砍**,各 sweep i==0 弹自己的
   //   伤害数字(BackupStat 每 swing 后重置 prevHP,fight.c:2210/588)+ 起手出招声 + 命中武器声各播一次。
   //   user 2026-06-05 报"群攻没触发两次 / 出招音效没播两遍"。此前 ts 群攻整段只建一次挥砍 + 武器声一遍。
-  it('群攻双击:两次完整挥砍段 + 各 sweep i==0 弹自己数字 + 出招/武器声各两遍(fight.c:3681/3745)', () => {
+  //   2026-06-05 进一步:出招/武器声改挂时间线 frame.sound(逐 tick 播,避免同 tick 同步 emit 重叠),不再 playPlayerAttack。
+  it('群攻双击:两次完整挥砍段 + 各 sweep i==0 弹自己数字 + 出招/武器声各挂两帧(fight.c:3681/3745/2061/2124)', () => {
     const { state, playerRoles, bus } = makeState({
-      role: { level: 10, attackStrength: 200, attackSound: 37 },
+      role: { level: 10, attackStrength: 200, attackSound: 37, weaponSound: 88 },
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 5000 }],
       playerStatus: { dualAttack: 1 },
       forceRoll: 1, // 不暴击
@@ -452,10 +475,12 @@ describe('performAttack', () => {
       (f) => f.overlay?.kind === 'effect' && f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 9),
     )
     expect(swingStarts, '两次挥砍各一个起手帧').toHaveLength(2)
-    // 出招声(37)+ 命中武器声(playPlayerAttack)各两遍
-    const cmds = bus.drain()
-    expect(cmds.filter((c) => c.cmd.op === 'playSound' && (c.cmd as { soundId: number }).soundId === 37)).toHaveLength(2)
-    expect(cmds.filter((c) => c.cmd.op === 'playPlayerAttack')).toHaveLength(2)
+    // 出招声(37)挂各 sweep frame0、武器声(88)挂各 sweep currentFrame=9 帧 → 时间线各两帧(逐 tick 播,不重叠)
+    const frames = state.battleAnim!.frames
+    expect(frames.filter(f => f.sound === 37)).toHaveLength(2)
+    expect(frames.filter(f => f.sound === 88)).toHaveLength(2)
+    // 武器声不再走 playPlayerAttack 同步命令
+    expect(bus.drain().filter(c => c.cmd.op === 'playPlayerAttack')).toHaveLength(0)
   })
 
   // M6/D17a 群攻挥砍动画(林月如等 attackAll 鞭武器):此前群攻**完全无动画**(只即时弹数字),

@@ -249,6 +249,48 @@ describe('buildPlayerAttackTimeline (fight.c:2008-2263)', () => {
     // 80 - 60/3 + 10 = 80 - 20 + 10 = 70
     expect(fr[2]!.overlay!.y).toBe(70)
   })
+
+  // M6 双击声画同步(user 2026-06-05 报"单体双击出招音只响一次"):出招声/武器声不再由 attack.ts loop 内
+  //   同步 bus.emit(同 tick drain 重叠成一次),改挂时间线 frame.sound 逐 tick 播 → 双击两段错开各响。
+  //   sdlpal 真值:出招声 attackSound/criticalSound 在 ShowPlayerAttackAnim 起手(fight.c:2061-2071,frame=8 前)
+  //   → 挂 frame0 冲刺帧;武器声 weaponSound 在 currentFrame=9 后(fight.c:2124)→ 挂特效 i==0 帧(frame2)。
+  it('attackVoice/weaponSound → frame0 挂出招声、currentFrame=9 帧挂武器声(fight.c:2061/2124)', () => {
+    const fr = buildPlayerAttackTimeline({
+      attackerPos: { x: 240, y: 170 },
+      attackerIdx: 0,
+      targetEnemyPos: { x: 160, y: 80 },
+      targetIdx: 0,
+      targetEnemyHeight: 0,
+      effectFrameBase: 0,
+      damage: 10,
+      attackVoice: 37,
+      weaponSound: 88,
+    })
+    expect(fr[0]!.sound).toBe(37) // 出招声挂冲刺起手帧(fight.c:2061-2071)
+    // frame2 = 特效 i==0,currentFrame=9(fight.c:2120)→ 武器声(fight.c:2124)
+    expect(fr[2]!.fighters).toEqual([
+      { side: 'player', idx: 0, currentFrame: 9 },
+      { side: 'enemy', idx: 0, iColorShift: 6 },
+    ])
+    expect(fr[2]!.sound).toBe(88)
+    // 其余帧无 sound
+    fr.forEach((f, i) => { if (i !== 0 && i !== 2) expect(f.sound).toBeUndefined() })
+  })
+
+  it('attackVoice/weaponSound 缺省或 0 → 无帧带 sound', () => {
+    const fr = buildPlayerAttackTimeline({
+      attackerPos: { x: 240, y: 170 },
+      attackerIdx: 0,
+      targetEnemyPos: { x: 160, y: 80 },
+      targetIdx: 0,
+      targetEnemyHeight: 0,
+      effectFrameBase: 0,
+      damage: 1,
+      attackVoice: 0,
+      weaponSound: 0,
+    })
+    expect(fr.every(f => f.sound === undefined)).toBe(true)
+  })
 })
 
 describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {

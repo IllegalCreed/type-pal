@@ -940,7 +940,9 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
   it('打死最后一个敌人后,后续我方角色不再行动(sdlpal fEnemyCleared 中止剩余 queue)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       partyMembers: [0, 1],
-      roles: [makeRole({ id: 0, attackStrength: 100, hp: 200 }), makeRole({ id: 1, attackStrength: 100, hp: 200 })],
+      // 出招声(attackSound=77)作每次攻击的可靠信号:挂 swing frame0,startBattleAnim 即时经 driver emit playSound
+      //   (武器声/playPlayerAttack 改帧同步后不再同步 emit,旧 playPlayerAttack 代理失效,2026-06-05)。
+      roles: [makeRole({ id: 0, attackStrength: 100, hp: 200, attackSound: 77 }), makeRole({ id: 1, attackStrength: 100, hp: 200, attackSound: 77 })],
       enemies: [makeEnemy({ id: 100, health: 1, defense: 0 })], // 一击必死
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
@@ -957,9 +959,9 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     st.pendingActions.set(1, { type: 'attack', target: 0 })
     let safety = 300
     while (st.phase === 'performAction' && safety-- > 0) tickBattle(gs, emptyInput, bus)
-    const attacks = bus.drain().filter((e) => e.cmd.op === 'playPlayerAttack')
-    expect(attacks.length).toBe(1) // 只 p0 攻击一次;p1 被全敌清空中止(bug 时 = 2)
-    expect(attacks[0]!.cmd).toMatchObject({ playerIdx: 0 })
+    // 出招声各攻击一次(frame0 即时播)→ 只 p0 攻击 = 1 次;p1 被全敌清空中止(bug 时 = 2)
+    const attacks = bus.drain().filter((e) => e.cmd.op === 'playSound' && (e.cmd as { soundId: number }).soundId === 77)
+    expect(attacks.length).toBe(1)
   })
 
   it('perform:睡眠队员 → Pass(不攻敌)', () => {
