@@ -118,7 +118,13 @@ export function tickN(n: number, ctx: LoopContext): void {
 
 export function startRafLoop(ctx: LoopContext): () => void {
   applySceneContext(ctx)
-  const dump = initStateDump()
+  // state-dump 仅 DEV:生产构建 `import.meta.env.DEV`=false → initStateDump 不被引用,
+  // 整个 dev/state-dump.js 模块被 tree-shake 掉(与 bootstrap 守卫 setupDevPanel 同模式;
+  // 那里注释说明用 cast 避免依赖 vite/client triple-slash 类型)。dump 为 undefined 时
+  // 下游 advanceRafFrame/singleTick 的 `dump?.enabled` 已空安全。e2e 走 vite dev(DEV=true)不受影响。
+  const dump = (import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV
+    ? initStateDump()
+    : undefined
   const state: RafLoopState = { lastTickTime: performance.now(), accumulator: 0 }
   let raf = 0
   const loop = (now: number): void => {
