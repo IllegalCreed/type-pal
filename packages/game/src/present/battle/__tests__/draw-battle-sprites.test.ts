@@ -675,13 +675,16 @@ describe('enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibatt
     expect(enemyTargetHighlightShift(s, 1, true)).toBe(7)
     expect(enemyTargetHighlightShift(s, 0, true)).toBe(0)
   })
-  it('selectTargetEnemyAll:每个活敌 blinkOn → 7', () => {
+  // PAL_CLASSIC:selectTargetEnemyAll 立即提交、**无任何高亮**(uibattle.c:1611-1617 "Don't bother selecting")。
+  //   全敌闪烁高亮是 #else WIN95 路径(uibattle.c:1628-1648),本项目 CLASSIC 基准不走 →
+  //   全体普攻/全体法术不该有选敌闪烁(user 2026-06-05 报"都全体了选什么敌")。
+  it('selectTargetEnemyAll(CLASSIC):无高亮 → 恒 0(立即提交,uibattle.c:1611-1617)', () => {
     const s = mk('selectTargetEnemyAll', 0, [100, 100])
-    expect(enemyTargetHighlightShift(s, 0, true)).toBe(7)
-    expect(enemyTargetHighlightShift(s, 1, true)).toBe(7)
+    expect(enemyTargetHighlightShift(s, 0, true)).toBe(0)
+    expect(enemyTargetHighlightShift(s, 1, true)).toBe(0)
   })
-  it('死敌(health<=0)→ 0(不高亮)', () => {
-    expect(enemyTargetHighlightShift(mk('selectTargetEnemyAll', 0, [0, 100]), 0, true)).toBe(0)
+  it('死敌(health<=0)→ 0(不高亮;单体选择 health guard)', () => {
+    expect(enemyTargetHighlightShift(mk('selectTargetEnemy', 0, [0, 100]), 0, true)).toBe(0)
   })
   it('非 target 选择阶段(selectMove)→ 0', () => {
     expect(enemyTargetHighlightShift(mk('selectMove', 0, [100]), 0, true)).toBe(0)

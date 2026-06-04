@@ -207,14 +207,19 @@ function battleSelectBlinkOn(): boolean {
 
 /**
  * 敌方 target 选择时该敌人的 ColorShift 高亮值 —— sdlpal `uibattle.c:1495-1510`(PAL_CLASSIC):
- *   kBattleUISelectTargetEnemy / EnemyAll 在 `s_iFrame & 1`(blinkOn)帧对**选中敌人**(单体:iSelectedIndex;
- *   全体:每个活敌)`PAL_RLEBlitWithColorShift(sprite, pos, 7)` 重 blit 高亮。**无箭头**(箭头是 ts 旧错实现)。
+ *   **仅** kBattleUISelectTargetEnemy(单体)在 `s_iFrame & 1`(blinkOn)帧对**选中敌人**(iSelectedIndex)
+ *   `PAL_RLEBlitWithColorShift(sprite, pos, 7)` 重 blit 高亮。**无箭头**(箭头是 ts 旧错实现)。
+ *
+ * selectTargetEnemyAll(全体)在 CLASSIC 下**立即提交、无任何高亮**(uibattle.c:1611-1617
+ *   "Don't bother selecting" → iSelectedIndex=-1 + PAL_BattleCommitAction)。全敌一起闪烁高亮是
+ *   `#else` 的 WIN95 路径(uibattle.c:1628-1648),本项目 CLASSIC 基准**不走** → 全体普攻/全体法术
+ *   不该有选敌闪烁(user 2026-06-05 报"都全体了选什么敌")。故此处 selectTargetEnemyAll 不返回 7。
+ *
  * 纯函数(blinkOn 作参数 → 可确定性单测)。返回 7 = 高亮,0 = 不高亮。
  */
 export function enemyTargetHighlightShift(state: BattleState, enemyIdx: number, blinkOn: boolean): number {
   if (!blinkOn) return 0
   if ((state.enemies[enemyIdx]?.e.health ?? 0) <= 0) return 0
-  if (state.uiState === 'selectTargetEnemyAll') return 7
   if (state.uiState === 'selectTargetEnemy') return enemyIdx === state.uiCursor ? 7 : 0
   return 0
 }

@@ -254,8 +254,10 @@ export function drawBattleUI(
       break
     case 'selectTargetEnemy':
     case 'selectTargetEnemyAll':
-      // 敌方目标选择**无箭头** —— 选中敌人由 sprite 层 ColorShift 7 闪烁高亮(draw-battle-sprites
-      //   enemyTargetHighlightShift,sdlpal uibattle.c:1495-1510)。此处只画主菜单图标(mono)。
+      // 敌方目标选择**无箭头**。selectTargetEnemy(单体):选中敌人由 sprite 层 ColorShift 7 闪烁高亮
+      //   (draw-battle-sprites enemyTargetHighlightShift,sdlpal uibattle.c:1495-1510)。
+      // selectTargetEnemyAll(全体):CLASSIC 立即提交、**无高亮**(uibattle.c:1611-1617),仅过渡态;
+      //   此处只画主菜单图标(mono)。
       drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)
       break
     case 'selectTargetPlayer':
