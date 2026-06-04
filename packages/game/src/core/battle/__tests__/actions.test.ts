@@ -296,6 +296,32 @@ describe('performAttack', () => {
     expect(state.enemies[1]!.e.health).toBe(286)
   })
 
+  // ── 敌→我 被动格挡(fAutoDefend,fight.c:4938/5023-5085)──────────────────────
+  // BUG(2026-06-04 user 报"高级草妖普攻只出声、无动作、无受击、无掉血"):被动格挡触发时,此前 attack.ts
+  //   只 emit playEnemyAttack(经 audio 播敌攻击音)+ return,未建动画 → 有声无动画。修后建格挡动画时间线。
+  it('敌→我 被动格挡(forceRoll=10 强制 fAutoDefend)→ 建格挡动画时间线 + 不掉血', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { hp: 500, maxHP: 500, defense: 10 },
+      enemies: [{ level: 5, attackStrength: 100, defense: 10, physicalResistance: 1, health: 100, attackSound: 39 }],
+      forceRoll: 10, // rangeInclusive 恒 10 → fAutoDefend = (10>=10) = true
+    })
+    // buildEnemyPhysicalTimeline 需 posOriginal(否则退化无时间线)
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    const hpBefore = playerRoles.roles[0]!.hp
+
+    performAttack(state, enemyActor, 0, bus, playerRoles)
+
+    // 格挡:建了动画时间线(非只出声 + 空白)
+    expect(state.battleAnim).toBeDefined()
+    // 格挡:不结算伤害(fight.c:5052 !fAutoDefend gate)
+    expect(playerRoles.roles[0]!.hp).toBe(hpBefore)
+    // 时间线含玩家格挡姿 frame 3,且全程无 damageNum(无受击数字)
+    const frames = state.battleAnim!.frames
+    expect(frames.some((f) => f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 3))).toBe(true)
+    expect(frames.every((f) => f.damageNum === undefined)).toBe(true)
+  })
+
   // ── D3-b 群攻 crit + division 逐敌减半(fight.c:3681-3748)────────────────────
 
   it('D3:群攻 division 逐敌减半(3 敌,命中序 {2,1,0})', () => {

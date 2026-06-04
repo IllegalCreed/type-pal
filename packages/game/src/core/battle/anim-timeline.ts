@@ -280,6 +280,16 @@ export interface BuildEnemyPhysicalInput {
   targetDied: boolean
   /** 命中后队员是否濒死(PAL_IsPlayerDying;死亡优先)。 */
   targetDying: boolean
+  /**
+   * 被动格挡(fAutoDefend,fight.c:4938 `RandomLong(0,16)>=10` 7/17 命中)。true 时:
+   *   - **不结算伤害**(5052 `!fAutoDefend` gate 罩住整个伤害块)→ 无 damageNum、无 frame 4 受击闪烁;
+   *   - 玩家在敌人冲锋时摆**格挡姿 frame 3**(fight.c:5025);
+   *   - 命中帧播 `coverSound`(rgwCoverSound[role],fight.c:5026/5082)而非 callSound;
+   *   - 敌人 lunge 攻击动画照常(5029-5050 不受 fAutoDefend 影响)。
+   */
+  autoDefend?: boolean
+  /** 格挡音 rgwCoverSound[targetRole](fight.c:5026;autoDefend 命中帧播,0 跳过)。 */
+  coverSound?: number
 }
 
 /**
@@ -302,6 +312,11 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
   const { enemyPos, enemyIdx, targetPlayerPos, targetIdx, enemy, damage, targetDied, targetDying } =
     input
   const { magicFrames, attackFrames, actWaitFrames, idleFrames, actionSound, callSound } = enemy
+  // 被动格挡(fight.c:4938 fAutoDefend):玩家摆格挡姿 frame 3、不结算伤害、命中帧播 coverSound(见下)。
+  const autoDefend = input.autoDefend ?? false
+  const coverSound = input.coverSound ?? 0
+  // 格挡姿 fighter(冲锋帧首帧起摆;sdlpal fight.c:5025 在 charge 前设 wCurrentFrame=3)。
+  const blockPose = autoDefend ? [{ side: 'player' as const, idx: targetIdx, currentFrame: 3 }] : []
 
   const frames: BattleAnimFrame[] = []
   let ex = enemyPos.x
@@ -341,6 +356,7 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
           currentFrame: idleFrames - 1,
           pos: { x: chargeX, y: chargeY },
         },
+        ...blockPose, // autoDefend:冲锋首帧起玩家摆格挡姿 frame 3
       ],
     })
   } else {
@@ -355,19 +371,32 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
             currentFrame: idleFrames + magicFrames + i - 1,
             pos: { x: chargeX, y: chargeY },
           },
+          ...(i === 0 ? blockPose : []), // autoDefend:冲锋首帧起玩家摆格挡姿 frame 3
         ],
       })
     }
   }
 
-  // —— 命中:target.currentFrame=4,iColorShift=6 + damageNum + callSound,Delay(1)(fight.c:5052-5086)——
-  //   callSound(iSound=enemy.wCallSound,fight.c:5010/5084)在命中帧播(classic 即使 0 也播,ts 0 跳过)。
-  frames.push({
-    durationMs: delayMs(1),
-    fighters: [{ side: 'player', idx: targetIdx, currentFrame: 4, iColorShift: 6 }],
-    damageNum: { target: { kind: 'player', idx: targetIdx }, value: damage, color: 'blue' },
-    ...(callSound > 0 ? { sound: callSound } : {}),
-  })
+  // —— 命中帧(fight.c:5052-5086)——
+  if (autoDefend) {
+    // 格挡:`if (!fAutoDefend)`(fight.c:5052)gate 罩住整个伤害块 → 不结算伤害、无 frame 4 受击闪烁、无 damageNum。
+    //   玩家保持格挡姿 frame 3;命中帧播 coverSound(iSound=rgwCoverSound[role],fight.c:5026/5082;0 跳过)。
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: targetIdx, currentFrame: 3 }],
+      ...(coverSound > 0 ? { sound: coverSound } : {}),
+    })
+  }
+  else {
+    // 命中:target.currentFrame=4,iColorShift=6 + damageNum + callSound,Delay(1)(fight.c:5052-5086)。
+    //   callSound(iSound=enemy.wCallSound,fight.c:5010/5084)在命中帧播(classic 即使 0 也播,ts 0 跳过)。
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: targetIdx, currentFrame: 4, iColorShift: 6 }],
+      damageNum: { target: { kind: 'player', idx: targetIdx }, value: damage, color: 'blue' },
+      ...(callSound > 0 ? { sound: callSound } : {}),
+    })
+  }
 
   // —— iColorShift=0;击退 target.pos += (8,4),Delay(1)(fight.c:5088-5106)——
   const knockX = targetPlayerPos.x + 8

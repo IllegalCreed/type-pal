@@ -403,6 +403,38 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
     ])
     expect(charge.durationMs).toBe(2 * D)
   })
+
+  // BUG(2026-06-04 user 报"高级草妖普攻只出声、无动作、无受击、无掉血"):被动格挡(fAutoDefend)触发。
+  //   sdlpal fight.c:5023-5085 真值:格挡时玩家摆 frame 3 格挡姿 + 播 coverSound,**不结算伤害**(无 damageNum、
+  //   无 frame 4 受击闪烁),敌人 lunge 攻击动画照常(5029-5050)。此前 attack.ts autoDefend 分支只 emit
+  //   playEnemyAttack(经 audio 播敌攻击音)+ return 不建时间线 → 有声无动画。
+  it('autoDefend(格挡):玩家 frame 3 格挡姿 + coverSound,无 damageNum/frame4 受击,敌 lunge 照常', () => {
+    const frames = build({ attackFrames: 2, actWaitFrames: 1, magicFrames: 0, idleFrames: 4, callSound: 90 })
+    const blockFrames = buildEnemyPhysicalTimeline({
+      enemyPos: { x: 160, y: 80 },
+      enemyIdx: 0,
+      targetPlayerPos: { x: 240, y: 170 },
+      targetIdx: 0,
+      enemy: { magicFrames: 0, attackFrames: 2, actWaitFrames: 1, idleFrames: 4, actionSound: 0, callSound: 90 },
+      damage: 0,
+      targetDied: false,
+      targetDying: false,
+      autoDefend: true,
+      coverSound: 47,
+    })
+    // 格挡不掉血 → 全程无 damageNum
+    expect(blockFrames.every((f) => f.damageNum === undefined)).toBe(true)
+    // 玩家显格挡姿 frame 3(非受击 frame 4)
+    expect(blockFrames.some((f) => f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 3))).toBe(true)
+    expect(blockFrames.some((f) => f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 4 && d.iColorShift === 6))).toBe(false)
+    // 播 coverSound(47),不播 callSound(90,命中音格挡路不响)
+    expect(blockFrames.some((f) => f.sound === 47)).toBe(true)
+    expect(blockFrames.some((f) => f.sound === 90)).toBe(false)
+    // 敌人 lunge 攻击动画照常(冲到 player.x-44=196 / y-16=154,与命中路相同)
+    expect(blockFrames.some((f) => f.fighters?.some((d) => d.side === 'enemy' && d.pos?.x === 196 && d.pos?.y === 154))).toBe(true)
+    // 对照:命中路确有 damageNum + frame4(证明差异)
+    expect(frames.some((f) => f.damageNum !== undefined)).toBe(true)
+  })
 })
 
 // ============================================================================
