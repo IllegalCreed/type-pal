@@ -40,12 +40,14 @@ function gsWith(inv: { itemId: number; count: number }[]): GameState {
 }
 
 describe('sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable)', () => {
-  it('createSellMenu:grid 只含 sellable 物品(filter=sellable),phase=list', () => {
+  it('createSellMenu:grid 含全部库存(sdlpal 全显示),非可卖项渲染成红色,phase=list', () => {
+    // sdlpal PAL_ItemSelectMenuInit(itemmenu.c:331-377)不按 kItemFlagSellable 过滤;87 照样列出,
+    // 只是 PAL_ItemSelectMenuUpdate 把不可卖项画成 INACTIVE 红色,确认时 itemmenu.c:289 no-op。
     const gs = gsWith([{ itemId: 87, count: 1 }, { itemId: 105, count: 2 }, { itemId: 110, count: 1 }])
     const s = createSellMenu(gs, CATALOG)
     expect(s.phase).toBe('list')
     expect(s.grid.filter).toBe('sellable')
-    expect(s.grid.inventory.map((e) => e.itemId)).toEqual([105, 110]) // 87 不可卖被滤
+    expect(s.grid.inventory.map((e) => e.itemId)).toEqual([87, 105, 110]) // 87 不可卖仍显示(红色)
     expect(s.confirmYes).toBe(false)
   })
 
@@ -58,11 +60,11 @@ describe('sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu k
     expect(s.confirmYes).toBe(false)
   })
 
-  it('sellSelectItem:空列表(无 sellable)→ 不进 confirm,留 list', () => {
-    const gs = gsWith([{ itemId: 87, count: 3 }]) // 87 不可卖
+  it('sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list', () => {
+    const gs = gsWith([{ itemId: 87, count: 3 }]) // 87 不可卖 — 列表仍显示(红色)
     const s = createSellMenu(gs, CATALOG)
-    expect(s.grid.inventory.length).toBe(0)
-    expect(sellSelectItem(s, CATALOG)).toBe(false)
+    expect(s.grid.inventory.map((e) => e.itemId)).toEqual([87]) // 全显示,不被滤
+    expect(sellSelectItem(s, CATALOG)).toBe(false) // 确认非可卖项 no-op(itemmenu.c:289)
     expect(s.phase).toBe('list')
   })
 

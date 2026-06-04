@@ -13,7 +13,7 @@
 import type { Item } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createInitialGameState } from '../game-state.js'
-import { matchesFilter } from './item-select.js'
+import { matchesFilter, type ItemFilter } from './item-select.js'
 import {
   cancelInventoryMenu,
   confirmInventoryItem,
@@ -141,29 +141,48 @@ describe('matchesFilter — sdlpal kItemFlag* 真值', () => {
 })
 
 // ── createInventoryMenu visible 列表 ──────────────────────────────────────
+//
+// sdlpal `PAL_ItemSelectMenuInit`(itemmenu.c:331-377)**不按 wItemFlags 过滤列表** —
+// while 循环把整个库存全部计入 g_iNumInventory,g_wItemFlags 只在 PAL_ItemSelectMenuUpdate
+// (itemmenu.c:148/171)决定颜色:不匹配 filter 的物品**照样显示**,只是画成 INACTIVE 红色
+// (0x18 暗红 / 光标停其上 0x1C 橙红)。所以「使用/装备/卖」菜单都是全显示 + 非匹配项红色,
+// 不是把非匹配项从列表里删掉。
 
-describe('createInventoryMenu', () => {
-  it("filter='equip' 只含 equipable items(EquipMenu 入口)", () => {
+describe('createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤', () => {
+  // 渲染层颜色判定复刻(draw-inventory.ts:276 真值):isUsable = filter 命中 + 可用数量>0。
+  function rowColor(item: Item, slot: { count: number; inUse?: number }, filter: ItemFilter, isSelected: boolean) {
+    const diff = slot.count - (slot.inUse ?? 0)
+    const isUsable = diff > 0 && matchesFilter(item, filter)
+    return pickItemRowColor({ isSelected, isUsable, isEquipped: slot.count === 0, selectedFlashTickMs: 0 })
+  }
+
+  it("filter='equip':非可装备项(观音符)仍入列表,不被剔除", () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = [
       { itemId: 105, count: 2 }, // 木剑 equipable
-      { itemId: 200, count: 1 }, // 观音符 usable only
+      { itemId: 200, count: 1 }, // 观音符 usable only — 不可装备但仍显示
       { itemId: 201, count: 1 }, // 玉佛珠 equipable
     ]
     const state = createInventoryMenu(gs, ITEMS, 'equip')
-    expect(state.inventory.map((e) => e.itemId)).toEqual([105, 201])
+    expect(state.inventory.map((e) => e.itemId)).toEqual([105, 200, 201])
     expect(state.filter).toBe('equip')
   })
 
-  it("filter='usable' 只含 usable items(物品菜单使用入口)", () => {
+  it("filter='usable':非可用项(木剑)仍入列表 + 渲染成红色 INACTIVE 0x18", () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = [
-      { itemId: 105, count: 1 }, // 木剑 not usable
+      { itemId: 105, count: 1 }, // 木剑 not usable — 红色显示
       { itemId: 200, count: 1 }, // 观音符 usable
       { itemId: 202, count: 1 }, // 风灵珠 usable
     ]
     const state = createInventoryMenu(gs, ITEMS, 'usable')
-    expect(state.inventory.map((e) => e.itemId)).toEqual([200, 202])
+    // 全部 3 项都在列表(原版全显示)
+    expect(state.inventory.map((e) => e.itemId)).toEqual([105, 200, 202])
+    // 非可用(木剑,inv[0])非选中 → INACTIVE 0x18 暗红;可用(观音符,inv[1])→ MENUITEM_COLOR 0x4F
+    expect(rowColor(ITEMS[0]!, state.inventory[0]!, 'usable', false)).toBe(MENUITEM_COLOR_INACTIVE)
+    expect(rowColor(ITEMS[2]!, state.inventory[1]!, 'usable', false)).toBe(MENUITEM_COLOR)
+    // 非可用 + 光标停其上 → SELECTED_INACTIVE 0x1C 橙红
+    expect(rowColor(ITEMS[0]!, state.inventory[0]!, 'usable', true)).toBe(MENUITEM_COLOR_SELECTED_INACTIVE)
   })
 })
 

@@ -73,11 +73,13 @@ describe('createEquipMenu', () => {
     expect('pageSize' in state.list).toBe(false)
   })
 
-  it("filter='equip' 只含 equipable items(观音符 200 被过滤)", () => {
+  it("非可装备项(观音符 200)仍入列表(sdlpal 全显示,渲染成红色)", () => {
+    // sdlpal PAL_ItemSelectMenuInit(itemmenu.c:331-377)不按 wItemFlags 过滤;观音符照样列出,
+    // 只是 PAL_ItemSelectMenuUpdate 把不匹配 filter 的项画成 INACTIVE 红色。
     const gs = mkGs()
     const state = createEquipMenu(gs, ITEMS)
     const ids = state.list.inventory.map((e) => e.itemId)
-    expect(ids).toEqual([105, 106, 201])
+    expect(ids).toEqual([105, 106, 200, 201])
   })
 
   it('初始 phase=list,playerCursor=0', () => {
@@ -103,6 +105,18 @@ describe('confirmEquipItem list → pick-role', () => {
     expect(state.phase).toBe('pick-role')
     expect(state.selectedItemId).toBe(106)
     expect(state.playerCursor).toBe(0)
+  })
+
+  it('cursor 停在非可装备项(观音符 200,红色)→ Confirm no-op,停 list', () => {
+    // sdlpal itemmenu.c:287-291 真值:确认时 `wFlags & g_wItemFlags` 不命中 → 返回 0xFFFF(未确认),
+    // 留在菜单。列表全显示后,光标可落在非可装备项上,但确认它不该进 pick-role。
+    const gs = mkGs()
+    const state = createEquipMenu(gs, ITEMS)
+    // 列表 = [105, 106, 200, 201];观音符 200 在 index 2
+    state.list.cursor = 2
+    confirmEquipItem(state, ITEMS, {} as never, [])
+    expect(state.phase).toBe('list')
+    expect(state.selectedItemId).toBeUndefined()
   })
 
   it('从空 list noop(防 cursor 越界 crash)', () => {

@@ -23,6 +23,7 @@
 import type { Item, PlayerRoles } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
 import { createInventoryMenu, type InventoryMenuState } from './inventory-menu.js'
+import { matchesFilter } from './item-select.js'
 
 export type EquipMenuPhase = 'list' | 'pick-role' | 'done'
 
@@ -52,13 +53,17 @@ export function createEquipMenu(gs: GameState, items: Item[]): EquipMenuState {
 /** phase='list' Confirm:取 grid cursor 对应 itemId 进 phase='pick-role'。 */
 export function confirmEquipItem(
   state: EquipMenuState,
-  _items: Item[],
+  items: Item[],
   _playerRoles: PlayerRoles,
   _partyMembers: number[],
 ): void {
   if (state.phase !== 'list') return
   const slot = state.list.inventory[state.list.cursor]
   if (!slot) return
+  // sdlpal itemmenu.c:287-291 真值:确认时须 `(wFlags & kItemFlagEquipable) && nAmount > nAmountInUse`,
+  // 否则返回 0xFFFF(未确认)留菜单 —— 列表全显示后光标可落在非可装备(红色)项上,确认它 no-op。
+  const item = items.find((i) => i.id === slot.itemId)
+  if (!item || !matchesFilter(item, 'equip') || slot.count - slot.inUse <= 0) return
   // sdlpal uigame.c:1820 真值 `wLastUnequippedItem = wItem`
   state.selectedItemId = slot.itemId
   state.playerCursor = 0

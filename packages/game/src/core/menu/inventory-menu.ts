@@ -24,7 +24,7 @@
 
 import type { Item, PlayerRoles } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
-import { matchesFilter, type ItemFilter } from './item-select.js'
+import type { ItemFilter } from './item-select.js'
 import {
   createSelectionMenu,
   moveSelectionDown,
@@ -105,23 +105,23 @@ export interface InventoryMenuState {
 
 export function createInventoryMenu(
   gs: GameState,
-  items: Item[],
+  // sdlpal 不按 flag 过滤列表(见下),故此处不再需要 catalog 查 flag;保留参数维持调用方签名一致。
+  _items: Item[],
   filter: ItemFilter = 'all',
 ): InventoryMenuState {
-  // 修(2026-05-27 session 3):**移除** `itemId > 0` filter — items.json id 0 是真值物品
-  // (观音符),不是 sdlpal "wItem=0 = no item" 哨兵。两套 id 系统混淆是 user 反馈"添加全
-  // 物品没看到观音符"的根因之一。inventory entries 由 addItemToInventory 维护,count=0 自动
-  // 清掉,itemId=0 只可能是真观音符。
-  const inv: InventorySlot[] = gs.inventory
-    .filter((e) => {
-      const item = items.find((i) => i.id === e.itemId)
-      return item ? matchesFilter(item, filter) : false
-    })
-    .map((e) => ({
-      itemId: e.itemId,
-      count: e.count ?? 0,
-      inUse: (e as { inUse?: number }).inUse ?? 0,
-    }))
+  // sdlpal `PAL_ItemSelectMenuInit`(itemmenu.c:331-377)真值:**不按 wItemFlags 过滤列表** —
+  // while 循环把整个库存(wItem != 0)全部计入 g_iNumInventory。filter 只在渲染层
+  // (draw-inventory.ts:276 isUsable)决定颜色:不匹配 filter 的物品照样显示,只是画成
+  // INACTIVE 红色(0x18 / 光标停其上 0x1C,itemmenu.c:148/171),确认时 no-op(itemmenu.c:289)。
+  // 所以「使用/装备/卖」菜单都是全显示 + 非匹配项红色,不是把非匹配项从列表删掉。
+  //
+  // 注(2026-05-27 session 3):items.json id 0 是真值物品(观音符),不是 "wItem=0 = no item"
+  // 哨兵;inventory entries 由 addItemToInventory 维护(count=0 自动清掉),故全部保留。
+  const inv: InventorySlot[] = gs.inventory.map((e) => ({
+    itemId: e.itemId,
+    count: e.count ?? 0,
+    inUse: (e as { inUse?: number }).inUse ?? 0,
+  }))
   const cur = gs.iCurInvMenuItem ?? 0
   const safeCur = inv.length === 0 ? 0 : Math.min(cur, inv.length - 1)
   return {
@@ -205,8 +205,10 @@ export function confirmInventoryItem(
   const sel = state.inventory[state.cursor]
   if (!sel) return
   const item = items.find((i) => i.id === sel.itemId)
-  if (!item || !item.flags.usable) {
-    // sdlpal itemmenu.c:289 真值:wFlags & g_wItemFlags 不匹配 → 没动作
+  // sdlpal itemmenu.c:287-291 真值:使用菜单 g_wItemFlags == kItemFlagUsable,确认时须
+  // `(wFlags & kItemFlagUsable) && nAmount > nAmountInUse`,否则返回 0xFFFF(未确认)留菜单 ——
+  // 列表全显示后光标可落在非可用(红色)项上,确认它 no-op(use 动作只对可用物品有意义)。
+  if (!item || !item.flags.usable || sel.count - sel.inUse <= 0) {
     return
   }
   state.selectedItemId = sel.itemId
