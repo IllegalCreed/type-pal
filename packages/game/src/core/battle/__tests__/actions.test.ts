@@ -429,8 +429,12 @@ describe('performAttack', () => {
 
   // M6/D17a 群攻挥砍动画(林月如等 attackAll 鞭武器):此前群攻**完全无动画**(只即时弹数字),
   //   user 2026-06-03 报"林月如没攻击动画"。修:有 posOriginal → buildPlayerAttackTimeline 挥向中心
-  //   (150,100,sdlpal sTarget==-1)+ 伤害数字经 pendingDamageNums 挥砍后弹。
-  it('M6 群攻挥砍动画:有 posOriginal → 建挥砍时间线 + 伤害数字延后弹', () => {
+  //   (150,100,sdlpal sTarget==-1)。
+  // BUG(2026-06-04 user 报"群攻掉血数字出现偏晚"):sdlpal PAL_BattleDisplayStatChange 在
+  //   PAL_BattleShowPlayerAttackAnim 挥砍特效**首帧 i==0**(fight.c:2209)就遍历全敌弹数字,**不是**
+  //   挥砍播完后。此前 ts 用 pendingDamageNums 时间线后弹(注释误引 fight.c:3748,该处实为 PAL_BattleDelay)
+  //   → 数字偏晚。修:群攻伤害数字挂挥砍 i==0 帧(= 首个 effect overlay 帧,与单体同帧),不走 pendingDamageNums。
+  it('群攻掉血数字在挥砍 i==0 帧弹(fight.c:2209 DisplayStatChange),非时间线后', () => {
     const { state, playerRoles, bus } = makeState({
       role: { level: 10, attackStrength: 200 },
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 600 }],
@@ -441,10 +445,41 @@ describe('performAttack', () => {
     performAttack(state, playerActor, -1, bus, playerRoles)
     expect(state.battleAnim, '群攻应建挥砍动画时间线(此前无)').toBeDefined()
     expect(state.battleAnim!.frames.length).toBeGreaterThan(0)
-    // 伤害数字延后到 pendingDamageNums(挥砍播完才弹),不在本帧即时 emit
-    expect(bus.drain().filter(c => c.cmd.op === 'showDamageNum')).toHaveLength(0)
-    expect(state.battleAnim!.pendingDamageNums).toHaveLength(1)
-    expect(state.battleAnim!.pendingDamageNums![0]!.value).toBe(314)
+    // i==0 帧 = 首个命中特效 overlay 帧(currentFrame=9 起);DisplayStatChange 在此帧弹全敌数字。
+    const swingFrame = state.battleAnim!.frames.find((f) => f.overlay?.kind === 'effect')
+    expect(swingFrame, '应有挥砍命中特效帧').toBeDefined()
+    expect(swingFrame!.damageNums, '群攻数字挂挥砍 i==0 帧').toHaveLength(1)
+    expect(swingFrame!.damageNums![0]!.value).toBe(314)
+    expect(swingFrame!.damageNums![0]!.target).toEqual({ kind: 'enemy', idx: 0 })
+    expect(swingFrame!.damageNums![0]!.color).toBe('blue')
+    // 不再用 pendingDamageNums 时间线后弹(那是法术 PostMagic 的机制,fight.c:3186)
+    expect(state.battleAnim!.pendingDamageNums ?? []).toHaveLength(0)
+    // frame[0](rush 起手)不即时 emit 数字
+    expect(bus.drain().filter((c) => c.cmd.op === 'showDamageNum')).toHaveLength(0)
+  })
+
+  // sdlpal PAL_BattleDisplayStatChange 遍历**所有**敌人弹各自数字(fight.c:626-659),群攻命中多敌 →
+  //   挥砍 i==0 帧同时弹多个数字(每个掉血敌一个),非逐帧/时间线后弹。
+  it('群攻多敌:挥砍 i==0 帧同时弹每个掉血敌的数字(fight.c:626-659)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 },
+      enemies: [
+        { level: 5, defense: 10, physicalResistance: 1, health: 600 },
+        { level: 5, defense: 10, physicalResistance: 1, health: 600 },
+      ],
+      forceRoll: 1,
+    })
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    state.enemies[1]!.posOriginal = { x: 200, y: 80 }
+    performAttack(state, playerActor, -1, bus, playerRoles)
+    const swingFrame = state.battleAnim!.frames.find((f) => f.overlay?.kind === 'effect')
+    expect(swingFrame!.damageNums, '2 敌各一个数字,同挥砍 i==0 帧').toHaveLength(2)
+    // 命中序 {2,1,0,4,3}:slot1 先打(division1 全额 314)/ slot0 后打(division2 半额 157)
+    const byIdx = new Map(swingFrame!.damageNums!.map((d) => [d.target.idx, d.value]))
+    expect(byIdx.get(1)).toBe(314)
+    expect(byIdx.get(0)).toBe(157)
+    expect(state.battleAnim!.pendingDamageNums ?? []).toHaveLength(0)
   })
 
   it('player 低 attackStrength 攻击高 defense enemy:damage 取 1', () => {

@@ -147,8 +147,18 @@ export interface BuildPlayerAttackInput {
    * 调用方先查 battleEffectIndex 表(rgwBattleEffectIndex[10][2] flat)算好传入。
    */
   effectFrameBase: number
-  /** 钳后真实掉血(damageNum value;掉血 → blue)。 */
+  /** 钳后真实掉血(damageNum value;掉血 → blue)。单体目标用;群攻传 0(各敌数字走 groupDamageNums)。 */
   damage: number
+  /**
+   * 群攻(sTarget==-1)各掉血敌的伤害数字 —— 挂挥砍 i==0 帧(sdlpal PAL_BattleDisplayStatChange
+   * 在 ShowPlayerAttackAnim i==0 遍历全敌,fight.c:2209/626-659),非挥砍后。单体目标走单数 damage
+   * (嵌 i==0 帧 damageNum),不传此。
+   */
+  groupDamageNums?: Array<{
+    target: { kind: 'enemy' | 'player'; idx: number }
+    value: number
+    color: 'yellow' | 'blue' | 'cyan'
+  }>
 }
 
 /**
@@ -171,6 +181,7 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
     targetEnemyHeight,
     effectFrameBase,
     damage,
+    groupDamageNums,
   } = input
   const ex = targetEnemyPos.x
   const ey = targetEnemyPos.y
@@ -234,6 +245,10 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
               color: 'blue' as const,
             },
           }
+        : {}),
+      // 群攻(targetIdx<0):各掉血敌数字挂 i==0 帧(sdlpal DisplayStatChange 遍历全敌,fight.c:2209/626-659)。
+      ...(i === 0 && groupDamageNums && groupDamageNums.length > 0
+        ? { damageNums: groupDamageNums }
         : {}),
     })
   }

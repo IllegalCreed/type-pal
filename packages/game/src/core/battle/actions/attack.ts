@@ -154,9 +154,9 @@ export function performAttack(
     const HIT_ORDER = [2, 1, 0, 4, 3] // fight.c:3684 const int index[MAX_ENEMIES_IN_TEAM]
     const roleId = state.players[actor.idx]!.roleId
     const voiceRole = playerRoles.roles[roleId]
-    // 各敌完整伤害累加(挥砍动画播完后弹,对齐 sdlpal DisplayStatChange 在 ShowPlayerAttackAnim 之后,
-    //   fight.c:3748)。sdlpal `wHealth -= sDamage`(fight.c:3726)WORD **下溢不钳**,显示
-    //   (SHORT)(wHealth-wPrevHP) = 完整累加伤害,非剩余血。故累加每击**钳前扣减**(超杀时即完整伤害)。
+    // 各敌完整伤害累加(挂挥砍 i==0 帧弹,对齐 sdlpal PAL_BattleDisplayStatChange 在 ShowPlayerAttackAnim
+    //   挥砍特效**首帧 i==0** 调,fight.c:2209/626-659,非挥砍后)。sdlpal `wHealth -= sDamage`(fight.c:3726)
+    //   WORD **下溢不钳**,显示 (SHORT)(wHealth-wPrevHP) = 完整累加伤害,非剩余血。故累加每击**钳前扣减**(超杀时即完整伤害)。
     const damagePerSlot = new Map<number, number>()
     for (let t = 0; t < hits; t++) {
       // 每轮 crit 重摇、division 重置(fight.c:3683-3688 在 t-loop 内)
@@ -191,19 +191,22 @@ export function performAttack(
     }
     // M6/D17a:群攻挥砍动画 —— sdlpal 整套群攻只调一次 PAL_BattleShowPlayerAttackAnim(fight.c:3745),
     //   sTarget==-1 → 挥向固定中心 (150,100)(fight.c:2050-2055)。此前群攻**完全无动画**(只即时弹数字 —
-    //   林月如等 attackAll 鞭武器看着没攻击动画,user 2026-06-03 报)。伤害数字经 pendingDamageNums 挥砍后弹。
+    //   林月如等 attackAll 鞭武器看着没攻击动画,user 2026-06-03 报)。
+    // 伤害数字挂挥砍 i==0 帧(sdlpal DisplayStatChange 在 ShowPlayerAttackAnim i==0 调,fight.c:2209),
+    //   非 pendingDamageNums 时间线后弹(那是法术 PostMagic 机制)。user 2026-06-04 报"群攻掉血数字偏晚"。
     const attacker = state.players[actor.idx]
     if (attacker?.posOriginal) {
       const swing = buildPlayerAttackTimeline({
         attackerPos: attacker.posOriginal,
         attackerIdx: actor.idx,
         targetEnemyPos: { x: 150, y: 100 }, // sdlpal sTarget==-1 中心落点
-        targetIdx: -1, // 群攻无单体目标 → buildPlayerAttackTimeline 跳过单敌染色/伤害数字/抖动
+        targetIdx: -1, // 群攻无单体目标 → buildPlayerAttackTimeline 跳过单敌染色/抖动
         targetEnemyHeight: 0,
         effectFrameBase: playerEffectFrameBase(battleEffectIndex, voiceRole?.spriteNumInBattle ?? 0),
         damage: 0,
+        groupDamageNums: pendingNums, // 各掉血敌数字挂挥砍 i==0 帧(fight.c:2209/626-659)
       })
-      startBattleAnim(state, swing, bus, pendingNums)
+      startBattleAnim(state, swing, bus)
     } else {
       // 旧 fixture 无 posOriginal → 不建时间线,即时弹伤害数字(向后兼容)
       for (const dn of pendingNums) bus.emit({ op: 'showDamageNum', ...dn })

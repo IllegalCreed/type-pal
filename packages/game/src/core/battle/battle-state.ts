@@ -245,6 +245,16 @@ export interface BattleAnimFrame {
     value: number
     color: 'yellow' | 'blue' | 'cyan'
   }
+  /**
+   * 本帧要弹的**多个**伤害数字 —— 物理群攻挥砍 i==0 帧遍历全敌弹各自数字
+   * (sdlpal PAL_BattleDisplayStatChange fight.c:626-659,在 PAL_BattleShowPlayerAttackAnim i==0 调,
+   *  fight.c:2209)。与单数 damageNum 并存:driver applyAnimFrame 两者都 emit。
+   */
+  damageNums?: Array<{
+    target: { kind: 'enemy' | 'player'; idx: number }
+    value: number
+    color: 'yellow' | 'blue' | 'cyan'
+  }>
   /** 本帧音效(present 播;本切片只存值)。 */
   sound?: number
   /** 本帧屏幕抖动(screenShake;本切片只存值)。 */
