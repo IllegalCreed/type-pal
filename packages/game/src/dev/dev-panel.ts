@@ -112,6 +112,70 @@ export function togglePartyMembership(members: readonly number[], roleId: number
   return [...members, roleId]
 }
 
+/** 自定义战斗临时 enemyTeam id(devpanel A);applyCustomBattle push 进 enemyTeams,startBattle 按此查。 */
+export const CUSTOM_BATTLE_TEAM_ID = 90000
+
+/** 战斗最多 5 敌(MAX_ENEMIES_IN_TEAM)。 */
+const MAX_ENEMIES_IN_TEAM = 5
+
+/**
+ * 把选中的 enemy id(≤5)pad 成临时 `EnemyTeam`(空位 0xFFFF,超 5 截断)。
+ * teamId 默认 CUSTOM_BATTLE_TEAM_ID。纯函数,供自定义战斗 / 测试。
+ */
+export function buildCustomEnemyTeam(enemyIds: number[], teamId = CUSTOM_BATTLE_TEAM_ID): EnemyTeam {
+  const slots = enemyIds.slice(0, MAX_ENEMIES_IN_TEAM)
+  const enemies = Array.from({ length: MAX_ENEMIES_IN_TEAM }, (_, i) => slots[i] ?? 0xffff) as [
+    number, number, number, number, number,
+  ]
+  return { id: teamId, enemies }
+}
+
+/**
+ * 全局脚本 `0x55 addMagic`(operands[1]!=0 → role=operands[1]-1 fixed,script.c:1816)的剧情/法宝授予法术,
+ * 按 role 聚合(operands[1]==0 dynamic 跳过)。纯函数;caller 传 getGlobalCommands()。
+ */
+export function computeMagicGrantsByRole(commands: Command[]): Map<number, Set<number>> {
+  const grants = new Map<number, Set<number>>()
+  for (const c of commands) {
+    if (c.op !== 'raw' || c.opcode !== OP_ADD_MAGIC) continue
+    const r1 = c.operands[1] ?? 0
+    if (r1 === 0) continue // dynamic(本游戏无)
+    const role = r1 - 1
+    let set = grants.get(role)
+    if (!set) {
+      set = new Set()
+      grants.set(role, set)
+    }
+    set.add(c.operands[0] ?? 0)
+  }
+  return grants
+}
+
+/**
+ * 角色在 `level` 级时会的全部仙术 = 起手 role.magic + 升级习得(`entry.level<=level`,battle-system.ts:2701
+ * 权威 `m.level>level` 跳过)+ 剧情/法宝授予,去重 cap 32(MAX_PLAYER_MAGICS)。
+ *
+ * level-up-magic 是 `[ROW][ROLE]`(sdlpal lprgLevelUpMagic[j].m[role]),角色习得 = 遍历所有 row 取该角色列。
+ * 法术测试(runSpellTest)传 level=99 即全学(等价旧 roleMagics)。
+ */
+export function roleMagicsAtLevel(input: {
+  playerRoles: PlayerRoles
+  levelUpMagic: LevelUpMagicEntry[][]
+  grantsByRole: Map<number, Set<number>>
+  roleId: number
+  level: number
+}): number[] {
+  const { playerRoles, levelUpMagic, grantsByRole, roleId, level } = input
+  const role = playerRoles.roles.find((r) => r.id === roleId)
+  const start = (role?.magic ?? []).filter((x) => x > 0)
+  const learned = (levelUpMagic ?? [])
+    .map((row) => row[roleId])
+    .filter((e): e is LevelUpMagicEntry => !!e && e.magic > 0 && e.level <= level)
+    .map((e) => e.magic)
+  const granted = [...(grantsByRole.get(roleId) ?? [])].filter((x) => x > 0)
+  return [...new Set([...start, ...learned, ...granted])].slice(0, 32)
+}
+
 /**
  * 把索引位图头像(DialogSprite:R=G=B=palette index + opaque mask)用调色板上色画到 DOM canvas。
  * portraits PNG 是索引位图(非真彩),直接 <img> 会错色 —— 必须 palette 上色(同 framebuffer.toImageData)。
@@ -383,36 +447,17 @@ function openPicker(deps: DevPanelDeps): void {
   //   分两组覆盖全 6 角色:A 组 0/1/2(李逍遥/赵灵儿/林月如),B 组 0/3/4(李逍遥/阿奴/巫后)。
   const runSpellTest = (members: number[], label: string): void => {
     closePicker()
-    // 某角色**能学会的全部技能** = 起手 magic(playerRoles[i].magic)+ 升级习得 + 剧情/法宝授予
-    //   (全局脚本 `0x55 addMagic` op[1]!=0 指定该 role 的 op[0];script.c:1816 op[1]!=0 → role=op[1]-1 fixed)。
-    const grantsByRole = new Map<number, Set<number>>()
-    for (const c of getGlobalCommands()) {
-      if (c.op !== 'raw' || c.opcode !== OP_ADD_MAGIC) continue
-      const r1 = c.operands[1] ?? 0
-      if (r1 === 0) continue // dynamic(本游戏无)
-      const role = r1 - 1
-      let set = grantsByRole.get(role)
-      if (!set) {
-        set = new Set()
-        grantsByRole.set(role, set)
-      }
-      set.add(c.operands[0] ?? 0)
-    }
-    const roleMagics = (roleId: number): number[] => {
-      const role = deps.resources.playerRoles.roles.find((r) => r.id === roleId)
-      const start = (role?.magic ?? []).filter((x) => x > 0)
-      // level-up-magic 是 [ROW][ROLE](sdlpal lprgLevelUpMagic[j].m[w],20 行学习条目 × 5 角色列)。
-      //   角色 roleId 的习得 = **遍历所有 row 取该角色列** entry[roleId](对齐 battle.c:1302 / battleWonLevelUp
-      //   battle-system.ts:2653-2658)。此前误写 levelUpMagic[roleId] = 取第 roleId **行** → 全员技能错乱。
-      const learned = (deps.resources.levelUpMagic ?? [])
-        .map((row) => row[roleId])
-        .filter((e): e is LevelUpMagicEntry => !!e && e.magic > 0)
-        .map((e) => e.magic)
-      const granted = [...(grantsByRole.get(roleId) ?? [])].filter((x) => x > 0)
-      return [...new Set([...start, ...learned, ...granted])].slice(0, 32) // MAX_PLAYER_MAGICS=32
-    }
+    // 某角色**能学会的全部技能** = 起手 magic + 升级习得(全等级)+ 剧情/法宝授予(0x55 addMagic)。
+    //   复用模块级共享 helper(roleMagicsAtLevel level=99 = 全学;自定义战斗 A 同源,按 customLevel 过滤)。
+    const grantsByRole = computeMagicGrantsByRole(getGlobalCommands())
     const makeOverride = (roleId: number): Partial<Record<string, number | number[]>> => ({
-      magic: roleMagics(roleId),
+      magic: roleMagicsAtLevel({
+        playerRoles: deps.resources.playerRoles,
+        levelUpMagic: deps.resources.levelUpMagic,
+        grantsByRole,
+        roleId,
+        level: 99, // 法术测试全学
+      }),
       level: 99,
       hp: 9999,
       maxHP: 9999,

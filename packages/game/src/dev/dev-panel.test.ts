@@ -12,7 +12,8 @@ import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import { tickBattle } from '../core/battle/battle-system.js'
 import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
-import { applyFixture, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
+import { applyFixture, buildCustomEnemyTeam, computeMagicGrantsByRole, CUSTOM_BATTLE_TEAM_ID, roleMagicsAtLevel, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
+import type { Command, LevelUpMagicEntry, PlayerRoles } from '@type-pal/shared'
 
 // 真值(level-up-magic.json / spells.json / player-roles.json):
 //   role0 李逍遥 base 法术 = 气疗术(296, usableOutsideBattle);lv7 学天师符法(349, 仅战斗),
@@ -114,6 +115,68 @@ describe('togglePartyMembership(队伍在队开关:role0 队首常驻)', () => {
     const orig = [0, 1]
     togglePartyMembership(orig, 2)
     expect(orig).toEqual([0, 1])
+  })
+})
+
+describe('buildCustomEnemyTeam(自定义战斗:选中敌人 id → 临时 EnemyTeam)', () => {
+  it('≤5 敌:pad 到 5 槽(空位 0xFFFF),id = CUSTOM_BATTLE_TEAM_ID', () => {
+    const team = buildCustomEnemyTeam([82, 99])
+    expect(team.id).toBe(CUSTOM_BATTLE_TEAM_ID)
+    expect(team.enemies).toEqual([82, 99, 0xffff, 0xffff, 0xffff])
+  })
+  it('恰好 5 敌:全填满', () => {
+    expect(buildCustomEnemyTeam([1, 2, 3, 4, 5]).enemies).toEqual([1, 2, 3, 4, 5])
+  })
+  it('超 5 敌:截断到 5(战斗最多 5 敌)', () => {
+    expect(buildCustomEnemyTeam([1, 2, 3, 4, 5, 6, 7]).enemies).toEqual([1, 2, 3, 4, 5])
+  })
+  it('空选:全 0xFFFF', () => {
+    expect(buildCustomEnemyTeam([]).enemies).toEqual([0xffff, 0xffff, 0xffff, 0xffff, 0xffff])
+  })
+})
+
+describe('computeMagicGrantsByRole(全局脚本 0x55 addMagic 剧情/法宝授予)', () => {
+  // OP_ADD_MAGIC=0x55=85。operands=[magicId, roleArg];roleArg!=0 → role=roleArg-1 fixed(script.c:1816)。
+  const cmds: Command[] = [
+    { op: 'raw', opcode: 0x55, operands: [201, 1, 0] }, // role0 授 magic 201
+    { op: 'raw', opcode: 0x55, operands: [202, 1, 0] }, // role0 授 magic 202
+    { op: 'raw', opcode: 0x55, operands: [203, 3, 0] }, // role2 授 magic 203(roleArg 3 → role2)
+    { op: 'raw', opcode: 0x55, operands: [999, 0, 0] }, // roleArg=0 dynamic → 跳过
+    { op: 'end' },
+  ] as unknown as Command[]
+  it('按 role 聚合授予法术(roleArg-1),roleArg=0 跳过', () => {
+    const grants = computeMagicGrantsByRole(cmds)
+    expect([...(grants.get(0) ?? [])].sort((a, b) => a - b)).toEqual([201, 202])
+    expect([...(grants.get(2) ?? [])]).toEqual([203])
+    expect(grants.has(-1)).toBe(false) // roleArg=0 不产生 role -1
+  })
+})
+
+describe('roleMagicsAtLevel(仙术按等级:起手 + 升级习得 entry.level<=level + 授予)', () => {
+  const playerRoles = { roles: [{ id: 0, magic: [296, 0, 0] }] } as unknown as PlayerRoles
+  // levelUpMagic[row][roleId]:role0 列 — lv7 学 349、lv10 学 298
+  const levelUpMagic = [
+    [{ level: 7, magic: 349 }],
+    [{ level: 10, magic: 298 }],
+  ] as unknown as LevelUpMagicEntry[][]
+  const grantsByRole = new Map<number, Set<number>>([[0, new Set([500])]])
+
+  it('level=5:只起手 296 + 授予 500(7/10 级法术未到等级)', () => {
+    const m = roleMagicsAtLevel({ playerRoles, levelUpMagic, grantsByRole, roleId: 0, level: 5 })
+    expect(m.sort((a, b) => a - b)).toEqual([296, 500])
+  })
+  it('level=7:起手 296 + lv7 学的 349 + 授予 500(lv10 的 298 未到)', () => {
+    const m = roleMagicsAtLevel({ playerRoles, levelUpMagic, grantsByRole, roleId: 0, level: 7 })
+    expect(m.sort((a, b) => a - b)).toEqual([296, 349, 500])
+  })
+  it('level=99:全学(296/349/298 + 授予 500)', () => {
+    const m = roleMagicsAtLevel({ playerRoles, levelUpMagic, grantsByRole, roleId: 0, level: 99 })
+    expect(m.sort((a, b) => a - b)).toEqual([296, 298, 349, 500])
+  })
+  it('去重:起手与授予同 id 不重复', () => {
+    const g = new Map<number, Set<number>>([[0, new Set([296])]]) // 授予 296 = 起手已有
+    const m = roleMagicsAtLevel({ playerRoles, levelUpMagic: [], grantsByRole: g, roleId: 0, level: 1 })
+    expect(m).toEqual([296])
   })
 })
 
