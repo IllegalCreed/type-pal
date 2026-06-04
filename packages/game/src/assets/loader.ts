@@ -499,24 +499,70 @@ export type SceneFetcher = (sceneId: number) => Promise<SceneAssets>
 /**
  * Scene 资源 lazy 加载缓存(D33)。
  *
- * M3.5 简版不做 LRU eviction(只 2-3 scene 切换,< 10MB 可接受);
- * M5 全场景时加 LRU。
+ * LRU eviction:构造传 `{ maxEntries }` 即启用(超出按 LRU 淘汰最旧条目);
+ * 省略则无限缓存(向后兼容旧 caller)。`onEvict` 用于联动清理调用方持有的并行缓存
+ * (bootstrap 的 tileImagesBySceneId 解码位图 —— 全 223 scene 常驻可达 ~100MB);
+ * `protect` 返回当前正在渲染的 sceneId,即使它在 LRU 端也永不淘汰(防黑屏)。
  *
  * 真 SceneFetcher 实现(从 `/extracted/data/scene-N.json` + tilemap-N.json +
  * palette + sprites 各 PNG fetch)写在 bootstrap.ts(T16+ 用),不在 loader.ts。
  * loader.ts 只管 cache 本身。
  */
-export class SceneAssetsCache {
-  private readonly cache = new Map<number, SceneAssets>()
+export interface SceneAssetsCacheOptions {
+  /** 最多缓存的 scene 数;超出按 LRU 淘汰最旧(且非 protect)条目。省略 = 无限缓存(向后兼容)。 */
+  maxEntries?: number
+  /** 淘汰某 sceneId 时回调(联动清理调用方持有的并行缓存,如 tileImagesBySceneId)。 */
+  onEvict?: (sceneId: number) => void
+  /** 返回当前不可淘汰的 sceneId(正在渲染的场景);该 id 即使在 LRU 端也跳过。 */
+  protect?: () => number | undefined
+}
 
-  constructor(private readonly fetcher: SceneFetcher) {}
+export class SceneAssetsCache {
+  // JS Map 保持插入顺序 → 迭代序 = LRU(最旧)→ MRU(最近)。命中时 delete+set 刷新到 MRU 端。
+  private readonly cache = new Map<number, SceneAssets>()
+  private readonly maxEntries?: number
+  private readonly onEvict?: (sceneId: number) => void
+  private readonly protect?: () => number | undefined
+
+  constructor(
+    private readonly fetcher: SceneFetcher,
+    opts?: SceneAssetsCacheOptions,
+  ) {
+    this.maxEntries = opts?.maxEntries
+    this.onEvict = opts?.onEvict
+    this.protect = opts?.protect
+  }
 
   async loadScene(sceneId: number): Promise<SceneAssets> {
-    let cached = this.cache.get(sceneId)
-    if (!cached) {
-      cached = await this.fetcher(sceneId)
+    const cached = this.cache.get(sceneId)
+    if (cached) {
+      // 命中也刷新 recency:移到 Map 末尾(MRU)。
+      this.cache.delete(sceneId)
       this.cache.set(sceneId, cached)
+      return cached
     }
-    return cached
+    const fetched = await this.fetcher(sceneId)
+    this.cache.set(sceneId, fetched)
+    this.evictIfNeeded()
+    return fetched
+  }
+
+  private evictIfNeeded(): void {
+    if (this.maxEntries === undefined) return
+    const protectedId = this.protect?.()
+    while (this.cache.size > this.maxEntries) {
+      // 从最旧端找第一个非 protected 条目淘汰。maxEntries≥2 时刚 fetch 的在 MRU 端不会被选中
+      //(本引擎固定用 16);maxEntries=1 是退化配置,不保证保留最新条目。
+      let victim: number | undefined
+      for (const id of this.cache.keys()) {
+        if (id !== protectedId) {
+          victim = id
+          break
+        }
+      }
+      if (victim === undefined) break // 仅剩 protected 条目 → 停手(宁可超 cap 也不淘汰当前场景)
+      this.cache.delete(victim)
+      this.onEvict?.(victim)
+    }
   }
 }

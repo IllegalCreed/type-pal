@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { battleVictoryTrack, createAudioManager, sfxUrl, musicUrl, pickMusicTrack, sfxForBattleEvent } from './audio.js'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { battleVictoryTrack, createAudioManager, createOggMusicBackend, sfxUrl, musicUrl, pickMusicTrack, sfxForBattleEvent } from './audio.js'
 
 // 注:Web Audio(AudioContext / decodeAudioData)在 node/jsdom 测试环境不可用 → SFX 实际播放
 //   退化为 no-op(无法单测发声,归 user 真引擎听验)。此处测**可测逻辑**:url 映射 + sync 队列
@@ -88,5 +88,61 @@ describe('M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle
     expect(sfxForBattleEvent({ op: 'playEnemyDeath', enemyIdx: 1 }, enemies, party, roles)).toBe(0)
     expect(sfxForBattleEvent({ op: 'playPlayerAttack', playerIdx: 1 }, enemies, party, roles)).toBe(0) // role 3 weaponSound=0
     expect(sfxForBattleEvent({ op: 'showDamageNum' }, enemies, party, roles)).toBe(0)
+  })
+})
+
+describe('M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复)', () => {
+  class FakeAudio {
+    static created: FakeAudio[] = []
+    src: string
+    loop = false
+    volume = 1
+    paused = false
+    loaded = false
+    constructor(s: string) {
+      this.src = s
+      FakeAudio.created.push(this)
+    }
+    play(): Promise<void> {
+      return Promise.resolve()
+    }
+    pause(): void {
+      this.paused = true
+    }
+    load(): void {
+      this.loaded = true
+    }
+    removeAttribute(name: string): void {
+      if (name === 'src') this.src = ''
+    }
+  }
+
+  beforeEach(() => {
+    FakeAudio.created = []
+    vi.stubGlobal('Audio', FakeAudio)
+  })
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)', () => {
+    const backend = createOggMusicBackend('/extracted')
+    backend.play(1, true) // created[0]
+    backend.play(2, true) // created[1];旧 created[0] 应被释放
+    const old = FakeAudio.created[0]!
+    expect(old.paused).toBe(true)
+    expect(old.src).toBe('') // 旧实现只 pause 不清 src → 游离待 GC
+    expect(old.loaded).toBe(true)
+    expect(FakeAudio.created[1]!.src).toContain('002.ogg') // 新元素正常,src 未被清
+  })
+
+  it('stop:释放当前元素 src', () => {
+    const backend = createOggMusicBackend('/extracted')
+    backend.play(1, true)
+    backend.stop()
+    const el = FakeAudio.created[0]!
+    expect(el.paused).toBe(true)
+    expect(el.src).toBe('')
+    expect(el.loaded).toBe(true)
   })
 })

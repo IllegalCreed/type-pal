@@ -114,10 +114,19 @@ export function sfxForBattleEvent(
 export function createOggMusicBackend(baseUrl: string): MusicBackend {
   let cur: HTMLAudioElement | undefined
   const AudioCtor = typeof Audio !== 'undefined' ? Audio : undefined
+  // 释放旧元素:仅 pause 不够 —— src 仍指向 OGG 的媒体元素其解码缓冲/网络流不会立即回收,
+  // 频繁切歌会游离一串待 GC 的 HTMLAudioElement。removeAttribute('src') + load() 才确定释放底层
+  // 媒体资源(用 src='' 会以 base URL 解析并触发 media 'error' 事件喷控制台;removeAttribute 干净)。
+  const release = (el: HTMLAudioElement | undefined): void => {
+    if (!el) return
+    el.pause()
+    el.removeAttribute('src')
+    el.load()
+  }
   return {
     play(track, loop) {
       if (!AudioCtor) return
-      cur?.pause()
+      release(cur)
       const a = new AudioCtor(`${baseUrl}/music/${track.toString().padStart(3, '0')}.ogg`)
       a.loop = loop
       a.volume = 0.6
@@ -125,7 +134,7 @@ export function createOggMusicBackend(baseUrl: string): MusicBackend {
       cur = a
     },
     stop() {
-      cur?.pause()
+      release(cur)
       cur = undefined
     },
   }
