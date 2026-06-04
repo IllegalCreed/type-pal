@@ -428,13 +428,13 @@ function openPicker(deps: DevPanelDeps): void {
       partyMembers: members, // MAX_BATTLE_PLAYERS=3
       playerOverrides,
       inventory: [{ itemId: 61, count: 99 }],
-      enemyTeamId: 7, // [7,6,7,6,6] = 5 敌,测全体法术
+      enemyTeamId: 244, // 后期 team(5 敌各 1100 血,测全体法术;user 2026-06-04 要后期怪耐打)
       battleFieldId: 7,
     })
-    // 敌人加血(法术测试要持久观察伤害,默认敌人死太快;user 2026-06-04)。
+    // 敌人加血(法术测试要持久观察伤害,magicStrength 200 威力高,血少几下就空;user 2026-06-04)。
     for (const be of deps.gs.battleState?.enemies ?? []) {
-      be.e.health = 9999
-      be.prevHp = 9999
+      be.e.health = 99999
+      be.prevHp = 99999
     }
     // 全道具 ×99 + 金钱(测物品 / 法宝)。
     for (const item of deps.resources.items) {
