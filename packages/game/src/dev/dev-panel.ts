@@ -1117,6 +1117,66 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
   }
 }
 
+/** 自定义战斗参数(devpanel A)。 */
+export interface CustomBattleParams {
+  /** 选中的敌人 id(≤5;>5 截断)。 */
+  enemyIds: number[]
+  /** 出战队员 roleId(≤3,MAX_BATTLE_PLAYERS)。 */
+  partyMembers: number[]
+  /** 我方等级(每队员 level override + 仙术按等级习得)。 */
+  level: number
+  /** 全道具开关:true → 全 items ×99 进背包。 */
+  allItems: boolean
+}
+
+/**
+ * 自定义战斗(devpanel A):选中敌人 → 临时 EnemyTeam(id 90000)→ applyFixture 启战。
+ *
+ *  - 敌人:buildCustomEnemyTeam(pad 0xFFFF),filter 掉旧临时 team 再 push(不堆积),startBattle 按 90000 查。
+ *  - 队员:每人 level override + 仙术按 level 习得(roleMagicsAtLevel,起手+升级<=level+授予)。
+ *  - 道具:allItems → 全 items ×99。
+ *  - 战场固定 7(沿用 fixture 惯例)。rngSeed 透传(测试确定性)。
+ */
+export function applyCustomBattle(deps: DevPanelDeps, params: CustomBattleParams, rngSeed?: number): void {
+  const { enemyIds, partyMembers, level, allItems } = params
+  // 1. 临时 team:filter 掉旧临时(防多次开战堆积)+ push 新的
+  deps.resources.enemyTeams = [
+    ...deps.resources.enemyTeams.filter((t) => t.id !== CUSTOM_BATTLE_TEAM_ID),
+    buildCustomEnemyTeam(enemyIds),
+  ]
+  // 2. playerOverrides:每队员 level + 该 level 会的仙术(grants 来自全局脚本 0x55)
+  const grantsByRole = computeMagicGrantsByRole(getGlobalCommands())
+  const playerOverrides: Record<number, Partial<Record<string, number | number[]>>> = {}
+  for (const m of partyMembers) {
+    playerOverrides[m] = {
+      level,
+      magic: roleMagicsAtLevel({
+        playerRoles: deps.resources.playerRoles,
+        levelUpMagic: deps.resources.levelUpMagic,
+        grantsByRole,
+        roleId: m,
+        level,
+      }),
+    }
+  }
+  // 3. 全道具 ×99
+  const inventory = allItems ? deps.resources.items.map((it) => ({ itemId: it.id, count: 99 })) : []
+  // 4. 复用 applyFixture 启战(临时 team / 战场 7)
+  applyFixture(
+    deps,
+    {
+      id: 'custom-battle',
+      label: '自定义战斗',
+      partyMembers,
+      playerOverrides,
+      inventory,
+      enemyTeamId: CUSTOM_BATTLE_TEAM_ID,
+      battleFieldId: 7,
+    },
+    rngSeed,
+  )
+}
+
 /**
  * T17:dev scene jump 真做 —— 调 scene-system.loadScene + 走 SceneAssetsCache lazy fetch。
  *

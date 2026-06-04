@@ -12,7 +12,7 @@ import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import { tickBattle } from '../core/battle/battle-system.js'
 import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
-import { applyFixture, buildCustomEnemyTeam, computeMagicGrantsByRole, CUSTOM_BATTLE_TEAM_ID, roleMagicsAtLevel, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
+import { applyCustomBattle, applyFixture, buildCustomEnemyTeam, computeMagicGrantsByRole, CUSTOM_BATTLE_TEAM_ID, roleMagicsAtLevel, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
 import type { Command, LevelUpMagicEntry, PlayerRoles } from '@type-pal/shared'
 
 // 真值(level-up-magic.json / spells.json / player-roles.json):
@@ -177,6 +177,47 @@ describe('roleMagicsAtLevel(仙术按等级:起手 + 升级习得 entry.level<=l
     const g = new Map<number, Set<number>>([[0, new Set([296])]]) // 授予 296 = 起手已有
     const m = roleMagicsAtLevel({ playerRoles, levelUpMagic: [], grantsByRole: g, roleId: 0, level: 1 })
     expect(m).toEqual([296])
+  })
+})
+
+describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具)', () => {
+  it('选敌 + 队员 + level=7 + 全道具 → 临时 team 90000 启战 / 仙术按等级 / 道具×99', () => {
+    const deps = makeDeps()
+    // biome-ignore lint/suspicious/noExplicitAny: 测全道具用最小 item 占位
+    deps.resources.items = [{ id: 10 } as any, { id: 11 } as any]
+    applyCustomBattle(deps, { enemyIds: [82, 2], partyMembers: [0], level: 7, allItems: true }, 42)
+    // 临时 team(id 90000)推入 enemyTeams,pad 0xFFFF
+    const team = deps.resources.enemyTeams.find((t) => t.id === CUSTOM_BATTLE_TEAM_ID)
+    expect(team?.enemies).toEqual([82, 2, 0xffff, 0xffff, 0xffff])
+    // 启战,敌人 = 选中两只
+    expect(deps.gs.mode).toBe('battle')
+    expect(deps.gs.battleState?.enemies.map((e) => e.e.id).sort((a, b) => a - b)).toEqual([2, 82])
+    // role0 level=7 override + 仙术按等级(起手 296 + lv7 学 349;lv10 的 298 未到)
+    expect(deps.resources.playerRoles.roles[0]!.level).toBe(7)
+    expect((deps.resources.playerRoles.roles[0] as unknown as { magic: number[] }).magic.sort((a, b) => a - b)).toEqual([296, 349])
+    // 全道具 ×99
+    expect(deps.gs.inventory.map((e) => ({ itemId: e.itemId, count: e.count }))).toEqual([
+      { itemId: 10, count: 99 },
+      { itemId: 11, count: 99 },
+    ])
+  })
+
+  it('再开一次:旧临时 team 被替换不堆积(filter id===90000 + push)', () => {
+    const deps = makeDeps()
+    applyCustomBattle(deps, { enemyIds: [82], partyMembers: [0], level: 1, allItems: false }, 42)
+    applyCustomBattle(deps, { enemyIds: [2], partyMembers: [0], level: 1, allItems: false }, 42)
+    const temps = deps.resources.enemyTeams.filter((t) => t.id === CUSTOM_BATTLE_TEAM_ID)
+    expect(temps).toHaveLength(1) // 不堆积
+    expect(temps[0]!.enemies[0]).toBe(2) // 后一次的敌人
+    expect(deps.gs.battleState?.enemies.map((e) => e.e.id)).toEqual([2])
+  })
+
+  it('allItems=false → inventory 空', () => {
+    const deps = makeDeps()
+    // biome-ignore lint/suspicious/noExplicitAny: 占位
+    deps.resources.items = [{ id: 10 } as any]
+    applyCustomBattle(deps, { enemyIds: [82], partyMembers: [0], level: 1, allItems: false }, 42)
+    expect(deps.gs.inventory).toEqual([])
   })
 })
 
