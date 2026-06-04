@@ -7,7 +7,7 @@
 
 import type { Enemy, EnemyObject, EnemyTeam, BattleField, InputSnapshot, PlayerRole } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import fixturesData from '../data/battle-fixtures.json' with { type: 'json' }
+import fixturesData from './fixtures/battle-fixtures.json' with { type: 'json' }
 import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import { tickBattle } from '../core/battle/battle-system.js'

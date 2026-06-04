@@ -59,8 +59,8 @@ import { createSellMenu } from '../core/menu/sell-menu.js'
 import { makeWorkingPalette } from '../core/palette-fade.js'
 import { Save } from '../core/save/api.js'
 import { isWalkable, setSceneContext } from '../core/scene-system.js'
-import battleFixturesRaw from '../data/battle-fixtures.json' with { type: 'json' }
-import sceneJumpsRaw from '../data/scene-jumps.json' with { type: 'json' }
+import battleFixturesRaw from '../dev/fixtures/battle-fixtures.json' with { type: 'json' }
+import sceneJumpsRaw from '../dev/fixtures/scene-jumps.json' with { type: 'json' }
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present/battle/present-battle.js'
 import { toSpriteImages } from '../present/draw-sprite.js'
@@ -76,7 +76,7 @@ import {
 import { battleVictoryTrack, createAudioManager, pickMusicTrack, sfxForBattleEvent } from './audio.js'
 import { createSpessaSynthBackend } from './audio-midi.js'
 import { playAvi } from './avi-player.js'
-import { type BattleFixturesData, type SceneJumpsData, setupDevPanel } from './dev-panel.js'
+import { type BattleFixturesData, type SceneJumpsData, setupDevPanel } from '../dev/dev-panel.js'
 import {
   colorFadeBlocking,
   fadeInBlocking,
@@ -93,7 +93,7 @@ import { playTrademarkFallback } from './trademark-fallback.js'
 
 // JSON 静态 import 的 TS 类型推断会把每条 fixture 推成具体 key 集合(eg. fixture-zh1
 // 没 "1" → 推 "1": undefined),与 BattleFixturesData 的 Record<string, ...> 不严格匹配。
-// 这里显式 cast —— battle-fixtures.json 的 schema 由 BattleFixture 定义,运行时合法。
+// 这里显式 cast —— dev/fixtures/battle-fixtures.json 的 schema 由 BattleFixture 定义,运行时合法。
 const battleFixtures = battleFixturesRaw as unknown as BattleFixturesData
 // 同模式 cast —— scene-jumps.json schema 由 SceneJump 定义。
 const sceneJumps = sceneJumpsRaw as unknown as SceneJumpsData
@@ -545,7 +545,20 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       onTeleportLabel: sceneJson.onTeleportLabel,
     }
   }
-  const sceneAssetsCache = new SceneAssetsCache(sceneFetcher)
+  // LRU 上限:保留最近 N 个 scene 的资源(SceneAssets 元数据 + 联动的解码 tile 位图)。
+  // 全 223 scene 的 tile 位图解码后常驻可达 ~100MB(每 scene ~450 tile × ~1KB);保留最近 16 个
+  //(≈ 来回横跳的活动范围)平衡内存与重访 re-fetch 成本。淘汰联动:onEvict 同步释放
+  // tileImagesBySceneId 对应条目 —— 必须一致,否则 SceneAssets 命中会跳过 sceneFetcher 内的
+  // fetchSceneTileImages → tileImages 缺失 → 黑屏无 tile。protect=currentSceneId 保证正在渲染的
+  // 场景即使在 LRU 端也永不被淘汰。
+  const MAX_SCENE_CACHE = 16
+  const sceneAssetsCache = new SceneAssetsCache(sceneFetcher, {
+    maxEntries: MAX_SCENE_CACHE,
+    onEvict: (sceneId) => {
+      tileImagesBySceneId.delete(sceneId)
+    },
+    protect: () => currentSceneId,
+  })
 
   /**
    * T17 重做核心:scene 切换后同步 presentCtx + scene-system 的 tilemap 引用。

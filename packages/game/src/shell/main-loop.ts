@@ -20,7 +20,7 @@ import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
 import { tickByMode } from '../core/mode.js'
 import { setSceneContext } from '../core/scene-system.js'
-import { initStateDump } from './state-dump.js'
+import { initStateDump } from '../dev/state-dump.js'
 
 export interface LoopContext {
   gs: GameState

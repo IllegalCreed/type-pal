@@ -56,7 +56,7 @@ import { createEquipMenu } from '../core/menu/equip-menu.js'
 import { createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
 import { openMenu } from '../core/menu/menu-mode.js'
 
-/** fixture JSON entry —— 与 `packages/game/src/data/battle-fixtures.json` 对齐。 */
+/** fixture JSON entry —— 与 `packages/game/src/dev/fixtures/battle-fixtures.json` 对齐。 */
 export interface BattleFixture {
   id: string
   label: string
@@ -80,7 +80,7 @@ export interface BattleFixturesData {
   fixtures: BattleFixture[]
 }
 
-/** scene jump entry —— 与 `packages/game/src/data/scene-jumps.json` 对齐。 */
+/** scene jump entry —— 与 `packages/game/src/dev/fixtures/scene-jumps.json` 对齐。 */
 export interface SceneJump {
   id: string
   label: string
