@@ -363,6 +363,92 @@ function injectDevPanelCSS(): void {
   document.head.appendChild(style)
 }
 
+/** 剧情 Boss 战预设条目(devpanel B)。 */
+interface BossEntry {
+  /** 真 enemyTeam id(applyBossBattle 启战,保留 boss slot 编排 + 嘲讽脚本)。 */
+  teamId: number
+  /** 代表敌人 id(缩略图 battleSprites `enemy-{id}`)。 */
+  enemyId: number
+  /** 按钮文案(剧情地点 + 敌人 + id)。 */
+  label: string
+}
+
+/**
+ * 剧情 Boss 名单 —— **byte-level 核过**:teamId/enemyId 全部对照 `data/extracted/data/enemy-teams.json`
+ * + `enemies.json` 的 _name 实证(2026-06-05),并交叉 memory `battle-win-lose-taxonomy-verified`(0x07 lostJump
+ * 验过的剧情战 21/24/29/34/37/42/43/293/312/313/314/315)。大致按剧情顺序。
+ *
+ * 注:用户初提的"苗人首领"是 NPC(给破天锤,flow.md:70,非战斗)、"姜世离/重楼"无对应 enemy、"蛇魔"≈八头蛇/毒神龙
+ *   (已收)、"蜈蚣精"(五毒蜈蚣)是蛤蟆山小怪非 boss —— 故不列,避免凭名硬编。需要可用"自定义战斗"打任意敌人。
+ */
+export const BOSS_ROSTER: BossEntry[] = [
+  { teamId: 21, enemyId: 82, label: '林月如·苏州城外(82)' },
+  { teamId: 24, enemyId: 85, label: '林月如·比武招亲(85)' },
+  { teamId: 38, enemyId: 127, label: '林天南·林家堡(127)' },
+  { teamId: 39, enemyId: 71, label: '蝶精彩依(71)' },
+  { teamId: 27, enemyId: 76, label: '赤鬼王·将军冢(76)' },
+  { teamId: 29, enemyId: 81, label: '女飞贼姬三娘·扬州(81)' },
+  { teamId: 34, enemyId: 119, label: '石长老·鬼阴山(119)' },
+  { teamId: 37, enemyId: 119, label: '石长老·大理(119)' },
+  { teamId: 43, enemyId: 99, label: '黑蜘蛛精·门口(99)' },
+  { teamId: 42, enemyId: 38, label: '毒娘子·六脚蜘蛛 真boss(38)' },
+  { teamId: 36, enemyId: 101, label: '金蟾鬼母·蛤蟆山(101)' },
+  { teamId: 223, enemyId: 102, label: '盖罗娇(102)' },
+  { teamId: 293, enemyId: 131, label: '天鬼皇(131)' },
+  { teamId: 305, enemyId: 141, label: '毒神龙(141)' },
+  { teamId: 314, enemyId: 41, label: '魔兽武士+刑天(41/43)' },
+  { teamId: 315, enemyId: 150, label: '八头蛇·水魔兽(150)' },
+  { teamId: 312, enemyId: 148, label: '石长老1·锁妖塔(148)' },
+  { teamId: 313, enemyId: 149, label: '拜月教主·最终boss(149)' },
+]
+
+/**
+ * 剧情 Boss 战 UI section(devpanel B,战斗 tab):BOSS_ROSTER 缩略图按钮,点击一键起真 boss team(god-mode 队伍)。
+ * DOM-only(启战逻辑见 applyBossBattle,已单测)。缩略图复用 battleSprites `enemy-{boss.enemyId}`。
+ */
+function buildBossBattleSection(deps: DevPanelDeps): HTMLDivElement {
+  const section = document.createElement('div')
+  const h = document.createElement('h4')
+  h.textContent = '⚔ 剧情 Boss 战(god-mode 队伍 0/1/2)'
+  h.className = 'tp-dev-section-h'
+  section.appendChild(h)
+  const hint = document.createElement('div')
+  hint.textContent = '点击直接起真 boss team(战场背景近似 field 7,以真引擎为准)'
+  hint.style.cssText = 'font-size:10px; margin:2px 0; color:#999'
+  section.appendChild(hint)
+
+  const grid = document.createElement('div')
+  grid.style.cssText =
+    'display:flex; flex-wrap:wrap; gap:4px; max-height:200px; overflow-y:auto; padding:3px; background:#1a1a1a; border:1px solid #444'
+  for (const boss of BOSS_ROSTER) {
+    const cell = document.createElement('button')
+    cell.title = boss.label
+    cell.style.cssText =
+      'width:72px; padding:3px; cursor:pointer; border:1px solid #855; background:#2a1f1f; display:flex; flex-direction:column; align-items:center; color:#ecc'
+    const frame = deps.battleSprites?.get(`enemy-${boss.enemyId}`)?.frames[0]
+    if (frame && deps.palette) {
+      const c = indexImageToCanvas(frame, deps.palette)
+      c.style.cssText = 'max-width:62px; max-height:44px; image-rendering:pixelated'
+      cell.appendChild(c)
+    } else {
+      const ph = document.createElement('div')
+      ph.style.cssText = 'width:44px; height:44px; background:#332'
+      cell.appendChild(ph)
+    }
+    const nm = document.createElement('div')
+    nm.textContent = boss.label
+    nm.style.cssText = 'font-size:9px; max-width:68px; line-height:1.15; word-break:break-all; margin-top:2px'
+    cell.appendChild(nm)
+    cell.addEventListener('click', () => {
+      closePicker()
+      applyBossBattle(deps, boss.teamId)
+    })
+    grid.appendChild(cell)
+  }
+  section.appendChild(grid)
+  return section
+}
+
 /**
  * 自定义战斗 UI section(devpanel A,战斗 tab):敌人多选缩略图网格 + 选队员 + 设等级 + 全道具开关 + 开战。
  * DOM-only(启战数据逻辑见 applyCustomBattle,已单测);返回 section 容器供 openPicker append。
@@ -661,6 +747,9 @@ function openPicker(deps: DevPanelDeps): void {
 
   // ── ⚔ 自定义战斗(A):敌人多选缩略图 + 选队员 + 设等级(仙术按等级)+ 全道具 → 开战 ──
   body.appendChild(buildCustomBattleSection(deps))
+
+  // ── ⚔ 剧情 Boss 战(B):缩略图按钮一键起对应真 boss team(god-mode 队伍)──
+  body.appendChild(buildBossBattleSection(deps))
 
   // ── ⚔ 战斗状态调试(B1/D8 等)——只在战斗中生效,给 player 0(李逍遥)挂异常状态/buff ──
   //   sdlpal CLASSIC kStatus 全 9 种 + 中毒。点按钮 → 设到 player 0 status[key]=5 回合(中毒设 rgPoisonStatus),
@@ -1335,6 +1424,54 @@ export function applyCustomBattle(deps: DevPanelDeps, params: CustomBattleParams
       battleFieldId: 7,
     },
     rngSeed,
+  )
+}
+
+/**
+ * 一键 boss 战(devpanel B):用**真 boss enemyTeam**(非临时 team)+ god-mode 队伍(lv99 + 全仙术 + 全道具)启战,
+ * 让 dev 直接观察 boss 动画 / 嘲讽脚本。
+ *
+ *  - enemyTeamId = 真 team(保留 boss slot 编排 + enemyObject scriptOnReady/Turn 嘲讽);不建临时 team。
+ *  - 队伍 god-mode(同法术测试):每队员 lv99 全仙术 + 9999HP/999MP/灵力 200。members 默认 [0,1,2]。
+ *  - 战场默认 7(boss 真场景 field 走 scene wNumBattleField,非 0x07 operand → 此处不强求,背景以 user 真引擎为准)。
+ */
+export function applyBossBattle(
+  deps: DevPanelDeps,
+  teamId: number,
+  opts?: { members?: number[]; fieldId?: number; rngSeed?: number },
+): void {
+  const members = opts?.members ?? [0, 1, 2]
+  const grantsByRole = computeMagicGrantsByRole(getGlobalCommands())
+  const playerOverrides: Record<number, Partial<Record<string, number | number[]>>> = {}
+  for (const m of members) {
+    playerOverrides[m] = {
+      magic: roleMagicsAtLevel({
+        playerRoles: deps.resources.playerRoles,
+        levelUpMagic: deps.resources.levelUpMagic,
+        grantsByRole,
+        roleId: m,
+        level: 99,
+      }),
+      level: 99,
+      hp: 9999,
+      maxHP: 9999,
+      mp: 999,
+      maxMP: 999,
+      magicStrength: 200,
+    }
+  }
+  applyFixture(
+    deps,
+    {
+      id: `boss-${teamId}`,
+      label: `Boss team ${teamId}`,
+      partyMembers: members,
+      playerOverrides,
+      inventory: deps.resources.items.map((it) => ({ itemId: it.id, count: 99 })),
+      enemyTeamId: teamId,
+      battleFieldId: opts?.fieldId ?? 7,
+    },
+    opts?.rngSeed,
   )
 }
 

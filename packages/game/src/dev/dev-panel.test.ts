@@ -12,7 +12,15 @@ import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import { tickBattle } from '../core/battle/battle-system.js'
 import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
-import { applyCustomBattle, applyFixture, buildCustomEnemyTeam, computeMagicGrantsByRole, CUSTOM_BATTLE_TEAM_ID, roleMagicsAtLevel, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
+import { existsSync, readFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { applyBossBattle, applyCustomBattle, applyFixture, BOSS_ROSTER, buildCustomEnemyTeam, computeMagicGrantsByRole, CUSTOM_BATTLE_TEAM_ID, roleMagicsAtLevel, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
+
+// REPO_ROOT:src/dev/ → 上 4 级到仓库根(同 baseline.test.ts pattern,运行时 fs 读 extracted 真值,
+//   避免跨 rootDir import json)。data/extracted 缺(没跑 pnpm extract)→ 该 describe skip。
+const HERE = dirname(fileURLToPath(import.meta.url))
+const DATA_DIR = resolve(HERE, '../../../../data/extracted/data')
 import type { Command, LevelUpMagicEntry, PlayerRoles } from '@type-pal/shared'
 
 // 真值(level-up-magic.json / spells.json / player-roles.json):
@@ -218,6 +226,49 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
     deps.resources.items = [{ id: 10 } as any]
     applyCustomBattle(deps, { enemyIds: [82], partyMembers: [0], level: 1, allItems: false }, 42)
     expect(deps.gs.inventory).toEqual([])
+  })
+})
+
+// BOSS_ROSTER 数据接地回归:每个 boss 的 teamId/enemyId 必须对得上真 enemy-teams.json / enemies.json,
+//   防未来手改 roster 引入 typo(2026-06-05 byte-level 核过当时全 18 条;此测固化)。extracted 缺 → skip。
+const hasExtracted = existsSync(resolve(DATA_DIR, 'enemy-teams.json')) && existsSync(resolve(DATA_DIR, 'enemies.json'))
+;(hasExtracted ? describe : describe.skip)('BOSS_ROSTER 数据接地(enemy-teams.json / enemies.json 真值核对)', () => {
+  // biome-ignore lint/suspicious/noExplicitAny: 真 json 结构
+  const teams: any[] = JSON.parse(readFileSync(resolve(DATA_DIR, 'enemy-teams.json'), 'utf-8'))
+  // biome-ignore lint/suspicious/noExplicitAny: 真 json 结构
+  const enemies: any[] = JSON.parse(readFileSync(resolve(DATA_DIR, 'enemies.json'), 'utf-8'))
+
+  it('每条 boss:teamId 存在 / enemyId 有名字 / 代表敌人确在该 team 内', () => {
+    for (const boss of BOSS_ROSTER) {
+      const team = teams.find((t) => t.id === boss.teamId)
+      expect(team, `teamId ${boss.teamId}(${boss.label})不存在于 enemy-teams.json`).toBeDefined()
+      const enemy = enemies.find((e) => e.id === boss.enemyId)
+      expect(enemy?._name, `enemyId ${boss.enemyId}(${boss.label})无名字`).toBeTruthy()
+      // 代表敌人必须确在该 team 的 slot 里(防 teamId/enemyId 配错对)
+      expect(team.enemies.includes(boss.enemyId), `${boss.label}:enemy ${boss.enemyId} 不在 team ${boss.teamId} 内`).toBe(true)
+    }
+  })
+
+  it('teamId 不重复(同一战不列两次)', () => {
+    const ids = BOSS_ROSTER.map((b) => b.teamId)
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+})
+
+describe('applyBossBattle(剧情 boss 战:真 boss team + god-mode 队伍)', () => {
+  it('teamId=21 + members=[0] → 起真 team 21(林月如一)战 / 队伍 god-mode lv99 全仙术 / 全道具', () => {
+    const deps = makeDeps()
+    // biome-ignore lint/suspicious/noExplicitAny: 占位
+    deps.resources.items = [{ id: 10 } as any]
+    applyBossBattle(deps, 21, { members: [0] })
+    expect(deps.gs.mode).toBe('battle')
+    // 真 boss team 21(非临时 90000)→ 林月如一(82)
+    expect(deps.gs.battleState?.enemies.map((e) => e.e.id)).toEqual([82])
+    expect(deps.resources.enemyTeams.some((t) => t.id === CUSTOM_BATTLE_TEAM_ID)).toBe(false) // 不建临时 team
+    // god-mode:level 99 + 全仙术(起手 296 + 升级 349/298 全学)+ 全道具
+    expect(deps.resources.playerRoles.roles[0]!.level).toBe(99)
+    expect((deps.resources.playerRoles.roles[0] as unknown as { magic: number[] }).magic.sort((a, b) => a - b)).toEqual([296, 298, 349])
+    expect(deps.gs.inventory.map((e) => e.itemId)).toEqual([10])
   })
 })
 
