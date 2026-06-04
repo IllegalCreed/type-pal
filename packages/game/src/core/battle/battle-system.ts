@@ -1842,6 +1842,11 @@ function tickPerformAction(
   const item = state.actionQueue[state.currentActionIndex]!
   let action: BattleAction | undefined
 
+  // sdlpal 每次行动起手 reset 击退强度 iBlow=0(fight.c:3608 玩家 / fight.c:4576 敌人 PerformAction 起手)。
+  //   0x6B blow 设的 iBlow 只在当次行动有效;ts 此前漏 reset → 击退法术后 iBlow 残留,后续所有法术都把
+  //   敌人吹飞后归位(user 2026-06-04 报)。注:动画时间线进行中走上方分支不到这里,不会误清当次 iBlow。
+  state.iBlow = 0
+
   // B2 c5 / D24:隐身期间(iHidingTime>0)敌整轮跳过(连选目标都不做,sdlpal fight.c:1716 ==0 才行动)
   if (item.isEnemy && (state.iHidingTime ?? 0) > 0) {
     // action 保持 undefined → 不 perform;下方 currentActionIndex++ 推进队列
