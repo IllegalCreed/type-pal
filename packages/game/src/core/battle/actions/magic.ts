@@ -344,7 +344,7 @@ export function performMagic(input: PerformMagicInput): void {
       buildAndStartDefMagicAnim(input, magic)
     } else if (magic.type === 'summon') {
       // 召唤魔法(火神/雷神/武神/剑神/酒神…):变亮→召唤神出场动画→二次法术效果。伤害走上方 inline 路径。
-      built = buildAndStartSummonAnim(input, magic, pendingNums)
+      built = buildAndStartSummonAnim(input, magic, dmgResults, pendingNums)
     }
   } else if (OFF_MAGIC_TYPES.has(magic.type)) {
     built = buildAndStartEnemyMagicAnim(input, magic, pendingNums, hitPlayerIdxs)
@@ -483,6 +483,7 @@ function buildAndStartMagicAnim(
 function buildAndStartSummonAnim(
   input: PerformMagicInput,
   magic: Magic,
+  dmgResults: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number }>,
   pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'],
 ): boolean {
   if (magic.type !== 'summon') return false
@@ -529,7 +530,17 @@ function buildAndStartSummonAnim(
     offMagicFrames,
   })
 
-  startBattleAnim(input.state, [...preFrames, ...brightenFrames, ...godFrames], input.bus, pendingNums)
+  // PostMagic:命中后敌人受击抖动(sdlpal 召唤二次效果对敌后调 PAL_BattleShowPostMagicAnim,fight.c:3186/3190)。
+  //   ts 此前召唤分支漏建 → 天剑等召唤法术敌人不抖(user 2026-06-04 报)。
+  const hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }> = []
+  for (const r of dmgResults) {
+    if (r.hpAfter !== r.hpBefore) {
+      const pos = input.state.enemies[r.enemyIdx]?.posOriginal
+      if (pos) hurtEnemies.push({ idx: r.enemyIdx, pos })
+    }
+  }
+  const postFrames = buildPostMagicTimeline({ hurtEnemies })
+  startBattleAnim(input.state, [...preFrames, ...brightenFrames, ...godFrames, ...postFrames], input.bus, pendingNums)
   if (input.state.battleAnim) input.state.battleAnim.hasSummonFade = true // present 据此在非 fade 帧快照场景
   return true
 }
