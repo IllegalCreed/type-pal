@@ -61,6 +61,17 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
   // 异步初始化:worklet + synth + soundfont + sequencer。分步日志,失败 → warn 静默(不阻塞)。
   void (async () => {
     try {
+      // AudioWorklet 仅在 secure context 下存在(https / http://localhost)。用 http:// + 局域网 IP
+      //   (如 http://192.168.x.x:5173)访问时 `ctx.audioWorklet` 为 undefined → addModule 会抛
+      //   "Cannot read properties of undefined"。SFX 走 decodeAudioData/createBufferSource 不受此限,故
+      //   会出现"有音效没 BGM"。先识破给准确提示,别让下面 catch 误报成"没放 soundfont"。
+      if (!ctx.audioWorklet) {
+        const secure = typeof window !== 'undefined' ? window.isSecureContext : false
+        throw new Error(
+          `AudioWorklet 不可用:当前非 secure context(isSecureContext=${secure})。`
+          + '多半是用了 http:// 局域网 IP 访问。请改用 https:// 或 http://localhost 打开。',
+        )
+      }
       await ctx.audioWorklet.addModule(workletUrl)
       console.log('[audio] MIDI: worklet 已载')
       const synth = new WorkletSynthesizer(ctx)
@@ -97,7 +108,9 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       console.log('[audio] MIDI BGM 后端就绪 ✓')
       if (last) void doPlay(last.track, last.loop) // 就绪前已请求的曲 → 补播
     } catch (err) {
-      console.warn('[audio] ✗ MIDI BGM 后端初始化失败 → BGM 静默。多半是没放 soundfont(public/soundfont.sf3):', err)
+      // 具体原因在 err 里(secure-context 缺 AudioWorklet / soundfont 取不到 / 不是 RIFF 等)—— 别在这
+      //   硬猜成"没放 soundfont"误导排查。
+      console.warn('[audio] ✗ MIDI BGM 后端初始化失败 → BGM 静默:', err)
     }
   })()
 

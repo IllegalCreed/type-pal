@@ -21,6 +21,7 @@
     "@types/node": "^25.9.1",
     "@types/pixelmatch": "^5.2.6",
     "@types/pngjs": "^6.0.5",
+    "@vitejs/plugin-basic-ssl": "2.3.0",
     "canvas": "^3.2.3",
     "jsdom": "^29.1.1",
     "pixelmatch": "^7.2.0",

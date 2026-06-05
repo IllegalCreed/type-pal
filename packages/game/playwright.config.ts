@@ -22,7 +22,8 @@ export default defineConfig({
     // Vite CLI flag `--port 5174` 把 e2e server 推到 5174;dev (`pnpm dev`) 仍走 5173。
     // 注:用 `pnpm dev --port 5174` 不加 `--` 分隔符 — pnpm 直接转给 vite,
     // 加 `--` 会变成 `vite -- --port 5174`(vite 不识别 `--`)。
-    command: 'pnpm dev --port 5174 --strictPort',
+    // E2E=1 让 vite.config 不挂 basic-ssl → server 保持 http(baseURL/url 都是 http://localhost:5174)。
+    command: 'E2E=1 pnpm dev --port 5174 --strictPort',
     url: 'http://localhost:5174',
     timeout: 60_000,
     reuseExistingServer: !process.env.CI,
