@@ -453,7 +453,8 @@ function buildBossBattleSection(deps: DevPanelDeps): HTMLDivElement {
  * 自定义战斗 UI section(devpanel A,战斗 tab):敌人多选缩略图网格 + 选队员 + 设等级 + 全道具开关 + 开战。
  * DOM-only(启战数据逻辑见 applyCustomBattle,已单测);返回 section 容器供 openPicker append。
  *
- *  - 敌人缩略图:battleSprites.get(`enemy-{id}`).frames[0] → indexImageToCanvas(palette 上色);点选 toggle,≤5。
+ *  - 敌人:**5 空位填充模型**(点怪缩略图 → 填下一个空位,允许重复 = 可放 5 个同种怪;点已填槽 → 移除)。
+ *    缩略图 battleSprites.get(`enemy-{id}`).frames[0] → indexImageToCanvas;网格每种怪带 ×N 计数徽章。
  *  - 队员:5 个可玩角色按钮(默认 [0] 李逍遥),toggle,≤3(MAX_BATTLE_PLAYERS)。
  *  - 等级 input(仙术按等级习得)+ 全道具 ×99 开关 → applyCustomBattle。
  */
@@ -464,61 +465,98 @@ function buildCustomBattleSection(deps: DevPanelDeps): HTMLDivElement {
   h.className = 'tp-dev-section-h'
   section.appendChild(h)
 
-  // 选中态(闭包):敌人有序(站位顺序),队员默认李逍遥。
-  const selectedEnemies: number[] = []
+  // 选中态(闭包):敌人 = 5 空位填充模型(compact,**允许重复** —— 点怪往下一个空位填,可放 5 个同种怪;
+  //   user 2026-06-05:旧 toggle 去重只能选 5 个不同的怪)。队员默认李逍遥(toggle,无重复)。
+  const slots: number[] = []
   const selectedParty: number[] = [0]
 
-  // —— 敌人多选缩略图网格 ——
+  const enemyById = new Map(deps.resources.enemies.map((e) => [e.id, e]))
+  const nameOf = (id: number): string => enemyById.get(id)?._name ?? `#${id}`
+  /** 敌人缩略图(battleSprites enemy-{id} frame0 上色;缺 → 占位)。每次新建(slots 重画 ≤5,廉价)。 */
+  const thumbOf = (id: number, w = 44, h = 36): HTMLElement => {
+    const frame = deps.battleSprites?.get(`enemy-${id}`)?.frames[0]
+    if (frame && deps.palette) {
+      const c = indexImageToCanvas(frame, deps.palette)
+      c.style.cssText = `max-width:${w}px; max-height:${h}px; image-rendering:pixelated`
+      return c
+    }
+    const ph = document.createElement('div')
+    ph.style.cssText = `width:${w}px; height:${h}px; background:#333`
+    return ph
+  }
+
+  // —— 敌人选择:计数提示 + 5 空位行 + 怪物网格 ——
   const enemyHint = document.createElement('div')
   enemyHint.style.cssText = 'font-size:11px; margin:2px 0; color:#bbb'
-  const updateCount = (): void => {
-    enemyHint.textContent = `敌人(点选,≤5):已选 ${selectedEnemies.length}/5`
+
+  // 5 空位行:已填槽显缩略图(点 → 移除);空槽显"空N"。
+  const slotsRow = document.createElement('div')
+  slotsRow.style.cssText = 'display:flex; gap:4px; margin:2px 0 6px'
+  // 网格每种怪的计数徽章(×N;enemy id → badge),updateSel 刷新。
+  const gridBadges = new Map<number, HTMLElement>()
+
+  const updateSel = (): void => {
+    enemyHint.textContent = `敌人(点怪填空位,可重复 ≤5):已填 ${slots.length}/5`
+    // 重画 5 槽
+    slotsRow.replaceChildren()
+    for (let i = 0; i < 5; i++) {
+      const id = slots[i]
+      const box = document.createElement('button')
+      if (id !== undefined) {
+        box.style.cssText =
+          'width:50px; height:54px; padding:1px; cursor:pointer; border:2px solid #ffd700; background:#4a3a18; display:flex; flex-direction:column; align-items:center; color:#ffd; overflow:hidden'
+        box.title = `点击移除:${nameOf(id)}`
+        box.appendChild(thumbOf(id, 44, 34))
+        const nm = document.createElement('div')
+        nm.textContent = nameOf(id)
+        nm.style.cssText = 'font-size:8px; max-width:46px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap'
+        box.appendChild(nm)
+        box.addEventListener('click', () => {
+          slots.splice(i, 1) // 移除该槽(compact,后面前移)
+          updateSel()
+        })
+      } else {
+        box.style.cssText = 'width:50px; height:54px; cursor:default; border:2px dashed #555; background:#1a1a1a; color:#666; font-size:11px'
+        box.textContent = `空${i + 1}`
+      }
+      slotsRow.appendChild(box)
+    }
+    // 刷新网格计数徽章
+    for (const [id, badge] of gridBadges) {
+      const n = slots.filter((s) => s === id).length
+      badge.textContent = n > 0 ? `×${n}` : ''
+      badge.style.visibility = n > 0 ? 'visible' : 'hidden'
+    }
   }
-  updateCount()
-  section.appendChild(enemyHint)
 
   const grid = document.createElement('div')
   grid.style.cssText =
     'display:flex; flex-wrap:wrap; gap:3px; max-height:180px; overflow-y:auto; padding:3px; background:#1a1a1a; border:1px solid #444; margin-bottom:6px'
   for (const e of deps.resources.enemies.filter((en) => en.id > 0 && en._name)) {
     const cell = document.createElement('button')
-    cell.title = e._name ?? `enemy ${e.id}`
+    cell.title = `${e._name ?? `enemy ${e.id}`}(点击填入空位)`
     cell.style.cssText =
       'width:54px; padding:2px; cursor:pointer; border:2px solid #555; background:#222; display:flex; flex-direction:column; align-items:center'
-    const frame = deps.battleSprites?.get(`enemy-${e.id}`)?.frames[0]
-    if (frame && deps.palette) {
-      const c = indexImageToCanvas(frame, deps.palette)
-      c.style.cssText = 'max-width:48px; max-height:40px; image-rendering:pixelated'
-      cell.appendChild(c)
-    } else {
-      const ph = document.createElement('div')
-      ph.style.cssText = 'width:40px; height:40px; background:#333'
-      cell.appendChild(ph)
-    }
+    cell.appendChild(thumbOf(e.id, 48, 40))
     const nm = document.createElement('div')
     nm.textContent = e._name ?? String(e.id)
     nm.style.cssText =
       'font-size:9px; max-width:50px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#ddd'
     cell.appendChild(nm)
-    const refresh = (): void => {
-      const on = selectedEnemies.includes(e.id)
-      cell.style.borderColor = on ? '#ffd700' : '#555'
-      cell.style.background = on ? '#4a3a18' : '#222'
-    }
+    // ×N 计数徽章(被填进几个槽)
+    const badge = document.createElement('div')
+    badge.style.cssText = 'font-size:9px; height:11px; color:#ffd700; font-weight:bold; visibility:hidden'
+    cell.appendChild(badge)
+    gridBadges.set(e.id, badge)
     cell.addEventListener('click', () => {
-      const idx = selectedEnemies.indexOf(e.id)
-      if (idx >= 0) selectedEnemies.splice(idx, 1)
-      else {
-        if (selectedEnemies.length >= 5) return // 战斗最多 5 敌
-        selectedEnemies.push(e.id)
-      }
-      refresh()
-      updateCount()
+      if (slots.length >= 5) return // 满 5 忽略(战斗最多 5 敌)
+      slots.push(e.id) // 填下一个空位(允许重复)
+      updateSel()
     })
-    refresh()
     grid.appendChild(cell)
   }
-  section.appendChild(grid)
+  section.append(enemyHint, slotsRow, grid)
+  updateSel() // 初始空态
 
   // —— 选队员(≤3) ——
   const partyHint = document.createElement('div')
@@ -578,8 +616,8 @@ function buildCustomBattleSection(deps: DevPanelDeps): HTMLDivElement {
   startBtn.style.cssText =
     'display:block; width:100%; padding:6px; cursor:pointer; background:#3a482a; font-weight:bold; border:1px solid #6a8; color:#fff'
   startBtn.addEventListener('click', () => {
-    if (selectedEnemies.length === 0) {
-      enemyHint.textContent = '敌人(点选,≤5):⚠ 至少选 1 个敌人'
+    if (slots.length === 0) {
+      enemyHint.textContent = '敌人(点怪填空位,可重复 ≤5):⚠ 至少填 1 个敌人'
       return
     }
     if (selectedParty.length === 0) {
@@ -589,7 +627,7 @@ function buildCustomBattleSection(deps: DevPanelDeps): HTMLDivElement {
     const level = Math.max(1, Math.min(99, Number(lvInput.value) || 99))
     closePicker()
     applyCustomBattle(deps, {
-      enemyIds: [...selectedEnemies],
+      enemyIds: [...slots], // 5 空位填充(允许重复)
       partyMembers: [...selectedParty],
       level,
       allItems: itemsChk.checked,

@@ -141,6 +141,10 @@ describe('buildCustomEnemyTeam(自定义战斗:选中敌人 id → 临时 EnemyT
   it('空选:全 0xFFFF', () => {
     expect(buildCustomEnemyTeam([]).enemies).toEqual([0xffff, 0xffff, 0xffff, 0xffff, 0xffff])
   })
+  it('重复敌人(5 个同种怪):不去重,原样填槽(user 2026-06-05 要按空位填充, 允许重复)', () => {
+    expect(buildCustomEnemyTeam([15, 15, 15]).enemies).toEqual([15, 15, 15, 0xffff, 0xffff])
+    expect(buildCustomEnemyTeam([2, 2, 2, 2, 2]).enemies).toEqual([2, 2, 2, 2, 2])
+  })
 })
 
 describe('computeMagicGrantsByRole(全局脚本 0x55 addMagic 剧情/法宝授予)', () => {
@@ -226,6 +230,13 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
     deps.resources.items = [{ id: 10 } as any]
     applyCustomBattle(deps, { enemyIds: [82], partyMembers: [0], level: 1, allItems: false }, 42)
     expect(deps.gs.inventory).toEqual([])
+  })
+
+  it('重复敌人 → 战斗含多个同种怪实例(user 2026-06-05:5 个同种怪)', () => {
+    const deps = makeDeps()
+    applyCustomBattle(deps, { enemyIds: [82, 82, 82], partyMembers: [0], level: 1, allItems: false }, 42)
+    expect(deps.gs.mode).toBe('battle')
+    expect(deps.gs.battleState?.enemies.map((e) => e.e.id)).toEqual([82, 82, 82]) // 3 个独立同种实例
   })
 })
 
