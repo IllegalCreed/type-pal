@@ -751,6 +751,17 @@ function openPicker(deps: DevPanelDeps): void {
     body.appendChild(btn)
   }
 
+  // 🤖 全游戏唯一过场自动战斗 t37(盖罗娇+苗女 vs 石长老,fAutoBattle)— 验证 NPC 自动战斗演出(user 2026-06-05)。
+  const autoT37Btn = document.createElement('button')
+  autoT37Btn.textContent = '🤖 石长老·单挑(盖罗娇+苗女 过场自动战 t37)'
+  autoT37Btn.style.cssText =
+    'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left; background:#2a2a48; font-weight:bold'
+  autoT37Btn.addEventListener('click', () => {
+    closePicker()
+    applyAutoBattleT37(deps)
+  })
+  body.appendChild(autoT37Btn)
+
   // 法术测试战斗:李逍遥(0)/赵灵儿(1)/林月如(2)各自学会**本角色原本会的技能** + 高 HP/MP/灵力,
   // vs 5 敌(team 7)。用来测 E 类法术伤害结算(inline / 0x42 / 0x57·0x88 等)。
   // 每角色技能 = 起手 magic(playerRoles[i].magic)+ 升级习得(levelUpMagic[i]),非全员同一套
@@ -1548,6 +1559,29 @@ export function applyBossBattle(
       battleFieldId: opts?.fieldId ?? 7,
     },
     opts?.rngSeed,
+  )
+}
+
+/**
+ * 1:1 复刻全游戏唯一的**过场自动战斗** t37 石长老·单挑(devpanel B,验证 NPC 自动战斗演出)。
+ * 对照 all.json:16677-16683 脚本真值:
+ *   - 0x75[5,6,5] → 我方 party = roles [4,5,4](role5=盖罗娇 / role4 此过场当苗女 ×2)。**不做 god-mode override**,
+ *     用真实角色属性(盖罗娇 hp3600 lv40 / 巫后-苗女 hp480 lv28),才看得到忠实演出。
+ *   - 0x4A[23] → 战场 23;0x8A → fAutoBattle=TRUE(AI 控我方);0x07[37] → 敌 team 37 石长老。
+ * 不全道具(过场无背包);rngSeed 透传。
+ */
+export function applyAutoBattleT37(deps: DevPanelDeps, rngSeed?: number): void {
+  deps.gs.fAutoBattle = true // 0x8A(applyFixture→startBattle→createBattleState 从 gs.fAutoBattle seed)
+  applyFixture(
+    deps,
+    {
+      id: 'auto-battle-t37',
+      label: '石长老·单挑(盖罗娇+苗女 过场自动战)',
+      partyMembers: [4, 5, 4], // 0x75[5,6,5] → roles[4,5,4]
+      enemyTeamId: 37,
+      battleFieldId: 23, // 0x4A[23]
+    },
+    rngSeed,
   )
 }
 

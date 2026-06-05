@@ -15,7 +15,7 @@ import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { applyBossBattle, applyCustomBattle, applyFixture, BOSS_ROSTER, buildCustomEnemyTeam, computeMagicGrantsByRole, CUSTOM_BATTLE_TEAM_ID, roleMagicsAtLevel, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
+import { applyAutoBattleT37, applyBossBattle, applyCustomBattle, applyFixture, BOSS_ROSTER, buildCustomEnemyTeam, computeMagicGrantsByRole, CUSTOM_BATTLE_TEAM_ID, roleMagicsAtLevel, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
 
 // REPO_ROOT:src/dev/ → 上 4 级到仓库根(同 baseline.test.ts pattern,运行时 fs 读 extracted 真值,
 //   避免跨 rootDir import json)。data/extracted 缺(没跑 pnpm extract)→ 该 describe skip。
@@ -277,6 +277,26 @@ const hasExtracted = existsSync(resolve(DATA_DIR, 'enemy-teams.json')) && exists
   it('teamId 不重复(同一战不列两次)', () => {
     const ids = BOSS_ROSTER.map((b) => b.teamId)
     expect(new Set(ids).size).toBe(ids.length)
+  })
+})
+
+describe('applyAutoBattleT37(过场自动战斗 1:1:盖罗娇+苗女 vs 石长老)', () => {
+  it('party=[4,5,4] + fAutoBattle + 真 team37(石长老)+ 战场23,不 god-mode override', () => {
+    const deps = makeDeps()
+    // 扩展:roles 0-5(盖罗娇=5)+ team 37(石长老 119)+ enemy 119 + 战场 23
+    // biome-ignore lint/suspicious/noExplicitAny: 占位
+    deps.resources.playerRoles = { roles: [0, 1, 2, 3, 4, 5].map((id) => minimalRole(id)) } as any
+    deps.resources.enemies.push(minimalEnemy(119, { _name: '石长老', health: 9000, level: 36 }))
+    deps.resources.enemyTeams.push({ id: 37, enemies: [119, 0xffff, 0xffff, 0xffff, 0xffff] })
+    deps.resources.battleFields.push({ id: 23, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } })
+    applyAutoBattleT37(deps, 42)
+    expect(deps.gs.mode).toBe('battle')
+    expect(deps.gs.fAutoBattle).toBe(true)
+    expect(deps.gs.battleState?.fAutoBattle).toBe(true) // AI 控我方
+    expect(deps.gs.partyMembers).toEqual([4, 5, 4]) // 盖罗娇(5)+ 苗女(4)×2
+    expect(deps.gs.battleState?.players.map((p) => p.roleId)).toEqual([4, 5, 4]) // 重复 role 4 → 两个独立 player
+    expect(deps.gs.battleState?.enemies.map((e) => e.e.id)).toEqual([119]) // 石长老
+    expect(deps.gs.inventory).toEqual([]) // 过场无背包
   })
 })
 
