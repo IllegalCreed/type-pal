@@ -238,6 +238,20 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
     expect(deps.gs.mode).toBe('battle')
     expect(deps.gs.battleState?.enemies.map((e) => e.e.id)).toEqual([82, 82, 82]) // 3 个独立同种实例
   })
+
+  // 自动战斗(sdlpal 0x8A fAutoBattle,全游戏唯一 t37 石长老·单挑):AI 整场控我方 force-pick 法术/物理。
+  //   user 2026-06-05 求 devpanel 用例试自动战斗。createBattleState 从 gs.fAutoBattle seed(battle-state.ts:685)。
+  it('autoBattle=true → gs.fAutoBattle 置位 + 战斗 fAutoBattle 生效(AI 控我方)', () => {
+    const deps = makeDeps()
+    applyCustomBattle(deps, { enemyIds: [82], partyMembers: [0], level: 99, allItems: false, autoBattle: true }, 42)
+    expect(deps.gs.fAutoBattle).toBe(true)
+    expect(deps.gs.battleState?.fAutoBattle).toBe(true)
+  })
+  it('autoBattle 缺省/false → fAutoBattle 关(正常手动战斗)', () => {
+    const deps = makeDeps()
+    applyCustomBattle(deps, { enemyIds: [82], partyMembers: [0], level: 99, allItems: false }, 42)
+    expect(deps.gs.battleState?.fAutoBattle).toBe(false)
+  })
 })
 
 // BOSS_ROSTER 数据接地回归:每个 boss 的 teamId/enemyId 必须对得上真 enemy-teams.json / enemies.json,

@@ -630,7 +630,14 @@ function buildCustomBattleSection(deps: DevPanelDeps): HTMLDivElement {
   itemsChk.type = 'checkbox'
   itemsChk.checked = true
   itemsLabel.append(itemsChk, document.createTextNode(' 全道具×99'))
-  optsRow.append(lvLabel, itemsLabel)
+  // 🤖 自动战斗(0x8A fAutoBattle):AI 整场控我方 force-pick 法术/物理(全游戏唯一 t37 石长老·单挑用此);看戏验证。
+  const autoLabel = document.createElement('label')
+  autoLabel.style.cssText = 'cursor:pointer'
+  autoLabel.title = 'sdlpal 0x8A fAutoBattle:AI 自动控我方整场(原版仅石长老·单挑过场用)'
+  const autoChk = document.createElement('input')
+  autoChk.type = 'checkbox'
+  autoLabel.append(autoChk, document.createTextNode(' 🤖 自动战斗'))
+  optsRow.append(lvLabel, itemsLabel, autoLabel)
   section.appendChild(optsRow)
 
   // —— 开战 ——
@@ -654,6 +661,7 @@ function buildCustomBattleSection(deps: DevPanelDeps): HTMLDivElement {
       partyMembers: [...selectedParty],
       level,
       allItems: itemsChk.checked,
+      autoBattle: autoChk.checked, // 🤖 AI 控我方
     })
   })
   section.appendChild(startBtn)
@@ -1438,6 +1446,11 @@ export interface CustomBattleParams {
   level: number
   /** 全道具开关:true → 全 items ×99 进背包。 */
   allItems: boolean
+  /**
+   * 自动战斗(sdlpal 0x8A fAutoBattle,全游戏唯一 t37 石长老·单挑用):true → AI 整场控我方 force-pick
+   * 法术/物理,不显示菜单。缺省 false = 正常手动战斗。createBattleState 从 gs.fAutoBattle seed(battle-state.ts:685)。
+   */
+  autoBattle?: boolean
 }
 
 /**
@@ -1450,6 +1463,8 @@ export interface CustomBattleParams {
  */
 export function applyCustomBattle(deps: DevPanelDeps, params: CustomBattleParams, rngSeed?: number): void {
   const { enemyIds, partyMembers, level, allItems } = params
+  // 自动战斗(0x8A fAutoBattle):applyFixture→startBattle→createBattleState 从 gs.fAutoBattle seed,故启战前置。
+  deps.gs.fAutoBattle = params.autoBattle ?? false
   // 1. 临时 team:filter 掉旧临时(防多次开战堆积)+ push 新的
   deps.resources.enemyTeams = [
     ...deps.resources.enemyTeams.filter((t) => t.id !== CUSTOM_BATTLE_TEAM_ID),
