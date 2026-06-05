@@ -1077,23 +1077,32 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
       return
 
     case 'goto': {
-      // sdlpal case 0x0003 unconditional jump
+      // sdlpal PAL_RunAutoScript case 0x0003(script.c:3549-3564)真值:
+      //   if (op[1]==0 || ++wScriptIdleFrameCountAuto < op[1]) { wScriptEntry=op[0]; goto begin; }  // 跳转
+      //   else { wScriptIdleFrameCountAuto=0; wScriptEntry++; }                                       // fall-through
+      // frameDelay(op[1])= **循环次数上限**,不是"空等帧数":每次命中 goto 都 ++count,count<delay 时
+      //   跳转(并同帧跑目标 op,见下),第 delay 次命中时 count 复位 + fall-through 到下一条。
+      //   ⚠ 与 0x0002 reset(本文件上方 cmd.reset 分支)完全同款计数语义 —— 那条是对的,本条曾写反。
+      // 旧 bug(2026-06-05 user 报 仙灵岛 赵灵儿降临"非常缓慢"):把 frameDelay 当"空等 N-1 帧再跳",
+      //   且计数满后**仍跳转**(永不 fall-through)→ 循环体(如 L_5572 落体 0x7D move)每 N 帧才跑 1 次
+      //   + 无限循环不落地/不减速。修正为 sdlpal 真值:count<delay 跳转跑循环体,满则 fall-through。
       const frameDelay = cmd.frameDelay ?? 0
-      if (frameDelay > 0) {
-        cursor.idleFrameCount = (cursor.idleFrameCount ?? 0) + 1
-        if (cursor.idleFrameCount < frameDelay) return
+      if (frameDelay !== 0 && (cursor.idleFrameCount = (cursor.idleFrameCount ?? 0) + 1) >= frameDelay) {
+        // 第 frameDelay 次命中:复位计数 + fall-through 到下一条(不跳转)。
         cursor.idleFrameCount = 0
+        cursor.ip++
+        return
       }
+      // 跳转分支(frameDelay==0 恒跳,或 count<frameDelay)。
       const target = resolveLabelIp(cursor, cmd.to) // P2#5:含 shared# 剥前缀 → 全局 ip
       if (target === undefined) {
         npc.autoCursor = undefined  // 目标不在全局数组 → 停(异常)
         return
       }
       cursor.ip = target
-      // sdlpal PAL_RunAutoScript case 0x0003(script.c:3549-3557):frameDelay 满足时 `wScriptEntry=op0; goto begin;`
-      //   —— 跳转**不消耗帧**,同帧续跑目标 op(script.c:3515 注释 "one instruction per frame **except jumping**")。
-      //   旧码此处 return 消耗一帧 → 循环 autoscript(如张四划船 36147:16 移动 op + goto 回头)每圈丢 1 帧 →
-      //   比 ride(每帧 1 步,sdlpal 每步 PAL_GameUpdate 锁步)慢 ~6% → 张四掉到船尾之外(用户 2026-05-30 报)。
+      // sdlpal `goto begin` —— 跳转**不消耗帧**,同帧续跑目标 op(script.c:3515 注释 "one instruction per
+      //   frame **except jumping**")。旧码若 return 消耗一帧 → 循环 autoscript(如张四划船 36147:16 移动 op +
+      //   goto 回头)每圈丢 1 帧 → 比 ride(每帧 1 步,sdlpal 每步 PAL_GameUpdate 锁步)慢 ~6%(2026-05-30 报)。
       //   修:同帧递归跑目标 op(深度护栏防全-instant goto 自环爆栈)。
       if (gotoDepth >= SINGLE_TICK_LIMIT) {
         npc.autoCursor = undefined // goto 自环超限(异常死循环)→ 停

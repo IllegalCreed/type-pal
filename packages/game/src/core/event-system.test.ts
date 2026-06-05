@@ -2612,6 +2612,37 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
     }
   })
 
+  it('0x0003 goto frameDelay:循环体每帧跑(非空等)+ 计数满后 fall-through(仙灵岛赵灵儿降临 L_5572 真值)', () => {
+    // sdlpal PAL_RunAutoScript case 0x0003(script.c:3549-3564):
+    //   if (op[1]==0 || ++count < op[1]) { wScriptEntry=op[0]; goto begin(同帧跑目标) }
+    //   else { count=0; wScriptEntry++(fall-through 到下一条) }
+    // 复刻 仙灵岛 少女(赵灵儿)降临 autoscript L_5572:move + goto frameDelay 10 → 落体连走 10 步,
+    //   再减速 2 步,最后 fall-through 落地。bug 版把 frameDelay 当"空等 N 帧再跳"+ 永远跳不 fall-through
+    //   → 每 11 帧才动 1 次 + 无限循环不落地("非常缓慢")。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 1, x: 0, y: 0, spriteNum: 363, sState: 2, autoCursor: { ip: 0 } }]
+    setGlobalEvents([
+      { op: 'raw', opcode: OP_MOVE_OBJECT, operands: [0, 8, 4], label: 'L_LOOP' }, // 0: 移自身 +8,+4
+      { op: 'goto', to: 'L_LOOP', frameDelay: 10 },                                // 1: 循环回 ip0,delay 10
+      { op: 'raw', opcode: OP_MOVE_OBJECT, operands: [0, 4, 2] },                  // 2: 减速
+      { op: 'raw', opcode: OP_MOVE_OBJECT, operands: [0, 2, 1] },                  // 3: 减速
+      { op: 'end' },                                                               // 4: park(落地)
+    ])
+    try {
+      // sdlpal 真值帧序:F1 ip0 move#1 → F2-F10 goto 跳回 ip0 move#2-#10(count 1..9<10)→
+      //   F11 goto count=10 fall-through 到 ip2 → F12 ip2 move → F13 ip3 move → F14 ip4 park。
+      for (let i = 0; i < 14; i++) tickAutoScripts(gs)
+      // 落体到位:10×(8,4) + (4,2) + (2,1) = (86, 43)。bug 版 14 帧只 move 2 次 → x≈16。
+      expect(gs.npcs[0]!.x).toBe(86)
+      expect(gs.npcs[0]!.y).toBe(43)
+      // fall-through 到 park(ip4)— 证明计数满后退出循环,不再无限慢速循环(bug 版卡 ip1)。
+      expect(gs.npcs[0]!.autoCursor!.ip).toBe(4)
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+
   it('丁大伯:autoLabel 入口在全局数组(sceneLabelMap 解不到)→ tickAutoScripts 走全局兜底解析 autoCursor + 跑', () => {
     // 复刻丁大伯:挥锄 autoScript 入口 entry 36205 在 events/all.json 全局区,不在 scene 切片
     //   labelMap → scene-load 解析失败 → autoCursor undefined → 冻首帧。tickAutoScripts 应走
