@@ -374,32 +374,55 @@ interface BossEntry {
 }
 
 /**
- * 剧情 Boss 名单 —— **byte-level 核过**:teamId/enemyId 全部对照 `data/extracted/data/enemy-teams.json`
- * + `enemies.json` 的 _name 实证(2026-06-05),并交叉 memory `battle-win-lose-taxonomy-verified`(0x07 lostJump
- * 验过的剧情战 21/24/29/34/37/42/43/293/312/313/314/315)。大致按剧情顺序。
+ * 剧情 Boss 名单 —— **story-grounded 核过(2026-06-05 重做)**:每条 teamId 都在 all.json 有 **IP<41000 的真剧情
+ * 0x07 startBattle + 战前对白锚点**(过滤掉 IP≥41130 的开发者 test-dump 枚举区),enemyId 对照 enemies.json
+ * 实证且确在 team 成员里。结合 user 剧情记忆 + web 攻略(GamerSky/萌娘百科)+ 脚本对白三方校验。按剧情顺序。
  *
- * 注:用户初提的"苗人首领"是 NPC(给破天锤,flow.md:70,非战斗)、"姜世离/重楼"无对应 enemy、"蛇魔"≈八头蛇/毒神龙
- *   (已收)、"蜈蚣精"(五毒蜈蚣)是蛤蟆山小怪非 boss —— 故不列,避免凭名硬编。需要可用"自定义战斗"打任意敌人。
+ * 关键修正(旧版纯按 _name 凑 + 误信 test-dump team):
+ *   - 精灵名≠剧情名:姜清=剑老头(96,七星剑 give@scene-147)/鬼将军=僵尸王(75,「本将军」)/地魔兽=牛鬼(69)/
+ *     木魔兽=树妖(65,拜月前)/镇狱明王=明王(121)/火麒麟=麒麟(66)/金翅凤凰=凤凰(67)/木道人=木灵道士(77)。
+ *   - 七神龙(锁妖塔底七星磐龙柱)= 毒/金/土/火/冰/风/雷 七条(141-147 / t305-311),旧版只收毒神龙。
+ *   - 玉佛寺两场:智杖和尚(t28)+ 智修大师方丈(t35,user 指正)。石长老两场都是 boss 战(t34 埋伏/t37 单挑,user 确认)。
+ *   - 删:石长老1(t312 全脚本无 0x07=过场)、魔兽武士+刑天(t314 纯 test-dump)、八头蛇(t315 user 定杂兵)、蝶精彩依(误收)。
+ *   - 赤鬼王在血池(t27,「看这血池就知道」)非将军冢;鬼将军(t26)才是将军冢,t26→t27 连号。
  */
 export const BOSS_ROSTER: BossEntry[] = [
-  { teamId: 21, enemyId: 82, label: '林月如·苏州城外(82)' },
-  { teamId: 24, enemyId: 85, label: '林月如·比武招亲(85)' },
-  { teamId: 38, enemyId: 127, label: '林天南·林家堡(127)' },
-  { teamId: 39, enemyId: 71, label: '蝶精彩依(71)' },
-  { teamId: 27, enemyId: 76, label: '赤鬼王·将军冢(76)' },
+  // —— 前期 ——
+  { teamId: 19, enemyId: 87, label: '苗人头领+2苗人拳·余杭客栈(87)' },
+  { teamId: 21, enemyId: 82, label: '林月如·苏州城门初战(82)' },
+  { teamId: 24, enemyId: 85, label: '林月如·苏州城门再战(85)' },
+  { teamId: 44, enemyId: 72, label: '狐妖女·隐龙窟(72)' },
+  { teamId: 45, enemyId: 88, label: '蛇妖男·隐龙窟(88)' },
+  { teamId: 28, enemyId: 84, label: '玉佛寺·智杖和尚(84)' },
+  { teamId: 35, enemyId: 126, label: '玉佛寺·智修大师方丈(126)' },
+  // —— 中期 ——
+  { teamId: 26, enemyId: 75, label: '鬼将军·将军冢(75)' },
+  { teamId: 27, enemyId: 76, label: '赤鬼王·血池(76)' },
   { teamId: 29, enemyId: 81, label: '女飞贼姬三娘·扬州(81)' },
-  { teamId: 34, enemyId: 119, label: '石长老·鬼阴山(119)' },
-  { teamId: 37, enemyId: 119, label: '石长老·大理(119)' },
+  { teamId: 38, enemyId: 127, label: '林天南·尚书府(127)' },
+  { teamId: 36, enemyId: 101, label: '金蟾鬼母·蟾蜍洞(101)' },
   { teamId: 43, enemyId: 99, label: '黑蜘蛛精·门口(99)' },
-  { teamId: 42, enemyId: 38, label: '毒娘子·六脚蜘蛛 真boss(38)' },
-  { teamId: 36, enemyId: 101, label: '金蟾鬼母·蛤蟆山(101)' },
-  { teamId: 223, enemyId: 102, label: '盖罗娇(102)' },
-  { teamId: 293, enemyId: 131, label: '天鬼皇(131)' },
-  { teamId: 305, enemyId: 141, label: '毒神龙(141)' },
-  { teamId: 314, enemyId: 41, label: '魔兽武士+刑天(41/43)' },
-  { teamId: 315, enemyId: 150, label: '八头蛇·水魔兽(150)' },
-  { teamId: 312, enemyId: 148, label: '石长老1·锁妖塔(148)' },
-  { teamId: 313, enemyId: 149, label: '拜月教主·最终boss(149)' },
+  { teamId: 42, enemyId: 38, label: '毒娘子·六脚蜘蛛真身(38)' },
+  { teamId: 34, enemyId: 119, label: '石长老·埋伏战(119)' },
+  { teamId: 37, enemyId: 119, label: '石长老·单挑 过场自动战(119)' },
+  // —— 后期 / 锁妖塔 ——
+  { teamId: 163, enemyId: 96, label: '姜清·剑老头 锁妖塔七星剑(96)' },
+  { teamId: 293, enemyId: 131, label: '天鬼皇·锁妖塔(131)' },
+  { teamId: 188, enemyId: 121, label: '镇狱明王·锁妖塔(121)' },
+  { teamId: 305, enemyId: 141, label: '毒神龙·七星磐龙柱(141)' },
+  { teamId: 306, enemyId: 142, label: '金神龙·七星磐龙柱(142)' },
+  { teamId: 307, enemyId: 143, label: '土神龙·七星磐龙柱(143)' },
+  { teamId: 308, enemyId: 144, label: '火神龙·七星磐龙柱(144)' },
+  { teamId: 309, enemyId: 145, label: '冰神龙·七星磐龙柱(145)' },
+  { teamId: 310, enemyId: 146, label: '风神龙·七星磐龙柱(146)' },
+  { teamId: 311, enemyId: 147, label: '雷神龙·七星磐龙柱(147)' },
+  { teamId: 203, enemyId: 67, label: '金翅凤凰·神木林(67)' },
+  { teamId: 221, enemyId: 77, label: '木道人·桃源村(77)' },
+  { teamId: 224, enemyId: 66, label: '火麒麟·麒麟洞(66)' },
+  { teamId: 223, enemyId: 102, label: '盖罗娇·圣姑家后门(102)' },
+  { teamId: 287, enemyId: 69, label: '地魔兽·大理祭坛(69)' },
+  { teamId: 222, enemyId: 65, label: '树妖·南诏王宫(65)' },
+  { teamId: 313, enemyId: 149, label: '拜月教主·南诏王宫(149)' },
 ]
 
 /**
