@@ -52,6 +52,33 @@ describe('B-w2.a battle-opcodes dispatch', () => {
     expect(r.newIp).toBeUndefined()
   })
 
+  // 灵葫咒(spell384)/夺魂:玩家对敌施法,scriptOnSuccess 的 0x64 HP 检查 wEventObjectID=目标敌(sTarget)=ctx.target,
+  //   非 caster(player)。此前 handler 只认 caster==='enemy' → 玩家施法直接 return 不查 HP → 必跳过失败分支 →
+  //   每次必秒杀(user 2026-06-05 报"灵葫咒每次必成功,没血量限制")。修:同 0x60,target(enemy)优先,其次 caster。
+  it('0x0064 玩家施法(灵葫咒)→ 用 ctx.target 目标敌查 HP;满血敌 > 25% → jump 失败分支', () => {
+    const enemy = makeEnemy(100) // cur100 / max(prevHp)100 = 100% > 25%
+    const ctx = {
+      // biome-ignore lint/suspicious/noExplicitAny: 玩家施法 ctx
+      state: { enemies: [enemy], players: [{ roleId: 0 }] } as any as BattleState,
+      caster: { type: 'player', idx: 0 },
+      target: { type: 'enemy', idx: 0 },
+    } as BattleCtx
+    const r = dispatchBattleOpcode(0x0064, [25, 43072, 0], ctx)
+    expect(r.newIp).toBe(43072) // 满血敌 → 跳失败(灵葫咒只对 ≤25% 血敌生效)
+  })
+
+  it('0x0064 玩家施法 + 目标敌残血(≤25%)→ 不 jump(灵葫咒可秒杀)', () => {
+    const enemy = makeEnemy(20) // cur20 / max100 = 20% ≤ 25%
+    const ctx = {
+      // biome-ignore lint/suspicious/noExplicitAny: 玩家施法 ctx
+      state: { enemies: [enemy], players: [{ roleId: 0 }] } as any as BattleState,
+      caster: { type: 'player', idx: 0 },
+      target: { type: 'enemy', idx: 0 },
+    } as BattleCtx
+    const r = dispatchBattleOpcode(0x0064, [25, 43072, 0], ctx)
+    expect(r.newIp).toBeUndefined() // 残血 → 不跳 → 继续秒杀
+  })
+
   it('0x0067 enemy use magic:operand[0]=12, operand[1]=20 → enemy.e.magic=12, magicRate=20', () => {
     const enemy = makeEnemy(100)
     const ctx = makeCtx(enemy)

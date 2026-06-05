@@ -1108,9 +1108,12 @@ export function dispatchBattleOpcode(
     }
 
     case OP_JUMP_IF_ENEMY_HP_ABOVE: {
-      // 0x0064: 真值用 wEventObjectID 拿 caster enemy;我们 caster.idx 等价。
-      if (ctx.caster?.type !== 'enemy') return { consumed: true }
-      const enemy = state.enemies[ctx.caster.idx]
+      // 0x0064: wEventObjectID = 脚本上下文敌人。玩家对敌施法(灵葫咒384/夺魂 scriptOnSuccess)→ 目标敌 sTarget=ctx.target;
+      //   敌自身脚本 → ctx.caster。**审计 bug(同 0x60)**:此前只认 ctx.caster==='enemy' → 玩家施法 caster 是 player →
+      //   直接 return 不查 HP → 必跳过失败分支 → 灵葫咒每次必秒杀无血量限制(user 2026-06-05 报)。修:target 优先,其次 caster。
+      const sel = ctx.target?.type === 'enemy' ? ctx.target : ctx.caster?.type === 'enemy' ? ctx.caster : undefined
+      if (sel === undefined) return { consumed: true }
+      const enemy = state.enemies[sel.idx]
       if (!enemy) return { consumed: true }
       // sdlpal `script.c:1989`:(currentHp * 100 > maxHp * operand[0]) → jump operand[1]。
       // maxHp = sdlpal `gpGlobals->g.lprgEnemy[id].wHealth`(满血,战中不变)= BattleEnemy.maxHealth
