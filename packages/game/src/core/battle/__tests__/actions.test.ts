@@ -15,7 +15,10 @@ import { performDefend } from '../actions/defend.js'
 import { performFlee } from '../actions/flee.js'
 import { performItem } from '../actions/item.js'
 import { performMagic, type RunScriptFn } from '../actions/magic.js'
-import { runScript, setObjectPoisons } from '../../event-system.js'
+import { type BattleCtx, runScript, setObjectPoisons } from '../../event-system.js'
+import { dispatchBattleOpcode } from '../battle-opcodes.js'
+import { getPlayerActualDexterity } from '../formulas.js'
+import { tickStatusEffects } from '../status.js'
 import type { BattleState, BattleStatus } from '../battle-state.js'
 import type { ActionQueueItem } from '../turn-queue.js'
 
@@ -1626,5 +1629,82 @@ describe('performItem', () => {
     const opts = (runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0]
     expect(opts.battleCtx.caster).toEqual({ type: 'enemy', idx: 0 })
     expect(opts.battleCtx.target).toEqual({ type: 'player', idx: 0 })
+  })
+})
+
+// ============================================================================
+// buff 端到端验证(0x2D opcode 施 buff → status 置位 → 战斗效果生效)
+//   user 2026-06-05 求证"天罡战气/金刚咒/仙风云体术 感觉没效果"。① 状态递减时机已核(tickStatusEffects 在
+//   回合末 action 之后,fight.c:1632-1638,非使用前清零)。② 各单元已分散测(bravery actions:579 / protect
+//   物理 actions:677 + 法术 magic-damage:306 / haste formulas:241 / 0x2D opcode battle-opcodes:543 / 递减
+//   status:38);此处补**整链**证据:真 0x2D opcode 施 buff(非直接写 status)→ status 置位 → 真战斗消费点
+//   (performAttack / getPlayerActualDexterity)→ 效果生效,与无 buff 对照。
+// ============================================================================
+describe('buff 端到端(0x2D 施 buff → status → 战斗效果;user 2026-06-05 求证)', () => {
+  const buffCtx = (s: { state: BattleState; playerRoles: PlayerRoles; gs: GameState }): BattleCtx =>
+    ({ state: s.state, target: { type: 'player', idx: 0 }, playerRoles: s.playerRoles, gs: s.gs } as BattleCtx)
+
+  it('天罡战气 → 0x2D[5,3] 置 bravery=3 → 单体物攻必暴击 ×3(对照无 buff;fight.c:3640)', () => {
+    const mk = () => makeState({
+      role: { level: 10, attackStrength: 200 },
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 99999 }],
+      forceRoll: 1, forceFloat: 1, // crit roll≠0(无 buff 不暴击);jitter=1
+    })
+    // 对照:无 buff
+    const a = mk()
+    performAttack(a.state, playerActor, 0, a.bus, a.playerRoles)
+    const dmgNoBuff = 99999 - a.state.enemies[0]!.e.health
+    // 真 0x2D opcode 施 buff
+    const b = mk()
+    const r = dispatchBattleOpcode(0x2D, [5, 3, 0], buffCtx(b))
+    expect(r.consumed).toBe(true)
+    expect(b.state.players[0]!.status.bravery).toBe(3) // status 置位
+    performAttack(b.state, playerActor, 0, b.bus, b.playerRoles)
+    const dmgBuff = 99999 - b.state.enemies[0]!.e.health
+    expect(dmgBuff).toBe(dmgNoBuff * 3) // 暴击 ×3 生效
+  })
+
+  it('金刚咒 → 0x2D[6,3] 置 protect=3 → 敌物攻伤害减半(attack.ts:335;fight.c:5059)', () => {
+    const mk = () => makeState({
+      role: { hp: 500, maxHP: 500, defense: 10 },
+      enemies: [{ level: 5, attackStrength: 100, defense: 10, physicalResistance: 1, health: 100 }],
+      forceRoll: 1, // 固定 rng:str+1 / +1;fAutoDefend=(1>=10)=false
+    })
+    const a = mk()
+    performAttack(a.state, enemyActor, 0, a.bus, a.playerRoles)
+    const dmgNoBuff = 500 - a.playerRoles.roles[0]!.hp
+    const b = mk()
+    dispatchBattleOpcode(0x2D, [6, 3, 0], buffCtx(b))
+    expect(b.state.players[0]!.status.protect).toBe(3)
+    performAttack(b.state, enemyActor, 0, b.bus, b.playerRoles)
+    const dmgBuff = 500 - b.playerRoles.roles[0]!.hp
+    expect(dmgNoBuff).toBeGreaterThan(2) // 健全性:基准伤害够大,÷2 有意义
+    expect(dmgBuff).toBe(Math.trunc(dmgNoBuff / 2)) // protect 减半(trunc)
+    // 注:protect 对**法术**伤害同样 ÷2(magic-damage.ts:221)已由 magic-damage.test.ts:306 覆盖。
+  })
+
+  it('仙风云体术 → 0x2D[7,3] 置 haste=3 → 行动 dexterity ×3(battle-system.ts:620→formulas.ts:209)', () => {
+    const b = makeState({ role: { dexterity: 30 } })
+    dispatchBattleOpcode(0x2D, [7, 3, 0], buffCtx(b))
+    expect(b.state.players[0]!.status.haste).toBe(3)
+    // 真 turn-order 消费点读 status.haste>0 → getPlayerActualDexterity ×3(battle-system.ts:620-624)
+    const hasted = b.state.players[0]!.status.haste > 0
+    expect(getPlayerActualDexterity(30, { haste: hasted, slow: false })).toBe(90)
+  })
+
+  it('buff 递减时机:本回合行动消费 buff **后**才回合末 -1(不使用前清零;fight.c:1632)', () => {
+    const b = makeState({
+      role: { level: 10, attackStrength: 200 },
+      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 99999 }],
+      forceRoll: 1, forceFloat: 1,
+    })
+    dispatchBattleOpcode(0x2D, [5, 3, 0], buffCtx(b))
+    expect(b.state.players[0]!.status.bravery).toBe(3)
+    // 本回合物攻仍吃 bravery(行动不动 status)→ 证明未在使用前清零
+    performAttack(b.state, playerActor, 0, b.bus, b.playerRoles)
+    expect(b.state.players[0]!.status.bravery).toBe(3)
+    // 回合末递减 -1(tickStatusEffects,fight.c:1632-1638);仍 >0 → 下回合继续生效(持久)
+    tickStatusEffects(b.state)
+    expect(b.state.players[0]!.status.bravery).toBe(2)
   })
 })
