@@ -1988,9 +1988,17 @@ export function tickEventSystem(
             console.debug('event-system: 0x05 redraw → PAL_MakeScene auto fade-in(needToFadeIn,600ms)')
             return  // 阻塞等淡入完(对齐 sdlpal PAL_FadeIn);palette-fade 分支完成时 ip++ 到下一条
           }
-          // 无 dialog 且无 pending 淡入 → 直接 ip++(redraw 由常规渲染覆盖)
-          cursor.ip++
-          break
+          // 无 dialog 且无 pending 淡入 → sdlpal 0x05 真值(script.c:3290-3293,非 RNG/battle):
+          //   PAL_MakeScene + VIDEO_UpdateScreen + **UTIL_Delay((operand[1]==0)?60:operand[1]*60) ms**。
+          // ⚠ 旧码从未实现这段延时(只有注释提过)→ 触发脚本里 "0x0B-0x0E 走一步 + 0x05" 的逐步序列
+          //   (张四上船 走向船 1484-1499 共 8 步,每步后一条 0x05)会在主 while 循环里整段压进**一帧** →
+          //   张四"瞬移上船、无走路动画"(2026-06-06 user 报)。补回 time-based 延时(复用 'delay' 等待,
+          //   到时 handler 清 waiting + ip++)→ 每步停 60ms 逐帧显示,走路帧(scriptedFrame)随之循环。
+          // (与 e8a53ac/1833b16 无关:那两次只改 autoScript owner-skip / goto,本走路路径逐字节未变。)
+          const redrawDelayMs = (cmd.operands[1] ?? 0) === 0 ? 60 : (cmd.operands[1] ?? 0) * 60
+          cursor.delayUntilMs = performance.now() + redrawDelayMs
+          cursor.waiting = 'delay'
+          return  // 等延时完('delay' 等待 handler 到时清 waiting + ip++)
         }
 
         // Sync.2 fix9: opcode 0x73 fadeScreen — sdlpal script.c:3271 + video.c:1130 VIDEO_FadeScreen

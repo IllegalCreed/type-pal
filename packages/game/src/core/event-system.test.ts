@@ -134,6 +134,8 @@ describe('EventSystem', () => {
     let ticks = 0
     for (; ticks < 300; ticks++) {
       tickEventSystem(gs, snap(), bus)
+      // 0x05 redraw 现在按 sdlpal UTIL_Delay(60ms)设 waiting='delay';测试里跳过实时延时(delay 非等键,不影响断言)
+      if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
       const ph = gs.dialogBox?.phase
       if (ph === 'waiting-end-key' || ph === 'waiting-page-key') everWaited = true
       if (gs.eventCursor === undefined) break // 脚本自动跑完
@@ -1627,7 +1629,7 @@ describe('opcode 0x0005 redrawScreen / PAL_ClearDialog(TRUE)(sdlpal script.c:326
     expect(gs.eventCursor?.waiting).toBe('dialog')
   })
 
-  it('无 dialog → no-op + ip++', () => {
+  it('无 dialog → sdlpal UTIL_Delay(60ms):设 waiting=delay,延时完才 ip++ 续跑(script.c:3293)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
@@ -1635,8 +1637,12 @@ describe('opcode 0x0005 redrawScreen / PAL_ClearDialog(TRUE)(sdlpal script.c:326
       { op: 'end' },
     ])
     tickEventSystem(gs, snap(), bus)
-    expect(gs.mode).toBe('explore')
+    // 0x05 redraw 不再立即续跑:设 time-based delay(60ms)—— 走一步序列(0x0B-0x0E)逐帧动画的节拍源
+    expect(gs.eventCursor?.waiting).toBe('delay')
     expect(gs.dialogBox).toBeUndefined()
+    gs.eventCursor!.delayUntilMs = 0  // 强制延时已过(测试不实际等 60ms)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.mode).toBe('explore')   // 延时完 → ip++ → end
   })
 })
 
@@ -3795,20 +3801,23 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     debugSpy.mockRestore()
   })
 
-  it('0x05 redraw 无 needToFadeIn → 仅解冻 + 续跑(不误触发淡入)', () => {
+  it('0x05 redraw 无 needToFadeIn → 解冻 + UTIL_Delay(60ms) 后续跑(不误触发淡入)', () => {
     const bus = createCommandBus()
     const gs = gsWithPalette([180, 120, 60], [180, 120, 60])
     gs.needToFadeIn = false
     gs.sceneLoading = true
     loadEvent(gs, [
       { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0] },
-      { op: 'raw', opcode: OP_SET_OBJECT_POS, operands: [0, 5, 5] }, // 哨兵:0x05 后续跑(无 self → skip + ip++)
+      { op: 'raw', opcode: OP_SET_OBJECT_POS, operands: [0, 5, 5] }, // 哨兵:延时完后续跑(无 self → skip + ip++)
       { op: 'end' },
     ])
     tickEventSystem(gs, snap(), bus)
     expect(gs.paletteFadeState).toBeUndefined() // 无 pending 淡入 → 不触发
     expect(gs.sceneLoading).toBe(false)         // 解冻(PAL_MakeScene 重绘)
-    expect(gs.mode).toBe('explore')             // 续跑到 end
+    expect(gs.eventCursor?.waiting).toBe('delay') // 0x05 UTIL_Delay(60ms,sdlpal script.c:3293)
+    gs.eventCursor!.delayUntilMs = 0             // 强制延时已过
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.mode).toBe('explore')             // 延时完 → 续跑到 end
   })
 
   it('0x51 FadeIn → 黑→base + needToFadeIn=false', () => {
