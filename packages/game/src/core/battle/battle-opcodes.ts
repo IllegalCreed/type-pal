@@ -53,7 +53,12 @@ function emitDamageNum(
     return
   const color = after < before ? 'blue' : 'yellow'
   const value = after < before ? (fullDamage ?? before - after) : after - before
-  ctx.bus?.emit({ op: 'showDamageNum', target: { kind, idx }, value, color })
+  // 顺序修(2026-06-05):有 pendingDamageNums 缓冲(performMagic 施法注入)→ push 延迟到动画时间线播完后;
+  //   无缓冲(item/throw/敌回合毒 tick)→ 即时 emit(向后兼容)。对照 sdlpal DisplayStatChange 在动画后(fight.c:4322)。
+  if (ctx.pendingDamageNums)
+    ctx.pendingDamageNums.push({ target: { kind, idx }, value, color })
+  else
+    ctx.bus?.emit({ op: 'showDamageNum', target: { kind, idx }, value, color })
 }
 
 /**

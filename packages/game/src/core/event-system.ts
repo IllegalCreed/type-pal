@@ -855,6 +855,13 @@ export interface BattleCtx {
    */
   bus?: CommandBus
   /**
+   * 顺序修(2026-06-05 user 报"灵葫咒掉血在动画前"):scriptOnSuccess 的 HP-mutate opcode 数字**延迟到法术
+   * 动画时间线播完后** emit 的缓冲(performMagic 注入,合进 timeline pendingNums)。存在 → emitDamageNum push
+   * 进它;不存在(item/throw/敌回合毒 tick 等无动画上下文)→ 即时 bus.emit(向后兼容)。对照 sdlpal
+   * PAL_BattleDisplayStatChange 在 ShowOffMagic/DefMagicAnim **之后**(fight.c:4322)。
+   */
+  pendingDamageNums?: Array<{ target: { kind: 'enemy' | 'player', idx: number }, value: number, color: 'blue' | 'yellow' | 'cyan' }>
+  /**
    * E 类伤害 opcode(0x42 SimulateMagic / 0x66 throw weapon)解析 magic 用 ——
    * `0x42` op0 是 magic object id,需 objectMagics 解析成 magicNumber/flags,
    * 再 magics 取 baseDamage/elemental。由 performThrowItem(及未来 0x66 caller)注入;

@@ -1114,6 +1114,32 @@ describe('performMagic', () => {
     }
   })
 
+  // 顺序修(user 2026-06-05 报"灵葫咒掉血在动画前"):scriptOnSuccess 的 HP-mutate opcode(0x60 秒杀 等)
+  //   此前经 emitDamageNum **即时** emit 数字,早于延迟动画时间线。修:performMagic 注入 pendingDamageNums 缓冲
+  //   → opcode 数字 push 进它,交 OffMagic 时间线播完后 emit(对照 sdlpal DisplayStatChange 在动画后 fight.c:4322)。
+  it('scriptOnSuccess 秒杀(0x60)数字进时间线 pendingDamageNums 延迟,不即时 emit(灵葫咒类,真 runScript)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { mp: 30, maxMP: 30 },
+      enemies: [{ level: 5, health: 100 }],
+    })
+    // 时间线前置:caster + target 有 posOriginal + magicSpriteFrameCounts 有 effect → 建 OffMagic 链
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    // scriptOnSuccess @ip1 = 0x60 秒杀目标敌(ctx.target);baseDamage SHORT -999 哨兵 → 无 inline 伤害,只 KO 数字
+    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x60, operands: [0xFFFF, 0, 0] }, { op: 'end' }]
+    const spell = makeSpell({ id: 9, magicNumber: 5, scriptOnUse: 0, scriptOnSuccess: 1 })
+    const magic = makeMagic({ id: 5, effect: 7, type: 'normal', baseDamage: 64537 })
+    performMagic({
+      state, casterIsEnemy: false, casterIdx: 0, spellId: 9, targetIsEnemy: true, targetIdx: 0,
+      spells: [spell], magics: [magic], playerRoles, bus, commands, runScript,
+      magicSpriteFrameCounts: new Map([[7, 4]]), // effect 7 有 4 帧 → 建 OffMagic 时间线
+    })
+    expect(state.enemies[0]!.e.health).toBe(0) // 秒杀生效(逻辑同步)
+    // 关键:秒杀数字进时间线 pendingDamageNums(延迟到动画播完),不即时 emit
+    expect(bus.drain().filter(c => c.cmd.op === 'showDamageNum')).toHaveLength(0)
+    expect(state.battleAnim?.pendingDamageNums).toEqual([{ target: { kind: 'enemy', idx: 0 }, value: 100, color: 'blue' }])
+  })
+
   it('scriptOnUse 失败(fScriptSuccess=false)→ MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess(乾坤一掷没钱/酒神没酒)', () => {
     const { state, playerRoles, bus } = makeState({ role: { mp: 30, maxMP: 30 } })
     const spell = makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 42, scriptOnSuccess: 99 })

@@ -1650,6 +1650,26 @@ describe('D17b showDamageNum emit', () => {
     expect(nums).toHaveLength(1)
     expect(nums[0]).toMatchObject({ color: 'blue', target: { kind: 'enemy', idx: 0 }, value: 77 })
   })
+
+  // 顺序修(user 2026-06-05 报"灵葫咒掉血在动画前"):scriptOnSuccess 的 emitDamageNum 即时弹 → 数字早于
+  //   延迟动画时间线。修:ctx.pendingDamageNums 存在(magic.ts 施法时注入)→ push 进它(交时间线播完后 emit),
+  //   不即时 bus.emit。无该缓冲(item/throw/敌回合毒 tick)→ 即时(向后兼容)。
+  it('0x60 KO + ctx.pendingDamageNums 存在 → push 进缓冲(延迟),不即时 emit', () => {
+    const bus = createCommandBus()
+    const enemies = [richEnemy({ health: 77 })]
+    const pendingDamageNums: Array<{ target: { kind: string; idx: number }; value: number; color: string }> = []
+    const ctx = {
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 state
+      state: { enemies, players: [] } as any as BattleState,
+      caster: { type: 'enemy', idx: 0 },
+      bus,
+      pendingDamageNums,
+      // biome-ignore lint/suspicious/noExplicitAny: 注入 pendingDamageNums
+    } as any as BattleCtx
+    dispatchBattleOpcode(0x60, [0xFFFF], ctx)
+    expect(damageNums(bus)).toHaveLength(0) // 不即时 emit
+    expect(pendingDamageNums).toEqual([{ target: { kind: 'enemy', idx: 0 }, value: 77, color: 'blue' }]) // 进缓冲
+  })
 })
 
 describe('0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene)', () => {

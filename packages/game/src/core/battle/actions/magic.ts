@@ -187,6 +187,11 @@ export function performMagic(input: PerformMagicInput): void {
           type: input.targetIsEnemy ? ('enemy' as const) : ('player' as const),
           idx: input.targetIdx,
         }
+  // 顺序修(user 2026-06-05 报"灵葫咒掉血在动画前"):scriptOnSuccess 的 HP-mutate opcode(0x60 秒杀/0x1B 治疗/
+  //   0x22 复活/0x5A-5F 等)经 emitDamageNum 此前**即时** emit 数字,早于延迟动画时间线。修:注入 pendingDamageNums
+  //   缓冲 → opcode 数字 push 进它,与 inline 伤害一起交时间线播完后 emit(无时间线 → 即时,向后兼容)。
+  //   对照 sdlpal PAL_BattleDisplayStatChange 在 ShowOffMagic/DefMagicAnim 之后(fight.c:4322)。
+  const pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
   const runMagicScript = (scriptId: number): void => {
     if (scriptId === 0)
       return // scriptOnUse / scriptOnSuccess = 0 → 无脚本,skip(sdlpal RunTriggerScript(0) 即返回)
@@ -208,6 +213,7 @@ export function performMagic(input: PerformMagicInput): void {
         playerRoles: input.playerRoles,
         gs: input.gs,
         items: input.items, // 0x6A 偷取成功"获得 物品名"提示需 item 名
+        pendingDamageNums: pendingNums, // scriptOnSuccess opcode 数字延迟到动画后(见上注)
       },
     })
   }
@@ -226,6 +232,8 @@ export function performMagic(input: PerformMagicInput): void {
     // fizzle(道具/钱不足):sdlpal 前摇动画+施法音已在 scriptOnUse 之前播(fight.c:4184 vs 4215),故仍播施法音
     //   (保持忠实 sdlpal;user 选"只改略快、fizzle 仍播")。ts 此时无前摇动画可挂 → 即时播。
     if (pendingCastSound > 0 && input.gs) (input.gs.pendingSounds ??= []).push(pendingCastSound)
+    // scriptOnUse 阶段若已 collect 数字(罕见)→ 无后续动画可挂,即时 emit(不丢)。
+    for (const dn of pendingNums) input.bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
     return
   }
 
@@ -260,9 +268,8 @@ export function performMagic(input: PerformMagicInput): void {
   // 注:`str = PAL_GetPlayerMagicStrength` 含装备 magicStrength 加成;ts 战斗暂不建模
   //     rgEquipmentEffect(同 attack.ts 省略装备),用 role.magicStrength。
   // 法术伤害数字**延迟到特效播完后**才 emit(对照 sdlpal PAL_BattleDisplayStatChange 在 magic anim
-  //   之后,fight.c:4322/4369/4405)。这里先 collect,下方据是否建动画链决定:建链 → 交时间线播完 emit;
-  //   未建链(旧 fixture / 无 sprite)→ 立即 emit(向后兼容)。修 user 实测"掉血数字比攻击动画早出"。
-  const pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
+  //   之后,fight.c:4322/4369/4405)。inline 伤害先 collect 进 pendingNums(上方已声明,含 scriptOnSuccess
+  //   opcode 数字);下方据是否建动画链决定:建链 → 交时间线播完 emit;未建链(旧 fixture / 无 sprite)→ 立即 emit。
   // 敌方法术受伤的队员 idx(受击动画 fight.c:4861-4899 用;E2 填)。
   const hitPlayerIdxs: number[] = []
   let dmgResults: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number; damage: number }> = []
@@ -342,7 +349,7 @@ export function performMagic(input: PerformMagicInput): void {
     if (OFF_MAGIC_TYPES.has(magic.type)) {
       built = buildAndStartMagicAnim(input, magic, dmgResults, pendingNums)
     } else if (magic.type === 'applyToPlayer' || magic.type === 'applyToParty') {
-      buildAndStartDefMagicAnim(input, magic)
+      built = buildAndStartDefMagicAnim(input, magic, pendingNums)
     } else if (magic.type === 'summon') {
       // 召唤魔法(火神/雷神/武神/剑神/酒神…):变亮→召唤神出场动画→二次法术效果。伤害走上方 inline 路径。
       built = buildAndStartSummonAnim(input, magic, dmgResults, pendingNums)
@@ -567,20 +574,27 @@ function buildAndStartSummonAnim(
  *   - applyToPlayer:resolved target 队员 posOriginal 存在;applyToParty:至少一个队员有 posOriginal
  *
  * 治疗值本身靠 scriptOnUse/scriptOnSuccess 的治疗 opcode(动画独立 — 同 OffMagic 模式)。
+ *
+ * @returns 是否成功建链(供 caller 判定:建链 → scriptOnSuccess 治疗/复活数字 pendingNums 交时间线播完后 emit;
+ *   未建链 → caller 即时 emit,向后兼容)。pendingNums 透传给 startBattleAnim(顺序修,2026-06-05)。
  */
-function buildAndStartDefMagicAnim(input: PerformMagicInput, magic: Magic): void {
-  if (magic.type !== 'applyToPlayer' && magic.type !== 'applyToParty') return
+function buildAndStartDefMagicAnim(
+  input: PerformMagicInput,
+  magic: Magic,
+  pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'],
+): boolean {
+  if (magic.type !== 'applyToPlayer' && magic.type !== 'applyToParty') return false
   const n = input.magicSpriteFrameCounts?.get(magic.effect)
-  if (n === undefined || n <= 0) return
+  if (n === undefined || n <= 0) return false
 
   const caster = input.state.players[input.casterIdx]
-  if (!caster?.posOriginal) return
+  if (!caster?.posOriginal) return false
 
   if (magic.type === 'applyToPlayer') {
     // 单体目标队员:resolved idx(targetIdx 必为 number;'all' 不会落到 applyToPlayer)。
     const tIdx = typeof input.targetIdx === 'number' ? input.targetIdx : -1
     const targetPos = input.state.players[tIdx]?.posOriginal
-    if (!targetPos) return
+    if (!targetPos) return false
     const frames = buildPlayerDefMagicTimeline({
       casterIdx: input.casterIdx,
       magic: {
@@ -594,8 +608,8 @@ function buildAndStartDefMagicAnim(input: PerformMagicInput, magic: Magic): void
       targetPlayerIdx: tIdx,
       targetPlayerPos: targetPos,
     })
-    startBattleAnim(input.state, frames, input.bus)
-    return
+    startBattleAnim(input.state, frames, input.bus, pendingNums) // 治疗/复活数字延迟到 DefMagic 播完后(顺序修)
+    return true
   }
 
   // applyToParty:全队员落点(有 posOriginal 的都收)。
@@ -603,7 +617,7 @@ function buildAndStartDefMagicAnim(input: PerformMagicInput, magic: Magic): void
   input.state.players.forEach((p, idx) => {
     if (p.posOriginal) partyPlayerPositions.push({ idx, pos: p.posOriginal })
   })
-  if (partyPlayerPositions.length === 0) return
+  if (partyPlayerPositions.length === 0) return false
   const frames = buildPlayerDefMagicTimeline({
     casterIdx: input.casterIdx,
     magic: {
@@ -619,7 +633,8 @@ function buildAndStartDefMagicAnim(input: PerformMagicInput, magic: Magic): void
     targetPlayerIdx: -1,
     partyPlayerPositions,
   })
-  startBattleAnim(input.state, frames, input.bus)
+  startBattleAnim(input.state, frames, input.bus, pendingNums) // 群疗数字延迟到 DefMagic 播完后(顺序修)
+  return true
 }
 
 /**
