@@ -1823,6 +1823,30 @@ describe('对话期触发 NPC 的 autoScript 冻结 — NPC 转向玩家后保�
       setGlobalEvents([])
     }
   })
+
+  it('owner 在 0x09 frame-wait 期间 autoScript 照跑(水月宫赵灵儿对话后走向右上;sdlpal play.c:172-191 无 owner 排除)', () => {
+    // sdlpal PAL_GameUpdate 自动脚本循环(play.c:172-191)对场景内每个 sState>0 对象都跑 PAL_RunAutoScript,
+    //   **不排除**正在执行触发脚本的 owner;owner 自动脚本在触发脚本的 0x09 wait(每帧 PAL_GameUpdate(FALSE))期间跑。
+    // 对话朝向 fix 只需堵 waiting===undefined 那一 tick(触发后第一条 opcode 步进前);frame-wait 期间该跑就跑。
+    // 复刻 水月宫:赵灵儿(owner)对话后 op36 设自己 autoScript=walk(L_4330 走向右上),op9 wait 14 期间应逐帧走,
+    //   而非被整段跳过 → 原地等 14 帧后 op73 直接隐藏("缺少移动,原地消失",2026-06-05 user 报)。
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x0B, operands: [0, 0, 0], label: 'L_0' },  // walkOneStepSouth:跑一步=改 facing+推进 ip
+      { op: 'end' },
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.npcs = [{ id: 0, x: 100, y: 100, spriteNum: 1, sState: 1, facing: 'up', autoCursor: { ip: 0 } }]
+      // owner 触发脚本已步进到 0x09 wait → waiting='frame-wait'(sdlpal 此时 PAL_GameUpdate(FALSE) 跑 owner autoScript)
+      gs.eventCursor = { ip: 0, currentEventObjectId: 0, triggerOwnerId: 0, waiting: 'frame-wait' }
+      tickAutoScripts(gs)
+      expect(gs.npcs[0]!.autoCursor?.ip).toBe(1)   // frame-wait 期间 owner autoScript 跑了(0x0B → ip++);bug 版被跳 → 仍 0
+      expect(gs.npcs[0]!.facing).toBe('down')       // walkOneStepSouth 把 facing 改 down(证明真跑了一步)
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
 })
 
 describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4', () => {
