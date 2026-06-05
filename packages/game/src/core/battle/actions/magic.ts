@@ -527,18 +527,9 @@ function buildAndStartSummonAnim(
     }
   }
 
-  // 召唤神序列(fadeIn 72 步 crossfade → 逐帧 loop → 二次效果 → fadeOut 72 步 crossfade)。
-  const godFrames = buildSummonGodSequence({
-    spriteKey: `player-${summonChunk}`,
-    pos: { x: 240 + asShort(magic.xOffset), y: 165 + asShort(magic.yOffset) },
-    bgColorShift: asShort(magic.effectTimes),
-    totalFrames,
-    frameTimeMs: (magic.speed + 5) * 10,
-    offMagicFrames,
-  })
-
-  // PostMagic:命中后敌人受击抖动(sdlpal 召唤二次效果对敌后调 PAL_BattleShowPostMagicAnim,fight.c:3186/3190)。
-  //   ts 此前召唤分支漏建 → 天剑等召唤法术敌人不抖(user 2026-06-04 报)。
+  // PostMagic:命中后敌人受击抖动(sdlpal PAL_BattleShowPostMagicAnim,fight.c:4323)。
+  //   ts 此前召唤分支漏建 → 天剑等召唤法术敌人不抖(user 2026-06-04 报);又把 fadeOut bundle 在 PostMagic 前
+  //   → 神先淡出敌再抖,受击太晚(user 2026-06-05 报)。修:postMagicFrames 传入 god sequence,裹神留场排 fadeOut 前。
   const hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }> = []
   for (const r of dmgResults) {
     if (r.hpAfter !== r.hpBefore) {
@@ -546,8 +537,22 @@ function buildAndStartSummonAnim(
       if (pos) hurtEnemies.push({ idx: r.enemyIdx, pos })
     }
   }
-  const postFrames = buildPostMagicTimeline({ hurtEnemies })
-  startBattleAnim(input.state, [...preFrames, ...brightenFrames, ...godFrames, ...postFrames], input.bus, pendingNums)
+  const postMagicFrames = buildPostMagicTimeline({ hurtEnemies })
+
+  // 召唤神序列(fadeIn 72 步 crossfade → 逐帧 loop → 二次效果 → **PostMagic 敌抖(神留场)** → fadeOut 72 步 crossfade)。
+  //   PostMagic 排在 fadeOut 前(fight.c:4323 神在场 → 899 后淡出);present summonGodMode 下仍画敌(present-battle.ts:191
+  //   drawBattleSprites 只隐队员)→ 受击抖动可见。
+  const godFrames = buildSummonGodSequence({
+    spriteKey: `player-${summonChunk}`,
+    pos: { x: 240 + asShort(magic.xOffset), y: 165 + asShort(magic.yOffset) },
+    bgColorShift: asShort(magic.effectTimes),
+    totalFrames,
+    frameTimeMs: (magic.speed + 5) * 10,
+    offMagicFrames,
+    postMagicFrames,
+  })
+
+  startBattleAnim(input.state, [...preFrames, ...brightenFrames, ...godFrames], input.bus, pendingNums)
   if (input.state.battleAnim) input.state.battleAnim.hasSummonFade = true // present 据此在非 fade 帧快照场景
   return true
 }

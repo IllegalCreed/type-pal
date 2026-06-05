@@ -954,6 +954,13 @@ export interface BuildSummonInput {
   frameTimeMs: number
   /** 二次法术效果(FIRE.MKF)时间线 —— 调用方用 buildPlayerOffMagicTimeline(casterIdx=-1)建好传入。 */
   offMagicFrames: BattleAnimFrame[]
+  /**
+   * PostMagic(敌受击抖动)时间线 —— 调用方用 buildPostMagicTimeline 建好传入(缺/空 = 无)。
+   * sdlpal PostMagic(fight.c:4323)在召唤神**仍在场**时播,神淡出(fight.c:899 cleanup)在其**之后**。
+   * 故此处把 postMagic 裹召唤神留场(frame=lastFrame)排在 offMagic 后、fadeOut 前 —— 否则神先淡出敌再抖,
+   * 受击动画过晚(user 2026-06-05 报"天剑敌人受击动画太晚")。
+   */
+  postMagicFrames?: BattleAnimFrame[]
 }
 
 /**
@@ -962,13 +969,14 @@ export interface BuildSummonInput {
  *  fadeIn(3151-3152 PAL_BattleFadeScene):召唤神 frame0,72 步 dither crossfade(队员→召唤神),各 16ms。
  *  loop(3160-3181):召唤神 frame 0..totalFrames-2,各 (speed+5)*10 ms(隐队员只画召唤神)。
  *  offMagic(3186):二次法术效果落敌;召唤神定格 last frame 仍在场(精灵未释放,PAL_BattleMakeScene 续画)。
+ *  postMagic(4323):敌受击抖动;召唤神**仍在场**(fight.c:899 cleanup 淡出在 PostMagic 之后)→ 裹 summon 留场。
  *  fadeOut(897-912 cleanup):72 步 dither crossfade(召唤神→队员),各 16ms;末态清 summon → 队员归位。
  *
  * 全程 summon.bgColorShift 给背景染色(battle.c:63-67)。present 据 summon.fadeDir 决定渲染"召唤神场景"
- * (in/loop)还是"队员场景"(out),并 dither crossfade 对侧快照。
+ * (in/loop,神在场仍画敌)还是"队员场景"(out),并 dither crossfade 对侧快照。
  */
 export function buildSummonGodSequence(input: BuildSummonInput): BattleAnimFrame[] {
-  const { spriteKey, pos, bgColorShift, totalFrames, frameTimeMs, offMagicFrames } = input
+  const { spriteKey, pos, bgColorShift, totalFrames, frameTimeMs, offMagicFrames, postMagicFrames } = input
   const frames: BattleAnimFrame[] = []
   const lastFrame = Math.max(0, totalFrames - 1)
 
@@ -982,6 +990,10 @@ export function buildSummonGodSequence(input: BuildSummonInput): BattleAnimFrame
   }
   // —— offMagic:二次效果落敌,召唤神定格 last frame 在场 ——
   for (const f of offMagicFrames) {
+    frames.push({ ...f, summon: { spriteKey, frame: lastFrame, pos, bgColorShift } })
+  }
+  // —— postMagic:敌受击抖动,召唤神**仍在场**(fight.c:4323 神在场 → 899 后淡出);裹 summon 留场,排 fadeOut 前 ——
+  for (const f of postMagicFrames ?? []) {
     frames.push({ ...f, summon: { spriteKey, frame: lastFrame, pos, bgColorShift } })
   }
   // —— fadeOut:72 步 crossfade(召唤神→队员)——

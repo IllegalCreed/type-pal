@@ -64,6 +64,39 @@ describe('召唤动画 builders (fight.c:3072-3187 / 3120-3128)', () => {
     expect(last.summon!.fadeDir).toBe('out')
     expect(last.summon!.frame).toBe(3)
   })
+
+  // 召唤受击动画顺序(user 2026-06-05 报"天剑敌人受击动画太晚"):sdlpal PostMagic(敌抖,fight.c:4323)在
+  //   召唤神**仍在场**时播,神淡出(fight.c:899 cleanup)在 PostMagic **之后**。此前 ts 把 fadeOut bundle 在
+  //   god sequence 内、PostMagic 之前 → 神先消失才抖敌。修:postMagicFrames 入参,裹神留场,排在 fadeOut 前。
+  it('buildSummonGodSequence:postMagicFrames 在 offMagic 后、fadeOut 前,裹召唤神留场(fight.c:4323 神在场→899 淡出)', () => {
+    const off = [{ durationMs: 100, overlays: [] }]
+    const post = [{ durationMs: 40, fighters: [{ side: 'enemy' as const, idx: 0, pos: { x: 1, y: 2 }, iColorShift: 6 }] }]
+    const seq = buildSummonGodSequence({
+      spriteKey: 'player-12', pos: { x: 240, y: 165 }, bgColorShift: 5, totalFrames: 3, frameTimeMs: 100,
+      offMagicFrames: off, postMagicFrames: post,
+    })
+    // 结构:fadeIn 72 + loop 2 + offMagic 1 + postMagic 1 + fadeOut 72
+    expect(seq.length).toBe(SUMMON_FADE_STEPS + 2 + 1 + 1 + SUMMON_FADE_STEPS)
+    const postIdx = seq.findIndex((f) => f.fighters?.some((d) => d.side === 'enemy'))
+    const firstFadeOutIdx = seq.findIndex((f) => f.summon?.fadeDir === 'out')
+    expect(postIdx).toBeGreaterThanOrEqual(0)
+    expect(firstFadeOutIdx).toBeGreaterThan(postIdx) // PostMagic 在 fadeOut 之前
+    // PostMagic 帧裹召唤神留场:frame=lastFrame(=2),无 fadeDir → present summonGodMode 神在场 + 仍画敌(可见抖动)
+    const postFrame = seq[postIdx]!
+    expect(postFrame.summon).toMatchObject({ spriteKey: 'player-12', frame: 2, pos: { x: 240, y: 165 }, bgColorShift: 5 })
+    expect(postFrame.summon!.fadeDir).toBeUndefined()
+    // 敌受击 delta 保留(裹 summon 不丢 fighters)
+    expect(postFrame.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 1, y: 2 }, iColorShift: 6 }])
+  })
+
+  it('buildSummonGodSequence:无 postMagicFrames(默认 [])→ 结构不变,末帧仍是 fadeOut', () => {
+    const seq = buildSummonGodSequence({
+      spriteKey: 'player-12', pos: { x: 240, y: 165 }, bgColorShift: 0, totalFrames: 3, frameTimeMs: 100,
+      offMagicFrames: [{ durationMs: 100, overlays: [] }],
+    })
+    expect(seq.length).toBe(SUMMON_FADE_STEPS + 2 + 1 + SUMMON_FADE_STEPS) // 无 postMagic
+    expect(seq[seq.length - 1]!.summon!.fadeDir).toBe('out')
+  })
 })
 
 describe('buildCoopMagicTimeline (协力合击,fight.c:3856-4107 CLASSIC)', () => {
