@@ -2145,6 +2145,7 @@ function performBattleAction(
         bus,
         commands: res.commands,
         runScript: getRunScript(gs),
+        magicSpriteFrameCounts: res.magicSpriteFrameCounts, // 投掷 OffMagic 特效时间线 n(fight.c:5340)
       })
       break
     }

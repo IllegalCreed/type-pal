@@ -18,7 +18,7 @@
 import { type BattleCtx, addPoisonForPlayer, curePlayerPoisonByKind, curePlayerPoisonByLevel } from '../event-system.js'
 import type { BattleStatus } from './battle-state.js'
 import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength, getPlayerPoisonResistance } from '../equip-effect.js'
-import { buildShowMagicAnimTimeline, buildStealTimeline } from './anim-timeline.js'
+import { buildPlayerOffMagicTimeline, buildShowMagicAnimTimeline, buildStealTimeline } from './anim-timeline.js'
 import { startBattleAnim } from './battle-anim-driver.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
 
@@ -59,6 +59,48 @@ function emitDamageNum(
     ctx.pendingDamageNums.push({ target: { kind, idx }, value, color })
   else
     ctx.bus?.emit({ op: 'showDamageNum', target: { kind, idx }, value, color })
+}
+
+/**
+ * 投掷物 0x42/0x66 SimulateMagic 的 OffMagic 特效(sdlpal PAL_BattleSimulateMagic → PAL_BattleShowPlayerOffMagicAnim,
+ * fight.c:5340)。有 ctx.pendingAnimFrames + magicSpriteFrameCounts(performThrowItem 注入)→ 建 FIRE 特效帧
+ * (casterIdx=-1,无 caster 帧切换;magic.sound 已挂特效起手帧)push 进缓冲,performThrowItem 接挥臂后一起播。
+ * 否则(无投掷动画上下文 / 无 sprite 帧数)→ 把 magic.sound 即时 push pendingSounds(向后兼容,旧行为)。
+ */
+function pushThrowOffMagicAnim(ctx: BattleCtx, magicObjId: number, targetIdx: number | undefined): void {
+  const tables = ctx.magicTables
+  if (!tables) return
+  const om = resolveObjectMagic(magicObjId, tables.objectMagics)
+  const mg = om ? tables.magics.find(m => m.id === om.magicNumber) : undefined
+  if (!mg) return
+  const n = ctx.magicSpriteFrameCounts?.get(mg.effect)
+  if (ctx.pendingAnimFrames && n !== undefined && n > 0) {
+    // OffMagic FIRE 特效帧(magic.sound 由 builder 挂特效起手帧 → 不再 push pendingSounds 防双响)。
+    const targetEnemyPos = targetIdx !== undefined ? ctx.state.enemies[targetIdx]?.posOriginal : undefined
+    ctx.pendingAnimFrames.push(...buildPlayerOffMagicTimeline({
+      casterIdx: -1,
+      magic: {
+        effect: mg.effect,
+        type: mg.type as 'normal' | 'attackAll' | 'attackWhole' | 'attackField',
+        speed: mg.speed,
+        fireDelay: mg.fireDelay,
+        effectTimes: mg.effectTimes,
+        shake: mg.shake,
+        xOffset: mg.xOffset,
+        yOffset: mg.yOffset,
+        wave: mg.wave,
+        keepEffect: mg.keepEffect,
+        sound: mg.sound,
+      },
+      n,
+      targetIdx: targetIdx ?? -1,
+      targetEnemyPos,
+    }))
+  }
+  else if (mg.sound > 0 && ctx.gs) {
+    // 无投掷动画上下文 → magic.sound 即时(旧行为)。
+    (ctx.gs.pendingSounds ??= []).push(mg.sound)
+  }
 }
 
 /**
@@ -297,13 +339,9 @@ export function dispatchBattleOpcode(
       })
       for (const r of results)
         emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter, r.damage) // 玩家方法术打敌:显示完整伤害
-      // M6 模拟法术效果音(sdlpal PAL_BattleSimulateMagic → OffMagicAnim → AUDIO_PlaySound(magic.wSound),
-      //   fight.c:2501;投掷符/卵/蛊的 scriptOnThrow 走 0x42)。
-      {
-        const om = resolveObjectMagic(operands[0] ?? 0, tables.objectMagics)
-        const mg = om ? tables.magics.find(m => m.id === om.magicNumber) : undefined
-        if (mg && mg.sound > 0 && ctx.gs) (ctx.gs.pendingSounds ??= []).push(mg.sound)
-      }
+      // 投掷物 OffMagic FIRE 特效 + 效果音(sdlpal fight.c:5340 PAL_BattleShowPlayerOffMagicAnim;有投掷动画
+      //   上下文 → 建特效帧进 pendingAnimFrames,否则音效即时)。
+      pushThrowOffMagicAnim(ctx, operands[0] ?? 0, targetIdx)
       return { consumed: true }
     }
 
@@ -337,12 +375,8 @@ export function dispatchBattleOpcode(
       })
       for (const r of results)
         emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter, r.damage) // 玩家方法术打敌:显示完整伤害
-      // M6 投掷武器效果音(同 0x42:OffMagicAnim AUDIO_PlaySound(magic.wSound),fight.c:2501)。
-      {
-        const om = resolveObjectMagic(operands[0] ?? 0, tables.objectMagics)
-        const mg = om ? tables.magics.find(m => m.id === om.magicNumber) : undefined
-        if (mg && mg.sound > 0 && ctx.gs) (ctx.gs.pendingSounds ??= []).push(mg.sound)
-      }
+      // 投掷武器 OffMagic FIRE 特效 + 效果音(同 0x42,fight.c:5340)。
+      pushThrowOffMagicAnim(ctx, operands[0] ?? 0, ctx.target?.idx)
       return { consumed: true }
     }
 

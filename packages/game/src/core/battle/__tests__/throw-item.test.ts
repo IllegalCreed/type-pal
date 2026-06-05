@@ -95,6 +95,43 @@ describe('performThrowItem (E2)', () => {
     expect(gs.inventory[0]!.count).toBe(1) // 消耗 1
   })
 
+  // 投掷物全段动画(user 2026-06-05:投掷物全无特效)。sdlpal fight.c:4339-4356 挥臂 + fight.c:5340
+  //   PAL_BattleSimulateMagic → PAL_BattleShowPlayerOffMagicAnim FIRE 特效。有 posOriginal + magicSpriteFrameCounts
+  //   → 建挥臂(frame5/6 + 投掷音)+ OffMagic 特效帧,伤害数字延迟到动画末(fight.c:4369 DisplayStatChange)。
+  it('投掷动画:挥臂(frame5/6+投掷音)+ OffMagic 特效帧 + 伤害数字延迟(fight.c:4339/5340/4369)', () => {
+    const state = makeState([{ health: 200, defense: 30, level: 5 }])
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    const gs = makeGameState([{ itemId: 66, count: 2 }])
+    const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x42, operands: [349, 0, 0] }, { op: 'end' }]
+    const bus = createCommandBus()
+    performThrowItem({
+      state, gs, casterIsEnemy: false, casterIdx: 0,
+      itemId: 66, targetIdx: 0,
+      items: [makeItem({ id: 66, scriptOnThrow: 1 })],
+      // magic 54:effect 7(FIRE chunk),type normal,baseDamage 140,效果音 170
+      // biome-ignore lint/suspicious/noExplicitAny: OffMagic builder 用字段
+      magics: [{ id: 54, effect: 7, type: 'normal', speed: 0, fireDelay: 0, effectTimes: 0, shake: 0, xOffset: 0, yOffset: 0, wave: 0, keepEffect: 0, baseDamage: 140, elemental: 0, sound: 170 } as any],
+      objectMagics: [objMagic(349, 54)],
+      objectPoisons: [],
+      // biome-ignore lint/suspicious/noExplicitAny: 投掷音 rgwMagicSound[role]
+      playerRoles: { roles: [{ id: 0, magicSound: 88 } as any] },
+      bus, commands, runScript,
+      magicSpriteFrameCounts: new Map([[7, 8]]), // effect 7 有 8 帧 → 建 OffMagic 特效
+    })
+    expect(state.enemies[0]!.e.health).toBe(60) // 伤害结算(逻辑同步)
+    expect(state.battleAnim).toBeDefined() // 建了动画时间线
+    const frames = state.battleAnim!.frames
+    // 挥臂:frame5 带投掷音 88 + frame6
+    expect(frames.some(f => f.fighters?.some(d => d.side === 'player' && d.currentFrame === 5) && f.sound === 88)).toBe(true)
+    expect(frames.some(f => f.fighters?.some(d => d.side === 'player' && d.currentFrame === 6))).toBe(true)
+    // OffMagic FIRE 特效帧(magic overlay,chunk 7)
+    expect(frames.some(f => f.overlays?.some(o => o.kind === 'magic' && o.spriteChunk === 7))).toBe(true)
+    // 伤害数字延迟到动画末(pendingDamageNums),不即时 emit
+    expect(bus.drain().filter(c => c.cmd.op === 'showDamageNum')).toHaveLength(0)
+    expect(state.battleAnim!.pendingDamageNums).toEqual([{ target: { kind: 'enemy', idx: 0 }, value: 140, color: 'blue' }])
+  })
+
   it('D17b:投掷 0x42 经真 runScript → 自动注入 bus → emit showDamageNum(blue)', () => {
     const state = makeState([{ health: 200, defense: 30, level: 5 }])
     const gs = makeGameState([{ itemId: 66, count: 2 }])

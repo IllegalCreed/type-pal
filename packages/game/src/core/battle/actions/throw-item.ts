@@ -18,7 +18,9 @@ import type { Command, Item, Magic, ObjectMagicView, ObjectPoisonView, PlayerRol
 import type { CommandBus } from '../../command-bus.js'
 import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
-import type { BattleState } from '../battle-state.js'
+import { buildThrowWindupTimeline } from '../anim-timeline.js'
+import { startBattleAnim } from '../battle-anim-driver.js'
+import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 
 /** 注入的 runScript 函数(同 performItem;测试可 mock,默认 event-system.runScript)。 */
 export type RunScriptFn = (opts: RunScriptOptions) => void
@@ -51,6 +53,8 @@ export interface PerformThrowItemInput {
   commands: Command[]
   /** EventSystem.runScript 注入。 */
   runScript: RunScriptFn
+  /** FIRE.MKF magic sprite 帧数 Map(0x42/0x66 建 OffMagic 特效帧用);省略 → 不建特效动画(向后兼容)。 */
+  magicSpriteFrameCounts?: Map<number, number>
 }
 
 /**
@@ -81,6 +85,17 @@ export function performThrowItem(input: PerformThrowItemInput): void {
     }
   }
 
+  // —— 投掷挥臂动画前置(sdlpal fight.c:4339-4356,队员投 + 有 posOriginal)——
+  //   挥臂(4 步前移 + frame5/6 + 投掷音 rgwMagicSound[role])在 scriptOnThrow(0x42 OffMagic 特效)之前。
+  //   有动画 → scriptOnThrow 的 OffMagic 特效帧 + 伤害数字延迟收进缓冲,拼挥臂后一起 startBattleAnim;
+  //   无动画(敌投 / 旧 fixture 无 pos)→ 退化即时(向后兼容)。
+  const caster = input.state.players[input.casterIdx]
+  const hasAnim = !input.casterIsEnemy && !!caster?.posOriginal
+  const magicSound = caster ? (input.playerRoles.roles[caster.roleId]?.magicSound ?? 0) : 0
+  const windup = hasAnim ? buildThrowWindupTimeline(input.casterIdx, caster!.posOriginal!, magicSound) : []
+  const pendingAnimFrames: BattleAnimFrame[] = []
+  const pendingDamageNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
+
   // —— 跑 scriptOnThrow(battleCtx 注入 caster / target / magicTables) ——
   const targetCtx
     = input.targetIdx === 'all'
@@ -103,10 +118,20 @@ export function performThrowItem(input: PerformThrowItemInput): void {
       // 0x28 施毒跑一次 wEnemyScript(sdlpal script.c:1213)+ 蛊孵化链末尾 giveItem 需 commands/runScript
       commands: input.commands,
       runScript: input.runScript as (o: RunScriptOptions) => number,
+      // 投掷动画:0x42/0x66 把 OffMagic 特效帧 push 进 pendingAnimFrames;HP-mutate 数字延迟进 pendingDamageNums。
+      //   无动画(敌投/无 pos)→ 不传缓冲 → opcode 即时 emit + 音效即时(向后兼容)。
+      ...(hasAnim ? { pendingAnimFrames, pendingDamageNums, magicSpriteFrameCounts: input.magicSpriteFrameCounts } : {}),
     },
   })
 
   // —— 消耗 1(sdlpal:脚本之后 PAL_AddItemToInventory(-1)) ——
   if (entry)
     entry.count--
+
+  // —— 拼挥臂 + OffMagic 特效 → startBattleAnim,伤害数字延迟到动画末(sdlpal fight.c:4369 DisplayStatChange)——
+  if (hasAnim) {
+    const frames = [...windup, ...pendingAnimFrames]
+    if (frames.length > 0)
+      startBattleAnim(input.state, frames, input.bus, pendingDamageNums.length > 0 ? pendingDamageNums : undefined)
+  }
 }

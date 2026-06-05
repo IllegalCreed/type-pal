@@ -862,6 +862,14 @@ export interface BattleCtx {
    */
   pendingDamageNums?: Array<{ target: { kind: 'enemy' | 'player', idx: number }, value: number, color: 'blue' | 'yellow' | 'cyan' }>
   /**
+   * 投掷物 OffMagic 特效帧缓冲(performThrowItem 注入,2026-06-05)。0x42/0x66 SimulateMagic 在场则把
+   * PAL_BattleShowPlayerOffMagicAnim 的 FIRE 特效帧(buildPlayerOffMagicTimeline casterIdx=-1)push 进它,
+   * performThrowItem 接挥臂动画后一起 startBattleAnim(sdlpal fight.c:5340)。不在场 → 不建(向后兼容/无动画)。
+   */
+  pendingAnimFrames?: NonNullable<BattleState['battleAnim']>['frames']
+  /** 投掷物 OffMagic 特效 n(FIRE.MKF chunk[effect] 帧数)—— performThrowItem 注入,0x42/0x66 建特效帧用。 */
+  magicSpriteFrameCounts?: Map<number, number>
+  /**
    * E 类伤害 opcode(0x42 SimulateMagic / 0x66 throw weapon)解析 magic 用 ——
    * `0x42` op0 是 magic object id,需 objectMagics 解析成 magicNumber/flags,
    * 再 magics 取 baseDamage/elemental。由 performThrowItem(及未来 0x66 caller)注入;

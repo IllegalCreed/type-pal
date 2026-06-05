@@ -11,6 +11,7 @@ import {
   BATTLE_FRAME_TIME,
   buildAttackMateTimeline,
   buildCoopMagicTimeline,
+  buildThrowWindupTimeline,
   buildEnemyMagicCastIntro,
   buildEnemyMagicTimeline,
   buildEnemyPhysicalTimeline,
@@ -27,6 +28,45 @@ import {
 } from '../anim-timeline.js'
 
 const D = BATTLE_FRAME_TIME // 40ms
+
+describe('buildThrowWindupTimeline (投掷挥臂,fight.c:4339-4356)', () => {
+  // 队员 idx0 站立 (240,170);magicSound=170。
+  const frames = buildThrowWindupTimeline(0, { x: 240, y: 170 }, 170)
+
+  it('总帧数 = 7(4 步前移 + Delay2 + frame5 + frame6)', () => {
+    expect(frames).toHaveLength(7)
+  })
+
+  it('4 步前移:pos-=(4-i, (4-i)/2),各 Delay(1)', () => {
+    // i0: x-=4 y-=2 →(236,168);i1: x-=3 y-=1 →(233,167);i2: x-=2 y-=1 →(231,166);i3: x-=1 y-=0 →(230,166)
+    expect(frames[0]!.durationMs).toBe(1 * D)
+    expect(frames[0]!.fighters).toEqual([{ side: 'player', idx: 0, pos: { x: 236, y: 168 } }])
+    expect(frames[1]!.fighters).toEqual([{ side: 'player', idx: 0, pos: { x: 233, y: 167 } }])
+    expect(frames[2]!.fighters).toEqual([{ side: 'player', idx: 0, pos: { x: 231, y: 166 } }])
+    expect(frames[3]!.fighters).toEqual([{ side: 'player', idx: 0, pos: { x: 230, y: 166 } }])
+  })
+
+  it('Delay(2) hold 帧(fight.c:4348):无 fighter 改', () => {
+    expect(frames[4]!.durationMs).toBe(2 * D)
+    expect(frames[4]!.fighters).toBeUndefined()
+  })
+
+  it('frame5 + magicSound,Delay(8)(fight.c:4350-4353)', () => {
+    expect(frames[5]!.durationMs).toBe(8 * D)
+    expect(frames[5]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 5 }])
+    expect(frames[5]!.sound).toBe(170) // 投掷音 rgwMagicSound[role]
+  })
+
+  it('frame6,Delay(2)(fight.c:4355-4356)', () => {
+    expect(frames[6]!.durationMs).toBe(2 * D)
+    expect(frames[6]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 6 }])
+  })
+
+  it('magicSound=0 → frame5 不带 sound', () => {
+    const f = buildThrowWindupTimeline(0, { x: 240, y: 170 }, 0)
+    expect(f[5]!.sound).toBeUndefined()
+  })
+})
 
 describe('召唤动画 builders (fight.c:3072-3187 / 3120-3128)', () => {
   it('buildSummonBrightenTimeline:10 帧,各帧全员 iColorShift=i(1..10)', () => {

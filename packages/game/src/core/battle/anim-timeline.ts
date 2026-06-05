@@ -87,6 +87,38 @@ export function buildStealTimeline(playerIdx: number, targetEnemyIdx: number, en
 }
 
 /**
+ * 投掷物**挥臂出手动画**(port fight.c:4339-4356,kBattleActionThrowItem 演出)。
+ *   - i=0..3:4 步前移 pos-=(4-i, (4-i)/2),各 Delay(1)(fight.c:4339-4346)
+ *   - Delay(2)(fight.c:4348)
+ *   - currentFrame=5(投掷姿)+ magicSound(rgwMagicSound[role],fight.c:4350-4351),Delay(8)(fight.c:4353)
+ *   - currentFrame=6,Delay(2)(fight.c:4355-4356)
+ * 之后由 caller 接 OffMagic 特效(0x42 PAL_BattleSimulateMagic → ShowPlayerOffMagicAnim,fight.c:5340)。
+ * startPos = 投掷队员 posOriginal(站立锚);magicSound=0 → frame5 不带 sound。
+ */
+export function buildThrowWindupTimeline(playerIdx: number, startPos: { x: number, y: number }, magicSound: number): BattleAnimFrame[] {
+  const frames: BattleAnimFrame[] = []
+  let x = startPos.x
+  let y = startPos.y
+  // —— 4 步前移(fight.c:4339-4346)——
+  for (let i = 0; i < 4; i++) {
+    x -= 4 - i
+    y -= Math.trunc((4 - i) / 2)
+    frames.push({ durationMs: delayMs(1), fighters: [{ side: 'player', idx: playerIdx, pos: { x, y } }] })
+  }
+  // —— Delay(2) hold(fight.c:4348)——
+  frames.push({ durationMs: delayMs(2) })
+  // —— frame5(投掷姿)+ magicSound,Delay(8)(fight.c:4350-4353)——
+  frames.push({
+    durationMs: delayMs(8),
+    fighters: [{ side: 'player', idx: playerIdx, currentFrame: 5 }],
+    ...(magicSound > 0 ? { sound: magicSound } : {}),
+  })
+  // —— frame6,Delay(2)(fight.c:4355-4356)——
+  frames.push({ durationMs: delayMs(2), fighters: [{ side: 'player', idx: playerIdx, currentFrame: 6 }] })
+  return frames
+}
+
+/**
  * 混乱队员攻击友军的**走入动画**(port fight.c:3791-3858,kBattleActionAttackMate 演出,PAL_CLASSIC)。
  *   windup frame8/0 ×2 各 Delay(1)(3791-3798)→ Delay(2)(3800)→ 走到 target+(30,12) frame8 Delay(5)
  *   (3802-3807)→ frame9(+武器音 M6,3809-3810)+ 友军击退 pos-(12,6)(3837-3840)Delay(1)→ 友军
