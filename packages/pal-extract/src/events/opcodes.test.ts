@@ -2,9 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { lookupOpcode, lookupVerb, opcodeTable } from './opcodes.js'
 
 describe('opcode registry', () => {
-  it('包含所有 ~97 个 opcode(0x0000-0x00A6 + 0xFFFF)', () => {
+  it('包含 script.c opcode 范围(0x0000-0x00A7 + 0xFFFF)', () => {
     expect(opcodeTable[0x0000]).toBeDefined()
     expect(opcodeTable[0x00a6]).toBeDefined()
+    expect(opcodeTable[0x00a7]).toBeDefined()
     expect(opcodeTable[0xffff]).toBeDefined()
   })
 

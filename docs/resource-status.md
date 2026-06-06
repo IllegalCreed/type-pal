@@ -4,7 +4,7 @@
 > **职责**:本表 owns 每个 MKF / 非 MKF 资源每 chunk 的提取状态。runtime 功能(渲染 / 播放)→ [feature-status](feature-status.md);逐 opcode → [opcode-status](opcode-status.md)。
 > **三表**:[feature-status](feature-status.md)(引擎功能)· [opcode-status](opcode-status.md)(事件 / opcode)· resource-status(资源提取,本表)
 > **图例**:✅ done(已抽,byte-level 确认)· ⚠️ partial · ⬜ todo · N/A · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap)· 🎵 同源冗余(已有其他格式覆盖)
-> **最后更新**:2026-06-07 — byte-level 复核;M4 提取实质 100% 完成,零真实数据 gap(全非空 chunk 已落地,skip 的都是引擎从不加载的空槽)。新增 SSS chunk 2 的两个 **union-view**(`object-magics.json` / `object-poisons.json`,非新源数据,见下表 SSS chunk 2)供战斗 opcode 按 object id 解析。runtime 音频 wiring 已归 feature-status H1-H3 接入,剩 soundfont/per-track 听验,非提取 gap。
+> **最后更新**:2026-06-07 — byte-level 复核;M4 提取实质 100% 完成,零真实数据 gap(全非空 chunk 已落地,skip 的都是引擎从不加载的空槽)。SSS chunk 2 的 **union-view**(`object-magics.json` / `object-poisons.json` / `object-players.json`,非新源数据,见下表 SSS chunk 2)供战斗 opcode 按 object id 解析。runtime 音频 wiring 已归 feature-status H1-H3 接入,soundfont 已随 public 提供,剩 per-track 听验 / 音量音色确认,非提取 gap。
 >
 > 数据来源:`reference/sdlpal/global.c::PAL_LoadDefaultGame` + 各 .c grep;状态列由 byte-level 复核(逐 MKF header chunk_count vs `data/extracted/` 实际输出数 + 追 parser 源码确认 dump-all)。提取入口:[packages/pal-extract/src/cli.ts](../packages/pal-extract/src/cli.ts)。
 > MKF 文件存在性:STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(WIN95+ 用 .RPG 存档);`mus.mkf` 存在但与 MIDI 同源(见末段)。
@@ -26,8 +26,8 @@
 | 6 | 400 | `global.c:299 LOAD_DATA … chunk 6 fpDATA` | LEVELUPMAGIC_ALL(20 级 × 5 角色 × {wLevel,wMagic}) | ✅ | `data/level-up-magic.json`(parseLevelUpMagic,20 条) |
 | 7 | 0 | (no sdlpal reference) | 空 chunk | ⬛ | skip |
 | 8 | 0 | (no sdlpal reference) | 空 chunk | ⬛ | skip |
-| 9 | 25532 | `ui.c:75 CHUNKNUM_SPRITEUI=9 fpDATA` | UI sprite sheet(战斗/菜单通用) | ✅ | `images/ui/frame-NN.png` × 71 + `data/ui-sprite/spriteui.json`(尾帧 idx71 offset=0 "Bloody-Mouth Bug" pad,引擎从不索引) |
-| 10 | 17478 | `battle.c:1787 chunk 10 fpDATA → g_Battle.lpEffectSprite` | 战斗效果 sprite | ✅ | `images/magic/frame-NN.png` × 85 + `data/magic-sprite/effect.json`(尾帧 idx85 同上 pad) |
+| 9 | 25532 | `ui.c:75 CHUNKNUM_SPRITEUI=9 fpDATA` | UI sprite sheet(战斗/菜单通用) | ✅ | `images/ui/frame-NN.png` × 71 + `data/ui-sprite/spriteui.json`(原始 imagecount=72,末项 idx71 offset=0 "Bloody-Mouth Bug" pad;导出有效帧 0..70) |
+| 10 | 17478 | `battle.c:1787 chunk 10 fpDATA → g_Battle.lpEffectSprite` | 战斗效果 sprite | ✅ | `images/magic/frame-NN.png` × 85 + `data/magic-sprite/effect.json`(原始 imagecount=86,末项 idx85 offset=0 pad;导出有效帧 0..84) |
 | 11 | 40 | `global.c:301 LOAD_DATA … chunk 11 fpDATA → rgwBattleEffectIndex[10][2]` | 角色战斗效果索引(10 套 × 2 WORD) | ✅ | `data/battle-effect-index.json`(parseBattleEffectIndex,20 WORD) |
 | 12 | 282 | `text.c:891 PAL_MKFReadChunk … chunk 12 fpDATA → bufDialogIcons` | 对话框图标 sprite | ✅ | `data/dialog-icons-raw.json`(raw base64,runtime 解 RLE) |
 | 13 | 100 | `global.c:303 PAL_MKFReadChunk … chunk 13 fpDATA → EnemyPos` | 敌人出场位置表(5 队型 × 5 槽 × {x,y}) | ✅ | `data/enemy-pos.json` |
@@ -43,8 +43,8 @@
 |---|---|---|---|---|---|
 | 0 | 162464 | `global.c:348 PAL_DOALLOCATE fpSSS chunk 0 EVENTOBJECT` | EVENTOBJECT 数组(5077 条,32 字节/条) | ✅ | `data/event-objects.json`(5077 obj / 295 sceneRange) |
 | 1 | 2360 | `global.c:404 PAL_MKFReadChunk … chunk 1 fpSSS → rgScene` | SCENE 数组(295 条,8 字节/条) | ✅ | `data/scene/N.json` × 295 |
-| 2 | 7910 | `global.c:408 PAL_MKFReadChunk … chunk 2 fpSSS → rgObject` | OBJECT 数组(565 条 × 7 u16 = 3955;物品/法术/敌人/毒/角色 **联合体**,`global.h tagOBJECT`) | ✅ | `data/items.json` / `spells.json` / `enemy-objects.json` + **union-views**:`object-magics.json`(565,magic-union:magicNumber/scriptOnSuccess/scriptOnUse/flags)· `object-poisons.json`(565,poison-union:level/color/playerScript/enemyScript)。后两个是**同一 chunk 的另两种联合体视图**(非新增源数据),供战斗 opcode 按 object id 解析用:`object-magics` 给 0x57/0x88(set magic damage by MP/money)+ performMagic scriptOnSuccess 解析;`object-poisons` 给 0x28 apply poison(解 wEnemyScript 每回合 tick)/ 0x5E jump-if-no-poison。提取见 `cli.ts:258-261` parseObjectMagics / parseObjectPoisons(同 sssObjBuf,各按 union 字段重解)|
-| 3 | 54056 | `text.c:795 PAL_MKFGetChunkSize chunk 3 fpSSS` | 消息偏移表(13514 个 DWORD → 13513 条消息) | ✅ | `cli.ts:153` parseMessageOffsets 全消费 → `lookup/strings.json`(13513 条)+ 嵌入 disasm |
+| 2 | 7910 | `global.c:408 PAL_MKFReadChunk … chunk 2 fpSSS → rgObject` | OBJECT 数组(565 条 × 7 u16 = 3955;物品/法术/敌人/毒/角色 **联合体**,`global.h tagOBJECT`) | ✅ | `data/items.json` / `spells.json` / `enemy-objects.json` + **union-views**:`object-magics.json`(565,magic-union:magicNumber/scriptOnSuccess/scriptOnUse/flags)· `object-poisons.json`(565,poison-union:level/color/playerScript/enemyScript)· `object-players.json`(6,player-union:scriptOnFriendDeath/scriptOnDying)。后三者是**同一 chunk 的衍生视图**(非新增源数据),供战斗 opcode / post-action check 按 object id 解析:`object-magics` 给 0x57/0x88(set magic damage by MP/money)+ performMagic scriptOnSuccess;`object-poisons` 给 0x28 apply poison(解 wEnemyScript 每回合 tick)/ 0x5E jump-if-no-poison;`object-players` 给队友死亡/濒死脚本。提取见 `cli.ts` 同一 `sssObjBuf` 上的 parseObjectMagics / parseObjectPoisons / parseObjectPlayers |
+| 3 | 54056 | `text.c:795 PAL_MKFGetChunkSize chunk 3 fpSSS` | 消息偏移表(13514 个 DWORD → 13513 条消息) | ✅ | `parseSss` 内 `parseMessageOffsets` 全消费 → `lookup/strings.json`(13513 条)+ 嵌入 disasm |
 | 4 | 348024 | `global.c:351 PAL_DOALLOCATE fpSSS chunk 4 SCRIPTENTRY` | 脚本字节码(43503 条 SCRIPTENTRY,8 字节/条) | ✅ | `events/scene-NNN.json` × 295 + `shared.json` + `objects.json`(disasm+recompile round-trip OK) |
 
 ---
@@ -136,7 +136,7 @@
 |---|---|---|---|---|
 | 0–11 | `rngplay.c:74 PAL_MKFGetChunkCount(fpRngMKF)`;`rngplay.c:416 PAL_RNGReadFrame(…)`;`main.c:200 PAL_RNGPlay(6 …)` | RLE 压缩片段动画(sub-MKF + delta 逐帧;片头等) | ✅ | `images/animation/rng-{NN}/frame-{NNN}.png`(12 dir,**1464 帧**)+ `data/rng-frames.json` |
 
-> ✅ runtime serve(2026-06-02 对抗复核订正):RNG PNG 经 `packages/game/public/extracted` → `data/extracted` **软链** + vite `fs.allow`(vite.config.ts:14-19)直接服务全 1464 帧(live dev curl `rng-06/frame-000.png` 200 image/png)。**无需 asset-copy**;原"0 份/M6 步骤"备注 FALSE 已订正(项目从不 serve production build,dev/playwright 均 vite dev)。
+> ✅ runtime serve(2026-06-02 对抗复核订正):RNG PNG 经 `packages/game/public/extracted` → `data/extracted` **软链** + vite `fs.allow`(vite.config.ts:26-30)直接服务全 1464 帧(live dev curl `rng-06/frame-000.png` 200 image/png)。**无需 asset-copy**;原"0 份/M6 步骤"备注 FALSE 已订正(项目从不 serve production build,dev/playwright 均 vite dev)。
 
 ---
 
@@ -178,7 +178,7 @@
 |---|---|---|---|---|
 | 0–504 | `sound.c:964 "sounds.mkf" func=SOUND_LoadWAVEData`;`sound.c:792 PAL_MKFReadChunk(buf iSoundNum player->mkf)` | 音效 WAV/RIFF(chunk index = iSoundNum) | ✅ | `sounds/{i}.wav` × 363 + `data/sounds-metadata.json`(cli.ts:480-486 loop-over-all) |
 
-> runtime 音频**播放**已由 core intent + shell `AudioManager` 接入;当前剩 soundfont/per-track 听验。数据侧已全落地。
+> runtime 音频**播放**已由 core intent + shell `AudioManager` 接入;soundfont 已随 public 提供,当前剩 per-track 听验 / 音量音色确认。数据侧已全落地。
 
 ---
 
@@ -224,4 +224,4 @@
 | 1–6.avi | — | — | 6 | ✅ | 6 mp4 |
 | unifont BDF | — | — | 57083 | ✅ | glyphs.json |
 
-> **结论:无真实数据 gap。** STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(DOS/WIN95 以 `.RPG` 存档),不计入。音频运行时接线见 feature-status H1-H3,当前剩 soundfont/per-track 听验(非数据)。(RNG PNG runtime mirror 原备注已订正:软链 + vite fs.allow 已服务全帧,非 gap。)
+> **结论:无真实数据 gap。** STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(DOS/WIN95 以 `.RPG` 存档),不计入。音频运行时接线见 feature-status H1-H3,soundfont 已有,当前剩 per-track 听验 / 音量音色确认(非数据)。(RNG PNG runtime mirror 原备注已订正:软链 + vite fs.allow 已服务全帧,非 gap。)

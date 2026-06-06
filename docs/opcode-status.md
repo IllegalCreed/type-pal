@@ -1,27 +1,27 @@
 # Opcode Status · type-pal
 
-> 脚本 opcode / 事件解释器逐指令实现状态 —— **标注清楚所有 opcode,最后不漏任何一个**。**事件 / opcode 的单一真值源**(163 全集)。
+> 脚本 opcode / 事件解释器逐指令实现状态 —— **标注清楚所有 opcode,最后不漏任何一个**。**事件 / opcode 的单一真值源**(164 全集)。
 > **职责**:本表 owns 每个 opcode 的实现状态。引擎功能(menu / battle / scene / cutscene)→ [feature-status](feature-status.md);资源提取 → [resource-status](resource-status.md)。
 > **三表**:[feature-status](feature-status.md)(引擎功能)· opcode-status(事件 / opcode,本表)· [resource-status](resource-status.md)(资源提取)
-> **图例**:✅ done · ⚠️ partial(extraction 已收集目标,runtime 待)· ⬜ todo · N/A
+> **图例**:✅ done · ⚠️ partial(主路径可用,低频分支/参数残) · ⬜ todo · N/A
 > **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉 · E=战斗 · S=系统/UI
-> **⚠️ 2026-05-31 逐 opcode 审计修正**:对全 163 opcode 拿 ts 实现对 sdlpal 源逐分支核对(38-agent 审计 + 35-agent 对抗复核)发现 **25 处真问题**(此前误标 ✅):10 🐞bug / 9 ⬜missing-branch / 6 ⚠️简版。**详见下方「审计修正表」,该表对所列 opcode 覆盖本文件正文表格的 ✅ 标注**。此前"全 opcode ✅ 无 todo"的断言**不成立**。
+> **⚠️ 2026-06-07 逐 opcode 审计修正**:按 sdlpal `script.c` 复核真实范围为 `0x00..0xA7`(排除 0x32/0x48/0x72/0x9D)共 **164 个** opcode,另有 `0xFFFF` 对话文本。2026-05-31 审计发现的 **25 处真问题**已在下方归档并复核；当前无 runtime ⬜ todo,仅保留若干 0 调用 / 演出时序确认项。
 >
-> **历史最后更新**:2026-05-30 — E 类 + D 音频收口(opcode handler 存在 + 单测,但**非全分支 1:1**,见审计表)。本轮补齐:
+> **历史补齐记录**:2026-05-30 — E 类 + D 音频收口(opcode handler 存在 + 单测,但**非全分支 1:1**,见审计表)。本轮补齐:
 >   battle 0x5F kill-player / 0x5C hide / 0x6B blow / 0x89 set-result / 0x8A auto-battle / 0x33 collect /
 >   0x3A flee / 0x9C division / 0x9F transform / 0x30 stat-buff% / 0x31 battle sprite /
 >   0x92 magic-anim / 0x6A steal;explore 0x34 妖魔转化 / 0x38 teleport-out(fail-path);
 >   audio 0x45/0x77/0xA3(core state-set + shell audio 消费,剩听验 / fade 时长 cosmetic);并修 0x64 maxHp 用 BattleEnemy.maxHealth(非 prevHp 近似)。
->   带文档化残:0x38(dungeon teleport script)/ 0x69(escaped 不掉落)/ 0x30(per-battle Extra 战末清)。
+>   0x38(dungeon teleport script)/ 0x69(escaped 不掉落)/ 0x30(per-battle Extra 战末清)均已收口;0x38 仅剩 scene 41 全链时序实机确认。
 >   早前:法术伤害结算 keystone + 0x42/0x66 simulateMagic + 投掷物全链 + 毒 pipeline + 0x57/0x88 set-magic-damage。
 >
-> sdlpal 真值出处:`reference/sdlpal/script.c`(PAL_InterpretInstruction 587-3115 / PAL_RunTriggerScript 3140+ / PAL_RunAutoScript 3482+)。全集:控制流 0x00-0x0A + 数据/动作 0x0B-0xA6(不存在:0x32 / 0x48 / 0x72 / 0x9D)。
+> sdlpal 真值出处:`reference/sdlpal/script.c`(PAL_InterpretInstruction 587-3115 / PAL_RunTriggerScript 3140+ / PAL_RunAutoScript 3482+)。全集:控制流 0x00-0x0A + 数据/动作 0x0B-0xA7(不存在:0x32 / 0x48 / 0x72 / 0x9D)。
 
 > **2026-05-29 session 5 大批完成**(见各 commit):
 > - C 类调色板:0x53/0x54 昼夜(+ 夜间调色板真值接线)、0x80 PaletteFade、0x8B setPalette —— **全 ✅**
 > - D 类视觉:0x4F FadeToRed、0x50/0x51 FadeOut/In、0x93 SceneFade、0x9B FadeToScene(特效 A);
->   0x71 wave、0x76 ShowFBP(dither)、0xA4 ScrollFBP、0xA5 ShowFBP+effectSprite(特效 B);
->   0x36/0x37 RNG(特效 C);0x96 EndingAnimation + PAL_EndingScreen DOS 全编排 —— **全 ✅**
+>   0x71 wave、0x76 ShowFBP(dither)、0xA4 ScrollFBP、0xA5 ShowFBP+effectSprite(特效 B,0 调用;effectSprite 参数见 D 表);
+>   0x36/0x37 RNG(特效 C);0x96 EndingAnimation + PAL_EndingScreen DOS 全编排 —— 主用路径 **全 ✅**
 > - 配套:开场/结局双版 devpanel、夜间调色板/SOUNDS/Musics/map104·164 提取补齐。
 >
 > D 类**音频** 0x43/0x45/0x47/0x77/0xA3 已接 core 意图(`wNumMusic`/`wNumBattleMusic`/`pendingSounds`)并由 shell `AudioManager.sync` 播放;剩听验与 fade 时长 cosmetic。
@@ -29,7 +29,7 @@
 > - 0x4D wait-any-key:✅ 已实现(2026-05-30,commit 53c8cbf;waiting='wait-key',Confirm/Menu/Cancel 解除)
 > - 0x4E load-game:✅ 已实现(2026-05-30,commit 56fe8b7;fade-out + 重载 gs.currentSaveSlot + 停脚本)
 > - 0xA0 quit/ending:✅ 已实现(2026-05-30,commit 30a4822;WIN95 播 4/5/6.mp4→回标题,DOS 直接回标题,跳过引擎 credits)
-> - 0x78 / 0xA6:✅ 显式 no-op 文档化(2026-05-30,commit 1196faf;0x78 本游戏 35 用全空操作,0xA6 0 用)
+> - 0x78 / 0xA6 / 0xA7:✅ 显式 no-op 文档化(0x78 本游戏 35 用全空操作,0xA6 0 用,0xA7 本游戏 590 用且 sdlpal AutoScript 显式 ip++)
 > - 0x0A goto-if-no:✅ 已实现(2026-05-30;waiting='confirm' 阻塞否/是确认框,否/cancel→goto operand[0],
 >   是→ip++;复用 drawConfirmBox;否/是 toggle;PAL_ClearDialog(FALSE) 问句留屏 + isDialogContinuationOp 豁免
 >   Space-wait。script.c:3373-3387 / uigame.c:342-365;26 用,水果贩"要不要来几个"等。**A 类至此全 ✅**)
@@ -43,10 +43,10 @@
 
 ## 🔬 2026-05-31 逐 opcode 审计修正表(权威 — 覆盖正文 ✅)
 
-> 方法:全 163 opcode 拿 ts 实现(applyRawOpcode + dispatchBattleOpcode + tickEventSystem/runScript + runOneAutoOp 全 dispatch 路径)对 sdlpal `script.c`/`fight.c`/`global.c` **逐分支**核对(38-agent 审计),再 35-agent **对抗复核**滤假阳性。下表所列 opcode 的真实状态以此为准。
+> 方法:全 164 opcode 拿 ts 实现(applyRawOpcode + dispatchBattleOpcode + tickEventSystem/runScript + runOneAutoOp 全 dispatch 路径)对 sdlpal `script.c`/`fight.c`/`global.c` **逐分支**核对(38-agent 审计),再 35-agent **对抗复核**滤假阳性。下表所列 opcode 的真实状态以此为准。
 > 图例:🐞 bug(逻辑错,需修) · ⬜ missing-branch(分支/实现缺) · ⚠️ 简版(主干对、子分支缺)
 
-### 审计真问题 25 处 → **17 已修/逻辑done ✅ / 7 子系统待修 ⬜ / 1 CLASSIC 本就对**
+### 审计真问题 25 处 → **已修/复核收口 ✅**
 > (0x05 复核后实为"逻辑已做、残仅 cutscene pacing",并入 0x02/03 同源;0x96 audit 误判,CLASSIC 本就对。)
 
 | op | 状态 | commit | 缺口 / 修法 |
@@ -85,15 +85,15 @@
 | 0x98 | set-follower:审计指的 sprite/位置在 present 层(computeFollowerRenderItems)已做,非 opcode 缺 |
 | 0x9C | enemy-division:复核认 sdlpal 计数语义被审计误读,ts 逻辑实际对 |
 
-### 非 bug 简版 5 处(by design / 已记残)
+### 非 bug / 低风险残项 5 处(by design / 已记残)
 
 | op | 说明 |
 |----|------|
-| 0x07 | start-battle 缺 onLose/onFlee 续跑(P0.e by design,留 M5 P1-Battle 系列) |
 | 0x18 | equip 缺 slot-swap 优化(库存顺序差异,净值正确,无玩法影响) |
 | 0x28 | apply-poison 战斗内分支/抗性已对,仅毒脚本 tick 差一拍(postAction,文档化残) |
 | 0x43 | play-music 已写 wNumMusic/musicLoop 并由 shell 播放;fade 参数只剩 cosmetic |
 | 0x47 | play-sound 已 push gs.pendingSounds 并由 shell drain 播放;剩听验 |
+| 0xA5 | ShowFBP 主路径已复用 showFbp;op1 effectSprite 未经 opcode handler 传入,但真实数据 0 调用(DOS-only 结局路径) |
 
 > **修复进度(2026-05-31,全部对 sdlpal 源逐行核对)**:
 > - ✅ **已修 19 个**:0x1E(cde56f2)/ 0x29 poison 抗性+真脚本(a6ecf64)/ 0x61(d91e9a8)/ 0x2A(d91e9a8)/
@@ -166,7 +166,7 @@
 | 0x09 | wait N frames | ✅ | frame-wait |
 | 0x0A | goto if player selected no | ✅ | waiting='confirm' 否/是确认框;否/cancel→goto operand[0],是→ip++(script.c:3373) |
 
-## 数据/动作 0x0B-0xA6 — 已实现 ✅
+## 数据/动作 0x0B-0xA7 — 状态总览
 
 0x0B-0x2F(移动 contact / 属性 / 物品 / poison / status 主干)、0x35 shake、0x40 setTriggerMethod、
 0x43 playMusic、0x46 setPartyPos、0x47 playSfx、0x49 setObjState、0x4A setBattlefield、
@@ -175,21 +175,21 @@
 0x6F syncObjState、0x70 walkParty、0x73 fadeScreen、0x74 jumpIfNotAllFullHP、0x75 setParty、
 0x79 jumpIfPlayerInParty、0x7F moveViewport、0x81 jumpIfNotFacing、0x82 npcWalkToHigh、
 0x83 jumpIfObjNotInZone、0x86 jumpIfNotEquipped、0x8E restoreScreen、0x90 setObjectScript、
-0x94 jumpIfObjState、0x95 jumpIfScene、0x9A setMultiObjState、0xA2 randomJump、
+0x94 jumpIfObjState、0x95 jumpIfScene、0x9A setMultiObjState、0xA2 randomJump、0xA7 no-op、
 setDialogStyle 0x3B-0x3E。
 
 **B 类移动全套(2026-05-28)**:0x3F/0x44/0x97 rideObject(speed 2/4/8)、0x4B nullify、
 0x4C monsterChase、0x52 hideObject、0x62/0x63 chasePause/Speedup、0x7A/0x7B partyWalkTo(speed 4/8)、
 0x7C npcWalkTo(speed 4 + stagger)、0x7D moveObject、0x7E setObjectLayer、0x87 animateObject。
 
-## 数据/动作 0x0B-0xA6 — 收口完成 ✅(2026-05-30)
+## 数据/动作 0x0B-0xA7 — 收口状态(2026-06-07)
 
-> **全 opcode 收口**:A/B/C/D/E/S 类逐条 ✅。**无 ⬜(todo)剩余**(2026-06-02 对抗复核更新)。
+> **全 opcode 收口**:A/B/C/D/E/S 类逐条 ✅。**无 runtime ⬜(todo)剩余**(2026-06-07 对抗复核更新;0xA5 effectSprite 为 0 调用参数残项)。
 > 0x38(teleport-out call+return)/ 0x69(enemy escape→terminated 无奖励)/ 0x30(per-battle Extra slot 战末清)/ 0x31(战斗精灵替换,D17 已接)**均已做**。
 > 0x92 pre-magic 前摇 anim **已 wire(2026-06-02,见 0x92 行)**。
 > 0x45/0x77/0xA3 已由 core state-set 接到 shell audio;剩听验 / fade 时长 cosmetic。
 
-### A 控制流/数据 / 系统 S — **全部 ✅(2026-05-30 0x0A 收口)**
+### A 控制流/数据 / 系统 S — **全部 ✅(2026-06-07 0xA7 纳入)**
 | op | 含义 | 状态 | 备注 |
 |----|------|------|------|
 | 0x0A | goto if selected no | ✅A | waiting='confirm' 阻塞否/是确认框(否=WORD19/是=WORD20,默认否)。否/cancel/Menu→goto operand[0],是→ip++。PAL_ClearDialog(FALSE) 问句留屏 + isDialogContinuationOp 豁免 Space-wait;复用 drawConfirmBox(draw-confirm.ts)。script.c:3373-3387 / uigame.c:342-365,26 用 |
@@ -205,6 +205,7 @@ setDialogStyle 0x3B-0x3E。
 | 0xA1 | set all party pos = first | ✅A | 全 trail(5)= 队首世界坐标+朝向 → follower 聚拢(script.c:2998,2026-05-29) |
 | 0x4D | wait for any key | ✅S | waiting='wait-key',Confirm(kKeySearch)/Menu/Cancel(kKeyMenu)解除(play.c:602,53c8cbf) |
 | 0x4E | load last saved game | ✅S | fade-out + _loadLastSaveHandler(gs.currentSaveSlot)+ 停脚本(script.c:1760,56fe8b7) |
+| 0xA7 | autoScript no-op | ✅S | PAL_RunAutoScript 显式 `wScriptEntry++`(script.c:3639-3641);本游戏 590 用,多为 item/magic 描述脚本前缀。runtime/registry 已显式 no-op |
 
 ### B 移动 / NPC / chase — 全部 ✅(2026-05-28)
 | op | 含义 | 状态 | 备注(sdlpal 出处) |
@@ -226,7 +227,7 @@ setDialogStyle 0x3B-0x3E。
 
 > 注:**0x5C 不是 B 类** —— `g_Battle.iHidingTime = -op0`(script.c:1907-1911)是**战斗**态(party 隐身回合),已移到 E 类。
 
-### E 战斗 — **全部 ✅(2026-05-30 E 类收口;0x38/0x69 带文档化残)**
+### E 战斗 — **全部 ✅(2026-05-30 E 类收口;0x38 仅剩全链时序实机确认)**
 
 > **2026-05-30 法术伤害结算 keystone 完成**(commit 见下):
 > - **E1 inline 攻击法术伤害**:`performMagic` 接上 `PAL_BattleCommitAction kBattleActionMagic`
@@ -304,7 +305,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x96 | show ending animation | D | ✅ d517919(PAL_EndingAnimation 400 帧) |
 | 0x9B | fade to current scene | D | ✅ fec9a11(复用 dither fadeState) |
 | 0xA4 | scroll FBP to screen | D | ✅ 046a583(PAL_ScrollFBP 220 步) |
-| 0xA5 | show FBP with sprite effects | D | ✅ f600c03(复用 showFbp + effectSprite 叠加) |
+| 0xA5 | show FBP with sprite effects | D | ⚠️ 主 FBP 路径已复用 showFbp;op1 effectSprite 未经 opcode handler 传给 showFbp。真实数据 0 调用(DOS-only 结局路径),fbp-player 已支持 effectSpriteFrames 但该 opcode 参数尚未 plumb |
 | 0x45 | set battle music | D | ✅ gs.wNumBattleMusic = op0(script.c:1658,进战斗选 BGM);shell `pickMusicTrack` 战斗中播 wNumBattleMusic。event-system.ts / shell/audio.ts |
 | 0x77 | stop music | D | ✅ gs.wNumMusic = 0(script.c:2215,op0 fade 秒:0→2.0,否则 op0*3);shell 见 track 0 停 BGM。fade 时长 cosmetic 待细化。event-system.ts / shell/audio.ts |
 | 0xA3 | play CD music(RIX fallback) | D | ✅ gs.wNumMusic = op1(script.c:3023);ts 无 CD → 等价 sdlpal "CD 不可用回退 RIX"(PlayMusic(op1));shell 播 Musics/CD OGG/RIX fallback track。event-system.ts / shell/audio.ts |

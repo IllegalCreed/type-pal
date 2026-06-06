@@ -4,7 +4,7 @@
  * 每条指令 8 字节: u16 LE opcode + 3 × u16 LE 操作数。
  * 完整语义: reference/sdlpal/script.c 大 switch。
  *
- * ~15 个 M2 切片需要的 opcode 具名; 其余 raw 占位,字节层面照常透传。
+ * 已具名 opcode 直接反编译为结构化命令;其余 raw 占位,字节层面照常透传。
  */
 
 export type FieldKind =
@@ -39,7 +39,9 @@ export interface OpcodeDef {
 const VALUE: { name: string; kind: FieldKind } = { name: '_unused', kind: 'value' }
 
 /**
- * 所有 ~97 个 opcode。~15 个具名(附字段详情),其余 raw 占位。
+ * 覆盖 sdlpal script.c 0x0000..0x00A7 的字节范围
+ * (0x32/0x48/0x72/0x9D 是未使用缺口,仍保留 raw 占位) + 0xFFFF。
+ * 已具名 opcode 附字段详情,其余 raw 占位。
  * 完整语义请查阅 reference/sdlpal/script.c 大 switch。
  */
 export const opcodeTable: Record<number, OpcodeDef> = {
@@ -207,9 +209,9 @@ export const opcodeTable: Record<number, OpcodeDef> = {
   },
 }
 
-/** 将 0x0000..0x00A6 中尚未具名的 opcode 填充为 raw 占位。 */
+/** 将 0x0000..0x00A7 中尚未具名的 opcode 填充为 raw 占位。 */
 function fillUnnamedOpcodes(): void {
-  for (let op = 0x0000; op <= 0x00a6; op++) {
+  for (let op = 0x0000; op <= 0x00a7; op++) {
     if (opcodeTable[op]) continue
     opcodeTable[op] = {
       name: 'raw',

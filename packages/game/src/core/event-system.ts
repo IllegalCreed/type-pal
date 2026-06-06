@@ -386,6 +386,8 @@ export const OP_FIXME_78 = 0x0078                  // 120
 // case 0x00A6(166): backup screen — VIDEO_BackupScreen(gpScreen)(script.c:3069-3074)。本游戏 0 调用
 //   (0x73 fadeScreen 内部已含 VIDEO_BackupScreen);独立 opcode 当 no-op(ts present 自管 fade backup)。
 export const OP_BACKUP_SCREEN = 0x00A6             // 166
+// case 0x00A7(167): PAL_RunAutoScript 专用显式 no-op(script.c:3639-3641)。本游戏 590 用,多为物品描述脚本前缀。
+export const OP_NOOP_A7 = 0x00A7                   // 167
 // case 0x004D(77): wait for any key — PAL_WaitForKey(0)(script.c:1753-1758)。
 //   = PAL_WaitForKeyInternal(0, FALSE)(play.c:602-638):**永久等**,只认 kKeySearch|kKeyMenu。
 //   本游戏 0 用(为完整性);设 waiting='wait-key' 阻塞,Confirm/Menu/Cancel 解除。
@@ -4367,6 +4369,10 @@ function applyRawOpcode(
 
     case OP_BACKUP_SCREEN:
       // sdlpal script.c:3069-3074 `VIDEO_BackupScreen(gpScreen)`。本游戏 0 调用(0x73 内部已 backup),no-op。
+      break
+
+    case OP_NOOP_A7:
+      // sdlpal script.c:3639-3641:AutoScript mode 显式 `wScriptEntry++`。在统一 raw 解释器里等价 no-op。
       break
 
     default:

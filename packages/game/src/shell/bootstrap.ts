@@ -355,8 +355,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // M6 音频:shell 层 Web Audio。core 发意图(gs.pendingSounds SFX 队列 / gs.wNumMusic BGM),
   //   每帧 onPresent 调 audio.sync 消费。首个 keydown resume AudioContext(浏览器 autoplay policy)。
   const audio = createAudioManager('/extracted')
-  // BGM 后端:SpessaSynth 运行时 MIDI 合成(直接播 Musics/{NNN}.mid,开箱即响)。需 public/soundfont.sf3
-  //   (user 放一个 GM soundfont;缺失则 BGM 静默 + warn,见 audio-midi.ts)。worklet 已 vendored 到 public/。
+  // BGM 后端:SpessaSynth 运行时 MIDI 合成(直接播 Musics/{NNN}.mid,开箱即响)。
+  //   public/soundfont.sf3 已随仓库提供;缺失则 BGM 静默 + warn,见 audio-midi.ts。worklet 已 vendored 到 public/。
   audio.setMusicBackend(createSpessaSynthBackend({
     baseUrl: '/extracted',
     workletUrl: '/spessasynth_processor.min.js',

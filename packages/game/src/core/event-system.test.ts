@@ -28,6 +28,7 @@ import {
   OP_GOTO_IF_NO,
   OP_TRANSFORM_COLLECTED, OP_TELEPORT_OUT, setStoreTable,
   OP_SET_BATTLE_MUSIC, OP_STOP_MUSIC, OP_PLAY_CD_MUSIC,
+  OP_NOOP_A7,
   setObjectPoisons, curePlayerPoisonByLevel,
   type BattleCtx,
 } from './event-system.js'
@@ -873,6 +874,33 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
     expect(gs.mode).toBe('battle')
     expect(gs.eventCursor).toBeUndefined()
     setStartBattleHandler(null)
+  })
+})
+
+describe('opcode 0xA7 explicit no-op', () => {
+  it('推进脚本且不落入 unknown raw debug(sdlpal script.c:3639)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {})
+    try {
+      loadEvent(gs, [
+        { op: 'raw', opcode: OP_NOOP_A7, operands: [0, 0, 0] },
+        { op: 'end' },
+      ])
+
+      tickEventSystem(gs, snap(), bus)
+
+      expect(gs.eventCursor).toBeUndefined()
+      expect(
+        debugSpy.mock.calls.some(([msg]) => {
+          const text = String(msg)
+          return text.includes('skip raw opcode=0x00a7') || text.includes('skip raw opcode=167')
+        }),
+      ).toBe(false)
+    }
+    finally {
+      debugSpy.mockRestore()
+    }
   })
 })
 

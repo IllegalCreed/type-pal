@@ -36,6 +36,7 @@ import type {
 import type { DialogSprite } from '../assets/dialog-assets.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 import type { IndexedImage } from '../assets/png.js'
+import type { BattlePlayer, BattleStatus } from '../core/battle/battle-state.js'
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { startBattle } from '../core/battle/battle-system.js'
 import {
@@ -122,6 +123,99 @@ export function togglePartyMembership(members: readonly number[], roleId: number
   if (roleId === 0) return [...members]
   if (members.includes(roleId)) return members.filter((m) => m !== roleId)
   return [...members, roleId]
+}
+
+type DevStatusKey = keyof BattleStatus
+
+interface DevStatusDef {
+  key: DevStatusKey
+  label: string
+  persistentIndex?: number
+}
+
+const PARTY_STATUS_DEFS: readonly DevStatusDef[] = [
+  { key: 'confused', label: '乱/confused', persistentIndex: 0 },
+  { key: 'paralyzed', label: '定/paralyzed', persistentIndex: 1 },
+  { key: 'sleep', label: '眠/sleep', persistentIndex: 2 },
+  { key: 'silence', label: '封/silence', persistentIndex: 3 },
+  { key: 'puppet', label: '傀儡/puppet', persistentIndex: 4 },
+  { key: 'bravery', label: '勇/bravery', persistentIndex: 5 },
+  { key: 'protect', label: '护/protect', persistentIndex: 6 },
+  { key: 'haste', label: '速/haste', persistentIndex: 7 },
+  { key: 'dualAttack', label: '双攻/dual', persistentIndex: 8 },
+  { key: 'slow', label: '迟/slow' },
+]
+
+export interface PartyStatusReadout {
+  slot: number
+  roleId: number
+  roleName: string
+  source: 'battle' | 'persistent'
+  entries: string[]
+}
+
+function statusRoundsText(rounds: number): string {
+  return rounds > 999 ? `${rounds}(装备/永久)` : `${rounds}回合`
+}
+
+function battleStatusValue(player: BattlePlayer | undefined, key: DevStatusKey): number {
+  return player?.status[key] ?? 0
+}
+
+function persistentStatusValue(gs: GameState, roleId: number, def: DevStatusDef): number {
+  if (def.persistentIndex === undefined) return 0
+  return gs.rgPlayerStatus[roleId]?.[def.persistentIndex] ?? 0
+}
+
+function collectPoisonStatusEntries(
+  gs: GameState,
+  roleId: number,
+  objectPoisons: readonly ObjectPoisonView[],
+  items: readonly Item[],
+): string[] {
+  const poisonsById = new Map(objectPoisons.map((p) => [p.id, p]))
+  const itemNamesById = new Map(items.map((item) => [item.id, item._name ?? '']))
+  const entries: string[] = []
+  for (let slot = 0; slot < 16; slot++) {
+    const ps = gs.rgPoisonStatus[`${slot}_${roleId}`]
+    if (!ps || ps.wPoisonID === 0) continue
+    const poison = poisonsById.get(ps.wPoisonID)
+    const name = itemNamesById.get(ps.wPoisonID)
+    const label = name ? `${name}#${ps.wPoisonID}` : `#${ps.wPoisonID}`
+    const level = poison ? ` L${poison.level}` : ''
+    const script = ps.wPoisonScript ? ` script:${ps.wPoisonScript}` : ''
+    entries.push(`毒槽${slot}:${label}${level}${script}`)
+  }
+  return entries
+}
+
+export function collectPartyStatusReadouts(
+  gs: GameState,
+  playerRoles: PlayerRoles,
+  objectPoisons: readonly ObjectPoisonView[] = [],
+  items: readonly Item[] = [],
+): PartyStatusReadout[] {
+  return gs.partyMembers.map((partyRoleId, slot) => {
+    const battlePlayer = gs.mode === 'battle' ? gs.battleState?.players[slot] : undefined
+    const roleId = battlePlayer?.roleId ?? partyRoleId
+    const role = playerRoles.roles.find((r) => r.id === roleId)
+    const source: PartyStatusReadout['source'] = battlePlayer ? 'battle' : 'persistent'
+    const entries: string[] = []
+    for (const def of PARTY_STATUS_DEFS) {
+      const rounds = source === 'battle'
+        ? battleStatusValue(battlePlayer, def.key)
+        : persistentStatusValue(gs, roleId, def)
+      if (rounds > 0) entries.push(`${def.label} ${statusRoundsText(rounds)}`)
+    }
+    entries.push(...collectPoisonStatusEntries(gs, roleId, objectPoisons, items))
+    return {
+      slot,
+      roleId,
+      roleName: role?._name ?? `role${roleId}`,
+      source,
+      entries,
+    }
+  })
 }
 
 /** 自定义战斗临时 enemyTeam id(devpanel A);applyCustomBattle push 进 enemyTeams,startBattle 按此查。 */
@@ -964,7 +1058,7 @@ function openPicker(deps: DevPanelDeps): void {
   // 缩略图卡片网格:全部场景,可滚动;缩略图 IntersectionObserver lazy 渲染。
   const sceneList = document.createElement('div')
   sceneList.style.cssText =
-    'display:flex; flex-wrap:wrap; gap:5px; max-height:360px; overflow-y:auto; padding:4px; background:#1a1a1a; border:1px solid #444; border-radius:4px'
+    'display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:5px; max-height:360px; overflow-y:auto; padding:2px 0 4px; background:#1a1a1a'
   body.appendChild(sceneList)
 
   const thumbKeyOf = (j: SceneJump): string =>
@@ -1043,31 +1137,31 @@ function openPicker(deps: DevPanelDeps): void {
       const card = document.createElement('div')
       card.title = jump.label
       card.style.cssText =
-        'width:104px; cursor:pointer; border:1px solid #3a3a42; border-radius:4px; background:#222; padding:3px; display:flex; flex-direction:column; align-items:center; gap:2px'
+        'min-width:0; cursor:pointer; border:1px solid #3a3a42; border-radius:4px; background:#222; padding:3px; display:flex; flex-direction:column; align-items:center; gap:2px'
       card.addEventListener('mouseenter', () => (card.style.borderColor = '#6c8eef'))
       card.addEventListener('mouseleave', () => (card.style.borderColor = '#3a3a42'))
 
       const thumbWrap = document.createElement('div')
       thumbWrap.style.cssText =
-        'width:96px; height:96px; background:#111; display:flex; align-items:center; justify-content:center; overflow:hidden; border:1px solid #2a2a2a'
+        'width:100%; aspect-ratio:1 / 1; max-height:96px; background:#111; display:flex; align-items:center; justify-content:center; overflow:hidden; border:1px solid #2a2a2a'
       const ph = document.createElement('div')
       ph.dataset.ph = '1'
       ph.textContent = jump.mapNum !== undefined ? `map ${jump.mapNum}` : '…'
       ph.style.cssText = 'font-size:10px; color:#555'
       const img = document.createElement('img')
       img.alt = ''
-      img.style.cssText = 'max-width:96px; max-height:96px; image-rendering:auto; display:none'
+      img.style.cssText = 'max-width:100%; max-height:100%; image-rendering:auto; display:none'
       thumbWrap.append(ph, img)
       card.appendChild(thumbWrap)
 
       const nameLine = document.createElement('div')
       nameLine.textContent = name ?? `scene-${jump.sceneId}`
-      nameLine.style.cssText = `font-size:11px; line-height:1.2; text-align:center; max-width:98px; word-break:break-all; color:${name ? '#fdf6a8' : '#ddd'}`
+      nameLine.style.cssText = `font-size:11px; line-height:1.2; text-align:center; width:100%; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:${name ? '#fdf6a8' : '#ddd'}`
       card.appendChild(nameLine)
 
       const idLine = document.createElement('div')
       idLine.textContent = `#${jump.sceneId}${jump.mapNum !== undefined ? ` · map-${jump.mapNum}` : ''}`
-      idLine.style.cssText = 'font-size:9px; color:#888; font-family:monospace'
+      idLine.style.cssText = 'font-size:9px; color:#888; font-family:monospace; width:100%; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:center'
       card.appendChild(idLine)
 
       card.addEventListener('click', () => {
@@ -1139,6 +1233,47 @@ function openPicker(deps: DevPanelDeps): void {
   const partyGrid = document.createElement('div')
   partyGrid.style.cssText =
     'display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin:4px 0' // 2 行 × 3 列
+  const partyStatusList = document.createElement('div')
+  partyStatusList.style.cssText =
+    'margin:6px 0 8px; padding:6px; border:1px solid #444; background:#18181d; font-size:11px; line-height:1.45'
+
+  const renderPartyStatusList = (): void => {
+    partyStatusList.textContent = ''
+    const title = document.createElement('div')
+    title.style.cssText = 'color:#fdf6a8; font-weight:bold; margin-bottom:4px'
+    title.textContent = '当前队伍状态'
+    partyStatusList.appendChild(title)
+
+    const readouts = collectPartyStatusReadouts(
+      deps.gs,
+      deps.resources.playerRoles,
+      deps.resources.objectPoisons,
+      deps.resources.items,
+    )
+    if (readouts.length === 0) {
+      const empty = document.createElement('div')
+      empty.style.cssText = 'color:#888'
+      empty.textContent = '无队员'
+      partyStatusList.appendChild(empty)
+      return
+    }
+
+    for (const r of readouts) {
+      const row = document.createElement('div')
+      row.style.cssText =
+        'display:grid; grid-template-columns:70px 1fr; gap:6px; padding:2px 0; border-top:1px solid #2a2a32'
+      const name = document.createElement('div')
+      name.style.cssText = 'color:#ddd; white-space:nowrap; overflow:hidden; text-overflow:ellipsis'
+      name.textContent = `P${r.slot + 1} ${r.roleName}`
+      name.title = `role ${r.roleId} · ${r.source === 'battle' ? '战斗局部状态' : '持久/装备状态'}`
+      const status = document.createElement('div')
+      status.style.cssText = r.entries.length > 0 ? 'color:#bde0ff' : 'color:#777'
+      status.textContent = r.entries.length > 0 ? r.entries.join(' / ') : '无 buff / 异常 / 毒'
+      row.append(name, status)
+      partyStatusList.appendChild(row)
+    }
+  }
+
   const renderPartyCards = (): void => {
     partyGrid.textContent = ''
     for (let roleId = 0; roleId <= 5; roleId++) {
@@ -1193,9 +1328,11 @@ function openPicker(deps: DevPanelDeps): void {
       }
       partyGrid.appendChild(card)
     }
+    renderPartyStatusList()
   }
   renderPartyCards()
   body.appendChild(partyGrid)
+  body.appendChild(partyStatusList)
 
   // ── 🎒 物品作弊(2026-06-04 user:挪系统 tab + 精细化)——全道具 / 清空 / 逐道具数量编辑 ──
   //   (道具图标待第 2 批:需 bootstrap 预加载 item sprite,与敌人/boss 缩略图同类接线。)

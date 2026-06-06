@@ -4,12 +4,11 @@
  * 浏览器不能裸播 MIDI(只有音符,要 soundfont 音色库)。SpessaSynth 在 AudioWorklet 里跑 SF2/SF3
  * 软合成,直接播提取的 `Musics/{NNN}.mid` —— 开箱即响(对比离线 OGG 渲染需 build 步)。
  *
- * **运行前置(user 一次性)**:
+ * **运行前置**:
  *   1. `pnpm --filter @type-pal/game add spessasynth_lib`(已装)。
  *   2. worklet 文件 `spessasynth_processor.min.js` 已 vendored 到 public/(随 lib 更新需重拷)。
- *   3. **放一个 GM SoundFont** 到 `packages/game/public/soundfont.sf3`(或 .sf2)—— 任意免费 GM
- *      soundfont(licensing / 音色听感 user 定;sf3 压缩体积小)。缺失 → init 失败 + warn,BGM 静默
- *      (不阻塞游戏)。
+ *   3. `packages/game/public/soundfont.sf3` 已随仓库提供(GeneralUser GS 2.0.3)。缺失或替换失败
+ *      → init 失败 + warn,BGM 静默(不阻塞游戏)。
  *
  * SpessaSynth 4.3.x API:`new WorkletSynthesizer(ctx)` → `connect` → `soundBankManager.addSoundBank`
  * → `await isReady` → `new Sequencer(synth)` → `loadNewSongList([{binary,fileName}])` / `play` / `pause`
@@ -23,7 +22,7 @@ export interface SpessaSynthBackendOptions {
   baseUrl: string
   /** AudioWorklet processor url(public/ 下,约定 '/spessasynth_processor.min.js')。 */
   workletUrl: string
-  /** GM SoundFont url(public/ 下,user 提供,约定 '/soundfont.sf3')。 */
+  /** GM SoundFont url(public/ 下,约定 '/soundfont.sf3')。 */
   soundfontUrl: string
   /** 混响量 CC91 reverb send(0~127,锁定防 MIDI 覆盖)。默认 0=全干(仙剑原 OPL/MIDI 偏干);
    *  嫌太干想回一点把这调成低值(如 12)。 */

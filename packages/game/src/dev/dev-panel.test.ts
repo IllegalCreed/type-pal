@@ -5,7 +5,7 @@
  *   - fixture-levelup(lv1 + 1000 经验 vs 灯笼):gs.Exp 设上 + runtime hydrate(打赢触发升级演出)。
  */
 
-import type { Enemy, EnemyObject, EnemyTeam, BattleField, InputSnapshot, PlayerRole } from '@type-pal/shared'
+import type { Enemy, EnemyObject, EnemyTeam, BattleField, InputSnapshot, ObjectPoisonView, PlayerRole } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import fixturesData from './fixtures/battle-fixtures.json' with { type: 'json' }
 import { createCommandBus } from '../core/command-bus.js'
@@ -15,7 +15,7 @@ import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { applyAutoBattleT37, applyBossBattle, applyCustomBattle, applyFixture, BOSS_ROSTER, buildCustomEnemyTeam, computeMagicGrantsByRole, CUSTOM_BATTLE_TEAM_ID, roleMagicsAtLevel, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
+import { applyAutoBattleT37, applyBossBattle, applyCustomBattle, applyFixture, BOSS_ROSTER, buildCustomEnemyTeam, collectPartyStatusReadouts, computeMagicGrantsByRole, CUSTOM_BATTLE_TEAM_ID, roleMagicsAtLevel, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
 
 // REPO_ROOT:src/dev/ → 上 4 级到仓库根(同 baseline.test.ts pattern,运行时 fs 读 extracted 真值,
 //   避免跨 rootDir import json)。data/extracted 缺(没跑 pnpm extract)→ 该 describe skip。
@@ -123,6 +123,50 @@ describe('togglePartyMembership(队伍在队开关:role0 队首常驻)', () => {
     const orig = [0, 1]
     togglePartyMembership(orig, 2)
     expect(orig).toEqual([0, 1])
+  })
+})
+
+describe('collectPartyStatusReadouts(队伍 tab buff/毒列表)', () => {
+  it('探索模式:读取持久 rgPlayerStatus + 毒槽', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0, 1]
+    gs.rgPlayerStatus[0]![6] = 20 // protect
+    gs.rgPlayerStatus[1]![8] = 32760 // dualAttack 装备授状态
+    gs.rgPoisonStatus['0_1'] = { wPoisonID: 552, wPoisonScript: 40866 }
+    const roles = { roles: [minimalRole(0), minimalRole(1)] }
+    const poisons: ObjectPoisonView[] = [{ id: 552, level: 1, color: 64, playerScript: 40866, enemyScript: 0 }]
+    // biome-ignore lint/suspicious/noExplicitAny: 只需 id/_name 给 dev readout
+    const items = [{ id: 552, _name: '赤毒' } as any]
+
+    const out = collectPartyStatusReadouts(gs, roles, poisons, items)
+
+    expect(out[0]).toMatchObject({ slot: 0, roleId: 0, roleName: 'r0', source: 'persistent' })
+    expect(out[0]!.entries).toContain('护/protect 20回合')
+    expect(out[1]!.entries).toContain('双攻/dual 32760(装备/永久)')
+    expect(out[1]!.entries).toContain('毒槽0:赤毒#552 L1 script:40866')
+  })
+
+  it('战斗模式:同站位优先读取 battleState.players[].status 剩余回合', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.rgPlayerStatus[0]![6] = 20
+    gs.mode = 'battle'
+    gs.battleState = {
+      players: [{
+        roleId: 0,
+        prevHp: 100,
+        prevMp: 30,
+        defending: false,
+        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 3, slow: 0, protect: 2 },
+      }],
+      enemies: [],
+    } as any
+    const roles = { roles: [minimalRole(0)] }
+
+    const out = collectPartyStatusReadouts(gs, roles)
+
+    expect(out[0]).toMatchObject({ source: 'battle' })
+    expect(out[0]!.entries).toEqual(['护/protect 2回合', '速/haste 3回合'])
   })
 })
 
