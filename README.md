@@ -19,6 +19,12 @@
 - [`docs/opcode-status.md`](docs/opcode-status.md) —— 事件脚本逐 opcode
 - [`docs/resource-status.md`](docs/resource-status.md) —— 资源提取逐 chunk
 
+逐内容状态表(数据 + 脚本反汇编 + sdlpal 核对生成):
+
+- [`docs/item-status.md`](docs/item-status.md) —— 物品逐条(235,id 61–295)
+- [`docs/magic-status.md`](docs/magic-status.md) —— 仙术逐条(102,id 296–397,敌我双方 + 分角色习得 + 合击)
+- [`docs/cutscene-status.md`](docs/cutscene-status.md) —— 演出(连续自动脚本)逐条(507 段 / 188 场景,含复核风险 triage)
+
 > 完成度表述一律以三表为准,README 不写百分比。三表状态多为 `claimed`(Claude 自认完成 + 带 sdlpal 行号),`verified`(user 真引擎逐条核对)需 user 实测确认。
 
 近期(0531–0604)落地:
@@ -62,6 +68,7 @@
   - `05-events-schema.md` events.json 格式设计
   - `06-testing.md` 测试策略
   - `feature-status.md` · `opcode-status.md` · `resource-status.md` —— 三张权威实现状态表
+  - `item-status.md` · `magic-status.md` · `cutscene-status.md` —— 物品 / 仙术 / 演出逐内容状态表
   - `game-mechanics.md` —— 战斗底层机制真值(逐条对照 sdlpal,带行号出处)
   - `sdlpal-runbook.md` —— sdlpal build / headless 差分测试参考
   - `plans/` —— 各里程碑计划 + audit doc
