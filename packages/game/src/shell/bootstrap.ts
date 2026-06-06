@@ -62,6 +62,7 @@ import { Save } from '../core/save/api.js'
 import { isWalkable, setSceneContext } from '../core/scene-system.js'
 import battleFixturesRaw from '../dev/fixtures/battle-fixtures.json' with { type: 'json' }
 import sceneJumpsRaw from '../dev/fixtures/scene-jumps.json' with { type: 'json' }
+import sceneNamesRaw from '../dev/fixtures/scene-names.json' with { type: 'json' }
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present/battle/present-battle.js'
 import { toSpriteImages } from '../present/draw-sprite.js'
@@ -77,7 +78,13 @@ import {
 import { battleVictoryTrack, createAudioManager, pickMusicTrack, sfxForBattleEvent } from './audio.js'
 import { createSpessaSynthBackend } from './audio-midi.js'
 import { playAvi } from './avi-player.js'
-import { type BattleFixturesData, type SceneJumpsData, setupDevPanel } from '../dev/dev-panel.js'
+import {
+  type BattleFixturesData,
+  type SceneJumpsData,
+  type SceneNamesData,
+  setupDevPanel,
+} from '../dev/dev-panel.js'
+import { drawTilemap } from '../present/draw-tilemap.js'
 import {
   colorFadeBlocking,
   fadeInBlocking,
@@ -98,6 +105,8 @@ import { playTrademarkFallback } from './trademark-fallback.js'
 const battleFixtures = battleFixturesRaw as unknown as BattleFixturesData
 // 同模式 cast —— scene-jumps.json schema 由 SceneJump 定义。
 const sceneJumps = sceneJumpsRaw as unknown as SceneJumpsData
+// dev 场景名表(scene-names.json,人工补全;`_doc` 字段 runtime 忽略)。
+const sceneNames = sceneNamesRaw as unknown as SceneNamesData
 
 // sdlpal 真值:`PAL_LoadDefaultGame` 起手 `wNumScene=1`,`PAL_GameUpdate` 取 `scenes[wNumScene-1]=scenes[0]`
 // 即 dump 文件 `scene/0.json`(mapNum=20 黑地图 + onEnterLabel=L_4)— 这才是开场梦境(主角躺地 +
@@ -586,6 +595,110 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     })
   }
 
+  // ── dev 场景缩略图(setupDevPanel.renderSceneThumbnail)─────────────────────────
+  // 把整张 map tilemap(≤64×128 → ~2080×2080 px)渲染到离屏大 framebuffer,再降采样成 96px PNG dataURL。
+  // **按 mapNum 缓存**(同 map 多场景共享缩略图);解码的 tile 位图渲染完即弃(只留 dataURL),不写
+  // gameplay 的 tileImagesBySceneId / sceneAssetsCache(LRU 16),避免污染正在玩的场景缓存。
+  // 并发限 2 + 同 map dedup —— 防 IntersectionObserver 一次滚入多卡片时 N×数百 tile PNG 同时 fetch。
+  const THUMB_TILE_W = 32
+  const THUMB_TILE_H = 16
+  const THUMB_OUT_W = 96
+  const thumbCache = new Map<number, string>() // mapNum → dataURL(仅缓存成功)
+  const thumbInflight = new Map<number, Promise<string | null>>()
+  let thumbActive = 0
+  const thumbWaiters: (() => void)[] = []
+  const THUMB_CONCURRENCY = 2
+  const acquireThumb = async (): Promise<void> => {
+    if (thumbActive < THUMB_CONCURRENCY) {
+      thumbActive++
+      return
+    }
+    await new Promise<void>((res) => thumbWaiters.push(res)) // 槽位由 release 转移,不再自增
+  }
+  const releaseThumb = (): void => {
+    const w = thumbWaiters.shift()
+    if (w) w()
+    else thumbActive--
+  }
+
+  async function renderMapThumbnail(mapNum: number): Promise<string | null> {
+    const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
+      if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
+      return r.json() as Promise<Tilemap & { tilesetFiles?: string[] }>
+    })
+    // tile PNG 解码 → 本地 transient Map(渲染后即弃)。复用 gameplay 同模式 regex 取 tile id。
+    const tileImgs = new Map<number, IndexedImage>()
+    await Promise.all(
+      (tilemapJson.tilesetFiles ?? []).map(async (name) => {
+        const r = await fetch(`${BASE}/images/${name}`)
+        if (!r.ok) return
+        const m = /tile-(\d+)\.png$/.exec(name)
+        if (m) tileImgs.set(Number(m[1]), await decodePngToIndices(await r.blob()))
+      }),
+    )
+    // 整张 map 渲染:留小边距(fence/sub-row 落在 -16/-8),camera 偏移让左上 tile 进画。
+    const bufW = (tilemapJson.width + 1) * THUMB_TILE_W
+    const bufH = (tilemapJson.height + 2) * THUMB_TILE_H
+    const tfb = createFramebuffer(bufW, bufH)
+    const camera = { x: -THUMB_TILE_W / 2, y: -THUMB_TILE_H }
+    const tiles = { get: (i: number): IndexedImage | undefined => tileImgs.get(i) }
+    drawTilemap(tfb, tilemapJson, tiles, camera, 0)
+    drawTilemap(tfb, tilemapJson, tiles, camera, 1)
+    // 大 canvas(putImageData 全分辨率)→ 降采样小 canvas → dataURL。用首屏 palette(与 dev jump 渲染同源)。
+    const full = document.createElement('canvas')
+    full.width = bufW
+    full.height = bufH
+    const fctx = full.getContext('2d')
+    if (!fctx) return null
+    fctx.putImageData(tfb.toImageData(palette), 0, 0)
+    const scale = THUMB_OUT_W / bufW
+    const thumb = document.createElement('canvas')
+    thumb.width = THUMB_OUT_W
+    thumb.height = Math.max(1, Math.round(bufH * scale))
+    const tctx = thumb.getContext('2d')
+    if (!tctx) return null
+    tctx.imageSmoothingEnabled = true
+    tctx.imageSmoothingQuality = 'high'
+    tctx.drawImage(full, 0, 0, thumb.width, thumb.height)
+    return thumb.toDataURL('image/png')
+  }
+
+  const renderSceneThumbnail = async (
+    sceneId: number,
+    mapNum?: number,
+  ): Promise<string | null> => {
+    let map = mapNum
+    if (map === undefined) {
+      // scene-jumps 多数带 mapNum;缺则 fetch scene json 拿。
+      const sj = await fetch(`${BASE}/data/scene/${sceneId}.json`)
+        .then((r) => (r.ok ? (r.json() as Promise<{ mapNum: number }>) : null))
+        .catch(() => null)
+      map = sj?.mapNum
+    }
+    if (map === undefined) return null
+    const cached = thumbCache.get(map)
+    if (cached) return cached
+    const inflight = thumbInflight.get(map)
+    if (inflight) return inflight
+    const mapNumResolved = map
+    const p = (async (): Promise<string | null> => {
+      await acquireThumb()
+      try {
+        const url = await renderMapThumbnail(mapNumResolved)
+        if (url) thumbCache.set(mapNumResolved, url)
+        return url
+      } catch (e) {
+        console.warn(`[dev-panel] 缩略图渲染失败 map ${mapNumResolved}:`, e)
+        return null
+      } finally {
+        releaseThumb()
+        thumbInflight.delete(mapNumResolved)
+      }
+    })()
+    thumbInflight.set(map, p)
+    return p
+  }
+
   // 扫新 scene eventCommands 的 setPlayerSprite(opcode 0x65)预 fetch 主角 cutscene sprite group。
   async function preloadCutsceneSprites(commands: Command[]): Promise<void> {
     const ids = new Set<number>()
@@ -780,6 +893,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     gs,
     fixtures: battleFixtures,
     sceneJumps,
+    // dev 场景名表(scene-names.json,人工补全)+ 场景缩略图渲染器(整 map → 96px dataURL,按 mapNum 缓存)。
+    sceneNames,
+    renderSceneThumbnail,
     // 队伍 tab 头像 + 物品作弊图标:RGM 头像帧(by role.avatar)/ BALL 物品图标(by item.bitmap)+ 主调色板上色。
     portraitFrames: dialogAssets.portraitFrames,
     itemIcons: assets.itemIcons,

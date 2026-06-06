@@ -103,6 +103,16 @@ export interface SceneJumpsData {
 }
 
 /**
+ * dev-only 场景中文名表 —— 与 `packages/game/src/dev/fixtures/scene-names.json` 对齐。
+ * key = sceneId 字符串,value = 人读地名。PAL 无场景名真值,纯 dev 导航便利,手动补全;
+ * 面板缺名回退 `scene-N · map-M`。`_doc` 仅注释,运行时忽略。
+ */
+export interface SceneNamesData {
+  names: Record<string, string>
+  _doc?: string
+}
+
+/**
  * 队伍在队开关纯逻辑(devpanel 队伍 tab 用):返回 toggle roleId 后的 partyMembers。
  * - role 0(队首李逍遥)常驻,toggle 无效(user 2026-06-04:至少保留队首)。
  * - 不在队 → push 末尾(站位顺序);在队 → 保序移除。
@@ -209,6 +219,17 @@ export interface DevPanelDeps {
   gs: GameState
   fixtures: BattleFixturesData
   sceneJumps: SceneJumpsData
+  /**
+   * dev-only 场景中文名表(scene-names.json)。场景列表优先显示对应名,缺省回退 `scene-N · map-M`。
+   * 省略 → 全部走回退。
+   */
+  sceneNames?: SceneNamesData
+  /**
+   * 场景缩略图渲染器(bootstrap 注入):把整张 map tilemap 渲染降采样成 PNG dataURL,**按 mapNum 缓存**
+   * (同 map 多场景共享同一缩略图),返回 null = 渲染失败 / 资源缺。dev panel 在 IntersectionObserver
+   * 滚入视口时 lazy 调用。省略 → 列表只显占位块(测试 / 非 dev)。
+   */
+  renderSceneThumbnail?: (sceneId: number, mapNum?: number) => Promise<string | null>
   /** 队伍 tab 头像渲染:RGM 头像帧(by role.avatar chunkIndex,复用 dialogAssets.portraitFrames)。 */
   portraitFrames?: Map<number, DialogSprite>
   /** 物品作弊列表图标:BALL.MKF 物品图标(by item.bitmap,复用 assets.itemIcons)。 */
@@ -295,6 +316,13 @@ export function setupDevPanel(deps: DevPanelDeps): void {
 
 /** 当前打开的 picker root —— 同一时刻只允许一个。 */
 let currentPicker: HTMLDivElement | undefined
+
+/**
+ * 场景缩略图 dataURL 缓存(key = `m{mapNum}` / 无 map 时 `s{sceneId}`)—— **模块级**,跨 picker 开关存活,
+ * 同 map 多场景共享。renderSceneThumbnail(bootstrap)内部另按 mapNum 缓存渲染结果;这里再缓存一层
+ * 让重开面板 / 同 map 卡片立即出图不闪。
+ */
+const sceneThumbCache = new Map<string, string>()
 
 /**
  * M5.6 W2.a:dev panel CSS 注入。
@@ -923,37 +951,133 @@ function openPicker(deps: DevPanelDeps): void {
 
   const sceneInput = document.createElement('input')
   sceneInput.type = 'text'
-  sceneInput.placeholder = 'scene id / map id (1-294)'
+  sceneInput.placeholder = '过滤:场景 id / map id / 地名'
   sceneInput.style.cssText =
-    'width:200px; margin-bottom:6px; padding:3px 6px; font-family:monospace; font-size:12px'
+    'width:100%; box-sizing:border-box; margin-bottom:4px; padding:3px 6px; font-family:monospace; font-size:12px'
   body.appendChild(sceneInput)
 
+  // 计数 / 状态提示(显示全部 294,不再 slice(30) 截断)
+  const sceneCount = document.createElement('div')
+  sceneCount.style.cssText = 'font-size:10px; color:#999; margin-bottom:4px'
+  body.appendChild(sceneCount)
+
+  // 缩略图卡片网格:全部场景,可滚动;缩略图 IntersectionObserver lazy 渲染。
   const sceneList = document.createElement('div')
-  sceneList.style.cssText = 'max-height:200px; overflow-y:auto'
+  sceneList.style.cssText =
+    'display:flex; flex-wrap:wrap; gap:5px; max-height:360px; overflow-y:auto; padding:4px; background:#1a1a1a; border:1px solid #444; border-radius:4px'
   body.appendChild(sceneList)
 
+  const thumbKeyOf = (j: SceneJump): string =>
+    j.mapNum !== undefined ? `m${j.mapNum}` : `s${j.sceneId}`
+  const sceneNameOf = (j: SceneJump): string | undefined =>
+    deps.sceneNames?.names?.[String(j.sceneId)] || undefined
+
+  // 缩略图 lazy 加载:命中模块级缓存立即出图;否则调 bootstrap renderSceneThumbnail(按 mapNum 缓存)。
+  const loadThumb = (img: HTMLImageElement, ph: HTMLElement, j: SceneJump): void => {
+    const key = thumbKeyOf(j)
+    const apply = (url: string): void => {
+      img.src = url
+      img.style.display = 'block'
+      ph.style.display = 'none'
+    }
+    const cached = sceneThumbCache.get(key)
+    if (cached) {
+      apply(cached)
+      return
+    }
+    if (!deps.renderSceneThumbnail) return
+    ph.textContent = '渲染中…'
+    void deps.renderSceneThumbnail(j.sceneId, j.mapNum).then((url) => {
+      if (!url) {
+        ph.textContent = j.mapNum !== undefined ? `map ${j.mapNum}` : '—'
+        return
+      }
+      sceneThumbCache.set(key, url)
+      apply(url)
+    })
+  }
+
+  // 单一 observer,每次 filter 重建(列表重建)。场景 tab 初始 display:none → observer 不触发;
+  // 用户切到场景 tab 显示后,可见卡片才渲染缩略图(避免 294 张同时打爆网络)。
+  let sceneObserver: IntersectionObserver | undefined
+  const hasIO = typeof IntersectionObserver !== 'undefined'
+
   const renderSceneList = (filter: string): void => {
+    sceneObserver?.disconnect()
     sceneList.textContent = ''
-    const filtered = deps.sceneJumps.jumps
-      .filter((e) => {
-        if (!filter) return true
-        return (
-          String(e.sceneId).includes(filter) ||
-          e.label.includes(filter) ||
-          (e.mapNum !== undefined && String(e.mapNum).includes(filter))
-        )
-      })
-      .slice(0, 30)
+    const f = filter.toLowerCase()
+    const filtered = deps.sceneJumps.jumps.filter((e) => {
+      if (!f) return true
+      const name = sceneNameOf(e) ?? ''
+      return (
+        String(e.sceneId).includes(f) ||
+        e.label.toLowerCase().includes(f) ||
+        name.toLowerCase().includes(f) ||
+        (e.mapNum !== undefined && String(e.mapNum).includes(f))
+      )
+    })
+    const total = deps.sceneJumps.jumps.length
+    sceneCount.textContent =
+      (filter ? `匹配 ${filtered.length} / 共 ${total}` : `共 ${total} 个场景`) +
+      (deps.renderSceneThumbnail ? ' · 缩略图滚动加载' : ' · 无缩略图渲染器')
+
+    const cardToJump = new WeakMap<Element, SceneJump>()
+    if (hasIO) {
+      sceneObserver = new IntersectionObserver(
+        (entries, obs) => {
+          for (const ent of entries) {
+            if (!ent.isIntersecting) continue
+            const j = cardToJump.get(ent.target)
+            const img = ent.target.querySelector('img')
+            const ph = ent.target.querySelector('[data-ph]')
+            if (j && img && ph) loadThumb(img as HTMLImageElement, ph as HTMLElement, j)
+            obs.unobserve(ent.target)
+          }
+        },
+        { root: sceneList, rootMargin: '150px' },
+      )
+    }
+
     for (const jump of filtered) {
-      const btn = document.createElement('button')
-      btn.textContent = jump.label
-      btn.style.cssText =
-        'display:block; margin:2px 0; padding:3px 8px; width:100%; text-align:left; font-family:monospace; font-size:11px'
-      btn.addEventListener('click', () => {
+      const name = sceneNameOf(jump)
+      const card = document.createElement('div')
+      card.title = jump.label
+      card.style.cssText =
+        'width:104px; cursor:pointer; border:1px solid #3a3a42; border-radius:4px; background:#222; padding:3px; display:flex; flex-direction:column; align-items:center; gap:2px'
+      card.addEventListener('mouseenter', () => (card.style.borderColor = '#6c8eef'))
+      card.addEventListener('mouseleave', () => (card.style.borderColor = '#3a3a42'))
+
+      const thumbWrap = document.createElement('div')
+      thumbWrap.style.cssText =
+        'width:96px; height:96px; background:#111; display:flex; align-items:center; justify-content:center; overflow:hidden; border:1px solid #2a2a2a'
+      const ph = document.createElement('div')
+      ph.dataset.ph = '1'
+      ph.textContent = jump.mapNum !== undefined ? `map ${jump.mapNum}` : '…'
+      ph.style.cssText = 'font-size:10px; color:#555'
+      const img = document.createElement('img')
+      img.alt = ''
+      img.style.cssText = 'max-width:96px; max-height:96px; image-rendering:auto; display:none'
+      thumbWrap.append(ph, img)
+      card.appendChild(thumbWrap)
+
+      const nameLine = document.createElement('div')
+      nameLine.textContent = name ?? `scene-${jump.sceneId}`
+      nameLine.style.cssText = `font-size:11px; line-height:1.2; text-align:center; max-width:98px; word-break:break-all; color:${name ? '#fdf6a8' : '#ddd'}`
+      card.appendChild(nameLine)
+
+      const idLine = document.createElement('div')
+      idLine.textContent = `#${jump.sceneId}${jump.mapNum !== undefined ? ` · map-${jump.mapNum}` : ''}`
+      idLine.style.cssText = 'font-size:9px; color:#888; font-family:monospace'
+      card.appendChild(idLine)
+
+      card.addEventListener('click', () => {
         closePicker()
         void applySceneJump(deps, jump)
       })
-      sceneList.appendChild(btn)
+      sceneList.appendChild(card)
+      cardToJump.set(card, jump)
+      if (sceneObserver) sceneObserver.observe(card)
+      else loadThumb(img, ph, jump) // 无 IO 兜底:直接加载(命中缓存即出图)
     }
   }
 

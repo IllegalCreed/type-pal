@@ -13,16 +13,20 @@ export interface Framebuffer {
   toImageData(palette: Palette): ImageData
 }
 
-export function createFramebuffer(): Framebuffer {
-  const indices = new Uint8Array(SCREEN_W * SCREEN_H)
+/**
+ * 默认 320×200(游戏屏幕)。可传 `width`/`height` 造任意尺寸离屏缓冲 —— dev panel 场景缩略图
+ * 把整张 map(~2048×2048)渲染到一张大缓冲再降采样,需要超出屏幕尺寸的 framebuffer。
+ */
+export function createFramebuffer(width = SCREEN_W, height = SCREEN_H): Framebuffer {
+  const indices = new Uint8Array(width * height)
   return {
-    width: SCREEN_W,
-    height: SCREEN_H,
+    width,
+    height,
     indices,
 
     writePixel(x, y, index) {
-      if (x < 0 || x >= SCREEN_W || y < 0 || y >= SCREEN_H) return
-      indices[y * SCREEN_W + x] = index
+      if (x < 0 || x >= width || y < 0 || y >= height) return
+      indices[y * width + x] = index
     },
 
     clear() {
@@ -30,7 +34,7 @@ export function createFramebuffer(): Framebuffer {
     },
 
     toImageData(palette) {
-      const data = new Uint8ClampedArray(SCREEN_W * SCREEN_H * 4)
+      const data = new Uint8ClampedArray(width * height * 4)
       for (let i = 0; i < indices.length; i++) {
         const idx = indices[i]!
         const c = palette.colors[idx] ?? [0, 0, 0]
@@ -39,7 +43,7 @@ export function createFramebuffer(): Framebuffer {
         data[i * 4 + 2] = c[2]
         data[i * 4 + 3] = 255
       }
-      return new ImageData(data, SCREEN_W, SCREEN_H)
+      return new ImageData(data, width, height)
     },
   }
 }

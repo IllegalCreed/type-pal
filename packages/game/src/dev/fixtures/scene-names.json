@@ -1,0 +1,6 @@
+{
+  "_doc": "Dev-only 场景中文名(scene id 字符串 → 地名)。PAL/sdlpal 无场景名真值表(symbols.json 不存在、WORD.DAT scenes 字段是杂项毒素名),此处纯属 dev 导航便利标签,需手动补全。场景面板优先显示此名,缺省回退 `scene-N · map-M`。补名时请对照缩略图 / 剧情确认,宁缺毋滥(不确定就别填,留空走回退)。",
+  "names": {
+    "15": "草妖通道"
+  }
+}
