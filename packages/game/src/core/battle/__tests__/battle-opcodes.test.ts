@@ -1059,6 +1059,18 @@ describe('0x9F enemy transform (script.c:009F)', () => {
     expect(ctx.gs!.pendingSounds).toEqual([47]) // sdlpal script.c:2980
   })
 
+  it('有 bus 时变身建 iColorShift 动画,不走 pendingSounds fallback', () => {
+    const self = richEnemy({ health: 30 })
+    self.e.id = 5
+    const roster = [self]
+    const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
+    ctx.bus = createCommandBus()
+    dispatchBattleOpcode(0x9F, [419, 0, 0], ctx)
+    expect(ctx.state.battleAnim?.frames.map(f => f.fighters?.[0]?.iColorShift)).toEqual([0, 1, 2, 3, 4, 5, 0])
+    expect(ctx.state.battleAnim?.frames.at(-1)?.sound).toBe(47)
+    expect(ctx.gs!.pendingSounds ?? []).toEqual([])
+  })
+
   it('变身后按新 enemy.yPosOffset 刷新自身底锚', () => {
     const self = richEnemy({ health: 30, yPosOffset: 0 })
     self.e.id = 5
@@ -1103,6 +1115,22 @@ describe('0x9E enemy summon (script.c:009E)', () => {
     expect(ctx.gs!.pendingSounds).toEqual([212]) // M6 召唤音(sdlpal script.c:2937)
     expect(roster.map(e => e.posOriginal)).toEqual(ENEMY_POS.layouts[1])
     expect(roster.map(e => e.pos)).toEqual(ENEMY_POS.layouts[1])
+  })
+
+  it('有 bus 时召唤建敌施法/高亮动画,不走 pendingSounds fallback', () => {
+    const defeated = richEnemy({ health: 0 })
+    defeated.defeated = true
+    const roster = [richEnemy({ health: 200, idleFrames: 1, magicFrames: 1, attackFrames: 2, actWaitFrames: 1 }), defeated]
+    const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
+    ctx.bus = createCommandBus()
+    dispatchBattleOpcode(0x9E, [419, 1, 300], ctx)
+
+    expect(ctx.state.battleAnim).toBeDefined()
+    expect(ctx.state.battleAnim!.frames.some(f => f.sound === 212)).toBe(true)
+    expect(ctx.state.battleAnim!.frames.some(f =>
+      f.fighters?.some(d => d.side === 'enemy' && d.idx === 1 && d.iColorShift === 8),
+    )).toBe(true)
+    expect(ctx.gs!.pendingSounds ?? []).toEqual([])
   })
 
   it('没有 wMaxEnemyIndex 内空槽 → 召唤失败,不会扩容新槽', () => {

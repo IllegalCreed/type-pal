@@ -11,6 +11,8 @@ import {
   BATTLE_FRAME_TIME,
   buildAttackMateTimeline,
   buildCoopMagicTimeline,
+  buildEnemySummonTimeline,
+  buildEnemyTransformTimeline,
   buildThrowWindupTimeline,
   buildEnemyMagicCastIntro,
   buildEnemyMagicTimeline,
@@ -136,6 +138,48 @@ describe('召唤动画 builders (fight.c:3072-3187 / 3120-3128)', () => {
     })
     expect(seq.length).toBe(SUMMON_FADE_STEPS + 2 + 1 + SUMMON_FADE_STEPS) // 无 postMagic
     expect(seq[seq.length - 1]!.summon!.fadeDir).toBe('out')
+  })
+})
+
+describe('enemy summon/transform opcode timelines (script.c:009E/009F)', () => {
+  it('buildEnemySummonTimeline:敌施法起手 + 新召唤敌 iColorShift=8 + 音效 212 + 全敌复位', () => {
+    const frames = buildEnemySummonTimeline({
+      casterIdx: 0,
+      casterPos: { x: 160, y: 80 },
+      caster: { idleFrames: 1, magicFrames: 2, attackFrames: 3, actWaitFrames: 2 },
+      summonedIdxs: [1, 2],
+      activeEnemyIdxs: [0, 1, 2],
+    })
+
+    expect(frames[0]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 172, y: 86 } }])
+    expect(frames[2]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 1 }])
+    const summonFrame = frames.find(f => f.sound === 212)!
+    expect(summonFrame.fighters).toEqual([
+      { side: 'enemy', idx: 1, iColorShift: 8 },
+      { side: 'enemy', idx: 2, iColorShift: 8 },
+    ])
+    expect(frames.at(-1)!.fighters).toEqual([
+      { side: 'enemy', idx: 0, iColorShift: 0 },
+      { side: 'enemy', idx: 1, iColorShift: 0 },
+      { side: 'enemy', idx: 2, iColorShift: 0 },
+    ])
+  })
+
+  it('buildEnemyTransformTimeline:0..5 闪色后复位并在末帧播 47', () => {
+    const frames = buildEnemyTransformTimeline(2)
+    expect(frames.slice(0, 6).map(f => f.fighters?.[0])).toEqual([
+      { side: 'enemy', idx: 2, iColorShift: 0 },
+      { side: 'enemy', idx: 2, iColorShift: 1 },
+      { side: 'enemy', idx: 2, iColorShift: 2 },
+      { side: 'enemy', idx: 2, iColorShift: 3 },
+      { side: 'enemy', idx: 2, iColorShift: 4 },
+      { side: 'enemy', idx: 2, iColorShift: 5 },
+    ])
+    expect(frames.at(-1)).toEqual({
+      durationMs: BATTLE_FRAME_TIME,
+      fighters: [{ side: 'enemy', idx: 2, iColorShift: 0 }],
+      sound: 47,
+    })
   })
 })
 

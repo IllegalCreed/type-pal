@@ -16,6 +16,8 @@
  *   - buildPostMagicTimeline      ← fight.c:3189-3246 PAL_BattleShowPostMagicAnim
  *   - buildPlayerDefMagicTimeline ← fight.c:2447-2606 PAL_BattleShowPlayerDefMagicAnim
  *   - buildEnemyMagicTimeline     ← fight.c:2846-3069 PAL_BattleShowEnemyMagicAnim
+ *   - buildEnemySummonTimeline    ← script.c:2870-2950 0x9E enemy summon visible slices
+ *   - buildEnemyTransformTimeline ← script.c:2957-2983 0x9F enemy transform color shift
  *   - 帧时长 PAL_BattleDelay(N) = N × BATTLE_FRAME_TIME(battle.h:28-29,BATTLE_FPS=25 → 40ms)
  */
 
@@ -1266,6 +1268,60 @@ export function buildEnemyMagicCastIntro(input: BuildEnemyMagicIntroInput): Batt
     }
   }
 
+  return frames
+}
+
+export function buildEnemySummonTimeline(input: {
+  casterIdx: number
+  casterPos: { x: number; y: number }
+  caster: {
+    idleFrames: number
+    magicFrames: number
+    attackFrames: number
+    actWaitFrames: number
+  }
+  summonedIdxs: number[]
+  activeEnemyIdxs: number[]
+}): BattleAnimFrame[] {
+  const frames = buildEnemyMagicCastIntro({
+    enemyCasterIdx: input.casterIdx,
+    enemyPos: input.casterPos,
+    idleFrames: input.caster.idleFrames,
+    magicFrames: input.caster.magicFrames,
+    attackFrames: input.caster.attackFrames,
+    actWaitFrames: input.caster.actWaitFrames,
+    fireDelay: 1,
+  })
+
+  if (input.summonedIdxs.length > 0) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: input.summonedIdxs.map(idx => ({ side: 'enemy' as const, idx, iColorShift: 8 })),
+      sound: 212,
+    })
+    frames.push({ durationMs: delayMs(2) })
+  }
+
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: input.activeEnemyIdxs.map(idx => ({ side: 'enemy' as const, idx, iColorShift: 0 })),
+  })
+  return frames
+}
+
+export function buildEnemyTransformTimeline(enemyIdx: number): BattleAnimFrame[] {
+  const frames: BattleAnimFrame[] = []
+  for (let i = 0; i < 6; i++) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'enemy', idx: enemyIdx, iColorShift: i }],
+    })
+  }
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'enemy', idx: enemyIdx, iColorShift: 0 }],
+    sound: 47,
+  })
   return frames
 }
 

@@ -18,7 +18,7 @@
 import { type BattleCtx, addPoisonForPlayer, curePlayerPoisonByKind, curePlayerPoisonByLevel } from '../event-system.js'
 import type { BattleStatus } from './battle-state.js'
 import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength, getPlayerPoisonResistance } from '../equip-effect.js'
-import { buildPlayerOffMagicTimeline, buildShowMagicAnimTimeline, buildStealTimeline } from './anim-timeline.js'
+import { buildEnemySummonTimeline, buildEnemyTransformTimeline, buildPlayerOffMagicTimeline, buildShowMagicAnimTimeline, buildStealTimeline } from './anim-timeline.js'
 import { startBattleAnim } from './battle-anim-driver.js'
 import { getEnemyBasePos } from './battle-positions.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
@@ -1141,8 +1141,13 @@ export function dispatchBattleOpcode(
       self.scriptOnBattleEnd = eo.scriptOnBattleEnd
       self.resistanceToSorcery = eo.resistanceToSorcery
       refreshEnemyBattlePositions(ctx)
-      // M6 变身音(sdlpal script.c:2980 AUDIO_PlaySound(47),变身成功 iColorShift 演出后)。
-      if (ctx.gs) (ctx.gs.pendingSounds ??= []).push(47)
+      if (ctx.bus) {
+        startBattleAnim(state, buildEnemyTransformTimeline(ctx.caster.idx), ctx.bus)
+      }
+      else if (ctx.gs) {
+        // 无动画上下文时保留旧即时音 fallback。
+        (ctx.gs.pendingSounds ??= []).push(47)
+      }
       return { consumed: true }
     }
 
@@ -1198,6 +1203,7 @@ export function dispatchBattleOpcode(
       if (!base)
         return { consumed: true }
 
+      const summonedIdxs: number[] = []
       let left = count
       for (let i = 0; i < state.enemies.length && left > 0; i++) {
         if (!state.enemies[i]?.defeated)
@@ -1214,11 +1220,31 @@ export function dispatchBattleOpcode(
           poisons: [],
           defeated: false,
         })
+        summonedIdxs.push(i)
         left--
       }
       refreshEnemyBattlePositions(ctx)
-      // M6 召唤音(sdlpal script.c:2937 AUDIO_PlaySound(212),召唤成功 BattleMakeScene 后的施法手势音)。
-      if (ctx.gs) (ctx.gs.pendingSounds ??= []).push(212)
+      if (ctx.bus && self.posOriginal) {
+        startBattleAnim(state, buildEnemySummonTimeline({
+          casterIdx: ctx.caster.idx,
+          casterPos: self.posOriginal,
+          caster: {
+            idleFrames: self.e.idleFrames,
+            magicFrames: self.e.magicFrames,
+            attackFrames: self.e.attackFrames,
+            actWaitFrames: self.e.actWaitFrames,
+          },
+          summonedIdxs,
+          activeEnemyIdxs: state.enemies
+            .map((enemy, idx) => ({ enemy, idx }))
+            .filter(({ enemy }) => !enemy.defeated)
+            .map(({ idx }) => idx),
+        }), ctx.bus)
+      }
+      else if (ctx.gs) {
+        // 无动画上下文时保留旧即时音 fallback。
+        (ctx.gs.pendingSounds ??= []).push(212)
+      }
       return { consumed: true }
     }
 
