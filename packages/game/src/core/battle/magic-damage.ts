@@ -153,7 +153,7 @@ export interface ApplyEnemyMagicDamageInput {
  *     + 毒抗(`100+mod`),**wResistanceMultiplier=20**(fight.c:4798/4833;player→enemy 是 1)
  *   - 除因子 `((fDefending?2:1)*(Protect?2:1)) + (autoDefend?1:0)`(fight.c:4801-4803/4836-4838):
  *       · autoDefend:该队员**活着 + 非 sleep/paralyzed/confused** 时 RandomLong(0,2)==0(fight.c:4727-4757)
- *       · Protect status ts 未建模 → 恒 ×1(残)
+ *       · Protect status 已按 `slot.status.protect` 参与除因子
  *   - clamp `if (sDamage>hp) sDamage=hp`(fight.c:4805/4840)——**不钳最小 1**(与 player inline 不同)
  *   - 跳过已死队员(fight.c:4782)
  *
@@ -213,7 +213,7 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
       rngFactor,
     })
 
-    // 除因子(sdlpal fight.c:4801-4803 / 4836-4838):((defending?2:1) * (Protect>0?2:1)) + (autoDefend?1:0)
+  // 除因子(sdlpal fight.c:4801-4803 / 4836-4838):((defending?2:1) * (Protect>0?2:1)) + (autoDefend?1:0)
     const canAutoDefend = (slot.status.sleep ?? 0) === 0
       && (slot.status.paralyzed ?? 0) === 0
       && (slot.status.confused ?? 0) === 0

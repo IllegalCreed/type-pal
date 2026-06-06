@@ -1,21 +1,20 @@
 /**
- * 敌方 AI —— M3 简化版决策。
+ * 敌方 AI —— sdlpal 内置 fallback 决策。
  *
  * 对照 sdlpal `battle.c` 中敌方行动选择(`PAL_BattleEnemyPerformAction` 上游),
  * 真实引擎逻辑分散在脚本(`wScriptOnTurnStart` / `wScriptOnReady`)+ 内置 fallback
- * (有 wMagic 时按 magicRate 概率出魔法,否则物理)。M3 只做 fallback,scripted AI
- * 在 M5 真做。
+ * (有 wMagic 时按 magicRate 概率出魔法,否则物理)。脚本驱动的 wMagic 改写由
+ * battle opcode / battle-system 上游接入,本模块只保留最终 fallback 决策。
  *
  * 规则:
  *   - wMagic != 0 且 RandomLong(0, 9) < wMagicRate → 用 wMagic 法术
  *   - 否则                                         → 物理攻击
  *   - target = 随机活的队员
  *
- * **M3 简化版,M5 真做 scripted AI** —— 不实现:
- *   - wScriptOnTurnStart / wScriptOnReady / wScriptOnBattleEnd
- *   - dualMove 第二次行动
- *   - status effects(confused / sleep / paralyzed)对 AI 的影响
- *   - 协力 / 召唤
+ * 本模块不负责:
+ *   - wScriptOnTurnStart / wScriptOnReady / wScriptOnBattleEnd 的脚本执行
+ *   - dualMove 队列展开
+ *   - 协力 / 召唤等具体 action perform
  *
  * 纯函数:同 seed 同 input → 必同 output(T23 baseline 对拍前提)。
  */

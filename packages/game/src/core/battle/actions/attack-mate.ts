@@ -12,8 +12,8 @@
  *      target Protect>0 → /=2(3820-3823);<=0 → 1(3825-3828);clamp 到 target HP(3830-3833)。
  *   5. target HP -= sDamage(3835)。
  *
- * 注:str/def 沿用 attack.ts 同一简化(asShort(stat) + (level+6)*K,K=6 攻 / 4 防);
- * **走入位移 / 受击精灵帧动画属 D17/B5 演出残留**,本函数只做伤害结算 + showDamageNum 弹幕(蓝)。
+ * 注:str/def 沿用 PAL_GetPlayerAttackStrength / PAL_GetPlayerDefense:base + 装备,无 level 项。
+ * 走入位移已通过 buildAttackMateTimeline 接入;受击音效/精灵帧仍可继续精修。
  */
 
 import type { PlayerRoles } from '@type-pal/shared'

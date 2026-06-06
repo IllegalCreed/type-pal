@@ -299,7 +299,7 @@ function drawPartyStatus(
  * 底部队员信息框 —— port sdlpal `PAL_PlayerInfoBox`(uibattle.c:30-269,PAL_CLASSIC)。
  *   每队员 PAL_XY(91+77*i, 165):box 背景(frame 18)+ 头像(frame 48+roleId,(x-2,y-4))
  *   + HP/MP(CLASSIC 布局 uibattle.c:210-238):slash + maxHP/HP(yellow)+ maxMP/MP(cyan)。
- *   中毒变色 / 状态图标(confused/slow/sleep/silence)简化省略;CLASSIC 无 time-meter bar。
+ *   中毒头像变色已实现;状态图标(confused/sleep/silence 等)仍省略;CLASSIC 无 time-meter bar。
  * HP/MP 读 **战斗 playerRoles**(战内活值);无 uiSpriteFrames(单测)→ 文字版兜底。
  */
 /**

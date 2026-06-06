@@ -280,7 +280,7 @@ export function performAttack(
   //   def = PAL_GetPlayerDefense(基础+装备防,**无 level 项**,global.c:1821-1826),fDefending→×2
   //   physRes 硬编码 2;sDamage = CalcPhysical(str+RandomLong(0,2), def, 2) + RandomLong(0,1);
   //   Protect→sDamage/=2(5059-5062 truthy);<=0→1。
-  // 残(c3):fAutoDefend evade(7/17 全免)+ 守护 cover。
+  // 自动防御闪避和守护 cover 的核心结算已接入;cover 专属跳位/音效表现仍可继续精修。
   const targetRole = playerRoles.roles[state.players[targetIdx]!.roleId]!
   const targetStatus = state.players[targetIdx]!.status
 
@@ -330,7 +330,7 @@ export function performAttack(
         return
       }
     }
-    // iCoverIndex != -1(队友替挡)动画仍留 present hook —— 须目标濒死/坏状态 + 健康替挡者,较 rare;
+    // iCoverIndex != -1(队友替挡)动画仍留 present hook —— 须目标濒死/坏状态 + 健康替挡者,较少见;
     //   非本次 user 报的"健康角色被动格挡"场景。后续可补 cover 专属动画(coverer 跳位 frame 3)。
     return
   }
@@ -492,7 +492,8 @@ function buildAttackTimeline(input: {
   }
 
   if (actor.isEnemy && isPlayerTarget) {
-    // enemy → player(fight.c:4910-5149 physical 分支,无 cover / autoDefend 简化)
+    // enemy → player(fight.c:4910-5149 physical 分支)。cover / autoDefend 结算在上游已完成,
+    // 这里构造普通敌方物攻时间线。
     const enemyFighter = state.enemies[actor.idx]
     const targetPlayer = state.players[targetIdx]
     if (!enemyFighter?.posOriginal || !targetPlayer?.posOriginal) return undefined
