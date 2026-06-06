@@ -413,6 +413,35 @@ describe('drawBattleUI(新模型 1:1)', () => {
     expect(bottomWrites).toBeGreaterThan(0)
   })
 
+  it('PAL_PlayerInfoBox —— 活人画乱/定/眠/封状态字,死亡时不画', () => {
+    const aliveFb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0, { hp: 123 })] }
+    const player = mkBattlePlayer(0)
+    player.status = { ...player.status, confused: 2, paralyzed: 2, sleep: 2, silence: 2 }
+    const aliveState = mkState([player], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'main',
+    })
+
+    drawBattleUI(aliveFb, aliveState, playerRoles, [], [], mkGs(), undefined, UI)
+    for (const color of [0x5F, 0xBF, 0x0E, 0x3C]) {
+      let writes = 0
+      for (let y = 160; y < 200; y++) {
+        for (let x = 80; x < 170; x++) if (aliveFb.indices[y * 320 + x] === color) writes++
+      }
+      expect(writes).toBeGreaterThan(0)
+    }
+
+    const deadFb = createFramebuffer()
+    const deadRoles: PlayerRoles = { roles: [minimalRole(0, { hp: 0 })] }
+    const deadState = mkState([player], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'main',
+    })
+    drawBattleUI(deadFb, deadState, deadRoles, [], [], mkGs(), undefined, UI)
+    for (const color of [0x5F, 0xBF, 0x0E, 0x3C]) {
+      expect(deadFb.indices.includes(color)).toBe(false)
+    }
+  })
+
   it('fAutoAttack —— 信息框隐藏(sdlpal !fAutoAttack)', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }

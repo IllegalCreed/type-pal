@@ -35,8 +35,8 @@
    - 已修:coverer 跳到目标前 frame 3、coverSound、命中后敌人与 coverer 位移已接入 enemy physical timeline。
 
 3. 底部状态图标
-   - 中毒头像变色已实现。
-   - confused/sleep/silence 等状态图标仍省略。
+   - 已修:中毒头像变色 + `PAL_PlayerInfoBox` 状态字(乱/定/眠/封)已实现。
+   - 说明:CLASSIC 底部信息框无 time-meter bar;buff 类 puppet/bravery/protect/haste/dualAttack 在原版状态字表为 0,不显示。
 
 ## P2:低优先级
 
