@@ -22,7 +22,7 @@
 
 3. 战斗脚本 `0x50 fade out`
    - 已修: battle `runScript` raw fallback 会启动同一套 `paletteFadeState` 并消费 opcode。
-   - 后续:若要完全同步阻塞,需把 palette fade hold 接入战斗 tick/动画队列。
+   - 已修: `tickBattle` 会在 `paletteFadeState` 未完成时同步阻塞后续行动队列,淡完收尾后再继续。
 
 ## P1:规则/体验差异
 

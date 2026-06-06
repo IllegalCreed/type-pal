@@ -55,6 +55,7 @@ import {
   getPlayerFleeRate, getPlayerMagicStrength, removeEquipmentEffect,
 } from '../equip-effect.js'
 import { createSeedableRng, type SeedableRng } from '../rng.js'
+import { finalizePaletteFade } from '../palette-fade.js'
 import type { BattleSettlementScreen, LevelUpScreenData } from './battle-settlement.js'
 import { settlementScreenTimeoutMs } from './battle-settlement.js'
 import { performAttack, performEnemyConfusedAttack } from './actions/attack.js'
@@ -409,6 +410,10 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   // D17 死亡淡出 hold(phase-agnostic):active → 暂停一切后续(perform / postAction / won 前
   //   都挡住,忠实 sdlpal PAL_BattleFadeScene 同步 blocking)。死敌淡出完才放行。
   if (tickBattleFade(state)) return
+
+  // 战斗脚本 palette fade(0x50 等) hold:runScript battle fallback 无 EventCursor waiting,
+  // 这里补齐同步阻塞,避免淡屏未完就继续跑行动队列。
+  if (tickBattlePaletteFade(gs)) return
 
   // 逃跑动画 hold(phase-agnostic):flee 成功后 16 步右下滑 + 移出屏(PAL_BattlePlayerEscape),
   //   放完才 phase='fleed' → finalize。期间暂停一切推进。
@@ -1622,6 +1627,21 @@ function tickBattleFade(state: BattleState): boolean {
     }
   }
   if (step >= DEATH_FADE_STEPS) state.battleFade = undefined // 淡完 → 清 hold,下 tick phase 续跑
+  return true
+}
+
+/**
+ * 战斗脚本调色板淡入淡出 hold —— battle raw fallback(0x50/0x51/0x80/0x8C/0x4F/0x93)
+ * 不持有 EventCursor,无法像大世界 event waiting 那样阻塞;战斗顶层在这里按时间等完。
+ */
+function tickBattlePaletteFade(gs: GameState): boolean {
+  const pf = gs.paletteFadeState
+  if (!pf) return false
+  const elapsed = performance.now() - pf.startTimeMs
+  if (elapsed < pf.totalMs)
+    return true
+  if (gs.palette) finalizePaletteFade(gs.palette.colors, pf)
+  gs.paletteFadeState = undefined
   return true
 }
 

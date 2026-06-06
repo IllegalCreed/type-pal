@@ -2100,6 +2100,49 @@ describe('Repeat(R 键)+ 敌方目标重选(fight.c:1858-1867 / 3487-3507)', () 
     // enemy 0 受到伤害(被重选),或至少没对死敌 1 施法 / 不抛
     expect(gs.battleState!.enemies[0]!.e.health).toBeLessThanOrEqual(before)
   })
+
+  it('battle 0x50 FadeOut 淡屏期间阻塞后续行动队列', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1],
+      roles: [
+        makeRole({ id: 0, mp: 30, maxMP: 30, dexterity: 1000 }),
+        makeRole({ id: 1, mp: 30, maxMP: 30, dexterity: 10 }),
+      ],
+      enemies: [makeEnemy({ id: 100, health: 99999, level: 0, dexterity: 0, attackStrength: 0 })],
+      spells: [{ ...mkSpell(296), scriptOnSuccess: 1 }],
+      magics: [mkMagic(296, { costMP: 0, baseDamage: 0 })],
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x50, operands: [1, 0, 0] },
+        { op: 'end' },
+      ],
+    })
+    gs.palette = { colors: Array.from({ length: 256 }, () => [200, 100, 50] as [number, number, number]), cycles: [] }
+    tickBattle(gs, emptyInput, bus)
+    const st = gs.battleState!
+    st.pendingActions.set(0, { type: 'magic', actionId: 296, target: 0, targetSide: 'enemy' })
+    st.pendingActions.set(1, { type: 'defend', target: -1 })
+    tickBattle(gs, emptyInput, bus) // selectAction → performAction
+
+    let guard = 20
+    while (st.currentActionIndex === 0 && guard-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(guard).toBeGreaterThan(0)
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([0, 0, 0])
+    expect(st.currentActionIndex).toBe(1)
+    expect(st.players[1]!.defending).toBe(false)
+
+    tickBattle(gs, emptyInput, bus)
+    expect(st.currentActionIndex).toBe(1)
+    expect(st.players[1]!.defending).toBe(false) // 淡屏未完,第二名队员未行动
+
+    gs.paletteFadeState!.startTimeMs = performance.now() - gs.paletteFadeState!.totalMs - 1
+    tickBattle(gs, emptyInput, bus) // 收尾 fade,仍 hold 本 tick
+    expect(gs.paletteFadeState).toBeUndefined()
+    expect(st.currentActionIndex).toBe(1)
+
+    tickBattle(gs, emptyInput, bus) // 放行第二个 action
+    expect(st.players[1]!.defending).toBe(true)
+  })
 })
 
 // ============================================================================
