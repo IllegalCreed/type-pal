@@ -108,6 +108,12 @@ export interface BattleEnemy {
    */
   poisons?: Array<{ poisonId: number; scriptEntry: number }>
   /**
+   * 原版 `wObjectID==0` 的运行时空槽标记。敌人被 PostActionCheck 判死后置 true,
+   * 表示该槽不再参与目标/全体效果/脚本,但 deathFadeStep 仍可保留给淡出渲染。
+   * 0x9E 召唤和 0x9C 分裂会复用这种槽并清回 false。
+   */
+  defeated?: boolean
+  /**
    * D17a 物理战斗动画 render state(全 optional 兼容旧 fixture,运行时 ?? 默认)。
    * 对照 sdlpal `g_Battle.rgEnemy[i]`:
    *   pos          = 当前屏幕底锚(冲刺 / 击退期间逐帧 mutate;fight.c:4987-5128)

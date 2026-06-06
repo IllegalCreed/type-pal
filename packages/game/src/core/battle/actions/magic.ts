@@ -470,7 +470,7 @@ function buildAndStartMagicAnim(
     blowTargets: input.state.iBlow
       ? input.state.enemies
           .map((e, idx) => ({ e, idx }))
-          .filter(({ e }) => e.e.health > 0 && e.posOriginal)
+          .filter(({ e }) => !e.defeated && e.e.health > 0 && e.posOriginal)
           .map(({ e, idx }) => ({ side: 'enemy' as const, idx, pos: e.posOriginal! }))
       : undefined,
     rng: input.state.rng,

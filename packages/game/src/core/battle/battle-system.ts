@@ -609,7 +609,7 @@ function tickSelectAction(
 
   const enemySlots = state.enemies
     .map((e, i) => ({ e, i }))
-    .filter(({ e }) => e.e.health > 0)
+    .filter(({ e }) => !e.defeated && e.e.health > 0)
     .map(({ e, i }) => {
       const baseDex = getEnemyDexterity({ level: e.e.level, dexterity: e.e.dexterity })
       const dex = jitter(baseDex) // 第一抽
@@ -1476,7 +1476,7 @@ function revertToPreviousPlayer(state: BattleState, alivePlayerIdxs: number[]): 
 function handleEnemyTargetSelect(state: BattleState, input: InputSnapshot, alivePlayerIdxs: number[]): void {
   const aliveRawIdxs: number[] = []
   state.enemies.forEach((e, i) => {
-    if (e.e.health > 0) aliveRawIdxs.push(i)
+    if (!e.defeated && e.e.health > 0) aliveRawIdxs.push(i)
   })
   if (aliveRawIdxs.length === 0) {
     state.uiState = 'selectMove' // x==-1(uibattle.c:1444-1448)
@@ -1588,17 +1588,20 @@ const DEATH_FADE_STEP_MS = 16
 
 /**
  * port `PAL_BattlePostActionCheck` 死敌检测段(fight.c:740-764):每个 action 后扫敌人,
- * health<=0 且尚未开始淡出(deathFadeStep===undefined)的 → 标记开始淡出 + emit 死亡音效命令。
+ * health<=0 且尚未清空槽位(defeated!==true)的 → 累计奖励、标记 defeated/wObjectID==0、
+ * 开始淡出并 emit 死亡音效命令。
  * 本次有任何新死敌 → 开启 state.battleFade hold(忠实 sdlpal fFade → PAL_BattleFadeScene)。
- *
- * 注:exp/cash 累计仍在 tickPostAction(用 prevHp 判重)走真 schema,这里只管淡出 render state。
  *
  * @returns 本次是否开启了新淡出(true 时调用方应交给 fade 分支推进,不立即 currentActionIndex++)。
  */
 function checkEnemyDeaths(state: BattleState, bus: CommandBus): boolean {
   let fade = false
   state.enemies.forEach((enemy, idx) => {
-    if (enemy.e.health <= 0 && enemy.deathFadeStep === undefined) {
+    if (!enemy.defeated && enemy.e.health <= 0 && enemy.deathFadeStep === undefined) {
+      state.expGained += enemy.e.exp
+      state.cashGained += enemy.e.cash
+      enemy.prevHp = enemy.e.health
+      enemy.defeated = true
       enemy.deathFadeStep = 0 // 开始淡出(0..72,draw 走 crossfade)
       // sdlpal fight.c:756 AUDIO_PlaySound(wDeathSound):本层 emit 命令,present 播。
       bus.emit({ op: 'playEnemyDeath', enemyIdx: idx })
@@ -1704,7 +1707,7 @@ function tickBattleEnemyEscapeAnim(state: BattleState): boolean {
   if (!ea) return false
   let anyOnScreen = false
   for (const e of state.enemies) {
-    if (e.e.health <= 0 || !e.pos) continue // 死敌(wObjectID==0)跳过(battle.c:1408)
+    if (e.defeated || e.e.health <= 0 || !e.pos) continue // 死敌(wObjectID==0)跳过(battle.c:1408)
     e.pos = { x: e.pos.x - ENEMY_FLYOUT_DX, y: e.pos.y }
     if (e.pos.x > -ENEMY_FLYOUT_OFFSCREEN) anyOnScreen = true // 仍在屏(x+width>0,battle.c:1420)
   }
@@ -1732,7 +1735,7 @@ function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: Comman
   if ((state.iHidingTime ?? 0) > 0) return
   for (let ei = 0; ei < state.enemies.length; ei++) {
     const en = state.enemies[ei]
-    if (!en || en.e.health <= 0 || en.scriptOnTurnStart <= 0) continue
+    if (!en || en.defeated || en.e.health <= 0 || en.scriptOnTurnStart <= 0) continue
     state.battleDialogPendingClear = false // 每脚本重置 ClearDialog 暂存(防跨脚本泄漏)
     // B2 c7:真 show-once / re-arm —— sdlpal `wScriptOnTurnStart = PAL_RunTriggerScript(...)`
     //   (fight.c:1186-1187 / 1689-1690)把脚本**返回值**写回。runScript 返回 wNextScriptEntry:
@@ -1991,7 +1994,7 @@ function tickPerformAction(
   //   放在 battleAnim hold 之后(杀敌动画播完)+ tickBattleFade 死亡淡出 hold 在 tickBattle 顶层
   //   已先于本函数(淡出完才到此)→ 此处判全死并中止队列,转 postAction 由其定 won/lost。
   if (state.actionQueue.length > 0) {
-    const anyEnemyAlive = state.enemies.some((e) => e.e.health > 0)
+    const anyEnemyAlive = state.enemies.some((e) => !e.defeated && e.e.health > 0)
     const anyPlayerAlive = state.players.some(
       (p) => (res.playerRoles.roles[p.roleId]?.hp ?? 0) > 0,
     )
@@ -2025,7 +2028,7 @@ function tickPerformAction(
     // action 保持 undefined → 不 perform;下方 currentActionIndex++ 推进队列
   } else if (item.isEnemy) {
     const enemy = state.enemies[item.idx]
-    if (enemy && enemy.e.health > 0) {
+    if (enemy && !enemy.defeated && enemy.e.health > 0) {
       // sdlpal `fight.c:1719-1724` 真值 — enemy 轮到时跑 wScriptOnReady bytecode AI 脚本,
       // 脚本通过 opcode 0x67 enemy use magic / 0x64 jump if hp> 等 mutate enemy state
       // (wMagic / wMagicRate);随后 decideEnemyAction 读 mutate 后值执行实际动作。
@@ -2066,8 +2069,8 @@ function tickPerformAction(
       const alivePlayers = party.filter((p) => p.hp > 0)
       // B2 c1:敌方状态门(sleep/paralyzed→pass;silence→强制物理;confused→打友敌;fight.c:4582-4655)
       const aliveEnemies = state.enemies
-        .map((e, i) => ({ idx: i, health: e.e.health }))
-        .filter((e) => e.health > 0)
+        .map((e, i) => ({ idx: i, health: e.e.health, defeated: e.defeated }))
+        .filter((e) => !e.defeated && e.health > 0)
       action = decideEnemyAction({
         enemy: enemy.e,
         alivePlayers,
@@ -2119,7 +2122,7 @@ function tickPerformAction(
     (action.type === 'attack' ||
       ((action.type === 'magic' || action.type === 'throw-item' || action.type === 'coop-magic') &&
         (action.targetSide ?? 'enemy') === 'enemy')) &&
-    (state.enemies[action.target]?.e.health ?? 0) <= 0
+    ((state.enemies[action.target]?.e.health ?? 0) <= 0 || state.enemies[action.target]?.defeated)
   ) {
     const newTarget = selectAutoTargetFrom(
       state.enemies,
@@ -2167,7 +2170,7 @@ function tickPerformAction(
 function resolveConfusedAttack(state: BattleState, res: BattleResources, casterIdx: number): BattleAction {
   const pool: Array<{ kind: 'enemy' | 'ally', idx: number }> = []
   state.enemies.forEach((e, i) => {
-    if (e.e.health > 0) pool.push({ kind: 'enemy', idx: i })
+    if (!e.defeated && e.e.health > 0) pool.push({ kind: 'enemy', idx: i })
   })
   state.players.forEach((p, i) => {
     if (i === casterIdx) return
@@ -2353,9 +2356,9 @@ function performBattleAction(
 }
 
 /**
- * postAction:累计 exp/cash,判 won/lost,否则推下一轮。
+ * postAction:毒 tick、判 won/lost,否则推下一轮。
  *
- * - 死的 enemy(prevHp > 0 → health === 0):累 exp + cash 一次,prevHp = 0(防重复累)
+ * - 死敌奖励/空槽标记由每次 action 后的 checkEnemyDeaths 即时处理
  * - aliveCount=0 → lost
  * - 敌全死 → won
  * - 否则:turn++、清 pendingActions、清 defending flag(单轮失效)、回 selectAction
@@ -2403,7 +2406,7 @@ function tickPostAction(
     }
   })
   state.enemies.forEach((enemy, idx) => {
-    if (enemy.e.health <= 0) return
+    if (enemy.defeated || enemy.e.health <= 0) return
     for (const poison of enemy.poisons ?? []) {
       if (poison.scriptEntry > 0) {
         const next = (runPoisonScript as (o: RunScriptOptions) => number)({
@@ -2421,15 +2424,6 @@ function tickPostAction(
     }
   })
 
-  // 累计死的 enemy 的 exp / cash(避免重复:用 prevHp 判)
-  for (const e of state.enemies) {
-    if (e.e.health <= 0 && e.prevHp > 0) {
-      state.expGained += e.e.exp
-      state.cashGained += e.e.cash
-    }
-    e.prevHp = e.e.health
-  }
-
   // M6 玩家濒死/阵亡音(毒 tick 后判,与 sdlpal fight.c:1664 顺序一致)。prePoisonHp 门控阵亡音死因
   //   (仅敌攻致死播,毒杀不播)。详见 emitPlayerCasualtySounds。
   emitPlayerCasualtySounds(state.players, res.playerRoles, bus, prePoisonHp)
@@ -2441,7 +2435,7 @@ function tickPostAction(
   const aliveCount = state.players.filter(
     (p) => (res.playerRoles.roles[p.roleId]?.hp ?? 0) > 0,
   ).length
-  const enemyAlive = state.enemies.filter((e) => e.e.health > 0).length
+  const enemyAlive = state.enemies.filter((e) => !e.defeated && e.e.health > 0).length
 
   if (aliveCount === 0) {
     state.phase = 'lost'

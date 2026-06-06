@@ -1084,7 +1084,10 @@ describe('0x9F enemy transform (script.c:009F)', () => {
 
 describe('0x9E enemy summon (script.c:009E)', () => {
   it('w!=0 召唤指定敌人(obj→enemyId→enemies)+ 满血 + 脚本/抗性', () => {
-    const roster = [richEnemy({ health: 200 })]
+    const defeated = richEnemy({ health: 0 })
+    defeated.defeated = true
+    defeated.deathFadeStep = 72
+    const roster = [richEnemy({ health: 200 }), defeated]
     const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
     const r = dispatchBattleOpcode(0x9E, [419, 1, 300], ctx)
     expect(r.consumed).toBe(true)
@@ -1092,6 +1095,8 @@ describe('0x9E enemy summon (script.c:009E)', () => {
     expect(roster[1]!.e.id).toBe(22)
     expect(roster[1]!.e.health).toBe(80) // 满血(enemies.json base)
     expect(roster[1]!.maxHealth).toBe(80)
+    expect(roster[1]!.defeated).toBe(false)
+    expect(roster[1]!.deathFadeStep).toBeUndefined()
     expect(roster[1]!.scriptOnReady).toBe(22)
     expect(roster[1]!.resistanceToSorcery).toBe(3)
     expect(roster[1]!.poisons).toEqual([])
@@ -1100,16 +1105,31 @@ describe('0x9E enemy summon (script.c:009E)', () => {
     expect(roster.map(e => e.pos)).toEqual(ENEMY_POS.layouts[1])
   })
 
-  it('count op1:召唤 2 只', () => {
+  it('没有 wMaxEnemyIndex 内空槽 → 召唤失败,不会扩容新槽', () => {
     const roster = [richEnemy({ health: 200 })]
+    const r = dispatchBattleOpcode(0x9E, [419, 1, 300], summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]))
+    expect(roster).toHaveLength(1)
+    expect(r.newIp).toBe(300)
+  })
+
+  it('count op1:召唤 2 只', () => {
+    const d1 = richEnemy({ health: 0 })
+    d1.defeated = true
+    const d2 = richEnemy({ health: 0 })
+    d2.defeated = true
+    const roster = [richEnemy({ health: 200 }), d1, d2]
     dispatchBattleOpcode(0x9E, [419, 2, 300], summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]))
     expect(roster).toHaveLength(3)
+    expect(roster[1]!.defeated).toBe(false)
+    expect(roster[2]!.defeated).toBe(false)
   })
 
   it('w=0 召唤自身同种(满血副本)', () => {
     const self = richEnemy({ health: 30 }) // 当前残血 30
     self.e.id = 7
-    const roster = [self]
+    const dead = richEnemy({ health: 0 })
+    dead.defeated = true
+    const roster = [self, dead]
     dispatchBattleOpcode(0x9E, [0, 1, 300], summonCtx(roster, 0, [ENEMY(7, 150)], [ENEMY_OBJ(500, 7)]))
     expect(roster).toHaveLength(2)
     expect(roster[1]!.e.id).toBe(7)
@@ -1144,9 +1164,12 @@ describe('0x9E enemy summon (script.c:009E)', () => {
   })
 
   it('count<=0 → 当 1', () => {
-    const roster = [richEnemy({ health: 200 })]
+    const dead = richEnemy({ health: 0 })
+    dead.defeated = true
+    const roster = [richEnemy({ health: 200 }), dead]
     dispatchBattleOpcode(0x9E, [419, 0, 300], summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)]))
     expect(roster).toHaveLength(2)
+    expect(roster[1]!.defeated).toBe(false)
   })
 })
 

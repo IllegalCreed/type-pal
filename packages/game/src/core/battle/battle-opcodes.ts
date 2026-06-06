@@ -29,9 +29,12 @@ function asShort(n: number): number {
 }
 
 function refreshEnemyBattlePositions(ctx: BattleCtx): void {
-  const count = ctx.state.enemies.length
+  const maxIdx = Math.max(-1, ...ctx.state.enemies.map((enemy, idx) => enemy.defeated ? -1 : idx))
+  const count = maxIdx + 1
   ctx.state.enemies.forEach((enemy, idx) => {
-    const base = getEnemyBasePos(ctx.enemyPos, count, idx, enemy.e.yPosOffset ?? 0)
+    const base = enemy.defeated
+      ? undefined
+      : getEnemyBasePos(ctx.enemyPos, count, idx, enemy.e.yPosOffset ?? 0)
     if (!base) {
       enemy.pos = undefined
       enemy.posOriginal = undefined
@@ -40,6 +43,35 @@ function refreshEnemyBattlePositions(ctx: BattleCtx): void {
     enemy.posOriginal = { ...base }
     enemy.pos = { ...base }
   })
+}
+
+function isActiveEnemy(
+  enemy: BattleCtx['state']['enemies'][number] | undefined,
+): enemy is BattleCtx['state']['enemies'][number] {
+  return !!enemy && !enemy.defeated
+}
+
+function isAliveEnemy(enemy: BattleCtx['state']['enemies'][number] | undefined): boolean {
+  return isActiveEnemy(enemy) && enemy.e.health > 0
+}
+
+function resetEnemySlot(
+  slot: BattleCtx['state']['enemies'][number],
+  init: Omit<BattleCtx['state']['enemies'][number], 'pos' | 'posOriginal' | 'currentFrame' | 'iColorShift' | 'deathFadeStep'>,
+): void {
+  slot.e = init.e
+  slot.status = init.status
+  slot.prevHp = init.prevHp
+  slot.maxHealth = init.maxHealth
+  slot.scriptOnTurnStart = init.scriptOnTurnStart
+  slot.scriptOnBattleEnd = init.scriptOnBattleEnd
+  slot.scriptOnReady = init.scriptOnReady
+  slot.resistanceToSorcery = init.resistanceToSorcery
+  slot.poisons = init.poisons
+  slot.defeated = false
+  slot.deathFadeStep = undefined
+  slot.currentFrame = undefined
+  slot.iColorShift = 0
 }
 
 /**
@@ -401,6 +433,7 @@ export function dispatchBattleOpcode(
       const dmg = operands[1] ?? 0
       if ((operands[0] ?? 0) !== 0) {
         state.enemies.forEach((e, i) => {
+          if (!isActiveEnemy(e)) return
           const before = e.e.health
           e.e.health = Math.max(0, e.e.health - dmg)
           emitDamageNum(ctx, 'enemy', i, before, e.e.health, dmg) // 投掷暗器打敌:显示完整 dmg(超杀下溢)
@@ -409,7 +442,7 @@ export function dispatchBattleOpcode(
       else {
         const idx = ctx.target?.idx
         const enemy = idx !== undefined ? state.enemies[idx] : undefined
-        if (enemy) {
+        if (isActiveEnemy(enemy)) {
           const before = enemy.e.health
           enemy.e.health = Math.max(0, enemy.e.health - dmg)
           emitDamageNum(ctx, 'enemy', idx!, before, enemy.e.health, dmg) // 投掷暗器单体打敌:显示完整 dmg
@@ -431,7 +464,7 @@ export function dispatchBattleOpcode(
       const scriptEntry = poison && poison.id === poisonId ? poison.enemyScript : 0
       const applyTo = (enemyIdx: number): void => {
         const enemy = state.enemies[enemyIdx]
-        if (!enemy)
+        if (!isActiveEnemy(enemy))
           return
         // 抗性:RandomLong(0,9) >= resistanceToSorcery 才中毒(resist 0 → 总中)
         if (state.rng.rangeInclusive(0, 9) < (enemy.resistanceToSorcery ?? 0))
@@ -463,7 +496,9 @@ export function dispatchBattleOpcode(
         poisons.push({ poisonId, scriptEntry: entry })
       }
       if ((operands[0] ?? 0) !== 0) {
-        state.enemies.forEach((_, i) => applyTo(i))
+        state.enemies.forEach((enemy, i) => {
+          if (isActiveEnemy(enemy)) applyTo(i)
+        })
       }
       else if (ctx.target?.idx !== undefined) {
         applyTo(ctx.target.idx)
@@ -478,7 +513,9 @@ export function dispatchBattleOpcode(
         const enemy = state.enemies[enemyIdx]
         if (enemy?.poisons) enemy.poisons = enemy.poisons.filter((p) => p.poisonId !== poisonId)
       }
-      if ((operands[0] ?? 0) !== 0) state.enemies.forEach((_, i) => cure(i))
+      if ((operands[0] ?? 0) !== 0) state.enemies.forEach((enemy, i) => {
+        if (isActiveEnemy(enemy)) cure(i)
+      })
       else if (ctx.target?.type === 'enemy' && ctx.target.idx !== undefined) cure(ctx.target.idx)
       return { consumed: true }
     }
@@ -1012,7 +1049,7 @@ export function dispatchBattleOpcode(
       let count = 0
       let selfPos = 0
       state.enemies.forEach((e, i) => {
-        if (e.e.id === self.e.id) {
+        if (isActiveEnemy(e) && e.e.id === self.e.id) {
           count++
           if (i === ctx.caster!.idx)
             selfPos = count
@@ -1031,7 +1068,7 @@ export function dispatchBattleOpcode(
       const self = state.enemies[ctx.caster.idx]
       if (!self)
         return { consumed: true }
-      const aliveCount = state.enemies.filter(e => e.e.health > 0).length
+      const aliveCount = state.enemies.filter(isAliveEnemy).length
       if (aliveCount !== 1 || self.e.health <= 1) {
         const failJump = operands[1] ?? 0
         return failJump !== 0 ? { consumed: true, newIp: failJump } : { consumed: true }
@@ -1046,9 +1083,9 @@ export function dispatchBattleOpcode(
       // sdlpal 0x9C 在 enemy AI 脚本里跑,被 PAL_BattleBackupStat/DisplayStatChange(fight.c:1614/1665)
       //   夹住 → 原敌 HP 下降触发 wPrevHP!=wHealth → 画 blue 数字(新副本不画:backup 在它们存在前)。
       emitDamageNum(ctx, 'enemy', ctx.caster.idx, beforeHealth, newHealth)
-      const copies = Math.min(w, MAX_ENEMIES_IN_TEAM - state.enemies.length)
-      for (let k = 0; k < copies; k++) {
-        state.enemies.push({
+      let copiesLeft = w
+      for (let i = 0; i < MAX_ENEMIES_IN_TEAM && copiesLeft > 0; i++) {
+        const init = {
           e: { ...self.e, health: newHealth },
           status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
           prevHp: newHealth,
@@ -1058,7 +1095,16 @@ export function dispatchBattleOpcode(
           scriptOnReady: self.scriptOnReady,
           resistanceToSorcery: self.resistanceToSorcery ?? 0,
           poisons: [],
-        })
+          defeated: false,
+        }
+        if (state.enemies[i]) {
+          if (!state.enemies[i]!.defeated) continue
+          resetEnemySlot(state.enemies[i]!, init)
+        }
+        else {
+          state.enemies[i] = init
+        }
+        copiesLeft--
       }
       refreshEnemyBattlePositions(ctx)
       return { consumed: true }
@@ -1085,6 +1131,10 @@ export function dispatchBattleOpcode(
         return { consumed: true }
       const keepHealth = self.e.health
       self.e = { ...base, health: keepHealth }
+      self.defeated = false
+      self.deathFadeStep = undefined
+      self.currentFrame = 0
+      self.iColorShift = 0
       self.maxHealth = base.health
       self.scriptOnTurnStart = eo.scriptOnTurnStart
       self.scriptOnReady = eo.scriptOnReady
@@ -1115,7 +1165,7 @@ export function dispatchBattleOpcode(
         count = 1
       const failJump = operands[2] ?? 0
 
-      const room = MAX_ENEMIES_IN_TEAM - state.enemies.length
+      const room = state.enemies.reduce((n, enemy) => n + (enemy.defeated ? 1 : 0), 0)
       const disabled = (self.status.sleep ?? 0) > 0 || (self.status.paralyzed ?? 0) > 0 || (self.status.confused ?? 0) > 0
       const hiding = (state.iHidingTime ?? 0) > 0 // sdlpal:我方隐身中不可召唤(对齐 0x9F)
       if (room < count || hiding || disabled)
@@ -1148,8 +1198,11 @@ export function dispatchBattleOpcode(
       if (!base)
         return { consumed: true }
 
-      for (let k = 0; k < count; k++) {
-        state.enemies.push({
+      let left = count
+      for (let i = 0; i < state.enemies.length && left > 0; i++) {
+        if (!state.enemies[i]?.defeated)
+          continue
+        resetEnemySlot(state.enemies[i]!, {
           e: { ...base }, // 满血 base stats(sdlpal e = lprgEnemy[enemyID])
           status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
           prevHp: base.health,
@@ -1159,7 +1212,9 @@ export function dispatchBattleOpcode(
           scriptOnReady: onReady,
           resistanceToSorcery: resist,
           poisons: [],
+          defeated: false,
         })
+        left--
       }
       refreshEnemyBattlePositions(ctx)
       // M6 召唤音(sdlpal script.c:2937 AUDIO_PlaySound(212),召唤成功 BattleMakeScene 后的施法手势音)。

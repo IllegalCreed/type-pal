@@ -77,7 +77,7 @@ export interface MagicDamageResult {
  * 对一个或全体敌人结算法术伤害,**原地** mutate `state.enemies[].e.health`。
  *
  * @returns 每个被处理敌人的 { enemyIdx, damage }(target='all' 时含全部敌人,
- *          含已死 slot —— 对齐 sdlpal applyToAll 循环不按 health 过滤)。
+ *          含未清空但 health<=0 的 slot;跳过 defeated=true 的运行时空槽(= sdlpal wObjectID==0)。
  */
 export function applyMagicDamage(input: ApplyMagicDamageInput): MagicDamageResult[] {
   const { state, target, magStr, magicData, rngFactor, minDamage } = input
@@ -91,7 +91,7 @@ export function applyMagicDamage(input: ApplyMagicDamageInput): MagicDamageResul
   const results: MagicDamageResult[] = []
   for (const idx of targetIdxs) {
     const enemy = state.enemies[idx]
-    if (!enemy)
+    if (!enemy || enemy.defeated)
       continue
 
     // sdlpal: def = (SHORT)enemy.wDefense + (wLevel+6)*4; if (def<0) def=0
@@ -285,7 +285,7 @@ export function simulateMagic(input: SimulateMagicInput): MagicDamageResult[] {
     let i = input.targetIdx ?? -1
     if (i < 0) {
       // PAL_BattleSelectAutoTargetFrom:首个活敌
-      i = input.state.enemies.findIndex(e => e.e.health > 0)
+      i = input.state.enemies.findIndex(e => !e.defeated && e.e.health > 0)
       if (i < 0)
         i = 0
     }

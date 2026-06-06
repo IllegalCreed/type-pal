@@ -2,8 +2,8 @@
  * death-fade.test.ts —— D17 敌人死亡淡出(PAL_BattleFadeScene)数据级断言。
  *
  * 覆盖(对照 sdlpal fight.c:740-764 + battle.c:608-682):
- *  - checkEnemyDeaths(经 tickPerformAction 触发):health<=0 的敌 deathFadeStep 0→开,
- *    battleFade 开启 + emit playEnemyDeath;无死敌不开。
+ *  - checkEnemyDeaths(经 tickPerformAction 触发):health<=0 的敌立即累计奖励、标 defeated 空槽、
+ *    deathFadeStep 0→开,battleFade 开启 + emit playEnemyDeath;无死敌不开。
  *  - 驱动暂停:battleFade active 时连续 N tick currentActionIndex 不变;step 随
  *    elapsedMs/16 递增;step>=72 后清 battleFade + currentActionIndex++。
  *  - 向后兼容:无死敌的 action(defend)不开 battleFade,即时推进(沿用 D17a)。
@@ -150,6 +150,9 @@ describe('D17 死亡淡出 — checkEnemyDeaths + battleFade hold', () => {
     }
     const s = gs.battleState!
     expect(s.battleFade, 'battleFade 应开启').toBeDefined()
+    expect(s.expGained, '死敌奖励应在 checkEnemyDeaths 即时累计,避免后续召唤复用槽位覆盖旧敌').toBe(50)
+    expect(s.cashGained).toBe(30)
+    expect(s.enemies[0]!.defeated, '死亡确认后应等价原版 wObjectID=0 空槽').toBe(true)
     expect(s.enemies[0]!.deathFadeStep, '死敌 deathFadeStep 应已开始(>=0)').toBeGreaterThanOrEqual(0)
     expect(s.enemies[0]!.deathFadeStep).toBeLessThanOrEqual(72)
     expect(
@@ -287,6 +290,9 @@ describe('D17 死亡淡出 — checkEnemyDeaths + battleFade hold', () => {
     s.phaseStallTicks = 0
     tickBattle(gs, emptyInput, bus) // tickPostAction → checkEnemyDeaths 开淡出
     expect(s.battleFade, '毒杀也开淡出 hold(非瞬隐)').toBeDefined()
+    expect(s.enemies[0]!.defeated, '毒杀后也清为空槽').toBe(true)
+    expect(s.expGained).toBe(50)
+    expect(s.cashGained).toBe(30)
     expect(s.enemies[0]!.deathFadeStep, '毒杀敌 deathFadeStep 从 0 开始').toBe(0)
   })
 })

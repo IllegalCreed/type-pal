@@ -2280,7 +2280,7 @@ describe('throw-item action 派发(E2)', () => {
     void consoleWarn
   })
 
-  it('0x9E summon:敌人 scriptOnReady 召唤自身同种 → state.enemies 增长', () => {
+  it('0x9E summon:敌人 scriptOnReady 只复用 wMaxEnemyIndex 内死亡空槽,不扩容单敌队伍', () => {
     // ip1 = 0x9E[0,1,0](w=0 自身同种,count 1)
     const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x9E, operands: [0, 1, 0] }, { op: 'end' }]
     const { gs, bus, emptyInput } = bootstrap({
@@ -2302,14 +2302,10 @@ describe('throw-item action 派发(E2)', () => {
     while (gs.battleState?.phase !== 'postAction' && gs.mode === 'battle' && safety-- > 0)
       tickBattle(gs, emptyInput, bus)
 
-    // 敌人行动时 scriptOnReady 跑 0x9E → 召唤 1 只同种(id 100)
-    expect(gs.battleState!.enemies.length).toBe(2)
-    expect(gs.battleState!.enemies[1]!.e.id).toBe(100)
-    expect(gs.battleState!.enemies[1]!.e.health).toBe(200) // 满血
-    expect(gs.battleState!.enemies.map(e => e.posOriginal)).toEqual([
-      { x: 120, y: 80 },
-      { x: 220, y: 70 },
-    ])
+    // 原版 0x9E 只扫描 0..wMaxEnemyIndex 里的 wObjectID==0 槽;单敌队伍没有空槽,所以失败不扩容。
+    expect(gs.battleState!.enemies.length).toBe(1)
+    expect(gs.battleState!.enemies[0]!.e.id).toBe(100)
+    expect(gs.battleState!.enemies[0]!.e.health).toBeGreaterThan(0)
     void consoleWarn
   })
 

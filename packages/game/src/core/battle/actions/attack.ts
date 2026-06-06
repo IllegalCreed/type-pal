@@ -175,7 +175,7 @@ export function performAttack(
       let division = 1
       for (const slot of HIT_ORDER) {
         const be = state.enemies[slot]
-        if (!be || be.e.health <= 0) continue // sdlpal:wObjectID==0 || idx>maxEnemyIndex
+        if (!be || be.defeated || be.e.health <= 0) continue // sdlpal:wObjectID==0 || idx>maxEnemyIndex
         const def = asShort(be.e.defense) + (be.e.level + 6) * 4
         let damage = calcPhysicalAttackDamage(str, def, be.e.physicalResistance)
         if (fCritical) damage *= 3
@@ -225,6 +225,7 @@ export function performAttack(
   // 伤害(jitter/crit/李逍遥/RandomFloat)+ 攻击动画做两次(仙女剑等武器)。
   if (!actor.isEnemy) {
     const targetEnemy = state.enemies[targetIdx]!
+    if (!targetEnemy || targetEnemy.defeated || targetEnemy.e.health <= 0) return
     const bravery = state.players[actor.idx]?.status.bravery ?? 0
     const roleId = state.players[actor.idx]!.roleId
     const hits = (state.players[actor.idx]?.status.dualAttack ?? 0) > 0 ? 2 : 1
@@ -430,7 +431,7 @@ export function performEnemyConfusedAttack(
 ): void {
   const attacker = state.enemies[attackerIdx]?.e
   const target = state.enemies[targetEnemyIdx]
-  if (!attacker || !target || target.e.health <= 0) return
+  if (!attacker || !target || target.defeated || target.e.health <= 0) return
 
   const str = asShort(attacker.attackStrength) + (attacker.level + 6) * 6
   const def = asShort(target.e.defense) + (target.e.level + 6) * 4
