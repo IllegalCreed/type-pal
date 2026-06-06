@@ -2,6 +2,7 @@ import type {
   Command,
   EventFile,
   EventObjectsFile,
+  Palette,
   PlayerRoles,
   SceneEventObject,
   Tilemap,
@@ -135,6 +136,14 @@ const buildFlag: 'win95' | 'dos' =
   new URLSearchParams(window.location.search).get('build') === 'dos'
     ? 'dos'
     : 'win95'
+
+export function cloneScreenPalette(src: Palette): Palette {
+  return { ...src, colors: src.colors.map(([r, g, b]) => [r, g, b]) }
+}
+
+export function makeBlackScreenPalette(src: Palette): Palette {
+  return { ...src, colors: src.colors.map(() => [0, 0, 0] as [number, number, number]) }
+}
 
 export function syncShellAudio(
   audio: AudioManager,
@@ -1414,7 +1423,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
    * SetLoadFlags(GlobalData | Scene | PlayerSprite),下一 tick 主循环 reload。
    *
    * ts 端整套:Save.loadSlot → gs 字段全替换 → sceneLoader callback 重 load 当前 scene。
-   * 期间 fade out / suspend 等视觉效果留 follow-up(同 startNewGameFromPrimary 简版口径)。
+   * Object.assign 后到新 scene assets ready 前,canvas 必须保持黑屏:否则旧 framebuffer 会被存档 palette
+   * 先重染一帧(白天读夜档会先变夜;死亡读档会露战斗帧),再进入目标场景。
    */
   async function loadGameFromSlot(slot: number): Promise<void> {
     const loadedGs = await Save.loadSlot(slot)
@@ -1423,12 +1433,6 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       return
     }
     console.log(`[bootstrap.loadGame] slot ${slot} loaded`)
-    // 死亡读档判定:读 **Object.assign 之前** 的当前会话态(resumePostBattleScript(lost) 置 gameOverActive=true)。
-    //   不读 assign 之后的值 —— Save 走 deepClone(gs) 全量序列化,理论上可能带入存档的 gameOverActive(虽然
-    //   实际无法在死亡演出期存档);用 assign 前的会话态作判据,与存档内容彻底解耦,菜单 Load 永为 false。
-    // 正常死亡序列跑到 0x4E 读档时,0x4F 已置 gameOverActive=true(且清了 deathHoldActive),故主判据是它;
-    //   deathHoldActive 兜底:万一过渡帧 hold 未经 0x4F 就触发读档(防御),也按死亡读档强制黑屏,杜绝战斗帧闪现。
-    const isDeathReload = gs.gameOverActive === true || gs.deathHoldActive === true
     // mutate gs in-place(外部持有同 ref;无法替换 ref)
     // 把 loadedGs 全字段拷到 gs(用 Object.assign 浅 + 关键嵌套手动 deepClone)
     Object.assign(gs, loadedGs)
@@ -1443,15 +1447,16 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     if (gs.partyLeaderSpriteId !== undefined) {
       gs.PlayerRolesRuntime.rgwSpriteNum[0] = gs.partyLeaderSpriteId
     }
-    // 死亡读档:Object.assign 把 palette 从**黑**(0x4E FadeOut 淡完)覆盖回存档的**正常色** → 而 fb 仍残留战斗帧,
-    //   sceneLoading 窗口期会用正常色 flush 那帧 → user 报"闪一阵战斗画面"。
-    //   修:强制 palette 全黑,使残留帧渲染为黑(不闪);随后 needToFadeIn 从黑淡入新场景
-    //   (对齐 sdlpal script.c:1764 PAL_FadeOut(1)→reload 全程黑屏 + PAL_FadeIn,绝不露旧帧)。
-    //   **新建 palette 对象**(不原地改 colors):Object.assign 后 gs.palette === loadedGs.palette 同引用,
-    //   原地 mutate 会污染读回的存档对象 → 用 spread 断开引用,保留 cycles/nightColors。
-    if (isDeathReload && gs.palette) {
-      gs.palette = { ...gs.palette, colors: gs.palette.colors.map(() => [0, 0, 0] as [number, number, number]) }
-    }
+    // 读档 transition guard:存档 palette 要留给目标场景,但加载窗口只能刷黑屏。
+    //   普通读档:避免旧场景先套目标档昼夜 palette(白天读夜档会瞬间变夜)。
+    //   死亡读档:避免 0x4E FadeOut 后 Object.assign 把黑 palette 覆成存档色,露出残留战斗帧。
+    //   **新建 palette 对象**:Object.assign 后 gs.palette === loadedGs.palette 同引用,不得原地改 colors。
+    const restoredPalette = cloneScreenPalette(gs.palette ?? gs.basePalette ?? palette)
+    gs.sceneLoading = true
+    gs.paletteFadeState = undefined
+    gs.palette = makeBlackScreenPalette(restoredPalette)
+    fb.clear()
+    flushToCanvas(fb, canvasCtx!, gs.palette)
     // sdlpal bCurrentSaveSlot 是 runtime 全局(非 SAVEDGAME)— Object.assign 带入的是存档里那份旧值,
     // 须用本次读的 slot 覆盖(opcode 0x4E load-last-save 据此重载"上次读/存"的槽)。
     gs.currentSaveSlot = slot
@@ -1464,8 +1469,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     updateAllEquipments(gs, items)
     gs.iCurEquipPart = -1
     // 重 load scene assets — 走 fromSavedGame 路径,**不**重置 npcs / **不**跑 onEnter。
-    // sceneLoading 由 loadSceneCommon 管(起手 true blank fetch 窗口,fromSavedGame 分支立即清渲染)。
+    // sceneLoading 在读档 transition guard 已置 true;loadSceneCommon 完成后恢复目标存档 palette 绘制新场景。
     await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })
+    gs.palette = restoredPalette
   }
 
   setLoadGameHandler(async (slot) => {
