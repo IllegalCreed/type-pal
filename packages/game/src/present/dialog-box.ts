@@ -276,6 +276,8 @@ export function startDialogLine(
     currentLineColors: isTitle ? undefined : parsed.colors,
     currentLineRevealAt: isTitle ? undefined : parsed.revealAt,
     currentLineDoneAt: isTitle ? 0 : parsed.doneAt,
+    currentLineEndedWithTilde: isTitle ? false : parsed.endedWithTilde,
+    lineDoneRenderPending: false,
     fontColorState: isTitle ? startColor : parsed.endColor, // title 不改色态
     iDelayState: isTitle ? DIALOG_IDELAY_DEFAULT : parsed.endIDelay, // title 不改打字速度态
     iconKind: parsed.icon,
@@ -324,6 +326,8 @@ export function appendDialogLine(state: DialogBoxState, rawText: string): void {
   state.currentLineColors = parsed.colors
   state.currentLineRevealAt = parsed.revealAt
   state.currentLineDoneAt = parsed.doneAt
+  state.currentLineEndedWithTilde = parsed.endedWithTilde
+  state.lineDoneRenderPending = false
   state.fontColorState = parsed.endColor
   state.iDelayState = parsed.endIDelay
   if (parsed.icon) state.iconKind = parsed.icon
@@ -404,6 +408,8 @@ export function resetDialogBody(state: DialogBoxState): void {
   state.currentLineColors = undefined
   state.currentLineRevealAt = undefined
   state.currentLineDoneAt = undefined
+  state.currentLineEndedWithTilde = false
+  state.lineDoneRenderPending = false
   state.dialogLineCount = 0
   state.typingFrames = 0
   state.charsRevealed = 0
@@ -436,6 +442,7 @@ export function tickDialog(state: DialogBoxState): void {
       if (elapsed >= (state.currentLineDoneAt ?? 0)) {
         state.charsRevealed = len
         state.phase = 'line-done'
+        if (state.currentLineEndedWithTilde) state.lineDoneRenderPending = true
       }
     }
     else {

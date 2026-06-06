@@ -322,6 +322,10 @@ export interface DialogBoxState {
   currentLineRevealAt?: number[]
   /** 当前行完全打完时刻(ms,含 `~NN` 尾暂停);elapsed>=doneAt → phase='line-done'。 */
   currentLineDoneAt?: number
+  /** 当前行是否以 `~NN` 收尾。用于在尾暂停结束后保留完整文字一帧再续脚本。 */
+  currentLineEndedWithTilde?: boolean
+  /** `~NN` 尾暂停刚结束时置 true;event-system 先渲染完整文字一帧,下 tick 再续脚本。 */
+  lineDoneRenderPending?: boolean
   /** 跨行持续的 iDelayTime 状态(sdlpal g_TextLib.iDelayTime;`$NN` 改,段内续行继承,startDialogLine 重置默认 3)。 */
   iDelayState?: number
   /**

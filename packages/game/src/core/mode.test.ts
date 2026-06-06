@@ -112,9 +112,52 @@ describe('tickByMode auto fade-in gate', () => {
     // 居中字结束后才执行脚本里的 0x51 FadeIn。
     gs.dialogBox!.typingFrames = 999
     tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.eventCursor?.waiting).toBe('dialog')
+    expect(gs.dialogBox?.lineDoneRenderPending).toBe(false)
+    tickEventSystem(gs, snap(), createCommandBus())
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.needToFadeIn).toBe(false)
     expect(gs.blackScreenHold).toBe(false)
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([180, 120, 60])
+  })
+
+  it('水月宫:`一夜过去~40` 尾暂停结束后先保留完整文字一帧,下 tick 才执行 0x51', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = 'event'
+    gs.palette = palette([0, 0, 0])
+    gs.basePalette = palette([180, 120, 60])
+    gs.needToFadeIn = true
+    gs.blackScreenHold = true
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: OP_SHOW_FBP, operands: [0xffff, 0, 0] },
+        { op: 'setDialogStyleCenter' },
+        { op: 'showDialog', messageIndex: 1774, text: '"一夜过去．．"~40' },
+        { op: 'raw', opcode: OP_FADE_IN, operands: [0, 0, 0] },
+        { op: 'end' },
+      ],
+      labelMap: {},
+      ip: 1,
+    }
+
+    tickByMode(gs, snap(), createCommandBus()) // set style + show dialog
+    expect(gs.eventCursor?.waiting).toBe('dialog')
+
+    for (let i = 0; i < 6; i++) tickByMode(gs, snap(), createCommandBus())
+    expect(gs.dialogBox?.currentLineText).toBe('一夜过去．．')
+    expect(gs.dialogBox?.charsRevealed).toBe(6)
+    expect(gs.dialogBox?.phase).toBe('typing')
+    expect(gs.eventCursor?.waiting).toBe('dialog')
+    expect(gs.paletteFadeState).toBeUndefined()
+
+    tickByMode(gs, snap(), createCommandBus()) // 尾暂停结束:保留完整文字给 present 渲染一帧
+    expect(gs.dialogBox?.phase).toBe('line-done')
+    expect(gs.dialogBox?.lineDoneRenderPending).toBe(false)
+    expect(gs.eventCursor?.waiting).toBe('dialog')
+    expect(gs.paletteFadeState).toBeUndefined()
+
+    tickByMode(gs, snap(), createCommandBus()) // 下一 tick 才续跑到 0x51
+    expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.paletteFadeState?.targetColors[0]).toEqual([180, 120, 60])
   })
 

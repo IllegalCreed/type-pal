@@ -860,6 +860,26 @@ describe('applyDialogIconPaletteShift(dialog 箭头 palette 轮转)', () => {
     expect(out.colors[0x42]).toEqual([0, 0, 0])
   })
 
+  it('blackScreenHold 文字色不受 nightPalette/nightColors 影响', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.blackScreenHold = true
+    gs.nightPalette = true
+    gs.dialogBox = startDialogLine('"一夜过去．．"~40', { style: 'center' })
+    gs.basePalette = {
+      ...palette256(),
+      nightColors: Array.from({ length: 256 }, () => [1, 2, 3] as [number, number, number]),
+    }
+    const black: Palette = {
+      colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
+      cycles: [],
+    }
+
+    const out = applyDialogIconPaletteShift(gs, black)
+
+    expect(out.colors[0x2d]).toEqual([0x2d, 0x2d, 0x2d])
+    expect(out.colors[0x4f]).toEqual([0x4f, 0x4f, 0x4f])
+  })
+
   it('等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动', () => {
     vi.spyOn(performance, 'now').mockReturnValue(100) // floor(100/100)%6 = 1
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })

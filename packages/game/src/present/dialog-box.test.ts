@@ -118,6 +118,12 @@ describe('parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c
     expect(r.doneAt).toBe(72 + Math.floor((30 * 80) / 7))
   })
 
+  it('`~40` 一夜过去:原版尾暂停 floor(40*80/7)=457ms', () => {
+    const r = parseDialogText('"一夜过去．．"~40', D, false)
+    expect(r.text).toBe('一夜过去．．')
+    expect(r.doneAt).toBe(6 * 24 + Math.floor((40 * 80) / 7))
+  })
+
   it('iDelay 跨行:startIDelay 参数继承上行 endIDelay', () => {
     const r = parseDialogText('续行', D, false, 14) // 上行 $10 留下 iDelay=14
     expect(r.revealAt).toEqual([0, 112]) // 继承 112ms/字
@@ -223,6 +229,21 @@ describe('Sync.2 DialogBox · tickDialog typing', () => {
     for (let i = 0; i < FRAMES_PER_CHAR; i++) tickDialog(s)
     expect(s.charsRevealed).toBe(1)
     expect(s.phase).toBe('line-done')
+  })
+
+  it('`~NN` 尾暂停结束后标记保留完整文字一帧', () => {
+    const s = startDialogLine('"一夜过去．．"~40', { style: 'center' })
+    for (let i = 0; i < 5; i++) tickDialog(s) // 500ms:整句已出,但未到 601ms doneAt
+    expect(s.charsRevealed).toBe(6)
+    expect(s.phase).toBe('typing')
+    expect(s.lineDoneRenderPending).toBe(false)
+
+    tickDialog(s) // 600ms 仍略小于 144+457=601ms
+    expect(s.phase).toBe('typing')
+
+    tickDialog(s) // 700ms:尾暂停结束,但 event-system 需先渲染完整文字一帧
+    expect(s.phase).toBe('line-done')
+    expect(s.lineDoneRenderPending).toBe(true)
   })
 
   it('line-done 后继续 tick → charsRevealed 不再增长', () => {

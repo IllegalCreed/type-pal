@@ -26,7 +26,7 @@ import { computeFollowerRenderItems } from './follower-render.js'
 import type { BattleBgAsset } from './battle/draw-battle-bg.js'
 import type { GlyphTable } from './font.js'
 import { isWalkable } from '../core/scene-system.js'
-import { resolveNightColors, stepPaletteFade } from '../core/palette-fade.js'
+import { stepPaletteFade } from '../core/palette-fade.js'
 
 export interface PresentContext {
   tilemap: Tilemap
@@ -623,7 +623,8 @@ const BLACK_SCREEN_DIALOG_TEXT_COLORS = [
 
 function applyBlackScreenDialogPalette(gs: GameState, base: Palette): Palette {
   if (!gs.blackScreenHold || (!gs.dialogBox && !gs.dialogBoxKept)) return base
-  const src = resolveNightColors(gs.basePalette ?? base, gs.nightPalette)
+  // 黑屏提示字是 UI/dialog 层,不应跟随夜晚场景调色板变暗。
+  const src = (gs.basePalette ?? base).colors
   const colors = base.colors.slice()
   let changed = false
   for (const idx of BLACK_SCREEN_DIALOG_TEXT_COLORS) {

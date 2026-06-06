@@ -1554,6 +1554,10 @@ export function tickEventSystem(
       // 自动推进:line-done 时直接 cursor.ip++(不等 Confirm)— sdlpal 行间不停
       // 但只在 *上面* 不是 'page-advance' / 'dialog-end' 时才做(那两已 return / 切状态)
       if (gs.dialogBox && gs.dialogBox.phase === 'line-done' && cursor.waiting === 'dialog') {
+        if (gs.dialogBox.lineDoneRenderPending) {
+          gs.dialogBox.lineDoneRenderPending = false
+          return
+        }
         cursor.waiting = undefined
         cursor.ip++
         // 继续 fall-through 进入主 while 跑下条 opcode
