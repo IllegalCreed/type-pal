@@ -29,13 +29,26 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
     expect(enemyEntries[1]?.fIsSecond).toBe(true)
   })
 
-  it('同 dex 排序稳定(队员先于敌人)', () => {
+  it('同 dex 排序稳定(敌人先于队员,fight.c 先填敌人且只在严格小于时交换)', () => {
     const queue = buildActionQueue({
       players: [{ idx: 0, dex: 30 }],
       enemies: [{ idx: 0, dex: 30, dualMove: false }],
     })
-    expect(queue[0]?.isEnemy).toBe(false)
-    expect(queue[1]?.isEnemy).toBe(true)
+    expect(queue[0]?.isEnemy).toBe(true)
+    expect(queue[1]?.isEnemy).toBe(false)
+  })
+
+  it('同 dex 的多个敌人与队员均保持原填充顺序', () => {
+    const queue = buildActionQueue({
+      players: [{ idx: 0, dex: 30 }, { idx: 1, dex: 30 }],
+      enemies: [{ idx: 0, dex: 30, dualMove: false }, { idx: 1, dex: 30, dualMove: false }],
+    })
+    expect(queue.map(q => [q.isEnemy, q.idx])).toEqual([
+      [true, 0],
+      [true, 1],
+      [false, 0],
+      [false, 1],
+    ])
   })
 
   it('空队伍', () => {

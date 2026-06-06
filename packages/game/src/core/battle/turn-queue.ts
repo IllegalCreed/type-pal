@@ -1,7 +1,7 @@
 /**
  * PAL_CLASSIC ActionQueue —— from `reference/sdlpal/fight.c:1900-1985`(`#ifdef PAL_CLASSIC` 分支)。
  *
- * 每轮重排:队员 + 敌人 按 dexterity 降序;dualMove enemy 进队列两次(第二次 fIsSecond=true,
+ * 每轮重排:敌人 + 队员 按 dexterity 降序;dualMove enemy 进队列两次(第二次 fIsSecond=true,
  * 实际效果是排在第一次之后,等所有人都行动完再轮到它)。
  *
  * 对照 sdlpal `battle.h:158-167` `tagACTIONQUEUE`:{ fIsEnemy, wDexterity, wIndex, fIsSecond }。
@@ -9,6 +9,7 @@
  * 注:sdlpal 用 RandomFloat(0.9, 1.1) 给 enemy dex 加抖动,dualMove 第二个 entry 也独立摇一次,
  * 然后比较两个 dex 选小者标 fIsSecond(`fight.c:1486-1489`)。本函数为纯函数,不持 RNG,
  * 把抖动职责留给调用方(传 dex 时已 modulated),并用 dex-1 模拟「第二次必排在第一次之后」。
+ * SDLPal 先填敌人、再填队员,排序只在 `<` 时交换,故同 dex 保持敌人在前。
  */
 
 export interface PlayerSlot {
@@ -60,16 +61,12 @@ export interface BuildActionQueueInput {
  * from `reference/sdlpal/fight.c:1451-1571`(`#ifdef PAL_CLASSIC` 分支 enemy + player 填充)。
  *
  * 步骤:
- *   1. 把所有队员塞队列(fIsSecond=false)
- *   2. 把所有敌人塞队列;dualMove enemy 进队列两次,第二次 dex-1 + fIsSecond=true
- *   3. dex 降序稳定排序;同 dex 队员先于敌人
+ *   1. 把所有敌人塞队列;dualMove enemy 进队列两次,第二次 dex-1 + fIsSecond=true
+ *   2. 把所有队员塞队列(fIsSecond=false)
+ *   3. dex 降序稳定排序;同 dex 保持填充顺序,即敌人先于队员
  */
 export function buildActionQueue(input: BuildActionQueueInput): ActionQueueItem[] {
   const items: ActionQueueItem[] = []
-
-  for (const p of input.players) {
-    items.push({ isEnemy: false, idx: p.idx, dex: p.dex, fIsSecond: false })
-  }
 
   for (const e of input.enemies) {
     const first: ActionQueueItem = { isEnemy: true, idx: e.idx, dex: e.dex, fIsSecond: false }
@@ -90,17 +87,13 @@ export function buildActionQueue(input: BuildActionQueueInput): ActionQueueItem[
     }
   }
 
-  // 稳定排序(JS Array.sort 在 modern engine ECMA-2019+ 是 stable):
-  //   - dex 降序
-  //   - 同 dex 队员先于敌人(sdlpal `fight.c:1498-1571` 在 enemy 循环之后填 player,
-  //     但 PAL_CLASSIC 最终按 dex 排;tie-break 此处取队员优先,与 spec test 一致)
-  items.sort((a, b) => {
-    if (a.dex !== b.dex)
-      return b.dex - a.dex
-    if (a.isEnemy !== b.isEnemy)
-      return a.isEnemy ? 1 : -1
-    return 0
-  })
+  for (const p of input.players) {
+    items.push({ isEnemy: false, idx: p.idx, dex: p.dex, fIsSecond: false })
+  }
+
+  // SDLPal 用双循环仅在 `(SHORT)a.dex < (SHORT)b.dex` 时交换(fight.c:1574-1584)。
+  // JS stable sort + 只比较 dex 等价:同 dex 保留「敌人先填、队员后填」的顺序。
+  items.sort((a, b) => b.dex - a.dex)
 
   return items
 }

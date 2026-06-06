@@ -39,6 +39,9 @@
    - 已修:中毒头像变色 + `PAL_PlayerInfoBox` 状态字(乱/定/眠/封)已实现。
    - 说明:CLASSIC 底部信息框无 time-meter bar;buff 类 puppet/bravery/protect/haste/dualAttack 在原版状态字表为 0,不显示。
 
+4. 同速行动顺序
+   - 已修:CLASSIC 行动队列先填敌人再填玩家,排序仅在 dex 严格更大时交换;同 dex 现在保持敌人先行动。
+
 ## P2:低优先级
 
 - Trance/梦蛇:已修 `spells.json` 缺 295 时从 `object-magics.json` 回退解析,可进法术菜单/执行 0x30/0x31,并在成功后播放 `iColorShift` 闪色与末帧 sprite 切换。后续若继续抠原版视觉,可补完整 `PAL_BattleFadeScene` 级别的场景淡换。
