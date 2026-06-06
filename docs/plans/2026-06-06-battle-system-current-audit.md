@@ -10,6 +10,7 @@
 - 敌方 AI 的 sleep/paralyzed/silence/confused、脚本改写 wMagic、dualMove 队列都已由上游链路处理。
 - battle music、0x31 battle sprite override、0x92 show magic anim 均已接入。
 - OBJECT_PLAYER 的 friendDeath/dying 脚本已提取并在战斗伤害/毒伤后触发。
+- D29 baseline harness 已改用生产同源 `events/all.json` 与 object 视图表;法术/道具等五组 fixture 全部实际运行,不再因旧资源入口整组 skip。
 
 ## P0:已修复行为差异
 

@@ -76,7 +76,7 @@ export interface BattlePlayer {
 /**
  * 敌人的战斗状态视图。e 字段是 enemies.json 的 shallow copy(health 在战斗中
  * 会被改,需独立副本不污染原数据)。3 个 script 字段从 OBJECT 数组的
- * OBJECT_ENEMY 派生(M3 不实际运行,字段预留 M5)。
+ * OBJECT_ENEMY 派生,由 turnStart / ready / battleEnd 链路执行。
  */
 export interface BattleEnemy {
   /** 拷贝 enemies.json 的完整 stats(战斗中 health 会被改)。 */
@@ -90,7 +90,7 @@ export interface BattleEnemy {
    * createBattleState 必设;optional 仅为旧 fixture 向后兼容(handler 用 ?? prevHp ?? e.health)。
    */
   maxHealth?: number
-  /** 从 OBJECT 数组的 OBJECT_ENEMY 派生(M3 不实际运行,但字段预留 M5)。 */
+  /** 从 OBJECT 数组的 OBJECT_ENEMY 派生。 */
   scriptOnTurnStart: number
   scriptOnBattleEnd: number
   scriptOnReady: number

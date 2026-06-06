@@ -1666,7 +1666,7 @@ function fleeStepDelta(_j: number, _partyLen: number): [number, number] {
  * 逃跑动画 hold(phase-agnostic;sdlpal `PAL_BattlePlayerEscape` battle.c:1438-1527)。
  * flee roll 成功(performFlee 设 state.fleeAnim)→ 16 步把活队员往右下挪 + 站立帧,满步移出屏
  * (9999,9999)→ phase='fleed'(下 tick finalize)。返回 true = 本 tick 被逃跑动画占用(暂停推进)。
- * 注:音效 45(battle.c:1459)走 M6 音频,本期跳过。
+ * 音效 45 在 performFlee 成功时写入 gs.pendingSounds。
  */
 function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
   const fa = state.fleeAnim

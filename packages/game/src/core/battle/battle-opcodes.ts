@@ -323,7 +323,7 @@ const OP_ENEMY_USE_MAGIC = 0x0067
 /** sdlpal `script.c:1957-1965` 0x0061:if !player_poisoned → jump operand[1] */
 const OP_JUMP_IF_PLAYER_NOT_POISONED = 0x0061
 
-/** sdlpal `script.c:相关` 0x0069:enemy escape — set e.health = 0 让外层判 dead 等价处理 */
+/** sdlpal `script.c:2035-2038` 0x0069:PAL_BattleEnemyEscape — 终止战斗,无击杀奖励。 */
 const OP_ENEMY_ESCAPE = 0x0069
 
 /** sdlpal `script.c:相关` 0x0060:Immediate KO enemy(operand[0] 是 enemy index) */
@@ -708,7 +708,7 @@ export function dispatchBattleOpcode(
     }
 
     case OP_ENABLE_AUTO_BATTLE: {
-      // sdlpal `script.c:008A`:gpGlobals->fAutoBattle = TRUE。(消费方 auto-pick 未做。)
+      // sdlpal `script.c:008A`:gpGlobals->fAutoBattle = TRUE;下一场战斗 tickSelectAction 自动选动作。
       if (ctx.gs)
         ctx.gs.fAutoBattle = true
       return { consumed: true }

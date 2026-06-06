@@ -59,7 +59,7 @@ export function performFlee(state: BattleState, gs: GameState, playerIdx: number
   else {
     // 失败 → 逃跑失败动画(sdlpal fight.c:4155-4168):该队员 3 步右下挪 + 帧1 濒死姿。
     //   走 battleAnim 时间线(per-player),播完 tickPerformAction 复位 + 推进队列(下个队员/敌人继续)。
-    //   逃跑失败文字 BATTLE_LABEL_ESCAPEFAIL 由战斗消息条另接(follow-up)。
+    //   同时经 showBattleMessage 显示 BATTLE_LABEL_ESCAPEFAIL。
     const p = state.players[playerIdx]
     if (bus && p?.posOriginal) {
       startBattleAnim(state, buildFleeFailTimeline(playerIdx, p.posOriginal), bus)

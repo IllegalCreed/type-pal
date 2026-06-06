@@ -13,7 +13,7 @@
  *    (fight.c:3982-3995)。D14 投影后 role.attackStrength/magicStrength 即 effective(含装备)。
  *  - 伤害 = PAL_CalcMagicDamage(str, ...),`sDamage<=0 → 1`(minDamage=1,fight.c:4018/4037)。
  *    目标:applyToAll(magic.type 或 flag)→ 全体;否则单体 action.target。
- *  - present 动画(队员聚拢/帧切换/聚气)= D17 跳过(同其它战斗动画)。
+ *  - 有 FIRE.MKF 帧数与队员位置时,播放队员聚拢/帧切换/聚气 + 法术特效时间线。
  */
 
 import type { Magic, ObjectMagicView, PlayerRoles } from '@type-pal/shared'

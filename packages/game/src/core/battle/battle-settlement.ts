@@ -8,13 +8,8 @@
  *                  武术/灵力/防御/身法/吉运),HP/MP 显 cur"/"max
  *  - learn-magic = Phase D(battle.c:1298-1328)"{name} 练成 {magicName}"
  *
- * **诚实标注:未覆盖(非本演出范围,各需独立子系统,不在结算 box 里偷偷略过)**:
- *  - Phase C 隐藏属性经验升级(battle.c:1226-1293 `CHECK_HIDDEN_EXP`)—— 需战斗内逐次累积
- *    rgAttackExp/rgHealthExp/… 的 `wCount`,而 `ExpEntry` 当前无 `wCount` 字段(defend.ts
- *    注明 "M3 不实现 exp count")。无累积 → iTotalCount 恒 0 → sdlpal 本就跳过整段,故此演出
- *    缺失等价于「隐藏经验子系统未实现」,不是结算 box 自身的简化。
- *  - Phase E post-battle `scriptOnBattleEnd`(battle.c:1334-1337)—— enemy 脚本已存(battle-state
- *    rgEnemy.scriptOnBattleEnd)但战末未跑;接 explore script runner 是独立任务。
+ * Phase C 隐藏属性经验与 Phase E `scriptOnBattleEnd` 已由 battle-system 结算链处理;
+ * 本模块只定义需要等待按键/超时翻页的 screen 数据。
  */
 
 /** 单属性 old(升级前)→ cur(升级后)对。 */

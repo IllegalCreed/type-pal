@@ -274,8 +274,8 @@ export function performMagic(input: PerformMagicInput): void {
   //   - guard 用 `(SHORT)baseDamage > 0`(magic96=−999 等 sentinel 不触发,与 SimulateMagic
   //     的无符号 guard 不同 —— 见 magic-damage.ts)。
   //
-  // 注:`str = PAL_GetPlayerMagicStrength` 含装备 magicStrength 加成;ts 战斗暂不建模
-  //     rgEquipmentEffect(同 attack.ts 省略装备),用 role.magicStrength。
+  // 注:`str = PAL_GetPlayerMagicStrength` 含装备 magicStrength 加成;role.magicStrength 已由
+  // projectRuntimeToBattleRoles 投影为 runtime base + rgEquipmentEffect 有效值。
   // 法术伤害数字**延迟到特效播完后**才 emit(对照 sdlpal PAL_BattleDisplayStatChange 在 magic anim
   //   之后,fight.c:4322/4369/4405)。inline 伤害先 collect 进 pendingNums(上方已声明,含 scriptOnSuccess
   //   opcode 数字);下方据是否建动画链决定:建链 → 交时间线播完 emit;未建链(旧 fixture / 无 sprite)→ 立即 emit。

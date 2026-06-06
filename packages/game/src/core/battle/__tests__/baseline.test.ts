@@ -33,20 +33,18 @@
  *    commit ece67b9):pal-extract `parsers/enemies.ts` 加 `buildObjectIndexToEnemyIdMap`,
  *    enemyTeam.enemies 槽位现在已是 0-based enemies.json id,test 直接调真 startBattle。
  *
- * 2. **spell / item id 在 fixture 是 OBJECT 段绝对 index**,不在我们 spells.json /
- *    items.json 的 0-based id 范围内 → performMagic / performItem warn + 早退,
- *    动作没效果。**b2-magic / b3-item 因此对不齐**。
- *    → 同上,需 OBJECT→spellId / OBJECT→itemId 反向表。
+ * 2. ~~**spell / item id 在 fixture 是 OBJECT 段绝对 index**~~ —— 已排除:
+ *    spells.json / items.json 的 id 本身就是 OBJECT id(296..397 / 61..295)。此前 b2-magic /
+ *    b3-item 无效的根因是 harness 仍加载已废弃的 events/objects.json(空),未注入 events/all.json
+ *    全局脚本与 object 视图表;现与生产 startBattle 资源注入一致。
  *
  * 3. **flee 成功 phase 直接 'fleed'**(不经 postAction),actualTurns 捕不到回合。
  *    本 test 兼容 — 终态前补 capture 一次。
  *
- * 4. **enemy 攻击 damage 公式可能与 sdlpal 经典分支有偏差**:
- *    b5-defend 期望 player turn 0 hp 200→190(-10 dmg per 2 enemy 攻击)。
- *    我方公式:enemy attackStr=0 level=1, defending player def=84*2=168 →
- *    calcBaseDamage(42,168)=0 → damage clamp=1 per attack → 2 dmg total ≠ 10。
- *    → 公式差,需对 fight.c:4917-4943 重新比对。可能漏 RandomLong jitter 或
- *      物理 res 走 sdlpal 处理不同。
+ * 4. ~~**enemy 攻击 damage 公式可能与 sdlpal 经典分支有偏差**~~ —— 已核对公式一致。
+ *    b5-defend 的逐回合 HP 仍不可严格对比:SDLPal harness 覆盖基础 defense=20 后保留初始装备
+ *    效果(PAL_GetPlayerDefense 实际 84),TS fixture 则把 role.defense=20 当作已投影的有效值;加上两边
+ *    RNG 算法不同导致自动防御序列不同。该 fixture 保留 soft result 对拍,不再 skip。
  *
  * 5. **enemy ai 决策 / target 选择 RNG 序列**(M3 用 mulberry32,sdlpal LCG)—
  *    完全不同算法,数值无可比性。**只能对 result + 大局 turn 数**,不能对每次
@@ -60,10 +58,14 @@ import type {
   BattleField,
   Command,
   Enemy,
+  EnemyObject,
   EnemyTeam,
   InputSnapshot,
   Item,
   Magic,
+  ObjectMagicView,
+  ObjectPlayerView,
+  ObjectPoisonView,
   PlayerRole,
   PlayerRoles,
   Spell,
@@ -299,6 +301,10 @@ interface BaselineResourceLoad {
   items: Item[]
   spells: Spell[]
   magics: Magic[]
+  objectMagics: ObjectMagicView[]
+  objectPoisons: ObjectPoisonView[]
+  objectPlayers: ObjectPlayerView[]
+  enemyObjects: EnemyObject[]
   commands: Command[]
 }
 
@@ -311,6 +317,11 @@ function loadResources(): BaselineResourceLoad | undefined {
     resolve(DATA_DIR, 'items.json'),
     resolve(DATA_DIR, 'spells.json'),
     resolve(DATA_DIR, 'magic.json'),
+    resolve(DATA_DIR, 'object-magics.json'),
+    resolve(DATA_DIR, 'object-poisons.json'),
+    resolve(DATA_DIR, 'object-players.json'),
+    resolve(DATA_DIR, 'enemy-objects.json'),
+    resolve(EVENTS_DIR, 'all.json'),
   ]
   for (const p of need) {
     if (!existsSync(p)) {
@@ -318,12 +329,12 @@ function loadResources(): BaselineResourceLoad | undefined {
       return undefined
     }
   }
-  // events/objects.json 可能为空,但 commands 数组对 attack/defend/flee 无影响
+  // P2#5 后生产脚本入口统一来自 events/all.json;objects.json 已是空兼容文件。
   let commands: Command[] = []
-  const objectsPath = resolve(EVENTS_DIR, 'objects.json')
-  if (existsSync(objectsPath)) {
+  const allPath = resolve(EVENTS_DIR, 'all.json')
+  if (existsSync(allPath)) {
     try {
-      const j = JSON.parse(readFileSync(objectsPath, 'utf-8'))
+      const j = JSON.parse(readFileSync(allPath, 'utf-8'))
       if (Array.isArray(j.segments) && j.segments[0]?.commands) commands = j.segments[0].commands
     } catch {
       // ignore
@@ -337,6 +348,10 @@ function loadResources(): BaselineResourceLoad | undefined {
     items: JSON.parse(readFileSync(resolve(DATA_DIR, 'items.json'), 'utf-8')),
     spells: JSON.parse(readFileSync(resolve(DATA_DIR, 'spells.json'), 'utf-8')),
     magics: JSON.parse(readFileSync(resolve(DATA_DIR, 'magic.json'), 'utf-8')),
+    objectMagics: JSON.parse(readFileSync(resolve(DATA_DIR, 'object-magics.json'), 'utf-8')),
+    objectPoisons: JSON.parse(readFileSync(resolve(DATA_DIR, 'object-poisons.json'), 'utf-8')),
+    objectPlayers: JSON.parse(readFileSync(resolve(DATA_DIR, 'object-players.json'), 'utf-8')),
+    enemyObjects: JSON.parse(readFileSync(resolve(DATA_DIR, 'enemy-objects.json'), 'utf-8')),
     commands,
   }
 }
@@ -406,6 +421,10 @@ function runFixture(
     items: resources.items,
     spells: resources.spells,
     magics: resources.magics,
+    objectMagics: resources.objectMagics,
+    objectPoisons: resources.objectPoisons,
+    objectPlayers: resources.objectPlayers,
+    enemyObjects: resources.enemyObjects,
     commands: resources.commands,
     rngSeed: fixture.rngSeed,
   })
@@ -526,12 +545,8 @@ describe('D29 battle baseline diff', () => {
     return
   }
 
-  // 已知 deviation 的 fixture(详见文件顶 doc),skip + 走 partial-report
-  // 不阻塞 pnpm check;diff 报告留在 console.warn 给开发者参考
-  // b3-item 同 b2-magic:fixture item/spell id 是 OBJECT 段绝对 index → performItem 无效(doc 注 #2)。
-  //   此前靠 P0#2 玩家 dex bug(+level)抢先一击侥幸打赢而"对上",2026-06-02 修 dex 后玩家正常出手顺序 +
-  //   物品无效 → 打不赢(lost),回归到本就该有的 known-deviation。
-  const KNOWN_DEVIATION_FIXTURES = new Set<string>(['b2-magic', 'b3-item', 'b5-defend'])
+  // 目前没有整组跳过的 fixture;不可逐回合严格对比的场景仍实际运行并走 soft result 对拍。
+  const KNOWN_DEVIATION_FIXTURES = new Set<string>()
   // 严格 fixture 走 full turn-by-turn 断言
   const STRICT_FIXTURES = new Set<string>(['b1-easy'])
 
@@ -564,7 +579,7 @@ describe('D29 battle baseline diff', () => {
       const fixture = parseKvFixture(readFileSync(fixturePath, 'utf-8'))
       const expected: ExpectedResult = JSON.parse(readFileSync(resultPath, 'utf-8'))
 
-      // 抑制 magic/item warn(已知 deviation:OBJECT id 不在 0-based table)
+      // 对拍报告关注结果差异,抑制脚本数据异常等非 assertion warn。
       const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
       const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
       let report: BaselineRunReport

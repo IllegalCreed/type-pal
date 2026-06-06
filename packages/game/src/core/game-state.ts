@@ -901,7 +901,7 @@ export interface GameState {
 
   /**
    * 下一场战斗自动战斗(sdlpal `gpGlobals->fAutoBattle`)—— 0x8A 置 true。
-   * (消费方:auto-battle 自动选队员动作,尚未实现;本层只存旗子。)
+   * createBattleState 带入 BattleState,tickSelectAction 用 auto magic / 物理自动选动作;战末清 false。
    * 注:收集值用已有的 `wCollectValue`(0x33 累加 / 0x34 换物品)。
    */
   fAutoBattle: boolean

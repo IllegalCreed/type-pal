@@ -19,7 +19,7 @@ import type { BattleAnimFrame, BattleAnimState, BattleState } from './battle-sta
  *   - fighters:逐条 mutate 对应 player/enemy 的 pos/currentFrame/iColorShift
  *   - overlay:写到 state.battleAnim.overlay(供 present 画 effect sprite)
  *   - damageNum:emit showDamageNum(present 数字弹幕)
- * sound / shake 本切片只存在 frame 上,present 后续消费(此处不处理)。
+ * sound 在本函数逐帧 emit;shake/screenWave 等视觉字段由 present 读取当前 frame。
  */
 export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: CommandBus): void {
   if (frame.fighters) {

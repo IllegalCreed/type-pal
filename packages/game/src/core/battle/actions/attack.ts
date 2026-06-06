@@ -14,8 +14,8 @@
  *
  * 公式都走 calcPhysicalAttackDamage(str, def, res),damage<=0 → damage=1。
  *
- * 注:sdlpal player→enemy 还有 `sDamage += RandomLong(1, 2)`(fight.c:3641)
- *      和 crit / coop 系数,M3 简化为不加 rng jitter / 无 crit。
+ * player→enemy 单体随机抖动、普通/勇敢暴击、李逍遥额外暴击、DualAttack 与 attackAll
+ * 逐敌衰减均已按 CLASSIC 分支接入。
  */
 
 import type { Command, Enemy, Item, PlayerRoles } from '@type-pal/shared'
@@ -381,7 +381,7 @@ export function performAttack(
     }
   }
 
-  // —— emit 命令(playEnemyAttack 留作 present hook;present 当前 no-op)——
+  // —— emit 敌攻击音命令(shell/audio 按 enemy.attackSound 播)——
   bus.emit({ op: 'playEnemyAttack', enemyIdx: actor.idx, targetPlayerIdx: targetIdx })
 
   // —— D17a:建物理攻击/受击动画时间线(damageNum 由时间线 i==0 / 命中帧 emit)——
