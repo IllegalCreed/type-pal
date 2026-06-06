@@ -171,6 +171,21 @@ export interface ObjectPoisonView {
 }
 
 /**
+ * rgObject 的 **player-union 视图**(对照 sdlpal `OBJECT.player`,global.h `tagOBJECT_PLAYER`)。
+ *
+ * 角色名 `PlayerRole.name` 指向 OBJECT_PLAYER 段[36..41]。战斗中队友死亡 / 濒死时,
+ * `PAL_BattlePostActionCheck` 会通过该 object 的脚本入口触发剧情或临时能力提升。
+ */
+export interface ObjectPlayerView {
+  /** OBJECT 数组绝对 index(= player name object id,36..41)。 */
+  id: number
+  /** wScriptOnFriendDeath —— 被守护队友死亡时触发。 */
+  scriptOnFriendDeath: number
+  /** wScriptOnDying —— 自己刚跌入濒死时触发。 */
+  scriptOnDying: number
+}
+
+/**
  * 法术详细 stats 中的 type 字段具名(对照 sdlpal `global.h::tagMAGIC_TYPE`)。
  *
  * sdlpal 真值:

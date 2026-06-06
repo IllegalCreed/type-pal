@@ -24,6 +24,7 @@ import type {
   Item,
   Magic,
   ObjectMagicView,
+  ObjectPlayerView,
   ObjectPoisonView,
   PlayerRole,
   PlayerRoles,
@@ -249,6 +250,7 @@ interface BootstrapOpts {
   spells?: Spell[]
   objectMagics?: ObjectMagicView[]
   objectPoisons?: ObjectPoisonView[]
+  objectPlayers?: ObjectPlayerView[]
   commands?: Command[]
   inventory?: { itemId: number, count: number }[]
   /** D11:升级阈值表(稀疏)+ 学法术表;省略 → 不升级。 */
@@ -282,6 +284,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
   const magics: Magic[] = opts.magics ?? []
   const objectMagics: ObjectMagicView[] = opts.objectMagics ?? []
   const objectPoisons: ObjectPoisonView[] = opts.objectPoisons ?? []
+  const objectPlayers: ObjectPlayerView[] = opts.objectPlayers ?? []
   const commands: Command[] = opts.commands ?? [{ op: 'end' }]
   if (opts.inventory)
     gs.inventory = opts.inventory
@@ -304,6 +307,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
     magics,
     objectMagics,
     objectPoisons,
+    objectPlayers,
     commands,
     levelUpExp: opts.levelUpExp,
     levelUpMagic: opts.levelUpMagic,
@@ -315,7 +319,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
   return {
     gs,
     bus,
-    resources: { items, spells, magics, objectMagics, objectPoisons, enemies, enemyObjects: [], playerRoles, commands },
+    resources: { items, spells, magics, objectMagics, objectPoisons, objectPlayers, enemies, enemyObjects: [], playerRoles, commands },
     emptyInput: { held: new Set(), pressed: new Set(), frameNum: 0 },
   }
 }
@@ -605,6 +609,113 @@ describe('tickBattle phase transitions', () => {
   })
 })
 
+describe('OBJECT_PLAYER 队友死亡 / 濒死脚本(fight.c:775-885)', () => {
+  function driveCurrentAction(gs: GameState, bus: CommandBus, input: InputSnapshot): void {
+    const st = gs.battleState!
+    const startIndex = st.currentActionIndex
+    let safety = 200
+    while (gs.mode === 'battle' && st.phase === 'performAction' && st.currentActionIndex === startIndex && safety-- > 0)
+      tickBattle(gs, input, bus)
+    expect(safety).toBeGreaterThan(0)
+  }
+
+  it('敌方动作打死被守护队友 → 跑守护者 wScriptOnFriendDeath 并回写返回入口', () => {
+    const calls: Array<{ ip: number, eventObjectId?: number }> = []
+    const objectPlayers: ObjectPlayerView[] = [
+      { id: 36, scriptOnFriendDeath: 0, scriptOnDying: 0 },
+      { id: 37, scriptOnFriendDeath: 100, scriptOnDying: 0 },
+    ]
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1],
+      roles: [
+        makeRole({ id: 0, name: 36, hp: 10, maxHP: 100, defense: 0, coveredBy: 1 }),
+        makeRole({ id: 1, name: 37, hp: 100, maxHP: 100, defense: 0 }),
+      ],
+      enemies: [makeEnemy({ id: 100, attackStrength: 50, level: 10 })],
+      objectPlayers,
+      runScriptFn: (opts) => {
+        calls.push({ ip: opts.ip, eventObjectId: opts.eventObjectId })
+        return opts.ip + 1
+      },
+    })
+    const st = gs.battleState!
+    st.phase = 'performAction'
+    st.uiState = 'hidden'
+    st.actionQueue = [{ isEnemy: true, idx: 0, dex: 100, fIsSecond: false }]
+    st.currentActionIndex = 0
+    const rolls = [0, 0, 0, 0]
+    st.rng.rangeInclusive = (lo: number) => rolls.shift() ?? lo
+
+    driveCurrentAction(gs, bus, emptyInput)
+
+    expect(calls).toEqual([{ ip: 100, eventObjectId: 1 }])
+    expect(objectPlayers[1]!.scriptOnFriendDeath).toBe(101)
+    expect(gs.battleState?.players[0]).toBeDefined()
+  })
+
+  it('敌方动作把队员打入濒死 → 跑该队员 wScriptOnDying 并回写返回入口', () => {
+    const calls: Array<{ ip: number, eventObjectId?: number }> = []
+    const objectPlayers: ObjectPlayerView[] = [
+      { id: 36, scriptOnFriendDeath: 0, scriptOnDying: 200 },
+      { id: 37, scriptOnFriendDeath: 0, scriptOnDying: 0 },
+    ]
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1],
+      roles: [
+        makeRole({ id: 0, name: 36, hp: 100, maxHP: 100, defense: 0, coveredBy: 1 }),
+        makeRole({ id: 1, name: 37, hp: 100, maxHP: 100, defense: 0 }),
+      ],
+      enemies: [makeEnemy({ id: 100, attackStrength: 45, level: 0 })],
+      objectPlayers,
+      runScriptFn: (opts) => {
+        calls.push({ ip: opts.ip, eventObjectId: opts.eventObjectId })
+        return opts.ip + 1
+      },
+    })
+    const st = gs.battleState!
+    st.phase = 'performAction'
+    st.uiState = 'hidden'
+    st.actionQueue = [{ isEnemy: true, idx: 0, dex: 100, fIsSecond: false }]
+    st.currentActionIndex = 0
+    const rolls = [0, 0, 0, 0]
+    st.rng.rangeInclusive = (lo: number) => rolls.shift() ?? lo
+
+    driveCurrentAction(gs, bus, emptyInput)
+
+    expect(calls).toEqual([{ ip: 200, eventObjectId: 0 }])
+    expect(objectPlayers[0]!.scriptOnDying).toBe(201)
+    expect(gs.battleState?.players[0]).toBeDefined()
+  })
+
+  it('玩家混乱打死队友不触发 OBJECT_PLAYER 队友死亡脚本(fCheckPlayers=false)', () => {
+    const calls: number[] = []
+    const { gs, bus, emptyInput } = bootstrap({
+      partyMembers: [0, 1],
+      roles: [
+        makeRole({ id: 0, name: 36, hp: 100, maxHP: 100, attackStrength: 100 }),
+        makeRole({ id: 1, name: 37, hp: 1, maxHP: 100, defense: 0, coveredBy: 0 }),
+      ],
+      enemies: [makeEnemy({ id: 100, health: 99999 })],
+      objectPlayers: [{ id: 36, scriptOnFriendDeath: 300, scriptOnDying: 0 }],
+      runScriptFn: (opts) => {
+        calls.push(opts.ip)
+        return opts.ip + 1
+      },
+    })
+    const st = gs.battleState!
+    st.phase = 'performAction'
+    st.uiState = 'hidden'
+    st.actionQueue = [{ isEnemy: false, idx: 0, dex: 100, fIsSecond: false }]
+    st.currentActionIndex = 0
+    st.pendingActions.set(0, { type: 'attack-mate', target: 1 })
+
+    driveCurrentAction(gs, bus, emptyInput)
+
+    expect(gs.battleState).toBeDefined()
+    expect(calls).toEqual([])
+  })
+})
+
 // ============================================================================
 // tickBattle —— 终态(won / lost / fleed)
 // ============================================================================
@@ -632,7 +743,7 @@ describe('tickBattle finalize', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 1 })], // 必秒 → 胜利
       roles: [makeRole({ id: 0, attackStrength: 999 })],
-      runScriptFn: (input) => { calls.push(input.ip) }, // 记录所有 runScript 调用
+      runScriptFn: (input) => { calls.push(input.ip); return input.ip }, // 记录所有 runScript 调用
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     gs.battleState!.enemies[0]!.scriptOnBattleEnd = 777 // boss 死后剧情脚本
@@ -646,7 +757,7 @@ describe('tickBattle finalize', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 9999, attackStrength: 0 })],
       roles: [makeRole({ id: 0, hp: 1, maxHP: 1 })],
-      runScriptFn: (input) => { calls.push(input.ip) }, // 注入才能真验证"没被调"
+      runScriptFn: (input) => { calls.push(input.ip); return input.ip }, // 注入才能真验证"没被调"
     })
     tickBattle(gs, emptyInput, bus)
     gs.battleState!.enemies[0]!.scriptOnBattleEnd = 777

@@ -26,6 +26,7 @@ import {
   parseItems,
   parseMagicTable,
   parseObjectMagics,
+  parseObjectPlayers,
   parseObjectPoisons,
   parsePlayerRoles,
   parseSpells,
@@ -283,6 +284,29 @@ describe('parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison)', 
     const parsed = parseObjectPoisons(fake)
     expect(parsed[555]!.level).toBe(3)
     expect(parsed[555]!.enemyScript).toBe(12345)
+  })
+})
+
+describe('parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本)', () => {
+  const players = parseObjectPlayers(objBuf)
+
+  it('解出 6 条 OBJECT_PLAYER(36..41)', () => {
+    expect(players).toHaveLength(6)
+    expect(players.map((p) => p.id)).toEqual([36, 37, 38, 39, 40, 41])
+  })
+
+  it('真实数据含队友死亡/濒死脚本入口', () => {
+    expect(players.some((p) => p.scriptOnFriendDeath > 0)).toBe(true)
+    expect(players.some((p) => p.scriptOnDying > 0)).toBe(true)
+  })
+
+  it('fake fixture:wScriptOnFriendDeath@4 / wScriptOnDying@6 offset 对', () => {
+    const fake = new Uint8Array((36 + 6) * 14)
+    const view = new DataView(fake.buffer)
+    view.setUint16(36 * 14 + 4, 1234, true)
+    view.setUint16(36 * 14 + 6, 5678, true)
+    const parsed = parseObjectPlayers(fake)
+    expect(parsed[0]).toEqual({ id: 36, scriptOnFriendDeath: 1234, scriptOnDying: 5678 })
   })
 })
 

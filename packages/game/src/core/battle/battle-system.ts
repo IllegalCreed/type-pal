@@ -40,6 +40,7 @@ import type {
   LevelUpMagicEntry,
   Magic,
   ObjectMagicView,
+  ObjectPlayerView,
   ObjectPoisonView,
   PlayerRole,
   PlayerRoles,
@@ -119,6 +120,8 @@ export interface BattleResources {
   objectMagics: ObjectMagicView[]
   /** rgObject poison-union 视图(object-poisons.json)—— 0x28 apply poison 解析 wEnemyScript。 */
   objectPoisons: ObjectPoisonView[]
+  /** rgObject player-union 视图(object-players.json)—— 队友死亡 / 濒死触发脚本。 */
+  objectPlayers: ObjectPlayerView[]
   /** 全部 enemies.json —— 0x9E summon 按 enemyId 取召唤兽 stats。 */
   enemies: Enemy[]
   /** 全部 enemy-objects.json —— 0x9E summon 按 objectIndex 解 op0 → enemyId/scripts/抗性。 */
@@ -154,7 +157,7 @@ export interface BattleResources {
 }
 
 /** runScript 注入类型(便于测试 mock 替换 free function)。 */
-export type RunScriptFn = (opts: RunScriptOptions) => void
+export type RunScriptFn = (opts: RunScriptOptions) => number
 
 /** GameState 上的非可见 stash 字段名 —— 不在 GameState interface 中,但通过 cast 写入。 */
 const BATTLE_RESOURCES_KEY = '__battleResources' as const
@@ -218,6 +221,8 @@ export interface StartBattleInput {
   objectMagics?: ObjectMagicView[]
   /** object-poisons.json —— 0x28 apply poison 解析 poison 的 wEnemyScript。省略 → 空表。 */
   objectPoisons?: ObjectPoisonView[]
+  /** object-players.json —— player object 的 friend-death / dying 脚本。省略 → 空表。 */
+  objectPlayers?: ObjectPlayerView[]
   /**
    * D17a:ENEMYPOS table(DATA.MKF chunk 13)— enemy 初始 pos/posOriginal 用
    * (battle.c:936-939)。省略 → fallback 表(向后兼容旧 fixture / 测试)。
@@ -334,6 +339,7 @@ export function startBattle(input: StartBattleInput): void {
     magics: input.magics,
     objectMagics: input.objectMagics ?? [],
     objectPoisons: input.objectPoisons ?? [],
+    objectPlayers: input.objectPlayers ?? [],
     enemies: input.enemies, // 0x9E summon 召唤兽 stats
     enemyObjects: input.enemyObjects ?? [], // 0x9E summon op0 → enemyId/scripts
     playerRoles: input.playerRoles,
@@ -699,6 +705,126 @@ export function emitPlayerCasualtySounds(
       }
     }
     p.prevHp = role.hp
+  }
+}
+
+function findObjectPlayer(res: BattleResources, objectId: number): ObjectPlayerView | undefined {
+  return res.objectPlayers[objectId] ?? res.objectPlayers.find((p) => p.id === objectId)
+}
+
+function backupPlayerCasualtyHp(state: BattleState, res: BattleResources): void {
+  state.players.forEach((player) => {
+    const role = res.playerRoles.roles[player.roleId]
+    if (role) player.scriptPrevHp = role.hp
+  })
+}
+
+function runPlayerCasualtyScript(
+  entry: number,
+  roleId: number,
+  state: BattleState,
+  gs: GameState,
+  bus: CommandBus,
+  res: BattleResources,
+): number {
+  const playerIdx = state.players.findIndex((p) => p.roleId === roleId)
+  const runScript = getRunScript(gs)
+  return runScript({
+    commands: res.commands,
+    ip: entry,
+    bus,
+    runtimeMode: 'battle',
+    eventObjectId: roleId,
+    battleCtx: {
+      state,
+      target: playerIdx >= 0 ? { type: 'player', idx: playerIdx } : undefined,
+      caster: playerIdx >= 0 ? { type: 'player', idx: playerIdx } : undefined,
+      gs,
+      playerRoles: res.playerRoles,
+      objectPoisons: res.objectPoisons,
+      magicTables: { magics: res.magics, objectMagics: res.objectMagics },
+      battleEffectIndex: res.battleEffectIndex,
+      summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+      items: res.items,
+      commands: res.commands,
+      runScript,
+    },
+  })
+}
+
+function playerBadForCasualtyScript(p: BattlePlayer | undefined): boolean {
+  const st = p?.status
+  return !st || (st.sleep ?? 0) > 0 || (st.paralyzed ?? 0) > 0 || (st.confused ?? 0) > 0
+}
+
+/**
+ * port sdlpal `PAL_BattlePostActionCheck` player casualty script sweep(fight.c:775-885).
+ *
+ * 触发顺序忠实:
+ * 1. 队友死亡 → 取死者 `coveredBy` 的健康守护者,跑守护者 OBJECT_PLAYER.wScriptOnFriendDeath。
+ * 2. 自己刚跌入濒死 → 守护者在队且健康时,跑自己的 OBJECT_PLAYER.wScriptOnDying。
+ *
+ * 命中任一脚本后立刻暂停本轮推进,让可能入队的 battle dialog / 0x30 临时 buff 先生效。
+ */
+function runPlayerCasualtyScripts(
+  state: BattleState,
+  gs: GameState,
+  bus: CommandBus,
+  res: BattleResources,
+  fCheckPlayers: boolean,
+): boolean {
+  if (!fCheckPlayers || gs.fAutoBattle) return false
+
+  for (const player of state.players) {
+    const role = res.playerRoles.roles[player.roleId]
+    const prevHp = player.scriptPrevHp ?? player.prevHp
+    if (!role || !(role.hp < prevHp && role.hp === 0)) continue
+    const coverRoleId = role.coveredBy ?? 0
+    const coverIdx = state.players.findIndex((p) => p.roleId === coverRoleId)
+    const coverRole = res.playerRoles.roles[coverRoleId]
+    const coverPlayer = coverIdx >= 0 ? state.players[coverIdx] : undefined
+    if (!coverRole || coverRole.hp <= 0 || coverIdx < 0 || playerBadForCasualtyScript(coverPlayer)) continue
+    const objectPlayer = findObjectPlayer(res, coverRole.name)
+    const entry = objectPlayer?.scriptOnFriendDeath ?? 0
+    if (objectPlayer && entry > 0) {
+      objectPlayer.scriptOnFriendDeath = runPlayerCasualtyScript(entry, coverRoleId, state, gs, bus, res)
+      return true
+    }
+  }
+
+  for (const player of state.players) {
+    const role = res.playerRoles.roles[player.roleId]
+    const prevHp = player.scriptPrevHp ?? player.prevHp
+    if (!role || player.status.sleep > 0 || player.status.confused > 0) continue
+    const threshold = Math.max(1, Math.floor(role.maxHP / 5))
+    if (!(role.hp < prevHp && role.hp > 0 && isPlayerDying(role) && prevHp >= threshold)) continue
+    const coverRoleId = role.coveredBy ?? 0
+    const coverIdx = state.players.findIndex((p) => p.roleId === coverRoleId)
+    const coverRole = res.playerRoles.roles[coverRoleId]
+    const coverPlayer = coverIdx >= 0 ? state.players[coverIdx] : undefined
+    if (!coverRole || coverRole.hp <= 0 || coverIdx < 0 || playerBadForCasualtyScript(coverPlayer)) continue
+    const objectPlayer = findObjectPlayer(res, role.name)
+    const entry = objectPlayer?.scriptOnDying ?? 0
+    if (objectPlayer && entry > 0) {
+      objectPlayer.scriptOnDying = runPlayerCasualtyScript(entry, player.roleId, state, gs, bus, res)
+    }
+    return true
+  }
+
+  return false
+}
+
+function shouldCheckPlayerCasualties(actor: ActionQueueItem, action: BattleAction | undefined): boolean {
+  if (!actor.isEnemy || !action) return false
+  switch (action.type) {
+    case 'attack':
+      return true
+    case 'magic':
+    case 'item':
+    case 'throw-item':
+      return (action.targetSide ?? 'player') === 'player'
+    default:
+      return false
   }
 }
 
@@ -1807,6 +1933,12 @@ function tickPerformAction(
       // D17:复位后检死敌(fight.c:889-893 fFade 检测在 action 收尾)→ 开淡出 hold。
       //   currentActionIndex **总是**推进(action 已完);淡出由顶层 tickBattleFade 暂停。
       checkEnemyDeaths(state, bus)
+      const activeItem = state.actionQueue[state.currentActionIndex]
+      if (runPlayerCasualtyScripts(state, gs, bus, res, !!activeItem?.checkPlayerCasualties)) {
+        emitPlayerCasualtySounds(state.players, res.playerRoles, bus)
+        state.currentActionIndex++
+        return
+      }
       state.currentActionIndex++
     }
     return
@@ -1956,6 +2088,9 @@ function tickPerformAction(
     // newTarget<0(全敌已死)→ 保持原 target;perform* 对死敌 no-op,本回合即将结束转 postAction
   }
 
+  item.checkPlayerCasualties = shouldCheckPlayerCasualties(item, action)
+  backupPlayerCasualtyHp(state, res)
+
   if (action) performBattleAction(state, gs, item, action, bus, res)
 
   // D17a 向后兼容:performBattleAction 起了动画时间线(物理攻击)→ 本 tick 不推进
@@ -1970,6 +2105,11 @@ function tickPerformAction(
     // D17:即时 action(法术 / 投掷秒敌)也检死敌(开淡出 hold);currentActionIndex 总是推进,
     //   淡出由顶层 tickBattleFade 暂停。
     checkEnemyDeaths(state, bus)
+    if (runPlayerCasualtyScripts(state, gs, bus, res, !!item.checkPlayerCasualties)) {
+      emitPlayerCasualtySounds(state.players, res.playerRoles, bus)
+      state.currentActionIndex++
+      return
+    }
     state.currentActionIndex++
   }
   // 不 reset phaseStallTicks —— 整个 performAction phase 内 stall 累计;
@@ -2194,6 +2334,7 @@ function tickPostAction(
     const role = res.playerRoles.roles[p.roleId]
     if (role) prePoisonHp.set(p.roleId, role.hp)
   }
+  backupPlayerCasualtyHp(state, res)
   // 毒 tick —— 对照 sdlpal `fight.c:1645-1648`(每回合每敌 rgPoisons[j].wPoisonScript 跑)。
   // 每个活敌的每条 poison 跑其 scriptEntry(毒 wEnemyScript,经 0x21 扣血),target = 该敌人。
   // 放在死亡 exp 累计**之前** → 毒杀的敌人也计入死亡奖励。

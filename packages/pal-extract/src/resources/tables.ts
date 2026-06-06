@@ -33,5 +33,5 @@ export {
 export { parseEnemyTeams } from './parsers/enemy-teams.js'
 export { parseItems } from './parsers/items.js'
 export { parsePlayerRoles } from './parsers/player-roles.js'
-export { parseMagicTable, parseObjectMagics, parseObjectPoisons, parseSpells } from './parsers/spells.js'
+export { parseMagicTable, parseObjectMagics, parseObjectPlayers, parseObjectPoisons, parseSpells } from './parsers/spells.js'
 export { parseStores } from './parsers/stores.js'

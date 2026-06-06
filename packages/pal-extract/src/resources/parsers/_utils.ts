@@ -22,6 +22,10 @@ export const SPELL_COUNT = 102
 export const ENEMY_OBJ_START = 398
 export const ENEMY_OBJ_COUNT = 153
 
+// 人物对象段(OBJECT_PLAYER)— WORD.DAT persons / PlayerRoles.rgwName 指向这里
+export const PLAYER_OBJ_START = 36
+export const PLAYER_OBJ_COUNT = 6
+
 // ── OBJECT_ENEMY 字段偏移 (global.h tagOBJECT_ENEMY,5 字段 × 2 字节)──────
 // 0: wEnemyID            — 指向 DATA.MKF chunk 1 ENEMY 数组的 1-based 索引
 // 2: wResistanceToSorcery

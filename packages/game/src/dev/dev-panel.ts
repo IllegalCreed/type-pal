@@ -27,6 +27,7 @@ import type {
   LevelUpMagicEntry,
   Magic,
   ObjectMagicView,
+  ObjectPlayerView,
   ObjectPoisonView,
   Palette,
   PlayerRoles,
@@ -258,6 +259,7 @@ export interface DevPanelDeps {
     magics: Magic[]
     objectMagics: ObjectMagicView[]
     objectPoisons: ObjectPoisonView[]
+    objectPlayers: ObjectPlayerView[]
     commands: Command[]
     /** D17a:enemy 初始 pos/posOriginal 真值(DATA.MKF chunk13,battle.c:936-939)。 */
     enemyPos: EnemyPosTable
@@ -1432,6 +1434,7 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
       magics: deps.resources.magics,
       objectMagics: deps.resources.objectMagics, // E2:0x42 SimulateMagic 解析 magic object id
       objectPoisons: deps.resources.objectPoisons, // 0x28 apply poison
+      objectPlayers: deps.resources.objectPlayers, // OBJECT_PLAYER:队友死亡 / 濒死脚本
       enemyPos: deps.resources.enemyPos, // D17a:enemy 初始 pos/posOriginal(battle.c:936-939)
       battleEffectIndex: deps.resources.battleEffectIndex, // D17a:命中特效帧基号(fight.c:2055)
       magicSpriteFrameCounts: deps.resources.magicSpriteFrameCounts, // D17:OffMagic 时间线 n

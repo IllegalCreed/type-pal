@@ -8,10 +8,12 @@
  *
  * 两个文件分别 dump,运行时 `Spell.magicNumber` 索引 Magic[]。
  */
-import type { Magic, MagicType, ObjectMagicView, ObjectPoisonView, Spell, SpellFlags } from '@type-pal/shared'
+import type { Magic, MagicType, ObjectMagicView, ObjectPlayerView, ObjectPoisonView, Spell, SpellFlags } from '@type-pal/shared'
 import type { Words } from '../../io/word.js'
 import {
   OBJ_SIZE,
+  PLAYER_OBJ_COUNT,
+  PLAYER_OBJ_START,
   SPELL_COUNT,
   SPELL_OBJ_START,
   s16,
@@ -198,6 +200,39 @@ export function parseObjectPoisons(objBuf: Uint8Array): ObjectPoisonView[] {
       color: u16(view, base, POISON_OFF.color),
       playerScript: u16(view, base, POISON_OFF.playerScript),
       enemyScript: u16(view, base, POISON_OFF.enemyScript),
+    })
+  }
+  return out
+}
+
+// ── OBJECT_PLAYER 字段偏移 (global.h tagOBJECT_PLAYER)────────────────────
+// wReserved[0](0), wReserved[1](2), wScriptOnFriendDeath(4), wScriptOnDying(6)
+const PLAYER_OFF = {
+  scriptOnFriendDeath: 4,
+  scriptOnDying: 6,
+} as const
+
+/**
+ * dump OBJECT_PLAYER 段(36..41)的死亡 / 濒死脚本入口。
+ *
+ * sdlpal `PAL_BattlePostActionCheck` 通过 `PlayerRoles.rgwName[role]` 取 object id,
+ * 再读 `rgObject[wName].player.wScriptOnFriendDeath / wScriptOnDying`。这两个入口可触发
+ * 队友死亡后的临时 0x30 stat buff 等战斗小剧情。
+ */
+export function parseObjectPlayers(objBuf: Uint8Array): ObjectPlayerView[] {
+  const need = (PLAYER_OBJ_START + PLAYER_OBJ_COUNT) * OBJ_SIZE
+  if (objBuf.byteLength < need) {
+    throw new Error(`parseObjectPlayers: SSS chunk 2 byte length ${objBuf.byteLength} < required ${need}`)
+  }
+  const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
+  const out: ObjectPlayerView[] = []
+  for (let i = 0; i < PLAYER_OBJ_COUNT; i++) {
+    const id = PLAYER_OBJ_START + i
+    const base = id * OBJ_SIZE
+    out.push({
+      id,
+      scriptOnFriendDeath: u16(view, base, PLAYER_OFF.scriptOnFriendDeath),
+      scriptOnDying: u16(view, base, PLAYER_OFF.scriptOnDying),
     })
   }
   return out

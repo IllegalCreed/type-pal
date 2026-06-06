@@ -65,6 +65,7 @@ import {
   parseItems,
   parseMagicTable,
   parseObjectMagics,
+  parseObjectPlayers,
   parseObjectPoisons,
   parsePlayerRoles,
   parseSpells,
@@ -173,6 +174,7 @@ async function main(): Promise<void> {
   const items = parseItems(sssObjBuf, words)
   const spells = parseSpells(sssObjBuf, words)
   const enemyObjects = parseEnemyObjects(sssObjBuf, words)
+  const objectPlayers = parseObjectPlayers(sssObjBuf)
 
   const globalScriptEntries: number[] = []
   for (const it of items) {
@@ -190,6 +192,10 @@ async function main(): Promise<void> {
     if (eo.scriptOnTurnStart > 0) globalScriptEntries.push(eo.scriptOnTurnStart)
     if (eo.scriptOnBattleEnd > 0) globalScriptEntries.push(eo.scriptOnBattleEnd)
     if (eo.scriptOnReady > 0) globalScriptEntries.push(eo.scriptOnReady)
+  }
+  for (const op of objectPlayers) {
+    if (op.scriptOnFriendDeath > 0) globalScriptEntries.push(op.scriptOnFriendDeath)
+    if (op.scriptOnDying > 0) globalScriptEntries.push(op.scriptOnDying)
   }
 
   const entryIps: number[] = []
@@ -259,6 +265,8 @@ async function main(): Promise<void> {
   writeJson(resolve(OUT, 'data', 'object-magics.json'), parseObjectMagics(sssObjBuf))
   // 0x28 apply poison:poison object 的 wEnemyScript(敌人中毒每回合脚本)。
   writeJson(resolve(OUT, 'data', 'object-poisons.json'), parseObjectPoisons(sssObjBuf))
+  // OBJECT_PLAYER 死亡 / 濒死脚本:队友死亡或濒死时触发角色脚本。
+  writeJson(resolve(OUT, 'data', 'object-players.json'), objectPlayers)
   writeJson(resolve(OUT, 'data', 'magic.json'), parseMagicTable(magicBuf))
   const enemies = parseEnemies(enemyBuf, sssObjBuf, words)
   writeJson(resolve(OUT, 'data', 'enemies.json'), enemies)

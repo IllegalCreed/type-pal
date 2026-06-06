@@ -9,6 +9,7 @@ import type {
   Item,
   Magic,
   ObjectMagicView,
+  ObjectPlayerView,
   ObjectPoisonView,
   Palette,
   LevelUpMagicEntry,
@@ -84,6 +85,8 @@ export interface LoadedAssets {
   objectMagics: ObjectMagicView[]
   /** object-poisons.json —— 0x28 apply poison 解析 wEnemyScript。 */
   objectPoisons: ObjectPoisonView[]
+  /** object-players.json —— 玩家死亡 / 濒死脚本入口。 */
+  objectPlayers: ObjectPlayerView[]
   /** 2026-05-29:商店表(DATA.MKF chunk 0)— 买菜单 opcode 0x0026 按 operand[0] 取。 */
   stores: Store[]
   /** W3 C1/C2:WORD.DAT 词表 flat[](index=真 WORD id,565 条);bootstrap setWordTable 注入,getWord 取菜单文案。 */
@@ -155,6 +158,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     magics,
     objectMagics,
     objectPoisons,
+    objectPlayers,
     levelUpExp,
     levelUpMagic,
     stores,
@@ -175,6 +179,10 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     fetchJson<Magic[]>(`${BASE}/data/magic.json`),
     fetchJson<ObjectMagicView[]>(`${BASE}/data/object-magics.json`),
     fetchJson<ObjectPoisonView[]>(`${BASE}/data/object-poisons.json`),
+    fetchJson<ObjectPlayerView[]>(`${BASE}/data/object-players.json`).catch((err: unknown) => {
+      console.warn('[loader] object-players.json 加载失败,队友死亡/濒死脚本将不触发:', err)
+      return [] as ObjectPlayerView[]
+    }),
     fetchJson<number[]>(`${BASE}/data/level-up-exp.json`),
     fetchJson<LevelUpMagicEntry[][]>(`${BASE}/data/level-up-magic.json`),
     fetchJson<Store[]>(`${BASE}/data/stores.json`),
@@ -451,6 +459,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     magics,
     objectMagics,
     objectPoisons,
+    objectPlayers,
     stores,
     words: wordsRaw.flat ?? [],
     uiSpriteFrames,

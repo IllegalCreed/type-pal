@@ -42,6 +42,11 @@ export interface ActionQueueItem {
    * 防对话 hold 暂停期间重入 tickPerformAction 时重复跑脚本。actionQueue 每轮重建 → 自动新鲜。
    */
   scriptReadyRan?: boolean
+  /**
+   * 本 action 收尾是否按 `PAL_BattlePostActionCheck(TRUE)` 检查队员死亡 / 濒死脚本。
+   * 仅敌方攻击队员时为 true；玩家动作、敌人混乱打敌人、毒 tick 等均为 false。
+   */
+  checkPlayerCasualties?: boolean
 }
 
 export interface BuildActionQueueInput {

@@ -168,6 +168,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     magics,
     objectMagics,
     objectPoisons,
+    objectPlayers,
     stores,
     words,
   } = assets
@@ -838,6 +839,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       magics,
       objectMagics,
       objectPoisons,
+      objectPlayers,
       commands: eventCommands,
       enemyPos, // D17a:dev 战斗也用真 EnemyPos 表(非 fallback)
       battleEffectIndex, // D17a:dev 战斗命中特效帧基号
@@ -909,6 +911,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         magics,
         objectMagics, // E2:0x42 SimulateMagic 解析 magic object id
         objectPoisons, // 0x28 apply poison
+        objectPlayers, // OBJECT_PLAYER:队友死亡 / 濒死脚本
         enemyPos, // D17a:enemy 初始 pos/posOriginal(battle.c:936-939)
         battleEffectIndex, // D17a:player 攻击命中特效帧基号(fight.c:2055)
         magicSpriteFrameCounts, // D17:OffMagic 时间线 n(FIRE.MKF chunk 帧数)

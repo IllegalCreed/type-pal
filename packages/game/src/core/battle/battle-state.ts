@@ -47,6 +47,8 @@ export interface BattlePlayer {
   /** 拷贝战前状态(用于动画 / 数字弹幕 比对)。 */
   prevHp: number
   prevMp: number
+  /** PLAYER object 死亡 / 濒死脚本独立 HP 快照(PAL_BattleBackupStat 语义)。 */
+  scriptPrevHp?: number
   /** 本轮是否在 defend。 */
   defending: boolean
   /**
@@ -630,6 +632,7 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
       roleId,
       prevHp: role.hp,
       prevMp: role.mp,
+      scriptPrevHp: role.hp,
       defending: false,
       // D14:从持久 gs.rgPlayerStatus[role] seed 装备授状态(DualAttack 等);无 → 全 0。
       status: seedBattleStatus(input.gs.rgPlayerStatus?.[roleId]),

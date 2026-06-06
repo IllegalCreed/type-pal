@@ -83,7 +83,7 @@ function makeDeps(): DevPanelDeps {
       // biome-ignore lint/suspicious/noExplicitAny: 测试 levelUpMagic / spells / magics 占位真值
       levelUpMagic: LEVELUP_MAGIC_FIX as any,
       // biome-ignore lint/suspicious/noExplicitAny: 占位
-      items: [], spells: SPELLS_FIX as any, magics: MAGICS_FIX as any, objectMagics: [], objectPoisons: [],
+      items: [], spells: SPELLS_FIX as any, magics: MAGICS_FIX as any, objectMagics: [], objectPoisons: [], objectPlayers: [],
       commands: [{ op: 'end' }],
       // enemyPos undefined → createBattleState 走 fallback 位置表(测试不验位置)
       // biome-ignore lint/suspicious/noExplicitAny: 占位
