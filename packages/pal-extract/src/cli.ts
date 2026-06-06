@@ -20,7 +20,7 @@
  *     enemies.json, items.json, spells.json, magic.json,
  *     enemy-teams.json, battle-fields.json, enemy-pos.json,
  *     player-roles.json, battle-bgs.json, battle-sprites.json  (平铺数据表)
- *     rng-frames.json, rgm-raw.json, ball-raw.json (rng: decoded PNG; rgm/ball: raw dump, T18.5+ 真做)
+ *     rng-frames.json                              (RNG.MKF 逐帧 PNG manifest;RGM/BALL 已改 PNG 解码,不再 raw dump)
  *     fire-sprites.json                            (FIRE.MKF sprite manifest, M4 P2 T4)
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -48,7 +48,6 @@ import {
   parseBattleEffectIndex,
   parseLevelUpExp,
   parseLevelUpMagic,
-  type RawChunkDump,
 } from './resources/parsers/data-misc.js'
 import { decodeRngAnim } from './resources/parsers/rng-frames.js'
 import { decodeRgmPortrait } from './resources/parsers/rgm.js'
@@ -366,7 +365,7 @@ async function main(): Promise<void> {
 
   // chunk 7/8 空(0 字节);DATA.MKF count=15(有效 chunk 0-14),chunk 15 超出范围不抽
 
-  // M4 P2 T4: RNG / RGM / BALL raw dump + FIRE sprite 抽出 ──────────────────
+  // M4 P2 T4 → M5.6:RNG/RGM/BALL 均改 PNG 解码(RNG 逐帧 + RGM/BALL 图标),不再 raw dump;FIRE sprite manifest ──
   // SAVE.MKF 不存在(WIN95+ 用 .RPG 存档),drop。
 
   // RNG.MKF: 12 chunks, 每 chunk 是 sub-MKF + RLE delta 动画帧(rngplay.c)

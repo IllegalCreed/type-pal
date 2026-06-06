@@ -97,37 +97,3 @@ export function parseBattleEffectIndex(buf: Uint8Array): number[] {
   const count = Math.floor(buf.byteLength / 2)
   return Array.from({ length: count }, (_, i) => view.getUint16(i * 2, true))
 }
-
-// ── 未知含义 chunk 的 raw dump ─────────────────────────────────────────────
-
-/** 未知/未 typed 含义 chunk 的 raw dump 结构。 */
-export interface RawChunkDump {
-  chunkIndex: number
-  size: number
-  base64: string
-  sdlpalHint: string
-  todo: string
-}
-
-/**
- * 把未知含义 chunk 的原始字节以 base64 dump 出来,附带 sdlpal hint + TODO 标注。
- *
- * @param chunkIndex DATA.MKF 中的 chunk 序号
- * @param buf        原始字节
- * @param sdlpalHint sdlpal 源码里对该 chunk 的引用描述
- * @param todo       后续里程碑的处理说明
- */
-export function dumpRawChunk(
-  chunkIndex: number,
-  buf: Uint8Array,
-  sdlpalHint: string,
-  todo: string,
-): RawChunkDump {
-  return {
-    chunkIndex,
-    size: buf.byteLength,
-    base64: Buffer.from(buf).toString('base64'),
-    sdlpalHint,
-    todo,
-  }
-}
