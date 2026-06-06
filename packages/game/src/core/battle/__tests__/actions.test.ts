@@ -5,7 +5,7 @@
  * BattleState 通过 makeState helper 最小构造,与 battle-state.test.ts 风格对齐。
  */
 
-import type { BattleField, Command, Enemy, Item, Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
+import type { BattleField, Command, Enemy, Item, Magic, ObjectMagicView, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
 import { createInitialGameState, type GameState, type InventoryEntry } from '../../game-state.js'
@@ -1027,6 +1027,22 @@ function makeMagic(opts: Partial<Magic> = {}): Magic {
   }
 }
 
+function makeObjectMagic(opts: Partial<ObjectMagicView> = {}): ObjectMagicView {
+  return {
+    id: 295,
+    magicNumber: 47,
+    scriptOnSuccess: 0,
+    scriptOnUse: 0,
+    flags: {
+      usableOutsideBattle: false,
+      usableInBattle: true,
+      usableToEnemy: false,
+      applyToAll: true,
+    },
+    ...opts,
+  }
+}
+
 describe('performMagic', () => {
   it('队员 cast,MP 足够 → 扣 MP + emit playMagicAnim + runScript 被调', () => {
     const { state, playerRoles, bus } = makeState({
@@ -1403,6 +1419,55 @@ describe('performMagic', () => {
     expect(playerRoles.roles[0]!.mp).toBe(23) // 仍扣 MP
     expect(bus.drain()).toHaveLength(1) // 仍 emit 动画
     expect(runScript).not.toHaveBeenCalled() // 但不 runScript
+  })
+
+  it('梦蛇295:spells 缺项时从 object-magics 解析并在 Trance 闪色末帧切换 sprite', () => {
+    const { state, playerRoles, bus, gs } = makeState({
+      role: { mp: 120, maxMP: 120 },
+    })
+    state.players[0]!.spriteNumOverride = 1
+    const runScript: RunScriptFn = vi.fn((opts) => {
+      if (opts.ip === 10)
+        state.players[0]!.spriteNumOverride = 295
+    })
+
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 295,
+      targetIsEnemy: false,
+      targetIdx: 'all',
+      spells: [],
+      objectMagics: [makeObjectMagic({ id: 295, magicNumber: 47, scriptOnSuccess: 10 })],
+      magics: [makeMagic({ id: 47, type: 'trance', costMP: 99, baseDamage: 0, sound: 335 })],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+      gs,
+    })
+
+    expect(playerRoles.roles[0]!.mp).toBe(21)
+    expect(runScript).toHaveBeenCalledTimes(1)
+    expect((runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0].ip).toBe(10)
+    expect(state.players[0]!.spriteNumOverride).toBe(1) // 闪色阶段仍用旧 sprite
+    expect(state.battleAnim?.frames).toHaveLength(7)
+    expect(state.battleAnim?.frames.slice(0, 6).map(f => f.fighters?.[0]?.iColorShift)).toEqual([0, 2, 4, 6, 8, 10])
+    expect(state.battleAnim?.frames[6]?.fighters?.[0]).toMatchObject({
+      side: 'player',
+      idx: 0,
+      iColorShift: 0,
+      spriteNumOverride: 295,
+    })
+    expect(bus.drain().map(c => c.cmd).filter(c => c.op === 'playMagicAnim')).toEqual([{
+      op: 'playMagicAnim',
+      magicId: 47,
+      casterType: 'player',
+      casterIdx: 0,
+      targetType: 'player',
+      targetIdx: 'all',
+    }])
   })
 })
 

@@ -202,6 +202,11 @@ export interface FighterDelta {
   currentFrame?: number
   /** 新 blit 低 nibble 偏移(受击 6;复位 0)。 */
   iColorShift?: number
+  /**
+   * 仅 player:切换战斗精灵覆盖号。number = 切到指定 sprite;null = 清除覆盖。
+   * 用于梦蛇 Trance 在 colorShift 结束帧才 reload 到新战斗精灵。
+   */
+  spriteNumOverride?: number | null
 }
 
 /**

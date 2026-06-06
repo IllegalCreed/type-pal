@@ -1334,6 +1334,22 @@ function mkMagic(id: number, opts: Partial<Magic> = {}): Magic {
   }
 }
 
+function mkObjectMagic(id: number, magicNumber: number, flags: Partial<Spell['flags']> = {}): ObjectMagicView {
+  return {
+    id,
+    magicNumber,
+    scriptOnSuccess: 0,
+    scriptOnUse: 0,
+    flags: {
+      usableOutsideBattle: false,
+      usableInBattle: true,
+      usableToEnemy: true,
+      applyToAll: false,
+      ...flags,
+    },
+  }
+}
+
 function mkItem(id: number, flags: Partial<Item['flags']> = {}): Item {
   return {
     id,
@@ -1657,10 +1673,24 @@ describe('物品二级 使用/投掷(uibattle.c:471-545 / 1406-1426)', () => {
 })
 
 describe('法术选择网格(magicmenu.c:35-410)', () => {
-  function enterMagic(learned: number[], spells: Spell[], magics: Magic[], roleOpts: Partial<PlayerRole> = {}) {
+  function enterMagic(
+    learned: number[],
+    spells: Spell[],
+    magics: Magic[],
+    roleOpts: Partial<PlayerRole> = {},
+    extra: { objectMagics?: ObjectMagicView[], items?: Item[] } = {},
+  ) {
     const role = makeRole({ id: 0, ...roleOpts }) as PlayerRole & { learnedSpells: number[] }
     role.learnedSpells = learned
-    const ctx = bootstrap({ roles: [role], spells, magics, enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })], teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF] })
+    const ctx = bootstrap({
+      roles: [role],
+      spells,
+      magics,
+      objectMagics: extra.objectMagics,
+      items: extra.items,
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF],
+    })
     enterSelectMove(ctx)
     tickBattle(ctx.gs, mSnap(['Left']), ctx.bus) // selectedAction=1
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // → magicSelect
@@ -1699,6 +1729,35 @@ describe('法术选择网格(magicmenu.c:35-410)', () => {
     expect(ctx.gs.battleState?.uiState).toBe('selectTargetEnemyAll')
     tickBattle(ctx.gs, mSnap(), ctx.bus) // All 状态即时 commit
     expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'magic', target: -1 })
+  })
+
+  it('梦蛇295:spells 缺项时从 object-magics 建表,按友方全体目标提交', () => {
+    const ctx = enterMagic(
+      [295],
+      [],
+      [mkMagic(47, { type: 'trance', costMP: 99, baseDamage: 0 })],
+      { mp: 120, maxMP: 120 },
+      {
+        objectMagics: [mkObjectMagic(295, 47, { usableToEnemy: false, applyToAll: true })],
+        items: [mkItem(295)],
+      },
+    )
+    expect(ctx.gs.battleState!.magicSelect!.items[0]).toMatchObject({
+      id: 295,
+      label: 'item295',
+      rightText: 'MP 99',
+      disabled: false,
+    })
+
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    expect(ctx.gs.battleState?.uiState).toBe('selectTargetPlayerAll')
+    tickBattle(ctx.gs, mSnap(), ctx.bus) // All 状态即时 commit
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({
+      type: 'magic',
+      actionId: 295,
+      target: -1,
+      targetSide: 'player',
+    })
   })
 
   it('Confirm 灰项 → no-op(不可确认,magicmenu.c:277-296)', () => {

@@ -6,7 +6,7 @@
  * 本切片:物理攻击(player→enemy)/ 物理受击(enemy→player)/ 死亡帧。
  * D17:player **攻击魔法**链(PreMagic → OffMagic → PostMagic)。
  * D17 法术补全:player **防御/治疗魔法** DefMagic + **敌方攻击魔法** EnemyMagic。
- * 召唤 Summon 已接入 buildAndStartSummonAnim;trance 留后续叶子(当前玩家法术数据基本不用)。
+ * 召唤 Summon 已接入 buildAndStartSummonAnim;Trance 已接入成功后的 colorShift 变身段。
  *
  * 出处:
  *   - buildPlayerAttackTimeline   ← fight.c:2008-2263 PAL_BattleShowPlayerAttackAnim

@@ -69,6 +69,7 @@ import { BATTLE_FRAME_TIME } from './anim-timeline.js'
 import { applyAnimFrame, resetFightersAfterAction } from './battle-anim-driver.js'
 import type { BattleAction, BattlePlayer, BattleState } from './battle-state.js'
 import { createBattleState } from './battle-state.js'
+import { resolveMagicObject } from './magic-object.js'
 import { createSelectionMenu, type SelectionMenuState } from '../menu/primitives.js'
 import { openMenu } from '../menu/menu-mode.js'
 import { createPlayerStatus } from '../menu/player-status.js'
@@ -879,6 +880,7 @@ function getLearnedSpells(role: PlayerRole): number[] {
  */
 function pickAutoMagic(
   state: BattleState, playerRoles: PlayerRoles, spells: Spell[], magics: Magic[], range: number,
+  objectMagics: ObjectMagicView[] = [],
 ): number {
   const playerIdx = state.selectingPlayerIdx
   if (playerIdx === undefined) return 0
@@ -889,10 +891,9 @@ function pickAutoMagic(
   let best = 0
   let maxPower = 0
   for (const sid of getLearnedSpells(role)) {
-    const spell = spells.find((s) => s.id === sid)
-    if (!spell) continue
-    const magic = magics.find((m) => m.id === spell.magicNumber)
-    if (!magic) continue
+    const resolved = resolveMagicObject(sid, spells, magics, objectMagics)
+    if (!resolved) continue
+    const magic = resolved.magic
     if (magic.costMP === 1 || magic.costMP > role.mp || magic.baseDamage <= 0) continue
     const power = magic.baseDamage + state.rng.rangeInclusive(0, range)
     if (power > maxPower) {
@@ -911,24 +912,27 @@ function pickAutoMagic(
  */
 function buildBattleMagicSelect(
   state: BattleState, playerRoles: PlayerRoles, spells: Spell[], magics: Magic[],
+  objectMagics: ObjectMagicView[] = [],
+  itemTable: Item[] = [],
 ): SelectionMenuState {
   const pageSize = MAGIC_GRID_COLS * MAGIC_GRID_ROWS
   const playerIdx = state.selectingPlayerIdx
   const role = playerIdx !== undefined ? playerRoles.roles[state.players[playerIdx]!.roleId] : undefined
   if (!role) return createSelectionMenu([], pageSize)
   const currentMp = role.mp
-  const items = getLearnedSpells(role)
+  const menuItems = getLearnedSpells(role)
     .map((spellId) => {
-      const spell = spells.find((s) => s.id === spellId)
-      if (!spell) return null
-      const magic = magics.find((m) => m.id === spell.magicNumber)
-      const mpCost = magic?.costMP ?? 0
+      const resolved = resolveMagicObject(spellId, spells, magics, objectMagics)
+      if (!resolved) return null
+      const { spell, magic } = resolved
+      const mpCost = magic.costMP ?? 0
       const disabled = currentMp < mpCost || !spell.flags.usableInBattle
-      return { id: spellId, label: spell._name ?? `magic#${spellId}`, rightText: `MP ${mpCost}`, disabled }
+      const label = spell._name ?? itemTable.find((item) => item.id === spellId)?._name ?? `magic#${spellId}`
+      return { id: spellId, label, rightText: `MP ${mpCost}`, disabled }
     })
     .filter((x): x is NonNullable<typeof x> => x !== null)
     .sort((a, b) => a.id - b.id) // sdlpal magicmenu.c:377-397 冒泡按 wMagic(object id)排序
-  return createSelectionMenu(items, pageSize)
+  return createSelectionMenu(menuItems, pageSize)
 }
 
 /**
@@ -1099,7 +1103,7 @@ function confirmMainAction(state: BattleState, res: BattleResources): void {
     }
     case 1: // 法术(uibattle.c:1107-1113)→ magicSelect 网格
       state.menuState = 'magicSelect'
-      state.magicSelect = buildBattleMagicSelect(state, playerRoles, res.spells, res.magics)
+      state.magicSelect = buildBattleMagicSelect(state, playerRoles, res.spells, res.magics, res.objectMagics, res.items)
       break
     case 2: { // 合击(uibattle.c:1115-1155)— 选择按真值,执行仍 stub(B-w3.a)
       const role = playerRoles.roles[state.players[playerIdx]!.roleId]
@@ -1124,7 +1128,7 @@ function confirmMainAction(state: BattleState, res: BattleResources): void {
 function commitForceAction(state: BattleState, alivePlayerIdxs: number[], res: BattleResources, threshold = 60): void {
   const playerIdx = state.selectingPlayerIdx
   if (playerIdx === undefined) return
-  const w = pickAutoMagic(state, res.playerRoles, res.spells, res.magics, threshold)
+  const w = pickAutoMagic(state, res.playerRoles, res.spells, res.magics, threshold, res.objectMagics)
   if (w === 0) {
     commitAutoAttack(state, res.playerRoles, alivePlayerIdxs)
     return
@@ -1271,9 +1275,9 @@ function handleMagicSelectInput(
   if (input.pressed.has('Confirm')) {
     const sel = menu.items[menu.cursor]
     if (sel && !sel.disabled) {
-      const spell = res.spells.find((s) => s.id === sel.id)
-      const toEnemy = spell?.flags.usableToEnemy ?? true
-      const applyToAll = spell?.flags.applyToAll ?? false
+      const resolved = resolveMagicObject(sel.id, res.spells, res.magics, res.objectMagics)
+      const toEnemy = resolved?.spell.flags.usableToEnemy ?? true
+      const applyToAll = resolved?.spell.flags.applyToAll ?? false
       state.menuState = 'main'
       state.magicSelect = undefined
       enterTargetForDraft(state, { type: 'magic', actionId: sel.id }, toEnemy, applyToAll)

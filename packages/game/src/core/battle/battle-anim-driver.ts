@@ -29,6 +29,13 @@ export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: 
       if (d.pos) fighter.pos = { x: d.pos.x, y: d.pos.y }
       if (d.currentFrame !== undefined) fighter.currentFrame = d.currentFrame
       if (d.iColorShift !== undefined) fighter.iColorShift = d.iColorShift
+      if (d.side === 'player' && 'spriteNumOverride' in d) {
+        const player = state.players[d.idx]
+        if (player) {
+          if (d.spriteNumOverride === null) delete player.spriteNumOverride
+          else player.spriteNumOverride = d.spriteNumOverride
+        }
+      }
     }
   }
   // overlay / overlays 落到 battleAnim(present 取当前帧 effect / magic sprite);无则清空。

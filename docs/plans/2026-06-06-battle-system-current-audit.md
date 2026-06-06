@@ -6,7 +6,7 @@
 ## 已排除的旧误报
 
 - Protect 已参与敌方物理/法术伤害除因子,旧注释「未建模」已清理。
-- 召唤 Summon 已接入 `buildAndStartSummonAnim`;仅 trance 仍留后续。
+- 召唤 Summon 已接入 `buildAndStartSummonAnim`;Trance/梦蛇已接通 object-magic 解析与成功后的闪色变身段。
 - 敌方 AI 的 sleep/paralyzed/silence/confused、脚本改写 wMagic、dualMove 队列都已由上游链路处理。
 - battle music、0x31 battle sprite override、0x92 show magic anim 均已接入。
 - OBJECT_PLAYER 的 friendDeath/dying 脚本已提取并在战斗伤害/毒伤后触发。
@@ -40,5 +40,5 @@
 
 ## P2:低优先级
 
-- trance 变身逻辑/动画:当前玩家法术数据基本不用,但应在后续完整还原。
+- Trance/梦蛇:已修 `spells.json` 缺 295 时从 `object-magics.json` 回退解析,可进法术菜单/执行 0x30/0x31,并在成功后播放 `iColorShift` 闪色与末帧 sprite 切换。后续若继续抠原版视觉,可补完整 `PAL_BattleFadeScene` 级别的场景淡换。
 - 部分历史计划文档仍保留旧阶段描述,仅作考古资料;以本文件为当前战斗大修入口。

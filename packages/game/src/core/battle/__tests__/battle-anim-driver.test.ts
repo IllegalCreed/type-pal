@@ -107,6 +107,24 @@ describe('applyAnimFrame', () => {
     expect(state.enemies[0]!.pos).toEqual({ x: 160, y: 80 })
   })
 
+  it('player spriteNumOverride 可按帧切换或清除', () => {
+    const state = mkState([mkPlayer(0, { spriteNumOverride: 1 })], [mkEnemy()])
+    state.battleAnim = { frames: [], idx: 0, frameElapsedMs: 0 }
+    const bus = createCommandBus()
+
+    applyAnimFrame(state, {
+      durationMs: 40,
+      fighters: [{ side: 'player', idx: 0, spriteNumOverride: 295 }],
+    }, bus)
+    expect(state.players[0]!.spriteNumOverride).toBe(295)
+
+    applyAnimFrame(state, {
+      durationMs: 40,
+      fighters: [{ side: 'player', idx: 0, spriteNumOverride: null }],
+    }, bus)
+    expect(state.players[0]!.spriteNumOverride).toBeUndefined()
+  })
+
   it('overlay 落到 battleAnim.overlay;无 overlay → 清空', () => {
     const state = mkState([mkPlayer(0)], [mkEnemy()])
     state.battleAnim = {

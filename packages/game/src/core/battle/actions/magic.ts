@@ -20,6 +20,7 @@ import type { CommandBus } from '../../command-bus.js'
 import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
 import {
+  BATTLE_FRAME_TIME,
   buildEnemyMagicCastIntro,
   buildEnemyMagicTimeline,
   buildPlayerDefMagicTimeline,
@@ -33,6 +34,7 @@ import {
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import { applyEnemyMagicDamage, applyMagicDamage, magicForcesAllTarget } from '../magic-damage.js'
+import { explainMagicObjectResolution, resolveMagicObject } from '../magic-object.js'
 
 /** 注入的 runScript 函数(T17 free function `runScript`,测试可 mock)。 */
 export type RunScriptFn = (opts: RunScriptOptions) => void
@@ -115,16 +117,16 @@ export interface PerformMagicInput {
  * spell / magic 找不到 → console.warn + 早退;MP 不足 → console.warn + 早退(不扣 + 不 emit + 不 runScript)。
  */
 export function performMagic(input: PerformMagicInput): void {
-  const spell = input.spells.find((s) => s.id === input.spellId)
-  if (!spell) {
-    console.warn(`[magic] spell id ${input.spellId} not found`)
+  const resolved = resolveMagicObject(input.spellId, input.spells, input.magics, input.objectMagics)
+  if (!resolved) {
+    const miss = explainMagicObjectResolution(input.spellId, input.spells, input.magics, input.objectMagics)
+    if (miss?.reason === 'magicNotFound')
+      console.warn(`[magic] magic ${miss.magicNumber} (spell ${input.spellId}) not found in Magic table`)
+    else
+      console.warn(`[magic] spell id ${input.spellId} not found`)
     return
   }
-  const magic = input.magics.find((m) => m.id === spell.magicNumber)
-  if (!magic) {
-    console.warn(`[magic] magic ${spell.magicNumber} (spell ${spell.id}) not found in Magic table`)
-    return
-  }
+  const { spell, magic } = resolved
 
   // —— 扣 MP(队员 only;敌人不 track mp) ——
   if (!input.casterIsEnemy) {
@@ -250,9 +252,16 @@ export function performMagic(input: PerformMagicInput): void {
   //   此处不再 cast 起手立即 push(那样比效果动画提前,user 2026-06-03 报"音效没对齐")。其余类型在派发后即时 push。
   // 每次 PAL_RunTriggerScript 入口重置 g_fScriptSuccess=TRUE(script.c:3187)——
   // scriptOnSuccess 的成功旗子独立于 scriptOnUse 结果。
+  const tranceSpriteBefore = (!input.casterIsEnemy && magic.type === 'trance')
+    ? input.state.players[input.casterIdx]?.spriteNumOverride
+    : undefined
   if (input.gs)
     input.gs.fScriptSuccess = true
   runMagicScript(spell.scriptOnSuccess)
+  const scriptSuccess = input.gs ? input.gs.fScriptSuccess : true
+  const tranceSpriteAfter = (!input.casterIsEnemy && magic.type === 'trance')
+    ? input.state.players[input.casterIdx]?.spriteNumOverride
+    : undefined
 
   // —— E1:inline 攻击法术伤害结算(player→enemy) ——
   // sdlpal `fight.c:4245-4318`(PAL_BattleCommitAction kBattleActionMagic offensive 分支):
@@ -342,14 +351,18 @@ export function performMagic(input: PerformMagicInput): void {
   //       DefMagic(目标队员处放 FIRE 特效 + 14 帧辉光;fight.c:2447-2606)。
   //   (3) enemy 攻击魔法(casterIsEnemy && OFF_MAGIC_TYPES):EnemyMagic(FIRE 特效在队员处,OffMagic 镜像;
   //       fight.c:2846-3069)。当前敌方施法**无任何动画**,本切片补齐。
-  //   summon 已实现(buildAndStartSummonAnim);trance 留 defer —— 但 trance(magic47)/other(magic32)
-  //   无任何玩家法术指向(spells.json 核),玩家打不出 → 不影响。
+  //   summon 已实现(buildAndStartSummonAnim);trance 成功后走 colorShift 变身段。
   let built = false
   if (!input.casterIsEnemy) {
     if (OFF_MAGIC_TYPES.has(magic.type)) {
       built = buildAndStartMagicAnim(input, magic, dmgResults, pendingNums)
     } else if (magic.type === 'applyToPlayer' || magic.type === 'applyToParty') {
       built = buildAndStartDefMagicAnim(input, magic, pendingNums)
+    } else if (magic.type === 'trance') {
+      built = scriptSuccess && buildAndStartTranceAnim(input, pendingNums, {
+        spriteBefore: tranceSpriteBefore,
+        spriteAfter: tranceSpriteAfter,
+      })
     } else if (magic.type === 'summon') {
       // 召唤魔法(火神/雷神/武神/剑神/酒神…):变亮→召唤神出场动画→二次法术效果。伤害走上方 inline 路径。
       built = buildAndStartSummonAnim(input, magic, dmgResults, pendingNums)
@@ -561,6 +574,42 @@ function buildAndStartSummonAnim(
 
   startBattleAnim(input.state, [...preFrames, ...brightenFrames, ...godFrames], input.bus, pendingNums)
   if (input.state.battleAnim) input.state.battleAnim.hasSummonFade = true // present 据此在非 fade 帧快照场景
+  return true
+}
+
+/**
+ * Trance(梦蛇)成功后的变身段 —— sdlpal fight.c:4226-4240:
+ *   i=0..5:caster iColorShift=i*2,每步 Delay(1);随后 reload battle sprites + iColorShift=0 + FadeScene。
+ * 0x31 已在 scriptOnSuccess 写出新 sprite,这里先恢复旧 sprite 做闪色,末帧再切到新 sprite。
+ */
+function buildAndStartTranceAnim(
+  input: PerformMagicInput,
+  pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'],
+  opts: { spriteBefore: number | undefined, spriteAfter: number | undefined },
+): boolean {
+  const player = input.state.players[input.casterIdx]
+  if (!player)
+    return false
+  if (opts.spriteBefore === undefined) delete player.spriteNumOverride
+  else player.spriteNumOverride = opts.spriteBefore
+
+  const frames: BattleAnimFrame[] = []
+  for (let i = 0; i < 6; i++) {
+    frames.push({
+      durationMs: BATTLE_FRAME_TIME,
+      fighters: [{ side: 'player', idx: input.casterIdx, iColorShift: i * 2 }],
+    })
+  }
+  frames.push({
+    durationMs: BATTLE_FRAME_TIME,
+    fighters: [{
+      side: 'player',
+      idx: input.casterIdx,
+      iColorShift: 0,
+      spriteNumOverride: opts.spriteAfter === undefined ? (opts.spriteBefore ?? null) : opts.spriteAfter,
+    }],
+  })
+  startBattleAnim(input.state, frames, input.bus, pendingNums)
   return true
 }
 
