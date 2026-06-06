@@ -759,6 +759,12 @@ export interface GameState {
    */
   suspendRaf?: boolean
 
+  /**
+   * 0x76 ShowFBP(0xFFFF) 的黑屏保持态。WIN95 sdlpal 在这里直接把 gpScreen 填成
+   * palette index 0,随后脚本可继续叠加居中文字,期间不能重新 PAL_MakeScene 露出场景。
+   */
+  blackScreenHold: boolean
+
   // ── SAVEDGAME_WIN 倒推: 平铺全局杂项 ───────────────────────────────────────
 
   /**
@@ -1555,6 +1561,7 @@ export function createInitialGameState(
     sWaveProgression: 0,  // 特效 B:屏幕波动每帧增量(sdlpal sWaveProgression)
     shakeTime: 0,         // G9:屏幕摇晃剩余帧(sdlpal static g_wShakeTime,video.c:59,瞬态非存档)
     shakeLevel: 0,        // G9:屏幕摇晃等级=垂直偏移行数(sdlpal static g_wShakeLevel,video.c:60,瞬态)
+    blackScreenHold: false, // 0x76 ShowFBP(0xFFFF) 后黑屏保持,直到下一次 PAL_MakeScene/FadeIn
 
     // ── M5 Sync.1: 嵌套 struct ──
     Exp: createEmptyExp(),
@@ -1621,6 +1628,29 @@ export function npcFromEventObject(
     if (ip !== undefined) npc.autoCursor = { ip }
   }
   return npc
+}
+
+/**
+ * 用当前 scene dump 补齐旧运行状态 / 旧存档缺失的 EventObject 静态字段。
+ *
+ * 旧版本构建 allEventObjects 时没有保存 wCurrentFrameNum,所以隐藏姿势对象经 0x49 显示后会
+ * 回退 sprite frame 0(如水月宫李逍遥躺地),而非 dump 中预设的 frame 13(抱拳拜谢)。
+ * 仅补 undefined:脚本已明确写过的 frame 0 / 朝向 / nSpriteFrames 均保留。
+ */
+export function hydrateNpcStaticDefaults(
+  npcs: NpcState[],
+  eventObjects: SceneEventObject[],
+): void {
+  const defaultsById = new Map(eventObjects.map((eo) => [eo.id, eo]))
+  for (const npc of npcs) {
+    const eo = defaultsById.get(npc.id)
+    if (!eo) continue
+    if (npc.nSpriteFrames === undefined) npc.nSpriteFrames = eo.nSpriteFrames
+    if (npc.scriptedFrame === undefined) npc.scriptedFrame = eo.currentFrameNum
+    if (npc.facing === undefined && eo.direction !== undefined) {
+      npc.facing = (['down', 'left', 'up', 'right'] as const)[eo.direction] ?? 'down'
+    }
+  }
 }
 
 /** P2#5:`L_<n>` → 全局下标 n(all.json 标签 = 数组下标恒等,0 违例)。非法 → undefined。 */

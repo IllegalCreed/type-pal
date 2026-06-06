@@ -131,6 +131,22 @@ describe('presentFrame', () => {
     presentFrame(fb, gs, minimalCtx())
     expect(fb.indices[0]).not.toBe(173) // 被 fb.clear()+世界重绘覆盖(不 hold)
   })
+
+  it('blackScreenHold=true → 保持全黑背景,但仍叠加居中文字', () => {
+    const fb = createFramebuffer()
+    fb.indices.fill(173)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.blackScreenHold = true
+    gs.dialogBox = startDialogLine('"一夜过去．．"~40', { style: 'center' })
+    for (let i = 0; i < FRAMES_PER_CHAR * 6; i++) tickDialog(gs.dialogBox)
+
+    presentFrame(fb, gs, minimalCtx())
+
+    const pixels = Array.from(fb.indices)
+    expect(fb.indices[0]).toBe(0)
+    expect(pixels.includes(173)).toBe(false)
+    expect(pixels.some((i) => i === 0x2d)).toBe(true)
+  })
 })
 
 // ── P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)───────────────────
@@ -605,6 +621,37 @@ describe('P0.b Y-sort + cover-tile', () => {
     expect(i2).toBeLessThan(i3)
   })
 
+  it('非方向性姿势对象 nSpriteFrames=0 + scriptedFrame=13 → 实际绘制 frame 13', () => {
+    const frame0 = makeSprite(3)
+    const frame13 = makeSprite(13)
+    const frames = Array.from({ length: 14 }, () => frame0)
+    frames[13] = frame13
+    const drawn: SpriteImage[] = []
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
+      drawn.push(sprite)
+    })
+    const fb = createFramebuffer()
+    const gs = createInitialGameState({ x: 0, y: -9999, facing: 'down' })
+    gs.npcs = [{
+      id: 346, x: 100, y: 100, spriteNum: 193,
+      sState: 1, nSpriteFrames: 0, scriptedFrame: 13, facing: 'down',
+    }]
+    const ctx: PresentContext = {
+      tilemap: flatMap(20, 20),
+      tileImages: { get: () => undefined },
+      partyFrames: [makeSprite(99)],
+      partyWalkFrames: 3,
+      npcSprites: new Map([[193, frame0]]),
+      npcSpriteFrames: new Map([[193, frames]]),
+    }
+
+    presentFrame(fb, gs, ctx)
+    spy.mockRestore()
+
+    expect(drawn).toContain(frame13)
+    expect(drawn).not.toContain(frame0)
+  })
+
   it('cover-tile:layer1 tile height>0 且满足条件 → tile 画在 fb 上(sprite 重叠)', () => {
     // 构造一个 layer-1 tile:
     //   cell(5, 5) 的 lower DWORD 里放 layer-1 tile height = 2,tileId = 1。
@@ -792,6 +839,25 @@ describe('applyDialogIconPaletteShift(dialog 箭头 palette 轮转)', () => {
     gs.dialogBox = startDialogLine('A', { style: 'bottom' }) // phase = typing
     const base = palette256()
     expect(applyDialogIconPaletteShift(gs, base)).toBe(base)
+  })
+
+  it('blackScreenHold + dialog → 保持背景黑色,恢复对话文字色槽', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.blackScreenHold = true
+    gs.dialogBox = startDialogLine('"一夜过去．．"~40', { style: 'center' })
+    gs.basePalette = palette256()
+    const black: Palette = {
+      colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
+      cycles: [],
+    }
+
+    const out = applyDialogIconPaletteShift(gs, black)
+
+    expect(out).not.toBe(black)
+    expect(out.colors[0]).toEqual([0, 0, 0])
+    expect(out.colors[0x2d]).toEqual([0x2d, 0x2d, 0x2d])
+    expect(out.colors[0x4f]).toEqual([0x4f, 0x4f, 0x4f])
+    expect(out.colors[0x42]).toEqual([0, 0, 0])
   })
 
   it('等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动', () => {

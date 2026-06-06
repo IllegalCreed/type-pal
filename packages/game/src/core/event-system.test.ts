@@ -4200,6 +4200,34 @@ describe('特效 B FBP opcode(0x76 ShowFBP)', () => {
     }
   })
 
+  it('0x76 chunk=0xFFFF → 进入黑屏保持;0x51 FadeIn 释放黑屏保持', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = makeWorkingPaletteFor([0, 0, 0])
+    gs.basePalette = makeWorkingPaletteFor([180, 120, 60])
+    let captured: ShowFbpHandlerInput | undefined
+    setShowFbpHandler((input) => { captured = input })
+    try {
+      loadEvent(gs, [
+        { op: 'raw', opcode: OP_SHOW_FBP, operands: [65535, 0, 0] },
+        { op: 'raw', opcode: OP_FADE_IN, operands: [1, 0, 0] },
+        { op: 'end' },
+      ])
+      tickEventSystem(gs, snap(), bus)
+      expect(captured?.chunkIdx).toBe(65535)
+      expect(gs.blackScreenHold).toBe(true)
+      expect(gs.eventCursor?.waiting).toBe('show-fbp')
+
+      gs.eventCursor!.waiting = undefined
+      tickEventSystem(gs, snap(), bus)
+      expect(gs.blackScreenHold).toBe(false)
+      expect(gs.eventCursor?.waiting).toBe('palette-fade')
+    }
+    finally {
+      setShowFbpHandler(null)
+    }
+  })
+
   it('0x76 无 handler 注入 → skip + ip++(不卡死)', () => {
     const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })

@@ -40,6 +40,7 @@ import {
 import {
   createInitialGameState,
   hydratePlayerRolesRuntime,
+  hydrateNpcStaticDefaults,
   initExpLevelsFromLevels,
   projectRuntimeToBattleRoles,
   npcFromEventObject,
@@ -231,6 +232,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   gs.npcs =
     sliceSceneEventObjects(gs, gs.wNumScene) ??
     scene.eventObjects.map((eo) => npcFromEventObject(eo, labelMap))
+  hydrateNpcStaticDefaults(gs.npcs, scene.eventObjects)
 
   // M5.6 T17:onEnter 启动改由 startNewGameFromPrimary helper 触发,
   // OpeningMenu 选 new-game / ?skip-intro=1 路径都调它。
@@ -656,12 +658,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       gs.npcs =
         sliceSceneEventObjects(gs, newWNumScene) ??
         sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
+      hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
     } else {
       // C8 load game 路径:存档 JSON.stringify 会断开 gs.npcs 与 gs.allEventObjects 的引用。
       // 从加载回的 gs.allEventObjects 重切当前 scene → 重建引用(状态一致,后续脚本改动持久)。
       // 旧档无 allEventObjects → sliceSceneEventObjects 返 undefined → 保留存档内 gs.npcs。
       const reslice = sliceSceneEventObjects(gs, newWNumScene)
       if (reslice) gs.npcs = reslice
+      hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
     }
     applySceneAssetsToPresent(sceneAssets)
     await preloadCutsceneSprites(sceneAssets.eventCommands)

@@ -531,6 +531,24 @@ function startPaletteFade(
   cursor.waiting = sceneUpdating ? 'scene-fade' : 'palette-fade'
 }
 
+function isEventCursorAtMakeSceneStep(cursor: EventCursor | undefined): boolean {
+  if (!cursor || cursor.waiting !== undefined) return false
+  const cmd = getCmds(cursor)[cursor.ip]
+  if (!cmd || cmd.op !== 'raw') return false
+  if (cmd.opcode === OP_PARTY_WALK_TO || cmd.opcode === OP_PARTY_WALK_TO_4 || cmd.opcode === OP_PARTY_WALK_TO_8) {
+    return true
+  }
+  if (cmd.opcode === OP_RIDE_OBJECT_2 || cmd.opcode === OP_RIDE_OBJECT_4 || cmd.opcode === OP_RIDE_OBJECT_8) {
+    return true
+  }
+  if (cmd.opcode === OP_SET_CAMERA) {
+    const [cx, cy, flag] = cmd.operands
+    const isPan = !((cx ?? 0) === 0 && (cy ?? 0) === 0) && flag !== 0xFFFF
+    return isPan && Math.max(cmd.operands[2] ?? 0, 1) > 1
+  }
+  return false
+}
+
 /**
  * port sdlpal `PAL_MakeScene` 末尾 auto fade-in(scene.c:503-508):scene 渲染时若 `fNeedToFadeIn`,
  * 自动 `PAL_FadeIn(wNumPalette, fNight, 1)` + 清 flag。这是 **FadeOut(0x50)→loadScene→无 onEnter 0x51**
@@ -541,23 +559,25 @@ function startPaletteFade(
  *    waiting 不设(explore 无 cursor)→ present 到点自清 paletteFadeState;movement 由 scene-system 的
  *    paletteFadeState 守卫冻结(忠实 PAL_FadeIn 阻塞)。
  *
- * **不**在 event 模式跑(脚本运行中 sdlpal 不在 opcode 间调 PAL_MakeScene;onEnter 自带 fade 的 scene
- * 由其 0x51/0x73 处理)。mode.ts 在 explore 分支调本函数。
+ * event 模式只在确有 PAL_MakeScene 的等待/步进里跑(0x09 frame-wait / scene-fade / PartyWalkTo /
+ * Ride / camera-pan)。不能把一般 waiting=undefined 的“脚本续跑空档”当作 PAL_MakeScene:
+ * 水月宫 0x50 FadeOut → 0x76 ShowFBP(黑屏)结束后,下一条是居中 `"一夜过去"`;若这里抢先消费
+ * needToFadeIn,就会亮屏出字,后面的 0x51 再亮一次。
  */
 export function tickSceneAutoFadeIn(gs: GameState): void {
   // sdlpal scene.c:503-507:PAL_MakeScene 内 `if (fNeedToFadeIn) PAL_FadeIn(...)` —— 每帧 PAL_GameUpdate
-  //   跑时都查,**不分模式**。PAL_GameUpdate 在 explore 主循环 + event 的 0x09 wait / PartyWalkTo 步进里
-  //   都跑(= autoScript 同款门控,见 mode.ts)。故 onEnter cutscene(event + frame-wait,如香兰报信
-  //   enter=903 自身无 fade opcode)进场也要按 needToFadeIn 淡入 —— 否则门 FadeOut 后 palette 一直黑
-  //   (autoScripts 在跑 NPC 会动,但屏幕黑)。旧码 explore-only 漏了这条 → 2026-05-30 余杭镇黑屏。
+  //   跑时都查。这里映射到 explore 主循环 + event 中明确会 PAL_MakeScene 的等待/步进;0x05 redraw
+  //   已在 opcode handler 内显式触发。不要在一般 event waiting=undefined 时触发:那只是 TS tick 化后的
+  //   脚本续跑点,原版仍在 PAL_RunTriggerScript 调用栈里,不会先 PAL_MakeScene。
   const w = gs.eventCursor?.waiting
   const palGameUpdateRuns =
     gs.mode === 'explore'
-    || (gs.mode === 'event' && (w === undefined || w === 'frame-wait' || w === 'scene-fade'))
+    || (gs.mode === 'event' && (w === 'frame-wait' || w === 'scene-fade' || isEventCursorAtMakeSceneStep(gs.eventCursor)))
   if (!palGameUpdateRuns || gs.sceneLoading) return
   if (gs.paletteFadeState || gs.fadeState) return // fade 进行中(present 自清 explore fade)
   if (!gs.needToFadeIn) return
   gs.needToFadeIn = false
+  gs.blackScreenHold = false
   if (!gs.palette) {
     const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
     gs.palette = makeWorkingPalette(src)
@@ -1875,6 +1895,7 @@ export function tickEventSystem(
         if (cmd.opcode === OP_SHOW_FBP) {
           const chunk = cmd.operands[0] ?? 0
           const fade = cmd.operands[1] ?? 0
+          gs.blackScreenHold = chunk === 0xffff
           if (_showFbpHandler) {
             _showFbpHandler({ gs, chunkIdx: chunk, fade })
             cursor.waiting = 'show-fbp'
@@ -2024,6 +2045,7 @@ export function tickEventSystem(
           //   不重绘/淡入 → FadeOut 后的黑屏留到对话期(waiting='dialog' 门控挡掉 tickSceneAutoFadeIn 不淡入)
           //   → 靠岸对话浮在黑屏,对话跑完才淡入(用户报"过场黑屏卡死")。修:0x05 对齐 PAL_MakeScene,
           //   needToFadeIn 时在此触发淡入(对话前岛就显出),结构性补回 0x05 的重绘/淡入职责。
+          gs.blackScreenHold = false
           gs.sceneLoading = false  // PAL_MakeScene 重绘 = 解冻渲染(scene 已 load,setPartyPos 已定位 camera)
           if (gs.needToFadeIn && !gs.paletteFadeState && !gs.fadeState) {
             if (!gs.palette) {
@@ -2066,6 +2088,7 @@ export function tickEventSystem(
             startTimeMs: performance.now(),
             appliedSteps: 0,
           }
+          gs.blackScreenHold = false
           // P2#7:fadeScreen 是 fade-first onEnter 的第一个可渲染 yield(setPartyPos 等已跑、camera 已定位)
           // → 清 sceneLoading 解冻渲染。fade backup 从冻屏保留的旧 scene 帧拷(present.ts fb.indices)。
           gs.sceneLoading = false
@@ -2114,6 +2137,7 @@ export function tickEventSystem(
           if (cmd.opcode === OP_FADE_IN) {
             // sdlpal script.c:1789 `((SHORT)op0 > 0) ? op0 : 1`。全黑 → basePalette。
             const delay = toInt16(op0) > 0 ? op0 : 1
+            gs.blackScreenHold = false
             startPaletteFade(gs, cursor, buildFadeIn(baseColors, delay * 600, now), false)
             gs.needToFadeIn = false  // sdlpal script.c:1791
             console.debug(`event-system: FadeIn delay=${delay} → ${delay * 600}ms (black→base)`)
@@ -2181,6 +2205,7 @@ export function tickEventSystem(
           const speed = 2
           const totalMs = (speed + 1) * 10 * 72  // 2160ms,同 0x73 真值
           gs.fadeState = { speed, totalMs, startTimeMs: performance.now(), appliedSteps: 0 }
+          gs.blackScreenHold = false
           gs.sceneLoading = false
           clearDialogBoxes(gs)
           gs.currentDialogPortraitIcon = undefined

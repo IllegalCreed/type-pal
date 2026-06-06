@@ -10,14 +10,23 @@ import { drawTilemap, addCoverTileEntries, type TileImages, type DrawEntry } fro
 import { drawSprite, type SpriteImage } from './draw-sprite.js'
 import { applyScreenWave } from './screen-wave.js'
 import { applyScreenShake } from './screen-shake.js'
-import { drawDialogBox, type DialogBoxDrawCtx } from './dialog-box.js'
+import {
+  drawDialogBox,
+  FONT_COLOR_CYAN,
+  FONT_COLOR_CYAN_ALT,
+  FONT_COLOR_DEFAULT,
+  FONT_COLOR_RED,
+  FONT_COLOR_RED_ALT,
+  FONT_COLOR_YELLOW,
+  type DialogBoxDrawCtx,
+} from './dialog-box.js'
 import { drawMenuStack } from './menu/draw-menu.js'
 import { drawConfirmBox } from './menu/draw-confirm.js'
 import { computeFollowerRenderItems } from './follower-render.js'
 import type { BattleBgAsset } from './battle/draw-battle-bg.js'
 import type { GlyphTable } from './font.js'
 import { isWalkable } from '../core/scene-system.js'
-import { stepPaletteFade } from '../core/palette-fade.js'
+import { resolveNightColors, stepPaletteFade } from '../core/palette-fade.js'
 
 export interface PresentContext {
   tilemap: Tilemap
@@ -91,6 +100,24 @@ const FACING_TO_DIRECTION: Record<'down' | 'left' | 'up' | 'right', number> = {
   down: 0, left: 1, up: 2, right: 3,
 }
 
+function drawDialogOverlay(fb: Framebuffer, gs: GameState, ctx: PresentContext): void {
+  const dialogCtx: DialogBoxDrawCtx = {
+    ...ctx.dialogAssets,
+    uiSpriteFrames: ctx.uiSpriteFrames,
+    itemIcons: ctx.itemIcons,
+    items: ctx.items,
+  }
+  if (gs.dialogBoxKept) {
+    drawDialogBox(fb, gs.dialogBoxKept, ctx.glyphs, dialogCtx)
+  }
+  if (gs.dialogBox) {
+    drawDialogBox(fb, gs.dialogBox, ctx.glyphs, dialogCtx)
+  }
+  if (gs.eventCursor?.waiting === 'confirm' && ctx.uiSpriteFrames) {
+    drawConfirmBox(fb, gs.eventCursor.confirmYes ?? false, ctx.uiSpriteFrames, ctx.glyphs)
+  }
+}
+
 /**
  * M5 P0.0 System A:1 OUR unit = 1 sdlpal pixel(无缩放)。
  * sdlpal scene.c PAL_SceneDrawSprites 真值:screen = world - viewport。
@@ -146,18 +173,15 @@ export function presentFrame(
   //   palette 已 ramp(0x4F FadeToRed)→ 战斗帧染红;只在最上层画死亡对话("大侠请重新来过吧")。
   //   **不**走下面 fb.clear() + scene 重绘(否则露大世界,user 报"出字同时回大世界")。0x4E 读档 / 场景重载清标记。
   if (gs.gameOverActive) {
-    if (gs.dialogBoxKept) {
-      drawDialogBox(fb, gs.dialogBoxKept, ctx.glyphs, {
-        ...ctx.dialogAssets,
-        uiSpriteFrames: ctx.uiSpriteFrames,
-      })
-    }
-    if (gs.dialogBox) {
-      drawDialogBox(fb, gs.dialogBox, ctx.glyphs, {
-        ...ctx.dialogAssets,
-        uiSpriteFrames: ctx.uiSpriteFrames,
-      })
-    }
+    drawDialogOverlay(fb, gs, ctx)
+    return
+  }
+
+  // 0x76 ShowFBP(0xFFFF) 黑屏保持:原版此处 gpScreen 已被填成 index 0,之后脚本继续叠字,
+  // 直到 0x51/PAL_MakeScene 再重绘。这里每帧重建黑底 + 对话层,避免普通 scene redraw 把场景露出来。
+  if (gs.blackScreenHold) {
+    fb.clear()
+    drawDialogOverlay(fb, gs, ctx)
     return
   }
 
@@ -492,29 +516,8 @@ export function presentFrame(
     }
   }
 
-  // 6. 对话框(最上层)
-  if (gs.dialogBoxKept) {
-    drawDialogBox(fb, gs.dialogBoxKept, ctx.glyphs, {
-      ...ctx.dialogAssets,
-      uiSpriteFrames: ctx.uiSpriteFrames,
-      itemIcons: ctx.itemIcons,
-      items: ctx.items,
-    })
-  }
-  if (gs.dialogBox) {
-    drawDialogBox(fb, gs.dialogBox, ctx.glyphs, {
-      ...ctx.dialogAssets,
-      uiSpriteFrames: ctx.uiSpriteFrames,
-      itemIcons: ctx.itemIcons, // L1 物品框('item-box')图标
-      items: ctx.items,         // L1 物品框:itemId → bitmap 解析
-    })
-  }
-
-  // 6.5 0x0A 确认框(sdlpal script.c:3373 PAL_ConfirmMenu)— event 脚本 waiting='confirm' 时画
-  //     否/是 框,覆于问句 dialog / 场景之上(PAL_ClearDialog(FALSE) 不擦屏 → 问句仍在底层可见)。
-  if (gs.eventCursor?.waiting === 'confirm' && ctx.uiSpriteFrames) {
-    drawConfirmBox(fb, gs.eventCursor.confirmYes ?? false, ctx.uiSpriteFrames, ctx.glyphs)
-  }
+  // 6. 对话框/确认框(最上层)
+  drawDialogOverlay(fb, gs, ctx)
 
   // 7. fadeState — port sdlpal video.c:1130-1280 VIDEO_FadeScreen 真值 **per-frame 1 step**。
   //
@@ -609,24 +612,49 @@ export function flushToCanvas(
 //   整圈 6×100ms = 600ms。按键后 PAL_SetPalette 复原(text.c:1442)。
 const DLG_ICON_ROT_LO = 0xf9   // 轮转区间 [0xF9, 0xFE]
 const DLG_ICON_ROT_LEN = 6     // 共 6 槽
+const BLACK_SCREEN_DIALOG_TEXT_COLORS = [
+  FONT_COLOR_DEFAULT,
+  FONT_COLOR_YELLOW,
+  FONT_COLOR_RED,
+  FONT_COLOR_RED_ALT,
+  FONT_COLOR_CYAN,
+  FONT_COLOR_CYAN_ALT,
+] as const
+
+function applyBlackScreenDialogPalette(gs: GameState, base: Palette): Palette {
+  if (!gs.blackScreenHold || (!gs.dialogBox && !gs.dialogBoxKept)) return base
+  const src = resolveNightColors(gs.basePalette ?? base, gs.nightPalette)
+  const colors = base.colors.slice()
+  let changed = false
+  for (const idx of BLACK_SCREEN_DIALOG_TEXT_COLORS) {
+    const c = src[idx]
+    if (!c) continue
+    const prev = colors[idx]
+    if (!prev || prev[0] !== c[0] || prev[1] !== c[1] || prev[2] !== c[2]) changed = true
+    colors[idx] = [c[0], c[1], c[2]]
+  }
+  return changed ? { ...base, colors } : base
+}
+
 /**
  * 当 dialog 处于等键 phase 时,返回 palette 的**瞬态**轮转副本(不改 gs.palette,无需复原);
  * 否则原样返回 base。轮转步数按 wall-clock 100ms/步,与 sdlpal UTIL_Delay(100) 节奏一致。
  */
 export function applyDialogIconPaletteShift(gs: GameState, base: Palette): Palette {
+  const pal = applyBlackScreenDialogPalette(gs, base)
   const dlg = gs.dialogBox
-  if (!dlg || (dlg.phase !== 'waiting-page-key' && dlg.phase !== 'waiting-end-key')) return base
+  if (!dlg || (dlg.phase !== 'waiting-page-key' && dlg.phase !== 'waiting-end-key')) return pal
   // sdlpal text.c:1412-1426/1439-1443 同守卫:center(kDialogCenter)等键也**不**做 0xF9-0xFE palette 轮转
   //   (无箭头 → 无闪烁)。narration 不进等键 phase,故只需排除 center。
-  if (dlg.style === 'center') return base
+  if (dlg.style === 'center') return pal
   const step = Math.floor(performance.now() / 100) % DLG_ICON_ROT_LEN
-  if (step === 0) return base
-  const colors = base.colors.slice()
+  if (step === 0) return pal
+  const colors = pal.colors.slice()
   // 左轮转 step 格:pal[0xF9+i] = base[0xF9 + ((i+step) % 6)]
   for (let i = 0; i < DLG_ICON_ROT_LEN; i++) {
-    colors[DLG_ICON_ROT_LO + i] = base.colors[DLG_ICON_ROT_LO + ((i + step) % DLG_ICON_ROT_LEN)]!
+    colors[DLG_ICON_ROT_LO + i] = pal.colors[DLG_ICON_ROT_LO + ((i + step) % DLG_ICON_ROT_LEN)]!
   }
-  return { ...base, colors }
+  return { ...pal, colors }
 }
 
 /**

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { clearHiddenExpCounts, createInitialGameState, hydratePlayerRolesRuntime, initExpLevelsFromLevels, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
+import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
 import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'
 
@@ -157,6 +157,7 @@ describe('Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)', () => {
     expect(gs.wChasespeedChangeCycles).toBe(0)
     expect(gs.nFollower).toBe(0)
     expect(gs.dwCash).toBe(0)
+    expect(gs.blackScreenHold).toBe(false)
     // 嵌套 struct
     expect(gs.Exp).toBeDefined()
     expect(gs.Exp.rgPrimaryExp).toBeInstanceOf(Array)
@@ -308,6 +309,35 @@ describe('sliceSceneEventObjects(sdlpal lprgEventObject 切片)', () => {
   it('全局表缺失 → undefined(调用方兜底从 dump 建)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     expect(sliceSceneEventObjects(gs, 2)).toBeUndefined()
+  })
+})
+
+describe('hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移)', () => {
+  const poseObject: SceneEventObject = {
+    id: 346,
+    x: 1200,
+    y: 1176,
+    spriteNum: 193,
+    triggerMode: 0,
+    sState: 0,
+    nSpriteFrames: 0,
+    direction: 0,
+    currentFrameNum: 13,
+  }
+
+  it('scriptedFrame 缺失 → 补场景初始 frame 13(水月宫抱拳拜谢)', () => {
+    const npcs = [{ id: 346, x: 1200, y: 1176, spriteNum: 193, sState: 0 }]
+    hydrateNpcStaticDefaults(npcs, [poseObject])
+    expect(npcs[0]).toMatchObject({ nSpriteFrames: 0, scriptedFrame: 13, facing: 'down' })
+  })
+
+  it('scriptedFrame 已被脚本明确设为 0 → 不用场景默认 13 覆盖', () => {
+    const npcs = [{
+      id: 346, x: 1200, y: 1176, spriteNum: 193, sState: 1,
+      nSpriteFrames: 0, scriptedFrame: 0, facing: 'right' as const,
+    }]
+    hydrateNpcStaticDefaults(npcs, [poseObject])
+    expect(npcs[0]).toMatchObject({ nSpriteFrames: 0, scriptedFrame: 0, facing: 'right' })
   })
 })
 

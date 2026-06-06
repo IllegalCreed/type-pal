@@ -11,7 +11,7 @@
 import type { Command, InputSnapshot, Tilemap } from '@type-pal/shared'
 import type { SceneAssetsCache } from '../assets/loader.js'
 import type { CommandBus } from './command-bus.js'
-import { npcFromEventObject, PARTYOFFSET_X, PARTYOFFSET_Y, type Facing, type GameState, type NpcState } from './game-state.js'
+import { hydrateNpcStaticDefaults, npcFromEventObject, PARTYOFFSET_X, PARTYOFFSET_Y, type Facing, type GameState, type NpcState } from './game-state.js'
 import { resolveScriptLabel, runEnterScript } from './event-system.js'
 import { createInGameMenu } from './menu/in-game-menu.js'
 import { openMenu } from './menu/menu-mode.js'
@@ -468,6 +468,7 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
     ? (resolveScriptLabel(gs, sceneAssets.onTeleportLabel)?.ip ?? 0)
     : 0
   gs.npcs = sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
+  hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
 
   // P3.T1: 切 scene 时同步更新 SceneContext 的 events + labelMap,
   // 修 M3.5 ⚠️ a9 #8:旧 scene 的 labelMap 留在内存导致 triggerLabel 查不到。
