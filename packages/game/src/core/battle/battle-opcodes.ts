@@ -20,11 +20,26 @@ import type { BattleStatus } from './battle-state.js'
 import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength, getPlayerPoisonResistance } from '../equip-effect.js'
 import { buildPlayerOffMagicTimeline, buildShowMagicAnimTimeline, buildStealTimeline } from './anim-timeline.js'
 import { startBattleAnim } from './battle-anim-driver.js'
+import { getEnemyBasePos } from './battle-positions.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
 
 /** SHORT cast(同 formulas.ts 私函)。 */
 function asShort(n: number): number {
   return (n << 16) >> 16
+}
+
+function refreshEnemyBattlePositions(ctx: BattleCtx): void {
+  const count = ctx.state.enemies.length
+  ctx.state.enemies.forEach((enemy, idx) => {
+    const base = getEnemyBasePos(ctx.enemyPos, count, idx, enemy.e.yPosOffset ?? 0)
+    if (!base) {
+      enemy.pos = undefined
+      enemy.posOriginal = undefined
+      return
+    }
+    enemy.posOriginal = { ...base }
+    enemy.pos = { ...base }
+  })
 }
 
 /**
@@ -1037,6 +1052,7 @@ export function dispatchBattleOpcode(
           e: { ...self.e, health: newHealth },
           status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
           prevHp: newHealth,
+          maxHealth: self.maxHealth ?? beforeHealth,
           scriptOnTurnStart: self.scriptOnTurnStart,
           scriptOnBattleEnd: self.scriptOnBattleEnd,
           scriptOnReady: self.scriptOnReady,
@@ -1044,6 +1060,7 @@ export function dispatchBattleOpcode(
           poisons: [],
         })
       }
+      refreshEnemyBattlePositions(ctx)
       return { consumed: true }
     }
 
@@ -1068,10 +1085,12 @@ export function dispatchBattleOpcode(
         return { consumed: true }
       const keepHealth = self.e.health
       self.e = { ...base, health: keepHealth }
+      self.maxHealth = base.health
       self.scriptOnTurnStart = eo.scriptOnTurnStart
       self.scriptOnReady = eo.scriptOnReady
       self.scriptOnBattleEnd = eo.scriptOnBattleEnd
       self.resistanceToSorcery = eo.resistanceToSorcery
+      refreshEnemyBattlePositions(ctx)
       // M6 变身音(sdlpal script.c:2980 AUDIO_PlaySound(47),变身成功 iColorShift 演出后)。
       if (ctx.gs) (ctx.gs.pendingSounds ??= []).push(47)
       return { consumed: true }
@@ -1081,8 +1100,8 @@ export function dispatchBattleOpcode(
       // sdlpal `script.c:009E`:召唤 op1 只 op0(对象 id;0/0xFFFF=自身同种)敌人到空槽。
       // 房间不足(< count)**或我方隐身中(iHidingTime>0)**或自身 睡眠/麻痹/混乱 → fail,op2 非 0 则 jump op2。
       //   iHidingTime 检查此前漏(审计 bug:隐身时敌仍可召唤破隐身保护;0x5C hide 已实现,见 line 433)。
-      // 注:召唤兽渲染需 present 层加载其 battle sprite,
-      // 本 handler 只做 logic(加 BattleEnemy → 它会行动/受击);sprite 加载留 present follow-up。
+      // 成功后等价一次 PAL_BattleMakeScene:按新敌人数刷新所有敌人的 idle 底锚,渲染层再按 enemy.e.id
+      // 从预载 battleSprites(`enemy-${id}`)取 ABC.MKF 战斗精灵。
       const tables = ctx.summonTables
       if (!tables || ctx.caster?.type !== 'enemy')
         return { consumed: true }
@@ -1134,6 +1153,7 @@ export function dispatchBattleOpcode(
           e: { ...base }, // 满血 base stats(sdlpal e = lprgEnemy[enemyID])
           status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
           prevHp: base.health,
+          maxHealth: base.health,
           scriptOnTurnStart: onTurnStart,
           scriptOnBattleEnd: onBattleEnd,
           scriptOnReady: onReady,
@@ -1141,6 +1161,7 @@ export function dispatchBattleOpcode(
           poisons: [],
         })
       }
+      refreshEnemyBattlePositions(ctx)
       // M6 召唤音(sdlpal script.c:2937 AUDIO_PlaySound(212),召唤成功 BattleMakeScene 后的施法手势音)。
       if (ctx.gs) (ctx.gs.pendingSounds ??= []).push(212)
       return { consumed: true }

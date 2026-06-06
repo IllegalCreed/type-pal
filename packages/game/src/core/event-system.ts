@@ -24,7 +24,7 @@
  *    等真撞到 raw + console.debug 看到 opcode 号再补。
  */
 
-import type { Command, DialogBoxStyle, Enemy, EnemyObject, InputSnapshot, Item, Magic, ObjectMagicView, ObjectPoisonView, Palette, PlayerRoles } from '@type-pal/shared'
+import type { Command, DialogBoxStyle, Enemy, EnemyObject, EnemyPosTable, InputSnapshot, Item, Magic, ObjectMagicView, ObjectPoisonView, Palette, PlayerRoles } from '@type-pal/shared'
 import { FPS_EXPLORE } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
@@ -935,6 +935,12 @@ export interface BattleCtx {
    * 由 enemy scriptOnReady 的 runScript 注入(battle-system tickPerformAction)。
    */
   summonTables?: { enemies: Enemy[], enemyObjects: EnemyObject[] }
+  /**
+   * ENEMYPOS(DATA.MKF chunk 13)—— 0x9C/0x9E/0x9F 动态改变敌方阵容后,
+   * 需按当前敌人数重算 g_Battle.rgEnemy[].posOriginal(同 PAL_BattleMakeScene)。
+   * 不注入时 battle-opcodes 使用 fallback 表,兼容旧测试。
+   */
+  enemyPos?: EnemyPosTable
   /** 0x6A 偷取成功"获得 物品名"提示需 items(按 stealItem id 取 _name)—— performMagic 注入。 */
   items?: Item[]
   /**

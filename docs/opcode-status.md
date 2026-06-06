@@ -281,9 +281,9 @@ setDialogStyle 0x3B-0x3E。
 | 0x8A | enable auto-battle | ✅ gs.fAutoBattle=true(script.c:008A)。battle-opcodes.ts |
 | 0x91 | jump if enemy not first of kind | ✅ 数同 wObjectID 敌人,self_pos>1(非首个)→ jump op0(script.c:2091)。ts 同种=同 e.id。用途:同种敌人组脚本只在第一个跑。真实数据 op0 全 0(→跳到 end)。battle-opcodes.ts,5 用 |
 | 0x92 | magic casting anim (battle) | ✅ **已 wire(2026-06-02)**:buildShowMagicAnimTimeline(anim-timeline.ts)= buildPreMagicTimeline(op0-1 上移+施法姿+10 帧 cast 特效)+ 施法者 wCurrentFrame=6 + 全队 5 步 iColorShift=i*2 cycle + 复位 → startBattleAnim 播。castEffectFrameBase = rgwBattleEffectIndex[battleSprite][0]*10+15(fight.c:2387-2389),battleEffectIndex 经 enemy turnStart/ready 的 battleCtx 注入。sdlpal script.c:2637-2662;anim-timeline.test(24 帧)+ battle-opcodes.test(dispatch + op0==0 no-op)。唯一站点 all.json cmd@42319(赵灵儿力量觉醒 cutscene)|
-| 0x9C | enemy division | ✅ 分裂:仅 1 活敌 + health>1 → 分裂 op0+1 份各 floor((h+w)/(w+1));否则 jump op1(script.c:009C)。battle-opcodes.ts |
-| 0x9E | enemy summon | ✅ **logic**:召唤 op1 只 op0(对象 id;0/0xFFFF=自身同种)敌人到空槽(MAX 5);房间不足/**我方隐身 iHidingTime>0(2c3d25d 补)**/自身睡眠·麻痹·混乱 → fail,op2≠0 jump op2(script.c:009E)。obj→enemyObjects[objectIndex]→enemyId→enemies.json 满血;经 enemy scriptOnReady runScript 注入 summonTables。**注**:召唤兽渲染需 present 层加载 battle sprite(follow-up);logic(行动/受击)已通。battle-opcodes.ts |
-| 0x9F | enemy transform | ✅ 变身:非隐身/睡眠 → self.e={...base, health:keepHealth}(summonTables 取 base id op0)(script.c:009F)。battle-opcodes.ts |
+| 0x9C | enemy division | ✅ 分裂:仅 1 活敌 + health>1 → 分裂 op0+1 份各 floor((h+w)/(w+1));否则 jump op1(script.c:009C)。成功后按新敌人数刷新所有敌人的 pos/posOriginal,副本继承 maxHealth。battle-opcodes.ts |
+| 0x9E | enemy summon | ✅ 召唤 op1 只 op0(对象 id;0/0xFFFF=自身同种)敌人到空槽(MAX 5);房间不足/**我方隐身 iHidingTime>0(2c3d25d 补)**/自身睡眠·麻痹·混乱 → fail,op2≠0 jump op2(script.c:009E)。obj→enemyObjects[objectIndex]→enemyId→enemies.json 满血;经 enemy scriptOnReady runScript 注入 summonTables。成功后设 maxHealth 并按 ENEMYPOS 当前敌人数刷新全敌 pos/posOriginal;渲染层按预载 battleSprites `enemy-${id}` 取精灵。battle-opcodes.ts |
+| 0x9F | enemy transform | ✅ 变身:非隐身/睡眠 → self.e={...base, health:keepHealth}(summonTables 取 base id op0)(script.c:009F),更新 maxHealth 与 yPosOffset 后的 pos/posOriginal。battle-opcodes.ts |
 
 ### C palette / D audio·FBP·视觉
 | op | 含义 | 类 | 状态 |

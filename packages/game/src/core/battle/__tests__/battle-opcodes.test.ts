@@ -1,4 +1,4 @@
-import type { Command, Enemy, EnemyObject, Magic, ObjectMagicView, ObjectPoisonView } from '@type-pal/shared'
+import type { Command, Enemy, EnemyObject, EnemyPosTable, Magic, ObjectMagicView, ObjectPoisonView } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createCommandBus, type PresentCommand } from '../../command-bus.js'
 import { type BattleCtx, runScript, setObjectPoisons } from '../../event-system.js'
@@ -991,12 +991,23 @@ describe('0x22 复活 player(还魂咒/赎魂 scriptOnSuccess,战斗语境)', ()
 // 0x9E enemy summon(战斗中召唤敌人)
 // ============================================================================
 
-function summonCtx(roster: BattleEnemy[], casterIdx: number, allEnemies: Enemy[], enemyObjects: EnemyObject[]): BattleCtx {
+const ENEMY_POS: EnemyPosTable = {
+  layouts: [
+    [{ x: 160, y: 80 }],
+    [{ x: 120, y: 80 }, { x: 220, y: 70 }],
+    [{ x: 90, y: 90 }, { x: 170, y: 80 }, { x: 250, y: 70 }],
+    [{ x: 70, y: 92 }, { x: 130, y: 82 }, { x: 210, y: 72 }, { x: 270, y: 62 }],
+    [{ x: 50, y: 94 }, { x: 110, y: 84 }, { x: 170, y: 74 }, { x: 230, y: 64 }, { x: 290, y: 54 }],
+  ],
+}
+
+function summonCtx(roster: BattleEnemy[], casterIdx: number, allEnemies: Enemy[], enemyObjects: EnemyObject[], enemyPos: EnemyPosTable | undefined = ENEMY_POS): BattleCtx {
   return {
     // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     state: { enemies: roster, players: [] } as any as BattleState,
     caster: { type: 'enemy', idx: casterIdx },
     summonTables: { enemies: allEnemies, enemyObjects },
+    enemyPos,
     gs: createInitialGameState({ x: 0, y: 0, facing: 'down' }), // M6 召唤/变身音 push gs.pendingSounds
   }
 }
@@ -1008,6 +1019,7 @@ const ENEMY = (id: number, health: number): Enemy => ({ id, health, defense: 0, 
 describe('0x9C enemy division (script.c:009C)', () => {
   it('恰 1 活敌 + health>1 → 分裂 op0+1 份(各 floor((h+w)/(w+1)))', () => {
     const roster = [richEnemy({ health: 100 })]
+    roster[0]!.maxHealth = 100
     const ctx = summonCtx(roster, 0, [], [])
     const r = dispatchBattleOpcode(0x9C, [2, 300, 0], ctx) // 分裂成 3
     expect(r.consumed).toBe(true)
@@ -1016,6 +1028,9 @@ describe('0x9C enemy division (script.c:009C)', () => {
     expect(roster[0]!.e.health).toBe(34)
     expect(roster[1]!.e.health).toBe(34)
     expect(roster[2]!.e.health).toBe(34)
+    expect(roster.map(e => e.maxHealth)).toEqual([100, 100, 100])
+    expect(roster.map(e => e.posOriginal)).toEqual(ENEMY_POS.layouts[2])
+    expect(roster.map(e => e.pos)).toEqual(ENEMY_POS.layouts[2])
   })
   it('不止 1 活敌 → 不分裂,jump op1', () => {
     const roster = [richEnemy({ health: 100 }), richEnemy({ health: 100 })]
@@ -1034,12 +1049,26 @@ describe('0x9F enemy transform (script.c:009F)', () => {
     const self = richEnemy({ health: 30 })
     self.e.id = 5
     const roster = [self]
-    const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
+    const ctx = summonCtx(roster, 0, [ENEMY(22, 80), ENEMY(5, 100)], [ENEMY_OBJ(419, 22)])
     dispatchBattleOpcode(0x9F, [419, 0, 0], ctx)
     expect(roster[0]!.e.id).toBe(22) // 变成新种
     expect(roster[0]!.e.health).toBe(30) // 保留当前血
+    expect(roster[0]!.maxHealth).toBe(80)
+    expect(roster[0]!.posOriginal).toEqual(ENEMY_POS.layouts[0]![0])
     expect(roster[0]!.scriptOnReady).toBe(22)
     expect(ctx.gs!.pendingSounds).toEqual([47]) // sdlpal script.c:2980
+  })
+
+  it('变身后按新 enemy.yPosOffset 刷新自身底锚', () => {
+    const self = richEnemy({ health: 30, yPosOffset: 0 })
+    self.e.id = 5
+    const roster = [self]
+    const target = ENEMY(22, 80)
+    target.yPosOffset = 12
+    const ctx = summonCtx(roster, 0, [target], [ENEMY_OBJ(419, 22)])
+    dispatchBattleOpcode(0x9F, [419, 0, 0], ctx)
+    expect(roster[0]!.posOriginal).toEqual({ x: 160, y: 92 })
+    expect(roster[0]!.pos).toEqual({ x: 160, y: 92 })
   })
   it('自身睡眠 → 不变身(无变身音)', () => {
     const self = richEnemy({ health: 30 })
@@ -1062,10 +1091,13 @@ describe('0x9E enemy summon (script.c:009E)', () => {
     expect(roster).toHaveLength(2)
     expect(roster[1]!.e.id).toBe(22)
     expect(roster[1]!.e.health).toBe(80) // 满血(enemies.json base)
+    expect(roster[1]!.maxHealth).toBe(80)
     expect(roster[1]!.scriptOnReady).toBe(22)
     expect(roster[1]!.resistanceToSorcery).toBe(3)
     expect(roster[1]!.poisons).toEqual([])
     expect(ctx.gs!.pendingSounds).toEqual([212]) // M6 召唤音(sdlpal script.c:2937)
+    expect(roster.map(e => e.posOriginal)).toEqual(ENEMY_POS.layouts[1])
+    expect(roster.map(e => e.pos)).toEqual(ENEMY_POS.layouts[1])
   })
 
   it('count op1:召唤 2 只', () => {

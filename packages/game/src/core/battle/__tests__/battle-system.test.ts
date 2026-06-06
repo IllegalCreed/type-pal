@@ -20,6 +20,7 @@ import type {
   Command,
   Enemy,
   EnemyTeam,
+  EnemyPosTable,
   InputSnapshot,
   Item,
   Magic,
@@ -251,6 +252,7 @@ interface BootstrapOpts {
   objectMagics?: ObjectMagicView[]
   objectPoisons?: ObjectPoisonView[]
   objectPlayers?: ObjectPlayerView[]
+  enemyPos?: EnemyPosTable
   commands?: Command[]
   inventory?: { itemId: number, count: number }[]
   /** D11:升级阈值表(稀疏)+ 学法术表;省略 → 不升级。 */
@@ -308,6 +310,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
     objectMagics,
     objectPoisons,
     objectPlayers,
+    enemyPos: opts.enemyPos,
     commands,
     levelUpExp: opts.levelUpExp,
     levelUpMagic: opts.levelUpMagic,
@@ -319,7 +322,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
   return {
     gs,
     bus,
-    resources: { items, spells, magics, objectMagics, objectPoisons, objectPlayers, enemies, enemyObjects: [], playerRoles, commands },
+    resources: { items, spells, magics, objectMagics, objectPoisons, objectPlayers, enemies, enemyObjects: [], enemyPos: opts.enemyPos, playerRoles, commands },
     emptyInput: { held: new Set(), pressed: new Set(), frameNum: 0 },
   }
 }
@@ -2283,6 +2286,12 @@ describe('throw-item action 派发(E2)', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 200, attackStrength: 0 })],
       roles: [makeRole({ id: 0, hp: 500 })],
+      enemyPos: {
+        layouts: [
+          [{ x: 160, y: 80 }],
+          [{ x: 120, y: 80 }, { x: 220, y: 70 }],
+        ],
+      },
       commands,
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
@@ -2297,6 +2306,10 @@ describe('throw-item action 派发(E2)', () => {
     expect(gs.battleState!.enemies.length).toBe(2)
     expect(gs.battleState!.enemies[1]!.e.id).toBe(100)
     expect(gs.battleState!.enemies[1]!.e.health).toBe(200) // 满血
+    expect(gs.battleState!.enemies.map(e => e.posOriginal)).toEqual([
+      { x: 120, y: 80 },
+      { x: 220, y: 70 },
+    ])
     void consoleWarn
   })
 

@@ -127,6 +127,8 @@ export interface BattleResources {
   enemies: Enemy[]
   /** 全部 enemy-objects.json —— 0x9E summon 按 objectIndex 解 op0 → enemyId/scripts/抗性。 */
   enemyObjects: EnemyObject[]
+  /** ENEMYPOS 表 —— 动态召唤/分裂/变身后刷新敌方 pos/posOriginal。 */
+  enemyPos?: EnemyPosTable
   playerRoles: PlayerRoles
   commands: Command[]
   /**
@@ -343,6 +345,7 @@ export function startBattle(input: StartBattleInput): void {
     objectPlayers: input.objectPlayers ?? [],
     enemies: input.enemies, // 0x9E summon 召唤兽 stats
     enemyObjects: input.enemyObjects ?? [], // 0x9E summon op0 → enemyId/scripts
+    enemyPos: input.enemyPos, // 0x9C/0x9E/0x9F 动态敌方阵型刷新
     playerRoles: input.playerRoles,
     commands: input.commands ?? getGlobalCommands(), // P2#5:默认单一全局数组
     battleEffectIndex: input.battleEffectIndex, // D17a:player 攻击命中特效帧基号
@@ -750,6 +753,7 @@ function runPlayerCasualtyScript(
       magicTables: { magics: res.magics, objectMagics: res.objectMagics },
       battleEffectIndex: res.battleEffectIndex,
       summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+      enemyPos: res.enemyPos,
       items: res.items,
       commands: res.commands,
       runScript,
@@ -1744,6 +1748,7 @@ function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: Comman
         state,
         caster: { type: 'enemy', idx: ei },
         summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+        enemyPos: res.enemyPos,
         gs, // raw opcode fall 到 applyRawOpcode 需 gs
         // 0x92 show-magic-anim(赵灵儿觉醒 cutscene scriptOnTurnStart)需 cast 特效帧基号 + 角色战斗精灵
         playerRoles: res.playerRoles,
@@ -2043,6 +2048,7 @@ function tickPerformAction(
             caster: { type: 'enemy', idx: item.idx },
             // 0x9E enemy summon 需召唤兽表 + enemy-objects 解析
             summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+            enemyPos: res.enemyPos,
             // raw opcode(0x06 概率跳等)fall 到 applyRawOpcode 需 gs
             gs,
             // 0x92 show-magic-anim(scriptOnReady 出场施法演出)需 cast 特效帧基号 + 角色战斗精灵
@@ -2609,6 +2615,7 @@ function finishBattleWon(gs: GameState, state: BattleState, res: BattleResources
         state,
         caster: { type: 'enemy', idx: ei },
         summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+        enemyPos: res.enemyPos,
         gs,
       },
     })
