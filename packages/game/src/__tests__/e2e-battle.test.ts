@@ -222,7 +222,7 @@ describe('M3 E2E:战斗 won 链路(attack-only,deterministic seed)', () => {
     // M5.B-w1.c:exp/cash 入账走 gs.Exp.rgPrimaryExp + gs.dwCash 真 schema
     expect(gs.Exp.rgPrimaryExp[0]?.wExp ?? 0, 'won 应给 leader exp').toBeGreaterThan(0)
     expect(gs.dwCash, 'won 应累 cash').toBeGreaterThan(0)
-    // 防御性 — 队长不应在 lost 路径(M3 lost 时 hp=1 兜底)
+    // 防御性 — 本用例应走 won,队长仍存活。
     const leader = resources.playerRoles.roles[0] as unknown as Record<string, number>
     expect(leader.hp).toBeGreaterThan(0)
 

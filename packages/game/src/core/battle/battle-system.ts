@@ -540,8 +540,8 @@ function actionDexMultiplier(
  * - main menu:方向键切四图标;Confirm 进入攻击/法术/合击/杂项分支。
  * - magic/item menus + target select:网格导航、灰项、目标方与全体目标均在 dispatchSelectInput 链路处理。
  *
- * fixture 测试仍可绕过 UI 直填 pendingActions —— input handler 仅在 uiState
- * 命中分支时改 state,其它情况(fixture 模式 / 二级菜单未实现)不动 state。
+ * fixture 测试仍可绕过 UI 直填 pendingActions —— input handler 仅在当前 UI 状态
+ * 命中分支时改 state,其它情况不动 state。
  */
 function tickSelectAction(
   state: BattleState,
@@ -2481,9 +2481,8 @@ function tickPostAction(
 /**
  * 战斗终态写回 + 清状态。
  *
- * - won:exp 平分到所有队员(临时挂 `_exp` 字段;M5 真做 levelUpExp 表 + level up 弹窗)
- *        cash 加到 (gs as any).cash(M3 简版,后续 GameState schema 加 cash 字段时去 hack)
- * - lost:全员 hp=1(M3 简版,game over 推 M5);保留 cash / exp(不奖励)
+ * - won:由结算演出路径处理 exp/cash、升级和学法术,不经本函数。
+ * - lost:保留战斗结算后的 HP/MP;不复活,死亡脚本 0x4F/0x4E 负责红屏和读档。
  * - fleed:无 hp 改动,无奖励
  * - forced(stall 兜底):无奖励、无 hp 改动,只清状态
  *
