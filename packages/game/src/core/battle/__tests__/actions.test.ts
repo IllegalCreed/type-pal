@@ -966,6 +966,8 @@ describe('performFlee', () => {
     performFlee(state, gs, 0, playerRoles, bus)
     expect(state.fleeAnim).toBeUndefined() // 未成功(无逃离动画)
     expect(state.battleAnim).toBeDefined() // 起了失败动画时间线(per-player 3步+帧1)
+    expect(bus.drain().filter(c => c.cmd.op === 'showBattleMessage')).toHaveLength(0) // 文字不早于失败动作
+    expect(state.battleAnim?.frames.at(-1)?.battleMessage).toEqual({ text: '逃跑失败', durationMs: 320 })
   })
 
   // ── D12(2026-06-01 W1):装备逃跑率加成生效(sdlpal global.c:1868-1897 PAL_GetPlayerFleeRate)──
@@ -1130,10 +1132,9 @@ describe('performMagic', () => {
     }
   })
 
-  // 顺序修(user 2026-06-05 报"灵葫咒掉血在动画前"):scriptOnSuccess 的 HP-mutate opcode(0x60 秒杀 等)
-  //   此前经 emitDamageNum **即时** emit 数字,早于延迟动画时间线。修:performMagic 注入 pendingDamageNums 缓冲
-  //   → opcode 数字 push 进它,交 OffMagic 时间线播完后 emit(对照 sdlpal DisplayStatChange 在动画后 fight.c:4322)。
-  it('scriptOnSuccess 秒杀(0x60)数字进时间线 pendingDamageNums 延迟,不即时 emit(灵葫咒类,真 runScript)', () => {
+  // 顺序修:user 先后报"灵葫咒掉血在动画前"和"武神数字等整段动画结束才出"。
+  //   SDLPal 是 OffMagic/Summon 主特效结束后 DisplayStatChange,随后 PostMagic 受击动画。
+  it('scriptOnSuccess 秒杀(0x60)数字挂 PostMagic 第一帧,不等整条时间线结束(灵葫咒类,真 runScript)', () => {
     const { state, playerRoles, bus } = makeState({
       role: { mp: 30, maxMP: 30 },
       enemies: [{ level: 5, health: 100 }],
@@ -1151,9 +1152,144 @@ describe('performMagic', () => {
       magicSpriteFrameCounts: new Map([[7, 4]]), // effect 7 有 4 帧 → 建 OffMagic 时间线
     })
     expect(state.enemies[0]!.e.health).toBe(0) // 秒杀生效(逻辑同步)
-    // 关键:秒杀数字进时间线 pendingDamageNums(延迟到动画播完),不即时 emit
+    // 关键:秒杀数字不即时 emit,而挂到 PostMagic 第一帧(敌人开始受击时),不再等整条时间线播完。
     expect(bus.drain().filter(c => c.cmd.op === 'showDamageNum')).toHaveLength(0)
-    expect(state.battleAnim?.pendingDamageNums).toEqual([{ target: { kind: 'enemy', idx: 0 }, value: 100, color: 'blue' }])
+    expect(state.battleAnim?.pendingDamageNums ?? []).toHaveLength(0)
+    const frames = state.battleAnim?.frames ?? []
+    const numIdx = frames.findIndex(f => (f.damageNums?.length ?? 0) > 0)
+    const firstPostIdx = frames.findIndex(f => f.fighters?.some(d => d.side === 'enemy' && d.idx === 0))
+    expect(numIdx).toBe(firstPostIdx)
+    expect(frames[numIdx]!.damageNums).toEqual([{ target: { kind: 'enemy', idx: 0 }, value: 100, color: 'blue' }])
+  })
+
+  it('武神/召唤法术:伤害数字在召唤神淡出前的 PostMagic 第一帧显示', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { mp: 120, maxMP: 120, magicStrength: 80 },
+      enemies: [{ health: 9000, defense: 20, level: 5 }],
+      forceFloat: 1,
+    })
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+
+    const wuShen = makeMagic({
+      id: 19,
+      type: 'summon',
+      special: 0,
+      effect: 52,
+      xOffset: -8,
+      yOffset: 22,
+      speed: 0,
+      effectTimes: 0xfffe,
+      baseDamage: 250,
+      sound: 303,
+    })
+    const wuShenSecondary = makeMagic({
+      id: 52,
+      effect: 13,
+      type: 'attackAll',
+      speed: 0,
+      fireDelay: 0,
+      effectTimes: 1,
+      baseDamage: 0,
+    })
+
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 351,
+      targetIsEnemy: true,
+      targetIdx: 'all',
+      spells: [makeSpell({ id: 351, magicNumber: 19, flags: {
+        usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true,
+      } })],
+      magics: [wuShen, wuShenSecondary],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+      magicSpriteFrameCounts: new Map([[13, 8]]),
+      summonSpriteFrameCounts: new Map([[10, 4]]),
+    })
+
+    expect(bus.drain().filter(c => c.cmd.op === 'showDamageNum')).toHaveLength(0)
+    expect(state.battleAnim?.pendingDamageNums ?? []).toHaveLength(0)
+    const frames = state.battleAnim?.frames ?? []
+    const numIdx = frames.findIndex(f => (f.damageNums?.length ?? 0) > 0)
+    const firstFadeOutIdx = frames.findIndex(f => f.summon?.fadeDir === 'out')
+    expect(numIdx).toBeGreaterThan(0)
+    expect(firstFadeOutIdx).toBeGreaterThan(numIdx)
+    expect(frames[numIdx]!.summon?.spriteKey).toBe('player-10')
+    expect(frames[numIdx]!.fighters?.some(d => d.side === 'enemy' && d.idx === 0)).toBe(true)
+    expect(frames[numIdx]!.damageNums).toEqual([
+      { target: { kind: 'enemy', idx: 0 }, value: expect.any(Number), color: 'blue' },
+    ])
+  })
+
+  it('金蝉脱壳 scriptOnUse(0x3A)→ 触发 PlayerEscape 动画,不直接结束战斗', () => {
+    const { state, playerRoles, bus, gs } = makeState({ role: { mp: 99, maxMP: 99 } })
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x3A, operands: [43072, 0, 0] },
+      { op: 'end' },
+    ]
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 392,
+      targetIsEnemy: false,
+      targetIdx: 'all',
+      spells: [makeSpell({
+        id: 392,
+        magicNumber: 99,
+        scriptOnUse: 1,
+        flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: false, applyToAll: true },
+      })],
+      magics: [makeMagic({ id: 99, costMP: 33, baseDamage: 0, effect: 0xffff, sound: 0 })],
+      playerRoles,
+      bus,
+      commands,
+      runScript,
+      gs,
+    })
+
+    expect(playerRoles.roles[0]!.mp).toBe(66)
+    expect(state.fleeAnim).toEqual({ step: 0 })
+    expect(state.phase).toBe('performAction')
+    expect(gs.pendingSounds).toEqual([45])
+  })
+
+  it('夺魂失败 → battle narration 显示原文「失败　没有效果」', () => {
+    const { state, playerRoles, bus, gs } = makeState({ role: { mp: 99, maxMP: 99 } })
+    state.enemies[0]!.resistanceToSorcery = 10 // 0x2E RandomLong(0,9) 永远不大于 10 → 失败跳转
+    state.rng.rangeInclusive = () => 0
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x2E, operands: [0, 0, 3] },
+      { op: 'end' },
+      { op: 'setDialogStyleNarration' },
+      { op: 'showDialog', messageIndex: 13364, text: '失败　没有效果' },
+      { op: 'end' },
+    ]
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 304,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell({ id: 304, magicNumber: 67, scriptOnSuccess: 1 })],
+      magics: [makeMagic({ id: 67, costMP: 83, baseDamage: 64537, effect: 39, sound: 170 })],
+      playerRoles,
+      bus,
+      commands,
+      runScript,
+      gs,
+    })
+
+    expect(state.battleDialogQueue?.[0]).toMatchObject({ text: '失败　没有效果', style: 'narration' })
+    expect(bus.drain().some(c => c.cmd.op === 'showBattleMessage')).toBe(false)
   })
 
   it('scriptOnUse 失败(fScriptSuccess=false)→ MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess(乾坤一掷没钱/酒神没酒)', () => {
@@ -1423,8 +1559,10 @@ describe('performMagic', () => {
 
   it('梦蛇295:spells 缺项时从 object-magics 解析并在 Trance 闪色末帧切换 sprite', () => {
     const { state, playerRoles, bus, gs } = makeState({
-      role: { mp: 120, maxMP: 120 },
+      role: { mp: 120, maxMP: 120, spriteNumInBattle: 1, magicSound: 9 },
     })
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.players[0]!.pos = { x: 240, y: 170 }
     state.players[0]!.spriteNumOverride = 1
     const runScript: RunScriptFn = vi.fn((opts) => {
       if (opts.ip === 10)
@@ -1452,9 +1590,11 @@ describe('performMagic', () => {
     expect(runScript).toHaveBeenCalledTimes(1)
     expect((runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0].ip).toBe(10)
     expect(state.players[0]!.spriteNumOverride).toBe(1) // 闪色阶段仍用旧 sprite
-    expect(state.battleAnim?.frames).toHaveLength(7)
-    expect(state.battleAnim?.frames.slice(0, 6).map(f => f.fighters?.[0]?.iColorShift)).toEqual([0, 2, 4, 6, 8, 10])
-    expect(state.battleAnim?.frames[6]?.fighters?.[0]).toMatchObject({
+    expect(state.battleAnim?.frames.length).toBeGreaterThan(7)
+    expect(state.battleAnim?.frames.some(f => f.sound === 9)).toBe(true)
+    expect(gs.pendingSounds ?? []).not.toContain(335) // trance:原版 DefMagicAnim effect=0xFFFF 早退,magic.sound 335 不播(fight.c:2480-2484/2501)
+    expect(state.battleAnim?.frames.slice(-7, -1).map(f => f.fighters?.[0]?.iColorShift)).toEqual([0, 2, 4, 6, 8, 10])
+    expect(state.battleAnim?.frames.at(-1)?.fighters?.[0]).toMatchObject({
       side: 'player',
       idx: 0,
       iColorShift: 0,
@@ -1468,6 +1608,48 @@ describe('performMagic', () => {
       targetType: 'player',
       targetIdx: 'all',
     }])
+  })
+
+  it('斩龙诀式 scriptOnUse 0x35:振屏挂到 OffMagic 起始,不提前写全局 gs.shakeTime', () => {
+    const { state, playerRoles, bus, gs } = makeState({
+      role: { mp: 120, maxMP: 120, spriteNumInBattle: 1, magicStrength: 100 },
+      enemies: [{ health: 500 }],
+    })
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    const runScript = vi.fn((opts) => {
+      opts.battleCtx!.pendingScreenShake!.time = 14
+      opts.battleCtx!.pendingScreenShake!.level = 4
+    }) as RunScriptFn
+
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 342,
+      targetIsEnemy: true,
+      targetIdx: 'all',
+      spells: [makeSpell({ id: 342, magicNumber: 16, scriptOnUse: 43111, flags: {
+        usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true,
+      } })],
+      magics: [makeMagic({
+        id: 16, effect: 11, type: 'attackWhole', xOffset: 0, yOffset: 44,
+        speed: 0, fireDelay: 0, effectTimes: 0, shake: 0, baseDamage: 280,
+      })],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+      gs,
+      magicSpriteFrameCounts: new Map([[11, 6]]),
+    })
+
+    expect(gs.shakeTime).toBe(0)
+    const frames = state.battleAnim?.frames ?? []
+    const firstMagicIdx = frames.findIndex(f => f.overlays?.some(o => o.kind === 'magic' && o.spriteChunk === 11))
+    expect(firstMagicIdx).toBeGreaterThan(0)
+    expect(frames.slice(0, firstMagicIdx).some(f => f.shake)).toBe(false)
+    expect(frames[firstMagicIdx]?.shake).toEqual({ time: 14, level: 4 })
   })
 })
 

@@ -189,11 +189,13 @@ export function performMagic(input: PerformMagicInput): void {
           type: input.targetIsEnemy ? ('enemy' as const) : ('player' as const),
           idx: input.targetIdx,
         }
-  // 顺序修(user 2026-06-05 报"灵葫咒掉血在动画前"):scriptOnSuccess 的 HP-mutate opcode(0x60 秒杀/0x1B 治疗/
-  //   0x22 复活/0x5A-5F 等)经 emitDamageNum 此前**即时** emit 数字,早于延迟动画时间线。修:注入 pendingDamageNums
-  //   缓冲 → opcode 数字 push 进它,与 inline 伤害一起交时间线播完后 emit(无时间线 → 即时,向后兼容)。
-  //   对照 sdlpal PAL_BattleDisplayStatChange 在 ShowOffMagic/DefMagicAnim 之后(fight.c:4322)。
-  const pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
+  // 顺序修(user 2026-06-05 报"灵葫咒掉血在动画前";2026-06-06 报"武神数字太晚"):
+  //   scriptOnSuccess 的 HP-mutate opcode(0x60 秒杀/0x1B 治疗/0x22 复活/0x5A-5F 等)此前会即时
+  //   emit 数字。修:注入 pendingDamageNums 缓冲;攻击/召唤类建链后挂 PostMagic 第一帧,防御/治疗类挂
+  //   DefMagic 链末,无时间线则即时 emit。对照 sdlpal DisplayStatChange 在 Off/DefMagic 之后、
+  //   PostMagic 之前/开始(fight.c:4322-4323)。
+  const pendingNums: PendingDamageNums = []
+  const pendingScreenShake: { time: number; level: number } = { time: 0, level: 0 }
   const runMagicScript = (scriptId: number): void => {
     if (scriptId === 0)
       return // scriptOnUse / scriptOnSuccess = 0 → 无脚本,skip(sdlpal RunTriggerScript(0) 即返回)
@@ -216,6 +218,7 @@ export function performMagic(input: PerformMagicInput): void {
         gs: input.gs,
         items: input.items, // 0x6A 偷取成功"获得 物品名"提示需 item 名
         pendingDamageNums: pendingNums, // scriptOnSuccess opcode 数字延迟到动画后(见上注)
+        pendingScreenShake, // scriptOnUse 0x35 延迟挂到 OffMagic,避免 PreMagic 阶段先抖。
       },
     })
   }
@@ -278,7 +281,8 @@ export function performMagic(input: PerformMagicInput): void {
   // projectRuntimeToBattleRoles 投影为 runtime base + rgEquipmentEffect 有效值。
   // 法术伤害数字**延迟到特效播完后**才 emit(对照 sdlpal PAL_BattleDisplayStatChange 在 magic anim
   //   之后,fight.c:4322/4369/4405)。inline 伤害先 collect 进 pendingNums(上方已声明,含 scriptOnSuccess
-  //   opcode 数字);下方据是否建动画链决定:建链 → 交时间线播完 emit;未建链(旧 fixture / 无 sprite)→ 立即 emit。
+  //   opcode 数字);下方据是否建动画链决定:攻击/召唤 → 挂 PostMagic 第一帧,防御/治疗 → 链末,
+  //   未建链(旧 fixture / 无 sprite)→ 立即 emit。
   // 敌方法术受伤的队员 idx(受击动画 fight.c:4861-4899 用;E2 填)。
   const hitPlayerIdxs: number[] = []
   let dmgResults: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number; damage: number }> = []
@@ -335,7 +339,7 @@ export function performMagic(input: PerformMagicInput): void {
       playerRoles: input.playerRoles,
       rngFactor,
     })
-    // 掉血 → blue(sdlpal PAL_BattleDisplayStatChange);用钳后真实 delta。延迟到特效播完才 emit。
+    // 掉血 → blue(sdlpal PAL_BattleDisplayStatChange);用钳后真实 delta。延迟到特效播完、受击反应开始时 emit。
     for (const r of enemyDmg) {
       if (r.hpAfter < r.hpBefore) {
         pendingNums.push({ target: { kind: 'player', idx: r.playerIdx }, value: r.hpBefore - r.hpAfter, color: 'blue' })
@@ -355,7 +359,7 @@ export function performMagic(input: PerformMagicInput): void {
   let built = false
   if (!input.casterIsEnemy) {
     if (OFF_MAGIC_TYPES.has(magic.type)) {
-      built = buildAndStartMagicAnim(input, magic, dmgResults, pendingNums)
+      built = buildAndStartMagicAnim(input, magic, dmgResults, pendingNums, pendingScreenShake)
     } else if (magic.type === 'applyToPlayer' || magic.type === 'applyToParty') {
       built = buildAndStartDefMagicAnim(input, magic, pendingNums)
     } else if (magic.type === 'trance') {
@@ -368,13 +372,15 @@ export function performMagic(input: PerformMagicInput): void {
       built = buildAndStartSummonAnim(input, magic, dmgResults, pendingNums)
     }
   } else if (OFF_MAGIC_TYPES.has(magic.type)) {
-    built = buildAndStartEnemyMagicAnim(input, magic, pendingNums, hitPlayerIdxs)
+    built = buildAndStartEnemyMagicAnim(input, magic, pendingNums, hitPlayerIdxs, pendingScreenShake)
   }
 
-  // M6 玩家施法音 pendingCastSound:OffMagic/Summon 成功建链 → 已在前摇"施法姿"帧帧同步
+  // M6 玩家施法音 pendingCastSound:OffMagic/Summon/Trance 成功建链 → 已在前摇"施法姿"帧帧同步
   //   (buildPreMagicTimeline,对齐 sdlpal fight.c:2377),**不在此 push**;其余(DefMagic / 未建链)→ 即时播。
   //   放在效果音之前 push(施法音先于效果音,顺序对齐 sdlpal)。
-  const castFrameSynced = built && !input.casterIsEnemy && (OFF_MAGIC_TYPES.has(magic.type) || magic.type === 'summon')
+  const castFrameSynced = built && !input.casterIsEnemy && (
+    OFF_MAGIC_TYPES.has(magic.type) || magic.type === 'summon' || magic.type === 'trance'
+  )
   if (pendingCastSound > 0 && input.gs && !castFrameSynced) (input.gs.pendingSounds ??= []).push(pendingCastSound)
 
   // M6 法术效果音 magic.sound:player 攻击魔法(OffMagic)已在 buildPlayerOffMagicTimeline 的
@@ -383,10 +389,14 @@ export function performMagic(input: PerformMagicInput): void {
   // OffMagic 在起手帧帧同步(上方);summon 自身 magic.sound 在 PreMagic 后首个变亮帧帧同步
   //   (buildAndStartSummonAnim,WIN95 fight.c:3112)→ 二者都**不在此即时 push**(否则 dispatch 时就响、过早)。
   const soundFrameSynced = built && !input.casterIsEnemy && (OFF_MAGIC_TYPES.has(magic.type) || magic.type === 'summon')
-  if (magic.sound > 0 && input.gs && !soundFrameSynced) (input.gs.pendingSounds ??= []).push(magic.sound)
+  // trance(变身,梦蛇 magic47 effect=0xFFFF):原版走 DefMagicAnim,但 effect 无 FIRE 资源 → l<=0 早退
+  //   (fight.c:2480-2484),AUDIO_PlaySound(2501)执行不到 → magic.sound 根本不播。我们跳过 DefMagicAnim
+  //   直接 colorShift 变身,故须显式不 push,否则变身时多一声 335。
+  const defMagicEarlyOut = magic.type === 'trance'
+  if (magic.sound > 0 && input.gs && !soundFrameSynced && !defMagicEarlyOut) (input.gs.pendingSounds ??= []).push(magic.sound)
 
   // 未建动画链(旧 fixture / 无 sprite 资源 / 非 OFF 类型)→ 立即 emit 伤害数字(向后兼容;
-  //   无动画可挂,只能即时显示)。建了链 → 交时间线播完后 emit(startBattleAnim 已收 pendingNums)。
+  //   无动画可挂,只能即时显示)。建了链 → 由各动画分支挂到正确帧或链末。
   if (!built) {
     for (const dn of pendingNums) {
       input.bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
@@ -403,6 +413,37 @@ const OFF_MAGIC_TYPES: ReadonlySet<Magic['type']> = new Set<Magic['type']>([
   'attackField',
 ])
 
+type PendingDamageNums = NonNullable<NonNullable<BattleState['battleAnim']>['pendingDamageNums']>
+
+/**
+ * SDLPal 在 OffMagic / Summon 主特效结束后先 PAL_BattleDisplayStatChange,紧接着
+ * PAL_BattleShowPostMagicAnim。因此攻击法术数字应挂在 PostMagic 第一帧,而不是整条
+ * battleAnim 播完后。
+ */
+function attachDamageNumsToFirstFrame(frames: BattleAnimFrame[], pendingNums: PendingDamageNums): boolean {
+  if (pendingNums.length === 0) return true
+  const first = frames[0]
+  if (!first) return false
+  first.damageNums = [...(first.damageNums ?? []), ...pendingNums]
+  return true
+}
+
+function addPendingEnemyDamageNumTargets(
+  state: BattleState,
+  hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }>,
+  pendingNums: PendingDamageNums,
+): void {
+  const seen = new Set(hurtEnemies.map((he) => he.idx))
+  for (const dn of pendingNums) {
+    if (dn.target.kind !== 'enemy') continue
+    if (seen.has(dn.target.idx)) continue
+    const pos = state.enemies[dn.target.idx]?.posOriginal
+    if (!pos) continue
+    hurtEnemies.push({ idx: dn.target.idx, pos })
+    seen.add(dn.target.idx)
+  }
+}
+
 /**
  * D17:为 player 攻击魔法 build PreMagic → OffMagic → PostMagic 链并 startBattleAnim。
  *
@@ -415,7 +456,8 @@ function buildAndStartMagicAnim(
   input: PerformMagicInput,
   magic: Magic,
   results: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number }>,
-  pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'],
+  pendingNums: PendingDamageNums,
+  pendingScreenShake: { time: number; level: number },
 ): boolean {
   if (!OFF_MAGIC_TYPES.has(magic.type)) return false
   const n = input.magicSpriteFrameCounts?.get(magic.effect)
@@ -456,6 +498,7 @@ function buildAndStartMagicAnim(
       fireDelay: magic.fireDelay,
       effectTimes: magic.effectTimes,
       shake: magic.shake,
+      scriptShake: pendingScreenShake.time > 0 ? { ...pendingScreenShake } : undefined,
       xOffset: magic.xOffset,
       yOffset: magic.yOffset,
       wave: magic.wave, // W4 屏波(present applyScreenWave)
@@ -485,10 +528,12 @@ function buildAndStartMagicAnim(
       if (pos) hurtEnemies.push({ idx: r.enemyIdx, pos })
     }
   }
+  addPendingEnemyDamageNumTargets(input.state, hurtEnemies, pendingNums)
   const postFrames = buildPostMagicTimeline({ hurtEnemies })
+  const numsAttached = attachDamageNumsToFirstFrame(postFrames, pendingNums)
 
   const chain: BattleAnimFrame[] = [...preFrames, ...offFrames, ...postFrames]
-  startBattleAnim(input.state, chain, input.bus, pendingNums)
+  startBattleAnim(input.state, chain, input.bus, numsAttached ? undefined : pendingNums)
   return true
 }
 
@@ -497,8 +542,8 @@ function buildAndStartMagicAnim(
  * (port fight.c:3072-3187 PAL_BattleShowPlayerSummonMagicAnim + fight.c:2380 PreMagic fSummon 分支)。
  *
  * 链:PreMagic(发起者上移 + 施法姿,跳过施法特效)→ 全员变亮 10 帧 → 召唤神序列(fadeIn crossfade →
- *   逐帧 loop → 二次法术效果 OffMagic → fadeOut crossfade)。伤害(召唤 magic.baseDamage + 施法者
- *   magicStrength)已由上方 inline 路径结算,数字延迟到链末 emit(pendingNums)。
+ *   逐帧 loop → 二次法术效果 OffMagic → PostMagic 敌受击 → fadeOut crossfade)。伤害(召唤
+ *   magic.baseDamage + 施法者 magicStrength)已由上方 inline 路径结算,数字挂 PostMagic 第一帧。
  *
  * 前置:summonSpriteFrameCounts 有召唤神精灵帧数(F.MKF chunk = special+10)+ 发起者底锚。
  *   缺 → 返回 false 走即时路径(向后兼容)。二次效果 magic(magic.effect 指向的 magic)缺则只演召唤神不放二次效果。
@@ -507,7 +552,7 @@ function buildAndStartSummonAnim(
   input: PerformMagicInput,
   magic: Magic,
   dmgResults: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number }>,
-  pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'],
+  pendingNums: PendingDamageNums,
 ): boolean {
   if (magic.type !== 'summon') return false
   const summonChunk = magic.special + 10 // F.MKF chunk = wSummonEffect + 10(fight.c:3135)
@@ -557,7 +602,9 @@ function buildAndStartSummonAnim(
       if (pos) hurtEnemies.push({ idx: r.enemyIdx, pos })
     }
   }
+  addPendingEnemyDamageNumTargets(input.state, hurtEnemies, pendingNums)
   const postMagicFrames = buildPostMagicTimeline({ hurtEnemies })
+  const numsAttached = attachDamageNumsToFirstFrame(postMagicFrames, pendingNums)
 
   // 召唤神序列(fadeIn 72 步 crossfade → 逐帧 loop → 二次效果 → **PostMagic 敌抖(神留场)** → fadeOut 72 步 crossfade)。
   //   PostMagic 排在 fadeOut 前(fight.c:4323 神在场 → 899 后淡出);present summonGodMode 下仍画敌(present-battle.ts:191
@@ -572,7 +619,7 @@ function buildAndStartSummonAnim(
     postMagicFrames,
   })
 
-  startBattleAnim(input.state, [...preFrames, ...brightenFrames, ...godFrames], input.bus, pendingNums)
+  startBattleAnim(input.state, [...preFrames, ...brightenFrames, ...godFrames], input.bus, numsAttached ? undefined : pendingNums)
   if (input.state.battleAnim) input.state.battleAnim.hasSummonFade = true // present 据此在非 fade 帧快照场景
   return true
 }
@@ -584,14 +631,27 @@ function buildAndStartSummonAnim(
  */
 function buildAndStartTranceAnim(
   input: PerformMagicInput,
-  pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'],
+  pendingNums: PendingDamageNums,
   opts: { spriteBefore: number | undefined, spriteAfter: number | undefined },
 ): boolean {
   const player = input.state.players[input.casterIdx]
   if (!player)
     return false
+  if (!player.posOriginal)
+    return false
   if (opts.spriteBefore === undefined) delete player.spriteNumOverride
   else player.spriteNumOverride = opts.spriteBefore
+
+  const role = input.playerRoles.roles[player.roleId]
+  const battleSpriteId = role?.spriteNumInBattle ?? 0
+  const castListVal = input.battleEffectIndex?.[battleSpriteId * 2 + 0] ?? 0
+  const preFrames = buildPreMagicTimeline({
+    casterPos: player.posOriginal,
+    casterIdx: input.casterIdx,
+    castEffectFrameBase: castListVal * 10 + 15,
+    isSummon: false,
+    castSound: role?.magicSound ?? 0,
+  })
 
   const frames: BattleAnimFrame[] = []
   for (let i = 0; i < 6; i++) {
@@ -609,7 +669,7 @@ function buildAndStartTranceAnim(
       spriteNumOverride: opts.spriteAfter === undefined ? (opts.spriteBefore ?? null) : opts.spriteAfter,
     }],
   })
-  startBattleAnim(input.state, frames, input.bus, pendingNums)
+  startBattleAnim(input.state, [...preFrames, ...frames], input.bus, pendingNums)
   return true
 }
 
@@ -630,7 +690,7 @@ function buildAndStartTranceAnim(
 function buildAndStartDefMagicAnim(
   input: PerformMagicInput,
   magic: Magic,
-  pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'],
+  pendingNums: PendingDamageNums,
 ): boolean {
   if (magic.type !== 'applyToPlayer' && magic.type !== 'applyToParty') return false
   const n = input.magicSpriteFrameCounts?.get(magic.effect)
@@ -701,8 +761,9 @@ function buildAndStartDefMagicAnim(
 function buildAndStartEnemyMagicAnim(
   input: PerformMagicInput,
   magic: Magic,
-  pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'],
+  pendingNums: PendingDamageNums,
   hitPlayerIdxs: number[],
+  pendingScreenShake: { time: number; level: number },
 ): boolean {
   if (!OFF_MAGIC_TYPES.has(magic.type)) return false
   const n = input.magicSpriteFrameCounts?.get(magic.effect)
@@ -747,6 +808,7 @@ function buildAndStartEnemyMagicAnim(
       fireDelay: magic.fireDelay,
       effectTimes: magic.effectTimes,
       shake: magic.shake,
+      scriptShake: pendingScreenShake.time > 0 ? { ...pendingScreenShake } : undefined,
       xOffset: magic.xOffset,
       yOffset: magic.yOffset,
       wave: magic.wave, // W4 屏波(present applyScreenWave)
@@ -779,12 +841,13 @@ function buildAndStartEnemyMagicAnim(
     .map((idx) => ({ idx, pos: input.state.players[idx]?.posOriginal }))
     .filter((a): a is { idx: number; pos: { x: number; y: number } } => a.pos != null)
   const hurtFrames = buildPlayerMagicHitReaction(affected)
+  const numsAttached = attachDamageNumsToFirstFrame(hurtFrames, pendingNums)
 
   startBattleAnim(
     input.state,
     [...introFrames, posResetFrame, ...effectFrames, ...hurtFrames],
     input.bus,
-    pendingNums,
+    numsAttached ? undefined : pendingNums,
   )
   return true
 }

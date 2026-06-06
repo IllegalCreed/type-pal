@@ -17,6 +17,7 @@ import {
   startOverworldItemScript, setSceneLoader,
   OP_PLAY_MUSIC, OP_PLAY_SOUND, OP_FADE_OUT, OP_FADE_IN, OP_SCENE_FADE, OP_PALETTE_FADE, OP_COLOR_FADE,
   OP_FADE_TO_RED, OP_FADE_TO_SCENE, tickSceneAutoFadeIn, OP_REDRAW_SCREEN, OP_RESTORE_SCREEN,
+  OP_SHAKE_SCREEN,
   OP_SET_RNG, OP_PLAY_RNG, OP_WAVE_SCREEN, setRngPlayHandler, type RngPlayHandlerInput,
   OP_SHOW_FBP, setShowFbpHandler, type ShowFbpHandlerInput,
   OP_SCROLL_FBP, setScrollFbpHandler,
@@ -405,6 +406,26 @@ describe('runScript (M3 T17, battle mode)', () => {
     })
     expect(ctx2.state.enemyEscapeAnim).toEqual({ step: 0 }) // 立即跑
     expect(ctx2.state.battleDialogQueue ?? []).toEqual([])    // 未入队
+  })
+
+  it('battle raw 0x35:缓冲到 pendingScreenShake,不提前写全局 shakeTime', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const ctx = { ...makeMinimalBattleCtx(), gs, pendingScreenShake: { time: 0, level: 0 } }
+    runScript({
+      commands: [
+        { op: 'raw', opcode: OP_SHAKE_SCREEN, operands: [14, 0, 0] },
+        { op: 'end' },
+      ],
+      ip: 0,
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: ctx,
+    })
+
+    expect(gs.shakeTime).toBe(0)
+    expect(gs.shakeLevel).toBe(0)
+    expect(ctx.pendingScreenShake).toEqual({ time: 14, level: 4 })
   })
 
   it('runtimeMode=battle + 0x05 ClearDialog → 下条 showDialog 入队标 clearBefore', () => {
@@ -1884,7 +1905,7 @@ describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4',
     ])
     gs.eventCursor!.currentEventObjectId = 11
     tickEventSystem(gs, snap(), bus)
-    expect(gs.npcs[0]?.sState).toBe(-1 & 0xFFFF)
+    expect(gs.npcs[0]?.sState).toBe(-1)
   })
 
   it('operand[0]=explicit NPC id(1-based)→ 选别的 NPC', () => {
@@ -2041,7 +2062,7 @@ describe('对话框样式复位(sdlpal PAL_EndDialog text.c:1814 → kDialogUppe
 })
 
 describe('opcode 0x0065 setPlayerSprite(sdlpal script.c:1999-2004)— fix4', () => {
-  it('operand[0]=0 (主角) + operand[1]=spriteId → 写 gs.partyLeaderSpriteId', () => {
+  it('operand[0]=0 (主角) + operand[1]=spriteId → 写 runtime rgwSpriteNum + 兼容 partyLeaderSpriteId', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
@@ -2049,10 +2070,11 @@ describe('opcode 0x0065 setPlayerSprite(sdlpal script.c:1999-2004)— fix4', () 
       { op: 'end' },
     ])
     tickEventSystem(gs, snap(), bus)
+    expect(gs.PlayerRolesRuntime.rgwSpriteNum[0]).toBe(18)
     expect(gs.partyLeaderSpriteId).toBe(18)
   })
 
-  it('operand[0] != 0(非主角)→ no-op(M5 简版仅支持队长)', () => {
+  it('operand[0] != 0(非主角)→ 写对应角色 rgwSpriteNum,不污染队长', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
@@ -2060,6 +2082,7 @@ describe('opcode 0x0065 setPlayerSprite(sdlpal script.c:1999-2004)— fix4', () 
       { op: 'end' },
     ])
     tickEventSystem(gs, snap(), bus)
+    expect(gs.PlayerRolesRuntime.rgwSpriteNum[1]).toBe(18)
     expect(gs.partyLeaderSpriteId).toBeUndefined()
   })
 })
@@ -2647,6 +2670,28 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
     }
   })
 
+  it('sState<=0 或 sVanishTime!=0 → autoScript 不跑(隐藏怪不在后台追逐/移动)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [
+      { id: 1, x: 0, y: 0, spriteNum: 1, sState: -1, autoCursor: { ip: 0 } },
+      { id: 2, x: 0, y: 0, spriteNum: 1, sState: 1, sVanishTime: 5, autoCursor: { ip: 0 } },
+    ]
+    setGlobalEvents([
+      { op: 'raw', opcode: OP_MOVE_OBJECT, operands: [0, 8, 4] },
+      { op: 'end' },
+    ])
+    try {
+      tickAutoScripts(gs)
+      expect(gs.npcs.map((n) => ({ x: n.x, y: n.y, ip: n.autoCursor?.ip }))).toEqual([
+        { x: 0, y: 0, ip: 0 },
+        { x: 0, y: 0, ip: 0 },
+      ])
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+
   it('0x0003 goto frameDelay:循环体每帧跑(非空等)+ 计数满后 fall-through(仙灵岛赵灵儿降临 L_5572 真值)', () => {
     // sdlpal PAL_RunAutoScript case 0x0003(script.c:3549-3564):
     //   if (op[1]==0 || ++count < op[1]) { wScriptEntry=op[0]; goto begin(同帧跑目标) }
@@ -2887,6 +2932,34 @@ describe('0x81 jumpIfNotFacing(用桂花酒对酒剑仙 — 设对象 triggerMod
     gs.eventCursor!.currentEventObjectId = 0xFFFF // applyToAll 物品上下文(self 找不到)
     tickEventSystem(gs, snap(), bus)
     expect(gs.npcs[0]?.triggerMode).toBe(6) // 5+op1=6,设到 pCurrent(id5)非 self
+    expect(gs.fScriptSuccess).toBe(true)
+  })
+
+  it('未面对 / 对象不存在 → jump op2 且 fScriptSuccess=false(script.c:2402/2432)', () => {
+    const bus = createCommandBus()
+    const gsMiss = createInitialGameState({ x: 100, y: 50, facing: 'down' })
+    gsMiss.npcs = [{ id: 5, x: 116, y: 42, spriteNum: 1, sState: 1, triggerMode: 1 }]
+    gsMiss.fScriptSuccess = true
+    loadEvent(gsMiss, [
+      { op: 'raw', opcode: 0x81, operands: [6, 1, 2] },
+      { op: 'raw', opcode: OP_SET_RNG, operands: [111, 0, 0] },
+      { op: 'end' },
+    ])
+    gsMiss.eventCursor!.currentEventObjectId = 0xFFFF
+    tickEventSystem(gsMiss, snap(), bus)
+    expect(gsMiss.iCurPlayingRNG).toBe(0)
+    expect(gsMiss.fScriptSuccess).toBe(false)
+
+    const gsMissing = createInitialGameState({ x: 100, y: 50, facing: 'up' })
+    gsMissing.fScriptSuccess = true
+    loadEvent(gsMissing, [
+      { op: 'raw', opcode: 0x81, operands: [6, 1, 2] },
+      { op: 'raw', opcode: OP_SET_RNG, operands: [111, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gsMissing, snap(), bus)
+    expect(gsMissing.iCurPlayingRNG).toBe(0)
+    expect(gsMissing.fScriptSuccess).toBe(false)
   })
 })
 
@@ -2930,6 +3003,83 @@ describe('pCurrent(operand[0] 选对象)对象 opcode 类(对齐 sdlpal pCurrent
     expect(gs.npcs[0]?.x).toBe(216)     // facing right → party.x + 16
     expect(gs.npcs[0]?.y).toBe(108)     // party.y + 8
     expect(gs.npcs[0]?.sState).toBe(1)  // sState = op1
+    expect(gs.fScriptSuccess).toBe(true)
+  })
+
+  it('0x84 placeUsedItem:sState op1 按 SHORT 写入,0xFFFF → -1', () => {
+    setObstacleChecker(null)
+    const gs = createInitialGameState({ x: 200, y: 100, facing: 'right' })
+    const bus = createCommandBus()
+    gs.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 0 }]
+    loadEvent(gs, [{ op: 'raw', opcode: 0x84, operands: [8, 0xFFFF, 999] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.npcs[0]?.sState).toBe(-1)
+  })
+
+  it('0x83 jumpIfObjNotInZone:对象不在 zone / 当前对象缺失 → jump op2 且 fScriptSuccess=false(script.c:2448-2471)', () => {
+    const bus = createCommandBus()
+    const gsFar = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gsFar.npcs = [
+      { id: 5, x: 0, y: 0, spriteNum: 1, sState: 1 },
+      { id: 7, x: 1000, y: 1000, spriteNum: 1, sState: 1 },
+    ]
+    gsFar.fScriptSuccess = true
+    loadEvent(gsFar, [
+      { op: 'raw', opcode: 0x83, operands: [8, 1, 2] },
+      { op: 'raw', opcode: OP_SET_RNG, operands: [111, 0, 0] },
+      { op: 'end' },
+    ])
+    gsFar.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gsFar, snap(), bus)
+    expect(gsFar.iCurPlayingRNG).toBe(0)
+    expect(gsFar.fScriptSuccess).toBe(false)
+
+    const gsMissingSelf = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gsMissingSelf.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 1 }]
+    gsMissingSelf.fScriptSuccess = true
+    loadEvent(gsMissingSelf, [
+      { op: 'raw', opcode: 0x83, operands: [8, 1, 2] },
+      { op: 'raw', opcode: OP_SET_RNG, operands: [111, 0, 0] },
+      { op: 'end' },
+    ])
+    gsMissingSelf.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gsMissingSelf, snap(), bus)
+    expect(gsMissingSelf.iCurPlayingRNG).toBe(0)
+    expect(gsMissingSelf.fScriptSuccess).toBe(false)
+  })
+
+  it('0x84 placeUsedItem:对象不存在或前方有障碍 → jump op2 且 fScriptSuccess=false(script.c:2484/2501)', () => {
+    const bus = createCommandBus()
+    const gsMissing = createInitialGameState({ x: 200, y: 100, facing: 'right' })
+    gsMissing.fScriptSuccess = true
+    loadEvent(gsMissing, [
+      { op: 'raw', opcode: 0x84, operands: [8, 1, 2] },
+      { op: 'raw', opcode: OP_SET_RNG, operands: [111, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gsMissing, snap(), bus)
+    expect(gsMissing.iCurPlayingRNG).toBe(0)
+    expect(gsMissing.fScriptSuccess).toBe(false)
+
+    const gsBlocked = createInitialGameState({ x: 200, y: 100, facing: 'right' })
+    gsBlocked.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 0 }]
+    gsBlocked.fScriptSuccess = true
+    setObstacleChecker((x, y) => x === 216 && y === 108)
+    try {
+      loadEvent(gsBlocked, [
+        { op: 'raw', opcode: 0x84, operands: [8, 1, 2] },
+        { op: 'raw', opcode: OP_SET_RNG, operands: [111, 0, 0] },
+        { op: 'end' },
+      ])
+      tickEventSystem(gsBlocked, snap(), bus)
+      expect(gsBlocked.iCurPlayingRNG).toBe(0)
+      expect(gsBlocked.fScriptSuccess).toBe(false)
+      expect(gsBlocked.npcs[0]).toMatchObject({ x: 0, y: 0, sState: 0 })
+    }
+    finally {
+      setObstacleChecker(null)
+    }
   })
 })
 
@@ -3031,6 +3181,20 @@ describe('A1 opcode:0x40 setTriggerMethod / 0x55 addMagic / 0x56 removeMagic / 0
     loadEvent(gs, [{ op: 'raw', opcode: 0x9a, operands: [4, 6, 2] }, { op: 'end' }])
     tickEventSystem(gs, snap(), bus)
     expect(gs.allEventObjects.map((n) => n.sState)).toEqual([1, 1, 1, 2, 2, 2]) // id 3/4/5 全改(含跨 scene)
+  })
+
+  it('0x9A setMultiState:op2 按 SHORT 写入,0xFFFF → -1(隐藏态)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.allEventObjects = [
+      { id: 0, x: 0, y: 0, spriteNum: 0, sState: 1 },
+      { id: 1, x: 0, y: 0, spriteNum: 1, sState: 1 },
+      { id: 2, x: 0, y: 0, spriteNum: 1, sState: 1 },
+    ]
+    gs.npcs = [gs.allEventObjects[1]!, gs.allEventObjects[2]!]
+    const bus = createCommandBus()
+    loadEvent(gs, [{ op: 'raw', opcode: 0x9a, operands: [2, 3, 0xFFFF] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.allEventObjects.map((n) => n.sState)).toEqual([1, -1, -1])
   })
 })
 
@@ -4123,6 +4287,29 @@ describe('特效 B/C opcode(RNG 0x36/0x37 + wave 0x71)', () => {
       expect(captured!.startFrame).toBe(10)
       expect(captured!.endFrame).toBe(-1) // op1=0 → -1(播到末帧)
       expect(captured!.speed).toBe(16) // op2=0 → 16 默认
+      expect(captured!.fadeIn).toBe(false)
+      expect(gs.eventCursor?.waiting).toBe('rng-play')
+    }
+    finally {
+      setRngPlayHandler(null)
+    }
+  })
+
+  it('0x50 后 0x37:首帧消费 needToFadeIn,恢复稳定 palette 并请求 RNG 淡入(山神庙传剑 CG)', () => {
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.needToFadeIn = true
+    gs.palette = makeWorkingPaletteFor([0, 0, 0])
+    gs.basePalette = makeWorkingPaletteFor([180, 120, 60])
+    let captured: RngPlayHandlerInput | undefined
+    setRngPlayHandler((input) => { captured = input })
+    try {
+      loadEvent(gs, [{ op: 'raw', opcode: OP_PLAY_RNG, operands: [0, 112, 16] }, { op: 'end' }])
+      tickEventSystem(gs, snap(), bus)
+
+      expect(captured?.fadeIn).toBe(true)
+      expect(gs.needToFadeIn).toBe(false)
+      expect(gs.palette?.colors[0]).toEqual([180, 120, 60])
       expect(gs.eventCursor?.waiting).toBe('rng-play')
     }
     finally {

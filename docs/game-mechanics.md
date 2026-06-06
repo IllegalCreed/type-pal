@@ -418,7 +418,7 @@ sDamage = PAL_CalcMagicDamage(str, 敌防, 敌元素抗, 敌毒抗, mult=1, 合�
 
 合击回合 `fThisTurnCoop = TRUE`([fight.c:3858](../reference/sdlpal/fight.c#L3858))→ 该回合所有参与成员的**普攻 / 防御 / 逃跑 / 单独施法全部被跳过**(各 action case 开头 `if(g_Battle.fThisTurnCoop) break;`,见 [fight.c:3620, 4112, 4121, 4176, 4334](../reference/sdlpal/fight.c#L3620))。整队这一回合只做这一次合击。
 
-ts 实现状态:**未实现**(无 `kBattleActionCoopMagic` 编排 / `coopContributors` / `fThisTurnCoop`)。
+ts 实现状态:**已实现**。`performCoopMagic` 会筛选 healthy 参与者、扣除 HP 代价、计算伤害并生成聚拢 / 施法 / 法术特效 / 归位动画;回合队列也会跳过同轮其他参与者动作。若执行前只剩一名 healthy 队员,会按原版退化成普通攻击并保留普攻动画。
 
 ---
 

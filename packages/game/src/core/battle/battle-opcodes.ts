@@ -100,8 +100,9 @@ function emitDamageNum(
     return
   const color = after < before ? 'blue' : 'yellow'
   const value = after < before ? (fullDamage ?? before - after) : after - before
-  // 顺序修(2026-06-05):有 pendingDamageNums 缓冲(performMagic 施法注入)→ push 延迟到动画时间线播完后;
-  //   无缓冲(item/throw/敌回合毒 tick)→ 即时 emit(向后兼容)。对照 sdlpal DisplayStatChange 在动画后(fight.c:4322)。
+  // 顺序修(2026-06-05):有 pendingDamageNums 缓冲(performMagic 施法注入)→ push 进动作缓冲,
+  //   由 action 决定挂 PostMagic 第一帧或链末 fallback;无缓冲(item/throw/敌回合毒 tick)→ 即时 emit。
+  //   对照 sdlpal DisplayStatChange 在动画后、PostMagic 前/开始(fight.c:4322-4323)。
   if (ctx.pendingDamageNums)
     ctx.pendingDamageNums.push({ target: { kind, idx }, value, color })
   else
@@ -732,7 +733,8 @@ export function dispatchBattleOpcode(
       // sdlpal `script.c:003A`:if (fIsBoss) jump op0; else PAL_BattlePlayerEscape()。
       if (state.isBoss)
         return { consumed: true, newIp: operands[0] ?? 0 }
-      state.phase = 'fleed'
+      state.fleeAnim = { step: 0 }
+      if (ctx.gs) (ctx.gs.pendingSounds ??= []).push(45) // battle.c:1459 AUDIO_PlaySound(45)
       return { consumed: true }
     }
 

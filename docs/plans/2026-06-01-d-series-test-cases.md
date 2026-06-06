@@ -344,13 +344,13 @@ startBattle 真流程(逐行已读):按 enemyTeamId 找 team(找不到 throw,lin
 
 **已知边界/排除**: 不该当"sdlpal 忠实真值"核的简版/偏离子部分:
 
-1. fleeRate 取 raw base(简版)。flee.ts:7,36 用 `str = role.fleeRate`(基础值),而 sdlpal fight.c:4124 真值是 `PAL_GetPlayerFleeRate(wPlayerRole)`(会叠装备等有效值)。所以"成功率随装备/有效逃跑率变"这条不可核——本实现只读 raw base。逃跑能成/能败可测,但别拿来核 sdlpal 有效 fleeRate 公式。
+1. fleeRate 现取 `getPlayerFleeRate(gs, roleId)`(base + 装备加成),可核 sdlpal `PAL_GetPlayerFleeRate` 有效逃跑率；旧版 raw base 注释已过时。
 
 2. 16 步每步像素位移**主动偏离 sdlpal**。battle-system.ts:1385-1391 fleeStepDelta 返回统一 [5,4](全员右下同向同速),代码注释明示这是 user 2026-05-31 拍板"忠于原版三人同向",**故意不照** sdlpal battle.c:1486-1505 的扇形 p0 +4/+6·p1 +4/+4·p2 +6/+3。**不要逐像素对齐 sdlpal**,这是有意设计偏离;可核的是"16 步右下移 + 末步移出屏"这个结构。
 
-3. 逃跑失败动画+文字。flee.ts:57-62 走 buildFleeFailTimeline(3 步右下挪+濒死帧)+ emit showBattleMessage('逃跑失败',320ms),对应 sdlpal fight.c:4155-4170(3 步 dash + frame 1 + BATTLE_LABEL_ESCAPEFAIL)。已实现但属次要演出,失败分支建议肉眼粗看,不要求逐帧对齐。
+3. 逃跑失败动画+文字。flee.ts 走 buildFleeFailTimeline(3 步右下挪+濒死帧),末帧同步 showBattleMessage('逃跑失败',320ms),对应 sdlpal fight.c:4155-4170(3 步 dash + frame 1 + BATTLE_LABEL_ESCAPEFAIL)。
 
-4. 音效 45(battle.c:1459 AUDIO_PlaySound(45))未实现——battle-system.ts:1397 注释明示"走 M6 音频,本期跳过"。逃跑时**不会有音效**,别当 bug。
+4. 音效 45(battle.c:1459 AUDIO_PlaySound(45))已接入 `gs.pendingSounds`；普通逃跑成功、脚本 0x3A、敌逃 0x69 都走同一 sound id。
 
 5. boss 禁逃路径(flee.ts:32 `if(state.isBoss)return` ↔ fight.c:4143 `&& !g_Battle.fIsBoss`)代码存在,但 battle-fixtures.json 全 6 条 fixture 的 isBoss 均为空(非 boss),dev panel B picker 选不到 boss 队,真机无法便捷构造 boss 战。故不给 boss 禁逃用例,仅标注该路径存在。
 
@@ -358,7 +358,7 @@ startBattle 真流程(逐行已读):按 enemyTeamId 找 team(找不到 throw,lin
 - **前置**: URL 加 ?skip-intro=1 进李逍遥房间(mode='explore')。按 B 开 battle picker(dev-panel.ts:160),点 ⛔Battle Fixtures 里的 'fixture-zh1'(队长 lv10 vs 弱怪,isBoss 空=非 boss,flee.ts:32 不早退)→ 进战斗。
 - **操作**: 进战斗等到出现动作主菜单(四图标,uiState='selectMove'/menuState='main')。直接按键盘 **Q**(KeyQ→'Flee',input.ts:58 → battle-system.ts:826-827 commitFleeAllPlayers)。若这一次 roll 偏大失败(角色未滑出屏、战斗继续),等轮到该队员再按 Q 重试,直到看到成功滑出。
 - **预期**: sdlpal fight.c:4119-4148 kBattleActionFlee:str=PAL_GetPlayerFleeRate;def=Σ(rgEnemy.wDexterity+(wLevel+6)*4)(fight.c:4127-4136);`str>=RandomLong(0,def) && !fIsBoss`(fight.c:4143)为真→PAL_BattlePlayerEscape(fight.c:4148 / battle.c:1438-1528):全活队员置站立帧(battle.c:1467-1471)、`for(i=0;i<16;i++)` 16 步右下移(battle.c:1473-1515)、末了全员 pos=PAL_XY(9999,9999)(battle.c:1520-1523)、BattleResult=kBattleResultFleed(battle.c:1527)。ts 对应:flee.ts:48-51 str>=roll → state.fleeAnim={step:0};battle-system.ts:1399-1421 tickBattleFleeAnim 每 tick 推 1 步(fleeStepDelta=[5,4] 右下,1389-1391),满 16 步置全员 pos=(9999,9999)+ state.phase='fleed'(1416-1418)→ 下 tick finalizeBattle(2123-2138,phase 'fleed' 无 hp 改动无奖励)→ mode='explore'、battleState=undefined。
-- **验证**: (a) 肉眼:队员向屏幕右下方滑动直到滑出画面,随后战斗界面消失、回到李逍遥房间探索画面(不弹胜利结算屏)。注:逃跑无音效(见 excludedNote 4)。(b) 数据级在 console:成功瞬间 `window.__game.gs.battleState.fleeAnim`(battle-state.ts:441)从 {step:0} 递增,连续查 .step 可看到 0→16;进入末步后 `window.__game.gs.battleState.players[i].pos`(battle-state.ts:60)全部 = {x:9999,y:9999};随后 `window.__game.gs.battleState.phase==='fleed'`(battle-state.ts:183);finalize 后 `window.__game.gs.battleState===undefined` 且 `window.__game.gs.mode==='explore'`(game-state.ts:569 mode / :613 battleState;__game hook bootstrap.ts:796-798)。
+- **验证**: (a) 肉眼:队员向屏幕右下方滑动直到滑出画面,随后战斗界面消失、回到李逍遥房间探索画面(不弹胜利结算屏),并播放逃跑音效 45。(b) 数据级在 console:成功瞬间 `window.__game.gs.battleState.fleeAnim`(battle-state.ts:441)从 {step:0} 递增,连续查 .step 可看到 0→16;进入末步后 `window.__game.gs.battleState.players[i].pos`(battle-state.ts:60)全部 = {x:9999,y:9999};随后 `window.__game.gs.battleState.phase==='fleed'`(battle-state.ts:183);finalize 后 `window.__game.gs.battleState===undefined` 且 `window.__game.gs.mode==='explore'`(game-state.ts:569 mode / :613 battleState;__game hook bootstrap.ts:796-798)。
 
 ### D12-2 一人选逃跑 = 全队逃(三人队全活队员 action 都被置 flee)
 - **前置**: ?skip-intro=1。按 B 开 picker,选 'fixture-end'(通关前满级 3 人,partyMembers=[0,1,2],isBoss 空)—— 这样 battleState.players 是 3 人,才能观察'全队'。(注:fixture 自带 partyMembers 会覆盖 P 键,所以用三人 fixture 而非 P。)
@@ -367,9 +367,9 @@ startBattle 真流程(逐行已读):按 enemyTeamId 找 team(找不到 throw,lin
 - **验证**: (a) 肉眼:成功时是整队三人一起向右下滑出屏,不是单人逃。(b) 数据级在 performAction 前查 `window.__game.gs.battleState.pendingActions`(battle-state.ts:354,Map<number,BattleAction>):打印 `[...window.__game.gs.battleState.pendingActions.values()].map(a=>a.type)` 应全是 'flee',且 `.map(a=>a.target)` 全是 -1;每个活着的队员索引都在 Map 里,死员(rgwHP<=0,battle-system.ts:1406 跳过)不在。
 
 ### D12-3 逃跑失败 → 不切 phase、不设 fleeAnim、战斗继续(可重试)
-- **前置**: ?skip-intro=1。按 B 选 'fixture-end'(3 人 vs 五毒巨蟝×2+金蟾 多敌高 dex)—— def=Σ(dex+(level+6)*4)(fight.c:4127-4136)偏大,使 RandomLong(0,def) 容易超过 raw fleeRate 导致较多失败。
+- **前置**: ?skip-intro=1。按 B 选 'fixture-end'(3 人 vs 五毒巨蟝×2+金蟾 多敌高 dex)—— def=Σ(dex+(level+6)*4)(fight.c:4127-4136)偏大,使 RandomLong(0,def) 容易超过有效 fleeRate 导致较多失败。
 - **操作**: 进战斗动作主菜单,按 **Q** 选逃跑。观察这一次若失败的表现:角色未滑出屏、战斗界面不消失。(多试几次总能撞上一次失败。)
-- **预期**: sdlpal fight.c:4150-4171 else 分支:逃跑失败播 3 步 dash-back + wCurrentFrame=1(濒死姿)+ BATTLE_LABEL_ESCAPEFAIL 文字(fight.c:4155-4168),不退出战斗。ts:flee.ts:53-63 str<roll 时**不设 fleeAnim、不切 phase**,只起 buildFleeFailTimeline + emit showBattleMessage('逃跑失败',320ms);该队员该回合相当于空过,战斗继续推进到下一行动者/敌人(flee.ts:15 注释)。
+- **预期**: sdlpal fight.c:4150-4171 else 分支:逃跑失败播 3 步 dash-back + wCurrentFrame=1(濒死姿)+ BATTLE_LABEL_ESCAPEFAIL 文字(fight.c:4155-4168),不退出战斗。ts:flee.ts str<roll 时**不设 fleeAnim、不切 phase**,只起 buildFleeFailTimeline,末帧显示 showBattleMessage('逃跑失败',320ms);该队员该回合相当于空过,战斗继续推进到下一行动者/敌人。
 - **验证**: (a) 肉眼:角色短促向右下挪一下又复位(或显示'逃跑失败'提示),战斗界面不消失、轮到敌人/下一队员继续行动。(b) 数据级在失败后查:`window.__game.gs.battleState.fleeAnim===undefined`(battle-state.ts:441,失败不设此字段)且 `window.__game.gs.battleState.phase` 仍为 'performAction'/'postAction'/'selectAction' 之一、**不是** 'fleed'(battle-state.ts:176-183);`window.__game.gs.battleState` 仍存在、`window.__game.gs.mode==='battle'`(战斗未结束)。
 
 ---
@@ -456,11 +456,11 @@ D14 主体(6 stat 加成 getter / 0x17·0x19·0x1A 写入 / 0x2D DualAttack / 0x
 
 【验证字段的硬限制 —— 这是本 D 项最大的不可测点】performCoopMagic 扣的是战斗局部投影对象 res.playerRoles.roles[roleId].hp(battle-system.ts:1973-1983 传入 projectRuntimeToBattleRoles 产物，bootstrap.ts:847 是 startBattleHandler 内的局部变量)。该对象【不挂在 gs 上】，window.__game 只暴露 { gs, assets, presentCtx }(bootstrap.ts:796-798)。因此【战斗进行中无法用 gs 读到队员 coop 扣血的精确值】——gs.PlayerRolesRuntime.rgwHP[roleId] 只有在战斗结束 writeBackBattleRolesToRuntime(game-state.ts:1318-1329) 回写后才更新。所以队员 HP 代价的数据级验证只能【打完整场战斗后】读 gs.PlayerRolesRuntime.rgwHP[roleId]，或【战斗中肉眼看队员 HP 条】，无法在 console 精确取中途值。敌人血量没有此问题：gs.battleState.enemies[i].e.health 是 gs 上实时对象(battle-state.ts:73-76 BattleEnemy.e: Enemy，单测亦读 state.enemies[0]!.e.health)，可实时读。
 
-【默认合击是单体，不是全体】roles 0/1/2 的 base cooperativeMagic = obj 386/381/339 → magicNumber 86/79/88，全部 type='normal' / applyToAll=false / usableToEnemy=true(object-magics.json + magic.json 真值核对)。所以默认 3 人队发起协力是【单体】伤害(走 fight.c:4026-4043 单体分支)，不会自动打全体。要测「全体分支」(fight.c:4000-4024 sTarget=-1)必须装备能改合击且 applyToAll 的法宝(如圣灵珠 obj 351，equip-effect row 65 override)——但 picker 无装备入口，本仓库【无现成途径让默认队触发全体协力】，故全体分支(D16-1 原稿)我【撤销，不给可照做用例】，标为不可真机验。
+【默认合击是单体，不是全体】roles 0/1/2 的 base cooperativeMagic = obj 386/381/339 → magicNumber 86/79/88，全部 type='normal' / applyToAll=false / usableToEnemy=true(object-magics.json + magic.json 真值核对)。所以默认 3 人队发起协力是【单体】伤害(走 fight.c:4026-4043 单体分支)，不会自动打全体。装备改合击可触发全体/召唤分支,例如圣灵珠 row65 覆盖到 obj351「武神」(summon)。
 
-【装备 override 改合击子部分 = 不可真机验】projectRuntimeToBattleRoles:1246 的 lastNonzeroEquip('rgwCooperativeMagic') 逻辑存在(装备末非 0 槽 override base coopMagic)，但触发它需要在战斗前给某 role 装上写 row 65 的法宝(圣灵珠 0x1A[65,351,0])。dev-panel 没有装备 UI、fixture playerOverrides 只支持 PlayerRole 标量字段不含 rgEquipmentEffect。所以「装备改合击 ID」这条【无法在真机复现】，只有单测覆盖(coop-magic.test.ts 用 coopObjId:351 直喂)。
+【装备 override 改合击子部分】projectRuntimeToBattleRoles 的 lastNonzeroEquip('rgwCooperativeMagic') 逻辑存在(装备末非 0 槽 override base coopMagic)。dev-panel 通用 fixture 不一定方便手动改装备,但真实角色/剧情装备可自然触发;巫后路径已暴露 obj351「武神」summon 型协力,并由 coop-magic.test.ts 覆盖。
 
-【其余未验子部分】(a) Summon 型协力(fight.c:3865-3869 kMagicTypeSummon 只播召唤动画不算 str 伤害)默认 3 magic 都不是 summon 型，无法真机触发；(b) 聚拢/施法/滑回动画(D17 合击 timeline)属 present 层，肉眼可看但非本 D 数据点。
+【其余未验子部分】聚拢/施法/滑回动画(D17 合击 timeline)属 present 层,肉眼可看但非本 D 数据点。Summon 型协力已按原版分支接入召唤神动画;伤害仍走本 D16 的 HP 代价 + str=Σ(攻+法)/4 结算链。
 
 ### D16-1 三人满血发起协力合击对单敌造成伤害(单体分支 + str=Σ(攻+法)/4)
 - **前置**: URL 加 ?skip-intro=1 进李逍遥房间。按 B 开 picker，点击「fixture-end: 通关前(满级 3 人 vs 强敌)」按钮(battle-fixtures.json:party=[0,1,2]，三人 hp/maxHP=9999 level99，全 healthy → 协力图标可选)。进战斗后等轮到李逍遥(role0)选动作。
@@ -477,7 +477,7 @@ D14 主体(6 stat 加成 getter / 0x17·0x19·0x1A 写入 / 0x2D DualAttack / 0x
 ### D16-3 协力图标的可选性门控:本人 healthy 且 healthy 人数>1 才能选(<=1 人不可发起)
 - **前置**: ?skip-intro=1 → B → 点「fixture-end」三人满血进战斗(此时三人全 healthy)。作为对照，再用 picker 顶部「战斗状态调试」section 或单人 fixture 制造仅 1 人 healthy 的局面(如 fixture-zh1 party=[0] 单人)。
 - **操作**: 局面 A(三人满血):轮到 role0 把光标移到第 3 图标「合击」，观察该图标是否【可选/高亮可 Confirm】。局面 B(单人 fixture-zh1):同样把光标移到「合击」，观察是否【被禁用/灰显/Confirm 无反应】。
-- **预期**: sdlpal CLASSIC fight.c 协力门控 = 本人 PAL_IsPlayerHealthy 且全队 healthy 人数>1(wMaxPartyMemberIndex>0)。battle-system.ts:618-642 isActionValid case 2 即此:state.players.length<=1 → false;统计 healthy 数，return isPlayerHealthy(本人) && healthy>1。单人队 → case 2 返回 false → 协力图标不可选。即使执行端到了 coop-magic.ts:81 也有 contributors.length<=1 → return 的二次防御。
+- **预期**: sdlpal CLASSIC fight.c 协力门控 = 本人 PAL_IsPlayerHealthy 且全队 healthy 人数>1(wMaxPartyMemberIndex>0)。healthy 的濒死阈值为 `min(100,maxHP/5)`,不是无上限的 `maxHP/5`。battle-system.ts 的 `isActionValid` case 2 会统计 healthy 人数,本人 healthy 且人数>1 时才允许选择。单人队因此无法发起;若选定后因状态变化导致执行时只剩一名 healthy 队员,coop-magic.ts 会按原版退化为普通攻击并播放普攻动画,不会静默跳过。
 - **验证**: (a) 肉眼:三人满血时「合击」图标可正常选中并进入目标选择;单人队时「合击」图标无法 Confirm(被门控)。(b) 数据级:进战斗后 console 读 window.__game.gs.battleState 确认 players.length(三人=3/单人=1)、selectedAction(方向键移到合击应=2，battle-state.ts:382)、uiState(三人发动后应短暂为 'selectTargetEnemy'，单人则停留 'selectMove'/menuState 'main')。字段 gs.battleState.players / selectedAction / uiState 已对 battle-state.ts:341/382/372 确认。
 
 ---
@@ -569,7 +569,7 @@ devpanel 键的精确行为(B 选敌队/P 三人/I 加道具/M 学法术/L 满�
 - **前置**: 按 'P' 强制三人入队(友方目标需多人才能切)。按 'I' 加一个「可使用」的恢复类物品(如回血药)。然后 'B' 进普通敌队。在主菜单。
 - **操作**: 主菜单按下选「杂项」→Confirm → 在杂项盒选「道具」(cursor 1)→Confirm 进物品二级 → 选「使用」(cursor 0)→Confirm 进物品网格 → 选那个恢复物品 →Confirm。进入选友方阶段后按 Down/Up 切队员,看哪个队员头顶有闪烁箭头。另外全程看当前行动队员头顶是否一直有一个闪烁箭头。
 - **预期**: 使用物品 → enterTargetForDraft(toEnemy=false)→ uiState='selectTargetPlayer' + uiCursor=selectingPlayerIdx(battle-system.ts:1040-1045/1071-1073,itemmenu use → 友方)。友方目标**有箭头**:sprite 67常/66红 闪烁画队员头顶 anchor.y-67(draw-battle-ui.ts:641-661,uibattle.c:1564-1576)。导航 Up/Down → uiCursor=(±1)%n(battle-system.ts:1170-1173,uibattle.c:1558-1620)。另外当前行动队员头顶**始终**有一个 CURRENTPLAYER 箭头(sprite 69常/68红,anchor.y-74)——uiState≠hidden/wait 时无条件画(draw-battle-ui.ts:228-231/622-634,uibattle.c:994-1007)。
-- **验证**: (a) 肉眼:进选友方阶段后某队员头顶出现闪烁箭头(红/常交替),按 Down/Up 箭头在队员间移动;同时当前行动队员头顶始终有另一个箭头闪烁。 (b) 数据级:进后 `gs.battleState.uiState==='selectTargetPlayer'`;初始 `gs.battleState.uiCursor===gs.battleState.selectingPlayerIdx`;按 Down/Up 后 uiCursor 在 0..players.length-1 循环;全程 `gs.battleState.selectingPlayerIdx` 是当前行动队员(头顶当前队员箭头指它)。若该物品是群体(applyToAll)则跳过选择直接 selectTargetPlayerAll + 画全体箭头(draw-battle-ui.ts:265-268)。
+- **验证**: (a) 肉眼:进选友方阶段后某队员头顶出现闪烁箭头(红/常交替),按 Down/Up 箭头在队员间移动;同时当前行动队员头顶始终有另一个箭头闪烁。 (b) 数据级:进后 `gs.battleState.uiState==='selectTargetPlayer'`;初始 `gs.battleState.uiCursor===gs.battleState.selectingPlayerIdx`;按 Down/Up 后 uiCursor 在 0..players.length-1 循环;全程 `gs.battleState.selectingPlayerIdx` 是当前行动队员(头顶当前队员箭头指它)。若该物品/法术是群体(applyToAll),CLASSIC 会同 tick 提交 target=-1,不画友方全体箭头。
 
 ---
 
@@ -843,9 +843,9 @@ verdict=partially-testable 的原因(诚实标注两处真机降可控):
 - **验证**: (a) 肉眼:选 D 后该队员摆出防御姿;本回合被敌物攻时掉血明显少于不防御基线。(b) 数据级:commit 后立即 console 查 window.__game.gs.battleState.players[i].defending === true(battle-state.ts:51 BattlePlayer.defending 已核字段;i=该队员在 players[] 下标)。该队员被物攻后,其 HP(战斗中走 live battle roles:battle-system.ts getBattleLiveRoles(gs).roles[roleId].hp,attack.ts:279 写此;若 shell 暴露则经 window.__game 读)掉血量应小于无防御回合;本回合结束(进下一轮)后 players[i].defending 回到 false。
 
 ### D2-3 逃跑成功:roll 通过 → 播逃跑滑出动画 → 退出战斗回场景(非 boss)
-- **前置**: ?skip-intro=1 进房间。按 B 选一支低 dexterity / 低 level 的弱敌队(逃跑成功率高:str=role.fleeRate vs def=Σ敌(dexterity+(level+6)*4),flee.ts:35-48)。不要选 boss(isBoss 战 performFlee 直接 return 不可逃,flee.ts:32)。逃跑键 = 杂项盒里'逃跑'或主菜单 Flee 快捷键(commitFleeAllPlayers,battle-system.ts:826-827)。
+- **前置**: ?skip-intro=1 进房间。按 B 选一支低 dexterity / 低 level 的弱敌队(逃跑成功率高:str=PAL_GetPlayerFleeRate 等价有效 fleeRate vs def=Σ敌(dexterity+(level+6)*4),flee.ts)。不要选 boss(isBoss 战 performFlee 直接 return 不可逃,flee.ts)。逃跑键 = 杂项盒里'逃跑'或主菜单 Flee 快捷键(commitFleeAllPlayers,battle-system.ts)。
 - **操作**: 轮到我方、主菜单 main 时按 Flee 快捷键(全队逃)。若失败(掉'逃跑失败'消息条)则下一轮再按,重复直到成功。
-- **预期**: sdlpal fight.c:4119-4148(kBattleActionFlee,flee.ts:30-63 port):roll=RandomLong(0,def),若 role.fleeRate >= roll 且非 boss → 成功。成功设 state.fleeAnim={step:0}(flee.ts:51),tickBattleFleeAnim 16 步把活队员往右下滑移出屏(battle-state.ts:436-441)→ phase='fleed' → finalizeBattle → mode='explore'。失败走 buildFleeFailTimeline + emit showBattleMessage '逃跑失败' 320ms(flee.ts:54-62)。
+- **预期**: sdlpal fight.c:4119-4148(kBattleActionFlee,flee.ts port):roll=RandomLong(0,def),若有效 fleeRate >= roll 且非 boss → 成功。成功设 state.fleeAnim={step:0},tickBattleFleeAnim 16 步把活队员往右下滑移出屏→ phase='fleed' → finalizeBattle → mode='explore'。失败走 buildFleeFailTimeline,末帧显示 showBattleMessage '逃跑失败' 320ms。
 - **验证**: (a) 肉眼:成功时全队角色向右下方连续滑动直至移出屏幕,战斗画面消失,回到李逍遥房间 scene;失败时屏上闪出'逃跑失败'文字、留在本回合。(b) 数据级:按 Flee 后立即 console 查 window.__game.gs.battleState.fleeAnim — 成功则为 {step:0..16}(battle-state.ts:441 已核字段),失败则保持 undefined;动画放完后 gs.battleState 变 undefined 且 gs.mode==='explore'(成功退出;startBattle 设 gs.mode='battle' / finalize 切回 'explore',battle-system.ts:307/359)。
 
 ### D2-4 投掷物(W 键):跑 scriptOnThrow + 投掷后消耗 1 个(throw-item action)

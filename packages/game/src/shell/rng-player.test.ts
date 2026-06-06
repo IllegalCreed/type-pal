@@ -158,4 +158,33 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
     // 末帧 frameIdx=2 仍画到 fb
     expect(fb.indices[0]).toBe(3)
   })
+
+  it('initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette', async () => {
+    const fb = createFramebuffer()
+    const putImageData = vi.fn()
+    const ctx = { putImageData } as unknown as CanvasRenderingContext2D
+    const palette = {
+      colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
+      cycles: [],
+    } as unknown as import('@type-pal/shared').Palette
+    palette.colors[1] = [180, 120, 60]
+
+    await playRng({
+      chunkIdx: 6,
+      frameDelayMs: 0,
+      initialFadeInMs: 1,
+      fb,
+      canvasCtx: ctx,
+      palette,
+      startFrame: 0,
+      endFrame: 0,
+      fetchManifest: mockManifestOk(),
+      fetchFrame: mockFrameFiller(),
+    })
+
+    const first = putImageData.mock.calls[0]?.[0] as ImageData
+    const last = putImageData.mock.calls.at(-1)?.[0] as ImageData
+    expect(Array.from(first.data.slice(0, 3))).toEqual([0, 0, 0])
+    expect(Array.from(last.data.slice(0, 3))).toEqual([180, 120, 60])
+  })
 })

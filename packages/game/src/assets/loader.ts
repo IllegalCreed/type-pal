@@ -203,11 +203,11 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     if (m) tileImages.set(Number(m[1]), tilePngs[i]!)
   })
 
-  // 队长精灵 —— 真解析自 player-roles.json (DATA.MKF chunk 3, PLAYERROLES.rgwSpriteNum[0])。
-  // M2 切片硬编码 = 2 已删,改读真值;多人队伍切换留 M5。
+  // 可玩角色大世界精灵 —— 真解析自 player-roles.json (DATA.MKF chunk 3,PLAYERROLES.rgwSpriteNum)。
+  // 场景渲染每个 party member 都按自己的 spriteNum 取帧,不能只预载队长,否则入队/切场景会回退成 role0。
   const leader = playerRoles.roles[0]
   if (!leader) throw new Error('assets: player-roles.json roles[0] missing')
-  const spriteIds = new Set<number>([leader.spriteNum])
+  const spriteIds = new Set<number>(playerRoles.roles.map((role) => role.spriteNum).filter((id) => id > 0))
   for (const eo of scene.eventObjects) {
     if (eo.spriteNum > 0) spriteIds.add(eo.spriteNum)
   }

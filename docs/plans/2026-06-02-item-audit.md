@@ -4,6 +4,16 @@
 范围:仙剑(type-pal)TypeScript 1:1 移植对 sdlpal 物品系统四维(大世界使用 / 战斗使用 / 战斗投掷 / 技能消耗)+ 装备维 + 标注/数据层的完整性审计。
 方法:opcode 真值矩阵(逐 opcode Read sdlpal `script.c`/`fight.c`/`global.c` + type-pal `event-system.ts`/`battle-opcodes.ts`/`battle/actions/*`)→ 对抗验证 verdicts 修正 → 逐物品 gap 归并。
 
+> **2026-06-06 大世界复核订正**:本文件是 2026-06-02 的历史审计,其中多处 gap 已被后续提交修复。当前确认已不再成立的旧结论:
+> - 0x2D/0x2F 大世界玩家状态已写入/移除 `gs.rgPlayerStatus`,并有 0x2D/0x2F 单测。
+> - 0x22 复活已清 `rgPlayerStatus` 中 <=999 的状态。
+> - 0x34 紫金葫芦炼丹已弹 `item-box` dialog,并有等待/按键关闭单测。
+> - 0x05 no-dialog 分支已补 `UTIL_Delay(op1 ? op1*60 : 60)` pacing。
+> - 0x50 FadeOut 已进入 `applyRawOpcode`,战斗 raw fallback 也会启动 palette fade。
+> - 0x62/0x63 追逐 timer 已由 `mode.ts` 调 `tickChaseTimer`,到期复位 `wChaseRange=1`。
+> - 0x47 PlaySound 已入 `gs.pendingSounds`;0x31 ChangeBattleSprite 已写 `BattlePlayer.spriteNumOverride`。
+> - 本轮修复:0x81/0x83/0x84 失败跳转现在显式 `fScriptSuccess=false`,避免大世界 consuming 物品失败后误消耗。
+
 ---
 
 ## 1. 摘要
@@ -13,12 +23,12 @@
   - `0x81`(朝向判定 jump)——**已实现** `event-system.ts:4031-4063`(大世界+战斗 fallthrough 共用),仅有 scene-bounds + g_fScriptSuccess 两处边界偏差(partial)。
   - `0x84`(用物品生成场景 event object)——**已实现** `event-system.ts:3905-3925`,同样仅边界偏差(partial)。
   - `0x5D`(jump if 玩家没中某毒)——**已实现** `event-system.ts:3826-3832` + helper `isPlayerPoisoned@2776`,两维 ok。
-- **确认 gap 总数:14 处**(opcode 级 5 处 + 逐物品/路由级若干 + 标注 1 处 + 装备维 1 处),按四维分布:
-  - **大世界使用**:5 处(0x2D/0x2F 状态 STUB、0x22 status 清除缺失、0x34 物品框 dialog 缺、0x50 delay 缺、0x62/0x63 timer 死)。
-  - **战斗使用**:4 处(0x29/0x2B/0x2C 单目标因 item.ts 不传 eventObjectId 失效、0x50 战斗淡屏未实现)。
+- **历史确认 gap 总数:14 处**(opcode 级 5 处 + 逐物品/路由级若干 + 标注 1 处 + 装备维 1 处)。**2026-06-06 当前已修订多项**,见页首复核订正;下列分布保留为历史快照:
+  - **大世界使用**:原列 5 处(0x2D/0x2F 状态 STUB、0x22 status 清除缺失、0x34 物品框 dialog 缺、0x50 delay 缺、0x62/0x63 timer 死),其中这些底层项当前均已修或重判。
+  - **战斗使用**:原列 4 处(0x29/0x2B/0x2C 单目标因 item.ts 不传 eventObjectId 失效、0x50 战斗淡屏未实现),当前这些已修或重判;0x73 战斗 raw fallback 可达性另行低优核验。
   - **战斗投掷**:0 处确认逻辑 gap(throw 路径 eventObjectId 已通过 ctx.target 解析;7 件食物 scriptOnThrow==0 为真值数据,非 bug)。
   - **技能消耗**:0 处(0x20 RemoveItem 战斗路径已验,蛊148/酒86 消耗链可达)。
-  - **音频/演出**:0x47 PlaySound 两维 STUB(M6 音频未接)、0x31 战斗精灵替换 present-stub、0x73 战斗淡场 stub。
+  - **音频/演出**:原列 0x47/0x31/0x73 多为 stub;当前 0x47 已走 pendingSounds、0x31 已接 sprite override、0x73 大世界 dither fade 已接。
   - **标注/数据**:`events/all.json` 的 `giveItem._item` 标注 **100% 错**(off-by-61 命名空间错位),但仅人工阅读用,不影响运行时;`items.json` 数据层 byte-level 全量 0 mismatch。
 
 ---
@@ -27,14 +37,14 @@
 
 | opcode | sdlpal 语义 | sdlpalRef | 大世界 | 战斗 | 影响物品 | typePalRef | 建议 |
 |---|---|---|---|---|---|---|---|
-| **0x50** FadeOut | `VIDEO_UpdateScreen + PAL_FadeOut(op0?op0:1) + fNeedToFadeIn=TRUE`,屏幕淡黑 | script.c:1775-1782 | yes | **no** | 圣灵珠/五灵珠 cutscene scriptOnUse(id 260/263-267);引路蜂链邻接 | 大世界 event-system.ts:1985-1992(仅 tickEventSystem 内联);applyRawOpcode 无 case | 把 0x50 加入 applyRawOpcode switch(或战斗 dispatchBattleOpcode),让战斗 fallthrough 命中淡屏 |
-| **0x62** ChasePause | `wChasespeedChangeCycles=op0; wChaseRange=0`;**play.c:235 每帧 `--wChasespeedChangeCycles`,到 0 复位 wChaseRange=1** | script.c:1967-1973 + play.c:235-238 | **partial** | na | 驱魔香类(大世界追逐控制) | 写:event-system.ts:3416-3422;**逐帧自减消费缺失**(全仓 grep 确认 `wChasespeedChangeCycles` 只被 0x62/0x63 写、无任何 `--`) | 在大世界帧 tick(monster chase 更新处)加 `if(--wChasespeedChangeCycles==0) wChaseRange=1`,否则暂停=永久 |
-| **0x63** ChaseSpeedup | `wChasespeedChangeCycles=op0; wChaseRange=3`;计时消费同 0x62 | script.c:1975-1981 + play.c:235-238 | **partial** | na | 加速妖怪追逐道具 | 写:event-system.ts:3424-3430;**同 0x62 timer 死** | 同 0x62:加逐帧自减 + 到期 wChaseRange=1 复位 |
-| **0x2D** SetPlayerStatus | `PAL_SetPlayerStatus(role, statusId, dur)`:坏状态仅当前=0 才设 / puppet 仅死人更久 / 好状态活人更久 | script.c:1367-1375 + global.c:2173-2277 | **stub** | yes | 金刚符63/黑狗血85/醍醐香126/忘魂花127/紫罂粟128/迷魂香135/幻蛊140/傀儡虫152/捆仙绳160 | 大世界 event-system.ts:3757-3763(STUB no-op);战斗 battle-opcodes.ts:395-417(real) | 实现大世界 player status 模型(持久 buff 存 gs),让金刚符/黑狗血等大世界用生效 |
-| **0x2F** RemovePlayerStatus | `PAL_RemovePlayerStatus(role, statusId)`:仅 `status<=999`(>999=装备永久效果不清) | script.c:1399-1404 + global.c:2280-2308 | **stub** | yes | 灵心符65、银针255 | 大世界 event-system.ts:3757-3763(与 0x2D 共用 STUB);战斗 battle-opcodes.ts:433-441(real) | 随 0x2D 大世界 status 模型一并实现解状态 |
-| **0x73** FadeScreen | `BackupScreen + MakeScene + VIDEO_FadeScreen(op0)` dither 淡入 | script.c:2140-2147 | yes | **stub** | 大世界过场(归隐/瞬移/靠岸);战斗罕用 | 大世界 event-system.ts:1938-1963(内联);applyRawOpcode 无 case → 战斗 default skip | 战斗维影响小,可低优补 applyRawOpcode case |
-| **0x47** PlaySound | `AUDIO_PlaySound(op0)` 播音效 | script.c:1704-1709 | **stub** | **stub** | 所有带音效的物品脚本 | event-system.ts:3043-3047(两 context 共用 console.debug no-op) | 等 M6 音频系统接入,无逻辑副作用 |
-| **0x31** ChangeBattleSprite | 临时换队员战斗精灵号(present 层渲染) | script.c:1429-1435 | na | **stub** | 梦蛇295 scriptOnUse 0x31[5,0] | battle-opcodes.ts:624-630(present-stub,consumed:true no-op) | 纯演出,待战斗 present 精灵替换实现后接线(可接受) |
+| **0x50** FadeOut | `VIDEO_UpdateScreen + PAL_FadeOut(op0?op0:1) + fNeedToFadeIn=TRUE`,屏幕淡黑 | script.c:1775-1782 | yes | yes | 圣灵珠/五灵珠 cutscene scriptOnUse(id 260/263-267);引路蜂链邻接 | event-system.ts `OP_FADE_OUT` + `startFadeOutEffect`;event-system.test "battle runScript raw fallback" | ✅ 当前已接入 applyRawOpcode;旧"战斗 no"结论过时 |
+| **0x62** ChasePause | `wChasespeedChangeCycles=op0; wChaseRange=0`;**play.c:235 每帧 `--wChasespeedChangeCycles`,到 0 复位 wChaseRange=1** | script.c:1967-1973 + play.c:235-238 | yes | na | 驱魔香类(大世界追逐控制) | event-system.ts `tickChaseTimer`;mode.ts 每帧调用;event-system.test tickChaseTimer | ✅ 当前已自减并到期复位;旧"timer 死"结论过时 |
+| **0x63** ChaseSpeedup | `wChasespeedChangeCycles=op0; wChaseRange=3`;计时消费同 0x62 | script.c:1975-1981 + play.c:235-238 | yes | na | 加速妖怪追逐道具 | event-system.ts `tickChaseTimer`;mode.ts 每帧调用 | ✅ 同 0x62 |
+| **0x2D** SetPlayerStatus | `PAL_SetPlayerStatus(role, statusId, dur)`:坏状态仅当前=0 才设 / puppet 仅死人更久 / 好状态活人更久 | script.c:1367-1375 + global.c:2173-2277 | yes | yes | 金刚符63/黑狗血85/醍醐香126/忘魂花127/紫罂粟128/迷魂香135/幻蛊140/傀儡虫152/捆仙绳160 | event-system.ts `OP_SET_PLAYER_STATUS`;battle-opcodes.ts;event-system.test 0x2D | ✅ 大世界/战斗均已接;旧 STUB 结论过时 |
+| **0x2F** RemovePlayerStatus | `PAL_RemovePlayerStatus(role, statusId)`:仅 `status<=999`(>999=装备永久效果不清) | script.c:1399-1404 + global.c:2280-2308 | yes | yes | 灵心符65、银针255 | event-system.ts `OP_REMOVE_PLAYER_STATUS`;battle-opcodes.ts;event-system.test 0x2F | ✅ 大世界/战斗均已接 |
+| **0x73** FadeScreen | `BackupScreen + MakeScene + VIDEO_FadeScreen(op0)` dither 淡入 | script.c:2140-2147 | yes | partial | 大世界过场(归隐/瞬移/靠岸);战斗罕用 | tickEventSystem `OP_FADE_SCREEN`;present fadeState | ✅ 大世界已接;战斗是否需要 raw fallback 仍按实际脚本可达性继续核 |
+| **0x47** PlaySound | `AUDIO_PlaySound(op0)` 播音效 | script.c:1704-1709 | yes | yes | 所有带音效的物品脚本 | event-system.ts pushes `gs.pendingSounds`;battle-opcodes.ts fallback 同队列 | ✅ 不再是 console stub |
+| **0x31** ChangeBattleSprite | 临时换队员战斗精灵号(present 层渲染) | script.c:1429-1435 | na | yes | 梦蛇295 scriptOnUse 0x31[5,0] | battle-opcodes.ts writes `spriteNumOverride`;draw-battle-sprites 优先渲染 | ✅ 已接战斗临时 sprite override |
 
 > 注:0x81 / 0x84 / 0x5D **不再列为 gap**(任务前置误报,经 Read 核实已实现)。0x81/0x84 仅有两处 partial 边界偏差(见第 3 节),纳入逐物品表。
 
@@ -46,13 +56,13 @@
 
 | 维度 | status | opcode/物品 | detail | sdlpalRef | typePalRef |
 |---|---|---|---|---|---|
-| 大世界用 | stub | 0x2D:金刚符63/黑狗血85 等 | 大世界用上 buff 类物品无效(STUB no-op,无大世界 status 模型,留 M6) | script.c:1367 / global.c:2173 | event-system.ts:3757-3763 |
-| 大世界用 | stub | 0x2F:灵心符65/银针255 | 大世界用解负面状态无效(与 0x2D 共用 STUB case) | script.c:1399 / global.c:2280 | event-system.ts:3757-3763 |
-| 大世界用 | partial | 0x22:还魂香95/赎魂灯96/孟婆汤97 | 复活 HP + 解毒 + fScriptSuccess 都对,但**未清 kStatusAll 全状态**(注释自承 follow-up,无大世界 status 模型) | script.c:1052-1102(:1072-1075 清状态) | event-system.ts:3621-3647 |
-| 大世界用 | partial | 0x34:紫金葫芦270(炼丹) | 物品发放逻辑正确,但**物品框 dialog(itembox sprite + bitmap + 「获得 X」文本)被跳过**,玩家看不到获得提示 | script.c:1479-1512 | event-system.ts:3143-3164 |
-| 大世界用 | partial | 0x05:圣灵珠260/五灵珠263-267 | dialog-clear + redraw 核心对,但**未实现 UTIL_Delay(op1?op1*60:60) 阻塞延迟**及 op2→UpdatePartyGestures;真实 cutscene op1=op2=0 故影响小 | script.c:3267-3297 | event-system.ts:1898-1929 |
-| 大世界用 | partial | 0x81:桂花酒类(朝向判定) | 几何 1:1,但 (a) 缺 scene-bounds 检查(改用 resolveTargetNpc 近似);(b) jump 失败分支**未置 g_fScriptSuccess=FALSE** → consuming 物品朝向失败时可能被错误消耗 | script.c:2390-2435(:2402/2432) | event-system.ts:4031-4063 |
-| 大世界用 | partial | 0x84:生成场景物 | 同 0x81 两偏差:缺 scene-bounds + jump 分支未置 g_fScriptSuccess=FALSE → 消耗 gate 偏差 | script.c:2473-2509(:2484/2501) | event-system.ts:3905-3925 |
+| 大世界用 | ok | 0x2D:金刚符63/黑狗血85 等 | 大世界用上 buff 已写 `gs.rgPlayerStatus`,开战 seed 进 BattleState | script.c:1367 / global.c:2173 | event-system.ts `OP_SET_PLAYER_STATUS`;event-system.test |
+| 大世界用 | ok | 0x2F:灵心符65/银针255 | 大世界解状态已清 <=999,保留装备永久状态 >999 | script.c:1399 / global.c:2280 | event-system.ts `OP_REMOVE_PLAYER_STATUS`;event-system.test |
+| 大世界用 | ok | 0x22:还魂香95/赎魂灯96/孟婆汤97 | 复活 HP + 解毒 + fScriptSuccess + 清全状态均已接 | script.c:1052-1102(:1072-1075 清状态) | event-system.ts `OP_REVIVE_PLAYER` |
+| 大世界用 | ok | 0x34:紫金葫芦270(炼丹) | 发物品并弹 `item-box` dialog(炼出/物品名/按键关闭) | script.c:1479-1512 | event-system.ts `OP_TRANSFORM_COLLECTED`;event-system.test |
+| 大世界用 | ok | 0x05:圣灵珠260/五灵珠263-267 | dialog-clear / PAL_MakeScene auto fade-in / no-dialog `UTIL_Delay` pacing 已接;op2 gesture 分支按当前数据继续低风险核验 | script.c:3267-3297 | tickEventSystem `OP_REDRAW_SCREEN` |
+| 大世界用 | partial | 0x81:桂花酒类(朝向判定) | 几何 1:1;失败分支已置 `g_fScriptSuccess=FALSE`;残仅 scene-bounds 由 `resolveTargetNpc` 近似 | script.c:2390-2435(:2402/2432) | event-system.ts `OP_JUMP_IF_NOT_FACING`;event-system.test |
+| 大世界用 | partial | 0x84:生成场景物 | 放置与障碍逻辑已接;失败分支已置 `g_fScriptSuccess=FALSE`;残仅 scene-bounds 由 `resolveTargetNpc` 近似 | script.c:2473-2509(:2484/2501) | event-system.ts `OP_PLACE_USED_ITEM`;event-system.test |
 | 大世界用 | partial | 0xA1:cutscene 队伍聚拢 | trail 聚拢效果对,但未逐字段设 `rgParty[1..].y=party[0].y-1`、未显式 UpdatePartyGestures(功能等价,非 1:1) | script.c:2998-3014 | event-system.ts:2973-2983 |
 | 大世界用 | partial | 0x17:大蒜84(scriptOnUse 0x17[17,22,30]) | 装备效果写入对,大世界正确;此 opcode 主用于 scriptOnEquip(见装备维) | script.c:752-766 | event-system.ts:3504-3521 |
 
@@ -66,7 +76,7 @@
 | 战斗用 | ok | 0x2D/0x2F:金刚符/灵心符/银针(战斗) | 战斗用 status set/remove **正确**(battle-opcodes.ts 用 ctx.target/ctx.caster 解析,不依赖 eventObjectId,故 0x29/0x2B/0x2C 单目标 bug 不影响) | script.c:1367/1399 | battle-opcodes.ts:395-417 / 433-441 |
 | 战斗用 | partial | 0x17:大蒜84(战斗用) | 0x17 fall applyRawOpcode 写 gs 装备效果,但战斗 combat math 读 live playerRoles clone(只 HP/MP 回写),mid-battle 0x17 不反映在当回合战斗属性 | script.c:752-766 / game-state.ts:1397-1408 | event-system.ts:3504-3521 |
 | 战斗用 | partial | 0x19:舍利子/玉菩提等永久增益(战斗用) | 同 0x17:写 gs.PlayerRolesRuntime 但不在 live battle clone;且 HP/MP 行可能被 writeback 覆盖。属大世界永久增益物品,战斗少用 | script.c:813-832 | event-system.ts:3556-3573 |
-| 战斗用 | na→no | 0x50:战斗淡屏 | 0x50 不在 applyRawOpcode → 战斗 default skip(见 opcode 表) | script.c:1775-1782 | event-system.ts:1985(仅大世界) |
+| 战斗用 | ok | 0x50:战斗淡屏 | 0x50 已在 applyRawOpcode;战斗 runScript raw fallback 可启动 paletteFadeState | script.c:1775-1782 | event-system.ts `OP_FADE_OUT`;event-system.test |
 
 ### 3.3 战斗投掷维(throw)
 
@@ -88,7 +98,7 @@
 |---|---|---|---|---|---|
 | 装备 | ok | 0x17(105 件武器/防具 scriptOnEquip,如长鞭) | rgEquipmentEffect[part][row][role] 写入 1:1,PLAYERROLES_ROW 表逐字段对齐 global.h:299-336 | script.c:752-766 | event-system.ts:3504-3521;equip-effect.ts:94-160 |
 | 装备 | ok | 0x30 临时百分比增益:梦蛇295(scriptOnUse 0x30[17,100]/[20,100],经装备路径) | 战斗写 Extra bonus=base*op1/100,base 取未 buff 不叠加,战末清,1:1 | script.c:1406-1427 | battle-opcodes.ts:580-621 |
-| 装备 | stub(可接受) | 0x31 战斗精灵替换:梦蛇295 | present-only 演出,逻辑层无副作用,present-stub 对齐当前 D17 战斗演出全 stub 现状 | script.c:1429-1435 | battle-opcodes.ts:624-630 |
+| 装备 | ok | 0x31 战斗精灵替换:梦蛇295 | 写 BattlePlayer.spriteNumOverride,present 层优先渲染临时战斗精灵 | script.c:1429-1435 | battle-opcodes.ts + draw-battle-sprites |
 
 ### 3.6 边界 / 小偏差(低优,非阻塞)
 
@@ -125,21 +135,21 @@
 ### High(真实功能缺陷,玩家可感知)
 
 1. **已修:战斗单目标治毒/解毒/施毒(0x29/0x2B/0x2C)**——早期审计指出 `performItem` 不传 `opts.eventObjectId` 会让单目标(op0==0)分支 no-op。当前实现已在 `dispatchBattleOpcode` 用 `ctx.target` 解析目标 roleId,绕开 `eventObjectId` 依赖;见 `battle-opcodes.ts` 0x29/0x2B/0x2C 分支与 `battle-opcodes.test.ts` 的 "战斗单目标(ctx.target 解析)" 用例。净衣符64、九节菖蒲89/鬼枯藤129/毒龙胆278 等战斗内单体治毒/施毒路径不再属于 High 缺口。
-2. **大世界 player status 模型缺失(0x2D/0x2F STUB)**——`event-system.ts:3757-3763` 两 opcode 大世界 no-op,金刚符63/黑狗血85 等上 buff、灵心符65/银针255 解状态在大世界**完全无效**。修法:在 gs 建持久 player status 表(对齐 battle rgPlayerStatus 语义),实现 set(坏/puppet/好三分支 + 活人/死人/更久门控)+ remove(<=999 才清)。
+2. ~~大世界 player status 模型缺失(0x2D/0x2F STUB)~~ — 已修:`event-system.ts` 现在写/清 `gs.rgPlayerStatus`,并有大世界 0x2D/0x2F 单测。
 3. **修 `giveItem._item` 标注 off-by-61**(annotate.ts:22)——虽不影响运行时,但 100% 错值会持续误导后续物品/事件审计与人工阅读。改 `w.items[id-61]` 或复用 wObjectID-key items 表 `_name`,同步改 annotate.test.ts 锁死断言。
 
 ### Med(逻辑偏差 / 体验缺失)
 
-4. **0x62/0x63 追逐 timer 死(永不到期)**——event-system.ts:3416/3424 只写 `wChasespeedChangeCycles`,全仓无 `--` 消费(grep 确认),致驱魔香/加速效果**永久生效**,偏离原版"a while"。修法:在大世界帧 tick / monster chase 更新处加 `if(--wChasespeedChangeCycles==0) wChaseRange=1`(对齐 play.c:235-238)。
-5. **0x50 战斗淡屏未实现**——只在 tickEventSystem 内联,applyRawOpcode 无 case → 战斗 fallthrough default skip。把 0x50 加入 applyRawOpcode switch 或 dispatchBattleOpcode。
-6. **0x22 复活未清全状态(大世界)**——event-system.ts:3640 follow-up,缺 sdlpal:1072-1075 的 kStatusAll 清除;随 #2 大世界 status 模型一并补。
-7. **0x81/0x84 jump 失败分支未置 g_fScriptSuccess=FALSE**——`jumpToGlobalIp` 不设 fScriptSuccess,致 consuming 物品在朝向/障碍失败时可能被错误消耗。修法:这两 case 的 jump 分支显式 `gs.fScriptSuccess=false`(对齐 script.c:2402/2432、2484/2501)。
+4. ~~0x62/0x63 追逐 timer 死(永不到期)~~ — 已修:`tickChaseTimer` 由 `mode.ts` 调用。
+5. ~~0x50 战斗淡屏未实现~~ — 已修:`OP_FADE_OUT` 已在 `applyRawOpcode`。
+6. ~~0x22 复活未清全状态(大世界)~~ — 已修:复活清 `rgPlayerStatus` <=999。
+7. ~~0x81/0x84 jump 失败分支未置 g_fScriptSuccess=FALSE~~ — 已修:0x81/0x83/0x84 失败跳转均显式置 false。
 
 ### Low(演出 / 边界 / 真值数据 / 注释)
 
-8. **0x34 紫金葫芦炼丹物品框 dialog 缺**(event-system.ts:3164)——逻辑发物品正确,缺「获得 X」视觉提示(present 层)。
-9. **0x47 PlaySound 两维 STUB**——等 M6 音频系统;无逻辑副作用。
-10. **0x73 战斗淡场 stub / 0x31 战斗精灵替换 present-stub**——纯演出,待战斗 present 层实现接线。
+8. ~~0x34 紫金葫芦炼丹物品框 dialog 缺~~ — 已修:`item-box` dialog 已接。
+9. ~~0x47 PlaySound 两维 STUB~~ — 已修:push `gs.pendingSounds`。
+10. **0x73 战斗淡场 raw fallback 可达性**——大世界 dither fade 已接;战斗脚本是否实际需要此 opcode 继续按脚本可达性核验。
 11. **0x61 level>=99 装备毒边界**——两实现未 skip 装备毒(global.c:1669-1675),仅装备毒 role 误判;常规毒一致。
 12. **0x2C 注释 stale**(event-system.ts:425/3742)——"fallback 全清/简版 level cap 99" 与实际 4229 真 level 实现矛盾,清理误导注释。
 13. **0xA1 逐字段非 1:1**——未设 `rgParty[1..].y-1` / 未显式 UpdatePartyGestures(功能等价,可不改)。
@@ -154,5 +164,5 @@
 | 0x81 两处实现都没有(gap) | 已实现 event-system.ts:4031-4063(大世界+战斗 fallthrough),仅 scene-bounds + fScriptSuccess 偏差 | **剔除 gap → 降级 partial** |
 | 0x84 两处实现都没有(gap) | 已实现 event-system.ts:3905-3925,同两处偏差 | **剔除 gap → 降级 partial** |
 | 0x5D 两处实现都没有(gap) | 已实现 event-system.ts:3826-3832 + isPlayerPoisoned@2776,对齐 global.c:1724-1730 | **剔除 gap → 两维 ok** |
-| 0x50 屏幕淡出(gap) | 大世界 ok(内联),**战斗确实 no** | **保留:战斗 gap** |
-| 0x62/0x63 暂停/加速追逐(gap) | 写入 ok,**逐帧自减消费缺失 → timer 死** | **保留:partial(timer 死)** |
+| 0x50 屏幕淡出(gap) | 2026-06-02 审计时大世界 ok / 战斗 no;2026-06-06 复核已进 applyRawOpcode | **已修订:战斗 raw fallback 可触发 palette fade** |
+| 0x62/0x63 暂停/加速追逐(gap) | 2026-06-02 审计时 timer 未消费;2026-06-06 复核已有 tickChaseTimer + mode.ts 调用 | **已修订:到期复位 wChaseRange=1** |

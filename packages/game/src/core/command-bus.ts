@@ -11,8 +11,8 @@ export type PresentCommand =
   | { op: 'clearDialogBox' }
   // M3 战斗 UI 命令(T15)
   /**
-   * 战斗单行消息条(sdlpal 偷取"获得 X" 800ms / 逃跑失败 label 31)。present 在固定位置显示 text 一段时间
-   * (durationMs 缺省 ~800ms)。CLASSIC 偷取真值走对话、逃跑失败走 PAL_BattleDelay wObjectID-label;ts 统一近似。
+   * 战斗单行消息条(sdlpal 逃跑失败 label 31 等)。present 在固定位置显示 text 一段时间
+   * (durationMs 缺省 ~800ms)。CLASSIC 偷取真值走对话;逃跑失败走 PAL_BattleDelay wObjectID-label。
    */
   | { op: 'showBattleMessage'; text: string; durationMs?: number }
   /**

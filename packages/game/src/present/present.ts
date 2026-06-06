@@ -3,7 +3,7 @@ import { applyDitherSteps, DITHER_TOTAL_STEPS } from './dither-fade.js'
 import type { IndexedImage } from '../assets/png.js'
 import type { BusEntry } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
-import { projectRuntimeToBattleRoles } from '../core/game-state.js'
+import { getOverworldSpriteNum, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import type { BattlePresent, BattleAssets } from './battle/present-battle.js'
 import { type Framebuffer, SCREEN_W, SCREEN_H } from './framebuffer.js'
 import { drawTilemap, addCoverTileEntries, type TileImages, type DrawEntry } from './draw-tilemap.js'
@@ -31,7 +31,7 @@ import { stepPaletteFade } from '../core/palette-fade.js'
 export interface PresentContext {
   tilemap: Tilemap
   tileImages: TileImages
-  /** 队长 sprite 全帧。sdlpal `scene.c:750-755` 站立公式 `wFrame = wDirection * walkFrames`;
+  /** 队伍 sprite 兜底帧。sdlpal `scene.c:750-755` 站立公式 `wFrame = wDirection * walkFrames`;
    *  WIN95 party sprite 默认 12 帧 = 4 方向 × 3 帧。本字段为完整 frame 数组,
    *  presentFrame 按 `gs.party.facing` + walkFrames 取站立帧。 */
   partyFrames: SpriteImage[]
@@ -262,14 +262,17 @@ export function presentFrame(
       frameIdx = direction * walkFrames
     }
   }
-  // Sync.2 fix4:若 gs.partyLeaderSpriteId 设(由 opcode 0x65 setPlayerSprite 写入)→
-  //              切换到对应 sprite group(从 ctx.npcSpriteFrames 取);否则用 ctx.partyFrames(bootstrap 默认)。
-  // 用于剧情切换主角 pose sprite group(捂头 / 倒地 / 大侠 等)。
+  // 队长也按当前 roleId 查 `PlayerRoles.rgwSpriteNum[role]`(runtime mirror)。
+  // 旧字段 partyLeaderSpriteId 只作为旧存档兼容回退。
   let activePartyFrames: SpriteImage[] = ctx.partyFrames
-  if (gs.partyLeaderSpriteId !== undefined && ctx.npcSpriteFrames) {
-    const overrideFrames = ctx.npcSpriteFrames.get(gs.partyLeaderSpriteId)
+  const leaderRoleId = gs.partyMembers[0] ?? 0
+  const leaderSpriteNum = getOverworldSpriteNum(gs, leaderRoleId, ctx.playerRoles)
+  if (leaderSpriteNum !== undefined && ctx.npcSpriteFrames) {
+    const overrideFrames = ctx.npcSpriteFrames.get(leaderSpriteNum)
     if (overrideFrames && overrideFrames.length > 0) {
       activePartyFrames = overrideFrames
+    } else if (leaderRoleId !== 0) {
+      activePartyFrames = []
     }
   }
   const partyFrame = activePartyFrames[frameIdx] ?? activePartyFrames[0]
@@ -352,14 +355,17 @@ export function presentFrame(
       }
       const { sx, sy } = pixelToScreen({ x: followerWorldX, y: followerWorldY }, gs.camera)
 
-      // 每个 follower 用自己角色的 sprite(rgwSpriteNum[role] → npcSpriteFrames);
-      // 取不到回退 leader partyFrames(防御)。
+      // 每个 follower 用自己角色的 sprite(rgwSpriteNum[role] → npcSpriteFrames)。
+      // 取不到时跳过本帧,不能回退 leader partyFrames,否则切场景/入队资源竞态会把队员画成李逍遥。
       const roleId = gs.partyMembers[m]!
-      const spriteNum = ctx.playerRoles?.roles[roleId]?.spriteNum
+      const spriteNum = getOverworldSpriteNum(gs, roleId, ctx.playerRoles)
       const roleFrames = (spriteNum !== undefined && ctx.npcSpriteFrames)
         ? ctx.npcSpriteFrames.get(spriteNum)
         : undefined
-      const frames = (roleFrames && roleFrames.length > 0) ? roleFrames : ctx.partyFrames
+      const frames = (spriteNum !== undefined && ctx.npcSpriteFrames)
+        ? roleFrames
+        : ctx.partyFrames
+      if (!frames || frames.length === 0) continue
       const followerFrame = frames[followerFrameIdx] ?? frames[0]
       if (!followerFrame) continue
       const capturedFrame = followerFrame
@@ -418,11 +424,12 @@ export function presentFrame(
 
   // --- NPCs ---
   for (const npc of gs.npcs) {
-    // Sync.2 fix4 + fix10:sdlpal scene.c PAL_ApplyWave hide check —
-    //   sState == kObjStateHidden(=0)或 sState < 0 都隐(scene 1 cutscene 后
+    // sdlpal scene.c:247-250:state hidden/negative 或正 vanishTime 都不绘制。
+    // 负 vanishTime 仍可见,但在 play.c 中暂停 trigger/autoScript 直到回到 0。
+    // sState == kObjStateHidden(=0)或 sState < 0 都隐(scene 1 cutscene 后
     //   setSceneObjectState[12,0,0] 把 npc id=11 sprite 628 拿锅李大娘隐起来,让 sprite 55 走的李大娘 take over)。
     //   注:bootstrap 把 npc.sState 从 eo.state 真值初始化为 1(kObjStateNormal),所以默认 sState=1 显示。
-    if (npc.sState !== undefined && npc.sState <= 0) continue
+    if ((npc.sState !== undefined && npc.sState <= 0) || (npc.sVanishTime ?? 0) > 0) continue
     // port sdlpal scene.c:262-280 真值 NPC 帧渲染:
     //   iFrame = wCurrentFrameNum (= scriptedFrame, 0..3 cycle)
     //   if (nSpriteFrames == 3):  // 标准 walking NPC,每方向 3 帧

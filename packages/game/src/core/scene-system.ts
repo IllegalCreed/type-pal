@@ -1,20 +1,19 @@
 /**
  * SceneSystem —— explore 模式 tick 主体(02 架构 + D6 + D14)。
- * 职责:读 input → 走路 / 撞墙 / 转向 → 检测 Confirm → 装载 NPC 事件 → 切 mode。
+ * 职责:读 input → 走路 / 撞墙 / 转向 → 自动 trigger / blocker 推离 → Confirm Search → 切 mode。
  *
- * M2 简化:
- *  - 碰撞:所有 cell 可走,只做地图边界 clamp。M1 schema 未单独抽出 cell.attribute 位,
- *    Task 22 dev 验证发现 NPC 能走进墙里再补属性位查询。
- *  - 方向键多按:用 DIR_PRIORITY 固定 Up>Down>Left>Right 决定(D14 妥协)。
+ * 当前碰撞/触发已按 SDLPal 关键路径对齐:tile bit13 菱形判定、sState>=2 NPC 阻挡、
+ * 方向键 last-press priority、triggerMode 4..8 自动触发距离。
  */
 
 import type { Command, InputSnapshot, Tilemap } from '@type-pal/shared'
 import type { SceneAssetsCache } from '../assets/loader.js'
 import type { CommandBus } from './command-bus.js'
-import { hydrateNpcStaticDefaults, npcFromEventObject, PARTYOFFSET_X, PARTYOFFSET_Y, type Facing, type GameState, type NpcState } from './game-state.js'
-import { resolveScriptLabel, runEnterScript } from './event-system.js'
+import { hydrateNpcStaticDefaults, npcFromEventObject, PARTYOFFSET_X, PARTYOFFSET_Y, sliceSceneEventObjects, type Facing, type GameState, type NpcState } from './game-state.js'
+import { resolveScriptLabel, runEnterScript, tickAutoScripts, tickChaseTimer } from './event-system.js'
 import { createInGameMenu } from './menu/in-game-menu.js'
 import { openMenu } from './menu/menu-mode.js'
+import { openOverworldShortcutMenu } from './menu/menu-driver.js'
 import { findSearchableNpc } from './scene-system-search.js'
 
 export interface SceneContext {
@@ -27,6 +26,12 @@ let _ctx: SceneContext | null = null
 
 export function setSceneContext(ctx: SceneContext): void {
   _ctx = ctx
+}
+
+function requireSceneContext(ctxOverride?: SceneContext): SceneContext {
+  const ctx = ctxOverride ?? _ctx
+  if (!ctx) throw new Error('scene-system: setSceneContext / ctxOverride 必须先设置')
+  return ctx
 }
 
 /** sdlpal scene.c:807:xOffset=±16 / yOffset=±8(sdlpal pixel),每按一次方向键走半 tile。
@@ -123,6 +128,10 @@ const TRIGGER_MODE_AUTO_MIN = 4
 const DIR_NUM_TO_FACING: Record<number, Facing> = { 0: 'down', 1: 'left', 2: 'up', 3: 'right' }
 const FACING_TO_DIR_NUM: Record<Facing, number> = { down: 0, left: 1, up: 2, right: 3 }
 
+function dirNumDelta(dirNum: number): { dx: number; dy: number } {
+  return DIR_DELTA[DIR_NUM_TO_FACING[dirNum % 4] ?? 'down']
+}
+
 /**
  * sdlpal play.c:468-490 PAL_Search 触发后的视觉效果(M5.6 T8):
  *  - NPC 转向 party 反方向(kDir = (partyDir + 2) % 4)+ scriptedFrame 0 站立
@@ -167,7 +176,8 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
   const partyWorldY = gs.party.y
 
   for (const npc of gs.npcs) {
-    // a) sVanishTime != 0 — sdlpal play.c:87-94
+    // a) sVanishTime != 0 — sdlpal play.c:87-94:暂停 trigger/autoScript 并向 0 递进。
+    // present 按 scene.c 处理可见性:>0 隐藏,<0 仍可见。
     if (npc.sVanishTime !== undefined && npc.sVanishTime !== 0) {
       npc.sVanishTime += npc.sVanishTime < 0 ? 1 : -1
       continue
@@ -214,6 +224,35 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
     // ts:input snapshot 每 tick 新,无需 clear;loadEventFromNpc 切 mode='event' 后
     // 同 tick 后续 systems 不会再用 input;直接 break 即可
     return
+  }
+}
+
+/**
+ * sdlpal play.c:197-228:自动脚本/trigger 更新后,若阻挡物压到 party anchor,
+ * 原版会沿 NPC 朝向的下一方向起试 4 个方向,把 viewport 推离一格。
+ *
+ * 这不是玩家主动走路,不更新 trail / walkingFrame;TS 端 party world 与 viewport 分开存,
+ * 因此同时移动 gs.party 与 gs.camera,保持 `camera = party - partyoffset` 语义。
+ */
+function pushPartyAwayFromBlockingNpcs(gs: GameState, ctx: SceneContext): void {
+  for (const npc of gs.npcs) {
+    if ((npc.sState ?? 1) < 2) continue
+    if (npc.spriteNum === 0) continue
+    if (Math.abs(npc.x - gs.party.x) + Math.abs(npc.y - gs.party.y) * 2 > 12) continue
+
+    let dirNum = (((npc.facing ? FACING_TO_DIR_NUM[npc.facing] : 0) + 1) % 4)
+    for (let i = 0; i < 4; i++) {
+      const { dx, dy } = dirNumDelta(dirNum)
+      const x = gs.party.x + dx
+      const y = gs.party.y + dy
+      if (isWalkable(ctx.tilemap, x, y, gs.npcs, 0)) {
+        gs.party.x = x
+        gs.party.y = y
+        gs.camera = { x: x - PARTYOFFSET_X, y: y - PARTYOFFSET_Y }
+        break
+      }
+      dirNum = (dirNum + 1) % 4
+    }
   }
 }
 
@@ -336,14 +375,46 @@ export function isWalkable(
   return true
 }
 
-export function tickSceneSystem(
+function syncCameraToParty(gs: GameState, tilemap: Tilemap): void {
+  const maxX = (tilemap.width - 1) * TILE_W
+  const maxY = (tilemap.height - 1) * TILE_H
+  gs.camera = {
+    x: Math.max(0, Math.min(maxX, gs.party.x - PARTYOFFSET_X)),
+    y: Math.max(0, Math.min(maxY, gs.party.y - PARTYOFFSET_Y)),
+  }
+}
+
+/**
+ * 探索帧前段:对应 sdlpal `PAL_GameUpdate(TRUE)` 里 fTrigger / blocker-push 部分。
+ *
+ * 原版 `PAL_StartFrame` 顺序是:
+ *   PAL_GameUpdate(TRUE) → PAL_UpdateParty() → PAL_MakeScene() → 菜单/Search 键
+ * 因此自动触发区检测发生在玩家本帧移动之前;走进触发区后下一帧才触发。
+ */
+export function tickScenePreInput(gs: GameState, ctxOverride?: SceneContext): void {
+  const ctx = requireSceneContext(ctxOverride)
+  if (gs.sceneLoading || gs.paletteFadeState) return
+
+  updateEventObjectsAndTrigger(gs, ctx)
+  if (gs.mode !== 'explore') return
+
+  // sdlpal play.c:169-192:自动脚本循环在 fTrigger 段之后、blocker push 之前。
+  tickAutoScripts(gs)
+  if (gs.mode !== 'explore' || gs.sceneLoading) return
+
+  pushPartyAwayFromBlockingNpcs(gs, ctx)
+
+  // sdlpal play.c:235-238:PAL_GameUpdate 末尾追逐 timer 自减。
+  tickChaseTimer(gs)
+}
+
+export function tickSceneInput(
   gs: GameState,
   input: InputSnapshot,
   bus: CommandBus,
   ctxOverride?: SceneContext,
 ): void {
-  const ctx = ctxOverride ?? _ctx
-  if (!ctx) throw new Error('scene-system: setSceneContext / ctxOverride 必须先设置')
+  const ctx = requireSceneContext(ctxOverride)
 
   // P2#7/loadScene-defer:scene 切换/加载期间(present 保留旧帧)冻结探索 — 不走移动/转向/触发,
   // 避免 loadScene 续跑脚本 'end' 后、异步 reload 完成前的几帧里玩家移动或旧 scene trigger 误触发。
@@ -352,14 +423,6 @@ export function tickSceneSystem(
   // 特效 A:explore 模式 palette fade 进行中(scene.c:503 auto fade-in)冻结探索 —— 忠实 sdlpal
   // PAL_FadeIn 阻塞循环,淡入 600ms 内玩家不能移动 / 触发。fade 完(present 自清 paletteFadeState)恢复。
   if (gs.paletteFadeState) return
-
-  // M5.6 W0.v:Menu 键(sdlpal input.c:66 SDLK_ESCAPE → kKeyMenu)→ 开 InGameMenu hub。
-  // 早返回:不走 movement / search,避免按 ESC 时同时位移。
-  if (input.pressed.has('Menu')) {
-    // M5.6 T6:cursor 默认 = gs.iCurMainMenuItem(sdlpal 真值 — 上次选哪项这次默认那项)
-    openMenu(gs, { kind: 'in-game', state: createInGameMenu(gs.iCurMainMenuItem) })
-    return
-  }
 
   // 1) 走路 + 转向
   //    P0.a:isWalkable 内部统一处理 tilemap obstacle bit + NPC 菱形碰撞。
@@ -372,7 +435,7 @@ export function tickSceneSystem(
     if (Object.keys(gs.partyScriptedFrame).length > 0) {
       gs.partyScriptedFrame = {}
     }
-    // 注:partyLeaderSpriteId(0x65 setPlayerSprite 写的 rgwSpriteNum)**不**在走路时清 ——
+    // 注:0x65 setPlayerSprite 写的 runtime rgwSpriteNum/旧 partyLeaderSpriteId **不**在走路时清 ——
     // sdlpal rgwSpriteNum 持久到下个 0x65,走路用新 sprite 的 walk 帧(eg. 端酒菜 sprite 208
     // 边走边端,2026-05-28 user 发现走路时退回普通 sprite 的根因)。pose ≠ sprite,只清 pose。
     gs.party.facing = facing
@@ -399,22 +462,34 @@ export function tickSceneSystem(
 
   // 2) 相机跟随 + 边界 clamp(System A:sdlpal pixel,以 tile 边界换算)
   //    camera 语义 = sdlpal viewport(屏幕左上 world 坐标)= party - partyoffset
-  const maxX = (ctx.tilemap.width - 1) * TILE_W
-  const maxY = (ctx.tilemap.height - 1) * TILE_H
-  gs.camera = {
-    x: Math.max(0, Math.min(maxX, gs.party.x - PARTYOFFSET_X)),
-    y: Math.max(0, Math.min(maxY, gs.party.y - PARTYOFFSET_Y)),
+  syncCameraToParty(gs, ctx.tilemap)
+
+  // 3) M5.6 W0.v:Menu 键(sdlpal input.c:66 SDLK_ESCAPE → kKeyMenu)→ 开 InGameMenu hub。
+  //    sdlpal PAL_StartFrame 顺序是 PAL_UpdateParty 后再处理菜单,因此方向键+Menu 同帧会先走一步。
+  if (input.pressed.has('Menu')) {
+    // M5.6 T6:cursor 默认 = gs.iCurMainMenuItem(sdlpal 真值 — 上次选哪项这次默认那项)
+    openMenu(gs, { kind: 'in-game', state: createInGameMenu(gs.iCurMainMenuItem) })
+    return
   }
 
-  // 3) sdlpal play.c:81-166 PAL_GameUpdate fTrigger 段完整 port(M5.6 T7 真值补齐):
-  //    遍历当前 scene 全 EventObjects:
-  //      a. sVanishTime != 0 → 递减;continue
-  //      b. sState < 0 + viewport 外 → 复活(sState = abs)+ scriptedFrame 0
-  //      c. sState > 0 + triggerMode >= 4 + Manhattan < threshold:
-  //         - NPC 转向面对 party + scriptedFrame 0
-  //         - 跑 trigger script(切 event mode)
-  //         - 触发后 break(sdlpal `PAL_ClearKeyState` + `if (fEnteringScene) return`)
-  updateEventObjectsAndTrigger(gs, ctx)
+  // 3.5) 大世界快捷键直达子菜单 —— port sdlpal play.c:558-584(else-if 链,一帧一项):
+  //   E 用物品 / W 装备 / F 法术 / S 状态屏。Q(Flee→PAL_QuitGame)浏览器无退出语义,不接。
+  if (input.pressed.has('UseItem')) {
+    openOverworldShortcutMenu(gs, 'use-item')
+    return
+  }
+  if (input.pressed.has('ThrowItem')) {
+    openOverworldShortcutMenu(gs, 'equip')
+    return
+  }
+  if (input.pressed.has('Force')) {
+    openOverworldShortcutMenu(gs, 'magic')
+    return
+  }
+  if (input.pressed.has('Status')) {
+    openOverworldShortcutMenu(gs, 'status')
+    return
+  }
 
   // 4) Confirm 触发 Search(M5.6 W1.c + T8 完整真值:play.c:423-510)
   //    - 13 cell range + triggerMode 1-3 + grid match(W1.c)
@@ -433,6 +508,21 @@ export function tickSceneSystem(
   void bus
 }
 
+/**
+ * 兼容旧单测/工具的整帧探索 tick。生产主循环调用本函数;内部按 SDLPal 顺序执行
+ * `tickScenePreInput` + `tickSceneInput`。
+ */
+export function tickSceneSystem(
+  gs: GameState,
+  input: InputSnapshot,
+  bus: CommandBus,
+  ctxOverride?: SceneContext,
+): void {
+  tickScenePreInput(gs, ctxOverride)
+  if (gs.mode !== 'explore') return
+  tickSceneInput(gs, input, bus, ctxOverride)
+}
+
 // ── M3.5 T9: loadScene(D33 lazy 切场景)─────────────────────────────────────
 
 export interface LoadSceneInput {
@@ -448,17 +538,19 @@ export interface LoadSceneInput {
  *
  * 1. SceneAssetsCache lazy fetch 新 scene 资源(同 scene 重复切不重复 fetch)
  * 2. 重置 gs.npcs(走 npcFromEventObject)
- * 3. 可选写 party 起点(并把 camera 跟到 party,避免下一帧渲染指旧坐标)
- * 4. **不**跑 onEnter(D34 dev shortcut;M5 接真剧情链时升级)
+ * 3. 跑 scene onEnter 脚本,接入 setBattlefield / music / object state 等进场副作用
+ * 4. 可选 partyStart 覆写 party 起点(并把 camera 跟到 party,用于 dev shortcut / manual jump)
  *
- * 注:GameState 当前没单独 scene id 字段;切场景体现在 gs.npcs / party 的重置上,
+ * sceneId 是资源 dump 下标(0-based);sdlpal `wNumScene` 是 1-based,因此写入 sceneId+1。
  * tilemap 等渲染所需资源由调用方自行从 SceneAssetsCache 取(M3.5 T16+ dev panel 串接)。
  */
 export async function loadScene(input: LoadSceneInput): Promise<void> {
   const { gs, sceneId, assets, partyStart } = input
   const sceneAssets = await assets.loadScene(sceneId)
+  const wNumScene = sceneId + 1
 
   // 传 labelMap → autoLabel 解 ip 写入 autoCursor;sceneCommands/sceneLabelMap 写 gs
+  gs.wNumScene = wNumScene
   gs.sceneCommands = sceneAssets.eventCommands
   gs.sceneLabelMap = sceneAssets.labelMap
   gs.gameOverActive = false // 死亡读档 → 新场景 → 清 game-over 演出标记
@@ -467,7 +559,9 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
   gs.sceneOnTeleportEntry = sceneAssets.onTeleportLabel
     ? (resolveScriptLabel(gs, sceneAssets.onTeleportLabel)?.ip ?? 0)
     : 0
-  gs.npcs = sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
+  gs.npcs =
+    sliceSceneEventObjects(gs, wNumScene)
+    ?? sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
   hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
 
   // P3.T1: 切 scene 时同步更新 SceneContext 的 events + labelMap,

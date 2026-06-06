@@ -685,10 +685,13 @@ describe('Batch A 状态/数据 opcode', () => {
     expect(dispatchBattleOpcode(0x33, [200, 0, 0], ctx2).newIp).toBe(200)
   })
 
-  it('0x3A player flee:非 boss → fleed;boss → jump op0', () => {
-    const ctx = stateCtx({ isBoss: false })
+  it('0x3A player flee:非 boss → 触发逃跑动画+音效;boss → jump op0', () => {
+    const gs = { pendingSounds: [] } as any
+    const ctx = stateCtx({ isBoss: false }, undefined, undefined, gs)
     dispatchBattleOpcode(0x3A, [200, 0, 0], ctx)
-    expect(ctx.state.phase).toBe('fleed')
+    expect(ctx.state.phase).toBe('performAction') // 动画结束后才 fleed
+    expect(ctx.state.fleeAnim).toEqual({ step: 0 })
+    expect(gs.pendingSounds).toEqual([45])
     const bossCtx = stateCtx({ isBoss: true })
     expect(dispatchBattleOpcode(0x3A, [200, 0, 0], bossCtx).newIp).toBe(200)
   })
@@ -1735,8 +1738,8 @@ describe('D17b showDamageNum emit', () => {
   })
 
   // 顺序修(user 2026-06-05 报"灵葫咒掉血在动画前"):scriptOnSuccess 的 emitDamageNum 即时弹 → 数字早于
-  //   延迟动画时间线。修:ctx.pendingDamageNums 存在(magic.ts 施法时注入)→ push 进它(交时间线播完后 emit),
-  //   不即时 bus.emit。无该缓冲(item/throw/敌回合毒 tick)→ 即时(向后兼容)。
+  //   延迟动画时间线。修:ctx.pendingDamageNums 存在(magic.ts 施法时注入)→ push 进缓冲,
+  //   由 action 挂 PostMagic 第一帧或链末 fallback,不即时 bus.emit。无该缓冲 → 即时(向后兼容)。
   it('0x60 KO + ctx.pendingDamageNums 存在 → push 进缓冲(延迟),不即时 emit', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 77 })]

@@ -117,6 +117,34 @@ function menuRoles(gs: GameState): PlayerRoles {
   return projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, requireCatalogs().playerRoles)
 }
 
+/**
+ * 大世界快捷键直达子菜单 —— port sdlpal `play.c:558-584`(PAL_GameUpdate):
+ *   E(UseItem)→PAL_GameUseItem 用物品 / W(ThrowItem)→PAL_GameEquipItem 装备 /
+ *   F(Force)→PAL_InGameMagicMenu 法术 / S(Status)→PAL_PlayerStatus 状态屏。
+ * 走与 in-game hub 相同的子菜单,但快捷键跳过 hub 直达(E/W 还跳过 inventory-action 用/装备 box,
+ * 对齐 sdlpal 大世界 PAL_GameUseItem / PAL_GameEquipItem 直接进列表)。
+ * Q(Flee→PAL_QuitGame)浏览器无退出语义,scene-system 不接。
+ */
+export function openOverworldShortcutMenu(
+  gs: GameState,
+  which: 'use-item' | 'equip' | 'magic' | 'status',
+): void {
+  switch (which) {
+    case 'use-item':
+      openMenu(gs, { kind: 'inventory', state: createInventoryMenu(gs, requireCatalogs().items, 'usable') })
+      break
+    case 'equip':
+      openMenu(gs, { kind: 'equip', state: createEquipMenu(gs, requireCatalogs().items) })
+      break
+    case 'magic':
+      openMenu(gs, { kind: 'in-game-magic', state: createInGameMagicMenu(menuRoles(gs), gs.partyMembers, requireCatalogs().spells) })
+      break
+    case 'status':
+      openMenu(gs, { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) })
+      break
+  }
+}
+
 // ── Start game handler(M5.6 T17:OpeningMenu choice 完成回调) ──────────────────
 // sdlpal `PAL_OpeningMenu` 返回 0(new-game)/ 1-5(load-game slot);ts 端 dispatcher
 // 不直接装载 scene/存档(避免 import 循环 + 跨层耦合),改 bootstrap 在 setup 阶段

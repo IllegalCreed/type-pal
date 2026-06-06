@@ -50,6 +50,6 @@
 
 ## P2:低优先级
 
-- Trance/梦蛇:已修 `spells.json` 缺 295 时从 `object-magics.json` 回退解析,可进法术菜单/执行 0x30/0x31,并在成功后播放 `iColorShift` 闪色与末帧 sprite 切换。后续若继续抠原版视觉,可补完整 `PAL_BattleFadeScene` 级别的场景淡换。
+- Trance/梦蛇:已修 `spells.json` 缺 295 时从 `object-magics.json` 回退解析,可进法术菜单/执行 0x30/0x31;每次施放都会走 PreMagic 前摇,随后 `iColorShift` 闪色与末帧 sprite 切换。友方全体目标按 CLASSIC 同 tick 提交,不再闪 PlayerAll 箭头。后续若继续抠原版视觉,可补完整 `PAL_BattleFadeScene` 级别的场景淡换。
 - 敌方 0x9E/0x9F:已接基础施法/高亮/闪色与音效时间线。后续若继续抠原版视觉,可补 `PAL_BattleFadeScene` 级别的场景淡换与画面重绘细节。
 - 部分历史计划文档仍保留旧阶段描述,仅作考古资料;以本文件为当前战斗大修入口。

@@ -9,6 +9,7 @@
  *  - learn-magic = Phase D(battle.c:1298-1328)"{name} 练成 {magicName}"
  *
  * Phase C 隐藏属性经验与 Phase E `scriptOnBattleEnd` 已由 battle-system 结算链处理;
+ * 战后脚本若排入 battle dialog,结算链会等对话播完再退出战斗。
  * 本模块只定义需要等待按键/超时翻页的 screen 数据。
  */
 
@@ -73,6 +74,11 @@ export interface BattleSettlementState {
   index: number
   /** 当前屏已显示毫秒(BATTLE_DT 累计)— 达 timeout 或任意键 → 下一屏。 */
   shownMs: number
+  /**
+   * Phase E `scriptOnBattleEnd` 是否已运行。脚本可能排入 narration/dialog(如"获得止血草"),
+   * 必须只跑一次,并等 tickBattleDialog 播完后再做 Phase F 半血恢复 + finalize。
+   */
+  postBattleScriptsDone?: boolean
 }
 
 /** 当前屏的自动翻页超时(sdlpal `PAL_WaitForAnyKey` timeout):boss exp 屏 5.5s,其余 3s。 */

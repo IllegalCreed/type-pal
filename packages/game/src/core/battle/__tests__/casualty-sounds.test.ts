@@ -3,7 +3,8 @@
  *
  * sdlpal 真值:
  *   - 阵亡音 rgwDeathSound:enemy 攻击致死处内联(fight.c:4816/4851/5110,HP→0)。
- *   - 濒死音 rgwDyingSound:PAL_BattlePostActionCheck(fight.c:834-850)—— HP<maxHP/5 且回合初 >= 阈值(刚跨入)。
+ *   - 濒死音 rgwDyingSound:PAL_BattlePostActionCheck(fight.c:834-850)—— HP<min(100,maxHP/5)
+ *     且回合初 >= 阈值(刚跨入)。
  * ts 集中到每回合后处理一次,比对本回合初 prevHp。
  */
 import type { PlayerRole, PlayerRoles } from '@type-pal/shared'
@@ -33,7 +34,7 @@ describe('M6 emitPlayerCasualtySounds', () => {
     expect(r.prevHp).toBe(0)
   })
 
-  it('刚跨入濒死(prevHp>=maxHP/5,hp<maxHP/5,hp>0)→ dyingSound', () => {
+  it('刚跨入濒死(prevHp>=min(100,maxHP/5),hp<阈值,hp>0)→ dyingSound', () => {
     // maxHP=100 → 阈值=20;prevHp=100>=20,hp=15<20 → 跨入
     expect(run({ hp: 15, dyingSound: 19 }, 100).sounds).toEqual([19])
   })
@@ -73,5 +74,10 @@ describe('M6 emitPlayerCasualtySounds', () => {
   it('毒致濒死(非死)→ dyingSound 照播(不门控死因)', () => {
     // 毒前 hp=40,毒后 hp=15(<阈值20,>0),回合初 100 → 跨入濒死,dyingSound 播
     expect(run({ hp: 15, dyingSound: 19 }, 100, 40).sounds).toEqual([19])
+  })
+
+  it('高 maxHP 仍以 100 为濒死阈值上限', () => {
+    expect(run({ hp: 99, maxHP: 9999, dyingSound: 19 }, 150).sounds).toEqual([19])
+    expect(run({ hp: 150, maxHP: 9999, dyingSound: 19 }, 200).sounds).toEqual([])
   })
 })

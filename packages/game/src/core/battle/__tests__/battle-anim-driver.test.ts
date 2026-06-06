@@ -201,6 +201,17 @@ describe('applyAnimFrame', () => {
     applyAnimFrame(state, { durationMs: 40 }, bus)
     expect(bus.drain()).toHaveLength(0)
   })
+
+  it('frame.battleMessage → emit showBattleMessage', () => {
+    const state = mkState([mkPlayer(0)], [mkEnemy()])
+    state.battleAnim = { frames: [], idx: 0, frameElapsedMs: 0 }
+    const bus = createCommandBus()
+    applyAnimFrame(state, {
+      durationMs: 40,
+      battleMessage: { text: '逃跑失败', durationMs: 320 },
+    }, bus)
+    expect(bus.drain()[0]!.cmd).toEqual({ op: 'showBattleMessage', text: '逃跑失败', durationMs: 320 })
+  })
 })
 
 describe('startBattleAnim', () => {

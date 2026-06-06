@@ -225,8 +225,8 @@ export const OP_PLAYER_WALK_ONE_STEP = 0x006E   // 110
 export const OP_SYNC_OBJ_STATE = 0x006F         // 111 if pCurrent.sState==op1 → pEvtObj.sState=op1
 // case 0x0065(101): Set player sprite(script.c:1999-2004)
 //   PlayerRoles.rgwSpriteNum[operand[0]] = operand[1]
-//   operand[2] != 0 → PAL_LoadResources (we just update runtime;实际 load 由 bootstrap 预加载所有)
-// 用于剧情切换主角 pose 系列 sprite group(如:捂头 / 倒地 / 大侠造型)。
+//   operand[2] != 0 → PAL_LoadResources。ts 写 PlayerRolesRuntime.rgwSpriteNum;bootstrap 负责预取精灵。
+// 用于剧情切换角色大世界 sprite(主角 pose / 队友造型等)。
 export const OP_SET_PLAYER_SPRITE = 0x0065      // 101
 // case 0x0073(115): Fade screen — VIDEO_FadeScreen(operand[0])(script.c:3267-3297 类似的 IO 模式)
 //   sdlpal 真值:VIDEO_BackupScreen + PAL_MakeScene + VIDEO_FadeScreen(speed)
@@ -795,6 +795,11 @@ export interface RngPlayHandlerInput {
   endFrame: number
   /** sdlpal op2>0?op2:16,= 帧率 fps(每帧 1/speed 秒)。 */
   speed: number
+  /**
+   * 播第一帧后是否从黑淡入当前 palette。PAL_RNGPlay 每帧检查 fNeedToFadeIn;
+   * 山神庙传剑 CG 等序列会先 0x50 FadeOut 再 0x37 PlayRNG。
+   */
+  fadeIn: boolean
 }
 export type RngPlayHandler = (input: RngPlayHandlerInput) => void
 
@@ -906,6 +911,12 @@ export interface BattleCtx {
    * performThrowItem 接挥臂动画后一起 startBattleAnim(sdlpal fight.c:5340)。不在场 → 不建(向后兼容/无动画)。
    */
   pendingAnimFrames?: NonNullable<BattleState['battleAnim']>['frames']
+  /**
+   * 战斗法术 scriptOnUse 里的 0x35 ShakeScreen 缓冲。原版 PreMagic 先播,随后 scriptOnUse,
+   * 再 ShowOffMagic;TS 先算脚本再建整条时间线,因此 0x35 不能立即写全局 gs.shakeTime,
+   * 否则会在 PreMagic 阶段先抖。performMagic 取本缓冲挂到 OffMagic 帧上。
+   */
+  pendingScreenShake?: { time: number; level: number }
   /** 投掷物 OffMagic 特效 n(FIRE.MKF chunk[effect] 帧数)—— performThrowItem 注入,0x42/0x66 建特效帧用。 */
   magicSpriteFrameCounts?: Map<number, number>
   /**
@@ -1085,7 +1096,10 @@ function applySetDialogStyle(
 export function tickAutoScripts(gs: GameState): void {
   if (_globalCommands.length === 0) return // P2#5:全局脚本数组未就绪(all.json 未载)→ 不跑
   for (const npc of gs.npcs) {
-    if ((npc.sState ?? 1) === 0) continue  // sdlpal `sState > 0` 才跑 autoScript
+    // sdlpal play.c:176-191:仅 `sState > 0 && sVanishTime == 0` 才跑 autoScript。
+    // 负 sState 是等待离开 viewport 后复活的隐藏态;vanishTime 非 0 是临时消失倒计时,
+    // 两者都不能让追逐/巡逻脚本在后台继续移动。
+    if ((npc.sState ?? 1) <= 0 || (npc.sVanishTime ?? 0) !== 0) continue
     // owner 跳过门控 —— **仅** waiting===undefined 那一 tick 跳,frame-wait/scene-fade 期间照跑(对齐 sdlpal)。
     // sdlpal 真值:PAL_GameUpdate 自动脚本循环(play.c:172-191)对场景内每个 sState>0 对象都跑 PAL_RunAutoScript,
     //   **无任何 owner 排除**。owner 自动脚本在它触发脚本的 0x09 wait(每帧 PAL_GameUpdate(FALSE))期间正常跑
@@ -1908,7 +1922,20 @@ export function tickEventSystem(
           const endFrame = op1 > 0 ? op1 : -1
           const speed = op2 > 0 ? op2 : 16
           if (_rngPlayHandler) {
-            _rngPlayHandler({ gs, chunkIdx: gs.iCurPlayingRNG, startFrame, endFrame, speed })
+            // sdlpal rngplay.c:430-435:第一帧写入 gpScreen 后若 fNeedToFadeIn,
+            // 立即 PAL_FadeIn(wNumPalette,fNightPalette,1) 并清 flag。0x50 已把工作 palette 淡成全黑,
+            // 因此先恢复稳定目标 palette 给 modal 播放器做首帧淡入;否则帧虽加载成功却会整段全黑。
+            const fadeIn = !!gs.needToFadeIn
+            if (fadeIn) {
+              const src = gs.basePalette ?? gs.palette ?? { colors: blackColors(), cycles: [] }
+              gs.palette = makeWorkingPalette({
+                colors: resolveNightColors(src, gs.nightPalette),
+                cycles: src.cycles,
+              })
+              gs.needToFadeIn = false
+              gs.blackScreenHold = false
+            }
+            _rngPlayHandler({ gs, chunkIdx: gs.iCurPlayingRNG, startFrame, endFrame, speed, fadeIn })
             cursor.waiting = 'rng-play'
             cursor.ip++
             return
@@ -2627,6 +2654,21 @@ export function runScript(opts: RunScriptOptions): number {
           //   → 退回 D26 skip(优雅降级,不崩)。cursor 复用持久 callStack/curEventObjId 支持 call/return;
           //   commands/labelMap = 全局(jumpToGlobalIp / getLabels 解析跳转目标)。
           if (battleCtx.gs) {
+            if (cmd.opcode === OP_SHAKE_SCREEN) {
+              // 战斗法术 scriptOnUse 0x35(斩龙诀 L_43111)应挂到随后 OffMagic 阶段,
+              // 不可立即写 gs.shakeTime,否则 TS 的整条 timeline 会在 PreMagic 阶段先抖。
+              const time = cmd.operands[0] ?? 0
+              let level = cmd.operands[1] ?? 0
+              if (level === 0) level = 4
+              if (battleCtx.pendingScreenShake) {
+                battleCtx.pendingScreenShake.time = time
+                battleCtx.pendingScreenShake.level = level
+              } else {
+                battleCtx.pendingScreenShake = { time, level }
+              }
+              ip++
+              break
+            }
             const cursor: ScriptCursor = {
               ip,
               commands,
@@ -3142,7 +3184,7 @@ function applyRawOpcode(
       }
       const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setSceneObjectState')
       if (npc) {
-        npc.sState = operands[1] ?? 0
+        npc.sState = signExtendI16(operands[1] ?? 0)
         console.debug(`event-system: setSceneObjectState id=${npc.id} sState=${npc.sState}`)
       }
       break
@@ -3692,13 +3734,12 @@ function applyRawOpcode(
       // sdlpal script.c:1999-2004:
       //   PlayerRoles.rgwSpriteNum[operand[0]] = operand[1]
       //   if (!fInBattle && operand[2]) PAL_LoadResources()  // hot-reload sprite
-      // 用于剧情期间切主角 pose sprite group(捂头 / 倒地 / 大侠 等)。
-      //
-      // M5 简版:只支持队长(operand[0]=0)— 多 player 切 sprite 留 M6。
-      // 写 gs.partyLeaderSpriteId,present.ts 渲染优先用此值(覆盖 bootstrap ctx.partyFrames)。
-      const playerIdx = operands[0] ?? 0
+      // operand[0] 是 roleId,不是 party slot;任意角色都可被剧情换大世界 sprite。
+      const roleId = operands[0] ?? 0
       const spriteId = operands[1] ?? 0
-      if (playerIdx === 0) {
+      gs.PlayerRolesRuntime.rgwSpriteNum[roleId] = spriteId
+      // 旧存档/旧渲染字段兼容:主角 role 0 的覆盖继续镜像到 partyLeaderSpriteId。
+      if (roleId === 0) {
         gs.partyLeaderSpriteId = spriteId
       }
       break
@@ -4057,7 +4098,7 @@ function applyRawOpcode(
       //   gs.npcs(off-by-one + 漏跨 scene 对象)。改走与 0x49 同一 resolveGlobalEventObject(id-1 + 全局兜底)。
       const from = operands[0] ?? 0
       const to = operands[1] ?? 0
-      const state = operands[2] ?? 0
+      const state = signExtendI16(operands[2] ?? 0)
       for (let i = from; i <= to; i++) {
         const obj = resolveGlobalEventObject(gs, i, 'setMultiObjectState')
         if (obj) obj.sState = state
@@ -4145,12 +4186,16 @@ function applyRawOpcode(
       const pEvt = gs.npcs.find((n) => n.id === currentEventObjectId)
       if (!pCurrent || !pEvt) {
         // op0 obj 不在当前 scene → 跳(sdlpal g_fScriptSuccess=FALSE)
+        gs.fScriptSuccess = false
         jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
         break
       }
       const dx = Math.abs(pEvt.x - pCurrent.x)
       const dy = Math.abs((pEvt.y - pCurrent.y) * 2)
-      if (dx + dy >= (operands[1] ?? 0) * 32 + 16) jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
+      if (dx + dy >= (operands[1] ?? 0) * 32 + 16) {
+        gs.fScriptSuccess = false
+        jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
+      }
       break
     }
     case OP_PLACE_USED_ITEM: {
@@ -4158,6 +4203,7 @@ function applyRawOpcode(
       //   该格有障碍(只查 tilemap)→ jump op2。前方格 = party + facing offset(±16/±8)。
       const pCurrent = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'placeUsedItem')
       if (!pCurrent) {
+        gs.fScriptSuccess = false
         jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
         break
       }
@@ -4165,12 +4211,13 @@ function applyRawOpcode(
       const fx = gs.party.x + ((dir === 'left' || dir === 'down') ? -16 : 16)
       const fy = gs.party.y + ((dir === 'left' || dir === 'up') ? -8 : 8)
       if (isObstacle(fx, fy, false, 0)) {
+        gs.fScriptSuccess = false
         jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
       }
       else {
         pCurrent.x = fx
         pCurrent.y = fy
-        pCurrent.sState = operands[1] ?? 0
+        pCurrent.sState = signExtendI16(operands[1] ?? 0)
       }
       break
     }
@@ -4285,6 +4332,7 @@ function applyRawOpcode(
       //   否则 jump op2。
       const pCurrent = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'jumpIfNotFacing')
       if (!pCurrent) {
+        gs.fScriptSuccess = false
         jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
         break
       }
@@ -4308,6 +4356,7 @@ function applyRawOpcode(
         }
       }
       else {
+        gs.fScriptSuccess = false
         jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
       }
       break

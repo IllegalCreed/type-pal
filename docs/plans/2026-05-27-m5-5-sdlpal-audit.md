@@ -203,7 +203,7 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 | 2847 | `PAL_BattleShowEnemyMagicAnim` | ✗ | enemy magic anim |
 | 3072 | `PAL_BattleShowPlayerSummonMagicAnim` | ✗ | 召唤 anim;B-w2.b summon stub 未做 |
 | 3190 | `PAL_BattleShowPostMagicAnim` | ✗ | magic 后摇 anim |
-| 3249 | `PAL_BattlePlayerValidateAction` | ⚠️ | ts battle-system 内 validate 简版(MP 不足 fallback / target 死重选);**未做 R 重复 prevAction 复用 + dead target reselect 完整逻辑**(Bug-2 fix 需要)|
+| 3249 | `PAL_BattlePlayerValidateAction` | ⚠️ | ts battle-system 内 validate 已接 MP 不足 fallback / target 死重选 / R 重复 prevAction 复用;**2026-06-06 修跨战斗致死回合备份 + Repeat 本轮不覆盖缓存**。残:dead target reselect 继续按 perform 期自动选目标核验 |
 | 3511 | `PAL_BattleCheckHidingEffect` | ✗ | iHidingTime > 0 时跳过 enemy action;ts 端无 hiding 概念,follow-up |
 | 3552 | `FIGHT_DetectMagicTargetChange` | ✗ | magic target 重选 anim 跟随;follow-up 渲染层 |
 | 3577 | `PAL_BattlePlayerPerformAction` | ⚠️ | 拆 5 action 各 ts module:actions/attack.ts / magic.ts / item.ts / defend.ts / flee.ts;**未含 BlowAway / status apply 完整真值** follow-up |
@@ -496,7 +496,7 @@ prevAction.sTarget 时就直接 reselect target,不让 dead target 进入 action
 | 164 | `PAL_SetLoadFlags` | N/A | sdlpal 增量 reload flags;ts 端 loadScene 一次性 fetch 整套,无 flag |
 | 191 | `PAL_LoadResources` | ⚠️ | assets/loader.ts:loadAll 等价;无增量 reload(每 scene 切换全 fetch) |
 | 358 | `PAL_GetCurrentMap` | ✓ | SceneContext.tilemap(loadScene 时注入) |
-| 385 | `PAL_GetPlayerSprite` | ⚠️ | ctx.partyFrames + ctx.npcSpriteFrames.get(partyLeaderSpriteId)简版,无 per-role 独立 sprite 容器 |
+| 385 | `PAL_GetPlayerSprite` | ✓ | present.ts 按当前 party roleId 读取 PlayerRolesRuntime.rgwSpriteNum → ctx.npcSpriteFrames;0x65 可改任意角色,切场景预取当前队伍/剧情 sprite |
 | 412 | `PAL_GetEventObjectSprite` | ✓ | ctx.npcSpriteFrames.get(npc.spriteNum) |
 
 ### rngplay.c(3 函数)

@@ -1179,12 +1179,14 @@ function openPicker(deps: DevPanelDeps): void {
       if (!isLeader) {
         card.addEventListener('click', () => {
           deps.gs.partyMembers = togglePartyMembership(deps.gs.partyMembers, roleId)
-          // 同步队首 sprite(partyMembers[0] = leader,present 渲染走 gs.partyLeaderSpriteId)
+          // Dev 切队后同步当前队首 runtime sprite;present 会按 partyMembers[0] 的 rgwSpriteNum 渲染。
           const leader = deps.gs.partyMembers[0]
           if (leader !== undefined) {
-            deps.gs.partyLeaderSpriteId =
-              deps.resources.playerRoles.roles.find((r) => r.id === leader)?.spriteNum ??
-              deps.gs.partyLeaderSpriteId
+            const spriteNum = deps.resources.playerRoles.roles.find((r) => r.id === leader)?.spriteNum
+            if (spriteNum !== undefined) deps.gs.PlayerRolesRuntime.rgwSpriteNum[leader] = spriteNum
+            if (leader === 0 && deps.gs.PlayerRolesRuntime.rgwSpriteNum[0] !== undefined) {
+              deps.gs.partyLeaderSpriteId = deps.gs.PlayerRolesRuntime.rgwSpriteNum[0]
+            }
           }
           renderPartyCards()
         })

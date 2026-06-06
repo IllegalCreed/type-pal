@@ -32,6 +32,7 @@ import type { Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import type { GameState } from '../../core/game-state.js'
 import type { InGameMagicMenuState } from '../../core/menu/in-game-magic-menu.js'
+import { getScriptDescLines } from '../../core/menu/script-desc.js'
 import {
   MENUITEM_COLOR,
   MENUITEM_COLOR_INACTIVE,
@@ -70,6 +71,9 @@ const MP_BOX = { x: 215, y: 0, len: 5 }
 const MP_NEEDED_RIGHT = { x: 230, y: 14 }
 const MP_SLASH = { x: 260, y: 14 }
 const MP_CURRENT_RIGHT = { x: 265, y: 14 }
+const MAGIC_DESC_X = 102
+const MAGIC_DESC_Y = 3
+const MAGIC_DESC_COLOR = 0x3C
 
 // magic grid box(magicmenu.c:121)
 const MAGIC_GRID_BOX = { x: 10, y: 42 }
@@ -228,6 +232,21 @@ function drawCashAndMpBox(
   }
 }
 
+function drawMagicDescription(
+  fb: Framebuffer,
+  state: InGameMagicMenuState,
+  spells: Spell[],
+  glyphs?: GlyphTable,
+): void {
+  if (!state.spellMenu) return
+  const sel = state.spellMenu.items[state.spellMenu.cursor]
+  const spell = sel ? spells.find((s) => s.id === sel.id) : undefined
+  const lines = getScriptDescLines(spell?.scriptDesc ?? 0)
+  for (let i = 0; i < lines.length; i++) {
+    renderText(fb, lines[i]!, MAGIC_DESC_X, MAGIC_DESC_Y + i * 16, MAGIC_DESC_COLOR, glyphs, true)
+  }
+}
+
 // ── magic grid(magicmenu.c:228-275)─────────────────────────────────────
 function drawMagicGrid(input: DrawInGameMagicMenuInput): void {
   const { fb, state, uiSpriteFrames, glyphs, spells } = input
@@ -317,6 +336,7 @@ export function drawInGameMagicMenu(input: DrawInGameMagicMenuInput): void {
   //  - magic grid box
   drawAllPlayerInfoBoxes(fb, state.partyMembers, gs, uiSpriteFrames)
   drawCashAndMpBox(fb, gs, state, spells, magics, uiSpriteFrames, glyphs)
+  drawMagicDescription(fb, state, spells, glyphs)
   drawMagicGrid(input)
 
   if (state.phase === 'pick-target') {

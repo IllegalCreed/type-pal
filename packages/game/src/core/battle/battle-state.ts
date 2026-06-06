@@ -270,6 +270,11 @@ export interface BattleAnimFrame {
   }>
   /** 本帧音效(present 播;本切片只存值)。 */
   sound?: number
+  /**
+   * 本帧战斗单行文字(sdlpal `PAL_BattleDelay(..., wObjectID)` 类文本)。
+   * 进入该帧时由 driver emit `showBattleMessage`，用于逃跑失败等非 dialog-box 文本。
+   */
+  battleMessage?: { text: string; durationMs: number }
   /** 本帧屏幕抖动(screenShake;本切片只存值)。 */
   shake?: { time: number; level: number }
   /**
@@ -334,10 +339,10 @@ export interface BattleAnimState {
   /** 当前帧多个 magic overlay(AttackAll 三落点;present 优先画此,非空时盖过 overlay)。 */
   overlays?: BattleAnimOverlay[]
   /**
-   * 时间线**播完后**才 emit 的伤害数字(掉血/MP 弹幕)。
-   * 对照 sdlpal:法术 `PAL_BattleDisplayStatChange()` 在 PAL_BattleShow{Off,Enemy}MagicAnim
-   * **之后**调(fight.c:4322/4369/4405)→ 数字在魔法特效落完才出,而非施法起手。物理攻击的数字仍
-   * 在时间线命中帧 emit(frame.damageNum),不走这里。tickPerformAction 在 idx 越界那刻 emit。
+   * 时间线**播完后**才 emit 的兜底伤害数字(掉血/MP 弹幕)。
+   * 攻击/召唤法术的 `PAL_BattleDisplayStatChange()` 应挂 PostMagic 第一帧(frame.damageNums),
+   * 因为 SDLPal 在 OffMagic 后、PostMagic 前/开始显示;物理攻击也在命中帧 emit(frame.damageNum)。
+   * DefMagic / 投掷等没有 PostMagic 的链仍可用这里,由 tickPerformAction 在 idx 越界那刻 emit。
    */
   pendingDamageNums?: Array<{
     target: { kind: 'enemy' | 'player'; idx: number }
@@ -460,10 +465,15 @@ export interface BattleState {
    */
   fAutoBattle?: boolean
   /**
-   * 上一轮每队员已 commit 的 action 快照(= sdlpal prevAction)。postAction 清 pendingActions
-   * 前拷入;Repeat(R 键)重提上一轮 action(sdlpal kKeyRepeat → CommitAction(TRUE))。
+   * 上一轮每队员已 commit 的 action 快照(= sdlpal prevAction)。全员动作决定、填 actionQueue 前备份;
+   * Repeat(R 键)重提上一轮 action(sdlpal kKeyRepeat → CommitAction(TRUE))。
    */
   prevActions?: Map<number, BattleAction>
+  /**
+   * 本轮选择中是否按过 Repeat。sdlpal `g_Battle.fRepeat` 在填 actionQueue 前阻止 prevAction 备份,
+   * 避免 R 重提把原始缓存覆盖掉。
+   */
+  repeatSelectionActive?: boolean
   /**
    * 目标光标上次悬停的敌人 index(sdlpal `g_Battle.UI.iPrevEnemyTarget`)。
    * perform 前 selectAutoTargetFrom 重选目标时优先用它(若仍活)。targetSelect UI 设;
@@ -505,7 +515,7 @@ export interface BattleState {
   introFade?: { step: number; total: number }
   /**
    * 逃跑动画 hold(sdlpal `PAL_BattlePlayerEscape`,battle.c:1438-1527)。flee roll 成功 → 设
-   * { step: 0 };tickBattleFleeAnim 每 tick 把活队员往右下挪(p0 +4/+6、p1 +4/+4、p2 +6/+3),
+   * { step: 0 };tickBattleFleeAnim 每 tick 把活队员往右下挪(当前实现按用户实测取统一右下位移),
    * 16 步后全员移出屏(9999,9999)→ phase='fleed' → finalize。undefined = 无逃跑动画。
    */
   fleeAnim?: { step: number }
@@ -550,7 +560,8 @@ export interface BattleState {
   /**
    * D11b 战斗胜利结算演出(PAL_BattleWon 多屏 PAL_WaitForAnyKey 序列)。phase==='won' 首 tick
    * 处理战果(回写 HP/MP + 升级 + cash)后建;顶层 tickBattleSettlement hold 逐屏等键/超时翻,
-   * 放完 → Phase F 半血恢复 + finalize → explore。undefined = 未进入结算 / 非 won。
+   * 放完 → Phase E scriptOnBattleEnd(可排入 battleDialogQueue)→ Phase F 半血恢复 + finalize → explore。
+   * undefined = 未进入结算 / 非 won。
    */
   settlement?: BattleSettlementState
 }

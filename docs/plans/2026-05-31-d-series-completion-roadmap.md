@@ -124,9 +124,9 @@
 ## B4 — 缺失玩家动作类型(D2 / D16 / D18残)
 
 **缺口**:
-- D2: `summon`(召唤)/ `trance`(变身)/ `equip-battle`(战斗中装备)/ `coop-magic`(协力)action type 仍 **stub**;`R 重复 prevAction` ⬜。
+- D2: `summon`(召唤)/ `trance`(变身)/ `equip-battle`(战斗中装备)/ `coop-magic`(协力)action type 这条旧缺口已过期;`R 重复 prevAction` 已做,并于 2026-06-06 修正跨战斗致死回合备份与 Repeat 本轮不覆盖缓存。
 - D16: 协力法术 `PAL_GetPlayerCooperativeMagic`(global.c:2013)触发链 ⬜(action type 占位 + handler stub)。
-- D18残: 无 `R 重复上次动作` / 自动战斗 / 友方死目标重选。
+- D18残: `R 重复上次动作` 已做(含跨战斗致死回合备份);自动战斗已做;友方死目标重选按 sdlpal 核验为 N/A。
 
 **sdlpal 入口(待详细 plan 完整 read)**:
 - `fight.c:3577 PAL_BattlePlayerPerformAction` 各 `kBattleAction*` case(Summon / CoopMagic / UseItem / Defend / Flee / Magic / Attack / Throw / Repeat)
@@ -136,13 +136,13 @@
 
 **ts 落点**:
 - `core/battle/actions/`(新 summon.ts / coop-magic.ts / 扩 magic.ts)
-- `core/battle/battle-system.ts` tickSelectAction(R 重复 / auto-battle / 友方死目标重选)
+- `core/battle/battle-system.ts` tickSelectAction(R 重复 / auto-battle;友方死目标重选旧项已核为 N/A)
 - `core/battle/turn-queue.ts`(协力法术多人同步行动?待 read 确认)
 
 **完成判据**:
 - 协力法术触发链通(满足条件 → coop-magic action → 解算伤害)。
 - summon/trance action type 真做(逻辑层,变身**动画**归 B5)。
-- R 重复上次动作 / fAutoBattle 自动战斗 / 友方目标死后重选 真接菜单。
+- R 重复上次动作 / fAutoBattle 自动战斗 真接菜单;友方目标死后重选 N/A 注释不再作为缺口。
 - actions/*.test.ts 覆盖。
 
 ---

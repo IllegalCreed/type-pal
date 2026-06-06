@@ -323,9 +323,9 @@ export function startBattle(input: StartBattleInput): void {
   })
 
   // R(重提)跨战斗:sdlpal g_Battle.rgPlayer[i].prevAction 是全局不随战斗重置,故"上回合"可以是
-  //   **上一场战斗的最后一回合**(user 2026-05-31 报)。ts BattleState 每场重建会丢 → 从 gs.prevBattleActions
-  //   (上一场战末持久,tickPostAction 每轮更新)带入本场初始 prevActions(按 party 槽 index,同 sdlpal)。
-  battleState.prevActions = new Map(input.gs.prevBattleActions ?? [])
+  //   **上一场战斗的最后一回合**(user 2026-05-31 报)。持久层按 roleId 保存,开战再映射为本场 party
+  //   槽,避免队伍人数/顺序变化后把旧槽位动作套给另一个角色。
+  restoreRepeatActionsForParty(battleState, input.gs)
 
   // E04:sdlpal PAL_StartBattle(battle.c:1565-1586)战前清 7 隐藏经验池 wCount(per-battle 计数)。
   clearHiddenExpCounts(input.gs)
@@ -453,7 +453,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 
   switch (state.phase) {
     case 'preBattle':
-      tickPreBattle(state)
+      tickPreBattle(state, res.playerRoles)
       break
     case 'selectAction':
       tickSelectAction(state, res, input, gs)
@@ -481,8 +481,8 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 // Phase handlers
 // ============================================================================
 
-/** preBattle → selectAction(M3 跳过 wScriptOnReady)。起手起第一个队员的选择菜单(PAL_BattleUIPlayerReady)。 */
-function tickPreBattle(state: BattleState): void {
+/** preBattle → selectAction(M3 跳过 wScriptOnReady)。起手起第一个可手动选择的活队员菜单。 */
+function tickPreBattle(state: BattleState, playerRoles: PlayerRoles): void {
   // D19:入场 fade-in 期间停在 preBattle gate 输入(present 放 dither 淡入);fade 完才进 selectAction。
   if (state.introFade && state.introFade.step < state.introFade.total) {
     state.introFade.step++
@@ -490,7 +490,7 @@ function tickPreBattle(state: BattleState): void {
   }
   state.introFade = undefined
   state.phase = 'selectAction'
-  startPlayerSelection(state, 0)
+  startFirstReadyPlayerSelection(state, playerRoles)
   state.phaseStallTicks = 0
 }
 
@@ -504,6 +504,29 @@ function startPlayerSelection(state: BattleState, idx: number): void {
   state.menuState = 'main'
   state.selectedAction = 0
   state.uiCursor = 0
+  state.pendingActionDraft = undefined
+  state.magicSelect = undefined
+  state.itemSelect = undefined
+}
+
+function isReadyForManualSelection(state: BattleState, playerRoles: PlayerRoles, idx: number): boolean {
+  const player = state.players[idx]
+  if (!player) return false
+  const role = playerRoles.roles[player.roleId]
+  if (!role || role.hp <= 0) return false
+  const st = player.status
+  return st.sleep <= 0 && st.paralyzed <= 0 && st.confused <= 0
+}
+
+function startFirstReadyPlayerSelection(state: BattleState, playerRoles: PlayerRoles): void {
+  const idx = state.players.findIndex((_, i) => isReadyForManualSelection(state, playerRoles, i))
+  if (idx >= 0) {
+    startPlayerSelection(state, idx)
+    return
+  }
+  state.selectingPlayerIdx = undefined
+  state.uiState = 'wait'
+  state.menuState = 'main'
   state.pendingActionDraft = undefined
   state.magicSelect = undefined
   state.itemSelect = undefined
@@ -555,7 +578,7 @@ function tickSelectAction(
   input: InputSnapshot,
   gs: GameState,
 ): void {
-  // 找活队员
+  // 本轮仍活着的队员;死亡队员不能进入动作选择,也不能用旧 pending action 凑满本轮。
   const alivePlayerIdxs: number[] = []
   state.players.forEach((p, i) => {
     const role = res.playerRoles.roles[p.roleId]
@@ -572,11 +595,10 @@ function tickSelectAction(
   // B1/D8:失能(睡眠/麻痹/混乱)活队员自动填占位 action + 跳菜单
   //   (sdlpal fight.c:1398-1404 不开菜单 + 1505-1527 queue 自动填 Attack id0;
   //    perform 时再解算 Pass/AttackMate)。
+  pruneInactivePendingActions(state, alivePlayerIdxs)
   autoFillIncapacitatedActions(state, alivePlayerIdxs)
-  // 当前选择若落在已自动填的失能队员上 → 跳到下一个待填活队员(或全填完 → wait)。
-  if (state.selectingPlayerIdx !== undefined && state.pendingActions.has(state.selectingPlayerIdx)) {
-    advanceSelectingPlayer(state, alivePlayerIdxs)
-  }
+  // 当前选择若落在死亡/已自动填的队员上 → 跳到下一个待填活队员(或全填完 → wait)。
+  ensureSelectingPendingAlivePlayer(state, alivePlayerIdxs)
 
   // B4(3):持久 fAutoBattle(0x8A,sdlpal uibattle.c:839-878)**优先**于手动/fAutoAttack(:822 互斥)。
   //   整场每 ready 队员自动 PickAutoMagic(阈值 9999)→ 有可用法术选法术、否则物理,不显示菜单、不可手动关。
@@ -602,9 +624,14 @@ function tickSelectAction(
   }
 
   // 还没全选完 → 等下一 tick
-  if (state.pendingActions.size < alivePlayerIdxs.length) return
+  if (alivePlayerIdxs.some((i) => !state.pendingActions.has(i))) return
 
-  // 全选完 → build ActionQueue,进 performAction。
+  // 全选完 → 先备份本轮 action 供 Repeat(R 键)重提,再 build ActionQueue,进 performAction。
+  // sdlpal fight.c:1427-1437 在"全员 action 已决定、填 action queue 前"备份;因此杀死最后敌人的那一轮
+  // 也会成为下一场 R 的来源。若本轮由 Repeat 触发,则不覆盖 prevAction(fRepeat gate)。
+  backupRepeatActions(state, gs)
+
+  // build ActionQueue,进 performAction。
   // D7(W1):sdlpal fight.c CLASSIC 填队列 **先全敌后全玩家**,每条 dex `*= RandomFloat(0.9,1.1)`(WORD 截断)。
   //   RNG 抽取次序必须复刻(先 enemy 含 dualMove 二抽,再 player)→ 故 enemySlots 先算。
   //   dualMove 第二行动独立二抽 dex(fight.c:1483-1489),传 dex2 让 buildActionQueue 比较定 fIsSecond。
@@ -623,12 +650,16 @@ function tickSelectAction(
       return { idx: i, dex, dualMove, dex2 }
     })
 
-  const playerSlots = alivePlayerIdxs.map((i) => {
-    const player = state.players[i]!
+  const playerSlots = state.players.map((player, i) => {
     const role = res.playerRoles.roles[player.roleId]!
-    // B1/D8:睡眠/麻痹队员 dex=0(排队尾;sdlpal fight.c:1505-1517 "同回合恢复则物理攻,否则 Pass")。
+    // B1/D8:死亡/睡眠/麻痹队员 dex=0(排队尾;sdlpal fight.c:1505-1517
+    //   "同回合恢复则物理攻,否则 Pass")。这里发生在 prevAction 备份之后,故不污染 Repeat。
     //   注:此分支 sdlpal **不摇** RandomFloat(直接 wDexterity=0),故不消耗 RNG。
-    if (player.status.sleep > 0 || player.status.paralyzed > 0) return { idx: i, dex: 0 }
+    if (role.hp === 0 || player.status.sleep > 0 || player.status.paralyzed > 0) {
+      if (!state.pendingActions.has(i))
+        state.pendingActions.set(i, { type: 'attack', actionId: 0, target: 0, targetSide: 'enemy' })
+      return { idx: i, dex: 0 }
+    }
     // baseDex = PAL_GetPlayerDexterity(global.c:1849-1864)= rgwDexterity + Σ装备,**无 level 项**
     //   (等级项是**敌方** PAL_GetEnemyDexterity 才有,且乘数 *3 非 *4,fight.c:311-312)。
     //   role.dexterity 已 = base+装备(projectRuntimeToBattleRoles game-state.ts:1282)→ 直接用,
@@ -671,16 +702,16 @@ const ITEM_GRID_COLS = 3
 const ITEM_GRID_ROWS = 7
 
 // ── 灰项判定 helpers(PAL_IsPlayerHealthy / PAL_BattleUIIsActionValid)──────
-/** port sdlpal `PAL_IsPlayerDying`(global.c):hp>0 且 hp < maxHP/5(濒死)。 */
+/** port sdlpal `PAL_IsPlayerDying`(fight.c:29-48):hp>0 且 hp < min(100,maxHP/5)(濒死)。 */
 function isPlayerDying(role: { hp: number; maxHP: number }): boolean {
-  return role.hp > 0 && role.hp < Math.max(1, Math.floor(role.maxHP / 5))
+  return role.hp > 0 && role.hp < Math.min(100, Math.floor(role.maxHP / 5))
 }
 
 /**
  * M6 玩家濒死/阵亡音 —— port sdlpal `PAL_BattlePostActionCheck` dying-sweep(fight.c:834-850)
  *   + enemy 攻击致死内联 deathSound(fight.c:4816/4851/5110)。每回合后处理调一次,比对本回合初
- *   prevHp:① hp===0 且 prevHp>0(本回合阵亡)→ rgwDeathSound;② hp>0 且跌入濒死(hp<maxHP/5)且
- *   回合初尚在阈值上(prevHp>=maxHP/5,即刚跨入)→ rgwDyingSound。判完把 prevHp 快照为当前 hp 供下回合。
+ *   prevHp:① hp===0 且 prevHp>0(本回合阵亡)→ rgwDeathSound;② hp>0 且跌入濒死(hp<min(100,maxHP/5))且
+ *   回合初尚在阈值上(prevHp>=min(100,maxHP/5),即刚跨入)→ rgwDyingSound。判完把 prevHp 快照为当前 hp 供下回合。
  *
  * **阵亡音仅敌攻致死播,毒杀不播**(2026-06-03 音效审计确认:sdlpal rgwDeathSound 只在 3 个 enemy
  *   攻击分支内联 fight.c:4816/4851/5110,毒 tick 1657-1700 / PostActionCheck 都不播玩家 deathSound)。
@@ -703,7 +734,7 @@ export function emitPlayerCasualtySounds(
   for (const p of players) {
     const role = playerRoles.roles[p.roleId]
     if (!role) continue
-    const dyingThreshold = Math.max(1, Math.floor(role.maxHP / 5))
+    const dyingThreshold = Math.min(100, Math.floor(role.maxHP / 5))
     const deathSound = role.deathSound ?? 0
     const dyingSound = role.dyingSound ?? 0
     if (role.hp < p.prevHp) {
@@ -808,7 +839,7 @@ function runPlayerCasualtyScripts(
     const role = res.playerRoles.roles[player.roleId]
     const prevHp = player.scriptPrevHp ?? player.prevHp
     if (!role || player.status.sleep > 0 || player.status.confused > 0) continue
-    const threshold = Math.max(1, Math.floor(role.maxHP / 5))
+    const threshold = Math.min(100, Math.floor(role.maxHP / 5))
     if (!(role.hp < prevHp && role.hp > 0 && isPlayerDying(role) && prevHp >= threshold)) continue
     const coverRoleId = role.coveredBy ?? 0
     const coverIdx = state.players.findIndex((p) => p.roleId === coverRoleId)
@@ -957,9 +988,12 @@ function buildBattleItemSelect(
 ): SelectionMenuState {
   const inUse = new Map<number, number>()
   state.pendingActions.forEach((action) => {
-    if ((action.type === 'item' || action.type === 'throw-item') && action.actionId !== undefined) {
-      inUse.set(action.actionId, (inUse.get(action.actionId) ?? 0) + 1)
-    }
+    if (action.actionId === undefined) return
+    // sdlpal fight.c:1900-1916:ThrowItem 无条件占 nAmountInUse;UseItem 仅 consuming 物品占
+    //   (1902-1904 非消耗品直接 break)→ 非消耗 usable 品(灵珠/紫金葫芦等)同回合多队员可重复选。
+    const occupies = action.type === 'throw-item'
+      || (action.type === 'item' && !!items.find((i) => i.id === action.actionId)?.flags.consuming)
+    if (occupies) inUse.set(action.actionId, (inUse.get(action.actionId) ?? 0) + 1)
   })
   const menuItems = gs.inventory
     .filter((e) => e.count > 0)
@@ -1038,6 +1072,12 @@ function dispatchSelectInput(
       break
     default:
       break // wait / hidden
+  }
+
+  // CLASSIC 的全体目标态不等待玩家选择。Confirm 在 magic/item 网格中刚进入 All 态时,
+  // 同 tick 直接提交,避免 present 画出一帧目标箭头/过渡高亮。
+  if (state.uiState === 'selectTargetEnemyAll' || state.uiState === 'selectTargetPlayerAll') {
+    commitDraftAsAction(state, -1, alivePlayerIdxs)
   }
 }
 
@@ -1160,6 +1200,7 @@ function commitForceAction(state: BattleState, alivePlayerIdxs: number[], res: B
 function commitRepeatAction(state: BattleState, alivePlayerIdxs: number[], playerRoles: PlayerRoles): void {
   const playerIdx = state.selectingPlayerIdx
   if (playerIdx === undefined) return
+  state.repeatSelectionActive = true
   const prev = state.prevActions?.get(playerIdx)
   // sdlpal CommitAction(TRUE)(fight.c:1858-1867):prevAction 复制后,若是 pass(上轮睡/被控)
   //   → 转物理攻击 id0 target=-1(全体)。无 prev(首轮)同此默认 pass→attack。
@@ -1178,6 +1219,50 @@ function commitRepeatAction(state: BattleState, alivePlayerIdxs: number[], playe
     : selectAutoTargetFrom(state.enemies, 0, state.iPrevEnemyTarget ?? -1)
   state.pendingActions.set(playerIdx, { type: 'attack', target, targetSide: 'enemy' })
   advanceSelectingPlayer(state, alivePlayerIdxs)
+}
+
+/** 把跨战斗的 roleId 缓存映射为本场 slot 缓存;我方目标离队时回退到施法者自己。 */
+function restoreRepeatActionsForParty(state: BattleState, gs: GameState): void {
+  const persisted = gs.prevBattleActions
+  if (!persisted) {
+    state.prevActions = new Map()
+    return
+  }
+
+  const slotByRole = new Map(state.players.map((player, slot) => [player.roleId, slot]))
+  const restored = new Map<number, BattleAction>()
+  for (const [slot, player] of state.players.entries()) {
+    const previous = persisted.get(player.roleId)
+    if (!previous) continue
+    const action = { ...previous }
+    if (action.targetSide === 'player' && action.target >= 0) {
+      const targetRoleId = gs.prevBattleActionTargetRoles?.get(player.roleId)
+      action.target = targetRoleId === undefined ? slot : (slotByRole.get(targetRoleId) ?? slot)
+    }
+    restored.set(slot, action)
+  }
+  state.prevActions = restored
+}
+
+/** 备份本轮已决定 action,供 R 重复跨轮/跨战斗使用。 */
+function backupRepeatActions(state: BattleState, gs: GameState): void {
+  if (!state.repeatSelectionActive) {
+    state.prevActions = new Map(state.pendingActions)
+    const persisted = new Map<number, BattleAction>()
+    const targetRoles = new Map<number, number>()
+    for (const [slot, action] of state.prevActions) {
+      const actorRoleId = state.players[slot]?.roleId
+      if (actorRoleId === undefined) continue
+      persisted.set(actorRoleId, { ...action })
+      if (action.targetSide === 'player' && action.target >= 0) {
+        const targetRoleId = state.players[action.target]?.roleId
+        if (targetRoleId !== undefined) targetRoles.set(actorRoleId, targetRoleId)
+      }
+    }
+    gs.prevBattleActions = persisted
+    gs.prevBattleActionTargetRoles = targetRoles
+  }
+  state.repeatSelectionActive = false
 }
 
 /**
@@ -1438,6 +1523,25 @@ function autoFillIncapacitatedActions(state: BattleState, alivePlayerIdxs: numbe
       state.pendingActions.set(i, { type: 'attack', actionId: 0, target: 0 })
     }
   }
+}
+
+function pruneInactivePendingActions(state: BattleState, alivePlayerIdxs: number[]): void {
+  const alive = new Set(alivePlayerIdxs)
+  for (const idx of [...state.pendingActions.keys()]) {
+    if (!alive.has(idx)) state.pendingActions.delete(idx)
+  }
+}
+
+function ensureSelectingPendingAlivePlayer(state: BattleState, alivePlayerIdxs: number[]): void {
+  const current = state.selectingPlayerIdx
+  if (
+    current !== undefined &&
+    alivePlayerIdxs.includes(current) &&
+    !state.pendingActions.has(current)
+  ) {
+    return
+  }
+  advanceSelectingPlayer(state, alivePlayerIdxs)
 }
 
 /**
@@ -1949,7 +2053,7 @@ function tickPerformAction(
   bus: CommandBus,
   res: BattleResources,
 ): void {
-  // flee 提前转 phase → 早退
+  // fleed phase → 早退;逃跑动画由 tickBattleFleeAnim 顶层 hold 接管。
   if (state.phase !== 'performAction') return
 
   // 注:死亡淡出 hold 已上移到 tickBattle 顶层(phase-agnostic tickBattleFade)。
@@ -2397,7 +2501,10 @@ function performBattleAction(
         magics: res.magics,
         objectMagics: res.objectMagics,
         bus,
+        actor,
+        battleEffectIndex: res.battleEffectIndex,
         magicSpriteFrameCounts: res.magicSpriteFrameCounts, // 有 → 建合击动画(聚拢/施法/法术效果/滑回)
+        summonSpriteFrameCounts: res.summonSpriteFrameCounts, // summon 型协力(武神等)召唤神逐帧 loop
       })
       break
     }
@@ -2412,8 +2519,8 @@ function performBattleAction(
  * - 敌全死 → won
  * - 否则:turn++、清 pendingActions、清 defending flag(单轮失效)、回 selectAction
  *
- * **flee 不走本 phase** —— performFlee 直接把 phase 设 'fleed',tickBattle 路由会
- * 直接进 finalizeBattle。本 handler 不处理 fleed(防御性提早返回)。
+ * **flee 不走本 phase** —— performFlee/0x3A 会触发 fleeAnim,动画结束后 phase='fleed'。
+ * 本 handler 不处理 fleed(防御性提早返回)。
  */
 function tickPostAction(
   state: BattleState,
@@ -2504,10 +2611,6 @@ function tickPostAction(
   // B2 c5 / D24:每轮衰减隐身(CLASSIC 每轮 -1,到 0 = 隐身结束;fight.c:1670-1672)
   decrementHidingEffect(state)
   state.turn++
-  // 备份本轮已选 action 供 Repeat(R 键)重提(sdlpal fight.c:1434-1437 prevAction backup),再清。
-  state.prevActions = new Map(state.pendingActions)
-  // R 跨战斗:同步持久到 gs(sdlpal prevAction 全局不重置)→ 下一场战斗带入"上场最后一回合"。
-  gs.prevBattleActions = new Map(state.prevActions)
   state.pendingActions.clear()
   // defend 单轮失效(sdlpal `fight.c:1604` `g_Battle.rgPlayer[i].fDefending = FALSE`)
   state.players.forEach((p) => {
@@ -2517,9 +2620,9 @@ function tickPostAction(
   //   (user 2026-05-31 实测:一回合结束后还保持防御姿)。sdlpal fight.c:1602-1609 同序(清 fDefending
   //   + 复位 pos),姿势随每帧 PAL_BattleUpdateFighters 即回站立。
   resetFightersAfterAction(state, res.playerRoles)
-  // 进下一轮选择 —— 起第一个队员的菜单(= PAL_BattleUIPlayerReady;fAutoAttack 跨轮保持)。
+  // 进下一轮选择 —— 起第一个可手动选择的活队员菜单(= PAL_BattleUIPlayerReady;fAutoAttack 跨轮保持)。
   state.phase = 'selectAction'
-  startPlayerSelection(state, 0)
+  startFirstReadyPlayerSelection(state, res.playerRoles)
   state.phaseStallTicks = 0
 }
 
@@ -2598,7 +2701,7 @@ function finalizeBattleCleanup(gs: GameState, outcome: BattleOutcome): void {
  *  1. 回写战斗 HP/MP → runtime(先于升级,升级读 runtime 判活 + 满血)
  *  2. Phase A exp/cash 屏(iExpGained>0)+ dwCash += cash
  *  3. battleWonLevelUp 升级数据(写 runtime)→ 每升级队员排 Phase B 升级 box,其后排该队员 Phase D 练成屏
- * 不在此 finalize;顶层 tickBattleSettlement 逐屏放完后才 finishBattleWon(Phase F 半血 + cleanup)。
+ * 不在此 finalize;顶层 tickBattleSettlement 逐屏放完后才 run post scripts + Phase F 半血 + cleanup。
  */
 function buildBattleWonSettlement(gs: GameState, state: BattleState, res: BattleResources): void {
   // 1. 回写战斗 HP/MP → runtime(伤害/治疗持久化 + 存档对齐;升级读 runtime hp 判活 + 满血)
@@ -2637,13 +2740,10 @@ function buildBattleWonSettlement(gs: GameState, state: BattleState, res: Battle
 }
 
 /**
- * D11b 结算演出放完(index 越界)→ Phase F 每战后半血恢复(battle.c:1342-1372 PAL_CLASSIC:
- * HP += (maxHP-HP)/2,MP 同)+ finalize → explore。
- *
  * B2 c6:Phase E post-battle scriptOnBattleEnd(battle.c:1334-1337)在半血恢复**之前**、
  * 仅胜利时,对每只敌跑一次(返回值**不回写**,与 turnStart/ready 的 show-once 不同)。
  */
-function finishBattleWon(gs: GameState, state: BattleState, res: BattleResources, bus: CommandBus): void {
+function runBattleWonPostScripts(gs: GameState, state: BattleState, res: BattleResources, bus: CommandBus): void {
   // B2 c6:逐敌跑 scriptOnBattleEnd(battle.c:1334-1337,在半血恢复前)。胜利时全敌已死,
   //   但 sdlpal 仍对 i=0..wMaxEnemyIndex 跑(不按 health 过滤);返回值不回写。
   for (let ei = 0; ei < state.enemies.length; ei++) {
@@ -2663,7 +2763,13 @@ function finishBattleWon(gs: GameState, state: BattleState, res: BattleResources
       },
     })
   }
+}
 
+/**
+ * D11b 结算与 Phase E 脚本都完成后 → Phase F 每战后半血恢复(battle.c:1342-1372 PAL_CLASSIC:
+ * HP += (maxHP-HP)/2,MP 同)+ finalize → explore。
+ */
+function finishBattleWon(gs: GameState): void {
   const rt = gs.PlayerRolesRuntime
   for (const roleId of gs.partyMembers) {
     const maxHP = rt.rgwMaxHP[roleId] ?? 0
@@ -2694,7 +2800,15 @@ export function tickBattleSettlement(
   state.phaseStallTicks = 0
 
   if (s.index >= s.screens.length) {
-    finishBattleWon(gs, state, res, bus) // 放完 → scriptOnBattleEnd + 半血恢复 + 收尾回 explore
+    if (!s.postBattleScriptsDone) {
+      runBattleWonPostScripts(gs, state, res, bus) // Phase E:scriptOnBattleEnd 可排入 battleDialogQueue。
+      s.postBattleScriptsDone = true
+      if ((state.battleDialogQueue?.length ?? 0) > 0 || gs.dialogBox)
+        return true
+    }
+    if ((state.battleDialogQueue?.length ?? 0) > 0 || gs.dialogBox)
+      return true
+    finishBattleWon(gs) // scriptOnBattleEnd 的对话放完 → 半血恢复 + 收尾回 explore
     return true
   }
 

@@ -1230,7 +1230,7 @@ describe('performMagic scriptOnSuccess(fight.c:4214-4265)', () => {
 })
 
 describe('D17:法术伤害数字延迟到特效播完(sdlpal DisplayStatChange after anim,fight.c:4322)', () => {
-  it('建了动画链 → performMagic 不立即 emit showDamageNum,而存 battleAnim.pendingDamageNums', () => {
+  it('建了攻击法术动画链 → 不立即 emit,数字挂 PostMagic 第一帧', () => {
     const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
       { health: 100, defense: 30, level: 5, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
     ])
@@ -1256,9 +1256,13 @@ describe('D17:法术伤害数字延迟到特效播完(sdlpal DisplayStatChange a
     expect(state.enemies[0]!.e.health).toBeLessThan(100)
     const cmds = bus.drain()
     expect(cmds.find((c) => c.cmd.op === 'showDamageNum')).toBeUndefined()
-    // 数字存到时间线播完后 emit
+    // 数字挂到 PostMagic 第一帧:OffMagic 结束后、敌人受击开始时 emit。
     expect(state.battleAnim).toBeDefined()
-    expect(state.battleAnim!.pendingDamageNums).toEqual([
+    expect(state.battleAnim!.pendingDamageNums ?? []).toHaveLength(0)
+    const numIdx = state.battleAnim!.frames.findIndex((f) => (f.damageNums?.length ?? 0) > 0)
+    const firstPostIdx = state.battleAnim!.frames.findIndex((f) => f.fighters?.some((d) => d.side === 'enemy' && d.idx === 0))
+    expect(numIdx).toBe(firstPostIdx)
+    expect(state.battleAnim!.frames[numIdx]!.damageNums).toEqual([
       { target: { kind: 'enemy', idx: 0 }, value: expect.any(Number), color: 'blue' },
     ])
   })

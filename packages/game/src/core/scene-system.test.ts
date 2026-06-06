@@ -1,7 +1,8 @@
-import { describe, it, expect, vi } from 'vitest'
-import type { Tilemap, InputSnapshot, AbstractKey } from '@type-pal/shared'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import type { Tilemap, InputSnapshot, AbstractKey, Item, Spell, Magic, PlayerRoles } from '@type-pal/shared'
+import { setMenuCatalogs } from './menu/menu-driver.js'
 import { loadScene, tickSceneSystem, isWalkable } from './scene-system.js'
-import { createInitialGameState } from './game-state.js'
+import { createInitialGameState, PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import type { NpcState } from './game-state.js'
 import { createCommandBus } from './command-bus.js'
 import { SceneAssetsCache, type SceneAssets } from '../assets/loader.js'
@@ -85,12 +86,12 @@ describe('SceneSystem 走路', () => {
     expect(gs.party.facing).toBe('right')
   })
 
-  it('走路:清 pose(partyScriptedFrame)但**保留** sprite override(partyLeaderSpriteId 端酒菜持久)', () => {
+  it('走路:清 pose(partyScriptedFrame)但**保留** role0 sprite override(端酒菜持久)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     gs.partyScriptedFrame = { 0: 7 }       // 0x15 设的剧情 pose
-    gs.partyLeaderSpriteId = 208           // 0x65 设的端酒菜 sprite
+    gs.partyLeaderSpriteId = 208           // 旧兼容镜像:0x65 给 role0 设的端酒菜 sprite
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.partyScriptedFrame[0]).toBeUndefined()   // pose 清掉(走路覆写 wFrame)
     expect(gs.partyLeaderSpriteId).toBe(208)           // sprite override 保留(边走边端酒菜)
@@ -179,6 +180,59 @@ describe('pickFacing 走 last-press priority(sdlpal input.c:180-189)', () => {
     expect(gs.party.facing).toBe('right')
     expect(gs.party.x).toBe(5 * 16)
     expect(gs.party.y).toBe(5 * 8)
+  })
+})
+
+describe('PAL_StartFrame input order(play.c:534-566)', () => {
+  it('方向键 + Menu 同帧 → 先移动再开菜单', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+
+    tickSceneSystem(gs, snap(['Right'], ['Menu']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+
+    expect(gs.party.x).toBe(6 * 16)
+    expect(gs.party.y).toBe(6 * 8)
+    expect(gs.mode).toBe('menu')
+    expect(gs.menuStack.at(-1)?.kind).toBe('in-game')
+  })
+})
+
+describe('大世界快捷键直达子菜单(sdlpal play.c:558-584)', () => {
+  const MOCK_CATALOGS = {
+    items: [] as Item[],
+    spells: [] as Spell[],
+    magics: [] as Magic[],
+    playerRoles: { roles: [{ id: 0 }, { id: 1 }, { id: 2 }] } as unknown as PlayerRoles,
+  }
+  beforeEach(() => setMenuCatalogs(MOCK_CATALOGS))
+
+  const ctx = { tilemap: makeFlatMap(10, 10), eventCommands: [], labelMap: {} }
+  function exploreGs(): ReturnType<typeof createInitialGameState> {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    gs.partyMembers = [0, 1, 2]
+    return gs
+  }
+
+  // E→用物品 / W→装备 / F→法术 / S→状态屏(各跳过 in-game hub 直达,sdlpal play.c:558-584)
+  it.each([
+    ['UseItem', 'inventory'],
+    ['ThrowItem', 'equip'],
+    ['Force', 'in-game-magic'],
+    ['Status', 'player-status'],
+  ])('按 %s → 开 %s 子菜单 + mode=menu', (key, kind) => {
+    const gs = exploreGs()
+    const bus = createCommandBus()
+    tickSceneSystem(gs, snap([], [key as AbstractKey]), bus, ctx)
+    expect(gs.mode).toBe('menu')
+    expect(gs.menuStack.at(-1)?.kind).toBe(kind)
+  })
+
+  it('Menu 优先于快捷键(同帧 Menu+UseItem → in-game hub,对齐 play.c else-if 链)', () => {
+    const gs = exploreGs()
+    const bus = createCommandBus()
+    tickSceneSystem(gs, snap([], ['Menu', 'UseItem']), bus, ctx)
+    expect(gs.menuStack.at(-1)?.kind).toBe('in-game')
   })
 })
 
@@ -578,6 +632,99 @@ describe('M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)', () => {
     expect(gs.npcs[0]?.scriptedFrame).toBe(0) // 站立帧
     expect(gs.mode).toBe('event')
   })
+
+  it('PAL_StartFrame 顺序:本帧走进 trigger zone 后下一帧才触发', () => {
+    const gs = createInitialGameState({ x: 320, y: 240, facing: 'right' })
+    gs.npcs = [{
+      id: 1, x: 336, y: 248, spriteNum: 1, sState: 1,
+      triggerLabel: 'L_X', triggerMode: 4,
+    }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 64)
+    setGlobalEvents([{ op: 'end' as const, label: 'L_X' }])
+
+    tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [{ op: 'end' as const }], labelMap: { L_X: 0 } })
+    expect(gs.party.x).toBe(336)
+    expect(gs.party.y).toBe(248)
+    expect(gs.mode).toBe('explore')
+
+    tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [{ op: 'end' as const }], labelMap: { L_X: 0 } })
+    expect(gs.mode).toBe('event')
+    expect(gs.eventCursor?.ip).toBe(0)
+  })
+
+  it('阻挡 NPC 压到 party anchor → 按 NPC 朝向下一方向推离一格(play.c:197-228)', () => {
+    const gs = createInitialGameState({ x: 320, y: 240, facing: 'down' })
+    gs.npcs = [{
+      id: 1, x: 320, y: 240, spriteNum: 1, sState: 2,
+      facing: 'down',
+    }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 64)
+
+    tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+
+    // down(0) 的下一方向是 west/left(1):(-16,-8)
+    expect(gs.party.x).toBe(304)
+    expect(gs.party.y).toBe(232)
+    expect(gs.camera).toEqual({ x: 304 - PARTYOFFSET_X, y: 232 - PARTYOFFSET_Y })
+    expect(gs.walkingFrame.walking).toBe(false)
+  })
+
+  it('autoScript 先移动 blocker,NPC 压到 party 后同帧 push party(play.c:169-228)', () => {
+    const gs = createInitialGameState({ x: 320, y: 240, facing: 'down' })
+    gs.npcs = [{
+      id: 1, x: 324, y: 238, spriteNum: 1, sState: 2,
+      facing: 'down', autoCursor: { ip: 0 },
+    }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 64)
+    setGlobalEvents([
+      { op: 'raw' as const, opcode: 0x007D, operands: [0, 0xfffc, 2], label: 'L_0' },
+      { op: 'end' as const },
+    ])
+
+    tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+
+    expect(gs.npcs[0]?.x).toBe(320)
+    expect(gs.npcs[0]?.y).toBe(240)
+    expect(gs.party.x).toBe(304)
+    expect(gs.party.y).toBe(232)
+  })
+
+  it('压到 party anchor 但 sState<2 或 spriteNum=0 → 不推离', () => {
+    const gs = createInitialGameState({ x: 320, y: 240, facing: 'down' })
+    gs.npcs = [
+      { id: 1, x: 320, y: 240, spriteNum: 1, sState: 1, facing: 'down' },
+      { id: 2, x: 320, y: 240, spriteNum: 0, sState: 2, facing: 'down' },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 64)
+
+    tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+
+    expect(gs.party.x).toBe(320)
+    expect(gs.party.y).toBe(240)
+    expect(gs.camera).toEqual({ x: 320 - PARTYOFFSET_X, y: 240 - PARTYOFFSET_Y })
+  })
+
+  it('推离首选方向被挡 → 按 SDLPal 四向顺序尝试下一方向', () => {
+    const gs = createInitialGameState({ x: 320, y: 240, facing: 'down' })
+    gs.npcs = [
+      // 触发推离:down(0) → 先试 left(-16,-8)
+      { id: 1, x: 320, y: 240, spriteNum: 1, sState: 2, facing: 'down' },
+      // 挡住首选 left 目标(304,232),迫使改试 up(+16,-8)
+      { id: 2, x: 304, y: 232, spriteNum: 1, sState: 2, facing: 'down' },
+    ]
+    const bus = createCommandBus()
+    const map = makeFlatMap(64, 64)
+
+    tickSceneSystem(gs, snap(), bus, { tilemap: map, eventCommands: [], labelMap: {} })
+
+    expect(gs.party.x).toBe(336)
+    expect(gs.party.y).toBe(232)
+    expect(gs.camera).toEqual({ x: 336 - PARTYOFFSET_X, y: 232 - PARTYOFFSET_Y })
+  })
 })
 
 describe('M5.6 T8 PAL_Search 视觉效果(play.c:468-490)', () => {
@@ -815,6 +962,31 @@ describe('loadScene(M3.5 T9 / D33)', () => {
     expect(gs.npcs[1]).toMatchObject({ id: 1, x: 64, y: 32, spriteNum: 12 })
     // partyStart 未传 → party 不动
     expect(gs.party).toEqual({ x: 5 * 32, y: 5 * 16, facing: 'down' })
+  })
+
+  it('有 allEventObjects 时按 wNumScene 切全局引用,重进 scene 保留 sState/位置/vanishTime', async () => {
+    const gs = createInitialGameState({ x: 5 * 32, y: 5 * 16, facing: 'down' })
+    gs.allEventObjects = [
+      { id: 0, x: 0, y: 0, spriteNum: 0, sState: 1 },
+      { id: 1, x: 320, y: 160, spriteNum: 78, triggerMode: 5, sState: -1, sVanishTime: 123 },
+      { id: 2, x: 64, y: 32, spriteNum: 12, triggerMode: 0, sState: 2 },
+    ]
+    // core loadScene 的 sceneId 是资源 dump 下标(0-based);sceneId=1 → wNumScene=2 → range key 1。
+    gs.sceneEventRanges = { 1: [1, 3] }
+    const cache = new SceneAssetsCache(async (id) =>
+      makeSceneAssets(id, [
+        { id: 1, x: 999, y: 999, spriteNum: 78, triggerMode: 5, sState: 1, vanishTime: 0 },
+        { id: 2, x: 888, y: 888, spriteNum: 12, triggerMode: 0, sState: 1, vanishTime: 0 },
+      ]),
+    )
+
+    await loadScene({ gs, sceneId: 1, assets: cache })
+
+    expect(gs.wNumScene).toBe(2)
+    expect(gs.npcs).toEqual([gs.allEventObjects[1], gs.allEventObjects[2]])
+    expect(gs.npcs[0]).toMatchObject({ id: 1, x: 320, y: 160, sState: -1, sVanishTime: 123 })
+    gs.npcs[0]!.sState = 0
+    expect(gs.allEventObjects[1]?.sState).toBe(0)
   })
 
   it('传 partyStart → party 位置 / facing 重写;camera 跟到 party', async () => {
@@ -1256,11 +1428,12 @@ describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', 
       { op: 'showDialog' as const, messageIndex: 0, text: '草妖来袭', label: 'L_42' },
       { op: 'end' as const },
     ]
-    // contact 触发后 mode=event,tickSceneSystem 仍会在 step 1 处理走路
     tickSceneSystem(gs, snap(['Right']), bus, {
       tilemap: map, eventCommands: commands, labelMap: { L_42: 0 },
     })
-    // contact 怪不阻挡走路 → walking=true, stepFrame=1
+    // PAL_StartFrame:自动 trigger 检测在本帧走路前;走进去后一帧才触发。
+    expect(gs.mode).toBe('explore')
+    // contact 怪不阻挡走路 → walking=true, stepFrame=1。
     expect(gs.walkingFrame.walking).toBe(true)
     expect(gs.walkingFrame.stepFrame).toBe(1)
   })

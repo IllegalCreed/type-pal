@@ -44,6 +44,11 @@ export interface PlayRngOptions {
   startFrame?: number
   /** 结束帧,默认 -1 = 全播(sdlpal iEndFrame;-1 → manifest 内 frameCount-1)。 */
   endFrame?: number
+  /**
+   * 第一帧写入后从黑淡入目标 palette 的时长。用于复刻 PAL_RNGPlay 内 fNeedToFadeIn 分支;
+   * undefined/0 表示直接显示。
+   */
+  initialFadeInMs?: number
 
   /** 跳过键,默认 Space/Enter/Escape。 */
   skipKeys?: string[]
@@ -77,6 +82,36 @@ async function defaultFetchFrame(chunkIdx: number, frameIdx: number): Promise<In
 /** sleep 帮手(promise + setTimeout)。 */
 function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms))
+}
+
+function scalePalette(base: Palette, factor: number): Palette {
+  return {
+    colors: base.colors.map(([r, g, b]) => [
+      Math.round(r * factor),
+      Math.round(g * factor),
+      Math.round(b * factor),
+    ]),
+    cycles: base.cycles,
+  }
+}
+
+/** 首帧已写入 fb 后,保持该帧并把 palette 从黑升到目标色。 */
+async function fadeInFirstFrame(options: PlayRngOptions): Promise<void> {
+  const durationMs = options.initialFadeInMs ?? 0
+  if (durationMs <= 0) {
+    flushToCanvas(options.fb, options.canvasCtx, options.palette)
+    return
+  }
+
+  const started = performance.now()
+  flushToCanvas(options.fb, options.canvasCtx, scalePalette(options.palette, 0))
+  while (true) {
+    const elapsed = performance.now() - started
+    const progress = Math.min(elapsed / durationMs, 1)
+    flushToCanvas(options.fb, options.canvasCtx, scalePalette(options.palette, progress))
+    if (progress >= 1) break
+    await sleep(Math.min(16, Math.max(1, durationMs - elapsed)))
+  }
 }
 
 /**
@@ -136,13 +171,22 @@ export async function playRng(options: PlayRngOptions): Promise<void> {
       }),
     )
 
-    // 3. play loop — 逐帧 blit + sleep
+    // 3. play loop — 逐帧 blit + sleep。PAL_RNGPlay 在首帧后消费 fNeedToFadeIn。
+    let firstFrame = true
     for (const frame of frames) {
       if (skipped) break
       if (!frame) continue
       // 跨 frame 直接覆盖 fb.indices(RNG 已是完整 320×200,不是 delta — 解码时已累加)
       options.fb.indices.set(frame.indices)
-      flushToCanvas(options.fb, options.canvasCtx, options.palette)
+      if (firstFrame) {
+        await fadeInFirstFrame(options)
+        firstFrame = false
+        // PAL_FadeIn 已越过首帧 deadline,淡入后立即解码下一帧。
+        if ((options.initialFadeInMs ?? 0) > 0) continue
+      }
+      else {
+        flushToCanvas(options.fb, options.canvasCtx, options.palette)
+      }
       await sleep(options.frameDelayMs)
     }
   }

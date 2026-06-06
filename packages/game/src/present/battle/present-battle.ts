@@ -8,7 +8,7 @@
  *   - `showDamageNum`     → FloatingNumsLayer.emit(数字弹幕)
  *   - `playEnemyAttack`   /  `playPlayerAttack` / `playMagicAnim`
  *     / `flashEnemy` / `flashPlayer` / `playEnemyDeath`
- *     / `showBattleMessage` —— M3 不画动画,本 task 跳过(M5 真补)
+ *     / `showBattleMessage`
  *   - `showBattleUI` —— state 本身由 battle-system 改写到 state.uiState,
  *     Present 层不消费此 cmd 修改 state。
  *   - `showDialogBox` / `clearDialogBox` —— 战斗模式下不画对话框,跳过。
@@ -69,6 +69,8 @@ export interface BattleAssets {
    * 数字帧 1:1,对照 sdlpal `PAL_BattleUIUpdate` → `PAL_DrawNumber`)。缺省则数字不画。
    */
   uiSpriteFrames?: IndexedImage[]
+  /** BALL.MKF 物品图标(bitmap chunk → image),战斗使用/投掷物品菜单的选中预览。 */
+  itemIcons?: Map<number, IndexedImage>
   /**
    * D17a:lpEffectSprite(DATA.MKF chunk 10)全 frame —— 物理攻击命中特效 overlay 用
    * (state.battleAnim.overlay.spriteChunk=10,frameIdx 取帧)。缺省则 overlay 不画
@@ -100,7 +102,7 @@ export interface BattleAssets {
  */
 export class BattlePresent {
   private readonly floatingNums = new FloatingNumsLayer()
-  /** 战斗单行消息条(偷取"获得 X" / 逃跑失败);currentFrame >= expiryFrame 时消失。 */
+  /** 战斗单行消息条(逃跑失败等);currentFrame >= expiryFrame 时消失。 */
   private battleMsg: { text: string, expiryFrame: number } | undefined
   /** 召唤 crossfade(PAL_BattleFadeScene)用:上一帧渲染快照(fade 起手 = 对侧"from"场景)。 */
   private lastFrameBuf: Uint8Array | undefined
@@ -161,7 +163,7 @@ export class BattlePresent {
         }
       }
       else if (cmd.op === 'showBattleMessage') {
-        // 战斗单行消息条(偷取"获得 X" / 逃跑失败);显示 durationMs(缺省 800ms,battle tick 40ms/帧)。
+        // 战斗单行消息条(逃跑失败等);显示 durationMs(缺省 800ms,battle tick 40ms/帧)。
         const frames = Math.ceil((cmd.durationMs ?? 800) / 40)
         this.battleMsg = { text: cmd.text, expiryFrame: currentFrame + frames }
       }
@@ -251,11 +253,11 @@ export class BattlePresent {
     // 5. UI overlay(4 图标主菜单 / 杂项盒 / 物品二级 / 法术物品网格 / target 箭头 / HP/MP 状态栏)
     drawBattleUI(
       fb, state, liveRoles, assets.spells, assets.items, gs, assets.glyphs,
-      assets.uiSpriteFrames, assets.enemyPos, assets.objectPoisons,
+      assets.uiSpriteFrames, assets.enemyPos, assets.objectPoisons, assets.itemIcons,
     )
 
-    // 5.5 战斗单行消息条(偷取"获得 X" / 逃跑失败)—— sdlpal 逃跑失败 label 31 @(130,75) 色15。
-    //   (CLASSIC 偷取真值走对话,此处统一消息条近似;currentFrame 过期自动消失。)
+    // 5.5 战斗单行消息条(逃跑失败等)—— sdlpal 逃跑失败 label 31 @(130,75) 色15。
+    //   currentFrame 过期自动消失。
     if (this.battleMsg) {
       if (currentFrame < this.battleMsg.expiryFrame && assets.glyphs)
         renderText(fb, this.battleMsg.text, 130, 75, 15, assets.glyphs, true)

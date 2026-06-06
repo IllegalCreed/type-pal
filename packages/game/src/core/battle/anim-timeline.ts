@@ -34,10 +34,16 @@ function delayMs(frames: number): number {
   return frames * BATTLE_FRAME_TIME
 }
 
+function timedScriptShake(i: number, scriptShake: { time: number; level: number } | undefined): BattleAnimFrame['shake'] {
+  if (!scriptShake || scriptShake.time <= 0) return undefined
+  if (i >= scriptShake.time) return undefined
+  return { time: scriptShake.time - i, level: scriptShake.level }
+}
+
 /**
  * 逃跑失败动画(sdlpal fight.c:4155-4168,kBattleActionFlee 失败分支):
  *   frame 0;3 步每步 pos +=(4,2) Delay(1);最后 frame 1(濒死姿)Delay(8)。
- *   末帧 message = BATTLE_LABEL_ESCAPEFAIL(逃跑失败文字,present 战斗消息条显示)。
+ *   末帧同步显示 BATTLE_LABEL_ESCAPEFAIL(WORD 31 "逃跑失败")。
  * startPos = 失败队员 posOriginal(站立锚)。
  */
 export function buildFleeFailTimeline(playerIdx: number, startPos: { x: number, y: number }): BattleAnimFrame[] {
@@ -52,10 +58,11 @@ export function buildFleeFailTimeline(playerIdx: number, startPos: { x: number, 
       fighters: [{ side: 'player', idx: playerIdx, currentFrame: 0, pos: { x, y } }],
     })
   }
-  // frame 1(濒死姿)hold 8 帧(逃跑失败文字 BATTLE_LABEL_ESCAPEFAIL=31 由战斗消息条另接,见 showBattleMessage)
+  // frame 1(濒死姿)hold 8 帧,期间显示 BATTLE_LABEL_ESCAPEFAIL=31 @ (130,75)。
   frames.push({
     durationMs: delayMs(8),
     fighters: [{ side: 'player', idx: playerIdx, currentFrame: 1 }],
+    battleMessage: { text: '逃跑失败', durationMs: delayMs(8) },
   })
   return frames
 }
@@ -718,6 +725,8 @@ export interface BuildOffMagicInput {
     effectTimes: number
     /** wShake — 末尾震屏帧数。 */
     shake: number
+    /** scriptOnUse 0x35 ShakeScreen — 从 OffMagic 起始帧开始抖,避免 PreMagic 阶段先抖。 */
+    scriptShake?: { time: number; level: number }
     /** wXOffset / wYOffset — 落点偏移。 */
     xOffset: number
     yOffset: number
@@ -768,7 +777,7 @@ export interface BuildOffMagicInput {
 export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAnimFrame[] {
   // targetIdx 透传供调用方语义对齐;落点由 magic.type + targetEnemyPos 决定,本体不直接读 targetIdx。
   const { casterIdx, magic, n, targetEnemyPos, iBlow, blowTargets, rng } = input
-  const { effect, type, speed, fireDelay, effectTimes, shake, xOffset, yOffset, wave, keepEffect, sound } = magic
+  const { effect, type, speed, fireDelay, effectTimes, shake, scriptShake, xOffset, yOffset, wave, keepEffect, sound } = magic
   // W4 iBlow:吹飞累加态(per target 运行 x/y),仅 iBlow!=0 + 有 targets + rng 时启用。
   const blowOn = !!iBlow && iBlow !== 0 && !!blowTargets && blowTargets.length > 0 && !!rng
   const blowAcc = blowOn ? blowTargets!.map((t) => ({ ...t, x: t.pos.x, y: t.pos.y })) : []
@@ -859,7 +868,8 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
       overlays,
     }
     if (fighters.length > 0) frame.fighters = fighters
-    if (shakeOverlay) frame.shake = shakeOverlay
+    const effectiveShake = shakeOverlay ?? timedScriptShake(i, scriptShake)
+    if (effectiveShake) frame.shake = effectiveShake
     // W4 屏波:动画期间 wScreenWave += magic.wave(陆战 base 0 → 帧值 = wave),present applyScreenWave。fight.c:2667。
     if (wave && wave > 0) frame.screenWave = wave
     // W4 keepEffect:末帧 + wKeepEffect==0xFFFF + wScreenWave(=wave 陆战)<9 → 烙背景(fight.c:2757-2762)。
@@ -960,6 +970,8 @@ export interface BuildCoopMagicInput {
   iBlow?: number
   /** PostMagic 抖动的受伤敌(idx + idle 底锚)。 */
   hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }>
+  /** 挂在 PostMagic 第一帧的伤害数字(PAL_BattleDisplayStatChange → PAL_BattleShowPostMagicAnim)。 */
+  damageNums?: BattleAnimFrame['damageNums']
 }
 
 /**
@@ -978,7 +990,7 @@ export interface BuildCoopMagicInput {
  *    判定+发起者跳过之后自增)—— 与 Phase1 的 t 语义不同(sdlpal 原样,非对称,如实复刻)。
  */
 export function buildCoopMagicTimeline(input: BuildCoopMagicInput): BattleAnimFrame[] {
-  const { casterIdx, partySize, contributorIdxs, originalPositions, magic, n, targetIdx, targetEnemyPos, iBlow, hurtEnemies } = input
+  const { casterIdx, partySize, contributorIdxs, originalPositions, magic, n, targetIdx, targetEnemyPos, iBlow, hurtEnemies, damageNums } = input
   const isContrib = (j: number): boolean => contributorIdxs.includes(j)
   const frames: BattleAnimFrame[] = []
   const lerp = (orig: number, coop: number, num: number): number => Math.trunc((orig * (6 - num) + coop * num) / 6)
@@ -1015,8 +1027,11 @@ export function buildCoopMagicTimeline(input: BuildCoopMagicInput): BattleAnimFr
   // —— Phase5 OffMagic(fight.c:3951,casterIdx=-1)——
   frames.push(...buildPlayerOffMagicTimeline({ casterIdx: -1, magic, n, targetIdx, targetEnemyPos, iBlow }))
 
-  // —— Phase6 PostMagic(fight.c:4046)——
-  frames.push(...buildPostMagicTimeline({ hurtEnemies }))
+  // —— Phase6 PostMagic(fight.c:4046)。数字在 PostMagic 第一帧显示,不是滑回结束后。——
+  const postFrames = buildPostMagicTimeline({ hurtEnemies })
+  if (damageNums && damageNums.length > 0 && postFrames[0])
+    postFrames[0].damageNums = [...(postFrames[0].damageNums ?? []), ...damageNums]
+  frames.push(...postFrames)
 
   // —— Phase7 滑回(i=1..6,fight.c:4056-4106)——
   for (let i = 1; i <= 6; i++) {
@@ -1238,6 +1253,8 @@ export interface BuildEnemyMagicInput {
     effectTimes: number
     /** wShake — 末尾震屏帧数。 */
     shake: number
+    /** scriptOnUse 0x35 ShakeScreen — 从 EnemyMagic 起始帧开始抖。 */
+    scriptShake?: { time: number; level: number }
     /** wXOffset / wYOffset — 落点偏移。 */
     xOffset: number
     yOffset: number
@@ -1342,15 +1359,15 @@ export function buildEnemySummonTimeline(input: {
   summonedIdxs: number[]
   activeEnemyIdxs: number[]
 }): BattleAnimFrame[] {
-  const frames = buildEnemyMagicCastIntro({
-    enemyCasterIdx: input.casterIdx,
-    enemyPos: input.casterPos,
-    idleFrames: input.caster.idleFrames,
-    magicFrames: input.caster.magicFrames,
-    attackFrames: input.caster.attackFrames,
-    actWaitFrames: input.caster.actWaitFrames,
-    fireDelay: 1,
-  })
+  // 0x9E 召唤起手:仅 magicFrames 手势循环,施法者**原地不动**(script.c:2874-2879)——
+  //   与敌人放普通魔法(fight.c:4683 前移 12,6/4,2 共 16px)不同,召唤者不位移、无 attackFrames。
+  const frames: BattleAnimFrame[] = []
+  for (let i = 0; i < input.caster.magicFrames; i++) {
+    frames.push({
+      durationMs: delayMs(input.caster.actWaitFrames),
+      fighters: [{ side: 'enemy', idx: input.casterIdx, currentFrame: input.caster.idleFrames + i }],
+    })
+  }
 
   if (input.summonedIdxs.length > 0) {
     frames.push({
@@ -1407,7 +1424,7 @@ export function buildEnemyTransformTimeline(enemyIdx: number): BattleAnimFrame[]
 export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnimFrame[] {
   // targetPlayerIdx 透传供调用方语义对齐;落点由 magic.type + targetPlayerPos 决定,本体不直接读 idx。
   const { enemyCasterIdx, magic, n, enemy, targetPlayerPos, iBlow, blowTargets, rng } = input
-  const { effect, type, speed, fireDelay, effectTimes, shake, xOffset, yOffset, wave, keepEffect } = magic
+  const { effect, type, speed, fireDelay, effectTimes, shake, scriptShake, xOffset, yOffset, wave, keepEffect } = magic
   const { idleFrames, magicFrames, attackFrames } = enemy
   // W4 iBlow:吹飞累加态(per target 运行 x/y),仅 iBlow!=0 + 有 targets + rng 时启用。镜像 OffMagic,吹**全体队员**。
   const blowOn = !!iBlow && iBlow !== 0 && !!blowTargets && blowTargets.length > 0 && !!rng
@@ -1499,7 +1516,8 @@ export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnim
 
     const frame: BattleAnimFrame = { durationMs: frameDuration, overlays }
     if (fighters.length > 0) frame.fighters = fighters
-    if (shakeOverlay) frame.shake = shakeOverlay
+    const effectiveShake = shakeOverlay ?? timedScriptShake(i, scriptShake)
+    if (effectiveShake) frame.shake = effectiveShake
     if (wave && wave > 0) frame.screenWave = wave // W4 屏波(fight.c:2895)
     if (i === l - 1 && keepEffect === 0xffff && (wave ?? 0) < 9) frame.keepEffect = true // W4 烙背景(fight.c:2983)
     frames.push(frame)

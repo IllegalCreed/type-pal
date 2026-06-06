@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode } from './game-state.js'
+import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode, type NpcState } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
 import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'
 
@@ -262,6 +262,18 @@ describe('npcFromEventObject', () => {
     expect(npc.scriptedFrame).toBe(13)
   })
 
+  it('初始 vanishTime 透传为 sVanishTime(非 0 时不触发/不跑 autoScript)', () => {
+    const eo: SceneEventObject = {
+      id: 9,
+      x: 0,
+      y: 0,
+      spriteNum: 1,
+      triggerMode: 5,
+      vanishTime: -15,
+    }
+    expect(npcFromEventObject(eo).sVanishTime).toBe(-15)
+  })
+
   it('triggerLabel 缺时透传 undefined', () => {
     const eo: SceneEventObject = { id: 0, x: 0, y: 0, spriteNum: 0, triggerMode: 0 }
     expect(npcFromEventObject(eo).triggerLabel).toBeUndefined()
@@ -329,6 +341,12 @@ describe('hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移)', ()
     const npcs = [{ id: 346, x: 1200, y: 1176, spriteNum: 193, sState: 0 }]
     hydrateNpcStaticDefaults(npcs, [poseObject])
     expect(npcs[0]).toMatchObject({ nSpriteFrames: 0, scriptedFrame: 13, facing: 'down' })
+  })
+
+  it('sVanishTime 缺失 → 补场景初始 vanishTime', () => {
+    const npcs: NpcState[] = [{ id: 346, x: 1200, y: 1176, spriteNum: 193, sState: 1 }]
+    hydrateNpcStaticDefaults(npcs, [{ ...poseObject, vanishTime: -15 }])
+    expect(npcs[0]?.sVanishTime).toBe(-15)
   })
 
   it('scriptedFrame 已被脚本明确设为 0 → 不用场景默认 13 覆盖', () => {
@@ -429,6 +447,23 @@ describe('player-roles 战斗数据模型边界', () => {
     expect(r.attackAll).toBe(0)        // attackAll/sprite 无 runtime 行 → 直读静态 base
     expect(r.spriteNumInBattle).toBe(10)
     expect(r.cooperativeMagic).toBe(5) // hydrate 后 runtime.rgwCooperativeMagic=5
+  })
+
+  it('大世界 spriteNum hydrate 到 runtime,投影也读取 runtime 当前值', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const staticRoles = {
+      roles: [
+        staticRole(0, { spriteNum: 2 }),
+        staticRole(1, { spriteNum: 3 }),
+      ],
+    }
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, staticRoles)
+    expect(gs.PlayerRolesRuntime.rgwSpriteNum[0]).toBe(2)
+    expect(gs.PlayerRolesRuntime.rgwSpriteNum[1]).toBe(3)
+
+    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 208
+    const roles = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles).roles
+    expect(roles[1]!.spriteNum).toBe(208)
   })
 
   it('D14:不传 equipmentEffect → 投影退回纯 base(向后兼容,装备 effect 不并入)', () => {

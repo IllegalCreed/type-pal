@@ -13,7 +13,7 @@
  * implementer verify:fight.c:4124-4126 累加循环里读 `wDexterity` 字段。
  *
  * 失败:不切 phase,后续 turn 继续推进(T22 battle-system 行为)。
- * 成功 + !isBoss:phase = 'fleed',T22 退出战斗。
+ * 成功 + !isBoss:触发 fleeAnim,动画结束才 phase='fleed'。
  */
 
 import type { PlayerRoles } from '@type-pal/shared'
@@ -58,13 +58,10 @@ export function performFlee(state: BattleState, gs: GameState, playerIdx: number
   }
   else {
     // 失败 → 逃跑失败动画(sdlpal fight.c:4155-4168):该队员 3 步右下挪 + 帧1 濒死姿。
-    //   走 battleAnim 时间线(per-player),播完 tickPerformAction 复位 + 推进队列(下个队员/敌人继续)。
-    //   同时经 showBattleMessage 显示 BATTLE_LABEL_ESCAPEFAIL。
+    //   走 battleAnim 时间线(per-player),末帧同步显示 BATTLE_LABEL_ESCAPEFAIL,播完后推进队列。
     const p = state.players[playerIdx]
     if (bus && p?.posOriginal) {
       startBattleAnim(state, buildFleeFailTimeline(playerIdx, p.posOriginal), bus)
-      // 逃跑失败文字(WORD.DAT 31 "逃跑失败",sdlpal label 31 @130,75;8 帧 ×40ms=320ms)
-      bus.emit({ op: 'showBattleMessage', text: '逃跑失败', durationMs: 320 })
     }
     // E04:逃跑**失败**累积 rgFleeExp.wCount += 2(sdlpal fight.c:4170;成功逃跑不累积,无 RNG)。
     const fleeExp = gs.Exp.rgFleeExp[roleId]

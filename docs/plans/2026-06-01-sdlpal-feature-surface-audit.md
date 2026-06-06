@@ -302,9 +302,9 @@ SDLPal 玩家敏捷应通过 `PAL_GetPlayerDexterity` 取得基础属性加装�
 | ID | SDLPal 功能点 | SDLPal 源 | TS 对应 | 还原度 | 差异与结论 |
 |---|---|---|---|---|---|
 | C01 | 进场景脚本 `wScriptOnEnter` | `play.c:PAL_GameUpdate` | `scene-system.ts`、`event-system.ts` | ✅ 高 | onEnter override / reload / fade 门控均有 |
-| C02 | 触发区 / touch trigger | `play.c:81-166` | `scene-system.ts:updateEventObjectsAndTrigger` | ✅ 高 | 大世界转场、NPC 接触、明雷接触主路径完成 |
-| C03 | AutoScript 每帧驱动 | `play.c`、`script.c:PAL_RunAutoScript` | `event-system.ts:tickAutoScripts` | 🟡 中高 | 0x00/01/02/03/04/06/09/FFFF 主干完成；少数 animate 态仍需真档验 |
-| C04 | 事件对象隐藏、vanishTime、负状态复活 | `play.c:167-223` | `scene-system.ts` | ✅ 高 | vanish 与屏外复活逻辑已接 |
+| C02 | 触发区 / touch trigger | `play.c:81-166` + `PAL_StartFrame` | `scene-system.ts:updateEventObjectsAndTrigger` | ✅ 高 | 大世界转场、NPC 接触、明雷接触主路径完成;2026-06-06 对齐为走进触发区后一帧触发 |
+| C03 | AutoScript 每帧驱动 | `play.c:169-192`、`script.c:PAL_RunAutoScript` | `event-system.ts:tickAutoScripts` + `scene-system.ts` | 🟡 中高 | 0x00/01/02/03/04/06/09/FFFF 主干完成；explore 帧序已按 trigger→autoScript→blocker push→party update;少数 animate 态仍需真档验 |
+| C04 | 事件对象隐藏、vanishTime、负状态复活、blocker 推离 | `play.c:87-228`、`scene.c:247-250` | `scene-system.ts`、`event-system.ts`、`present.ts` | ✅ 高 | `sState` 按 signed short 写入;vanish 非 0 冻结 trigger/autoScript,正值隐藏、负值可见;倒计时归零后仅在屏外把负状态复活;场景加载保持全局 EventObject 引用 |
 | C05 | NPC/地图障碍检测 | `scene.c:PAL_CheckObstacle*` | `scene-system.ts:isWalkable` | ✅ 高 | tile block + NPC blocker 基本对齐 |
 | C06 | 队伍动画、trail、队员跟随 | `scene.c:636-858` | `scene-system.ts`、`present.ts` | 🟡 中高 | trail/follower 已做；尾队细节仍建议真档对拍 |
 | C07 | 临时 follower `0x98` 渲染 | `scene.c`、`res.c` | `follower-render.ts` | ✅ 高 | chunk 直索引、trail 后槽、跨场景持久已接 |

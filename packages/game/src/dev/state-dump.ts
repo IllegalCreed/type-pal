@@ -6,7 +6,7 @@
  * 触发 jsonl 文件下载。
  *
  * 字段顺序与 sdlpal patch 一致:
- *   { frame, scene, viewport, party:{x,y,dir,wFrame,role,sprite}, npcs:[...] }
+ *   { frame, scene, viewport, party:{x,y,dir,wFrame,role,sprite,members}, npcs:[...] }
  */
 
 import type { GameState } from '../core/game-state.js'
@@ -31,6 +31,9 @@ function computeLeaderWFrame(gs: GameState, walkFrames: number): number {
 
 export function dumpFrameJson(gs: GameState, frame: number, walkFrames: number): string {
   const leaderRole = gs.partyMembers[0] ?? 0
+  const sprite = gs.PlayerRolesRuntime.rgwSpriteNum?.[leaderRole]
+    ?? (leaderRole === 0 ? gs.partyLeaderSpriteId : undefined)
+    ?? 0
   const obj = {
     frame,
     scene: gs.wNumScene,
@@ -41,7 +44,11 @@ export function dumpFrameJson(gs: GameState, frame: number, walkFrames: number):
       dir: FACING_TO_DIR[gs.party.facing],
       wFrame: computeLeaderWFrame(gs, walkFrames),
       role: leaderRole,
-      sprite: gs.partyLeaderSpriteId ?? 0,
+      sprite,
+      members: gs.partyMembers.map((role) => ({
+        role,
+        sprite: gs.PlayerRolesRuntime.rgwSpriteNum?.[role] ?? (role === 0 ? gs.partyLeaderSpriteId : undefined) ?? 0,
+      })),
     },
     npcs: gs.npcs.map((n) => ({
       id: n.id,

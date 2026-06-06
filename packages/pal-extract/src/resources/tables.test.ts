@@ -172,6 +172,16 @@ describe('parseSpells (M3 T6)', () => {
     expect(anyLinked).toBe(true)
   })
 
+  it('scriptDesc 读 item-union offset 10(magicmenu.c:191),真数据应有说明脚本', () => {
+    const withDesc = spells.filter((s) => s.scriptDesc !== 0)
+    expect(withDesc.length).toBeGreaterThan(0)
+    // 若误读 OBJECT_MAGIC reserved2(offset 8),当前 Win95 数据会全部为 0。
+    const firstDesc = withDesc[0]!
+    const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
+    const base = firstDesc.id * 14
+    expect(firstDesc.scriptDesc).toBe(view.getUint16(base + 10, true))
+  })
+
   it('without words(不传 words)→ 所有 _name undefined,其他字段正常', () => {
     const spellsNoName = parseSpells(objBuf)
     expect(spellsNoName).toHaveLength(102)

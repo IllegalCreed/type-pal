@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import type { Tilemap, Palette } from '@type-pal/shared'
+import type { Tilemap, Palette, PlayerRoles } from '@type-pal/shared'
 import { presentFrame, applyDialogIconPaletteShift, type PresentContext } from './present.js'
 import { startDialogLine, tickDialog, setWaitingEndKey, FRAMES_PER_CHAR } from './dialog-box.js'
 import { createFramebuffer } from './framebuffer.js'
@@ -20,6 +20,38 @@ function makeSprite(colorIdx: number = 1): SpriteImage {
     indices: new Uint8Array(16 * 24).fill(colorIdx),
     opaque: new Uint8Array(16 * 24).fill(1),
     anchorX: 8, anchorY: 24,
+  }
+}
+
+function makePlayerRoles(spriteNums: number[]): PlayerRoles {
+  return {
+    roles: spriteNums.map((spriteNum, id) => ({
+      id,
+      _name: `role${id}`,
+      avatar: id,
+      spriteNumInBattle: id,
+      spriteNum,
+      name: id,
+      attackAll: 0,
+      level: 1,
+      maxHP: 100,
+      maxMP: 30,
+      hp: 100,
+      mp: 30,
+      attackStrength: 5,
+      magicStrength: 5,
+      defense: 5,
+      dexterity: 5,
+      fleeRate: 5,
+      poisonResistance: 0,
+      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      walkFrames: 3,
+      attackSound: 0,
+      weaponSound: 0,
+      criticalSound: 0,
+      magicSound: 0,
+      deathSound: 0,
+    })),
   }
 }
 
@@ -293,6 +325,22 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     return calls
   }
 
+  function trackDrawSprites(
+    gs: ReturnType<typeof createInitialGameState>,
+    ctx: PresentContext,
+  ): Array<{ sprite: SpriteImage; cx: number; cy: number }> {
+    const calls: Array<{ sprite: SpriteImage; cx: number; cy: number }> = []
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation(
+      (_fb, sprite, cx, cy) => {
+        calls.push({ sprite: sprite as SpriteImage, cx, cy })
+      },
+    )
+    const fb = createFramebuffer()
+    presentFrame(fb, gs, ctx)
+    spy.mockRestore()
+    return calls
+  }
+
   it('partyMembers=[0] 单人 → 不渲染 follower(只有 leader drawSprite)', () => {
     const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
     gs.partyMembers = [0]
@@ -314,6 +362,67 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     const calls = trackFollowerDraw(gs, ctx)
     // 单人:只有 leader(1 次 drawSprite)
     expect(calls).toHaveLength(1)
+  })
+
+  it('队首/跟随者按各自 rgwSpriteNum 渲染,不回退 role0 partyFrames', () => {
+    const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
+    gs.partyMembers = [1, 2]
+    gs.trail = [
+      { x: 284, y: 142, dir: 'right' },
+      { x: 268, y: 134, dir: 'right' },
+      { x: 252, y: 126, dir: 'right' },
+    ]
+    gs.camera = { x: 300 - 160, y: 150 - 112 }
+    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 3
+    gs.PlayerRolesRuntime.rgwSpriteNum[2] = 7
+
+    const role0Fallback = makeSprite(2)
+    const leaderSprite = makeSprite(30)
+    const followerSprite = makeSprite(70)
+    const ctx: PresentContext = {
+      tilemap: flatMap(30, 30),
+      tileImages: { get: () => undefined },
+      partyFrames: Array.from({ length: 12 }, () => role0Fallback),
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+      npcSpriteFrames: new Map([
+        [3, Array.from({ length: 12 }, () => leaderSprite)],
+        [7, Array.from({ length: 12 }, () => followerSprite)],
+      ]),
+      playerRoles: makePlayerRoles([2, 3, 7]),
+    }
+
+    const calls = trackDrawSprites(gs, ctx)
+    expect(calls.map((c) => c.sprite)).toEqual(expect.arrayContaining([leaderSprite, followerSprite]))
+    expect(calls.some((c) => c.sprite === role0Fallback)).toBe(false)
+  })
+
+  it('已知队员 spriteNum 但资源未加载时,不把 follower 画成 role0', () => {
+    const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
+    gs.partyMembers = [1, 2]
+    gs.trail = [
+      { x: 284, y: 142, dir: 'right' },
+      { x: 268, y: 134, dir: 'right' },
+    ]
+    gs.camera = { x: 300 - 160, y: 150 - 112 }
+    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 3
+    gs.PlayerRolesRuntime.rgwSpriteNum[2] = 7
+
+    const role0Fallback = makeSprite(2)
+    const leaderSprite = makeSprite(30)
+    const ctx: PresentContext = {
+      tilemap: flatMap(30, 30),
+      tileImages: { get: () => undefined },
+      partyFrames: Array.from({ length: 12 }, () => role0Fallback),
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+      npcSpriteFrames: new Map([[3, Array.from({ length: 12 }, () => leaderSprite)]]),
+      playerRoles: makePlayerRoles([2, 3, 7]),
+    }
+
+    const calls = trackDrawSprites(gs, ctx)
+    expect(calls.map((c) => c.sprite)).toEqual([leaderSprite])
+    expect(calls.some((c) => c.sprite === role0Fallback)).toBe(false)
   })
 
   it('partyMembers=[0, 1] 且 trail.length > 1 → 渲染 follower 在 trail[1] + 偏移', () => {
@@ -619,6 +728,35 @@ describe('P0.b Y-sort + cover-tile', () => {
     const i3 = order.indexOf('npc-3')
     expect(i1).toBeLessThan(i2)
     expect(i2).toBeLessThan(i3)
+  })
+
+  it('vanishTime>0 隐藏 NPC;vanishTime<0 仍绘制但由更新层冻结', () => {
+    const partySprite = makeSprite(5)
+    const hiddenNpcSprite = makeSprite(3)
+    const frozenNpcSprite = makeSprite(4)
+    const drawn: SpriteImage[] = []
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
+      drawn.push(sprite)
+    })
+    const fb = createFramebuffer()
+    const gs = createInitialGameState({ x: 0, y: -9999, facing: 'down' })
+    gs.npcs = [
+      { id: 1, x: 100, y: 100, spriteNum: 1, sState: 1, sVanishTime: 5 },
+      { id: 2, x: 100, y: 120, spriteNum: 2, sState: 1, sVanishTime: -5 },
+    ]
+    const ctx: PresentContext = {
+      tilemap: flatMap(20, 20),
+      tileImages: { get: () => undefined },
+      partyFrames: [partySprite],
+      partyWalkFrames: 3,
+      npcSprites: new Map([[1, hiddenNpcSprite], [2, frozenNpcSprite]]),
+    }
+
+    presentFrame(fb, gs, ctx)
+    spy.mockRestore()
+
+    expect(drawn).not.toContain(hiddenNpcSprite)
+    expect(drawn).toContain(frozenNpcSprite)
   })
 
   it('非方向性姿势对象 nSpriteFrames=0 + scriptedFrame=13 → 实际绘制 frame 13', () => {

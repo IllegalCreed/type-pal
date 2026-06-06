@@ -41,6 +41,7 @@ import {
   createInitialGameState,
   hydratePlayerRolesRuntime,
   hydrateNpcStaticDefaults,
+  getOverworldSpriteNum,
   initExpLevelsFromLevels,
   projectRuntimeToBattleRoles,
   npcFromEventObject,
@@ -189,9 +190,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // menu-driver 内 dispatchInGameMenu 在 Confirm 时调 createInventoryMenu / createInGameMagicMenu 等需要。
   setMenuCatalogs({ items, spells, magics, playerRoles })
 
-  // 队长精灵号 —— 从 player-roles.json (DATA.MKF chunk 3 真解) 取真值。
-  // M3 T9 之前 M2 硬编码 = 2,现在改读 PlayerRoles.roles[0].spriteNum(实测 = 2);
-  // 多人队伍切换留 M5。
+  // 队伍 sprite 兜底帧 —— 启动时用 role0,后续 presentFrame 会按 gs.partyMembers[0] 的
+  // runtime rgwSpriteNum 切到实际队长。role0 只作为旧资源兜底。
   const leader = playerRoles.roles[0]
   if (!leader) throw new Error('bootstrap: playerRoles.roles[0] missing')
   const partyLeaderSpriteId = leader.spriteNum
@@ -328,6 +328,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     enemyPos,
     glyphs,
     uiSpriteFrames: assets.uiSpriteFrames, // D17b:伤害数字弹幕用 UI sprite 数字帧
+    itemIcons: assets.itemIcons, // itemmenu.c:战斗使用/投掷菜单选中物品的 BALL 图标
     effectSprite: assets.effectSprite, // D17a:物理攻击命中特效 overlay sprite(chunk 10)
     magicSprites: assets.magicSprites, // D17:法术 FIRE.MKF sprite overlay(chunk = magic.effect)
     dialogAssets, // 战斗内对话(scriptOnReady/scriptOnTurnStart showDialog)复用大世界 portrait/icon 渲染
@@ -463,17 +464,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }
   }
 
-  // 预载全部可玩角色 overworld sprite(rgwSpriteNum)。sdlpal 在 scene load(kLoadPlayerSprite)
-  // 时按当前 party 各角色加载 sprite(res.c:317-333);我们简化为启动时预载全角色,确保任意
-  // party 组合(剧情入队 / dev-panel P 强制入队)的 follower 都能用**各自**角色 sprite 渲染,
-  // 而非回退到 leader sprite(2026-05-28 user 发现 follower 全显李逍遥的根因)。
-  // fire-and-forget:不阻塞首屏;未载完前 follower 暂回退 partyFrames,载完即正确。
-  void Promise.all(
-    playerRoles.roles
-      .map((r) => r.spriteNum)
-      .filter((sn) => sn > 0)
-      .map((sn) => fetchMissingSprite(sn)),
-  )
+  async function ensurePlayerSpritesLoaded(): Promise<void> {
+    const ids = new Set<number>()
+    for (const roleId of gs.partyMembers) {
+      const spriteId = getOverworldSpriteNum(gs, roleId, playerRoles)
+      if (spriteId && spriteId > 0 && !npcSpriteFrames.has(spriteId)) ids.add(spriteId)
+    }
+    if (ids.size > 0) await Promise.all([...ids].map((id) => fetchMissingSprite(id)))
+  }
 
   // 按需补 fetch 新 scene 的 tile PNG → 写进 tileImagesBySceneId(同 sceneId cache hit 跳过)。
   // 复用 loader.loadAll 同模式:tilesetFiles 列表 → 每张 PNG fetch + decode → regex 取 tile id。
@@ -699,11 +697,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     return p
   }
 
-  // 扫新 scene eventCommands 的 setPlayerSprite(opcode 0x65)预 fetch 主角 cutscene sprite group。
+  // 扫新 scene eventCommands 的 setPlayerSprite(opcode 0x65)预 fetch cutscene sprite group。
   async function preloadCutsceneSprites(commands: Command[]): Promise<void> {
     const ids = new Set<number>()
     for (const cmd of commands) {
-      if (cmd.op === 'raw' && cmd.opcode === 0x0065 && (cmd.operands[0] ?? 0) === 0) {
+      if (cmd.op === 'raw' && cmd.opcode === 0x0065) {
         const spriteId = cmd.operands[1] ?? 0
         if (spriteId > 0 && !npcSpriteFrames.has(spriteId)) ids.add(spriteId)
       }
@@ -783,6 +781,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }
     applySceneAssetsToPresent(sceneAssets)
     await preloadCutsceneSprites(sceneAssets.eventCommands)
+    await ensurePlayerSpritesLoaded()
     // P2#7:**不**在此清 sceneLoading(那样 onEnter 的 setPartyPos 还没跑,camera 在旧坐标 → 渲染
     // 出"其他地方坐标的场景"再跳。保持冻到 onEnter 的第一个可渲染 yield:fadeScreen(event-system 清)/
     // showDialog(event-system 清,content-no-fade 场景)/ onEnter-end(幂等清)。setPartyPos 是非等待
@@ -1085,13 +1084,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // 特效 C:RNG 动画 handler(opcode 0x37 PlayRNG)。event-system 设 cursor.waiting='rng-play' 后调本 handler;
   //   suspendRaf 期间 present 暂停、playRng 自管 fb 直写 + flushToCanvas;播完 finally 清 suspendRaf + waiting 续跑。
   //   speed→frameDelayMs = 1000/speed(sdlpal PAL_RNGPlay iDelay = 1/iSpeed 秒);palette 用当前工作 palette。
-  setRngPlayHandler(({ gs, chunkIdx, startFrame, endFrame, speed }) => {
+  setRngPlayHandler(({ gs, chunkIdx, startFrame, endFrame, speed, fadeIn }) => {
     gs.suspendRaf = true
     void playRng({
       chunkIdx,
       startFrame,
       endFrame,
       frameDelayMs: 1000 / speed,
+      initialFadeInMs: fadeIn ? 600 : undefined,
       fb,
       canvasCtx: canvasCtx!,
       palette: gs.palette ?? palette,
@@ -1296,13 +1296,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     await fadeOutBlocking(fb, ctx, pal5b, 1800) // FadeOut(3)
   }
 
-  // Sync.2 fix4:扫 eventCommands 找 setPlayerSprite(opcode 0x65)的 sprite id,预 fetch。
-  //   操作:operand[0]=playerIdx, operand[1]=spriteId。playerIdx=0 即主角,需在 npcSpriteFrames 内。
-  // present.ts 渲染时优先用 gs.partyLeaderSpriteId(由 opcode 写入)→ ctx.npcSpriteFrames.get(spriteId)。
-  // 若未预 fetch,渲染会 fallback 到 ctx.partyFrames(bootstrap 默认 sprite)— pose 切不生效。
+  // Sync.2 fix4+:扫 eventCommands 找 setPlayerSprite(opcode 0x65)的 sprite id,预 fetch。
+  //   操作:operand[0]=roleId, operand[1]=spriteId;任何队员都可能被剧情换形象。
+  // present.ts 渲染时按当前 roleId 的 runtime rgwSpriteNum → ctx.npcSpriteFrames.get(spriteId)。
+  // 若未预 fetch,渲染会等资源而不是把队员兜底画成 role0。
   const cutsceneSpriteIds = new Set<number>()
   for (const cmd of eventCommands) {
-    if (cmd.op === 'raw' && cmd.opcode === 0x0065 && (cmd.operands[0] ?? 0) === 0) {
+    if (cmd.op === 'raw' && cmd.opcode === 0x0065) {
       const spriteId = cmd.operands[1] ?? 0
       if (spriteId > 0 && !npcSpriteFrames.has(spriteId)) {
         cutsceneSpriteIds.add(spriteId)
@@ -1421,6 +1421,17 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // mutate gs in-place(外部持有同 ref;无法替换 ref)
     // 把 loadedGs 全字段拷到 gs(用 Object.assign 浅 + 关键嵌套手动 deepClone)
     Object.assign(gs, loadedGs)
+    if (!gs.PlayerRolesRuntime.rgwSpriteNum) {
+      gs.PlayerRolesRuntime.rgwSpriteNum = []
+    }
+    for (const role of playerRoles.roles) {
+      if (!gs.PlayerRolesRuntime.rgwSpriteNum[role.id]) {
+        gs.PlayerRolesRuntime.rgwSpriteNum[role.id] = role.spriteNum
+      }
+    }
+    if (gs.partyLeaderSpriteId !== undefined) {
+      gs.PlayerRolesRuntime.rgwSpriteNum[0] = gs.partyLeaderSpriteId
+    }
     // 死亡读档:Object.assign 把 palette 从**黑**(0x4E FadeOut 淡完)覆盖回存档的**正常色** → 而 fb 仍残留战斗帧,
     //   sceneLoading 窗口期会用正常色 flush 那帧 → user 报"闪一阵战斗画面"。
     //   修:强制 palette 全黑,使残留帧渲染为黑(不闪);随后 needToFadeIn 从黑淡入新场景

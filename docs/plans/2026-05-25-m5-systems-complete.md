@@ -755,7 +755,7 @@ git commit -m "feat(M5.P0.d): 队友 trail rgTrail[5] + follower 占位偏移 �
 - **follower 偏移公式真值**:sdlpal scene.c:692-707 — `isWS = (dir==West||South)` / `isWN = (dir==West||North)` → `offsetX = isWS?16:-16` / `offsetY = isWN?8:-8`。4 方向映射:right→(-16,-8), left→(+16,+8), down→(+16,-8), up→(-16,+8)。
 - **trail unshift 位置**:移动成功后、`gs.party.x/y` 更新前 unshift,确保记录的是移动前的 leader 坐标(对照 sdlpal scene.c:823 `xSource/ySource = 移动前`)。
 - **trail TypeScript 类型**:GameState 加 `TrailEntry` 接口(`{x,y,dir:Facing}`),作为独立 exported interface 供 present.ts 等消费。
-- **partyMembers[2] 留 M5+**:第 3 人需 `ctx.partyMemberSprites` 多角色 sprite map(M4 只 dump 主角 sprite)。M5 简版 follower 用 `partyFrames`(主角占位 sprite)。
+- **partyMembers[1..2] 后续已补 per-role sprite**:present 按当前 roleId 的 `PlayerRolesRuntime.rgwSpriteNum` 取 `npcSpriteFrames`;资源缺失时跳过该队员当帧,不再用主角 `partyFrames` 占位。
 - **bootstrap partyMembers=[0] 单人无副作用**:follower 渲染条件 `partyMembers.length > 1 && trail.length > 1`，默认单人 explore 不触发任何额外渲染。
 - **battle fixture 漏 trail**:actions.test.ts 手动构造 GameState 缺 `trail: []`，typecheck 失败。已补。
 
@@ -3826,7 +3826,7 @@ P0 全 6 项 done(原 design 5 项 + wScriptOnEnter 升 6)。
 - bootstrap partyMembers=[0] 默认值(sdlpal PAL_NewGame 真值,空数组导致进战斗即闪退)
 - Y-sort + cover-tile:**3 个独立 bug 叠加**(layer 1 全画不能省 / blit_y 公式 sprite_pos 相消 / l 与 dh 维度不能混)
 - 走动 stepFrame 撞墙时 sdlpal 是 `&= 2; ^= 2;` 0/2 切换(我们简化成"不前进",视觉无感)
-- follower partyMembers[1] 偏移真做,partyMembers[2] 留 M5+(M4 只 dump 主角 sprite)
+- follower partyMembers[1..2] 偏移真做;后续已补 per-role overworld sprite,不再用主角占位
 - vite dev / e2e port 必须分开(5173 / 5174)
 
 **P0 期间主要 commits**(feat / 大 fix):
@@ -4093,10 +4093,10 @@ sdlpal `EventObject.sState` 决定 NPC 是否可见(-1=Hidden / 0=Normal / 1=Blo
 
 sdlpal `script.c:1999-2004` `case 0x0065` `PlayerRoles.rgwSpriteNum[op[0]] = op[1]` — 主角"捂头 / 大侠"是**切到不同 sprite group**(如 sprite #18 / #627),不是改当前 sprite 的帧。
 
-**fix4 真做:**
-- 加 `OP_SET_PLAYER_SPRITE = 0x0065` + handler → 写 `gs.partyLeaderSpriteId`
-- present.ts 渲染主角时:若 `gs.partyLeaderSpriteId` 非 undefined → 从 `ctx.npcSpriteFrames.get(spriteId)` 取 sprite group;否则 fallback `ctx.partyFrames`(bootstrap 默认)
-- bootstrap 扫 eventCommands 找所有 `setPlayerSprite` 引用的 sprite ids → 预 `fetchMissingSprite` 加载到 `npcSpriteFrames`(否则 present 渲染时找不到 fallback 到默认)
+**fix4+ 真做:**
+- 加 `OP_SET_PLAYER_SPRITE = 0x0065` + handler → 写 `PlayerRolesRuntime.rgwSpriteNum[roleId]`;role0 同步旧 `gs.partyLeaderSpriteId` 兼容字段
+- present.ts 渲染队伍时按当前 party roleId 读取 `PlayerRolesRuntime.rgwSpriteNum` → `ctx.npcSpriteFrames`;队员资源缺失时不回退成 role0
+- bootstrap 扫 eventCommands 找所有 `setPlayerSprite` 引用的 sprite ids,并在切场景时确保当前队伍 sprite 已加载到 `npcSpriteFrames`
 
 **新 / 改 opcode(全 fix4 一次落齐):**
 

@@ -253,14 +253,14 @@ setDialogStyle 0x3B-0x3E。
 | op | 含义 | 备注 |
 |----|------|------|
 | 0x30 | increase player stat temp by % | ✅ **per-battle Extra slot 1:1**(script.c:1406-1427,梦蛇):写 `gs.rgEquipmentEffect[6][rgwX][role] = trunc(base_runtime*(SHORT)op1/100)`,base 取**未 buff** PlayerRolesRuntime(op0 row 17atk/18mag/19def/20dex)→ 多次不叠加 + 经 getter recompute snapshot。战斗读 effective 经 projectRuntimeToBattleRoles 并入装备 effect(**D14 修**)。战末 removeEquipmentEffect(role,Extra) 清 → 战后消失。battle-opcodes.ts / game-state.ts |
-| 0x31 | change battle sprite temp | ✅ **已接(2026-06-02 D17)**:临时换战斗精灵(script.c:0031,梦蛇295 变身)。dispatchBattleOpcode 写 BattlePlayer.spriteNumOverride(caster);draw-battle-sprites 优先于 role.spriteNumInBattle 渲染 `player-${override}`;per-battle 自动清(= sdlpal Extra slot 战末清)。视觉需 F.MKF chunk 存在 + user 真机验 |
+| 0x31 | change battle sprite temp | ✅ **已接(2026-06-02 D17)**:临时换战斗精灵(script.c:0031,梦蛇295 变身)。dispatchBattleOpcode 写 BattlePlayer.spriteNumOverride(caster);draw-battle-sprites 优先于 role.spriteNumInBattle 渲染 `player-${override}`;per-battle 自动清(= sdlpal Extra slot 战末清)。Trance/梦蛇时间线已在前摇后用旧 sprite 闪色,末帧再切到新 sprite |
 | 0x21 | inflict flat damage to enemy | ✅ **battle handler**(此前只 explore 主干):op0!=0 全体 / 否则单体(ctx.target),health -= op1 clamp≥0(script.c:0021)。梅花镖/银针 scriptOnThrow 真伤害(0x42=0 动画 sentinel,真伤靠这);毒 tick 也用。battle-opcodes.ts |
 | 0x28 | apply poison to enemy | ✅ **battle handler**:op0!=0 全体 / 否则单体(ctx.target);`RandomLong(0,9)>=resistanceToSorcery` 抗性判定 + 去重 + 槽满(MAX_POISONS 16)→ 加 {poisonId:op1, scriptEntry:objectPoisons[op1].enemyScript}(script.c:0028)。毒蛇卵/卵/蛊 throw。注:sdlpal 立即跑一次 wEnemyScript,ts 改 postAction tick 跑(差一拍)。battle-opcodes.ts |
 | 0x33 | collect enemy for items | ✅ enemy(caster).collectValue!=0 → gs.wCollectValue += collectValue;否则 jump op0(script.c:0033)。battle-opcodes.ts |
-| 0x34 | transform collected enemies to items | ✅ **explore**:wCollectValue>0 → RandomLong(1,cv) cap9(PAL_CLASSIC)扣 cv + 发 store[0].rgwItems[i] 入包(setStoreTable 注入);cv==0 → jump op0(script.c:1452,妖魔转化)。物品框 dialog 是 present 层 → 跳过。event-system.ts |
+| 0x34 | transform collected enemies to items | ✅ **explore**:wCollectValue>0 → RandomLong(1,cv) cap9(PAL_CLASSIC)扣 cv + 发 store[0].rgwItems[i] 入包(setStoreTable 注入);cv==0 → jump op0(script.c:1452,妖魔转化)。已弹 `item-box` dialog(炼出/物品名/按键关闭,对齐 script.c:1479-1513)。event-system.ts |
 | 0x38 | teleport party out of scene | ✅ **explore**(script.c:1554-1571):成功(`!fInBattle && teleport!=0`)→ 仿 0x04 call 压返回帧 + 跳 teleport entry(`sceneOnTeleportOverride[scene] ?? sceneOnTeleportEntry`),子脚本 end 弹帧回 caller(续跑 0x47/0xA1);失败 → fScriptSuccess=FALSE + jump op0。归隐脱出 scene 41/163/226 等(onTeleportLabel,67 场景）。**残**:scene 41 dialog-heavy 全链时序待真引擎确认。event-system.ts |
 | 0x39 | drain HP from enemy | ✅ enemy.health -= op0;movingPlayer.hp += op0(clamp maxHP)(script.c:0039)。吸星锁 scriptOnThrow:enemy=ctx.target,player=caster。battle-opcodes.ts |
-| 0x3A | player flee battle | ✅ isBoss → jump op0(不可逃);否则 phase='fleed'(PAL_BattlePlayerEscape)(script.c:003A)。battle-opcodes.ts |
+| 0x3A | player flee battle | ✅ isBoss → jump op0(不可逃);否则触发 `PAL_BattlePlayerEscape` 等价逃跑动画(`state.fleeAnim` + sound 45),动画结束才 `phase='fleed'`(script.c:003A / battle.c:1438)。battle-opcodes.ts |
 | 0x42 | simulate magic for player | ✅ PAL_BattleSimulateMagic(fight.c:5300)。op0=magic object id / op1=baseDamage(当 magStr)/ op2=target+1(0→eventObjectID)。applyToAll flag 优先→全体,否则 i=op2-1<0 用 eventObjectID / 仍<0 自动选首活敌;guard 无符号 `baseDamage>0‖op1>0`(magic96=−999 进但算 0);minDamage=0;共享 applyMagicDamage。battle-opcodes.ts;script.c:1630-1640。投掷物 scriptOnThrow ×40 站点全靠它 |
 | 0x57 | set magic base damage by MP | ✅ magic[op0→magicNumber].baseDamage = casterMP*(op1||8);清 casterMP(script.c:0057,酒神 scriptOnUse)。performMagic 注入 magicTables/playerRoles → 0x57 改 baseDamage → E1 inline 读新值结算。battle-opcodes.ts |
 | 0x5A | halve player HP | ✅ handler:目标队员(ctx.target,退回 caster)HP /= 2(floor)(script.c:005A,无影毒 use)。performItem 注入 playerRoles。**注**:无影毒-use 可达性待 item 队员目标路由(现 item→enemy),handler 就绪 |
@@ -289,7 +289,7 @@ setDialogStyle 0x3B-0x3E。
 | op | 含义 | 类 | 状态 |
 |----|------|-----|------|
 | 0x36 | set current playing RNG anim | D | ✅ 8872b54(特效 C) |
-| 0x37 | play RNG anim | D | ✅ 8872b54(_rngPlayHandler + playRng) |
+| 0x37 | play RNG anim | D | ✅ 8872b54(_rngPlayHandler + playRng);2026-06-06 补 PAL_RNGPlay 首帧消费 fNeedToFadeIn,修 0x50 后 CG 全黑 |
 | 0x4F | fade screen to red(game over) | D | ✅ fec9a11(特效 A buildFadeToRed) |
 | 0x50 | screen fade out | D | ✅ fec9a11(冻屏淡黑 015f77e) |
 | 0x51 | screen fade in | D | ✅ fec9a11(+ 夜色 target ac8612e) |

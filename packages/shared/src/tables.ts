@@ -96,7 +96,10 @@ export interface SpellFlags {
  *
  * sdlpal 字段顺序(`tagOBJECT_MAGIC` Win9x 版):
  *   wMagicNumber / wReserved1 / wScriptOnSuccess / wScriptOnUse /
- *   wScriptDesc / wReserved2 / wFlags
+ *   wReserved2 / wReserved3 / wFlags
+ *
+ * 仙术说明脚本是同一 OBJECT union 的 `item.wScriptDesc`(offset 10);
+ * magicmenu.c:191 在 Win95 分支就是这么读,因此 `Spell.scriptDesc` 保存该值。
  *
  * **`magicNumber` 指向 Magic 详细 stats 表的索引**(见下面 Magic interface)。
  */
@@ -111,7 +114,7 @@ export interface Spell {
   scriptOnSuccess: number
   /** 使用法术时跑的脚本 entry。 */
   scriptOnUse: number
-  /** 描述脚本(M3 不消费,留作 schema 完整)。 */
+  /** 仙术说明脚本;来自同一 OBJECT 的 item-union wScriptDesc(magicmenu.c:191)。 */
   scriptDesc: number
   /** 拆 bit 的 flags。 */
   flags: SpellFlags

@@ -18,9 +18,18 @@
 
 import type { Magic, ObjectMagicView, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
-import { buildCoopMagicTimeline } from '../anim-timeline.js'
+import type { ActionQueueItem } from '../turn-queue.js'
+import {
+  buildCoopMagicTimeline,
+  buildPlayerOffMagicTimeline,
+  buildPostMagicTimeline,
+  buildPreMagicTimeline,
+  buildSummonBrightenTimeline,
+  buildSummonGodSequence,
+} from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
-import type { BattleState } from '../battle-state.js'
+import type { BattleAnimFrame, BattleState } from '../battle-state.js'
+import { performAttack } from './attack.js'
 import { applyMagicDamage, magicForcesAllTarget, resolveObjectMagic } from '../magic-damage.js'
 
 export interface PerformCoopMagicInput {
@@ -35,8 +44,14 @@ export interface PerformCoopMagicInput {
   magics: Magic[]
   objectMagics: ObjectMagicView[]
   bus: CommandBus
+  /** healthy<=1 时按 sdlpal 退化成普通攻击;传入后可保留普攻动画/伤害。 */
+  actor?: ActionQueueItem
+  /** 退化普攻的命中特效帧基号。 */
+  battleEffectIndex?: number[]
   /** D17:FIRE.MKF chunk[effect] 帧数 Map(= res.magicSpriteFrameCounts)。有则建合击动画;缺则即时数字(向后兼容)。 */
   magicSpriteFrameCounts?: Map<number, number>
+  /** 召唤神精灵帧数 Map(F.MKF chunk = magic.special+10)。summon 型协力用。 */
+  summonSpriteFrameCounts?: Map<number, number>
 }
 
 /** sdlpal 攻击魔法 4 落点类型(OffMagic / 合击动画支持)。 */
@@ -45,14 +60,24 @@ function isOffMagicType(t: Magic['type']): t is OffMagicType {
   return t === 'normal' || t === 'attackAll' || t === 'attackWhole' || t === 'attackField'
 }
 
+type PendingDamageNums = NonNullable<NonNullable<BattleState['battleAnim']>['pendingDamageNums']>
+
+function attachDamageNumsToFirstFrame(frames: BattleAnimFrame[], pendingNums: PendingDamageNums): boolean {
+  if (pendingNums.length === 0) return true
+  const first = frames[0]
+  if (!first) return false
+  first.damageNums = [...(first.damageNums ?? []), ...pendingNums]
+  return true
+}
+
 /** SHORT cast(同 magic-damage.ts)。 */
 function asShort(n: number): number {
   return (n << 16) >> 16
 }
 
-/** sdlpal `PAL_IsPlayerDying`(global.c):hp>0 且 hp < max(1, maxHP/5)。 */
+/** sdlpal `PAL_IsPlayerDying`(fight.c:29-48):hp < min(100, maxHP/5)。 */
 function isDying(role: { hp: number, maxHP: number }): boolean {
-  return role.hp > 0 && role.hp < Math.max(1, Math.floor(role.maxHP / 5))
+  return role.hp > 0 && role.hp < Math.min(100, Math.floor(role.maxHP / 5))
 }
 
 /** sdlpal `PAL_IsPlayerHealthy`(fight.c:69-76):非濒死 + 无 sleep/confused/silence/paralyzed/puppet。 */
@@ -63,7 +88,7 @@ function isHealthy(role: { hp: number, maxHP: number }, status: { sleep?: number
 }
 
 export function performCoopMagic(input: PerformCoopMagicInput): void {
-  const { state, casterIdx, coopObjId, targetIdx, playerRoles, magics, objectMagics, bus, magicSpriteFrameCounts } = input
+  const { state, casterIdx, coopObjId, targetIdx, playerRoles, magics, objectMagics, bus, actor, battleEffectIndex, magicSpriteFrameCounts, summonSpriteFrameCounts } = input
 
   // 解析合击 magic object → magicNumber → magic(sdlpal fight.c:3860-3861)。
   const objMagic = resolveObjectMagic(coopObjId, objectMagics)
@@ -77,19 +102,26 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
     const role = playerRoles.roles[p.roleId]
     if (role && isHealthy(role, p.status)) contributors.push(i)
   })
-  // healthy <= 1 → sdlpal 退化普通攻击(fight.c:3374-3378);执行端防御:no-op(选单 validity 已门控)。
-  if (contributors.length <= 1) return
+  // healthy <= 1 → sdlpal 退化普通攻击(fight.c:3374-3378),不是静默 no-op。
+  if (contributors.length <= 1) {
+    if (actor && !actor.isEnemy) {
+      const target = targetIdx === 'all' ? -1 : targetIdx
+      performAttack(state, actor, target, bus, playerRoles, battleEffectIndex)
+    }
+    return
+  }
 
-  // M6 合击音 —— sdlpal 合体法术 perform(PAL_BattlePlayerPerformAction kBattleActionCoopMagic,fight.c:3856-3875):
-  //   - summon 类:PAL_BattleShowPlayerPreMagicAnim(TRUE)→ CLASSIC 播 rgwMagicSound[caster](fight.c:2377);
-  //   - 非 summon:AUDIO_PlaySound(29)(fight.c:3875 fixed);
-  //   随后动画播 magic.wSound(效果音)。**修正(2026-06-03):summon 此前误用固定 28(物品演出音)**,
-  //   应为施法角色自己的 magicSound。
-  const casterCastSound = magic.type === 'summon'
-    ? (playerRoles.roles[state.players[casterIdx]?.roleId ?? -1]?.magicSound ?? 0)
-    : 29
-  if (casterCastSound > 0) bus.emit({ op: 'playSound', soundId: casterCastSound })
-  if (magic.sound > 0) bus.emit({ op: 'playSound', soundId: magic.sound })
+  const emitImmediateCoopSounds = (): void => {
+    // M6 合击音 —— sdlpal 合体法术 perform(PAL_BattlePlayerPerformAction kBattleActionCoopMagic,fight.c:3856-3875):
+    //   - summon 类:PAL_BattleShowPlayerPreMagicAnim(TRUE)→ CLASSIC 播 rgwMagicSound[caster](fight.c:2377);
+    //   - 非 summon:AUDIO_PlaySound(29)(fight.c:3875 fixed);
+    //   随后动画播 magic.wSound(效果音)。有时间线时 summon 声音挂帧同步;无资源回落即时播。
+    const casterCastSound = magic.type === 'summon'
+      ? (playerRoles.roles[state.players[casterIdx]?.roleId ?? -1]?.magicSound ?? 0)
+      : 29
+    if (casterCastSound > 0) bus.emit({ op: 'playSound', soundId: casterCastSound })
+    if (magic.sound > 0) bus.emit({ op: 'playSound', soundId: magic.sound })
+  }
 
   // HP 代价(**非 MP**):每个 contributor role.hp -= magic.costMP,<=0 钳 1(fight.c:3961-3967)。
   for (const i of contributors) {
@@ -124,24 +156,45 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
     minDamage: 1,
   })
 
-  // —— 动画:聚拢队形 → 施法 → OffMagic 法术效果 → 滑回(fight.c:3856-4107)。
-  //   前置满足(攻击类 magic + 有 FIRE.MKF 帧数 + 发起者有底锚)→ 建链;伤害数字延迟到特效落完才弹(pendingNums)。
+  const pendingNums: PendingDamageNums = []
+  const hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }> = []
+  // 合击打敌人:wHealth WORD 下溢不钳(fight.c:638),超杀显示**完整算出伤害** r.damage,非剩余血 delta。
+  for (const r of results) {
+    if (r.hpAfter < r.hpBefore) pendingNums.push({ target: { kind: 'enemy', idx: r.enemyIdx }, value: r.damage, color: 'blue' })
+    if (r.hpAfter !== r.hpBefore) {
+      const pos = state.enemies[r.enemyIdx]?.posOriginal
+      if (pos) hurtEnemies.push({ idx: r.enemyIdx, pos })
+    }
+  }
+
+  if (magic.type === 'summon') {
+    const built = buildAndStartCoopSummonAnim({
+      state,
+      casterIdx,
+      magic,
+      magics,
+      playerRoles,
+      bus,
+      pendingNums,
+      hurtEnemies,
+      magicSpriteFrameCounts,
+      summonSpriteFrameCounts,
+    })
+    if (built) return
+    emitImmediateCoopSounds()
+  } else {
+    emitImmediateCoopSounds()
+  }
+
+  // —— 动画:聚拢队形 → 施法 → OffMagic 法术效果 → PostMagic → 滑回(fight.c:3856-4107)。
+  //   前置满足(攻击类 magic + 有 FIRE.MKF 帧数 + 发起者有底锚)→ 建链;伤害数字挂 PostMagic 第一帧。
   //   不满足(治疗/召唤类合击 / 无帧数 / 旧 fixture)→ 回落即时数字,向后兼容。
   const n = magicSpriteFrameCounts?.get(magic.effect)
   const casterPos = state.players[casterIdx]?.posOriginal
   if (isOffMagicType(magic.type) && n !== undefined && n > 0 && casterPos) {
     const offType = magic.type
-    // 伤害数字延迟到 OffMagic 落完(sdlpal PAL_BattleDisplayStatChange 在 OffMagic 后,fight.c:4045)。
-    const pendingNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
-    const hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }> = []
-    // 合击打敌人:wHealth WORD 下溢不钳(fight.c:638),超杀显示**完整算出伤害** r.damage,非剩余血 delta。
-    for (const r of results) {
-      if (r.hpAfter < r.hpBefore) pendingNums.push({ target: { kind: 'enemy', idx: r.enemyIdx }, value: r.damage, color: 'blue' })
-      if (r.hpAfter !== r.hpBefore) {
-        const pos = state.enemies[r.enemyIdx]?.posOriginal
-        if (pos) hurtEnemies.push({ idx: r.enemyIdx, pos })
-      }
-    }
+    // 伤害数字延迟到 OffMagic 落完(sdlpal PAL_BattleDisplayStatChange 在 OffMagic 后,fight.c:4045),
+    // 再和 PostMagic 第一帧同帧显示。
     // OffMagic 落点:normal → 单体目标 idle 底锚;全体类型 → -1(落点表)。
     let offTargetIdx = -1
     let offTargetPos: { x: number; y: number } | undefined
@@ -157,21 +210,98 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
       magic: {
         effect: magic.effect, type: offType, speed: magic.speed, fireDelay: magic.fireDelay,
         effectTimes: magic.effectTimes, shake: magic.shake, xOffset: magic.xOffset, yOffset: magic.yOffset,
+        wave: magic.wave, keepEffect: magic.keepEffect,
       },
       n,
       targetIdx: offTargetIdx,
       targetEnemyPos: offTargetPos,
       iBlow: state.iBlow,
       hurtEnemies,
+      damageNums: pendingNums,
     })
-    startBattleAnim(state, frames, bus, pendingNums)
+    startBattleAnim(state, frames, bus)
     return
   }
 
   // 回落(无动画):D17b 掉血 → blue showDamageNum 即时弹。
-  for (const r of results) {
-    if (r.hpAfter < r.hpBefore) {
-      bus.emit({ op: 'showDamageNum', target: { kind: 'enemy', idx: r.enemyIdx }, value: r.damage, color: 'blue' })
+  for (const dn of pendingNums) {
+    bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
+  }
+}
+
+function buildAndStartCoopSummonAnim(input: {
+  state: BattleState
+  casterIdx: number
+  magic: Magic
+  magics: Magic[]
+  playerRoles: PlayerRoles
+  bus: CommandBus
+  pendingNums: PendingDamageNums
+  hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }>
+  magicSpriteFrameCounts?: Map<number, number>
+  summonSpriteFrameCounts?: Map<number, number>
+}): boolean {
+  const { state, casterIdx, magic, magics, playerRoles, bus, pendingNums, hurtEnemies, magicSpriteFrameCounts, summonSpriteFrameCounts } = input
+  if (magic.type !== 'summon') return false
+
+  const summonChunk = magic.special + 10 // F.MKF chunk = wSummonEffect + 10(fight.c:3135)
+  const totalFrames = summonSpriteFrameCounts?.get(summonChunk)
+  if (totalFrames === undefined || totalFrames <= 0) return false
+  const caster = state.players[casterIdx]
+  if (!caster?.posOriginal) return false
+
+  const preFrames = buildPreMagicTimeline({
+    casterPos: caster.posOriginal,
+    casterIdx,
+    castEffectFrameBase: 0,
+    isSummon: true,
+    castSound: playerRoles.roles[caster.roleId]?.magicSound ?? 0,
+  })
+
+  const brightenFrames = buildSummonBrightenTimeline(state.players.length)
+  // PAL_BattleShowPlayerSummonMagicAnim:召唤 magic.wSound 在召唤正片开始前播;挂首个变亮帧,避免只闻声不见神。
+  if (magic.sound > 0 && brightenFrames.length > 0) brightenFrames[0]!.sound = magic.sound
+
+  let offMagicFrames: BattleAnimFrame[] = []
+  const secondary = magics.find(m => m.id === magic.effect)
+  if (secondary && isOffMagicType(secondary.type)) {
+    const n = magicSpriteFrameCounts?.get(secondary.effect)
+    if (n !== undefined && n > 0) {
+      offMagicFrames = buildPlayerOffMagicTimeline({
+        casterIdx: -1,
+        magic: {
+          effect: secondary.effect,
+          type: secondary.type,
+          speed: secondary.speed,
+          fireDelay: secondary.fireDelay,
+          effectTimes: secondary.effectTimes,
+          shake: secondary.shake,
+          xOffset: secondary.xOffset,
+          yOffset: secondary.yOffset,
+          wave: secondary.wave,
+          keepEffect: secondary.keepEffect,
+        },
+        n,
+        targetIdx: -1,
+        iBlow: state.iBlow,
+      })
     }
   }
+
+  const postMagicFrames = buildPostMagicTimeline({ hurtEnemies })
+  const numsAttached = attachDamageNumsToFirstFrame(postMagicFrames, pendingNums)
+
+  const godFrames = buildSummonGodSequence({
+    spriteKey: `player-${summonChunk}`,
+    pos: { x: 240 + asShort(magic.xOffset), y: 165 + asShort(magic.yOffset) },
+    bgColorShift: asShort(magic.effectTimes),
+    totalFrames,
+    frameTimeMs: (magic.speed + 5) * 10,
+    offMagicFrames,
+    postMagicFrames,
+  })
+
+  startBattleAnim(state, [...preFrames, ...brightenFrames, ...godFrames], bus, numsAttached ? undefined : pendingNums)
+  if (state.battleAnim) state.battleAnim.hasSummonFade = true
+  return true
 }

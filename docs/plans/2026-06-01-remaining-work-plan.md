@@ -44,14 +44,12 @@
 
 ---
 
-## W2 — 持久 fAutoBattle(~~+ trance 觉醒演出~~ 经核实 N/A)
+## W2 — 持久 fAutoBattle(历史上曾误判 trance 觉醒演出为 N/A)
 
-> **2026-06-01 起手前置核查结论**:
-> - **trance 觉醒演出 = N/A,不做**(同 D20-2 中毒紫色):trance magic id 47 在仙剑1 **完全未被引用** —
->   `_name: null` / `scriptOnUse·scriptOnSuccess: null` / 不在任何 spell·object-magic·level-up-magic·role·enemy。
->   是 sdlpal 引擎占位数据,仙剑1 不可触发。给不可施放、无 success 脚本的法术建觉醒演出 = 投机死代码,
->   违反"修改须在 sdlpal source 找出处 + 真值"。present 渲染层其实就绪(iColorShift blit draw-battle-sprites.ts:121),
->   但**没有可驱动它的真实游戏路径**。→ 从 W2 移除。
+> **2026-06-06 订正**:
+> - 2026-06-01 的“trance magic id 47 完全未被引用”结论已废弃。真实路径是 object-magic 295「梦蛇」
+>   回退解析到 magicNumber=47,战斗中可触发 Trance success 脚本 0x30/0x31 与变身演出。
+>   当前实现已接 PreMagic 前摇 + iColorShift 闪色 + 末帧切 sprite;此计划段只保留 fAutoBattle 的历史上下文。
 > - **0x8A auto-battle = 真缺口,做**(不依赖资源)。
 
 | 项 | effort | gap | 落点 |

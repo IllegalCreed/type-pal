@@ -90,14 +90,15 @@ export interface NpcState {
   triggerMode?: number
   /**
    * 当前状态(sdlpal `EventObject.sState`)。Sync.2 fix4:scene 加载时透传。
-   *  -1 = Hidden(不渲染);0+ = 可见(0=Normal/1=Blocker/2=Message/3=Script/4+=Contact)
-   * 缺省 0 = Normal(向后兼容)。
+   * sdlpal global.h 真值:0=Hidden,1=Normal,2=Blocker;负数表示临时隐藏,
+   * 离开 viewport 后由 PAL_GameUpdate 复活为 abs(sState)。
+   * undefined = 旧 fixture 缺字段,运行时按 1(Normal) 兼容。
    */
   sState?: number
   /**
    * sdlpal `EventObject.sVanishTime`(M5.6 T7 真值补)。
-   * 非 0 时 NPC 消失中:每 tick 递减(< 0 +1 / > 0 -1)直到 0,期间不参与 trigger。
-   * 用于"NPC 短时间消失"opcode(剧情:角色暂时离开 / 物品被拾起短时不显示)。
+   * 每 tick 向 0 递进(< 0 +1 / > 0 -1),非 0 时暂停 trigger/autoScript。
+   * > 0 时不绘制;< 0 时仍绘制但冻结,与 sdlpal scene.c/play.c 一致。
    * undefined = 0(常态可见)。
    */
   sVanishTime?: number
@@ -449,12 +450,13 @@ export interface AllExperience {
 /**
  * sdlpal global.h `PLAYERROLES` 中运行时可变部分(mutable fields)。
  *
- * 静态基础值(avatar / spriteNum / name / attackAll / walkFrames / sounds 等)
- * 保留在 player-roles.json,运行时只存会被升级 / 装备改变的字段。
+ * 静态基础值(avatar / attackAll / walkFrames / sounds 等)保留在 player-roles.json;
+ * rgwSpriteNum 是 sdlpal 可变字段(0x65 SetPlayerSprite 会写),必须进入 runtime。
  *
  * 数组长度 = MAX_PLAYER_ROLES (6),index = roleId。
  */
 export interface PlayerRolesRuntime {
+  rgwSpriteNum: number[]           // 大世界精灵(MGO.MKF chunk),script 0x65 可改
   rgwName: number[]               // 角色名 WORD 下标(sdlpal rgwName;opcode 0x79 按 name 判队伍用)
   rgwLevel: number[]              // 等级
   rgwMaxHP: number[]              // 最大 HP
@@ -571,9 +573,8 @@ export interface GameState {
   /** 队长像素坐标(M5 P0.0:sdlpal scene.c:807 xOffset=±16 / yOffset=±8 等价)。 */
   party: { x: number; y: number; facing: Facing }
   /**
-   * 队长当前 sprite id(sdlpal `PlayerRoles.rgwSpriteNum[0]` runtime 镜像)。
-   * Sync.2 fix4:opcode 0x0065 setPlayerSprite 写入,覆盖 bootstrap hardcoded sprite #2,
-   * 用于剧情切换主角 pose sprite group(捂头 / 倒地 / 大侠 等)。
+   * 旧兼容字段:role0 当前 sprite id(sdlpal `PlayerRoles.rgwSpriteNum[0]` runtime 镜像)。
+   * 新渲染路径读取 PlayerRolesRuntime.rgwSpriteNum[roleId];本字段只服务旧存档/旧 dev dump 兼容。
    * undefined = 用 bootstrap 默认(player-roles.json roles[0].spriteNum)。
    */
   partyLeaderSpriteId?: number
@@ -968,10 +969,14 @@ export interface GameState {
    * 接回触发脚本。**修"打完怪不消失"**:`0x07; 0x52 隐藏怪; end` 的 0x52 此前永不跑(0x07 直接清 cursor)。
    */
   /**
-   * R(重提)跨战斗持久:上一场战斗最后一回合各队员 action(按 party 槽 index)。sdlpal g_Battle 全局
-   * 不随战斗重置 → "上回合"可跨场。tickPostAction 每轮更新,startBattle 带入新场 BattleState.prevActions。
+   * R(重提)跨战斗持久:上一场战斗最后一次备份的各队员 action(按 roleId)。sdlpal g_Battle 全局
+   * 不随战斗重置 → "上回合"可跨场;但原版按战斗槽保存会在换队后串到其他角色,这里按角色归属恢复。
+   * 选择阶段全员 action 决定后、actionQueue 填充前更新,startBattle 再映射为本场 party 槽;
+   * Repeat 本轮不覆盖缓存(fRepeat gate)。
    */
   prevBattleActions?: Map<number, import('./battle/battle-state.js').BattleAction>
+  /** prevBattleActions 中我方单体动作的目标角色(roleId),键为施法者 roleId;目标离队时恢复为对自己。 */
+  prevBattleActionTargetRoles?: Map<number, number>
 
   /**
    * 死亡演出标记(0x4F 已执行后)。present 据此**保持战斗帧 + 画死亡对话**,palette ramp 把战斗帧染红。
@@ -1216,6 +1221,7 @@ export function hydratePlayerRolesRuntime(
 ): void {
   for (const role of playerRoles.roles) {
     const i = role.id
+    runtime.rgwSpriteNum[i] = role.spriteNum
     runtime.rgwName[i] = role.name
     runtime.rgwLevel[i] = role.level
     runtime.rgwMaxHP[i] = role.maxHP
@@ -1326,7 +1332,8 @@ export function projectRuntimeToBattleRoles(
       earth: runtime.rgwElementalResistance[4]?.[i] ?? base.elemResistance.earth,
     }
     return {
-      ...base, // 不可变:_name/avatar/spriteNum/walkFrames/sounds/equipment 等
+      ...base, // 不可变:_name/avatar/walkFrames/sounds/equipment 等
+      spriteNum: runtime.rgwSpriteNum[i] || base.spriteNum,
       name: runtime.rgwName[i] ?? base.name,
       level: runtime.rgwLevel[i] ?? base.level,
       maxHP: runtime.rgwMaxHP[i] ?? base.maxHP,
@@ -1457,12 +1464,28 @@ export function writeBackBattleRolesToRuntime(
   }
 }
 
+/**
+ * 大世界精灵号(sdlpal PlayerRoles.rgwSpriteNum)。
+ * 旧存档可能没有 runtime.rgwSpriteNum,此时回退静态 player-roles.json;主角再兼容旧 partyLeaderSpriteId。
+ */
+export function getOverworldSpriteNum(
+  gs: GameState,
+  roleId: number,
+  staticRoles?: import('@type-pal/shared').PlayerRoles,
+): number | undefined {
+  if (roleId === 0 && gs.partyLeaderSpriteId !== undefined) return gs.partyLeaderSpriteId
+  const runtimeValue = gs.PlayerRolesRuntime.rgwSpriteNum?.[roleId]
+  if (runtimeValue && runtimeValue > 0) return runtimeValue
+  return staticRoles?.roles[roleId]?.spriteNum
+}
+
 /** 创建全零 PlayerRolesRuntime(MAX_PLAYER_ROLES=6 角色)。 */
 function createInitialPlayerRolesRuntime(): PlayerRolesRuntime {
   const n = 6 // MAX_PLAYER_ROLES
   const zeros = () => Array<number>(n).fill(0)
   const mat = (rows: number) => Array.from({ length: rows }, zeros)
   return {
+    rgwSpriteNum: zeros(),
     rgwName: zeros(),
     rgwLevel: zeros(),
     rgwMaxHP: zeros(),
@@ -1609,6 +1632,8 @@ export function npcFromEventObject(
     // Sync.2 fix4 + fix10:透传 sState(scene dump 已含 EventObject.sState 真值)
     // sdlpal global.h:77-79:kObjStateHidden=0 / Normal=1 / Blocker=2
     sState: eo.sState ?? 1,
+    // sdlpal play.c:87-94 每帧按 signed sVanishTime 倒计时;非 0 时不触发/不跑 autoScript。
+    sVanishTime: eo.vanishTime ?? 0,
     // sdlpal scene.c:302/316 真值:渲染 z 层 — sort key 和 iLayer 都依赖 sLayer。
     // dump 字段保留;present.ts 用 sLayer*8+9(pos.y)/ sLayer*8+2(iLayer)。
     sLayer: eo.sLayer ?? 0,
@@ -1652,6 +1677,7 @@ export function hydrateNpcStaticDefaults(
     if (!eo) continue
     if (npc.nSpriteFrames === undefined) npc.nSpriteFrames = eo.nSpriteFrames
     if (npc.scriptedFrame === undefined) npc.scriptedFrame = eo.currentFrameNum
+    if (npc.sVanishTime === undefined) npc.sVanishTime = eo.vanishTime ?? 0
     if (npc.facing === undefined && eo.direction !== undefined) {
       npc.facing = (['down', 'left', 'up', 'right'] as const)[eo.direction] ?? 'down'
     }

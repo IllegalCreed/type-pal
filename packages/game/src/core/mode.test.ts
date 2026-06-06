@@ -1,10 +1,11 @@
 /**
- * tickByMode autoScript 调度门(P2#6a,2026-05-29)。
+ * tickByMode event-mode autoScript 调度门(P2#6a,2026-05-29)。
  *
  * sdlpal play.c:169-192:autoScript 循环在每个 PAL_GameUpdate 都跑(无条件)。PAL_GameUpdate 被调:
  * explore 主循环、0x09 wait、脚本控制走路/滚屏/ride(每步 PAL_GameUpdate(FALSE));**不**被调:
  * dialog/fadeScreen/delay/scene 重载(阻塞 spin)。
- * 修:旧版只在 event+frame-wait 跑 → 脚本走路(waiting=undefined)期间 NPC autoScript 冻结。
+ * explore 主循环的 PAL_StartFrame 顺序在 scene-system 内测;本文件只覆盖 event 模式 gate,
+ * 防止脚本走路(waiting=undefined)期间 NPC autoScript 冻结。
  */
 
 import type { InputSnapshot, Palette } from '@type-pal/shared'

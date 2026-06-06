@@ -79,14 +79,23 @@ export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: 
   if (frame.sound && frame.sound > 0) {
     bus.emit({ op: 'playSound', soundId: frame.sound })
   }
+
+  // 战斗单行文字帧同步 —— 逃跑失败应在 3 步失败动作后、frame=1 的 Delay(8) 期间显示。
+  if (frame.battleMessage) {
+    bus.emit({
+      op: 'showBattleMessage',
+      text: frame.battleMessage.text,
+      durationMs: frame.battleMessage.durationMs,
+    })
+  }
 }
 
 /**
  * 启动一条动画时间线:set state.battleAnim(idx=0, frameElapsedMs=0)并立即应用 frame[0]。
  * frames 为空 → 不建时间线(no-op;调用方据此走即时推进)。
  *
- * @param pendingDamageNums 时间线**播完后**才 emit 的伤害数字(法术:特效落完才出,
- *   对照 sdlpal PAL_BattleDisplayStatChange 在 magic anim 之后;物理走 frame.damageNum 不传此参)。
+ * @param pendingDamageNums 时间线**播完后**才 emit 的兜底伤害数字。攻击/召唤法术通常应优先
+ *   用 frame.damageNums 挂在 PostMagic 第一帧;DefMagic / 投掷等没有 PostMagic 的链可用此参数。
  */
 export function startBattleAnim(
   state: BattleState,

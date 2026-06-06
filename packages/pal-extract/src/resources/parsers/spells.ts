@@ -3,7 +3,7 @@
  *
  * Spell wrapper(SSS chunk 2, OBJECT_MAGIC 段, [296..397]):
  *   wMagicNumber / wReserved1 / wScriptOnSuccess / wScriptOnUse /
- *   wScriptDesc / wReserved2 / wFlags
+ *   wReserved2 / wScriptDesc(item-union) / wFlags
  * Magic stats(DATA chunk 4, 16 × WORD = 32 字节 / 条):见 MAGIC_OFF 表。
  *
  * 两个文件分别 dump,运行时 `Spell.magicNumber` 索引 Magic[]。
@@ -22,12 +22,14 @@ import {
 
 // ── OBJECT_MAGIC 字段偏移 (global.h tagOBJECT_MAGIC, Win9x 7 WORD) ────────
 // wMagicNumber(0), wReserved1(2), wScriptOnSuccess(4), wScriptOnUse(6),
-// wScriptDesc(8), wReserved2(10), wFlags(12)
+// wReserved2(8), wReserved3(10), wFlags(12)。
+// 注意:magicmenu.c:191 仙术说明脚本故意读同一个 union 的 `item.wScriptDesc`,即 WORD offset 10,
+// 不是 OBJECT_MAGIC 的 reserved2(offset 8)。此前按 offset 8 读导致 spells.json scriptDesc 全 0。
 const SPELL_OFF = {
   magicNumber: 0,
   scriptOnSuccess: 4,
   scriptOnUse: 6,
-  scriptDesc: 8,
+  scriptDesc: 10,
   flags: 12,
 } as const
 
@@ -98,7 +100,8 @@ function toMagicType(raw: number): MagicType {
  *
  * 对照 sdlpal `global.h::tagOBJECT_MAGIC`(Win9x 7 WORD):
  *   wMagicNumber / wReserved1 / wScriptOnSuccess / wScriptOnUse /
- *   wScriptDesc / wReserved2 / wFlags
+ *   wReserved2 / wReserved3 / wFlags
+ *   scriptDesc 例外:对齐 magicmenu.c:191 的 `rgObject[wMagic].item.wScriptDesc`,读 item-union offset 10。
  *
  * **id 是什么**(2026-05-29 改):`id` = **sdlpal OBJECT 数组全局 wObjectID**(296..397)。
  * 跟 items.json 同口径(统一 wObjectID 体系)。player-roles `rgwMagic` / addMagic opcode

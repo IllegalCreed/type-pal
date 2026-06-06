@@ -13,6 +13,7 @@ import {
   buildCoopMagicTimeline,
   buildEnemySummonTimeline,
   buildEnemyTransformTimeline,
+  buildFleeFailTimeline,
   buildThrowWindupTimeline,
   buildEnemyMagicCastIntro,
   buildEnemyMagicTimeline,
@@ -30,6 +31,20 @@ import {
 } from '../anim-timeline.js'
 
 const D = BATTLE_FRAME_TIME // 40ms
+
+describe('buildFleeFailTimeline (fight.c:4155-4168)', () => {
+  const frames = buildFleeFailTimeline(0, { x: 100, y: 100 })
+
+  it('3 步右下挪后,末帧 frame1 显示 逃跑失败 8 帧', () => {
+    expect(frames).toHaveLength(4)
+    expect(frames[0]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 0, pos: { x: 104, y: 102 } }])
+    expect(frames[1]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 0, pos: { x: 108, y: 104 } }])
+    expect(frames[2]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 0, pos: { x: 112, y: 106 } }])
+    expect(frames[3]!.durationMs).toBe(8 * D)
+    expect(frames[3]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 1 }])
+    expect(frames[3]!.battleMessage).toEqual({ text: '逃跑失败', durationMs: 8 * D })
+  })
+})
 
 describe('buildThrowWindupTimeline (投掷挥臂,fight.c:4339-4356)', () => {
   // 队员 idx0 站立 (240,170);magicSound=170。
@@ -142,7 +157,7 @@ describe('召唤动画 builders (fight.c:3072-3187 / 3120-3128)', () => {
 })
 
 describe('enemy summon/transform opcode timelines (script.c:009E/009F)', () => {
-  it('buildEnemySummonTimeline:敌施法起手 + 新召唤敌 iColorShift=8 + 音效 212 + 全敌复位', () => {
+  it('buildEnemySummonTimeline:召唤起手仅手势(原地不动)+ 新召唤敌 iColorShift=8 + 音效 212 + 全敌复位', () => {
     const frames = buildEnemySummonTimeline({
       casterIdx: 0,
       casterPos: { x: 160, y: 80 },
@@ -151,8 +166,10 @@ describe('enemy summon/transform opcode timelines (script.c:009E/009F)', () => {
       activeEnemyIdxs: [0, 1, 2],
     })
 
-    expect(frames[0]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 172, y: 86 } }])
-    expect(frames[2]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 1 }])
+    // 召唤起手仅 magicFrames 手势帧(currentFrame=idleFrames+i),施法者**原地不动**(script.c:2874-2879);
+    //   不复用敌人放普通魔法的前移起手(fight.c:4683 +12,6/+4,2),故 frames[0] 是手势帧、无 pos 位移。
+    expect(frames[0]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 1 }])
+    expect(frames[1]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 2 }])
     const summonFrame = frames.find(f => f.sound === 212)!
     expect(summonFrame.fighters).toEqual([
       { side: 'enemy', idx: 1, iColorShift: 8 },
@@ -199,6 +216,7 @@ describe('buildCoopMagicTimeline (协力合击,fight.c:3856-4107 CLASSIC)', () =
     targetIdx: 0,
     targetEnemyPos: { x: 160, y: 80 },
     hurtEnemies: [{ idx: 0, pos: { x: 160, y: 80 } }],
+    damageNums: [{ target: { kind: 'enemy', idx: 0 }, value: 123, color: 'blue' }],
   })
 
   it('Phase1 滑入:前 6 帧把 3 贡献者插值移向 COOP_POS {208,157}/{234,170}/{260,183}', () => {
@@ -229,6 +247,15 @@ describe('buildCoopMagicTimeline (协力合击,fight.c:3856-4107 CLASSIC)', () =
     const f10 = frames[9]!
     expect(f10.durationMs).toBe(3 * D)
     expect(f10.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 6, iColorShift: 0 }])
+  })
+
+  it('Phase6 PostMagic 第一帧带伤害数字,不等 Phase7 滑回结束', () => {
+    const numIdx = frames.findIndex(f => (f.damageNums?.length ?? 0) > 0)
+    const postIdx = frames.findIndex(f => f.fighters?.some(d => d.side === 'enemy' && d.idx === 0))
+    expect(numIdx).toBe(postIdx)
+    expect(frames[numIdx]!.damageNums).toEqual([{ target: { kind: 'enemy', idx: 0 }, value: 123, color: 'blue' }])
+    const slideBackIdx = frames.findIndex(f => f.fighters?.some(d => d.side === 'player' && d.currentFrame === 0))
+    expect(slideBackIdx).toBeGreaterThan(numIdx)
   })
 
   it('Phase5 OffMagic:含 magic chunk overlay(法术效果,casterIdx=-1 不切发起者帧6)', () => {
@@ -751,6 +778,30 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
     expect(soundFrames).toEqual([0]) // 仅起手帧(WIN95)
     // sound=0/缺 → 不挂任何帧
     expect(buildNormal({ sound: 0 }).every(fr => fr.sound === undefined)).toBe(true)
+  })
+
+  it('scriptOnUse 0x35:scriptShake 从 OffMagic 起手帧递减', () => {
+    const f = buildPlayerOffMagicTimeline({
+      casterIdx: 0,
+      magic: {
+        effect: 12,
+        type: 'normal',
+        speed: 2,
+        fireDelay: 2,
+        effectTimes: 1,
+        shake: 0,
+        scriptShake: { time: 3, level: 4 },
+        xOffset: 0,
+        yOffset: 0,
+      },
+      n: 8,
+      targetIdx: 1,
+      targetEnemyPos: { x: 160, y: 80 },
+    })
+    expect(f[0]!.shake).toEqual({ time: 3, level: 4 })
+    expect(f[1]!.shake).toEqual({ time: 2, level: 4 })
+    expect(f[2]!.shake).toEqual({ time: 1, level: 4 })
+    expect(f[3]!.shake).toBeUndefined()
   })
 
   it('W4 keepEffect:keepEffect==0xFFFF && wave<9 → 仅末帧 keepEffect=true;否则全无(fight.c:2757)', () => {

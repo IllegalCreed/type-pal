@@ -10,9 +10,9 @@
  *   selectMove + useItem/throwItem→ 4 图标 + 物品网格(itemmenu.c)
  *   selectMove + misc            → 4 图标 + 杂项盒(围攻/道具/防御/逃跑/状态)
  *   selectMove + miscItemSubMenu → 4 图标 + 杂项盒 + 物品二级(使用/投掷)
- *   selectTargetEnemy            → 4 图标(mono)+ 选中敌人上方箭头
+ *   selectTargetEnemy            → 4 图标(mono)+ 选中敌人 sprite ColorShift
  *   selectTargetPlayer           → 4 图标(mono)+ 选中队员上方箭头
- *   selectTargetEnemyAll/PlayerAll→ 即时 commit 的过渡态(画全体箭头)
+ *   selectTargetEnemyAll/PlayerAll→ 即时 commit 的过渡态(不画目标箭头)
  *   wait / hidden                → 只画底部队员状态栏
  *
  * 对话显示期间(gs.dialogBox / battleDialogQueue)**隐藏动作菜单**(只画状态栏),对话结束恢复。
@@ -38,6 +38,7 @@ import {
   MENUITEM_COLOR_SELECTED_TOTAL,
 } from '../../core/menu/inventory-menu.js'
 import type { GameState } from '../../core/game-state.js'
+import { getScriptDescLines } from '../../core/menu/script-desc.js'
 import { drawBox, menuTextMaxCols, drawSingleLineBox } from '../menu/draw-box.js'
 import { drawNumber } from '../draw-number.js'
 import { renderText, type GlyphTable } from '../font.js'
@@ -57,6 +58,7 @@ const SPRITENUM_CURSOR = 69
 const SPRITENUM_SLASH = 39
 const SPRITENUM_PLAYERINFOBOX = 18 // 队员信息框背景(uibattle.h:SPRITENUM_PLAYERINFOBOX)
 const SPRITENUM_PLAYERFACE_FIRST = 48 // 头像起,+ wPlayerRole(uibattle.c:155)
+const SPRITENUM_ITEMBOX = 70
 
 // 战斗队员信息框(PAL_PlayerInfoBox)位置:PAL_XY(91 + 77*i, 165)(uibattle.c:925)。
 const PLAYERINFO_X_BASE = 91
@@ -107,6 +109,9 @@ const MP_BOX = { x: 215, y: 0, len: 5 }
 const MP_NEEDED = { x: 230, y: 14 }
 const MP_SLASH = { x: 260, y: 14 }
 const MP_CURRENT = { x: 265, y: 14 }
+const MAGIC_DESC_X = 102
+const MAGIC_DESC_Y = 3
+const MAGIC_DESC_COLOR = 0x3C
 
 // 物品网格(itemmenu.c:51-57,CN):box(2,0) 6×17 style1;item (15,12)+k*100+j*18
 const ITEM_GRID_BOX = { x: 2, y: 0, rows: 6, cols: 17 }
@@ -119,6 +124,9 @@ const ITEM_AMOUNT_X_OFF = 81 // dwWordLength*8+1
 const ITEM_COLS = 3
 const ITEM_ROWS = 7
 const ITEM_PAGE_LINE_OFFSET = Math.floor((ITEM_ROWS + 1) / 2)
+const ITEMBOX_X = 0
+const ITEMBOX_Y = 140
+const ITEM_DESC_COLOR = 0x3C
 
 // 底部队员状态栏(M3 文字版,PAL_PlayerInfoBox sprite 化是独立函数,非本任务范围)
 const PARTY_STATUS_BASE_X = 5
@@ -169,6 +177,21 @@ function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, ds
   }
 }
 
+/** ITEMBOX 阴影:按当前背景色降低低 4 bit,对齐 PAL_RLEBlitToSurfaceWithShadow。 */
+function blitSpriteShadow(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
+  for (let y = 0; y < frame.height; y++) {
+    for (let x = 0; x < frame.width; x++) {
+      const off = y * frame.width + x
+      if (frame.opaque[off]! === 0) continue
+      const px = dstX + x
+      const py = dstY + y
+      if (px < 0 || px >= fb.width || py < 0 || py >= fb.height) continue
+      const current = fb.indices[py * fb.width + px]!
+      fb.writePixel(px, py, (current & 0xF0) | ((current & 0x0F) >> 1))
+    }
+  }
+}
+
 /**
  * port sdlpal `PAL_RLEBlitMonoColor`(palcommon.c:446-640):单色描边 blit。
  *   每不透明像素:b = clamp((src & 0x0F) + iColorShift, 0, 0x0F);输出 = b | (bColor & 0xF0)。
@@ -212,6 +235,7 @@ export function drawBattleUI(
   uiSpriteFrames?: IndexedImage[],
   enemyPos?: EnemyPosTable,
   objectPoisons?: Map<number, { level: number; color: number }>,
+  itemIcons?: Map<number, IndexedImage>,
 ): void {
   // 战斗内对话显示期间**整个战斗 UI 都不画**(动作菜单 + 血量信息框都隐藏)——
   //   user 2026-05-31 实测:对话时不显示战斗 UI,血量面板当然也不显示。
@@ -241,7 +265,7 @@ export function drawBattleUI(
           break
         case 'useItemSelect':
         case 'throwItemSelect':
-          drawItemSelectGrid(fb, state, items, glyphs, uiSpriteFrames)
+          drawItemSelectGrid(fb, state, items, glyphs, uiSpriteFrames, itemIcons)
           break
         case 'misc':
           drawMiscMenu(fb, state, glyphs, uiSpriteFrames)
@@ -266,7 +290,8 @@ export function drawBattleUI(
       break
     case 'selectTargetPlayerAll':
       drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)
-      drawPlayerTargetArrow(fb, state, uiSpriteFrames, /* all= */ true)
+      // PAL_CLASSIC 的 PlayerAll 是即时 commit 状态,不等待目标选择;TS 若短暂渲染到这帧也不画箭头,
+      // 避免梦蛇/全体辅助法术闪一帧友方目标。
       break
     case 'wait':
     case 'hidden':
@@ -417,7 +442,7 @@ function isBattleActionValidForDraw(state: BattleState, action: number, playerRo
   const role = player ? playerRoles.roles[player.roleId] : undefined
   if (!player || !role) return false
   const healthy = (p: typeof player, r: typeof role): boolean => {
-    if (r.hp <= 0 || (r.hp > 0 && r.hp < Math.max(1, Math.floor(r.maxHP / 5)))) return false
+    if (r.hp <= 0 || (r.hp > 0 && r.hp < Math.min(100, Math.floor(r.maxHP / 5)))) return false
     const st = p.status
     return (st.sleep ?? 0) === 0 && (st.confused ?? 0) === 0 && (st.silence ?? 0) === 0 &&
       (st.paralyzed ?? 0) === 0 && (st.puppet ?? 0) === 0
@@ -478,7 +503,7 @@ function drawMiscItemSubMenu(
 }
 
 /**
- * 法术选择网格(magicmenu.c:35-299)—— box(10,42) + 3列分页 + cursor + cash/MP box。
+ * 法术选择网格(magicmenu.c:35-299)—— box(10,42) + 3列分页 + cursor + MP box + scriptDesc 说明。
  * 灰项色:选中enabled=闪烁 / 选中disabled=SELECTED_INACTIVE / 未选disabled=INACTIVE / 未选enabled=MENUITEM_COLOR。
  */
 function drawMagicSelectGrid(
@@ -491,7 +516,7 @@ function drawMagicSelectGrid(
 ): void {
   const menu = state.magicSelect
   if (!menu) return
-  void spells
+  const selectedSpell = spells.find((spell) => spell.id === menu.items[menu.cursor]?.id)
 
   if (hasBoxFrames(uiSpriteFrames, 1)) {
     drawBox({
@@ -520,6 +545,13 @@ function drawMagicSelectGrid(
     drawNumber(fb, currentMp, 4, MP_CURRENT, 'cyan', 'right', uiSpriteFrames)
   }
 
+  // 仙术说明(magicmenu.c:191-205 WIN95 path):wScript = rgObject[wMagic].item.wScriptDesc,
+  // 0xFFFF 描述行画在 MagicDescMsgPos(102,3)+line*16,DESCTEXT_COLOR。
+  const description = getScriptDescLines(selectedSpell?.scriptDesc ?? 0)
+  for (let line = 0; line < description.length; line++) {
+    renderText(fb, description[line]!, MAGIC_DESC_X, MAGIC_DESC_Y + line * 16, MAGIC_DESC_COLOR, glyphs, true)
+  }
+
   drawSelectGridItems(fb, menu, glyphs, uiSpriteFrames, {
     cols: MAGIC_COLS, rows: MAGIC_ROWS, pageLineOffset: MAGIC_PAGE_LINE_OFFSET,
     itemX0: MAGIC_ITEM_X0, itemY0: MAGIC_ITEM_Y0, itemW: MAGIC_ITEM_W, lineDy: MAGIC_LINE_DY,
@@ -527,17 +559,20 @@ function drawMagicSelectGrid(
   })
 }
 
-/** 物品选择网格(itemmenu.c:28-311)—— box(2,0) + 3列分页 + cursor + 数量。 */
+/**
+ * 物品选择网格(itemmenu.c:28-311)—— box + 3列分页 + cursor + 数量,
+ * 以及选中物品的 ITEMBOX、BALL 图标和 scriptDesc 说明。
+ */
 function drawItemSelectGrid(
   fb: Framebuffer,
   state: BattleState,
   items: Item[],
   glyphs: GlyphTable | undefined,
   uiSpriteFrames: IndexedImage[] | undefined,
+  itemIcons: Map<number, IndexedImage> | undefined,
 ): void {
   const menu = state.itemSelect
   if (!menu) return
-  void items
 
   if (hasBoxFrames(uiSpriteFrames, 1)) {
     drawBox({
@@ -551,6 +586,23 @@ function drawItemSelectGrid(
     itemX0: ITEM_ITEM_X0, itemY0: ITEM_ITEM_Y0, itemW: ITEM_ITEM_W, lineDy: ITEM_LINE_DY,
     cursorXOff: ITEM_CURSOR_X_OFF, cursorYOff: 10, amountXOff: ITEM_AMOUNT_X_OFF,
   })
+
+  const selected = menu.items[menu.cursor]
+  const item = selected ? items.find(candidate => candidate.id === selected.id) : undefined
+  if (!item) return
+
+  const itemBox = uiSpriteFrames?.[SPRITENUM_ITEMBOX]
+  if (itemBox) {
+    blitSpriteShadow(fb, itemBox, ITEMBOX_X + 5, ITEMBOX_Y + 5)
+    blitSpriteOpaque(fb, itemBox, ITEMBOX_X, ITEMBOX_Y)
+  }
+  const icon = itemIcons?.get(item.bitmap)
+  if (icon) blitSpriteOpaque(fb, icon, ITEMBOX_X + 8, ITEMBOX_Y + 7)
+
+  const description = getScriptDescLines(item.scriptDesc)
+  for (let line = 0; line < description.length; line++) {
+    renderText(fb, description[line]!, 71, 151 + line * 16, ITEM_DESC_COLOR, glyphs, true)
+  }
 }
 
 interface GridLayout {
@@ -637,8 +689,9 @@ function drawCurrentPlayerArrow(
 }
 
 /**
- * 友方 target 箭头(uibattle.c:1564-1576 / PlayerAll 1670-1695)。
- *   sprite 67(常)/ 66(红)闪烁;箭头画在队员头顶(anchor.y - 67)。all=true → 全部队员。
+ * 友方 target 箭头(uibattle.c:1564-1576)。
+ *   sprite 67(常)/ 66(红)闪烁;箭头画在队员头顶(anchor.y - 67)。all=true 为历史 helper,
+ *   PAL_CLASSIC 的 PlayerAll 现在即时 commit,不会调用它画全体箭头。
  */
 function drawPlayerTargetArrow(
   fb: Framebuffer,

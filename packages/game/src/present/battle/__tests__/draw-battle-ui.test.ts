@@ -1,6 +1,7 @@
-import type { Enemy, Item, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
+import type { Command, Enemy, Item, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import type { BattleEnemy, BattlePlayer, BattleState } from '../../../core/battle/battle-state.js'
+import { setGlobalEvents } from '../../../core/event-system.js'
 import { createInitialGameState, type GameState } from '../../../core/game-state.js'
 import { createSeedableRng } from '../../../core/rng.js'
 import { createFramebuffer } from '../../framebuffer.js'
@@ -277,6 +278,41 @@ describe('drawBattleUI(新模型 1:1)', () => {
     expect(topRegionWrites(fb)).toBeGreaterThan(0)
   })
 
+  it('selectMove + magicSelect —— 画选中仙术 scriptDesc 说明', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove',
+      menuState: 'magicSelect',
+      magicSelect: {
+        items: [{ id: 296, label: '气疗术', rightText: 'MP 6', disabled: false }],
+        cursor: 0,
+        pageSize: 15,
+        pageOffset: 0,
+      },
+    })
+    const spell = { ...mkSpell(296), scriptDesc: 43016 }
+    const commands: Command[] = [
+      { op: 'raw', opcode: 0xA7, operands: [0, 0, 0], label: 'L_43016' },
+      { op: 'showDialog', messageIndex: 1, text: '回复少量体力。' },
+      { op: 'end' },
+    ]
+    setGlobalEvents(commands)
+    try {
+      drawBattleUI(fb, state, playerRoles, [spell], [], mkGs(), undefined, UI)
+    } finally {
+      setGlobalEvents([])
+    }
+
+    let descriptionPixels = 0
+    for (let y = 3; y < 19; y++) {
+      for (let x = 102; x < 260; x++) {
+        if (fb.indices[y * 320 + x] === 0x3C) descriptionPixels++
+      }
+    }
+    expect(descriptionPixels).toBeGreaterThan(0)
+  })
+
   it('selectMove + magicSelect(长列表 cursor=50)—— 分页不越界不抛', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
@@ -297,6 +333,51 @@ describe('drawBattleUI(新模型 1:1)', () => {
     })
     expect(() => drawBattleUI(fb, state, playerRoles, [], [mkItem(1)], mkGs(), undefined, UI)).not.toThrow()
     expect(topRegionWrites(fb)).toBeGreaterThan(0)
+  })
+
+  it('selectMove + useItemSelect —— 画 ITEMBOX、BALL 图标和 scriptDesc 说明', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove',
+      menuState: 'useItemSelect',
+      itemSelect: {
+        items: [{ id: 1, label: '金创药', rightText: '×3', disabled: false }],
+        cursor: 0,
+        pageSize: 21,
+        pageOffset: 0,
+      },
+    })
+    const item = { ...mkItem(1), bitmap: 7, scriptDesc: 40133 }
+    const icon = {
+      width: 2,
+      height: 2,
+      indices: new Uint8Array(4).fill(123),
+      opaque: new Uint8Array(4).fill(1),
+    }
+    const commands: Command[] = [
+      { op: 'raw', opcode: 0xA7, operands: [0, 0, 0], label: 'L_40133' },
+      { op: 'showDialog', messageIndex: 1, text: '恢复体力。' },
+      { op: 'end' },
+    ]
+    setGlobalEvents(commands)
+    try {
+      drawBattleUI(
+        fb, state, playerRoles, [], [item], mkGs(), undefined, UI, undefined, undefined,
+        new Map([[7, icon]]),
+      )
+    } finally {
+      setGlobalEvents([])
+    }
+
+    expect(fb.indices[147 * 320 + 8]).toBe(123) // BALL 图标:itemmenu.c (xBase+8,yBase+7)
+    let descriptionPixels = 0
+    for (let y = 151; y < 167; y++) {
+      for (let x = 71; x < 220; x++) {
+        if (fb.indices[y * 320 + x] === 0x3C) descriptionPixels++
+      }
+    }
+    expect(descriptionPixels).toBeGreaterThan(0)
   })
 
   it('selectMove + misc —— 画杂项盒(不抛)', () => {
@@ -347,7 +428,7 @@ describe('drawBattleUI(新模型 1:1)', () => {
     expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)).not.toThrow()
   })
 
-  it('selectTargetPlayerAll —— 全体队员画箭头(不抛)', () => {
+  it('selectTargetPlayerAll —— 即时提交过渡态,不画友方全体箭头(不抛)', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0), minimalRole(1)] }
     const state = mkState([mkBattlePlayer(0), mkBattlePlayer(1)], [mkBattleEnemy(minimalEnemy(50))], {
