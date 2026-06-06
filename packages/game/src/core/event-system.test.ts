@@ -2354,7 +2354,7 @@ describe('I-w1.a chest opcodes', () => {
     expect(gs.inventory).toEqual([])
   })
 
-  it('playSound(0x47):push gs.pendingSounds + ip++(M6 音频意图,不再 console.debug stub)', () => {
+  it('playSound(0x47):push gs.pendingSounds + ip++(shell audio drain 播)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
@@ -2363,7 +2363,7 @@ describe('I-w1.a chest opcodes', () => {
     ])
     expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
     expect(gs.mode).toBe('explore') // 一帧跑完
-    expect(gs.pendingSounds).toEqual([10]) // M6:soundId 入队供 shell AudioManager 播
+    expect(gs.pendingSounds).toEqual([10]) // soundId 入队供 shell AudioManager 播
   })
 })
 
@@ -4806,7 +4806,7 @@ describe('opcode 0x03 goto frameDelay(trigger 走步循环,script.c:3239-3256)',
 })
 
 // ── Batch D audio:0x45 set-battle-music / 0x77 stop-music / 0xA3 play-cd ──────
-describe('audio opcodes(state-set,M6 接真播)', () => {
+describe('audio opcodes(core state-set + shell audio 播放)', () => {
   it('0x45 setBattleMusic → gs.wNumBattleMusic = op0(script.c:1658)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()

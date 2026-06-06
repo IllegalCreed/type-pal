@@ -1574,7 +1574,7 @@ describe('P0.e wScriptOnEnter 真跑', () => {
     expect(gs.camera.y).toBe(64 - 112)
   })
 
-  it('playMusic opcode 写 gs.wNumMusic(M6 接真播)', async () => {
+  it('playMusic opcode 写 gs.wNumMusic(shell audio 轮询播放)', async () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const assets = makeFakeAssetsWithEnterScript(5, [
       { op: 'raw', opcode: OP_PLAY_MUSIC, operands: [31, 0, 0] },

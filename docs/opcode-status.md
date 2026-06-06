@@ -4,14 +4,14 @@
 > **职责**:本表 owns 每个 opcode 的实现状态。引擎功能(menu / battle / scene / cutscene)→ [feature-status](feature-status.md);资源提取 → [resource-status](resource-status.md)。
 > **三表**:[feature-status](feature-status.md)(引擎功能)· opcode-status(事件 / opcode,本表)· [resource-status](resource-status.md)(资源提取)
 > **图例**:✅ done · ⚠️ partial(extraction 已收集目标,runtime 待)· ⬜ todo · N/A
-> **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉(需 M6 infra)· E=战斗 · S=系统/UI
+> **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉 · E=战斗 · S=系统/UI
 > **⚠️ 2026-05-31 逐 opcode 审计修正**:对全 163 opcode 拿 ts 实现对 sdlpal 源逐分支核对(38-agent 审计 + 35-agent 对抗复核)发现 **25 处真问题**(此前误标 ✅):10 🐞bug / 9 ⬜missing-branch / 6 ⚠️简版。**详见下方「审计修正表」,该表对所列 opcode 覆盖本文件正文表格的 ✅ 标注**。此前"全 opcode ✅ 无 todo"的断言**不成立**。
 >
 > **历史最后更新**:2026-05-30 — E 类 + D 音频收口(opcode handler 存在 + 单测,但**非全分支 1:1**,见审计表)。本轮补齐:
 >   battle 0x5F kill-player / 0x5C hide / 0x6B blow / 0x89 set-result / 0x8A auto-battle / 0x33 collect /
->   0x3A flee / 0x9C division / 0x9F transform / 0x30 stat-buff% / 0x31 sprite(present no-op)/
->   0x92 magic-anim(present no-op)/ 0x6A steal;explore 0x34 妖魔转化 / 0x38 teleport-out(fail-path);
->   audio 0x45/0x77/0xA3(state-set,真播待 M6);并修 0x64 maxHp 用 BattleEnemy.maxHealth(非 prevHp 近似)。
+>   0x3A flee / 0x9C division / 0x9F transform / 0x30 stat-buff% / 0x31 battle sprite /
+>   0x92 magic-anim / 0x6A steal;explore 0x34 妖魔转化 / 0x38 teleport-out(fail-path);
+>   audio 0x45/0x77/0xA3(core state-set + shell audio 消费,剩听验 / fade 时长 cosmetic);并修 0x64 maxHp 用 BattleEnemy.maxHealth(非 prevHp 近似)。
 >   带文档化残:0x38(dungeon teleport script)/ 0x69(escaped 不掉落)/ 0x30(per-battle Extra 战末清)。
 >   早前:法术伤害结算 keystone + 0x42/0x66 simulateMagic + 投掷物全链 + 毒 pipeline + 0x57/0x88 set-magic-damage。
 >
@@ -24,7 +24,7 @@
 >   0x36/0x37 RNG(特效 C);0x96 EndingAnimation + PAL_EndingScreen DOS 全编排 —— **全 ✅**
 > - 配套:开场/结局双版 devpanel、夜间调色板/SOUNDS/Musics/map104·164 提取补齐。
 >
-> D 类**音频** 0x45/0x77/0xA3 已接 **state-set**(gs.wNumBattleMusic / wNumMusic);真播(RIX/fade)待 M6 音频子系统。
+> D 类**音频** 0x43/0x45/0x47/0x77/0xA3 已接 core 意图(`wNumMusic`/`wNumBattleMusic`/`pendingSounds`)并由 shell `AudioManager.sync` 播放;剩听验与 fade 时长 cosmetic。
 > **A/S 类至此全 ✅**(逐条记录):
 > - 0x4D wait-any-key:✅ 已实现(2026-05-30,commit 53c8cbf;waiting='wait-key',Confirm/Menu/Cancel 解除)
 > - 0x4E load-game:✅ 已实现(2026-05-30,commit 56fe8b7;fade-out + 重载 gs.currentSaveSlot + 停脚本)
@@ -85,15 +85,15 @@
 | 0x98 | set-follower:审计指的 sprite/位置在 present 层(computeFollowerRenderItems)已做,非 opcode 缺 |
 | 0x9C | enemy-division:复核认 sdlpal 计数语义被审计误读,ts 逻辑实际对 |
 
-### 非 bug 简版 5 处(by design / 待 M6,已记残)
+### 非 bug 简版 5 处(by design / 已记残)
 
 | op | 说明 |
 |----|------|
 | 0x07 | start-battle 缺 onLose/onFlee 续跑(P0.e by design,留 M5 P1-Battle 系列) |
 | 0x18 | equip 缺 slot-swap 优化(库存顺序差异,净值正确,无玩法影响) |
 | 0x28 | apply-poison 战斗内分支/抗性已对,仅毒脚本 tick 差一拍(postAction,文档化残) |
-| 0x43 | play-music 缺 loop/fade 参数(真播待 M6 音频) |
-| 0x47 | play-sound 纯 stub(真播待 M6 音频) |
+| 0x43 | play-music 已写 wNumMusic/musicLoop 并由 shell 播放;fade 参数只剩 cosmetic |
+| 0x47 | play-sound 已 push gs.pendingSounds 并由 shell drain 播放;剩听验 |
 
 > **修复进度(2026-05-31,全部对 sdlpal 源逐行核对)**:
 > - ✅ **已修 19 个**:0x1E(cde56f2)/ 0x29 poison 抗性+真脚本(a6ecf64)/ 0x61(d91e9a8)/ 0x2A(d91e9a8)/
@@ -187,7 +187,7 @@ setDialogStyle 0x3B-0x3E。
 > **全 opcode 收口**:A/B/C/D/E/S 类逐条 ✅。**无 ⬜(todo)剩余**(2026-06-02 对抗复核更新)。
 > 0x38(teleport-out call+return)/ 0x69(enemy escape→terminated 无奖励)/ 0x30(per-battle Extra slot 战末清)/ 0x31(战斗精灵替换,D17 已接)**均已做**。
 > 0x92 pre-magic 前摇 anim **已 wire(2026-06-02,见 0x92 行)**。
-> 仅剩 0x45/0x77/0xA3(state-set,真播待 M6 音频)= 数据就绪,缺音频子系统。
+> 0x45/0x77/0xA3 已由 core state-set 接到 shell audio;剩听验 / fade 时长 cosmetic。
 
 ### A 控制流/数据 / 系统 S — **全部 ✅(2026-05-30 0x0A 收口)**
 | op | 含义 | 状态 | 备注 |
@@ -246,9 +246,9 @@ setDialogStyle 0x3B-0x3E。
 >   object24→magic96 baseDamage=64537=SHORT−999(sentinel)→ 0x42 算 0 伤害(投掷物动画,真伤害靠
 >   后随 0x21/0x28 opcode);真伤害投掷物如 天师符 obj349→magic54 baseDamage140。
 >
-> **仍待**:0x42 不 emit 伤害弹幕(BattleCtx 无 bus,同其它战斗 opcode);offensive 特效法术的
-> scriptOnSuccess(回梦/夺魂 0x60 KO / 0x68 jump 等)未跑 —— 依赖 0x60/0x68/0x91/0x9E 等 E 类待做
-> opcode,keystone 元素咒(scriptOnSuccess=0)不受影响。
+> **2026-06-07 订正**:0x42/0x66 已经经 BattleCtx/bus emit 伤害数字;performMagic 已按
+> fight.c:4214-4265 跑 offensive scriptOnSuccess,回梦/夺魂 0x60 KO、0x68、0x91、0x9E 等
+> E 类 opcode 均已接。旧"仍待"说明过时。
 
 | op | 含义 | 备注 |
 |----|------|------|
@@ -270,7 +270,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x5F | kill player | ✅ 目标队员(ctx.target,退回 caster)role.hp=0(script.c:005F)。battle-opcodes.ts |
 | 0x60 | KO enemy | ✅(2c3d25d 修)KO `ctx.target`(=wEventObjectID,夺魂/灵葫咒 scriptOnSuccess 的目标敌)否则 caster;health=0(script.c:1950 无 operand)。**此前误用 operand[0](数据恒0→恒杀 enemy[0])已修**。battle-opcodes.ts |
 | 0x64 | jump if enemy HP > % | ✅ (currentHp*100 > maxHp*op0) → jump op1(script.c:1989)。maxHp 用 **BattleEnemy.maxHealth**(满血,战中不变),非逐回合 prevHp(2026-05-30 修近似失真 + 加 maxHealth 字段)。battle-opcodes.ts |
-| 0x66 | throw weapon to enemy | ✅ script.c:2007-2014:`w=op1*5+PAL_GetPlayerAttackStrength(movingPlayer)*RandomLong(0,3)` → 调**同一** PAL_BattleSimulateMagic(target=eventObjectID,magStr=w)。与 0x42 共用 `simulateMagic`(magic-damage.ts)。32 个可投掷武器(长鞭/木剑/铁剑/仙女剑…)scriptOnThrow 用;op0∈{344,360}。attackStrength 经 BattleCtx.playerRoles 注入(performThrowItem),装备加成略 |
+| 0x66 | throw weapon to enemy | ✅ script.c:2007-2014:`w=op1*5+PAL_GetPlayerAttackStrength(movingPlayer)*RandomLong(0,3)` → 调**同一** PAL_BattleSimulateMagic(target=eventObjectID,magStr=w)。与 0x42 共用 `simulateMagic`(magic-damage.ts)。32 个可投掷武器(长鞭/木剑/铁剑/仙女剑…)scriptOnThrow 用;op0∈{344,360}。attackStrength 经 BattleCtx.playerRoles 注入(performThrowItem),随战斗入口 PlayerRoles 投影包含装备加成 |
 | 0x67 | enemy use magic | ✅ enemy(caster).e.magic=op0;magicRate=op1?op1:10(script.c:0067)。battle-opcodes.ts |
 | 0x68 | jump if enemy turn | ✅ `if (g_Battle.fEnemyMoving) jump op0`(script.c:2025)。ts:fEnemyMoving ≈ caster 是 enemy(法术 scriptOnSuccess 敌人施法时 caster=enemy → jump,玩家施法 ip++)。op0=0 → jump 全局 end。battle-opcodes.ts,9 用 |
 | 0x69 | enemy escape | ✅(40ef07c 修)→ `phase='fleed'`(sdlpal battle.c:1434 PAL_BattleEnemyEscape 设 kBattleResultTerminated,**终止战斗无奖励**)。**此前 health=0 被当击杀误给 exp/cash 已修**。battle-opcodes.ts |
@@ -305,8 +305,8 @@ setDialogStyle 0x3B-0x3E。
 | 0x9B | fade to current scene | D | ✅ fec9a11(复用 dither fadeState) |
 | 0xA4 | scroll FBP to screen | D | ✅ 046a583(PAL_ScrollFBP 220 步) |
 | 0xA5 | show FBP with sprite effects | D | ✅ f600c03(复用 showFbp + effectSprite 叠加) |
-| 0x45 | set battle music | D | ✅ gs.wNumBattleMusic = op0(script.c:1658,进战斗选 BGM)。纯 state-set,真播待 M6。event-system.ts |
-| 0x77 | stop music | D | ✅ gs.wNumMusic = 0(script.c:2215,op0 fade 秒:0→2.0,否则 op0*3)。state-set,真停待 M6。event-system.ts |
-| 0xA3 | play CD music(RIX fallback) | D | ✅ gs.wNumMusic = op1(script.c:3023);ts 无 CD → 等价 sdlpal "CD 不可用回退 RIX"(PlayMusic(op1));op0(CD track,SHORT)记 log。真播待 M6。event-system.ts |
+| 0x45 | set battle music | D | ✅ gs.wNumBattleMusic = op0(script.c:1658,进战斗选 BGM);shell `pickMusicTrack` 战斗中播 wNumBattleMusic。event-system.ts / shell/audio.ts |
+| 0x77 | stop music | D | ✅ gs.wNumMusic = 0(script.c:2215,op0 fade 秒:0→2.0,否则 op0*3);shell 见 track 0 停 BGM。fade 时长 cosmetic 待细化。event-system.ts / shell/audio.ts |
+| 0xA3 | play CD music(RIX fallback) | D | ✅ gs.wNumMusic = op1(script.c:3023);ts 无 CD → 等价 sdlpal "CD 不可用回退 RIX"(PlayMusic(op1));shell 播 Musics/CD OGG/RIX fallback track。event-system.ts / shell/audio.ts |
 | 0xA6 | backup screen | D | ✅ 显式 no-op(本游戏 0 调用;0x73 内部已 backup)(script.c:3069,1196faf) |
 | 0x78 | FIXME ???(sdlpal `case 0x78: break;`) | — | ✅ 显式 no-op(sdlpal 标 FIXME 字面空操作;本游戏 35 用全空)(script.c:2224,1196faf) |

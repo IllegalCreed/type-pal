@@ -416,7 +416,8 @@ function drawSaveSlotMenu(
   // OpeningMenu)按 mode 自行处理。我之前简版加 "存档/读档" 标题是错的,user 怒怼删。
 }
 
-// ── Placeholder TODO(T10b-e 完成前,显式标 TODO 不装"接通") ────────────────
+// ── Missing-resource fallback ───────────────────────────────────────────────
+// 这些菜单本体已接通;只有测试/异常启动未注入必需 catalog 时才画兜底提示,避免静默空屏。
 
 function drawPlaceholderTodo(
   fb: Framebuffer,
@@ -426,7 +427,7 @@ function drawPlaceholderTodo(
 ): void {
   const pos = { x: 80, y: 80 }
   drawBox({ fb, x: pos.x, y: pos.y, rows: 1, cols: 14, style: 0, uiSpriteFrames })
-  renderText(fb, `TODO M5.6 T10:${kind}`, pos.x + 16, pos.y + 8, MENUITEM_COLOR, glyphs)
+  renderText(fb, `Missing menu data:${kind}`, pos.x + 16, pos.y + 8, MENUITEM_COLOR, glyphs)
 }
 
 // 防 lint warn — SelectionMenuState 未直接用,但下面调用通过 state.selection 间接用

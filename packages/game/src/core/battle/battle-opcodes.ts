@@ -402,7 +402,7 @@ export function dispatchBattleOpcode(
       if (!tables)
         return { consumed: true }
 
-      // attackStrength = PAL_GetPlayerAttackStrength(movingPlayer = caster);装备加成略(同 attack.ts)
+      // attackStrength = PAL_GetPlayerAttackStrength(movingPlayer = caster);ctx.playerRoles 已是战斗入口投影后的 effective 值。
       let attackStr = 0
       if (ctx.caster?.type === 'player' && ctx.playerRoles) {
         const roleId = state.players[ctx.caster.idx]?.roleId

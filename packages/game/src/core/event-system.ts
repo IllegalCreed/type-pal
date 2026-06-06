@@ -79,10 +79,10 @@ export const OP_SET_CAMERA = 0x007F             // 127
 // same opcode — centerCameraOnParty is 0x007F with operand[0]=0, operand[1]=0
 export const OP_CENTER_CAMERA_ON_PARTY = 0x007F // 127 (operand[0]=0, operand[1]=0 変体)
 // case 0x0043(67):  Set background music
-//   operand[0]=musicId → gs.wNumMusic (M6 接真播,先记字段)
+//   operand[0]=musicId → gs.wNumMusic; shell AudioManager 轮询播放
 export const OP_PLAY_MUSIC = 0x0043             // 67
 // case 0x0045(69):  Set battle music(sdlpal script.c:1658)
-//   operand[0]=musicId → gs.wNumBattleMusic(进战斗时用,M6 接真播)
+//   operand[0]=musicId → gs.wNumBattleMusic(进战斗时由 shell AudioManager 播)
 export const OP_SET_BATTLE_MUSIC = 0x0045       // 69
 // case 0x0077(119): Stop current playing music(sdlpal script.c:2215)
 //   AUDIO_PlayMusic(0,FALSE,op0==0?2.0:op0*3) + gpGlobals->wNumMusic=0(fade 出后停)
@@ -106,7 +106,7 @@ export const OP_ADD_ITEM = 0x001F               // 31
 //   简版:只从 inventory remove;equipment 不消费(M5 装备表未真做)。
 export const OP_REMOVE_ITEM = 0x0020            // 32
 // case 0x0047(71):  Play sound effect(sdlpal script.c:1704-1709)
-//   operand[0] = soundId。M6 接音频 — 简版 console.debug 不报错。
+//   operand[0] = soundId → gs.pendingSounds; shell AudioManager drain 播放。
 export const OP_PLAY_SOUND = 0x0047             // 71
 // case 0x0012(18):  Set position of event object relative to party(script.c:706-714)
 //   pCurrent.x = operand[1] + viewport.x + partyoffset.x = operand[1] + party.x(world)
@@ -272,14 +272,13 @@ export const OP_JUMP_BY_RATE = 0x0006              // 6
 
 // case 0x0017(23): Set player extra attribute(equipment effect — script.c:752-766)
 //   i = operand[0] - 0xB → equipmentEffect[i].field[operand[1]][role] = SHORT(operand[2])
-//   ts:无 rgEquipmentEffect runtime 模型 → log skip(M6 EquipItemMenu 真做时补)
+//   ts:写 rgEquipmentEffect(part,row,role),row 真值见 equip-effect.ts PLAYERROLES_ROW。
 export const OP_SET_PLAYER_EXTRA_ATTR = 0x0017     // 23
 
 // case 0x0018(24): Equip selected item(script.c:768-811)
 //   i = operand[0] - 0xB(equipment slot);writes rgwEquipment[i][role]=operand[1];
 //   inventory swap:remove new item -1,if old != 0 add old +1
-//   sdlpal `g_iCurEquipPart = i` 全局后续 0x1A 写 equipmentEffect 用 — ts 不持久此 ctx
-//   (装备效果留 M6),先把 rgwEquipment 字段 + inventory swap 真做。
+//   sdlpal `g_iCurEquipPart = i` 全局后续 0x1A 写 equipmentEffect 用 — ts 持久到 gs.iCurEquipPart。
 export const OP_EQUIP_ITEM = 0x0018                // 24
 
 // case 0x0019(25): Increase/decrease player attribute(script.c:813-832)
@@ -3151,18 +3150,18 @@ function applyRawOpcode(
 
     case OP_SET_BATTLE_MUSIC: {
       // sdlpal script.c:1658:gpGlobals->wNumBattleMusic = operand[0]。进战斗时按此选 BGM。
-      //   纯 state-set(不立即播)→ 忠实写 gs.wNumBattleMusic;M6 接真播。
+      //   纯 state-set(不立即播)→ 忠实写 gs.wNumBattleMusic;shell 战斗中轮询播放。
       gs.wNumBattleMusic = operands[0] ?? 0
-      console.debug(`event-system: setBattleMusic id=${gs.wNumBattleMusic} (M6 接真播)`)
+      console.debug(`event-system: setBattleMusic id=${gs.wNumBattleMusic}`)
       break
     }
 
     case OP_STOP_MUSIC: {
       // sdlpal script.c:2215:AUDIO_PlayMusic(0,FALSE,op0==0?2.0:op0*3) + wNumMusic=0。
-      //   op0 = fade-out 秒(0 → 2.0s,否则 op0*3s)。ts:state-set wNumMusic=0;M6 接 fade 停。
+      //   op0 = fade-out 秒(0 → 2.0s,否则 op0*3s)。ts:state-set wNumMusic=0;shell 停 BGM。
       const fadeSec = (operands[0] ?? 0) === 0 ? 2.0 : (operands[0] ?? 0) * 3
       gs.wNumMusic = 0
-      console.debug(`event-system: stopMusic fade=${fadeSec}s (M6 接音频)`)
+      console.debug(`event-system: stopMusic fade=${fadeSec}s`)
       break
     }
 

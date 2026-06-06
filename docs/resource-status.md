@@ -4,7 +4,7 @@
 > **职责**:本表 owns 每个 MKF / 非 MKF 资源每 chunk 的提取状态。runtime 功能(渲染 / 播放)→ [feature-status](feature-status.md);逐 opcode → [opcode-status](opcode-status.md)。
 > **三表**:[feature-status](feature-status.md)(引擎功能)· [opcode-status](opcode-status.md)(事件 / opcode)· resource-status(资源提取,本表)
 > **图例**:✅ done(已抽,byte-level 确认)· ⚠️ partial · ⬜ todo · N/A · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap)· 🎵 同源冗余(已有其他格式覆盖)
-> **最后更新**:2026-05-30 — byte-level 复核;M4 提取实质 100% 完成,零真实数据 gap(全非空 chunk 已落地,skip 的都是引擎从不加载的空槽)。新增 SSS chunk 2 的两个 **union-view**(`object-magics.json` / `object-poisons.json`,非新源数据,见下表 SSS chunk 2)供战斗 opcode 按 object id 解析。唯一残留 = M6 runtime 音频播放 wiring(opcode 0x43 setMusic / playSound),属功能里程碑,非提取 gap。
+> **最后更新**:2026-06-07 — byte-level 复核;M4 提取实质 100% 完成,零真实数据 gap(全非空 chunk 已落地,skip 的都是引擎从不加载的空槽)。新增 SSS chunk 2 的两个 **union-view**(`object-magics.json` / `object-poisons.json`,非新源数据,见下表 SSS chunk 2)供战斗 opcode 按 object id 解析。runtime 音频 wiring 已归 feature-status H1-H3 接入,剩 soundfont/per-track 听验,非提取 gap。
 >
 > 数据来源:`reference/sdlpal/global.c::PAL_LoadDefaultGame` + 各 .c grep;状态列由 byte-level 复核(逐 MKF header chunk_count vs `data/extracted/` 实际输出数 + 追 parser 源码确认 dump-all)。提取入口:[packages/pal-extract/src/cli.ts](../packages/pal-extract/src/cli.ts)。
 > MKF 文件存在性:STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(WIN95+ 用 .RPG 存档);`mus.mkf` 存在但与 MIDI 同源(见末段)。
@@ -178,7 +178,7 @@
 |---|---|---|---|---|
 | 0–504 | `sound.c:964 "sounds.mkf" func=SOUND_LoadWAVEData`;`sound.c:792 PAL_MKFReadChunk(buf iSoundNum player->mkf)` | 音效 WAV/RIFF(chunk index = iSoundNum) | ✅ | `sounds/{i}.wav` × 363 + `data/sounds-metadata.json`(cli.ts:480-486 loop-over-all) |
 
-> runtime 音频**播放**接入(opcode 0x43 setMusic / playSound)留 M6 — 数据侧已全落地。
+> runtime 音频**播放**已由 core intent + shell `AudioManager` 接入;当前剩 soundfont/per-track 听验。数据侧已全落地。
 
 ---
 
@@ -224,4 +224,4 @@
 | 1–6.avi | — | — | 6 | ✅ | 6 mp4 |
 | unifont BDF | — | — | 57083 | ✅ | glyphs.json |
 
-> **结论:无真实数据 gap。** STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(DOS/WIN95 以 `.RPG` 存档),不计入。残留仅 M6 runtime 音频播放 wiring(非数据)。(RNG PNG runtime mirror 原备注已订正:软链 + vite fs.allow 已服务全帧,非 gap。)
+> **结论:无真实数据 gap。** STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(DOS/WIN95 以 `.RPG` 存档),不计入。音频运行时接线见 feature-status H1-H3,当前剩 soundfont/per-track 听验(非数据)。(RNG PNG runtime mirror 原备注已订正:软链 + vite fs.allow 已服务全帧,非 gap。)
