@@ -59,9 +59,10 @@ export interface PerformThrowItemInput {
 
 /**
  * 执行一次投掷物:
- *  1. 查 item;scriptOnThrow=0 → 不可投掷 → warn + 早退。
+ *  1. 查 item。
  *  2. 队员投 → 检查 inventory(count>0;敌人不 track inventory)。
- *  3. 跑 scriptOnThrow(runtimeMode='battle' + battleCtx 注入 caster/target/magicTables)。
+ *  3. 跑 scriptOnThrow(runtimeMode='battle' + battleCtx 注入 caster/target/magicTables);
+ *     scriptOnThrow=0 时 PAL_RunTriggerScript 为 no-op,仍继续消耗投掷物。
  *  4. 跑完后扣 1(sdlpal 投掷物 consuming;`PAL_AddItemToInventory(-1)` 在脚本之后)。
  */
 export function performThrowItem(input: PerformThrowItemInput): void {
@@ -70,11 +71,6 @@ export function performThrowItem(input: PerformThrowItemInput): void {
     console.warn(`[throw-item] item id ${input.itemId} not found`)
     return
   }
-  if (item.scriptOnThrow === 0) {
-    console.warn(`[throw-item] item ${input.itemId} not throwable (scriptOnThrow=0)`)
-    return
-  }
-
   // —— 队员投:检查 inventory(敌人不 track) ——
   let entry: { itemId: number, count: number } | undefined
   if (!input.casterIsEnemy) {
@@ -102,27 +98,29 @@ export function performThrowItem(input: PerformThrowItemInput): void {
       ? undefined // 全体:由 0x42 的 applyToAll flag / 自动选敌处理
       : { type: 'enemy' as const, idx: input.targetIdx }
 
-  input.runScript({
-    commands: input.commands,
-    ip: item.scriptOnThrow,
-    bus: input.bus,
-    runtimeMode: 'battle',
-    battleCtx: {
-      state: input.state,
-      caster: { type: input.casterIsEnemy ? 'enemy' : 'player', idx: input.casterIdx },
-      target: targetCtx,
-      magicTables: { magics: input.magics, objectMagics: input.objectMagics },
-      objectPoisons: input.objectPoisons, // 0x28 apply poison
-      playerRoles: input.playerRoles, // 0x66 throw weapon 算 w 需 caster attackStrength
-      gs: input.gs, // raw opcode fall 到 applyRawOpcode(控制流/资源/数据)需 gs
-      // 0x28 施毒跑一次 wEnemyScript(sdlpal script.c:1213)+ 蛊孵化链末尾 giveItem 需 commands/runScript
+  if (item.scriptOnThrow !== 0) {
+    input.runScript({
       commands: input.commands,
-      runScript: input.runScript as (o: RunScriptOptions) => number,
-      // 投掷动画:0x42/0x66 把 OffMagic 特效帧 push 进 pendingAnimFrames;HP-mutate 数字延迟进 pendingDamageNums。
-      //   无动画(敌投/无 pos)→ 不传缓冲 → opcode 即时 emit + 音效即时(向后兼容)。
-      ...(hasAnim ? { pendingAnimFrames, pendingDamageNums, magicSpriteFrameCounts: input.magicSpriteFrameCounts } : {}),
-    },
-  })
+      ip: item.scriptOnThrow,
+      bus: input.bus,
+      runtimeMode: 'battle',
+      battleCtx: {
+        state: input.state,
+        caster: { type: input.casterIsEnemy ? 'enemy' : 'player', idx: input.casterIdx },
+        target: targetCtx,
+        magicTables: { magics: input.magics, objectMagics: input.objectMagics },
+        objectPoisons: input.objectPoisons, // 0x28 apply poison
+        playerRoles: input.playerRoles, // 0x66 throw weapon 算 w 需 caster attackStrength
+        gs: input.gs, // raw opcode fall 到 applyRawOpcode(控制流/资源/数据)需 gs
+        // 0x28 施毒跑一次 wEnemyScript(sdlpal script.c:1213)+ 蛊孵化链末尾 giveItem 需 commands/runScript
+        commands: input.commands,
+        runScript: input.runScript as (o: RunScriptOptions) => number,
+        // 投掷动画:0x42/0x66 把 OffMagic 特效帧 push 进 pendingAnimFrames;HP-mutate 数字延迟进 pendingDamageNums。
+        //   无动画(敌投/无 pos)→ 不传缓冲 → opcode 即时 emit + 音效即时(向后兼容)。
+        ...(hasAnim ? { pendingAnimFrames, pendingDamageNums, magicSpriteFrameCounts: input.magicSpriteFrameCounts } : {}),
+      },
+    })
+  }
 
   // —— 消耗 1(sdlpal:脚本之后 PAL_AddItemToInventory(-1)) ——
   if (entry)

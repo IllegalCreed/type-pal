@@ -153,10 +153,10 @@ describe('performThrowItem (E2)', () => {
     expect(nums[0]).toMatchObject({ op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 140, color: 'blue' })
   })
 
-  it('scriptOnThrow=0(非投掷物)→ warn + 不跑 + 不扣', () => {
-    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  it('scriptOnThrow=0 → PAL_RunTriggerScript no-op,仍消耗投掷物', () => {
     const state = makeState([{ health: 200 }])
     const gs = makeGameState([{ itemId: 5, count: 2 }])
+    const runScriptSpy = vi.fn()
     performThrowItem({
       state, gs, casterIsEnemy: false, casterIdx: 0,
       itemId: 5, targetIdx: 0,
@@ -164,12 +164,11 @@ describe('performThrowItem (E2)', () => {
       magics: [], objectMagics: [],
       objectPoisons: [],
       playerRoles: { roles: [] },
-      bus: createCommandBus(), commands: [{ op: 'end' }], runScript,
+      bus: createCommandBus(), commands: [{ op: 'end' }], runScript: runScriptSpy,
     })
     expect(state.enemies[0]!.e.health).toBe(200)
-    expect(gs.inventory[0]!.count).toBe(2)
-    expect(warnSpy).toHaveBeenCalled()
-    warnSpy.mockRestore()
+    expect(gs.inventory[0]!.count).toBe(1)
+    expect(runScriptSpy).not.toHaveBeenCalled()
   })
 
   it('inventory 没有该投掷物 → warn + 不跑(防御)', () => {

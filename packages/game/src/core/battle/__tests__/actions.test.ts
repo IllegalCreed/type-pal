@@ -1442,11 +1442,13 @@ function makeGameState(inventory: InventoryEntry[]): GameState {
 }
 
 describe('performItem', () => {
-  it('队员 use,inventory>0 → count-- + runScript 被调', () => {
+  it('队员 use,inventory>0 → 脚本后按 consuming 扣库存 + runScript 被调', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 7, count: 3 }])
     const item = makeItem({ id: 7, scriptOnUse: 42 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn(() => {
+      expect(gs.inventory[0]!.count).toBe(3) // sdlpal fight.c:4392-4399:先跑脚本,后扣 consuming
+    })
     const commands: Command[] = [{ op: 'end' }]
 
     performItem({
@@ -1464,7 +1466,6 @@ describe('performItem', () => {
       runScript,
     })
 
-    // count--
     expect(gs.inventory[0]!.count).toBe(2)
 
     // runScript 被调
@@ -1478,6 +1479,31 @@ describe('performItem', () => {
       caster: { type: 'player', idx: 0 },
       target: { type: 'player', idx: 0 },
     })
+  })
+
+  it('队员 use,非 consuming 物品 → 跑脚本但不扣库存', () => {
+    const { state, playerRoles, bus } = makeState()
+    const gs = makeGameState([{ itemId: 7, count: 3 }])
+    const item = makeItem({ id: 7, scriptOnUse: 42, flags: { ...makeItem().flags, consuming: false } })
+    const runScript: RunScriptFn = vi.fn()
+
+    performItem({
+      state,
+      gs,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      itemId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      items: [item],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+
+    expect(gs.inventory[0]!.count).toBe(3)
+    expect(runScript).toHaveBeenCalledTimes(1)
   })
 
   it('队员 use,inventory count=0 → 不扣 + 不 runScript + console.warn', () => {
@@ -1599,7 +1625,7 @@ describe('performItem', () => {
     warnSpy.mockRestore()
   })
 
-  it('target=\'all\' → battleCtx.target=undefined,仍扣 inventory + 仍 runScript', () => {
+  it('target=\'all\' → battleCtx.target=undefined,仍按 consuming 扣 inventory + 仍 runScript', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 5, count: 2 }])
     const item = makeItem({ id: 5, scriptOnUse: 50 })

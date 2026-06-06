@@ -11,21 +11,18 @@
 - battle music、0x31 battle sprite override、0x92 show magic anim 均已接入。
 - OBJECT_PLAYER 的 friendDeath/dying 脚本已提取并在战斗伤害/毒伤后触发。
 
-## P0:行为差异
+## P0:已修复行为差异
 
 1. 战斗使用道具消耗规则
-   - 当前: `performItem` 在脚本前无条件扣队员库存。
-   - 原版: `PAL_RunTriggerScript(scriptOnUse, targetRole)` 之后,仅 `kItemFlagConsuming` 时扣。
-   - 风险: 非消耗品被扣;脚本失败/目标失败时仍可能提前扣。
+   - 已修: `performItem` 先跑 `PAL_RunTriggerScript(scriptOnUse, targetRole)`,脚本后仅 `kItemFlagConsuming` 扣。
+   - 注意:战斗 UseItem 按 `fight.c:4387-4400` 不检查 `g_fScriptSuccess`;大世界 UseItem 仍保留成功 gate。
 
 2. 投掷 `scriptOnThrow == 0` 的道具
-   - 当前: 直接 warn + return,不消耗。
-   - 原版: `PAL_RunTriggerScript(0, target)` 是 no-op,随后仍 `PAL_AddItemToInventory(-1)`。
-   - 风险: 可投掷但无脚本的物品在 TS 中无法按原版消耗/演出。
+   - 已修: `scriptOnThrow == 0` 视为 no-op,随后仍 `PAL_AddItemToInventory(-1)`。
 
 3. 战斗脚本 `0x50 fade out`
-   - 当前: fade 只在普通事件循环内联处理;战斗 raw fallback 可能跳过。
-   - 原版: 战斗物品/法术脚本可触发淡屏。
+   - 已修: battle `runScript` raw fallback 会启动同一套 `paletteFadeState` 并消费 opcode。
+   - 后续:若要完全同步阻塞,需把 palette fade hold 接入战斗 tick/动画队列。
 
 ## P1:规则/体验差异
 

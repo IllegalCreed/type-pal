@@ -3753,6 +3753,24 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     expect(gs.palette?.colors[0]).toEqual([0, 0, 0])
   })
 
+  it('battle runScript raw fallback:0x50 FadeOut → 启动 paletteFadeState 并消费 opcode', () => {
+    const gs = gsWithPalette([200, 100, 50], [200, 100, 50])
+    runScript({
+      commands: [{ op: 'raw', opcode: OP_FADE_OUT, operands: [2, 0, 0] }, { op: 'end' }],
+      ip: 0,
+      bus: createCommandBus(),
+      runtimeMode: 'battle',
+      battleCtx: {
+        state: { phase: 'performAction' } as BattleState,
+        gs,
+      },
+    })
+    expect(gs.needToFadeIn).toBe(true)
+    expect(gs.paletteFadeState?.mode).toBe('lerp')
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([0, 0, 0])
+    expect(gs.paletteFadeState?.totalMs).toBe(1200)
+  })
+
   it('0x4E load-last-save → fade-out + reloadSlotAfterFade=当前槽 → 淡完调 handler(slot) + 停脚本', () => {
     const bus = createCommandBus()
     const gs = gsWithPalette([200, 100, 50], [200, 100, 50])

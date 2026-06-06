@@ -531,6 +531,24 @@ function startPaletteFade(
   cursor.waiting = sceneUpdating ? 'scene-fade' : 'palette-fade'
 }
 
+function startFadeOutEffect(gs: GameState, delayOperand: number, cursor?: EventCursor): void {
+  const now = performance.now()
+  const curColors = (gs.palette ?? gs.basePalette)?.colors ?? blackColors()
+  const delay = delayOperand || 1
+  const pf = buildFadeOut(curColors, delay * 600, now)
+  if (cursor)
+    startPaletteFade(gs, cursor, pf, false, false)
+  else {
+    if (!gs.palette) {
+      const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
+      gs.palette = makeWorkingPalette(src)
+    }
+    gs.paletteFadeState = pf
+  }
+  gs.needToFadeIn = true
+  console.debug(`event-system: FadeOut delay=${delay} → ${delay * 600}ms (→black, needToFadeIn=TRUE)`)
+}
+
 function isEventCursorAtMakeSceneStep(cursor: EventCursor | undefined): boolean {
   if (!cursor || cursor.waiting !== undefined) return false
   const cmd = getCmds(cursor)[cursor.ip]
@@ -2132,10 +2150,7 @@ export function tickEventSystem(
           if (cmd.opcode === OP_FADE_OUT) {
             // sdlpal palette.c:163 `time = now + iDelay*10*60` → 时长 (op0||1)*600ms。屏幕 → 全黑。
             // clearSceneLoading=false:loadScene→FadeOut 序中保持冻屏,淡黑触发前那帧(不重绘 setPartyPos 瞬移)。
-            const delay = op0 || 1
-            startPaletteFade(gs, cursor, buildFadeOut(curColors, delay * 600, now), false, false)
-            gs.needToFadeIn = true  // sdlpal script.c:1781
-            console.debug(`event-system: FadeOut delay=${delay} → ${delay * 600}ms (→black, needToFadeIn=TRUE)`)
+            startFadeOutEffect(gs, op0, cursor)
             return
           }
           if (cmd.opcode === OP_FADE_IN) {
@@ -2999,6 +3014,13 @@ function applyRawOpcode(
   cursor: ScriptCursor | null = null,
 ): void {
   switch (opcode) {
+    case OP_FADE_OUT: {
+      // battle runScript raw fallback 没有 EventCursor waiting;先启动同一套 paletteFadeState 并消费 opcode。
+      // 普通事件循环路径会传 cursor 并阻塞等 fade 完。
+      startFadeOutEffect(gs, operands[0] ?? 0, cursor ?? undefined)
+      break
+    }
+
     case OP_SET_PARTY_POS: {
       // sdlpal script.c:1665-1700 真值:operand=(col,row,h) → world.x = col*32+h*16,
       // world.y = row*16+h*8;viewport = world - partyoffset(party 在 screen anchor)。
