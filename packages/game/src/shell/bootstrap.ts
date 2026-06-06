@@ -2,6 +2,7 @@ import type {
   Command,
   EventFile,
   EventObjectsFile,
+  PlayerRoles,
   SceneEventObject,
   Tilemap,
 } from '@type-pal/shared'
@@ -39,6 +40,7 @@ import {
 } from '../core/event-system.js'
 import {
   createInitialGameState,
+  type GameState,
   hydratePlayerRolesRuntime,
   hydrateNpcStaticDefaults,
   getOverworldSpriteNum,
@@ -76,7 +78,7 @@ import {
   presentBattleFrame,
   presentFrame,
 } from '../present/present.js'
-import { battleVictoryTrack, createAudioManager, pickMusicTrack, sfxForBattleEvent } from './audio.js'
+import { battleVictoryTrack, createAudioManager, pickMusicTrack, sfxForBattleEvent, type AudioManager } from './audio.js'
 import { createSpessaSynthBackend } from './audio-midi.js'
 import { playAvi } from './avi-player.js'
 import {
@@ -133,6 +135,38 @@ const buildFlag: 'win95' | 'dos' =
   new URLSearchParams(window.location.search).get('build') === 'dos'
     ? 'dos'
     : 'win95'
+
+export function syncShellAudio(
+  audio: AudioManager,
+  gs: GameState,
+  drained: ReadonlyArray<{ cmd: { op: string; soundId?: number; enemyIdx?: number; playerIdx?: number } }>,
+  playerRoles: PlayerRoles,
+): void {
+  const inBattle = gs.battleState !== undefined
+  // 系统菜单「音乐」「音效」开关(gs.fMusicEnabled/fSoundEnabled,PAL_SwitchMenu 切)→ AudioManager。
+  //   setter 幂等(无变化 no-op),每帧调安全。
+  audio.setMusicEnabled(gs.fMusicEnabled ?? true)
+  audio.setSfxEnabled(gs.fSoundEnabled ?? true)
+  // 战斗胜利曲(battle.c:1030-1032,'won' 结算期 isBoss?2:3 不循环;结算完 battleState 清→场景乐恢复)。
+  const victoryTrack = battleVictoryTrack(gs.battleState)
+  audio.sync(gs.pendingSounds, {
+    track: victoryTrack > 0 ? victoryTrack : pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic),
+    loop: victoryTrack > 0 ? false : (inBattle ? true : (gs.musicLoop ?? true)),
+  })
+  // M6 战斗 SFX:扫本帧 bus 视觉事件 → per-单位声(敌死 deathSound / 敌攻 attackSound /
+  //   我攻 role.weaponSound,fight.c/battle.c AUDIO_PlaySound)。explore SFX 走 gs.pendingSounds。
+  if (inBattle) {
+    for (const { cmd } of drained) {
+      // core 已解析好的固定声(出招/暴击 attack.ts、濒死/阵亡 battle-system 等 AUDIO_PlaySound)→ 直接播。
+      if (cmd.op === 'playSound') {
+        if ((cmd.soundId ?? 0) > 0) audio.playSound(cmd.soundId ?? 0)
+        continue
+      }
+      const s = sfxForBattleEvent(cmd, gs.battleState?.enemies, gs.partyMembers, playerRoles.roles)
+      if (s > 0) audio.playSound(s)
+    }
+  }
+}
 
 export function showError(canvas: HTMLCanvasElement, msg: string): void {
   const ctx = canvas.getContext('2d')
@@ -380,37 +414,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     labelMap,
     partyWalkFrames,
     onPresent: (drained) => {
+      // 音频同步必须在 suspendRaf gate 前跑:山神庙传剑等 modal CG/RNG 播放期间仍会有脚本
+      // 设置 BGM/SFX。只暂停 canvas present,不能暂停 audio drain,否则声音会等 CG 结束后才一起触发。
+      syncShellAudio(audio, gs, drained, playerRoles)
       // suspendRaf 期间:modal 播放器(AVI / trademark / splash / RNG / FBP / 结局动画)**独占** canvas,
       // 自管 fb + flushToCanvas。主循环这里**完全不碰 canvas** —— 否则下面的 flushToCanvas 会用 gs.palette
       // (场景调色板)重刷 fb,跟 modal 播放器的 flush(各自 palette)互抢 → 画面在两套色表间闪烁
       //(2026-05-29 user 从 devpanel 触发开场 DOS 时发现"正常↔偏红"闪烁;开机时 raf 还没起所以不显)。
       if (gs.suspendRaf) return
-      // M6 音频:每帧 drain gs.pendingSounds(SFX)+ 轮询有效 BGM(战斗中→wNumBattleMusic looped,
-      //   否则→wNumMusic 场景乐;battle.c:728/1849)。suspendRaf(modal)期间跳过。
-      const inBattle = gs.battleState !== undefined
-      // 系统菜单「音乐」「音效」开关(gs.fMusicEnabled/fSoundEnabled,PAL_SwitchMenu 切)→ AudioManager。
-      //   setter 幂等(无变化 no-op),每帧调安全。
-      audio.setMusicEnabled(gs.fMusicEnabled ?? true)
-      audio.setSfxEnabled(gs.fSoundEnabled ?? true)
-      // 战斗胜利曲(battle.c:1030-1032,'won' 结算期 isBoss?2:3 不循环;结算完 battleState 清→场景乐恢复)。
-      const victoryTrack = battleVictoryTrack(gs.battleState)
-      audio.sync(gs.pendingSounds, {
-        track: victoryTrack > 0 ? victoryTrack : pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic),
-        loop: victoryTrack > 0 ? false : (inBattle ? true : (gs.musicLoop ?? true)),
-      })
-      // M6 战斗 SFX:扫本帧 bus 视觉事件 → per-单位声(敌死 deathSound / 敌攻 attackSound /
-      //   我攻 role.weaponSound,fight.c/battle.c AUDIO_PlaySound)。explore SFX 走 gs.pendingSounds。
-      if (inBattle) {
-        for (const { cmd } of drained) {
-          // core 已解析好的固定声(出招/暴击 attack.ts、濒死/阵亡 battle-system 等 AUDIO_PlaySound)→ 直接播。
-          if (cmd.op === 'playSound') {
-            if (cmd.soundId > 0) audio.playSound(cmd.soundId)
-            continue
-          }
-          const s = sfxForBattleEvent(cmd, gs.battleState?.enemies, gs.partyMembers, playerRoles.roles)
-          if (s > 0) audio.playSound(s)
-        }
-      }
       // 按 gs.mode 路由 present:battle → presentBattleFrame(消费 commands 进 floating nums);
       // 否则走 explore/event 路径 presentFrame(commands 由 M2 EventSystem 直接消费 GameState)
       if (!presentBattleFrame(fb, gs, battlePresent, battleAssets, drained)) {
