@@ -26,9 +26,9 @@
 
 ## P1:规则/体验差异
 
-1. 战斗选择期没有 `nAmountInUse`
-   - 多名队员同回合可选择同一个仅剩 1 个的物品。
-   - 原版选择菜单用 `nAmount > nAmountInUse` 隐藏已预占物品。
+1. 战斗选择期 `nAmountInUse`
+   - 已修:物品菜单按本回合 pendingActions 计算已预占数量,`count - inUse <= 0` 时灰掉且不可确认。
+   - 已修:Menu 回退上一队员会删除其 pending action,下次建表自然释放预占。
 
 2. cover 专属演出
    - 自动防御和 cover 的核心结算已接入。

@@ -1742,6 +1742,47 @@ describe('物品选择网格(itemmenu.c:28-377)', () => {
     expect(items.find((i) => i.id === 2)?.disabled).toBe(true)
   })
 
+  it('建表:nAmountInUse 预占用完 → 后续队员看到灰项(itemmenu.c:287)', () => {
+    const ctx = bootstrap({
+      partyMembers: [0, 1],
+      roles: [makeRole({ id: 0 }), makeRole({ id: 1 })],
+      items: [mkItem(1, { usable: true })],
+      inventory: [{ itemId: 1, count: 1 }],
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF],
+    })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['UseItem']), ctx.bus)
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // player0 选 item 1 → selectTargetPlayer
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // commit player0,advance 到 player1
+
+    tickBattle(ctx.gs, mSnap(['UseItem']), ctx.bus)
+    const item = ctx.gs.battleState!.itemSelect!.items.find((i) => i.id === 1)
+    expect(item?.disabled).toBe(true)
+    expect(item?.rightText).toBe('×0')
+  })
+
+  it('Menu 回退上一队员 → 删除 pending action 后释放 nAmountInUse', () => {
+    const ctx = bootstrap({
+      partyMembers: [0, 1],
+      roles: [makeRole({ id: 0 }), makeRole({ id: 1 })],
+      items: [mkItem(1, { usable: true })],
+      inventory: [{ itemId: 1, count: 1 }],
+      enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF],
+    })
+    enterSelectMove(ctx)
+    tickBattle(ctx.gs, mSnap(['UseItem']), ctx.bus)
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // player0 item committed,player1 selecting
+    tickBattle(ctx.gs, mSnap(['Menu']), ctx.bus) // 回退到 player0 并删除其 pending action
+
+    tickBattle(ctx.gs, mSnap(['UseItem']), ctx.bus)
+    const item = ctx.gs.battleState!.itemSelect!.items.find((i) => i.id === 1)
+    expect(item?.disabled).toBe(false)
+    expect(item?.rightText).toBe('×1')
+  })
+
   it('Confirm 使用类(治疗药)→ selectTargetPlayer + draft item/player', () => {
     const ctx = enterUseItem([mkItem(1, { usable: true })], [{ itemId: 1, count: 2 }])
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)

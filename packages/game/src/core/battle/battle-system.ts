@@ -934,17 +934,30 @@ function buildBattleMagicSelect(
 /**
  * 建战斗物品选择网格 state —— port sdlpal `PAL_ItemSelectMenuUpdate`(itemmenu.c):
  *   列**全部**库存(count>0,= CompressInventory 后);灰项 = flag 不符(usable / throwable);
+ *   count - nAmountInUse <= 0 也灰掉(本回合已被前面队员预占);
  *   战斗内不加可用装备(itemmenu.c:355 `!gpGlobals->fInBattle`)。光标可停灰项但不可确认。
  */
 function buildBattleItemSelect(
-  gs: GameState, items: Item[], flag: 'usable' | 'throwable',
+  state: BattleState, gs: GameState, items: Item[], flag: 'usable' | 'throwable',
 ): SelectionMenuState {
+  const inUse = new Map<number, number>()
+  state.pendingActions.forEach((action) => {
+    if ((action.type === 'item' || action.type === 'throw-item') && action.actionId !== undefined) {
+      inUse.set(action.actionId, (inUse.get(action.actionId) ?? 0) + 1)
+    }
+  })
   const menuItems = gs.inventory
     .filter((e) => e.count > 0)
     .map((e) => {
       const item = items.find((i) => i.id === e.itemId)
       const matches = flag === 'usable' ? !!item?.flags.usable : !!item?.flags.throwable
-      return { id: e.itemId, label: item?._name ?? `item#${e.itemId}`, rightText: `×${e.count}`, disabled: !matches }
+      const amountInUse = inUse.get(e.itemId) ?? 0
+      return {
+        id: e.itemId,
+        label: item?._name ?? `item#${e.itemId}`,
+        rightText: `×${e.count - amountInUse}`,
+        disabled: !matches || e.count - amountInUse <= 0,
+      }
     })
   return createSelectionMenu(menuItems, ITEM_GRID_COLS * ITEM_GRID_ROWS)
 }
@@ -1052,10 +1065,10 @@ function handleMainMenuInput(
     commitFleeAllPlayers(state, alivePlayerIdxs)
   } else if (input.pressed.has('UseItem')) {
     state.menuState = 'useItemSelect'
-    state.itemSelect = buildBattleItemSelect(gs, res.items, 'usable')
+    state.itemSelect = buildBattleItemSelect(state, gs, res.items, 'usable')
   } else if (input.pressed.has('ThrowItem')) {
     state.menuState = 'throwItemSelect'
-    state.itemSelect = buildBattleItemSelect(gs, res.items, 'throwable')
+    state.itemSelect = buildBattleItemSelect(state, gs, res.items, 'throwable')
   } else if (input.pressed.has('Repeat')) {
     commitRepeatAction(state, alivePlayerIdxs, playerRoles)
   } else if (input.pressed.has('Auto')) {
@@ -1235,10 +1248,10 @@ function handleMiscItemSubMenuInput(
   state.menuState = 'main' // sdlpal uibattle.c:1411 先置 Main
   if (state.miscSubMenuCursor === 0) {
     state.menuState = 'useItemSelect'
-    state.itemSelect = buildBattleItemSelect(gs, res.items, 'usable')
+    state.itemSelect = buildBattleItemSelect(state, gs, res.items, 'usable')
   } else {
     state.menuState = 'throwItemSelect'
-    state.itemSelect = buildBattleItemSelect(gs, res.items, 'throwable')
+    state.itemSelect = buildBattleItemSelect(state, gs, res.items, 'throwable')
   }
 }
 
@@ -1428,7 +1441,7 @@ function advanceSelectingPlayer(state: BattleState, alivePlayerIdxs: number[]): 
 /**
  * 主菜单按 Menu → 回退上一队员重选(port sdlpal uibattle.c:1225-1272,PAL_CLASSIC)。
  *   首个队员(无上一个)→ 无操作(sdlpal 留在 Wait);否则撤销上一队员已 commit 的 action,选他重选。
- *   注:sdlpal 还会 decrement throw/use item 的 nAmountInUse —— ts 选择期不跟踪 inUse,跳过(诚实残留)。
+ *   nAmountInUse 由 pendingActions 动态计算;撤销上一 action 后下次建物品表自然释放预占。
  */
 function revertToPreviousPlayer(state: BattleState, alivePlayerIdxs: number[]): void {
   const cur = state.selectingPlayerIdx
