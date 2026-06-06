@@ -238,10 +238,10 @@ const OP_PLAYER_FLEE = 0x003A
 /** sdlpal `script.c:0030` 0x0030:temp +op1% 某 stat(op0=row,梦蛇 等)。 */
 const OP_BUFF_PLAYER_STAT_PCT = 0x0030
 
-/** sdlpal `script.c:0031` 0x0031:temp 改战斗精灵(present-only)。 */
+/** sdlpal `script.c:0031` 0x0031:temp 改战斗精灵。 */
 const OP_CHANGE_BATTLE_SPRITE = 0x0031
 
-/** sdlpal `script.c:0092` 0x0092:show magic-casting anim(present-only)。 */
+/** sdlpal `script.c:0092` 0x0092:show magic-casting anim。 */
 const OP_SHOW_MAGIC_ANIM = 0x0092
 
 /** sdlpal `script.c:006A` 0x006A:PAL_BattleStealFromEnemy(target, op0=stealRate)。 */
@@ -765,7 +765,7 @@ export function dispatchBattleOpcode(
 
     case OP_STEAL_FROM_ENEMY: {
       // sdlpal `fight.c:5193 PAL_BattleStealFromEnemy(target, stealRate=op0)`:
-      //   大段是偷窃动画(pos/delay/colorShift)→ present-only 跳过(D17)。核心(5253-5297):
+      //   先播偷窃冲刺动画(pos/delay/colorShift),再跑核心(5253-5297):
       //   if (enemy.nStealItem > 0 && (RandomLong(0,10) <= stealRate || stealRate==0)):
       //     wStealItem==0 → 偷钱:c = nStealItem / RandomLong(2,3); nStealItem-=c; dwCash+=c
       //     else          → 偷物:nStealItem--; AddItem(wStealItem,1)

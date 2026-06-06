@@ -34,8 +34,7 @@ export function tickStatusEffects(state: BattleState): void {
   }
 }
 
-/** 简版可行动检查:sleep/paralyzed/confused > 0 时不能正常 select action(sdlpal `fight.c:840`)。
- *  M5 简版接 selectAction phase 用;实际 sdlpal confused 是攻击友军,paralyzed/sleep 跳过该回合。 */
+/** 可行动检查:sleep/paralyzed 跳过正常行动;confused 由 battle-system 改派 attack-mate。 */
 export function canAct(owner: StatusOwner): boolean {
   const s = owner.status
   return s.sleep <= 0 && s.paralyzed <= 0

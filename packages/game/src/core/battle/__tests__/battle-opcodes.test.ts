@@ -1355,13 +1355,13 @@ describe('0x30 buff player stat % (script.c:1406-1427,梦蛇 等)', () => {
   })
 })
 
-describe('0x31 / 0x92 present-only(no-op consumed)', () => {
-  it('0x31 change battle sprite → consumed,不崩(present 精灵替换待)', () => {
+describe('0x31 / 0x92 battle presentation opcodes', () => {
+  it('0x31 change battle sprite → consumed,不崩', () => {
     const r = dispatchBattleOpcode(0x31, [200, 0, 0], statBuffCtx([{ id: 0, attackStrength: 30 }]))
     expect(r.consumed).toBe(true)
   })
 
-  it('0x92 show magic anim → consumed,不崩(present 跳过战斗动画 D17)', () => {
+  it('0x92 show magic anim → consumed,不崩', () => {
     const r = dispatchBattleOpcode(0x92, [1, 0, 0], statBuffCtx([{ id: 0, attackStrength: 30 }]))
     expect(r.consumed).toBe(true)
   })

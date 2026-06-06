@@ -8,7 +8,7 @@
  *
  * **入口**:
  *   - startBattle({ gs, enemyTeamId, battleFieldId, isBoss, 资源... }) — 构 BattleState + 切 mode
- *   - tickBattle(gs, input, bus) — phase 路由(替换 T14 stub)
+ *   - tickBattle(gs, input, bus) — phase 路由 + 战斗 UI 输入/动作推进
  *
  * **__battleResources hack**:战斗中 tickBattle 需要 items/spells/magics/playerRoles/commands
  * 五张表,而 GameState 不直接持有(资源数据由 Shell 装载侧管理)。本 task 在 GameState
@@ -21,9 +21,8 @@
  * OBJECT 索引解析成 enemyId 写入 enemy-teams.json)→ 运行时 `.find(e => e.id === slot)` 直接命中即正确,
  * 无需运行时中间表。(原"本 task 简化方案 / T23 对拍待"备注 FALSE:映射不是简化,是已解析真值。)
  *
- * **select-action UI input 处理**(本 task):tickSelectAction 是 stub — 只检测
- * pendingActions 是否填满,**不处理 Up/Down/Confirm/Cancel 真菜单逻辑**。T26 真画菜单 +
- * T29 dev panel 编程式触发时再扩这部分;本 task 测试通过 fixture 直接写 pendingActions。
+ * **select-action UI input 处理**:主菜单、杂项、法术/物品网格、目标选择与快捷键均在
+ * tickSelectAction/dispatchSelectInput 链路处理;测试仍可绕过 UI 直填 pendingActions。
  *
  * **死循环保护**:phaseStallTicks > 1500(~60s at 25fps)兜底切 explore + console.error。
  */
@@ -373,10 +372,10 @@ function getRunScript(gs: GameState): RunScriptFn {
 /**
  * 战斗 tick —— 由 mode.ts 在 mode='battle' 时每帧调一次。
  *
- * 替换 T14 stub。phase 路由 + 死循环保护;具体行为见各 phase handler。
+ * 战斗主循环。phase 路由 + 死循环保护;具体行为见各 phase handler。
  *
  * @param gs GameState(必须 mode='battle' 且 battleState 非空;否则 no-op)
- * @param input 输入快照(本 task select-action input 处理为 stub,基本不读)
+ * @param input 输入快照(战斗选择 UI、对话与结算 hold 会读取)
  * @param bus Present 命令通道(perform 阶段 emit 动画 / 数字弹幕)
  */
 export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
@@ -537,9 +536,9 @@ function actionDexMultiplier(
  * selectAction:等所有活队员选好 action(由 UI 写 pendingActions),
  * 然后 build ActionQueue + 进 performAction。
  *
- * UI input 处理(M3.5 T13/T14):
- * - mainMenu(T13):Up/Down 切 cursor;Confirm 0/3/4 直接产 action,1/2 切二级菜单
- * - magicMenu / itemMenu / targetSelect(T14):待实现
+ * UI input 处理:
+ * - main menu:方向键切四图标;Confirm 进入攻击/法术/合击/杂项分支。
+ * - magic/item menus + target select:网格导航、灰项、目标方与全体目标均在 dispatchSelectInput 链路处理。
  *
  * fixture 测试仍可绕过 UI 直填 pendingActions —— input handler 仅在 uiState
  * 命中分支时改 state,其它情况(fixture 模式 / 二级菜单未实现)不动 state。
@@ -1110,7 +1109,7 @@ function confirmMainAction(state: BattleState, res: BattleResources): void {
       state.menuState = 'magicSelect'
       state.magicSelect = buildBattleMagicSelect(state, playerRoles, res.spells, res.magics, res.objectMagics, res.items)
       break
-    case 2: { // 合击(uibattle.c:1115-1155)— 选择按真值,执行仍 stub(B-w3.a)
+    case 2: { // 合击(uibattle.c:1115-1155)— 选择按真值,执行走 performCoopMagic
       const role = playerRoles.roles[state.players[playerIdx]!.roleId]
       const coopId = (role as unknown as { cooperativeMagic?: number }).cooperativeMagic ?? 0
       const spell = res.spells.find((s) => s.id === coopId)
@@ -2450,9 +2449,8 @@ function tickPostAction(
     return
   }
 
-  // 推下一轮 + M5.B-w1.a:tick status effects(sdlpal fight.c:PAL_BattlePlayerCheckReady)
-  // sleep/paralyzed/confused/silence/puppet 各 -1 直到 0;boolean 类 haste/slow/...
-  // 简版不衰减(等装备 / 法术 follow-up)
+  // 推下一轮 + tick status effects(sdlpal fight.c:PAL_BattlePlayerCheckReady)
+  // 全部 status 计数器各 -1 直到 0;>999 装备永久效果由战末清理规则保留。
   tickStatusEffects(state)
   // B2 c5 / D24:每轮衰减隐身(CLASSIC 每轮 -1,到 0 = 隐身结束;fight.c:1670-1672)
   decrementHidingEffect(state)
