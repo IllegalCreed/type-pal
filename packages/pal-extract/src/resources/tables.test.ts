@@ -564,6 +564,7 @@ describe('parseEnemyTeams (M3 T7)', () => {
     const indexMap = new Map<number, number>([[398, 7]]) // OBJECT 398 → enemy.id 7
     const fakeTeams = parseEnemyTeams(fake, undefined, indexMap)
     expect(fakeTeams[0]!.enemies).toEqual([7, 0xffff, 0xffff, 0xffff, 0xffff])
+    expect(fakeTeams[0]!.enemyObjectIndexes).toEqual([398, 0xffff, 0xffff, 0xffff, 0xffff])
   })
 
   it('M3.30 翻译模式:OBJECT 索引不在 map 中 → 槽位标 0xFFFF + warn', () => {
@@ -597,6 +598,7 @@ describe('parseEnemyTeams (M3 T7)', () => {
     const teamsTranslated = parseEnemyTeams(teamBuf, undefined, indexMap)
     // enemies.json 实测 154 条;非空 / 非 0xFFFF 槽位都应在 [1..153]
     for (const team of teamsTranslated) {
+      expect(team.enemyObjectIndexes).toHaveLength(5)
       for (const slot of team.enemies) {
         if (slot === 0 || slot === 0xffff) continue
         expect(slot).toBeGreaterThan(0)

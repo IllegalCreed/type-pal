@@ -278,8 +278,8 @@ async function main(): Promise<void> {
   const enemyObjectNames = buildEnemyObjectNameMap(sssObjBuf, words)
   // M3.30 Bug 1 修复:enemy-teams.json 槽位之前 dump 为 OBJECT 数组绝对 index(398-550),
   // 与 enemies.json id 范围(0-153)不匹配,运行时 `find(e => e.id === slot)` 全 miss → enemy
-  // 不显示。修法:dump 时翻译 OBJECT index → enemies.json id(= OBJECT_ENEMY.wEnemyID),
-  // enemy-teams.json 槽位变 enemies.json id,运行时直接消费。
+  // 不显示。dump 时翻译 OBJECT index → enemies.json id(= OBJECT_ENEMY.wEnemyID),
+  // 同时保留 enemyObjectIndexes,供运行时区分同 enemyId 的多个脚本变体。
   const objectIndexToEnemyId = buildObjectIndexToEnemyIdMap(sssObjBuf)
   writeJson(
     resolve(OUT, 'data', 'enemy-teams.json'),

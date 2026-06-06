@@ -334,8 +334,8 @@ export interface Enemy {
 /**
  * sdlpal `global.h tagOBJECT_ENEMY`(M5.B-w2.a):SSS.MKF chunk 2 OBJECT 表
  * ENEMY_OBJ_START(398)起 153 条 wrapper,每条把 chunk 1 ENEMY 真值 + 4 个
- * AI 脚本 hook 关联。EnemyTeam.slots[i] 是 OBJECT 表绝对 index → 通过此表反查
- * scriptOnReady 等 AI hook。
+ * AI 脚本 hook 关联。EnemyTeam.enemyObjectIndexes[i] 保留 OBJECT 表绝对 index,
+ * 运行时通过此表精确反查 scriptOnReady 等 AI hook。
  */
 export interface EnemyObject {
   objectIndex: number
@@ -360,20 +360,29 @@ export interface EnemyObject {
  * } ENEMYTEAM;
  * ```
  *
- * **槽位含义(对照 `battle.c:1602`):**
+ * 原始槽位含义(对照 `battle.c:1602`):
  * - `0xFFFF` = 空槽位(`if (w == 0xFFFF) continue;`)
  * - `0`      = 也跳过(sdlpal 行内判 `if (w != 0)` 后才装载)
  * - 其他    = OBJECT 数组的绝对 index(`gpGlobals->g.rgObject[w].enemy.wEnemyID`),
  *             落在 OBJECT_ENEMY 段(实测 398-550)
+ *
+ * 提取后的 `enemies` 已翻译成 enemies.json id,同时用 `enemyObjectIndexes`
+ * 保留原始槽位,避免同一 enemyId 对应多个 OBJECT_ENEMY 时丢失脚本身份。
  */
 export interface EnemyTeam {
   /** 在 enemy-teams.json 数组里的索引。 */
   id: number
   /**
-   * 5 个 slot,每个是 OBJECT 数组的绝对 index(指向 OBJECT_ENEMY 段)。
+   * 5 个 slot,每个是 enemies.json id。
    * `0xFFFF` = 空槽位,`0` = 也跳过(见 sdlpal `battle.c:1602`)。
+   * 未启用提取期翻译的兼容调用中,这里仍可能是原始 OBJECT index。
    */
   enemies: [number, number, number, number, number]
+  /**
+   * 翻译前的 5 个 OBJECT 数组绝对 index,与 `enemies` 按槽位一一对应。
+   * 提取期翻译模式会写入;自定义敌队和旧数据可省略,运行时按 enemyId 兼容反查。
+   */
+  enemyObjectIndexes?: [number, number, number, number, number]
   /**
    * 5 个槽位对应的敌人名注释(WORD.DAT;引擎不读,只为人读 JSON 时认得出)。
    * 数组长度 ≤ 5;空槽位 / 找不到名字的 slot 不收入。可选。

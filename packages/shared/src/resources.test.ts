@@ -303,13 +303,15 @@ describe('EnemyTeam schema (M3 T7)', () => {
     expect(t.id).toBe(1)
   })
 
-  it('EnemyTeam 可 JSON 序列化(enemies tuple 保留 5 位 + _names 可缺)', () => {
+  it('EnemyTeam 可 JSON 序列化(enemies/object tuple 保留 5 位 + _names 可缺)', () => {
     const t: EnemyTeam = {
       id: 0,
       enemies: [0xffff, 0xffff, 0xffff, 0xffff, 0xffff],
+      enemyObjectIndexes: [0xffff, 0xffff, 0xffff, 0xffff, 0xffff],
     }
     const parsed = JSON.parse(JSON.stringify(t)) as EnemyTeam
     expect(parsed.enemies).toHaveLength(5)
+    expect(parsed.enemyObjectIndexes).toHaveLength(5)
     expect(parsed._names).toBeUndefined()
   })
 
@@ -317,6 +319,7 @@ describe('EnemyTeam schema (M3 T7)', () => {
     expectTypeOf<EnemyTeam>().toMatchTypeOf<{
       id: number
       enemies: readonly [number, number, number, number, number]
+      enemyObjectIndexes?: readonly [number, number, number, number, number]
       _names?: string[]
     }>()
   })

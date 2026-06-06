@@ -16,9 +16,9 @@ import { u16 } from './_utils.js'
 //   if (w != 0) { ... 装载 ... }    ← 0 也跳过,只是没显式判
 // 非空 slot 是 OBJECT 数组的绝对 index(指向 OBJECT_ENEMY 段)。
 //
-// **M3.30 决策(Bug 1 修复)**:dump 时把 OBJECT 绝对 index 翻译到 enemies.json id
-// (= sdlpal OBJECT_ENEMY.wEnemyID)。运行时 enemy-teams.json 槽位**就是** enemies.json id,
-// dev panel 选 fixture 触发战斗时 `enemies.find(e => e.id === slot)` 直接命中。
+// dump 时把 OBJECT 绝对 index 翻译到 enemies.json id(= sdlpal OBJECT_ENEMY.wEnemyID),
+// 同时把原始槽位保存在 enemyObjectIndexes。运行时用 enemy id 取属性、原始对象号取脚本,
+// 避免同一 enemy id 的多个 OBJECT_ENEMY 变体被错误合并。
 // 若 caller 不传 `objectIndexToEnemyId`,则保留原始 OBJECT 绝对 index(向后兼容)。
 const TEAM_SLOT_COUNT = 5 // MAX_ENEMIES_IN_TEAM
 const TEAM_RECORD_SIZE = TEAM_SLOT_COUNT * 2
@@ -41,6 +41,7 @@ const TEAM_RECORD_SIZE = TEAM_SLOT_COUNT * 2
  * - 0 / 0xFFFF 保留(空槽位语义)
  * - 其他 OBJECT 绝对 index → 查 map 得 enemies.json id(= OBJECT_ENEMY.wEnemyID);
  *   找不到映射 → 槽位变 0xFFFF(等于空,运行时 filter 跳过)+ console.warn
+ * - 原始 5 槽位同时写入 `enemyObjectIndexes`,供运行时精确反查 OBJECT_ENEMY 脚本
  *
  * **_names 反查**:可选;传入 `enemyObjectNames` 时,对每个非空 / 非 0 槽位反查名字。
  * 调 buildEnemyObjectNameMap(objBuf, words) 得这个 map。**注意**:名字反查的 key 永远是
@@ -88,7 +89,11 @@ export function parseEnemyTeams(
           return enemyId
         }) as [number, number, number, number, number])
       : rawSlots
-    const team: EnemyTeam = { id: i, enemies }
+    const team: EnemyTeam = {
+      id: i,
+      enemies,
+      ...(objectIndexToEnemyId ? { enemyObjectIndexes: rawSlots } : {}),
+    }
     if (enemyObjectNames) {
       const names: string[] = []
       // 名字反查走原始 OBJECT 绝对 index(rawSlots),与翻译模式独立

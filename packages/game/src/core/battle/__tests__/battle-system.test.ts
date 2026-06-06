@@ -19,6 +19,7 @@ import type {
   BattleField,
   Command,
   Enemy,
+  EnemyObject,
   EnemyTeam,
   EnemyPosTable,
   InputSnapshot,
@@ -359,6 +360,41 @@ describe('startBattle', () => {
       teamSlots: [100, 0, 200, 0xFFFF, 0xFFFF],
     })
     expect(gs.battleState?.enemies).toHaveLength(2)
+  })
+
+  it('同一 enemyId 的不同 OBJECT_ENEMY 变体按 team 原对象号精确挂脚本', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    const enemyObjects: EnemyObject[] = [
+      { objectIndex: 478, enemyId: 81, resistanceToSorcery: 1, scriptOnTurnStart: 41413, scriptOnBattleEnd: 10, scriptOnReady: 20 },
+      { objectIndex: 479, enemyId: 81, resistanceToSorcery: 7, scriptOnTurnStart: 0, scriptOnBattleEnd: 30, scriptOnReady: 40 },
+    ]
+    startBattle({
+      gs,
+      enemyTeamId: 0,
+      battleFieldId: 0,
+      isBoss: false,
+      enemies: [makeEnemy({ id: 81 })],
+      enemyObjects,
+      enemyTeams: [{
+        id: 0,
+        enemies: [81, 0xffff, 0xffff, 0xffff, 0xffff],
+        enemyObjectIndexes: [479, 0xffff, 0xffff, 0xffff, 0xffff],
+      }],
+      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      playerRoles: { roles: [makeRole({ id: 0 })] },
+      items: [],
+      spells: [],
+      magics: [],
+      commands: [{ op: 'end' }],
+      rngSeed: 1,
+    })
+    expect(gs.battleState?.enemies[0]).toMatchObject({
+      scriptOnTurnStart: 0,
+      scriptOnBattleEnd: 30,
+      scriptOnReady: 40,
+      resistanceToSorcery: 7,
+    })
   })
 
   it('enemyTeam 找不到 → 抛错', () => {

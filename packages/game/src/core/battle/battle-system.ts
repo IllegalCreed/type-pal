@@ -15,11 +15,10 @@
  * 上挂一个非可见字段 __battleResources 缓存,startBattle 写入、finalizeBattle 清理。
  * M5 可改成 module-level Map 或 DI;本任务先用此简化方案,T23 baseline 对拍后再优化。
  *
- * **enemy id 映射**(已对齐 sdlpal,2026-06-02 核验订正):enemyTeam.rgwEnemy[j] 在 sdlpal 中是
+ * **enemy id 映射**:enemyTeam.rgwEnemy[j] 在 sdlpal 中是
  * OBJECT 数组绝对 index → OBJECT_ENEMY.wEnemyID → DATA.MKF chunk 1(enemies.json id;battle.c:1602-1611)。
- * 该两级间接**已在提取期完成**(enemy-teams.ts translate mode 经 buildObjectIndexToEnemyIdMap 把
- * OBJECT 索引解析成 enemyId 写入 enemy-teams.json)→ 运行时 `.find(e => e.id === slot)` 直接命中即正确,
- * 无需运行时中间表。(原"本 task 简化方案 / T23 对拍待"备注 FALSE:映射不是简化,是已解析真值。)
+ * 提取期把属性引用翻译成 `EnemyTeam.enemies` 的 enemyId,并在 `enemyObjectIndexes` 保留原对象号。
+ * 开战时分别用两者取敌人属性与精确脚本,兼容同一 enemyId 的多个 OBJECT_ENEMY 变体。
  *
  * **select-action UI input 处理**:主菜单、杂项、法术/物品网格、目标选择与快捷键均在
  * tickSelectAction/dispatchSelectInput 链路处理;测试仍可绕过 UI 直填 pendingActions。
@@ -190,7 +189,7 @@ function setBattleResources(gs: GameState, res: BattleResources | undefined): vo
 
 export interface StartBattleInput {
   gs: GameState
-  /** enemy-teams.json 中的 EnemyTeam.id(本 task 等同 enemies.json 的 id 直接索引,详见文件 doc)。 */
+  /** enemy-teams.json 中的 EnemyTeam.id。 */
   enemyTeamId: number
   /** battle-fields.json 中的 BattleField.id。 */
   battleFieldId: number
@@ -275,10 +274,8 @@ export function startBattle(input: StartBattleInput): void {
   const team = input.enemyTeams.find((t) => t.id === input.enemyTeamId)
   if (!team) throw new Error(`startBattle: enemyTeam id ${input.enemyTeamId} not found`)
 
-  // 展开 team.enemies(过滤 0 / 0xFFFF;详见 EnemyTeam 注释)
-  // 简化:槽位直接当 enemies.json 的 id 索引(T23 baseline 对拍如不对再修)
-  // M5.B-w2.a:平行构造 enemyScripts,同 index 对齐;通过 enemyId 反查 enemy-objects.json
-  // 第一条匹配项(同 enemyId 多 OBJECT_ENEMY 条目时取首条,精确多版本 script 推后)。
+  // 展开 team.enemies(过滤 0 / 0xFFFF),并平行构造 enemyScripts。
+  // 新提取数据按 enemyObjectIndexes 精确反查脚本;旧数据/自定义敌队按 enemyId 兼容反查。
   const enemyList: Enemy[] = []
   const enemyScripts: Array<{
     onTurnStart: number
@@ -286,7 +283,7 @@ export function startBattle(input: StartBattleInput): void {
     onBattleEnd: number
     resistanceToSorcery: number
   }> = []
-  for (const slot of team.enemies) {
+  for (const [slotIndex, slot] of team.enemies.entries()) {
     if (slot === 0 || slot === 0xffff) continue
     const e = input.enemies.find((en) => en.id === slot)
     if (!e) {
@@ -294,7 +291,13 @@ export function startBattle(input: StartBattleInput): void {
       continue
     }
     enemyList.push(e)
-    const objMatch = input.enemyObjects?.find((o) => o.enemyId === slot)
+    const objectIndex = team.enemyObjectIndexes?.[slotIndex]
+    const hasExactObjectIndex = objectIndex !== undefined
+      && objectIndex !== 0
+      && objectIndex !== 0xffff
+    const objMatch = hasExactObjectIndex
+      ? input.enemyObjects?.find((o) => o.objectIndex === objectIndex)
+      : input.enemyObjects?.find((o) => o.enemyId === slot)
     enemyScripts.push({
       onTurnStart: objMatch?.scriptOnTurnStart ?? 0,
       onReady: objMatch?.scriptOnReady ?? 0,

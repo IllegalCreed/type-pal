@@ -42,6 +42,10 @@
 4. 同速行动顺序
    - 已修:CLASSIC 行动队列先填敌人再填玩家,排序仅在 dex 严格更大时交换;同 dex 现在保持敌人先行动。
 
+5. 同一敌人模板的对象变体
+   - 已修:enemy-teams 提取时保留每槽原始 OBJECT_ENEMY 编号,startBattle 据此精确挂 AI 脚本与抗性。
+   - 原差异:如“女飞贼”与“女飞贼1”共用 enemyId=81 但脚本不同,旧实现按 enemyId 取第一条会串脚本。
+
 ## P2:低优先级
 
 - Trance/梦蛇:已修 `spells.json` 缺 295 时从 `object-magics.json` 回退解析,可进法术菜单/执行 0x30/0x31,并在成功后播放 `iColorShift` 闪色与末帧 sprite 切换。后续若继续抠原版视觉,可补完整 `PAL_BattleFadeScene` 级别的场景淡换。
