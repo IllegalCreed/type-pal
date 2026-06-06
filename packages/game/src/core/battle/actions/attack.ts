@@ -317,21 +317,20 @@ export function performAttack(
     //   playEnemyAttack 经 audio 播敌人攻击音(fight.c:4934 wAttackSound);视觉动画走时间线。
     bus.emit({ op: 'playEnemyAttack', enemyIdx: actor.idx, targetPlayerIdx: targetIdx })
     // 修(2026-06-04 user 报"高级草妖普攻只出声、无动作、无受击、无掉血"):此前只 emit 声音 + return,
-    //   未建动画 → 玩家看到有声无动画。无替挡(iCoverIndex==-1)的格挡 → 建格挡动画(玩家 frame 3 格挡姿 +
-    //   coverSound,敌 lunge 照常,不掉血,fight.c:5025/5052/5082)。
-    if (iCoverIndex === -1) {
-      const built = buildAttackTimeline({
-        state, actor, targetIdx, isPlayerTarget: true, damage: 0,
-        battleEffectIndex, playerRoles,
-        autoDefend: { coverSound: targetRole.coverSound ?? 0 },
-      })
-      if (built) {
-        startBattleAnim(state, built, bus)
-        return
-      }
+    //   未建动画 → 玩家看到有声无动画。格挡/替挡均建时间线:frame 3 + coverSound,敌 lunge 照常,不掉血。
+    const coverer = iCoverIndex >= 0 ? state.players[iCoverIndex] : undefined
+    const coverRole = coverer ? playerRoles.roles[coverer.roleId] : undefined
+    const built = buildAttackTimeline({
+      state, actor, targetIdx, isPlayerTarget: true, damage: 0,
+      battleEffectIndex, playerRoles,
+      autoDefend: iCoverIndex >= 0 && coverer?.posOriginal
+        ? { coverSound: coverRole?.coverSound ?? 0, cover: { idx: iCoverIndex, pos: coverer.posOriginal } }
+        : { coverSound: targetRole.coverSound ?? 0 },
+    })
+    if (built) {
+      startBattleAnim(state, built, bus)
+      return
     }
-    // iCoverIndex != -1(队友替挡)动画仍留 present hook —— 须目标濒死/坏状态 + 健康替挡者,较少见;
-    //   非本次 user 报的"健康角色被动格挡"场景。后续可补 cover 专属动画(coverer 跳位 frame 3)。
     return
   }
 
@@ -462,7 +461,7 @@ function buildAttackTimeline(input: {
   battleEffectIndex: number[] | undefined
   playerRoles: PlayerRoles
   /** 敌→我 被动格挡(fAutoDefend):玩家 frame 3 格挡姿 + coverSound,不结算伤害(fight.c:5023-5085)。 */
-  autoDefend?: { coverSound: number }
+  autoDefend?: { coverSound: number; cover?: { idx: number; pos: { x: number; y: number } } }
   /** M6 出招声(attackSound/criticalSound,fight.c:2061-2071;player→enemy 用,挂 swing frame0)。 */
   attackVoice?: number
   /** M6 武器声(weaponSound,fight.c:2124;player→enemy 用,挂 currentFrame=9 命中帧)。 */
@@ -493,7 +492,7 @@ function buildAttackTimeline(input: {
 
   if (actor.isEnemy && isPlayerTarget) {
     // enemy → player(fight.c:4910-5149 physical 分支)。cover / autoDefend 结算在上游已完成,
-    // 这里构造普通敌方物攻时间线。
+    // 这里构造物攻/格挡/替挡时间线。
     const enemyFighter = state.enemies[actor.idx]
     const targetPlayer = state.players[targetIdx]
     if (!enemyFighter?.posOriginal || !targetPlayer?.posOriginal) return undefined
@@ -519,6 +518,7 @@ function buildAttackTimeline(input: {
       targetDying: isPlayerDying(hp, maxHp),
       autoDefend: input.autoDefend !== undefined,
       coverSound: input.autoDefend?.coverSound ?? 0,
+      cover: input.autoDefend?.cover,
     })
   }
 

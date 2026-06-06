@@ -31,8 +31,8 @@
    - 已修:Menu 回退上一队员会删除其 pending action,下次建表自然释放预占。
 
 2. cover 专属演出
-   - 自动防御和 cover 的核心结算已接入。
-   - coverer 跳位、cover sound、受击演出仍需补 present/timeline。
+   - 已修:自动防御和 cover 的核心结算已接入。
+   - 已修:coverer 跳到目标前 frame 3、coverSound、命中后敌人与 coverer 位移已接入 enemy physical timeline。
 
 3. 底部状态图标
    - 中毒头像变色已实现。

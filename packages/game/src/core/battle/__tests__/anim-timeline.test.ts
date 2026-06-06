@@ -550,6 +550,40 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
     // 对照:命中路确有 damageNum + frame4(证明差异)
     expect(frames.some((f) => f.damageNum !== undefined)).toBe(true)
   })
+
+  it('cover 替挡:coverer 跳到目标前 frame3 + coverSound,目标不受击不位移', () => {
+    const frames = buildEnemyPhysicalTimeline({
+      enemyPos: { x: 160, y: 80 },
+      enemyIdx: 0,
+      targetPlayerPos: { x: 240, y: 170 },
+      targetIdx: 0,
+      enemy: { magicFrames: 0, attackFrames: 2, actWaitFrames: 1, idleFrames: 4, actionSound: 0, callSound: 90 },
+      damage: 0,
+      targetDied: false,
+      targetDying: false,
+      autoDefend: true,
+      coverSound: 47,
+      cover: { idx: 1, pos: { x: 180, y: 150 } },
+    })
+    expect(frames.every((f) => f.damageNum === undefined)).toBe(true)
+    expect(frames.some((f) => f.sound === 47)).toBe(true)
+    expect(frames.some((f) => f.sound === 90)).toBe(false)
+    expect(frames.some((f) => f.fighters?.some(
+      (d) => d.side === 'player' && d.idx === 1 && d.currentFrame === 3 && d.pos?.x === 216 && d.pos?.y === 158,
+    ))).toBe(true)
+    expect(frames.some((f) => f.fighters?.some(
+      (d) => d.side === 'enemy' && d.idx === 0 && d.pos?.x === 186 && d.pos?.y === 146,
+    ))).toBe(true)
+    expect(frames.some((f) => f.fighters?.some(
+      (d) => d.side === 'player' && d.idx === 1 && d.pos?.x === 220 && d.pos?.y === 160,
+    ))).toBe(true)
+    expect(frames.some((f) => f.fighters?.some(
+      (d) => d.side === 'player' && d.idx === 0 && d.pos?.x === 248 && d.pos?.y === 174,
+    ))).toBe(false)
+    expect(frames.some((f) => f.fighters?.some(
+      (d) => d.side === 'player' && d.idx === 0 && d.currentFrame === 4,
+    ))).toBe(false)
+  })
 })
 
 // ============================================================================

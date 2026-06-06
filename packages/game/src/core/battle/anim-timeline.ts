@@ -353,10 +353,12 @@ export interface BuildEnemyPhysicalInput {
   autoDefend?: boolean
   /** 格挡音 rgwCoverSound[targetRole](fight.c:5026;autoDefend 命中帧播,0 跳过)。 */
   coverSound?: number
+  /** 队友替挡(iCoverIndex!=-1):coverer 跳到目标前 frame 3,并在命中后略前移(fight.c:5017-5025/5088-5106)。 */
+  cover?: { idx: number; pos: { x: number; y: number } }
 }
 
 /**
- * enemy 物理攻击动画时间线(无 cover / 无 autoDefend 简化 — 命中结算分支)。
+ * enemy 物理攻击动画时间线。
  *
  * 对照 fight.c:4910-5149(physical 分支,iCoverIndex=-1 && !fAutoDefend):
  *   - magicFrames 帧:currentFrame = idleFrames + i,Delay(2)(fight.c:4987-4992)
@@ -378,8 +380,15 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
   // 被动格挡(fight.c:4938 fAutoDefend):玩家摆格挡姿 frame 3、不结算伤害、命中帧播 coverSound(见下)。
   const autoDefend = input.autoDefend ?? false
   const coverSound = input.coverSound ?? 0
-  // 格挡姿 fighter(冲锋帧首帧起摆;sdlpal fight.c:5025 在 charge 前设 wCurrentFrame=3)。
-  const blockPose = autoDefend ? [{ side: 'player' as const, idx: targetIdx, currentFrame: 3 }] : []
+  const cover = input.cover
+  // 格挡 / 替挡姿 fighter(冲锋帧首帧起摆;sdlpal fight.c:5025 在 charge 前设 wCurrentFrame=3)。
+  const blockPose = autoDefend
+    ? [
+        cover
+          ? { side: 'player' as const, idx: cover.idx, currentFrame: 3, pos: { x: targetPlayerPos.x - 24, y: targetPlayerPos.y - 12 } }
+          : { side: 'player' as const, idx: targetIdx, currentFrame: 3 },
+      ]
+    : []
 
   const frames: BattleAnimFrame[] = []
   let ex = enemyPos.x
@@ -446,7 +455,11 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
     //   玩家保持格挡姿 frame 3;命中帧播 coverSound(iSound=rgwCoverSound[role],fight.c:5026/5082;0 跳过)。
     frames.push({
       durationMs: delayMs(1),
-      fighters: [{ side: 'player', idx: targetIdx, currentFrame: 3 }],
+      fighters: [
+        cover
+          ? { side: 'player', idx: cover.idx, currentFrame: 3, pos: { x: targetPlayerPos.x - 24, y: targetPlayerPos.y - 12 } }
+          : { side: 'player', idx: targetIdx, currentFrame: 3 },
+      ],
       ...(coverSound > 0 ? { sound: coverSound } : {}),
     })
   }
@@ -461,13 +474,25 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
     })
   }
 
-  // —— iColorShift=0;击退 target.pos += (8,4),Delay(1)(fight.c:5088-5106)——
+  // —— iColorShift=0;命中后位移,Delay(1)(fight.c:5088-5106)——
+  // 普通命中:target.pos += (8,4);cover:enemy.pos -= (10,8),coverer.pos += (4,2),目标本人不动。
   const knockX = targetPlayerPos.x + 8
   const knockY = targetPlayerPos.y + 4
-  frames.push({
-    durationMs: delayMs(1),
-    fighters: [{ side: 'player', idx: targetIdx, iColorShift: 0, pos: { x: knockX, y: knockY } }],
-  })
+  if (cover) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [
+        { side: 'enemy', idx: enemyIdx, pos: { x: chargeX - 10, y: chargeY - 8 } },
+        { side: 'player', idx: cover.idx, pos: { x: targetPlayerPos.x - 20, y: targetPlayerPos.y - 10 } },
+      ],
+    })
+  }
+  else {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: targetIdx, iColorShift: 0, pos: { x: knockX, y: knockY } }],
+    })
+  }
 
   // —— 死亡 / 濒死 frameBak;target.pos += (2,1),Delay(3)(fight.c:5108-5125)——
   // wFrameBak 在 Delay(3) 后才赋给 currentFrame(fight.c:5132),这里先算好留到后面帧用。
@@ -476,7 +501,7 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
   else if (targetDying) frameBak = 1
   frames.push({
     durationMs: delayMs(3),
-    fighters: [{ side: 'player', idx: targetIdx, pos: { x: knockX + 2, y: knockY + 1 } }],
+    ...(cover ? {} : { fighters: [{ side: 'player' as const, idx: targetIdx, pos: { x: knockX + 2, y: knockY + 1 } }] }),
   })
 
   // —— enemy.pos=posOriginal,currentFrame=0,Delay(1)(fight.c:5127-5130)——
