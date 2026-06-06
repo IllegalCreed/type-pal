@@ -209,8 +209,9 @@ describe('EventSystem', () => {
     expect(gs.currentDialogFontColor).toBe(22)
   })
 
-  it('setDialogStyleX 在已有 dialog 时触发 PAL_ClearDialog(TRUE)— wait Confirm + apply pending', () => {
+  it('setDialogStyleX 在 top/bottom 切换时保留另一侧旧对话', () => {
     // sdlpal script.c:3389-3426 真值:每 setDialogStyleX 入口先 PAL_ClearDialog(TRUE)
+    // PAL_ClearDialog 只清 nCurrentDialogLine,不擦屏;随后 PAL_StartDialog(top/bottom) 也不擦另一侧旧像素。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
@@ -231,11 +232,15 @@ describe('EventSystem', () => {
     expect(gs.dialogBox?.phase).toBe('waiting-page-key')
     expect(gs.dialogBox?.pendingStyle).toEqual({ style: 'top', portraitIcon: 55, fontColor: 12 })
     expect(gs.currentDialogStyle).toBe('bottom')  // 还未 apply
-    // tick 3 Confirm: page-advance → 读 pendingStyle apply → 清 dialogBox + ip++ → 下条 showDialog 重建
+    // tick 3 Confirm: page-advance → 读 pendingStyle apply → 旧 bottom 冻结进 dialogBoxKept,
+    // active dialogBox 清空 + ip++ → 下条 showDialog 重建 top。
     tickEventSystem(gs, snap(['Confirm']), bus)
     expect(gs.currentDialogStyle).toBe('top')
     expect(gs.currentDialogPortraitIcon).toBe(55)
     expect(gs.currentDialogFontColor).toBe(12)
+    expect(gs.dialogBoxKept?.style).toBe('bottom')
+    expect(gs.dialogBoxKept?.currentLineText).toBe('A')
+    expect(gs.dialogBoxKept?.portraitIcon).toBe(5)
     expect(gs.dialogBox?.currentLineText).toBe('B')   // showDialog 已 startDialogLine
     expect(gs.dialogBox?.style).toBe('top')
     expect(gs.dialogBox?.portraitIcon).toBe(55)

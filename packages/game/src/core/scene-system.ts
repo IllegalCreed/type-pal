@@ -130,6 +130,15 @@ const FACING_TO_DIR_NUM: Record<Facing, number> = { down: 0, left: 1, up: 2, rig
  *  - sdlpal PAL_MakeScene + VIDEO_UpdateScreen + UTIL_Delay(50):ts 渲染下帧自动跑,delay 略
  */
 function applySearchVisualEffect(gs: GameState, npc: NpcState): void {
+  // sdlpal play.c:477 真值:仅 `nSpriteFrames * 4 > wCurrentFrameNum` 时调整姿势。
+  // 非方向性箱子 nSpriteFrames=0,已开帧不会被再次调查重置成关闭帧。
+  // undefined 是旧 fixture,保留此前会调整姿势的兼容行为。
+  if (
+    npc.nSpriteFrames !== undefined
+    && npc.nSpriteFrames * 4 <= (npc.scriptedFrame ?? 0)
+  ) {
+    return
+  }
   const partyDirNum = FACING_TO_DIR_NUM[gs.party.facing]
   // sdlpal play.c:483 真值:NPC 朝向 party 反方向
   npc.facing = DIR_NUM_TO_FACING[(partyDirNum + 2) % 4]
@@ -183,18 +192,21 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
     const dyAbs = Math.abs(partyWorldY - npc.y) * 2
     if (dxAbs + dyAbs >= threshold) continue
 
-    // 触发:NPC 转向面对 party(sdlpal play.c:120-148 真值 — 仅 nSpriteFrames>0 时)
-    // ts 简化:所有 NPC 都尝试转向(spriteFrames 信息在 present 层,core 不持)
-    const xOffset = partyWorldX - npc.x
-    const yOffset = partyWorldY - npc.y
-    let dirNum: number
-    if (xOffset > 0) {
-      dirNum = yOffset > 0 ? 3 /* East */ : 2 /* North */
-    } else {
-      dirNum = yOffset > 0 ? 0 /* South */ : 1 /* West */
+    // 触发:NPC 转向面对 party(sdlpal play.c:120-148 真值 — 仅 nSpriteFrames>0 时)。
+    // 宝箱 / 装饰物 nSpriteFrames=0,方向无意义;不能把 wCurrentFrameNum 重置成 0,
+    // 否则已打开的箱子再次调查会被画回关闭帧。
+    if (npc.nSpriteFrames !== 0) {
+      const xOffset = partyWorldX - npc.x
+      const yOffset = partyWorldY - npc.y
+      let dirNum: number
+      if (xOffset > 0) {
+        dirNum = yOffset > 0 ? 3 /* East */ : 2 /* North */
+      } else {
+        dirNum = yOffset > 0 ? 0 /* South */ : 1 /* West */
+      }
+      npc.facing = DIR_NUM_TO_FACING[dirNum]
+      npc.scriptedFrame = 0 // sdlpal play.c:127 wCurrentFrameNum = 0(站立帧)
     }
-    npc.facing = DIR_NUM_TO_FACING[dirNum]
-    npc.scriptedFrame = 0 // sdlpal play.c:127 wCurrentFrameNum = 0(站立帧)
 
     // 跑 trigger script + 切 event mode(sdlpal play.c:153 PAL_RunTriggerScript)
     loadEventFromNpc(gs, ctx, npc)

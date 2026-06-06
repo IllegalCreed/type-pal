@@ -146,6 +146,12 @@ export function presentFrame(
   //   palette 已 ramp(0x4F FadeToRed)→ 战斗帧染红;只在最上层画死亡对话("大侠请重新来过吧")。
   //   **不**走下面 fb.clear() + scene 重绘(否则露大世界,user 报"出字同时回大世界")。0x4E 读档 / 场景重载清标记。
   if (gs.gameOverActive) {
+    if (gs.dialogBoxKept) {
+      drawDialogBox(fb, gs.dialogBoxKept, ctx.glyphs, {
+        ...ctx.dialogAssets,
+        uiSpriteFrames: ctx.uiSpriteFrames,
+      })
+    }
     if (gs.dialogBox) {
       drawDialogBox(fb, gs.dialogBox, ctx.glyphs, {
         ...ctx.dialogAssets,
@@ -487,6 +493,14 @@ export function presentFrame(
   }
 
   // 6. 对话框(最上层)
+  if (gs.dialogBoxKept) {
+    drawDialogBox(fb, gs.dialogBoxKept, ctx.glyphs, {
+      ...ctx.dialogAssets,
+      uiSpriteFrames: ctx.uiSpriteFrames,
+      itemIcons: ctx.itemIcons,
+      items: ctx.items,
+    })
+  }
   if (gs.dialogBox) {
     drawDialogBox(fb, gs.dialogBox, ctx.glyphs, {
       ...ctx.dialogAssets,

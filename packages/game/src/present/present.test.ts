@@ -67,6 +67,30 @@ describe('presentFrame', () => {
     expect(hasTextPx).toBe(true)
   })
 
+  it('dialogBoxKept + dialogBox → 上下两侧对话同屏绘制', () => {
+    const fb = createFramebuffer()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dialogBoxKept = startDialogLine('A', { style: 'bottom', fontColor: 200 })
+    gs.dialogBox = startDialogLine('B', { style: 'top', fontColor: 201 })
+    for (let i = 0; i < FRAMES_PER_CHAR * 2; i++) {
+      tickDialog(gs.dialogBoxKept)
+      tickDialog(gs.dialogBox)
+    }
+    const ctx: PresentContext = {
+      tilemap: flatMap(3, 3),
+      tileImages: { get: () => undefined },
+      partyFrames: [{ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 }],
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+    }
+
+    presentFrame(fb, gs, ctx)
+
+    const pixels = Array.from(fb.indices)
+    expect(pixels.some((i) => i === 200)).toBe(true)
+    expect(pixels.some((i) => i === 201)).toBe(true)
+  })
+
   // ── C3(gameOverActive 重构):死亡 hold 双分支 ──
   // deathHoldActive(T0 过渡帧):纯保持上一帧(战斗倒地帧),不画 dialog、不 fb.clear。
   // gameOverActive(0x4F 后):保持帧 + 画死亡 dialog。两者都跳过 fb.clear()+世界重绘。

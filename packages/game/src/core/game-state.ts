@@ -615,8 +615,8 @@ export interface GameState {
    * 两框同屏到 PAL_EndDialog)。dialogBox 是当前活动框(正在打字/等键);dialogBoxKept 是**反位置**的
    * 已显满冻结框(渲染在活动框之下)。top↔bottom 切换时把旧框移入此槽,新框成 dialogBox;对话整段
    * 结束时一并清。单槽即可 —— 任一时刻只有 top + bottom 各一个,kept 永远是非活动的那个位置。
-   * 战斗对话(tickBattleDialog)管理;present-battle 渲染。大世界 cutscene 暂未接(event-system
-   * dialog 逻辑复杂,留后续)。
+   * 战斗对话(tickBattleDialog)与大世界 cutscene(event-system setDialogStyleX)共用;present 层先画 kept
+   * 再画当前活动框。
    */
   dialogBoxKept?: DialogBoxState
   /** 由 setDialogStyle* 命令累积。默认 'center'。 */
@@ -1602,6 +1602,9 @@ export function npcFromEventObject(
     sLayer: eo.sLayer ?? 0,
     // sdlpal `EventObject.nSpriteFrames`(scene.c:262 渲染真值;0 = 非方向性 sprite)。
     nSpriteFrames: eo.nSpriteFrames,
+    // sdlpal `EventObject.wCurrentFrameNum` 初始姿势帧。专用剧情姿势对象会预设非 0 帧
+    // (eg. 水月宫拜谢李逍遥 sprite193 frame13);漏掉会回退画 frame0(躺地动作)。
+    scriptedFrame: eo.currentFrameNum,
   }
   // sdlpal EventObject.wDirection → 初始朝向(scene.c NPC 渲染按 wDirection 选方向帧)。
   // kDir 0=South/down, 1=West/left, 2=North/up, 3=East/right(palcommon.h:92-95)。

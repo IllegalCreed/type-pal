@@ -214,6 +214,69 @@ describe('SceneSystem NPC 触发', () => {
     expect(gs.eventCursor?.ip).toBe(2)
   })
 
+  it('方向性 NPC 被触发时面向 party,并重置站立帧(sdlpal nSpriteFrames>0)', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
+    gs.npcs = [{
+      id: 7,
+      x: 6 * 16,
+      y: 6 * 8,
+      spriteNum: 78,
+      triggerLabel: 'L_59',
+      triggerMode: 1,
+      sState: 1,
+      nSpriteFrames: 3,
+      facing: 'up',
+      scriptedFrame: 2,
+    }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    const commands = [
+      { op: 'showDialog' as const, messageIndex: 0, text: '你好', label: 'L_59' },
+      { op: 'end' as const },
+    ]
+    setGlobalEvents(commands)
+    tickSceneSystem(gs, snap([], ['Confirm']), bus, {
+      tilemap: map,
+      eventCommands: commands,
+      labelMap: { L_59: 0 },
+    })
+    expect(gs.mode).toBe('event')
+    expect(gs.npcs[0]?.scriptedFrame).toBe(0)
+    expect(gs.npcs[0]?.facing).toBe('left')
+  })
+
+  it('非方向性箱子被再次调查时不重置已打开帧(水月宫苗刀箱回归)', () => {
+    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
+    // 水月宫苗刀箱(scene 20 obj id 363):spriteNum=10,nSpriteFrames=0;开箱后 frame=1。
+    gs.npcs = [{
+      id: 363,
+      x: 6 * 16,
+      y: 6 * 8,
+      spriteNum: 10,
+      triggerLabel: 'L_5139',
+      triggerMode: 3,
+      sState: 1,
+      nSpriteFrames: 0,
+      scriptedFrame: 1,
+    }]
+    const bus = createCommandBus()
+    const map = makeFlatMap(10, 10)
+    const commands = [
+      { op: 'setDialogStyleNarration' as const, label: 'L_5139' },
+      { op: 'showDialog' as const, messageIndex: 1894, text: '箱子里什么都没有' },
+      { op: 'end' as const },
+    ]
+    setGlobalEvents(commands)
+    tickSceneSystem(gs, snap([], ['Confirm']), bus, {
+      tilemap: map,
+      eventCommands: commands,
+      labelMap: { L_5139: 0 },
+    })
+    expect(gs.mode).toBe('event')
+    expect(gs.eventCursor?.ip).toBe(0)
+    expect(gs.npcs[0]?.scriptedFrame).toBe(1)
+  })
+
   it('面前像素 NPC 无 triggerLabel + Confirm → 不切 mode', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
     // right(East): dx=+16, dy=+8 → NPC 在 (6*16, 6*8)

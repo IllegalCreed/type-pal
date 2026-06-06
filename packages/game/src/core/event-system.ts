@@ -24,11 +24,11 @@
  *    等真撞到 raw + console.debug 看到 opcode 号再补。
  */
 
-import type { Command, Enemy, EnemyObject, InputSnapshot, Item, Magic, ObjectMagicView, ObjectPoisonView, Palette, PlayerRoles } from '@type-pal/shared'
+import type { Command, DialogBoxStyle, Enemy, EnemyObject, InputSnapshot, Item, Magic, ObjectMagicView, ObjectPoisonView, Palette, PlayerRoles } from '@type-pal/shared'
 import { FPS_EXPLORE } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
-import type { GameState, NpcState, EventCursor } from './game-state.js'
+import type { GameState, NpcState, EventCursor, DialogBoxState } from './game-state.js'
 import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
 import { getWord } from './word-lookup.js'
@@ -931,6 +931,48 @@ export interface RunScriptOptions {
   eventObjectId?: number
 }
 
+/** 上下位置互换(top↔bottom)—— 原版 PAL_StartDialog 切位置时不擦掉另一侧旧像素。 */
+function isVerticalDialogSwap(a: DialogBoxStyle, b: DialogBoxStyle): boolean {
+  return (a === 'top' && b === 'bottom') || (a === 'bottom' && b === 'top')
+}
+
+function hasVisibleDialogContent(state: DialogBoxState): boolean {
+  return state.shownLines.length > 0 || state.currentLineText !== null || state.titleText !== undefined
+}
+
+function cloneDialogBoxForKeep(state: DialogBoxState): DialogBoxState {
+  const currentLineLen = state.currentLineText?.length ?? 0
+  return {
+    ...state,
+    shownLines: [...state.shownLines],
+    shownLineColors: state.shownLineColors?.map((colors) => [...colors]),
+    currentLineColors: state.currentLineColors ? [...state.currentLineColors] : undefined,
+    currentLineRevealAt: state.currentLineRevealAt ? [...state.currentLineRevealAt] : undefined,
+    charsRevealed: state.currentLineText === null
+      ? state.charsRevealed
+      : Math.max(state.charsRevealed, currentLineLen),
+    keyIconBlink: state.phase === 'waiting-page-key' || state.phase === 'waiting-end-key',
+    pendingStyle: undefined,
+    pendingFullClear: undefined,
+    pendingPreOpClear: undefined,
+    pendingPartialClear: undefined,
+  }
+}
+
+function keepDialogForStyleSwitch(gs: GameState, state: DialogBoxState, nextStyle: DialogBoxStyle): void {
+  if (hasVisibleDialogContent(state) && isVerticalDialogSwap(state.style, nextStyle)) {
+    gs.dialogBoxKept = cloneDialogBoxForKeep(state)
+  }
+  else {
+    gs.dialogBoxKept = undefined
+  }
+}
+
+function clearDialogBoxes(gs: GameState): void {
+  gs.dialogBox = undefined
+  gs.dialogBoxKept = undefined
+}
+
 export function buildLabelMap(commands: Command[]): Record<string, number> {
   const map: Record<string, number> = {}
   commands.forEach((c, i) => {
@@ -974,6 +1016,7 @@ function applySetDialogStyle(
   gs.currentDialogPortraitIcon = portraitIcon
   gs.currentDialogFontColor = fontColor
   if (ds) {
+    keepDialogForStyleSwitch(gs, ds, style)
     gs.dialogBox = undefined
   }
   cursor.ip++
@@ -1346,7 +1389,7 @@ export function tickEventSystem(
     if (input.pressed.has('Confirm')) {
       const yes = cursor.confirmYes === true
       const cmd0a = getCmds(cursor)[cursor.ip]
-      gs.dialogBox = undefined
+      clearDialogBoxes(gs)
       cursor.waiting = undefined
       cursor.confirmYes = undefined
       if (yes) {
@@ -1359,7 +1402,7 @@ export function tickEventSystem(
     }
     else if (input.pressed.has('Cancel') || input.pressed.has('Menu')) {
       const cmd0a = getCmds(cursor)[cursor.ip]
-      gs.dialogBox = undefined
+      clearDialogBoxes(gs)
       cursor.waiting = undefined
       cursor.confirmYes = undefined
       if (!resolveConfirmGoto(gs, cursor, cmd0a)) {
@@ -1416,7 +1459,7 @@ export function tickEventSystem(
       // 或 1.4s 超时。玩家按方向键 / ESC / 任何键都能马上继续,不被迫干等。
       const anyKey = input.pressed.size > 0
       if (anyKey || ds.typingFrames >= NARRATION_AUTO_DISMISS_FRAMES) {
-        gs.dialogBox = undefined
+        clearDialogBoxes(gs)
         cursor.waiting = undefined
         cursor.ip++ // 推进过 showDialog;fall through 主 while 跑后续 opcode
       }
@@ -1430,6 +1473,10 @@ export function tickEventSystem(
 
       // Confirm 处理:phase 决定行为
       if (input.pressed.has('Confirm')) {
+        const pendingStyleToKeep = ds.phase === 'waiting-page-key' ? ds.pendingStyle?.style : undefined
+        const keptDialog = pendingStyleToKeep && hasVisibleDialogContent(ds) && isVerticalDialogSwap(ds.style, pendingStyleToKeep)
+          ? cloneDialogBoxForKeep(ds)
+          : undefined
         const result = confirmDialog(ds)
         if (result === 'skip-typing') {
           // sdlpal PAL_ShowDialogText fUserSkip 真值(text.c:1616):Space 跳字后整行**先显示+渲染**
@@ -1449,6 +1496,7 @@ export function tickEventSystem(
           const pending = ds.pendingStyle
           const preOp = ds.pendingPreOpClear
           if (pending) {
+            gs.dialogBoxKept = keptDialog
             gs.currentDialogStyle = pending.style
             gs.currentDialogPortraitIcon = pending.portraitIcon
             gs.currentDialogFontColor = pending.fontColor
@@ -1467,7 +1515,7 @@ export function tickEventSystem(
             // (含 portrait + title)→ 视觉消失。auto pre-op clear 同理(后面 NPC 动画 opcode
             // 由 PAL_MakeScene 覆盖屏幕)。
             // state-driven port:清整 dialogBox 让渲染层不再画 dialog。
-            gs.dialogBox = undefined
+            clearDialogBoxes(gs)
           }
           cursor.waiting = undefined
           if (!preOp) cursor.ip++
@@ -1476,7 +1524,7 @@ export function tickEventSystem(
         }
         else if (result === 'dialog-end') {
           // 关 dialog,推进到 end 之后(此时 cursor.ip 已在 end opcode 上,end handler 处理退出)
-          gs.dialogBox = undefined
+          clearDialogBoxes(gs)
           cursor.waiting = undefined
           // 注意:不 ip++,因为 'end' opcode 本身还要执行(下面 switch case 处理)
         }
@@ -1510,7 +1558,7 @@ export function tickEventSystem(
     if (cursor.ip < 0 || cursor.ip >= cmds.length) {
       console.warn(`event-system: ip ${cursor.ip} 越界 → 切回 explore / menu`)
       gs.eventCursor = undefined
-      gs.dialogBox = undefined
+      clearDialogBoxes(gs)
       consumePendingItem(gs)  // item.scriptOnUse 跑完 → 按 g_fScriptSuccess gate 扣物品
       gs.iCurEquipPart = -1   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset — 0x18 设的 part 不泄漏
       restoreModeAfterScript(gs) // applyToAll → 关菜单回 explore;否则 menuStack 非空回 menu(INNER 循环)
@@ -1560,7 +1608,7 @@ export function tickEventSystem(
       if (isRestoreScreen) {
         resetDialogBody(gs.dialogBox)
       } else {
-        gs.dialogBox = undefined
+        clearDialogBoxes(gs)
       }
     }
 
@@ -1575,7 +1623,7 @@ export function tickEventSystem(
             return // 等下次 tick Confirm 处理
           }
           // dialogLineCount==0(`~` 收尾句,如梦境末句):不等键不画箭头,直接关 dialog 继续收尾
-          gs.dialogBox = undefined
+          clearDialogBoxes(gs)
         }
         // opcode 0x04 call-script 返回:子脚本 'end' → 弹返回帧,恢复 caller 上下文(ip/commands/
         // labelMap/currentEventObjectId)继续,而非清 cursor(sdlpal PAL_RunTriggerScript 子调用返回)。
@@ -1626,7 +1674,7 @@ export function tickEventSystem(
           }
         }
         gs.eventCursor = undefined
-        gs.dialogBox = undefined
+        clearDialogBoxes(gs)
         gs.currentDialogPortraitIcon = undefined
         // sdlpal PAL_EndDialog(text.c:1814)真值:脚本结束把 bDialogPosition 复位 kDialogUpper(top)。
         // 下个 trigger 脚本若直接 showDialog 没先 setDialogStyle(eg. 厨房李大娘 L_560)→ 用 top 默认,
@@ -1652,7 +1700,7 @@ export function tickEventSystem(
           // SINGLE_TICK_LIMIT 抛错)。同 ip 越界路径:清 cursor + 回 explore/menu。
           console.warn(`event-system: goto label ${cmd.to} 不在全局 labelMap → 终止脚本`)
           gs.eventCursor = undefined
-          gs.dialogBox = undefined
+          clearDialogBoxes(gs)
           consumePendingItem(gs)
           gs.iCurEquipPart = -1
           restoreModeAfterScript(gs)
@@ -1761,7 +1809,7 @@ export function tickEventSystem(
           savePostBattleResume(gs, cursor, cmd.operands) // 战末接回触发脚本(0x52 隐藏怪 等)
           tryStartBattle(gs, cmd.operands[0] ?? 0, cmd.operands[2] ?? 0)
           gs.eventCursor = undefined
-          gs.dialogBox = undefined
+          clearDialogBoxes(gs)
           return
         }
         // P2#6b: opcode 0x08 checkpoint(sdlpal script.c:3335-3341)— 把持久化 resume 点设到 0x08 之后
@@ -1969,7 +2017,7 @@ export function tickEventSystem(
             return  // 等下次 tick Confirm,page-advance 后 dialogBox=undefined + ip++ + 继续
           }
           // dialogLineCount==0(`~` 收尾梦境句):不等键。残留对话框被 PAL_MakeScene 重画覆盖等价清掉。
-          if (gs.dialogBox) gs.dialogBox = undefined
+          if (gs.dialogBox || gs.dialogBoxKept) clearDialogBoxes(gs)
           // 无 dialog:sdlpal 0x05 真值(script.c:3283-3294 非 RNG/battle)= PAL_MakeScene() + VIDEO_UpdateScreen。
           //   PAL_MakeScene 末尾检查 fNeedToFadeIn → PAL_FadeIn(delay=1=600ms)从黑淡入(scene.c:503-508)。
           //   **仙灵岛靠岸"过场黑屏"真因**:onEnter(如 5117)序 setpos→0x05→对话;旧码 0x05 无对话时纯 ip++,
@@ -2027,7 +2075,7 @@ export function tickEventSystem(
           //
           // 我们 game dialog 是 state-driven render:清 gs.dialogBox 让 current 渲染不画 dialog,
           // backupPixels 已含上一帧冻结的 dialog 像素 → fade 视觉 dialog 渐隐(title + body 一起)。
-          gs.dialogBox = undefined
+          clearDialogBoxes(gs)
           gs.currentDialogPortraitIcon = undefined
           gs.currentDialogFontColor = 0x4F
           cursor.waiting = 'fade-screen'
@@ -2134,7 +2182,7 @@ export function tickEventSystem(
           const totalMs = (speed + 1) * 10 * 72  // 2160ms,同 0x73 真值
           gs.fadeState = { speed, totalMs, startTimeMs: performance.now(), appliedSteps: 0 }
           gs.sceneLoading = false
-          gs.dialogBox = undefined
+          clearDialogBoxes(gs)
           gs.currentDialogPortraitIcon = undefined
           gs.currentDialogFontColor = 0x4F
           cursor.waiting = 'fade-screen'
@@ -2276,7 +2324,7 @@ export function tickEventSystem(
           tryStartBattle(gs, cmd.operands[0], cmd.operands[2])
         }
         gs.eventCursor = undefined
-        gs.dialogBox = undefined
+        clearDialogBoxes(gs)
         return
 
       case 'giveItem':
@@ -2839,7 +2887,7 @@ function resolveConfirmGoto(gs: GameState, cursor: EventCursor, cmd0a: Command |
   if (target === undefined || target < 0) {
     console.warn(`event-system: 0x0A goto entry ${entry} 不在 labelMap → 终止脚本`)
     gs.eventCursor = undefined
-    gs.dialogBox = undefined
+    clearDialogBoxes(gs)
     consumePendingItem(gs)
     gs.iCurEquipPart = -1
     restoreModeAfterScript(gs)

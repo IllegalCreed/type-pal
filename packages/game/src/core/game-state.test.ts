@@ -245,6 +245,22 @@ describe('npcFromEventObject', () => {
     expect(npc.y).toBe(664)
   })
 
+  it('初始 currentFrameNum 透传为 scriptedFrame(水月宫拜谢李逍遥姿势 frame13)', () => {
+    const eo: SceneEventObject = {
+      id: 346,
+      x: 1200,
+      y: 1176,
+      spriteNum: 193,
+      triggerMode: 0,
+      sState: 0,
+      nSpriteFrames: 0,
+      direction: 0,
+      currentFrameNum: 13,
+    }
+    const npc = npcFromEventObject(eo)
+    expect(npc.scriptedFrame).toBe(13)
+  })
+
   it('triggerLabel 缺时透传 undefined', () => {
     const eo: SceneEventObject = { id: 0, x: 0, y: 0, spriteNum: 0, triggerMode: 0 }
     expect(npcFromEventObject(eo).triggerLabel).toBeUndefined()
