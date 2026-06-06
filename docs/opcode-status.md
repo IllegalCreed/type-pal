@@ -34,7 +34,7 @@
 >   是→ip++;复用 drawConfirmBox;否/是 toggle;PAL_ClearDialog(FALSE) 问句留屏 + isDialogContinuationOp 豁免
 >   Space-wait。script.c:3373-3387 / uigame.c:342-365;26 用,水果贩"要不要来几个"等。**A 类至此全 ✅**)
 > - 0x41 mark-failed:✅ **早已实现**(OP_MARK_SCRIPT_FAILED case event-system.ts:3355 → fScriptSuccess=false;
->   配 consumePendingItem 按 g_fScriptSuccess gate 扣物品。此前本表误标 ⬜,2026-05-30 订正)
+>   大世界 item/magic 用 g_fScriptSuccess gate 消耗;战斗 magic 只 gate 动画/success 脚本,战斗 UseItem 不看 gate。此前本表误标 ⬜,2026-05-30 订正)
 >
 > dialog/text(2026-05-30):逐字符颜色控制符全套 ✅(commit 77f6c2e;`"`黄/`-`青/`'``@`红 toggle + 消费 `()$~\`)
 > + 时间驱动打字 ✅(commit bea9475;$NN 变速 + ~NN 尾暂停,对齐 sdlpal iDelayTime)。
@@ -193,7 +193,7 @@ setDialogStyle 0x3B-0x3E。
 | op | 含义 | 状态 | 备注 |
 |----|------|------|------|
 | 0x0A | goto if selected no | ✅A | waiting='confirm' 阻塞否/是确认框(否=WORD19/是=WORD20,默认否)。否/cancel/Menu→goto operand[0],是→ip++。PAL_ClearDialog(FALSE) 问句留屏 + isDialogContinuationOp 豁免 Space-wait;复用 drawConfirmBox(draw-confirm.ts)。script.c:3373-3387 / uigame.c:342-365,26 用 |
-| 0x41 | mark script failed | ✅A | OP_MARK_SCRIPT_FAILED case(event-system.ts:3355)→ gs.fScriptSuccess=false;consumePendingItem 按 g_fScriptSuccess gate 扣物品(script.c:1623-1627)。此前误标 ⬜,2026-05-30 订正 |
+| 0x41 | mark script failed | ✅A | OP_MARK_SCRIPT_FAILED case(event-system.ts:3355)→ gs.fScriptSuccess=false;大世界 item/magic 用 gate 消耗,战斗 magic 只 gate 动画/success 脚本,战斗 UseItem 不看 gate(script.c:1623-1627)。此前误标 ⬜,2026-05-30 订正 |
 | 0x6D | set scene enter/teleport script | ✅A | op1→onEnter 全局 override(loadScene 解析消耗)；**op2→onTeleport 全局 override(sceneOnTeleportOverride 持久)**；op1==0&&op2==0 清 both(script.c:2069-2087) |
 | 0x84 | place used item as event object | ✅A | pCurrent(op0)放 party 正前方 + sState=op1;挡→jump op2(2026-05-28) |
 | 0x85 | delay N | ✅A | UTIL_Delay(op0*80ms)time-based waiting='delay'(autoScript 暂停)(script.c:2511,2026-05-29) |

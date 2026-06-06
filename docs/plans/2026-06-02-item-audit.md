@@ -124,7 +124,7 @@
 
 ### High(真实功能缺陷,玩家可感知)
 
-1. **战斗单目标治毒/解毒/施毒失效(0x29/0x2B/0x2C)**——`battle/actions/item.ts:98` performItem 调 runScript **不传 `opts.eventObjectId`**,导致单目标(op0==0)分支 `currentEventObjectId=undefined` → targets=[] → no-op。实测净衣符64(0x2b 三连单体)、九节菖蒲89/鬼枯藤129/毒龙胆278(0x2c 单体)在战斗中**对目标队员完全无效**。修法:item.ts(及 throw-item / magic 若需)按 sdlpal `fight.c:4390-4392` 把 `wEventObjectID = rgParty[sTarget].wPlayerRole` 传入 runScript(注意 targetIdx 是 state.players 槽 index,需转 roleId);或给 0x2B/0x2C 增 dispatchBattleOpcode 专用 case(像 0x2D/0x2F 那样用 ctx.target 解析,绕开 eventObjectId)。后者更稳。
+1. **已修:战斗单目标治毒/解毒/施毒(0x29/0x2B/0x2C)**——早期审计指出 `performItem` 不传 `opts.eventObjectId` 会让单目标(op0==0)分支 no-op。当前实现已在 `dispatchBattleOpcode` 用 `ctx.target` 解析目标 roleId,绕开 `eventObjectId` 依赖;见 `battle-opcodes.ts` 0x29/0x2B/0x2C 分支与 `battle-opcodes.test.ts` 的 "战斗单目标(ctx.target 解析)" 用例。净衣符64、九节菖蒲89/鬼枯藤129/毒龙胆278 等战斗内单体治毒/施毒路径不再属于 High 缺口。
 2. **大世界 player status 模型缺失(0x2D/0x2F STUB)**——`event-system.ts:3757-3763` 两 opcode 大世界 no-op,金刚符63/黑狗血85 等上 buff、灵心符65/银针255 解状态在大世界**完全无效**。修法:在 gs 建持久 player status 表(对齐 battle rgPlayerStatus 语义),实现 set(坏/puppet/好三分支 + 活人/死人/更久门控)+ remove(<=999 才清)。
 3. **修 `giveItem._item` 标注 off-by-61**(annotate.ts:22)——虽不影响运行时,但 100% 错值会持续误导后续物品/事件审计与人工阅读。改 `w.items[id-61]` 或复用 wObjectID-key items 表 `_name`,同步改 annotate.test.ts 锁死断言。
 

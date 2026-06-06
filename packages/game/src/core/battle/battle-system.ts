@@ -64,8 +64,8 @@ import { performCoopMagic } from './actions/coop-magic.js'
 import { performItem } from './actions/item.js'
 import { performMagic } from './actions/magic.js'
 import { performThrowItem } from './actions/throw-item.js'
-import { BATTLE_FRAME_TIME } from './anim-timeline.js'
-import { applyAnimFrame, resetFightersAfterAction } from './battle-anim-driver.js'
+import { BATTLE_FRAME_TIME, buildUseItemTimeline } from './anim-timeline.js'
+import { applyAnimFrame, resetFightersAfterAction, startBattleAnim } from './battle-anim-driver.js'
 import type { BattleAction, BattlePlayer, BattleState } from './battle-state.js'
 import { createBattleState } from './battle-state.js'
 import { resolveMagicObject } from './magic-object.js'
@@ -1969,6 +1969,7 @@ function tickPerformAction(
       if (a.idx < a.frames.length) applyAnimFrame(state, a.frames[a.idx]!, bus)
     }
     if (a.idx >= a.frames.length) {
+      const afterComplete = a.afterComplete
       // 法术伤害数字在**特效播完后**才 emit(对照 sdlpal PAL_BattleDisplayStatChange 在 magic anim
       //   之后,fight.c:4322/4369/4405)—— 修 user 实测"掉血数字比攻击动画早出"(林月如鞭击/法术)。
       for (const dn of a.pendingDamageNums ?? []) {
@@ -1977,6 +1978,23 @@ function tickPerformAction(
       // 时间线播完 → 复位双方 fighter(PAL_BattleUpdateFighters)+ 清动画。
       resetFightersAfterAction(state, res.playerRoles)
       state.battleAnim = undefined
+      if (afterComplete?.kind === 'perform-item') {
+        performItem({
+          state,
+          gs,
+          casterIsEnemy: false,
+          casterIdx: afterComplete.actorIdx,
+          itemId: afterComplete.actionId,
+          targetIsEnemy: afterComplete.targetIsEnemy,
+          targetIdx: afterComplete.targetIdx,
+          items: res.items,
+          playerRoles: res.playerRoles,
+          bus,
+          commands: res.commands,
+          runScript: getRunScript(gs),
+        })
+        if (state.battleAnim) return
+      }
       // D17:复位后检死敌(fight.c:889-893 fFade 检测在 action 收尾)→ 开淡出 hold。
       //   currentActionIndex **总是**推进(action 已完);淡出由顶层 tickBattleFade 暂停。
       checkEnemyDeaths(state, bus)
@@ -2283,6 +2301,34 @@ function performBattleAction(
       const targetIdx: number | 'all' = action.target === -1 ? 'all' : action.target
       // D18:治疗物品 targetSide='player' → targetIsEnemy=false(打到队友)。
       const targetIsEnemy = resolveTargetIsEnemy(action, actor)
+      // sdlpal fight.c:4385-4400:玩家 UseItem 先播使用物品前摇,再跑脚本并按 consuming 扣。
+      // 敌人用 item 没有玩家前摇锚,保持即时路径。
+      if (!actor.isEnemy && !targetIsEnemy) {
+        const caster = state.players[actor.idx]
+        if (caster?.posOriginal) {
+          startBattleAnim(
+            state,
+            buildUseItemTimeline({
+              casterIdx: actor.idx,
+              casterPos: caster.posOriginal,
+              targetIdx,
+              playerCount: state.players.length,
+            }),
+            bus,
+            undefined,
+            {
+              afterComplete: {
+                kind: 'perform-item',
+                actorIdx: actor.idx,
+                actionId: action.actionId,
+                targetIdx,
+                targetIsEnemy,
+              },
+            },
+          )
+          break
+        }
+      }
       performItem({
         state,
         gs,

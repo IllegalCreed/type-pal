@@ -2316,6 +2316,62 @@ describe('throw-item action 派发(E2)', () => {
     void consoleWarn
   })
 
+  it('UseItem action → 先播用物前摇,动画后才跑 scriptOnUse + 扣 inventory(fight.c:4385-4400)', () => {
+    const item: Item = {
+      id: 1, _name: '疗伤丹', bitmap: 0, price: 0, scriptOnUse: 1, scriptOnEquip: 0, scriptOnThrow: 0, scriptDesc: 0,
+      flags: { usable: true, equipable: false, throwable: false, consuming: true, applyToAll: false, sellable: true, equipableBy: [false, false, false, false, false, false] },
+    }
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x1B, operands: [0, 40, 0] },
+      { op: 'end' },
+    ]
+    const { gs, bus, emptyInput, resources } = bootstrap({
+      items: [item],
+      commands,
+      inventory: [{ itemId: 1, count: 2 }],
+      roles: [makeRole({ id: 0, hp: 100, maxHP: 200, dexterity: 100 })],
+      enemies: [makeEnemy({ id: 100, attackStrength: 0, dexterity: 0 })],
+    })
+
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    const st = gs.battleState!
+    st.pendingActions.set(0, { type: 'item', actionId: 1, target: 0, targetSide: 'player' })
+    tickBattle(gs, emptyInput, bus) // selectAction → performAction
+    tickBattle(gs, emptyInput, bus) // performAction 起 UseItem 前摇
+
+    expect(st.battleAnim?.afterComplete).toMatchObject({ kind: 'perform-item', actionId: 1, targetIdx: 0 })
+    expect(st.battleAnim?.frames).toHaveLength(14) // Delay(4)+colorShift 0..6 + 5..0
+    expect(st.battleAnim?.frames[1]?.sound).toBe(28)
+    expect(st.players[0]!.pos).toEqual(st.players[0]!.posOriginal) // frame0 是 PAL_BattleDelay(4),尚未前移
+    expect(gs.inventory[0]!.count).toBe(2)
+    expect(resources.playerRoles.roles[0]!.hp).toBe(100)
+    expect(st.currentActionIndex).toBe(0)
+
+    for (let i = 0; i < 4; i++)
+      tickBattle(gs, emptyInput, bus)
+
+    expect(st.players[0]!.pos).toEqual({
+      x: st.players[0]!.posOriginal!.x - 15,
+      y: st.players[0]!.posOriginal!.y - 7,
+    })
+    expect(st.players[0]!.currentFrame).toBe(5)
+    expect(gs.inventory[0]!.count).toBe(2)
+    expect(resources.playerRoles.roles[0]!.hp).toBe(100)
+    expect(st.currentActionIndex).toBe(0)
+
+    let guard = 40
+    while (st.battleAnim && guard-- > 0)
+      tickBattle(gs, emptyInput, bus)
+
+    expect(guard).toBeGreaterThan(0)
+    expect(st.battleAnim).toBeUndefined()
+    expect(st.currentActionIndex).toBe(1)
+    expect(gs.inventory[0]!.count).toBe(1)
+    expect(resources.playerRoles.roles[0]!.hp).toBe(140)
+    expect(bus.drain().map(e => e.cmd)).toContainEqual({ op: 'playSound', soundId: 28 })
+  })
+
   it('0x9E summon:敌人 scriptOnReady 只复用 wMaxEnemyIndex 内死亡空槽,不扩容单敌队伍', () => {
     // ip1 = 0x9E[0,1,0](w=0 自身同种,count 1)
     const commands: Command[] = [{ op: 'end' }, { op: 'raw', opcode: 0x9E, operands: [0, 1, 0] }, { op: 'end' }]

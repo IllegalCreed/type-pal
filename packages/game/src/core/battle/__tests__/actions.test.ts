@@ -1631,8 +1631,7 @@ describe('performItem', () => {
     warnSpy.mockRestore()
   })
 
-  it('item.scriptOnUse=0 → warn + 不扣 + 不 runScript', () => {
-    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  it('item.scriptOnUse=0 → PAL_RunTriggerScript no-op,仍按 consuming 扣库存', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 1, count: 5 }])
     const item = makeItem({ id: 1, scriptOnUse: 0 }) // 关键
@@ -1653,12 +1652,8 @@ describe('performItem', () => {
       runScript,
     })
 
-    expect(gs.inventory[0]!.count).toBe(5) // 不扣
+    expect(gs.inventory[0]!.count).toBe(4) // sdlpal fight.c:4392-4400:script 0 no-op 后仍扣 consuming
     expect(runScript).not.toHaveBeenCalled()
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('not usable'),
-    )
-    warnSpy.mockRestore()
   })
 
   it('item id 不在 items 表 → warn + return', () => {

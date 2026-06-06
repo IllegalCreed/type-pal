@@ -851,13 +851,13 @@ verdict=partially-testable 的原因(诚实标注两处真机降可控):
 ### D2-4 投掷物(W 键):跑 scriptOnThrow + 投掷后消耗 1 个(throw-item action)
 - **前置**: ?skip-intro=1 进房间。先按 I 加几个可投掷道具(item.flags.throwable=true 的,如梅花镖/天师符;buildBattleItemSelect 战斗投掷网格只 enable throwable 项,battle-system.ts:714-725)。按 B 进战斗。投掷键 = W(memory wasd-keys:W=ThrowItem;handleMainMenuInput 'ThrowItem' 分支 battle-system.ts:831-833 → menuState='throwItemSelect')。
 - **操作**: 轮到我方、主菜单 main 时按 W(进 throwItemSelect 网格)→ 方向键选中一个 throwable 道具 → Confirm → 选目标敌人 → Confirm 投出。记下投掷前该道具 count。
-- **预期**: sdlpal fight.c:4332-4376(kBattleActionThrowItem,throw-item.ts:63-109 port):跑 item.scriptOnThrow(注入 magicTables 供 0x42 SimulateMagic 结算伤害),**脚本跑完后**才 PAL_AddItemToInventory(-1) 消耗 1 个(throw-item.ts:106-108 entry.count--)。scriptOnThrow=0 的道具不可投(warn 早退)。
+- **预期**: sdlpal fight.c:4332-4376(kBattleActionThrowItem,throw-item.ts:63-109 port):跑 item.scriptOnThrow(注入 magicTables 供 0x42 SimulateMagic 结算伤害),**脚本跑完后**才 PAL_AddItemToInventory(-1) 消耗 1 个(throw-item.ts:106-108 entry.count--)。scriptOnThrow=0 按 PAL_RunTriggerScript(0) no-op,仍会消耗投掷物。
 - **验证**: (a) 肉眼:该道具飞向目标敌人并触发其效果(掉血数字 / 上状态),投掷网格里该道具数量 -1(下次开 W 网格可见)。(b) 数据级:console 对比投掷前后 window.__game.gs.inventory 中该 itemId 条目的 count(gs.inventory 为任务已核根字段;条目形为 {itemId,count},见 item.ts:81 / throw-item.ts:77),投掷后应 -1。若该道具有伤害效果,被掷敌 gs.battleState.enemies[i].e.health 应下降。
 
 ### D2-5 使用物品(杂项盒→道具→使用):扣 inventory + 跑 scriptOnUse(物品 action)
 - **前置**: ?skip-intro=1 进房间。按 I 加一个 usable 战斗道具(item.flags.usable=true,如疗伤丹/解毒药)。按 P 强制三人入队(便于选治疗目标队员)。可先按某队员吃伤让 HP 不满,便于看治疗物效果。按 B 进战斗。使用物品键 = U(UseItem 快捷键,handleMainMenuInput 'UseItem' battle-system.ts:828-830 → menuState='useItemSelect'),或杂项盒(selectedAction=3 杂项→道具二级)。
 - **操作**: 轮到我方、主菜单 main 时按 U(进 useItemSelect 网格,只 enable usable 项)→ 方向键选一个 usable 道具 → Confirm → 选目标队员 → Confirm 使用。记下使用前该道具 count + 目标队员 HP。
-- **预期**: sdlpal item.scriptOnUse 路径(item.ts:68-116 port):查 item;scriptOnUse=0 不可用 warn 早退;队员使用先 entry.count--(item.ts:86,扣 1),再跑 runScript(item.scriptOnUse,runtimeMode='battle',注入 caster/target/playerRoles/gs)。治疗类道具的回血 opcode 写 ctx.playerRoles.roles[roleId].hp(= 战斗 live roles)。
-- **验证**: (a) 肉眼:使用后目标队员触发物品效果(治疗物 → HP 数字上涨/血条变长),物品网格该道具数量 -1。(b) 数据级:console 对比使用前后 window.__game.gs.inventory 该 itemId 的 count(-1,item.ts:86 已核);若治疗物,目标队员 HP(战斗中走 battle-system.ts getBattleLiveRoles(gs).roles[roleId].hp;若 shell 经 window.__game 暴露则读之)应上升;战末该 HP 经 writeBackBattleRolesToRuntime 回写到 gs.PlayerRolesRuntime.rgwHP[roleId]。
+- **预期**: sdlpal item.scriptOnUse 路径:查 item;队员使用先播 `PAL_BattleShowPlayerUseItemAnim` 前摇(Delay(4)、队员前移 frame5、sound 28、目标队员闪色),动画后再跑 runScript(item.scriptOnUse,runtimeMode='battle',注入 caster/target/playerRoles/gs),scriptOnUse=0 按 PAL_RunTriggerScript(0) no-op。脚本结束后仅 consuming 道具扣 1,且战斗 UseItem 不看 g_fScriptSuccess。治疗类道具的回血 opcode 写 ctx.playerRoles.roles[roleId].hp(= 战斗 live roles)。
+- **验证**: (a) 肉眼:先看到使用者前移、目标队员闪色,随后目标队员触发物品效果(治疗物 → HP 数字上涨/血条变长),物品网格该道具数量 -1。(b) 数据级:动画期间 window.__game.gs.inventory 该 itemId 的 count 与目标 HP 不变;动画结束后 count -1,若治疗物则目标队员 HP(战斗中走 battle-system.ts getBattleLiveRoles(gs).roles[roleId].hp;若 shell 经 window.__game 暴露则读之)应上升;战末该 HP 经 writeBackBattleRolesToRuntime 回写到 gs.PlayerRolesRuntime.rgwHP[roleId]。
 
 ---

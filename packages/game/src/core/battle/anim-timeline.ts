@@ -121,6 +121,65 @@ export function buildThrowWindupTimeline(playerIdx: number, startPos: { x: numbe
 }
 
 /**
+ * 战斗使用物品前摇(port fight.c:2266-2335 PAL_BattleShowPlayerUseItemAnim)。
+ *   - Delay(4)
+ *   - 使用者前移(-15,-7)、frame5、sound 28
+ *   - 目标队员 colorShift 0..6 再 5..0;全体目标时所有队员同步闪。
+ *
+ * 脚本和 consuming 扣除在这条时间线播完后执行(见 battle-system afterComplete),
+ * 对齐 fight.c:4385 先 ShowPlayerUseItemAnim,随后 4387-4400 RunTriggerScript/AddItem。
+ */
+export function buildUseItemTimeline(input: {
+  casterIdx: number
+  casterPos: { x: number; y: number }
+  targetIdx: number | 'all'
+  playerCount: number
+}): BattleAnimFrame[] {
+  const frames: BattleAnimFrame[] = []
+  const { casterIdx, casterPos, targetIdx, playerCount } = input
+  const shiftedCasterPos = { x: casterPos.x - 15, y: casterPos.y - 7 }
+
+  frames.push({ durationMs: delayMs(4) })
+
+  const targetDeltas = (shift: number): FighterDelta[] => {
+    if (targetIdx === 'all') {
+      return Array.from({ length: playerCount }, (_, idx) => ({
+        side: 'player' as const,
+        idx,
+        iColorShift: shift,
+      }))
+    }
+    return [{ side: 'player' as const, idx: targetIdx, iColorShift: shift }]
+  }
+
+  for (let i = 0; i <= 6; i++) {
+    const fighters = targetDeltas(i)
+    if (i === 0) {
+      fighters.unshift({
+        side: 'player',
+        idx: casterIdx,
+        pos: shiftedCasterPos,
+        currentFrame: 5,
+      })
+    }
+    frames.push({
+      durationMs: delayMs(1),
+      fighters,
+      ...(i === 0 ? { sound: 28 } : {}),
+    })
+  }
+
+  for (let i = 5; i >= 0; i--) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: targetDeltas(i),
+    })
+  }
+
+  return frames
+}
+
+/**
  * 混乱队员攻击友军的**走入动画**(port fight.c:3791-3858,kBattleActionAttackMate 演出,PAL_CLASSIC)。
  *   windup frame8/0 ×2 各 Delay(1)(3791-3798)→ Delay(2)(3800)→ 走到 target+(30,12) frame8 Delay(5)
  *   (3802-3807)→ frame9(+武器音 M6,3809-3810)+ 友军击退 pos-(12,6)(3837-3840)Delay(1)→ 友军

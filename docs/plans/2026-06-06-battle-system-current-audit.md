@@ -16,6 +16,8 @@
 
 1. 战斗使用道具消耗规则
    - 已修: `performItem` 先跑 `PAL_RunTriggerScript(scriptOnUse, targetRole)`,脚本后仅 `kItemFlagConsuming` 扣。
+   - 已修: `scriptOnUse == 0` 按 `PAL_RunTriggerScript(0, ...)` no-op 处理,不再误判为不可用。
+   - 已修:玩家 UseItem 先播 `PAL_BattleShowPlayerUseItemAnim` 前摇(Delay(4)、前移 frame5、sound 28、目标队员 colorShift),动画后再跑脚本与扣库存。
    - 注意:战斗 UseItem 按 `fight.c:4387-4400` 不检查 `g_fScriptSuccess`;大世界 UseItem 仍保留成功 gate。
 
 2. 投掷 `scriptOnThrow == 0` 的道具

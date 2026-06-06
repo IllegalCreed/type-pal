@@ -1082,8 +1082,9 @@ export interface GameState {
   /**
    * sdlpal `g_fScriptSuccess`(script.c:27)。PAL_RunTriggerScript 入口设 TRUE(script.c:3187),
    * 失败类 opcode(0x1B/0x1C/0x1D HP/MP 无变化、0x22 复活非死者、0x41 markFailed、条件跳转等)设 FALSE。
-   * 调用方据此 gate 副作用:item.consuming 物品仅在脚本成功时扣(play.c:298-302)、魔法 MP 同理。
-   * 我们 port:每个 trigger/item 脚本 cursor 起始重置 TRUE;脚本结束时按它决定是否扣 pendingItemConsume。
+   * 调用方按上下文 gate 副作用:大世界 item.consuming 物品仅在脚本成功时扣(play.c:298-302),
+   * 大世界魔法 MP 同理;战斗 magic MP 先扣,只用它 gate 动画/success 脚本;战斗 UseItem 不看它。
+   * 我们 port:每个 trigger/item 脚本 cursor 起始重置 TRUE;大世界 item 脚本结束时按它决定是否扣 pendingItemConsume。
    */
   fScriptSuccess: boolean
 

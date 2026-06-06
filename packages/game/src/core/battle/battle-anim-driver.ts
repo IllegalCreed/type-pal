@@ -93,9 +93,10 @@ export function startBattleAnim(
   frames: BattleAnimFrame[],
   bus: CommandBus,
   pendingDamageNums?: BattleAnimState['pendingDamageNums'],
+  opts?: { afterComplete?: BattleAnimState['afterComplete'] },
 ): void {
   if (frames.length === 0) return
-  state.battleAnim = { frames, idx: 0, frameElapsedMs: 0, overlay: undefined, pendingDamageNums }
+  state.battleAnim = { frames, idx: 0, frameElapsedMs: 0, overlay: undefined, pendingDamageNums, afterComplete: opts?.afterComplete }
   applyAnimFrame(state, frames[0]!, bus)
 }
 

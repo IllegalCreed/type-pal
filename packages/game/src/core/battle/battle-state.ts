@@ -308,6 +308,16 @@ export interface SummonFrameState {
   fadeDir?: 'in' | 'out'
 }
 
+export interface BattleAnimAfterPerformItem {
+  kind: 'perform-item'
+  actorIdx: number
+  actionId: number
+  targetIdx: number | 'all'
+  targetIsEnemy: boolean
+}
+
+export type BattleAnimAfterComplete = BattleAnimAfterPerformItem
+
 /** 当前正在播放的动画时间线(performAction 期间存在;播完置 undefined)。 */
 export interface BattleAnimState {
   frames: BattleAnimFrame[]
@@ -334,6 +344,11 @@ export interface BattleAnimState {
     value: number
     color: 'yellow' | 'blue' | 'cyan'
   }>
+  /**
+   * 少数 SDLPal 动作是「先播前摇,再执行脚本/结算」。当前仅 UseItem 用:
+   * fight.c:4385 先 PAL_BattleShowPlayerUseItemAnim,随后 4387-4400 跑脚本并扣 consuming。
+   */
+  afterComplete?: BattleAnimAfterComplete
 }
 
 /**

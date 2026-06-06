@@ -332,7 +332,8 @@ export const OP_SET_TRIGGER_SCRIPT = 0x0025        // 37
 //   if operand[0] != 0 → pCurrent.wTriggerMode = operand[1]
 export const OP_SET_TRIGGER_METHOD = 0x0040        // 64
 // case 0x0041(65): Mark the script as failed(script.c:1623-1627)— g_fScriptSuccess = FALSE。
-//   调用方据此 gate:item.consuming 不扣 / 魔法 MP 不扣(脚本判定"用了没效果")。
+//   调用方按上下文解释:大世界 item/magic 用 success gate;战斗 magic 只 gate 动画/success 脚本,MP 已先扣;
+//   战斗 UseItem 按 fight.c:4387-4400 不看 success gate,只看 consuming。
 export const OP_MARK_SCRIPT_FAILED = 0x0041        // 65
 
 // case 0x0055(85): Add magic to player(script.c:1816-1830 → global.c:2084 PAL_AddMagic)
@@ -4028,7 +4029,8 @@ function applyRawOpcode(
     }
 
     case OP_MARK_SCRIPT_FAILED: {
-      // sdlpal script.c:1623-1627:g_fScriptSuccess = FALSE。脚本结束时 item.consuming 不扣 / 魔法 MP 不扣。
+      // sdlpal script.c:1623-1627:g_fScriptSuccess = FALSE。消耗规则由调用场景决定:
+      // 大世界 item/magic 用 success gate;战斗 magic MP 已先扣,仅挡后续动画/成功脚本;战斗 UseItem 不看 gate。
       gs.fScriptSuccess = false
       console.debug('event-system: markScriptFailed → fScriptSuccess=false')
       break
