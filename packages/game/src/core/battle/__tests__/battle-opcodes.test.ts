@@ -968,6 +968,21 @@ describe('0x22 复活 player(还魂咒/赎魂 scriptOnSuccess,战斗语境)', ()
     expect(ctx.gs!.fScriptSuccess).toBe(false)
   })
 
+  it('M11:复活只清 level<=3 毒,level>3 保留(PAL_CurePoisonByLevel(w,3) script.c:1071)', () => {
+    setObjectPoisons([
+      { id: 100, level: 2, color: 0, playerScript: 0, enemyScript: 0 }, // <=3
+      { id: 200, level: 5, color: 0, playerScript: 0, enemyScript: 0 }, // >3
+    ])
+    const ctx = healCtx([{ hp: 0, maxHP: 200 }], { type: 'player', idx: 0 })
+    ctx.gs!.rgPoisonStatus['0_0'] = { wPoisonID: 100, wPoisonScript: 0 } // level 2
+    ctx.gs!.rgPoisonStatus['1_0'] = { wPoisonID: 200, wPoisonScript: 0 } // level 5
+    dispatchBattleOpcode(0x22, [0, 10, 0], ctx) // 复活 100%
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(200)
+    expect(ctx.gs!.rgPoisonStatus['0_0']?.wPoisonID ?? 0).toBe(0) // level 2 → 清
+    expect(ctx.gs!.rgPoisonStatus['1_0']?.wPoisonID ?? 0).toBe(200) // level 5 → 保留(复活后续掉血)
+    setObjectPoisons([]) // 还原全局,免污染后续
+  })
+
   it('applyAll:只复活死人,任一复活 → g_fScriptSuccess=TRUE', () => {
     const ctx = healCtx([{ hp: 0, maxHP: 200 }, { hp: 80, maxHP: 200 }], undefined)
     dispatchBattleOpcode(0x22, [1, 10, 0], ctx)

@@ -967,12 +967,10 @@ export function dispatchBattleOpcode(
         if (p) {
           p.status = { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, silence: 0, puppet: 0, bravery: 0, protect: 0, dualAttack: 0 }
         }
+        // M11(2026-06-07 sdlpal 审查):script.c:1071 复活只清 level<=3 的毒(PAL_CurePoisonByLevel(w, 3)),
+        //   level>3 的毒保留、复活后继续每回合 tick 掉血。原全清等于白送一次解毒,改变战斗难度。
         if (ctx.gs && roleId !== undefined) {
-          for (let slot = 0; slot < MAX_POISONS; slot++) {
-            const key = `${slot}_${roleId}`
-            if (ctx.gs.rgPoisonStatus[key])
-              ctx.gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
-          }
+          curePlayerPoisonByLevel(ctx.gs, roleId, 3)
         }
         emitDamageNum(ctx, 'player', pIdx, 0, role.hp) // 复活回血 → yellow
         return true
