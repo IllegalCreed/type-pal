@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 59 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L18 L19 L20 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 43 条 low。
+- **✅ 已修复 60 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L18 L19 L20 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L35 L36 L37 L38 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 44 条 low。
 - **⏸ 暂缓 4 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)、L34(淡入淡出 60/64 上限——有干净实现但须改写既有 fade 回归测试整洁断言为 C 量化丑值、不可感知、仅覆盖 4 套 lerp-fade 中的 2 套)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L38),性价比低暂留。
+- **未修**:无 —— 64 条 confirmed(2 high + 15 medium + 47 low)已全部处理:60 条修复 + 4 条暂缓(M5 / L14 / L21 / L34,理由见上)。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -49,7 +49,7 @@
 
 ## L级修复审查(已标 ✅)
 
-> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 43 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:43 条已完整收口,未发现新的遗漏。
+> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 44 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:44 条已完整收口,未发现新的遗漏。
 
 | ID | 审查结论 | 代码审查要点 |
 |---|---|---|
@@ -87,6 +87,7 @@
 | L35 | ✅ 通过 | 大世界仙术列表 cancel 从 `pick-spell` 直接置 `done`,不再回到 `pick-caster`;调用方按 done 关菜单回大世界。 |
 | L36 | ✅ 通过 | `createMagicSelectMenu` 对已学 spell ObjectID 升序排序,与战斗法术菜单同源对齐 `magicmenu.c`。 |
 | L37 | ✅ 通过 | 选施法人框只按 `hp<=0` 禁用,不再因没有大世界法术而灰掉活人;选中后进入空/全灰 spell 列表。 |
+| L38 | ✅ 通过 | `moveSelectionUp/Down` 改逐项 `±1` 环绕、**不跳过** disabled(对齐 PAL_ReadMenu ui.c:510-572 / 选人 uigame.c:1473-1488):光标可停在灰项,渲染层 SELECTED_INACTIVE 分支现能触发。4 个带 disabled 的菜单(大世界法术/选施法者、战斗法术/物品)确认路径早已各自 `!sel.disabled` no-op,无需补;初始 cursor(firstSelectable)与 pageUp/Down(带 disabled 菜单不走翻页)保持不动。改测试"自动跳过"为"逐项停留"。附带的 inventory 选人禁用死人已由 H2 先行修正。 |
 | L39 | ✅ 通过 | `filter='usable'` 时追加全队装备槽中本身 usable 的已装备物,且 `count=0,inUse=-1` 保证可确认。 |
 | L40 | ✅ 通过 | 用物品目标框已用模块级 `sSelectedItemTargetSlot` 模拟 C static,确认/取消目标框时回写,重建目标框时越界归 0。 |
 | L41 | ✅ 通过 | 单人队伍创建大世界仙术菜单时直接进入 `pick-spell` 并预建 spellMenu,跳过 1 项施法人框。 |
@@ -155,7 +156,7 @@
 | ✅ L35 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界仙术菜单:仙术列表按 Cancel 应直接关菜单回大世界,TS 却退回「选施法人」 |
 | ✅ L36 | 🟡 | pixel | 菜单·主菜单/物品/装备/商店 | 仙术列表未按法术 ObjectID 升序排序,TS 按学会顺序(rgwMagic 槽位顺序)显示 |
 | ✅ L37 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界仙术「选施法人」框:TS 把无可用大世界法术的活人也标灰禁选,原版只按 HP>0 判定可选 |
-| L38 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 菜单光标遇到禁用项会跳过,原版 PAL_ReadMenu/选人框/法术列表都是逐项移动并停在灰色项上 |
+| ✅ L38 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 菜单光标遇到禁用项会跳过,原版 PAL_ReadMenu/选人框/法术列表都是逐项移动并停在灰色项上 |
 | ✅ L39 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 用物品列表未把「已装备但本身可用」的装备追加进列表 |
 | ✅ L40 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 用物品选目标框的默认光标位置未跨次记忆(原版 sSelectedPlayer 为 static 持久) |
 | ✅ L41 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 单人队伍开仙术菜单时,TS 仍弹出「选施法人」框,原版直接进法术列表 |
@@ -1749,7 +1750,7 @@ uigame.c:707-708（caster fEnabled 仅判 rgwHP[role]>0，无 outside-magic 检�
 </details>
 
 
-### L38 · 🟡 菜单光标遇到禁用项会跳过,原版 PAL_ReadMenu/选人框/法术列表都是逐项移动并停在灰色项上
+### ✅ L38 · 🟡 菜单光标遇到禁用项会跳过,原版 PAL_ReadMenu/选人框/法术列表都是逐项移动并停在灰色项上
 
 - **子系统**:菜单·主菜单/物品/装备/商店　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/menu/primitives.ts:67-85 (findNextSelectable 跳过 disabled + moveSelectionUp/Down)`

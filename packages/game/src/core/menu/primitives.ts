@@ -63,7 +63,11 @@ export function createSelectionMenu(
   }
 }
 
-/** 跳过 disabled 找下一个可选 index;循环;无任何可选时返回当前。 */
+/**
+ * 跳过 disabled 找下一个可选 index;循环;无任何可选时返回当前。
+ * L38 后**仅供翻页(pageUp/Down)落到可选项**;逐项移动(moveSelectionUp/Down)改为不跳过、
+ * 可停在 disabled 上(对齐 sdlpal PAL_ReadMenu)。带 disabled 的菜单(法术 / 选施法者)不走翻页,无冲突。
+ */
 function findNextSelectable(items: SelectionMenuItem[], from: number, dir: 1 | -1): number {
   const n = items.length
   if (n === 0) return 0
@@ -74,13 +78,19 @@ function findNextSelectable(items: SelectionMenuItem[], from: number, dir: 1 | -
   return from
 }
 
+// L38:逐项 ±1 环绕,**不跳过** disabled(对齐 sdlpal PAL_ReadMenu ui.c:510-572 wCurrentItem±1 环绕 /
+//   选人 uigame.c:1473-1488):光标可停在 fEnabled=FALSE 项(present 画 MENUITEM_COLOR_SELECTED_INACTIVE),
+//   确认时各菜单各自 `!sel.disabled` no-op(in-game-magic-menu / battle-system handle*SelectInput)。
+//   以前用 findNextSelectable 跳过禁用项,导致渲染层"落禁用项画灰"分支永不触发、节奏与原版不一致。
 export function moveSelectionUp(s: SelectionMenuState): void {
-  s.cursor = findNextSelectable(s.items, s.cursor, -1)
+  const n = s.items.length
+  if (n > 0) s.cursor = (s.cursor - 1 + n) % n
   ensureCursorVisible(s)
 }
 
 export function moveSelectionDown(s: SelectionMenuState): void {
-  s.cursor = findNextSelectable(s.items, s.cursor, 1)
+  const n = s.items.length
+  if (n > 0) s.cursor = (s.cursor + 1) % n
   ensureCursorVisible(s)
 }
 

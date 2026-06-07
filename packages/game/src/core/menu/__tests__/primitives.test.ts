@@ -47,14 +47,20 @@ describe('M-w0.1 SelectionMenu', () => {
     expect(s.cursor).toBe(1)
   })
 
-  it('disabled item 自动跳过', () => {
+  it('L38:移动逐项停在 disabled 上(不跳过,对齐 sdlpal PAL_ReadMenu ui.c:510-572)', () => {
     const s = createSelectionMenu([
       { id: 1, label: 'a' },
       { id: 2, label: 'b', disabled: true },
       { id: 3, label: 'c' },
     ])
-    moveSelectionDown(s)  // 跳过 disabled 1 直接到 2
+    // C 真值:wCurrentItem±1 环绕,光标可停在 fEnabled=FALSE 项上(画 SELECTED_INACTIVE),
+    //   确认时各菜单自行 `!sel.disabled` no-op。故移动逐项停留、不跳过 disabled。
+    moveSelectionDown(s)
+    expect(s.cursor).toBe(1) // 停在 disabled item 1(不跳到 2)
+    moveSelectionDown(s)
     expect(s.cursor).toBe(2)
+    moveSelectionUp(s)
+    expect(s.cursor).toBe(1) // 反向也停在 disabled 上
   })
 
   it('cursor 超出 pageSize 自动翻页 pageOffset', () => {
