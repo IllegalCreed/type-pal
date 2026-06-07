@@ -105,8 +105,8 @@ export interface InventoryMenuState {
 
 export function createInventoryMenu(
   gs: GameState,
-  // sdlpal 不按 flag 过滤列表(见下),故此处不再需要 catalog 查 flag;保留参数维持调用方签名一致。
-  _items: Item[],
+  // L39:usable 入口需 catalog 查装备槽里哪些装备本身 usable(itemmenu.c:352-376);列表本身仍不按 flag 过滤。
+  items: Item[],
   filter: ItemFilter = 'all',
 ): InventoryMenuState {
   // sdlpal `PAL_ItemSelectMenuInit`(itemmenu.c:331-377)真值:**不按 wItemFlags 过滤列表** —
@@ -122,6 +122,19 @@ export function createInventoryMenu(
     count: e.count ?? 0,
     inUse: (e as { inUse?: number }).inUse ?? 0,
   }))
+  // L39:C PAL_ItemSelectMenuInit 在 `(wItemFlags & kItemFlagUsable) && !fInBattle`(=大世界用物品入口)
+  //   额外把全队 6 个装备槽里本身 usable 的装备追加进列表(nAmount=0/nAmountInUse=-1 → 0>-1 可选),
+  //   让穿戴中却可用的物品(圣灵珠/五灵珠 id260/263-267)也能从「用物品」菜单使用(itemmenu.c:352-376)。
+  if (filter === 'usable') {
+    const rt = gs.PlayerRolesRuntime
+    for (const roleId of gs.partyMembers) {
+      for (let slot = 0; slot < 6; slot++) {
+        const itemId = rt.rgwEquipment[slot]?.[roleId] ?? 0
+        if (itemId !== 0 && items.find((it) => it.id === itemId)?.flags.usable)
+          inv.push({ itemId, count: 0, inUse: -1 })
+      }
+    }
+  }
   const cur = gs.iCurInvMenuItem ?? 0
   const safeCur = inv.length === 0 ? 0 : Math.min(cur, inv.length - 1)
   return {

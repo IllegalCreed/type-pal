@@ -184,6 +184,28 @@ describe('createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不�
     // 非可用 + 光标停其上 → SELECTED_INACTIVE 0x1C 橙红
     expect(rowColor(ITEMS[0]!, state.inventory[0]!, 'usable', true)).toBe(MENUITEM_COLOR_SELECTED_INACTIVE)
   })
+
+  it("L39:filter='usable' 追加全队装备槽里 usable 的已装备物(itemmenu.c:352-376)", () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.inventory = [{ itemId: 200, count: 1 }] // 背包:观音符(usable)
+    gs.PlayerRolesRuntime.rgwEquipment[3]![0] = 202 // 队员0 在饰品槽装了风灵珠(usable)
+    const state = createInventoryMenu(gs, ITEMS, 'usable')
+    // 背包观音符 + 追加的已装备风灵珠(穿戴中仍可从「用物品」菜单使用)
+    expect(state.inventory.map((e) => e.itemId)).toEqual([200, 202])
+    const lingZhu = state.inventory.find((e) => e.itemId === 202)!
+    expect(lingZhu.count).toBe(0) // nAmount=0
+    expect(lingZhu.count - (lingZhu.inUse ?? 0)).toBeGreaterThan(0) // 0-(-1)=1 → 可选
+  })
+
+  it("L39:filter='equip' 不追加装备槽物(仅 usable 入口追加,itemmenu.c:352)", () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.inventory = [{ itemId: 105, count: 1 }]
+    gs.PlayerRolesRuntime.rgwEquipment[3]![0] = 202 // 装了风灵珠
+    const state = createInventoryMenu(gs, ITEMS, 'equip')
+    expect(state.inventory.map((e) => e.itemId)).toEqual([105]) // 不追加
+  })
 })
 
 // ── 8-key navigation cursor clamp(sdlpal itemmenu.c:107-112)─────────────────
