@@ -156,6 +156,7 @@ export function createAudioManager(baseUrl = ''): AudioManager {
   let musicEnabled = true
   let musicBackend: MusicBackend | undefined
   let curMusicTrack = -1 // -1 = 未初始化;轮询时与 music.track 比较
+  let curMusicLoop = true // L47:记录当前曲真实 loop 标志,补播(开关音乐/注入后端)时还原,而非硬编码 true
 
   function ensureCtx(): AudioContext | undefined {
     if (!AudioCtor) return undefined
@@ -218,6 +219,7 @@ export function createAudioManager(baseUrl = ''): AudioManager {
       // ② BGM:track 变化即切(0 = 停)
       if (music.track !== curMusicTrack) {
         curMusicTrack = music.track
+        curMusicLoop = music.loop // L47:记真实 loop,供补播(开关音乐/注入后端)还原
         // 诊断:每次换曲一行(非每帧)。看得到此行但没声 → OGG 未渲染(后端播 .ogg,仅 .mid 存在)。
         console.log(`[audio] BGM → track ${music.track}${music.track === 0 ? '(停)' : `(loop=${music.loop})`}`)
         if (!musicEnabled) return
@@ -241,12 +243,12 @@ export function createAudioManager(baseUrl = ''): AudioManager {
       if (on === musicEnabled) return // 幂等:无变化不重启/不重停(shell 可每帧调)
       musicEnabled = on
       if (!on) musicBackend?.stop()
-      else if (curMusicTrack > 0) musicBackend?.play(curMusicTrack, true)
+      else if (curMusicTrack > 0) musicBackend?.play(curMusicTrack, curMusicLoop) // L47:用真实 loop(非循环场景曲开关音乐不被强制循环)
     },
     setMusicBackend(backend) {
       musicBackend = backend
       // 注入后端时若已有当前 track → 立即起播(覆盖 M6a no-op 期间漏播的 BGM)。
-      if (backend && musicEnabled && curMusicTrack > 0) backend.play(curMusicTrack, true)
+      if (backend && musicEnabled && curMusicTrack > 0) backend.play(curMusicTrack, curMusicLoop) // L47:用真实 loop
     },
   }
 }

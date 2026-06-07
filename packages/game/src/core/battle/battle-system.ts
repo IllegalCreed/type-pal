@@ -695,7 +695,8 @@ function tickSelectAction(
     })
     // 行动类型 dex 倍率(sdlpal fight.c:1529-1556):决定本轮行动**先后**。
     //   防御 ×5 → 排到队首先行动,故选防御后**一开始执行动作序列**就进防御姿(user 2026-05-31)。
-    dex = Math.round(dex * actionDexMultiplier(state.pendingActions.get(i), res.spells))
+    // L10:flee ×0.5 奇数 dex 时用 floor(对齐 C WORD `wDexterity/=2`,fight.c:1547);其余整数倍率 floor 无影响。
+    dex = Math.floor(dex * actionDexMultiplier(state.pendingActions.get(i), res.spells))
     // 濒死 ÷2(fight.c:1558)
     const maxHp = role.maxHP
     if (role.hp > 0 && role.hp < Math.min(100, Math.floor(maxHp / 5)))

@@ -163,11 +163,12 @@ export async function playEndingAnimation(o: EndingAnimationOptions): Promise<vo
         blitTopLeft(o.fb, o.beastFrames[0]!, 0, -400 + i)
         blitTopLeft(o.fb, o.beastFrames[1]!, 0, -200 + i)
       }
-      // 女孩:4 帧 walk(i%4),yPosGirl 180→80(每隔帧 -1)
+      // 女孩:4 帧 walk 用墙钟时间驱动(L45,ending.c:368 `(SDL_GetTicks()/50)%4`),掉帧时步频仍跟真实
+      //   时间、不随渲染抖动错相;yPosGirl 180→80 仍用循环计数 i&1(对齐 ending.c:362)。
       if (o.girlFrames.length > 0) {
         yPosGirl -= i & 1
         if (yPosGirl < 80) yPosGirl = 80
-        const gf = o.girlFrames[i % o.girlFrames.length]!
+        const gf = o.girlFrames[Math.floor(performance.now() / 50) % o.girlFrames.length]!
         blitTopLeft(o.fb, gf, 220, yPosGirl)
       }
       flushToCanvas(o.fb, o.canvasCtx, o.palette)
