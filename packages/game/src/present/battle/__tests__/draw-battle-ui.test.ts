@@ -313,6 +313,29 @@ describe('drawBattleUI(新模型 1:1)', () => {
     expect(descriptionPixels).toBeGreaterThan(0)
   })
 
+  // L8(magicmenu.c:189-216 WIN95 path):法术菜单显示 scriptDesc 说明时,MP 框/数字应在左侧
+  //   (slash 45,14 / needed 15,14 / current 50,14),且无金钱框、无右侧 MP(215~265)。
+  //   修前 TS 叠了 DOS-noDesc 的金钱框+右侧 MP(magicmenu.c:128-142),是任何单一 sdlpal 路径都没有的组合。
+  it('L8:法术菜单用 WIN95 布局 —— MP 在左侧,右侧 MP 区(215~265)无 slash/MP sprite', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', menuState: 'magicSelect',
+      magicSelect: { items: [{ id: 296, label: '雷震子', rightText: 'MP 5', disabled: false }], cursor: 0, pageSize: 15, pageOffset: 0 },
+    })
+    drawBattleUI(fb, state, playerRoles, [mkSpell(296)], [], mkGs(), undefined, UI)
+    // SPRITENUM_SLASH(39)=4×4 index-15 块;UI 数字 sprite 同为 index-15。
+    const count15 = (x0: number, x1: number, y0: number, y1: number): number => {
+      let n = 0
+      for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) if (fb.indices[y * 320 + x] === 15) n++
+      return n
+    }
+    // 右侧 MP 区(buggy DOS-noDesc:slash@260 + 当前MP@265 + 需求MP@230)WIN95 下应清空
+    expect(count15(216, 272, 12, 19)).toBe(0)
+    // 左侧 MP 区(WIN95:needed@15 + slash@45 + current@50)应有写入
+    expect(count15(14, 55, 12, 19)).toBeGreaterThan(0)
+  })
+
   it('selectMove + magicSelect(长列表 cursor=50)—— 分页不越界不抛', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }

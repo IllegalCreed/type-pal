@@ -62,15 +62,15 @@ const CASTER_PICKER_BOX = { x: 35, y: 62 }
 const CASTER_PICKER_ITEM_START = { x: 48, y: 75 }
 const CASTER_PICKER_LINE = 18
 
-// pick-spell 顶部 cash + MP box(magicmenu.c:128-142)
-// cash box at (0, 0) len=5;MP box at (215, 0) len=5
-const CASH_BOX = { x: 0, y: 0, len: 5 }
-const CASH_LABEL = { x: 10, y: 10 }
-const CASH_NUMBER_RIGHT = { x: 49, y: 14 }
-const MP_BOX = { x: 215, y: 0, len: 5 }
-const MP_NEEDED_RIGHT = { x: 230, y: 14 }
-const MP_SLASH = { x: 260, y: 14 }
-const MP_CURRENT_RIGHT = { x: 265, y: 14 }
+// L8:pick-spell 顶部 MP box —— 显示 scriptDesc 说明时走 WIN95 布局(magicmenu.c:208-215 +
+//   palcfg.c:383-386:box(0,0) len5 / slash 45,14 / needed 15,14 / current 50,14),MP 全在【左侧】,
+//   不画金钱框、不画右侧 MP(215~265)。原 DOS-noDesc 路径(magicmenu.c:128-142)才是金钱框+右侧 MP
+//   且【不画说明】——两套互斥。TS 用 wScriptDesc 出说明,故整体走 WIN95;否则说明文字(x≥102)盖住右侧 MP。
+//   与战斗法术菜单(draw-battle-ui.ts)共用 sdlpal 同一 PAL_MagicSelectionMenuUpdate,布局须一致。
+const MP_BOX = { x: 0, y: 0, len: 5 }
+const MP_NEEDED_RIGHT = { x: 15, y: 14 }
+const MP_SLASH = { x: 45, y: 14 }
+const MP_CURRENT_RIGHT = { x: 50, y: 14 }
 const MAGIC_DESC_X = 102
 const MAGIC_DESC_Y = 3
 const MAGIC_DESC_COLOR = 0x3C
@@ -200,22 +200,17 @@ function drawPickCaster(input: DrawInGameMagicMenuInput): void {
   }
 }
 
-// ── pick-spell / pick-target 顶部 cash + MP box(magicmenu.c:128-142)─────
-function drawCashAndMpBox(
+// ── pick-spell / pick-target 顶部 MP box(WIN95 path,magicmenu.c:208-215)─────
+//   L8:仅画左侧 MP 框 + slash + needed/current MP,不画金钱框(与 scriptDesc 说明互斥)。
+function drawMpBox(
   fb: Framebuffer,
   gs: GameState,
   state: InGameMagicMenuState,
   spells: Spell[],
   magics: Magic[],
   uiSpriteFrames: IndexedImage[],
-  glyphs?: GlyphTable,
 ): void {
-  // cash box(magicmenu.c:130-132)
-  drawSingleLineBox({ fb, x: CASH_BOX.x, y: CASH_BOX.y, len: CASH_BOX.len, uiSpriteFrames })
-  renderText(fb, '金钱', CASH_LABEL.x, CASH_LABEL.y, 0, glyphs, false)
-  drawNumber(fb, gs.dwCash, 6, CASH_NUMBER_RIGHT, 'yellow', 'right', uiSpriteFrames)
-
-  // MP box(magicmenu.c:137-142):needed MP / current MP
+  // MP box(magicmenu.c:210-215):needed MP / current MP,左侧
   if (state.selectedCasterId !== undefined && state.spellMenu) {
     const cursor = state.spellMenu.cursor
     const sel = state.spellMenu.items[cursor]
@@ -332,10 +327,10 @@ export function drawInGameMagicMenu(input: DrawInGameMagicMenuInput): void {
 
   // pick-spell / pick-target 都有:
   //  - 4 PlayerInfoBox at bottom
-  //  - cash + MP box at top
+  //  - 左侧 MP box at top(WIN95,无金钱框)
   //  - magic grid box
   drawAllPlayerInfoBoxes(fb, state.partyMembers, gs, uiSpriteFrames)
-  drawCashAndMpBox(fb, gs, state, spells, magics, uiSpriteFrames, glyphs)
+  drawMpBox(fb, gs, state, spells, magics, uiSpriteFrames)
   drawMagicDescription(fb, state, spells, glyphs)
   drawMagicGrid(input)
 

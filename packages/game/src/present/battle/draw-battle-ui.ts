@@ -101,14 +101,15 @@ const MAGIC_CURSOR_X_OFF = 25 // dwWordLength*5/2
 const MAGIC_COLS = 3
 const MAGIC_ROWS = 5
 const MAGIC_PAGE_LINE_OFFSET = Math.floor(MAGIC_ROWS / 2)
-// cash box(magicmenu.c:130-142,非 WIN95)+ MP box
-const CASH_BOX = { x: 0, y: 0, len: 5 }
-const CASH_LABEL = { x: 10, y: 10 }
-const CASH_NUM = { x: 49, y: 14 }
-const MP_BOX = { x: 215, y: 0, len: 5 }
-const MP_NEEDED = { x: 230, y: 14 }
-const MP_SLASH = { x: 260, y: 14 }
-const MP_CURRENT = { x: 265, y: 14 }
+// L8:法术菜单显示 scriptDesc 说明时,MP 框/数字在【左侧】(WIN95 path,magicmenu.c:208-215 +
+//   palcfg.c:383-386 MagicMP* 默认:box(0,0) len5 / slash 45,14 / needed 15,14 / current 50,14)。
+//   原 DOS-noDesc 路径(magicmenu.c:128-142)才画金钱框+右侧 MP(215~265),且【不画说明】——两套
+//   布局在 sdlpal 互斥。TS 用 wScriptDesc(WIN95 机制)出说明,故整体走 WIN95 布局、去掉金钱框/右侧 MP,
+//   否则说明文字(x≥102)会盖住右侧 MP(见用户实测截图)。
+const MP_BOX = { x: 0, y: 0, len: 5 }
+const MP_NEEDED = { x: 15, y: 14 }
+const MP_SLASH = { x: 45, y: 14 }
+const MP_CURRENT = { x: 50, y: 14 }
 const MAGIC_DESC_X = 102
 const MAGIC_DESC_Y = 3
 const MAGIC_DESC_COLOR = 0x3C
@@ -527,12 +528,10 @@ function drawMagicSelectGrid(
     })
   }
 
-  // cash + MP box(magicmenu.c:128-142,非 WIN95)
+  // MP box(WIN95 path,magicmenu.c:208-215):仅左侧 MP 框 + slash + needed/current MP,
+  //   不画金钱框(DOS-noDesc 互斥路径,且与下面的 scriptDesc 说明不能同屏)。
   if (uiSpriteFrames) {
     if (uiSpriteFrames.length > 46) {
-      drawSingleLineBox({ fb, x: CASH_BOX.x, y: CASH_BOX.y, len: CASH_BOX.len, uiSpriteFrames })
-      renderText(fb, '金钱', CASH_LABEL.x, CASH_LABEL.y, 0, glyphs, false)
-      drawNumber(fb, gs.dwCash, 6, CASH_NUM, 'yellow', 'right', uiSpriteFrames)
       drawSingleLineBox({ fb, x: MP_BOX.x, y: MP_BOX.y, len: MP_BOX.len, uiSpriteFrames })
     }
     const sel = menu.items[menu.cursor]

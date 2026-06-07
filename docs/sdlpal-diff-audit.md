@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 45 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L9 L10 L11 L13 L15 L16 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L41 L42 L43 L44 L45 L47 共 29 条 low。
+- **✅ 已修复 46 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L8 L9 L10 L11 L13 L15 L16 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L41 L42 L43 L44 L45 L47 共 30 条 low。
 - **⏸ 暂缓 3 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L8 L12 L17–L20 L22 L25 L29 L30 L34 L38 L40 L46),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L12 L17–L20 L22 L25 L29 L30 L34 L38 L40 L46),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -109,7 +109,7 @@
 | L5 | 🟡 | timing | 大世界·走路跟随与碰撞 | 站立帧未复刻 s_iThisStepFrame &= 2; ^= 2 的脚步相位翻转 |
 | ✅ L6 | 🟡 | correctness | 存档·初始化与启动流程 | 读档/新游戏不复位物品菜单光标 iCurInvMenuItem |
 | ✅ L7 | 🟡 | correctness | 存档·初始化与启动流程 | 读档不复位 sWaveProgression(屏幕波动增量随存档残留) |
-| L8 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗法术选择叠加了 sdlpal 互斥的两套 MP/说明布局(金钱框+右侧MP+居中说明同屏) |
+| ✅ L8 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗法术选择叠加了 sdlpal 互斥的两套 MP/说明布局(金钱框+右侧MP+居中说明同屏) |
 | ✅ L9 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗杂项→物品二级菜单时,父菜单『道具』高亮色用了闪烁选中色而非确认色(0x2C) |
 | ✅ L10 | 🟡 | correctness | 战斗·主循环与回合流程 | 逃跑动作的 dex 倍率用浮点 ×0.5+四舍五入,而非 C 的整数 /2 |
 | ✅ L11 | 🟡 | timing | 战斗·主循环与回合流程 | 敌方主动逃跑飞出屏后缺少 500ms 收尾停顿 |
@@ -861,12 +861,13 @@ global.c:611 `gpGlobals->sWaveProgression = 0;`（读档无条件清零，与同
 </details>
 
 
-### L8 · 🟡 战斗法术选择叠加了 sdlpal 互斥的两套 MP/说明布局(金钱框+右侧MP+居中说明同屏)
+### ✅ L8 · 🟡 战斗法术选择叠加了 sdlpal 互斥的两套 MP/说明布局(金钱框+右侧MP+居中说明同屏)
 
 - **子系统**:战斗·UI 与像素布局　**类别**:pixel
 - **TS 位置**:`packages/game/src/present/battle/draw-battle-ui.ts:528-553`
 - **C 依据**:`reference/sdlpal/magicmenu.c:124-216`
 - **玩家可感知**:是
+- **修复补充**(用户实测截图坐实:说明文字盖住右侧 MP):因 TS 用 `wScriptDesc`(WIN95 机制)出说明,整体改走 **WIN95 布局**(magicmenu.c:208-215 + palcfg.c:383-386):MP 框/数字全在左侧(box 0,0 len5 / needed 15,14 / slash 45,14 / current 50,14),**去掉金钱框、去掉右侧 MP**,保留居中说明。战斗法术菜单与大世界仙术菜单走 sdlpal 同一 `PAL_MagicSelectionMenuUpdate`,故**同步修两处**:`draw-battle-ui.ts`(战斗)与 `draw-magic.ts`(大世界 `drawCashAndMpBox`→`drawMpBox`,后者原同款混用了金钱框+右侧 MP+说明)。两文件各加 TDD:右侧 MP 区(216~272,12~19)无 index-15 sprite + 左侧有写入。
 
 **差异**:TS drawMagicSelectGrid 同帧画三样东西:(1) 左上金钱单行框 0,0 + 金钱标签(10,10)+ dwCash(49,14);(2) 右上 MP 框(215,0)+ slash(260,14)+ needed(230,14)+ current(265,14);(3) 居中仙术说明文字(102, 3+line*16)。但 sdlpal PAL_MagicSelectionMenuUpdate 里这两套布局是互斥的:非 WIN95 且 lpObjectDesc==NULL 路径(magicmenu.c:128-143)只画 金钱框 + 右侧 MP(215~265),【完全不画说明】;非 WIN95 + lpObjectDesc!=NULL 路径(magicmenu.c:146-185)才画说明,但此时 MP 移到左侧(slash 45/needed 15/current 50)且【不画金钱框】;WIN95 路径(magicmenu.c:188-216)画说明 + 左侧 MP(MagicMPSlashPos=45/NeededPos=15/CurrentPos=50,palcfg.c:384-386),同样无金钱框。TS 用的是『非WIN95-noDesc 的金钱框+右侧MP』坐标,却又叠了说明文字——这是任何单一 sdlpal 路径都不会出现的组合。说明文字源 getScriptDescLines 走的是 item.wScriptDesc 脚本链(WIN95 风格),进一步印证两路径被混用。
 
