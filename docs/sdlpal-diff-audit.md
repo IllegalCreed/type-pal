@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 50 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L6 L7 L8 L9 L10 L11 L13 L15 L16 L17 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 34 条 low。
+- **✅ 已修复 52 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L13 L15 L16 L17 L23 L24 L26 L27 L28 L30 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 36 条 low。
 - **⏸ 暂缓 4 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)、L34(淡入淡出 60/64 上限——有干净实现但须改写既有 fade 回归测试整洁断言为 C 量化丑值、不可感知、仅覆盖 4 套 lerp-fade 中的 2 套)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L5 L12 L18–L20 L22 L25 L29 L30 L38),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L12 L18–L20 L22 L25 L29 L38),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -49,7 +49,7 @@
 
 ## L级修复审查(已标 ✅)
 
-> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 34 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:34 条已完整收口,未发现新的遗漏。
+> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 36 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:36 条已完整收口,未发现新的遗漏。
 
 | ID | 审查结论 | 代码审查要点 |
 |---|---|---|
@@ -57,6 +57,7 @@
 | L2 | ✅ 通过 | `DialogBoxState.userSkip` 已复刻 `fUserSkip` 段内持续;typing 中确认后续行瞬显,并在翻页、`~` 段末复位。 |
 | L3 | ✅ 通过 | 渲染排序与 cover 判定已把 `gs.wLayer` 加到角色/跟随者 worldY 基准,实际 blit 仍保留 `screenY+4`;换场景分支已清 `wLayer=0`。 |
 | L4 | ✅ 通过 | `walkFrameMod` 被脚本走位、逐步动画、追击路径共同消费,覆盖 `nSpriteFrames` 为 0、1、2、3、4 与旧 fixture undefined。 |
+| L5 | ✅ 通过 | 与 L30 同改:站立/撞墙/NPC 阻挡三分支均补 `stepFrame=(stepFrame&2)^2`,对齐 scene.c:773-774;站立渲染 `dir*walkFrames` 不读 stepFrame 故 0↔2 翻转不影响站立姿。 |
 | L6 | ✅ 通过 | `loadGameFromSlot` 在读档后强制 `gs.iCurInvMenuItem=0`,测试覆盖脏光标读档归零;新游戏重建路径也保持初值 0。 |
 | L7 | ✅ 通过 | `loadGameFromSlot` 在读档后强制 `gs.sWaveProgression=0`,避免 structuredClone 存档带回屏波增量。 |
 | L8 | ✅ 通过 | 战斗与大世界法术菜单均按 WIN95 路径只画左侧 MP 框 + 法术说明,不再叠加金钱框/右侧 MP 框;两处均有像素层测试。 |
@@ -72,6 +73,7 @@
 | L26 | ✅ 通过 | 0x6A 偷钱分支只在 `c>0` 时入 `battleDialogQueue`,剩 1 文整除得 0 不再弹「获得 0 文钱」。 |
 | L27 | ✅ 通过 | 0x28 全体施毒已把落槽 enemyIdx 与入口脚本 self 分离;全体入口脚本 self 固定为投掷目标,后续 poison tick 仍各敌推进。 |
 | L28 | ✅ 通过 | `parseWordDat` 在 GBK 解码后剥词条尾部标记字符 `1`,并同时覆盖 flat 与分段表;测试锁定 8 条受影响词。 |
+| L30 | ✅ 通过 | 与 L5 同根:idle/blocked 站立分支复位 stepFrame `&=2;^=2`;改写 3 个锁定"冻结不变"的回归测试为 C 真值(撞墙/NPC 0→2、走2步后 idle 2→0、再 idle 0↔2 翻转)。 |
 | L31 | ✅ 通过 | cover-tile 扫描边界已从 `Math.floor` 改为 `Math.trunc`,对齐 C 整数除法;潜伏边界差异已收口。 |
 | L32 | ✅ 通过 | layer-0 in-bounds tile 缺帧时已 fallback 到 `tiles.get(0)`,layer-1 仍按原版跳过;不再留黑洞。 |
 | L33 | ✅ 通过 | narration 数字仍用 6px digit sprite 绘制,但游标步进改为 8px `PAL_CharWidth`,多位数字间距与尾随文字位置对齐。 |
@@ -113,7 +115,7 @@
 | ✅ L2 | 🟡 | timing | 事件脚本·对话与文本 | fUserSkip 不跨行持续 —— 按一次确认只跳过当前行,无法像原版那样让整段剩余对白瞬显 |
 | ✅ L3 | 🟡 | pixel | 事件脚本·走位与场景控制 | gs.wLayer（0x6E 设置的队伍层）在渲染层从未被使用，且换场景未重置 → 上下层走位时主角精灵 Y 偏移/遮挡排序错误 |
 | ✅ L4 | 🟡 | correctness | 大世界·走路跟随与碰撞 | 明雷怪追击/NPC 走路逐帧推进硬编码 %4,未按 nSpriteFrames 取模(且 nSpriteFrames==0 仍推帧) |
-| L5 | 🟡 | timing | 大世界·走路跟随与碰撞 | 站立帧未复刻 s_iThisStepFrame &= 2; ^= 2 的脚步相位翻转 |
+| ✅ L5 | 🟡 | timing | 大世界·走路跟随与碰撞 | 站立帧未复刻 s_iThisStepFrame &= 2; ^= 2 的脚步相位翻转 |
 | ✅ L6 | 🟡 | correctness | 存档·初始化与启动流程 | 读档/新游戏不复位物品菜单光标 iCurInvMenuItem |
 | ✅ L7 | 🟡 | correctness | 存档·初始化与启动流程 | 读档不复位 sWaveProgression(屏幕波动增量随存档残留) |
 | ✅ L8 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗法术选择叠加了 sdlpal 互斥的两套 MP/说明布局(金钱框+右侧MP+居中说明同屏) |
@@ -138,7 +140,7 @@
 | ✅ L27 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x28 全体上毒时,入口毒脚本以各敌自身 index 运行,C 统一用投掷目标 wEventObjectID |
 | ✅ L28 | 🟡 | data | 提取·MKF 解码与数据表 | WORD.DAT 词条解析缺少 sdlpal 的尾部 '1' 截断,8 个法术/敌人名残留多余的「1」 |
 | L29 | 🟡 | data | 提取·事件 bytecode 反编译 | slice/disasm 的 JUMP_TARGET_OPERAND 缺 13 个条件跳转 opcode,切片 BFS 丢弃 244 条可达指令 |
-| L30 | 🟡 | timing | 渲染·地图瓦片与精灵 | 停步时未复现 s_iThisStepFrame 的 `&=2; ^=2` 复位,导致再次起步的首帧迈步腿相位不一致 |
+| ✅ L30 | 🟡 | timing | 渲染·地图瓦片与精灵 | 停步时未复现 s_iThisStepFrame 的 `&=2; ^=2` 复位,导致再次起步的首帧迈步腿相位不一致 |
 | ✅ L31 | 🟡 | correctness | 渲染·地图瓦片与精灵 | cover-tile 扫描范围用 Math.floor 而非 C 的向零截断除法,精灵贴近地图左/上边缘时遮挡列判定偏移 |
 | ✅ L32 | 🟡 | pixel | 渲染·地图瓦片与精灵 | layer-0 瓦片位图缺失时未回落到 tile(0,0,0,0),C 会用首格兜底填充 |
 | ✅ L33 | 🟡 | pixel | 渲染·字体与对话框 | narration 框内数字字符步进用 6px(精灵宽),C 用 PAL_CharWidth(=8px) |
@@ -781,7 +783,7 @@ TS 侧 `(scriptedFrame+1)%4` 写死，且不止声称的两处：event-system.ts
 </details>
 
 
-### L5 · 🟡 站立帧未复刻 s_iThisStepFrame &= 2; ^= 2 的脚步相位翻转
+### ✅ L5 · 🟡 站立帧未复刻 s_iThisStepFrame &= 2; ^= 2 的脚步相位翻转
 
 - **子系统**:大世界·走路跟随与碰撞　**类别**:timing
 - **TS 位置**:`packages/game/src/core/scene-system.ts:456-460`
@@ -1493,7 +1495,7 @@ script.c 全部 `wScriptEntry = rgwOperand[N]-1` 站点逐条核对,13 个 opcod
 </details>
 
 
-### L30 · 🟡 停步时未复现 s_iThisStepFrame 的 `&=2; ^=2` 复位,导致再次起步的首帧迈步腿相位不一致
+### ✅ L30 · 🟡 停步时未复现 s_iThisStepFrame 的 `&=2; ^=2` 复位,导致再次起步的首帧迈步腿相位不一致
 
 - **子系统**:渲染·地图瓦片与精灵　**类别**:timing
 - **TS 位置**:`packages/game/src/core/scene-system.ts:456`

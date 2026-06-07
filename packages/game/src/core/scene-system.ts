@@ -452,12 +452,16 @@ export function tickSceneInput(
       gs.walkingFrame.walking = true
       gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame + 1) % 4
     } else {
-      // 撞墙 / NPC 阻挡:转向但不走 → walking=false
+      // 撞墙 / NPC 阻挡:转向但不走 → walking=false。
+      // L5/L30:C 此处仍走 PAL_UpdatePartyGestures(FALSE)(scene.c:847 只在真移动时才 TRUE)→
+      //   站立分支复位 stepFrame &=2;^=2(scene.c:773-774,0/1→2、2/3→0),为下次起步设迈腿相位。
       gs.walkingFrame.walking = false
+      gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame & 2) ^ 2
     }
   } else {
-    // 无方向键:idle → walking=false
+    // 无方向键:idle → walking=false。L5/L30:同上,站立复位 stepFrame &=2;^=2(scene.c:773-774)。
     gs.walkingFrame.walking = false
+    gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame & 2) ^ 2
   }
 
   // 2) 相机跟随 + 边界 clamp(System A:sdlpal pixel,以 tile 边界换算)

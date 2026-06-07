@@ -1370,38 +1370,41 @@ describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', 
     expect(gs.party.facing).toBe('right')
   })
 
-  it('撞墙(阻挡 tile)→ walking=false,facing 已转但 stepFrame 不前进', () => {
+  it('撞墙(阻挡 tile)→ walking=false,facing 已转,stepFrame 走站立复位(L5/L30)', () => {
     // party at (48, 24), Right(+16,+8) → target (64, 32)
     // tile (64,32): col=2, row=2, xr=0, yr=0 → h=0, blocked
     const map = makeBlockedMap(10, 10, [[2, 2]])
     const gs = createInitialGameState({ x: 48, y: 24, facing: 'down' })
     const bus = createCommandBus()
-    const stepBefore = gs.walkingFrame.stepFrame
+    const stepBefore = gs.walkingFrame.stepFrame // = 0
 
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.walkingFrame.walking).toBe(false)
     expect(gs.party.facing).toBe('right')   // facing 改了
     expect(gs.party.x).toBe(48)             // 没走
-    // stepFrame 不前进(撞墙时不计步)
-    expect(gs.walkingFrame.stepFrame).toBe(stepBefore)
+    // L5/L30:撞墙不计步,但 C 仍走 PAL_UpdatePartyGestures(FALSE) → 站立分支复位 stepFrame &=2;^=2
+    //   (scene.c:773-774,为下次起步设相位)。stepBefore=0 → (0&2)^2 = 2,非冻结不变。
+    expect(gs.walkingFrame.stepFrame).toBe((stepBefore & 2) ^ 2)
+    expect(gs.walkingFrame.stepFrame).toBe(2)
   })
 
-  it('NPC 阻挡 → walking=false,facing 转但 stepFrame 不前进', () => {
+  it('NPC 阻挡 → walking=false,facing 转,stepFrame 走站立复位(L5/L30)', () => {
     const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
     // Right(+16,+8) → NPC 在 (6*16, 6*8)
     gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, sState: 2 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
-    const stepBefore = gs.walkingFrame.stepFrame
+    const stepBefore = gs.walkingFrame.stepFrame // = 0
 
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.walkingFrame.walking).toBe(false)
     expect(gs.party.facing).toBe('right')
     expect(gs.party.x).toBe(5 * 16)        // 没走
-    expect(gs.walkingFrame.stepFrame).toBe(stepBefore)
+    // L5/L30:NPC 阻挡同撞墙,C 走 PAL_UpdatePartyGestures(FALSE) → 复位 stepFrame(scene.c:773-774)。
+    expect(gs.walkingFrame.stepFrame).toBe((stepBefore & 2) ^ 2) // 0 → 2
   })
 
-  it('idle → walking=false,stepFrame 保持不变', () => {
+  it('L5/L30:idle → walking=false,stepFrame 站立复位 &=2;^=2(scene.c:773-774)', () => {
     const gs = createInitialGameState({ x: 256, y: 128, facing: 'down' })
     const bus = createCommandBus()
     const map = makeFlatMap(64, 32)
@@ -1411,10 +1414,14 @@ describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', 
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.walkingFrame.stepFrame).toBe(2)
 
-    // idle
+    // idle:C 站立分支复位 stepFrame &=2;^=2 → (2&2)^2 = 0(为下次起步设相位,非冻结保持 2)。
+    //   站立渲染用 dir*walkFrames 不读 stepFrame,故 0↔2 翻转不影响站立姿,仅决定下次起步迈腿。
     tickSceneSystem(gs, snap([]), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.walkingFrame.walking).toBe(false)
-    // stepFrame 不重置为 0(保持 2,下次走时从 2 继续 +1 → 3)
+    expect(gs.walkingFrame.stepFrame).toBe(0)
+
+    // 再 idle 一帧:C 每站立帧都跑复位 → 0↔2 翻转(scene.c:847 PAL_StartFrame 每帧调)。
+    tickSceneSystem(gs, snap([]), bus, { tilemap: map, eventCommands: [], labelMap: {} })
     expect(gs.walkingFrame.stepFrame).toBe(2)
   })
 
