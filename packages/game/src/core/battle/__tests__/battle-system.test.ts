@@ -120,6 +120,14 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     expect(state.enemies[0]!.e.health).toBe(startHp) // 不改 health(避免误给 exp)
   })
 
+  it('L23:开战前 HP=0 队员复活为 1 HP(battle.c:1569-1577,带倒地队员逃离后立刻再战)', () => {
+    const { gs } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 50 })],
+      roles: [makeRole({ id: 0, hp: 0, maxHP: 100 })], // 上一场倒地、HP=0 进场
+    })
+    expect(gs.battleState!.players[0]!.prevHp).toBe(1) // 开战序幕复活为 1,正常参战(非死人)
+  })
+
   // E04-c 集成:真战斗里玩家攻击 → wCount 累积(performBattleAction 接 fight.c:3756-3757)。
   it('集成:startBattle 清 wCount;玩家攻击 → rgAttackExp+1 / rgHealthExp+R(2,3)', () => {
     const { gs, bus, emptyInput, resources } = bootstrap({
@@ -476,10 +484,12 @@ describe('tickBattle phase transitions', () => {
   })
 
   it('selectAction:死亡队员不进动作菜单,起手跳到下一个活队员', () => {
-    const { gs, bus, emptyInput } = bootstrap({
+    const { gs, bus, emptyInput, resources } = bootstrap({
       partyMembers: [0, 1],
       roles: [makeRole({ id: 0, hp: 0 }), makeRole({ id: 1, hp: 200 })],
     })
+    // L23:开战序幕复活了 HP=0 队员;显式打回 0 模拟「战斗中阵亡」,验死员不进动作菜单。
+    resources.playerRoles.roles[0]!.hp = 0
     tickBattle(gs, emptyInput, bus)
     expect(gs.battleState?.phase).toBe('selectAction')
     expect(gs.battleState?.uiState).toBe('selectMove')
@@ -488,10 +498,12 @@ describe('tickBattle phase transitions', () => {
   })
 
   it('selectAction:死亡队员残留 pending action 会被清掉,不计入本轮完成', () => {
-    const { gs, bus, emptyInput } = bootstrap({
+    const { gs, bus, emptyInput, resources } = bootstrap({
       partyMembers: [0, 1],
       roles: [makeRole({ id: 0, hp: 0 }), makeRole({ id: 1, hp: 200 })],
     })
+    // L23:开战复活 HP=0 队员;显式打回 0 模拟战斗中阵亡。
+    resources.playerRoles.roles[0]!.hp = 0
     tickBattle(gs, emptyInput, bus)
     const st = gs.battleState!
     st.pendingActions.set(0, { type: 'magic', actionId: 296, target: 0, targetSide: 'enemy' })
@@ -523,6 +535,8 @@ describe('tickBattle phase transitions', () => {
       ],
       enemies: [makeEnemy({ id: 100, health: 2000, attackStrength: 0, dexterity: 0 })],
     })
+    // L23:开战复活 HP=0 队员;显式打回 0 模拟战斗中阵亡(本测验死员默认槽 + 同回合复活后攻击)。
+    resources.playerRoles.roles[0]!.hp = 0
     tickBattle(gs, emptyInput, bus)
     const st = gs.battleState!
     st.pendingActions.set(1, { type: 'defend', target: -1 })
@@ -555,6 +569,8 @@ describe('tickBattle phase transitions', () => {
       spells: [mkSpell(296, { usableToEnemy: true })],
       magics: [mkMagic(296, { costMP: 5, baseDamage: 999 })],
     })
+    // L23:开战复活 HP=0 队员;显式打回 0 模拟战斗中阵亡。
+    resources.playerRoles.roles[0]!.hp = 0
     tickBattle(gs, emptyInput, bus)
     const st = gs.battleState!
     st.phase = 'performAction'

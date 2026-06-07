@@ -311,6 +311,19 @@ export function startBattle(input: StartBattleInput): void {
 
   const rng = createSeedableRng(input.rngSeed ?? Date.now())
 
+  // L23:sdlpal PAL_StartBattle(battle.c:1569-1577)开战前确保全队活着 —— rgwHP[w]==0 → =1 且清傀儡
+  //   kStatusPuppet(rgPlayerStatus 索引 4)。带倒地队员(HP=0,逃跑/失败收场后)立刻再战时,该队员复活
+  //   1 HP 正常参战(否则以 HP=0 进场被当死人:alivePlayerIdxs 排除、不能选动作、战后不获经验)。
+  for (const roleId of input.gs.partyMembers) {
+    const r = input.playerRoles.roles[roleId]
+    if (r && r.hp === 0) {
+      r.hp = 1
+      input.gs.PlayerRolesRuntime.rgwHP[roleId] = 1
+      const st = input.gs.rgPlayerStatus[roleId]
+      if (st) st[4] = 0 // 清 kStatusPuppet(global.c:2244 傀儡仅死人可设)
+    }
+  }
+
   const battleState = createBattleState({
     gs: input.gs,
     playerRoles: input.playerRoles,
