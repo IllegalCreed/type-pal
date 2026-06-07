@@ -30,6 +30,7 @@ import type {
   ObjectPlayerView,
   ObjectPoisonView,
   Palette,
+  PlayerRole,
   PlayerRoles,
   Spell,
 } from '@type-pal/shared'
@@ -280,6 +281,117 @@ export function roleMagicsAtLevel(input: {
     .map((e) => e.magic)
   const granted = [...(grantsByRole.get(roleId) ?? [])].filter((x) => x > 0)
   return [...new Set([...start, ...learned, ...granted])].slice(0, 32)
+}
+
+const DEV_LEVEL_STAT_CAP = 999
+const playerRolesBaselines = new WeakMap<PlayerRoles, PlayerRoles>()
+
+function clonePlayerRole(role: PlayerRole): PlayerRole {
+  return {
+    ...role,
+    ...(role.equipment ? { equipment: [...role.equipment] } : {}),
+    ...(role.magic ? { magic: [...role.magic] } : {}),
+    elemResistance: { ...role.elemResistance },
+  }
+}
+
+function baselinePlayerRoles(playerRoles: PlayerRoles): PlayerRoles {
+  let baseline = playerRolesBaselines.get(playerRoles)
+  if (!baseline) {
+    baseline = { roles: playerRoles.roles.map((role) => clonePlayerRole(role)) }
+    playerRolesBaselines.set(playerRoles, baseline)
+  }
+  return baseline
+}
+
+function capDevLevelStat(value: number): number {
+  return Math.max(0, Math.min(DEV_LEVEL_STAT_CAP, Math.trunc(value)))
+}
+
+function devLevelGrowthBonus(roleId: number, fromLevel: number, toLevel: number): {
+  maxHP: number
+  maxMP: number
+  attackStrength: number
+  magicStrength: number
+  defense: number
+  dexterity: number
+  fleeRate: number
+} {
+  const out = {
+    maxHP: 0,
+    maxMP: 0,
+    attackStrength: 0,
+    magicStrength: 0,
+    defense: 0,
+    dexterity: 0,
+    fleeRate: 0,
+  }
+  // Dev tool 用确定性序列落在 PAL_PlayerLevelUp 的随机成长范围内,避免同一等级每次开战数值漂移。
+  for (let level = fromLevel; level < toLevel; level++) {
+    out.maxHP += 10 + ((roleId + level) % 8)
+    out.maxMP += 8 + ((roleId + level) % 6)
+    out.attackStrength += 4 + ((roleId + level) % 2)
+    out.magicStrength += 4 + ((roleId + level + 1) % 2)
+    out.defense += 2 + ((roleId + level) % 2)
+    out.dexterity += 2 + ((roleId + level + 1) % 2)
+    out.fleeRate += 2
+  }
+  return out
+}
+
+function customBattleRoleOverrideAtLevel(input: {
+  playerRoles: PlayerRoles
+  levelUpMagic: LevelUpMagicEntry[][]
+  grantsByRole: Map<number, Set<number>>
+  roleId: number
+  level: number
+}): Partial<Record<string, number | number[]>> {
+  const baseline = baselinePlayerRoles(input.playerRoles)
+  const role = baseline.roles.find((r) => r.id === input.roleId)
+  const current = input.playerRoles.roles.find((r) => r.id === input.roleId)
+  const base = role ?? current
+  const targetLevel = Math.max(1, Math.min(99, Math.trunc(input.level)))
+  const baseLevel = Math.max(1, Math.min(99, Math.trunc(base?.level ?? 1)))
+  const growth = devLevelGrowthBonus(input.roleId, baseLevel, Math.max(baseLevel, targetLevel))
+  const maxHP = capDevLevelStat((base?.maxHP ?? base?.hp ?? 0) + growth.maxHP)
+  const maxMP = capDevLevelStat((base?.maxMP ?? base?.mp ?? 0) + growth.maxMP)
+
+  return {
+    level: targetLevel,
+    hp: maxHP,
+    maxHP,
+    mp: maxMP,
+    maxMP,
+    attackStrength: capDevLevelStat((base?.attackStrength ?? 0) + growth.attackStrength),
+    magicStrength: capDevLevelStat((base?.magicStrength ?? 0) + growth.magicStrength),
+    defense: capDevLevelStat((base?.defense ?? 0) + growth.defense),
+    dexterity: capDevLevelStat((base?.dexterity ?? 0) + growth.dexterity),
+    fleeRate: capDevLevelStat((base?.fleeRate ?? 0) + growth.fleeRate),
+    magic: roleMagicsAtLevel({
+      playerRoles: baseline,
+      levelUpMagic: input.levelUpMagic,
+      grantsByRole: input.grantsByRole,
+      roleId: input.roleId,
+      level: targetLevel,
+    }),
+  }
+}
+
+function syncAllExpLevelsForRole(gs: GameState, roleId: number, level: number): void {
+  const pools = [
+    gs.Exp.rgPrimaryExp,
+    gs.Exp.rgHealthExp,
+    gs.Exp.rgMagicExp,
+    gs.Exp.rgAttackExp,
+    gs.Exp.rgMagicPowerExp,
+    gs.Exp.rgDefenseExp,
+    gs.Exp.rgDexterityExp,
+    gs.Exp.rgFleeExp,
+  ]
+  for (const pool of pools) {
+    const entry = pool[roleId]
+    if (entry) entry.wLevel = level
+  }
 }
 
 /**
@@ -1639,12 +1751,16 @@ function closePicker(): void {
 }
 
 export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed?: number): void {
+  baselinePlayerRoles(deps.resources.playerRoles)
   // 1. 应用 playerOverrides —— 直接 mutate playerRoles(M3 简版;M5 考虑 immutable 备份恢复)
+  const levelOverrides = new Map<number, number>()
   for (const [idStr, override] of Object.entries(fixture.playerOverrides ?? {})) {
     const id = Number(idStr)
     const role = deps.resources.playerRoles.roles[id]
     if (role) {
       Object.assign(role, override)
+      if (typeof override.level === 'number')
+        levelOverrides.set(id, override.level)
     } else {
       console.warn(`[dev-panel] fixture ${fixture.id} override role ${id} 不存在,跳过`)
     }
@@ -1657,6 +1773,12 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
   // 2.5 边界同步:把(override 后的)静态 roles hydrate 进 gs.PlayerRolesRuntime —— 战斗经 projection
   //     吃这份当前属性,战后回写/升级也读这份(原 fixture 绕过 runtime → 升级/持久化读不到)。
   hydratePlayerRolesRuntime(deps.gs.PlayerRolesRuntime, deps.resources.playerRoles)
+
+  // 2.55 level override 也必须同步主经验等级。战斗显示读 runtime,但胜利结算 / 状态 EXP 栏会读 gs.Exp;
+  //      若只改 PlayerRolesRuntime,自定义战斗的等级会在结算链路看起来"没生效"。
+  for (const [id, level] of levelOverrides) {
+    syncAllExpLevelsForRole(deps.gs, id, level)
+  }
 
   // 2.6 D11:expOverrides → gs.Exp.rgPrimaryExp(设接近阈值的经验,打赢触发升级演出)。
   for (const [idStr, exp] of Object.entries(fixture.expOverrides ?? {})) {
@@ -1740,6 +1862,7 @@ export interface CustomBattleParams {
  */
 export function applyCustomBattle(deps: DevPanelDeps, params: CustomBattleParams, rngSeed?: number): void {
   const { enemyIds, partyMembers, level, allItems } = params
+  const customLevel = Math.max(1, Math.min(99, Math.trunc(level)))
   // 自动战斗(0x8A fAutoBattle):applyFixture→startBattle→createBattleState 从 gs.fAutoBattle seed,故启战前置。
   deps.gs.fAutoBattle = params.autoBattle ?? false
   // 1. 临时 team:filter 掉旧临时(防多次开战堆积)+ push 新的
@@ -1750,17 +1873,16 @@ export function applyCustomBattle(deps: DevPanelDeps, params: CustomBattleParams
   // 2. playerOverrides:每队员 level + 该 level 会的仙术(grants 来自全局脚本 0x55)
   const grantsByRole = computeMagicGrantsByRole(getGlobalCommands())
   const playerOverrides: Record<number, Partial<Record<string, number | number[]>>> = {}
+  const expOverrides: Record<string, { wExp: number; wLevel: number }> = {}
   for (const m of partyMembers) {
-    playerOverrides[m] = {
-      level,
-      magic: roleMagicsAtLevel({
-        playerRoles: deps.resources.playerRoles,
-        levelUpMagic: deps.resources.levelUpMagic,
-        grantsByRole,
-        roleId: m,
-        level,
-      }),
-    }
+    playerOverrides[m] = customBattleRoleOverrideAtLevel({
+      playerRoles: deps.resources.playerRoles,
+      levelUpMagic: deps.resources.levelUpMagic,
+      grantsByRole,
+      roleId: m,
+      level: customLevel,
+    })
+    expOverrides[String(m)] = { wExp: 0, wLevel: customLevel }
   }
   // 3. 全道具 ×99
   const inventory = allItems ? deps.resources.items.map((it) => ({ itemId: it.id, count: 99 })) : []
@@ -1772,6 +1894,7 @@ export function applyCustomBattle(deps: DevPanelDeps, params: CustomBattleParams
       label: '自定义战斗',
       partyMembers,
       playerOverrides,
+      expOverrides,
       inventory,
       enemyTeamId: CUSTOM_BATTLE_TEAM_ID,
       battleFieldId: 7,

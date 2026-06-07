@@ -10,7 +10,7 @@ import { describe, expect, it } from 'vitest'
 import fixturesData from './fixtures/battle-fixtures.json' with { type: 'json' }
 import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, projectRuntimeToBattleRoles } from '../core/game-state.js'
-import { tickBattle } from '../core/battle/battle-system.js'
+import { tickBattle, type BattleResources } from '../core/battle/battle-system.js'
 import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -251,6 +251,17 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
     // role0 level=7 override + 仙术按等级(起手 296 + lv7 学 349;lv10 的 298 未到)
     expect(deps.resources.playerRoles.roles[0]!.level).toBe(7)
     expect((deps.resources.playerRoles.roles[0] as unknown as { magic: number[] }).magic.sort((a, b) => a - b)).toEqual([296, 349])
+    // 等级不只写静态表:runtime / Exp / 真战斗投影角色都同步,且按等级补出成长属性。
+    expect(deps.gs.PlayerRolesRuntime.rgwLevel[0]).toBe(7)
+    expect(deps.gs.Exp.rgPrimaryExp[0]).toMatchObject({ wExp: 0, wLevel: 7 })
+    expect(deps.gs.Exp.rgAttackExp[0]!.wLevel).toBe(7)
+    expect(deps.gs.Exp.rgFleeExp[0]!.wLevel).toBe(7)
+    expect(deps.gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(181)
+    expect(deps.gs.PlayerRolesRuntime.rgwHP[0]).toBe(181)
+    expect(deps.gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(32)
+    expect(deps.gs.PlayerRolesRuntime.rgwDefense[0]).toBe(20)
+    const battleRole = (deps.gs as unknown as { __battleResources?: BattleResources }).__battleResources?.playerRoles.roles[0]
+    expect(battleRole).toMatchObject({ level: 7, hp: 181, maxHP: 181, attackStrength: 32, defense: 20 })
     // 全道具 ×99
     expect(deps.gs.inventory.map((e) => ({ itemId: e.itemId, count: e.count }))).toEqual([
       { itemId: 10, count: 99 },
@@ -266,6 +277,22 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
     expect(temps).toHaveLength(1) // 不堆积
     expect(temps[0]!.enemies[0]).toBe(2) // 后一次的敌人
     expect(deps.gs.battleState?.enemies.map((e) => e.e.id)).toEqual([2])
+  })
+
+  it('连续自定义不同等级:属性从原始基线重算,不从上一场 level 累加', () => {
+    const deps = makeDeps()
+    applyCustomBattle(deps, { enemyIds: [82], partyMembers: [0], level: 7, allItems: false }, 42)
+    expect(deps.gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(181)
+
+    applyCustomBattle(deps, { enemyIds: [2], partyMembers: [0], level: 3, allItems: false }, 42)
+
+    expect(deps.resources.playerRoles.roles[0]!.level).toBe(3)
+    expect(deps.gs.PlayerRolesRuntime.rgwLevel[0]).toBe(3)
+    expect(deps.gs.Exp.rgPrimaryExp[0]).toMatchObject({ wExp: 0, wLevel: 3 })
+    expect(deps.gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(123)
+    expect(deps.gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(14)
+    const battleRole = (deps.gs as unknown as { __battleResources?: BattleResources }).__battleResources?.playerRoles.roles[0]
+    expect(battleRole).toMatchObject({ level: 3, hp: 123, maxHP: 123, attackStrength: 14 })
   })
 
   it('allItems=false → inventory 空', () => {
