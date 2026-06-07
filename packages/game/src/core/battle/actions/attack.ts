@@ -203,6 +203,7 @@ export function performAttack(
           groupDamageNums: sweepNums,
           attackVoice: voice, // 出招声挂 swing frame0(fight.c:2061-2071)
           weaponSound, // 武器声挂 currentFrame=9 命中帧(fight.c:2124)
+          windup: t === 0, // L12:仅首 sweep 前摇 frame7+Delay(4)(fight.c:3690-3694)
         })
         segments.push(...swing)
         // L13:每 sweep 挥砍后 Delay(4) 收势停顿(fight.c:3747,仅群攻分支;单体无尾延)。
@@ -264,6 +265,7 @@ export function performAttack(
         playerRoles,
         attackVoice: voice,
         weaponSound,
+        windup: t === 0, // L12:仅首击前摇 frame7+Delay(4)(fight.c:3667-3671)
       })
       if (seg) {
         segments.push(...seg)
@@ -490,6 +492,8 @@ function buildAttackTimeline(input: {
   attackVoice?: number
   /** M6 武器声(weaponSound,fight.c:2124;player→enemy 用,挂 currentFrame=9 命中帧)。 */
   weaponSound?: number
+  /** L12 首击前摇(frame7+Delay4,仅 player→enemy 首击 t==0)。 */
+  windup?: boolean
 }): BattleAnimFrame[] | undefined {
   const { state, actor, targetIdx, isPlayerTarget, damage, battleEffectIndex, playerRoles } = input
 
@@ -511,6 +515,7 @@ function buildAttackTimeline(input: {
       damage,
       attackVoice: input.attackVoice,
       weaponSound: input.weaponSound,
+      windup: input.windup, // L12 首击前摇
     })
   }
 

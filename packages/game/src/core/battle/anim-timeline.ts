@@ -277,6 +277,12 @@ export interface BuildPlayerAttackInput {
     value: number
     color: 'yellow' | 'blue' | 'cyan'
   }>
+  /**
+   * L12 首击前摇:C 在 PAL_BattleShowPlayerAttackAnim 之前、仅首击(t==0)`wCurrentFrame=7 +
+   * PAL_BattleDelay(4)`(fight.c:3667-3671 单体 / 3690-3694 群攻)。true → 前置一帧
+   * { currentFrame:7, pos:attackerPos, Delay(4) }。双击/群攻第二击不传(只首击有前摇)。
+   */
+  windup?: boolean
 }
 
 /**
@@ -302,12 +308,22 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
     groupDamageNums,
     attackVoice,
     weaponSound,
+    windup,
   } = input
   const ex = targetEnemyPos.x
   const ey = targetEnemyPos.y
   const enemyH = targetEnemyHeight
 
   const frames: BattleAnimFrame[] = []
+
+  // —— L12 首击前摇:wCurrentFrame=7(举武器蓄力姿)+ PAL_BattleDelay(4)=4 帧(fight.c:3667-3671/3690-3694,
+  //   仅 t==0)。攻击者原地不动(pos=attackerPos),冲刺(frame8)之前的蓄势停顿。——
+  if (windup) {
+    frames.push({
+      durationMs: delayMs(4),
+      fighters: [{ side: 'player', idx: attackerIdx, currentFrame: 7, pos: { x: attackerPos.x, y: attackerPos.y } }],
+    })
+  }
 
   // —— frame 0:currentFrame=8,冲刺到敌前(fight.c:2076-2097)+ 出招声(fight.c:2061-2071 起手)——
   // x = enemy_x - dist + 64;y = enemy_y + dist + 20(dist=0 单体简化)

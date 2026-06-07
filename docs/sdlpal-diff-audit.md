@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 52 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L13 L15 L16 L17 L23 L24 L26 L27 L28 L30 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 36 条 low。
+- **✅ 已修复 53 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L23 L24 L26 L27 L28 L30 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 37 条 low。
 - **⏸ 暂缓 4 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)、L34(淡入淡出 60/64 上限——有干净实现但须改写既有 fade 回归测试整洁断言为 C 量化丑值、不可感知、仅覆盖 4 套 lerp-fade 中的 2 套)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L12 L18–L20 L22 L25 L29 L38),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L18–L20 L22 L25 L29 L38),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -49,7 +49,7 @@
 
 ## L级修复审查(已标 ✅)
 
-> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 36 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:36 条已完整收口,未发现新的遗漏。
+> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 37 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:37 条已完整收口,未发现新的遗漏。
 
 | ID | 审查结论 | 代码审查要点 |
 |---|---|---|
@@ -64,6 +64,7 @@
 | L9 | ✅ 通过 | `drawMiscMenu(..., confirmed=true)` 在物品二级菜单中把父项『道具』画成固定 0x2C,不再用闪烁选中色。 |
 | L10 | ✅ 通过 | 行动队列 flee dex 已改 `Math.floor(dex * 0.5)`,对齐 C 的 WORD `/=2`;濒死二次减半仍保留 floor。 |
 | L11 | ✅ 通过 | 敌主动逃跑动画增加 `ENEMY_FLYOUT_HOLD_TICKS=13` 出屏停顿,约等于 `UTIL_Delay(500)` 后才进入 fleed。 |
+| L12 | ✅ 通过 | `buildPlayerAttackTimeline` 加 `windup`,单体/群攻仅首击(t==0)前置 `currentFrame=7 + Delay(4)` 前摇帧;双击/双 sweep 第二击不加,对齐 fight.c:3667-3671/3690-3694。 |
 | L13 | ✅ 通过 | 群攻每个 sweep 后补 `4 * BATTLE_FRAME_TIME` 收势延迟;单体攻击路径未被误加尾延。 |
 | L15 | ✅ 通过 | 投掷和战斗用物品时间线都接入 `itemName`,在 (210,50) 生成 `battleMessage`,并由 caller 传入真实物品名。 |
 | L16 | ✅ 通过 | 敌方法术伤害结果外传 `autoDefend`,动画链在特效前给对应队员注入 frame 3,受击 frame 4 仍能覆盖。 |
@@ -122,7 +123,7 @@
 | ✅ L9 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗杂项→物品二级菜单时,父菜单『道具』高亮色用了闪烁选中色而非确认色(0x2C) |
 | ✅ L10 | 🟡 | correctness | 战斗·主循环与回合流程 | 逃跑动作的 dex 倍率用浮点 ×0.5+四舍五入,而非 C 的整数 /2 |
 | ✅ L11 | 🟡 | timing | 战斗·主循环与回合流程 | 敌方主动逃跑飞出屏后缺少 500ms 收尾停顿 |
-| L12 | 🟡 | timing | 战斗·动画与表现时序 | 玩家物理攻击缺少出招前摇姿(frame 7 + Delay(4)),冲刺直接开始 |
+| ✅ L12 | 🟡 | timing | 战斗·动画与表现时序 | 玩家物理攻击缺少出招前摇姿(frame 7 + Delay(4)),冲刺直接开始 |
 | ✅ L13 | 🟡 | timing | 战斗·动画与表现时序 | 群攻每次挥砍后缺少 Delay(4) 收势停顿 |
 | ⏸ L14 | 🟡 | timing | 战斗·动画与表现时序 | 玩家攻击魔法 OffMagic 缺少特效循环前的 Delay(1) 起手帧 |
 | ✅ L15 | 🟡 | pixel | 战斗·动画与表现时序 | 战斗投掷/使用物品演出期间不显示物品名称标签 |
@@ -981,7 +982,7 @@ TS `tickBattleEnemyEscapeAnim`(packages/game/src/core/battle/battle-system.ts:18
 </details>
 
 
-### L12 · 🟡 玩家物理攻击缺少出招前摇姿(frame 7 + Delay(4)),冲刺直接开始
+### ✅ L12 · 🟡 玩家物理攻击缺少出招前摇姿(frame 7 + Delay(4)),冲刺直接开始
 
 - **子系统**:战斗·动画与表现时序　**类别**:timing
 - **TS 位置**:`packages/game/src/core/battle/actions/attack.ts:238-276 (单体) / 166-214 (群攻);anim-timeline.ts:286-315 buildPlayerAttackTimeline`

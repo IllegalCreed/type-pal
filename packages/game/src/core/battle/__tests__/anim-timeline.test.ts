@@ -320,6 +320,27 @@ describe('buildPlayerAttackTimeline (fight.c:2008-2263)', () => {
     expect(frames).toHaveLength(8)
   })
 
+  // L12:首击前摇 —— C 在 ShowPlayerAttackAnim 前(仅 t==0)`wCurrentFrame=7 + PAL_BattleDelay(4)`
+  //   (fight.c:3667-3671 单体 / 3690-3694 群攻)。window=true 时前置该前摇帧。
+  it('L12:windup=true → 前置 currentFrame=7 + Delay(4) 前摇帧(总帧 9);默认 off 仍 8', () => {
+    const fr = buildPlayerAttackTimeline({
+      attackerPos: { x: 240, y: 170 },
+      attackerIdx: 0,
+      targetEnemyPos: { x: 160, y: 80 },
+      targetIdx: 0,
+      targetEnemyHeight: 0,
+      effectFrameBase: 6,
+      damage: 37,
+      windup: true,
+    })
+    expect(fr).toHaveLength(9) // 8 + 1 前摇
+    expect(fr[0]!.durationMs).toBe(4 * D) // PAL_BattleDelay(4) = 4 * BATTLE_FRAME_TIME
+    expect(fr[0]!.fighters).toEqual([
+      { side: 'player', idx: 0, currentFrame: 7, pos: { x: 240, y: 170 } },
+    ])
+    expect(frames).toHaveLength(8) // 默认 windup off 不影响既有路径
+  })
+
   it('frame0:currentFrame=8,冲到敌前 (enemy_x+64, enemy_y+20)=(224,100),Delay(2)', () => {
     const f = frames[0]!
     expect(f.durationMs).toBe(2 * D)
