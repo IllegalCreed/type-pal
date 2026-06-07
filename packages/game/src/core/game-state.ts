@@ -1305,6 +1305,9 @@ export function loadDefaultGame(
   // global.c:427-429 整张 PLAYERROLES 表 hydrate 到 runtime + 455-465 Exp.wLevel = 各角色等级
   hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
   initExpLevelsFromLevels(gs.Exp, gs.PlayerRolesRuntime.rgwLevel)
+  // L6:PAL_InitGameData 在 Load 后无条件 iCurInvMenuItem=0(global.c:948;该字段不在 SAVEDGAME_WIN)。
+  //   新游戏复位物品菜单光标到顶部(读档路径在 bootstrap.loadGameFromSlot 另复位)。
+  gs.iCurInvMenuItem = 0
 }
 
 /**

@@ -1492,6 +1492,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // (避免存档时 effect 处于脏/旧状态被原样载入;item/script 定义变更后也能自愈)。P1#4(2026-05-29)。
     updateAllEquipments(gs, items)
     gs.iCurEquipPart = -1
+    // L6/L7:PAL_InitGameData(global.c:948)/PAL_LoadGame_Common(global.c:611)读档后无条件复位 ——
+    //   iCurInvMenuItem(物品菜单光标)与 sWaveProgression(屏幕波动增量)均不在 SAVEDGAME_WIN,恒归 0。
+    //   存档经 structuredClone 带进旧值、Object.assign 灌回 → 此处强制清(对齐 C 不持久化语义)。
+    gs.iCurInvMenuItem = 0
+    gs.sWaveProgression = 0
     // 重 load scene assets — 走 fromSavedGame 路径,**不**重置 npcs / **不**跑 onEnter。
     // sceneLoading 在读档 transition guard 已置 true;loadSceneCommon 完成后恢复目标存档 palette 绘制新场景。
     await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })

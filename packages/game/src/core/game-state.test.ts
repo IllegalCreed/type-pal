@@ -88,6 +88,7 @@ describe('loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)'
     gs.numPalette = 3
     gs.wNumMusic = 7
     gs.wBattleSpeed = 4
+    gs.iCurInvMenuItem = 9 // L6:弄脏物品菜单光标
 
     loadDefaultGame(gs, fixtureRoles)
 
@@ -104,6 +105,7 @@ describe('loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)'
     expect(gs.numPalette).toBe(0)
     expect(gs.wNumMusic).toBe(0)
     expect(gs.wBattleSpeed).toBe(2) // sdlpal global.c:446 default = 2
+    expect(gs.iCurInvMenuItem).toBe(0) // L6:PAL_InitGameData global.c:948 复位物品菜单光标
   })
 
   it('hydrate PlayerRoles 基线 + 8 类经验 wLevel = 角色等级(global.c:455-465)', () => {
