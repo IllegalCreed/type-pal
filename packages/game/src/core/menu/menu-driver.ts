@@ -137,7 +137,7 @@ export function openOverworldShortcutMenu(
       openMenu(gs, { kind: 'equip', state: createEquipMenu(gs, requireCatalogs().items) })
       break
     case 'magic':
-      openMenu(gs, { kind: 'in-game-magic', state: createInGameMagicMenu(menuRoles(gs), gs.partyMembers, requireCatalogs().spells) })
+      openMenu(gs, { kind: 'in-game-magic', state: createInGameMagicMenu(menuRoles(gs), gs.partyMembers, requireCatalogs().spells, requireCatalogs().magics) })
       break
     case 'status':
       openMenu(gs, { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) })
@@ -422,7 +422,7 @@ function dispatchInGameMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
       case 'magic':
         openMenu(gs, {
           kind: 'in-game-magic',
-          state: createInGameMagicMenu(menuRoles(gs), gs.partyMembers, catalogs.spells),
+          state: createInGameMagicMenu(menuRoles(gs), gs.partyMembers, catalogs.spells, catalogs.magics),
         })
         break
       case 'status':

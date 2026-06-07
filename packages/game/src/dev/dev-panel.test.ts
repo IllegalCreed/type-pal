@@ -433,7 +433,9 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     // 2) ★关键回归:大世界仙术菜单经 runtime 投影构造 → 新学的凝神归元(298)可见,
     //    基线气疗术(296)仍在,战斗专用的天师符法(349)被 usableOutsideBattle 过滤掉(忠实 sdlpal)
     const projected = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, deps.resources.playerRoles)
-    const magicMenu = createInGameMagicMenu(projected, gs.partyMembers, deps.resources.spells)
+    // L41:此 fixture 单人队伍([0])→ createInGameMagicMenu 直接进 pick-spell 并建好 spellMenu(需传 magics);
+    //   confirmCaster 在 pick-spell phase 为 noop,spellMenu 已在 create 时建好。
+    const magicMenu = createInGameMagicMenu(projected, gs.partyMembers, deps.resources.spells, deps.resources.magics)
     expect(magicMenu.casterMenu.items[0]?.disabled).toBe(false) // 有大世界法术 → caster 可选
     confirmCaster(magicMenu, projected, deps.resources.spells, deps.resources.magics)
     const ids = magicMenu.spellMenu!.items.map((i) => i.id)

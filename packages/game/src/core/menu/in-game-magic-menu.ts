@@ -53,6 +53,7 @@ export function createInGameMagicMenu(
   playerRoles: PlayerRoles,
   partyMembers: number[],
   spells: Spell[],
+  magics: Magic[] = [], // L41:单人队伍直接进法术列表时 buildSpellMenu 需要
 ): InGameMagicMenuState {
   const casterItems = partyMembers
     .map((roleId) => playerRoles.roles[roleId])
@@ -67,6 +68,20 @@ export function createInGameMagicMenu(
         disabled: r.hp <= 0,
       }
     })
+  // L41:C wMaxPartyMemberIndex==0(单人队伍)时 `w=0; goto start_magicmenu`,跳过选施法人块直接进法术
+  //   选择循环(uigame.c:677-681)。预设 caster 为唯一队员 + 建好 spellMenu,起始即 pick-spell。
+  if (partyMembers.length === 1) {
+    const onlyRoleId = partyMembers[0]!
+    const role = playerRoles.roles[onlyRoleId]
+    return {
+      phase: 'pick-spell',
+      casterMenu: createSelectionMenu(casterItems),
+      selectedCasterId: onlyRoleId,
+      spellMenu: buildSpellMenu(onlyRoleId, playerRoles, spells, magics, role?.mp ?? 0),
+      targetCursor: 0,
+      partyMembers: [...partyMembers],
+    }
+  }
   return {
     phase: 'pick-caster',
     casterMenu: createSelectionMenu(casterItems),

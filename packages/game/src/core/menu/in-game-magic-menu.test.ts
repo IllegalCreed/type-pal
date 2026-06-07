@@ -86,6 +86,13 @@ describe('createInGameMagicMenu', () => {
     expect(s.casterMenu.items.map((i) => i.id)).toEqual([0, 1, 2])
   })
 
+  it('L41:单人队伍 → 直接 pick-spell(跳过选施法人,uigame.c:677-681)', () => {
+    const s = createInGameMagicMenu(PLAYER_ROLES, [0], SPELLS, MAGICS)
+    expect(s.phase).toBe('pick-spell') // wMaxPartyMemberIndex==0 → w=0; goto start_magicmenu
+    expect(s.selectedCasterId).toBe(0)
+    expect(s.spellMenu).toBeDefined()
+  })
+
   it('L37:活人无 outside-battle 法术仍可选(林月如),C 只判 HP>0(uigame.c:707-708)', () => {
     const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)
     const linYueRu = s.casterMenu.items.find((i) => i.id === 2)
