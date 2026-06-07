@@ -22,7 +22,7 @@ import type { Command, Enemy, Item, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import { getPlayerPoisonResistance } from '../../equip-effect.js'
 import type { GameState } from '../../game-state.js'
-import { buildEnemyPhysicalTimeline, buildPlayerAttackTimeline } from '../anim-timeline.js'
+import { buildEnemyConfusedAttackTimeline, buildEnemyPhysicalTimeline, buildPlayerAttackTimeline } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import { calcBaseDamage, calcPhysicalAttackDamage } from '../formulas.js'
@@ -441,10 +441,31 @@ export function performEnemyConfusedAttack(
 
   const before = target.e.health
   target.e.health = Math.max(0, before - damage)
+  const dealt = before - target.e.health
+
+  // M8:建混乱攻击动画(滑步逼近 + 火花 effectSprite 9-11 + 受击抖动,fight.c:4596-4654)。
+  //   缺 render-state(旧 fixture)→ 退化即时数字(向后兼容 tickPerformAction:battleAnim undefined → idx++)。
+  const attackerFighter = state.enemies[attackerIdx]
+  if (attackerFighter?.posOriginal && target.posOriginal) {
+    startBattleAnim(
+      state,
+      buildEnemyConfusedAttackTimeline({
+        attackerIdx,
+        attackerPos: attackerFighter.posOriginal,
+        targetIdx: targetEnemyIdx,
+        targetPos: target.posOriginal,
+        targetHeight: 0, // core 无 sprite 资源 → 0(present 层可后续精修火花 Y)
+        damage: dealt,
+      }),
+      bus,
+    )
+    return
+  }
+
   bus.emit({
     op: 'showDamageNum',
     target: { kind: 'enemy', idx: targetEnemyIdx },
-    value: before - target.e.health,
+    value: dealt,
     color: 'blue',
   })
 }

@@ -877,6 +877,32 @@ describe('performEnemyConfusedAttack(B2 c1b,fight.c:4596-4654)', () => {
     performEnemyConfusedAttack(state, 0, 1, bus)
     expect(state.enemies[1]!.e.health).toBe(499) // base 0 → *2=0 → <=0 → 1
   })
+
+  it('M8:有 posOriginal → 建混乱攻击动画(滑步+火花+抖动)启动 battleAnim,伤害仍结算', () => {
+    const { state, bus } = makeState({
+      enemies: [
+        { level: 5, attackStrength: 500 },
+        { level: 5, defense: 10, physicalResistance: 2, health: 2000 },
+      ],
+    })
+    state.enemies[0]!.posOriginal = { x: 100, y: 80 }
+    state.enemies[1]!.posOriginal = { x: 200, y: 100 }
+    performEnemyConfusedAttack(state, 0, 1, bus)
+    expect(state.battleAnim).toBeDefined() // 动画链启动(替代旧的即时数字,fight.c:4596-4654)
+    expect(state.enemies[1]!.e.health).toBe(2000 - 1046) // 伤害结算不变
+  })
+
+  it('M8:缺 posOriginal(旧 fixture)→ fallback 不建动画', () => {
+    const { state, bus } = makeState({
+      enemies: [
+        { level: 5, attackStrength: 500 },
+        { level: 5, defense: 10, physicalResistance: 2, health: 2000 },
+      ],
+    })
+    performEnemyConfusedAttack(state, 0, 1, bus)
+    expect(state.battleAnim).toBeUndefined() // 无 render-state → 退化即时(向后兼容)
+    expect(state.enemies[1]!.e.health).toBe(2000 - 1046)
+  })
 })
 
 describe('performDefend', () => {

@@ -16,6 +16,7 @@ import {
   buildFleeFailTimeline,
   buildThrowWindupTimeline,
   buildEnemyMagicCastIntro,
+  buildEnemyConfusedAttackTimeline,
   buildEnemyMagicTimeline,
   buildEnemyPhysicalTimeline,
   buildPlayerAttackTimeline,
@@ -1033,6 +1034,36 @@ describe('buildPostMagicTimeline (fight.c:3189-3246)', () => {
     expect(frames).toHaveLength(4)
     expect(frames.every((f) => f.fighters === undefined)).toBe(true)
     expect(frames.every((f) => f.durationMs === 1 * D)).toBe(true)
+  })
+})
+
+describe('buildEnemyConfusedAttackTimeline (M8, fight.c:4596-4654)', () => {
+  it('滑步 3 帧逼近(pos=(self+target)/2) + 火花 effectSprite 9-11 中点 + 受击抖动(数字挂首帧) + 复位 attacker', () => {
+    const frames = buildEnemyConfusedAttackTimeline({
+      attackerIdx: 0,
+      attackerPos: { x: 100, y: 100 },
+      targetIdx: 1,
+      targetPos: { x: 200, y: 160 },
+      targetHeight: 0,
+      damage: 50,
+    })
+    // —— 滑步 3 帧:attacker pos = (self+target)/2 累进,Delay(1)(fight.c:4598-4612)——
+    expect(frames[0]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 150, y: 130 } }])
+    expect(frames[0]!.durationMs).toBe(1 * D)
+    expect(frames[1]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 175, y: 145 } }])
+    expect(frames[2]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 187, y: 152 } }]) // trunc(375/2),trunc(305/2)
+    // —— 火花 3 帧:effectSprite 9/10/11,中点 x=(187+200)/2=193,y=160-0+10=170(fight.c:4614-4632)——
+    expect(frames[3]!.overlay).toEqual({ kind: 'effect', spriteChunk: EFFECT_SPRITE_CHUNK, frameIdx: 9, x: 193, y: 170 })
+    expect(frames[4]!.overlay).toMatchObject({ frameIdx: 10, x: 193, y: 170 })
+    expect(frames[5]!.overlay).toMatchObject({ frameIdx: 11 })
+    // —— 受击:target 抖动(PostMagic)+ 伤害数字挂首帧(fight.c:4647-4648 DisplayStatChange→PostMagic)——
+    expect(frames[6]!.damageNum).toEqual({ target: { kind: 'enemy', idx: 1 }, value: 50, color: 'blue' })
+    expect(frames[6]!.fighters).toEqual([{ side: 'enemy', idx: 1, pos: { x: 192, y: 160 }, iColorShift: 0 }]) // 200-8
+    expect(frames[7]!.fighters).toEqual([{ side: 'enemy', idx: 1, pos: { x: 196, y: 160 }, iColorShift: 6 }]) // i1 -(-4)
+    // —— 复位 attacker:末帧回 posOriginal,Delay(2)(fight.c:4651-4652)——
+    const last = frames[frames.length - 1]!
+    expect(last.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 100, y: 100 } }])
+    expect(last.durationMs).toBe(2 * D)
   })
 })
 

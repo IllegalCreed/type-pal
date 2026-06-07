@@ -947,6 +947,76 @@ export function buildPostMagicTimeline(input: BuildPostMagicInput): BattleAnimFr
   return frames
 }
 
+export interface BuildEnemyConfusedAttackInput {
+  /** 混乱攻击者 enemy idx + 站立底锚 posOriginal。 */
+  attackerIdx: number
+  attackerPos: { x: number; y: number }
+  /** 被打的友敌 idx + 站立底锚 posOriginal。 */
+  targetIdx: number
+  targetPos: { x: number; y: number }
+  /** 目标 sprite frame0 高度(PAL_RLEGetHeight;core 无资源 → 传 0,火花 Y 仅退化 +10)。 */
+  targetHeight: number
+  /** 已结算的实际掉血(钳后 delta)。 */
+  damage: number
+}
+
+/**
+ * 混乱敌人攻击友敌动画时间线(port fight.c:4596-4654 confused 分支)。
+ *
+ *   - 滑步 3 帧:attacker.pos = (attacker.pos + target.pos)/2,Delay(1)(fight.c:4598-4612)
+ *   - 火花 3 帧:lpEffectSprite frame 9/10/11,落点中点 x=(attacker_滑后+target)/2,
+ *       y=target.y - targetH/3 + 10,各 Delay(1)(fight.c:4614-4632)
+ *   - 受击:PAL_BattleDisplayStatChange(伤害数字)+ PAL_BattleShowPostMagicAnim(target 抖动),
+ *       数字挂 PostMagic 首帧(fight.c:4647-4648)
+ *   - Delay(5) 停顿,复位 attacker.pos=posOriginal,Delay(2)(fight.c:4649-4652)
+ */
+export function buildEnemyConfusedAttackTimeline(input: BuildEnemyConfusedAttackInput): BattleAnimFrame[] {
+  const { attackerIdx, attackerPos, targetIdx, targetPos, targetHeight, damage } = input
+  const frames: BattleAnimFrame[] = []
+
+  // —— 滑步 3 帧:attacker pos 向 target 中点逼近(fight.c:4598-4612)——
+  let ax = attackerPos.x
+  let ay = attackerPos.y
+  for (let i = 0; i < 3; i++) {
+    ax = Math.trunc((ax + targetPos.x) / 2)
+    ay = Math.trunc((ay + targetPos.y) / 2)
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'enemy', idx: attackerIdx, pos: { x: ax, y: ay } }],
+    })
+  }
+
+  // —— 火花 3 帧:lpEffectSprite 9/10/11,落点中点(fight.c:4614-4632)——
+  const fxX = Math.trunc((ax + targetPos.x) / 2)
+  const fxY = targetPos.y - Math.floor(targetHeight / 3) + 10
+  for (let i = 9; i < 12; i++) {
+    frames.push({
+      durationMs: delayMs(1),
+      overlay: { kind: 'effect', spriteChunk: EFFECT_SPRITE_CHUNK, frameIdx: i, x: fxX, y: fxY },
+    })
+  }
+
+  // —— 受击:target 抖动(PostMagic)+ 伤害数字挂首帧(fight.c:4647-4648)——
+  const postFrames = buildPostMagicTimeline({ hurtEnemies: [{ idx: targetIdx, pos: targetPos }] })
+  const first = postFrames[0]
+  if (first) {
+    postFrames[0] = {
+      ...first,
+      damageNum: { target: { kind: 'enemy', idx: targetIdx }, value: damage, color: 'blue' },
+    }
+  }
+  frames.push(...postFrames)
+
+  // —— Delay(5) 停顿 + 复位 attacker.pos,Delay(2)(fight.c:4649-4652)——
+  frames.push({ durationMs: delayMs(5) })
+  frames.push({
+    durationMs: delayMs(2),
+    fighters: [{ side: 'enemy', idx: attackerIdx, pos: { x: attackerPos.x, y: attackerPos.y } }],
+  })
+
+  return frames
+}
+
 /** 协力合击聚拢队形(sdlpal fight.c:3602 `rgwCoopPos[3][2]`):发起者→[0],其余贡献者按队序→[1][2]。 */
 const COOP_POS: ReadonlyArray<readonly [number, number]> = [[208, 157], [234, 170], [260, 183]]
 
