@@ -94,7 +94,8 @@
 | 永久加属性和剧情加点 | ✅ claimed | ✅ partial | 金蚕王升级、属性药、剧情加点脚本等写运行时属性;逐物品见 `item-status.md`。 |
 | 装备加成、临时加成和特殊装备属性 | ✅ claimed | ✅ unit | 装备效果、战斗临时加成、双击、抗性、攻击全体等进入战斗有效属性;战末清临时加成。 |
 | HP/MP、毒和状态跨系统持久化 | ✅ claimed | ✅ partial | 战斗伤害 / 治疗回写运行时;毒和特殊状态在菜单、战斗和脚本间共享。 |
-| 战斗后半血恢复、清毒、死亡 / 濒死脚本 | ✅ claimed | ✅ regress | 胜利结算后恢复半血逻辑、队友死亡 / 濒死 OBJECT_PLAYER 脚本已接。 |
+| 战斗后半血恢复、清毒 | ✅ claimed | ✅ regress | 胜利结算后恢复半血逻辑;战末清除战斗内毒 / 临时状态。 |
+| 队友死亡 / 濒死 OBJECT_PLAYER 脚本 | ✅ claimed | ✅ regress | 队员跌入濒死(HP<min(100,maxHP/5))跑自身 `scriptOnDying`、阵亡跑守护者 `scriptOnFriendDeath`;即残血 / 阵亡触发的对象对话。需健康守护者在队、刚跨入阈值才触发。 |
 
 ## 6. 物品、装备和商店
 
