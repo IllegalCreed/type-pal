@@ -431,4 +431,53 @@ describe('applyEnemyMagicDamage', () => {
     expect(calls).toBe(2) // 每个存活队员各掷一次(非全队共用一次)
     expect(r[0]!.damage).not.toBe(r[1]!.damage) // 独立 rngFactor → 相同队员伤害不同
   })
+
+  it('L20:敌方单体先掷 autoDefend RandomLong,再掷伤害 RandomFloat', () => {
+    const calls: string[] = []
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 9999, defense: 30, level: 5 },
+    ])
+    state.rng = {
+      ...state.rng,
+      range: () => {
+        calls.push('auto')
+        return 1
+      },
+      next: () => {
+        calls.push('damage')
+        return 0
+      },
+    }
+    applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+    })
+    expect(calls).toEqual(['auto', 'damage'])
+  })
+
+  it('L20:敌方 AoE 先预判全队 autoDefend,再逐存活队员掷伤害 RandomFloat', () => {
+    const calls: string[] = []
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 9999, defense: 30, level: 5 },
+      { hp: 0, defense: 30, level: 5 },
+      { hp: 9999, defense: 30, level: 5 },
+    ])
+    state.rng = {
+      ...state.rng,
+      range: () => {
+        calls.push('auto')
+        return 1
+      },
+      next: () => {
+        calls.push('damage')
+        return 0
+      },
+    }
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 'all',
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+    })
+    expect(r.map(x => x.playerIdx)).toEqual([0, 2])
+    expect(calls).toEqual(['auto', 'auto', 'auto', 'damage', 'damage'])
+  })
 })

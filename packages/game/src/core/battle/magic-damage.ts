@@ -174,6 +174,24 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
     ? state.players.map((_, i) => i)
     : [target]
 
+  const autoDefendByPlayerIdx = new Map<number, boolean>()
+  for (const pIdx of targetIdxs) {
+    const slot = state.players[pIdx]
+    const role = slot ? playerRoles.roles[slot.roleId] : undefined
+    if (!slot || !role)
+      continue
+
+    const canAutoDefend = (slot.status.sleep ?? 0) === 0
+      && (slot.status.paralyzed ?? 0) === 0
+      && (slot.status.confused ?? 0) === 0
+    const autoDefend = target === 'all'
+      // AoE: sdlpal 4727-4735 先 RandomLong(0,2),再检查 HP != 0。
+      ? canAutoDefend && state.rng.range(0, 3) === 0 && role.hp !== 0
+      // 单体: sdlpal 4746-4753 在 PAL_CalcMagicDamage 前判定 autoDefend。
+      : canAutoDefend && state.rng.range(0, 3) === 0
+    autoDefendByPlayerIdx.set(pIdx, autoDefend)
+  }
+
   const results: EnemyMagicDamageResult[] = []
   for (const pIdx of targetIdxs) {
     const slot = state.players[pIdx]
@@ -203,8 +221,8 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
     }
     const poisonRes = clampRes(role.poisonResistance)
 
-    // L20:RandomFloat(10,11) 在 PAL_CalcMagicDamage 内,敌方 AoE for 循环逐队员调用(fight.c:4793)
-    //   → **每个队员各掷一次**独立倍率。掷在 autoDefend 的 RandomLong(0,2) 之前(与单体时序一致)。
+    // L20:敌方法术先判定 autoDefend(fight.c:4723-4757),再进入 PAL_CalcMagicDamage(fight.c:4798/4833)。
+    //   RandomFloat(10,11) 在 PAL_CalcMagicDamage 内(fight.c:215),AoE 逐存活队员各掷一次独立倍率。
     const rngFactor = 1 + state.rng.next() * 0.1 // sdlpal RandomFloat(10,11)/10 ∈ [1.0, 1.1)
     let dmg = calcMagicDamage({
       magStr,
@@ -217,11 +235,8 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
       rngFactor,
     })
 
-  // 除因子(sdlpal fight.c:4801-4803 / 4836-4838):((defending?2:1) * (Protect>0?2:1)) + (autoDefend?1:0)
-    const canAutoDefend = (slot.status.sleep ?? 0) === 0
-      && (slot.status.paralyzed ?? 0) === 0
-      && (slot.status.confused ?? 0) === 0
-    const autoDefend = canAutoDefend && state.rng.range(0, 3) === 0 // RandomLong(0,2)==0
+    // 除因子(sdlpal fight.c:4801-4803 / 4836-4838):((defending?2:1) * (Protect>0?2:1)) + (autoDefend?1:0)
+    const autoDefend = autoDefendByPlayerIdx.get(pIdx) ?? false
     const protectFactor = (slot.status.protect ?? 0) > 0 ? 2 : 1 // B2 c4:护体减半
     const divisor = ((slot.defending ? 2 : 1) * protectFactor) + (autoDefend ? 1 : 0)
     dmg = Math.trunc(dmg / divisor)

@@ -70,7 +70,7 @@
 | L16 | ✅ 通过 | 敌方法术伤害结果外传 `autoDefend`,动画链在特效前给对应队员注入 frame 3,受击 frame 4 仍能覆盖。 |
 | L17 | ✅ 通过 | `keepEffect` 末帧判定已改用 `baseScreenWave + magic.wave < 9`;普通法术、敌方法术、合击、0x92、普通召唤 secondary 入口均传战场基础屏波与 `wave/keepEffect`。 |
 | L18 | ✅ 通过 | `applyMagicDamage`/`applyEnemyMagicDamage`/`simulateMagic` 删 `rngFactor` 入参,改在逐目标 for 循环内各掷一次 `1+next()*0.1`(对齐 fight.c:215 在 PAL_CalcMagicDamage 内、群攻 fight.c:4288/4015 逐敌调用);5 个 caller(magic 玩家/敌方、coop、0x42/0x66)删预掷。单体掷骰紧贴调用、中间无 rng → 时序与序列不变(全套零回归),仅多体改为逐目标独立。新增独立性测试:next 调用次数==存活目标数 + 相同敌人伤害互异。 |
-| L20 | ✅ 通过 | 与 L18 同一核心循环改动;敌方 AoE 逐队员掷在 autoDefend 的 `RandomLong(0,2)` 之前(与单体时序一致,fight.c:4793)。玩家不可感知(单目标边际分布不变,仅目标间相关性),代码层已对齐 C。 |
+| L20 | ✅ 通过 | 与 L18 同一核心循环改动;敌方法术已改为先判定/预计算 autoDefend 的 `RandomLong(0,2)`(AoE fight.c:4723-4735;单体 fight.c:4746-4753),再进入逐存活队员 `PAL_CalcMagicDamage` 掷 `RandomFloat(10,11)`(fight.c:4798/4833)。新增单体与 AoE RNG 调用顺序测试,锁定 AoE 为“全队 autoDefend → 存活队员 damage rng”。 |
 | L22 | ✅ 通过 | `attack.ts` 敌→我等价物中毒删 `equivId!==0` 前置短路:该 block 已隐含 `iCoverIndex==-1 && !fAutoDefend`(上方 fAutoDefend 提前 return),故对齐 fight.c:5139 在每次非格挡非自卫命中恒消费一次 `RandomLong(1,10)`。equivItem=0 时 `rate=0` → `0>=1..10` 恒假、消费后短路,find 不到物品 → 不中毒(等价 C 跑 rgObject[0] 空脚本)。新增计数测试锁定;全套零回归。 |
 | L23 | ✅ 通过 | `startBattle` 在 `createBattleState` 前把队伍中 HP=0 的角色复活为 1,同步 runtime HP 并清 Puppet 状态。 |
 | L24 | ✅ 通过 | hidden-exp-up 框长仍用钳后宽度,但文字段按实际姓名/属性宽度连续定位,2 字名不再多出 16px 空档。 |
