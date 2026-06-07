@@ -120,7 +120,8 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
       ? (playerRoles.roles[state.players[casterIdx]?.roleId ?? -1]?.magicSound ?? 0)
       : 29
     if (casterCastSound > 0) bus.emit({ op: 'playSound', soundId: casterCastSound })
-    if (magic.sound > 0) bus.emit({ op: 'playSound', soundId: magic.sound })
+    // M9(2026-06-07 sdlpal 审查):效果音 magic.sound **不**在此即播 —— 改随 OffMagic 起手帧同步
+    //   (有动画时 buildCoopMagicTimeline 挂 i===0 帧;无动画回落时下方即时 emit)。原即播比命中特效早 ~0.7s。
   }
 
   // HP 代价(**非 MP**):每个 contributor role.hp -= magic.costMP,<=0 钳 1(fight.c:3961-3967)。
@@ -211,6 +212,7 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
         effect: magic.effect, type: offType, speed: magic.speed, fireDelay: magic.fireDelay,
         effectTimes: magic.effectTimes, shake: magic.shake, xOffset: magic.xOffset, yOffset: magic.yOffset,
         wave: magic.wave, keepEffect: magic.keepEffect,
+        sound: magic.sound, // M9:效果音随 OffMagic 起手帧同步(buildPlayerOffMagicTimeline i===0)
       },
       n,
       targetIdx: offTargetIdx,
@@ -223,7 +225,8 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
     return
   }
 
-  // 回落(无动画):D17b 掉血 → blue showDamageNum 即时弹。
+  // 回落(无动画):D17b 掉血 → blue showDamageNum 即时弹 + M9 效果音即时(无 OffMagic 帧承载)。
+  if (magic.sound > 0) bus.emit({ op: 'playSound', soundId: magic.sound })
   for (const dn of pendingNums) {
     bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
   }

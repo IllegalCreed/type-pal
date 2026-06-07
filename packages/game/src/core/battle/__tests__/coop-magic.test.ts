@@ -200,6 +200,18 @@ describe('performCoopMagic(协力合击,fight.c:3856-4043 CLASSIC)', () => {
     expect(roles[0]!.hp).toBe(500) // 普攻退化不付协力 HP 代价
   })
 
+  it('M9:有动画时效果音随 OffMagic 帧同步(派发只起手 29,效果音挂帧不即播)', () => {
+    const roles = [makeRole(0, { attackStrength: 40, magicStrength: 60 }), makeRole(1, { attackStrength: 20, magicStrength: 40 })]
+    const { state, playerRoles } = makeCoopState(roles)
+    state.players.forEach((p, i) => { (p as unknown as { posOriginal: { x: number, y: number } }).posOriginal = { x: 240 - i * 20, y: 170 } })
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    const bus = createCommandBus()
+    performCoopMagic({ state, casterIdx: 0, coopObjId: TEST_COOP_OBJ_ID, targetIdx: 'all', playerRoles, magics: [{ ...COOP_MAGIC, sound: 77 }], objectMagics: OBJ_MAGICS, bus, magicSpriteFrameCounts: new Map([[0, 8]]) })
+    const sounds = bus.drain().filter(c => c.cmd.op === 'playSound').map(c => (c.cmd as { soundId: number }).soundId)
+    expect(sounds).toEqual([29]) // 派发即时只起手音 29,效果音 77 不即播
+    expect(state.battleAnim!.frames.some(f => f.sound === 77)).toBe(true) // 77 挂 OffMagic 起手帧,随动画同步
+  })
+
   it('有 magicSpriteFrameCounts + 底锚 → 建合击动画链(聚拢/施法/法术效果/滑回),伤害数字延迟到特效后', () => {
     const roles = [makeRole(0, { attackStrength: 40, magicStrength: 60 }), makeRole(1, { attackStrength: 20, magicStrength: 40 })]
     const { state, playerRoles } = makeCoopState(roles)
