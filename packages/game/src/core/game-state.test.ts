@@ -123,6 +123,13 @@ describe('loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)'
     expect(gs.Exp.rgAttackExp[0]!.wLevel).toBe(5)
     expect(gs.Exp.rgFleeExp[0]!.wLevel).toBe(5)
   })
+
+  it('M6:清 rgPlayerStatus(大世界施放的持久状态不带入新游戏,PAL_InitGameData global.c:951)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.rgPlayerStatus[1]![5] = 99 // 弄脏:role1 某 status 非 0(大世界上的护身/勇气等)
+    loadDefaultGame(gs, fixtureRoles)
+    expect(gs.rgPlayerStatus[1]![5]).toBe(0) // 清零(非装备持久状态丢弃,装备状态由 updateEquipments 重建)
+  })
 })
 
 // H1 续:scene 运行时复位(通关后重开,清上一局 scene flag/对象状态/onEnter 停点 + 重建全局对象表)

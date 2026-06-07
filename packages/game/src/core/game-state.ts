@@ -1288,6 +1288,10 @@ export function loadDefaultGame(
   gs.partyMembers = [] // rgParty(wMaxPartyMemberIndex 在 ts 即 partyMembers.length)
   gs.trail = [] // rgTrail
   gs.Exp = createEmptyExp()
+  // M6(2026-06-07 sdlpal 审查):PAL_InitGameData(global.c:951)在 Load 后 memset rgPlayerStatus ——
+  //   非装备持久状态(大世界 0x2D 上的护身 / 勇气 / 加速等)不带入新局;装备授予的状态由下方
+  //   updateEquipments(caller)重建。
+  gs.rgPlayerStatus = createInitialPlayerStatus()
   // global.c:427-429 整张 PLAYERROLES 表 hydrate 到 runtime + 455-465 Exp.wLevel = 各角色等级
   hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
   initExpLevelsFromLevels(gs.Exp, gs.PlayerRolesRuntime.rgwLevel)

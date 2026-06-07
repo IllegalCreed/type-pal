@@ -41,6 +41,7 @@ import {
 } from '../core/event-system.js'
 import {
   createInitialGameState,
+  createInitialPlayerStatus,
   type GameState,
   hydrateNpcStaticDefaults,
   getOverworldSpriteNum,
@@ -1482,6 +1483,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // 关菜单回 explore — loadSceneCommon 完成后 explore tick 接管
     gs.menuStack = []
     gs.mode = 'explore'
+    // M6(2026-06-07 sdlpal 审查):PAL_InitGameData(global.c:951)在 PAL_LoadGame 后、UpdateEquipments
+    //   前 memset rgPlayerStatus —— 存档里那份非装备持久状态(大世界 0x2D 上的护身 / 勇气 / 加速等)丢弃,
+    //   装备授予的状态由下方 updateAllEquipments 重建。否则读档后这些状态跨存档残留。
+    gs.rgPlayerStatus = createInitialPlayerStatus()
     // sdlpal PAL_InitGameData(global.c:953)真值:PAL_LoadGame 后**无条件** PAL_UpdateEquipments()。
     // rgEquipmentEffect 是派生字段(不在 SAVEDGAME_WIN),必须从 rgwEquipment 重算 —— 不信存档里那份
     // (避免存档时 effect 处于脏/旧状态被原样载入;item/script 定义变更后也能自愈)。P1#4(2026-05-29)。
