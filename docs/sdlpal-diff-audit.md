@@ -21,8 +21,8 @@
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
 - **✅ 已修复 50 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L6 L7 L8 L9 L10 L11 L13 L15 L16 L17 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 34 条 low。
-- **⏸ 暂缓 3 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L5 L12 L18–L20 L22 L25 L29 L30 L34 L38),性价比低暂留。
+- **⏸ 暂缓 4 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)、L34(淡入淡出 60/64 上限——有干净实现但须改写既有 fade 回归测试整洁断言为 C 量化丑值、不可感知、仅覆盖 4 套 lerp-fade 中的 2 套)。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L5 L12 L18–L20 L22 L25 L29 L30 L38),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -142,7 +142,7 @@
 | ✅ L31 | 🟡 | correctness | 渲染·地图瓦片与精灵 | cover-tile 扫描范围用 Math.floor 而非 C 的向零截断除法,精灵贴近地图左/上边缘时遮挡列判定偏移 |
 | ✅ L32 | 🟡 | pixel | 渲染·地图瓦片与精灵 | layer-0 瓦片位图缺失时未回落到 tile(0,0,0,0),C 会用首格兜底填充 |
 | ✅ L33 | 🟡 | pixel | 渲染·字体与对话框 | narration 框内数字字符步进用 6px(精灵宽),C 用 PAL_CharWidth(=8px) |
-| L34 | 🟡 | pixel | 渲染·调色板与淡入淡出 | 淡入淡出 ramp 在 C 里最高只到 60/64(93.75%)而 TS lerp 直插到 100% |
+| ⏸ L34 | 🟡 | pixel | 渲染·调色板与淡入淡出 | 淡入淡出 ramp 在 C 里最高只到 60/64(93.75%)而 TS lerp 直插到 100% |
 | ✅ L35 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界仙术菜单:仙术列表按 Cancel 应直接关菜单回大世界,TS 却退回「选施法人」 |
 | ✅ L36 | 🟡 | pixel | 菜单·主菜单/物品/装备/商店 | 仙术列表未按法术 ObjectID 升序排序,TS 按学会顺序(rgwMagic 槽位顺序)显示 |
 | ✅ L37 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界仙术「选施法人」框:TS 把无可用大世界法术的活人也标灰禁选,原版只按 HP>0 判定可选 |
@@ -1613,12 +1613,13 @@ reference/sdlpal/text.c:1595（x += PAL_CharWidth 对所有字符含数字）；
 </details>
 
 
-### L34 · 🟡 淡入淡出 ramp 在 C 里最高只到 60/64(93.75%)而 TS lerp 直插到 100%
+### ⏸ L34 · 🟡 淡入淡出 ramp 在 C 里最高只到 60/64(93.75%)而 TS lerp 直插到 100%
 
 - **子系统**:渲染·调色板与淡入淡出　**类别**:pixel
 - **TS 位置**:`packages/game/src/core/palette-fade.ts:103-135,241-253`
 - **C 依据**:`reference/sdlpal/palette.c:170-180,238-250`
 - **玩家可感知**:否
+- **评估结论(2026-06-07):⏸ 暂缓**。已找到干净实现(`PaletteFadeState` 加 `rampScale`/`rampOffset`,buildFadeIn 设 `60/64,0`、buildFadeOut 设 `60/64,4/64`,stepPaletteFade lerp 用 `k=clamp(progress*rampScale+rampOffset)`,finalize 仍补精确 100%/0%),但三点叠加致 ROI 过低:(1) 须改写 buildFadeOut/buildFadeIn 既有回归测试里的整洁断言(如 progress=0.5 的 `[50,40,20]`)为 C 量化后的丑值;(2) 玩家不可感知(单帧 100% vs 93.75%);(3) 仅覆盖 4 套 lerp-fade 中的 FadeIn/Out —— SceneFade 的 63/64 上限是另一条未归档分歧,只修这条会留下姊妹不一致。优先做其余可感知 low。
 
 **差异**:C PAL_FadeOut/PAL_FadeIn 的亮度系数 j 由 `(time-SDL_GetTicks())/iDelay/10` 得到,iDelay=1 时 j 的取值范围是整数 0..60,缩放式 `palette[i]*j>>6` = palette × j/64,所以循环期间亮度最高只到 60/64≈93.75%:FadeOut 第一帧即从 100% 直接跳到 93.75% 再线性降到 0,FadeIn 循环末尾只到 93.75%,真正的 100% 由循环结束后那条 `VIDEO_SetPalette(palette)` 一次性补上。TS buildFadeOut/buildFadeIn 用 mode='lerp',stepPaletteFade 按 progress(0→1)在 start↔target 间线性插值 round,progress=1 时正好 100% —— 即 TS 全程平滑覆盖到 100%,没有 C 的 93.75% 平台与末尾的整段补满跳变。palette-fade.ts 模块注释把 `pal[i]*factor>>6` 等同于 `lerp(start,target)` 的说法在 factor 上限是 60(非 64)这点上并不精确。
 
