@@ -144,6 +144,7 @@ function pushThrowOffMagicAnim(ctx: BattleCtx, magicObjId: number, targetIdx: nu
       n,
       targetIdx: targetIdx ?? -1,
       targetEnemyPos,
+      baseScreenWave: ctx.state.field.screenWave, // L17:战场基础屏波 + magic.wWave 决定 keepEffect<9(battle.c:1563)
     }))
   }
   else if (mg.sound > 0 && ctx.gs) {

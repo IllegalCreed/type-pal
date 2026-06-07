@@ -761,6 +761,12 @@ export interface BuildOffMagicInput {
   blowTargets?: Array<{ side: 'player' | 'enemy'; idx: number; pos: { x: number; y: number } }>
   /** W4 iBlow:每帧 blow 取值 rng(仅 iBlow!=0 用);缺 → 不吹飞。 */
   rng?: { rangeInclusive: (a: number, b: number) => number }
+  /**
+   * L17 战场基础屏波(battle.c:1563 `wScreenWave = lprgBattleField[].wScreenWave`)。keepEffect 的
+   * `wScreenWave<9` 判定值 = 此基础 + magic.wWave(fight.c:2666-2667)。缺/0 = 陆战(58 战场仅 field 32=128)。
+   * 注:仅用于 keepEffect 决策;战场基础屏波的逐帧视觉扭曲是另一独立缺失,本条不实现。
+   */
+  baseScreenWave?: number
 }
 
 /**
@@ -783,7 +789,7 @@ export interface BuildOffMagicInput {
  */
 export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAnimFrame[] {
   // targetIdx 透传供调用方语义对齐;落点由 magic.type + targetEnemyPos 决定,本体不直接读 targetIdx。
-  const { casterIdx, magic, n, targetEnemyPos, iBlow, blowTargets, rng } = input
+  const { casterIdx, magic, n, targetEnemyPos, iBlow, blowTargets, rng, baseScreenWave } = input
   const { effect, type, speed, fireDelay, effectTimes, shake, scriptShake, xOffset, yOffset, wave, keepEffect, sound } = magic
   // W4 iBlow:吹飞累加态(per target 运行 x/y),仅 iBlow!=0 + 有 targets + rng 时启用。
   const blowOn = !!iBlow && iBlow !== 0 && !!blowTargets && blowTargets.length > 0 && !!rng
@@ -879,8 +885,9 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
     if (effectiveShake) frame.shake = effectiveShake
     // W4 屏波:动画期间 wScreenWave += magic.wave(陆战 base 0 → 帧值 = wave),present applyScreenWave。fight.c:2667。
     if (wave && wave > 0) frame.screenWave = wave
-    // W4 keepEffect:末帧 + wKeepEffect==0xFFFF + wScreenWave(=wave 陆战)<9 → 烙背景(fight.c:2757-2762)。
-    if (i === l - 1 && keepEffect === 0xffff && (wave ?? 0) < 9) frame.keepEffect = true
+    // W4 keepEffect:末帧 + wKeepEffect==0xFFFF + wScreenWave<9 → 烙背景(fight.c:2757-2762)。
+    //   L17:wScreenWave = 战场基础屏波(battle.c:1563)+ magic.wWave(fight.c:2666-2667),非只 wWave。
+    if (i === l - 1 && keepEffect === 0xffff && (baseScreenWave ?? 0) + (wave ?? 0) < 9) frame.keepEffect = true
     // M6 法术效果音(user 2026-06-05 选 WIN95 式):在 OffMagic **起手帧 i==0** 播一次 magic.wSound
     //   (sdlpal WIN95 fight.c:2669-2672 `if (fIsWIN95 && !fSummon && wSound) AUDIO_PlaySound` 在帧循环前)。
     //   CLASSIC 真值本是 `(i-fireDelay)%n==0` 命中帧才播(fight.c:2713,!fIsWIN95)→ user 反馈万剑诀声音比剑
@@ -1045,6 +1052,8 @@ export interface BuildCoopMagicInput {
   /** 单体目标 enemy 落点(normal 用)。 */
   targetEnemyPos?: { x: number; y: number }
   iBlow?: number
+  /** L17 战场基础屏波(battle.c:1563);透传给内部 OffMagic 的 keepEffect<9 判定。缺/0 = 陆战。 */
+  baseScreenWave?: number
   /** PostMagic 抖动的受伤敌(idx + idle 底锚)。 */
   hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }>
   /** 挂在 PostMagic 第一帧的伤害数字(PAL_BattleDisplayStatChange → PAL_BattleShowPostMagicAnim)。 */
@@ -1067,7 +1076,7 @@ export interface BuildCoopMagicInput {
  *    判定+发起者跳过之后自增)—— 与 Phase1 的 t 语义不同(sdlpal 原样,非对称,如实复刻)。
  */
 export function buildCoopMagicTimeline(input: BuildCoopMagicInput): BattleAnimFrame[] {
-  const { casterIdx, partySize, contributorIdxs, originalPositions, magic, n, targetIdx, targetEnemyPos, iBlow, hurtEnemies, damageNums } = input
+  const { casterIdx, partySize, contributorIdxs, originalPositions, magic, n, targetIdx, targetEnemyPos, iBlow, hurtEnemies, damageNums, baseScreenWave } = input
   const isContrib = (j: number): boolean => contributorIdxs.includes(j)
   const frames: BattleAnimFrame[] = []
   const lerp = (orig: number, coop: number, num: number): number => Math.trunc((orig * (6 - num) + coop * num) / 6)
@@ -1102,7 +1111,7 @@ export function buildCoopMagicTimeline(input: BuildCoopMagicInput): BattleAnimFr
   frames.push({ durationMs: delayMs(3), fighters: [{ side: 'player', idx: casterIdx, currentFrame: 6, iColorShift: 0 }] })
 
   // —— Phase5 OffMagic(fight.c:3951,casterIdx=-1)——
-  frames.push(...buildPlayerOffMagicTimeline({ casterIdx: -1, magic, n, targetIdx, targetEnemyPos, iBlow }))
+  frames.push(...buildPlayerOffMagicTimeline({ casterIdx: -1, magic, n, targetIdx, targetEnemyPos, iBlow, baseScreenWave }))
 
   // —— Phase6 PostMagic(fight.c:4046)。数字在 PostMagic 第一帧显示,不是滑回结束后。——
   const postFrames = buildPostMagicTimeline({ hurtEnemies })
@@ -1358,6 +1367,11 @@ export interface BuildEnemyMagicInput {
   blowTargets?: Array<{ side: 'player' | 'enemy'; idx: number; pos: { x: number; y: number } }>
   /** W4 iBlow:每帧 blow 取值 rng(仅 iBlow!=0 用);缺 → 不吹飞。 */
   rng?: { rangeInclusive: (a: number, b: number) => number }
+  /**
+   * L17 战场基础屏波(battle.c:1563)。keepEffect 的 `wScreenWave<9` 判定值 = 此基础 + magic.wWave
+   * (fight.c:2895/2983)。缺/0 = 陆战(58 战场仅 field 32=128)。仅用于 keepEffect 决策,不实现屏波视觉。
+   */
+  baseScreenWave?: number
 }
 
 export interface BuildEnemyMagicIntroInput {
@@ -1500,7 +1514,7 @@ export function buildEnemyTransformTimeline(enemyIdx: number): BattleAnimFrame[]
  */
 export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnimFrame[] {
   // targetPlayerIdx 透传供调用方语义对齐;落点由 magic.type + targetPlayerPos 决定,本体不直接读 idx。
-  const { enemyCasterIdx, magic, n, enemy, targetPlayerPos, iBlow, blowTargets, rng } = input
+  const { enemyCasterIdx, magic, n, enemy, targetPlayerPos, iBlow, blowTargets, rng, baseScreenWave } = input
   const { effect, type, speed, fireDelay, effectTimes, shake, scriptShake, xOffset, yOffset, wave, keepEffect } = magic
   const { idleFrames, magicFrames, attackFrames } = enemy
   // W4 iBlow:吹飞累加态(per target 运行 x/y),仅 iBlow!=0 + 有 targets + rng 时启用。镜像 OffMagic,吹**全体队员**。
@@ -1596,7 +1610,8 @@ export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnim
     const effectiveShake = shakeOverlay ?? timedScriptShake(i, scriptShake)
     if (effectiveShake) frame.shake = effectiveShake
     if (wave && wave > 0) frame.screenWave = wave // W4 屏波(fight.c:2895)
-    if (i === l - 1 && keepEffect === 0xffff && (wave ?? 0) < 9) frame.keepEffect = true // W4 烙背景(fight.c:2983)
+    // L17:keepEffect 的 wScreenWave<9 判定 = 战场基础屏波 + magic.wWave(fight.c:2895/2983,battle.c:1563)。
+    if (i === l - 1 && keepEffect === 0xffff && (baseScreenWave ?? 0) + (wave ?? 0) < 9) frame.keepEffect = true // W4 烙背景(fight.c:2983)
     frames.push(frame)
   }
 

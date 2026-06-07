@@ -769,6 +769,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       wave?: number
       keepEffect?: number
       sound?: number
+      baseScreenWave?: number
     } = {},
   ) {
     return buildPlayerOffMagicTimeline({
@@ -789,6 +790,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       n: opts.n ?? 8,
       targetIdx: 1,
       targetEnemyPos: { x: 160, y: 80 },
+      baseScreenWave: opts.baseScreenWave,
     })
   }
 
@@ -835,6 +837,20 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
     expect(buildNormal({ keepEffect: 0xffff, wave: 9 }).every((f) => f.keepEffect === undefined)).toBe(true) // wave>=9 不烙
     expect(buildNormal({ keepEffect: 0 }).every((f) => f.keepEffect === undefined)).toBe(true) // 非 0xFFFF 不烙
     expect(buildNormal().every((f) => f.keepEffect === undefined)).toBe(true) // 缺省不烙
+  })
+
+  // L17:<9 判定的 wScreenWave = 战场基础屏波(battle.c:1563)+ magic.wWave(fight.c:2666-2667),
+  //   而非只看 magic.wWave。11 个 keepEffect 法术 wWave 全=0;唯一 base>=9 的战场是 field 32(screenWave=128)。
+  it('L17:keepEffect <9 判定叠加战场基础屏波 baseScreenWave + wWave(fight.c:2757,battle.c:1563)', () => {
+    // base=0(陆战)→ (0+0)<9 → 末帧烙背景
+    const burn = buildNormal({ keepEffect: 0xffff, baseScreenWave: 0 })
+    expect(burn[burn.length - 1]!.keepEffect).toBe(true)
+    // base=128(field 32)→ (128+0)>=9 → 不烙(原 TS 只看 wave=0 恒烙,与 C 相反)
+    expect(buildNormal({ keepEffect: 0xffff, baseScreenWave: 128 }).every((f) => f.keepEffect === undefined)).toBe(true)
+    // 跨 9 边界:base=5 + wWave=5 = 10 >=9 → 不烙;base=5 + wWave=3 = 8 <9 → 烙
+    expect(buildNormal({ keepEffect: 0xffff, baseScreenWave: 5, wave: 5 }).every((f) => f.keepEffect === undefined)).toBe(true)
+    const edge = buildNormal({ keepEffect: 0xffff, baseScreenWave: 5, wave: 3 })
+    expect(edge[edge.length - 1]!.keepEffect).toBe(true)
   })
 
   it('W4 iBlow:iBlow!=0 → 全体活敌逐帧累加 (blow, trunc(blow/2)),末帧复位 posOriginal(fight.c:2681-2694)', () => {

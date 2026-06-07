@@ -513,6 +513,7 @@ function buildAndStartMagicAnim(
     n,
     targetIdx: offTargetIdx,
     targetEnemyPos: offTargetPos,
+    baseScreenWave: input.state.field.screenWave, // L17:战场基础屏波 + magic.wWave 决定 keepEffect<9(battle.c:1563)
     iBlow: input.state.iBlow,
     // W4 iBlow:吹飞全体活敌(wObjectID!=0,fight.c:2685);仅 iBlow!=0 时 builder 真摇 rng。posOriginal 底锚。
     blowTargets: input.state.iBlow
@@ -835,6 +836,7 @@ function buildAndStartEnemyMagicAnim(
     },
     targetPlayerIdx,
     targetPlayerPos,
+    baseScreenWave: input.state.field.screenWave, // L17:战场基础屏波 + magic.wWave 决定 keepEffect<9(battle.c:1563)
     iBlow: input.state.iBlow,
     // W4 iBlow 镜像:敌方魔法吹**全体队员**(fight.c:2903 k<=wMaxPartyMemberIndex,无活人 filter);posOriginal 底锚。
     blowTargets: input.state.iBlow

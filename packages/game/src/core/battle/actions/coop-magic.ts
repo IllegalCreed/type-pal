@@ -218,6 +218,7 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
       targetIdx: offTargetIdx,
       targetEnemyPos: offTargetPos,
       iBlow: state.iBlow,
+      baseScreenWave: state.field.screenWave, // L17:战场基础屏波 + magic.wWave 决定 keepEffect<9(battle.c:1563)
       hurtEnemies,
       damageNums: pendingNums,
     })
@@ -287,6 +288,7 @@ function buildAndStartCoopSummonAnim(input: {
         n,
         targetIdx: -1,
         iBlow: state.iBlow,
+        baseScreenWave: state.field.screenWave, // L17:战场基础屏波 + wWave 决定 keepEffect<9(battle.c:1563)
       })
     }
   }

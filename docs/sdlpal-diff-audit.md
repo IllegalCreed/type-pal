@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 46 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L8 L9 L10 L11 L13 L15 L16 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L41 L42 L43 L44 L45 L47 共 30 条 low。
+- **✅ 已修复 47 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L8 L9 L10 L11 L13 L15 L16 L17 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L41 L42 L43 L44 L45 L47 共 31 条 low。
 - **⏸ 暂缓 3 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L12 L17–L20 L22 L25 L29 L30 L34 L38 L40 L46),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L12 L18–L20 L22 L25 L29 L30 L34 L38 L40 L46),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -118,7 +118,7 @@
 | ⏸ L14 | 🟡 | timing | 战斗·动画与表现时序 | 玩家攻击魔法 OffMagic 缺少特效循环前的 Delay(1) 起手帧 |
 | ✅ L15 | 🟡 | pixel | 战斗·动画与表现时序 | 战斗投掷/使用物品演出期间不显示物品名称标签 |
 | ✅ L16 | 🟡 | timing | 战斗·动画与表现时序 | 敌方魔法命中前,被动格挡的队员未切到防御姿(frame 3) |
-| L17 | 🟡 | correctness | 战斗·动画与表现时序 | keepEffect 烙背景的 wScreenWave<9 判定只用 magic.wWave,漏算战场基础屏波 |
+| ✅ L17 | 🟡 | correctness | 战斗·动画与表现时序 | keepEffect 烙背景的 wScreenWave<9 判定只用 magic.wWave,漏算战场基础屏波 |
 | L18 | 🟡 | correctness | 战斗·召唤合击与变身 | 群攻/召唤/合击伤害对每个敌人共用同一随机系数，C 对每个敌人各掷一次 RandomFloat |
 | L19 | 🟡 | timing | 战斗·召唤合击与变身 | 梦蛇变身切换到新精灵时直接硬切，缺少原版的淡入淡出过场 |
 | L20 | 🟡 | correctness | 战斗·法术伤害与治疗 | AoE 法术伤害对所有目标共用同一个随机扰动因子,C 是每目标独立 RandomFloat |
@@ -1109,7 +1109,7 @@ TS 现状:
 </details>
 
 
-### L17 · 🟡 keepEffect 烙背景的 wScreenWave<9 判定只用 magic.wWave,漏算战场基础屏波
+### ✅ L17 · 🟡 keepEffect 烙背景的 wScreenWave<9 判定只用 magic.wWave,漏算战场基础屏波
 
 - **子系统**:战斗·动画与表现时序　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/battle/anim-timeline.ts:876 (`(wave ?? 0) < 9`) 与 1522 (敌方同款)`
