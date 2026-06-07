@@ -274,7 +274,7 @@ export interface BattleAnimFrame {
    * 本帧战斗单行文字(sdlpal `PAL_BattleDelay(..., wObjectID)` 类文本)。
    * 进入该帧时由 driver emit `showBattleMessage`，用于逃跑失败等非 dialog-box 文本。
    */
-  battleMessage?: { text: string; durationMs: number }
+  battleMessage?: { text: string; durationMs: number; pos?: { x: number; y: number } }
   /** 本帧屏幕抖动(screenShake;本切片只存值)。 */
   shake?: { time: number; level: number }
   /**

@@ -104,18 +104,22 @@ export function buildStealTimeline(playerIdx: number, targetEnemyIdx: number, en
  * 之后由 caller 接 OffMagic 特效(0x42 PAL_BattleSimulateMagic → ShowPlayerOffMagicAnim,fight.c:5340)。
  * startPos = 投掷队员 posOriginal(站立锚);magicSound=0 → frame5 不带 sound。
  */
-export function buildThrowWindupTimeline(playerIdx: number, startPos: { x: number, y: number }, magicSound: number): BattleAnimFrame[] {
+export function buildThrowWindupTimeline(playerIdx: number, startPos: { x: number, y: number }, magicSound: number, itemName?: string): BattleAnimFrame[] {
   const frames: BattleAnimFrame[] = []
   let x = startPos.x
   let y = startPos.y
-  // —— 4 步前移(fight.c:4339-4346)——
+  // —— 4 步前移(fight.c:4339-4346,PAL_BattleDelay(1,0) 不显名)——
   for (let i = 0; i < 4; i++) {
     x -= 4 - i
     y -= Math.trunc((4 - i) / 2)
     frames.push({ durationMs: delayMs(1), fighters: [{ side: 'player', idx: playerIdx, pos: { x, y } }] })
   }
-  // —— Delay(2) hold(fight.c:4348)——
-  frames.push({ durationMs: delayMs(2) })
+  // —— Delay(2) hold(fight.c:4348 PAL_BattleDelay(2,wObject) 起在 (210,50) 显示所投物品名,
+  //    L15:贯穿挥臂 hold(2)+frame5(8)+frame6(2)=12 帧)——
+  frames.push({
+    durationMs: delayMs(2),
+    ...(itemName ? { battleMessage: { text: itemName, durationMs: delayMs(12), pos: { x: 210, y: 50 } } } : {}),
+  })
   // —— frame5(投掷姿)+ magicSound,Delay(8)(fight.c:4350-4353)——
   frames.push({
     durationMs: delayMs(8),
@@ -141,9 +145,10 @@ export function buildUseItemTimeline(input: {
   casterPos: { x: number; y: number }
   targetIdx: number | 'all'
   playerCount: number
+  itemName?: string // L15:演出期间在 (210,50) 显示所用物品名(fight.c:2316/2333)
 }): BattleAnimFrame[] {
   const frames: BattleAnimFrame[] = []
-  const { casterIdx, casterPos, targetIdx, playerCount } = input
+  const { casterIdx, casterPos, targetIdx, playerCount, itemName } = input
   const shiftedCasterPos = { x: casterPos.x - 15, y: casterPos.y - 7 }
 
   frames.push({ durationMs: delayMs(4) })
@@ -173,6 +178,8 @@ export function buildUseItemTimeline(input: {
       durationMs: delayMs(1),
       fighters,
       ...(i === 0 ? { sound: 28 } : {}),
+      // L15:i==0 起在 (210,50) 显示物品名,贯穿两个 colorShift 循环 7+6=13 帧(fight.c:2316/2333)
+      ...(i === 0 && itemName ? { battleMessage: { text: itemName, durationMs: delayMs(13), pos: { x: 210, y: 50 } } } : {}),
     })
   }
 

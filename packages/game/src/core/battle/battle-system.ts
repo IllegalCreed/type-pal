@@ -2443,6 +2443,7 @@ function performBattleAction(
               casterPos: caster.posOriginal,
               targetIdx,
               playerCount: state.players.length,
+              itemName: res.items.find((it) => it.id === action.actionId)?._name, // L15:演出显示物品名
             }),
             bus,
             undefined,

@@ -88,7 +88,7 @@ export function performThrowItem(input: PerformThrowItemInput): void {
   const caster = input.state.players[input.casterIdx]
   const hasAnim = !input.casterIsEnemy && !!caster?.posOriginal
   const magicSound = caster ? (input.playerRoles.roles[caster.roleId]?.magicSound ?? 0) : 0
-  const windup = hasAnim ? buildThrowWindupTimeline(input.casterIdx, caster!.posOriginal!, magicSound) : []
+  const windup = hasAnim ? buildThrowWindupTimeline(input.casterIdx, caster!.posOriginal!, magicSound, item._name) : []
   const pendingAnimFrames: BattleAnimFrame[] = []
   const pendingDamageNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
 

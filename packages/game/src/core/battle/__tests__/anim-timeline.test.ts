@@ -15,6 +15,7 @@ import {
   buildEnemyTransformTimeline,
   buildFleeFailTimeline,
   buildThrowWindupTimeline,
+  buildUseItemTimeline,
   buildEnemyMagicCastIntro,
   buildEnemyConfusedAttackTimeline,
   buildEnemyMagicTimeline,
@@ -83,6 +84,28 @@ describe('buildThrowWindupTimeline (投掷挥臂,fight.c:4339-4356)', () => {
   it('magicSound=0 → frame5 不带 sound', () => {
     const f = buildThrowWindupTimeline(0, { x: 240, y: 170 }, 0)
     expect(f[5]!.sound).toBeUndefined()
+  })
+
+  it('L15:传 itemName → hold 帧 (210,50) 显示物品名,贯穿 12 帧(fight.c:4348)', () => {
+    const f = buildThrowWindupTimeline(0, { x: 240, y: 170 }, 170, '天师符')
+    expect(f[4]!.battleMessage).toEqual({ text: '天师符', durationMs: 12 * D, pos: { x: 210, y: 50 } })
+  })
+
+  it('L15:不传 itemName → hold 帧无 battleMessage(向后兼容)', () => {
+    expect(frames[4]!.battleMessage).toBeUndefined()
+  })
+})
+
+describe('buildUseItemTimeline L15 物品名 (fight.c:2266-2335)', () => {
+  it('L15:传 itemName → colorShift i==0 帧 (210,50) 显示物品名,贯穿 13 帧(fight.c:2316/2333)', () => {
+    const f = buildUseItemTimeline({ casterIdx: 0, casterPos: { x: 240, y: 170 }, targetIdx: 1, playerCount: 2, itemName: '金创药' })
+    const msgFrame = f.find((fr) => fr.battleMessage)
+    expect(msgFrame?.battleMessage).toEqual({ text: '金创药', durationMs: 13 * D, pos: { x: 210, y: 50 } })
+  })
+
+  it('L15:不传 itemName → 无 battleMessage(向后兼容)', () => {
+    const f = buildUseItemTimeline({ casterIdx: 0, casterPos: { x: 240, y: 170 }, targetIdx: 1, playerCount: 2 })
+    expect(f.some((fr) => fr.battleMessage)).toBe(false)
   })
 })
 

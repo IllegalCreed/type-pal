@@ -103,7 +103,7 @@ export interface BattleAssets {
 export class BattlePresent {
   private readonly floatingNums = new FloatingNumsLayer()
   /** 战斗单行消息条(逃跑失败等);currentFrame >= expiryFrame 时消失。 */
-  private battleMsg: { text: string, expiryFrame: number } | undefined
+  private battleMsg: { text: string, expiryFrame: number, pos?: { x: number, y: number } } | undefined
   /** 召唤 crossfade(PAL_BattleFadeScene)用:上一帧渲染快照(fade 起手 = 对侧"from"场景)。 */
   private lastFrameBuf: Uint8Array | undefined
 
@@ -165,7 +165,7 @@ export class BattlePresent {
       else if (cmd.op === 'showBattleMessage') {
         // 战斗单行消息条(逃跑失败等);显示 durationMs(缺省 800ms,battle tick 40ms/帧)。
         const frames = Math.ceil((cmd.durationMs ?? 800) / 40)
-        this.battleMsg = { text: cmd.text, expiryFrame: currentFrame + frames }
+        this.battleMsg = { text: cmd.text, expiryFrame: currentFrame + frames, pos: cmd.pos }
       }
       // 其他 op(playEnemyAttack / playMagicAnim / flashEnemy / playEnemyDeath / showBattleUI
       // / showDialogBox / clearDialogBox 等)M3 简版跳过
@@ -256,11 +256,11 @@ export class BattlePresent {
       assets.uiSpriteFrames, assets.enemyPos, assets.objectPoisons, assets.itemIcons,
     )
 
-    // 5.5 战斗单行消息条(逃跑失败等)—— sdlpal 逃跑失败 label 31 @(130,75) 色15。
-    //   currentFrame 过期自动消失。
+    // 5.5 战斗单行消息条 —— sdlpal 逃跑失败 label 31 @(130,75)、投掷/用物品名 @(210,50),均色15。
+    //   pos 缺省回落逃跑失败位(130,75);currentFrame 过期自动消失。
     if (this.battleMsg) {
       if (currentFrame < this.battleMsg.expiryFrame && assets.glyphs)
-        renderText(fb, this.battleMsg.text, 130, 75, 15, assets.glyphs, true)
+        renderText(fb, this.battleMsg.text, this.battleMsg.pos?.x ?? 130, this.battleMsg.pos?.y ?? 75, 15, assets.glyphs, true)
       else if (currentFrame >= this.battleMsg.expiryFrame)
         this.battleMsg = undefined
     }

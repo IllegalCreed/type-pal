@@ -86,6 +86,7 @@ export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: 
       op: 'showBattleMessage',
       text: frame.battleMessage.text,
       durationMs: frame.battleMessage.durationMs,
+      ...(frame.battleMessage.pos ? { pos: frame.battleMessage.pos } : {}),
     })
   }
 }

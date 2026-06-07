@@ -14,7 +14,7 @@ export type PresentCommand =
    * 战斗单行消息条(sdlpal 逃跑失败 label 31 等)。present 在固定位置显示 text 一段时间
    * (durationMs 缺省 ~800ms)。CLASSIC 偷取真值走对话;逃跑失败走 PAL_BattleDelay wObjectID-label。
    */
-  | { op: 'showBattleMessage'; text: string; durationMs?: number }
+  | { op: 'showBattleMessage'; text: string; durationMs?: number; pos?: { x: number; y: number } }
   /**
    * 战斗数字弹幕(HP/MP 变化)。逻辑 target(present 层解析屏幕坐标,杜绝漂移)。
    *
