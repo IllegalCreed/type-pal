@@ -271,7 +271,7 @@ export function drawBattleUI(
           drawMiscMenu(fb, state, glyphs, uiSpriteFrames)
           break
         case 'miscItemSubMenu':
-          drawMiscMenu(fb, state, glyphs, uiSpriteFrames)
+          drawMiscMenu(fb, state, glyphs, uiSpriteFrames, true) // L9:二级子层 → 父项『道具』已确认绿
           drawMiscItemSubMenu(fb, state, glyphs, uiSpriteFrames)
           break
       }
@@ -470,6 +470,7 @@ function drawMiscMenu(
   state: BattleState,
   glyphs: GlyphTable | undefined,
   uiSpriteFrames: IndexedImage[] | undefined,
+  confirmed = false, // L9:进物品二级子层时父菜单当前项用已确认绿 0x2C(uibattle.c:402-405),非闪烁选中色
 ): void {
   if (hasBoxFrames(uiSpriteFrames, 0)) {
     drawBox({
@@ -478,7 +479,8 @@ function drawMiscMenu(
     })
   }
   for (let i = 0; i < MISC_LABELS.length; i++) {
-    const color = i === state.miscMenuCursor ? selectedColor() : MENUITEM_COLOR
+    // L9:fConfirmed(进二级子层)→ 当前项用 MENUITEM_COLOR_CONFIRMED=0x2C 固定绿,非闪烁选中色(uibattle.c:402-405)。
+    const color = i === state.miscMenuCursor ? (confirmed ? 0x2C : selectedColor()) : MENUITEM_COLOR
     renderText(fb, MISC_LABELS[i]!, MISC_ITEM_X, MISC_ITEM_Y0 + i * MISC_ITEM_DY, color, glyphs, true)
   }
 }

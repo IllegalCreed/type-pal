@@ -123,9 +123,13 @@ function drawHiddenExpUpScreen(
   const w2 = Math.max(wordWidthCols(statLabel), 2)
   const w3 = Math.max(wordWidthCols(upLabel), 2)
   drawSingleLineBox({ fb, x: 78, y: 60, len: w1 + w2 + w3 + 2, uiSpriteFrames: ui })
+  // L24:C 把 名字+属性+提升 拼单条字符串连续绘制(battle.c:1266-1269),字符紧贴;文字 x 用**实际**宽度
+  //   (非框长用的钳后 w1),否则 2 字名(阿奴/巫后)属性标签右移 16px、名字后多一个全宽间隙。框长仍用钳后值。
+  const nameW = wordWidthCols(data.name)
+  const propW = wordWidthCols(statLabel)
   renderText(fb, data.name, 90, 70, 0, glyphs, false)
-  renderText(fb, statLabel, 90 + 16 * w1, 70, 0, glyphs, false)
-  renderText(fb, upLabel, 90 + 16 * (w1 + w2), 70, 0, glyphs, false)
+  renderText(fb, statLabel, 90 + 16 * nameW, 70, 0, glyphs, false)
+  renderText(fb, upLabel, 90 + 16 * (nameW + propW), 70, 0, glyphs, false)
   drawNumber(fb, data.delta, 5, { x: hiddenExpUpNumberX(maxNameWidth, maxPropertyWidth), y: 74 }, 'yellow', 'right', ui)
 }
 
