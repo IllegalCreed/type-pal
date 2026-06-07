@@ -49,21 +49,24 @@
 
 ## L级修复审查(已标 ✅)
 
-> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 27 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:27 条已完整收口,未发现新的遗漏。
+> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 34 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:34 条已完整收口,未发现新的遗漏。
 
 | ID | 审查结论 | 代码审查要点 |
 |---|---|---|
 | L1 | ✅ 通过 | `shouldRenderAsTitle(text,lineCount,style)` 已排除 `center`,且首行/续行/center 用例覆盖;居中冒号对白不再被抽成 title。 |
 | L2 | ✅ 通过 | `DialogBoxState.userSkip` 已复刻 `fUserSkip` 段内持续;typing 中确认后续行瞬显,并在翻页、`~` 段末复位。 |
+| L3 | ✅ 通过 | 渲染排序与 cover 判定已把 `gs.wLayer` 加到角色/跟随者 worldY 基准,实际 blit 仍保留 `screenY+4`;换场景分支已清 `wLayer=0`。 |
 | L4 | ✅ 通过 | `walkFrameMod` 被脚本走位、逐步动画、追击路径共同消费,覆盖 `nSpriteFrames` 为 0、1、2、3、4 与旧 fixture undefined。 |
 | L6 | ✅ 通过 | `loadGameFromSlot` 在读档后强制 `gs.iCurInvMenuItem=0`,测试覆盖脏光标读档归零;新游戏重建路径也保持初值 0。 |
 | L7 | ✅ 通过 | `loadGameFromSlot` 在读档后强制 `gs.sWaveProgression=0`,避免 structuredClone 存档带回屏波增量。 |
+| L8 | ✅ 通过 | 战斗与大世界法术菜单均按 WIN95 路径只画左侧 MP 框 + 法术说明,不再叠加金钱框/右侧 MP 框;两处均有像素层测试。 |
 | L9 | ✅ 通过 | `drawMiscMenu(..., confirmed=true)` 在物品二级菜单中把父项『道具』画成固定 0x2C,不再用闪烁选中色。 |
 | L10 | ✅ 通过 | 行动队列 flee dex 已改 `Math.floor(dex * 0.5)`,对齐 C 的 WORD `/=2`;濒死二次减半仍保留 floor。 |
 | L11 | ✅ 通过 | 敌主动逃跑动画增加 `ENEMY_FLYOUT_HOLD_TICKS=13` 出屏停顿,约等于 `UTIL_Delay(500)` 后才进入 fleed。 |
 | L13 | ✅ 通过 | 群攻每个 sweep 后补 `4 * BATTLE_FRAME_TIME` 收势延迟;单体攻击路径未被误加尾延。 |
 | L15 | ✅ 通过 | 投掷和战斗用物品时间线都接入 `itemName`,在 (210,50) 生成 `battleMessage`,并由 caller 传入真实物品名。 |
 | L16 | ✅ 通过 | 敌方法术伤害结果外传 `autoDefend`,动画链在特效前给对应队员注入 frame 3,受击 frame 4 仍能覆盖。 |
+| L17 | ✅ 通过 | `keepEffect` 末帧判定已改用 `baseScreenWave + magic.wave < 9`;普通法术、敌方法术、合击、0x92、普通召唤 secondary 入口均传战场基础屏波与 `wave/keepEffect`。 |
 | L23 | ✅ 通过 | `startBattle` 在 `createBattleState` 前把队伍中 HP=0 的角色复活为 1,同步 runtime HP 并清 Puppet 状态。 |
 | L24 | ✅ 通过 | hidden-exp-up 框长仍用钳后宽度,但文字段按实际姓名/属性宽度连续定位,2 字名不再多出 16px 空档。 |
 | L26 | ✅ 通过 | 0x6A 偷钱分支只在 `c>0` 时入 `battleDialogQueue`,剩 1 文整除得 0 不再弹「获得 0 文钱」。 |
@@ -76,9 +79,13 @@
 | L36 | ✅ 通过 | `createMagicSelectMenu` 对已学 spell ObjectID 升序排序,与战斗法术菜单同源对齐 `magicmenu.c`。 |
 | L37 | ✅ 通过 | 选施法人框只按 `hp<=0` 禁用,不再因没有大世界法术而灰掉活人;选中后进入空/全灰 spell 列表。 |
 | L39 | ✅ 通过 | `filter='usable'` 时追加全队装备槽中本身 usable 的已装备物,且 `count=0,inUse=-1` 保证可确认。 |
+| L40 | ✅ 通过 | 用物品目标框已用模块级 `sSelectedItemTargetSlot` 模拟 C static,确认/取消目标框时回写,重建目标框时越界归 0。 |
 | L41 | ✅ 通过 | 单人队伍创建大世界仙术菜单时直接进入 `pick-spell` 并预建 spellMenu,跳过 1 项施法人框。 |
+| L42 | ✅ 通过 | DOS splash 退出前调用 600ms palette `fadeOut`,最终 flush 全黑帧,避免满亮 splash 硬切 OpeningMenu。 |
 | L43 | ✅ 通过 | Trademark fallback 默认淡出已改为 600ms,对齐 `PAL_FadeOut(1)`;1s 前置延时仍保留。 |
+| L44 | ✅ 通过 | skip 分支先把标题可见高度强制补到完整高度并重绘 framebuffer,后续快进渐变/淡出只刷 palette 也不会冻在半高标题。 |
 | L45 | ✅ 通过 | 结局女孩 walk frame 已改用 `Math.floor(performance.now()/50)%frameCount`,掉帧时按墙钟推进而非循环计数。 |
+| L46 | ✅ 通过 | `createSfxDedup` 已接入 `playSfx`,同号未结束时抑制重叠,播放结束/加载失败/ctx 未运行会复位;helper 语义测试已覆盖。 |
 | L47 | ✅ 通过 | AudioManager 保存 `curMusicLoop`,音乐开关重开和注入后端时按真实 loop 补播,不再硬编码循环。 |
 
 ## 速查索引

@@ -299,6 +299,39 @@ describe('performMagic E1: inline 攻击法术伤害(player→enemy)', () => {
     expect(state.enemies[0]!.e.health).toBeLessThan(9000)
   })
 
+  it('L17:普通召唤 secondary OffMagic 透传 keepEffect/wave/baseScreenWave', () => {
+    const { state, playerRoles, bus } = makeState({ hp: 500, mp: 30, magicStrength: 60 }, [{ health: 9000, defense: 0, level: 5 }])
+    state.field.screenWave = 128
+    ;(state.players[0] as unknown as { posOriginal: { x: number, y: number } }).posOriginal = { x: 240, y: 170 }
+    performMagic({
+      state, casterIsEnemy: false, casterIdx: 0, spellId: 7, targetIsEnemy: true, targetIdx: 0,
+      spells: [makeSpell({ magicNumber: 19 })],
+      magics: [
+        makeMagic({ id: 19, type: 'summon', special: 2, effect: 18, baseDamage: 80, speed: 5, effectTimes: 3 }),
+        makeMagic({ id: 18, type: 'attackAll', effect: 18, baseDamage: 0, keepEffect: 0xffff, wave: 0 }),
+      ],
+      playerRoles, bus, commands, runScript: noopRunScript,
+      magicSpriteFrameCounts: new Map([[18, 6]]),
+      summonSpriteFrameCounts: new Map([[12, 4]]),
+    })
+    expect(state.battleAnim!.frames.some((f) => f.keepEffect)).toBe(false)
+
+    const { state: landState, playerRoles: landRoles, bus: landBus } = makeState({ hp: 500, mp: 30, magicStrength: 60 }, [{ health: 9000, defense: 0, level: 5 }])
+    ;(landState.players[0] as unknown as { posOriginal: { x: number, y: number } }).posOriginal = { x: 240, y: 170 }
+    performMagic({
+      state: landState, casterIsEnemy: false, casterIdx: 0, spellId: 7, targetIsEnemy: true, targetIdx: 0,
+      spells: [makeSpell({ magicNumber: 19 })],
+      magics: [
+        makeMagic({ id: 19, type: 'summon', special: 2, effect: 18, baseDamage: 80, speed: 5, effectTimes: 3 }),
+        makeMagic({ id: 18, type: 'attackAll', effect: 18, baseDamage: 0, keepEffect: 0xffff, wave: 0 }),
+      ],
+      playerRoles: landRoles, bus: landBus, commands, runScript: noopRunScript,
+      magicSpriteFrameCounts: new Map([[18, 6]]),
+      summonSpriteFrameCounts: new Map([[12, 4]]),
+    })
+    expect(landState.battleAnim!.frames.some((f) => f.keepEffect)).toBe(true)
+  })
+
   // 召唤自身 magic.sound(如天剑 304):WIN95 在召唤函数**起手**(PreMagic 之后、变亮之前)播一次
   //   (fight.c:3110-3115 "Sound should be played before magic begins")。此前 ts 在 dispatch **即时 push**
   //   gs.pendingSounds(PreMagic 之前)→ 召唤音比真值早整个 PreMagic(user 2026-06-05 报"天剑音效又提前了")。

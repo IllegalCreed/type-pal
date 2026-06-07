@@ -592,8 +592,11 @@ function buildAndStartSummonAnim(
           effect: secondary.effect, type: secondary.type as OffMagicType, speed: secondary.speed,
           fireDelay: secondary.fireDelay, effectTimes: secondary.effectTimes, shake: secondary.shake,
           xOffset: secondary.xOffset, yOffset: secondary.yOffset,
+          wave: secondary.wave,
+          keepEffect: secondary.keepEffect,
         },
         n: sn, targetIdx: -1, iBlow: input.state.iBlow,
+        baseScreenWave: input.state.field.screenWave, // L17:普通召唤 secondary 也需按战场基础屏波判定 keepEffect<9。
       })
     }
   }
