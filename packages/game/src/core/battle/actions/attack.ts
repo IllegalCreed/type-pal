@@ -22,7 +22,7 @@ import type { Command, Enemy, Item, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import { getPlayerPoisonResistance } from '../../equip-effect.js'
 import type { GameState } from '../../game-state.js'
-import { buildEnemyConfusedAttackTimeline, buildEnemyPhysicalTimeline, buildPlayerAttackTimeline } from '../anim-timeline.js'
+import { BATTLE_FRAME_TIME, buildEnemyConfusedAttackTimeline, buildEnemyPhysicalTimeline, buildPlayerAttackTimeline } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import { calcBaseDamage, calcPhysicalAttackDamage } from '../formulas.js'
@@ -205,6 +205,8 @@ export function performAttack(
           weaponSound, // 武器声挂 currentFrame=9 命中帧(fight.c:2124)
         })
         segments.push(...swing)
+        // L13:每 sweep 挥砍后 Delay(4) 收势停顿(fight.c:3747,仅群攻分支;单体无尾延)。
+        segments.push({ durationMs: 4 * BATTLE_FRAME_TIME })
       } else {
         // legacy(无 posOriginal):无时间线帧承载声音 → 保留同步 emit(出招声 + 武器声 playPlayerAttack)+ 即时数字
         if (voice && voice > 0) bus.emit({ op: 'playSound', soundId: voice })
