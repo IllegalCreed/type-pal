@@ -44,7 +44,7 @@ export interface PlayTrademarkFallbackOptions {
   /** RNG 播完后到 fadeOut 之间的 delay — sdlpal `UTIL_Delay(1000)` 真值,默认 1000ms。 */
   delayBeforeFadeMs?: number
 
-  /** fadeOut 时长 — sdlpal `PAL_FadeOut(1)` 真值约 1000ms,默认 1000ms。 */
+  /** L43:fadeOut 时长 — sdlpal `PAL_FadeOut(1)` = iDelay*10*60 = 600ms(palette.c:163),非 1000ms。 */
   fadeOutMs?: number
 }
 
@@ -105,5 +105,5 @@ export async function playTrademarkFallback(options: PlayTrademarkFallbackOption
   await sleep(options.delayBeforeFadeMs ?? 1000)
 
   // 3. 1s fadeOut(sdlpal PAL_FadeOut(1))
-  await fadeOut(options.fb, options.canvasCtx, options.palette, options.fadeOutMs ?? 1000, now)
+  await fadeOut(options.fb, options.canvasCtx, options.palette, options.fadeOutMs ?? 600, now) // L43:PAL_FadeOut(1)=600ms
 }
