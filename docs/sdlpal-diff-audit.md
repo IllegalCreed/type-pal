@@ -172,7 +172,7 @@
 - **C 依据**:`reference/sdlpal/script.c:834-865`
 - **玩家可感知**:是
 
-**差异**:sdlpal 0x1A 把整张 PlayerRoles 当扁平 WORD 数组写:`p[operand[0]*MAX_PLAYER_ROLES+role]=(SHORT)operand[1]`(script.c:862),**任何 row 都能写**——包括 row0=Avatar、row1=SpriteNumInBattle、row2=SpriteNum、row4=AttackAll、row64=WalkFrames、row65=CooperativeMagic。TS 只在 `g_iCurEquipPart!=-1`(装备脚本中)才走 writeEquipmentEffectField(全 row 覆盖);否则走 setPlayerStatRow 基路径,其 switch(equip-effect.ts:196-208)只有 Level/MaxHP/MaxMP/HP/MP/Atk/MagStr/Def/Dex/Flee/PoisonResist/CoveredBy 12 个 case,其余 row 落 default → `console.warn`+**no-op**。经 all.json 逐字节核实:有 4 段**非装备**剧情脚本用 0x1A 写这些 row(全部 hasEquip0x18=false):cmd@24099-24102(赵灵儿 role1 变镇狱明王:avatar=91/battleSprite=5/sprite=512/walkFrames=4)、@24774(role2 walkFrames=4)、@28467-28470(赵灵儿 sleep 形:avatar=11/battleSprite=1/sprite=3/walkFrames=3)、@31630-31632(role1:avatar=88/sprite=38/battleSprite=9)。这些写入在 TS 全部静默失败(部分 row 如 avatar/spriteNumInBattle/walkFrames 在 PlayerRolesRuntime 里根本无对应字段,更无从写)。注:装备脚本里的 0x1A(@39671+ 等)经 iCurEquipPart 路由到 writeEquipmentEffectField,行为正确,不受影响。
+**差异**:sdlpal 0x1A 把整张 PlayerRoles 当扁平 WORD 数组写:`p[operand[0]*MAX_PLAYER_ROLES+role]=(SHORT)operand[1]`(script.c:862),**任何 row 都能写**——包括 row0=Avatar、row1=SpriteNumInBattle、row2=SpriteNum、row4=AttackAll、row64=WalkFrames、row65=CooperativeMagic。TS 只在 `g_iCurEquipPart!=-1`(装备脚本中)才走 writeEquipmentEffectField(全 row 覆盖);否则走 setPlayerStatRow 基路径,其 switch(equip-effect.ts:196-208)只有 Level/MaxHP/MaxMP/HP/MP/Atk/MagStr/Def/Dex/Flee/PoisonResist/CoveredBy 12 个 case,其余 row 落 default → `console.warn`+**no-op**。经 all.json 逐字节核实:有 4 段**非装备**剧情脚本用 0x1A 写这些 row(全部 hasEquip0x18=false):cmd@24099-24102(赵灵儿 role1 变镇狱明王:avatar=91/battleSprite=5/sprite=512/walkFrames=4)、@24774(role2 walkFrames=4)、@28467-28470(赵灵儿 sleep 形:avatar=11/battleSprite=1/sprite=3/walkFrames=3)、@31630-31632(role1:avatar=88/sprite=38/battleSprite=9)。这些写入在 TS 全部静默失败(setPlayerStatRow 不路由这些 row;其中 avatar/spriteNumInBattle/walkFrames 在 PlayerRolesRuntime 连字段都没有,而 sprite(row2)/合体魔法(row65)虽有字段也因 switch 不含 case 而 no-op)。注:装备脚本里的 0x1A(@39671+ 等)经 iCurEquipPart 路由到 writeEquipmentEffectField,行为正确,不受影响。
 
 **玩家影响**:结局/关键剧情的角色变身演出造型不更新:赵灵儿变身镇狱明王(水魔兽)时大世界精灵(row2=512)、战斗精灵(row1=5)、头像(row0=91)、行走帧(row64=4)都不生效,玩家看到的仍是旧造型;赵灵儿入睡形、@31630 变身同样失效。原版这些是可见的造型切换。
 
@@ -385,10 +385,10 @@ TS performEnemyConfusedAttack(attack.ts:426-450):伤害公式与 C 一致(str/de
 
 - **子系统**:战斗·召唤合击与变身　**类别**:timing
 - **TS 位置**:`packages/game/src/core/battle/actions/coop-magic.ts:114-124 (emitImmediateCoopSounds) + :185-187 (非 summon 无条件调用) + :205-221 (建链时未把 sound 传入 buildCoopMagicTimeline)`
-- **C 依据**:`reference/sdlpal/fight.c:3875 (合击起手 AUDIO_PlaySound(29)) vs fight.c:2711-2713 (OffMagicAnim 内 CLASSIC `(i-fireDelay)%n==0` 才播 magic.wSound)`
+- **C 依据**:`reference/sdlpal/fight.c:3875 (合击起手 AUDIO_PlaySound(29)) vs fight.c:2669-2672 (WIN95 时序:OffMagicAnim 起手帧前播 magic.wSound,本项目采用;非 CLASSIC 的 2711)`
 - **玩家可感知**:是
 
-**差异**:TS：非 summon 合击始终先调用 emitImmediateCoopSounds()(coop-magic.ts:186),该函数同时 emit 固定音 29 和 magic.sound(:122-123);随后才建合击时间线(:205-222),但传给 buildCoopMagicTimeline 的 magic 对象不含 sound(:210-214→anim-timeline.ts:1028 也不传 sound),所以效果音没有帧同步。C：音 29 确实在聚拢动画前播(fight.c:3875,与 TS 一致,正确),但效果音 magic.wSound 是在 PAL_BattleShowPlayerOffMagicAnim 内、聚拢+蓄势+出招(约 6+3×N+5+3 帧)之后的特效循环里才播(fight.c:2711)。差异:TS 把效果音提前到派发瞬间,比原版早整段聚拢/蓄势动画(~17 帧 ≈ 0.7s+)。注意这是 5 个实际合击(386/381/355/339/374,sound 分别 129/117/274/126/168)全部命中的路径;而普通法术路径(magic.ts:506)和召唤合击路径(已测)都正确做了帧同步,唯独非召唤合击漏了。
+**差异**:TS：非 summon 合击始终先调用 emitImmediateCoopSounds()(coop-magic.ts:186),该函数同时 emit 固定音 29 和 magic.sound(:122-123);随后才建合击时间线(:205-222),但传给 buildCoopMagicTimeline 的 magic 对象不含 sound(:210-214→anim-timeline.ts:1028 也不传 sound),所以效果音没有帧同步。C：音 29 确实在聚拢动画前播(fight.c:3875,与 TS 一致,正确),但效果音 magic.wSound 是在 PAL_BattleShowPlayerOffMagicAnim 内、聚拢+蓄势+出招(约 6+3×N+5+3 帧)之后才播(本项目采 WIN95 时序,效果音在 OffMagicAnim 起手帧 fight.c:2669-2672;不是 CLASSIC 的 2711)。差异:TS 把效果音提前到派发瞬间,比原版早整段聚拢/蓄势动画(~17 帧 ≈ 0.7s+)。注意这是 5 个实际合击(386/381/355/339/374,sound 分别 129/117/274/126/168)全部命中的路径;而普通法术路径(magic.ts:506)和召唤合击路径(已测)都正确做了帧同步,唯独非召唤合击漏了。
 
 **玩家影响**:释放合击(合体气功/爆炸/天女散花/弦月斩/爆炸蛊)时,法术命中音在角色还在聚拢/蓄力阶段就响,声画不同步、明显比命中特效早大半秒。
 
@@ -628,7 +628,7 @@ text.c:1597,1600 逐字符延时守卫 `if (!isDialog && !g_TextLib.fUserSkip){ 
 
 **差异**:C 绘制主角精灵时 Y = `rgParty.y + gpGlobals->wLayer + 10`，绘制层 iLayer = `wLayer + 6`，均叠加 gpGlobals->wLayer（由 0x6E playerWalkOneStep 的 operand[2]*8 设置，用于上桥/上层时抬高精灵并改变与地图 tile 的前后遮挡）。TS 中 0x6E 正确写入 gs.wLayer，但 present.ts 把队伍 Y 偏移和 iLayer 硬编码为 10/6（代码注释 “runtime gs.wLayer 待补”），grep 确认 present 层任何精灵渲染都没有读取 gs.wLayer。因此 0x6E 设的层在画面上完全无效。次要地：C 在 0x59 loadScene 时把 wLayer 归 0（script.c:1883），TS loadScene 路径未做此重置（不过因为渲染本就不读 wLayer，这一条目前无可见后果）。
 
-**玩家影响**:主角通过 0x6E 走上桥/上层结构时，精灵不会按层抬高、也不会与桥面 tile 正确前后遮挡，表现为人物高度/层叠错误（应在桥上却被桥栏遮住或反之）。
+**玩家影响**:主角通过 0x6E 走上桥/上层结构时,与桥面/层结构的前后遮挡、z 排序异常(应在桥上却被桥栏遮住或反之)。注:精灵屏幕像素高度其实不变(wLayer 在 blit 相消),根因是 z-sort 排序键与 cover-tile 取样列漏算 wLayer,而非精灵被抬高。
 
 <details><summary>C 源证据 / 复核</summary>
 
@@ -670,9 +670,9 @@ C script.c:1883 在 0x59(0059) 换场景时置 `wLayer = 0`。TS loadScene(scene
 - **C 依据**:`reference/sdlpal/scene.c:893-902`
 - **玩家可感知**:是
 
-**差异**:C 的 PAL_NPCWalkOneStep 推进走路帧时:`if (nSpriteFrames>0){ wCurrentFrameNum++; wCurrentFrameNum %= (nSpriteFrames==3?4:nSpriteFrames);} else if (nSpriteFramesAuto>0){ ...%= nSpriteFramesAuto;}`(scene.c:893-902)—— 取模基数随 nSpriteFrames 变,且 nSpriteFrames==0(非方向性单姿势 sprite)时**根本不走这条**、wCurrentFrameNum 不前进。TS 在 monsterChasePlayer 收尾(event-system.ts:4916)与 npcWalkTo 收尾(:4663)都写死 `scriptedFrame = (scriptedFrame+1)%4`,与 nSpriteFrames 无关:对 nSpriteFrames≠3 的怪/NPC 帧序错;对 nSpriteFrames==0 的对象 C 不推帧而 TS 仍 0→1→2→3 循环(渲染层 present.ts:456-464 在 nSpriteFrames=0 时 idx=iFrame → 取到非预期帧)。常见明雷怪/巡逻 NPC 是 nSpriteFrames=3,%4 恰好对、且渲染层有 3 帧 0/1/2/3→0/1/0/2 重映射兜底,故主流情形无差。
+**差异**:C 的 PAL_NPCWalkOneStep 推进走路帧时:`if (nSpriteFrames>0){ wCurrentFrameNum++; wCurrentFrameNum %= (nSpriteFrames==3?4:nSpriteFrames);} else if (nSpriteFramesAuto>0){ ...%= nSpriteFramesAuto;}`(scene.c:893-902)—— 取模基数随 nSpriteFrames 变,且 nSpriteFrames==0(非方向性单姿势 sprite)时**根本不走这条**、wCurrentFrameNum 不前进。TS 在 monsterChasePlayer 收尾(event-system.ts:4916)与 npcWalkTo 收尾(:4663)都写死 `scriptedFrame = (scriptedFrame+1)%4`,与 nSpriteFrames 无关:对 nSpriteFrames∈{1,2} 的怪/NPC 帧序错(=4 时 %4 恰与 C 相等、无差);nSpriteFrames==0 时 C 不推帧而 TS 内部仍 0→1→2→3,但渲染层 `frames[idx] ?? frames[0]`(present.ts:465)在单帧数组下越界全回退 frames[0] → 像素与 C 相同、玩家不可感知。常见明雷怪/巡逻 NPC 是 nSpriteFrames=3,%4 恰好对、且渲染层有 3 帧 0/1/2/3→0/1/0/2 重映射兜底,故主流情形无差。
 
-**玩家影响**:极低频:仅当被 0x4C 追击或 0x0F-0x12 走路驱动的对象 sprite 帧数非标准(≠3,尤其 0)时,其行走动画帧错乱或本不该动的单姿势对象出现闪帧。标准三帧怪不受影响。
+**玩家影响**:极低频:仅当被 0x4C 追击或 0x0F-0x12 走路驱动的对象 sprite 帧数为 1 或 2 时,行走动画帧错乱(渗进相邻方向帧块,如 scene140/142 的 2 帧 NPC);nSpriteFrames=0/3/4 经渲染兜底或取模相等,均无可感知差异。
 
 <details><summary>C 源证据 / 复核</summary>
 
@@ -761,7 +761,7 @@ global.c:948 `gpGlobals->iCurInvMenuItem = 0;` 在 PAL_InitGameData 内、紧跟
 
 **差异**:C 真值:PAL_LoadGame_Common 在恢复字段时显式 `gpGlobals->sWaveProgression = 0`(global.c:611)——sWaveProgression 不在 SAVEDGAME 里,读档恒清零。TS sWaveProgression 是 GameState 字段(game-state.ts:715,注释也写明『读档恒置 0(sdlpal global.c:611 真值)』),但 loadGameFromSlot 经 Object.assign 恢复的是存档里那份值,代码里并没有在读档路径把它强制设回 0(bootstrap.ts 全文无 sWaveProgression 赋值)。同样地 C 在进场景(res.c:236-240,fEnteringScene 时)还会再清一次 wScreenWave 与 sWaveProgression,TS loadSceneCommon 也没有对应清零。
 
-**玩家影响**:若在屏幕波动特效(opcode 0x71)进行中存档,读档后波动增量仍生效,画面持续/异常波动;原版读档后波动增量恒为 0。极低频,但与真值有出入。
+**玩家影响**:若恰在屏幕波动 ramp(opcode 0x71)进行中存档,读档后 TS 会把这段 ramp 继续跑完再自清(screen-wave 到 0/≥256 自动归零),而原版读档后波动增量恒为 0(冻结在存档幅度)。极低频且玩家几乎不可感知,但与真值有出入。
 
 <details><summary>C 源证据 / 复核</summary>
 
@@ -1040,7 +1040,7 @@ TS 现状:
 - **C 依据**:`reference/sdlpal/fight.c:2757/2783/2815 (`gpGlobals->wScreenWave < 9`) + fight.c:2667 (wScreenWave += wWave) + battle.c:1563 (wScreenWave 初值=战场 wScreenWave)`
 - **玩家可感知**:是
 
-**差异**:C 判断魔法末帧是否把精灵烙进战斗背景(wKeepEffect==0xFFFF)时用的是 gpGlobals->wScreenWave,该值 = 战场基础 wScreenWave(battle.c:1563 从 lprgBattleField 取)+ 本法术 wWave(fight.c:2667 累加)。TS 用的是 magic.wave(仅本法术 wWave),漏了战场基础项。当战场基础 wScreenWave>0 且基础+wWave>=9 而 wWave 本身<9 时,C 不会烙背景而 TS 会烙(反之亦可能)。属低频边界(需该法术 keepEffect=0xFFFF 且处于有屏波的战场)。
+**差异**:C 判断魔法末帧是否把精灵烙进战斗背景(wKeepEffect==0xFFFF)时用的是 gpGlobals->wScreenWave,该值 = 战场基础 wScreenWave(battle.c:1563 从 lprgBattleField 取)+ 本法术 wWave(fight.c:2667 累加)。TS 用的是 magic.wave(仅本法术 wWave),漏了战场基础项。当战场基础 wScreenWave>0 且基础+wWave>=9 而 wWave 本身<9 时,C 不会烙背景而 TS 会烙。实测 11 个 keepEffect 法术 wWave 全=0,故分歧单向(TS 恒烙)、不存在"反之",且唯一可触发的战场是 field 32(screenWave=128);属极低频边界。
 
 **玩家影响**:在带屏幕波动的特殊战场上施放可烙印的法术时,法术残影是否永久留在背景上的判定可能与原版相反,极少数场景下出现多余/缺失的背景残影。
 
@@ -1126,9 +1126,9 @@ TS 现状(magic.ts:632-674,逐行核对):buildAndStartTranceAnim 同样先 6 帧
 - **C 依据**:`reference/sdlpal/fight.c:215`
 - **玩家可感知**:否
 
-**差异**:C 的 PAL_CalcMagicDamage 内部第一步就执行 `wMagicStrength *= RandomFloat(10,11); wMagicStrength /= 10`(fight.c:215-216),而该函数在群体法术里是**每个目标各调一次**:玩家 attackAll/attackWhole/attackField/summon 走 fight.c:4277-4297 的 `for i` 循环逐敌调用,敌方 AoE 魔法走 fight.c:4779-4818 的 `for i` 循环逐队员调用。因此 C 中每个被命中目标都拿到一个**独立**的 [1.0,1.1) 随机倍率。TS 反过来:performMagic 在调 applyMagicDamage/applyEnemyMagicDamage **之前**只摇一次 `rngFactor = 1 + rng.next()*0.1`(magic.ts:300、333),然后把这同一个值传进伤害循环对所有目标复用(magic-damage.ts 注释 143 行明确写“全目标共用”)。差异:(1) 群体法术各目标伤害不再相互独立浮动,而是被同一系数整体缩放;(2) RNG 取数次数与原版不一致(C 每目标一次 RandomFloat,TS 整次只一次),导致后续 RNG 序列错位。单体法术不受影响(只一个目标)。
+**差异**:C 的 PAL_CalcMagicDamage 内部第一步就执行 `wMagicStrength *= RandomFloat(10,11); wMagicStrength /= 10`(fight.c:215-216),而该函数在群体法术里是**每个目标各调一次**:玩家 attackAll/attackWhole/attackField/summon 走 fight.c:4277-4297 的 `for i` 循环逐敌调用,敌方 AoE 魔法走 fight.c:4779-4818 的 `for i` 循环逐队员调用。因此 C 中每个被命中目标都拿到一个**独立**的 [1.0,1.1) 随机倍率。TS 反过来:performMagic 在调 applyMagicDamage/applyEnemyMagicDamage **之前**只摇一次 `rngFactor = 1 + rng.next()*0.1`(magic.ts:300、333),然后把这同一个值传进伤害循环对所有目标复用(magic-damage.ts 注释 143 行明确写“全目标共用”)。差异:群体法术各目标伤害不再相互独立浮动,而是被同一系数整体缩放(仅改变目标间相关性,不改变单目标 [1.0,1.1) 边际分布)。单体法术不受影响。(注:原报告所称"RNG 取数次数不一致→序列错位"不成立——本仓库 RNG 是 mulberry32、本就不与 sdlpal LCG 逐抽对齐。)
 
-**玩家影响**:所有群攻法术(风卷残云/狂雷/泰山压顶/天女散花/召唤神兽 等)以及敌方群体魔法的逐目标伤害数字与原版不符:原版每个目标 1.0-1.1 倍各自抖动,移植里所有目标同一倍率;且 RNG 流偏移会进一步影响同回合后续判定。
+**玩家影响**:群攻法术各目标的伤害随机倍率从"相互独立"变为"共用同一倍率",但每个目标的伤害仍落在与原版相同的 [1.0,1.1) 区间与分布内,屏幕上无法分辨目标间是独立还是相关。玩家实际不可感知。
 
 <details><summary>C 源证据 / 复核</summary>
 
@@ -1201,7 +1201,7 @@ fight.c:3698-3699(续跳只判 wObjectID==0||idx>wMaxEnemyIndex); fight.c:3726(w
 
 **差异**:C 在敌→我物理命中后(iCoverIndex==-1 && !fAutoDefend 时)用 `wAttackEquivItemRate >= RandomLong(1,10) && PoisonResistance < RandomLong(1,100)` 判定是否触发等价物毒脚本(fight.c:5139-5141)。由于 `&&` 左到右求值,`RandomLong(1,10)` 在每一次满足 iCoverIndex==-1 && !fAutoDefend 的命中都会被消费一次,与该敌是否配有 wAttackEquivItem(=0 的敌人占多数)无关;只有第二个 `RandomLong(1,100)` 受 rate 判定短路。TS 在条件最前面加了 `equivId !== 0 &&`(attack.ts:365),于是对 attackEquivItem==0 的绝大多数敌人,`state.rng.rangeInclusive(1,10)` 根本不被抽取。C 这里没有 equivItem!=0 这一前置判据(它甚至会对 item 0 无脑跑 script 0)。这使 TS 在每次普通敌人成功命中后,RNG 流比 C 少消费一次抽取,后续 TS 自身的伤害/暴击随机数序列随之整体前移。注:本仓库 RNG 算法本就与 sdlpal LCG 不同(rng.ts 注释,只对拍战斗结果),故对 C 流不可能逐抽对齐;但该处偏离了项目在别处刻意维持的『抽取顺序与 C 一致』纪律(如 attack.ts:90 的 RandomLong(0,5) 始终消费、attack.ts:94 李逍遥 &&短路不消费),且会改变 TS 自身确定性回放的后续数值。
 
-**玩家影响**:对没有附带毒性的普通敌人(多数),敌人每次普攻命中后 TS 的随机数流相比原版控制流少走一步,导致同种子下后续攻击的暴击/抖动结果偏移;由于本仓库 RNG 与原版本就不同,可见后果有限,主要表现为确定性回放序列与原版控制流不一致。
+**玩家影响**:对没有附带毒性的普通敌人(多数),敌人每次普攻命中后 TS 的随机数流相比原版控制流少走一步,导致同种子下后续攻击的暴击/抖动结果偏移;玩家不可感知(本仓库 RNG 用 mulberry32、本就不与 sdlpal LCG 逐抽对齐);纯属 RNG 抽取序纪律瑕疵,无可观测的 correctness 后果。
 
 <details><summary>C 源证据 / 复核</summary>
 
@@ -1325,7 +1325,7 @@ reference/sdlpal/fight.c:5216(WCHAR s[256]=L"");5261-5263(c=nStealItem/RandomLon
 - **C 依据**:`reference/sdlpal/script.c:1213`
 - **玩家可感知**:是
 
-**差异**:C 的 0x28 「apply to everyone」分支(script.c:1184-1219)对每个敌人落槽时,都用 `PAL_RunTriggerScript(rgObject[poisonID].poison.wEnemyScript, wEventObjectID)` —— 传入的是**投掷目标 wEventObjectID(固定)**,不是循环变量 i。TS 的 OP_APPLY_POISON 在 apply-all 分支对每个 enemyIdx 调 applyTo(enemyIdx),内部以 `target: { type:'enemy', idx: enemyIdx }`(各敌自身)运行入口脚本。差异仅在「施加当下那一次」入口脚本的 self 指向:数据中多条毒的 enemyScript 首条即 0x42 SimulateMagic(op2=0 → 打 wEventObjectID 自身),C 全体上毒时这些首回合伤害都落在投掷目标身上,TS 则各敌打自己。后续每回合 tick(fight.c:1648 用 (WORD)i)两边都用各自 index,无差异。属低频(op0!=0 全体施毒少见)。
+**差异**:C 的 0x28 「apply to everyone」分支(script.c:1184-1219)对每个敌人落槽时,都用 `PAL_RunTriggerScript(rgObject[poisonID].poison.wEnemyScript, wEventObjectID)` —— 传入的是**投掷目标 wEventObjectID(固定)**,不是循环变量 i。TS 的 OP_APPLY_POISON 在 apply-all 分支对每个 enemyIdx 调 applyTo(enemyIdx),内部以 `target: { type:'enemy', idx: enemyIdx }`(各敌自身)运行入口脚本。差异仅在「施加当下那一次」入口脚本的 self 指向:数据中相关毒(553/551/560)的 enemyScript 首条即 0x21 Inflict damage(op0=0 → 打 wEventObjectID),C 全体上毒时这些首回合伤害都落在投掷目标身上,TS 则各敌打自己。后续每回合 tick(fight.c:1648 用 (WORD)i)两边都用各自 index,无差异。属低频(op0!=0 全体施毒少见)。
 
 **玩家影响**:极低频:仅影响「全体施加带即时伤害的毒」时首次入口脚本的伤害归属(C 集中到投掷目标,TS 分散到各敌)。一般感知不到。
 
@@ -1347,7 +1347,7 @@ script.c:1184-1219 (0x28 apply-everyone 循环用 i 落槽，但脚本调用恒�
 
 **差异**:sdlpal 在 PAL_InitText 加载 WORD.DAT 时,每个词条做完 GBK→宽字符转换后会检查并删去结尾的宽字符 '1'(0x31):`if (l > 0 && lpWordBuf[i][l-1] == '1') lpWordBuf[i][l-1] = 0;`(text.c:785-786)。TS 的 word.ts 在 readBlock(行 61-71)与 flat 循环(行 86-92)里**只**去掉尾部空格 0x20(`while (end > start && buf[end-1] === 0x20) end--`),从不删尾部 '1'。实测原始 data/raw/WORD.DAT(5650 字节 / 565 词)中有正好 8 个词条去空格后以 ASCII '1'(0x31)结尾——这是 BIG5→GBK 不彻底简体化遗留的标记字节,sdlpal 一律剥掉。受影响词条(已与 data/extracted/lookup/words.json 核对,当前 dump 确实保留了多余的「1」):法术 spells[28]=「风雪冰天1」(应为 风雪冰天)、spells[43]=「弦月斩1」(弦月斩)、spells[66]=「御剑伏魔1」(御剑伏魔);敌人 enemies[81]=「女飞贼1」(女飞贼)、enemies[99]=「石长老1」(石长老)、enemies[103]=「盖罗娇1」(盖罗娇)、enemies[150]=「苗人拳1」(苗人拳)、enemies[151]=「苗枪卒1」(苗枪卒)。flat 数组同样受影响(flat[324]/flat[479] 等)。注:sdlpal 只剥结尾 '1',不剥其它结尾 ASCII('A'/'B'/'C'/'p' 等正常保留),所以本差异精确限于这 8 个词条。
 
-**玩家影响**:玩家在仙术菜单/施法选单看到「风雪冰天1」「弦月斩1」「御剑伏魔1」这类带尾巴「1」的法术名;在战斗中遭遇/战斗结算/图鉴里看到「女飞贼1」「石长老1」「盖罗娇1」「苗人拳1」「苗枪卒1」等多了个「1」的敌人名。原版这些名字均无尾随「1」。
+**玩家影响**:玩家在仙术菜单/施法选单/练成屏看到「风雪冰天1」「弦月斩1」「御剑伏魔1」这 3 个带尾巴「1」的法术名(真能看到)。另 5 个敌人名(女飞贼1/石长老1/盖罗娇1/苗人拳1/苗枪卒1)只被 DEV 调试面板读取——生产游戏无图鉴、战斗也不显示敌人名牌,玩家看不到。故可感知仅限 3 个仙术 label,纯文案瑕疵。
 
 <details><summary>C 源证据 / 复核</summary>
 
@@ -1456,7 +1456,7 @@ TS 现状:
 
 **差异**:C PAL_CalcCoverTiles 的循环边界 `(sx - width/2)/32`、`sy/16` 等是 C 整数除法(向零截断);TS draw-tilemap.ts:210-213 用 Math.floor(向负无穷取整)。两者仅在被除数为负时不同。`sx = worldX - width/2 - iLayer/2`,当精灵左半身越过世界 x=0(即 sx-width/2<0,如 NPC 站在地图最左 col 0 附近)时,xStart 在 C 算得 0、TS 算得 -1,使最左列从 x=0 变成 x=-1,进而改变 i=0..2 与 i=3..4 这些 case 落到哪一列(scene.c:117 `(x==(sx-width/2)/32)?0:3`)。party 因 partyoffset 限制 world x≥160 不受影响;仅影响摆在地图极左/极上(col0/row0 附近)的 NPC。
 
-**玩家影响**:贴着地图左/上边缘放置的 NPC,其顶层遮挡瓦片(被柱子/门楣等盖住头部)在最左一列的判定与原版略有出入,可能多盖或漏盖一格。低频(多数场景不在 col0 放 NPC),视觉影响小。
+**玩家影响**:潜伏型 latent 差异:x 轴(标题所指主线)的 in-bounds 输出在任何情况下都与 C 相同(多出的负列被 dx<0 bounds 过滤吸收);唯一可能改变可见输出的是 y 轴(高 sprite NPC 贴地图顶边 1~3 tile 内),但对全量 3217 个实装 NPC 套精确公式逐一比对、0 个触发。实际无可感知后果。
 
 <details><summary>C 源证据 / 复核</summary>
 
@@ -1717,9 +1717,9 @@ TS 端 inventory-menu.ts:120-124 createInventoryMenu 只 `gs.inventory.map(...)`
 - **C 依据**:`reference/sdlpal/uigame.c:1311 (static SHORT sSelectedPlayer)`
 - **玩家可感知**:否
 
-**差异**:C 的 PAL_ItemUseMenu 用 `static SHORT sSelectedPlayer`(uigame.c:1311),光标位置在同一次/多次开用物品菜单之间**持久记忆**(仅当越界 > wMaxPartyMemberIndex 时归 0)。TS 每次 confirmInventoryItem 都 `createSelectionMenu(targetItems)`,光标重置到第一个可选项(通常 index 0)。连续给不同队员用药时,原版保留上次选中的队员,TS 每次回到队首。
+**差异**:C 的 PAL_ItemUseMenu 用 `static SHORT sSelectedPlayer`(uigame.c:1311),光标位置在同一次/多次开用物品菜单之间**持久记忆**(仅当越界 > wMaxPartyMemberIndex 时归 0)。TS 每次 confirmInventoryItem 都 `createSelectionMenu(targetItems)`,光标重置到第一个可选项(通常 index 0)。**切换到不同物品、或关闭重开物品菜单后**,原版保留上次选中的队员,TS 回到队首;而同一物品反复使用时 TS 实际也保留光标、与 C 一致(menu-driver 只 revert phase 不重建 targetMenu)。
 
-**玩家影响**:连续用药(如逐个给队员补血)时,原版选目标框停在上次选的队员,TS 每次跳回第一个队员,操作多一步、与原版手感不同。属轻微体验差异。
+**玩家影响**:仅在切换物品或重开菜单后选目标时,原版停在上次选的队员、TS 跳回队首;同一物品连续补血两者一致。属轻微体验差异。
 
 <details><summary>C 源证据 / 复核</summary>
 
@@ -1876,7 +1876,7 @@ ending.c:368(女孩帧=(SDL_GetTicks()/50)%4)、:331/:383(for i<400 每轮 UTIL_
 
 **差异**:C 的 SOUND_Play 开头有去重门控:`if (player->lastSFX == iSoundNum) return FALSE; player->lastSFX = iSoundNum;`(sound.c:769-772),且 lastSFX 在该声效播完(缓冲被 SOUND_FillBuffer 消费完)时复位为 0(sound.c:930)。语义=同一个 SFX 编号在上一份还没播完之前不能被再次触发,从而抑制了同号声效在极短间隔内的重叠/叠音。TS 的 play()(audio.ts:186-194)每次都 createBufferSource 立即播,playSfx/playSound 与 sync 的 `for (const id of pendingSounds) playSfx(id)`(audio.ts:214-217)都没有任何 lastSFX 等价去重。结果:当 core 在同一帧把同一个 soundId 连续 push 进 pendingSounds(opcode 0x47 连发、或战斗结算多单位同声),或在上一份仍在播时再次触发同号,TS 会叠播两份(更响/回声感),C 只播一份。注:TS 已在攻击时间线里把双击的 attackSound/weaponSound 错帧分散来规避最尖锐的重叠(attack.ts:170-172/244-246 的注释),但那是逐调用点的局部 workaround,通用的 drain/playSound 路径仍无此机制。
 
-**玩家影响**:少数会连发同一音效的场景(同帧多次 0x47、群体/连续同声效)下,声音比原版更响或有轻微叠音/回声;原版同号声效在前一份未结束时被静默吞掉。
+**玩家影响**:去重的真实触发窗口很窄——PAL 的 SFX 短(~0.1-0.5s),C 多数重触发点被 PAL_BattleDelay 隔开(那时 lastSFX 已复位、C 其实也两份都播);唯一同瞬同号碰撞是敌 AoE 同次循环连杀多名队员的死亡音,而阵亡音逐角色不同、同号罕见。能被玩家听出叠音的场景很窄。
 
 <details><summary>C 源证据 / 复核</summary>
 
@@ -1896,9 +1896,9 @@ sound.c:769-772(lastSFX 同号 return FALSE + 赋值);sound.c:930(缓冲消费�
 - **C 依据**:`battle.c:1032`
 - **玩家可感知**:否
 
-**差异**:shell 每帧用有效 track 计算 loop:victory 战胜曲(battleVictoryTrack→2/3)与脚本设的非循环场景曲(opcode 0x43 op1==1 → gs.musicLoop=false)都应是 fLoop=FALSE(对照 C battle.c:1032 `AUDIO_PlayMusic(fIsBoss?2:3, FALSE, 0)`、script.c:1647 `AUDIO_PlayMusic(op0, op1!=1, ...)`)。但 AudioManager 在两处补播时把 loop 写死成 true:setMusicEnabled(true) 的 `else if (curMusicTrack > 0) musicBackend?.play(curMusicTrack, true)`(audio.ts:244)与 setMusicBackend 的 `backend.play(curMusicTrack, true)`(audio.ts:249)。若玩家在战胜曲(track 2/3,本应放完即停)或非循环场景曲播放期间,从系统菜单把『音乐』关掉再打开(off→on 触发重播),该曲会被当作循环曲反复播放,而 C 端这些曲是一次性的。curMusicTrack 也只存 track 不存 loop,sync 仅比较 track(audio.ts:219),无法在补播时还原真实 loop 标志。
+**差异**:shell 每帧用有效 track 计算 loop:victory 战胜曲(battleVictoryTrack→2/3)与脚本设的非循环场景曲(opcode 0x43 op1==1 → gs.musicLoop=false)都应是 fLoop=FALSE(对照 C battle.c:1032 `AUDIO_PlayMusic(fIsBoss?2:3, FALSE, 0)`、script.c:1647 `AUDIO_PlayMusic(op0, op1!=1, ...)`)。但 AudioManager 在两处补播时把 loop 写死成 true:setMusicEnabled(true) 的 `else if (curMusicTrack > 0) musicBackend?.play(curMusicTrack, true)`(audio.ts:244)与 setMusicBackend 的 `backend.play(curMusicTrack, true)`(audio.ts:249)。若玩家在非循环场景曲(0x43 op1==1,全部 155 个 0x43 中仅 2 个)播放期间,从系统菜单把『音乐』关掉再打开(off→on 触发重播),该曲会被当作循环曲反复播放。注:战胜曲 track 2/3 虽也非循环,但它只在 battle 模式播、音乐开关只在大世界 menu 模式可达,C 与 TS 都到不了这个组合,故战胜曲实际不受影响。curMusicTrack 也只存 track 不存 loop,sync 仅比较 track(audio.ts:219),无法在补播时还原真实 loop 标志。
 
-**玩家影响**:在战斗胜利结算的短暂胜利小调期间(或个别脚本设定的一次性场景曲期间)切换音乐开关,会听到本应只响一遍的曲子被循环播放,与原版不符。
+**玩家影响**:仅在那 2 个一次性场景曲播放期间切换音乐开关,才会听到本应只响一遍的曲子被循环播放(且相对 sdlpal 的 RIX 默认构建才算偏离);战胜小调场景实际不可达。极低频。
 
 <details><summary>C 源证据 / 复核</summary>
 
@@ -2039,3 +2039,5 @@ TS 侧两条路径都与 C 一一对应且正确:present.ts:331-332 的 "// --- 
 - compare 阶段共产出 **70 条候选**,全部完成对抗复核:确认 64 / 否决 6 / 待定 0,**无遗漏**。
 - 其中 cutscene「结局女孩动画帧」1 条曾因 workflow 运行时 API 529 复核失败,已单独补复核(判定 confirmed·low,见 L 表)。
 - 6 条误报详情已从 workflow transcript(各复核 agent 落盘的 jsonl)重建并留档(见上节)。
+- 经第二个模型(GPT)独立二次复核:H1/H2、M1–M5、M6–M15、误报区(含 FP6 专核 scene.c)主体结论均确认成立;并指出 M9/L17/L27/L40 四条的**条目正文与复核论证不一致**(M9 基线应为 WIN95 而非 CLASSIC、L17 触发面更窄且单向、L27 入口 opcode 应为 0x21 而非 0x42、L40 同物品连用其实不偏),已据复核回填正文使二者一致(结论与严重度均不变)。
+- 此外自查发现同一模式(条目正文沿用 compare 原始 finding、未回填 verify 阶段对玩家影响/触发面的收窄)另有 10 条:M2、L3、L4、L7、L20、L22、L28、L31、L46、L47,已一并回填正文(均不改变 confirmed 判定与严重度,收窄的只是被原始描述夸大的影响面)。
