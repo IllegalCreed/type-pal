@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 57 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L18 L19 L20 L22 L23 L24 L26 L27 L28 L30 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 41 条 low。
+- **✅ 已修复 58 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L18 L19 L20 L22 L23 L24 L25 L26 L27 L28 L30 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 42 条 low。
 - **⏸ 暂缓 4 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)、L34(淡入淡出 60/64 上限——有干净实现但须改写既有 fade 回归测试整洁断言为 C 量化丑值、不可感知、仅覆盖 4 套 lerp-fade 中的 2 套)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L25 L29 L38),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L29 L38),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -49,7 +49,7 @@
 
 ## L级修复审查(已标 ✅)
 
-> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 41 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:41 条已完整收口,未发现新的遗漏。
+> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 42 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:42 条已完整收口,未发现新的遗漏。
 
 | ID | 审查结论 | 代码审查要点 |
 |---|---|---|
@@ -75,6 +75,7 @@
 | L22 | ✅ 通过 | `attack.ts` 敌→我等价物中毒删 `equivId!==0` 前置短路:该 block 已隐含 `iCoverIndex==-1 && !fAutoDefend`(上方 fAutoDefend 提前 return),故对齐 fight.c:5139 在每次非格挡非自卫命中恒消费一次 `RandomLong(1,10)`。equivItem=0 时 `rate=0` → `0>=1..10` 恒假、消费后短路,find 不到物品 → 不中毒(等价 C 跑 rgObject[0] 空脚本)。新增计数测试锁定;全套零回归。 |
 | L23 | ✅ 通过 | `startBattle` 在 `createBattleState` 前把队伍中 HP=0 的角色复活为 1,同步 runtime HP 并清 Puppet 状态。 |
 | L24 | ✅ 通过 | hidden-exp-up 框长仍用钳后宽度,但文字段按实际姓名/属性宽度连续定位,2 字名不再多出 16px 空档。 |
+| L25 | ✅ 通过 | `BattleEnemy` 新增 `objectId`(= wObjectID,OBJECT 绝对 index);0x91 同种判定改按 `(objectId ?? e.id)` 比较(对齐 script.c:2624),同 wEnemyID 多 OBJECT 不再误判同种。`createBattleState` 从 `team.enemyObjectIndexes` 填(无精确对象号 fallback enemyId,退化旧行为),0x9C 分裂副本=self.objectId、0x9E 召唤=w(自身同种则 self.objectId),`resetEnemySlot` 同步复制。旧 fixture 不带 objectId 回退 e.id;新增同/异对象身份 + 回退 3 测试。原版数据结构性不可达,纯语义正确性对齐。 |
 | L26 | ✅ 通过 | 0x6A 偷钱分支只在 `c>0` 时入 `battleDialogQueue`,剩 1 文整除得 0 不再弹「获得 0 文钱」。 |
 | L27 | ✅ 通过 | 0x28 全体施毒已把落槽 enemyIdx 与入口脚本 self 分离;全体入口脚本 self 固定为投掷目标,后续 poison tick 仍各敌推进。 |
 | L28 | ✅ 通过 | `parseWordDat` 在 GBK 解码后剥词条尾部标记字符 `1`,并同时覆盖 flat 与分段表;测试锁定 8 条受影响词。 |
@@ -140,7 +141,7 @@
 | ✅ L22 | 🟡 | correctness | 战斗·物理伤害公式 | 敌普攻等价物中毒:TS 用 equivId!==0 短路,跳过了 C 对所有非格挡命中都会消费的 RandomLong(1,10) 抽取 |
 | ✅ L23 | 🟡 | correctness | 战斗·结算与成长 | 战斗开始未把 HP=0 的队员复活为 1(且未清傀儡状态) |
 | ✅ L24 | 🟡 | pixel | 战斗·结算与成长 | 隐藏属性涨点屏(hidden-exp-up)对 2 字角色名的文字 x 定位与原版不一致 |
-| L25 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x91 同种敌人判定用 enemyId,C 用 wObjectID(对象身份) |
+| ✅ L25 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x91 同种敌人判定用 enemyId,C 用 wObjectID(对象身份) |
 | ✅ L26 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x6A 偷钱在 c==0 时仍弹「获得 0 文钱」对话(C 仅 c>0 才显示) |
 | ✅ L27 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x28 全体上毒时,入口毒脚本以各敌自身 index 运行,C 统一用投掷目标 wEventObjectID |
 | ✅ L28 | 🟡 | data | 提取·MKF 解码与数据表 | WORD.DAT 词条解析缺少 sdlpal 的尾部 '1' 截断,8 个法术/敌人名残留多余的「1」 |
@@ -1367,7 +1368,7 @@ battle.c:1266-1267(PAL_swprintf 拼单串 name+label+提升); battle.c:1269(PAL_
 </details>
 
 
-### L25 · 🟡 0x91 同种敌人判定用 enemyId,C 用 wObjectID(对象身份)
+### ✅ L25 · 🟡 0x91 同种敌人判定用 enemyId,C 用 wObjectID(对象身份)
 
 - **子系统**:战斗·脚本 opcode 与敌人 AI　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/battle/battle-opcodes.ts:1054`

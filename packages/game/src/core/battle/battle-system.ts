@@ -286,6 +286,7 @@ export function startBattle(input: StartBattleInput): void {
     onReady: number
     onBattleEnd: number
     resistanceToSorcery: number
+    objectId: number
   }> = []
   for (const [slotIndex, slot] of team.enemies.entries()) {
     if (slot === 0 || slot === 0xffff) continue
@@ -307,6 +308,8 @@ export function startBattle(input: StartBattleInput): void {
       onReady: objMatch?.scriptOnReady ?? 0,
       onBattleEnd: objMatch?.scriptOnBattleEnd ?? 0,
       resistanceToSorcery: objMatch?.resistanceToSorcery ?? 0, // 0x28 apply poison 抗性判定
+      // L25:对象身份 = 精确 OBJECT 绝对 index(wObjectID);无则 fallback enemyId(退化旧行为)。
+      objectId: hasExactObjectIndex ? objectIndex : slot,
     })
   }
 

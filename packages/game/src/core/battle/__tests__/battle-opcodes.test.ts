@@ -333,6 +333,19 @@ function kindCtx(kindIds: number[], casterIdx: number): BattleCtx {
   }
 }
 
+/** L25:带 objectId(wObjectID 对象身份)的 0x91 ctx —— 同 enemyId 可映射不同 OBJECT(如 81→478/479)。 */
+function kindCtxObj(enemies: Array<{ id: number, objectId: number }>, casterIdx: number): BattleCtx {
+  return {
+    state: {
+      // biome-ignore lint/suspicious/noExplicitAny: 只填 e.id + objectId + health
+      enemies: enemies.map(({ id, objectId }) => ({ e: { id, health: 100 } as any, objectId, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 }, prevHp: 100, scriptOnTurnStart: 0, scriptOnBattleEnd: 0, scriptOnReady: 0 })),
+      players: [],
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
+    } as any as BattleState,
+    caster: { type: 'enemy', idx: casterIdx },
+  }
+}
+
 // ============================================================================
 // 0x5B halve enemy HP / 0x39 drain HP(投掷物 scriptOnThrow 上下文)
 // ============================================================================
@@ -1271,6 +1284,23 @@ describe('0x91 jump if enemy not first of kind (script.c:2091)', () => {
 
   it('op0=0(真实数据全 0)→ self_pos>1 时 jump 到 ip 0(end,只首个跑脚本)', () => {
     expect(dispatchBattleOpcode(0x91, [0, 0, 0], kindCtx([5, 5], 1)).newIp).toBe(0)
+  })
+
+  // L25:同种判定按 wObjectID(对象身份,script.c:2624),非 enemyId —— 同 wEnemyID 多 OBJECT 各自独立。
+  it('L25:同 enemyId 但不同 objectId(81→478/479)→ 不同种,第二个 self_pos=1 不 jump', () => {
+    const ctx = kindCtxObj([{ id: 81, objectId: 478 }, { id: 81, objectId: 479 }], 1)
+    // 旧实现按 e.id 误判同种 → self_pos=2 → jump;按 wObjectID 各自独立 → self_pos=1 → 不 jump
+    expect(dispatchBattleOpcode(0x91, [200, 0, 0], ctx).newIp).toBeUndefined()
+  })
+
+  it('L25:同 objectId(真同对象,如分裂/召唤副本)→ 同种,第二个 self_pos=2 jump', () => {
+    const ctx = kindCtxObj([{ id: 81, objectId: 478 }, { id: 81, objectId: 478 }], 1)
+    expect(dispatchBattleOpcode(0x91, [200, 0, 0], ctx).newIp).toBe(200)
+  })
+
+  it('L25:无 objectId 的旧 fixture 回退按 e.id 比较(向后兼容)', () => {
+    // 不带 objectId → handler `(objectId ?? e.id)` 回退 e.id,保持旧"同 enemyId=同种"行为
+    expect(dispatchBattleOpcode(0x91, [200, 0, 0], kindCtx([5, 5], 1)).newIp).toBe(200)
   })
 })
 

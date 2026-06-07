@@ -90,6 +90,13 @@ export interface BattleEnemy {
    * createBattleState 必设;optional 仅为旧 fixture 向后兼容(handler 用 ?? prevHp ?? e.health)。
    */
   maxHealth?: number
+  /**
+   * L25:OBJECT 数组绝对 index(= sdlpal `wObjectID`,battle.h:72 / battle.c:1716)。0x91「同种敌人」
+   *   判定按此(script.c:2624 `rgEnemy[i].wObjectID == ...`),而非 `e.id`(wEnemyID)—— 同 wEnemyID
+   *   可映射多个 OBJECT(如 enemyId 81→478/479)。createBattleState 从 `team.enemyObjectIndexes` 填
+   *   (无精确对象号则 fallback enemyId);旧 fixture 不填,0x91 handler `objectId ?? e.id` 回退按 enemyId 比较。
+   */
+  objectId?: number
   /** 从 OBJECT 数组的 OBJECT_ENEMY 派生。 */
   scriptOnTurnStart: number
   scriptOnBattleEnd: number
@@ -614,6 +621,8 @@ export interface CreateBattleStateInput {
     onReady: number
     onBattleEnd: number
     resistanceToSorcery?: number
+    /** L25:OBJECT 绝对 index(wObjectID),0x91 同种判定用;缺省回退 enemyId。 */
+    objectId?: number
   }>
   /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight),缺省兼容旧 fixture。 */
   enemySpriteFrameHeights?: Map<number, number>
@@ -700,6 +709,9 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
       status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
       prevHp: e.health,
       maxHealth: e.health, // 战中不变的满血(0x64 真值用)
+      // L25:对象身份(wObjectID)。精确对象号缺省时 fallback enemyId —— 此时与 e.id 同值,
+      //   0x91 比较退化为旧"同 enemyId=同种"行为(对无对象身份信息的数据是唯一合理近似)。
+      objectId: scripts?.objectId ?? e.id,
       scriptOnTurnStart: scripts?.onTurnStart ?? 0,
       scriptOnBattleEnd: scripts?.onBattleEnd ?? 0,
       scriptOnReady: scripts?.onReady ?? 0,

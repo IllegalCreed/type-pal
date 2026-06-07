@@ -63,6 +63,7 @@ function resetEnemySlot(
   slot.status = init.status
   slot.prevHp = init.prevHp
   slot.maxHealth = init.maxHealth
+  slot.objectId = init.objectId // L25:对象身份(wObjectID),0x91 同种判定用
   slot.scriptOnTurnStart = init.scriptOnTurnStart
   slot.scriptOnBattleEnd = init.scriptOnBattleEnd
   slot.scriptOnReady = init.scriptOnReady
@@ -1078,18 +1079,20 @@ export function dispatchBattleOpcode(
     }
 
     case OP_JUMP_IF_ENEMY_NOT_FIRST: {
-      // sdlpal `script.c:2091`:数同 wObjectID 的敌人,自己排第几(self_pos);self_pos>1 → jump op0。
+      // sdlpal `script.c:2624`:数同 wObjectID 的敌人,自己排第几(self_pos);self_pos>1 → jump op0。
       // 用途:让"同种敌人组"的脚本只在**第一个**身上跑(其余 jump 到 end / 跳过)。
-      // ts:同种 = 同 e.id(enemies.json id = wEnemyID,同种敌人共享)。
+      // L25:同种 = 同 **objectId**(wObjectID,对象身份),非 e.id(wEnemyID)—— 同 wEnemyID 可映射多个
+      //   OBJECT(如 81→478/479),C 视为不同种。objectId 缺省(旧 fixture)回退 e.id(旧行为)。
       if (ctx.caster?.type !== 'enemy')
         return { consumed: true }
       const self = state.enemies[ctx.caster.idx]
       if (!self)
         return { consumed: true }
+      const selfKind = self.objectId ?? self.e.id
       let count = 0
       let selfPos = 0
       state.enemies.forEach((e, i) => {
-        if (isActiveEnemy(e) && e.e.id === self.e.id) {
+        if (isActiveEnemy(e) && (e.objectId ?? e.e.id) === selfKind) {
           count++
           if (i === ctx.caster!.idx)
             selfPos = count
@@ -1130,6 +1133,7 @@ export function dispatchBattleOpcode(
           status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
           prevHp: newHealth,
           maxHealth: self.maxHealth ?? beforeHealth,
+          objectId: self.objectId, // L25:分裂副本 = 同对象身份(同 wObjectID → 0x91 视为同种)
           scriptOnTurnStart: self.scriptOnTurnStart,
           scriptOnBattleEnd: self.scriptOnBattleEnd,
           scriptOnReady: self.scriptOnReady,
@@ -1224,12 +1228,14 @@ export function dispatchBattleOpcode(
       let onReady: number
       let onBattleEnd: number
       let resist: number
+      let summonObjectId: number // L25:对象身份(wObjectID),0x91 同种判定用
       if (w === 0 || w === 0xFFFF) {
         enemyId = self.e.id
         onTurnStart = self.scriptOnTurnStart
         onReady = self.scriptOnReady
         onBattleEnd = self.scriptOnBattleEnd
         resist = self.resistanceToSorcery ?? 0
+        summonObjectId = self.objectId ?? self.e.id // 自身同种 → 同 wObjectID
       }
       else {
         const eo = tables.enemyObjects.find(o => o.objectIndex === w)
@@ -1240,6 +1246,7 @@ export function dispatchBattleOpcode(
         onReady = eo.scriptOnReady
         onBattleEnd = eo.scriptOnBattleEnd
         resist = eo.resistanceToSorcery
+        summonObjectId = w // 召唤的是 OBJECT 绝对 index=w 的对象
       }
       const base = tables.enemies.find(e => e.id === enemyId)
       if (!base)
@@ -1255,6 +1262,7 @@ export function dispatchBattleOpcode(
           status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
           prevHp: base.health,
           maxHealth: base.health,
+          objectId: summonObjectId, // L25:对象身份(wObjectID)
           scriptOnTurnStart: onTurnStart,
           scriptOnBattleEnd: onBattleEnd,
           scriptOnReady: onReady,
