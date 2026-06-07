@@ -218,8 +218,9 @@ export function confirmInventoryItem(
     .map((r) => ({
       id: r.id,
       label: r._name ?? `role#${r.id}`,
-      // sdlpal global.c PAL_IsRoleDying / hp<=0 disabled
-      disabled: r.hp <= 0,
+      // H2(2026-06-07 sdlpal 审查):PAL_ItemUseMenu(uigame.c:1383-1495)对队员目标**无** disabled /
+      //   阵亡判定 —— 死人也能被选中,这是还魂香 / 孟婆汤 / 天香续命露(0x22 复活类)的必要前提。
+      //   使用效果(治疗对死人无效 / 复活对死人有效)由 item 使用脚本判断成败,不在选目标阶段拦。
     }))
   state.targetMenu = createSelectionMenu(targetItems)
   state.phase = 'use-target'

@@ -65,8 +65,9 @@ describe('M-w1.a InventoryMenu', () => {
     expect(s.phase).toBe('use-target')
     expect(s.selectedItemId).toBe(1)
     expect(s.targetMenu?.items.length).toBe(2)
-    // 死人 disabled
-    expect(s.targetMenu?.items[1]?.disabled).toBe(true)
+    // H2(2026-06-07 sdlpal 审查):PAL_ItemUseMenu(uigame.c:1383-1495)对死人**无** disabled —— 死人
+    //   也可选(还魂香 / 孟婆汤等复活药的前提)。原断言钉死的"死人 disabled"是 bug,已纠正对齐 C 真值。
+    expect(s.targetMenu?.items[1]?.disabled).toBeFalsy()
   })
 
   it('confirmInventoryItem 不可用物品 → 无 transition', () => {

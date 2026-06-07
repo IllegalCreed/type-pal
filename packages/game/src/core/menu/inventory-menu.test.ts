@@ -10,7 +10,7 @@
  *  - **regression**:filter color bug(2026-05-29 user 怒怼"李逍遥能装的木剑红色")
  */
 
-import type { Item } from '@type-pal/shared'
+import type { Item, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createInitialGameState } from '../game-state.js'
 import { matchesFilter, type ItemFilter } from './item-select.js'
@@ -286,6 +286,22 @@ describe('confirmInventoryItem / cancelInventoryMenu phase', () => {
     // 目标 menu 应建好(无 role 也建空 targetMenu)
     expect(state.phase).toBe('use-target')
     expect(state.selectedItemId).toBe(200)
+  })
+
+  it('H2(sdlpal 审查):目标列表不禁选死人 — 死人可选作目标(复活药前提;uigame.c:1383-1495 无 disabled)', () => {
+    const { state } = mkState()
+    const roles = {
+      roles: [
+        { id: 0, hp: 100, _name: '李逍遥' },
+        { id: 1, hp: 0, _name: '赵灵儿' }, // 阵亡
+      ],
+    } as unknown as PlayerRoles
+    confirmInventoryItem(state, ITEMS, roles, [0, 1])
+    expect(state.phase).toBe('use-target')
+    const deadTarget = state.targetMenu?.items.find((t) => t.id === 1)
+    expect(deadTarget).toBeDefined()
+    // sdlpal PAL_ItemUseMenu 对死人无 disabled → 可用还魂香 / 孟婆汤等复活
+    expect(deadTarget?.disabled).toBeFalsy()
   })
 
   it('Cancel use-target → 回 list;Cancel list → done', () => {
