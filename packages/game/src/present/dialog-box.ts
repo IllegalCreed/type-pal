@@ -197,6 +197,15 @@ export function isCharacterNameLine(text: string): boolean {
   return last === 0xff1a || last === 0x2236 || last === 0x3a /* ':' */
 }
 
+/**
+ * sdlpal text.c:1715-1720 姓名 title 判定 —— 三条件 AND:首行(nCurrentDialogLine==0)+ 非居中框
+ *(bDialogPosition != kDialogCenter ⇔ style != 'center')+ 末字冒号。M1/L1(2026-06-07 审查):
+ * 原先只判末字 → 段中续行冒号句被误当姓名牌(从正文丢失)、center 独白被错画成左上角姓名牌。
+ */
+function shouldRenderAsTitle(text: string, dialogLineCount: number, style: DialogBoxStyle): boolean {
+  return dialogLineCount === 0 && style !== 'center' && isCharacterNameLine(text)
+}
+
 /** sdlpal text.c:33 真值 `#define FONT_COLOR_CYAN_ALT 0x8C` — 姓名 title 渲染色。 */
 export const FONT_COLOR_CYAN_ALT = 0x8C
 
@@ -267,7 +276,7 @@ export function startDialogLine(
   const parsed = parseDialogText(rawText, startColor, isDialog, DIALOG_IDELAY_DEFAULT)
   // sdlpal text.c:1715-1727 真值:`:` 结尾的字符串 = 姓名 title,画独立位置(CYAN_ALT,PAL_DrawText 不过
   //   控制符 state machine,不改 bCurrentFontColor),不计入 line。在剥码后的可见文本上判定。
-  const isTitle = isCharacterNameLine(parsed.text)
+  const isTitle = shouldRenderAsTitle(parsed.text, 0, style)
   return {
     titleText: isTitle ? parsed.text : undefined,
     shownLines: [],
@@ -312,7 +321,7 @@ export function appendDialogLine(state: DialogBoxState, rawText: string): void {
   const startIDelay = state.iDelayState ?? DIALOG_IDELAY_DEFAULT
   const parsed = parseDialogText(rawText, startColor, isDialog, startIDelay)
   // sdlpal text.c:1715 姓名识别 — `:` 结尾的字符串画 title 位置(CYAN_ALT,独立路径),不进 shownLines、不改色/速态。
-  if (isCharacterNameLine(parsed.text)) {
+  if (shouldRenderAsTitle(parsed.text, state.dialogLineCount, state.style)) {
     state.titleText = parsed.text
     // **不**修改 currentLineText / phase — title 跟现在 typing 的 dialog 并存
     return

@@ -204,6 +204,21 @@ describe('Sync.2 DialogBox · startDialogLine / appendDialogLine', () => {
     appendDialogLine(s, '哇哇！~40') // 紧接 `~` 正文 → 仍 0
     expect(s.dialogLineCount).toBe(0)
   })
+
+  it('M1:段中续行(line>0)冒号结尾不当姓名牌(text.c:1715 nCurrentDialogLine==0)', () => {
+    const s = startDialogLine('算命仙:', { style: 'top' })
+    expect(s.titleText).toBe('算命仙:')
+    appendDialogLine(s, '公子真是贵人多忘事') // 正文 line1 → dialogLineCount=1
+    appendDialogLine(s, '小姑娘看过相。结果公子说:') // line2,冒号结尾但非首行
+    expect(s.titleText).toBe('算命仙:') // 姓名牌不被覆盖
+    expect(s.currentLineText).toBe('小姑娘看过相。结果公子说:') // 该句进正文,不丢失
+  })
+
+  it('L1:center 风格首行冒号结尾当居中正文,不当姓名牌(text.c:1716 != kDialogCenter)', () => {
+    const s = startDialogLine('李逍遥心里想:', { style: 'center' })
+    expect(s.titleText).toBeUndefined() // center 下不画姓名牌
+    expect(s.currentLineText).toBe('李逍遥心里想:') // 当居中正文
+  })
 })
 
 describe('Sync.2 DialogBox · tickDialog typing', () => {
