@@ -42,10 +42,9 @@ import {
 import {
   createInitialGameState,
   type GameState,
-  hydratePlayerRolesRuntime,
   hydrateNpcStaticDefaults,
   getOverworldSpriteNum,
-  initExpLevelsFromLevels,
+  loadDefaultGame,
   projectRuntimeToBattleRoles,
   npcFromEventObject,
   sliceSceneEventObjects,
@@ -1347,17 +1346,15 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   /** 用 primary scene(SCENE_ID)资产真正"开始"游戏 — 装 events + 跑 onEnter。 */
   function startNewGameFromPrimary(): void {
-    // M5.6 session 3 修(user 反馈"用物品没反应"):
-    // 新游戏起手把 playerRoles.json 静态基线 hydrate 到 gs.PlayerRolesRuntime。
-    // 否则 rgwHP/MaxHP/AttackStrength 等都是 0,HP 加减 opcode clamp 失效。
-    // sdlpal global.c PAL_NewGame → PAL_LoadDefaultGame 真值等价。
-    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
-    // F1(2026-06-01):sdlpal PAL_LoadDefaultGame(global.c:455-465)hydrate 后把全 8 类经验 wLevel
-    //   设为各角色等级(rgwLevel)。此前 ts 新游戏后 Exp.wLevel 全 0,与真值不符。**仅新游戏调**(读档走存档)。
-    initExpLevelsFromLevels(gs.Exp, gs.PlayerRolesRuntime.rgwLevel)
-    // C5(2026-05-28):hydrate 后 sdlpal PAL_LoadDefaultGame 真值再调 PAL_UpdateEquipments
-    // (global.c:1333)— 跨 role × 6 part 跑每件装备 scriptOnEquip 累加 stat 到 rgEquipmentEffect。
-    // 否则 effective Atk/Def/Mag 等 stat getter 永远 = base,跟 sdlpal 真值偏差(D14 装备 effect 根因)。
+    // H1(2026-06-07 sdlpal 差异审查):对齐 PAL_LoadDefaultGame(global.c:434-465)— 重置玩家进度
+    //   字段(金钱/背包/毒/队伍/trail/采集值/昼夜/层/跟随/追击/调色板/音乐/战速)+ hydrate
+    //   PlayerRoles 基线到 gs.PlayerRolesRuntime + 设 8 类经验 wLevel = 各角色等级。
+    //   通关 / 系统菜单退出回标题后再开新游戏时,returnToTitle 只重置 cursor/menu/mode,gs 仍带
+    //   上一局脏数据 —— loadDefaultGame 清掉它,否则满背包 / 满金钱 / 满经验开局(回归测试见 game-state.test.ts)。
+    loadDefaultGame(gs, playerRoles)
+    // C5(2026-05-28):PAL_LoadDefaultGame 真值随后调 PAL_UpdateEquipments(global.c:1333)— 跨
+    //   role × 6 part 跑每件装备 scriptOnEquip 累加 stat 到 rgEquipmentEffect,否则 effective
+    //   Atk/Def/Mag 等 stat getter 永远 = base(D14 装备 effect 根因)。
     updateAllEquipments(gs, items)
 
     if (scene.onEnterLabel) {

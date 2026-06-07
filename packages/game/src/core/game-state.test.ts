@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode, type NpcState } from './game-state.js'
+import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, loadDefaultGame, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode, type NpcState } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
 import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'
 
@@ -51,6 +51,77 @@ describe('initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-46
     initExpLevelsFromLevels(gs.Exp, [7]) // 只给 role0
     expect(gs.Exp.rgPrimaryExp[0]?.wLevel).toBe(7)
     expect(gs.Exp.rgPrimaryExp[5]?.wLevel).toBe(0)
+  })
+})
+
+// H1(2026-06-07 sdlpal 差异审查):通关/退出回标题后再开新游戏,gs 沿用上一局脏数据
+//   (金钱/背包/毒/队伍/经验等)。sdlpal PAL_LoadDefaultGame(global.c:434-465)每次新游戏都把
+//   这组字段重置为默认。本测锁定 loadDefaultGame 的重置语义。
+describe('loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)', () => {
+  const fixtureRoles: import('@type-pal/shared').PlayerRoles = {
+    roles: [
+      {
+        id: 0, avatar: 0, spriteNumInBattle: 0, spriteNum: 0, name: 0, attackAll: 0,
+        level: 5, maxHP: 100, maxMP: 50, hp: 80, mp: 40,
+        attackStrength: 10, magicStrength: 5, defense: 8, dexterity: 12,
+        fleeRate: 3, poisonResistance: 0,
+        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        walkFrames: 3,
+        attackSound: -1, weaponSound: -1, criticalSound: -1, magicSound: -1, deathSound: -1,
+      },
+    ],
+  }
+
+  it('清空上一局金钱/背包/毒/队伍/trail/采集值,标量回默认(global.c:434-453)', () => {
+    const gs = createInitialGameState({ x: 5, y: 5, facing: 'up' })
+    // 弄脏:模拟玩过一局
+    gs.dwCash = 9999
+    gs.inventory = [{} as GameState['inventory'][number]]
+    gs.rgPoisonStatus = { '0:1': {} as GameState['rgPoisonStatus'][string] }
+    gs.partyMembers = [1, 2]
+    gs.trail = [{} as GameState['trail'][number]]
+    gs.wCollectValue = 50
+    gs.nightPalette = true
+    gs.wLayer = 8
+    gs.nFollower = 2
+    gs.wChaseRange = 5
+    gs.numPalette = 3
+    gs.wNumMusic = 7
+    gs.wBattleSpeed = 4
+
+    loadDefaultGame(gs, fixtureRoles)
+
+    expect(gs.dwCash).toBe(0)
+    expect(gs.inventory).toEqual([])
+    expect(gs.rgPoisonStatus).toEqual({})
+    expect(gs.partyMembers).toEqual([])
+    expect(gs.trail).toEqual([])
+    expect(gs.wCollectValue).toBe(0)
+    expect(gs.nightPalette).toBe(false)
+    expect(gs.wLayer).toBe(0)
+    expect(gs.nFollower).toBe(0)
+    expect(gs.wChaseRange).toBe(1) // sdlpal global.c:444 default = 1(非 0)
+    expect(gs.numPalette).toBe(0)
+    expect(gs.wNumMusic).toBe(0)
+    expect(gs.wBattleSpeed).toBe(2) // sdlpal global.c:446 default = 2
+  })
+
+  it('hydrate PlayerRoles 基线 + 8 类经验 wLevel = 角色等级(global.c:455-465)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // 弄脏 runtime + Exp
+    gs.PlayerRolesRuntime.rgwHP[0] = 1
+    gs.Exp.rgPrimaryExp[0]!.wLevel = 99
+
+    loadDefaultGame(gs, fixtureRoles)
+
+    // hydrate 回基线
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(80)
+    expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(100)
+    expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBe(5)
+    // 8 类经验 wLevel = level 5,wExp 不动
+    expect(gs.Exp.rgPrimaryExp[0]!.wLevel).toBe(5)
+    expect(gs.Exp.rgAttackExp[0]!.wLevel).toBe(5)
+    expect(gs.Exp.rgFleeExp[0]!.wLevel).toBe(5)
   })
 })
 

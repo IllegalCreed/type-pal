@@ -1261,6 +1261,39 @@ export function hydratePlayerRolesRuntime(
 }
 
 /**
+ * 新游戏:对齐 sdlpal `PAL_LoadDefaultGame`(global.c:434-465)把游戏进度字段重置为默认值,
+ * 再 hydrate PlayerRoles 基线 + 设 8 类经验 wLevel = 各角色等级。
+ *
+ * 通关 / 系统菜单退出回标题后再开「新的故事」**必须**调它:否则 gs 沿用上一局的
+ * 金钱 / 背包 / 毒 / 队伍 / trail / 采集值 / 经验等(returnToTitle 只重置 cursor/menu/mode)。
+ * 不碰 scene 运行时(wNumScene / npcs / rgObject 等)— 那些由 bootstrap 进场流程管理。
+ */
+export function loadDefaultGame(
+  gs: GameState,
+  playerRoles: import('@type-pal/shared').PlayerRoles,
+): void {
+  // sdlpal global.c:434-447 "Set some other default data"
+  gs.dwCash = 0
+  gs.wNumMusic = 0
+  gs.numPalette = 0 // wNumPalette
+  gs.wCollectValue = 0
+  gs.nightPalette = false // fNightPalette → 白天
+  gs.wLayer = 0
+  gs.nFollower = 0
+  gs.wChaseRange = 1 // 非 0:默认追击范围 1
+  gs.wBattleSpeed = 2 // bBattleSpeed(非 PAL_CLASSIC default 2)
+  // global.c:449-453 memset(rgInventory / rgPoisonStatus / rgParty / rgTrail / Exp)
+  gs.inventory = []
+  gs.rgPoisonStatus = {}
+  gs.partyMembers = [] // rgParty(wMaxPartyMemberIndex 在 ts 即 partyMembers.length)
+  gs.trail = [] // rgTrail
+  gs.Exp = createEmptyExp()
+  // global.c:427-429 整张 PLAYERROLES 表 hydrate 到 runtime + 455-465 Exp.wLevel = 各角色等级
+  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
+  initExpLevelsFromLevels(gs.Exp, gs.PlayerRolesRuntime.rgwLevel)
+}
+
+/**
  * 投影 PlayerRolesRuntime(运行时 SoA array)→ 战斗用 PlayerRoles(object)—— hydratePlayerRolesRuntime 的逆。
  *
  * **架构边界**:战斗原直接用 `assets.playerRoles` 静态 1 级基线,**升级/大世界 stat 改动战斗里全不生效**
