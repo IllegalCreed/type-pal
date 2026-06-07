@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 37 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L10 L11 L13 L15 L16 L23 L26 L27 L28 L35 L36 L37 L39 L41 L45 L47 共 21 条 low。
+- **✅ 已修复 40 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L10 L11 L13 L15 L16 L23 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L41 L45 L47 共 24 条 low。
 - **⏸ 暂缓 3 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L8 L9 L12 L17–L20 L22 L24 L25 L29–L34 L38 L40 L42–L44 L46),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L8 L9 L12 L17–L20 L22 L24 L25 L29 L30 L34 L38 L40 L42–L44 L46),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -77,9 +77,9 @@
 | ✅ L28 | 🟡 | data | 提取·MKF 解码与数据表 | WORD.DAT 词条解析缺少 sdlpal 的尾部 '1' 截断,8 个法术/敌人名残留多余的「1」 |
 | L29 | 🟡 | data | 提取·事件 bytecode 反编译 | slice/disasm 的 JUMP_TARGET_OPERAND 缺 13 个条件跳转 opcode,切片 BFS 丢弃 244 条可达指令 |
 | L30 | 🟡 | timing | 渲染·地图瓦片与精灵 | 停步时未复现 s_iThisStepFrame 的 `&=2; ^=2` 复位,导致再次起步的首帧迈步腿相位不一致 |
-| L31 | 🟡 | correctness | 渲染·地图瓦片与精灵 | cover-tile 扫描范围用 Math.floor 而非 C 的向零截断除法,精灵贴近地图左/上边缘时遮挡列判定偏移 |
-| L32 | 🟡 | pixel | 渲染·地图瓦片与精灵 | layer-0 瓦片位图缺失时未回落到 tile(0,0,0,0),C 会用首格兜底填充 |
-| L33 | 🟡 | pixel | 渲染·字体与对话框 | narration 框内数字字符步进用 6px(精灵宽),C 用 PAL_CharWidth(=8px) |
+| ✅ L31 | 🟡 | correctness | 渲染·地图瓦片与精灵 | cover-tile 扫描范围用 Math.floor 而非 C 的向零截断除法,精灵贴近地图左/上边缘时遮挡列判定偏移 |
+| ✅ L32 | 🟡 | pixel | 渲染·地图瓦片与精灵 | layer-0 瓦片位图缺失时未回落到 tile(0,0,0,0),C 会用首格兜底填充 |
+| ✅ L33 | 🟡 | pixel | 渲染·字体与对话框 | narration 框内数字字符步进用 6px(精灵宽),C 用 PAL_CharWidth(=8px) |
 | L34 | 🟡 | pixel | 渲染·调色板与淡入淡出 | 淡入淡出 ramp 在 C 里最高只到 60/64(93.75%)而 TS lerp 直插到 100% |
 | ✅ L35 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界仙术菜单:仙术列表按 Cancel 应直接关菜单回大世界,TS 却退回「选施法人」 |
 | ✅ L36 | 🟡 | pixel | 菜单·主菜单/物品/装备/商店 | 仙术列表未按法术 ObjectID 升序排序,TS 按学会顺序(rgwMagic 槽位顺序)显示 |
@@ -1462,7 +1462,7 @@ TS 现状:
 </details>
 
 
-### L31 · 🟡 cover-tile 扫描范围用 Math.floor 而非 C 的向零截断除法,精灵贴近地图左/上边缘时遮挡列判定偏移
+### ✅ L31 · 🟡 cover-tile 扫描范围用 Math.floor 而非 C 的向零截断除法,精灵贴近地图左/上边缘时遮挡列判定偏移
 
 - **子系统**:渲染·地图瓦片与精灵　**类别**:correctness
 - **TS 位置**:`packages/game/src/present/draw-tilemap.ts:210-213`
@@ -1494,7 +1494,7 @@ scene.c:113-117(循环边界 + iStart 用 C 整除,向零截断);scene.c:99-101(
 </details>
 
 
-### L32 · 🟡 layer-0 瓦片位图缺失时未回落到 tile(0,0,0,0),C 会用首格兜底填充
+### ✅ L32 · 🟡 layer-0 瓦片位图缺失时未回落到 tile(0,0,0,0),C 会用首格兜底填充
 
 - **子系统**:渲染·地图瓦片与精灵　**类别**:pixel
 - **TS 位置**:`packages/game/src/present/draw-tilemap.ts:124-128`
@@ -1514,7 +1514,7 @@ map.c:405-414 PAL_MapBlitToSurface 内层 blit:lpBitmap = PAL_MapGetTileBitmap(x
 </details>
 
 
-### L33 · 🟡 narration 框内数字字符步进用 6px(精灵宽),C 用 PAL_CharWidth(=8px)
+### ✅ L33 · 🟡 narration 框内数字字符步进用 6px(精灵宽),C 用 PAL_CharWidth(=8px)
 
 - **子系统**:渲染·字体与对话框　**类别**:pixel
 - **TS 位置**:`packages/game/src/present/dialog-box.ts:754`
