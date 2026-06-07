@@ -628,9 +628,9 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
     expect(state.battleAnim).toBeDefined()
     const f = state.battleAnim!.frames
     // PreMagic = 17(4+1+1+10+1);OffMagic l=(8-2)*1+8=14;PostMagic=4(受伤敌抖3+复位)= 35
-    expect(f.length).toBe(17 + 14 + 4)
-    // OffMagic 段(从 idx 17 起)有 magic overlays
-    const offFrame = f[17]!
+    expect(f.length).toBe(17 + 15 + 4) // L14:OffMagic 14→15(+前置 Delay(1))
+    // OffMagic 段从 idx 17 起,首帧是 L14 前置 Delay(1)(无 overlay),特效 overlay 从 idx 18
+    const offFrame = f[18]!
     expect(offFrame.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 12 })
   })
 
@@ -661,7 +661,7 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
     })
     // PreMagic + OffMagic FIRE 动画仍建链(尽管无内联伤害)
     expect(state.battleAnim, 'sentinel 攻击魔法 FIRE 动画应建链').toBeDefined()
-    expect(state.battleAnim!.frames[17]?.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 12 })
+    expect(state.battleAnim!.frames[18]?.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 12 }) // L14:前置 Delay(1) → overlay 从 idx 18
     // 敌人 HP 未变(sentinel 不走 E1 内联伤害,伤害靠 scriptOnSuccess opcode)
     expect(state.enemies[0]!.e.health).toBe(100)
   })
@@ -696,7 +696,7 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
       runScript: noopRunScript,
       magicSpriteFrameCounts: frameCounts,
     })
-    const off = state.battleAnim!.frames[17]!
+    const off = state.battleAnim!.frames[18]! // L14:前置 Delay(1) → overlay 从 idx 18
     expect(off.overlays![0]).toMatchObject({ x: 164, y: 74 })
   })
 
@@ -735,7 +735,7 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
       runScript: noopRunScript,
       magicSpriteFrameCounts: frameCounts,
     })
-    const off = state.battleAnim!.frames[17]!
+    const off = state.battleAnim!.frames[18]! // L14:前置 Delay(1) → overlay 从 idx 18
     expect(off.overlays).toHaveLength(3)
   })
 
@@ -1157,7 +1157,7 @@ describe('performMagic D17: 敌方攻击魔法 EnemyMagic 时间线', () => {
       battleEffectIndex: [0, 0],
     })
     // OffMagic 链 = PreMagic(17) + OffMagic(14) + PostMagic(4) = 35;EnemyMagic 只 14。
-    expect(state.battleAnim!.frames.length).toBe(17 + 14 + 4)
+    expect(state.battleAnim!.frames.length).toBe(17 + 15 + 4) // L14:OffMagic 14→15(+前置 Delay(1))
   })
 
   it('enemy 缺 target 队员 posOriginal(旧 fixture)→ 不建链', () => {

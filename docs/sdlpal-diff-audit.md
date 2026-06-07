@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 62 条**:H1 H2 全部 high;M1–M15 共 15 条 medium(全部);L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L35 L36 L37 L38 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 45 条 low。
-- **⏸ 暂缓 2 条**:L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)、L34(淡入淡出 60/64 上限——有干净实现但须改写既有 fade 回归测试整洁断言为 C 量化丑值、不可感知、仅覆盖 4 套 lerp-fade 中的 2 套)。
-- **未修**:无 —— 64 条 confirmed(2 high + 15 medium + 47 low)已全部处理:62 条修复 + 2 条暂缓(L14 / L34,理由见上)。
+- **✅ 已修复 63 条**:H1 H2 全部 high;M1–M15 共 15 条 medium(全部);L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L35 L36 L37 L38 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 46 条 low。
+- **⏸ 暂缓 1 条**:L34(淡入淡出 60/64 上限——有干净实现但须改写既有 fade 回归测试整洁断言为 C 量化丑值、不可感知、仅覆盖 4 套 lerp-fade 中的 2 套)。
+- **未修**:无 —— 64 条 confirmed(2 high + 15 medium + 47 low)已全部处理:63 条修复 + 1 条暂缓(L34,理由见上)。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -50,7 +50,7 @@
 
 ## L级修复审查(已标 ✅)
 
-> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 45 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:45 条已完整收口,未发现新的遗漏。
+> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 46 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:46 条已完整收口,未发现新的遗漏。
 
 | ID | 审查结论 | 代码审查要点 |
 |---|---|---|
@@ -67,6 +67,7 @@
 | L11 | ✅ 通过 | 敌主动逃跑动画增加 `ENEMY_FLYOUT_HOLD_TICKS=13` 出屏停顿,约等于 `UTIL_Delay(500)` 后才进入 fleed。 |
 | L12 | ✅ 通过 | `buildPlayerAttackTimeline` 加 `windup`,单体/群攻仅首击(t==0)前置 `currentFrame=7 + Delay(4)` 前摇帧;双击/双 sweep 第二击不加,对齐 fight.c:3667-3671/3690-3694。 |
 | L13 | ✅ 通过 | 群攻每个 sweep 后补 `4 * BATTLE_FRAME_TIME` 收势延迟;单体攻击路径未被误加尾延。 |
+| L14 | ✅ 通过 | `buildPlayerOffMagicTimeline` 主特效 for 循环前补 `{durationMs: delayMs(1)}` 前置帧(对齐 fight.c:2659 PAL_BattleDelay(1,0,TRUE),40ms)。CLASSIC 路径此帧不切 frame6(frame6 仍在循环内 i==fireDelay,fight.c:2677-2680;仅 WIN95 在循环前设)、无 overlay/sound/screenWave,caster 帧由 caller preFrames 末帧 hold;敌方 EnemyMagic 不加(fight.c:2897 无前导)。波及 18 个帧索引断言(anim-timeline 13 + magic-inline-damage 5):`every` 类改 `slice(1)`、绝对索引 +1、帧数 +1;全套零回归。 |
 | L15 | ✅ 通过 | 投掷和战斗用物品时间线都接入 `itemName`,在 (210,50) 生成 `battleMessage`,并由 caller 传入真实物品名。 |
 | L16 | ✅ 通过 | 敌方法术伤害结果外传 `autoDefend`,动画链在特效前给对应队员注入 frame 3,受击 frame 4 仍能覆盖。 |
 | L17 | ✅ 通过 | `keepEffect` 末帧判定已改用 `baseScreenWave + magic.wave < 9`;普通法术、敌方法术、合击、0x92、普通召唤 secondary 入口均传战场基础屏波与 `wave/keepEffect`。 |
@@ -134,7 +135,7 @@
 | ✅ L11 | 🟡 | timing | 战斗·主循环与回合流程 | 敌方主动逃跑飞出屏后缺少 500ms 收尾停顿 |
 | ✅ L12 | 🟡 | timing | 战斗·动画与表现时序 | 玩家物理攻击缺少出招前摇姿(frame 7 + Delay(4)),冲刺直接开始 |
 | ✅ L13 | 🟡 | timing | 战斗·动画与表现时序 | 群攻每次挥砍后缺少 Delay(4) 收势停顿 |
-| ⏸ L14 | 🟡 | timing | 战斗·动画与表现时序 | 玩家攻击魔法 OffMagic 缺少特效循环前的 Delay(1) 起手帧 |
+| ✅ L14 | 🟡 | timing | 战斗·动画与表现时序 | 玩家攻击魔法 OffMagic 缺少特效循环前的 Delay(1) 起手帧 |
 | ✅ L15 | 🟡 | pixel | 战斗·动画与表现时序 | 战斗投掷/使用物品演出期间不显示物品名称标签 |
 | ✅ L16 | 🟡 | timing | 战斗·动画与表现时序 | 敌方魔法命中前,被动格挡的队员未切到防御姿(frame 3) |
 | ✅ L17 | 🟡 | correctness | 战斗·动画与表现时序 | keepEffect 烙背景的 wScreenWave<9 判定只用 magic.wWave,漏算战场基础屏波 |
@@ -1031,7 +1032,7 @@ fight.c:3745-3747 群攻 t-loop 内 PAL_BattleShowPlayerAttackAnim 后接 PAL_Ba
 </details>
 
 
-### ⏸ L14 · 🟡 玩家攻击魔法 OffMagic 缺少特效循环前的 Delay(1) 起手帧
+### ✅ L14 · 🟡 玩家攻击魔法 OffMagic 缺少特效循环前的 Delay(1) 起手帧
 
 - **子系统**:战斗·动画与表现时序　**类别**:timing
 - **TS 位置**:`packages/game/src/core/battle/anim-timeline.ts:792 buildPlayerOffMagicTimeline (直接进 for i<l 循环,无前置 Delay(1))`

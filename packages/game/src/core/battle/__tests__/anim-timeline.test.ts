@@ -285,11 +285,13 @@ describe('buildCoopMagicTimeline (协力合击,fight.c:3856-4107 CLASSIC)', () =
   it('Phase5 OffMagic:含 magic chunk overlay(法术效果,casterIdx=-1 不切发起者帧6)', () => {
     // OffMagic 帧带 overlays kind=magic spriteChunk=5。l=(8-2)*1+8+0=14 帧。
     const offStart = 10
-    const offFrame = frames[offStart]!
+    // L14:OffMagic 首帧是前置 Delay(1)(无 overlay);特效从 offStart+1 起
+    expect(frames[offStart]!.overlays).toBeUndefined()
+    const offFrame = frames[offStart + 1]!
     expect(offFrame.overlays?.[0]?.kind).toBe('magic')
     expect(offFrame.overlays?.[0]?.spriteChunk).toBe(5)
-    // casterIdx=-1 → 无 i==fireDelay 的 caster frame6 切换(fight.c:2677-2680 gated)
-    const fireDelayFrame = frames[offStart + 2]! // i==fireDelay=2
+    // casterIdx=-1 → 无 i==fireDelay 的 caster frame6 切换(fight.c:2677-2680 gated);i==fireDelay=2 → offStart+1+2
+    const fireDelayFrame = frames[offStart + 3]!
     expect(fireDelayFrame.fighters ?? []).toEqual([])
   })
 
@@ -822,7 +824,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
   it('M6 效果音(WIN95):sound 只挂 OffMagic 起手帧 i==0(fight.c:2669)', () => {
     const f = buildNormal({ sound: 55 }) // l = (8-2)*1 + 8 + 0 = 14
     const soundFrames = f.map((fr, i) => (fr.sound === 55 ? i : -1)).filter(i => i >= 0)
-    expect(soundFrames).toEqual([0]) // 仅起手帧(WIN95)
+    expect(soundFrames).toEqual([1]) // 仅起手帧(WIN95);frames[0] 是 L14 前置 Delay(1)(无 sound)
     // sound=0/缺 → 不挂任何帧
     expect(buildNormal({ sound: 0 }).every(fr => fr.sound === undefined)).toBe(true)
   })
@@ -845,10 +847,11 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       targetIdx: 1,
       targetEnemyPos: { x: 160, y: 80 },
     })
-    expect(f[0]!.shake).toEqual({ time: 3, level: 4 })
-    expect(f[1]!.shake).toEqual({ time: 2, level: 4 })
-    expect(f[2]!.shake).toEqual({ time: 1, level: 4 })
-    expect(f[3]!.shake).toBeUndefined()
+    expect(f[0]!.shake).toBeUndefined() // L14 前置 Delay(1) 帧无 shake
+    expect(f[1]!.shake).toEqual({ time: 3, level: 4 })
+    expect(f[2]!.shake).toEqual({ time: 2, level: 4 })
+    expect(f[3]!.shake).toEqual({ time: 1, level: 4 })
+    expect(f[4]!.shake).toBeUndefined()
   })
 
   it('W4 keepEffect:keepEffect==0xFFFF && wave<9 → 仅末帧 keepEffect=true;否则全无(fight.c:2757)', () => {
@@ -885,8 +888,9 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
     })
     const at = (fi: number): { x: number; y: number } | undefined =>
       frames[fi]!.fighters?.find((f) => f.side === 'enemy' && f.idx === 0)?.pos
-    expect(at(0)).toEqual({ x: 102, y: 51 }) // 100+2, 50+trunc(2/2)
-    expect(at(1)).toEqual({ x: 104, y: 52 }) // 累加
+    expect(at(0)).toBeUndefined() // L14 前置 Delay(1) 帧无吹飞位移
+    expect(at(1)).toEqual({ x: 102, y: 51 }) // 100+2, 50+trunc(2/2)
+    expect(at(2)).toEqual({ x: 104, y: 52 }) // 累加
     expect(at(frames.length - 1)).toEqual({ x: 100, y: 50 }) // 末帧复位 posOriginal
   })
 
@@ -906,31 +910,34 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
 
   it('W4 wWave:magic.wave>0 → 每帧带 screenWave=wave;wave=0/缺 → 无 screenWave(fight.c:2667)', () => {
     const fw = buildNormal({ wave: 5 })
-    expect(fw.every((f) => f.screenWave === 5)).toBe(true) // 动画全程屏波
+    expect(fw[0]!.screenWave).toBeUndefined() // L14 前置 Delay(1) 帧无屏波
+    expect(fw.slice(1).every((f) => f.screenWave === 5)).toBe(true) // 特效循环全程屏波
     expect(buildNormal().every((f) => f.screenWave === undefined)).toBe(true) // 默认无 wave → 无屏波
     expect(buildNormal({ wave: 0 }).every((f) => f.screenWave === undefined)).toBe(true)
   })
 
   it('总帧数 l = (n-fireDelay)*effectTimes + n + shake', () => {
-    expect(buildNormal()).toHaveLength((8 - 2) * 1 + 8 + 0) // 14
+    expect(buildNormal()).toHaveLength((8 - 2) * 1 + 8 + 0 + 1) // 14 + 1 L14 前置 Delay(1)
     expect(buildNormal({ n: 8, fireDelay: 2, effectTimes: 2, shake: 3 })).toHaveLength(
-      (8 - 2) * 2 + 8 + 3, // 23
+      (8 - 2) * 2 + 8 + 3 + 1, // 23 + 1
     )
   })
 
   it('每帧 durationMs = (speed+5)*10', () => {
     const f = buildNormal({ speed: 2 })
-    expect(f[0]!.durationMs).toBe(70)
+    expect(f[0]!.durationMs).toBe(40) // L14 前置 Delay(1) = 40ms
+    expect(f[1]!.durationMs).toBe(70) // 特效帧 (speed+5)*10
     const f3 = buildNormal({ speed: 3 })
-    expect(f3[0]!.durationMs).toBe(80)
+    expect(f3[1]!.durationMs).toBe(80)
   })
 
   it('caster.currentFrame=6 仅在 i==fireDelay 帧(PAL_CLASSIC)', () => {
     const f = buildNormal({ fireDelay: 2 })
-    expect(f[0]!.fighters).toBeUndefined()
+    expect(f[0]!.fighters).toBeUndefined() // L14 前置 Delay(1)
     expect(f[1]!.fighters).toBeUndefined()
-    expect(f[2]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 6 }])
-    expect(f[3]!.fighters).toBeUndefined()
+    expect(f[2]!.fighters).toBeUndefined()
+    expect(f[3]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 6 }]) // i==fireDelay=2 → frames[1+2]
+    expect(f[4]!.fighters).toBeUndefined()
   })
 
   it('帧 index k:i<n → k=i;i>=n → ((i-fireDelay)%(n-fireDelay))+fireDelay', () => {
@@ -951,20 +958,20 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       targetIdx: 1,
       targetEnemyPos: { x: 160, y: 80 },
     })
-    // i=0..7 → k=i
-    expect(f[0]!.overlays![0]!.frameIdx).toBe(0)
-    expect(f[7]!.overlays![0]!.frameIdx).toBe(7)
+    // frames[0] 是 L14 前置 Delay(1);循环 i 对应 frames[i+1]。i=0..7 → k=i
+    expect(f[1]!.overlays![0]!.frameIdx).toBe(0)
+    expect(f[8]!.overlays![0]!.frameIdx).toBe(7)
     // i=8 → ((8-2)%(8-2))+2 = (6%6)+2 = 0+2 = 2
-    expect(f[8]!.overlays![0]!.frameIdx).toBe(2)
+    expect(f[9]!.overlays![0]!.frameIdx).toBe(2)
     // i=9 → ((9-2)%6)+2 = (7%6)+2 = 1+2 = 3
-    expect(f[9]!.overlays![0]!.frameIdx).toBe(3)
+    expect(f[10]!.overlays![0]!.frameIdx).toBe(3)
     // i=14 → ((14-2)%6)+2 = (12%6)+2 = 0+2 = 2
-    expect(f[14]!.overlays![0]!.frameIdx).toBe(2)
+    expect(f[15]!.overlays![0]!.frameIdx).toBe(2)
   })
 
   it('normal 落点 = enemy.pos + (xOff,yOff) = (164,74),overlay kind=magic chunk=effect', () => {
     const f = buildNormal()
-    expect(f[0]!.overlays).toEqual([{ kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 164, y: 74 }])
+    expect(f[1]!.overlays).toEqual([{ kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 164, y: 74 }]) // frames[0] 是 L14 前置 Delay(1)
   })
 
   it('attackAll:三落点 {70,140}{100,110}{160,100} 各 +off → overlays[3] 同帧', () => {
@@ -983,7 +990,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       n: 4,
       targetIdx: -1,
     })
-    expect(f[0]!.overlays).toEqual([
+    expect(f[1]!.overlays).toEqual([ // frames[0] 是 L14 前置 Delay(1)
       { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 75, y: 150 },
       { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 105, y: 120 },
       { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 165, y: 110 },
@@ -1006,7 +1013,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       n: 4,
       targetIdx: -1,
     })
-    expect(fw[0]!.overlays).toEqual([
+    expect(fw[1]!.overlays).toEqual([ // frames[0] 是 L14 前置 Delay(1)
       { kind: 'magic', spriteChunk: 30, frameIdx: 0, x: 120, y: 100 },
     ])
     const ff = buildPlayerOffMagicTimeline({
@@ -1024,7 +1031,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       n: 4,
       targetIdx: -1,
     })
-    expect(ff[0]!.overlays).toEqual([
+    expect(ff[1]!.overlays).toEqual([ // frames[0] 是 L14 前置 Delay(1)
       { kind: 'magic', spriteChunk: 31, frameIdx: 0, x: 160, y: 200 },
     ])
   })
@@ -1032,13 +1039,13 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
   it('shake 区末 shake 帧:带 shake{time:i,level:3} + 定帧 k=(l-shake-1)%n', () => {
     // n=8, fireDelay=2, effectTimes=1, shake=3 → l=(8-2)*1+8+3=17. shake 区 = 末 3 帧 i=14,15,16.
     const f = buildNormal({ n: 8, fireDelay: 2, effectTimes: 1, shake: 3 })
-    expect(f).toHaveLength(17)
-    // 非 shake 区末帧 i=13:l-i=4 > shake=3 → 无 shake
-    expect(f[13]!.shake).toBeUndefined()
-    // shake 区 i=14:l-i=3 <= shake=3 → 带 shake;k=(17-3-1)%8 = 13%8 = 5
-    expect(f[14]!.shake).toEqual({ time: 14, level: 3 })
-    expect(f[14]!.overlays![0]!.frameIdx).toBe(5)
-    expect(f[16]!.shake).toEqual({ time: 16, level: 3 })
+    expect(f).toHaveLength(18) // 17 + 1 L14 前置 Delay(1)
+    // frames[0] 是前置 Delay(1);循环 i 对应 frames[i+1]。非 shake 区 i=13 → frames[14]:l-i=4 > shake=3 → 无 shake
+    expect(f[14]!.shake).toBeUndefined()
+    // shake 区 i=14 → frames[15]:l-i=3 <= shake=3 → 带 shake;k=(17-3-1)%8 = 13%8 = 5
+    expect(f[15]!.shake).toEqual({ time: 14, level: 3 })
+    expect(f[15]!.overlays![0]!.frameIdx).toBe(5)
+    expect(f[17]!.shake).toEqual({ time: 16, level: 3 })
   })
 })
 

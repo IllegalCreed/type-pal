@@ -818,6 +818,11 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
   const l = (n - fireDelay) * asShortLocal(effectTimes) + n + shake
   const frameDuration = (speed + 5) * 10
 
+  // L14:主特效循环前的 PAL_BattleDelay(1,0,TRUE)(fight.c:2659)—— 施法姿 hold 一帧(40ms),特效尚未喷发
+  //   (无 overlay)。CLASSIC 路径此帧不切 frame6(frame6 在循环内 i==fireDelay 才切,fight.c:2677-2680;
+  //   仅 WIN95 在循环前设);caster 帧由 caller 的 preFrames 末帧 hold。敌方 EnemyMagic(fight.c:2897)无此前导。
+  frames.push({ durationMs: delayMs(1) })
+
   for (let i = 0; i < l; i++) {
     const fighters: BattleAnimFrame['fighters'] = []
     // PAL_CLASSIC:i==fireDelay 帧把 caster 切到施法帧 6(fight.c:2677-2680)。
