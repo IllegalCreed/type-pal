@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 35 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L10 L15 L16 L23 L26 L27 L28 L35 L36 L37 L39 L41 L45 L47 共 19 条 low。
-- **⏸ 暂缓 2 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L8 L9 L11–L14 L17–L20 L22 L24 L25 L29–L34 L38 L40 L42–L44 L46),性价比低暂留。
+- **✅ 已修复 37 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L10 L11 L13 L15 L16 L23 L26 L27 L28 L35 L36 L37 L39 L41 L45 L47 共 21 条 low。
+- **⏸ 暂缓 3 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L8 L9 L12 L17–L20 L22 L24 L25 L29–L34 L38 L40 L42–L44 L46),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -57,10 +57,10 @@
 | L8 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗法术选择叠加了 sdlpal 互斥的两套 MP/说明布局(金钱框+右侧MP+居中说明同屏) |
 | L9 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗杂项→物品二级菜单时,父菜单『道具』高亮色用了闪烁选中色而非确认色(0x2C) |
 | ✅ L10 | 🟡 | correctness | 战斗·主循环与回合流程 | 逃跑动作的 dex 倍率用浮点 ×0.5+四舍五入,而非 C 的整数 /2 |
-| L11 | 🟡 | timing | 战斗·主循环与回合流程 | 敌方主动逃跑飞出屏后缺少 500ms 收尾停顿 |
+| ✅ L11 | 🟡 | timing | 战斗·主循环与回合流程 | 敌方主动逃跑飞出屏后缺少 500ms 收尾停顿 |
 | L12 | 🟡 | timing | 战斗·动画与表现时序 | 玩家物理攻击缺少出招前摇姿(frame 7 + Delay(4)),冲刺直接开始 |
-| L13 | 🟡 | timing | 战斗·动画与表现时序 | 群攻每次挥砍后缺少 Delay(4) 收势停顿 |
-| L14 | 🟡 | timing | 战斗·动画与表现时序 | 玩家攻击魔法 OffMagic 缺少特效循环前的 Delay(1) 起手帧 |
+| ✅ L13 | 🟡 | timing | 战斗·动画与表现时序 | 群攻每次挥砍后缺少 Delay(4) 收势停顿 |
+| ⏸ L14 | 🟡 | timing | 战斗·动画与表现时序 | 玩家攻击魔法 OffMagic 缺少特效循环前的 Delay(1) 起手帧 |
 | ✅ L15 | 🟡 | pixel | 战斗·动画与表现时序 | 战斗投掷/使用物品演出期间不显示物品名称标签 |
 | ✅ L16 | 🟡 | timing | 战斗·动画与表现时序 | 敌方魔法命中前,被动格挡的队员未切到防御姿(frame 3) |
 | L17 | 🟡 | correctness | 战斗·动画与表现时序 | keepEffect 烙背景的 wScreenWave<9 判定只用 magic.wWave,漏算战场基础屏波 |
@@ -886,7 +886,7 @@ TS（battle-system.ts:557-558）`actionDexMultiplier` 对 'flee' 返回 0.5；�
 </details>
 
 
-### L11 · 🟡 敌方主动逃跑飞出屏后缺少 500ms 收尾停顿
+### ✅ L11 · 🟡 敌方主动逃跑飞出屏后缺少 500ms 收尾停顿
 
 - **子系统**:战斗·主循环与回合流程　**类别**:timing
 - **TS 位置**:`packages/game/src/core/battle/battle-system.ts:1812-1828`
@@ -930,7 +930,7 @@ fight.c:3667-3671 单体首击 wCurrentFrame=7 + PAL_BattleDelay(4,0,TRUE)（t==
 </details>
 
 
-### L13 · 🟡 群攻每次挥砍后缺少 Delay(4) 收势停顿
+### ✅ L13 · 🟡 群攻每次挥砍后缺少 Delay(4) 收势停顿
 
 - **子系统**:战斗·动画与表现时序　**类别**:timing
 - **TS 位置**:`packages/game/src/core/battle/actions/attack.ts:194-214 (群攻 sweep 拼接);anim-timeline.ts:372-392`
@@ -950,7 +950,7 @@ fight.c:3745-3747 群攻 t-loop 内 PAL_BattleShowPlayerAttackAnim 后接 PAL_Ba
 </details>
 
 
-### L14 · 🟡 玩家攻击魔法 OffMagic 缺少特效循环前的 Delay(1) 起手帧
+### ⏸ L14 · 🟡 玩家攻击魔法 OffMagic 缺少特效循环前的 Delay(1) 起手帧
 
 - **子系统**:战斗·动画与表现时序　**类别**:timing
 - **TS 位置**:`packages/game/src/core/battle/anim-timeline.ts:792 buildPlayerOffMagicTimeline (直接进 for i<l 循环,无前置 Delay(1))`
