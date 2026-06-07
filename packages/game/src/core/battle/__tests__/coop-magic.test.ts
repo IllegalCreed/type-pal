@@ -141,7 +141,7 @@ describe('performCoopMagic(协力合击,fight.c:3856-4043 CLASSIC)', () => {
     const { state, playerRoles } = makeCoopState(roles)
     // 参照伤害:str=40 直接打 applyMagicDamage(独立 clone state)
     const ref = makeCoopState([makeRole(0), makeRole(1)])
-    const refDmg = applyMagicDamage({ state: ref.state, target: 0, magStr: 40, magicData: { baseDamage: 80, elemental: 1 }, rngFactor: 1.0, minDamage: 1 })[0]!.damage
+    const refDmg = applyMagicDamage({ state: ref.state, target: 0, magStr: 40, magicData: { baseDamage: 80, elemental: 1 }, minDamage: 1 })[0]!.damage
     const before = state.enemies[0]!.e.health
     performCoopMagic({ state, casterIdx: 0, coopObjId: TEST_COOP_OBJ_ID, targetIdx: 'all', playerRoles, magics: [COOP_MAGIC], objectMagics: OBJ_MAGICS, bus: createCommandBus() })
     expect(refDmg).toBeGreaterThan(0)
@@ -153,7 +153,7 @@ describe('performCoopMagic(协力合击,fight.c:3856-4043 CLASSIC)', () => {
     const roles = [makeRole(0, { attackStrength: 40, magicStrength: 60 }), makeRole(1, { attackStrength: 20, magicStrength: 40 })]
     const { state, playerRoles } = makeCoopState(roles)
     const ref = makeCoopState([makeRole(0), makeRole(1)])
-    const refDmg = applyMagicDamage({ state: ref.state, target: 0, magStr: 40, magicData: { baseDamage: 80, elemental: 1 }, rngFactor: 1.0, minDamage: 1 })[0]!.damage
+    const refDmg = applyMagicDamage({ state: ref.state, target: 0, magStr: 40, magicData: { baseDamage: 80, elemental: 1 }, minDamage: 1 })[0]!.damage
     state.enemies[0]!.e.health = 5 // < refDmg → 超杀
     const bus = createCommandBus()
     performCoopMagic({ state, casterIdx: 0, coopObjId: TEST_COOP_OBJ_ID, targetIdx: 'all', playerRoles, magics: [COOP_MAGIC], objectMagics: OBJ_MAGICS, bus })
@@ -171,7 +171,7 @@ describe('performCoopMagic(协力合击,fight.c:3856-4043 CLASSIC)', () => {
     ]
     const { state, playerRoles } = makeCoopState(roles, [{}, {}, { sleep: 3 }])
     const ref = makeCoopState([makeRole(0), makeRole(1)])
-    const refDmg = applyMagicDamage({ state: ref.state, target: 0, magStr: 40, magicData: { baseDamage: 80, elemental: 1 }, rngFactor: 1.0, minDamage: 1 })[0]!.damage
+    const refDmg = applyMagicDamage({ state: ref.state, target: 0, magStr: 40, magicData: { baseDamage: 80, elemental: 1 }, minDamage: 1 })[0]!.damage
     const before = state.enemies[0]!.e.health
     performCoopMagic({ state, casterIdx: 0, coopObjId: TEST_COOP_OBJ_ID, targetIdx: 'all', playerRoles, magics: [COOP_MAGIC], objectMagics: OBJ_MAGICS, bus: createCommandBus() })
     expect(roles[2]!.hp).toBe(500) // sleeping 队员未付 HP

@@ -300,14 +300,13 @@ export function performMagic(input: PerformMagicInput): void {
     const target: number | 'all' = magicForcesAllTarget(magic.type) ? 'all' : input.targetIdx
     const role = input.playerRoles.roles[input.state.players[input.casterIdx]?.roleId ?? -1]
     const magStr = role ? asShort(role.magicStrength) : 0
-    // sdlpal RandomFloat(10,11)/10 → rngFactor ∈ [1.0, 1.1)
-    const rngFactor = 1 + input.state.rng.next() * 0.1
+    // L18/L20:rngFactor(RandomFloat(10,11)/10)由 applyMagicDamage **循环内逐敌掷**(sdlpal fight.c:215
+    //   在 PAL_CalcMagicDamage 内,群攻逐敌调用),不再 caller 预掷一次全目标共用。
     dmgResults = applyMagicDamage({
       state: input.state,
       target,
       magStr,
       magicData: { baseDamage: magic.baseDamage, elemental: magic.elemental },
-      rngFactor,
       minDamage: 1, // sdlpal inline:if (sDamage <= 0) sDamage = 1
     })
     // D17b:每个被命中敌人 collect showDamageNum(掉血 → blue,sdlpal `fight.c:648-651`)。
@@ -334,14 +333,13 @@ export function performMagic(input: PerformMagicInput): void {
     asShort(magic.baseDamage) > 0
   ) {
     const target: number | 'all' = magic.type === 'normal' ? input.targetIdx : 'all'
-    const rngFactor = 1 + input.state.rng.next() * 0.1 // sdlpal RandomFloat(10,11)/10
+    // L20:rngFactor 由 applyEnemyMagicDamage **循环内逐队员掷**(sdlpal fight.c:4793 逐队员调),不再共用。
     const enemyDmg = applyEnemyMagicDamage({
       state: input.state,
       casterEnemyIdx: input.casterIdx,
       target,
       magicData: { baseDamage: magic.baseDamage, elemental: magic.elemental },
       playerRoles: input.playerRoles,
-      rngFactor,
     })
     // 掉血 → blue(sdlpal PAL_BattleDisplayStatChange);用钳后真实 delta。延迟到特效播完、受击反应开始时 emit。
     for (const r of enemyDmg) {

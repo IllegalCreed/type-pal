@@ -385,7 +385,7 @@ export function dispatchBattleOpcode(
         targetIdx,
         objectMagics: tables.objectMagics,
         magics: tables.magics,
-        rngFactor: 1 + state.rng.next() * 0.1, // sdlpal RandomFloat(10,11)/10
+        // L18/L20:rngFactor 由 applyMagicDamage 循环内逐敌掷(sdlpal fight.c:215),不再 caller 预掷共用。
       })
       for (const r of results)
         emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter, r.damage) // 玩家方法术打敌:显示完整伤害
@@ -421,7 +421,7 @@ export function dispatchBattleOpcode(
         targetIdx: ctx.target?.idx, // sdlpal:sTarget = (SHORT)wEventObjectID
         objectMagics: tables.objectMagics,
         magics: tables.magics,
-        rngFactor: 1 + state.rng.next() * 0.1,
+        // L18/L20:rngFactor 由 applyMagicDamage 循环内逐敌掷,不再 caller 预掷共用。
       })
       for (const r of results)
         emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter, r.damage) // 玩家方法术打敌:显示完整伤害

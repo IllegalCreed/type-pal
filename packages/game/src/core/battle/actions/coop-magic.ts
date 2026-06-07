@@ -147,13 +147,12 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
       : targetIdx
 
   // 伤害:PAL_CalcMagicDamage(str, ...),sDamage<=0 → 1(minDamage=1,fight.c:4018/4037)。
-  const rngFactor = 1 + state.rng.next() * 0.1 // sdlpal RandomFloat(10,11)/10
+  // L18:合击群攻同样逐敌掷独立 rngFactor(applyMagicDamage 循环内,fight.c:4015 逐敌调用)。
   const results = applyMagicDamage({
     state,
     target,
     magStr: str,
     magicData: { baseDamage: magic.baseDamage, elemental: magic.elemental },
-    rngFactor,
     minDamage: 1,
   })
 

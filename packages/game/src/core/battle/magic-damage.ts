@@ -56,8 +56,6 @@ export interface ApplyMagicDamageInput {
   magStr: number
   /** 解析后的 magic 详细。`baseDamage` 保留 u16 原值(内部 asShort 处理 SHORT 语义)。 */
   magicData: { baseDamage: number, elemental: number }
-  /** rngFactor ∈ [1.0, 1.1)。调用方从 `state.rng` 算(sdlpal `RandomFloat(10,11)/10`)。 */
-  rngFactor: number
   /** sDamage 下限:inline=1,SimulateMagic=0。`dmg = max(dmg, minDamage)`。 */
   minDamage: number
 }
@@ -80,7 +78,7 @@ export interface MagicDamageResult {
  *          含未清空但 health<=0 的 slot;跳过 defeated=true 的运行时空槽(= sdlpal wObjectID==0)。
  */
 export function applyMagicDamage(input: ApplyMagicDamageInput): MagicDamageResult[] {
-  const { state, target, magStr, magicData, rngFactor, minDamage } = input
+  const { state, target, magStr, magicData, minDamage } = input
   const field = state.field.magicEffect
 
   const targetIdxs: number[]
@@ -99,6 +97,9 @@ export function applyMagicDamage(input: ApplyMagicDamageInput): MagicDamageResul
     if (def < 0)
       def = 0
 
+    // L18/L20:RandomFloat(10,11) 在 PAL_CalcMagicDamage 函数体内(fight.c:215),群攻 for 循环
+    //   逐敌调用(fight.c:4288/4015)→ **每个敌人各掷一次**独立倍率,不是全目标共用一次。
+    const rngFactor = 1 + state.rng.next() * 0.1 // sdlpal RandomFloat(10,11)/10 ∈ [1.0, 1.1)
     let dmg = calcMagicDamage({
       magStr,
       def,
@@ -142,8 +143,6 @@ export interface ApplyEnemyMagicDamageInput {
   magicData: { baseDamage: number, elemental: number }
   /** 玩家角色表(取 def / 抗性 / HP,直接 mutate role.hp)。 */
   playerRoles: PlayerRoles
-  /** sdlpal RandomFloat(10,11)/10 ∈ [1.0,1.1)。同 applyMagicDamage:每次 perform 取一次,全目标共用。 */
-  rngFactor: number
 }
 
 /**
@@ -162,7 +161,7 @@ export interface ApplyEnemyMagicDamageInput {
  * caller(performMagic enemy 分支)负责 emit showDamageNum(掉血 → blue)。
  */
 export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyMagicDamageResult[] {
-  const { state, casterEnemyIdx, target, magicData, playerRoles, rngFactor } = input
+  const { state, casterEnemyIdx, target, magicData, playerRoles } = input
   const caster = state.enemies[casterEnemyIdx]
   if (!caster)
     return []
@@ -204,6 +203,9 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
     }
     const poisonRes = clampRes(role.poisonResistance)
 
+    // L20:RandomFloat(10,11) 在 PAL_CalcMagicDamage 内,敌方 AoE for 循环逐队员调用(fight.c:4793)
+    //   → **每个队员各掷一次**独立倍率。掷在 autoDefend 的 RandomLong(0,2) 之前(与单体时序一致)。
+    const rngFactor = 1 + state.rng.next() * 0.1 // sdlpal RandomFloat(10,11)/10 ∈ [1.0, 1.1)
     let dmg = calcMagicDamage({
       magStr,
       def,
@@ -250,8 +252,6 @@ export interface SimulateMagicInput {
   targetIdx: number | undefined
   objectMagics: ObjectMagicView[]
   magics: Magic[]
-  /** rngFactor ∈ [1.0, 1.1)(caller 从 state.rng 算)。 */
-  rngFactor: number
 }
 
 /**
@@ -299,7 +299,6 @@ export function simulateMagic(input: SimulateMagicInput): MagicDamageResult[] {
     target,
     magStr: input.magStr,
     magicData: { baseDamage: magic.baseDamage, elemental: magic.elemental },
-    rngFactor: input.rngFactor,
     minDamage: 0, // SimulateMagic:if (sDamage < 0) sDamage = 0(允许 0)
   })
 }

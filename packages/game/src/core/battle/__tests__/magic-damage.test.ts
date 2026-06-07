@@ -88,7 +88,8 @@ function makeState(enemies: Partial<Enemy>[], fieldEffect?: BattleField['magicEf
     uiCursor: 0,
     expGained: 0,
     cashGained: 0,
-    rng: createSeedableRng(1),
+    // rngFactor 现由伤害函数循环内逐目标 next() 掷;注入 next:()=>0 → 全目标 rngFactor 固定 1.0(等价旧 rngFactor:1.0 手算)。
+    rng: { ...createSeedableRng(1), next: () => 0 },
     phaseStallTicks: 0,
   }
 }
@@ -104,7 +105,6 @@ describe('applyMagicDamage', () => {
       target: 0,
       magStr: 64,
       magicData: { baseDamage: 45, elemental: 1 },
-      rngFactor: 1.0,
       minDamage: 1,
     })
     expect(results).toEqual([{ enemyIdx: 0, damage: 50, hpBefore: 100, hpAfter: 50 }])
@@ -121,7 +121,6 @@ describe('applyMagicDamage', () => {
       target: 'all',
       magStr: 64,
       magicData: { baseDamage: 45, elemental: 1 },
-      rngFactor: 1.0,
       minDamage: 1,
     })
     expect(results).toEqual([
@@ -141,7 +140,6 @@ describe('applyMagicDamage', () => {
       target: 0,
       magStr: 0,
       magicData: { baseDamage: 64537, elemental: 0 },
-      rngFactor: 1.0,
       minDamage: 0,
     })
     expect(results).toEqual([{ enemyIdx: 0, damage: 0, hpBefore: 100, hpAfter: 100 }])
@@ -155,7 +153,6 @@ describe('applyMagicDamage', () => {
       target: 0,
       magStr: 1,
       magicData: { baseDamage: 0, elemental: 0 },
-      rngFactor: 1.0,
       minDamage: 1,
     })
     expect(results[0]!.damage).toBe(1)
@@ -169,10 +166,31 @@ describe('applyMagicDamage', () => {
       target: 0,
       magStr: 64,
       magicData: { baseDamage: 45, elemental: 1 },
-      rngFactor: 1.0,
       minDamage: 1,
     })
     expect(state.enemies[0]!.e.health).toBe(0)
+  })
+
+  // L18/L20:群攻对每个敌人**各掷一次**独立 RandomFloat(10,11)(sdlpal fight.c:215 在 PAL_CalcMagicDamage
+  //   函数体内,群攻 for 循环逐敌调用 fight.c:4288/4015 → N 敌 N 次独立掷骰)。旧实现 caller 预掷一次
+  //   全目标共用同一倍率(相同 def 的多敌伤害撞车);改后伤害函数循环内逐目标掷,各目标 rngFactor 独立。
+  it('L18/L20:多体 target="all" 每个目标各掷一次独立 rngFactor(相同敌人伤害不同)', () => {
+    let calls = 0
+    const seq = [0, 0.9] // 敌0 next=0 → rngFactor 1.0;敌1 next=0.9 → rngFactor 1.09
+    const state = makeState([
+      { health: 9999, defense: 30, level: 5 },
+      { health: 9999, defense: 30, level: 5 },
+    ])
+    state.rng = { ...createSeedableRng(1), next: () => seq[calls++] ?? 0 }
+    const results = applyMagicDamage({
+      state,
+      target: 'all',
+      magStr: 640,
+      magicData: { baseDamage: 80, elemental: 1 },
+      minDamage: 1,
+    })
+    expect(calls).toBe(2) // 每个存活目标各掷一次(非全体共用一次)
+    expect(results[0]!.damage).not.toBe(results[1]!.damage) // 独立 rngFactor → 相同敌人伤害不同
   })
 })
 
@@ -230,7 +248,8 @@ function makeEnemyMagicState(
       slow: 0,
     },
   }))
-  state.rng = { ...createSeedableRng(1), range: () => rangeVal }
+  // next:()=>0 → rngFactor 固定 1.0(逐队员掷,值恒定);range 控 autoDefend。
+  state.rng = { ...createSeedableRng(1), next: () => 0, range: () => rangeVal }
   const roles: PlayerRole[] = players.map((p, i) => ({
     id: i,
     hp: p.hp,
@@ -254,7 +273,7 @@ describe('applyEnemyMagicDamage', () => {
       ])
       return applyEnemyMagicDamage({
         state, casterEnemyIdx: 0, target: 0,
-        magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+        magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
       })[0]!.damage
     }
     expect(dmgAt(5)).toBe(dmgAt(99)) // def=role.defense(30),与 level 无关
@@ -269,7 +288,7 @@ describe('applyEnemyMagicDamage', () => {
     ])
     const r = applyEnemyMagicDamage({
       state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
     })
     expect(r).toEqual([{ playerIdx: 0, damage: 65, hpBefore: 100, hpAfter: 35, autoDefend: false }])
     expect(playerRoles.roles[0]!.hp).toBe(35)
@@ -282,7 +301,7 @@ describe('applyEnemyMagicDamage', () => {
     ])
     const r = applyEnemyMagicDamage({
       state, casterEnemyIdx: 0, target: 'all',
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
     })
     expect(r).toEqual([
       { playerIdx: 0, damage: 65, hpBefore: 100, hpAfter: 35, autoDefend: false },
@@ -296,7 +315,7 @@ describe('applyEnemyMagicDamage', () => {
     ])
     const r = applyEnemyMagicDamage({
       state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
     })
     expect(r[0]!.damage).toBe(32) // trunc(65/((2*1)+0))=32
   })
@@ -307,7 +326,7 @@ describe('applyEnemyMagicDamage', () => {
     ])
     const r = applyEnemyMagicDamage({
       state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
     })
     expect(r[0]!.damage).toBe(32) // trunc(65/((1*2)+0))=32
   })
@@ -318,7 +337,7 @@ describe('applyEnemyMagicDamage', () => {
     ])
     const r = applyEnemyMagicDamage({
       state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
     })
     expect(r[0]!.damage).toBe(16) // trunc(65/((2*2)+0))=16
   })
@@ -329,7 +348,7 @@ describe('applyEnemyMagicDamage', () => {
     ], /* rangeVal */ 0)
     const r = applyEnemyMagicDamage({
       state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
     })
     expect(r[0]!.damage).toBe(32) // trunc(65/((1*1)+1))=32
     expect(r[0]!.autoDefend).toBe(true) // L16:被动格挡标志外传(供动画摆防御姿 frame3)
@@ -341,7 +360,7 @@ describe('applyEnemyMagicDamage', () => {
     ], 0)
     const r = applyEnemyMagicDamage({
       state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
     })
     expect(r[0]!.damage).toBe(21) // trunc(65/((2*1)+1))=21
   })
@@ -352,7 +371,7 @@ describe('applyEnemyMagicDamage', () => {
     ], 0)
     const r = applyEnemyMagicDamage({
       state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
     })
     expect(r[0]!.damage).toBe(65) // 睡眠 → canAutoDefend=false → 除因子 1
   })
@@ -363,7 +382,7 @@ describe('applyEnemyMagicDamage', () => {
     ])
     const r = applyEnemyMagicDamage({
       state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
     })
     expect(r[0]!.damage).toBe(30)
     expect(playerRoles.roles[0]!.hp).toBe(0)
@@ -376,7 +395,7 @@ describe('applyEnemyMagicDamage', () => {
     ])
     const r = applyEnemyMagicDamage({
       state, casterEnemyIdx: 0, target: 'all',
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
     })
     expect(r.map(x => x.playerIdx)).toEqual([1]) // idx0 死 → 跳过
     expect(playerRoles.roles[0]!.hp).toBe(0)
@@ -389,9 +408,27 @@ describe('applyEnemyMagicDamage', () => {
     ])
     const r = applyEnemyMagicDamage({
       state, casterEnemyIdx: 0, target: 0,
-      magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
     })
     expect(r[0]!.damage).toBe(0) // 倍率 0 → 0 伤害(非负)
     expect(playerRoles.roles[0]!.hp).toBe(100) // 不回血(clamp 前会 >100)
+  })
+
+  // L20:敌方 AoE 同样逐队员各掷一次独立 RandomFloat(sdlpal fight.c:4793 在 for 循环内逐队员调
+  //   PAL_CalcMagicDamage)。旧实现 caller 预掷一次全队员共用,改后循环内逐目标掷。
+  it('L20:敌方 AoE target="all" 每个队员各掷一次独立 rngFactor', () => {
+    let calls = 0
+    const seq = [0, 0.9] // 队员0 rngFactor 1.0;队员1 rngFactor 1.09
+    const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
+      { hp: 9999, defense: 30, level: 5 },
+      { hp: 9999, defense: 30, level: 5 },
+    ]) // 默认 range:()=>1 → 不自卫;next 计数序列覆盖
+    state.rng = { ...state.rng, next: () => seq[calls++] ?? 0 }
+    const r = applyEnemyMagicDamage({
+      state, casterEnemyIdx: 0, target: 'all',
+      magicData: { baseDamage: 45, elemental: 1 }, playerRoles,
+    })
+    expect(calls).toBe(2) // 每个存活队员各掷一次(非全队共用一次)
+    expect(r[0]!.damage).not.toBe(r[1]!.damage) // 独立 rngFactor → 相同队员伤害不同
   })
 })
