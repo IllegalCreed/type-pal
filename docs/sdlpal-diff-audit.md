@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 40 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L10 L11 L13 L15 L16 L23 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L41 L45 L47 共 24 条 low。
+- **✅ 已修复 42 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L9 L10 L11 L13 L15 L16 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L41 L45 L47 共 26 条 low。
 - **⏸ 暂缓 3 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L8 L9 L12 L17–L20 L22 L24 L25 L29 L30 L34 L38 L40 L42–L44 L46),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L8 L12 L17–L20 L22 L25 L29 L30 L34 L38 L40 L42–L44 L46),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -55,7 +55,7 @@
 | ✅ L6 | 🟡 | correctness | 存档·初始化与启动流程 | 读档/新游戏不复位物品菜单光标 iCurInvMenuItem |
 | ✅ L7 | 🟡 | correctness | 存档·初始化与启动流程 | 读档不复位 sWaveProgression(屏幕波动增量随存档残留) |
 | L8 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗法术选择叠加了 sdlpal 互斥的两套 MP/说明布局(金钱框+右侧MP+居中说明同屏) |
-| L9 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗杂项→物品二级菜单时,父菜单『道具』高亮色用了闪烁选中色而非确认色(0x2C) |
+| ✅ L9 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗杂项→物品二级菜单时,父菜单『道具』高亮色用了闪烁选中色而非确认色(0x2C) |
 | ✅ L10 | 🟡 | correctness | 战斗·主循环与回合流程 | 逃跑动作的 dex 倍率用浮点 ×0.5+四舍五入,而非 C 的整数 /2 |
 | ✅ L11 | 🟡 | timing | 战斗·主循环与回合流程 | 敌方主动逃跑飞出屏后缺少 500ms 收尾停顿 |
 | L12 | 🟡 | timing | 战斗·动画与表现时序 | 玩家物理攻击缺少出招前摇姿(frame 7 + Delay(4)),冲刺直接开始 |
@@ -70,7 +70,7 @@
 | ⏸ L21 | 🟡 | correctness | 战斗·物理伤害公式 | 群攻 division 衰减:TS 跳过 health<=0 敌人不计 division,C 只跳 wObjectID==0(已清槽)且对任何未清槽敌都翻倍 |
 | L22 | 🟡 | correctness | 战斗·物理伤害公式 | 敌普攻等价物中毒:TS 用 equivId!==0 短路,跳过了 C 对所有非格挡命中都会消费的 RandomLong(1,10) 抽取 |
 | ✅ L23 | 🟡 | correctness | 战斗·结算与成长 | 战斗开始未把 HP=0 的队员复活为 1(且未清傀儡状态) |
-| L24 | 🟡 | pixel | 战斗·结算与成长 | 隐藏属性涨点屏(hidden-exp-up)对 2 字角色名的文字 x 定位与原版不一致 |
+| ✅ L24 | 🟡 | pixel | 战斗·结算与成长 | 隐藏属性涨点屏(hidden-exp-up)对 2 字角色名的文字 x 定位与原版不一致 |
 | L25 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x91 同种敌人判定用 enemyId,C 用 wObjectID(对象身份) |
 | ✅ L26 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x6A 偷钱在 c==0 时仍弹「获得 0 文钱」对话(C 仅 c>0 才显示) |
 | ✅ L27 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x28 全体上毒时,入口毒脚本以各敌自身 index 运行,C 统一用投掷目标 wEventObjectID |
@@ -821,7 +821,7 @@ reference/sdlpal/magicmenu.c:130-142(非WIN95-noDesc:金钱框0,0+标签10/10+dw
 </details>
 
 
-### L9 · 🟡 战斗杂项→物品二级菜单时,父菜单『道具』高亮色用了闪烁选中色而非确认色(0x2C)
+### ✅ L9 · 🟡 战斗杂项→物品二级菜单时,父菜单『道具』高亮色用了闪烁选中色而非确认色(0x2C)
 
 - **子系统**:战斗·UI 与像素布局　**类别**:pixel
 - **TS 位置**:`packages/game/src/present/battle/draw-battle-ui.ts:273-275,480-483`
@@ -1261,7 +1261,7 @@ battle.c:1569-1577(PAL_StartBattle:rgwHP[w]==0→=1 且清 kStatusPuppet);battle
 </details>
 
 
-### L24 · 🟡 隐藏属性涨点屏(hidden-exp-up)对 2 字角色名的文字 x 定位与原版不一致
+### ✅ L24 · 🟡 隐藏属性涨点屏(hidden-exp-up)对 2 字角色名的文字 x 定位与原版不一致
 
 - **子系统**:战斗·结算与成长　**类别**:pixel
 - **TS 位置**:`packages/game/src/present/battle/draw-battle-settlement.ts:122-128 (drawHiddenExpUpScreen)`
