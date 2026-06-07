@@ -1160,7 +1160,7 @@ export function buildCoopMagicTimeline(input: BuildCoopMagicInput): BattleAnimFr
 /** PAL_BattleFadeScene crossfade 步数(battle.c:632 12 outer × 6 inner = 72)。 */
 export const SUMMON_FADE_STEPS = 72
 /** crossfade 每步时长(battle.c:631 time = SDL_GetTicks()+16)。 */
-const SUMMON_FADE_STEP_MS = 16
+export const SUMMON_FADE_STEP_MS = 16
 
 /**
  * 召唤全员变亮(sdlpal fight.c:3120-3128):i=1..10,所有队员 iColorShift=i,各 Delay(1)。

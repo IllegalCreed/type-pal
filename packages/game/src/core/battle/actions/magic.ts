@@ -30,6 +30,8 @@ import {
   buildPreMagicTimeline,
   buildSummonBrightenTimeline,
   buildSummonGodSequence,
+  SUMMON_FADE_STEP_MS,
+  SUMMON_FADE_STEPS,
 } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
@@ -667,16 +669,22 @@ function buildAndStartTranceAnim(
       fighters: [{ side: 'player', idx: input.casterIdx, iColorShift: i * 2 }],
     })
   }
-  frames.push({
-    durationMs: BATTLE_FRAME_TIME,
-    fighters: [{
-      side: 'player',
-      idx: input.casterIdx,
-      iColorShift: 0,
-      spriteNumOverride: opts.spriteAfter === undefined ? (opts.spriteBefore ?? null) : opts.spriteAfter,
-    }],
-  })
+  // L19:闪色后**不硬切**,而是接 72 步 dither crossfade(fight.c:4234-4240:VIDEO_BackupScreen 旧精灵 →
+  //   PAL_LoadBattleSprites 载新精灵 → iColorShift=0 → PAL_BattleMakeScene → PAL_BattleFadeScene)。
+  //   复用 summon crossfade 引擎(present applySummonFade):fadeDir='out' → summonGodMode=false → 不画召唤神/
+  //   不隐队员/bg 不染色,仅做 from(闪色末帧旧精灵,hasSummonFade 时快照)→ to(新精灵)的低 nibble dither。
+  //   每帧已把 caster 切到新精灵 + iColorShift=0,故 current 即"新精灵画面"。
+  const newSprite = opts.spriteAfter === undefined ? (opts.spriteBefore ?? null) : opts.spriteAfter
+  const casterPos = player.posOriginal
+  for (let s = 0; s < SUMMON_FADE_STEPS; s++) {
+    frames.push({
+      durationMs: SUMMON_FADE_STEP_MS,
+      fighters: [{ side: 'player', idx: input.casterIdx, iColorShift: 0, spriteNumOverride: newSprite }],
+      summon: { spriteKey: '', frame: 0, pos: casterPos, bgColorShift: 0, fadeStep: s, fadeDir: 'out' },
+    })
+  }
   startBattleAnim(input.state, [...preFrames, ...frames], input.bus, pendingNums)
+  if (input.state.battleAnim) input.state.battleAnim.hasSummonFade = true // present 据此在非 fade 帧(闪色)快照 from
   return true
 }
 

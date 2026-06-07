@@ -10,6 +10,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
 import { createInitialGameState, type GameState, type InventoryEntry } from '../../game-state.js'
 import { createSeedableRng } from '../../rng.js'
+import { SUMMON_FADE_STEPS } from '../anim-timeline.js'
 import { performAttack, performEnemyConfusedAttack } from '../actions/attack.js'
 import { performDefend } from '../actions/defend.js'
 import { performFlee } from '../actions/flee.js'
@@ -1649,7 +1650,22 @@ describe('performMagic', () => {
     expect(state.battleAnim?.frames.length).toBeGreaterThan(7)
     expect(state.battleAnim?.frames.some(f => f.sound === 9)).toBe(true)
     expect(gs.pendingSounds ?? []).not.toContain(335) // trance:原版 DefMagicAnim effect=0xFFFF 早退,magic.sound 335 不播(fight.c:2480-2484/2501)
-    expect(state.battleAnim?.frames.slice(-7, -1).map(f => f.fighters?.[0]?.iColorShift)).toEqual([0, 2, 4, 6, 8, 10])
+    // L19:闪色 6 帧(旧精灵 iColorShift 渐变)后,**不再硬切**,而是接 72 步 dither crossfade
+    //   (fight.c:4234-4240 VIDEO_BackupScreen→LoadBattleSprites→iColorShift=0→MakeScene→FadeScene)。
+    const fr = state.battleAnim!.frames
+    const flashStart = fr.length - SUMMON_FADE_STEPS - 6
+    expect(fr.slice(flashStart, flashStart + 6).map(f => f.fighters?.[0]?.iColorShift)).toEqual([0, 2, 4, 6, 8, 10])
+    // fade 段:72 帧,每帧已切到新精灵 295 + iColorShift=0,复用 summon crossfade 引擎(fadeDir='out' 不画神/不隐队员)。
+    const fadeFrames = fr.slice(-SUMMON_FADE_STEPS)
+    expect(fadeFrames.length).toBe(SUMMON_FADE_STEPS)
+    expect(fadeFrames.every(f =>
+      f.summon?.fadeDir === 'out'
+      && f.fighters?.[0]?.iColorShift === 0
+      && f.fighters?.[0]?.spriteNumOverride === 295,
+    )).toBe(true)
+    expect(fadeFrames[0]!.summon?.fadeStep).toBe(0)
+    expect(fadeFrames.at(-1)!.summon?.fadeStep).toBe(SUMMON_FADE_STEPS - 1)
+    expect(state.battleAnim?.hasSummonFade).toBe(true) // present 据此在非 fade 帧(闪色)快照 from
     expect(state.battleAnim?.frames.at(-1)?.fighters?.[0]).toMatchObject({
       side: 'player',
       idx: 0,
