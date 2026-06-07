@@ -32,11 +32,14 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
   // P2#6a 修:旧版只在 event+frame-wait 跑 → 脚本控制走路/滚屏/骑乘期间 NPC 冻结(sdlpal 仍在动)。
   // 特效 A:'scene-fade'(0x93 / 0x80 fUpdateScene)放行 autoScript —— sdlpal PAL_SceneFade 每步调
   // PAL_GameUpdate(FALSE),NPC/动画淡入期间不冻(否则 SceneFade 进场 NPC 静止,不忠实)。
+  // M4(2026-06-07 sdlpal 审查):'camera-pan'(0x7F 相对 pan,op2!=0xFFFF)放行 autoScript ——
+  //   sdlpal script.c:2364-2366 相对 pan 每帧调 PAL_GameUpdate(FALSE),pan 期间 NPC autoScript /
+  //   追逐 timer 不冻(否则边平移边走的 NPC 会在 pan 那几帧静止)。
   const w = gs.eventCursor?.waiting
   const shouldRunAutoScripts =
     !gs.sceneLoading
     && gs.mode === 'event'
-    && (w === undefined || w === 'frame-wait' || w === 'scene-fade')
+    && (w === undefined || w === 'frame-wait' || w === 'scene-fade' || w === 'camera-pan')
   if (shouldRunAutoScripts) {
     tickAutoScripts(gs)
     // sdlpal play.c:235-238 PAL_GameUpdate 体内每帧:追逐 timer 自减(0x62 驱魔香/0x63 十里香 到期复位 wChaseRange)。

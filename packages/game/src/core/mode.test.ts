@@ -59,6 +59,17 @@ describe('tickByMode autoScript gate (P2#6a)', () => {
     expect(gs.npcs[0]?.autoCursor?.ip).toBe(1)
   })
 
+  it('M4:event 模式 + waiting=camera-pan(0x7F 相对 pan)→ autoScript 跑(script.c:2364)', () => {
+    const gs = gsWithAutoNpc()
+    gs.mode = 'event'
+    gs.eventCursor = {
+      commands: [{ op: 'end' }], labelMap: {}, ip: 0,
+      waiting: 'camera-pan', cameraPanDx: 0, cameraPanDy: 0, cameraPanFramesRemaining: 5,
+    }
+    tickByMode(gs, snap(), createCommandBus())
+    expect(gs.npcs[0]?.autoCursor?.ip).toBe(1) // pan 期间 autoScript 不冻(C 每帧 PAL_GameUpdate)
+  })
+
   it('event 模式 + waiting=dialog(对话阻塞)→ autoScript **不**跑(NPC 停)', () => {
     const gs = gsWithAutoNpc()
     gs.mode = 'event'
