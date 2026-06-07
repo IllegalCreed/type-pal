@@ -132,6 +132,22 @@ describe('runMagicScriptSync - opcode 0x1B OP_INCREASE_HP', () => {
     runMagicScriptSync(gs, 43016, 0xFFFF) // 真值需要 role id,0xFFFF 跳过
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50) // unchanged
   })
+
+  it('M10:满血单体治疗 → success=false(无变化,sdlpal Avoid over treatment global.c:1324)', () => {
+    const gs = mkGs()
+    gs.PlayerRolesRuntime.rgwHP[0] = 200 // 满血(=maxHP)
+    const ok = runMagicScriptSync(gs, 43016, 0) // 气疗术 HP+75 single
+    expect(ok).toBe(false) // 无变化 → fScriptSuccess=FALSE → 上层不扣 MP
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(200) // 不变
+  })
+
+  it('M10:死人单体治疗 → success=false + HP 不抬(仅活人,sdlpal PAL_IncreaseHPMP hp>0 global.c:1287)', () => {
+    const gs = mkGs()
+    gs.PlayerRolesRuntime.rgwHP[0] = 0 // 阵亡
+    const ok = runMagicScriptSync(gs, 43016, 0) // 气疗术对死人
+    expect(ok).toBe(false) // 死人不治 → fScriptSuccess=FALSE → 不扣 MP
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(0) // 不抬血(原 bug 会变 75 = 廉价复活)
+  })
 })
 
 // ── opcode 0x1C OP_INCREASE_MP ────────────────────────────────────────────

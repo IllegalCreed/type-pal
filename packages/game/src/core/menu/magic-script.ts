@@ -43,30 +43,38 @@ function signExtendI16(u: number): number {
 // (single = role id;all = 0xFFFF;0 = single 用 wEventObjectID 默认值)。
 // clamp [0, maxHP/maxMP](sdlpal PAL_IncreaseHPMP 等价)。
 
+// M10(2026-06-07 sdlpal 审查):1:1 移植 PAL_IncreaseHPMP(global.c:1254-1330)。
+//   返回是否真发生变化(= sdlpal fSuccess):
+//   - 仅活人(hp>0)生效 —— 死人不抬血(否则成廉价复活,global.c:1287)。
+//   - clamp [0, max] 后 origHP==newHP && origMP==newMP → false("Avoid over treatment",global.c:1324)。
+//   上层据此设 g_fScriptSuccess,决定是否扣 MP(满血/死人施法不扣 MP)。
 function applyHPMPDeltaSingle(
   gs: GameState, roleId: number, hpDelta: number, mpDelta: number,
-): void {
+): boolean {
   const r = gs.PlayerRolesRuntime
+  if ((r.rgwHP[roleId] ?? 0) <= 0) return false // 仅活人
+  const origHP = r.rgwHP[roleId] ?? 0
+  const origMP = r.rgwMP[roleId] ?? 0
   if (hpDelta !== 0) {
     const maxHP = r.rgwMaxHP[roleId] ?? 0
-    const cur = r.rgwHP[roleId] ?? 0
-    r.rgwHP[roleId] = Math.max(0, Math.min(maxHP, cur + hpDelta))
+    r.rgwHP[roleId] = Math.max(0, Math.min(maxHP, origHP + hpDelta))
   }
   if (mpDelta !== 0) {
     const maxMP = r.rgwMaxMP[roleId] ?? 0
-    const cur = r.rgwMP[roleId] ?? 0
-    r.rgwMP[roleId] = Math.max(0, Math.min(maxMP, cur + mpDelta))
+    r.rgwMP[roleId] = Math.max(0, Math.min(maxMP, origMP + mpDelta))
   }
+  return (r.rgwHP[roleId] ?? 0) !== origHP || (r.rgwMP[roleId] ?? 0) !== origMP
 }
 
+/** 遍历队伍逐个调 applyHPMPDeltaSingle(已含仅活人);返回是否至少一个真变化。 */
 function applyHPMPDeltaAll(
   gs: GameState, hpDelta: number, mpDelta: number,
-): void {
+): boolean {
+  let any = false
   for (const role of gs.partyMembers) {
-    if ((gs.PlayerRolesRuntime.rgwHP[role] ?? 0) > 0) {
-      applyHPMPDeltaSingle(gs, role, hpDelta, mpDelta)
-    }
+    if (applyHPMPDeltaSingle(gs, role, hpDelta, mpDelta)) any = true
   }
+  return any
 }
 
 // ── opcode 0x22 OP_REVIVE_PLAYER 真值(sdlpal script.c:1052-1102)────────────
@@ -165,20 +173,30 @@ export function runMagicScriptSync(
     switch (cmd.opcode) {
       case 0x1B: {
         // OP_INCREASE_HP — sdlpal script.c:867-894
-        if (applyAll) applyHPMPDeltaAll(gs, delta, 0)
-        else if (targetRoleIdOrAll !== 0xFFFF) applyHPMPDeltaSingle(gs, targetRoleIdOrAll, delta, 0)
+        // all 分支(C:871-883):g_fScriptSuccess=FALSE 起,任一 PAL_IncreaseHPMP 成功 → TRUE。
+        // single 分支(C:889-892):失败(死人/无变化)→ g_fScriptSuccess=FALSE。
+        if (applyAll) scriptSuccess = applyHPMPDeltaAll(gs, delta, 0)
+        else if (targetRoleIdOrAll !== 0xFFFF) {
+          if (!applyHPMPDeltaSingle(gs, targetRoleIdOrAll, delta, 0)) scriptSuccess = false
+        }
         break
       }
       case 0x1C: {
         // OP_INCREASE_MP — sdlpal script.c:896-921
+        // all 分支(C:900-910)**不碰** g_fScriptSuccess;single 分支(C:916-919)失败 → FALSE。
         if (applyAll) applyHPMPDeltaAll(gs, 0, delta)
-        else if (targetRoleIdOrAll !== 0xFFFF) applyHPMPDeltaSingle(gs, targetRoleIdOrAll, 0, delta)
+        else if (targetRoleIdOrAll !== 0xFFFF) {
+          if (!applyHPMPDeltaSingle(gs, targetRoleIdOrAll, 0, delta)) scriptSuccess = false
+        }
         break
       }
       case 0x1D: {
         // OP_INCREASE_HP_MP — sdlpal script.c:923-950(HP+MP 同 delta)
+        // all 分支(C:927-938)**不碰** g_fScriptSuccess;single 分支(C:944-947)失败 → FALSE。
         if (applyAll) applyHPMPDeltaAll(gs, delta, delta)
-        else if (targetRoleIdOrAll !== 0xFFFF) applyHPMPDeltaSingle(gs, targetRoleIdOrAll, delta, delta)
+        else if (targetRoleIdOrAll !== 0xFFFF) {
+          if (!applyHPMPDeltaSingle(gs, targetRoleIdOrAll, delta, delta)) scriptSuccess = false
+        }
         break
       }
       case 0x22: {
