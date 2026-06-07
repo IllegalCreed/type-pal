@@ -456,6 +456,19 @@ const FACING_TO_SDLPAL_DIR: Record<'down' | 'left' | 'up' | 'right', number> = {
   right: 3,  // kDirEast
 }
 
+/**
+ * sdlpal PAL_NPCWalkOneStep(scene.c:893-901):推进 NPC 走路帧 —— nSpriteFrames>0 时
+ * `nextFrame % (nSpriteFrames==3 ? 4 : nSpriteFrames)`;nSpriteFrames==0(非方向性单姿势
+ * sprite)不推帧、恒 0(nSpriteFramesAuto 在本作全 0,死代码)。M3/L4(2026-06-07 审查):原先各处
+ * 硬编码 %4,对 nSpriteFrames∈{1,2} 的对象脚本走位 / 追逐时帧序错(渗进相邻方向帧块)。
+ */
+export function walkFrameMod(nextFrame: number, nSpriteFrames: number | undefined): number {
+  // undefined = 未 hydrate(测试 fixture / 旧路径)→ 退回标准 4 帧循环(多数 NPC nSpriteFrames=3 → mod 4)
+  if (nSpriteFrames === undefined) return nextFrame % 4
+  if (nSpriteFrames <= 0) return 0 // scene.c:893 nSpriteFrames==0(单姿势)不推帧
+  return nextFrame % (nSpriteFrames === 3 ? 4 : nSpriteFrames)
+}
+
 const SINGLE_TICK_LIMIT = 256
 
 // sdlpal text.c:1701 PAL_DialogWaitForKeyWithMaximumSeconds(1.4):kDialogCenterWindow
@@ -3496,7 +3509,7 @@ function applyRawOpcode(
           npc.y += delta[1]
         }
         // 同 0x6C handler:推进 scriptedFrame mod 4 — 走路帧循环
-        npc.scriptedFrame = ((npc.scriptedFrame ?? -1) + 1) % 4
+        npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames)
         console.debug(
           `event-system: walkOneStep dir=${FACINGS[dirCode]} id=${npc.id} → (${npc.x},${npc.y})`,
         )
@@ -3613,7 +3626,7 @@ function applyRawOpcode(
         // M5 简版:从 undefined 起始 0,循环 mod 4(NPC sprite 通常 4 帧 = 4 dirs × 1 / 或 4 步动画)
         //         真 nSpriteFrames 由渲染层从 ctx.npcSpriteFrames 反查;event-system 拿不到 ctx,
         //         默认 mod 4 已足以让"走 5 步动画 0→1→2→3→0→1"循环视觉。
-        npc.scriptedFrame = ((npc.scriptedFrame ?? -1) + 1) % 4
+        npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames)
       }
       break
     }
@@ -3645,7 +3658,7 @@ function applyRawOpcode(
       // iSpeed=0 → 仅推进动画帧(scene.c:893-902),不位移。wCurEventObjectID = operand[0] 选。
       const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'animateObject')
       if (npc) {
-        npc.scriptedFrame = ((npc.scriptedFrame ?? -1) + 1) % 4
+        npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames)
       }
       break
     }
@@ -4671,7 +4684,7 @@ function npcWalkTo(
     // **重要**:sdlpal 结构体 zero-init,wCurrentFrameNum 初始 = 0。我们 scriptedFrame
     // undefined 时也应当 0(不是 -1),否则差一帧 — 12 步后 sdlpal frame=0(stand),
     // 我们错算成 frame=3(foot2),停在抬腿姿势。
-    const next = ((npc.scriptedFrame ?? 0) + 1) % 4
+    const next = walkFrameMod((npc.scriptedFrame ?? 0) + 1, npc.nSpriteFrames)
     npc.scriptedFrame = next
   }
 
@@ -4924,7 +4937,7 @@ function monsterChasePlayer(
   const stepY = (npc.facing === 'left' || npc.facing === 'up') ? -1 : 1
   npc.x += stepX * wMonsterSpeed
   npc.y += stepY * wMonsterSpeed
-  npc.scriptedFrame = ((npc.scriptedFrame ?? 0) + 1) % 4
+  npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? 0) + 1, npc.nSpriteFrames)
 }
 
 /** PAL_CheckObstacle 真值(via 注入 hook);未注入(测试/无 tilemap)视为无障碍。 */

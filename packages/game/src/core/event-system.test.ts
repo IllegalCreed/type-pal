@@ -29,7 +29,7 @@ import {
   OP_TRANSFORM_COLLECTED, OP_TELEPORT_OUT, setStoreTable,
   OP_SET_BATTLE_MUSIC, OP_STOP_MUSIC, OP_PLAY_CD_MUSIC,
   OP_NOOP_A7,
-  setObjectPoisons, curePlayerPoisonByLevel,
+  setObjectPoisons, curePlayerPoisonByLevel, walkFrameMod,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, resumePostBattleScript, type GameState } from './game-state.js'
@@ -50,6 +50,19 @@ function loadEvent(gs: GameState, commands: Command[], startIp = 0): void {
   }
   gs.mode = 'event'
 }
+
+describe('walkFrameMod(NPC 走路帧取模,scene.c:893)', () => {
+  it('M3/L4:按 nSpriteFrames 取模(3→%4、1/2/4→%n、0→不推帧)', () => {
+    expect(walkFrameMod(4, 3)).toBe(0) // nSpriteFrames=3 → mod 4(标准走路怪)
+    expect(walkFrameMod(3, 3)).toBe(3)
+    expect(walkFrameMod(2, 2)).toBe(0) // mod 2
+    expect(walkFrameMod(3, 2)).toBe(1) // 旧 %4 会得 3(渗进相邻方向帧);新 mod 2 = 1
+    expect(walkFrameMod(5, 1)).toBe(0) // mod 1 恒 0
+    expect(walkFrameMod(4, 4)).toBe(0) // mod 4 与 C 相等
+    expect(walkFrameMod(3, 0)).toBe(0) // nSpriteFrames=0(单姿势)不推帧
+    expect(walkFrameMod(2, undefined)).toBe(2) // undefined → 退回标准 %4(未 hydrate 兼容)
+  })
+})
 
 describe('buildLabelMap', () => {
   it('收集所有带 label 的命令', () => {
