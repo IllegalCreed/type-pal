@@ -2319,6 +2319,26 @@ describe('战斗对话结束键不漏进动作菜单', () => {
 // Repeat(R)+ perform 期目标重选(adversarial review 修复 #2/#5/#6)
 // ============================================================================
 
+describe('M7:R/F 整队粘滞(fight.c:1789-1796)', () => {
+  it('多队员按 Force → 剩余队员也自动 commit(非只当前)', () => {
+    const { gs, bus, emptyInput } = bootstrap({ partyMembers: [0, 1], enemies: [makeEnemy({ id: 100 })] })
+    tickBattle(gs, emptyInput, bus) // selectMove idx=0
+    tickBattle(gs, mSnap(['Force']), bus) // idx0 commit force + fForce=true → advance idx1
+    tickBattle(gs, emptyInput, bus) // idx1 自动 force(fForce 整队粘滞)
+    expect(gs.battleState?.pendingActions.has(0)).toBe(true)
+    expect(gs.battleState?.pendingActions.has(1)).toBe(true) // 整队:idx1 也填了,非停在菜单
+  })
+
+  it('多队员按 Repeat → 剩余队员也自动重提', () => {
+    const { gs, bus, emptyInput } = bootstrap({ partyMembers: [0, 1], enemies: [makeEnemy({ id: 100 })] })
+    tickBattle(gs, emptyInput, bus)
+    tickBattle(gs, mSnap(['Repeat']), bus) // idx0 + fRepeat=true → advance idx1
+    tickBattle(gs, emptyInput, bus) // idx1 自动 repeat
+    expect(gs.battleState?.pendingActions.has(0)).toBe(true)
+    expect(gs.battleState?.pendingActions.has(1)).toBe(true)
+  })
+})
+
 describe('Repeat(R 键)+ 敌方目标重选(fight.c:1858-1867 / 3487-3507)', () => {
   function rSnap(pressed: Array<'Repeat'> = []): InputSnapshot {
     return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }

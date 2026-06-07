@@ -607,15 +607,22 @@ function tickSelectAction(
   }
   else {
     // fAutoAttack 取消(sdlpal uibattle.c:827-829):auto 模式按 Menu → 关 auto,本 tick 改正常菜单。
-    if (state.fAutoAttack && (input.pressed.has('Menu') || input.pressed.has('Cancel'))) {
+    if (input.pressed.has('Menu') || input.pressed.has('Cancel')) {
+      // M7:Menu/Cancel 取消所有自动模式(对齐 fAutoAttack 取消;sdlpal uibattle.c:827-829)
       state.fAutoAttack = false
+      state.fForce = false
+      state.fRepeat = false
     }
 
-    // 自动攻击模式(围攻 / Auto 键):队员起手即自动 commit 攻击(sdlpal uibattle.c:977-992),不显示菜单。
-    if (
-      state.uiState === 'selectMove' && state.menuState === 'main' && state.fAutoAttack &&
-      state.selectingPlayerIdx !== undefined
-    ) {
+    // 自动 commit 模式:Auto 键(fAutoAttack)/ M7 Force(fForce)/ Repeat(fRepeat)整队粘滞 —— 队员起手
+    //   即自动 commit、不显示菜单(sdlpal fight.c:1789-1796 把 kKeyForce/Repeat/Auto 合成给剩余队员)。
+    const autoSelect =
+      state.uiState === 'selectMove' && state.menuState === 'main' && state.selectingPlayerIdx !== undefined
+    if (autoSelect && state.fForce) {
+      commitForceAction(state, alivePlayerIdxs, res)
+    } else if (autoSelect && state.fRepeat) {
+      commitRepeatAction(state, alivePlayerIdxs, res.playerRoles)
+    } else if (autoSelect && state.fAutoAttack) {
       commitAutoAttack(state, res.playerRoles, alivePlayerIdxs)
     } else {
       // UI input dispatch(按 uiState × menuState 路由,1:1 sdlpal BATTLEUISTATE × BATTLEMENUSTATE)。
@@ -625,6 +632,10 @@ function tickSelectAction(
 
   // 还没全选完 → 等下一 tick
   if (alivePlayerIdxs.some((i) => !state.pendingActions.has(i))) return
+
+  // M7:全员填完 → 清 Force/Repeat 整队粘滞(sdlpal fForce/fRepeat 每轮重设,fight.c:1443-1448 区域)。
+  state.fForce = false
+  state.fRepeat = false
 
   // 全选完 → 先备份本轮 action 供 Repeat(R 键)重提,再 build ActionQueue,进 performAction。
   // sdlpal fight.c:1427-1437 在"全员 action 已决定、填 action queue 前"备份;因此杀死最后敌人的那一轮
@@ -1115,6 +1126,7 @@ function handleMainMenuInput(
   if (input.pressed.has('Defend')) {
     commitSimpleAction(state, { type: 'defend', target: -1 }, alivePlayerIdxs)
   } else if (input.pressed.has('Force')) {
+    state.fForce = true // M7:整队粘滞 → 本轮剩余队员自动强行
     commitForceAction(state, alivePlayerIdxs, res)
   } else if (input.pressed.has('Flee')) {
     commitFleeAllPlayers(state, alivePlayerIdxs)
@@ -1125,6 +1137,7 @@ function handleMainMenuInput(
     state.menuState = 'throwItemSelect'
     state.itemSelect = buildBattleItemSelect(state, gs, res.items, 'throwable')
   } else if (input.pressed.has('Repeat')) {
+    state.fRepeat = true // M7:整队粘滞 → 本轮剩余队员自动重提
     commitRepeatAction(state, alivePlayerIdxs, playerRoles)
   } else if (input.pressed.has('Auto')) {
     state.fAutoAttack = true // 下 tick commitAutoAttack 接管(uibattle.c:882-886 / 977-992)

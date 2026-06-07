@@ -458,6 +458,12 @@ export interface BattleState {
    */
   fAutoAttack?: boolean
   /**
+   * M7(2026-06-07 sdlpal 审查):本轮按过 Force/Repeat 的整队粘滞标志(= sdlpal g_Battle.fForce/fRepeat,
+   * fight.c:1780/1785/1789-1796)。开 → 本轮剩余待选队员都自动按 强行 / 重提;全员填完或 Menu/Cancel 取消时清。
+   */
+  fForce?: boolean
+  fRepeat?: boolean
+  /**
    * 持久自动战斗(= sdlpal gpGlobals->fAutoBattle,0x8A 剧情脚本设)。开 → 整场每队员自动
    * 选最强法术或物理(PickAutoMagic 阈值 9999,uibattle.c:839-878),**单场有效**(战斗结束
    * finalizeBattleCleanup 清 gs.fAutoBattle,script.c:3332)。与 fAutoAttack 区别:后者 A 键单回合纯物理、
@@ -722,6 +728,8 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
     miscMenuCursor: 0,
     miscSubMenuCursor: 0,
     fAutoAttack: false,
+    fForce: false,
+    fRepeat: false,
     fAutoBattle: input.gs.fAutoBattle ?? false, // B4(3):0x8A 持久 flag seed 进战斗
     prevActions: new Map(),
     expGained: 0,
