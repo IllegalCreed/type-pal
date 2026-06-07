@@ -112,4 +112,57 @@ describe('playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port
     )
     expect(hasContent).toBe(true)
   }, 10_000)
+
+  // L44:sdlpal main.c:400-405 — 按键跳过瞬间先把标题 RLE 高度强制写满再重绘(lpBitmapTitle[2/3]=iTitleHeight
+  //   + PAL_RLEBlitToSurface),跳过即显示完整标题。早跳过时标题不应停在半长高度。
+  it('L44:早跳过时标题补满完整高度(底部行也被画上)', async () => {
+    const fb = createFramebuffer()
+    const promise = playSplashFallback({
+      fb,
+      canvasCtx: mockCanvasCtx,
+      palette: mockPalette,
+      // bitmap 全屏填非 title 色,确保 title 区像素只可能来自 title blit
+      bitmapUp: mockBitmap(320, 200, 0x11),
+      bitmapDown: mockBitmap(320, 200, 0x22),
+      craneSprite: mockCraneSprite(),
+      // 标题 (255,10) 64×32,fill 0x44。底部行 = y=41。
+      titleFrame: mockBitmap(64, 32, 0x44),
+      nowFn: () => Date.now(),
+    })
+    // 早跳过:仅 ~1-2 帧(85ms/帧)→ titleVisibleHeight 远小于 32
+    await new Promise((r) => setTimeout(r, 100))
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
+    await promise
+    // 标题底部行 y=40(dy=30)、x=260 — 早跳过时仅靠补满才会是 0x44(否则是滚动 bitmap 像素)
+    expect(fb.indices[40 * 320 + 260]).toBe(0x44)
+  }, 10_000)
+
+  // L42:sdlpal main.c:455 — PAL_SplashScreen 退出前 PAL_FadeOut(1)=600ms 淡黑(palette.c:163),
+  //   不应硬切到满亮主菜单。最终画到 canvas 的帧应为全黑。
+  it('L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)', async () => {
+    const fb = createFramebuffer()
+    const calls: ImageData[] = []
+    const localCtx = {
+      putImageData: (img: ImageData) => {
+        calls.push(img)
+      },
+    } as unknown as CanvasRenderingContext2D
+    const promise = playSplashFallback({
+      fb,
+      canvasCtx: localCtx,
+      palette: mockPalette,
+      bitmapUp: mockBitmap(320, 200, 0x11),
+      bitmapDown: mockBitmap(320, 200, 0x22),
+      craneSprite: mockCraneSprite(),
+      titleFrame: mockBitmap(64, 32, 0x44),
+      nowFn: () => Date.now(),
+    })
+    await new Promise((r) => setTimeout(r, 100))
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
+    await promise
+    // 最后一帧 = fadeOut 终点,所有 RGB 应为 0(alpha 通道忽略)
+    const last = calls.at(-1)!
+    const allBlack = last.data.every((v, i) => i % 4 === 3 || v === 0)
+    expect(allBlack).toBe(true)
+  }, 10_000)
 })

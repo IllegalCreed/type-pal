@@ -58,6 +58,8 @@ const FADE_IN_MS = 15000 // sdlpal main.c:317 dwTime < 15000 全帧渐变
 const FRAME_INTERVAL_MS = 85 // sdlpal main.c:439 `dwTime + 85`
 const SKIP_FAST_STEP_MS = 250 // sdlpal main.c:424 跳过时快进步长
 const POST_SKIP_DELAY_MS = 500 // sdlpal main.c:426 跳过后 UTIL_Delay(500)
+// L42:sdlpal main.c:455 退出 splash 前 PAL_FadeOut(1),总时长 iDelay*10*60 = 600ms(palette.c:163)。
+const FADE_OUT_MS = 600
 const CRANE_COUNT = 9 // sdlpal main.c:280 `for (i = 0; i < 9; i++)`
 const TITLE_POS = { x: 255, y: 10 } // sdlpal main.c:389 PAL_XY(255, 10)
 
@@ -166,6 +168,27 @@ function sleep(ms: number): Promise<void> {
 }
 
 /**
+ * L42:splash 退出淡黑 — palette rgb 从 100% 缩放到 0%,等价 sdlpal `PAL_FadeOut(1)`(main.c:455)。
+ * 与 trademark-fallback.ts 的 fadeOut 同款实现(只渐变 palette,不重绘内容)。
+ */
+async function fadeOut(
+  fb: Framebuffer,
+  canvasCtx: CanvasRenderingContext2D,
+  palette: Palette,
+  durationMs: number,
+  nowFn: () => number,
+): Promise<void> {
+  const start = nowFn()
+  while (true) {
+    const t = nowFn() - start
+    if (t >= durationMs) break
+    flushToCanvas(fb, canvasCtx, scalePalette(palette, 1 - t / durationMs))
+    await sleep(16) // ~60fps
+  }
+  flushToCanvas(fb, canvasCtx, scalePalette(palette, 0))
+}
+
+/**
  * Splash fallback 主循环 — sdlpal `PAL_SplashScreen` 1:1 port。
  *
  * Promise resolve 时机 = palette 完全淡入 + 用户按跳过键 → 0.5s delay → resolve。
@@ -248,6 +271,13 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
 
       // 6. 跳过键检测(sdlpal main.c:395-433)
       if (skipped) {
+        // L44(sdlpal main.c:400-405):按键跳过瞬间先把标题 RLE 高度强制写满再重绘
+        //   (lpBitmapTitle[2]=iTitleHeight&0xFF; [3]=iTitleHeight>>8; PAL_RLEBlitToSurface),
+        //   使跳过即显示完整标题。否则标题会冻在按键当帧的半长高度直到淡入结束。
+        //   后续 fast-forward / fadeOut 都只重刷 palette、不重绘内容,故必须在此把满高标题写进 fb。
+        titleVisibleHeight = titleHeight
+        blitSpriteAt(options.fb, options.titleFrame, 0, 0, TITLE_POS.x, TITLE_POS.y, titleVisibleHeight)
+
         // 补完渐变(快进 SKIP_FAST_STEP_MS 步)
         let fastTime = dwTime
         while (fastTime < FADE_IN_MS) {
@@ -265,6 +295,10 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
       // 7. 帧间隔(sdlpal main.c:439-443)
       await sleep(FRAME_INTERVAL_MS)
     }
+
+    // L42(sdlpal main.c:455):退出 splash 前 PAL_FadeOut(1) 600ms 淡黑,再交给 caller 建 OpeningMenu,
+    //   避免满亮 splash 直接硬切到主菜单。
+    await fadeOut(options.fb, options.canvasCtx, options.palette, FADE_OUT_MS, now)
   }
   finally {
     window.removeEventListener('keydown', onKey, true)

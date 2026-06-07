@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 43 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L9 L10 L11 L13 L15 L16 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L41 L43 L45 L47 共 27 条 low。
+- **✅ 已修复 45 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L9 L10 L11 L13 L15 L16 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L41 L42 L43 L44 L45 L47 共 29 条 low。
 - **⏸ 暂缓 3 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L8 L12 L17–L20 L22 L25 L29 L30 L34 L38 L40 L42 L44 L46),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L8 L12 L17–L20 L22 L25 L29 L30 L34 L38 L40 L46),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -46,6 +46,40 @@
 | M13 | ✅ 通过 | narration `drawSingleLineBox` 已显式 `shadowOffset:0`;紫金葫芦 item-box 仍保留 `shadowOffset:5`。 |
 | M14 | ✅ 通过 | `gameOverActive` hold 分支在画死亡文字前先做 0x4F→0x4E remap,战斗定格帧也能染红,且文字仍用 skipIndex 0x4F。 |
 | M15 | ✅ 通过 | DOS splash 已取 FBP `0x26/0x27`;`splash-fallback.ts` 注释也已改为 DOS 0x26/0x27、WIN95 3/4 的构建分支说明。 |
+
+## L级修复审查(已标 ✅)
+
+> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 27 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:27 条已完整收口,未发现新的遗漏。
+
+| ID | 审查结论 | 代码审查要点 |
+|---|---|---|
+| L1 | ✅ 通过 | `shouldRenderAsTitle(text,lineCount,style)` 已排除 `center`,且首行/续行/center 用例覆盖;居中冒号对白不再被抽成 title。 |
+| L2 | ✅ 通过 | `DialogBoxState.userSkip` 已复刻 `fUserSkip` 段内持续;typing 中确认后续行瞬显,并在翻页、`~` 段末复位。 |
+| L4 | ✅ 通过 | `walkFrameMod` 被脚本走位、逐步动画、追击路径共同消费,覆盖 `nSpriteFrames` 为 0、1、2、3、4 与旧 fixture undefined。 |
+| L6 | ✅ 通过 | `loadGameFromSlot` 在读档后强制 `gs.iCurInvMenuItem=0`,测试覆盖脏光标读档归零;新游戏重建路径也保持初值 0。 |
+| L7 | ✅ 通过 | `loadGameFromSlot` 在读档后强制 `gs.sWaveProgression=0`,避免 structuredClone 存档带回屏波增量。 |
+| L9 | ✅ 通过 | `drawMiscMenu(..., confirmed=true)` 在物品二级菜单中把父项『道具』画成固定 0x2C,不再用闪烁选中色。 |
+| L10 | ✅ 通过 | 行动队列 flee dex 已改 `Math.floor(dex * 0.5)`,对齐 C 的 WORD `/=2`;濒死二次减半仍保留 floor。 |
+| L11 | ✅ 通过 | 敌主动逃跑动画增加 `ENEMY_FLYOUT_HOLD_TICKS=13` 出屏停顿,约等于 `UTIL_Delay(500)` 后才进入 fleed。 |
+| L13 | ✅ 通过 | 群攻每个 sweep 后补 `4 * BATTLE_FRAME_TIME` 收势延迟;单体攻击路径未被误加尾延。 |
+| L15 | ✅ 通过 | 投掷和战斗用物品时间线都接入 `itemName`,在 (210,50) 生成 `battleMessage`,并由 caller 传入真实物品名。 |
+| L16 | ✅ 通过 | 敌方法术伤害结果外传 `autoDefend`,动画链在特效前给对应队员注入 frame 3,受击 frame 4 仍能覆盖。 |
+| L23 | ✅ 通过 | `startBattle` 在 `createBattleState` 前把队伍中 HP=0 的角色复活为 1,同步 runtime HP 并清 Puppet 状态。 |
+| L24 | ✅ 通过 | hidden-exp-up 框长仍用钳后宽度,但文字段按实际姓名/属性宽度连续定位,2 字名不再多出 16px 空档。 |
+| L26 | ✅ 通过 | 0x6A 偷钱分支只在 `c>0` 时入 `battleDialogQueue`,剩 1 文整除得 0 不再弹「获得 0 文钱」。 |
+| L27 | ✅ 通过 | 0x28 全体施毒已把落槽 enemyIdx 与入口脚本 self 分离;全体入口脚本 self 固定为投掷目标,后续 poison tick 仍各敌推进。 |
+| L28 | ✅ 通过 | `parseWordDat` 在 GBK 解码后剥词条尾部标记字符 `1`,并同时覆盖 flat 与分段表;测试锁定 8 条受影响词。 |
+| L31 | ✅ 通过 | cover-tile 扫描边界已从 `Math.floor` 改为 `Math.trunc`,对齐 C 整数除法;潜伏边界差异已收口。 |
+| L32 | ✅ 通过 | layer-0 in-bounds tile 缺帧时已 fallback 到 `tiles.get(0)`,layer-1 仍按原版跳过;不再留黑洞。 |
+| L33 | ✅ 通过 | narration 数字仍用 6px digit sprite 绘制,但游标步进改为 8px `PAL_CharWidth`,多位数字间距与尾随文字位置对齐。 |
+| L35 | ✅ 通过 | 大世界仙术列表 cancel 从 `pick-spell` 直接置 `done`,不再回到 `pick-caster`;调用方按 done 关菜单回大世界。 |
+| L36 | ✅ 通过 | `createMagicSelectMenu` 对已学 spell ObjectID 升序排序,与战斗法术菜单同源对齐 `magicmenu.c`。 |
+| L37 | ✅ 通过 | 选施法人框只按 `hp<=0` 禁用,不再因没有大世界法术而灰掉活人;选中后进入空/全灰 spell 列表。 |
+| L39 | ✅ 通过 | `filter='usable'` 时追加全队装备槽中本身 usable 的已装备物,且 `count=0,inUse=-1` 保证可确认。 |
+| L41 | ✅ 通过 | 单人队伍创建大世界仙术菜单时直接进入 `pick-spell` 并预建 spellMenu,跳过 1 项施法人框。 |
+| L43 | ✅ 通过 | Trademark fallback 默认淡出已改为 600ms,对齐 `PAL_FadeOut(1)`;1s 前置延时仍保留。 |
+| L45 | ✅ 通过 | 结局女孩 walk frame 已改用 `Math.floor(performance.now()/50)%frameCount`,掉帧时按墙钟推进而非循环计数。 |
+| L47 | ✅ 通过 | AudioManager 保存 `curMusicLoop`,音乐开关重开和注入后端时按真实 loop 补播,不再硬编码循环。 |
 
 ## 速查索引
 
@@ -109,9 +143,9 @@
 | ✅ L39 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 用物品列表未把「已装备但本身可用」的装备追加进列表 |
 | L40 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 用物品选目标框的默认光标位置未跨次记忆(原版 sSelectedPlayer 为 static 持久) |
 | ✅ L41 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 单人队伍开仙术菜单时,TS 仍弹出「选施法人」框,原版直接进法术列表 |
-| L42 | 🟡 | timing | 过场·整屏动画与结局 | DOS splash 结束未做 PAL_FadeOut(1)(600ms 淡黑),直接硬切到 OpeningMenu |
+| ✅ L42 | 🟡 | timing | 过场·整屏动画与结局 | DOS splash 结束未做 PAL_FadeOut(1)(600ms 淡黑),直接硬切到 OpeningMenu |
 | ✅ L43 | 🟡 | timing | 过场·整屏动画与结局 | Trademark fallback 淡出时长 1000ms,原版 PAL_FadeOut(1)=600ms |
-| L44 | 🟡 | pixel | 过场·整屏动画与结局 | Splash 跳过时未先把标题位图补到完整高度再淡完,标题停在半长状态 |
+| ✅ L44 | 🟡 | pixel | 过场·整屏动画与结局 | Splash 跳过时未先把标题位图补到完整高度再淡完,标题停在半长状态 |
 | ✅ L45 | 🟡 | timing | 过场·整屏动画与结局 | 结局女孩动画帧用循环计数 i%4,原版用墙钟时间 (SDL_GetTicks()/50)%4 |
 | L46 | 🟡 | correctness | 音频·BGM/SFX/CD 触发 | SFX 播放缺少 C 的 lastSFX 同号去重(同一声效可重叠叠播) |
 | ✅ L47 | 🟡 | correctness | 音频·BGM/SFX/CD 触发 | 音乐开关重开 / 注入后端时硬编码 loop=true,会让非循环曲被错误循环 |
@@ -1813,7 +1847,7 @@ TS 侧 in-game-magic-menu.ts:75-81 `createInGameMagicMenu` 无条件返回 `phas
 </details>
 
 
-### L42 · 🟡 DOS splash 结束未做 PAL_FadeOut(1)(600ms 淡黑),直接硬切到 OpeningMenu
+### ✅ L42 · 🟡 DOS splash 结束未做 PAL_FadeOut(1)(600ms 淡黑),直接硬切到 OpeningMenu
 
 - **子系统**:过场·整屏动画与结局　**类别**:timing
 - **TS 位置**:`packages/game/src/shell/splash-fallback.ts:249-266`
@@ -1868,7 +1902,7 @@ reference/sdlpal/palette.c:163 (time = SDL_GetTicks() + iDelay*10*60,iDelay=1→
 </details>
 
 
-### L44 · 🟡 Splash 跳过时未先把标题位图补到完整高度再淡完,标题停在半长状态
+### ✅ L44 · 🟡 Splash 跳过时未先把标题位图补到完整高度再淡完,标题停在半长状态
 
 - **子系统**:过场·整屏动画与结局　**类别**:pixel
 - **TS 位置**:`packages/game/src/shell/splash-fallback.ts:249-262`
