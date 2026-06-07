@@ -1807,4 +1807,23 @@ describe('0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene)', (
     expect(r.consumed).toBe(true)
     expect(state.battleAnim).toBeUndefined()
   })
+
+  // L26:C 偷钱仅 `if (c > 0)` 才拼提示串(fight.c:5265),c==0 时 s 空、5288 守卫不显示。
+  //   蜥蜴 stealItem=0(钱)/stealItemCount=1,偷成功 c=trunc(1/RandomLong(2,3))=0 → 原版不弹任何框。
+  it('L26:0x6A 偷钱 c==0(剩 1 文 / 除数 2)不弹「获得 0 文钱」narration', () => {
+    const enemy = makeEnemy(100)
+    enemy.e.stealItem = 0 // 偷钱
+    enemy.e.stealItemCount = 1
+    const ctx = {
+      // roll=rangeInclusive(0,10)→0(<=rate 必偷);除数=rangeInclusive(2,3)→2 → c=trunc(1/2)=0
+      state: { enemies: [enemy], players: [], rng: { rangeInclusive: (lo: number) => (lo === 0 ? 0 : 2) } } as any as BattleState,
+      target: { type: 'enemy', idx: 0 },
+      caster: { type: 'enemy', idx: 0 }, // 非 player → 跳偷窃冲刺动画
+      gs: { dwCash: 0 } as any,
+    } as BattleCtx
+    dispatchBattleOpcode(0x6A, [0, 0, 0], ctx) // stealRate=0 → roll<=0||rate==0 必偷
+    expect(ctx.state.battleDialogQueue ?? []).toHaveLength(0) // c==0 → 不 push 提示
+    expect(ctx.gs!.dwCash).toBe(0) // c=0 → cash 不变
+    expect(enemy.e.stealItemCount).toBe(1) // c=0 → count 不变
+  })
 })

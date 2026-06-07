@@ -86,10 +86,11 @@ describe('createInGameMagicMenu', () => {
     expect(s.casterMenu.items.map((i) => i.id)).toEqual([0, 1, 2])
   })
 
-  it('caster disabled when 无 outside-battle 法术(林月如)', () => {
+  it('L37:活人无 outside-battle 法术仍可选(林月如),C 只判 HP>0(uigame.c:707-708)', () => {
     const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)
     const linYueRu = s.casterMenu.items.find((i) => i.id === 2)
-    expect(linYueRu?.disabled).toBe(true)
+    // 活着即可选(选中后进空/全灰列表再取消),不因无大世界法术禁选/光标跳过
+    expect(linYueRu?.disabled).toBe(false)
   })
 
   it('caster disabled when hp <= 0', () => {
@@ -121,11 +122,12 @@ describe('confirmCaster', () => {
     expect(s.spellMenu!.items).toHaveLength(3)
   })
 
-  it('Confirm 无法术 caster(林月如)→ noop', () => {
+  it('L37:无大世界法术 caster(林月如)选中后仍进 pick-spell(C 进空/全灰列表再取消),非 noop', () => {
     const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)
     s.casterMenu.cursor = 2
     confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)
-    expect(s.phase).toBe('pick-caster') // 未切
+    expect(s.phase).toBe('pick-spell') // 活人可选中进入(原版 fEnabled 仅 HP>0)
+    expect(s.spellMenu!.items).toHaveLength(0) // 林月如无 outside magic → 空列表
   })
 
   it('Confirm 死 caster → noop', () => {
@@ -231,14 +233,13 @@ describe('cancelInGameMagic', () => {
     expect(s.spellMenu).toBeDefined()
   })
 
-  it('pick-spell → pick-caster(清 spellMenu + selectedCasterId)', () => {
+  it('L35:pick-spell Cancel → done 关菜单回大世界(C 仙术列表 Cancel=break while=return,uigame.c:733-736)', () => {
     const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)
     s.casterMenu.cursor = 0
     confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)
     cancelInGameMagic(s)
-    expect(s.phase).toBe('pick-caster')
-    expect(s.selectedCasterId).toBeUndefined()
-    expect(s.spellMenu).toBeUndefined()
+    // 直接关菜单(不退回「选施法人」);caster 框在 C 里只 PAL_ReadMenu 一次、循环外
+    expect(s.phase).toBe('done')
   })
 
   it('pick-caster → done(关菜单)', () => {

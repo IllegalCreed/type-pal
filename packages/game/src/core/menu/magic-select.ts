@@ -30,7 +30,10 @@ export function createMagicSelectMenu(cfg: MagicSelectMenuConfig): SelectionMenu
   // sdlpal `rgwMagic[32][6]` SoA — role.magic 是该 player 32 个已学法术槽位
   // (0 = 空,非 0 = spell wObjectID 296..397)。2026-05-29 id 体系统一:spells.json id
   // 也是 wObjectID,故用 `spells.find(s => s.id === sid)` 直接命中(旧版误用 magicNumber 反查)。
-  const learnedSpellIds = (role.magic ?? []).filter((sid) => sid !== 0)
+  // L36:C 在 PAL_MagicSelectionMenuInit 收集后冒泡按 wMagic(spell ObjectID)升序排(magicmenu.c:377-397),
+  //   菜单恒按法术编号排列、不随习得序。rgwMagic 按习得追加(global.c PAL_AddMagic)→ 必须在此排序。
+  //   战斗路径 battle-system.ts:976 已有同款 .sort,大世界路径此前漏写。
+  const learnedSpellIds = (role.magic ?? []).filter((sid) => sid !== 0).sort((a, b) => a - b)
 
   const items = learnedSpellIds
     .map((spellId) => {

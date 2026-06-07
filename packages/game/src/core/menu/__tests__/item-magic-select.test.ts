@@ -143,4 +143,20 @@ describe('M-w0.2 MagicSelectionMenu', () => {
     })
     expect(s.items.length).toBe(2) // 不含 0 槽位
   })
+
+  it('L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397', () => {
+    const rolesShuffled: PlayerRoles = {
+      roles: [{
+        ...playerRoles.roles[0]!,
+        // 习得顺序 [2,1]:先学大火球(id2)后学小火球(id1) —— rgwMagic 按习得追加,乱序
+        magic: [2, 1, ...Array<number>(30).fill(0)],
+      }],
+    }
+    const s = createMagicSelectMenu({
+      roleId: 0, playerRoles: rolesShuffled, spells, magics, currentMp: 100,
+    })
+    // C 冒泡按 wMagic(spell ObjectID)升序 → 菜单恒 [小火球(1), 大火球(2)],不随习得序
+    expect(s.items.map((i) => i.id)).toEqual([1, 2])
+    expect(s.items.map((i) => i.label)).toEqual(['小火球', '大火球'])
+  })
 })

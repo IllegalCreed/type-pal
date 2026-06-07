@@ -20,7 +20,7 @@
  *
  * Menu key cancel 真值(sdlpal):
  *  - pick-caster Menu → return(关菜单)
- *  - pick-spell Menu  → wMagic=0 break outer while → 回 pick-caster
+ *  - pick-spell Menu  → wMagic=0 break outer while → return 关菜单(L35;caster PAL_ReadMenu 在循环外只一次)
  *  - pick-target Menu → wPlayer=CANCELLED 退 picker → 回 pick-spell
  */
 
@@ -58,18 +58,13 @@ export function createInGameMagicMenu(
     .map((roleId) => playerRoles.roles[roleId])
     .filter((r): r is NonNullable<typeof r> => r !== undefined)
     .map((r) => {
-      // 是否有任何 outside-battle 可用法术
-      // 注:`r.magic` 真值是 sdlpal `rgwMagic[32][role]` SoA = spell wObjectID(296..397)。
-      // 2026-05-29 id 体系统一:spells.json id 也是 wObjectID,用 `spells.find(s => s.id === w)`。
-      const hasOutsideMagic = (r.magic ?? []).some((spellObjId) => {
-        if (spellObjId === 0) return false
-        const sp = spells.find((s) => s.id === spellObjId)
-        return sp?.flags.usableOutsideBattle ?? false
-      })
+      // L37:C 的 PAL_InGameMagicMenu caster fEnabled 仅判 rgwHP[role]>0(uigame.c:707-708),不检查
+      //   是否有大世界可用法术。活着但只会战斗法术的角色原版仍可选中(进入后空/全灰列表再取消)、光标可停。
+      //   此前误加 !hasOutsideMagic 把这类活人灰掉且光标跳过,与原版不符。
       return {
         id: r.id,
         label: r._name ?? `role#${r.id}`,
-        disabled: !hasOutsideMagic || r.hp <= 0,
+        disabled: r.hp <= 0,
       }
     })
   return {
@@ -201,7 +196,10 @@ export function cancelInGameMagic(state: InGameMagicMenuState): void {
     state.phase = 'pick-spell'
     state.targetCursor = 0
   } else if (state.phase === 'pick-spell') {
-    state.phase = 'pick-caster'
+    // L35:C 仙术列表 Cancel → PAL_MagicSelectionMenu 返 0 → break 外层 while → 函数 return → goto out
+    //   关整个菜单回大世界(uigame.c:733-736/1017-1018)。选施法人框在循环外只 PAL_ReadMenu 一次,
+    //   Cancel 不重弹它(此前误回 pick-caster 多一层)。
+    state.phase = 'done'
     state.selectedCasterId = undefined
     state.spellMenu = undefined
     state.selectedSpellId = undefined

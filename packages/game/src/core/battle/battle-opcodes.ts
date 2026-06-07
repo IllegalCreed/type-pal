@@ -874,8 +874,12 @@ export function dispatchBattleOpcode(
             //   同一 UI,drawNarrationDialog)。`@` toggle 红(text.c:1504-1516);WORD34 获得 / WORD10 文钱。
             //   tickBattleDialog 的 `!battleAnim` 守卫让此框在偷窃冲刺动画播完后才显示(对齐 sdlpal
             //   先 5218-5251 动画后 5288-5296 对话)。
-            state.battleDialogQueue ??= []
-            state.battleDialogQueue.push({ text: `@获得 @${c} @文钱@`, style: 'narration', clearBefore: true })
+            // L26:C 仅 `if (c > 0)` 才拼提示串(fight.c:5265)+ `if (s[0]!='\0')` 才显示(5288);
+            //   c==0(剩 1 文整除得 0,如蜥蜴 stealItemCount=1)时原版不弹任何框,避免"获得 0 文钱"突兀提示。
+            if (c > 0) {
+              state.battleDialogQueue ??= []
+              state.battleDialogQueue.push({ text: `@获得 @${c} @文钱@`, style: 'narration', clearBefore: true })
+            }
           } else {
             // 偷物:nStealItem--; AddItem(wStealItem,1)
             enemy.e.stealItemCount--
