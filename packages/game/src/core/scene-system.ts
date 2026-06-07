@@ -40,6 +40,11 @@ const X_STEP = 16
 const Y_STEP = 8
 const TILE_W = 32
 const TILE_H = 16
+// M5:走路碰撞下边界(sdlpal scene.c:551 `blockX=PAL_X(partyoffset)/32, blockY=PAL_Y(partyoffset)/16`)。
+//   partyoffset=(160,112)(res.c:301)→ blockX=5, blockY=7。队首 tile 列<5/行<7 一律阻挡,
+//   保证队首恒居屏幕中心、viewport 不为负(C 不 clamp viewport,靠这条走路阻挡)。
+const BLOCK_X = PARTYOFFSET_X / TILE_W // 5
+const BLOCK_Y = PARTYOFFSET_Y / TILE_H // 7
 
 // sdlpal scene.c:804-805 真值 + palcommon.h enum(kDirSouth=0,kDirWest=1,kDirNorth=2,kDirEast=3):
 //   xOffset = (West||South ? -16 : +16);  yOffset = (West||North ? -8 : +8)
@@ -335,6 +340,11 @@ export function isWalkable(
   posY: number,
   npcs: ReadonlyArray<NpcState> = [],
   selfNpcId: number = 0,
+  /**
+   * M5:sdlpal `fCheckRange`(scene.c:818 PAL_UpdateParty 走路 / 712-713 follower 避障传 TRUE;
+   * scene.c:512 PAL_CheckObstacle 怪物追击默认 FALSE)。TRUE 时加 blockX/blockY 下边界。
+   */
+  fCheckRange: boolean = false,
 ): boolean {
   // ── Step 1: 菱形四分法 → (col, row, h) ──────────────────────────────────
   // 直接 port sdlpal scene.c:556-591
@@ -343,6 +353,10 @@ export function isWalkable(
   let h: 0 | 1 = 0
   const xr = posX % TILE_W   // 0..31
   const yr = posY % TILE_H   // 0..15
+
+  // M5:fCheckRange 下边界(sdlpal scene.c:563-567)—— 用菱形调整**前**的 col/row(C 在 569+ 菱形之前
+  //   就 `if(x<blockX||y<blockY) return TRUE`)。队首走不进左上 5 列 / 上 7 行边缘带,镜头恒居中。
+  if (fCheckRange && (col < BLOCK_X || row < BLOCK_Y)) return false
 
   if (xr + yr * 2 >= 16) {
     if (xr + yr * 2 >= 48) {
@@ -442,7 +456,7 @@ export function tickSceneInput(
     const { dx, dy } = DIR_DELTA[facing]
     const nx = gs.party.x + dx
     const ny = gs.party.y + dy
-    if (isWalkable(ctx.tilemap, nx, ny, gs.npcs, 0)) {
+    if (isWalkable(ctx.tilemap, nx, ny, gs.npcs, 0, true)) { // M5:走路 fCheckRange=TRUE(scene.c:818)
       // sdlpal scene.c:823-830 PAL_UpdateParty:移动前 leader pos 插入 trail 头部,截至 5 项。
       gs.trail.unshift({ x: gs.party.x, y: gs.party.y, dir: facing })
       if (gs.trail.length > 5) gs.trail.length = 5

@@ -23,15 +23,15 @@ function snap(held: AbstractKey[] = [], pressed: AbstractKey[] = [], frameNum = 
 
 describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
   it('完整 NPC 触发流程,最终 mode=explore + dialogBox 已清', () => {
-    // M5 P0.0 System A:sdlpal pixel(tile 32×16)。
-    // sdlpal scene.c:804-805 East: dx=+16, dy=+8。起点(80,40),3 次右后=(128,64)。
-    // facing=right → confirm target=party+Right=(144,72)。
-    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'right' })
-    // System A:npcFromEventObject 1:1 透传,把 NPC 放在 Confirm target (144,72)。
+    // M5 P0.0 System A:sdlpal pixel(tile 32×16)。M5:起点改 col8/row8 合法区(避开 fCheckRange
+    //   走路边缘带 blockX=5/blockY=7)。East: dx=+16, dy=+8。起点(256,128),3 次右后=(304,152)。
+    //   facing=right → confirm target=party+Right=(320,160)。
+    const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'right' })
+    // System A:npcFromEventObject 1:1 透传,把 NPC 放在 Confirm target (320,160)。
     gs.npcs = [
       npcFromEventObject({
         id: 1,
-        x: 144, y: 72,
+        x: 320, y: 160,
         spriteNum: 78,
         triggerLabel: 'L_2',
         triggerMode: 0,
@@ -69,8 +69,8 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
     expect(gs.mode).toBe('explore')
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.dialogBox).toBeUndefined()
-    // 走了 3 步 Right(East: dx=+16, dy=+8):x=5*16+3*16=8*16, y=5*8+3*8=8*8
-    expect(gs.party.x).toBe(8 * 16)
-    expect(gs.party.y).toBe(8 * 8)
+    // 走了 3 步 Right(East: dx=+16, dy=+8):x=16*16+3*16=19*16, y=16*8+3*8=19*8
+    expect(gs.party.x).toBe(19 * 16)
+    expect(gs.party.y).toBe(19 * 8)
   })
 })

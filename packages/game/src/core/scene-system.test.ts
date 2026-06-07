@@ -77,12 +77,12 @@ describe('System A 对角移动 sanity(4 方向 dx/dy 都非零)', () => {
 
 describe('SceneSystem 走路', () => {
   it('按住 Right → party.x + 16 / party.y + 8, facing=right (East 右下)', () => {
-    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' }) // M5:起点 col8/row8(避开边缘带)
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.party.x).toBe(6 * 16)
-    expect(gs.party.y).toBe(6 * 8)
+    expect(gs.party.x).toBe(17 * 16)
+    expect(gs.party.y).toBe(17 * 8)
     expect(gs.party.facing).toBe('right')
   })
 
@@ -98,22 +98,25 @@ describe('SceneSystem 走路', () => {
   })
 
   it('按住 Up → party.x + 16 / party.y - 8, facing=up (North 右上)', () => {
-    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' }) // M5:起点 col8/row8(避开边缘带)
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(['Up']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.party.x).toBe(6 * 16)
-    expect(gs.party.y).toBe(4 * 8)
+    expect(gs.party.x).toBe(17 * 16)
+    expect(gs.party.y).toBe(15 * 8)
     expect(gs.party.facing).toBe('up')
   })
 
-  it('地图边界 clamp:已在最左上角不能再左', () => {
-    const gs = createInitialGameState({ x: 0, y: 5 * 8, facing: 'down' })
+  it('M5:队首在左上边缘带边界(col5/row7),按 Left 被 fCheckRange 下边界挡', () => {
+    // 起点 (5*32,7*16)=(160,112) col5/row7 = 边缘带最小合法位;Left(dx-16,dy-8)→(144,104)
+    //   col4/row6 越 blockX=5/blockY=7 下边界 → isWalkable false → 不动(对齐 sdlpal 队首恒居中)。
+    const gs = createInitialGameState({ x: 5 * 32, y: 7 * 16, facing: 'down' })
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(['Left']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.party.x).toBe(0)
-    expect(gs.party.facing).toBe('left')
+    expect(gs.party.x).toBe(5 * 32) // 被下边界挡,不动
+    expect(gs.party.y).toBe(7 * 16)
+    expect(gs.party.facing).toBe('left') // facing 仍更新(转向但不走)
   })
 
   it('相机边界 clamp:party 越界仍 clamp 到 tilemap max pixel(System A:tile 32×16)', () => {
@@ -126,14 +129,29 @@ describe('SceneSystem 走路', () => {
   })
 
   it('NPC 阻挡走路:面前像素有 NPC + held=Right,party 不动', () => {
-    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
-    // Right(East): dx=+16, dy=+8 → NPC 在 (6*16, 6*8)
-    gs.npcs = [{ id: 1, x: 6 * 16, y: 6 * 8, spriteNum: 78, sState: 2 }]
+    const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' }) // M5:起点 col8/row8(隔离 NPC 阻挡,非边缘带)
+    // Right(East): dx=+16, dy=+8 → NPC 在 (17*16, 17*8)
+    gs.npcs = [{ id: 1, x: 17 * 16, y: 17 * 8, spriteNum: 78, sState: 2 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     tickSceneSystem(gs, snap(['Right']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
-    expect(gs.party.x).toBe(5 * 16) // 没走过去
+    expect(gs.party.x).toBe(16 * 16) // 没走过去(NPC 阻挡)
     expect(gs.party.facing).toBe('right') // facing 变了
+  })
+
+  // M5:走路碰撞下边界 fCheckRange(sdlpal scene.c:551/563-567:blockX=partyoffset.x/32=5、
+  //   blockY=partyoffset.y/16=7;队首 tile 列<5/行<7 一律阻挡 → 队首恒居屏幕中心、viewport 不为负)。
+  it('M5:fCheckRange=true 挡 col<5 / row<7 边缘带', () => {
+    const map = makeFlatMap(20, 20) // 全可走
+    expect(isWalkable(map, 120, 200, [], 0, true)).toBe(false) // col=3<5 → 挡
+    expect(isWalkable(map, 200, 80, [], 0, true)).toBe(false)  // row=5<7 → 挡
+    expect(isWalkable(map, 200, 200, [], 0, true)).toBe(true)  // col6/row12 合法
+  })
+
+  it('M5:fCheckRange=false(怪物追击/默认)不挡边缘带', () => {
+    const map = makeFlatMap(20, 20)
+    expect(isWalkable(map, 120, 80, [], 0, false)).toBe(true)
+    expect(isWalkable(map, 120, 80)).toBe(true) // 默认 false
   })
 })
 
@@ -185,14 +203,14 @@ describe('pickFacing 走 last-press priority(sdlpal input.c:180-189)', () => {
 
 describe('PAL_StartFrame input order(play.c:534-566)', () => {
   it('方向键 + Menu 同帧 → 先移动再开菜单', () => {
-    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' }) // M5:起点 col8/row8(避开边缘带)
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
 
     tickSceneSystem(gs, snap(['Right'], ['Menu']), bus, { tilemap: map, eventCommands: [], labelMap: {} })
 
-    expect(gs.party.x).toBe(6 * 16)
-    expect(gs.party.y).toBe(6 * 8)
+    expect(gs.party.x).toBe(17 * 16)
+    expect(gs.party.y).toBe(17 * 8)
     expect(gs.mode).toBe('menu')
     expect(gs.menuStack.at(-1)?.kind).toBe('in-game')
   })
@@ -1426,9 +1444,9 @@ describe('P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)', 
   })
 
   it('contact NPC(triggerMode >= 4)不阻挡走路 → walking=true', () => {
-    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' }) // M5:起点 col8/row8(避开边缘带)
     // contact 怪:走进触发战斗但不阻挡走路
-    gs.npcs = [{ id: 7, x: 6 * 16, y: 6 * 8, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 }]
+    gs.npcs = [{ id: 7, x: 17 * 16, y: 17 * 8, spriteNum: 468, triggerLabel: 'L_42', triggerMode: 5 }]
     const bus = createCommandBus()
     const map = makeFlatMap(10, 10)
     const commands = [

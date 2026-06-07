@@ -35,7 +35,8 @@ describe('tickN', () => {
   })
 
   it('Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)', () => {
-    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
+    // M5:起点 col8/row8 合法区(避开 fCheckRange 边缘带 blockX=5/blockY=7)
+    const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' })
     const bus = createCommandBus()
     const ctx: LoopContext = {
       gs, bus,
@@ -44,14 +45,14 @@ describe('tickN', () => {
         snap(['Right'], 1),
         snap(['Right'], 2),
       ]),
-      tilemap: flat(10, 10),
+      tilemap: flat(20, 20),
       eventCommands: [], labelMap: {},
       onPresent: () => {},
     }
     tickN(3, ctx)
     // sdlpal scene.c:804-805 East: dx=+16, dy=+8 × 3 steps
-    expect(gs.party.x).toBe(8 * 16)
-    expect(gs.party.y).toBe(8 * 8)
+    expect(gs.party.x).toBe(19 * 16)
+    expect(gs.party.y).toBe(19 * 8)
   })
 })
 

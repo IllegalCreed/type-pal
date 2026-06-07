@@ -20,15 +20,15 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 60 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L18 L19 L20 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L35 L36 L37 L38 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 44 条 low。
-- **⏸ 暂缓 4 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)、L34(淡入淡出 60/64 上限——有干净实现但须改写既有 fade 回归测试整洁断言为 C 量化丑值、不可感知、仅覆盖 4 套 lerp-fade 中的 2 套)。
-- **未修**:无 —— 64 条 confirmed(2 high + 15 medium + 47 low)已全部处理:60 条修复 + 4 条暂缓(M5 / L14 / L21 / L34,理由见上)。
+- **✅ 已修复 61 条**:H1 H2 全部 high;M1–M15 共 15 条 medium(全部);L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L18 L19 L20 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L35 L36 L37 L38 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 44 条 low。
+- **⏸ 暂缓 3 条**:L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)、L34(淡入淡出 60/64 上限——有干净实现但须改写既有 fade 回归测试整洁断言为 C 量化丑值、不可感知、仅覆盖 4 套 lerp-fade 中的 2 套)。
+- **未修**:无 —— 64 条 confirmed(2 high + 15 medium + 47 low)已全部处理:61 条修复 + 3 条暂缓(L14 / L21 / L34,理由见上)。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
-## M级修复审查(除 M5)
+## M级修复审查
 
-> 审查日期:2026-06-07。范围:M1–M4、M6–M15 的已落地修改,按代码消费链 + 对照 `reference/sdlpal/` 真值复核。结论:14 条已完整收口。
+> 审查日期:2026-06-07。范围:M1–M15 全部已落地修改,按代码消费链 + 对照 `reference/sdlpal/` 真值复核。结论:15 条已完整收口。
 
 | ID | 审查结论 | 代码审查要点 |
 |---|---|---|
@@ -46,6 +46,7 @@
 | M13 | ✅ 通过 | narration `drawSingleLineBox` 已显式 `shadowOffset:0`;紫金葫芦 item-box 仍保留 `shadowOffset:5`。 |
 | M14 | ✅ 通过 | `gameOverActive` hold 分支在画死亡文字前先做 0x4F→0x4E remap,战斗定格帧也能染红,且文字仍用 skipIndex 0x4F。 |
 | M15 | ✅ 通过 | DOS splash 已取 FBP `0x26/0x27`;`splash-fallback.ts` 注释也已改为 DOS 0x26/0x27、WIN95 3/4 的构建分支说明。 |
+| M5 | ✅ 通过 | `isWalkable` 加 `fCheckRange` 形参,菱形映射**前**对初始 `col/row` 判 `col<BLOCK_X(5)\|\|row<BLOCK_Y(7)`(=PARTYOFFSET/TILE,对齐 scene.c:551/563-567,在 569+ 菱形之前);主走路(scene.c:818)与 follower 避障(712-713)传 TRUE,怪物追击/NPC/脚本 wrapper 默认 FALSE。队首恒被挡在左上 5 列/7 行边缘带外、镜头居中。重定位 8 个走路 fixture(scene-system×6 + main-loop + e2e)起点到 col8/row8 合法区,「最左上 clamp」测试改为「边缘带边界被 fCheckRange 挡」;camera clamp 保留作右下兜底。 |
 
 ## L级修复审查(已标 ✅)
 
@@ -108,7 +109,7 @@
 | ✅ M2 | 🟠 | correctness | 事件脚本·数值与对象状态 | opcode 0x1A(SetPlayerStat)在非装备上下文丢弃 sprite/avatar/walkFrames/attackAll/合体魔法 行——剧情变身改不了角色造型 |
 | ✅ M3 | 🟠 | pixel | 事件脚本·走位与场景控制 | NPC 走路帧循环硬编码 % 4，未按 nSpriteFrames 取模 → nSpriteFrames∈{1,2} 的 NPC 脚本走位时动画帧错乱 |
 | ✅ M4 | 🟠 | timing | 事件脚本·走位与场景控制 | 0x7F 相对镜头多帧 pan 期间 autoScript 与追逐 timer 被冻结（C 每帧仍跑 PAL_GameUpdate） |
-| ⏸ M5 | 🟠 | correctness | 大世界·走路跟随与碰撞 | 玩家走路/跟随缺少 fCheckRange 下边界(blockX=5/blockY=7),改用相机 clamp 取代 |
+| ✅ M5 | 🟠 | correctness | 大世界·走路跟随与碰撞 | 玩家走路/跟随缺少 fCheckRange 下边界(blockX=5/blockY=7),改用相机 clamp 取代 |
 | ✅ M6 | 🟠 | correctness | 存档·初始化与启动流程 | 读档不清零 rgPlayerStatus(大世界施放的持久状态会跨存档残留) |
 | ✅ M7 | 🟠 | correctness | 战斗·主循环与回合流程 | R(重提)/F(强行)键未做整队粘滞,只对当前队员生效 |
 | ✅ M8 | 🟠 | timing | 战斗·动画与表现时序 | 混乱敌人攻击友敌完全没有动画(只结算伤害+即时弹数字) |
@@ -347,7 +348,7 @@ TS 侧：event-system.ts:2066-2082 把 0x7F 多帧相对 pan(isPan && frames>1)�
 **C 源证据**:script.c:2331-2377 = 0x7F 相对 pan 分支(op2 != 0xFFFF)是 `do { ... if (pScript->rgwOperand[2] != 0xFFFF) PAL_GameUpdate(FALSE); PAL_MakeScene(); VIDEO_UpdateScreen; PAL_DelayUntil(time); } while (++i < op2)` —— 每一帧都调 PAL_GameUpdate(FALSE)(script.c:2364-2366),且 op2 同时是循环帧数。play.c:24-241 PAL_GameUpdate:fTrigger 守卫(play.c:51)只包住触发事件循环(56-167);autoScript 循环(play.c:169-192,对每个 sState>0 && sVanishTime==0 对象跑 PAL_RunAutoScript)和追逐 timer 自减 `if (--gpGlobals->wChasespeedChangeCycles == 0) gpGlobals->wChaseRange = 1;`(play.c:235-238)都在 fTrigger 守卫之外 → PAL_GameUpdate(FALSE) 照样推进二者。绝对跳分支(op2==0xFFFF,script.c:2314-2318)不进 do-while、不调 PAL_GameUpdate —— 故差异确实只在多帧相对 pan。FPS=10(game.h:27),FRAME_TIME=100ms。
 
 
-### ⏸ M5 · 🟠 玩家走路/跟随缺少 fCheckRange 下边界(blockX=5/blockY=7),改用相机 clamp 取代
+### ✅ M5 · 🟠 玩家走路/跟随缺少 fCheckRange 下边界(blockX=5/blockY=7),改用相机 clamp 取代
 
 - **子系统**:大世界·走路跟随与碰撞　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/scene-system.ts:309-316, 378-385, 445`

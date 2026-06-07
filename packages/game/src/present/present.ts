@@ -365,8 +365,8 @@ export function presentFrame(
       }
       let followerWorldX = baseTrail.x + offX
       let followerWorldY = baseTrail.y + offY
-      // 障碍调整(scene.c:712-717):偏移位撞墙 → 回退 trail[1](去偏移)。
-      if (!isWalkable(ctx.tilemap, followerWorldX, followerWorldY, gs.npcs, 0)) {
+      // 障碍调整(scene.c:712-717):偏移位撞墙 → 回退 trail[1](去偏移)。M5:follower 避障 fCheckRange=TRUE。
+      if (!isWalkable(ctx.tilemap, followerWorldX, followerWorldY, gs.npcs, 0, true)) {
         followerWorldX = baseTrail.x
         followerWorldY = baseTrail.y
       }
