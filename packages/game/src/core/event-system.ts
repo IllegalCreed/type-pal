@@ -4498,7 +4498,12 @@ export function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: 
  * (0x29 / 敌普攻 attackEquivItem),sdlpal 真值同此分工。
  * 战斗内(0x29 battle ctx)与大世界 / 装备 scriptOnEquip(寿葫芦)共用。
  */
-export function addPoisonForPlayer(gs: GameState, roleId: number, poisonId: number): void {
+export function addPoisonForPlayer(
+  gs: GameState,
+  roleId: number,
+  poisonId: number,
+  runPoisonEntry?: (playerScriptIp: number) => number,
+): void {
   const playerScript = _objectPoisons.get(poisonId)?.playerScript ?? 0
   // 去重:已有同毒 → skip
   for (let slot = 0; slot < 16; slot++) {
@@ -4508,7 +4513,13 @@ export function addPoisonForPlayer(gs: GameState, roleId: number, poisonId: numb
   for (let slot = 0; slot < 16; slot++) {
     const key = `${slot}_${roleId}`
     if (!gs.rgPoisonStatus[key] || gs.rgPoisonStatus[key]!.wPoisonID === 0) {
-      gs.rgPoisonStatus[key] = { wPoisonID: poisonId, wPoisonScript: playerScript }
+      // M12(2026-06-07 sdlpal 审查):C global.c:1515 落槽时 `wPoisonScript =
+      //   PAL_RunTriggerScript(playerScript, role)` —— 施毒当下跑一次入口脚本(立即生效入口效果 +
+      //   跳过 0x0001 terminator),存返回的 next entry 供后续每回合 tick。战斗 caller(0x29)注入
+      //   runPoisonEntry(对齐 0x28 敌方);装备 / 大世界 caller 无 runner → fallback 存原始入口 ip
+      //   (差一拍、下回合 tick 才跑,向后兼容)。
+      const entry = playerScript > 0 && runPoisonEntry ? runPoisonEntry(playerScript) : playerScript
+      gs.rgPoisonStatus[key] = { wPoisonID: poisonId, wPoisonScript: entry }
       return
     }
   }

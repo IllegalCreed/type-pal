@@ -11,7 +11,7 @@
 
 import type { Command } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
-import { setGlobalEvents, setObjectPoisons } from './event-system.js'
+import { addPoisonForPlayer, setGlobalEvents, setObjectPoisons } from './event-system.js'
 import { createInitialGameState } from './game-state.js'
 import {
   getPlayerAttackStrength,
@@ -311,6 +311,28 @@ describe('equip-effect', () => {
       runEquipScript(gs, 520, 1)
       const has563 = Object.values(gs.rgPoisonStatus).some((p) => p.wPoisonID === 563)
       expect(has563).toBe(true)
+    })
+
+    it('M12:落槽时跑一次入口 playerScript,存返回 next(C global.c:1515)', () => {
+      setObjectPoisons([{ id: 100, level: 2, color: 0, playerScript: 555, enemyScript: 0 }])
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      let ranIp = -1
+      addPoisonForPlayer(gs, 0, 100, (ip) => {
+        ranIp = ip
+        return 600
+      })
+      expect(ranIp).toBe(555) // 施毒当下跑了入口 playerScript
+      expect(gs.rgPoisonStatus['0_0']?.wPoisonScript).toBe(600) // 存返回的 next entry
+      expect(gs.rgPoisonStatus['0_0']?.wPoisonID).toBe(100)
+      setObjectPoisons([])
+    })
+
+    it('M12:无 runner(装备/大世界 caller)→ fallback 存入口 ip(差一拍但不崩)', () => {
+      setObjectPoisons([{ id: 100, level: 2, color: 0, playerScript: 555, enemyScript: 0 }])
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      addPoisonForPlayer(gs, 0, 100) // 不传 runner
+      expect(gs.rgPoisonStatus['0_0']?.wPoisonScript).toBe(555) // 存入口 ip(向后兼容)
+      setObjectPoisons([])
     })
   })
 

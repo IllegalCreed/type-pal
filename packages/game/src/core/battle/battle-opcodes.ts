@@ -546,8 +546,32 @@ export function dispatchBattleOpcode(
       const poisonId = operands[1] ?? 0
       if (ctx.gs)
         for (const roleId of resolvePlayerPoisonTargets(ctx, operands[0] ?? 0)) {
-          if (state.rng.rangeInclusive(1, 100) > getPlayerPoisonResistance(ctx.gs, roleId))
-            addPoisonForPlayer(ctx.gs, roleId, poisonId)
+          if (state.rng.rangeInclusive(1, 100) > getPlayerPoisonResistance(ctx.gs, roleId)) {
+            // M12(2026-06-07 sdlpal 审查):施毒当下跑一次毒入口 playerScript(C global.c:1515,对齐
+            //   上方 0x28 敌方)。battleCtx.target = 该队员 player idx(毒脚本 0x21 等据此命中)。
+            //   缺 commands/runScript/bus(老 caller / 纯状态单测)→ addPoisonForPlayer fallback 存入口 ip。
+            const pIdx = state.players.findIndex((p) => p.roleId === roleId)
+            const runEntry =
+              pIdx >= 0 && ctx.commands && ctx.runScript && ctx.bus
+                ? (ip: number): number =>
+                    ctx.runScript!({
+                      commands: ctx.commands!,
+                      ip,
+                      bus: ctx.bus!,
+                      runtimeMode: 'battle',
+                      battleCtx: {
+                        state,
+                        target: { type: 'player', idx: pIdx },
+                        gs: ctx.gs!,
+                        bus: ctx.bus,
+                        commands: ctx.commands,
+                        runScript: ctx.runScript,
+                        objectPoisons: ctx.objectPoisons,
+                      },
+                    })
+                : undefined
+            addPoisonForPlayer(ctx.gs, roleId, poisonId, runEntry)
+          }
         }
       return { consumed: true }
     }
