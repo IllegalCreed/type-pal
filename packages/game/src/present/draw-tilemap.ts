@@ -123,7 +123,9 @@ export function drawTilemap(
       // h=0 (lower):画在 (col*32 - 16, row*16 - 8)
       const lowerId = cell ? idFn(cell.lower) : fenceFill
       if (lowerId >= 0) {
-        const img = tiles.get(lowerId)
+        // L32:layer-0(lower)瓦片帧缺失时回落首格 tile(0)(map.c:412 PAL_MapGetTileBitmap(0,0,0,0)),
+        //   而非留黑;只有 layer-1(upper)才 continue 跳过。
+        const img = tiles.get(lowerId) ?? tiles.get(0)
         if (img) blitTile(fb, img, cellPxX - TILE_HALF_W, rowPxY - SUBROW_Y_STEP)
       }
       // h=1 (upper):画在 (col*32, row*16) = baseline
@@ -207,10 +209,12 @@ export function addCoverTileEntries(
   const sy = spriteWorldY - iLayer
   const sh = (sx % 32 !== 0) ? 1 : 0
 
-  const yStart = Math.floor((sy - spriteH - 15) / 16)
-  const yEnd   = Math.floor(sy / 16)
-  const xStart = Math.floor((sx - Math.floor(spriteW / 2)) / 32)
-  const xEnd   = Math.floor((sx + Math.floor(spriteW / 2)) / 32)
+  // L31:cover-tile 边界用向零截断(C 整数除法,scene.c:113-117),非 Math.floor;sx/sy 为负(NPC 贴
+  //   地图左/上边缘)时与 floor 分叉。内层 spriteW/2 仍 floor(width 正,等价)。
+  const yStart = Math.trunc((sy - spriteH - 15) / 16)
+  const yEnd   = Math.trunc(sy / 16)
+  const xStart = Math.trunc((sx - Math.floor(spriteW / 2)) / 32)
+  const xEnd   = Math.trunc((sx + Math.floor(spriteW / 2)) / 32)
 
   for (let y = yStart; y <= yEnd; y++) {
     for (let x = xStart; x <= xEnd; x++) {

@@ -774,7 +774,7 @@ function drawNarrationDialog(
       // sdlpal text.c:1583-1592 真值:数字字符 yellow sprite digit blit at (x, y+4) left-align
       const digit = ch.charCodeAt(0) - 0x30
       drawNumber(fb, digit, 1, { x: cursorX, y: textY + 4 }, 'yellow', 'left', ctx.uiSpriteFrames)
-      cursorX += 6 // sdlpal PAL_CharWidth 数字字符 = 6(digit sprite width)
+      cursorX += 8 // L33:游标步进用 PAL_CharWidth=8(font_width>>1,text.c:1595/font.c:628);digit sprite 仍 6px(上行)→ 数字间留 2px 间隙
     }
     else {
       // sdlpal text.c:1594 PAL_DrawTextUnescape(text, ..., color, fShadow=FALSE);color 由 parseDialogText
