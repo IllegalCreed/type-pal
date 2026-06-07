@@ -109,4 +109,33 @@ describe('M-w1.a InventoryMenu', () => {
     inventoryMoveDown(s)
     expect(s.cursor).toBe(1)
   })
+
+  // L40(uigame.c:1311 static SHORT sSelectedPlayer):用物品选目标框默认光标跨次记忆 ——
+  //   切换物品 / 关菜单重开后,默认光标停在上次选中的队员 slot,而非回队首。
+  //   注:模块级静态镜像 C 的 static(不入存档,vitest 文件级隔离故不跨文件污染)。
+  it('L40:确认目标后重建 targetMenu 光标记忆上次 slot(uigame.c:1311)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.inventory = [{ itemId: 1, count: 3 }]
+    const s = createInventoryMenu(gs, ITEMS, 'all')
+    confirmInventoryItem(s, ITEMS, PLAYER_ROLES, [0, 1])
+    s.targetMenu!.cursor = 1 // 选中 follower(slot 1)
+    confirmInventoryTarget(s) // 持久化 slot 1
+    // 切换物品 / 重开 → 重建 targetMenu
+    s.phase = 'list'
+    confirmInventoryItem(s, ITEMS, PLAYER_ROLES, [0, 1])
+    expect(s.targetMenu?.cursor).toBe(1) // 记忆 slot 1,而非重置回 0
+  })
+
+  it('L40:记忆 slot 越界(队伍变小)时归 0(uigame.c:1320-1323)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.inventory = [{ itemId: 1, count: 3 }]
+    const s = createInventoryMenu(gs, ITEMS, 'all')
+    confirmInventoryItem(s, ITEMS, PLAYER_ROLES, [0, 1])
+    s.targetMenu!.cursor = 1
+    confirmInventoryTarget(s) // slot=1
+    // 队伍缩为 1 人 → 重建时 slot 1 越界 → 归 0(防越界 + 对齐 C clamp)
+    s.phase = 'list'
+    confirmInventoryItem(s, ITEMS, PLAYER_ROLES, [0])
+    expect(s.targetMenu?.cursor).toBe(0)
+  })
 })

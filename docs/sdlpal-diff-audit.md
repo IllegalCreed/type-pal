@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 47 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L8 L9 L10 L11 L13 L15 L16 L17 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L41 L42 L43 L44 L45 L47 共 31 条 low。
+- **✅ 已修复 48 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L8 L9 L10 L11 L13 L15 L16 L17 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L47 共 32 条 low。
 - **⏸ 暂缓 3 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L12 L18–L20 L22 L25 L29 L30 L34 L38 L40 L46),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L12 L18–L20 L22 L25 L29 L30 L34 L38 L46),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -141,7 +141,7 @@
 | ✅ L37 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界仙术「选施法人」框:TS 把无可用大世界法术的活人也标灰禁选,原版只按 HP>0 判定可选 |
 | L38 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 菜单光标遇到禁用项会跳过,原版 PAL_ReadMenu/选人框/法术列表都是逐项移动并停在灰色项上 |
 | ✅ L39 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 用物品列表未把「已装备但本身可用」的装备追加进列表 |
-| L40 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 用物品选目标框的默认光标位置未跨次记忆(原版 sSelectedPlayer 为 static 持久) |
+| ✅ L40 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 用物品选目标框的默认光标位置未跨次记忆(原版 sSelectedPlayer 为 static 持久) |
 | ✅ L41 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 单人队伍开仙术菜单时,TS 仍弹出「选施法人」框,原版直接进法术列表 |
 | ✅ L42 | 🟡 | timing | 过场·整屏动画与结局 | DOS splash 结束未做 PAL_FadeOut(1)(600ms 淡黑),直接硬切到 OpeningMenu |
 | ✅ L43 | 🟡 | timing | 过场·整屏动画与结局 | Trademark fallback 淡出时长 1000ms,原版 PAL_FadeOut(1)=600ms |
@@ -1786,7 +1786,7 @@ TS 端 inventory-menu.ts:120-124 createInventoryMenu 只 `gs.inventory.map(...)`
 </details>
 
 
-### L40 · 🟡 用物品选目标框的默认光标位置未跨次记忆(原版 sSelectedPlayer 为 static 持久)
+### ✅ L40 · 🟡 用物品选目标框的默认光标位置未跨次记忆(原版 sSelectedPlayer 为 static 持久)
 
 - **子系统**:菜单·主菜单/物品/装备/商店　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/menu/inventory-menu.ts:224 (每次 confirmInventoryItem 都 createSelectionMenu 重置光标)`

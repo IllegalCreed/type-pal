@@ -32,6 +32,14 @@ import {
   type SelectionMenuState,
 } from './primitives.js'
 
+/**
+ * L40:用物品选目标框的默认光标 slot(sdlpal uigame.c:1311 `static SHORT sSelectedPlayer = 0`)。
+ * 跨「切换物品 / 关闭重开物品菜单」持久记忆上次选中的队员 slot —— 模块级静态 = C 的 static(不入存档)。
+ * 重建 targetMenu 时用作初始光标;越界(队伍变小,slot >= 人数)归 0(uigame.c:1320-1323)。
+ * 仅 confirm/cancel 离开目标框时回写,READ 总在下一次重建,故等价 C 每次移动即写 static。
+ */
+let sSelectedItemTargetSlot = 0
+
 /** sdlpal itemmenu.c:51 真值:`32 / dwWordLength`,中文 dwWordLength=10 → 3 列 */
 export const INV_ITEMS_PER_LINE = 3
 /** sdlpal itemmenu.c:53 真值:`7 - extraDescLines`,默认 extraDescLines=0 → 7 行 */
@@ -235,7 +243,11 @@ export function confirmInventoryItem(
       //   阵亡判定 —— 死人也能被选中,这是还魂香 / 孟婆汤 / 天香续命露(0x22 复活类)的必要前提。
       //   使用效果(治疗对死人无效 / 复活对死人有效)由 item 使用脚本判断成败,不在选目标阶段拦。
     }))
-  state.targetMenu = createSelectionMenu(targetItems)
+  const targetMenu = createSelectionMenu(targetItems)
+  // L40(uigame.c:1311/1320-1323):默认光标记忆上次选中的队员 slot;越界(队伍变小)归 0。
+  if (sSelectedItemTargetSlot >= targetMenu.items.length) sSelectedItemTargetSlot = 0
+  targetMenu.cursor = sSelectedItemTargetSlot
+  state.targetMenu = targetMenu
   state.phase = 'use-target'
 }
 
@@ -243,6 +255,7 @@ export function confirmInventoryTarget(state: InventoryMenuState): { itemId: num
   if (state.phase !== 'use-target' || !state.targetMenu || state.selectedItemId === undefined) return null
   const sel = state.targetMenu.items[state.targetMenu.cursor]
   if (!sel) return null
+  sSelectedItemTargetSlot = state.targetMenu.cursor // L40:回写记忆 slot(uigame.c:1495 返回不复位)
   state.phase = 'done'
   return { itemId: state.selectedItemId, roleId: sel.id }
 }
@@ -250,6 +263,7 @@ export function confirmInventoryTarget(state: InventoryMenuState): { itemId: num
 /** Cancel:use-target → 回 list;list → done(关菜单)。 */
 export function cancelInventoryMenu(state: InventoryMenuState): void {
   if (state.phase === 'use-target') {
+    if (state.targetMenu) sSelectedItemTargetSlot = state.targetMenu.cursor // L40:取消也保留记忆 slot(uigame.c:1489 break)
     state.phase = 'list'
     state.selectedItemId = undefined
     state.targetMenu = undefined
