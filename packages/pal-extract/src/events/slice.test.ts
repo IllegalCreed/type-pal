@@ -189,4 +189,34 @@ describe('sliceByScene', () => {
     expect(cmds).toContainEqual({ op: 'raw', opcode: 0x35, operands: [2, 0, 0] }) // i+2 收集
     expect(cmds).toContainEqual({ op: 'raw', opcode: 0x35, operands: [3, 0, 0] }) // i+3 收集
   })
+
+  // L29:13 个条件跳转 opcode 的跳转目标(rgwOperand[N])此前不在 JUMP_TARGET_OPERAND 表,
+  //   BFS 不跟随 → 仅经该跳转可达的块被切片丢弃。补表后逐一验证目标被收集。
+  //   [opcode, operandIndex] 对照 reference/sdlpal/script.c wScriptEntry=rgwOperand[N]:
+  //   0x06@3305(op1) 0x1E@962(op1) 0x20@1023(op2) 0x2E@1395(op2) 0x33@1448(op0)
+  //   0x34@1517(op0) 0x38@1569(op0) 0x3A@1597(op0) 0x68@2031(op0) 0x84@2483/2500(op2)
+  //   0x91@2633(op0) 0x9C@2798(op1) 0x9E@2905(op2)。
+  it('L29:13 个条件跳转 opcode 的跳转目标被 BFS 收集(script.c wScriptEntry=rgwOperand[N])', () => {
+    const cases: Array<[number, number]> = [
+      [0x06, 1], [0x1e, 1], [0x20, 2], [0x2e, 2], [0x33, 0], [0x34, 0], [0x38, 0],
+      [0x3a, 0], [0x68, 0], [0x84, 2], [0x91, 0], [0x9c, 1], [0x9e, 2],
+    ]
+    for (const [opcode, tgtIdx] of cases) {
+      const operands: [number, number, number] = [0, 0, 0]
+      operands[tgtIdx] = 3 // 跳转目标 = index 3(仅经该条件跳转可达)
+      const result = sliceByScene(
+        [
+          { op: 'end' }, // 0 padding
+          { op: 'raw', opcode, operands }, // 1 scene entry — 条件跳转
+          { op: 'end' }, // 2 fall-through(plain end,不通到 3)
+          { op: 'raw', opcode: 0x35, operands: [opcode, 0, 0] }, // 3 跳转目标 — 仅经条件跳转可达
+        ],
+        [makeScene(1, 0)],
+        [],
+      )
+      const cmds = result.scenes[0]!.segments[0]!.commands
+      expect(cmds, `opcode 0x${opcode.toString(16)} 跳转目标应被收集`)
+        .toContainEqual({ op: 'raw', opcode: 0x35, operands: [opcode, 0, 0] })
+    }
+  })
 })

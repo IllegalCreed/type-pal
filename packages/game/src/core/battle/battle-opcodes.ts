@@ -1181,6 +1181,7 @@ export function dispatchBattleOpcode(
       self.currentFrame = 0
       self.iColorShift = 0
       self.maxHealth = base.health
+      self.objectId = eo.objectIndex // L25:sdlpal 0x9F 同步 wObjectID=op0(script.c:2965),供后续 0x91 同种判定
       self.scriptOnTurnStart = eo.scriptOnTurnStart
       self.scriptOnReady = eo.scriptOnReady
       self.scriptOnBattleEnd = eo.scriptOnBattleEnd

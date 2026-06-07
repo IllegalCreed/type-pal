@@ -1079,15 +1079,33 @@ describe('0x9F enemy transform (script.c:009F)', () => {
   it('变身成 op0 对象(保留当前 health)+ M6 变身音 47', () => {
     const self = richEnemy({ health: 30 })
     self.e.id = 5
+    self.objectId = 402
     const roster = [self]
     const ctx = summonCtx(roster, 0, [ENEMY(22, 80), ENEMY(5, 100)], [ENEMY_OBJ(419, 22)])
     dispatchBattleOpcode(0x9F, [419, 0, 0], ctx)
     expect(roster[0]!.e.id).toBe(22) // 变成新种
     expect(roster[0]!.e.health).toBe(30) // 保留当前血
+    expect(roster[0]!.objectId).toBe(419) // L25:sdlpal 0x9F 写 wObjectID=op0(script.c:2965)
     expect(roster[0]!.maxHealth).toBe(80)
     expect(roster[0]!.posOriginal).toEqual(ENEMY_POS.layouts[0]![0])
     expect(roster[0]!.scriptOnReady).toBe(22)
     expect(ctx.gs!.pendingSounds).toEqual([47]) // sdlpal script.c:2980
+  })
+
+  it('L25:0x9F 变身后 0x91 按新 objectId 判同种', () => {
+    const first = richEnemy({ health: 100 })
+    first.e.id = 5
+    first.objectId = 402
+    const self = richEnemy({ health: 30 })
+    self.e.id = 5
+    self.objectId = 402
+    const roster = [first, self]
+    const ctx = summonCtx(roster, 1, [ENEMY(22, 80), ENEMY(5, 100)], [ENEMY_OBJ(419, 22)])
+
+    dispatchBattleOpcode(0x9F, [419, 0, 0], ctx)
+
+    expect(roster[1]!.objectId).toBe(419)
+    expect(dispatchBattleOpcode(0x91, [200, 0, 0], ctx).newIp).toBeUndefined()
   })
 
   it('有 bus 时变身建 iColorShift 动画,不走 pendingSounds fallback', () => {

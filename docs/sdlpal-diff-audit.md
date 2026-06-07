@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 58 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L18 L19 L20 L22 L23 L24 L25 L26 L27 L28 L30 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 42 条 low。
+- **✅ 已修复 59 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L18 L19 L20 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 43 条 low。
 - **⏸ 暂缓 4 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)、L34(淡入淡出 60/64 上限——有干净实现但须改写既有 fade 回归测试整洁断言为 C 量化丑值、不可感知、仅覆盖 4 套 lerp-fade 中的 2 套)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L29 L38),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L38),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -49,7 +49,7 @@
 
 ## L级修复审查(已标 ✅)
 
-> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 42 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:42 条已完整收口,未发现新的遗漏。
+> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 43 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:43 条已完整收口,未发现新的遗漏。
 
 | ID | 审查结论 | 代码审查要点 |
 |---|---|---|
@@ -75,10 +75,11 @@
 | L22 | ✅ 通过 | `attack.ts` 敌→我等价物中毒删 `equivId!==0` 前置短路:该 block 已隐含 `iCoverIndex==-1 && !fAutoDefend`(上方 fAutoDefend 提前 return),故对齐 fight.c:5139 在每次非格挡非自卫命中恒消费一次 `RandomLong(1,10)`。equivItem=0 时 `rate=0` → `0>=1..10` 恒假、消费后短路,find 不到物品 → 不中毒(等价 C 跑 rgObject[0] 空脚本)。新增计数测试锁定;全套零回归。 |
 | L23 | ✅ 通过 | `startBattle` 在 `createBattleState` 前把队伍中 HP=0 的角色复活为 1,同步 runtime HP 并清 Puppet 状态。 |
 | L24 | ✅ 通过 | hidden-exp-up 框长仍用钳后宽度,但文字段按实际姓名/属性宽度连续定位,2 字名不再多出 16px 空档。 |
-| L25 | ✅ 通过 | `BattleEnemy` 新增 `objectId`(= wObjectID,OBJECT 绝对 index);0x91 同种判定改按 `(objectId ?? e.id)` 比较(对齐 script.c:2624),同 wEnemyID 多 OBJECT 不再误判同种。`createBattleState` 从 `team.enemyObjectIndexes` 填(无精确对象号 fallback enemyId,退化旧行为),0x9C 分裂副本=self.objectId、0x9E 召唤=w(自身同种则 self.objectId),`resetEnemySlot` 同步复制。旧 fixture 不带 objectId 回退 e.id;新增同/异对象身份 + 回退 3 测试。原版数据结构性不可达,纯语义正确性对齐。 |
+| L25 | ✅ 通过 | `BattleEnemy` 新增 `objectId`(= wObjectID,OBJECT 绝对 index);0x91 同种判定改按 `(objectId ?? e.id)` 比较(对齐 script.c:2624),同 wEnemyID 多 OBJECT 不再误判同种。`createBattleState` 从 `team.enemyObjectIndexes` 填(无精确对象号 fallback enemyId,退化旧行为),0x9C 分裂副本=self.objectId、0x9E 召唤=w(自身同种则 self.objectId)、0x9F 变身=op0(对齐 script.c:2965),`resetEnemySlot` 同步复制。旧 fixture 不带 objectId 回退 e.id;新增同/异对象身份、回退、变身后 0x91 按新对象身份计数测试。原版数据结构性不可达,纯语义正确性对齐。 |
 | L26 | ✅ 通过 | 0x6A 偷钱分支只在 `c>0` 时入 `battleDialogQueue`,剩 1 文整除得 0 不再弹「获得 0 文钱」。 |
 | L27 | ✅ 通过 | 0x28 全体施毒已把落槽 enemyIdx 与入口脚本 self 分离;全体入口脚本 self 固定为投掷目标,后续 poison tick 仍各敌推进。 |
 | L28 | ✅ 通过 | `parseWordDat` 在 GBK 解码后剥词条尾部标记字符 `1`,并同时覆盖 flat 与分段表;测试锁定 8 条受影响词。 |
+| L29 | ✅ 通过 | `JUMP_TARGET_OPERAND` 补全 13 个条件跳转 opcode(0x06/1E/20/2E/33/34/38/3A/68/84/91/9C/9E),operand 序号逐条对照 reference/sdlpal/script.c `wScriptEntry=rgwOperand[N]` 核实(962/1023/1395/1448/1517/1569/1597/2031/2483·2500/2633/2798/2905/3305)。slice BFS 现跟随这些目标、disasm 打 L_ 标签,补回报告所述 244 条可达指令。新增参数化测试逐一验证目标被收集;roundtrip 字节一致不受 L_ 标签影响,全套零回归。 |
 | L30 | ✅ 通过 | 与 L5 同根:idle/blocked 站立分支复位 stepFrame `&=2;^=2`;改写 3 个锁定"冻结不变"的回归测试为 C 真值(撞墙/NPC 0→2、走2步后 idle 2→0、再 idle 0↔2 翻转)。 |
 | L31 | ✅ 通过 | cover-tile 扫描边界已从 `Math.floor` 改为 `Math.trunc`,对齐 C 整数除法;潜伏边界差异已收口。 |
 | L32 | ✅ 通过 | layer-0 in-bounds tile 缺帧时已 fallback 到 `tiles.get(0)`,layer-1 仍按原版跳过;不再留黑洞。 |
@@ -145,7 +146,7 @@
 | ✅ L26 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x6A 偷钱在 c==0 时仍弹「获得 0 文钱」对话(C 仅 c>0 才显示) |
 | ✅ L27 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x28 全体上毒时,入口毒脚本以各敌自身 index 运行,C 统一用投掷目标 wEventObjectID |
 | ✅ L28 | 🟡 | data | 提取·MKF 解码与数据表 | WORD.DAT 词条解析缺少 sdlpal 的尾部 '1' 截断,8 个法术/敌人名残留多余的「1」 |
-| L29 | 🟡 | data | 提取·事件 bytecode 反编译 | slice/disasm 的 JUMP_TARGET_OPERAND 缺 13 个条件跳转 opcode,切片 BFS 丢弃 244 条可达指令 |
+| ✅ L29 | 🟡 | data | 提取·事件 bytecode 反编译 | slice/disasm 的 JUMP_TARGET_OPERAND 缺 13 个条件跳转 opcode,切片 BFS 丢弃 244 条可达指令 |
 | ✅ L30 | 🟡 | timing | 渲染·地图瓦片与精灵 | 停步时未复现 s_iThisStepFrame 的 `&=2; ^=2` 复位,导致再次起步的首帧迈步腿相位不一致 |
 | ✅ L31 | 🟡 | correctness | 渲染·地图瓦片与精灵 | cover-tile 扫描范围用 Math.floor 而非 C 的向零截断除法,精灵贴近地图左/上边缘时遮挡列判定偏移 |
 | ✅ L32 | 🟡 | pixel | 渲染·地图瓦片与精灵 | layer-0 瓦片位图缺失时未回落到 tile(0,0,0,0),C 会用首格兜底填充 |
@@ -1465,7 +1466,7 @@ reference/sdlpal/text.c:785-786（剥尾部宽字符 '1' 的真值逻辑，在 7
 </details>
 
 
-### L29 · 🟡 slice/disasm 的 JUMP_TARGET_OPERAND 缺 13 个条件跳转 opcode,切片 BFS 丢弃 244 条可达指令
+### ✅ L29 · 🟡 slice/disasm 的 JUMP_TARGET_OPERAND 缺 13 个条件跳转 opcode,切片 BFS 丢弃 244 条可达指令
 
 - **子系统**:提取·事件 bytecode 反编译　**类别**:data
 - **TS 位置**:`packages/pal-extract/src/events/opcodes.ts:243-259`

@@ -256,6 +256,23 @@ export const JUMP_TARGET_OPERAND: Record<number, number> = {
   0x86: 2, // jump if item op0 not equipped (count < op1)
   0x94: 2, // jump if current event object state == op1
   0x95: 1, // jump if current scene == op0
+  // L29:以下 13 个条件跳转 opcode 此前缺失 → slice BFS 不跟随、disasm 不打 L_ 标签,仅经它们可达的块
+  //   (实测 scenes +111 / shared +133 / 共 244 条)被切片丢弃。值 = sdlpal script.c `wScriptEntry =
+  //   rgwOperand[N]` 的 operand 序号 N(目标 ip:大多 `-1` 与外层 wScriptEntry++ 抵消;0x06 无 -1 但
+  //   continue 跳过 ++,目标同为 op1)。
+  0x06: 1, // jump by rate:RandomLong(1,100) >= op0 → op1(script.c:3305)
+  0x1e: 1, // jump if cash < op0 → op1(script.c:962)
+  0x20: 2, // removeItem 数量不足 → op2(script.c:1023)
+  0x2e: 2, // set-enemy-status 抗性命中 → op2(script.c:1395)
+  0x33: 0, // collect 失败 → op0(script.c:1448)
+  0x34: 0, // 炼丹 collectValue==0 → op0(script.c:1517)
+  0x38: 0, // teleport 失败 → op0(script.c:1569)
+  0x3a: 0, // boss 不可逃 → op0(script.c:1597)
+  0x68: 0, // jump if enemy turn → op0(script.c:2031)
+  0x84: 2, // 放置物受阻 / 不在当前场景 → op2(script.c:2483/2500)
+  0x91: 0, // jump if enemy not first of same kind → op0(script.c:2633)
+  0x9c: 1, // 分裂失败 → op1(script.c:2798)
+  0x9e: 2, // 召唤失败 → op2(script.c:2905)
 }
 
 /**
