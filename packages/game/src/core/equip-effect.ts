@@ -114,8 +114,9 @@ export const PLAYERROLES_ROW = {
   ELEM_RESIST_0: 23, ELEM_RESIST_1: 24, ELEM_RESIST_2: 25,
   ELEM_RESIST_3: 26, ELEM_RESIST_4: 27,
   COVERED_BY: 31,
-  // row 32-63 = rgwMagic[32][6];64 = rgwWalkFrames;65 = rgwCooperativeMagic(装备改合击,圣灵珠 0x1A[65,...])
-  COOPERATIVE_MAGIC: 65,
+  // row 32-63 = rgwMagic[32][6]
+  WALK_FRAMES: 64,
+  COOPERATIVE_MAGIC: 65, // 装备改合击,圣灵珠 0x1A[65,...]
 } as const
 
 /** Helper:把 EquipmentEffectRoles 某 row 给 role 写入(sdlpal opcode 0x17 真值)。 */
@@ -206,6 +207,14 @@ export function setPlayerStatRow(gs: GameState, rowIdx: number, roleId: number, 
     case PLAYERROLES_ROW.FLEE_RATE: r.rgwFleeRate[roleId] = value; break
     case PLAYERROLES_ROW.POISON_RESISTANCE: r.rgwPoisonResistance[roleId] = value; break
     case PLAYERROLES_ROW.COVERED_BY: r.rgwCoveredBy[roleId] = value; break
+    // M2(2026-06-07 sdlpal 审查):0x1A 剧情变身写造型 row(原先落 default no-op → 变身造型不更新)。
+    //   sprite/coop 本有 runtime 字段、只是没路由;avatar/battleSprite/attackAll/walkFrames 本次补字段。
+    case PLAYERROLES_ROW.AVATAR: r.rgwAvatar[roleId] = value; break
+    case PLAYERROLES_ROW.SPRITE_NUM_IN_BATTLE: r.rgwSpriteNumInBattle[roleId] = value; break
+    case PLAYERROLES_ROW.SPRITE_NUM: r.rgwSpriteNum[roleId] = value; break
+    case PLAYERROLES_ROW.ATTACK_ALL: r.rgwAttackAll[roleId] = value; break
+    case PLAYERROLES_ROW.WALK_FRAMES: r.rgwWalkFrames[roleId] = value; break
+    case PLAYERROLES_ROW.COOPERATIVE_MAGIC: r.rgwCooperativeMagic[roleId] = value; break
     default:
       console.warn(`setPlayerStatRow: row ${rowIdx} 未支持`)
   }

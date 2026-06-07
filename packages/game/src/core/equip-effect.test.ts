@@ -297,6 +297,27 @@ describe('equip-effect', () => {
     })
   })
 
+  // M2(2026-06-07 sdlpal 审查):0x1A 非装备上下文写造型 row,原先落 default no-op → 变身造型不更新
+  describe('M2:setPlayerStatRow 造型 row 路由(script.c:862)', () => {
+    it('SPRITE_NUM/SPRITE_NUM_IN_BATTLE/AVATAR/WALK_FRAMES/ATTACK_ALL/COOP → runtime 字段', () => {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.iCurEquipPart = -1 // 非装备上下文(剧情脚本)
+      setPlayerStatRow(gs, PLAYERROLES_ROW.SPRITE_NUM, 1, 512) // 赵灵儿变镇狱明王 大世界精灵
+      setPlayerStatRow(gs, PLAYERROLES_ROW.SPRITE_NUM_IN_BATTLE, 1, 5)
+      setPlayerStatRow(gs, PLAYERROLES_ROW.AVATAR, 1, 91)
+      setPlayerStatRow(gs, PLAYERROLES_ROW.WALK_FRAMES, 1, 4)
+      setPlayerStatRow(gs, PLAYERROLES_ROW.ATTACK_ALL, 1, 1)
+      setPlayerStatRow(gs, PLAYERROLES_ROW.COOPERATIVE_MAGIC, 1, 7)
+      const r = gs.PlayerRolesRuntime
+      expect(r.rgwSpriteNum[1]).toBe(512)
+      expect(r.rgwSpriteNumInBattle[1]).toBe(5)
+      expect(r.rgwAvatar[1]).toBe(91)
+      expect(r.rgwWalkFrames[1]).toBe(4)
+      expect(r.rgwAttackAll[1]).toBe(1)
+      expect(r.rgwCooperativeMagic[1]).toBe(7)
+    })
+  })
+
   // D14(2026-05-31):0x29 scriptOnEquip → 装备授毒(寿葫芦每回合回血回蓝,正面"毒")
   describe('0x29 scriptOnEquip → addPoisonForPlayer(script.c:1257)', () => {
     it('0x29 寿葫芦 → 给 role 加 level-99 正面"毒"(resist 0 必中)', () => {

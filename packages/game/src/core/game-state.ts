@@ -474,6 +474,11 @@ export interface PlayerRolesRuntime {
   rgwCoveredBy: number[]          // HP 危险时谁会护着我
   rgwMagic: number[][]            // [magicSlot][roleId] 已学魔法;MAX_PLAYER_MAGICS(32) × MAX_PLAYER_ROLES(6)
   rgwCooperativeMagic: number[]   // 合体魔法编号
+  // M2(2026-06-07 sdlpal 审查):0x1A 剧情变身可写的造型 row,runtime 化(原先无字段 → 写入 no-op)
+  rgwAvatar: number[]             // row0 状态头像(RGM chunk)
+  rgwSpriteNumInBattle: number[]  // row1 战斗精灵(F.MKF chunk)
+  rgwAttackAll: number[]          // row4 是否群攻
+  rgwWalkFrames: number[]         // row64 行走动画帧数
 }
 
 /**
@@ -1236,6 +1241,11 @@ export function hydratePlayerRolesRuntime(
     runtime.rgwPoisonResistance[i] = role.poisonResistance
     runtime.rgwCoveredBy[i] = role.coveredBy ?? 0
     runtime.rgwCooperativeMagic[i] = role.cooperativeMagic ?? 0 // base 合击(装备 override 之上,P2 foundation)
+    // M2:造型 row 基线(0x1A 剧情变身在此基础上覆盖)
+    runtime.rgwAvatar[i] = role.avatar
+    runtime.rgwSpriteNumInBattle[i] = role.spriteNumInBattle
+    runtime.rgwAttackAll[i] = role.attackAll
+    runtime.rgwWalkFrames[i] = role.walkFrames
     // 装备 6 槽
     const eq = role.equipment ?? []
     for (let slot = 0; slot < 6; slot++) {
@@ -1388,7 +1398,7 @@ export function projectRuntimeToBattleRoles(
       earth: runtime.rgwElementalResistance[4]?.[i] ?? base.elemResistance.earth,
     }
     return {
-      ...base, // 不可变:_name/avatar/walkFrames/sounds/equipment 等
+      ...base, // 不可变:_name/sounds/equipment 等(avatar/walkFrames/attackAll/battleSprite 下方 runtime 覆盖)
       spriteNum: runtime.rgwSpriteNum[i] || base.spriteNum,
       name: runtime.rgwName[i] ?? base.name,
       level: runtime.rgwLevel[i] ?? base.level,
@@ -1396,10 +1406,13 @@ export function projectRuntimeToBattleRoles(
       maxMP: runtime.rgwMaxMP[i] ?? base.maxMP,
       hp: runtime.rgwHP[i] ?? base.hp,
       mp: runtime.rgwMP[i] ?? base.mp,
+      // M2(2026-06-07 sdlpal 审查):造型 row 读 runtime base(0x1A 剧情变身写入,如灵儿变镇狱明王)。
+      avatar: runtime.rgwAvatar[i] || base.avatar,
+      walkFrames: runtime.rgwWalkFrames[i] || base.walkFrames,
       // 装备 override(sdlpal getter):长鞭 attackAll/sprite、圣灵珠 coopMagic。装备授群攻 → role.attackAll=1
       //   (battle-system 读此判全体攻);sprite/coopMagic 末非 0 槽 override base(coopMagic 执行待 P2)。
-      attackAll: anyEquip('rgwAttackAll', i) ? 1 : base.attackAll,
-      spriteNumInBattle: lastNonzeroEquip('rgwSpriteNumInBattle', i) || base.spriteNumInBattle,
+      attackAll: anyEquip('rgwAttackAll', i) ? 1 : (runtime.rgwAttackAll[i] || base.attackAll),
+      spriteNumInBattle: lastNonzeroEquip('rgwSpriteNumInBattle', i) || runtime.rgwSpriteNumInBattle[i] || base.spriteNumInBattle,
       cooperativeMagic: lastNonzeroEquip('rgwCooperativeMagic', i)
         || (runtime.rgwCooperativeMagic[i] ?? base.cooperativeMagic ?? 0),
       // effective = base + Σ 装备 effect(含 Extra),mirror sdlpal PAL_GetPlayerXxx getter
@@ -1559,6 +1572,10 @@ function createInitialPlayerRolesRuntime(): PlayerRolesRuntime {
     rgwCoveredBy: zeros(),
     rgwMagic: mat(32), // MAX_PLAYER_MAGICS=32 × 6 roles
     rgwCooperativeMagic: zeros(),
+    rgwAvatar: zeros(),
+    rgwSpriteNumInBattle: zeros(),
+    rgwAttackAll: zeros(),
+    rgwWalkFrames: zeros(),
   }
 }
 
