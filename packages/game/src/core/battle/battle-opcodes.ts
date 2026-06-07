@@ -463,7 +463,9 @@ export function dispatchBattleOpcode(
       const poisonId = operands[1] ?? 0
       const poison = ctx.objectPoisons?.[poisonId]
       const scriptEntry = poison && poison.id === poisonId ? poison.enemyScript : 0
-      const applyTo = (enemyIdx: number): void => {
+      // L27:落槽用各敌 enemyIdx,但入口脚本 self 用 scriptSelfIdx —— C 全体上毒恒传投掷目标
+      //   wEventObjectID(script.c:1213),非循环 i,故入口首条 0x21 即时伤害集中砸投掷目标。
+      const applyTo = (enemyIdx: number, scriptSelfIdx: number): void => {
         const enemy = state.enemies[enemyIdx]
         if (!isActiveEnemy(enemy))
           return
@@ -485,7 +487,7 @@ export function dispatchBattleOpcode(
             runtimeMode: 'battle',
             battleCtx: {
               state,
-              target: { type: 'enemy', idx: enemyIdx },
+              target: { type: 'enemy', idx: scriptSelfIdx },
               gs: ctx.gs,
               bus: ctx.bus,
               commands: ctx.commands,
@@ -497,12 +499,14 @@ export function dispatchBattleOpcode(
         poisons.push({ poisonId, scriptEntry: entry })
       }
       if ((operands[0] ?? 0) !== 0) {
+        // 全体:落槽各敌 i,入口脚本 self 恒为投掷目标 ctx.target(缺则回落各敌自身,向后兼容)
+        const selfIdx = ctx.target?.idx
         state.enemies.forEach((enemy, i) => {
-          if (isActiveEnemy(enemy)) applyTo(i)
+          if (isActiveEnemy(enemy)) applyTo(i, selfIdx ?? i)
         })
       }
       else if (ctx.target?.idx !== undefined) {
-        applyTo(ctx.target.idx)
+        applyTo(ctx.target.idx, ctx.target.idx)
       }
       return { consumed: true }
     }

@@ -1826,4 +1826,26 @@ describe('0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene)', (
     expect(ctx.gs!.dwCash).toBe(0) // c=0 → cash 不变
     expect(enemy.e.stealItemCount).toBe(1) // c=0 → count 不变
   })
+
+  // L27:C 0x28 全体上毒对每敌落槽用循环 i,但入口脚本恒以投掷目标 wEventObjectID 运行(script.c:1213),
+  //   故入口首条 0x21 即时伤害集中砸投掷目标。TS 此前 per-enemy 用各自 idx 跑入口 → 伤害分散到各敌。
+  it('L27:全体上毒入口脚本 self 恒为投掷目标,非循环 i(script.c:1213)', () => {
+    const enemies = [makeEnemy(100), makeEnemy(100), makeEnemy(100)]
+    const capturedSelfIdx: number[] = []
+    const ctx = {
+      state: { enemies, players: [], rng: { rangeInclusive: () => 0 } } as any as BattleState,
+      target: { type: 'enemy', idx: 1 }, // 投掷目标 = enemy 1(玩家选定 sTarget)
+      objectPoisons: { 553: { id: 553, enemyScript: 999 } },
+      commands: [{ op: 'end' }],
+      bus: createCommandBus(),
+      // mock runScript 捕获入口脚本 self(battleCtx.target.idx)
+      runScript: (args: { battleCtx: { target: { idx: number } } }) => {
+        capturedSelfIdx.push(args.battleCtx.target.idx)
+        return 0
+      },
+    } as unknown as BattleCtx
+    dispatchBattleOpcode(0x28, [1, 553, 0], ctx) // op0=1 全体, op1=553 毒
+    // 3 敌全落槽,但入口脚本 self 恒为投掷目标 idx 1(C),非各敌 0/1/2(旧 TS)
+    expect(capturedSelfIdx).toEqual([1, 1, 1])
+  })
 })
