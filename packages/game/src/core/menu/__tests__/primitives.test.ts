@@ -17,12 +17,21 @@ import {
 } from '../primitives.js'
 
 describe('M-w0.1 SelectionMenu', () => {
-  it('createSelectionMenu:cursor 起始落在第一个非 disabled item', () => {
+  it('L38:createSelectionMenu 初始 cursor 不跳 disabled(对齐 PAL_ReadMenu default item)', () => {
     const s = createSelectionMenu([
       { id: 1, label: 'a', disabled: true },
       { id: 2, label: 'b' },
       { id: 3, label: 'c' },
     ])
+    expect(s.cursor).toBe(0)
+    expect(getSelected(s)?.disabled).toBe(true)
+  })
+
+  it('createSelectionMenu:defaultCursor 越界时 clamp', () => {
+    const s = createSelectionMenu([
+      { id: 1, label: 'a' },
+      { id: 2, label: 'b' },
+    ], 8, 99)
     expect(s.cursor).toBe(1)
   })
 

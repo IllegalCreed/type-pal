@@ -127,13 +127,20 @@ describe('M-w0.2 MagicSelectionMenu', () => {
     expect(getSelected(s)?.id).toBe(1)
   })
 
-  it('MP 不够 → disabled(灰色),光标跳过', () => {
+  it('MP 不够 → disabled(灰色),初始 cursor 仍按默认项', () => {
     const s = createMagicSelectMenu({
       roleId: 0, playerRoles, spells, magics, currentMp: 10,  // 大火球 30 不够
     })
     expect(s.items[0]?.disabled).toBe(false)
     expect(s.items[1]?.disabled).toBe(true)
-    // cursor 应停在第一个非 disabled
+    expect(s.cursor).toBe(0)
+  })
+
+  it('L38:第一个法术 MP 不足时 cursor 仍可落在灰项', () => {
+    const s = createMagicSelectMenu({
+      roleId: 0, playerRoles, spells, magics, currentMp: 3,
+    })
+    expect(s.items[0]?.disabled).toBe(true)
     expect(s.cursor).toBe(0)
   })
 

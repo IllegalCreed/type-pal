@@ -51,7 +51,9 @@ import {
 } from './equip-menu.js'
 import {
   cancelInGameMagic, confirmCaster, confirmSpell, confirmTarget,
-  createInGameMagicMenu, inGameMagicMoveDown, inGameMagicMoveUp,
+  createInGameMagicMenu, inGameMagicEnd, inGameMagicHome, inGameMagicMoveDown,
+  inGameMagicMoveLeft, inGameMagicMoveRight, inGameMagicMoveUp,
+  inGameMagicPageDown, inGameMagicPageUp,
   refreshSpellMenu, type InGameMagicMenuState,
 } from './in-game-magic-menu.js'
 import { castOverworldMagic } from './magic-script.js'
@@ -774,12 +776,25 @@ function dispatchInGameMagicMenu(
     if (s.phase === 'done') closeTopMenu(gs)
     return
   }
-  // sdlpal uigame.c:841 真值:pick-target 用 Left/Up 切上一个,Right/Down 切下一个
-  if (input.pressed.has('Up') || (s.phase === 'pick-target' && input.pressed.has('Left'))) {
-    inGameMagicMoveUp(s)
-  }
-  if (input.pressed.has('Down') || (s.phase === 'pick-target' && input.pressed.has('Right'))) {
-    inGameMagicMoveDown(s)
+  // sdlpal 真值:
+  //   pick-caster = PAL_ReadMenu(Up/Left 前一项,Down/Right 后一项,wrap);
+  //   pick-spell = PAL_MagicSelectionMenuUpdate(8-key grid,clamp);
+  //   pick-target = uigame.c:841/849(Left/Up 前一人,Right/Down 后一人,clamp)。
+  if (s.phase === 'pick-spell') {
+    if (input.pressed.has('Up')) inGameMagicMoveUp(s)
+    else if (input.pressed.has('Down')) inGameMagicMoveDown(s)
+    else if (input.pressed.has('Left')) inGameMagicMoveLeft(s)
+    else if (input.pressed.has('Right')) inGameMagicMoveRight(s)
+    else if (input.pressed.has('PgUp')) inGameMagicPageUp(s)
+    else if (input.pressed.has('PgDn')) inGameMagicPageDown(s)
+    else if (input.pressed.has('Home')) inGameMagicHome(s)
+    else if (input.pressed.has('End')) inGameMagicEnd(s)
+  } else if (s.phase === 'pick-target') {
+    if (input.pressed.has('Up') || input.pressed.has('Left')) inGameMagicMoveUp(s)
+    else if (input.pressed.has('Down') || input.pressed.has('Right')) inGameMagicMoveDown(s)
+  } else if (s.phase === 'pick-caster') {
+    if (input.pressed.has('Down') || input.pressed.has('Right')) inGameMagicMoveDown(s)
+    else if (input.pressed.has('Up') || input.pressed.has('Left')) inGameMagicMoveUp(s)
   }
   if (input.pressed.has('Confirm')) {
     const catalogs = requireCatalogs()

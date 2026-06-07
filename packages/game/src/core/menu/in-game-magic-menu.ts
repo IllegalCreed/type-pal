@@ -33,6 +33,9 @@ import {
   moveSelectionUp,
 } from './primitives.js'
 
+const MAGIC_GRID_COLS = 3
+const MAGIC_GRID_ROWS = 5
+
 export type InGameMagicPhase = 'pick-caster' | 'pick-spell' | 'pick-target' | 'done'
 
 export interface InGameMagicMenuState {
@@ -223,11 +226,23 @@ export function cancelInGameMagic(state: InGameMagicMenuState): void {
   }
 }
 
-// ── Up/Down navigation(sdlpal 真值)──────────────────────────────────────────
+// ── Navigation(sdlpal 真值)──────────────────────────────────────────────────
+
+function moveSpellGrid(menu: SelectionMenuState, delta: number): void {
+  const n = menu.items.length
+  if (n === 0) {
+    menu.cursor = 0
+    return
+  }
+  const next = menu.cursor + delta
+  if (next < 0) menu.cursor = 0
+  else if (next >= n) menu.cursor = n - 1
+  else menu.cursor = next
+}
 
 export function inGameMagicMoveUp(s: InGameMagicMenuState): void {
   if (s.phase === 'pick-caster') moveSelectionUp(s.casterMenu)
-  else if (s.phase === 'pick-spell' && s.spellMenu) moveSelectionUp(s.spellMenu)
+  else if (s.phase === 'pick-spell' && s.spellMenu) moveSpellGrid(s.spellMenu, -MAGIC_GRID_COLS)
   else if (s.phase === 'pick-target') {
     // sdlpal uigame.c:841 真值:Up/Left → wPlayer--;边界 noop(不 wrap)
     if (s.targetCursor > 0) s.targetCursor--
@@ -236,9 +251,43 @@ export function inGameMagicMoveUp(s: InGameMagicMenuState): void {
 
 export function inGameMagicMoveDown(s: InGameMagicMenuState): void {
   if (s.phase === 'pick-caster') moveSelectionDown(s.casterMenu)
-  else if (s.phase === 'pick-spell' && s.spellMenu) moveSelectionDown(s.spellMenu)
+  else if (s.phase === 'pick-spell' && s.spellMenu) moveSpellGrid(s.spellMenu, MAGIC_GRID_COLS)
   else if (s.phase === 'pick-target') {
     // sdlpal uigame.c:849 真值:Down/Right → wPlayer++;边界 noop
     if (s.targetCursor < s.partyMembers.length - 1) s.targetCursor++
+  }
+}
+
+export function inGameMagicMoveLeft(s: InGameMagicMenuState): void {
+  if (s.phase === 'pick-caster') moveSelectionUp(s.casterMenu)
+  else if (s.phase === 'pick-spell' && s.spellMenu) moveSpellGrid(s.spellMenu, -1)
+  else if (s.phase === 'pick-target' && s.targetCursor > 0) s.targetCursor--
+}
+
+export function inGameMagicMoveRight(s: InGameMagicMenuState): void {
+  if (s.phase === 'pick-caster') moveSelectionDown(s.casterMenu)
+  else if (s.phase === 'pick-spell' && s.spellMenu) moveSpellGrid(s.spellMenu, 1)
+  else if (s.phase === 'pick-target' && s.targetCursor < s.partyMembers.length - 1) s.targetCursor++
+}
+
+export function inGameMagicPageUp(s: InGameMagicMenuState): void {
+  if (s.phase === 'pick-spell' && s.spellMenu) {
+    moveSpellGrid(s.spellMenu, -(MAGIC_GRID_COLS * MAGIC_GRID_ROWS))
+  }
+}
+
+export function inGameMagicPageDown(s: InGameMagicMenuState): void {
+  if (s.phase === 'pick-spell' && s.spellMenu) {
+    moveSpellGrid(s.spellMenu, MAGIC_GRID_COLS * MAGIC_GRID_ROWS)
+  }
+}
+
+export function inGameMagicHome(s: InGameMagicMenuState): void {
+  if (s.phase === 'pick-spell' && s.spellMenu) s.spellMenu.cursor = 0
+}
+
+export function inGameMagicEnd(s: InGameMagicMenuState): void {
+  if (s.phase === 'pick-spell' && s.spellMenu) {
+    s.spellMenu.cursor = Math.max(0, s.spellMenu.items.length - 1)
   }
 }

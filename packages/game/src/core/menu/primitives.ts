@@ -14,7 +14,7 @@
 export interface SelectionMenuItem {
   id: number
   label: string
-  /** disabled 不可选中(灰色),光标跳过。 */
+  /** disabled 不可确认(灰色),光标可停留。 */
   disabled?: boolean
   /** 可选附加文本(MP cost / 数量 / 价格等,渲染层接);primitive 不消费。 */
   rightText?: string
@@ -50,17 +50,21 @@ export interface SwitchMenuState {
 export function createSelectionMenu(
   items: SelectionMenuItem[],
   pageSize: number = 8,
-  defaultYes = true,
+  defaultCursor = 0,
 ): SelectionMenuState {
-  void defaultYes
-  // cursor 初始落在第一个可选 item
-  const firstSelectable = items.findIndex((i) => !i.disabled)
-  return {
+  // sdlpal PAL_ReadMenu / MagicSelectionMenuInit:初始 cursor 按 default item,
+  // 不因 disabled/fEnabled=FALSE 改跳到第一个可选项。
+  const cursor = items.length === 0
+    ? 0
+    : Math.min(Math.max(0, defaultCursor), items.length - 1)
+  const state = {
     items,
-    cursor: firstSelectable >= 0 ? firstSelectable : 0,
+    cursor,
     pageSize,
     pageOffset: 0,
   }
+  ensureCursorVisible(state)
+  return state
 }
 
 /**

@@ -364,6 +364,37 @@ describe('M5.6 T9 dispatchInGameMagicMenu', () => {
     tickMenu(gs, snap(['Menu']), createCommandBus())
     expect(gs.menuStack.length).toBe(0)
   })
+
+  it('L38:pick-spell 阶段 Right 走法术网格逐项移动', () => {
+    const gs = mkGs()
+    const spells = [
+      { id: 296, magicNumber: 33, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0,
+        flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false },
+        _name: '气疗术' },
+      { id: 297, magicNumber: 35, scriptOnUse: 0, scriptOnSuccess: 0, scriptDesc: 0,
+        flags: { usableOutsideBattle: true, usableInBattle: true, usableToEnemy: false, applyToAll: false },
+        _name: '观音咒' },
+    ] as unknown as Spell[]
+    const magics = [
+      { id: 33, costMP: 6 },
+      { id: 35, costMP: 10 },
+    ] as unknown as Magic[]
+    const playerRoles = {
+      roles: [{
+        id: 0, _name: '李逍遥', hp: 100, mp: 80, magic: [296, 297, ...Array<number>(30).fill(0)],
+      }],
+    } as unknown as PlayerRoles
+    gs.partyMembers = [0]
+    setMenuCatalogs({ ...MOCK_CATALOGS, spells, magics, playerRoles })
+
+    const state = createInGameMagicMenu(playerRoles, gs.partyMembers, spells, magics)
+    openMenu(gs, { kind: 'in-game-magic', state })
+    expect(state.phase).toBe('pick-spell')
+    expect(state.spellMenu!.cursor).toBe(0)
+
+    tickMenu(gs, snap(['Right']), createCommandBus())
+    expect(state.spellMenu!.cursor).toBe(1)
+  })
 })
 
 describe('M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值', () => {

@@ -87,7 +87,7 @@
 | L35 | ✅ 通过 | 大世界仙术列表 cancel 从 `pick-spell` 直接置 `done`,不再回到 `pick-caster`;调用方按 done 关菜单回大世界。 |
 | L36 | ✅ 通过 | `createMagicSelectMenu` 对已学 spell ObjectID 升序排序,与战斗法术菜单同源对齐 `magicmenu.c`。 |
 | L37 | ✅ 通过 | 选施法人框只按 `hp<=0` 禁用,不再因没有大世界法术而灰掉活人;选中后进入空/全灰 spell 列表。 |
-| L38 | ✅ 通过 | `moveSelectionUp/Down` 改逐项 `±1` 环绕、**不跳过** disabled(对齐 PAL_ReadMenu ui.c:510-572 / 选人 uigame.c:1473-1488):光标可停在灰项,渲染层 SELECTED_INACTIVE 分支现能触发。4 个带 disabled 的菜单(大世界法术/选施法者、战斗法术/物品)确认路径早已各自 `!sel.disabled` no-op,无需补;初始 cursor(firstSelectable)与 pageUp/Down(带 disabled 菜单不走翻页)保持不动。改测试"自动跳过"为"逐项停留"。附带的 inventory 选人禁用死人已由 H2 先行修正。 |
+| L38 | ✅ 通过 | `createSelectionMenu` 初始 cursor 改按 default index 落位、不再找 firstSelectable;`moveSelectionUp/Down` 改逐项 `±1` 环绕、**不跳过** disabled(对齐 PAL_ReadMenu ui.c:510-572 / 选人 uigame.c:1473-1488)。大世界法术列表已脱离线性 primitive,改走 `magicmenu.c:67-116` 的 3 列网格导航(Up/Down=±3、Left/Right=±1、PgUp/PgDn=±15、Home/End,clamp 不环绕、不跳灰项)。战斗法术/物品原已走 gridNavigate;确认路径仍各自 `!sel.disabled` no-op。测试覆盖初始灰项、逐项停灰项与大世界法术网格输入。 |
 | L39 | ✅ 通过 | `filter='usable'` 时追加全队装备槽中本身 usable 的已装备物,且 `count=0,inUse=-1` 保证可确认。 |
 | L40 | ✅ 通过 | 用物品目标框已用模块级 `sSelectedItemTargetSlot` 模拟 C static,确认/取消目标框时回写,重建目标框时越界归 0。 |
 | L41 | ✅ 通过 | 单人队伍创建大世界仙术菜单时直接进入 `pick-spell` 并预建 spellMenu,跳过 1 项施法人框。 |
@@ -1777,6 +1777,8 @@ TS 核对：primitives.ts:67-85 findNextSelectable 用 modulo 环绕跳过所有
 排除误报：(a) 不是宏等价——C 三处确有逐 1 移动且 fEnabled 决定颜色而非跳过；(b) 不是别处已处理——渲染层 draw-magic.ts:189、276 反而已实现「cursor 落禁用项画 SELECTED_INACTIVE」的 C 着色，恰恰是导航层 findNextSelectable 让该分支对法术/选人菜单永不触发，说明导航跳过与渲染层意图自相矛盾，倾向无意偏差而非有意移植决策；(c) 行号/函数无误。
 
 附带发现（超出本条字面，但相关）：inventory-menu.ts:222 把 hp<=0 队员标 disabled，而 C 物品选人(uigame.c:1380-1497)无禁用概念、允许选死亡队员（复活类物品需要选已倒下的成员）——TS 既跳过又（在数据层）禁用，比单纯「跳过 vs 停留」更进一步偏离 C，可能影响对倒地队员用药目标选择。
+
+- **修复补充**:`createSelectionMenu` 初始 cursor 已改为按 default index clamp,不再 `findIndex(!disabled)`,所以第 0 项为灰项时也会停在灰项(对齐 ui.c:433 / magicmenu.c:329-409)。线性 `moveSelectionUp/Down` 已逐项 `±1` 环绕、不跳 disabled,覆盖 PAL_ReadMenu/选人框语义。大世界法术 `pick-spell` 不再复用线性移动,改由 `inGameMagicMoveLeft/Right/Page/Home/End` 走 3 列网格 clamp(对齐 magicmenu.c:67-116);menu-driver 已派发 Left/Right/PgUp/PgDn/Home/End。新增测试锁定 primitive 初始灰项、MP 不足首法术 cursor=0、spell grid Up/Down/Left/Right/PgUp/PgDn/Home/End 与 driver Right 输入。H2 的物品目标死人禁用已另行修正,故本条只保留导航语义收口。
 
 </details>
 

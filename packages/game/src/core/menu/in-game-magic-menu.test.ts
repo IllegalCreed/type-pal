@@ -19,8 +19,14 @@ import {
   confirmSpell,
   confirmTarget,
   createInGameMagicMenu,
+  inGameMagicEnd,
+  inGameMagicHome,
   inGameMagicMoveDown,
+  inGameMagicMoveLeft,
+  inGameMagicMoveRight,
   inGameMagicMoveUp,
+  inGameMagicPageDown,
+  inGameMagicPageUp,
   refreshSpellMenu,
 } from './in-game-magic-menu.js'
 
@@ -294,6 +300,49 @@ describe('inGameMagicMove* on pick-target', () => {
     s.targetCursor = 0
     inGameMagicMoveDown(s)
     expect(s.targetCursor).toBe(1)
+  })
+})
+
+describe('L38:inGameMagicMove* on pick-spell grid', () => {
+  function mkSpellGrid() {
+    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS, MAGICS)
+    s.casterMenu.cursor = 0
+    confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)
+    return s
+  }
+
+  it('Up/Down 按 3 列网格移动并 clamp,不 wrap', () => {
+    const s = mkSpellGrid()
+    s.spellMenu!.cursor = 0
+    inGameMagicMoveUp(s)
+    expect(s.spellMenu!.cursor).toBe(0)
+    inGameMagicMoveDown(s)
+    expect(s.spellMenu!.cursor).toBe(2)
+  })
+
+  it('Left/Right 逐项移动并 clamp,不跳 disabled', () => {
+    const s = mkSpellGrid()
+    s.spellMenu!.items[1]!.disabled = true
+    s.spellMenu!.cursor = 0
+    inGameMagicMoveRight(s)
+    expect(s.spellMenu!.cursor).toBe(1)
+    inGameMagicMoveLeft(s)
+    expect(s.spellMenu!.cursor).toBe(0)
+    inGameMagicMoveLeft(s)
+    expect(s.spellMenu!.cursor).toBe(0)
+  })
+
+  it('PgUp/PgDn/Home/End 按 magicmenu.c 网格语义 clamp', () => {
+    const s = mkSpellGrid()
+    s.spellMenu!.cursor = 0
+    inGameMagicPageDown(s)
+    expect(s.spellMenu!.cursor).toBe(2)
+    inGameMagicPageUp(s)
+    expect(s.spellMenu!.cursor).toBe(0)
+    inGameMagicEnd(s)
+    expect(s.spellMenu!.cursor).toBe(2)
+    inGameMagicHome(s)
+    expect(s.spellMenu!.cursor).toBe(0)
   })
 })
 
