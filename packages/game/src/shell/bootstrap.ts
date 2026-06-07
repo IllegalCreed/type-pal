@@ -1577,8 +1577,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       palette: palette3,
     })
     const palette1 = await fetchPalette(1).catch(() => palette)
-    const fbpUp = assets.battleBgs.get(3)
-    const fbpDown = assets.battleBgs.get(4)
+    // M15(2026-06-07 sdlpal 审查):DOS splash 用 FBP chunk 0x26/0x27,非 WIN95 的 3/4
+    //   (sdlpal main.c:42-43 BITMAPNUM_SPLASH_UP/DOWN = fIsWIN95 ? 0x03/0x04 : 0x26/0x27)。
+    const fbpUp = assets.battleBgs.get(0x26)
+    const fbpDown = assets.battleBgs.get(0x27)
     const craneSprite = characterSprites.get(73)
     const titleSprite = characterSprites.get(71)
     if (!fbpUp || !fbpDown || !craneSprite || !titleSprite || titleSprite.frames.length === 0) {

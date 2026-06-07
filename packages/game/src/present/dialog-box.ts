@@ -738,6 +738,10 @@ function drawNarrationDialog(
   if (ctx?.uiSpriteFrames) {
     drawSingleLineBox({
       fb, x: boxX, y: boxY, len: boxLen, uiSpriteFrames: ctx.uiSpriteFrames,
+      // M13(2026-06-07 sdlpal 审查):narration 框 iDialogShadow 默认 0(无阴影,text.c:1687)——
+      //   g_TextLib BSS 零初始化、PAL_InitText 不设;仅紫金葫芦炼丹临时置 5。原默认 6px 投影与原版
+      //   不符(拾取 / 购买 / 施法等高频提示框右下角多出灰影)。
+      shadowOffset: 0,
     })
   }
 
