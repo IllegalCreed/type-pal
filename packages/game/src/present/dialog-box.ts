@@ -343,9 +343,17 @@ export function appendDialogLine(state: DialogBoxState, rawText: string): void {
   // sdlpal nCurrentDialogLine:正文行显示后 ++(text.c:1746);`~` 收尾 -1→++→0(text.c:1552 硬复位,
   //   无视前面累计行数)。title 行在上面 isCharacterNameLine 分支已 return,不到这里(不计入,对齐 text.c:1715-1726)。
   state.dialogLineCount = parsed.endedWithTilde ? 0 : state.dialogLineCount + 1
+  // L2:fUserSkip 跨行(text.c:1597)——打字途中按一次确认后,同段后续行瞬显,直到翻页/`~`/新对话复位。
   state.typingFrames = 0
-  state.charsRevealed = 0
-  state.phase = 'typing'
+  if (state.userSkip) {
+    state.charsRevealed = parsed.text.length // 整行瞬显
+    state.phase = 'line-done'
+    if (parsed.endedWithTilde) state.userSkip = false // `~` 段末复位(text.c:1553),下一段重新逐字
+  }
+  else {
+    state.charsRevealed = 0
+    state.phase = 'typing'
+  }
   state.keyIconBlink = false
 }
 
@@ -483,6 +491,7 @@ export function confirmDialog(state: DialogBoxState): ConfirmResult {
   if (state.phase === 'typing' && state.currentLineText !== null) {
     state.charsRevealed = state.currentLineText.length
     state.phase = 'line-done'
+    state.userSkip = true // L2:置 fUserSkip → 同段后续行瞬显(text.c:1607)
     return 'skip-typing'
   }
   if (state.phase === 'waiting-page-key') {
@@ -496,6 +505,7 @@ export function confirmDialog(state: DialogBoxState): ConfirmResult {
     // 注:fontColorState 不重置 — sdlpal PAL_ClearDialog 仅 kDialogCenter 重置 bCurrentFontColor
     //   (text.c:1777-1781),普通翻页(kDialogUpper)色态跨页持续。
     resetDialogBody(state)
+    state.userSkip = false // L2:翻页等键后复位 fUserSkip(text.c:1447),新页重新逐字
     return 'page-advance'
   }
   if (state.phase === 'waiting-end-key') {

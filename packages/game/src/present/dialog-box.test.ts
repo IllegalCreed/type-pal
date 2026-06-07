@@ -192,6 +192,33 @@ describe('Sync.2 DialogBox · startDialogLine / appendDialogLine', () => {
     expect(s.dialogLineCount).toBe(1)
   })
 
+  // L2:fUserSkip 跨行持续(text.c:1597/1607)——打字途中按一次确认,同段后续行全部瞬显。
+  it('L2:typing 中确认置 userSkip → 后续 append 行瞬显(line-done + 满字符)', () => {
+    const s = startDialogLine('line1', { style: 'bottom' })
+    expect(confirmDialog(s)).toBe('skip-typing')
+    expect(s.userSkip).toBe(true)
+    appendDialogLine(s, 'line2')
+    expect(s.phase).toBe('line-done') // 瞬显,非逐字 typing
+    expect(s.charsRevealed).toBe('line2'.length)
+  })
+
+  it('L2:`~` 段末复位 userSkip → 下一段重新逐字(text.c:1553)', () => {
+    const s = startDialogLine('line1', { style: 'bottom' })
+    confirmDialog(s) // userSkip=true
+    appendDialogLine(s, '快走！~30') // `~` 行瞬显 + 复位 userSkip
+    expect(s.userSkip).toBe(false)
+    appendDialogLine(s, 'line3')
+    expect(s.phase).toBe('typing') // 复位后恢复逐字
+  })
+
+  it('L2:翻页等键后复位 userSkip(text.c:1447)', () => {
+    const s = startDialogLine('line1', { style: 'bottom' })
+    s.userSkip = true
+    s.phase = 'waiting-page-key'
+    expect(confirmDialog(s)).toBe('page-advance')
+    expect(s.userSkip).toBe(false)
+  })
+
   it('dialogLineCount:首行即 `~` 收尾 → 0(梦境画外音"李逍遥！~30")', () => {
     const s = startDialogLine('$10李～逍～遥，李～逍～遥！~30', { style: 'center' })
     expect(s.dialogLineCount).toBe(0) // → 段末/清屏不等键不画箭头

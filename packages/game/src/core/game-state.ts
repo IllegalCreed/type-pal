@@ -355,6 +355,9 @@ export interface DialogBoxState {
    * 翻页边界不受 `~` 复位影响,沿用旧逻辑避免回归。
    */
   dialogLineCount: number
+  /** L2:fUserSkip(text.c:1597/1607)——打字途中按一次确认置 true,使同段后续行全部瞬显;
+   *   翻页 / `~` 段末 / 新对话复位(text.c:1264/1447/1553)。 */
+  userSkip?: boolean
   /** 状态机 phase(详见 DialogPhase 注释)。 */
   phase: DialogPhase
   /** 对话框位置样式 */
