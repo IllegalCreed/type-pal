@@ -120,6 +120,23 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     expect(state.enemies[0]!.e.health).toBe(startHp) // 不改 health(避免误给 exp)
   })
 
+  it('L11:敌逃出屏后进入 ~13 帧停顿阶段再 fleed(battle.c:1433 UTIL_Delay(500))', () => {
+    const { gs, bus, emptyInput } = bootstrap({ enemies: [makeEnemy({ id: 100, health: 50 })] })
+    tickBattle(gs, emptyInput, bus)
+    const state = gs.battleState!
+    state.enemies[0]!.pos = { x: 200, y: 80 }
+    state.enemyEscapeAnim = { step: 0 }
+    // 飞到出屏 → 进入停顿阶段(holdTicks=0),此时未 fleed
+    let guard = 50
+    while (state.enemyEscapeAnim?.holdTicks === undefined && guard-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(state.enemyEscapeAnim?.holdTicks).toBe(0)
+    expect(state.phase).not.toBe('fleed') // 停顿期间不立即终止
+    // 停顿满 13 帧 → fleed
+    guard = 20
+    while (state.enemyEscapeAnim && guard-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(state.phase).toBe('fleed')
+  })
+
   it('L23:开战前 HP=0 队员复活为 1 HP(battle.c:1569-1577,带倒地队员逃离后立刻再战)', () => {
     const { gs } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 50 })],

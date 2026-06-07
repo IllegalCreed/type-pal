@@ -530,7 +530,7 @@ export interface BattleState {
    * tickBattleEnemyEscapeAnim 每 tick 把全体活敌往**左**挪(x-=ENEMY_FLYOUT_DX,y 不变),全部移出左屏 →
    * phase='fleed'(Terminated 无奖励;**不**改 health 避免误给 exp)。undefined = 无敌逃动画。
    */
-  enemyEscapeAnim?: { step: number }
+  enemyEscapeAnim?: { step: number; holdTicks?: number }
   /**
    * D17 敌人死亡淡出 hold(PAL_BattleFadeScene,fight.c:889-893 + battle.c:608-682)。
    * 某 action 后有新死敌 → checkEnemyDeaths 开启 { elapsedMs: 0 };tickPerformAction 的

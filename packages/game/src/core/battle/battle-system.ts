@@ -1830,6 +1830,7 @@ function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
 const ENEMY_FLYOUT_DX = 20 // sdlpal 5px/10ms ≈ 20px/40ms tick(battle.c:1413)
 const ENEMY_FLYOUT_OFFSCREEN = 160 // x <= -160 视为精灵全出左屏(近似 x+width<=0,battle.c:1420)
 const ENEMY_FLYOUT_MAX_STEPS = 40 // 安全上限(最右敌 ~320 / 20 + margin)
+const ENEMY_FLYOUT_HOLD_TICKS = 13 // L11:出屏后停顿 ~500ms(battle.c:1433 UTIL_Delay(500) / 40ms tick ≈ 13)
 
 /**
  * D13 敌人主动逃飞出屏(sdlpal `PAL_BattleEnemyEscape`,battle.c:1399-1434):0x69 设 enemyEscapeAnim 后,
@@ -1839,6 +1840,15 @@ const ENEMY_FLYOUT_MAX_STEPS = 40 // 安全上限(最右敌 ~320 / 20 + margin)
 function tickBattleEnemyEscapeAnim(state: BattleState): boolean {
   const ea = state.enemyEscapeAnim
   if (!ea) return false
+  // L11:出屏后停顿阶段(battle.c:1433 UTIL_Delay(500))——敌已全出屏不再移动,仅计数 ~13 帧再终止。
+  if (ea.holdTicks !== undefined) {
+    ea.holdTicks++
+    if (ea.holdTicks < ENEMY_FLYOUT_HOLD_TICKS) return true
+    state.enemyEscapeAnim = undefined
+    state.phase = 'fleed'
+    state.phaseStallTicks = 0
+    return true
+  }
   let anyOnScreen = false
   for (const e of state.enemies) {
     if (e.defeated || e.e.health <= 0 || !e.pos) continue // 死敌(wObjectID==0)跳过(battle.c:1408)
@@ -1847,10 +1857,8 @@ function tickBattleEnemyEscapeAnim(state: BattleState): boolean {
   }
   ea.step++
   if (anyOnScreen && ea.step < ENEMY_FLYOUT_MAX_STEPS) return true // 继续飞
-  // 全出屏 → 终止整场(无奖励);不动 health(fled 不结算 exp)
-  state.enemyEscapeAnim = undefined
-  state.phase = 'fleed'
-  state.phaseStallTicks = 0
+  // 全出屏 → 进入 500ms 停顿阶段(holdTicks 从 0 起;battle.c:1433-1434 先 Delay 再 Terminated)
+  ea.holdTicks = 0
   return true
 }
 
