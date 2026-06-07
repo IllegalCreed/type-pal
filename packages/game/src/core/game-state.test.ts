@@ -89,13 +89,15 @@ describe('loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)'
     gs.wNumMusic = 7
     gs.wBattleSpeed = 4
     gs.iCurInvMenuItem = 9 // L6:弄脏物品菜单光标
+    gs.currentSaveSlot = 3
 
     loadDefaultGame(gs, fixtureRoles)
 
     expect(gs.dwCash).toBe(0)
     expect(gs.inventory).toEqual([])
     expect(gs.rgPoisonStatus).toEqual({})
-    expect(gs.partyMembers).toEqual([])
+    // memset(rgParty)+wMaxPartyMemberIndex=0 表示队伍含 role0,不是空队伍。
+    expect(gs.partyMembers).toEqual([0])
     expect(gs.trail).toEqual([])
     expect(gs.wCollectValue).toBe(0)
     expect(gs.nightPalette).toBe(false)
@@ -106,6 +108,7 @@ describe('loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)'
     expect(gs.wNumMusic).toBe(0)
     expect(gs.wBattleSpeed).toBe(2) // sdlpal global.c:446 default = 2
     expect(gs.iCurInvMenuItem).toBe(0) // L6:PAL_InitGameData global.c:948 复位物品菜单光标
+    expect(gs.currentSaveSlot).toBe(0) // PAL_InitGameData(0):新游戏不得沿用上一存档槽
   })
 
   it('hydrate PlayerRoles 基线 + 8 类经验 wLevel = 角色等级(global.c:455-465)', () => {
@@ -141,9 +144,24 @@ describe('resetSceneRuntimeForNewGame(新游戏 scene 运行时复位)', () => {
     // 弄脏:上一局 scene 进度
     gs.rgScene = { 1: {} as GameState['rgScene'][number] }
     gs.sceneOnEnterIp = { 1: 5 }
+    gs.sceneOnEnterOverride = { 2: 123 }
+    gs.sceneOnTeleportOverride = { 2: 456 }
+    gs.sceneOnTeleportEntry = 789
     gs.rgObject = { 1: {} as GameState['rgObject'][number] }
     gs.rgEventObject = { 1: {} as GameState['rgEventObject'][number] }
     gs.allEventObjects = [{ id: 99 } as NpcState]
+    gs.eventCursor = { ip: 123 }
+    gs.gameOverActive = true
+    gs.deathHoldActive = true
+    gs.blackScreenHold = true
+    gs.paletteFadeState = {} as NonNullable<GameState['paletteFadeState']>
+    gs.fadeState = {} as NonNullable<GameState['fadeState']>
+    gs.needToFadeIn = true
+    gs.sceneLoading = true
+    gs.pendingSceneLoad = 9
+    gs.dialogBox = {} as NonNullable<GameState['dialogBox']>
+    gs.dialogBoxKept = {} as NonNullable<GameState['dialogBoxKept']>
+    gs.currentDialogPortraitIcon = 88
 
     const initial = [
       { id: 1, x: 10, y: 20, spriteNum: 5 } as SceneEventObject,
@@ -153,8 +171,23 @@ describe('resetSceneRuntimeForNewGame(新游戏 scene 运行时复位)', () => {
 
     expect(gs.rgScene).toEqual({})
     expect(gs.sceneOnEnterIp).toEqual({})
+    expect(gs.sceneOnEnterOverride).toEqual({})
+    expect(gs.sceneOnTeleportOverride).toEqual({})
+    expect(gs.sceneOnTeleportEntry).toBe(0)
     expect(gs.rgObject).toEqual({})
     expect(gs.rgEventObject).toEqual({})
+    expect(gs.eventCursor).toBeUndefined()
+    expect(gs.gameOverActive).toBe(false)
+    expect(gs.deathHoldActive).toBe(false)
+    expect(gs.blackScreenHold).toBe(false)
+    expect(gs.paletteFadeState).toBeUndefined()
+    expect(gs.fadeState).toBeUndefined()
+    expect(gs.needToFadeIn).toBe(false)
+    expect(gs.sceneLoading).toBe(false)
+    expect(gs.pendingSceneLoad).toBeUndefined()
+    expect(gs.dialogBox).toBeUndefined()
+    expect(gs.dialogBoxKept).toBeUndefined()
+    expect(gs.currentDialogPortraitIcon).toBeUndefined()
     // allEventObjects 从初始表重建(不再是脏的 [{id:99}])
     expect(gs.allEventObjects?.length).toBe(2)
     expect(gs.allEventObjects?.map((o) => o.id)).toEqual([1, 2])

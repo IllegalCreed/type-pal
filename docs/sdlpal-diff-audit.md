@@ -105,6 +105,11 @@
 - **TS 位置**:`packages/game/src/shell/bootstrap.ts:1349-1389`
 - **C 依据**:`reference/sdlpal/global.c:434-465`
 - **玩家可感知**:是
+- **修复补充**:`loadDefaultGame` 同时把 `currentSaveSlot` 归零,并把
+  `memset(rgParty)+wMaxPartyMemberIndex=0` 正确映射为 `partyMembers=[0]`;避免读档后重开新游戏死亡时
+  误载旧槽,以及 `skip-intro` 从 scene 1 启动时形成空队伍。opcode `0x4E` 在槽位 0 时直接重建
+  默认新游戏,对齐 `PAL_InitGameData(0)`,不再把 0 当作 IndexedDB 存档槽读取;同时清除上一局的
+  死亡/黑屏/fade/dialog 瞬态并恢复 primary palette。
 
 **差异**:TS startNewGameFromPrimary 是唯一的新游戏入口,但它只做 hydratePlayerRolesRuntime + initExpLevelsFromLevels + updateAllEquipments 三件事,然后跑 primary scene 的 onEnter。它**不**清空 dwCash / inventory / rgPoisonStatus / partyMembers / trail / wCollectValue / nFollower / wChaseRange / wLayer / numPalette / nightPalette / wNumScene / iCurMainMenuItem / iCurInvMenuItem / Exp.wExp / rgScene / sceneOnEnterIp / rgEventObject 等。createInitialGameState 只在 boot 时调一次(bootstrap.ts:244)。C 真值:每次开新游戏经 PAL_GameMain→PAL_ReloadInNextTick(0)→PAL_InitGameData(0)→PAL_LoadDefaultGame(),后者把 dwCash=0/wNumMusic=0/wNumPalette=0/wNumScene=1/wCollectValue=0/fNightPalette=FALSE/wMaxPartyMemberIndex=0/viewport=(0,0)/wLayer=0/nFollower=0/wChaseRange=1 全部硬复位,并 memset rgInventory/rgPoisonStatus/rgParty/rgTrail/Exp 为 0,再把 8 类经验 wLevel 设为角色等级。差异触发路径真实存在:returnToTitle()(bootstrap.ts:1495)被 opcode 0xA0 quit(结局)和系统菜单 QUIT(setSystemQuitHandler,bootstrap.ts:1503)调用,回到 OpeningMenu;再选『新的故事』就第二次调 startNewGameFromPrimary,此时 gs 还残留上一局/结局态(wNumScene 可能是 281+1 等),onEnterSceneId:gs.wNumScene 也用了过期场景号。
 

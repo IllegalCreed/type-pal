@@ -1366,6 +1366,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     //   onEnter 在脏场景号上跑、NPC 错乱、对象状态(李大娘走了 / 宝箱开了)残留、清掉的 onEnter 停点让开场不重播。
     //   首次启动时 gs 本就干净 → 以下复位全部幂等。
     resetSceneRuntimeForNewGame(gs, initialEventObjects)
+    // 先回到稳定探索态;正常序章下方会再切 event,skip-intro 同步跑完 enter script 后则保持 explore。
+    gs.mode = 'explore'
     gs.wNumScene = SCENE_ID + 1
     gs.sceneCommands = eventCommands
     gs.sceneLabelMap = labelMap
@@ -1379,6 +1381,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     presentCtx.tilemap = tilemap
     currentSceneId = SCENE_ID
     setSceneContext({ tilemap, eventCommands, labelMap })
+    // 结局 / 死亡演出可能把工作 palette 留在黑色、红色或其他场景色;新游戏从 primary palette 重建。
+    gs.palette = makeWorkingPalette(palette)
 
     if (scene.onEnterLabel) {
       const ip = getGlobalLabelMap()[scene.onEnterLabel] // P2#5:onEnterLabel = L_<global> → 全局 ip
@@ -1405,7 +1409,6 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     }
     // 清 OpeningMenu(若有);startNewGameFromPrimary 由 OpeningMenu 触发时 menuStack 非空
     gs.menuStack = []
-    if (gs.mode === 'menu') gs.mode = 'explore'
   }
 
   /**
@@ -1511,6 +1514,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // event-system 已先跑完 fade-out(淡黑)+ 清 cursor;此处只重载槽 + 设 needToFadeIn(对齐
   // PAL_ReloadInNextTick 的 fNeedToFadeIn=TRUE → loaded scene 经 explore auto fade-in 淡入)。
   setLoadLastSaveHandler((slot) => {
+    // PAL_InitGameData(0)不读存档,而是 PAL_LoadDefaultGame。新游戏尚未保存就死亡时,
+    // currentSaveSlot=0 必须重建默认游戏;Save.loadSlot(0)只会返回空,会把死亡态留在黑屏下。
+    if (slot === 0) {
+      startNewGameFromPrimary()
+      gs.needToFadeIn = true
+      return
+    }
     void loadGameFromSlot(slot)
       .then(() => {
         gs.needToFadeIn = true

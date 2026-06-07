@@ -789,7 +789,8 @@ export interface GameState {
   /**
    * 当前存档槽(sdlpal `gpGlobals->bCurrentSaveSlot`,global.h)。**runtime 全局,不在 SAVEDGAME_WIN**:
    * save / load 到某槽时记录之。opcode 0x4E load-last-save(PAL_ReloadInNextTick(bCurrentSaveSlot))重载它。
-   * 默认 1(slots 1-5);load 后须显式覆盖(Object.assign 会带入存档里那份旧值)。
+   * 新游戏为 0(PAL_InitGameData(0)重载默认游戏);存档为 1-5。初始 shell 用 1 预选菜单,
+   * loadDefaultGame 会归零;load 后须显式覆盖(Object.assign 会带入存档里那份旧值)。
    */
   currentSaveSlot: number
 
@@ -1295,10 +1296,14 @@ export function loadDefaultGame(
   gs.nFollower = 0
   gs.wChaseRange = 1 // 非 0:默认追击范围 1
   gs.wBattleSpeed = 2 // bBattleSpeed(非 PAL_CLASSIC default 2)
-  // global.c:449-453 memset(rgInventory / rgPoisonStatus / rgParty / rgTrail / Exp)
+  // PAL_InitGameData(0)先记录 bCurrentSaveSlot=0,再进入 PAL_LoadDefaultGame。
+  // 新游戏不是任何存档槽,避免从旧档回标题后 opcode 0x4E 误重载上一槽。
+  gs.currentSaveSlot = 0
+  // global.c:449-453 memset(rgInventory / rgPoisonStatus / rgParty / rgTrail / Exp)。
+  // rgParty 清零且 wMaxPartyMemberIndex=0 表示一个有效成员(role 0),并非空队伍。
   gs.inventory = []
   gs.rgPoisonStatus = {}
-  gs.partyMembers = [] // rgParty(wMaxPartyMemberIndex 在 ts 即 partyMembers.length)
+  gs.partyMembers = [0]
   gs.trail = [] // rgTrail
   gs.Exp = createEmptyExp()
   // M6(2026-06-07 sdlpal 审查):PAL_InitGameData(global.c:951)在 Load 后 memset rgPlayerStatus ——
@@ -1315,7 +1320,8 @@ export function loadDefaultGame(
 
 /**
  * 新游戏:复位 scene 运行时持久状态(通关 / 退出回标题后再开新游戏时 gs 是脏的)。
- * 清 rgScene / sceneOnEnterIp / rgObject / rgEventObject(scene flag、对象状态、onEnter 停点 —— 不清的话
+ * 清事件/死亡/fade/dialog 瞬态与 rgScene / sceneOnEnterIp / rgObject / rgEventObject
+ *(scene flag、对象状态、onEnter 停点 —— 不清的话
  * 上一局跑过的 primary onEnter 停点残留会让开场不重播),并从初始 event object 表重建 gs.allEventObjects
  *(否则上一局"李大娘走了 / 宝箱开了"等改动残留)。调用方(bootstrap)随后另设 wNumScene / sceneCommands、
  * 重 slice npcs、applySceneAssetsToPresent。
@@ -1324,8 +1330,24 @@ export function resetSceneRuntimeForNewGame(
   gs: GameState,
   initialEventObjects: SceneEventObject[],
 ): void {
+  // 新游戏可能从结局、死亡演出或半途事件中进入;清掉只属于上一画面/脚本的瞬态。
+  gs.eventCursor = undefined
+  gs.gameOverActive = false
+  gs.deathHoldActive = false
+  gs.blackScreenHold = false
+  gs.paletteFadeState = undefined
+  gs.fadeState = undefined
+  gs.needToFadeIn = false
+  gs.sceneLoading = false
+  gs.pendingSceneLoad = undefined
+  gs.dialogBox = undefined
+  gs.dialogBoxKept = undefined
+  gs.currentDialogPortraitIcon = undefined
   gs.rgScene = {}
   gs.sceneOnEnterIp = {}
+  gs.sceneOnEnterOverride = {}
+  gs.sceneOnTeleportOverride = {}
+  gs.sceneOnTeleportEntry = 0
   gs.rgObject = {}
   gs.rgEventObject = {}
   // 从初始 event object 表重建(每个元素是新 NpcState,断开与上一局被脚本改过的引用)
