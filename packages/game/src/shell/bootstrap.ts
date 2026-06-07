@@ -47,6 +47,7 @@ import {
   loadDefaultGame,
   projectRuntimeToBattleRoles,
   npcFromEventObject,
+  resetSceneRuntimeForNewGame,
   sliceSceneEventObjects,
 } from '../core/game-state.js'
 import {
@@ -265,10 +266,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   // 忠实 sdlpal lprgEventObject:一次性加载全局 event object 表 → gs.allEventObjects + 区间。
   // gs.npcs = 当前 scene 切片(引用全局元素 → 脚本改动持久,重进保留:李大娘走了不复现)。
+  // H1:保存初始 raw 表 — 通关后重开新游戏时 resetSceneRuntimeForNewGame 据此重建(断开上一局脚本改动)。
+  let initialEventObjects: SceneEventObject[] = []
   try {
     const eoRes = await fetch('/extracted/data/event-objects.json')
     if (eoRes.ok) {
       const eoFile = (await eoRes.json()) as EventObjectsFile
+      initialEventObjects = eoFile.eventObjects
       // 全局数组建表时不传 labelMap(autoCursor 留切片时按各 scene labelMap 延迟解)。
       gs.allEventObjects = eoFile.eventObjects.map((eo) => npcFromEventObject(eo))
       gs.sceneEventRanges = eoFile.sceneRanges
@@ -1356,6 +1360,24 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     //   role × 6 part 跑每件装备 scriptOnEquip 累加 stat 到 rgEquipmentEffect,否则 effective
     //   Atk/Def/Mag 等 stat getter 永远 = base(D14 装备 effect 根因)。
     updateAllEquipments(gs, items)
+    // H1 续(2026-06-07):scene 运行时复位到 primary。通关 / 系统菜单退出回标题后再开新游戏时,gs 仍带
+    //   上一局的 wNumScene / npcs / allEventObjects / scene flag —— 对齐启动顶层(250-288)复位,否则
+    //   onEnter 在脏场景号上跑、NPC 错乱、对象状态(李大娘走了 / 宝箱开了)残留、清掉的 onEnter 停点让开场不重播。
+    //   首次启动时 gs 本就干净 → 以下复位全部幂等。
+    resetSceneRuntimeForNewGame(gs, initialEventObjects)
+    gs.wNumScene = SCENE_ID + 1
+    gs.sceneCommands = eventCommands
+    gs.sceneLabelMap = labelMap
+    gs.basePalette = palette
+    gs.npcs =
+      sliceSceneEventObjects(gs, gs.wNumScene) ??
+      scene.eventObjects.map((eo) => npcFromEventObject(eo, labelMap))
+    hydrateNpcStaticDefaults(gs.npcs, scene.eventObjects)
+    // 渲染路由复位到 primary scene(等价 applySceneAssetsToPresent;scene 闭包是 SceneObjects 无
+    //   tilemap/palette,故用 loadAll 顶层 primary tilemap)。
+    presentCtx.tilemap = tilemap
+    currentSceneId = SCENE_ID
+    setSceneContext({ tilemap, eventCommands, labelMap })
 
     if (scene.onEnterLabel) {
       const ip = getGlobalLabelMap()[scene.onEnterLabel] // P2#5:onEnterLabel = L_<global> → 全局 ip

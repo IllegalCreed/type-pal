@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, loadDefaultGame, npcFromEventObject, projectRuntimeToBattleRoles, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode, type NpcState } from './game-state.js'
+import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, loadDefaultGame, npcFromEventObject, projectRuntimeToBattleRoles, resetSceneRuntimeForNewGame, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode, type NpcState } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
 import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'
 
@@ -122,6 +122,33 @@ describe('loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)'
     expect(gs.Exp.rgPrimaryExp[0]!.wLevel).toBe(5)
     expect(gs.Exp.rgAttackExp[0]!.wLevel).toBe(5)
     expect(gs.Exp.rgFleeExp[0]!.wLevel).toBe(5)
+  })
+})
+
+// H1 续:scene 运行时复位(通关后重开,清上一局 scene flag/对象状态/onEnter 停点 + 重建全局对象表)
+describe('resetSceneRuntimeForNewGame(新游戏 scene 运行时复位)', () => {
+  it('清 scene 持久 records + 从初始对象表重建 allEventObjects', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // 弄脏:上一局 scene 进度
+    gs.rgScene = { 1: {} as GameState['rgScene'][number] }
+    gs.sceneOnEnterIp = { 1: 5 }
+    gs.rgObject = { 1: {} as GameState['rgObject'][number] }
+    gs.rgEventObject = { 1: {} as GameState['rgEventObject'][number] }
+    gs.allEventObjects = [{ id: 99 } as NpcState]
+
+    const initial = [
+      { id: 1, x: 10, y: 20, spriteNum: 5 } as SceneEventObject,
+      { id: 2, x: 30, y: 40, spriteNum: 6 } as SceneEventObject,
+    ]
+    resetSceneRuntimeForNewGame(gs, initial)
+
+    expect(gs.rgScene).toEqual({})
+    expect(gs.sceneOnEnterIp).toEqual({})
+    expect(gs.rgObject).toEqual({})
+    expect(gs.rgEventObject).toEqual({})
+    // allEventObjects 从初始表重建(不再是脏的 [{id:99}])
+    expect(gs.allEventObjects?.length).toBe(2)
+    expect(gs.allEventObjects?.map((o) => o.id)).toEqual([1, 2])
   })
 })
 

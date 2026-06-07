@@ -1294,6 +1294,25 @@ export function loadDefaultGame(
 }
 
 /**
+ * 新游戏:复位 scene 运行时持久状态(通关 / 退出回标题后再开新游戏时 gs 是脏的)。
+ * 清 rgScene / sceneOnEnterIp / rgObject / rgEventObject(scene flag、对象状态、onEnter 停点 —— 不清的话
+ * 上一局跑过的 primary onEnter 停点残留会让开场不重播),并从初始 event object 表重建 gs.allEventObjects
+ *(否则上一局"李大娘走了 / 宝箱开了"等改动残留)。调用方(bootstrap)随后另设 wNumScene / sceneCommands、
+ * 重 slice npcs、applySceneAssetsToPresent。
+ */
+export function resetSceneRuntimeForNewGame(
+  gs: GameState,
+  initialEventObjects: SceneEventObject[],
+): void {
+  gs.rgScene = {}
+  gs.sceneOnEnterIp = {}
+  gs.rgObject = {}
+  gs.rgEventObject = {}
+  // 从初始 event object 表重建(每个元素是新 NpcState,断开与上一局被脚本改过的引用)
+  gs.allEventObjects = initialEventObjects.map((eo) => npcFromEventObject(eo))
+}
+
+/**
  * 投影 PlayerRolesRuntime(运行时 SoA array)→ 战斗用 PlayerRoles(object)—— hydratePlayerRolesRuntime 的逆。
  *
  * **架构边界**:战斗原直接用 `assets.playerRoles` 静态 1 级基线,**升级/大世界 stat 改动战斗里全不生效**
