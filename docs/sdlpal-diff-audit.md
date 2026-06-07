@@ -16,34 +16,44 @@
 
 类别:correctness 33 / timing 15 / pixel 14 / data 2
 
+## 修复进度(2026-06-07 落地)
+
+本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
+
+- **✅ 已修复 30 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L23 L26 L27 L28 L35 L36 L37 L39 L41 共 14 条 low。
+- **⏸ 暂缓 2 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L8–L20 L22 L24 L25 L29–L34 L38 L40 L42–L47),性价比低暂留。
+
+下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
+
 ## 速查索引
 
 | ID | 严重度 | 类别 | 子系统 | 标题 |
 |---|---|---|---|---|
-| H1 | 🔴 | correctness | 存档·初始化与启动流程 | 新游戏不重置游戏状态(金钱/背包/毒/场景/经验/队伍/采集值/菜单光标全沿用上一局) |
-| H2 | 🔴 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界用物品选目标时,TS 把已阵亡(HP=0)队员标灰跳过,原版可对死人用药(复活类物品无法使用) |
-| M1 | 🟠 | correctness | 事件脚本·对话与文本 | 姓名 title 识别漏 nCurrentDialogLine==0 限制 —— 段中第 2+ 行若以冒号结尾会被误当姓名牌、从正文丢失 |
-| M2 | 🟠 | correctness | 事件脚本·数值与对象状态 | opcode 0x1A(SetPlayerStat)在非装备上下文丢弃 sprite/avatar/walkFrames/attackAll/合体魔法 行——剧情变身改不了角色造型 |
-| M3 | 🟠 | pixel | 事件脚本·走位与场景控制 | NPC 走路帧循环硬编码 % 4，未按 nSpriteFrames 取模 → nSpriteFrames∈{1,2} 的 NPC 脚本走位时动画帧错乱 |
-| M4 | 🟠 | timing | 事件脚本·走位与场景控制 | 0x7F 相对镜头多帧 pan 期间 autoScript 与追逐 timer 被冻结（C 每帧仍跑 PAL_GameUpdate） |
-| M5 | 🟠 | correctness | 大世界·走路跟随与碰撞 | 玩家走路/跟随缺少 fCheckRange 下边界(blockX=5/blockY=7),改用相机 clamp 取代 |
-| M6 | 🟠 | correctness | 存档·初始化与启动流程 | 读档不清零 rgPlayerStatus(大世界施放的持久状态会跨存档残留) |
-| M7 | 🟠 | correctness | 战斗·主循环与回合流程 | R(重提)/F(强行)键未做整队粘滞,只对当前队员生效 |
-| M8 | 🟠 | timing | 战斗·动画与表现时序 | 混乱敌人攻击友敌完全没有动画(只结算伤害+即时弹数字) |
-| M9 | 🟠 | timing | 战斗·召唤合击与变身 | 非召唤合击的法术效果音在派发瞬间立即播放，而非随 OffMagic 特效帧同步(早约 0.7 秒) |
-| M10 | 🟠 | correctness | 战斗·法术伤害与治疗 | 大世界单体治疗(0x1B/1C/1D)未复刻 PAL_IncreaseHPMP 的“仅活人 + 无变化即失败”语义 |
-| M11 | 🟠 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x22 复活把目标全部毒清空,C 只清等级<=3 的毒 |
-| M12 | 🟠 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x29 给队员上毒未在施加当下跑毒的 playerScript(C 跑一次) |
-| M13 | 🟠 | pixel | 渲染·字体与对话框 | narration 居中提示框(kDialogCenterWindow)被错误地画了 6px 投影阴影,原版无阴影 |
-| M14 | 🟠 | pixel | 渲染·调色板与淡入淡出 | FadeToRed 的 0x4F→0x4E 像素重映射在战败 game-over 定格帧上从未生效 |
-| M15 | 🟠 | pixel | 过场·整屏动画与结局 | DOS splash fallback 用 FBP chunk 3/4(WIN95 值)而非 DOS 的 0x26/0x27,背景图整张错 |
-| L1 | 🟡 | correctness | 事件脚本·对话与文本 | 姓名 title 识别漏 kDialogCenter 排除条件 —— center 风格下以冒号结尾的对白被误当姓名牌画到左上角 |
-| L2 | 🟡 | timing | 事件脚本·对话与文本 | fUserSkip 不跨行持续 —— 按一次确认只跳过当前行,无法像原版那样让整段剩余对白瞬显 |
+| ✅ H1 | 🔴 | correctness | 存档·初始化与启动流程 | 新游戏不重置游戏状态(金钱/背包/毒/场景/经验/队伍/采集值/菜单光标全沿用上一局) |
+| ✅ H2 | 🔴 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界用物品选目标时,TS 把已阵亡(HP=0)队员标灰跳过,原版可对死人用药(复活类物品无法使用) |
+| ✅ M1 | 🟠 | correctness | 事件脚本·对话与文本 | 姓名 title 识别漏 nCurrentDialogLine==0 限制 —— 段中第 2+ 行若以冒号结尾会被误当姓名牌、从正文丢失 |
+| ✅ M2 | 🟠 | correctness | 事件脚本·数值与对象状态 | opcode 0x1A(SetPlayerStat)在非装备上下文丢弃 sprite/avatar/walkFrames/attackAll/合体魔法 行——剧情变身改不了角色造型 |
+| ✅ M3 | 🟠 | pixel | 事件脚本·走位与场景控制 | NPC 走路帧循环硬编码 % 4，未按 nSpriteFrames 取模 → nSpriteFrames∈{1,2} 的 NPC 脚本走位时动画帧错乱 |
+| ✅ M4 | 🟠 | timing | 事件脚本·走位与场景控制 | 0x7F 相对镜头多帧 pan 期间 autoScript 与追逐 timer 被冻结（C 每帧仍跑 PAL_GameUpdate） |
+| ⏸ M5 | 🟠 | correctness | 大世界·走路跟随与碰撞 | 玩家走路/跟随缺少 fCheckRange 下边界(blockX=5/blockY=7),改用相机 clamp 取代 |
+| ✅ M6 | 🟠 | correctness | 存档·初始化与启动流程 | 读档不清零 rgPlayerStatus(大世界施放的持久状态会跨存档残留) |
+| ✅ M7 | 🟠 | correctness | 战斗·主循环与回合流程 | R(重提)/F(强行)键未做整队粘滞,只对当前队员生效 |
+| ✅ M8 | 🟠 | timing | 战斗·动画与表现时序 | 混乱敌人攻击友敌完全没有动画(只结算伤害+即时弹数字) |
+| ✅ M9 | 🟠 | timing | 战斗·召唤合击与变身 | 非召唤合击的法术效果音在派发瞬间立即播放，而非随 OffMagic 特效帧同步(早约 0.7 秒) |
+| ✅ M10 | 🟠 | correctness | 战斗·法术伤害与治疗 | 大世界单体治疗(0x1B/1C/1D)未复刻 PAL_IncreaseHPMP 的“仅活人 + 无变化即失败”语义 |
+| ✅ M11 | 🟠 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x22 复活把目标全部毒清空,C 只清等级<=3 的毒 |
+| ✅ M12 | 🟠 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x29 给队员上毒未在施加当下跑毒的 playerScript(C 跑一次) |
+| ✅ M13 | 🟠 | pixel | 渲染·字体与对话框 | narration 居中提示框(kDialogCenterWindow)被错误地画了 6px 投影阴影,原版无阴影 |
+| ✅ M14 | 🟠 | pixel | 渲染·调色板与淡入淡出 | FadeToRed 的 0x4F→0x4E 像素重映射在战败 game-over 定格帧上从未生效 |
+| ✅ M15 | 🟠 | pixel | 过场·整屏动画与结局 | DOS splash fallback 用 FBP chunk 3/4(WIN95 值)而非 DOS 的 0x26/0x27,背景图整张错 |
+| ✅ L1 | 🟡 | correctness | 事件脚本·对话与文本 | 姓名 title 识别漏 kDialogCenter 排除条件 —— center 风格下以冒号结尾的对白被误当姓名牌画到左上角 |
+| ✅ L2 | 🟡 | timing | 事件脚本·对话与文本 | fUserSkip 不跨行持续 —— 按一次确认只跳过当前行,无法像原版那样让整段剩余对白瞬显 |
 | L3 | 🟡 | pixel | 事件脚本·走位与场景控制 | gs.wLayer（0x6E 设置的队伍层）在渲染层从未被使用，且换场景未重置 → 上下层走位时主角精灵 Y 偏移/遮挡排序错误 |
-| L4 | 🟡 | correctness | 大世界·走路跟随与碰撞 | 明雷怪追击/NPC 走路逐帧推进硬编码 %4,未按 nSpriteFrames 取模(且 nSpriteFrames==0 仍推帧) |
+| ✅ L4 | 🟡 | correctness | 大世界·走路跟随与碰撞 | 明雷怪追击/NPC 走路逐帧推进硬编码 %4,未按 nSpriteFrames 取模(且 nSpriteFrames==0 仍推帧) |
 | L5 | 🟡 | timing | 大世界·走路跟随与碰撞 | 站立帧未复刻 s_iThisStepFrame &= 2; ^= 2 的脚步相位翻转 |
-| L6 | 🟡 | correctness | 存档·初始化与启动流程 | 读档/新游戏不复位物品菜单光标 iCurInvMenuItem |
-| L7 | 🟡 | correctness | 存档·初始化与启动流程 | 读档不复位 sWaveProgression(屏幕波动增量随存档残留) |
+| ✅ L6 | 🟡 | correctness | 存档·初始化与启动流程 | 读档/新游戏不复位物品菜单光标 iCurInvMenuItem |
+| ✅ L7 | 🟡 | correctness | 存档·初始化与启动流程 | 读档不复位 sWaveProgression(屏幕波动增量随存档残留) |
 | L8 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗法术选择叠加了 sdlpal 互斥的两套 MP/说明布局(金钱框+右侧MP+居中说明同屏) |
 | L9 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗杂项→物品二级菜单时,父菜单『道具』高亮色用了闪烁选中色而非确认色(0x2C) |
 | L10 | 🟡 | correctness | 战斗·主循环与回合流程 | 逃跑动作的 dex 倍率用浮点 ×0.5+四舍五入,而非 C 的整数 /2 |
@@ -57,27 +67,27 @@
 | L18 | 🟡 | correctness | 战斗·召唤合击与变身 | 群攻/召唤/合击伤害对每个敌人共用同一随机系数，C 对每个敌人各掷一次 RandomFloat |
 | L19 | 🟡 | timing | 战斗·召唤合击与变身 | 梦蛇变身切换到新精灵时直接硬切，缺少原版的淡入淡出过场 |
 | L20 | 🟡 | correctness | 战斗·法术伤害与治疗 | AoE 法术伤害对所有目标共用同一个随机扰动因子,C 是每目标独立 RandomFloat |
-| L21 | 🟡 | correctness | 战斗·物理伤害公式 | 群攻 division 衰减:TS 跳过 health<=0 敌人不计 division,C 只跳 wObjectID==0(已清槽)且对任何未清槽敌都翻倍 |
+| ⏸ L21 | 🟡 | correctness | 战斗·物理伤害公式 | 群攻 division 衰减:TS 跳过 health<=0 敌人不计 division,C 只跳 wObjectID==0(已清槽)且对任何未清槽敌都翻倍 |
 | L22 | 🟡 | correctness | 战斗·物理伤害公式 | 敌普攻等价物中毒:TS 用 equivId!==0 短路,跳过了 C 对所有非格挡命中都会消费的 RandomLong(1,10) 抽取 |
-| L23 | 🟡 | correctness | 战斗·结算与成长 | 战斗开始未把 HP=0 的队员复活为 1(且未清傀儡状态) |
+| ✅ L23 | 🟡 | correctness | 战斗·结算与成长 | 战斗开始未把 HP=0 的队员复活为 1(且未清傀儡状态) |
 | L24 | 🟡 | pixel | 战斗·结算与成长 | 隐藏属性涨点屏(hidden-exp-up)对 2 字角色名的文字 x 定位与原版不一致 |
 | L25 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x91 同种敌人判定用 enemyId,C 用 wObjectID(对象身份) |
-| L26 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x6A 偷钱在 c==0 时仍弹「获得 0 文钱」对话(C 仅 c>0 才显示) |
-| L27 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x28 全体上毒时,入口毒脚本以各敌自身 index 运行,C 统一用投掷目标 wEventObjectID |
-| L28 | 🟡 | data | 提取·MKF 解码与数据表 | WORD.DAT 词条解析缺少 sdlpal 的尾部 '1' 截断,8 个法术/敌人名残留多余的「1」 |
+| ✅ L26 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x6A 偷钱在 c==0 时仍弹「获得 0 文钱」对话(C 仅 c>0 才显示) |
+| ✅ L27 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x28 全体上毒时,入口毒脚本以各敌自身 index 运行,C 统一用投掷目标 wEventObjectID |
+| ✅ L28 | 🟡 | data | 提取·MKF 解码与数据表 | WORD.DAT 词条解析缺少 sdlpal 的尾部 '1' 截断,8 个法术/敌人名残留多余的「1」 |
 | L29 | 🟡 | data | 提取·事件 bytecode 反编译 | slice/disasm 的 JUMP_TARGET_OPERAND 缺 13 个条件跳转 opcode,切片 BFS 丢弃 244 条可达指令 |
 | L30 | 🟡 | timing | 渲染·地图瓦片与精灵 | 停步时未复现 s_iThisStepFrame 的 `&=2; ^=2` 复位,导致再次起步的首帧迈步腿相位不一致 |
 | L31 | 🟡 | correctness | 渲染·地图瓦片与精灵 | cover-tile 扫描范围用 Math.floor 而非 C 的向零截断除法,精灵贴近地图左/上边缘时遮挡列判定偏移 |
 | L32 | 🟡 | pixel | 渲染·地图瓦片与精灵 | layer-0 瓦片位图缺失时未回落到 tile(0,0,0,0),C 会用首格兜底填充 |
 | L33 | 🟡 | pixel | 渲染·字体与对话框 | narration 框内数字字符步进用 6px(精灵宽),C 用 PAL_CharWidth(=8px) |
 | L34 | 🟡 | pixel | 渲染·调色板与淡入淡出 | 淡入淡出 ramp 在 C 里最高只到 60/64(93.75%)而 TS lerp 直插到 100% |
-| L35 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界仙术菜单:仙术列表按 Cancel 应直接关菜单回大世界,TS 却退回「选施法人」 |
-| L36 | 🟡 | pixel | 菜单·主菜单/物品/装备/商店 | 仙术列表未按法术 ObjectID 升序排序,TS 按学会顺序(rgwMagic 槽位顺序)显示 |
-| L37 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界仙术「选施法人」框:TS 把无可用大世界法术的活人也标灰禁选,原版只按 HP>0 判定可选 |
+| ✅ L35 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界仙术菜单:仙术列表按 Cancel 应直接关菜单回大世界,TS 却退回「选施法人」 |
+| ✅ L36 | 🟡 | pixel | 菜单·主菜单/物品/装备/商店 | 仙术列表未按法术 ObjectID 升序排序,TS 按学会顺序(rgwMagic 槽位顺序)显示 |
+| ✅ L37 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界仙术「选施法人」框:TS 把无可用大世界法术的活人也标灰禁选,原版只按 HP>0 判定可选 |
 | L38 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 菜单光标遇到禁用项会跳过,原版 PAL_ReadMenu/选人框/法术列表都是逐项移动并停在灰色项上 |
-| L39 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 用物品列表未把「已装备但本身可用」的装备追加进列表 |
+| ✅ L39 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 用物品列表未把「已装备但本身可用」的装备追加进列表 |
 | L40 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 用物品选目标框的默认光标位置未跨次记忆(原版 sSelectedPlayer 为 static 持久) |
-| L41 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 单人队伍开仙术菜单时,TS 仍弹出「选施法人」框,原版直接进法术列表 |
+| ✅ L41 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 单人队伍开仙术菜单时,TS 仍弹出「选施法人」框,原版直接进法术列表 |
 | L42 | 🟡 | timing | 过场·整屏动画与结局 | DOS splash 结束未做 PAL_FadeOut(1)(600ms 淡黑),直接硬切到 OpeningMenu |
 | L43 | 🟡 | timing | 过场·整屏动画与结局 | Trademark fallback 淡出时长 1000ms,原版 PAL_FadeOut(1)=600ms |
 | L44 | 🟡 | pixel | 过场·整屏动画与结局 | Splash 跳过时未先把标题位图补到完整高度再淡完,标题停在半长状态 |
@@ -89,7 +99,7 @@
 
 ## 🔴 High（2）
 
-### H1 · 🔴 新游戏不重置游戏状态(金钱/背包/毒/场景/经验/队伍/采集值/菜单光标全沿用上一局)
+### ✅ H1 · 🔴 新游戏不重置游戏状态(金钱/背包/毒/场景/经验/队伍/采集值/菜单光标全沿用上一局)
 
 - **子系统**:存档·初始化与启动流程　**类别**:correctness
 - **TS 位置**:`packages/game/src/shell/bootstrap.ts:1349-1389`
@@ -115,7 +125,7 @@
 **C 源证据**:global.c:434-465 PAL_LoadDefaultGame 硬复位 dwCash/wNumScene=1/wCollectValue/fNightPalette/wMaxPartyMemberIndex/viewport/wLayer/nFollower/wChaseRange + memset rgInventory/rgPoisonStatus/rgParty/rgTrail/Exp + 8 类 wLevel=角色等级;global.c:915-954 PAL_InitGameData(iSaveSlot==0→LoadDefaultGame,948 iCurInvMenuItem=0,951 memset rgPlayerStatus,953 UpdateEquipments);res.c:220-222 kLoadGlobalData→PAL_InitGameData;game.c:48-54 PAL_GameMain OpeningMenu→ReloadInNextTick;script.c:2988-2996 opcode 0xA0→PAL_Shutdown(0);uigame.c:2059-2074 PAL_QuitGame→PAL_Shutdown(0);main.c:148-176 PAL_Shutdown FreeGlobals+exit(进程退出,非回标题)。TS:bootstrap.ts:244/247/250(boot 一次性 init)、1349-1389(startNewGameFromPrimary 仅三件事+读 stale gs.wNumScene)、1429-1475(load 走 Object.assign 整体覆盖,对比不对称)、1495-1499(returnToTitle 不重建 gs)、1503/1508-1529(quit→returnToTitle→二次 startNewGameFromPrimary);event-system.ts:2041-2042 与 menu-driver.ts:482 触发钩子。
 
 
-### H2 · 🔴 大世界用物品选目标时,TS 把已阵亡(HP=0)队员标灰跳过,原版可对死人用药(复活类物品无法使用)
+### ✅ H2 · 🔴 大世界用物品选目标时,TS 把已阵亡(HP=0)队员标灰跳过,原版可对死人用药(复活类物品无法使用)
 
 - **子系统**:菜单·主菜单/物品/装备/商店　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/menu/inventory-menu.ts:219-225 (confirmInventoryItem targetItems 设 disabled: r.hp<=0)`
@@ -145,7 +155,7 @@
 
 ## 🟠 Medium（15）
 
-### M1 · 🟠 姓名 title 识别漏 nCurrentDialogLine==0 限制 —— 段中第 2+ 行若以冒号结尾会被误当姓名牌、从正文丢失
+### ✅ M1 · 🟠 姓名 title 识别漏 nCurrentDialogLine==0 限制 —— 段中第 2+ 行若以冒号结尾会被误当姓名牌、从正文丢失
 
 - **子系统**:事件脚本·对话与文本　**类别**:correctness
 - **TS 位置**:`packages/game/src/present/dialog-box.ts:315 (appendDialogLine)`
@@ -165,7 +175,7 @@
 **C 源证据**:reference/sdlpal/text.c:1715-1726（title 识别三条件含 nCurrentDialogLine==0；不满足则 else 按正文画+ ++，text.c:1737/1746）；text.c:1552（`~`→ -1）；text.c:1775（PAL_ClearDialog 置 0）；reference/sdlpal/script.c:3428-3436（0x8E RestoreScreen 调 PAL_ClearDialog(TRUE)）。TS：packages/game/src/present/dialog-box.ts:315（appendDialogLine 无条件 isCharacterNameLine，未判 dialogLineCount==0）对照 dialog-box.ts:336 已正确实现行计数。数据：data/extracted/events/all.json idx 20044-20048（算命仙/小姑娘看过相。结果公子说∶）。
 
 
-### M2 · 🟠 opcode 0x1A(SetPlayerStat)在非装备上下文丢弃 sprite/avatar/walkFrames/attackAll/合体魔法 行——剧情变身改不了角色造型
+### ✅ M2 · 🟠 opcode 0x1A(SetPlayerStat)在非装备上下文丢弃 sprite/avatar/walkFrames/attackAll/合体魔法 行——剧情变身改不了角色造型
 
 - **子系统**:事件脚本·数值与对象状态　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/equip-effect.ts:186-211 (setPlayerStatRow,经 event-system.ts:3831-3845 OP_SET_PLAYER_STAT 调用)`
@@ -195,7 +205,7 @@
 **C 源证据**:script.c:838-863(0x1A flat WORD 写,任何 row;841-846 仅 equip 上下文改 effect);script.c:28/773/3476(g_iCurEquipPart 生命周期);global.h:299-336 + palcommon.h:45(PLAYERROLES 布局 + MAX_PLAYER_ROLES=6,确认 Avatar=0/SpriteInBattle=1/Sprite=2/AttackAll=4/WalkFrames=64/CoopMagic=65);res.c:325/385 与 scene.c:213(大世界精灵 ← rgwSpriteNum);scene.c:678/750/759(站立/行走帧 ← rgwWalkFrames);global.c:1999-2005(战斗精灵 ← rgwSpriteNumInBattle);uigame.c:1132(头像 ← rgwAvatar)。TS 侧:equip-effect.ts:196-211(setPlayerStatRow 仅 12 case,其余 no-op)、event-system.ts:3831-3845(OP_SET_PLAYER_STAT 路由)、game-state.ts:1335/1346/1477(avatar/walkFrames 不可变、spriteNumInBattle 无 runtime base、getOverworldSpriteNum 读 rgwSpriteNum)、draw-player-status.ts:175(静态 avatar)、bootstrap.ts:307(walkFrames 硬编码 3);all.json 命令 @24099-24102/@24774/@28467-28470/@31630-31632(全 0x18 在 38789-39705,四点 run 内无 0x18)。
 
 
-### M3 · 🟠 NPC 走路帧循环硬编码 % 4，未按 nSpriteFrames 取模 → nSpriteFrames∈{1,2} 的 NPC 脚本走位时动画帧错乱
+### ✅ M3 · 🟠 NPC 走路帧循环硬编码 % 4，未按 nSpriteFrames 取模 → nSpriteFrames∈{1,2} 的 NPC 脚本走位时动画帧错乱
 
 - **子系统**:事件脚本·走位与场景控制　**类别**:pixel
 - **TS 位置**:`packages/game/src/core/event-system.ts:4663 (npcWalkTo)、3499 (0x0B-0x0E)、3616 (0x6C)、3648 (0x87)、4916 (0x4C monsterChase)`
@@ -231,7 +241,7 @@ autoScript 驱动器(event-system.ts:1225-1279 raw 分支 + 1273 applyRawOpcode)
 **C 源证据**:reference/sdlpal/scene.c:893-896（帧推进封顶模 `%= (nSpriteFrames==3?4:nSpriteFrames)`，898-901 退到 nSpriteFramesAuto）；scene.c:262-280（iFrame、仅 nSF==3 重映射、idx=wDirection*nSpriteFrames+iFrame）；reference/sdlpal/palcommon.c PAL_SpriteGetFrame（越界返回 NULL → 整帧 skip）；script.c:2540-2545(0x87=PAL_NPCWalkOneStep(id,0))/677-686(0x10)/652-655(0x0B-0x0E)/2056-2063(0x6C) 均只推进 wCurrentFrameNum。对照 TS：event-system.ts:3499/3616/3648/4663/4916 硬编码 %4，present.ts:456-465 渲染对 nSF∈{1,2} 未补取模。真值数据：data/extracted/data/event-objects.json(分布 + id91/92/93/2113 的 nSpriteFrames 与 autoLabel)，data/extracted/events/all.json(L_36252/L_36275/L_36311/L_36524 含 0x87/0x0B/0x0E)，data/extracted/data/sprite/46.json(8 帧)/47.json(18 帧)/301.json(4 帧)。
 
 
-### M4 · 🟠 0x7F 相对镜头多帧 pan 期间 autoScript 与追逐 timer 被冻结（C 每帧仍跑 PAL_GameUpdate）
+### ✅ M4 · 🟠 0x7F 相对镜头多帧 pan 期间 autoScript 与追逐 timer 被冻结（C 每帧仍跑 PAL_GameUpdate）
 
 - **子系统**:事件脚本·走位与场景控制　**类别**:timing
 - **TS 位置**:`packages/game/src/core/mode.ts:36-39 (shouldRunAutoScripts 白名单)；event-system.ts:1317-1331 (camera-pan tick)`
@@ -259,7 +269,7 @@ TS 侧：event-system.ts:2066-2082 把 0x7F 多帧相对 pan(isPan && frames>1)�
 **C 源证据**:script.c:2331-2377 = 0x7F 相对 pan 分支(op2 != 0xFFFF)是 `do { ... if (pScript->rgwOperand[2] != 0xFFFF) PAL_GameUpdate(FALSE); PAL_MakeScene(); VIDEO_UpdateScreen; PAL_DelayUntil(time); } while (++i < op2)` —— 每一帧都调 PAL_GameUpdate(FALSE)(script.c:2364-2366),且 op2 同时是循环帧数。play.c:24-241 PAL_GameUpdate:fTrigger 守卫(play.c:51)只包住触发事件循环(56-167);autoScript 循环(play.c:169-192,对每个 sState>0 && sVanishTime==0 对象跑 PAL_RunAutoScript)和追逐 timer 自减 `if (--gpGlobals->wChasespeedChangeCycles == 0) gpGlobals->wChaseRange = 1;`(play.c:235-238)都在 fTrigger 守卫之外 → PAL_GameUpdate(FALSE) 照样推进二者。绝对跳分支(op2==0xFFFF,script.c:2314-2318)不进 do-while、不调 PAL_GameUpdate —— 故差异确实只在多帧相对 pan。FPS=10(game.h:27),FRAME_TIME=100ms。
 
 
-### M5 · 🟠 玩家走路/跟随缺少 fCheckRange 下边界(blockX=5/blockY=7),改用相机 clamp 取代
+### ⏸ M5 · 🟠 玩家走路/跟随缺少 fCheckRange 下边界(blockX=5/blockY=7),改用相机 clamp 取代
 
 - **子系统**:大世界·走路跟随与碰撞　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/scene-system.ts:309-316, 378-385, 445`
@@ -294,7 +304,7 @@ TS 现状：
 **C 源证据**:reference/sdlpal/scene.c:551(blockX=partyoffset.x/32, blockY=partyoffset.y/16), 563-567(fCheckRange 下边界 x<blockX||y<blockY return TRUE), 818(PAL_UpdateParty 调用传 fCheckRange=TRUE), 835-836(viewport+=offset，无 clamp); res.c:301(partyoffset=(160,112)); scene.c:512-518(PAL_CheckObstacle 默认 fCheckRange=FALSE，怪物追击用); scene.c:712-713(follower 避障 fCheckRange=TRUE)。TS: scene-system.ts:309-316/332(isWalkable 无 range 下边界), 378-385(camera clamp), present.ts:241/132(队首 screen=party-camera); scene-system.test.ts:110-117(队首可达 x=0 实证); extracted tilemap 实测 221/223 左上 5×7 角全可走。
 
 
-### M6 · 🟠 读档不清零 rgPlayerStatus(大世界施放的持久状态会跨存档残留)
+### ✅ M6 · 🟠 读档不清零 rgPlayerStatus(大世界施放的持久状态会跨存档残留)
 
 - **子系统**:存档·初始化与启动流程　**类别**:correctness
 - **TS 位置**:`packages/game/src/shell/bootstrap.ts:1429-1475`
@@ -324,7 +334,7 @@ TS 行为：
 **C 源证据**:global.c:951 (无条件 memset rgPlayerStatus，PAL_LoadGame 之后 PAL_UpdateEquipments 之前); global.c:530-559 + 510-528 (rgPlayerStatus 不在 SAVEDGAME_WIN/DOS 存档结构); global.c:1333 (PAL_UpdateEquipments 只 memset rgEquipmentEffect，重跑 scriptOnEquip 仅重授装备状态); global.c:2257-2268 (PAL_SetPlayerStatus good 状态写入); fight.c:1632-1638 (状态计数器仅战斗内每回合递减，大世界静止)
 
 
-### M7 · 🟠 R(重提)/F(强行)键未做整队粘滞,只对当前队员生效
+### ✅ M7 · 🟠 R(重提)/F(强行)键未做整队粘滞,只对当前队员生效
 
 - **子系统**:战斗·主循环与回合流程　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/battle/battle-system.ts:1115-1136`
@@ -353,7 +363,7 @@ TS 侧(battle-system.ts:1090-1136 handleMainMenuInput):
 **C 源证据**:reference/sdlpal/fight.c:1772-1796(fRepeat/fForce 帧尾置位 + 逐帧合成 dwKeyPress=kKeyRepeat/kKeyForce，注释“R and F keys…should affect all players”); fight.c:1443-1445(全员动作填完前才清 fRepeat/fForce/fFlee); reference/sdlpal/uibattle.c:1171-1203 与 1220-1222(合成键 → 当前队员 CommitAction 并切下一人); TS 反证: packages/game/src/core/battle/battle-system.ts:1196 与 1212/1221(commitForce/Repeat 仅单人提交+advanceSelectingPlayer)、battle-state.ts:472-476(repeatSelectionActive 仅为 prevAction 备份 gate)、shell/input.ts:77-78,100(pressed 边沿触发、每帧清)
 
 
-### M8 · 🟠 混乱敌人攻击友敌完全没有动画(只结算伤害+即时弹数字)
+### ✅ M8 · 🟠 混乱敌人攻击友敌完全没有动画(只结算伤害+即时弹数字)
 
 - **子系统**:战斗·动画与表现时序　**类别**:timing
 - **TS 位置**:`packages/game/src/core/battle/actions/attack.ts:426-450 performEnemyConfusedAttack;battle-system.ts:2460-2461 dispatch`
@@ -381,7 +391,7 @@ TS performEnemyConfusedAttack(attack.ts:426-450):伤害公式与 C 一致(str/de
 **C 源证据**:reference/sdlpal/fight.c:4598-4612(3 帧插值滑步,每帧 PAL_BattleDelay(1));fight.c:4614-4632(中点 lpEffectSprite 第 9~11 帧 3 帧命中火花);fight.c:4647-4649(PAL_BattleDisplayStatChange + PAL_BattleShowPostMagicAnim 受击抖动 + Delay(5));fight.c:4651-4652(pos 复位 + Delay(2));PAL_BattleShowPostMagicAnim 本体 fight.c:3189-3246(3 帧 pos-=dist + iColorShift=6 闪白);battle.h:28-29(BATTLE_FPS=25,帧 40ms)。对照 TS attack.ts:444-449 仅 showDamageNum;玩家侧对照件 attack-mate.ts:91-96 + anim-timeline.ts:197-232 有完整动画。
 
 
-### M9 · 🟠 非召唤合击的法术效果音在派发瞬间立即播放，而非随 OffMagic 特效帧同步(早约 0.7 秒)
+### ✅ M9 · 🟠 非召唤合击的法术效果音在派发瞬间立即播放，而非随 OffMagic 特效帧同步(早约 0.7 秒)
 
 - **子系统**:战斗·召唤合击与变身　**类别**:timing
 - **TS 位置**:`packages/game/src/core/battle/actions/coop-magic.ts:114-124 (emitImmediateCoopSounds) + :185-187 (非 summon 无条件调用) + :205-221 (建链时未把 sound 传入 buildCoopMagicTimeline)`
@@ -405,7 +415,7 @@ TS performEnemyConfusedAttack(attack.ts:426-450):伤害公式与 C 一致(str/de
 **C 源证据**:fight.c:3856-3875(合击 else 分支：AUDIO_PlaySound(29) 在聚拢动画前，与 TS 一致正确)；fight.c:3877-3949(聚拢 6×Delay(1)+蓄势(N-1)×Delay(3)+闪白 Delay(5)+出招 Delay(3))；fight.c:3951(PAL_BattleShowPlayerOffMagicAnim(-1,wObject,sTarget,FALSE)，fSummon=FALSE)；fight.c:2659(入口 PAL_BattleDelay(1))；fight.c:2669-2672(WIN95：sound 在帧循环前播，本项目实际采用的基线)；fight.c:2711-2714(CLASSIC：`!fIsWIN95 && (i-fireDelay)%n==0` 才播——声称引此处但项目不走 CLASSIC)。TS：coop-magic.ts:114-124/185-187/205-214；anim-timeline.ts:780,882,1028,27(BATTLE_FRAME_TIME=40)；对照正确实现 magic.ts:506 与召唤 coop-magic.ts:263。数据：object-magics.json + magic.json 5 个合击 obj 全为非 summon、wSound 非 0。
 
 
-### M10 · 🟠 大世界单体治疗(0x1B/1C/1D)未复刻 PAL_IncreaseHPMP 的“仅活人 + 无变化即失败”语义
+### ✅ M10 · 🟠 大世界单体治疗(0x1B/1C/1D)未复刻 PAL_IncreaseHPMP 的“仅活人 + 无变化即失败”语义
 
 - **子系统**:战斗·法术伤害与治疗　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/menu/magic-script.ts:46-60,165-183`
@@ -421,7 +431,7 @@ TS performEnemyConfusedAttack(attack.ts:426-450):伤害公式与 C 一致(str/de
 **C 源证据**:global.c:1280(fSuccess=FALSE 初始)、:1287(`if rgwHP[wPlayerRole] > 0` 仅活人门控)、:1324-1326(over-treatment 原值==新值则 fSuccess 保持 FALSE);script.c:889-892(0x1B 单体 `if(!PAL_IncreaseHPMP) g_fScriptSuccess=FALSE`)、:916-919(0x1C)、:944-948(0x1D);uigame.c:811-823(单体路径 MP 扣减在双重 `if(g_fScriptSuccess)` 内,target=rgParty[wPlayer].wPlayerRole)、:743-752(applyToAll 同构)。TS 对照正确实现:battle-opcodes.ts:168-174(increaseBattleHPMP 有 hp<=0 return false + 返回变化)、magic-script.ts:197(0x22 revive 置 scriptSuccess=false)。数据:spells.json 气疗术/观音咒/凝神归元/元灵归心术 id296-299 applyToAll=false+usableOutsideBattle=true,events/all.json L_43016 等=`raw 0x1B [0,75/150/220/500,0]`。
 
 
-### M11 · 🟠 0x22 复活把目标全部毒清空,C 只清等级<=3 的毒
+### ✅ M11 · 🟠 0x22 复活把目标全部毒清空,C 只清等级<=3 的毒
 
 - **子系统**:战斗·脚本 opcode 与敌人 AI　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/battle/battle-opcodes.ts:970-976`
@@ -450,7 +460,7 @@ TS bug：battle-opcodes.ts:970-976 的 OP_REVIVE_PLAYER（战斗 handler）`for 
 **C 源证据**:script.c:1071 与 script.c:1091（0x0022 revive 调 PAL_CurePoisonByLevel(w,3)）；global.c:1604-1613（仅清 wPoisonLevel<=wMaxLevel 的槽，level>maxLevel 保留）；fight.c:1620-1627（玩家毒 tick 对任意 wPoisonID!=0 跑脚本，无死亡门控）。TS 对照：battle-opcodes.ts:970-976（无条件清全 16 槽）；正确路径 event-system.ts:3894 + curePlayerPoisonByLevel(event-system.ts:4536)；触发链 item.ts:97-114 → event-system.ts:2645。
 
 
-### M12 · 🟠 0x29 给队员上毒未在施加当下跑毒的 playerScript(C 跑一次)
+### ✅ M12 · 🟠 0x29 给队员上毒未在施加当下跑毒的 playerScript(C 跑一次)
 
 - **子系统**:战斗·脚本 opcode 与敌人 AI　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/battle/battle-opcodes.ts:544-553`
@@ -483,7 +493,7 @@ TS 现状（已核对）:
 **C 源证据**:global.c:1513-1515(add 时 PAL_RunTriggerScript(wPlayerScript) 跑一次存返回 entry); script.c:1280-1283(0x29→PAL_AddPoisonForPlayer); script.c:3171/3204-3217(RunTriggerScript 从入口跑到终止符,0x0000 返回入口、0x0001 返回 ip+1); script.c:1212-1213(0x28 enemy 对称在 add 时跑); fight.c:1622-1625(每回合 tick 同函数). TS: event-system.ts:4501-4515(addPoisonForPlayer 只存原始 entry 不跑); battle-opcodes.ts:544-553 与 equip-effect.ts:415-427(均委托); battle-opcodes.ts:478-497(敌方 0x28 已正确 add 时跑); battle-system.ts:2546-2563(tick 正确). 数据: object-poisons.json 173 条非0 playerScript; all.json entry 39359 首 0x2B / 43445 首 0x06→showDialog/0x30/0x28 / 40860 首 0x1B +20HP.
 
 
-### M13 · 🟠 narration 居中提示框(kDialogCenterWindow)被错误地画了 6px 投影阴影,原版无阴影
+### ✅ M13 · 🟠 narration 居中提示框(kDialogCenterWindow)被错误地画了 6px 投影阴影,原版无阴影
 
 - **子系统**:渲染·字体与对话框　**类别**:pixel
 - **TS 位置**:`packages/game/src/present/dialog-box.ts:730-732`
@@ -513,7 +523,7 @@ TS 现状（已核对）:
 **C 源证据**:reference/sdlpal/text.c:1687 (PAL_CreateSingleLineBoxWithShadow 传 iDialogShadow); text.c:63 (TEXTLIB g_TextLib; BSS 零初始化→默认0); text.c:649-896 PAL_InitText 全函数体无 iDialogShadow 赋值; script.c:1479(=5)/1513(=0) 仅炼丹流程设置; script.c:3424 通用 narration opcode 0x003E PAL_StartDialog(kDialogCenterWindow,...) 不设阴影; reference/sdlpal/ui.c:323-349 (阴影 blit 在 +nShadowOffset，正色框 blit 在 +0；offset=0 时阴影被覆盖→无视觉阴影)。TS 对照: dialog-box.ts:730-732(未传 shadowOffset), menu/draw-box.ts:168(默认 ?? 6) 与 :178-187 + :129-146(在 +6 画 darken 阴影), dialog-box.ts:829(item-box 正确传 5)。
 
 
-### M14 · 🟠 FadeToRed 的 0x4F→0x4E 像素重映射在战败 game-over 定格帧上从未生效
+### ✅ M14 · 🟠 FadeToRed 的 0x4F→0x4E 像素重映射在战败 game-over 定格帧上从未生效
 
 - **子系统**:渲染·调色板与淡入淡出　**类别**:pixel
 - **TS 位置**:`packages/game/src/present/present.ts:175-178,514-524`
@@ -535,7 +545,7 @@ TS 现状：(a) bootstrap.ts:436-438 路由 `if(!presentBattleFrame(...)) presen
 **C 源证据**:palette.c:623-629（gpScreen 全屏 0x4F→0x4E HACK）；palette.c:637-640（ramp 跳过 0x4F）；script.c:1768-1773（0x4F=PAL_FadeToRed，game over 唯一调用）；battle.c:1804-1857（PAL_StartBattle 战斗返回前不 MakeScene/不动 gpScreen→定格的是战斗帧）。TS：present.ts:175-178（gameOverActive 早 return）、:518-524（remap，被架空）、:688（presentBattleFrame 仅 battle 模式生效）；bootstrap.ts:436-438（路由）；battle-system.ts:2689 + game-state.ts:1430（战末 mode→event）；palette-fade.ts:229-231（skipIndex/remap）。
 
 
-### M15 · 🟠 DOS splash fallback 用 FBP chunk 3/4(WIN95 值)而非 DOS 的 0x26/0x27,背景图整张错
+### ✅ M15 · 🟠 DOS splash fallback 用 FBP chunk 3/4(WIN95 值)而非 DOS 的 0x26/0x27,背景图整张错
 
 - **子系统**:过场·整屏动画与结局　**类别**:pixel
 - **TS 位置**:`packages/game/src/shell/bootstrap.ts:1556-1557`
@@ -563,7 +573,7 @@ TS 现状：(a) bootstrap.ts:436-438 路由 `if(!presentBattleFrame(...)) presen
 
 ## 🟡 Low（47）
 
-### L1 · 🟡 姓名 title 识别漏 kDialogCenter 排除条件 —— center 风格下以冒号结尾的对白被误当姓名牌画到左上角
+### ✅ L1 · 🟡 姓名 title 识别漏 kDialogCenter 排除条件 —— center 风格下以冒号结尾的对白被误当姓名牌画到左上角
 
 - **子系统**:事件脚本·对话与文本　**类别**:correctness
 - **TS 位置**:`packages/game/src/present/dialog-box.ts:270 (startDialogLine) 与 :315 (appendDialogLine)`
@@ -589,7 +599,7 @@ TS 侧分歧属实:isCharacterNameLine(dialog-box.ts:194-198)只看末字标点(
 </details>
 
 
-### L2 · 🟡 fUserSkip 不跨行持续 —— 按一次确认只跳过当前行,无法像原版那样让整段剩余对白瞬显
+### ✅ L2 · 🟡 fUserSkip 不跨行持续 —— 按一次确认只跳过当前行,无法像原版那样让整段剩余对白瞬显
 
 - **子系统**:事件脚本·对话与文本　**类别**:timing
 - **TS 位置**:`packages/game/src/present/dialog-box.ts:473-478 (confirmDialog) + DialogBoxState 缺 userSkip 字段`
@@ -663,7 +673,7 @@ C script.c:1883 在 0x59(0059) 换场景时置 `wLayer = 0`。TS loadScene(scene
 </details>
 
 
-### L4 · 🟡 明雷怪追击/NPC 走路逐帧推进硬编码 %4,未按 nSpriteFrames 取模(且 nSpriteFrames==0 仍推帧)
+### ✅ L4 · 🟡 明雷怪追击/NPC 走路逐帧推进硬编码 %4,未按 nSpriteFrames 取模(且 nSpriteFrames==0 仍推帧)
 
 - **子系统**:大世界·走路跟随与碰撞　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/event-system.ts:4911-4916, 4654-4664`
@@ -732,7 +742,7 @@ TS 核对:
 </details>
 
 
-### L6 · 🟡 读档/新游戏不复位物品菜单光标 iCurInvMenuItem
+### ✅ L6 · 🟡 读档/新游戏不复位物品菜单光标 iCurInvMenuItem
 
 - **子系统**:存档·初始化与启动流程　**类别**:correctness
 - **TS 位置**:`packages/game/src/shell/bootstrap.ts:1429-1475`
@@ -752,7 +762,7 @@ global.c:948 `gpGlobals->iCurInvMenuItem = 0;` 在 PAL_InitGameData 内、紧跟
 </details>
 
 
-### L7 · 🟡 读档不复位 sWaveProgression(屏幕波动增量随存档残留)
+### ✅ L7 · 🟡 读档不复位 sWaveProgression(屏幕波动增量随存档残留)
 
 - **子系统**:存档·初始化与启动流程　**类别**:correctness
 - **TS 位置**:`packages/game/src/shell/bootstrap.ts:1429-1475`
@@ -1156,7 +1166,7 @@ TS 战斗 RNG 是 mulberry32（rng.ts:26-30），与 sdlpal 的 LCG `glSeed = 16
 </details>
 
 
-### L21 · 🟡 群攻 division 衰减:TS 跳过 health<=0 敌人不计 division,C 只跳 wObjectID==0(已清槽)且对任何未清槽敌都翻倍
+### ⏸ L21 · 🟡 群攻 division 衰减:TS 跳过 health<=0 敌人不计 division,C 只跳 wObjectID==0(已清槽)且对任何未清槽敌都翻倍
 
 - **子系统**:战斗·物理伤害公式　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/battle/actions/attack.ts:178,190`
@@ -1222,7 +1232,7 @@ TS 证据(attack.ts:365-368):条件首操作数加了 `equivId !== 0 &&`(attack.
 </details>
 
 
-### L23 · 🟡 战斗开始未把 HP=0 的队员复活为 1(且未清傀儡状态)
+### ✅ L23 · 🟡 战斗开始未把 HP=0 的队员复活为 1(且未清傀儡状态)
 
 - **子系统**:战斗·结算与成长　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/battle/battle-system.ts:273-331 (startBattle 序幕,createBattleState 之前/clearHiddenExpCounts 处)`
@@ -1298,7 +1308,7 @@ reference/sdlpal/script.c:2624 (0x91 按 wObjectID 比较); battle.h:72 (wObject
 </details>
 
 
-### L26 · 🟡 0x6A 偷钱在 c==0 时仍弹「获得 0 文钱」对话(C 仅 c>0 才显示)
+### ✅ L26 · 🟡 0x6A 偷钱在 c==0 时仍弹「获得 0 文钱」对话(C 仅 c>0 才显示)
 
 - **子系统**:战斗·脚本 opcode 与敌人 AI　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/battle/battle-opcodes.ts:847-854`
@@ -1318,7 +1328,7 @@ reference/sdlpal/fight.c:5216(WCHAR s[256]=L"");5261-5263(c=nStealItem/RandomLon
 </details>
 
 
-### L27 · 🟡 0x28 全体上毒时,入口毒脚本以各敌自身 index 运行,C 统一用投掷目标 wEventObjectID
+### ✅ L27 · 🟡 0x28 全体上毒时,入口毒脚本以各敌自身 index 运行,C 统一用投掷目标 wEventObjectID
 
 - **子系统**:战斗·脚本 opcode 与敌人 AI　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/battle/battle-opcodes.ts:482-502`
@@ -1338,7 +1348,7 @@ script.c:1184-1219 (0x28 apply-everyone 循环用 i 落槽，但脚本调用恒�
 </details>
 
 
-### L28 · 🟡 WORD.DAT 词条解析缺少 sdlpal 的尾部 '1' 截断,8 个法术/敌人名残留多余的「1」
+### ✅ L28 · 🟡 WORD.DAT 词条解析缺少 sdlpal 的尾部 '1' 截断,8 个法术/敌人名残留多余的「1」
 
 - **子系统**:提取·MKF 解码与数据表　**类别**:data
 - **TS 位置**:`packages/pal-extract/src/io/word.ts:61-71, 86-92`
@@ -1559,7 +1569,7 @@ main-loop.ts:90 证实 paletteFadeState 每个 rAF 帧都 present；fade opcode 
 </details>
 
 
-### L35 · 🟡 大世界仙术菜单:仙术列表按 Cancel 应直接关菜单回大世界,TS 却退回「选施法人」
+### ✅ L35 · 🟡 大世界仙术菜单:仙术列表按 Cancel 应直接关菜单回大世界,TS 却退回「选施法人」
 
 - **子系统**:菜单·主菜单/物品/装备/商店　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/menu/in-game-magic-menu.ts:203-207 (cancelInGameMagic pick-spell 分支); menu-driver.ts:772-775`
@@ -1593,7 +1603,7 @@ TS 端 in-game-magic-menu.ts:203-207 cancelInGameMagic 的 'pick-spell' 分支�
 </details>
 
 
-### L36 · 🟡 仙术列表未按法术 ObjectID 升序排序,TS 按学会顺序(rgwMagic 槽位顺序)显示
+### ✅ L36 · 🟡 仙术列表未按法术 ObjectID 升序排序,TS 按学会顺序(rgwMagic 槽位顺序)显示
 
 - **子系统**:菜单·主菜单/物品/装备/商店　**类别**:pixel
 - **TS 位置**:`packages/game/src/core/menu/magic-select.ts:33-52 (createMagicSelectMenu 无排序)`
@@ -1627,7 +1637,7 @@ reference/sdlpal/magicmenu.c:337-372(按槽位序收集 rgMagicItem[].wMagic);ma
 </details>
 
 
-### L37 · 🟡 大世界仙术「选施法人」框:TS 把无可用大世界法术的活人也标灰禁选,原版只按 HP>0 判定可选
+### ✅ L37 · 🟡 大世界仙术「选施法人」框:TS 把无可用大世界法术的活人也标灰禁选,原版只按 HP>0 判定可选
 
 - **子系统**:菜单·主菜单/物品/装备/商店　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/menu/in-game-magic-menu.ts:64-73 (casterItems disabled: !hasOutsideMagic || r.hp<=0)`
@@ -1686,7 +1696,7 @@ TS 核对：primitives.ts:67-85 findNextSelectable 用 modulo 环绕跳过所有
 </details>
 
 
-### L39 · 🟡 用物品列表未把「已装备但本身可用」的装备追加进列表
+### ✅ L39 · 🟡 用物品列表未把「已装备但本身可用」的装备追加进列表
 
 - **子系统**:菜单·主菜单/物品/装备/商店　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/menu/inventory-menu.ts:106-133 (createInventoryMenu 仅遍历 gs.inventory)`
@@ -1746,7 +1756,7 @@ TS 行为（已核对）：
 </details>
 
 
-### L41 · 🟡 单人队伍开仙术菜单时,TS 仍弹出「选施法人」框,原版直接进法术列表
+### ✅ L41 · 🟡 单人队伍开仙术菜单时,TS 仍弹出「选施法人」框,原版直接进法术列表
 
 - **子系统**:菜单·主菜单/物品/装备/商店　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/menu/in-game-magic-menu.ts:75-81 (createInGameMagicMenu 恒从 phase='pick-caster' 起)`
