@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 49 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L8 L9 L10 L11 L13 L15 L16 L17 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 33 条 low。
+- **✅ 已修复 50 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L6 L7 L8 L9 L10 L11 L13 L15 L16 L17 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 34 条 low。
 - **⏸ 暂缓 3 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L12 L18–L20 L22 L25 L29 L30 L34 L38),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L5 L12 L18–L20 L22 L25 L29 L30 L34 L38),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -104,7 +104,7 @@
 | ✅ M15 | 🟠 | pixel | 过场·整屏动画与结局 | DOS splash fallback 用 FBP chunk 3/4(WIN95 值)而非 DOS 的 0x26/0x27,背景图整张错 |
 | ✅ L1 | 🟡 | correctness | 事件脚本·对话与文本 | 姓名 title 识别漏 kDialogCenter 排除条件 —— center 风格下以冒号结尾的对白被误当姓名牌画到左上角 |
 | ✅ L2 | 🟡 | timing | 事件脚本·对话与文本 | fUserSkip 不跨行持续 —— 按一次确认只跳过当前行,无法像原版那样让整段剩余对白瞬显 |
-| L3 | 🟡 | pixel | 事件脚本·走位与场景控制 | gs.wLayer（0x6E 设置的队伍层）在渲染层从未被使用，且换场景未重置 → 上下层走位时主角精灵 Y 偏移/遮挡排序错误 |
+| ✅ L3 | 🟡 | pixel | 事件脚本·走位与场景控制 | gs.wLayer（0x6E 设置的队伍层）在渲染层从未被使用，且换场景未重置 → 上下层走位时主角精灵 Y 偏移/遮挡排序错误 |
 | ✅ L4 | 🟡 | correctness | 大世界·走路跟随与碰撞 | 明雷怪追击/NPC 走路逐帧推进硬编码 %4,未按 nSpriteFrames 取模(且 nSpriteFrames==0 仍推帧) |
 | L5 | 🟡 | timing | 大世界·走路跟随与碰撞 | 站立帧未复刻 s_iThisStepFrame &= 2; ^= 2 的脚步相位翻转 |
 | ✅ L6 | 🟡 | correctness | 存档·初始化与启动流程 | 读档/新游戏不复位物品菜单光标 iCurInvMenuItem |
@@ -694,12 +694,13 @@ text.c:1597,1600 逐字符延时守卫 `if (!isDialog && !g_TextLib.fUserSkip){ 
 </details>
 
 
-### L3 · 🟡 gs.wLayer（0x6E 设置的队伍层）在渲染层从未被使用，且换场景未重置 → 上下层走位时主角精灵 Y 偏移/遮挡排序错误
+### ✅ L3 · 🟡 gs.wLayer（0x6E 设置的队伍层）在渲染层从未被使用，且换场景未重置 → 上下层走位时主角精灵 Y 偏移/遮挡排序错误
 
 - **子系统**:事件脚本·走位与场景控制　**类别**:pixel
 - **TS 位置**:`packages/game/src/present/present.ts:303,308 (party Y/iLayer 硬编码 10/6，忽略 gs.wLayer)；event-system.ts:3723 (0x6E 写 gs.wLayer)；loadScene 未重置 wLayer (scene-system.ts:547-599 / event-system.ts:2419-2444)`
 - **C 依据**:`reference/sdlpal/scene.c:224-226 (party 绘制用 `rgParty[i].y + wLayer + 10`、`iLayer = wLayer + 6`)；script.c:1883 (0x59 loadScene 设 `wLayer = 0`)`
 - **玩家可感知**:是
+- **修复补充**:按复核结论(精灵屏幕像素位置不变,wLayer 在 blit 相消)只接两条真实通道 —— present.ts 把 party / 跟随者 / 0x98 额外跟随者的 **sort key** `baseY` 与 **cover-tile** `iLayer`(进而 cover sx = x - iLayer/2)都加上 `gs.wLayer`(blit 的 `capturedSY + 4` 保持不变);event-system.ts loadScene(0x59)真换场景分支补 `gs.wLayer = 0`(script.c:1883)。scene-reset 走 TDD(event-system.test.ts);渲染 z-sort/cover-sx 属 pixel 无清晰单测路径,靠 scene.c 真值锚定 + 既有 present 测试(wLayer=0)零回归。
 
 **差异**:C 绘制主角精灵时 Y = `rgParty.y + gpGlobals->wLayer + 10`，绘制层 iLayer = `wLayer + 6`，均叠加 gpGlobals->wLayer（由 0x6E playerWalkOneStep 的 operand[2]*8 设置，用于上桥/上层时抬高精灵并改变与地图 tile 的前后遮挡）。TS 中 0x6E 正确写入 gs.wLayer，但 present.ts 把队伍 Y 偏移和 iLayer 硬编码为 10/6（代码注释 “runtime gs.wLayer 待补”），grep 确认 present 层任何精灵渲染都没有读取 gs.wLayer。因此 0x6E 设的层在画面上完全无效。次要地：C 在 0x59 loadScene 时把 wLayer 归 0（script.c:1883），TS loadScene 路径未做此重置（不过因为渲染本就不读 wLayer，这一条目前无可见后果）。
 

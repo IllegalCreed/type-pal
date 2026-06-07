@@ -298,35 +298,35 @@ export function presentFrame(
   }
   const partyFrame = activePartyFrames[frameIdx] ?? activePartyFrames[0]
   if (partyFrame) {
-    // sdlpal scene.c:224-226:party pos.y = party.y - viewport.y + wLayer + 10,iLayer = wLayer + 6
-    // wLayer=0 → pos.y = party.y - viewport.y + 10,iLayer = 6。
-    // sort key = pos.y = world.y + 10(viewport 相消)。
-    // blit_y = pos.y - height - iLayer = world.y + 10 - height - 6 = world.y + 4 - height。
-    // drawSprite(cx, cy):在 cy - anchorY(= cy - height)画顶边、cy 画脚底。
-    // ⇒ cy 传 capturedSY + 4(净 +10 - iLayer6),脚底落屏幕 y=116 = sdlpal rgParty.y+4。
-    // (与下面 addCoverTileEntries 的 sy=party.y+10 / iLayer=6 推出的 occlusion 脚底同为 +4,一致。)
+    // sdlpal scene.c:224-226:party pos.y = party.y - viewport.y + wLayer + 10,iLayer = wLayer + 6。
+    // L3:gs.wLayer(0x6E 设的队伍层,= operand*8,上桥/上下层时非 0)接入 sort key 与 cover iLayer。
+    //   sort key = pos.y = world.y + wLayer + 10(viewport 相消)。
+    //   blit_y = pos.y - height - iLayer = (world.y+wLayer+10) - height - (wLayer+6) = world.y+4-height
+    //     → wLayer 在 blit 相消,精灵屏幕像素位置不随 wLayer 变(cy 仍传 capturedSY + 4)。
+    //   wLayer 真实影响:① sort key 排序(同 y 的 NPC/tile 前后序)② cover sx = x - iLayer/2(遮挡列)。
     const capturedFrame = partyFrame
     const capturedSX = partySX
     const capturedSY = partySY
     entries.push({
-      // sdlpal party sort key: world.y + 10(wLayer=0)
-      baseY: gs.party.y + 10,
+      // sdlpal party sort key: world.y + wLayer + 10(scene.c:225)
+      baseY: gs.party.y + gs.wLayer + 10,
       draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY + 4),
       id: 'party',
     })
     // cover tiles for party
-    // sdlpal scene.c:226 真值:iLayer = wLayer + 6(party 默认 wLayer=0 → iLayer=6)
+    // sdlpal scene.c:225-226 真值:cover sy=pos.y=world.y+wLayer+10(内部减 iLayer 后 wLayer 相消),
+    //   iLayer = wLayer + 6(影响 cover sx = x - iLayer/2)。
     addCoverTileEntries(
       entries,
       ctx.tilemap,
       ctx.tileImages,
       gs.party.x,
-      gs.party.y + 10,        // sy = party.y + 10,与 party sort key 一致
+      gs.party.y + gs.wLayer + 10, // sy = party.y + wLayer + 10,与 party sort key 一致
       capturedFrame.width,
       capturedFrame.height,
       gs.camera,
       'party',
-      6,                       // iLayer(party 默认 wLayer=0 → 6;runtime gs.wLayer 待补)
+      gs.wLayer + 6,               // iLayer = wLayer + 6(scene.c:226)
     )
   }
 
@@ -389,8 +389,9 @@ export function presentFrame(
       const capturedSY = sy
       const id = `party-member-${m}`
       entries.push({
-        baseY: followerWorldY + 10,
-        // +4 同 leader:脚底对齐 sdlpal rgParty[i].y+4(scene.c:225-226,follower 同 loop 同公式)。
+        // L3:follower 同 leader 在 scene.c:213-226 同 loop 同公式,sort key 加 gs.wLayer。
+        baseY: followerWorldY + gs.wLayer + 10,
+        // +4 同 leader:脚底对齐 sdlpal rgParty[i].y+4(wLayer 在 blit 相消)。
         draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY + 4),
         id,
       })
@@ -399,12 +400,12 @@ export function presentFrame(
         ctx.tilemap,
         ctx.tileImages,
         followerWorldX,
-        followerWorldY + 10,
+        followerWorldY + gs.wLayer + 10,
         capturedFrame.width,
         capturedFrame.height,
         gs.camera,
         id,
-        6,                     // follower iLayer 同 party = 6
+        gs.wLayer + 6,         // follower iLayer = wLayer + 6,同 party
       )
     }
   }
@@ -427,14 +428,15 @@ export function presentFrame(
     const capSX = sx
     const capSY = sy
     entries.push({
-      baseY: it.worldY + 10,
-      // +4 同 leader:脚底对齐 sdlpal rgParty[maxIdx+i].y+4(scene.c:225-226 同 loop)。
+      // L3:0x98 额外跟随者同在 scene.c:210-226 party loop,sort key 加 gs.wLayer。
+      baseY: it.worldY + gs.wLayer + 10,
+      // +4 同 leader:脚底对齐 sdlpal rgParty[maxIdx+i].y+4(wLayer 在 blit 相消)。
       draw: (f) => drawSprite(f, capFrame, capSX, capSY + 4),
       id,
     })
     addCoverTileEntries(
-      entries, ctx.tilemap, ctx.tileImages, it.worldX, it.worldY + 10,
-      capFrame.width, capFrame.height, gs.camera, id, 6,
+      entries, ctx.tilemap, ctx.tileImages, it.worldX, it.worldY + gs.wLayer + 10,
+      capFrame.width, capFrame.height, gs.camera, id, gs.wLayer + 6,
     )
   }
 

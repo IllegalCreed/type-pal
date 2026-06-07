@@ -3601,6 +3601,26 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
     }
   })
 
+  it('L3:loadScene(0x59)换场景时重置 gs.wLayer=0(sdlpal script.c:1883)', () => {
+    let loadedScene = -1
+    setSceneLoader(async (sid) => { loadedScene = sid })
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.wLayer = 8 // 上一场景 0x6E 设的队伍层残留(operand*8)
+      const bus = createCommandBus()
+      loadEvent(gs, [
+        { op: 'loadScene', sceneId: 14 },
+        { op: 'end' },
+      ])
+      tickEventSystem(gs, snap(), bus)
+      expect(gs.wLayer).toBe(0) // 换场景归 0(script.c:1883 gpGlobals->wLayer = 0)
+      expect(loadedScene).toBe(14)
+    }
+    finally {
+      setSceneLoader(null)
+    }
+  })
+
   it('scene-load 失败 → 清 sceneLoading + 回 explore(不永久黑屏卡死)— 仙灵岛船渡黑屏根因回归(2026-05-30)', async () => {
     // 根因:triggerPendingSceneLoad 的 _sceneLoader.catch 旧版只 log,不清 sceneLoading →
     //   async load 失败时 gs.sceneLoading 永卡 true → tickSceneAutoFadeIn 永远早退 → 0x50 FadeOut

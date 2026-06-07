@@ -2443,6 +2443,7 @@ export function tickEventSystem(
         if (_sceneLoader && cmd.sceneId > 0 && cmd.sceneId <= 300 && gs.wNumScene !== cmd.sceneId) {
           gs.pendingSceneLoad = cmd.sceneId
           gs.sceneLoading = true
+          gs.wLayer = 0 // L3:换场景重置队伍层(sdlpal script.c:1883 gpGlobals->wLayer = 0)
           cursor.ip++ // 继续跑调用脚本(setPartyPos 等)
           break
         }
