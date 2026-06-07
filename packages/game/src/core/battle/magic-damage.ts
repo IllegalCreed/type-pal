@@ -128,6 +128,8 @@ export interface EnemyMagicDamageResult {
   damage: number
   hpBefore: number
   hpAfter: number
+  /** L16:被动格挡(fAutoDefend,RandomLong(0,2)==0 且无 sleep/paralyze/confuse)——该队员摆防御姿 frame3。 */
+  autoDefend: boolean
 }
 
 export interface ApplyEnemyMagicDamageInput {
@@ -227,7 +229,7 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
       dmg = role.hp
     const hpBefore = role.hp
     role.hp = Math.max(0, role.hp - dmg)
-    results.push({ playerIdx: pIdx, damage: dmg, hpBefore, hpAfter: role.hp })
+    results.push({ playerIdx: pIdx, damage: dmg, hpBefore, hpAfter: role.hp, autoDefend })
   }
   return results
 }

@@ -271,7 +271,7 @@ describe('applyEnemyMagicDamage', () => {
       state, casterEnemyIdx: 0, target: 0,
       magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
     })
-    expect(r).toEqual([{ playerIdx: 0, damage: 65, hpBefore: 100, hpAfter: 35 }])
+    expect(r).toEqual([{ playerIdx: 0, damage: 65, hpBefore: 100, hpAfter: 35, autoDefend: false }])
     expect(playerRoles.roles[0]!.hp).toBe(35)
   })
 
@@ -285,8 +285,8 @@ describe('applyEnemyMagicDamage', () => {
       magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
     })
     expect(r).toEqual([
-      { playerIdx: 0, damage: 65, hpBefore: 100, hpAfter: 35 },
-      { playerIdx: 1, damage: 65, hpBefore: 80, hpAfter: 15 },
+      { playerIdx: 0, damage: 65, hpBefore: 100, hpAfter: 35, autoDefend: false },
+      { playerIdx: 1, damage: 65, hpBefore: 80, hpAfter: 15, autoDefend: false },
     ])
   })
 
@@ -332,6 +332,7 @@ describe('applyEnemyMagicDamage', () => {
       magicData: { baseDamage: 45, elemental: 1 }, playerRoles, rngFactor: 1.0,
     })
     expect(r[0]!.damage).toBe(32) // trunc(65/((1*1)+1))=32
+    expect(r[0]!.autoDefend).toBe(true) // L16:被动格挡标志外传(供动画摆防御姿 frame3)
   })
 
   it('defending + autoDefend → 除 3(trunc 65/3=21)', () => {

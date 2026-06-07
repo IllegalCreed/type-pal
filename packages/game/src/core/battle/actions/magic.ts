@@ -285,6 +285,7 @@ export function performMagic(input: PerformMagicInput): void {
   //   未建链(旧 fixture / 无 sprite)→ 立即 emit。
   // 敌方法术受伤的队员 idx(受击动画 fight.c:4861-4899 用;E2 填)。
   const hitPlayerIdxs: number[] = []
+  const autoDefendIdxs: number[] = [] // L16:被动格挡的队员(敌魔法特效期间摆防御姿 frame3)
   let dmgResults: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number; damage: number }> = []
   if (
     !input.casterIsEnemy &&
@@ -345,6 +346,7 @@ export function performMagic(input: PerformMagicInput): void {
         pendingNums.push({ target: { kind: 'player', idx: r.playerIdx }, value: r.hpBefore - r.hpAfter, color: 'blue' })
         hitPlayerIdxs.push(r.playerIdx) // 受伤队员 → 受击动画(fight.c:4861-4899)
       }
+      if (r.autoDefend) autoDefendIdxs.push(r.playerIdx) // L16:被动格挡 → 防御姿 frame3
     }
   }
 
@@ -372,7 +374,7 @@ export function performMagic(input: PerformMagicInput): void {
       built = buildAndStartSummonAnim(input, magic, dmgResults, pendingNums)
     }
   } else if (OFF_MAGIC_TYPES.has(magic.type)) {
-    built = buildAndStartEnemyMagicAnim(input, magic, pendingNums, hitPlayerIdxs, pendingScreenShake)
+    built = buildAndStartEnemyMagicAnim(input, magic, pendingNums, hitPlayerIdxs, pendingScreenShake, autoDefendIdxs)
   }
 
   // M6 玩家施法音 pendingCastSound:OffMagic/Summon/Trance 成功建链 → 已在前摇"施法姿"帧帧同步
@@ -764,6 +766,7 @@ function buildAndStartEnemyMagicAnim(
   pendingNums: PendingDamageNums,
   hitPlayerIdxs: number[],
   pendingScreenShake: { time: number; level: number },
+  autoDefendIdxs: number[] = [],
 ): boolean {
   if (!OFF_MAGIC_TYPES.has(magic.type)) return false
   const n = input.magicSpriteFrameCounts?.get(magic.effect)
@@ -794,6 +797,13 @@ function buildAndStartEnemyMagicAnim(
     actWaitFrames: caster.e.actWaitFrames,
     fireDelay: magic.fireDelay,
   })
+  // L16:被动格挡队员在敌魔法特效期间摆防御姿 frame3(fight.c:4737-4738/4755-4756 在施法手势后、特效前设),
+  //   driver fighter currentFrame 持续到 hurt 帧翻 frame4 覆盖。注入 intro 起始帧。
+  const introHead = introFrames[0]
+  if (autoDefendIdxs.length > 0 && introHead) {
+    const guardPoses: NonNullable<BattleAnimFrame['fighters']> = autoDefendIdxs.map((idx) => ({ side: 'player' as const, idx, currentFrame: 3 }))
+    introFrames[0] = { ...introHead, fighters: [...(introHead.fighters ?? []), ...guardPoses] }
+  }
   // 特效前 snap 回原位(fight.c:2842 PAL_BattleShowEnemyMagicAnim 起手把全敌 pos 复位 posOriginal)。
   const posResetFrame: BattleAnimFrame = {
     durationMs: 0,
