@@ -33,6 +33,18 @@ describe('parseWordDat', () => {
     expect(words.battleUi.length).toBe(19)
   })
 
+  // L28:sdlpal PAL_InitText 在 GBK→宽字符转换后剥每个词条结尾的标记字符 '1'(text.c:785-786)——
+  //   BIG5→GBK 不彻底简体化遗留。3 个仙术名玩家在施法/练成屏可见。
+  it('L28:剥词条结尾标记「1」(风雪冰天/弦月斩/御剑伏魔 等 8 条)', () => {
+    expect(words.spells[28]).toBe('风雪冰天') // 非「风雪冰天1」
+    expect(words.spells[43]).toBe('弦月斩')
+    expect(words.spells[66]).toBe('御剑伏魔')
+    expect(words.enemies[81]).toBe('女飞贼')
+    expect(words.enemies[99]).toBe('石长老')
+    // 不误剥正常内容:正常仙术名仍完整
+    expect(words.spells.some((s) => s.endsWith('1'))).toBe(false)
+  })
+
   // K3 content-pin(byte-truth 内容回归):counts 已上面钉,此处钉 system(36)+battleUi(19)
   //   两类**全部内容**(GBK 解码值),防 parser / 编码 / 偏移漂移导致菜单/战斗 UI 文案变味。
   it('content-pin:system 全 36 条内容(GBK byte-truth)', () => {

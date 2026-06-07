@@ -58,6 +58,12 @@ const ENEMIES_COUNT  = 153
 const SCENES_OFFSET = 551   // 毒素/特殊条目（测试只要非空即可）
 const SCENES_COUNT  = 14
 
+// L28:sdlpal PAL_InitText 在 GBK→宽字符转换后剥每个词条结尾的标记字符 '1'(text.c:785-786)——
+//   BIG5→GBK 不彻底简体化遗留的标记字节。在解码后(字符串层)剥,避免误剥 GBK 双字节的 trail 0x31。
+function stripTrailingOne(s: string): string {
+  return s.endsWith('1') ? s.slice(0, -1) : s
+}
+
 function readBlock(buf: Uint8Array, offset: number, count: number): string[] {
   const out: string[] = []
   for (let i = 0; i < count; i++) {
@@ -65,7 +71,7 @@ function readBlock(buf: Uint8Array, offset: number, count: number): string[] {
     // 参考 sdlpal text.c: 先去掉尾部空格再做 GBK 解码
     let end = start + WORD_LENGTH
     while (end > start && buf[end - 1] === 0x20) end--
-    out.push(decodeGbk(buf.subarray(start, end)))
+    out.push(stripTrailingOne(decodeGbk(buf.subarray(start, end))))
   }
   return out
 }
@@ -88,7 +94,7 @@ export function parseWordDat(buf: Uint8Array): Words {
     if (start + WORD_LENGTH > buf.byteLength) break
     let end = start + WORD_LENGTH
     while (end > start && buf[end - 1] === 0x20) end--
-    flat.push(decodeGbk(buf.subarray(start, end)))
+    flat.push(stripTrailingOne(decodeGbk(buf.subarray(start, end))))
   }
   return {
     persons: readBlock(buf, PERSONS_OFFSET, PERSONS_COUNT),
