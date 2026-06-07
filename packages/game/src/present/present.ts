@@ -173,6 +173,15 @@ export function presentFrame(
   //   palette 已 ramp(0x4F FadeToRed)→ 战斗帧染红;只在最上层画死亡对话("大侠请重新来过吧")。
   //   **不**走下面 fb.clear() + scene 重绘(否则露大世界,user 报"出字同时回大世界")。0x4E 读档 / 场景重载清标记。
   if (gs.gameOverActive) {
+    // M14(2026-06-07 sdlpal 审查):FadeToRed(palette.c:623-629)在 fade 前对战斗定格帧一次性 0x4F→0x4E
+    //   remap,使背景 0x4F 像素跟 palette ramp 染红。原 remap 只在下方场景路径(step 5b),game-over 走此
+    //   短路不经过 → 战斗帧 0x4F 不染红留色斑。在 drawDialogOverlay **前** remap:背景 0x4F→0x4E(染红),
+    //   随后画的死亡对话文字仍用 0x4F → palette skip 0x4F 保原色;每帧幂等(背景首帧后已 0x4E,文字每帧重画)。
+    if (gs.paletteFadeState?.remap) {
+      const { from, to } = gs.paletteFadeState.remap
+      const px = fb.indices
+      for (let i = 0; i < px.length; i++) if (px[i] === from) px[i] = to
+    }
     drawDialogOverlay(fb, gs, ctx)
     return
   }
