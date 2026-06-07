@@ -175,7 +175,10 @@ export function performAttack(
       let division = 1
       for (const slot of HIT_ORDER) {
         const be = state.enemies[slot]
-        if (!be || be.defeated || be.e.health <= 0) continue // sdlpal:wObjectID==0 || idx>maxEnemyIndex
+        // L21:sdlpal fight.c:3698 续跳只判 `wObjectID==0 || idx>wMaxEnemyIndex`,**不判 health**。
+        //   首 sweep 打死但本 action 内尚未清槽(checkEnemyDeaths 在 action 后才跑)的敌(health<=0 但
+        //   defeated=false)仍挨打(WORD 下溢,显示完整伤害)+ 让 division 翻倍(fight.c:3728 后续活敌减半)。
+        if (!be || be.defeated) continue
         const def = asShort(be.e.defense) + (be.e.level + 6) * 4
         let damage = calcPhysicalAttackDamage(str, def, be.e.physicalResistance)
         if (fCritical) damage *= 3

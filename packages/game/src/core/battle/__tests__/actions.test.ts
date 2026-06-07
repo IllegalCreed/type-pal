@@ -315,19 +315,38 @@ describe('performAttack', () => {
     expect(ops).toContain('playPlayerAttack')
   })
 
-  it('群攻跳过已死敌人(死敌不计 division)', () => {
+  it('群攻跳过已 defeated 敌人(wObjectID==0,不计 division)', () => {
+    // L21:C 群攻续跳判 wObjectID==0(defeated/清槽),非 health<=0(fight.c:3698)。已死敌 = defeated。
     const { state, playerRoles, bus } = makeState({
       role: { level: 10, attackStrength: 200 },
       enemies: [
-        { level: 5, defense: 10, physicalResistance: 1, health: 0 }, // 已死(skip,不双 division)
+        { level: 5, defense: 10, physicalResistance: 1, health: 600 }, // 已 defeated(清槽)→ skip,不计 division
         { level: 5, defense: 10, physicalResistance: 1, health: 600 },
       ],
       forceRoll: 1,
     })
+    state.enemies[0]!.defeated = true // wObjectID==0:死亡结算后清槽
     performAttack(state, playerActor, -1, bus, playerRoles)
-    expect(state.enemies[0]!.e.health).toBe(0) // 死敌不动
+    expect(state.enemies[0]!.e.health).toBe(600) // defeated 敌不挨打、不动
     // 仅 slot1 活 → division 全程 1 → 全额 314
     expect(state.enemies[1]!.e.health).toBe(286)
+  })
+
+  it('L21:health=0 但未 defeated 的敌(sweep 间窗口)仍挨打 + 让 division 翻倍(fight.c:3698/3728)', () => {
+    // C 续跳只判 wObjectID==0,不判 health;首 sweep 打死但本 action 内尚未清槽(checkEnemyDeaths 后跑)的敌
+    //   仍参与 division 翻倍(后续活敌伤害减半);C 还对其 wHealth 再扣一次(WORD 下溢,显示完整伤害)。
+    const { state, playerRoles, bus } = makeState({
+      role: { level: 10, attackStrength: 200 },
+      enemies: [
+        { level: 5, defense: 10, physicalResistance: 1, health: 600 }, // slot0:HIT_ORDER {2,1,0} 后打
+        { level: 5, defense: 10, physicalResistance: 1, health: 0 },   // slot1:health=0 但未 defeated(sweep 间打死),先打
+      ],
+      forceRoll: 1, // 不暴击
+    })
+    performAttack(state, playerActor, -1, bus, playerRoles)
+    // slot1(health0 非 defeated)先打 → division*=2;slot0 后打 division2 → 314/2=157
+    expect(state.enemies[1]!.e.health).toBe(0)         // 钳 0(C 是 WORD 下溢,不可观测;damage 不依赖 health)
+    expect(state.enemies[0]!.e.health).toBe(600 - 157) // slot0 半额;改前跳 slot1 → slot0 全额=286
   })
 
   // ── 敌→我 被动格挡(fAutoDefend,fight.c:4938/5023-5085)──────────────────────
