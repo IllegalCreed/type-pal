@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 30 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L23 L26 L27 L28 L35 L36 L37 L39 L41 共 14 条 low。
+- **✅ 已修复 35 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L10 L15 L16 L23 L26 L27 L28 L35 L36 L37 L39 L41 L45 L47 共 19 条 low。
 - **⏸ 暂缓 2 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L8–L20 L22 L24 L25 L29–L34 L38 L40 L42–L47),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L8 L9 L11–L14 L17–L20 L22 L24 L25 L29–L34 L38 L40 L42–L44 L46),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -56,13 +56,13 @@
 | ✅ L7 | 🟡 | correctness | 存档·初始化与启动流程 | 读档不复位 sWaveProgression(屏幕波动增量随存档残留) |
 | L8 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗法术选择叠加了 sdlpal 互斥的两套 MP/说明布局(金钱框+右侧MP+居中说明同屏) |
 | L9 | 🟡 | pixel | 战斗·UI 与像素布局 | 战斗杂项→物品二级菜单时,父菜单『道具』高亮色用了闪烁选中色而非确认色(0x2C) |
-| L10 | 🟡 | correctness | 战斗·主循环与回合流程 | 逃跑动作的 dex 倍率用浮点 ×0.5+四舍五入,而非 C 的整数 /2 |
+| ✅ L10 | 🟡 | correctness | 战斗·主循环与回合流程 | 逃跑动作的 dex 倍率用浮点 ×0.5+四舍五入,而非 C 的整数 /2 |
 | L11 | 🟡 | timing | 战斗·主循环与回合流程 | 敌方主动逃跑飞出屏后缺少 500ms 收尾停顿 |
 | L12 | 🟡 | timing | 战斗·动画与表现时序 | 玩家物理攻击缺少出招前摇姿(frame 7 + Delay(4)),冲刺直接开始 |
 | L13 | 🟡 | timing | 战斗·动画与表现时序 | 群攻每次挥砍后缺少 Delay(4) 收势停顿 |
 | L14 | 🟡 | timing | 战斗·动画与表现时序 | 玩家攻击魔法 OffMagic 缺少特效循环前的 Delay(1) 起手帧 |
-| L15 | 🟡 | pixel | 战斗·动画与表现时序 | 战斗投掷/使用物品演出期间不显示物品名称标签 |
-| L16 | 🟡 | timing | 战斗·动画与表现时序 | 敌方魔法命中前,被动格挡的队员未切到防御姿(frame 3) |
+| ✅ L15 | 🟡 | pixel | 战斗·动画与表现时序 | 战斗投掷/使用物品演出期间不显示物品名称标签 |
+| ✅ L16 | 🟡 | timing | 战斗·动画与表现时序 | 敌方魔法命中前,被动格挡的队员未切到防御姿(frame 3) |
 | L17 | 🟡 | correctness | 战斗·动画与表现时序 | keepEffect 烙背景的 wScreenWave<9 判定只用 magic.wWave,漏算战场基础屏波 |
 | L18 | 🟡 | correctness | 战斗·召唤合击与变身 | 群攻/召唤/合击伤害对每个敌人共用同一随机系数，C 对每个敌人各掷一次 RandomFloat |
 | L19 | 🟡 | timing | 战斗·召唤合击与变身 | 梦蛇变身切换到新精灵时直接硬切，缺少原版的淡入淡出过场 |
@@ -91,9 +91,9 @@
 | L42 | 🟡 | timing | 过场·整屏动画与结局 | DOS splash 结束未做 PAL_FadeOut(1)(600ms 淡黑),直接硬切到 OpeningMenu |
 | L43 | 🟡 | timing | 过场·整屏动画与结局 | Trademark fallback 淡出时长 1000ms,原版 PAL_FadeOut(1)=600ms |
 | L44 | 🟡 | pixel | 过场·整屏动画与结局 | Splash 跳过时未先把标题位图补到完整高度再淡完,标题停在半长状态 |
-| L45 | 🟡 | timing | 过场·整屏动画与结局 | 结局女孩动画帧用循环计数 i%4,原版用墙钟时间 (SDL_GetTicks()/50)%4 |
+| ✅ L45 | 🟡 | timing | 过场·整屏动画与结局 | 结局女孩动画帧用循环计数 i%4,原版用墙钟时间 (SDL_GetTicks()/50)%4 |
 | L46 | 🟡 | correctness | 音频·BGM/SFX/CD 触发 | SFX 播放缺少 C 的 lastSFX 同号去重(同一声效可重叠叠播) |
-| L47 | 🟡 | correctness | 音频·BGM/SFX/CD 触发 | 音乐开关重开 / 注入后端时硬编码 loop=true,会让非循环曲被错误循环 |
+| ✅ L47 | 🟡 | correctness | 音频·BGM/SFX/CD 触发 | 音乐开关重开 / 注入后端时硬编码 loop=true,会让非循环曲被错误循环 |
 
 ---
 
@@ -856,7 +856,7 @@ TS 侧(逐行核对):
 </details>
 
 
-### L10 · 🟡 逃跑动作的 dex 倍率用浮点 ×0.5+四舍五入,而非 C 的整数 /2
+### ✅ L10 · 🟡 逃跑动作的 dex 倍率用浮点 ×0.5+四舍五入,而非 C 的整数 /2
 
 - **子系统**:战斗·主循环与回合流程　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/battle/battle-system.ts:557,674`
@@ -982,7 +982,7 @@ TS 缺失：buildPlayerOffMagicTimeline（anim-timeline.ts:777-792）计算完 l
 </details>
 
 
-### L15 · 🟡 战斗投掷/使用物品演出期间不显示物品名称标签
+### ✅ L15 · 🟡 战斗投掷/使用物品演出期间不显示物品名称标签
 
 - **子系统**:战斗·动画与表现时序　**类别**:pixel
 - **TS 位置**:`packages/game/src/core/battle/actions/throw-item.ts:91 buildThrowWindupTimeline 调用 / anim-timeline.ts:107-128;item.ts (useItem 无名称帧);anim-timeline.ts:139-187 buildUseItemTimeline`
@@ -1012,7 +1012,7 @@ TS 侧确认缺失：buildThrowWindupTimeline（anim-timeline.ts:107-128）与 b
 </details>
 
 
-### L16 · 🟡 敌方魔法命中前,被动格挡的队员未切到防御姿(frame 3)
+### ✅ L16 · 🟡 敌方魔法命中前,被动格挡的队员未切到防御姿(frame 3)
 
 - **子系统**:战斗·动画与表现时序　**类别**:timing
 - **TS 位置**:`packages/game/src/core/battle/actions/magic.ts:761-852 buildAndStartEnemyMagicAnim;anim-timeline.ts:1312-1348 buildEnemyMagicCastIntro / 1424-1527 buildEnemyMagicTimeline (均未设队员 frame3)`
@@ -1862,7 +1862,7 @@ reference/sdlpal/main.c:273-275(iTitleHeight 捕获 + 清零);main.c:378-387(每
 </details>
 
 
-### L45 · 🟡 结局女孩动画帧用循环计数 i%4,原版用墙钟时间 (SDL_GetTicks()/50)%4
+### ✅ L45 · 🟡 结局女孩动画帧用循环计数 i%4,原版用墙钟时间 (SDL_GetTicks()/50)%4
 
 - **子系统**:过场·整屏动画与结局　**类别**:timing
 - **TS 位置**:`packages/game/src/shell/ending-player.ts:170`
@@ -1904,7 +1904,7 @@ sound.c:769-772(lastSFX 同号 return FALSE + 赋值);sound.c:930(缓冲消费�
 </details>
 
 
-### L47 · 🟡 音乐开关重开 / 注入后端时硬编码 loop=true,会让非循环曲被错误循环
+### ✅ L47 · 🟡 音乐开关重开 / 注入后端时硬编码 loop=true,会让非循环曲被错误循环
 
 - **子系统**:音频·BGM/SFX/CD 触发　**类别**:correctness
 - **TS 位置**:`packages/game/src/shell/audio.ts:244,249`
