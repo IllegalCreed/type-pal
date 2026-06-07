@@ -46,20 +46,22 @@ describe('palette-fade helpers', () => {
 })
 
 describe('buildFadeOut(0x50)', () => {
-  it('cur → 全黑,lerp,progress 0/0.5/1', () => {
+  it('cur → 全黑,sdlpal j>>6 量化(palette.c:170-180):首帧即降到 93.75%,精确 0% 由 finalize 补', () => {
     const cur = fill([100, 80, 40])
     const pf = buildFadeOut(cur, 1000, 0)
     expect(pf.mode).toBe('lerp')
+    expect(pf.fade60).toBe('out')
     expect(pf.targetColors[0]).toEqual([0, 0, 0])
     expect(pf.startColors[0]).toEqual([100, 80, 40])
 
     const colors = fill([0, 0, 0])
+    // L34:亮度系数 j∈0..60 整数,base*j>>6。progress=0 → j=60 → ×60/64=93.75%(首帧从 100% 直接跳变,非平滑)
     stepPaletteFade(colors, pf, 0)
-    expect(colors[0]).toEqual([100, 80, 40])
+    expect(colors[0]).toEqual([93, 75, 37]) // (100*60)>>6=93,(80*60)>>6=75,(40*60)>>6=37
     stepPaletteFade(colors, pf, 500)
-    expect(colors[0]).toEqual([50, 40, 20])
+    expect(colors[0]).toEqual([46, 37, 18]) // j=30:(100*30)>>6=46,(80*30)>>6=37,(40*30)>>6=18
     stepPaletteFade(colors, pf, 1000)
-    expect(colors[0]).toEqual([0, 0, 0])
+    expect(colors[0]).toEqual([0, 0, 0]) // j=0 → 全黑
   })
 
   it('snapshot 独立 — 后续改 cur 不影响 pf.startColors', () => {
@@ -71,16 +73,20 @@ describe('buildFadeOut(0x50)', () => {
 })
 
 describe('buildFadeIn(0x51)', () => {
-  it('全黑 → base,lerp', () => {
+  it('全黑 → base,sdlpal j>>6 量化(palette.c:238-250):循环封顶 93.75%,精确 100% 由 finalize 补', () => {
     const base = fill([200, 100, 50])
     const pf = buildFadeIn(base, 600, 0)
+    expect(pf.fade60).toBe('in')
     expect(pf.startColors[0]).toEqual([0, 0, 0])
     expect(pf.targetColors[0]).toEqual([200, 100, 50])
     const colors = blackColors()
     stepPaletteFade(colors, pf, 300)
-    expect(colors[0]).toEqual([100, 50, 25])
+    expect(colors[0]).toEqual([93, 46, 23]) // j=30:(200*30)>>6=93,(100*30)>>6=46,(50*30)>>6=23
+    // L34:循环末帧 j=60 封顶 93.75%(palette.c:248-250),精确 100% 由 finalize 补(palette.c:258 循环后 SetPalette)
     stepPaletteFade(colors, pf, 600)
-    expect(colors[0]).toEqual([200, 100, 50])
+    expect(colors[0]).toEqual([187, 93, 46]) // j=60:(200*60)>>6=187,(100*60)>>6=93,(50*60)>>6=46
+    finalizePaletteFade(colors, pf)
+    expect(colors[0]).toEqual([200, 100, 50]) // 循环后一次性补精确 100%
   })
 })
 
@@ -187,9 +193,9 @@ describe('stepPaletteFade 边界', () => {
   it('progress clamp 到 [0,1](负 elapsed → 0,超时 → 1)', () => {
     const pf = buildFadeOut(fill([100, 100, 100]), 1000, 100)
     const colors = fill([0, 0, 0])
-    stepPaletteFade(colors, pf, 50) // elapsed<0 → progress 0 → start
-    expect(colors[0]).toEqual([100, 100, 100])
-    stepPaletteFade(colors, pf, 9999) // 远超 → progress 1 → target
+    stepPaletteFade(colors, pf, 50) // elapsed<0 → progress 0 → j=60(L34 量化 ×60/64)
+    expect(colors[0]).toEqual([93, 93, 93]) // (100*60)>>6=93(progress 仍被 clamp 到 0)
+    stepPaletteFade(colors, pf, 9999) // 远超 → progress 1 → j=0 → 全黑
     expect(colors[0]).toEqual([0, 0, 0])
   })
 })

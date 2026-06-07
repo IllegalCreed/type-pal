@@ -20,9 +20,10 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 63 条**:H1 H2 全部 high;M1–M15 共 15 条 medium(全部);L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L35 L36 L37 L38 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 46 条 low。
-- **⏸ 暂缓 1 条**:L34(淡入淡出 60/64 上限——有干净实现但须改写既有 fade 回归测试整洁断言为 C 量化丑值、不可感知、仅覆盖 4 套 lerp-fade 中的 2 套)。
-- **未修**:无 —— 64 条 confirmed(2 high + 15 medium + 47 low)已全部处理:63 条修复 + 1 条暂缓(L34,理由见上)。
+- **✅ 已修复 64 条(全部)**:H1 H2 全部 high;M1–M15 共 15 条 medium(全部);L1–L47 共 47 条 low(全部)。
+- **⏸ 暂缓**:无。
+- **未修**:无 —— **64 条 confirmed(2 high + 15 medium + 47 low)已 100% 修复**。
+- **附:已知姊妹分歧(报告外,未归档)**:SceneFade(0x93)的 ramp 上限是 63/64 而非 FadeIn/Out 的 60/64(L34 只覆盖后两者);可比照 L34 的 `fade60` 机制后续补一个 `fade63`,但属另一条未审查项。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -50,7 +51,7 @@
 
 ## L级修复审查(已标 ✅)
 
-> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 46 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:46 条已完整收口,未发现新的遗漏。
+> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 47 条 Low 修改(全部),按实现消费链 + 回归测试锚点复核。结论:47 条已完整收口,未发现新的遗漏。
 
 | ID | 审查结论 | 代码审查要点 |
 |---|---|---|
@@ -87,6 +88,7 @@
 | L31 | ✅ 通过 | cover-tile 扫描边界已从 `Math.floor` 改为 `Math.trunc`,对齐 C 整数除法;潜伏边界差异已收口。 |
 | L32 | ✅ 通过 | layer-0 in-bounds tile 缺帧时已 fallback 到 `tiles.get(0)`,layer-1 仍按原版跳过;不再留黑洞。 |
 | L33 | ✅ 通过 | narration 数字仍用 6px digit sprite 绘制,但游标步进改为 8px `PAL_CharWidth`,多位数字间距与尾随文字位置对齐。 |
+| L34 | ✅ 通过 | `PaletteFadeState` 加 `fade60:'in'\|'out'`,`stepPaletteFade` 对 FadeIn/Out 改用整数 `base[i]*j>>6`(j∈0..60,palette.c:170-180/238-250),封顶 60/64≈93.75%:FadeOut 首帧即跳到 93.75%、FadeIn 末帧 93.75%,精确 0%/100% 由 `finalizePaletteFade` 补(palette.c:188/258)。逐位对齐 C(中间帧 `(255*30)>>6=119` 而非浮点 round 120)。改写 3 个 fade 回归断言为 C 量化值;SceneFade 63/64 为另一条未归档姊妹分歧(见进度小节)。 |
 | L35 | ✅ 通过 | 大世界仙术列表 cancel 从 `pick-spell` 直接置 `done`,不再回到 `pick-caster`;调用方按 done 关菜单回大世界。 |
 | L36 | ✅ 通过 | `createMagicSelectMenu` 对已学 spell ObjectID 升序排序,与战斗法术菜单同源对齐 `magicmenu.c`。 |
 | L37 | ✅ 通过 | 选施法人框只按 `hp<=0` 禁用,不再因没有大世界法术而灰掉活人;选中后进入空/全灰 spell 列表。 |
@@ -155,7 +157,7 @@
 | ✅ L31 | 🟡 | correctness | 渲染·地图瓦片与精灵 | cover-tile 扫描范围用 Math.floor 而非 C 的向零截断除法,精灵贴近地图左/上边缘时遮挡列判定偏移 |
 | ✅ L32 | 🟡 | pixel | 渲染·地图瓦片与精灵 | layer-0 瓦片位图缺失时未回落到 tile(0,0,0,0),C 会用首格兜底填充 |
 | ✅ L33 | 🟡 | pixel | 渲染·字体与对话框 | narration 框内数字字符步进用 6px(精灵宽),C 用 PAL_CharWidth(=8px) |
-| ⏸ L34 | 🟡 | pixel | 渲染·调色板与淡入淡出 | 淡入淡出 ramp 在 C 里最高只到 60/64(93.75%)而 TS lerp 直插到 100% |
+| ✅ L34 | 🟡 | pixel | 渲染·调色板与淡入淡出 | 淡入淡出 ramp 在 C 里最高只到 60/64(93.75%)而 TS lerp 直插到 100% |
 | ✅ L35 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界仙术菜单:仙术列表按 Cancel 应直接关菜单回大世界,TS 却退回「选施法人」 |
 | ✅ L36 | 🟡 | pixel | 菜单·主菜单/物品/装备/商店 | 仙术列表未按法术 ObjectID 升序排序,TS 按学会顺序(rgwMagic 槽位顺序)显示 |
 | ✅ L37 | 🟡 | correctness | 菜单·主菜单/物品/装备/商店 | 大世界仙术「选施法人」框:TS 把无可用大世界法术的活人也标灰禁选,原版只按 HP>0 判定可选 |
@@ -1626,13 +1628,13 @@ reference/sdlpal/text.c:1595（x += PAL_CharWidth 对所有字符含数字）；
 </details>
 
 
-### ⏸ L34 · 🟡 淡入淡出 ramp 在 C 里最高只到 60/64(93.75%)而 TS lerp 直插到 100%
+### ✅ L34 · 🟡 淡入淡出 ramp 在 C 里最高只到 60/64(93.75%)而 TS lerp 直插到 100%
 
 - **子系统**:渲染·调色板与淡入淡出　**类别**:pixel
 - **TS 位置**:`packages/game/src/core/palette-fade.ts:103-135,241-253`
 - **C 依据**:`reference/sdlpal/palette.c:170-180,238-250`
 - **玩家可感知**:否
-- **评估结论(2026-06-07):⏸ 暂缓**。已找到干净实现(`PaletteFadeState` 加 `rampScale`/`rampOffset`,buildFadeIn 设 `60/64,0`、buildFadeOut 设 `60/64,4/64`,stepPaletteFade lerp 用 `k=clamp(progress*rampScale+rampOffset)`,finalize 仍补精确 100%/0%),但三点叠加致 ROI 过低:(1) 须改写 buildFadeOut/buildFadeIn 既有回归测试里的整洁断言(如 progress=0.5 的 `[50,40,20]`)为 C 量化后的丑值;(2) 玩家不可感知(单帧 100% vs 93.75%);(3) 仅覆盖 4 套 lerp-fade 中的 FadeIn/Out —— SceneFade 的 63/64 上限是另一条未归档分歧,只修这条会留下姊妹不一致。优先做其余可感知 low。
+- **修复结论(2026-06-07):✅ 已修**。最终未用浮点 `rampScale`/`rampOffset` 近似,而是**逐位复刻** C 整数语义:`PaletteFadeState` 加 `fade60:'in'|'out'`,`stepPaletteFade` 对 FadeIn/Out 改用 `base[i]*j>>6`(j∈0..60 整数,base=非黑端;'out' j=60→0、'in' j=0→60),封顶 60/64≈93.75%,精确 0%/100% 由 `finalizePaletteFade` 补。逐位对齐 C(中间帧如 `(255*30)>>6=119`,优于浮点 ramp 的 round=120)。代价已承担:改写 3 个 fade 回归断言为 C 量化值(首帧 93.75% 跳变等)。SceneFade(0x93)的 63/64 上限是**另一条未归档姊妹分歧**(L34 只覆盖 FadeIn/Out),后续可比照 `fade60` 加 `fade63`。
 
 **差异**:C PAL_FadeOut/PAL_FadeIn 的亮度系数 j 由 `(time-SDL_GetTicks())/iDelay/10` 得到,iDelay=1 时 j 的取值范围是整数 0..60,缩放式 `palette[i]*j>>6` = palette × j/64,所以循环期间亮度最高只到 60/64≈93.75%:FadeOut 第一帧即从 100% 直接跳到 93.75% 再线性降到 0,FadeIn 循环末尾只到 93.75%,真正的 100% 由循环结束后那条 `VIDEO_SetPalette(palette)` 一次性补上。TS buildFadeOut/buildFadeIn 用 mode='lerp',stepPaletteFade 按 progress(0→1)在 start↔target 间线性插值 round,progress=1 时正好 100% —— 即 TS 全程平滑覆盖到 100%,没有 C 的 93.75% 平台与末尾的整段补满跳变。palette-fade.ts 模块注释把 `pal[i]*factor>>6` 等同于 `lerp(start,target)` 的说法在 factor 上限是 60(非 64)这点上并不精确。
 

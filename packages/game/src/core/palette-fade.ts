@@ -59,6 +59,14 @@ export interface PaletteFadeState {
    * FadeIn / SceneFade 不设此标志(它们要重绘淡入新场景)。
    */
   freeze?: boolean
+  /**
+   * L34:FadeOut(0x50)/FadeIn(0x51)专用 —— sdlpal `newpalette[i]=palette[i]*j>>6`(palette.c:170-180/238-250),
+   * 亮度系数 j∈0..60 **整数**,循环封顶 60/64≈93.75%:FadeOut 首帧即从 100% 跳到 93.75%、FadeIn 末帧只到
+   * 93.75%,精确 100%/0% 由 finalizePaletteFade 补(对齐 palette.c:188/258 循环后 VIDEO_SetPalette)。
+   * `'out'`:base=startColors、j=60→0;`'in'`:base=targetColors、j=0→60。其余 lerp-fade(SceneFade
+   * 的 i 0..63、PaletteFade)不设此标志,仍纯线性插值。
+   */
+  fade60?: 'in' | 'out'
 }
 
 /** 全黑 256 色(FadeOut/SceneFade-out target、FadeIn/SceneFade-in start)。每次新数组。 */
@@ -113,6 +121,7 @@ export function buildFadeOut(
     mode: 'lerp',
     steps: 60,
     increment: 0,
+    fade60: 'out', // L34:j 60→0 量化封顶 93.75%,精确 0% 由 finalize 补
     freeze: true, // sdlpal PAL_FadeOut 只 SetPalette 不 MakeScene → present 冻屏淡黑(见 PaletteFadeState.freeze)
   }
 }
@@ -131,6 +140,7 @@ export function buildFadeIn(
     mode: 'lerp',
     steps: 60,
     increment: 0,
+    fade60: 'in', // L34:j 0→60 量化封顶 93.75%,精确 100% 由 finalize 补
   }
 }
 
@@ -241,6 +251,20 @@ export function buildFadeToRed(
 export function stepPaletteFade(colors: RGB[], pf: PaletteFadeState, nowMs: number): void {
   const progress = Math.min(Math.max((nowMs - pf.startTimeMs) / pf.totalMs, 0), 1)
   if (pf.mode === 'lerp') {
+    if (pf.fade60) {
+      // L34:sdlpal PAL_FadeOut/FadeIn `newpalette[i]=base[i]*j>>6`(palette.c:170-180/238-250)。
+      //   j∈0..60 整数 → 循环封顶 60/64≈93.75%(FadeOut 首帧即跳到 93.75%、FadeIn 末帧 93.75%);
+      //   精确 0%/100% 由 finalizePaletteFade 补(palette.c:188/258 循环后 VIDEO_SetPalette)。
+      const isIn = pf.fade60 === 'in'
+      const jj = isIn ? Math.trunc(60 * progress) : Math.trunc(60 * (1 - progress)) // in 0→60, out 60→0
+      const base = isIn ? pf.targetColors : pf.startColors // 非黑端
+      for (let i = 0; i < 256; i++) {
+        if (i === pf.skipIndex) continue
+        const b = base[i]!
+        colors[i] = [(b[0] * jj) >> 6, (b[1] * jj) >> 6, (b[2] * jj) >> 6]
+      }
+      return
+    }
     for (let j = 0; j < 256; j++) {
       if (j === pf.skipIndex) continue
       const s = pf.startColors[j]!
