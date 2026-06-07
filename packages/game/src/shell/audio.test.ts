@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { battleVictoryTrack, createAudioManager, createOggMusicBackend, sfxUrl, musicUrl, pickMusicTrack, sfxForBattleEvent } from './audio.js'
+import { battleVictoryTrack, createAudioManager, createOggMusicBackend, createSfxDedup, sfxUrl, musicUrl, pickMusicTrack, sfxForBattleEvent } from './audio.js'
 
 // 注:Web Audio(AudioContext / decodeAudioData)在 node/jsdom 测试环境不可用 → SFX 实际播放
 //   退化为 no-op(无法单测发声,归 user 真引擎听验)。此处测**可测逻辑**:url 映射 + sync 队列
@@ -88,6 +88,34 @@ describe('M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle
     expect(sfxForBattleEvent({ op: 'playEnemyDeath', enemyIdx: 1 }, enemies, party, roles)).toBe(0)
     expect(sfxForBattleEvent({ op: 'playPlayerAttack', playerIdx: 1 }, enemies, party, roles)).toBe(0) // role 3 weaponSound=0
     expect(sfxForBattleEvent({ op: 'showDamageNum' }, enemies, party, roles)).toBe(0)
+  })
+})
+
+describe('L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位)', () => {
+  it('同号未播完 → 第二次 tryPlay false(去重);markEnded 复位后再放行', () => {
+    const d = createSfxDedup()
+    expect(d.tryPlay(5)).toBe(true) // 首次放行,记 lastSFX=5(sound.c:772)
+    expect(d.tryPlay(5)).toBe(false) // 同号未播完 → 跳过(sound.c:769)
+    d.markEnded(5) // 缓冲消费完复位 lastSFX=0(sound.c:930)
+    expect(d.tryPlay(5)).toBe(true) // 复位后同号再放行
+  })
+
+  it('lastSFX 只压制紧邻同号,异号放行', () => {
+    const d = createSfxDedup()
+    expect(d.tryPlay(5)).toBe(true)
+    expect(d.tryPlay(6)).toBe(true) // 异号放行,lastSFX→6
+    expect(d.tryPlay(6)).toBe(false) // 现在同 6 → 跳过
+    expect(d.tryPlay(5)).toBe(true) // 5 != lastSFX(6) → 放行(C 比最近一个,非"在播集合")
+  })
+
+  it('markEnded 仅当 id 仍是 lastSFX 时复位(被异号覆盖后旧 id 完成不误清)', () => {
+    const d = createSfxDedup()
+    d.tryPlay(5) // lastSFX=5
+    d.tryPlay(6) // lastSFX=6
+    d.markEnded(5) // 5 != lastSFX(6) → 不复位
+    expect(d.tryPlay(6)).toBe(false) // lastSFX 仍=6 → 去重生效
+    d.markEnded(6)
+    expect(d.tryPlay(6)).toBe(true) // 复位后放行
   })
 })
 

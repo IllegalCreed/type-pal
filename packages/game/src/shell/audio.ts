@@ -48,6 +48,26 @@ export function sfxUrl(baseUrl: string, soundId: number): string {
   return `${baseUrl}/sounds/${soundId}.wav`
 }
 
+/**
+ * L46:SFX 同号去重(sdlpal `SOUND_Play` 头部 `lastSFX`,sound.c:769-772)。
+ * `tryPlay(id)`:同号且上一份未播完 → false(不触发,抑制同号重叠/叠音);否则记 lastSFX=id 并返回 true。
+ * `markEnded(id)`:该声效播完(缓冲被 SOUND_FillBuffer 消费完,sound.c:930)→ 若仍是当前 lastSFX 则复位 0。
+ * 语义=同一编号在上一份未播完前不能再触发;lastSFX 只记最近一个(非"在播集合")。
+ */
+export function createSfxDedup(): { tryPlay: (id: number) => boolean; markEnded: (id: number) => void } {
+  let lastSFX = 0
+  return {
+    tryPlay(id) {
+      if (id === lastSFX) return false
+      lastSFX = id
+      return true
+    },
+    markEnded(id) {
+      if (lastSFX === id) lastSFX = 0
+    },
+  }
+}
+
 /** BGM track → MIDI url(纯,可测;sdlpal midi.c:67 `Musics/%.3d.mid`,3 位零填充)。 */
 export function musicUrl(baseUrl: string, track: number): string {
   return `${baseUrl}/music/${track.toString().padStart(3, '0')}.mid`
@@ -157,6 +177,7 @@ export function createAudioManager(baseUrl = ''): AudioManager {
   let musicBackend: MusicBackend | undefined
   let curMusicTrack = -1 // -1 = 未初始化;轮询时与 music.track 比较
   let curMusicLoop = true // L47:记录当前曲真实 loop 标志,补播(开关音乐/注入后端)时还原,而非硬编码 true
+  const sfxDedup = createSfxDedup() // L46:SFX 同号去重(sound.c:769-772 lastSFX)
 
   function ensureCtx(): AudioContext | undefined {
     if (!AudioCtor) return undefined
@@ -184,28 +205,35 @@ export function createAudioManager(baseUrl = ''): AudioManager {
     }
   }
 
-  function play(c: AudioContext, buf: AudioBuffer): void {
+  function play(c: AudioContext, buf: AudioBuffer, soundId: number): void {
     // ctx 未解锁(autoplay 挂起)→ 跳过(src.start 会抛 "AudioContext was not allowed to start";
     //   且用户尚未交互,丢这一下 SFX 无妨)。解锁(首个手势 resume)后 ctx='running' 才真播。
-    if (c.state !== 'running') return
+    if (c.state !== 'running') {
+      sfxDedup.markEnded(soundId) // L46:没真播 → 立即复位,避免 lastSFX 卡住后续同号
+      return
+    }
     const src = c.createBufferSource()
     src.buffer = buf
     src.connect(c.destination)
+    src.onended = () => sfxDedup.markEnded(soundId) // L46:播完复位 lastSFX(sound.c:930)
     src.start()
   }
 
   function playSfx(soundId: number): void {
     const c = ensureCtx()
     if (!c || !sfxEnabled) return
+    // L46:同号去重 —— 上一份同 id SFX 还没播完(onended 未触发)时不再触发(sound.c:769-772)。
+    if (!sfxDedup.tryPlay(soundId)) return
     const buf = sfxBuffers.get(soundId)
     if (buf) {
-      play(c, buf)
+      play(c, buf, soundId)
       return
     }
     // 未缓存 → 加载完**即补播**(首次也响;fetch+decode 仅数十 ms,远胜旧"迟到不补播"的首次静音 —
     //   sdlpal 声音常驻内存无此 gap)。再 check sfxEnabled(加载途中可能被菜单关掉)。
     void loadSfx(soundId).then((b) => {
-      if (b && sfxEnabled) play(c, b)
+      if (b && sfxEnabled) play(c, b, soundId)
+      else sfxDedup.markEnded(soundId) // L46:加载失败/被禁 → 复位,不卡住后续同号
     })
   }
 

@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 48 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L8 L9 L10 L11 L13 L15 L16 L17 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L47 共 32 条 low。
+- **✅ 已修复 49 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L4 L6 L7 L8 L9 L10 L11 L13 L15 L16 L17 L23 L24 L26 L27 L28 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 33 条 low。
 - **⏸ 暂缓 3 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L12 L18–L20 L22 L25 L29 L30 L34 L38 L46),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L3 L5 L12 L18–L20 L22 L25 L29 L30 L34 L38),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -147,7 +147,7 @@
 | ✅ L43 | 🟡 | timing | 过场·整屏动画与结局 | Trademark fallback 淡出时长 1000ms,原版 PAL_FadeOut(1)=600ms |
 | ✅ L44 | 🟡 | pixel | 过场·整屏动画与结局 | Splash 跳过时未先把标题位图补到完整高度再淡完,标题停在半长状态 |
 | ✅ L45 | 🟡 | timing | 过场·整屏动画与结局 | 结局女孩动画帧用循环计数 i%4,原版用墙钟时间 (SDL_GetTicks()/50)%4 |
-| L46 | 🟡 | correctness | 音频·BGM/SFX/CD 触发 | SFX 播放缺少 C 的 lastSFX 同号去重(同一声效可重叠叠播) |
+| ✅ L46 | 🟡 | correctness | 音频·BGM/SFX/CD 触发 | SFX 播放缺少 C 的 lastSFX 同号去重(同一声效可重叠叠播) |
 | ✅ L47 | 🟡 | correctness | 音频·BGM/SFX/CD 触发 | 音乐开关重开 / 注入后端时硬编码 loop=true,会让非循环曲被错误循环 |
 
 ---
@@ -1943,7 +1943,7 @@ ending.c:368(女孩帧=(SDL_GetTicks()/50)%4)、:331/:383(for i<400 每轮 UTIL_
 </details>
 
 
-### L46 · 🟡 SFX 播放缺少 C 的 lastSFX 同号去重(同一声效可重叠叠播)
+### ✅ L46 · 🟡 SFX 播放缺少 C 的 lastSFX 同号去重(同一声效可重叠叠播)
 
 - **子系统**:音频·BGM/SFX/CD 触发　**类别**:correctness
 - **TS 位置**:`packages/game/src/shell/audio.ts:186-209,214-217`
