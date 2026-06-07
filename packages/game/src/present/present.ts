@@ -100,6 +100,22 @@ const FACING_TO_DIRECTION: Record<'down' | 'left' | 'up' | 'right', number> = {
   down: 0, left: 1, up: 2, right: 3,
 }
 
+function getPartyWalkFrames(gs: GameState, roleId: number, ctx: PresentContext): number {
+  const runtime = gs.PlayerRolesRuntime.rgwWalkFrames?.[roleId]
+  const fromStatic = ctx.playerRoles?.roles[roleId]?.walkFrames
+  const fromCtx = ctx.partyWalkFrames
+  return runtime && runtime > 0
+    ? runtime
+    : (fromStatic && fromStatic > 0 ? fromStatic : (fromCtx > 0 ? fromCtx : 3))
+}
+
+function partyFrameIndex(direction: number, walkFrames: number, walking: boolean, stepFrame: number): number {
+  if (!walking) return direction * walkFrames
+  if (walkFrames === 4) return direction * 4 + stepFrame
+  const iStepFrameLeader = [0, 1, 0, 2][stepFrame] ?? 0
+  return direction * 3 + iStepFrameLeader
+}
+
 function drawDialogOverlay(fb: Framebuffer, gs: GameState, ctx: PresentContext): void {
   const dialogCtx: DialogBoxDrawCtx = {
     ...ctx.dialogAssets,
@@ -249,32 +265,28 @@ export function presentFrame(
   // --- party ---
   const { sx: partySX, sy: partySY } = pixelToScreen(gs.party, gs.camera)
   const direction = FACING_TO_DIRECTION[gs.party.facing]
-  const walkFrames = ctx.partyWalkFrames
+  const leaderRoleId = gs.partyMembers[0] ?? 0
+  const walkFrames = getPartyWalkFrames(gs, leaderRoleId, ctx)
   let frameIdx: number
   // sdlpal 真值优先级:walking=true(PAL_UpdatePartyGestures(TRUE) scene.c:678-685)
   // 直接覆写 rgParty[0].wFrame,无视任何之前的 scripted pose。
   // walking=false 时,opcode 0x15 setPartyDirectionAndFrame 写的 partyScriptedFrame[0] 生效
   // (剧情固定姿势 — 捂头/倒地等);再 fallback 站立帧 direction*walkFrames。
   if (gs.walkingFrame.walking) {
-    if (walkFrames === 4) {
-      frameIdx = direction * 4 + gs.walkingFrame.stepFrame
-    } else {
-      const iStepFrameLeader = [0, 1, 0, 2][gs.walkingFrame.stepFrame] ?? 0
-      frameIdx = direction * walkFrames + iStepFrameLeader
-    }
-  } else {
+    frameIdx = partyFrameIndex(direction, walkFrames, true, gs.walkingFrame.stepFrame)
+  }
+  else {
     const partyLeaderScriptedFrame = gs.partyScriptedFrame[0]
     if (partyLeaderScriptedFrame !== undefined) {
       frameIdx = partyLeaderScriptedFrame
     } else {
       // 站立帧:dir * walkFrames(sdlpal scene.c:750-755)
-      frameIdx = direction * walkFrames
+      frameIdx = partyFrameIndex(direction, walkFrames, false, gs.walkingFrame.stepFrame)
     }
   }
   // 队长也按当前 roleId 查 `PlayerRoles.rgwSpriteNum[role]`(runtime mirror)。
   // 旧字段 partyLeaderSpriteId 只作为旧存档兼容回退。
   let activePartyFrames: SpriteImage[] = ctx.partyFrames
-  const leaderRoleId = gs.partyMembers[0] ?? 0
   const leaderSpriteNum = getOverworldSpriteNum(gs, leaderRoleId, ctx.playerRoles)
   if (leaderSpriteNum !== undefined && ctx.npcSpriteFrames) {
     const overrideFrames = ctx.npcSpriteFrames.get(leaderSpriteNum)
@@ -332,19 +344,15 @@ export function presentFrame(
     const baseDir = baseTrail.dir
     // 方向帧源:trail[2].dir(sdlpal 真值);不足回退 baseDir。
     const frameDir = FACING_TO_DIRECTION[gs.trail[2]?.dir ?? baseDir]
-    let followerFrameIdx: number
-    if (gs.walkingFrame.walking) {
-      if (walkFrames === 4) {
-        followerFrameIdx = frameDir * 4 + gs.walkingFrame.stepFrame
-      } else {
-        const iStepFrameFollower = [0, 1, 0, 2][gs.walkingFrame.stepFrame] ?? 0
-        followerFrameIdx = frameDir * walkFrames + iStepFrameFollower
-      }
-    } else {
-      followerFrameIdx = frameDir * walkFrames
-    }
-
     for (let m = 1; m < gs.partyMembers.length; m++) {
+      const roleId = gs.partyMembers[m]!
+      const followerWalkFrames = getPartyWalkFrames(gs, roleId, ctx)
+      const followerFrameIdx = partyFrameIndex(
+        frameDir,
+        followerWalkFrames,
+        gs.walkingFrame.walking,
+        gs.walkingFrame.stepFrame,
+      )
       // 偏移(scene.c:695-707)
       let offX: number
       let offY: number
@@ -366,7 +374,6 @@ export function presentFrame(
 
       // 每个 follower 用自己角色的 sprite(rgwSpriteNum[role] → npcSpriteFrames)。
       // 取不到时跳过本帧,不能回退 leader partyFrames,否则切场景/入队资源竞态会把队员画成李逍遥。
-      const roleId = gs.partyMembers[m]!
       const spriteNum = getOverworldSpriteNum(gs, roleId, ctx.playerRoles)
       const roleFrames = (spriteNum !== undefined && ctx.npcSpriteFrames)
         ? ctx.npcSpriteFrames.get(spriteNum)

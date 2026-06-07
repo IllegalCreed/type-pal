@@ -3749,6 +3749,27 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 5, wPoisonScript: 40866 })
   })
 
+  it('M12:0x29 apply-player 施毒当下跑一次 playerScript,存返回 next entry(global.c:1515)', () => {
+    setObjectPoisons([{ id: 5, level: 1, color: 64, playerScript: 20, enemyScript: 0 }])
+    const cmds: Command[] = [
+      { op: 'raw', opcode: 0x29, operands: [0, 5, 0], label: 'L_0' },
+      { op: 'end' },
+      { op: 'raw', opcode: 0x1A, operands: [9, 70, 0], label: 'L_20' },
+      { op: 'end', advance: true },
+    ]
+    setGlobalEvents(cmds)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 0
+    gs.PlayerRolesRuntime.rgwHP[0] = 50
+    const bus = createCommandBus()
+    loadEvent(gs, cmds, 0)
+    gs.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(70) // 入口脚本当下执行
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 5, wPoisonScript: 4 }) // L_20 后 advance → ip+1
+  })
+
   it('0x29 apply-player:抗性=100 → 不中毒(RandomLong(1,100) > 100 永假)', () => {
     setObjectPoisons([{ id: 5, level: 1, color: 64, playerScript: 40866, enemyScript: 0 }])
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })

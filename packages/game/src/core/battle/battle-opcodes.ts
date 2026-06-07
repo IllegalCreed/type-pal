@@ -68,6 +68,7 @@ function resetEnemySlot(
   slot.scriptOnReady = init.scriptOnReady
   slot.resistanceToSorcery = init.resistanceToSorcery
   slot.poisons = init.poisons
+  slot.spriteFrameHeight = init.spriteFrameHeight
   slot.defeated = false
   slot.deathFadeStep = undefined
   slot.currentFrame = undefined
@@ -493,6 +494,9 @@ export function dispatchBattleOpcode(
               commands: ctx.commands,
               runScript: ctx.runScript,
               objectPoisons: ctx.objectPoisons,
+              summonTables: ctx.summonTables,
+              enemyPos: ctx.enemyPos,
+              enemySpriteFrameHeights: ctx.enemySpriteFrameHeights,
             },
           })
         }
@@ -571,6 +575,9 @@ export function dispatchBattleOpcode(
                         commands: ctx.commands,
                         runScript: ctx.runScript,
                         objectPoisons: ctx.objectPoisons,
+                        summonTables: ctx.summonTables,
+                        enemyPos: ctx.enemyPos,
+                        enemySpriteFrameHeights: ctx.enemySpriteFrameHeights,
                       },
                     })
                 : undefined
@@ -1127,6 +1134,7 @@ export function dispatchBattleOpcode(
           scriptOnReady: self.scriptOnReady,
           resistanceToSorcery: self.resistanceToSorcery ?? 0,
           poisons: [],
+          spriteFrameHeight: self.spriteFrameHeight,
           defeated: false,
         }
         if (state.enemies[i]) {
@@ -1172,6 +1180,7 @@ export function dispatchBattleOpcode(
       self.scriptOnReady = eo.scriptOnReady
       self.scriptOnBattleEnd = eo.scriptOnBattleEnd
       self.resistanceToSorcery = eo.resistanceToSorcery
+      self.spriteFrameHeight = ctx.enemySpriteFrameHeights?.get(base.id)
       refreshEnemyBattlePositions(ctx)
       if (ctx.bus) {
         startBattleAnim(state, buildEnemyTransformTimeline(ctx.caster.idx), ctx.bus)
@@ -1250,6 +1259,7 @@ export function dispatchBattleOpcode(
           scriptOnReady: onReady,
           resistanceToSorcery: resist,
           poisons: [],
+          spriteFrameHeight: ctx.enemySpriteFrameHeights?.get(base.id),
           defeated: false,
         })
         summonedIdxs.push(i)

@@ -199,9 +199,10 @@ describe('P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)', () => {
   function trackPartyFrameIdx(
     gs: ReturnType<typeof createInitialGameState>,
     walkFrames: number,
+    frameCount = walkFrames * 4,
   ): number {
     // 构造 walkFrames*4 帧,每帧颜色 = idx+1
-    const frames: SpriteImage[] = Array.from({ length: walkFrames * 4 }, (_, i) =>
+    const frames: SpriteImage[] = Array.from({ length: frameCount }, (_, i) =>
       ({ width: 1, height: 1, indices: new Uint8Array([i + 1]), opaque: new Uint8Array([1]), anchorX: 0, anchorY: 0 }),
     )
     const drawn: number[] = []
@@ -274,6 +275,15 @@ describe('P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)', () => {
     const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs2.walkingFrame = { walking: true, stepFrame: 3 }
     expect(trackPartyFrameIdx(gs2, 4)).toBe(3)
+  })
+
+  it('M2:队首 walkFrames 读 PlayerRolesRuntime.rgwWalkFrames,不再固定 ctx.partyWalkFrames=3', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'right' })
+    gs.partyMembers = [0]
+    gs.walkingFrame = { walking: true, stepFrame: 2 }
+    gs.PlayerRolesRuntime.rgwWalkFrames[0] = 4
+    // ctx 仍给旧 fallback=3;真正应按 runtime 4 帧:dir=3,step=2 → 14
+    expect(trackPartyFrameIdx(gs, 3, 16)).toBe(14)
   })
 
   it('4 方向 facing 映射:down=0/left=1/up=2/right=3(站立帧验证)', () => {
@@ -395,6 +405,37 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     const calls = trackDrawSprites(gs, ctx)
     expect(calls.map((c) => c.sprite)).toEqual(expect.arrayContaining([leaderSprite, followerSprite]))
     expect(calls.some((c) => c.sprite === role0Fallback)).toBe(false)
+  })
+
+  it('M2:跟随队员按自己的 runtime walkFrames 取帧', () => {
+    const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
+    gs.partyMembers = [0, 1]
+    gs.walkingFrame = { walking: true, stepFrame: 2 }
+    gs.trail = [
+      { x: 284, y: 142, dir: 'right' },
+      { x: 268, y: 134, dir: 'right' },
+      { x: 252, y: 126, dir: 'right' },
+    ]
+    gs.camera = { x: 300 - 160, y: 150 - 112 }
+    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 7
+    gs.PlayerRolesRuntime.rgwWalkFrames[0] = 3
+    gs.PlayerRolesRuntime.rgwWalkFrames[1] = 4
+
+    const role0Fallback = makeSprite(2)
+    const followerFrames = Array.from({ length: 16 }, (_, i) => makeSprite(100 + i))
+    const ctx: PresentContext = {
+      tilemap: flatMap(30, 30),
+      tileImages: { get: () => undefined },
+      partyFrames: Array.from({ length: 12 }, () => role0Fallback),
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+      npcSpriteFrames: new Map([[7, followerFrames]]),
+      playerRoles: makePlayerRoles([2, 7]),
+    }
+
+    const calls = trackDrawSprites(gs, ctx)
+    // follower frameDir = trail[2].right=3, walkFrames=4, stepFrame=2 → 14
+    expect(calls.some((c) => c.sprite === followerFrames[14])).toBe(true)
   })
 
   it('已知队员 spriteNum 但资源未加载时,不把 follower 画成 role0', () => {

@@ -967,6 +967,8 @@ export interface BattleCtx {
    * 不注入时 battle-opcodes 使用 fallback 表,兼容旧测试。
    */
   enemyPos?: EnemyPosTable
+  /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight),动态变身/召唤后写回 BattleEnemy。 */
+  enemySpriteFrameHeights?: Map<number, number>
   /** 0x6A 偷取成功"获得 物品名"提示需 items(按 stealItem id 取 _name)—— performMagic 注入。 */
   items?: Item[]
   /**
@@ -2749,6 +2751,61 @@ export function runScript(opts: RunScriptOptions): number {
   }
 }
 
+export function runPlayerPoisonEntrySync(gs: GameState, roleId: number, playerScriptIp: number): number {
+  const commands = getGlobalCommands()
+  const labelMap = getGlobalLabelMap()
+  const startIp = labelMap[`L_${playerScriptIp}`] ?? playerScriptIp
+  let ip = startIp
+  let curEventObjectId: number | undefined = roleId
+  const callStack: NonNullable<ScriptCursor['callStack']> = []
+
+  for (let step = 0; step < SINGLE_TICK_LIMIT; step++) {
+    const cmd = commands[ip]
+    if (!cmd) return startIp
+
+    switch (cmd.op) {
+      case 'end':
+        if (callStack.length > 0) {
+          const frame = callStack.pop()!
+          ip = frame.returnIp
+          curEventObjectId = frame.savedEventObjectId
+          break
+        }
+        if (cmd.advance) return ip + 1
+        if (cmd.reset && cmd.resetTo !== undefined) return labelMap[`L_${cmd.resetTo}`] ?? startIp
+        return startIp
+
+      case 'goto': {
+        const target = labelMap[cmd.to]
+        if (target === undefined) return startIp
+        ip = target
+        break
+      }
+
+      case 'raw': {
+        const cursor: ScriptCursor = {
+          ip,
+          commands,
+          labelMap,
+          callStack,
+          currentEventObjectId: curEventObjectId,
+        }
+        applyRawOpcode(gs, cmd.opcode, cmd.operands, curEventObjectId, cursor)
+        ip = cursor.ip + 1
+        curEventObjectId = cursor.currentEventObjectId
+        break
+      }
+
+      default:
+        // 对话/场景切换等阻塞命令不能在施毒 helper 中安全同步嵌套;保留入口,下一次 tick 仍从原脚本跑。
+        console.debug(`event-system: poison playerScript L_${playerScriptIp} hit non-sync op ${cmd.op}`)
+        return startIp
+    }
+  }
+  console.warn(`runPlayerPoisonEntrySync: SCRIPT_TICK_LIMIT ${SINGLE_TICK_LIMIT} 超出`)
+  return startIp
+}
+
 // ── P0.e: opcode 7 startBattle 调度(handler 注入,避免污染 event-system 的 import 图)──
 //
 // sdlpal script.c:3318:`PAL_StartBattle(operand[0], !operand[2])`
@@ -3987,7 +4044,7 @@ function applyRawOpcode(
       for (const roleId of targets) {
         // 抗性突破判定(玩家 0-100,> 而非 >=,区别于敌人 0x28 的 0-10 >=)
         if (Math.floor(Math.random() * 100) + 1 <= getPlayerPoisonResistance(gs, roleId)) continue
-        addPoisonForPlayer(gs, roleId, poisonId)
+        addPoisonForPlayer(gs, roleId, poisonId, ip => runPlayerPoisonEntrySync(gs, roleId, ip))
       }
       console.debug(`event-system: poisonPlayer applyAll=${applyAll} poisonId=${poisonId}`)
       break
@@ -4507,9 +4564,9 @@ export function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: 
 
 /**
  * sdlpal `PAL_AddPoisonForPlayer`(global.c:1459-1505):去重(已有同毒 skip)+ 首空槽加,
- * wPoisonScript = obj.wPlayerScript(每回合 tick 跑)。**不含**抗性 gate —— gate 在调用方
- * (0x29 / 敌普攻 attackEquivItem),sdlpal 真值同此分工。
- * 战斗内(0x29 battle ctx)与大世界 / 装备 scriptOnEquip(寿葫芦)共用。
+ * wPoisonScript = PAL_RunTriggerScript(obj.wPlayerScript, role) 的返回值;caller 注入 runner 时
+ * 施毒当下跑一次入口脚本。**不含**抗性 gate —— gate 在调用方(0x29 / 敌普攻 attackEquivItem),
+ * sdlpal 真值同此分工。战斗内(0x29 battle ctx)与大世界 / 装备 scriptOnEquip(寿葫芦)共用。
  */
 export function addPoisonForPlayer(
   gs: GameState,
@@ -4528,9 +4585,8 @@ export function addPoisonForPlayer(
     if (!gs.rgPoisonStatus[key] || gs.rgPoisonStatus[key]!.wPoisonID === 0) {
       // M12(2026-06-07 sdlpal 审查):C global.c:1515 落槽时 `wPoisonScript =
       //   PAL_RunTriggerScript(playerScript, role)` —— 施毒当下跑一次入口脚本(立即生效入口效果 +
-      //   跳过 0x0001 terminator),存返回的 next entry 供后续每回合 tick。战斗 caller(0x29)注入
-      //   runPoisonEntry(对齐 0x28 敌方);装备 / 大世界 caller 无 runner → fallback 存原始入口 ip
-      //   (差一拍、下回合 tick 才跑,向后兼容)。
+      //   跳过 0x0001 terminator),存返回的 next entry 供后续每回合 tick。无 runner 的旧 caller
+      //   fallback 存原始入口 ip(向后兼容)。
       const entry = playerScript > 0 && runPoisonEntry ? runPoisonEntry(playerScript) : playerScript
       gs.rgPoisonStatus[key] = { wPoisonID: poisonId, wPoisonScript: entry }
       return

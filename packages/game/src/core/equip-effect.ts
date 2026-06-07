@@ -16,7 +16,7 @@
  */
 
 import type { Item } from '@type-pal/shared'
-import { addItemToInventory, addPoisonForPlayer, consumeItemFromInventory, getGlobalCommands, getGlobalLabelMap, removePoisonLevel99 } from './event-system.js'
+import { addItemToInventory, addPoisonForPlayer, consumeItemFromInventory, getGlobalCommands, getGlobalLabelMap, removePoisonLevel99, runPlayerPoisonEntrySync } from './event-system.js'
 import { createInitialEquipmentEffect, type GameState } from './game-state.js'
 
 const MAX_PLAYER_ROLES = 6
@@ -430,7 +430,7 @@ function runEquipScriptSync(
         const targets = applyAll ? gs.partyMembers : [roleId]
         for (const r of targets) {
           if (Math.floor(Math.random() * 100) + 1 > getPlayerPoisonResistance(gs, r)) {
-            addPoisonForPlayer(gs, r, poisonId)
+            addPoisonForPlayer(gs, r, poisonId, ip => runPlayerPoisonEntrySync(gs, r, ip))
           }
         }
         break

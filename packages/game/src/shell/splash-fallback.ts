@@ -3,7 +3,8 @@
  * `reference/sdlpal/main.c:206-456` 真值 1:1 port。
  *
  * 视觉(sdlpal):
- *  1. FBP chunk 3(上半)/ chunk 4(下半)320×200 全屏背景,起手 iImgPos=200(下半占满),
+ *  1. 已按构建选择好的 SPLASH_UP/SPLASH_DOWN FBP 320×200 全屏背景
+ *     (DOS:0x26/0x27;WIN95:3/4),起手 iImgPos=200(下半占满),
  *     每帧 iImgPos--,递减到 1 停 → 上半从顶部滚入,下半被推到屏底,中间露出 split line
  *  2. 9 只仙鹤(MGO chunk 73 sprite group 8 帧)随机起始位置 [300-600, 0-80],
  *     8 帧动画(iCraneFrame & 1 时帧 +1 % 8),每帧 cranepos[i][0]--(向左飘),
@@ -37,9 +38,9 @@ export interface PlaySplashFallbackOptions {
   canvasCtx: CanvasRenderingContext2D
   /** sdlpal `PAL_GetPalette(1, FALSE)` — palette chunk 1。每帧渐变缩放后画到 canvas。 */
   palette: Palette
-  /** FBP chunk 3 SPLASH_UP(320×200 全屏)。 */
+  /** SPLASH_UP FBP(320×200 全屏):DOS=0x26,WIN95=3。 */
   bitmapUp: IndexedImage
-  /** FBP chunk 4 SPLASH_DOWN(320×200 全屏)。 */
+  /** SPLASH_DOWN FBP(320×200 全屏):DOS=0x27,WIN95=4。 */
   bitmapDown: IndexedImage
   /** MGO chunk 73 SPLASH_CRANE 仙鹤 sprite group(8 帧 + anchor)。 */
   craneSprite: CraneSprite

@@ -55,6 +55,8 @@ export interface PerformThrowItemInput {
   runScript: RunScriptFn
   /** FIRE.MKF magic sprite 帧数 Map(0x42/0x66 建 OffMagic 特效帧用);省略 → 不建特效动画(向后兼容)。 */
   magicSpriteFrameCounts?: Map<number, number>
+  /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight),供脚本变身/召唤后保持命中特效落点。 */
+  enemySpriteFrameHeights?: Map<number, number>
 }
 
 /**
@@ -115,6 +117,7 @@ export function performThrowItem(input: PerformThrowItemInput): void {
         // 0x28 施毒跑一次 wEnemyScript(sdlpal script.c:1213)+ 蛊孵化链末尾 giveItem 需 commands/runScript
         commands: input.commands,
         runScript: input.runScript as (o: RunScriptOptions) => number,
+        enemySpriteFrameHeights: input.enemySpriteFrameHeights,
         // 投掷动画:0x42/0x66 把 OffMagic 特效帧 push 进 pendingAnimFrames;HP-mutate 数字延迟进 pendingDamageNums。
         //   无动画(敌投/无 pos)→ 不传缓冲 → opcode 即时 emit + 音效即时(向后兼容)。
         ...(hasAnim ? { pendingAnimFrames, pendingDamageNums, magicSpriteFrameCounts: input.magicSpriteFrameCounts } : {}),

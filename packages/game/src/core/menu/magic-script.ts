@@ -27,7 +27,7 @@
 
 import type { Spell } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
-import { getGlobalCommands, getGlobalLabelMap } from '../event-system.js'
+import { curePlayerPoisonByLevel, getGlobalCommands, getGlobalLabelMap } from '../event-system.js'
 
 const MAX_PLAYER_ROLES = 6
 const SCRIPT_TICK_LIMIT = 256
@@ -92,14 +92,7 @@ function revivePlayerSingle(gs: GameState, roleId: number, ratioTenths: number):
   const maxHP = gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0
   if (cur === 0) {
     gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor(maxHP * ratioTenths / 10)
-    // poison level<=3 清:简版,M5 poison 字段在 status 模型(D15 ✗)
-    // 整组 D15 做时一并改;目前 cure 完整 poison(rgPoisonStatus sparse)
-    for (let slot = 0; slot < 16; slot++) {
-      const key = `${slot}_${roleId}`
-      if (gs.rgPoisonStatus[key]) {
-        gs.rgPoisonStatus[key] = { wPoisonID: 0, wPoisonScript: 0 }
-      }
-    }
+    curePlayerPoisonByLevel(gs, roleId, 3)
     return true
   }
   return false

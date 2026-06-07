@@ -126,6 +126,8 @@ export interface BattleResources {
   enemies: Enemy[]
   /** 全部 enemy-objects.json —— 0x9E summon 按 objectIndex 解 op0 → enemyId/scripts/抗性。 */
   enemyObjects: EnemyObject[]
+  /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight),供命中特效落点与动态敌人刷新。 */
+  enemySpriteFrameHeights?: Map<number, number>
   /** ENEMYPOS 表 —— 动态召唤/分裂/变身后刷新敌方 pos/posOriginal。 */
   enemyPos?: EnemyPosTable
   playerRoles: PlayerRoles
@@ -242,6 +244,8 @@ export interface StartBattleInput {
   magicSpriteFrameCounts?: Map<number, number>
   /** 召唤神精灵帧数 Map(F.MKF chunk = magic.special+10 → frameCount)。省略 → 不建召唤动画。 */
   summonSpriteFrameCounts?: Map<number, number>
+  /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight)。省略 → 命中特效按 0 高度兼容旧 fixture。 */
+  enemySpriteFrameHeights?: Map<number, number>
   /** D11:LevelUpExp[100](level-up-exp.json)—— 战斗胜利升级阈值。省略 → 升级 loop 跳过。 */
   levelUpExp?: number[]
   /** D11:LEVELUPMAGIC_ALL[20][5](level-up-magic.json)—— 升级学新法术。省略 → 不学。 */
@@ -333,6 +337,7 @@ export function startBattle(input: StartBattleInput): void {
     isBoss: input.isBoss,
     rng,
     enemyPos: input.enemyPos, // D17a:enemy pos/posOriginal 初值(battle.c:936-939)
+    enemySpriteFrameHeights: input.enemySpriteFrameHeights,
   })
 
   // R(重提)跨战斗:sdlpal g_Battle.rgPlayer[i].prevAction 是全局不随战斗重置,故"上回合"可以是
@@ -361,6 +366,7 @@ export function startBattle(input: StartBattleInput): void {
     objectPlayers: input.objectPlayers ?? [],
     enemies: input.enemies, // 0x9E summon 召唤兽 stats
     enemyObjects: input.enemyObjects ?? [], // 0x9E summon op0 → enemyId/scripts
+    enemySpriteFrameHeights: input.enemySpriteFrameHeights, // M8:enemy frame0 height(PAL_RLEGetHeight)
     enemyPos: input.enemyPos, // 0x9C/0x9E/0x9F 动态敌方阵型刷新
     playerRoles: input.playerRoles,
     commands: input.commands ?? getGlobalCommands(), // P2#5:默认单一全局数组
@@ -813,6 +819,7 @@ function runPlayerCasualtyScript(
       battleEffectIndex: res.battleEffectIndex,
       summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
       enemyPos: res.enemyPos,
+      enemySpriteFrameHeights: res.enemySpriteFrameHeights,
       items: res.items,
       commands: res.commands,
       runScript,
@@ -1894,6 +1901,7 @@ function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: Comman
         caster: { type: 'enemy', idx: ei },
         summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
         enemyPos: res.enemyPos,
+        enemySpriteFrameHeights: res.enemySpriteFrameHeights,
         gs, // raw opcode fall 到 applyRawOpcode 需 gs
         // 0x92 show-magic-anim(赵灵儿觉醒 cutscene scriptOnTurnStart)需 cast 特效帧基号 + 角色战斗精灵
         playerRoles: res.playerRoles,
@@ -2212,6 +2220,7 @@ function tickPerformAction(
             // 0x9E enemy summon 需召唤兽表 + enemy-objects 解析
             summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
             enemyPos: res.enemyPos,
+            enemySpriteFrameHeights: res.enemySpriteFrameHeights,
             // raw opcode(0x06 概率跳等)fall 到 applyRawOpcode 需 gs
             gs,
             // 0x92 show-magic-anim(scriptOnReady 出场施法演出)需 cast 特效帧基号 + 角色战斗精灵
@@ -2428,6 +2437,7 @@ function performBattleAction(
         magicSpriteFrameCounts: res.magicSpriteFrameCounts, // D17:OffMagic 时间线 n
         battleEffectIndex: res.battleEffectIndex, // D17:PreMagic cast 特效帧基号
         summonSpriteFrameCounts: res.summonSpriteFrameCounts, // 召唤神逐帧 loop 帧数
+        enemySpriteFrameHeights: res.enemySpriteFrameHeights, // M8:动态变身/召唤后保 frame0 height
       })
       // E04:施法 → rgMagicExp.wCount += RandomLong(2,3) + rgMagicPowerExp.wCount++(fight.c:4328-4329,序固定)
       addHiddenExp('rgMagicExp', state.rng.rangeInclusive(2, 3))
@@ -2520,6 +2530,7 @@ function performBattleAction(
         commands: res.commands,
         runScript: getRunScript(gs),
         magicSpriteFrameCounts: res.magicSpriteFrameCounts, // 投掷 OffMagic 特效时间线 n(fight.c:5340)
+        enemySpriteFrameHeights: res.enemySpriteFrameHeights, // M8:动态变身/召唤后保 frame0 height
       })
       break
     }
@@ -2795,6 +2806,7 @@ function runBattleWonPostScripts(gs: GameState, state: BattleState, res: BattleR
         caster: { type: 'enemy', idx: ei },
         summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
         enemyPos: res.enemyPos,
+        enemySpriteFrameHeights: res.enemySpriteFrameHeights,
         gs,
       },
     })

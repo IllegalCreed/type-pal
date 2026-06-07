@@ -456,7 +456,7 @@ export function performEnemyConfusedAttack(
         attackerPos: attackerFighter.posOriginal,
         targetIdx: targetEnemyIdx,
         targetPos: target.posOriginal,
-        targetHeight: 0, // core 无 sprite 资源 → 0(present 层可后续精修火花 Y)
+        targetHeight: target.spriteFrameHeight ?? 0,
         damage: dealt,
       }),
       bus,

@@ -125,6 +125,8 @@ export interface BattleEnemy {
   posOriginal?: { x: number; y: number }
   currentFrame?: number
   iColorShift?: number
+  /** 敌方战斗精灵第 0 帧高度(PAL_RLEGetHeight(frame0)),用于命中特效逐像素落点。 */
+  spriteFrameHeight?: number
   /**
    * D17 敌人死亡淡出步数(PAL_BattleFadeScene,battle.c:608-682)。
    *   undefined = 活着 / 尚未开始淡出(照常 idle / 动画渲染)
@@ -613,6 +615,8 @@ export interface CreateBattleStateInput {
     onBattleEnd: number
     resistanceToSorcery?: number
   }>
+  /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight),缺省兼容旧 fixture。 */
+  enemySpriteFrameHeights?: Map<number, number>
   field: BattleField
   isBoss: boolean
   rng: SeedableRng
@@ -703,6 +707,7 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
       poisons: [],
       pos: base ? { ...base } : undefined,
       posOriginal: base ? { ...base } : undefined,
+      spriteFrameHeight: input.enemySpriteFrameHeights?.get(e.id),
       // 敌人 idle 期 currentFrame **保持 undefined** → draw 走 idle 时钟轮播
       //   (computeIdleFrameIndex,D17c)。动画期 anim-timeline 才置攻击帧号,
       //   resetFightersAfterAction 复位回 undefined。置 0 会冻结 idle 轮播(回归)。

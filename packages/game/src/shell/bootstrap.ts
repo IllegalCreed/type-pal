@@ -397,6 +397,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     if (m) summonSpriteFrameCounts.set(Number(m[1]), sprite.frames.length)
   }
 
+  // M8:敌方混乱攻击火花 Y 需 PAL_RLEGetHeight(frame0)(fight.c:4614),从预载 ABC.MKF frame0 取。
+  const enemySpriteFrameHeights = new Map<number, number>()
+  for (const [key, sprite] of battleSprites) {
+    const m = /^enemy-(\d+)$/.exec(key)
+    const first = sprite.frames[0]
+    if (m && first) enemySpriteFrameHeights.set(Number(m[1]), first.height)
+  }
+
   const bus = createCommandBus()
   const input = new KeyboardInputSource(window)
   // M6 音频:shell 层 Web Audio。core 发意图(gs.pendingSounds SFX 队列 / gs.wNumMusic BGM),
@@ -1055,6 +1063,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         battleEffectIndex, // D17a:player 攻击命中特效帧基号(fight.c:2055)
         magicSpriteFrameCounts, // D17:OffMagic 时间线 n(FIRE.MKF chunk 帧数)
         summonSpriteFrameCounts, // 召唤神逐帧 loop 帧数(F.MKF chunk 帧数)
+        enemySpriteFrameHeights, // M8:enemy frame0 height(PAL_RLEGetHeight)
         levelUpExp: assets.levelUpExp, // D11:战斗胜利升级阈值
         levelUpMagic: assets.levelUpMagic, // D11:升级学新法术
         // P2#5:不再传 per-scene 切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。

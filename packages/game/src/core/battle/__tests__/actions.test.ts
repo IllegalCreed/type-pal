@@ -887,8 +887,10 @@ describe('performEnemyConfusedAttack(B2 c1b,fight.c:4596-4654)', () => {
     })
     state.enemies[0]!.posOriginal = { x: 100, y: 80 }
     state.enemies[1]!.posOriginal = { x: 200, y: 100 }
+    state.enemies[1]!.spriteFrameHeight = 30
     performEnemyConfusedAttack(state, 0, 1, bus)
     expect(state.battleAnim).toBeDefined() // 动画链启动(替代旧的即时数字,fight.c:4596-4654)
+    expect(state.battleAnim!.frames[3]!.overlay).toMatchObject({ x: 193, y: 100 })
     expect(state.enemies[1]!.e.health).toBe(2000 - 1046) // 伤害结算不变
   })
 

@@ -26,6 +26,27 @@
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
+## M级修复审查(除 M5)
+
+> 审查日期:2026-06-07。范围:M1–M4、M6–M15 的已落地修改,按代码消费链 + 对照 `reference/sdlpal/` 真值复核。结论:14 条已完整收口。
+
+| ID | 审查结论 | 代码审查要点 |
+|---|---|---|
+| M1 | ✅ 通过 | `shouldRenderAsTitle(text,lineCount,style)` 已补齐首行 + 非 center + 冒号三条件,并有续行冒号/center 用例覆盖。 |
+| M2 | ✅ 通过 | 0x1A 非装备上下文已能写 avatar/battleSprite/sprite/attackAll/walkFrames/coop;大世界 sprite、队伍 leader/follower 行走帧、战斗投影、头像/群攻/合体均消费 runtime 值。 |
+| M3 | ✅ 通过 | `walkFrameMod` 复刻 `nSpriteFrames==3 ? 4 : nSpriteFrames`,并覆盖 1/2/3/4/0/undefined;脚本走位/动画/追逐点均改走 helper。 |
+| M4 | ✅ 通过 | `waiting='camera-pan'` 已放入 event 模式 autoScript/chase timer 白名单,测试覆盖 0x7F pan 期间 autoScript 继续推进。 |
+| M6 | ✅ 通过 | `loadDefaultGame` 与 `loadGameFromSlot` 均在装备重算前清 `rgPlayerStatus`,对齐 `PAL_InitGameData`。 |
+| M7 | ✅ 通过 | `fForce/fRepeat` 已变成整队粘滞标志,剩余待选队员自动提交,全员动作填完后清标志。 |
+| M8 | ✅ 通过 | 已从即时数字改为 battleAnim 时间线:滑步、火花、PostMagic 抖动、Delay(5)、复位 Delay(2) 均有;火花 Y 已通过 enemy frame0 height 对齐 `target.y - height/3 + 10`。 |
+| M9 | ✅ 通过 | 非 summon 合击只即时播固定 29,`magic.sound` 已挂进 OffMagic 起手帧;测试断言派发时不再即播效果音。 |
+| M10 | ✅ 通过 | 大世界治疗 runner 已复刻 `PAL_IncreaseHPMP`:仅活人、无变化失败,满血/死人单体治疗不扣 MP。 |
+| M11 | ✅ 通过 | 战斗 `OP_REVIVE_PLAYER` 与大世界复活法术 runner 均改 `curePlayerPoisonByLevel(...,3)`,覆盖 level>3 保留测试。 |
+| M12 | ✅ 通过 | 战斗、大世界事件、装备 0x29 均在施毒当下跑 playerScript 并存返回 next entry;无 runner 的底层 helper 仅保留向后兼容 fallback。 |
+| M13 | ✅ 通过 | narration `drawSingleLineBox` 已显式 `shadowOffset:0`;紫金葫芦 item-box 仍保留 `shadowOffset:5`。 |
+| M14 | ✅ 通过 | `gameOverActive` hold 分支在画死亡文字前先做 0x4F→0x4E remap,战斗定格帧也能染红,且文字仍用 skipIndex 0x4F。 |
+| M15 | ✅ 通过 | DOS splash 已取 FBP `0x26/0x27`;`splash-fallback.ts` 注释也已改为 DOS 0x26/0x27、WIN95 3/4 的构建分支说明。 |
+
 ## 速查索引
 
 | ID | 严重度 | 类别 | 子系统 | 标题 |
@@ -186,6 +207,7 @@
 - **TS 位置**:`packages/game/src/core/equip-effect.ts:186-211 (setPlayerStatRow,经 event-system.ts:3831-3845 OP_SET_PLAYER_STAT 调用)`
 - **C 依据**:`reference/sdlpal/script.c:834-865`
 - **玩家可感知**:是
+- **修复审查(2026-06-07)**:已收口。`setPlayerStatRow` 支持 row0/1/2/4/64/65,`hydratePlayerRolesRuntime`、`projectRuntimeToBattleRoles` 与 `presentFrame` 会让头像、战斗精灵、群攻、合体魔法、大世界精灵、leader/follower 行走帧都消费 runtime 值。
 
 **差异**:sdlpal 0x1A 把整张 PlayerRoles 当扁平 WORD 数组写:`p[operand[0]*MAX_PLAYER_ROLES+role]=(SHORT)operand[1]`(script.c:862),**任何 row 都能写**——包括 row0=Avatar、row1=SpriteNumInBattle、row2=SpriteNum、row4=AttackAll、row64=WalkFrames、row65=CooperativeMagic。TS 只在 `g_iCurEquipPart!=-1`(装备脚本中)才走 writeEquipmentEffectField(全 row 覆盖);否则走 setPlayerStatRow 基路径,其 switch(equip-effect.ts:196-208)只有 Level/MaxHP/MaxMP/HP/MP/Atk/MagStr/Def/Dex/Flee/PoisonResist/CoveredBy 12 个 case,其余 row 落 default → `console.warn`+**no-op**。经 all.json 逐字节核实:有 4 段**非装备**剧情脚本用 0x1A 写这些 row(全部 hasEquip0x18=false):cmd@24099-24102(赵灵儿 role1 变镇狱明王:avatar=91/battleSprite=5/sprite=512/walkFrames=4)、@24774(role2 walkFrames=4)、@28467-28470(赵灵儿 sleep 形:avatar=11/battleSprite=1/sprite=3/walkFrames=3)、@31630-31632(role1:avatar=88/sprite=38/battleSprite=9)。这些写入在 TS 全部静默失败(setPlayerStatRow 不路由这些 row;其中 avatar/spriteNumInBattle/walkFrames 在 PlayerRolesRuntime 连字段都没有,而 sprite(row2)/合体魔法(row65)虽有字段也因 switch 不含 case 而 no-op)。注:装备脚本里的 0x1A(@39671+ 等)经 iCurEquipPart 路由到 writeEquipmentEffectField,行为正确,不受影响。
 
@@ -374,6 +396,7 @@ TS 侧(battle-system.ts:1090-1136 handleMainMenuInput):
 - **TS 位置**:`packages/game/src/core/battle/actions/attack.ts:426-450 performEnemyConfusedAttack;battle-system.ts:2460-2461 dispatch`
 - **C 依据**:`reference/sdlpal/fight.c:4596-4654 (PAL_BattleEnemyPerformAction confused 分支)`
 - **玩家可感知**:是
+- **修复审查(2026-06-07)**:已收口。`buildEnemyConfusedAttackTimeline` + `startBattleAnim` 覆盖 3 帧滑步、effectSprite 9/10/11 火花、PostMagic 抖动、Delay(5)、复位 Delay(2);火花 Y 已从敌方 battle sprite frame0 height 计算,对齐 C 的 `target.y - PAL_RLEGetHeight(frame0)/3 + 10`。
 
 **差异**:C 中混乱敌人打另一只敌人有完整可见演出:先 3 帧把施法敌位置向目标敌中点插值滑动(x=(x+iX)/2 反复,各 Delay(1),fight.c:4598-4612),再在两者中点用 lpEffectSprite 第 9~11 帧播 3 帧命中火花(fight.c:4617-4632),随后 PAL_BattleDisplayStatChange + PAL_BattleShowPostMagicAnim(受击抖动)+ Delay(5) + 复位 Delay(2)(fight.c:4647-4652)。TS performEnemyConfusedAttack 只算伤害并 bus.emit showDamageNum,完全无位移/无命中特效/无受击抖动/无停顿。
 
@@ -442,6 +465,7 @@ TS performEnemyConfusedAttack(attack.ts:426-450):伤害公式与 C 一致(str/de
 - **TS 位置**:`packages/game/src/core/battle/battle-opcodes.ts:970-976`
 - **C 依据**:`reference/sdlpal/script.c:1071`
 - **玩家可感知**:是
+- **修复审查(2026-06-07)**:已收口。战斗 `battle-opcodes.ts` 与大世界同步法术 runner `core/menu/magic-script.ts` 均调用 `curePlayerPoisonByLevel(...,3)`,并有 `level>3` 保留测试。
 
 **差异**:C 的 0x22 revive 对复活的队员调用 PAL_CurePoisonByLevel(w, 3)(global.c:1567-1614),只清除 wPoisonLevel<=3 的毒,等级>3 的毒保留(且复活后会继续 tick)。TS 的 OP_REVIVE_PLAYER 改为无条件遍历全部 16 个毒槽清零(`if (ctx.gs.rgPoisonStatus[key]) ... = {wPoisonID:0,...}`),等价于「清所有毒」,而不是「清 level<=3 的毒」。仓库已有正确实现 curePlayerPoisonByLevel(event-system.ts:4536,按 _objectPoisons 真 level 比较)可直接用 maxLevel=3,但 handler 内联成了全清。数据佐证:object-poisons.json 中大量毒的 level>3(最高到 251),所以差异在数值上真实存在。
 
@@ -471,6 +495,7 @@ TS bug：battle-opcodes.ts:970-976 的 OP_REVIVE_PLAYER（战斗 handler）`for 
 - **TS 位置**:`packages/game/src/core/battle/battle-opcodes.ts:544-553`
 - **C 依据**:`reference/sdlpal/global.c:1515`
 - **玩家可感知**:是
+- **修复审查(2026-06-07)**:已收口。战斗 0x29、大世界事件 0x29 与装备 0x29 均给 `addPoisonForPlayer` 注入入口 runner,施毒当下跑一次 playerScript 并存返回 next entry;底层无 runner fallback 仅保留旧 caller 兼容。
 
 **差异**:C 的 0x29 经 PAL_AddPoisonForPlayer,落槽时执行 `wPoisonScript = PAL_RunTriggerScript(rgObject[wPoisonID].poison.wPlayerScript, wPlayerRole)` —— 施毒当下跑一次该毒的 playerScript(立即生效其入口效果,并把返回的下一条 entry 存起来供后续每回合 tick)。TS 的 OP_POISON_PLAYER 委托 event-system.ts:4501 addPoisonForPlayer,该函数只把原始 playerScript entry 存进毒槽(`wPoisonScript: playerScript`),**从不运行它**。对比同文件敌方 0x28(battle-opcodes.ts:478-497)已正确实现「施加时 ctx.runScript 跑一次」,player 侧未对齐。数据佐证:object-poisons.json 有 173 条毒带非 0 playerScript,且不少 playerScript 首条就是有副作用的 opcode(如 poison id 75 @39359 首条是 0x2B 解毒、id 36 @43445 是概率分支+0x1B 回血/0x30 加成),这些「上毒即触发」的效果在 TS 完全不发生,且后续每回合 tick 的 entry 也会差一拍。
 
@@ -556,6 +581,7 @@ TS 现状：(a) bootstrap.ts:436-438 路由 `if(!presentBattleFrame(...)) presen
 - **TS 位置**:`packages/game/src/shell/bootstrap.ts:1556-1557`
 - **C 依据**:`reference/sdlpal/main.c:42-43`
 - **玩家可感知**:是
+- **修复审查(2026-06-07)**:已收口。`playDosOpening` 改取 `assets.battleBgs.get(0x26/0x27)`,crane/title 仍取 73/71;`splash-fallback.ts` 注释也已改成 DOS 0x26/0x27、WIN95 3/4 的构建分支说明。
 
 **差异**:sdlpal `#define BITMAPNUM_SPLASH_UP (gConfig.fIsWIN95 ? 0x03 : 0x26)` / `SPLASH_DOWN (fIsWIN95 ? 0x04 : 0x27)`,即 DOS splash 用 FBP chunk 0x26=38(上)/0x27=39(下),chunk 3/4 是 WIN95 专用值。`playDosOpening`(DOS fallback,本就是 PAL_PlayAVI 失败后的 DOS 路径)却取 `assets.battleBgs.get(3)`/`get(4)` 当 splash 上下半屏。提取数据里 battle/bg/038.png(18416B)、039.png(134942B)与 003.png(111734B)、004.png(85180B)是完全不同的图像;crane(73=0x49)/title(71=0x47)无 build 分支,取值正确,唯独上下半屏背景取错。splash-fallback.ts 顶部注释也把 'FBP chunk 3 SPLASH_UP / chunk 4 SPLASH_DOWN' 当通用值,实为 WIN95 值。
 
@@ -2056,3 +2082,4 @@ TS 侧两条路径都与 C 一一对应且正确:present.ts:331-332 的 "// --- 
 - 6 条误报详情已从 workflow transcript(各复核 agent 落盘的 jsonl)重建并留档(见上节)。
 - 经第二个模型(GPT)独立二次复核:H1/H2、M1–M5、M6–M15、误报区(含 FP6 专核 scene.c)主体结论均确认成立;并指出 M9/L17/L27/L40 四条的**条目正文与复核论证不一致**(M9 基线应为 WIN95 而非 CLASSIC、L17 触发面更窄且单向、L27 入口 opcode 应为 0x21 而非 0x42、L40 同物品连用其实不偏),已据复核回填正文使二者一致(结论与严重度均不变)。
 - 此外自查发现同一模式(条目正文沿用 compare 原始 finding、未回填 verify 阶段对玩家影响/触发面的收窄)另有 10 条:M2、L3、L4、L7、L20、L22、L28、L31、L46、L47,已一并回填正文(均不改变 confirmed 判定与严重度,收窄的只是被原始描述夸大的影响面)。
+- 2026-06-07 对除 M5 外 M 级已落地修改做代码审查,并补齐 M2/M8/M11/M12/M15 尾巴:14 条均已完整收口。

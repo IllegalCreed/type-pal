@@ -104,6 +104,8 @@ export interface PerformMagicInput {
    * 省略 / 缺 chunk → 不建召唤动画(走即时路径,向后兼容)。
    */
   summonSpriteFrameCounts?: Map<number, number>
+  /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight),供脚本变身/召唤后保持命中特效落点。 */
+  enemySpriteFrameHeights?: Map<number, number>
 }
 
 /**
@@ -219,6 +221,7 @@ export function performMagic(input: PerformMagicInput): void {
         items: input.items, // 0x6A 偷取成功"获得 物品名"提示需 item 名
         pendingDamageNums: pendingNums, // scriptOnSuccess opcode 数字延迟到动画后(见上注)
         pendingScreenShake, // scriptOnUse 0x35 延迟挂到 OffMagic,避免 PreMagic 阶段先抖。
+        enemySpriteFrameHeights: input.enemySpriteFrameHeights,
       },
     })
   }

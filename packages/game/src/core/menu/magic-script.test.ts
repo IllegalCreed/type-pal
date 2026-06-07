@@ -10,7 +10,7 @@
 
 import type { Command, Spell } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { getGlobalLabelMap, setGlobalEvents } from '../event-system.js'
+import { getGlobalLabelMap, setGlobalEvents, setObjectPoisons } from '../event-system.js'
 import { createInitialGameState } from '../game-state.js'
 import { castOverworldMagic, runMagicScriptSync } from './magic-script.js'
 
@@ -76,7 +76,10 @@ function mkGs() {
 // 解析到的 ip 就是 fixture 命令所在的全局下标。
 
 describe('setGlobalEvents - 由 label 字段 derive 全局 labelMap(P2#5)', () => {
-  afterEach(() => setGlobalEvents([]))
+  afterEach(() => {
+    setGlobalEvents([])
+    setObjectPoisons([])
+  })
 
   it('FIXTURE_COMMANDS 注册后 getGlobalLabelMap 与 FIXTURE_LABELS 期望下标一致', () => {
     setGlobalEvents(FIXTURE_COMMANDS)
@@ -147,6 +150,22 @@ describe('runMagicScriptSync - opcode 0x1B OP_INCREASE_HP', () => {
     const ok = runMagicScriptSync(gs, 43016, 0) // 气疗术对死人
     expect(ok).toBe(false) // 死人不治 → fScriptSuccess=FALSE → 不扣 MP
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(0) // 不抬血(原 bug 会变 75 = 廉价复活)
+  })
+
+  it('M11:大世界复活只清 level<=3 毒,level>3 保留(script.c:1071)', () => {
+    setObjectPoisons([
+      { id: 100, level: 2, color: 0, playerScript: 0, enemyScript: 0 },
+      { id: 200, level: 5, color: 0, playerScript: 0, enemyScript: 0 },
+    ])
+    const gs = mkGs()
+    gs.PlayerRolesRuntime.rgwHP[0] = 0
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 100, wPoisonScript: 0 }
+    gs.rgPoisonStatus['1_0'] = { wPoisonID: 200, wPoisonScript: 0 }
+    const ok = runMagicScriptSync(gs, 43024, 0) // 还魂咒 10%
+    expect(ok).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(20)
+    expect(gs.rgPoisonStatus['0_0']?.wPoisonID ?? 0).toBe(0)
+    expect(gs.rgPoisonStatus['1_0']?.wPoisonID ?? 0).toBe(200)
   })
 })
 
