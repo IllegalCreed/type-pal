@@ -848,6 +848,34 @@ describe('performAttack', () => {
     })
     expect(gs.rgPoisonStatus['0_0']).toBeUndefined()
   })
+
+  // L22:C 条件链 `iCoverIndex==-1 && !fAutoDefend && rate>=RandomLong(1,10) && PoisonRes<RandomLong(1,100)`
+  //   (fight.c:5139)左到右短路 → 非格挡非自卫命中**恒**求值 `rate>=RandomLong(1,10)`,与 equivItem 是否为 0
+  //   无关(只第二个 RandomLong(1,100) 受 rate 短路)。旧 TS 加 `equivId!==0 &&` 前置,对普通敌(equivItem=0,
+  //   占多数)跳过这次抽取 → 比 C 少消费一次,后续 TS 自身确定性回放数值整体前移。修:删该前置短路。
+  it('L22:敌普攻 equivItem==0 命中也消费一次 RandomLong(1,10)(fight.c:5139 短路纪律)', () => {
+    let equivRolls = 0 // 统计 (1,10) 抽取(敌→我路径里仅 equiv rate roll 用此参数)
+    const { state, playerRoles, bus, gs } = makeState({
+      enemies: [{ attackEquivItem: 0, attackEquivItemRate: 0 }], // 普通敌:无毒物品
+    })
+    const base = createSeedableRng(1)
+    state.rng = {
+      ...base,
+      rangeInclusive: (lo: number, hi: number) => {
+        if (lo === 0 && hi === 16) return 0 // fAutoDefend = 0>=10 = false → 命中(非自卫,进 equiv block)
+        if (lo === 1 && hi === 10) { equivRolls++; return 5 }
+        return base.rangeInclusive(lo, hi)
+      },
+    }
+    performAttack(state, enemyActor, 0, bus, playerRoles, undefined, {
+      gs,
+      items: [], // equivItem=0 找不到物品 → scriptOnUse=0 → 不中毒(等价 C 跑 rgObject[0] 空脚本)
+      commands: [{ op: 'end' }],
+      runScript,
+    })
+    expect(equivRolls).toBe(1) // 普通敌命中也消费一次,与 C 短路顺序一致
+    expect(gs.rgPoisonStatus['0_0']).toBeUndefined() // 但 equivItem=0 不产生实际中毒
+  })
 })
 
 // ============================================================================

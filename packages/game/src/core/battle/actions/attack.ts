@@ -366,9 +366,13 @@ export function performAttack(
     const equivId = enemy.attackEquivItem ?? 0
     const rate = enemy.attackEquivItemRate ?? 0
     const roleId = state.players[targetIdx]!.roleId
+    // L22:C 条件链不以 wAttackEquivItem 为前置(fight.c:5139)——`rate >= RandomLong(1,10)` 左到右先求值,
+    //   故非格挡非自卫命中(本 block 已隐含 iCoverIndex==-1 && !fAutoDefend,见上方 fAutoDefend return)
+    //   **恒消费一次** RandomLong(1,10),与 equivItem 是否为 0 无关;只第二个 RandomLong(1,100) 受 rate 短路。
+    //   不再加 `equivId!==0` 前置(rate=0 的普通敌 `0>=1..10` 恒假,消费后短路;equivId=0 → 下方 find 不到
+    //   物品 → scriptOnUse 0 不跑,等价 C 跑 rgObject[0] 空脚本,无实际中毒)。
     if (
-      equivId !== 0
-      && rate >= state.rng.rangeInclusive(1, 10)
+      rate >= state.rng.rangeInclusive(1, 10)
       && getPlayerPoisonResistance(equivPoison.gs, roleId) < state.rng.rangeInclusive(1, 100)
     ) {
       const scriptOnUse = equivPoison.items.find((it) => it.id === equivId)?.scriptOnUse ?? 0

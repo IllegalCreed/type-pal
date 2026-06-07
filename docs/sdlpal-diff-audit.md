@@ -20,9 +20,9 @@
 
 本轮按报告逐条修复,全部 TDD/真值锚定 + `pnpm check` 全绿 + 逐条 commit 推送。
 
-- **✅ 已修复 55 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L18 L20 L23 L24 L26 L27 L28 L30 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 39 条 low。
+- **✅ 已修复 56 条**:H1 H2 全部 high;M1–M4 M6–M15 共 14 条 medium;L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L18 L20 L22 L23 L24 L26 L27 L28 L30 L31 L32 L33 L35 L36 L37 L39 L40 L41 L42 L43 L44 L45 L46 L47 共 40 条 low。
 - **⏸ 暂缓 4 条**:M5(走路 fCheckRange 下边界——需重定位 6 个 walk 测试 fixture)、L21(群攻 division 衰减——需复刻 WORD 下溢语义 + 重构既有测试)、L14(OffMagic 起手 Delay(1)——波及 OffMagic/合击全部帧索引断言 18 测试,不可感知)、L34(淡入淡出 60/64 上限——有干净实现但须改写既有 fade 回归测试整洁断言为 C 量化丑值、不可感知、仅覆盖 4 套 lerp-fade 中的 2 套)。
-- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L19 L22 L25 L29 L38),性价比低暂留。
+- **未修(低 ROI)**:其余 low 多为复核判定玩家不可感知 / 原版数据结构性不可达 / 纯 pixel·timing 细节(L19 L25 L29 L38),性价比低暂留。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -49,7 +49,7 @@
 
 ## L级修复审查(已标 ✅)
 
-> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 39 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:39 条已完整收口,未发现新的遗漏。
+> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 40 条 Low 修改,按实现消费链 + 回归测试锚点复核。结论:40 条已完整收口,未发现新的遗漏。
 
 | ID | 审查结论 | 代码审查要点 |
 |---|---|---|
@@ -71,6 +71,7 @@
 | L17 | ✅ 通过 | `keepEffect` 末帧判定已改用 `baseScreenWave + magic.wave < 9`;普通法术、敌方法术、合击、0x92、普通召唤 secondary 入口均传战场基础屏波与 `wave/keepEffect`。 |
 | L18 | ✅ 通过 | `applyMagicDamage`/`applyEnemyMagicDamage`/`simulateMagic` 删 `rngFactor` 入参,改在逐目标 for 循环内各掷一次 `1+next()*0.1`(对齐 fight.c:215 在 PAL_CalcMagicDamage 内、群攻 fight.c:4288/4015 逐敌调用);5 个 caller(magic 玩家/敌方、coop、0x42/0x66)删预掷。单体掷骰紧贴调用、中间无 rng → 时序与序列不变(全套零回归),仅多体改为逐目标独立。新增独立性测试:next 调用次数==存活目标数 + 相同敌人伤害互异。 |
 | L20 | ✅ 通过 | 与 L18 同一核心循环改动;敌方 AoE 逐队员掷在 autoDefend 的 `RandomLong(0,2)` 之前(与单体时序一致,fight.c:4793)。玩家不可感知(单目标边际分布不变,仅目标间相关性),代码层已对齐 C。 |
+| L22 | ✅ 通过 | `attack.ts` 敌→我等价物中毒删 `equivId!==0` 前置短路:该 block 已隐含 `iCoverIndex==-1 && !fAutoDefend`(上方 fAutoDefend 提前 return),故对齐 fight.c:5139 在每次非格挡非自卫命中恒消费一次 `RandomLong(1,10)`。equivItem=0 时 `rate=0` → `0>=1..10` 恒假、消费后短路,find 不到物品 → 不中毒(等价 C 跑 rgObject[0] 空脚本)。新增计数测试锁定;全套零回归。 |
 | L23 | ✅ 通过 | `startBattle` 在 `createBattleState` 前把队伍中 HP=0 的角色复活为 1,同步 runtime HP 并清 Puppet 状态。 |
 | L24 | ✅ 通过 | hidden-exp-up 框长仍用钳后宽度,但文字段按实际姓名/属性宽度连续定位,2 字名不再多出 16px 空档。 |
 | L26 | ✅ 通过 | 0x6A 偷钱分支只在 `c>0` 时入 `battleDialogQueue`,剩 1 文整除得 0 不再弹「获得 0 文钱」。 |
@@ -135,7 +136,7 @@
 | L19 | 🟡 | timing | 战斗·召唤合击与变身 | 梦蛇变身切换到新精灵时直接硬切，缺少原版的淡入淡出过场 |
 | ✅ L20 | 🟡 | correctness | 战斗·法术伤害与治疗 | AoE 法术伤害对所有目标共用同一个随机扰动因子,C 是每目标独立 RandomFloat |
 | ⏸ L21 | 🟡 | correctness | 战斗·物理伤害公式 | 群攻 division 衰减:TS 跳过 health<=0 敌人不计 division,C 只跳 wObjectID==0(已清槽)且对任何未清槽敌都翻倍 |
-| L22 | 🟡 | correctness | 战斗·物理伤害公式 | 敌普攻等价物中毒:TS 用 equivId!==0 短路,跳过了 C 对所有非格挡命中都会消费的 RandomLong(1,10) 抽取 |
+| ✅ L22 | 🟡 | correctness | 战斗·物理伤害公式 | 敌普攻等价物中毒:TS 用 equivId!==0 短路,跳过了 C 对所有非格挡命中都会消费的 RandomLong(1,10) 抽取 |
 | ✅ L23 | 🟡 | correctness | 战斗·结算与成长 | 战斗开始未把 HP=0 的队员复活为 1(且未清傀儡状态) |
 | ✅ L24 | 🟡 | pixel | 战斗·结算与成长 | 隐藏属性涨点屏(hidden-exp-up)对 2 字角色名的文字 x 定位与原版不一致 |
 | L25 | 🟡 | correctness | 战斗·脚本 opcode 与敌人 AI | 0x91 同种敌人判定用 enemyId,C 用 wObjectID(对象身份) |
@@ -1281,7 +1282,7 @@ fight.c:3698-3699(续跳只判 wObjectID==0||idx>wMaxEnemyIndex); fight.c:3726(w
 </details>
 
 
-### L22 · 🟡 敌普攻等价物中毒:TS 用 equivId!==0 短路,跳过了 C 对所有非格挡命中都会消费的 RandomLong(1,10) 抽取
+### ✅ L22 · 🟡 敌普攻等价物中毒:TS 用 equivId!==0 短路,跳过了 C 对所有非格挡命中都会消费的 RandomLong(1,10) 抽取
 
 - **子系统**:战斗·物理伤害公式　**类别**:correctness
 - **TS 位置**:`packages/game/src/core/battle/actions/attack.ts:365-368`
