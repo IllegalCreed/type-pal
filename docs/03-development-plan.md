@@ -114,11 +114,13 @@ P2 收口:dev panel 集成 5 个 unit 入口(Battle / Scene Jump / Font Test / D
 - 对 sdlpal 所有 C 源逐文件 / 逐函数核对细节,与 ts port 1:1 比对,记 deviation report。
 - 已知遗留 follow-up(渲染层接入相关):B-w3.b magic 特效动画(FIRE/RGM/RNG sprite sheet)/ M-w1.a~3.b 菜单渲染层 + 输入路由集成 / B-w2.b/B-w3.a 4+1 action handler 真做 / B-w1.c levelup loop(while dwExp >= rgLevelUpExp[level])。
 
-### M6 · 体验补全
+### M6 · 体验补全 ✅(2026-05-28 起,体验层已整体落地)
 - 音频接入:CD 音轨(`TRACK*.ogg`)直接用;BGM(`.mid`)运行时 SpessaSynth 合成;音效从 `SOUNDS.MKF` 解包后接入。
 - AVI 过场转 mp4/webm 并接入。
 - 转场特效、调色板循环动画(水 / 火)。
 - 结局流程。
+
+> **M6 之后(2026-05-31 起)进入逐子系统差异审计期**:不再按里程碑铺新功能,而是逐功能 / 逐 opcode / 逐内容对 sdlpal 源 1:1 核对 + 逐条修复。**当前实现状态不看本计划,以状态表为准** —— [`feature-status.md`](feature-status.md) / [`opcode-status.md`](opcode-status.md) / [`resource-status.md`](resource-status.md) 三表 + [`item-status.md`](item-status.md) / [`magic-status.md`](magic-status.md) / [`cutscene-status.md`](cutscene-status.md) / [`game-mechanics.md`](game-mechanics.md);系统性差异审计见 [`plans/2026-06-07-sdlpal-diff-audit.md`](plans/2026-06-07-sdlpal-diff-audit.md)。下方 **M6.5 / M7 尚未开始**,为未来计划。
 
 ### M6.5 · 资源剥离 + 代码保护(部署前置)
 

@@ -10,13 +10,14 @@
 - **参考而非 fork**:sdlpal 的 C 源码作为引擎逻辑的"规格说明书"(战斗公式、脚本语义、数据格式),我们照着它用 TS 重写。
 - **个人自用**:自己游玩,不公开发布。
 
-## 状态(2026-06-04)
+## 状态(2026-06-08)
 
-仍在 **Phase A/B feature audit**:逐功能对 sdlpal 源 1:1 核对、commit 引行号,不再"自报完成度"。
+核心系统(战斗 / 场景 / 事件 / 菜单 / 存档 / 音频 / 演出)已整体落地,当前在**逐子系统对 sdlpal 源 1:1 核对**阶段:不再"自报完成度",而是逐函数对照 C 源找差异、commit 引行号、逐条 TDD 修复 + 实机验收。
+
 功能 / opcode / 资源三类实现状态分别落到三张权威表:
 
 - [`docs/feature-status.md`](docs/feature-status.md) —— 玩家可感知功能(A–M 章)
-- [`docs/opcode-status.md`](docs/opcode-status.md) —— 事件脚本逐 opcode
+- [`docs/opcode-status.md`](docs/opcode-status.md) —— 事件脚本逐 opcode(164 全集)
 - [`docs/resource-status.md`](docs/resource-status.md) —— 资源提取逐 chunk
 
 逐内容状态表(数据 + 脚本反汇编 + sdlpal 核对生成):
@@ -24,27 +25,13 @@
 - [`docs/item-status.md`](docs/item-status.md) —— 物品逐条(235,id 61–295)
 - [`docs/magic-status.md`](docs/magic-status.md) —— 仙术逐条(102,id 296–397,敌我双方 + 分角色习得 + 合击)
 - [`docs/cutscene-status.md`](docs/cutscene-status.md) —— 演出(连续自动脚本)逐条(507 段 / 188 场景,含复核风险 triage)
+- [`docs/game-mechanics.md`](docs/game-mechanics.md) —— 战斗底层机制真值(伤害 / 暴击 / 隐藏经验 / 五灵抗性 / 出手顺序等,逐条带 sdlpal 行号)
 
-> 完成度表述一律以三表为准,README 不写百分比。三表状态多为 `claimed`(Claude 自认完成 + 带 sdlpal 行号),`verified`(user 真引擎逐条核对)需 user 实测确认。
+> 完成度表述一律以上述表为准,README 不写百分比。表内多数为 `claimed`(Claude 自认完成 + 带 sdlpal 行号),`verified`(user 真引擎逐条核对)需 user 实测确认。
 
-近期(0531–0604)落地:
-**M6 音频全套**(运行时 MIDI 合成 BGM 开箱即响 + 战斗 SFX 全接:攻击 / 暴击 / 施法 / 受击 / 阵亡 / 逃跑 / 胜利曲,帧同步 + 系统菜单「音乐」「音效」开关)、
-**战斗动作菜单 1:1**(4 图标 + 杂项盒 + 物品 / 法术二级网格 + 友方 / 敌方 target picker)、
-**被动格挡**(fAutoDefend + 格挡 / 受击姿动画)、
-菜单非匹配项红色显示(对齐 sdlpal 不过滤列表)、
-调试设施收拢到 `src/dev/`、
-**性能**:scene 资源 LRU 淘汰(修长时游玩内存单调增长)、
-**战斗真值修复**:玩家打敌人超杀显示**完整伤害**(对齐 sdlpal `wHealth` WORD 下溢,非剩余血;敌打玩家则钳剩余血,故意不对称)。
+近期最大一轮工作 —— **全子系统差异审计**([`docs/plans/2026-06-07-sdlpal-diff-audit.md`](docs/plans/2026-06-07-sdlpal-diff-audit.md)):22 个子系统并行、逐函数对照 `reference/sdlpal/` 找差异候选,每条候选再派对抗复核 agent 独立重核、尽力推翻误报。70 条候选 → 64 条确认差异(2 high / 15 medium / 47 low)→ **已 100% 逐条修复**(全部 TDD + `pnpm check` 全绿 + 逐条 commit)。
 
-更早(0529–0530):对话逐字变速 + 颜色控制符、过场黑屏架构根因修复、结局 DOS 全片编排、
-特效栈(FBP / 调色板 / RNG 动画 / 屏幕波动)、跨场景跟随者(opcode 0x98 / 0x46)、
-战斗法术伤害结算 keystone(inline 攻击法术 + 0x42 SimulateMagic)、
-**战斗演出全套**(时间线架构:物理 / 法术动画 + 受击变白 + 死亡淡出 + 敌 idle 帧 + 伤害数字)、
-**战斗友方目标选择** + **战斗内治疗 / 复活值生效**、
-**战斗内对话**(boss 嘲讽,复用大世界对话框覆于战斗场景)。
-战斗底层机制真值(伤害 / 暴击 / 隐藏经验 / 五灵抗性 / 出手顺序等)另见 [`docs/game-mechanics.md`](docs/game-mechanics.md)。
-
-进度 / 重排 M6 见 [`docs/plans/2026-05-28-feature-audit-and-replanning.md`](docs/plans/2026-05-28-feature-audit-and-replanning.md)。
+此前 M6 体验补全(音频全套 / 战斗演出时间线 / 动作菜单 1:1 / 被动格挡 / 结局编排)与 D 系列批次(状态行为 / 敌人 AI / 数值装备 / 毒)落地流水,见 git log 与 [`docs/plans/`](docs/plans/);战斗底层机制真值另见 [`docs/game-mechanics.md`](docs/game-mechanics.md)。
 
 历史里程碑(纯记录,完成度表述以 feature-status.md 为准):
 
@@ -56,7 +43,8 @@
 - **M5**(2026-05-27):51 task — P0 物理 / Sync GameState / 完整战斗骨架 / 菜单 state machine / Save API / Interact opcode
 - **M5.5**(2026-05-27):sdlpal 全 46 个 .c 源 445 函数 audit doc(自报完成度后被 user 实测打脸)
 - **M5.6**(2026-05-27):基础玩法接通 — 菜单输入路由 / 9-slice box / trigger zone / PAL_Search(同样自报完成度被打脸,触发 2026-05-28 重置)
-- **M6**(2026-05-28 起,进行中):0528 重置后的功能 audit 阶段 — 战斗演出 / 音频全套 / 动作菜单逐功能对 sdlpal 1:1,带行号 commit,不再自报完成度
+- **M6**(2026-05-28 起):0528 重置后的功能 audit 阶段 — 战斗演出 / 音频全套 / 动作菜单逐功能对 sdlpal 1:1,带行号 commit,不再自报完成度
+- **差异审计期**(2026-05-31 起):D 系列批次(状态行为 / 敌人 AI / 数值装备 / 毒)+ item / magic / cutscene 逐内容审计 + 全子系统差异审计(70 条候选 / 64 确认 / 全修),详见 [`docs/plans/`](docs/plans/)
 
 ## 仓库结构
 

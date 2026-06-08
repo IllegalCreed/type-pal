@@ -80,4 +80,4 @@ type-pal 是**忠实移植**(D3)。测试的主线不是凭空写期望值,而�
 
 - 大量**核心层单测** + 一层 **sdlpal 差分** + 少量 **E2E 回放**。
 - 每个里程碑的**垂直切片本身就是一次端到端验证**。
-- round-trip 验证随 events 转写器(M4)一起做;sdlpal 差分 harness、`.RPG` 解析、dev 面板、输入录制 / 回放 在 M1–M3 按需逐步搭。
+- round-trip 验证随 events 转写器(M1,见 04-decisions D22)一起做;sdlpal 差分 harness、`.RPG` 解析、dev 面板、输入录制 / 回放 在 M1–M3 按需逐步搭。
