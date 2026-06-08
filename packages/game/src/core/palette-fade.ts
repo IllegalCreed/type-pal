@@ -63,10 +63,16 @@ export interface PaletteFadeState {
    * L34:FadeOut(0x50)/FadeIn(0x51)专用 —— sdlpal `newpalette[i]=palette[i]*j>>6`(palette.c:170-180/238-250),
    * 亮度系数 j∈0..60 **整数**,循环封顶 60/64≈93.75%:FadeOut 首帧即从 100% 跳到 93.75%、FadeIn 末帧只到
    * 93.75%,精确 100%/0% 由 finalizePaletteFade 补(对齐 palette.c:188/258 循环后 VIDEO_SetPalette)。
-   * `'out'`:base=startColors、j=60→0;`'in'`:base=targetColors、j=0→60。其余 lerp-fade(SceneFade
-   * 的 i 0..63、PaletteFade)不设此标志,仍纯线性插值。
+   * `'out'`:base=startColors、j=60→0;`'in'`:base=targetColors、j=0→60。SceneFade 用 `fade63`、
+   * PaletteFade/ColorFade 不设此标志。
    */
   fade60?: 'in' | 'out'
+  /**
+   * L34 姊妹项:SceneFade(0x93)专用 —— 同 `base[i]*i>>6` 量化但 i∈0..63(palette.c:307/340 `for i<64`、
+   * 325-329/360-364 缩放),封顶 63/64≈98.4%。**关键区别**:PAL_SceneFade 函数末尾**无** SetPalette(palette)
+   * 补满,故 `'in'` 终值停在 63/64(finalizePaletteFade 对 'in' 也只补量化值、不到 100%);`'out'` 终值 i=0=全黑。
+   */
+  fade63?: 'in' | 'out'
 }
 
 /** 全黑 256 色(FadeOut/SceneFade-out target、FadeIn/SceneFade-in start)。每次新数组。 */
@@ -164,6 +170,7 @@ export function buildSceneFade(
     mode: 'lerp',
     steps: 64,
     increment: 0,
+    fade63: fadeIn ? 'in' : 'out', // L34:i∈0..63 量化;fadeIn 停 63/64≈98.4%(无补满),fadeOut 到全黑
   }
 }
 
@@ -251,12 +258,16 @@ export function buildFadeToRed(
 export function stepPaletteFade(colors: RGB[], pf: PaletteFadeState, nowMs: number): void {
   const progress = Math.min(Math.max((nowMs - pf.startTimeMs) / pf.totalMs, 0), 1)
   if (pf.mode === 'lerp') {
-    if (pf.fade60) {
-      // L34:sdlpal PAL_FadeOut/FadeIn `newpalette[i]=base[i]*j>>6`(palette.c:170-180/238-250)。
-      //   j∈0..60 整数 → 循环封顶 60/64≈93.75%(FadeOut 首帧即跳到 93.75%、FadeIn 末帧 93.75%);
-      //   精确 0%/100% 由 finalizePaletteFade 补(palette.c:188/258 循环后 VIDEO_SetPalette)。
-      const isIn = pf.fade60 === 'in'
-      const jj = isIn ? Math.trunc(60 * progress) : Math.trunc(60 * (1 - progress)) // in 0→60, out 60→0
+    const quantDir = pf.fade60 ?? pf.fade63
+    if (quantDir) {
+      // L34:sdlpal `newpalette[i]=base[i]*j>>6` 整数量化。FadeOut/FadeIn(palette.c:170-180/238-250)
+      //   j∈0..60 + 循环后 SetPalette 补满(finalize 补精确 100%/0%);SceneFade(palette.c:325-329/360-364)
+      //   i∈0..63 且函数末尾**无补满** → fadeIn 停 63/64≈98.4%(finalize 也只补量化值,见 finalizePaletteFade)。
+      const is63 = pf.fade63 !== undefined
+      const n = is63 ? 64 : 60   // 步数基数(time = n 步)
+      const cap = is63 ? 63 : 60 // j 上限:SceneFade `i<64` → 最大 63;Fade j 最大 60
+      const isIn = quantDir === 'in'
+      const jj = Math.min(cap, Math.trunc(n * (isIn ? progress : 1 - progress))) // in 0→cap, out cap→0
       const base = isIn ? pf.targetColors : pf.startColors // 非黑端
       for (let i = 0; i < 256; i++) {
         if (i === pf.skipIndex) continue
@@ -295,7 +306,14 @@ export function finalizePaletteFade(colors: RGB[], pf: PaletteFadeState): void {
   for (let j = 0; j < 256; j++) {
     if (j === pf.skipIndex) continue
     const t = pf.targetColors[j]!
-    colors[j] = [t[0], t[1], t[2]]
+    if (pf.fade63 === 'in') {
+      // L34:SceneFade fadeIn 无循环后补满(PAL_SceneFade 函数末尾无 SetPalette(palette)),
+      //   终值停在 i=63 量化 = target*63>>6(63/64≈98.4%),**不补到精确 100%**(与 FadeIn 的关键区别)。
+      colors[j] = [(t[0] * 63) >> 6, (t[1] * 63) >> 6, (t[2] * 63) >> 6]
+    } else {
+      // FadeIn/Out(fade60,循环后 SetPalette(palette/black))+ SceneFade fadeOut(target=黑)+ 其余 lerp:补精确 target。
+      colors[j] = [t[0], t[1], t[2]]
+    }
   }
 }
 

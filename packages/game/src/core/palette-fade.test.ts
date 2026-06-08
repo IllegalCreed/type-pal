@@ -91,17 +91,34 @@ describe('buildFadeIn(0x51)', () => {
 })
 
 describe('buildSceneFade(0x93)', () => {
-  it('fadeIn:全黑 → base', () => {
+  it('fadeIn:全黑 → base,i∈0..63 量化,封顶 63/64≈98.4%(SceneFade 函数末尾无补满)', () => {
     const base = fill([120, 0, 0])
     const pf = buildSceneFade(fill([9, 9, 9]), base, true, 3200, 0)
+    expect(pf.fade63).toBe('in')
     expect(pf.startColors[0]).toEqual([0, 0, 0])
     expect(pf.targetColors[0]).toEqual([120, 0, 0])
+    const colors = blackColors()
+    stepPaletteFade(colors, pf, 1600) // progress 0.5 → i=trunc(64*0.5)=32:(120*32)>>6=60
+    expect(colors[0]).toEqual([60, 0, 0])
+    stepPaletteFade(colors, pf, 3200) // progress 1 → i=min(63,64)=63:(120*63)>>6=118
+    expect(colors[0]).toEqual([118, 0, 0])
+    // L34:PAL_SceneFade 末尾无 SetPalette(palette) → fadeIn 停在 63/64≈98.4%,**不补**到精确 120
+    finalizePaletteFade(colors, pf)
+    expect(colors[0]).toEqual([118, 0, 0]) // (120*63)>>6=118,非 120(与 FadeIn 补满的关键区别)
   })
-  it('fadeOut:cur → 全黑', () => {
+  it('fadeOut:cur → 全黑,i 63→0 量化,终值 i=0=全黑', () => {
     const cur = fill([120, 0, 0])
     const pf = buildSceneFade(cur, fill([99, 99, 99]), false, 3200, 0)
+    expect(pf.fade63).toBe('out')
     expect(pf.startColors[0]).toEqual([120, 0, 0])
     expect(pf.targetColors[0]).toEqual([0, 0, 0])
+    const colors = blackColors()
+    stepPaletteFade(colors, pf, 1600) // progress 0.5 → i=32:(120*32)>>6=60
+    expect(colors[0]).toEqual([60, 0, 0])
+    stepPaletteFade(colors, pf, 3200) // progress 1 → i=0:全黑
+    expect(colors[0]).toEqual([0, 0, 0])
+    finalizePaletteFade(colors, pf)
+    expect(colors[0]).toEqual([0, 0, 0]) // target=黑
   })
 })
 

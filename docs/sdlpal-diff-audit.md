@@ -23,7 +23,7 @@
 - **✅ 已修复 64 条(全部)**:H1 H2 全部 high;M1–M15 共 15 条 medium(全部);L1–L47 共 47 条 low(全部)。
 - **⏸ 暂缓**:无。
 - **未修**:无 —— **64 条 confirmed(2 high + 15 medium + 47 low)已 100% 修复**。
-- **附:已知姊妹分歧(报告外,未归档)**:SceneFade(0x93)的 ramp 上限是 63/64 而非 FadeIn/Out 的 60/64(L34 只覆盖后两者);可比照 L34 的 `fade60` 机制后续补一个 `fade63`,但属另一条未审查项。
+- **附:报告外姊妹分歧(已一并修复)**:SceneFade(0x93)的 ramp 上限 i∈0..63(63/64),且 `PAL_SceneFade` 函数末尾**无** `SetPalette(palette)` 补满 → fadeIn 终值停在 63/64≈98.4%(不到 100%)、fadeOut 到全黑。已比照 L34 加 `fade63`:`stepPaletteFade` 统一量化(`fade60` n=60/cap=60、`fade63` n=64/cap=63),`finalizePaletteFade` 对 `fade63:'in'` 也只补 `target*63>>6`(停 98.4%、不补满,与 FadeIn 的关键区别)。注:此项不在原 64 条 confirmed 内。
 
 下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
 
@@ -88,7 +88,7 @@
 | L31 | ✅ 通过 | cover-tile 扫描边界已从 `Math.floor` 改为 `Math.trunc`,对齐 C 整数除法;潜伏边界差异已收口。 |
 | L32 | ✅ 通过 | layer-0 in-bounds tile 缺帧时已 fallback 到 `tiles.get(0)`,layer-1 仍按原版跳过;不再留黑洞。 |
 | L33 | ✅ 通过 | narration 数字仍用 6px digit sprite 绘制,但游标步进改为 8px `PAL_CharWidth`,多位数字间距与尾随文字位置对齐。 |
-| L34 | ✅ 通过 | `PaletteFadeState` 加 `fade60:'in'\|'out'`,`stepPaletteFade` 对 FadeIn/Out 改用整数 `base[i]*j>>6`(j∈0..60,palette.c:170-180/238-250),封顶 60/64≈93.75%:FadeOut 首帧即跳到 93.75%、FadeIn 末帧 93.75%,精确 0%/100% 由 `finalizePaletteFade` 补(palette.c:188/258)。逐位对齐 C(中间帧 `(255*30)>>6=119` 而非浮点 round 120)。改写 3 个 fade 回归断言为 C 量化值;SceneFade 63/64 为另一条未归档姊妹分歧(见进度小节)。 |
+| L34 | ✅ 通过 | `PaletteFadeState` 加 `fade60:'in'\|'out'`,`stepPaletteFade` 对 FadeIn/Out 改用整数 `base[i]*j>>6`(j∈0..60,palette.c:170-180/238-250),封顶 60/64≈93.75%:FadeOut 首帧即跳到 93.75%、FadeIn 末帧 93.75%,精确 0%/100% 由 `finalizePaletteFade` 补(palette.c:188/258)。逐位对齐 C(中间帧 `(255*30)>>6=119` 而非浮点 round 120)。改写 3 个 fade 回归断言为 C 量化值。姊妹项 SceneFade(0x93)i∈0..63、无补满(fadeIn 停 98.4%)已一并加 `fade63` 修复(报告外,见进度小节)。 |
 | L35 | ✅ 通过 | 大世界仙术列表 cancel 从 `pick-spell` 直接置 `done`,不再回到 `pick-caster`;调用方按 done 关菜单回大世界。 |
 | L36 | ✅ 通过 | `createMagicSelectMenu` 对已学 spell ObjectID 升序排序,与战斗法术菜单同源对齐 `magicmenu.c`。 |
 | L37 | ✅ 通过 | 选施法人框只按 `hp<=0` 禁用,不再因没有大世界法术而灰掉活人;选中后进入空/全灰 spell 列表。 |
