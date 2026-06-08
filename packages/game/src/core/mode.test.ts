@@ -93,7 +93,7 @@ describe('tickByMode autoScript gate (P2#6a)', () => {
 })
 
 describe('tickByMode auto fade-in gate', () => {
-  it('水月宫:0x50→0x76 黑屏后,waiting 空档不抢先淡入;等居中字后 0x51 再亮屏', () => {
+  it('水月宫:0x50→0x76 黑屏后,waiting 空档不抢先淡入;居中字 + 0x51 期间 blackScreenHold 撑住(场景靠后续 0x73 揭)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'event'
     gs.palette = palette([0, 0, 0])
@@ -129,7 +129,9 @@ describe('tickByMode auto fade-in gate', () => {
     tickEventSystem(gs, snap(), createCommandBus())
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.needToFadeIn).toBe(false)
-    expect(gs.blackScreenHold).toBe(false)
+    // 0x51 FadeIn 只 ramp 调色板、**不**清 blackScreenHold(2026-06-08 修):内容仍 index0 黑 → 字幕保持黑屏。
+    //   "一夜过去"的场景靠之后的 0x73 fadeScreen(PAL_MakeScene)才揭(不在本截断脚本里)。
+    expect(gs.blackScreenHold).toBe(true)
     expect(gs.paletteFadeState?.targetColors[0]).toEqual([180, 120, 60])
   })
 
@@ -171,6 +173,38 @@ describe('tickByMode auto fade-in gate', () => {
     tickByMode(gs, snap(), createCommandBus()) // 下一 tick 才续跑到 0x51
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.paletteFadeState?.targetColors[0]).toEqual([180, 120, 60])
+  })
+
+  // 厨房李大娘"当夜"/"次日"(scene-020 L_2920 / all.json):字幕序列 = ...FadeOut/SceneFade → 0x76 ShowFBP(黑)
+  //   → **0x51 FadeIn → showDialog 字幕(无 setDialogStyle)**。与"一夜过去"(FadeIn 在字幕**后**)相反:
+  //   FadeIn 在字幕**前**。sdlpal:0x51 只淡 palette、内容仍 index0 黑,场景靠之后 loadScene/PAL_MakeScene 才揭 →
+  //   字幕必须仍在黑屏上、无头像。user 2026-06-08 报"黑屏没了背景出来 + 李大娘头像说当夜"。
+  it('当夜/次日:0x76→0x51 FadeIn 不揭场景(blackScreenHold 撑住)+ ShowFBP 清残留头像', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = 'event'
+    gs.palette = palette([0, 0, 0])
+    gs.basePalette = palette([180, 120, 60])
+    // 前一段李大娘 bottom 对话残留的 style/portrait(当夜字幕前无 setDialogStyle → 沿用)
+    gs.currentDialogStyle = 'bottom'
+    gs.currentDialogPortraitIcon = 55
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: OP_SHOW_FBP, operands: [0xffff, 0, 0] },
+        { op: 'raw', opcode: OP_FADE_IN, operands: [0, 0, 0] },
+        { op: 'showDialog', messageIndex: 1031, text: '"　　　　　当夜．．"' },
+        { op: 'end' },
+      ],
+      labelMap: {},
+      ip: 0,
+    }
+
+    // 一 tick:ShowFBP(无 handler → blackScreenHold=true + 清头像 + ip++)→ 同 tick 续跑 0x51 FadeIn
+    tickEventSystem(gs, snap(), createCommandBus())
+    // 0x51 FadeIn 启 palette ramp 但 **不**清 blackScreenHold(内容仍黑,场景靠后续 MakeScene 揭)
+    expect(gs.eventCursor?.waiting).toBe('palette-fade')
+    expect(gs.blackScreenHold).toBe(true)
+    // ShowFBP 刷黑 = sdlpal 把屏上头像一并抹掉 → 残留头像清空,"当夜"showDialog 建框时 portraitIcon=undefined
+    expect(gs.currentDialogPortraitIcon).toBeUndefined()
   })
 
   it('event+frame-wait 仍可按 PAL_MakeScene 自动淡入', () => {

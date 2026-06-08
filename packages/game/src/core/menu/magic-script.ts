@@ -211,10 +211,6 @@ export function runMagicScriptSync(
       default:
         // 其它 opcode(eg 0x17 等装备 effect、0x19/0x1A 等永久 stat 改)
         // outside-battle spell 真值实测不 hit 这些;log skip
-        console.debug(
-          `runMagicScriptSync: opcode 0x${cmd.opcode.toString(16)} ip=${ip} `
-          + `op=${JSON.stringify(cmd.operands)} — skip(outside-battle spell 不应 hit)`,
-        )
     }
 
     ip++

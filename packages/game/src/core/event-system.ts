@@ -561,7 +561,6 @@ function startFadeOutEffect(gs: GameState, delayOperand: number, cursor?: EventC
     gs.paletteFadeState = pf
   }
   gs.needToFadeIn = true
-  console.debug(`event-system: FadeOut delay=${delay} → ${delay * 600}ms (→black, needToFadeIn=TRUE)`)
 }
 
 function isEventCursorAtMakeSceneStep(cursor: EventCursor | undefined): boolean {
@@ -1297,7 +1296,6 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
     default:
       // showDialog / setDialogStyleX / loadScene / startBattle 等不该在 autoScript 出现。
       // 防御 skip ip++,避免死循环。
-      console.debug(`autoScript: skip non-script op '${cmd.op}' for npc id=${npc.id} ip=${cursor.ip}`)
       cursor.ip++
   }
 }
@@ -1388,7 +1386,6 @@ export function tickEventSystem(
         cursor.reloadSlotAfterFade = undefined
         gs.eventCursor = undefined  // 停脚本(对齐 return 0;reload handler 会替换 gs 全字段)
         if (_loadLastSaveHandler) _loadLastSaveHandler(slot)
-        else console.debug('event-system: loadLastSave(无 _loadLastSaveHandler 注入,skip)')
         return
       }
       cursor.ip++
@@ -1921,9 +1918,6 @@ export function tickEventSystem(
             cursor.ip++ // PAL_BuyMenu 返回后跑下条(菜单关闭时从此 ip 续)
             return // 切 menu mode,停本 tick 脚本执行
           }
-          console.debug(
-            `event-system: ${isBuy ? 'buy' : 'sell'} menu storeNum=${cmd.operands[0]}(无 _shopMenuHandler 注入,skip)`,
-          )
           cursor.ip++
           break
         }
@@ -1956,7 +1950,6 @@ export function tickEventSystem(
             cursor.ip++
             return
           }
-          console.debug(`event-system: playRNG chunk=${gs.iCurPlayingRNG}(无 _rngPlayHandler 注入,skip)`)
           cursor.ip++
           break
         }
@@ -1968,13 +1961,17 @@ export function tickEventSystem(
           const chunk = cmd.operands[0] ?? 0
           const fade = cmd.operands[1] ?? 0
           gs.blackScreenHold = chunk === 0xffff
+          // ShowFBP 全屏图(WIN95 0xFFFF=填黑)等价 sdlpal 把 gpScreen 整屏覆盖 → 之前 PAL_StartDialog blit 的
+          //   头像像素被抹掉。我们 portrait 是 currentDialogPortraitIcon 持久态,屏幕刷掉时须一并清,否则随后
+          //   **无 setDialogStyle** 的字幕(当夜/次日)startDialogLine 会沿用残留头像(李大娘)→ 黑屏上冒出头像。
+          //   sdlpal 字幕无 PAL_StartDialog 即不画头像;有 setDialogStyle 的后续对话会自设新头像,清此处不影响。
+          gs.currentDialogPortraitIcon = undefined
           if (_showFbpHandler) {
             _showFbpHandler({ gs, chunkIdx: chunk, fade })
             cursor.waiting = 'show-fbp'
             cursor.ip++
             return
           }
-          console.debug(`event-system: showFBP chunk=${chunk} fade=${fade}(无 _showFbpHandler 注入,skip)`)
           cursor.ip++
           break
         }
@@ -1990,7 +1987,6 @@ export function tickEventSystem(
             cursor.ip++
             return
           }
-          console.debug(`event-system: scrollFBP chunk=${chunk} speed=${speed}(无 _scrollFbpHandler 注入,skip)`)
           cursor.ip++
           break
         }
@@ -2018,7 +2014,6 @@ export function tickEventSystem(
             cursor.ip++
             return
           }
-          console.debug('event-system: endingAnimation(无 _endingAnimationHandler 注入,skip)')
           cursor.ip++
           break
         }
@@ -2046,7 +2041,6 @@ export function tickEventSystem(
           const curColors = (gs.palette ?? gs.basePalette)?.colors ?? blackColors()
           startPaletteFade(gs, cursor, buildFadeOut(curColors, 600, now), false, false)
           cursor.reloadSlotAfterFade = gs.currentSaveSlot
-          console.debug(`event-system: loadLastSave slot=${gs.currentSaveSlot}(fade-out 600ms → reload)`)
           return
         }
         // 0xA0 quit(sdlpal script.c:2988-2996)。用户决策:跳过 PAL_AdditionalCredits → 回标题。
@@ -2058,7 +2052,6 @@ export function tickEventSystem(
             cursor.waiting = 'quit'
             return
           }
-          console.debug('event-system: quit(无 _quitHandler 注入,清 cursor)')
           gs.eventCursor = undefined
           return
         }
@@ -2127,7 +2120,6 @@ export function tickEventSystem(
             const baseColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
             startPaletteFade(gs, cursor, buildFadeIn(baseColors, 600, performance.now()), false, true)
             gs.needToFadeIn = false
-            console.debug('event-system: 0x05 redraw → PAL_MakeScene auto fade-in(needToFadeIn,600ms)')
             return  // 阻塞等淡入完(对齐 sdlpal PAL_FadeIn);palette-fade 分支完成时 ip++ 到下一条
           }
           // 无 dialog 且无 pending 淡入 → sdlpal 0x05 真值(script.c:3290-3293,非 RNG/battle):
@@ -2174,7 +2166,6 @@ export function tickEventSystem(
           gs.currentDialogPortraitIcon = undefined
           gs.currentDialogFontColor = 0x4F
           cursor.waiting = 'fade-screen'
-          console.debug(`event-system: fadeScreen speed=${speed} → ${totalMs}ms (sdlpal classic 真值)`)
           return  // 等 fade 完
         }
 
@@ -2206,10 +2197,14 @@ export function tickEventSystem(
           if (cmd.opcode === OP_FADE_IN) {
             // sdlpal script.c:1789 `((SHORT)op0 > 0) ? op0 : 1`。全黑 → basePalette。
             const delay = toInt16(op0) > 0 ? op0 : 1
-            gs.blackScreenHold = false
+            // **不**清 blackScreenHold(2026-06-08 当夜/次日 bug):sdlpal PAL_FadeIn 只 ramp 调色板,
+            //   gpScreen 内容不动 —— 0x76 ShowFBP(0xFFFF)刚把内容填成 index0 黑,FadeIn 后内容仍是黑
+            //   (场景调色板 index0=黑),屏幕保持黑。场景靠之后真正的 PAL_MakeScene(loadScene 自动淡入 /
+            //   0x05 redraw / 0x73 fadeScreen / 0x9B)才重绘揭出。厨房李大娘"当夜"/"次日"序列 = ShowFBP →
+            //   **FadeIn → 字幕(无 setDialogStyle)**:旧码这里清 blackScreenHold → 字幕前就露场景背景(user 报);
+            //   "一夜过去"(FadeIn 在字幕后)则靠后续 0x73 fadeScreen 揭场景,改后更忠实(不再 0x51 提前露 + 0x73 再淡)。
             startPaletteFade(gs, cursor, buildFadeIn(baseColors, delay * 600, now), false)
             gs.needToFadeIn = false  // sdlpal script.c:1791
-            console.debug(`event-system: FadeIn delay=${delay} → ${delay * 600}ms (black→base)`)
             return
           }
           if (cmd.opcode === OP_SCENE_FADE) {
@@ -2222,7 +2217,6 @@ export function tickEventSystem(
             const totalMs = Math.ceil(64 / absStep) * 100
             startPaletteFade(gs, cursor, buildSceneFade(curColors, baseColors, fadeIn, totalMs, now), true)
             gs.needToFadeIn = step < 0  // sdlpal script.c:2670
-            console.debug(`event-system: SceneFade step=${step} → ${totalMs}ms (${fadeIn ? 'in' : 'out'}, scene-fade)`)
             return
           }
           if (cmd.opcode === OP_PALETTE_FADE) {
@@ -2235,9 +2229,6 @@ export function tickEventSystem(
             //   (baseColors 是 toggle 前算的,不能直接用)。#0/#5 有夜间半 → 真切夜色。
             const targetColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
             startPaletteFade(gs, cursor, buildPaletteFade(curColors, targetColors, totalMs, now), fUpdateScene)
-            console.debug(
-              `event-system: PaletteFade night=${gs.nightPalette} fUpdateScene=${fUpdateScene} → ${totalMs}ms`,
-            )
             return
           }
           if (cmd.opcode === OP_COLOR_FADE) {
@@ -2250,7 +2241,6 @@ export function tickEventSystem(
             const totalMs = 64 * perStep
             startPaletteFade(gs, cursor, buildColorFade(baseColors, color, fFrom, totalMs, now), false)
             gs.needToFadeIn = false  // sdlpal script.c:2588
-            console.debug(`event-system: ColorFade color=${color} fFrom=${fFrom} → ${totalMs}ms`)
             return
           }
           // OP_FADE_TO_RED(0x4F)— sdlpal script.c:1772 `PAL_FadeToRed()`(game over)。
@@ -2263,7 +2253,6 @@ export function tickEventSystem(
           gs.gameOverActive = true
           gs.deathHoldActive = false
           startPaletteFade(gs, cursor, buildFadeToRed(baseColors, 32 * 75, now), false)
-          console.debug(`event-system: FadeToRed → 2400ms (→red, skip 0x4F);gameOverActive=true`)
           return
         }
 
@@ -2280,7 +2269,6 @@ export function tickEventSystem(
           gs.currentDialogPortraitIcon = undefined
           gs.currentDialogFontColor = 0x4F
           cursor.waiting = 'fade-screen'
-          console.debug(`event-system: fadeToScene(0x9B) dither speed=2 → ${totalMs}ms`)
           return
         }
 
@@ -2294,7 +2282,6 @@ export function tickEventSystem(
           }
           cursor.delayUntilMs = performance.now() + delayMs
           cursor.waiting = 'delay'
-          console.debug(`event-system: delay ${delayMs}ms (op0=${cmd.operands[0]})`)
           return  // 等延迟完
         }
         // Sync.2 fix20:opcode 0x70/0x7A/0x7B PartyWalkTo — 主角阻塞走到目标。
@@ -2427,7 +2414,6 @@ export function tickEventSystem(
         // helper 内当 1)。**旧版 skip 是 user 2026-05-29 "调查柜子获得净衣符但道具列表空"
         // 的根因** — 宝箱 / cutscene 给物品 opcode 全失效。
         addItemToInventory(gs, cmd.itemId, cmd.count)
-        console.debug(`event-system: giveItem id=${cmd.itemId} count=${cmd.count}`)
         cursor.ip++
         break
 
@@ -2484,6 +2470,7 @@ export function tickEventSystem(
             })
         }
         else {
+          // fetchPalette 未注入(测试 / 非 bootstrap 路径)→ 诊断 skip(非正常游玩噪声)。
           console.debug(
             `event-system: setPalette paletteIndex=${paletteIdx} ip=${cursor.ip}(fetchPalette 未注入)`,
           )
@@ -2700,6 +2687,7 @@ export function runScript(opts: RunScriptOptions): number {
           }
         }
         // D26:无具名 opcode 兜底 skip + console.debug(battle 缺 gs / explore mode)
+        //   保留此诊断:仅在**未实现 opcode** 命中时触发(非正常游玩噪声),便于开发期发现缺口。
         console.debug(`${logPrefix} skip raw opcode=${cmd.opcode} ip=${ip}`, cmd.operands)
         ip++
         break
@@ -2712,29 +2700,26 @@ export function runScript(opts: RunScriptOptions): number {
         //   count=0 → addItemToInventory 内当 1(sdlpal global.c:1094-1097)。
         if (runtimeMode === 'battle' && battleCtx?.gs) {
           addItemToInventory(battleCtx.gs, cmd.itemId, cmd.count)
-          console.debug(`${logPrefix} giveItem id=${cmd.itemId} count=${cmd.count}`)
         }
         else {
           // explore mode 不走 runScript(走 stepEvent 的 giveItem);此处仅 battle 缺 gs 兜底
-          console.debug(`${logPrefix} skip op=${cmd.op} ip=${ip}`)
         }
         ip++
         break
 
       case 'startBattle':
         // 战斗脚本里出现 startBattle 不合理;沿用 M2 skip 行为
-        console.debug(`${logPrefix} skip op=${cmd.op} ip=${ip}`)
         ip++
         break
 
       case 'loadScene':
-        // M3.5 B 路线 stub:no-op skip + console.debug。test 在 T10 补全。
+        // M3.5 B 路线 stub:战斗子脚本里出现 loadScene 不应发生 → 诊断 skip(非正常游玩噪声)。
         console.debug(`${logPrefix} skip loadScene sceneId=${cmd.sceneId} ip=${ip}(B 路线 stub)`)
         ip++
         break
 
       case 'setPalette':
-        // runScript 是 battle-mode 子脚本执行路径,setPalette 在战斗中无意义;no-op skip。
+        // runScript 是 battle-mode 子脚本执行路径,setPalette 在战斗中无意义;诊断 skip。
         console.debug(`${logPrefix} skip setPalette paletteIndex=${cmd.paletteIndex} ip=${ip}`)
         ip++
         break
@@ -2799,7 +2784,6 @@ export function runPlayerPoisonEntrySync(gs: GameState, roleId: number, playerSc
 
       default:
         // 对话/场景切换等阻塞命令不能在施毒 helper 中安全同步嵌套;保留入口,下一次 tick 仍从原脚本跑。
-        console.debug(`event-system: poison playerScript L_${playerScriptIp} hit non-sync op ${cmd.op}`)
         return startIp
     }
   }
@@ -2847,7 +2831,6 @@ function tryStartBattle(gs: GameState, enemyTeamId: number, fleeArg: number): vo
   }
   const isBoss = fleeArg === 0  // sdlpal !operand[2]:operand[2]==0 → isBoss true
   // 战斗背景 = gs.wNumBattleField(0x4A setBattlefield 设;持久全局,scene enter 脚本逐场设)。
-  console.debug(`event-system: startBattle enemyTeamId=${enemyTeamId} isBoss=${isBoss} scene=${gs.wNumScene} battleField=${gs.wNumBattleField}`)
   _startBattleHandler({ gs, enemyTeamId, isBoss })
 }
 
@@ -2946,10 +2929,8 @@ function consumePendingItem(gs: GameState): void {
   if (gs.pendingItemConsume === undefined) return
   if (gs.fScriptSuccess) {
     addItemToInventory(gs, gs.pendingItemConsume, -1)
-    console.debug(`event-system: item ${gs.pendingItemConsume} 消耗(脚本成功)`)
   }
   else {
-    console.debug(`event-system: item ${gs.pendingItemConsume} 不消耗(g_fScriptSuccess=false)`)
   }
   gs.pendingItemConsume = undefined
 }
@@ -3196,17 +3177,14 @@ function applyRawOpcode(
       if ((cx ?? 0) === 0 && (cy ?? 0) === 0) {
         gs.camera.x = gs.party.x - PARTYOFFSET_X
         gs.camera.y = gs.party.y - PARTYOFFSET_Y
-        console.debug('event-system: centerCameraOnParty')
       }
       else if (flag === 0xFFFF) {
         gs.camera.x = (cx ?? 0) * 32 - PARTYOFFSET_X
         gs.camera.y = (cy ?? 0) * 16 - PARTYOFFSET_Y
-        console.debug(`event-system: setCamera abs col=${cx} row=${cy} → camera(${gs.camera.x},${gs.camera.y})`)
       }
       else {
         gs.camera.x += toInt16(cx ?? 0)
         gs.camera.y += toInt16(cy ?? 0)
-        console.debug(`event-system: setCamera pan-step dx=${toInt16(cx ?? 0)} dy=${toInt16(cy ?? 0)}`)
       }
       break
     }
@@ -3225,7 +3203,6 @@ function applyRawOpcode(
       // sdlpal script.c:1658:gpGlobals->wNumBattleMusic = operand[0]。进战斗时按此选 BGM。
       //   纯 state-set(不立即播)→ 忠实写 gs.wNumBattleMusic;shell 战斗中轮询播放。
       gs.wNumBattleMusic = operands[0] ?? 0
-      console.debug(`event-system: setBattleMusic id=${gs.wNumBattleMusic}`)
       break
     }
 
@@ -3234,7 +3211,6 @@ function applyRawOpcode(
       //   op0 = fade-out 秒(0 → 2.0s,否则 op0*3s)。ts:state-set wNumMusic=0;shell 停 BGM。
       const fadeSec = (operands[0] ?? 0) === 0 ? 2.0 : (operands[0] ?? 0) * 3
       gs.wNumMusic = 0
-      console.debug(`event-system: stopMusic fade=${fadeSec}s`)
       break
     }
 
@@ -3251,13 +3227,11 @@ function applyRawOpcode(
       // sdlpal script.c:1711-1717:if (operand[0] != 0) pCurrent->sState = operand[1]
       // operand[0] 作 enabled 标志 + 选 NPC(走 resolveTargetNpc)
       if ((operands[0] ?? 0) === 0) {
-        console.debug('event-system: setSceneObjectState operand[0]==0 → no-op')
         break
       }
       const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setSceneObjectState')
       if (npc) {
         npc.sState = signExtendI16(operands[1] ?? 0)
-        console.debug(`event-system: setSceneObjectState id=${npc.id} sState=${npc.sState}`)
       }
       break
     }
@@ -3270,10 +3244,8 @@ function applyRawOpcode(
       const amount = signExtendI16(operands[0] ?? 0)
       if (amount < 0 && gs.dwCash < -amount) {
         jumpToGlobalIp(gs, cursor, operands[1] ?? 0) // 钱不足 → cursor.ip=target-1,caller ip++ → target
-        console.debug(`event-system: addCash 钱不足(have ${gs.dwCash} need ${-amount})→ jump L_${operands[1]}`)
       } else {
         gs.dwCash = Math.max(0, gs.dwCash + amount)
-        console.debug(`event-system: addCash amount=${amount} → dwCash=${gs.dwCash}`)
       }
       break
     }
@@ -3281,7 +3253,6 @@ function applyRawOpcode(
     case OP_HALVE_CASH: {
       // sdlpal script.c:2598-2603:gpGlobals->dwCash /= 2(整数除)。
       gs.dwCash = Math.floor(gs.dwCash / 2)
-      console.debug(`event-system: halveCash → dwCash=${gs.dwCash}`)
       break
     }
 
@@ -3293,7 +3264,6 @@ function applyRawOpcode(
       const ly = gs.party.y
       const dir = gs.party.facing
       gs.trail = [0, 1, 2, 3, 4].map(() => ({ x: lx, y: ly, dir }))
-      console.debug(`event-system: setAllPartyPos → all trail = leader (${lx},${ly}) dir=${dir}`)
       break
     }
 
@@ -3314,7 +3284,6 @@ function applyRawOpcode(
       const itemId = operands[0] ?? 0
       const qty = signExtendI16(operands[1] ?? 0)
       addItemToInventory(gs, itemId, qty)
-      console.debug(`event-system: addItem id=${itemId} qty=${qty}`)
       break
     }
 
@@ -3346,11 +3315,9 @@ function applyRawOpcode(
             }
           }
         }
-        console.debug(`event-system: removeItem id=${itemId} qty=${x}(inv=${fromInv} equip=${x - fromInv})`)
       } else {
         // 总量不足 + 有失败分支 → 跳 op[2](sdlpal wScriptEntry=op[2]-1)
         jumpToGlobalIp(gs, cursor, failJump)
-        console.debug(`event-system: removeItem id=${itemId} 不足(have ${have} need ${x})→ jump L_${failJump}`)
       }
       break
     }
@@ -3373,7 +3340,6 @@ function applyRawOpcode(
         //   旧码直接用无符号 operand(65408)→ 把 NPC 摆到地图外(x=67152)。toInt16 整和 wrap 还原真值。
         npc.x = toInt16((operands[1] ?? 0) + gs.party.x)
         npc.y = toInt16((operands[2] ?? 0) + gs.party.y)
-        console.debug(`event-system: setObjectPosRelParty id=${npc.id} → (${npc.x},${npc.y})`)
       }
       break
     }
@@ -3388,7 +3354,6 @@ function applyRawOpcode(
       const sStateVal = signExtendI16(operands[1] ?? 0)
       if (pCurrent && pEvt && (pCurrent.sState ?? 0) === sStateVal) {
         pEvt.sState = sStateVal
-        console.debug(`event-system: syncObjState pEvt=${pEvt.id} ← pCurrent=${pCurrent.id} sState=${pEvt.sState}`)
       }
       break
     }
@@ -3397,7 +3362,6 @@ function applyRawOpcode(
       // sdlpal:if (operand[0] != 0) pCurrent.wAutoScript = operand[1]
       // operand[0] 既是 enabled 标志,也用于 resolveTargetNpc 选 NPC(operand[0]==0 → self)。
       if ((operands[0] ?? 0) === 0) {
-        console.debug('event-system: setAutoScript operand[0]==0 → no-op')
         break
       }
       const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setAutoScript')
@@ -3406,7 +3370,6 @@ function applyRawOpcode(
         if (entry === 0) {
           npc.autoLabel = undefined
           npc.autoCursor = undefined
-          console.debug(`event-system: setAutoScript id=${npc.id} 清空(op1=0)`)
         }
         else {
           // P2#5:operand[1] 是全局 script entry → resolveScriptLabel 解全局 ip(L_<n>→n 恒等)。
@@ -3421,7 +3384,6 @@ function applyRawOpcode(
             npc.autoCursor = undefined
             console.warn(`event-system: setAutoScript id=${npc.id} ${label} 不在全局 labelMap`)
           }
-          console.debug(`event-system: setAutoScript id=${npc.id} ${label} → ip=${r?.ip}`)
         }
       }
       break
@@ -3568,9 +3530,6 @@ function applyRawOpcode(
         }
         // 同 0x6C handler:推进 scriptedFrame mod 4 — 走路帧循环
         npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames)
-        console.debug(
-          `event-system: walkOneStep dir=${FACINGS[dirCode]} id=${npc.id} → (${npc.x},${npc.y})`,
-        )
       }
       break
     }
@@ -3580,7 +3539,6 @@ function applyRawOpcode(
       // 进 scene wScriptOnEnter 时写;后续 opcode 7 startBattle 取此值作 battleFieldId。
       const battleFieldId = operands[0] ?? 0
       gs.wNumBattleField = battleFieldId
-      console.debug(`event-system: setBattlefield id=${battleFieldId}`)
       break
     }
 
@@ -3604,7 +3562,6 @@ function applyRawOpcode(
       if (npc) {
         npc.x = operands[1] ?? 0
         npc.y = operands[2] ?? 0
-        console.debug(`event-system: setObjectPos id=${npc.id} → (${npc.x},${npc.y})`)
       }
       break
     }
@@ -3618,7 +3575,6 @@ function applyRawOpcode(
       if (npc) {
         npc.scriptedFrame = operands[0] ?? 0
         npc.facing = 'down'  // sdlpal 强制 kDirSouth
-        console.debug(`event-system: setObjectGesture id=${npc.id} frame=${npc.scriptedFrame} dir=down`)
       }
       break
     }
@@ -3631,7 +3587,6 @@ function applyRawOpcode(
       // operand[0] 既是"enabled 标志"又是 pCurrent 的 NPC id(fix4 入口解析逻辑)
       // operand[0]==0 → no-op(sdlpal silent skip)
       if ((operands[0] ?? 0) === 0) {
-        console.debug('event-system: setEventObjectDirAndFrame operand[0]==0 → no-op')
         break
       }
       const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setEventObjectDirAndFrame')
@@ -3640,7 +3595,6 @@ function applyRawOpcode(
         const frame = operands[2] ?? 0
         npc.facing = SDLPAL_DIR_TO_FACING[dirCode] ?? 'down'
         npc.scriptedFrame = frame
-        console.debug(`event-system: setEventObjectDirAndFrame id=${npc.id} dir=${dirCode} frame=${frame}`)
       }
       break
     }
@@ -3659,10 +3613,6 @@ function applyRawOpcode(
         if (operands[1] !== 0xFFFF) {
           npc.scriptedFrame = operands[1] ?? 0
         }
-        console.debug(
-          `event-system: setEventObjectDirOrFrame id=${npc.id} op0=${operands[0]} op1=${operands[1]}`
-          + ` → facing=${npc.facing} frame=${npc.scriptedFrame}`,
-        )
       }
       break
     }
@@ -3696,7 +3646,6 @@ function applyRawOpcode(
       if (npc) {
         npc.x += toInt16(operands[1] ?? 0)
         npc.y += toInt16(operands[2] ?? 0)
-        console.debug(`event-system: moveObject id=${npc.id} → (${npc.x},${npc.y})`)
       }
       break
     }
@@ -3706,7 +3655,6 @@ function applyRawOpcode(
       const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'setObjectLayer')
       if (npc) {
         npc.sLayer = toInt16(operands[1] ?? 0)
-        console.debug(`event-system: setObjectLayer id=${npc.id} sLayer=${npc.sLayer}`)
       }
       break
     }
@@ -3726,7 +3674,6 @@ function applyRawOpcode(
       const npc = getSelfNpc(gs, currentEventObjectId, 'nullifyObject')
       if (npc) {
         npc.sVanishTime = -15
-        console.debug(`event-system: nullifyObject id=${npc.id} sVanishTime=-15`)
       }
       break
     }
@@ -3737,7 +3684,6 @@ function applyRawOpcode(
       if (npc) {
         npc.sState = -(npc.sState ?? 1)
         npc.sVanishTime = (operands[0] ?? 0) ? (operands[0] ?? 0) : 800
-        console.debug(`event-system: hideObject id=${npc.id} sState=${npc.sState} sVanishTime=${npc.sVanishTime}`)
       }
       break
     }
@@ -3746,7 +3692,6 @@ function applyRawOpcode(
       // sdlpal script.c:1967-1973:wChasespeedChangeCycles = op0; wChaseRange = 0(暂停追击)
       gs.wChasespeedChangeCycles = operands[0] ?? 0
       gs.wChaseRange = 0
-      console.debug(`event-system: chasePause cycles=${gs.wChasespeedChangeCycles}`)
       break
     }
 
@@ -3754,7 +3699,6 @@ function applyRawOpcode(
       // sdlpal script.c:1975-1981:wChasespeedChangeCycles = op0; wChaseRange = 3(加速追击)
       gs.wChasespeedChangeCycles = operands[0] ?? 0
       gs.wChaseRange = 3
-      console.debug(`event-system: chaseSpeedup cycles=${gs.wChasespeedChangeCycles}`)
       break
     }
 
@@ -3766,7 +3710,6 @@ function applyRawOpcode(
         const maxDist = (operands[0] ?? 0) || 8
         const speed = (operands[1] ?? 0) || 4
         monsterChasePlayer(gs, npc, speed, maxDist, (operands[2] ?? 0) !== 0)
-        console.debug(`event-system: monsterChase id=${npc.id} speed=${speed} maxDist=${maxDist} → (${npc.x},${npc.y})`)
       }
       break
     }
@@ -3798,7 +3741,6 @@ function applyRawOpcode(
         gs.walkingFrame.walking = true
         gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame + 1) % 4
       }
-      console.debug(`event-system: playerWalkOneStep d=(${dx},${dy}) wLayer=${gs.wLayer}`)
       break
     }
 
@@ -3843,7 +3785,6 @@ function applyRawOpcode(
         break
       }
       writeEquipmentEffectField(gs, partIdx, rowIdx, roleId, value)
-      console.debug(`event-system: setPlayerExtraAttr part=${partIdx} row=${rowIdx} role=${roleId} =${value}`)
       break
     }
 
@@ -3876,7 +3817,6 @@ function applyRawOpcode(
         // sdlpal script.c:809 真值 — swap 后写 wLastUnequippedItem
         gs.wLastUnequippedItem = oldItem
       }
-      console.debug(`event-system: equipItem role=${roleId} slot=${slot} ${oldItem}→${newItem}`)
       break
     }
 
@@ -3895,7 +3835,6 @@ function applyRawOpcode(
       // 唯一行索引表(equip-effect.ts PLAYERROLES_ROW,sdlpal 真值 Level=6/Atk=17/CoveredBy=31)。
       // 不再用本地 FIELD_MAP(曾全错位 -1 → 设攻击力实写法力,装备脚本走对表、主解释器走错表的同 opcode 两套行为)。
       addPlayerStatRow(gs, fieldIdx, roleId, delta)
-      console.debug(`event-system: increasePlayerAttr role=${roleId} field=${fieldIdx} +=${delta}`)
       break
     }
 
@@ -3912,7 +3851,6 @@ function applyRawOpcode(
       }
       // 唯一行索引表(同 0x19);旧 mutatePlayerStat 已删。
       setPlayerStatRow(gs, fieldIdx, roleId, newVal)
-      console.debug(`event-system: setPlayerStat role=${roleId} field=${fieldIdx} =${newVal}`)
       break
     }
 
@@ -3941,7 +3879,6 @@ function applyRawOpcode(
 
     case OP_DAMAGE_ENEMY: {
       // sdlpal script.c:1026-1050:战斗 only(g_Battle.rgEnemy.wHealth)
-      console.debug(`event-system: damageEnemy(battle-only,overworld skip)op=${operands}`)
       break
     }
 
@@ -3972,7 +3909,6 @@ function applyRawOpcode(
       }
       if (applyAll) gs.fScriptSuccess = revivedAny
       else if (!revivedAny) gs.fScriptSuccess = false
-      console.debug(`event-system: revivePlayer applyAll=${applyAll} ratio=${ratioTenths}/10 revived=${revivedAny}`)
       break
     }
 
@@ -4002,7 +3938,6 @@ function applyRawOpcode(
           eq[slot]![roleId] = 0
         }
       }
-      console.debug(`event-system: removeEquipment role=${roleId} slot=${slotPlus1 === 0 ? 'all' : slotPlus1 - 1}`)
       break
     }
 
@@ -4018,7 +3953,6 @@ function applyRawOpcode(
           const newIp = operands[1] ?? 0
           npc.triggerLabel = `L_${newIp}`
           npc.triggerResume = undefined // 0x25 直接覆写 wTriggerScript → 清运行时推进的续跑点
-          console.debug(`event-system: setTriggerScript id=${npc.id} → triggerLabel=L_${newIp}`)
         }
       }
       break
@@ -4027,7 +3961,6 @@ function applyRawOpcode(
     case OP_POISON_ENEMY:
     case OP_CURE_ENEMY_POISON_KIND:
     case OP_SET_ENEMY_STATUS: {
-      console.debug(`event-system: 战斗 only opcode(overworld skip)0x${opcode.toString(16)} op=${operands}`)
       break
     }
 
@@ -4047,7 +3980,6 @@ function applyRawOpcode(
         if (Math.floor(Math.random() * 100) + 1 <= getPlayerPoisonResistance(gs, roleId)) continue
         addPoisonForPlayer(gs, roleId, poisonId, ip => runPlayerPoisonEntrySync(gs, roleId, ip))
       }
-      console.debug(`event-system: poisonPlayer applyAll=${applyAll} poisonId=${poisonId}`)
       break
     }
 
@@ -4063,7 +3995,6 @@ function applyRawOpcode(
       for (const roleId of targets) {
         curePlayerPoisonByKind(gs, roleId, poisonId)
       }
-      console.debug(`event-system: curePoisonByKind applyAll=${applyAll} poisonId=${poisonId}`)
       break
     }
 
@@ -4080,7 +4011,6 @@ function applyRawOpcode(
       for (const roleId of targets) {
         curePlayerPoisonByLevel(gs, roleId, maxLevel)
       }
-      console.debug(`event-system: curePoisonByLevel applyAll=${applyAll} maxLevel=${maxLevel}`)
       break
     }
 
@@ -4145,7 +4075,6 @@ function applyRawOpcode(
       // sdlpal script.c:1623-1627:g_fScriptSuccess = FALSE。消耗规则由调用场景决定:
       // 大世界 item/magic 用 success gate;战斗 magic MP 已先扣,仅挡后续动画/成功脚本;战斗 UseItem 不看 gate。
       gs.fScriptSuccess = false
-      console.debug('event-system: markScriptFailed → fScriptSuccess=false')
       break
     }
 
@@ -4302,7 +4231,6 @@ function applyRawOpcode(
       // P2#5:子脚本在同一全局数组,getLabels(默认全局 L_<n>→n 恒等)解出全局 ip,不再切来源。
       const subIp = getLabels(cursor)[`L_${subEntry}`]
       if (subIp === undefined) {
-        console.debug(`event-system: callScript L_${subEntry} 不在全局 labelMap`)
         break
       }
       cursor.callStack = cursor.callStack ?? []
@@ -4447,6 +4375,7 @@ function applyRawOpcode(
       break
 
     default:
+      // D26 兜底:未实现 opcode 诊断 skip(仅未实现时触发,非正常游玩噪声),便于开发期发现缺口。
       console.debug(`event-system: skip raw opcode=0x${opcode.toString(16).padStart(4, '0')}`, operands)
       break
   }
@@ -4494,9 +4423,6 @@ function applyHPMPDelta(
       gs.PlayerRolesRuntime.rgwMP[roleId] = next
     }
   }
-  console.debug(
-    `event-system: HP${hp ? '+' : ''}MP${mp ? '+' : ''}Delta applyAll=${applyAll} delta=${delta} → ${targets.length} role(s) changed=${anyChanged}`,
-  )
   return { applyAll, anyChanged }
 }
 
@@ -4545,7 +4471,6 @@ function playerLevelUp(gs: GameState, role: number, numLevels: number): void {
     exp.wExp = 0
     exp.wLevel = r.rgwLevel[role] ?? 0
   }
-  console.debug(`event-system: playerLevelUp role=${role} +${numLevels} → level ${r.rgwLevel[role]}`)
 }
 
 // 0x0019/0x001A 行索引写入已统一到 equip-effect.ts 的 addPlayerStatRow/setPlayerStatRow
@@ -5069,7 +4994,6 @@ export function runEnterScript(
     }
 
     // 其他具名 op(showDialog / setDialogStyle* / loadScene 等)→ skip(enter 段不阻塞)
-    console.debug(`runEnterScript: skip named op=${cmd.op} ip=${cursor.ip}`)
     cursor.ip++
   }
 }

@@ -761,10 +761,6 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     opts: { fromSavedGame: boolean } = { fromSavedGame: false },
   ): Promise<void> {
     const dumpFileIndex = newWNumScene - 1
-    console.log(
-      `[bootstrap.loadSceneCommon] loadScene wNumScene=${newWNumScene} → dump scene/${dumpFileIndex}.json` +
-        (opts.fromSavedGame ? ' (from saved game)' : ''),
-    )
     // P2#7:async 加载窗口起手设 sceneLoading=true(loadScene opcode 已设过,这里覆盖初始 / skip-intro /
     // loadGame 路径)→ present 保留旧帧(供 fadeScreen backup)。冻到 onEnter 第一个可渲染 yield 才清。
     gs.sceneLoading = true
@@ -1036,10 +1032,6 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   // 该字段由 wScriptOnEnter opcode 0x4A setBattlefield 写入(P0.e 新接)。
   setStartBattleHandler(({ gs, enemyTeamId, isBoss }) => {
     const battleFieldId = gs.wNumBattleField ?? 0
-    console.debug(
-      `[bootstrap.startBattleHandler] enemyTeamId=${enemyTeamId} battleFieldId=${battleFieldId}` +
-        ` isBoss=${isBoss} before.mode=${gs.mode} partyMembers=${gs.partyMembers.length}`,
-    )
     try {
       startBattle({
         gs,
@@ -1070,9 +1062,6 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         // P2#5:不再传 per-scene 切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
         introFadeTicks: INTRO_FADE_TICKS, // D19:生产入场 dither fade-in(present-battle 揭示);单测/dev 不传
       })
-      console.debug(
-        `[bootstrap.startBattleHandler] after.mode=${gs.mode} battleState=${!!gs.battleState}`,
-      )
     } catch (e) {
       console.error('[bootstrap.startBattleHandler] startBattle FAILED:', e)
       throw e
@@ -1100,9 +1089,6 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       const shopItems = (store?.items ?? [])
         .map((objId) => items.find((it) => it.id === objId))
         .filter((it): it is (typeof items)[number] => it != null)
-      console.debug(
-        `[bootstrap.shopMenuHandler] buy storeNum=${storeNum} items=${shopItems.length}`,
-      )
       openMenu(gs, { kind: 'shop-buy', state: createBuyMenu(shopItems) })
     } else {
       openMenu(gs, { kind: 'shop-sell', state: createSellMenu(gs, items) })

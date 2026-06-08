@@ -248,8 +248,6 @@ export function createAudioManager(baseUrl = ''): AudioManager {
       if (music.track !== curMusicTrack) {
         curMusicTrack = music.track
         curMusicLoop = music.loop // L47:记真实 loop,供补播(开关音乐/注入后端)还原
-        // 诊断:每次换曲一行(非每帧)。看得到此行但没声 → OGG 未渲染(后端播 .ogg,仅 .mid 存在)。
-        console.log(`[audio] BGM → track ${music.track}${music.track === 0 ? '(停)' : `(loop=${music.loop})`}`)
         if (!musicEnabled) return
         if (music.track === 0) musicBackend?.stop()
         else musicBackend?.play(music.track, music.loop)

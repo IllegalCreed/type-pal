@@ -1704,7 +1704,7 @@ export function createInitialGameState(
     sWaveProgression: 0,  // 特效 B:屏幕波动每帧增量(sdlpal sWaveProgression)
     shakeTime: 0,         // G9:屏幕摇晃剩余帧(sdlpal static g_wShakeTime,video.c:59,瞬态非存档)
     shakeLevel: 0,        // G9:屏幕摇晃等级=垂直偏移行数(sdlpal static g_wShakeLevel,video.c:60,瞬态)
-    blackScreenHold: false, // 0x76 ShowFBP(0xFFFF) 后黑屏保持,直到下一次 PAL_MakeScene/FadeIn
+    blackScreenHold: false, // 0x76 ShowFBP(0xFFFF) 后黑屏保持,直到下一次 PAL_MakeScene(loadScene 自动淡入/0x05/0x73/0x9B);0x51 FadeIn **不**清(只 ramp 调色板,内容仍黑)
 
     // ── M5 Sync.1: 嵌套 struct ──
     Exp: createEmptyExp(),

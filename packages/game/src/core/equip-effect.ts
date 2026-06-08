@@ -437,10 +437,6 @@ function runEquipScriptSync(
       }
       default:
         // scriptOnEquip 实测 opcode 已全覆盖(0x17/0x18/0x19/0x1A/0x2D/0x29);其它意外 op 记日志
-        console.debug(
-          `runEquipScriptSync: opcode 0x${cmd.opcode.toString(16)} ip=${ip} `
-          + `op=${JSON.stringify(cmd.operands)} — skip(follow-up)`,
-        )
     }
 
     ip++

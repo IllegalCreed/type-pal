@@ -54,10 +54,9 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
     seq.loadNewSongList([{ binary: await res.arrayBuffer(), fileName: `${track}.mid` }])
     seq.loopCount = loop ? Infinity : 0
     seq.play()
-    console.log(`[audio] MIDI ▶ track ${track}(ctx=${ctx.state}, loop=${loop})`)
   }
 
-  // 异步初始化:worklet + synth + soundfont + sequencer。分步日志,失败 → warn 静默(不阻塞)。
+  // 异步初始化:worklet + synth + soundfont + sequencer。失败 → warn 静默(不阻塞)。
   void (async () => {
     try {
       // AudioWorklet 仅在 secure context 下存在(https / http://localhost)。用 http:// + 局域网 IP
@@ -72,7 +71,6 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
         )
       }
       await ctx.audioWorklet.addModule(workletUrl)
-      console.log('[audio] MIDI: worklet 已载')
       const synth = new WorkletSynthesizer(ctx)
       synth.connect(ctx.destination)
       const sf = await fetch(soundfontUrl)
@@ -89,7 +87,6 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
           + `放到 packages/game/public/soundfont.sf3`,
         )
       }
-      console.log(`[audio] MIDI: soundfont 已下载(${(sfBytes.byteLength / 1024 / 1024).toFixed(1)}MB),载入中…`)
       await synth.soundBankManager.addSoundBank(sfBytes, 'main')
       await synth.isReady
       // user 报"混响太严重"。仙剑原 OPL/MIDI 本就偏干 → 关混响:每 channel 设 reverb send(CC91)=0
@@ -104,7 +101,6 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       //   设 true 会把它跳掉 → 循环显赶(user 报)。默认 false,显式写明意图。
       seq = new Sequencer(synth, { skipToFirstNoteOn: false })
       ready = true
-      console.log('[audio] MIDI BGM 后端就绪 ✓')
       if (last) void doPlay(last.track, last.loop) // 就绪前已请求的曲 → 补播
     } catch (err) {
       // 具体原因在 err 里(secure-context 缺 AudioWorklet / soundfont 取不到 / 不是 RIFF 等)—— 别在这

@@ -4487,7 +4487,7 @@ describe('特效 B FBP opcode(0x76 ShowFBP)', () => {
     }
   })
 
-  it('0x76 chunk=0xFFFF → 进入黑屏保持;0x51 FadeIn 释放黑屏保持', () => {
+  it('0x76 chunk=0xFFFF → 进入黑屏保持;0x51 FadeIn **不**释放(只 ramp 调色板,场景靠后续 MakeScene 才揭)', () => {
     const bus = createCommandBus()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.palette = makeWorkingPaletteFor([0, 0, 0])
@@ -4507,7 +4507,9 @@ describe('特效 B FBP opcode(0x76 ShowFBP)', () => {
 
       gs.eventCursor!.waiting = undefined
       tickEventSystem(gs, snap(), bus)
-      expect(gs.blackScreenHold).toBe(false)
+      // 2026-06-08 当夜/次日 bug:FadeIn 只 ramp 调色板,gpScreen 内容仍是 ShowFBP 填的 index0 黑 →
+      //   blackScreenHold 撑住(屏幕保持黑),场景靠之后 loadScene/0x05/0x73/0x9B 的 PAL_MakeScene 才揭。
+      expect(gs.blackScreenHold).toBe(true)
       expect(gs.eventCursor?.waiting).toBe('palette-fade')
     }
     finally {
