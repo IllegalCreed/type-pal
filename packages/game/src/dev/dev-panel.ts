@@ -37,7 +37,7 @@ import type {
 import type { DialogSprite } from '../assets/dialog-assets.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 import type { IndexedImage } from '../assets/png.js'
-import type { BattlePlayer, BattleStatus } from '../core/battle/battle-state.js'
+import type { BattleEnemy, BattlePlayer, BattleStatus } from '../core/battle/battle-state.js'
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { startBattle } from '../core/battle/battle-system.js'
 import {
@@ -217,6 +217,145 @@ export function collectPartyStatusReadouts(
       entries,
     }
   })
+}
+
+/** 敌方每个单位的状态读出(devpanel 队伍 tab「敌方状态」)。纯函数,战斗中读 battleState.enemies。 */
+export interface EnemyStatusReadout {
+  /** battleState.enemies 下标。 */
+  slot: number
+  /** enemies.json id(e.id)。 */
+  enemyId: number
+  name: string
+  /** 当前血量(战斗中被改的 e.health)。 */
+  hp: number
+  /** 满血(maxHealth ?? prevHp ?? e.health)。 */
+  maxHp: number
+  /** PostActionCheck 判死的运行时空槽标记。 */
+  defeated: boolean
+  /** 各项属性(label:value)。 */
+  stats: { label: string; value: number }[]
+  /** 各项抗性(5 元素 + 物理 + 毒 + 巫抗,label:value)。 */
+  resistances: { label: string; value: number }[]
+  /** 异常/buff 剩余回合 + 中毒条。 */
+  statusEntries: string[]
+}
+
+/** 当前战场场地读出(devpanel 队伍 tab「场地信息」)。纯函数,战斗中读 battleState.field。 */
+export interface FieldInfoReadout {
+  fieldId: number
+  isBoss: boolean
+  /** 屏幕波纹强度(BattleField.screenWave)。 */
+  screenWave: number
+  /** 5 元素场效(BattleField.magicEffect,signed:正=该元素法术在本场地增伤)。 */
+  elements: { label: string; value: number }[]
+}
+
+/** 正数补 `+` 号(场效 signed 显示用)。 */
+function signedText(n: number): string {
+  return n > 0 ? `+${n}` : `${n}`
+}
+
+/** 敌人属性行定义(get 闭包避开 `keyof Enemy` 取到非数值字段的类型噪声)。 */
+const ENEMY_STAT_DEFS: readonly { label: string; get: (e: Enemy) => number }[] = [
+  { label: '等级', get: (e) => e.level },
+  { label: '攻', get: (e) => e.attackStrength },
+  { label: '灵', get: (e) => e.magicStrength },
+  { label: '防', get: (e) => e.defense },
+  { label: '身法', get: (e) => e.dexterity },
+  { label: '逃', get: (e) => e.fleeRate },
+  { label: '法术id', get: (e) => e.magic },
+  { label: '施法率', get: (e) => e.magicRate },
+  { label: '连击', get: (e) => e.dualMove },
+  { label: '经验', get: (e) => e.exp },
+  { label: '金钱', get: (e) => e.cash },
+]
+
+/** 敌人抗性行定义(5 元素 + 物理 + 毒;巫抗在 BattleEnemy 层另加)。 */
+const ENEMY_RESIST_DEFS: readonly { label: string; get: (e: Enemy) => number }[] = [
+  { label: '风', get: (e) => e.elemResistance.wind },
+  { label: '雷', get: (e) => e.elemResistance.thunder },
+  { label: '水', get: (e) => e.elemResistance.water },
+  { label: '火', get: (e) => e.elemResistance.fire },
+  { label: '土', get: (e) => e.elemResistance.earth },
+  { label: '物理', get: (e) => e.physicalResistance },
+  { label: '毒', get: (e) => e.poisonResistance },
+]
+
+/** 敌方中毒条 → 人读行(名字/等级复用 party 同款 objectPoisons/items 反查)。 */
+function collectEnemyPoisonEntries(
+  poisons: readonly { poisonId: number; scriptEntry: number }[],
+  objectPoisons: readonly ObjectPoisonView[],
+  items: readonly Item[],
+): string[] {
+  const poisonsById = new Map(objectPoisons.map((p) => [p.id, p]))
+  const itemNamesById = new Map(items.map((item) => [item.id, item._name ?? '']))
+  const entries: string[] = []
+  for (const p of poisons) {
+    if (p.poisonId === 0) continue
+    const name = itemNamesById.get(p.poisonId)
+    const label = name ? `${name}#${p.poisonId}` : `#${p.poisonId}`
+    const poison = poisonsById.get(p.poisonId)
+    const level = poison ? ` L${poison.level}` : ''
+    const script = p.scriptEntry ? ` script:${p.scriptEntry}` : ''
+    entries.push(`毒:${label}${level}${script}`)
+  }
+  return entries
+}
+
+/**
+ * 敌方每个单位的状态读出(devpanel「敌方状态」):血量 / 各项属性 / 5 元素+物理+毒+巫抗 / 异常 buff + 中毒。
+ * 非战斗(gs.mode!=='battle' 或无 battleState)→ 空数组。状态计数复用 PARTY_STATUS_DEFS + statusRoundsText。
+ */
+export function collectEnemyStatusReadouts(
+  gs: GameState,
+  objectPoisons: readonly ObjectPoisonView[] = [],
+  items: readonly Item[] = [],
+): EnemyStatusReadout[] {
+  if (gs.mode !== 'battle' || !gs.battleState) return []
+  return gs.battleState.enemies.map((be: BattleEnemy, slot) => {
+    const e = be.e
+    const statusEntries: string[] = []
+    for (const def of PARTY_STATUS_DEFS) {
+      const rounds = be.status[def.key] ?? 0
+      if (rounds > 0) statusEntries.push(`${def.label} ${statusRoundsText(rounds)}`)
+    }
+    statusEntries.push(...collectEnemyPoisonEntries(be.poisons ?? [], objectPoisons, items))
+    return {
+      slot,
+      enemyId: e.id,
+      name: e._name ?? `enemy${e.id}`,
+      hp: e.health,
+      maxHp: be.maxHealth ?? be.prevHp ?? e.health,
+      defeated: be.defeated === true,
+      stats: ENEMY_STAT_DEFS.map((d) => ({ label: d.label, value: d.get(e) })),
+      resistances: [
+        ...ENEMY_RESIST_DEFS.map((d) => ({ label: d.label, value: d.get(e) })),
+        { label: '巫抗', value: be.resistanceToSorcery ?? 0 },
+      ],
+      statusEntries,
+    }
+  })
+}
+
+/**
+ * 当前战场场地信息(devpanel「场地信息」):屏幕波纹 + 5 元素场效(signed)。
+ * 非战斗 → null。元素顺序同 Enemy.elemResistance(风/雷/水/火/土)。
+ */
+export function collectFieldInfoReadout(gs: GameState): FieldInfoReadout | null {
+  if (gs.mode !== 'battle' || !gs.battleState) return null
+  const f = gs.battleState.field
+  return {
+    fieldId: f.id,
+    isBoss: gs.battleState.isBoss === true,
+    screenWave: f.screenWave,
+    elements: [
+      { label: '风', value: f.magicEffect.wind },
+      { label: '雷', value: f.magicEffect.thunder },
+      { label: '水', value: f.magicEffect.water },
+      { label: '火', value: f.magicEffect.fire },
+      { label: '土', value: f.magicEffect.earth },
+    ],
+  }
 }
 
 /** 自定义战斗临时 enemyTeam id(devpanel A);applyCustomBattle push 进 enemyTeams,startBattle 按此查。 */
@@ -1445,6 +1584,98 @@ function openPicker(deps: DevPanelDeps): void {
   renderPartyCards()
   body.appendChild(partyGrid)
   body.appendChild(partyStatusList)
+
+  // ── 敌方状态 + 场地信息(战斗中读 battleState;user 2026-06-08)——挨着「当前队伍状态」放,
+  //    三块合成"当前战况"快照。带 🔄 刷新(逐回合 state 会变,而面板是开局快照)。──
+  const enemyStatusList = document.createElement('div')
+  enemyStatusList.style.cssText =
+    'margin:6px 0 8px; padding:6px; border:1px solid #553f2a; background:#1d1813; font-size:11px; line-height:1.5'
+  const renderEnemyStatusList = (): void => {
+    enemyStatusList.textContent = ''
+    const title = document.createElement('div')
+    title.style.cssText = 'color:#ffcaa0; font-weight:bold; margin-bottom:4px'
+    title.textContent = '敌方状态'
+    enemyStatusList.appendChild(title)
+    const readouts = collectEnemyStatusReadouts(deps.gs, deps.resources.objectPoisons, deps.resources.items)
+    if (readouts.length === 0) {
+      const empty = document.createElement('div')
+      empty.style.cssText = 'color:#888'
+      empty.textContent = '不在战斗中(无敌方单位)'
+      enemyStatusList.appendChild(empty)
+      return
+    }
+    for (const r of readouts) {
+      const block = document.createElement('div')
+      block.style.cssText = 'padding:3px 0; border-top:1px solid #332a22'
+      const head = document.createElement('div')
+      head.style.cssText = `color:${r.defeated ? '#888' : '#ffd9b3'}; font-weight:bold`
+      const ratio = r.maxHp > 0 ? Math.round((r.hp / r.maxHp) * 100) : 0
+      head.textContent =
+        `E${r.slot + 1} ${r.name}#${r.enemyId}  HP ${r.hp}/${r.maxHp}(${ratio}%)${r.defeated ? ' [已倒]' : ''}`
+      block.appendChild(head)
+      const stats = document.createElement('div')
+      stats.style.cssText = 'color:#cdbfa8'
+      stats.textContent = r.stats.map((s) => `${s.label}${s.value}`).join(' ')
+      block.appendChild(stats)
+      const resist = document.createElement('div')
+      resist.style.cssText = 'color:#b8c9a8'
+      resist.textContent = `抗性 ${r.resistances.map((s) => `${s.label}${s.value}`).join(' ')}`
+      block.appendChild(resist)
+      if (r.statusEntries.length > 0) {
+        const st = document.createElement('div')
+        st.style.cssText = 'color:#ffb0b0'
+        st.textContent = `异常/毒 ${r.statusEntries.join(' / ')}`
+        block.appendChild(st)
+      }
+      enemyStatusList.appendChild(block)
+    }
+  }
+
+  const fieldInfoList = document.createElement('div')
+  fieldInfoList.style.cssText =
+    'margin:6px 0 8px; padding:6px; border:1px solid #3a445c; background:#15181d; font-size:11px; line-height:1.5'
+  const renderFieldInfo = (): void => {
+    fieldInfoList.textContent = ''
+    const title = document.createElement('div')
+    title.style.cssText = 'color:#a8d0ff; font-weight:bold; margin-bottom:4px'
+    title.textContent = '场地信息'
+    fieldInfoList.appendChild(title)
+    const info = collectFieldInfoReadout(deps.gs)
+    if (!info) {
+      const empty = document.createElement('div')
+      empty.style.cssText = 'color:#888'
+      empty.textContent = '不在战斗中'
+      fieldInfoList.appendChild(empty)
+      return
+    }
+    const head = document.createElement('div')
+    head.style.cssText = 'color:#cfe0ff'
+    head.textContent = `场地#${info.fieldId}${info.isBoss ? ' · BOSS战' : ''}  屏幕波纹 ${info.screenWave}`
+    fieldInfoList.appendChild(head)
+    const el = document.createElement('div')
+    el.style.cssText = 'color:#bcd'
+    el.textContent = `元素场效 ${info.elements.map((s) => `${s.label}${signedText(s.value)}`).join(' ')}`
+    fieldInfoList.appendChild(el)
+    const note = document.createElement('div')
+    note.style.cssText = 'color:#778; font-size:10px; margin-top:2px'
+    note.textContent = '(场效=该元素法术在本场地的增/减成,signed;正=增伤)'
+    fieldInfoList.appendChild(note)
+  }
+
+  const refreshBtn = document.createElement('button')
+  refreshBtn.textContent = '🔄 刷新战况(队伍/敌方/场地)'
+  refreshBtn.style.cssText = 'display:block; width:100%; padding:4px; margin:4px 0; cursor:pointer'
+  refreshBtn.addEventListener('click', () => {
+    renderPartyStatusList()
+    renderEnemyStatusList()
+    renderFieldInfo()
+  })
+
+  body.appendChild(refreshBtn)
+  body.appendChild(enemyStatusList)
+  body.appendChild(fieldInfoList)
+  renderEnemyStatusList()
+  renderFieldInfo()
 
   // ── 🎒 物品作弊(2026-06-04 user:挪系统 tab + 精细化)——全道具 / 清空 / 逐道具数量编辑 ──
   //   (道具图标待第 2 批:需 bootstrap 预加载 item sprite,与敌人/boss 缩略图同类接线。)
