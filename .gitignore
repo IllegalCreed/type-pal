@@ -49,3 +49,7 @@ packages/game/playwright-report/
 .claude/settings.local.json
 .claude/
 
+# 商业/私有文档(盈利策略 / 推广计划 / 商业模式 / 授权笔记等)
+# 还原版仓库将开源(GPL),商业机密一律不入库,只本地留存
+business/
+
