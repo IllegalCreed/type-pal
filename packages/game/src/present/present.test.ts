@@ -6,6 +6,7 @@ import { createFramebuffer } from './framebuffer.js'
 import { createInitialGameState } from '../core/game-state.js'
 import type { SpriteImage } from './draw-sprite.js'
 import * as drawSpriteModule from './draw-sprite.js'
+import * as drawMenuModule from './menu/draw-menu.js'
 
 function flatMap(w: number, h: number): Tilemap {
   const cells = Array.from({ length: h }, () =>
@@ -64,6 +65,44 @@ function baseCtx(tilemap?: Tilemap): PresentContext {
     npcSprites: new Map([[1, makeSprite(3)], [2, makeSprite(4)]]),
   }
 }
+
+describe('presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话)', () => {
+  afterEach(() => { vi.restoreAllMocks() })
+
+  function menuGs(mode: 'menu' | 'event') {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = mode
+    // biome-ignore lint/suspicious/noExplicitAny: 测试只需 menuStack 非空(drawMenuStack 被 mock,state 内容不参与)
+    gs.menuStack = [{ kind: 'inventory', state: {} } as any]
+    return gs
+  }
+
+  it('mode=menu + menuStack 非空 → drawMenuStack 被调用(正常菜单交互)', () => {
+    const fb = createFramebuffer()
+    const gs = menuGs('menu')
+    const ctx = baseCtx()
+    // biome-ignore lint/suspicious/noExplicitAny: 仅需 truthy 让 menu 分支可达
+    ctx.uiSpriteFrames = new Map() as any
+    const spy = vi.spyOn(drawMenuModule, 'drawMenuStack').mockImplementation(() => {})
+    presentFrame(fb, gs, ctx)
+    expect(spy).toHaveBeenCalled()
+  })
+
+  it('mode=event + menuStack 非空(物品 use 脚本跑 scriptOnUse 对话)→ drawMenuStack **不**被调用(对话不被列表遮挡)', () => {
+    const fb = createFramebuffer()
+    const gs = menuGs('event')
+    // startOverworldItemScript 后:mode=event + eventCursor + scriptOnUse 对话,但 menuStack 仍在(为脚本跑完重显 picker)
+    // biome-ignore lint/suspicious/noExplicitAny: 测试桩 cursor
+    gs.eventCursor = { ip: 0 } as any
+    gs.dialogBox = startDialogLine('气血恢复．．', { style: 'bottom' })
+    const ctx = baseCtx()
+    // biome-ignore lint/suspicious/noExplicitAny: 仅需 truthy
+    ctx.uiSpriteFrames = new Map() as any
+    const spy = vi.spyOn(drawMenuModule, 'drawMenuStack').mockImplementation(() => {})
+    presentFrame(fb, gs, ctx)
+    expect(spy).not.toHaveBeenCalled()
+  })
+})
 
 describe('presentFrame', () => {
   it('无 dialogBox → 不画对话框,不抛错', () => {

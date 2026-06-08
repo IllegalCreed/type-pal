@@ -588,7 +588,12 @@ export function presentFrame(
 
   // M5.6 W0.d:菜单 modal 覆盖最顶层,在 fadeState 后画(避免被 fade 覆盖)。
   // gs.menuStack 空时 drawMenuStack 立即 return,无开销。
-  if (gs.menuStack.length > 0 && ctx.uiSpriteFrames) {
+  // **仅 mode==='menu' 才画**(2026-06-08 物品/手卷 use bug):非 applyToAll 物品 use 时 startOverworldItemScript
+  //   切 mode='event' 跑 scriptOnUse 对话,但 menuStack **保留**(为脚本跑完重显 ItemUseMenu picker,对齐
+  //   sdlpal play.c:288-302 INNER while)。若此处只看 menuStack 非空就画 → 物品列表盖住 scriptOnUse 对话
+  //   (user 报"使用列表没消失遮挡文字")。sdlpal 里 PAL_RunTriggerScript 期间 picker 不画,脚本跑完才重绘。
+  //   脚本结束 restoreModeAfterScript 回 mode='menu'(menuStack 非空)→ picker 自然重现。
+  if (gs.menuStack.length > 0 && gs.mode === 'menu' && ctx.uiSpriteFrames) {
     drawMenuStack(fb, gs, ctx.uiSpriteFrames, ctx.glyphs, {
       openingMenuBg: ctx.openingMenuBg,
       items: ctx.items,
