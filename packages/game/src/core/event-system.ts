@@ -2074,21 +2074,33 @@ export function tickEventSystem(
         if (cmd.opcode === OP_SET_CAMERA) {
           const [cx, cy, flag] = cmd.operands
           const isPan = !((cx ?? 0) === 0 && (cy ?? 0) === 0) && flag !== 0xFFFF
-          const frames = Math.max(cmd.operands[2] ?? 0, 1)
-          if (isPan && frames > 1) {
+          if (isPan) {
             if (gs.sceneLoading) gs.sceneLoading = false
             const dx = toInt16(cx ?? 0)
             const dy = toInt16(cy ?? 0)
-            // sdlpal do-while 第一帧立即移;余 frames-1 帧由 waiting 逐 tick 移。
+            const frames = Math.max(cmd.operands[2] ?? 0, 1)
+            // sdlpal 0x7F else:`do{ viewport+=(x,y); PAL_GameUpdate; DelayUntil } while(++i<op2)`
+            //   —— op2=0 跑 1 帧(1 步 + 逐帧延时)。**每个 0x7F 至少 yield 1 渲染帧**:这是 cutscene
+            //   走步动画(`0x6E+0x7F` 对反复走,如林家堡李逍遥走出场)的逐帧节拍来源。第一帧立即移。
             gs.camera.x += dx
             gs.camera.y += dy
             cursor.waiting = 'camera-pan'
-            cursor.cameraPanFramesRemaining = frames - 1
-            cursor.cameraPanDx = dx
-            cursor.cameraPanDy = dy
+            if (frames > 1) {
+              // 多帧:余 frames-1 帧逐 tick 各再移 (dx,dy)。
+              cursor.cameraPanFramesRemaining = frames - 1
+              cursor.cameraPanDx = dx
+              cursor.cameraPanDy = dy
+            }
+            else {
+              // 单帧(op2=0/1):移一次即足,仅再 yield 1 帧让本步动画渲染(不再移)。否则
+              //   `0x6E+0x7F` 走步序列全压进一 tick = 李逍遥瞬移出场(user 2026-06-08 报)。
+              cursor.cameraPanFramesRemaining = 1
+              cursor.cameraPanDx = 0
+              cursor.cameraPanDy = 0
+            }
             return
           }
-          // 否则 fall through 到 applyRawOpcode(回正 / 绝对 / 单帧)
+          // 回正(0,0)/ 绝对(op2=0xFFFF)→ fall through 到 applyRawOpcode 即时
         }
         // Sync.2 fix5: opcode 5 redrawScreen / PAL_ClearDialog(TRUE) — sdlpal script.c:3267-3297
         //   有 dialog → 等 Confirm 翻页清屏(让后续 NPC 动作 / 场景重画显);无 dialog → no-op + ip++
@@ -3732,8 +3744,12 @@ function applyRawOpcode(
 
       gs.party.x += dx
       gs.party.y += dy
-      gs.camera.x = gs.party.x - PARTYOFFSET_X
-      gs.camera.y = gs.party.y - PARTYOFFSET_Y
+      // sdlpal 0x6E `viewport += (op0,op1)`(**相对**移 viewport,队首仍居中)。**关键**:不能写
+      //   camera = party - offset(绝对回正)—— camera 已被 0x7F 偏离居中时(如林家堡李逍遥走出场:
+      //   `0x6E + 0x7F` 对,0x7F 把 camera 移回)绝对回正会把队首重新拽回中心 → 相机错误跟随 + 角色
+      //   永不出画(user 2026-06-08 报)。相对移才能让 `0x6E+0x7F` 每对净相机=0、party 在固定屏上走出。
+      gs.camera.x += dx
+      gs.camera.y += dy
       gs.wLayer = (operands[2] ?? 0) * 8
 
       if (dx !== 0 || dy !== 0) {

@@ -4817,6 +4817,40 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
     tickEventSystem(gs, snap(), createCommandBus()) // 帧2 → 完成
     expect(gs.camera).toEqual({ x: 84, y: 92 })
   })
+
+  // 林家堡李逍遥走出场(all.json,赵灵儿变蛇逃跑 → 林天南"林家不屑"前):`0x6E[-16,8] + 0x7F[16,-8,0]`
+  //   成对反复。0x6E 相对移 party+camera、0x7F 把 camera 移回 → **每对净相机=0(固定),party 在固定屏上
+  //   走 (-16,8)**,逐帧 yield 不瞬移,走出画后队首离屏消失。user 2026-06-08 报:旧码 0x6E 绝对回正 →
+  //   相机跟随李逍遥 + 永不出画;0x7F 单帧不 yield → 瞬移。
+  it('林家堡李逍遥走出场:0x6E+0x7F 对 → 相机固定、队首逐帧在屏上走(不跟随/可出画)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = 'event'
+    gs.party = { x: 160, y: 112, facing: 'down' } // 居中:camera = party-(160,112) = {0,0}
+    gs.camera = { x: 0, y: 0 }
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [65520, 8, 0] }, // -16, +8
+        { op: 'raw', opcode: 0x7f, operands: [16, 65528, 0] },                   // +16, -8, op2=0
+        { op: 'raw', opcode: OP_PLAYER_WALK_ONE_STEP, operands: [65520, 8, 0] },
+        { op: 'raw', opcode: 0x7f, operands: [16, 65528, 0] },
+        { op: 'end' },
+      ],
+      ip: 0,
+    }
+    // 第 1 对:0x6E(party+=(-16,8), camera+=(-16,8))→ 0x7F(camera+=(16,-8) 移回 + yield 1 帧)
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.camera).toEqual({ x: 0, y: 0 })            // 相机固定(净位移 0,不跟随)
+    expect(gs.party).toMatchObject({ x: 144, y: 120 })   // 走 1 步 (-16,8)
+    expect(gs.eventCursor?.waiting).toBe('camera-pan')   // 逐帧 yield(非瞬移)
+    // 第 2 对(handler 清第1对 yield + 跑第2对)
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.camera).toEqual({ x: 0, y: 0 })            // 仍固定
+    expect(gs.party).toMatchObject({ x: 128, y: 128 })   // 走 2 步
+    // 收尾
+    tickEventSystem(gs, snap(), createCommandBus())
+    expect(gs.eventCursor).toBeUndefined()
+    expect(gs.camera).toEqual({ x: 0, y: 0 })            // 全程相机未跟随 → 队首偏离中心可走出画
+  })
 })
 
 // ── 0x03 goto frameDelay(trigger cutscene NPC 走步循环,script.c:3239-3256)────
