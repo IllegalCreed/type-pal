@@ -1608,6 +1608,20 @@ function createInitialPlayerRolesRuntime(): PlayerRolesRuntime {
 }
 
 /**
+ * 读档归一化:旧 schema 存档(structuredClone / JSON 反序列化)可能缺后续版本新增的 runtime 字段 ——
+ * 如 2026-06-07 加入的 rgwAvatar / rgwWalkFrames。bootstrap.loadGameFromSlot 的
+ * Object.assign(gs, loadedGs) 用存档那份整体替换了 createInitialGameState 建好的**完整** runtime,
+ * 缺字段时 projectRuntimeToBattleRoles 读 runtime.rgwAvatar[i] = undefined[0] 崩(ESC 开菜单触发,
+ * game-state.test.ts 回归)。以默认模板(全零)兜底所有键,浅合并保留存档已有数据(存档键覆盖模板);
+ * runtime 整体缺失(极旧档)时退回全零完整 runtime。未来再加 runtime 字段同样自愈。
+ */
+export function normalizePlayerRolesRuntime(
+  rt: Partial<PlayerRolesRuntime> | undefined,
+): PlayerRolesRuntime {
+  return { ...createInitialPlayerRolesRuntime(), ...rt }
+}
+
+/**
  * sdlpal global.h:521 `rgEquipmentEffect[MAX_PLAYER_EQUIPMENTS + 1]` 全零初始化 —
  * 7 个 EquipmentEffectRoles。PAL_UpdateEquipments(global.c:1333)启动时先 memset 全 0
  * 再跨 role × part 跑 scriptOnEquip 累加。

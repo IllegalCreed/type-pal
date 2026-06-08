@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, loadDefaultGame, npcFromEventObject, projectRuntimeToBattleRoles, resetSceneRuntimeForNewGame, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode, type NpcState } from './game-state.js'
+import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, loadDefaultGame, normalizePlayerRolesRuntime, npcFromEventObject, projectRuntimeToBattleRoles, resetSceneRuntimeForNewGame, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode, type NpcState } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
 import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'
 
@@ -775,5 +775,50 @@ describe('player-roles 战斗数据模型边界', () => {
     battle.roles[0]!.hp = 45 // 战斗受伤残血
     writeBackBattleRolesToRuntime(battle, rt, [0])
     expect(rt.rgwHP[0]).toBe(45) // 伤害持久化(原 finalizeBattle 不回写 → 复原 200)
+  })
+})
+
+// ============================================================================
+// 读档归一化:旧 schema 存档缺后续版本新增的 runtime 字段 — 回归(ESC 开菜单崩溃)。
+//   bootstrap.loadGameFromSlot 的 Object.assign(gs, loadedGs) 用存档那份 PlayerRolesRuntime
+//   整体替换了 createInitialGameState 建好的完整 runtime。2026-06-07 加的 rgwAvatar/rgwWalkFrames
+//   在更早的存档里不存在 → 替换后字段 undefined → ESC 开菜单时 projectRuntimeToBattleRoles 读
+//   runtime.rgwAvatar[0] = undefined[0] 抛 "Cannot read properties of undefined"。
+// ============================================================================
+describe('normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归)', () => {
+  /** 模拟 2026-06-07 之前旧代码存的档:rgwAvatar/rgwWalkFrames 当时不在 schema 里。 */
+  function staleRuntime(): ReturnType<typeof createInitialGameState>['PlayerRolesRuntime'] {
+    const rt = createInitialGameState({ x: 0, y: 0, facing: 'down' }).PlayerRolesRuntime
+    delete (rt as unknown as Record<string, unknown>).rgwAvatar
+    delete (rt as unknown as Record<string, unknown>).rgwWalkFrames
+    return rt
+  }
+
+  it('复现:缺 rgwAvatar 的存档 runtime 直接投影 → 抛(undefined[0])', () => {
+    const stale = staleRuntime()
+    expect(() => projectRuntimeToBattleRoles(stale, { roles: [staticRole(0)] })).toThrow()
+  })
+
+  it('归一化补齐缺失字段(rgwAvatar/rgwWalkFrames),投影不再崩', () => {
+    const fixed = normalizePlayerRolesRuntime(staleRuntime())
+    expect(fixed.rgwAvatar).toHaveLength(6)
+    expect(fixed.rgwWalkFrames).toHaveLength(6)
+    expect(() => projectRuntimeToBattleRoles(fixed, { roles: [staticRole(0)] })).not.toThrow()
+  })
+
+  it('存档已有的真实数据原样保留(归一化只补缺失键,不覆盖)', () => {
+    const stale = staleRuntime()
+    stale.rgwHP[0] = 123; stale.rgwLevel[0] = 50; stale.rgwName[0] = 7
+    const fixed = normalizePlayerRolesRuntime(stale)
+    expect(fixed.rgwHP[0]).toBe(123)
+    expect(fixed.rgwLevel[0]).toBe(50)
+    expect(fixed.rgwName[0]).toBe(7)
+  })
+
+  it('runtime 整体缺失(极旧档无 PlayerRolesRuntime)→ 返回全零完整 runtime', () => {
+    const fixed = normalizePlayerRolesRuntime(undefined)
+    expect(fixed.rgwAvatar).toHaveLength(6)
+    expect(fixed.rgwMagic).toHaveLength(32)
+    expect(fixed.rgwElementalResistance).toHaveLength(5)
   })
 })

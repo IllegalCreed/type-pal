@@ -46,6 +46,7 @@ import {
   hydrateNpcStaticDefaults,
   getOverworldSpriteNum,
   loadDefaultGame,
+  normalizePlayerRolesRuntime,
   projectRuntimeToBattleRoles,
   npcFromEventObject,
   resetSceneRuntimeForNewGame,
@@ -1468,9 +1469,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // mutate gs in-place(外部持有同 ref;无法替换 ref)
     // 把 loadedGs 全字段拷到 gs(用 Object.assign 浅 + 关键嵌套手动 deepClone)
     Object.assign(gs, loadedGs)
-    if (!gs.PlayerRolesRuntime.rgwSpriteNum) {
-      gs.PlayerRolesRuntime.rgwSpriteNum = []
-    }
+    // 读档归一化:旧 schema 存档(2026-06-07 起加 rgwAvatar/rgwWalkFrames 等新 runtime 字段)经
+    //   Object.assign 整体替换了 createInitialGameState 建好的完整 runtime → 缺字段时 ESC 开菜单
+    //   投影 projectRuntimeToBattleRoles 读 undefined[0] 崩。以默认模板补齐缺失键(保留存档已有数据)。
+    gs.PlayerRolesRuntime = normalizePlayerRolesRuntime(gs.PlayerRolesRuntime)
     for (const role of playerRoles.roles) {
       if (!gs.PlayerRolesRuntime.rgwSpriteNum[role.id]) {
         gs.PlayerRolesRuntime.rgwSpriteNum[role.id] = role.spriteNum
