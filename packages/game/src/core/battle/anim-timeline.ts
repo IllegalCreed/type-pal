@@ -1514,6 +1514,36 @@ export function buildEnemyTransformTimeline(enemyIdx: number): BattleAnimFrame[]
 }
 
 /**
+ * 0x9C 敌人分裂收尾散开动画(sdlpal script.c:009C 末段)。分裂后全部副本 pos 先**叠在原敌位置**(startPos),
+ * 再 10 帧每帧 `pos = (pos + posOriginal)/2` 缓动散开到各自阵型位(targets),末帧 PAL_BattleUpdateFighters 归位。
+ * 每帧 Delay(1)。startPos = 分裂前唯一活敌(原敌)posOriginal;targets = 分裂后全部活敌 {idx, posOriginal}。
+ * 缺此动画 → 副本瞬间出现在阵型位(user 2026-06-08 报"分裂动画没做")。
+ */
+export function buildEnemyDivisionTimeline(input: {
+  startPos: { x: number; y: number }
+  targets: { idx: number; pos: { x: number; y: number } }[]
+}): BattleAnimFrame[] {
+  const frames: BattleAnimFrame[] = []
+  // 各敌当前 pos —— 初始全叠在 startPos(sdlpal 把所有副本 pos 设成原敌 pos)。
+  const cur = new Map(input.targets.map((t) => [t.idx, { x: input.startPos.x, y: input.startPos.y }]))
+  for (let step = 0; step < 10; step++) {
+    const fighters: FighterDelta[] = input.targets.map((t) => {
+      const c = cur.get(t.idx)!
+      c.x = Math.trunc((c.x + t.pos.x) / 2)
+      c.y = Math.trunc((c.y + t.pos.y) / 2)
+      return { side: 'enemy' as const, idx: t.idx, pos: { x: c.x, y: c.y } }
+    })
+    frames.push({ durationMs: delayMs(1), fighters })
+  }
+  // 末帧归位 posOriginal(PAL_BattleUpdateFighters)。
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: input.targets.map((t) => ({ side: 'enemy' as const, idx: t.idx, pos: { x: t.pos.x, y: t.pos.y } })),
+  })
+  return frames
+}
+
+/**
  * 敌方 EnemyMagic 动画时间线(port fight.c:2846-3069 PAL_BattleShowEnemyMagicAnim)——
  * **OffMagic 镜像**:同总帧数公式 / 帧循环 k / shake 区,落点对**队员**而非敌人。
  *

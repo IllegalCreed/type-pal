@@ -18,7 +18,7 @@
 import { type BattleCtx, addPoisonForPlayer, curePlayerPoisonByKind, curePlayerPoisonByLevel } from '../event-system.js'
 import type { BattleStatus } from './battle-state.js'
 import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength, getPlayerPoisonResistance } from '../equip-effect.js'
-import { buildEnemySummonTimeline, buildEnemyTransformTimeline, buildPlayerOffMagicTimeline, buildShowMagicAnimTimeline, buildStealTimeline } from './anim-timeline.js'
+import { buildEnemyDivisionTimeline, buildEnemySummonTimeline, buildEnemyTransformTimeline, buildPlayerOffMagicTimeline, buildShowMagicAnimTimeline, buildStealTimeline } from './anim-timeline.js'
 import { startBattleAnim } from './battle-anim-driver.js'
 import { getEnemyBasePos } from './battle-positions.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
@@ -1152,6 +1152,24 @@ export function dispatchBattleOpcode(
         copiesLeft--
       }
       refreshEnemyBattlePositions(ctx)
+      // 分裂散开动画(sdlpal script.c:009C 末段 10 帧缓动):副本先叠在原敌 posOriginal,再散到各自阵型位。
+      //   缺此 → 副本瞬现(user 2026-06-08 报)。startBattleAnim 同 0x9E/0x9F 挂法。
+      {
+        const startPos = self.posOriginal ?? self.pos
+        const targets: { idx: number; pos: { x: number; y: number } }[] = []
+        state.enemies.forEach((en, idx) => {
+          if (en && !en.defeated && en.posOriginal) {
+            targets.push({ idx, pos: { x: en.posOriginal.x, y: en.posOriginal.y } })
+          }
+        })
+        if (ctx.bus && startPos && targets.length > 1) {
+          startBattleAnim(
+            state,
+            buildEnemyDivisionTimeline({ startPos: { x: startPos.x, y: startPos.y }, targets }),
+            ctx.bus,
+          )
+        }
+      }
       return { consumed: true }
     }
 

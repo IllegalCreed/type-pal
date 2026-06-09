@@ -11,6 +11,7 @@ import {
   BATTLE_FRAME_TIME,
   buildAttackMateTimeline,
   buildCoopMagicTimeline,
+  buildEnemyDivisionTimeline,
   buildEnemySummonTimeline,
   buildEnemyTransformTimeline,
   buildFleeFailTimeline,
@@ -221,6 +222,26 @@ describe('enemy summon/transform opcode timelines (script.c:009E/009F)', () => {
       fighters: [{ side: 'enemy', idx: 2, iColorShift: 0 }],
       sound: 47,
     })
+  })
+
+  it('buildEnemyDivisionTimeline:副本从原敌位 10 帧缓动散开 + 末帧归位(原敌不动)', () => {
+    const frames = buildEnemyDivisionTimeline({
+      startPos: { x: 240, y: 120 },
+      targets: [
+        { idx: 0, pos: { x: 240, y: 120 } }, // 原敌:target==startPos → 全程不动
+        { idx: 1, pos: { x: 200, y: 120 } }, // 副本:从 240 缓动到 200
+      ],
+    })
+    expect(frames).toHaveLength(11) // 10 缓动 + 1 归位
+    // 原敌每帧都在 startPos
+    for (const f of frames) {
+      expect(f.fighters?.find((d) => d.idx === 0)?.pos).toEqual({ x: 240, y: 120 })
+    }
+    // 副本逐帧 pos=(pos+target)/2:240→220→210→...→200
+    expect(frames[0]!.fighters?.find((d) => d.idx === 1)?.pos).toEqual({ x: 220, y: 120 })
+    expect(frames[1]!.fighters?.find((d) => d.idx === 1)?.pos).toEqual({ x: 210, y: 120 })
+    // 末帧精确归位阵型位
+    expect(frames.at(-1)!.fighters?.find((d) => d.idx === 1)?.pos).toEqual({ x: 200, y: 120 })
   })
 })
 
