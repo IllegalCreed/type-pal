@@ -2179,6 +2179,8 @@ function tickPerformAction(
       (p) => (res.playerRoles.roles[p.roleId]?.hp ?? 0) > 0,
     )
     if (!anyEnemyAlive || !anyPlayerAlive) {
+      // 转 postAction 让其定 won/lost(经 postAction 以记录本回合快照)。但 postAction 会先检"已分胜负"
+      //   → 跳过回合末毒/状态结算(sdlpal PAL_BattleStartFrame fEnemyCleared/fEnded 命中即 return 不跑毒)。
       state.phase = 'postAction'
       state.phaseStallTicks = 0
       return
@@ -2587,6 +2589,13 @@ function tickPostAction(
   bus: CommandBus,
   res: BattleResources,
 ): void {
+  // sdlpal PAL_BattleStartFrame(fight.c:1116-1150):本回合若已被**战斗(非毒)**分出胜负(全敌死 fEnemyCleared
+  //   / 全队员死 fEnded)→ PostActionCheck 前 `return`,**跳过回合末毒结算**(user 2026-06-08 报:普攻打死最后
+  //   一敌后,毒还在下面多结算一次)。仅"回合正常跑完、敌我都还活"才跑毒。此处只门控毒 tick;死敌淡出 / exp /
+  //   终态(won/lost)仍由下方 checkEnemyDeaths + alive 判定处理(毒杀也能正常触发,毒死时进 postAction 敌仍活)。
+  const battleDecidedByCombat =
+    !state.enemies.some((e) => !e.defeated && e.e.health > 0)
+    || !state.players.some((p) => (res.playerRoles.roles[p.roleId]?.hp ?? 0) > 0)
   // M6 阵亡音死因门控:毒 tick 前快照各队员 hp。下方 emitPlayerCasualtySounds 仅 prePoisonHp===0
   //   (本回合死于敌攻、毒前已死)才播 deathSound;毒杀(毒前>0、毒后→0)不播(sdlpal 毒死无 deathSound)。
   const prePoisonHp = new Map<number, number>()
@@ -2602,6 +2611,8 @@ function tickPostAction(
   // 玩家毒 tick —— sdlpal fight.c:1657-1697(PAL_BattleStartFrame,action queue 耗尽时):每队员每毒槽
   //   跑 wPlayerScript(target=该队员;毒脚本 0x1B 负 delta 扣血,0x1B battle handler 自带活人 gate)。
   //   玩家毒存全局 gs.rgPoisonStatus[`${slot}_${roleId}`](持久,16 槽/role)。sdlpal 先玩家后敌。
+  // battleDecidedByCombat → 跳过毒 tick(sdlpal 已 Won/Lost 则 PostActionCheck 前 return,不跑回合末毒)。
+  if (!battleDecidedByCombat) {
   state.players.forEach((player, idx) => {
     for (let slot = 0; slot < 16; slot++) {
       const ps = gs.rgPoisonStatus[`${slot}_${player.roleId}`]
@@ -2638,6 +2649,7 @@ function tickPostAction(
       }
     }
   })
+  } // end if (!battleDecidedByCombat) — 毒 tick 门控
 
   // M6 玩家濒死/阵亡音(毒 tick 后判,与 sdlpal fight.c:1664 顺序一致)。prePoisonHp 门控阵亡音死因
   //   (仅敌攻致死播,毒杀不播)。详见 emitPlayerCasualtySounds。
