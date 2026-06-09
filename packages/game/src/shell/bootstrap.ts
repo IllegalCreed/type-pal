@@ -21,6 +21,7 @@ import { createCommandBus } from '../core/command-bus.js'
 import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap,
+  getGlobalCommands,
   getGlobalLabelMap,
   runEnterScript,
   setEndingAnimationHandler,
@@ -1316,12 +1317,15 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     await fadeOutBlocking(fb, ctx, pal5b, 1800) // FadeOut(3)
   }
 
-  // Sync.2 fix4+:扫 eventCommands 找 setPlayerSprite(opcode 0x65)的 sprite id,预 fetch。
+  // Sync.2 fix4+:扫 setPlayerSprite(opcode 0x65)的 sprite id,预 fetch。
   //   操作:operand[0]=roleId, operand[1]=spriteId;任何队员都可能被剧情换形象。
-  // present.ts 渲染时按当前 roleId 的 runtime rgwSpriteNum → ctx.npcSpriteFrames.get(spriteId)。
-  // 若未预 fetch,渲染会等资源而不是把队员兜底画成 role0。
+  // present.ts 渲染时按当前 roleId 的 runtime rgwSpriteNum → ctx.npcSpriteFrames.get(spriteId);
+  //   若未预 fetch → 取不到 override 帧 → role0 兜底画成默认(可见)精灵,不会消失。
+  // **扫全局 all.json(getGlobalCommands),非仅首屏 scene(2026-06-08 林家堡 bug)**:
+  //   李逍遥变蛇逃跑过场走出后 `0x65[0,232]` 把队首换成**1×1 空精灵 232(隐身)**让他消失,loadScene 前
+  //   再 `0x65[0,2]` 换回。这段在全局脚本里,旧码只扫首屏 eventCommands → 232 漏载 → 李逍遥不消失(user 报)。
   const cutsceneSpriteIds = new Set<number>()
-  for (const cmd of eventCommands) {
+  for (const cmd of getGlobalCommands()) {
     if (cmd.op === 'raw' && cmd.opcode === 0x0065) {
       const spriteId = cmd.operands[1] ?? 0
       if (spriteId > 0 && !npcSpriteFrames.has(spriteId)) {
