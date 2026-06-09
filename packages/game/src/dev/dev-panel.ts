@@ -238,6 +238,14 @@ export interface EnemyStatusReadout {
   resistances: { label: string; value: number }[]
   /** 异常/buff 剩余回合 + 中毒条。 */
   statusEntries: string[]
+  /**
+   * 偷取信息(sdlpal fight.c:5253 PAL_BattleStealFromEnemy):
+   *   nStealItem(=stealItemCount)<=0 → 不可偷;wStealItem(=stealItem)==0 → 偷金钱(每次 count/RandomLong(2,3));
+   *   否则 → 偷物品 wStealItem(每次 1 个,共 count 个)。
+   * `canSteal` = stealItemCount>0;`steal` = 人读串。
+   */
+  canSteal: boolean
+  steal: string
 }
 
 /** 当前战场场地读出(devpanel 队伍 tab「场地信息」)。纯函数,战斗中读 battleState.field。 */
@@ -312,6 +320,7 @@ export function collectEnemyStatusReadouts(
   items: readonly Item[] = [],
 ): EnemyStatusReadout[] {
   if (gs.mode !== 'battle' || !gs.battleState) return []
+  const itemNameById = new Map(items.map((it) => [it.id, it._name ?? '']))
   return gs.battleState.enemies.map((be: BattleEnemy, slot) => {
     const e = be.e
     const statusEntries: string[] = []
@@ -320,6 +329,17 @@ export function collectEnemyStatusReadouts(
       if (rounds > 0) statusEntries.push(`${def.label} ${statusRoundsText(rounds)}`)
     }
     statusEntries.push(...collectEnemyPoisonEntries(be.poisons ?? [], objectPoisons, items))
+    // 偷取(sdlpal fight.c:5253):count<=0 不可偷;stealItem==0 偷金钱(每次 count/2~3);否则偷物品 #stealItem(每次1)。
+    const stealId = e.stealItem ?? 0
+    const stealCount = e.stealItemCount ?? 0
+    const canSteal = stealCount > 0
+    let steal: string
+    if (!canSteal) steal = '不可偷'
+    else if (stealId === 0) steal = `金钱 ≤${stealCount}(每次 ~${stealCount}/2-3)`
+    else {
+      const nm = itemNameById.get(stealId)
+      steal = `${nm ? `${nm}#${stealId}` : `物品#${stealId}`} ×${stealCount}`
+    }
     return {
       slot,
       enemyId: e.id,
@@ -333,6 +353,8 @@ export function collectEnemyStatusReadouts(
         { label: '巫抗', value: be.resistanceToSorcery ?? 0 },
       ],
       statusEntries,
+      canSteal,
+      steal,
     }
   })
 }
@@ -1621,6 +1643,10 @@ function openPicker(deps: DevPanelDeps): void {
       resist.style.cssText = 'color:#b8c9a8'
       resist.textContent = `抗性 ${r.resistances.map((s) => `${s.label}${s.value}`).join(' ')}`
       block.appendChild(resist)
+      const steal = document.createElement('div')
+      steal.style.cssText = `color:${r.canSteal ? '#ffe08a' : '#777'}`
+      steal.textContent = `偷 ${r.steal}`
+      block.appendChild(steal)
       if (r.statusEntries.length > 0) {
         const st = document.createElement('div')
         st.style.cssText = 'color:#ffb0b0'

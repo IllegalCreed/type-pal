@@ -229,6 +229,28 @@ describe('collectEnemyStatusReadouts(敌方状态:血量/属性/抗性/异常/�
     expect(out[0]).toMatchObject({ hp: 0, maxHp: 25, defeated: true })
     expect(out[0]!.statusEntries).toEqual([]) // 无异常无毒
   })
+
+  it('偷取信息:不可偷(count=0)/ 偷金钱(stealItem=0)/ 偷物品(stealItem!=0)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = 'battle'
+    const st = { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 }
+    gs.battleState = {
+      players: [],
+      enemies: [
+        { e: minimalEnemy(1, { stealItem: 0, stealItemCount: 0 }), status: st, prevHp: 30 },
+        { e: minimalEnemy(2, { stealItem: 0, stealItemCount: 200 }), status: st, prevHp: 30 },
+        { e: minimalEnemy(3, { stealItem: 100, stealItemCount: 3 }), status: st, prevHp: 30 },
+      ],
+    } as any
+    // biome-ignore lint/suspicious/noExplicitAny: 只需 id/_name
+    const items = [{ id: 100, _name: '金创药' } as any]
+    const out = collectEnemyStatusReadouts(gs, [], items)
+    expect(out[0]).toMatchObject({ canSteal: false, steal: '不可偷' })
+    expect(out[1]!.canSteal).toBe(true)
+    expect(out[1]!.steal).toContain('金钱')
+    expect(out[1]!.steal).toContain('200')
+    expect(out[2]).toMatchObject({ canSteal: true, steal: '金创药#100 ×3' })
+  })
 })
 
 describe('collectFieldInfoReadout(场地信息:屏幕波纹 + 5 元素场效 signed)', () => {
