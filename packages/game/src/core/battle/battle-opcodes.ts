@@ -1354,6 +1354,9 @@ export function dispatchBattleOpcode(
       //   **审计修**:此前设 enemy.health=0 → 被 postAction 当击杀给了 exp/cash。**D13**:改触发 enemyEscapeAnim
       //   (tickBattleEnemyEscapeAnim 飞出 → phase='fleed' 无奖励),**不**改 health(避免误给 exp)。
       state.enemyEscapeAnim = { step: 0 }
+      // 敌逃 = kBattleResultTerminated:标记"战斗将终止"(供 turn-start 循环 break + finalize 归类)。
+      //   有前置对话时 0x69 走 event-system 延后入队那条路并在那里置标记;此处覆盖队列空的即时路径。
+      state.terminatedByEnemyEscape = true
       // M6 敌逃跑音(sdlpal battle.c:1397 AUDIO_PlaySound(45))→ gs.pendingSounds。
       if (ctx.gs) (ctx.gs.pendingSounds ??= []).push(45)
       return { consumed: true }

@@ -146,6 +146,30 @@ describe('B-w2.a battle-opcodes dispatch', () => {
   })
 })
 
+// 用户报:战斗内 2 只绿叶小妖(team16/17),赵灵儿"通通退下"对白播两遍。核验敌逃 0x69 触发后
+//   会置 terminatedByEnemyEscape 标记(供 runEnemyTurnStartScripts 在后续敌人 turn-start 前 break)。
+describe('敌逃 0x69 置 terminatedByEnemyEscape 标记(turn-start 循环据此 break,避免退下对白重复)', () => {
+  it('回合脚本 [对白×3,0x69,...]:0x69 延后入队 + 置 terminatedByEnemyEscape=true', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // biome-ignore lint/suspicious/noExplicitAny: 最小 state(只用 battleDialogQueue/enemies)
+    const state = { enemies: [makeEnemy(50)], players: [], battleDialogQueue: [] } as any as BattleState
+    const bus = createCommandBus()
+    // biome-ignore lint/suspicious/noExplicitAny: 合成回合脚本(对白×3 → 0x69 敌逃 → 对白)
+    const script = [
+      { op: 'showDialog', text: 'A', messageIndex: 0 },
+      { op: 'showDialog', text: 'B', messageIndex: 0 },
+      { op: 'showDialog', text: 'C', messageIndex: 0 },
+      { op: 'raw', opcode: 0x69, operands: [1, 0, 0] },
+      { op: 'showDialog', text: 'D', messageIndex: 0 },
+      { op: 'end' },
+    ] as any as Command[]
+    runScript({ commands: script, ip: 0, bus, runtimeMode: 'battle', battleCtx: { state, caster: { type: 'enemy', idx: 0 }, gs } as BattleCtx })
+    // 0x69 延后入队为 effect 标记(夹在对白后,非最前)+ 置终止标记
+    expect(state.battleDialogQueue!.map((e) => (e.effect ? 'FX' : e.text))).toEqual(['A', 'B', 'C', 'FX', 'D'])
+    expect(state.terminatedByEnemyEscape).toBe(true)
+  })
+})
+
 // ============================================================================
 // 0x42 SimulateMagic(E2)—— PAL_BattleSimulateMagic(fight.c:5300)
 //   script.c:1630:i = (SHORT)op2 - 1; if (i<0) i = wEventObjectID;

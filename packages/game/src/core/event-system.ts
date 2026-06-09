@@ -2654,6 +2654,10 @@ export function runScript(opts: RunScriptOptions): number {
           const bs = battleCtx.state
           if (cmd.opcode === 0x69 && (bs.battleDialogQueue?.length ?? 0) > 0) {
             ;(bs.battleDialogQueue ??= []).push({ effect: { opcode: cmd.opcode, operands: cmd.operands } })
+            // 敌逃 = sdlpal kBattleResultTerminated:标记"战斗将终止"。供 runEnemyTurnStartScripts 在本回合
+            //   后续敌人的 turn-start 脚本前 break(对齐 sdlpal:逃跑即退出主循环,后续敌 turn-start 不跑),
+            //   及 finalize 归 outcome='terminated'。
+            bs.terminatedByEnemyEscape = true
             ip++
             break
           }

@@ -1468,7 +1468,10 @@ export function projectRuntimeToBattleRoles(
 }
 
 /** 战斗结局(0x07 战后接回分支用)。 */
-export type BattleOutcome = 'won' | 'lost' | 'fled'
+// sdlpal battle.h:33-37 kBattleResult:Won(3)/Lost(1)/Fleed(0xFFFF,玩家逃)/Terminated(0,敌逃或脚本终止)。
+// ts 把 Won 走结算演出(不经 resume),其余三种经 resumePostBattleScript 接回 0x07 脚本:
+//   'fled'=玩家逃 → fledIp(op[2]);'terminated'=敌逃(opcode 105)/脚本终止 → 同 sdlpal else 分支落 wonIp。
+export type BattleOutcome = 'won' | 'lost' | 'fled' | 'terminated'
 
 /** sdlpal 死亡红屏 opcode 0x4F PAL_FadeToRed(script.c:1768),全游戏唯一在死亡脚本 L_41075。 */
 const OP_FADE_TO_RED = 0x4f
@@ -1502,7 +1505,8 @@ export function scriptRunHits0x4F(commands: Command[] | undefined, startIp: numb
 
 /**
  * opcode 0x07 触发的战斗结束后,接回原触发脚本(sdlpal script.c:3318-3331)。
- * 胜(或负/逃但 op 无对应分支)→ wonIp(0x07 后下一条);负 → lostIp(op[1]);逃 → fledIp(op[2])。
+ * 胜 / terminated(敌逃,sdlpal kBattleResultTerminated)/ 负·逃但 op 无对应分支 → wonIp(0x07 后下一条);
+ *   负 → lostIp(op[1]);玩家逃(kBattleResultFleed)→ fledIp(op[2])。
  * **修"打完怪不消失"**:让 `0x07; 0x52 隐藏怪; end` 的 0x52 真跑(0x07 此前直接清 cursor → 永不跑)。
  * 恢复 currentEventObjectId → 0x52 隐藏的是开战的那只怪。无 postBattleResume → no-op(非 0x07 触发的战斗)。
  */
@@ -1510,7 +1514,8 @@ export function resumePostBattleScript(gs: GameState, outcome: BattleOutcome): v
   const r = gs.postBattleResume
   if (!r) return
   gs.postBattleResume = undefined
-  // sdlpal script.c:3320-3331:负+op[1]!=0 → op[1];逃+op[2]!=0 → op[2];否则(胜/无分支)→ 下一条。
+  // sdlpal script.c:3320-3331:负+op[1]!=0 → op[1];玩家逃+op[2]!=0 → op[2];否则(胜/terminated 敌逃/无分支)→ 下一条。
+  //   'terminated'(敌逃 kBattleResultTerminated)既非 lost 也非 fled → 落 wonIp,对齐 opcode 7 的 else 分支。
   let ip = r.wonIp
   if (outcome === 'lost' && r.lostIp !== undefined) ip = r.lostIp
   else if (outcome === 'fled' && r.fledIp !== undefined) ip = r.fledIp

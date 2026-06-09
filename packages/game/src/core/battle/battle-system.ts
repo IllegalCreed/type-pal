@@ -1856,6 +1856,9 @@ function tickBattleEnemyEscapeAnim(state: BattleState): boolean {
     if (ea.holdTicks < ENEMY_FLYOUT_HOLD_TICKS) return true
     state.enemyEscapeAnim = undefined
     state.phase = 'fleed'
+    // 敌逃 = sdlpal kBattleResultTerminated(0),区别于玩家逃 kBattleResultFleed(0xFFFF):opcode 7 对
+    //   Terminated 走 else → wScriptEntry++(= wonIp 续跑隐藏怪 opcode82),不跳 fledIp。标记供 finalize 归类。
+    state.terminatedByEnemyEscape = true
     state.phaseStallTicks = 0
     return true
   }
@@ -1911,6 +1914,12 @@ function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: Comman
         battleEffectIndex: res.battleEffectIndex,
       },
     })
+    // sdlpal:某只敌人的 turn-start 脚本触发敌逃(0x69 → kBattleResultTerminated)→ 主循环 battle.c:774
+    //   `BattleResult != OnGoing` 即退出,本回合**后续敌人的 turn-start 脚本不再跑**(且 sdlpal 每帧只一只
+    //   敌人行动 fight.c:1233 fMoved gate → fTurnStart 错帧,逃跑那只先跑就终止)。ts 把 turn-start 简化成
+    //   每轮一次性遍历全体活敌,故须在此 break,否则多只同类敌人(如 team16/17 两只绿叶小妖)各跑一遍退下
+    //   脚本 → 赵灵儿"通通退下"对白重复(user 2026-06-09 报)。
+    if (state.terminatedByEnemyEscape) break
   }
   state.battleDialogPendingClear = false
 }
@@ -2704,8 +2713,12 @@ function finalizeBattle(
   //   旧 M3 简版在此把全员 hp 重置为 1(伪复活)→ 死员变"活着站立"(配合渲染读 live roles = "起立")。
   //   已删。死员保持 hp=0,present 据此画倒下帧;真正恢复靠 0x4E 读档。
   writeBackBattleRolesToRuntime(res.playerRoles, gs.PlayerRolesRuntime, gs.partyMembers)
-  // forced(watchdog 强退)按"胜"接回(续跑下一条);否则按 phase 分支(lost→op[1] / fleed→op[2])。
-  finalizeBattleCleanup(gs, forced ? 'won' : (state.phase === 'lost' ? 'lost' : 'fled'))
+  // forced(watchdog 强退)按"胜"接回(续跑下一条);否则按 phase 分支:lost→op[1];敌逃(Terminated)→
+  //   wonIp(续跑隐藏怪);玩家逃(Fleed)→op[2]。敌逃/玩家逃 phase 同为 'fleed',靠 terminatedByEnemyEscape 区分。
+  finalizeBattleCleanup(
+    gs,
+    forced ? 'won' : state.phase === 'lost' ? 'lost' : state.terminatedByEnemyEscape ? 'terminated' : 'fled',
+  )
 }
 
 /** 战斗收尾清状态(won 结算放完 / lost / fleed / forced 共用)→ 回 explore;0x07 触发的战斗接回触发脚本。 */

@@ -137,6 +137,49 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     expect(state.phase).toBe('fleed')
   })
 
+  // 回归:敌人逃跑(opcode 105 PAL_BattleEnemyEscape)= sdlpal kBattleResultTerminated(0),**不是**
+  //   玩家逃跑 kBattleResultFleed。opcode 7 对 Terminated 走 else → wScriptEntry++ = wonIp(续跑下一条,
+  //   草妖剧本里是 opcode 82 隐藏怪 ~150 帧)。此前 ts 把敌逃归 outcome='fled' → 接回 fledIp
+  //   (草妖 L_41073 = opcode 75 vanishTime=-15,怪 0.25s 后复现 → 立刻重触发 → 赵灵儿赶草妖剧情反复播)。
+  it('敌逃(Terminated)→ 战后接回 wonIp(opcode82 隐藏怪),非 fledIp;修赵灵儿赶草妖剧情反复触发', () => {
+    const { gs, bus, emptyInput } = bootstrap({ enemies: [makeEnemy({ id: 100, health: 50 })] })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    const state = gs.battleState!
+    state.enemies[0]!.pos = { x: 200, y: 80 }
+    // 模拟 0x07 起战时存的接回上下文:wonIp(续跑隐藏怪)/ fledIp(玩家逃跑分支)取不同哨兵 ip
+    gs.postBattleResume = { wonIp: 11, lostIp: 22, fledIp: 33, currentEventObjectId: 207 }
+    state.enemyEscapeAnim = { step: 0 } // 0x69 敌逃
+    let guard = 100
+    while (gs.mode === 'battle' && guard-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(gs.mode).toBe('event') // 战末接回触发脚本
+    expect(gs.eventCursor?.ip).toBe(11) // wonIp(opcode82 隐藏怪),非 fledIp 33(opcode75 vanishTime=-15)
+  })
+
+  // 回归(user 2026-06-09):一场战斗内两只同类敌人(如 team16/17 两只绿叶小妖)都挂赵灵儿退下 scriptOnTurnStart
+  //   时,退下对白只该播一遍。sdlpal:首只 turn-start 触发敌逃(0x69)→ Terminated → 主循环退出,后续敌
+  //   turn-start 不跑。ts turn-start 一次性遍历全体 → 须在触发敌逃后 break(否则对白重复)。
+  it('多敌:首只 turn-start 触发敌逃 → break,后续敌人 turn-start 不跑(退下对白只一遍)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 50 })],
+      teamSlots: [100, 100, 0xFFFF, 0xFFFF, 0xFFFF], // 两只同类敌人(如 team16 两只绿叶小妖)
+      commands: [
+        { op: 'end' }, // ip 0 占位(scriptOnTurnStart 须 >0)
+        { op: 'showDialog', messageIndex: 0, text: '通通退下' }, // ip 1
+        { op: 'raw', opcode: 0x69, operands: [1, 0, 0] }, // ip 2 敌逃(queue 非空 → 延后入队 + 置终止标记)
+        { op: 'end' }, // ip 3
+      ],
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    const state = gs.battleState!
+    state.enemies[0]!.scriptOnTurnStart = 1
+    state.enemies[1]!.scriptOnTurnStart = 1
+    tickBattle(gs, emptyInput, bus) // selectAction 起手 → runEnemyTurnStartScripts
+    // 首只触发敌逃 → break → 第二只不跑:队列里"通通退下"只 1 句(修复前两只都跑 = 2 句)
+    const lines = (state.battleDialogQueue ?? []).filter((e) => !e.effect)
+    expect(lines.length).toBe(1)
+    expect(state.terminatedByEnemyEscape).toBe(true)
+  })
+
   it('L23:开战前 HP=0 队员复活为 1 HP(battle.c:1569-1577,带倒地队员逃离后立刻再战)', () => {
     const { gs } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 50 })],

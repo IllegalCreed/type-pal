@@ -541,6 +541,12 @@ export interface BattleState {
    */
   enemyEscapeAnim?: { step: number; holdTicks?: number }
   /**
+   * 敌人逃跑(opcode 105 PAL_BattleEnemyEscape)完成标记 —— 区分 sdlpal kBattleResultTerminated(0,敌逃/
+   * 脚本终止)与 kBattleResultFleed(0xFFFF,玩家逃)。两者 phase 都落 'fleed',但 finalize 据此把 outcome
+   * 定为 'terminated'(→ opcode 7 续跑 wonIp,如草妖剧本的 opcode82 隐藏怪),而非 'fled'(→ fledIp)。
+   */
+  terminatedByEnemyEscape?: boolean
+  /**
    * D17 敌人死亡淡出 hold(PAL_BattleFadeScene,fight.c:889-893 + battle.c:608-682)。
    * 某 action 后有新死敌 → checkEnemyDeaths 开启 { elapsedMs: 0 };tickPerformAction 的
    * fade 分支按 BATTLE_DT 累 elapsedMs、推进所有淡出中敌人的 deathFadeStep(= floor(elapsedMs/16),
