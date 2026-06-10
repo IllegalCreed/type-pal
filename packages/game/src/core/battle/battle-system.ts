@@ -65,7 +65,7 @@ import { performItem } from './actions/item.js'
 import { performMagic } from './actions/magic.js'
 import { performThrowItem } from './actions/throw-item.js'
 import { BATTLE_FRAME_TIME, buildUseItemTimeline } from './anim-timeline.js'
-import { applyAnimFrame, resetFightersAfterAction, startBattleAnim } from './battle-anim-driver.js'
+import { advanceBattleAnimFrames, resetFightersAfterAction, startBattleAnim } from './battle-anim-driver.js'
 import type { BattleAction, BattlePlayer, BattleState } from './battle-state.js'
 import { createBattleState } from './battle-state.js'
 import { resolveMagicObject } from './magic-object.js'
@@ -468,9 +468,30 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   // scriptOnTurnStart:每轮起手(进 selectAction **菜单之前**)对全体活敌跑一次 → boss 嘲讽对话
   //   进战斗一开始 / 每轮开头就显示(忠实 sdlpal fight.c:1184-1191 fTurnStart 在 charge/act 前)。
   //   有对话入队 → 本 tick 不进菜单,下 tick 顶层 tickBattleDialog 先把对话放完(修"先选动作才说话")。
+  //   起了动画(0x9C 分裂散开等)→ 同样不进菜单,下 tick 起下方 hold 推进。
   if (state.phase === 'selectAction' && state.turnStartDoneForTurn !== state.turn) {
     runEnemyTurnStartScripts(state, gs, bus, res)
     if (state.battleDialogQueue && state.battleDialogQueue.length > 0) return
+    if (state.battleAnim) return
+  }
+
+  // 回合起手脚本动画 hold:时间线驱动原本只在 tickPerformAction 跑,selectAction 阶段
+  //   (scriptOnTurnStart)起的时间线会冻在 frame[0] —— 0x9C 血云雾分裂副本卡在散开中点位,
+  //   整个指令阶段不动,拖到下轮执行阶段才被当作 action 动画补播 + 归位,且播完误推
+  //   currentActionIndex 吃掉本轮第一个 action(user 2026-06-10 报"分裂出的新怪位置不对,
+  //   下一轮攻击执行才归位")。sdlpal 真值:散开在脚本内 PAL_BattleDelay(1) 同步阻塞逐帧播完
+  //   才出指令菜单(script.c:2853-2867)。此 hold 对齐:菜单暂停,逐 tick 推进,播完
+  //   PAL_BattleUpdateFighters 复位(script.c:2866)+ 清时间线,不碰 action 队列。
+  if (state.phase === 'selectAction' && state.battleAnim) {
+    const a = state.battleAnim
+    if (advanceBattleAnimFrames(state, bus, BATTLE_DT)) {
+      for (const dn of a.pendingDamageNums ?? []) {
+        bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
+      }
+      resetFightersAfterAction(state, res.playerRoles)
+      state.battleAnim = undefined
+    }
+    return
   }
 
   switch (state.phase) {
@@ -2117,17 +2138,11 @@ function tickPerformAction(
   //   见 runEnemyTurnStartScripts —— 修"先选动作才开始说话"的顺序 bug(user 实测:林月如应进战斗就说话)。
 
   // ── D17a:时间线驱动 ──────────────────────────────────────────────────────
-  // 有 active 动画时间线 → 逐 tick 推进帧;不起新 action,不推 currentActionIndex。
+  // 有 active 动画时间线 → 逐 tick 推进帧(advanceBattleAnimFrames,与回合起手脚本动画 hold 共用);
+  // 不起新 action,不推 currentActionIndex。
   if (state.battleAnim) {
     const a = state.battleAnim
-    a.frameElapsedMs += BATTLE_DT
-    // 跨过若干帧(durationMs 可能为 0,见 actWaitFrames=0)→ while 一次跨多帧。
-    while (a.idx < a.frames.length && a.frameElapsedMs >= (a.frames[a.idx]?.durationMs ?? 0)) {
-      a.frameElapsedMs -= a.frames[a.idx]?.durationMs ?? 0
-      a.idx++
-      if (a.idx < a.frames.length) applyAnimFrame(state, a.frames[a.idx]!, bus)
-    }
-    if (a.idx >= a.frames.length) {
+    if (advanceBattleAnimFrames(state, bus, BATTLE_DT)) {
       const afterComplete = a.afterComplete
       // 法术伤害数字在**特效播完后**才 emit(对照 sdlpal PAL_BattleDisplayStatChange 在 magic anim
       //   之后,fight.c:4322/4369/4405)—— 修 user 实测"掉血数字比攻击动画早出"(林月如鞭击/法术)。

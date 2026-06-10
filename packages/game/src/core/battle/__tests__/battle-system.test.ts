@@ -42,6 +42,7 @@ import { tickByMode } from '../../mode.js'
 import { setGlobalEvents } from '../../event-system.js'
 import { tickMenu } from '../../menu/menu-mode.js'
 import type { BattleEnemy } from '../battle-state.js'
+import { dispatchBattleOpcode } from '../battle-opcodes.js'
 
 // E04-b 隐藏属性经验分配公式(sdlpal battle.c:1226-1293 CHECK_HIDDEN_EXP)。
 describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () => {
@@ -2948,5 +2949,57 @@ describe('战斗过渡时序(sdlpal port)', () => {
     finally {
       setGlobalEvents([])
     }
+  })
+})
+
+// ============================================================================
+// 回合起手脚本动画 hold(0x9C 血云雾分裂散开,user 2026-06-10)
+// ============================================================================
+
+describe('selectAction 阶段脚本动画 hold(0x9C 分裂散开)', () => {
+  const DIV_ENEMY_POS: EnemyPosTable = {
+    layouts: [
+      [{ x: 160, y: 80 }],
+      [{ x: 120, y: 80 }, { x: 220, y: 70 }],
+    ],
+  }
+
+  // 回归:scriptOnTurnStart 的 0x9C 在 selectAction 阶段起散开时间线,修前驱动只在
+  // tickPerformAction → 冻在 frame[0](副本卡散开中点位整个指令阶段),下轮执行才补播
+  // 且播完误推 currentActionIndex 吃掉本轮第一个 action。sdlpal 真值:script.c:2853-2867
+  // PAL_BattleDelay 同步阻塞播完才出菜单。
+  it('散开时间线在 selectAction 逐 tick 推进,播完归位 + 不碰 action 队列', () => {
+    const { gs, bus, emptyInput } = bootstrap({ enemyPos: DIV_ENEMY_POS })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    tickBattle(gs, emptyInput, bus) // turn-start(无脚本 noop)+ 进菜单
+    const state = gs.battleState!
+    expect(state.phase).toBe('selectAction')
+
+    // 模拟 turn-start 脚本跑到 0x9C(真 handler:分裂 + 刷阵型位 + 起散开时间线)
+    const r = dispatchBattleOpcode(0x9C, [0, 0, 0], {
+      state,
+      caster: { type: 'enemy', idx: 0 },
+      enemyPos: DIV_ENEMY_POS,
+      gs,
+      bus,
+    })
+    expect(r.consumed).toBe(true)
+    expect(state.enemies).toHaveLength(2)
+    expect(state.battleAnim).toBeDefined()
+    // frame[0]:副本在散开中点((120+220)/2, (80+70)/2),≠ 阵型位
+    expect(state.enemies[1]!.pos).toEqual({ x: 170, y: 75 })
+
+    // 修前:selectAction 无驱动,idx 永远 0(本断言失败)
+    tickBattle(gs, emptyInput, bus)
+    expect(state.battleAnim!.idx).toBeGreaterThan(0)
+
+    // hold 期间菜单暂停推进;播完(10 缓动帧 + 1 归位帧)复位 + 清时间线
+    for (let i = 0; i < 20 && state.battleAnim; i++) tickBattle(gs, emptyInput, bus)
+    expect(state.battleAnim).toBeUndefined()
+    expect(state.enemies[0]!.pos).toEqual(state.enemies[0]!.posOriginal)
+    expect(state.enemies[1]!.pos).toEqual(state.enemies[1]!.posOriginal)
+    // 仍在 selectAction(等玩家指令),action 队列未被吃
+    expect(state.phase).toBe('selectAction')
+    expect(state.currentActionIndex).toBe(0)
   })
 })

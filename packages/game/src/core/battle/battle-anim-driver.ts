@@ -111,6 +111,24 @@ export function startBattleAnim(
 }
 
 /**
+ * 推进 active 时间线一个 battle tick:elapsed 累加 dtMs,耗尽当前帧时长则逐帧前进 + applyAnimFrame
+ * (durationMs 可为 0 → while 一次跨多帧)。tickPerformAction 行动驱动与 tickBattle 回合起手脚本
+ * 动画 hold(0x9C 分裂散开等 selectAction 阶段起的时间线)共用,避免两份推进逻辑漂移。
+ * @returns true = 时间线已播完(caller 负责 pendingDamageNums / resetFightersAfterAction / 清 battleAnim 等收尾)。
+ */
+export function advanceBattleAnimFrames(state: BattleState, bus: CommandBus, dtMs: number): boolean {
+  const a = state.battleAnim
+  if (!a) return false
+  a.frameElapsedMs += dtMs
+  while (a.idx < a.frames.length && a.frameElapsedMs >= (a.frames[a.idx]?.durationMs ?? 0)) {
+    a.frameElapsedMs -= a.frames[a.idx]?.durationMs ?? 0
+    a.idx++
+    if (a.idx < a.frames.length) applyAnimFrame(state, a.frames[a.idx]!, bus)
+  }
+  return a.idx >= a.frames.length
+}
+
+/**
  * 动画播完后复位双方 fighter —— port PAL_BattleUpdateFighters 复位段(fight.c:940-1019)。
  *
  * player(fight.c:948-985):
