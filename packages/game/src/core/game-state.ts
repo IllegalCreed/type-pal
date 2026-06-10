@@ -281,6 +281,13 @@ export interface EventCursor {
   onEnterSceneId?: number
   /** onEnter 本次运行的起始 ip(0x0000 end 真值返回起始 entry,replay-in-place;见 onEnterSceneId)。 */
   onEnterStartIp?: number
+  /**
+   * onEnter 本次运行的 0x08 checkpoint(= sdlpal wNextScriptEntry):opcode 0x08 设成"其后一条 ip"。
+   * 'end' 0x00(plain)用 `onEnterResumeIp ?? onEnterStartIp` 写回 sceneOnEnterIp —— 即 0x08 把"已播过"
+   * 的演出推进掉、0x00 不覆盖该 checkpoint(sdlpal 真值)。缺此 → 0x00 用 startIp 冲掉 0x08 → 演出重播
+   * (2026-06-09 隐龙窟救人演出重进重播根因:onEnter 末 0x08+0x00 序列)。
+   */
+  onEnterResumeIp?: number
 }
 
 /**

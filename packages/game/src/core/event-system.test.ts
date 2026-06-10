@@ -3551,6 +3551,38 @@ describe('onEnter 脚本持久化(sdlpal play.c:64)', () => {
     expect(gs.sceneLoading).toBe(false) // onEnter 结束 → 幂等清(防御:任何路径不残留)
   })
 
+  it('0x08 checkpoint + 0x00 收尾 → sceneOnEnterIp 存 0x08 后,不被起始 ip 冲掉(隐龙窟救人演出重进重播根因)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    // 仿隐龙窟救人 onEnter L_10708 末尾结构:[演出动作, 0x08, 收尾, 0x00 end](是 0x08+0x00,非 0x01)。
+    const commands: Command[] = [
+      { op: 'raw', opcode: 0x15, operands: [0, 0, 0] }, // ip0 演出(重进不该再跑)
+      { op: 'raw', opcode: 0x08, operands: [0, 0, 0] }, // ip1 0x08 checkpoint
+      { op: 'raw', opcode: 0x53, operands: [0, 0, 0] }, // ip2 收尾(0x08 后)
+      { op: 'end' }, // ip3 0x00 plain stop
+    ]
+    onEnterCursor(gs, commands, 0, 5)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.eventCursor).toBeUndefined()
+    expect(gs.sceneOnEnterIp[5]).toBe(2) // 0x08@ip1 → checkpoint ip2;**不是**起始 0(否则演出 ip0 重播)
+    // 重进:从 checkpoint ip2 跑 → 跳过演出 ip0,仍停在 2
+    onEnterCursor(gs, commands, gs.sceneOnEnterIp[5]!, 5)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.sceneOnEnterIp[5]).toBe(2)
+  })
+
+  it('runEnterScript(同步路径):0x08 checkpoint + 0x00 收尾 → sceneOnEnterIp 也存 0x08 后', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const commands: Command[] = [
+      { op: 'raw', opcode: 0x46, operands: [10, 10, 0] }, // ip0 setPartyPos(演出)
+      { op: 'raw', opcode: 0x08, operands: [0, 0, 0] }, // ip1 0x08 checkpoint
+      { op: 'raw', opcode: 0x53, operands: [0, 0, 0] }, // ip2 收尾
+      { op: 'end' }, // ip3 0x00
+    ]
+    runEnterScript(gs, commands, buildLabelMap(commands), 0, 5)
+    expect(gs.sceneOnEnterIp[5]).toBe(2) // 0x08@ip1 → checkpoint ip2(applyRawOpcode 不认 0x08,本地兜住)
+  })
+
   it('runEnterScript(skip-intro 同步路径):0x01 收尾也持久化 sceneOnEnterIp(重进不重播)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const commands: Command[] = [

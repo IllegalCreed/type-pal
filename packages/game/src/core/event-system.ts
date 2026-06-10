@@ -1722,7 +1722,9 @@ export function tickEventSystem(
           else if (cmd.reset && cmd.resetTo !== undefined) {
             nextEntry = getLabels(cursor)[`L_${cmd.resetTo}`] ?? cursor.onEnterStartIp ?? cursor.ip
           }
-          else nextEntry = cursor.onEnterStartIp ?? cursor.ip
+          // 0x00 plain end:用 0x08 checkpoint(若本次跑过 0x08)否则起始 entry(replay)。**不能**无条件用
+          //   onEnterStartIp —— 否则把 0x08 推进的"已播演出"checkpoint 冲掉 → 重进重播(隐龙窟救人演出 bug)。
+          else nextEntry = cursor.onEnterResumeIp ?? cursor.onEnterStartIp ?? cursor.ip
           gs.sceneOnEnterIp[cursor.onEnterSceneId] = nextEntry
           // P2#7:sceneLoading 已在 loadSceneCommon assets 载入后清,这里幂等防御清一次(任何路径不残留)。
           gs.sceneLoading = false
@@ -1901,6 +1903,8 @@ export function tickEventSystem(
             }
           }
           if (cursor.onEnterSceneId !== undefined) {
+            // 记 checkpoint(= sdlpal wNextScriptEntry):'end' 0x00 用它写回,不被 onEnterStartIp 冲掉。
+            cursor.onEnterResumeIp = resumeIp
             gs.sceneOnEnterIp[cursor.onEnterSceneId] = resumeIp
           }
           cursor.ip = resumeIp // 继续跑(本 tick 接下条 opcode)
@@ -4968,6 +4972,9 @@ export function runEnterScript(
   // applyRawOpcode 内 `if (cursor)` 守卫下静默 no-op → skip-intro 同步跑 onEnter 时控制流断(跳转失效)。
   const cursor: ScriptCursor = { ip: startIp, commands, labelMap }
   let stepCount = 0
+  // 0x08 checkpoint(= sdlpal wNextScriptEntry):applyRawOpcode 不处理 0x08,这里本地兜住 → 'end' 0x00 用它
+  //   (否则用 startIp 冲掉 → 演出重播)。同 async 路径 cursor.onEnterResumeIp。
+  let resumeCheckpoint: number | undefined
 
   while (true) {
     if (++stepCount > SINGLE_TICK_LIMIT) {
@@ -4990,7 +4997,7 @@ export function runEnterScript(
         else if (cmd.reset && cmd.resetTo !== undefined) {
           nextEntry = getLabels(cursor)[`L_${cmd.resetTo}`] ?? startIp
         }
-        else nextEntry = startIp
+        else nextEntry = resumeCheckpoint ?? startIp
         gs.sceneOnEnterIp[sceneId] = nextEntry
       }
       return
@@ -5007,6 +5014,13 @@ export function runEnterScript(
     }
 
     if (cmd.op === 'raw') {
+      if (cmd.opcode === OP_CHECKPOINT_ADVANCE) {
+        // 0x08:记 checkpoint(其后一条)+ 继续跑。applyRawOpcode 不处理 0x08,这里兜住 → 'end' 0x00 用它
+        //   写回 sceneOnEnterIp(已播演出推进掉、不重播)。同 async 路径(cursor.onEnterResumeIp)。
+        resumeCheckpoint = cursor.ip + 1
+        cursor.ip++
+        continue
+      }
       // cursor 传入 → 条件跳转 / call / 0x06 / 0xA2 操作本 cursor(jumpToGlobalIp 设 target-1,下面 ip++ 落到 target)。
       applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId, cursor)
       cursor.ip++
