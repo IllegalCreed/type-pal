@@ -159,6 +159,101 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
     expect(fb.indices[0]).toBe(3)
   })
 
+  // sdlpal rngplay.c:436:每帧 PAL_RNGBlitToSurface 后 VIDEO_UpdateScreen(NULL)(video.c:571-616)——
+  // shake 进行中对视频帧本身施加垂直跳动 + g_wShakeTime--。漏接 → 0x35 震屏计数在 RNG 播放期间冻结,
+  // 整段泄漏进下一场景(僵尸王→血池演出全程狂抖,2026-06-10)。
+  describe('shakeState 透传(VIDEO_UpdateScreen shake 分支)', () => {
+    it('shakeTime 随每显示帧递减(3 帧视频:65→62)', async () => {
+      const fb = createFramebuffer()
+      const shakeState = { shakeTime: 65, shakeLevel: 4 }
+      await playRng({
+        chunkIdx: 6,
+        frameDelayMs: 0,
+        fb,
+        canvasCtx: mockCanvasCtx,
+        palette: mockPalette,
+        fetchManifest: mockManifestOk(),
+        fetchFrame: mockFrameFiller(),
+        shakeState,
+      })
+      expect(shakeState.shakeTime).toBe(62)
+    })
+
+    it('视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑', async () => {
+      const fb = createFramebuffer()
+      const shakeState = { shakeTime: 2, shakeLevel: 4 }
+      await playRng({
+        chunkIdx: 6,
+        frameDelayMs: 0,
+        fb,
+        canvasCtx: mockCanvasCtx,
+        palette: mockPalette,
+        startFrame: 0,
+        endFrame: 0, // 单帧(frameIdx 0 → 填 1)
+        fetchManifest: mockManifestOk(),
+        fetchFrame: mockFrameFiller(),
+        shakeState,
+      })
+      // 偶帧分支(video.c dstrect.y=shakeLevel):内容下移 4 行,顶部 4 行黑(index 0)
+      expect(fb.indices[0]).toBe(0)
+      expect(fb.indices[3 * 320]).toBe(0)
+      expect(fb.indices[4 * 320]).toBe(1)
+      expect(shakeState.shakeTime).toBe(1)
+    })
+
+    it('shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)', async () => {
+      const fb = createFramebuffer()
+      const shakeState = { shakeTime: 1, shakeLevel: 4 }
+      await playRng({
+        chunkIdx: 6,
+        frameDelayMs: 0,
+        fb,
+        canvasCtx: mockCanvasCtx,
+        palette: mockPalette,
+        fetchManifest: mockManifestOk(),
+        fetchFrame: mockFrameFiller(),
+        shakeState,
+      })
+      expect(shakeState.shakeTime).toBe(0)
+      // 末帧(frameIdx 2 → 填 3)无 shake 残留:第 0 行就是帧内容
+      expect(fb.indices[0]).toBe(3)
+    })
+
+    it('跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)', async () => {
+      const fb = createFramebuffer()
+      const shakeState = { shakeTime: 100, shakeLevel: 4 }
+      const promise = playRng({
+        chunkIdx: 6,
+        frameDelayMs: 50,
+        fb,
+        canvasCtx: mockCanvasCtx,
+        palette: mockPalette,
+        fetchManifest: mockManifestOk(),
+        fetchFrame: mockFrameFiller(),
+        shakeState,
+      })
+      await new Promise((r) => setTimeout(r, 60))
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
+      await promise
+      // 无论实际显示几帧,显示帧逐帧递减 + 跳过结清剩余 = 总递减恒为全片 3 帧
+      expect(shakeState.shakeTime).toBe(97)
+    })
+
+    it('不传 shakeState → 行为不变', async () => {
+      const fb = createFramebuffer()
+      await playRng({
+        chunkIdx: 6,
+        frameDelayMs: 0,
+        fb,
+        canvasCtx: mockCanvasCtx,
+        palette: mockPalette,
+        fetchManifest: mockManifestOk(),
+        fetchFrame: mockFrameFiller(),
+      })
+      expect(fb.indices[0]).toBe(3)
+    })
+  })
+
   it('initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette', async () => {
     const fb = createFramebuffer()
     const putImageData = vi.fn()

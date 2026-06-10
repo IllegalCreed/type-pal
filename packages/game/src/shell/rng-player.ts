@@ -19,6 +19,7 @@ import type { Palette } from '@type-pal/shared'
 import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
 import type { Framebuffer } from '../present/framebuffer.js'
 import { flushToCanvas } from '../present/present.js'
+import { applyScreenShake } from '../present/screen-shake.js'
 
 interface RngFramesManifest {
   chunks: Array<{
@@ -52,6 +53,15 @@ export interface PlayRngOptions {
 
   /** 跳过键,默认 Space/Enter/Escape。 */
   skipKeys?: string[]
+
+  /**
+   * sdlpal rngplay.c:436:每帧 blit 后 VIDEO_UpdateScreen(NULL)(video.c:571-616)——
+   * shake 进行中(g_wShakeTime!=0)对**视频帧本身**施加垂直跳动并 g_wShakeTime--。
+   * bootstrap 传 gs(结构匹配);不传 = 无 shake(trademark fallback / 测试)。
+   * 漏接的后果:0x35 震屏计数在 RNG 播放期间冻结,整段泄漏进下一场景
+   * (僵尸王→血池演出:0x35[90] 本该在 25 帧等待 + 64 帧坠落视频里耗完,却带 65 帧进血池狂抖)。
+   */
+  shakeState?: { shakeTime: number, shakeLevel: number }
 
   /**
    * 测试 only override fetchers — 生产从 `/extracted/` fetch,测试注入 mock。
@@ -173,11 +183,18 @@ export async function playRng(options: PlayRngOptions): Promise<void> {
 
     // 3. play loop — 逐帧 blit + sleep。PAL_RNGPlay 在首帧后消费 fNeedToFadeIn。
     let firstFrame = true
+    let framesShown = 0
     for (const frame of frames) {
       if (skipped) break
       if (!frame) continue
+      framesShown++
       // 跨 frame 直接覆盖 fb.indices(RNG 已是完整 320×200,不是 delta — 解码时已累加)
       options.fb.indices.set(frame.indices)
+      // sdlpal VIDEO_UpdateScreen(NULL) shake 分支:每显示帧对视频本身施震一次 + shakeTime--。
+      //   下一帧 indices.set 整幅覆盖,偏移不累积。
+      if (options.shakeState && options.shakeState.shakeTime !== 0) {
+        applyScreenShake(options.fb.indices, options.shakeState)
+      }
       if (firstFrame) {
         await fadeInFirstFrame(options)
         firstFrame = false
@@ -188,6 +205,13 @@ export async function playRng(options: PlayRngOptions): Promise<void> {
         flushToCanvas(options.fb, options.canvasCtx, options.palette)
       }
       await sleep(options.frameDelayMs)
+    }
+
+    // 跳过键提前结束(sdlpal 无跳过,全片每帧都 UpdateScreen 递减):把未显示帧的 shake 递减一次性
+    //   结清,保证 shakeTime 与"完整播完"一致 —— 否则跳过坠落视频又把残余震屏带进下一场景。
+    if (skipped && options.shakeState) {
+      const remaining = frames.length - framesShown
+      options.shakeState.shakeTime = Math.max(0, options.shakeState.shakeTime - remaining)
     }
   }
   finally {

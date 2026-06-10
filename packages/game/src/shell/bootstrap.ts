@@ -1116,6 +1116,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       fb,
       canvasCtx: canvasCtx!,
       palette: gs.palette ?? palette,
+      // sdlpal PAL_RNGPlay 每帧 VIDEO_UpdateScreen:0x35 震屏对视频施加 + 递减。
+      //   suspendRaf 期间 presentFrame 不跑,不接则计数冻结、震屏泄漏进下一场景(血池演出狂抖)。
+      shakeState: gs,
     })
       .catch((err) => {
         console.warn('[bootstrap.rngPlayHandler] playRng failed:', err)
