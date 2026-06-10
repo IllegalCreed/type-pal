@@ -29,7 +29,7 @@ import {
   OP_TRANSFORM_COLLECTED, OP_TELEPORT_OUT, setStoreTable,
   OP_SET_BATTLE_MUSIC, OP_STOP_MUSIC, OP_PLAY_CD_MUSIC,
   OP_NOOP_A7,
-  setObjectPoisons, curePlayerPoisonByLevel, walkFrameMod,
+  setObjectPoisons, setEnemyObjectsTable, curePlayerPoisonByLevel, walkFrameMod,
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, resumePostBattleScript, type GameState } from './game-state.js'
@@ -3785,6 +3785,25 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     loadEvent(gs, [{ op: 'raw', opcode: 0x90, operands: [42, 777, 1] }, { op: 'end' }])
     tickEventSystem(gs, snap(), bus)
     expect(gs.rgObject[42]?.rgwData[3]).toBe(777) // idx = 2 + op2(1) = 3
+  })
+
+  // 全部 3 处真实 0x90(六脚蜘蛛/刀手/胖苗)= 对话后把自身 enemy 对象 turnStart 清 0(show-once)。
+  // 新建 overlay 须按 OBJECT_ENEMY 布局从静态表播种(global.h:rgwData=[enemyId,抗性,turnStart,
+  // battleEnd,ready]),否则零填充把未改字段冲成 0,startBattle 读 overlay 时丢 battleEnd/ready。
+  it('0x90 新建 overlay 从静态敌人对象表播种,未改字段保静态值', () => {
+    setEnemyObjectsTable([
+      { objectIndex: 454, enemyId: 57, resistanceToSorcery: 3, scriptOnTurnStart: 41267, scriptOnBattleEnd: 11, scriptOnReady: 22 },
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const bus = createCommandBus()
+      // 刀手对话尾 0x90 [454,0,0]:turnStart(rgwData[2])清 0,其余字段播种静态值
+      loadEvent(gs, [{ op: 'raw', opcode: 0x90, operands: [454, 0, 0] }, { op: 'end' }])
+      tickEventSystem(gs, snap(), bus)
+      expect(gs.rgObject[454]?.rgwData.slice(0, 5)).toEqual([57, 3, 0, 11, 22])
+    } finally {
+      setEnemyObjectsTable(null)
+    }
   })
 
   // ── 中毒机制(2026-05-31 批次 1:0x29 抗性 + 真 wPlayerScript + cure-by-level) ──

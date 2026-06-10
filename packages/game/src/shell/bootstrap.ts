@@ -25,6 +25,7 @@ import {
   getGlobalLabelMap,
   runEnterScript,
   setEndingAnimationHandler,
+  setEnemyObjectsTable,
   setFetchPalette,
   setGlobalEvents,
   setObjectPoisons,
@@ -1101,6 +1102,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   // 毒 OBJECT 表(0x29 apply-player 取 wPlayerScript / cure-by-level 取真 level)。
   setObjectPoisons(objectPoisons)
+
+  // 静态敌人 OBJECT 表(0x90 SetObjectScript 新建 gs.rgObject overlay 时按 OBJECT_ENEMY 布局播种,
+  //   battleEnd/ready/抗性不被零填充冲掉;startBattle 开战读 overlay → 刀手/胖苗对话 show-once 跨战斗)。
+  setEnemyObjectsTable(enemyObjects)
 
   // 特效 C:RNG 动画 handler(opcode 0x37 PlayRNG)。event-system 设 cursor.waiting='rng-play' 后调本 handler;
   //   suspendRaf 期间 present 暂停、playRng 自管 fb 直写 + flushToCanvas;播完 finally 清 suspendRaf + waiting 续跑。

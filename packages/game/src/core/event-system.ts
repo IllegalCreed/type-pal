@@ -795,6 +795,17 @@ export function setObjectPoisons(
   )
 }
 
+// ── 静态敌人 OBJECT 表注入(0x90 SetObjectScript overlay 播种)──────────────────
+//   sdlpal rgObject 是**全量**对象表(存档数据),0x90 只改其中一格;ts 的 gs.rgObject 是稀疏
+//   overlay,新建 entry 时若零填充,会把未改的字段(battleEnd/ready/抗性)一并冲成 0。
+//   注入静态表后,新建 entry 按 OBJECT_ENEMY 布局(global.h:rgwData=[enemyId,抗性,turnStart,
+//   battleEnd,ready])从静态值播种,startBattle 读 overlay 时整组语义与 sdlpal 一致。
+let _enemyObjectsTable: ReadonlyArray<EnemyObject> | null = null
+
+export function setEnemyObjectsTable(list: ReadonlyArray<EnemyObject> | null): void {
+  _enemyObjectsTable = list
+}
+
 // ── 特效 C:RNG 动画 handler(opcode 0x0037 PAL_RNGPlay)──────────────────────
 // event-system 是底层 interpreter,不能 import shell 层 rng-player(分层约束)。同 shop 模式:
 // bootstrap 注入 handler,内部 suspendRaf + await playRng(modal 全屏播放),播完清 cursor.waiting 续跑。
@@ -4286,12 +4297,22 @@ function applyRawOpcode(
     }
 
     case OP_SET_OBJECT_SCRIPT: {
-      // sdlpal script.c:2605-2611:rgObject[op0].rgwData[2 + op2] = op1(sparse 持久存)
+      // sdlpal script.c:2605-2611:rgObject[op0].rgwData[2 + op2] = op1(sparse 持久存)。
+      //   全部 3 处真实用例(ip21806 六脚蜘蛛 / 41279 刀手 / 41365 胖苗)都是对话后把**自身**
+      //   enemy 对象的 turnStart 清 0 = 战斗对话 show-once 跨战斗持久;startBattle 开战播种时
+      //   优先读本 overlay(battle.c:1611-1615 从活对象表读,静态 enemyObjects 只是 new-game 初值)。
       const objId = operands[0] ?? 0
       const idx = 2 + (operands[2] ?? 0)
       let st = gs.rgObject[objId]
       if (!st) {
-        st = { rgwData: Array<number>(7).fill(0) }
+        // 新建 entry 从静态敌人对象表播种(OBJECT_ENEMY 布局,global.h:rgwData=[enemyId,抗性,
+        //   turnStart,battleEnd,ready]),避免零填充把未改字段冲成 0;非 enemy 对象/未注入 → 零填充。
+        const eo = _enemyObjectsTable?.find((o) => o.objectIndex === objId)
+        st = {
+          rgwData: eo
+            ? [eo.enemyId, eo.resistanceToSorcery, eo.scriptOnTurnStart, eo.scriptOnBattleEnd, eo.scriptOnReady, 0, 0]
+            : Array<number>(7).fill(0),
+        }
         gs.rgObject[objId] = st
       }
       while (st.rgwData.length <= idx) st.rgwData.push(0)

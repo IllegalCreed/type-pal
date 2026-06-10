@@ -466,6 +466,45 @@ describe('startBattle', () => {
     })
   })
 
+  // 0x90 SetObjectScript 持久(全部 3 处真实用例:六脚蜘蛛 21806 / 刀手 41279 / 胖苗 41365 =
+  // 对话后清自身 turnStart):sdlpal 开战脚本入口从**活对象表**读(battle.c:1611-1615),静态
+  // enemyObjects 只是 new-game 初值。修前只读静态表 → show-once 战斗对话每战重播
+  // (user 2026-06-10 报:鬼阴山人形怪每战必说话/苗人头领重放客栈首遇对白)。
+  it('gs.rgObject overlay(0x90 写)优先于静态表:turnStart 已清 0 → 下一场不再挂对话脚本', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    // 模拟刀手对话已跑过一次:0x90 [454,0,0] handler 播种静态值后把 rgwData[2](turnStart)清 0
+    gs.rgObject[454] = { rgwData: [57, 3, 0, 11, 22, 0, 0] }
+    startBattle({
+      gs,
+      enemyTeamId: 0,
+      battleFieldId: 0,
+      isBoss: false,
+      enemies: [makeEnemy({ id: 57 })],
+      enemyObjects: [
+        { objectIndex: 454, enemyId: 57, resistanceToSorcery: 3, scriptOnTurnStart: 41267, scriptOnBattleEnd: 11, scriptOnReady: 22 },
+      ],
+      enemyTeams: [{
+        id: 0,
+        enemies: [57, 0xffff, 0xffff, 0xffff, 0xffff],
+        enemyObjectIndexes: [454, 0xffff, 0xffff, 0xffff, 0xffff],
+      }],
+      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      playerRoles: { roles: [makeRole({ id: 0 })] },
+      items: [],
+      spells: [],
+      magics: [],
+      commands: [{ op: 'end' }],
+      rngSeed: 1,
+    })
+    expect(gs.battleState?.enemies[0]).toMatchObject({
+      scriptOnTurnStart: 0, // overlay 生效(修前读静态 41267 → 对话重播)
+      scriptOnBattleEnd: 11,
+      scriptOnReady: 22,
+      resistanceToSorcery: 3,
+    })
+  })
+
   it('enemyTeam 找不到 → 抛错', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]

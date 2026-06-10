@@ -303,11 +303,18 @@ export function startBattle(input: StartBattleInput): void {
     const objMatch = hasExactObjectIndex
       ? input.enemyObjects?.find((o) => o.objectIndex === objectIndex)
       : input.enemyObjects?.find((o) => o.enemyId === slot)
+    // sdlpal battle.c:1611-1615:开战脚本入口从**活对象表** gpGlobals->g.rgObject(存档持久)读,
+    //   静态 enemyObjects 只是 new-game 初值。0x90 SetObjectScript(刀手/胖苗/六脚蜘蛛对话后把
+    //   自身 turnStart 清 0)写的就是它 —— 此前只读静态表 → show-once 战斗对话每战重播
+    //   (user 2026-06-10 报:鬼阴山人形怪每战必说话/苗人头领重放客栈首遇对白)。
+    //   overlay 创建时已按 OBJECT_ENEMY 布局从静态表播种(event-system OP_SET_OBJECT_SCRIPT),
+    //   存在即整组生效:rgwData[1/2/3/4] = 抗性/turnStart/battleEnd/ready。
+    const objOverlay = hasExactObjectIndex ? input.gs.rgObject[objectIndex] : undefined
     enemyScripts.push({
-      onTurnStart: objMatch?.scriptOnTurnStart ?? 0,
-      onReady: objMatch?.scriptOnReady ?? 0,
-      onBattleEnd: objMatch?.scriptOnBattleEnd ?? 0,
-      resistanceToSorcery: objMatch?.resistanceToSorcery ?? 0, // 0x28 apply poison 抗性判定
+      onTurnStart: objOverlay?.rgwData[2] ?? objMatch?.scriptOnTurnStart ?? 0,
+      onReady: objOverlay?.rgwData[4] ?? objMatch?.scriptOnReady ?? 0,
+      onBattleEnd: objOverlay?.rgwData[3] ?? objMatch?.scriptOnBattleEnd ?? 0,
+      resistanceToSorcery: objOverlay?.rgwData[1] ?? objMatch?.resistanceToSorcery ?? 0, // 0x28 apply poison 抗性判定
       // L25:对象身份 = 精确 OBJECT 绝对 index(wObjectID);无则 fallback enemyId(退化旧行为)。
       objectId: hasExactObjectIndex ? objectIndex : slot,
     })
@@ -1903,7 +1910,8 @@ function tickBattleEnemyEscapeAnim(state: BattleState): boolean {
  * battleDialogQueue,顶层 tickBattleDialog 显示。turnStartDoneForTurn guard 保每轮一次。
  *
  * B2:0x79 队伍条件分支经 explore handler fallthrough 已生效;真 show-once = 脚本返回值回写
- * (跑完置 scriptOnTurnStart,见函数末)。0x90 写 gs.rgObject,与战斗内敌脚本字段无关(sdlpal 不回读)。
+ * (跑完置 scriptOnTurnStart,见函数末)。0x90 写 gs.rgObject:战斗内不回读(本场用 battle-local 字段),
+ * 但下一场 startBattle 播种优先读它(battle.c:1611-1615)→ 刀手/胖苗类对话 show-once 跨战斗持久。
  */
 function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: CommandBus, res: BattleResources): void {
   state.turnStartDoneForTurn = state.turn
@@ -2230,8 +2238,9 @@ function tickPerformAction(
       // 脚本通过 opcode 0x67 enemy use magic / 0x64 jump if hp> 等 mutate enemy state
       // (wMagic / wMagicRate);随后 decideEnemyAction 读 mutate 后值执行实际动作。
       // B2:0x67 已真驱动(battle-opcodes OP_ENEMY_USE_MAGIC + decideEnemyAction 读 enemy.magic);
-      // 0x79 队伍条件分支经 explore handler fallthrough 已生效;0x90 写 gs.rgObject(sdlpal 战斗内
-      // 本就不回读敌运行时脚本字段);真 show-once = scriptOnTurnStart/Ready 返回值回写(见 runEnemyTurnStartScripts)。
+      // 0x79 队伍条件分支经 explore handler fallthrough 已生效;0x90 写 gs.rgObject —— 战斗**内**
+      // 不回读(本场用 battle-local 字段),但**下一场** startBattle 播种优先读它(battle.c:1611-1615,
+      // 刀手/胖苗对话 show-once 跨战斗持久);场内 show-once = scriptOnTurnStart/Ready 返回值回写(见 runEnemyTurnStartScripts)。
       if (enemy.scriptOnReady > 0 && !item.scriptReadyRan) {
         item.scriptReadyRan = true // 本 turn 项一次性(防对话 hold 暂停期间重入重复跑)
         state.battleDialogPendingClear = false // 脚本起手清 ClearDialog 暂存(防跨脚本泄漏)
