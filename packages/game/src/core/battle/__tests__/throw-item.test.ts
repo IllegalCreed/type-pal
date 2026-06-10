@@ -132,6 +132,44 @@ describe('performThrowItem (E2)', () => {
     expect(state.battleAnim!.pendingDamageNums).toEqual([{ target: { kind: 'enemy', idx: 0 }, value: 140, color: 'blue' }])
   })
 
+  // 尸腐肉式投掷(0x28 施毒):magic 是 -999 sentinel 无 inline 伤害,掉血全来自"施毒当下跑一次毒入口脚本"的
+  //   即时 0x21 扣血。该入口伤害数字必须也延迟到挥臂+受击动画末(透传 pendingDamageNums),否则数字先于动画
+  //   (user 2026-06-09 报:尸腐肉先掉血后受击动画)。
+  it('投掷施毒(尸腐肉式):施毒入口即时伤害数字也延迟到动画末,不先于受击动画', () => {
+    const state = makeState([{ health: 200, defense: 30, level: 5 }])
+    state.players[0]!.posOriginal = { x: 240, y: 170 } // hasAnim → 建挥臂 + 缓冲
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    state.enemies[0]!.resistanceToSorcery = 0 // 必中毒
+    const gs = makeGameState([{ itemId: 116, count: 1 }])
+    // scriptOnThrow(ip1)= 0x28 apply poison 5;poison 5 的 enemyScript(ip3)= 0x21 即时扣 50。
+    const commands: Command[] = [
+      { op: 'end' }, // ip0
+      { op: 'raw', opcode: 0x28, operands: [0, 5, 0] }, // ip1 apply poison 5(单体 = 投掷目标)
+      { op: 'end' }, // ip2
+      { op: 'raw', opcode: 0x21, operands: [0, 50, 0] }, // ip3 毒入口:即时扣 50
+      { op: 'end' }, // ip4
+    ]
+    // objectPoisons 按 poisonId 数组下标索引(0x28 handler:ctx.objectPoisons[poisonId])。
+    const objectPoisons: any[] = []
+    objectPoisons[5] = { id: 5, level: 1, color: 0, playerScript: 0, enemyScript: 3 }
+    const bus = createCommandBus()
+    performThrowItem({
+      state, gs, casterIsEnemy: false, casterIdx: 0,
+      itemId: 116, targetIdx: 0,
+      items: [makeItem({ id: 116, scriptOnThrow: 1 })],
+      magics: [], objectMagics: [],
+      objectPoisons,
+      // biome-ignore lint/suspicious/noExplicitAny: 投掷音占位
+      playerRoles: { roles: [{ id: 0, magicSound: 0 } as any] },
+      bus, commands, runScript,
+      magicSpriteFrameCounts: new Map(),
+    })
+    expect(state.enemies[0]!.e.health).toBe(150) // 毒入口即时扣 50(逻辑同步)
+    // **关键**:即时伤害数字 defer 进 pendingDamageNums,不即时 emit(否则先掉血后动画)
+    expect(bus.drain().filter(c => c.cmd.op === 'showDamageNum')).toHaveLength(0)
+    expect(state.battleAnim?.pendingDamageNums?.some(d => d.value === 50)).toBe(true)
+  })
+
   it('D17b:投掷 0x42 经真 runScript → 自动注入 bus → emit showDamageNum(blue)', () => {
     const state = makeState([{ health: 200, defense: 30, level: 5 }])
     const gs = makeGameState([{ itemId: 66, count: 2 }])

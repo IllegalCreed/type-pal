@@ -499,6 +499,12 @@ export function dispatchBattleOpcode(
               summonTables: ctx.summonTables,
               enemyPos: ctx.enemyPos,
               enemySpriteFrameHeights: ctx.enemySpriteFrameHeights,
+              // 透传投掷动画缓冲(2026-06-09):施毒入口脚本 0x21 即时扣血的伤害数字要跟投掷物一样**延迟**到
+              //   挥臂+OffMagic 动画播完后,否则即时 emit → 数字先于受击动画(user 报尸腐肉:magic96 是 -999
+              //   sentinel 无 inline 伤害,掉血全来自毒入口的即时 tick → 不透传缓冲就先掉血后动画)。
+              pendingDamageNums: ctx.pendingDamageNums,
+              pendingAnimFrames: ctx.pendingAnimFrames,
+              magicSpriteFrameCounts: ctx.magicSpriteFrameCounts,
             },
           })
         }
@@ -580,6 +586,10 @@ export function dispatchBattleOpcode(
                         summonTables: ctx.summonTables,
                         enemyPos: ctx.enemyPos,
                         enemySpriteFrameHeights: ctx.enemySpriteFrameHeights,
+                        // 同 0x28 敌方:透传投掷动画缓冲,施毒入口即时伤害数字延迟到动画后(一致化)。
+                        pendingDamageNums: ctx.pendingDamageNums,
+                        pendingAnimFrames: ctx.pendingAnimFrames,
+                        magicSpriteFrameCounts: ctx.magicSpriteFrameCounts,
                       },
                     })
                 : undefined
