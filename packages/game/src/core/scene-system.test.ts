@@ -1638,3 +1638,22 @@ describe('P0.e wScriptOnEnter 真跑', () => {
     expect(gs.mode).toBe('explore')  // 没切到 event 模式
   })
 })
+
+describe('DH5:blocker 阻挡只看 sState,无 triggerMode 豁免(scene.c:619-628)', () => {
+  it('sState>=2 且 triggerMode=5(门卫类)阻挡走路(修前可穿行)', () => {
+    const tilemap = makeFlatMap(20, 20)
+    const npcs = [
+      { id: 0, x: 200, y: 200, spriteNum: 1, sState: 2, triggerMode: 5 },
+    ]
+    // 紧贴 npc(曼哈顿 |dx|+|dy|*2 < 16)→ 阻挡
+    expect(isWalkable(tilemap, 204, 202, npcs as never, 99)).toBe(false)
+  })
+
+  it('sState=1 的明雷怪(triggerMode=4)不阻挡(本就不过 blocker 关,踩怪触发不受影响)', () => {
+    const tilemap = makeFlatMap(20, 20)
+    const npcs = [
+      { id: 0, x: 200, y: 200, spriteNum: 1, sState: 1, triggerMode: 4 },
+    ]
+    expect(isWalkable(tilemap, 204, 202, npcs as never, 99)).toBe(true)
+  })
+})

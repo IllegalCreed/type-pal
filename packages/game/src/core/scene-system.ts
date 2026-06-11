@@ -374,15 +374,16 @@ export function isWalkable(
   if (tilemapIsBlocked(tilemap, col, row, h)) return false
 
   // ── Step 3: NPC 菱形曼哈顿距离 (sdlpal scene.c:619-628) ────────────────
-  // sdlpal 真值:**只有 sState >= kObjStateBlocker(2)才阻挡**;
+  // sdlpal 真值:**只有 sState >= kObjStateBlocker(2)才阻挡**,无任何 triggerMode 条件;
   //   sState=0 (Hidden):不渲染不阻挡
   //   sState=1 (Normal):渲染但**不阻挡**(地板/桌椅等装饰 sprite event object)
-  //   sState>=2 (Blocker):渲染且阻挡(墙、家具阻挡部分)
-  // contact 怪(triggerMode >= 4)走进触发战斗 —— 不阻挡走路。
+  //   sState>=2 (Blocker):渲染且阻挡(墙、家具阻挡部分、挡路门卫)
+  // DH5:旧码豁免 triggerMode>=4 的对象("contact 怪不挡路"的误解)→ 744 个 sState>=2 且
+  //   mode 5-8 的门卫/守卫可被穿行(sequence break)。数据实测 mode==4 明雷怪全部 sState<=1,
+  //   本就不过 blocker 关 —— 该豁免对踩怪触发完全多余,删除不影响触发战斗。
   for (const npc of npcs) {
     if (npc.id === selfNpcId) continue
     if ((npc.sState ?? 1) < 2) continue
-    if (npc.triggerMode !== undefined && npc.triggerMode >= TRIGGER_MODE_AUTO_MIN) continue
     if (Math.abs(npc.x - posX) + Math.abs(npc.y - posY) * 2 < 16) return false
   }
 
