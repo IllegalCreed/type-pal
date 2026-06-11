@@ -501,6 +501,13 @@ export interface BattleState {
   /** 防卡死:phase 卡 60s tickBattle 报错跳出(T22 用)。 */
   phaseStallTicks: number
   /**
+   * DM3:进战斗前的大世界屏波快照(battle.c:1559-1560 wPrevWaveLevel/sPrevWaveProgression)。
+   * startBattle 保存 → finalizeBattleCleanup 恢复(battle.c:1853-1855),常驻波场景打完不丢波;
+   * 战斗内 0x71 改的值被覆盖(泄漏同时修掉)。optional 兼容旧 fixture(缺省恢复 0 = 旧清零行为)。
+   */
+  prevWaveLevel?: number
+  prevWaveProgression?: number
+  /**
    * 队伍隐身计时(sdlpal `g_Battle.iHidingTime`)—— 0x5C hide 设 `-op0`。>0 时敌方
    * 跳过瞄准队员 / 0x9E·0x9F 召唤·变身失败。createBattleState 必设 0;optional 仅向后兼容。
    */

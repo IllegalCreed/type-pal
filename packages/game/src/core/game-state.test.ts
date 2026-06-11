@@ -162,6 +162,15 @@ describe('resetSceneRuntimeForNewGame(新游戏 scene 运行时复位)', () => {
     gs.dialogBox = {} as NonNullable<GameState['dialogBox']>
     gs.dialogBoxKept = {} as NonNullable<GameState['dialogBoxKept']>
     gs.currentDialogPortraitIcon = 88
+    // DM25:上一局残留的波/震/战斗域/追逐周期/跟随者
+    gs.wScreenWave = 4
+    gs.sWaveProgression = 0
+    gs.shakeTime = 6
+    gs.shakeLevel = 3
+    gs.wNumBattleMusic = 17
+    gs.wNumBattleField = 9
+    gs.wChasespeedChangeCycles = 5
+    gs.followers = [3]
 
     const initial = [
       { id: 1, x: 10, y: 20, spriteNum: 5 } as SceneEventObject,
@@ -178,6 +187,15 @@ describe('resetSceneRuntimeForNewGame(新游戏 scene 运行时复位)', () => {
     expect(gs.rgEventObject).toEqual({})
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.gameOverActive).toBe(false)
+    // DM25:新游戏语义恒 0(C 进程静态零/FreeGlobals memset,global.c:262)
+    expect(gs.wScreenWave).toBe(0)
+    expect(gs.sWaveProgression).toBe(0)
+    expect(gs.shakeTime).toBe(0)
+    expect(gs.shakeLevel).toBe(0)
+    expect(gs.wNumBattleMusic).toBe(0)
+    expect(gs.wNumBattleField).toBe(0)
+    expect(gs.wChasespeedChangeCycles).toBe(0)
+    expect(gs.followers).toEqual([])
     expect(gs.deathHoldActive).toBe(false)
     expect(gs.blackScreenHold).toBe(false)
     expect(gs.paletteFadeState).toBeUndefined()

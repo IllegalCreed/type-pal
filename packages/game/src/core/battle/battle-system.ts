@@ -359,6 +359,14 @@ export function startBattle(input: StartBattleInput): void {
     enemySpriteFrameHeights: input.enemySpriteFrameHeights,
   })
 
+  // DH8/DM3:屏波交接(battle.c:1556-1563)—— 保存大世界波快照(战后恢复,DM3),然后
+  //   `sWaveProgression = 0; wScreenWave = field.wScreenWave`(战场常驻波:水下/幻境 5 个战场
+  //   wave 2/4/128/4/2,present-battle 每帧 PAL_ApplyWave 消费,DH8)。
+  battleState.prevWaveLevel = input.gs.wScreenWave
+  battleState.prevWaveProgression = input.gs.sWaveProgression
+  input.gs.sWaveProgression = 0
+  input.gs.wScreenWave = field.screenWave ?? 0
+
   // R(重提)跨战斗:sdlpal g_Battle.rgPlayer[i].prevAction 是全局不随战斗重置,故"上回合"可以是
   //   **上一场战斗的最后一回合**(user 2026-05-31 报)。持久层按 roleId 保存,开战再映射为本场 party
   //   槽,避免队伍人数/顺序变化后把旧槽位动作套给另一个角色。
@@ -2831,14 +2839,15 @@ function finalizeBattleCleanup(gs: GameState, outcome: BattleOutcome): void {
   // 战斗内对话用的是复用大世界 gs.dialogBox —— 战斗结束清掉,避免泄漏进 explore 渲染。
   gs.dialogBox = undefined
   gs.dialogBoxKept = undefined
-  // 战斗法术脚本(如斩龙诀)可能跑 0x35 ShakeScreen / 0x71 WaveScreen 写**全局** gs.shakeTime/
-  //   wScreenWave —— 战斗结束须清,否则竖向抖动/屏波泄漏进大世界(user 2026-06-03 报斩龙诀杀敌回
-  //   大世界后屏幕仍上下抖)。sdlpal VIDEO_ShakeScreen 在战斗内同步阻塞放完不留尾;ts 异步逐帧
-  //   自减,战斗提前结束会残留 → 此处归零。
+  // 战斗法术脚本(如斩龙诀)可能跑 0x35 ShakeScreen 写**全局** gs.shakeTime —— 战斗结束须清,
+  //   否则竖向抖动泄漏进大世界(user 2026-06-03 报)。sdlpal VIDEO_ShakeScreen 在战斗内同步阻塞
+  //   放完不留尾;ts 异步逐帧自减,战斗提前结束会残留 → 此处归零。
   gs.shakeTime = 0
   gs.shakeLevel = 0
-  gs.wScreenWave = 0
-  gs.sWaveProgression = 0
+  // DM3:屏波改"恢复进战斗前值"(battle.c:1853-1855 wPrevWaveLevel/sPrevWaveProgression)——
+  //   既修战斗内 0x71 泄漏(覆盖掉),又不再毁掉大世界场景的常驻波(0x71 水景,打完一架波即丢)。
+  gs.wScreenWave = gs.battleState?.prevWaveLevel ?? 0
+  gs.sWaveProgression = gs.battleState?.prevWaveProgression ?? 0
   gs.mode = 'explore'
   gs.battleState = undefined
   setBattleResources(gs, undefined)

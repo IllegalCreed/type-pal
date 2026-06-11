@@ -768,6 +768,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     gs.sceneLoading = true
     const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
     gs.wNumScene = newWNumScene
+    // DM25:res.c:236-240 `if (fEnteringScene) { wScreenWave = 0; sWaveProgression = 0; }` ——
+    //   换场景(传送/0x59)即清屏波,上一场景的 0x71 常驻波不跨场景。读档(fromSavedGame)路径
+    //   C 中 fEnteringScene=FALSE 不清(波从存档恢复),与此分支一致。
+    if (!opts.fromSavedGame) {
+      gs.wScreenWave = 0
+      gs.sWaveProgression = 0
+    }
     gs.gameOverActive = false // 死亡读档 → 新场景加载 → 清 game-over 演出标记(present 恢复正常渲染)
     gs.deathHoldActive = false // 同清过渡帧 hold(残留会冻住新场景渲染)
     // 0x38 归隐脱出:缓存当前场景 base onTeleport 全局 entry(onTeleportLabel L_<n>→n;无则 0)。

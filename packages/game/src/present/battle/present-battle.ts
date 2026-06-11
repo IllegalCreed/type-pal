@@ -223,12 +223,18 @@ export class BattlePresent {
       }
     }
 
-    // 3.95 W4 屏波(wWave,fight.c:2667/2895):攻击魔法动画帧带 screenWave → 扭曲场景层(bg+精灵+特效),
-    //   **UI 之前**应用(对齐 sdlpal PAL_BattleMakeScene 内 PAL_ApplyWave;UI 随后画在扭曲后的场景上不被卷入)。
-    //   transient:每帧用临时 {wScreenWave, sWaveProgression:0},不写 gs 存档字段。
+    // 3.95 DH8 屏波:PAL_BattleMakeScene **每帧** PAL_ApplyWave(battle.c:82)消费全局 wScreenWave
+    //   (进战斗设为战场常驻波 field.wScreenWave,battle.c:1563;5 个水下/幻境战场 wave 2/4/128/4/2
+    //   原版全程荡漾)。法术帧 wave 为**临时叠加**(fight.c:2667 `wScreenWave += magic.wWave`,
+    //   :2835 以保存的旧值直接恢复——战斗中 progression 恒 0(进战斗清零),叠加窗内无推进可丢)。
+    //   UI 之前应用(UI 画在扭曲后的场景上不被卷入)。
     const animFrame = state.battleAnim?.frames[state.battleAnim.idx]
-    if (animFrame?.screenWave && animFrame.screenWave > 0) {
-      applyScreenWave(fb.indices, { wScreenWave: animFrame.screenWave, sWaveProgression: 0 })
+    {
+      const baseWave = gs.wScreenWave
+      const animWave = animFrame?.screenWave ?? 0
+      if (animWave > 0) gs.wScreenWave = baseWave + animWave
+      if (gs.wScreenWave > 0) applyScreenWave(fb.indices, gs)
+      if (animWave > 0) gs.wScreenWave = baseWave // fight.c:2835 直接恢复旧值
     }
 
     // 3.9 召唤 crossfade(PAL_BattleFadeScene)—— **在 UI/对话之前**对**场景层**(bg+精灵+召唤神+特效)做

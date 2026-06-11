@@ -3250,3 +3250,52 @@ describe('DM7 傀儡死亡队员保留出手', () => {
     expect(st.enemies[0]!.e.health).toBe(100)
   })
 })
+
+// ============================================================================
+// DH8/DM3:屏波交接(battle.c:1556-1563 进战斗快照+设战场波;1853-1855 战后恢复)
+// ============================================================================
+
+describe('DH8/DM3 屏波交接', () => {
+  it('startBattle 保存大世界波快照并设 gs.wScreenWave=战场常驻波;战后恢复快照', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 1, exp: 0, cash: 0 })],
+    })
+    // bootstrap 已 startBattle(field.screenWave=0)。重新模拟:带常驻波战场 + 进场前大世界波
+    const st = gs.battleState!
+    // 直接断言保存/设置逻辑:重开一场带波战斗
+    gs.battleState = undefined
+    gs.wScreenWave = 7 // 大世界 0x71 常驻波
+    gs.sWaveProgression = 2
+    startBattle({
+      gs,
+      enemyTeamId: 0,
+      battleFieldId: 0,
+      isBoss: false,
+      enemies: [makeEnemy({ id: 100, health: 1, exp: 0, cash: 0 })],
+      enemyTeams: [{ id: 0, enemies: [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }],
+      battleFields: [{ id: 0, screenWave: 128, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      playerRoles: { roles: [makeRole({ id: 0 })] },
+      items: [], spells: [], magics: [],
+      rngSeed: 1,
+    })
+    const st2 = gs.battleState!
+    expect(st2.prevWaveLevel).toBe(7) // battle.c:1559 快照
+    expect(st2.prevWaveProgression).toBe(2)
+    expect(gs.wScreenWave).toBe(128) // battle.c:1563 战场常驻波(present-battle 每帧消费)
+    expect(gs.sWaveProgression).toBe(0)
+
+    // 战斗结束 → 恢复快照(battle.c:1853-1855;修前清零毁掉大世界常驻波)
+    st2.enemies[0]!.e.health = 0
+    st2.phase = 'performAction'
+    st2.actionQueue = [{ isEnemy: false, idx: 0, dex: 1, fIsSecond: false }]
+    st2.pendingActions.set(0, { type: 'defend', target: -1 })
+    for (let i = 0; i < 3000 && gs.battleState; i++) {
+      tickBattle(gs, { pressed: new Set(['Confirm']), held: new Set() } as never, bus)
+    }
+    expect(gs.battleState).toBeUndefined()
+    expect(gs.wScreenWave).toBe(7)
+    expect(gs.sWaveProgression).toBe(2)
+    void st
+    void emptyInput
+  })
+})

@@ -1358,6 +1358,18 @@ export function resetSceneRuntimeForNewGame(
   gs.dialogBox = undefined
   gs.dialogBoxKept = undefined
   gs.currentDialogPortraitIcon = undefined
+  // DM25:C 新游戏 = 进程静态零/FreeGlobals memset(global.c:262),这些字段语义恒 0;
+  //   ts 回标题再开新游戏 mutate 同一 gs → 旧局水波(0x71)/战斗音乐域/追逐周期/跟随者残留:
+  //   开场画面持续扭曲(静态波 sWaveProgression=0 时 screen-wave 自清条件永不命中)、
+  //   旧局 0x98 跟随者留队尾(渲染走 gs.followers 数组)。
+  gs.wScreenWave = 0
+  gs.sWaveProgression = 0
+  gs.shakeTime = 0
+  gs.shakeLevel = 0
+  gs.wNumBattleMusic = 0
+  gs.wNumBattleField = 0
+  gs.wChasespeedChangeCycles = 0
+  gs.followers = []
   gs.rgScene = {}
   gs.sceneOnEnterIp = {}
   gs.sceneOnEnterOverride = {}
