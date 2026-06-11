@@ -2306,21 +2306,63 @@ function tickPerformAction(
     const player = state.players[item.idx]
     if (player) {
       const role = res.playerRoles.roles[player.roleId]
-      if (role && role.hp > 0) {
+      // DM7:fight.c:1731-1737 — HP==0 时仅 kStatusPuppet==0 才改 Pass;**有傀儡的死亡队员
+      //   保留 queue 占位普攻照常出手**(傀儡蛊核心语义)。失能解算(sleep/confused)是 C 的
+      //   else-if 链,只对活人跑(死人傀儡分支不查)。
+      if (role && (role.hp > 0 || (player.status.puppet ?? 0) > 0)) {
         action = state.pendingActions.get(item.idx)
         // perform 时失能解算(sdlpal fight.c:1731-1747 + 原版混乱)——
         //   睡眠/麻痹 → Pass;混乱 → 濒死?Pass : **随机攻击任一存活目标(敌方或友方)**。
         //   **混乱按原版**(user 2026-05-31 拍板:sdlpal 改成只打友军 AttackMate 且独自时 Pass,
         //   但 sdlpal 注释自承"original version behaviour is not same";原版是随机敌/友普攻 → 改回原版)。
         //   覆盖 pendingActions 里的占位 action(自动填的 attack id0)。
-        const st = player.status
-        if (st.sleep > 0 || st.paralyzed > 0) {
-          action = { type: 'pass', target: -1 }
-        } else if (st.confused > 0) {
-          action = isPlayerDying({ hp: role.hp, maxHP: role.maxHP })
-            ? { type: 'pass', target: -1 }
-            : resolveConfusedAttack(state, res, item.idx)
+        if (role.hp > 0) {
+          const st = player.status
+          if (st.sleep > 0 || st.paralyzed > 0) {
+            action = { type: 'pass', target: -1 }
+          } else if (st.confused > 0) {
+            action = isPlayerDying({ hp: role.hp, maxHP: role.maxHP })
+              ? { type: 'pass', target: -1 }
+              : resolveConfusedAttack(state, res, item.idx)
+          }
         }
+      }
+    }
+  }
+
+  // DH3:PAL_BattlePlayerValidateAction 降级链(fight.c:3286-3446,perform 起手 fight.c:3611 必跑)——
+  //   magic:未学(rgwMagic 查无 fight.c:3290-3301)/ 被封魔(silence>0,:3305)/ MP<cost(:3313)任一
+  //   → 攻击系(usableToEnemy)降普攻(wActionID=0,sTarget 沿用,后接死目标重选),辅助/治疗系降 Defend;
+  //   throw:数量 0 → 降普攻(:3418-3422);item:数量 0 → 降 Defend(:3434-3437)。
+  //   修前:magic.ts/item.ts/throw-item.ts 各自 warn+return 吞回合;silence 在 perform 链全无检查
+  //   (回合中被先手敌封魔仍照常施法);R 重提复制 prev 不复检。coop 的 healthy<=1 降级在
+  //   coop-magic.ts 已有(fight.c:3360-3378)。
+  if (!item.isEnemy && action != null) {
+    const vPlayer = state.players[item.idx]
+    const vRoleId = vPlayer?.roleId
+    if (vPlayer && vRoleId !== undefined) {
+      if (action.type === 'magic' && action.actionId !== undefined) {
+        const resolved = resolveMagicObject(action.actionId, res.spells, res.magics, res.objectMagics)
+        const vRole = res.playerRoles.roles[vRoleId]
+        // 未学检查(fight.c:3290-3301)仅在该角色 rgwMagic 有已学数据时执行:生产路径菜单从
+        // rgwMagic 构建、选得出必已学(纯防御);旧 fixture 不填 rgwMagic,视为已学(向后兼容)。
+        const magicRows = gs.PlayerRolesRuntime.rgwMagic
+        const hasAnyMagicData = magicRows.some((row) => (row[vRoleId] ?? 0) !== 0)
+        const known = !hasAnyMagicData || magicRows.some((row) => row[vRoleId] === action!.actionId)
+        const silenced = (vPlayer.status.silence ?? 0) > 0
+        const noMp = !resolved || !vRole || vRole.mp < resolved.magic.costMP
+        if (!known || silenced || noMp) {
+          const offensive = resolved?.spell.flags.usableToEnemy ?? true
+          action = offensive
+            ? { type: 'attack', target: action.target } // 降普攻(sTarget 沿用,死目标重选在下方)
+            : { type: 'defend', target: -1 }
+        }
+      } else if (action.type === 'throw-item' && action.actionId !== undefined) {
+        const count = gs.inventory.find((e) => e.itemId === action!.actionId)?.count ?? 0
+        if (count === 0) action = { type: 'attack', target: action.target }
+      } else if (action.type === 'item' && action.actionId !== undefined) {
+        const count = gs.inventory.find((e) => e.itemId === action!.actionId)?.count ?? 0
+        if (count === 0) action = { type: 'defend', target: -1 }
       }
     }
   }

@@ -3122,3 +3122,131 @@ describe('DH2 wDualMove CLASSIC 必双动', () => {
     }
   })
 })
+
+// ============================================================================
+// DH3:perform 期 PAL_BattlePlayerValidateAction 降级链(fight.c:3286-3446)
+// DM7:傀儡死亡队员保留普攻出手(fight.c:1731-1737)
+// ============================================================================
+
+describe('DH3 perform 期降级链', () => {
+  function performSetup(opts: {
+    mp?: number
+    silence?: number
+    spellFlags?: { usableToEnemy: boolean }
+    action: { type: string; actionId?: number; target: number; targetSide?: string }
+    inventory?: { itemId: number; count: number }[]
+  }) {
+    const { gs, bus, emptyInput, resources } = bootstrap({
+      roles: [makeRole({ id: 0, hp: 200, mp: opts.mp ?? 30, maxMP: 30, attackStrength: 50 })],
+      enemies: [makeEnemy({ id: 100, health: 100, defense: 0 })],
+      spells: [mkSpell(296, opts.spellFlags ?? { usableToEnemy: true })],
+      magics: [mkMagic(296, { costMP: 5, baseDamage: 50 })],
+    })
+    if (opts.inventory) gs.inventory = opts.inventory
+    tickBattle(gs, emptyInput, bus)
+    const st = gs.battleState!
+    if (opts.silence) st.players[0]!.status.silence = opts.silence
+    st.phase = 'performAction'
+    st.uiState = 'hidden'
+    st.selectingPlayerIdx = undefined
+    st.pendingActions.set(0, opts.action as never)
+    st.actionQueue = [{ isEnemy: false, idx: 0, dex: 100, fIsSecond: false }]
+    st.currentActionIndex = 0
+    return { gs, bus, emptyInput, resources, st }
+  }
+
+  it('被封魔(silence>0)施攻击法术 → 降普攻(敌掉血但 MP 不扣;修前照常施法)', () => {
+    const { gs, bus, emptyInput, resources, st } = performSetup({
+      silence: 3,
+      action: { type: 'magic', actionId: 296, target: 0, targetSide: 'enemy' },
+    })
+    for (let i = 0; i < 400 && st.currentActionIndex === 0; i++) tickBattle(gs, emptyInput, bus)
+    expect(resources.playerRoles.roles[0]!.mp).toBe(30) // 未施法未扣 MP
+    expect(st.enemies[0]!.e.health).toBeLessThan(100) // 普攻造成了伤害
+  })
+
+  it('MP 不足施攻击法术 → 降普攻(修前 warn+return 吞回合)', () => {
+    const { gs, bus, emptyInput, st } = performSetup({
+      mp: 1, // < costMP 5
+      action: { type: 'magic', actionId: 296, target: 0, targetSide: 'enemy' },
+    })
+    for (let i = 0; i < 400 && st.currentActionIndex === 0; i++) tickBattle(gs, emptyInput, bus)
+    expect(st.enemies[0]!.e.health).toBeLessThan(100)
+  })
+
+  it('MP 不足施辅助/治疗系法术(usableToEnemy=false)→ 降 Defend', () => {
+    const { gs, bus, emptyInput, st } = performSetup({
+      mp: 1,
+      spellFlags: { usableToEnemy: false },
+      action: { type: 'magic', actionId: 296, target: 0, targetSide: 'player' },
+    })
+    for (let i = 0; i < 400 && st.currentActionIndex === 0; i++) tickBattle(gs, emptyInput, bus)
+    expect(st.players[0]!.defending).toBe(true) // 降 Defend
+    expect(st.enemies[0]!.e.health).toBe(100)
+  })
+
+  it('投掷物品数量 0 → 降普攻;使用物品数量 0 → 降 Defend(fight.c:3418/3434)', () => {
+    const t = performSetup({
+      inventory: [], // 空背包
+      action: { type: 'throw-item', actionId: 999, target: 0 },
+    })
+    for (let i = 0; i < 400 && t.st.currentActionIndex === 0; i++) tickBattle(t.gs, t.emptyInput, t.bus)
+    expect(t.st.enemies[0]!.e.health).toBeLessThan(100) // 降普攻
+
+    const u = performSetup({
+      inventory: [],
+      action: { type: 'item', actionId: 999, target: 0 },
+    })
+    for (let i = 0; i < 400 && u.st.currentActionIndex === 0; i++) tickBattle(u.gs, u.emptyInput, u.bus)
+    expect(u.st.players[0]!.defending).toBe(true) // 降 Defend
+    expect(u.st.enemies[0]!.e.health).toBe(100)
+  })
+})
+
+describe('DM7 傀儡死亡队员保留出手', () => {
+  it('hp=0 + puppet>0 → 占位普攻照常执行(敌掉血;修前整回合跳过)', () => {
+    const { gs, bus, emptyInput, resources } = bootstrap({
+      partyMembers: [0, 1],
+      roles: [
+        makeRole({ id: 0, hp: 200, attackStrength: 50 }),
+        makeRole({ id: 1, hp: 200 }), // 活队友:防全死触发 Lost 判定
+      ],
+      enemies: [makeEnemy({ id: 100, health: 100, defense: 0 })],
+    })
+    tickBattle(gs, emptyInput, bus)
+    const st = gs.battleState!
+    // 战斗中阵亡 + 傀儡状态(0x28 对死人设)
+    resources.playerRoles.roles[0]!.hp = 0
+    st.players[0]!.status.puppet = 5
+    st.phase = 'performAction'
+    st.uiState = 'hidden'
+    st.selectingPlayerIdx = undefined
+    st.pendingActions.set(0, { type: 'attack', target: 0 })
+    st.actionQueue = [{ isEnemy: false, idx: 0, dex: 0, fIsSecond: false }]
+    st.currentActionIndex = 0
+    for (let i = 0; i < 400 && st.currentActionIndex === 0; i++) tickBattle(gs, emptyInput, bus)
+    expect(st.enemies[0]!.e.health).toBeLessThan(100) // 傀儡死人照常普攻
+  })
+
+  it('hp=0 无傀儡 → 仍跳过(不出手)', () => {
+    const { gs, bus, emptyInput, resources } = bootstrap({
+      partyMembers: [0, 1],
+      roles: [
+        makeRole({ id: 0, hp: 200, attackStrength: 50 }),
+        makeRole({ id: 1, hp: 200 }),
+      ],
+      enemies: [makeEnemy({ id: 100, health: 100, defense: 0 })],
+    })
+    tickBattle(gs, emptyInput, bus)
+    const st = gs.battleState!
+    resources.playerRoles.roles[0]!.hp = 0
+    st.phase = 'performAction'
+    st.uiState = 'hidden'
+    st.selectingPlayerIdx = undefined
+    st.pendingActions.set(0, { type: 'attack', target: 0 })
+    st.actionQueue = [{ isEnemy: false, idx: 0, dex: 0, fIsSecond: false }]
+    st.currentActionIndex = 0
+    for (let i = 0; i < 400 && st.currentActionIndex === 0; i++) tickBattle(gs, emptyInput, bus)
+    expect(st.enemies[0]!.e.health).toBe(100)
+  })
+})
