@@ -339,6 +339,9 @@ export function drawBattleSprites(
     //   旧版 `hp<=0 return` 让死员凭空消失 + 死亡定格露站立姿(user 报"起立");此处删 skip 改画死帧。
     //   (注:本函数须收到**战斗 live roles**,非 static 满血基线 —— present-battle 传 getBattleResources().playerRoles。)
     if (!role) return
+    // DM10:隐身(0x5C 仙风云体类)期间不画队员 —— battle.c:202-211 `else if (iHidingTime == 0)`
+    //   才 blit;colorShift≠0 例外(解除隐身的渐显演出仍画)。
+    if ((state.iHidingTime ?? 0) > 0 && (p.iColorShift ?? 0) === 0) return
     const pos = p.pos ?? computePlayerAnchor(state, i)
     if (!pos) return
     // D17 0x31:spriteNumOverride(梦蛇295 变身)优先于 role.spriteNumInBattle。
@@ -366,5 +369,12 @@ export function drawBattleSprites(
     // D17:死亡淡出像素走 crossfade(读 fb 背景逼近);普通精灵走 iColorShift blit。
     if (it.fadeStep >= 0) blitFrameDeathFade(fb, it.frame, it.x, it.y, it.fadeStep)
     else blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
+  }
+
+  // DM13:PAL_BattleDrawAllSprites 两遍结构(battle.c:471-487)—— 第一遍画全部,第二遍仅
+  //   fHaveColorShift(iColorShift≠0)的精灵**再叠绘一次**("directly overlaid on the original
+  //   sprites")→ 受击闪白/物品辉光精灵恒浮于其它精灵(含遮挡它的前排单位)之上。
+  for (const it of items) {
+    if (it.fadeStep < 0 && it.iColorShift !== 0) blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
   }
 }

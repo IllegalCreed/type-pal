@@ -1211,10 +1211,11 @@ export function dispatchBattleOpcode(
       self.iColorShift = 0
       self.maxHealth = base.health
       self.objectId = eo.objectIndex // L25:sdlpal 0x9F 同步 wObjectID=op0(script.c:2965),供后续 0x91 同种判定
-      self.scriptOnTurnStart = eo.scriptOnTurnStart
-      self.scriptOnReady = eo.scriptOnReady
-      self.scriptOnBattleEnd = eo.scriptOnBattleEnd
-      self.resistanceToSorcery = eo.resistanceToSorcery
+      // DM1:script.c:2954-2986 变身仅改 wObjectID/e(保 wHealth)/wCurrentFrame,三个 wScriptOn*
+      //   字段**一概不动**(沿用变身前缓存值含 store-back 推进态)—— 变身链(凤梨小妖→牡丹精/
+      //   傻仔龟→蛟龙/小土鬼↔肥肥)靠旧 ready 脚本继续推进可连续变身,战后 battleEnd 对白身份
+      //   也保持原敌(凤梨小妖 battleEnd=41008)。旧码覆写为新对象表脚本(目标对象模板全 0)→ 链断。
+      //   resistanceToSorcery 同理不动(C 不改)。
       self.spriteFrameHeight = ctx.enemySpriteFrameHeights?.get(base.id)
       refreshEnemyBattlePositions(ctx)
       if (ctx.bus) {

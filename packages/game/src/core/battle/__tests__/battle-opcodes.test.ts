@@ -1100,10 +1100,12 @@ describe('0x9C enemy division (script.c:009C)', () => {
 })
 
 describe('0x9F enemy transform (script.c:009F)', () => {
-  it('变身成 op0 对象(保留当前 health)+ M6 变身音 47', () => {
+  it('变身成 op0 对象(保留当前 health + 保留原形态脚本)+ M6 变身音 47', () => {
     const self = richEnemy({ health: 30 })
     self.e.id = 5
     self.objectId = 402
+    self.scriptOnReady = 7777 // 变身前运行时脚本(含 store-back 推进态)
+    self.scriptOnBattleEnd = 41008
     const roster = [self]
     const ctx = summonCtx(roster, 0, [ENEMY(22, 80), ENEMY(5, 100)], [ENEMY_OBJ(419, 22)])
     dispatchBattleOpcode(0x9F, [419, 0, 0], ctx)
@@ -1112,7 +1114,9 @@ describe('0x9F enemy transform (script.c:009F)', () => {
     expect(roster[0]!.objectId).toBe(419) // L25:sdlpal 0x9F 写 wObjectID=op0(script.c:2965)
     expect(roster[0]!.maxHealth).toBe(80)
     expect(roster[0]!.posOriginal).toEqual(ENEMY_POS.layouts[0]![0])
-    expect(roster[0]!.scriptOnReady).toBe(22)
+    // DM1:script.c:2954-2986 三个 wScriptOn* 一概不动(沿用旧形态脚本)——变身链/战后对白身份保持
+    expect(roster[0]!.scriptOnReady).toBe(7777)
+    expect(roster[0]!.scriptOnBattleEnd).toBe(41008)
     expect(ctx.gs!.pendingSounds).toEqual([47]) // sdlpal script.c:2980
   })
 

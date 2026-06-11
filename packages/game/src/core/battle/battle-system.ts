@@ -2822,8 +2822,14 @@ function finalizeBattle(
 /** 战斗收尾清状态(won 结算放完 / lost / fleed / forced 共用)→ 回 explore;0x07 触发的战斗接回触发脚本。 */
 function finalizeBattleCleanup(gs: GameState, outcome: BattleOutcome): void {
   // D21 sdlpal battle.c:1822-1830(无条件 won/lost/fleed):清 player status + 毒 + 临时 Extra 装备效果。
-  //   - PAL_ClearAllPlayerStatus:ts 战斗 status 是 battle-local(随 gs.battleState=undefined 丢弃)
-  //     → 自动满足,无需显式清(若未来 status 持久化到 gs 再补 clearAllPlayerStatus≤999)。
+  //   - DM2 PAL_ClearAllPlayerStatus(global.c:2331-2343):值 ≤999 全清(>999 = 装备授予持久态保留)。
+  //     战斗 status 副本随 battleState 丢弃,但**持久 gs.rgPlayerStatus**(大世界 0x28 写的金刚符 63/
+  //     黑狗血 85 等 buff)每场开战被 seed 进副本且不回写 → 不清的话等效永久(C 首场战斗结束即过期)。
+  for (const row of Object.values(gs.rgPlayerStatus)) {
+    for (let i = 0; i < row.length; i++) {
+      if ((row[i] ?? 0) <= 999) row[i] = 0
+    }
+  }
   //   - 每角色 PAL_CurePoisonByLevel(w, 3):清持久 gs.rgPoisonStatus(level≤3 = 全部,毒等级上限 3)。
   //   - 每角色 PAL_RemoveEquipmentEffect(w, kBodyPartExtra):清 per-battle 临时 Extra 装备效果槽。
   //     0x30 临时 stat buff 写 rgEquipmentEffect[6](Extra)→ 本清反转之(2026-05-31 D14/0x30 收口)。
