@@ -58,4 +58,4 @@
 | [item-audit](2026-06-02-item-audit.md) | 物品功能完整性审计(结论已并入 item-status) | ✅ |
 | [battle-system-current-audit](2026-06-06-battle-system-current-audit.md) | 战斗系统当前 audit(大修入口) | 🔄 |
 | [sdlpal-diff-audit](2026-06-07-sdlpal-diff-audit.md) | 全子系统差异审计 70 候选 / 64 确认 / 100% 修复 | ✅ |
-| [sdlpal-deep-audit](2026-06-10-sdlpal-deep-audit.md) | 第二轮深挖(执行路径级):81 候选 / 50 条对抗复核 0 refuted;已修 9H+29M+3L(18 commit),余 DM9/11/29+low | 🔄 |
+| [sdlpal-deep-audit](2026-06-10-sdlpal-deep-audit.md) | 第二轮深挖(执行路径级):81 候选 / 50 条对抗复核 0 refuted;9H+32M+33L 全修(27 commit),5 条有意保留(理由见报告) | ✅ |

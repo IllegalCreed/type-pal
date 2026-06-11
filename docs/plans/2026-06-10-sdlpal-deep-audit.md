@@ -18,16 +18,28 @@
 > low 级中标 `[未复核]` 的条目未做对抗复核,修复前请先按行号核对 C 源。
 > 多条 finding 被 2 个初审 agent 独立撞到(DH1/DH2/DH3/DM7/DM1/DM8/DM10/DL11),互为印证。
 
-## 修复进度(2026-06-11 落地)
+## 修复进度(2026-06-11/12 全部落地)
 
-按报告逐条修复,全部真值锚定 + TDD/突变验证 + `pnpm check` 全绿 + 逐条 commit(66e9e2b..77b7ee4,18 个 commit)。
+按报告逐条修复,全部真值锚定 + TDD/突变验证 + `pnpm check` 全绿 + 逐条 commit
+(66e9e2b..5d383b6,共 27 个修复 commit)。
 
-- **✅ HIGH 9/9 全部修复**:DH1-DH9。
-- **✅ MEDIUM 29/32**:DM1-DM8、DM10、DM12-DM28、DM30-DM32。**未修 3 条**:DM9(法术精灵 z 排序,
-  `magic.json[].special` 已抽出待渲染消费)、DM11(敌 idle 演出期冻结+per-enemy 相位,渲染层改造)、
-  DM29(进出战斗音乐接缝,需先给两个 MusicBackend 实现 gain-ramp fade 能力)。
-- **✅ LOW 3 条顺带修复**:DL13/DL15(随簇 B)、DLg(读档音乐重播,随 DM26)。其余 low 未动。
-- 测试基线:1962(game)+247(extract)+88(shared) 全绿;DH2 经突变验证(回退实现测试红)。
+- **✅ HIGH 9/9**:DH1-DH9。
+- **✅ MEDIUM 32/32**:DM1-DM32 全部(含第二轮补完的 DM9 z 排序/DM11 敌 idle per-enemy
+  状态机/DM29 进战斗揭场期静默)。
+- **✅ LOW 33 条修复**:DLa(0x89 Terminated)/DLb(触发续扫)/DLc(触发站立帧)/DLe(0x59 立即写)/
+  DLg(读档重播)/DLh(脚本后清键)/DL1-DL4/DL6-DL11/DL13-DL18/DL20-DL32。
+- **📌 有意保留 5 条**(工程判断,理由如下):
+  - DL5(战斗 magic/item 脚本返回值回写):全数据无 0x01 结尾实例(多数 0x00),需为 magic/item
+    对象建 rgObject overlay 机制,latent 零收益 —— 待真实数据出现再做。
+  - DLd(相机逐步进/pan 残留):复核确认实际触发面≈0,且 clamp 是 TS 相机模型的兜底,改动
+    回归风险 > 收益。
+  - DLf(异步存档快照):复核确认菜单态世界冻结,常规路径落盘 = 确认那刻;残余仅 IDB 异常慢竞态。
+  - DL19(0x73 等键豁免):与"fade backup 须含对话像素"的视觉机制直接冲突,且全数据 0 相邻实例。
+  - DL12(0x43/0x77 音乐 fade 参数):本项目音乐走 MIDI 后端,C 的 native MIDI 同样丢弃
+    flFadeTime(audio.c)—— **忠实不做** gain ramp;计算保留注释供未来 OGG/RIX 后端。
+    (DL28 的 EndingAnimation 段淡入同理部分保留:player 无 fade-in 选项,rng(10) 段已做。)
+- 测试基线:1965(game)+247(extract)+88(shared) 全绿;DH2 经突变验证;修复过程中顺带修正
+  2 个测试 fixture 缺陷(e2e flee 未同步 runtime fleeRate、casualty 阈值锁旧行为)。
 
 ## 审计期间用户已修(与本报告交叠)
 
