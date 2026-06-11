@@ -506,6 +506,9 @@ function isDialogContinuationOp(cmd: Command): boolean {
     //   (区别于 default 的 PAL_ClearDialog(TRUE) 会 PAL_DialogWaitForKey)。豁免 default 的 Space-wait
     //   pre-op clear:问句保持可见,确认框直接弹出,选完才由 confirm 派发清 dialogBox。
     || (cmd.op === 'raw' && cmd.opcode === OP_GOTO_IF_NO)
+    // DM19:0x07 startBattle 是外层 switch 显式 case,**无** pre-op ClearDialog(script.c:3314-3333)
+    //   —— 战前喊话(天鬼皇 idx23538/黑苗 idx32723)不等键直接开战,台词随入场渐变淡出。
+    || (cmd.op === 'raw' && cmd.opcode === OP_START_BATTLE)
 }
 
 /** fetchPalette 注入(M4 P3.T2)—— 模式与 setSceneContext 一致,保持 tickEventSystem 同步签名。 */
@@ -1053,6 +1056,14 @@ function keepDialogForStyleSwitch(gs: GameState, state: DialogBoxState, nextStyl
 function clearDialogBoxes(gs: GameState): void {
   gs.dialogBox = undefined
   gs.dialogBoxKept = undefined
+  // DM22:PAL_ClearDialog(text.c:1777-1783)—— kDialogCenter 时复位坐标/默认色并
+  //   `bDialogPosition = kDialogUpper`。每个 ClearDialog 调用点(0x05/pre-op 清/脚本收尾)都触发;
+  //   缺此则 center 字幕段被打断后续 0xFFFF 仍画屏中(灵儿声音 idx17009"李逍遥∶"应回 Upper
+  //   青色姓名牌、石碑碑文 idx32077 应 title+4 行一页)。narration(CenterWindow)不在此复位(C 同)。
+  if (gs.currentDialogStyle === 'center') {
+    gs.currentDialogStyle = 'top'
+    gs.currentDialogFontColor = 0x4F // bCurrentFontColor = DEFAULT
+  }
 }
 
 export function buildLabelMap(commands: Command[]): Record<string, number> {
@@ -1613,8 +1624,14 @@ export function tickEventSystem(
       tickDialog(gs.dialogBox)
       const ds = gs.dialogBox
 
-      // Confirm 处理:phase 决定行为
-      if (input.pressed.has('Confirm')) {
+      // DM18:按键集合分相位(C 真值)——等键(翻页 waiting-page-key / 段末)吞**任意键**
+      //   (text.c:1433 `dwKeyPress != 0`:方向/ESC/PgUp 均可翻页推进,连打方向键过对话的原版
+      //   习惯);打字中跳字 = kKeySearch|kKeyMenu(text.c:1602)→ Confirm/Menu。旧码全部只认
+      //   Confirm。
+      const dialogKey = ds.phase === 'typing'
+        ? (input.pressed.has('Confirm') || input.pressed.has('Menu'))
+        : input.pressed.size > 0
+      if (dialogKey) {
         const pendingStyleToKeep = ds.phase === 'waiting-page-key' ? ds.pendingStyle?.style : undefined
         const keptDialog = pendingStyleToKeep && hasVisibleDialogContent(ds) && isVerticalDialogSwap(ds.style, pendingStyleToKeep)
           ? cloneDialogBoxForKeep(ds)
@@ -1704,6 +1721,7 @@ export function tickEventSystem(
     if (cursor.ip < 0 || cursor.ip >= cmds.length) {
       console.warn(`event-system: ip ${cursor.ip} 越界 → 切回 explore / menu`)
       gs.eventCursor = undefined
+      gs.dialogIDelayFrames = undefined // DM21:脚本结束复位打字速度(= RunTriggerScript 入口重置 3)
       clearDialogBoxes(gs)
       consumePendingItem(gs)  // item.scriptOnUse 跑完 → 按 g_fScriptSuccess gate 扣物品
       gs.iCurEquipPart = -1   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset — 0x18 设的 part 不泄漏
@@ -1884,12 +1902,25 @@ export function tickEventSystem(
         // 若存在但累计 4 行(shouldWaitPageKey)→ setWaitingPageKey,等下次 tick Confirm 后再 append
         // 否则 → appendDialogLine 加新行
         //
-        // 纯控制符行(无可见字符且无等键图标,如死亡脚本 L_41075 的 showDialog "$00"/"$02" 只设打字速度)→
-        //   sdlpal TEXT_DisplayText 不增 nCurrentDialogLine(无可见字 → 不开新行)→ ts 跳过,不加空行
-        //   (否则死亡对话框多出空行,user 报"死亡文字渲染")。带图标的(/) 单行保留。advance + 同 tick 续跑。
+        // DM20/DM21:纯控制符行(如死亡脚本 41078"$00"/41081"$02")—— C 真值(text.c:1534-1540 +
+        //   1745-1746):`$NN` 设**全局** iDelayTime=floor(NN*10/7)(脚本级持续),且 TEXT_DisplayText
+        //   返回后**无条件** nCurrentDialogLine++ → 纯控制行**占一空行**(死亡文案正文从下一行起,
+        //   $00 后续行瞬显)。旧注释"sdlpal 不增行"与 C 源相悖(当年方向修反)。带图标的(/) 单行保留。
         {
           const parsed = parseDialogText(cmd.text, 0, true)
           if (parsed.text.length === 0 && parsed.icon === 0) {
+            gs.dialogIDelayFrames = parsed.endIDelay
+            if (!gs.dialogBox) {
+              gs.dialogBox = startDialogLine('', {
+                style: gs.currentDialogStyle,
+                portraitIcon: gs.currentDialogPortraitIcon,
+                fontColor: gs.currentDialogFontColor,
+                iDelayFrames: gs.dialogIDelayFrames,
+              })
+            }
+            else {
+              appendDialogLine(gs.dialogBox, '')
+            }
             cursor.ip++
             break
           }
@@ -1902,6 +1933,7 @@ export function tickEventSystem(
             style: gs.currentDialogStyle,
             portraitIcon: gs.currentDialogPortraitIcon,
             fontColor: gs.currentDialogFontColor,
+            iDelayFrames: gs.dialogIDelayFrames, // DM21:脚本级速度($NN 跨段持续,text.c:1538)
           })
         }
         else if (shouldWaitPageKey(gs.dialogBox)) {
@@ -1913,6 +1945,8 @@ export function tickEventSystem(
         else {
           appendDialogLine(gs.dialogBox, cmd.text)
         }
+        // DM21:行内 $NN 改速后同步回脚本级(C iDelayTime 是全局,任何 $ 都写它)。
+        if (gs.dialogBox.iDelayState !== undefined) gs.dialogIDelayFrames = gs.dialogBox.iDelayState
         cursor.waiting = 'dialog'
         // P2#7:content-no-fade onEnter(有对话、无 fadeScreen,如 scene 14)— 对话是第一个可渲染 yield,
         // 此时 setPartyPos 等已跑完(camera 已对)→ 清 sceneLoading 让对话渲染。fade-first onEnter 的
@@ -1963,7 +1997,9 @@ export function tickEventSystem(
           savePostBattleResume(gs, cursor, cmd.operands) // 战末接回触发脚本(0x52 隐藏怪 等)
           tryStartBattle(gs, cmd.operands[0] ?? 0, cmd.operands[2] ?? 0)
           gs.eventCursor = undefined
-          clearDialogBoxes(gs)
+          // DM19:script.c:3314-3333 case 0x0007 直接 PAL_StartBattle,是外层 switch 唯一带副作用
+          //   却**不清对话**的 opcode —— 战前喊话台词像素保留进战斗入场渐变,且不强加等键
+          //   (isDialogContinuationOp 已豁免)。战斗 present 整屏重画自然覆盖,无需显式清。
           return
         }
         // P2#6b: opcode 0x08 checkpoint(sdlpal script.c:3335-3341)— 把持久化 resume 点设到 0x08 之后
@@ -3040,6 +3076,8 @@ function consumePendingItem(gs: GameState): void {
  * itemUseApplyToAll 每次都清(每个 startOverworldItemScript 重设,不残留到下个脚本)。
  */
 function restoreModeAfterScript(gs: GameState): void {
+  // DM21:脚本结束复位打字速度(= 下次 RunTriggerScript 入口 PAL_DialogSetDelayTime(3),script.c:3192)。
+  gs.dialogIDelayFrames = undefined
   if (gs.itemUseApplyToAll) {
     gs.itemUseApplyToAll = undefined
     gs.menuStack = []
@@ -4340,6 +4378,9 @@ function applyRawOpcode(
         returnLabelMap: cursor.labelMap,
         savedEventObjectId: cursor.currentEventObjectId,
       })
+      // DM21:嵌套 PAL_RunTriggerScript 入口 PAL_DialogSetDelayTime(3)(script.c:3192)——
+      //   子脚本起手回默认速度($NN 不跨 call 边界)。
+      gs.dialogIDelayFrames = undefined
       // sdlpal 传 op1 作 wEventObjectID(1-based);op1=0 → 沿用当前。ts currentEventObjectId 0-based。
       if ((operands[1] ?? 0) !== 0) cursor.currentEventObjectId = (operands[1] ?? 0) - 1
       cursor.ip = subIp - 1 // caller raw-case ip++ → subIp(同来源,不改 cursor.commands)

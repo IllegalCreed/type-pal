@@ -267,13 +267,18 @@ export function startDialogLine(
     portraitIcon?: number
     fontColor?: number
     shadow?: boolean
+    /**
+     * DM21:起手打字速度(sdlpal g_TextLib.iDelayTime 是**脚本级全局**,text.c:885/1204/1538:
+     * 仅 RunTriggerScript 入口重置 3,`$NN` 写入后跨 ClearDialog+StartDialog 持续到脚本结束)。
+     * caller(event-system)传 gs.dialogIDelayFrames;缺省 3(旧行为/战斗对话)。
+     */
+    iDelayFrames?: number
   },
 ): DialogBoxState {
   const style = opts.style ?? 'bottom'
   const startColor = opts.fontColor ?? FONT_COLOR_DEFAULT
   const isDialog = style === 'narration' // sdlpal isDialog:普通对话=FALSE,narration(居中小窗)=TRUE
-  // 新 dialog 段:iDelayTime 重置默认 3(sdlpal g_TextLib.iDelayTime 段内续行继承,这里起手默认)
-  const parsed = parseDialogText(rawText, startColor, isDialog, DIALOG_IDELAY_DEFAULT)
+  const parsed = parseDialogText(rawText, startColor, isDialog, opts.iDelayFrames ?? DIALOG_IDELAY_DEFAULT)
   // sdlpal text.c:1715-1727 真值:`:` 结尾的字符串 = 姓名 title,画独立位置(CYAN_ALT,PAL_DrawText 不过
   //   控制符 state machine,不改 bCurrentFontColor),不计入 line。在剥码后的可见文本上判定。
   const isTitle = shouldRenderAsTitle(parsed.text, 0, style)

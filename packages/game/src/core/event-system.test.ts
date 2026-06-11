@@ -796,17 +796,22 @@ describe('opcode 7 startBattle(P0.e — sdlpal script.c:3318 PAL_StartBattle)', 
     setStartBattleHandler(null)
   })
 
-  it('showDialog 纯控制符行("$00"/"$02")→ 跳过不加空行(死亡脚本 L_41075,sdlpal 无可见字不开行)', () => {
+  it('DM20/DM21:纯控制符行("$00")占一空行 + 设脚本级瞬显速度(text.c:1534-1540/1745-1746)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     loadEvent(gs, [
-      { op: 'showDialog', text: '$00', messageIndex: 0 },           // 纯打字速度码 → 跳过,不加空行
-      { op: 'showDialog', text: '大侠请重新来过吧', messageIndex: 0 }, // 真行
+      { op: 'showDialog', text: '$00', messageIndex: 0 },           // 设 iDelay=0(瞬显)+ 占一空行
+      { op: 'showDialog', text: '大侠请重新来过吧', messageIndex: 0 }, // 真行(从第 2 行起)
       { op: 'end' },
     ])
     tickEventSystem(gs, snap(), createCommandBus())
-    // 首个真行(大侠...)= currentLine;$00 没加空行 → 无 shown 空行堆积
+    // C 真值:TEXT_DisplayText 返回后无条件 nCurrentDialogLine++ → "$00" 占一空行,
+    //   正文从下一行起(死亡文案 y=58/76 而非 40/58);$00 → iDelayTime=0 → 正文瞬显。
+    expect(gs.dialogIDelayFrames).toBe(0)
+    expect(gs.dialogBox?.shownLines.length ?? 0).toBe(1) // 空行已入 shown
+    expect(gs.dialogBox?.shownLines[0]).toBe('')
     expect(gs.dialogBox?.currentLineText ?? '').toContain('大侠')
-    expect(gs.dialogBox?.shownLines.length ?? 0).toBe(0)
+    // $00 → 瞬显:正文行 revealAt 全 0(typing 立即完成)
+    expect(gs.dialogBox?.currentLineRevealAt?.every((t) => t === 0)).toBe(true)
   })
 
   it('raw#7 存 postBattleResume(战后接回触发脚本 → 修打完怪不消失,script.c:3318-3331)', () => {

@@ -1031,6 +1031,11 @@ export interface GameState {
   }
 
   /**
+   * DM21:脚本级打字速度(sdlpal g_TextLib.iDelayTime,text.c:885/1204/1538)。`$NN` 控制符写
+   * `floor(NN*10/7)`,跨对话段持续;脚本结束/0x04 call 入口复位 undefined(=默认 3)。瞬态。
+   */
+  dialogIDelayFrames?: number
+  /**
    * opcode 0x6D op2 设的 scene onTeleport 脚本覆盖(键 = wNumScene 1-based,值 = **全局 script entry**,
    * 0 = 清除/无 teleport)。sdlpal script.c:2079 `rgScene[op0-1].wScriptOnTeleport = op2`。
    * 与 onEnter override 不同:**持久**(不在 loadScene 时消耗/删),对齐 sdlpal rgScene 常驻 saved 状态。
