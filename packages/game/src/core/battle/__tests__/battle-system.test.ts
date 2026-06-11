@@ -2731,7 +2731,7 @@ describe('throw-item action 派发(E2)', () => {
     tickBattle(gs, emptyInput, bus) // performAction 起 UseItem 前摇
 
     expect(st.battleAnim?.afterComplete).toMatchObject({ kind: 'perform-item', actionId: 1, targetIdx: 0 })
-    expect(st.battleAnim?.frames).toHaveLength(14) // Delay(4)+colorShift 0..6 + 5..0
+    expect(st.battleAnim?.frames).toHaveLength(15) // Delay(4)+colorShift 0..6 + 5..0 + DM12 尾 Delay(8)
     expect(st.battleAnim?.frames[1]?.sound).toBe(28)
     expect(st.players[0]!.pos).toEqual(st.players[0]!.posOriginal) // frame0 是 PAL_BattleDelay(4),尚未前移
     expect(gs.inventory[0]!.count).toBe(2)

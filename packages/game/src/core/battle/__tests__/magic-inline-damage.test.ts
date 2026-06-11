@@ -628,7 +628,7 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
     expect(state.battleAnim).toBeDefined()
     const f = state.battleAnim!.frames
     // PreMagic = 17(4+1+1+10+1);OffMagic l=(8-2)*1+8=14;PostMagic=4(受伤敌抖3+复位)= 35
-    expect(f.length).toBe(17 + 15 + 4) // L14:OffMagic 14→15(+前置 Delay(1))
+    expect(f.length).toBe(17 + 15 + 4 + 1) // L14 +前置 Delay(1);DM12 +尾 Delay(5)
     // OffMagic 段从 idx 17 起,首帧是 L14 前置 Delay(1)(无 overlay),特效 overlay 从 idx 18
     const offFrame = f[18]!
     expect(offFrame.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 12 })
@@ -761,9 +761,9 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
       runScript: noopRunScript,
       magicSpriteFrameCounts: frameCounts,
     })
-    // DefMagic:caster帧6 + n(8)magic + 14 辉光 = 23(非 OffMagic 链 17+14+4=35)。
+    // DefMagic:DM14 PreMagic(17) + caster帧6 + n(8)magic + 14 辉光 = 40。
     expect(state.battleAnim).toBeDefined()
-    expect(state.battleAnim!.frames.length).toBe(1 + 8 + 14)
+    expect(state.battleAnim!.frames.length).toBe(17 + 1 + 8 + 14)
     // 不打敌人(防御类:E1 inline 伤害不触发)
     expect(state.enemies[0]!.e.health).toBe(100)
   })
@@ -846,8 +846,8 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
       magicSpriteFrameCounts: frameCounts,
     })
     const frames = state.battleAnim!.frames
-    // PostMagic 段 = 末 4 帧;i==1 抖动帧(总倒数第 3 帧)iColorShift=6
-    const post = frames.slice(frames.length - 4)
+    // PostMagic 段 = 倒数 5..2(DM12 末尾另有 Delay(5) 收尾帧);i==1 抖动帧 iColorShift=6
+    const post = frames.slice(frames.length - 5, frames.length - 1)
     const colorShiftFrame = post[1]!
     expect(colorShiftFrame.fighters?.[0]).toMatchObject({ side: 'enemy', idx: 0, iColorShift: 6 })
   })
@@ -928,13 +928,13 @@ describe('performMagic D17: player 防御/治疗魔法 DefMagic 时间线', () =
     })
     expect(state.battleAnim).toBeDefined()
     const f = state.battleAnim!.frames
-    expect(f.length).toBe(1 + 5 + 14) // 20
-    // frame0 = caster 帧6
-    expect(f[0]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 6 }])
-    // magic 帧(frame1)落点 = target 队员 posOriginal + (xOff,yOff) = (184,144)
-    expect(f[1]!.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 15, x: 184, y: 144 })
+    expect(f.length).toBe(17 + 1 + 5 + 14) // DM14:+PreMagic 17 帧前摇(fight.c:4184)
+    // PreMagic 后首帧 = caster 帧6
+    expect(f[17]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 6 }])
+    // magic 帧落点 = target 队员 posOriginal + (xOff,yOff) = (184,144)
+    expect(f[18]!.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 15, x: 184, y: 144 })
     // 辉光帧设 target 队员 idx1
-    const glowPeak = f[1 + 5 + 6]! // 辉光 i=6 峰值
+    const glowPeak = f[17 + 1 + 5 + 6]! // 辉光 i=6 峰值
     expect(glowPeak.fighters).toEqual([{ side: 'player', idx: 1, iColorShift: 6 }])
   })
 
@@ -965,10 +965,10 @@ describe('performMagic D17: player 防御/治疗魔法 DefMagic 时间线', () =
       magicSpriteFrameCounts: frameCounts,
     })
     const f = state.battleAnim!.frames
-    // magic 帧落点 = 3 队员
-    expect(f[1]!.overlays).toHaveLength(3)
+    // magic 帧落点 = 3 队员(DM14:+17 PreMagic 前摇)
+    expect(f[18]!.overlays).toHaveLength(3)
     // 辉光首帧设 3 队员
-    const glow0 = f[1 + 5]!
+    const glow0 = f[17 + 1 + 5]!
     expect(glow0.fighters).toHaveLength(3)
   })
 
@@ -1086,15 +1086,15 @@ describe('performMagic D17: 敌方攻击魔法 EnemyMagic 时间线', () => {
     const eff = f.slice(effStart)
     // 落点特效 14 帧(都带 overlays)+ 受击 5 帧(fight.c:4861-4899,无 overlays)
     expect(eff.filter((fr) => (fr.overlays?.length ?? 0) > 0).length).toBe((8 - 2) * 1 + 8) // l=14
-    expect(eff.length).toBe(14 + 5)
+    expect(eff.length).toBe(14 + 5 + 1) // DM12:+尾 Delay(1)+Delay(8) 收尾帧
     // 落点 = player.posOriginal + (xOff,yOff) = (244,164)
     expect(eff[0]!.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 12, x: 244, y: 164 })
     // 特效内敌施法帧 i=2(fireDelay)→ currentFrame = 2-2+4+2 = 6
     expect(eff[2]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 6 }])
     // 起手段(磁frames=2)应有前移 + 施法手势,证明施法本体动画接上(修「敌人施法定格」)
     expect(f[0]!.fighters?.[0]).toMatchObject({ side: 'enemy', idx: 0, pos: { x: 172, y: 86 } }) // 前移 +12/+6
-    // 受击动画(末 5 帧):受伤队员 idx0 frame4 + 红闪;i=0 不位移(pos=posOriginal 240,170)
-    const hurt = f.slice(f.length - 5)
+    // 受击动画(倒数 6..2;DM12 末尾另有收尾停顿帧):受伤队员 idx0 frame4 + 红闪;i=0 不位移
+    const hurt = f.slice(f.length - 6, f.length - 1)
     expect(hurt[0]!.fighters).toEqual([
       { side: 'player', idx: 0, currentFrame: 4, iColorShift: 6, pos: { x: 240, y: 170 } },
     ])
@@ -1157,7 +1157,7 @@ describe('performMagic D17: 敌方攻击魔法 EnemyMagic 时间线', () => {
       battleEffectIndex: [0, 0],
     })
     // OffMagic 链 = PreMagic(17) + OffMagic(14) + PostMagic(4) = 35;EnemyMagic 只 14。
-    expect(state.battleAnim!.frames.length).toBe(17 + 15 + 4) // L14:OffMagic 14→15(+前置 Delay(1))
+    expect(state.battleAnim!.frames.length).toBe(17 + 15 + 4 + 1) // L14 前置 Delay(1) + DM12 尾 Delay(5)
   })
 
   it('enemy 缺 target 队员 posOriginal(旧 fixture)→ 不建链', () => {

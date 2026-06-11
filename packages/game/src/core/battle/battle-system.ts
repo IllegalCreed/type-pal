@@ -523,6 +523,13 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
       tickPreBattle(state, res.playerRoles)
       break
     case 'selectAction':
+      // DM12:回合末毒/状态数字弹出后 PAL_BattleDelay(8)(fight.c:1664-1668 `if
+      //   (PAL_BattleDisplayStatChange()) PAL_BattleDelay(8,0,TRUE)`)—— ~320ms 停顿
+      //   让玩家看清掉血,再开下一轮指令菜单。
+      if ((state.roundEndDelayTicks ?? 0) > 0) {
+        state.roundEndDelayTicks!--
+        break
+      }
       tickSelectAction(state, res, input, gs)
       break
     case 'performAction':
@@ -2694,6 +2701,9 @@ function tickPostAction(
   // 每个活敌的每条 poison 跑其 scriptEntry(毒 wEnemyScript,经 0x21 扣血),target = 该敌人。
   // 放在死亡 exp 累计**之前** → 毒杀的敌人也计入死亡奖励。
   const runPoisonScript = getRunScript(gs)
+  // DM12:毒 tick 前快照敌人 hp(玩家用 prePoisonHp)——毒后任何 HP 变化 = C 的
+  //   PAL_BattleDisplayStatChange() 返回 TRUE → 转 selectAction 前设 8 帧停顿。
+  const prePoisonEnemyHp = state.enemies.map((e) => e.e.health)
   // 玩家毒 tick —— sdlpal fight.c:1657-1697(PAL_BattleStartFrame,action queue 耗尽时):每队员每毒槽
   //   跑 wPlayerScript(target=该队员;毒脚本 0x1B 负 delta 扣血,0x1B battle handler 自带活人 gate)。
   //   玩家毒存全局 gs.rgPoisonStatus[`${slot}_${roleId}`](持久,16 槽/role)。sdlpal 先玩家后敌。
@@ -2778,6 +2788,12 @@ function tickPostAction(
   //   + 复位 pos),姿势随每帧 PAL_BattleUpdateFighters 即回站立。
   resetFightersAfterAction(state, res.playerRoles)
   // 进下一轮选择 —— 起第一个可手动选择的活队员菜单(= PAL_BattleUIPlayerReady;fAutoAttack 跨轮保持)。
+  // DM12:本回合末毒结算改了任何 HP(玩家 prePoisonHp / 敌 prePoisonEnemyHp 快照比对)→
+  //   8 帧(320ms)停顿后才开菜单(fight.c:1664-1668)。
+  const poisonChangedHp
+    = state.players.some((p) => (prePoisonHp.get(p.roleId) ?? 0) !== (res.playerRoles.roles[p.roleId]?.hp ?? 0))
+      || state.enemies.some((e, i) => (prePoisonEnemyHp[i] ?? 0) !== e.e.health)
+  if (poisonChangedHp) state.roundEndDelayTicks = 8
   state.phase = 'selectAction'
   startFirstReadyPlayerSelection(state, res.playerRoles)
   state.phaseStallTicks = 0

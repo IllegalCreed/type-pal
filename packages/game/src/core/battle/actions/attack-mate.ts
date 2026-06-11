@@ -81,17 +81,22 @@ export function performAttackMate(
   const before = targetRole.hp
   if (damage > before) damage = before // fight.c:3830-3833 clamp
 
-  // 5. 扣血 + 蓝色掉血弹幕
+  // 5. 扣血(数字延迟到演出后,见下)
   targetRole.hp = before - damage
-  bus.emit({ op: 'showDamageNum', target: { kind: 'player', idx: target }, value: damage, color: 'blue' })
   // M6 武器声(sdlpal fight.c:3810 AUDIO_PlaySound(rgwWeaponSound[role]);混乱/迷惑下打友军是强制物理,
   //   只播武器声,无起手/暴击声)。经 bus playSound → bootstrap 战斗 drain 播。
   if (casterRole.weaponSound > 0) bus.emit({ op: 'playSound', soundId: casterRole.weaponSound })
 
   // 6. D8(2026-06-02):走入精灵动画(fight.c:3791-3858)。caster/target posOriginal 底锚;缺锚 → 跳过(纯逻辑)。
+  // DM15:伤害数字经 pendingDamageNums 延迟到演出完(fight.c:3845 DisplayStatChange 在走入 frame8 →
+  //   frame9 命中 → 击退 → 闪白**之后**)——修"数字先蹦、角色才跑过去打"(5eb5050 投掷同类残留)。
+  //   无动画锚(旧 fixture)→ 保留即时 emit。
+  const dmgNum = { target: { kind: 'player' as const, idx: target }, value: damage, color: 'blue' as const }
   const casterPos = state.players[casterIdx]!.posOriginal
   const targetPos = state.players[target]!.posOriginal
   if (casterPos && targetPos) {
-    startBattleAnim(state, buildAttackMateTimeline({ casterIdx, casterPos, targetIdx: target, targetPos }), bus)
+    startBattleAnim(state, buildAttackMateTimeline({ casterIdx, casterPos, targetIdx: target, targetPos }), bus, [dmgNum])
+  } else {
+    bus.emit({ op: 'showDamageNum', ...dmgNum })
   }
 }

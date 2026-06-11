@@ -190,6 +190,10 @@ export function buildUseItemTimeline(input: {
     })
   }
 
+  // DM12:用毕收尾停顿 PAL_BattleDelay(8)(fight.c:4404-4406:UpdateFighters → DisplayStatChange →
+  //   Delay(8))——数字弹出后停 ~320ms 再进下一动作,飘字不叠下一段演出。
+  frames.push({ durationMs: delayMs(8) })
+
   return frames
 }
 

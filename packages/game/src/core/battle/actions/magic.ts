@@ -383,8 +383,10 @@ export function performMagic(input: PerformMagicInput): void {
   // M6 玩家施法音 pendingCastSound:OffMagic/Summon/Trance 成功建链 → 已在前摇"施法姿"帧帧同步
   //   (buildPreMagicTimeline,对齐 sdlpal fight.c:2377),**不在此 push**;其余(DefMagic / 未建链)→ 即时播。
   //   放在效果音之前 push(施法音先于效果音,顺序对齐 sdlpal)。
+  // DM14 起 DefMagic 两路径也带 PreMagic 前摇(castSound 已帧同步),并入名单防双响。
   const castFrameSynced = built && !input.casterIsEnemy && (
     OFF_MAGIC_TYPES.has(magic.type) || magic.type === 'summon' || magic.type === 'trance'
+    || magic.type === 'applyToPlayer' || magic.type === 'applyToParty'
   )
   if (pendingCastSound > 0 && input.gs && !castFrameSynced) (input.gs.pendingSounds ??= []).push(pendingCastSound)
 
@@ -538,7 +540,9 @@ function buildAndStartMagicAnim(
   const postFrames = buildPostMagicTimeline({ hurtEnemies })
   const numsAttached = attachDamageNumsToFirstFrame(postFrames, pendingNums)
 
-  const chain: BattleAnimFrame[] = [...preFrames, ...offFrames, ...postFrames]
+  // DM12:攻击法术收尾停顿 PAL_BattleDelay(5,0,TRUE)(fight.c:4322-4324,PostMagic 后)——
+  //   数字弹出后停 ~200ms 再进下一动作。
+  const chain: BattleAnimFrame[] = [...preFrames, ...offFrames, ...postFrames, { durationMs: 5 * BATTLE_FRAME_TIME }]
   startBattleAnim(input.state, chain, input.bus, numsAttached ? undefined : pendingNums)
   return true
 }
@@ -714,6 +718,20 @@ function buildAndStartDefMagicAnim(
   const caster = input.state.players[input.casterIdx]
   if (!caster?.posOriginal) return false
 
+  // DM14:PreMagic 起手前摇对**所有**玩家法术无条件先放(fight.c:4184 → 2363-2444:4 步前移
+  //   各 Delay(1) + Delay(2) + frame5 施法姿 + 10 帧 cast 特效,~0.7s)。offensive/summon/trance
+  //   均有,唯 DefMagic 两路径缺 → 放治疗/辅助时施法者无起手段直接目标辉光。
+  const dmRole = input.playerRoles.roles[caster.roleId]
+  const dmSpriteId = dmRole?.spriteNumInBattle ?? 0
+  const dmCastListVal = input.battleEffectIndex?.[dmSpriteId * 2 + 0] ?? 0
+  const preFrames = buildPreMagicTimeline({
+    casterPos: caster.posOriginal,
+    casterIdx: input.casterIdx,
+    castEffectFrameBase: dmCastListVal * 10 + 15,
+    isSummon: false,
+    castSound: dmRole?.magicSound ?? 0,
+  })
+
   if (magic.type === 'applyToPlayer') {
     // 单体目标队员:resolved idx(targetIdx 必为 number;'all' 不会落到 applyToPlayer)。
     const tIdx = typeof input.targetIdx === 'number' ? input.targetIdx : -1
@@ -732,7 +750,7 @@ function buildAndStartDefMagicAnim(
       targetPlayerIdx: tIdx,
       targetPlayerPos: targetPos,
     })
-    startBattleAnim(input.state, frames, input.bus, pendingNums) // 治疗/复活数字延迟到 DefMagic 播完后(顺序修)
+    startBattleAnim(input.state, [...preFrames, ...frames], input.bus, pendingNums) // 治疗/复活数字延迟到 DefMagic 播完后(顺序修)
     return true
   }
 
@@ -757,7 +775,7 @@ function buildAndStartDefMagicAnim(
     targetPlayerIdx: -1,
     partyPlayerPositions,
   })
-  startBattleAnim(input.state, frames, input.bus, pendingNums) // 群疗数字延迟到 DefMagic 播完后(顺序修)
+  startBattleAnim(input.state, [...preFrames, ...frames], input.bus, pendingNums) // 群疗数字延迟到 DefMagic 播完后(顺序修)
   return true
 }
 
@@ -869,7 +887,8 @@ function buildAndStartEnemyMagicAnim(
 
   startBattleAnim(
     input.state,
-    [...introFrames, posResetFrame, ...effectFrames, ...hurtFrames],
+    // DM12:敌法术收尾 Delay(1)(敌复位)+ Delay(8)(fight.c:4897-4908)——共 ~360ms 停顿。
+    [...introFrames, posResetFrame, ...effectFrames, ...hurtFrames, { durationMs: 9 * BATTLE_FRAME_TIME }],
     input.bus,
     numsAttached ? undefined : pendingNums,
   )

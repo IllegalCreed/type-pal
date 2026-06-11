@@ -508,6 +508,11 @@ export interface BattleState {
   prevWaveLevel?: number
   prevWaveProgression?: number
   /**
+   * DM12:回合末毒/状态数字弹出后的 PAL_BattleDelay(8) 停顿(fight.c:1664-1668)。
+   * tickPostAction 检测毒结算改了 HP 时置 8,selectAction case 每 tick 递减,归 0 才开指令菜单。
+   */
+  roundEndDelayTicks?: number
+  /**
    * 队伍隐身计时(sdlpal `g_Battle.iHidingTime`)—— 0x5C hide 设 `-op0`。>0 时敌方
    * 跳过瞄准队员 / 0x9E·0x9F 召唤·变身失败。createBattleState 必设 0;optional 仅向后兼容。
    */
