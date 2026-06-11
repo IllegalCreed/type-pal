@@ -1395,6 +1395,11 @@ export function tickEventSystem(
   // 1a) waiting 处理:frame-wait(opcode 0x0009 wait N frames,sdlpal script.c:3593-3604)
   //   每 tick 自减;归 0 时 ip++ + clear waiting,fall through 跑下条 opcode
   if (cursor.waiting === 'frame-wait') {
+    // DL16:op2 → 每帧站立帧(scene.c:773-774 stepFrame &=2 ^=2 + walking=false)。
+    if (cursor.waitGestureReset && gs.walkingFrame.walking) {
+      gs.walkingFrame.walking = false
+      gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame & 2) ^ 2
+    }
     const remaining = (cursor.waitFramesRemaining ?? 1) - 1
     if (remaining > 0) {
       cursor.waitFramesRemaining = remaining
@@ -1835,6 +1840,19 @@ export function tickEventSystem(
             }
 
             else if (cmd.reset && cmd.resetTo !== undefined) {
+              // DL17:0x02-end 带 operand[1](idleFrames):`op1==0 || ++count < op1` → 结束并跳 resetTo;
+              //   满次 → 计数清零 + **wScriptEntry++ 继续本次运行**(script.c:3219-3237 fall-through;
+              //   "触发 N 次后进展"类机关)。计数挂 owner 跨运行累计(= pEvtObj->nScriptIdleFrame)。
+              //   trigger 可达现版 0 实例(auto 路径已实现),latent 对齐。
+              const idleN = cmd.idleFrames ?? 0
+              if (idleN !== 0) {
+                owner.triggerEndIdleCount = (owner.triggerEndIdleCount ?? 0) + 1
+                if (owner.triggerEndIdleCount >= idleN) {
+                  owner.triggerEndIdleCount = 0
+                  cursor.ip++ // fall-through:继续本次运行(不结束)
+                  break
+                }
+              }
               const t = getLabels(cursor)[`L_${cmd.resetTo}`]
               if (t !== undefined) {
                 owner.triggerResume = { ip: t } // P2#5:全局 ip,默认读全局数组
@@ -1859,6 +1877,10 @@ export function tickEventSystem(
         //   关菜单回 explore(让脚本设的世界 trigger 触发,如桂花酒酒剑仙)。NPC trigger / onEnter 同 else 支。
         consumePendingItem(gs)  // item.scriptOnUse 'end' 收尾 → 按 g_fScriptSuccess gate 扣物品
         gs.iCurEquipPart = -1   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)reset
+        // DLh:对话末连按的第二下 Confirm 不再立即重开同段对话 —— C 在 Search 脚本后
+        //   UTIL_Delay(50)+PAL_ClearKeyState(play.c:504-505),且 explore 帧首每帧清 dwKeyPress
+        //   (game.c:70);ts pressed 跨快照累积 → 脚本结束标记清一次(main-loop 消费)。
+        gs.clearPressedOnce = true
         restoreModeAfterScript(gs)
         triggerPendingSceneLoad(gs) // loadScene 续跑的脚本结束 → 触发延迟 reload(sdlpal 下帧 PAL_LoadResources)
         return
@@ -2182,6 +2204,9 @@ export function tickEventSystem(
           if (gs.sceneLoading) gs.sceneLoading = false
           cursor.waiting = 'frame-wait'
           cursor.waitFramesRemaining = frames
+          // DL16:operand[2] 非 0 → 等待期间每帧 PAL_UpdatePartyGestures(FALSE)(script.c:3360-3363,
+          //   全队切站立帧 + 相位复位)—— 演出等待时队伍不冻在迈步帧(11 处 trigger 可达)。
+          cursor.waitGestureReset = (cmd.operands[2] ?? 0) !== 0
           return
         }
         // 0x7F moveViewport 多帧 pan(op0|op1 != 0 && op2 != 0xFFFF && frames>1)→ waiting='camera-pan'
@@ -2556,6 +2581,10 @@ export function tickEventSystem(
         //   才换场景(0 哨兵 / 越界 / 同场景冗余 reload 都跳过)。MAX_SCENES=300(palcommon.h)。
         if (_sceneLoader && cmd.sceneId > 0 && cmd.sceneId <= 300 && gs.wNumScene !== cmd.sceneId) {
           gs.pendingSceneLoad = cmd.sceneId
+          // DLe:C guard 过即 `wNumScene = op0`(script.c:1880)——同脚本后续 0x95(jumpIfScene)/
+          //   0x38(teleport)/0x99(0xFFFF) 立即读到新场景号(潜伏语义雷,现行数据 0 触发面但对齐)。
+          //   资产仍异步(pendingSceneLoad);present 走 presentCtx.tilemap 路由不消费此值。
+          gs.wNumScene = cmd.sceneId
           gs.sceneLoading = true
           gs.wLayer = 0 // L3:换场景重置队伍层(sdlpal script.c:1883 gpGlobals->wLayer = 0)
           cursor.ip++ // 继续跑调用脚本(setPartyPos 等)
@@ -4879,6 +4908,7 @@ function partyWalkTo(
   if (dx === 0 && dy === 0) {
     // 已到达(可能从 dx=0 dy=0 起步 — 防御)
     gs.walkingFrame.walking = false
+    gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame & 2) ^ 2 // DL26:UpdatePartyGestures(FALSE) 相位复位
     return true
   }
 
@@ -4889,6 +4919,9 @@ function partyWalkTo(
     gs.partyScriptedFrame = {}
   }
 
+  // DL25:rgTrail[0].wDirection 写在按本帧 offset 更新方向**之前**(script.c:151 vs :155-162)
+  //   —— 脚本走位转弯帧,跟随者(消费 trail[1+].dir)朝向比常规走路晚一帧转,忠实 C。
+  const prevFacing = gs.party.facing
   // sdlpal scene.c:155-162 真值:facing 同 NPC
   if (dy < 0) {
     gs.party.facing = dx < 0 ? 'left' : 'up'
@@ -4901,7 +4934,7 @@ function partyWalkTo(
   gs.trail.unshift({
     x: gs.party.x,
     y: gs.party.y,
-    dir: gs.party.facing,
+    dir: prevFacing,
   })
   if (gs.trail.length > 5) gs.trail.length = 5
 
@@ -4919,6 +4952,9 @@ function partyWalkTo(
 
   if (gs.party.x === tx && gs.party.y === ty) {
     gs.walkingFrame.walking = false  // PAL_UpdatePartyGestures(FALSE) — 站立
+    // DL26:走位循环结束调 UpdatePartyGestures(FALSE)(script.c:199)→ scene.c:773-774
+    //   `stepFrame &= 2; ^= 2` 相位复位 —— 紧接下一段走路起步左右脚与 C 同拍。
+    gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame & 2) ^ 2
     return true
   }
   return false

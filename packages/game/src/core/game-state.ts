@@ -80,6 +80,8 @@ export interface NpcState {
    * (存档膨胀根因)。commands/labelMap 可选 override(单测用),生产/存档恒 undefined。
    */
   triggerResume?: { commands?: Command[]; labelMap?: Record<string, number>; ip: number }
+  /** DL17:0x02-end idleFrames 跨运行计数(= sdlpal pEvtObj->nScriptIdleFrame,script.c:3224)。 */
+  triggerEndIdleCount?: number
   /** sdlpal `EventObject.wTriggerMode`(M3.5 T11 真消費):
    *  - 0       装饰 / 不触发
    *  - 1..3    Confirm-search(M2 用 Confirm 键触发)
@@ -266,6 +268,8 @@ export interface EventCursor {
    * owner 排除)。瞬态,随 deepClone 入档;战后重建 cursor 时置 true(执行中恢复)。
    */
   startedExecution?: boolean
+  /** DL16:0x09 wait 的 operand[2]——等待期间每帧切全队站立帧(script.c:3360-3363)。 */
+  waitGestureReset?: boolean
   /**
    * opcode 0x04 call-script(script.c:3258)调用栈。sdlpal `PAL_RunTriggerScript(子脚本)`
    * 同步跑完再回原处 wScriptEntry++。ts tick 模型用栈:0x04 压返回帧 + 跳子脚本;子脚本
@@ -1037,6 +1041,8 @@ export interface GameState {
    * `floor(NN*10/7)`,跨对话段持续;脚本结束/0x04 call 入口复位 undefined(=默认 3)。瞬态。
    */
   dialogIDelayFrames?: number
+  /** DLh:脚本结束标记 —— main-loop 下一 tick 前清一次 input.pressed(play.c:504-505 等价)。 */
+  clearPressedOnce?: boolean
   /**
    * opcode 0x6D op2 设的 scene onTeleport 脚本覆盖(键 = wNumScene 1-based,值 = **全局 script entry**,
    * 0 = 清除/无 teleport)。sdlpal script.c:2079 `rgScene[op0-1].wScriptOnTeleport = op2`。

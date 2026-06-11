@@ -179,6 +179,9 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
   const vy = gs.camera.y
   const partyWorldX = gs.party.x
   const partyWorldY = gs.party.y
+  // DLb:本 tick 已触发过脚本 → 后续对象跳过触发判定,但 vanish 递减/复活(a/b 段)照常推进
+  //   (C play.c:81-166 跑完脚本后继续扫;ts 单 cursor 无法同 tick 起第二个脚本,取副作用等价)。
+  let triggered = false
 
   for (const npc of gs.npcs) {
     // a) sVanishTime != 0 — sdlpal play.c:87-94:暂停 trigger/autoScript 并向 0 递进。
@@ -200,6 +203,7 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
     }
 
     // c) sState > 0 + triggerMode >= 4 + Manhattan < threshold — sdlpal play.c:107-165
+    if (triggered) continue // DLb:本 tick 已触发,余下对象只走 a/b 副作用
     const mode = npc.triggerMode ?? 0
     if ((npc.sState ?? 1) <= 0 || mode < TRIGGER_MODE_AUTO_MIN) continue
     const threshold = (mode - TRIGGER_MODE_AUTO_MIN) * 32 + 16
@@ -225,10 +229,20 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
 
     // 跑 trigger script + 切 event mode(sdlpal play.c:153 PAL_RunTriggerScript)
     loadEventFromNpc(gs, ctx, npc)
-    // sdlpal play.c:155-163:PAL_ClearKeyState + if (fEnteringScene) return
-    // ts:input snapshot 每 tick 新,无需 clear;loadEventFromNpc 切 mode='event' 后
-    // 同 tick 后续 systems 不会再用 input;直接 break 即可
-    return
+    if ((gs.mode as string) === 'event') {
+      // DLc:真正起了脚本且 owner 有 sprite 帧 → PAL_UpdatePartyGestures(FALSE)(play.c:120-148):
+      //   全队切站立帧 + 相位复位,主角不再整段 cutscene 冻在迈步帧(stepFrame 奇相位)。
+      if (npc.nSpriteFrames !== 0) {
+        gs.walkingFrame.walking = false
+        gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame & 2) ^ 2
+      }
+      // DLb:C 跑完该对象脚本后**继续扫描**余下对象(play.c:81-166 不 break,仅 fEnteringScene
+      //   return)——本 tick 后续对象的 vanishTime 递减/sState<0 复活照常推进。ts 单 cursor
+      //   无法同 tick 触发第二个脚本 → 记 triggered,后续对象跳过触发判定但副作用照走。
+      triggered = true
+    }
+    // 解析失败 no-op(= C wTriggerScript=0 entry 0 照调)→ 继续扫后续对象,不再卡死整轮。
+    continue
   }
 }
 
@@ -250,7 +264,7 @@ function pushPartyAwayFromBlockingNpcs(gs: GameState, ctx: SceneContext): void {
       const { dx, dy } = dirNumDelta(dirNum)
       const x = gs.party.x + dx
       const y = gs.party.y + dy
-      if (isWalkable(ctx.tilemap, x, y, gs.npcs, 0)) {
+      if (isWalkable(ctx.tilemap, x, y, gs.npcs, 0, true)) { // DL24:推离落点也受 blockX/Y 下边界(play.c:218 fCheckRange=TRUE)
         gs.party.x = x
         gs.party.y = y
         gs.camera = { x: x - PARTYOFFSET_X, y: y - PARTYOFFSET_Y }
