@@ -274,8 +274,8 @@ function dispatchShopMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnaps
   }
 
   // list 阶段
-  if (input.pressed.has('Up')) shopMoveUp(s)
-  if (input.pressed.has('Down')) shopMoveDown(s)
+  if (input.pressed.has('Up') || input.pressed.has('Left')) shopMoveUp(s) // DL21
+  if (input.pressed.has('Down') || input.pressed.has('Right')) shopMoveDown(s)
   if (input.pressed.has('Menu')) {
     if (shopCancel(s) === 'close') closeTopMenu(gs) // 关商店 → resume 脚本(menu-mode)
     return
@@ -375,8 +375,9 @@ function dispatchOpeningMenu(gs: GameState, top: ActiveMenuEntry, input: InputSn
     _startGameHandler?.({ kind: 'new-game' })
     return
   }
-  if (input.pressed.has('Up')) openingMenuUp(s)
-  if (input.pressed.has('Down')) openingMenuDown(s)
+  // DL21:PAL_ReadMenu 竖排统一 `kKeyUp|kKeyLeft` 上移、`kKeyDown|kKeyRight` 下移(ui.c:486/541)。
+  if (input.pressed.has('Up') || input.pressed.has('Left')) openingMenuUp(s)
+  if (input.pressed.has('Down') || input.pressed.has('Right')) openingMenuDown(s)
   if (input.pressed.has('Confirm')) {
     const choice = openingMenuChoice(s)
     if (choice === 'new-game') {
@@ -403,8 +404,8 @@ function dispatchInGameMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
     closeTopMenu(gs)
     return
   }
-  if (input.pressed.has('Up')) inGameMenuUp(s)
-  if (input.pressed.has('Down')) inGameMenuDown(s)
+  if (input.pressed.has('Up') || input.pressed.has('Left')) inGameMenuUp(s) // DL21:左=上(ui.c:541)
+  if (input.pressed.has('Down') || input.pressed.has('Right')) inGameMenuDown(s)
   // M5.6 T6:每帧写回 iCurMainMenuItem(sdlpal `PAL_InGameMenu_OnItemChange` 等价,uigame.c:935-940)
   gs.iCurMainMenuItem = s.selection.cursor
   if (input.pressed.has('Confirm')) {
@@ -492,8 +493,8 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
     closeTopMenu(gs)
     return
   }
-  if (input.pressed.has('Up')) systemMenuUp(s)
-  if (input.pressed.has('Down')) systemMenuDown(s)
+  if (input.pressed.has('Up') || input.pressed.has('Left')) systemMenuUp(s) // DL21
+  if (input.pressed.has('Down') || input.pressed.has('Right')) systemMenuDown(s)
   // M5.6 T6:iCurSystemMenuItem 全局记忆(sdlpal uigame.c:512 PAL_SystemMenu_OnItemChange)
   gs.iCurSystemMenuItem = s.selection.cursor
   if (input.pressed.has('Confirm')) {
@@ -553,8 +554,8 @@ function dispatchInventoryActionMenu(
     gs.menuStack = []
     return
   }
-  if (input.pressed.has('Up')) inventoryActionMenuUp(s)
-  if (input.pressed.has('Down')) inventoryActionMenuDown(s)
+  if (input.pressed.has('Up') || input.pressed.has('Left')) inventoryActionMenuUp(s) // DL21
+  if (input.pressed.has('Down') || input.pressed.has('Right')) inventoryActionMenuDown(s)
   // sdlpal uigame.c:896 真值 `static WORD w = 0` 跨调用记忆
   gs.iCurInvActionMenuItem = s.selection.cursor
   if (input.pressed.has('Confirm')) {
@@ -594,9 +595,11 @@ function dispatchInventoryMenu(
     if (s.phase === 'done') gs.menuStack = []
     return
   }
-  // sdlpal itemmenu.c:63-94 真值:8 keys grid navigation
-  if (input.pressed.has('Up')) inventoryMoveUp(s)
-  if (input.pressed.has('Down')) inventoryMoveDown(s)
+  // sdlpal itemmenu.c:63-94 真值:8 keys grid navigation。
+  // DL20:use-target 阶段 C 是 `kKeyUp|kKeyLeft` 上一人、`kKeyDown|kKeyRight` 下一人
+  //   (uigame.c:1473-1488);Left/Right 不再 no-op(inventoryMoveLeft/Right 在该相位被 gate)。
+  if (input.pressed.has('Up') || (s.phase === 'use-target' && input.pressed.has('Left'))) inventoryMoveUp(s)
+  if (input.pressed.has('Down') || (s.phase === 'use-target' && input.pressed.has('Right'))) inventoryMoveDown(s)
   if (input.pressed.has('Left')) inventoryMoveLeft(s)
   if (input.pressed.has('Right')) inventoryMoveRight(s)
   if (input.pressed.has('PgUp')) inventoryPageUp(s)
@@ -906,8 +909,8 @@ function dispatchSaveSlotMenu(
     else closeTopMenu(gs)
     return
   }
-  if (input.pressed.has('Up')) saveSlotMenuUp(s)
-  if (input.pressed.has('Down')) saveSlotMenuDown(s)
+  if (input.pressed.has('Up') || input.pressed.has('Left')) saveSlotMenuUp(s) // DL21
+  if (input.pressed.has('Down') || input.pressed.has('Right')) saveSlotMenuDown(s)
   if (input.pressed.has('Confirm')) {
     const slot = saveSlotMenuCurrent(s)
     if (slot === undefined) return

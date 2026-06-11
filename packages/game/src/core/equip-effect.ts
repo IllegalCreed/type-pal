@@ -397,8 +397,18 @@ function runEquipScriptSync(
         const cur = rgwEquipment[partIdx]?.[roleId] ?? 0
         if (cur !== newItem) {
           if (rgwEquipment[partIdx]) rgwEquipment[partIdx]![roleId] = newItem
-          consumeItemFromInventory(gs, newItem) // 移除新装备 1
-          if (cur !== 0) addItemToInventory(gs, cur, 1) // 旧装备入包
+          // DL11:新件库存恰 1 件且身上旧件不在背包 → `rgInventory[i].wItem = w` **原位替换**
+          //   (script.c:784-805 "instead of removing items and adding them at the end")——
+          //   换下的旧装备保持原列表槽位,不掉到末尾。
+          const newEntry = gs.inventory.find((e) => e.itemId === newItem)
+          const oldInInv = cur !== 0 && gs.inventory.some((e) => e.itemId === cur)
+          if (newEntry && newEntry.count === 1 && cur !== 0 && !oldInInv) {
+            newEntry.itemId = cur
+          }
+          else {
+            consumeItemFromInventory(gs, newItem) // 移除新装备 1
+            if (cur !== 0) addItemToInventory(gs, cur, 1) // 旧装备入包
+          }
           gs.wLastUnequippedItem = cur
         }
         break

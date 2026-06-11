@@ -281,9 +281,9 @@ export function drawBattleUI(
     case 'selectTargetEnemyAll':
       // 敌方目标选择**无箭头**。selectTargetEnemy(单体):选中敌人由 sprite 层 ColorShift 7 闪烁高亮
       //   (draw-battle-sprites enemyTargetHighlightShift,sdlpal uibattle.c:1495-1510)。
-      // selectTargetEnemyAll(全体):CLASSIC 立即提交、**无高亮**(uibattle.c:1611-1617),仅过渡态;
-      //   此处只画主菜单图标(mono)。
-      drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)
+      // selectTargetEnemyAll(全体):CLASSIC 立即提交、**无高亮**(uibattle.c:1611-1617),仅过渡态。
+      // DL30:选敌态 C **不画**主菜单图标(uibattle.c:1431-1543 该 case 无图标;仅
+      //   SelectTargetPlayer :1557-1561 画 mono 图标)——原版选敌时左下图标消失。
       break
     case 'selectTargetPlayer':
       drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)

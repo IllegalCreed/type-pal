@@ -52,6 +52,15 @@ export interface InGameMagicMenuState {
   partyMembers: number[]
 }
 
+// DL22:sdlpal `static WORD w`(uigame.c:674/719)——施法人光标跨菜单开启记忆。
+//   确认施法人时写(confirm 路径),create 时作为初始光标(越界归 0)。
+let sLastCasterCursor = 0
+
+/** DL22:确认施法人时记忆光标(dispatcher 在 pick-caster Confirm 后调)。 */
+export function rememberMagicCasterCursor(cursor: number): void {
+  sLastCasterCursor = cursor
+}
+
 export function createInGameMagicMenu(
   playerRoles: PlayerRoles,
   partyMembers: number[],
@@ -85,9 +94,12 @@ export function createInGameMagicMenu(
       partyMembers: [...partyMembers],
     }
   }
+  const casterMenu = createSelectionMenu(casterItems)
+  // DL22:默认停在上次施法人(static 记忆;越界/人少了归 0)。
+  if (sLastCasterCursor < casterItems.length) casterMenu.cursor = sLastCasterCursor
   return {
     phase: 'pick-caster',
-    casterMenu: createSelectionMenu(casterItems),
+    casterMenu,
     targetCursor: 0,
     partyMembers: [...partyMembers],
   }
@@ -101,6 +113,7 @@ export function confirmCaster(
   magics: Magic[],
 ): void {
   if (state.phase !== 'pick-caster') return
+  rememberMagicCasterCursor(state.casterMenu.cursor) // DL22:确认即记忆(uigame.c:719 static w 回写)
   const sel = state.casterMenu.items[state.casterMenu.cursor]
   if (!sel || sel.disabled) return
   const role = playerRoles.roles[sel.id]

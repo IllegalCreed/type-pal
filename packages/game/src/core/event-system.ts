@@ -3983,8 +3983,16 @@ function applyRawOpcode(
       const oldItem = eqRow[roleId] ?? 0
       if (oldItem !== newItem) {
         eqRow[roleId] = newItem
-        addItemToInventory(gs, newItem, -1)
-        if (oldItem !== 0) addItemToInventory(gs, oldItem, 1)
+        // DL11:新件恰 1 件且旧件不在包 → 原位替换(script.c:784-805,保菜单槽位)。
+        const newEntry = gs.inventory.find((e) => e.itemId === newItem)
+        const oldInInv = oldItem !== 0 && gs.inventory.some((e) => e.itemId === oldItem)
+        if (newEntry && newEntry.count === 1 && oldItem !== 0 && !oldInInv) {
+          newEntry.itemId = oldItem
+        }
+        else {
+          addItemToInventory(gs, newItem, -1)
+          if (oldItem !== 0) addItemToInventory(gs, oldItem, 1)
+        }
         // sdlpal script.c:809 真值 — swap 后写 wLastUnequippedItem
         gs.wLastUnequippedItem = oldItem
       }
