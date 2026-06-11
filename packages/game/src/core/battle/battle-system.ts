@@ -713,8 +713,11 @@ function tickSelectAction(
     .map(({ e, i }) => {
       const baseDex = getEnemyDexterity({ level: e.e.level, dexterity: e.e.dexterity })
       const dex = jitter(baseDex) // 第一抽
-      // B2 c8:sdlpal fight.c:1239-1242 真值 — wDualMove>=2 必二动 || (wDualMove!=0 && RandomLong(0,1) 50%)。
-      const dualMove = e.e.dualMove >= 2 || (e.e.dualMove !== 0 && state.rng.rangeInclusive(0, 1) === 1)
+      // DH2:CLASSIC 队列填充(fight.c:1478-1492,#ifdef PAL_CLASSIC 侧,边界 1155/1385/1807)
+      //   `if (e.wDualMove)` **无条件**入列两次,无任何掷骰 —— wDualMove 任意非 0 每轮必双动。
+      //   旧 B2 c8 误用 fight.c:1239-1242 的非 CLASSIC ATB 公式(>=2 必双 || 50% 掷骰)→ 13 个
+      //   dualMove=1 敌人(含林月如一/二 boss)威胁减半,且每轮多耗一次 RNG。
+      const dualMove = e.e.dualMove !== 0
       // dualMove 第二抽独立摇(GetEnemyDexterity*RandomFloat 再一次,fight.c:1483-1486)
       const dex2 = dualMove ? jitter(baseDex) : undefined
       return { idx: i, dex, dualMove, dex2 }

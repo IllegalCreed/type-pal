@@ -3092,3 +3092,33 @@ describe('DH1 敌队 0 占位槽', () => {
   })
 
 })
+
+// ============================================================================
+// DH2:CLASSIC wDualMove 任意非 0 每轮必双动(fight.c:1478-1492,无掷骰)
+// ============================================================================
+
+describe('DH2 wDualMove CLASSIC 必双动', () => {
+  it('dualMove=1 敌人每轮入列两次(修前:50% 掷骰 → 半数回合单动)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 500, dualMove: 1, dexterity: 50, level: 5 })],
+      rngSeed: 7,
+    })
+    const st = gs.battleState!
+    // 推进出 selectAction:提交玩家防御指令走若干轮,每轮校验敌方条目恒 2 条
+    for (let round = 0; round < 4; round++) {
+      for (let i = 0; i < 600 && st.phase === 'preBattle'; i++) tickBattle(gs, emptyInput, bus)
+      // 在 selectAction 提交防御
+      let guard = 0
+      while (st.phase === 'selectAction' && guard++ < 600) {
+        st.pendingActions.set(0, { type: 'defend', target: -1 })
+        ;(st as { uiState: string }).uiState = 'confirmed'
+        tickBattle(gs, emptyInput, bus)
+      }
+      if (st.actionQueue.length > 0) {
+        expect(st.actionQueue.filter((a) => a.isEnemy && a.idx === 0)).toHaveLength(2)
+      }
+      // 跑完本轮回 selectAction
+      for (let i = 0; i < 2000 && st.phase !== 'selectAction'; i++) tickBattle(gs, emptyInput, bus)
+    }
+  })
+})
