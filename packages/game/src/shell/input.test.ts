@@ -199,3 +199,25 @@ describe('RecordingInputSource', () => {
     expect(rec.getRecording()[0]?.held.has('Right')).toBe(true)
   })
 })
+
+describe('DM30:fade 抑制按住的方向键(palette.c:313-316)', () => {
+  it('suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清', () => {
+    const src = new KeyboardInputSource(window)
+    try {
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
+      src.suppressHeldForFade()
+      let snap = src.nextSnapshot(0)
+      expect(snap.held.has('Up')).toBe(false) // 抑制中(按住穿 fade 不续走)
+      expect(snap.pressed.size).toBe(0) // PAL_ClearKeyState
+      snap = src.nextSnapshot(1)
+      expect(snap.held.has('Up')).toBe(false) // fade 后仍按住 → 不恢复
+      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowUp' }))
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))
+      snap = src.nextSnapshot(2)
+      expect(snap.held.has('Up')).toBe(true) // 物理松开重按 → 恢复
+    } finally {
+      src.detach()
+    }
+  })
+})

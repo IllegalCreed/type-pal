@@ -70,20 +70,25 @@ export function advanceRafFrame(
   state.accumulator += dt
 
   const interval = logicIntervalMs(ctx.gs)
-  // ② clamp 在 while **之前**(2026-06-02 修:此前在 while 之后是死代码 —— while 跑完 accumulator<interval,
-  //   `>3×interval` 恒 false 永不触发)。长暂停/后台切回 dt 巨大 → 限到 1×interval 跑单 tick,
-  //   避免一帧 catch-up 几十 tick(时间跳跃 / 走步/动画 fast-forward)。
-  if (state.accumulator > interval * 3) state.accumulator = interval
+  // DM30:palette fade 进行中每 rAF 清键 + 抑制按住的方向键(palette.c:313-316 每 fade 步
+  //   ClearKeyState + dir=Unknown)—— 按住方向穿过黑场/场景渐变后不会径直续走(可能连环触发
+  //   新场景 trigger),需物理松开重按。
+  if (ctx.gs.paletteFadeState != null) ctx.input.suppressHeldForFade?.()
   let drained: BusEntry[] = []
   let ticked = false
-  while (state.accumulator >= interval) {
+  // DM31:C 真值(game.c:75-78 / battle.c:782-787)`PAL_DelayUntil(dwTime); dwTime = now + FRAME_TIME`
+  //   —— 下一截止从**当前时刻**起算:慢帧只顺延、**永不补帧**,一次渲染恰一帧逻辑。旧 while 连跑
+  //   (滞后 1~3×interval 时单 rAF 跑 2-3 tick 只 present 末态)→ 卡顿后走路瞬移/演出跳帧;
+  //   accumulator 跨 mode 残留还会在 explore(100ms)→battle(40ms) 切换瞬间多跑 2 tick。
+  //   改:每 rAF 至多 1 tick,tick 后清零滞后量(= C 顺延);<interval 的余量正常累积(高刷屏不变快)。
+  if (state.accumulator >= interval) {
     const snap = ctx.input.nextSnapshot(ctx.gs.frameNum)
     tickByMode(ctx.gs, snap, ctx.bus)
     const d = ctx.bus.drain()
-    if (d.length) drained = drained.length ? [...drained, ...d] : d
+    if (d.length) drained = d
     if (dump?.enabled) dump.push(ctx.gs, ctx.partyWalkFrames ?? 3)
     ticked = true
-    state.accumulator -= interval
+    state.accumulator = 0
   }
 
   let presented = false

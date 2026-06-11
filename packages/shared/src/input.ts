@@ -41,4 +41,11 @@ export interface InputSnapshot {
  */
 export interface InputSource {
   nextSnapshot(frameNum: number): InputSnapshot
+  /**
+   * DM30:palette fade 每步清键(sdlpal palette.c:313-316:PAL_ClearKeyState + dir=prevdir=Unknown;
+   * input.c:213 按住不放的键只产生 fRepeat=TRUE 的 KeyDown 不重算 dir)—— fade 期间按住的方向键
+   * 在 fade 结束后**不**自动恢复走路,需物理松开重按。实现方:把当前 held 方向键加入抑制集
+   * (keyup 解除)并清 pressed。可选(测试 stub 可不实现)。
+   */
+  suppressHeldForFade?(): void
 }

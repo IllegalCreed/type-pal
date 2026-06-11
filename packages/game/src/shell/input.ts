@@ -84,6 +84,7 @@ export class KeyboardInputSource implements InputSource {
     const k = codeToAbstractKey(e.code)
     if (!k) return
     this.held.delete(k)
+    this.suppressedHeld.delete(k) // DM30:物理松开解除 fade 抑制(重按恢复)
   }
 
   constructor(private readonly target: Window) {
@@ -93,12 +94,27 @@ export class KeyboardInputSource implements InputSource {
 
   nextSnapshot(frameNum: number): InputSnapshot {
     const snap: InputSnapshot = {
-      held: new Set(this.held),
+      // DM30:held 过滤 fade 抑制集(保插入序,pickFacing 反向取末位语义不变)。
+      held: new Set([...this.held].filter((k) => !this.suppressedHeld.has(k))),
       pressed: new Set(this.pressed),
       frameNum,
     }
     this.pressed.clear()
     return snap
+  }
+
+  /** DM30:fade 抑制集 —— fade 期间按住的方向键,keyup 前不再进 snapshot.held。 */
+  private readonly suppressedHeld = new Set<ReturnType<typeof codeToAbstractKey> & string>()
+
+  /**
+   * DM30:palette fade 每步清键(palette.c:313-316)。方向键进抑制集(物理松开才解除,
+   * input.c:213 `if (!fRepeat)` 不重算 dir 的等价);pressed 清空(PAL_ClearKeyState)。
+   */
+  suppressHeldForFade(): void {
+    for (const k of this.held) {
+      if (k === 'Up' || k === 'Down' || k === 'Left' || k === 'Right') this.suppressedHeld.add(k)
+    }
+    this.pressed.clear()
   }
 
   /**
