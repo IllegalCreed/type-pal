@@ -143,6 +143,8 @@ export interface ApplyEnemyMagicDamageInput {
   magicData: { baseDamage: number, elemental: number }
   /** 玩家角色表(取 def / 抗性 / HP,直接 mutate role.hp)。 */
   playerRoles: PlayerRoles
+  /** DM6:scriptOnUse 之前的预掷结果(magic.ts);缺省内部掷(旧 fixture)。 */
+  preRolledAutoDefend?: Map<number, boolean>
 }
 
 /**
@@ -160,6 +162,36 @@ export interface ApplyEnemyMagicDamageInput {
  *
  * caller(performMagic enemy 分支)负责 emit showDamageNum(掉血 → blue)。
  */
+/**
+ * DM6:敌法术 autoDefend 资格掷骰(fight.c:4723-4757)。AoE 逐活队员、单体仅目标;
+ * 失能(sleep/paralyzed/confused)无资格但**不**消耗掷骰(条件短路序与 C 一致)。
+ * magic.ts 在 scriptOnUse 之前调它预掷;applyEnemyMagicDamage 无预掷时回退内部掷。
+ */
+export function rollAutoDefend(
+  state: ApplyEnemyMagicDamageInput['state'],
+  playerRoles: ApplyEnemyMagicDamageInput['playerRoles'],
+  target: ApplyEnemyMagicDamageInput['target'],
+  targetIdxs: number[],
+): Map<number, boolean> {
+  const m = new Map<number, boolean>()
+  for (const pIdx of targetIdxs) {
+    const slot = state.players[pIdx]
+    const role = slot ? playerRoles.roles[slot.roleId] : undefined
+    if (!slot || !role)
+      continue
+    const canAutoDefend = (slot.status.sleep ?? 0) === 0
+      && (slot.status.paralyzed ?? 0) === 0
+      && (slot.status.confused ?? 0) === 0
+    const autoDefend = target === 'all'
+      // AoE: sdlpal 4727-4735 先 RandomLong(0,2),再检查 HP != 0。
+      ? canAutoDefend && state.rng.range(0, 3) === 0 && role.hp !== 0
+      // 单体: sdlpal 4746-4753 在 PAL_CalcMagicDamage 前判定 autoDefend。
+      : canAutoDefend && state.rng.range(0, 3) === 0
+    m.set(pIdx, autoDefend)
+  }
+  return m
+}
+
 export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyMagicDamageResult[] {
   const { state, casterEnemyIdx, target, magicData, playerRoles } = input
   const caster = state.enemies[casterEnemyIdx]
@@ -174,23 +206,9 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
     ? state.players.map((_, i) => i)
     : [target]
 
-  const autoDefendByPlayerIdx = new Map<number, boolean>()
-  for (const pIdx of targetIdxs) {
-    const slot = state.players[pIdx]
-    const role = slot ? playerRoles.roles[slot.roleId] : undefined
-    if (!slot || !role)
-      continue
-
-    const canAutoDefend = (slot.status.sleep ?? 0) === 0
-      && (slot.status.paralyzed ?? 0) === 0
-      && (slot.status.confused ?? 0) === 0
-    const autoDefend = target === 'all'
-      // AoE: sdlpal 4727-4735 先 RandomLong(0,2),再检查 HP != 0。
-      ? canAutoDefend && state.rng.range(0, 3) === 0 && role.hp !== 0
-      // 单体: sdlpal 4746-4753 在 PAL_CalcMagicDamage 前判定 autoDefend。
-      : canAutoDefend && state.rng.range(0, 3) === 0
-    autoDefendByPlayerIdx.set(pIdx, autoDefend)
-  }
+  // DM6:预掷优先(magic.ts 在 scriptOnUse **之前**掷,fight.c:4723-4757 在 4761 脚本之前)——
+  //   脚本先施加睡眠/麻痹再结算时不剥夺玩家 1/3 减伤资格;无预掷(旧 fixture/直调)回退此处掷。
+  const autoDefendByPlayerIdx = input.preRolledAutoDefend ?? rollAutoDefend(state, playerRoles, target, targetIdxs)
 
   const results: EnemyMagicDamageResult[] = []
   for (const pIdx of targetIdxs) {

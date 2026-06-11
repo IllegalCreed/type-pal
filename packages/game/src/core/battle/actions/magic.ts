@@ -35,7 +35,7 @@ import {
 } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
-import { applyEnemyMagicDamage, applyMagicDamage, magicForcesAllTarget } from '../magic-damage.js'
+import { applyEnemyMagicDamage, applyMagicDamage, magicForcesAllTarget, rollAutoDefend } from '../magic-damage.js'
 import { explainMagicObjectResolution, resolveMagicObject } from '../magic-object.js'
 
 /** 注入的 runScript 函数(T17 free function `runScript`,测试可 mock)。 */
@@ -229,6 +229,15 @@ export function performMagic(input: PerformMagicInput): void {
   }
   // sdlpal PAL_RunTriggerScript 入口设 g_fScriptSuccess=TRUE(script.c:3187)。runScript(battle)
   // 不重置,故此处显式置真,再按 scriptOnUse 结果 gate scriptOnSuccess(fight.c:4217)。
+  // DM6:敌攻击法术 autoDefend 资格在 scriptOnUse **之前**预掷(fight.c:4723-4757 在 :4761
+  //   scriptOnUse/:4768 scriptOnSuccess 之前;伤害除数 :4801/:4836 用该预判)——"施状态+伤害"
+  //   复合法术先把玩家催眠再结算时,不剥夺 1/3 概率减伤资格,RNG 抽取序也对齐 C。
+  let preRolledAutoDefend: Map<number, boolean> | undefined
+  if (input.casterIsEnemy && asShort(magic.baseDamage) > 0) {
+    const adTarget: number | 'all' = magic.type === 'normal' ? (typeof input.targetIdx === 'number' ? input.targetIdx : 0) : 'all'
+    const adIdxs: number[] = adTarget === 'all' ? input.state.players.map((_, i) => i) : [adTarget]
+    preRolledAutoDefend = rollAutoDefend(input.state, input.playerRoles, adTarget, adIdxs)
+  }
   if (input.gs)
     input.gs.fScriptSuccess = true
   runMagicScript(spell.scriptOnUse)
@@ -342,6 +351,7 @@ export function performMagic(input: PerformMagicInput): void {
       target,
       magicData: { baseDamage: magic.baseDamage, elemental: magic.elemental },
       playerRoles: input.playerRoles,
+      preRolledAutoDefend, // DM6:脚本前的预掷结果
     })
     // 掉血 → blue(sdlpal PAL_BattleDisplayStatChange);用钳后真实 delta。延迟到特效播完、受击反应开始时 emit。
     for (const r of enemyDmg) {
