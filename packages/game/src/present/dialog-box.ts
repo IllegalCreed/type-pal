@@ -495,8 +495,19 @@ export type ConfirmResult = 'skip-typing' | 'page-advance' | 'dialog-end' | 'noo
 export function confirmDialog(state: DialogBoxState): ConfirmResult {
   if (state.phase === 'typing' && state.currentLineText !== null) {
     state.charsRevealed = state.currentLineText.length
-    state.phase = 'line-done'
     state.userSkip = true // L2:置 fUserSkip → 同段后续行瞬显(text.c:1607)
+    // DL18:`~` 行跳字 —— 尾停顿 ~NN **无条件保留**(text.c:1546-1554 fUserSkip 仍先 UpdateScreen
+    //   再 UTIL_Delay(NN*80/7)),且行尾复位 fUserSkip(下一行恢复逐字,:1553-1554)。
+    //   快进 typingFrames 到末字已显处,phase 留 typing → tickDialog 等完 doneAt(含尾停顿)。
+    if (state.currentLineEndedWithTilde) {
+      state.userSkip = false
+      const len = state.currentLineText.length
+      const lastReveal = state.currentLineRevealAt?.[len - 1] ?? 0
+      const fastForward = Math.ceil((lastReveal + 1) / FRAME_MS_EXPLORE)
+      if (state.typingFrames < fastForward) state.typingFrames = fastForward
+      return 'skip-typing'
+    }
+    state.phase = 'line-done'
     return 'skip-typing'
   }
   if (state.phase === 'waiting-page-key') {
