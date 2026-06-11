@@ -1058,6 +1058,47 @@ describe('performFlee', () => {
     // 装备感知:str = getPlayerFleeRate = 0+50 = 50 >= 28 → 成功(若仍用 raw base 0 则失败,fleeAnim undefined)
     expect(state.fleeAnim).toBeDefined()
   })
+
+  // ── DM4:def 累加跳过 defeated 空槽(fight.c:4129 `if (wObjectID == 0) continue`)──
+  it('DM4:defeated 敌(死敌清槽/0 占位)不计入 def,roll 上限只含活敌', () => {
+    const { state, playerRoles, gs } = makeState({
+      role: { fleeRate: 28 },
+      enemies: [
+        { level: 1, dexterity: 0 }, // 活敌:def = 0 + (1+6)*4 = 28
+        { level: 50, dexterity: 100 }, // 标 defeated:C 不计(原 bug:仍累加 → 成功率偏低)
+      ],
+    })
+    state.enemies[1]!.defeated = true
+    let capturedHi = -1
+    ;(state.rng as { rangeInclusive: (lo: number, hi: number) => number }).rangeInclusive = (_lo, hi) => {
+      capturedHi = hi
+      return 0
+    }
+    performFlee(state, gs, 0, playerRoles)
+    expect(capturedHi).toBe(28) // 仅活敌 28;若含死敌应为 28+100+(50+6)*4=352
+    expect(state.fleeAnim).toBeDefined() // str 28 >= roll 0
+  })
+
+  // ── DM5:boss 战逃跑恒消费 RNG 并走失败演出(fight.c:4143 掷骰为 && 左操作数;4155-4170 失败分支)──
+  it('DM5:isBoss 仍消费一次掷骰,走失败动画 + FleeExp.wCount+=2', () => {
+    const { state, playerRoles, bus, gs } = makeState({
+      role: { fleeRate: 9999 }, // str 必胜 roll,但 isBoss → 必失败
+      enemies: [{ level: 1, dexterity: 0 }],
+      isBoss: true,
+    })
+    state.players[0]!.posOriginal = { x: 100, y: 100 }
+    let rolls = 0
+    ;(state.rng as { rangeInclusive: (lo: number, hi: number) => number }).rangeInclusive = () => {
+      rolls++
+      return 0
+    }
+    const before = gs.Exp.rgFleeExp[0]?.wCount ?? 0
+    performFlee(state, gs, 0, playerRoles, bus)
+    expect(rolls).toBe(1) // RandomLong(0,def) 恒消费(原 bug:顶部提前 return 不掷)
+    expect(state.fleeAnim).toBeUndefined() // 不成功
+    expect(state.battleAnim).toBeDefined() // 失败演出(3 步右下挪 + 帧1)
+    expect(gs.Exp.rgFleeExp[0]?.wCount ?? 0).toBe(before + 2)
+  })
 })
 
 // ============================================================================

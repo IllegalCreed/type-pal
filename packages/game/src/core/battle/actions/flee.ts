@@ -30,10 +30,6 @@ function asShort(n: number): number {
 }
 
 export function performFlee(state: BattleState, gs: GameState, playerIdx: number, playerRoles: PlayerRoles, bus?: CommandBus): void {
-  // boss 不可逃(sdlpal fight.c:4143 `!g_Battle.fIsBoss` 条件)
-  if (state.isBoss)
-    return
-
   const roleId = state.players[playerIdx]!.roleId
   // D12(2026-06-01 W1):str = PAL_GetPlayerFleeRate(role)(global.c:1868-1897)= runtime base
   //   + Σ rgEquipmentEffect[i].rgwFleeRate[role]。原 M3 简化用 role.fleeRate raw 漏装备加成。
@@ -41,15 +37,19 @@ export function performFlee(state: BattleState, gs: GameState, playerIdx: number
 
   let def = 0
   for (const be of state.enemies) {
+    // DM4:fight.c:4129 `if (wObjectID == 0) continue` —— 死敌清槽/0 占位空槽不计入 def。
+    if (be.defeated) continue
     def += asShort(be.e.dexterity)
     def += (be.e.level + 6) * 4
   }
   if (asShort(def) < 0)
     def = 0
 
-  // RandomLong(0, def) sdlpal 语义 = 闭区间 0..def(def+1 个值)
+  // RandomLong(0, def) sdlpal 语义 = 闭区间 0..def(def+1 个值)。
+  // DM5:fight.c:4143 `if (str >= RandomLong(0,def) && !fIsBoss)` —— 掷骰为 && 左操作数**恒消费**;
+  //   boss 战必走失败分支(挪步演出 + FleeExp+2),不再顶部提前 return(原零反馈且 RNG 流少一位)。
   const roll = state.rng.rangeInclusive(0, def)
-  if (str >= roll) {
+  if (str >= roll && !state.isBoss) {
     // 成功 → 触发逃跑动画(PAL_BattlePlayerEscape,battle.c:1438-1527):16 帧右下滑 + 移出屏,
     //   动画放完(tickBattleFleeAnim)才 phase='fleed' → finalize。不直接设 fleed(原跳过整段动画)。
     state.fleeAnim = { step: 0 }
