@@ -28,12 +28,16 @@ export function resetScreenWavePhase(): void {
 export function applyScreenWave(
   indices: Uint8Array,
   gs: { wScreenWave: number, sWaveProgression: number },
+  // DM32:false = fade-only 补帧——计数(累加/相位)不推进,只按当前值扭曲。
+  advance = true,
 ): void {
   // scene.c:389 每帧波幅累加;==0 或 >=256 → 关闭并清零(scene.c:391-398)。
-  gs.wScreenWave += gs.sWaveProgression
+  if (advance) gs.wScreenWave += gs.sWaveProgression
   if (gs.wScreenWave === 0 || gs.wScreenWave >= 256) {
-    gs.wScreenWave = 0
-    gs.sWaveProgression = 0
+    if (advance) {
+      gs.wScreenWave = 0
+      gs.sWaveProgression = 0
+    }
     return
   }
 
@@ -63,5 +67,5 @@ export function applyScreenWave(
     }
     ai = (ai + 1) % 32
   }
-  s_waveIndex = (s_waveIndex + 1) % 32
+  if (advance) s_waveIndex = (s_waveIndex + 1) % 32
 }

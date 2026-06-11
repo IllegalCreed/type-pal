@@ -131,6 +131,7 @@ export class BattlePresent {
     commands: BusEntry[],
     assets: BattleAssets,
     currentFrame: number,
+    advanceEffects = true, // DM32:fade-only 补帧不推进 wave 计数
   ): void {
     // D19 入场 fade:首帧(introFade 激活 + 尚无 backup)快照入场前 fb(= 上一帧大世界,fb 跨帧保留)作 dither
     //   backup;无 introFade(已进战斗)→ 清。须在任何 fb 绘制前快照。
@@ -233,7 +234,7 @@ export class BattlePresent {
       const baseWave = gs.wScreenWave
       const animWave = animFrame?.screenWave ?? 0
       if (animWave > 0) gs.wScreenWave = baseWave + animWave
-      if (gs.wScreenWave > 0) applyScreenWave(fb.indices, gs)
+      if (gs.wScreenWave > 0) applyScreenWave(fb.indices, gs, advanceEffects)
       if (animWave > 0) gs.wScreenWave = baseWave // fight.c:2835 直接恢复旧值
     }
 

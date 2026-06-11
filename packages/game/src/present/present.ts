@@ -154,6 +154,10 @@ export function presentFrame(
   fb: Framebuffer,
   gs: GameState,
   ctx: PresentContext,
+  // DM32:false = fade-only 补帧(palette/dither fade 进行中)——wave/shake 计数器不推进
+  //   (C scene.c:389/video.c:615 计数只随逻辑帧;PAL_SceneFade 期间每 100ms 一步,
+  //   rAF 60fps 补帧若推进会让水波快 ~6 倍/震屏提前结束)。
+  advanceEffects = true,
 ): void {
   // M5.6 T18:全屏 modal 播放期间(AVI / RNG / splash)暂停 canvas render,
   // DOM <video> overlay 或自管渲染层接管视觉。
@@ -252,7 +256,7 @@ export function presentFrame(
   // 2b. 特效 B:屏幕波动(sdlpal scene.c:486 PAL_ApplyWave)— 画完两层地图、画 sprite 之前施加,
   //     只波动地图层(sprite 不受影响,与 sdlpal 同序)。0x71 设 wScreenWave/sWaveProgression 后生效。
   if (gs.wScreenWave !== 0 || gs.sWaveProgression !== 0) {
-    applyScreenWave(fb.indices, gs)
+    applyScreenWave(fb.indices, gs, advanceEffects)
   }
 
   // 3. 收集所有精灵 entries(party + NPCs),Y-sort 后逐一绘制。
@@ -622,7 +626,7 @@ export function presentFrame(
   //   注:战斗法术 frame.shake(magic.shake → anim-timeline shake 区)在 present-battle.ts BattlePresent.draw
   //   末尾施加(战斗走 presentBattleFrame,不经本函数)→ 此处只认大世界/cutscene 的 gs.shakeTime。
   if (gs.shakeTime !== 0) {
-    applyScreenShake(fb.indices, gs)
+    applyScreenShake(fb.indices, gs, advanceEffects)
   }
 }
 
@@ -707,9 +711,10 @@ export function presentBattleFrame(
   battle: BattlePresent,
   assets: BattleAssets,
   commands: BusEntry[],
+  advanceEffects = true, // DM32:fade-only 补帧不推进特效计数
 ): boolean {
   if (gs.mode !== 'battle' || !gs.battleState) return false
   fb.clear()
-  battle.draw(fb, gs, gs.battleState, commands, assets, gs.frameNum)
+  battle.draw(fb, gs, gs.battleState, commands, assets, gs.frameNum, advanceEffects)
   return true
 }

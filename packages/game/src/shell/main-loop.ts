@@ -29,7 +29,9 @@ export interface LoopContext {
   tilemap: Tilemap
   eventCommands: Command[]
   labelMap: Record<string, number>
-  onPresent: (drained: BusEntry[]) => void
+  /** DM32:ticked=false 表示 fade-only present(palette/dither fade 进行中的补帧)——
+   *  特效计数器(wave 累加/相位 index/shakeTime 自减)**不推进**,只用当前值扭曲。 */
+  onPresent: (drained: BusEntry[], ticked: boolean) => void
   /** sdlpal `PlayerRoles.rgwWalkFrames[leaderRoleId]`(3 或 4),dump 计算 wFrame 用 */
   partyWalkFrames?: number
 }
@@ -93,7 +95,7 @@ export function advanceRafFrame(
 
   let presented = false
   if (ticked || ctx.gs.fadeState != null || ctx.gs.paletteFadeState != null) { // ③ 门控
-    ctx.onPresent(drained)
+    ctx.onPresent(drained, ticked)
     presented = true
   }
   return { ticked, presented }
@@ -103,7 +105,7 @@ function singleTick(ctx: LoopContext, dump?: ReturnType<typeof initStateDump>): 
   const snap = ctx.input.nextSnapshot(ctx.gs.frameNum)
   tickByMode(ctx.gs, snap, ctx.bus)
   const drained = ctx.bus.drain()
-  ctx.onPresent(drained)
+  ctx.onPresent(drained, true)
   // 对照 sdlpal dump-frames.patch hook 位置:tickByMode 后(等同 PAL_StartFrame 末尾)
   if (dump?.enabled) dump.push(ctx.gs, ctx.partyWalkFrames ?? 3)
 }

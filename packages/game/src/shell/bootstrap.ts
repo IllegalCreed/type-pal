@@ -437,7 +437,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     eventCommands,
     labelMap,
     partyWalkFrames,
-    onPresent: (drained) => {
+    onPresent: (drained, ticked) => {
       // 音频同步必须在 suspendRaf gate 前跑:山神庙传剑等 modal CG/RNG 播放期间仍会有脚本
       // 设置 BGM/SFX。只暂停 canvas present,不能暂停 audio drain,否则声音会等 CG 结束后才一起触发。
       syncShellAudio(audio, gs, drained, playerRoles)
@@ -448,8 +448,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       if (gs.suspendRaf) return
       // 按 gs.mode 路由 present:battle → presentBattleFrame(消费 commands 进 floating nums);
       // 否则走 explore/event 路径 presentFrame(commands 由 M2 EventSystem 直接消费 GameState)
-      if (!presentBattleFrame(fb, gs, battlePresent, battleAssets, drained)) {
-        presentFrame(fb, gs, presentCtx)
+      if (!presentBattleFrame(fb, gs, battlePresent, battleAssets, drained, ticked)) {
+        presentFrame(fb, gs, presentCtx, ticked)
       }
       // M4 P3.T2: gs.palette 由 setPalette opcode handler 异步写入;优先用它,否则 fallback 到初始 palette。
       // dialog 等键时,applyDialogIconPaletteShift 套瞬态 palette 轮转(sdlpal text.c:1408-1426 箭头闪烁)。

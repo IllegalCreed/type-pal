@@ -28,6 +28,8 @@ const SCREEN_H = 200
 export function applyScreenShake(
   indices: Uint8Array,
   gs: { shakeTime: number, shakeLevel: number },
+  // DM32:false = fade-only 补帧——shakeTime 不自减,只按当前奇偶位移。
+  advance = true,
 ): void {
   const level = gs.shakeLevel
   // level<=0 或 >=SCREEN_H 时无可见偏移,但仍要递减 shakeTime(对齐 sdlpal while 末尾 g_wShakeTime--)。
@@ -48,5 +50,5 @@ export function applyScreenShake(
   }
 
   // video.c:614 末尾 g_wShakeTime--(无论是否可见偏移都递减)。
-  gs.shakeTime--
+  if (advance) gs.shakeTime--
 }
