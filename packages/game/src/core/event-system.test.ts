@@ -1852,6 +1852,83 @@ describe('autoScript goto 不消耗帧(sdlpal script.c:3549-3557 goto begin)— 
   })
 })
 
+describe('autoScript 0x06/0x04 的 RunAutoScript 专用语义(DH4/DL13/DL15,script.c:3566-3591)', () => {
+  it('DH4:0x06 op1=0 掷中跳转分支 → 原地重掷(ip 不变),不再跳死到全局 entry 0', () => {
+    setGlobalEvents([
+      { op: 'end' }, // L_0 = 全局 entry 0(plain end):旧 bug jumpToGlobalIp(0) 跳来这里永久 park
+      { op: 'raw', opcode: 0x06, operands: [0, 0, 0], label: 'L_1' }, // rate=0 → RandomLong(1,100)>=0 恒真;op1=0
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const npc = { id: 0, x: 100, y: 100, spriteNum: 1, sState: 1, autoCursor: { ip: 1 } }
+      gs.npcs = [npc]
+      for (let i = 0; i < 3; i++) tickAutoScripts(gs)
+      expect(npc.autoCursor?.ip).toBe(1) // 每帧重掷,原地不动(= 随机停顿门;旧 bug:ip 落 0 永久 park)
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+
+  it('DL13:0x06 掷中且 op1≠0 → 同帧跳转并续跑目标 op(goto begin 不消耗帧)', () => {
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x06, operands: [0, 1, 0], label: 'L_0' }, // rate=0 恒入跳转分支 → L_1
+      { op: 'raw', opcode: OP_MOVE_OBJECT, operands: [0, 4, 0xfffe], label: 'L_1' }, // x+=4,y-=2
+      { op: 'end', label: 'L_2' },
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const npc = { id: 0, x: 100, y: 100, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }
+      gs.npcs = [npc]
+      tickAutoScripts(gs) // 1 tick:0x06 跳 L_1 且同帧跑 move
+      expect(npc.x).toBe(104) // 旧码跳转耗 1 帧 → 本 tick 不移动(x 仍 100)
+      expect(npc.autoCursor?.ip).toBe(2)
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+
+  it('0x06 未掷中(rate=101 恒假)→ wScriptEntry++ 推进', () => {
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x06, operands: [101, 0, 0], label: 'L_0' }, // RandomLong(1,100)>=101 恒假
+      { op: 'end', label: 'L_1' },
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const npc = { id: 0, x: 100, y: 100, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }
+      gs.npcs = [npc]
+      tickAutoScripts(gs)
+      expect(npc.autoCursor?.ip).toBe(1)
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+
+  it('DL15:0x04 call 子脚本(instant 短 callee)同帧跑完,整个调用占 1 tick', () => {
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x04, operands: [2, 0, 0], label: 'L_0' }, // call → L_2 子脚本
+      { op: 'raw', opcode: OP_MOVE_OBJECT, operands: [0, 8, 0], label: 'L_1' }, // 返回后下一条:x+=8
+      { op: 'raw', opcode: OP_MOVE_OBJECT, operands: [0, 4, 0xfffe], label: 'L_2' }, // callee:x+=4,y-=2
+      { op: 'end', label: 'L_3' }, // callee end → 弹栈回 L_1
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const npc = { id: 0, x: 100, y: 100, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }
+      gs.npcs = [npc]
+      tickAutoScripts(gs) // 1 tick:call + callee move + 弹栈(sdlpal 同步 PAL_RunTriggerScript)
+      expect(npc.x).toBe(104) // callee 已同帧执行(旧码:本 tick 只压栈,callee 下 tick 才跑)
+      expect(npc.autoCursor?.ip).toBe(1) // 已弹栈回 caller 下一条
+      tickAutoScripts(gs) // 2 tick:L_1 move
+      expect(npc.x).toBe(112)
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+})
+
 describe('对话期触发 NPC 的 autoScript 冻结 — NPC 转向玩家后保持(sdlpal PAL_RunTriggerScript 阻塞期 owner autoScript 不跑)', () => {
   // 根因(2026-06-03):tickByMode 在 tickEventSystem 之前先跑 tickAutoScripts;talk 触发后下一 tick
   // eventCursor.waiting 仍 undefined(showDialog 尚未步进),mode.ts 门放行 autoScript。若 tickAutoScripts
@@ -1891,6 +1968,27 @@ describe('对话期触发 NPC 的 autoScript 冻结 — NPC 转向玩家后保�
       gs.eventCursor = { ip: 0, currentEventObjectId: 3, triggerOwnerId: 3 }
       tickAutoScripts(gs)
       expect(gs.npcs[0]!.facing).toBe('down')       // 非 owner → walkOneStepSouth 改 facing
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+
+  it('DM16:owner 触发脚本已开跑(startedExecution)→ ride/party-walk 等 waiting=undefined 执行期 owner autoScript 照常推进', () => {
+    // sdlpal play.c:172-191 自动脚本循环**无任何 owner 排除**;ride/party-walk(script.c:190/300 每步
+    // PAL_GameUpdate(FALSE))期间 owner autoScript 照跑(莲叶/船 0x87 动画循环,数据面 42 个对象)。
+    // owner 跳过门控只为弥合 TS"触发后首条 op 步进前"的执行间隙 → 脚本开跑后不再跳。
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x0B, operands: [0, 0, 0], label: 'L_0' },
+      { op: 'end' },
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.npcs = [{ id: 0, x: 100, y: 100, spriteNum: 1, sState: 1, facing: 'up', autoCursor: { ip: 0 } }]
+      // ride/party-walk 执行态:waiting undefined(同 ip 重跑)但脚本已开跑
+      gs.eventCursor = { ip: 0, currentEventObjectId: 0, triggerOwnerId: 0, startedExecution: true }
+      tickAutoScripts(gs)
+      expect(gs.npcs[0]!.autoCursor?.ip).toBe(1) // 照跑(修前:整段乘坐期间被跳,动画冻结)
     }
     finally {
       setGlobalEvents([])
@@ -2826,13 +2924,11 @@ describe('autoScript 控制流(sdlpal PAL_RunAutoScript script.c:3518-3547)', ()
       { op: 'end' },                                                // 4: 子脚本 end → 弹帧回 ip1
     ])
     try {
-      tickAutoScripts(gs) // 跑 0x04 → 跳子脚本 ip3
-      expect(gs.npcs[0]!.autoCursor!.ip).toBe(3)
-      expect(gs.npcs[0]!.autoCursor!.currentEventObjectId).toBe(9) // op1=10 → 作用对象 id9
-      tickAutoScripts(gs) // 跑子脚本 0x49[65535]→门 sState=1
-      expect(gs.npcs[1]?.sState).toBe(1)  // 门被开(子脚本作用门对象)
-      tickAutoScripts(gs) // 子脚本 end → 弹帧回主脚本 ip1
-      expect(gs.npcs[0]!.autoCursor!.ip).toBe(1)
+      // DL15:0x04 = PAL_RunTriggerScript 同步跑完子脚本(script.c:3566-3573),整个调用占 1 tick:
+      //   call → 子脚本 0x49 开门 → end 弹帧,同帧全部完成(旧码逐帧摊开,开门慢 2-3 帧)。
+      tickAutoScripts(gs)
+      expect(gs.npcs[1]?.sState).toBe(1)  // 门已被开(子脚本同帧执行,作用 op1=10→对象 id9)
+      expect(gs.npcs[0]!.autoCursor!.ip).toBe(1) // 已弹帧回主脚本下一条
       expect(gs.npcs[0]!.autoCursor!.currentEventObjectId).toBeUndefined() // 还原
       tickAutoScripts(gs) // 主脚本 ip1 setObjectGesture 作用 self(苗人 5)
       expect(gs.npcs[0]?.scriptedFrame).toBe(1)

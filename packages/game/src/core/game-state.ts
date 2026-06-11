@@ -259,6 +259,14 @@ export interface EventCursor {
    */
   triggerOwnerId?: number
   /**
+   * DM16:本脚本是否已执行过至少一条指令(tickEventSystem 主循环取 cmd 即置位)。
+   * tickAutoScripts 的 owner 跳过门控用:只在"触发后首条 op 步进前那 1 tick"(TS 特有
+   * 的执行间隙,防 owner 巡逻脚本抢跑覆盖'面向玩家')跳过 owner;一旦开跑,ride/party-walk
+   * 等 waiting 恒 undefined 的多帧 op 期间 owner autoScript 照常推进(play.c:172-191 无
+   * owner 排除)。瞬态,随 deepClone 入档;战后重建 cursor 时置 true(执行中恢复)。
+   */
+  startedExecution?: boolean
+  /**
    * opcode 0x04 call-script(script.c:3258)调用栈。sdlpal `PAL_RunTriggerScript(子脚本)`
    * 同步跑完再回原处 wScriptEntry++。ts tick 模型用栈:0x04 压返回帧 + 跳子脚本;子脚本
    * 'end' 弹帧返回(恢复 ip/commands/labelMap/currentEventObjectId),而非清 cursor。
@@ -1535,6 +1543,7 @@ export function resumePostBattleScript(gs: GameState, outcome: BattleOutcome): v
     onEnterSceneId: r.onEnterSceneId,
     onEnterStartIp: r.onEnterStartIp,
     callStack: r.callStack,
+    startedExecution: true, // DM16:战后续跑的脚本必然已开跑,owner autoScript 不再跳
   }
   gs.mode = 'event'
   // gameOverActive 重构(2026-06-01,修石长老必败续剧情误红屏):**不再** `outcome==='lost'` 无条件置死亡演出。

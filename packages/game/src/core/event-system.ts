@@ -1140,6 +1140,11 @@ export function tickAutoScripts(gs: GameState): void {
       gs.eventCursor?.triggerOwnerId !== undefined
       && npc.id === gs.eventCursor.triggerOwnerId
       && gs.eventCursor.waiting === undefined
+      // DM16:间隙窗收窄到"触发后首条 op 步进前"。脚本一旦开跑(startedExecution),即使
+      // ride/party-walk 这类"同 ip 重跑 + waiting 恒 undefined"的多帧 op 期间,owner 的
+      // autoScript 也照常推进(对齐 play.c:172-191 无 owner 排除;修莲叶/船乘坐全程动画冻结,
+      // 数据面 42 个自带 autoLabel 的 trigger 对象脚本内含 ride/party-walk)。
+      && !gs.eventCursor.startedExecution
     ) continue
     if (!npc.autoCursor) {
       // scene-load 切片解析(game-state.sliceSceneEventObjects / npcFromEventObject)只查
@@ -1255,6 +1260,60 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
         if (cursor.idleFrameCount >= frames) {
           cursor.idleFrameCount = 0
           cursor.ip++
+        }
+        return
+      }
+
+      // DH4/DL13:0x06 在 auto 上下文走 RunAutoScript 专用语义(script.c:3575-3591),与
+      //   InterpretInstruction 的 0x06(applyRawOpcode 版"条件失败跳转")不同:
+      //   RandomLong(1,100) >= op0 → 跳转分支:op1!=0 → wScriptEntry=op1 且 `goto begin`(同帧续跑);
+      //                              op1==0 → **wScriptEntry 不变**,下帧重掷 —— "每帧 op0% 概率推进"
+      //                              的随机停顿门(巡逻 NPC 的随机驻足)。
+      //   else → wScriptEntry++(推进)。
+      //   旧码复用 applyRawOpcode:op1==0 时 jumpToGlobalIp(0) → 落全局 entry 0(plain end)永久 park,
+      //   巡逻 NPC 走到第一个停顿点后单次 ~81-93% 概率冻死、循环内反复评估必死(DH4,auto 可达 74 处)。
+      if (cmd.opcode === OP_JUMP_BY_RATE) {
+        const rate = cmd.operands[0] ?? 0
+        const target = cmd.operands[1] ?? 0
+        if (Math.floor(Math.random() * 100) + 1 >= rate) {
+          if (target !== 0) {
+            const ip = getLabels(cursor)[`L_${target}`]
+            if (ip === undefined) {
+              npc.autoCursor = undefined // 目标不在全局数组 → 停(异常)
+              return
+            }
+            cursor.ip = ip
+            // `goto begin`(DL13):跳转不消耗帧,同帧续跑目标 op(同 'goto' 0x03 的修复;深度护栏防自环)。
+            if (gotoDepth >= SINGLE_TICK_LIMIT) {
+              npc.autoCursor = undefined
+              return
+            }
+            runOneAutoOp(gs, npc, gotoDepth + 1)
+          }
+          return // op1==0:原地重掷(ip 不变)
+        }
+        cursor.ip++
+        return
+      }
+
+      // DL15:0x04 call 在 auto 上下文 = PAL_RunTriggerScript 同步阻塞跑完子脚本再 wScriptEntry++
+      //   (script.c:3566-3573),整个调用占当前 1 帧。压栈后同帧消化 callee(开门/机关类全为 2-3 条
+      //   短指令,数据扫描无 wait/对话类 callee);callee 内多帧 op(wait 未满/walkTo 未达)同帧无法
+      //   完成时退化为逐帧推进(防御)。
+      if (cmd.opcode === OP_CALL_SCRIPT) {
+        applyRawOpcode(
+          gs, cmd.opcode, cmd.operands,
+          cursor.currentEventObjectId ?? npc.id,
+          cursor as ScriptCursor,
+        )
+        cursor.ip++
+        let guard = 0
+        while ((cursor.callStack?.length ?? 0) > 0 && npc.autoCursor && guard++ < SINGLE_TICK_LIMIT) {
+          const beforeIp = cursor.ip
+          const beforeDepth = cursor.callStack?.length ?? 0
+          runOneAutoOp(gs, npc, gotoDepth + 1)
+          if (!npc.autoCursor) return
+          if (cursor.ip === beforeIp && (cursor.callStack?.length ?? 0) === beforeDepth) break // 多帧 op 卡住
         }
         return
       }
@@ -1654,6 +1713,12 @@ export function tickEventSystem(
     }
 
     const cmd = cmds[cursor.ip]!
+
+    // DM16:标记"本脚本已执行过至少一条指令"。tickAutoScripts 的 owner 跳过门控只针对
+    // 触发后首条 op 步进前那 1 tick(TS 特有的执行间隙;C 触发与脚本同帧同步无此间隙),
+    // 一旦开跑(ride/party-walk 等同 ip 重跑的多帧 op 也算"执行中")owner autoScript 照常推进
+    // (对齐 play.c:172-191 自动脚本循环无任何 owner 排除;莲叶/船 0x87 动画循环不再被乘坐冻结)。
+    cursor.startedExecution = true
 
     // sdlpal script.c:3468-3471 真值:PAL_RunTriggerScript outer switch 的 default case 在跑
     // 任何**非 dialog setup / showDialog / 自带 ClearDialog** 指令前都先 `PAL_ClearDialog(TRUE)`。
