@@ -458,6 +458,8 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
 }
 
 export interface BuildEnemyPhysicalInput {
+  /** DL32:攻击开始时目标当前帧(= sdlpal wFrameBak,fight.c:4915;睡眠姿 1 等)。缺省 0。 */
+  targetFrameBak?: number
   /** 敌人 idle 底锚(EnemyPos + yPosOffset)。 */
   enemyPos: { x: number; y: number }
   /** 敌人 idx(enemies[])。 */
@@ -627,7 +629,9 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
 
   // —— 死亡 / 濒死 frameBak;target.pos += (2,1),Delay(3)(fight.c:5108-5125)——
   // wFrameBak 在 Delay(3) 后才赋给 currentFrame(fight.c:5132),这里先算好留到后面帧用。
-  let frameBak = 0 // 站立(默认 — 实际复位走 resetFightersAfterAction,这里 frameBak 给死/濒死帧短暂展示)
+  // DL32:wFrameBak = **攻击开始时目标当前帧**(fight.c:4915,睡眠姿 1 等),仅死(→2)/濒死(→1)
+  //   覆盖 —— 睡倒目标被打后收尾恢复睡姿而非站立(reset 兜底前 ~5 帧)。缺省 0(旧 fixture)。
+  let frameBak = input.targetFrameBak ?? 0
   if (targetDied) frameBak = 2
   else if (targetDying) frameBak = 1
   frames.push({
@@ -1379,7 +1383,9 @@ export function buildPlayerDefMagicTimeline(input: BuildPlayerDefMagicInput): Ba
   }
 
   // —— iColorShift 辉光(fight.c:2573-2605):i=0..6 渐亮 + i=6..0 渐暗 = 14 帧 ——
-  const glowSeq = [0, 1, 2, 3, 4, 5, 6, 6, 5, 4, 3, 2, 1, 0]
+  // DL31:C 为 `for(i=0;i<6;i++)` 0..5 升 + `for(i=6;i>=0;i--)` 6..0 降 = 13 帧,峰值 6 只一次
+  //   (fight.c:2573-2605;UseItem 同构循环 0..6+5..0 本就 13,此处旧 14 帧系笔误)。
+  const glowSeq = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]
   for (const shift of glowSeq) {
     const fighters: FighterDelta[] = []
     if (type === 'applyToParty') {

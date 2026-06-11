@@ -1134,9 +1134,10 @@ export function dispatchBattleOpcode(
       const newHealth = Math.floor((self.e.health + w) / x)
       const beforeHealth = self.e.health
       self.e.health = newHealth
-      // sdlpal 0x9C 在 enemy AI 脚本里跑,被 PAL_BattleBackupStat/DisplayStatChange(fight.c:1614/1665)
-      //   夹住 → 原敌 HP 下降触发 wPrevHP!=wHealth → 画 blue 数字(新副本不画:backup 在它们存在前)。
-      emitDamageNum(ctx, 'enemy', ctx.caster.idx, beforeHealth, newHealth)
+      // DL9:分裂跑在 wScriptOnReady(fight.c:1719-1723),紧接 PerformAction 起手 BackupStat
+      //   (fight.c:4575)把 wPrevHP 刷成减半后值 → 期间**无** DisplayStatChange 窗口,HP 减半静默
+      //   (原注释引证的 fight.c:1614/1665 是回合末毒结算块,不夹住 scriptOnReady;蓝数字系误加)。
+      void beforeHealth
       let copiesLeft = w
       for (let i = 0; i < MAX_ENEMIES_IN_TEAM && copiesLeft > 0; i++) {
         const init = {

@@ -465,7 +465,9 @@ export function performEnemyConfusedAttack(
 
   const before = target.e.health
   target.e.health = Math.max(0, before - damage)
-  const dealt = before - target.e.health
+  // DL8:`wHealth -= sDamage` WORD 下溢不钳,DisplayStatChange 显示**完整** sDamage
+  //   (fight.c:4645-4647)——与 player→enemy 路径同口径(超杀数字不缩水)。
+  const dealt = damage
 
   // M8:建混乱攻击动画(滑步逼近 + 火花 effectSprite 9-11 + 受击抖动,fight.c:4596-4654)。
   //   缺 render-state(旧 fixture)→ 退化即时数字(向后兼容 tickPerformAction:battleAnim undefined → idx++)。
@@ -549,6 +551,10 @@ function buildAttackTimeline(input: {
     const hp = role?.hp ?? 0
     const maxHp = role?.maxHP ?? 0
     return buildEnemyPhysicalTimeline({
+      // DL32:攻击前目标帧快照(wFrameBak,fight.c:4915)——动画态 currentFrame 优先,
+      //   idle 态取 per-enemy idleFrame… 目标是**玩家**,玩家帧:currentFrame ?? 按状态(睡 1/防 3/站 0)。
+      targetFrameBak: state.players[targetIdx]?.currentFrame
+        ?? ((state.players[targetIdx]?.status.sleep ?? 0) > 0 ? 1 : (state.players[targetIdx]?.defending ? 3 : 0)),
       enemyPos: enemyFighter.posOriginal,
       enemyIdx: actor.idx,
       targetPlayerPos: targetPlayer.posOriginal,

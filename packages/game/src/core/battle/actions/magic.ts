@@ -167,8 +167,9 @@ export function performMagic(input: PerformMagicInput): void {
       const casterRoleId = input.state.players[input.casterIdx]?.roleId
       pendingCastSound = casterRoleId !== undefined ? (input.playerRoles.roles[casterRoleId]?.magicSound ?? 0) : 0
     } else {
-      const enemyCastSound = input.state.enemies[input.casterIdx]?.e.magicSound ?? 0
-      if (enemyCastSound > 0) (input.gs.pendingSounds ??= []).push(enemyCastSound)
+      // DL10:敌施法音在前移两步滑步(各 Delay(1))**之后**播(fight.c:4680-4695)——建链路径
+      //   挂 intro 帧同步(见 buildAndStartEnemyMagicAnim);此处仅记下,未建链(旧 fixture)回落即时播。
+      pendingCastSound = input.state.enemies[input.casterIdx]?.e.magicSound ?? 0
     }
   }
 
@@ -394,9 +395,13 @@ export function performMagic(input: PerformMagicInput): void {
   //   (buildPreMagicTimeline,对齐 sdlpal fight.c:2377),**不在此 push**;其余(DefMagic / 未建链)→ 即时播。
   //   放在效果音之前 push(施法音先于效果音,顺序对齐 sdlpal)。
   // DM14 起 DefMagic 两路径也带 PreMagic 前摇(castSound 已帧同步),并入名单防双响。
-  const castFrameSynced = built && !input.casterIsEnemy && (
-    OFF_MAGIC_TYPES.has(magic.type) || magic.type === 'summon' || magic.type === 'trance'
-    || magic.type === 'applyToPlayer' || magic.type === 'applyToParty'
+  // DL10:敌方 OffMagic 建链时施法音挂 intro 滑步第 2 步帧 —— 同样并入防双响。
+  const castFrameSynced = built && (
+    (!input.casterIsEnemy && (
+      OFF_MAGIC_TYPES.has(magic.type) || magic.type === 'summon' || magic.type === 'trance'
+      || magic.type === 'applyToPlayer' || magic.type === 'applyToParty'
+    ))
+    || (input.casterIsEnemy && OFF_MAGIC_TYPES.has(magic.type))
   )
   if (pendingCastSound > 0 && input.gs && !castFrameSynced) (input.gs.pendingSounds ??= []).push(pendingCastSound)
 
@@ -841,12 +846,18 @@ function buildAndStartEnemyMagicAnim(
     actWaitFrames: caster.e.actWaitFrames,
     fireDelay: magic.fireDelay,
   })
-  // L16:被动格挡队员在敌魔法特效期间摆防御姿 frame3(fight.c:4737-4738/4755-4756 在施法手势后、特效前设),
-  //   driver fighter currentFrame 持续到 hurt 帧翻 frame4 覆盖。注入 intro 起始帧。
-  const introHead = introFrames[0]
-  if (autoDefendIdxs.length > 0 && introHead) {
+  // DL10b/L16:被动格挡队员摆防御姿 frame3 在**施法手势演完后、特效前**(fight.c:4737-4738/
+  //   4755-4756)—— 注入 intro **末帧**(原注入起始帧,早数帧)。
+  const introTailIdx = introFrames.length - 1
+  const introTail = introFrames[introTailIdx]
+  if (autoDefendIdxs.length > 0 && introTail) {
     const guardPoses: NonNullable<BattleAnimFrame['fighters']> = autoDefendIdxs.map((idx) => ({ side: 'player' as const, idx, currentFrame: 3 }))
-    introFrames[0] = { ...introHead, fighters: [...(introHead.fighters ?? []), ...guardPoses] }
+    introFrames[introTailIdx] = { ...introTail, fighters: [...(introTail.fighters ?? []), ...guardPoses] }
+  }
+  // DL10a:敌施法音挂滑步第 2 步帧(fight.c:4680-4695 两步 Delay(1) 后 AUDIO_PlaySound(wMagicSound))。
+  const castSnd = input.state.enemies[input.casterIdx]?.e.magicSound ?? 0
+  if (castSnd > 0 && introFrames.length >= 2 && !introFrames[1]!.sound) {
+    introFrames[1] = { ...introFrames[1]!, sound: castSnd }
   }
   // 特效前 snap 回原位(fight.c:2842 PAL_BattleShowEnemyMagicAnim 起手把全敌 pos 复位 posOriginal)。
   const posResetFrame: BattleAnimFrame = {

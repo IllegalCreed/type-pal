@@ -1171,9 +1171,9 @@ describe('buildPlayerDefMagicTimeline (fight.c:2447-2606)', () => {
     })
   }
 
-  it('总帧数 = 1(caster 帧6)+ n + 14(辉光)', () => {
-    expect(buildToPlayer({ n: 5 })).toHaveLength(1 + 5 + 14) // 20
-    expect(buildToPlayer({ n: 8 })).toHaveLength(1 + 8 + 14) // 23
+  it('总帧数 = 1(caster 帧6)+ n + 13(辉光,DL31)', () => {
+    expect(buildToPlayer({ n: 5 })).toHaveLength(1 + 5 + 13) // 19
+    expect(buildToPlayer({ n: 8 })).toHaveLength(1 + 8 + 13) // 22
   })
 
   it('frame0:caster.currentFrame=6,Delay(1)', () => {
@@ -1195,11 +1195,11 @@ describe('buildPlayerDefMagicTimeline (fight.c:2447-2606)', () => {
     }
   })
 
-  it('辉光 14 帧:iColorShift 序列 0..6..0(渐亮 7 + 渐暗 7),设 target 队员,各 Delay(1)', () => {
+  it('辉光 13 帧:iColorShift 0..5 升 + 6..0 降(峰值一次,fight.c:2573-2605;DL31)', () => {
     const f = buildToPlayer({ n: 5 })
-    const glow = f.slice(1 + 5) // 末 14 帧
-    expect(glow).toHaveLength(14)
-    const expectedShifts = [0, 1, 2, 3, 4, 5, 6, 6, 5, 4, 3, 2, 1, 0]
+    const glow = f.slice(1 + 5) // 末 13 帧
+    expect(glow).toHaveLength(13)
+    const expectedShifts = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]
     glow.forEach((gf, idx) => {
       expect(gf.durationMs).toBe(1 * D)
       expect(gf.fighters).toEqual([{ side: 'player', idx: 1, iColorShift: expectedShifts[idx] }])

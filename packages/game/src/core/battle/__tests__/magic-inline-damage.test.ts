@@ -763,7 +763,7 @@ describe('performMagic D17: 攻击魔法 build 时间线', () => {
     })
     // DefMagic:DM14 PreMagic(17) + caster帧6 + n(8)magic + 14 辉光 = 40。
     expect(state.battleAnim).toBeDefined()
-    expect(state.battleAnim!.frames.length).toBe(17 + 1 + 8 + 14)
+    expect(state.battleAnim!.frames.length).toBe(17 + 1 + 8 + 13) // DL31 辉光 13
     // 不打敌人(防御类:E1 inline 伤害不触发)
     expect(state.enemies[0]!.e.health).toBe(100)
   })
@@ -928,7 +928,7 @@ describe('performMagic D17: player 防御/治疗魔法 DefMagic 时间线', () =
     })
     expect(state.battleAnim).toBeDefined()
     const f = state.battleAnim!.frames
-    expect(f.length).toBe(17 + 1 + 5 + 14) // DM14:+PreMagic 17 帧前摇(fight.c:4184)
+    expect(f.length).toBe(17 + 1 + 5 + 13) // DM14 前摇 + DL31 辉光 13
     // PreMagic 后首帧 = caster 帧6
     expect(f[17]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 6 }])
     // magic 帧落点 = target 队员 posOriginal + (xOff,yOff) = (184,144)
