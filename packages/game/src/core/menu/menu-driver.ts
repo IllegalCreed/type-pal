@@ -501,13 +501,13 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
     if (!choice) return
     switch (choice) {
       case 'save': {
-        const state = createSaveSlotMenu('save')
+        const state = createSaveSlotMenu('save', undefined, gs.currentSaveSlot) // DM24:默认落上次用的槽
         void fetchSlotMetas(state)
         openMenu(gs, { kind: 'save-slot', state })
         break
       }
       case 'load': {
-        const state = createSaveSlotMenu('load')
+        const state = createSaveSlotMenu('load', undefined, gs.currentSaveSlot) // DM24:默认落上次用的槽
         void fetchSlotMetas(state)
         openMenu(gs, { kind: 'save-slot', state })
         break
@@ -726,6 +726,11 @@ function dispatchEquipMenu(
     const catalogs = requireCatalogs()
     if (s.phase === 'list') {
       confirmEquipItem(s, catalogs.items, menuRoles(gs), gs.partyMembers)
+      // DM23:uigame.c:1820 进 PAL_EquipItemMenu 即 `wLastUnequippedItem = wItem`(每帧 :1857-1859
+      //   重读)。0x18 只在"已穿不同款"时才改写它(script.c:780-810)—— 不写入口值的话,给已穿 X
+      //   再装一件 X 时 :743 读到**上次换装残值**:面板跳成别的物品,残值已不在背包时再确认可
+      //   凭空装上(consumeItem 对缺失物品 no-op = 复制链)。
+      if ((s.phase as string) === 'pick-role' && s.selectedItemId !== undefined) gs.wLastUnequippedItem = s.selectedItemId
     }
     else if (s.phase === 'pick-role') {
       const picked = confirmEquipRole(s)

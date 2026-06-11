@@ -4321,7 +4321,7 @@ function applyRawOpcode(
     case OP_JUMP_IF_OBJ_NOT_IN_ZONE: {
       // sdlpal script.c:2448-2471:op0 obj 不在当前 scene → jump op2;否则
       //   x=triggerObj.x-op0obj.x, y=同; |x|+|2y| >= op1*32+16 → jump op2(不在 zone)。
-      const pCurrent = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'jumpIfNotInZone')
+      const pCurrent = resolveInSceneNpc(gs, operands[0] ?? 0, currentEventObjectId, 'jumpIfNotInZone') // DM17:仅当前场景
       const pEvt = gs.npcs.find((n) => n.id === currentEventObjectId)
       if (!pCurrent || !pEvt) {
         // op0 obj 不在当前 scene → 跳(sdlpal g_fScriptSuccess=FALSE)
@@ -4340,7 +4340,7 @@ function applyRawOpcode(
     case OP_PLACE_USED_ITEM: {
       // sdlpal script.c:2473-2509:把 pCurrent(op0 选)放 party 正前方一格 + sState=op1;
       //   该格有障碍(只查 tilemap)→ jump op2。前方格 = party + facing offset(±16/±8)。
-      const pCurrent = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'placeUsedItem')
+      const pCurrent = resolveInSceneNpc(gs, operands[0] ?? 0, currentEventObjectId, 'placeUsedItem') // DM17:仅当前场景
       if (!pCurrent) {
         gs.fScriptSuccess = false
         jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
@@ -4481,7 +4481,7 @@ function applyRawOpcode(
       // sdlpal script.c:2390-2435:op0 obj 不在当前 scene → jump op2;否则算 party 朝向前方
       //   一格的屏幕相对位置,在 op0 obj 范围内(op1*32+16)且 sState>0 → 设触发模式(不跳);
       //   否则 jump op2。
-      const pCurrent = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'jumpIfNotFacing')
+      const pCurrent = resolveInSceneNpc(gs, operands[0] ?? 0, currentEventObjectId, 'jumpIfNotFacing') // DM17:仅当前场景
       if (!pCurrent) {
         gs.fScriptSuccess = false
         jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
@@ -4728,6 +4728,27 @@ function getSelfNpc(
  *
  * 0x13 / 0x16 / 0x6C 等 pCurrent 类 opcode 用,允许显式选其他 NPC(onEnter 段经此走对 NPC)。
  */
+/**
+ * DM17:仅限**当前场景**的对象解析(0x81/0x83/0x84 专用)。
+ * C 真值(script.c:2395-2404/2452-2461/2477-2486):三个 case 先查
+ * `op0 <= rgScene[cur-1].wEventObjectIndex || op0 > rgScene[cur].wEventObjectIndex`,
+ * 不在当前场景即失败跳转 —— 这是物品 scriptOnUse 跨场景共享脚本的路由机制
+ * ("换个场景用就提示无法使用",30 处)。回退全局表会让异场景对象"假成功"
+ * (用陈旧坐标判距离/把异场景对象搬来当前场景 = 跨场景状态污染)。
+ */
+function resolveInSceneNpc(
+  gs: GameState,
+  operand0: number,
+  currentEventObjectId: number | undefined,
+  opName: string,
+): GameState['npcs'][number] | null {
+  if (operand0 === 0 || operand0 === 0xFFFF) {
+    return getSelfNpc(gs, currentEventObjectId, opName)
+  }
+  const targetId = operand0 - 1
+  return gs.npcs.find((n) => n.id === targetId) ?? null
+}
+
 function resolveTargetNpc(
   gs: GameState,
   operand0: number,

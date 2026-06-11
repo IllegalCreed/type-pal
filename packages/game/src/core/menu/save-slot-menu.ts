@@ -35,6 +35,8 @@ const SAVE_SLOT_LABELS = ['进度一', '进度二', '进度三', '进度四', '�
 export function createSaveSlotMenu(
   mode: SaveSlotMode,
   slotMeta?: Array<{ slot: number; label: string }>,
+  /** DM24:默认选中槽号(1-based;uigame.c:582/605 PAL_SaveSlotMenu(bCurrentSaveSlot) → :225 cursor=slot-1)。 */
+  defaultSlot?: number,
 ): SaveSlotMenuState {
   const items = (slotMeta ?? [1, 2, 3, 4, 5].map((slot) => ({
     slot,
@@ -43,7 +45,12 @@ export function createSaveSlotMenu(
     id: s.slot,
     label: s.label,
   }))
-  return { mode, selection: createSelectionMenu(items), slotMetas: new Map() }
+  const selection = createSelectionMenu(items)
+  if (defaultSlot !== undefined) {
+    const idx = items.findIndex((it) => it.id === defaultSlot)
+    if (idx >= 0) selection.cursor = idx
+  }
+  return { mode, selection, slotMetas: new Map() }
 }
 
 /**
