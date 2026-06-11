@@ -1465,6 +1465,11 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
    * 先重染一帧(白天读夜档会先变夜;死亡读档会露战斗帧),再进入目标场景。
    */
   async function loadGameFromSlot(slot: number): Promise<void> {
+    // DM26/DLg:读档起手停乐(uigame.c:608 `AUDIO_PlayMusic(0,FALSE,1)`)。Object.assign 恢复
+    //   存档 wNumMusic 后,曲号必经 0→N 变化 → AudioManager 必从头重播(= res.c:223 先停后播
+    //   必从头;旧"同曲号续播"一并修)。
+    gs.wNumMusic = 0
+    syncShellAudio(audio, gs, [], playerRoles)
     const loadedGs = await Save.loadSlot(slot)
     if (!loadedGs) {
       console.warn(`[bootstrap.loadGame] slot ${slot} 空,load skip`)
@@ -1524,6 +1529,9 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     // sceneLoading 在读档 transition guard 已置 true;loadSceneCommon 完成后恢复目标存档 palette 绘制新场景。
     await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })
     gs.palette = restoredPalette
+    // DM26:PAL_ReloadInNextTick(global.c:910)无条件 fNeedToFadeIn=TRUE → 进场 1s 淡入
+    //   (scene.c:503-507)。此前仅 0x4E 死亡读档设,系统菜单读档画面硬切。
+    gs.needToFadeIn = true
   }
 
   setLoadGameHandler(async (slot) => {
@@ -1555,6 +1563,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     gs.eventCursor = undefined
     gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
     gs.mode = 'menu'
+    // DM28:主菜单曲 4(RIX_NUM_OPENINGMENU,uigame.c:114);选项确定后被新游戏/读档路径覆盖
+    //   (= uigame.c:157-158 确定后停乐)。
+    gs.wNumMusic = 4
+    syncShellAudio(audio, gs, [], playerRoles)
   }
 
   // C2-quit:系统菜单 QUIT → ConfirmMenu 选「是」(sdlpal PAL_QuitGame PAL_Shutdown(0))。浏览器映射为回标题。
@@ -1605,6 +1617,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   async function playDosOpening(): Promise<void> {
     // sdlpal main.c:199-203 DOS Trademark fallback / main.c:223-456 DOS Splash fallback
     // palette 3:trademark / palette 1:splash(sdlpal PAL_SetPalette / PAL_GetPalette 真值)
+    // DM28:splash 起手播标题曲 5(NUM_RIX_TITLE,main.c:46/:293;蝶恋),退出停乐(main.c:449-455)。
+    //   经 gs.wNumMusic + audio.sync(suspendRaf 只停 present,逻辑 tick 持续轮询)。
+    gs.wNumMusic = 5
+    syncShellAudio(audio, gs, [], playerRoles)
     const palette3 = await fetchPalette(3).catch(() => palette)
     await playTrademarkFallback({
       fb,
@@ -1676,12 +1692,16 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
         // (playDosOpening 不经 avi-player 的 stopImmediatePropagation)。
         input.clearPressed()
         gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
+        gs.wNumMusic = 4 // DM28:主菜单曲(uigame.c:114)
+        syncShellAudio(audio, gs, [], playerRoles)
         gs.mode = 'menu'
       })
       .catch((err: unknown) => {
         console.error('[bootstrap] trademark/splash 失败,直接进 OpeningMenu:', err)
         input.clearPressed()
         gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
+        gs.wNumMusic = 4 // DM28:主菜单曲(uigame.c:114)
+        syncShellAudio(audio, gs, [], playerRoles)
         gs.mode = 'menu'
       })
   }

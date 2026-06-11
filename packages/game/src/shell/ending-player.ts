@@ -144,7 +144,7 @@ export async function playEndingAnimation(o: EndingAnimationOptions): Promise<vo
   let yPosGirl = 180
 
   let skipped = false
-  const skipKeys = new Set(o.skipKeys ?? ['Space', 'Enter', 'Escape'])
+  const skipKeys = new Set(o.skipKeys ?? [])
   const onKey = (e: KeyboardEvent): void => {
     if (skipKeys.has(e.code)) { e.preventDefault(); skipped = true }
   }

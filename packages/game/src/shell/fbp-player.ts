@@ -46,7 +46,11 @@ export interface ShowFbpOptions {
   fb: Framebuffer
   canvasCtx: CanvasRenderingContext2D
   palette: Palette
-  /** 跳过键,默认 Space/Enter/Escape。 */
+  /**
+   * DM27:跳过键,**默认空 = 不可跳**(C 真值:PAL_RNGPlay/ShowFBP/ScrollFBP/EndingAnimation
+   * 主循环均无 dwKeyPress 检查,rngplay.c:409-443,连 trademark 开机动画都不可跳;且末帧常驻
+   * 供后续脚本叠字——可跳会停在中间帧)。仅显式传入才可跳(目前无调用方,dev 工具可用)。
+   */
   skipKeys?: string[]
   /**
    * MGO effectSprite 帧(sdlpal g_wCurEffectSprite,PAL_EndingSetEffectSprite 设)。
@@ -67,7 +71,7 @@ export async function showFbp(o: ShowFbpOptions): Promise<void> {
     const wFade = (o.fade + 1) * 10
     const back = new Uint8Array(o.fb.indices) // VIDEO_BackupScreen(当前屏 → 累积 buffer)
     let skipped = false
-    const skipKeys = new Set(o.skipKeys ?? ['Space', 'Enter', 'Escape'])
+    const skipKeys = new Set(o.skipKeys ?? [])
     const onKey = (e: KeyboardEvent): void => {
       if (skipKeys.has(e.code)) { e.preventDefault(); skipped = true }
     }
@@ -133,7 +137,7 @@ export async function scrollFbp(o: ScrollFbpOptions): Promise<void> {
   const speed = o.speed === 0 ? 1 : o.speed
   const delay = Math.max(1, Math.floor(800 / speed))
   let skipped = false
-  const skipKeys = new Set(o.skipKeys ?? ['Space', 'Enter', 'Escape'])
+  const skipKeys = new Set(o.skipKeys ?? [])
   const onKey = (e: KeyboardEvent): void => {
     if (skipKeys.has(e.code)) { e.preventDefault(); skipped = true }
   }

@@ -51,7 +51,11 @@ export interface PlayRngOptions {
    */
   initialFadeInMs?: number
 
-  /** 跳过键,默认 Space/Enter/Escape。 */
+  /**
+   * DM27:跳过键,**默认空 = 不可跳**(C 真值:PAL_RNGPlay/ShowFBP/ScrollFBP/EndingAnimation
+   * 主循环均无 dwKeyPress 检查,rngplay.c:409-443,连 trademark 开机动画都不可跳;且末帧常驻
+   * 供后续脚本叠字——可跳会停在中间帧)。仅显式传入才可跳(目前无调用方,dev 工具可用)。
+   */
   skipKeys?: string[]
 
   /**
@@ -130,7 +134,7 @@ async function fadeInFirstFrame(options: PlayRngOptions): Promise<void> {
  * Promise resolve 时机 = 全部帧播完 OR 用户按跳过键 OR manifest/帧加载失败(warn + return)。
  */
 export async function playRng(options: PlayRngOptions): Promise<void> {
-  const skipKeys = new Set(options.skipKeys ?? ['Space', 'Enter', 'Escape'])
+  const skipKeys = new Set(options.skipKeys ?? [])
   let skipped = false
   const onKey = (e: KeyboardEvent): void => {
     if (skipKeys.has(e.code)) {
