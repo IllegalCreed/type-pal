@@ -283,6 +283,14 @@ export interface BuildPlayerAttackInput {
    * { currentFrame:7, pos:attackerPos, Delay(4) }。双击/群攻第二击不传(只首击有前摇)。
    */
   windup?: boolean
+  /**
+   * DH6:群攻(sTarget==-1)参与演出的敌人(idx + posOriginal)。C 真值:
+   *   - 特效 i==0 帧**所有敌人** iColorShift=6(fight.c:2196-2203);
+   *   - 收势前全敌 colorShift 复位(:2225-2228);
+   *   - 收势 3 帧**所有敌人** x-=dist(dist 8→-4→2,y 不动)各 Delay(1)(:2229-2247)。
+   * 仅 targetIdx<0 时消费;不传 → 退化为旧"只弹数字"行为(旧 fixture 兼容)。
+   */
+  groupEnemies?: Array<{ idx: number; x: number; y: number }>
 }
 
 /**
@@ -309,6 +317,7 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
     attackVoice,
     weaponSound,
     windup,
+    groupEnemies,
   } = input
   const ex = targetEnemyPos.x
   const ey = targetEnemyPos.y
@@ -356,9 +365,13 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
     if (i === 0) {
       // currentFrame=9 自 effect frame 0 起(fight.c:2120)
       fighters.push({ side: 'player', idx: attackerIdx, currentFrame: 9 })
-      // i==0:target 染色 + 伤害数字(fight.c:2195-2209)。群攻(targetIdx<0,sTarget==-1 挥向中心)无单体目标
-      //   → 跳过单敌染色/伤害数字(各敌染色+总伤数字由调用方 pendingDamageNums 在挥砍后弹)。
-      if (targetIdx >= 0) fighters.push({ side: 'enemy', idx: targetIdx, iColorShift: 6 })
+      // i==0:target 染色 + 伤害数字(fight.c:2195-2209)。
+      if (targetIdx >= 0) {
+        fighters.push({ side: 'enemy', idx: targetIdx, iColorShift: 6 })
+      } else if (groupEnemies) {
+        // DH6:群攻(sTarget==-1)i==0 帧**所有敌人** iColorShift=6(fight.c:2196-2203)。
+        for (const ge of groupEnemies) fighters.push({ side: 'enemy', idx: ge.idx, iColorShift: 6 })
+      }
     }
     if (i === 1) {
       // i==1:attacker pos += (2,1)(fight.c:2215-2220)
@@ -393,16 +406,39 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
   }
 
   // —— frame 5..7:抖动 3 帧 + 复位 iColorShift=0(fight.c:2223-2262)——
-  // dist=8;每帧 x-=dist;dist/=-2;y+=dist。x 序列:ex-8 / ex-4 / ex-6
+  if (targetIdx < 0) {
+    // DH6:群攻收势 —— 收势前**全敌** colorShift 复位(fight.c:2225-2228),随后 3 帧
+    //   **所有敌人** x-=dist(dist 8→-4→2,y 不动:C 注释掉了 `y -= dist/2`)各 Delay(1)
+    //   (fight.c:2229-2247)。位移累积不复位,播完由 driver resetFightersAfterAction 归位
+    //   (= C 动作收尾 UpdateFighters 复位 posOriginal)。无 groupEnemies(旧 fixture)→ 空延时。
+    let gDist = 8
+    const offsets: number[] = []
+    let acc = 0
+    for (let i = 0; i < 3; i++) {
+      acc -= gDist
+      offsets.push(acc)
+      gDist = Math.trunc(gDist / -2)
+    }
+    for (let i = 0; i < 3; i++) {
+      if (!groupEnemies || groupEnemies.length === 0) {
+        frames.push({ durationMs: delayMs(1) })
+        continue
+      }
+      const fighters: BattleAnimFrame['fighters'] = groupEnemies.map((ge) => ({
+        side: 'enemy' as const,
+        idx: ge.idx,
+        pos: { x: ge.x + offsets[i]!, y: ge.y },
+        ...(i === 0 ? { iColorShift: 0 } : {}),
+      }))
+      frames.push({ durationMs: delayMs(1), fighters })
+    }
+    return frames
+  }
+  // 单体:dist=8;每帧 x-=dist;dist/=-2;y+=dist。x 序列:ex-8 / ex-4 / ex-6
   let dist = 8
   let sx = ex
   let sy = ey
   for (let i = 0; i < 3; i++) {
-    // 群攻(targetIdx<0)无单体受击敌 → 保留 3 帧延时(挥砍收势节奏)但不抖单敌。
-    if (targetIdx < 0) {
-      frames.push({ durationMs: delayMs(1) })
-      continue
-    }
     sx -= dist
     dist = Math.trunc(dist / -2)
     sy += dist

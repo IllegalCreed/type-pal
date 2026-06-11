@@ -1557,3 +1557,47 @@ describe('buildShowMagicAnimTimeline (0x92, script.c:2637-2662)', () => {
     ])
   })
 })
+
+describe('DH6 群攻全敌闪白+收势抖动(fight.c:2196-2247)', () => {
+  it('i==0 特效帧全敌 iColorShift=6;收势 3 帧全敌 x-=dist(8→-4→2)且首帧复位染色', () => {
+    const frames = buildPlayerAttackTimeline({
+      attackerPos: { x: 200, y: 170 },
+      attackerIdx: 0,
+      targetEnemyPos: { x: 150, y: 100 },
+      targetIdx: -1,
+      targetEnemyHeight: 0,
+      effectFrameBase: 0,
+      damage: 0,
+      groupEnemies: [
+        { idx: 0, x: 90, y: 90 },
+        { idx: 1, x: 170, y: 80 },
+      ],
+    })
+    // i==0 特效帧:全敌染色 6
+    const flashFrame = frames.find((f) => f.fighters?.some((d) => d.side === 'enemy' && d.iColorShift === 6))
+    expect(flashFrame).toBeDefined()
+    expect(flashFrame!.fighters!.filter((d) => d.side === 'enemy' && d.iColorShift === 6)).toHaveLength(2)
+    // 收势 3 帧:全敌位移(累积 -8/-4/-6),首帧带 iColorShift=0
+    const recoil = frames.filter((f) => f.fighters?.some((d) => d.side === 'enemy' && d.pos !== undefined))
+    expect(recoil).toHaveLength(3)
+    const xsOf = (fi: number, idx: number) => recoil[fi]!.fighters!.find((d) => d.side === 'enemy' && d.idx === idx)!.pos!.x
+    expect([xsOf(0, 0), xsOf(1, 0), xsOf(2, 0)]).toEqual([90 - 8, 90 - 4, 90 - 6])
+    expect([xsOf(0, 1), xsOf(1, 1), xsOf(2, 1)]).toEqual([170 - 8, 170 - 4, 170 - 6])
+    expect(recoil[0]!.fighters!.every((d) => d.iColorShift === 0)).toBe(true)
+    // y 不动(C 注释掉了 y -= dist/2)
+    expect(recoil[2]!.fighters!.find((d) => d.idx === 0)!.pos!.y).toBe(90)
+  })
+
+  it('不传 groupEnemies(旧 fixture)→ 收势 3 帧退化为空延时,不染色', () => {
+    const frames = buildPlayerAttackTimeline({
+      attackerPos: { x: 200, y: 170 },
+      attackerIdx: 0,
+      targetEnemyPos: { x: 150, y: 100 },
+      targetIdx: -1,
+      targetEnemyHeight: 0,
+      effectFrameBase: 0,
+      damage: 0,
+    })
+    expect(frames.some((f) => f.fighters?.some((d) => d.side === 'enemy'))).toBe(false)
+  })
+})

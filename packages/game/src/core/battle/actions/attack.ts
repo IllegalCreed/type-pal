@@ -195,11 +195,17 @@ export function performAttack(
       // M6/D17a:每 sweep 一次挥砍动画 —— sTarget==-1 挥向固定中心 (150,100)(fight.c:2050-2055)。
       //   该 sweep 各掉血敌数字挂其挥砍 i==0 帧(sdlpal DisplayStatChange,fight.c:2209/626-659)。
       if (hasAnim) {
+        // DH6:群攻演出参与敌 = 非空槽且有 posOriginal 的敌人(C 染色/收势循环 0..wMaxEnemyIndex
+        //   全槽,空槽不渲染无差异)—— i==0 全敌闪白 + 收势 3 帧全敌 x 位移(fight.c:2196-2247)。
+        const groupEnemies = state.enemies
+          .map((be, idx) => ({ be, idx }))
+          .filter(({ be }) => !be.defeated && be.posOriginal)
+          .map(({ be, idx }) => ({ idx, x: be.posOriginal!.x, y: be.posOriginal!.y }))
         const swing = buildPlayerAttackTimeline({
           attackerPos: attacker!.posOriginal!,
           attackerIdx: actor.idx,
           targetEnemyPos: { x: 150, y: 100 },
-          targetIdx: -1, // 群攻无单体目标 → 跳过单敌染色/抖动
+          targetIdx: -1, // 群攻无单体目标 → 染色/收势走 groupEnemies 全敌路径
           targetEnemyHeight: 0,
           effectFrameBase: playerEffectFrameBase(battleEffectIndex, voiceRole?.spriteNumInBattle ?? 0),
           damage: 0,
@@ -207,6 +213,7 @@ export function performAttack(
           attackVoice: voice, // 出招声挂 swing frame0(fight.c:2061-2071)
           weaponSound, // 武器声挂 currentFrame=9 命中帧(fight.c:2124)
           windup: t === 0, // L12:仅首 sweep 前摇 frame7+Delay(4)(fight.c:3690-3694)
+          groupEnemies,
         })
         segments.push(...swing)
         // L13:每 sweep 挥砍后 Delay(4) 收势停顿(fight.c:3747,仅群攻分支;单体无尾延)。
