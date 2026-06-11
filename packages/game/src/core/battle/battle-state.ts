@@ -614,10 +614,15 @@ export interface BattleDialogLine {
 export interface CreateBattleStateInput {
   gs: GameState
   playerRoles: PlayerRoles
-  /** 已 expand 自 enemyTeam(slot 解引用 + 0xFFFF 过滤过)。 */
-  enemies: Enemy[]
   /**
-   * M5.B-w2.a:每只 enemy 的 AI script hook(同 index 对齐 enemies 数组)。
+   * 已 expand 自 enemyTeam(slot 解引用,0xFFFF 过滤)。`null` = 敌队 0 占位槽
+   * (battle.c:1716:`w==0` 仍 `rgEnemy[i++].wObjectID = w` 占空槽并计入 wMaxEnemyIndex)
+   * → 建为 `defeated: true` 的空槽 BattleEnemy:参与站位布局列数(pos[i][maxEnemyIndex])
+   * 与 0x9E 召唤房间计数,不参与目标/脚本/渲染。
+   */
+  enemies: Array<Enemy | null>
+  /**
+   * M5.B-w2.a:每只 enemy 的 AI script hook(同 index 对齐 enemies 数组;null 槽对应 null)。
    * 字段对应 sdlpal `OBJECT_ENEMY.wScriptOn*` 真值;0 = 无脚本(走 default
    * `decideEnemyAction` C 代码 fallback)。
    * 不传或 length 不足 → 全部按 0 处理(向后兼容旧 fixture / 测试)。
@@ -629,7 +634,7 @@ export interface CreateBattleStateInput {
     resistanceToSorcery?: number
     /** L25:OBJECT 绝对 index(wObjectID),0x91 同种判定用;缺省回退 enemyId。 */
     objectId?: number
-  }>
+  } | null>
   /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight),缺省兼容旧 fixture。 */
   enemySpriteFrameHeights?: Map<number, number>
   field: BattleField
@@ -676,6 +681,47 @@ function seedBattleStatus(persistent: number[] | undefined): BattleStatus {
   }
 }
 
+/**
+ * DH1:敌队 0 占位槽的零值 Enemy(对照 battle.c:1600 `memset(&rgEnemy[j], 0, sizeof(BATTLEENEMY))`
+ * 后仅写 wObjectID=0 —— e 全零)。该槽 defeated=true,不参与任何战斗逻辑,字段值无消费方。
+ */
+function makeEmptySlotEnemy(): Enemy {
+  return {
+    id: 0,
+    idleFrames: 0,
+    magicFrames: 0,
+    attackFrames: 0,
+    idleAnimSpeed: 0,
+    actWaitFrames: 0,
+    yPosOffset: 0,
+    attackSound: 0,
+    actionSound: 0,
+    magicSound: 0,
+    deathSound: 0,
+    callSound: 0,
+    health: 0,
+    exp: 0,
+    cash: 0,
+    level: 0,
+    magic: 0,
+    magicRate: 0,
+    attackEquivItem: 0,
+    attackEquivItemRate: 0,
+    stealItem: 0,
+    stealItemCount: 0,
+    attackStrength: 0,
+    magicStrength: 0,
+    defense: 0,
+    dexterity: 0,
+    fleeRate: 0,
+    poisonResistance: 0,
+    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    physicalResistance: 0,
+    dualMove: 0,
+    collectValue: 0,
+  }
+}
+
 export function createBattleState(input: CreateBattleStateInput): BattleState {
   if (input.gs.partyMembers.length > MAX_BATTLE_PLAYERS) {
     throw new Error(
@@ -707,6 +753,29 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
 
   const enemyCount = input.enemies.length
   const enemies: BattleEnemy[] = input.enemies.map((e, i) => {
+    // DH1:敌队 0 占位槽(battle.c:1716 `w==0` 占槽计入 wMaxEnemyIndex)。建 defeated 空槽:
+    //   站位列数与 0x9E 召唤房间由它撑起(赤鬼王[0,76,0]/黑巫师[0,124,0,0,0] 等 68/380 队),
+    //   语义同死敌清槽(wObjectID==0),目标/脚本/渲染天然跳过。
+    if (e === null) {
+      const base = getEnemyBasePos(input.enemyPos, enemyCount, i, 0)
+      return {
+        e: makeEmptySlotEnemy(),
+        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
+        prevHp: 0,
+        maxHealth: 0,
+        objectId: 0, // = wObjectID 0(空槽标记)
+        scriptOnTurnStart: 0,
+        scriptOnBattleEnd: 0,
+        scriptOnReady: 0,
+        resistanceToSorcery: 0,
+        poisons: [],
+        pos: base ? { ...base } : undefined,
+        posOriginal: base ? { ...base } : undefined,
+        defeated: true,
+        currentFrame: undefined,
+        iColorShift: 0,
+      }
+    }
     const scripts = input.enemyScripts?.[i]
     // D17a:idle 底锚 = EnemyPos.pos[i][maxEnemyIndex] + yPosOffset(battle.c:936-939)。
     const base = getEnemyBasePos(input.enemyPos, enemyCount, i, e.yPosOffset ?? 0)

@@ -278,21 +278,30 @@ export function startBattle(input: StartBattleInput): void {
   const team = input.enemyTeams.find((t) => t.id === input.enemyTeamId)
   if (!team) throw new Error(`startBattle: enemyTeam id ${input.enemyTeamId} not found`)
 
-  // 展开 team.enemies(过滤 0 / 0xFFFF),并平行构造 enemyScripts。
-  // 新提取数据按 enemyObjectIndexes 精确反查脚本;旧数据/自定义敌队按 enemyId 兼容反查。
-  const enemyList: Enemy[] = []
+  // 展开 team.enemies:0xFFFF 不占槽(battle.c:1604 continue);0 = 空占位槽(battle.c:1716
+  // `w==0` 仍 `rgEnemy[i++].wObjectID = w` 占槽计入 wMaxEnemyIndex)→ 保留为 null,
+  // createBattleState 建 defeated 空槽 —— 撑起站位列数(pos[i][maxEnemyIndex])与 0x9E 召唤房间
+  // (DH1:赤鬼王[0,76,0]/黑巫师[0,124,0,0,0] 等 68/380 队带 0 槽,压缩会致站位错排 + boss 永不召唤)。
+  const enemyList: Array<Enemy | null> = []
   const enemyScripts: Array<{
     onTurnStart: number
     onReady: number
     onBattleEnd: number
     resistanceToSorcery: number
     objectId: number
-  }> = []
+  } | null> = []
   for (const [slotIndex, slot] of team.enemies.entries()) {
-    if (slot === 0 || slot === 0xffff) continue
+    if (slot === 0xffff) continue
+    if (slot === 0) {
+      enemyList.push(null)
+      enemyScripts.push(null)
+      continue
+    }
     const e = input.enemies.find((en) => en.id === slot)
     if (!e) {
-      console.warn(`[battle] startBattle: enemy id ${slot} not in enemies.json, skipped`)
+      console.warn(`[battle] startBattle: enemy id ${slot} not in enemies.json, kept as empty slot`)
+      enemyList.push(null)
+      enemyScripts.push(null)
       continue
     }
     enemyList.push(e)

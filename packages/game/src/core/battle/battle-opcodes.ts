@@ -29,8 +29,9 @@ function asShort(n: number): number {
 }
 
 function refreshEnemyBattlePositions(ctx: BattleCtx): void {
-  const maxIdx = Math.max(-1, ...ctx.state.enemies.map((enemy, idx) => enemy.defeated ? -1 : idx))
-  const count = maxIdx + 1
+  // DH1:布局列数 = wMaxEnemyIndex+1 = 槽数组长度(含 0 占位/死敌空槽 —— battle.c 中
+  // wMaxEnemyIndex 不因 wObjectID 清 0 而缩小;0x9C 扩槽时数组 push 使 length 同步增长)。
+  const count = ctx.state.enemies.length
   ctx.state.enemies.forEach((enemy, idx) => {
     const base = enemy.defeated
       ? undefined
@@ -1259,12 +1260,26 @@ export function dispatchBattleOpcode(
       let resist: number
       let summonObjectId: number // L25:对象身份(wObjectID),0x91 同种判定用
       if (w === 0 || w === 0xFFFF) {
+        // DM8:script.c:2885-2922 自身同种召唤,新敌脚本一律取 `rgObject[w].enemy.wScriptOn*`
+        //   对象表入口(rgObject overlay 优先 = 0x90 改写后的活值,否则静态模板)——而非 self 的
+        //   运行时字段(scriptOnReady 经 store-back 推进过,副本会天生带"已消费"入口,跳过起手
+        //   对白/AI 节拍段)。查无对象(旧 fixture objectId=enemyId 非真对象号)→ 回退 self 旧行为。
         enemyId = self.e.id
-        onTurnStart = self.scriptOnTurnStart
-        onReady = self.scriptOnReady
-        onBattleEnd = self.scriptOnBattleEnd
-        resist = self.resistanceToSorcery ?? 0
         summonObjectId = self.objectId ?? self.e.id // 自身同种 → 同 wObjectID
+        const ov = ctx.gs?.rgObject[summonObjectId]
+        const eo = tables.enemyObjects.find(o => o.objectIndex === summonObjectId)
+        if (ov || eo) {
+          onTurnStart = ov?.rgwData[2] ?? eo?.scriptOnTurnStart ?? 0
+          onBattleEnd = ov?.rgwData[3] ?? eo?.scriptOnBattleEnd ?? 0
+          onReady = ov?.rgwData[4] ?? eo?.scriptOnReady ?? 0
+          resist = ov?.rgwData[1] ?? eo?.resistanceToSorcery ?? 0
+        }
+        else {
+          onTurnStart = self.scriptOnTurnStart
+          onReady = self.scriptOnReady
+          onBattleEnd = self.scriptOnBattleEnd
+          resist = self.resistanceToSorcery ?? 0
+        }
       }
       else {
         const eo = tables.enemyObjects.find(o => o.objectIndex === w)

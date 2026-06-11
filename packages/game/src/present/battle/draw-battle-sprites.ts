@@ -290,6 +290,9 @@ export function drawBattleSprites(
     //   - >= 72 → 不画(已完全淡出消失)。
     const fadeStep = enemy.deathFadeStep
     if (fadeStep !== undefined && fadeStep >= DEATH_FADE_TOTAL_STEPS) return
+    // DH1:初始 0 占位空槽(defeated 且从未进入死亡淡出)→ 不画。战斗中死亡的敌人
+    // defeated 与 deathFadeStep=0 同步设置(checkEnemyDeaths),不会命中此分支。
+    if (enemy.defeated && fadeStep === undefined) return
     const isFading = fadeStep !== undefined // 0..71(>=72 已 return);undefined = 活/刚死未淡
     // D17a:动画期间用 render-state pos(逐帧 mutate);旧 fixture 无 pos → 共享 anchor
     // (含 wYPosOffset,sdlpal battle.c:939),与伤害数字锚点同源杜绝漂移。

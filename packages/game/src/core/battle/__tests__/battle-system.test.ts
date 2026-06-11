@@ -423,12 +423,16 @@ describe('startBattle', () => {
     expect(gs.battleState?.enemies).toHaveLength(1)
   })
 
-  it('过滤 0 / 0xFFFF 空槽位', () => {
+  it('0xFFFF 不占槽,0 保留为 defeated 空槽(DH1,battle.c:1604/1716)', () => {
     const { gs } = bootstrap({
       enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 200 })],
       teamSlots: [100, 0, 200, 0xFFFF, 0xFFFF],
     })
-    expect(gs.battleState?.enemies).toHaveLength(2)
+    // [100, 空槽, 200]:0 占槽计入 wMaxEnemyIndex,0xFFFF 被 continue
+    expect(gs.battleState?.enemies).toHaveLength(3)
+    expect(gs.battleState?.enemies[0]!.e.id).toBe(100)
+    expect(gs.battleState?.enemies[1]!.defeated).toBe(true)
+    expect(gs.battleState?.enemies[2]!.e.id).toBe(200)
   })
 
   it('同一 enemyId 的不同 OBJECT_ENEMY 变体按 team 原对象号精确挂脚本', () => {
@@ -550,13 +554,14 @@ describe('startBattle', () => {
     expect(gs.battleState?.isBoss).toBe(true)
   })
 
-  it('enemy slot 指向不在 enemies.json 的 id → warn + 跳过', () => {
+  it('enemy slot 指向不在 enemies.json 的 id → warn + 保留为空槽(不破坏槽位布局)', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { gs } = bootstrap({
       enemies: [makeEnemy({ id: 100 })],
       teamSlots: [100, 999, 0xFFFF, 0xFFFF, 0xFFFF],
     })
-    expect(gs.battleState?.enemies).toHaveLength(1)
+    expect(gs.battleState?.enemies).toHaveLength(2)
+    expect(gs.battleState?.enemies[1]!.defeated).toBe(true) // 坏数据按空槽处理,站位列数不漂移
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('enemy id 999'))
     warnSpy.mockRestore()
   })
@@ -3041,4 +3046,49 @@ describe('selectAction 阶段脚本动画 hold(0x9C 分裂散开)', () => {
     expect(state.phase).toBe('selectAction')
     expect(state.currentActionIndex).toBe(0)
   })
+})
+
+// ============================================================================
+// DH1:敌队 0 占位槽(battle.c:1716 `w==0` 占空槽计入 wMaxEnemyIndex)
+// ============================================================================
+
+describe('DH1 敌队 0 占位槽', () => {
+  const POS_3 = [{ x: 90, y: 90 }, { x: 170, y: 80 }, { x: 250, y: 70 }]
+  const enemyPos: EnemyPosTable = {
+    layouts: [
+      [{ x: 160, y: 80 }],
+      [{ x: 120, y: 80 }, { x: 220, y: 70 }],
+      POS_3,
+      [{ x: 70, y: 92 }, { x: 130, y: 82 }, { x: 210, y: 72 }, { x: 270, y: 62 }],
+      [{ x: 50, y: 94 }, { x: 110, y: 84 }, { x: 170, y: 74 }, { x: 230, y: 64 }, { x: 290, y: 54 }],
+    ],
+  }
+
+  it('[0,76,0] 型敌队保留 3 槽:0 槽为 defeated 空槽,真敌站 3 列阵中位(pos[1][2])', () => {
+    const { gs } = bootstrap({
+      enemies: [makeEnemy({ id: 76, health: 50 })],
+      teamSlots: [0, 76, 0, 0xFFFF, 0xFFFF],
+      enemyPos,
+    })
+    const st = gs.battleState!
+    expect(st.enemies).toHaveLength(3) // 修前:压缩成 1
+    expect(st.enemies[0]!.defeated).toBe(true)
+    expect(st.enemies[0]!.objectId).toBe(0) // wObjectID==0 空槽
+    expect(st.enemies[2]!.defeated).toBe(true)
+    expect(st.enemies[1]!.defeated).toBeUndefined()
+    expect(st.enemies[1]!.e.id).toBe(76)
+    // 站位 = pos[槽位1][maxEnemyIndex=2](修前:pos[0][0] 单敌正中)
+    expect(st.enemies[1]!.posOriginal).toEqual(POS_3[1])
+  })
+
+  it('0xFFFF 不占槽(battle.c:1604 continue):[100,0xFFFF×4] 仍单槽', () => {
+    const { gs } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 50 })],
+      teamSlots: [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF],
+      enemyPos,
+    })
+    expect(gs.battleState!.enemies).toHaveLength(1)
+    expect(gs.battleState!.enemies[0]!.defeated).toBeUndefined()
+  })
+
 })

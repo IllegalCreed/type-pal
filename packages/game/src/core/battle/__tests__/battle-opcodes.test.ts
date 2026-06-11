@@ -1921,3 +1921,77 @@ describe('0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene)', (
     expect(capturedSelfIdx).toEqual([1, 1, 1])
   })
 })
+
+// ============================================================================
+// DM8:自身同种召唤(w=0/0xFFFF)脚本入口取对象表模板(script.c:2885-2922
+// `rgObject[w].enemy.wScriptOn*`),非 self 运行时已推进值
+// ============================================================================
+
+describe('DM8 自身同种召唤脚本入口', () => {
+  it('w=0 副本脚本取静态 enemyObjects 模板,非 self 运行时(store-back 推进过的)值', () => {
+    const self = richEnemy({ id: 22, health: 200 })
+    self.objectId = 419
+    self.scriptOnReady = 9999 // 运行时被 store-back 推进过
+    self.scriptOnTurnStart = 8888
+    const empty = richEnemy({ id: 22, health: 0 })
+    empty.defeated = true
+    const roster = [self, empty]
+    const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
+    const r = dispatchBattleOpcode(0x9E, [0, 1, 300], ctx)
+    expect(r.consumed).toBe(true)
+    expect(roster[1]!.defeated).toBe(false)
+    expect(roster[1]!.e.id).toBe(22)
+    expect(roster[1]!.objectId).toBe(419)
+    expect(roster[1]!.scriptOnReady).toBe(22) // ENEMY_OBJ 模板值(修前:9999)
+    expect(roster[1]!.scriptOnTurnStart).toBe(11) // 模板值(修前:8888)
+  })
+
+  it('rgObject overlay(0x90 改写后的活值)优先于静态模板', () => {
+    const self = richEnemy({ id: 22, health: 200 })
+    self.objectId = 419
+    self.scriptOnReady = 9999
+    const empty = richEnemy({ id: 22, health: 0 })
+    empty.defeated = true
+    const roster = [self, empty]
+    const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
+    // rgwData 布局:[1]=抗性 [2]=turnStart [3]=battleEnd [4]=ready
+    ctx.gs!.rgObject[419] = { rgwData: [0, 5, 7777, 0, 6666, 0, 0] }
+    dispatchBattleOpcode(0x9E, [0, 1, 300], ctx)
+    expect(roster[1]!.scriptOnTurnStart).toBe(7777)
+    expect(roster[1]!.scriptOnReady).toBe(6666)
+    expect(roster[1]!.resistanceToSorcery).toBe(5)
+  })
+
+  it('旧 fixture(objectId=enemyId 查无对象、无 overlay)→ 回退 self 运行时值', () => {
+    const self = richEnemy({ id: 22, health: 200 })
+    self.scriptOnReady = 33 // 无 objectId → summonObjectId=22,enemyObjects 查无 → 回退
+    const empty = richEnemy({ id: 22, health: 0 })
+    empty.defeated = true
+    const roster = [self, empty]
+    const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
+    dispatchBattleOpcode(0x9E, [0, 1, 300], ctx)
+    expect(roster[1]!.scriptOnReady).toBe(33)
+  })
+})
+
+describe('DH1 初始 0 占位空槽参与召唤房间', () => {
+  it('赤鬼王[0,76,0]型开局:2 个 0 槽 = 2 个召唤房间,0x9E 召唤 2 只成功', () => {
+    const mkEmpty = () => {
+      const e = richEnemy({ id: 0, health: 0 })
+      e.defeated = true
+      e.objectId = 0
+      return e
+    }
+    const self = richEnemy({ id: 76, health: 200 })
+    self.objectId = 473
+    const roster = [mkEmpty(), self, mkEmpty()]
+    const ctx = summonCtx(roster, 1, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
+    const r = dispatchBattleOpcode(0x9E, [419, 2, 300], ctx)
+    expect(r.consumed).toBe(true)
+    expect(r.newIp).toBeUndefined() // 不走 fail 跳转(修前:0 槽被压缩 → room=0 恒 fail)
+    expect(roster[0]!.defeated).toBe(false)
+    expect(roster[0]!.e.id).toBe(22)
+    expect(roster[2]!.defeated).toBe(false)
+    expect(roster[2]!.e.id).toBe(22)
+  })
+})
