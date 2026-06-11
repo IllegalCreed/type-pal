@@ -457,16 +457,17 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
       systemMenuToggleConfirm(s) // 复用:confirmYes 即"开(右)高亮"
     }
     if (input.pressed.has('Menu')) {
-      s.phase = 'menu' // 取消 = PAL_SwitchMenu CANCELLED → 保持当前态(fEnabled)
-      s.switchTarget = undefined
+      // DH9:取消 = PAL_SwitchMenu CANCELLED → 保持当前态;但 case3/4 仍走完 → PAL_SystemMenu
+      //   return TRUE(uigame.c:650)→ goto out 关**整个**菜单(修前留系统菜单)。
+      gs.menuStack = []
       return
     }
     if (input.pressed.has('Confirm')) {
       const on = s.confirmYes // 开=true / 关=false
       if (s.switchTarget === 'music') gs.fMusicEnabled = on
       else if (s.switchTarget === 'sound') gs.fSoundEnabled = on
-      s.phase = 'menu'
-      s.switchTarget = undefined
+      // DH9:切换完 → PAL_SystemMenu return TRUE → goto out 关**整个**菜单(uigame.c:633/642/650)。
+      gs.menuStack = []
     }
     return
   }
@@ -547,7 +548,9 @@ function dispatchInventoryActionMenu(
 ): void {
   const s = top.state as InventoryActionMenuState
   if (input.pressed.has('Menu')) {
-    closeTopMenu(gs)
+    // DH9:uigame.c PAL_InventoryMenu(2 项 box)CANCELLED → 函数返回 → InGameMenu case3
+    //   goto out —— 从"装备/使用"box 按 ESC 也关**整个**菜单回大世界,不回 hub。
+    gs.menuStack = []
     return
   }
   if (input.pressed.has('Up')) inventoryActionMenuUp(s)
@@ -587,7 +590,8 @@ function dispatchInventoryMenu(
   const s = top.state as InventoryMenuState
   if (input.pressed.has('Menu')) {
     cancelInventoryMenu(s)
-    if (s.phase === 'done') closeTopMenu(gs)
+    // DH9:PAL_GameUseItem 返回 → PAL_InventoryMenu 返回 → goto out(uigame.c:1024-1026)
+    if (s.phase === 'done') gs.menuStack = []
     return
   }
   // sdlpal itemmenu.c:63-94 真值:8 keys grid navigation
@@ -663,7 +667,7 @@ function dispatchInventoryMenu(
         }
       }
     }
-    if (s.phase === 'done') closeTopMenu(gs)
+    if (s.phase === 'done') gs.menuStack = [] // DH9:goto out 关整个菜单
   }
 }
 
@@ -694,7 +698,8 @@ function dispatchEquipMenu(
     cancelEquipMenu(s)
     // pick-role → list 回退:同换装出口,grid 按当前背包重建(sdlpal 外层 while 重进 ItemSelectMenu)。
     if (wasPickRole && s.phase === 'list') s.list = createInventoryMenuRefresh(gs, requireCatalogs().items)
-    if (s.phase === 'done') closeTopMenu(gs)
+    // DH9:PAL_GameEquipItem 返回 → PAL_InventoryMenu 返回 → goto out(uigame.c:1024-1026)
+    if (s.phase === 'done') gs.menuStack = []
     return
   }
   // 8 key navigation:
@@ -753,7 +758,7 @@ function dispatchEquipMenu(
         }
       }
     }
-    if (s.phase === 'done') closeTopMenu(gs)
+    if (s.phase === 'done') gs.menuStack = [] // DH9:goto out 关整个菜单
   }
 }
 
@@ -773,7 +778,8 @@ function dispatchInGameMagicMenu(
   const s = top.state as InGameMagicMenuState
   if (input.pressed.has('Menu')) {
     cancelInGameMagic(s)
-    if (s.phase === 'done') closeTopMenu(gs)
+    // DH9:PAL_InGameMagicMenu 返回 → InGameMenu case2 goto out(uigame.c:1014-1017)
+    if (s.phase === 'done') gs.menuStack = []
     return
   }
   // sdlpal 真值:
@@ -846,7 +852,7 @@ function dispatchInGameMagicMenu(
         }
       }
     }
-    if (s.phase === 'done') closeTopMenu(gs)
+    if (s.phase === 'done') gs.menuStack = [] // DH9:goto out 关整个菜单
   }
 }
 
@@ -872,7 +878,8 @@ function dispatchPlayerStatusMenu(gs: GameState, top: ActiveMenuEntry, input: In
     playerStatusNext(s)
   }
   if (s.done) {
-    closeTopMenu(gs)
+    // DH9:PAL_PlayerStatus 返回 → InGameMenu case1 goto out(uigame.c:1007-1010)
+    gs.menuStack = []
   }
 }
 
@@ -885,8 +892,13 @@ function dispatchSaveSlotMenu(
   bus: CommandBus,
 ): void {
   const s = top.state as SaveSlotMenuState
+  const inGameCtx = gs.menuStack.some((m) => m.kind === 'system')
   if (input.pressed.has('Menu')) {
-    closeTopMenu(gs)
+    // DH9:in-game 存/读档槽**取消**在 C 也走 PAL_SystemMenu return TRUE → goto out 关整个菜单
+    //   (uigame.c:584/605 的 if 只包住保存/读档动作,CANCELLED 照样落到 :650 return TRUE);
+    //   opening(标题读档)上下文保持 pop 回 opening(uigame.c:146-151)。
+    if (inGameCtx) gs.menuStack = []
+    else closeTopMenu(gs)
     return
   }
   if (input.pressed.has('Up')) saveSlotMenuUp(s)
@@ -917,7 +929,9 @@ function dispatchSaveSlotMenu(
       }).catch((err) => {
         console.error('[save] saveSlot failed:', err)
       })
-      closeTopMenu(gs)  // 关 save-slot,回 SystemMenu
+      // DH9:存档完成 → PAL_SystemMenu return TRUE → goto out 关**整个**菜单回大世界
+      //   (uigame.c:598/650;修前回 SystemMenu 留 hub)。
+      gs.menuStack = []
     }
     else {
       // sdlpal SystemMenu Load case(uigame.c:601-611)真值:

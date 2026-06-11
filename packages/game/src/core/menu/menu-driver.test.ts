@@ -187,8 +187,8 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     expect(sys.confirmYes).toBe(false)
     tickMenu(gs, snap(['Confirm']), createCommandBus()) // 确认关
     expect(gs.fMusicEnabled).toBe(false) // 写入
-    expect(sys.phase).toBe('menu') // 回系统菜单(非关整个菜单)
-    expect(gs.menuStack.length).toBe(1)
+    // DH9:切换完 → PAL_SystemMenu return TRUE → goto out 关整个菜单(uigame.c:633/650)
+    expect(gs.menuStack.length).toBe(0)
   })
 
   it('选「音效」(cursor 3)→ switch;Menu 取消 → 保持当前态、回 menu(不写)', () => {
@@ -202,7 +202,8 @@ describe('M5.6 W0.b dispatchSystemMenu', () => {
     tickMenu(gs, snap(['Left']), createCommandBus()) // 切到关
     tickMenu(gs, snap(['Menu']), createCommandBus()) // 取消
     expect(gs.fSoundEnabled).toBe(true) // 取消不写,保持当前态
-    expect(sys.phase).toBe('menu')
+    // DH9:取消后 case 仍走完 → return TRUE → goto out 关整个菜单(uigame.c:650)
+    expect(gs.menuStack.length).toBe(0)
   })
 
   it('confirm 选 是(Confirm@Yes)→ 调 systemQuitHandler(回标题),不复用 0xA0 结局 handler', () => {

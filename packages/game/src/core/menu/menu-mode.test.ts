@@ -3,6 +3,7 @@ import type { InputSnapshot, AbstractKey, Item, Magic, PlayerRoles, Spell } from
 import { createCommandBus } from '../command-bus.js'
 import { createInitialGameState } from '../game-state.js'
 import { createInGameMenu } from './in-game-menu.js'
+import { createSystemMenu } from './in-game-menu.js'
 import { setMenuCatalogs } from './menu-driver.js'
 import { tickMenu, openMenu, closeTopMenu } from './menu-mode.js'
 
@@ -48,15 +49,23 @@ describe('M5.6 W0.a tickMenu 骨架', () => {
     expect(gs.mode).toBe('menu')
   })
 
-  it('栈两层 + Menu 键 → pop 一层(仍在 menu mode)', () => {
+  it('栈两层(hub+system)+ Menu 键 → pop 一层(仍在 menu mode;sdlpal SystemMenu CANCELLED 留 hub)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
-    openMenu(gs, { kind: 'inventory', state: { phase: 'list' } })
+    openMenu(gs, { kind: 'system', state: createSystemMenu() })
     expect(gs.menuStack.length).toBe(2)
     tickMenu(gs, snap(['Menu']), createCommandBus())
     expect(gs.menuStack.length).toBe(1)
     expect(gs.menuStack[0]?.kind).toBe('in-game')
     expect(gs.mode).toBe('menu')
+  })
+
+  it('DH9:物品列表 Menu 键 → goto out 关整个菜单栈(uigame.c:1024-1026,非 pop 回 hub)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
+    openMenu(gs, { kind: 'inventory', state: { phase: 'list' } })
+    tickMenu(gs, snap(['Menu']), createCommandBus())
+    expect(gs.menuStack.length).toBe(0)
   })
 })
 
