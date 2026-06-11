@@ -162,8 +162,9 @@ export function syncShellAudio(
   audio.setSfxEnabled(gs.fSoundEnabled ?? true)
   // 战斗胜利曲(battle.c:1030-1032,'won' 结算期 isBoss?2:3 不循环;结算完 battleState 清→场景乐恢复)。
   const victoryTrack = battleVictoryTrack(gs.battleState)
+  const battleIntroActive = gs.battleState?.introFade !== undefined // DM29:揭场未完 → 静默
   audio.sync(gs.pendingSounds, {
-    track: victoryTrack > 0 ? victoryTrack : pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic),
+    track: victoryTrack > 0 ? victoryTrack : pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic, battleIntroActive),
     loop: victoryTrack > 0 ? false : (inBattle ? true : (gs.musicLoop ?? true)),
   })
   // M6 战斗 SFX:扫本帧 bus 视觉事件 → per-单位声(敌死 deathSound / 敌攻 attackSound /

@@ -3343,6 +3343,9 @@ function applyRawOpcode(
     case OP_STOP_MUSIC: {
       // sdlpal script.c:2215:AUDIO_PlayMusic(0,FALSE,op0==0?2.0:op0*3) + wNumMusic=0。
       //   op0 = fade-out 秒(0 → 2.0s,否则 op0*3s)。ts:state-set wNumMusic=0;shell 停 BGM。
+      // DL12 结案:停乐淡出秒数(script.c:2219-2221 `op0==0?2.0:op0*3`)。本项目音乐走 MIDI 后端,
+      //   C 的 native MIDI 同样丢弃 fade(audio.c MIDI_Play 不收 flFadeTime)→ 忠实不做 ramp,
+      //   保留计算供未来 OGG/RIX 后端消费。
       const fadeSec = (operands[0] ?? 0) === 0 ? 2.0 : (operands[0] ?? 0) * 3
       gs.wNumMusic = 0
       break

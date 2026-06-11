@@ -78,7 +78,18 @@ export function musicUrl(baseUrl: string, track: number): string {
  * 战后 `AUDIO_PlayMusic(wNumMusic, TRUE)` 恢复场景乐(battle.c:1849)。ts:wNumMusic 持有场景 field 乐
  * (不被战斗覆盖),战斗中有效 track 切到 wNumBattleMusic;退出战斗自动回 wNumMusic。
  */
-export function pickMusicTrack(inBattle: boolean, wNumMusic: number, wNumBattleMusic: number): number {
+export function pickMusicTrack(
+  inBattle: boolean,
+  wNumMusic: number,
+  wNumBattleMusic: number,
+  // DM29:battle.c:717-728 进战斗序 = 停场景曲(1s 淡出)→ UTIL_Delay(200) → VIDEO_SwitchScreen
+  //   揭场(360ms)→ **才**起战斗曲。ts 入场 dither fade(introFade)期间返回 0(静默),揭场完
+  //   才切 battle BGM —— 修"遇敌瞬间场景曲掐断、战斗曲零延迟炸响"。
+  //   (1s 淡出/淡入:本项目音乐走 MIDI 后端,C 的 native MIDI 同样丢 flFadeTime(audio.c
+  //   MIDI_Play 不收 fade)→ 忠实不做 gain ramp,只做结构性时序。)
+  battleIntroActive = false,
+): number {
+  if (inBattle && battleIntroActive) return 0
   return inBattle ? wNumBattleMusic : wNumMusic
 }
 
