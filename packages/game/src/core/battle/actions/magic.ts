@@ -510,6 +510,7 @@ function buildAndStartMagicAnim(
     casterIdx: input.casterIdx,
     magic: {
       effect: magic.effect,
+      special: magic.special, // DM9:sLayerOffset(z 排序)
       type: offType,
       speed: magic.speed,
       fireDelay: magic.fireDelay,
@@ -751,6 +752,7 @@ function buildAndStartDefMagicAnim(
       casterIdx: input.casterIdx,
       magic: {
         effect: magic.effect,
+        special: magic.special, // DM9:sLayerOffset(z 排序)
         type: 'applyToPlayer',
         speed: magic.speed,
         xOffset: magic.xOffset,
@@ -774,6 +776,7 @@ function buildAndStartDefMagicAnim(
     casterIdx: input.casterIdx,
     magic: {
       effect: magic.effect,
+      special: magic.special, // DM9:sLayerOffset(z 排序)
       type: 'applyToParty',
       speed: magic.speed,
       xOffset: magic.xOffset,
@@ -854,6 +857,7 @@ function buildAndStartEnemyMagicAnim(
     enemyCasterIdx: input.casterIdx,
     magic: {
       effect: magic.effect,
+      special: magic.special, // DM9:sLayerOffset(z 排序)
       type: offType,
       speed: magic.speed,
       fireDelay: magic.fireDelay,

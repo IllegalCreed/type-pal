@@ -191,7 +191,21 @@ export class BattlePresent {
     //   修"起立":精灵 + UI 都读 live,死员 hp==0 → 倒下帧 2(draw-battle-sprites)/ HP 条显实时血。
     const liveRoles = getBattleLiveRoles(gs) ?? assets.playerRoles
 
-    // 3. 双方精灵(死员画倒下帧 2;召唤 god 模式隐队员)
+    // DM9:kind='magic' overlay 与敌我精灵统一 z 排序(battle.c:441-442 PAL_Y+sLayerOffset);
+    //   kind='effect'(物理命中特效)C 为 scene 后直接 blit gpScreen 恒最上,保持 3.5 区单独画。
+    const magicOverlayEntries: Array<{ x: number; sortY: number; draw: (f: Framebuffer) => void }> = []
+    const collectMagicOv = (ov: NonNullable<BattleState['battleAnim']>['overlay']): void => {
+      if (!ov || ov.kind !== 'magic') return
+      magicOverlayEntries.push({
+        x: ov.x,
+        sortY: ov.y + (ov.layerOffset ?? 0),
+        draw: (f) => drawBattleMagicOverlay(f, ov, assets.magicSprites),
+      })
+    }
+    collectMagicOv(state.battleAnim?.overlay)
+    for (const ov of state.battleAnim?.overlays ?? []) collectMagicOv(ov)
+
+    // 3. 双方精灵(死员画倒下帧 2;召唤 god 模式隐队员)+ 法术精灵(统一排序)
     drawBattleSprites(
       fb,
       state,
@@ -200,6 +214,7 @@ export class BattlePresent {
       assets.enemyPos,
       currentFrame,
       summonGodMode, // 召唤神出场 → 隐队员
+      magicOverlayEntries.length > 0 ? magicOverlayEntries : undefined,
     )
 
     // 3.1 召唤神精灵(替换队员;battle.c:163-212/386-405 lpSummonSprite!=NULL)。pos = posSummon 底中锚。
@@ -212,15 +227,13 @@ export class BattlePresent {
     // 3.5 D17a/D17:战斗动画 overlay(物理攻击命中特效 / 法术 FIRE.MKF sprite),sprite 之上 UI 之下。
     //     applyAnimFrame 写当前帧的 overlay(单数,effect)+ overlays(复数,magic AttackAll 三落点)。
     //     两者可并存(理论上不会同帧),都画;magic overlays 逐个 blit。
-    if (state.battleAnim?.overlay) {
-      const ov = state.battleAnim.overlay
-      if (ov.kind === 'magic') drawBattleMagicOverlay(fb, ov, assets.magicSprites)
-      else drawBattleEffectOverlay(fb, ov, assets.effectSprite)
+    // DM9:magic 类已并入上方精灵排序;此处只画 effect(物理命中特效,C scene 后直接 blit 恒最上)。
+    if (state.battleAnim?.overlay && state.battleAnim.overlay.kind === 'effect') {
+      drawBattleEffectOverlay(fb, state.battleAnim.overlay, assets.effectSprite)
     }
     if (state.battleAnim?.overlays) {
       for (const ov of state.battleAnim.overlays) {
-        if (ov.kind === 'magic') drawBattleMagicOverlay(fb, ov, assets.magicSprites)
-        else drawBattleEffectOverlay(fb, ov, assets.effectSprite)
+        if (ov.kind === 'effect') drawBattleEffectOverlay(fb, ov, assets.effectSprite)
       }
     }
 

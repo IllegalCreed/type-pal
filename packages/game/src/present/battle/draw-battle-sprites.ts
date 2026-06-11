@@ -265,6 +265,11 @@ export function drawBattleSprites(
   currentFrame: number,
   /** 召唤演出期:隐藏全体队员(改画召唤神,battle.c:386-405 lpSummonSprite!=NULL 分支)。 */
   hidePlayers = false,
+  /**
+   * DM9:参与统一 z 排序的法术精灵项(battle.c:441-442 `PAL_Y(pos)+sLayerOffset` 与敌我精灵
+   * 同列冒泡)。sortY = overlay.y + layerOffset;draw 回调画该 overlay。
+   */
+  sortedOverlays?: Array<{ x: number; sortY: number; draw: (fb: Framebuffer) => void }>,
 ): void {
   const targetBlinkOn = battleSelectBlinkOn()
   // D17a:把双方收集成一个 draw 列表 → Y 升序(平局 X 降序)排序 → 逐条 blit。
@@ -273,12 +278,20 @@ export function drawBattleSprites(
   interface DrawItem {
     x: number
     y: number
-    frame: SpriteFrame
+    frame?: SpriteFrame
     iColorShift: number
     /** D17:>=0 时走 blitFrameDeathFade(死亡淡出步);<0 = 普通 blit。 */
     fadeStep: number
+    /** DM9:法术 overlay 绘制回调(与精灵同列排序;有此项时 frame 不用)。 */
+    drawFn?: (fb: Framebuffer) => void
   }
   const items: DrawItem[] = []
+  // DM9:法术精灵进同一排序列表(y = overlay.y + sLayerOffset)。
+  if (sortedOverlays) {
+    for (const ov of sortedOverlays) {
+      items.push({ x: ov.x, y: ov.sortY, iColorShift: 0, fadeStep: -1, drawFn: ov.draw })
+    }
+  }
 
   // 敌方
   state.enemies.forEach((enemy, i) => {
@@ -362,6 +375,8 @@ export function drawBattleSprites(
   items.sort((a, b) => (a.y !== b.y ? a.y - b.y : b.x - a.x))
 
   for (const it of items) {
+    if (it.drawFn) { it.drawFn(fb); continue } // DM9:法术 overlay
+    if (!it.frame) continue
     // D17:死亡淡出像素走 crossfade(读 fb 背景逼近);普通精灵走 iColorShift blit。
     if (it.fadeStep >= 0) blitFrameDeathFade(fb, it.frame, it.x, it.y, it.fadeStep)
     else blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
@@ -371,6 +386,7 @@ export function drawBattleSprites(
   //   fHaveColorShift(iColorShift≠0)的精灵**再叠绘一次**("directly overlaid on the original
   //   sprites")→ 受击闪白/物品辉光精灵恒浮于其它精灵(含遮挡它的前排单位)之上。
   for (const it of items) {
+    if (it.drawFn || !it.frame) continue
     if (it.fadeStep < 0 && it.iColorShift !== 0) blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
   }
 }

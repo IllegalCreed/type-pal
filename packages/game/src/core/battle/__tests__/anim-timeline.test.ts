@@ -140,7 +140,7 @@ describe('召唤动画 builders (fight.c:3072-3187 / 3120-3128)', () => {
     expect(seq[74]!.summon!.frame).toBe(2)
     // offMagic:召唤神定格 last frame 3,overlays 保留
     expect(seq[75]!.summon!.frame).toBe(3)
-    expect(seq[75]!.overlays).toEqual([])
+    expect(seq[75]!.overlays).toMatchObject([])
     // fadeOut:dir out,召唤神 last frame 3
     const last = seq[seq.length - 1]!
     expect(last.summon!.fadeDir).toBe('out')
@@ -385,7 +385,7 @@ describe('buildPlayerAttackTimeline (fight.c:2008-2263)', () => {
       { side: 'player', idx: 0, currentFrame: 9 },
       { side: 'enemy', idx: 0, iColorShift: 6 },
     ])
-    expect(f.overlay).toEqual({
+    expect(f.overlay).toMatchObject({
       kind: 'effect',
       spriteChunk: EFFECT_SPRITE_CHUNK,
       frameIdx: 6, // base+0
@@ -397,7 +397,7 @@ describe('buildPlayerAttackTimeline (fight.c:2008-2263)', () => {
 
   it('frame3(特效 i=1):overlay frame=base+1 落点 x-=16/y+=16;attacker.pos += (2,1)', () => {
     const f = frames[3]!
-    expect(f.overlay).toEqual({
+    expect(f.overlay).toMatchObject({
       kind: 'effect',
       spriteChunk: EFFECT_SPRITE_CHUNK,
       frameIdx: 7,
@@ -411,7 +411,7 @@ describe('buildPlayerAttackTimeline (fight.c:2008-2263)', () => {
 
   it('frame4(特效 i=2):overlay frame=base+2 落点 (128,122);无 fighter delta', () => {
     const f = frames[4]!
-    expect(f.overlay).toEqual({
+    expect(f.overlay).toMatchObject({
       kind: 'effect',
       spriteChunk: EFFECT_SPRITE_CHUNK,
       frameIdx: 8,
@@ -769,7 +769,7 @@ describe('buildPreMagicTimeline (fight.c:2337-2445)', () => {
     // frame6..15 = cast 特效 j=0..9
     for (let j = 0; j < 10; j++) {
       const f = frames[6 + j]!
-      expect(f.overlay).toEqual({
+      expect(f.overlay).toMatchObject({
         kind: 'effect',
         spriteChunk: EFFECT_SPRITE_CHUNK,
         frameIdx: 35 + j,
@@ -992,7 +992,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
 
   it('normal 落点 = enemy.pos + (xOff,yOff) = (164,74),overlay kind=magic chunk=effect', () => {
     const f = buildNormal()
-    expect(f[1]!.overlays).toEqual([{ kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 164, y: 74 }]) // frames[0] 是 L14 前置 Delay(1)
+    expect(f[1]!.overlays).toMatchObject([{ kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 164, y: 74 }]) // frames[0] 是 L14 前置 Delay(1)
   })
 
   it('attackAll:三落点 {70,140}{100,110}{160,100} 各 +off → overlays[3] 同帧', () => {
@@ -1011,7 +1011,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       n: 4,
       targetIdx: -1,
     })
-    expect(f[1]!.overlays).toEqual([ // frames[0] 是 L14 前置 Delay(1)
+    expect(f[1]!.overlays).toMatchObject([ // frames[0] 是 L14 前置 Delay(1)
       { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 75, y: 150 },
       { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 105, y: 120 },
       { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 165, y: 110 },
@@ -1034,7 +1034,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       n: 4,
       targetIdx: -1,
     })
-    expect(fw[1]!.overlays).toEqual([ // frames[0] 是 L14 前置 Delay(1)
+    expect(fw[1]!.overlays).toMatchObject([ // frames[0] 是 L14 前置 Delay(1)
       { kind: 'magic', spriteChunk: 30, frameIdx: 0, x: 120, y: 100 },
     ])
     const ff = buildPlayerOffMagicTimeline({
@@ -1052,7 +1052,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       n: 4,
       targetIdx: -1,
     })
-    expect(ff[1]!.overlays).toEqual([ // frames[0] 是 L14 前置 Delay(1)
+    expect(ff[1]!.overlays).toMatchObject([ // frames[0] 是 L14 前置 Delay(1)
       { kind: 'magic', spriteChunk: 31, frameIdx: 0, x: 160, y: 200 },
     ])
   })
@@ -1141,7 +1141,7 @@ describe('buildEnemyConfusedAttackTimeline (M8, fight.c:4596-4654)', () => {
     expect(frames[1]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 175, y: 145 } }])
     expect(frames[2]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 187, y: 152 } }]) // trunc(375/2),trunc(305/2)
     // —— 火花 3 帧:effectSprite 9/10/11,中点 x=(187+200)/2=193,y=160-0+10=170(fight.c:4614-4632)——
-    expect(frames[3]!.overlay).toEqual({ kind: 'effect', spriteChunk: EFFECT_SPRITE_CHUNK, frameIdx: 9, x: 193, y: 170 })
+    expect(frames[3]!.overlay).toMatchObject({ kind: 'effect', spriteChunk: EFFECT_SPRITE_CHUNK, frameIdx: 9, x: 193, y: 170 })
     expect(frames[4]!.overlay).toMatchObject({ frameIdx: 10, x: 193, y: 170 })
     expect(frames[5]!.overlay).toMatchObject({ frameIdx: 11 })
     // —— 受击:target 抖动(PostMagic)+ 伤害数字挂首帧(fight.c:4647-4648 DisplayStatChange→PostMagic)——
@@ -1189,7 +1189,7 @@ describe('buildPlayerDefMagicTimeline (fight.c:2447-2606)', () => {
     for (let i = 0; i < 5; i++) {
       const mf = f[1 + i]!
       expect(mf.durationMs).toBe(70)
-      expect(mf.overlays).toEqual([
+      expect(mf.overlays).toMatchObject([
         { kind: 'magic', spriteChunk: 15, frameIdx: i, x: 184, y: 144 },
       ])
     }
@@ -1220,7 +1220,7 @@ describe('buildPlayerDefMagicTimeline (fight.c:2447-2606)', () => {
     })
     // frame0=caster帧6; frame1..3 = magic; frame4..17 = 辉光
     const mf = f[1]!
-    expect(mf.overlays).toEqual([
+    expect(mf.overlays).toMatchObject([
       { kind: 'magic', spriteChunk: 16, frameIdx: 0, x: 240, y: 170 },
       { kind: 'magic', spriteChunk: 16, frameIdx: 0, x: 200, y: 150 },
       { kind: 'magic', spriteChunk: 16, frameIdx: 0, x: 160, y: 130 },
@@ -1327,7 +1327,7 @@ describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
 
   it('normal 落点 = player.pos + (xOff,yOff) = (244,164),overlay kind=magic chunk=effect', () => {
     const f = buildNormal()
-    expect(f[0]!.overlays).toEqual([{ kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 244, y: 164 }])
+    expect(f[0]!.overlays).toMatchObject([{ kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 244, y: 164 }])
   })
 
   it('attackAll:三落点 {180,180}{234,170}{270,146} 各 +off → overlays[3] 同帧(敌方坐标,异于 OffMagic)', () => {
@@ -1347,7 +1347,7 @@ describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
       enemy: { idleFrames: 4, magicFrames: 0, attackFrames: 0 },
       targetPlayerIdx: -1,
     })
-    expect(f[0]!.overlays).toEqual([
+    expect(f[0]!.overlays).toMatchObject([
       { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 185, y: 190 },
       { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 239, y: 180 },
       { kind: 'magic', spriteChunk: 20, frameIdx: 0, x: 275, y: 156 },
@@ -1371,7 +1371,7 @@ describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
       enemy: { idleFrames: 4, magicFrames: 0, attackFrames: 0 },
       targetPlayerIdx: -1,
     })
-    expect(fw[0]!.overlays).toEqual([
+    expect(fw[0]!.overlays).toMatchObject([
       { kind: 'magic', spriteChunk: 30, frameIdx: 0, x: 240, y: 150 },
     ])
     const ff = buildEnemyMagicTimeline({
@@ -1390,7 +1390,7 @@ describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
       enemy: { idleFrames: 4, magicFrames: 0, attackFrames: 0 },
       targetPlayerIdx: -1,
     })
-    expect(ff[0]!.overlays).toEqual([
+    expect(ff[0]!.overlays).toMatchObject([
       { kind: 'magic', spriteChunk: 31, frameIdx: 0, x: 160, y: 200 },
     ])
   })

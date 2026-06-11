@@ -778,6 +778,8 @@ export interface BuildOffMagicInput {
   magic: {
     /** FIRE.MKF chunk 号(= overlay.spriteChunk)。 */
     effect: number
+    /** DM9:MAGIC.special(非 summon 语义 = sLayerOffset,SHORT;z 排序)。 */
+    special?: number
     /** 法术类型(落点分支)。 */
     type: 'normal' | 'attackAll' | 'attackWhole' | 'attackField'
     /** SHORT — (speed+5)*10 = 帧 durationMs。 */
@@ -847,6 +849,9 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
   // targetIdx 透传供调用方语义对齐;落点由 magic.type + targetEnemyPos 决定,本体不直接读 targetIdx。
   const { casterIdx, magic, n, targetEnemyPos, iBlow, blowTargets, rng, baseScreenWave } = input
   const { effect, type, speed, fireDelay, effectTimes, shake, scriptShake, xOffset, yOffset, wave, keepEffect, sound } = magic
+  // DM9:sLayerOffset(= MAGIC.special 的非 summon 语义,SHORT)—— 法术精灵与敌我精灵统一按
+  //   PAL_Y+sLayerOffset 排序(fight.c:2735/battle.c:441-442);99≈恒最上,负值(地面型)画单位身后。
+  const layerOffset = asShortLocal((magic as { special?: number }).special ?? 0)
   // W4 iBlow:吹飞累加态(per target 运行 x/y),仅 iBlow!=0 + 有 targets + rng 时启用。
   const blowOn = !!iBlow && iBlow !== 0 && !!blowTargets && blowTargets.length > 0 && !!rng
   const blowAcc = blowOn ? blowTargets!.map((t) => ({ ...t, x: t.pos.x, y: t.pos.y })) : []
@@ -893,6 +898,7 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
       overlays.push({
         kind: 'magic',
         spriteChunk: effect,
+        layerOffset,
         frameIdx: k,
         x: ep.x + asShortLocal(xOffset),
         y: ep.y + asShortLocal(yOffset),
@@ -908,6 +914,7 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
         overlays.push({
           kind: 'magic',
           spriteChunk: effect,
+          layerOffset,
           frameIdx: k,
           x: px + asShortLocal(xOffset),
           y: py + asShortLocal(yOffset),
@@ -920,6 +927,7 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
       overlays.push({
         kind: 'magic',
         spriteChunk: effect,
+        layerOffset,
         frameIdx: k,
         x: px + asShortLocal(xOffset),
         y: py + asShortLocal(yOffset),
@@ -1294,6 +1302,8 @@ export interface BuildPlayerDefMagicInput {
   magic: {
     /** FIRE.MKF chunk 号(= overlay.spriteChunk)。 */
     effect: number
+    /** DM9:MAGIC.special(非 summon 语义 = sLayerOffset,SHORT;z 排序)。 */
+    special?: number
     /** 防御类落点分支:applyToPlayer(单体队员)/ applyToParty(全队员)。 */
     type: 'applyToPlayer' | 'applyToParty'
     /** SHORT — (speed+5)*10 = 帧 durationMs。 */
@@ -1333,6 +1343,7 @@ export interface BuildPlayerDefMagicInput {
 export function buildPlayerDefMagicTimeline(input: BuildPlayerDefMagicInput): BattleAnimFrame[] {
   const { casterIdx, magic, n, targetPlayerIdx, targetPlayerPos, partyPlayerPositions } = input
   const { effect, type, speed, xOffset, yOffset } = magic
+  const layerOffset = asShortLocal((magic as { special?: number }).special ?? 0) // DM9:sLayerOffset
   const frames: BattleAnimFrame[] = []
   const frameDuration = (speed + 5) * 10
 
@@ -1359,6 +1370,7 @@ export function buildPlayerDefMagicTimeline(input: BuildPlayerDefMagicInput): Ba
     const overlays: BattleAnimOverlay[] = dropPoints.map((p) => ({
       kind: 'magic',
       spriteChunk: effect,
+      layerOffset,
       frameIdx: i,
       x: p.x,
       y: p.y,
@@ -1390,6 +1402,8 @@ export interface BuildEnemyMagicInput {
   magic: {
     /** FIRE.MKF chunk 号(= overlay.spriteChunk)。 */
     effect: number
+    /** DM9:MAGIC.special(非 summon 语义 = sLayerOffset,SHORT;z 排序)。 */
+    special?: number
     /** 法术类型(落点分支;敌方攻击魔法 4 类型 — 落点对队员/全队)。 */
     type: 'normal' | 'attackAll' | 'attackWhole' | 'attackField'
     /** SHORT — (speed+5)*10 = 帧 durationMs。 */
@@ -1607,6 +1621,7 @@ export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnim
   // targetPlayerIdx 透传供调用方语义对齐;落点由 magic.type + targetPlayerPos 决定,本体不直接读 idx。
   const { enemyCasterIdx, magic, n, enemy, targetPlayerPos, iBlow, blowTargets, rng, baseScreenWave } = input
   const { effect, type, speed, fireDelay, effectTimes, shake, scriptShake, xOffset, yOffset, wave, keepEffect } = magic
+  const layerOffset = asShortLocal((magic as { special?: number }).special ?? 0) // DM9:sLayerOffset
   const { idleFrames, magicFrames, attackFrames } = enemy
   // W4 iBlow:吹飞累加态(per target 运行 x/y),仅 iBlow!=0 + 有 targets + rng 时启用。镜像 OffMagic,吹**全体队员**。
   const blowOn = !!iBlow && iBlow !== 0 && !!blowTargets && blowTargets.length > 0 && !!rng
@@ -1652,6 +1667,7 @@ export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnim
       overlays.push({
         kind: 'magic',
         spriteChunk: effect,
+        layerOffset,
         frameIdx: k,
         x: pp.x + asShortLocal(xOffset),
         y: pp.y + asShortLocal(yOffset),
@@ -1667,6 +1683,7 @@ export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnim
         overlays.push({
           kind: 'magic',
           spriteChunk: effect,
+          layerOffset,
           frameIdx: k,
           x: px + asShortLocal(xOffset),
           y: py + asShortLocal(yOffset),
@@ -1679,6 +1696,7 @@ export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnim
       overlays.push({
         kind: 'magic',
         spriteChunk: effect,
+        layerOffset,
         frameIdx: k,
         x: px + asShortLocal(xOffset),
         y: py + asShortLocal(yOffset),

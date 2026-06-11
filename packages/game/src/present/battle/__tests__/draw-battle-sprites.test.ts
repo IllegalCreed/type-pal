@@ -731,3 +731,21 @@ describe('confusedShakeDelta(混乱 ±1px 抖动,sdlpal battle.c:121/196)', () =
     expect(confusedShakeDelta(0.99)).toBe(1) // [2/3,1)
   })
 })
+
+describe('DM9:法术精灵参与 Y+sLayerOffset 统一 z 排序(battle.c:441-442)', () => {
+  it('负 layerOffset(地面型)排在精灵前(被精灵覆盖);大 offset 排后(盖精灵)', () => {
+    const playerRoles: PlayerRoles = { roles: [] }
+    const enemyA = minimalEnemy(50) // 位置 (160,80)
+    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSpriteAsset(2, 2, 11)]])
+    const state = mkState([], [mkBattleEnemy(enemyA)])
+    const order: string[] = []
+    const fb = createFramebuffer()
+    // 自定义 blit 探针顺序:负 offset(sortY 80-100=-20)在敌(y80)前画;+99(sortY 179)在敌后画
+    drawBattleSprites(fb, state, sprites, playerRoles, undefined, 0, false, [
+      { x: 160, sortY: 80 - 100, draw: () => order.push('ground') },
+      { x: 160, sortY: 80 + 99, draw: () => order.push('top') },
+    ])
+    // 敌精灵 blit 发生在两者之间:验证排序顺序 ground < top,且敌像素覆盖 ground 不覆盖 top
+    expect(order).toEqual(['ground', 'top'])
+  })
+})

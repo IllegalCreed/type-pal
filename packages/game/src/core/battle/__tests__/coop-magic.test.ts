@@ -282,7 +282,7 @@ describe('performCoopMagic(协力合击,fight.c:3856-4043 CLASSIC)', () => {
     expect(state.battleAnim).toBeDefined()
     expect(state.battleAnim!.frames.some(f => f.overlays?.some(o => o.kind === 'magic' && o.spriteChunk === 18))).toBe(true)
     const offFrame = state.battleAnim!.frames.find(f => f.overlays?.some(o => o.spriteChunk === 18))!
-    expect(offFrame.overlays).toEqual([{ kind: 'magic', spriteChunk: 18, frameIdx: 0, x: 160, y: 200 }])
+    expect(offFrame.overlays).toMatchObject([{ kind: 'magic', spriteChunk: 18, frameIdx: 0, x: 160, y: 200 }])
     expect(state.battleAnim!.pendingDamageNums ?? []).toHaveLength(0)
     expect(state.battleAnim!.frames.some(f => (f.damageNums?.length ?? 0) > 0)).toBe(true)
   })

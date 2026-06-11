@@ -251,6 +251,12 @@ export interface BattleAnimOverlay {
   /** 落点屏幕坐标(blit 底中 anchor:x - w/2, y - h)。 */
   x: number
   y: number
+  /**
+   * DM9:z 排序偏移(= MAGIC.sLayerOffset,SHORT;summon 法术该字段是召唤神 chunk 另用)。
+   * kind='magic' 时参与与敌我精灵统一的 `y + layerOffset` 排序(battle.c:441-442);
+   * kind='effect'(物理命中特效)C 为 scene 后直接 blit,恒最上,不带此字段。
+   */
+  layerOffset?: number
 }
 
 /**
