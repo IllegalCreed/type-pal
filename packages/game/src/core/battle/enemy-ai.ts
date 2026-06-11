@@ -92,10 +92,11 @@ export function decideEnemyAction(input: DecideEnemyActionInput): BattleAction {
   }
 
   // sdlpal fight.c:4656-4658 魔法门:wMagic!=0 && RandomLong(0,9)<magicRate && silence==0
+  // DL7:短路序与 C 一致(fight.c:4656-4658),被沉默敌**仍先消耗**一次掷骰(原前置短路不耗,RNG 流偏移)。
   if (
     enemy.magic !== 0
-    && (status?.silence ?? 0) === 0
     && rng.range(0, 10) < enemy.magicRate
+    && (status?.silence ?? 0) === 0
   ) {
     // fight.c:4663:wMagic==0xFFFF 进魔法分支即 goto end(什么不做)→ pass
     if (enemy.magic === MAGIC_SENTINEL_NOOP) {

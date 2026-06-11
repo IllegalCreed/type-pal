@@ -182,6 +182,8 @@ export interface BattleAction {
     | 'coop-magic'
   /** magic / item 的 id;attack/defend/flee 不用。throw-item = itemId。 */
   actionId?: number
+  /** DL1:本 attack 来自围攻(fAutoAttack)autoFill(= sdlpal auto-attack wActionID!=0 标记)。 */
+  autoAttack?: boolean
   /** target 索引(0..4 或 0..N enemy);-1 = 全体。 */
   target: number
   /**
@@ -534,6 +536,10 @@ export interface BattleState {
    * tickPostAction 检测毒结算改了 HP 时置 8,selectAction case 每 tick 递减,归 0 才开指令菜单。
    */
   roundEndDelayTicks?: number
+  /** DL3:本回合已执行合击(fight.c:3858 fThisTurnCoop)——后续玩家行动被吞;回合末清。 */
+  fThisTurnCoop?: boolean
+  /** DL1:执行期 auto-attack 粘性(fight.c:1447 每轮清/:1748-1759 覆盖后续手动动作为普攻)。 */
+  prevPlayerAutoAtk?: boolean
   /**
    * 队伍隐身计时(sdlpal `g_Battle.iHidingTime`)—— 0x5C hide 设 `-op0`。>0 时敌方
    * 跳过瞄准队员 / 0x9E·0x9F 召唤·变身失败。createBattleState 必设 0;optional 仅向后兼容。

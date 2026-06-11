@@ -76,8 +76,11 @@ describe('M6 emitPlayerCasualtySounds', () => {
     expect(run({ hp: 15, dyingSound: 19 }, 100, 40).sounds).toEqual([19])
   })
 
-  it('高 maxHP 仍以 100 为濒死阈值上限', () => {
-    expect(run({ hp: 99, maxHP: 9999, dyingSound: 19 }, 150).sounds).toEqual([19])
+  it('DL2a:prevHP 阈值用 raw maxHP/5(fight.c:836-837 无 min(100));当前 hp 仍 IsPlayerDying 口径', () => {
+    // maxHP=9999 → prevThreshold = 1999;prevHp 150 落在 100~1999 区间 → C **不**触发(旧 ts 多播)
+    expect(run({ hp: 99, maxHP: 9999, dyingSound: 19 }, 150).sounds).toEqual([])
     expect(run({ hp: 150, maxHP: 9999, dyingSound: 19 }, 200).sounds).toEqual([])
+    // prevHp >= 1999 才真触发(当前 hp < min(100, 1999)=100)
+    expect(run({ hp: 99, maxHP: 9999, dyingSound: 19 }, 2000).sounds).toEqual([19])
   })
 })

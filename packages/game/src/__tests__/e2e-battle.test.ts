@@ -258,6 +258,11 @@ describe('M3 E2E:战斗 won 链路(attack-only,deterministic seed)', () => {
     })
 
     expect(gs.mode).toBe('battle')
+    // fixture 缺陷修正:playerOverrides 只写 resources.playerRoles,而 performFlee 的 str 走
+    // getPlayerFleeRate(gs)= **runtime** base(+装备)。runtime 不同步则 str=0,flee 全靠 roll==0
+    // 的运气(旧 RNG 流恰好摇到过;DL4/DL7 序修正后摇不到 → 28 轮打满)。同步 runtime 还原
+    // 测试本意"fleeRate 远高于敌 → 第一次 flee 就成"。
+    gs.PlayerRolesRuntime.rgwFleeRate[0] = 9999
 
     const bus = createCommandBus()
 

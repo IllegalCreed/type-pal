@@ -1027,6 +1027,8 @@ export interface GameState {
     triggerOwnerId?: number
     onEnterSceneId?: number
     onEnterStartIp?: number
+    /** DL14:战斗打断 onEnter 时 0x08 checkpoint(战后 plain end 用它写回,不被 startIp 冲掉)。 */
+    onEnterResumeIp?: number
     callStack?: EventCursor['callStack']
   }
 
@@ -1559,6 +1561,7 @@ export function resumePostBattleScript(gs: GameState, outcome: BattleOutcome): v
     triggerOwnerId: r.triggerOwnerId,
     onEnterSceneId: r.onEnterSceneId,
     onEnterStartIp: r.onEnterStartIp,
+    onEnterResumeIp: r.onEnterResumeIp, // DL14
     callStack: r.callStack,
     startedExecution: true, // DM16:战后续跑的脚本必然已开跑,owner autoScript 不再跳
   }

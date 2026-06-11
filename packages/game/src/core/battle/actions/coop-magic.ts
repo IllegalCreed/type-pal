@@ -33,6 +33,8 @@ import { performAttack } from './attack.js'
 import { applyMagicDamage, magicForcesAllTarget, resolveObjectMagic } from '../magic-damage.js'
 
 export interface PerformCoopMagicInput {
+  /** DL6:降级普攻的隐藏 exp 写入(fight.c:3756-3757);省略 → 不积(旧 fixture)。 */
+  gs?: import('../../game-state.js').GameState
   state: BattleState
   /** 发起合击的队员 slot 索引(state.players)。 */
   casterIdx: number
@@ -88,7 +90,7 @@ function isHealthy(role: { hp: number, maxHP: number }, status: { sleep?: number
 }
 
 export function performCoopMagic(input: PerformCoopMagicInput): void {
-  const { state, casterIdx, coopObjId, targetIdx, playerRoles, magics, objectMagics, bus, actor, battleEffectIndex, magicSpriteFrameCounts, summonSpriteFrameCounts } = input
+  const { state, casterIdx, coopObjId, targetIdx, playerRoles, magics, objectMagics, bus, actor, battleEffectIndex, magicSpriteFrameCounts, summonSpriteFrameCounts, gs } = input
 
   // 解析合击 magic object → magicNumber → magic(sdlpal fight.c:3860-3861)。
   const objMagic = resolveObjectMagic(coopObjId, objectMagics)
@@ -107,6 +109,15 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
     if (actor && !actor.isEnemy) {
       const target = targetIdx === 'all' ? -1 : targetIdx
       performAttack(state, actor, target, bus, playerRoles, battleEffectIndex)
+      // DL6:降级走的是**完整** attack case(fight.c:3374-3378 改 ActionType 后从头跑),含
+      //   rgAttackExp.wCount++ + rgHealthExp += RandomLong(2,3)(fight.c:3756-3757,RNG 序同)。
+      if (gs) {
+        const atk = gs.Exp.rgAttackExp[state.players[actor.idx]!.roleId]
+        if (atk) atk.wCount = (atk.wCount ?? 0) + 1
+        const hp = gs.Exp.rgHealthExp[state.players[actor.idx]!.roleId]
+        const roll = state.rng.rangeInclusive(2, 3)
+        if (hp) hp.wCount = (hp.wCount ?? 0) + roll
+      }
     }
     return
   }

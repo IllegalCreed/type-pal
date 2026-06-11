@@ -746,6 +746,9 @@ function tickSelectAction(
   // 也会成为下一场 R 的来源。若本轮由 Repeat 触发,则不覆盖 prevAction(fRepeat gate)。
   backupRepeatActions(state, gs)
 
+  // DL1:每轮 queue build 前清执行期 auto-attack 粘性(fight.c:1447)。
+  state.prevPlayerAutoAtk = false
+
   // build ActionQueue,进 performAction。
   // D7(W1):sdlpal fight.c CLASSIC 填队列 **先全敌后全玩家**,每条 dex `*= RandomFloat(0.9,1.1)`(WORD 截断)。
   //   RNG 抽取次序必须复刻(先 enemy 含 dualMove 二抽,再 player)→ 故 enemySlots 先算。
@@ -849,11 +852,16 @@ export function emitPlayerCasualtySounds(
   /** 毒 tick 前各 roleId 的 hp(tickPostAction 起手快照)。仅 prePoisonHp===0(敌攻致死)才播 deathSound;
    *  省略 → 退化为旧行为(任何致死都播,向后兼容旧测试)。 */
   prePoisonHp?: ReadonlyMap<number, number>,
+  /** DL2b:守护者(coveredBy)健康检查(fight.c:841-850);省略 → 不门控(旧测试兼容)。 */
+  guardianOk?: (roleId: number) => boolean,
 ): void {
   for (const p of players) {
     const role = playerRoles.roles[p.roleId]
     if (!role) continue
-    const dyingThreshold = Math.min(100, Math.floor(role.maxHP / 5))
+    const dyingThreshold = Math.min(100, Math.floor(role.maxHP / 5)) // 当前 hp 用 IsPlayerDying 口径
+    // DL2a:prevHP 比较用 **raw** maxHP/5(fight.c:836-837 `wPrevHP >= rgwMaxHP[w]/5` 无 min(100));
+    //   maxHP>500 的后期角色 prevHP 落在 100~maxHP/5 区间时不应触发濒死音。
+    const prevDyingThreshold = Math.floor(role.maxHP / 5)
     const deathSound = role.deathSound ?? 0
     const dyingSound = role.dyingSound ?? 0
     if (role.hp < p.prevHp) {
@@ -861,8 +869,10 @@ export function emitPlayerCasualtySounds(
         // 死于敌攻(毒前已死,prePoisonHp===0)才播阵亡音;毒杀不播。无 prePoisonHp 入参 → 旧行为。
         const diedFromAttack = prePoisonHp === undefined || (prePoisonHp.get(p.roleId) ?? 0) === 0
         if (deathSound > 0 && diedFromAttack) bus.emit({ op: 'playSound', soundId: deathSound })
-      } else if (role.hp > 0 && role.hp < dyingThreshold && p.prevHp >= dyingThreshold) {
-        if (dyingSound > 0) bus.emit({ op: 'playSound', soundId: dyingSound })
+      } else if (role.hp > 0 && role.hp < dyingThreshold && p.prevHp >= prevDyingThreshold) {
+        // DL2b:dyingSound 在 C 的守护者失能检查**之后**(fight.c:841-850 continue 跳过)——
+        //   守护者(coveredBy)失能/不在队时连濒死音都不播。guardianOk 缺省 true(旧测试兼容)。
+        if (dyingSound > 0 && (guardianOk?.(p.roleId) ?? true)) bus.emit({ op: 'playSound', soundId: dyingSound })
       }
     }
     p.prevHp = role.hp
@@ -951,6 +961,7 @@ function runPlayerCasualtyScripts(
     const entry = objectPlayer?.scriptOnFriendDeath ?? 0
     if (objectPlayer && entry > 0) {
       objectPlayer.scriptOnFriendDeath = runPlayerCasualtyScript(entry, coverRoleId, state, gs, bus, res)
+      player.scriptPrevHp = role.hp // C BackupStat 每帧刷 prevHP(fight.c:850 后)→ 下 tick 不重入
       return true
     }
   }
@@ -959,8 +970,9 @@ function runPlayerCasualtyScripts(
     const role = res.playerRoles.roles[player.roleId]
     const prevHp = player.scriptPrevHp ?? player.prevHp
     if (!role || player.status.sleep > 0 || player.status.confused > 0) continue
-    const threshold = Math.min(100, Math.floor(role.maxHP / 5))
-    if (!(role.hp < prevHp && role.hp > 0 && isPlayerDying(role) && prevHp >= threshold)) continue
+    // DL2a:prevHP 比较用 raw maxHP/5(fight.c:836-837,无 min(100));当前 hp 仍 IsPlayerDying 口径。
+    const prevThreshold = Math.floor(role.maxHP / 5)
+    if (!(role.hp < prevHp && role.hp > 0 && isPlayerDying(role) && prevHp >= prevThreshold)) continue
     const coverRoleId = role.coveredBy ?? 0
     const coverIdx = state.players.findIndex((p) => p.roleId === coverRoleId)
     const coverRole = res.playerRoles.roles[coverRoleId]
@@ -971,6 +983,9 @@ function runPlayerCasualtyScripts(
     if (objectPlayer && entry > 0) {
       objectPlayer.scriptOnDying = runPlayerCasualtyScript(entry, player.roleId, state, gs, bus, res)
     }
+    // C 的 dying 处理后 PAL_BattleBackupStat 刷 wPrevHP → 下一帧不重入;ts 若不刷新,
+    // scriptPrevHp 恒旧值 → 每 tick 命中 return true 永停(卡死战斗;DL4 RNG 序修正后暴露)。
+    player.scriptPrevHp = role.hp
     return true
   }
 
@@ -1400,7 +1415,7 @@ function commitAutoAttack(
   const target = (role?.attackAll ?? 0) !== 0
     ? -1
     : selectAutoTargetFrom(state.enemies, 0, state.iPrevEnemyTarget ?? -1)
-  state.pendingActions.set(playerIdx, { type: 'attack', target, targetSide: 'enemy' })
+  state.pendingActions.set(playerIdx, { type: 'attack', target, targetSide: 'enemy', autoAttack: true }) // DL1
   advanceSelectingPlayer(state, alivePlayerIdxs)
 }
 
@@ -2006,6 +2021,9 @@ function runEnemyTurnStartScripts(state: BattleState, gs: GameState, bus: Comman
     //   每轮一次性遍历全体活敌,故须在此 break,否则多只同类敌人(如 team16/17 两只绿叶小妖)各跑一遍退下
     //   脚本 → 赵灵儿"通通退下"对白重复(user 2026-06-09 报)。
     if (state.terminatedByEnemyEscape) break
+    // DL23:battle.c:744-756 `if (BattleResult != kBattleResultPreBattle) break` —— 0x89 等任意
+    //   终态(won/lost/fleed)也中断后续敌的 turn-start 脚本(草妖类对白重复的姊妹路径)。
+    if (state.phase === 'won' || state.phase === 'lost' || state.phase === 'fleed') break
   }
   state.battleDialogPendingClear = false
 }
@@ -2356,6 +2374,16 @@ function tickPerformAction(
       //   else-if 链,只对活人跑(死人傀儡分支不查)。
       if (role && (role.hp > 0 || (player.status.puppet ?? 0) > 0)) {
         action = state.pendingActions.get(item.idx)
+        // DL3:合击已执行 → 同回合后续玩家行动被吞(fight.c:3762 等 case 顶 fThisTurnCoop break)。
+        if (state.fThisTurnCoop && action?.type !== 'coop-magic') action = { type: 'pass', target: -1 }
+        // DL1:围攻(fAutoAttack autoFill)粘性 —— 执行队列轮到玩家:动作是 auto-attack → 置粘性;
+        //   粘性已置且本动作非 auto(中途取消围攻后手动选的防御/法术)→ 强制改普攻保留原 target
+        //   (fight.c:1748-1759 PAL_BattleCommitAction(FALSE) 等价,原版围攻语义)。
+        if (action?.type === 'attack' && action.autoAttack) {
+          state.prevPlayerAutoAtk = true
+        } else if (state.prevPlayerAutoAtk && action && action.type !== 'pass') {
+          action = { type: 'attack', target: action.target ?? 0 }
+        }
         // perform 时失能解算(sdlpal fight.c:1731-1747 + 原版混乱)——
         //   睡眠/麻痹 → Pass;混乱 → 濒死?Pass : **随机攻击任一存活目标(敌方或友方)**。
         //   **混乱按原版**(user 2026-05-31 拍板:sdlpal 改成只打友军 AttackMate 且独自时 Pass,
@@ -2531,9 +2559,12 @@ function performBattleAction(
       performAttack(state, actor, action.target, bus, res.playerRoles, res.battleEffectIndex,
         // 敌普攻 equivItem 中毒(fight.c:5139):敌→我 命中后按几率 + 抗性跑毒物品 scriptOnUse(0x29)。
         { gs, items: res.items, commands: res.commands, runScript: getRunScript(gs) })
-      // E04:攻击 → rgAttackExp.wCount++ + rgHealthExp.wCount += RandomLong(2,3)(fight.c:3756-3757,序固定)
-      addHiddenExp('rgAttackExp', 1)
-      addHiddenExp('rgHealthExp', state.rng.rangeInclusive(2, 3))
+      // E04:攻击 → rgAttackExp.wCount++ + rgHealthExp.wCount += RandomLong(2,3)(fight.c:3756-3757,序固定)。
+      // DL4:exp 掷骰仅在**玩家** case(fight.c:3757);敌方动作不消费 RNG(原实参先求值多耗一抽,RNG 流偏移)。
+      if (!actor.isEnemy) {
+        addHiddenExp('rgAttackExp', 1)
+        addHiddenExp('rgHealthExp', state.rng.rangeInclusive(2, 3))
+      }
       break
 
     case 'defend':
@@ -2679,6 +2710,7 @@ function performBattleAction(
       if (actor.isEnemy || action.actionId === undefined) break
       performCoopMagic({
         state,
+        gs, // DL6:降级普攻隐藏 exp
         casterIdx: actor.idx,
         coopObjId: action.actionId,
         targetIdx: action.target === -1 ? 'all' : action.target,
@@ -2691,6 +2723,9 @@ function performBattleAction(
         magicSpriteFrameCounts: res.magicSpriteFrameCounts, // 有 → 建合击动画(聚拢/施法/法术效果/滑回)
         summonSpriteFrameCounts: res.summonSpriteFrameCounts, // summon 型协力(武神等)召唤神逐帧 loop
       })
+      // DL3:fThisTurnCoop(fight.c:3858 置位;:3762 等所有玩家 case 顶 `if(fThisTurnCoop) break`)——
+      //   合击后同回合其余玩家行动(含混乱攻友/失能 autoFill)全部被吞。回合末清。
+      state.fThisTurnCoop = true
       break
     }
   }
@@ -2780,7 +2815,18 @@ function tickPostAction(
 
   // M6 玩家濒死/阵亡音(毒 tick 后判,与 sdlpal fight.c:1664 顺序一致)。prePoisonHp 门控阵亡音死因
   //   (仅敌攻致死播,毒杀不播)。详见 emitPlayerCasualtySounds。
-  emitPlayerCasualtySounds(state.players, res.playerRoles, bus, prePoisonHp)
+  // DL2b:守护者(coveredBy)健康门控(fight.c:841-850 失能 continue → dyingSound 不播)。
+  const guardianOk = (roleId: number): boolean => {
+    const role = res.playerRoles.roles[roleId]
+    const coverRoleId = role?.coveredBy ?? 0
+    const coverIdx = state.players.findIndex((pp) => pp.roleId === coverRoleId)
+    const coverRole = res.playerRoles.roles[coverRoleId]
+    const coverPlayer = coverIdx >= 0 ? state.players[coverIdx] : undefined
+    if (!coverRole || coverRole.hp <= 0 || coverIdx < 0) return false
+    const st = coverPlayer?.status
+    return (st?.sleep ?? 0) === 0 && (st?.paralyzed ?? 0) === 0 && (st?.confused ?? 0) === 0
+  }
+  emitPlayerCasualtySounds(state.players, res.playerRoles, bus, prePoisonHp, guardianOk)
 
   // D17:毒 tick 杀敌也淡出(sdlpal fight.c:1664 毒后 PAL_BattlePostActionCheck → fFade → FadeScene)。
   //   开淡出 hold;phase 照常转(won/selectAction),下 tick 顶层 tickBattleFade 先暂停放完淡出。
@@ -2814,6 +2860,7 @@ function tickPostAction(
   state.players.forEach((p) => {
     p.defending = false
   })
+  state.fThisTurnCoop = false // DL3:合击粘滞单回合有效
   // 清完 defending 立刻复位姿势 → 防御方下一帧回站立(frame 0),不再把防御姿带进下一轮
   //   (user 2026-05-31 实测:一回合结束后还保持防御姿)。sdlpal fight.c:1602-1609 同序(清 fDefending
   //   + 复位 pos),姿势随每帧 PAL_BattleUpdateFighters 即回站立。

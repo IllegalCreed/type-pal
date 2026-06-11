@@ -2949,6 +2949,7 @@ function savePostBattleResume(gs: GameState, cursor: EventCursor, operands: read
     triggerOwnerId: cursor.triggerOwnerId,
     onEnterSceneId: cursor.onEnterSceneId,
     onEnterStartIp: cursor.onEnterStartIp,
+    onEnterResumeIp: cursor.onEnterResumeIp, // DL14:0x08 checkpoint 跨战斗保留(1000981 姊妹)
     callStack: cursor.callStack,
   }
 }
