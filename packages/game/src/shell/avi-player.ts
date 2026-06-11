@@ -92,7 +92,9 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
         //   不 stopImmediatePropagation 的话,跳过 splash 的同一个 Space keydown 会继续冒泡进 KeyboardInputSource
         //   被记成 'Confirm' 残留,下一帧 OpeningMenu 一上线即被当确认直接开新游戏(user 报"没看到主菜单")。
         e.stopImmediatePropagation()
-        cleanup()
+        // DL27:跳过后 UTIL_Delay(500)(aviplay.c:741-747)——半秒缓冲再继续流程,
+        //   下一画面(主菜单/场景)不瞬间弹出。
+        setTimeout(cleanup, 500)
       }
     }
 

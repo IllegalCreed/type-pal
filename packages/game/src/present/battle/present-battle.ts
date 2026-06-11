@@ -260,11 +260,18 @@ export class BattlePresent {
     //   大世界 backup nibble-dither 揭示;UI/弹幕随后画清(对齐 sdlpal fade 后 PAL_BattleUIUpdate 重画 UI)。
     //   progress = introFade.step/total → dither step;显示累积 backup(= sdlpal 显示 backup buffer)。
     if (state.introFade && this.introBackup) {
+      // DL29:进战斗揭场 = VIDEO_SwitchScreen(5)(video.c:1092-1126):6 轮 stride-6 **整像素置换**
+      //   (rgIndex={0,3,1,5,2,4}),每轮把新画面中 k%6==rgIndex[i] 的像素拷入旧画面,每轮 60ms 共
+      //   360ms ——"纱窗式"粗粒度切换,非 nibble dither 平滑渐变(那是 VIDEO_FadeScreen)。
+      //   fb 当前 = 新战斗帧;completedRounds 未覆盖的像素显示旧画面(introBackup)。
       const { step, total } = state.introFade
-      const targetStep = Math.floor((total > 0 ? step / total : 1) * DITHER_TOTAL_STEPS)
-      applyDitherSteps(fb.indices, this.introBackup, this.introApplied, targetStep)
-      this.introApplied = targetStep
-      fb.indices.set(this.introBackup)
+      const completedRounds = Math.floor((total > 0 ? step / total : 1) * 6)
+      const SWITCH_POS = [0, 2, 4, 1, 5, 3] // k%6 → 该像素被换入的轮次(rgIndex 逆)
+      const buf = fb.indices
+      const old = this.introBackup
+      for (let k = 0; k < buf.length; k++) {
+        if (SWITCH_POS[k % 6]! >= completedRounds) buf[k] = old[k]!
+      }
     }
 
     // 4. 数字弹幕(在精灵之上;过期数字自动清理)。D17b:用 UI sprite 数字帧(drawNumber)。

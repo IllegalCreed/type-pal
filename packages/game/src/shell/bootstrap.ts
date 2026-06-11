@@ -1285,11 +1285,18 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       })
 
     // ── Part A(ending.c:420-483)──
+    // DL28:各段配乐(ending.c:424/430/448/496 AUDIO_PlayMusic;经 wNumMusic+sync 轮询)。
+    const setMus = (n: number): void => {
+      gs.wNumMusic = n
+      syncShellAudio(audio, gs, [], playerRoles)
+    }
     const curPal = gs.palette ?? palette
+    setMus(0x1a) // 哭戏段(ending.c:424)
     await rng(9, 110, 150, 7, curPal)
     await rng(9, 151, -1, 9, curPal)
     await fadeOutBlocking(fb, ctx, curPal, 1200) // FadeOut(2)
     const pal5 = await pget(5)
+    setMus(0x19) // ending.c:430
     await fbp(75, 0, pal5)
     await fadeInBlocking(fb, ctx, pal5, 600) // FadeIn(5,1)
     await scroll(74, pal5)
@@ -1308,12 +1315,15 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       canvasCtx: ctx,
       palette: pal4,
     })
+    setMus(0) // ending.c:443 停乐(fade 2s;MIDI 后端忠实硬停)
     await colorFadeBlocking(fb, ctx, pal4, 15, 64 * 70) // ColorFade(7,15)
     const pal0 = await pget(0)
+    setMus(0x11) // ending.c:448
     await rng(11, 0, -1, 7, pal0)
     await fadeOutBlocking(fb, ctx, pal0, 1200) // FadeOut(2)
     const pal8 = await pget(8)
-    await rng(10, 0, -1, 6, pal8)
+    // DL28:fNeedToFadeIn(ending.c:459)→ RNG 首帧 600ms 淡入(rng-player initialFadeInMs)。
+    await playRng({ chunkIdx: 10, startFrame: 0, endFrame: -1, frameDelayMs: 1000 / 6, fb, canvasCtx: ctx, palette: pal8, initialFadeInMs: 600 })
     await fbp(77, 10, pal8) // EndingSetEffectSprite(0) → 无叠加
     // EndingSetEffectSprite(0x27b=635):76/73/72/71/68@7 全 sticky 叠这只 21 帧 MGO 精灵(ending.c:467-475)
     const fx635 = await fetchMgoSprite(635).catch(() => [] as IndexedImage[])
@@ -1325,11 +1335,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     await fbp(68, 7, pal5b, fx635)
     await fbp(68, 6, pal5b) // EndingSetEffectSprite(0) → 无叠加(ending.c:477)
     await waitForKey() // sdlpal PAL_WaitForKey(0):等玩家按键再放演职员表(ending.c:480)
+    setMus(0) // ending.c:481 停乐
 
     // ── Part B(ending.c:485-511,演职员表卷动 67→59)──
+    setMus(9) // ending.c:496 演职员表曲
     for (const c of [67, 66, 65, 64, 63, 62, 61, 60, 59]) {
       await scroll(c, pal5b)
     }
+    setMus(0) // ending.c:509 停乐
     await fadeOutBlocking(fb, ctx, pal5b, 1800) // FadeOut(3)
   }
 

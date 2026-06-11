@@ -746,12 +746,23 @@ export function dispatchBattleOpcode(
       // sdlpal `script.c:0089`:g_Battle.BattleResult = op0。
       // battle.h:3=Won / 1=Lost / 0xFFFF=Fleed / 0=Terminated(结束无奖励)/ 1000+=OnGoing(不改)。
       const r = operands[0] ?? 0
-      if (r === 3)
+      if (r === 3) {
         state.phase = 'won'
-      else if (r === 1)
+      }
+      else if (r === 1) {
         state.phase = 'lost'
-      else if (r === 0xFFFF || r === 0)
+      }
+      else if (r === 0) {
+        // DLa:Terminated(0)在 0x07 战后分支落 else → entry+1 续行(同胜利无奖励,
+        //   script.c:3318-3331),**不是**玩家逃(op[2])。走 0x69 敌逃同路径:标记
+        //   terminated → resumePostBattleScript 落 wonIp(当前 4 处实例 op2=0 行为
+        //   恰巧相同,经通用遇敌分发表 op2≠0 入口触发时才显形——代码层对齐)。
+        state.terminatedByEnemyEscape = true
+        state.phase = 'fleed' // 收尾走 fleed 流(无奖励),outcome 经 terminated 标记改道
+      }
+      else if (r === 0xFFFF) {
         state.phase = 'fleed'
+      }
       // 1000+(ongoing / pause)不改 phase
       return { consumed: true }
     }
