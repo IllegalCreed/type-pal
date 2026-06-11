@@ -160,8 +160,11 @@ export function resetFightersAfterAction(state: BattleState, playerRoles: Player
   for (const e of state.enemies) {
     if (e.posOriginal) e.pos = { x: e.posOriginal.x, y: e.posOriginal.y }
     e.iColorShift = 0
-    // idle 复位 = **undefined**(非 0)→ 轮播由 draw-battle-sprites idle 时钟接管。
-    //   置 0 是定义值,draw 的 `currentFrame !== undefined` 分支会冻结 idle(回归,fight.c:1008-1018)。
+    // idle 复位 = **undefined** → 渲染回落 per-enemy idleFrame(DM11)。
     e.currentFrame = undefined
+    // DM11:行动/演出收尾后 idle 从 0 重起(C 中动作链直接改 wCurrentFrame,收尾复位;
+    //   fight.c:1008-1018 的 idle 推进基于同一字段)——各敌相位随各自行动时点自然漂移。
+    e.idleFrame = 0
+    e.idleTick = Math.max(1, e.e.idleAnimSpeed)
   }
 }

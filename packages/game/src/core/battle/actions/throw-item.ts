@@ -134,5 +134,6 @@ export function performThrowItem(input: PerformThrowItemInput): void {
     const frames = [...windup, ...pendingAnimFrames]
     if (frames.length > 0)
       startBattleAnim(input.state, frames, input.bus, pendingDamageNums.length > 0 ? pendingDamageNums : undefined)
+      if (input.state.battleAnim) input.state.battleAnim.updateEnemyGesture = true // DM11:玩家动作链
   }
 }

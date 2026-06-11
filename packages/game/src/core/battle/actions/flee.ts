@@ -62,6 +62,7 @@ export function performFlee(state: BattleState, gs: GameState, playerIdx: number
     const p = state.players[playerIdx]
     if (bus && p?.posOriginal) {
       startBattleAnim(state, buildFleeFailTimeline(playerIdx, p.posOriginal), bus)
+      if (state.battleAnim) state.battleAnim.updateEnemyGesture = true // DM11:玩家动作链(fight.c:4168 Delay TRUE)
     }
     // E04:逃跑**失败**累积 rgFleeExp.wCount += 2(sdlpal fight.c:4170;成功逃跑不累积,无 RNG)。
     const fleeExp = gs.Exp.rgFleeExp[roleId]

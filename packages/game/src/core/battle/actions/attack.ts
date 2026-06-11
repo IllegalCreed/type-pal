@@ -226,7 +226,10 @@ export function performAttack(
       }
     }
     if (hasAnim) {
-      if (segments.length > 0) startBattleAnim(state, segments, bus)
+      if (segments.length > 0) {
+        startBattleAnim(state, segments, bus)
+        if (state.battleAnim) state.battleAnim.updateEnemyGesture = true // DM11:玩家动作 Delay(TRUE)
+      }
     } else {
       for (const dn of legacyNums) bus.emit({ op: 'showDamageNum', ...dn })
     }
@@ -286,7 +289,10 @@ export function performAttack(
         bus.emit({ op: 'showDamageNum', target: { kind: 'enemy', idx: targetIdx }, value: damage, color: 'blue' })
       }
     }
-    if (segments.length > 0) startBattleAnim(state, segments, bus)
+    if (segments.length > 0) {
+      startBattleAnim(state, segments, bus)
+      if (state.battleAnim) state.battleAnim.updateEnemyGesture = true // DM11:玩家动作 Delay(TRUE)
+    }
     return
   }
 

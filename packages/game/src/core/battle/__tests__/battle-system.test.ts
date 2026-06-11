@@ -3299,3 +3299,45 @@ describe('DH8/DM3 屏波交接', () => {
     void emptyInput
   })
 })
+
+// ============================================================================
+// DM11:敌 idle per-enemy 状态机(fight.c:991-1019/:491-525)
+// ============================================================================
+
+describe('DM11 敌 idle 推进与冻结', () => {
+  it('空闲(无 battleAnim)逐 tick 推进:speed=2 每 2 tick 进一帧,回绕;sleep 定格 0', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 500, idleFrames: 3, idleAnimSpeed: 2 })],
+    })
+    const st = gs.battleState!
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    const seq: number[] = []
+    for (let i = 0; i < 6; i++) {
+      tickBattle(gs, emptyInput, bus) // selectAction 空转(等输入),idle 照推
+      seq.push(st.enemies[0]!.idleFrame ?? 0)
+    }
+    expect(seq).toEqual([1, 1, 2, 2, 0, 0]) // 每 2 tick 推 1 帧,3 帧回绕
+    st.enemies[0]!.status.sleep = 3
+    tickBattle(gs, emptyInput, bus)
+    expect(st.enemies[0]!.idleFrame).toBe(0) // 睡眠定格
+  })
+
+  it('battleAnim(默认 = 敌方/法术链)期间冻结;updateEnemyGesture=true(玩家动作链)期间照推', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 500, idleFrames: 4, idleAnimSpeed: 1 })],
+    })
+    const st = gs.battleState!
+    tickBattle(gs, emptyInput, bus)
+    // 注入一个 4 帧时间线(默认冻结)
+    st.battleAnim = { frames: [{ durationMs: 400 }], idx: 0, frameElapsedMs: 0, overlay: undefined }
+    st.phase = 'performAction'
+    st.actionQueue = [{ isEnemy: false, idx: 0, dex: 1, fIsSecond: false }]
+    st.currentActionIndex = 0
+    const before = st.enemies[0]!.idleFrame ?? 0
+    tickBattle(gs, emptyInput, bus)
+    expect(st.enemies[0]!.idleFrame ?? 0).toBe(before) // 冻结
+    st.battleAnim!.updateEnemyGesture = true
+    tickBattle(gs, emptyInput, bus)
+    expect(st.enemies[0]!.idleFrame ?? 0).toBe((before + 1) % 4) // 玩家链推进
+  })
+})

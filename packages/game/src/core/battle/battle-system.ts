@@ -430,6 +430,28 @@ function getRunScript(gs: GameState): RunScriptFn {
  * @param input 输入快照(战斗选择 UI、对话与结算 hold 会读取)
  * @param bus Present 命令通道(perform 阶段 emit 动画 / 数字弹幕)
  */
+/**
+ * DM11:per-enemy idle 推进(fight.c:991-1019/:491-525)。
+ * `--idleTick <= 0` → idleFrame++ 并恢复计数;idleFrame >= idleFrames 回绕 0;
+ * sleep/paralyzed 定格 0(计数不动,C 在循环顶 continue)。
+ */
+function tickEnemyIdleGestures(state: BattleState): void {
+  for (const e of state.enemies) {
+    if (e.defeated || e.e.health <= 0) continue
+    if ((e.status.sleep ?? 0) > 0 || (e.status.paralyzed ?? 0) > 0) {
+      e.idleFrame = 0
+      continue
+    }
+    const speed = Math.max(1, e.e.idleAnimSpeed)
+    e.idleTick = (e.idleTick ?? speed) - 1
+    if (e.idleTick <= 0) {
+      e.idleFrame = (e.idleFrame ?? 0) + 1
+      e.idleTick = speed
+    }
+    if ((e.idleFrame ?? 0) >= Math.max(1, e.e.idleFrames)) e.idleFrame = 0
+  }
+}
+
 export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
   const state = gs.battleState
   if (!state) return
@@ -516,6 +538,14 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
       state.battleAnim = undefined
     }
     return
+  }
+
+  // DM11:敌 idle 动画推进(fight.c:991-1019 UpdateFighters / 491-525 BattleDelay(TRUE))——
+  //   per-enemy `--idleTick<=0 → idleFrame++(>=idleFrames 回绕 0)+ 恢复计数`;sleep/paralyzed
+  //   定格 0。推进时机 = 主循环每帧(选单/空闲)+ 玩家普攻/物品类演出(Delay TRUE);
+  //   敌方动作与法术帧循环**冻结**(各 hold 已在上方早退,此处只 gate battleAnim 链型)。
+  if (!state.battleAnim || state.battleAnim.updateEnemyGesture) {
+    tickEnemyIdleGestures(state)
   }
 
   switch (state.phase) {
@@ -2583,6 +2613,7 @@ function performBattleAction(
               },
             },
           )
+          if (state.battleAnim) state.battleAnim.updateEnemyGesture = true // DM11:玩家动作链(fight.c:4385+ Delay TRUE)
           break
         }
       }

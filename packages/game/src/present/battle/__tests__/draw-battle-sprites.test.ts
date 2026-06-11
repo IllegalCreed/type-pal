@@ -607,7 +607,7 @@ describe('drawBattleSprites — 敌人 idle 帧轮播(D17c)', () => {
     }
   }
 
-  it('idleFrames=2 speed=1:currentFrame=0 画 frames[0],=1 画 frames[1]', () => {
+  it('DM11:idle 帧读 per-enemy idleFrame(battle-system 推进,渲染不再走全局时钟)', () => {
     const playerRoles: PlayerRoles = { roles: [] }
     const enemyA = minimalEnemy(50)
     enemyA.idleFrames = 2
@@ -617,16 +617,14 @@ describe('drawBattleSprites — 敌人 idle 帧轮播(D17c)', () => {
 
     // 敌方位置 (160, 80),anchor 底中 → frame[0,0] 落在 (159, 78)
     const fb0 = createFramebuffer()
+    state.enemies[0]!.idleFrame = 0
     drawBattleSprites(fb0, state, sprites, playerRoles, undefined, 0)
     expect(fb0.indices[78 * 320 + 159]).toBe(11) // frames[0]
 
     const fb1 = createFramebuffer()
-    drawBattleSprites(fb1, state, sprites, playerRoles, undefined, 1)
+    state.enemies[0]!.idleFrame = 1
+    drawBattleSprites(fb1, state, sprites, playerRoles, undefined, 999) // 全局帧号不再影响
     expect(fb1.indices[78 * 320 + 159]).toBe(22) // frames[1]
-
-    const fb2 = createFramebuffer()
-    drawBattleSprites(fb2, state, sprites, playerRoles, undefined, 2)
-    expect(fb2.indices[78 * 320 + 159]).toBe(11) // 环绕回 frames[0]
   })
 
   it('sleep>0:不轮播,任意帧恒画 frames[0]', () => {

@@ -135,6 +135,15 @@ export interface BattleEnemy {
   /** 敌方战斗精灵第 0 帧高度(PAL_RLEGetHeight(frame0)),用于命中特效逐像素落点。 */
   spriteFrameHeight?: number
   /**
+   * DM11:per-enemy idle 动画状态(fight.c:991-1019 PAL_BattleUpdateFighters)——
+   * `--e.wIdleAnimSpeed == 0` 时 wCurrentFrame++(>=idleFrames 回绕 0)并从静态表恢复 speed。
+   * tickEnemyIdleGestures(battle-system)推进;行动后 resetFightersAfterAction 清 0(C 同步,
+   * 各敌相位随各自行动时点自然漂移);sleep/paralyzed 定格 0。渲染层 idle 分支读 idleFrame。
+   */
+  idleFrame?: number
+  /** DM11:idle 推帧倒数计数器(= C 可变副本 e.wIdleAnimSpeed 的递减态)。 */
+  idleTick?: number
+  /**
    * D17 敌人死亡淡出步数(PAL_BattleFadeScene,battle.c:608-682)。
    *   undefined = 活着 / 尚未开始淡出(照常 idle / 动画渲染)
    *   0..71      = 淡出进行中(draw 走 crossfade blit,像素低 nibble 朝其下背景逼近)
@@ -334,6 +343,13 @@ export type BattleAnimAfterComplete = BattleAnimAfterPerformItem
 
 /** 当前正在播放的动画时间线(performAction 期间存在;播完置 undefined)。 */
 export interface BattleAnimState {
+  /**
+   * DM11:本演出期间是否推进敌 idle 动画(= PAL_BattleDelay 的 fUpdateGesture)。
+   * 玩家普攻/物品/投掷/逃跑/混乱攻友链 = true(C 各 Delay(x,0,TRUE));
+   * 玩家法术帧循环与敌方一切动作 = false(冻结,fight.c:2495+/4687+ 无 idle 推进)。
+   * 缺省 false(冻结)。
+   */
+  updateEnemyGesture?: boolean
   frames: BattleAnimFrame[]
   /** 当前帧 index。 */
   idx: number

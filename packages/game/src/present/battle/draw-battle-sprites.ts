@@ -300,19 +300,15 @@ export function drawBattleSprites(
     if (!pos) return
     const sprite = battleSprites.get(`enemy-${enemy.e.id}`)
     if (!sprite || !sprite.frames[0]) return
-    // 帧号:render-state currentFrame 优先(攻击 / 受击 / 淡出复位);缺则 idle 时钟
-    // (sdlpal fight.c:991-1019,睡眠 / 麻痹定格 frame 0)。资源不全兜底 frames[0]。
+    // 帧号:render-state currentFrame 优先(攻击 / 受击 / 淡出复位);缺则 per-enemy idle 帧
+    // (DM11,fight.c:991-1019:battle-system tickEnemyIdleGestures 推进——演出期间按 C 冻结/
+    // 推进,各敌相位独立;睡眠 / 麻痹定格 frame 0)。资源不全兜底 frames[0]。
     let frameIdx: number
     if (enemy.currentFrame !== undefined) {
       frameIdx = enemy.currentFrame
     } else {
       const isSleepOrParalyzed = enemy.status.sleep > 0 || enemy.status.paralyzed > 0
-      frameIdx = computeIdleFrameIndex(
-        currentFrame,
-        enemy.e.idleFrames,
-        enemy.e.idleAnimSpeed,
-        isSleepOrParalyzed,
-      )
+      frameIdx = isSleepOrParalyzed ? 0 : (enemy.idleFrame ?? 0)
     }
     const frame = sprite.frames[frameIdx] ?? sprite.frames[0]!
     // 敌方 target 选择高亮(sdlpal uibattle.c:1495-1510,ColorShift 7,无箭头)优先于受击闪白。

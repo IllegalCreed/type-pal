@@ -96,6 +96,7 @@ export function performAttackMate(
   const targetPos = state.players[target]!.posOriginal
   if (casterPos && targetPos) {
     startBattleAnim(state, buildAttackMateTimeline({ casterIdx, casterPos, targetIdx: target, targetPos }), bus, [dmgNum])
+    if (state.battleAnim) state.battleAnim.updateEnemyGesture = true // DM11:玩家动作链(fight.c:3807 Delay TRUE)
   } else {
     bus.emit({ op: 'showDamageNum', ...dmgNum })
   }
