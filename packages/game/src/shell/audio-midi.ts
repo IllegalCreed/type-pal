@@ -7,7 +7,9 @@
  * **运行前置**:
  *   1. `pnpm --filter @type-pal/game add spessasynth_lib`(已装)。
  *   2. worklet 文件 `spessasynth_processor.min.js` 已 vendored 到 public/(随 lib 更新需重拷)。
- *   3. `packages/game/public/soundfont.sf3` 已随仓库提供(GeneralUser GS 2.0.3)。缺失或替换失败
+ *   3. `packages/game/public/soundfont.sf3` 已随仓库提供(TimGM6mb ~6MB,GPL-2;2026-06-12 从
+ *      32MB GeneralUser GS 换轻量库压慢网启动等待,license/还原说明见同目录 soundfont-LICENSE.txt。
+ *      文件名保持 .sf3 不动 URL,synth 按 RIFF 内容识别格式,SF2 装在 .sf3 名下兼容)。缺失或替换失败
  *      → init 失败 + warn,BGM 静默(不阻塞游戏)。
  *
  * SpessaSynth 4.3.x API:`new WorkletSynthesizer(ctx)` → `connect` → `soundBankManager.addSoundBank`
@@ -24,6 +26,12 @@ export interface SpessaSynthBackendOptions {
   workletUrl: string
   /** GM SoundFont url(public/ 下,约定 '/soundfont.sf3')。 */
   soundfontUrl: string
+  /**
+   * 预取的 soundfont 数据(bootstrap 在 boot loading 阶段下载,计入启动进度)。
+   * 提供时 init 不再二次 fetch(vite dev 对 public/ 无缓存头,二次 fetch 会整文件重下);
+   * promise reject → 回退按 soundfontUrl 自取。
+   */
+  soundfontData?: Promise<ArrayBuffer>
   /** 混响量 CC91 reverb send(0~127,锁定防 MIDI 覆盖)。默认 0=全干(仙剑原 OPL/MIDI 偏干);
    *  嫌太干想回一点把这调成低值(如 12)。 */
   reverbAmount?: number
@@ -73,9 +81,15 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       await ctx.audioWorklet.addModule(workletUrl)
       const synth = new WorkletSynthesizer(ctx)
       synth.connect(ctx.destination)
-      const sf = await fetch(soundfontUrl)
-      if (!sf.ok) throw new Error(`soundfont ${soundfontUrl} 取不到(HTTP ${sf.status})—— 放一个 GM .sf3/.sf2 到 packages/game/public/soundfont.sf3`)
-      const sfBytes = await sf.arrayBuffer()
+      // 优先用 bootstrap 预取的数据(boot 进度条已等它);预取 reject → 回退自取。
+      let sfBytes = opts.soundfontData
+        ? await opts.soundfontData.catch(() => undefined)
+        : undefined
+      if (!sfBytes) {
+        const sf = await fetch(soundfontUrl)
+        if (!sf.ok) throw new Error(`soundfont ${soundfontUrl} 取不到(HTTP ${sf.status})—— 放一个 GM .sf3/.sf2 到 packages/game/public/soundfont.sf3`)
+        sfBytes = await sf.arrayBuffer()
+      }
       // 守卫:soundfont(SF2/SF3/DLS)都是 RIFF 容器(魔数 "RIFF")。文件不存在时 vite dev server 会回
       //   SPA fallback(index.html,几 KB),sf.ok=true 但内容是 HTML → 这里识破,给清晰报错而非卡死解析。
       const head = new Uint8Array(sfBytes.slice(0, 4))

@@ -29,6 +29,7 @@ let _done = 0
 let _expected = EXPECTED_BOOT_REQUESTS
 let _shownPct = 0
 let _rafPending = false
+let _note = ''
 
 function byId(id: string): HTMLElement | null {
   return typeof document === 'undefined' ? null : document.getElementById(id)
@@ -43,7 +44,20 @@ function render(): void {
   const raw = denom > 0 ? Math.floor((_done / denom) * 100) : 0
   _shownPct = Math.min(99, Math.max(_shownPct, raw)) // 单调 + 99 封顶(满格只由 finish 给)
   if (fill) fill.style.width = `${_shownPct}%`
-  if (status) status.textContent = `正在加载资源 ${_done} / ${denom}`
+  if (status) {
+    status.textContent = _note
+      ? `正在加载资源 ${_done} / ${denom} — ${_note}`
+      : `正在加载资源 ${_done} / ${denom}`
+  }
+}
+
+/**
+ * 在计数文本后追加说明(如尾段只剩 soundfont 32MB 单请求在下,计数停走 → 注明在等什么)。
+ * 传空串清除。无 overlay 时 no-op。
+ */
+export function setBootLoadingNote(note: string): void {
+  _note = note
+  scheduleRender()
 }
 
 function scheduleRender(): void {
@@ -67,6 +81,7 @@ export function initBootLoading(expectedTotal: number = EXPECTED_BOOT_REQUESTS):
   _done = 0
   _expected = expectedTotal
   _shownPct = 0
+  _note = ''
   const orig = globalThis.fetch.bind(globalThis)
   _origFetch = orig
   globalThis.fetch = (async (...args: Parameters<typeof fetch>) => {

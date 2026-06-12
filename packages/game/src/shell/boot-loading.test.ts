@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { initBootLoading, finishBootLoading, failBootLoading } from './boot-loading.js'
+import { initBootLoading, finishBootLoading, failBootLoading, setBootLoadingNote } from './boot-loading.js'
 
 /** 注入 index.html 同款 overlay 骨架(id 必须与 boot-loading.ts 约定一致)。 */
 function mountOverlay(): void {
@@ -81,10 +81,24 @@ describe('boot-loading(启动加载覆盖层)', () => {
     expect(document.getElementById('boot-loading')).not.toBeNull()
   })
 
+  it('setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)', async () => {
+    mountOverlay()
+    initBootLoading(4)
+    await fetch('/a')
+    setBootLoadingNote('音色库 31MB')
+    await flushRender()
+    const status = document.getElementById('boot-loading-status')!
+    expect(status.textContent).toBe('正在加载资源 1 / 4 — 音色库 31MB')
+    setBootLoadingNote('')
+    await flushRender()
+    expect(status.textContent).toBe('正在加载资源 1 / 4')
+  })
+
   it('无 overlay 节点(单测/SSR)时全部 no-op 不抛错', async () => {
     expect(() => initBootLoading()).not.toThrow()
     expect(() => finishBootLoading()).not.toThrow()
     expect(() => failBootLoading('x')).not.toThrow()
+    expect(() => setBootLoadingNote('x')).not.toThrow()
     await expect(fetch('/ok')).resolves.toBeInstanceOf(Response) // fetch 未被包(或包了也透传)
   })
 

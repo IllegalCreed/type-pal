@@ -104,7 +104,7 @@ import {
 import { scrollFbp, showFbp } from './fbp-player.js'
 import { KeyboardInputSource } from './input.js'
 import { type LoopContext, startRafLoop } from './main-loop.js'
-import { finishBootLoading } from './boot-loading.js'
+import { finishBootLoading, setBootLoadingNote } from './boot-loading.js'
 import { playRng } from './rng-player.js'
 import { playSplashFallback } from './splash-fallback.js'
 import { playTrademarkFallback } from './trademark-fallback.js'
@@ -195,6 +195,16 @@ export function showError(canvas: HTMLCanvasElement, msg: string): void {
 }
 
 export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
+  // soundfont 是启动期最大单体(当前 TimGM6mb ~6MB;曾是 32MB GeneralUser GS),提前到 boot
+  // 阶段与其余资源并行下载(main.ts 已包 fetch → 计入 loading 进度),数据到手才放行视频/菜单
+  // (下方 await soundfontSettled)。不等它的话覆盖层收掉后它仍在后台占满带宽(生产
+  // pal.illegalscreed.cn 实测 ~440KB/s,32MB 时代要 ~74s):3.mp4 流卡顿、loadScene 黑屏拉长、
+  // BGM 等到 AVI 中途才响(2026-06-12 user 报)。失败不挡启动:audio-midi 回退自取,最终 BGM 静默 + warn。
+  const soundfontData = fetch('/soundfont.sf3').then((r) => {
+    if (!r.ok) throw new Error(`soundfont HTTP ${r.status}`)
+    return r.arrayBuffer()
+  })
+  const soundfontSettled = soundfontData.then(() => {}, () => {})
   // M4 P4.T3: loadGlyphs 与 loadAll 并行加载(glyphs.json 7.8MB,不阻塞 tiles/sprites)。
   // glyphs 加载失败则 warn + 继续(所有文字退化为 tofu 占位,不影响游戏可运行性)。
   // M5 Sync.2: dialog 资产(portrait RGM 92 + DATA chunk 12 icon sprite group)并行加载。
@@ -429,6 +439,7 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     baseUrl: '/extracted',
     workletUrl: '/spessasynth_processor.min.js',
     soundfontUrl: '/soundfont.sf3',
+    soundfontData, // bootstrap 顶部预取(boot 进度条覆盖),init 不再二次 fetch 32MB
   }))
   // autoplay 解锁:浏览器要求 AudioContext 在用户手势后 resume。**不能用 { once:true } 只听首个
   //   keydown** —— 若首个手势是鼠标点击(如点 devpanel 触发战斗/BGM)keydown 不触发,ctx 永久挂起
@@ -1619,6 +1630,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
 
   setStartGameHandler(async (choice) => {
     if (choice.kind === 'new-game') {
+      // sdlpal uigame.c:157-162 真值:OpeningMenu 选定后先停乐(AUDIO_PlayMusic(0,FALSE,1))
+      // 再 PAL_PlayAVI("3.avi")。兼修慢网根因之一:32MB soundfont 未就绪时主菜单曲挂在
+      // audio-midi `last` 等补播,stop 把它取消 —— 否则 soundfont 在 AVI 中途 ready,
+      // 主菜单曲突然混进视频声轨(2026-06-12 user 报"快播完了主菜单音乐才出来")。
+      // 新游戏的场景曲随后由 loadDefaultGame 重置 wNumMusic → sync 0→N 正常起播。
+      gs.wNumMusic = 0
+      syncShellAudio(audio, gs, [], playerRoles)
       await playOpeningAvi()
       startNewGameFromPrimary()
     } else {
@@ -1701,6 +1719,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
       gs.suspendRaf = false
     }
   }
+
+  // soundfont 收尾等待:其余 boot 资源(~3200 个请求)完成后,慢网下进度计数会停在最后一格
+  // 等这单个大文件请求 —— 注明在等什么;到手(或失败)即清。必须在视频/菜单发起**之前**等,
+  // 否则 1.mp4 在 loading 覆盖层底下开播。(大小不写死:音色库可换,2026-06-12 已从 32MB
+  // GeneralUser GS 换 6MB TimGM6mb,见 public/soundfont-LICENSE.txt)
+  setBootLoadingNote('音色库')
+  await soundfontSettled
+  setBootLoadingNote('')
 
   if (skipIntroBoot) {
     // ?skip-intro=1 → 跳 trademark + splash + OpeningMenu 直接走 SCENE_ID(=1)新游戏
