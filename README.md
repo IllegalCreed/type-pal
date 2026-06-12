@@ -1,87 +1,117 @@
 # type-pal
 
-一款经典 2D 回合制 RPG 的网页版重新实现 —— 用原生 TypeScript 从头实现引擎,而不是把 C 引擎编译进浏览器。
+经典中文 2D 回合制 RPG 的浏览器版 TypeScript 原生重写。
 
-## 这是什么
+这个仓库不走“把 sdlpal 的 C 引擎用 Emscripten 编译成 WASM”的路线,而是把
+[`reference/sdlpal/`](reference/sdlpal/) 作为行为规格,在 TypeScript 里重建资源提取、
+事件脚本、场景、战斗、菜单、存档、音频和演出系统。
 
-把目标游戏(一款 1998 年发布的经典中文 2D 回合制 RPG)做成一个网页游戏。不走"把 sdlpal 的 C 代码用 Emscripten 编译成 WASM"那条路,而是**用 TypeScript 原生重写整个引擎**,代码模块清晰,方便日后扩展场景、剧情、任务、物品、技能、玩法。
+- **忠实移植优先**:第一目标是在网页里尽量还原原版行为、时序和数据语义。
+- **参考而非 fork**:sdlpal C 源只作为真值参考;运行时代码是 TS 原生实现。
+- **个人自用**:项目不提供原版数据,也不面向公开发布。
 
-- **忠实移植优先**:第一目标是把原版完整、忠实地在网页上跑起来。
-- **参考而非 fork**:sdlpal 的 C 源码作为引擎逻辑的"规格说明书"(战斗公式、脚本语义、数据格式),我们照着它用 TS 重写。
-- **个人自用**:自己游玩,不公开发布。
+## 当前状态(2026-06-12)
 
-## 状态(2026-06-08)
+核心系统已经整体落地,当前重心是**对照 sdlpal 源码和真实游戏表现做保真收口**。README
+只写导航和快照;具体完成度以 `docs/` 里的真值表为准。
 
-核心系统(战斗 / 场景 / 事件 / 菜单 / 存档 / 音频 / 演出)已整体落地,当前在**逐子系统对 sdlpal 源 1:1 核对**阶段:不再"自报完成度",而是逐函数对照 C 源找差异、commit 引行号、逐条 TDD 修复 + 实机验收。
+权威状态表:
 
-功能 / opcode / 资源三类实现状态分别落到三张权威表:
+| 文档 | 内容 |
+|---|---|
+| [`docs/feature-status.md`](docs/feature-status.md) | 玩家可感知功能状态:启动、场景、剧情、战斗、菜单、音频等。 |
+| [`docs/opcode-status.md`](docs/opcode-status.md) | 事件 / 战斗脚本 opcode 全集,当前口径为 164 个已知 opcode。 |
+| [`docs/resource-status.md`](docs/resource-status.md) | MKF、WORD、M.MSG、音乐、视频等资源逐 chunk 提取覆盖。 |
+| [`docs/item-status.md`](docs/item-status.md) | 235 个物品的用途、脚本、装备 / 投掷 / 特殊玩法状态。 |
+| [`docs/magic-status.md`](docs/magic-status.md) | 102 个仙术、敌方法术、召唤、合击、特殊法术状态。 |
+| [`docs/cutscene-status.md`](docs/cutscene-status.md) | 507 段自动演出的风险分级和逐场景清单。 |
+| [`docs/game-mechanics.md`](docs/game-mechanics.md) | 战斗底层机制真值,包含伤害、暴击、隐藏经验、五灵抗性、出手顺序等。 |
 
-- [`docs/feature-status.md`](docs/feature-status.md) —— 玩家可感知功能(A–M 章)
-- [`docs/opcode-status.md`](docs/opcode-status.md) —— 事件脚本逐 opcode(164 全集)
-- [`docs/resource-status.md`](docs/resource-status.md) —— 资源提取逐 chunk
+近期审计收口:
 
-逐内容状态表(数据 + 脚本反汇编 + sdlpal 核对生成):
+- 2026-06-07 第一轮全子系统差异审计:
+  [`docs/plans/2026-06-07-sdlpal-diff-audit.md`](docs/plans/2026-06-07-sdlpal-diff-audit.md)。
+  70 条候选、64 条确认差异,已全部逐条修复。
+- 2026-06-10 第二轮执行路径级深挖:
+  [`docs/plans/2026-06-10-sdlpal-deep-audit.md`](docs/plans/2026-06-10-sdlpal-deep-audit.md)。
+  81 条候选,9 high + 32 medium + 33 low 已修,5 条按工程判断有意保留并记录理由。
 
-- [`docs/item-status.md`](docs/item-status.md) —— 物品逐条(235,id 61–295)
-- [`docs/magic-status.md`](docs/magic-status.md) —— 仙术逐条(102,id 296–397,敌我双方 + 分角色习得 + 合击)
-- [`docs/cutscene-status.md`](docs/cutscene-status.md) —— 演出(连续自动脚本)逐条(507 段 / 188 场景,含复核风险 triage)
-- [`docs/game-mechanics.md`](docs/game-mechanics.md) —— 战斗底层机制真值(伤害 / 暴击 / 隐藏经验 / 五灵抗性 / 出手顺序等,逐条带 sdlpal 行号)
+仍最值得实机继续验的方向:
 
-> 完成度表述一律以上述表为准,README 不写百分比。表内多数为 `claimed`(Claude 自认完成 + 带 sdlpal 行号),`verified`(user 真引擎逐条核对)需 user 实测确认。
+- 长剧情演出:对白分页、走位停顿、淡屏时长、镜头和音画同步。
+- 战斗表现:召唤、合击、变身、特殊法术动画、伤害数字时机、援护表现。
+- 大世界长路线:队友跟随、明雷追击、对象隐藏 / 离屏复活、跨场景状态。
+- 音频听验:BGM / CD / SFX 触发点已接,最终音色、音量和曲目正确性还要靠耳朵确认。
 
-近期最大一轮工作 —— **全子系统差异审计**([`docs/plans/2026-06-07-sdlpal-diff-audit.md`](docs/plans/2026-06-07-sdlpal-diff-audit.md)):22 个子系统并行、逐函数对照 `reference/sdlpal/` 找差异候选,每条候选再派对抗复核 agent 独立重核、尽力推翻误报。70 条候选 → 64 条确认差异(2 high / 15 medium / 47 low)→ **已 100% 逐条修复**(全部 TDD + `pnpm check` 全绿 + 逐条 commit)。
+> `docs/plans/` 是历史档案,不代表当前状态。查现状先读上面的状态表和
+> [`docs/plans/README.md`](docs/plans/README.md)。
 
-此前 M6 体验补全(音频全套 / 战斗演出时间线 / 动作菜单 1:1 / 被动格挡 / 结局编排)与 D 系列批次(状态行为 / 敌人 AI / 数值装备 / 毒)落地流水,见 git log 与 [`docs/plans/`](docs/plans/);战斗底层机制真值另见 [`docs/game-mechanics.md`](docs/game-mechanics.md)。
+## 快速开始
 
-历史里程碑(纯记录,完成度表述以 feature-status.md 为准):
-
-- **M1**(2026-05-23):pal-extract 端到端,295 scenes / 235 items / 102 spells / 153 enemies dump
-- **M2**(2026-05-23):运行时垂直切片(scene 1 探索 + NPC 触发对话)
-- **M3 Phase 1**(2026-05-23):战斗系统骨架 + D29 双基准 + 5 actions + dev 入口
-- **M3.5**(2026-05-24):scene 切换 + 明雷怪 + L2 Playwright 视觉对拍
-- **M4**(2026-05-24):pal-extract 补全 + 资产分层 + 全 295 scene + Unifont 字体真渲染
-- **M5**(2026-05-27):51 task — P0 物理 / Sync GameState / 完整战斗骨架 / 菜单 state machine / Save API / Interact opcode
-- **M5.5**(2026-05-27):sdlpal 全 46 个 .c 源 445 函数 audit doc(自报完成度后被 user 实测打脸)
-- **M5.6**(2026-05-27):基础玩法接通 — 菜单输入路由 / 9-slice box / trigger zone / PAL_Search(同样自报完成度被打脸,触发 2026-05-28 重置)
-- **M6**(2026-05-28 起):0528 重置后的功能 audit 阶段 — 战斗演出 / 音频全套 / 动作菜单逐功能对 sdlpal 1:1,带行号 commit,不再自报完成度
-- **差异审计期**(2026-05-31 起):D 系列批次(状态行为 / 敌人 AI / 数值装备 / 毒)+ item / magic / cutscene 逐内容审计 + 全子系统差异审计(70 条候选 / 64 确认 / 全修),详见 [`docs/plans/`](docs/plans/)
-
-## 仓库结构
-
-- `docs/` —— 设计文档 + 状态表(**从这里开始读**)
-  - `01-feasibility.md` 背景与可行性
-  - `02-architecture.md` 架构设计
-  - `03-development-plan.md` 开发计划 / 里程碑
-  - `04-decisions.md` 决策记录(D1–D21)
-  - `05-events-schema.md` events.json 格式设计
-  - `06-testing.md` 测试策略
-  - `feature-status.md` · `opcode-status.md` · `resource-status.md` —— 三张权威实现状态表
-  - `item-status.md` · `magic-status.md` · `cutscene-status.md` —— 物品 / 仙术 / 演出逐内容状态表
-  - `game-mechanics.md` —— 战斗底层机制真值(逐条对照 sdlpal,带行号出处)
-  - `sdlpal-runbook.md` —— sdlpal build / headless 差分测试参考
-  - `plans/` —— 各里程碑计划 + audit doc
-- `reference/sdlpal/` —— sdlpal 源码,作为引擎逻辑参考(见 `reference/README.md`)
-- `data/raw/` —— 放原版数据文件的地方(见 `data/raw/README.md`)
-
-## 开发(本地)
+需要先把原版数据文件放进 [`data/raw/`](data/raw/)。该目录不会进 git;文件清单和注意事项见
+[`data/raw/README.md`](data/raw/README.md)。
 
 ```sh
-# 一次性
-brew install pnpm        # 若未装
-brew install make sdl3   # sdlpal 差分测试用,见 docs/06-testing.md
-
-# 项目本身
 pnpm install
-pnpm check               # 全部包 typecheck + 单测(game 包 2000+ 单测;部分 present/e2e 用 canvas/createImageBitmap,node 环境跳过 → 视觉验证走真引擎)
-pnpm extract             # 跑 pal-extract 一次性产出 data/extracted/
-pnpm --filter @type-pal/game dev  # 起网页游戏的 Vite 开发服务器
-
-# sdlpal 双 build(差分测试 oracle)
-bash scripts/build-sdlpal.sh          # 默认 build(M1 已用)
-bash scripts/build-sdlpal-classic.sh  # PAL_CLASSIC 1995/1998 原版战斗 build(M3 D30)
-
-# D29 双基准(M3 加,可选;baseline 不存在测试 skip + warn)
-bash scripts/extract-tilemap-baseline.sh  # tilemap PNG baseline
-bash scripts/extract-battle-baseline.sh   # 5 个 battle fixture 数值 baseline
+pnpm extract
+pnpm --filter @type-pal/game dev
 ```
 
+`pnpm extract` 会生成 `data/extracted/`;`packages/game/public/extracted` 是指向它的软链,游戏运行时通过
+`/extracted/...` 读取资源。
+
+## 常用命令
+
+```sh
+pnpm check          # 全 workspace typecheck + unit/regression tests
+pnpm test           # 全 workspace tests
+pnpm typecheck      # 全 workspace TypeScript 检查
+pnpm lint           # biome check,不包含在 pnpm check 中
+pnpm format         # biome format --write .
+pnpm extract        # 从 data/raw/ 重新生成 data/extracted/
+
+pnpm --filter @type-pal/game dev
+pnpm --filter @type-pal/game build
+pnpm --filter @type-pal/game e2e
+
+pnpm --filter @type-pal/game exec vitest run src/core/battle/__tests__/battle-system.test.ts
+pnpm --filter @type-pal/game exec vitest run -t "test case name"
+```
+
+差分测试用的 sdlpal oracle:
+
+```sh
+brew install make sdl3
+bash scripts/build-sdlpal.sh
+bash scripts/build-sdlpal-classic.sh
+
+bash scripts/extract-tilemap-baseline.sh
+bash scripts/extract-battle-baseline.sh
+```
+
+## 包结构
+
+| 包 | 作用 |
+|---|---|
+| [`packages/shared`](packages/shared/) | 共享类型和数据结构:资源、事件命令、输入、数据表等。 |
+| [`packages/pal-extract`](packages/pal-extract/) | 资源提取 CLI:把原版 MKF / 文本 / 音频 / 视频转换成 JSON、PNG、WAV/OGG/MP4 等网页资源。 |
+| [`packages/game`](packages/game/) | Vite 浏览器运行时:场景、战斗、事件 VM、菜单、存档、音频、演出和 canvas 表现层。 |
+
+关键目录:
+
+| 路径 | 内容 |
+|---|---|
+| [`docs/`](docs/) | 架构、决策、测试策略、状态表和历史计划。新读者从这里开始。 |
+| [`docs/plans/`](docs/plans/) | 历史里程碑、审计报告和实施计划;现状需回到状态表核实。 |
+| [`reference/sdlpal/`](reference/sdlpal/) | sdlpal 源码副本,作为行为、公式、数据格式和时序的规格来源。 |
+| [`data/raw/`](data/raw/) | 原版数据输入目录,不入库。 |
+| `data/extracted/` | `pal-extract` 生成的运行时资源,可再生。 |
+| [`scripts/`](scripts/) | sdlpal build、baseline 提取等辅助脚本。 |
+
+## 移植原则
+
+- 改 ported behavior 时优先对照 `reference/sdlpal/*.c`,尤其是 `script.c`、`fight.c`、
+  `battle.c`、`scene.c`、`map.c`、`text.c`、`uigame.c`。
+- `data/extracted/` 是生成物,不要手改;资源问题应修 `packages/pal-extract`。
+- `pnpm check` 是主要门禁;视觉、音频、长剧情和真机路线问题还需要浏览器 / 原版实测。
+- 完成度描述不要写百分比,以状态表里的 `claimed` / `verified` / `partial` / `todo` 为准。
