@@ -1730,6 +1730,10 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   }
 
   startRafLoop(loopCtx)
+  // DEV-only:暴露 GameState 引用给 console / 自动化调试(配合 dev-panel 坐标传送排查卡死)。
+  if ((import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV) {
+    ;(window as unknown as Record<string, unknown>).__tpgs = gs
+  }
   // 首帧可见(trademark/splash/OpeningMenu 或 skip-intro 场景)→ 启动 loading 覆盖层淡出
   finishBootLoading()
   console.log(

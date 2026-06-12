@@ -59,7 +59,12 @@ import {
   OP_WAVE_SCREEN,
 } from '../core/event-system.js'
 import type { Facing, GameState } from '../core/game-state.js'
-import { hydratePlayerRolesRuntime, projectRuntimeToBattleRoles } from '../core/game-state.js'
+import {
+  hydratePlayerRolesRuntime,
+  PARTYOFFSET_X,
+  PARTYOFFSET_Y,
+  projectRuntimeToBattleRoles,
+} from '../core/game-state.js'
 import { loadScene } from '../core/scene-system.js'
 
 /** fixture JSON entry —— 与 `packages/game/src/dev/fixtures/battle-fixtures.json` 对齐。 */
@@ -1327,6 +1332,34 @@ function openPicker(deps: DevPanelDeps): void {
   const sceneCount = document.createElement('div')
   sceneCount.style.cssText = 'font-size:10px; color:#999; margin-bottom:4px'
   body.appendChild(sceneCount)
+
+  // 📍 坐标传送:同场景内直接搬 party(x,y 世界像素坐标)+ camera 跟随。
+  //   跳场景卡片无 partyStart 时落点可能不合法(困在水面/墙里),用这个救;也方便对准触发垫调试。
+  const teleRow = document.createElement('div')
+  teleRow.style.cssText = 'display:flex; gap:4px; margin-bottom:6px; align-items:center'
+  const teleLabel = document.createElement('span')
+  teleLabel.textContent = '📍'
+  teleLabel.title = '坐标传送(世界像素坐标)'
+  const teleX = document.createElement('input')
+  const teleY = document.createElement('input')
+  for (const [inp, ph] of [[teleX, 'x'], [teleY, 'y']] as const) {
+    inp.type = 'number'
+    inp.placeholder = ph
+    inp.style.cssText = 'width:72px; padding:3px 6px; font-family:monospace; font-size:12px'
+  }
+  const teleBtn = document.createElement('button')
+  teleBtn.textContent = '传送'
+  teleBtn.addEventListener('click', () => {
+    const x = Number(teleX.value)
+    const y = Number(teleY.value)
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return
+    deps.gs.party.x = x
+    deps.gs.party.y = y
+    deps.gs.camera = { x: x - PARTYOFFSET_X, y: y - PARTYOFFSET_Y }
+    console.log(`[dev-panel] teleport → (${x}, ${y})`)
+  })
+  teleRow.append(teleLabel, teleX, teleY, teleBtn)
+  body.appendChild(teleRow)
 
   // 缩略图卡片网格:全部场景,可滚动;缩略图 IntersectionObserver lazy 渲染。
   const sceneList = document.createElement('div')
