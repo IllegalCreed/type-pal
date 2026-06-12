@@ -424,8 +424,15 @@ export function tickScenePreInput(gs: GameState, ctxOverride?: SceneContext): vo
   const ctx = requireSceneContext(ctxOverride)
   if (gs.sceneLoading || gs.paletteFadeState) return
 
-  updateEventObjectsAndTrigger(gs, ctx)
-  if (gs.mode !== 'explore') return
+  // 脚本结束切回 explore 的首帧跳过触发扫描:sdlpal PAL_RunTriggerScript 同步阻塞返回后,
+  // 同帧 PAL_StartFrame 仍跑 PAL_UpdateParty(play.c:534→543)→ 玩家必得一次移动才被重新扫描。
+  // 不跳则 TouchFar NPC 半径内玩家永无移动机会 → 死锁(李大娘"别怠慢了客人",game-state.ts 字段注释)。
+  if (gs.suppressAutoTriggerOnce) {
+    gs.suppressAutoTriggerOnce = false
+  } else {
+    updateEventObjectsAndTrigger(gs, ctx)
+    if (gs.mode !== 'explore') return
+  }
 
   // sdlpal play.c:169-192:自动脚本循环在 fTrigger 段之后、blocker push 之前。
   tickAutoScripts(gs)

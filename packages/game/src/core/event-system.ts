@@ -3125,10 +3125,15 @@ function restoreModeAfterScript(gs: GameState): void {
     gs.itemUseApplyToAll = undefined
     gs.menuStack = []
     gs.mode = 'explore'
+    gs.suppressAutoTriggerOnce = true
     return
   }
   gs.itemUseApplyToAll = undefined
   gs.mode = gs.menuStack.length > 0 ? 'menu' : 'explore'
+  // 切回 explore 的首帧跳过自动触发扫描 —— sdlpal PAL_RunTriggerScript 返回后同帧仍跑
+  // PAL_UpdateParty(play.c:534→543),玩家必得一次移动;否则 TouchFar NPC(李大娘 80px)
+  // 半径内位置永不变 → 每帧重触发 → 死锁(字段注释见 game-state.ts)。
+  if (gs.mode === 'explore') gs.suppressAutoTriggerOnce = true
 }
 
 /**

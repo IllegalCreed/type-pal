@@ -1055,6 +1055,14 @@ export interface GameState {
   /** DLh:脚本结束标记 —— main-loop 下一 tick 前清一次 input.pressed(play.c:504-505 等价)。 */
   clearPressedOnce?: boolean
   /**
+   * 脚本结束切回 explore 的首帧跳过自动触发扫描(tickScenePreInput 消费,瞬态)。
+   * sdlpal 真值:PAL_RunTriggerScript 同步阻塞(play.c:153),返回后同一帧 PAL_StartFrame 仍跑
+   * PAL_UpdateParty(play.c:534→543)→ 按住方向键的玩家在每轮自动触发脚本后必得到一次移动。
+   * ts 异步 cursor 化后,'end' 切回 explore 的下一帧若先扫触发:玩家位置未变 → 必再次命中 →
+   * 移动永远不执行 → 死锁(客栈李大娘 TouchFar"别怠慢了客人"无限循环根因,2026-06-12)。
+   */
+  suppressAutoTriggerOnce?: boolean
+  /**
    * opcode 0x6D op2 设的 scene onTeleport 脚本覆盖(键 = wNumScene 1-based,值 = **全局 script entry**,
    * 0 = 清除/无 teleport)。sdlpal script.c:2079 `rgScene[op0-1].wScriptOnTeleport = op2`。
    * 与 onEnter override 不同:**持久**(不在 loadScene 时消耗/删),对齐 sdlpal rgScene 常驻 saved 状态。

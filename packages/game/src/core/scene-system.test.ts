@@ -10,7 +10,7 @@ import {
   OP_SET_PARTY_POS, OP_SET_PARTY_DIRECTION,
   OP_SET_CAMERA, OP_CENTER_CAMERA_ON_PARTY,
   OP_PLAY_MUSIC, OP_SET_SCENE_OBJECT_STATE,
-  setGlobalEvents,
+  setGlobalEvents, tickEventSystem,
 } from './event-system.js'
 
 function makeFlatMap(w: number, h: number): Tilemap {
@@ -1678,6 +1678,79 @@ describe('P0.e wScriptOnEnter 真跑', () => {
     expect(gs.party.x).toBe(192)
     expect(gs.party.y).toBe(64)
     expect(gs.mode).toBe('explore')  // 没切到 event 模式
+  })
+})
+
+// ── TouchFar 自动触发 × 脚本结束首帧移动 —— 客栈李大娘"别怠慢了客人"死锁回归 ──
+//
+// sdlpal 真值:PAL_RunTriggerScript 是同步阻塞调用(play.c:153),返回后**同一帧**
+// PAL_StartFrame 继续跑 PAL_UpdateParty(play.c:534→543)→ 按住方向键的玩家在每轮
+// 自动触发脚本结束后必得到一次移动,逐帧逃出触发半径(原版站半径内会反复弹对话,但能走开)。
+// ts 异步 cursor 化后,脚本 'end' 切回 explore 的下一帧 tickScenePreInput 先扫触发:
+// 玩家位置未变 → 必再次命中 → tickSceneInput(移动)永远不执行 → 真死锁
+// (2026-06-12 user 报:客栈苗人戏后,李大娘 TouchFar(80px)半径内无限"别怠慢了客人")。
+// 修复:脚本结束设 suppressAutoTriggerOnce,切回 explore 的首帧跳过触发扫描(= C 同帧语义)。
+describe('TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回归)', () => {
+  function runFrame(
+    gs: ReturnType<typeof createInitialGameState>,
+    input: InputSnapshot,
+    bus: ReturnType<typeof createCommandBus>,
+    ctx: { tilemap: Tilemap; eventCommands: never[]; labelMap: Record<string, number> },
+  ): void {
+    if (gs.mode === 'explore') tickSceneSystem(gs, input, bus, ctx as never)
+    else if (gs.mode === 'event') tickEventSystem(gs, input, bus)
+  }
+
+  function makeDeadlockFixture() {
+    const gs = createInitialGameState({ x: 50 * 16, y: 50 * 8, facing: 'right' })
+    gs.npcs = [
+      // 李大娘等价:TouchFar(threshold 80),trigger 脚本单句对话 + plain end(不 advance → 可无限重触发)
+      { id: 56, x: 50 * 16, y: 50 * 8, spriteNum: 21, triggerLabel: 'L_100', triggerMode: 6, sState: 1, nSpriteFrames: 3 },
+    ]
+    const commands = [
+      { op: 'end' as const },
+      { op: 'showDialog' as const, messageIndex: 0, text: '别怠慢了客人', label: 'L_100' },
+      { op: 'end' as const },
+    ]
+    setGlobalEvents(commands)
+    const ctx = {
+      tilemap: makeFlatMap(128, 128),
+      eventCommands: commands as never[],
+      labelMap: { L_100: 1 },
+    }
+    return { gs, ctx, bus: createCommandBus() }
+  }
+
+  it('按住方向键 + 连按 Confirm:有限帧内逃出 TouchFar 半径,不死锁', () => {
+    const { gs, ctx, bus } = makeDeadlockFixture()
+    const startX = gs.party.x
+    // 每帧按住 Right + 点按 Confirm(关对话)。死锁版:explore 帧永远先触发,party.x 恒不变。
+    // 每步加权距离 |dx|+|dy|*2 = 16+8*2 = 32,3 步 ≥ 80 逃出;60 帧裕量(每轮对话耗 2-3 帧)。
+    for (let f = 0; f < 60; f++) {
+      runFrame(gs, snap(['Right'], ['Confirm'], f), bus, ctx)
+    }
+    expect(gs.party.x).toBeGreaterThan(startX) // 死锁版恒等于 startX
+    expect(gs.mode).toBe('explore')            // 逃出半径后稳定 explore,无新触发
+    expect(gs.eventCursor).toBeUndefined()
+  })
+
+  it("脚本 'end' 切回 explore 的首帧:移动先于触发扫描(sdlpal 同帧 UpdateParty 语义)", () => {
+    const { gs, ctx, bus } = makeDeadlockFixture()
+    // 帧1 explore:扫描命中 → 切 event(本帧无移动)
+    runFrame(gs, snap(['Right']), bus, ctx)
+    expect(gs.mode).toBe('event')
+    const startX = gs.party.x
+    // event 帧:连按 Confirm 直至脚本 'end' 切回 explore(单句对话 ≤4 帧:展示/等键/end等键/收尾)
+    for (let f = 0; f < 8 && gs.mode === 'event'; f++) {
+      runFrame(gs, snap(['Right'], ['Confirm'], f), bus, ctx)
+    }
+    expect(gs.mode).toBe('explore')
+    // 切回 explore 后首帧:held Right 必须生效走一步(修复前此帧先扫描 → 再次切 event,x 不变)
+    runFrame(gs, snap(['Right']), bus, ctx)
+    expect(gs.party.x).toBe(startX + 16)
+    // 第二帧起恢复正常扫描:位置仍在半径内(32 < 80)→ 再次触发,与原版"反复弹但能走"一致
+    runFrame(gs, snap(['Right']), bus, ctx)
+    expect(gs.mode).toBe('event')
   })
 })
 
