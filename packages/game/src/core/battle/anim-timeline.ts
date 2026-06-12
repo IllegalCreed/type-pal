@@ -647,12 +647,15 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
     ],
   })
 
-  // —— target.currentFrame=frameBak,Delay(1) + Delay(4)(fight.c:5132-5135)——
+  // —— target.currentFrame=frameBak,Delay(1,TRUE) + Delay(4,TRUE)(fight.c:5132-5135)——
+  // 仅此收尾两帧 fUpdateGesture=TRUE(物攻段其余 Delay 全 FALSE):敌人 idle 呼吸恢复推进,
+  // 200ms 收尾不再全画面死冻(瞬移复位的"卡顿感"根因,user 2026-06-13 报)。
   frames.push({
     durationMs: delayMs(1),
     fighters: [{ side: 'player', idx: targetIdx, currentFrame: frameBak }],
+    updateGesture: true,
   })
-  frames.push({ durationMs: delayMs(4) })
+  frames.push({ durationMs: delayMs(4), updateGesture: true })
 
   return frames
 }

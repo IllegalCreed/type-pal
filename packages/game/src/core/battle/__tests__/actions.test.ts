@@ -1351,6 +1351,9 @@ describe('performMagic', () => {
     expect(second.fighters).toMatchObject([
       { side: 'enemy', idx: 0, currentFrame: 0, pos: { x: 160, y: 80 } },
     ])
+    // 收尾停顿帧 = C Delay(8, 0, TRUE)(fight.c:4908):停顿期敌人 idle 呼吸恢复推进
+    expect(last.updateGesture).toBe(true)
+    expect(second.updateGesture).toBeUndefined() // 敌复位帧 Delay(1, 0, FALSE)(fight.c:4904)
   })
 
   // 顺序修:user 先后报"灵葫咒掉血在动画前"和"武神数字等整段动画结束才出"。

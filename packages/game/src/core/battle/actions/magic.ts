@@ -936,7 +936,8 @@ function buildAndStartEnemyMagicAnim(
       fighters: [{ side: 'enemy', idx: input.casterIdx, currentFrame: 0, pos: { x: caster.posOriginal.x, y: caster.posOriginal.y } }],
     },
     {
-      durationMs: 8 * BATTLE_FRAME_TIME, // UpdateFighters → Delay(8)(fight.c:4906-4908)
+      durationMs: 8 * BATTLE_FRAME_TIME, // UpdateFighters → Delay(8, 0, TRUE)(fight.c:4906-4908)
+      updateGesture: true, // 停顿期敌人 idle 呼吸恢复推进(收尾不死冻)
       fighters: affected.map((a) => {
         const p = input.state.players[a.idx]!
         return {

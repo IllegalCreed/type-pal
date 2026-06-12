@@ -723,6 +723,16 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
       (d) => d.side === 'player' && d.idx === 0 && d.currentFrame === 4,
     ))).toBe(false)
   })
+
+  // C 物攻收尾 Delay 第三参(fight.c:5133/5135 = TRUE,其余全 FALSE):TRUE 段敌人 idle 呼吸动画
+  // 持续推进。旧版整链冻结敌 idle → 收尾 200ms 全画面死冻 + 瞬移复位,显著"卡顿感"
+  // (user 2026-06-13 报"物理攻击复位明显卡顿,法术正常")。
+  it('收尾两帧(frameBak + Delay(4))带 updateGesture,演出主体帧不带(fight.c:5133-5135 TRUE)', () => {
+    const frames = build()
+    expect(frames[frames.length - 1]!.updateGesture).toBe(true) // Delay(4, 0, TRUE)
+    expect(frames[frames.length - 2]!.updateGesture).toBe(true) // frameBak Delay(1, 0, TRUE)
+    frames.slice(0, -2).forEach((f) => expect(f.updateGesture).toBeUndefined())
+  })
 })
 
 // ============================================================================

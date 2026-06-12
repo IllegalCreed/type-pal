@@ -434,8 +434,13 @@ function getRunScript(gs: GameState): RunScriptFn {
  * DM11:per-enemy idle 推进(fight.c:991-1019/:491-525)。
  * `--idleTick <= 0` → idleFrame++ 并恢复计数;idleFrame >= idleFrames 回绕 0;
  * sleep/paralyzed 定格 0(计数不动,C 在循环顶 continue)。
+ *
+ * currentFrame 分支:链帧显式设过 currentFrame 的敌人(收尾复位帧 currentFrame=0 等),
+ * 渲染以 currentFrame 优先 → 推 idleFrame 无视觉效果。C PAL_BattleDelay(TRUE) 直接
+ * `wCurrentFrame++` wrap idleFrames(fight.c:512-524)—— 同语义推 currentFrame,
+ * 收尾停顿期敌人从复位帧起继续呼吸轮播(updateGesture 帧专用路径)。
  */
-function tickEnemyIdleGestures(state: BattleState): void {
+export function tickEnemyIdleGestures(state: BattleState): void {
   for (const e of state.enemies) {
     if (e.defeated || e.e.health <= 0) continue
     if ((e.status.sleep ?? 0) > 0 || (e.status.paralyzed ?? 0) > 0) {
@@ -445,8 +450,13 @@ function tickEnemyIdleGestures(state: BattleState): void {
     const speed = Math.max(1, e.e.idleAnimSpeed)
     e.idleTick = (e.idleTick ?? speed) - 1
     if (e.idleTick <= 0) {
-      e.idleFrame = (e.idleFrame ?? 0) + 1
       e.idleTick = speed
+      if (e.currentFrame !== undefined) {
+        e.currentFrame++
+        if (e.currentFrame >= Math.max(1, e.e.idleFrames)) e.currentFrame = 0
+      } else {
+        e.idleFrame = (e.idleFrame ?? 0) + 1
+      }
     }
     if ((e.idleFrame ?? 0) >= Math.max(1, e.e.idleFrames)) e.idleFrame = 0
   }
@@ -542,9 +552,14 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 
   // DM11:敌 idle 动画推进(fight.c:991-1019 UpdateFighters / 491-525 BattleDelay(TRUE))——
   //   per-enemy `--idleTick<=0 → idleFrame++(>=idleFrames 回绕 0)+ 恢复计数`;sleep/paralyzed
-  //   定格 0。推进时机 = 主循环每帧(选单/空闲)+ 玩家普攻/物品类演出(Delay TRUE);
-  //   敌方动作与法术帧循环**冻结**(各 hold 已在上方早退,此处只 gate battleAnim 链型)。
-  if (!state.battleAnim || state.battleAnim.updateEnemyGesture) {
+  //   定格 0。推进时机 = 主循环每帧(选单/空闲)+ 玩家普攻/物品类演出(链级 updateEnemyGesture)
+  //   + **帧级 frame.updateGesture**(C 收尾 Delay(N,0,TRUE) 段:物攻 fight.c:5133/5135、敌法术
+  //   4908 —— 敌方演出主体仍冻结,仅收尾停顿恢复呼吸,修"复位卡顿感",user 2026-06-13 报)。
+  if (
+    !state.battleAnim
+    || state.battleAnim.updateEnemyGesture
+    || state.battleAnim.frames[state.battleAnim.idx]?.updateGesture
+  ) {
     tickEnemyIdleGestures(state)
   }
 
