@@ -1318,6 +1318,41 @@ describe('performMagic', () => {
     }
   })
 
+  // 敌法术收尾帧序(fight.c:4897-4908):受击 5 帧 → 敌复位+Delay(1) → **UpdateFighters 复位受击
+  //   队员** → Delay(8)。旧版把 9 帧停顿整段放复位前 → 受击者保持后仰 frame4 + 击退位多 360ms
+  //   (user 2026-06-13 报"风咒受击后仰停顿过长";原版后仰仅 ~240ms)。
+  it('敌方法术致伤:受击队员复位帧在 320ms 收尾停顿帧上(复位先于停顿,非链终 reset 兜底)', () => {
+    const { state, playerRoles, bus, gs } = makeState({
+      // hp 高位:挨一发仍活且不濒死 → 复位帧应为站立 0(死亡/濒死帧值另由 playerRestFrame 同源覆盖)
+      role: { mp: 30, maxMP: 30, hp: 1000, maxHP: 1000 },
+      enemies: [{ magicSound: 62, magicStrength: 50, level: 5 }],
+    })
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    performMagic({
+      state, casterIsEnemy: true, casterIdx: 0, spellId: 7,
+      targetIsEnemy: false, targetIdx: 0,
+      spells: [makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 0 })],
+      magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 60, type: 'normal', effect: 12, sound: 55 })],
+      playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
+      magicSpriteFrameCounts: new Map([[12, 8]]),
+    })
+    const frames = state.battleAnim?.frames ?? []
+    expect(frames.length).toBeGreaterThan(0)
+    // 链末帧 = Delay(8) 停顿,且**同帧**带受击队员复位(pos→posOriginal + 站姿 + 红闪清零)
+    const last = frames[frames.length - 1]!
+    expect(last.durationMs).toBe(8 * 40)
+    expect(last.fighters).toMatchObject([
+      { side: 'player', idx: 0, pos: { x: 240, y: 170 }, currentFrame: 0, iColorShift: 0 },
+    ])
+    // 倒数第二帧 = 敌复位 frame0 + posOriginal,Delay(1)(fight.c:4901-4903)
+    const second = frames[frames.length - 2]!
+    expect(second.durationMs).toBe(40)
+    expect(second.fighters).toMatchObject([
+      { side: 'enemy', idx: 0, currentFrame: 0, pos: { x: 160, y: 80 } },
+    ])
+  })
+
   // 顺序修:user 先后报"灵葫咒掉血在动画前"和"武神数字等整段动画结束才出"。
   //   SDLPal 是 OffMagic/Summon 主特效结束后 DisplayStatChange,随后 PostMagic 受击动画。
   it('scriptOnSuccess 秒杀(0x60)数字挂 PostMagic 第一帧,不等整条时间线结束(灵葫咒类,真 runScript)', () => {

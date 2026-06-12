@@ -138,23 +138,32 @@ export function advanceBattleAnimFrames(state: BattleState, bus: CommandBus, dtM
  * enemy(fight.c:991-1019):
  *   - pos = posOriginal;iColorShift = 0;currentFrame = undefined(idle 复位;轮播由渲染层时钟驱动)
  */
+/**
+ * 玩家复位帧值(PAL_BattleUpdateFighters 玩家分支的 wCurrentFrame 判定,fight.c:957-985)。
+ * resetFightersAfterAction 与"链内复位帧"(敌法术收尾 UpdateFighters 等价帧)共用,防判定漂移。
+ */
+export function playerRestFrame(
+  p: BattleState['players'][number],
+  role: PlayerRoles['roles'][number] | undefined,
+): number {
+  const hp = role?.hp ?? 0
+  const maxHp = role?.maxHP ?? 0
+  if (hp === 0) {
+    // sdlpal fight.c:965-972:puppet(死后傀儡)→ 站立帧 0;否则死帧 2
+    return (p.status.puppet ?? 0) > 0 ? 0 : 2
+  }
+  if ((p.status.sleep ?? 0) > 0 || hp < Math.min(100, Math.floor(maxHp / 5))) {
+    return 1 // 濒死 / 睡倒(PAL_IsPlayerDying fight.c:47-48 + sleep,fight.c:957-960)
+  }
+  return p.defending ? 3 : 0
+}
+
 export function resetFightersAfterAction(state: BattleState, playerRoles: PlayerRoles): void {
   for (const p of state.players) {
     const role = playerRoles.roles[p.roleId]
     if (!p.defending && p.posOriginal) p.pos = { x: p.posOriginal.x, y: p.posOriginal.y }
     p.iColorShift = 0
-    const hp = role?.hp ?? 0
-    const maxHp = role?.maxHP ?? 0
-    if (hp === 0) {
-      // sdlpal fight.c:965-972:puppet(死后傀儡)→ 站立帧 0;否则死帧 2
-      p.currentFrame = (p.status.puppet ?? 0) > 0 ? 0 : 2
-    } else if ((p.status.sleep ?? 0) > 0 || hp < Math.min(100, Math.floor(maxHp / 5))) {
-      p.currentFrame = 1 // 濒死 / 睡倒(PAL_IsPlayerDying fight.c:47-48 + sleep,fight.c:957-960)
-    } else if (p.defending) {
-      p.currentFrame = 3 // 防御
-    } else {
-      p.currentFrame = 0 // 站立
-    }
+    p.currentFrame = playerRestFrame(p, role)
   }
 
   for (const e of state.enemies) {

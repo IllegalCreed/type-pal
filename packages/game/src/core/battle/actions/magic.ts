@@ -33,7 +33,7 @@ import {
   SUMMON_FADE_STEP_MS,
   SUMMON_FADE_STEPS,
 } from '../anim-timeline.js'
-import { startBattleAnim } from '../battle-anim-driver.js'
+import { playerRestFrame, startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import { applyEnemyMagicDamage, applyMagicDamage, magicForcesAllTarget, rollAutoDefend } from '../magic-damage.js'
 import { explainMagicObjectResolution, resolveMagicObject } from '../magic-object.js'
@@ -925,10 +925,34 @@ function buildAndStartEnemyMagicAnim(
   const hurtFrames = buildPlayerMagicHitReaction(affected)
   const numsAttached = attachDamageNumsToFirstFrame(hurtFrames, pendingNums)
 
+  // DM12 收尾帧序修(fight.c:4897-4908 真值):受击 5 帧 → 敌复位 frame0+posOriginal + Delay(1)
+  //   → **PAL_BattleUpdateFighters(受击队员复位:pos→posOriginal/站姿/红闪清零)** → Delay(8)。
+  //   旧版把 9 帧停顿整段放复位前(复位靠链终 reset)→ 受击者保持后仰 frame4+击退位多 360ms,
+  //   原版后仰仅 ~240ms(user 2026-06-13 报"风咒受击后仰停顿过长")。复位帧值与链终
+  //   resetFightersAfterAction 同源(playerRestFrame),死亡/濒死帧不被错置成站立。
+  const finaleFrames: BattleAnimFrame[] = [
+    {
+      durationMs: BATTLE_FRAME_TIME, // 敌复位 + Delay(1)(fight.c:4901-4903)
+      fighters: [{ side: 'enemy', idx: input.casterIdx, currentFrame: 0, pos: { x: caster.posOriginal.x, y: caster.posOriginal.y } }],
+    },
+    {
+      durationMs: 8 * BATTLE_FRAME_TIME, // UpdateFighters → Delay(8)(fight.c:4906-4908)
+      fighters: affected.map((a) => {
+        const p = input.state.players[a.idx]!
+        return {
+          side: 'player' as const,
+          idx: a.idx,
+          pos: { x: a.pos.x, y: a.pos.y }, // a.pos = posOriginal
+          currentFrame: playerRestFrame(p, input.playerRoles.roles[p.roleId]),
+          iColorShift: 0,
+        }
+      }),
+    },
+  ]
+
   startBattleAnim(
     input.state,
-    // DM12:敌法术收尾 Delay(1)(敌复位)+ Delay(8)(fight.c:4897-4908)——共 ~360ms 停顿。
-    [...introFrames, posResetFrame, ...effectFrames, ...hurtFrames, { durationMs: 9 * BATTLE_FRAME_TIME }],
+    [...introFrames, posResetFrame, ...effectFrames, ...hurtFrames, ...finaleFrames],
     input.bus,
     numsAttached ? undefined : pendingNums,
   )
