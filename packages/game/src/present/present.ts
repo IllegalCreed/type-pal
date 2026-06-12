@@ -171,12 +171,18 @@ export function presentFrame(
   //     忠实 sdlpal:PAL_FadeOut 不调 PAL_MakeScene,只 VIDEO_SetPalette 渐变**当前** gpScreen
   //     (= 触发脚本前那帧,无 setPartyPos 的瞬移)。若放在 sceneLoading return 之后则冻屏永不淡。
   //   - 非冻屏 fade(FadeIn / SceneFade / 大世界 auto fade-in)→ 下面正常重绘 scene,色表同步 ramp。
-  // explore 模式 auto fade-in(scene.c:503)无 eventCursor 管完成 → present 到点自清(event 驱动的 fade
-  // 由 event-system waiting handler finalize + ip++,present 不碰)。
+  // 自清条件 = "fade 到时 + **没有 waiting 在等它**"。等待中(palette-fade/scene-fade)的 fade 由
+  // event-system waiting handler finalize + ip++,present 不碰(抢清会让该 handler 走防御分支重跑同 ip)。
+  // 香兰报信卡死回归(2026-06-12):0x50 FadeOut→needToFadeIn 后,演出 0x09 frame-wait 中
+  // tickSceneAutoFadeIn 点火的自动渐入不属于任何 waiting(sdlpal PAL_FadeIn 阻塞自完成,scene.c:503);
+  // 旧条件 `!gs.eventCursor` 在演出游标存在时永不成立 → paletteFadeState 孤儿 → main-loop 每 rAF
+  // suppressHeldForFade 吞键 → 对话等键死锁(香兰报信"空格回车无效")。
   if (gs.paletteFadeState && gs.palette) {
     const pf = gs.paletteFadeState
     stepPaletteFade(gs.palette.colors, pf, performance.now())
-    if (!gs.eventCursor && performance.now() - pf.startTimeMs >= pf.totalMs) {
+    const w = gs.eventCursor?.waiting
+    const awaited = w === 'palette-fade' || w === 'scene-fade'
+    if (!awaited && performance.now() - pf.startTimeMs >= pf.totalMs) {
       gs.paletteFadeState = undefined // colors 已 = target(stepPaletteFade progress clamp 1)
     }
   }

@@ -675,6 +675,79 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
   })
 })
 
+// ── 香兰报信卡死回归(2026-06-12):palette fade 孤儿自清 ──
+// 0x50 FadeOut 设 needToFadeIn → 演出 0x09 frame-wait 期间 tickSceneAutoFadeIn 点火自动渐入
+// (sdlpal scene.c:503 PAL_FadeIn 阻塞自完成的 tick 化)。该 fade **不属于任何 waiting**:
+// 旧自清条件 `!gs.eventCursor` 在演出游标存在时永不成立,tickEventSystem 只收 waiting='palette-fade'
+// → paletteFadeState 永久孤儿 → main-loop 每 rAF suppressHeldForFade 吞键 → 对话等键死锁。
+// 真值:无人等待的 fade 到时即清;有人等待(palette-fade/scene-fade)仍由 event-system finalize+ip++。
+describe('palette fade 孤儿自清(香兰报信 cutscene 吞键回归)', () => {
+  const mkPalette = (): Palette => ({
+    colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
+    cycles: [],
+  })
+  const mkFade = (elapsedMs: number): import('../core/palette-fade.js').PaletteFadeState => ({
+    startColors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
+    targetColors: Array.from({ length: 256 }, () => [10, 10, 10] as [number, number, number]),
+    startTimeMs: performance.now() - elapsedMs,
+    totalMs: 600,
+    mode: 'lerp',
+    steps: 60,
+    increment: 0,
+  })
+
+  it('演出游标在(waiting=dialog)+ fade 到时 + 无人等待 → present 自清孤儿', () => {
+    const fb = createFramebuffer()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = mkPalette()
+    gs.paletteFadeState = mkFade(601) // 已超时
+    gs.mode = 'event'
+    gs.eventCursor = { ip: 913, waiting: 'dialog' } as typeof gs.eventCursor
+    presentFrame(fb, gs, {
+      tilemap: flatMap(3, 3),
+      tileImages: { get: () => undefined },
+      partyFrames: [{ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 }],
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+    })
+    expect(gs.paletteFadeState).toBeUndefined() // 孤儿被清 → main-loop 不再吞键
+  })
+
+  it('waiting=palette-fade(event-system 将 finalize+ip++)→ present 不抢清', () => {
+    const fb = createFramebuffer()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = mkPalette()
+    gs.paletteFadeState = mkFade(601)
+    gs.mode = 'event'
+    gs.eventCursor = { ip: 100, waiting: 'palette-fade' } as typeof gs.eventCursor
+    presentFrame(fb, gs, {
+      tilemap: flatMap(3, 3),
+      tileImages: { get: () => undefined },
+      partyFrames: [{ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 }],
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+    })
+    expect(gs.paletteFadeState).toBeDefined() // 留给 tickEventSystem finalize(防双清跳 ip)
+  })
+
+  it('fade 未到时 → 不清(进行中)', () => {
+    const fb = createFramebuffer()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = mkPalette()
+    gs.paletteFadeState = mkFade(100) // 才 100ms
+    gs.mode = 'event'
+    gs.eventCursor = { ip: 913, waiting: 'dialog' } as typeof gs.eventCursor
+    presentFrame(fb, gs, {
+      tilemap: flatMap(3, 3),
+      tileImages: { get: () => undefined },
+      partyFrames: [{ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]), anchorX: 0, anchorY: 0 }],
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+    })
+    expect(gs.paletteFadeState).toBeDefined()
+  })
+})
+
 describe('NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)', () => {
   afterEach(() => {
     vi.restoreAllMocks()
