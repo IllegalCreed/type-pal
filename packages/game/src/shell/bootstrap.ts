@@ -104,6 +104,7 @@ import {
 import { scrollFbp, showFbp } from './fbp-player.js'
 import { KeyboardInputSource } from './input.js'
 import { type LoopContext, startRafLoop } from './main-loop.js'
+import { finishBootLoading } from './boot-loading.js'
 import { playRng } from './rng-player.js'
 import { playSplashFallback } from './splash-fallback.js'
 import { playTrademarkFallback } from './trademark-fallback.js'
@@ -1729,6 +1730,8 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   }
 
   startRafLoop(loopCtx)
+  // 首帧可见(trademark/splash/OpeningMenu 或 skip-intro 场景)→ 启动 loading 覆盖层淡出
+  finishBootLoading()
   console.log(
     '[bootstrap] startup ready, SCENE_ID=',
     SCENE_ID,

@@ -2,17 +2,59 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
-    <title>type-pal</title>
+    <title>仙剑奇侠传 · type-pal</title>
     <!-- favicon = 原版 LOGO.ICO(MS ICO 64×64 16-color),已落地为 public/favicon.ico 真文件入库
          (原先是 → data/raw/LOGO.ICO 的 symlink,clone 后缺失会 404,故复制一份)。 -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <style>
       body { margin: 0; background: #111; display: grid; place-items: center; min-height: 100vh; }
       canvas { image-rendering: pixelated; width: 960px; height: 600px; }
+
+      /* ── 启动 loading 覆盖层(boot-loading.ts 驱动进度;静态内联保证 JS 未就绪时已可见)── */
+      #boot-loading {
+        position: fixed; inset: 0; z-index: 10;
+        display: grid; place-items: center;
+        background: #111;
+        opacity: 1; transition: opacity 0.5s ease;
+        font-family: "Songti SC", "SimSun", serif;
+        user-select: none;
+      }
+      #boot-loading.boot-loading-done { opacity: 0; pointer-events: none; }
+      .boot-loading-box { width: 320px; text-align: center; }
+      .boot-loading-title {
+        color: #d8b365; font-size: 34px; letter-spacing: 10px; margin-bottom: 6px;
+        text-shadow: 0 0 18px rgba(160, 30, 30, 0.8);
+      }
+      .boot-loading-sub {
+        color: #6b5a3e; font-size: 12px; letter-spacing: 4px; margin-bottom: 36px;
+        font-family: monospace;
+      }
+      #boot-loading-bar {
+        height: 6px; background: #2a1515; border: 1px solid #553322; border-radius: 3px;
+        overflow: hidden; margin-bottom: 12px;
+      }
+      #boot-loading-fill {
+        height: 100%; width: 0%;
+        background: linear-gradient(90deg, #8a2a2a, #d8b365);
+        transition: width 0.25s ease;
+      }
+      #boot-loading-status { color: #9a8a6a; font-size: 12px; font-family: monospace; min-height: 1.2em; }
+      #boot-loading.boot-loading-error #boot-loading-status { color: #e06c5a; }
+      #boot-loading.boot-loading-error #boot-loading-fill { background: #8a2a2a; }
+      .boot-loading-hint { color: #4a4036; font-size: 11px; margin-top: 18px; font-family: monospace; }
     </style>
   </head>
   <body>
     <canvas id="screen" width="320" height="200"></canvas>
+    <div id="boot-loading">
+      <div class="boot-loading-box">
+        <div class="boot-loading-title">仙剑奇侠传</div>
+        <div class="boot-loading-sub">type-pal · 浏览器复刻</div>
+        <div id="boot-loading-bar"><div id="boot-loading-fill"></div></div>
+        <div id="boot-loading-status">正在加载…</div>
+        <div class="boot-loading-hint">首次进入需加载全部游戏资源,之后有缓存会快很多</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
