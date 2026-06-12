@@ -611,23 +611,24 @@ describe('buildEnemyPhysicalTimeline (fight.c:4910-5149)', () => {
     ])
   })
 
-  it('死亡:target frameBak=2(濒死帧之后赋值)', () => {
+  // frameBak 帧自带坐标归位(姿势+坐标同帧一次复位,法术式改良;旧两段式 user 报"回一半→卡顿→瞬移")
+  it('死亡:target frameBak=2(濒死帧之后赋值)+ 坐标同帧归位', () => {
     const frames = build({ targetDied: true })
     // 倒数第二帧 = target.currentFrame = frameBak;最后一帧 = Delay(4) 空帧
     const last2 = frames[frames.length - 2]!
-    expect(last2.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 2 }])
+    expect(last2.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 2, pos: { x: 240, y: 170 } }])
   })
 
-  it('濒死(非死):target frameBak=1', () => {
+  it('濒死(非死):target frameBak=1 + 坐标同帧归位', () => {
     const frames = build({ targetDying: true })
     const last2 = frames[frames.length - 2]!
-    expect(last2.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 1 }])
+    expect(last2.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 1, pos: { x: 240, y: 170 } }])
   })
 
-  it('未死未濒死:target frameBak=0(站立)', () => {
+  it('未死未濒死:target frameBak=0(站立)+ 坐标同帧归位', () => {
     const frames = build()
     const last2 = frames[frames.length - 2]!
-    expect(last2.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 0 }])
+    expect(last2.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 0, pos: { x: 240, y: 170 } }])
   })
 
   it('复位帧:enemy.pos=posOriginal(160,80) + currentFrame=0', () => {

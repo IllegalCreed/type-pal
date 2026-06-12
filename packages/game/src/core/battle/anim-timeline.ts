@@ -650,9 +650,18 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
   // —— target.currentFrame=frameBak,Delay(1,TRUE) + Delay(4,TRUE)(fight.c:5132-5135)——
   // 仅此收尾两帧 fUpdateGesture=TRUE(物攻段其余 Delay 全 FALSE):敌人 idle 呼吸恢复推进,
   // 200ms 收尾不再全画面死冻(瞬移复位的"卡顿感"根因,user 2026-06-13 报)。
+  //
+  // 位置归位**改良**(有意偏离 C 帧序,总时长不变):C 是 frameBak 切站姿(坐标仍在击退处)
+  // → 200ms → UpdateFighters 瞬移归位的两段式;受击帧与站立帧精灵视觉中心不同,切帧时
+  // 人物"弹回一截",停 200ms 后坐标又跳一次 → user 报"回一半→卡顿→瞬移"。法术受击收尾
+  // (C fight.c:4906)本就是姿势+坐标同帧一次归位 → 手感流畅。物攻对齐法术式:坐标复位
+  // 提前并入 frameBak 帧(cover 替挡者同帧归位),200ms 停顿期人已就位。
   frames.push({
     durationMs: delayMs(1),
-    fighters: [{ side: 'player', idx: targetIdx, currentFrame: frameBak }],
+    fighters: [
+      { side: 'player', idx: targetIdx, currentFrame: frameBak, pos: { x: targetPlayerPos.x, y: targetPlayerPos.y } },
+      ...(cover ? [{ side: 'player' as const, idx: cover.idx, pos: { x: cover.pos.x, y: cover.pos.y } }] : []),
+    ],
     updateGesture: true,
   })
   frames.push({ durationMs: delayMs(4), updateGesture: true })
