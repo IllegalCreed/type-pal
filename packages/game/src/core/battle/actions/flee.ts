@@ -3,21 +3,18 @@
  *
  * from `reference/sdlpal/fight.c:4119-4148` —— PAL_BattlePlayerPerformAction kBattleActionFlee。
  *
- * 公式:
+ * 公式(修复版):
  *   str = PAL_GetPlayerFleeRate(role)  (D12 W1:runtime base + 装备加成,global.c:1868-1897)
- *   def = Σ enemies ((SHORT)dexterity + (level+6)*4)
+ *   def = Σ enemies ((SHORT)**fleeRate** + (level+6)*4)   ← 敌吉运,见下
  *   if ((SHORT)def < 0) def = 0
  *   success = (str >= RandomLong(0, def)) && !isBoss
  *
- * 注:sdlpal `def` 来自 enemy.wDexterity(不是 enemy.wDefense)+ (level+6)*4。
- * implementer verify:fight.c:4124-4126 累加循环里读 `wDexterity` 字段。
- *
- * ⚠️ **原版 bug,有意照搬**(docs/game-mechanics.md「原始 bug:逃跑抵抗错用敌人身法」):
- * 敌方抵抗项用的是敌人**身法** wDexterity,但 ENEMY 结构里紧挨着有独立吉运字段
- * wFleeRate("chance for successful fleeing",global.h:283-284),整个引擎从未读过(死字段)。
- * 本该是"我方吉运 vs 敌方吉运",原作误写成敌方身法 → 高身法敌人异常难逃、数据里设的
- * 敌人吉运形同虚设。1:1 忠实决策:**不修**;若将来想要修复版,把 be.e.dexterity 换
- * be.e.fleeRate 即可(标注偏离原版)。
+ * ⚠️ **有意偏离原版的 bug 修复**(docs/game-mechanics.md「原始 bug:逃跑抵抗错用敌人身法」,
+ * user 2026-06-13 选修复版):原作 fight.c:4134 敌方抵抗项误用敌人**身法** wDexterity,而
+ * ENEMY 结构里紧挨着的吉运字段 wFleeRate("chance for successful fleeing",global.h:283-284)
+ * 全引擎零读取(死字段)——本该是"我方吉运 vs 敌方吉运"。后果:高身法敌人异常难逃,
+ * 数据里设计的敌人吉运形同虚设。修复:def 改用 be.e.fleeRate,让死字段活过来;
+ * 身法回归其正职(出手顺序)。**要还原原版行为:此处换回 be.e.dexterity 即可。**
  *
  * 失败:不切 phase,后续 turn 继续推进(T22 battle-system 行为)。
  * 成功 + !isBoss:触发 fleeAnim,动画结束才 phase='fleed'。
@@ -46,7 +43,8 @@ export function performFlee(state: BattleState, gs: GameState, playerIdx: number
   for (const be of state.enemies) {
     // DM4:fight.c:4129 `if (wObjectID == 0) continue` —— 死敌清槽/0 占位空槽不计入 def。
     if (be.defeated) continue
-    def += asShort(be.e.dexterity)
+    // 修复版:敌吉运(原版 bug 误用 be.e.dexterity 身法,详见文件头注释;还原原版改回 dexterity)
+    def += asShort(be.e.fleeRate)
     def += (be.e.level + 6) * 4
   }
   if (asShort(def) < 0)

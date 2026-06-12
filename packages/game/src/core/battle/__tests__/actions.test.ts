@@ -985,18 +985,36 @@ describe('performFlee', () => {
     expect(state.fleeAnim).toBeDefined()
   })
 
-  it('fleeRate=0 + 多个高 dex 敌人(roll 必大)→ phase 不变', () => {
+  it('fleeRate=0 + 多个高吉运敌人(roll 必大)→ phase 不变', () => {
     const { state, playerRoles, gs } = makeState({
       role: { fleeRate: 0 },
       enemies: [
-        { level: 50, dexterity: 100 },
-        { level: 50, dexterity: 100 },
+        { level: 50, fleeRate: 100 },
+        { level: 50, fleeRate: 100 },
       ],
       forceRoll: 1, // 任何 >0 的 roll 都击败 str=0
     })
     const before = state.phase
     performFlee(state, gs, 0, playerRoles)
     expect(state.phase).toBe(before) // 不变
+  })
+
+  // 修复版(有意偏离原版,docs/game-mechanics.md「原始 bug:逃跑抵抗错用敌人身法」,
+  // user 2026-06-13 选修复):原作 fight.c:4134 误用敌身法 wDexterity,敌吉运 wFleeRate
+  // 全引擎死字段。修复后 def = Σ(敌吉运 + (level+6)*4),身法不再参与逃跑抵抗。
+  it('修复版:逃跑抵抗 def 用敌吉运 fleeRate,身法 dexterity 不参与', () => {
+    const { state, playerRoles, gs } = makeState({
+      role: { fleeRate: 0 },
+      enemies: [{ level: 1, fleeRate: 36, dexterity: 9999 }],
+    })
+    const calls: Array<[number, number]> = []
+    state.rng = {
+      ...state.rng,
+      rangeInclusive: (a: number, b: number) => { calls.push([a, b]); return 0 },
+    }
+    performFlee(state, gs, 0, playerRoles)
+    // def = 敌吉运 36 + (1+6)*4 = 64;dexterity 9999 不计入(原版 bug 行为是 9999+28)
+    expect(calls).toEqual([[0, 64]])
   })
 
   it('isBoss=true → 无论 fleeRate 多高都不可逃', () => {
@@ -1024,8 +1042,8 @@ describe('performFlee', () => {
   it('def 为 SHORT 负溢出 → clamp 0(sdlpal fight.c:4139)', () => {
     const { state, playerRoles, gs } = makeState({
       role: { fleeRate: 0 },
-      // SHORT(累加结果) < 0 → def=0;rng(0,0)=0;str=0 >= 0 → 命中
-      enemies: [{ level: 1, dexterity: -32700 }],
+      // SHORT(累加结果) < 0 → def=0;rng(0,0)=0;str=0 >= 0 → 命中(修复版字段=敌吉运)
+      enemies: [{ level: 1, fleeRate: -32700 }],
       forceRoll: 0,
     })
     performFlee(state, gs, 0, playerRoles)
@@ -1064,8 +1082,8 @@ describe('performFlee', () => {
     const { state, playerRoles, gs } = makeState({
       role: { fleeRate: 28 },
       enemies: [
-        { level: 1, dexterity: 0 }, // 活敌:def = 0 + (1+6)*4 = 28
-        { level: 50, dexterity: 100 }, // 标 defeated:C 不计(原 bug:仍累加 → 成功率偏低)
+        { level: 1, fleeRate: 0 }, // 活敌:def = 0 + (1+6)*4 = 28(修复版字段=敌吉运)
+        { level: 50, fleeRate: 100 }, // 标 defeated:C 不计(原 bug:仍累加 → 成功率偏低)
       ],
     })
     state.enemies[1]!.defeated = true
