@@ -12,6 +12,13 @@
  * 注:sdlpal `def` 来自 enemy.wDexterity(不是 enemy.wDefense)+ (level+6)*4。
  * implementer verify:fight.c:4124-4126 累加循环里读 `wDexterity` 字段。
  *
+ * ⚠️ **原版 bug,有意照搬**(docs/game-mechanics.md「原始 bug:逃跑抵抗错用敌人身法」):
+ * 敌方抵抗项用的是敌人**身法** wDexterity,但 ENEMY 结构里紧挨着有独立吉运字段
+ * wFleeRate("chance for successful fleeing",global.h:283-284),整个引擎从未读过(死字段)。
+ * 本该是"我方吉运 vs 敌方吉运",原作误写成敌方身法 → 高身法敌人异常难逃、数据里设的
+ * 敌人吉运形同虚设。1:1 忠实决策:**不修**;若将来想要修复版,把 be.e.dexterity 换
+ * be.e.fleeRate 即可(标注偏离原版)。
+ *
  * 失败:不切 phase,后续 turn 继续推进(T22 battle-system 行为)。
  * 成功 + !isBoss:触发 fleeAnim,动画结束才 phase='fleed'。
  */
