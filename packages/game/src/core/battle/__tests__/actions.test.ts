@@ -1249,6 +1249,75 @@ describe('performMagic', () => {
     }
   })
 
+  // 效果音声画同步(建链路径):sdlpal WIN95 在特效帧循环 i==0 播 magic.wSound(玩家 DefMagic
+  //   fight.c:2497-2502 / 敌方 fight.c:2925-2930),不在演出 dispatch 时。之前 DefMagic/敌方即时
+  //   push → 先闻其声后见前摇(user 2026-06-13 报草妖风咒/气疗术)。未建链(上个用例)仍即时播。
+  it('玩家 DefMagic 建链:效果音挂特效首帧,不即时 push(气疗术类)', () => {
+    const { state, playerRoles, bus, gs } = makeState({ role: { mp: 30, maxMP: 30, magicSound: 9 } })
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    performMagic({
+      state, casterIsEnemy: false, casterIdx: 0, spellId: 7,
+      targetIsEnemy: false, targetIdx: 0,
+      spells: [makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 0 })],
+      magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, type: 'applyToPlayer', effect: 15, sound: 335 })],
+      playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
+      magicSpriteFrameCounts: new Map([[15, 5]]), // effect 15 有帧 → 建 DefMagic 链
+    })
+    expect(gs.pendingSounds ?? []).not.toContain(335) // 不即时 push(防双响/提前)
+    const frames = state.battleAnim?.frames ?? []
+    const sndFrames = frames.filter(f => f.sound === 335)
+    expect(sndFrames).toHaveLength(1) // 恰一帧
+    // 挂在特效首帧(带 magic overlay frameIdx=0),而非 PreMagic 前摇
+    expect(sndFrames[0]!.overlays).toMatchObject([{ kind: 'magic', frameIdx: 0 }])
+  })
+
+  it('敌方施法建链:效果音挂特效首帧;enemy.magicSound<0 → 效果音静音(WIN95 gate),施法音 abs 照播', () => {
+    // magicSound=62(>=0):效果音 55 挂特效首帧,施法音 62 挂 intro 帧
+    {
+      const { state, playerRoles, bus, gs } = makeState({
+        role: { mp: 30, maxMP: 30 },
+        enemies: [{ magicSound: 62 }],
+      })
+      state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+      state.players[0]!.posOriginal = { x: 240, y: 170 }
+      performMagic({
+        state, casterIsEnemy: true, casterIdx: 0, spellId: 7,
+        targetIsEnemy: false, targetIdx: 0,
+        spells: [makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 0 })],
+        magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, type: 'normal', effect: 12, sound: 55 })],
+        playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
+        magicSpriteFrameCounts: new Map([[12, 8]]),
+      })
+      expect(gs.pendingSounds ?? []).not.toContain(55)
+      const frames = state.battleAnim?.frames ?? []
+      expect(frames.filter(f => f.sound === 62)).toHaveLength(1) // 施法音挂 intro
+      const sndFrames = frames.filter(f => f.sound === 55)
+      expect(sndFrames).toHaveLength(1)
+      expect(sndFrames[0]!.overlays).toMatchObject([{ kind: 'magic', frameIdx: 0 }])
+    }
+    // magicSound=-62(<0):WIN95 fight.c:2928-2929 效果音不播;施法音 abs(-62)=62 照播(audio.c:529 abs)
+    {
+      const { state, playerRoles, bus, gs } = makeState({
+        role: { mp: 30, maxMP: 30 },
+        enemies: [{ magicSound: -62 }],
+      })
+      state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+      state.players[0]!.posOriginal = { x: 240, y: 170 }
+      performMagic({
+        state, casterIsEnemy: true, casterIdx: 0, spellId: 7,
+        targetIsEnemy: false, targetIdx: 0,
+        spells: [makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 0 })],
+        magics: [makeMagic({ id: 3, costMP: 8, baseDamage: 0, type: 'normal', effect: 12, sound: 55 })],
+        playerRoles, bus, commands: [{ op: 'end' }], runScript: vi.fn(), gs,
+        magicSpriteFrameCounts: new Map([[12, 8]]),
+      })
+      const frames = state.battleAnim?.frames ?? []
+      expect(frames.every(f => f.sound !== 55)).toBe(true) // 效果音静音
+      expect(gs.pendingSounds ?? []).not.toContain(55)
+      expect(frames.filter(f => f.sound === 62)).toHaveLength(1) // 施法音取 abs 照播
+    }
+  })
+
   // 顺序修:user 先后报"灵葫咒掉血在动画前"和"武神数字等整段动画结束才出"。
   //   SDLPal 是 OffMagic/Summon 主特效结束后 DisplayStatChange,随后 PostMagic 受击动画。
   it('scriptOnSuccess 秒杀(0x60)数字挂 PostMagic 第一帧,不等整条时间线结束(灵葫咒类,真 runScript)', () => {

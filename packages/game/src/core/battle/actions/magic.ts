@@ -405,12 +405,20 @@ export function performMagic(input: PerformMagicInput): void {
   )
   if (pendingCastSound > 0 && input.gs && !castFrameSynced) (input.gs.pendingSounds ??= []).push(pendingCastSound)
 
-  // M6 法术效果音 magic.sound:player 攻击魔法(OffMagic)已在 buildPlayerOffMagicTimeline 的
-  //   **起手帧 i==0** 挂 frame.sound(WIN95 式声画同步,sdlpal fight.c:2669;user 2026-06-05 选),**不在此 push**;
-  //   其余(防御/召唤/敌方/无动画)无帧同步 → 即时 push 到 gs.pendingSounds(同 0x47 通道)。
-  // OffMagic 在起手帧帧同步(上方);summon 自身 magic.sound 在 PreMagic 后首个变亮帧帧同步
-  //   (buildAndStartSummonAnim,WIN95 fight.c:3112)→ 二者都**不在此即时 push**(否则 dispatch 时就响、过早)。
-  const soundFrameSynced = built && !input.casterIsEnemy && (OFF_MAGIC_TYPES.has(magic.type) || magic.type === 'summon')
+  // M6 法术效果音 magic.sound:建链成功的全部路径均已挂帧同步(WIN95 式声画同步,特效首帧 i==0),
+  //   **不在此 push**;仅未建链(旧 fixture / 无 sprite 资源)回落即时 push 到 gs.pendingSounds(同 0x47 通道)。
+  //   - player OffMagic:buildPlayerOffMagicTimeline 起手帧(fight.c:2669;user 2026-06-05 选)
+  //   - player summon:PreMagic 后首个变亮帧(buildAndStartSummonAnim,WIN95 fight.c:3112)
+  //   - player DefMagic(applyToPlayer/applyToParty):特效首帧(fight.c:2497-2502)
+  //   - enemy OffMagic:特效首帧(fight.c:2925-2930;e.wMagicSound<0 → builder 收 0 → 整段静音,WIN95 gate)
+  //   旧版 DefMagic/敌方在 dispatch 即播 → 先闻其声后见前摇(user 2026-06-13 报草妖风咒/气疗术)。
+  const soundFrameSynced = built && (
+    (!input.casterIsEnemy && (
+      OFF_MAGIC_TYPES.has(magic.type) || magic.type === 'summon'
+      || magic.type === 'applyToPlayer' || magic.type === 'applyToParty'
+    ))
+    || (input.casterIsEnemy && OFF_MAGIC_TYPES.has(magic.type))
+  )
   // trance(变身,梦蛇 magic47 effect=0xFFFF):原版走 DefMagicAnim,但 effect 无 FIRE 资源 → l<=0 早退
   //   (fight.c:2480-2484),AUDIO_PlaySound(2501)执行不到 → magic.sound 根本不播。我们跳过 DefMagicAnim
   //   直接 colorShift 变身,故须显式不 push,否则变身时多一声 335。
@@ -762,6 +770,7 @@ function buildAndStartDefMagicAnim(
         speed: magic.speed,
         xOffset: magic.xOffset,
         yOffset: magic.yOffset,
+        sound: magic.sound, // 效果音挂特效首帧(fight.c:2497-2502 WIN95 i==0;之前即时 push 早于动画)
       },
       n,
       targetPlayerIdx: tIdx,
@@ -788,6 +797,7 @@ function buildAndStartDefMagicAnim(
       yOffset: magic.yOffset,
       wave: magic.wave, // W4 屏波(present applyScreenWave)
       keepEffect: magic.keepEffect, // W4 烙背景(末帧 0xFFFF)
+      sound: magic.sound, // 效果音挂特效首帧(fight.c:2497-2502 WIN95 i==0;之前即时 push 早于动画)
     },
     n,
     targetPlayerIdx: -1,
@@ -855,9 +865,11 @@ function buildAndStartEnemyMagicAnim(
     introFrames[introTailIdx] = { ...introTail, fighters: [...(introTail.fighters ?? []), ...guardPoses] }
   }
   // DL10a:敌施法音挂滑步第 2 步帧(fight.c:4680-4695 两步 Delay(1) 后 AUDIO_PlaySound(wMagicSound))。
+  //   wMagicSound 是 SHORT,负值合法(enemies.json 实有 -503..-1)—— C 无条件调用且 AUDIO_PlaySound
+  //   按 abs 播(audio.c:529),旧 `>0` gate 漏播负值敌的施法音 → 改 !==0 + abs。
   const castSnd = input.state.enemies[input.casterIdx]?.e.magicSound ?? 0
-  if (castSnd > 0 && introFrames.length >= 2 && !introFrames[1]!.sound) {
-    introFrames[1] = { ...introFrames[1]!, sound: castSnd }
+  if (castSnd !== 0 && introFrames.length >= 2 && !introFrames[1]!.sound) {
+    introFrames[1] = { ...introFrames[1]!, sound: Math.abs(castSnd) }
   }
   // 特效前 snap 回原位(fight.c:2842 PAL_BattleShowEnemyMagicAnim 起手把全敌 pos 复位 posOriginal)。
   const posResetFrame: BattleAnimFrame = {
@@ -879,6 +891,9 @@ function buildAndStartEnemyMagicAnim(
       yOffset: magic.yOffset,
       wave: magic.wave, // W4 屏波(present applyScreenWave)
       keepEffect: magic.keepEffect, // W4 烙背景(末帧 0xFFFF)
+      // 效果音挂特效首帧(fight.c:2925-2930 WIN95 i==0;之前即时 push 早于动画——草妖风咒根因)。
+      // WIN95 gate(fight.c:2928-2929):e.wMagicSound(SHORT)< 0 的敌人效果音静音。
+      sound: castSnd >= 0 ? magic.sound : 0,
     },
     n,
     enemy: {

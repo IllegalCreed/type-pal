@@ -1206,6 +1206,25 @@ describe('buildPlayerDefMagicTimeline (fight.c:2447-2606)', () => {
     })
   })
 
+  // 效果音声画同步(fight.c:2497-2502):WIN95 在特效帧循环 i==0 播 AUDIO_PlaySound(magic.wSound)。
+  // 之前 magic.ts 即时 push → 音效在 PreMagic 前摇时就响,先闻其声后见其形(user 2026-06-13 报气疗术)。
+  it('magic.sound > 0 → 挂特效首帧(frames[1],caster帧6 之后);其余帧无 sound', () => {
+    const f = buildPlayerDefMagicTimeline({
+      casterIdx: 0,
+      magic: { effect: 15, type: 'applyToPlayer', speed: 2, xOffset: 4, yOffset: -6, sound: 335 },
+      n: 5,
+      targetPlayerIdx: 1,
+      targetPlayerPos: { x: 180, y: 150 },
+    })
+    expect(f[0]!.sound).toBeUndefined() // caster 帧6(循环前,fight.c:2492)不带
+    expect(f[1]!.sound).toBe(335) // 特效 i==0
+    f.forEach((fr, i) => { if (i !== 1) expect(fr.sound).toBeUndefined() })
+  })
+
+  it('magic.sound 缺省/0 → 全帧无 sound', () => {
+    expect(buildToPlayer().every(fr => fr.sound === undefined)).toBe(true)
+  })
+
   it('applyToParty:落点对每个队员各放一份(overlays 多落点);辉光设全队员', () => {
     const f = buildPlayerDefMagicTimeline({
       casterIdx: 0,
@@ -1328,6 +1347,29 @@ describe('buildEnemyMagicTimeline (fight.c:2846-3069)', () => {
   it('normal 落点 = player.pos + (xOff,yOff) = (244,164),overlay kind=magic chunk=effect', () => {
     const f = buildNormal()
     expect(f[0]!.overlays).toMatchObject([{ kind: 'magic', spriteChunk: 12, frameIdx: 0, x: 244, y: 164 }])
+  })
+
+  // 效果音声画同步(fight.c:2925-2930):WIN95 在特效帧循环 i==0 播 AUDIO_PlaySound(magic.wSound)
+  // (gate e.wMagicSound>=0 由调用方决定传不传 sound)。之前 magic.ts 即时 push → 音效在敌人
+  // 前移/施法手势(intro)时就响(user 2026-06-13 报草妖风咒)。
+  it('magic.sound > 0 → 挂特效循环首帧(frames[0]);其余帧无 sound', () => {
+    const f = buildEnemyMagicTimeline({
+      enemyCasterIdx: 0,
+      magic: {
+        effect: 12, type: 'normal', speed: 2, fireDelay: 2, effectTimes: 1, shake: 0,
+        xOffset: 4, yOffset: -6, sound: 99,
+      },
+      n: 8,
+      enemy: { idleFrames: 4, magicFrames: 2, attackFrames: 3 },
+      targetPlayerIdx: 1,
+      targetPlayerPos: { x: 240, y: 170 },
+    })
+    expect(f[0]!.sound).toBe(99)
+    f.forEach((fr, i) => { if (i !== 0) expect(fr.sound).toBeUndefined() })
+  })
+
+  it('magic.sound 缺省/0 → 全帧无 sound', () => {
+    expect(buildNormal().every(fr => fr.sound === undefined)).toBe(true)
   })
 
   it('attackAll:三落点 {180,180}{234,170}{270,146} 各 +off → overlays[3] 同帧(敌方坐标,异于 OffMagic)', () => {

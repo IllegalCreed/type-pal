@@ -1319,6 +1319,8 @@ export interface BuildPlayerDefMagicInput {
     wave?: number
     /** W4 wKeepEffect — ==0xFFFF 时末帧把魔法精灵烙进战斗背景(持久);其它值/缺 = 不烙。fight.c:2758/2983。 */
     keepEffect?: number
+    /** magic.wSound 效果音 — WIN95 在特效帧循环 i==0 播(fight.c:2497-2502);挂特效首帧。0/缺 = 不挂。 */
+    sound?: number
   }
   /** FIRE.MKF chunk[effect] 帧数 n(magic sprite 帧序 + 总帧数;DefMagic 无 effectTimes/shake 循环)。 */
   n: number
@@ -1379,7 +1381,10 @@ export function buildPlayerDefMagicTimeline(input: BuildPlayerDefMagicInput): Ba
       x: p.x,
       y: p.y,
     }))
-    frames.push({ durationMs: frameDuration, overlays })
+    const frame: BattleAnimFrame = { durationMs: frameDuration, overlays }
+    // 效果音声画同步:WIN95 i==0 播 magic.wSound(fight.c:2497-2502)。
+    if (i === 0 && magic.sound && magic.sound > 0) frame.sound = magic.sound
+    frames.push(frame)
   }
 
   // —— iColorShift 辉光(fight.c:2573-2605):i=0..6 渐亮 + i=6..0 渐暗 = 14 帧 ——
@@ -1429,6 +1434,11 @@ export interface BuildEnemyMagicInput {
     wave?: number
     /** W4 wKeepEffect — ==0xFFFF 时末帧把魔法精灵烙进战斗背景(持久);其它值/缺 = 不烙。fight.c:2758/2983。 */
     keepEffect?: number
+    /**
+     * magic.wSound 效果音 — WIN95 在特效帧循环 i==0 播(fight.c:2925-2930);挂首帧。
+     * fight.c gate `e.wMagicSound >= 0` 由调用方判定(负值敌人传 0/缺 = 效果音静音)。
+     */
+    sound?: number
   }
   /** FIRE.MKF chunk[effect] 帧数 n(总帧数公式 fight.c:2887/2889)。 */
   n: number
@@ -1721,6 +1731,8 @@ export function buildEnemyMagicTimeline(input: BuildEnemyMagicInput): BattleAnim
     }
 
     const frame: BattleAnimFrame = { durationMs: frameDuration, overlays }
+    // 效果音声画同步:WIN95 i==0 播 magic.wSound(fight.c:2925-2930;e.wMagicSound>=0 gate 在调用方)。
+    if (i === 0 && magic.sound && magic.sound > 0) frame.sound = magic.sound
     if (fighters.length > 0) frame.fighters = fighters
     const effectiveShake = shakeOverlay ?? timedScriptShake(i, scriptShake)
     if (effectiveShake) frame.shake = effectiveShake
