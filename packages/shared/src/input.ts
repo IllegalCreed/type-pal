@@ -42,10 +42,12 @@ export interface InputSnapshot {
 export interface InputSource {
   nextSnapshot(frameNum: number): InputSnapshot
   /**
-   * DM30:palette fade 每步清键(sdlpal palette.c:313-316:PAL_ClearKeyState + dir=prevdir=Unknown;
-   * input.c:213 按住不放的键只产生 fRepeat=TRUE 的 KeyDown 不重算 dir)—— fade 期间按住的方向键
-   * 在 fade 结束后**不**自动恢复走路,需物理松开重按。实现方:把当前 held 方向键加入抑制集
-   * (keyup 解除)并清 pressed。可选(测试 stub 可不实现)。
+   * DM30(2026-06-12 收窄):**仅 scene-fade**(0x93 SceneFade / 0x80 PaletteFade-fUpdateScene)
+   * 每步清键(palette.c:314-316/441-446:PAL_ClearKeyState + dir=prevdir=Unknown;input.c:213
+   * 按住不放只产生 fRepeat=TRUE 的 KeyDown 不重算 dir)—— 该类 fade 期间按住的方向键在 fade 结束后
+   * **不**自动恢复走路,需物理松开重按。其余渐变(0x50/0x51/0x8C/0x4F/自动渐入 = PAL_FadeOut/FadeIn/
+   * ColorFade/FadeToRed)C 不清键,**不得**调本方法(2026-06-12 战后吞键回归根因)。实现方:把当前
+   * held 方向键加入抑制集(keyup 解除)并清 pressed。可选(测试 stub 可不实现)。
    */
   suppressHeldForFade?(): void
 }

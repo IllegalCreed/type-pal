@@ -101,6 +101,11 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       //   设 true 会把它跳掉 → 循环显赶(user 报)。默认 false,显式写明意图。
       seq = new Sequencer(synth, { skipToFirstNoteOn: false })
       ready = true
+      // DEV-only 调试探针:console 可接 AnalyserNode 量 RMS(排查"某段 BGM 几乎听不到"类问题),
+      //   也可直接看 seq/synth 状态。生产构建 DEV=false 整段 tree-shake。
+      if ((import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV) {
+        ;(window as unknown as Record<string, unknown>).__tpmidi = { ctx, synth, getSeq: () => seq }
+      }
       if (last) void doPlay(last.track, last.loop) // 就绪前已请求的曲 → 补播
     } catch (err) {
       // 具体原因在 err 里(secure-context 缺 AudioWorklet / soundfont 取不到 / 不是 RIFF 等)—— 别在这

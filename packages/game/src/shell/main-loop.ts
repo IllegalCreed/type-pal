@@ -72,10 +72,16 @@ export function advanceRafFrame(
   state.accumulator += dt
 
   const interval = logicIntervalMs(ctx.gs)
-  // DM30:palette fade 进行中每 rAF 清键 + 抑制按住的方向键(palette.c:313-316 每 fade 步
-  //   ClearKeyState + dir=Unknown)—— 按住方向穿过黑场/场景渐变后不会径直续走(可能连环触发
-  //   新场景 trigger),需物理松开重按。
-  if (ctx.gs.paletteFadeState != null) ctx.input.suppressHeldForFade?.()
+  // DM30 修正(2026-06-12 user 报"战后 fadeout 卡键"):渐变清键的 C 真值边界是**函数级**的——
+  //   清键(每步 ClearKeyState + dir=Unknown):PAL_SceneFade(0x93,palette.c:314-316)、
+  //     PAL_PaletteFade 的 fUpdateScene 变体(0x80,palette.c:441-446)= 我们 waiting='scene-fade' 集合;
+  //   不清键(纯色表 ramp,按键累积、按住的方向 fade 一结束立即生效,原版按住方向连穿门即此):
+  //     PAL_FadeOut/FadeIn/ColorFade/FadeToRed(0x50/0x51/0x8C/0x4F/0x4E/战后&进场自动渐入)。
+  //   旧条件 `paletteFadeState != null` 把清键泛化到全部渐变 → 战后 ~1.2s 吞键、按住方向须松开重按。
+  //   世界冻结由 scene-system tickSceneInput/PreInput 的 paletteFadeState 门负责(忠实 PAL_FadeIn 阻塞);
+  //   按住的方向键在 fade 完成的下一 tick 立即续走 = C 时序。已知近似:fade 窗口内的"点按"被逐 tick
+  //   drain 丢弃(C 的 dwKeyPress 会缓存到 fade 后首帧消费;改输入消费模型收益不值,先记录)。
+  if (ctx.gs.eventCursor?.waiting === 'scene-fade') ctx.input.suppressHeldForFade?.()
   let drained: BusEntry[] = []
   let ticked = false
   // DM31:C 真值(game.c:75-78 / battle.c:782-787)`PAL_DelayUntil(dwTime); dwTime = now + FRAME_TIME`
