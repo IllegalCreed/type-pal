@@ -500,6 +500,16 @@ export function presentFrame(
     // → blit anchor (cy) = npc.y - vp.y + 7;screen sy = npc.y - vp.y + SCREEN_CENTER_Y,
     //   故 drawSprite cy = sy + 7(sLayer 不进 blit,只进 sort key 和 cover sy)。
     const sLayer = npc.sLayer ?? 0
+    // 屏外剔除 — port sdlpal scene.c:286-314(血池审查 2026-06-12):**剔除发生在
+    // AddSpriteToDraw 与 PAL_CalcCoverTiles 之前** — 屏外对象既不画精灵、也不产生 cover
+    // tile。旧码无此剔除 → 刚出屏的对象(如血池触发垫 1018)仍按脚下 cell 产 cover 条目,
+    // 把 layer-0 地砖晚序盖到屏内 layer-1 墙体/池沿上 = 走动时屏缘"异常地块"忽隐忽现。
+    //   x = eo.x - vp.x - width/2;  if (x >= 320 || x < -width) skip
+    //   vy = (eo.y - vp.y + sLayer*8 + 9) - height - sLayer*8 + 2;  if (vy >= 200 || vy < -height) skip
+    const cullLeft = sx - Math.floor(sprite.width / 2)
+    if (cullLeft >= SCREEN_W || cullLeft < -sprite.width) continue
+    const cullVy = sy + 11 - sprite.height // sLayer*8 项相消(+9-...+2 = +11)
+    if (cullVy >= SCREEN_H || cullVy < -sprite.height) continue
     const sortY = npc.y + sLayer * 8 + 9
     const iLayer = sLayer * 8 + 2
     const capturedSprite = sprite

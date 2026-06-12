@@ -51,16 +51,68 @@ function loadEvent(gs: GameState, commands: Command[], startIp = 0): void {
   gs.mode = 'event'
 }
 
-describe('walkFrameMod(NPC 走路帧取模,scene.c:893)', () => {
-  it('M3/L4:按 nSpriteFrames 取模(3→%4、1/2/4→%n、0→不推帧)', () => {
+describe('walkFrameMod(NPC 走路帧取模,scene.c:880-902)', () => {
+  it('M3/L4:按 nSpriteFrames 取模(3→%4、1/2/4→%n)', () => {
     expect(walkFrameMod(4, 3)).toBe(0) // nSpriteFrames=3 → mod 4(标准走路怪)
     expect(walkFrameMod(3, 3)).toBe(3)
     expect(walkFrameMod(2, 2)).toBe(0) // mod 2
     expect(walkFrameMod(3, 2)).toBe(1) // 旧 %4 会得 3(渗进相邻方向帧);新 mod 2 = 1
     expect(walkFrameMod(5, 1)).toBe(0) // mod 1 恒 0
     expect(walkFrameMod(4, 4)).toBe(0) // mod 4 与 C 相等
-    expect(walkFrameMod(3, 0)).toBe(0) // nSpriteFrames=0(单姿势)不推帧
     expect(walkFrameMod(2, undefined)).toBe(2) // undefined → 退回标准 %4(未 hydrate 兼容)
+  })
+
+  it('血池根因:nSpriteFrames=0 时走 nSpriteFramesAuto 取模(scene.c:897-901,res.c:295-298 装载回填)', () => {
+    // 冒泡(spr272,24 帧):0x87 每帧推进 mod 24
+    expect(walkFrameMod(1, 0, 24)).toBe(1)
+    expect(walkFrameMod(23, 0, 24)).toBe(23)
+    expect(walkFrameMod(24, 0, 24)).toBe(0)
+    // 血柱(spr11,11 帧)
+    expect(walkFrameMod(11, 0, 11)).toBe(0)
+    expect(walkFrameMod(5, 0, 11)).toBe(5)
+    // 两者皆 0(无 sprite / 真单姿势):C 不推帧也**不清零** — 预设姿势帧保留
+    expect(walkFrameMod(14, 0, 0)).toBe(13) // nextFrame=cur+1 → 帧不变 = nextFrame-1
+    expect(walkFrameMod(3, 0)).toBe(2)      // auto 缺省(未 hydrate)同上;旧实现错误地清 0
+    expect(walkFrameMod(0, 0, 0)).toBe(0)   // cur=-1(undefined 起步)→ clamp 0
+  })
+})
+
+describe('0x87 animateObject × nSpriteFramesAuto(血池冒泡/血柱冻帧根因)', () => {
+  it('nSpriteFrames=0 + nSpriteFramesAuto=24:0x87+goto 循环每 tick 推 1 帧、mod 24 回绕', () => {
+    const cmds: Command[] = [
+      { op: 'raw', opcode: 0x87, operands: [0, 0, 0], label: 'L_0' } as Command,
+      { op: 'goto', to: 'L_0', frameDelay: 0 } as Command,
+      { op: 'end' } as Command,
+    ]
+    setGlobalEvents(cmds)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{
+      id: 1, x: 0, y: 0, spriteNum: 272, sState: 1,
+      nSpriteFrames: 0, nSpriteFramesAuto: 24, scriptedFrame: 0,
+      autoLabel: 'L_0', autoCursor: { ip: 0 },
+    }]
+    for (let i = 1; i <= 26; i++) {
+      tickAutoScripts(gs)
+      expect(gs.npcs[0]!.scriptedFrame).toBe(i % 24)
+    }
+  })
+
+  it('nSpriteFrames=0 + auto=0 + 预设姿势帧:0x87 不动帧(C 不推不清,水月宫拜谢类 pose 保留)', () => {
+    const cmds: Command[] = [
+      { op: 'raw', opcode: 0x87, operands: [0, 0, 0], label: 'L_0' } as Command,
+      { op: 'goto', to: 'L_0', frameDelay: 0 } as Command,
+      { op: 'end' } as Command,
+    ]
+    setGlobalEvents(cmds)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{
+      id: 1, x: 0, y: 0, spriteNum: 193, sState: 1,
+      nSpriteFrames: 0, nSpriteFramesAuto: 0, scriptedFrame: 13,
+      autoLabel: 'L_0', autoCursor: { ip: 0 },
+    }]
+    tickAutoScripts(gs)
+    tickAutoScripts(gs)
+    expect(gs.npcs[0]!.scriptedFrame).toBe(13)
   })
 })
 

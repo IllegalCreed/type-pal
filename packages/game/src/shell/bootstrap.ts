@@ -46,6 +46,7 @@ import {
   createInitialPlayerStatus,
   type GameState,
   hydrateNpcStaticDefaults,
+  setSpriteFrameCountProvider,
   getOverworldSpriteNum,
   loadDefaultGame,
   normalizePlayerRolesRuntime,
@@ -322,6 +323,13 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
     npcSpriteFrames.set(id, allFrames)
     if (allFrames[0]) npcSprites.set(id, allFrames[0])
   }
+
+  // sdlpal res.c:295-298:kLoadScene 时把"装载好的精灵总帧数"回填进 EventObject.nSpriteFramesAuto
+  // (PAL_NPCWalkOneStep 对 nSpriteFrames==0 的对象用它取模推帧 — 血池冒泡/血柱等氛围动画)。
+  // 注入查询器后,hydrateNpcStaticDefaults(三条装载路径都会调)即可回填;初始 scene 的 gs.npcs
+  // 在 map 装配前已建好 → 这里补跑一次(幂等,scene dump 与 gs.npcs 都在闭包内)。
+  setSpriteFrameCountProvider((spriteNum) => npcSpriteFrames.get(spriteNum)?.length)
+  hydrateNpcStaticDefaults(gs.npcs, scene.eventObjects)
 
   const fb = createFramebuffer()
   const canvasCtx = canvas.getContext('2d')

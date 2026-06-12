@@ -457,16 +457,29 @@ const FACING_TO_SDLPAL_DIR: Record<'down' | 'left' | 'up' | 'right', number> = {
 }
 
 /**
- * sdlpal PAL_NPCWalkOneStep(scene.c:893-901):推进 NPC 走路帧 —— nSpriteFrames>0 时
- * `nextFrame % (nSpriteFrames==3 ? 4 : nSpriteFrames)`;nSpriteFrames==0(非方向性单姿势
- * sprite)不推帧、恒 0(nSpriteFramesAuto 在本作全 0,死代码)。M3/L4(2026-06-07 审查):原先各处
- * 硬编码 %4,对 nSpriteFrames∈{1,2} 的对象脚本走位 / 追逐时帧序错(渗进相邻方向帧块)。
+ * sdlpal PAL_NPCWalkOneStep 帧推进段(scene.c:880-902)真值:
+ *   if (nSpriteFrames > 0)          wCurrentFrameNum = ++f % (nSpriteFrames==3 ? 4 : nSpriteFrames)
+ *   else if (nSpriteFramesAuto > 0) wCurrentFrameNum = ++f % nSpriteFramesAuto
+ *   else                            (不推帧、**不清零** — 预设姿势帧保留)
+ *
+ * nSpriteFramesAuto = 装载时回填的精灵总帧数(res.c:295-298,见 game-state hydrate)——
+ * 血池审查(2026-06-12)发现旧注释"本作全 0,死代码"是被 dump 静态值误导:C 在每次 kLoadScene
+ * 时动态回填,0x87/0x4C 驱动的氛围动画(冒泡 24 帧/血柱 11 帧/赤鬼王 idle 4 帧)全靠它,
+ * 旧实现 `nSpriteFrames<=0 → return 0` 让这些对象全部冻在 frame 0(还顺带清掉预设 pose)。
+ *
+ * M3/L4(2026-06-07 审查):nSpriteFrames∈{1,2} 按各自取模,不硬编码 %4。
  */
-export function walkFrameMod(nextFrame: number, nSpriteFrames: number | undefined): number {
+export function walkFrameMod(
+  nextFrame: number,
+  nSpriteFrames: number | undefined,
+  nSpriteFramesAuto: number = 0,
+): number {
   // undefined = 未 hydrate(测试 fixture / 旧路径)→ 退回标准 4 帧循环(多数 NPC nSpriteFrames=3 → mod 4)
   if (nSpriteFrames === undefined) return nextFrame % 4
-  if (nSpriteFrames <= 0) return 0 // scene.c:893 nSpriteFrames==0(单姿势)不推帧
-  return nextFrame % (nSpriteFrames === 3 ? 4 : nSpriteFrames)
+  if (nSpriteFrames > 0) return nextFrame % (nSpriteFrames === 3 ? 4 : nSpriteFrames)
+  if (nSpriteFramesAuto > 0) return nextFrame % nSpriteFramesAuto
+  // 两者皆 0:C 不动 wCurrentFrameNum — 调用方传 nextFrame=cur+1,还原 cur(undefined 起步 clamp 0)
+  return Math.max(0, nextFrame - 1)
 }
 
 const SINGLE_TICK_LIMIT = 256
@@ -3696,7 +3709,7 @@ function applyRawOpcode(
           npc.y += delta[1]
         }
         // 同 0x6C handler:推进 scriptedFrame mod 4 — 走路帧循环
-        npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames)
+        npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames, npc.nSpriteFramesAuto)
       }
       break
     }
@@ -3801,7 +3814,7 @@ function applyRawOpcode(
         // M5 简版:从 undefined 起始 0,循环 mod 4(NPC sprite 通常 4 帧 = 4 dirs × 1 / 或 4 步动画)
         //         真 nSpriteFrames 由渲染层从 ctx.npcSpriteFrames 反查;event-system 拿不到 ctx,
         //         默认 mod 4 已足以让"走 5 步动画 0→1→2→3→0→1"循环视觉。
-        npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames)
+        npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames, npc.nSpriteFramesAuto)
       }
       break
     }
@@ -3831,7 +3844,7 @@ function applyRawOpcode(
       // iSpeed=0 → 仅推进动画帧(scene.c:893-902),不位移。wCurEventObjectID = operand[0] 选。
       const npc = resolveTargetNpc(gs, operands[0] ?? 0, currentEventObjectId, 'animateObject')
       if (npc) {
-        npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames)
+        npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? -1) + 1, npc.nSpriteFrames, npc.nSpriteFramesAuto)
       }
       break
     }
@@ -4879,7 +4892,7 @@ function npcWalkTo(
     // **重要**:sdlpal 结构体 zero-init,wCurrentFrameNum 初始 = 0。我们 scriptedFrame
     // undefined 时也应当 0(不是 -1),否则差一帧 — 12 步后 sdlpal frame=0(stand),
     // 我们错算成 frame=3(foot2),停在抬腿姿势。
-    const next = walkFrameMod((npc.scriptedFrame ?? 0) + 1, npc.nSpriteFrames)
+    const next = walkFrameMod((npc.scriptedFrame ?? 0) + 1, npc.nSpriteFrames, npc.nSpriteFramesAuto)
     npc.scriptedFrame = next
   }
 
@@ -5139,7 +5152,7 @@ function monsterChasePlayer(
   const stepY = (npc.facing === 'left' || npc.facing === 'up') ? -1 : 1
   npc.x += stepX * wMonsterSpeed
   npc.y += stepY * wMonsterSpeed
-  npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? 0) + 1, npc.nSpriteFrames)
+  npc.scriptedFrame = walkFrameMod((npc.scriptedFrame ?? 0) + 1, npc.nSpriteFrames, npc.nSpriteFramesAuto)
 }
 
 /** PAL_CheckObstacle 真值(via 注入 hook);未注入(测试/无 tilemap)视为无障碍。 */

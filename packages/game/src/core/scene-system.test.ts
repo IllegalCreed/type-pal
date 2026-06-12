@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import type { Tilemap, InputSnapshot, AbstractKey, Item, Spell, Magic, PlayerRoles } from '@type-pal/shared'
 import { setMenuCatalogs } from './menu/menu-driver.js'
 import { loadScene, tickSceneSystem, isWalkable } from './scene-system.js'
-import { createInitialGameState, PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
+import { createInitialGameState, PARTYOFFSET_X, PARTYOFFSET_Y, setSpriteFrameCountProvider } from './game-state.js'
 import type { NpcState } from './game-state.js'
 import { createCommandBus } from './command-bus.js'
 import { SceneAssetsCache, type SceneAssets } from '../assets/loader.js'
@@ -955,6 +955,48 @@ function makeFakeAssetsWithEnterScript(
   setGlobalEvents(commands) // P2#5:onEnterLabel 走全局 labelMap
   return makeSceneAssets(sceneId, [], commands, labelMap, 'L_enter')
 }
+
+describe('loadScene × nSpriteFramesAuto 回填(sdlpal res.c:295-298,血池冒泡/血柱动画根因)', () => {
+  it('装载时按精灵总帧数回填 nSpriteFramesAuto;无 sprite(spriteNum=0)不回填', async () => {
+    // bootstrap 注入的 provider 等价物:spriteNum → 已装帧数
+    setSpriteFrameCountProvider((spriteNum) => ({ 272: 24, 11: 11 } as Record<number, number>)[spriteNum])
+    try {
+      const gs = createInitialGameState({ x: 5 * 32, y: 5 * 16, facing: 'down' })
+      const cache = new SceneAssetsCache(async (id: number) =>
+        makeSceneAssets(id, [
+          { id: 0, x: 0, y: 0, spriteNum: 272, triggerMode: 0, nSpriteFrames: 0, currentFrameNum: 0 },
+          { id: 1, x: 0, y: 0, spriteNum: 11, triggerMode: 0, nSpriteFrames: 0, currentFrameNum: 0 },
+          { id: 2, x: 0, y: 0, spriteNum: 0, triggerMode: 0, nSpriteFrames: 0, currentFrameNum: 0 },
+        ]),
+      )
+      await loadScene({ gs, sceneId: 7, assets: cache })
+      expect(gs.npcs[0]!.nSpriteFramesAuto).toBe(24)
+      expect(gs.npcs[1]!.nSpriteFramesAuto).toBe(11)
+      expect(gs.npcs[2]!.nSpriteFramesAuto ?? 0).toBe(0)
+    } finally {
+      setSpriteFrameCountProvider(null)
+    }
+  })
+
+  it('重复装载覆盖旧值(C 每次 kLoadScene 重新回填)', async () => {
+    setSpriteFrameCountProvider(() => 24)
+    try {
+      const gs = createInitialGameState({ x: 5 * 32, y: 5 * 16, facing: 'down' })
+      const cache = new SceneAssetsCache(async (id: number) =>
+        makeSceneAssets(id, [
+          { id: 0, x: 0, y: 0, spriteNum: 272, triggerMode: 0, nSpriteFrames: 0, currentFrameNum: 0 },
+        ]),
+      )
+      await loadScene({ gs, sceneId: 7, assets: cache })
+      expect(gs.npcs[0]!.nSpriteFramesAuto).toBe(24)
+      setSpriteFrameCountProvider(() => 6) // 换精灵后帧数变(0x17 setObjectSprite 场景)
+      await loadScene({ gs, sceneId: 8, assets: cache })
+      expect(gs.npcs[0]!.nSpriteFramesAuto).toBe(6)
+    } finally {
+      setSpriteFrameCountProvider(null)
+    }
+  })
+})
 
 describe('loadScene(M3.5 T9 / D33)', () => {
   it('切到新 scene → gs.npcs 由 eventObjects 重置;party 不传则不动', async () => {

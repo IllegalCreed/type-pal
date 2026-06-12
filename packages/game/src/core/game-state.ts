@@ -120,6 +120,17 @@ export interface NpcState {
    */
   nSpriteFrames?: number
   /**
+   * sdlpal `EventObject.nSpriteFramesAuto` — **装载时回填**的精灵总帧数(res.c:295-298
+   * `nSpriteFramesAuto = PAL_SpriteGetNumFrames(sprite)`,每次 kLoadScene 重算)。
+   *
+   * PAL_NPCWalkOneStep(scene.c:897-901)对 `nSpriteFrames == 0` 的对象用它取模推帧 ——
+   * 血池冒泡(spr272,24 帧)/血柱(spr11,11 帧)/赤鬼王 idle 等 0x87/0x4C 驱动的氛围动画
+   * 全靠它循环。dump 静态值恒 0(原始数据如此,C 也是装载时才回填),**不要**从 dump 读;
+   * hydrateNpcStaticDefaults 经 setSpriteFrameCountProvider 注入的查询器回填。
+   * undefined/0 = 无 sprite 或单帧 → 不推帧(帧保持原值,C 同)。
+   */
+  nSpriteFramesAuto?: number
+  /**
    * NPC 朝向(sdlpal `EventObject.wDirection`)。
    * Sync.2 fix3:opcode 0x0016 setEventObjectDirAndFrame 写入(operand[1])。
    * undefined = 渲染层用 spriteNum 默认帧。
@@ -1823,11 +1834,27 @@ export function npcFromEventObject(
 }
 
 /**
+ * 装载时 sprite 帧数查询器(bootstrap 注入 `(spriteNum) => npcSpriteFrames.get(id)?.length`)。
+ * = sdlpal res.c:295-298 的 PAL_SpriteGetNumFrames(装载好的精灵)。
+ * 单测可注入 stub;null(未注入,如纯 core 单测)→ 不回填 nSpriteFramesAuto。
+ */
+let _spriteFrameCountProvider: ((spriteNum: number) => number | undefined) | null = null
+
+export function setSpriteFrameCountProvider(
+  provider: ((spriteNum: number) => number | undefined) | null,
+): void {
+  _spriteFrameCountProvider = provider
+}
+
+/**
  * 用当前 scene dump 补齐旧运行状态 / 旧存档缺失的 EventObject 静态字段。
  *
  * 旧版本构建 allEventObjects 时没有保存 wCurrentFrameNum,所以隐藏姿势对象经 0x49 显示后会
  * 回退 sprite frame 0(如水月宫李逍遥躺地),而非 dump 中预设的 frame 13(抱拳拜谢)。
  * 仅补 undefined:脚本已明确写过的 frame 0 / 朝向 / nSpriteFrames 均保留。
+ *
+ * 例外:nSpriteFramesAuto 是**覆盖式**回填(C 每次 kLoadScene 重算,res.c:295-298)——
+ * 0x17 换 sprite 后帧数会变,残留旧值会让 0x87/0x4C 动画取错模。
  */
 export function hydrateNpcStaticDefaults(
   npcs: NpcState[],
@@ -1836,12 +1863,18 @@ export function hydrateNpcStaticDefaults(
   const defaultsById = new Map(eventObjects.map((eo) => [eo.id, eo]))
   for (const npc of npcs) {
     const eo = defaultsById.get(npc.id)
-    if (!eo) continue
-    if (npc.nSpriteFrames === undefined) npc.nSpriteFrames = eo.nSpriteFrames
-    if (npc.scriptedFrame === undefined) npc.scriptedFrame = eo.currentFrameNum
-    if (npc.sVanishTime === undefined) npc.sVanishTime = eo.vanishTime ?? 0
-    if (npc.facing === undefined && eo.direction !== undefined) {
-      npc.facing = (['down', 'left', 'up', 'right'] as const)[eo.direction] ?? 'down'
+    if (eo) {
+      if (npc.nSpriteFrames === undefined) npc.nSpriteFrames = eo.nSpriteFrames
+      if (npc.scriptedFrame === undefined) npc.scriptedFrame = eo.currentFrameNum
+      if (npc.sVanishTime === undefined) npc.sVanishTime = eo.vanishTime ?? 0
+      if (npc.facing === undefined && eo.direction !== undefined) {
+        npc.facing = (['down', 'left', 'up', 'right'] as const)[eo.direction] ?? 'down'
+      }
+    }
+    // res.c:295-298:装载好的精灵 → nSpriteFramesAuto = 总帧数(无 sprite 不动,保持 dump/旧值)
+    if (_spriteFrameCountProvider && npc.spriteNum > 0) {
+      const n = _spriteFrameCountProvider(npc.spriteNum)
+      if (n !== undefined) npc.nSpriteFramesAuto = n
     }
   }
 }

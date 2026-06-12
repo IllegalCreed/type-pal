@@ -675,6 +675,64 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
   })
 })
 
+describe('NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  function renderWithNpc(npcX: number, npcY: number): boolean {
+    const npcSprite = makeSprite(3) // 16×24
+    let drawn = false
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation(
+      (_fb, sprite) => {
+        if (sprite === npcSprite) drawn = true
+      },
+    )
+    const fb = createFramebuffer()
+    // camera 固定 (0,0):party 放屏幕中央等价位置
+    const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
+    gs.npcs = [{ id: 1, x: npcX, y: npcY, spriteNum: 1 }]
+    const ctx: PresentContext = {
+      tilemap: flatMap(40, 40),
+      tileImages: { get: () => undefined },
+      partyFrames: [makeSprite(5)],
+      partyWalkFrames: 3,
+      npcSprites: new Map([[1, npcSprite]]),
+    }
+    presentFrame(fb, gs, ctx)
+    spy.mockRestore()
+    return drawn
+  }
+
+  it('屏内 NPC 正常绘制(基准)', () => {
+    expect(renderWithNpc(160, 100)).toBe(true)
+  })
+
+  it('右侧屏外(left = sx-w/2 ≥ 320)→ 跳过', () => {
+    // camera (0,0),npc.x=336 → left = 336-8 = 328 ≥ 320 → cull(scene.c:293)
+    expect(renderWithNpc(336, 100)).toBe(false)
+  })
+
+  it('左侧完全屏外(left < -width)→ 跳过;部分可见仍绘制', () => {
+    // npc.x=-12 → left=-20 < -16 → cull(scene.c:293)
+    expect(renderWithNpc(-12, 100)).toBe(false)
+    // npc.x=0 → left=-8 ≥ -16 → 部分可见,画
+    expect(renderWithNpc(0, 100)).toBe(true)
+  })
+
+  it('下方屏外(vy ≥ 200)→ 跳过;贴底仍绘制', () => {
+    // sLayer=0:vy = y+9-24+2 = y-13;y=215 → vy=202 ≥ 200 → cull(scene.c:306-313)
+    expect(renderWithNpc(160, 215)).toBe(false)
+    // y=210 → vy=197 < 200 → 画
+    expect(renderWithNpc(160, 210)).toBe(true)
+  })
+
+  it('上方完全屏外(vy < -height)→ 跳过', () => {
+    // y=-40 → vy=-53 < -24 → cull
+    expect(renderWithNpc(160, -40)).toBe(false)
+  })
+})
+
 describe('P0.b Y-sort + cover-tile', () => {
   afterEach(() => {
     vi.restoreAllMocks()
@@ -749,7 +807,8 @@ describe('P0.b Y-sort + cover-tile', () => {
 
     const fb = createFramebuffer()
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' })   // party y=50(小)
-    gs.npcs = [{ id: 1, x: 100, y: 200, spriteNum: 1 }]                    // npc y=200(大)
+    // npc y=150(大):C 屏外剔除(scene.c:286-314)下需留在屏内(camera y=-62 → vy=199<200)
+    gs.npcs = [{ id: 1, x: 100, y: 150, spriteNum: 1 }]
 
     const ctx: PresentContext = {
       tilemap: flatMap(10, 30),
@@ -762,7 +821,7 @@ describe('P0.b Y-sort + cover-tile', () => {
     presentFrame(fb, gs, ctx)
     spy.mockRestore()
 
-    // party(y=50+10=60)< npc(y=200+9=209) → party 先,npc 后
+    // party(y=50+10=60)< npc(y=150+9=159) → party 先,npc 后
     expect(order.indexOf('party')).toBeLessThan(order.indexOf('npc-1'))
   })
 
@@ -783,12 +842,12 @@ describe('P0.b Y-sort + cover-tile', () => {
     )
 
     const fb = createFramebuffer()
-    // party 放很远,不干扰
-    const gs = createInitialGameState({ x: 0, y: -9999, facing: 'down' })
+    // party 居中(camera 0,0;party sprite 不入 order,不干扰)。npc y 全收屏内(C 屏外剔除)。
+    const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
     gs.npcs = [
-      { id: 3, x: 0, y: 300, spriteNum: 3 },   // y=300(最大 → 最后画)
-      { id: 1, x: 0, y: 100, spriteNum: 1 },   // y=100(最小 → 最先画)
-      { id: 2, x: 0, y: 200, spriteNum: 2 },   // y=200(中间)
+      { id: 3, x: 0, y: 180, spriteNum: 3 },   // y=180(最大 → 最后画)
+      { id: 1, x: 0, y: 60, spriteNum: 1 },    // y=60(最小 → 最先画)
+      { id: 2, x: 0, y: 120, spriteNum: 2 },   // y=120(中间)
     ]
 
     const ctx: PresentContext = {
@@ -802,7 +861,7 @@ describe('P0.b Y-sort + cover-tile', () => {
     presentFrame(fb, gs, ctx)
     spy.mockRestore()
 
-    // npc-1(y=100+9=109)< npc-2(y=200+9=209)< npc-3(y=300+9=309)
+    // npc-1(y=60+9=69)< npc-2(y=120+9=129)< npc-3(y=180+9=189)
     const i1 = order.indexOf('npc-1')
     const i2 = order.indexOf('npc-2')
     const i3 = order.indexOf('npc-3')
@@ -819,7 +878,8 @@ describe('P0.b Y-sort + cover-tile', () => {
       drawn.push(sprite)
     })
     const fb = createFramebuffer()
-    const gs = createInitialGameState({ x: 0, y: -9999, facing: 'down' })
+    // party 居中(camera 0,0)→ npc 屏内(C 屏外剔除下 -9999 party 会把 npc 推到屏外)
+    const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
     gs.npcs = [
       { id: 1, x: 100, y: 100, spriteNum: 1, sState: 1, sVanishTime: 5 },
       { id: 2, x: 100, y: 120, spriteNum: 2, sState: 1, sVanishTime: -5 },
@@ -849,7 +909,8 @@ describe('P0.b Y-sort + cover-tile', () => {
       drawn.push(sprite)
     })
     const fb = createFramebuffer()
-    const gs = createInitialGameState({ x: 0, y: -9999, facing: 'down' })
+    // party 居中(camera 0,0)→ npc 屏内(同上,C 屏外剔除)
+    const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
     gs.npcs = [{
       id: 346, x: 100, y: 100, spriteNum: 193,
       sState: 1, nSpriteFrames: 0, scriptedFrame: 13, facing: 'down',
