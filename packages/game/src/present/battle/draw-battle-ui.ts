@@ -253,9 +253,15 @@ export function drawBattleUI(
   //   (user 2026-06-14 报:草妖战命令菜单已隐,但血量面板仍闪一下)。
   if (state.enemyEscapeAnim) return
 
-  // 底部队员信息框(PAL_PlayerInfoBox)—— sdlpal **仅选择阶段**画(uibattle.c:888-928:
-  //   `Phase != PerformAction && !fAutoAttack`)。perform 阶段(uiState='hidden')隐藏,只剩飘字。
+  // 底部队员信息框(PAL_PlayerInfoBox)—— sdlpal 仅在**主循环进入玩家回合后**画(uibattle.c:888-928
+  //   `Phase != PerformAction && !fAutoAttack`,且整个 PAL_BattleUIUpdate 只在主循环里调用)。perform
+  //   阶段(uiState='hidden')隐藏,只剩飘字。
+  //   `selectionStartedForTurn === turn` = 本回合玩家选择已**真正开始**(startFirstReadyPlayerSelection
+  //   置位,battle-system.ts:585)。tickPreBattle 一进 selectAction 就置 uiState='wait',但该置位要等
+  //   turnStart 脚本跑完才发生 —— preBattle 转 selectAction 的过渡帧、turnStart 脚本执行中(草妖类开场
+  //   逃跑永远到不了玩家回合)此值 ≠ turn → 不画 InfoBox(user 2026-06-14:草妖战我方血量面板仍闪)。
   const showInfoBoxes = state.uiState !== 'hidden' && !state.fAutoAttack
+    && state.selectionStartedForTurn === state.turn
   if (showInfoBoxes) drawPlayerInfoBoxes(fb, state, playerRoles, gs, objectPoisons, glyphs, uiSpriteFrames)
 
   // 当前行动队员头顶箭头(sdlpal uibattle.c:994-1007:`state != Wait` 时无条件画,blink 68红/69)。

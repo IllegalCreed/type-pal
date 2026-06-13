@@ -150,6 +150,7 @@ function mkState(
     isBoss: false,
     phase: 'selectAction',
     turn: 1,
+    selectionStartedForTurn: 1, // 默认玩家回合已真正开始(uiState=selectMove)→ PlayerInfoBox 应画
     actionQueue: [],
     currentActionIndex: 0,
     pendingActions: new Map(),
@@ -265,6 +266,32 @@ describe('drawBattleUI(新模型 1:1)', () => {
     // 4 图标在底部(y 140-180),顶部 y<50 无写入
     expect(topRegionWrites(fb)).toBe(0)
     expect(fbHasWrites(fb)).toBe(true) // 底部状态栏
+  })
+
+  // 回归(user 2026-06-14:赵灵儿在队遇草妖,底部我方血量/头像/状态面板仍画着)。
+  //   sdlpal(battle.c:736-797):草妖类敌的 pre-battle/turnStart 脚本逃跑 → 主循环从不启动 →
+  //   PAL_BattleUIUpdate 从不调用 → PlayerInfoBox 全程不画。tickPreBattle 一进 selectAction 即置
+  //   uiState='wait',但 selectionStartedForTurn=turn 要等 turnStart 脚本跑完(startFirstReadyPlayerSelection)
+  //   才置;草妖逃跑永不到那步 → 此过渡帧/逃跑期 selectionStartedForTurn ≠ turn → InfoBox 不画。
+  it('玩家回合未真正开始(selectionStartedForTurn≠turn)不画底部 InfoBox(草妖回归)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'wait', turn: 1, selectionStartedForTurn: undefined,
+    })
+    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
+    expect(fbHasWrites(fb)).toBe(false)
+  })
+
+  it('敌人逃跑动画期(enemyEscapeAnim)整个战斗 UI 不画', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    // selectionStartedForTurn===turn(默认),但 enemyEscapeAnim 早退在前 → 仍整体不画
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'wait', enemyEscapeAnim: { step: 0 },
+    })
+    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
+    expect(fbHasWrites(fb)).toBe(false)
   })
 
   it('selectMove + magicSelect —— 画法术网格(不抛,顶部有写入)', () => {
