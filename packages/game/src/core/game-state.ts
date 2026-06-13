@@ -692,6 +692,13 @@ export interface GameState {
    * 跟随者(partyMembers[1..])根据 trail 位置 + 偏移确定自身位置。
    */
   trail: TrailEntry[]
+  /**
+   * 跟随者"冻结相对队长偏移"(port sdlpal `PAL_UpdatePartyGestures` else 分支,scene.c:745-771):
+   * 队伍**非走路**时跟随者位置冻结(不从 trail 重算),= 队长 + 本偏移 ⇔ 屏幕坐标恒定(骑乘随船锁死)。
+   * walking 帧由 present 的 computeFollowerWorldPos 捕获;trail 整体重填(0x46/0xA1/进场景/回标题)时清空。
+   * index 同 partyMembers(1..);present-only 渲染缓存,不入存档语义/不影响逻辑。
+   */
+  followerFrozenOffset: ({ dx: number; dy: number } | null)[]
   /** 当前调色板;M4 P3.T2 setPalette opcode handler 写入,渲染层 flushToCanvas 消费。
    *  初始值 undefined — bootstrap 初始化后由 GameState 持有最新 palette,
    *  flushToCanvas 优先用 gs.palette(若非 undefined),否则 fallback 到 bootstrap 初始 palette。
@@ -1352,6 +1359,7 @@ export function loadDefaultGame(
   gs.rgPoisonStatus = {}
   gs.partyMembers = [0]
   gs.trail = [] // rgTrail
+  gs.followerFrozenOffset = [] // trail 清空 → 冻结偏移一并清(下次走路重捕获)
   gs.Exp = createEmptyExp()
   // M6(2026-06-07 sdlpal 审查):PAL_InitGameData(global.c:951)在 Load 后 memset rgPlayerStatus ——
   //   非装备持久状态(大世界 0x2D 上的护身 / 勇气 / 加速等)不带入新局;装备授予的状态由下方
@@ -1742,6 +1750,7 @@ export function createInitialGameState(
     frameNum: 0,
     walkingFrame: { stepFrame: 0, walking: false },
     trail: [],
+    followerFrozenOffset: [],
 
     // ── M5 Sync.1: SAVEDGAME_WIN 平铺杂项 ──
     wSavedTimes: 0,

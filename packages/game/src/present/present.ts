@@ -23,6 +23,7 @@ import {
 import { drawMenuStack } from './menu/draw-menu.js'
 import { drawConfirmBox } from './menu/draw-confirm.js'
 import { computeFollowerRenderItems } from './follower-render.js'
+import { computeFollowerWorldPos } from './follower-pos.js'
 import type { BattleBgAsset } from './battle/draw-battle-bg.js'
 import type { GlyphTable } from './font.js'
 import { isWalkable } from '../core/scene-system.js'
@@ -350,10 +351,18 @@ export function presentFrame(
   //   方向帧用 trail[2].wDirection(scene.c:724/728);trail 不足回退 trail[1].dir。
   //   障碍调整(scene.c:712-717):偏移位若撞墙 → 回退到 trail[1](去偏移)。
   if (gs.trail.length > 1) {
-    const baseTrail = gs.trail[1]!
-    const baseDir = baseTrail.dir
+    const baseDir = gs.trail[1]!.dir
     // 方向帧源:trail[2].dir(sdlpal 真值);不足回退 baseDir。
     const frameDir = FACING_TO_DIRECTION[gs.trail[2]?.dir ?? baseDir]
+    // 位置状态(port PAL_UpdatePartyGestures fWalking 闸门,scene.c:658/745):走路 trail+偏移+避障;
+    //   静止(演出/骑乘)冻结 = 队长 + frozenOffset。修"上船赵灵儿仍队列跟随 + 与李逍遥重叠跳变"。
+    gs.followerFrozenOffset ??= [] // 防御:旧存档/反序列化路径可能无此字段(present-only 缓存)
+    const followerState = {
+      party: gs.party,
+      trail: gs.trail,
+      walking: gs.walkingFrame.walking,
+      frozenOffset: gs.followerFrozenOffset,
+    }
     for (let m = 1; m < gs.partyMembers.length; m++) {
       const roleId = gs.partyMembers[m]!
       const followerWalkFrames = getPartyWalkFrames(gs, roleId, ctx)
@@ -363,23 +372,12 @@ export function presentFrame(
         gs.walkingFrame.walking,
         gs.walkingFrame.stepFrame,
       )
-      // 偏移(scene.c:695-707)
-      let offX: number
-      let offY: number
-      if (m === 2) {
-        offX = (baseDir === 'right' || baseDir === 'left') ? -16 : 16  // East||West ? -16 : +16
-        offY = 8
-      } else {
-        offX = (baseDir === 'left' || baseDir === 'down') ? 16 : -16   // West||South ? +16 : -16
-        offY = (baseDir === 'left' || baseDir === 'up') ? 8 : -8       // West||North ? +8 : -8
-      }
-      let followerWorldX = baseTrail.x + offX
-      let followerWorldY = baseTrail.y + offY
-      // 障碍调整(scene.c:712-717):偏移位撞墙 → 回退 trail[1](去偏移)。M5:follower 避障 fCheckRange=TRUE。
-      if (!isWalkable(ctx.tilemap, followerWorldX, followerWorldY, gs.npcs, 0, true)) {
-        followerWorldX = baseTrail.x
-        followerWorldY = baseTrail.y
-      }
+      const fpos = computeFollowerWorldPos(followerState, m, (x, y) =>
+        isWalkable(ctx.tilemap, x, y, gs.npcs, 0, true),
+      )
+      if (!fpos) continue
+      const followerWorldX = fpos.x
+      const followerWorldY = fpos.y
       const { sx, sy } = pixelToScreen({ x: followerWorldX, y: followerWorldY }, gs.camera)
 
       // 每个 follower 用自己角色的 sprite(rgwSpriteNum[role] → npcSpriteFrames)。

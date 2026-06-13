@@ -3332,6 +3332,7 @@ function applyRawOpcode(
       const xOff = (dir === 'left' || dir === 'down') ? 16 : -16
       const yOff = (dir === 'left' || dir === 'up') ? 8 : -8
       gs.trail = [0, 1, 2, 3, 4].map((i) => ({ x: px + i * xOff, y: py + i * yOff, dir }))
+      gs.followerFrozenOffset = [] // trail 重填 → 清冻结偏移,静止时回退新 trail(present follower-pos)
       break
     }
 
@@ -3459,6 +3460,7 @@ function applyRawOpcode(
       const ly = gs.party.y
       const dir = gs.party.facing
       gs.trail = [0, 1, 2, 3, 4].map(() => ({ x: lx, y: ly, dir }))
+      gs.followerFrozenOffset = [] // trail 重填 → 清冻结偏移(present follower-pos 静止回退新 trail)
       break
     }
 
