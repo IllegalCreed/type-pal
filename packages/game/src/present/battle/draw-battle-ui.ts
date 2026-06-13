@@ -245,6 +245,14 @@ export function drawBattleUI(
     || (state.battleDialogQueue?.length ?? 0) > 0
   if (dialogActive) return
 
+  // 敌人逃跑动画期间**整个战斗 UI 不画**(命令菜单 + 血量 InfoBox 全隐)——
+  //   sdlpal 真值(battle.c:736-797):草妖类敌在 pre-battle/turnStart 脚本里逃跑(0x69)→
+  //   BattleResult≠OnGoing → 主循环 while 首判即 break → PAL_BattleStartFrame/PAL_BattleUIUpdate
+  //   从不调用 → 此类"演出战"全程无 UI。我们逃跑动画 phase 仍停 selectAction、uiState 仍 'wait'
+  //   (tickBattleEnemyEscapeAnim 在 phase-agnostic hold 处 return),故在此显式早退对齐
+  //   (user 2026-06-14 报:草妖战命令菜单已隐,但血量面板仍闪一下)。
+  if (state.enemyEscapeAnim) return
+
   // 底部队员信息框(PAL_PlayerInfoBox)—— sdlpal **仅选择阶段**画(uibattle.c:888-928:
   //   `Phase != PerformAction && !fAutoAttack`)。perform 阶段(uiState='hidden')隐藏,只剩飘字。
   const showInfoBoxes = state.uiState !== 'hidden' && !state.fAutoAttack
