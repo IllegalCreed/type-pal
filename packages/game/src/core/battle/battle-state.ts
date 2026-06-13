@@ -600,8 +600,13 @@ export interface BattleState {
    * cap 72)。step 到 72 → 死敌 deathFadeStep=72(隐)、清 battleFade、currentActionIndex++。
    * 淡出期间**暂停**战斗推进(忠实 sdlpal:fade 是同步 72×16ms blocking loop)。
    * undefined = 无 active 淡出。
+   *
+   * `startMs`:present 首帧惰性记的 wall-clock 原点(逻辑层不碰 performance.now,对齐 palette-fade
+   *   注入时钟规范)。present 每 rAF 调 stepDeathFadeRender 按 (now-startMs)/16 把 deathFadeStep 推到
+   *   62.5fps 细分(对齐 sdlpal PAL_BattleFadeScene 16ms/步);headless / 测试不经 present → startMs
+   *   恒 undefined,deathFadeStep 全靠 elapsedMs(逻辑 tick)推进。两者用 max 合流,互不回退。
    */
-  battleFade?: { elapsedMs: number }
+  battleFade?: { elapsedMs: number; startMs?: number }
   /**
    * 战斗内对话队列(战斗脚本 0xFFFF showDialog;scriptOnReady / scriptOnTurnStart 等)。
    * runScript(battle) 同步跑完时把 dialog 行收集进此队列;tickBattleDialog hold 逐 tick 把队列

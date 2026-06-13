@@ -82,6 +82,27 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
     expect(state.accumulator).toBe(0)
   })
 
+  it('④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢', () => {
+    // 回归(2026-06-13 user 报"怪物死亡淡出比原版长"):DM31 把 tick 后 `accumulator -= interval`
+    //   改成 `accumulator = 0`,丢弃了 [interval, interval+rafDt) 的溢出量。battle interval=40ms
+    //   不是 60Hz 帧时(16.667ms)的整数倍 → 每 tick 实际等 3 帧=50ms → 全战斗动画(含
+    //   PAL_BattleFadeScene 死亡淡出 72×16ms)在 60Hz 上慢 25%(此处 2s 只跑 40 tick,应 50)。
+    //   修复(结转余量 + 仅丢 >1 interval 的真积压)后 ALL 刷新率回到 ~25fps 忠实节奏。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = 'battle' // interval=40;battleState 未设 → tickBattle 早退(纯节奏 no-op)
+    let ticks = 0
+    const ctx = mkCtx(gs, () => {})
+    const state = { lastTickTime: 0, accumulator: 0 }
+    const rafDt = 1000 / 60
+    for (let i = 1; i <= 120; i++) {
+      // 2s @ 60Hz
+      if (advanceRafFrame(state, i * rafDt, ctx).ticked) ticks++
+    }
+    // 忠实节奏 = FPS_BATTLE × 2s = 50;DM31 缺陷给 40。容差 ±1 防浮点边界。
+    expect(ticks).toBeGreaterThanOrEqual(49)
+    expect(ticks).toBeLessThanOrEqual(51)
+  })
+
   it('③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present', () => {
     const gs1 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const p1 = vi.fn()
@@ -94,6 +115,18 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
     const p2 = vi.fn()
     advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, mkCtx(gs2, p2))
     expect(p2).toHaveBeenCalled() // fade 进行中每帧 present
+  })
+
+  it('⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = 'battle'
+    // biome-ignore lint/suspicious/noExplicitAny: 门控只读 battleState.battleFade,最小 stub
+    gs.battleState = { battleFade: { elapsedMs: 0 } } as any
+    const present = vi.fn()
+    // dt=10 < 40(battle interval)→ 无逻辑 tick;但 battleFade active → 仍须 present(否则淡出顿挫在 25fps)
+    const r = advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, mkCtx(gs, present))
+    expect(r.ticked).toBe(false)
+    expect(present).toHaveBeenCalled()
   })
 })
 

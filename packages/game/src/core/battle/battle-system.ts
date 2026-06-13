@@ -1888,11 +1888,40 @@ function tickBattleFade(state: BattleState): boolean {
   )
   for (const enemy of state.enemies) {
     if (enemy.deathFadeStep !== undefined && enemy.deathFadeStep < DEATH_FADE_STEPS) {
-      enemy.deathFadeStep = step // step 到 72 时死敌固定 72(隐,draw 不画)
+      // max:present(stepDeathFadeRender)可能已按 wall-clock 把本帧推到更细的值,逻辑粗值(40ms tick)
+      //   不得回退它(否则 present↔logic 交替写 → 闪烁)。headless 无 present → max(prev,step)=step,行为不变。
+      enemy.deathFadeStep = Math.max(enemy.deathFadeStep, step) // step 到 72 时死敌固定 72(隐,draw 不画)
     }
   }
-  if (step >= DEATH_FADE_STEPS) state.battleFade = undefined // 淡完 → 清 hold,下 tick phase 续跑
+  if (step >= DEATH_FADE_STEPS) state.battleFade = undefined // 淡完 → 清 hold(逻辑单一 owner,确定性),下 tick phase 续跑
   return true
+}
+
+/**
+ * D17 死亡淡出**渲染细分** —— present 每 rAF 调(wall-clock 驱动 → 62.5fps 平滑,对齐 sdlpal
+ * `PAL_BattleFadeScene` 16ms/步 = 62.5fps;逻辑 tick 才 25fps,单它会顿挫)。
+ *
+ * 与 `tickBattleFade`(逻辑 tick,BATTLE_DT 推进 + 释放 hold)分工:本函数**只细化渲染步**,
+ * 不触发释放(释放恒由逻辑 owner 按 elapsedMs 判定,保确定性)。startMs 惰性初始化使逻辑层全程
+ * 不碰 performance.now(对齐 palette-fade 注入时钟规范)。max 合流:present 细值与逻辑粗值取大,
+ * 互不回退;headless / 单测不经 present → startMs 恒 undefined,deathFadeStep 全靠 elapsedMs 推进。
+ *
+ * @param nowMs present 调用处传入的 performance.now()(注入时钟,便于测试)。
+ */
+export function stepDeathFadeRender(state: BattleState, nowMs: number): void {
+  const bf = state.battleFade
+  if (!bf) return
+  if (bf.startMs === undefined) bf.startMs = nowMs
+  const step = Math.min(DEATH_FADE_STEPS, Math.floor((nowMs - bf.startMs) / DEATH_FADE_STEP_MS))
+  for (const enemy of state.enemies) {
+    if (
+      enemy.deathFadeStep !== undefined &&
+      enemy.deathFadeStep < DEATH_FADE_STEPS &&
+      step > enemy.deathFadeStep
+    ) {
+      enemy.deathFadeStep = step
+    }
+  }
 }
 
 /**

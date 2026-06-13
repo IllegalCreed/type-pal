@@ -20,7 +20,7 @@ import type {
 import { describe, expect, it } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
-import { startBattle, tickBattle } from '../battle-system.js'
+import { startBattle, stepDeathFadeRender, tickBattle } from '../battle-system.js'
 
 function makeRole(opts: Partial<PlayerRole> = {}): PlayerRole {
   return {
@@ -294,5 +294,76 @@ describe('D17 死亡淡出 — checkEnemyDeaths + battleFade hold', () => {
     expect(s.expGained).toBe(50)
     expect(s.cashGained).toBe(30)
     expect(s.enemies[0]!.deathFadeStep, '毒杀敌 deathFadeStep 从 0 开始').toBe(0)
+  })
+})
+
+describe('D17 死亡淡出 — stepDeathFadeRender 渲染细分(wall-clock 62.5fps 平滑)', () => {
+  // present 每 rAF 调 stepDeathFadeRender(state, performance.now()),按 wall-clock 把 deathFadeStep
+  //   推到比 40ms 逻辑 tick 更细的值(对齐 sdlpal PAL_BattleFadeScene 16ms/步 = 62.5fps)。
+  //   逻辑 tickBattleFade 仍按 BATTLE_DT 推进(确定性 + headless 兜底),用 max 不回退 present 细值。
+  function openFade(): {
+    gs: GameState
+    bus: CommandBus
+    emptyInput: InputSnapshot
+    s: NonNullable<GameState['battleState']>
+  } {
+    const { gs, bus, emptyInput } = bootstrap({ enemies: [makeEnemy({ id: 100, health: 100 })] })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    const s = gs.battleState!
+    s.enemies[0]!.e.health = 0
+    s.enemies[0]!.prevHp = 100
+    s.enemies[0]!.deathFadeStep = undefined
+    s.phase = 'postAction'
+    s.phaseStallTicks = 0
+    tickBattle(gs, emptyInput, bus) // checkEnemyDeaths 开淡出(deathFadeStep=0, battleFade.elapsedMs=0)
+    return { gs, bus, emptyInput, s }
+  }
+
+  it('startMs 惰性初始化:逻辑层不设(不碰 wall-clock),present 首帧设', () => {
+    const { s } = openFade()
+    expect(s.battleFade).toBeDefined()
+    expect(s.battleFade!.startMs, '逻辑 checkEnemyDeaths 不碰 performance.now').toBeUndefined()
+    stepDeathFadeRender(s, 1000)
+    expect(s.battleFade!.startMs).toBe(1000)
+    expect(s.enemies[0]!.deathFadeStep, '(1000-1000)/16 = 0').toBe(0)
+  })
+
+  it('wall-clock 比逻辑 tick 更细:+80ms → step 5(逻辑单 40ms tick 只到 2)', () => {
+    const { s } = openFade()
+    stepDeathFadeRender(s, 1000)
+    stepDeathFadeRender(s, 1080)
+    expect(s.enemies[0]!.deathFadeStep, 'floor(80/16)=5').toBe(5)
+  })
+
+  it('max 不回退:已 step5 再喂更小 nowMs 不降级(防闪烁)', () => {
+    const { s } = openFade()
+    stepDeathFadeRender(s, 1000)
+    stepDeathFadeRender(s, 1080) // step 5
+    stepDeathFadeRender(s, 1032) // floor(32/16)=2 < 5
+    expect(s.enemies[0]!.deathFadeStep).toBe(5)
+  })
+
+  it('逻辑 tickBattleFade 不回退 present 已推进的细值(max)', () => {
+    const { gs, bus, emptyInput, s } = openFade()
+    stepDeathFadeRender(s, 1000)
+    stepDeathFadeRender(s, 1000 + 16 * 10) // present 推到 step 10
+    expect(s.enemies[0]!.deathFadeStep).toBe(10)
+    tickBattle(gs, emptyInput, bus) // 一个逻辑 tick:elapsedMs 0→40 → floor(40/16)=2,max 保留 10
+    expect(s.enemies[0]!.deathFadeStep, '逻辑粗值 2 不得打回 present 细值 10').toBe(10)
+  })
+
+  it('cap 72:超长 nowMs 封顶 72(不越界)', () => {
+    const { s } = openFade()
+    stepDeathFadeRender(s, 1000)
+    stepDeathFadeRender(s, 1000 + 99 * 16)
+    expect(s.enemies[0]!.deathFadeStep).toBe(72)
+  })
+
+  it('无 battleFade → no-op(战斗非淡出期不误改)', () => {
+    const { s } = openFade()
+    s.battleFade = undefined
+    s.enemies[0]!.deathFadeStep = 3
+    stepDeathFadeRender(s, 9999)
+    expect(s.enemies[0]!.deathFadeStep).toBe(3)
   })
 })

@@ -29,7 +29,7 @@
 import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import type { BattleState, SummonFrameState } from '../../core/battle/battle-state.js'
-import { getBattleLiveRoles } from '../../core/battle/battle-system.js'
+import { getBattleLiveRoles, stepDeathFadeRender } from '../../core/battle/battle-system.js'
 import type { BusEntry } from '../../core/command-bus.js'
 import type { GameState } from '../../core/game-state.js'
 import type { GlyphTable } from '../font.js'
@@ -133,6 +133,10 @@ export class BattlePresent {
     currentFrame: number,
     advanceEffects = true, // DM32:fade-only 补帧不推进 wave 计数
   ): void {
+    // D17 死亡淡出渲染细分:每 rAF(含非 tick 的 fade-only 补帧)按 wall-clock 把 deathFadeStep 推到
+    //   62.5fps(对齐 sdlpal PAL_BattleFadeScene 16ms/步)。无 battleFade 时早退,纯 no-op。
+    stepDeathFadeRender(state, performance.now())
+
     // D19 入场 fade:首帧(introFade 激活 + 尚无 backup)快照入场前 fb(= 上一帧大世界,fb 跨帧保留)作 dither
     //   backup;无 introFade(已进战斗)→ 清。须在任何 fb 绘制前快照。
     if (state.introFade) {

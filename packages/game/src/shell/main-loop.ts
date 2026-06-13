@@ -96,11 +96,26 @@ export function advanceRafFrame(
     if (d.length) drained = d
     if (dump?.enabled) dump.push(ctx.gs, ctx.partyWalkFrames ?? 3)
     ticked = true
-    state.accumulator = 0
+    // DM31 修正(2026-06-13 user 报"死亡淡出比原版长"):旧版 `accumulator = 0` 把 tick 时
+    //   [interval, interval+rafDt) 的**溢出量也清掉**,与本函数注释"<interval 的余量正常累积"自相矛盾。
+    //   battle interval=40ms 不是 60Hz 帧时(16.667ms)整数倍 → 每 tick 实际等 3 帧=50ms → 全战斗动画
+    //   (含 PAL_BattleFadeScene 死亡淡出)在 60Hz 慢 25%(30Hz 慢 68%)。改:结转溢出余量 → 节奏回到
+    //   忠实 25fps(各刷新率均 ~40ms/tick avg)。DM31 的"永不补帧"由下一行 clamp 保留:残留 > 1 个
+    //   interval 的**真积压**(lag spike,如卡顿后 dt≫interval)才丢弃 → 仍至多 1 tick/rAF、不连追。
+    state.accumulator -= interval
+    if (state.accumulator > interval) state.accumulator = 0
   }
 
   let presented = false
-  if (ticked || ctx.gs.fadeState != null || ctx.gs.paletteFadeState != null) { // ③ 门控
+  // ③ 门控:逻辑 tick 时 / 各类 fade 进行中才 present。battleFade(D17 死亡淡出)同 palette/scene fade ——
+  //   present 每 rAF 走 stepDeathFadeRender 按 wall-clock 细分渲染步(62.5fps),非 tick 帧也需放行,
+  //   否则淡出只在 25fps 逻辑 tick 刷新 → 顿挫。
+  if (
+    ticked ||
+    ctx.gs.fadeState != null ||
+    ctx.gs.paletteFadeState != null ||
+    ctx.gs.battleState?.battleFade != null
+  ) {
     ctx.onPresent(drained, ticked)
     presented = true
   }
