@@ -34,6 +34,29 @@ export interface TrailEntry {
   dir: Facing
 }
 
+/**
+ * 跟随者"冻结快照"(相对队长偏移 + 朝向)。队伍非走路(演出/骑乘)时跟随者位置与朝向冻结于此,
+ * 等价 sdlpal `PAL_UpdatePartyGestures` else 分支不更新 rgParty[i] + 骑乘期不重设 wFrame。
+ * 见 present/follower-pos.ts 与 [[followerFrozenOffset]] 字段。
+ */
+export interface FollowerFrozen {
+  dx: number
+  dy: number
+  dir: Facing
+}
+
+/**
+ * 队伍转身时让**已冻结**的跟随者同步转向(位置偏移不变,只改朝向)。
+ * port 真值场景:上船演出 0x15 把队长转向(sdlpal 设 wPartyDirection),原版跟随者也跟着转;
+ * 我方静止时跟随者朝向取冻结值 → 0x15 转向须同步刷新冻结朝向,否则只有队长转、跟随者"面对队长"
+ * (2026-06-13 user 报赵灵儿上船后朝向不随李逍遥转)。null 槽(未在队/未冻结)跳过。
+ */
+export function turnFollowersFrozen(frozen: (FollowerFrozen | null)[], dir: Facing): void {
+  for (const fo of frozen) {
+    if (fo) fo.dir = dir
+  }
+}
+
 export type Mode = 'explore' | 'event' | 'battle' | 'menu'
 
 /**
@@ -699,7 +722,7 @@ export interface GameState {
    * walking 帧由 present 的 computeFollowerWorldPos 捕获;trail 整体重填(0x46/0xA1/进场景/回标题)时清空。
    * index 同 partyMembers(1..);present-only 渲染缓存,不入存档语义/不影响逻辑。
    */
-  followerFrozenOffset: ({ dx: number; dy: number; dir: TrailEntry['dir'] } | null)[]
+  followerFrozenOffset: (FollowerFrozen | null)[]
   /** 当前调色板;M4 P3.T2 setPalette opcode handler 写入,渲染层 flushToCanvas 消费。
    *  初始值 undefined — bootstrap 初始化后由 GameState 持有最新 palette,
    *  flushToCanvas 优先用 gs.palette(若非 undefined),否则 fallback 到 bootstrap 初始 palette。

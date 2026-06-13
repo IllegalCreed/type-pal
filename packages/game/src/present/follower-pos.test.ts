@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { turnFollowersFrozen } from '../core/game-state.js'
 import { computeFollowerWorldPos, type FollowerPosState } from './follower-pos.js'
 
 function mkState(over: Partial<FollowerPosState> = {}): FollowerPosState {
@@ -74,5 +75,25 @@ describe('computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalki
   it('trail 不足(length<=1)→ null(不画跟随者)', () => {
     const s = mkState({ trail: [{ x: 1, y: 2, dir: 'down' }] })
     expect(computeFollowerWorldPos(s, 1, () => true)).toBeNull()
+  })
+
+  it('集成(根因复现):上船朝上 → 0x15 转下 → 跟随者静止时也朝下(原版 Li 转身灵儿同转)', () => {
+    // 1) 上船走位期捕获冻结(朝上,跟随队长向上走)
+    const frozen = [null, { dx: 16, dy: -8, dir: 'up' as const }]
+    // 2) 0x15 把整队转向下(turnFollowersFrozen 同步跟随者冻结朝向)——这就是修复点
+    turnFollowersFrozen(frozen, 'down')
+    // 3) 骑乘(not walking)渲染:跟随者朝向取冻结值 = down(随队长转了),不再卡在 up=面对队长
+    const s = mkState({
+      walking: false,
+      frozenOffset: frozen,
+      party: { x: 500, y: 500 },
+      trail: [
+        { x: 500, y: 500, dir: 'up' }, // 当前 trail 仍是 up;若没修会取到 up
+        { x: 500, y: 500, dir: 'up' },
+        { x: 480, y: 500, dir: 'up' },
+      ],
+    })
+    const p = computeFollowerWorldPos(s, 1, () => false)
+    expect(p!.dir).toBe('down') // 跟随者朝下 = 转身后的队长;修前会是 'up'(面对队长)
   })
 })

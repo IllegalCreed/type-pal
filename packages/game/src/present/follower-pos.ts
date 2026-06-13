@@ -1,11 +1,4 @@
-import type { TrailEntry } from '../core/game-state.js'
-
-/** 跟随者冻结快照:相对队长偏移 + 朝向(均冻结自上次走路末帧)。 */
-export interface FollowerFrozen {
-  dx: number
-  dy: number
-  dir: TrailEntry['dir']
-}
+import type { FollowerFrozen, TrailEntry } from '../core/game-state.js'
 
 export interface FollowerPosState {
   /** 队长(party[0])世界坐标。 */

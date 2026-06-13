@@ -1,7 +1,30 @@
 import { describe, it, expect } from 'vitest'
-import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, loadDefaultGame, normalizePlayerRolesRuntime, npcFromEventObject, projectRuntimeToBattleRoles, resetSceneRuntimeForNewGame, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode, type NpcState } from './game-state.js'
+import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, loadDefaultGame, normalizePlayerRolesRuntime, npcFromEventObject, projectRuntimeToBattleRoles, resetSceneRuntimeForNewGame, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, turnFollowersFrozen, writeBackBattleRolesToRuntime, type Facing, type FollowerFrozen, type GameState, type Mode, type NpcState } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
 import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'
+
+// 队伍转身:跟随者同步转向(原版上船演出——李逍遥转身,赵灵儿同转;我方曾只转队长 → user 报"她面对李逍遥")。
+describe('turnFollowersFrozen(0x15 转向时跟随者冻结朝向同步)', () => {
+  it('所有已冻结跟随者朝向同步为新方向,位置偏移不变,跳过 null', () => {
+    const frozen: (FollowerFrozen | null)[] = [
+      null,
+      { dx: 16, dy: -8, dir: 'up' },
+      null,
+      { dx: -16, dy: 8, dir: 'left' },
+    ]
+    turnFollowersFrozen(frozen, 'down')
+    expect(frozen[1]).toEqual({ dx: 16, dy: -8, dir: 'down' }) // 只转向,偏移不动
+    expect(frozen[3]).toEqual({ dx: -16, dy: 8, dir: 'down' })
+    expect(frozen[0]).toBeNull()
+  })
+
+  it('空数组 / 全 null 安全 no-op', () => {
+    expect(() => turnFollowersFrozen([], 'down')).not.toThrow()
+    const f: (FollowerFrozen | null)[] = [null, null]
+    turnFollowersFrozen(f, 'left')
+    expect(f).toEqual([null, null])
+  })
+})
 
 // E04(隐藏属性经验):wCount 是 ExpEntry 第三字段(sdlpal EXPERIENCE.wCount),战前清零 7 隐藏池(非主经验)。
 describe('clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586)', () => {
