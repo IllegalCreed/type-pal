@@ -351,11 +351,8 @@ export function presentFrame(
   //   方向帧用 trail[2].wDirection(scene.c:724/728);trail 不足回退 trail[1].dir。
   //   障碍调整(scene.c:712-717):偏移位若撞墙 → 回退到 trail[1](去偏移)。
   if (gs.trail.length > 1) {
-    const baseDir = gs.trail[1]!.dir
-    // 方向帧源:trail[2].dir(sdlpal 真值);不足回退 baseDir。
-    const frameDir = FACING_TO_DIRECTION[gs.trail[2]?.dir ?? baseDir]
-    // 位置状态(port PAL_UpdatePartyGestures fWalking 闸门,scene.c:658/745):走路 trail+偏移+避障;
-    //   静止(演出/骑乘)冻结 = 队长 + frozenOffset。修"上船赵灵儿仍队列跟随 + 与李逍遥重叠跳变"。
+    // 位置+朝向(port PAL_UpdatePartyGestures fWalking 闸门,scene.c:658/745):走路 trail+偏移+避障、朝向 trail[2].dir;
+    //   静止(演出/骑乘)位置与朝向**双双冻结** = 队长+frozenOffset、冻结朝向。修"上船赵灵儿队列跟随重叠跳变 + 朝向乱"。
     gs.followerFrozenOffset ??= [] // 防御:旧存档/反序列化路径可能无此字段(present-only 缓存)
     const followerState = {
       party: gs.party,
@@ -366,16 +363,17 @@ export function presentFrame(
     for (let m = 1; m < gs.partyMembers.length; m++) {
       const roleId = gs.partyMembers[m]!
       const followerWalkFrames = getPartyWalkFrames(gs, roleId, ctx)
-      const followerFrameIdx = partyFrameIndex(
-        frameDir,
-        followerWalkFrames,
-        gs.walkingFrame.walking,
-        gs.walkingFrame.stepFrame,
-      )
       const fpos = computeFollowerWorldPos(followerState, m, (x, y) =>
         isWalkable(ctx.tilemap, x, y, gs.npcs, 0, true),
       )
       if (!fpos) continue
+      // 朝向 fpos.dir:走路=当前 trail[2].dir;静止=冻结朝向(scene.c:724/728 + 骑乘期 wFrame 不重设)。
+      const followerFrameIdx = partyFrameIndex(
+        FACING_TO_DIRECTION[fpos.dir],
+        followerWalkFrames,
+        gs.walkingFrame.walking,
+        gs.walkingFrame.stepFrame,
+      )
       const followerWorldX = fpos.x
       const followerWorldY = fpos.y
       const { sx, sy } = pixelToScreen({ x: followerWorldX, y: followerWorldY }, gs.camera)
