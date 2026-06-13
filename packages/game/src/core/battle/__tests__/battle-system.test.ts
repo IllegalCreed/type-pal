@@ -181,6 +181,37 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     expect(state.terminatedByEnemyEscape).toBe(true)
   })
 
+  // 回归(user 2026-06-13:草妖/绿叶小妖演出战):turnStart 开场对话+逃跑,原版**全程不显示命令菜单**
+  //   (kBattleUIWait)。我方曾在 preBattle 当帧就起菜单(uiState='selectMove'),早于 turnStart → 先闪 UI
+  //   再结束。修:玩家选指令菜单延后到 turnStart 跑完且无对话/逃跑 hold 之后才起。
+  it('草妖类演出战:turnStart 对话+逃跑期间不显示命令菜单(uiState 保持 wait)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 50 })],
+      commands: [
+        { op: 'end' }, // ip 0 占位
+        { op: 'showDialog', messageIndex: 0, text: '通通退下' }, // ip 1
+        { op: 'raw', opcode: 0x69, operands: [1, 0, 0] }, // ip 2 敌逃(queue 非空 → 延后)
+        { op: 'end' }, // ip 3
+      ],
+    })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    const s = gs.battleState!
+    expect(s.uiState).toBe('wait') // ★ 修前 = 'selectMove'(preBattle 就起了菜单)
+    s.enemies[0]!.scriptOnTurnStart = 1
+    tickBattle(gs, emptyInput, bus) // turnStart → 对话入队 + 延后逃跑
+    expect(s.battleDialogQueue?.length ?? 0).toBeGreaterThan(0) // 对话已入队(turnStart 跑了)
+    expect(s.uiState).toBe('wait') // 仍不显示命令菜单(原版 kBattleUIWait)
+  })
+
+  it('普通战斗:命令菜单在 turnStart(no-op)之后才起(uiState wait → selectMove,不回归)', () => {
+    const { gs, bus, emptyInput } = bootstrap({ enemies: [makeEnemy({ id: 100, health: 99999 })] })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    const s = gs.battleState!
+    expect(s.uiState).toBe('wait') // 当帧未起菜单
+    tickBattle(gs, emptyInput, bus) // turnStart no-op 完 → 起菜单
+    expect(s.uiState).toBe('selectMove') // 正常出菜单(玩家可选)
+  })
+
   it('L23:开战前 HP=0 队员复活为 1 HP(battle.c:1569-1577,带倒地队员逃离后立刻再战)', () => {
     const { gs } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 50 })],
@@ -572,10 +603,12 @@ describe('startBattle', () => {
 // ============================================================================
 
 describe('tickBattle phase transitions', () => {
-  it('preBattle → selectAction 一 tick 内', () => {
+  it('preBattle → selectAction;命令菜单延后到 turnStart 之后才起', () => {
     const { gs, bus, emptyInput } = bootstrap()
     tickBattle(gs, emptyInput, bus)
     expect(gs.battleState?.phase).toBe('selectAction')
+    expect(gs.battleState?.uiState).toBe('wait') // 菜单不在 preBattle 当帧起(原版 turnStart 在 UI 前)
+    tickBattle(gs, emptyInput, bus) // turnStart(no-op)完 → 起菜单
     expect(gs.battleState?.uiState).toBe('selectMove')
     expect(gs.battleState?.menuState).toBe('main')
     expect(gs.battleState?.selectingPlayerIdx).toBe(0)
@@ -597,6 +630,7 @@ describe('tickBattle phase transitions', () => {
     resources.playerRoles.roles[0]!.hp = 0
     tickBattle(gs, emptyInput, bus)
     expect(gs.battleState?.phase).toBe('selectAction')
+    tickBattle(gs, emptyInput, bus) // turnStart 后起菜单(菜单延后一 tick)
     expect(gs.battleState?.uiState).toBe('selectMove')
     expect(gs.battleState?.selectingPlayerIdx).toBe(1)
     expect(gs.battleState?.pendingActions.has(0)).toBe(false)
@@ -1651,9 +1685,10 @@ function mkItem(id: number, flags: Partial<Item['flags']> = {}): Item {
   }
 }
 
-/** preBattle → selectMove(起手 = PAL_BattleUIPlayerReady)。 */
+/** preBattle → selectMove(起手 = PAL_BattleUIPlayerReady)。菜单延后到 turnStart 之后 → 需 2 tick。 */
 function enterSelectMove(ctx: { gs: GameState; bus: CommandBus; emptyInput: InputSnapshot }): void {
-  tickBattle(ctx.gs, ctx.emptyInput, ctx.bus)
+  tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // preBattle → selectAction(uiState=wait)
+  tickBattle(ctx.gs, ctx.emptyInput, ctx.bus) // turnStart(no-op)完 → 起命令菜单(selectMove)
 }
 
 describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
@@ -2412,7 +2447,8 @@ describe('战斗对话结束键不漏进动作菜单', () => {
 
   it('对话最后一行 Confirm 结束对话 → 不同 tick 触发普通攻击', () => {
     const { gs, bus, emptyInput } = bootstrap()
-    tickBattle(gs, emptyInput, bus) // → selectMove/main
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    tickBattle(gs, emptyInput, bus) // turnStart 后 → selectMove/main(菜单延后一 tick)
     expect(gs.battleState?.uiState).toBe('selectMove')
     // 注入一条战斗对话(模拟 boss 嘲讽 scriptOnTurnStart 0xFFFF showDialog)
     gs.battleState!.battleDialogQueue = [{ text: '哼', style: 'bottom' }]
@@ -2590,7 +2626,8 @@ describe('战斗菜单端到端序列(新模型)', () => {
       enemies: [makeEnemy({ id: 100 }), makeEnemy({ id: 101 })],
       teamSlots: [100, 101, 0xFFFF, 0xFFFF, 0xFFFF],
     })
-    tickBattle(gs, emptyInput, bus)
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    tickBattle(gs, emptyInput, bus) // turnStart 后 → selectMove(菜单延后一 tick)
     expect(gs.battleState?.uiState).toBe('selectMove')
     expect(gs.battleState?.menuState).toBe('main')
 

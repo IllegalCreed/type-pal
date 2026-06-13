@@ -529,6 +529,9 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
     runEnemyTurnStartScripts(state, gs, bus, res)
     if (state.battleDialogQueue && state.battleDialogQueue.length > 0) return
     if (state.battleAnim) return
+    // turnStart 触发敌逃(0x69 queue 空的即时路径)或任意终态 → **不进选指令菜单**,交下 tick 顶层
+    //   逃跑 hold / 结算处理(草妖类:开场脚本逃跑,演出战全程不显示菜单)。
+    if (state.enemyEscapeAnim || state.phase !== 'selectAction') return
   }
 
   // 回合起手脚本动画 hold:时间线驱动原本只在 tickPerformAction 跑,selectAction 阶段
@@ -565,7 +568,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 
   switch (state.phase) {
     case 'preBattle':
-      tickPreBattle(state, res.playerRoles)
+      tickPreBattle(state)
       break
     case 'selectAction':
       // DM12:回合末毒/状态数字弹出后 PAL_BattleDelay(8)(fight.c:1664-1668 `if
@@ -574,6 +577,13 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
       if ((state.roundEndDelayTicks ?? 0) > 0) {
         state.roundEndDelayTicks!--
         break
+      }
+      // 到此已过 turnStart(528)+ 对话/逃跑/动画 hold(均提前 return)→ **现在才起**玩家选指令菜单
+      //   (原版 turnStart 在玩家 UI 之前;草妖类开场脚本逃跑在上面早退、永不到此 → 演出战不显示菜单)。
+      //   每轮一次(selectionStartedForTurn 守;turn++ 自然重置)。
+      if (state.selectionStartedForTurn !== state.turn) {
+        state.selectionStartedForTurn = state.turn
+        startFirstReadyPlayerSelection(state, res.playerRoles)
       }
       tickSelectAction(state, res, input, gs)
       break
@@ -601,7 +611,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 // ============================================================================
 
 /** preBattle → selectAction(M3 跳过 wScriptOnReady)。起手起第一个可手动选择的活队员菜单。 */
-function tickPreBattle(state: BattleState, playerRoles: PlayerRoles): void {
+function tickPreBattle(state: BattleState): void {
   // D19:入场 fade-in 期间停在 preBattle gate 输入(present 放 dither 淡入);fade 完才进 selectAction。
   if (state.introFade && state.introFade.step < state.introFade.total) {
     state.introFade.step++
@@ -609,7 +619,10 @@ function tickPreBattle(state: BattleState, playerRoles: PlayerRoles): void {
   }
   state.introFade = undefined
   state.phase = 'selectAction'
-  startFirstReadyPlayerSelection(state, playerRoles)
+  // 选指令菜单**不在此起**——延后到 turnStart 跑完且无 hold 后(见 selectAction case)。此处仅置 wait
+  //   (原版 kBattleUIWait)。否则草妖类开场脚本逃跑前先闪命令菜单(user 2026-06-13 报)。
+  state.uiState = 'wait'
+  state.selectingPlayerIdx = undefined
   state.phaseStallTicks = 0
 }
 
@@ -2917,7 +2930,10 @@ function tickPostAction(
       || state.enemies.some((e, i) => (prePoisonEnemyHp[i] ?? 0) !== e.e.health)
   if (poisonChangedHp) state.roundEndDelayTicks = 8
   state.phase = 'selectAction'
-  startFirstReadyPlayerSelection(state, res.playerRoles)
+  // 选指令延后到 turnStart 之后(见 selectAction case)。turn++ 已使 turnStartDoneForTurn /
+  //   selectionStartedForTurn != 新 turn → 下轮先跑 turnStart、再起菜单(每轮 boss 嘲讽/草妖逃跑在菜单前)。
+  state.uiState = 'wait'
+  state.selectingPlayerIdx = undefined
   state.phaseStallTicks = 0
 }
 

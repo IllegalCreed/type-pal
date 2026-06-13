@@ -631,6 +631,13 @@ export interface BattleState {
    */
   turnStartDoneForTurn?: number
   /**
+   * 已起过玩家选指令菜单的轮次(= state.turn)。玩家选指令(uiState='selectMove')须**等 turnStart
+   * 跑完且无对话/逃跑/动画 hold 之后**才起(原版 turnStart 在玩家 UI 之前;草妖类开场脚本逃跑应在
+   * 菜单出现前就结束 → 演出战全程不显示菜单,user 2026-06-13 报)。!== state.turn → 本轮还没起菜单。
+   * 回合 turn++ 自然使其 !== 新 turn → 下轮重新在 turnStart 后起。
+   */
+  selectionStartedForTurn?: number
+  /**
    * D11b 战斗胜利结算演出(PAL_BattleWon 多屏 PAL_WaitForAnyKey 序列)。phase==='won' 首 tick
    * 处理战果(回写 HP/MP + 升级 + cash)后建;顶层 tickBattleSettlement hold 逐屏等键/超时翻,
    * 放完 → Phase E scriptOnBattleEnd(可排入 battleDialogQueue)→ Phase F 半血恢复 + finalize → explore。
