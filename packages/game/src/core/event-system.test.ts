@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import type { Command, InputSnapshot, AbstractKey, Palette } from '@type-pal/shared'
+import type { Command, GiveItemCommand, InputSnapshot, AbstractKey, Palette } from '@type-pal/shared'
 import {
   tickEventSystem, tickAutoScripts, tickChaseTimer, buildLabelMap, runScript, runEnterScript, setFetchPalette,
   setStartBattleHandler,
@@ -14,7 +14,7 @@ import {
   OP_PARTY_WALK_TO_4, OP_PARTY_WALK_TO_8, OP_NPC_WALK_TO_4,
   OP_RIDE_OBJECT_2, OP_RIDE_OBJECT_4, OP_RIDE_OBJECT_8, OP_MONSTER_CHASE,
   setObstacleChecker, setGlobalEvents, resolveScriptLabel,
-  startOverworldItemScript, setSceneLoader,
+  startOverworldItemScript, setSceneLoader, addItemToInventory, patchGiveItemZeroBugs,
   OP_PLAY_MUSIC, OP_PLAY_SOUND, OP_FADE_OUT, OP_FADE_IN, OP_SCENE_FADE, OP_PALETTE_FADE, OP_COLOR_FADE,
   OP_FADE_TO_RED, OP_FADE_TO_SCENE, tickSceneAutoFadeIn, OP_REDRAW_SCREEN, OP_RESTORE_SCREEN,
   OP_SHAKE_SCREEN,
@@ -41,6 +41,56 @@ import { createSeedableRng } from './rng.js'
 function snap(pressed: AbstractKey[] = [], frameNum = 0): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum }
 }
+
+// 回归(user 2026-06-13:扬州宝物屋开出道具「?0」):宝物屋数据含 giveItem itemId=0 的空槽标记,
+//   我方曾把它 push 进库存 → 渲染层 fallback「?」+id=「?0」。sdlpal `PAL_AddItemToInventory`
+//   开头即 `if (wObjectID == 0) return FALSE`——id 0 绝不入库。
+describe('addItemToInventory:itemId=0 不入库(sdlpal global.c wObjectID==0 → FALSE)', () => {
+  it('itemId=0(空槽 giveItem)→ 库存不变,不造幽灵「?0」', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.inventory = []
+    addItemToInventory(gs, 0, 0) // 宝物屋空槽:count 也 0
+    expect(gs.inventory).toEqual([])
+    addItemToInventory(gs, 0, 5)
+    expect(gs.inventory).toEqual([])
+  })
+
+  it('正常 itemId 照常入库(count=0 → 1,sdlpal global.c:1094)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.inventory = []
+    addItemToInventory(gs, 161, 0) // 无影神针,count 0 → 1
+    expect(gs.inventory).toEqual([{ itemId: 161, count: 1 }])
+  })
+})
+
+// 回归(user 2026-06-13:扬州宝物屋开箱「?0」):3 个箱脚本提示「获得X」但 giveItem itemId=0(原版数据
+//   bug;sdlpal/原版也给空)。真道具确存在,只是提示 MSG 写错字(九节鞭→九截鞭164 / 腐尸肉→尸腐肉116 /
+//   紫青玉蓉膏→紫菁玉蓉膏103)。tp 层按前句 showDialog 的 messageIndex 把 giveItem(0) 补回真 id。
+describe('patchGiveItemZeroBugs(原版扬州宝物屋 giveItem 归零 bug)', () => {
+  it('按前句提示 messageIndex 把 giveItem(0) 补回真道具 id', () => {
+    const cmds: Command[] = [
+      { op: 'showDialog', messageIndex: 12256, text: '获得九节鞭' },
+      { op: 'giveItem', itemId: 0, count: 0 },
+      { op: 'showDialog', messageIndex: 12347, text: '获得紫青玉蓉膏' },
+      { op: 'giveItem', itemId: 0, count: 0 },
+      { op: 'showDialog', messageIndex: 12408, text: '获得腐尸肉' },
+      { op: 'giveItem', itemId: 0, count: 0 },
+    ]
+    patchGiveItemZeroBugs(cmds)
+    expect((cmds[1] as GiveItemCommand).itemId).toBe(164) // 九截鞭(武器)
+    expect((cmds[3] as GiveItemCommand).itemId).toBe(103) // 紫菁玉蓉膏
+    expect((cmds[5] as GiveItemCommand).itemId).toBe(116) // 尸腐肉
+  })
+
+  it('其它 giveItem(0)(非这 3 个 msg)不动 → 交 addItemToInventory 跳过', () => {
+    const cmds: Command[] = [
+      { op: 'showDialog', messageIndex: 99999, text: '别的' },
+      { op: 'giveItem', itemId: 0, count: 0 },
+    ]
+    patchGiveItemZeroBugs(cmds)
+    expect((cmds[1] as GiveItemCommand).itemId).toBe(0)
+  })
+})
 
 function loadEvent(gs: GameState, commands: Command[], startIp = 0): void {
   gs.eventCursor = {

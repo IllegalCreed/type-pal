@@ -696,8 +696,37 @@ export function setObstacleChecker(fn: ObstacleCheckerFn | null): void {
 let _globalCommands: Command[] = []
 let _globalLabelMap: Record<string, number> = {}
 
+/**
+ * 原版「扬州宝物屋」giveItem 归零 bug 补丁(tp 层修,user 2026-06-13 报开箱「?0」)。
+ *
+ * 3 个箱脚本提示「获得X」但 `giveItem itemId=0`(原版 SSS 数据 bug;提取器忠实保留,sdlpal
+ * `AddItemToInventory(0)→FALSE` 也给空)。真道具确存在,只是提示 MSG 写了错字,故按**前一句
+ * showDialog 的 messageIndex**(MSG.DAT 下标,稳定)把 giveItem(0) 补回真 id:
+ *   12256「获得九节鞭」→ 九截鞭 164(武器) / 12347「获得紫青玉蓉膏」→ 紫菁玉蓉膏 103
+ *   12408「获得腐尸肉」→ 尸腐肉 116
+ * 提取器保持忠实(disasm↔recompile roundtrip 不变),修在 setGlobalEvents 加载后的运行时数据上。
+ * 偏离原版(原版此处给空)= 跟原版后期/修复版应给的真道具,属 tp 层有意修正。
+ */
+const GIVEITEM_ZERO_FIXUP: Record<number, number> = {
+  12256: 164, // 「获得九节鞭」(MSG 错字)→ 九截鞭
+  12347: 103, // 「获得紫青玉蓉膏」→ 紫菁玉蓉膏
+  12408: 116, // 「获得腐尸肉」→ 尸腐肉
+}
+
+export function patchGiveItemZeroBugs(commands: Command[]): void {
+  for (let i = 1; i < commands.length; i++) {
+    const c = commands[i]
+    if (c?.op !== 'giveItem' || c.itemId !== 0) continue
+    const prev = commands[i - 1]
+    if (prev?.op !== 'showDialog') continue
+    const fix = GIVEITEM_ZERO_FIXUP[prev.messageIndex]
+    if (fix !== undefined) c.itemId = fix
+  }
+}
+
 /** bootstrap 注入 events/all.json 的全量命令;labelMap 由带 label 的命令建(L_<i> → i)。 */
 export function setGlobalEvents(commands: Command[]): void {
+  patchGiveItemZeroBugs(commands) // tp 层:修原版宝物屋 giveItem 归零 bug(见函数注释)
   _globalCommands = commands
   const map: Record<string, number> = {}
   for (let i = 0; i < commands.length; i++) {
@@ -3027,6 +3056,10 @@ function signExtendI16(u: number): number {
  *  注:itemId 用 ts items.json id(0..234);id 0 = 观音符是真物品,**不** skip(sdlpal
  *  `wObjectID==0` 哨兵是 sdlpal OBJECT id 体系,pal-extract 反编译已转 ts id)。 */
 export function addItemToInventory(gs: GameState, itemId: number, qty: number): void {
+  // sdlpal global.c PAL_AddItemToInventory 开头:`if (wObjectID == 0) return FALSE` —— id 0 绝不入库。
+  //   扬州宝物屋数据含 giveItem itemId=0 的空槽标记(夹在真道具间),漏此守卫会 push 幽灵槽 →
+  //   渲染层 fallback「?」+id =「?0」(user 2026-06-13 报)。原版这些是空宝箱,本就不给道具。
+  if (itemId === 0) return
   // sdlpal global.c:1094 真值:iNum == 0 → 1
   if (qty === 0) qty = 1
   const entry = gs.inventory.find((e) => e.itemId === itemId)
