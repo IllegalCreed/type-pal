@@ -3973,6 +3973,27 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
     expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 5, wPoisonScript: 40866 })
   })
 
+  it('0x61 没中毒则跳:level>=99 装备伪毒(寿葫芦回补)不算中毒 → 跳过(对齐 sdlpal global.c:1669,装寿葫芦吃九阴散照样暴毙)', () => {
+    setObjectPoisons([{ id: 563, level: 99, color: 0, playerScript: 0, enemyScript: 0 }]) // 寿葫芦 HP回补伪毒
+    const cmds: Command[] = [
+      { op: 'raw', opcode: 0x61, operands: [3, 0, 0], label: 'L_0' }, // 没中毒→跳 ip3(end,HP 不变)
+      { op: 'raw', opcode: 0x1B, operands: [0, 65436, 0] }, // ip1:HP-100(被判"中毒"/不跳才执行)
+      { op: 'end' }, // ip2
+      { op: 'end', label: 'L_3' }, // ip3:跳转目标
+    ]
+    setGlobalEvents(cmds)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    gs.PlayerRolesRuntime.rgwHP[0] = 200
+    gs.rgPoisonStatus = { '0_0': { wPoisonID: 563, wPoisonScript: 0 } } // 只挂 level99 伪毒
+    const bus = createCommandBus()
+    loadEvent(gs, cmds, 0)
+    gs.eventCursor!.currentEventObjectId = 0
+    tickEventSystem(gs, snap(), bus)
+    // level99 伪毒不算"中毒" → 0x61 跳过减血段 → HP 不变(修复前不看 level 会判中毒→不跳→HP 100)
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(200)
+  })
+
   it('M12:0x29 apply-player 施毒当下跑一次 playerScript,存返回 next entry(global.c:1515)', () => {
     setObjectPoisons([{ id: 5, level: 1, color: 64, playerScript: 20, enemyScript: 0 }])
     const cmds: Command[] = [

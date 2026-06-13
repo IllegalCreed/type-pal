@@ -625,13 +625,15 @@ export function dispatchBattleOpcode(
     }
 
     case OP_SET_ENEMY_STATUS: {
-      // sdlpal script.c:002E(CLASSIC i=9):`RandomLong(0,9) > enemy.wResistanceToSorcery` → rgwStatus[op0]=op1;
-      //   else jump op2(失败分支)。wEventObjectID = 目标敌(ctx.target)。
+      // sdlpal script.c:002E(CLASSIC i=9)原作判定 `RandomLong(0,9) > 巫抗`,但 `>` 是原版早期 bug:
+      //   巫抗 0 时掷 0 也算抵抗 → 成功率永远封顶 90%(本应 100%)。原版后期已改为 `>=`(巫抗 0→100% 命中,
+      //   满值 10 才免疫),此处跟进原版后期修复 → 用 `>=`(故意偏离 sdlpal,sdlpal 这处仍 `>`)。
+      //   下毒 0x28 本就是 `>=`,无此问题。详见 docs/game-mechanics.md「巫术命中判定」。失败 → jump op2。
       const sel = ctx.target?.type === 'enemy' ? ctx.target : ctx.caster?.type === 'enemy' ? ctx.caster : undefined
       const enemy = sel ? state.enemies[sel.idx] : undefined
       const key = KSTATUS_KEY[operands[0] ?? 0]
       if (!enemy || !key) return { consumed: true }
-      if (state.rng.rangeInclusive(0, 9) > (enemy.resistanceToSorcery ?? 0)) {
+      if (state.rng.rangeInclusive(0, 9) >= (enemy.resistanceToSorcery ?? 0)) {
         enemy.status[key] = operands[1] ?? 0
         return { consumed: true }
       }

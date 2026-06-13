@@ -3236,13 +3236,23 @@ function countInventoryItem(gs: GameState, itemId: number): number {
 
 /**
  * role 是否中毒(sdlpal PAL_IsPlayerPoisonedByKind / ByLevel(role,0) 等价)。
- * poisonKind 给定 → 只看该种毒(ByKind);省略 → 任意毒(ByLevel 0)。rgPoisonStatus 16 槽/role。
+ * poisonKind 给定 → 只看该种毒(ByKind,不看等级);省略 → ByLevel(role,0):
+ *   忽略 level>=99 的装备伪毒(寿葫芦 HP/MP 回补等),对齐 sdlpal global.c:1669-1675。
+ *   否则装寿葫芦时这些伪毒会被当"中毒",令毒龙胆/九阴散的 0x61"没中毒就秒杀"误判为有毒 →
+ *   白嫖解毒+回满血(原版早期 bug,后期已修)。rgPoisonStatus 16 槽/role。
  */
 function isPlayerPoisoned(gs: GameState, roleId: number, poisonKind?: number): boolean {
   for (let slot = 0; slot < 16; slot++) {
     const p = gs.rgPoisonStatus[`${slot}_${roleId}`]
     if (!p || p.wPoisonID === 0) continue
-    if (poisonKind === undefined || p.wPoisonID === poisonKind) return true
+    if (poisonKind !== undefined) {
+      // ByKind:只查指定毒 id(0x60),不看等级
+      if (p.wPoisonID === poisonKind) return true
+      continue
+    }
+    // ByLevel(role, 0):level>=99 的装备伪毒不算"中毒"
+    if ((_objectPoisons.get(p.wPoisonID)?.level ?? 0) >= 99) continue
+    return true // level >= wMinLevel(=0) 恒真
   }
   return false
 }

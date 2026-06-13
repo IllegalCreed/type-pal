@@ -1534,6 +1534,37 @@ describe('performMagic', () => {
     expect(bus.drain().some(c => c.cmd.op === 'showBattleMessage')).toBe(false)
   })
 
+  it('夺魂成功:巫抗 0、掷 0 也命中(0x2E 用 >= 跟进原版后期修复,旧 > 会上限 90% 失败)', () => {
+    const { state, playerRoles, bus, gs } = makeState({ role: { mp: 99, maxMP: 99 } })
+    state.enemies[0]!.resistanceToSorcery = 0 // 巫抗0:旧 `>` 掷0 抵抗(上限90%);新 `>=` 掷0 命中(100%)
+    state.rng.rangeInclusive = () => 0 // 掷出最小值 0
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x2E, operands: [0, 4, 3] }, // 命中→设status;抵抗→跳 ip3 失败分支
+      { op: 'end' },
+      { op: 'setDialogStyleNarration' },
+      { op: 'showDialog', messageIndex: 13364, text: '失败　没有效果' },
+      { op: 'end' },
+    ]
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 304,
+      targetIsEnemy: true,
+      targetIdx: 0,
+      spells: [makeSpell({ id: 304, magicNumber: 67, scriptOnSuccess: 1 })],
+      magics: [makeMagic({ id: 67, costMP: 83, baseDamage: 64537, effect: 39, sound: 170 })],
+      playerRoles,
+      bus,
+      commands,
+      runScript,
+      gs,
+    })
+    // 巫抗0、掷0:`0 >= 0` 命中 → 不走"失败　没有效果"失败分支
+    expect(state.battleDialogQueue?.[0]?.text).not.toBe('失败　没有效果')
+  })
+
   it('scriptOnUse 失败(fScriptSuccess=false)→ MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess(乾坤一掷没钱/酒神没酒)', () => {
     const { state, playerRoles, bus } = makeState({ role: { mp: 30, maxMP: 30 } })
     const spell = makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 42, scriptOnSuccess: 99 })
