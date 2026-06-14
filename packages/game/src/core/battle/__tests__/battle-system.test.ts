@@ -36,7 +36,7 @@ import { FPS_BATTLE } from '@type-pal/shared'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus, type PresentCommand } from '../../command-bus.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
-import { activateHidingEffect, applyHiddenExpGrowth, battleWonLevelUp, decrementHidingEffect, INTRO_FADE_TICKS, selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
+import { activateHidingEffect, applyHiddenExpGrowth, battleWonLevelUp, decrementHidingEffect, INTRO_FADE_TICKS, pickAutoMagic, selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
 import { createSeedableRng } from '../../rng.js'
 import { tickByMode } from '../../mode.js'
 import { setGlobalEvents } from '../../event-system.js'
@@ -791,6 +791,37 @@ describe('tickBattle phase transitions', () => {
     driveBattleToExplore(gs, bus)
     expect(gs.mode).toBe('explore')
     expect(gs.fAutoBattle).toBe(false) // 战斗结束清(非永久)
+  })
+
+  // ── pickAutoMagic baseDamage 须按 SHORT(i16)解读(sdlpal uibattle.c:766/770 `(SHORT)wBaseDamage`)──
+  describe('pickAutoMagic(F键 / 自动战斗选法术)', () => {
+    function autoState() {
+      return {
+        selectingPlayerIdx: 0,
+        players: [{ roleId: 0, status: {} }],
+        rng: createSeedableRng(1),
+      } as unknown as Parameters<typeof pickAutoMagic>[0]
+    }
+    function rolesWith(magic: number[], mp = 99) {
+      const role = makeRole({ id: 0, mp })
+      ;(role as unknown as { magic: number[] }).magic = magic
+      return { roles: [role] } as unknown as Parameters<typeof pickAutoMagic>[1]
+    }
+
+    it('回归(石长老vs盖罗娇自动战 / F键乱放法术):跳过负 baseDamage(SHORT)的特殊法术,选正常法术', () => {
+      // 夺魂等 baseDamage=64537(u16)= -999(SHORT)。sdlpal `(SHORT)baseDamage<=0` 跳过这类特殊/即死法术;
+      //   我们漏 asShort → 64537 当超高伤害 → power 永远碾压随机项 → F键/自动战斗疯狂选夺魂(user 2026-06-14)。
+      const r = pickAutoMagic(autoState(), rolesWith([296, 297]),
+        [mkSpell(296), mkSpell(297)],
+        [mkMagic(296, { costMP: 5, baseDamage: 64537 }), mkMagic(297, { costMP: 5, baseDamage: 999 })], 9999)
+      expect(r).toBe(297) // 夺魂(296,SHORT=-999)被跳过,选普通法术(297)
+    })
+
+    it('全是负 baseDamage(SHORT)法术 → 返回 0(物理攻击)', () => {
+      const r = pickAutoMagic(autoState(), rolesWith([296]),
+        [mkSpell(296)], [mkMagic(296, { costMP: 5, baseDamage: 64537 })], 9999)
+      expect(r).toBe(0)
+    })
   })
 
   it('performAction → postAction(queue 跑完)→ 下一轮 selectAction(双方都活)', () => {

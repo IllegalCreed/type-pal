@@ -1079,11 +1079,16 @@ function getLearnedSpells(role: PlayerRole): number[] {
   return (role as unknown as { learnedSpells?: number[] }).learnedSpells ?? []
 }
 
+/** baseDamage 的 i16(SHORT)解读 —— sdlpal 多处 `(SHORT)wBaseDamage`(global.h 存 u16,负值 = 特殊/即死法术)。 */
+function asShort(n: number): number {
+  return (n << 16) >> 16
+}
+
 /**
- * port sdlpal `PAL_BattleUIPickAutoMagic`(uibattle.c:721-782):Force/auto 挑威力最大的可用法术。
- * 跳过:silence(返回 0=物理)/ costMP==1(极限技)/ costMP>当前MP / baseDamage<=0。返回 spell object id,0=物理。
+ * port sdlpal `PAL_BattleUIPickAutoMagic`(uibattle.c:721-782):Force/auto 选可用法术(威力 + 随机)。
+ * 跳过:silence(返回 0=物理)/ costMP==1(极限技)/ costMP>当前MP / (SHORT)baseDamage<=0。返回 spell object id,0=物理。
  */
-function pickAutoMagic(
+export function pickAutoMagic(
   state: BattleState, playerRoles: PlayerRoles, spells: Spell[], magics: Magic[], range: number,
   objectMagics: ObjectMagicView[] = [],
 ): number {
@@ -1099,8 +1104,12 @@ function pickAutoMagic(
     const resolved = resolveMagicObject(sid, spells, magics, objectMagics)
     if (!resolved) continue
     const magic = resolved.magic
-    if (magic.costMP === 1 || magic.costMP > role.mp || magic.baseDamage <= 0) continue
-    const power = magic.baseDamage + state.rng.rangeInclusive(0, range)
+    // sdlpal uibattle.c:766/770 `(SHORT)wBaseDamage`:baseDamage 存 u16,须按 i16 解读。夺魂等特殊/即死
+    //   法术 baseDamage=64537(u16)= -999(SHORT),应被 `<=0` 跳过;漏 asShort → 当超高伤害 → power 永远
+    //   碾压随机项 → F键乱放法术 / 自动战斗疯狂选夺魂(user 2026-06-14)。
+    const dmg = asShort(magic.baseDamage)
+    if (magic.costMP === 1 || magic.costMP > role.mp || dmg <= 0) continue
+    const power = dmg + state.rng.rangeInclusive(0, range)
     if (power > maxPower) {
       maxPower = power
       best = sid
