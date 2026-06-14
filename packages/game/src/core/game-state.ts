@@ -35,26 +35,16 @@ export interface TrailEntry {
 }
 
 /**
- * 跟随者"冻结快照"(相对队长偏移 + 朝向)。队伍非走路(演出/骑乘)时跟随者位置与朝向冻结于此,
- * 等价 sdlpal `PAL_UpdatePartyGestures` else 分支不更新 rgParty[i] + 骑乘期不重设 wFrame。
- * 见 present/follower-pos.ts 与 [[followerFrozenOffset]] 字段。
+ * 跟随者"冻结快照"(相对队长偏移)。队伍非走路(演出/骑乘)时跟随者**位置**冻结于此(dx/dy),
+ * 等价 sdlpal `PAL_UpdatePartyGestures` else 分支不更新 rgParty[i] 位置(防上船重叠跳变)。
+ * **朝向不冻结**:静止时由 present/follower-pos 取当前 trail[2].dir(scene.c:761,跟随者不跟队长
+ * 的 0x15;船划行靠 ride 更新 trail 跟、隐龙窟站立 trail 不变保持走来向)。dir 仅 walking 捕获时
+ * 的记录(渲染不读,保留备查)。见 [[followerFrozenOffset]] 字段。
  */
 export interface FollowerFrozen {
   dx: number
   dy: number
   dir: Facing
-}
-
-/**
- * 队伍转身时让**已冻结**的跟随者同步转向(位置偏移不变,只改朝向)。
- * port 真值场景:上船演出 0x15 把队长转向(sdlpal 设 wPartyDirection),原版跟随者也跟着转;
- * 我方静止时跟随者朝向取冻结值 → 0x15 转向须同步刷新冻结朝向,否则只有队长转、跟随者"面对队长"
- * (2026-06-13 user 报赵灵儿上船后朝向不随李逍遥转)。null 槽(未在队/未冻结)跳过。
- */
-export function turnFollowersFrozen(frozen: (FollowerFrozen | null)[], dir: Facing): void {
-  for (const fo of frozen) {
-    if (fo) fo.dir = dir
-  }
 }
 
 export type Mode = 'explore' | 'event' | 'battle' | 'menu'

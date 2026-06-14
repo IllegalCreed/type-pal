@@ -29,7 +29,7 @@ import { FPS_EXPLORE } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
 import type { GameState, NpcState, EventCursor, DialogBoxState } from './game-state.js'
-import { PARTYOFFSET_X, PARTYOFFSET_Y, turnFollowersFrozen } from './game-state.js'
+import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
 import { getWord } from './word-lookup.js'
 import { addPlayerStatRow, getPlayerPoisonResistance, removeEquipmentEffect, setPlayerStatRow, writeEquipmentEffectField } from './equip-effect.js'
@@ -3387,10 +3387,11 @@ function applyRawOpcode(
       const memberIdx = operands[2] ?? 0
       const facing = SDLPAL_DIR_TO_FACING[dirCode] ?? 'down'
       gs.party.facing = facing
-      // 队伍转身:跟随者随队长同步转向(原版上船演出 Li 转身,赵灵儿同转)。0x15 设整队朝向,
-      //   静止(演出/骑乘)时跟随者朝向取冻结值(present/follower-pos)→ 这里同步刷新已捕获的冻结
-      //   朝向(位置偏移不动、只转向),否则只队长转、跟随者"面对队长"(2026-06-13 user 报)。
-      turnFollowersFrozen(gs.followerFrozenOffset, facing)
+      // 0x15 只设**队长**朝向(sdlpal script.c:736 wPartyDirection + rgParty[op2].wFrame)。跟随者静止
+      //   时朝向由 present/follower-pos 取 trail[2].dir(scene.c:761),**不在此同步**——船划行靠 ride
+      //   每步更新 trail 让跟随者跟、隐龙窟站立 trail 不变让跟随者保持走来方向。
+      //   (旧码这里调 turnFollowersFrozen 硬把跟随者冻结朝向同步成 0x15,修了船却误转隐龙窟站立的
+      //    跟随者李逍遥,user 2026-06-14 报;已移除,改回 trail 驱动。)
       // wFrame = dir * 3 + frameOffset(sdlpal walkFrames default 3)
       gs.partyScriptedFrame[memberIdx] = dirCode * 3 + frameOffset
       // 密道帧错乱修(scene 1 李逍遥爬密道,2026-06-02 真机 log 定位):sdlpal 0x15 直接写

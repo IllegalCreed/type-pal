@@ -39,10 +39,16 @@ export function computeFollowerWorldPos(
   // 朝向源(sdlpal:rgTrail[2].wDirection;不足回退 trail[1].dir)
   const curDir = s.trail[2]?.dir ?? baseDir
 
-  // not walking + 已捕获冻结快照 → 位置与朝向双双冻结(scene.c:745 else 不动位置;骑乘期 wFrame 也不重设)
+  // not walking + 已捕获冻结快照 → **位置冻结**(scene.c:745 else 不动位置,防上船重叠跳变),
+  //   但**朝向仍用当前 trail[2].dir**(scene.c:761:静止时 follower wFrame = rgTrail[2].wDirection,
+  //   **不跟队长的 0x15**)。两类演出由此自然区分:
+  //   - 船划行:ride(0x44 等)每步把 trail 刷成船行方向 → 跟随者朝船行方向(= 队长),看着"跟队长转"。
+  //   - 隐龙窟站立对话:队长 0x15 回头不动 trail → 跟随者保持走来方向(不跟队长转)。
+  //   旧码取 fo.dir + 0x15 调 turnFollowersFrozen 同步 fo.dir(= 跟随者跟 0x15),修了船却把隐龙窟
+  //   "站着不动、队长回头"也误判成要跟 → 李逍遥被一起转向(user 2026-06-14 报)。
   if (!s.walking) {
     const fo = s.frozenOffset[m]
-    if (fo) return { x: s.party.x + fo.dx, y: s.party.y + fo.dy, dir: fo.dir }
+    if (fo) return { x: s.party.x + fo.dx, y: s.party.y + fo.dy, dir: curDir }
     // 未捕获(进场景/0x46 后未走过)→ 落到下方 trail 回退(= 旧行为)
   }
 

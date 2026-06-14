@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest'
-import { turnFollowersFrozen } from '../core/game-state.js'
 import { computeFollowerWorldPos, type FollowerPosState } from './follower-pos.js'
 
 function mkState(over: Partial<FollowerPosState> = {}): FollowerPosState {
@@ -30,20 +29,19 @@ describe('computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalki
     expect(p).toEqual({ x: 984, y: 500, dir: 'down' }) // = trail[1]
   })
 
-  it('not walking + 有 frozenOffset:位置和朝向**双双冻结**(用 frozen 值,完全不读当前 trail)', () => {
+  it('not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)', () => {
     const s = mkState({
       walking: false,
       party: { x: 2000, y: 300 },
-      frozenOffset: [null, { dx: 16, dy: -8, dir: 'up' }], // 冻结朝向 'up'
-      // 当前 trail[2].dir = 'down'(若朝向没冻结会取到 'down' = bug)
+      frozenOffset: [null, { dx: 16, dy: -8, dir: 'up' }], // dir 仅捕获记录,渲染不读
       trail: [
         { x: 2000, y: 300, dir: 'down' },
         { x: 2000, y: 300, dir: 'down' },
-        { x: 1900, y: 300, dir: 'down' },
+        { x: 1900, y: 300, dir: 'down' }, // trail[2].dir='down' → 朝向取此
       ],
     })
     const p = computeFollowerWorldPos(s, 1, () => false)
-    expect(p).toEqual({ x: 2016, y: 292, dir: 'up' }) // 位置=leader+offset;朝向=冻结的'up'(非当前'down')
+    expect(p).toEqual({ x: 2016, y: 292, dir: 'down' }) // 位置=leader+冻结offset;朝向=trail[2].dir('down'),非冻结'up'
   })
 
   it('回归:船上重叠场景(trail[1]==leader + 落水 + not walking)不再与李逍遥重叠', () => {
@@ -77,23 +75,37 @@ describe('computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalki
     expect(computeFollowerWorldPos(s, 1, () => true)).toBeNull()
   })
 
-  it('集成(根因复现):上船朝上 → 0x15 转下 → 跟随者静止时也朝下(原版 Li 转身灵儿同转)', () => {
-    // 1) 上船走位期捕获冻结(朝上,跟随队长向上走)
-    const frozen = [null, { dx: 16, dy: -8, dir: 'up' as const }]
-    // 2) 0x15 把整队转向下(turnFollowersFrozen 同步跟随者冻结朝向)——这就是修复点
-    turnFollowersFrozen(frozen, 'down')
-    // 3) 骑乘(not walking)渲染:跟随者朝向取冻结值 = down(随队长转了),不再卡在 up=面对队长
+  it('集成(船划行):划船(ride)每步把 trail 刷成船行方向 → 跟随者朝向跟 trail(=队长),静止位置仍冻结', () => {
+    // 船段:0x15 转队长 + 紧跟 ride 划船(每步 trail unshift 船行方向)。跟随者位置用冻结(防重叠)、
+    //   朝向用当前 trail[2].dir = 船行方向 → 跟上队长。(旧 turnFollowersFrozen 硬同步朝向已移除。)
     const s = mkState({
       walking: false,
-      frozenOffset: frozen,
+      frozenOffset: [null, { dx: 16, dy: -8, dir: 'up' }], // 上船时捕获的旧朝向(渲染不读)
       party: { x: 500, y: 500 },
       trail: [
-        { x: 500, y: 500, dir: 'up' }, // 当前 trail 仍是 up;若没修会取到 up
-        { x: 500, y: 500, dir: 'up' },
-        { x: 480, y: 500, dir: 'up' },
+        { x: 500, y: 500, dir: 'down' }, // ride 划船把 trail 全刷成船行方向 'down'
+        { x: 500, y: 500, dir: 'down' },
+        { x: 480, y: 500, dir: 'down' },
       ],
     })
     const p = computeFollowerWorldPos(s, 1, () => false)
-    expect(p!.dir).toBe('down') // 跟随者朝下 = 转身后的队长;修前会是 'up'(面对队长)
+    expect(p!.dir).toBe('down') // 朝船行方向(=队长),靠 ride 更新的 trail,而非冻结朝向
+  })
+
+  it('回归(隐龙窟):站立对话时队长 0x15 回头不动 trail → 跟随者保持走来方向(不跟队长转)', () => {
+    // 林月如(队长)0x15 转 East;李逍遥(跟随)站着没走,trail 仍是走来的 'left'(左上)。
+    //   0x15 不改 trail → 跟随者保持 left,不被队长回头带转(user 2026-06-14 报李逍遥被转成右下)。
+    const s = mkState({
+      walking: false,
+      frozenOffset: [null, { dx: 16, dy: -8, dir: 'left' }],
+      party: { x: 500, y: 500 },
+      trail: [
+        { x: 500, y: 500, dir: 'left' }, // 队长 0x15 转 East 不改 trail
+        { x: 500, y: 500, dir: 'left' },
+        { x: 484, y: 508, dir: 'left' }, // trail[2].dir='left'(走来左上)
+      ],
+    })
+    const p = computeFollowerWorldPos(s, 1, () => false)
+    expect(p!.dir).toBe('left') // 保持走来左上,不跟林月如的 0x15 East
   })
 })
