@@ -1996,6 +1996,31 @@ describe('autoScript 0x06/0x04 的 RunAutoScript 专用语义(DH4/DL13/DL15,scri
     }
   })
 
+  it('回归(scene35 鱼漂移):0x06 跳转目标无 label → fall back 到 globalIp 本身(不中断 autoScript)', () => {
+    // 鱼/巡逻 NPC 的 0x06 概率跳转,disasm 不给概率跳目标打 label(同 jumpToGlobalIp 注释:235 个
+    //   0x06 中 91 个 target 无 label)。旧码 autoScript 侧 getLabels 查不到 → autoCursor=undefined →
+    //   脚本从 autoLabel 重启,永远跑不完平衡循环(后半段回头 walk never reached)→ 鱼单向累积漂移
+    //   出池塘/出界(user 2026-06-14 报 scene35)。trigger 侧 jumpToGlobalIp 早有 fall back,auto 侧漏了。
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x06, operands: [0, 2, 0], label: 'L_0' }, // rate=0 恒跳 → target=2(无 label)
+      { op: 'end', label: 'L_1' }, // 占位(不该被跑)
+      { op: 'raw', opcode: OP_MOVE_OBJECT, operands: [0, 4, 0] }, // ci2:无 label,0x06 跳转目标,x+=4
+      { op: 'end' },
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      const npc = { id: 0, x: 100, y: 100, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }
+      gs.npcs = [npc]
+      tickAutoScripts(gs) // 0x06 跳 ci2(fall back)→ 同帧跑 move(x+=4)→ ip=3
+      expect(npc.autoCursor).toBeDefined() // 旧码:autoCursor=undefined(脚本中断)
+      expect(npc.x).toBe(104) // fall back 成功续跑 ci2 的 move(旧码 x 仍 100)
+      expect(npc.autoCursor?.ip).toBe(3)
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+
   it('0x06 未掷中(rate=101 恒假)→ wScriptEntry++ 推进', () => {
     setGlobalEvents([
       { op: 'raw', opcode: 0x06, operands: [101, 0, 0], label: 'L_0' }, // RandomLong(1,100)>=101 恒假

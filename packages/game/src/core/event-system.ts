@@ -1330,11 +1330,14 @@ function runOneAutoOp(gs: GameState, npc: NpcState, gotoDepth = 0): void {
         const target = cmd.operands[1] ?? 0
         if (Math.floor(Math.random() * 100) + 1 >= rate) {
           if (target !== 0) {
-            const ip = getLabels(cursor)[`L_${target}`]
-            if (ip === undefined) {
-              npc.autoCursor = undefined // 目标不在全局数组 → 停(异常)
-              return
-            }
+            // 0x06 target 是**全局 ip**(SSS entry index == 展平后数组下标 ci)。disasm 不把概率跳
+            //   (0x06)列入 JUMP_TARGET_OPERAND → 不给其目标打 L_ 标签(235 个 0x06 中 91 个 target
+            //   落在无 label 的命令上)。故 label 查不到时 fall back 到 target 本身(恒等全局 ip),
+            //   与 trigger 侧 jumpToGlobalIp 早有的 fall back 对齐。
+            //   旧码 getLabels 查不到即 autoCursor=undefined 中断脚本 → 下帧从 autoLabel 重启,巡逻/鱼
+            //   autoScript 永远跑不完平衡循环(后半段回头 walk never reached)→ 鱼单向累积漂移、游出
+            //   池塘甚至出场景边界(user 2026-06-14 报 scene35;实测 3000 帧漂移 3228px)。
+            const ip = getLabels(cursor)[`L_${target}`] ?? target
             cursor.ip = ip
             // `goto begin`(DL13):跳转不消耗帧,同帧续跑目标 op(同 'goto' 0x03 的修复;深度护栏防自环)。
             if (gotoDepth >= SINGLE_TICK_LIMIT) {
