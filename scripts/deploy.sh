@@ -7,6 +7,9 @@
 #   data  - 仅同步 extracted 资源树(~580MB,rsync 增量)
 #   all   - data + app(默认;先数据后应用,新壳不会踩到缺数据)
 #
+#   注:Service Worker(dist/sw.js,register updateViaCache:'none')自更新,无需 nginx 特殊配置;
+#       asset-manifest.json 随 data 目标同步。若重跑过 pnpm extract,务必用 all(data 同步新清单)。
+#
 # 部署策略(沿用 quiz-monorepo 的"本地构建 → 原子切换"+ 大资源分离):
 #   - 应用壳:vite build → tar → 远程解压 dist.new → mv 原子切换(旧版留 dist.old)
 #   - extracted(579MB,仅重跑 pnpm extract 后才变):**不进 tar**,rsync 增量同步到
