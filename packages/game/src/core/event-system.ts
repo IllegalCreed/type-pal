@@ -147,6 +147,12 @@ export const OP_NPC_WALK_ONE_STEP_EAST  = 0x000E  // 14
 //   operand[0] = battlefield id → gs.wNumBattleField(sdlpal script.c:1719,global.h:536)
 //   scene 15 wScriptOnEnter `[10, 0, 0]` → 草妖通道用 battlefield 10
 export const OP_SET_BATTLE_FIELD = 0x004A       // 74
+// case 0x008A(138): Enable auto-battle for next battle(sdlpal script.c:2564 `fAutoBattle = TRUE`)。
+//   战斗开始前的**事件脚本**里设(石长老vs盖罗娇 all.json ci16680:0x8A → 0x4a set-battlefield →
+//   0x07 startBattle team37);startBattle → createBattleState 从 gs.fAutoBattle seed 进战斗,整场
+//   AI 自动选行动。battle 侧 dispatchBattleOpcode 亦有同 handler(battle-opcodes OP_ENABLE_AUTO_BATTLE);
+//   事件侧此前漏 → 该类剧情自动战斗退化成玩家手动(user 2026-06-14 报)。
+export const OP_ENABLE_AUTO_BATTLE = 0x008A     // 138
 
 // ── Sync.2 fix3: 5 个 cutscene opcode(scene 1 onEnter 高频用)─────────────
 // case 0x0005(5):   Redraw screen / PAL_ClearDialog(TRUE) — sdlpal script.c:3267-3297
@@ -3778,6 +3784,13 @@ function applyRawOpcode(
       gs.wNumBattleField = battleFieldId
       break
     }
+
+    case OP_ENABLE_AUTO_BATTLE:
+      // sdlpal script.c:2564:`gpGlobals->fAutoBattle = TRUE`(为下一场战斗)。startBattle →
+      //   createBattleState 从 gs.fAutoBattle seed → 整场 AI 自动选行动(石长老vs盖罗娇剧情自动战)。
+      //   事件侧此前漏实现(只在 battle-opcodes dispatchBattleOpcode 有)→ 退化成玩家手动控制。
+      gs.fAutoBattle = true
+      break
 
     // ── Sync.2 fix3/fix4: cutscene opcode(scene 1 onEnter 高频用) ─────────────
     //

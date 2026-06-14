@@ -2021,6 +2021,28 @@ describe('autoScript 0x06/0x04 的 RunAutoScript 专用语义(DH4/DL13/DL15,scri
     }
   })
 
+  it('回归(石长老vs盖罗娇):事件脚本 0x8A(OP_ENABLE_AUTO_BATTLE)设 gs.fAutoBattle=true', () => {
+    // sdlpal script.c:2564 `gpGlobals->fAutoBattle = TRUE`(为下一场战斗)。该 opcode 在战斗开始前的
+    //   事件脚本里调(all.json ci 16680:0x8A → 0x4a set-battlefield → 0x07 startBattle team37)。
+    //   battle 侧 dispatchBattleOpcode 早有此 handler,但事件侧 applyRawOpcode 漏了 → 0x8A 落 default
+    //   no-op → fAutoBattle 没设 → createBattleState seed false → 战斗变玩家手动(user 2026-06-14 报)。
+    //   applyRawOpcode 是事件 trigger / autoScript 共享解释器,此处用 autoScript 入口驱动验证 handler。
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x8a, operands: [0, 0, 0], label: 'L_0' },
+      { op: 'end' },
+    ])
+    try {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.npcs = [{ id: 0, x: 0, y: 0, spriteNum: 1, sState: 1, autoCursor: { ip: 0 } }]
+      expect(gs.fAutoBattle ?? false).toBe(false)
+      tickAutoScripts(gs)
+      expect(gs.fAutoBattle).toBe(true)
+    }
+    finally {
+      setGlobalEvents([])
+    }
+  })
+
   it('0x06 未掷中(rate=101 恒假)→ wScriptEntry++ 推进', () => {
     setGlobalEvents([
       { op: 'raw', opcode: 0x06, operands: [101, 0, 0], label: 'L_0' }, // RandomLong(1,100)>=101 恒假
