@@ -136,3 +136,32 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
     tryPlay()
   })
 }
+
+/**
+ * 2026-06-14:在用户手势(「进入游戏」click)的**同步栈**调用,muted play 一个 `<video>` 解锁本
+ * session 的 video autoplay —— 之后开场 1.mp4 的 `play()` 不再被浏览器拒,不弹"点击屏幕开始"。
+ * `video.play()` 需 transient activation(手势后短时内、同 task),故必须在 click handler 同步调用,
+ * **不能**放到 `await` 之后(微任务,手势已过期)。muted 才允许无声 autoplay;成功后立即 pause 丢弃。
+ * 失败静默(playAvi 自身仍有 click overlay 兜底,最坏退回现状,绝不更差)。默认用即将播放的 1.mp4 预热。
+ */
+export function warmUpVideoAutoplay(src = '/extracted/videos/1.mp4'): void {
+  if (typeof document === 'undefined') return
+  try {
+    const v = document.createElement('video')
+    v.src = src
+    v.muted = true
+    v.playsInline = true
+    v.preload = 'auto'
+    void v
+      .play()
+      .then(() => {
+        v.pause()
+        v.remove()
+      })
+      .catch(() => {
+        v.remove()
+      })
+  } catch {
+    /* ignore */
+  }
+}
