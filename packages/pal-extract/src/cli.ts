@@ -38,6 +38,7 @@ import { parseMessages } from './io/msg.js'
 import { parseSss } from './io/sss.js'
 import { parseWordDat } from './io/word.js'
 import { decompressYj2 } from './io/yj2.js'
+import { buildManifest, collectAssetEntries } from './resources/asset-manifest.js'
 import { extractBattleSprites } from './resources/battle-sprite.js'
 import { parseEnemyPos } from './resources/enemy-pos.js'
 import { parseMap } from './resources/map.js'
@@ -839,6 +840,12 @@ async function main(): Promise<void> {
   else {
     console.warn('[pal-extract] unifont-cn.bdf 缺,跳过 font')
   }
+
+  // 全资源清单(Service Worker 离线预缓存用)。须在所有产出写完后扫盘,排除自身。
+  const manifest = buildManifest(collectAssetEntries(OUT))
+  writeJson(resolve(OUT, 'asset-manifest.json'), manifest)
+  console.log(`[extract] asset-manifest.json: ${manifest.fileCount} files, ` +
+    `${(manifest.totalBytes / 1024 / 1024).toFixed(0)}MB, version=${manifest.version}`)
 
   console.log(`[pal-extract] done. output → ${OUT}`)
 }
