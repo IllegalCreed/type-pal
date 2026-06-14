@@ -30,8 +30,14 @@
         font-family: monospace;
       }
       #boot-loading-bar {
-        height: 6px; background: #2a1515; border: 1px solid #553322; border-radius: 3px;
+        position: relative;
+        height: 9px; background: #2a1515; border: 1px solid #553322; border-radius: 3px;
         overflow: hidden; margin-bottom: 12px;
+      }
+      /* 可玩点虚线(createUnifiedProgressUi 按 playableFraction 设 left;默认 12%)。 */
+      #boot-loading-mark {
+        position: absolute; top: 0; bottom: 0; left: 12%; width: 0;
+        border-left: 2px dashed #f0e0b0; opacity: 0.85;
       }
       #boot-loading-fill {
         height: 100%; width: 0%;
@@ -39,6 +45,16 @@
         transition: width 0.25s ease;
       }
       #boot-loading-status { color: #9a8a6a; font-size: 12px; font-family: monospace; min-height: 1.2em; }
+      /* 「进入游戏」按钮容器(默认隐藏;createUnifiedProgressUi.markPlayable 时显示)。 */
+      #boot-loading-enter { margin-top: 18px; }
+      #boot-loading-enter-btn {
+        font-family: "Songti SC", "SimSun", serif; font-size: 16px; letter-spacing: 4px;
+        color: #f0e0b0; background: linear-gradient(180deg, #8a2a2a, #5a1414);
+        border: 1px solid #d8b365; border-radius: 4px; padding: 8px 28px; cursor: pointer;
+        box-shadow: 0 0 16px rgba(160, 30, 30, 0.6); transition: transform 0.1s ease;
+      }
+      #boot-loading-enter-btn:hover { transform: scale(1.05); }
+      #boot-loading-enter-btn:active { transform: scale(0.97); }
       #boot-loading.boot-loading-error #boot-loading-status { color: #e06c5a; }
       #boot-loading.boot-loading-error #boot-loading-fill { background: #8a2a2a; }
       .boot-loading-hint { color: #4a4036; font-size: 11px; margin-top: 18px; font-family: monospace; }
@@ -50,9 +66,15 @@
       <div class="boot-loading-box">
         <div class="boot-loading-title">仙剑奇侠传</div>
         <div class="boot-loading-sub">type-pal · 浏览器复刻</div>
-        <div id="boot-loading-bar"><div id="boot-loading-fill"></div></div>
+        <div id="boot-loading-bar">
+          <div id="boot-loading-fill"></div>
+          <div id="boot-loading-mark"></div>
+        </div>
         <div id="boot-loading-status">正在加载…</div>
-        <div class="boot-loading-hint">首次进入需加载全部游戏资源,之后有缓存会快很多</div>
+        <div id="boot-loading-enter" hidden>
+          <button id="boot-loading-enter-btn" type="button">▶ 进入游戏</button>
+        </div>
+        <div class="boot-loading-hint">越过虚线即可进入;竞速玩家可等满 100%(进游戏后零网络卡顿)</div>
       </div>
     </div>
     <script type="module" src="/src/main.ts"></script>
