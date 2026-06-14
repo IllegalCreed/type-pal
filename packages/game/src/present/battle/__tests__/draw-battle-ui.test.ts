@@ -294,6 +294,19 @@ describe('drawBattleUI(新模型 1:1)', () => {
     expect(fbHasWrites(fb)).toBe(false)
   })
 
+  // 回归(user 2026-06-14:石长老vs盖罗娇剧情自动战开场闪战斗 UI)。
+  //   sdlpal uibattle.c:839 PAL_BattleUIUpdate 的 fAutoBattle 分支处理完自动 commit 后 `goto end`,
+  //   跳过 PlayerInfoBox(888) + 行动菜单 + 箭头 —— fAutoBattle(0x8A 整场自动)玩家全程不交互、无任何 UI。
+  it('fAutoBattle(整场自动)期间整个战斗 UI 不画(对齐 sdlpal goto end)', () => {
+    const fb = createFramebuffer()
+    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+      uiState: 'selectMove', fAutoBattle: true, // 即便 selectMove(默认 selectionStartedForTurn===turn)也不画
+    })
+    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
+    expect(fbHasWrites(fb)).toBe(false)
+  })
+
   it('selectMove + magicSelect —— 画法术网格(不抛,顶部有写入)', () => {
     const fb = createFramebuffer()
     const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }

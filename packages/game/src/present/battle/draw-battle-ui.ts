@@ -253,6 +253,11 @@ export function drawBattleUI(
   //   (user 2026-06-14 报:草妖战命令菜单已隐,但血量面板仍闪一下)。
   if (state.enemyEscapeAnim) return
 
+  // fAutoBattle(0x8A 整场自动战斗)期间**整个战斗 UI 不画**(PlayerInfoBox + 行动菜单 + 箭头)——
+  //   sdlpal uibattle.c:839 fAutoBattle 分支自动 commit 后 `goto end`,跳过所有 UI 绘制;玩家全程不交互。
+  //   (user 2026-06-14 报:石长老vs盖罗娇剧情自动战开场闪一下战斗 UI。)
+  if (state.fAutoBattle) return
+
   // 底部队员信息框(PAL_PlayerInfoBox)—— sdlpal 仅在**主循环进入玩家回合后**画(uibattle.c:888-928
   //   `Phase != PerformAction && !fAutoAttack`,且整个 PAL_BattleUIUpdate 只在主循环里调用)。perform
   //   阶段(uiState='hidden')隐藏,只剩飘字。
