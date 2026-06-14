@@ -37,6 +37,10 @@ function byId(id: string): HTMLElement | null {
 
 function render(): void {
   _rafPending = false
+  // 仅在 initBootLoading 激活(_origFetch 已包 fetch)时驱动 #boot-loading——这是 SW 不可用的计数
+  // fallback。PROD 走 SW 统一进度(createUnifiedProgressUi 独占 #boot-loading-fill/status),此处不得
+  // 抢写,否则 bootstrap 的 setBootLoadingNote → render 会与"已缓存 x/336MB"互盖闪烁(2026-06-14 验证发现)。
+  if (!_origFetch) return
   const fill = byId('boot-loading-fill')
   const status = byId('boot-loading-status')
   if (!fill && !status) return

@@ -109,4 +109,18 @@ describe('boot-loading(启动加载覆盖层)', () => {
     initBootLoading()
     expect(globalThis.fetch).toBe(once)
   })
+
+  it('未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill', async () => {
+    mountOverlay()
+    const status = document.getElementById('boot-loading-status')!
+    const fill = document.getElementById('boot-loading-fill')!
+    // 模拟 createUnifiedProgressUi 已写入统一进度
+    status.textContent = '已缓存 100/336MB (30%)'
+    fill.style.width = '30%'
+    // PROD 下 bootstrap 也会调 setBootLoadingNote,但未 initBootLoading → render 须 no-op,不得覆盖
+    setBootLoadingNote('音色库')
+    await flushRender()
+    expect(status.textContent).toBe('已缓存 100/336MB (30%)')
+    expect(fill.style.width).toBe('30%')
+  })
 })

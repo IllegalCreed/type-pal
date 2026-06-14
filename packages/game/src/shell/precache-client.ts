@@ -47,7 +47,8 @@ export async function registerPrecache(opts: RegisterPrecacheOpts): Promise<void
   swc.addEventListener('message', (e: MessageEvent) => {
     const d = e.data as { type?: string } & PrecacheProgress
     if (d?.type === 'precache-progress') opts.onProgress(d)
-    else if (d?.type === 'precache-done') opts.onDone?.()
+    // done 或 error 都让 UI 收尾(error 时缓存不全,运行时按需 fetch 兜底;进度框不应挂着不淡出)。
+    else if (d?.type === 'precache-done' || d?.type === 'precache-error') opts.onDone?.()
   })
 
   // 持久化存储:避免大体积缓存被浏览器配额回收(best-effort,失败不影响)

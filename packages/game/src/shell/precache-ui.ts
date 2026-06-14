@@ -73,6 +73,9 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
 
   let shownPct = 0
   let entered = false
+  let doneReceived = false // SW 已全缓存(done)或出错收尾;进入时据此决定右上角是否还显示进度
+  let lastBytes = 0
+  let lastTotal = 0
   let widget: PrecacheWidget | null = null
 
   function paintOverlay(cachedBytes: number, totalBytes: number): void {
@@ -88,6 +91,8 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
 
   return {
     setProgress(cachedBytes, totalBytes) {
+      lastBytes = cachedBytes // 记最后进度:enterGame 据此初始化 widget,消除空白瞬间
+      lastTotal = totalBytes
       if (entered) widget?.update({ done: 0, total: 0, bytes: cachedBytes, totalBytes })
       else paintOverlay(cachedBytes, totalBytes)
     },
@@ -109,9 +114,14 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
         root.classList.add('boot-loading-done') // CSS opacity 过渡淡出
         setTimeout(() => root.remove(), 600)
       }
+      // 竞速玩家等满 100% / SW 已收尾后才进入 → 全缓存完毕,右上角不留空白进度框。
+      if (doneReceived) return
       widget = createPrecacheWidget() // 态3 复用现右上角视觉
+      // 用最后已知进度初始化,消除"建好到首条 progress 之间"的空白瞬间。
+      if (lastTotal > 0) widget.update({ done: 0, total: 0, bytes: lastBytes, totalBytes: lastTotal })
     },
     done() {
+      doneReceived = true // 记下:进入若发生在此之后,enterGame 不再建 widget
       widget?.done()
     },
     fail(msg) {

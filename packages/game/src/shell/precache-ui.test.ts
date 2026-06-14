@@ -72,4 +72,23 @@ describe('createUnifiedProgressUi', () => {
     ui.done()
     expect((document.getElementById('precache-widget') as HTMLElement).style.opacity).toBe('0')
   })
+
+  it('进入前 SW 已 done(竞速等满 100%)→ enterGame 不建右上角 widget', () => {
+    mountBootLoading()
+    const ui = createUnifiedProgressUi()
+    ui.setProgress(336 * 1024 * 1024, 336 * 1024 * 1024) // 100%
+    ui.done() // SW done 发生在进入之前(widget 尚未建)
+    ui.enterGame()
+    expect(document.getElementById('precache-widget')).toBeNull() // 不留空白进度框
+  })
+
+  it('enterGame 用最后进度初始化 widget,消除空白瞬间', () => {
+    mountBootLoading()
+    const ui = createUnifiedProgressUi()
+    ui.setProgress(168 * 1024 * 1024, 336 * 1024 * 1024) // 50%
+    ui.enterGame()
+    const w = document.getElementById('precache-widget')
+    expect(w).not.toBeNull()
+    expect(w!.textContent).toContain('50%') // 初始化即有内容,非空白
+  })
 })

@@ -25,11 +25,16 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url)
   if (!shouldCache(url)) return // 导航/index.html/其它 → 走默认网络(SW 可自更新)
   event.respondWith(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      const hit = await cache.match(req)
+    // 跨所有 type-pal-* cache 匹配:SW 被浏览器重启后顶层 CACHE_NAME 重置回 'type-pal-bootstrap'
+    // (precacheAll 已 done 不再 setCacheVersion 修正它),只在它里面找会全 miss → 退化直连、打网络
+    // (2026-06-14 竞速零网络验证暴露)。caches.match 跨 cache 命中 version cache 的预缓存资源。
+    caches.match(req).then(async (hit) => {
       if (hit) return hit
       const res = await fetch(req)
-      if (res.ok) cache.put(req, res.clone())
+      if (res.ok) {
+        const cache = await caches.open(CACHE_NAME)
+        await cache.put(req, res.clone())
+      }
       return res
     }),
   )
@@ -118,8 +123,12 @@ async function precacheAll() {
 
 self.addEventListener('message', (event) => {
   if (!event.data) return
-  if (event.data.type === 'precache') void precacheAll()
-  else if (event.data.type === 'precache-boost') {
+  if (event.data.type === 'precache') {
+    // waitUntil 保活:precacheAll 是长任务(本地数十秒、生产数分钟),不挂 waitUntil 则 SW 在
+    // ~30s idle(无 pending event)后被浏览器终止,预缓存中途停(2026-06-14 验证停在 76%)。
+    // 被终止后靠续传(cache.match 跳过)续:重访/重触发从未缓存项继续。
+    event.waitUntil(precacheAll())
+  } else if (event.data.type === 'precache-boost') {
     boosted = true
     if (spawnMore) spawnMore() // 已在跑 → 立即补 worker;未跑 → 下次 precacheAll 直接全速
   }
