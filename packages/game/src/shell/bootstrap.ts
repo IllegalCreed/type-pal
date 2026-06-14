@@ -194,7 +194,14 @@ export function showError(canvas: HTMLCanvasElement, msg: string): void {
   ctx.fillText(msg, 8, 32)
 }
 
-export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
+export interface BootstrapDeps {
+  /** soundfontSettled 后调:必要资源就绪(PROD 出「进入游戏」按钮;dev/无门 no-op)。 */
+  onPlayable?: () => void
+  /** bootstrap await 它:用户点进入 / 自动放行后 resolve(dev 预先 resolved → 不阻塞)。 */
+  enterGate?: Promise<void>
+}
+
+export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps): Promise<void> {
   // soundfont 是启动期最大单体(当前 TimGM6mb ~6MB;曾是 32MB GeneralUser GS),提前到 boot
   // 阶段与其余资源并行下载(main.ts 已包 fetch → 计入 loading 进度),数据到手才放行视频/菜单
   // (下方 await soundfontSettled)。不等它的话覆盖层收掉后它仍在后台占满带宽(生产
@@ -1727,6 +1734,14 @@ export async function bootstrap(canvas: HTMLCanvasElement): Promise<void> {
   setBootLoadingNote('音色库')
   await soundfontSettled
   setBootLoadingNote('')
+
+  // ── 可玩门(2026-06-14)──:必要资源就绪 → 通知 UI 出「进入游戏」按钮,await 用户点(或自动放行)。
+  // 不再自动进游戏。dev/e2e / SW 不可用:enterGate 已预先 resolved、onPlayable no-op → 立即通过(现状)。
+  // audio 解锁:点按钮的 pointerdown 已被上方 window 监听器触发 audio.resume();await 后补一次幂等保险。
+  // video 解锁:由 main.ts 的 onEnter 在 click 同步栈 warmUpVideoAutoplay()(transient activation 要求)。
+  deps?.onPlayable?.()
+  if (deps?.enterGate) await deps.enterGate
+  audio.resume()
 
   if (skipIntroBoot) {
     // ?skip-intro=1 → 跳 trademark + splash + OpeningMenu 直接走 SCENE_ID(=1)新游戏
