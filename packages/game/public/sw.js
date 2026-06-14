@@ -36,7 +36,11 @@ self.addEventListener('fetch', (event) => {
 })
 
 // ── 后台预缓存:页面 postMessage({type:'precache'}) 触发 ──
-const CONCURRENCY = 8 // 节流并发,防饿死前台 fetch
+// 让路:可玩前低并发不抢 boot 必要资源带宽;用户进入(precache-boost)后提到全速。
+const INITIAL_CONCURRENCY = 2
+const BOOST_CONCURRENCY = 8
+let boosted = false
+let spawnMore = null // precacheAll 运行期暴露:boost 时 spawn 额外 worker 到 BOOST
 let precaching = false
 
 async function setCacheVersion() {
@@ -90,15 +94,33 @@ async function precacheAll() {
         }
       }
     }
-    await Promise.all(Array.from({ length: CONCURRENCY }, worker))
+    // 可增长 worker 池:boost 时 spawn 额外 worker(共享 cursor 续传)。
+    // while(length 变化) 重复 Promise.all 等到 boost 后新加的 worker 也结束。
+    const pool = []
+    const addWorkers = (n) => {
+      for (let i = 0; i < n; i++) pool.push(worker())
+    }
+    spawnMore = () => addWorkers(BOOST_CONCURRENCY - pool.length)
+    addWorkers(boosted ? BOOST_CONCURRENCY : INITIAL_CONCURRENCY)
+    let prevLen = -1
+    while (pool.length !== prevLen) {
+      prevLen = pool.length
+      await Promise.all(pool)
+    }
     post({ type: 'precache-done', total, totalBytes: manifest.totalBytes })
   } catch (err) {
     post({ type: 'precache-error', message: String(err) })
   } finally {
     precaching = false
+    spawnMore = null
   }
 }
 
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'precache') void precacheAll()
+  if (!event.data) return
+  if (event.data.type === 'precache') void precacheAll()
+  else if (event.data.type === 'precache-boost') {
+    boosted = true
+    if (spawnMore) spawnMore() // 已在跑 → 立即补 worker;未跑 → 下次 precacheAll 直接全速
+  }
 })
