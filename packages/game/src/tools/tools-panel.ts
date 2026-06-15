@@ -571,6 +571,27 @@ function renderActiveTab(body: HTMLElement, active: TabKey, deps: ToolsPanelDeps
   else renderDialogTab(body, gs)
 }
 
+/**
+ * 战斗态轻量签名:进/出战斗(mode)、每回合 HP/MP/状态/中毒/敌死亡 变化即变。
+ * 驱动战斗 tab 自动重渲染(面板常开时也实时跟上,无需手动开关一次)。
+ */
+function battleSig(gs: GameState): string {
+  if (gs.mode !== 'battle' || !gs.battleState) return gs.mode ?? 'none'
+  const rt = gs.PlayerRolesRuntime
+  const bs = gs.battleState
+  const statusOf = (s: Record<string, number>): string =>
+    Object.entries(s)
+      .filter(([, v]) => v > 0)
+      .map(([k, v]) => `${k}${v}`)
+      .join('')
+  const party = gs.partyMembers.map((id) => `${rt.rgwHP[id] ?? 0}/${rt.rgwMP[id] ?? 0}`).join(',')
+  const enemies = bs.enemies.map((e) => `${e.e.health}:${e.defeated ? 1 : 0}:${(e.poisons ?? []).length}`).join(',')
+  const pStatus = bs.players.map((p) => statusOf(p.status as unknown as Record<string, number>)).join('|')
+  const eStatus = bs.enemies.map((e) => statusOf(e.status as unknown as Record<string, number>)).join('|')
+  const poison = Object.values(gs.rgPoisonStatus ?? {}).filter((p) => p && p.wPoisonID > 0).length
+  return `b|${party}|${enemies}|${pStatus}|${eStatus}|p${poison}`
+}
+
 export function setupToolsPanel(deps: ToolsPanelDeps): void {
   if (typeof document === 'undefined') return
   if (document.getElementById('tp-tools-panel')) return // 幂等
@@ -648,4 +669,18 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
     }
   })
   root.addEventListener('keydown', (e) => e.stopPropagation())
+
+  // 战斗 tab 自动刷新:面板常开 + 在战斗 tab 时,战斗态签名变化(进/出战斗、每回合 HP/状态)即重渲染。
+  //   场景 tab 有自己的 rAF live 刷新(小地图),系统/对话 静态——故只对战斗 tab 轮询。
+  let lastBattleSig = ''
+  if (typeof setInterval === 'function') {
+    setInterval(() => {
+      if (!open || active !== 'battle') return
+      const sig = battleSig(deps.getGs())
+      if (sig !== lastBattleSig) {
+        lastBattleSig = sig
+        render()
+      }
+    }, 250)
+  }
 }
