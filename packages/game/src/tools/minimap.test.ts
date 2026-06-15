@@ -1,7 +1,8 @@
 import type { Command } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import type { EventKind } from './minimap.js'
+import { classifyTrigger, collectEventKinds, collectMinimapData, worldToThumb } from './minimap.js'
 import type { GameState, NpcState } from '../core/game-state.js'
-import { collectItemEventIds, collectMinimapData, scanTriggerGivesItem, worldToThumb } from './minimap.js'
 
 // 变换常量(与 minimap.ts):SCALE=96/2080,CAM_OFF=16。
 const SCALE = 96 / 2080
@@ -11,7 +12,6 @@ describe('worldToThumb', () => {
     const [x0, y0] = worldToThumb(0, 0)
     expect(x0).toBeCloseTo(16 * SCALE, 4)
     expect(y0).toBeCloseTo(16 * SCALE, 4)
-    // 远角 world(2032,2032) → ~(2048*SCALE)=94.52,落在 0..96 内
     const [x1, y1] = worldToThumb(2032, 2032)
     expect(x1).toBeCloseTo(2048 * SCALE, 4)
     expect(y1).toBeCloseTo(2048 * SCALE, 4)
@@ -24,62 +24,79 @@ const give = (count: number, name?: string): Command =>
   ({ op: 'giveItem', itemId: 10, count, _item: name }) as Command
 const end = (): Command => ({ op: 'end' }) as Command
 const dialog = (): Command => ({ op: 'showDialog', messageIndex: 0, text: '' }) as Command
+const teleport = (): Command => ({ op: 'loadScene', sceneId: 5 }) as Command
+const raw = (opcode: number, ...ops: number[]): Command =>
+  ({ op: 'raw', opcode, operands: [ops[0] ?? 0, ops[1] ?? 0, ops[2] ?? 0] }) as Command
 
-describe('scanTriggerGivesItem', () => {
-  it('线性扫到 end,命中 giveItem(count>0) → gives + 物品名', () => {
-    const commands = cmds(dialog(), give(1, '灵葫芦'), end())
-    const r = scanTriggerGivesItem(commands, { L_0: 0 }, 'L_0')
-    expect(r.gives).toBe(true)
+describe('classifyTrigger', () => {
+  it('giveItem(count>0) → item + 物品名', () => {
+    const r = classifyTrigger(cmds(dialog(), give(1, '灵葫芦'), end()), { L_0: 0 }, 'L_0')
+    expect(r.kind).toBe('item')
     expect(r.name).toBe('灵葫芦')
   })
-  it('count<=0(扣道具) 不算宝物', () => {
-    expect(scanTriggerGivesItem(cmds(give(-1), end()), { L_0: 0 }, 'L_0').gives).toBe(false)
+  it('loadScene(无 giveItem) → teleport(不标)', () => {
+    expect(classifyTrigger(cmds(teleport(), end()), { L_0: 0 }, 'L_0').kind).toBe('teleport')
   })
-  it('giveItem 在 end 之后 → 扫不到', () => {
-    const commands = cmds(dialog(), end(), give(1))
-    expect(scanTriggerGivesItem(commands, { L_0: 0 }, 'L_0').gives).toBe(false)
+  it('item 优先于 teleport', () => {
+    expect(classifyTrigger(cmds(give(1), teleport(), end()), { L_0: 0 }, 'L_0').kind).toBe('item')
   })
-  it('label 缺失 / 不在 labelMap → false', () => {
-    expect(scanTriggerGivesItem(cmds(give(1)), {}, undefined).gives).toBe(false)
-    expect(scanTriggerGivesItem(cmds(give(1)), {}, 'L_X').gives).toBe(false)
+  it('count<=0(扣道具) → other', () => {
+    expect(classifyTrigger(cmds(give(-1), end()), { L_0: 0 }, 'L_0').kind).toBe('other')
+  })
+  it('0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other', () => {
+    expect(classifyTrigger(cmds(raw(0x1e, 500), end()), { L_0: 0 }, 'L_0')).toEqual({ kind: 'item', name: '金钱' })
+    expect(classifyTrigger(cmds(raw(0x1e, 0xff00), end()), { L_0: 0 }, 'L_0').kind).toBe('other') // 负 i16
+  })
+  it('0x55 学法术 → item(法术)', () => {
+    expect(classifyTrigger(cmds(raw(0x55, 12), end()), { L_0: 0 }, 'L_0')).toEqual({ kind: 'item', name: '法术' })
+  })
+  it('label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)', () => {
+    expect(classifyTrigger(cmds(give(1)), {}, undefined).kind).toBe('other')
+    expect(classifyTrigger(cmds(give(1), end()), {}, 'L_0').kind).toBe('item')
   })
 })
 
-describe('collectItemEventIds', () => {
-  it('扫全 npc trigger,返回给道具的对象 id → 物品名', () => {
+describe('collectEventKinds', () => {
+  it('扫全 npc → id → 类别(item/teleport/other)', () => {
     const gs = {
       npcs: [
         { id: 1, triggerLabel: 'L_0' },
         { id: 2, triggerLabel: 'L_2' },
-        { id: 3, triggerLabel: undefined },
+        { id: 3, triggerLabel: 'L_4' },
       ] as NpcState[],
     } as GameState
-    // L_0(@0):给道具;L_2(@2):无
-    const commands = cmds(give(1, '金蚕王'), end(), dialog(), end())
-    const ids = collectItemEventIds(gs, commands, { L_0: 0, L_2: 2 })
-    expect([...ids.keys()]).toEqual([1])
-    expect(ids.get(1)).toBe('金蚕王')
+    const commands = cmds(give(1, '金蚕王'), end(), teleport(), end(), dialog(), end())
+    const kinds = collectEventKinds(gs, commands, { L_0: 0, L_2: 2, L_4: 4 })
+    expect(kinds.get(1)).toEqual({ kind: 'item', name: '金蚕王' })
+    expect(kinds.get(2)?.kind).toBe('teleport')
+    expect(kinds.get(3)?.kind).toBe('other')
   })
 })
 
 describe('collectMinimapData', () => {
-  it('可见性过滤 + NPC/宝物分类 + 主角/镜头', () => {
+  it('teleport 不标 / item / NPC 分类 + 主角镜头', () => {
     const gs = {
       party: { x: 512, y: 256 },
       camera: { x: 100, y: 80 },
       npcs: [
-        { id: 1, x: 200, y: 200, spriteNum: 5, sState: 1 }, // 可见 NPC
-        { id: 2, x: 0, y: 0, spriteNum: 0, sState: 1 }, // 无 sprite → skip
-        { id: 3, x: 0, y: 0, spriteNum: 3, sState: 0 }, // 隐藏(sState 0) → skip
-        { id: 4, x: 0, y: 0, spriteNum: 7, sVanishTime: 5 }, // 消失中 → skip
-        { id: 5, x: 300, y: 300, spriteNum: 1, sState: 1 }, // 宝物(itemIds 命中)
+        { id: 1, x: 200, y: 200, spriteNum: 5, sState: 1 }, // NPC(other + 有 sprite)
+        { id: 2, x: 0, y: 0, spriteNum: 0, sState: 1 }, // other 但无 sprite → skip
+        { id: 3, x: 0, y: 0, spriteNum: 3, sState: 0 }, // 隐藏 → skip
+        { id: 5, x: 300, y: 300, spriteNum: 1, sState: 1 }, // 宝物
+        { id: 6, x: 400, y: 400, spriteNum: 7, sState: 1 }, // 传送门 → skip
       ] as NpcState[],
     } as GameState
-    const itemIds = new Map<number, string | undefined>([[5, '伏魔剑']])
-    const data = collectMinimapData(gs, itemIds)
+    const kinds = new Map<number, { kind: EventKind; name?: string }>([
+      [1, { kind: 'other' }],
+      [2, { kind: 'other' }],
+      [3, { kind: 'other' }],
+      [5, { kind: 'item', name: '伏魔剑' }],
+      [6, { kind: 'teleport' }],
+    ])
+    const data = collectMinimapData(gs, kinds)
+    expect(data.npcs).toEqual([{ x: 200, y: 200 }]) // 仅 id1
+    expect(data.items).toEqual([{ x: 300, y: 300, name: '伏魔剑' }]) // 仅 id5
     expect(data.player).toEqual({ x: 512, y: 256 })
     expect(data.camera).toEqual({ x: 100, y: 80 })
-    expect(data.npcs).toEqual([{ x: 200, y: 200 }]) // 仅 id1
-    expect(data.items).toEqual([{ x: 300, y: 300, name: '伏魔剑' }]) // id5
   })
 })

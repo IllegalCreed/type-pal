@@ -2,7 +2,7 @@
 //   底图复用 renderMapThumbnail(64×128 地图 → 96×96 缩略图,见 bootstrap);叠加主角/NPC/宝物
 //   定位点 + 可视区白框。坐标:实体世界像素 → 缩略图像素,与缩略图同一 camera(-16,-16)/降采样变换。
 import type { Command } from '@type-pal/shared'
-import { getGlobalCommands, getGlobalLabelMap, OP_ADD_ITEM } from '../core/event-system.js'
+import { getGlobalCommands, getGlobalLabelMap, OP_ADD_CASH, OP_ADD_ITEM, OP_ADD_MAGIC } from '../core/event-system.js'
 import type { GameState, NpcState } from '../core/game-state.js'
 import { getCurrentMapNum } from '../core/scene-system.js'
 
@@ -32,41 +32,57 @@ export const DOT_COLORS = {
 } as const
 
 // ── 道具触发脚本扫描(宝物点) ─────────────────────────────────────────────────
+export type EventKind = 'item' | 'teleport' | 'other'
+
+/** triggerLabel → 全局命令下标:优先 labelMap,缺则按 `L_<n>` 直解(identity,n 即全局 ip)。 */
+function resolveLabelIp(labelMap: Readonly<Record<string, number>>, label: string | undefined): number | undefined {
+  if (!label) return undefined
+  const mapped = labelMap[label]
+  if (mapped !== undefined) return mapped
+  const m = /^L_(\d+)$/.exec(label)
+  return m ? Number(m[1]) : undefined
+}
+
 /**
- * 从 label 入口线性扫 trigger 脚本到 'end',判是否给道具(count>0)。
- * 仅线性流(不跟 goto/call),~95% 覆盖地面/宝箱拾取;脚本含条件分支的少数遗漏可接受。
- * giveItem._item 自带物品名(disasm 内联,供 hover 显示)。
+ * 线性扫 label 起的 trigger 脚本到 'end' 判类别:
+ *   含「给予」opcode → 'item'(宝物):giveItem/0x1F 道具、0x1E 加钱(正额)、0x55 学法术(都是地图可拾宝物,
+ *   sdlpal script.c:952/970/1816);否则含 loadScene(0x59 传送) → 'teleport'(不标);否则 'other'。
+ * item 优先(先命中即返回)。仅线性流(不跟 goto/call),~95% 覆盖。
  */
-export function scanTriggerGivesItem(
+export function classifyTrigger(
   commands: readonly Command[],
   labelMap: Readonly<Record<string, number>>,
   label: string | undefined,
-): { gives: boolean; name?: string } {
-  if (!label) return { gives: false }
-  const start = labelMap[label]
-  if (start === undefined) return { gives: false }
+): { kind: EventKind; name?: string } {
+  const start = resolveLabelIp(labelMap, label)
+  if (start === undefined) return { kind: 'other' }
   const LIMIT = 400 // 安全上限:防异常脚本无 'end' 走飞
+  let teleport = false
   for (let i = start; i < commands.length && i < start + LIMIT; i++) {
     const c = commands[i]
     if (!c) break
-    if (c.op === 'giveItem' && c.count > 0) return { gives: true, name: c._item }
-    if (c.op === 'raw' && c.opcode === OP_ADD_ITEM && (c.operands[1] ?? 0) > 0) return { gives: true }
+    if (c.op === 'giveItem' && c.count > 0) return { kind: 'item', name: c._item }
+    if (c.op === 'raw') {
+      const op = c.opcode
+      const a0 = c.operands[0] ?? 0
+      if (op === OP_ADD_ITEM && (c.operands[1] ?? 0) > 0) return { kind: 'item' }
+      if (op === OP_ADD_CASH && a0 > 0 && a0 < 0x8000) return { kind: 'item', name: '金钱' } // 正额=获得(负=花钱)
+      if (op === OP_ADD_MAGIC && a0 > 0) return { kind: 'item', name: '法术' }
+    }
+    if (c.op === 'loadScene') teleport = true
     if (c.op === 'end') break
   }
-  return { gives: false }
+  return { kind: teleport ? 'teleport' : 'other' }
 }
 
-/** 扫当前 scene 全 event object,返回「给道具」的对象 id → 物品名。 */
-export function collectItemEventIds(
+/** 扫当前 scene 全 event object,返回 id → 类别(item/teleport/other,+ 宝物名)。 */
+export function collectEventKinds(
   gs: GameState,
   commands: readonly Command[],
   labelMap: Readonly<Record<string, number>>,
-): Map<number, string | undefined> {
-  const out = new Map<number, string | undefined>()
-  for (const npc of gs.npcs ?? []) {
-    const r = scanTriggerGivesItem(commands, labelMap, npc.triggerLabel)
-    if (r.gives) out.set(npc.id, r.name)
-  }
+): Map<number, { kind: EventKind; name?: string }> {
+  const out = new Map<number, { kind: EventKind; name?: string }>()
+  for (const npc of gs.npcs ?? []) out.set(npc.id, classifyTrigger(commands, labelMap, npc.triggerLabel))
   return out
 }
 
@@ -83,14 +99,19 @@ export interface MinimapData {
   items: { x: number; y: number; name?: string }[]
 }
 
-/** 从 gs 抽小地图实体(世界像素)。itemIds = collectItemEventIds 结果(给道具的对象 id)。 */
-export function collectMinimapData(gs: GameState, itemIds: Map<number, string | undefined>): MinimapData {
+/** 从 gs 抽小地图实体(世界像素)。kinds = collectEventKinds 结果。传送门(teleport)不标。 */
+export function collectMinimapData(
+  gs: GameState,
+  kinds: Map<number, { kind: EventKind; name?: string }>,
+): MinimapData {
   const npcs: MinimapData['npcs'] = []
   const items: MinimapData['items'] = []
   for (const npc of gs.npcs ?? []) {
     if (!npcVisible(npc)) continue
-    if (itemIds.has(npc.id)) items.push({ x: npc.x, y: npc.y, name: itemIds.get(npc.id) })
-    else if (npc.spriteNum > 0) npcs.push({ x: npc.x, y: npc.y })
+    const k = kinds.get(npc.id)
+    if (k?.kind === 'teleport') continue // 传送门不标
+    if (k?.kind === 'item') items.push({ x: npc.x, y: npc.y, name: k.name }) // 宝物(含无 sprite 的走过即拾)
+    else if (npc.spriteNum > 0) npcs.push({ x: npc.x, y: npc.y }) // NPC:可见且有 sprite
   }
   return {
     player: { x: gs.party?.x ?? 0, y: gs.party?.y ?? 0 },
@@ -174,8 +195,8 @@ export interface MinimapDeps {
 }
 
 export interface MinimapController {
-  /** 把场景 tab 主视图 canvas 建进容器(随面板存活自更新,detach 后自停)。 */
-  mountSceneView: (container: HTMLElement, sizePx: number) => void
+  /** 把场景 tab 主视图 canvas 建进容器(随面板存活自更新,detach 后自停)。onTick 每帧重绘后调(刷场景信息文本)。 */
+  mountSceneView: (container: HTMLElement, sizePx: number, onTick?: () => void) => void
   setWidgetEnabled: (on: boolean) => void
   isWidgetEnabled: () => boolean
   setShowDots: (on: boolean) => void
@@ -210,25 +231,26 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     return null
   }
 
-  // 道具对象 id 缓存(per scene;event object 不移动,scene 内固定)。
-  let itemScene = -1
-  let itemIds = new Map<number, string | undefined>()
-  const currentItemIds = (gs: GameState): Map<number, string | undefined> => {
-    if (gs.wNumScene !== itemScene) {
-      itemScene = gs.wNumScene
-      itemIds = collectItemEventIds(gs, getGlobalCommands(), getGlobalLabelMap())
+  // event object 类别缓存(per scene;对象不移动,scene 内固定)。
+  let kindsScene = -1
+  let kindsMap = new Map<number, { kind: EventKind; name?: string }>()
+  const currentKinds = (gs: GameState): Map<number, { kind: EventKind; name?: string }> => {
+    if (gs.wNumScene !== kindsScene) {
+      kindsScene = gs.wNumScene
+      kindsMap = collectEventKinds(gs, getGlobalCommands(), getGlobalLabelMap())
     }
-    return itemIds
+    return kindsMap
   }
 
   let sceneCanvas: HTMLCanvasElement | null = null
+  let sceneOnTick: (() => void) | null = null
   let widget: HTMLDivElement | null = null
   let widgetCanvas: HTMLCanvasElement | null = null
 
   const drawTo = (canvas: HTMLCanvasElement): void => {
     const gs = deps.getGs()
     const base = getBase(getCurrentMapNum())
-    drawMinimap(canvas, base, collectMinimapData(gs, currentItemIds(gs)), showDots)
+    drawMinimap(canvas, base, collectMinimapData(gs, currentKinds(gs)), showDots)
   }
 
   // 右下 widget:仅 explore 模式显示(场景态);非场景态隐藏。
@@ -266,8 +288,13 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     if (t - lastT > 90) {
       lastT = t
       if (sceneCanvas) {
-        if (sceneCanvas.isConnected) drawTo(sceneCanvas)
-        else sceneCanvas = null
+        if (sceneCanvas.isConnected) {
+          drawTo(sceneCanvas)
+          sceneOnTick?.() // 刷场景信息文本(地图/坐标/镜头 live)
+        } else {
+          sceneCanvas = null
+          sceneOnTick = null
+        }
       }
       syncWidget()
     }
@@ -278,7 +305,7 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
   }
 
   return {
-    mountSceneView(container, sizePx) {
+    mountSceneView(container, sizePx, onTick) {
       const canvas = document.createElement('canvas')
       canvas.width = sizePx
       canvas.height = sizePx
@@ -288,7 +315,9 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
       canvas.style.height = `${sizePx}px`
       container.appendChild(canvas)
       sceneCanvas = canvas
+      sceneOnTick = onTick ?? null
       drawTo(canvas) // 立即画一帧(免空白闪)
+      onTick?.()
       ensureLoop()
     },
     setWidgetEnabled(on) {

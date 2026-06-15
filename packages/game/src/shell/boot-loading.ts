@@ -21,7 +21,7 @@
  *   - 预估垫底让前几波不虚高,实际总量超预估后自然切回真实分数,clamp 兜底不回退;
  *   - 预估随项目演化有 ±20% 漂移无妨:不足时 finish 强制满格,超出时条提前到 99% 爬行。
  */
-const EXPECTED_BOOT_REQUESTS = 3200
+const EXPECTED_BOOT_REQUESTS = 3236 // 2026-06-15 实测请求总数(此前 3200 是偏小估值,进度条偏快到顶)
 
 let _origFetch: typeof globalThis.fetch | null = null
 let _started = 0

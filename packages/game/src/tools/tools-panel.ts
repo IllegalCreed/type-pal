@@ -150,7 +150,8 @@ export function injectToolsPanelStyles(): void {
 }
 
 // ── tab 内容渲染辅助 ──
-function row(parent: HTMLElement, label: string, value: string): void {
+/** 可更新的「键 值」行:返回设值函数(场景信息 live 刷新用,值不变则不写 DOM)。 */
+function liveRow(parent: HTMLElement, label: string): (value: string) => void {
   const d = document.createElement('div')
   d.className = 'tp-row'
   const l = document.createElement('span')
@@ -158,9 +159,11 @@ function row(parent: HTMLElement, label: string, value: string): void {
   l.textContent = label
   const v = document.createElement('span')
   v.className = 'tp-row-value'
-  v.textContent = value
   d.append(l, v)
   parent.appendChild(d)
+  return (value) => {
+    if (v.textContent !== value) v.textContent = value
+  }
 }
 
 function sectionTitle(parent: HTMLElement, text: string): void {
@@ -378,25 +381,34 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
   }
 }
 
-/** 场景 tab:小地图(底图 + 主角/NPC/宝物点 + 可视框)+ 两开关 + 文本信息。 */
+/** 场景 tab:小地图(底图 + 主角/NPC/宝物点 + 可视框)+ 两开关 + 文本信息(随小地图 tick live 刷新)。 */
 function renderSceneTab(parent: HTMLElement, gs: GameState, minimap: MinimapController): void {
   sectionTitle(parent, '场景小地图')
   const mm = document.createElement('div')
   mm.className = 'tp-mm-wrap'
   parent.appendChild(mm)
-  minimap.mountSceneView(mm, 280)
   minimapLegend(parent)
   toggleRow(parent, '右下角常驻显示', minimap.isWidgetEnabled(), (v) => minimap.setWidgetEnabled(v))
   toggleRow(parent, '显示 NPC / 宝物定位点', minimap.isShowDots(), (v) => minimap.setShowDots(v))
 
   sectionTitle(parent, '场景信息')
-  const mapNum = getCurrentMapNum()
-  row(parent, '地图', `${getMapName(mapNum)}  (map ${mapNum})`)
-  row(parent, '场景号', `#${gs.wNumScene}`)
-  row(parent, '主角坐标', `x=${gs.party.x}  y=${gs.party.y}`)
-  row(parent, '朝向', String(gs.party.facing))
-  row(parent, '镜头', `x=${gs.camera.x}  y=${gs.camera.y}`)
-  row(parent, '队伍', gs.partyMembers.join(', '))
+  const vMap = liveRow(parent, '地图')
+  const vScene = liveRow(parent, '场景号')
+  const vPos = liveRow(parent, '主角坐标')
+  const vFacing = liveRow(parent, '朝向')
+  const vCam = liveRow(parent, '镜头')
+  const vParty = liveRow(parent, '队伍')
+  const refresh = (): void => {
+    const mapNum = getCurrentMapNum()
+    vMap(`${getMapName(mapNum)}  (map ${mapNum})`)
+    vScene(`#${gs.wNumScene}`)
+    vPos(`x=${gs.party.x}  y=${gs.party.y}`)
+    vFacing(String(gs.party.facing))
+    vCam(`x=${gs.camera.x}  y=${gs.camera.y}`)
+    vParty(gs.partyMembers.join(', '))
+  }
+  // 小地图主视图(随面板存活自更新);onTick = refresh → 场景信息文本随主角移动/换场景 live 刷新。
+  minimap.mountSceneView(mm, 280, refresh)
 }
 
 /** 系统 tab:显示(缩放滑块 10%~1000% 正中100% + 全屏) / 音频(BGM 滑块 + 静音) / 存档(导出/导入)。 */

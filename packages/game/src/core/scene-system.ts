@@ -36,6 +36,11 @@ export function getCurrentMapNum(): number {
   return _currentMapNum
 }
 
+/** opcode/正常流程/读档走 bootstrap loadSceneCommon(不经此文件 loadScene),需手动同步当前 mapNum。 */
+export function setCurrentMapNum(n: number): void {
+  _currentMapNum = n
+}
+
 function requireSceneContext(ctxOverride?: SceneContext): SceneContext {
   const ctx = ctxOverride ?? _ctx
   if (!ctx) throw new Error('scene-system: setSceneContext / ctxOverride 必须先设置')

@@ -68,7 +68,7 @@ import { createBuyMenu } from '../core/menu/shop-menu.js'
 import { createSellMenu } from '../core/menu/sell-menu.js'
 import { makeWorkingPalette } from '../core/palette-fade.js'
 import { Save } from '../core/save/api.js'
-import { isWalkable, setSceneContext } from '../core/scene-system.js'
+import { isWalkable, setCurrentMapNum, setSceneContext } from '../core/scene-system.js'
 import battleFixturesRaw from '../dev/fixtures/battle-fixtures.json' with { type: 'json' }
 import sceneJumpsRaw from '../dev/fixtures/scene-jumps.json' with { type: 'json' }
 import sceneNamesRaw from '../dev/fixtures/scene-names.json' with { type: 'json' }
@@ -699,7 +699,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     else thumbActive--
   }
 
-  async function renderMapThumbnail(mapNum: number): Promise<string | null> {
+  async function renderMapThumbnail(mapNum: number, paletteOverride?: Palette): Promise<string | null> {
     const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
       if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
       return r.json() as Promise<Tilemap & { tilesetFiles?: string[] }>
@@ -728,7 +728,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     full.height = bufH
     const fctx = full.getContext('2d')
     if (!fctx) return null
-    fctx.putImageData(tfb.toImageData(palette), 0, 0)
+    fctx.putImageData(tfb.toImageData(paletteOverride ?? palette), 0, 0)
     const scale = THUMB_OUT_W / bufW
     const thumb = document.createElement('canvas')
     thumb.width = THUMB_OUT_W
@@ -813,6 +813,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     gs.sceneLoading = true
     const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
     gs.wNumScene = newWNumScene
+    setCurrentMapNum(sceneAssets.mapNum) // 同步当前 mapNum:小地图底图 / 地图名 / 历史对话按 map 分组都读它(此前仅 scene-system.loadScene 设,opcode/读档路径漏设→停 0 梦境)
     // DM25:res.c:236-240 `if (fEnteringScene) { wScreenWave = 0; sWaveProgression = 0; }` ——
     //   换场景(传送/0x59)即清屏波,上一场景的 0x71 常驻波不跨场景。读档(fromSavedGame)路径
     //   C 中 fEnteringScene=FALSE 不清(波从存档恢复),与此分支一致。
@@ -1060,7 +1061,8 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     displayScale,
     audioVolume,
     saveSlot: (slot, g) => Save.saveSlot(slot, g),
-    // 小地图底图:复用缩略图渲染(已按 mapNum 缓存);mapNum 给定时 sceneId 不被读。
+    // 小地图底图:复用 renderSceneThumbnail(按 mapNum 缓存 + 并发限流;实测能出图)。
+    //   "地图发黑" 真因是 getCurrentMapNum stale 停在 map 0 梦境(已修),非 palette。
     getMapThumbnail: (mapNum) => renderSceneThumbnail(0, mapNum),
   })
   setupQuickSave({
@@ -1470,6 +1472,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     // 先回到稳定探索态;正常序章下方会再切 event,skip-intro 同步跑完 enter script 后则保持 explore。
     gs.mode = 'explore'
     gs.wNumScene = SCENE_ID + 1
+    setCurrentMapNum(scene.mapNum) // 同步当前 mapNum(小地图底图/地图名/对话按 map 分组);new-game/skip-intro 此路径此前漏设 → 停 0 梦境
     gs.sceneCommands = eventCommands
     gs.sceneLabelMap = labelMap
     gs.basePalette = palette
