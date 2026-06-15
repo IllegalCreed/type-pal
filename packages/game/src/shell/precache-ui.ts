@@ -7,17 +7,20 @@ export interface PrecacheWidget {
 }
 
 /**
- * 统一进度三态控制器(2026-06-14)。操作 index.html 内联的 #boot-loading 覆盖层(态1/2)与右上角
- * widget(态3)。数据源单一 = SW 已缓存字节 / manifest.totalBytes,从启动到 100% 一条线。
+ * 统一进度控制器(2026-06-15 两段进度)。一条进度条视觉连续、语义两段:
+ *   虚线前(0→虚线)= 必要资源加载进度(前台 fetch);虚线后(虚线→100%)= SW 全量预缓存进度。
+ * 操作 index.html 内联的 #boot-loading 覆盖层,进入后转右上角 widget。
  */
 export interface UnifiedProgressUi {
-  /** 态1 大条 / 态3 小条通用:按已缓存字节 / 总字节更新(内部单调不回退)。 */
-  setProgress: (cachedBytes: number, totalBytes: number) => void
-  /** 态1→态2:必要资源就绪,显示「进入游戏」按钮(常驻);onEnter 在 click 同步栈调用。 */
+  /** 虚线前:必要资源加载进度(fraction 0→1)→ 映射到 0→虚线位置。 */
+  setNecessaryProgress: (fraction: number) => void
+  /** 虚线:必要资源就绪 → 进度到虚线 + 显示常驻「进入游戏」按钮;onEnter 在 click 同步栈调用。 */
   markPlayable: (onEnter: () => void) => void
-  /** 态2→态3:用户已进入,覆盖层淡出 → 右上角半透明小条。 */
+  /** 虚线后:SW 全量预缓存进度(已缓存字节/总字节)→ 进度条后半段;竞速玩家等满 100%。 */
+  setFullProgress: (cachedBytes: number, totalBytes: number) => void
+  /** 用户进入:覆盖层淡出 → 右上角半透明小条。 */
   enterGame: () => void
-  /** 态3:预缓存到 100% 后淡出移除。 */
+  /** 预缓存到 100% / 出错收尾:淡出移除。 */
   done: () => void
   /** 错误态:覆盖层仍在(未进入)时改显启动错误。 */
   fail: (msg: string) => void
@@ -60,43 +63,43 @@ export function createPrecacheWidget(): PrecacheWidget {
 }
 
 /**
- * 三态统一进度控制器(见 UnifiedProgressUi）。无 #boot-loading 节点(测试/SSR/降级)各入口安全。
+ * 两段统一进度控制器(见 UnifiedProgressUi)。无 #boot-loading 节点(测试/SSR/降级)各入口安全。
  */
 export function createUnifiedProgressUi(opts?: { playableFraction?: number }): UnifiedProgressUi {
   const byId = (id: string): HTMLElement | null =>
     typeof document === 'undefined' ? null : document.getElementById(id)
   const mb = (b: number): string => (b / 1024 / 1024).toFixed(0)
-
-  // 虚线位置 = 必要资源预估占比(默认 12%;真实可玩以 markPlayable 信号为准,虚线仅作预期提示)。
+  // 虚线位置 = 必要资源占全量的预估比例(默认 12%)。虚线前段映射必要资源进度、虚线后段是 SW 全量
+  // 真实进度(bytes/total);两段在虚线附近自然衔接(必要资源 ≈ playableFraction × total)。
+  const playableFraction = opts?.playableFraction ?? 0.12
   const mark = byId('boot-loading-mark')
-  if (mark) mark.style.left = `${Math.round((opts?.playableFraction ?? 0.12) * 100)}%`
+  if (mark) mark.style.left = `${Math.round(playableFraction * 100)}%`
 
-  let shownPct = 0
-  let entered = false
-  let doneReceived = false // SW 已全缓存(done)或出错收尾;进入时据此决定右上角是否还显示进度
+  let shownPct = 0 // 单调不回退,贯穿两段
+  let phase: 'necessary' | 'full' | 'entered' = 'necessary'
+  let doneReceived = false
   let lastBytes = 0
   let lastTotal = 0
   let widget: PrecacheWidget | null = null
 
-  function paintOverlay(cachedBytes: number, totalBytes: number): void {
-    const pct = totalBytes > 0 ? (cachedBytes / totalBytes) * 100 : 0
-    shownPct = Math.min(100, Math.max(shownPct, pct)) // 单调不回退 + 0..100 clamp
+  function paint(pct: number, text: string): void {
+    shownPct = Math.min(100, Math.max(shownPct, pct)) // 单调 + 0..100 clamp
     const fill = byId('boot-loading-fill')
     if (fill) fill.style.width = `${shownPct}%`
     const status = byId('boot-loading-status')
-    if (status) {
-      status.textContent = `已缓存 ${mb(cachedBytes)}/${mb(totalBytes)}MB (${Math.floor(shownPct)}%)`
-    }
+    if (status) status.textContent = text
   }
 
   return {
-    setProgress(cachedBytes, totalBytes) {
-      lastBytes = cachedBytes // 记最后进度:enterGame 据此初始化 widget,消除空白瞬间
-      lastTotal = totalBytes
-      if (entered) widget?.update({ done: 0, total: 0, bytes: cachedBytes, totalBytes })
-      else paintOverlay(cachedBytes, totalBytes)
+    setNecessaryProgress(fraction) {
+      if (phase !== 'necessary') return // 已过虚线 → SW 全量接管
+      const frac = Math.max(0, Math.min(1, fraction))
+      paint(frac * playableFraction * 100, `加载必要资源 ${Math.floor(frac * 100)}%`)
     },
     markPlayable(onEnter) {
+      if (phase !== 'necessary') return
+      phase = 'full'
+      paint(playableFraction * 100, '必要资源就绪 — 可进入') // 到虚线
       const box = byId('boot-loading-enter')
       const btn = byId('boot-loading-enter-btn')
       if (!box || !btn) {
@@ -106,9 +109,21 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
       box.removeAttribute('hidden')
       btn.addEventListener('click', () => onEnter(), { once: true })
     },
+    setFullProgress(cachedBytes, totalBytes) {
+      lastBytes = cachedBytes
+      lastTotal = totalBytes
+      if (phase === 'entered') {
+        widget?.update({ done: 0, total: 0, bytes: cachedBytes, totalBytes })
+      } else if (phase === 'full') {
+        // 虚线后 = SW 真实进度 bytes/total(单调不回退,起步 < 虚线时 clamp 在虚线不退)。
+        const pct = totalBytes > 0 ? (cachedBytes / totalBytes) * 100 : 0
+        paint(pct, `已缓存 ${mb(cachedBytes)}/${mb(totalBytes)}MB`)
+      }
+      // phase 'necessary'(SW 还没启动)→ 忽略
+    },
     enterGame() {
-      if (entered) return
-      entered = true
+      if (phase === 'entered') return
+      phase = 'entered'
       const root = byId('boot-loading')
       if (root) {
         root.classList.add('boot-loading-done') // CSS opacity 过渡淡出
@@ -116,16 +131,16 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
       }
       // 竞速玩家等满 100% / SW 已收尾后才进入 → 全缓存完毕,右上角不留空白进度框。
       if (doneReceived) return
-      widget = createPrecacheWidget() // 态3 复用现右上角视觉
+      widget = createPrecacheWidget() // 复用右上角视觉
       // 用最后已知进度初始化,消除"建好到首条 progress 之间"的空白瞬间。
       if (lastTotal > 0) widget.update({ done: 0, total: 0, bytes: lastBytes, totalBytes: lastTotal })
     },
     done() {
-      doneReceived = true // 记下:进入若发生在此之后,enterGame 不再建 widget
+      doneReceived = true // 进入若发生在此之后,enterGame 不再建 widget
       widget?.done()
     },
     fail(msg) {
-      if (entered) return // 已进游戏 → 覆盖层已移除,错误另由 canvas 显示
+      if (phase === 'entered') return // 已进游戏 → 覆盖层已移除,错误另由 canvas 显示
       const root = byId('boot-loading')
       if (!root) return
       root.classList.add('boot-loading-error')

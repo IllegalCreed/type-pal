@@ -123,4 +123,16 @@ describe('boot-loading(启动加载覆盖层)', () => {
     expect(status.textContent).toBe('已缓存 100/336MB (30%)')
     expect(fill.style.width).toBe('30%')
   })
+
+  it('PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM', async () => {
+    mountOverlay()
+    const fractions: number[] = []
+    initBootLoading(4, (f) => fractions.push(f))
+    await Promise.all([fetch('/a'), fetch('/b')]) // _done 2 / max(2,4)
+    await flushRender()
+    expect(fractions.at(-1)).toBeCloseTo(0.5)
+    // DOM 未被 boot-loading 写(虚线前段由统一 UI 渲染)
+    expect(document.getElementById('boot-loading-status')!.textContent).toBe('正在加载…')
+    expect(document.getElementById('boot-loading-fill')!.style.width).toBe('')
+  })
 })

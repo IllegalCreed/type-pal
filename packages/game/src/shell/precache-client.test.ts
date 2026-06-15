@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { boostPrecache, registerPrecache } from './precache-client.js'
+import { pausePrecache, registerPrecache, resumePrecache, startPrecache } from './precache-client.js'
 
 function mockSW() {
   const sw = {
@@ -32,7 +32,7 @@ describe('registerPrecache', () => {
     await expect(registerPrecache({ isProd: true, onProgress: () => {} })).resolves.toBeUndefined()
   })
 
-  it('PROD + SW → onReady 在 ready 后触发,boostPrecache 向 active worker 发 precache-boost', async () => {
+  it('PROD + SW → onReady 触发,但 registerPrecache 不自动触发预缓存;start/pause/resume 各发对应消息', async () => {
     const post = vi.fn()
     const sw = {
       register: vi.fn().mockResolvedValue({}),
@@ -43,9 +43,13 @@ describe('registerPrecache', () => {
     const onReady = vi.fn()
     await registerPrecache({ isProd: true, onProgress: () => {}, onReady })
     expect(onReady).toHaveBeenCalledOnce()
-    expect(post).toHaveBeenCalledWith({ type: 'precache' }) // 低并发起步(让路)
-    boostPrecache()
-    expect(post).toHaveBeenCalledWith({ type: 'precache-boost' }) // 进入后提速
+    expect(post).not.toHaveBeenCalled() // 早注册不触发,避免可玩前抢必要资源带宽
+    startPrecache()
+    expect(post).toHaveBeenCalledWith({ type: 'precache' }) // 虚线后显式启动(全速)
+    pausePrecache()
+    expect(post).toHaveBeenCalledWith({ type: 'precache-pause' }) // 视频期间暂停
+    resumePrecache()
+    expect(post).toHaveBeenCalledWith({ type: 'precache-resume' }) // 进游戏恢复
   })
 
   it('无 SW 能力 → onUnavailable 触发(调用方据此自动放行门)', async () => {

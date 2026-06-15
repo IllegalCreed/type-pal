@@ -31,22 +31,34 @@ self.addEventListener('fetch', (event) => {
     caches.match(req).then(async (hit) => {
       if (hit) return hit
       const res = await fetch(req)
-      if (res.ok) {
-        const cache = await caches.open(CACHE_NAME)
-        await cache.put(req, res.clone())
+      // 只缓存完整 200;206 Partial(<video> 的 Range 请求)Cache.put 不支持。put 必须 fire-forget + 吞错——
+      // 若 await 且 put 抛(206),respondWith 会 reject → 资源 net::ERR_FAILED(开场 AVI 全挂 + 黑屏,
+      // 2026-06-15 生产回归:改 caches.match 时误加了 await + 用 res.ok 含 206;原版本就是 fire-forget)。
+      if (res.status === 200) {
+        caches.open(CACHE_NAME).then((cache) => cache.put(req, res.clone())).catch(() => {})
       }
       return res
     }),
   )
 })
 
-// ── 后台预缓存:页面 postMessage({type:'precache'}) 触发 ──
-// 让路:可玩前低并发不抢 boot 必要资源带宽;用户进入(precache-boost)后提到全速。
-const INITIAL_CONCURRENCY = 2
-const BOOST_CONCURRENCY = 8
-let boosted = false
-let spawnMore = null // precacheAll 运行期暴露:boost 时 spawn 额外 worker 到 BOOST
+// ── 后台预缓存:页面 postMessage({type:'precache'}) 触发(虚线后由 startPrecache 启动)──
+const CONCURRENCY = 8 // 全速:虚线后必要资源已下完,预缓存不再抢它的带宽
 let precaching = false
+// 开场视频期间暂停:worker 挂起、不发起 fetch,不抢视频 Range 请求 / 用户输入的带宽 IO
+// (否则点击「进入游戏」/ 空格跳过视频后延迟很大,2026-06-15 用户实测)。
+let paused = false
+let resumeWaiters = []
+function waitWhilePaused() {
+  if (!paused) return Promise.resolve()
+  return new Promise((resolve) => resumeWaiters.push(resolve))
+}
+function resumePrecaching() {
+  paused = false
+  const ws = resumeWaiters
+  resumeWaiters = []
+  ws.forEach((r) => r())
+}
 
 async function setCacheVersion() {
   const res = await fetch(MANIFEST_URL, { cache: 'no-cache' })
@@ -80,6 +92,8 @@ async function precacheAll() {
     let cursor = 0
     async function worker() {
       while (cursor < urls.length) {
+        await waitWhilePaused() // 视频期间挂起:不消费 cursor、不发起 fetch
+        if (cursor >= urls.length) break // 恢复后可能已被别的 worker 取完
         const { url, size } = urls[cursor++]
         try {
           // 续传:已缓存跳过
@@ -99,25 +113,12 @@ async function precacheAll() {
         }
       }
     }
-    // 可增长 worker 池:boost 时 spawn 额外 worker(共享 cursor 续传)。
-    // while(length 变化) 重复 Promise.all 等到 boost 后新加的 worker 也结束。
-    const pool = []
-    const addWorkers = (n) => {
-      for (let i = 0; i < n; i++) pool.push(worker())
-    }
-    spawnMore = () => addWorkers(BOOST_CONCURRENCY - pool.length)
-    addWorkers(boosted ? BOOST_CONCURRENCY : INITIAL_CONCURRENCY)
-    let prevLen = -1
-    while (pool.length !== prevLen) {
-      prevLen = pool.length
-      await Promise.all(pool)
-    }
+    await Promise.all(Array.from({ length: CONCURRENCY }, worker))
     post({ type: 'precache-done', total, totalBytes: manifest.totalBytes })
   } catch (err) {
     post({ type: 'precache-error', message: String(err) })
   } finally {
     precaching = false
-    spawnMore = null
   }
 }
 
@@ -128,8 +129,11 @@ self.addEventListener('message', (event) => {
     // ~30s idle(无 pending event)后被浏览器终止,预缓存中途停(2026-06-14 验证停在 76%)。
     // 被终止后靠续传(cache.match 跳过)续:重访/重触发从未缓存项继续。
     event.waitUntil(precacheAll())
-  } else if (event.data.type === 'precache-boost') {
-    boosted = true
-    if (spawnMore) spawnMore() // 已在跑 → 立即补 worker;未跑 → 下次 precacheAll 直接全速
+  } else if (event.data.type === 'precache-pause') {
+    paused = true // 开场视频期间:worker 在 waitWhilePaused 挂起
+  } else if (event.data.type === 'precache-resume') {
+    resumePrecaching()
+    // SW 若在暂停期间被浏览器终止(precaching 随之重置)→ resume 时重启 precacheAll 续传。
+    if (!precaching) event.waitUntil(precacheAll())
   }
 })

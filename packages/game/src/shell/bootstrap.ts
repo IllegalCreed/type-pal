@@ -105,6 +105,7 @@ import { scrollFbp, showFbp } from './fbp-player.js'
 import { KeyboardInputSource } from './input.js'
 import { type LoopContext, startRafLoop } from './main-loop.js'
 import { finishBootLoading, setBootLoadingNote } from './boot-loading.js'
+import { pausePrecache, resumePrecache } from './precache-client.js'
 import { playRng } from './rng-player.js'
 import { playSplashFallback } from './splash-fallback.js'
 import { playTrademarkFallback } from './trademark-fallback.js'
@@ -457,6 +458,8 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   window.addEventListener('keydown', unlockAudio, { capture: true })
   window.addEventListener('pointerdown', unlockAudio, { capture: true })
 
+  // SW 预缓存让路:跟踪 suspendRaf 变化(下方 onPresent 据此 pause/resume 预缓存)。
+  let _lastSuspendForPrecache = false
   const loopCtx: LoopContext = {
     gs,
     bus,
@@ -469,6 +472,15 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       // 音频同步必须在 suspendRaf gate 前跑:山神庙传剑等 modal CG/RNG 播放期间仍会有脚本
       // 设置 BGM/SFX。只暂停 canvas present,不能暂停 audio drain,否则声音会等 CG 结束后才一起触发。
       syncShellAudio(audio, gs, drained, playerRoles)
+      // SW 预缓存让路:modal(开场视频/CG/RNG/FBP/结局动画 suspendRaf)独占期间暂停预缓存,不抢视频
+      // Range 请求 / 用户输入的带宽 IO(否则点击「进入游戏」/ 空格跳过视频后延迟很大,2026-06-15)。
+      // dev 无 SW → pause/resume no-op。加载页(虚线后)raf 未起,此处不跑 → SW 全速,竞速可等满。
+      const suspendForPrecache = !!gs.suspendRaf
+      if (suspendForPrecache !== _lastSuspendForPrecache) {
+        _lastSuspendForPrecache = suspendForPrecache
+        if (suspendForPrecache) pausePrecache()
+        else resumePrecache()
+      }
       // suspendRaf 期间:modal 播放器(AVI / trademark / splash / RNG / FBP / 结局动画)**独占** canvas,
       // 自管 fb + flushToCanvas。主循环这里**完全不碰 canvas** —— 否则下面的 flushToCanvas 会用 gs.palette
       // (场景调色板)重刷 fb,跟 modal 播放器的 flush(各自 palette)互抢 → 画面在两套色表间闪烁

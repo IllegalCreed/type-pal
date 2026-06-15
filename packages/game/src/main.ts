@@ -1,8 +1,8 @@
 import { warmUpVideoAutoplay } from './shell/avi-player.js'
-import { failBootLoading, initBootLoading } from './shell/boot-loading.js'
+import { failBootLoading, initBootLoading, restoreBootFetch } from './shell/boot-loading.js'
 import { bootstrap, showError } from './shell/bootstrap.js'
 import { installFetchRetry } from './shell/fetch-retry.js'
-import { boostPrecache, registerPrecache } from './shell/precache-client.js'
+import { registerPrecache, startPrecache } from './shell/precache-client.js'
 import { createUnifiedProgressUi } from './shell/precache-ui.js'
 
 if (typeof document !== 'undefined') {
@@ -11,12 +11,11 @@ if (typeof document !== 'undefined') {
     // GET 网络层重试兜底(偶发 net::ERR_FAILED)。必须先于任何 fetch / boot-loading 包装。
     installFetchRetry()
 
-    // dev/e2e(PROD=false)整体跳过 SW + 可玩门;仅生产挂统一进度与门。
-    // import.meta.env 用 cast 访问(同 dev-panel.ts 惯例,不依赖 vite/client triple-slash 类型)。
+    // dev/e2e(PROD=false)整体跳过 SW + 可玩门;仅生产挂两段进度与门。
     const isProd = (import.meta as unknown as { env?: { PROD?: boolean } }).env?.PROD === true
 
     // 可玩门:enterGate resolve 来源二选一——用户点「进入游戏」/ 自动放行(dev·e2e·SW 不可用)。
-    // gateReleased 守卫消除"SW 注册失败自动放行"与"出按钮"的竞态:放行后不再出按钮。
+    // gateReleased 守卫消除"SW 注册失败自动放行"与"出按钮"的竞态:放行后不再出按钮 / 不启动预缓存。
     let resolveEnter!: () => void
     const enterGate = new Promise<void>((r) => {
       resolveEnter = r
@@ -29,28 +28,32 @@ if (typeof document !== 'undefined') {
     }
 
     if (isProd && 'serviceWorker' in navigator) {
-      // ── PROD + 有 SW 能力:一条 SW 字节进度(态1 加载页大条 → 态3 右上角半透明)+ 显式可玩门 ──
-      // 乐观走此路;register 失败 onUnavailable 再退回自动放行(门不挡,进度停低位但能玩)。
+      // ── PROD + SW:两段进度(虚线前=必要资源 / 虚线后=SW 全量)+ 显式可玩门 ──
       const ui = createUnifiedProgressUi()
-      // 「进入游戏」click handler——必须同步解锁 video autoplay(transient activation 要求)。
+      // 虚线前:必要资源前台加载进度(boot fetch 计数)→ 回调映射到 0→虚线。
+      initBootLoading(undefined, (frac) => ui.setNecessaryProgress(frac))
+      // SW 早注册(为运行时 cache-first),但**不**触发全量预缓存——等 onPlayable(虚线)后 startPrecache。
+      void registerPrecache({
+        isProd,
+        onProgress: (p) => ui.setFullProgress(p.bytes, p.totalBytes), // 虚线后:SW 全量真实进度
+        onDone: () => ui.done(),
+        onUnavailable: releaseGate, // 无 SW / 注册失败 → 门不挡,自动进
+      })
+      // 「进入游戏」click handler——同步解锁 video autoplay(transient activation 要求);
+      // 不在此启动/提速预缓存:SW 已在虚线后全速,视频期间由 bootstrap 的 onPresent(suspendRaf)暂停。
       const enter = (): void => {
         if (gateReleased) return
         warmUpVideoAutoplay() // ← click 同步栈:解锁本 session video autoplay
         ui.enterGame() // 覆盖层 → 右上角半透明小条
-        boostPrecache() // 预缓存从让路档(2)提到全速(8)
         releaseGate() // 放行 bootstrap 继续 trademark/splash + 主循环
       }
-      // SW 最早注册 + 进度订阅(提前到页面打开,不等 boot 门)。
-      void registerPrecache({
-        isProd,
-        onProgress: (p) => ui.setProgress(p.bytes, p.totalBytes),
-        onDone: () => ui.done(),
-        onUnavailable: releaseGate, // 无 SW / 注册失败 → 门不挡,自动进
-      })
       void bootstrap(canvas, {
-        // 必要资源就绪 → 出「进入游戏」按钮(常驻);若门已被自动放行则不出按钮。
+        // 必要资源就绪(虚线):停必要资源计数 + 出按钮 + 启动 SW 全量(虚线后段);自动放行时不出按钮。
         onPlayable: () => {
-          if (!gateReleased) ui.markPlayable(enter)
+          if (gateReleased) return
+          restoreBootFetch() // 停 fetch 计数,虚线前段定格在虚线
+          ui.markPlayable(enter) // 进度到虚线 + 出常驻按钮
+          startPrecache() // 虚线后:SW 全速预缓存全量(竞速玩家可在加载页等满 100%)
         },
         enterGate,
       }).catch((err: unknown) => {
@@ -60,8 +63,8 @@ if (typeof document !== 'undefined') {
         showError(canvas, msg)
       })
     } else {
-      // ── dev/e2e(PROD=false)/ 老浏览器无 SW:退化为现状——fetch 计数进度 + 自动进游戏,无门无 SW ──
-      initBootLoading() // 包 window.fetch 计数进度(现状)
+      // ── dev/e2e(PROD=false)/ 老浏览器无 SW:退化为现状——fetch 计数进度(自渲染)+ 自动进游戏,无门无 SW ──
+      initBootLoading() // 包 window.fetch 计数 + 自渲染 #boot-loading(现状)
       releaseGate() // 无门:enterGate 预先放行 → bootstrap 不阻塞
       void bootstrap(canvas, { enterGate }).catch((err: unknown) => {
         const msg = err instanceof Error ? err.message : String(err)

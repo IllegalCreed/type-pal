@@ -30,6 +30,9 @@ let _expected = EXPECTED_BOOT_REQUESTS
 let _shownPct = 0
 let _rafPending = false
 let _note = ''
+// PROD 两段进度:把必要资源加载进度(fraction 0→1)回调给统一 UI(虚线前段),不自渲染 DOM。
+// 未设(fallback:SW 不可用)时 render 自渲染 #boot-loading-fill/status。
+let _onProgress: ((fraction: number) => void) | null = null
 
 function byId(id: string): HTMLElement | null {
   return typeof document === 'undefined' ? null : document.getElementById(id)
@@ -41,10 +44,15 @@ function render(): void {
   // fallback。PROD 走 SW 统一进度(createUnifiedProgressUi 独占 #boot-loading-fill/status),此处不得
   // 抢写,否则 bootstrap 的 setBootLoadingNote → render 会与"已缓存 x/336MB"互盖闪烁(2026-06-14 验证发现)。
   if (!_origFetch) return
+  const denom = Math.max(_started, _expected)
+  if (_onProgress) {
+    // PROD 两段:回调必要资源加载进度给统一 UI(虚线前段),不碰 #boot-loading DOM。
+    _onProgress(Math.min(1, denom > 0 ? _done / denom : 0))
+    return
+  }
   const fill = byId('boot-loading-fill')
   const status = byId('boot-loading-status')
   if (!fill && !status) return
-  const denom = Math.max(_started, _expected)
   const raw = denom > 0 ? Math.floor((_done / denom) * 100) : 0
   _shownPct = Math.min(99, Math.max(_shownPct, raw)) // 单调 + 99 封顶(满格只由 finish 给)
   if (fill) fill.style.width = `${_shownPct}%`
@@ -78,7 +86,19 @@ function restoreFetch(): void {
   }
 }
 
-export function initBootLoading(expectedTotal: number = EXPECTED_BOOT_REQUESTS): void {
+/**
+ * PROD 两段进度:必要资源就绪(onPlayable)后还原 fetch、停止计数与回调,但**不**移除覆盖层
+ * (等用户点「进入游戏」由 UI 收尾)。fallback(SW 不可用)走 finishBootLoading 自动收尾移除。
+ */
+export function restoreBootFetch(): void {
+  restoreFetch()
+  _onProgress = null
+}
+
+export function initBootLoading(
+  expectedTotal: number = EXPECTED_BOOT_REQUESTS,
+  onProgress?: (fraction: number) => void,
+): void {
   if (!byId('boot-loading')) return // 无 overlay(测试/SSR)→ no-op
   if (_origFetch) return // 幂等:已装不重复包
   _started = 0
@@ -86,6 +106,7 @@ export function initBootLoading(expectedTotal: number = EXPECTED_BOOT_REQUESTS):
   _expected = expectedTotal
   _shownPct = 0
   _note = ''
+  _onProgress = onProgress ?? null
   const orig = globalThis.fetch.bind(globalThis)
   _origFetch = orig
   globalThis.fetch = (async (...args: Parameters<typeof fetch>) => {

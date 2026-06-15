@@ -36,38 +36,54 @@ describe('createUnifiedProgressUi', () => {
     document.body.innerHTML = ''
   })
 
-  it('态1 setProgress 写大条宽度与字节文本,单调不回退', () => {
+  it('虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退', () => {
     mountBootLoading()
     const ui = createUnifiedProgressUi()
-    ui.setProgress(168 * 1024 * 1024, 336 * 1024 * 1024) // 50%
+    ui.setNecessaryProgress(0.5) // 0.5 × 12% = 6%
     const fill = document.getElementById('boot-loading-fill')!
-    expect(fill.style.width).toBe('50%')
-    expect(document.getElementById('boot-loading-status')!.textContent).toContain('168/336MB')
-    ui.setProgress(84 * 1024 * 1024, 336 * 1024 * 1024) // 回退到 25% → 不回退
-    expect(fill.style.width).toBe('50%')
+    expect(fill.style.width).toBe('6%')
+    expect(document.getElementById('boot-loading-status')!.textContent).toContain('加载必要资源 50%')
+    ui.setNecessaryProgress(0.25) // 回退 → 不回退
+    expect(fill.style.width).toBe('6%')
   })
 
-  it('markPlayable 显示按钮,click 同步触发 onEnter', () => {
+  it('markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter', () => {
     mountBootLoading()
     const ui = createUnifiedProgressUi()
     const onEnter = vi.fn()
     ui.markPlayable(onEnter)
+    expect(document.getElementById('boot-loading-fill')!.style.width).toBe('12%')
     const box = document.getElementById('boot-loading-enter')!
     expect(box.hasAttribute('hidden')).toBe(false)
     document.getElementById('boot-loading-enter-btn')!.dispatchEvent(new MouseEvent('click'))
     expect(onEnter).toHaveBeenCalledOnce()
   })
 
-  it('enterGame 移除覆盖层并建右上角 widget,之后 setProgress 走 widget', () => {
+  it('虚线后 setFullProgress = SW 真实进度 bytes/total,单调不回退;necessary 段不响应', () => {
+    mountBootLoading()
+    const ui = createUnifiedProgressUi()
+    ui.setFullProgress(168 * 1024 * 1024, 336 * 1024 * 1024) // necessary 段忽略
+    expect(document.getElementById('boot-loading-fill')!.style.width).toBe('') // 没写
+    ui.markPlayable(() => {}) // 进 full,fill → 12%
+    ui.setFullProgress(168 * 1024 * 1024, 336 * 1024 * 1024) // 50%
+    const fill = document.getElementById('boot-loading-fill')!
+    expect(fill.style.width).toBe('50%')
+    expect(document.getElementById('boot-loading-status')!.textContent).toContain('168/336MB')
+    ui.setFullProgress(84 * 1024 * 1024, 336 * 1024 * 1024) // 回退 → 不回退
+    expect(fill.style.width).toBe('50%')
+  })
+
+  it('enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget', () => {
     vi.useFakeTimers()
     mountBootLoading()
     const ui = createUnifiedProgressUi()
+    ui.markPlayable(() => {})
     ui.enterGame()
     expect(document.getElementById('boot-loading')!.classList.contains('boot-loading-done')).toBe(true)
     expect(document.getElementById('precache-widget')).not.toBeNull()
     vi.advanceTimersByTime(600)
     expect(document.getElementById('boot-loading')).toBeNull()
-    ui.setProgress(336 * 1024 * 1024, 336 * 1024 * 1024)
+    ui.setFullProgress(336 * 1024 * 1024, 336 * 1024 * 1024)
     expect(document.getElementById('precache-widget')!.textContent).toContain('100%')
     ui.done()
     expect((document.getElementById('precache-widget') as HTMLElement).style.opacity).toBe('0')
@@ -76,7 +92,8 @@ describe('createUnifiedProgressUi', () => {
   it('进入前 SW 已 done(竞速等满 100%)→ enterGame 不建右上角 widget', () => {
     mountBootLoading()
     const ui = createUnifiedProgressUi()
-    ui.setProgress(336 * 1024 * 1024, 336 * 1024 * 1024) // 100%
+    ui.markPlayable(() => {})
+    ui.setFullProgress(336 * 1024 * 1024, 336 * 1024 * 1024) // 100%
     ui.done() // SW done 发生在进入之前(widget 尚未建)
     ui.enterGame()
     expect(document.getElementById('precache-widget')).toBeNull() // 不留空白进度框
@@ -85,7 +102,8 @@ describe('createUnifiedProgressUi', () => {
   it('enterGame 用最后进度初始化 widget,消除空白瞬间', () => {
     mountBootLoading()
     const ui = createUnifiedProgressUi()
-    ui.setProgress(168 * 1024 * 1024, 336 * 1024 * 1024) // 50%
+    ui.markPlayable(() => {})
+    ui.setFullProgress(168 * 1024 * 1024, 336 * 1024 * 1024) // 50%,记 lastBytes/lastTotal
     ui.enterGame()
     const w = document.getElementById('precache-widget')
     expect(w).not.toBeNull()

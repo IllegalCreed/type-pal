@@ -1,6 +1,11 @@
 /**
- * 离线预缓存客户端:仅生产注册 Service Worker,申请持久化存储,在 boot 门后触发后台预缓存,
- * 把 SW 的进度消息转给回调(driver:precache-ui)。dev/e2e(PROD=false)与无 SW 能力时安全 no-op。
+ * 离线预缓存客户端:仅生产注册 Service Worker、申请持久化存储,把 SW 进度消息转给回调
+ * (driver:precache-ui)。dev/e2e(PROD=false)与无 SW 能力时安全 no-op。
+ *
+ * 时机控制(2026-06-15 两段进度 + 视频不卡顿):
+ *   registerPrecache 只**早注册**拿 active worker,**不**触发预缓存;
+ *   startPrecache() 在 onPlayable(进度条到虚线、必要资源就绪)后才启动全量预缓存;
+ *   pausePrecache()/resumePrecache() 在开场视频播放期间暂停(不抢视频 Range / 用户输入带宽)、播完恢复。
  */
 export interface PrecacheProgress {
   done: number
@@ -19,12 +24,22 @@ export interface RegisterPrecacheOpts {
   onUnavailable?: () => void
 }
 
-// boost 用:registerPrecache 内把 ready.active 存这里,用户进入后 boostPrecache() 发消息提并发。
+// registerPrecache 内把 ready.active 存这里,供下面三个时机函数发消息。
 let _activeWorker: ServiceWorker | null = null
 
-/** 用户点「进入游戏」后调:通知 SW 把预缓存并发从让路档(2)提到全速(8)。 */
-export function boostPrecache(): void {
-  _activeWorker?.postMessage({ type: 'precache-boost' })
+/** 虚线后(必要资源就绪)触发 SW 全量预缓存(全速)。 */
+export function startPrecache(): void {
+  _activeWorker?.postMessage({ type: 'precache' })
+}
+
+/** 开场视频期间暂停预缓存——不抢视频 Range 请求和用户输入的带宽/IO(否则点击/空格延迟很大)。 */
+export function pausePrecache(): void {
+  _activeWorker?.postMessage({ type: 'precache-pause' })
+}
+
+/** 视频播完 / 进游戏后恢复全速预缓存。 */
+export function resumePrecache(): void {
+  _activeWorker?.postMessage({ type: 'precache-resume' })
 }
 
 export async function registerPrecache(opts: RegisterPrecacheOpts): Promise<void> {
@@ -58,10 +73,9 @@ export async function registerPrecache(opts: RegisterPrecacheOpts): Promise<void
     /* ignore */
   }
 
-  // 等 SW 接管后触发后台预缓存(controller 可能首访为空 → 用 ready.active)。
-  // 低并发起步(让路 boot 必要资源);用户进入后 boostPrecache() 提速。
+  // 早注册:拿到 active worker 供 startPrecache/pause/resume 用。**不**在此触发 precache——
+  // 全量预缓存改由 onPlayable(虚线)后 startPrecache() 显式触发,避免可玩前抢必要资源带宽。
   const reg = await swc.ready
   _activeWorker = reg.active ?? null
   opts.onReady?.()
-  reg.active?.postMessage({ type: 'precache' })
 }
