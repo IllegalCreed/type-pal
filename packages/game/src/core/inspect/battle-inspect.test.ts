@@ -18,7 +18,10 @@ function battleGs(over: Record<string, unknown> = {}): GameState {
     PlayerRolesRuntime: {
       rgwLevel: [10], rgwHP: [100], rgwMaxHP: [120], rgwMP: [50], rgwMaxMP: [60],
       rgwElementalResistance: [[5], [0], [5], [0], [5]], rgwPoisonResistance: [8],
+      rgwAttackStrength: [30], rgwMagicStrength: [40], rgwDefense: [12], rgwDexterity: [18], rgwFleeRate: [7],
     },
+    rgEquipmentEffect: [], // 无装备 → 有效属性 = base
+    Exp: { rgPrimaryExp: [{ wExp: 250 }] },
     battleState: {
       isBoss: false,
       players: [{ roleId: 0, status: { dualAttack: 32760, sleep: 3 } }],
@@ -71,5 +74,16 @@ describe('battle-inspect(从 dev-panel 抽出,语义不变)', () => {
     expect(r[0]!.statuses).toContainEqual({ name: '眠', kind: 'debuff' })
     // entries(dev 详细)仍含中英 + 回合
     expect(r[0]!.entries.some((e) => e.includes('双攻/dual'))).toBe(true)
+    // 5 有效属性(含装备加成,无装备 → = base)+ 经验
+    expect(r[0]!.attack).toBe(30)
+    expect(r[0]!.magicPower).toBe(40)
+    expect(r[0]!.defense).toBe(12)
+    expect(r[0]!.dexterity).toBe(18)
+    expect(r[0]!.fleeRate).toBe(7)
+    expect(r[0]!.curExp).toBe(250)
+    expect(r[0]!.nextExp).toBe(0) // 未传 levelUpExp → 0
+    // 传 levelUpExp:nextExp = levelUpExp[level=10]
+    const levelUp = Array.from({ length: 11 }, (_, i) => (i === 10 ? 5000 : 0))
+    expect(collectPartyStatusReadouts(battleGs(), roles, [], [], levelUp)[0]!.nextExp).toBe(5000)
   })
 })

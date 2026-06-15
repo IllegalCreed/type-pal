@@ -18,6 +18,8 @@ export interface PanelResources {
   playerRoles: PlayerRoles
   objectPoisons: readonly ObjectPoisonView[]
   items: readonly Item[]
+  /** DATA.MKF chunk 14 LevelUpExp[100]:我方经验「升至下一级所需」显示用。 */
+  levelUpExp?: readonly number[]
 }
 
 export interface ToolsPanelDeps {
@@ -158,6 +160,20 @@ function muted(parent: HTMLElement, text: string): void {
   parent.appendChild(d)
 }
 
+/** 单位内「键 值」行(复用 .tp-stat-line):键(dim) + 等宽值(可上色)。 */
+function kvLine(parent: HTMLElement, label: string, value: string, valueCss = ''): void {
+  const d = document.createElement('div')
+  d.className = 'tp-stat-line'
+  const k = document.createElement('span')
+  k.className = 'k'
+  k.textContent = label
+  const v = document.createElement('span')
+  v.textContent = value
+  v.style.cssText = `font-family:ui-monospace,Menlo,monospace;font-size:13px;${valueCss}`
+  d.append(k, v)
+  parent.appendChild(d)
+}
+
 /** 滑块行:label(左) + 滑块(flex) + 值(右)。返回滑块 + 值标签同步钩子由 caller 接。 */
 function sliderRow(
   parent: HTMLElement,
@@ -259,15 +275,23 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
     return
   }
   sectionTitle(parent, '我方')
-  for (const p of collectPartyStatusReadouts(gs, res.playerRoles, res.objectPoisons, res.items)) {
-    const u = unitPanel(
-      parent,
-      `${p.roleName}　Lv${p.level}`,
-      `HP ${p.hp}/${p.maxHp}　MP ${p.mp}/${p.maxMp}`,
-      hpCss(p.hp, p.maxHp),
-    )
+  const levelUpExp = res.levelUpExp ?? []
+  for (const p of collectPartyStatusReadouts(gs, res.playerRoles, res.objectPoisons, res.items, levelUpExp)) {
+    // 头:角色名 + 修行(等级)。体力/真气/经验 各自成行(避免 HP+MP 同行换行)。
+    const u = unitPanel(parent, p.roleName, `修行 ${p.level}`, 'color:var(--tp-gold)')
+    kvLine(u, '体力', `${p.hp} / ${p.maxHp}`, hpCss(p.hp, p.maxHp))
+    kvLine(u, '真气', `${p.mp} / ${p.maxMp}`, 'color:#5dade2')
+    kvLine(u, '经验', p.nextExp > 0 ? `${p.curExp} / ${p.nextExp}` : String(p.curExp), 'color:var(--tp-text)')
+    // 6 属性(= 游戏内状态框,含装备加成):修行(头)+ 武术/灵力/防御/身法/吉运。
+    chipLine(u, '属性', [
+      { text: `武术 ${p.attack}`, cls: '' },
+      { text: `灵力 ${p.magicPower}`, cls: '' },
+      { text: `防御 ${p.defense}`, cls: '' },
+      { text: `身法 ${p.dexterity}`, cls: '' },
+      { text: `吉运 ${p.fleeRate}`, cls: '' },
+    ])
     chipLine(u, '抗性', resistChips(p.resistances))
-    chipLine(u, '状态', statusChips(p.statuses))
+    chipLine(u, '状态', statusChips(p.statuses)) // 含中毒(紫 s-poison chip)
   }
   sectionTitle(parent, '敌方')
   for (const e of collectEnemyStatusReadouts(gs, res.objectPoisons, res.items)) {
@@ -277,11 +301,14 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
       e.defeated ? '已倒' : `HP ${e.hp}/${e.maxHp}`,
       e.defeated ? 'color:var(--tp-text-dim)' : hpCss(e.hp, e.maxHp),
     )
-    const keyStats = e.stats.filter((s) => ['攻', '灵', '防', '身法'].includes(s.label))
-    chipLine(u, '属性', keyStats.map((s) => ({ text: `${s.label}${s.value}`, cls: '' })))
+    // 属性:全战斗属性(隐藏 法术id 调试项);经验/金钱单独成「战利」行。
+    const combat = e.stats.filter((s) => !['法术id', '经验', '金钱'].includes(s.label))
+    chipLine(u, '属性', combat.map((s) => ({ text: `${s.label}${s.value}`, cls: '' })))
+    const drops = e.stats.filter((s) => s.label === '经验' || s.label === '金钱')
+    chipLine(u, '战利', drops.map((s) => ({ text: `${s.label}${s.value}`, cls: '' })))
     chipLine(u, '抗性', resistChips(e.resistances))
-    chipLine(u, '状态', statusChips(e.statuses))
-    if (e.canSteal) chipLine(u, '可偷', [{ text: e.steal, cls: 's-steal' }])
+    chipLine(u, '状态', statusChips(e.statuses)) // 含中毒
+    chipLine(u, '偷取', [{ text: e.steal, cls: 's-steal' }]) // 始终显示(可偷物/金钱 或「不可偷」)
   }
   const field = collectFieldInfoReadout(gs)
   if (field) {

@@ -1056,7 +1056,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   const displayScale = createDisplayScaleController(canvas)
   setupToolsPanel({
     getGs: () => gs,
-    getResources: () => ({ playerRoles, objectPoisons, items }),
+    getResources: () => ({ playerRoles, objectPoisons, items, levelUpExp: assets.levelUpExp }),
     displayScale,
     audioVolume,
     saveSlot: (slot, g) => Save.saveSlot(slot, g),

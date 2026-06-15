@@ -2,6 +2,13 @@
 //   dev-panel 用详细 entries/statusEntries(中英 + 回合 + 来源);工具面板用结构化 statuses(纯中文名 + 类型)。
 import type { Enemy, Item, ObjectPoisonView, PlayerRoles } from '@type-pal/shared'
 import type { BattleEnemy, BattlePlayer, BattleStatus } from '../battle/battle-state.js'
+import {
+  getPlayerAttackStrength,
+  getPlayerDefense,
+  getPlayerDexterity,
+  getPlayerFleeRate,
+  getPlayerMagicStrength,
+} from '../equip-effect.js'
 import type { GameState } from '../game-state.js'
 
 type DevStatusKey = keyof BattleStatus
@@ -45,6 +52,15 @@ export interface PartyStatusReadout {
   maxHp: number
   mp: number
   maxMp: number
+  /** 有效属性(含装备加成,= 游戏内状态框 getPlayerXxx,uigame.c:1231-1240):武术/灵力/防御/身法/吉运。 */
+  attack: number
+  magicPower: number
+  defense: number
+  dexterity: number
+  fleeRate: number
+  /** 经验:当前累积 / 升至下一级所需(= levelUpExp[level]);无表 → nextExp 0。 */
+  curExp: number
+  nextExp: number
   /** 5 元素 + 毒抗(label:value),元素顺序 风/雷/水/火/土。 */
   resistances: { label: string; value: number }[]
   /** 工具面板用:结构化状态(纯中文名 + 类型)。 */
@@ -105,6 +121,7 @@ export function collectPartyStatusReadouts(
   playerRoles: PlayerRoles,
   objectPoisons: readonly ObjectPoisonView[] = [],
   items: readonly Item[] = [],
+  levelUpExp: readonly number[] = [],
 ): PartyStatusReadout[] {
   return gs.partyMembers.map((partyRoleId, slot) => {
     const battlePlayer = gs.mode === 'battle' ? gs.battleState?.players[slot] : undefined
@@ -125,16 +142,24 @@ export function collectPartyStatusReadouts(
     entries.push(...collectPoisonStatusEntries(gs, roleId, objectPoisons, items))
     statuses.push(...collectPoisonTags(gs, roleId, items))
     const rt = gs.PlayerRolesRuntime
+    const level = rt.rgwLevel[roleId] ?? 0
     return {
       slot,
       roleId,
       roleName: role?._name ?? `role${roleId}`,
       source,
-      level: rt.rgwLevel[roleId] ?? 0,
+      level,
       hp: rt.rgwHP[roleId] ?? 0,
       maxHp: rt.rgwMaxHP[roleId] ?? 0,
       mp: rt.rgwMP[roleId] ?? 0,
       maxMp: rt.rgwMaxMP[roleId] ?? 0,
+      attack: getPlayerAttackStrength(gs, roleId),
+      magicPower: getPlayerMagicStrength(gs, roleId),
+      defense: getPlayerDefense(gs, roleId),
+      dexterity: getPlayerDexterity(gs, roleId),
+      fleeRate: getPlayerFleeRate(gs, roleId),
+      curExp: gs.Exp.rgPrimaryExp[roleId]?.wExp ?? 0,
+      nextExp: levelUpExp[level] ?? 0,
       resistances: [
         { label: '风', value: rt.rgwElementalResistance[0]?.[roleId] ?? 0 },
         { label: '雷', value: rt.rgwElementalResistance[1]?.[roleId] ?? 0 },
