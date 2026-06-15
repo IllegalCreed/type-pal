@@ -540,6 +540,32 @@ describe('startBattle', () => {
     })
   })
 
+  it('读档兼容:prevBattleActions/TargetRoles 经 JSON 塌成 {} → startBattle 不崩(persisted.get 回归)', () => {
+    // 系统 tab 存档导入/导出走 JSON,Map → {};读回不复活 → restoreRepeatActionsForParty
+    //   `persisted.get is not a function` 崩(user 2026-06-16:读 JSON 存档碰怪即崩)。reviveNumberKeyedMap 兜底。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    const loose = gs as unknown as { prevBattleActions: unknown; prevBattleActionTargetRoles: unknown }
+    loose.prevBattleActions = {} // JSON 读档后的塌陷形态(本应是 Map)
+    loose.prevBattleActionTargetRoles = {}
+    expect(() => startBattle({
+      gs,
+      enemyTeamId: 0,
+      battleFieldId: 0,
+      isBoss: false,
+      enemies: [makeEnemy({ id: 81 })],
+      enemyTeams: [{ id: 0, enemies: [81, 0xffff, 0xffff, 0xffff, 0xffff], enemyObjectIndexes: [0xffff, 0xffff, 0xffff, 0xffff, 0xffff] }],
+      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      playerRoles: { roles: [makeRole({ id: 0 })] },
+      items: [],
+      spells: [],
+      magics: [],
+      commands: [{ op: 'end' }],
+      rngSeed: 1,
+    })).not.toThrow()
+    expect(gs.battleState).toBeDefined()
+  })
+
   it('enemyTeam 找不到 → 抛错', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]

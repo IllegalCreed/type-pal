@@ -1395,14 +1395,29 @@ function commitRepeatAction(state: BattleState, alivePlayerIdxs: number[], playe
   advanceSelectingPlayer(state, alivePlayerIdxs)
 }
 
+/**
+ * 读档兼容:Map 经 JSON(系统 tab 存档导入/导出走 JSON.stringify/parse)会塌成普通对象 `{}`,
+ * 读回不复活 → 一开战 `persisted.get is not a function` 崩(restoreRepeatActionsForParty)。
+ * 统一复活为 Map:Map(structuredClone/IndexedDB 路径)直接用;entries 数组 / 普通对象 / 空 → 转 Map。
+ */
+function reviveNumberKeyedMap<V>(x: unknown): Map<number, V> {
+  if (x instanceof Map) return x as Map<number, V>
+  if (Array.isArray(x)) return new Map(x as Array<[number, V]>)
+  if (x && typeof x === 'object') {
+    return new Map(Object.entries(x as Record<string, V>).map(([k, v]) => [Number(k), v]))
+  }
+  return new Map()
+}
+
 /** 把跨战斗的 roleId 缓存映射为本场 slot 缓存;我方目标离队时回退到施法者自己。 */
 function restoreRepeatActionsForParty(state: BattleState, gs: GameState): void {
-  const persisted = gs.prevBattleActions
-  if (!persisted) {
+  const persisted = reviveNumberKeyedMap<BattleAction>(gs.prevBattleActions)
+  if (persisted.size === 0) {
     state.prevActions = new Map()
     return
   }
 
+  const targetRoles = reviveNumberKeyedMap<number>(gs.prevBattleActionTargetRoles)
   const slotByRole = new Map(state.players.map((player, slot) => [player.roleId, slot]))
   const restored = new Map<number, BattleAction>()
   for (const [slot, player] of state.players.entries()) {
@@ -1410,7 +1425,7 @@ function restoreRepeatActionsForParty(state: BattleState, gs: GameState): void {
     if (!previous) continue
     const action = { ...previous }
     if (action.targetSide === 'player' && action.target >= 0) {
-      const targetRoleId = gs.prevBattleActionTargetRoles?.get(player.roleId)
+      const targetRoleId = targetRoles.get(player.roleId)
       action.target = targetRoleId === undefined ? slot : (slotByRole.get(targetRoleId) ?? slot)
     }
     restored.set(slot, action)
