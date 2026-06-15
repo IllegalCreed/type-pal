@@ -427,8 +427,10 @@ export function setupDevPanel(deps: DevPanelDeps): void {
   window.addEventListener('keydown', (e) => {
     if (e.code === 'KeyB' && (deps.gs.mode === 'explore' || deps.gs.mode === 'battle')) {
       // explore:起战斗 picker;battle:同一 picker 顶部「战斗状态调试」section 可给队员挂异常状态。
+      // 再按 B toggle 关闭(user 2026-06-15)。
       e.preventDefault()
-      openPicker(deps)
+      if (currentPicker) closePicker()
+      else openPicker(deps)
     } else if (e.code === 'F1') {
       e.preventDefault()
       // 深拷贝 dump —— 让用户在 console 翻 GameState 不被后续 mutate 影响

@@ -15,9 +15,13 @@ function battleGs(over: Record<string, unknown> = {}): GameState {
     partyMembers: [0],
     rgPlayerStatus: {},
     rgPoisonStatus: {},
+    PlayerRolesRuntime: {
+      rgwLevel: [10], rgwHP: [100], rgwMaxHP: [120], rgwMP: [50], rgwMaxMP: [60],
+      rgwElementalResistance: [[5], [0], [5], [0], [5]], rgwPoisonResistance: [8],
+    },
     battleState: {
       isBoss: false,
-      players: [{ roleId: 0, status: {} }],
+      players: [{ roleId: 0, status: { dualAttack: 32760, sleep: 3 } }],
       enemies: [
         {
           e: {
@@ -55,9 +59,17 @@ describe('battle-inspect(从 dev-panel 抽出,语义不变)', () => {
     expect(r[0]!.steal).toBe('不可偷')
     expect(collectEnemyStatusReadouts(exploreGs())).toEqual([])
   })
-  it('collectPartyStatusReadouts:读队员名/来源(battle)', () => {
+  it('collectPartyStatusReadouts:名/来源/HP/抗性 + 结构化状态(纯中文名+类型)', () => {
     const r = collectPartyStatusReadouts(battleGs(), roles)
     expect(r[0]!.roleName).toBe('李逍遥')
     expect(r[0]!.source).toBe('battle')
+    expect(r[0]!.hp).toBe(100)
+    expect(r[0]!.maxHp).toBe(120)
+    expect(r[0]!.resistances.find((x) => x.label === '风')?.value).toBe(5)
+    // statuses:纯中文名 + 类型(双攻=buff,眠=debuff),无英文/回合/来源
+    expect(r[0]!.statuses).toContainEqual({ name: '双攻', kind: 'buff' })
+    expect(r[0]!.statuses).toContainEqual({ name: '眠', kind: 'debuff' })
+    // entries(dev 详细)仍含中英 + 回合
+    expect(r[0]!.entries.some((e) => e.includes('双攻/dual'))).toBe(true)
   })
 })

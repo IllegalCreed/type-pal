@@ -14,7 +14,7 @@ function mkDeps(over: Partial<ToolsPanelDeps> = {}): ToolsPanelDeps {
         dialogHistory: [],
       }) as never,
     getResources: () => ({ playerRoles: { roles: [] }, objectPoisons: [], items: [] }) as never,
-    displayScale: { getMode: () => 'fit', setMode: () => {}, toggleFullscreen: () => {} },
+    displayScale: { getPercent: () => 100, setPercent: () => {}, toggleFullscreen: () => {} },
     audioVolume: { getVolume: () => 0.8, setVolume: () => {}, isMuted: () => false, setMuted: () => {} },
     saveSlot: async () => {},
     ...over,

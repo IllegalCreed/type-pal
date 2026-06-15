@@ -1,29 +1,38 @@
 // 战斗只读快照(从 dev-panel.ts 抽出的纯函数)。**无 DEV 门**——dev-panel 与生产工具面板共用。
-// 函数体与原 dev-panel 实现一字不改,仅换文件 + 调整 import 相对路径。signedText(场效 +号 渲染辅助)
-// 仅 dev-panel 渲染用,不属本簇,留在 dev-panel。
+//   dev-panel 用详细 entries/statusEntries(中英 + 回合 + 来源);工具面板用结构化 statuses(纯中文名 + 类型)。
 import type { Enemy, Item, ObjectPoisonView, PlayerRoles } from '@type-pal/shared'
 import type { BattleEnemy, BattlePlayer, BattleStatus } from '../battle/battle-state.js'
 import type { GameState } from '../game-state.js'
 
 type DevStatusKey = keyof BattleStatus
 
+/** 结构化状态标签(工具面板渲染:纯中文名 + 类型上色)。 */
+export interface StatusTag {
+  name: string
+  kind: 'debuff' | 'buff' | 'poison'
+}
+
 interface DevStatusDef {
   key: DevStatusKey
+  /** dev-panel 详细串用(中/英)。 */
   label: string
+  /** 工具面板纯中文名。 */
+  cn: string
+  kind: 'debuff' | 'buff'
   persistentIndex?: number
 }
 
 const PARTY_STATUS_DEFS: readonly DevStatusDef[] = [
-  { key: 'confused', label: '乱/confused', persistentIndex: 0 },
-  { key: 'paralyzed', label: '定/paralyzed', persistentIndex: 1 },
-  { key: 'sleep', label: '眠/sleep', persistentIndex: 2 },
-  { key: 'silence', label: '封/silence', persistentIndex: 3 },
-  { key: 'puppet', label: '傀儡/puppet', persistentIndex: 4 },
-  { key: 'bravery', label: '勇/bravery', persistentIndex: 5 },
-  { key: 'protect', label: '护/protect', persistentIndex: 6 },
-  { key: 'haste', label: '速/haste', persistentIndex: 7 },
-  { key: 'dualAttack', label: '双攻/dual', persistentIndex: 8 },
-  { key: 'slow', label: '迟/slow' },
+  { key: 'confused', label: '乱/confused', cn: '乱', kind: 'debuff', persistentIndex: 0 },
+  { key: 'paralyzed', label: '定/paralyzed', cn: '定', kind: 'debuff', persistentIndex: 1 },
+  { key: 'sleep', label: '眠/sleep', cn: '眠', kind: 'debuff', persistentIndex: 2 },
+  { key: 'silence', label: '封/silence', cn: '封', kind: 'debuff', persistentIndex: 3 },
+  { key: 'puppet', label: '傀儡/puppet', cn: '傀儡', kind: 'debuff', persistentIndex: 4 },
+  { key: 'bravery', label: '勇/bravery', cn: '勇', kind: 'buff', persistentIndex: 5 },
+  { key: 'protect', label: '护/protect', cn: '护', kind: 'buff', persistentIndex: 6 },
+  { key: 'haste', label: '速/haste', cn: '速', kind: 'buff', persistentIndex: 7 },
+  { key: 'dualAttack', label: '双攻/dual', cn: '双攻', kind: 'buff', persistentIndex: 8 },
+  { key: 'slow', label: '迟/slow', cn: '迟', kind: 'debuff' },
 ]
 
 export interface PartyStatusReadout {
@@ -31,6 +40,16 @@ export interface PartyStatusReadout {
   roleId: number
   roleName: string
   source: 'battle' | 'persistent'
+  level: number
+  hp: number
+  maxHp: number
+  mp: number
+  maxMp: number
+  /** 5 元素 + 毒抗(label:value),元素顺序 风/雷/水/火/土。 */
+  resistances: { label: string; value: number }[]
+  /** 工具面板用:结构化状态(纯中文名 + 类型)。 */
+  statuses: StatusTag[]
+  /** dev-panel 用:异常/buff/毒 详细人读串(中英 + 回合 + 来源)。 */
   entries: string[]
 }
 
@@ -69,6 +88,18 @@ function collectPoisonStatusEntries(
   return entries
 }
 
+/** 工具面板用:中毒结构化标签(只毒名)。 */
+function collectPoisonTags(gs: GameState, roleId: number, items: readonly Item[]): StatusTag[] {
+  const itemNamesById = new Map(items.map((item) => [item.id, item._name ?? '']))
+  const tags: StatusTag[] = []
+  for (let slot = 0; slot < 16; slot++) {
+    const ps = gs.rgPoisonStatus[`${slot}_${roleId}`]
+    if (!ps || ps.wPoisonID === 0) continue
+    tags.push({ name: itemNamesById.get(ps.wPoisonID) || `毒#${ps.wPoisonID}`, kind: 'poison' })
+  }
+  return tags
+}
+
 export function collectPartyStatusReadouts(
   gs: GameState,
   playerRoles: PlayerRoles,
@@ -81,24 +112,44 @@ export function collectPartyStatusReadouts(
     const role = playerRoles.roles.find((r) => r.id === roleId)
     const source: PartyStatusReadout['source'] = battlePlayer ? 'battle' : 'persistent'
     const entries: string[] = []
+    const statuses: StatusTag[] = []
     for (const def of PARTY_STATUS_DEFS) {
       const rounds = source === 'battle'
         ? battleStatusValue(battlePlayer, def.key)
         : persistentStatusValue(gs, roleId, def)
-      if (rounds > 0) entries.push(`${def.label} ${statusRoundsText(rounds)}`)
+      if (rounds > 0) {
+        entries.push(`${def.label} ${statusRoundsText(rounds)}`)
+        statuses.push({ name: def.cn, kind: def.kind })
+      }
     }
     entries.push(...collectPoisonStatusEntries(gs, roleId, objectPoisons, items))
+    statuses.push(...collectPoisonTags(gs, roleId, items))
+    const rt = gs.PlayerRolesRuntime
     return {
       slot,
       roleId,
       roleName: role?._name ?? `role${roleId}`,
       source,
+      level: rt.rgwLevel[roleId] ?? 0,
+      hp: rt.rgwHP[roleId] ?? 0,
+      maxHp: rt.rgwMaxHP[roleId] ?? 0,
+      mp: rt.rgwMP[roleId] ?? 0,
+      maxMp: rt.rgwMaxMP[roleId] ?? 0,
+      resistances: [
+        { label: '风', value: rt.rgwElementalResistance[0]?.[roleId] ?? 0 },
+        { label: '雷', value: rt.rgwElementalResistance[1]?.[roleId] ?? 0 },
+        { label: '水', value: rt.rgwElementalResistance[2]?.[roleId] ?? 0 },
+        { label: '火', value: rt.rgwElementalResistance[3]?.[roleId] ?? 0 },
+        { label: '土', value: rt.rgwElementalResistance[4]?.[roleId] ?? 0 },
+        { label: '毒', value: rt.rgwPoisonResistance[roleId] ?? 0 },
+      ],
+      statuses,
       entries,
     }
   })
 }
 
-/** 敌方每个单位的状态读出(devpanel 队伍 tab「敌方状态」)。纯函数,战斗中读 battleState.enemies。 */
+/** 敌方每个单位的状态读出。纯函数,战斗中读 battleState.enemies。 */
 export interface EnemyStatusReadout {
   /** battleState.enemies 下标。 */
   slot: number
@@ -115,19 +166,20 @@ export interface EnemyStatusReadout {
   stats: { label: string; value: number }[]
   /** 各项抗性(5 元素 + 物理 + 毒 + 巫抗,label:value)。 */
   resistances: { label: string; value: number }[]
-  /** 异常/buff 剩余回合 + 中毒条。 */
+  /** 工具面板用:结构化状态(纯中文名 + 类型)。 */
+  statuses: StatusTag[]
+  /** dev-panel 用:异常/buff/毒 详细串。 */
   statusEntries: string[]
   /**
    * 偷取信息(sdlpal fight.c:5253 PAL_BattleStealFromEnemy):
    *   nStealItem(=stealItemCount)<=0 → 不可偷;wStealItem(=stealItem)==0 → 偷金钱(每次 count/RandomLong(2,3));
    *   否则 → 偷物品 wStealItem(每次 1 个,共 count 个)。
-   * `canSteal` = stealItemCount>0;`steal` = 人读串。
    */
   canSteal: boolean
   steal: string
 }
 
-/** 当前战场场地读出(devpanel 队伍 tab「场地信息」)。纯函数,战斗中读 battleState.field。 */
+/** 当前战场场地读出。纯函数,战斗中读 battleState.field。 */
 export interface FieldInfoReadout {
   fieldId: number
   isBoss: boolean
@@ -163,7 +215,7 @@ const ENEMY_RESIST_DEFS: readonly { label: string; get: (e: Enemy) => number }[]
   { label: '毒', get: (e) => e.poisonResistance },
 ]
 
-/** 敌方中毒条 → 人读行(名字/等级复用 party 同款 objectPoisons/items 反查)。 */
+/** 敌方中毒条 → dev 详细串。 */
 function collectEnemyPoisonEntries(
   poisons: readonly { poisonId: number; scriptEntry: number }[],
   objectPoisons: readonly ObjectPoisonView[],
@@ -184,9 +236,23 @@ function collectEnemyPoisonEntries(
   return entries
 }
 
+/** 敌方中毒 → 工具面板结构化标签(只毒名)。 */
+function collectEnemyPoisonTags(
+  poisons: readonly { poisonId: number; scriptEntry: number }[],
+  items: readonly Item[],
+): StatusTag[] {
+  const itemNamesById = new Map(items.map((item) => [item.id, item._name ?? '']))
+  const tags: StatusTag[] = []
+  for (const p of poisons) {
+    if (p.poisonId === 0) continue
+    tags.push({ name: itemNamesById.get(p.poisonId) || `毒#${p.poisonId}`, kind: 'poison' })
+  }
+  return tags
+}
+
 /**
- * 敌方每个单位的状态读出(devpanel「敌方状态」):血量 / 各项属性 / 5 元素+物理+毒+巫抗 / 异常 buff + 中毒。
- * 非战斗(gs.mode!=='battle' 或无 battleState)→ 空数组。状态计数复用 PARTY_STATUS_DEFS + statusRoundsText。
+ * 敌方每个单位的状态读出:血量 / 属性 / 5 元素+物理+毒+巫抗 / 状态 + 中毒 / 偷取。
+ * 非战斗(gs.mode!=='battle' 或无 battleState)→ 空数组。
  */
 export function collectEnemyStatusReadouts(
   gs: GameState,
@@ -198,21 +264,26 @@ export function collectEnemyStatusReadouts(
   return gs.battleState.enemies.map((be: BattleEnemy, slot) => {
     const e = be.e
     const statusEntries: string[] = []
+    const statuses: StatusTag[] = []
     for (const def of PARTY_STATUS_DEFS) {
       const rounds = be.status[def.key] ?? 0
-      if (rounds > 0) statusEntries.push(`${def.label} ${statusRoundsText(rounds)}`)
+      if (rounds > 0) {
+        statusEntries.push(`${def.label} ${statusRoundsText(rounds)}`)
+        statuses.push({ name: def.cn, kind: def.kind })
+      }
     }
     statusEntries.push(...collectEnemyPoisonEntries(be.poisons ?? [], objectPoisons, items))
+    statuses.push(...collectEnemyPoisonTags(be.poisons ?? [], items))
     // 偷取(sdlpal fight.c:5253):count<=0 不可偷;stealItem==0 偷金钱(每次 count/2~3);否则偷物品 #stealItem(每次1)。
     const stealId = e.stealItem ?? 0
     const stealCount = e.stealItemCount ?? 0
     const canSteal = stealCount > 0
     let steal: string
     if (!canSteal) steal = '不可偷'
-    else if (stealId === 0) steal = `金钱 ≤${stealCount}(每次 ~${stealCount}/2-3)`
+    else if (stealId === 0) steal = `金钱 ×${stealCount}`
     else {
       const nm = itemNameById.get(stealId)
-      steal = `${nm ? `${nm}#${stealId}` : `物品#${stealId}`} ×${stealCount}`
+      steal = `${nm || `物品#${stealId}`} ×${stealCount}`
     }
     return {
       slot,
@@ -226,6 +297,7 @@ export function collectEnemyStatusReadouts(
         ...ENEMY_RESIST_DEFS.map((d) => ({ label: d.label, value: d.get(e) })),
         { label: '巫抗', value: be.resistanceToSorcery ?? 0 },
       ],
+      statuses,
       statusEntries,
       canSteal,
       steal,
@@ -234,7 +306,7 @@ export function collectEnemyStatusReadouts(
 }
 
 /**
- * 当前战场场地信息(devpanel「场地信息」):屏幕波纹 + 5 元素场效(signed)。
+ * 当前战场场地信息:屏幕波纹 + 5 元素场效(signed)。
  * 非战斗 → null。元素顺序同 Enemy.elemResistance(风/雷/水/火/土)。
  */
 export function collectFieldInfoReadout(gs: GameState): FieldInfoReadout | null {

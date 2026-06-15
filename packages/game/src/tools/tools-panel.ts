@@ -1,6 +1,5 @@
-// 生产增强工具面板(canvas 外 DOM,非 DEV 门;只读 + 玩家便利动作)。右侧悬浮、非模态、左竖 Tab。
-//   视觉复用 load 界面「仙剑 金/朱 暗底」配色(见 injectToolsPanelStyles 的 design tokens)。
-//   tab 内容渲染见 renderActiveTab(Task 5 填充)。
+// 生产增强工具面板(canvas 外 DOM,非 DEV 门;只读 + 玩家便利动作)。左上角悬浮、非模态、左竖 Tab。
+//   视觉复用 load 界面「仙剑 金/朱 暗底」配色(见 injectToolsPanelStyles)。tab 内容见 renderActiveTab。
 import type { Item, ObjectPoisonView, PlayerRoles } from '@type-pal/shared'
 import {
   collectEnemyStatusReadouts,
@@ -38,9 +37,13 @@ const TABS: ReadonlyArray<readonly [TabKey, string]> = [
   ['dialog', '对话'],
 ]
 
+// 缩放滑块对数刻度:正中(pos=0.5)=100%,两端 10% / 1000%。
+const pctToPos = (p: number): number => (Math.log10(p) - 1) / 2
+const posToPct = (pos: number): number => Math.round(10 * 10 ** (2 * pos))
+
 const STYLE_ID = 'tp-tools-style'
 
-/** 注入面板样式(幂等)。CSS 变量作用域在 #tp-tools-panel;唤出印钮在面板外故硬编码同值。 */
+/** 注入面板样式(幂等)。 */
 export function injectToolsPanelStyles(): void {
   if (typeof document === 'undefined' || document.getElementById(STYLE_ID)) return
   const style = document.createElement('style')
@@ -50,59 +53,65 @@ export function injectToolsPanelStyles(): void {
   --tp-gold:#d8b365; --tp-cream:#f0e0b0; --tp-crimson:#8a2a2a; --tp-crimson-dark:#5a1414;
   --tp-slot:#2a1515; --tp-border:#553322; --tp-text:#cbb890; --tp-text-dim:#6b5a3e;
   --tp-error:#e06c5a; --tp-glow:rgba(160,30,30,0.5);
-  position:fixed; top:12px; left:12px; width:440px; max-height:86vh; z-index:30;
-  display:flex; background:rgba(17,17,17,0.92); backdrop-filter:blur(6px);
+  position:fixed; top:16px; left:16px; width:430px; max-height:84vh; z-index:30;
+  display:flex; background:rgba(17,17,17,0.93); backdrop-filter:blur(7px);
   border:1px solid var(--tp-gold); border-radius:8px;
-  box-shadow:0 0 24px var(--tp-glow), 0 4px 20px rgba(0,0,0,0.6);
-  font:13px/1.5 "Songti SC","SimSun",serif; color:var(--tp-text);
-  overflow:hidden; animation:tp-panel-in .18s ease;
-}
-@keyframes tp-panel-in { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:scale(1)} }
+  box-shadow:0 0 22px var(--tp-glow), 0 6px 26px rgba(0,0,0,0.62);
+  font:14px/1.6 "Songti SC","SimSun",serif; color:var(--tp-text);
+  overflow:hidden; animation:tp-panel-in .18s ease; }
+@keyframes tp-panel-in { from{opacity:0;transform:scale(.97)} to{opacity:1;transform:scale(1)} }
 #tp-tools-panel[hidden] { display:none; }
-.tp-tabbar { flex:0 0 84px; display:flex; flex-direction:column; padding:8px 0;
+.tp-tabbar { flex:0 0 88px; display:flex; flex-direction:column; padding:14px 0;
   background:rgba(0,0,0,0.25); border-right:1px solid var(--tp-border); }
-.tp-tab { font:14px/1 "Songti SC","SimSun",serif; color:var(--tp-text-dim);
-  background:transparent; border:none; border-left:2px solid transparent;
-  padding:11px 0 11px 16px; text-align:left; cursor:pointer; letter-spacing:2px;
+.tp-tab { font:16px/1 "Songti SC","SimSun",serif; color:var(--tp-text-dim);
+  background:transparent; border:none; border-left:3px solid transparent;
+  padding:12px 0 12px 20px; text-align:left; cursor:pointer; letter-spacing:3px;
   transition:color .12s, background .12s; }
-.tp-tab:hover { color:var(--tp-text); background:rgba(216,179,101,0.08); }
+.tp-tab:hover { color:var(--tp-text); background:rgba(216,179,101,0.07); }
 .tp-tab.tp-tab-active { color:#1a140c; font-weight:bold; border-left-color:var(--tp-crimson);
   background:linear-gradient(90deg, var(--tp-gold), #c9a456); }
 .tp-main { flex:1 1 auto; display:flex; flex-direction:column; min-width:0; }
 .tp-header { display:flex; align-items:center; justify-content:space-between;
-  padding:9px 12px 8px; border-bottom:1px solid var(--tp-border); }
-.tp-title { color:var(--tp-gold); font-size:15px; letter-spacing:3px;
-  text-shadow:0 0 10px rgba(160,30,30,0.5); }
+  padding:13px 18px 12px; border-bottom:1px solid var(--tp-border); }
+.tp-title { color:var(--tp-gold); font-size:17px; letter-spacing:5px;
+  text-shadow:0 0 10px rgba(160,30,30,0.45); }
 .tp-close { background:transparent; border:none; color:var(--tp-text-dim);
-  font-size:18px; line-height:1; cursor:pointer; padding:0 4px; transition:color .12s; }
+  font-size:20px; line-height:1; cursor:pointer; padding:0 4px; transition:color .12s; }
 .tp-close:hover { color:var(--tp-cream); }
-.tp-body { flex:1 1 auto; overflow-y:auto; padding:10px 14px; }
+.tp-body { flex:1 1 auto; overflow-y:auto; padding:6px 18px 18px; }
 .tp-body::-webkit-scrollbar { width:8px; }
 .tp-body::-webkit-scrollbar-track { background:var(--tp-slot); }
 .tp-body::-webkit-scrollbar-thumb {
   background:linear-gradient(180deg, var(--tp-crimson), var(--tp-gold)); border-radius:4px; }
-.tp-row { display:flex; gap:8px; padding:2px 0; }
-.tp-row-label { color:var(--tp-text-dim); flex:0 0 auto; }
-.tp-row-value { color:var(--tp-gold); font-family:ui-monospace,Menlo,monospace; }
-.tp-section-title { color:var(--tp-cream); margin:12px 0 5px; letter-spacing:1px;
-  border-bottom:1px solid var(--tp-border); padding-bottom:3px; }
-.tp-section-title:first-child { margin-top:0; }
-.tp-btn { font-family:"Songti SC","SimSun",serif; color:var(--tp-cream);
+.tp-row { display:flex; align-items:baseline; gap:10px; padding:4px 0; }
+.tp-row-label { color:var(--tp-text-dim); flex:0 0 auto; min-width:84px; }
+.tp-row-value { color:var(--tp-gold); font-family:ui-monospace,Menlo,monospace; font-size:13px; }
+.tp-section-title { color:var(--tp-cream); font-size:15px; letter-spacing:2px;
+  margin:20px 0 12px; padding-bottom:6px; border-bottom:1px solid var(--tp-border); }
+.tp-section-title:first-child { margin-top:4px; }
+.tp-ctrl-row { display:flex; align-items:center; gap:13px; margin-bottom:4px; }
+.tp-ctrl-label { color:var(--tp-text-dim); flex:0 0 auto; min-width:40px; }
+.tp-ctrl-val { color:var(--tp-gold); font-family:ui-monospace,Menlo,monospace; font-size:13px;
+  flex:0 0 auto; min-width:54px; text-align:right; }
+.tp-btn { font:14px/1 "Songti SC","SimSun",serif; color:var(--tp-cream);
   background:linear-gradient(180deg, var(--tp-crimson), var(--tp-crimson-dark));
-  border:1px solid var(--tp-gold); border-radius:4px; padding:5px 14px; cursor:pointer;
-  letter-spacing:1px; box-shadow:0 0 8px var(--tp-glow); transition:transform .1s; }
-.tp-btn:hover { transform:scale(1.04); } .tp-btn:active { transform:scale(0.97); }
-.tp-select { background:var(--tp-slot); color:var(--tp-gold); border:1px solid var(--tp-gold);
-  border-radius:4px; padding:3px 6px; font-family:inherit; }
-.tp-range { accent-color:var(--tp-gold); vertical-align:middle; }
+  border:1px solid var(--tp-gold); border-radius:5px; padding:8px 20px; cursor:pointer;
+  letter-spacing:2px; box-shadow:0 0 7px var(--tp-glow); transition:transform .1s, filter .1s; }
+.tp-btn:hover { transform:translateY(-1px); filter:brightness(1.12); }
+.tp-btn:active { transform:translateY(0); }
+.tp-btn + .tp-btn { margin-left:10px; }
+.tp-range { accent-color:var(--tp-gold); flex:1 1 auto; min-width:0; height:5px; cursor:pointer; }
 .tp-input { background:var(--tp-slot); color:var(--tp-cream); border:1px solid var(--tp-border);
-  border-radius:4px; padding:4px 8px; font-family:inherit; width:100%; box-sizing:border-box; }
+  border-radius:5px; padding:7px 11px; font:14px/1.4 "Songti SC","SimSun",serif; width:100%;
+  box-sizing:border-box; }
 .tp-input:focus { outline:none; border-color:var(--tp-gold); }
+.tp-input::placeholder { color:var(--tp-text-dim); }
 .tp-muted { color:var(--tp-text-dim); }
-#tp-tools-launcher { position:fixed; bottom:10px; right:10px; z-index:29;
-  width:34px; height:34px; background:rgba(17,17,17,0.85); color:#d8b365;
-  border:1px solid #d8b365; border-radius:6px; font:16px/1 "Songti SC","SimSun",serif;
-  cursor:pointer; opacity:0.55; transition:opacity .15s, box-shadow .15s; }
+.tp-dialog-line { padding:6px 0; border-bottom:1px solid var(--tp-border); line-height:1.55; }
+#tp-tools-launcher { position:fixed; bottom:12px; right:12px; z-index:29;
+  width:38px; height:38px; background:rgba(17,17,17,0.85); color:#d8b365;
+  border:1px solid #d8b365; border-radius:7px; font:19px/1 "Songti SC","SimSun",serif;
+  cursor:pointer; opacity:0.5; transition:opacity .15s, box-shadow .15s; }
 #tp-tools-launcher:hover { opacity:1; box-shadow:0 0 12px rgba(160,30,30,0.5); }
 `
   document.head.appendChild(style)
@@ -136,6 +145,40 @@ function muted(parent: HTMLElement, text: string): void {
   parent.appendChild(d)
 }
 
+/** 滑块行:label(左) + 滑块(flex) + 值(右)。返回滑块 + 值标签同步钩子由 caller 接。 */
+function sliderRow(
+  parent: HTMLElement,
+  label: string,
+  opts: { min: number; max: number; step?: number; value: number },
+): { slider: HTMLInputElement; val: HTMLSpanElement } {
+  const r = document.createElement('div')
+  r.className = 'tp-ctrl-row'
+  const l = document.createElement('span')
+  l.className = 'tp-ctrl-label'
+  l.textContent = label
+  const slider = document.createElement('input')
+  slider.type = 'range'
+  slider.className = 'tp-range'
+  slider.min = String(opts.min)
+  slider.max = String(opts.max)
+  if (opts.step !== undefined) slider.step = String(opts.step)
+  slider.value = String(opts.value)
+  const val = document.createElement('span')
+  val.className = 'tp-ctrl-val'
+  r.append(l, slider, val)
+  parent.appendChild(r)
+  return { slider, val }
+}
+
+function button(parent: HTMLElement, text: string, onClick: () => void): HTMLButtonElement {
+  const b = document.createElement('button')
+  b.className = 'tp-btn'
+  b.textContent = text
+  b.addEventListener('click', onClick)
+  parent.appendChild(b)
+  return b
+}
+
 /** 战斗 tab:队伍状态 / 敌人血量 / 场地(复用 battle-inspect 纯读函数)。非战斗 → 提示。 */
 function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources): void {
   if (gs.mode !== 'battle' || !gs.battleState) {
@@ -158,7 +201,7 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
   }
 }
 
-/** 场景 tab:简版(场景名 + 坐标 + 镜头);小地图视图 Task「小地图」升级。 */
+/** 场景 tab:简版(场景名 + 坐标 + 镜头);小地图视图待后续独立任务。 */
 function renderSceneTab(parent: HTMLElement, gs: GameState): void {
   sectionTitle(parent, '当前场景')
   row(parent, '场景', `${getSceneName(gs.wNumScene)}  (#${gs.wNumScene})`)
@@ -168,80 +211,59 @@ function renderSceneTab(parent: HTMLElement, gs: GameState): void {
   row(parent, '队伍', gs.partyMembers.join(', '))
   const hint = document.createElement('div')
   hint.className = 'tp-muted'
-  hint.style.marginTop = '10px'
+  hint.style.marginTop = '12px'
   hint.textContent = '🗺 小地图视图开发中(缩略图 + 主角/NPC/道具定位 + 可视框)'
   parent.appendChild(hint)
 }
 
-/** 系统 tab:显示(分辨率/全屏) / 音频(BGM 音量/静音) / 存档(导出/导入到位 1)。 */
+/** 系统 tab:显示(缩放滑块 10%~1000% 正中100% + 全屏) / 音频(BGM 滑块 + 静音) / 存档(导出/导入)。 */
 function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
   // ── 显示 ──
   sectionTitle(parent, '显示')
-  const dispRow = document.createElement('div')
-  dispRow.className = 'tp-row'
-  const dispLabel = document.createElement('span')
-  dispLabel.className = 'tp-row-label'
-  dispLabel.textContent = '缩放'
-  const sel = document.createElement('select')
-  sel.className = 'tp-select'
-  for (const [v, l] of [['fit', '适应窗口'], ['2', '2×'], ['3', '3×'], ['4', '4×'], ['5', '5×'], ['6', '6×']] as const) {
-    const o = document.createElement('option')
-    o.value = v
-    o.textContent = l
-    sel.appendChild(o)
+  const ds = deps.displayScale
+  const { slider: scaleSlider, val: scaleVal } = sliderRow(parent, '缩放', {
+    min: 0,
+    max: 1,
+    step: 0.001,
+    value: pctToPos(ds.getPercent()),
+  })
+  const syncScale = (): void => {
+    scaleVal.textContent = `${posToPct(Number(scaleSlider.value))}%`
   }
-  sel.value = String(deps.displayScale.getMode())
-  sel.addEventListener('change', () => deps.displayScale.setMode(sel.value === 'fit' ? 'fit' : Number(sel.value)))
-  const fsBtn = document.createElement('button')
-  fsBtn.className = 'tp-btn'
-  fsBtn.textContent = '全屏'
-  fsBtn.style.marginLeft = '8px'
-  fsBtn.addEventListener('click', () => deps.displayScale.toggleFullscreen())
-  dispRow.append(dispLabel, sel, fsBtn)
-  parent.appendChild(dispRow)
+  syncScale()
+  scaleSlider.addEventListener('input', () => {
+    ds.setPercent(posToPct(Number(scaleSlider.value)))
+    syncScale()
+  })
+  const fsBtn = button(parent, '全屏', () => ds.toggleFullscreen())
+  fsBtn.style.marginTop = '6px'
 
   // ── 音频 ──
   sectionTitle(parent, '音频')
   const vol = deps.audioVolume
-  const volRow = document.createElement('div')
-  volRow.className = 'tp-row'
-  const volLabel = document.createElement('span')
-  volLabel.className = 'tp-row-label'
-  const slider = document.createElement('input')
-  slider.type = 'range'
-  slider.min = '0'
-  slider.max = '100'
-  slider.className = 'tp-range'
-  slider.style.flex = '1'
-  slider.value = String(Math.round(vol.getVolume() * 100))
+  const { slider: volSlider, val: volVal } = sliderRow(parent, 'BGM', {
+    min: 0,
+    max: 100,
+    value: Math.round(vol.getVolume() * 100),
+  })
   const syncVol = (): void => {
-    volLabel.textContent = `BGM ${slider.value}%`
+    volVal.textContent = `${volSlider.value}%`
   }
   syncVol()
-  slider.addEventListener('input', () => {
-    vol.setVolume(Number(slider.value) / 100)
+  volSlider.addEventListener('input', () => {
+    vol.setVolume(Number(volSlider.value) / 100)
     syncVol()
   })
-  volRow.append(volLabel, slider)
-  parent.appendChild(volRow)
-  const muteBtn = document.createElement('button')
-  muteBtn.className = 'tp-btn'
-  const syncMute = (): void => {
-    muteBtn.textContent = vol.isMuted() ? '🔇 已静音' : '🔊 静音'
-  }
-  syncMute()
-  muteBtn.addEventListener('click', () => {
+  const muteBtn = button(parent, vol.isMuted() ? '🔇 已静音' : '🔊 静音', () => {
     vol.setMuted(!vol.isMuted())
-    syncMute()
+    muteBtn.textContent = vol.isMuted() ? '🔇 已静音' : '🔊 静音'
   })
-  parent.appendChild(muteBtn)
+  muteBtn.style.marginTop = '6px'
 
   // ── 存档 ──
   sectionTitle(parent, '存档')
-  const exportBtn = document.createElement('button')
-  exportBtn.className = 'tp-btn'
-  exportBtn.textContent = '导出当前进度'
-  exportBtn.addEventListener('click', () => {
+  const saveRow = document.createElement('div')
+  button(saveRow, '导出当前进度', () => {
     const gs = deps.getGs()
     const blob = new Blob([serializeSave(gs)], { type: 'application/json' })
     const a = document.createElement('a')
@@ -272,12 +294,9 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
     }
     reader.readAsText(file)
   })
-  const importBtn = document.createElement('button')
-  importBtn.className = 'tp-btn'
-  importBtn.style.marginLeft = '8px'
-  importBtn.textContent = '导入到存档位 1'
-  importBtn.addEventListener('click', () => importInput.click())
-  parent.append(exportBtn, importBtn, importInput)
+  button(saveRow, '导入到存档位 1', () => importInput.click())
+  saveRow.appendChild(importInput)
+  parent.appendChild(saveRow)
 }
 
 /** 对话 tab:搜索框 + 按「进入场景」分组(时序正序,场景名标题) + 行列表。 */
@@ -293,7 +312,7 @@ function renderDialogTab(parent: HTMLElement, gs: GameState): void {
   search.placeholder = '搜索对话…'
   parent.appendChild(search)
   const list = document.createElement('div')
-  list.style.marginTop = '6px'
+  list.style.marginTop = '8px'
   parent.appendChild(list)
   const renderList = (q: string): void => {
     list.replaceChildren()
@@ -310,7 +329,6 @@ function renderDialogTab(parent: HTMLElement, gs: GameState): void {
       }
       const line = document.createElement('div')
       line.className = 'tp-dialog-line'
-      line.style.cssText = 'padding:3px 0;border-bottom:1px solid var(--tp-border)'
       line.textContent = entry.text
       list.appendChild(line)
     }
