@@ -109,7 +109,7 @@ describe('tools-panel 框架', () => {
       .find((b) => b.textContent === '对话')!
       .dispatchEvent(new MouseEvent('click', { bubbles: true }))
     const groups = [...document.querySelectorAll('.tp-dialog-group')].map((e) => e.textContent)
-    expect(groups).toContain('余杭镇') // map 1
+    expect(groups).toContain('盛渔村') // map 1
     expect(groups).toContain('苏州城') // map 23
     const lines = [...document.querySelectorAll('.tp-dialog-line')].map((e) => e.textContent)
     expect(lines).toEqual(['你好', '再会', '城门见']) // 正序
