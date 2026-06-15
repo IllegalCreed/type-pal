@@ -281,12 +281,14 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     return null
   }
 
-  // event object 类别缓存(per scene;对象不移动,scene 内固定)。
-  let kindsScene = -1
+  // event object 类别缓存。**按 gs.npcs 数组引用**判失效(非 wNumScene):切场景时 wNumScene 比 gs.npcs
+  //   先更新,若按 wNumScene 重算会抓到旧场景的 npc → 标错位置(user 2026-06-15 报);loadScene 换新
+  //   npcs 数组时引用变,正好在新 npcs 就绪时重算。scene 内 npc 移动不换数组引用 → kinds(按 triggerLabel)不变,不必重算。
+  let kindsNpcs: readonly NpcState[] | null = null
   let kindsMap = new Map<number, { kind: EventKind; name?: string }>()
   const currentKinds = (gs: GameState): Map<number, { kind: EventKind; name?: string }> => {
-    if (gs.wNumScene !== kindsScene) {
-      kindsScene = gs.wNumScene
+    if (gs.npcs !== kindsNpcs) {
+      kindsNpcs = gs.npcs
       kindsMap = collectEventKinds(gs, getGlobalCommands(), getGlobalLabelMap())
     }
     return kindsMap
@@ -342,7 +344,7 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     }
     mkBtn('＋', '放大 (=)', () => setZoom(widgetZoom + 1))
     mkBtn('－', '缩小 (-),最小=全图', () => setZoom(widgetZoom - 1))
-    widget.append(zoomBox, widgetCanvas) // 缩放按钮在左侧(canvas 外),canvas 在右
+    widget.append(widgetCanvas, zoomBox) // zoomBox 绝对定位浮于 canvas 右上角(在小地图内)
     document.body.appendChild(widget)
   }
   const syncWidget = (): void => {
@@ -353,7 +355,7 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     ensureWidget()
     const m = deps.getGs()?.mode
     const inScene = m === 'explore' || m === 'event' // 场景态(含剧情对话);battle/menu 隐藏
-    widget!.style.display = inScene ? 'block' : 'none'
+    widget!.style.display = inScene ? 'block' : 'none' // block:zoomBox 绝对定位浮于右上角,widget 只裹 canvas
     if (inScene && widgetCanvas) drawWidget(widgetCanvas)
   }
 
@@ -392,6 +394,9 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
       else if (e.code === 'Equal') setZoom(widgetZoom + 1)
     })
   }
+
+  // 刷新后若 localStorage 记得已启用 widget,立即起循环显示(不必先开工具面板)。
+  if (widgetEnabled) ensureLoop()
 
   return {
     mountSceneView(container, sizePx, onTick) {
