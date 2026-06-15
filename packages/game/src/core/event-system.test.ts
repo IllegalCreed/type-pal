@@ -26,6 +26,7 @@ import {
   OP_LOAD_LAST_SAVE, setLoadLastSaveHandler,
   OP_QUIT, setQuitHandler,
   OP_GOTO_IF_NO,
+  OP_JUMP_IF_NOT_EQUIPPED,
   OP_TRANSFORM_COLLECTED, OP_TELEPORT_OUT, setStoreTable,
   OP_SET_BATTLE_MUSIC, OP_STOP_MUSIC, OP_PLAY_CD_MUSIC,
   OP_NOOP_A7,
@@ -2258,6 +2259,49 @@ describe('opcode 0x0049 setSceneObjectState(sdlpal script.c:1711-1717)— fix4',
     tickEventSystem(gs, snap(), bus)
     expect(gs.npcs[1]?.triggerLabel).toBe('L_604')      // 酒剑仙(operand[0] 选)改了
     expect(gs.npcs[0]?.triggerLabel).toBeUndefined()    // self(id5)没动(旧 bug 会误改 self)
+  })
+})
+
+describe('opcode 0x0086 jumpIfNotEquipped — op1=0 缺省按 1(镜像 sdlpal#324;将军冢玉佛珠门禁)', () => {
+  // 原版 SSS.MKF @11986: 0x86 [274=玉佛珠, 0, → L_11991 阴气推回]。op1(所需件数)=0 时,
+  //   sdlpal 旧逻辑 `count < 0` 恒假 → 永不跳 → 不佩戴玉佛珠也能破阴气屏障进将军冢。
+  //   sdlpal#324(未合并):op1==0 → 按 1,即"全队没人装备(count<1)就跳到挡回分支"。
+  function loadGate(gs: GameState, requiredOp1: number): void {
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_JUMP_IF_NOT_EQUIPPED, operands: [274, requiredOp1, 3] }, // ip0
+      { op: 'showDialog', messageIndex: 0, text: 'PASS' },     // ip1 装备了 → 破屏障进入
+      { op: 'end' },                                            // ip2
+      { op: 'showDialog', messageIndex: 1, text: 'BLOCKED' },   // ip3 没装备 → 阴气推回
+      { op: 'end' },                                            // ip4
+    ])
+  }
+
+  it('未佩戴玉佛珠(count=0)+ op1=0 → 跳到挡回分支(修复前会误放行)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadGate(gs, 0) // 默认 partyMembers=[0]、无装备 → count=0
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogBox?.currentLineText).toBe('BLOCKED')
+  })
+
+  it('已佩戴玉佛珠(count=1)+ op1=0 → 不跳,正常进入', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.partyMembers = [0, 1]
+    gs.PlayerRolesRuntime.rgwEquipment[0]![1] = 274 // 赵灵儿(role 1)饰品槽装玉佛珠
+    loadGate(gs, 0)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogBox?.currentLineText).toBe('PASS')
+  })
+
+  it('op1 显式 ≥1 不受影响(需 2 件、仅 1 件 → 仍跳)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.partyMembers = [0, 1]
+    gs.PlayerRolesRuntime.rgwEquipment[0]![1] = 274 // count=1
+    loadGate(gs, 2)
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogBox?.currentLineText).toBe('BLOCKED') // 1 < 2 → 跳
   })
 })
 

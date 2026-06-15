@@ -4418,14 +4418,18 @@ function applyRawOpcode(
     }
     case OP_JUMP_IF_NOT_EQUIPPED: {
       // sdlpal script.c:2522-2537:统计队伍装备 op0 件数 < op1 → jump op2
+      // sdlpal#324(未合并,2025-10):op1==0 时按 1 处理 —— 否则 `count < 0` 恒假、门禁永不触发。
+      //   原版 SSS.MKF 将军冢阴气屏障 @11986 = 0x86[274=玉佛珠, 0, →阴气推回] 正是 op1=0,
+      //   致不佩戴玉佛珠也能破屏障进将军冢(原版/sdlpal 同此潜在 bug)。取 1 = "全队无人装备就拦"。
       const r = gs.PlayerRolesRuntime
+      const required = (operands[1] ?? 0) || 1
       let count = 0
       for (const roleId of gs.partyMembers) {
         for (let slot = 0; slot < 6; slot++) {
           if (r.rgwEquipment[slot]?.[roleId] === (operands[0] ?? 0)) count++
         }
       }
-      if (count < (operands[1] ?? 0)) jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
+      if (count < required) jumpToGlobalIp(gs, cursor, operands[2] ?? 0)
       break
     }
     case OP_JUMP_IF_OBJ_STATE: {
