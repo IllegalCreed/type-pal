@@ -3,7 +3,7 @@ import { getMapName, hasMapName } from './map-names.js'
 
 describe('map-names', () => {
   it('已知地图返回考据地名', () => {
-    expect(getMapName(1)).toBe('余杭镇')
+    expect(getMapName(1)).toBe('盛渔村')
     expect(getMapName(23)).toBe('苏州城')
     expect(getMapName(25)).toBe('仙灵岛迷宫（破解后）')
     expect(getMapName(119)).toBe('仙灵岛桃花林')
