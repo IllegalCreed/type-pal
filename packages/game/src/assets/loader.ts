@@ -481,6 +481,8 @@ export async function fetchPalette(id: number): Promise<Palette> {
 
 export interface SceneAssets {
   sceneId: number
+  /** scene 所属地图号(SCENE.mapNum;场景名按 map 而非 wNumScene 命名,见 tools/map-names）。 */
+  mapNum: number
   tilemap: Tilemap
   palette: Palette
   eventObjects: SceneEventObject[]

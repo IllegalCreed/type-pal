@@ -10,7 +10,8 @@ import type { GameState } from '../core/game-state.js'
 import type { AudioVolumeController } from '../shell/audio-volume.js'
 import type { DisplayScaleController } from './display-scale.js'
 import { parseImportedSave, serializeSave } from './save-io.js'
-import { getSceneName } from './scene-names.js'
+import { getCurrentMapNum } from '../core/scene-system.js'
+import { getMapName } from './map-names.js'
 import { showToast } from './toast.js'
 
 export interface PanelResources {
@@ -108,6 +109,18 @@ export function injectToolsPanelStyles(): void {
 .tp-input::placeholder { color:var(--tp-text-dim); }
 .tp-muted { color:var(--tp-text-dim); }
 .tp-dialog-line { padding:6px 0; border-bottom:1px solid var(--tp-border); line-height:1.55; }
+.tp-unit { border:1px solid var(--tp-border); border-radius:6px; padding:9px 12px 7px;
+  margin-bottom:11px; background:rgba(0,0,0,0.18); }
+.tp-unit-head { display:flex; justify-content:space-between; align-items:baseline;
+  margin-bottom:7px; padding-bottom:6px; border-bottom:1px solid rgba(85,51,34,0.55); }
+.tp-unit-name { color:var(--tp-cream); font-size:15px; letter-spacing:1px; }
+.tp-unit-hp { font-family:ui-monospace,Menlo,monospace; font-size:13px; }
+.tp-stat-line { font-size:13px; line-height:1.85; }
+.tp-stat-line .k { color:var(--tp-text-dim); margin-right:6px; }
+.tp-chip { display:inline-block; margin:0 8px 1px 0; font-family:ui-monospace,Menlo,monospace; font-size:12.5px; }
+.e-wind{color:#6fcf97} .e-thunder{color:#bb8fce} .e-water{color:#5dade2} .e-fire{color:#ec7063}
+.e-earth{color:#d4ac6e} .e-phys{color:#9aa6a8} .e-poison{color:#a3d977} .e-sorcery{color:#e3a3d6}
+.s-debuff{color:#e06c5a} .s-buff{color:#7fc88a} .s-poison{color:#b88fd6} .s-steal{color:#f0c674}
 #tp-tools-launcher { position:fixed; bottom:12px; right:12px; z-index:29;
   width:38px; height:38px; background:rgba(17,17,17,0.85); color:#d8b365;
   border:1px solid #d8b365; border-radius:7px; font:19px/1 "Songti SC","SimSun",serif;
@@ -179,32 +192,120 @@ function button(parent: HTMLElement, text: string, onClick: () => void): HTMLBut
   return b
 }
 
-/** 战斗 tab:队伍状态 / 敌人血量 / 场地(复用 battle-inspect 纯读函数)。非战斗 → 提示。 */
+// ── 战斗 tab 辅助:unit panel + 彩色 chip ──
+const ELEM_CLASS: Record<string, string> = {
+  风: 'e-wind', 雷: 'e-thunder', 水: 'e-water', 火: 'e-fire', 土: 'e-earth',
+  物理: 'e-phys', 毒: 'e-poison', 巫抗: 'e-sorcery',
+}
+
+function chip(parent: HTMLElement, text: string, cls: string): void {
+  const s = document.createElement('span')
+  s.className = cls ? `tp-chip ${cls}` : 'tp-chip'
+  s.textContent = text
+  parent.appendChild(s)
+}
+
+function chipLine(parent: HTMLElement, label: string, items: { text: string; cls: string }[]): void {
+  if (!items.length) return
+  const d = document.createElement('div')
+  d.className = 'tp-stat-line'
+  const k = document.createElement('span')
+  k.className = 'k'
+  k.textContent = label
+  d.appendChild(k)
+  for (const it of items) chip(d, it.text, it.cls)
+  parent.appendChild(d)
+}
+
+function unitPanel(parent: HTMLElement, name: string, right: string, rightCss: string): HTMLElement {
+  const u = document.createElement('div')
+  u.className = 'tp-unit'
+  const head = document.createElement('div')
+  head.className = 'tp-unit-head'
+  const nm = document.createElement('span')
+  nm.className = 'tp-unit-name'
+  nm.textContent = name
+  const r = document.createElement('span')
+  r.className = 'tp-unit-hp'
+  r.textContent = right
+  if (rightCss) r.style.cssText = rightCss
+  head.append(nm, r)
+  u.appendChild(head)
+  parent.appendChild(u)
+  return u
+}
+
+/** HP 比例 → 颜色(绿>50% 黄>20% 红)。 */
+function hpCss(hp: number, maxHp: number): string {
+  const ratio = maxHp > 0 ? hp / maxHp : 0
+  return `color:${ratio > 0.5 ? '#7fc88a' : ratio > 0.2 ? '#e8c060' : '#e06c5a'}`
+}
+
+function resistChips(resistances: { label: string; value: number }[]): { text: string; cls: string }[] {
+  return resistances.map((r) => ({
+    text: `${r.label}${r.value > 0 ? '+' : ''}${r.value}`,
+    cls: ELEM_CLASS[r.label] ?? '',
+  }))
+}
+
+function statusChips(statuses: { name: string; kind: string }[]): { text: string; cls: string }[] {
+  return statuses.map((s) => ({ text: s.name, cls: `s-${s.kind}` }))
+}
+
+/** 战斗 tab:我方/敌方各独立 panel(HP/MP/抗性/状态/可偷,彩色) + 场地。非战斗 → 提示。 */
 function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources): void {
   if (gs.mode !== 'battle' || !gs.battleState) {
     muted(parent, '(当前非战斗)')
     return
   }
-  sectionTitle(parent, '队伍状态')
+  sectionTitle(parent, '我方')
   for (const p of collectPartyStatusReadouts(gs, res.playerRoles, res.objectPoisons, res.items)) {
-    row(parent, p.roleName, p.entries.length ? p.entries.join(' / ') : '正常')
+    const u = unitPanel(
+      parent,
+      `${p.roleName}　Lv${p.level}`,
+      `HP ${p.hp}/${p.maxHp}　MP ${p.mp}/${p.maxMp}`,
+      hpCss(p.hp, p.maxHp),
+    )
+    chipLine(u, '抗性', resistChips(p.resistances))
+    chipLine(u, '状态', statusChips(p.statuses))
   }
-  sectionTitle(parent, '敌人状态')
+  sectionTitle(parent, '敌方')
   for (const e of collectEnemyStatusReadouts(gs, res.objectPoisons, res.items)) {
-    row(parent, e.name, e.defeated ? '已倒' : `HP ${e.hp}/${e.maxHp}`)
+    const u = unitPanel(
+      parent,
+      e.name,
+      e.defeated ? '已倒' : `HP ${e.hp}/${e.maxHp}`,
+      e.defeated ? 'color:var(--tp-text-dim)' : hpCss(e.hp, e.maxHp),
+    )
+    const keyStats = e.stats.filter((s) => ['攻', '灵', '防', '身法'].includes(s.label))
+    chipLine(u, '属性', keyStats.map((s) => ({ text: `${s.label}${s.value}`, cls: '' })))
+    chipLine(u, '抗性', resistChips(e.resistances))
+    chipLine(u, '状态', statusChips(e.statuses))
+    if (e.canSteal) chipLine(u, '可偷', [{ text: e.steal, cls: 's-steal' }])
   }
   const field = collectFieldInfoReadout(gs)
   if (field) {
     sectionTitle(parent, '场地')
-    row(parent, 'field', `#${field.fieldId}${field.isBoss ? '  (BOSS)' : ''}`)
-    row(parent, '元素场效', field.elements.map((s) => `${s.label}${s.value > 0 ? '+' : ''}${s.value}`).join('  '))
+    const u = unitPanel(
+      parent,
+      `场地 #${field.fieldId}`,
+      field.isBoss ? 'BOSS' : '',
+      field.isBoss ? 'color:var(--tp-crimson);font-weight:bold' : '',
+    )
+    chipLine(
+      u,
+      '场效',
+      field.elements.map((s) => ({ text: `${s.label}${s.value > 0 ? '+' : ''}${s.value}`, cls: ELEM_CLASS[s.label] ?? '' })),
+    )
   }
 }
 
 /** 场景 tab:简版(场景名 + 坐标 + 镜头);小地图视图待后续独立任务。 */
 function renderSceneTab(parent: HTMLElement, gs: GameState): void {
   sectionTitle(parent, '当前场景')
-  row(parent, '场景', `${getSceneName(gs.wNumScene)}  (#${gs.wNumScene})`)
+  const mapNum = getCurrentMapNum()
+  row(parent, '地图', `${getMapName(mapNum)}  (map ${mapNum})`)
+  row(parent, '场景号', `#${gs.wNumScene}`)
   row(parent, '主角坐标', `x=${gs.party.x}  y=${gs.party.y}`)
   row(parent, '朝向', String(gs.party.facing))
   row(parent, '镜头', `x=${gs.camera.x}  y=${gs.camera.y}`)
@@ -317,15 +418,15 @@ function renderDialogTab(parent: HTMLElement, gs: GameState): void {
   const renderList = (q: string): void => {
     list.replaceChildren()
     const kw = q.trim()
-    let lastScene: number | undefined
+    let lastMap: number | undefined
     for (const entry of history) {
       if (kw && !entry.text.includes(kw)) continue
-      if (entry.scene !== lastScene) {
+      if (entry.map !== lastMap) {
         const g = document.createElement('div')
         g.className = 'tp-section-title tp-dialog-group'
-        g.textContent = getSceneName(entry.scene)
+        g.textContent = getMapName(entry.map)
         list.appendChild(g)
-        lastScene = entry.scene
+        lastMap = entry.map
       }
       const line = document.createElement('div')
       line.className = 'tp-dialog-line'

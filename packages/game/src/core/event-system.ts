@@ -31,6 +31,7 @@ import type { CommandBus } from './command-bus.js'
 import type { GameState, NpcState, EventCursor, DialogBoxState } from './game-state.js'
 import { PARTYOFFSET_X, PARTYOFFSET_Y } from './game-state.js'
 import { pushDialogHistory } from './dialog-history.js'
+import { getCurrentMapNum } from './scene-system.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
 import { getWord } from './word-lookup.js'
 import { addPlayerStatRow, getPlayerPoisonResistance, removeEquipmentEffect, setPlayerStatRow, writeEquipmentEffectField } from './equip-effect.js'
@@ -2021,8 +2022,9 @@ export function tickEventSystem(
         }
         // 历史对话捕获(生产工具面板用,会话态):提交可见对话行时入环形缓冲。
         // 两条路径(startDialogLine 启首行 / appendDialogLine 续行)都走 cmd.text;空/纯控制符
-        // 由 pushDialogHistory 的 trim 跳过兜底;连续同 scene 同 text 去重防多 tick re-commit。
-        pushDialogHistory(gs.dialogHistory ?? (gs.dialogHistory = []), gs.wNumScene, cmd.text)
+        // 由 pushDialogHistory 的 trim 跳过兜底;连续同 map 同 text 去重防多 tick re-commit。
+        // 维度按 mapNum(地图号)而非 wNumScene:同 map 多场景共享地名分组更稳(getCurrentMapNum)。
+        pushDialogHistory(gs.dialogHistory ?? (gs.dialogHistory = []), getCurrentMapNum(), cmd.text)
         // DM21:行内 $NN 改速后同步回脚本级(C iDelayTime 是全局,任何 $ 都写它)。
         if (gs.dialogBox.iDelayState !== undefined) gs.dialogIDelayFrames = gs.dialogBox.iDelayState
         cursor.waiting = 'dialog'

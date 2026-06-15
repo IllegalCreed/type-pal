@@ -21,6 +21,7 @@ describe('SceneAssetsCache(M3.5)', () => {
   it('第一次 loadScene 调 fetcher,第二次 cache hit 不调', async () => {
     const fetcher = vi.fn(async (sceneId: number): Promise<SceneAssets> => ({
       sceneId,
+      mapNum: 0,
       tilemap: { width: 64, height: 128, cells: [] } as any,
       palette: { colors: [] as Array<[number, number, number]> } as any,
       eventObjects: [],
@@ -43,6 +44,7 @@ describe('SceneAssetsCache(M3.5)', () => {
   it('SceneAssets 字段透传', async () => {
     const fakeAssets: SceneAssets = {
       sceneId: 5,
+      mapNum: 0,
       tilemap: { width: 30, height: 40, cells: [] } as any,
       palette: { colors: [] } as any,
       eventObjects: [],
@@ -62,6 +64,7 @@ describe('SceneAssetsCache LRU 淘汰(内存泄露修复:全场景常驻 → 有
     vi.fn(
       async (sceneId: number): Promise<SceneAssets> => ({
         sceneId,
+        mapNum: 0,
         tilemap: { width: 1, height: 1, cells: [] } as any,
         palette: { colors: [] } as any,
         eventObjects: [],

@@ -28,6 +28,14 @@ export function setSceneContext(ctx: SceneContext): void {
   _ctx = ctx
 }
 
+// 当前场景所属地图号(SCENE.mapNum)。场景名按 map 而非 wNumScene 命名(同 map 的多个 scene
+// 共享地名更稳),由 loadScene 写入;event-system 历史对话捕获经 getCurrentMapNum 读它。
+let _currentMapNum = 0
+
+export function getCurrentMapNum(): number {
+  return _currentMapNum
+}
+
 function requireSceneContext(ctxOverride?: SceneContext): SceneContext {
   const ctx = ctxOverride ?? _ctx
   if (!ctx) throw new Error('scene-system: setSceneContext / ctxOverride 必须先设置')
@@ -611,6 +619,7 @@ export async function loadScene(input: LoadSceneInput): Promise<void> {
     eventCommands: sceneAssets.eventCommands,
     labelMap: sceneAssets.labelMap,
   })
+  _currentMapNum = sceneAssets.mapNum // 场景名按 map 命名:历史对话捕获用 getCurrentMapNum 读它
 
   // P0.e: party 起点 + enter script 副作用顺序:
   //   1. 先跑 wScriptOnEnter(若有)— 设 wNumBattleField / wNumMusic / setSceneObjectState 等

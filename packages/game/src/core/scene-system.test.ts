@@ -926,6 +926,7 @@ function makeSceneAssets(
 ): SceneAssets {
   return {
     sceneId,
+    mapNum: sceneId, // 测试用占位:让 getCurrentMapNum 有可断言的非 0 值(真值来自 scene JSON）
     tilemap: { width: 64, height: 128, cells: [], tilesetImage: 'fake' } as Tilemap,
     palette: { colors: [], cycles: [] } as any,
     eventObjects,

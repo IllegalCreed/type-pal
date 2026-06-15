@@ -622,6 +622,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     // present 切到从 sceneAssets 取。
     return {
       sceneId,
+      mapNum: sceneJson.mapNum, // 场景名按 mapNum 命名(tools/map-names) + scene-system.getCurrentMapNum
       tilemap: tilemapJson,
       palette,
       eventObjects: sceneJson.eventObjects,
