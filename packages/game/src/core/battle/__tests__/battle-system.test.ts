@@ -444,6 +444,36 @@ function driveBattleToExplore(gs: GameState, bus: CommandBus, max = 400): void {
 // startBattle
 // ============================================================================
 
+describe('#311 敌方乱/定/眠 本回合不跑 wScriptOnReady(镜像 sdlpal#311)', () => {
+  // 原版 DOS 实测:敌方中乱/定/眠的回合不执行其行动脚本;sdlpal/type-pal 漏判 → 中招 Boss 仍跑脚本
+  //   (自愈/召唤/换阶段/对话)。守卫加在 battle-system tickPerformAction 跑 scriptOnReady 之前。
+  //   检测信号 = action 项的 scriptReadyRan(脚本跑过即置真;被守卫跳过则保持 undefined)。
+  const READY_IP = 1 // 指向 commands[1](合法且 >0;scriptOnReady>0 才触发)
+  function readyScriptRanUnderStatus(status: Partial<{ sleep: number; paralyzed: number; confused: number }>): boolean {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 50 })],
+      commands: [{ op: 'end' }, { op: 'end' }],
+    })
+    const st = gs.battleState!
+    const enemy = st.enemies[0]!
+    enemy.scriptOnReady = READY_IP
+    Object.assign(enemy.status, status)
+    // 直接摆"敌方行动"队列项驱动 performAction(仿死员跳过测试的手法)
+    st.phase = 'performAction'
+    st.actionQueue = [{ isEnemy: true, idx: 0, dex: 100, fIsSecond: false }]
+    st.currentActionIndex = 0
+    tickBattle(gs, emptyInput, bus)
+    return st.actionQueue[0]?.scriptReadyRan === true
+  }
+
+  it('睡眠 → 不跑 scriptOnReady', () => { expect(readyScriptRanUnderStatus({ sleep: 3 })).toBe(false) })
+  it('定身 → 不跑 scriptOnReady', () => { expect(readyScriptRanUnderStatus({ paralyzed: 3 })).toBe(false) })
+  it('混乱 → 不跑 scriptOnReady', () => { expect(readyScriptRanUnderStatus({ confused: 3 })).toBe(false) })
+  it('无异常状态 → 正常跑 scriptOnReady(反例,防过度拦截)', () => {
+    expect(readyScriptRanUnderStatus({})).toBe(true)
+  })
+})
+
 describe('startBattle', () => {
   it('构 BattleState + 切 mode=battle + phase=preBattle', () => {
     const { gs } = bootstrap()

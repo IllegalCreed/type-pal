@@ -2397,7 +2397,11 @@ function tickPerformAction(
       // 0x79 队伍条件分支经 explore handler fallthrough 已生效;0x90 写 gs.rgObject —— 战斗**内**
       // 不回读(本场用 battle-local 字段),但**下一场** startBattle 播种优先读它(battle.c:1611-1615,
       // 刀手/胖苗对话 show-once 跨战斗持久);场内 show-once = scriptOnTurnStart/Ready 返回值回写(见 runEnemyTurnStartScripts)。
-      if (enemy.scriptOnReady > 0 && !item.scriptReadyRan) {
+      // sdlpal#311(未合并):敌方处于乱/定/眠时,本回合**不跑** wScriptOnReady。原版 DOS 实测中招
+      //   敌当回合不执行行动脚本;sdlpal 漏判 → 中招 Boss 仍跑脚本(自愈/召唤/换阶段/对话)→ 异常状态封不干净。
+      //   三状态任一 >0 即整段脚本跳过(decideEnemyAction 随后照常 pass/混乱乱打,不依赖此脚本)。
+      const incapacitated = enemy.status.sleep > 0 || enemy.status.paralyzed > 0 || enemy.status.confused > 0
+      if (enemy.scriptOnReady > 0 && !item.scriptReadyRan && !incapacitated) {
         item.scriptReadyRan = true // 本 turn 项一次性(防对话 hold 暂停期间重入重复跑)
         state.battleDialogPendingClear = false // 脚本起手清 ClearDialog 暂存(防跨脚本泄漏)
         // B2 c7:真 show-once / re-arm —— sdlpal `wScriptOnReady = PAL_RunTriggerScript(...)`
