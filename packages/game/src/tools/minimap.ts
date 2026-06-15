@@ -328,8 +328,10 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     widget = document.createElement('div')
     widget.id = 'tp-minimap-widget'
     widgetCanvas = document.createElement('canvas')
-    widgetCanvas.width = WIDGET_PX
-    widgetCanvas.height = WIDGET_PX
+    // backing 按 DPR 放大(retina 清晰),CSS 仍 WIDGET_PX。
+    const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 2)
+    widgetCanvas.width = Math.round(WIDGET_PX * dpr)
+    widgetCanvas.height = Math.round(WIDGET_PX * dpr)
     // 显式 inline 尺寸:覆盖 index.html 全局 `canvas{width:960px;height:600px}`。
     widgetCanvas.style.width = `${WIDGET_PX}px`
     widgetCanvas.style.height = `${WIDGET_PX}px`
@@ -401,8 +403,10 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
   return {
     mountSceneView(container, sizePx, onTick) {
       const canvas = document.createElement('canvas')
-      canvas.width = sizePx
-      canvas.height = sizePx
+      // backing 按 DPR 放大(retina 清晰;640 底图够用),CSS 仍 sizePx;drawMinimap 用 canvas.width=backing。
+      const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 2)
+      canvas.width = Math.round(sizePx * dpr)
+      canvas.height = Math.round(sizePx * dpr)
       canvas.className = 'tp-minimap-canvas'
       // 显式 inline 尺寸:覆盖 index.html 全局 `canvas{width:960px;height:600px}`(否则被拉伸变形)。
       canvas.style.width = `${sizePx}px`
