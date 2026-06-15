@@ -84,7 +84,7 @@ import {
   presentBattleFrame,
   presentFrame,
 } from '../present/present.js'
-import { battleVictoryTrack, createAudioManager, pickMusicTrack, setOggVolumeScale, sfxForBattleEvent, type AudioManager } from './audio.js'
+import { battleVictoryTrack, createAudioManager, pickMusicTrack, setOggVolumeScale, setSfxVolume, sfxForBattleEvent, type AudioManager } from './audio.js'
 import { createSpessaSynthBackend, setBgmVolume } from './audio-midi.js'
 import { createAudioVolumeController } from './audio-volume.js'
 import { createDisplayScaleController } from '../tools/display-scale.js'
@@ -1060,12 +1060,19 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       setOggVolumeScale(v)
     },
   })
+  // 音效(SFX)独立音量(sounds/*.wav);自己的 localStorage 键。
+  const sfxVolume = createAudioVolumeController({
+    applyVolume: setSfxVolume,
+    keyVol: 'tp-sfx-volume',
+    keyMute: 'tp-sfx-muted',
+  })
   const displayScale = createDisplayScaleController(canvas)
   setupToolsPanel({
     getGs: () => gs,
     getResources: () => ({ playerRoles, objectPoisons, items, levelUpExp: assets.levelUpExp }),
     displayScale,
     audioVolume,
+    sfxVolume,
     saveSlot: (slot, g) => Save.saveSlot(slot, g),
     // 小地图底图:复用 renderSceneThumbnail,出 640px 高清(= minimap BASE_PX;各缩放档皆降采样=清晰)。
     //   "地图发黑" 真因是 getCurrentMapNum stale 停在 map 0 梦境(已修),非 palette。

@@ -152,6 +152,12 @@ export function setOggVolumeScale(s: number): void {
   if (curOggEl) curOggEl.volume = 0.6 * s // 当前播放即时刷新
 }
 
+// SFX(sounds/*.wav)音量系数(0..1,默认 1)。playSfx 经增益节点应用;改动影响后续 SFX(SFX 短,无需刷正在播的)。
+let sfxScale = 1
+export function setSfxVolume(s: number): void {
+  sfxScale = s < 0 ? 0 : s > 1 ? 1 : s
+}
+
 export function createOggMusicBackend(baseUrl: string): MusicBackend {
   let cur: HTMLAudioElement | undefined
   const AudioCtor = typeof Audio !== 'undefined' ? Audio : undefined
@@ -237,7 +243,10 @@ export function createAudioManager(baseUrl = ''): AudioManager {
     }
     const src = c.createBufferSource()
     src.buffer = buf
-    src.connect(c.destination)
+    // 经增益节点 → 受 SFX 音量(sfxScale)控制(工具面板音效滑块);src→gain→destination。
+    const g = c.createGain()
+    g.gain.value = sfxScale
+    src.connect(g).connect(c.destination)
     src.onended = () => sfxDedup.markEnded(soundId) // L46:播完复位 lastSFX(sound.c:930)
     src.start()
   }

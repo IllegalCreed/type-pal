@@ -28,7 +28,10 @@ export interface ToolsPanelDeps {
   /** 战斗 tab 只读用(playerRoles/objectPoisons/items);资源加载后不变。 */
   getResources: () => PanelResources
   displayScale: DisplayScaleController
+  /** BGM(音乐:MIDI + OGG)音量。 */
   audioVolume: AudioVolumeController
+  /** 音效(SFX:sounds/*.wav)音量,独立于 BGM。 */
+  sfxVolume: AudioVolumeController
   /** 存档导出 = 当前 gs;导入 = 解析后写 slot 1。 */
   saveSlot: (slot: number, gs: GameState) => Promise<void>
   /** 小地图底图:mapNum → 96×96 PNG dataURL(复用 bootstrap renderMapThumbnail 缓存);省略 → 无底图。 */
@@ -439,25 +442,25 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
   const fsBtn = button(parent, '全屏', () => ds.toggleFullscreen())
   fsBtn.style.marginTop = '6px'
 
-  // ── 音频 ──
+  // ── 音频(音乐 BGM / 音效 SFX 各自独立) ──
   sectionTitle(parent, '音频')
-  const vol = deps.audioVolume
-  const { slider: volSlider, val: volVal } = sliderRow(parent, 'BGM', {
-    min: 0,
-    max: 100,
-    value: Math.round(vol.getVolume() * 100),
-  })
-  const syncVol = (): void => {
-    volVal.textContent = `${volSlider.value}%`
+  const addVolRow = (label: string, ctrl: AudioVolumeController): void => {
+    const { slider, val } = sliderRow(parent, label, { min: 0, max: 100, value: Math.round(ctrl.getVolume() * 100) })
+    const sync = (): void => {
+      val.textContent = `${slider.value}%`
+    }
+    sync()
+    slider.addEventListener('input', () => {
+      ctrl.setVolume(Number(slider.value) / 100)
+      sync()
+    })
   }
-  syncVol()
-  volSlider.addEventListener('input', () => {
-    vol.setVolume(Number(volSlider.value) / 100)
-    syncVol()
-  })
-  const muteBtn = button(parent, vol.isMuted() ? '🔇 已静音' : '🔊 静音', () => {
+  addVolRow('音乐', deps.audioVolume)
+  addVolRow('音效', deps.sfxVolume)
+  const vol = deps.audioVolume
+  const muteBtn = button(parent, vol.isMuted() ? '🔇 音乐已静音' : '🔊 音乐静音', () => {
     vol.setMuted(!vol.isMuted())
-    muteBtn.textContent = vol.isMuted() ? '🔇 已静音' : '🔊 静音'
+    muteBtn.textContent = vol.isMuted() ? '🔇 音乐已静音' : '🔊 音乐静音'
   })
   muteBtn.style.marginTop = '6px'
 
