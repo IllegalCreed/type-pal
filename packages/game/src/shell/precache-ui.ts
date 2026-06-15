@@ -39,6 +39,7 @@ export function createPrecacheWidget(): PrecacheWidget {
     'pointer-events:none', 'user-select:none', 'transition:opacity 0.6s ease',
   ].join(';')
   const text = document.createElement('div')
+  text.textContent = '后台缓存中…' // 初始占位:enterGame 到首条 SW progress 之间不显空白框
   const bar = document.createElement('div')
   bar.style.cssText = 'height:4px;margin-top:4px;background:#2a1515;border-radius:2px;overflow:hidden'
   const fill = document.createElement('div')

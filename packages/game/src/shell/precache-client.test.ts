@@ -68,4 +68,25 @@ describe('registerPrecache', () => {
     ).resolves.toBeUndefined()
     expect(onUnavailable).toHaveBeenCalledOnce()
   })
+
+  it('startPrecache 早于 SW ready → 缓冲,registerPrecache 就绪后补发 precache', async () => {
+    vi.resetModules() // 隔离模块级 _activeWorker/_pendingStart
+    const mod = await import('./precache-client.js')
+    const post = vi.fn()
+    let resolveReady: (v: { active: { postMessage: typeof post } }) => void = () => {}
+    const sw = {
+      register: vi.fn().mockResolvedValue({}),
+      ready: new Promise<{ active: { postMessage: typeof post } }>((r) => {
+        resolveReady = r
+      }),
+      addEventListener: vi.fn(),
+    }
+    Object.defineProperty(navigator, 'serviceWorker', { value: sw, configurable: true })
+    const p = mod.registerPrecache({ isProd: true, onProgress: () => {} })
+    mod.startPrecache() // SW 还没 ready → 缓冲,不应立即发
+    expect(post).not.toHaveBeenCalled()
+    resolveReady({ active: { postMessage: post } })
+    await p
+    expect(post).toHaveBeenCalledWith({ type: 'precache' }) // ready 后补发
+  })
 })

@@ -26,10 +26,15 @@ export interface RegisterPrecacheOpts {
 
 // registerPrecache 内把 ready.active 存这里,供下面三个时机函数发消息。
 let _activeWorker: ServiceWorker | null = null
+// startPrecache 可能早于 swc.ready:必要资源 HTTP cache 命中、或硬刷触发 SW 更新(install/activate)时,
+// onPlayable 比 SW 就绪还快 → 指令发空、SW 永不启动、进度条停虚线 + 右上角 widget 空白
+// (2026-06-15 用户实测)。故缓冲,_activeWorker 就绪后补发。
+let _pendingStart = false
 
 /** 虚线后(必要资源就绪)触发 SW 全量预缓存(全速)。 */
 export function startPrecache(): void {
-  _activeWorker?.postMessage({ type: 'precache' })
+  if (_activeWorker) _activeWorker.postMessage({ type: 'precache' })
+  else _pendingStart = true // SW 还没就绪 → 缓冲,registerPrecache ready 后补发
 }
 
 /** 开场视频期间暂停预缓存——不抢视频 Range 请求和用户输入的带宽/IO(否则点击/空格延迟很大)。 */
@@ -78,4 +83,8 @@ export async function registerPrecache(opts: RegisterPrecacheOpts): Promise<void
   const reg = await swc.ready
   _activeWorker = reg.active ?? null
   opts.onReady?.()
+  if (_pendingStart) {
+    _pendingStart = false
+    _activeWorker?.postMessage({ type: 'precache' }) // 补发早于 ready 的 startPrecache(否则 SW 永不启动)
+  }
 }
