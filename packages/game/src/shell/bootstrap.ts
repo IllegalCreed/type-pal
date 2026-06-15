@@ -1060,6 +1060,8 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     displayScale,
     audioVolume,
     saveSlot: (slot, g) => Save.saveSlot(slot, g),
+    // 小地图底图:复用缩略图渲染(已按 mapNum 缓存);mapNum 给定时 sceneId 不被读。
+    getMapThumbnail: (mapNum) => renderSceneThumbnail(0, mapNum),
   })
   setupQuickSave({
     getGs: () => gs,

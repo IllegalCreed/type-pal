@@ -12,6 +12,7 @@ import type { DisplayScaleController } from './display-scale.js'
 import { parseImportedSave, serializeSave } from './save-io.js'
 import { getCurrentMapNum } from '../core/scene-system.js'
 import { getMapName } from './map-names.js'
+import { DOT_COLORS, type MinimapController, setupMinimap } from './minimap.js'
 import { showToast } from './toast.js'
 
 export interface PanelResources {
@@ -30,6 +31,8 @@ export interface ToolsPanelDeps {
   audioVolume: AudioVolumeController
   /** 存档导出 = 当前 gs;导入 = 解析后写 slot 1。 */
   saveSlot: (slot: number, gs: GameState) => Promise<void>
+  /** 小地图底图:mapNum → 96×96 PNG dataURL(复用 bootstrap renderMapThumbnail 缓存);省略 → 无底图。 */
+  getMapThumbnail?: (mapNum: number) => Promise<string | null>
 }
 
 type TabKey = 'battle' | 'scene' | 'system' | 'dialog'
@@ -123,7 +126,21 @@ export function injectToolsPanelStyles(): void {
 .e-wind{color:#6fcf97} .e-thunder{color:#bb8fce} .e-water{color:#5dade2} .e-fire{color:#ec7063}
 .e-earth{color:#d4ac6e} .e-phys{color:#9aa6a8} .e-poison{color:#a3d977} .e-sorcery{color:#e3a3d6}
 .s-debuff{color:#e06c5a} .s-buff{color:#7fc88a} .s-poison{color:#b88fd6} .s-steal{color:#f0c674}
-#tp-tools-launcher { position:fixed; bottom:12px; right:12px; z-index:29;
+.tp-mm-wrap { display:flex; justify-content:center; margin:4px 0 9px; }
+.tp-minimap-canvas { border:1px solid var(--tp-border); border-radius:5px; background:#0d0b08; max-width:100%; }
+.tp-mm-legend { display:flex; gap:18px; justify-content:center; margin-bottom:12px;
+  font-size:12.5px; color:var(--tp-text-dim); }
+.tp-mm-leg { display:inline-flex; align-items:center; gap:5px; }
+.tp-mm-leg i { width:9px; height:9px; border-radius:50%; display:inline-block; box-shadow:0 0 2px rgba(0,0,0,0.6); }
+.tp-toggle { display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:8px 2px; cursor:pointer; border-bottom:1px solid rgba(85,51,34,0.4); }
+.tp-toggle span { color:var(--tp-text); }
+.tp-toggle input { accent-color:var(--tp-gold); width:16px; height:16px; cursor:pointer; flex:0 0 auto; }
+#tp-minimap-widget { position:fixed; bottom:12px; right:12px; z-index:28; padding:6px;
+  background:rgba(17,17,17,0.82); border:1px solid #d8b365; border-radius:8px;
+  box-shadow:0 0 14px rgba(160,30,30,0.4),0 2px 10px rgba(0,0,0,0.5); pointer-events:none; }
+#tp-minimap-widget canvas { display:block; border-radius:4px; }
+#tp-tools-launcher { position:fixed; bottom:12px; left:12px; z-index:29;
   width:38px; height:38px; background:rgba(17,17,17,0.85); color:#d8b365;
   border:1px solid #d8b365; border-radius:7px; font:19px/1 "Songti SC","SimSun",serif;
   cursor:pointer; opacity:0.5; transition:opacity .15s, box-shadow .15s; }
@@ -206,6 +223,40 @@ function button(parent: HTMLElement, text: string, onClick: () => void): HTMLBut
   b.addEventListener('click', onClick)
   parent.appendChild(b)
   return b
+}
+
+/** 开关行:文字(左) + 复选框(右)。 */
+function toggleRow(parent: HTMLElement, label: string, checked: boolean, onChange: (v: boolean) => void): void {
+  const r = document.createElement('label')
+  r.className = 'tp-toggle'
+  const span = document.createElement('span')
+  span.textContent = label
+  const cb = document.createElement('input')
+  cb.type = 'checkbox'
+  cb.checked = checked
+  cb.addEventListener('change', () => onChange(cb.checked))
+  r.append(span, cb)
+  parent.appendChild(r)
+}
+
+/** 小地图图例:主角/NPC/宝物 三色点。 */
+function minimapLegend(parent: HTMLElement): void {
+  const wrap = document.createElement('div')
+  wrap.className = 'tp-mm-legend'
+  const items: [string, string][] = [
+    ['主角', DOT_COLORS.player.fill],
+    ['NPC', DOT_COLORS.npc.fill],
+    ['宝物', DOT_COLORS.item.fill],
+  ]
+  for (const [name, color] of items) {
+    const it = document.createElement('span')
+    it.className = 'tp-mm-leg'
+    const sw = document.createElement('i')
+    sw.style.cssText = `background:${color}`
+    it.append(sw, document.createTextNode(name))
+    wrap.appendChild(it)
+  }
+  parent.appendChild(wrap)
 }
 
 // ── 战斗 tab 辅助:unit panel + 彩色 chip ──
@@ -327,9 +378,18 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
   }
 }
 
-/** 场景 tab:简版(场景名 + 坐标 + 镜头);小地图视图待后续独立任务。 */
-function renderSceneTab(parent: HTMLElement, gs: GameState): void {
-  sectionTitle(parent, '当前场景')
+/** 场景 tab:小地图(底图 + 主角/NPC/宝物点 + 可视框)+ 两开关 + 文本信息。 */
+function renderSceneTab(parent: HTMLElement, gs: GameState, minimap: MinimapController): void {
+  sectionTitle(parent, '场景小地图')
+  const mm = document.createElement('div')
+  mm.className = 'tp-mm-wrap'
+  parent.appendChild(mm)
+  minimap.mountSceneView(mm, 280)
+  minimapLegend(parent)
+  toggleRow(parent, '右下角常驻显示', minimap.isWidgetEnabled(), (v) => minimap.setWidgetEnabled(v))
+  toggleRow(parent, '显示 NPC / 宝物定位点', minimap.isShowDots(), (v) => minimap.setShowDots(v))
+
+  sectionTitle(parent, '场景信息')
   const mapNum = getCurrentMapNum()
   row(parent, '地图', `${getMapName(mapNum)}  (map ${mapNum})`)
   row(parent, '场景号', `#${gs.wNumScene}`)
@@ -337,11 +397,6 @@ function renderSceneTab(parent: HTMLElement, gs: GameState): void {
   row(parent, '朝向', String(gs.party.facing))
   row(parent, '镜头', `x=${gs.camera.x}  y=${gs.camera.y}`)
   row(parent, '队伍', gs.partyMembers.join(', '))
-  const hint = document.createElement('div')
-  hint.className = 'tp-muted'
-  hint.style.marginTop = '12px'
-  hint.textContent = '🗺 小地图视图开发中(缩略图 + 主角/NPC/道具定位 + 可视框)'
-  parent.appendChild(hint)
 }
 
 /** 系统 tab:显示(缩放滑块 10%~1000% 正中100% + 全屏) / 音频(BGM 滑块 + 静音) / 存档(导出/导入)。 */
@@ -466,10 +521,10 @@ function renderDialogTab(parent: HTMLElement, gs: GameState): void {
   search.addEventListener('input', () => renderList(search.value))
 }
 
-function renderActiveTab(body: HTMLElement, active: TabKey, deps: ToolsPanelDeps): void {
+function renderActiveTab(body: HTMLElement, active: TabKey, deps: ToolsPanelDeps, minimap: MinimapController): void {
   const gs = deps.getGs()
   if (active === 'battle') renderBattleTab(body, gs, deps.getResources())
-  else if (active === 'scene') renderSceneTab(body, gs)
+  else if (active === 'scene') renderSceneTab(body, gs, minimap)
   else if (active === 'system') renderSystemTab(body, deps)
   else renderDialogTab(body, gs)
 }
@@ -478,6 +533,11 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
   if (typeof document === 'undefined') return
   if (document.getElementById('tp-tools-panel')) return // 幂等
   injectToolsPanelStyles()
+
+  const minimap = setupMinimap({
+    getGs: deps.getGs,
+    getMapThumbnail: deps.getMapThumbnail ?? (async () => null),
+  })
 
   const root = document.createElement('div')
   root.id = 'tp-tools-panel'
@@ -507,7 +567,7 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
   const render = (): void => {
     for (const [k, btn] of tabButtons) btn.classList.toggle('tp-tab-active', k === active)
     body.replaceChildren()
-    renderActiveTab(body, active, deps)
+    renderActiveTab(body, active, deps, minimap)
   }
   for (const [key, label] of TABS) {
     const b = document.createElement('button')
