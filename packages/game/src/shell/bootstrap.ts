@@ -681,8 +681,8 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   const THUMB_TILE_W = 32
   const THUMB_TILE_H = 16
   const THUMB_OUT_W = 96
-  const thumbCache = new Map<number, string>() // mapNum → dataURL(仅缓存成功)
-  const thumbInflight = new Map<number, Promise<string | null>>()
+  const thumbCache = new Map<string, string>() // `${mapNum}_${outW}` → dataURL(仅缓存成功)
+  const thumbInflight = new Map<string, Promise<string | null>>()
   let thumbActive = 0
   const thumbWaiters: (() => void)[] = []
   const THUMB_CONCURRENCY = 2
@@ -699,7 +699,11 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     else thumbActive--
   }
 
-  async function renderMapThumbnail(mapNum: number, paletteOverride?: Palette): Promise<string | null> {
+  async function renderMapThumbnail(
+    mapNum: number,
+    paletteOverride?: Palette,
+    outW: number = THUMB_OUT_W,
+  ): Promise<string | null> {
     const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
       if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
       return r.json() as Promise<Tilemap & { tilesetFiles?: string[] }>
@@ -729,9 +733,9 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     const fctx = full.getContext('2d')
     if (!fctx) return null
     fctx.putImageData(tfb.toImageData(paletteOverride ?? palette), 0, 0)
-    const scale = THUMB_OUT_W / bufW
+    const scale = outW / bufW
     const thumb = document.createElement('canvas')
-    thumb.width = THUMB_OUT_W
+    thumb.width = outW
     thumb.height = Math.max(1, Math.round(bufH * scale))
     const tctx = thumb.getContext('2d')
     if (!tctx) return null
@@ -744,6 +748,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   const renderSceneThumbnail = async (
     sceneId: number,
     mapNum?: number,
+    outW: number = THUMB_OUT_W, // dev picker 用默认 96;小地图传 256(高清)
   ): Promise<string | null> => {
     let map = mapNum
     if (map === undefined) {
@@ -754,26 +759,27 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       map = sj?.mapNum
     }
     if (map === undefined) return null
-    const cached = thumbCache.get(map)
+    const cacheKey = `${map}_${outW}` // 不同分辨率分开缓存(dev 96 / 小地图 256 不串)
+    const cached = thumbCache.get(cacheKey)
     if (cached) return cached
-    const inflight = thumbInflight.get(map)
+    const inflight = thumbInflight.get(cacheKey)
     if (inflight) return inflight
     const mapNumResolved = map
     const p = (async (): Promise<string | null> => {
       await acquireThumb()
       try {
-        const url = await renderMapThumbnail(mapNumResolved)
-        if (url) thumbCache.set(mapNumResolved, url)
+        const url = await renderMapThumbnail(mapNumResolved, undefined, outW)
+        if (url) thumbCache.set(cacheKey, url)
         return url
       } catch (e) {
         console.warn(`[dev-panel] 缩略图渲染失败 map ${mapNumResolved}:`, e)
         return null
       } finally {
         releaseThumb()
-        thumbInflight.delete(mapNumResolved)
+        thumbInflight.delete(cacheKey)
       }
     })()
-    thumbInflight.set(map, p)
+    thumbInflight.set(cacheKey, p)
     return p
   }
 
@@ -1061,9 +1067,9 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     displayScale,
     audioVolume,
     saveSlot: (slot, g) => Save.saveSlot(slot, g),
-    // 小地图底图:复用 renderSceneThumbnail(按 mapNum 缓存 + 并发限流;实测能出图)。
+    // 小地图底图:复用 renderSceneThumbnail,出 640px 高清(= minimap BASE_PX;各缩放档皆降采样=清晰)。
     //   "地图发黑" 真因是 getCurrentMapNum stale 停在 map 0 梦境(已修),非 palette。
-    getMapThumbnail: (mapNum) => renderSceneThumbnail(0, mapNum),
+    getMapThumbnail: (mapNum) => renderSceneThumbnail(0, mapNum, 640),
   })
   setupQuickSave({
     getGs: () => gs,

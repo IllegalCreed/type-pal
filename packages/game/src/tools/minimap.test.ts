@@ -1,21 +1,40 @@
 import type { Command } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import type { EventKind } from './minimap.js'
-import { classifyTrigger, collectEventKinds, collectMinimapData, worldToThumb } from './minimap.js'
+import { BASE_PX, classifyTrigger, collectEventKinds, collectMinimapData, computeView, worldToThumb } from './minimap.js'
 import type { GameState, NpcState } from '../core/game-state.js'
 
-// 变换常量(与 minimap.ts):SCALE=96/2080,CAM_OFF=16。
-const SCALE = 96 / 2080
+// 变换常量(与 minimap.ts):SCALE=BASE_PX/2080,CAM_OFF=16。
+const SCALE = BASE_PX / 2080
 
 describe('worldToThumb', () => {
-  it('世界像素 → 缩略图像素((wx+16)*SCALE)', () => {
+  it('世界像素 → 底图像素((wx+16)*SCALE)', () => {
     const [x0, y0] = worldToThumb(0, 0)
     expect(x0).toBeCloseTo(16 * SCALE, 4)
     expect(y0).toBeCloseTo(16 * SCALE, 4)
     const [x1, y1] = worldToThumb(2032, 2032)
     expect(x1).toBeCloseTo(2048 * SCALE, 4)
     expect(y1).toBeCloseTo(2048 * SCALE, 4)
-    expect(x1).toBeLessThan(96)
+    expect(x1).toBeLessThanOrEqual(BASE_PX)
+  })
+})
+
+describe('computeView', () => {
+  it('视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)', () => {
+    expect(computeView(2080, 1024, 1024)).toEqual({ sx: 0, sy: 0, sw: BASE_PX })
+  })
+  it('缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内', () => {
+    const v = computeView(960, 1024, 1024)
+    expect(v.sw).toBeCloseTo((960 * BASE_PX) / 2080, 3)
+    // 主角(1024)→ 底图中心附近,视图围绕它
+    const [px] = worldToThumb(1024, 1024)
+    expect(px).toBeGreaterThanOrEqual(v.sx)
+    expect(px).toBeLessThanOrEqual(v.sx + v.sw)
+  })
+  it('主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)', () => {
+    const v = computeView(640, 0, 0)
+    expect(v.sx).toBeGreaterThanOrEqual(0)
+    expect(v.sx + v.sw).toBeLessThanOrEqual(BASE_PX + 0.001)
   })
 })
 
@@ -40,7 +59,10 @@ describe('classifyTrigger', () => {
   it('item 优先于 teleport', () => {
     expect(classifyTrigger(cmds(give(1), teleport(), end()), { L_0: 0 }, 'L_0').kind).toBe('item')
   })
-  it('count<=0(扣道具) → other', () => {
+  it('count=0 → item(sdlpal count==0 给 1 个;**绝大多数地图宝物 count=0**,如木鞋)', () => {
+    expect(classifyTrigger(cmds(give(0, '木鞋'), end()), { L_0: 0 }, 'L_0')).toEqual({ kind: 'item', name: '木鞋' })
+  })
+  it('count<0(扣道具) → other', () => {
     expect(classifyTrigger(cmds(give(-1), end()), { L_0: 0 }, 'L_0').kind).toBe('other')
   })
   it('0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other', () => {

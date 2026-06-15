@@ -6,22 +6,45 @@ import { getGlobalCommands, getGlobalLabelMap, OP_ADD_CASH, OP_ADD_ITEM, OP_ADD_
 import type { GameState, NpcState } from '../core/game-state.js'
 import { getCurrentMapNum } from '../core/scene-system.js'
 
-// ── 世界像素 → 96px 缩略图像素 变换(与 bootstrap.renderMapThumbnail 1:1) ──────────
+// ── 世界像素 → 底图像素 变换(与 bootstrap.renderMapThumbnail 1:1) ──────────────
 //   地图恒 64×128 tile(map.c 硬编码),tile 32×16 → 世界 2048×2048;缩略图 framebuffer
-//   bufW=(64+1)*32=2080,camera=(-16,-16),降采样到 96 宽 → 96×96。
+//   bufW=(64+1)*32=2080,camera=(-16,-16),降采样到 BASE_PX 宽。BASE_PX 用较高分辨率
+//   (高于 dev 96)→ 场景 tab 近 1:1 不糊、widget 放大裁剪也清晰。
 const TILE_W = 32
 const TILE_H = 16
 const BUF_W = (64 + 1) * TILE_W // 2080
-const THUMB_PX = 96 // THUMB_OUT_W
-const SCALE = THUMB_PX / BUF_W // 缩略图像素 / 世界像素 ≈ 0.04615
+export const BASE_PX = 640 // 底图渲染分辨率(px;= worldToThumb 值域 + bootstrap getMapThumbnail outW)。高→各缩放档皆降采样=清晰
+const SCALE = BASE_PX / BUF_W // 底图像素 / 世界像素
 const CAM_OFF_X = TILE_W / 2 // 16(缩略图 camera.x = -16)
 const CAM_OFF_Y = TILE_H // 16(缩略图 camera.y = -16)
 const VIEW_W = 320 // viewport 世界像素宽(framebuffer.ts SCREEN_W)
 const VIEW_H = 200 // viewport 世界像素高(SCREEN_H)
 
-/** 世界像素 → 96px 缩略图像素(0..96)。 */
+/** 世界像素 → 底图像素(0..BASE_PX)。 */
 export function worldToThumb(wx: number, wy: number): [number, number] {
   return [(wx + CAM_OFF_X) * SCALE, (wy + CAM_OFF_Y) * SCALE]
+}
+
+// ── 视图(底图源方形;缩放/居中) ─────────────────────────────────────────────
+//   widget 缩放档(index 小→大 = 缩小→放大):视野世界宽度(px)。白框(320 世界px)占容器比例 = 320/视野宽:
+//   2080→全图正好铺满 widget(最小缩放), 1280→1/4框, 960→1/3框(默认), 640→1/2框(最大放大)。
+//   地图恒 64×128(2048²世界px)→ 档位对所有地图统一。场景 tab 恒全图(不受此影响)。
+export const ZOOM_WORLD_WIDTHS = [2080, 1280, 960, 640] as const
+export const DEFAULT_ZOOM_INDEX = 2
+export interface MinimapView {
+  sx: number
+  sy: number
+  sw: number
+}
+const WHOLE_VIEW: MinimapView = { sx: 0, sy: 0, sw: BASE_PX }
+
+/** 缩放视图(底图源方形):以世界点(cx,cy)为中心、targetWorldWidth 宽,clamp 到底图边界;>=全图→全图。 */
+export function computeView(targetWorldWidth: number, cx: number, cy: number): MinimapView {
+  const sw = Math.min(BASE_PX, targetWorldWidth * SCALE)
+  if (sw >= BASE_PX) return WHOLE_VIEW
+  const [pcx, pcy] = worldToThumb(cx, cy)
+  const clamp = (c: number): number => Math.max(sw / 2, Math.min(BASE_PX - sw / 2, c))
+  return { sx: clamp(pcx) - sw / 2, sy: clamp(pcy) - sw / 2, sw }
 }
 
 // ── 定位点配色(draw + 图例共用) ──────────────────────────────────────────────
@@ -61,11 +84,12 @@ export function classifyTrigger(
   for (let i = start; i < commands.length && i < start + LIMIT; i++) {
     const c = commands[i]
     if (!c) break
-    if (c.op === 'giveItem' && c.count > 0) return { kind: 'item', name: c._item }
+    // count >= 0 = 给道具(sdlpal count==0 → 给 1 个,global.c:1094;**绝大多数地图宝物就是 count=0**);负=扣除不算。
+    if (c.op === 'giveItem' && c.count >= 0 && c.itemId > 0) return { kind: 'item', name: c._item }
     if (c.op === 'raw') {
       const op = c.opcode
       const a0 = c.operands[0] ?? 0
-      if (op === OP_ADD_ITEM && (c.operands[1] ?? 0) > 0) return { kind: 'item' }
+      if (op === OP_ADD_ITEM && a0 > 0) return { kind: 'item' } // 0x1F operand[0]=itemId(remove 是 0x20)
       if (op === OP_ADD_CASH && a0 > 0 && a0 < 0x8000) return { kind: 'item', name: '金钱' } // 正额=获得(负=花钱)
       if (op === OP_ADD_MAGIC && a0 > 0) return { kind: 'item', name: '法术' }
     }
@@ -140,72 +164,98 @@ function dot(
   ctx.stroke()
 }
 
+/** 显隐开关:NPC 点 / 宝物点 各自独立(可视白框 + 主角点恒画)。 */
+export interface MinimapToggles {
+  showNpc: boolean
+  showItems: boolean
+}
+
 /**
- * 画小地图到方形 canvas(W=H,display 像素)。base=底图(null→暗底占位);showDots 控制 NPC/宝物点;
- * 主角点 + 可视白框恒画。
+ * 画小地图到方形 canvas(W=H,display 像素)。view=底图源方形(全图或主角居中缩放裁剪);
+ * base=底图(null→暗底占位);toggles 控制 NPC/宝物点显隐;主角点 + 可视白框恒画。定位点用画布相对尺寸(不随缩放变形)。
  */
 export function drawMinimap(
   canvas: HTMLCanvasElement,
   base: CanvasImageSource | null,
   data: MinimapData,
-  showDots: boolean,
+  toggles: MinimapToggles,
+  view: MinimapView = WHOLE_VIEW,
 ): void {
   const ctx = canvas.getContext('2d')
   if (!ctx) return
   const W = canvas.width
-  const s = W / THUMB_PX // display 像素 / 缩略图像素
+  const { sx, sy, sw } = view
+  const s = W / sw // display 像素 / 底图像素(缩放后)
   ctx.clearRect(0, 0, W, W)
   ctx.fillStyle = '#0d0b08'
   ctx.fillRect(0, 0, W, W)
   if (base) {
     ctx.imageSmoothingEnabled = true
-    ctx.drawImage(base, 0, 0, W, W)
+    ctx.imageSmoothingQuality = 'high'
+    ctx.drawImage(base, sx, sy, sw, sw, 0, 0, W, W)
   }
   const toPx = (wx: number, wy: number): [number, number] => {
     const [tx, ty] = worldToThumb(wx, wy)
-    return [tx * s, ty * s]
+    return [(tx - sx) * s, (ty - sy) * s]
   }
   // 可视区白框
   const [bx, by] = toPx(data.camera.x, data.camera.y)
-  ctx.strokeStyle = 'rgba(255,255,255,0.85)'
-  ctx.lineWidth = Math.max(1, s * 0.5)
+  ctx.strokeStyle = 'rgba(255,255,255,0.9)'
+  ctx.lineWidth = Math.max(1, W * 0.008)
   ctx.strokeRect(bx, by, VIEW_W * SCALE * s, VIEW_H * SCALE * s)
-  if (showDots) {
+  // 定位点半径:画布相对(固定视觉大小,不随缩放档变)
+  const rItem = Math.max(2, W * 0.019)
+  const rNpc = Math.max(2, W * 0.016)
+  const rPlayer = Math.max(3, W * 0.026)
+  if (toggles.showItems) {
     for (const it of data.items) {
       const [x, y] = toPx(it.x, it.y)
-      dot(ctx, x, y, Math.max(1.6, s * 1.1), DOT_COLORS.item.fill, DOT_COLORS.item.stroke)
+      dot(ctx, x, y, rItem, DOT_COLORS.item.fill, DOT_COLORS.item.stroke)
     }
+  }
+  if (toggles.showNpc) {
     for (const n of data.npcs) {
       const [x, y] = toPx(n.x, n.y)
-      dot(ctx, x, y, Math.max(1.3, s * 0.9), DOT_COLORS.npc.fill, DOT_COLORS.npc.stroke)
+      dot(ctx, x, y, rNpc, DOT_COLORS.npc.fill, DOT_COLORS.npc.stroke)
     }
   }
   const [px, py] = toPx(data.player.x, data.player.y)
-  dot(ctx, px, py, Math.max(2.2, s * 1.6), DOT_COLORS.player.fill, DOT_COLORS.player.stroke, 2)
+  dot(ctx, px, py, rPlayer, DOT_COLORS.player.fill, DOT_COLORS.player.stroke, 2)
 }
 
-// ── 控制器(底图缓存 + 道具缓存 + rAF 自更新 + 右下 widget) ─────────────────────
+// ── 控制器(底图缓存 + 类别缓存 + rAF 自更新 + 右下 widget 缩放) ─────────────────
 const LS_WIDGET = 'tp-minimap-widget' // '1' = 右下角常驻显示(默认关)
-const LS_DOTS = 'tp-minimap-dots' // '0' = 隐藏 NPC/宝物点(默认显)
+const LS_NPC = 'tp-minimap-npc' // '0' = 隐藏 NPC 点(默认显)
+const LS_ITEMS = 'tp-minimap-items' // '0' = 隐藏宝物点(默认显)
+const LS_ZOOM = 'tp-minimap-zoom' // widget 缩放档 index(默认 DEFAULT_ZOOM_INDEX)
+const WIDGET_PX = 180
 
 export interface MinimapDeps {
   getGs: () => GameState
-  /** bootstrap renderMapThumbnail 缓存包装:mapNum → 96×96 PNG dataURL。 */
+  /** bootstrap renderSceneThumbnail 包装:mapNum → BASE_PX×BASE_PX PNG dataURL。 */
   getMapThumbnail: (mapNum: number) => Promise<string | null>
 }
 
 export interface MinimapController {
-  /** 把场景 tab 主视图 canvas 建进容器(随面板存活自更新,detach 后自停)。onTick 每帧重绘后调(刷场景信息文本)。 */
+  /** 把场景 tab 主视图 canvas 建进容器(随面板存活自更新,detach 后自停;恒全图)。onTick 每帧重绘后调(刷场景信息)。 */
   mountSceneView: (container: HTMLElement, sizePx: number, onTick?: () => void) => void
   setWidgetEnabled: (on: boolean) => void
   isWidgetEnabled: () => boolean
-  setShowDots: (on: boolean) => void
-  isShowDots: () => boolean
+  setShowNpc: (on: boolean) => void
+  isShowNpc: () => boolean
+  setShowItems: (on: boolean) => void
+  isShowItems: () => boolean
 }
 
+const clampZoom = (i: number): number =>
+  Math.max(0, Math.min(ZOOM_WORLD_WIDTHS.length - 1, Number.isFinite(i) ? Math.round(i) : DEFAULT_ZOOM_INDEX))
+
 export function setupMinimap(deps: MinimapDeps): MinimapController {
-  let showDots = localStorage.getItem(LS_DOTS) !== '0'
+  let showNpc = localStorage.getItem(LS_NPC) !== '0'
+  let showItems = localStorage.getItem(LS_ITEMS) !== '0'
   let widgetEnabled = localStorage.getItem(LS_WIDGET) === '1'
+  const zStored = localStorage.getItem(LS_ZOOM)
+  let widgetZoom = clampZoom(zStored === null ? DEFAULT_ZOOM_INDEX : Number(zStored))
 
   // 底图缓存(mapNum → Image);未就绪时异步加载,先画占位。
   const baseCache = new Map<number, HTMLImageElement>()
@@ -247,24 +297,52 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
   let widget: HTMLDivElement | null = null
   let widgetCanvas: HTMLCanvasElement | null = null
 
-  const drawTo = (canvas: HTMLCanvasElement): void => {
+  const toggles = (): MinimapToggles => ({ showNpc, showItems })
+  /** 场景 tab:全图视图。 */
+  const drawScene = (canvas: HTMLCanvasElement): void => {
     const gs = deps.getGs()
-    const base = getBase(getCurrentMapNum())
-    drawMinimap(canvas, base, collectMinimapData(gs, currentKinds(gs)), showDots)
+    drawMinimap(canvas, getBase(getCurrentMapNum()), collectMinimapData(gs, currentKinds(gs)), toggles(), WHOLE_VIEW)
+  }
+  /** widget:以主角为中心、按缩放档裁剪的视图(固定世界px档位,全图皆 64×128)。 */
+  const drawWidget = (canvas: HTMLCanvasElement): void => {
+    const gs = deps.getGs()
+    const data = collectMinimapData(gs, currentKinds(gs))
+    const target = ZOOM_WORLD_WIDTHS[widgetZoom] ?? ZOOM_WORLD_WIDTHS[DEFAULT_ZOOM_INDEX]!
+    drawMinimap(canvas, getBase(getCurrentMapNum()), data, toggles(), computeView(target, data.player.x, data.player.y))
+  }
+  const redrawScene = (): void => {
+    if (sceneCanvas?.isConnected) drawScene(sceneCanvas)
   }
 
-  // 右下 widget:仅 explore 模式显示(场景态);非场景态隐藏。
+  const setZoom = (i: number): void => {
+    widgetZoom = clampZoom(i)
+    localStorage.setItem(LS_ZOOM, String(widgetZoom))
+    if (widgetEnabled && widgetCanvas) drawWidget(widgetCanvas)
+  }
+
+  // 右下 widget:仅场景态(explore/event)显示;带 +/− 缩放按钮(pointer-events 仅按钮可点,不挡游戏)。
   const ensureWidget = (): void => {
     if (widget) return
     widget = document.createElement('div')
     widget.id = 'tp-minimap-widget'
     widgetCanvas = document.createElement('canvas')
-    widgetCanvas.width = 168
-    widgetCanvas.height = 168
-    // 显式 inline 尺寸:覆盖 index.html 全局 `canvas{width:960px;height:600px}`(否则 widget 被撑爆)。
-    widgetCanvas.style.width = '168px'
-    widgetCanvas.style.height = '168px'
-    widget.appendChild(widgetCanvas)
+    widgetCanvas.width = WIDGET_PX
+    widgetCanvas.height = WIDGET_PX
+    // 显式 inline 尺寸:覆盖 index.html 全局 `canvas{width:960px;height:600px}`。
+    widgetCanvas.style.width = `${WIDGET_PX}px`
+    widgetCanvas.style.height = `${WIDGET_PX}px`
+    const zoomBox = document.createElement('div')
+    zoomBox.className = 'tp-mm-zoom'
+    const mkBtn = (txt: string, title: string, onClick: () => void): void => {
+      const b = document.createElement('button')
+      b.textContent = txt
+      b.title = title
+      b.addEventListener('click', onClick)
+      zoomBox.appendChild(b)
+    }
+    mkBtn('＋', '放大 (=)', () => setZoom(widgetZoom + 1))
+    mkBtn('－', '缩小 (-),最小=全图', () => setZoom(widgetZoom - 1))
+    widget.append(zoomBox, widgetCanvas) // 缩放按钮在左侧(canvas 外),canvas 在右
     document.body.appendChild(widget)
   }
   const syncWidget = (): void => {
@@ -276,7 +354,7 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     const m = deps.getGs()?.mode
     const inScene = m === 'explore' || m === 'event' // 场景态(含剧情对话);battle/menu 隐藏
     widget!.style.display = inScene ? 'block' : 'none'
-    if (inScene && widgetCanvas) drawTo(widgetCanvas)
+    if (inScene && widgetCanvas) drawWidget(widgetCanvas)
   }
 
   // 单 rAF 循环(节流 ~10fps);无活动 surface 时自停,mount/启用 widget 时重启。
@@ -289,7 +367,7 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
       lastT = t
       if (sceneCanvas) {
         if (sceneCanvas.isConnected) {
-          drawTo(sceneCanvas)
+          drawScene(sceneCanvas)
           sceneOnTick?.() // 刷场景信息文本(地图/坐标/镜头 live)
         } else {
           sceneCanvas = null
@@ -304,6 +382,17 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     if (!rafId && isActive() && typeof requestAnimationFrame === 'function') rafId = requestAnimationFrame(loop)
   }
 
+  // 快捷键 -/= 缩放 widget(仅 widget 启用 + 焦点不在输入框时;游戏不消费这俩键)。
+  if (typeof window !== 'undefined') {
+    window.addEventListener('keydown', (e) => {
+      if (!widgetEnabled) return
+      const tag = (e.target as HTMLElement | null)?.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return
+      if (e.code === 'Minus') setZoom(widgetZoom - 1)
+      else if (e.code === 'Equal') setZoom(widgetZoom + 1)
+    })
+  }
+
   return {
     mountSceneView(container, sizePx, onTick) {
       const canvas = document.createElement('canvas')
@@ -316,7 +405,7 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
       container.appendChild(canvas)
       sceneCanvas = canvas
       sceneOnTick = onTick ?? null
-      drawTo(canvas) // 立即画一帧(免空白闪)
+      drawScene(canvas) // 立即画一帧(免空白闪)
       onTick?.()
       ensureLoop()
     },
@@ -327,12 +416,19 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
       ensureLoop()
     },
     isWidgetEnabled: () => widgetEnabled,
-    setShowDots(on) {
-      showDots = on
-      localStorage.setItem(LS_DOTS, on ? '1' : '0')
-      if (sceneCanvas?.isConnected) drawTo(sceneCanvas)
+    setShowNpc(on) {
+      showNpc = on
+      localStorage.setItem(LS_NPC, on ? '1' : '0')
+      redrawScene()
       syncWidget()
     },
-    isShowDots: () => showDots,
+    isShowNpc: () => showNpc,
+    setShowItems(on) {
+      showItems = on
+      localStorage.setItem(LS_ITEMS, on ? '1' : '0')
+      redrawScene()
+      syncWidget()
+    },
+    isShowItems: () => showItems,
   }
 }

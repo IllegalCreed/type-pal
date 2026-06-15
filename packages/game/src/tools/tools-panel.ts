@@ -136,10 +136,16 @@ export function injectToolsPanelStyles(): void {
   padding:8px 2px; cursor:pointer; border-bottom:1px solid rgba(85,51,34,0.4); }
 .tp-toggle span { color:var(--tp-text); }
 .tp-toggle input { accent-color:var(--tp-gold); width:16px; height:16px; cursor:pointer; flex:0 0 auto; }
-#tp-minimap-widget { position:fixed; bottom:12px; right:12px; z-index:28; padding:6px;
-  background:rgba(17,17,17,0.82); border:1px solid #d8b365; border-radius:8px;
-  box-shadow:0 0 14px rgba(160,30,30,0.4),0 2px 10px rgba(0,0,0,0.5); pointer-events:none; }
-#tp-minimap-widget canvas { display:block; border-radius:4px; }
+#tp-minimap-widget { position:fixed; bottom:12px; right:12px; z-index:28;
+  display:flex; align-items:center; gap:7px; pointer-events:none; }
+#tp-minimap-widget canvas { display:block; border-radius:6px; padding:5px;
+  background:rgba(17,17,17,0.82); border:1px solid #d8b365;
+  box-shadow:0 0 14px rgba(160,30,30,0.4),0 2px 10px rgba(0,0,0,0.5); }
+.tp-mm-zoom { display:flex; flex-direction:column; gap:5px; pointer-events:auto; }
+.tp-mm-zoom button { width:20px; height:20px; padding:0; line-height:1;
+  background:rgba(17,17,17,0.82); color:#d8b365; border:1px solid #d8b365; border-radius:4px;
+  font:13px/1 ui-monospace,monospace; cursor:pointer; opacity:0.65; transition:opacity .12s, background .12s; }
+.tp-mm-zoom button:hover { opacity:1; background:rgba(160,30,30,0.45); }
 #tp-tools-launcher { position:fixed; bottom:12px; left:12px; z-index:29;
   width:38px; height:38px; background:rgba(17,17,17,0.85); color:#d8b365;
   border:1px solid #d8b365; border-radius:7px; font:19px/1 "Songti SC","SimSun",serif;
@@ -389,7 +395,8 @@ function renderSceneTab(parent: HTMLElement, gs: GameState, minimap: MinimapCont
   parent.appendChild(mm)
   minimapLegend(parent)
   toggleRow(parent, '右下角常驻显示', minimap.isWidgetEnabled(), (v) => minimap.setWidgetEnabled(v))
-  toggleRow(parent, '显示 NPC / 宝物定位点', minimap.isShowDots(), (v) => minimap.setShowDots(v))
+  toggleRow(parent, '显示 NPC 定位点', minimap.isShowNpc(), (v) => minimap.setShowNpc(v))
+  toggleRow(parent, '显示宝物定位点', minimap.isShowItems(), (v) => minimap.setShowItems(v))
 
   sectionTitle(parent, '场景信息')
   const vMap = liveRow(parent, '地图')
