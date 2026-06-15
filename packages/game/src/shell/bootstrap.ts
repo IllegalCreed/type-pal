@@ -84,8 +84,12 @@ import {
   presentBattleFrame,
   presentFrame,
 } from '../present/present.js'
-import { battleVictoryTrack, createAudioManager, pickMusicTrack, sfxForBattleEvent, type AudioManager } from './audio.js'
-import { createSpessaSynthBackend } from './audio-midi.js'
+import { battleVictoryTrack, createAudioManager, pickMusicTrack, setOggVolumeScale, sfxForBattleEvent, type AudioManager } from './audio.js'
+import { createSpessaSynthBackend, setBgmVolume } from './audio-midi.js'
+import { createAudioVolumeController } from './audio-volume.js'
+import { createDisplayScaleController } from '../tools/display-scale.js'
+import { setupQuickSave } from '../tools/quick-save.js'
+import { setupToolsPanel } from '../tools/tools-panel.js'
 import { playAvi } from './avi-player.js'
 import {
   type BattleFixturesData,
@@ -1038,6 +1042,32 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       battleEffectIndex, // D17a:dev 战斗命中特效帧基号
       magicSpriteFrameCounts, // D17:dev 战斗 OffMagic 时间线 n
       summonSpriteFrameCounts, // 召唤神逐帧 loop 帧数
+    },
+  })
+
+  // ── 生产工具面板 + 快存快读 + 音量/分辨率(非 DEV 门,生产保留;玩家便利,只读 + 安全动作)──
+  const audioVolume = createAudioVolumeController({
+    applyVolume: (v) => {
+      setBgmVolume(v)
+      setOggVolumeScale(v)
+    },
+  })
+  const displayScale = createDisplayScaleController(canvas)
+  setupToolsPanel({
+    getGs: () => gs,
+    getResources: () => ({ playerRoles, objectPoisons, items }),
+    displayScale,
+    audioVolume,
+    saveSlot: (slot, g) => Save.saveSlot(slot, g),
+  })
+  setupQuickSave({
+    getGs: () => gs,
+    saveSlot: (slot, g) => Save.saveSlot(slot, g),
+    loadSlotIntoGame: async (slot) => {
+      const loaded = await Save.loadSlot(slot)
+      if (!loaded) return false
+      await loadGameFromSlot(slot)
+      return true
     },
   })
 

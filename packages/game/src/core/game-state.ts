@@ -6,6 +6,7 @@
 
 import type { Command, DialogBoxStyle, Palette, SceneEventObject } from '@type-pal/shared'
 import type { BattleState } from './battle/battle-state.js'
+import type { DialogHistoryEntry } from './dialog-history.js'
 import type { PaletteFadeState } from './palette-fade.js'
 
 export type Facing = 'up' | 'down' | 'left' | 'right'
@@ -850,6 +851,13 @@ export interface GameState {
    * loadScene 写入,存档时持久化供下次读档还原当前场景。
    */
   wNumScene: number
+
+  /**
+   * 历史对话环形缓冲(生产工具面板「历史对话」用,会话态——**不入存档**)。
+   * optional:避免破坏现有所有 GameState 构造点;event-system 提交对话行时 push,
+   * push 前确保数组存在(`gs.dialogHistory ?? (gs.dialogHistory = [])`)。
+   */
+  dialogHistory?: DialogHistoryEntry[]
 
   /**
    * palette cycle 偏移(sdlpal SAVEDGAME_WIN.wPaletteOffset)。
@@ -1758,6 +1766,7 @@ export function createInitialGameState(
     inventory: [],
     mode: 'explore',
     menuStack: [],
+    dialogHistory: [],
     currentDialogStyle: 'top',  // sdlpal PAL_InitText / PAL_EndDialog 默认 kDialogUpper(top)
     // sdlpal text.c:29 FONT_COLOR_DEFAULT = 0x4F(palette idx 79,亮黄/浅米)
     currentDialogFontColor: 0x4F,

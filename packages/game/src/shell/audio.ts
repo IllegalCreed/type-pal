@@ -142,6 +142,16 @@ export function sfxForBattleEvent(
  *
  * OGG 缺失(MIDI 未渲染)→ Audio.play() reject → 静默(不阻塞游戏);渲染后即有 BGM。
  */
+// OGG BGM 主音量系数(0..1,默认 1=原样)。播放音量 = 0.6 * oggScale(0.6 为既有基准)。
+//   curOggEl 跟踪当前播放元素(模块级,供 setOggVolumeScale 即时刷新);仅 OGG 后端路径用。
+let oggScale = 1
+let curOggEl: HTMLAudioElement | undefined
+
+export function setOggVolumeScale(s: number): void {
+  oggScale = s
+  if (curOggEl) curOggEl.volume = 0.6 * s // 当前播放即时刷新
+}
+
 export function createOggMusicBackend(baseUrl: string): MusicBackend {
   let cur: HTMLAudioElement | undefined
   const AudioCtor = typeof Audio !== 'undefined' ? Audio : undefined
@@ -160,13 +170,15 @@ export function createOggMusicBackend(baseUrl: string): MusicBackend {
       release(cur)
       const a = new AudioCtor(`${baseUrl}/music/${track.toString().padStart(3, '0')}.ogg`)
       a.loop = loop
-      a.volume = 0.6
+      a.volume = 0.6 * oggScale // 0.6 基准 × 主音量系数
       void a.play().catch(() => {}) // OGG 未渲染 / autoplay 受限 → 静默
       cur = a
+      curOggEl = a // 模块级跟踪,供 setOggVolumeScale 即时刷新
     },
     stop() {
       release(cur)
       cur = undefined
+      curOggEl = undefined
     },
   }
 }

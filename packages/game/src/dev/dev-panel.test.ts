@@ -5,7 +5,7 @@
  *   - fixture-levelup(lv1 + 1000 经验 vs 灯笼):gs.Exp 设上 + runtime hydrate(打赢触发升级演出)。
  */
 
-import type { Enemy, EnemyObject, EnemyTeam, BattleField, InputSnapshot, ObjectPoisonView, PlayerRole } from '@type-pal/shared'
+import type { Enemy, EnemyObject, EnemyTeam, BattleField, InputSnapshot, PlayerRole } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import fixturesData from './fixtures/battle-fixtures.json' with { type: 'json' }
 import { createCommandBus } from '../core/command-bus.js'
@@ -15,7 +15,7 @@ import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { applyAutoBattleT37, applyBossBattle, applyCustomBattle, applyFixture, BOSS_ROSTER, buildCustomEnemyTeam, collectEnemyStatusReadouts, collectFieldInfoReadout, collectPartyStatusReadouts, computeMagicGrantsByRole, CUSTOM_BATTLE_TEAM_ID, roleMagicsAtLevel, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
+import { applyAutoBattleT37, applyBossBattle, applyCustomBattle, applyFixture, BOSS_ROSTER, buildCustomEnemyTeam, computeMagicGrantsByRole, CUSTOM_BATTLE_TEAM_ID, roleMagicsAtLevel, togglePartyMembership, type BattleFixture, type DevPanelDeps } from './dev-panel.js'
 
 // REPO_ROOT:src/dev/ → 上 4 级到仓库根(同 baseline.test.ts pattern,运行时 fs 读 extracted 真值,
 //   避免跨 rootDir import json)。data/extracted 缺(没跑 pnpm extract)→ 该 describe skip。
@@ -126,154 +126,8 @@ describe('togglePartyMembership(队伍在队开关:role0 队首常驻)', () => {
   })
 })
 
-describe('collectPartyStatusReadouts(队伍 tab buff/毒列表)', () => {
-  it('探索模式:读取持久 rgPlayerStatus + 毒槽', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.partyMembers = [0, 1]
-    gs.rgPlayerStatus[0]![6] = 20 // protect
-    gs.rgPlayerStatus[1]![8] = 32760 // dualAttack 装备授状态
-    gs.rgPoisonStatus['0_1'] = { wPoisonID: 552, wPoisonScript: 40866 }
-    const roles = { roles: [minimalRole(0), minimalRole(1)] }
-    const poisons: ObjectPoisonView[] = [{ id: 552, level: 1, color: 64, playerScript: 40866, enemyScript: 0 }]
-    // biome-ignore lint/suspicious/noExplicitAny: 只需 id/_name 给 dev readout
-    const items = [{ id: 552, _name: '赤毒' } as any]
-
-    const out = collectPartyStatusReadouts(gs, roles, poisons, items)
-
-    expect(out[0]).toMatchObject({ slot: 0, roleId: 0, roleName: 'r0', source: 'persistent' })
-    expect(out[0]!.entries).toContain('护/protect 20回合')
-    expect(out[1]!.entries).toContain('双攻/dual 32760(装备/永久)')
-    expect(out[1]!.entries).toContain('毒槽0:赤毒#552 L1 script:40866')
-  })
-
-  it('战斗模式:同站位优先读取 battleState.players[].status 剩余回合', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.partyMembers = [0]
-    gs.rgPlayerStatus[0]![6] = 20
-    gs.mode = 'battle'
-    gs.battleState = {
-      players: [{
-        roleId: 0,
-        prevHp: 100,
-        prevMp: 30,
-        defending: false,
-        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 3, slow: 0, protect: 2 },
-      }],
-      enemies: [],
-    } as any
-    const roles = { roles: [minimalRole(0)] }
-
-    const out = collectPartyStatusReadouts(gs, roles)
-
-    expect(out[0]).toMatchObject({ source: 'battle' })
-    expect(out[0]!.entries).toEqual(['护/protect 2回合', '速/haste 3回合'])
-  })
-})
-
-describe('collectEnemyStatusReadouts(敌方状态:血量/属性/抗性/异常/毒)', () => {
-  it('非战斗模式 → 空数组', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    expect(collectEnemyStatusReadouts(gs)).toEqual([])
-  })
-
-  it('战斗模式:读 enemies 的 hp/属性/抗性/状态/毒', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.mode = 'battle'
-    gs.battleState = {
-      players: [],
-      enemies: [{
-        e: minimalEnemy(82, {
-          _name: '林月如',
-          health: 40,
-          level: 5,
-          attackStrength: 30,
-          defense: 12,
-          physicalResistance: 2,
-          elemResistance: { wind: 1, thunder: 0, water: 0, fire: 9, earth: 0 },
-        }),
-        status: { sleep: 0, paralyzed: 3, confused: 0, haste: 0, slow: 0 },
-        prevHp: 40,
-        maxHealth: 50,
-        resistanceToSorcery: 4,
-        poisons: [{ poisonId: 552, scriptEntry: 40866 }],
-      }],
-    } as any
-    const poisons: ObjectPoisonView[] = [{ id: 552, level: 2, color: 64, playerScript: 0, enemyScript: 40866 }]
-    // biome-ignore lint/suspicious/noExplicitAny: 只需 id/_name
-    const items = [{ id: 552, _name: '赤毒' } as any]
-
-    const out = collectEnemyStatusReadouts(gs, poisons, items)
-
-    expect(out).toHaveLength(1)
-    expect(out[0]).toMatchObject({ slot: 0, enemyId: 82, name: '林月如', hp: 40, maxHp: 50, defeated: false })
-    expect(out[0]!.statusEntries).toContain('定/paralyzed 3回合')
-    expect(out[0]!.statusEntries).toContain('毒:赤毒#552 L2 script:40866')
-    expect(out[0]!.resistances).toContainEqual({ label: '火', value: 9 })
-    expect(out[0]!.resistances).toContainEqual({ label: '巫抗', value: 4 })
-    expect(out[0]!.stats).toContainEqual({ label: '防', value: 12 })
-  })
-
-  it('maxHp 缺 maxHealth 时回退 prevHp / e.health;defeated 标记', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.mode = 'battle'
-    gs.battleState = {
-      players: [],
-      enemies: [{
-        e: minimalEnemy(2, { health: 0 }),
-        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-        prevHp: 25,
-        defeated: true,
-      }],
-    } as any
-    const out = collectEnemyStatusReadouts(gs)
-    expect(out[0]).toMatchObject({ hp: 0, maxHp: 25, defeated: true })
-    expect(out[0]!.statusEntries).toEqual([]) // 无异常无毒
-  })
-
-  it('偷取信息:不可偷(count=0)/ 偷金钱(stealItem=0)/ 偷物品(stealItem!=0)', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.mode = 'battle'
-    const st = { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 }
-    gs.battleState = {
-      players: [],
-      enemies: [
-        { e: minimalEnemy(1, { stealItem: 0, stealItemCount: 0 }), status: st, prevHp: 30 },
-        { e: minimalEnemy(2, { stealItem: 0, stealItemCount: 200 }), status: st, prevHp: 30 },
-        { e: minimalEnemy(3, { stealItem: 100, stealItemCount: 3 }), status: st, prevHp: 30 },
-      ],
-    } as any
-    // biome-ignore lint/suspicious/noExplicitAny: 只需 id/_name
-    const items = [{ id: 100, _name: '金创药' } as any]
-    const out = collectEnemyStatusReadouts(gs, [], items)
-    expect(out[0]).toMatchObject({ canSteal: false, steal: '不可偷' })
-    expect(out[1]!.canSteal).toBe(true)
-    expect(out[1]!.steal).toContain('金钱')
-    expect(out[1]!.steal).toContain('200')
-    expect(out[2]).toMatchObject({ canSteal: true, steal: '金创药#100 ×3' })
-  })
-})
-
-describe('collectFieldInfoReadout(场地信息:屏幕波纹 + 5 元素场效 signed)', () => {
-  it('非战斗 → null', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    expect(collectFieldInfoReadout(gs)).toBeNull()
-  })
-
-  it('战斗:读 field.id/screenWave/magicEffect + isBoss', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.mode = 'battle'
-    gs.battleState = {
-      players: [],
-      enemies: [],
-      isBoss: true,
-      field: { id: 7, screenWave: 3, magicEffect: { wind: 0, thunder: -2, water: 0, fire: 5, earth: 0 } },
-    } as any
-    const out = collectFieldInfoReadout(gs)
-    expect(out).toMatchObject({ fieldId: 7, isBoss: true, screenWave: 3 })
-    expect(out!.elements).toContainEqual({ label: '火', value: 5 })
-    expect(out!.elements).toContainEqual({ label: '雷', value: -2 })
-  })
-})
+// collect* 纯函数(collectPartyStatusReadouts / collectEnemyStatusReadouts / collectFieldInfoReadout)
+//   已抽到 ../core/inspect/battle-inspect.ts,其测试随之搬到 battle-inspect.test.ts。
 
 describe('buildCustomEnemyTeam(自定义战斗:选中敌人 id → 临时 EnemyTeam)', () => {
   it('≤5 敌:pad 到 5 槽(空位 0xFFFF),id = CUSTOM_BATTLE_TEAM_ID', () => {

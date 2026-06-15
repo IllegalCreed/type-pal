@@ -10,6 +10,66 @@
 
 ---
 
+## 2026-06-15 设计修订(最终执行口径)
+
+> 本节为最终口径,与下方 Task 冲突处**以本节为准**(原 Task 的功能骨架/TDD 步骤不变,仅样式 + tab 结构按此调整)。核心诉求:视觉从 dev-panel 风格升级为生产级,配色贴近 load 界面(index.html `#boot-loading` + precache-ui)。
+
+### 视觉规范(替换原 plan 各处 dev-panel 风格内联样式)
+
+「仙剑 · 金/朱 · 暗底」token(复用 load 界面色):
+
+| token | 值 | 用途 |
+|---|---|---|
+| `--tp-bg` | `rgba(17,17,17,0.92)` | 面板磨砂底 |
+| `--tp-gold` | `#d8b365` | 金:边框/标题/选中/数据值 |
+| `--tp-cream` | `#f0e0b0` | 高光奶金:小标题/高亮 |
+| `--tp-crimson` / `--tp-crimson-dark` | `#8a2a2a` / `#5a1414` | 按钮竖渐变、朱红条 |
+| `--tp-slot` | `#2a1515` | 槽底(进度/滑块轨/滚动条槽) |
+| `--tp-border` | `#553322` | 次级棕色分隔 |
+| `--tp-text` / `--tp-text-dim` | `#cbb890` / `#6b5a3e` | 正文柔金 / 次要 |
+| `--tp-error` | `#e06c5a` | 失败/错误 |
+| `--tp-glow` | `rgba(160,30,30,0.5)` | 暗红辉光 box-shadow |
+| `--tp-grad` | `linear-gradient(90deg,#8a2a2a,#d8b365)` | 进度/选中/滑块填充 |
+
+- **架构**:新增 `injectToolsPanelStyles()`——注入 `<style id="tp-tools-style">`(幂等),含作用域在 `#tp-tools-panel` 的 CSS 变量 + 全部 className 规则。DOM 一律 className,**不再内联 cssText**;结构与原 Task 一致(测试基于 id/className/textContent,不破)。
+- **字体**:标题/Tab/label 宋体(`"Songti SC","SimSun",serif`);数据值(坐标/HP/字节)monospace。
+- **布局**:右侧悬浮、**非模态**(游戏画面透出);`position:fixed; top:7%; right:18px; width:440px; max-height:86vh`。左竖 Tab 栏(~76px) + 右内容区(≈350px)。
+- **外壳**:`--tp-bg` + `backdrop-filter:blur(6px)`、1px `--tp-gold` 边、`border-radius:8px`、`box-shadow:0 0 24px var(--tp-glow)`;入场 `opacity 0→1 + scale .96→1` 0.18s ease。
+- **标题头**:宋体「仙剑 · 工具」金色 + `×` 关闭(hover 奶金);下方金渐变细分隔。
+- **左竖 Tab**:宋体竖列;选中 = 金底暗字 + 左侧 2px 朱红条;未选柔金 hover 微亮 + 槽底。
+- **内容**:数据行 label(宋体 `--tp-text-dim`) + value(monospace `--tp-gold`);小标题(`--tp-cream` + 上间距);定制滚动条(thin、槽 `--tp-slot`、拇指 `--tp-grad`)。
+- **控件**:按钮 `linear-gradient(180deg,#8a2a2a,#5a1414)` + 金边 + 红辉光,hover scale 1.04 / active .97;range 滑块轨 `--tp-slot`、填充 `--tp-grad`、金拇指;select 暗底金边金字。
+- **唤出器**:弃 🛠 emoji,改暗底金边圆角小钮(宋体「具」),`opacity:.55` hover 亮;`` ` `` toggle 开/关 + `×` 关 + 点面板外关(**不占 `Esc`——它是游戏 Menu 键 `Escape:'Menu'`**);面板开启时面板内 keydown `stopPropagation` 不漏给游戏输入。右上角 precache-widget 也套同 token。
+
+### Tab 结构:6 → 4
+
+左竖栏顺序:**战斗状态 / 场景坐标 / 系统 / 历史对话**。`TabKey = 'battle' | 'scene' | 'system' | 'dialog'`,默认 active = `'scene'`。
+
+- **系统 tab**(`renderSystemTab`,奶金小标题分三节):
+  - **显示** — 分辨率档位 select + 全屏按钮(原 `renderDisplayTab`)
+  - **音频** — BGM 音量滑块 + 静音(原 `renderAudioTab`)
+  - **存档** — 导出 / 导入(原 `renderSaveTab`)
+  - 即原独立的 display/audio/save 三个 render 合进此函数;Task 6 `audio-volume` controller、Task 3 `save-io` 逻辑不变。
+- **历史对话 tab**(`renderDialogTab` 重写):
+  - 顶部搜索框(`<input class="tp-dialog-search">`,`input` 即时过滤对话文本)
+  - 大列表按「进入场景」**分组**:线性扫描 `dialogHistory`,相邻 `scene` 变化插分组标题 `场景 N`(class `tp-dialog-group`,`N`=`wNumScene`);每条对话 `tp-dialog-line`
+  - **时序正序**(早→晚),渲染后滚到底(最新可见);搜索时只渲染 text 命中行 + 其所属分组标题(空组省略)
+
+### dialogHistory 数据结构变更(影响 Task 2)
+
+- 类型:`string[]` → `Array<{ scene: number; text: string }>`(`gs.dialogHistory`)。
+- `pushDialogHistory(history, scene, text)`:trim 空跳过;与末条 `text` 相同**且** `scene` 相同 → 跳过(连续去重);push `{scene,text}`;超 `DIALOG_HISTORY_CAP` 丢最旧。
+- 捕获点(event-system showDialog)传 `gs.wNumScene`。**无需**额外「切场景」事件——渲染按 scene 边界天然分组;没对话的场景不产生空标题。
+- Task 2 单测追加:分组(连续同 scene 不重复标题、scene 变化分新组)、搜索过滤;原 `string[]` 测试改 `{scene,text}` 形态。
+
+### 其余 Task 影响
+
+- **Task 4**:`TABS` 四项 + `setup` 首行调 `injectToolsPanelStyles()`;DOM 用 className;唤出器/标题头/竖 Tab 按视觉规范。
+- **Task 5**:删 display/audio/save 独立分派,改 `system`;dialog tab 重写如上。
+- **Task 7**:`setupToolsPanel` 接线不变(`displayScale`/`audioVolume` 仍注入,只是都在 system tab 内呈现)。
+
+---
+
 ## 设计要点(实现前必读)
 
 - **与 dev-panel 的根本区别**:dev-panel 在 `bootstrap` 里 `if (import.meta.env.DEV) setupDevPanel(...)`,生产被 DCE。本面板**无条件 setup**,故必须放 `src/tools/`(不在 `src/dev/`),且**绝不 import 任何 dev-only 模块**(否则把 dev 代码拖进生产包)。

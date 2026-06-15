@@ -37,6 +37,17 @@ export interface SpessaSynthBackendOptions {
   reverbAmount?: number
 }
 
+// BGM 主音量(0..1)。synth → masterGain → destination,经我们自己的 GainNode 缩放,
+//   **不**依赖 spessasynth 自带音量 API。setBgmVolume 在 synth 就绪(masterGain 建好)前被调 →
+//   先暂存到 pendingBgmVolume,创建 masterGain 时回填。
+let masterGain: GainNode | undefined
+let pendingBgmVolume: number | undefined
+
+export function setBgmVolume(v: number): void {
+  pendingBgmVolume = v
+  if (masterGain) masterGain.gain.value = v
+}
+
 export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): MusicBackend {
   const { baseUrl, workletUrl, soundfontUrl, reverbAmount = 0 } = opts
   const w = typeof window !== 'undefined' ? (window as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext }) : undefined
@@ -80,7 +91,12 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       }
       await ctx.audioWorklet.addModule(workletUrl)
       const synth = new WorkletSynthesizer(ctx)
-      synth.connect(ctx.destination)
+      // synth → masterGain → destination(经自己的 GainNode 缩放 BGM 主音量)。
+      //   pendingBgmVolume:若 setBgmVolume 在此之前被调,用暂存值;默认 1(原样)。
+      masterGain = ctx.createGain()
+      masterGain.gain.value = pendingBgmVolume ?? 1
+      masterGain.connect(ctx.destination)
+      synth.connect(masterGain)
       // 优先用 bootstrap 预取的数据(boot 进度条已等它);预取 reject → 回退自取。
       let sfBytes = opts.soundfontData
         ? await opts.soundfontData.catch(() => undefined)
