@@ -18,6 +18,7 @@ function mkDeps(over: Partial<ToolsPanelDeps> = {}): ToolsPanelDeps {
     audioVolume: { getVolume: () => 0.8, setVolume: () => {}, isMuted: () => false, setMuted: () => {} },
     sfxVolume: { getVolume: () => 0.8, setVolume: () => {}, isMuted: () => false, setMuted: () => {} },
     saveSlot: async () => {},
+    loadSlot: async () => null,
     ...over,
   }
 }

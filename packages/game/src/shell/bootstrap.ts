@@ -1074,6 +1074,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     audioVolume,
     sfxVolume,
     saveSlot: (slot, g) => Save.saveSlot(slot, g),
+    loadSlot: (slot) => Save.loadSlot(slot),
     // 小地图底图:复用 renderSceneThumbnail,出 640px 高清(= minimap BASE_PX;各缩放档皆降采样=清晰)。
     //   "地图发黑" 真因是 getCurrentMapNum stale 停在 map 0 梦境(已修),非 palette。
     getMapThumbnail: (mapNum) => renderSceneThumbnail(0, mapNum, 640),

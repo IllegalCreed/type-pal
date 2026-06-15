@@ -32,8 +32,10 @@ export interface ToolsPanelDeps {
   audioVolume: AudioVolumeController
   /** 音效(SFX:sounds/*.wav)音量,独立于 BGM。 */
   sfxVolume: AudioVolumeController
-  /** 存档导出 = 当前 gs;导入 = 解析后写 slot 1。 */
+  /** 写存档位(导入用)。 */
   saveSlot: (slot: number, gs: GameState) => Promise<void>
+  /** 读存档位(导出用);该位无存档 → null。 */
+  loadSlot: (slot: number) => Promise<GameState | null>
   /** 小地图底图:mapNum → 96×96 PNG dataURL(复用 bootstrap renderMapThumbnail 缓存);省略 → 无底图。 */
   getMapThumbnail?: (mapNum: number) => Promise<string | null>
 }
@@ -150,8 +152,13 @@ export function injectToolsPanelStyles(): void {
 .tp-mm-zoom button:hover { opacity:1; background:rgba(160,30,30,0.55); }
 #tp-tools-launcher { position:fixed; bottom:12px; left:12px; z-index:29;
   width:38px; height:38px; background:rgba(17,17,17,0.85); color:#d8b365;
-  border:1px solid #d8b365; border-radius:7px; font:19px/1 "Songti SC","SimSun",serif;
+  border:1px solid #d8b365; border-radius:7px; font:21px/1 system-ui,"Segoe UI Symbol",sans-serif;
   cursor:pointer; opacity:0.5; transition:opacity .15s, box-shadow .15s; }
+.tp-save-row { display:flex; align-items:center; gap:12px; padding:8px 0;
+  border-bottom:1px solid rgba(85,51,34,0.35); }
+.tp-save-label { color:var(--tp-text); flex:0 0 auto; min-width:60px; font-size:13.5px; }
+.tp-save-row .tp-btn { flex:1 1 0; padding:5px 0; font-size:13px; box-shadow:none; letter-spacing:1px; }
+.tp-save-row .tp-btn + .tp-btn { margin-left:0; }
 #tp-tools-launcher:hover { opacity:1; box-shadow:0 0 12px rgba(160,30,30,0.5); }
 `
   document.head.appendChild(style)
@@ -464,43 +471,57 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
   })
   muteBtn.style.marginTop = '6px'
 
-  // ── 存档 ──
-  sectionTitle(parent, '存档')
-  const saveRow = document.createElement('div')
-  button(saveRow, '导出当前进度', () => {
-    const gs = deps.getGs()
-    const blob = new Blob([serializeSave(gs)], { type: 'application/json' })
-    const a = document.createElement('a')
-    a.href = URL.createObjectURL(blob)
-    a.download = `type-pal-save-${gs.wNumScene}.json`
-    a.click()
-    URL.revokeObjectURL(a.href)
-    showToast('已导出存档文件', { type: 'success' })
-  })
-  const importInput = document.createElement('input')
-  importInput.type = 'file'
-  importInput.accept = '.json,application/json'
-  importInput.style.display = 'none'
-  importInput.addEventListener('change', () => {
-    const file = importInput.files?.[0]
-    if (!file) return
-    const reader = new FileReader()
-    reader.onload = (): void => {
+  // ── 存档(5 个存档位各自导入/导出) ──
+  sectionTitle(parent, '存档导入导出')
+  muted(parent, '每个存档位可单独导出为文件、或从文件导入(导入后在读档菜单载入)')
+  for (let slot = 1; slot <= 5; slot++) {
+    const row = document.createElement('div')
+    row.className = 'tp-save-row'
+    const lbl = document.createElement('span')
+    lbl.className = 'tp-save-label'
+    lbl.textContent = `存档位 ${slot}`
+    row.appendChild(lbl)
+    button(row, '导出', () => {
       void (async (): Promise<void> => {
-        try {
-          const loaded = parseImportedSave(String(reader.result))
-          await deps.saveSlot(1, loaded)
-          showToast('已导入到存档位 1,可在读档菜单载入', { type: 'success' })
-        } catch (err) {
-          showToast(`导入失败:${err instanceof Error ? err.message : String(err)}`, { type: 'error' })
+        const g = await deps.loadSlot(slot)
+        if (!g) {
+          showToast(`存档位 ${slot} 暂无存档`, { type: 'error' })
+          return
         }
+        const blob = new Blob([serializeSave(g)], { type: 'application/json' })
+        const a = document.createElement('a')
+        a.href = URL.createObjectURL(blob)
+        a.download = `type-pal-save-slot${slot}.json`
+        a.click()
+        URL.revokeObjectURL(a.href)
+        showToast(`已导出存档位 ${slot}`, { type: 'success' })
       })()
-    }
-    reader.readAsText(file)
-  })
-  button(saveRow, '导入到存档位 1', () => importInput.click())
-  saveRow.appendChild(importInput)
-  parent.appendChild(saveRow)
+    })
+    const fileInput = document.createElement('input')
+    fileInput.type = 'file'
+    fileInput.accept = '.json,application/json'
+    fileInput.style.display = 'none'
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files?.[0]
+      if (!file) return
+      const reader = new FileReader()
+      reader.onload = (): void => {
+        void (async (): Promise<void> => {
+          try {
+            await deps.saveSlot(slot, parseImportedSave(String(reader.result)))
+            showToast(`已导入到存档位 ${slot}`, { type: 'success' })
+          } catch (err) {
+            showToast(`导入失败:${err instanceof Error ? err.message : String(err)}`, { type: 'error' })
+          }
+        })()
+      }
+      reader.readAsText(file)
+      fileInput.value = '' // 允许重复导入同名文件
+    })
+    button(row, '导入', () => fileInput.click())
+    row.appendChild(fileInput)
+    parent.appendChild(row)
+  }
 }
 
 /** 对话 tab:搜索框 + 按「进入场景」分组(时序正序,场景名标题) + 行列表。 */
@@ -606,7 +627,7 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
 
   const launcher = document.createElement('button')
   launcher.id = 'tp-tools-launcher'
-  launcher.textContent = '具'
+  launcher.textContent = '⚙'
   launcher.title = '工具面板(`)'
 
   let open = false
