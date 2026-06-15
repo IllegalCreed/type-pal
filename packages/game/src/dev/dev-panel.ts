@@ -70,6 +70,7 @@ import {
   collectPartyStatusReadouts,
 } from '../core/inspect/battle-inspect.js'
 import { loadScene } from '../core/scene-system.js'
+import { getMapName, hasMapName } from '../tools/map-names.js'
 
 /** fixture JSON entry —— 与 `packages/game/src/dev/fixtures/battle-fixtures.json` 对齐。 */
 export interface BattleFixture {
@@ -1126,8 +1127,9 @@ function openPicker(deps: DevPanelDeps): void {
 
   const thumbKeyOf = (j: SceneJump): string =>
     j.mapNum !== undefined ? `m${j.mapNum}` : `s${j.sceneId}`
-  const sceneNameOf = (j: SceneJump): string | undefined =>
-    deps.sceneNames?.names?.[String(j.sceneId)] || undefined
+  // 场景无名,只有地图有名(map-names)。供搜索过滤用。
+  const mapNameOf = (j: SceneJump): string =>
+    j.mapNum !== undefined && hasMapName(j.mapNum) ? getMapName(j.mapNum) : ''
 
   // 缩略图 lazy 加载:命中模块级缓存立即出图;否则调 bootstrap renderSceneThumbnail(按 mapNum 缓存)。
   const loadThumb = (img: HTMLImageElement, ph: HTMLElement, j: SceneJump): void => {
@@ -1165,7 +1167,7 @@ function openPicker(deps: DevPanelDeps): void {
     const f = filter.toLowerCase()
     const filtered = deps.sceneJumps.jumps.filter((e) => {
       if (!f) return true
-      const name = sceneNameOf(e) ?? ''
+      const name = mapNameOf(e)
       return (
         String(e.sceneId).includes(f) ||
         e.label.toLowerCase().includes(f) ||
@@ -1196,7 +1198,6 @@ function openPicker(deps: DevPanelDeps): void {
     }
 
     for (const jump of filtered) {
-      const name = sceneNameOf(jump)
       const card = document.createElement('div')
       card.title = jump.label
       card.style.cssText =
@@ -1217,15 +1218,19 @@ function openPicker(deps: DevPanelDeps): void {
       thumbWrap.append(ph, img)
       card.appendChild(thumbWrap)
 
-      const nameLine = document.createElement('div')
-      nameLine.textContent = name ?? `scene-${jump.sceneId}`
-      nameLine.style.cssText = `font-size:11px; line-height:1.2; text-align:center; width:100%; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:${name ? '#fdf6a8' : '#ddd'}`
-      card.appendChild(nameLine)
+      // 第一行:场景号(场景无名)。
+      const sceneLine = document.createElement('div')
+      sceneLine.textContent = `#${jump.sceneId}`
+      sceneLine.style.cssText = 'font-size:12px; line-height:1.2; text-align:center; width:100%; color:#ddd; font-family:monospace'
+      card.appendChild(sceneLine)
 
-      const idLine = document.createElement('div')
-      idLine.textContent = `#${jump.sceneId}${jump.mapNum !== undefined ? ` · map-${jump.mapNum}` : ''}`
-      idLine.style.cssText = 'font-size:9px; color:#888; font-family:monospace; width:100%; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:center'
-      card.appendChild(idLine)
+      // 第二行:地图号 + 地图名(map-names);未起名灰色显「地图N」,方便补名。
+      const mn = jump.mapNum
+      const named = mn !== undefined && hasMapName(mn)
+      const mapLine = document.createElement('div')
+      mapLine.textContent = mn !== undefined ? `map-${mn} ${getMapName(mn)}` : 'map-?'
+      mapLine.style.cssText = `font-size:10px; line-height:1.2; font-family:monospace; width:100%; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:center; color:${named ? '#fdf6a8' : '#888'}`
+      card.appendChild(mapLine)
 
       card.addEventListener('click', () => {
         closePicker()
