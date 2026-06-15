@@ -203,10 +203,10 @@ export function drawMinimap(
   ctx.strokeStyle = 'rgba(255,255,255,0.9)'
   ctx.lineWidth = Math.max(1, W * 0.008)
   ctx.strokeRect(bx, by, VIEW_W * SCALE * s, VIEW_H * SCALE * s)
-  // 定位点半径:画布相对(固定视觉大小,不随缩放档变)
-  const rItem = Math.max(2, W * 0.019)
-  const rNpc = Math.max(2, W * 0.016)
-  const rPlayer = Math.max(3, W * 0.026)
+  // 定位点半径:画布相对(全图视图房间小,点要小才不糊成一团)
+  const rItem = Math.max(1.5, W * 0.01)
+  const rNpc = Math.max(1.4, W * 0.009)
+  const rPlayer = Math.max(2, W * 0.014)
   if (toggles.showItems) {
     for (const it of data.items) {
       const [x, y] = toPx(it.x, it.y)
