@@ -10,12 +10,12 @@ describe('map-names', () => {
   })
   it('未知地图回退 地图N', () => {
     expect(getMapName(9999)).toBe('地图9999')
-    expect(getMapName(0)).toBe('地图0')
+    expect(getMapName(998)).toBe('地图998')
   })
   it('hasMapName 区分已知/未知', () => {
     expect(hasMapName(1)).toBe(true)
     expect(hasMapName(119)).toBe(true)
     expect(hasMapName(9999)).toBe(false)
-    expect(hasMapName(0)).toBe(false)
+    expect(hasMapName(998)).toBe(false)
   })
 })

@@ -3,6 +3,7 @@
 //   表为用户考据,部分覆盖,缺名回退 `地图N`(见 getMapName),宁缺毋滥。
 //   当前场景的 mapNum 由 scene-system.getCurrentMapNum() 提供(loadScene 时从 scene JSON 写入)。
 const MAP_NAMES: Record<number, string> = {
+  0: '梦境',
   1: '盛渔村',
   2: '码头市集',
   3: '仙灵岛码头',
@@ -193,6 +194,7 @@ const MAP_NAMES: Record<number, string> = {
   192: '无底深渊3',
   193: '南诏城',
   194: '南诏皇宫',
+  195: '盛渔村（十年前）',
   196: '码头市集（十年前）',
   197: '盛渔村客栈（十年前）',
   198: '盛渔村客栈房间（十年前）',
