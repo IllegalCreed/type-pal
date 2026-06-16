@@ -348,7 +348,7 @@ describe('EventSystem', () => {
     // → setWaitingPageKey + pendingStyle = {top, 55, 12} + waiting='dialog' return
     tickEventSystem(gs, snap(['Confirm']), bus)
     expect(gs.dialogBox?.phase).toBe('waiting-page-key')
-    expect(gs.dialogBox?.pendingStyle).toEqual({ style: 'top', portraitIcon: 55, fontColor: 12 })
+    expect(gs.dialogBox?.pendingStyle).toEqual({ style: 'top', portraitIcon: 55, portraitLayout: true, fontColor: 12 })
     expect(gs.currentDialogStyle).toBe('bottom')  // 还未 apply
     // tick 3 Confirm: page-advance → 读 pendingStyle apply → 旧 bottom 冻结进 dialogBoxKept,
     // active dialogBox 清空 + ip++ → 下条 showDialog 重建 top。
@@ -362,6 +362,45 @@ describe('EventSystem', () => {
     expect(gs.dialogBox?.currentLineText).toBe('B')   // showDialog 已 startDialogLine
     expect(gs.dialogBox?.style).toBe('top')
     expect(gs.dialogBox?.portraitIcon).toBe(55)
+    expect(gs.dialogBox?.portraitLayout).toBe(true)   // 解耦:有立绘号 → 缩进布局位 = true
+  })
+
+  it('0x05 redraw 擦立绘:其后无 setDialogStyle 的 showDialog 不沿用旧头像(扬州师爷"大人息怒"复用太守立绘 bug)', () => {
+    // 真值 scene-081.json:setDialogStyleTop arg0=62(太守立绘) → showDialog(太守) → 0x16 → 0x05 →
+    //   showDialog(师爷,**无** setDialogStyle)。sdlpal 0x05 = PAL_ClearDialog(TRUE)+PAL_MakeScene
+    //   (script.c:3271/3290)重画整屏,擦掉 PAL_StartDialog 之前 blit 的立绘像素;师爷段 showDialog=0xFFFF
+    //   无 PAL_StartDialog → 不重绘立绘 → 原版师爷无立绘。我们 portrait 是 currentDialogPortraitIcon
+    //   持久态,0x05 须一并清(同 ShowFBP/fadeScreen 等清除点),否则师爷复用太守头像 62。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'setDialogStyleTop', arg0: 62 },                          // 太守立绘 62
+      { op: 'showDialog', messageIndex: 0, text: '甲' },              // 太守说话
+      { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0] },   // 0x05 重画擦立绘
+      { op: 'showDialog', messageIndex: 1, text: '乙' },              // 师爷说话(无 setDialogStyle)
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogBox?.portraitIcon).toBe(62)   // 太守立绘正常显示
+
+    // 一路 Confirm:翻完太守 → 0x05 等键翻页(page-advance 擦立绘) → 师爷 showDialog 建立。
+    // 捕获师爷对话框那一刻(currentLineText='乙')即停,断言其立绘已被擦除。
+    let shiyeBox: typeof gs.dialogBox
+    for (let i = 0; i < 40 && gs.eventCursor !== undefined; i++) {
+      tickEventSystem(gs, snap(['Confirm']), bus)
+      if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
+      if (gs.dialogBox?.currentLineText?.includes('乙')) {
+        shiyeBox = gs.dialogBox
+        break
+      }
+    }
+    expect(shiyeBox).toBeDefined()                  // 师爷对话框确实建立了
+    expect(shiyeBox?.portraitIcon).toBeUndefined()  // 师爷无立绘【图】(0x05 PAL_MakeScene 擦像素 → 清 portraitIcon)
+    expect(gs.currentDialogPortraitIcon).toBeUndefined()
+    // 解耦核心:立绘【图】没了,但**缩进布局保留**(sdlpal posDialogText 持久 metrics,PAL_ClearDialog
+    //   非 center 不重置 text.c:1777)→ 师爷文本仍缩进(present getDialogTextPos('top',true)=x96),只是不画太守头像。
+    expect(shiyeBox?.portraitLayout).toBe(true)
+    expect(gs.currentDialogPortraitLayout).toBe(true)
   })
 
   it('raw 命令 skip + console.debug + ip++', () => {

@@ -265,6 +265,8 @@ export function startDialogLine(
   opts: {
     style?: DialogBoxStyle
     portraitIcon?: number
+    /** 缩进布局位(与 portraitIcon 解耦,见 DialogBoxState.portraitLayout);缺省回退 portraitIcon!==undefined */
+    portraitLayout?: boolean
     fontColor?: number
     shadow?: boolean
     /**
@@ -303,6 +305,7 @@ export function startDialogLine(
     phase: isTitle ? 'line-done' : 'typing',  // title 即出完,让 event-system 立即 ip++ 下条
     style,
     portraitIcon: opts.portraitIcon,
+    portraitLayout: opts.portraitLayout,
     fontColor: startColor,
     shadow: opts.shadow ?? false,
     keyIconBlink: false,
@@ -596,27 +599,31 @@ export function drawDialogBox(
     return
   }
 
-  // 1. portrait(sdlpal text.c:1289-1310)
-  let hasPortraitRendered = false
+  // 1. portrait 图(sdlpal text.c:1289-1310):由 portraitIcon 决定画哪张 / 是否画。
   if (state.portraitIcon !== undefined && ctx?.portraitFrames) {
     const portrait = ctx.portraitFrames.get(state.portraitIcon)
     if (portrait) {
       const pos = getPortraitPos(state.style, portrait.width, portrait.height)
       if (pos) {
         blitSprite(fb, portrait, pos.x, pos.y)
-        hasPortraitRendered = true
       }
     }
   }
 
+  // 文本/标题缩进布局 — 与"是否画立绘图"解耦。sdlpal posDialogText/posDialogTitle 是 PAL_StartDialog
+  //   (iNumCharFace>0)设的持久 metrics;立绘图被 PAL_MakeScene(0x05 redraw)擦掉后位置仍缩进 →
+  //   其后无 PAL_StartDialog 的 showDialog 文本缩进但无图(扬州师爷"大人息怒")。portraitLayout 缺省
+  //   回退 (portraitIcon !== undefined) 兼容旧存档 / 战斗对话(不带 layout)。
+  const hasPortrait = state.portraitLayout ?? (state.portraitIcon !== undefined)
+
   // 2a. title(姓名,以 `:` 结尾 — sdlpal text.c:1725 真值 FONT_COLOR_CYAN_ALT,独立位置)
   if (state.titleText !== undefined) {
-    const titlePos = getDialogTitlePos(state.style, hasPortraitRendered)
+    const titlePos = getDialogTitlePos(state.style, hasPortrait)
     drawTextLine(fb, state.titleText, titlePos.x, titlePos.y, state, glyphs, FONT_COLOR_CYAN_ALT)
   }
 
   // 2b. text:所有已完成行 + 当前行(截 charsRevealed)
-  const basePos = getDialogTextPos(state.style, hasPortraitRendered)
+  const basePos = getDialogTextPos(state.style, hasPortrait)
 
   for (let i = 0; i < state.shownLines.length; i++) {
     const line = state.shownLines[i]!

@@ -406,8 +406,17 @@ export interface DialogBoxState {
   phase: DialogPhase
   /** 对话框位置样式 */
   style: DialogBoxStyle
-  /** RGM.MKF chunk 编号(角色头像);undefined = 无头像 */
+  /** RGM.MKF chunk 编号(角色头像);undefined = 无头像(不 blit 立绘图) */
   portraitIcon?: number
+  /**
+   * 文本/标题是否按"有立绘"缩进布局,**独立于** portraitIcon(是否实际画图)。
+   * sdlpal text.c:1316/1340 真值:posDialogText/posDialogTitle 是 PAL_StartDialog(iNumCharFace>0)
+   * 设的**持久 metrics**;立绘是当帧 blit 的屏幕像素,被 PAL_MakeScene(0x05 redraw)擦掉后位置 metrics
+   * 仍保留 → 其后无 PAL_StartDialog 的 showDialog 文本仍缩进(96/20),只是无立绘图(扬州师爷"大人息怒"
+   * 段:太守立绘被 0x05 擦,师爷续话无图但保留缩进)。undefined → present 回退 (portraitIcon !== undefined)
+   * 兼容旧存档 / 战斗对话。
+   */
+  portraitLayout?: boolean
   /** 字体前景色(palette 下标;默认 255 白) */
   fontColor: number
   /** 字阴影(iDialogShadow > 0 时 true) */
@@ -434,6 +443,7 @@ export interface DialogBoxState {
   pendingStyle?: {
     style: DialogBoxStyle
     portraitIcon?: number
+    portraitLayout?: boolean
     fontColor: number
   }
   /**
@@ -684,6 +694,13 @@ export interface GameState {
    * sdlpal script.c:3389-3426 真值。
    */
   currentDialogPortraitIcon?: number
+  /**
+   * 当前对话"缩进布局"位(与 currentDialogPortraitIcon 解耦):setDialogStyleTop/Bottom 的
+   * iNumCharFace>0 时置 true、Center/Narration 置 false。擦屏 opcode(0x05 等)清 portraitIcon(图)
+   * 但**保留**此位 → 其后裸 showDialog 文本仍缩进;end(PAL_EndDialog text.c:1811)复位 false。
+   * 见 DialogBoxState.portraitLayout。
+   */
+  currentDialogPortraitLayout?: boolean
   /**
    * 当前对话字体色(由 setDialogStyleX 的 operand[1] (Upper/Lower) 或 operand[0] (Center/CenterWindow))。
    * sdlpal text.c:29 #define FONT_COLOR_DEFAULT 0x4F。默认 0x4F = 79(palette idx 亮黄)。
@@ -1420,6 +1437,7 @@ export function resetSceneRuntimeForNewGame(
   gs.dialogBox = undefined
   gs.dialogBoxKept = undefined
   gs.currentDialogPortraitIcon = undefined
+  gs.currentDialogPortraitLayout = false
   // DM25:C 新游戏 = 进程静态零/FreeGlobals memset(global.c:262),这些字段语义恒 0;
   //   ts 回标题再开新游戏 mutate 同一 gs → 旧局水波(0x71)/战斗音乐域/追逐周期/跟随者残留:
   //   开场画面持续扭曲(静态波 sWaveProgression=0 时 screen-wave 自清条件永不命中)、
@@ -1768,6 +1786,7 @@ export function createInitialGameState(
     menuStack: [],
     dialogHistory: [],
     currentDialogStyle: 'top',  // sdlpal PAL_InitText / PAL_EndDialog 默认 kDialogUpper(top)
+    currentDialogPortraitLayout: false,  // 无立绘缩进(top 默认 iNumCharFace=0)
     // sdlpal text.c:29 FONT_COLOR_DEFAULT = 0x4F(palette idx 79,亮黄/浅米)
     currentDialogFontColor: 0x4F,
     frameNum: 0,

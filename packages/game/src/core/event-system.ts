@@ -1144,10 +1144,14 @@ function applySetDialogStyle(
   fontColor: number,
 ): boolean {
   const ds = gs.dialogBox
+  // 缩进布局位 = 是否有立绘号(top/bottom iNumCharFace>0 → 缩进;center/narration portraitIcon=undefined → 不缩进)。
+  //   与 portraitIcon 同时 set,但擦屏 opcode(0x05 等)只清 portraitIcon、**保留**此位 → 立绘图没了缩进还在
+  //   (见 DialogBoxState.portraitLayout)。
+  const portraitLayout = portraitIcon !== undefined
   // sdlpal script.c:3389-3426 setDialogStyleX 入口 PAL_ClearDialog(TRUE):仅 nCurrentDialogLine>0 才等键
   //   (text.c:1770)。`~` 收尾句 → dialogLineCount==0 → 不等键,直接清旧框 + apply 新 style(走下方 fall-through)。
   if (ds && ds.dialogLineCount > 0) {
-    setWaitingPageKey(ds, { style, portraitIcon, fontColor })
+    setWaitingPageKey(ds, { style, portraitIcon, portraitLayout, fontColor })
     cursor.waiting = 'dialog'
     return true
   }
@@ -1157,6 +1161,7 @@ function applySetDialogStyle(
   // 重建。不然 appendDialogLine 沿用旧 dialogBox 的 style/portraitIcon 留 bug(主角对话显李大娘头像)。
   gs.currentDialogStyle = style
   gs.currentDialogPortraitIcon = portraitIcon
+  gs.currentDialogPortraitLayout = portraitLayout
   gs.currentDialogFontColor = fontColor
   if (ds) {
     keepDialogForStyleSwitch(gs, ds, style)
@@ -1716,6 +1721,7 @@ export function tickEventSystem(
             gs.dialogBoxKept = keptDialog
             gs.currentDialogStyle = pending.style
             gs.currentDialogPortraitIcon = pending.portraitIcon
+            gs.currentDialogPortraitLayout = pending.portraitLayout
             gs.currentDialogFontColor = pending.fontColor
             gs.dialogBox = undefined
           }
@@ -1733,6 +1739,12 @@ export function tickEventSystem(
             // 由 PAL_MakeScene 覆盖屏幕)。
             // state-driven port:清整 dialogBox 让渲染层不再画 dialog。
             clearDialogBoxes(gs)
+            // 立绘是 PAL_StartDialog(0x3B-0x3E)一次性 blit 的屏幕像素,被 PAL_MakeScene 一并擦掉;
+            //   其后无 setDialogStyle 的 showDialog(0xFFFF)不调 PAL_StartDialog → 不重绘立绘。
+            //   清 portraitIcon(图)→ 师爷续话不再画太守头像;但**保留** currentDialogPortraitLayout(缩进):
+            //   sdlpal posDialogText 是持久 metrics,PAL_ClearDialog 非 center 不重置(text.c:1777)→ 文本
+            //   仍缩进。即扬州师爷"大人息怒":无太守立绘图、却保留缩进位(96)—— portrait 图与布局解耦。
+            gs.currentDialogPortraitIcon = undefined
           }
           cursor.waiting = undefined
           if (!preOp) cursor.ip++
@@ -1919,6 +1931,9 @@ export function tickEventSystem(
         gs.eventCursor = undefined
         clearDialogBoxes(gs)
         gs.currentDialogPortraitIcon = undefined
+        // sdlpal PAL_EndDialog(text.c:1811-1812)把 posDialogText 复位默认 (44,26) 无缩进 → layout=false
+        //   (区别于擦屏 opcode 0x05 只清 portraitIcon 保留缩进:end 是脚本边界,缩进 metrics 也归零)。
+        gs.currentDialogPortraitLayout = false
         // sdlpal PAL_EndDialog(text.c:1814)真值:脚本结束把 bDialogPosition 复位 kDialogUpper(top)。
         // 下个 trigger 脚本若直接 showDialog 没先 setDialogStyle(eg. 厨房李大娘 L_560)→ 用 top 默认,
         // 而非继承上段 cutscene 的 center/narration(2026-05-28 "逍遥快把酒菜"显示成居中框的根因)。
@@ -1989,6 +2004,7 @@ export function tickEventSystem(
               gs.dialogBox = startDialogLine('', {
                 style: gs.currentDialogStyle,
                 portraitIcon: gs.currentDialogPortraitIcon,
+                portraitLayout: gs.currentDialogPortraitLayout,
                 fontColor: gs.currentDialogFontColor,
                 iDelayFrames: gs.dialogIDelayFrames,
               })
@@ -2007,6 +2023,7 @@ export function tickEventSystem(
           gs.dialogBox = startDialogLine(cmd.text, {
             style: gs.currentDialogStyle,
             portraitIcon: gs.currentDialogPortraitIcon,
+            portraitLayout: gs.currentDialogPortraitLayout,
             fontColor: gs.currentDialogFontColor,
             iDelayFrames: gs.dialogIDelayFrames, // DM21:脚本级速度($NN 跨段持续,text.c:1538)
           })
@@ -2315,6 +2332,8 @@ export function tickEventSystem(
           }
           // dialogLineCount==0(`~` 收尾梦境句):不等键。残留对话框被 PAL_MakeScene 重画覆盖等价清掉。
           if (gs.dialogBox || gs.dialogBoxKept) clearDialogBoxes(gs)
+          // PAL_MakeScene 擦立绘像素(见上方 pendingFullClear 分支):清 portraitIcon(图)、**保留** layout(缩进)。
+          gs.currentDialogPortraitIcon = undefined
           // 无 dialog:sdlpal 0x05 真值(script.c:3283-3294 非 RNG/battle)= PAL_MakeScene() + VIDEO_UpdateScreen。
           //   PAL_MakeScene 末尾检查 fNeedToFadeIn → PAL_FadeIn(delay=1=600ms)从黑淡入(scene.c:503-508)。
           //   **仙灵岛靠岸"过场黑屏"真因**:onEnter(如 5117)序 setpos→0x05→对话;旧码 0x05 无对话时纯 ip++,

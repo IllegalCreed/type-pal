@@ -497,6 +497,28 @@ describe('Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置)
     expect(Array.from(fb.indices).some((i) => i === 77)).toBe(false)
   })
 
+  it('portraitLayout=true 但 portraitIcon=undefined(0x05 擦立绘后续话):不画图、文本仍缩进 x≥96', () => {
+    // 扬州师爷"大人息怒"解耦真值:立绘图被 PAL_MakeScene 擦(portraitIcon=undefined),但 posDialogText
+    //   持久缩进(portraitLayout=true)→ 屏上无立绘像素、文本 x≥96(非无缩进的 44)。画图与布局解耦。
+    const fb = createFramebuffer()
+    const portrait = mockSprite(32, 32, 77)
+    const state = startDialogLine('A', {
+      style: 'top', portraitIcon: undefined, portraitLayout: true, fontColor: 200,
+    })
+    completeLine(state)
+    drawDialogBox(fb, state, undefined, {
+      portraitFrames: new Map([[5, portrait]]), // 图库在,但 portraitIcon=undefined → 不取用
+    })
+    expect(Array.from(fb.indices).some((i) => i === 77)).toBe(false) // 不画立绘图
+    let minX = 320
+    for (let y = 0; y < 200; y++) {
+      for (let x = 0; x < 320; x++) {
+        if (fb.indices[y * 320 + x] === 200 && x < minX) minX = x
+      }
+    }
+    expect(minX).toBeGreaterThanOrEqual(96) // 缩进保留(对齐有立绘布局,而非无缩进 44)
+  })
+
   it('top + portrait → text X 起始 ≥ 96', () => {
     const fb = createFramebuffer()
     const portrait = mockSprite(32, 32, 77)
