@@ -40,12 +40,13 @@ export interface ToolsPanelDeps {
   getMapThumbnail?: (mapNum: number) => Promise<string | null>
 }
 
-type TabKey = 'battle' | 'scene' | 'system' | 'dialog'
+type TabKey = 'battle' | 'scene' | 'system' | 'dialog' | 'keys'
 const TABS: ReadonlyArray<readonly [TabKey, string]> = [
   ['battle', '战斗'],
   ['scene', '场景'],
   ['system', '系统'],
   ['dialog', '对话'],
+  ['keys', '快捷键'],
 ]
 
 // 缩放滑块对数刻度:正中(pos=0.5)=100%,两端 10% / 1000%。
@@ -160,6 +161,14 @@ export function injectToolsPanelStyles(): void {
 .tp-save-row .tp-btn { flex:1 1 0; padding:5px 0; font-size:13px; box-shadow:none; letter-spacing:1px; }
 .tp-save-row .tp-btn + .tp-btn { margin-left:0; }
 #tp-tools-launcher:hover { opacity:1; box-shadow:0 0 12px rgba(160,30,30,0.5); }
+.tp-key-row { display:flex; align-items:flex-start; gap:12px; padding:6px 0;
+  border-bottom:1px solid rgba(85,51,34,0.3); }
+.tp-key-caps { flex:0 0 152px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 3px; }
+.tp-key-sep { color:var(--tp-text-dim); font-size:11px; }
+.tp-kbd { display:inline-block; font-family:ui-monospace,Menlo,monospace; font-size:12px; line-height:1.1;
+  color:var(--tp-cream); background:var(--tp-slot); border:1px solid var(--tp-border);
+  border-bottom-width:2px; border-radius:4px; padding:3px 6px; white-space:nowrap; }
+.tp-key-desc { flex:1 1 auto; color:var(--tp-text); font-size:13.5px; line-height:1.5; padding-top:2px; }
 `
   document.head.appendChild(style)
 }
@@ -254,6 +263,31 @@ function toggleRow(parent: HTMLElement, label: string, checked: boolean, onChang
   cb.checked = checked
   cb.addEventListener('change', () => onChange(cb.checked))
   r.append(span, cb)
+  parent.appendChild(r)
+}
+
+/** 快捷键 tab 行:左侧若干键帽(kbd,「·」分隔)+ 右侧说明。 */
+function keyRow(parent: HTMLElement, keys: readonly string[], desc: string): void {
+  const r = document.createElement('div')
+  r.className = 'tp-key-row'
+  const caps = document.createElement('div')
+  caps.className = 'tp-key-caps'
+  keys.forEach((k, i) => {
+    if (i > 0) {
+      const sep = document.createElement('span')
+      sep.className = 'tp-key-sep'
+      sep.textContent = '·'
+      caps.appendChild(sep)
+    }
+    const cap = document.createElement('kbd')
+    cap.className = 'tp-kbd'
+    cap.textContent = k
+    caps.appendChild(cap)
+  })
+  const d = document.createElement('div')
+  d.className = 'tp-key-desc'
+  d.textContent = desc
+  r.append(caps, d)
   parent.appendChild(r)
 }
 
@@ -563,12 +597,56 @@ function renderDialogTab(parent: HTMLElement, gs: GameState): void {
   search.addEventListener('input', () => renderList(search.value))
 }
 
+/**
+ * 快捷键 tab:静态速查表。按语境分区 —— 通用 / 大世界 / 战斗 / 工具 / 快速存读档。
+ * 注:同一字母键在不同语境含义不同(原版即如此,见 scene-system.ts / battle-system.ts):
+ *   W = 大世界「装备」/ 战斗「投掷」;F = 大世界「法术」/ 战斗「强行」。
+ */
+function renderKeysTab(parent: HTMLElement): void {
+  sectionTitle(parent, '通用')
+  keyRow(parent, ['↑↓←→', '小键盘 8246'], '移动 · 光标 · 选择目标')
+  keyRow(parent, ['空格', '回车', 'Ctrl'], '确认')
+  keyRow(parent, ['Esc', 'Alt', 'Insert', '小键盘0', 'M'], '取消 · 返回 · 打开菜单')
+  keyRow(parent, ['PgUp', 'PgDn'], '列表翻页')
+  keyRow(parent, ['Home', 'End'], '跳到首项 · 末项')
+  keyRow(parent, ['空格', '回车', 'Esc'], '跳过过场动画')
+
+  sectionTitle(parent, '大世界')
+  keyRow(parent, ['空格', '回车'], '调查 · 对话(搜索面前目标)')
+  keyRow(parent, ['E'], '物品')
+  keyRow(parent, ['W'], '装备')
+  keyRow(parent, ['F'], '法术')
+  keyRow(parent, ['S'], '状态')
+
+  sectionTitle(parent, '战斗')
+  keyRow(parent, ['空格', '回车'], '确认当前选中指令')
+  keyRow(parent, ['D'], '防御')
+  keyRow(parent, ['A'], '自动战斗')
+  keyRow(parent, ['R'], '重复上回合(整队)')
+  keyRow(parent, ['F'], '强行攻击(整队)')
+  keyRow(parent, ['Q'], '逃跑')
+  keyRow(parent, ['E'], '用物品')
+  keyRow(parent, ['W'], '投掷物品')
+  keyRow(parent, ['S'], '查看状态')
+  keyRow(parent, ['Esc'], '返回上一名队员')
+
+  sectionTitle(parent, '工具')
+  keyRow(parent, ['`'], '打开 / 关闭工具面板')
+  keyRow(parent, ['-', '='], '缩放右下角小地图')
+
+  sectionTitle(parent, '快速存档 / 读档')
+  keyRow(parent, ['F5'], '快速存档 → 存档位 1')
+  keyRow(parent, ['F9'], '快速读档 ← 存档位 1')
+  muted(parent, '仅大世界、无对话与菜单时可快速存档')
+}
+
 function renderActiveTab(body: HTMLElement, active: TabKey, deps: ToolsPanelDeps, minimap: MinimapController): void {
   const gs = deps.getGs()
   if (active === 'battle') renderBattleTab(body, gs, deps.getResources())
   else if (active === 'scene') renderSceneTab(body, gs, minimap)
   else if (active === 'system') renderSystemTab(body, deps)
-  else renderDialogTab(body, gs)
+  else if (active === 'dialog') renderDialogTab(body, gs)
+  else renderKeysTab(body)
 }
 
 /**

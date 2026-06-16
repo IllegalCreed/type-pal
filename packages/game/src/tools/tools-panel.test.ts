@@ -29,14 +29,14 @@ describe('tools-panel 框架', () => {
     document.getElementById('tp-tools-style')?.remove()
   })
 
-  it('setup 挂根节点(默认隐藏) + 唤出印钮 + 4 个左竖 tab + 注入样式', () => {
+  it('setup 挂根节点(默认隐藏) + 唤出印钮 + 5 个左竖 tab + 注入样式', () => {
     setupToolsPanel(mkDeps())
     const root = document.getElementById('tp-tools-panel')
     expect(root).not.toBeNull()
     expect(root!.hidden).toBe(true)
     expect(document.getElementById('tp-tools-launcher')).not.toBeNull()
     expect(document.getElementById('tp-tools-style')).not.toBeNull()
-    expect(document.querySelectorAll('.tp-tab').length).toBe(4)
+    expect(document.querySelectorAll('.tp-tab').length).toBe(5)
   })
 
   it('反引号 toggle 显隐', () => {
@@ -85,6 +85,25 @@ describe('tools-panel 框架', () => {
     expect(txt).toContain('512')
     expect(txt).toContain('256')
     expect(txt).toContain('#1') // 场景号
+  })
+
+  it('快捷键 tab:5 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键', () => {
+    setupToolsPanel(mkDeps())
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))
+    ;[...document.querySelectorAll('.tp-tab')]
+      .find((b) => b.textContent === '快捷键')!
+      .dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    const txt = document.getElementById('tp-tools-panel')!.textContent ?? ''
+    for (const s of ['通用', '大世界', '战斗', '工具', '快速存档 / 读档']) expect(txt).toContain(s)
+    // W/F 在战斗与大世界含义不同,两套都列出(原版真值)
+    expect(txt).toContain('投掷物品') // 战斗 W
+    expect(txt).toContain('装备') // 大世界 W
+    expect(txt).toContain('强行攻击(整队)') // 战斗 F
+    expect(txt).toContain('法术') // 大世界 F
+    const caps = [...document.querySelectorAll('.tp-kbd')].map((e) => e.textContent)
+    expect(caps).toContain('`') // 工具面板开关
+    expect(caps).toContain('F5') // 快存
+    expect(caps).toContain('F9') // 快读
   })
 
   it('对话 tab:按场景分组(场景名标题) + 正序 + 搜索过滤', () => {
