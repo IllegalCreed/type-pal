@@ -10,10 +10,14 @@
 - **参考而非 fork**:sdlpal C 源只作为真值参考;运行时代码是 TS 原生实现。
 - **个人自用**:项目不提供原版数据,也不面向公开发布。
 
-## 当前状态(2026-06-12)
+## 当前状态(2026-06-16)
 
 核心系统已经整体落地,当前重心是**对照 sdlpal 源码和真实游戏表现做保真收口**。README
 只写导航和快照;具体完成度以 `docs/` 里的真值表为准。
+
+游戏本体之外还有两个玩家向外围系统:**生产工具面板**(左上悬浮、非模态,4 tab——战斗只读
+信息 / 场景小地图 / 系统设置含快存快读、音量、分辨率、5 存档位各自导入导出 / 历史对话),以及
+**离线预缓存**(生产环境注册 Service Worker,两段加载进度 + 可玩门,首次加载后可离线游玩)。
 
 权威状态表:
 
@@ -95,7 +99,7 @@ bash scripts/extract-battle-baseline.sh
 |---|---|
 | [`packages/shared`](packages/shared/) | 共享类型和数据结构:资源、事件命令、输入、数据表等。 |
 | [`packages/pal-extract`](packages/pal-extract/) | 资源提取 CLI:把原版 MKF / 文本 / 音频 / 视频转换成 JSON、PNG、WAV/OGG/MP4 等网页资源。 |
-| [`packages/game`](packages/game/) | Vite 浏览器运行时:场景、战斗、事件 VM、菜单、存档、音频、演出和 canvas 表现层。 |
+| [`packages/game`](packages/game/) | Vite 浏览器运行时:场景、战斗、事件 VM、菜单、存档、音频、演出、canvas 表现层,以及工具面板和离线预缓存(Service Worker)。 |
 
 关键目录:
 

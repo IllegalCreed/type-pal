@@ -3,7 +3,7 @@
 > 玩家可感知功能总表。**本表按“游戏里发生什么”分类,不按源码目录分类**;源码路径、opcode 名和数据表名只作为备注里的依据。
 > 逐 opcode 明细以 [opcode-status.md](opcode-status.md) 为准;逐资源提取覆盖以 [resource-status.md](resource-status.md) 为准;逐物品 / 仙术 / 演出清单分别见 [item-status.md](item-status.md)、[magic-status.md](magic-status.md)、[cutscene-status.md](cutscene-status.md)。
 >
-> **当前快照**:2026-06-07。状态写实现事实,测试写覆盖事实;已经修完的历史流水放 `docs/plans/` 或 git log,不在本表顶部长期堆叠。
+> **当前快照**:2026-06-16。状态写实现事实,测试写覆盖事实;已经修完的历史流水放 `docs/plans/` 或 git log,不在本表顶部长期堆叠。
 
 ## 怎么读
 
@@ -186,7 +186,7 @@
 | 场景 BGM、战斗 BGM、胜利音乐 | ✅ 待听验 | ✅ unit | core 发音乐意图,shell 用 Web Audio / SpessaSynth 播放;soundfont 已有,剩 user 听验。 |
 | 音效 SFX | ✅ 待听验 | ✅ unit | 大世界 opcode、战斗攻击、命中、死亡、施法、投掷、逃跑等触发点已接。 |
 | CD 音轨 | ✅ 待听验 | ✅ unit | 8 个 OGG track 已提取,0xA3 播放路径已接。 |
-| MIDI 音色库配置 | ✅ claimed | N/A | `packages/game/public/soundfont.sf3` 已随仓库提供(GeneralUser GS 2.0.3),授权见 `packages/game/public/soundfont-LICENSE.txt`。 |
+| MIDI 音色库配置 | ✅ claimed | N/A | `packages/game/public/soundfont.sf3` 已随仓库提供(TimGM6mb,约 6MB,GPL-2;此前为 32MB GeneralUser GS,为压慢网启动等待换小库),授权见 `packages/game/public/soundfont-LICENSE.txt`。 |
 
 ## 13. 输入、运行时和开发工具
 
@@ -196,7 +196,9 @@
 | 鼠标、手柄、触屏 | N/A | N/A | user 决策不做,不作为原版功能缺口。 |
 | 主循环、逻辑 tick 和渲染节奏 | ✅ claimed | ✅ partial | explore / battle tick 与 raf 渲染解耦,修 cutscene 被加速类问题。 |
 | 播放过场时独占画面 | ✅ claimed | N/A | AVI/RNG/FBP/结局播放时暂停主渲染,避免闪烁。 |
-| 开发调试面板 | N/A | N/A | 纯开发工具,不计玩家功能完成度。 |
+| 生产工具面板 | ✅ claimed | ✅ regress | type-pal 自有(非原版)。左上悬浮非模态 4 tab:战斗(我方/敌方属性、经验、偷取,进出战斗与每回合自动刷新)、场景(小地图:主角/NPC/宝物点 + 可视框 + 右下常驻 widget)、系统(快存快读、BGM/SFX 音量、分辨率、5 存档位各自导入导出)、对话(历史按 map 分组)。只读 + 玩家便利动作。 |
+| 离线预缓存与启动加载 | ✅ claimed | ✅ unit | type-pal 自有。启动 fetch 计数进度覆盖层(dev / 生产 fallback);生产注册 Service Worker(cache-first + asset-manifest 全清单),两段进度——必要资源就绪即开“进入游戏”可玩门、其余后台续传,视频期暂停让路,支持断点续传与版本失效。无 SW 能力时退化为按需 fetch。 |
+| 开发调试面板 | N/A | N/A | 纯开发工具(场景 / 战斗 / 队伍 / 特效 picker、坐标传送、`window.__tpgs` 调试钩子),不计玩家功能完成度。 |
 
 ## 14. 单独维护的明细表
 

@@ -1,6 +1,6 @@
 # 演出状态表
 
-> 自动审计落盘:2026-06-07 · 数据来源 `data/extracted/data/scene/*.json`(场景表:onEnter/onTeleport/eventObjects)+ `events/all.json`(全局脚本)逐入口反汇编(`/tmp/dump-cutscenes.mjs`)+ `reference/sdlpal/script.c` opcode 真值。
+> 自动审计落盘:2026-06-07(差异台账更新至 2026-06-16;逐场景清单未重跑 dump,仍为 6-07 反汇编结果)· 数据来源 `data/extracted/data/scene/*.json`(场景表:onEnter/onTeleport/eventObjects)+ `events/all.json`(全局脚本)逐入口反汇编(`/tmp/dump-cutscenes.mjs`)+ `reference/sdlpal/script.c` opcode 真值。
 > 配套 [item-status.md](./item-status.md) / [magic-status.md](./magic-status.md) / [opcode-status.md](./opcode-status.md) / [feature-status.md](./feature-status.md)。
 
 ## 什么算"演出"
@@ -665,6 +665,15 @@ Boss 战(`teamId` ∈ dev-panel `BOSS_ROSTER`,已核地点)所在的演出脚本
 
 - 近期已对齐(git `aa02ae6` 对齐战斗与场景表现细节 / `80e9b5e` 战斗用物前摇):战斗内表现细节已修一批。
 - 战斗演出:升级结算 / 前摇 / 用毕跑脚本(见 [feature-status.md](./feature-status.md) D 章 + [magic-status.md](./magic-status.md) 召唤/合击注)。
+- ✅ 已修(2026-06-08~16,均带回归测试):
+  - 林家堡李逍遥走出场(scene-35 obj596 / ip 8766):相机固定 + 逐帧走步,修瞬移 / 相机跟随 / 出画不消失(001c111);0x65[0,232] 隐身精灵改扫全局脚本预载(9934c07)。
+  - 厨房当夜 / 次日黑屏字幕(scene-1 obj30 / ip 2884,当夜 2903·次日 3053):FadeIn 保持黑屏 + 清残留头像(75d281f)。
+  - 隐龙窟救人 onEnter 重进重播(scene-41~47 一带):0x00 end 不冲掉 0x08 checkpoint(1000981)。
+  - 香兰报信吞键卡死(ip 903,经 0x6D@1450 调起的子脚本):palette fade 孤儿到时自清(4ed8f46)。
+  - 李大娘"别怠慢了客人"死锁(scene-3 obj56 子脚本 / ip 353):脚本结束首帧先移动再扫自动触发(9367efc)。
+  - 血池(scene-59 / map76 · onEnter 12182 / obj1048):nSpriteFramesAuto 装载回填 + 屏外对象剔除(09ba1e0);将军冢→血池过渡(0x35[90] @ scene-66 onEnter 12170)RNG 播放期震屏计数冻结(e8a6a1b)。
+  - 石长老 vs 盖罗娇开场剧情自动战(scene-215 / scene-67 一带):fAutoBattle 整场隐藏战斗 UI(30b0b56;另 0f71695 事件侧 0x8A / b3e9972 AI)。
+- 口径外但相关(随机遇敌 / 环境 NPC,不在上表):草妖敌逃接回 wonIp + 多敌对白只播一遍(419dee8)、敌逃跑期隐藏血量面板(9d0aa83);scene-35 鱼 0x06 无 label 时 fall back 全局 ip,修漂移出池塘(5d256f8)。
 - **待逐条填**:🔴 段(尤其 A 区动画过场 + B 区 Boss 战前演出)对真档逐帧核后,把发现的具体出入(镜头/走位/淡屏/分页/音画)记到这里,并标 scene+ip。
 
 ## 方法与局限

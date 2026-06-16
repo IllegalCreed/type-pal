@@ -1,6 +1,6 @@
 # 仙术状态表
 
-> 自动审计落盘:2026-06-07 · 数据来源 `data/extracted/data/spells.json`(= OBJECT_MAGIC 命名段 id 296–397)+ `magic.json`(MAGIC stats,经 `magicNumber` 关联)+ 各 `scriptOnSuccess` 反汇编(`/tmp/dump-magic.mjs`)+ `reference/sdlpal/*.c` 逐 opcode 核对,非臆测。
+> 自动审计落盘:2026-06-07(2026-06-16 复核:0x2E 命中改 `>=` 过巫抗、逃跑抵抗改敌吉运 fleeRate、大世界单体治疗仅活人且无变化不扣 MP——均机制精确化,逐仙术状态不变,详见 `game-mechanics.md`)· 数据来源 `data/extracted/data/spells.json`(= OBJECT_MAGIC 命名段 id 296–397)+ `magic.json`(MAGIC stats,经 `magicNumber` 关联)+ 各 `scriptOnSuccess` 反汇编(`/tmp/dump-magic.mjs`)+ `reference/sdlpal/*.c` 逐 opcode 核对,非臆测。
 > 与 [item-status.md](./item-status.md) 平级:**道具**(id 61–295)看 item 表;**仙术**(id 296–397)看本表。
 > 范围说明见下方「收录边界」。元素/类型/状态映射对照 sdlpal `global.h`。
 

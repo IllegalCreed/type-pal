@@ -7,6 +7,8 @@
 > **类别**:A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉 · E=战斗 · S=系统/UI
 > **⚠️ 2026-06-07 逐 opcode 审计修正**:按 sdlpal `script.c` 复核真实范围为 `0x00..0xA7`(排除 0x32/0x48/0x72/0x9D)共 **164 个** opcode,另有 `0xFFFF` 对话文本。2026-05-31 审计发现的 **25 处真问题**已在下方归档并复核；当前无 runtime ⬜ todo,仅保留若干 0 调用 / 演出时序确认项。
 >
+> **🔄 2026-06-16 增量修正**(均 ✅ 内精修,不增删 opcode / 不改状态格):0x91 同种判定改按 objectId(wObjectID,非 wEnemyID;1a5c2c4)、0x28·0x29 施毒当下跑入口 wEnemyScript(a363d55)、0x8A 补事件侧 applyRawOpcode(0f71695,修剧情自动战变手动)、0x9C 散开动画(ca9a193)+ 0x9E startBattle 保留 0 占位槽(66e9e2b)、0x06 autoScript 侧 fall back 全局 ip(5d256f8)、0x22 复活毒按 level≤3 清(61e50cd)。
+>
 > **历史补齐记录**:2026-05-30 — E 类 + D 音频收口(opcode handler 存在 + 单测,但**非全分支 1:1**,见审计表)。本轮补齐:
 >   battle 0x5F kill-player / 0x5C hide / 0x6B blow / 0x89 set-result / 0x8A auto-battle / 0x33 collect /
 >   0x3A flee / 0x9C division / 0x9F transform / 0x30 stat-buff% / 0x31 battle sprite /
@@ -90,7 +92,7 @@
 | op | 说明 |
 |----|------|
 | 0x18 | equip 缺 slot-swap 优化(库存顺序差异,净值正确,无玩法影响) |
-| 0x28 | apply-poison 战斗内分支/抗性已对,仅毒脚本 tick 差一拍(postAction,文档化残) |
+| 0x28 | apply-poison 战斗内分支/抗性/施毒当下跑入口 wEnemyScript 均已对(a363d55 起对齐 0x29);仅缺 runner 的老 caller / 纯状态单测 fallback 差一拍 |
 | 0x43 | play-music 已写 wNumMusic/musicLoop 并由 shell 播放;fade 参数只剩 cosmetic |
 | 0x47 | play-sound 已 push gs.pendingSounds 并由 shell drain 播放;剩听验 |
 | 0xA5 | ShowFBP 主路径已复用 showFbp;op1 effectSprite 未经 opcode handler 传入,但真实数据 0 调用(DOS-only 结局路径) |
@@ -256,7 +258,7 @@ setDialogStyle 0x3B-0x3E。
 | 0x30 | increase player stat temp by % | ✅ **per-battle Extra slot 1:1**(script.c:1406-1427,梦蛇):写 `gs.rgEquipmentEffect[6][rgwX][role] = trunc(base_runtime*(SHORT)op1/100)`,base 取**未 buff** PlayerRolesRuntime(op0 row 17atk/18mag/19def/20dex)→ 多次不叠加 + 经 getter recompute snapshot。战斗读 effective 经 projectRuntimeToBattleRoles 并入装备 effect(**D14 修**)。战末 removeEquipmentEffect(role,Extra) 清 → 战后消失。battle-opcodes.ts / game-state.ts |
 | 0x31 | change battle sprite temp | ✅ **已接(2026-06-02 D17)**:临时换战斗精灵(script.c:0031,梦蛇295 变身)。dispatchBattleOpcode 写 BattlePlayer.spriteNumOverride(caster);draw-battle-sprites 优先于 role.spriteNumInBattle 渲染 `player-${override}`;per-battle 自动清(= sdlpal Extra slot 战末清)。Trance/梦蛇时间线已在前摇后用旧 sprite 闪色,末帧再切到新 sprite |
 | 0x21 | inflict flat damage to enemy | ✅ **battle handler**(此前只 explore 主干):op0!=0 全体 / 否则单体(ctx.target),health -= op1 clamp≥0(script.c:0021)。梅花镖/银针 scriptOnThrow 真伤害(0x42=0 动画 sentinel,真伤靠这);毒 tick 也用。battle-opcodes.ts |
-| 0x28 | apply poison to enemy | ✅ **battle handler**:op0!=0 全体 / 否则单体(ctx.target);`RandomLong(0,9)>=resistanceToSorcery` 抗性判定 + 去重 + 槽满(MAX_POISONS 16)→ 加 {poisonId:op1, scriptEntry:objectPoisons[op1].enemyScript}(script.c:0028)。毒蛇卵/卵/蛊 throw。注:sdlpal 立即跑一次 wEnemyScript,ts 改 postAction tick 跑(差一拍)。battle-opcodes.ts |
+| 0x28 | apply poison to enemy | ✅ **battle handler**:op0!=0 全体 / 否则单体(ctx.target);`RandomLong(0,9)>=resistanceToSorcery` 抗性判定 + 去重 + 槽满(MAX_POISONS 16)→ 加 {poisonId:op1, scriptEntry:objectPoisons[op1].enemyScript}(script.c:0028)。毒蛇卵/卵/蛊 throw。注:sdlpal 立即跑一次 wEnemyScript,ts 在有 runner(commands/runScript/bus)时亦施毒当下跑(battle-opcodes.ts:463);缺 runner 的老 caller / 纯状态单测 fallback 差一拍。battle-opcodes.ts |
 | 0x33 | collect enemy for items | ✅ enemy(caster).collectValue!=0 → gs.wCollectValue += collectValue;否则 jump op0(script.c:0033)。battle-opcodes.ts |
 | 0x34 | transform collected enemies to items | ✅ **explore**:wCollectValue>0 → RandomLong(1,cv) cap9(PAL_CLASSIC)扣 cv + 发 store[0].rgwItems[i] 入包(setStoreTable 注入);cv==0 → jump op0(script.c:1452,妖魔转化)。已弹 `item-box` dialog(炼出/物品名/按键关闭,对齐 script.c:1479-1513)。event-system.ts |
 | 0x38 | teleport party out of scene | ✅ **explore**(script.c:1554-1571):成功(`!fInBattle && teleport!=0`)→ 仿 0x04 call 压返回帧 + 跳 teleport entry(`sceneOnTeleportOverride[scene] ?? sceneOnTeleportEntry`),子脚本 end 弹帧回 caller(续跑 0x47/0xA1);失败 → fScriptSuccess=FALSE + jump op0。归隐脱出 scene 41/163/226 等(onTeleportLabel,67 场景）。**残**:scene 41 dialog-heavy 全链时序待真引擎确认。event-system.ts |
@@ -279,8 +281,8 @@ setDialogStyle 0x3B-0x3E。
 | 0x6B | blow away enemies | ✅ state.iBlow = (SHORT)op0(吹飞敌人位移,script.c:006B)。battle-opcodes.ts |
 | 0x88 | set magic base damage by money | ✅ i=min(dwCash,5000);dwCash-=i;magic[op0→mn].baseDamage=floor(i*2/5)(script.c:0088,乾坤一掷 scriptOnUse)。performMagic 注入 magicTables/gs → 0x88 改 baseDamage + 扣钱 → E1 全体结算。battle-opcodes.ts |
 | 0x89 | set battle result | ✅ op0:3→won/1→lost/(0xFFFF·0)→fleed/1000+→不改(script.c:0089)。battle-opcodes.ts |
-| 0x8A | enable auto-battle | ✅ gs.fAutoBattle=true(script.c:008A)。battle-opcodes.ts |
-| 0x91 | jump if enemy not first of kind | ✅ 数同 wObjectID 敌人,self_pos>1(非首个)→ jump op0(script.c:2091)。ts 同种=同 e.id。用途:同种敌人组脚本只在第一个跑。真实数据 op0 全 0(→跳到 end)。battle-opcodes.ts,5 用 |
+| 0x8A | enable auto-battle | ✅ gs.fAutoBattle=true(script.c:008A)。**事件侧 applyRawOpcode 亦实现**(0f71695,event-system.ts;此前事件脚本里落 default no-op → 石长老 vs 盖罗娇剧情自动战变手动)。battle-opcodes.ts / event-system.ts |
+| 0x91 | jump if enemy not first of kind | ✅ 数同 wObjectID 敌人,self_pos>1(非首个)→ jump op0(script.c:2624)。ts 同种=同 **objectId(wObjectID 对象身份)**,非 e.id(wEnemyID)——同 wEnemyID 可映射多个 OBJECT,C 视为不同种(1a5c2c4 修;objectId 缺省回退 e.id 兼容旧 fixture)。用途:同种敌人组脚本只在第一个跑。真实数据 op0 全 0(→跳到 end)。battle-opcodes.ts,5 用 |
 | 0x92 | magic casting anim (battle) | ✅ **已 wire(2026-06-02)**:buildShowMagicAnimTimeline(anim-timeline.ts)= buildPreMagicTimeline(op0-1 上移+施法姿+10 帧 cast 特效)+ 施法者 wCurrentFrame=6 + 全队 5 步 iColorShift=i*2 cycle + 复位 → startBattleAnim 播。castEffectFrameBase = rgwBattleEffectIndex[battleSprite][0]*10+15(fight.c:2387-2389),battleEffectIndex 经 enemy turnStart/ready 的 battleCtx 注入。sdlpal script.c:2637-2662;anim-timeline.test(24 帧)+ battle-opcodes.test(dispatch + op0==0 no-op)。唯一站点 all.json cmd@42319(赵灵儿力量觉醒 cutscene)|
 | 0x9C | enemy division | ✅ 分裂:仅 1 活敌 + health>1 → 分裂 op0+1 份各 floor((h+w)/(w+1));否则 jump op1(script.c:009C)。可扩到 MAX 5 槽,也复用 defeated 空槽;成功后按新 wMaxEnemyIndex 刷新所有有效敌人的 pos/posOriginal,副本继承 maxHealth。battle-opcodes.ts |
 | 0x9E | enemy summon | ✅ 召唤 op1 只 op0(对象 id;0/0xFFFF=自身同种)敌人到 **0..wMaxEnemyIndex 内已 defeated 的空槽**;不会扩容单敌队伍。房间不足/**我方隐身 iHidingTime>0(2c3d25d 补)**/自身睡眠·麻痹·混乱 → fail,op2≠0 jump op2(script.c:009E)。obj→enemyObjects[objectIndex]→enemyId→enemies.json 满血;经 enemy scriptOnReady runScript 注入 summonTables。成功后设 maxHealth 并按 ENEMYPOS 当前有效 max index 刷新全敌 pos/posOriginal;渲染层按预载 battleSprites `enemy-${id}` 取精灵;有 battle bus 时播放敌施法起手、新召唤敌 `iColorShift=8`、212 音效与全敌复位(无 bus 保留 pendingSounds fallback)。battle-opcodes.ts,anim-timeline.ts |
