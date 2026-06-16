@@ -21,6 +21,7 @@
 - [抗性体系总览 与 巫术命中判定](#抗性体系总览-与-巫术命中判定)
 - [异常状态效果:眠 / 定身 / 疯魔 / 封技](#异常状态效果眠--定身--疯魔--封技)
 - [毒系统:等级 / 每回合伤害 / 七大毒 / 相生相克](#毒系统等级--每回合伤害--七大毒--相生相克)
+- [怪物刷新:消失倒计时与离屏复活](#怪物刷新消失倒计时与离屏复活)
 
 ---
 
@@ -870,3 +871,118 @@ if (队友[kStatusProtect] > 0) sDamage /= 2;          // 护体:再 /2
 ### ts 实现状态
 
 毒的**伤害缩放 + 中毒概率**(毒抗那套)实现见[五灵 / 毒 抗性](#五灵--毒-抗性与五行机制)节末。本节的**逐回合 DoT(`0x1B`/`0x21` + `end` 推进)、按等级 / 种类解毒(`0x2C`/`0x2A`/`0x2B`)、无影毒半血(`0x5B`)** 走战斗 opcode dispatch(`0x28` 下毒已实现,见 [battle-opcodes.ts](../packages/game/src/core/battle/battle-opcodes.ts));**相生相克 / 三对致死组合**取决于各七大毒 apply 脚本接入程度(`0x5E` 查毒 + `0x60`/`0x5F` 秒杀),实现时须照搬上述规则与数值。
+
+---
+
+## 怪物刷新:消失倒计时与离屏复活
+
+> 玩家只看到"打赢的怪过一阵、走开后又冒出来"。背后是**场景事件对象(EVENTOBJECT)**的两个隐藏字段在驱动:**引擎从不自动刷怪** —— "消失"这一步是怪物**自己的脚本在战斗胜利后**触发的,引擎只提供「倒计时」与「离屏复活」两个原语。"一段时间后 + 在可视区域外"正是这两个原语**叠加**的结果,但它们卡在**不同阶段**(见坑②)。
+
+### TL;DR
+
+怪物 = 地图上可见(明雷)的事件对象。打赢后,它的 trigger 脚本接着跑 opcode `0x52`,把自己 `sState` 取负(标记隐藏)、`sVanishTime` 设为倒计时帧数(默认 **800**)。此后**每 tick(100ms)无条件递减**,归零前完全隐身且不可触发;倒计时归零后,引擎逐帧检查它**当前坐标是否在 320×320 视口外** —— 在视野内**不复活**(盯着出生点它永远不冒头),走开使其离屏才 `sState` 转正、重新可见可触发(= 刷新)。默认间隔 = 800 × 100ms = **80 秒**(注意是 10fps,易被误按 60fps 算成 13 秒)。
+
+### 1. 怪物 = 场景事件对象(EVENTOBJECT)
+
+源:[global.h:74-121](../reference/sdlpal/global.h#L74-L121)。地图上的怪物、NPC、宝箱、机关**同属一种结构** `EVENTOBJECT`,靠字段区分行为:
+
+```c
+typedef struct tagEVENTOBJECT {
+   SHORT  sVanishTime;     // 消失倒计时(本节主角):>0 隐身倒计时 / <0 可见但锁触发 / 0 常态
+   WORD   x, y;            // 地图世界坐标
+   ...
+   WORD   wTriggerScript;  // 触发脚本(走近/触碰时跑;怪物的"开战"就写在这里)
+   WORD   wAutoScript;     // 自动脚本(每帧跑,做巡逻/动画)
+   SHORT  sState;          // 状态:0=隐藏 1=正常 2=阻挡;<0=隐藏待复活(本节主角)
+   WORD   wTriggerMode;    // 触发模式:>=4(kTriggerTouchNear)= 触碰自动触发(明雷怪)
+   ...
+} EVENTOBJECT;
+```
+
+- **状态 `sState`**([global.h:74-80](../reference/sdlpal/global.h#L74-L80)):`kObjStateHidden=0` / `kObjStateNormal=1` / `kObjStateBlocker=2`。**负值**是"隐藏待复活"标记(复活时取 `abs` 还原)。
+- **触发模式 `wTriggerMode`**([global.h:82-93](../reference/sdlpal/global.h#L82-L93)):`>= kTriggerTouchNear(4)` 的对象**走近即自动触发** —— 地图上的明雷怪就是这一档(4~8 对应触发半径递增)。
+- 各场景的事件对象是全局数组 `lprgEventObject` 的一段,由 `SCENE.wEventObjectIndex`([global.h:120](../reference/sdlpal/global.h#L120))切片;脚本对 `sState`/`sVanishTime` 的修改**写在全局数组里、跨场景持久**(离开再回来,已消失的怪仍在倒计时)。
+
+### 2. 时间基准:FPS = 10 → 每 tick 100ms
+
+倒计时按**真实时间**推进,换算基准是逻辑帧率:
+
+- `#define FPS 10`([game.h:27](../reference/sdlpal/game.h#L27)) → `FRAME_TIME = 1000/FPS = 100ms`([game.h:28](../reference/sdlpal/game.h#L28))。
+- 主循环每 100ms 调一次 `PAL_StartFrame`([game.c:80-85](../reference/sdlpal/game.c#L80-L85)),后者每帧跑 `PAL_GameUpdate(TRUE)`([play.c:534](../reference/sdlpal/play.c#L534)) —— 倒计时就在这里推进,**与玩家是否走动无关**(站着不动也照样倒计时)。
+
+| opcode | 设定值 | 帧数 | ×100ms | 现象 |
+|---|---|---|---|---|
+| `0x4B` 短暂消失 | `sVanishTime = -15` | 15 | **1.5 秒** | 仍可见,只是这 1.5 秒不可触发(NPC"转身走开"防连点) |
+| `0x52` 隐藏(默认) | `sVanishTime = 800` | 800 | **80 秒** | 隐身;倒计时归零 + 离屏才重现 |
+| `0x52` 隐藏(带操作数) | `sVanishTime = 操作数` | op | op × 0.1 秒 | 同上,**实际刷新间隔由脚本写的操作数决定** |
+
+### 3. 引擎核心两段:倒计时 + 离屏复活
+
+源 `PAL_GameUpdate`([play.c:87-106](../reference/sdlpal/play.c#L87-L106)),逐事件对象:
+
+```c
+if (p->sVanishTime != 0) {                       // ① 倒计时中:无条件向 0 推进
+   p->sVanishTime += (p->sVanishTime < 0) ? 1 : -1;  //   正数-1 / 负数+1
+   continue;                                      //   期间跳过复活/触发/autoScript
+}
+if (p->sState < 0) {                             // ② 倒计时归零 + "隐藏待复活"
+   if (p->x < PAL_X(viewport) || p->x > PAL_X(viewport) + 320 ||
+       p->y < PAL_Y(viewport) || p->y > PAL_Y(viewport) + 320) {   // 离开 320×320 视口
+      p->sState = abs(p->sState);                //   转正 → 重新可见可触发(= 刷新)
+      p->wCurrentFrameNum = 0;                   //   复位站立帧
+   }
+}
+```
+
+而"消失"由怪物脚本主动设置([script.c:1798-1799](../reference/sdlpal/script.c#L1798-L1799),opcode `0x52`,`pEvtObj` = 脚本宿主自己):
+
+```c
+pEvtObj->sState *= -1;                                  // 1 → -1,标记"隐藏待复活"
+pEvtObj->sVanishTime = op0 ? op0 : 800;                 // 倒计时帧数,默认 800
+```
+
+### 4. 完整生命周期(从遭遇到刷新)
+
+| 阶段 | 条件 / 触发 | 字段变化 | 时长 | 源 |
+|---|---|---|---|---|
+| ① 活动 | `sVanishTime==0 && sState>0` | 可见、走近自动触发、autoScript 跑 | — | [play.c:107](../reference/sdlpal/play.c#L107) / [172](../reference/sdlpal/play.c#L172) |
+| ② 遭遇开战 | 走进触发区,trigger 脚本里 `0x07` startBattle | 同步进入战斗 | — | [play.c:153](../reference/sdlpal/play.c#L153) |
+| ③ 战后消失 | **胜利后脚本接着跑 `0x52`** | `sState*=-1`;`sVanishTime=800`(或操作数) | — | [script.c:1798](../reference/sdlpal/script.c#L1798) |
+| ④ 倒计时 | 每 tick 无条件 -1,**与玩家动不动无关** | `800 → … → 0` | 默认 **80 秒** | [play.c:87-94](../reference/sdlpal/play.c#L87-L94) |
+| ⑤ 离屏复活 | 倒计时归零后,坐标离开 320×320 视口 | `sState=abs()`、复位帧 | 取决于何时走开 | [play.c:96-106](../reference/sdlpal/play.c#L96-L106) |
+| ⑥ 回到 ① | | | | |
+
+### 5. 重要约束(容易误解的点)
+
+- **坑①:倒计时无条件推进,与可视区域无关。** `sVanishTime != 0` 直接递减并 `continue`([play.c:87-94](../reference/sdlpal/play.c#L87-L94)),排在复活判定**之前**。站着不动、盯着出生点,80 秒照样走完 —— 可视区域**不影响倒计时**。
+- **坑②:"在可视区域外"只卡复活那一步(⑤),不是刷新的全部。** 倒计时归零后怪进入 `sState<0 && sVanishTime==0`,引擎才逐帧判它**当前坐标**是否离屏:在视野内 → **不复活**(死盯出生点永远刷不出);离屏 → 立刻转正重现。所以体感"过一会儿 + 走开"= **先等够 `sVanishTime`、再走出视野**,两条件**依次**满足。
+- **坑③:引擎不自动刷怪 —— 消失是脚本驱动的。** 没有任何"定时重生"逻辑;怪物消失是它**自己的 trigger 脚本在战斗胜利后接着跑 `0x52`**。引擎只提供倒计时 + 离屏复活两个原语,"多久刷、刷不刷"全由脚本写的 `sVanishTime` 操作数决定。
+- **坑④:`sVanishTime` 正负是两套语义。** `>0`(如 800)= 隐身倒计时,present 层**不画**;`<0`(如 -15)= **仍可见**,只是锁触发。别把"短暂消失(`0x4B`)"和"隐藏刷新(`0x52`)"混为一谈。
+- **坑⑤:复活的视口判定 y 也用 320(非屏高 200)。** [play.c:101](../reference/sdlpal/play.c#L101) 的 y 边界写的是 `+ 320` 而非 200,疑为原版 typo;按"忠实复刻 sdlpal / 原版"惯例**照搬**(type-pal 已 1:1 复刻,见下)。
+
+### 6. ts 实现状态
+
+> ✅ **完整实现且节奏对齐**,非占位。
+
+- **倒计时 + 离屏复活**:[scene-system.ts:199-216](../packages/game/src/core/scene-system.ts#L199-L216) 逐行直译 play.c:87-106(`vx/vy` = `gs.camera`),含 y 用 `SCREEN_W(320)` 的 typo 复刻(注释已标注);触碰触发的 Manhattan 距离公式 [scene-system.ts:218-225](../packages/game/src/core/scene-system.ts#L218-L225)。
+- **消失 opcode**:`0x4B` `sVanishTime=-15`([event-system.ts:3930-3936](../packages/game/src/core/event-system.ts#L3930-L3936))、`0x52` `sState=-sState; sVanishTime=op?op:800`([event-system.ts:3939-3947](../packages/game/src/core/event-system.ts#L3939-L3947)),1:1。
+- **可见性**:`sState<=0 || sVanishTime>0 → 不画`([present.ts:470-476](../packages/game/src/present/present.ts#L470-L476)),与 `sVanishTime<0` 仍可见的语义一致。
+- **autoScript gate**:仅 `sState>0 && sVanishTime==0` 才跑自动脚本([event-system.ts:1186-1189](../packages/game/src/core/event-system.ts#L1186-L1189)),直译 play.c:172-192。
+- **节奏对齐(关键)**:explore 逻辑 tick = **100ms / 10fps**([main-loop.ts:40](../packages/game/src/shell/main-loop.ts#L40),注释对齐 `game.c` 的 `FRAME_TIME`),与 sdlpal `FPS=10` 一致 → 80 秒 / 1.5 秒的刷新时间忠实,**无"60fps 每帧递减导致 1/6 缩水"的坑**。
+- **相关修复**:`0x52` 隐藏怪写在 trigger 脚本里、需**战斗胜利后接回脚本**才会跑;早期因战末未接回导致"打完怪不消失",已由 `savePostBattleResume` / `resumePostBattleScript` 修复([event-system.ts:2077](../packages/game/src/core/event-system.ts#L2077) / [3024](../packages/game/src/core/event-system.ts#L3024))。回归测试见 scene-system.test.ts(倒计时递减不触发 / 离屏复活 / 触发区转向)。
+
+### 附:源出处速查
+
+| 内容 | 文件:行 |
+|---|---|
+| `EVENTOBJECT` 结构(sVanishTime / sState / wTriggerMode) | [global.h:95-113](../reference/sdlpal/global.h#L95-L113) |
+| 状态枚举 `OBJECTSTATE`(Hidden/Normal/Blocker) | [global.h:74-80](../reference/sdlpal/global.h#L74-L80) |
+| 触发模式 `TRIGGERMODE`(TouchNear=4 起自动触发) | [global.h:82-93](../reference/sdlpal/global.h#L82-L93) |
+| 倒计时无条件递减 | [play.c:87-94](../reference/sdlpal/play.c#L87-L94) |
+| `sState<0` 离屏复活(320×320) | [play.c:96-106](../reference/sdlpal/play.c#L96-L106) |
+| 触碰自动触发距离公式 | [play.c:107-165](../reference/sdlpal/play.c#L107-L165) |
+| autoScript gate(`sState>0 && sVanishTime==0`) | [play.c:172-192](../reference/sdlpal/play.c#L172-L192) |
+| FPS=10 / FRAME_TIME=100ms | [game.h:27-28](../reference/sdlpal/game.h#L27-L28) |
+| 主循环每帧 `PAL_StartFrame → PAL_GameUpdate` | [game.c:80-85](../reference/sdlpal/game.c#L80-L85) / [play.c:534](../reference/sdlpal/play.c#L534) |
+| `0x4B` 短暂消失(`sVanishTime=-15`) | [script.c:1730](../reference/sdlpal/script.c#L1730) |
+| `0x52` 隐藏(`sState*=-1; sVanishTime=op?op:800`) | [script.c:1798-1799](../reference/sdlpal/script.c#L1798-L1799) |
