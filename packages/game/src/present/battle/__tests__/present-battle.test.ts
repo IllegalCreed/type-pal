@@ -8,6 +8,7 @@ import { createFramebuffer } from '../../framebuffer.js'
 import type { BattleBgAsset } from '../draw-battle-bg.js'
 import type { SpriteAsset } from '../draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present-battle.js'
+import { buildFadeOut } from '../../../core/palette-fade.js'
 import { startDialogLine } from '../../dialog-box.js'
 import { drawBattleSettlement } from '../draw-battle-settlement.js'
 import type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'
@@ -205,6 +206,18 @@ function fbHasWrites(fb: ReturnType<typeof createFramebuffer>): boolean {
 }
 
 describe('BattlePresent', () => {
+  it('draw —— 战斗 palette ramp fade 逐帧染色 gs.palette.colors(此前漏调 stepPaletteFade → 战斗 fade 只 snap 不动画)', () => {
+    const fb = createFramebuffer()
+    const present = new BattlePresent()
+    const state = mkState([], [])
+    const start: [number, number, number][] = Array.from({ length: 256 }, () => [200, 200, 200])
+    const gs = mkGs({ palette: { colors: start.map((c) => [...c] as [number, number, number]), cycles: [] } })
+    // 600ms 淡黑、起点 300ms 前 → draw 时应已 ramp 过半(从 200 向黑降)
+    gs.paletteFadeState = buildFadeOut(start, 600, performance.now() - 300)
+    present.draw(fb, gs, state, [], mkAssets(), 0)
+    expect(gs.palette!.colors[1]![0]).toBeLessThan(200) // 色表被 ramp(否则恒 200 = 不动画)
+  })
+
   it('draw —— 空 assets + 空 commands 不抛错', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()

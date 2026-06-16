@@ -584,6 +584,19 @@ function startPaletteFade(
   cursor.waiting = sceneUpdating ? 'scene-fade' : 'palette-fade'
 }
 
+/**
+ * 无 cursor 启动 palette ramp fade —— 战斗(dispatchBattleOpcode → applyRawOpcode)/ autoScript 路径
+ * 没有 EventCursor，无法像 event 主循环那样 cursor.waiting 阻塞。只确保工作副本 + 写 paletteFadeState；
+ * 战斗顶层 tickBattlePaletteFade(battle-system.ts)按时长 hold + finalize，present 逐帧 ramp。
+ */
+function setPaletteFadeCursorless(gs: GameState, pf: PaletteFadeState): void {
+  if (!gs.palette) {
+    const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
+    gs.palette = makeWorkingPalette(src)
+  }
+  gs.paletteFadeState = pf
+}
+
 function startFadeOutEffect(gs: GameState, delayOperand: number, cursor?: EventCursor): void {
   const now = performance.now()
   const curColors = (gs.palette ?? gs.basePalette)?.colors ?? blackColors()
@@ -591,13 +604,8 @@ function startFadeOutEffect(gs: GameState, delayOperand: number, cursor?: EventC
   const pf = buildFadeOut(curColors, delay * 600, now)
   if (cursor)
     startPaletteFade(gs, cursor, pf, false, false)
-  else {
-    if (!gs.palette) {
-      const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
-      gs.palette = makeWorkingPalette(src)
-    }
-    gs.paletteFadeState = pf
-  }
+  else
+    setPaletteFadeCursorless(gs, pf)
   gs.needToFadeIn = true
 }
 
@@ -3421,6 +3429,50 @@ function applyRawOpcode(
       // battle runScript raw fallback 没有 EventCursor waiting;先启动同一套 paletteFadeState 并消费 opcode。
       // 普通事件循环路径会传 cursor 并阻塞等 fade 完。
       startFadeOutEffect(gs, operands[0] ?? 0, cursor ?? undefined)
+      break
+    }
+
+    // 战斗(/autoScript)raw fallback 的其余 palette fade —— event 主路径在 tickEventSystem(2440+)拦截
+    //   并带 cursor 阻塞,**不落此处**;此处只服务无 cursor 的战斗/autoScript(tickBattlePaletteFade hold +
+    //   BattlePresent.draw 逐帧 ramp)。builder 镜像 tickEventSystem。补全前这 4 个在战斗里静默无效(只有
+    //   0x50 有 case)= dual-interpreter-opcode-gap。0x4F FadeToRed 仍只 event 侧(死亡演出 + gameOverActive)。
+    case OP_FADE_IN: {
+      const now = performance.now()
+      const baseColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
+      const op0 = operands[0] ?? 0
+      const delay = toInt16(op0) > 0 ? op0 : 1
+      setPaletteFadeCursorless(gs, buildFadeIn(baseColors, delay * 600, now))
+      gs.needToFadeIn = false
+      break
+    }
+    case OP_PALETTE_FADE: {
+      const now = performance.now()
+      const curColors = (gs.palette ?? gs.basePalette)?.colors ?? blackColors()
+      gs.nightPalette = !gs.nightPalette
+      const fUpdateScene = (operands[0] ?? 0) === 0
+      const totalMs = 32 * (fUpdateScene ? 100 : 25)
+      const targetColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
+      setPaletteFadeCursorless(gs, buildPaletteFade(curColors, targetColors, totalMs, now))
+      break
+    }
+    case OP_COLOR_FADE: {
+      const now = performance.now()
+      const baseColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
+      const color = (operands[0] ?? 0) & 0xff
+      const perStep = (operands[1] ?? 0) * 10 || 10
+      const fFrom = (operands[2] ?? 0) !== 0
+      setPaletteFadeCursorless(gs, buildColorFade(baseColors, color, fFrom, 64 * perStep, now))
+      gs.needToFadeIn = false
+      break
+    }
+    case OP_SCENE_FADE: {
+      const now = performance.now()
+      const curColors = (gs.palette ?? gs.basePalette)?.colors ?? blackColors()
+      const baseColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
+      const step = toInt16(operands[0] ?? 0) || 1
+      const totalMs = Math.ceil(64 / Math.abs(step)) * 100
+      setPaletteFadeCursorless(gs, buildSceneFade(curColors, baseColors, step > 0, totalMs, now))
+      gs.needToFadeIn = step < 0
       break
     }
 

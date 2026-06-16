@@ -30,6 +30,7 @@ import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import type { BattleState, SummonFrameState } from '../../core/battle/battle-state.js'
 import { getBattleLiveRoles, stepDeathFadeRender } from '../../core/battle/battle-system.js'
+import { stepPaletteFade } from '../../core/palette-fade.js'
 import type { BusEntry } from '../../core/command-bus.js'
 import type { GameState } from '../../core/game-state.js'
 import type { GlyphTable } from '../font.js'
@@ -136,6 +137,15 @@ export class BattlePresent {
     // D17 死亡淡出渲染细分:每 rAF(含非 tick 的 fade-only 补帧)按 wall-clock 把 deathFadeStep 推到
     //   62.5fps(对齐 sdlpal PAL_BattleFadeScene 16ms/步)。无 battleFade 时早退,纯 no-op。
     stepDeathFadeRender(state, performance.now())
+
+    // 战斗脚本 palette ramp fade(0x50/0x51/0x80/0x8C/0x93):每帧 ramp gs.palette.colors —— 与大世界
+    //   presentFrame 对称(此前只此处漏调 stepPaletteFade → 战斗内 palette fade 不动画、只 snap)。
+    //   生命周期(等完 → finalize + 清)归 tickBattlePaletteFade(battle-system.ts);present 只染色。
+    //   time-based → fade-only 补帧(advanceEffects=false)重复调也安全。dither 系(death/intro/summon)
+    //   是另一套 battleFade,不走此处。
+    if (gs.paletteFadeState && gs.palette) {
+      stepPaletteFade(gs.palette.colors, gs.paletteFadeState, performance.now())
+    }
 
     // D19 入场 fade:首帧(introFade 激活 + 尚无 backup)快照入场前 fb(= 上一帧大世界,fb 跨帧保留)作 dither
     //   backup;无 introFade(已进战斗)→ 清。须在任何 fb 绘制前快照。

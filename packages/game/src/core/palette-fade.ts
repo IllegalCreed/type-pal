@@ -317,7 +317,9 @@ export function finalizePaletteFade(colors: RGB[], pf: PaletteFadeState): void {
   }
 }
 
-/** 由现有 Palette 造一份「可变工作副本」(fades 原地改它的 colors;cycles 沿用引用即可)。 */
+/** 由现有 Palette 造一份「可变工作副本」(fades 原地改它的 colors;cycles / nightColors 沿用引用即可)。 */
 export function makeWorkingPalette(src: Palette): Palette {
-  return { colors: cloneColors(src.colors), cycles: src.cycles }
+  // nightColors 沿用引用:fade 只原地改 day `colors`,夜色不被 ramp。漏带它则 0x8B setPalette 重建
+  //   basePalette 后 resolveNightColors(basePalette, true) 取不到夜半 → 夜场 fade 回退白天色。
+  return { colors: cloneColors(src.colors), cycles: src.cycles, nightColors: src.nightColors }
 }

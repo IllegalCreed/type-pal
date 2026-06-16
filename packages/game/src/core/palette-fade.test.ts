@@ -43,6 +43,12 @@ describe('palette-fade helpers', () => {
     expect(src.colors[0]![0]).toBe(5) // 源不被污染
     expect(wp.cycles).toBe(cyc) // cycles 引用沿用
   })
+
+  it('makeWorkingPalette:保留 nightColors(夜色淡入目标,resolveNightColors 读 basePalette.nightColors)', () => {
+    const night = fill([1, 2, 3])
+    const wp = makeWorkingPalette({ colors: fill([5, 5, 5]), cycles: [], nightColors: night })
+    expect(wp.nightColors).toBe(night) // 夜色沿用,不被丢弃(否则 0x8B setPalette 后夜场 fade 选色回退白天)
+  })
 })
 
 describe('buildFadeOut(0x50)', () => {
