@@ -191,6 +191,22 @@ export class BattlePresent {
       drawBattleMagicOverlay(fb, { kind: 'magic', ...blit }, assets.magicSprites)
     }
 
+    // 2.2 屏波(战场常驻波 / 法术帧临时叠加)—— **在精灵之前、只波动背景**。
+    //   sdlpal battle.c:583 PAL_BattleMakeScene 先 PAL_BattleDrawBackground(内含 :82 PAL_ApplyWave),
+    //   再 PAL_BattleDrawAllSprites(:605):屏波只扭曲背景(含 keepEffect 烙印),精灵/法术特效画在
+    //   扭曲后的背景上、自身笔直。早先误放到精灵**之后** → boss 等被横向撕裂(user 2026-06-16 报)。
+    //   wScreenWave 进战斗设为 field.wScreenWave(battle.c:1563;水下/幻境战场常驻荡漾);法术帧临时
+    //   叠加 frame.screenWave(fight.c:2667 `wScreenWave += magic.wWave`,:2835 直接恢复旧值;战斗中
+    //   progression 恒 0,叠加窗内无推进可丢)。
+    {
+      const animFrame = state.battleAnim?.frames[state.battleAnim.idx]
+      const baseWave = gs.wScreenWave
+      const animWave = animFrame?.screenWave ?? 0
+      if (animWave > 0) gs.wScreenWave = baseWave + animWave
+      if (gs.wScreenWave > 0) applyScreenWave(fb.indices, gs, advanceEffects)
+      if (animWave > 0) gs.wScreenWave = baseWave // fight.c:2835 直接恢复旧值
+    }
+
     // 战斗实时 roles(伤害/死亡写于此;死员据此画倒下帧)。无战斗资源(单测/兜底)→ static 基线。
     //   修"起立":精灵 + UI 都读 live,死员 hp==0 → 倒下帧 2(draw-battle-sprites)/ HP 条显实时血。
     const liveRoles = getBattleLiveRoles(gs) ?? assets.playerRoles
@@ -239,20 +255,6 @@ export class BattlePresent {
       for (const ov of state.battleAnim.overlays) {
         if (ov.kind === 'effect') drawBattleEffectOverlay(fb, ov, assets.effectSprite)
       }
-    }
-
-    // 3.95 DH8 屏波:PAL_BattleMakeScene **每帧** PAL_ApplyWave(battle.c:82)消费全局 wScreenWave
-    //   (进战斗设为战场常驻波 field.wScreenWave,battle.c:1563;5 个水下/幻境战场 wave 2/4/128/4/2
-    //   原版全程荡漾)。法术帧 wave 为**临时叠加**(fight.c:2667 `wScreenWave += magic.wWave`,
-    //   :2835 以保存的旧值直接恢复——战斗中 progression 恒 0(进战斗清零),叠加窗内无推进可丢)。
-    //   UI 之前应用(UI 画在扭曲后的场景上不被卷入)。
-    const animFrame = state.battleAnim?.frames[state.battleAnim.idx]
-    {
-      const baseWave = gs.wScreenWave
-      const animWave = animFrame?.screenWave ?? 0
-      if (animWave > 0) gs.wScreenWave = baseWave + animWave
-      if (gs.wScreenWave > 0) applyScreenWave(fb.indices, gs, advanceEffects)
-      if (animWave > 0) gs.wScreenWave = baseWave // fight.c:2835 直接恢复旧值
     }
 
     // 3.9 召唤 crossfade(PAL_BattleFadeScene)—— **在 UI/对话之前**对**场景层**(bg+精灵+召唤神+特效)做

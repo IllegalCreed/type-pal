@@ -259,6 +259,28 @@ describe('BattlePresent', () => {
     expect(fb.indices[0]).toBe(4)
   })
 
+  it('战场屏波只波动背景,不卷入精灵/特效(sdlpal PAL_BattleDrawBackground 在 sprite 前 ApplyWave)', () => {
+    // sdlpal battle.c:583 PAL_BattleDrawBackground(内含 :82 PAL_ApplyWave)在
+    //   PAL_BattleDrawAllSprites(605)之前 → 屏波只扭曲背景,精灵/特效画在扭曲后的背景上、自身笔直。
+    // 旧 bug:我们把 applyScreenWave 放在精灵/特效**之后** → 精灵被横向错切(boss 右缘撕裂)。
+    const fb = createFramebuffer()
+    const present = new BattlePresent()
+    // 2×30 竖条 effect @ (160,100) → baseX=159,baseY=70,占 x∈{159,160} y∈[70,99]。
+    const effectSprite: SpriteAsset = {
+      frames: [{ width: 2, height: 30, indices: new Uint8Array(2 * 30).fill(22), opaque: new Uint8Array(2 * 30).fill(1) }],
+    }
+    const state = mkState([], [], {
+      battleAnim: { frames: [], idx: 0, frameElapsedMs: 0, overlay: { kind: 'effect', spriteChunk: 10, frameIdx: 0, x: 160, y: 100 } },
+    })
+    const assets = mkAssets({ battleBgs: new Map([[0, mkBgAsset(4)]]), effectSprite })
+    const gs = mkGs({ wScreenWave: 128 }) // 强屏波(战场常驻波)
+    present.draw(fb, gs, state, [], assets, 0)
+    // 竖条画在屏波之后 → 整条 30 行在精确 x=159 全部完好(没被屏波横移)。
+    let intact = 0
+    for (let y = 70; y < 100; y++) if (fb.indices[y * 320 + 159] === 22) intact++
+    expect(intact).toBe(30)
+  })
+
   it('showDamageNum 命令(enemy target)→ floating nums 写入 framebuffer', () => {
     const fb = createFramebuffer()
     const present = new BattlePresent()
