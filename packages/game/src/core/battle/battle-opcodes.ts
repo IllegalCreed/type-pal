@@ -19,7 +19,7 @@ import { type BattleCtx, addPoisonForPlayer, curePlayerPoisonByKind, curePlayerP
 import type { BattleStatus } from './battle-state.js'
 import { getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity, getPlayerMagicStrength, getPlayerPoisonResistance } from '../equip-effect.js'
 import { buildEnemyDivisionTimeline, buildEnemySummonTimeline, buildEnemyTransformTimeline, buildPlayerOffMagicTimeline, buildShowMagicAnimTimeline, buildStealTimeline } from './anim-timeline.js'
-import { startBattleAnim } from './battle-anim-driver.js'
+import { playerRestFrame, startBattleAnim } from './battle-anim-driver.js'
 import { getEnemyBasePos } from './battle-positions.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
 
@@ -1031,6 +1031,10 @@ export function dispatchBattleOpcode(
         const p = state.players[pIdx]
         if (p) {
           p.status = { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, silence: 0, puppet: 0, bravery: 0, protect: 0, dualAttack: 0 }
+          // 复活后刷新静止帧:死员 currentFrame 停在死帧 2,复活只改 hp 不刷帧 → 后续动画期(别人行动 /
+          //   结算)仍按 currentFrame=2 画倒下,直到该队员轮到行动才被 resetFightersAfterAction 复位
+          //   (user 报"起来一帧又倒下,轮到他才起来")。此处与 reset 同源 playerRestFrame 立即复位为站立/濒死。
+          p.currentFrame = playerRestFrame(p, role)
         }
         // M11(2026-06-07 sdlpal 审查):script.c:1071 复活只清 level<=3 的毒(PAL_CurePoisonByLevel(w, 3)),
         //   level>3 的毒保留、复活后继续每回合 tick 掉血。原全清等于白送一次解毒,改变战斗难度。

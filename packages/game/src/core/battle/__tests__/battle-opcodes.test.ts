@@ -110,6 +110,24 @@ describe('B-w2.a battle-opcodes dispatch', () => {
     expect(r.newIp).toBeUndefined() // 已中毒不跳
   })
 
+  it('0x0022 复活:刷新被复活队员 currentFrame → 站立帧(修 user 报"起来一帧又倒下";死帧 2 不被刷新会卡住)', () => {
+    // 死员 currentFrame=2(死帧);复活后 hp>0 但旧实现不刷 currentFrame → 后续动画期仍画倒下帧,
+    //   直到该队员轮到行动才被 resetFightersAfterAction 复位 → "起来一帧又倒下,轮到他才起来"。
+    const ctx = {
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState(死员 currentFrame=2)
+      state: { enemies: [], players: [{ roleId: 0, prevHp: 0, defending: false, currentFrame: 2, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }] } as any as BattleState,
+      target: { type: 'player', idx: 0 },
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 roles(hp=0 死员)
+      playerRoles: { roles: [{ id: 0, hp: 0, maxHP: 100 } as any] },
+      // biome-ignore lint/suspicious/noExplicitAny: 最小 gs(curePoison 读 rgPoisonStatus)
+      gs: { rgPoisonStatus: {} } as any,
+    } as BattleCtx
+    // operand[0]=0(单体),operand[1]=5 → hp = 100*5/10 = 50
+    dispatchBattleOpcode(0x0022, [0, 5], ctx)
+    expect(ctx.playerRoles!.roles[0]!.hp).toBe(50) // 真复活
+    expect(ctx.state.players[0]!.currentFrame).toBe(0) // 站立帧,不卡死帧 2
+  })
+
   it('0x0069 enemy escape → 触发 enemyEscapeAnim 飞出屏(D13;不当击杀,health 不变)', () => {
     const enemy = makeEnemy(50)
     const ctx = makeCtx(enemy)
