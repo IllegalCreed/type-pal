@@ -22,6 +22,7 @@
 - [异常状态效果:眠 / 定身 / 疯魔 / 封技](#异常状态效果眠--定身--疯魔--封技)
 - [毒系统:等级 / 每回合伤害 / 七大毒 / 相生相克](#毒系统等级--每回合伤害--七大毒--相生相克)
 - [怪物刷新:消失倒计时与离屏复活](#怪物刷新消失倒计时与离屏复活)
+- [大世界施加的状态如何带入战斗:护体 / 中毒 / 毒抗](#大世界施加的状态如何带入战斗护体--中毒--毒抗)
 
 ---
 
@@ -986,3 +987,112 @@ pEvtObj->sVanishTime = op0 ? op0 : 800;                 // 倒计时帧数,默�
 | 主循环每帧 `PAL_StartFrame → PAL_GameUpdate` | [game.c:80-85](../reference/sdlpal/game.c#L80-L85) / [play.c:534](../reference/sdlpal/play.c#L534) |
 | `0x4B` 短暂消失(`sVanishTime=-15`) | [script.c:1730](../reference/sdlpal/script.c#L1730) |
 | `0x52` 隐藏(`sState*=-1; sVanishTime=op?op:800`) | [script.c:1798-1799](../reference/sdlpal/script.c#L1798-L1799) |
+
+---
+
+## 大世界施加的状态如何带入战斗:护体 / 中毒 / 毒抗
+
+> 大世界菜单里给自己用**金刚符**(上护体)、用**毒蛇卵 / 尸腐肉**(自我中毒)、吃**大蒜**(加毒抗),进战斗到底带不带?**全带**——仙剑**大世界与战斗共用同一套全局角色数据**,开战只读不重置。但三者挂在**三套不同结构**上,又被战斗结束的**同一处清理三件套**统一清掉,所以**都只保一场战斗**。本节把这条"大世界 → 战斗"边界讲透,串起[护体](#防御机制主动防御--自动防御--援护--护体)、[毒系统](#毒系统等级--每回合伤害--七大毒--相生相克)、[毒抗](#五灵--毒-抗性与五行机制)三节。
+
+### TL;DR
+
+| 大世界操作(item) | scriptOnUse(反汇编实测) | 写入的全局结构 | 进战斗 | 战斗结束清除(三件套) |
+|---|---|---|---|---|
+| **金刚符**(63) | `0x2D[6,7]` | `rgPlayerStatus[role][6]`(护体回合) | ✅ 带护体、回合数延续 | `PAL_ClearAllPlayerStatus()` |
+| **毒蛇卵**(117,赤毒)/ 尸腐肉(116,尸毒)等 | `0x29[_,毒id]` | `rgPoisonStatus[毒][role]`(毒槽) | ✅ 带毒、每回合发作 | `PAL_CurePoisonByLevel(w,3)` |
+| **大蒜**(84) | `0x17[17,22,30]` | `rgEquipmentEffect[6].rgwPoisonResistance`(Extra 格,+30) | ✅ 毒抗 +30、降中毒率 + 减毒伤 | `PAL_RemoveEquipmentEffect(w,Extra)` |
+
+三件套同在 [battle.c:1822-1830](../reference/sdlpal/battle.c#L1822-L1830),**胜 / 败 / 逃任意结局无条件执行** → 三类效果**统统只保这一场**。
+
+> ⚠️ **纠正常见误解**:大蒜毒抗**不是"永久补品"**。它写的是 Extra 装备效果格(slot 6),和战斗内临时 buff(`0x30`)共用同一格,**战斗一结束就随三件套一起清**——和护体 / 中毒一样,只保一场。
+
+### 1. 为什么"都带得进去":共用全局数组,开战只读不重置
+
+仙剑**没有"大世界状态"和"战斗状态"两套**——玩家的状态 / 毒 / 装备效果都挂在 `gpGlobals` 的**全局数组**上,战斗逻辑**直接读这些全局数组**,大世界脚本也**直接写它们**:
+
+| 数据 | 全局字段 | 战斗如何读 |
+|---|---|---|
+| 回合状态(护体 / 眠 / 狂暴…) | `rgPlayerStatus[role][9]` [global.h:522](../reference/sdlpal/global.h#L522) | fight.c 全程直接读 `gpGlobals->rgPlayerStatus`(如护体减伤 [fight.c:5059](../reference/sdlpal/fight.c#L5059)) |
+| 中毒 | `rgPoisonStatus[毒][role]` [global.h:547](../reference/sdlpal/global.h#L547) | 每回合跑 `gpGlobals->rgPoisonStatus[i][role].wPoisonScript`([fight.c:4454](../reference/sdlpal/fight.c#L4454)) |
+| 装备 / 食用效果(毒抗等) | `rgEquipmentEffect[7]` [global.h:521](../reference/sdlpal/global.h#L521) | `PAL_GetPlayerPoisonResistance` 累加全部格 [global.c:1900](../reference/sdlpal/global.c#L1900) |
+
+- **玩家状态不进战斗副本**:`g_Battle` 只给**敌人**存状态副本(`rgEnemy[].rgwStatus`);玩家自始至终用全局 `rgPlayerStatus`。所以"大世界上的护体" = "战斗里的护体",同一个数。
+- 故**任何大世界施加的效果天然带进下一场战斗**,无需特殊"传递"逻辑——它本就是同一份数据。
+
+### 2. 三条施加链(大世界 → 写哪个全局结构)
+
+第一手反汇编(`data/extracted/data/items.json` + `events/all.json`):
+
+- **金刚符(63)** `scriptOnUse` = `0x2D[6,7]` → `PAL_SetPlayerStatus(role, 6, 7)`([script.c:1367](../reference/sdlpal/script.c#L1367) / [global.c:2173](../reference/sdlpal/global.c#L2173)):给**当前角色**上**护体**(`kStatusProtect`,CLASSIC 序 = 6)**7 回合**,写 `rgPlayerStatus`。属"好状态",再用取较长回合([global.c:2257](../reference/sdlpal/global.c#L2257))。
+- **毒蛇卵(117)→赤毒551 / 尸腐肉(116)→尸毒552** 等 `scriptOnUse` = `0x29[_,毒id]` → `PAL_AddPoisonForPlayer(role, 毒id)`([script.c:1257](../reference/sdlpal/script.c#L1257) / [global.c:1459](../reference/sdlpal/global.c#L1459)),写 `rgPoisonStatus`。**但先过毒抗 gate**(下文坑③)。
+- **大蒜(84)** `scriptOnUse` = `0x17[17,22,30]` → `rgEquipmentEffect[17−0xB=6].rgwPoisonResistance[role] = 30`([script.c:752](../reference/sdlpal/script.c#L752)):往 **Extra 格(slot 6)** 写**毒抗 +30**。
+
+### 3. 战斗里如何生效
+
+- **护体**:受到的物理 / 法术伤害**减半**(物理 [fight.c:5059-5062](../reference/sdlpal/fight.c#L5059-L5062)、法术除数含护体项 [fight.c:4802](../reference/sdlpal/fight.c#L4802))——详[护体节](#防御机制主动防御--自动防御--援护--护体)。
+- **中毒**:每回合跑该毒的 `wPoisonScript`(DoT;赤毒 −7 / 回 等)——详[毒系统](#毒系统等级--每回合伤害--七大毒--相生相克)。
+- **毒抗 +30**:`PAL_GetPlayerPoisonResistance(role)` = 角色基础 + Σ全部装备效果格(`i = 0 .. MAX_PLAYER_EQUIPMENTS`,**含 Extra 格**),上限 100。战斗里它**降低中毒概率**(`毒抗 < RandomLong(1,100)` 才中,[fight.c:5141](../reference/sdlpal/fight.c#L5141))并**减免毒系仙术伤害**(`(10−毒抗/20)/5`)——详[五灵 / 毒抗性](#五灵--毒-抗性与五行机制)。所以**临阵嗑一瓣大蒜 = 这一场少中毒、少吃毒伤**。
+
+### 4. 战斗结束:三件套统一清除(为何"只保一场")
+
+[battle.c:1822-1830](../reference/sdlpal/battle.c#L1822-L1830),注释 "Clear all player status, poisons and temporary effects",**胜 / 败 / 逃任意结局都跑**:
+
+```c
+PAL_ClearAllPlayerStatus();                       // ① 清 rgPlayerStatus(护体在内)
+for (w = 0; w < MAX_PLAYER_ROLES; w++) {
+   PAL_CurePoisonByLevel(w, 3);                    // ② 清 ≤3 级毒(毒等级上限 3 = 全部常规毒)
+   PAL_RemoveEquipmentEffect(w, kBodyPartExtra);   // ③ 清 Extra 装备效果格(大蒜毒抗在内)
+}
+```
+
+三件套**一一对应**第 2 节三套结构 → 大世界嗑的护体 / 毒 / 毒抗**全在战斗结束被清**,所以**都只生效一场**:
+
+- ① `PAL_ClearAllPlayerStatus`([global.c:2311](../reference/sdlpal/global.c#L2311)):清所有 ≤999 回合的状态(>999 留给装备常驻态)。
+- ② `PAL_CurePoisonByLevel(w,3)`:清 level ≤3 的毒。常规毒(赤 / 尸 / 瘴 / 毒丝,0–2 级)+ 六大三级毒全在内;只有无影毒(173)清不掉(详[毒系统·解毒](#毒系统等级--每回合伤害--七大毒--相生相克))。
+- ③ `PAL_RemoveEquipmentEffect(w, Extra)`([global.c:1372](../reference/sdlpal/global.c#L1372)):把 Extra 格(slot 6)所有属性字段清零——大蒜毒抗、`0x30` 战斗临时 stat buff 一起清。
+
+### 5. 大蒜的特殊性:Extra 格 + 两条清除路径
+
+大蒜不可装备,却用 `0x17` 写 `rgEquipmentEffect`——因为 slot 6 是 **Extra 格(`kBodyPartExtra` [global.h:71](../reference/sdlpal/global.h#L71) = MAX_PLAYER_EQUIPMENTS)**,一个**不绑定任何可穿戴装备的"杂项效果格"**,专给食用增益(`0x17`)和战斗临时 buff(`0x30`)用。毒抗 getter 遍历 `i = 0 .. MAX_PLAYER_EQUIPMENTS`(**含 slot 6**)累加,所以 Extra 格的 +30 照样计入总毒抗。
+
+Extra 格有**两条清除路径**,大蒜毒抗撑到**两者谁先到**:
+
+| 清除路径 | 触发 | 源 |
+|---|---|---|
+| **A. 战斗结束** | 任意战斗结束 `PAL_RemoveEquipmentEffect(w, Extra)` | [battle.c:1829](../reference/sdlpal/battle.c#L1829) |
+| **B. 换 / 卸装备、读档** | `PAL_UpdateEquipments` 开头 `memset` 全清 `rgEquipmentEffect`,再重跑装备 scriptOnEquip(大蒜不可装备 → 无人重新授予) | [global.c:1333](../reference/sdlpal/global.c#L1333) / [1354](../reference/sdlpal/global.c#L1354) |
+
+→ **大蒜毒抗的寿命 = "下一场战斗结束" 或 "下一次换装 / 读档",谁先到**,绝非永久。(对照:真·永久补品如增体力丹写的是**角色基础属性** `rgwMaxHP`,不在 Extra 格,不受这两条路径影响。)
+
+### 6. 重要约束(容易误解的点)
+
+- **坑①:三件套只在"战斗结束"跑;大世界吃了不打架 → 一直挂着。** 护体回合数**只在战斗内每回合自减**,大世界不减;中毒在大世界**不发作扣血**(DoT 脚本只在战斗内跑),只在状态页显示毒名 + 头像染色;大蒜毒抗保留到路径 A / B。所以"大世界嗑好 buff 再进战斗"完全可行,且 **buff 满回合 / 满效果带入**。
+- **坑②:大蒜 ≠ 永久。** 见第 5 节——与战斗临时 buff 共用 Extra 格,战斗 / 换装 / 读档都清。
+- **坑③:大世界给自己下毒,可能"下不上"。** `0x29` 加毒同样过毒抗 gate(`玩家毒抗 < RandomLong(1,100)` 才中);毒抗高(刚吃完大蒜 / 装五毒珠)时,自我中毒可能失败。
+- **坑④:C 玩家状态直接用全局,type-pal 拷了战斗副本 → ts 必须战后回清(DM2)。** 见下节。
+
+### 7. ts 实现状态
+
+> ✅ **三条施加链 + 战后三件套清除均已实现且对齐**;唯一实现差异(C 直接用全局 vs ts 拷副本)由 `finalizeBattleCleanup` 抹平。
+
+- **施加**:`0x2D`→[event-system.ts:4295](../packages/game/src/core/event-system.ts#L4295)(写 `rgPlayerStatus`)、`0x29`→[event-system.ts:4259](../packages/game/src/core/event-system.ts#L4259)(`addPoisonForPlayer`,带毒抗 gate)、`0x17`→[event-system.ts:4043](../packages/game/src/core/event-system.ts#L4043)(`writeEquipmentEffectField`,Extra 格)。
+- **带入战斗**:开战 `seedBattleStatus(gs.rgPlayerStatus[role])` 把持久状态 seed 进战斗副本([battle-state.ts:805](../packages/game/src/core/battle/battle-state.ts#L805));毒 / 毒抗读持久 `gs.rgPoisonStatus` / `getPlayerPoisonResistance`([equip-effect.ts:75](../packages/game/src/core/equip-effect.ts#L75),遍历含 Extra 格)。
+- **战后三件套**:`finalizeBattleCleanup`([battle-system.ts:3005](../packages/game/src/core/battle/battle-system.ts#L3005),胜 / 败 / 逃都调)= ① `rgPlayerStatus` 清 ≤999 ② `curePlayerPoisonByLevel(role,3)` ③ `removeEquipmentEffect(role, 6)` 清 Extra 格,1:1 对齐 battle.c:1822-1830。
+- **关键差异(已抹平)**:C 玩家状态**直接用全局**,战斗结束清全局即生效;ts **把状态 seed 成战斗副本**(`battleState.status`),副本随战斗丢弃、**不回写**持久 `gs.rgPlayerStatus` → 若战后不清,大世界 buff 每场开战重新 seed = **等效永久**(原 **DM2** bug)。`finalizeBattleCleanup` 补清持久数组后对齐原版"只保一场"。
+- **换装 / 读档清 Extra**:`updateAllEquipments` 开头 `gs.rgEquipmentEffect = createInitialEquipmentEffect()` 全清(对齐 global.c:1354)→ 大蒜毒抗路径 B 对 ts 同样成立。
+
+### 附:源出处速查
+
+| 内容 | 文件:行 |
+|---|---|
+| `rgPlayerStatus` / `rgPoisonStatus` / `rgEquipmentEffect` 字段 | [global.h:522](../reference/sdlpal/global.h#L522) / [547](../reference/sdlpal/global.h#L547) / [521](../reference/sdlpal/global.h#L521) |
+| `kBodyPartExtra`(= MAX_PLAYER_EQUIPMENTS,Extra 格) | [global.h:71](../reference/sdlpal/global.h#L71) |
+| 上玩家状态 `0x2D` / `PAL_SetPlayerStatus` | [script.c:1367](../reference/sdlpal/script.c#L1367) / [global.c:2173](../reference/sdlpal/global.c#L2173) |
+| 给玩家加毒 `0x29` / `PAL_AddPoisonForPlayer` | [script.c:1257](../reference/sdlpal/script.c#L1257) / [global.c:1459](../reference/sdlpal/global.c#L1459) |
+| 设额外属性 `0x17`(写 Extra 格,`i=op0−0xB`) | [script.c:752](../reference/sdlpal/script.c#L752) |
+| 毒抗累加(含 Extra 格)`PAL_GetPlayerPoisonResistance` | [global.c:1900](../reference/sdlpal/global.c#L1900) |
+| 中毒概率 gate `毒抗 < RandomLong(1,100)` | [fight.c:5141](../reference/sdlpal/fight.c#L5141) |
+| **战后三件套** ClearAllStatus + CurePoisonByLevel(3) + RemoveEquip(Extra) | [battle.c:1822-1830](../reference/sdlpal/battle.c#L1822-L1830) |
+| `PAL_ClearAllPlayerStatus` / `PAL_RemoveEquipmentEffect` | [global.c:2311](../reference/sdlpal/global.c#L2311) / [1372](../reference/sdlpal/global.c#L1372) |
+| `PAL_UpdateEquipments`(换装 / 读档 memset 全清) | [global.c:1333](../reference/sdlpal/global.c#L1333) / [1354](../reference/sdlpal/global.c#L1354) |
+| 金刚符63 `0x2D[6,7]` / 毒蛇卵117 `0x29[_,551]` / 大蒜84 `0x17[17,22,30]` | `data/extracted/data/items.json` + `events/all.json` 反汇编 |
