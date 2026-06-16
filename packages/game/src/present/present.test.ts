@@ -541,12 +541,13 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     expect(calls.some((c) => c.sprite === role0Fallback)).toBe(false)
   })
 
-  it('partyMembers=[0, 1] 且 trail.length > 1 → 渲染 follower 在 trail[1] + 偏移', () => {
-    // leader 在 (300, 150) facing=right,trail[1] dir=right
+  it('walking 时渲染 follower 在 trail[1] + 偏移(scene.c:692-707 扇形布局)', () => {
+    // leader 在 (300, 150) facing=right,trail[1] dir=right;走路态(fWalking)才用方向偏移公式。
     // right(East): isWS = false → offsetX = -16; isWN = false → offsetY = -8
     // follower world = trail[1] + (-16, -8) = (268-16, 134-8) = (252, 126)
     const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
     gs.partyMembers = [0, 1]
+    gs.walkingFrame = { walking: true, stepFrame: 0 } // 偏移公式属 fWalking 分支
     gs.trail = [
       { x: 284, y: 142, dir: 'right' },   // trail[0]
       { x: 268, y: 134, dir: 'right' },   // trail[1] → follower 用这个
@@ -582,9 +583,10 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     expect(followerCalls[0]!.cy).toBe(88 + 4)
   })
 
-  it('dir=left(West): isWS=true→offsetX=+16; isWN=true→offsetY=+8', () => {
+  it('dir=left(West) walking: isWS=true→offsetX=+16; isWN=true→offsetY=+8', () => {
     const gs = createInitialGameState({ x: 300, y: 150, facing: 'left' })
     gs.partyMembers = [0, 1]
+    gs.walkingFrame = { walking: true, stepFrame: 0 } // 偏移公式属 fWalking 分支
     gs.trail = [
       { x: 316, y: 158, dir: 'left' },
       { x: 332, y: 166, dir: 'left' },   // follower 用 trail[1]
@@ -611,9 +613,10 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     expect(followerCalls[0]!.cy).toBe(136 + 4)
   })
 
-  it('dir=down(South): isWS=true→offsetX=+16; isWN=false→offsetY=-8', () => {
+  it('dir=down(South) walking: isWS=true→offsetX=+16; isWN=false→offsetY=-8', () => {
     const gs = createInitialGameState({ x: 300, y: 150, facing: 'down' })
     gs.partyMembers = [0, 1]
+    gs.walkingFrame = { walking: true, stepFrame: 0 } // 偏移公式属 fWalking 分支
     gs.trail = [
       { x: 316, y: 142, dir: 'down' },
       { x: 332, y: 134, dir: 'down' },
@@ -640,9 +643,10 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     expect(followerCalls[0]!.cy).toBe(88 + 4)
   })
 
-  it('dir=up(North): isWS=false→offsetX=-16; isWN=true→offsetY=+8', () => {
+  it('dir=up(North) walking: isWS=false→offsetX=-16; isWN=true→offsetY=+8', () => {
     const gs = createInitialGameState({ x: 300, y: 150, facing: 'up' })
     gs.partyMembers = [0, 1]
+    gs.walkingFrame = { walking: true, stepFrame: 0 } // 偏移公式属 fWalking 分支
     gs.trail = [
       { x: 284, y: 158, dir: 'up' },
       { x: 268, y: 166, dir: 'up' },

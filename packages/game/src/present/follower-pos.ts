@@ -24,7 +24,8 @@ export interface FollowerPosState {
  *  - **not walking**(else,scene.c:745-771 + 骑乘期 PAL_GameUpdate 不重设 wFrame,play.c:144 仅 NPC 邻近):
  *    **位置与朝向双双冻结** = 队长 + 冻结偏移、朝向 = 冻结朝向。这是原版"上船后两人固定站位、固定朝向、
  *    随船移动不重叠"的来源(旧代码无此闸门 → 跟随者每帧 trail 重定位 + 重设朝向 = 重叠跳变 + 朝向乱)。
- *    无冻结快照(刚进场景/0x46、还没走过)→ 回退 trail[1]+偏移 + 当前 trail[2].dir(= 旧行为,不回归)。
+ *    无冻结快照(刚进场景/0x46、还没走过)→ 位置 = `trail[m]`(sdlpal 0x46 把 rgParty[m]=队长+m×offset
+ *    冻结,script.c:1690),朝向 = `trail[2].dir`。**不是** trail[1]+偏移(那会多退一格 = 间隙)。
  *
  * @returns `{x,y,dir}`;`trail` 不足(<=1)返回 null(不画跟随者)。
  */
@@ -49,7 +50,14 @@ export function computeFollowerWorldPos(
   if (!s.walking) {
     const fo = s.frozenOffset[m]
     if (fo) return { x: s.party.x + fo.dx, y: s.party.y + fo.dy, dir: curDir }
-    // 未捕获(进场景/0x46 后未走过)→ 落到下方 trail 回退(= 旧行为)
+    // 未捕获冻结快照(0x46 摆位 / 刚进场景、还没走过):sdlpal 0x46(script.c:1690-1700)直接把
+    //   rgParty[i]=rgTrail[i]=队长+i×offset(每员往身后退**一格**),演出期不调 PAL_UpdatePartyGestures
+    //   → 位置冻在此。故 member m 落 rgTrail[m](= 队长+m×offset),**不是** trail[1] 再叠一次方向偏移
+    //   ——后者是 fWalking 分支(scene.c:692-707)的扇形布局,会多退一格 = 间隙。
+    //   旧码这里误用 trail[1]+offset → 刘晋元叫醒黑屏后两人间隙、本该紧贴(user 2026-06-16 报)。
+    //   不做障碍回退(0x46 不检障碍)。trail[m] 缺失(短 trail 兜底)回退末项。
+    const frozen = s.trail[m] ?? s.trail[s.trail.length - 1]!
+    return { x: frozen.x, y: frozen.y, dir: curDir }
   }
 
   // 方向偏移(scene.c:695-707)

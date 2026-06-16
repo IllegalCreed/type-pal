@@ -58,10 +58,38 @@ describe('computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalki
     expect(p).not.toMatchObject({ x: 500, y: 500 }) // 不得贴到队长身上
   })
 
-  it('not walking + 无 frozenOffset:回退 trail[1]+偏移 + 当前 trail[2].dir(进场景/0x46 后未走过=现状)', () => {
-    const s = mkState({ walking: false, frozenOffset: [] })
-    const p = computeFollowerWorldPos(s, 1, () => true)
-    expect(p).toEqual({ x: 1000, y: 492, dir: 'down' })
+  it('not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移', () => {
+    // sdlpal 0x46(script.c:1690-1700)把 rgParty[i]=rgTrail[i]=队长+i×offset,演出期不调
+    //   PAL_UpdatePartyGestures → 位置冻结;member m 即 rgTrail[m]。dir=down 填 offset=(+16,-8)。
+    //   旧码这里回退 trail[1]+offset=队长+2×offset → 多退一格(刘晋元叫醒黑屏后两人间隙)。
+    const s = mkState({
+      walking: false,
+      frozenOffset: [],
+      party: { x: 1000, y: 500 },
+      trail: [
+        { x: 1000, y: 500, dir: 'down' }, // trail[0]=队长
+        { x: 1016, y: 492, dir: 'down' }, // trail[1]=队长+1×offset(紧贴)
+        { x: 1032, y: 484, dir: 'down' }, // trail[2]=队长+2×offset
+      ],
+    })
+    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 1016, y: 492, dir: 'down' }) // =trail[1],非 (1032,484)
+    expect(computeFollowerWorldPos(s, 2, () => true)).toEqual({ x: 1032, y: 484, dir: 'down' }) // =trail[2]
+  })
+
+  it('回归(刘晋元叫醒后):0x46 黑屏摆位 dir=up,李逍遥(跟随)紧贴队长=trail[1]=队长+(-16,+8),非 2×偏移(user 2026-06-16)', () => {
+    // 原版『二人叫醒刘晋元』→ 0x50 黑屏 → 0x46[27,36] dir=up 摆位。两人应紧贴(队长+1×offset);
+    //   旧码 trail[1]+offset=队长+2×offset → 看着分开有间隙。
+    const s = mkState({
+      walking: false,
+      frozenOffset: [],
+      party: { x: 864, y: 576 },
+      trail: [
+        { x: 864, y: 576, dir: 'up' }, // 队长
+        { x: 848, y: 584, dir: 'up' }, // 队长+(-16,+8)
+        { x: 832, y: 592, dir: 'up' },
+      ],
+    })
+    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 848, y: 584, dir: 'up' }) // 紧贴,非 (832,592)
   })
 
   it('not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)', () => {
