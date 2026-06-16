@@ -210,6 +210,22 @@ describe('EventSystem', () => {
     expect(gs.gameOverActive).toBe(true)  // 但死亡演出标记原样保留 → present 续 hold 染红帧 + 画对话
   })
 
+  // Bug1(2026-06-17):onEnter 一上来就 PartyWalkTo 走位(如刘晋元房间 enter:0x49→setObjDir→0x70 走位→0x09)
+  //   时,走位前无对话/wait 清冻屏 → 整段走位跑在切场景黑里看不到(sdlpal PAL_PartyWalkTo 每步 PAL_MakeScene
+  //   场景可见)。且冻屏期 present 提前 return、跟随者追踪不跑 → frozenOffset 没捕获 → 走完跟随者站位错(重叠)。
+  //   修:走位 op 同 0x09 清 sceneLoading,走位逐帧可见 + 跟随者正常追踪。
+  it('Bug1:PartyWalkTo 走位清 sceneLoading(onEnter 走入演出不被切场景黑屏盖)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.sceneLoading = true // 切场景冻屏
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_PARTY_WALK_TO_4, operands: [10, 10, 0] }, // 远目标 → 走 1 步未到、不 ip++
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.sceneLoading).toBe(false) // 走位清了冻屏 → 走入演出可见(否则整段走位黑屏)
+  })
+
   it('waiting=dialog + Confirm 释放 → ip++ + 继续到 end → mode=explore', () => {
     //  tick 1: showDialog 入,startDialogLine,waiting=dialog
     //  tick 2 (Confirm): skip-typing → 整行设满 → **return**(满行渲染一帧,2026-05-29 fix B)

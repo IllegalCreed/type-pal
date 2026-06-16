@@ -2546,6 +2546,14 @@ export function tickEventSystem(
             cmd.operands[2] ?? 0,
             speed,
           )
+          // Bug1(2026-06-17):走位是可渲染 yield(sdlpal PAL_PartyWalkTo 每步 PAL_MakeScene+
+          //   VIDEO_UpdateScreen,script.c:190-195,场景全程可见)。onEnter 一上来就 PartyWalkTo
+          //   (如刘晋元房间 enter idx18753:0x49→setObjDir→**0x70 走位**→0x09)时,前面无对话/wait
+          //   清冻屏 → 整段走位跑在切场景黑里,走完才被下一条 0x09 清黑 = "走进来的演出被黑屏盖住"。
+          //   且冻屏期 present 提前 return、computeFollowerWorldPos 不跑 → frozenOffset 没捕获 →
+          //   走完落"无冻结"回退分支 = 跟随者站位错(重叠)。清 sceneLoading 让走位逐帧可见 →
+          //   跟随者逐帧正常追 + 捕获 frozenOffset,两 bug 同解(对齐 0x09 在上方的清法)。
+          if (gs.sceneLoading) gs.sceneLoading = false
           if (arrived) {
             cursor.ip++
             break
@@ -2566,6 +2574,10 @@ export function tickEventSystem(
             cursor.ip++
             break
           }
+          // Bug1(2026-06-17):NPC 走位也是可渲染 yield —— scene-enter cutscene 里角色走入(sdlpal
+          //   每步 PAL_MakeScene 可见)。onEnter 一上来就 NPC 走位时前面无清冻屏 op → 走位被切场景黑盖。
+          //   camera 在 scene-load 已居中 party → 清冻屏不致镜头未对位(同 0x09 的清法)。
+          if (gs.sceneLoading) gs.sceneLoading = false
           // sdlpal 0x11(script.c:692)/ 0x7C(script.c:2263)有隔帧 stagger gate
           //   `(wEventObjectID & 1) ^ (dwFrameNum & 1)` — gate FALSE → wScriptEntry--(本帧不走重试)。
           //   wEventObjectID 1-based = npc.id + 1。0x10 / 0x82 无 gate。
@@ -2620,6 +2632,9 @@ export function tickEventSystem(
             cmd.operands[2] ?? 0,
             speed,
           )
+          // Bug1(2026-06-17):骑乘移动也是可渲染 yield(船/车进场景,sdlpal 每步 PAL_MakeScene)→
+          //   清冻屏让骑乘入场可见(同 PartyWalkTo)。partyRideEventObject 每步更新 camera。
+          if (gs.sceneLoading) gs.sceneLoading = false
           if (arrived) {
             cursor.ip++
             break
