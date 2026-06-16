@@ -6,7 +6,7 @@ import type { GameState } from '../core/game-state.js'
 import { getOverworldSpriteNum, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import type { BattlePresent, BattleAssets } from './battle/present-battle.js'
 import { type Framebuffer, SCREEN_W, SCREEN_H } from './framebuffer.js'
-import { drawTilemap, addCoverTileEntries, type TileImages, type DrawEntry } from './draw-tilemap.js'
+import { drawTilemap, repairTilemapSeams, addCoverTileEntries, type TileImages, type DrawEntry } from './draw-tilemap.js'
 import { drawSprite, type SpriteImage } from './draw-sprite.js'
 import { applyScreenWave } from './screen-wave.js'
 import { applyScreenShake } from './screen-shake.js'
@@ -151,6 +151,18 @@ function pixelToScreen(
   }
 }
 
+// 接缝修复用的 coverage mask:复用同一块缓冲(每帧清零),避免每帧 alloc 64KB。
+let seamCoverageBuf: Uint8Array | null = null
+function getSeamCoverage(width: number, height: number): Uint8Array {
+  const len = width * height
+  if (!seamCoverageBuf || seamCoverageBuf.length !== len) {
+    seamCoverageBuf = new Uint8Array(len)
+  } else {
+    seamCoverageBuf.fill(0)
+  }
+  return seamCoverageBuf
+}
+
 export function presentFrame(
   fb: Framebuffer,
   gs: GameState,
@@ -254,11 +266,17 @@ export function presentFrame(
   // 全画保证物体(椅子/桌子/柱子)无论 sprite 接近与否都完整可见;cover tile 重画用 Y-sort
   // 让 "高 y 的 tile 盖低 y 的 sprite" 真生效(屋顶/柱子顶盖住 sprite 头部)。
 
-  // 1. tilemap layer 0(底层 — 地砖、墙基)
-  drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 0)
+  // 1. tilemap layer 0(底层 — 地砖、墙基)— 记录 coverage 供接缝修复
+  const seamCoverage = getSeamCoverage(fb.width, fb.height)
+  drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 0, seamCoverage)
 
   // 2. tilemap layer 1(顶层 — 桌子 / 椅子 / 柱子 / 屋顶 / 门 — sdlpal scene.c:481 全画)
-  drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 1)
+  drawTilemap(fb, ctx.tilemap, ctx.tileImages, gs.camera, 1, seamCoverage)
+
+  // 2a. 接缝漏黑修复(血池「黑色三角」):原版 PAL_MakeScene 不清屏,瓦片美术接缝的透明像素
+  //     被持久 gpScreen 上的邻接地形遮住;我们每帧 fb.clear() 到 0 → 露黑。把没被任何瓦片
+  //     画过的像素用最近邻地形补上。**必须在 wave 之前**(coverage 对应未扭曲的地图像素)。
+  repairTilemapSeams(fb, seamCoverage)
 
   // 2b. 特效 B:屏幕波动(sdlpal scene.c:486 PAL_ApplyWave)— 画完两层地图、画 sprite 之前施加,
   //     只波动地图层(sprite 不受影响,与 sdlpal 同序)。0x71 设 wScreenWave/sWaveProgression 后生效。

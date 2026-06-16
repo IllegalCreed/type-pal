@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import type { Tilemap } from '@type-pal/shared'
 import { createFramebuffer } from './framebuffer.js'
-import { drawTilemap, type TileImages } from './draw-tilemap.js'
+import { drawTilemap, repairTilemapSeams, type TileImages } from './draw-tilemap.js'
 
 describe('drawTilemap', () => {
   it('lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline', () => {
@@ -111,5 +111,63 @@ describe('drawTilemap', () => {
     drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 1)
     expect(captured).toContain(0x10f)
     expect(captured).not.toContain(-1) // 跳过,不调 tiles.get
+  })
+
+  it('传入 coverage 时标记已画像素;远处未画处不标记', () => {
+    // 原版靠 gpScreen 不清屏遮住瓦片美术接缝的透明像素;我们每帧 fb.clear() 到 0,
+    // 接缝会露黑(血池"黑色三角")。修复需先知道哪些像素被瓦片画过 → coverage mask。
+    const fb = createFramebuffer()
+    const tiles: TileImages = {
+      get(idx) {
+        if (idx === 1) return { width: 4, height: 4, indices: new Uint8Array(16).fill(1), opaque: new Uint8Array(16).fill(1) }
+        return undefined
+      },
+    }
+    const map: Tilemap = {
+      width: 1, height: 1,
+      cells: [[{ lower: 1, upper: 0 }]],
+      tilesetImage: 'fake',
+    }
+    const coverage = new Uint8Array(320 * 200)
+    // camera=(-160,-112) → cell(0,0) lower(h=0) 落 (144,104),4×4 不透明 tile 1。
+    drawTilemap(fb, map, tiles, { x: -160, y: -112 }, 0, coverage)
+    expect(coverage[104 * 320 + 144]).toBe(1) // 画过 → 标记
+    expect(coverage[0]).toBe(0)               // 远处未画 → 不标记
+  })
+})
+
+describe('repairTilemapSeams(瓦片接缝漏黑修复——血池"黑色三角"根因:原版不清屏遮住,我们 clear 到 0 露黑)', () => {
+  it('未覆盖像素用最近的已覆盖邻居填充', () => {
+    const fb = createFramebuffer(3, 3)
+    const coverage = new Uint8Array(9)
+    // 覆盖除中心(1,1)外的 8 格,像素值都设 5。
+    for (let i = 0; i < 9; i++) {
+      if (i === 4) continue
+      fb.writePixel(i % 3, Math.floor(i / 3), 5)
+      coverage[i] = 1
+    }
+    expect(fb.indices[4]).toBe(0) // clear 后中心为 0(漏黑)
+    repairTilemapSeams(fb, coverage)
+    expect(fb.indices[4]).toBe(5) // 用邻居 5 填充
+  })
+
+  it('已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)', () => {
+    const fb = createFramebuffer(2, 1)
+    const coverage = new Uint8Array(2)
+    fb.writePixel(0, 0, 0); coverage[0] = 1 // 瓦片真画的 opaque index-0
+    fb.writePixel(1, 0, 9); coverage[1] = 1
+    repairTilemapSeams(fb, coverage)
+    expect(fb.indices[0]).toBe(0) // 不被邻居 9 污染
+    expect(fb.indices[1]).toBe(9)
+  })
+
+  it('填宽接缝:逐圈向内扩散直到填满', () => {
+    // 5×1:两端覆盖(值 3),中间 3 px 未覆盖 → 需多趟扩散填满。
+    const fb = createFramebuffer(5, 1)
+    const coverage = new Uint8Array(5)
+    fb.writePixel(0, 0, 3); coverage[0] = 1
+    fb.writePixel(4, 0, 3); coverage[4] = 1
+    repairTilemapSeams(fb, coverage)
+    expect([...fb.indices]).toEqual([3, 3, 3, 3, 3])
   })
 })

@@ -57,14 +57,24 @@ function blitTile(
   tile: TileImage,
   dstX: number,
   dstY: number,
+  // 可选 coverage mask:标记被瓦片实际画过的屏幕像素(下标 = y*fb.width+x)。
+  // 用于 repairTilemapSeams 区分"漏黑(没瓦片)"与"瓦片画的 opaque index-0"。
+  coverage?: Uint8Array,
 ): void {
+  const fbW = fb.width
+  const fbH = fb.height
   for (let y = 0; y < tile.height; y++) {
+    const py = dstY + y
+    if (py < 0 || py >= fbH) continue
     for (let x = 0; x < tile.width; x++) {
       const srcOff = y * tile.width + x
       // M3.5 fix:用 opaque mask 判透明,不再用 `idx === 0`。允许 opaque palette-0
       // 被画出来(scene 16 通道 dense tile 真的有 opaque idx 0 像素)。
       if (tile.opaque[srcOff] === 0) continue
-      fb.writePixel(dstX + x, dstY + y, tile.indices[srcOff]!)
+      const px = dstX + x
+      if (px < 0 || px >= fbW) continue
+      fb.writePixel(px, py, tile.indices[srcOff]!)
+      if (coverage) coverage[py * fbW + px] = 1
     }
   }
 }
@@ -85,6 +95,8 @@ export function drawTilemap(
   tiles: TileImages,
   cameraPx: { x: number; y: number },
   layer: TileLayer,
+  // 传入则记录每个被瓦片画过的像素;供 repairTilemapSeams 修复接缝漏黑。
+  coverage?: Uint8Array,
 ): void {
   // M5 P0.0 System A:camera 已是 sdlpal pixel(tile 32×16),无需缩放,直接做 viewport offset。
   // camera 语义 = sdlpal viewport(屏幕左上 world 坐标),screen = world - viewport。
@@ -126,14 +138,71 @@ export function drawTilemap(
         // L32:layer-0(lower)瓦片帧缺失时回落首格 tile(0)(map.c:412 PAL_MapGetTileBitmap(0,0,0,0)),
         //   而非留黑;只有 layer-1(upper)才 continue 跳过。
         const img = tiles.get(lowerId) ?? tiles.get(0)
-        if (img) blitTile(fb, img, cellPxX - TILE_HALF_W, rowPxY - SUBROW_Y_STEP)
+        if (img) blitTile(fb, img, cellPxX - TILE_HALF_W, rowPxY - SUBROW_Y_STEP, coverage)
       }
       // h=1 (upper):画在 (col*32, row*16) = baseline
       const upperId = cell ? idFn(cell.upper) : fenceFill
       if (upperId >= 0) {
         const img = tiles.get(upperId)
-        if (img) blitTile(fb, img, cellPxX, rowPxY)
+        if (img) blitTile(fb, img, cellPxX, rowPxY, coverage)
       }
+    }
+  }
+}
+
+/**
+ * 修复瓦片接缝漏黑 —— 血池 map76「黑色三角」根因。
+ *
+ * 原版(及 sdlpal runtime)的 PAL_MakeScene **不清屏**(scene.c:471-481 直接往持久
+ * gpScreen 上糊地图):原版美术里少数瓦片在崖边斜接缝处自带透明像素时,缝里显示的是
+ * 上一帧残留的邻接地形,肉眼几乎看不出。我们每帧 `fb.clear()` 到 index 0,同样的缝就
+ * 露出纯黑(用户实测原版无此「黑色三角」,sdlpal 的一次性 --dump-map 才有 = 不清屏差异)。
+ *
+ * 这里在两层 base tilemap 画完后,把**确实没被任何瓦片画过**(coverage[i]===0)的像素,
+ * 用最近的已覆盖邻居像素填上,等价复现原版「缝里是邻接地形」的观感。逐趟向内扩散
+ * (dilation):thin seam 一两趟即填满;相机越过地图边缘的大片屏外空洞因无邻居自然留黑,
+ * 不会被乱涂。
+ *
+ * **关键**:用 coverage(而非 `indices===0`)判漏黑 —— 瓦片可合法画出 opaque index-0
+ * 像素(dense scene),那些不是漏黑,绝不能动。
+ */
+export function repairTilemapSeams(
+  fb: Framebuffer,
+  coverage: Uint8Array,
+  maxPasses = 16,
+): void {
+  const { width, height, indices } = fb
+  const fills: number[] = []
+  for (let pass = 0; pass < maxPasses; pass++) {
+    fills.length = 0
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const i = y * width + x
+        if (coverage[i]) continue
+        // 取一个已覆盖的 8-邻居(用本趟开始时的 coverage 快照,避免趟内顺序偏置)。
+        let v = -1
+        for (let dy = -1; dy <= 1 && v < 0; dy++) {
+          const ny = y + dy
+          if (ny < 0 || ny >= height) continue
+          for (let dx = -1; dx <= 1; dx++) {
+            if (dx === 0 && dy === 0) continue
+            const nx = x + dx
+            if (nx < 0 || nx >= width) continue
+            if (coverage[ny * width + nx]) {
+              v = indices[ny * width + nx]!
+              break
+            }
+          }
+        }
+        if (v >= 0) fills.push(i, v)
+      }
+    }
+    if (fills.length === 0) break
+    // 本趟收集的填充统一落盘 + 提升为已覆盖(供下一趟向更深处扩散)。
+    for (let k = 0; k < fills.length; k += 2) {
+      const i = fills[k]!
+      indices[i] = fills[k + 1]!
+      coverage[i] = 1
     }
   }
 }
