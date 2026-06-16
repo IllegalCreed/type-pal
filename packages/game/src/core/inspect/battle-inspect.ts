@@ -9,7 +9,7 @@ import {
   getPlayerFleeRate,
   getPlayerMagicStrength,
 } from '../equip-effect.js'
-import type { GameState } from '../game-state.js'
+import type { AllExperience, GameState } from '../game-state.js'
 
 type DevStatusKey = keyof BattleStatus
 
@@ -17,6 +17,8 @@ type DevStatusKey = keyof BattleStatus
 export interface StatusTag {
   name: string
   kind: 'debuff' | 'buff' | 'poison'
+  /** buff/debuff 剩余回合数(工具面板 chip 显示;>999 = 装备/永久)。毒无回合 → 省略。 */
+  rounds?: number
 }
 
 interface DevStatusDef {
@@ -42,6 +44,15 @@ const PARTY_STATUS_DEFS: readonly DevStatusDef[] = [
   { key: 'slow', label: '迟/slow', cn: '迟', kind: 'debuff' },
 ]
 
+/** 五属性隐藏经验池(E04 子系统:武术/灵力/防御/身法/吉运 各自暗经验)→ AllExperience key。体力/真气(HP/MP)不算「属性」故不列。 */
+const PARTY_HIDDEN_EXP_DEFS: readonly { label: string; key: keyof AllExperience }[] = [
+  { label: '武术', key: 'rgAttackExp' },
+  { label: '灵力', key: 'rgMagicPowerExp' },
+  { label: '防御', key: 'rgDefenseExp' },
+  { label: '身法', key: 'rgDexterityExp' },
+  { label: '吉运', key: 'rgFleeExp' },
+]
+
 export interface PartyStatusReadout {
   slot: number
   roleId: number
@@ -61,6 +72,12 @@ export interface PartyStatusReadout {
   /** 经验:当前累积 / 升至下一级所需(= levelUpExp[level]);无表 → nextExp 0。 */
   curExp: number
   nextExp: number
+  /**
+   * 五属性隐藏经验(E04:武术/灵力/防御/身法/吉运 各自暗经验池)。
+   * cur = 累积 wExp;next = 升该属性所需阈值(= levelUpExp[该池 wLevel],无表→0);
+   * gained = 本场战斗已累积 wCount(战后 CHECK_HIDDEN_EXP 结算转 wExp,战中实时变)。
+   */
+  hiddenExp: { label: string; cur: number; next: number; gained: number }[]
   /** 5 元素 + 毒抗(label:value),元素顺序 风/雷/水/火/土。 */
   resistances: { label: string; value: number }[]
   /** 工具面板用:结构化状态(纯中文名 + 类型)。 */
@@ -136,7 +153,7 @@ export function collectPartyStatusReadouts(
         : persistentStatusValue(gs, roleId, def)
       if (rounds > 0) {
         entries.push(`${def.label} ${statusRoundsText(rounds)}`)
-        statuses.push({ name: def.cn, kind: def.kind })
+        statuses.push({ name: def.cn, kind: def.kind, rounds })
       }
     }
     entries.push(...collectPoisonStatusEntries(gs, roleId, objectPoisons, items))
@@ -160,6 +177,15 @@ export function collectPartyStatusReadouts(
       fleeRate: getPlayerFleeRate(gs, roleId),
       curExp: gs.Exp.rgPrimaryExp[roleId]?.wExp ?? 0,
       nextExp: levelUpExp[level] ?? 0,
+      hiddenExp: PARTY_HIDDEN_EXP_DEFS.map((d) => {
+        const entry = gs.Exp[d.key]?.[roleId]
+        return {
+          label: d.label,
+          cur: entry?.wExp ?? 0,
+          next: levelUpExp[entry?.wLevel ?? level] ?? 0,
+          gained: entry?.wCount ?? 0,
+        }
+      }),
       resistances: [
         { label: '风', value: rt.rgwElementalResistance[0]?.[roleId] ?? 0 },
         { label: '雷', value: rt.rgwElementalResistance[1]?.[roleId] ?? 0 },
@@ -294,7 +320,7 @@ export function collectEnemyStatusReadouts(
       const rounds = be.status[def.key] ?? 0
       if (rounds > 0) {
         statusEntries.push(`${def.label} ${statusRoundsText(rounds)}`)
-        statuses.push({ name: def.cn, kind: def.kind })
+        statuses.push({ name: def.cn, kind: def.kind, rounds })
       }
     }
     statusEntries.push(...collectEnemyPoisonEntries(be.poisons ?? [], objectPoisons, items))

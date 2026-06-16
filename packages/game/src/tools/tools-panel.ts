@@ -126,8 +126,9 @@ export function injectToolsPanelStyles(): void {
   margin-bottom:7px; padding-bottom:6px; border-bottom:1px solid rgba(85,51,34,0.55); }
 .tp-unit-name { color:var(--tp-cream); font-size:15px; letter-spacing:1px; }
 .tp-unit-hp { font-family:ui-monospace,Menlo,monospace; font-size:13px; }
-.tp-stat-line { font-size:13px; line-height:1.85; }
-.tp-stat-line .k { color:var(--tp-text-dim); margin-right:6px; }
+.tp-stat-line { font-size:13px; line-height:1.85; display:flex; align-items:baseline; }
+.tp-stat-line .k { color:var(--tp-text-dim); margin-right:8px; flex:0 0 3.2em; }
+.tp-stat-chips { display:flex; flex-wrap:wrap; flex:1 1 0; min-width:0; }
 .tp-chip { display:inline-block; margin:0 8px 1px 0; font-family:ui-monospace,Menlo,monospace; font-size:12.5px; }
 .e-wind{color:#6fcf97} .e-thunder{color:#bb8fce} .e-water{color:#5dade2} .e-fire{color:#ec7063}
 .e-earth{color:#d4ac6e} .e-phys{color:#9aa6a8} .e-poison{color:#a3d977} .e-sorcery{color:#e3a3d6}
@@ -332,7 +333,11 @@ function chipLine(parent: HTMLElement, label: string, items: { text: string; cls
   k.className = 'k'
   k.textContent = label
   d.appendChild(k)
-  for (const it of items) chip(d, it.text, it.cls)
+  // chips 单独成右列(flex-wrap):换行后左缘对齐到 label 列之后,不顶格。
+  const chips = document.createElement('span')
+  chips.className = 'tp-stat-chips'
+  for (const it of items) chip(chips, it.text, it.cls)
+  d.appendChild(chips)
   parent.appendChild(d)
 }
 
@@ -367,8 +372,12 @@ function resistChips(resistances: { label: string; value: number }[]): { text: s
   }))
 }
 
-function statusChips(statuses: { name: string; kind: string }[]): { text: string; cls: string }[] {
-  return statuses.map((s) => ({ text: s.name, cls: `s-${s.kind}` }))
+function statusChips(statuses: { name: string; kind: string; rounds?: number }[]): { text: string; cls: string }[] {
+  // buff/debuff 带剩余回合(>999 = 装备/永久效果 → 「永久」);毒无回合 → 只名。
+  return statuses.map((s) => ({
+    text: s.rounds && s.rounds > 0 ? `${s.name} ${s.rounds > 999 ? '永久' : s.rounds}` : s.name,
+    cls: `s-${s.kind}`,
+  }))
 }
 
 /** 战斗 tab:我方/敌方各独立 panel(HP/MP/抗性/状态/可偷,彩色) + 场地。非战斗 → 提示。 */
@@ -377,6 +386,13 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
     muted(parent, '(当前非战斗)')
     return
   }
+  // 战况:回合数(turn 从 0 起,+1 = 玩家直觉「第 N 回合」)+ 灵葫值(全局 wCollectValue:灵葫咒吸收敌人累加、紫金葫芦炼丹消耗)。
+  sectionTitle(parent, '战况')
+  const ov = document.createElement('div')
+  ov.className = 'tp-unit'
+  parent.appendChild(ov)
+  kvLine(ov, '回合', `第 ${gs.battleState.turn + 1} 回合`, 'color:var(--tp-gold)')
+  kvLine(ov, '灵葫值', String(gs.wCollectValue ?? 0), 'color:#b88fd6')
   sectionTitle(parent, '我方')
   const levelUpExp = res.levelUpExp ?? []
   for (const p of collectPartyStatusReadouts(gs, res.playerRoles, res.objectPoisons, res.items, levelUpExp)) {
@@ -393,6 +409,15 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
       { text: `身法 ${p.dexterity}`, cls: '' },
       { text: `吉运 ${p.fleeRate}`, cls: '' },
     ])
+    // 修为:五属性隐藏经验(累积/升点阈值;+N = 本场战斗已累积、战后结算转经验涨属性)。
+    chipLine(
+      u,
+      '修为',
+      p.hiddenExp.map((h) => ({
+        text: `${h.label} ${h.next > 0 ? `${h.cur}/${h.next}` : h.cur}${h.gained > 0 ? ` +${h.gained}` : ''}`,
+        cls: '',
+      })),
+    )
     chipLine(u, '抗性', resistChips(p.resistances))
     chipLine(u, '状态', statusChips(p.statuses)) // 含中毒(紫 s-poison chip)
   }
@@ -667,7 +692,18 @@ function battleSig(gs: GameState): string {
   const pStatus = bs.players.map((p) => statusOf(p.status as unknown as Record<string, number>)).join('|')
   const eStatus = bs.enemies.map((e) => statusOf(e.status as unknown as Record<string, number>)).join('|')
   const poison = Object.values(gs.rgPoisonStatus ?? {}).filter((p) => p && p.wPoisonID > 0).length
-  return `b|${party}|${enemies}|${pStatus}|${eStatus}|p${poison}`
+  // 隐藏经验本场累积(5 属性池 wCount 和)+ 回合 + 灵葫值:战斗中变化即触发战斗 tab 重渲染。
+  const hidden = gs.partyMembers
+    .map(
+      (id) =>
+        (gs.Exp.rgAttackExp?.[id]?.wCount ?? 0) +
+        (gs.Exp.rgMagicPowerExp?.[id]?.wCount ?? 0) +
+        (gs.Exp.rgDefenseExp?.[id]?.wCount ?? 0) +
+        (gs.Exp.rgDexterityExp?.[id]?.wCount ?? 0) +
+        (gs.Exp.rgFleeExp?.[id]?.wCount ?? 0),
+    )
+    .join(',')
+  return `b|t${bs.turn}|cv${gs.wCollectValue ?? 0}|${party}|${enemies}|${pStatus}|${eStatus}|p${poison}|h${hidden}`
 }
 
 export function setupToolsPanel(deps: ToolsPanelDeps): void {

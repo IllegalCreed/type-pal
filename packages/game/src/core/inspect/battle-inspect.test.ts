@@ -69,9 +69,9 @@ describe('battle-inspect(从 dev-panel 抽出,语义不变)', () => {
     expect(r[0]!.hp).toBe(100)
     expect(r[0]!.maxHp).toBe(120)
     expect(r[0]!.resistances.find((x) => x.label === '风')?.value).toBe(5)
-    // statuses:纯中文名 + 类型(双攻=buff,眠=debuff),无英文/回合/来源
-    expect(r[0]!.statuses).toContainEqual({ name: '双攻', kind: 'buff' })
-    expect(r[0]!.statuses).toContainEqual({ name: '眠', kind: 'debuff' })
+    // statuses:中文名 + 类型 + 剩余回合(双攻=buff 32760>999=永久,眠=debuff 3);工具面板 chip 据此显示持续时间
+    expect(r[0]!.statuses).toContainEqual({ name: '双攻', kind: 'buff', rounds: 32760 })
+    expect(r[0]!.statuses).toContainEqual({ name: '眠', kind: 'debuff', rounds: 3 })
     // entries(dev 详细)仍含中英 + 回合
     expect(r[0]!.entries.some((e) => e.includes('双攻/dual'))).toBe(true)
     // 5 有效属性(含装备加成,无装备 → = base)+ 经验
@@ -85,5 +85,9 @@ describe('battle-inspect(从 dev-panel 抽出,语义不变)', () => {
     // 传 levelUpExp:nextExp = levelUpExp[level=10]
     const levelUp = Array.from({ length: 11 }, (_, i) => (i === 10 ? 5000 : 0))
     expect(collectPartyStatusReadouts(battleGs(), roles, [], [], levelUp)[0]!.nextExp).toBe(5000)
+    // 五属性隐藏经验:标签顺序固定;mock 无 rgAttackExp.. 池 → cur/gained 0,next = levelUpExp[角色等级 10] = 5000
+    const hp0 = collectPartyStatusReadouts(battleGs(), roles, [], [], levelUp)[0]!.hiddenExp
+    expect(hp0.map((h) => h.label)).toEqual(['武术', '灵力', '防御', '身法', '吉运'])
+    expect(hp0.every((h) => h.cur === 0 && h.gained === 0 && h.next === 5000)).toBe(true)
   })
 })
