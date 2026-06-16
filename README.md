@@ -2,6 +2,8 @@
 
 经典中文 2D 回合制 RPG 的浏览器版 TypeScript 原生重写。
 
+**在线试玩:** <https://pal.illegalscreed.cn/>
+
 这个仓库不走“把 sdlpal 的 C 引擎用 Emscripten 编译成 WASM”的路线,而是把
 [`reference/sdlpal/`](reference/sdlpal/) 作为行为规格,在 TypeScript 里重建资源提取、
 事件脚本、场景、战斗、菜单、存档、音频和演出系统。
