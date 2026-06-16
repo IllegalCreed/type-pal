@@ -3439,11 +3439,14 @@ function applyRawOpcode(
       const memberIdx = operands[2] ?? 0
       const facing = SDLPAL_DIR_TO_FACING[dirCode] ?? 'down'
       gs.party.facing = facing
-      // 0x15 只设**队长**朝向(sdlpal script.c:736 wPartyDirection + rgParty[op2].wFrame)。跟随者静止
-      //   时朝向由 present/follower-pos 取 trail[2].dir(scene.c:761),**不在此同步**——船划行靠 ride
-      //   每步更新 trail 让跟随者跟、隐龙窟站立 trail 不变让跟随者保持走来方向。
-      //   (旧码这里调 turnFollowersFrozen 硬把跟随者冻结朝向同步成 0x15,修了船却误转隐龙窟站立的
-      //    跟随者李逍遥,user 2026-06-14 报;已移除,改回 trail 驱动。)
+      // sdlpal script.c:736:wPartyDirection = op0;rgParty[op2].wFrame = wPartyDirection*3 + op1。
+      //   关键:写的是 rgParty[**op2**] —— op2 选**具体队员**(0=队长,1+=跟随者),不是全队。
+      //   ↓ 故按 memberIdx 写 partyScriptedFrame[memberIdx];渲染层(present.ts)队长/跟随者各自
+      //     在 walking=false 时优先用自己的 scriptedFrame,跟随者因此能被 0x15 单独转向(刘兄「等一下」)。
+      //   不要回到"全队同步": 旧码 turnFollowersFrozen 把**所有**跟随者冻结朝向同步成 op0(无视 op2),
+      //   修了船却误转隐龙窟站立的跟随者李逍遥(user 2026-06-14 报),已移除。正解 = 只动 op2 这一员。
+      //   静止演出期间该帧不被 trail 覆盖(PAL_GameUpdate 不调 PAL_UpdatePartyGestures,play.c:24-241);
+      //   玩家走路 / 0x4B 走位会清 partyScriptedFrame(scene-system.ts:484 / event-system.ts:5066)回 trail。
       // wFrame = dir * 3 + frameOffset(sdlpal walkFrames default 3)
       gs.partyScriptedFrame[memberIdx] = dirCode * 3 + frameOffset
       // 密道帧错乱修(scene 1 李逍遥爬密道,2026-06-02 真机 log 定位):sdlpal 0x15 直接写

@@ -385,13 +385,27 @@ export function presentFrame(
         isWalkable(ctx.tilemap, x, y, gs.npcs, 0, true),
       )
       if (!fpos) continue
-      // 朝向 fpos.dir:走路=当前 trail[2].dir;静止=冻结朝向(scene.c:724/728 + 骑乘期 wFrame 不重设)。
-      const followerFrameIdx = partyFrameIndex(
-        FACING_TO_DIRECTION[fpos.dir],
-        followerWalkFrames,
-        gs.walkingFrame.walking,
-        gs.walkingFrame.stepFrame,
-      )
+      // 帧/朝向优先级(对齐队长 present.ts:304-314 + sdlpal):
+      //   walking=true → trail 帧(PAL_UpdatePartyGestures(TRUE) scene.c:724/728 走路覆盖);
+      //   walking=false 且 0x15 写了本队员 scriptedFrame → 用脚本帧。sdlpal 0x15 直接写
+      //     rgParty[operand[2]].wFrame(script.c:736,operand[2] 可指跟随者),静止演出期间
+      //     PAL_GameUpdate 不调 PAL_UpdatePartyGestures(play.c:24-241)→ 该帧不被 rgTrail 覆盖,
+      //     跟随者按脚本朝向渲染(如「等一下,刘兄」李逍遥转身、对话转向面对 NPC scene-system.ts:176)。
+      //     之前跟随者只取 trail[2].dir、丢弃 partyScriptedFrame[m] → 该转身的跟随者不转(频繁 bug)。
+      //   都不满足 → 站立帧 = trail[2].dir * walkFrames(scene.c:757-764)。
+      const followerScriptedFrame = gs.partyScriptedFrame[m]
+      let followerFrameIdx: number
+      if (!gs.walkingFrame.walking && followerScriptedFrame !== undefined) {
+        followerFrameIdx = followerScriptedFrame
+      }
+      else {
+        followerFrameIdx = partyFrameIndex(
+          FACING_TO_DIRECTION[fpos.dir],
+          followerWalkFrames,
+          gs.walkingFrame.walking,
+          gs.walkingFrame.stepFrame,
+        )
+      }
       const followerWorldX = fpos.x
       const followerWorldY = fpos.y
       const { sx, sy } = pixelToScreen({ x: followerWorldX, y: followerWorldY }, gs.camera)

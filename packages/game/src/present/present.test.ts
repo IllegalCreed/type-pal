@@ -477,6 +477,42 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     expect(calls.some((c) => c.sprite === followerFrames[14])).toBe(true)
   })
 
+  it('0x15 给跟随者设 partyScriptedFrame(静止演出)→ 跟随者按脚本帧转身,不用 trail 朝向(刘兄「等一下」bug)', () => {
+    // sdlpal 0x15 写 rgParty[operand[2]].wFrame(script.c:736),operand[2] 可指跟随者;
+    //   静止演出期间 PAL_GameUpdate 不调 PAL_UpdatePartyGestures(play.c:24-241)→ 该 wFrame
+    //   不被 rgTrail 覆盖,跟随者按脚本朝向渲染。我们的渲染须对齐:静止时跟随者优先用
+    //   partyScriptedFrame[m](与队长 present.ts:308 同逻辑),否则李逍遥(跟随者)保持走来方向不转身。
+    const gs = createInitialGameState({ x: 300, y: 150, facing: 'down' })
+    gs.partyMembers = [0, 1]
+    gs.walkingFrame = { walking: false, stepFrame: 0 }
+    gs.trail = [
+      { x: 284, y: 142, dir: 'right' },
+      { x: 268, y: 134, dir: 'right' },
+      { x: 252, y: 126, dir: 'right' }, // trail[2].dir=right → 若误用 trail 朝向 = dir3*wf3 = 帧 9
+    ]
+    gs.camera = { x: 300 - 160, y: 150 - 112 }
+    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 7
+    gs.PlayerRolesRuntime.rgwWalkFrames[1] = 3
+    // sdlpal 0x15 [2,0,1]:rgParty[1].wFrame = 方向2*3 + 0 = 6(跟随者面向 dir2,与 trail 的 right 不同)
+    gs.partyScriptedFrame[1] = 6
+
+    const role0Fallback = makeSprite(2)
+    const followerFrames = Array.from({ length: 12 }, (_, i) => makeSprite(100 + i))
+    const ctx: PresentContext = {
+      tilemap: flatMap(30, 30),
+      tileImages: { get: () => undefined },
+      partyFrames: Array.from({ length: 12 }, () => role0Fallback),
+      partyWalkFrames: 3,
+      npcSprites: new Map(),
+      npcSpriteFrames: new Map([[7, followerFrames]]),
+      playerRoles: makePlayerRoles([2, 7]),
+    }
+
+    const calls = trackDrawSprites(gs, ctx)
+    expect(calls.some((c) => c.sprite === followerFrames[6])).toBe(true)  // 脚本帧生效
+    expect(calls.some((c) => c.sprite === followerFrames[9])).toBe(false) // 不是 trail 朝向 right
+  })
+
   it('已知队员 spriteNum 但资源未加载时,不把 follower 画成 role0', () => {
     const gs = createInitialGameState({ x: 300, y: 150, facing: 'right' })
     gs.partyMembers = [1, 2]
