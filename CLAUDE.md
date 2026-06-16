@@ -33,7 +33,7 @@ pnpm --filter @type-pal/game exec vitest run -t "name of test case"
 
 ## Architecture
 
-**sdlpal is the source of truth.** Opcodes, battle formulas, scene/menu flow, and rendering math are ports of `reference/sdlpal/*.c` — notably `script.c`, `fight.c`, `battle.c`, `scene.c`, `map.c`, `text.c`, `uigame.c`. When changing ported behavior, match the C source rather than inferring it. Treat `reference/sdlpal/` as a read-only baseline.
+**sdlpal is the working reference.** Opcodes, battle formulas, scene/menu flow, and rendering math are ports of `reference/sdlpal/*.c` — notably `script.c`, `fight.c`, `battle.c`, `scene.c`, `map.c`, `text.c`, `uigame.c`. When changing ported behavior, match the C source rather than inferring it. Treat `reference/sdlpal/` as a read-only baseline. **But sdlpal is a _reference implementation_, not the original itself** — the ultimate source of truth is the 大宇 original in `data/raw/`. Never claim "the original does X" from sdlpal alone; when sdlpal might diverge, or for runtime behavior not derivable from the extracted data, verify against the original (see *Verifying original behavior* below).
 
 **Indexed-color software framebuffer.** All rendering targets a 320×200 8-bit palette-index buffer (`game/src/present/framebuffer.ts`); `flushToCanvas` then colors it through the active palette onto the real canvas — mirroring the original DOS/Win95 engine. Tiles and sprites are *indexed* bitmaps (`IndexedImage` = palette index + opaque mask, `assets/png.ts`) colored at blit time, so a plain `<img>` would show wrong colors. Draw routines live in `present/` (`draw-tilemap`, `draw-sprite`, `font`, `dialog-box`, `battle/`).
 
@@ -46,6 +46,18 @@ pnpm --filter @type-pal/game exec vitest run -t "name of test case"
 ## Asset pipeline
 
 `pnpm extract` (pal-extract) decodes the original MKF archives into `data/extracted/` (JSON data tables, PNG sprites/tiles, event bytecode). That tree is **gitignored and regenerable** — never hand-edit extracted output; change the extractor instead. `packages/game/public/extracted` is a **symlink → `data/extracted`**, and the game fetches `/extracted/...` at runtime.
+
+## Verifying original (大宇 PAL) behavior
+
+When a behavior question can't be settled from the extracted data — or sdlpal might diverge from the original — verify against the original game in **`data/raw/`** directly. Don't pass sdlpal's `.c` off as "the original".
+
+- **`SSS.MKF` / `DATA.MKF` / … (MKF archives)** — original scripts/tables = ground truth. Extracted verbatim into `data/extracted` (roundtrip-invariant), so the disassembled bytecode (`events/all.json`) and data tables ARE original truth.
+- **`*.RPG` (save files)** — an **uncompressed verbatim dump of the runtime `SAVEDGAME` struct**. The `PlayerRoles` SoA starts at **file offset `0x250`**: `maxHP[6]@0x250`, `maxMP[6]@0x25c`, `HP[6]@0x268`, `MP[6]@0x274` — each a 6-WORD array **indexed by roleId** (`[李逍遥,赵灵儿,林月如,阿奴,巫后,盖罗娇]`). `2.RPG` = new-game defaults (matches `DATA.MKF`). Use to read original character stats or confirm a data model (e.g. HP is stored **per-role, not per-party-slot** — so two party slots with the same role share one HP cell).
+- **`PAL.EXE`** (VB4 launcher) + **`Pal.dll`** (Softstar engine, ImageBase `0x10000000`). ⚠ This `Pal.dll` contains SSE2 float code → it's a **modern recompile, NOT the 1995 binary's logic** — don't treat its disassembly as canonical original logic. Prefer the original *data* (MKF/RPG) for verification; if the data can't settle it, the user observing real `PAL.EXE` is the final authority.
+
+**Disassembly toolchain** (for `data/raw` PE32 binaries):
+- `objdump -d data/raw/Pal.dll` — Apple's `/usr/bin/objdump` (LLVM) reads the `coff-i386` PE directly.
+- capstone + pefile (richer PE analysis — exports/sections/xrefs, scripted disasm): `python3 -m venv /tmp/re-venv && /tmp/re-venv/bin/pip install capstone pefile`, then `pefile.PE(...)` + `capstone.Cs(CS_ARCH_X86, CS_MODE_32)`.
 
 ## Notes
 
