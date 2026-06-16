@@ -544,6 +544,20 @@ export function setFetchPalette(fn: FetchPaletteFn | null): void {
 }
 
 /**
+ * **同步**调色板源(开机预载的 PAT.MKF 全部调色板)。sdlpal PAL_GetPalette 从 pat.mkf **同步**读
+ * → 0x8B setPalette 当帧即生效;我们靠 bootstrap 预载成 Map 注入此 getter,让 setPalette 同步回填
+ * basePalette/palette,从而同帧后续 opcode(0x37 PlayRNG fadeIn / 0x51 FadeIn / 0x93 SceneFade —
+ * 均读 gs.basePalette 作淡入目标)拿到正确调色板。未命中(冷缓存 / 越界)回退 _fetchPalette 异步路径。
+ */
+type GetPaletteFn = (id: number) => Palette | undefined
+let _getPalette: GetPaletteFn | null = null
+
+/** 注入同步调色板源;bootstrap 预载后调用一次。传 null 在测试中重置。 */
+export function setPaletteSource(fn: GetPaletteFn | null): void {
+  _getPalette = fn
+}
+
+/**
  * 特效 A 共用:启动一个调色板 ramp fade(0x50/0x51/0x80/0x8C/0x4F/0x93)。
  *  - 确保 gs.palette 是可变工作副本(stepPaletteFade 每帧原地改它的 colors);缺则从 basePalette/全黑造。
  *  - 写 gs.paletteFadeState。
@@ -2680,23 +2694,35 @@ export function tickEventSystem(
       }
 
       case 'setPalette': {
-        // M4 P3.T2:真换调色板 —— 异步 fetch,fire-and-forget,tick 同步继续。
         // sdlpal script.c:2571-2580 真值(0x8B):`wNumPalette = op0; if (!fNeedToFadeIn) PAL_SetPalette(wNumPalette, FALSE)`。
+        // sdlpal 的 PAL_GetPalette 从 pat.mkf **同步**读取 → 0x8B 当帧即生效。
         // 特效 A(2026-05-29):
         //   - gs.numPalette = op0(供 0x51 FadeIn / 0x93 SceneFade 选目标调色板)。
-        //   - gs.basePalette = fetch 回的新调色板(pristine,fade target 参照;makeWorkingPalette 造独立对象,
+        //   - gs.basePalette = 新调色板(pristine,fade target 参照;makeWorkingPalette 造独立对象,
         //     避免与 gs.palette 别名 → 否则 fade mutate gs.palette 会污染 target)。
         //   - **仅 !needToFadeIn 时**才把新调色板套到 gs.palette(屏幕)。needToFadeIn(0x50 FadeOut 后)时
-        //     屏幕在黑,不立即套色,只更新 basePalette 供随后 0x51 FadeIn ramp(sdlpal 真值)。
+        //     屏幕在黑,不立即套色,只更新 basePalette 供随后 0x51 FadeIn / 0x37 RNG fadeIn ramp(sdlpal 真值)。
+        // 同步源优先(_getPalette,bootstrap 预载 PAT.MKF 全部调色板):**同帧**回填,保证同步 tick 内后续
+        //   opcode(0x37 PlayRNG / 0x51 FadeIn / 0x93 SceneFade,均读 gs.basePalette 作淡入目标)拿到新色。
+        //   旧实现纯 async fire-and-forget → 同 tick 内 setPalette→PlayRNG 时 basePalette 仍旧色 →
+        //   酒剑仙坐葫芦 RNG(scene-140)整段偏色(根因)。同步源未命中才回退 async。
         const paletteIdx = cmd.paletteIndex
         gs.numPalette = paletteIdx
-        if (_fetchPalette) {
+        const synced = _getPalette?.(paletteIdx)
+        if (synced) {
+          gs.basePalette = makeWorkingPalette(synced)  // pristine 独立副本(target 参照)
+          if (!gs.needToFadeIn) {
+            gs.palette = makeWorkingPalette(synced)  // sdlpal `if (!fNeedToFadeIn) PAL_SetPalette`
+          }
+        }
+        else if (_fetchPalette) {
+          // 冷缓存 / 越界 / 未预载 → 回退异步 fetch(渲染层下一帧自愈;非同帧消费场景仍正确)。
           const gsRef = gs
           _fetchPalette(paletteIdx)
             .then((p) => {
-              gsRef.basePalette = makeWorkingPalette(p)  // pristine 独立副本(target 参照)
+              gsRef.basePalette = makeWorkingPalette(p)
               if (!gsRef.needToFadeIn) {
-                gsRef.palette = p  // sdlpal `if (!fNeedToFadeIn) PAL_SetPalette`
+                gsRef.palette = p
               }
             })
             .catch((err: unknown) => {
@@ -2704,9 +2730,9 @@ export function tickEventSystem(
             })
         }
         else {
-          // fetchPalette 未注入(测试 / 非 bootstrap 路径)→ 诊断 skip(非正常游玩噪声)。
+          // 两个注入都没有(测试 / 非 bootstrap 路径)→ 诊断 skip(非正常游玩噪声)。
           console.debug(
-            `event-system: setPalette paletteIndex=${paletteIdx} ip=${cursor.ip}(fetchPalette 未注入)`,
+            `event-system: setPalette paletteIndex=${paletteIdx} ip=${cursor.ip}(palette 源未注入)`,
           )
         }
         cursor.ip++

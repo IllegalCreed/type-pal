@@ -32,6 +32,7 @@ import {
   setLoadLastSaveHandler,
   setMapReloader,
   setObstacleChecker,
+  setPaletteSource,
   setQuitHandler,
   setRngPlayHandler,
   setSceneLoader,
@@ -1031,6 +1032,47 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
           gs.suspendRaf = false
         })
     },
+    // devpanel 单播一段 RNG 演出:快照当前调色盘 → 设目标调色盘 → playRng(可按 Space/Enter/Esc 中止)
+    //   → finally **恢复快照**(否则演出调色盘留在场景上整屏偏色;场景 palette 非 numbered,故按对象快照而非按编号复位)。
+    //   不走事件系统 opcode 路径,纯 dev 预览;真机 0x37 仍不可跳、忠实。
+    playRngCutscene: (chunk, palIdx, speed) => {
+      const prev = {
+        palette: gs.palette,
+        basePalette: gs.basePalette,
+        numPalette: gs.numPalette,
+        nightPalette: gs.nightPalette,
+      }
+      const sp = speed > 0 ? speed : 16 // sdlpal iSpeed==0 → 16
+      gs.suspendRaf = true
+      void fetchPalette(palIdx)
+        .then((pal) => {
+          gs.numPalette = palIdx
+          gs.basePalette = makeWorkingPalette(pal)
+          gs.palette = makeWorkingPalette(pal)
+          gs.iCurPlayingRNG = chunk
+          return playRng({
+            chunkIdx: chunk,
+            startFrame: 0,
+            endFrame: -1,
+            frameDelayMs: 1000 / sp,
+            fb,
+            canvasCtx: canvasCtx!,
+            palette: gs.palette,
+            skipKeys: ['Space', 'Enter', 'Escape'], // dev 预览可中止(rng-player 设计的 dev 入口)
+            shakeState: gs,
+          })
+        })
+        .catch((err) => {
+          console.warn('[dev] playRngCutscene failed:', err)
+        })
+        .finally(() => {
+          gs.suspendRaf = false
+          gs.palette = prev.palette
+          gs.basePalette = prev.basePalette
+          gs.numPalette = prev.numPalette
+          gs.nightPalette = prev.nightPalette
+        })
+    },
     resources: {
       enemies,
       enemyObjects, // 对话:dev 战斗 enemy scriptOnReady/scriptOnTurnStart(boss 嘲讽)
@@ -1105,9 +1147,29 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     }
   }
 
-  // M4 P3.T2:注入 fetchPalette(类同 setSceneContext);event-system setPalette handler 用它
-  // 异步拉取新调色板 → 写入 gs.palette → 渲染层下一帧 flushToCanvas 消费。
+  // M4 P3.T2:注入 fetchPalette(类同 setSceneContext);setPalette 同步源未命中时的异步回退。
   setFetchPalette(fetchPalette)
+
+  // 酒剑仙坐葫芦 RNG 偏色根因修复(2026-06-16):sdlpal PAL_GetPalette 从 pat.mkf **同步**读,
+  //   0x8B setPalette 当帧即生效。我们的 fetchPalette 异步,纯 fire-and-forget 会让**同一同步 tick**
+  //   内 setPalette→PlayRNG / FadeIn 读到尚未回填的旧 basePalette(scene-140:0x50 FadeOut → setPalette 2
+  //   → SetRNG 3 → PlayRNG 全在一 tick 跑完 → RNG 淡入旧 palette 0 → 整段偏色)。
+  //   开机把 PAT.MKF 全部调色板预载成同步 Map 注入 setPaletteSource,让 setPalette 同帧回填 basePalette,
+  //   匹配 sdlpal 语义且**零时序改动**(仅 9 块、各 ≤22KB,初始 palette 0 本就要加载)。
+  const PALETTE_COUNT = 9 // PAT.MKF 有效调色板 chunk 数(pal-extract dump palette/0..8;原版固定数据)
+  const paletteCache = new Map<number, Palette>()
+  await Promise.all(
+    Array.from({ length: PALETTE_COUNT }, (_, id) =>
+      fetchPalette(id)
+        .then((p) => {
+          paletteCache.set(id, p)
+        })
+        .catch((err: unknown) => {
+          console.warn(`[bootstrap] preload palette ${id} failed:`, err)
+        }),
+    ),
+  )
+  setPaletteSource((id) => paletteCache.get(id))
 
   // P2#5(2026-05-29 单一全局脚本数组):events/all.json(= sdlpal 单一 lprgScriptEntry,L_<n>→n 恒等)
   // 是**唯一**脚本来源 — 所有 cursor 以全局 ip 索引它。必须在任何脚本(onEnter/trigger/skip-intro)跑前

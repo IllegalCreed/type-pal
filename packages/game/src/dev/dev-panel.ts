@@ -393,6 +393,12 @@ export interface DevPanelDeps {
   playDosOpening?: () => void
   /** devpanel 看结局 DOS 全片:PAL_EndingScreen DOS 编排(RNG+fade+FBP+scroll+ColorFade+EndingAnim)。 */
   playDosEnding?: () => void
+  /**
+   * devpanel 单播一段 RNG 演出(指定 chunk + 调色盘编号 + 速度)。bootstrap 传:
+   *  - 快照当前调色盘 → 设目标调色盘(预载同步 cache)→ playRng(可按 Space/Enter/Esc 中止)→ **finally 恢复快照**。
+   *  - 不走事件系统 opcode 路径(故能加 skipKeys + 保证复位,不影响真机忠实度)。
+   */
+  playRngCutscene?: (chunk: number, palette: number, speed: number) => void
   resources: {
     enemies: Enemy[]
     /** D10/对话:enemy-objects.json — 战斗内 scriptOnReady/scriptOnTurnStart(boss 嘲讽对话)需要。 */
@@ -1287,6 +1293,22 @@ function openPicker(deps: DevPanelDeps): void {
   })
   body.appendChild(dialogBtn)
 
+  // 🦋 剧情过场:直接看彩依抱刘晋元飞走 + 镜头平移跟随(scene 108 战后,验证镜头滞后)
+  const cutsceneH = document.createElement('h4')
+  cutsceneH.textContent = '🦋 剧情过场'
+  cutsceneH.className = 'tp-dev-section-h'
+  body.appendChild(cutsceneH)
+
+  const caiyiBtn = document.createElement('button')
+  caiyiBtn.textContent = '彩依飞走(镜头平移跟随)'
+  caiyiBtn.style.cssText =
+    'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left'
+  caiyiBtn.addEventListener('click', () => {
+    closePicker()
+    void triggerCaiyiFlyaway(deps)
+  })
+  body.appendChild(caiyiBtn)
+
   // M5.S-w2.1: Save / Load / List / Clear entry
   // ── Save Slots + Menu Units 已删(2026-06-04 user:游戏内已实现,dev 入口冗余)──
   //   系统 tab 现在 = 物品作弊(精细化)+ MIDI 音乐(各自 body=tabSystem)。
@@ -1668,7 +1690,80 @@ function openPicker(deps: DevPanelDeps): void {
     body.appendChild(btn)
   }
 
-  // (RNG / FBP 调试块已删 —— 2026-06-04 user)
+  // ── 🎞 RNG 动画(剧情演出)──────────────────────────────────────────────
+  //   每个 RNG.MKF chunk 是一段动画;帧只含像素索引,**颜色取决于当前调色盘**(sdlpal PAL_RNGPlay
+  //   用 wNumPalette)。故预设按各演出**真实**(chunk + 调色盘 + 速度)播。chunk 3(酒剑仙坐葫芦)=调色盘 2、
+  //   chunk 7(灵儿祭雨)=调色盘 6,其余继承场景默认 0(这些场景脚本无 setPalette)。
+  //   走 deps.playRngCutscene(bootstrap 注入):快照调色盘 → 播 → **finally 恢复**;**播放中按 Space/Enter/Esc 中止**。
+  const rngH = document.createElement('h4')
+  rngH.textContent = '🎞 RNG 动画(剧情演出;播放中 Space 中止)'
+  rngH.className = 'tp-dev-section-h'
+  body.appendChild(rngH)
+
+  const playRngCutscene = (chunk: number, pal: number, speed: number): void => {
+    closePicker()
+    deps.playRngCutscene?.(chunk, pal, speed)
+  }
+
+  // 自由播放器:chunk / 调色盘 / 速度,任意组合(预设看着不对时可现场调)。
+  const rngRow = document.createElement('div')
+  rngRow.style.cssText = 'display:flex; gap:4px; margin:4px 0; align-items:center; flex-wrap:wrap'
+  const mkNumInput = (placeholder: string, value: string): HTMLInputElement => {
+    const inp = document.createElement('input')
+    inp.type = 'number'
+    inp.placeholder = placeholder
+    inp.value = value
+    inp.title = placeholder
+    inp.style.cssText = 'width:52px'
+    return inp
+  }
+  const rngChunkInput = mkNumInput('chunk', '3')
+  const rngPalInput = mkNumInput('调色盘', '2')
+  const rngSpeedInput = mkNumInput('速度', '8')
+  rngRow.append(
+    Object.assign(document.createElement('span'), { textContent: 'chunk/调色盘/速度:' }),
+    rngChunkInput,
+    rngPalInput,
+    rngSpeedInput,
+  )
+  const rngPlayBtn = document.createElement('button')
+  rngPlayBtn.textContent = '▶ 播放'
+  rngPlayBtn.style.cssText = 'padding:4px 10px'
+  rngPlayBtn.addEventListener('click', () => {
+    playRngCutscene(
+      Number(rngChunkInput.value) || 0,
+      Number(rngPalInput.value) || 0,
+      Number(rngSpeedInput.value) || 16,
+    )
+  })
+  rngRow.appendChild(rngPlayBtn)
+  body.appendChild(rngRow)
+
+  // 命名剧情预设(真实 chunk/调色盘/速度,考据自 scene 脚本)。点击 = 回填输入 + 立即播。
+  const RNG_CUTSCENES: Array<{ name: string; chunk: number; pal: number; speed: number }> = [
+    { name: '序章·酒剑仙授艺', chunk: 1, pal: 0, speed: 16 },
+    { name: '将军冢·赤鬼王醒', chunk: 0, pal: 0, speed: 14 },
+    { name: '酒剑仙坐葫芦飞行〔调色盘2〕', chunk: 3, pal: 2, speed: 8 },
+    { name: '灵儿祭雨〔调色盘6〕', chunk: 7, pal: 6, speed: 8 },
+    { name: '神迹', chunk: 8, pal: 0, speed: 8 },
+    { name: '结局演出', chunk: 9, pal: 0, speed: 8 },
+    { name: 'chunk 2', chunk: 2, pal: 0, speed: 16 },
+    { name: 'chunk 4', chunk: 4, pal: 0, speed: 6 },
+    { name: 'chunk 5', chunk: 5, pal: 0, speed: 7 },
+  ]
+  for (const { name, chunk, pal, speed } of RNG_CUTSCENES) {
+    const btn = document.createElement('button')
+    btn.textContent = `${name}（c${chunk}/p${pal}）`
+    btn.style.cssText =
+      'display:block; width:100%; margin:2px 0; padding:4px 8px; text-align:left; font-size:11px'
+    btn.addEventListener('click', () => {
+      rngChunkInput.value = String(chunk)
+      rngPalInput.value = String(pal)
+      rngSpeedInput.value = String(speed)
+      playRngCutscene(chunk, pal, speed)
+    })
+    body.appendChild(btn)
+  }
 
   // 🎬 视频(开场 / 结局)—— 一行一个按钮,简化中文文案。
   const vidH = document.createElement('h4')
@@ -1793,6 +1888,65 @@ function triggerDialogStyleTest(deps: DevPanelDeps): void {
   deps.gs.eventCursor = { commands, labelMap, ip: 0 }
   deps.gs.mode = 'event'
   console.log('[dev] Triggered dialog style test sequence (4 styles, 7 dialogs).')
+}
+
+/**
+ * dev:直接预览「彩依抱刘晋元飞走」过场(scene 108 战后),验证镜头平移跟随。
+ *
+ * 跳 scene 108 → 激活彩依事件对象(eo14,triggerLabel `L_20784`,默认 sState=0 隐藏)→ 注入战后
+ * 飞走 opcode 窗口(all.json 全局 ~20859-20868:0x7D 移彩依 / 0x24 给彩依挂飞 autoScript L_19683 /
+ * 0x46 设队伍位 / 0x7F 镜头跳 + 平移 / 0x09 延迟 / 0x49 隐彩依 / 0x7F 复位)。窗口以独特的平移 op
+ * (0x7F[10,-7,42])为锚定位,抗提取器 index 漂移。
+ *
+ * 过滤 0x7A 队伍行走(dev 跳场景无战后队伍/寻路状态,走不到目标会卡死整段)—— 镜头(0x7F)与彩依
+ * autoScript 各自逐 tick 推进,正是本次排查对象,不依赖队伍行走。
+ */
+async function triggerCaiyiFlyaway(deps: DevPanelDeps): Promise<void> {
+  await applySceneJump(deps, { id: 'caiyi-flyaway', label: '彩依飞走', sceneId: 108 })
+
+  // 找彩依事件对象:优先 cutscene owner(triggerLabel L_20784),回退飞 autoScript 持有者(L_19683)
+  const caiyi
+    = deps.gs.npcs.find((n) => n.triggerLabel === 'L_20784')
+      ?? deps.gs.npcs.find((n) => n.autoLabel === 'L_19683')
+  if (!caiyi) {
+    console.warn('[dev] 彩依飞走:scene 108 未找到彩依事件对象(L_20784/L_19683),放弃')
+    return
+  }
+  caiyi.sState = 1 // 默认隐藏(故事门控);强制可见 + 让 autoScript 跑(tickAutoScripts 要 sState>0)
+
+  // 从全局脚本切战后飞走窗口:以独特 pan op(0x7F[10,-7,42])为锚,取前 6 ~ 后 3 条
+  const global = getGlobalCommands()
+  const panIdx = global.findIndex(
+    (c) => c.op === 'raw' && c.opcode === 0x7f
+      && c.operands?.[0] === 10 && c.operands?.[1] === 65529 && c.operands?.[2] === 42,
+  )
+  if (panIdx < 0) {
+    console.warn('[dev] 彩依飞走:全局脚本未找到平移 op(0x7F[10,-7,42]),放弃')
+    return
+  }
+  const flyawayOps = global.slice(panIdx - 6, panIdx + 4)
+  const commands: Command[] = [
+    ...flyawayOps.filter((c) => !(c.op === 'raw' && c.opcode === 0x7a)), // 滤 0x7A 队伍行走(122)
+    { op: 'end' },
+  ]
+  const labelMap = buildLabelMap(commands)
+
+  // 镜头先摆正:抵消随后 0x7D(彩依 -80)+ 0x7F 跳(128,-96),让平移起始彩依大致居中
+  // (战后真实镜头由 battle 收尾设,dev 跳过 → 自己摆,否则平移从错误视角开始)。
+  deps.gs.camera = { x: caiyi.x - 288, y: caiyi.y - 96 }
+  deps.gs.sceneLoading = false
+  deps.gs.paletteFadeState = undefined // 清场景淡入,别冻住过场 tick
+  deps.gs.fadeState = undefined
+  deps.gs.eventCursor = {
+    commands,
+    labelMap,
+    ip: 0,
+    currentEventObjectId: caiyi.id, // self(0x7D/0x24/0x49 的 65535)→ 彩依
+    triggerOwnerId: caiyi.id,
+    startedExecution: true, // 已开跑:owner autoScript 不被"触发后首帧间隙"跳过
+  }
+  deps.gs.mode = 'event'
+  console.log(`[dev] 彩依飞走过场:彩依 id=${caiyi.id} @(${caiyi.x},${caiyi.y}),pan@global ${panIdx}`)
 }
 
 function closePicker(): void {

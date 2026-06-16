@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import type { Command, GiveItemCommand, InputSnapshot, AbstractKey, Palette } from '@type-pal/shared'
 import {
   tickEventSystem, tickAutoScripts, tickChaseTimer, buildLabelMap, runScript, runEnterScript, setFetchPalette,
+  setPaletteSource,
   setStartBattleHandler,
   OP_START_BATTLE, OP_SET_BATTLE_FIELD, OP_SET_SCENE_OBJECT_STATE,
   OP_SET_PARTY_DIRECTION,
@@ -4801,6 +4802,47 @@ describe('特效 B/C opcode(RNG 0x36/0x37 + wave 0x71)', () => {
     }
     finally {
       setRngPlayHandler(null)
+    }
+  })
+
+  it('0x50→setPalette N→0x37 同帧序列:setPalette 同步生效,RNG 淡入用新调色板(scene-140 酒剑仙坐葫芦 RNG 偏色根因)', () => {
+    // 真实脚本(scene-140 cmds 210-214):0x50 FadeOut → 0x8B setPalette 2 → 0x36 SetRNG 3 → 0x37 PlayRNG。
+    //   sdlpal 0x8B 同步 PAL_SetPalette(pat.mkf 同步读)→ RNG fadeIn 用 palette 2。
+    //   旧实现 setPalette 异步 fire-and-forget → 同一同步 tick 内 PlayRNG 读到的 basePalette 还是旧色
+    //   → 酒剑仙坐葫芦整段偏色。本测试驱动**真实 opcode 序列**(非手设 basePalette)复现并锁定。
+    const bus = createCommandBus()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // 0x50 FadeOut 后态:屏幕黑、needToFadeIn、basePalette 仍是旧场景色(应被 setPalette 2 覆盖)
+    gs.needToFadeIn = true
+    gs.palette = makeWorkingPaletteFor([0, 0, 0])
+    gs.basePalette = makeWorkingPaletteFor([10, 10, 10])
+
+    const PAL2 = makeWorkingPaletteFor([42, 42, 42]) // palette#2 特征色
+    setPaletteSource((id) => (id === 2 ? PAL2 : undefined)) // 开机预载的同步源
+    // async fetch 故意返回旧色:证明修复后走的是同步源,而非碰巧 async 及时 resolve(同步 tick 内不会)
+    setFetchPalette(() => Promise.resolve(makeWorkingPaletteFor([10, 10, 10])))
+
+    let capturedColor: [number, number, number] | undefined
+    setRngPlayHandler(() => {
+      capturedColor = gs.palette?.colors[0]
+    })
+    try {
+      loadEvent(gs, [
+        { op: 'setPalette', paletteIndex: 2 },
+        { op: 'raw', opcode: OP_SET_RNG, operands: [3, 0, 0] },
+        { op: 'raw', opcode: OP_PLAY_RNG, operands: [0, 0, 8] },
+        { op: 'end' },
+      ])
+      tickEventSystem(gs, snap(), bus)
+
+      expect(gs.numPalette).toBe(2)
+      // RNG 淡入目标必须是 palette#2([42,42,42]),不是旧 basePalette([10,10,10])
+      expect(capturedColor).toEqual([42, 42, 42])
+    }
+    finally {
+      setRngPlayHandler(null)
+      setPaletteSource(null)
+      setFetchPalette(null)
     }
   })
 
