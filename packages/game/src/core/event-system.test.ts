@@ -4784,6 +4784,25 @@ describe('特效 A auto fade-in(sdlpal scene.c:503 PAL_MakeScene)+ FadeOut 冻�
     const g5 = base(); g5.mode = 'event'; g5.eventCursor = { ip: 0, waiting: 'frame-wait' }; tickSceneAutoFadeIn(g5)
     expect(g5.paletteFadeState).toBeDefined(); expect(g5.needToFadeIn).toBe(false)
   })
+
+  // 锁妖塔 scene164 运镜全黑回归(user 2026-06-17:进塔后镜头扫描整段黑,小地图证镜头路径正确 = camera 没出界、
+  //   sceneLoading 已解冻,但调色板卡在 FadeOut 的黑)。根因:0x7F 多帧 pan 是**唯一**"演出逐帧推进却用独立
+  //   waiting='camera-pan'"的 op,既非白名单显式列的 frame-wait/scene-fade,又被 isEventCursorAtMakeSceneStep
+  //   首行 `waiting!==undefined return false` 踢掉(该谓词只认"即将执行"态)→ pan 执行的 160 帧里 tickSceneAutoFadeIn
+  //   每帧早退、needToFadeIn 永不消费 → 镜头在 FadeOut 黑屏下空扫,直到末尾 0x05 才淡入。
+  //   对照 mode.ts:42 autoScript 白名单**已含** 'camera-pan'(M4 2026-06-07)—— 两白名单同源(sdlpal 每帧
+  //   PAL_GameUpdate→PAL_MakeScene),此处漏登记 = 复发病根。sdlpal 0x7F do-while 每次 PAL_GameUpdate→
+  //   PAL_MakeScene→`if(fNeedToFadeIn)PAL_FadeIn`(script.c:2364-2366 + scene.c:503),故 pan 执行态该淡入。
+  it('tickSceneAutoFadeIn:event + camera-pan 执行态 → 消费 needToFadeIn 触发淡入(锁妖塔运镜不黑屏)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.basePalette = mkPal([120, 60, 30]); gs.palette = mkPal([0, 0, 0])
+    gs.needToFadeIn = true; gs.mode = 'event'
+    gs.eventCursor = { ip: 0, waiting: 'camera-pan' } // 0x7F 多帧 pan 执行中
+    tickSceneAutoFadeIn(gs)
+    expect(gs.needToFadeIn).toBe(false) // 消费 flag
+    expect(gs.paletteFadeState).toBeDefined() // 启动 FadeIn(黑→base)
+    expect(gs.paletteFadeState?.targetColors[0]).toEqual([120, 60, 30])
+  })
 })
 
 describe('特效 B/C opcode(RNG 0x36/0x37 + wave 0x71)', () => {

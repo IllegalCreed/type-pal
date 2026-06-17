@@ -650,7 +650,12 @@ export function tickSceneAutoFadeIn(gs: GameState): void {
   const w = gs.eventCursor?.waiting
   const palGameUpdateRuns =
     gs.mode === 'explore'
-    || (gs.mode === 'event' && (w === 'frame-wait' || w === 'scene-fade' || isEventCursorAtMakeSceneStep(gs.eventCursor)))
+    // 'camera-pan' 执行态须显式列:0x7F 多帧 pan 是唯一"逐帧 PAL_MakeScene 推进却用独立 waiting"的 op,
+    //   isEventCursorAtMakeSceneStep 只认"即将执行"(waiting===undefined + ip 停在该 op)态 → 漏掉 pan
+    //   执行中的全程 → 锁妖塔 scene164 进塔运镜在 FadeOut 黑屏下空扫(user 2026-06-17)。与 mode.ts:42
+    //   autoScript 白名单的 'camera-pan' 同源(sdlpal 0x7F do-while 每帧 PAL_GameUpdate→PAL_MakeScene→
+    //   if(fNeedToFadeIn)PAL_FadeIn,script.c:2364-2366)—— 两白名单必须同步,否则补一处漏一处复发。
+    || (gs.mode === 'event' && (w === 'frame-wait' || w === 'scene-fade' || w === 'camera-pan' || isEventCursorAtMakeSceneStep(gs.eventCursor)))
   if (!palGameUpdateRuns || gs.sceneLoading) return
   if (gs.paletteFadeState || gs.fadeState) return // fade 进行中(present 自清 explore fade)
   if (!gs.needToFadeIn) return
