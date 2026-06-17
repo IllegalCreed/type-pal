@@ -114,7 +114,10 @@ export function advanceRafFrame(
     ticked ||
     ctx.gs.fadeState != null ||
     ctx.gs.paletteFadeState != null ||
-    ctx.gs.battleState?.battleFade != null
+    ctx.gs.battleState?.battleFade != null ||
+    // 召唤 loop 帧:每 rAF present 让 stepSummonLoopRender 按 wall-clock 精确推进 iSummonFrame(绕开 40ms tick
+    //   对 50ms 召唤帧的拍频抖动;同 battleFade 死亡淡出)。loop 帧外为 null → 不放行,照常按 tick present。
+    ctx.gs.battleState?.battleAnim?.summon?.loop != null
   ) {
     ctx.onPresent(drained, ticked)
     presented = true

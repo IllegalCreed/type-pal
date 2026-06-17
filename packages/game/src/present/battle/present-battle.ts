@@ -29,7 +29,7 @@
 import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import type { BattleState, SummonFrameState } from '../../core/battle/battle-state.js'
-import { getBattleLiveRoles, stepDeathFadeRender } from '../../core/battle/battle-system.js'
+import { getBattleLiveRoles, stepDeathFadeRender, stepSummonLoopRender } from '../../core/battle/battle-system.js'
 import { stepPaletteFade } from '../../core/palette-fade.js'
 import type { BusEntry } from '../../core/command-bus.js'
 import type { GameState } from '../../core/game-state.js'
@@ -137,6 +137,9 @@ export class BattlePresent {
     // D17 死亡淡出渲染细分:每 rAF(含非 tick 的 fade-only 补帧)按 wall-clock 把 deathFadeStep 推到
     //   62.5fps(对齐 sdlpal PAL_BattleFadeScene 16ms/步)。无 battleFade 时早退,纯 no-op。
     stepDeathFadeRender(state, performance.now())
+    // 召唤 loop wall-clock 细分:loop 帧(summon.loop)按真实时间精确推进 iSummonFrame,绕开 40ms 逻辑 tick
+    //   对 50ms 召唤帧的拍频(user 报"刚变成剑卡顿")。非 loop 帧时早退,纯 no-op。
+    stepSummonLoopRender(state, performance.now())
 
     // 战斗脚本 palette ramp fade(0x50/0x51/0x80/0x8C/0x93):每帧 ramp gs.palette.colors —— 与大世界
     //   presentFrame 对称(此前只此处漏调 stepPaletteFade → 战斗内 palette fade 不动画、只 snap)。

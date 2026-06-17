@@ -1962,6 +1962,29 @@ export function stepDeathFadeRender(state: BattleState, nowMs: number): void {
 }
 
 /**
+ * 召唤 loop **wall-clock 渲染细分** —— present 每 rAF 调(对齐 `stepDeathFadeRender` 模式)。召唤 loop 段
+ * 塌缩成单一时间线帧(summon.loop set)后,iSummonFrame 不再由 40ms 逻辑 tick 离散推进 —— 那会让 frameTimeMs=50ms
+ * 的召唤帧在 40ms tick 下抖成 80/40/40/40(frame0 停 80ms = user 2026-06-17 报"刚完全变成剑的前几帧卡顿")。
+ * 本函数按真实时间精确推进:`frame = floor((now-startMs)/frameTimeMs)`,cap `count-1`,**max 不回退**
+ * (逻辑 tick 不碰 summon.frame,本函数是唯一推进者)。startMs 惰性记(loop 帧首次渲染),非 loop 帧
+ * (fadeIn/offMagic/fadeOut,summon.loop 缺)清 startMs。headless/单测不经 present → frame 恒 0(loop 段时长
+ * 仍由 advanceBattleAnimFrames 的 durationMs 照常消耗,伤害在其后 offMagic 段照常结算)。
+ *
+ * @param nowMs present 调用处传入的 performance.now()(注入时钟,便于测试)。
+ */
+export function stepSummonLoopRender(state: BattleState, nowMs: number): void {
+  const a = state.battleAnim
+  const loop = a?.summon?.loop
+  if (!a || !loop) {
+    if (a) a.summonLoopStartMs = undefined
+    return
+  }
+  if (a.summonLoopStartMs === undefined) a.summonLoopStartMs = nowMs
+  const frame = Math.min(loop.count - 1, Math.floor((nowMs - a.summonLoopStartMs) / loop.frameTimeMs))
+  if (a.summon && frame > a.summon.frame) a.summon.frame = frame
+}
+
+/**
  * 战斗脚本调色板淡入淡出 hold —— battle raw fallback(0x50/0x51/0x80/0x8C/0x4F/0x93)
  * 不持有 EventCursor,无法像大世界 event waiting 那样阻塞;战斗顶层在这里按时间等完。
  */

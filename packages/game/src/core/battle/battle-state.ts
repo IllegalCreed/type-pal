@@ -344,6 +344,13 @@ export interface SummonFrameState {
   fadeStep?: number
   /** fade 方向:'in' 队员→召唤神 / 'out' 召唤神→队员(PAL_BattleFadeScene 双向)。 */
   fadeDir?: 'in' | 'out'
+  /**
+   * loop 段 wall-clock 细分元数据 —— present 每 rAF 按真实时间算 iSummonFrame,绕开 40ms 逻辑 tick 对
+   * `(speed+5)*10ms` 召唤帧的拍频离散(user 2026-06-17 报"刚完全变成剑的前几帧卡顿":frame0 在 40ms tick
+   * 下停 80ms 而非 50ms)。set → present `stepSummonLoopRender` 走 wall-clock 推进 frame;
+   * count = loop 帧数(iSummonFrame 0..count-1)。塌缩成单一时间线帧后,逻辑 tick 只管整段进出、不再离散内部帧。
+   */
+  loop?: { count: number; frameTimeMs: number }
 }
 
 export interface BattleAnimAfterPerformItem {
@@ -372,6 +379,8 @@ export interface BattleAnimState {
   frameElapsedMs: number
   /** 当前帧召唤神演出状态(set → present 改画召唤神替换队员;无则正常画队员)。 */
   summon?: SummonFrameState
+  /** 召唤 loop wall-clock 起始戳 —— present `stepSummonLoopRender` 惰性记(loop 帧切走清);逻辑层不碰 performance.now。 */
+  summonLoopStartMs?: number
   /** 本动画含召唤 crossfade(buildAndStartSummonAnim 置)→ present 才在非 fade 帧快照场景供 fade 起手。 */
   hasSummonFade?: boolean
   /** 当前帧单个 effect overlay(供 present 画;无则 undefined)。 */

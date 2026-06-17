@@ -1265,6 +1265,14 @@ export interface BuildSummonInput {
    * 受击动画过晚(user 2026-06-05 报"天剑敌人受击动画太晚")。
    */
   postMagicFrames?: BattleAnimFrame[]
+  /**
+   * 召唤淡出**前**复位的队员 fighter delta —— 对齐 sdlpal fight.c:901 `PAL_BattleUpdateFighters()` 在
+   * `PAL_BattleFadeScene()`(:911 fadeOut)**之前**调。挂 fadeOut **首帧** → crossfade 目标场景 = 复位后的
+   * 正常主角(站立帧 / iColorShift=0 / pos=posOriginal),而非残留的**施法帧(PreMagic currentFrame=5)+
+   * 高亮(brighten iColorShift=10)+ 上移(PreMagic pos)**(user 2026-06-17 报"天剑变回来是施法帧+高亮+迁移")。
+   * 缺/空 = 不复位(向后兼容旧测试)。
+   */
+  resetFighters?: BattleAnimFrame['fighters']
 }
 
 /**
@@ -1288,9 +1296,16 @@ export function buildSummonGodSequence(input: BuildSummonInput): BattleAnimFrame
   for (let s = 0; s < SUMMON_FADE_STEPS; s++) {
     frames.push({ durationMs: SUMMON_FADE_STEP_MS, summon: { spriteKey, frame: 0, pos, bgColorShift, fadeStep: s, fadeDir: 'in' } })
   }
-  // —— loop:召唤神 frame 0..totalFrames-2(fight.c while iSummonFrame < numFrames-1)——
-  for (let f = 0; f < totalFrames - 1; f++) {
-    frames.push({ durationMs: frameTimeMs, summon: { spriteKey, frame: f, pos, bgColorShift } })
+  // —— loop:塌缩成**单一时间线帧**(durationMs = loop 总时长),present 每 rAF 按 wall-clock 细分 iSummonFrame
+  //   (stepSummonLoopRender),绕开 40ms 逻辑 tick 对 frameTimeMs(天剑 50ms)的拍频离散 —— 否则 frame0 在
+  //   40ms tick 下停 80ms(user 2026-06-17 报"刚完全变成剑的前几帧卡顿")。sdlpal loop 本是独立 50ms blocking
+  //   循环(精确 50ms/帧)。loop 帧数 = totalFrames-1(fight.c while iSummonFrame < numFrames-1)。——
+  const loopCount = totalFrames - 1
+  if (loopCount > 0) {
+    frames.push({
+      durationMs: loopCount * frameTimeMs,
+      summon: { spriteKey, frame: 0, pos, bgColorShift, loop: { count: loopCount, frameTimeMs } },
+    })
   }
   // —— offMagic:二次效果落敌,召唤神定格 last frame 在场 ——
   for (const f of offMagicFrames) {
@@ -1300,9 +1315,13 @@ export function buildSummonGodSequence(input: BuildSummonInput): BattleAnimFrame
   for (const f of postMagicFrames ?? []) {
     frames.push({ ...f, summon: { spriteKey, frame: lastFrame, pos, bgColorShift } })
   }
-  // —— fadeOut:72 步 crossfade(召唤神→队员)——
+  // —— fadeOut:72 步 crossfade(召唤神→队员)。**首帧注入 resetFighters** 复位队员(sdlpal fight.c:901
+  //   `PAL_BattleUpdateFighters()` 在 :911 `PAL_BattleFadeScene()` 之前调)→ crossfade 目标场景 = 复位后的
+  //   正常主角(站立帧/iColorShift=0/原位),而非残留的施法帧+高亮+上移。applyAnimFrame 累积保持,后续帧不必重复。——
   for (let s = 0; s < SUMMON_FADE_STEPS; s++) {
-    frames.push({ durationMs: SUMMON_FADE_STEP_MS, summon: { spriteKey, frame: lastFrame, pos, bgColorShift, fadeStep: s, fadeDir: 'out' } })
+    const frame: BattleAnimFrame = { durationMs: SUMMON_FADE_STEP_MS, summon: { spriteKey, frame: lastFrame, pos, bgColorShift, fadeStep: s, fadeDir: 'out' } }
+    if (s === 0 && input.resetFighters && input.resetFighters.length > 0) frame.fighters = input.resetFighters
+    frames.push(frame)
   }
   return frames
 }

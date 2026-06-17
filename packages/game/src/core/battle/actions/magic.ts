@@ -646,6 +646,20 @@ function buildAndStartSummonAnim(
   // 召唤神序列(fadeIn 72 步 crossfade → 逐帧 loop → 二次效果 → **PostMagic 敌抖(神留场)** → fadeOut 72 步 crossfade)。
   //   PostMagic 排在 fadeOut 前(fight.c:4323 神在场 → 899 后淡出);present summonGodMode 下仍画敌(present-battle.ts:191
   //   drawBattleSprites 只隐队员)→ 受击抖动可见。
+  // 召唤淡出**前**复位全体队员(sdlpal fight.c:901 `PAL_BattleUpdateFighters()` 在 :911 fadeOut 前调):
+  //   pos=posOriginal / iColorShift=0 / currentFrame=站立帧(playerRestFrame:活 0 / 死 2 / 濒死睡 1 / 防御 3,
+  //   与 resetFightersAfterAction 同源)。挂 fadeOut 首帧 → crossfade 目标 = 复位后的正常主角,而非残留的
+  //   PreMagic 施法帧(currentFrame=5)+ brighten 高亮(iColorShift=10)+ 上移 pos(user 2026-06-17 报)。
+  //   防御者 sdlpal 不复位 pos(fight.c:944)。
+  const resetFighters: NonNullable<BattleAnimFrame['fighters']> = input.state.players.map((p, idx) => {
+    const d: NonNullable<BattleAnimFrame['fighters']>[number] = {
+      side: 'player', idx, iColorShift: 0,
+      currentFrame: playerRestFrame(p, input.playerRoles.roles[p.roleId]),
+    }
+    if (!p.defending && p.posOriginal) d.pos = { x: p.posOriginal.x, y: p.posOriginal.y }
+    return d
+  })
+
   const godFrames = buildSummonGodSequence({
     spriteKey: `player-${summonChunk}`,
     pos: { x: 240 + asShort(magic.xOffset), y: 165 + asShort(magic.yOffset) },
@@ -654,6 +668,7 @@ function buildAndStartSummonAnim(
     frameTimeMs: (magic.speed + 5) * 10,
     offMagicFrames,
     postMagicFrames,
+    resetFighters,
   })
 
   startBattleAnim(input.state, [...preFrames, ...brightenFrames, ...godFrames], input.bus, numsAttached ? undefined : pendingNums)

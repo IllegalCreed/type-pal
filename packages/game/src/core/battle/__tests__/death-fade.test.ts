@@ -20,7 +20,7 @@ import type {
 import { describe, expect, it } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
-import { startBattle, stepDeathFadeRender, tickBattle } from '../battle-system.js'
+import { startBattle, stepDeathFadeRender, stepSummonLoopRender, tickBattle } from '../battle-system.js'
 
 function makeRole(opts: Partial<PlayerRole> = {}): PlayerRole {
   return {
@@ -365,5 +365,50 @@ describe('D17 死亡淡出 — stepDeathFadeRender 渲染细分(wall-clock 62.5f
     s.enemies[0]!.deathFadeStep = 3
     stepDeathFadeRender(s, 9999)
     expect(s.enemies[0]!.deathFadeStep).toBe(3)
+  })
+})
+
+// 召唤 loop wall-clock 渲染细分(stepSummonLoopRender)—— 修 user 2026-06-17 报"天剑刚完全变成剑的前几帧卡顿"。
+//   召唤 loop 塌缩成单一时间线帧后,present 每 rAF 按真实时间精确推进 iSummonFrame,绕开 40ms 逻辑 tick 对
+//   (speed+5)*10=50ms 召唤帧的拍频离散(40ms tick 下 frame0 停 80ms)。同 stepDeathFadeRender 模式。
+describe('召唤 loop wall-clock 渲染细分(stepSummonLoopRender)', () => {
+  const mkState = (loop: { count: number; frameTimeMs: number } | undefined) =>
+    ({ battleAnim: { frames: [], idx: 0, frameElapsedMs: 0,
+      summon: { spriteKey: 'player-30', frame: 0, pos: { x: 240, y: 160 }, bgColorShift: 0, ...(loop ? { loop } : {}) } } }) as unknown as Parameters<typeof stepSummonLoopRender>[0]
+
+  it('loop 帧:startMs 惰性记 + frame=floor((now-start)/frameTimeMs)(wall-clock 精确 50ms/帧)', () => {
+    const s = mkState({ count: 5, frameTimeMs: 50 })
+    stepSummonLoopRender(s, 1000)            // 首调:startMs=1000, frame=0
+    expect(s.battleAnim!.summonLoopStartMs).toBe(1000)
+    expect(s.battleAnim!.summon!.frame).toBe(0)
+    stepSummonLoopRender(s, 1050)            // 50/50=1
+    expect(s.battleAnim!.summon!.frame).toBe(1)
+    stepSummonLoopRender(s, 1175)            // 175/50=3.5→3
+    expect(s.battleAnim!.summon!.frame).toBe(3)
+  })
+
+  it('cap 在 count-1(末帧),不越界', () => {
+    const s = mkState({ count: 5, frameTimeMs: 50 })
+    stepSummonLoopRender(s, 1000)
+    stepSummonLoopRender(s, 9999)            // 远超 → cap count-1=4
+    expect(s.battleAnim!.summon!.frame).toBe(4)
+  })
+
+  it('max 不回退:nowMs 倒退(rAF 抖动)不让 iSummonFrame 倒退', () => {
+    const s = mkState({ count: 5, frameTimeMs: 50 })
+    stepSummonLoopRender(s, 1000)
+    stepSummonLoopRender(s, 1150)            // frame=3
+    expect(s.battleAnim!.summon!.frame).toBe(3)
+    stepSummonLoopRender(s, 1050)            // 倒退 → 保持 3
+    expect(s.battleAnim!.summon!.frame).toBe(3)
+  })
+
+  it('非 loop 帧(summon.loop 缺):清 summonLoopStartMs,不动 frame', () => {
+    const s = mkState(undefined)
+    s.battleAnim!.summonLoopStartMs = 1234
+    s.battleAnim!.summon!.frame = 2
+    stepSummonLoopRender(s, 5000)
+    expect(s.battleAnim!.summonLoopStartMs).toBeUndefined()
+    expect(s.battleAnim!.summon!.frame).toBe(2)
   })
 })
