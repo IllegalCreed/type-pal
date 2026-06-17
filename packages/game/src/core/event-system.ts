@@ -5161,8 +5161,14 @@ function partyWalkTo(
   const stepY = Math.abs(dy) <= speed ? dy : (dy < 0 ? -speed : speed)
   gs.party.x += stepX
   gs.party.y += stepY
-  gs.camera.x = gs.party.x - PARTYOFFSET_X
-  gs.camera.y = gs.party.y - PARTYOFFSET_Y
+  // sdlpal PAL_PartyWalkTo(script.c:185-188)移的是 **viewport**(camera),partyoffset 不变 —— 相对
+  //   `camera += step`。**不能** camera = party - 常量(160,112) 绝对回正:0x7F 已把队伍推离屏幕中心
+  //   时(如彩依抱刘晋元飞走:0x46→0x7F[128,-96]→0x7A 走位→0x7F 平移跟随),绝对回正会把队伍拽回
+  //   中心、抹掉 0x7F 偏移 → 后续平移从"主角居中"错误基准出发 → 镜头跟不上彩依(user 2026-06-17 报)。
+  //   居中态下 camera += step 与 camera = party - offset 等价(party.screen 恒 160,112),故常规走位不变。
+  //   同 0x6E playerWalkOneStep(2026-06-08 林家堡李逍遥走出场已修)。
+  gs.camera.x += stepX
+  gs.camera.y += stepY
 
   // PAL_UpdatePartyGestures(TRUE) — 推 walking stepFrame
   gs.walkingFrame.walking = true
@@ -5224,11 +5230,13 @@ function partyRideEventObject(
   })
   if (gs.trail.length > 5) gs.trail.length = 5
 
-  // viewport(camera)+ party + 骑乘对象一起移动 dx/dy
+  // viewport(camera)+ party + 骑乘对象一起移动 dx/dy。camera **相对** += dx(sdlpal 移 viewport、
+  //   partyoffset 不变,见上注释 5189),**不**绝对回正 camera = party - 常量 —— 否则 0x7F 偏移过的相机
+  //   被骑乘拽回居中(与 0x7A partyWalkTo / 0x6E 同一 bug 类)。居中态下两者等价,常规骑乘不变。
   gs.party.x += dx
   gs.party.y += dy
-  gs.camera.x = gs.party.x - PARTYOFFSET_X
-  gs.camera.y = gs.party.y - PARTYOFFSET_Y
+  gs.camera.x += dx
+  gs.camera.y += dy
   npc.x += dx
   npc.y += dy
 

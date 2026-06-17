@@ -1816,6 +1816,38 @@ describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
     expect(gs.party.facing).toBe('right')
   })
 
+  // 彩依抱刘晋元飞走演出(all.json idx 20862-20865:0x46 设队伍位 → 0x7F[128,-96] 偏移相机 →
+  //   0x7A 走位 → 0x7F[10,-7,42] 平移跟随彩依)。sdlpal PAL_PartyWalkTo(script.c:101-200)移的是
+  //   **viewport**,partyoffset 不变 → 0x7F 已把队伍推离屏幕中心时,走位**保持**偏移、相机只滚动。
+  //   旧码 `camera = party - 常量(160,112)` 每步把队伍**绝对回正** → 抹掉 0x7F 偏移 → 后续平移从
+  //   "主角居中"错误基准出发 → 镜头跟不上彩依(user 2026-06-17 报)。修同 0x6E(2026-06-08 林家堡)。
+  it('0x7A partyWalkTo:相机已被 0x7F 偏离居中 → 走位 camera += step 保偏移,不绝对回正(彩依飞走)', () => {
+    const { gs, bus } = setup([])
+    // 模拟 0x7F[128,-96] 已把相机推离居中:party 世界 (160,112),camera (128,-96) → 队伍屏幕偏移 (32,208)
+    gs.party = { x: 160, y: 112, facing: 'down' }
+    gs.camera = { x: 128, y: -96 }
+    loadEvent(gs, [{ op: 'raw', opcode: OP_PARTY_WALK_TO_4, operands: [10, 4, 0] }, { op: 'end' }])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.party).toMatchObject({ x: 168, y: 108 })   // 走 1 步 (+8,-4)(target 远)
+    expect(gs.camera).toEqual({ x: 136, y: -100 })       // camera 同步 += (8,-4)
+    expect(gs.party.x - gs.camera.x).toBe(32)            // 屏幕偏移不变(忠实 sdlpal partyoffset)
+    expect(gs.party.y - gs.camera.y).toBe(208)
+  })
+
+  it('0x44 rideObject:相机已偏离居中 → 骑乘移动 camera += step 保偏移,不绝对回正', () => {
+    const { gs, bus } = setup([{ id: 5, x: 200, y: 100, spriteNum: 1 }])
+    gs.party = { x: 160, y: 112, facing: 'down' }
+    gs.camera = { x: 128, y: -96 }   // 偏离居中(偏移 32,208)
+    // target (10,7,0) → tx=320 ty=112=party.y → xOffset=160→dx=8, yOffset=0→dy=0
+    loadEvent(gs, [{ op: 'raw', opcode: OP_RIDE_OBJECT_4, operands: [10, 7, 0] }, { op: 'end' }])
+    gs.eventCursor!.currentEventObjectId = 5
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.party).toMatchObject({ x: 168, y: 112 })
+    expect(gs.npcs[0]).toMatchObject({ x: 208, y: 100 })  // 骑乘对象同步 +8
+    expect(gs.camera).toEqual({ x: 136, y: -96 })         // camera += (8,0) 保偏移
+    expect(gs.party.x - gs.camera.x).toBe(32)
+  })
+
   it('0x4C monsterChase:无障碍 → 朝 party 走 1 步 + 设朝向(script.c:309-501)', () => {
     setObstacleChecker(null)   // 无 checker → isObstacle 恒 false(无障碍)
     const { gs, bus } = setup([{ id: 4, x: 132, y: 50, spriteNum: 1, facing: 'up' }])
