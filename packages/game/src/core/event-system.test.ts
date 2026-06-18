@@ -421,70 +421,47 @@ describe('EventSystem', () => {
     expect(gs.currentDialogPortraitLayout).toBe(true)
   })
 
-  it('0x09 wait-frames 擦立绘:其后无 setDialogStyle 的 showDialog 不沿用旧头像(scene-145 赵灵儿现真身→李逍遥"不可能"复用赵灵儿立绘 bug)', () => {
-    // 真值 scene-145.json idx39-49:setDialogStyleBottom arg0=90(赵灵儿立绘) → showDialog(赵灵儿) →
-    //   0x7F[0,0,0] + 0x09[4,0,0]×2(非 dialog op) → showDialog "$04不．．不可能！"(李逍遥,**无** setDialogStyle)。
-    //   sdlpal 0x09 等待循环每帧 PAL_MakeScene(script.c:3366)重画整屏,擦掉 PAL_StartDialog blit 的立绘像素;
-    //   李逍遥段 0xFFFF 无 PAL_StartDialog → 不重绘立绘 → 原版李逍遥无立绘。currentDialogPortraitIcon 持久态
-    //   须在 0x09 一并清(同 0x05/ShowFBP/fadeScreen 等清除点),否则李逍遥复用赵灵儿头像 90。
+  it('scene-145 真实序列:赵灵儿现真身(5 行触发翻页)→0x7F/0x09(PAL_MakeScene)→李逍遥"不可能"无立绘(user 2026-06-19 报)', () => {
+    // 真值 scene-145.json idx39-49(内联;extracted 是 gitignored 不能 fs 读):
+    //   setDialogStyleBottom(90 赵灵儿)→ 5 行对话(触发翻页:第 5 行 nCurrentDialogLine>3,翻页保留**空 body**
+    //   box,portraitIcon=90 残留)→ 0x7F[0,0,0]回正 + 0x09[4,0,0]wait(+0x15+0x09;均 sdlpal PAL_MakeScene
+    //   擦整屏 text+立绘)→ 李逍遥"不．．不可能！"(**无** setDialogStyle)。
+    //   bug:pre-op clear 因翻页后 body 空(event-system ~1859)不触发 → 0x7F/0x09 若只清 currentDialogPortraitIcon
+    //   而**不清整 box**,则李逍遥 **append** 进残留 box 复用赵灵儿头像 90(append 不读 currentDialogPortraitIcon)。
+    //   修:0x7F/0x09 clearDialogBoxes 清整 box(同 0x05 redraw)→ 李逍遥新建 box 无立绘。
+    //   ⚠ **单行简化序列复现不了此 bug**(单行不翻页,pre-op clear 直接清 box)——必须 5 行触发翻页
+    //   (2026-06-19 教训:手写单行简化测试假阳性通过、真实游戏没修好;用真实多行序列才暴露 append 路径)。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const bus = createCommandBus()
     loadEvent(gs, [
-      { op: 'setDialogStyleBottom', arg0: 90 },                          // 赵灵儿立绘 90
-      { op: 'showDialog', messageIndex: 0, text: '你．．又何必犯险来救我~80' }, // 赵灵儿末句 `~` 收尾 → dialogLineCount==0
-      { op: 'raw', opcode: OP_WAIT_FRAMES, operands: [2, 0, 0] },        // 0x09 wait → PAL_MakeScene 擦立绘
-      { op: 'showDialog', messageIndex: 1, text: '不．．不可能！' },      // 李逍遥说话(无 setDialogStyle)
+      { op: 'setDialogStyleBottom', arg0: 90 },                              // 赵灵儿立绘 90
+      { op: 'showDialog', messageIndex: 0, text: '我只是丑陋的蛇女' },
+      { op: 'showDialog', messageIndex: 1, text: '又失去化成人形的能力' },
+      { op: 'showDialog', messageIndex: 2, text: '活着对我来说．．已经' },
+      { op: 'showDialog', messageIndex: 3, text: '没有意义' },
+      { op: 'showDialog', messageIndex: 4, text: '你．．又何必犯险来救我~80' }, // 第 5 行 → 翻页,空 body box 残留
+      { op: 'raw', opcode: OP_SET_CAMERA, operands: [0, 0, 0] },             // idx45 0x7F 回正(PAL_MakeScene)
+      { op: 'raw', opcode: OP_WAIT_FRAMES, operands: [4, 0, 0] },            // idx46 0x09 wait(PAL_MakeScene)
+      { op: 'raw', opcode: OP_SET_PARTY_DIRECTION, operands: [3, 0, 0] },    // idx47 0x15(转向,凑真实序列)
+      { op: 'raw', opcode: OP_WAIT_FRAMES, operands: [4, 0, 0] },            // idx48 0x09 wait
+      { op: 'showDialog', messageIndex: 5, text: '不．．不可能！' },          // idx49 李逍遥(无 setDialogStyle)
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
-    expect(gs.dialogBox?.portraitIcon).toBe(90)   // 赵灵儿立绘正常显示
-
-    // 一路 Confirm:翻完赵灵儿 → 0x09 frame-wait 逐 tick 自减 → 李逍遥 showDialog 建立。
     let liBox: typeof gs.dialogBox
-    for (let i = 0; i < 40 && gs.eventCursor !== undefined; i++) {
+    let lingerPortrait: number | undefined
+    for (let i = 0; i < 200 && gs.eventCursor !== undefined; i++) {
       tickEventSystem(gs, snap(['Confirm']), bus)
       if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
+      if (gs.dialogBox?.currentLineText?.includes('蛇女')) lingerPortrait = gs.dialogBox.portraitIcon
       if (gs.dialogBox?.currentLineText?.includes('不可能')) {
         liBox = gs.dialogBox
         break
       }
     }
+    expect(lingerPortrait).toBe(90)               // 前提:赵灵儿阶段立绘正常显示 90(确保 setDialogStyleBottom 生效)
     expect(liBox).toBeDefined()                   // 李逍遥对话框确实建立了
-    expect(liBox?.portraitIcon).toBeUndefined()   // 李逍遥无立绘【图】(0x09 PAL_MakeScene 擦像素 → 清 portraitIcon)
-    expect(gs.currentDialogPortraitIcon).toBeUndefined()
-    expect(liBox?.portraitLayout).toBe(true)      // 缩进布局保留(sdlpal posDialogText 持久 metrics)
-    expect(gs.currentDialogPortraitLayout).toBe(true)
-  })
-
-  it('0x7F 回正[0,0,0] 擦立绘:其后无 setDialogStyle 的 showDialog 不沿用旧头像(scene-145 idx45 0x7F MakeScene)', () => {
-    // 真值 scene-145.json idx45:0x7F[0,0,0]——回正(op0==op1==0)且 op2(0)!=0xFFFF → PAL_MakeScene(script.c:2316)
-    //   重画整屏擦立绘。与 0x09 同源:任何 PAL_MakeScene 都擦掉 PAL_StartDialog blit 的立绘像素。
-    //   仅"回正且 op2==0xFFFF"(script.c:2314 跳过 PAL_MakeScene)才不擦 → 不清。
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
-    loadEvent(gs, [
-      { op: 'setDialogStyleBottom', arg0: 90 },                          // 赵灵儿立绘 90
-      { op: 'showDialog', messageIndex: 0, text: '你．．又何必犯险来救我~80' }, // 赵灵儿末句 `~` 收尾 → dialogLineCount==0
-      { op: 'raw', opcode: OP_SET_CAMERA, operands: [0, 0, 0] },         // 0x7F 回正 → PAL_MakeScene 擦立绘
-      { op: 'showDialog', messageIndex: 1, text: '不．．不可能！' },      // 李逍遥说话(无 setDialogStyle)
-      { op: 'end' },
-    ])
-    tickEventSystem(gs, snap(), bus)
-    expect(gs.dialogBox?.portraitIcon).toBe(90)
-
-    let liBox: typeof gs.dialogBox
-    for (let i = 0; i < 40 && gs.eventCursor !== undefined; i++) {
-      tickEventSystem(gs, snap(['Confirm']), bus)
-      if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
-      if (gs.dialogBox?.currentLineText?.includes('不可能')) {
-        liBox = gs.dialogBox
-        break
-      }
-    }
-    expect(liBox).toBeDefined()
-    expect(liBox?.portraitIcon).toBeUndefined()   // 0x7F PAL_MakeScene 擦像素 → 李逍遥无立绘
-    expect(gs.currentDialogPortraitIcon).toBeUndefined()
-    expect(liBox?.portraitLayout).toBe(true)      // 缩进布局保留
+    expect(liBox?.portraitIcon).toBeUndefined()   // ★核心:李逍遥无立绘(0x7F/0x09 清整 box → 新建无 portrait,非 append)
+    expect(liBox?.portraitLayout).toBe(true)      // 缩进 metrics 保留(sdlpal posDialogText 持久,clearDialogBoxes 不动)
   })
 
   it('raw 命令 skip + console.debug + ip++', () => {

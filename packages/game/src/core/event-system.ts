@@ -2315,12 +2315,15 @@ export function tickEventSystem(
           //   是先画场景再跑 enter script,场景一直可见。撞 wait 时 setPartyPos 等定位已跑完 → 清冻屏让
           //   场景渲染(同 showDialog 在 ↓ 的清法)。非 onEnter 的 frame-wait 时 sceneLoading 本就 false,no-op。
           if (gs.sceneLoading) gs.sceneLoading = false
-          // sdlpal 0x09 等待循环每帧 PAL_MakeScene(script.c:3366-3367)重画整屏 → 擦掉 PAL_StartDialog
-          //   一次性 blit 的立绘像素。currentDialogPortraitIcon 是持久态,须在此一并清(同 0x05/0x73/0x76
-          //   等 PAL_MakeScene 清除点),否则其后**无 setDialogStyle** 的 showDialog(0xFFFF)会沿用旧立绘。
-          //   真值 scene-145:赵灵儿现真身末句"~"收尾(dialogLineCount==0 → pre-op clear 走 clearDialogBoxes
-          //   分支,不清 portraitIcon)→ 0x09 → 李逍遥"不．．不可能！"复用赵灵儿头像 90(user 2026-06-18 报)。
-          //   仅清【图】保留 layout(缩进 metrics 是 sdlpal posDialogText 持久态,PAL_MakeScene 不重置)。
+          // sdlpal 0x09 等待循环每帧 PAL_MakeScene(script.c:3366-3367)重画**整屏** → 擦掉 dialog 区所有
+          //   像素(text + PAL_StartDialog blit 的立绘)。我们 dialog 是**持久态** gs.dialogBox,须在此一并
+          //   清整个 box(同 0x05 redraw line ~2372),只清 currentDialogPortraitIcon 不够 —— 残留 box 的
+          //   portraitIcon 会被后续**无 setDialogStyle** 的 showDialog **append** 复用(append 不读
+          //   currentDialogPortraitIcon)。真值 scene-145:赵灵儿现真身 5 行触发翻页 → 翻页保留**空 body**
+          //   box(portraitIcon=90)→ pre-op clear 因 body 空(line ~1859)不触发 → 0x7F/0x09 不清则李逍遥
+          //   "不．．不可能！"append 进残留 box 复用赵灵儿头像 90(user 2026-06-18/19 报)。layout 缩进 metrics
+          //   是 sdlpal posDialogText 持久态(PAL_MakeScene 不重置),clearDialogBoxes 不动它 → 李逍遥仍缩进。
+          if (gs.dialogBox || gs.dialogBoxKept) clearDialogBoxes(gs)
           gs.currentDialogPortraitIcon = undefined
           cursor.waiting = 'frame-wait'
           cursor.waitFramesRemaining = frames
@@ -2335,10 +2338,12 @@ export function tickEventSystem(
         if (cmd.opcode === OP_SET_CAMERA) {
           const [cx, cy, flag] = cmd.operands
           // sdlpal 0x7F 除"回正(op0==op1==0)且 op2==0xFFFF"(script.c:2314 跳过 PAL_MakeScene)外,所有路径
-          //   都 PAL_MakeScene 重画整屏(回正非 0xFFFF: 2316;pan/绝对跳 do-while: 2369)→ 擦 PAL_StartDialog
-          //   blit 的立绘像素。同 0x09:currentDialogPortraitIcon 持久态须一并清(scene-145 idx45 0x7F[0,0,0]
-          //   回正即触发,先于 0x09 擦赵灵儿立绘)。仅清【图】保留 layout(缩进 metrics PAL_MakeScene 不重置)。
+          //   都 PAL_MakeScene 重画整屏(回正非 0xFFFF: 2316;pan/绝对跳 do-while: 2369)→ 擦 dialog 区像素
+          //   (text + 立绘)。同 0x09:须清整个**持久态** dialogBox(只清 currentDialogPortraitIcon 不够,残留
+          //   box 的 portraitIcon 会被后续无 setDialogStyle 的 showDialog append 复用)。scene-145 idx45
+          //   0x7F[0,0,0] 回正即触发,先于 0x09 擦赵灵儿对话框。layout 缩进 metrics 保留(clearDialogBoxes 不动)。
           if (!((cx ?? 0) === 0 && (cy ?? 0) === 0 && flag === 0xFFFF)) {
+            if (gs.dialogBox || gs.dialogBoxKept) clearDialogBoxes(gs)
             gs.currentDialogPortraitIcon = undefined
           }
           const isPan = !((cx ?? 0) === 0 && (cy ?? 0) === 0) && flag !== 0xFFFF
