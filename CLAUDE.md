@@ -2,6 +2,15 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> ## ⚠️ 动手前先判断：第一阶段 还是 第二阶段 的工作？
+>
+> 本项目分两阶段，**两套世界观，严禁混用**：
+>
+> - **第一阶段 · 忠实还原（默认）** —— 复刻原版仙剑。**本文件以下全部内容适用**：以 sdlpal / 原版为真值、对齐 C 源、考证原版行为。
+> - **第二阶段 · Reforge 重制** —— 触发条件：动到 `packages/reforge | editor | content`、`docs/phase2/`，或任何「新引擎 / 编辑器 / 重写 / 现代化 / 解耦」的任务。此时**本文件以下的「忠实 / sdlpal / 对齐原版」世界观整体失效**，改用 [`docs/phase2/READ-FIRST.md`](docs/phase2/READ-FIRST.md) 的铁律（全新重写、不对齐旧引擎、架构优先、杜绝下标式身份）。本文件正文降级为「旧引擎长什么样」的参考资料，**不是方针**。
+>
+> 拿不准当前是哪一阶段，先问用户。**别把第一阶段的「真值锚 / 双引擎对照 / 必须和原版一致」带进第二阶段。**
+
 ## What this is
 
 A browser reimplementation of **仙剑奇侠传 (PAL — the 1995 DOS/Win95 RPG)** in TypeScript. It is a faithful port of **sdlpal** (the open-source C reimplementation), whose source lives under `reference/sdlpal/` and is the authoritative reference for game behavior, formulas, and rendering math. The runtime plays from assets extracted out of the original game's binary MKF archives.
