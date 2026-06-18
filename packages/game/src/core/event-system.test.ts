@@ -7,7 +7,7 @@ import {
   setRefreshEquipmentsHandler,
   OP_START_BATTLE, OP_SET_BATTLE_FIELD, OP_SET_SCENE_OBJECT_STATE,
   OP_SET_PARTY, OP_SET_PARTY_DIRECTION,
-  OP_WAIT_FRAMES, OP_SET_OBJECT_POS,
+  OP_WAIT_FRAMES, OP_SET_OBJECT_POS, OP_SET_CAMERA,
   OP_SET_OBJECT_GESTURE, OP_SET_EVENT_OBJECT_DIR_AND_FRAME, OP_SET_EVENT_OBJECT_DIR_OR_FRAME,
   OP_CALL_SCRIPT,
   OP_NPC_WALK_ONE_STEP, OP_PLAYER_WALK_ONE_STEP, OP_SET_PLAYER_SPRITE,
@@ -419,6 +419,72 @@ describe('EventSystem', () => {
     //   非 center 不重置 text.c:1777)→ 师爷文本仍缩进(present getDialogTextPos('top',true)=x96),只是不画太守头像。
     expect(shiyeBox?.portraitLayout).toBe(true)
     expect(gs.currentDialogPortraitLayout).toBe(true)
+  })
+
+  it('0x09 wait-frames 擦立绘:其后无 setDialogStyle 的 showDialog 不沿用旧头像(scene-145 赵灵儿现真身→李逍遥"不可能"复用赵灵儿立绘 bug)', () => {
+    // 真值 scene-145.json idx39-49:setDialogStyleBottom arg0=90(赵灵儿立绘) → showDialog(赵灵儿) →
+    //   0x7F[0,0,0] + 0x09[4,0,0]×2(非 dialog op) → showDialog "$04不．．不可能！"(李逍遥,**无** setDialogStyle)。
+    //   sdlpal 0x09 等待循环每帧 PAL_MakeScene(script.c:3366)重画整屏,擦掉 PAL_StartDialog blit 的立绘像素;
+    //   李逍遥段 0xFFFF 无 PAL_StartDialog → 不重绘立绘 → 原版李逍遥无立绘。currentDialogPortraitIcon 持久态
+    //   须在 0x09 一并清(同 0x05/ShowFBP/fadeScreen 等清除点),否则李逍遥复用赵灵儿头像 90。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'setDialogStyleBottom', arg0: 90 },                          // 赵灵儿立绘 90
+      { op: 'showDialog', messageIndex: 0, text: '你．．又何必犯险来救我~80' }, // 赵灵儿末句 `~` 收尾 → dialogLineCount==0
+      { op: 'raw', opcode: OP_WAIT_FRAMES, operands: [2, 0, 0] },        // 0x09 wait → PAL_MakeScene 擦立绘
+      { op: 'showDialog', messageIndex: 1, text: '不．．不可能！' },      // 李逍遥说话(无 setDialogStyle)
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogBox?.portraitIcon).toBe(90)   // 赵灵儿立绘正常显示
+
+    // 一路 Confirm:翻完赵灵儿 → 0x09 frame-wait 逐 tick 自减 → 李逍遥 showDialog 建立。
+    let liBox: typeof gs.dialogBox
+    for (let i = 0; i < 40 && gs.eventCursor !== undefined; i++) {
+      tickEventSystem(gs, snap(['Confirm']), bus)
+      if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
+      if (gs.dialogBox?.currentLineText?.includes('不可能')) {
+        liBox = gs.dialogBox
+        break
+      }
+    }
+    expect(liBox).toBeDefined()                   // 李逍遥对话框确实建立了
+    expect(liBox?.portraitIcon).toBeUndefined()   // 李逍遥无立绘【图】(0x09 PAL_MakeScene 擦像素 → 清 portraitIcon)
+    expect(gs.currentDialogPortraitIcon).toBeUndefined()
+    expect(liBox?.portraitLayout).toBe(true)      // 缩进布局保留(sdlpal posDialogText 持久 metrics)
+    expect(gs.currentDialogPortraitLayout).toBe(true)
+  })
+
+  it('0x7F 回正[0,0,0] 擦立绘:其后无 setDialogStyle 的 showDialog 不沿用旧头像(scene-145 idx45 0x7F MakeScene)', () => {
+    // 真值 scene-145.json idx45:0x7F[0,0,0]——回正(op0==op1==0)且 op2(0)!=0xFFFF → PAL_MakeScene(script.c:2316)
+    //   重画整屏擦立绘。与 0x09 同源:任何 PAL_MakeScene 都擦掉 PAL_StartDialog blit 的立绘像素。
+    //   仅"回正且 op2==0xFFFF"(script.c:2314 跳过 PAL_MakeScene)才不擦 → 不清。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'setDialogStyleBottom', arg0: 90 },                          // 赵灵儿立绘 90
+      { op: 'showDialog', messageIndex: 0, text: '你．．又何必犯险来救我~80' }, // 赵灵儿末句 `~` 收尾 → dialogLineCount==0
+      { op: 'raw', opcode: OP_SET_CAMERA, operands: [0, 0, 0] },         // 0x7F 回正 → PAL_MakeScene 擦立绘
+      { op: 'showDialog', messageIndex: 1, text: '不．．不可能！' },      // 李逍遥说话(无 setDialogStyle)
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogBox?.portraitIcon).toBe(90)
+
+    let liBox: typeof gs.dialogBox
+    for (let i = 0; i < 40 && gs.eventCursor !== undefined; i++) {
+      tickEventSystem(gs, snap(['Confirm']), bus)
+      if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
+      if (gs.dialogBox?.currentLineText?.includes('不可能')) {
+        liBox = gs.dialogBox
+        break
+      }
+    }
+    expect(liBox).toBeDefined()
+    expect(liBox?.portraitIcon).toBeUndefined()   // 0x7F PAL_MakeScene 擦像素 → 李逍遥无立绘
+    expect(gs.currentDialogPortraitIcon).toBeUndefined()
+    expect(liBox?.portraitLayout).toBe(true)      // 缩进布局保留
   })
 
   it('raw 命令 skip + console.debug + ip++', () => {

@@ -2315,6 +2315,13 @@ export function tickEventSystem(
           //   是先画场景再跑 enter script,场景一直可见。撞 wait 时 setPartyPos 等定位已跑完 → 清冻屏让
           //   场景渲染(同 showDialog 在 ↓ 的清法)。非 onEnter 的 frame-wait 时 sceneLoading 本就 false,no-op。
           if (gs.sceneLoading) gs.sceneLoading = false
+          // sdlpal 0x09 等待循环每帧 PAL_MakeScene(script.c:3366-3367)重画整屏 → 擦掉 PAL_StartDialog
+          //   一次性 blit 的立绘像素。currentDialogPortraitIcon 是持久态,须在此一并清(同 0x05/0x73/0x76
+          //   等 PAL_MakeScene 清除点),否则其后**无 setDialogStyle** 的 showDialog(0xFFFF)会沿用旧立绘。
+          //   真值 scene-145:赵灵儿现真身末句"~"收尾(dialogLineCount==0 → pre-op clear 走 clearDialogBoxes
+          //   分支,不清 portraitIcon)→ 0x09 → 李逍遥"不．．不可能！"复用赵灵儿头像 90(user 2026-06-18 报)。
+          //   仅清【图】保留 layout(缩进 metrics 是 sdlpal posDialogText 持久态,PAL_MakeScene 不重置)。
+          gs.currentDialogPortraitIcon = undefined
           cursor.waiting = 'frame-wait'
           cursor.waitFramesRemaining = frames
           // DL16:operand[2] 非 0 → 等待期间每帧 PAL_UpdatePartyGestures(FALSE)(script.c:3360-3363,
@@ -2327,6 +2334,13 @@ export function tickEventSystem(
         //   sdlpal script.c:2331-2377 do-while op2 次,每次 viewport += (op0,op1)。
         if (cmd.opcode === OP_SET_CAMERA) {
           const [cx, cy, flag] = cmd.operands
+          // sdlpal 0x7F 除"回正(op0==op1==0)且 op2==0xFFFF"(script.c:2314 跳过 PAL_MakeScene)外,所有路径
+          //   都 PAL_MakeScene 重画整屏(回正非 0xFFFF: 2316;pan/绝对跳 do-while: 2369)→ 擦 PAL_StartDialog
+          //   blit 的立绘像素。同 0x09:currentDialogPortraitIcon 持久态须一并清(scene-145 idx45 0x7F[0,0,0]
+          //   回正即触发,先于 0x09 擦赵灵儿立绘)。仅清【图】保留 layout(缩进 metrics PAL_MakeScene 不重置)。
+          if (!((cx ?? 0) === 0 && (cy ?? 0) === 0 && flag === 0xFFFF)) {
+            gs.currentDialogPortraitIcon = undefined
+          }
           const isPan = !((cx ?? 0) === 0 && (cy ?? 0) === 0) && flag !== 0xFFFF
           if (isPan) {
             if (gs.sceneLoading) gs.sceneLoading = false
