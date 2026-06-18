@@ -396,10 +396,10 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
   sectionTitle(parent, '我方')
   const levelUpExp = res.levelUpExp ?? []
   for (const p of collectPartyStatusReadouts(gs, res.playerRoles, res.objectPoisons, res.items, levelUpExp)) {
-    // 头:角色名 + 修行(等级)。体力/真气/经验 各自成行(避免 HP+MP 同行换行)。
+    // 头:角色名 + 修行(等级)。经验单独成行。
+    //   我方体力/真气**不显示**:本面板读持久 PlayerRolesRuntime,战斗中当前血/蓝由战斗工作副本
+    //   持有、仅在边界回写,会滞后误导(战斗框才是 live 值)。敌方 HP 读 battleState 故保留。
     const u = unitPanel(parent, p.roleName, `修行 ${p.level}`, 'color:var(--tp-gold)')
-    kvLine(u, '体力', `${p.hp} / ${p.maxHp}`, hpCss(p.hp, p.maxHp))
-    kvLine(u, '真气', `${p.mp} / ${p.maxMp}`, 'color:#5dade2')
     kvLine(u, '经验', p.nextExp > 0 ? `${p.curExp} / ${p.nextExp}` : String(p.curExp), 'color:var(--tp-text)')
     // 6 属性(= 游戏内状态框,含装备加成):修行(头)+ 武术/灵力/防御/身法/吉运。
     chipLine(u, '属性', [
