@@ -76,6 +76,15 @@ export function toggleSpeedrunPause(): void {
 }
 
 /**
+ * 主循环用:计时器启用且处于**手动暂停**(F8,含恢复倒计时期)→ true,主循环据此冻结游戏世界。
+ * 香蕉树暂停(bananaPaused)**不**计入——玩家须能走过去捡香蕉才能解除暂停,冻结会死锁。
+ */
+export function isSpeedrunPaused(): boolean {
+  if (!loadSettings().enabled) return false
+  return getTimer().getRun().manualPaused
+}
+
+/**
  * 绑定速通计时器快捷键(仅计时器启用时生效,否则按键无副作用):
  *   F8 = 暂停/恢复;F4 = 重置本局;F2 = 切换覆盖层显隐。
  * 全部用浏览器无默认动作的 F 键(避开 F3 查找 / F5 刷新 / F6 地址栏 / F7 光标浏览 / F10 菜单)。返回解绑函数。

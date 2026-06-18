@@ -128,6 +128,20 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
     expect(r.ticked).toBe(false)
     expect(present).toHaveBeenCalled()
   })
+
+  it('⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' }) // explore interval 100
+    let ticks = 0
+    const ctx = mkCtx(gs, () => {})
+    const orig = ctx.input.nextSnapshot.bind(ctx.input)
+    // biome-ignore lint/suspicious/noExplicitAny: 测试 spy
+    ;(ctx.input as any).nextSnapshot = (fn: number) => { ticks++; return orig(fn) }
+    const state = { lastTickTime: 0, accumulator: 0 }
+    const r = advanceRafFrame(state, 1000, ctx, undefined, true) // dt=1000≥interval,但 frozen
+    expect(ticks).toBe(0)
+    expect(r.ticked).toBe(false)
+    expect(state.accumulator).toBe(0)
+  })
 })
 
 // ── 战后渐变吞键回归(2026-06-12 user 报"打完怪 fadeout 后卡一下按键"):

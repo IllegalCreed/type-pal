@@ -21,7 +21,7 @@ import type { GameState } from '../core/game-state.js'
 import { tickByMode } from '../core/mode.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { initStateDump } from '../dev/state-dump.js'
-import { tickSpeedrunTimer } from '../tools/speedrun/index.js'
+import { isSpeedrunPaused, tickSpeedrunTimer } from '../tools/speedrun/index.js'
 
 export interface LoopContext {
   gs: GameState
@@ -67,6 +67,7 @@ export function advanceRafFrame(
   now: number,
   ctx: LoopContext,
   dump?: ReturnType<typeof initStateDump>,
+  frozen = false,
 ): { ticked: boolean, presented: boolean } {
   const dt = now - state.lastTickTime
   state.lastTickTime = now
@@ -90,7 +91,12 @@ export function advanceRafFrame(
   //   (滞后 1~3×interval 时单 rAF 跑 2-3 tick 只 present 末态)→ 卡顿后走路瞬移/演出跳帧;
   //   accumulator 跨 mode 残留还会在 explore(100ms)→battle(40ms) 切换瞬间多跑 2 tick。
   //   改:每 rAF 至多 1 tick,tick 后清零滞后量(= C 顺延);<interval 的余量正常累积(高刷屏不变快)。
-  if (state.accumulator >= interval) {
+  if (state.accumulator >= interval && frozen) {
+    // 速通手动暂停(F8):冻结游戏世界(不推进逻辑、不消费输入 → 角色/NPC/演出全停),
+    //   仅消费累积量避免恢复时一次性补帧。速通覆盖层/倒计时由 tickSpeedrunTimer 另行刷新。
+    //   注意:仅 manualPaused 冻结;香蕉树暂停(bananaPaused)不冻结,否则无法走过去捡香蕉解除。
+    state.accumulator = 0
+  } else if (state.accumulator >= interval) {
     const snap = ctx.input.nextSnapshot(ctx.gs.frameNum)
     tickByMode(ctx.gs, snap, ctx.bus)
     const d = ctx.bus.drain()
@@ -160,7 +166,7 @@ export function startRafLoop(ctx: LoopContext): () => void {
   const state: RafLoopState = { lastTickTime: performance.now(), accumulator: 0 }
   let raf = 0
   const loop = (now: number): void => {
-    advanceRafFrame(state, now, ctx, dump) // 累积/tick/clamp/present 见 advanceRafFrame 三不变量
+    advanceRafFrame(state, now, ctx, dump, isSpeedrunPaused()) // frozen=手动暂停时冻结游戏世界
     tickSpeedrunTimer(ctx.gs, now) // 速通计时器:每 rAF wall-clock 推进(未启用时内部早退)
     raf = requestAnimationFrame(loop)
   }
