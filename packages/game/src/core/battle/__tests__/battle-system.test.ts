@@ -444,6 +444,75 @@ function driveBattleToExplore(gs: GameState, bus: CommandBus, max = 400): void {
 // startBattle
 // ============================================================================
 
+describe('开战重建装备效果(sdlpal battle.c:1754 PAL_UpdateEquipments)', () => {
+  it('复活的装双攻武器队员开战重获双攻状态 — 修赵灵儿直接进明王战丢双攻(user 2026-06-18)', () => {
+    // 真 bug:赵灵儿带 0 HP 直接进镇狱明王战(开场复活到 1)。双攻(DualAttack)是「好状态」、死时(HP==0)
+    //   不授予,故她虽装双攻武器(仙女剑 #170 等),rgPlayerStatus[1][8] 仍 0。sdlpal PAL_StartBattle 复活
+    //   倒地队员(battle.c:1575)后调 PAL_UpdateEquipments(battle.c:1754)重跑 scriptOnEquip 重建状态;我方
+    //   此前漏调 → 战斗里无双攻。归队(0x75)在战后、来不及,故必须在开战这步补。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0, 1]
+    const WEAPON = 170 // 仙女剑(scriptOnEquip 授 DualAttack=32760)
+    gs.PlayerRolesRuntime.rgwEquipment[3]![1] = WEAPON // Hand 槽(part 3)
+    gs.PlayerRolesRuntime.rgwMaxHP[1] = 100
+    gs.PlayerRolesRuntime.rgwHP[1] = 0 // 倒地进场
+    gs.rgPlayerStatus[1] = gs.rgPlayerStatus[1] ?? []
+    gs.rgPlayerStatus[1]![8] = 0 // 双攻未建立(死时未授)
+    // 全局脚本:仙女剑 scriptOnEquip=1 → runEquipScriptSync 按标签 L_1 查(equip-effect.ts:368),
+    //   该处 0x2D 设 DualAttack(status 8)=32760。ip0 占位(scriptOnEquip=0 视为无脚本)。
+    setGlobalEvents([
+      { op: 'end' },
+      { op: 'raw', opcode: 0x2D, operands: [8, 32760, 0], label: 'L_1' },
+      { op: 'end' },
+    ])
+    startBattle({
+      gs,
+      enemyTeamId: 0,
+      battleFieldId: 0,
+      isBoss: false,
+      enemies: [makeEnemy({ id: 100 })],
+      enemyTeams: [{ id: 0, enemies: [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }],
+      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      playerRoles: { roles: [makeRole({ id: 0 }), makeRole({ id: 1, hp: 0, maxHP: 100 })] },
+      items: [{ id: WEAPON, scriptOnEquip: 1 } as unknown as Item],
+      spells: [],
+      magics: [],
+      commands: [{ op: 'end' }],
+      rngSeed: 42,
+    })
+    expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(1) // L23 复活倒地队员 0→1
+    expect(gs.rgPlayerStatus[1]?.[8]).toBe(32760) // 开战 updateAllEquipments 重建持久双攻(活到 1 → 可授)
+    const zhao = gs.battleState!.players.find((p) => p.roleId === 1)
+    expect(zhao?.status.dualAttack).toBe(32760) // seed 进 BattleState → 战斗内有双攻
+  })
+
+  it('未装双攻武器的队员开战不会凭空获得双攻(updateAllEquipments 无脚本可跑)', () => {
+    // 边界:开战重建只对真装着授双攻武器的队员生效,不是给全员发双攻。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0, 1]
+    gs.PlayerRolesRuntime.rgwMaxHP[1] = 100
+    gs.PlayerRolesRuntime.rgwHP[1] = 0 // 同样倒地进场
+    setGlobalEvents([{ op: 'end' }])
+    startBattle({
+      gs,
+      enemyTeamId: 0,
+      battleFieldId: 0,
+      isBoss: false,
+      enemies: [makeEnemy({ id: 100 })],
+      enemyTeams: [{ id: 0, enemies: [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF] }],
+      battleFields: [{ id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }],
+      playerRoles: { roles: [makeRole({ id: 0 }), makeRole({ id: 1, hp: 0, maxHP: 100 })] },
+      items: [],
+      spells: [],
+      magics: [],
+      commands: [{ op: 'end' }],
+      rngSeed: 42,
+    })
+    const zhao = gs.battleState!.players.find((p) => p.roleId === 1)
+    expect(zhao?.status.dualAttack ?? 0).toBe(0) // 没装双攻武器 → 仍无双攻
+  })
+})
+
 describe('#311 敌方乱/定/眠 本回合不跑 wScriptOnReady(镜像 sdlpal#311)', () => {
   // 原版 DOS 实测:敌方中乱/定/眠的回合不执行其行动脚本;sdlpal/type-pal 漏判 → 中招 Boss 仍跑脚本
   //   (自愈/召唤/换阶段/对话)。守卫加在 battle-system tickPerformAction 跑 scriptOnReady 之前。

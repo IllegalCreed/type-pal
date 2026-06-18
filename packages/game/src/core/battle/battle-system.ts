@@ -50,7 +50,7 @@ import type { AllExperience, GameState, PlayerRolesRuntime } from '../game-state
 import { type BattleOutcome, clearHiddenExpCounts, resumePostBattleScript, writeBackBattleRolesToRuntime } from '../game-state.js'
 import {
   getPlayerAttackStrength, getPlayerDefense, getPlayerDexterity,
-  getPlayerFleeRate, getPlayerMagicStrength, removeEquipmentEffect,
+  getPlayerFleeRate, getPlayerMagicStrength, removeEquipmentEffect, updateAllEquipments,
 } from '../equip-effect.js'
 import { createSeedableRng, type SeedableRng } from '../rng.js'
 import { finalizePaletteFade } from '../palette-fade.js'
@@ -346,6 +346,13 @@ export function startBattle(input: StartBattleInput): void {
       if (st) st[4] = 0 // 清 kStatusPuppet(global.c:2244 傀儡仅死人可设)
     }
   }
+
+  // sdlpal PAL_StartBattle(battle.c:1754)复活倒地队员后调 PAL_UpdateEquipments:重跑全员 scriptOnEquip,
+  //   重建装备 stat 加成 + **重设装备授予的状态**(赵灵儿武器的 DualAttack=32760 等)。**必须在上面 L23
+  //   复活(HP 0→1)之后**跑 —— DualAttack 是「好状态」、死时(HP==0)不授予,倒地队员复活到 1 HP 后才重获。
+  //   修 user 2026-06-18:赵灵儿带 0 HP 直接进镇狱明王战、虽装双攻武器却无双攻(她归队 0x75 在战后、来不及)。
+  //   createBattleState 随后从 gs.rgPlayerStatus seed 进 BattleState.players[].status,故须在其之前。
+  updateAllEquipments(input.gs, input.items)
 
   const battleState = createBattleState({
     gs: input.gs,
