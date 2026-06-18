@@ -14,6 +14,10 @@ import { getCurrentMapNum } from '../core/scene-system.js'
 import { getMapName } from './map-names.js'
 import { DOT_COLORS, type MinimapController, setupMinimap } from './minimap.js'
 import { showToast } from './toast.js'
+import { CHECKPOINTS } from './speedrun/checkpoints.js'
+import { clearSpeedrunBests, getSpeedrunBests, resetSpeedrun, setSpeedrunBest, setSpeedrunBestFromCurrent } from './speedrun/index.js'
+import { loadSettings, saveSetting } from './speedrun/store.js'
+import { formatHms, parseHms } from './speedrun/time-format.js'
 
 export interface PanelResources {
   playerRoles: PlayerRoles
@@ -40,12 +44,13 @@ export interface ToolsPanelDeps {
   getMapThumbnail?: (mapNum: number) => Promise<string | null>
 }
 
-type TabKey = 'battle' | 'scene' | 'system' | 'dialog' | 'keys'
+type TabKey = 'battle' | 'scene' | 'system' | 'dialog' | 'timer' | 'keys'
 const TABS: ReadonlyArray<readonly [TabKey, string]> = [
   ['battle', '战斗'],
   ['scene', '场景'],
   ['system', '系统'],
   ['dialog', '对话'],
+  ['timer', '计时器'],
   ['keys', '快捷键'],
 ]
 
@@ -622,6 +627,73 @@ function renderDialogTab(parent: HTMLElement, gs: GameState): void {
   search.addEventListener('input', () => renderList(search.value))
 }
 
+function renderTimerTab(parent: HTMLElement): void {
+  const rerender = (): void => {
+    parent.replaceChildren()
+    buildTimerTab(parent, rerender)
+  }
+  buildTimerTab(parent, rerender)
+}
+
+function buildTimerTab(parent: HTMLElement, rerender: () => void): void {
+  const s = loadSettings()
+  sectionTitle(parent, '速通计时器')
+  toggleRow(parent, '启用计时器', s.enabled, (v) => saveSetting('enabled', v))
+  toggleRow(parent, '显示右侧覆盖层', s.show, (v) => saveSetting('show', v))
+  toggleRow(parent, '剩骨架香蕉树中场休息', s.banana, (v) => saveSetting('banana', v))
+
+  sectionTitle(parent, '操作')
+  const ops = document.createElement('div')
+  ops.className = 'tp-save-row'
+  button(ops, '重置本局', () => {
+    resetSpeedrun()
+    showToast('计时器已重置', { type: 'success' })
+  })
+  button(ops, '本次设为最佳', () => {
+    setSpeedrunBestFromCurrent()
+    showToast('已设为最佳', { type: 'success' })
+    rerender()
+  })
+  button(ops, '清空最佳', () => {
+    clearSpeedrunBests()
+    showToast('已清空最佳', { type: 'success' })
+    rerender()
+  })
+  parent.appendChild(ops)
+
+  sectionTitle(parent, '各节点最佳时间')
+  const bests = getSpeedrunBests()
+  for (const cp of CHECKPOINTS) {
+    const row = document.createElement('div')
+    row.className = 'tp-ctrl-row'
+    const label = document.createElement('span')
+    label.className = 'tp-ctrl-label'
+    label.style.minWidth = '74px'
+    label.textContent = cp.name
+    const input = document.createElement('input')
+    input.className = 'tp-input'
+    input.style.maxWidth = '130px'
+    input.placeholder = 'H:MM:SS'
+    const b = bests[cp.id]
+    input.value = b != null ? formatHms(b) : ''
+    input.addEventListener('change', () => {
+      const raw = input.value.trim()
+      if (raw === '') {
+        setSpeedrunBest(cp.id, null)
+        return
+      }
+      const ms = parseHms(raw)
+      if (ms == null) {
+        showToast('格式应为 H:MM:SS', { type: 'error' })
+        return
+      }
+      setSpeedrunBest(cp.id, ms)
+    })
+    row.append(label, input)
+    parent.appendChild(row)
+  }
+}
+
 /**
  * 快捷键 tab:静态速查表。按语境分区 —— 通用 / 大世界 / 战斗 / 工具 / 快速存读档。
  * 注:同一字母键在不同语境含义不同(原版即如此,见 scene-system.ts / battle-system.ts):
@@ -671,6 +743,7 @@ function renderActiveTab(body: HTMLElement, active: TabKey, deps: ToolsPanelDeps
   else if (active === 'scene') renderSceneTab(body, gs, minimap)
   else if (active === 'system') renderSystemTab(body, deps)
   else if (active === 'dialog') renderDialogTab(body, gs)
+  else if (active === 'timer') renderTimerTab(body)
   else renderKeysTab(body)
 }
 

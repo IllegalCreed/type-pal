@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { setupToolsPanel, type ToolsPanelDeps } from './tools-panel.js'
+import { __resetSpeedrunForTest } from './speedrun/index.js'
 
 function mkDeps(over: Partial<ToolsPanelDeps> = {}): ToolsPanelDeps {
   return {
@@ -27,16 +28,17 @@ describe('tools-panel 框架', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
     document.getElementById('tp-tools-style')?.remove()
+    __resetSpeedrunForTest()
   })
 
-  it('setup 挂根节点(默认隐藏) + 唤出印钮 + 5 个左竖 tab + 注入样式', () => {
+  it('setup 挂根节点(默认隐藏) + 唤出印钮 + 6 个左竖 tab + 注入样式', () => {
     setupToolsPanel(mkDeps())
     const root = document.getElementById('tp-tools-panel')
     expect(root).not.toBeNull()
     expect(root!.hidden).toBe(true)
     expect(document.getElementById('tp-tools-launcher')).not.toBeNull()
     expect(document.getElementById('tp-tools-style')).not.toBeNull()
-    expect(document.querySelectorAll('.tp-tab').length).toBe(5)
+    expect(document.querySelectorAll('.tp-tab').length).toBe(6)
   })
 
   it('反引号 toggle 显隐', () => {
@@ -139,5 +141,17 @@ describe('tools-panel 框架', () => {
     search.dispatchEvent(new Event('input'))
     const filtered = [...document.querySelectorAll('.tp-dialog-line')].map((e) => e.textContent)
     expect(filtered).toEqual(['城门见'])
+  })
+
+  it('计时器 tab:渲染开关 + 21 个节点最佳时间输入', () => {
+    setupToolsPanel(mkDeps())
+    // 打开面板
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))
+    // 点"计时器"tab
+    const timerTab = [...document.querySelectorAll('.tp-tab')].find((b) => b.textContent === '计时器') as HTMLButtonElement
+    timerTab.click()
+    const body = document.querySelector('.tp-body') as HTMLElement
+    expect(body.querySelectorAll('.tp-toggle').length).toBe(3) // 三个开关
+    expect(body.querySelectorAll('.tp-input').length).toBe(21) // 21 节点输入
   })
 })
