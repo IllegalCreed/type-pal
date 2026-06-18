@@ -21,6 +21,7 @@ import type { GameState } from '../core/game-state.js'
 import { tickByMode } from '../core/mode.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { initStateDump } from '../dev/state-dump.js'
+import { tickSpeedrunTimer } from '../tools/speedrun/index.js'
 
 export interface LoopContext {
   gs: GameState
@@ -160,6 +161,7 @@ export function startRafLoop(ctx: LoopContext): () => void {
   let raf = 0
   const loop = (now: number): void => {
     advanceRafFrame(state, now, ctx, dump) // 累积/tick/clamp/present 见 advanceRafFrame 三不变量
+    tickSpeedrunTimer(ctx.gs, now) // 速通计时器:每 rAF wall-clock 推进(未启用时内部早退)
     raf = requestAnimationFrame(loop)
   }
   raf = requestAnimationFrame(loop)
