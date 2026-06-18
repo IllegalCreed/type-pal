@@ -21,7 +21,8 @@ export function parseHms(s: string): number | null {
   if (parts.length < 2 || parts.length > 3) return null
   const nums = parts.map((p) => (/^\d+$/.test(p) ? Number(p) : Number.NaN))
   if (nums.some((n) => Number.isNaN(n))) return null
-  const [h, m, sec] = parts.length === 3 ? nums : [0, nums[0], nums[1]]
+  const [h, m, sec] = parts.length === 3 ? nums : [0, ...nums]
+  if (h === undefined || m === undefined || sec === undefined) return null
   if (m > 59 || sec > 59) return null
   return ((h * 60 + m) * 60 + sec) * 1000
 }
