@@ -37,6 +37,7 @@ import {
   setRngPlayHandler,
   setSceneLoader,
   setScrollFbpHandler,
+  setRefreshEquipmentsHandler,
   setShopMenuHandler,
   setShowFbpHandler,
   setStartBattleHandler,
@@ -1185,6 +1186,10 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       `[bootstrap] global script array loaded:${allCommands.length} commands(单一全局脚本数组)`,
     )
   }
+
+  // 注入装备效果重建 handler — opcode 0x75 OP_SET_PARTY(队伍变动)用,对齐 sdlpal script.c:2196
+  //   PAL_UpdateEquipments。闭包持 items 表;event-system 不污染 import equip-effect 的 items 依赖。
+  setRefreshEquipmentsHandler((gs) => updateAllEquipments(gs, items))
 
   // P0.e: 注入 startBattle handler — opcode 7 (raw#7 / op:startBattle) 用。
   // 战斗资源闭包持引用,event-system 不污染 import battle/。

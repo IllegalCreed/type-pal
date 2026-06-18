@@ -862,6 +862,17 @@ export function setStoreTable(stores: Array<{ items: number[] }>): void {
   _storeTable = stores
 }
 
+// ── 装备效果重建 handler(opcode 0x0075 OP_SET_PARTY)─────────────────────────────
+// sdlpal `0x0075` 队伍变动末尾调 PAL_UpdateEquipments()(script.c:2196):memset rgEquipmentEffect
+// 后重跑全员 scriptOnEquip,重建装备 stat 加成 **+ 重设装备授予的状态**(赵灵儿武器的 DualAttack=32760
+// 等)。event-system 是底层 interpreter、不持 items 表,故同 setStartBattleHandler 模式由 bootstrap 注入
+// (闭包 updateAllEquipments(gs, items))。漏调会让归队角色的武器授状态/效果在连续游玩(无存读档)下不重建。
+let _refreshEquipmentsHandler: ((gs: GameState) => void) | null = null
+
+export function setRefreshEquipmentsHandler(fn: ((gs: GameState) => void) | null): void {
+  _refreshEquipmentsHandler = fn
+}
+
 // ── 毒 OBJECT 表注入(0x29 apply-player 取 wPlayerScript / cure-by-level 取真 level)──
 //   ObjectPoisonView{id,level,color,playerScript,enemyScript};id→数据。applyRawOpcode(大世界 + 战斗
 //   fall-through)的 0x29 / curePlayerPoisonByLevel 用。未注入(旧测试)→ 空 Map,playerScript=0/level=0 退化。
@@ -4656,9 +4667,8 @@ function applyRawOpcode(
     }
 
     case OP_SET_PARTY: {
-      // sdlpal script.c:2164-2197:operand[0..2] = roleId+1(0=空)→ 重设队伍;清 poison。
+      // sdlpal script.c:2164-2197:operand[0..2] = roleId+1(0=空)→ 重设队伍;清 poison;PAL_UpdateEquipments。
       //   sprite 重载(kLoadPlayerSprite)= overworld follower 显示,present 层按 partyMembers 处理。
-      //   PAL_UpdateEquipments:新游戏已对全 role 跑过 → effect 已在,不重跑。
       const members: number[] = []
       for (let i = 0; i < 3; i++) {
         const v = operands[i] ?? 0
@@ -4667,6 +4677,12 @@ function applyRawOpcode(
       if (members.length === 0) members.push(0) // sdlpal HACK for Dream 2.11
       gs.partyMembers = members
       gs.rgPoisonStatus = {} // sdlpal memset rgPoisonStatus
+      // sdlpal script.c:2196 PAL_UpdateEquipments():队伍变动后重跑全员 scriptOnEquip,重建装备 stat 加成
+      //   **+ 重设装备授予的状态**。修 user 2026-06-18 报:赵灵儿(双攻专属:仙女剑/芙蓉刀/柳月刀/双龙剑)
+      //   归队打镇狱明王时武器双攻(DualAttack=32760)丢失 —— 连续游玩(无存读档)下归队前漏调此步,
+      //   她仍装着双攻武器却没人重跑 scriptOnEquip 重设状态。旧注释「effect 已在不重跑」是误判
+      //   (漏了装备授状态在归队时需重建)。bootstrap 注入(闭包持 items 表)。
+      _refreshEquipmentsHandler?.(gs)
       break
     }
 

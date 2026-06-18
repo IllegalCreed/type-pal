@@ -4,8 +4,9 @@ import {
   tickEventSystem, tickAutoScripts, tickChaseTimer, buildLabelMap, runScript, runEnterScript, setFetchPalette,
   setPaletteSource,
   setStartBattleHandler,
+  setRefreshEquipmentsHandler,
   OP_START_BATTLE, OP_SET_BATTLE_FIELD, OP_SET_SCENE_OBJECT_STATE,
-  OP_SET_PARTY_DIRECTION,
+  OP_SET_PARTY, OP_SET_PARTY_DIRECTION,
   OP_WAIT_FRAMES, OP_SET_OBJECT_POS,
   OP_SET_OBJECT_GESTURE, OP_SET_EVENT_OBJECT_DIR_AND_FRAME, OP_SET_EVENT_OBJECT_DIR_OR_FRAME,
   OP_CALL_SCRIPT,
@@ -2740,6 +2741,26 @@ describe('I-w1.a chest opcodes', () => {
     tickEventSystem(gs, snap(), bus)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50) // 复活
     expect(gs.rgPlayerStatus[0]![2]).toBe(0) // 状态清(此前残留)
+  })
+
+  it('OP_SET_PARTY(0x75)队伍变动 → 触发装备效果重建(sdlpal script.c:2196 PAL_UpdateEquipments)', () => {
+    // 真 bug(user 2026-06-18):赵灵儿(双攻专属:仙女剑/芙蓉刀/柳月刀/双龙剑 均授 DualAttack=32760)
+    //   归队打镇狱明王时武器双攻丢失。sdlpal 0x75 末尾 PAL_UpdateEquipments 重跑全员 scriptOnEquip
+    //   重设装备授予的状态;我方此前漏调 → 连续游玩(无存读档)下归队不重建。此处验证 OP_SET_PARTY
+    //   现会触发装备重建(实际重建 / 0x2D→DualAttack 见 equip-effect.test.ts)。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    const refresh = vi.fn()
+    setRefreshEquipmentsHandler(refresh)
+    try {
+      loadEvent(gs, [{ op: 'raw', opcode: OP_SET_PARTY, operands: [1, 2, 0] }, { op: 'end' }]) // 李逍遥+赵灵儿
+      tickEventSystem(gs, snap(), bus)
+    } finally {
+      setRefreshEquipmentsHandler(null)
+    }
+    expect(gs.partyMembers).toEqual([0, 1]) // 队伍设好(原有行为)
+    expect(refresh).toHaveBeenCalledTimes(1) // 队伍变动 → 重建装备效果(此前漏 → 归队武器双攻丢失)
+    expect(refresh).toHaveBeenCalledWith(gs)
   })
 
   it('0x20 removeItem:库存足 → 从库存移除', () => {
