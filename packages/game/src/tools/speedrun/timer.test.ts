@@ -1,7 +1,7 @@
 // timer.test.ts
 import { describe, expect, it } from 'vitest'
 import type { BananaConfig, Checkpoint } from './checkpoints.js'
-import { enterScene, hasItem } from './detectors.js'
+import { enterScene } from './detectors.js'
 import type { ProgressSnapshot } from './snapshot.js'
 import { SpeedrunTimer } from './timer.js'
 

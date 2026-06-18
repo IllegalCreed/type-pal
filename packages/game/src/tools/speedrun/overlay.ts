@@ -20,7 +20,7 @@ export function injectOverlayStyles(): void {
   font:12px/1.5 "Songti SC","SimSun",serif; color:var(--sr-cream);
   box-shadow:0 0 14px rgba(160,30,30,0.4),0 2px 10px rgba(0,0,0,0.5); }
 #${ROOT_ID}[hidden] { display:none; }
-.tp-sr-row { display:grid; grid-template-columns:1fr auto auto; gap:4px 8px; align-items:baseline;
+.tp-sr-row { display:grid; grid-template-columns:1fr auto auto auto; gap:4px 8px; align-items:baseline;
   font-family:ui-monospace,Menlo,monospace; padding:1px 0; }
 .tp-sr-row .nm { font-family:"Songti SC","SimSun",serif; color:var(--sr-dim); white-space:nowrap; }
 .tp-sr-row.cur .nm { color:var(--sr-cream); font-weight:bold; }
@@ -67,24 +67,21 @@ export function renderOverlay(run: RunState, checkpoints: readonly Checkpoint[],
     best.className = 'tp-sr-best'
     const b = bests[cp.id] ?? null
     best.textContent = b != null ? formatHms(b) : '--'
+    const diff = document.createElement('span')
+    diff.className = 'tp-sr-diff even'
     const cur = document.createElement('span')
     cur.className = 'tp-sr-cur'
     const split = run.splits[i]
     if (split != null) {
       cur.textContent = formatHms(split)
-      const diff = document.createElement('span')
       if (b != null) {
         const d = split - b
         diff.className = `tp-sr-diff ${d < -1000 ? 'fast' : d > 1000 ? 'slow' : 'even'}`
         diff.textContent = formatDiff(d)
-      } else {
-        diff.className = 'tp-sr-diff even'
-        diff.textContent = ''
       }
-      row.append(nm, best, diff, cur)
-    } else {
-      row.append(nm, best, cur)
     }
+    // 始终 4 列(名|最佳|差值|本次),差值/本次无值时留空 → 各行对齐
+    row.append(nm, best, diff, cur)
     root.appendChild(row)
   })
 
