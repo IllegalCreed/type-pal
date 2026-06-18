@@ -15,7 +15,7 @@
  *    只处理 0x17/0x18/0x19/0x1A/end/goto,撞到其它 log skip + 继续。
  */
 
-import type { Item } from '@type-pal/shared'
+import type { Item, PlayerRole } from '@type-pal/shared'
 import { addItemToInventory, addPoisonForPlayer, consumeItemFromInventory, getGlobalCommands, getGlobalLabelMap, removePoisonLevel99, runPlayerPoisonEntrySync } from './event-system.js'
 import { createInitialEquipmentEffect, type GameState } from './game-state.js'
 
@@ -78,6 +78,34 @@ export function getPlayerPoisonResistance(gs: GameState, roleId: number): number
     value += gs.rgEquipmentEffect[i]?.rgwPoisonResistance[roleId] ?? 0
   }
   return Math.max(0, Math.min(100, value)) // sdlpal clamp [0, 100]
+}
+
+/**
+ * 战斗中脚本以 0x19(increase)/0x1A(set)改了 PlayerRolesRuntime base 后,把派生属性回灌到战斗
+ * 工作副本 snapshot(projectRuntimeToBattleRoles 开战投影的那份 role),使加成**当场生效** ——
+ * 对齐 sdlpal 单一 `gpGlobals->g.PlayerRoles`(战内直接读写、无快照,加成天然即时)。
+ *
+ * 镇狱明王「赵灵儿力量觉醒」(all.json@42309)正是战内 0x19 连发。此前只写 runtime、不刷快照,致:
+ *   ① 伤害/防御/UI 全用旧值 → 加成"没效果";
+ *   ② 紧随其后的 0x1D 治疗(+9999,战斗侧写快照)封顶到旧 maxHP(374 而非 544);
+ *   ③ 菜单(读 runtime)与战斗(读 snapshot)显示对不上。
+ *
+ * **不动** hp/mp —— 它们是战斗 live 当前值(扣血/治疗由战斗侧 opcode 写快照,writeBack 在边界回
+ * runtime);从 runtime 回灌会抹掉战内伤害。派生数值经 effective getter(base + Σ
+ * rgEquipmentEffect[0..6] 含 Extra 槽),故 0x30 临时 buff(梦蛇 攻/身法 +100%)不被清。
+ */
+export function resyncBattleRoleStatsFromRuntime(role: PlayerRole, gs: GameState, roleId: number): void {
+  const rt = gs.PlayerRolesRuntime
+  // maxHP/maxMP/level 投影时不吃装备(projectRuntimeToBattleRoles game-state.ts:1539-1541)→ 直接取 runtime base
+  role.level = rt.rgwLevel[roleId] ?? role.level
+  role.maxHP = rt.rgwMaxHP[roleId] ?? role.maxHP
+  role.maxMP = rt.rgwMaxMP[roleId] ?? role.maxMP
+  role.attackStrength = getPlayerAttackStrength(gs, roleId)
+  role.magicStrength = getPlayerMagicStrength(gs, roleId)
+  role.defense = getPlayerDefense(gs, roleId)
+  role.dexterity = getPlayerDexterity(gs, roleId)
+  role.fleeRate = getPlayerFleeRate(gs, roleId)
+  role.poisonResistance = getPlayerPoisonResistance(gs, roleId)
 }
 
 // ── PlayerRoles row-index field map(sdlpal global.h:299-336 tagPLAYERROLES)──

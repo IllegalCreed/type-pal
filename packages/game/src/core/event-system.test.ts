@@ -722,6 +722,45 @@ describe('runScript (M3 T17, battle mode)', () => {
     expect(ctx.state.battleDialogQueue?.[0]?.text).toBe('钱不够，只好作罢')
   })
 
+  it('runtimeMode=battle + 0x19 提升属性 → 同步回灌战斗工作副本 snapshot(镇狱明王力量觉醒)', () => {
+    // 真 bug(user 2026-06-18 报):镇狱明王战「赵灵儿力量觉醒」(all.json@42309)连发 0x19
+    //   (MaxHP+170 / MaxMP+190 / 攻击+100 …)。此前 0x19 只写 PlayerRolesRuntime base、**不刷**
+    //   战斗工作副本 snapshot(projectRuntimeToBattleRoles 开战投影的那份)。后果:
+    //   ① 伤害/防御/UI 全用旧值 → 加成"没效果";
+    //   ② 紧随其后的 0x1D 治疗(+9999)封顶到旧 maxHP(374 而非 544);
+    //   ③ 菜单(读 runtime)显示 544、战斗(读 snapshot)显示 374 → "血量对不上"。
+    //   sdlpal 只有一份 gpGlobals->g.PlayerRoles(战内直接读写,无快照),故加成天然当场生效。
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const rt = gs.PlayerRolesRuntime
+    rt.rgwMaxHP[1] = 374
+    rt.rgwAttackStrength[1] = 100
+    const base = makeMinimalBattleCtx()
+    const ctx = {
+      ...base,
+      gs,
+      state: { ...base.state, players: [{ roleId: 1 } as any] },
+      // 战斗工作副本(开战时 projectRuntimeToBattleRoles 投影);加成前 = 旧值
+      playerRoles: { roles: [{ id: 0 } as any, { id: 1, maxHP: 374, hp: 374, attackStrength: 100 } as any] },
+    } as BattleCtx
+    runScript({
+      commands: [
+        { op: 'raw', opcode: 0x19, operands: [7, 170, 2] }, // MaxHP +170 → role 1(赵灵儿)
+        { op: 'raw', opcode: 0x19, operands: [17, 100, 2] }, // AttackStrength +100 → role 1
+        { op: 'end' },
+      ],
+      ip: 0,
+      bus: createCommandBus(),
+      runtimeMode: 'battle',
+      battleCtx: ctx,
+    })
+    // base 写入 runtime(原有行为不变)
+    expect(gs.PlayerRolesRuntime.rgwMaxHP[1]).toBe(544)
+    expect(gs.PlayerRolesRuntime.rgwAttackStrength[1]).toBe(200)
+    // 修复点:战斗 snapshot 当场反映加成(此前停留 374/100 → 战内无效 + 后续治疗封顶旧 maxHP)
+    expect(ctx.playerRoles!.roles[1]!.maxHP).toBe(544)
+    expect(ctx.playerRoles!.roles[1]!.attackStrength).toBe(200)
+  })
+
   it('runtimeMode=battle 缺 battleCtx 抛错', () => {
     const bus = createCommandBus()
     expect(() =>

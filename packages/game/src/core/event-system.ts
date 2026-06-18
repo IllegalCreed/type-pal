@@ -34,7 +34,7 @@ import { pushDialogHistory } from './dialog-history.js'
 import { getCurrentMapNum } from './scene-system.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
 import { getWord } from './word-lookup.js'
-import { addPlayerStatRow, getPlayerPoisonResistance, removeEquipmentEffect, setPlayerStatRow, writeEquipmentEffectField } from './equip-effect.js'
+import { addPlayerStatRow, getPlayerPoisonResistance, removeEquipmentEffect, resyncBattleRoleStatsFromRuntime, setPlayerStatRow, writeEquipmentEffectField } from './equip-effect.js'
 import {
   buildFadeOut,
   buildFadeIn,
@@ -2973,6 +2973,18 @@ export function runScript(opts: RunScriptOptions): number {
               currentEventObjectId: curEventObjId,
             }
             applyRawOpcode(battleCtx.gs, cmd.opcode, cmd.operands, curEventObjId, cursor)
+            // 战斗中 0x19/0x1A 改了 PlayerRolesRuntime base → 回灌战斗工作副本 snapshot,使加成当场
+            //   生效(镇狱明王力量觉醒:此前加成战内无效 + 后续 0x1D 治疗封顶旧 maxHP + 菜单/战斗对不上)。
+            //   resync 全队(读 runtime+装备 authoritative,未变 role 是 no-op;省去 op2==0 角色解析)。
+            if (
+              (cmd.opcode === OP_INCREASE_PLAYER_ATTR || cmd.opcode === OP_SET_PLAYER_STAT)
+              && battleCtx.playerRoles
+            ) {
+              for (const p of battleCtx.state.players) {
+                const role = battleCtx.playerRoles.roles[p.roleId]
+                if (role) resyncBattleRoleStatsFromRuntime(role, battleCtx.gs, p.roleId)
+              }
+            }
             ip = cursor.ip + 1 // 跳转 opcode 设 cursor.ip=target-1 → ip=target;非跳转保持 → ip+1
             curEventObjId = cursor.currentEventObjectId // 0x04 call op1 覆盖持久化
             break
