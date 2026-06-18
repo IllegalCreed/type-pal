@@ -1251,6 +1251,25 @@ function dispatchSelectInput(
   if (state.uiState === 'selectTargetEnemyAll' || state.uiState === 'selectTargetPlayerAll') {
     commitDraftAsAction(state, -1, alivePlayerIdxs)
   }
+
+  // 单体选敌态(攻击 / 单体攻击法术 / 投掷 / 单体合击)只剩 1 个活敌时,同 tick 立即 commit —— 对齐
+  // sdlpal y==1 短路(uibattle.c:1463-1474)在画高亮(uibattle.c:1495)**前** break:原版单敌从不画
+  // 选敌高亮。ts 的逻辑 tick(40ms)与 present 渲染(每 rAF)分离,若拖到下一 tick 才 commit,中间 ~40ms
+  // 会被 present 画出一帧 ColorShift 高亮 → 单敌攻击"敌人闪一下"。仅活敌==1 触发;多敌零改动(仍停留
+  // 等玩家选)。与上方全体目标态补丁同源对称;commit 后 advanceSelectingPlayer 必把 uiState 切走
+  // (selectMove / wait),故本 if 不会重复触发。
+  if (state.uiState === 'selectTargetEnemy') {
+    const alive = aliveEnemyRawIdxs(state)
+    if (alive.length === 1) commitDraftAsAction(state, alive[0]!, alivePlayerIdxs)
+  }
+
+  // 单体选友态(治疗法术 / 使用类道具 / 单体合击对友)在**单人队**时同 tick 立即 commit idx 0 ——
+  // 同源对齐 sdlpal wMaxPartyMemberIndex==0 短路(uibattle.c:1550-1554),原版单人队从不画选中箭头。
+  // 判据用"队伍编制人数==1"(state.players.length;不按存活过滤,复活类对死者也有效;与
+  // handlePlayerTargetSelect 的 maxIdx==0 同据)。多人队零改动(仍停留等玩家选,见多人队 target picker 用例)。
+  if (state.uiState === 'selectTargetPlayer' && state.players.length === 1) {
+    commitDraftAsAction(state, 0, alivePlayerIdxs)
+  }
 }
 
 // ── 主菜单(4 图标方向选 + 快捷键)─────────────────────────────────────────
@@ -1763,17 +1782,29 @@ function revertToPreviousPlayer(state: BattleState, alivePlayerIdxs: number[]): 
 
 // ── 敌方 / 友方 target picker ────────────────────────────────────────────────
 /**
+ * 当前**活**敌的 raw index 列表(判据:未清槽 !defeated + health>0)。selectTargetEnemy 的活敌
+ * 单一真值来源 —— handleEnemyTargetSelect 与 dispatchSelectInput 末尾的单敌即时 commit 短路共用,
+ * 避免两处判据分叉。对应 sdlpal uibattle.c:1435-1442 活敌计数(原版用 wObjectID!=0,ts 等价 !defeated)。
+ */
+function aliveEnemyRawIdxs(state: BattleState): number[] {
+  const idxs: number[] = []
+  state.enemies.forEach((e, i) => {
+    if (!e.defeated && e.e.health > 0) idxs.push(i)
+  })
+  return idxs
+}
+
+/**
  * 敌方单目标选择 —— port sdlpal kBattleUISelectTargetEnemy(uibattle.c:1431-1543,PAL_CLASSIC)。
  *   无活敌(x==-1)→ 回 selectMove;仅 1 活敌(y==1)→ 跳过选择即时 commit(uibattle.c:1459-1475);
  *   Left|Down 前 / Right|Up 后 跳过死敌环绕;Confirm → commit;Menu → 回 selectMove。
  *   iPrevEnemyTarget 在本 CLASSIC build 是死代码(写入注释掉 + iSelectedIndex=0 覆盖)→ 光标恒从首活敌起;
  *   ts 仍在 Confirm 记 iPrevEnemyTarget 供 perform 期 selectAutoTargetFrom 重选(既有功能)。
+ *   注:单敌(y==1)在 dispatchSelectInput 末尾"进入态同 tick"就已 commit(见那里),正常流程走不到此处的
+ *   单敌分支;保留它对齐 sdlpal 结构 + 兜底(防御性,与全体目标态 case 同理冗余)。
  */
 function handleEnemyTargetSelect(state: BattleState, input: InputSnapshot, alivePlayerIdxs: number[]): void {
-  const aliveRawIdxs: number[] = []
-  state.enemies.forEach((e, i) => {
-    if (!e.defeated && e.e.health > 0) aliveRawIdxs.push(i)
-  })
+  const aliveRawIdxs = aliveEnemyRawIdxs(state)
   if (aliveRawIdxs.length === 0) {
     state.uiState = 'selectMove' // x==-1(uibattle.c:1444-1448)
     state.menuState = 'main'

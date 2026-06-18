@@ -2220,11 +2220,14 @@ describe('法术选择网格(magicmenu.c:35-410)', () => {
     expect(ctx.gs.battleState?.pendingActionDraft).toMatchObject({ type: 'magic', actionId: 296, targetSide: 'enemy' })
   })
 
-  it('Confirm 治疗法术(非 usableToEnemy)→ selectTargetPlayer', () => {
+  it('Confirm 治疗法术(非 usableToEnemy)→ 目标 player;单人队同 tick 即时 commit idx0,不停留', () => {
     const ctx = enterMagic([296], [mkSpell(296, { usableToEnemy: false })], [mkMagic(296)])
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.uiState).toBe('selectTargetPlayer')
-    expect(ctx.gs.battleState?.pendingActionDraft?.targetSide).toBe('player')
+    // 单人队(bootstrap 默认 partyMembers=[0]):非 usableToEnemy → 友方目标,且单人队即时 commit idx0
+    // (对齐 sdlpal wMaxPartyMemberIndex==0 短路 uibattle.c:1550-1554),不在 selectTargetPlayer 停留
+    // → present 不画一帧选中箭头。
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'magic', actionId: 296, target: 0, targetSide: 'player' })
+    expect(ctx.gs.battleState?.uiState).not.toBe('selectTargetPlayer')
   })
 
   it('Confirm 对敌全体(usableToEnemy+applyToAll)→ selectTargetEnemyAll → 即时 commit target=-1', () => {
@@ -2362,11 +2365,12 @@ describe('物品选择网格(itemmenu.c:28-377)', () => {
     expect(item?.rightText).toBe('×1')
   })
 
-  it('Confirm 使用类(治疗药)→ selectTargetPlayer + draft item/player', () => {
+  it('Confirm 使用类(治疗药)→ 目标 player;单人队同 tick 即时 commit idx0,不停留', () => {
     const ctx = enterUseItem([mkItem(1, { usable: true })], [{ itemId: 1, count: 2 }])
     tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
-    expect(ctx.gs.battleState?.uiState).toBe('selectTargetPlayer')
-    expect(ctx.gs.battleState?.pendingActionDraft).toMatchObject({ type: 'item', actionId: 1, targetSide: 'player' })
+    // 单人队:使用类道具 → 友方目标,单人队即时 commit idx0,不停留 selectTargetPlayer(present 不画选中箭头)。
+    expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'item', actionId: 1, target: 0, targetSide: 'player' })
+    expect(ctx.gs.battleState?.uiState).not.toBe('selectTargetPlayer')
   })
 
   it('投掷类(throwItemSelect)Confirm → selectTargetEnemy + draft throw-item/enemy', () => {
@@ -2393,13 +2397,14 @@ describe('物品选择网格(itemmenu.c:28-377)', () => {
 })
 
 describe('敌方 target picker(uibattle.c:1431-1543,PAL_CLASSIC)', () => {
-  it('仅 1 活敌(y==1)→ 跳过选择即时 commit(uibattle.c:1459-1475)', () => {
+  it('仅 1 活敌(y==1)→ 进 selectTargetEnemy 的同一 tick 即时 commit,不停留(uibattle.c:1459-1475)', () => {
     const ctx = bootstrap() // 单敌
     enterSelectMove(ctx)
-    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus) // 攻击 → selectTargetEnemy
-    // 单敌 → 进 selectTargetEnemy 同 tick 即时 commit;下 tick 起 performAction
-    tickBattle(ctx.gs, mSnap(), ctx.bus)
+    // 单敌:Confirm 攻击 → 同一 tick 内即时 commit(对齐 sdlpal y==1 在画高亮 uibattle.c:1495 前 break),
+    // 不在 selectTargetEnemy 停留 → present 不会画出一帧选敌高亮(修单敌攻击"敌人闪一下" bug)。
+    tickBattle(ctx.gs, mSnap(['Confirm']), ctx.bus)
     expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'attack', target: 0 })
+    expect(ctx.gs.battleState?.uiState).not.toBe('selectTargetEnemy')
   })
 
   it('多敌:Right/Up 后跳,Left/Down 前跳(跳过死敌环绕)', () => {
@@ -2460,11 +2465,12 @@ describe('友方 target picker(uibattle.c:1545-1609,PAL_CLASSIC)', () => {
     return ctx
   }
 
-  it('单人队 → 进 selectTargetPlayer 即时 commit idx 0(uibattle.c:1550-1554)', () => {
+  it('单人队 → 进 selectTargetPlayer 的同一 tick 即时 commit idx 0,不停留(uibattle.c:1550-1554)', () => {
     const ctx = enterPlayerTarget([0])
-    // 单人:进 selectTargetPlayer 同 tick / 下 tick 即时 commit idx0
-    tickBattle(ctx.gs, mSnap(), ctx.bus)
+    // 单人队:选治疗法术那一 tick 内即时 commit idx0(对齐 sdlpal wMaxPartyMemberIndex==0),
+    // 不在 selectTargetPlayer 停留 → present 不画一帧选中箭头(修单人队选友目标"箭头闪一下")。
     expect(ctx.gs.battleState?.pendingActions.get(0)).toMatchObject({ type: 'magic', target: 0, targetSide: 'player' })
+    expect(ctx.gs.battleState?.uiState).not.toBe('selectTargetPlayer')
   })
 
   it('多人队:Right|Up 加 / Left|Down 减 wrap', () => {
