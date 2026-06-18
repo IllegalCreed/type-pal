@@ -5,7 +5,7 @@ import type { RunState } from './timer.js'
 
 const run = (o: Partial<RunState>): RunState => ({
   phase: 'running', elapsedMs: 0, stepIndex: 0,
-  splits: CHECKPOINTS.map(() => null), bananaPaused: false, hasUnCheated: false, countdownEndMs: null, ...o,
+  splits: CHECKPOINTS.map(() => null), bananaPaused: false, manualPaused: false, hasUnCheated: false, countdownEndMs: null, ...o,
 })
 afterEach(() => hideOverlay())
 

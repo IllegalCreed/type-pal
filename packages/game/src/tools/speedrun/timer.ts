@@ -13,6 +13,7 @@ export interface RunState {
   stepIndex: number // 0..N;==N 表示全部完成
   splits: (number | null)[] // 逐点累计 ms
   bananaPaused: boolean
+  manualPaused: boolean // 手动暂停(F8);与 bananaPaused 同样停表,恢复走 3 秒倒计时
   hasUnCheated: boolean
   countdownEndMs: number | null
 }
@@ -41,6 +42,7 @@ export class SpeedrunTimer {
       stepIndex: 0,
       splits: this.checkpoints.map(() => null),
       bananaPaused: false,
+      manualPaused: false,
       hasUnCheated: false,
       countdownEndMs: null,
     }
@@ -125,14 +127,16 @@ export class SpeedrunTimer {
         if (run.bananaPaused) run.countdownEndMs = nowMs + 3000 // 拿到香蕉 → 起 3 秒倒计时
       }
     }
-    // 倒计时到点 → 恢复
+    // 倒计时到点 → 恢复(香蕉树 / 手动暂停均经此解除);恢复帧 dt 归零,不把暂停期跨度计入
     if (run.countdownEndMs != null && nowMs >= run.countdownEndMs) {
       run.countdownEndMs = null
       run.bananaPaused = false
+      run.manualPaused = false
       this.justResumed = true
+      dt = 0
     }
 
-    const live = run.phase === 'running' && !run.bananaPaused
+    const live = run.phase === 'running' && !run.bananaPaused && !run.manualPaused
     if (live) run.elapsedMs += Math.max(0, dt)
 
     // 依序打点:每帧至多推进一个节点
@@ -149,6 +153,24 @@ export class SpeedrunTimer {
     }
 
     this.prevSnap = snap
+  }
+
+  /**
+   * 手动暂停/恢复切换(F8)。仅 running 态有效:
+   *   running 未暂停 → 立即停表(进入手动暂停,取消任何进行中的倒计时);
+   *   手动暂停中 → 起 3 秒倒计时恢复;倒计时中再切 → 取消恢复、留在暂停。
+   * nowMs 由调用方给(与 tick 的 wall-clock 同源)。
+   */
+  toggleManualPause(nowMs: number): void {
+    const run = this.run
+    if (run.phase !== 'running') return
+    if (run.manualPaused) {
+      if (run.countdownEndMs != null) run.countdownEndMs = null
+      else run.countdownEndMs = nowMs + 3000
+    } else {
+      run.manualPaused = true
+      run.countdownEndMs = null
+    }
   }
 
   private atBananaTree(snap: ProgressSnapshot): boolean {

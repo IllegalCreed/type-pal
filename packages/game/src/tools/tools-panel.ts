@@ -735,6 +735,12 @@ function renderKeysTab(parent: HTMLElement): void {
   keyRow(parent, ['F5'], '快速存档 → 存档位 1')
   keyRow(parent, ['F9'], '快速读档 ← 存档位 1')
   muted(parent, '仅大世界、无对话与菜单时可快速存档')
+
+  sectionTitle(parent, '速通计时器')
+  keyRow(parent, ['F8'], '暂停 / 恢复(恢复有 3 秒倒计时)')
+  keyRow(parent, ['F4'], '重置计时器本局')
+  keyRow(parent, ['F2'], '显示 / 隐藏计时器覆盖层')
+  muted(parent, '仅在「计时器」tab 启用计时器后生效')
 }
 
 function renderActiveTab(body: HTMLElement, active: TabKey, deps: ToolsPanelDeps, minimap: MinimapController): void {

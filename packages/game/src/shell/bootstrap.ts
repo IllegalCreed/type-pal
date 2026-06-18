@@ -91,6 +91,7 @@ import { createSpessaSynthBackend, setBgmVolume } from './audio-midi.js'
 import { createAudioVolumeController } from './audio-volume.js'
 import { createDisplayScaleController } from '../tools/display-scale.js'
 import { setupQuickSave } from '../tools/quick-save.js'
+import { setupSpeedrunHotkeys } from '../tools/speedrun/index.js'
 import { setupToolsPanel } from '../tools/tools-panel.js'
 import { playAvi } from './avi-player.js'
 import {
@@ -1132,6 +1133,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       return true
     },
   })
+  setupSpeedrunHotkeys() // 速通计时器快捷键(F10 重置 / F8 切覆盖层),仅启用时生效
 
   // M3.5 T19:dev gate 暴露 GameState + assets 供 L2 Playwright helper 用 page.evaluate 探针。
   // 生产构建 dead-code(Vite tree-shake import.meta.env.DEV 分支)。

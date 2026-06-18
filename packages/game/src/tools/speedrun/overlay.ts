@@ -92,7 +92,7 @@ export function renderOverlay(run: RunState, checkpoints: readonly Checkpoint[],
   eta.textContent = `预计通关 ${formatEta(run, checkpoints, bests)}`
   const clock = document.createElement('div')
   clock.className = 'tp-sr-clock'
-  clock.textContent = `${run.bananaPaused ? '*' : ''}${formatClock(run.elapsedMs)}`
+  clock.textContent = `${run.bananaPaused || run.manualPaused ? '*' : ''}${formatClock(run.elapsedMs)}`
   foot.append(eta, clock)
   root.appendChild(foot)
 }

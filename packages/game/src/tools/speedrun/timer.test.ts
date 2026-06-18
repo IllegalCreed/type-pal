@@ -97,3 +97,42 @@ describe('SpeedrunTimer 手动操作', () => {
     expect(t.getBests()).toEqual({ a: null, b: null })
   })
 })
+
+describe('SpeedrunTimer 手动暂停/恢复', () => {
+  it('暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)', () => {
+    const t = mk()
+    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false }) // 起表
+    t.tick(snap({ scene: 1 }), 1000, { bananaEnabled: false }) // 累计 1000
+    expect(t.getRun().elapsedMs).toBe(1000)
+    t.toggleManualPause(1000) // 暂停
+    expect(t.getRun().manualPaused).toBe(true)
+    t.tick(snap({ scene: 1 }), 3000, { bananaEnabled: false }) // 暂停期不走时
+    expect(t.getRun().elapsedMs).toBe(1000)
+    t.toggleManualPause(3000) // 恢复 → 起 3 秒倒计时
+    expect(t.getCountdownRemainingSec()).toBe(3)
+    t.tick(snap({ scene: 1 }), 5000, { bananaEnabled: false }) // 倒计时中,仍停表
+    expect(t.getRun().manualPaused).toBe(true)
+    expect(t.getRun().elapsedMs).toBe(1000)
+    t.tick(snap({ scene: 1 }), 6000, { bananaEnabled: false }) // 到点恢复(本帧 dt 归零)
+    expect(t.getRun().manualPaused).toBe(false)
+    expect(t.consumeJustResumed()).toBe(true)
+    expect(t.getRun().elapsedMs).toBe(1000) // 恢复帧不计暂停跨度
+    t.tick(snap({ scene: 1 }), 7000, { bananaEnabled: false }) // 恢复后继续
+    expect(t.getRun().elapsedMs).toBe(2000)
+  })
+  it('倒计时恢复中再切 → 取消恢复,留在暂停', () => {
+    const t = mk()
+    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false })
+    t.toggleManualPause(1000) // 暂停
+    t.toggleManualPause(2000) // 起倒计时
+    expect(t.getRun().countdownEndMs).not.toBeNull()
+    t.toggleManualPause(2500) // 取消恢复
+    expect(t.getRun().countdownEndMs).toBeNull()
+    expect(t.getRun().manualPaused).toBe(true)
+  })
+  it('非 running 态 toggle 无效', () => {
+    const t = mk() // idle
+    t.toggleManualPause(1000)
+    expect(t.getRun().manualPaused).toBe(false)
+  })
+})
