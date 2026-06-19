@@ -5,13 +5,15 @@
  *   wBitmap / wPrice / wScriptOnUse / wScriptOnEquip /
  *   wScriptOnThrow / wScriptDesc / wFlags
  *
- * 对象索引段:[61..295] = 235 条物品(`ITEM_OBJ_START` / `ITEM_COUNT`)。
+ * 对象索引段:word 段 [61..295] = 235 个 word,但末位 295=梦蛇是**法术**(走 spells.json,见 MENGSHE_OBJ_ID),
+ * 排除后 items.json 实际 **234 条真物品**(61..294)。
  */
 import type { Item, ItemFlags } from '@type-pal/shared'
 import type { Words } from '../../io/word.js'
 import {
   ITEM_COUNT,
   ITEM_OBJ_START,
+  MENGSHE_OBJ_ID,
   OBJ_SIZE,
   PLAYER_ROLES_NUM,
   u16,
@@ -78,9 +80,13 @@ export function parseItems(objBuf: Uint8Array, words?: Words): Item[] {
   const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
   const out: Item[] = []
   for (let i = 0; i < ITEM_COUNT; i++) {
-    const base = (ITEM_OBJ_START + i) * OBJ_SIZE
+    const id = ITEM_OBJ_START + i
+    // 梦蛇(295)是法术(0x55 addMagic 授予、rgwMagic 引用),只是名字落在 item word 段末位;从没被
+    //   giveItem/装备/入库当物品。归 spells.json(见 MENGSHE_OBJ_ID),从 items.json 排除(免污染背包/dev 全物品)。
+    if (id === MENGSHE_OBJ_ID) continue
+    const base = id * OBJ_SIZE
     const item: Item = {
-      id: ITEM_OBJ_START + i, // wObjectID(61..295),见上 id 体系注释
+      id, // wObjectID(61..294;295=梦蛇 已排除)
 
       bitmap: u16(view, base, ITEM_OFF.bitmap),
       price: u16(view, base, ITEM_OFF.price),

@@ -10,9 +10,20 @@
 // WIN95 版:OBJECT = union of 7 WORDs = 14 字节
 export const OBJ_SIZE = 14 // bytes per OBJECT
 
-// 物品段在 OBJECT 数组中的起始索引与数量(同 WORD.DAT 的 ITEMS_OFFSET/ITEMS_COUNT)
+// 物品段在 OBJECT 数组中的起始索引与数量(同 WORD.DAT 的 ITEMS_OFFSET/ITEMS_COUNT = 61..295,235 个 word)。
+// 注:ITEM_COUNT 是 word 段大小(235);真物品 234 个 —— 末位 object 295=梦蛇 是**法术**(见 MENGSHE_OBJ_ID),
+//   parseItems 会跳过它,故 items.json 实际 234 条。
 export const ITEM_OBJ_START = 61
 export const ITEM_COUNT = 235
+
+/**
+ * 梦蛇 = object **295**(巫后/赵灵儿的女娲变身术)。它是**法术**(player rgwMagic 引用、`0x55 addMagic` 授予、
+ * OBJECT magic-union 有效),但名字落在 **item word 段末位**(61..295 的最后一个),不在 spell 段(296..397)。
+ * 从没被 giveItem / 装备 / 入库当物品。故:**spells.ts 把它补进 spells.json**(magic-union),**items.ts 把它
+ * 从 items.json 排除**(不是物品)。原版 magicmenu 不分段、直接读 rgObject[295](magic-union 施法 + item-union
+ * wScriptDesc 出说明);我们分段后须这样手工归位。全表唯一落在 spell 段外的玩家法术。
+ */
+export const MENGSHE_OBJ_ID = 295
 
 // 法术段
 export const SPELL_OBJ_START = 296

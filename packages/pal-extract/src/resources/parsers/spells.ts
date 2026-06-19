@@ -11,6 +11,8 @@
 import type { Magic, MagicType, ObjectMagicView, ObjectPlayerView, ObjectPoisonView, Spell, SpellFlags } from '@type-pal/shared'
 import type { Words } from '../../io/word.js'
 import {
+  ITEM_OBJ_START,
+  MENGSHE_OBJ_ID,
   OBJ_SIZE,
   PLAYER_OBJ_COUNT,
   PLAYER_OBJ_START,
@@ -103,7 +105,7 @@ function toMagicType(raw: number): MagicType {
  *   wReserved2 / wReserved3 / wFlags
  *   scriptDesc 例外:对齐 magicmenu.c:191 的 `rgObject[wMagic].item.wScriptDesc`,读 item-union offset 10。
  *
- * **id 是什么**(2026-05-29 改):`id` = **sdlpal OBJECT 数组全局 wObjectID**(296..397)。
+ * **id 是什么**(2026-05-29 改):`id` = **sdlpal OBJECT 数组全局 wObjectID**(296..397 + 边界法术 295=梦蛇)。
  * 跟 items.json 同口径(统一 wObjectID 体系)。player-roles `rgwMagic` / addMagic opcode
  * operand 都是 spell wObjectID,`spells.find(s => s.id === wObjectID)` 直接命中。
  * 详细 stats 仍走 `magic[spell.magicNumber]`(magicNumber 是 MAGIC 表独立 index,不变)。
@@ -121,22 +123,30 @@ export function parseSpells(objBuf: Uint8Array, words?: Words): Spell[] {
     )
   }
   const view = new DataView(objBuf.buffer, objBuf.byteOffset, objBuf.byteLength)
-  const out: Spell[] = []
-  for (let i = 0; i < SPELL_COUNT; i++) {
-    const base = (SPELL_OBJ_START + i) * OBJ_SIZE
-    const spell: Spell = {
-      id: SPELL_OBJ_START + i, // wObjectID(296..397),见上 id 体系注释
 
+  // 读单个 OBJECT 的 magic-union 视图为 Spell(union 偏移 SPELL_OFF 对法术段与 295 同样有效)。
+  const readSpellAt = (objectId: number, name?: string): Spell => {
+    const base = objectId * OBJ_SIZE
+    const spell: Spell = {
+      id: objectId, // wObjectID
       magicNumber: u16(view, base, SPELL_OFF.magicNumber),
       scriptOnSuccess: u16(view, base, SPELL_OFF.scriptOnSuccess),
       scriptOnUse: u16(view, base, SPELL_OFF.scriptOnUse),
       scriptDesc: u16(view, base, SPELL_OFF.scriptDesc),
       flags: parseSpellFlags(u16(view, base, SPELL_OFF.flags)),
     }
-    const nm = words?.spells[i]
-    if (nm) spell._name = nm
-    out.push(spell)
+    if (name) spell._name = name
+    return spell
   }
+
+  const out: Spell[] = []
+  // 法术段 296..397,名字从 spell word 段(0-based)取。
+  for (let i = 0; i < SPELL_COUNT; i++) {
+    out.push(readSpellAt(SPELL_OBJ_START + i, words?.spells[i]))
+  }
+  // 梦蛇(295)**追加**在末尾(消费方按 id find/sort,顺序不敏感;放最后保 out[0..101]=296..397 不变)。
+  //   名字从 item word 段取(295 - ITEM_OBJ_START)。
+  out.push(readSpellAt(MENGSHE_OBJ_ID, words?.items[MENGSHE_OBJ_ID - ITEM_OBJ_START]))
   return out
 }
 

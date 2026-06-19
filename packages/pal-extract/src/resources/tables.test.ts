@@ -59,17 +59,18 @@ const storeBuf = readChunk(dataMkf, 0)
 describe('parseItems', () => {
   const items = parseItems(objBuf, words)
 
-  it('解出 235 条物品', () => {
-    expect(items).toHaveLength(235)
+  it('解出 234 条物品(word 段 235,排除末位 295=梦蛇 法术)', () => {
+    expect(items).toHaveLength(234)
   })
 
   it('第一条带 _name(注释)', () => {
     expect(items[0]!._name).toBeTruthy()
   })
 
-  it('id = wObjectID(61..295,2026-05-29 id 体系统一)', () => {
+  it('id = wObjectID(61..294;295=梦蛇是法术,已排除归 spells.json)', () => {
     expect(items[0]!.id).toBe(61)     // ITEM_OBJ_START
-    expect(items[234]!.id).toBe(295)  // 61 + 234
+    expect(items[233]!.id).toBe(294)  // 末位真物品(61 + 233)
+    expect(items.some((it) => it.id === 295)).toBe(false) // 梦蛇不在 items.json
   })
 
   it('至少有一条价格 > 0', () => {
@@ -101,7 +102,7 @@ describe('parseItems', () => {
 
   it('without words(不传 words)→ 所有 _name undefined,其他字段正常', () => {
     const itemsNoName = parseItems(objBuf)
-    expect(itemsNoName).toHaveLength(235)
+    expect(itemsNoName).toHaveLength(234)
     expect(itemsNoName.every((it) => it._name === undefined)).toBe(true)
     // 字段仍正常 dump
     expect(itemsNoName[0]!.price).toBe(150)
@@ -141,8 +142,8 @@ describe('parseItems', () => {
 describe('parseSpells (M3 T6)', () => {
   const spells = parseSpells(objBuf, words)
 
-  it('解出 102 条法术 wrapper', () => {
-    expect(spells).toHaveLength(102)
+  it('解出 103 条法术 wrapper(296..397 + 边界法术 295=梦蛇)', () => {
+    expect(spells).toHaveLength(103)
   })
 
   it('第一条带 _name(注释)', () => {
@@ -152,6 +153,14 @@ describe('parseSpells (M3 T6)', () => {
   it('id = wObjectID(296..397,2026-05-29 id 体系统一)', () => {
     expect(spells[0]!.id).toBe(296)   // SPELL_OBJ_START
     expect(spells[101]!.id).toBe(397) // 296 + 101
+  })
+
+  it('梦蛇(295)补在末尾:item word 段法术,scriptDesc/magicNumber 从 magic-union 读', () => {
+    const mengshe = spells.find((s) => s.id === 295)
+    expect(mengshe).toBeDefined()
+    expect(mengshe!._name).toBe('梦蛇')
+    expect(mengshe!.magicNumber).toBe(47) // object-magics 真值
+    expect(mengshe!.scriptDesc).toBe(43308) // item-union offset 10(说明脚本 IP),修菜单说明为空
   })
 
   it('flags 已拆为 SpellFlags 具名 bool', () => {
@@ -184,7 +193,7 @@ describe('parseSpells (M3 T6)', () => {
 
   it('without words(不传 words)→ 所有 _name undefined,其他字段正常', () => {
     const spellsNoName = parseSpells(objBuf)
-    expect(spellsNoName).toHaveLength(102)
+    expect(spellsNoName).toHaveLength(103)
     expect(spellsNoName.every((s) => s._name === undefined)).toBe(true)
     // 字段仍正常 dump
     expect(spellsNoName[0]!.magicNumber).toBe(33)
