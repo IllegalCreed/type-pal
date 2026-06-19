@@ -51,6 +51,7 @@ import { PLAYER_ROLES_NUM } from './_utils.js'
 // M2 实施过程发现 #5:`rgwSpriteNum[0] = 2`(leader,M2 切片硬编码,T9 删)。
 // 实测 6 个 spriteNum = [2, 3, 7, 525, 5, 26]。
 const PLAYER_FIELD_SIZE = PLAYER_ROLES_NUM * 2 // 一个 PLAYERS = 12 字节
+const PERSONS_WORD_OFFSET = 36 // 人物名在 WORD.DAT 的段首(word.ts PERSONS_OFFSET):word[36..41] = 6 角色名
 const PLAYER_EQUIPMENTS = 6 // MAX_PLAYER_EQUIPMENTS, palcommon.h
 const PLAYER_MAGICS = 32 // MAX_PLAYER_MAGICS, palcommon.h
 const ELEM_COUNT = 5 // NUM_MAGIC_ELEMENTAL, palcommon.h
@@ -231,7 +232,12 @@ export function parsePlayerRoles(dataMkfBytes: Uint8Array, words?: Words): Playe
       unknown5: unknown5[i]!,
       unknown6: unknown6[i]!,
     }
-    const nm = words?.persons[i]
+    // 角色显示名按 **rgwName[i]**(= name[i],名字 word 全局 id 36..41)查,**不能用 sequential
+    // `words.persons[i]`**:原版 rgwName = [36,37,38,40,39,41] 把 role3/role4(巫后/阿奴)的名字指针
+    // **故意对调**(40 在前 39 在后),sequential 取会把两人 _name 写反(2026-06-19 user 报"管阿奴叫巫后";
+    // 真值 role3=巫后[梦蛇+召唤神]、role4=阿奴[御蜂术])。words.persons[k] = word(36+k),故 idx = name[i]-36。
+    const personIdx = name[i]! - PERSONS_WORD_OFFSET
+    const nm = words?.persons[personIdx]
     if (nm) role._name = nm
     roles.push(role)
   }

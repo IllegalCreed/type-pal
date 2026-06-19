@@ -934,7 +934,8 @@ function openPicker(deps: DevPanelDeps): void {
   //   (user 2026-05-31:"按照每个人原本会的技能分配")。**key 必须是 `magic`**(PlayerRole 真字段;
   //   hydratePlayerRolesRuntime 读 role.magic → rgwMagic → 战斗投影 → 法术菜单)。
   // 法术测试:三人各带**本角色原本会的技能**(起手 magic + 升级习得 + 剧情授予)+ 高 HP/MP/灵力,vs 5 敌。
-  //   分两组覆盖全 6 角色:A 组 0/1/2(李逍遥/赵灵儿/林月如),B 组 0/3/4(李逍遥/阿奴/巫后)。
+  //   分两组覆盖全 6 角色:A 组 0/1/2(李逍遥/赵灵儿/林月如),B 组 0/3/4(李逍遥/巫后/阿奴)。
+  //   ⚠ roleId 3=巫后、4=阿奴(原版 rgwName=[36,37,38,40,39,41] 把 3/4 名字指针对调,见 player-roles.ts)。
   const runSpellTest = (members: number[], label: string): void => {
     closePicker()
     // 某角色**能学会的全部技能** = 起手 magic + 升级习得(全等级)+ 剧情/法宝授予(0x55 addMagic)。
@@ -981,7 +982,7 @@ function openPicker(deps: DevPanelDeps): void {
   }
   for (const [members, text, label] of [
     [[0, 1, 2], '★ 法术测试(李/灵/月)', '法术测试A'],
-    [[0, 3, 4], '★ 法术测试(李/阿奴/巫后)', '法术测试B'],
+    [[0, 3, 4], '★ 法术测试(李/巫后/阿奴)', '法术测试B'], // roleId 3=巫后 4=阿奴(rgwName 真值)
   ] as Array<[number[], string, string]>) {
     const btn = document.createElement('button')
     btn.textContent = text
