@@ -377,6 +377,16 @@ export interface BattleAnimState {
   idx: number
   /** 当前帧已播放时长(ms)。 */
   frameElapsedMs: number
+  /**
+   * present 端 wall-clock **视觉帧索引** —— `stepBattleAnimRender` 每 rAF 按真实时间算(惰性锚点),
+   * present 据此画法术特效/精灵/抖屏,绕开 40ms 逻辑 tick 对 (speed+5)*10ms 效果帧的拍频顿挫
+   * (普通仙术 speed=0=50ms 在 40ms tick 下抖成 80/40/40/40)。逻辑 `idx`(40ms tick 推进)仍独占
+   * 副作用(sound/damage)与完成判定,确定性不变;renderIdx 只领视觉、不落后 idx、不回退。
+   * 缺省 undefined → present 回落 idx(headless/单测不经 present 时即此)。
+   */
+  renderIdx?: number
+  /** renderIdx 的 wall-clock 锚点(present 首帧惰性记 = now − 已播逻辑时长);逻辑层不碰 performance.now。 */
+  renderStartMs?: number
   /** 当前帧召唤神演出状态(set → present 改画召唤神替换队员;无则正常画队员)。 */
   summon?: SummonFrameState
   /** 召唤 loop wall-clock 起始戳 —— present `stepSummonLoopRender` 惰性记(loop 帧切走清);逻辑层不碰 performance.now。 */

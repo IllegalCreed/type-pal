@@ -17,6 +17,7 @@ import { showToast } from './toast.js'
 import { CHECKPOINTS } from './speedrun/checkpoints.js'
 import { clearSpeedrunBests, getSpeedrunBests, resetSpeedrun, setSpeedrunBest, setSpeedrunBestFromCurrent } from './speedrun/index.js'
 import { loadSettings, saveSetting } from './speedrun/store.js'
+import { isFpsEnabled, setFpsEnabled } from './fps-overlay.js'
 import { formatHms, parseHms } from './speedrun/time-format.js'
 
 export interface PanelResources {
@@ -512,6 +513,7 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
   })
   const fsBtn = button(parent, '全屏', () => ds.toggleFullscreen())
   fsBtn.style.marginTop = '6px'
+  toggleRow(parent, '左上角显示 FPS', isFpsEnabled(), (v) => setFpsEnabled(v))
 
   // ── 音频(音乐 BGM / 音效 SFX 各自独立) ──
   sectionTitle(parent, '音频')

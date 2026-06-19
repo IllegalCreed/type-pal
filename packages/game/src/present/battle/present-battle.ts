@@ -30,6 +30,7 @@ import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import type { BattleState, SummonFrameState } from '../../core/battle/battle-state.js'
 import { getBattleLiveRoles, stepDeathFadeRender, stepSummonLoopRender } from '../../core/battle/battle-system.js'
+import { stepBattleAnimRender } from '../../core/battle/battle-anim-driver.js'
 import { stepPaletteFade } from '../../core/palette-fade.js'
 import type { BusEntry } from '../../core/command-bus.js'
 import type { GameState } from '../../core/game-state.js'
@@ -140,6 +141,10 @@ export class BattlePresent {
     // 召唤 loop wall-clock 细分:loop 帧(summon.loop)按真实时间精确推进 iSummonFrame,绕开 40ms 逻辑 tick
     //   对 50ms 召唤帧的拍频(user 报"刚变成剑卡顿")。非 loop 帧时早退,纯 no-op。
     stepSummonLoopRender(state, performance.now())
+    // 战斗动画 wall-clock 视觉帧细分:法术效果帧 (speed+5)*10ms 在 40ms 逻辑 tick 下抖成拍频(普通仙术/回复/
+    //   合体/召唤攻击的"施法慢"根因)。按真实时间推 renderIdx,present 据此画特效/精灵/抖屏,平滑到刷新率。
+    //   逻辑 idx 仍管副作用与完成判定(确定性不变);loop/fade 帧交各自专驱早退。无动画时纯 no-op。
+    stepBattleAnimRender(state, performance.now())
 
     // 战斗脚本 palette ramp fade(0x50/0x51/0x80/0x8C/0x93):每帧 ramp gs.palette.colors —— 与大世界
     //   presentFrame 对称(此前只此处漏调 stepPaletteFade → 战斗内 palette fade 不动画、只 snap)。
@@ -212,7 +217,8 @@ export class BattlePresent {
     //   叠加 frame.screenWave(fight.c:2667 `wScreenWave += magic.wWave`,:2835 直接恢复旧值;战斗中
     //   progression 恒 0,叠加窗内无推进可丢)。
     {
-      const animFrame = state.battleAnim?.frames[state.battleAnim.idx]
+      // renderIdx(present wall-clock 视觉帧)优先,回落 idx(headless/loop/fade 段)。屏波/抖屏同源,杜绝拍频。
+      const animFrame = state.battleAnim?.frames[state.battleAnim.renderIdx ?? state.battleAnim.idx]
       const baseWave = gs.wScreenWave
       const animWave = animFrame?.screenWave ?? 0
       if (animWave > 0) gs.wScreenWave = baseWave + animWave
@@ -348,7 +354,7 @@ export class BattlePresent {
     if (gs.shakeTime !== 0) {
       applyScreenShake(fb.indices, gs)
     } else {
-      const fshake = state.battleAnim?.frames[state.battleAnim.idx]?.shake
+      const fshake = state.battleAnim?.frames[state.battleAnim.renderIdx ?? state.battleAnim.idx]?.shake
       if (fshake && fshake.level > 0) {
         applyScreenShake(fb.indices, { shakeTime: fshake.time, shakeLevel: fshake.level })
       }

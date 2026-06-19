@@ -22,6 +22,7 @@ import { tickByMode } from '../core/mode.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { initStateDump } from '../dev/state-dump.js'
 import { isSpeedrunPaused, tickSpeedrunTimer } from '../tools/speedrun/index.js'
+import { tickFps } from '../tools/fps-overlay.js'
 
 export interface LoopContext {
   gs: GameState
@@ -122,9 +123,11 @@ export function advanceRafFrame(
     ctx.gs.fadeState != null ||
     ctx.gs.paletteFadeState != null ||
     ctx.gs.battleState?.battleFade != null ||
-    // 召唤 loop 帧:每 rAF present 让 stepSummonLoopRender 按 wall-clock 精确推进 iSummonFrame(绕开 40ms tick
-    //   对 50ms 召唤帧的拍频抖动;同 battleFade 死亡淡出)。loop 帧外为 null → 不放行,照常按 tick present。
-    ctx.gs.battleState?.battleAnim?.summon?.loop != null
+    // 战斗动画期:每 rAF present 让 stepBattleAnimRender 按 wall-clock 细分 renderIdx(法术效果帧 (speed+5)*10ms
+    //   在 40ms 逻辑 tick 下抖成拍频 = "施法慢"根因;实测施法期 present 仅 25fps、rAF 120fps)。涵盖普通仙术/
+    //   回复/合体/召唤攻击 + 物理(40ms 帧细分后 renderIdx≈idx,无副作用)。battleAnim 外照常按 tick present。
+    //   summon.loop 帧的 iSummonFrame 推进同样靠每 rAF present 跑 stepSummonLoopRender —— 已被本条覆盖。
+    ctx.gs.battleState?.battleAnim != null
   ) {
     ctx.onPresent(drained, ticked)
     presented = true
@@ -168,6 +171,7 @@ export function startRafLoop(ctx: LoopContext): () => void {
   const loop = (now: number): void => {
     advanceRafFrame(state, now, ctx, dump, isSpeedrunPaused()) // frozen=手动暂停时冻结游戏世界
     tickSpeedrunTimer(ctx.gs, now) // 速通计时器:每 rAF wall-clock 推进(未启用时内部早退)
+    tickFps(now) // 左上角 FPS 覆盖层:每 rAF 累计帧数(未启用时内部早退)
     raf = requestAnimationFrame(loop)
   }
   raf = requestAnimationFrame(loop)

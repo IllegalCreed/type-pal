@@ -21,7 +21,12 @@ import type { BattleAnimFrame, BattleAnimState, BattleState } from './battle-sta
  *   - damageNum:emit showDamageNum(present 数字弹幕)
  * sound 在本函数逐帧 emit;shake/screenWave 等视觉字段由 present 读取当前 frame。
  */
-export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: CommandBus): void {
+/**
+ * 把一帧的**视觉字段**(fighters / overlay / overlays / summon)落到 state —— 不含 sound/damage/keepEffect
+ * 等逻辑副作用。present 端 wall-clock 细分(`stepBattleAnimRender`)按真实时间选帧后只刷视觉(每 rAF),
+ * 逻辑副作用仍由 applyAnimFrame 在 40ms tick 触发(确定性)。applyAnimFrame 复用本函数避免漂移。
+ */
+export function applyAnimFrameVisual(state: BattleState, frame: BattleAnimFrame): void {
   if (frame.fighters) {
     for (const d of frame.fighters) {
       const fighter = d.side === 'player' ? state.players[d.idx] : state.enemies[d.idx]
@@ -46,13 +51,22 @@ export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: 
     state.battleAnim.overlays = frame.overlays
     state.battleAnim.summon = frame.summon // 召唤神演出帧(set → present 隐队员改画召唤神);无则清
   }
+}
+
+export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: CommandBus): void {
+  applyAnimFrameVisual(state, frame)
 
   // W4 keepEffect:本帧标记烙背景 → 把 overlays 的魔法精灵追加到 persistentBgBlits(跨帧持久,present 画在 bg 上)。
   //   对 sdlpal fight.c:2757-2762 PAL_RLEBlitToSurface(*b, lpBackground)。空 overlays 不烙。
   if (frame.keepEffect && frame.overlays && frame.overlays.length > 0) {
     state.persistentBgBlits ??= []
     for (const ov of frame.overlays) {
-      state.persistentBgBlits.push({ spriteChunk: ov.spriteChunk, frameIdx: ov.frameIdx, x: ov.x, y: ov.y })
+      state.persistentBgBlits.push({
+        spriteChunk: ov.spriteChunk,
+        frameIdx: ov.frameIdx,
+        x: ov.x,
+        y: ov.y,
+      })
     }
   }
 
@@ -106,7 +120,14 @@ export function startBattleAnim(
   opts?: { afterComplete?: BattleAnimState['afterComplete'] },
 ): void {
   if (frames.length === 0) return
-  state.battleAnim = { frames, idx: 0, frameElapsedMs: 0, overlay: undefined, pendingDamageNums, afterComplete: opts?.afterComplete }
+  state.battleAnim = {
+    frames,
+    idx: 0,
+    frameElapsedMs: 0,
+    overlay: undefined,
+    pendingDamageNums,
+    afterComplete: opts?.afterComplete,
+  }
   applyAnimFrame(state, frames[0]!, bus)
 }
 
@@ -116,7 +137,11 @@ export function startBattleAnim(
  * 动画 hold(0x9C 分裂散开等 selectAction 阶段起的时间线)共用,避免两份推进逻辑漂移。
  * @returns true = 时间线已播完(caller 负责 pendingDamageNums / resetFightersAfterAction / 清 battleAnim 等收尾)。
  */
-export function advanceBattleAnimFrames(state: BattleState, bus: CommandBus, dtMs: number): boolean {
+export function advanceBattleAnimFrames(
+  state: BattleState,
+  bus: CommandBus,
+  dtMs: number,
+): boolean {
   const a = state.battleAnim
   if (!a) return false
   a.frameElapsedMs += dtMs
@@ -126,6 +151,56 @@ export function advanceBattleAnimFrames(state: BattleState, bus: CommandBus, dtM
     if (a.idx < a.frames.length) applyAnimFrame(state, a.frames[a.idx]!, bus)
   }
   return a.idx >= a.frames.length
+}
+
+/**
+ * present 端 **wall-clock 视觉帧细分**(每 rAF 调,对齐 `stepSummonLoopRender`/`stepDeathFadeRender` 范式)。
+ *
+ * 战斗动画帧时长是 (speed+5)*10ms(法术效果,45/104 法术 speed=0=50ms)/ Delay(N)×40ms(物理)。40ms
+ * 逻辑 tick 离散推进会让非 40ms 整数倍的帧抖成 80/40/40/40 拍频 —— user 反复报"施法慢"的根因(实测施法期
+ * present 仅 25fps、rAF 120fps:画面只在 tick 刷)。本函数按真实时间算应显示帧 renderIdx,present 据此画
+ * 法术 sprite / 精灵 / 抖屏,平滑到屏幕刷新率。
+ *
+ * 分工(同 summon-loop):逻辑 `idx`(advanceBattleAnimFrames,40ms tick)独占副作用(sound/damage)与
+ * 完成判定 → 确定性不变(headless/单测不经 present → renderIdx 恒 undefined,纯 idx 路径);renderIdx 只领
+ * 视觉、**不落后 idx、不回退**。
+ *
+ * 召唤特例:loop 帧(summon.loop)由 stepSummonLoopRender 驱召唤神逐帧、fade 帧(summon.fadeStep)由
+ * applySummonFade 驱 crossfade —— 两者各有 wall-clock 专驱,本函数对其**早退**不双驱;召唤神攻击的二次
+ * OffMagic 帧(summon 在场但无 loop/fadeStep)则照常细分(召唤神定格 lastFrame,只平滑特效)。
+ *
+ * @param nowMs present 调用处传入的 performance.now()(注入时钟,便于测试)。
+ */
+export function stepBattleAnimRender(state: BattleState, nowMs: number): void {
+  const a = state.battleAnim
+  // loop/fade 帧交专驱;无动画 / 空帧不处理。清锚点 → 离开特例段后重新对齐。
+  if (!a || a.frames.length === 0 || a.summon?.loop != null || a.summon?.fadeStep != null) {
+    if (a) {
+      a.renderStartMs = undefined
+      a.renderIdx = undefined
+    }
+    return
+  }
+  // 惰性锚点:now − 已播逻辑时长(Σdur[0..idx) + frameElapsedMs)→ renderIdx 从逻辑当前进度对齐起算。
+  if (a.renderStartMs === undefined || a.renderIdx === undefined) {
+    let logicElapsed = a.frameElapsedMs
+    for (let i = 0; i < a.idx && i < a.frames.length; i++)
+      logicElapsed += a.frames[i]!.durationMs ?? 0
+    a.renderStartMs = nowMs - logicElapsed
+    a.renderIdx = a.idx
+  }
+  // 从上次 renderIdx 前向扫到 wall-clock elapsed 所在帧(单调,O(前进帧数);末帧前停 → 完成归逻辑)。
+  const elapsed = nowMs - a.renderStartMs
+  let vIdx = a.renderIdx
+  let acc = 0
+  for (let i = 0; i < vIdx && i < a.frames.length; i++) acc += a.frames[i]!.durationMs ?? 0
+  while (vIdx + 1 < a.frames.length && elapsed >= acc + (a.frames[vIdx]!.durationMs ?? 0)) {
+    acc += a.frames[vIdx]!.durationMs ?? 0
+    vIdx++
+  }
+  vIdx = Math.min(a.frames.length - 1, Math.max(vIdx, a.idx)) // 不落后逻辑、不越界
+  a.renderIdx = vIdx
+  applyAnimFrameVisual(state, a.frames[vIdx]!)
 }
 
 /**
