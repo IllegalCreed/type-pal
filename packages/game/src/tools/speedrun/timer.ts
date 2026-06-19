@@ -100,6 +100,25 @@ export class SpeedrunTimer {
     this.bestsDirty = true
   }
 
+  /**
+   * 测试/练习用:把"依序打点"指针跳到第 index 个节点(读档后从某段起测检测,免得从头跑)。
+   * 跳过的节点 splits 留 null(未实际达成);置 running、清手动/香蕉暂停与倒计时;重置全部检测器
+   * mem + prevSnap —— 让目标节点从干净态判定:边沿检测器(enterScene 等)在你**已处于该条件**时
+   * (prevSnap=null)也会下一帧立即命中(= 认你"读档已到此"),否则等你真正触发那一刻。
+   * index 钳 [0, length](==length 即视为全部完成)。
+   */
+  setStep(index: number): void {
+    const i = Math.max(0, Math.min(Math.floor(index), this.checkpoints.length))
+    const run = this.run
+    run.stepIndex = i
+    if (run.phase === 'idle' || run.phase === 'finished') run.phase = 'running'
+    run.manualPaused = false
+    run.bananaPaused = false
+    run.countdownEndMs = null
+    this.mems = this.checkpoints.map(() => ({}))
+    this.prevSnap = null
+  }
+
   tick(snap: ProgressSnapshot, nowMs: number, opts: { bananaEnabled: boolean }): void {
     const run = this.run
     let dt = this.lastNowMs == null ? 0 : nowMs - this.lastNowMs

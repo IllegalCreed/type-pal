@@ -15,7 +15,7 @@ import { getMapName } from './map-names.js'
 import { DOT_COLORS, type MinimapController, setupMinimap } from './minimap.js'
 import { showToast } from './toast.js'
 import { CHECKPOINTS } from './speedrun/checkpoints.js'
-import { clearSpeedrunBests, getSpeedrunBests, resetSpeedrun, setSpeedrunBest, setSpeedrunBestFromCurrent } from './speedrun/index.js'
+import { clearSpeedrunBests, getSpeedrunBests, getSpeedrunRun, resetSpeedrun, setSpeedrunBest, setSpeedrunBestFromCurrent, setSpeedrunStep } from './speedrun/index.js'
 import { loadSettings, saveSetting } from './speedrun/store.js'
 import { isFpsEnabled, setFpsEnabled } from './fps-overlay.js'
 import { formatHms, parseHms } from './speedrun/time-format.js'
@@ -662,6 +662,32 @@ function buildTimerTab(parent: HTMLElement, rerender: () => void): void {
     rerender()
   })
   parent.appendChild(ops)
+
+  // 测试用:读档后把"依序打点"指针跳到指定节点,从该段起检测(否则计时器严格按顺序、
+  //   读档过了前面节点也不生效)。跳过的节点不计时。
+  sectionTitle(parent, '测试:跳到节点')
+  muted(parent, '读档后选目标节点跳过去,从该段起测检测(计时器本身严格按顺序;跳过的节点不计)')
+  const curStep = getSpeedrunRun().stepIndex
+  const jumpRow = document.createElement('div')
+  jumpRow.className = 'tp-save-row'
+  const sel = document.createElement('select')
+  sel.className = 'tp-input'
+  sel.style.maxWidth = '180px'
+  CHECKPOINTS.forEach((cp, i) => {
+    const opt = document.createElement('option')
+    opt.value = String(i)
+    opt.textContent = `${i + 1}. ${cp.name}`
+    if (i === curStep) opt.selected = true
+    sel.appendChild(opt)
+  })
+  jumpRow.appendChild(sel)
+  button(jumpRow, '跳到此节点', () => {
+    const idx = Number(sel.value)
+    setSpeedrunStep(idx)
+    showToast(`已跳到「${CHECKPOINTS[idx]?.name}」,从此节点起检测`, { type: 'success' })
+    rerender()
+  })
+  parent.appendChild(jumpRow)
 
   sectionTitle(parent, '各节点最佳时间')
   const bests = getSpeedrunBests()

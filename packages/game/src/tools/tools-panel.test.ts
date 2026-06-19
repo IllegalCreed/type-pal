@@ -152,6 +152,10 @@ describe('tools-panel 框架', () => {
     timerTab.click()
     const body = document.querySelector('.tp-body') as HTMLElement
     expect(body.querySelectorAll('.tp-toggle').length).toBe(3) // 三个开关
-    expect(body.querySelectorAll('.tp-input').length).toBe(21) // 21 节点输入
+    expect(body.querySelectorAll('input.tp-input').length).toBe(21) // 21 节点最佳时间输入(input,不含跳转 select)
+    // 测试用「跳到节点」控件:1 个 select,含 21 个节点选项
+    const sel = body.querySelector('select.tp-input') as HTMLSelectElement
+    expect(sel).not.toBeNull()
+    expect(sel.querySelectorAll('option').length).toBe(21)
   })
 })

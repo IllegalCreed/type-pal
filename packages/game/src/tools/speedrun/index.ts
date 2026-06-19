@@ -66,6 +66,10 @@ export function setSpeedrunBest(id: string, ms: number | null): void {
   t.setBest(id, ms)
   saveBests(t.getBests())
 }
+/** 测试/练习用:把依序打点指针跳到第 index 个节点(读档后从该段起测检测)。 */
+export function setSpeedrunStep(index: number): void {
+  getTimer().setStep(index)
+}
 
 /** 手动暂停/恢复切换(F8):停表 / 起 3 秒倒计时恢复。进入暂停时弹提示(恢复由倒计时 UI 体现)。 */
 export function toggleSpeedrunPause(): void {

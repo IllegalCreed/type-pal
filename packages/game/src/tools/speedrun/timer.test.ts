@@ -37,6 +37,42 @@ describe('SpeedrunTimer 起表与打点', () => {
   })
 })
 
+describe('SpeedrunTimer setStep(手动跳节点,测试用)', () => {
+  it('跳过前面节点,从第 N 个起依序检测', () => {
+    const t = mk()
+    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false }) // 起表,stepIndex 0(等 A=enterScene2)
+    t.setStep(1) // 跳到 B(index 1),跳过 A
+    expect(t.getRun().stepIndex).toBe(1)
+    expect(t.getRun().phase).toBe('running')
+    expect(t.getRun().splits[0]).toBeNull() // 跳过的 A 未达成
+    t.tick(snap({ scene: 3 }), 1000, { bananaEnabled: false }) // 命中 B → finished
+    expect(t.getRun().stepIndex).toBe(2)
+    expect(t.getRun().splits[1]).toBe(1000)
+    expect(t.getRun().phase).toBe('finished')
+  })
+
+  it('已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认"读档已到此"', () => {
+    const t = mk()
+    t.tick(snap({ scene: 2 }), 0, { bananaEnabled: false }) // 起表 + A 立即命中(enterScene2,prev=null)
+    t.tick(snap({ scene: 2 }), 100, { bananaEnabled: false }) // 仍 scene2 → prevSnap 现为 scene2
+    t.setStep(0) // 重新盯 A,prevSnap 重置为 null
+    t.tick(snap({ scene: 2 }), 200, { bananaEnabled: false }) // 仍 scene2 但 prev=null → A 再次命中(若不重置 prev 则不会)
+    expect(t.getRun().stepIndex).toBe(1)
+  })
+
+  it('finished 后 setStep 回到 running、清手动暂停', () => {
+    const t = mk()
+    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false })
+    t.tick(snap({ scene: 2 }), 1000, { bananaEnabled: false })
+    t.tick(snap({ scene: 3 }), 2000, { bananaEnabled: false }) // finished
+    expect(t.getRun().phase).toBe('finished')
+    t.setStep(1)
+    expect(t.getRun().phase).toBe('running')
+    expect(t.getRun().stepIndex).toBe(1)
+    expect(t.getRun().manualPaused).toBe(false)
+  })
+})
+
 describe('SpeedrunTimer PB 更新', () => {
   it('通关破纪录 → 整条覆盖 bests', () => {
     const t = mk({ a: 5000, b: 9000 }) // 旧 PB 总 9000
