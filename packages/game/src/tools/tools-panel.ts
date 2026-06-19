@@ -590,7 +590,7 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
   }
 }
 
-/** 对话 tab:搜索框 + 按「进入场景」分组(时序正序,场景名标题) + 行列表。 */
+/** 对话 tab:搜索框 + 按「进入场景」分组(时序倒序:新在上、旧在下,场景名标题) + 行列表。 */
 function renderDialogTab(parent: HTMLElement, gs: GameState): void {
   const history = gs.dialogHistory ?? []
   if (!history.length) {
@@ -609,7 +609,9 @@ function renderDialogTab(parent: HTMLElement, gs: GameState): void {
     list.replaceChildren()
     const kw = q.trim()
     let lastMap: number | undefined
-    for (const entry of history) {
+    // 倒序遍历:新对话在上、旧对话在下(history 本身按时间正序追加,这里反向渲染)。
+    for (let i = history.length - 1; i >= 0; i--) {
+      const entry = history[i]! // i 在界内必存在(满足 noUncheckedIndexedAccess)
       if (kw && !entry.text.includes(kw)) continue
       if (entry.map !== lastMap) {
         const g = document.createElement('div')

@@ -18,6 +18,7 @@ import {
 import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
 import { startBattle, INTRO_FADE_TICKS } from '../core/battle/battle-system.js'
 import { createCommandBus } from '../core/command-bus.js'
+import { restoreDialogHistory } from '../core/dialog-history.js'
 import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap,
@@ -1651,6 +1652,10 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     // mutate gs in-place(外部持有同 ref;无法替换 ref)
     // 把 loadedGs 全字段拷到 gs(用 Object.assign 浅 + 关键嵌套手动 deepClone)
     Object.assign(gs, loadedGs)
+    // 「跟着存档走」:dialogHistory 随 deepClone(gs) 进存档,但 Object.assign 对老档(无此字段)**不覆盖**
+    //   → 残留当前 session 历史(圣姑家+比武招亲时间线倒错的根因)。显式从 loadedGs 归一(老档兜底空、
+    //   超 CAP 截断)。**须读 loadedGs.dialogHistory 而非 gs.dialogHistory**:后者对老档恰是要清掉的残留值。
+    gs.dialogHistory = restoreDialogHistory(loadedGs.dialogHistory)
     // 读档归一化:旧 schema 存档(2026-06-07 起加 rgwAvatar/rgwWalkFrames 等新 runtime 字段)经
     //   Object.assign 整体替换了 createInitialGameState 建好的完整 runtime → 缺字段时 ESC 开菜单
     //   投影 projectRuntimeToBattleRoles 读 undefined[0] 崩。以默认模板补齐缺失键(保留存档已有数据)。

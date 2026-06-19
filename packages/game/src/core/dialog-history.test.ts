@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { DIALOG_HISTORY_CAP, type DialogHistoryEntry, pushDialogHistory } from './dialog-history.js'
+import { DIALOG_HISTORY_CAP, type DialogHistoryEntry, pushDialogHistory, restoreDialogHistory } from './dialog-history.js'
 
 describe('dialog-history', () => {
   it('push 追加;空/纯空白跳过', () => {
@@ -33,5 +33,25 @@ describe('dialog-history', () => {
       { map: 1, text: '欢迎' },
       { map: 2, text: '欢迎' },
     ])
+  })
+
+  it('restoreDialogHistory:老档无此字段(undefined)→ 兜底空(不残留当前 session 历史)', () => {
+    expect(restoreDialogHistory(undefined)).toEqual([])
+  })
+
+  it('restoreDialogHistory:新档快照未超上限 → 原样恢复(跟着存档走)', () => {
+    const snap: DialogHistoryEntry[] = [
+      { map: 1, text: 'a' },
+      { map: 2, text: 'b' },
+    ]
+    expect(restoreDialogHistory(snap)).toEqual(snap)
+  })
+
+  it('restoreDialogHistory:超 CAP 的存档 → 截断到最后 CAP 条(丢最旧)', () => {
+    const long: DialogHistoryEntry[] = Array.from({ length: DIALOG_HISTORY_CAP + 5 }, (_, i) => ({ map: 1, text: `l${i}` }))
+    const r = restoreDialogHistory(long)
+    expect(r.length).toBe(DIALOG_HISTORY_CAP)
+    expect(r[0]).toEqual({ map: 1, text: 'l5' })
+    expect(r[r.length - 1]).toEqual({ map: 1, text: `l${DIALOG_HISTORY_CAP + 4}` })
   })
 })

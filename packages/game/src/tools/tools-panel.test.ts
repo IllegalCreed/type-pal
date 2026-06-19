@@ -108,7 +108,7 @@ describe('tools-panel 框架', () => {
     expect(caps).toContain('F9') // 快读
   })
 
-  it('对话 tab:按场景分组(场景名标题) + 正序 + 搜索过滤', () => {
+  it('对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤', () => {
     setupToolsPanel(
       mkDeps({
         getGs: () =>
@@ -132,10 +132,9 @@ describe('tools-panel 框架', () => {
       .find((b) => b.textContent === '对话')!
       .dispatchEvent(new MouseEvent('click', { bubbles: true }))
     const groups = [...document.querySelectorAll('.tp-dialog-group')].map((e) => e.textContent)
-    expect(groups).toContain('盛渔村') // map 1
-    expect(groups).toContain('苏州城') // map 23
+    expect(groups).toEqual(['苏州城', '盛渔村']) // 倒序:最新(map 23 城门见)在上 → 苏州城段先
     const lines = [...document.querySelectorAll('.tp-dialog-line')].map((e) => e.textContent)
-    expect(lines).toEqual(['你好', '再会', '城门见']) // 正序
+    expect(lines).toEqual(['城门见', '再会', '你好']) // 倒序:新在上、旧在下
     const search = document.querySelector('.tp-input') as HTMLInputElement
     search.value = '城门'
     search.dispatchEvent(new Event('input'))
