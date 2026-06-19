@@ -138,18 +138,22 @@ export class SpeedrunTimer {
       return
     }
 
-    // 香蕉树(反作弊/中场休息):开关开 + 本局未做过
+    // 香蕉树(反作弊/中场休息):开关开 + 本局未做过。站到香蕉格 → 暂停;拿到香蕉 → **直接恢复(无倒计时)**。
+    //   倒计时只用于手动暂停(F8 锁输入、需缓冲再恢复);香蕉中场休息**不锁输入**(要走过去捡香蕉),故拿到即恢复。
     if (opts.bananaEnabled && !run.hasUnCheated) {
       if (!run.bananaPaused && this.atBananaTree(snap)) run.bananaPaused = true
       if (snap.inventory.has(this.banana.itemId)) {
         run.hasUnCheated = true
-        if (run.bananaPaused) run.countdownEndMs = nowMs + 3000 // 拿到香蕉 → 起 3 秒倒计时
+        if (run.bananaPaused) {
+          run.bananaPaused = false // 拿到香蕉 → 直接恢复计时
+          this.justResumed = true
+          dt = 0 // 恢复帧 dt 归零,不把暂停期跨度计入
+        }
       }
     }
-    // 倒计时到点 → 恢复(香蕉树 / 手动暂停均经此解除);恢复帧 dt 归零,不把暂停期跨度计入
+    // 倒计时到点 → 恢复**手动暂停**(仅 F8;香蕉中场休息不走倒计时、拿到即恢复);恢复帧 dt 归零,不计暂停期
     if (run.countdownEndMs != null && nowMs >= run.countdownEndMs) {
       run.countdownEndMs = null
-      run.bananaPaused = false
       run.manualPaused = false
       this.justResumed = true
       dt = 0

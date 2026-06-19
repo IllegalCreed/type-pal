@@ -101,7 +101,7 @@ describe('isSpeedrunPaused (主循环冻结门控)', () => {
     localStorage.setItem('tp-speedrun-enabled', '1')
     localStorage.setItem('tp-speedrun-banana', '1')
     tickSpeedrunTimer(fakeGs({ wNumScene: 1 }), 0) // 起表
-    tickSpeedrunTimer(fakeGs({ wNumScene: 177, party: { x: 1088, y: 608, facing: 'down' } }), 100) // 站香蕉格
+    tickSpeedrunTimer(fakeGs({ wNumScene: 177, party: { x: 1280, y: 720, facing: 'down' } }), 100) // 站香蕉格(中间格,世界坐标)
     expect(getSpeedrunRun().bananaPaused).toBe(true)
     expect(isSpeedrunPaused()).toBe(false)
   })

@@ -91,8 +91,8 @@ describe('SpeedrunTimer PB 更新', () => {
   })
 })
 
-describe('SpeedrunTimer 香蕉暂停 + 3 秒倒计时', () => {
-  it('站到香蕉格暂停;拿香蕉起 3 秒倒计时;到点恢复', () => {
+describe('SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时)', () => {
+  it('站到香蕉格暂停;拿香蕉直接恢复,不起倒计时', () => {
     const t = mk()
     t.tick(snap({ scene: 1 }), 0, { bananaEnabled: true }) // 起表
     t.tick(snap({ scene: 177, partyX: 10, partyY: 10 }), 1000, { bananaEnabled: true }) // 站香蕉格 → 暂停
@@ -100,15 +100,12 @@ describe('SpeedrunTimer 香蕉暂停 + 3 秒倒计时', () => {
     const before = t.getRun().elapsedMs
     t.tick(snap({ scene: 177, partyX: 10, partyY: 10 }), 2000, { bananaEnabled: true }) // 暂停期不走时
     expect(t.getRun().elapsedMs).toBe(before)
-    t.tick(snap({ scene: 177, partyX: 10, partyY: 10, inventory: new Set([291]) }), 2000, { bananaEnabled: true }) // 拿香蕉
-    expect(t.getCountdownRemainingSec()).toBe(3)
-    t.tick(snap({ scene: 177, partyX: 0, partyY: 0 }), 4000, { bananaEnabled: true }) // 倒计时中(剩 1s)
-    expect(t.getRun().bananaPaused).toBe(true)
-    expect(t.getCountdownRemainingSec()).toBe(1)
-    t.tick(snap({ scene: 50 }), 5000, { bananaEnabled: true }) // 到点恢复
+    t.tick(snap({ scene: 177, partyX: 10, partyY: 10, inventory: new Set([291]) }), 3000, { bananaEnabled: true }) // 拿香蕉 → 直接恢复
     expect(t.getRun().bananaPaused).toBe(false)
-    expect(t.getCountdownRemainingSec()).toBeNull()
+    expect(t.getCountdownRemainingSec()).toBeNull() // 香蕉无倒计时
     expect(t.consumeJustResumed()).toBe(true)
+    t.tick(snap({ scene: 50 }), 4000, { bananaEnabled: true }) // 恢复后继续累加(暂停期不计)
+    expect(t.getRun().elapsedMs).toBe(before + 1000) // 仅 3000→4000 的 1000ms
   })
 })
 
