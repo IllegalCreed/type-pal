@@ -1258,6 +1258,40 @@ function openPicker(deps: DevPanelDeps): void {
   // P4.T5: Font Test sheet — 渲染中英文混合字符串到 fb,spot-check Unifont glyph 真显示
   // ── 🎬 演出 tab(字体 / 对话 / 特效 / RNG / FBP / 视频)──
   body = tabEffect
+  // 🎭 剧情测试点:扬州太守领赏(scene 81 / wNumScene 82)——验证「书案太长够不到太守」bug 修复。
+  //   走真实异步入场 + 抓贼后 on-enter(全局脚本 14707,= 擒贼脚本 0x6D override 目标):**必须播这段公堂
+  //   cutscene**——14707 里的 0x46 setPartyPos 才把李逍遥定位到官府内;跳过它则李逍遥留旧坐标(scene81
+  //   地图外,用户报)。这段会摆出第一次过堂的跪地/挨打李逍遥(obj 1543,idx14707 起活、14936 平反才隐)——
+  //   dev 直跳无法忠实重建其抓贼后该有的帧/状态,会带进挨打姿势;**暂接受此残留**(正常流程无此问题)。
+  //   把对话推到平反,李逍遥站起;演完走到书案前站立点 (1600,1040)(= obj 1518 autoTriggerAnchor;非太守
+  //   sprite 1616,968)即自动领赏 L_15293 给 5500 文(只一次)。
+  const storyH = document.createElement('h4')
+  storyH.textContent = '🎭 剧情测试点'
+  storyH.className = 'tp-dev-section-h'
+  body.appendChild(storyH)
+  const yzBtn = document.createElement('button')
+  yzBtn.textContent = '🏯 扬州太守领赏 (s81 抓贼后)'
+  yzBtn.title = '播抓贼后公堂 cutscene(14707;含跪地李逍遥 = dev 残留,暂接受)→ 演完走到书案前 (1600,1040) 自动领 5500'
+  yzBtn.style.cssText = 'display:block; margin:4px 0; padding:4px 8px; width:100%; text-align:left; cursor:pointer'
+  yzBtn.addEventListener('click', () => {
+    closePicker()
+    const gs = deps.gs
+    // 用抓贼后 on-enter(全局脚本 14707):播公堂 cutscene,其 0x46 setPartyPos 把李逍遥定位到官府内
+    //   (跳过则落地图外)。附带的跪地/挨打李逍遥(obj 1543)是 14707 自己摆的,dev 直跳重建不出抓贼后帧
+    //   → 暂接受残留。sceneOnEnterIp 存全局 ip,14707 直接就是全局 ip(bootstrap:857)。
+    gs.sceneOnEnterIp[82] = 14707
+    // wNumScene != 82 → loadScene(82) 不被"同场景冗余 reload"guard 跳过(已在 82 里也能重来)
+    gs.wNumScene = 0
+    gs.eventCursor = {
+      ip: 0,
+      commands: [{ op: 'loadScene' as const, sceneId: 82 }, { op: 'end' as const }],
+      labelMap: {},
+    }
+    gs.mode = 'event'
+    console.log('[dev-panel] 异步入场 scene82(扬州官府,抓贼后 on-enter 14707)→ 演完走到书案前 (1600,1040) 测领赏 L_15293')
+  })
+  body.appendChild(yzBtn)
+
   const fontTestH = document.createElement('h4')
   fontTestH.textContent = '🔤 字体测试'
   fontTestH.className = 'tp-dev-section-h'

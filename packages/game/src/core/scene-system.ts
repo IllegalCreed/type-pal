@@ -220,8 +220,13 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
     const mode = npc.triggerMode ?? 0
     if ((npc.sState ?? 1) <= 0 || mode < TRIGGER_MODE_AUTO_MIN) continue
     const threshold = (mode - TRIGGER_MODE_AUTO_MIN) * 32 + 16
-    const dxAbs = Math.abs(partyWorldX - npc.x)
-    const dyAbs = Math.abs(partyWorldY - npc.y) * 2
+    // 扬州太守领赏:autoTriggerAnchorX/Y 把触发判定中心挪到书案前站立点(非太守 sprite)→ 出发点不在
+    // 附近不自动触发,速通不被强制领赏(见 game-state GOVERNOR_REWARD_* 注释)。仅影响距离判定,
+    // sprite 位置 / 下方朝向计算仍用 npc.x/y。
+    const anchorX = npc.autoTriggerAnchorX ?? npc.x
+    const anchorY = npc.autoTriggerAnchorY ?? npc.y
+    const dxAbs = Math.abs(partyWorldX - anchorX)
+    const dyAbs = Math.abs(partyWorldY - anchorY) * 2
     if (dxAbs + dyAbs >= threshold) continue
 
     // 触发:NPC 转向面对 party(sdlpal play.c:120-148 真值 — 仅 nSpriteFrames>0 时)。
@@ -253,6 +258,10 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
       //   return)——本 tick 后续对象的 vanishTime 递减/sState<0 复活照常推进。ts 单 cursor
       //   无法同 tick 触发第二个脚本 → 记 triggered,后续对象跳过触发判定但副作用照走。
       triggered = true
+      // 扬州太守领赏:autoTriggerOnce 对象触发成功即消费(triggerMode→0),否则玩家停在触发区内
+      // 每帧重触发 → 刷后续段(匾额/欢迎再来)对白。引用入 allEventObjects → 持久 + 存档保留
+      //(见 game-state GOVERNOR_REWARD_* 注释)。
+      if (npc.autoTriggerOnce) npc.triggerMode = 0
     }
     // 解析失败 no-op(= C wTriggerScript=0 entry 0 照调)→ 继续扫后续对象,不再卡死整轮。
     continue

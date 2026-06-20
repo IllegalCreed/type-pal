@@ -105,6 +105,21 @@ export interface NpcState {
    */
   triggerMode?: number
   /**
+   * tp 层标记:走近自动触发(triggerMode >= 4)且**只触发一次**。
+   * 用于扬州太守领赏 bug 修(原版 Confirm-search 够不到 → 改自动触发,见 npcFromEventObject 上方
+   * GOVERNOR_REWARD_* 注释)。scene-system updateEventObjectsAndTrigger 在该对象触发成功后把
+   * triggerMode 置 0 消费它,避免每帧重触发后续脚本段。引用入 allEventObjects → 持久 + 存档保留。
+   */
+  autoTriggerOnce?: boolean
+  /**
+   * tp 层:走近自动触发的**判定中心绝对世界坐标**(像素,默认用 npc.x/y)。扬州太守领赏设成书案前
+   * 玩家站立点 (1600,1040)、而非太守 sprite (1616,968):公堂演出结束后主角落在出发点、不在该站立点
+   * 附近 → 不自动触发(速通玩家不想领可直接走);走到书案前 (1600,1040) 才触发领赏。
+   * 只挪触发判定中心,**不动** sprite 位置 / 朝向计算(那些仍用 npc.x/y)。
+   */
+  autoTriggerAnchorX?: number
+  autoTriggerAnchorY?: number
+  /**
    * 当前状态(sdlpal `EventObject.sState`)。Sync.2 fix4:scene 加载时透传。
    * sdlpal global.h 真值:0=Hidden,1=Normal,2=Blocker;负数表示临时隐藏,
    * 离开 viewport 后由 PAL_GameUpdate 复活为 abs(sState)。
@@ -1841,6 +1856,31 @@ export function createInitialGameState(
   }
 }
 
+// ── 扬州太守领赏 bug(原版数据/布局 bug,tp 层运行时修)─────────────────────────
+// 捉到女飞贼后向太守(场景 81 / map84 obj 1518,trigger L_15293 给 5500 文)领赏。原版太守是
+// Confirm-search(triggerMode 3),但其公案/书案在 map84 用 obstacle tile(bit 0x2000)围成一道
+// 斜墙(col44-53 / row57-66 的禁入区),玩家从正面挤不到能搜查命中太守格的位置 → 赏金领不到。
+// 实测(用户真机走位):队伍最近只能到世界坐标 (1552,1016) = 距太守加权 160 被挡死,按键也对不上话。
+// DOS/Win 原版皆有此 bug(民间 DOS 补丁修过);type-pal 忠实移植同 scene 数据 + 同碰撞 → 原样复现。
+// 修法(用户选「走近自动触发」):把 obj 1518 改成 contact 自动触发(mode >= kTriggerTouchNear=4),
+// 半径取够大让玩家走到书案前即触发;并标 autoTriggerOnce → 触发一次后由 scene-system 消费
+//(triggerMode→0),避免每帧重跑后续段(匾额/欢迎再来)对白。5500 文本身另由 L_15293 的
+// advance-end / triggerResume 机制护住(只在首段给一次),autoTriggerOnce 再杜绝凭空多出的刷钱。
+// 门禁:scene 81 是 map84 唯一场景,只被「擒贼后」剧情脚本载入(loadScene→82 全在擒贼序列),
+//   故抓飞贼前根本进不了 scene 81 → 自动触发不可能提前发生。偏离原版(原版此处够不到)= 跟
+//   「原版后期/民间修复版应能领赏」,属 tp 层有意修正;提取器保持忠实。
+const GOVERNOR_REWARD_OBJ_ID = 1518
+// 自动触发阈值 = (mode - 4) * 32 + 16(sdlpal play.c:113 距离公式,y 分量 ×2)。
+// 9 → 阈值 176:够从实测 frontier(1552,1016 = 加权 160)触发(160 < 176),又不会在进场落点
+// (1504,1008)=加权 192 上一进去就触发(192 > 176)——须朝太守走一两步、跨过 176 才触发 =「走近」
+// 手感;远低于房间中央(~580)/ 入口不会过早触发。浏览器 dev「演出」tab 测试点可实测微调本值。
+export const GOVERNOR_REWARD_AUTO_MODE = 6
+// 触发判定中心绝对世界坐标(像素):设成书案前玩家站立点(用户实测 1600,1040),而非太守 sprite(1616,968)。
+// 公堂演出结束后主角落在出发点、不在该站立点附近 → 不自动触发(速通可不领、不损时间);走到书案前才触发。
+// mode 6 → 阈值 80(约 2.5 格):够玩家走到站立点触发,又不至于把较远的出发点圈进来。dev 测试点可微调。
+export const GOVERNOR_REWARD_TRIGGER_X = 1600
+export const GOVERNOR_REWARD_TRIGGER_Y = 1040
+
 /**
  * 原版 EVENTOBJECT.x / .y 是 sdlpal pixel(tile 32×16,允许半 tile)。
  * M5 P0.0 System A:我们单位 = sdlpal pixel(1:1),直接透传 eo.x/y。
@@ -1888,6 +1928,15 @@ export function npcFromEventObject(
     npc.autoLabel = eo.autoLabel
     const ip = globalIpFromLabel(eo.autoLabel)
     if (ip !== undefined) npc.autoCursor = { ip }
+  }
+  // 扬州太守领赏 bug 修:obj 1518 的 Confirm-search(mode 3)改走近自动触发 + 一次性
+  //(见上方 GOVERNOR_REWARD_* 注释)。allEventObjects 一次性构建时生效,引用持久至存档。
+  if (eo.id === GOVERNOR_REWARD_OBJ_ID && eo.triggerMode === 3) {
+    npc.triggerMode = GOVERNOR_REWARD_AUTO_MODE
+    npc.autoTriggerOnce = true
+    // 触发判定中心挪到书案前站立点(非太守 sprite)→ 出发点不在附近不自动触发;走到书案前才领赏。
+    npc.autoTriggerAnchorX = GOVERNOR_REWARD_TRIGGER_X
+    npc.autoTriggerAnchorY = GOVERNOR_REWARD_TRIGGER_Y
   }
   return npc
 }
