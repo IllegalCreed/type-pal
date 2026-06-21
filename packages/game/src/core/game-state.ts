@@ -742,7 +742,8 @@ export interface GameState {
    * 跟随者"冻结快照"(相对队长偏移 + 朝向;port sdlpal `PAL_UpdatePartyGestures` else 分支 scene.c:745-771
    * + 骑乘期 PAL_GameUpdate 不重设 wFrame,play.c:144 仅 NPC 邻近转向才调):队伍**非走路**时跟随者
    * **位置与朝向双双冻结**(不从 trail 重算)= 队长+本偏移、朝向=本 dir ⇔ 屏幕坐标+朝向恒定(骑乘随船锁死)。
-   * walking 帧由 present 的 computeFollowerWorldPos 捕获;trail 整体重填(0x46/0xA1/进场景/回标题)时清空。
+   * walking 帧由 present 的 computeFollowerWorldPos 捕获;trail 整体重填(0x46/进场景/回标题)时清空,
+   * 但 0xA1(全队聚拢)改**设**重叠偏移 {0,-1}(骑乘随队长锁死重叠,见 event-system 0xA1 注释)。
    * index 同 partyMembers(1..);present-only 渲染缓存,不入存档语义/不影响逻辑。
    */
   followerFrozenOffset: (FollowerFrozen | null)[]

@@ -11,7 +11,8 @@ export interface FollowerPosState {
    * 每个队员(index 1..)的冻结快照(位置偏移 + 朝向)。不走路时复用以**冻结位置与朝向**——
    * 等价 sdlpal 在 else 分支不更新 rgParty[i] 位置、且骑乘期 PAL_GameUpdate 不重设其 wFrame
    * (play.c:144 的 UpdatePartyGestures 仅 NPC 邻近转向才调,骑乘 script.c:300 一般不触发)→
-   * 跟随者整帧冻结在"上船走位末帧"状态。trail 整体重填(0x46/0xA1/进场景/回标题)时清空。
+   * 跟随者整帧冻结在"上船走位末帧"状态。trail 整体重填(0x46/进场景/回标题)时清空回退新 trail;
+   * 0xA1(全队聚拢)反过来**设**重叠偏移 {0,-1}(随后骑乘锁死重叠,见 event-system 0xA1)。
    */
   frozenOffset: (FollowerFrozen | null)[]
 }

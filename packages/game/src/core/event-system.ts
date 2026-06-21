@@ -3670,13 +3670,18 @@ function applyRawOpcode(
 
     case OP_SET_ALL_PARTY_POS: {
       // sdlpal script.c:2998-3014:rgTrail[0..MAX_PLAYABLE-1] 全 = 队首世界坐标 + wPartyDirection;
-      //   rgParty[1..max] 也贴队首。我们 follower 渲染靠 trail(present.ts 用 trail[1]/trail[2]),
-      //   把整条 trail 塞成队首当前坐标+朝向 → follower 全贴队首 = 全队聚拢(cutscene 常用)。
+      //   rgParty[1..max] 贴队首(x=队首 x, y=队首 y-1);末调 PAL_UpdatePartyGestures(FALSE)。
+      //   = 全队**重叠**队首(机关传送带 0xA1→骑乘 / cutscene 聚拢)。
       const lx = gs.party.x
       const ly = gs.party.y
       const dir = gs.party.facing
-      gs.trail = [0, 1, 2, 3, 4].map(() => ({ x: lx, y: ly, dir }))
-      gs.followerFrozenOffset = [] // trail 重填 → 清冻结偏移(present follower-pos 静止回退新 trail)
+      gs.trail = [0, 1, 2, 3, 4].map(() => ({ x: lx, y: ly, dir })) // rgTrail 全 = 队首(朝向源)
+      // 跟随者冻结偏移 = 队首 + (0,-1)(sdlpal rgParty[i]=队首, y-1)。**不能**清空靠 trail[m] 摆位:
+      //   后接骑乘每步 unshift trail → trail[1] 滞后队长一步,跟随者会掉队闪现(试炼窟机关 bug)。
+      //   置 frozenOffset 后,静止/骑乘期 present 走"位置冻结"分支 = 队长+(0,-1),随队长锁死重叠。
+      //   下次走路(0x7A 走位)walking 分支会重新捕获正常跟随偏移,不会永久冻结。
+      gs.followerFrozenOffset = [null, ...[1, 2, 3, 4, 5].map(() => ({ dx: 0, dy: -1, dir }))]
+      gs.walkingFrame.walking = false // PAL_UpdatePartyGestures(FALSE):站立 pose
       break
     }
 
@@ -5291,6 +5296,12 @@ function partyRideEventObject(
   gs.camera.y += dy
   npc.x += dx
   npc.y += dy
+
+  // PAL_GameUpdate(FALSE)(script.c:300):骑乘期**不**走走路 gesture(party 站立 pose),
+  //   且 PAL_UpdatePartyGestures(FALSE) 不重算跟随者位置 → 跟随者保持上一帧相对队长偏移(随船锁死)。
+  //   缺此则走上机关瓦片的 walking=true 残留 → 跟随者走 walking 分支每帧按 trail[1]+偏移重算 →
+  //   骑乘每步 unshift 的 trail[1] 滞后队长一步 = 阿奴在李逍遥后跟着闪现(试炼窟机关,user 2026-06-21 报)。
+  gs.walkingFrame.walking = false
 
   return gs.party.x === tx && gs.party.y === ty
 }

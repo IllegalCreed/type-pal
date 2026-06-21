@@ -36,6 +36,7 @@ import {
   type BattleCtx,
 } from './event-system.js'
 import { createInitialGameState, resumePostBattleScript, type GameState } from './game-state.js'
+import { computeFollowerWorldPos } from '../present/follower-pos.js'
 import { createCommandBus } from './command-bus.js'
 import { setWordTable } from './word-lookup.js'
 import type { BattleState } from './battle/battle-state.js'
@@ -1929,6 +1930,57 @@ describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
     expect(gs.npcs[0]).toMatchObject({ x: 208, y: 100 })  // 骑乘对象同步 +8
     expect(gs.camera).toEqual({ x: 136, y: -96 })         // camera += (8,0) 保偏移
     expect(gs.party.x - gs.camera.x).toBe(32)
+  })
+
+  // 试炼窟遗迹(map 225 / scene 213)机关传送带:脚本序列 `0xA1 摆位 → 0x44 骑乘 → 0x7A 走位`。
+  //   0xA1(script.c:2998-3014)把全队**重叠**队首(rgParty[i]=队首, y-1);随后骑乘期 PAL_GameUpdate(FALSE)
+  //   (script.c:300)→ PAL_UpdatePartyGestures(FALSE) **不重算跟随者位置** → 全程重叠随船滑行。
+  //   旧 bug:0xA1 清 frozenOffset 靠 trail[m] 摆位,但骑乘每步 unshift trail → trail[1] 永远滞后队长一步;
+  //   且 partyRideEventObject 未置 walking=false(走上机关瓦片时 walking=true 残留)→ 跟随者走 walking 分支
+  //   = trail[1]+偏移 → 阿奴在李逍遥后面跟着闪现(user 2026-06-21 报)。
+  it('0xA1+0x44 骑乘:跟随者(阿奴 member 1)全程重叠队长,不滞后 trail[1](机关传送带)', () => {
+    const gs = createInitialGameState({ x: 1328, y: 1320, facing: 'down' })
+    gs.partyMembers = [0, 4] // 李逍遥, 阿奴
+    // 模拟刚走上机关瓦片:walking=true(大世界迈步残留)+ 历史 trail(阿奴本在身后一格)
+    gs.walkingFrame.walking = true
+    gs.trail = [
+      { x: 1328, y: 1320, dir: 'down' },
+      { x: 1328, y: 1304, dir: 'down' },
+      { x: 1328, y: 1288, dir: 'down' },
+    ]
+    gs.npcs = [{ id: 5, x: 1328, y: 1340, spriteNum: 1 }] // 骑乘对象 = self
+    const bus = createCommandBus()
+    // 0xA1 摆位 → 0x44 骑乘到远目标(多步)→ end
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0xa1, operands: [0, 0, 0] },
+      { op: 'raw', opcode: OP_RIDE_OBJECT_4, operands: [50, 90, 0] }, // tx=1600 ty=1440,远 → 多步
+      { op: 'end' },
+    ])
+    gs.eventCursor!.currentEventObjectId = 5
+
+    const followerWorld = (): { x: number; y: number } => {
+      const fpos = computeFollowerWorldPos(
+        {
+          party: gs.party,
+          trail: gs.trail,
+          walking: gs.walkingFrame.walking,
+          frozenOffset: gs.followerFrozenOffset,
+        },
+        1,
+        () => true,
+      )
+      if (!fpos) throw new Error('follower pos null')
+      return { x: fpos.x, y: fpos.y }
+    }
+
+    // 跑 5 个 tick(tick1 = 0xA1 + 骑乘 step1,其后每 tick 一步);每步后阿奴必须重叠队长。
+    for (let i = 0; i < 5; i++) {
+      tickEventSystem(gs, snap(), bus)
+      expect(gs.walkingFrame.walking).toBe(false) // 骑乘 = PAL_GameUpdate(FALSE),站立 pose
+      const f = followerWorld()
+      expect(f.x).toBe(gs.party.x)        // 重叠:同列
+      expect(f.y).toBe(gs.party.y - 1)    // sdlpal rgParty[i].y = 队首 y - 1(z 序微让)
+    }
   })
 
   it('0x4C monsterChase:无障碍 → 朝 party 走 1 步 + 设朝向(script.c:309-501)', () => {
