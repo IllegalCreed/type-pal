@@ -67,14 +67,22 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
       break
   }
 
-  // BUG1 修(2026-06-04 user 报"出战斗后还能看见死怪,再 fade 才把怪刷掉"):0x07 触发的战斗结束后
-  //   finalizeBattle→resumePostBattleScript 把 mode 翻 'event' + 设 eventCursor,但**不执行 opcode**;
-  //   续跑脚本的 0x52 隐怪要等下一个 event tick 才跑,中间会 present 一帧大世界露出未隐藏的死怪(sState>0)。
-  //   sdlpal PAL_StartBattle 同步返回后,0x07 handler 在同一调用栈立刻续跑 goto→0x52(隐怪)→0x50(FadeOut),
-  //   中间不重绘 → 死怪在任何画面出现前就隐了。这里对齐:战斗结束转 'event' 时,**同 tick** 立即驱动一次
-  //   tickEventSystem 把续跑脚本步进到首个 waitable(0x52 在任何 present 前执行),消除"先露一帧死怪"。
-  //   仅 0x07 续跑(battle→'event')触发;转 'explore'(非 0x07 战斗)或仍 'battle' 不步进。
-  if (prevMode === 'battle' && gs.mode === 'event') {
+  // 脚本切 mode→'event' 但本帧未执行任何 opcode → main-loop 会先 present 一帧空窗(露出不该露的画面),
+  //   下一 tick 脚本才跑。两个同构来源,都靠"同 tick 立即再驱动一次 tickEventSystem 步进到首个
+  //   waitable / 脚本结束"消除露帧(对齐 sdlpal 同步脚本:调用方同栈立刻跑完,屏幕没机会重绘):
+  //
+  //   ① battle→'event'(BUG1,2026-06-04 user 报"出战斗后还能看见死怪,再 fade 才刷掉"):0x07 战斗结束
+  //      finalizeBattle→resumePostBattleScript 翻 'event' + 设 eventCursor 但不执行 opcode;续跑脚本的
+  //      0x52 隐怪要等下一 event tick 才跑,中间 present 一帧大世界露未隐藏死怪(sState>0)。sdlpal
+  //      PAL_StartBattle 同步返回后 0x07 handler 同栈立刻续跑 goto→0x52→0x50,中间不重绘。
+  //   ② menu→'event'(2026-06-21 user 报"大世界用试炼果/八仙石等复数道具 UI 闪一帧"):use-target Confirm 经
+  //      startOverworldItemScript 翻 'event' + 设 eventCursor 但不执行 opcode(menu-mode 商店 resume 同理);
+  //      无演出道具脚本(0x19 加属性 + end)要等下一 tick 才跑,中间 present 一帧"mode='event' + menuStack 非空"
+  //      → present.ts:644 跳过菜单 + fb.clear 重绘大世界 → 菜单消失露场景。同帧步进后无演出脚本当帧跑完回
+  //      'menu'(菜单不闪);带演出脚本(showDialog)当帧停在首个 waitable,对话照常显示(设 waiting 即 return,
+  //      不读本帧 input → Confirm 不被 menu/dialog 双消费)。
+  //   仅 battle/menu→'event' 触发;转 'explore' 或仍 'battle'/'menu' 不步进。
+  if ((prevMode === 'battle' || prevMode === 'menu') && gs.mode === 'event') {
     tickEventSystem(gs, input, bus)
   }
 }

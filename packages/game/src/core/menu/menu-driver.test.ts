@@ -230,6 +230,7 @@ import { createInventoryActionMenu } from './inventory-action-menu.js'
 import { createEquipMenu } from './equip-menu.js'
 import { createInGameMagicMenu } from './in-game-magic-menu.js'
 import { setGlobalEvents } from '../event-system.js'
+import { tickByMode } from '../mode.js'
 import { createPlayerStatus } from './player-status.js'
 import { createSaveSlotMenu } from './save-slot-menu.js'
 
@@ -532,6 +533,35 @@ describe('C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)', () => {
     expect(inv.phase).toBe('use-target')
     tickMenu(gs, snap(['Confirm']), createCommandBus()) // use-target Confirm → startScript ok → revert use-target
     expect(inv.phase).toBe('use-target') // 非 'done'(INNER loop 继续)
+  })
+
+  // 大世界用消耗道具(试炼果/八仙石类:纯加属性、无 showDialog/fade)闪一帧 bug:
+  //   startOverworldItemScript 切 mode='event' 后立即 return,**脚本一条没跑** → main-loop 先 present
+  //   一帧(mode='event' + menuStack 非空 → present.ts:644 跳过菜单 + fb.clear 重绘大世界)→ 菜单消失
+  //   露场景 → 下一帧脚本(0x19+end)瞬跑完回 mode='menu' 菜单重现 = "UI 闪一帧"。
+  //   修复(mode.ts:menu→event 同帧步进,对称 battle→event 的"先露一帧死怪"修):confirm 当帧把无演出
+  //   脚本步进到结束 → mode 当帧回 'menu',无露帧。**必须走 tickByMode**(同帧步进在 tickByMode,非 tickMenu)。
+  it('用消耗道具:无演出脚本 confirm 当帧跑完回 menu(消除露一帧大世界)— tickByMode 同帧步进', () => {
+    const gs = mkGs()
+    gs.partyMembers = [0]
+    gs.inventory = [{ itemId: 10, count: 2 }] // 复数道具:用后不删,picker 续开 → 闪最扎眼
+    const items = [usableItem(10)]
+    // playerRoles 须含 role 0:否则 use-target 的 targetMenu 空 → confirmInventoryTarget 返 null、startScript 不触发
+    setMenuCatalogs({ ...MOCK_CATALOGS, items, playerRoles: { roles: [{ id: 0 } as any] } as any })
+    // L_500 = 无演出脚本(0x19 加属性,非 waitable + end)= 试炼果/八仙石真实脚本结构(L_39229: 0x19+end)
+    setGlobalEvents([{ op: 'end' }, { op: 'raw', opcode: 0x19, operands: [18, 3, 0], label: 'L_500' }, { op: 'end' }])
+    const inv = createInventoryMenu(gs, items)
+    openMenu(gs, { kind: 'inventory', state: inv })
+    // ① list Confirm → 非 applyToAll → use-target(仍 mode='menu',不切 event)
+    tickByMode(gs, snap(['Confirm']), createCommandBus())
+    expect(inv.phase).toBe('use-target')
+    expect(gs.mode).toBe('menu')
+    // ② use-target Confirm → startOverworldItemScript 切 mode='event' → 同帧步进 0x05+end → 回 'menu'
+    tickByMode(gs, snap(['Confirm']), createCommandBus())
+    expect(gs.mode).toBe('menu') // 关键:不停在 'event'(否则下一 present 露大世界 = 闪)
+    expect(gs.eventCursor).toBeUndefined() // 无演出脚本同帧跑完
+    expect(inv.phase).toBe('use-target') // INNER loop:picker 仍开
+    expect(gs.inventory.find((e) => e.itemId === 10)?.count).toBe(1) // 消耗 1(2→1)
   })
 
   it('count→0 → auto-cancel 回 list(uigame.c:1468)', () => {
