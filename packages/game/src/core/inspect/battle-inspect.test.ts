@@ -60,7 +60,33 @@ describe('battle-inspect(从 dev-panel 抽出,语义不变)', () => {
     expect(r[0]!.name).toBe('飞贼')
     expect(r[0]!.defeated).toBe(false)
     expect(r[0]!.steal).toBe('不可偷')
+    expect(r[0]!.attackEquivPoison).toBeNull() // mock 敌无 attackEquivItem/Rate → 不显示
     expect(collectEnemyStatusReadouts(exploreGs())).toEqual([])
+  })
+  it('collectEnemyStatusReadouts:普攻毒(attackEquivItem>0 && rate>0 解析道具名#id+率/10;任一为 0 → null)', () => {
+    const items = [{ id: 551, _name: '毒蛇卵' }] as never
+    const mk = (equivItem: number, equivRate: number): GameState =>
+      battleGs({
+        battleState: {
+          isBoss: false,
+          players: [{ roleId: 0, status: {} }],
+          enemies: [
+            {
+              e: {
+                id: 100, _name: '蜜蜂', health: 10, attackEquivItem: equivItem, attackEquivItemRate: equivRate,
+                elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+                stealItem: 0, stealItemCount: 0,
+              },
+              defeated: false, maxHealth: 10, prevHp: 10, status: {}, poisons: [], resistanceToSorcery: 0,
+            },
+          ],
+          field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+        },
+      })
+    expect(collectEnemyStatusReadouts(mk(551, 7), [], items)[0]!.attackEquivPoison).toBe('毒蛇卵#551（率 7/10）')
+    expect(collectEnemyStatusReadouts(mk(999, 5), [], items)[0]!.attackEquivPoison).toBe('物品#999（率 5/10）') // 名缺 → #id
+    expect(collectEnemyStatusReadouts(mk(551, 0), [], items)[0]!.attackEquivPoison).toBeNull() // rate=0 不触发
+    expect(collectEnemyStatusReadouts(mk(0, 7), [], items)[0]!.attackEquivPoison).toBeNull() // 无道具
   })
   it('collectPartyStatusReadouts:名/来源/HP/抗性 + 结构化状态(纯中文名+类型)', () => {
     const r = collectPartyStatusReadouts(battleGs(), roles)

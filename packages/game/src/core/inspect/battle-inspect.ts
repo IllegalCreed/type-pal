@@ -228,6 +228,11 @@ export interface EnemyStatusReadout {
    */
   canSteal: boolean
   steal: string
+  /**
+   * 普攻附带等价道具(sdlpal fight.c:5139 wAttackEquivItem):敌普攻命中我方后按 `rate/10` 概率跑该道具
+   * scriptOnUse(PAL 全 29 个为 0x29 单体毒)。`道具名#id（率 N/10）`;attackEquivItem 或 rate 任一为 0 → null(不显示)。
+   */
+  attackEquivPoison: string | null
 }
 
 /** 当前战场场地读出。纯函数,战斗中读 battleState.field。 */
@@ -336,6 +341,14 @@ export function collectEnemyStatusReadouts(
       const nm = itemNameById.get(stealId)
       steal = `${nm || `物品#${stealId}`} ×${stealCount}`
     }
+    // 普攻附带等价道具(见 EnemyStatusReadout.attackEquivPoison):equivId+rate 任一为 0 = 无效果 → null(不显示)。
+    const equivId = e.attackEquivItem ?? 0
+    const equivRate = e.attackEquivItemRate ?? 0
+    let attackEquivPoison: string | null = null
+    if (equivId > 0 && equivRate > 0) {
+      const nm = itemNameById.get(equivId)
+      attackEquivPoison = `${nm ? `${nm}#${equivId}` : `物品#${equivId}`}（率 ${equivRate}/10）`
+    }
     return {
       slot,
       enemyId: e.id,
@@ -352,6 +365,7 @@ export function collectEnemyStatusReadouts(
       statusEntries,
       canSteal,
       steal,
+      attackEquivPoison,
     }
   })
 }

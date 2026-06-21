@@ -1499,6 +1499,12 @@ function openPicker(deps: DevPanelDeps): void {
       steal.style.cssText = `color:${r.canSteal ? '#ffe08a' : '#777'}`
       steal.textContent = `偷 ${r.steal}`
       block.appendChild(steal)
+      if (r.attackEquivPoison) {
+        const equiv = document.createElement('div')
+        equiv.style.cssText = 'color:#b88fd6' // 紫 = 毒,同工具面板 s-poison
+        equiv.textContent = `普攻毒 ${r.attackEquivPoison}`
+        block.appendChild(equiv)
+      }
       if (r.statusEntries.length > 0) {
         const st = document.createElement('div')
         st.style.cssText = 'color:#ffb0b0'

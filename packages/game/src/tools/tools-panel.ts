@@ -443,6 +443,9 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
     chipLine(u, '抗性', resistChips(e.resistances))
     chipLine(u, '状态', statusChips(e.statuses)) // 含中毒
     chipLine(u, '偷取', [{ text: e.steal, cls: 's-steal' }]) // 始终显示(可偷物/金钱 或「不可偷」)
+    // 普攻毒:敌普攻命中按 rate/10 概率附该道具(全 0x29 单体毒)效果;无此机制(equiv 或 rate 为 0)→ null 不显示。
+    // label 取 3 字(「普攻附毒」4 字会在 label 列换行)。
+    if (e.attackEquivPoison) chipLine(u, '普攻毒', [{ text: e.attackEquivPoison, cls: 's-poison' }])
   }
   const field = collectFieldInfoReadout(gs)
   if (field) {
