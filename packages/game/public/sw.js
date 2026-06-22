@@ -1,5 +1,6 @@
 // packages/game/public/sw.js — 原生 Service Worker(离线资源预缓存)。
 // vanilla JS,不经 vite 打包;register 时 updateViaCache:'none' 保证本文件改动即时生效。
+// rev: 2026-06-22 activate 改按版本清缓存(保留当前版本,只删旧版本)。
 /* eslint-disable no-restricted-globals */
 const CACHE_PREFIX = 'type-pal-'
 let CACHE_NAME = `${CACHE_PREFIX}bootstrap` // 真正名字在拿到 manifest.version 后定(setCacheVersion)
@@ -12,19 +13,21 @@ self.addEventListener('install', () => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
-      // 新 SW 激活即清掉所有旧版本预缓存,再接管页面。否则 fetch handler 的「跨 cache 匹配」
-      // 会在版本变更后、旧 cache 被 precacheAll 删除前,把旧格式资源喂给新壳 → 版本错位崩溃。
-      // (2026-06-22:tileset/sprite/动画/战斗/magic 改 gzip blob 后,老用户旧 cache 命中
-      //  迁移前的 tilemap(含 tilesetFiles 无 tileset)→ `tilemap.tileset` undefined → fetch
-      //  `/extracted/data/undefined` 404 → bootstrap 崩。)
-      // 注:activate 只在 sw.js 内容变更(新 SW 安装)时触发,SW 被浏览器重启不触发,
-      //     故不影响「重启后顶层 CACHE_NAME 重置 → 跨 cache 命中当前版本预缓存」的设计。
-      //     ⚠️ 凡 `pnpm extract` 改了资源格式/路径(非纯内容),务必同时改动本文件(哪怕加一行
-      //     版本注释)以触发本清理 —— 仅 manifest.version 变化不会触发 activate。
-      const keys = await caches.keys()
-      await Promise.all(
-        keys.filter((k) => k.startsWith(CACHE_PREFIX)).map((k) => caches.delete(k)),
-      )
+      // 激活即按 manifest 版本归位 CACHE_NAME,并删**非当前版本**的旧缓存(含迁移前老格式),再接管页面。
+      //   为何删旧版本:fetch handler 跨 cache 匹配,若旧格式 cache 还在,会在新壳下被命中 → 版本错位崩
+      //   (2026-06-22:tileset/sprite/动画/战斗/magic 改 gzip blob 后,旧 cache 的 tilemap 无 tileset →
+      //    `tilemap.tileset` undefined → fetch `/extracted/data/undefined` 404 → bootstrap 崩)。
+      //   为何**不**删当前版本:纯 app 发版(数据版本不变)若连当前版本整份预缓存也清,老用户每次发版后
+      //    都要在慢网(prod ~440KB/s,~200MB≈8min)重下 → 进度卡虚线(2026-06-22 用户实测「停在虚线」根因;
+      //    此前误用「清所有」即此)。版本不变 → 保留缓存 → 续访 precache 全 cache.match 命中、秒满。
+      //   离线:manifest 取不到 → 不误删用户已有缓存,保持现状(setCacheVersion 抛 → catch 跳过)。
+      // ⚠️ 凡 `pnpm extract` 改了资源格式/路径,manifest.version 会变(extractor 按内容哈希),本清理据此
+      //    生效;无需再手改本文件触发 activate(版本变更 → setCacheVersion 删旧版本即可)。
+      try {
+        await setCacheVersion()
+      } catch {
+        /* manifest 不可达(离线)→ 保留现有缓存,勿清 */
+      }
       await self.clients.claim()
     })(),
   )
