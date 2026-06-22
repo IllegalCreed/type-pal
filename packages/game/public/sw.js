@@ -10,7 +10,24 @@ self.addEventListener('install', () => {
 })
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim())
+  event.waitUntil(
+    (async () => {
+      // 新 SW 激活即清掉所有旧版本预缓存,再接管页面。否则 fetch handler 的「跨 cache 匹配」
+      // 会在版本变更后、旧 cache 被 precacheAll 删除前,把旧格式资源喂给新壳 → 版本错位崩溃。
+      // (2026-06-22:tileset/sprite/动画/战斗/magic 改 gzip blob 后,老用户旧 cache 命中
+      //  迁移前的 tilemap(含 tilesetFiles 无 tileset)→ `tilemap.tileset` undefined → fetch
+      //  `/extracted/data/undefined` 404 → bootstrap 崩。)
+      // 注:activate 只在 sw.js 内容变更(新 SW 安装)时触发,SW 被浏览器重启不触发,
+      //     故不影响「重启后顶层 CACHE_NAME 重置 → 跨 cache 命中当前版本预缓存」的设计。
+      //     ⚠️ 凡 `pnpm extract` 改了资源格式/路径(非纯内容),务必同时改动本文件(哪怕加一行
+      //     版本注释)以触发本清理 —— 仅 manifest.version 变化不会触发 activate。
+      const keys = await caches.keys()
+      await Promise.all(
+        keys.filter((k) => k.startsWith(CACHE_PREFIX)).map((k) => caches.delete(k)),
+      )
+      await self.clients.claim()
+    })(),
+  )
 })
 
 /** 只缓存同源 GET 的静态资源:/extracted/* 与构建产物 /assets/*。 */
