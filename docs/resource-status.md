@@ -75,7 +75,7 @@
 
 | Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–225 | `map.c:130 PAL_MKFReadChunk(iMapNum fpGopMKF)`;`res.c:234 "gop.mkf"` | tileset 瓦片位图组(`map->pTileSprite`,PAL_SpriteGetFrame 按 tile 取帧;raw 非 YJ2) | ✅ | `data/tileset/{mapNum}.rle.gz` × 223(每地图一个 gzip 原始 GOP chunk blob,runtime `DecompressionStream`+`parseSpriteChunk` 解码;**2026-06-22 改造**,前为 `images/world/tileset/map-{n}/tile-XXXX.png` 67715 张) |
+| 0–225 | `map.c:130 PAL_MKFReadChunk(iMapNum fpGopMKF)`;`res.c:234 "gop.mkf"` | tileset 瓦片位图组(`map->pTileSprite`,PAL_SpriteGetFrame 按 tile 取帧;raw 非 YJ2) | ✅ | `data/tileset/{mapNum}.rle` × 223(每地图一个 gzip 原始 GOP chunk blob,runtime `DecompressionStream`+`parseSpriteChunk` 解码;**2026-06-22 改造**,前为 `images/world/tileset/map-{n}/tile-XXXX.png` 67715 张) |
 
 ---
 
@@ -208,7 +208,7 @@
 | SSS | 5 | — | 5 | ✅ 5/5 | events 298 + scene 295 + strings 13513 |
 | MGO | 637 | 0 | 636 | ✅ 636/636 | 636 JSON + 4133 PNG |
 | MAP | 226 | 0,168,171 | 223 | ✅ 223/223 | 223 tilemap JSON |
-| GOP | 226 | 0,168,171 | 223 | ✅ 223/223 | 223 tileset blob(`.rle.gz`;**2026-06-22 改造**,前为 67715 tile PNG) |
+| GOP | 226 | 0,168,171 | 223 | ✅ 223/223 | 223 tileset blob(`.rle`;**2026-06-22 改造**,前为 67715 tile PNG) |
 | F | 19 | — | 19 | ✅ 19/19 | 19 JSON + 149 PNG |
 | ABC | 154 | 0 | 153 | ✅ 153/153 | 153 enemy dir |
 | FBP | 78 | 5,58 | 76 | ✅ 76/76 | 76 bg PNG + 2 splash |
@@ -234,7 +234,7 @@
 
 **动机**:tileset 占 extracted 的 68%(67,715 张 per-tile RGBA PNG / 265MB),根因是 palette-indexed 位图被包进 4 字节/px 的图片容器(3 通道冗余 + 每文件独立 PNG/zlib 头)。原版 GOP.MKF 全部 RLE 数据仅 16.4MB,重编码 PNG 膨胀到 265MB(~16×)。
 
-**方案**:每地图存一个 `data/tileset/{mapNum}.rle.gz` = `gzipSync(原始 GOP chunk 字节)`。runtime 用浏览器原生 `DecompressionStream('gzip')` 解压 + shared `parseSpriteChunk` 解码,不经 canvas/`createImageBitmap`。字节级忠实原版(blob 就是 GOP chunk)。规格见 [docs/plans/2026-06-22-tileset-atlas-packing.md](../docs/plans/2026-06-22-tileset-atlas-packing.md)。
+**方案**:每地图存一个 `data/tileset/{mapNum}.rle` = `gzipSync(原始 GOP chunk 字节)`。runtime 用浏览器原生 `DecompressionStream('gzip')` 解压 + shared `parseSpriteChunk` 解码,不经 canvas/`createImageBitmap`。字节级忠实原版(blob 就是 GOP chunk)。规格见 [docs/plans/2026-06-22-tileset-atlas-packing.md](../docs/plans/2026-06-22-tileset-atlas-packing.md)。
 
 **实测 before/after**(2026-06-22):
 

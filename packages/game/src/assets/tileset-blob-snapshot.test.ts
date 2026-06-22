@@ -6,7 +6,7 @@
  *
  * 做法:对几个真实 mapNum,从两个独立来源各自解出 tile 像素,逐 tile 逐字节对比:
  *   - 真值源:data/raw/GOP.MKF 的 chunk(= extractor 写 blob 前的 readChunk(gopMkf, mapNum))
- *   - 新链路:data/extracted/data/tileset/{N}.rle.gz → decompressGzip → parseSpriteChunk
+ *   - 新链路:data/extracted/data/tileset/{N}.rle → decompressGzip → parseSpriteChunk
  *
  * 两边都最终调同一份 shared/parseSpriteChunk,但新链路多了一道 gzip 往返。
  * 本测试钉死「gzip 往返 + DecompressionStream 解压」不丢字节。
@@ -51,7 +51,7 @@ describe.skipIf(!hasData)('S5 tileset blob 像素一致性(真实 GOP.MKF vs ext
   const gopBuffer = new Uint8Array(readFileSync(RAW_GOP))
 
   for (const mapNum of SAMPLE_MAP_NUMS) {
-    const blobPath = resolve(EXTRACTED_BLOB_DIR, `${mapNum}.rle.gz`)
+    const blobPath = resolve(EXTRACTED_BLOB_DIR, `${mapNum}.rle`)
 
     it(`mapNum=${mapNum}: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出`, async () => {
       expect(existsSync(blobPath)).toBe(true)
@@ -63,6 +63,12 @@ describe.skipIf(!hasData)('S5 tileset blob 像素一致性(真实 GOP.MKF vs ext
 
       // 新链路:读 extracted blob → decompressGzip → parseSpriteChunk
       const blobBytes = new Uint8Array(readFileSync(blobPath))
+      // 回归守卫:blob 必须是 gzip 格式(首字节 0x1f 0x8b)。
+      // 后缀用 .rle 而非 .rle.gz —— 后者会让 Vite/静态服务器加 Content-Encoding: gzip,
+      // 浏览器 fetch 自动解压一次,我们的 DecompressionStream 再解就报 "incorrect header check"。
+      // 若这个断言失败,检查 extractor 是否误把后缀改回 .gz。
+      expect(blobBytes[0]).toBe(0x1f)
+      expect(blobBytes[1]).toBe(0x8b)
       const decompressed = await decompressGzip(new Blob([blobBytes]))
 
       // 第一层一致性:解压后字节 == 原 chunk 字节(gzip 往返无损)

@@ -95,14 +95,17 @@ function imageWorldNpcPath(spriteId: number, frameIdx: number): string {
 }
 
 /**
- * tileset 资源管线优化(2026-06-22):每地图存一个 gzip 原始 RLE blob,
+ * tileset 资源管线优化(2026-06-22):每地图存一个 gzip 压缩的原始 RLE 数据块,
  * 取代旧的 per-tile RGBA PNG。blob = gzipSync(gopChunk 原始字节),
  * runtime 用 DecompressionStream + parseSpriteChunk 解码。
  *
- * 相对路径(进 manifest / tilemap JSON 的 tileset 字段)。
+ * **后缀用 `.rle`(不是 `.rle.gz`)**:Vite/静态服务器见 `.gz` 会自动加
+ * `Content-Encoding: gzip` → 浏览器 fetch 自动解压一次 → 我们的 DecompressionStream
+ * 再解一次就报 "incorrect header check"。用 `.rle` 后缀服务器不加 content-encoding,
+ * 浏览器拿到原始 gzip 字节,DecompressionStream 正常工作。SW 缓存的也是 gzip 字节(体积最优)。
  */
 function tilesetBlobRelPath(mapNum: number): string {
-  return `tileset/${mapNum}.rle.gz`
+  return `tileset/${mapNum}.rle`
 }
 
 function tilesetBlobPath(mapNum: number): string {

@@ -14,7 +14,7 @@ export interface Tilemap {
   /**
    * 对应 tileset 资源的相对路径(由 CLI 总装时填)。
    *
-   * tileset 资源管线优化(2026-06-22):指向 `tileset/{mapNum}.rle.gz`
+   * tileset 资源管线优化(2026-06-22):指向 `tileset/{mapNum}.rle`
    * (gzip 原始 GOP chunk 字节,runtime 用 DecompressionStream + parseSpriteChunk 解)。
    * 旧字段 `tilesetImage`(per-tile RGBA PNG glob)已移除。
    */

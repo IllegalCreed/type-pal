@@ -195,7 +195,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   ])
 
   // tileset 资源管线优化(2026-06-22):每地图一个 gzip RLE blob。
-  // tilemap.tileset = "tileset/{mapNum}.rle.gz"(相对 data/),fetch 一次 → 解压 → 解析成 Map。
+  // tilemap.tileset = "tileset/{mapNum}.rle"(相对 data/),fetch 一次 → 解压 → 解析成 Map。
   const tileImages = await loadTilesetBlob(`${BASE}/data/${tilemap.tileset}`)
 
   // 可玩角色大世界精灵 —— 真解析自 player-roles.json (DATA.MKF chunk 3,PLAYERROLES.rgwSpriteNum)。

@@ -39,12 +39,12 @@
 对每个 mapNum,把它在 `GOP.MKF` 里的**原始 sprite chunk 字节**(即原版 RLE 瓦片数据)直接 gzip,写成一个文件:
 
 ```
-data/tileset/{mapNum}.rle.gz     // = gzipSync(readChunk(gopMkf, mapNum))
+data/tileset/{mapNum}.rle     // = gzipSync(readChunk(gopMkf, mapNum))
 ```
 
 - 不解码、不重编码 —— 存的就是原版字节,**字节级忠实**。
 - chunk 自带帧偏移表 + 每帧 (w,h) 头,**无需额外 sidecar** 描述 tile 尺寸。
-- tilemap JSON(`data/tilemap/{mapNum}.json`)去掉 `tilesetFiles[]`,加一行 `"tileset": "tileset/{mapNum}.rle.gz"`。
+- tilemap JSON(`data/tilemap/{mapNum}.json`)去掉 `tilesetFiles[]`,加一行 `"tileset": "tileset/{mapNum}.rle"`。
 
 ### 2.2 运行时解码(无 canvas)
 ```
@@ -60,9 +60,9 @@ fetch(blobUrl)
 
 ### 2.3 改动面(锚点已核实)
 1. **`@type-pal/shared`** 新增 tile 解码模块:把 `decodeRle`([pal-extract/src/io/rle.ts](../../packages/pal-extract/src/io/rle.ts))+ `parseSpriteChunk` + `RleFrame` 类型([pal-extract/src/resources/sprite.ts](../../packages/pal-extract/src/resources/sprite.ts))搬进来(纯函数 + 已有测试一并搬)。pal-extract 改为从 shared re-export(避免改动 extractor 其它调用点)。game 从 shared import(game 已依赖 shared,且不依赖 pal-extract)。
-2. **extractor** [cli.ts:601-630](../../packages/pal-extract/src/cli.ts#L601):写盘循环从「逐 tile `encodeIndexedPng` + `writeBinary`」改成 `writeBinary('data/tileset/{mapNum}.rle.gz', gzipSync(gopChunk))`;删 `imageWorldTilesetPath` / `tile-{XXXX}.png` 输出;tilemap JSON 写 `tileset` 字段。
+2. **extractor** [cli.ts:601-630](../../packages/pal-extract/src/cli.ts#L601):写盘循环从「逐 tile `encodeIndexedPng` + `writeBinary`」改成 `writeBinary('data/tileset/{mapNum}.rle', gzipSync(gopChunk))`;删 `imageWorldTilesetPath` / `tile-{XXXX}.png` 输出;tilemap JSON 写 `tileset` 字段。
 3. **runtime** [loader.ts:196-204](../../packages/game/src/assets/loader.ts#L196):删 `tilesetFiles` 分支,改 §2.2 流程。
-4. **manifest / 预缓存**:`asset-manifest.ts` 须把新 `.rle.gz` 纳入、旧 per-tile PNG 移除(SW precache 列表随之 67k→223)。
+4. **manifest / 预缓存**:`asset-manifest.ts` 须把新 `.rle` 纳入、旧 per-tile PNG 移除(SW precache 列表随之 67k→223)。
 5. **`Tilemap` 类型**([shared/src/resources.ts](../../packages/shared/src/resources.ts)):`tilesetImage`→`tileset` 字段调整。
 
 ## 3. 实测数据(真实 GOP.MKF,28 map / 9199 tile,外推到 265MB)
@@ -91,7 +91,7 @@ fetch(blobUrl)
 | 步骤 | 内容 | 验证 |
 |---|---|---|
 | **S1** | shared 新增 tile 解码模块(搬 `decodeRle`+`parseSpriteChunk`+类型 + 测试),pal-extract re-export | `pnpm check` 全绿,extractor 行为不变 |
-| **S2** | extractor 改写 gzip RLE blob + tilemap `tileset` 字段 + manifest | `pnpm extract` 跑通,产出 223 个 `.rle.gz`,无 `tile-*.png` |
+| **S2** | extractor 改写 gzip RLE blob + tilemap `tileset` 字段 + manifest | `pnpm extract` 跑通,产出 223 个 `.rle`,无 `tile-*.png` |
 | **S3** | runtime 加「fetch→DecompressionStream→parseSpriteChunk→Map」+ 单测 | gzip roundtrip + 键一致性测试 |
 | **S4** | loader 接入,删 `tilesetFiles` 分支 | `dev` 进游戏,多场景渲染正常 |
 | **S5** | 像素一致性 snapshot | 任意 mapNum:新链路 tile 像素 == 旧链路 |
@@ -116,7 +116,7 @@ fetch(blobUrl)
 
 ## 10. 验收标准
 
-- [x] `pnpm extract` 产出 223 个 `data/tileset/{N}.rle.gz`,无 `tile-{XXXX}.png`;tilemap JSON 含 `tileset` 字段。
+- [x] `pnpm extract` 产出 223 个 `data/tileset/{N}.rle`,无 `tile-{XXXX}.png`;tilemap JSON 含 `tileset` 字段。
 - [x] tileset 体积 265MB → **6.7MB**(实测,远超预期的 ~51MB —— 原版 GOP.MKF 全部 RLE 仅 16.4MB)。
 - [x] manifest 条目 77,624 → **10,132**;单地图请求 188–452 → 1;`createImageBitmap` 调用 → 0。
 - [x] `pnpm check` 全绿(2219 tests)。

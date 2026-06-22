@@ -116,8 +116,8 @@ describe('loadTilesetBlob', () => {
       new Response(gzipped, { status: 200 }),
     )
     try {
-      const map = await loadTilesetBlob('/fake/tileset/1.rle.gz')
-      expect(fetchSpy).toHaveBeenCalledWith('/fake/tileset/1.rle.gz')
+      const map = await loadTilesetBlob('/fake/tileset/1.rle')
+      expect(fetchSpy).toHaveBeenCalledWith('/fake/tileset/1.rle')
       expect(map.size).toBe(2)
       expect(Array.from(map.get(0)!.indices)).toEqual([0xaa])
       expect(Array.from(map.get(1)!.indices)).toEqual([0xbb])

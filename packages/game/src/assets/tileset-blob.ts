@@ -1,7 +1,7 @@
 /**
  * tileset gzip RLE blob 加载(tileset 资源管线优化 S3)。
  *
- * 每个地图的 tileset 存为一个 `.rle.gz` blob(= gzip 后的原始 GOP.MKF chunk 字节)。
+ * 每个地图的 tileset 存为一个 `.rle` blob(= gzip 后的原始 GOP.MKF chunk 字节)。
  * 本模块负责:fetch blob → 浏览器原生 DecompressionStream('gzip') 解压 →
  * parseSpriteChunk 解出 RleFrame[] → 转 Map<tileIndex, IndexedImage>。
  *
@@ -84,7 +84,7 @@ export async function decompressGzip(blob: Blob): Promise<Uint8Array> {
 /**
  * 完整加载链:fetch tileset blob URL → 解压 → 解析 → Map<tileIndex, IndexedImage>。
  *
- * @param url - tileset blob 的 URL(如 `/extracted/data/tileset/1.rle.gz`)
+ * @param url - tileset blob 的 URL(如 `/extracted/data/tileset/1.rle`)
  */
 export async function loadTilesetBlob(url: string): Promise<Map<number, IndexedImage>> {
   const res = await fetch(url)
