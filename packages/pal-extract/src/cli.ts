@@ -651,7 +651,11 @@ async function main(): Promise<void> {
   const sceneObjsBySliceId = new Map<number, ReturnType<typeof dumpScene>>()
   {
     let sceneWritten = 0
-    for (let allSceneId = 1; allSceneId < sss.scenes.length; allSceneId++) {
+    // 从 0 起:scene 文件是 0-based(见 CLAUDE.md「scene/N.json 0-based」),scene 0 = 开场梦境
+    // (sss.scenes[0] mapNum=20 scriptOnEnter=4),正常启动 bootstrap 走 SCENE_ID=0 加载它。
+    // events 切片本就 0-based(scene-000.json 存在),此处历史上误用 1-based 漏写 scene/0.json,
+    // 长期靠旧 extract 的 stale 残留文件续命;extract 改为开头清空 OUT 后暴露 → 修正起始为 0。
+    for (let allSceneId = 0; allSceneId < sss.scenes.length; allSceneId++) {
       const s = sss.scenes[allSceneId]
       if (!s) continue
       const sceneObjs = dumpScene(allSceneId, sss.scenes, sss.eventObjects)
