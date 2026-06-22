@@ -36,3 +36,23 @@ describe('buildSnapshot', () => {
     expect(s.battle?.totalEnemyHp).toBe(30)
   })
 })
+
+describe('buildSnapshot.canMove(计时起表门)', () => {
+  it('explore + 无加载/淡入/挂起 → 可移动', () => {
+    expect(buildSnapshot(fakeGs({ mode: 'explore' })).canMove).toBe(true)
+  })
+  it('开场菜单(mode!=explore)→ 不可移动', () => {
+    expect(buildSnapshot(fakeGs({ mode: 'menu' })).canMove).toBe(false)
+  })
+  // 回归钉:boot 预载期/开场演出 mode='explore' 但 suspendRaf=true,漏判会在标题前误起表
+  //(2026-06-22 真浏览器实测 + 用户手测确认)。
+  it('explore 但 suspendRaf(boot 预载/开场 CG/梦境)→ 不可移动', () => {
+    expect(buildSnapshot(fakeGs({ mode: 'explore', suspendRaf: true })).canMove).toBe(false)
+  })
+  it('explore 但场景加载中 → 不可移动', () => {
+    expect(buildSnapshot(fakeGs({ mode: 'explore', sceneLoading: true })).canMove).toBe(false)
+  })
+  it('explore 但 palette 淡入中 → 不可移动', () => {
+    expect(buildSnapshot(fakeGs({ mode: 'explore', paletteFadeState: {} } as unknown as Partial<GameState>)).canMove).toBe(false)
+  })
+})

@@ -11,10 +11,15 @@ export interface BattleSnap {
 export interface ProgressSnapshot {
   scene: number // gs.wNumScene(== PalTimer area)
   /**
-   * 李逍遥此帧是否可移动 —— 镜像引擎移动门 `tickSceneInput`(scene-system.ts:447/461/483):
-   * explore 模式 + 非场景加载 + 非淡入(paletteFadeState)。**计时起表门**:PalTimer 起表 = Area!=0
-   * (原版菜单 Area=0),但本移植在 boot 期就预载场景(wNumScene 早早 >0),纯 scene>0 会在标题/开场
-   * 演出就提前起表。改用「可移动」对齐 PalTimer「第一次能控制李逍遥」语义(README:465)。
+   * 李逍遥此帧是否可移动 —— 计时起表门。对齐 PalTimer「第一次能控制李逍遥」(README:465);
+   * PalTimer 起表 = Area!=0(原版菜单 Area=0),但本移植 boot 期就预载场景(wNumScene 早早 >0),
+   * 纯 scene>0 会在标题/开场就提前起表。
+   *
+   * 条件(2026-06-22 真浏览器实测 window.__tpgs 核实四个 boot 阶段):
+   *   - explore 模式(开场菜单是 mode='menu' → 排除)
+   *   - 非 suspendRaf(开场视频/CG/RNG/FBP/梦境演出 + **boot 预载窗口**都 suspendRaf=true → 排除;
+   *     实测 boot 有一段 mode='explore' 但 suspendRaf=true 的窗口,漏这条会在那里误起表)
+   *   - 非场景加载、非 palette 淡入(scene-system.ts:447/461/483 引擎移动门同款)
    */
   canMove: boolean
   partyX: number // gs.party.x(绝对像素)
@@ -42,8 +47,9 @@ export function buildSnapshot(gs: GameState): ProgressSnapshot {
 
   return {
     scene: gs.wNumScene,
-    // 与 scene-system.tickSceneInput 放行条件一致(explore + 非加载 + 非淡入)。
-    canMove: gs.mode === 'explore' && !gs.sceneLoading && !gs.paletteFadeState,
+    // explore + 非加载 + 非淡入 + 非 suspendRaf(modal/boot 预载期)。见上方字段注释。
+    canMove:
+      gs.mode === 'explore' && !gs.sceneLoading && !gs.paletteFadeState && !gs.suspendRaf,
     partyX: gs.party.x,
     partyY: gs.party.y,
     music: gs.wNumMusic,
