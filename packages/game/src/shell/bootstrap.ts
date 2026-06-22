@@ -16,7 +16,7 @@ import {
   type SceneFetcher,
 } from '../assets/loader.js'
 import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
-import { loadTilesetBlob } from '../assets/tileset-blob.js'
+import { loadSpriteFramesBlob, loadTilesetBlob } from '../assets/tileset-blob.js'
 import { startBattle, INTRO_FADE_TICKS } from '../core/battle/battle-system.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { restoreDialogHistory } from '../core/dialog-history.js'
@@ -522,21 +522,8 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   async function fetchMissingSprite(id: number): Promise<void> {
     if (npcSprites.has(id)) return
     try {
-      const metaRes = await fetch(`${BASE}/data/sprite/${id}.json`)
-      if (!metaRes.ok) throw new Error(`sprite-${id}.json fetch failed (${metaRes.status})`)
-      const meta = (await metaRes.json()) as {
-        spriteId: number
-        frames: { index: number; width: number; height: number }[]
-      }
-      const frames = await Promise.all(
-        meta.frames.map(async (f) => {
-          const r = await fetch(
-            `${BASE}/images/world/npc/${id}/frame-${f.index.toString().padStart(2, '0')}.png`,
-          )
-          if (!r.ok) throw new Error(`sprite-${id}-frame-${f.index} png fetch failed (${r.status})`)
-          return decodePngToIndices(await r.blob())
-        }),
-      )
+      // NPC 资源管线优化:每 sprite 一个 gzip RLE blob(取代 sprite-{id}.json + per-frame PNG)。
+      const frames = await loadSpriteFramesBlob(`${BASE}/data/sprite/${id}.rle`)
       if (!frames[0]) return
       // Sync.2 fix3 pose:存全帧 + frame 0。逐帧 anchor(爬行 chunk193 各帧高度 31~73 不等,
       // 必须每帧用自身高度,否则高帧脚底下溢 = 密道攀爬偏下 bug)— 见 toSpriteImages。
@@ -1324,19 +1311,8 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
 
   // 结局动画 handler(opcode 0x96 PAL_EndingAnimation)。fetch FBP 61/62(battleBgs)+ MGO 571/572 妖兽/女孩
   //   sprite(非预载,按需 fetch sprite/{id}.json + 帧 PNG)→ 跑 400 帧 cutscene。modal,suspendRaf。
-  const fetchMgoSprite = async (id: number): Promise<IndexedImage[]> => {
-    const meta = await fetch(`${BASE}/data/sprite/${id}.json`).then((r) => {
-      if (!r.ok) throw new Error(`sprite ${id}.json ${r.status}`)
-      return r.json() as Promise<{ frames: { index: number }[] }>
-    })
-    return Promise.all(
-      meta.frames.map((f) =>
-        fetch(`${BASE}/images/world/npc/${id}/frame-${String(f.index).padStart(2, '0')}.png`)
-          .then((r) => r.blob())
-          .then(decodePngToIndices),
-      ),
-    )
-  }
+  const fetchMgoSprite = (id: number): Promise<IndexedImage[]> =>
+    loadSpriteFramesBlob(`${BASE}/data/sprite/${id}.rle`)
   setEndingAnimationHandler(({ gs }) => {
     gs.suspendRaf = true
     void (async () => {

@@ -2,11 +2,16 @@ import { describe, expect, it, vi } from 'vitest'
 import { gzipSync } from 'node:zlib'
 import { parseSpriteChunk } from '@type-pal/shared'
 import {
+  decodeSpriteFrames,
   decodeTilesetBlob,
   decompressGzip,
+  framesToCharacterSprite,
+  loadCharacterSpriteBlob,
+  loadSpriteFramesBlob,
   loadTilesetBlob,
   rleFrameToIndexedImage,
 } from './tileset-blob.js'
+import type { IndexedImage } from './png.js'
 
 function makeSimpleChunk(): Uint8Array {
   // imagecount=2, frame0 at byte 4 (1×1 0xAA), frame1 at byte 10 (1×1 0xBB)
@@ -89,6 +94,71 @@ describe('decodeTilesetBlob', () => {
   })
 })
 
+describe('decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用)', () => {
+  it('decodeSpriteFrames:chunk → IndexedImage[],序与 parseSpriteChunk 一致', () => {
+    const chunk = makeSimpleChunk()
+    const frames = decodeSpriteFrames(chunk)
+    expect(frames.length).toBe(2)
+    expect(Array.from(frames[0]!.indices)).toEqual([0xaa])
+    expect(Array.from(frames[1]!.indices)).toEqual([0xbb])
+  })
+
+  it('loadSpriteFramesBlob:fetch mock → 解压 → IndexedImage[]', async () => {
+    const fetchSpy = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue(new Response(gzipSync(makeSimpleChunk()), { status: 200 }))
+    try {
+      const frames = await loadSpriteFramesBlob('/fake/sprite/5.rle')
+      expect(frames.length).toBe(2)
+      expect(Array.from(frames[1]!.indices)).toEqual([0xbb])
+    } finally {
+      fetchSpy.mockRestore()
+    }
+  })
+
+  it('loadSpriteFramesBlob:404 抛错', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('', { status: 404 }))
+    await expect(loadSpriteFramesBlob('/fake/missing.rle')).rejects.toThrow(/404/)
+    fetchSpy.mockRestore()
+  })
+})
+
+describe('framesToCharacterSprite (锚点派生)', () => {
+  const img = (w: number, h: number): IndexedImage => ({
+    width: w,
+    height: h,
+    indices: new Uint8Array(w * h),
+    opaque: new Uint8Array(w * h),
+  })
+
+  it('锚点 = 首帧 floor(width/2) / height(与旧 loader 同源)', () => {
+    const cs = framesToCharacterSprite([img(20, 31), img(18, 40)])
+    expect(cs.anchorX).toBe(10)
+    expect(cs.anchorY).toBe(31)
+    expect(cs.frames.length).toBe(2)
+  })
+
+  it('空帧 → 锚点 0', () => {
+    const cs = framesToCharacterSprite([])
+    expect(cs.anchorX).toBe(0)
+    expect(cs.anchorY).toBe(0)
+  })
+
+  it('loadCharacterSpriteBlob:fetch mock → 帧 + 锚点', async () => {
+    const fetchSpy = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue(new Response(gzipSync(makeSimpleChunk()), { status: 200 }))
+    try {
+      const cs = await loadCharacterSpriteBlob('/fake/sprite/5.rle')
+      expect(cs.frames.length).toBe(2)
+      expect(cs.anchorX).toBe(0) // 1×1 帧 → floor(1/2)=0
+      expect(cs.anchorY).toBe(1)
+    } finally {
+      fetchSpy.mockRestore()
+    }
+  })
+})
+
 describe('decompressGzip', () => {
   it('gzip roundtrip:解压后 == 原始字节', async () => {
     const original = makeSimpleChunk()
@@ -109,7 +179,7 @@ describe('decompressGzip', () => {
   it('Content-Encoding 已解压(无 gzip 魔数)→ 原样返回,不二次解压', async () => {
     // 模拟 nginx/CDN 自动解掉 Content-Encoding 后,fetch 拿到的是裸 chunk 字节(非 gzip)。
     const rawChunk = makeSimpleChunk() // 首字节 0x02(小端 count),非 0x1f
-    const blob = new Blob([rawChunk])
+    const blob = new Blob([Buffer.from(rawChunk)])
     const out = await decompressGzip(blob)
     expect(Array.from(out)).toEqual(Array.from(rawChunk))
   })

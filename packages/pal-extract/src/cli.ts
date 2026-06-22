@@ -45,7 +45,7 @@ import { parseEnemyPos } from './resources/enemy-pos.js'
 import { parseMap } from './resources/map.js'
 import { decodePalette } from './resources/palette.js'
 import { dumpAllEventObjects, dumpScene } from './resources/scene.js'
-import { encodeIndexedPng, extractCharacterSprites, framesToOut, parseSpriteChunk } from './resources/sprite.js'
+import { encodeIndexedPng, framesToOut, parseSpriteChunk } from './resources/sprite.js'
 import {
   parseBattleEffectIndex,
   parseLevelUpExp,
@@ -90,8 +90,14 @@ function writeBinary(path: string, data: Uint8Array): void {
   writeFileSync(path, data)
 }
 
-function imageWorldNpcPath(spriteId: number, frameIdx: number): string {
-  return resolve(OUT, 'images', 'world', 'npc', String(spriteId), `frame-${frameIdx.toString().padStart(2, '0')}.png`)
+/**
+ * NPC/角色 sprite 资源管线优化(2026-06-22):每 sprite 存一个 gzip 的 RLE blob
+ * (= gzip(YJ2 解压后的 MGO sprite chunk)),取代旧 per-frame RGBA PNG + sprite-{id}.json。
+ * runtime loadCharacterSpriteBlob 用 DecompressionStream + parseSpriteChunk 解。
+ * 后缀 `.rle` 同 tileset(避开 .gz 触发的 Content-Encoding 双解压)。
+ */
+function spriteBlobPath(spriteId: number): string {
+  return resolve(OUT, 'data', 'sprite', `${spriteId}.rle`)
 }
 
 /**
@@ -708,26 +714,17 @@ async function main(): Promise<void> {
   }
   console.log(`[pal-extract] sprite scan: ${spriteIds.size} / ${mgoChunkCount} MGO chunks 可解`)
 
-  const sprites = extractCharacterSprites([...spriteIds], mgoChunks)
-
-  for (const sprite of sprites) {
-    const spriteJson = {
-      spriteId: sprite.spriteId,
-      frames: sprite.frames.map((f) => ({
-        index: f.index,
-        width: f.width,
-        height: f.height,
-      })),
-    }
-    writeJson(dataSubdirPath('sprite', String(sprite.spriteId)), spriteJson)
-    for (const f of sprite.frames) {
-      writeBinary(imageWorldNpcPath(sprite.spriteId, f.index), f.pngBytes)
-    }
+  // NPC sprite 资源管线优化:每 sprite 存 gzip 的 YJ2-解压后 sprite chunk(去 per-frame PNG +
+  // sprite-{id}.json)。runtime parseSpriteChunk 出帧、按首帧 floor(w/2)/h 派生锚点。
+  let spriteFramesTotal = 0
+  for (const id of spriteIds) {
+    const chunk = mgoChunks.get(id)!
+    writeBinary(spriteBlobPath(id), gzipSync(chunk))
+    spriteFramesTotal += parseSpriteChunk(chunk).length
   }
 
   console.log(
-    `[pal-extract] sprites written: ${sprites.length} sprites, ` +
-      `${sprites.reduce((sum, s) => sum + s.frames.length, 0)} frames total`,
+    `[pal-extract] sprite blobs written: ${spriteIds.size} sprites, ${spriteFramesTotal} frames total`,
   )
 
   // ── 战斗 sprite(M3 T24,M5.Sync.2 改 dump-all) ──────────────────

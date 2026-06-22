@@ -1,9 +1,11 @@
 /**
- * tileset gzip RLE blob 加载(tileset 资源管线优化 S3)。
+ * gzip sprite/RLE blob 加载(资源管线优化:去图片容器)。
  *
- * 每个地图的 tileset 存为一个 `.rle` blob(= gzip 后的原始 GOP.MKF chunk 字节)。
+ * 通用 sprite-chunk codec —— tileset / npc / battle / magic 共用:每个逻辑单元(地图 /
+ * sprite id / ...)存一个 `.rle` blob(= gzip 后的「喂给 parseSpriteChunk 的 chunk 字节」:
+ * tileset = 原始 GOP chunk;npc/battle/magic = YJ2 解压后的 sprite chunk)。
  * 本模块负责:fetch blob → 浏览器原生 DecompressionStream('gzip') 解压 →
- * parseSpriteChunk 解出 RleFrame[] → 转 Map<tileIndex, IndexedImage>。
+ * parseSpriteChunk 解出 RleFrame[] → IndexedImage[](或 tileset 的 Map<tileIndex>)。
  *
  * 相比旧链路(fetch per-tile PNG → createImageBitmap → canvas getImageData):
  *   - 请求数 188-452 → 1
@@ -37,12 +39,51 @@ export function rleFrameToIndexedImage(frame: RleFrame): IndexedImage {
  * @returns key = parseSpriteChunk 返回数组的下标(= 旧 framesToOut 的 index)
  */
 export function decodeTilesetBlob(gopBytes: Uint8Array): Map<number, IndexedImage> {
-  const frames = parseSpriteChunk(gopBytes)
+  const frames = decodeSpriteFrames(gopBytes)
   const map = new Map<number, IndexedImage>()
   for (let i = 0; i < frames.length; i++) {
-    map.set(i, rleFrameToIndexedImage(frames[i]!))
+    map.set(i, frames[i]!)
   }
   return map
+}
+
+/**
+ * 解压后的 sprite chunk → IndexedImage[](帧序 = parseSpriteChunk 下标,即原 tile-/frame-{index})。
+ * npc / battle / magic 共用此核心:它们的 chunk 都是 RLE sprite-group。
+ */
+export function decodeSpriteFrames(chunkBytes: Uint8Array): IndexedImage[] {
+  return parseSpriteChunk(chunkBytes).map(rleFrameToIndexedImage)
+}
+
+/** fetch sprite blob → 解压 → IndexedImage[]。 */
+export async function loadSpriteFramesBlob(url: string): Promise<IndexedImage[]> {
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`sprite-blob: fetch ${url} failed (${res.status})`)
+  return decodeSpriteFrames(await decompressGzip(await res.blob()))
+}
+
+export interface CharacterSprite {
+  frames: IndexedImage[]
+  anchorX: number
+  anchorY: number
+}
+
+/**
+ * IndexedImage[] → 大世界角色 sprite(帧 + 锚点)。
+ * 锚点 = 首帧 `floor(width/2)` / `height` —— 与旧 loader 逐帧 PNG 路径同源,保持渲染不变。
+ */
+export function framesToCharacterSprite(frames: IndexedImage[]): CharacterSprite {
+  const first = frames[0]
+  return {
+    frames,
+    anchorX: first ? Math.floor(first.width / 2) : 0,
+    anchorY: first ? first.height : 0,
+  }
+}
+
+/** fetch 角色 sprite blob → 解压 → 帧 + 锚点。loader / bootstrap 三处 npc 加载共用。 */
+export async function loadCharacterSpriteBlob(url: string): Promise<CharacterSprite> {
+  return framesToCharacterSprite(await loadSpriteFramesBlob(url))
 }
 
 /**

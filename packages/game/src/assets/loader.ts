@@ -23,7 +23,7 @@ import type {
 import type { BattleBgAsset } from '../present/battle/draw-battle-bg.js'
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { decodePngToIndices, type IndexedImage } from './png.js'
-import { loadTilesetBlob } from './tileset-blob.js'
+import { type CharacterSprite, loadCharacterSpriteBlob, loadTilesetBlob } from './tileset-blob.js'
 
 const BASE = '/extracted'
 
@@ -213,30 +213,12 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   // 失败时也能切到 dos 路径)。
   spriteIds.add(71)
   spriteIds.add(73)
-  const characterSprites = new Map<
-    number,
-    { frames: IndexedImage[]; anchorX: number; anchorY: number }
-  >()
+  // NPC 资源管线优化:每 sprite 一个 gzip RLE blob(取代 sprite-{id}.json + per-frame PNG)。
+  const characterSprites = new Map<number, CharacterSprite>()
   await Promise.all(
     [...spriteIds].map(async (id) => {
       try {
-        const meta = await fetchJson<{
-          spriteId: number
-          frames: { index: number; width: number; height: number }[]
-        }>(`${BASE}/data/sprite/${id}.json`)
-        const frames = await Promise.all(
-          meta.frames.map((f) =>
-            fetchPng(
-              `${BASE}/images/world/npc/${id}/frame-${f.index.toString().padStart(2, '0')}.png`,
-            ),
-          ),
-        )
-        const first = frames[0]
-        characterSprites.set(id, {
-          frames,
-          anchorX: first ? Math.floor(first.width / 2) : 0,
-          anchorY: first ? first.height : 0,
-        })
+        characterSprites.set(id, await loadCharacterSpriteBlob(`${BASE}/data/sprite/${id}.rle`))
       } catch (err) {
         console.warn(`assets: sprite ${id} load failed, skip:`, err)
       }
