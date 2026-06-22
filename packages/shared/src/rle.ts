@@ -5,11 +5,9 @@
  * 本模块是纯函数解码器,extractor 与 runtime 共用,保证两端用同一份逻辑解出像素
  * (S1 of tileset 资源管线优化:tileset 从 per-tile PNG 改为每地图 gzip RLE blob)。
  *
- * ⚠️ **注意另有一份**:`packages/game/src/assets/rle-decode.ts` 的 `decodeRle` 多了
- * 一段 `0x02000000` 单帧 file-header 前缀跳过(给 RGM 头像 / 标题屏这类「整 chunk =
- * 单帧 RLE」用),与本文件**语义不同,不可互换**。sprite-group chunk(tileset / npc /
- * battle / magic)走本文件(parseSpriteChunk 取真 offset 后喂,首字节即真 width);
- * 单帧整-chunk 走那一份。别天真合并,否则 RGM 头像解码错位。
+ * **唯一解码器**:此前 game `rle-decode.ts` 另有一份带 `0x02000000` 前缀跳过的 decodeRle
+ * (单帧整-chunk 用),与本份分叉。现已用 `decodeRle(buf, { skipFilePrefix })` 参数统一 ——
+ * game `rle-decode.ts` 改为 re-export 本份;sprite-group 路径不传(默认不跳),单帧整-chunk 传 true。
  */
 
 export interface RleFrame {
@@ -32,9 +30,26 @@ export interface RleFrame {
  * 指令字节 b:
  *   b >= 0x80 → 跳 b-0x80 个像素(留透明 opaque=0;pixels 默认 0)
  *   else      → 接下来 b 个字节是像素值(opaque=1,palette index 即使 0 也合法)
+ *
+ * `opts.skipFilePrefix`(默认 false):**单帧整-chunk** RLE bitmap(如 RGM 头像 / 标题屏,
+ * 「整个 chunk = 一帧」)首部带 `0x00000002` file-header 前缀,须跳过(sdlpal palcommon.c:722-728);
+ * 而 **sprite-group** chunk 的帧经 `parseSpriteChunk` 取真 offset 后喂入,首字节即真 width,**不跳**。
+ * 故由调用方按数据来源决定 —— 这一个参数统一了原先 shared / game 两份分叉的 decodeRle。
  */
-export function decodeRle(buf: Uint8Array): RleFrame {
+export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }): RleFrame {
   let offset = 0
+
+  // 单帧整-chunk 的 0x00000002 前缀跳过(仅 skipFilePrefix 时;sprite-group 帧无此前缀)
+  if (
+    opts?.skipFilePrefix &&
+    buf.length >= 4 &&
+    buf[0] === 0x02 &&
+    buf[1] === 0x00 &&
+    buf[2] === 0x00 &&
+    buf[3] === 0x00
+  ) {
+    offset = 4
+  }
 
   // biome-ignore lint/style/noNonNullAssertion: buf bounds guaranteed by RLE frame structure
   const width = buf[offset]! | (buf[offset + 1]! << 8)

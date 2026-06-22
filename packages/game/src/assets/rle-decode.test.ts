@@ -20,7 +20,8 @@ describe('decodeRle', () => {
       0x02, 0x00, 0x02, 0x00,          // real RLE header w=2 h=2
       0x04, 0xAA, 0xAA, 0xAA, 0xAA,    // 4-byte literal
     ])
-    const f = decodeRle(buf)
+    // 统一后:单帧整-chunk 前缀跳过由 skipFilePrefix 参数控制(sprite-group 路径默认不跳)
+    const f = decodeRle(buf, { skipFilePrefix: true })
     expect(f.width).toBe(2)
     expect(f.height).toBe(2)
     expect(Array.from(f.pixels)).toEqual([0xAA, 0xAA, 0xAA, 0xAA])
