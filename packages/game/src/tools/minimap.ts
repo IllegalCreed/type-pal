@@ -260,7 +260,11 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
   // 底图缓存(mapNum → Image);未就绪时异步加载,先画占位。
   const baseCache = new Map<number, HTMLImageElement>()
   const baseLoading = new Set<number>()
+  const baseFailed = new Set<number>() // 取图失败的 map → 不再逐帧重试(防 404 洪水)
   const getBase = (mapNum: number): HTMLImageElement | null => {
+    // mapNum<=0 = 无有效地图(boot 期 currentMapNum 默认 0,且 map 0 是空 chunk 无 tilemap)。
+    // 不守这道:minimap 逐帧 getMapThumbnail(0) → fetch tilemap/0.json → 404 洪水(并污染启动进度计数)。
+    if (mapNum <= 0 || baseFailed.has(mapNum)) return null
     const cached = baseCache.get(mapNum)
     if (cached) return cached
     if (!baseLoading.has(mapNum)) {
@@ -268,14 +272,19 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
       deps
         .getMapThumbnail(mapNum)
         .then((url) => {
-          if (!url) return
+          if (!url) {
+            baseFailed.add(mapNum) // 无缩略图(如缺 tilemap)→ 标记失败,别逐帧重取
+            return
+          }
           const img = new Image()
           img.onload = (): void => {
             baseCache.set(mapNum, img)
           }
           img.src = url
         })
-        .catch(() => {})
+        .catch(() => {
+          baseFailed.add(mapNum)
+        })
         .finally(() => baseLoading.delete(mapNum))
     }
     return null
@@ -356,7 +365,9 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     }
     ensureWidget()
     const m = deps.getGs()?.mode
-    const inScene = m === 'explore' || m === 'event' // 场景态(含剧情对话);battle/menu 隐藏
+    // 场景态(含剧情对话);battle/menu 隐藏。再加「有有效地图」门:boot 期 mode 默认 explore 但
+    // currentMapNum=0(未进场景),不守这道会在标题/加载屏就显出空 widget(user 2026-06-22 报)。
+    const inScene = (m === 'explore' || m === 'event') && getCurrentMapNum() > 0
     widget!.style.display = inScene ? 'block' : 'none' // block:zoomBox 绝对定位浮于右上角,widget 只裹 canvas
     if (inScene && widgetCanvas) drawWidget(widgetCanvas)
   }
