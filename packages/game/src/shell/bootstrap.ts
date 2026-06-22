@@ -16,6 +16,7 @@ import {
   type SceneFetcher,
 } from '../assets/loader.js'
 import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
+import { loadTilesetBlob } from '../assets/tileset-blob.js'
 import { startBattle, INTRO_FADE_TICKS } from '../core/battle/battle-system.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { restoreDialogHistory } from '../core/dialog-history.js'
@@ -514,7 +515,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   //  - npcSprites:**真有跨 scene 差异**(scene 1 有 11 个 sprite,scene 16 有 7 个不同 sprite)。
   //    closure 持的 `npcSprites` 是 SpriteImage(带 anchor)装好的;新 scene 缺的 sprite,
   //    在 sceneFetcher 里按需 fetch sprite-N.json + 各 frame PNG,塞回 closure 的 npcSprites。
-  //  - tile PNG:loader.loadAll 只 fetch 首屏 scene 的 tilesetFiles。sceneFetcher 内
+  //  - tileset blob:loader.loadAll 只 fetch 首屏 scene 的 tileset blob。sceneFetcher 内
   //    fetchSceneTileImages 复刻同模式,写进 by-sceneId map(cache,首屏 / 已 fetch 跳过)。
   const BASE = '/extracted'
 
@@ -556,27 +557,11 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     if (ids.size > 0) await Promise.all([...ids].map((id) => fetchMissingSprite(id)))
   }
 
-  // 按需补 fetch 新 scene 的 tile PNG → 写进 tileImagesBySceneId(同 sceneId cache hit 跳过)。
-  // 复用 loader.loadAll 同模式:tilesetFiles 列表 → 每张 PNG fetch + decode → regex 取 tile id。
-  async function fetchSceneTileImages(
-    sceneId: number,
-    tilemapJson: Tilemap & { tilesetFiles?: string[] },
-  ): Promise<void> {
+  // 按需补 fetch 新 scene 的 tileset blob → 写进 tileImagesBySceneId(同 sceneId cache hit 跳过)。
+  // tileset 资源管线优化(2026-06-22):每地图一个 gzip RLE blob,fetch 一次解压解码成 Map。
+  async function fetchSceneTileImages(sceneId: number, tilemapJson: Tilemap): Promise<void> {
     if (tileImagesBySceneId.has(sceneId)) return
-    const tileFiles = tilemapJson.tilesetFiles ?? []
-    const tilePngs = await Promise.all(
-      tileFiles.map(async (name) => {
-        const r = await fetch(`${BASE}/images/${name}`)
-        if (!r.ok) throw new Error(`tile png fetch failed: ${name} (${r.status})`)
-        return decodePngToIndices(await r.blob())
-      }),
-    )
-    const map = new Map<number, IndexedImage>()
-    tileFiles.forEach((name, i) => {
-      const tileNumPattern = /tile-(\d+)\.png$/
-      const m = tileNumPattern.exec(name)
-      if (m) map.set(Number(m[1]), tilePngs[i]!)
-    })
+    const map = await loadTilesetBlob(`${BASE}/data/${tilemapJson.tileset}`)
     tileImagesBySceneId.set(sceneId, map)
   }
 
@@ -595,7 +580,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     const [tilemapJson, eventsJson] = await Promise.all([
       fetch(`${BASE}/data/tilemap/${sceneJson.mapNum}.json`).then((r) => {
         if (!r.ok) throw new Error(`tilemap-${sceneJson.mapNum}.json fetch failed (${r.status})`)
-        return r.json() as Promise<Tilemap & { tilesetFiles?: string[] }>
+        return r.json() as Promise<Tilemap>
       }),
       // P3.T1: per-scene events(lazy load,修 M3.5 ⚠️ a9 #8)
       fetch(`${BASE}/events/scene-${padded}.json`).then((r) => {
@@ -710,18 +695,10 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   ): Promise<string | null> {
     const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
       if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
-      return r.json() as Promise<Tilemap & { tilesetFiles?: string[] }>
+      return r.json() as Promise<Tilemap>
     })
-    // tile PNG 解码 → 本地 transient Map(渲染后即弃)。复用 gameplay 同模式 regex 取 tile id。
-    const tileImgs = new Map<number, IndexedImage>()
-    await Promise.all(
-      (tilemapJson.tilesetFiles ?? []).map(async (name) => {
-        const r = await fetch(`${BASE}/images/${name}`)
-        if (!r.ok) return
-        const m = /tile-(\d+)\.png$/.exec(name)
-        if (m) tileImgs.set(Number(m[1]), await decodePngToIndices(await r.blob()))
-      }),
-    )
+    // tileset blob 解码 → 本地 transient Map(渲染后即弃)。
+    const tileImgs = await loadTilesetBlob(`${BASE}/data/${tilemapJson.tileset}`)
     // 整张 map 渲染:留小边距(fence/sub-row 落在 -16/-8),camera 偏移让左上 tile 进画。
     const bufW = (tilemapJson.width + 1) * THUMB_TILE_W
     const bufH = (tilemapJson.height + 2) * THUMB_TILE_H
@@ -922,7 +899,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   setMapReloader(async (mapNum: number) => {
     const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
       if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
-      return r.json() as Promise<Tilemap & { tilesetFiles?: string[] }>
+      return r.json() as Promise<Tilemap>
     })
     tileImagesBySceneId.delete(currentSceneId) // 强制重 fetch(fetchSceneTileImages 有 cache)
     await fetchSceneTileImages(currentSceneId, tilemapJson)

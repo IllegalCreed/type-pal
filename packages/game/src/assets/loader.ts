@@ -23,6 +23,7 @@ import type {
 import type { BattleBgAsset } from '../present/battle/draw-battle-bg.js'
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { decodePngToIndices, type IndexedImage } from './png.js'
+import { loadTilesetBlob } from './tileset-blob.js'
 
 const BASE = '/extracted'
 
@@ -42,7 +43,7 @@ async function fetchPng(url: string): Promise<IndexedImage> {
 }
 
 export interface LoadedAssets {
-  tilemap: Tilemap & { tilesetFiles?: string[] }
+  tilemap: Tilemap
   palette: Palette
   scene: SceneObjects
   events: EventFile
@@ -164,7 +165,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     stores,
     wordsRaw,
   ] = await Promise.all([
-    fetchJson<Tilemap & { tilesetFiles?: string[] }>(`${BASE}/data/tilemap/${scene.mapNum}.json`),
+    fetchJson<Tilemap>(`${BASE}/data/tilemap/${scene.mapNum}.json`),
     fetchJson<Palette>(`${BASE}/data/palette/0.json`),
     fetchJson<EventFile>(`${BASE}/events/scene-${padded}.json`),
     fetchJson<PlayerRoles>(`${BASE}/data/player-roles.json`),
@@ -193,15 +194,9 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
     }),
   ])
 
-  // P1: tilesetFiles[] 内现在是 `world/tileset/map-{mapNum}/tile-{XXXX}.png` 格式,
-  // ${BASE}/images/${name} 仍能拼对(name 含子目录路径)。
-  const tileFiles = tilemap.tilesetFiles ?? []
-  const tilePngs = await Promise.all(tileFiles.map((name) => fetchPng(`${BASE}/images/${name}`)))
-  const tileImages = new Map<number, IndexedImage>()
-  tileFiles.forEach((name, i) => {
-    const m = /tile-(\d+)\.png$/.exec(name)
-    if (m) tileImages.set(Number(m[1]), tilePngs[i]!)
-  })
+  // tileset 资源管线优化(2026-06-22):每地图一个 gzip RLE blob。
+  // tilemap.tileset = "tileset/{mapNum}.rle.gz"(相对 data/),fetch 一次 → 解压 → 解析成 Map。
+  const tileImages = await loadTilesetBlob(`${BASE}/data/${tilemap.tileset}`)
 
   // 可玩角色大世界精灵 —— 真解析自 player-roles.json (DATA.MKF chunk 3,PLAYERROLES.rgwSpriteNum)。
   // 场景渲染每个 party member 都按自己的 spriteNum 取帧,不能只预载队长,否则入队/切场景会回退成 role0。
