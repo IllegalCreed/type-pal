@@ -3,7 +3,7 @@ import { atSpot, bgmIs, bossWon, caiyiDetector, enterAnyScene, enterScene, hasIt
 import type { ProgressSnapshot } from './snapshot.js'
 
 const snap = (o: Partial<ProgressSnapshot>): ProgressSnapshot => ({
-  scene: 0, partyX: 0, partyY: 0, music: 0, inventory: new Set(), battle: null, ...o,
+  scene: 0, canMove: true, partyX: 0, partyY: 0, music: 0, inventory: new Set(), battle: null, ...o,
 })
 
 describe('detectors', () => {

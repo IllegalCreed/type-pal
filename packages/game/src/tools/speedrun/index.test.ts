@@ -5,7 +5,8 @@ import { hideOverlay } from './overlay.js'
 import { __resetSpeedrunForTest, getSpeedrunBests, getSpeedrunRun, isSpeedrunPaused, resetSpeedrun, setupSpeedrunHotkeys, tickSpeedrunTimer, toggleSpeedrunPause } from './index.js'
 
 const fakeGs = (o: Partial<GameState>): GameState =>
-  ({ wNumScene: 1, party: { x: 0, y: 0, facing: 0 }, wNumMusic: 0, inventory: [], battleState: undefined, ...o }) as unknown as GameState
+  // mode:'explore'(+ 无 sceneLoading/paletteFadeState)→ canMove=true,使起表门(scene>0 且可移动)成立。
+  ({ wNumScene: 1, mode: 'explore', party: { x: 0, y: 0, facing: 0 }, wNumMusic: 0, inventory: [], battleState: undefined, ...o }) as unknown as GameState
 
 beforeEach(() => {
   localStorage.clear()

@@ -125,7 +125,9 @@ export class SpeedrunTimer {
     this.lastNowMs = nowMs
 
     if (run.phase === 'idle') {
-      if (snap.scene > 0) {
+      // 起表 = 进入场景(scene>0)且**李逍遥可移动**(snap.canMove)。对齐 PalTimer「第一次能控制
+      // 李逍遥」语义(README:465);纯 scene>0 会因本移植 boot 期预载场景而在标题/开场演出提前起表。
+      if (snap.scene > 0 && snap.canMove) {
         run.phase = 'running'
         dt = 0 // 起表帧不计时:本帧作为时钟起点,dt 从下帧开始累积
       } else {

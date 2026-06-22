@@ -6,7 +6,7 @@ import type { ProgressSnapshot } from './snapshot.js'
 import { SpeedrunTimer } from './timer.js'
 
 const snap = (o: Partial<ProgressSnapshot>): ProgressSnapshot => ({
-  scene: 0, partyX: 0, partyY: 0, music: 0, inventory: new Set(), battle: null, ...o,
+  scene: 0, canMove: true, partyX: 0, partyY: 0, music: 0, inventory: new Set(), battle: null, ...o,
 })
 const CPS: Checkpoint[] = [
   { id: 'a', name: 'A', defaultBestMs: 1000, detector: enterScene(2) },
@@ -16,7 +16,7 @@ const BAN: BananaConfig = { scene: 177, cells: [[10, 10]], tolX: 0, tolY: 0, ite
 const mk = (bests = { a: 1000, b: 2000 }): SpeedrunTimer => new SpeedrunTimer(CPS, BAN, { ...bests })
 
 describe('SpeedrunTimer 起表与打点', () => {
-  it('scene>0 才起表,之后按 wall-clock 累加', () => {
+  it('scene>0 且可移动才起表,之后按 wall-clock 累加', () => {
     const t = mk()
     t.tick(snap({ scene: 0 }), 1000, { bananaEnabled: false })
     expect(t.getRun().phase).toBe('idle')
@@ -24,6 +24,20 @@ describe('SpeedrunTimer 起表与打点', () => {
     expect(t.getRun().phase).toBe('running')
     t.tick(snap({ scene: 1 }), 2500, { bananaEnabled: false })
     expect(t.getRun().elapsedMs).toBe(500) // 2500-2000
+  })
+  it('scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表', () => {
+    const t = mk()
+    // 场景已预载(scene>0)但 canMove=false:对齐 PalTimer「第一次能控制李逍遥」才起表。
+    t.tick(snap({ scene: 1, canMove: false }), 1000, { bananaEnabled: false })
+    expect(t.getRun().phase).toBe('idle')
+    t.tick(snap({ scene: 1, canMove: false }), 5000, { bananaEnabled: false })
+    expect(t.getRun().phase).toBe('idle')
+    expect(t.getRun().elapsedMs).toBe(0) // 演出期不计时
+    // 李逍遥可移动那一帧才起表
+    t.tick(snap({ scene: 1, canMove: true }), 6000, { bananaEnabled: false })
+    expect(t.getRun().phase).toBe('running')
+    t.tick(snap({ scene: 1, canMove: true }), 6500, { bananaEnabled: false })
+    expect(t.getRun().elapsedMs).toBe(500)
   })
   it('依序打点,一帧至多推进一个节点', () => {
     const t = mk()
