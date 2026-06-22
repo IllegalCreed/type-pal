@@ -64,4 +64,4 @@
 
 | 文件 | 内容 | 状态 |
 |---|---|---|
-| [tileset-atlas-packing](2026-06-22-tileset-atlas-packing.md) | 瓦片图集打包(67k 碎 PNG → 每地图一张图集),第一阶段可落地,为第二阶段全局瓦片去重铺路 | 🔄 |
+| [tileset-atlas-packing](2026-06-22-tileset-atlas-packing.md) | 瓦片资源管线优化:每地图 gzip RLE blob(去图片容器),实测 265MB→~51MB(80%)/ 请求 67k→223 / 解码 0 次 canvas。atlas 方案实测仅 13% 已否决 | 🔄 |
