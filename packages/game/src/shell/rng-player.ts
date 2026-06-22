@@ -5,9 +5,10 @@
  *      —— main.c:200 `PAL_TrademarkScreen` fallback 调 `PAL_RNGPlay(6, 0, -1, 25)`,
  *      即播 RNG.MKF chunk 6 从 frame 0 到 last,iSpeed=25 → 帧间隔 1/25s。
  *
- * 数据源(M5.6 T18 Step 2 pal-extract 真做):
- *   - `/extracted/data/rng-frames.json` manifest(每 chunk frame 列表)
- *   - `/extracted/images/animation/rng-{NN}/frame-{NNN}.png`(320×200 8-bit indexed)
+ * 数据源(2026-06-22 资源管线优化:去逐帧 PNG):
+ *   - `/extracted/data/rng-frames.json` manifest(每 chunk frameCount + frame index 列表)
+ *   - `/extracted/data/animation/rng-{NN}.rle`(gzip 的原始 RNG chunk;fetch 一次 →
+ *     decompressGzip → shared decodeRngFrames 解出全帧,按 chunk 缓存)
  *
  * 设计:
  *  - Prefetch 全帧 PNG → IndexedImage[](chunk 6 = 54 帧,~MB,可接受)
@@ -15,8 +16,9 @@
  *  - Space/Enter/Escape 跳过
  *  - 不知 gs — caller(bootstrap)try/finally 包 suspendRaf
  */
-import type { Palette } from '@type-pal/shared'
-import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
+import { RNG_HEIGHT, RNG_WIDTH, decodeRngFrames, type Palette } from '@type-pal/shared'
+import type { IndexedImage } from '../assets/png.js'
+import { decompressGzip } from '../assets/tileset-blob.js'
 import type { Framebuffer } from '../present/framebuffer.js'
 import { flushToCanvas } from '../present/present.js'
 import { applyScreenShake } from '../present/screen-shake.js'
@@ -75,22 +77,38 @@ export interface PlayRngOptions {
   fetchFrame?: (chunkIdx: number, frameIdx: number) => Promise<IndexedImage>
 }
 
-async function fetchPng(url: string): Promise<IndexedImage> {
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`rng-player: fetch ${url} failed (${res.status})`)
-  return decodePngToIndices(await res.blob())
-}
-
 async function defaultFetchManifest(): Promise<RngFramesManifest> {
   const res = await fetch('/extracted/data/rng-frames.json')
   if (!res.ok) throw new Error(`rng-player: manifest fetch failed (${res.status})`)
   return (await res.json()) as RngFramesManifest
 }
 
+// 资源管线优化(2026-06-22):RNG 从「逐帧 320×200 PNG(92MB)」改为「每 chunk 一个 gzip
+// 的原始 RNG chunk」。runtime fetch 一次 → decompressGzip → shared decodeRngFrames 解出全帧,
+// 按 chunk 缓存(一个 chunk 只解一次,供逐帧播放取用)。RNG 帧全屏不透明,opaque 恒全 1
+// (且播放只 fb.indices.set(frame.indices) 不读 opaque),故 opaque 复用同一只读数组。
+const RNG_OPAQUE = new Uint8Array(RNG_WIDTH * RNG_HEIGHT).fill(1)
+const rngChunkCache = new Map<number, Map<number, IndexedImage>>()
+
+async function loadRngChunk(chunkIdx: number): Promise<Map<number, IndexedImage>> {
+  const cached = rngChunkCache.get(chunkIdx)
+  if (cached) return cached
+  const url = `/extracted/data/animation/rng-${chunkIdx.toString().padStart(2, '0')}.rle`
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`rng-player: fetch ${url} failed (${res.status})`)
+  const bytes = await decompressGzip(await res.blob())
+  const map = new Map<number, IndexedImage>()
+  for (const f of decodeRngFrames(bytes)) {
+    map.set(f.index, { width: RNG_WIDTH, height: RNG_HEIGHT, indices: f.pixels, opaque: RNG_OPAQUE })
+  }
+  rngChunkCache.set(chunkIdx, map)
+  return map
+}
+
 async function defaultFetchFrame(chunkIdx: number, frameIdx: number): Promise<IndexedImage> {
-  const chunkPad = chunkIdx.toString().padStart(2, '0')
-  const framePad = frameIdx.toString().padStart(3, '0')
-  return fetchPng(`/extracted/images/animation/rng-${chunkPad}/frame-${framePad}.png`)
+  const frame = (await loadRngChunk(chunkIdx)).get(frameIdx)
+  if (!frame) throw new Error(`rng-player: frame ${frameIdx} not found in chunk ${chunkIdx}`)
+  return frame
 }
 
 /** sleep 帮手(promise + setTimeout)。 */

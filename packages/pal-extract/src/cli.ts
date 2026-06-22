@@ -51,7 +51,7 @@ import {
   parseLevelUpExp,
   parseLevelUpMagic,
 } from './resources/parsers/data-misc.js'
-import { decodeRngAnim } from './resources/parsers/rng-frames.js'
+import { decodeRngFrames } from '@type-pal/shared'
 import { decodeRgmPortrait } from './resources/parsers/rgm.js'
 import { decodeBallIcon } from './resources/parsers/ball.js'
 import { parseFirSprite } from './resources/parsers/fire.js'
@@ -387,9 +387,10 @@ async function main(): Promise<void> {
   // SAVE.MKF 不存在(WIN95+ 用 .RPG 存档),drop。
 
   // RNG.MKF: 12 chunks, 每 chunk 是 sub-MKF + RLE delta 动画帧(rngplay.c)
-  // M5.6 T18 Step 2:从 raw dump 升级到 RLE delta decode → 320×200 frame PNG。
-  // sdlpal `PAL_RNGReadFrame`(sub-MKF + 4-byte offsets)+ `PAL_RNGBlitToSurface`
-  //(opcode 0x00-0x13 真值,见 rng-frames.ts)真做 port。
+  // 资源管线优化(2026-06-22):从「逐帧 320×200 PNG(92MB)」改为「每 chunk 一个 gzip 的
+  // 原始 RNG chunk(.rle,~MB)」。runtime decodeRngFrames(@type-pal/shared)解。manifest
+  // 仍写(frameCount 供 player startFrame/endFrame),由 decodeRngFrames 计数(无 PNG 编码)。
+  // 后缀 `.rle` 避开 .gz 触发的 Content-Encoding 双解压(同 tileset)。
   {
     const rngMkf = openMkf(loadFile('RNG.MKF'))
     const n = chunkCount(rngMkf)
@@ -401,30 +402,26 @@ async function main(): Promise<void> {
     let totalRngFrames = 0
     for (let i = 0; i < n; i++) {
       const chunk = readChunk(rngMkf, i)
-      let result: ReturnType<typeof decodeRngAnim>
+      let frames: ReturnType<typeof decodeRngFrames>
       try {
-        result = decodeRngAnim(i, chunk)
-      }
-      catch (err) {
+        frames = decodeRngFrames(chunk)
+      } catch (err) {
         console.warn(`[pal-extract] RNG chunk ${i} decode fail, skip:`, err)
         continue
       }
-      for (const f of result.frames) {
-        writeBinary(
-          resolve(OUT, 'images', 'animation', `rng-${i.toString().padStart(2, '0')}`,
-            `frame-${f.index.toString().padStart(3, '0')}.png`),
-          f.pngBytes,
-        )
-      }
+      writeBinary(
+        resolve(OUT, 'data', 'animation', `rng-${i.toString().padStart(2, '0')}.rle`),
+        gzipSync(chunk),
+      )
       manifest.push({
         chunkIndex: i,
-        frameCount: result.frameCount,
-        frames: result.frames.map((f) => ({ index: f.index })),
+        frameCount: frames.length,
+        frames: frames.map((f) => ({ index: f.index })),
       })
-      totalRngFrames += result.frameCount
+      totalRngFrames += frames.length
     }
     writeJson(resolve(OUT, 'data', 'rng-frames.json'), { chunks: manifest })
-    console.log(`[pal-extract] RNG.MKF written (${n} chunks, ${totalRngFrames} frames total)`)
+    console.log(`[pal-extract] RNG.MKF blobs written (${n} chunks, ${totalRngFrames} frames total)`)
   }
 
   // RGM.MKF: 92 chunks, 每 chunk 是单帧 RLE bitmap 角色头像(sdlpal global.h fpRGM)。

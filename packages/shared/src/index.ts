@@ -7,6 +7,9 @@ export * from './resources.js'
 export * from './tables.js'
 export * from './input.js'
 export * from './rle.js'
+export * from './mkf.js'
+export * from './yj2.js'
+export * from './rng.js'
 
 /** 探索 / 菜单 / 事件模式的逻辑帧率(见 D13)。 */
 export const FPS_EXPLORE = 10
