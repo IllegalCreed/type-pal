@@ -9,6 +9,8 @@
 #
 #   注:Service Worker(dist/sw.js,register updateViaCache:'none')自更新,无需 nginx 特殊配置;
 #       asset-manifest.json 随 data 目标同步。若重跑过 pnpm extract,务必用 all(data 同步新清单)。
+#       data/all 目标 rsync 后会自动刷新 CDN(/extracted/ 目录,见 refresh_cdn)——
+#       否则同路径改内容的数据文件会被 CDN 边缘缓存 7 天发旧版本(2026-06-22 踩坑)。
 #
 # 部署策略(沿用 quiz-monorepo 的"本地构建 → 原子切换"+ 大资源分离):
 #   - 应用壳:vite build → tar → 远程解压 dist.new → mv 原子切换(旧版留 dist.old)
@@ -121,8 +123,30 @@ REMOTE
   log_info "应用壳部署完成 ✓(旧版本在远程 ${REMOTE_ROOT}/dist.old)"
 }
 
+# CDN 刷新:/extracted/ 下的数据文件路径不变、内容会变(重提取改了格式/内容),而阿里云 CDN
+# 默认缓存 7 天且忽略 query 参数 —— 不刷新则边缘节点继续发旧数据,新壳读到旧格式 → 版本错位崩溃
+# (2026-06-22 实测:tilemap/scene 改格式后老边缘节点发旧 JSON,启动 404)。aliyun CLI 在服务器上
+# (cdn-deploy = RAM 子账号,AliyunCDNFullAccess);rsync 后目录刷新整个 /extracted/。
+# 非致命:刷新失败只 warn(数据已同步,缓存终会过期,也可阿里云控制台手动刷)。
+refresh_cdn() {
+  log_info "刷新 CDN 缓存(/extracted/ 目录)..."
+  # 注:heredoc 体(set -e..REMEND)发到远端执行;DOMAIN 经 env 前缀传入。ssh 放 if 条件里,
+  # set -e 不会因刷新失败中止部署(数据已同步,刷新仅非致命补充)。
+  if ssh "${SERVER_USER}@${SERVER_HOST}" "DOMAIN='${SITE_DOMAIN}' bash -s" <<'REMEND'
+set -e
+command -v aliyun >/dev/null 2>&1 || { echo "  服务器无 aliyun CLI,跳过(请手动刷 /extracted/)"; exit 1; }
+aliyun cdn RefreshObjectCaches --ObjectPath "https://${DOMAIN}/extracted/" --ObjectType Directory --profile cdn-deploy
+REMEND
+  then
+    log_info "CDN 刷新已提交 ✓(边缘节点几分钟内回源拉新)"
+  else
+    log_warn "CDN 刷新失败(非致命):数据已同步;可在阿里云控制台手动刷新 https://${SITE_DOMAIN}/extracted/"
+  fi
+}
+
 # extracted 资源树:rsync 增量(--delete 清理重提取后消失的文件)。
 # 非原子,但 extracted 仅在重跑提取器后才变、且文件级原子(--partial 只影响续传临时文件)。
+# rsync 后自动刷 CDN(见 refresh_cdn):否则边缘缓存 7 天内发旧数据。
 deploy_data() {
   log_info "rsync 同步 extracted(~580MB,增量;首次全量较久)..."
   ssh "${SERVER_USER}@${SERVER_HOST}" "mkdir -p '${REMOTE_ROOT}/extracted'"
@@ -130,6 +154,7 @@ deploy_data() {
     --exclude='.DS_Store' \
     "${EXTRACTED_DIR}/" "${SERVER_USER}@${SERVER_HOST}:${REMOTE_ROOT}/extracted/"
   log_info "extracted 同步完成 ✓"
+  refresh_cdn
 }
 
 main() {
