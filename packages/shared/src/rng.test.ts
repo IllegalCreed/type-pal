@@ -1,9 +1,8 @@
-import { existsSync, readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { openMkf, readChunk } from './mkf.js'
-import { RNG_HEIGHT, RNG_WIDTH, decodeRngFrames, rngBlitDelta } from './rng.js'
+import { decodeRngFrames, rngBlitDelta } from './rng.js'
 
+// 纯逻辑单测(shared 为同构包,不依赖 node:fs)。真实 RNG.MKF 集成解码覆盖在
+// pal-extract `rng-frames.test.ts`(decodeRngAnim 走同一份 shared decodeRngFrames)。
 describe('rngBlitDelta (RLE delta opcodes)', () => {
   it('0x06 写 1 个 2-byte literal pair', () => {
     const s = new Uint8Array(8)
@@ -41,29 +40,8 @@ describe('rngBlitDelta (RLE delta opcodes)', () => {
   })
 })
 
-const RNG_MKF = resolve(__dirname, '../../../data/raw/RNG.MKF')
-const hasData = existsSync(RNG_MKF)
-
-describe.skipIf(!hasData)('decodeRngFrames (真实 RNG.MKF)', () => {
-  it('chunk 6(trademark fallback)解出多帧 320×200,且每帧是独立拷贝', () => {
-    const mkf = openMkf(new Uint8Array(readFileSync(RNG_MKF)))
-    const frames = decodeRngFrames(readChunk(mkf, 6))
-    expect(frames.length).toBeGreaterThan(1)
-    for (const f of frames) {
-      expect(f.pixels.length).toBe(RNG_WIDTH * RNG_HEIGHT)
-    }
-    // 关键:delta surface 被逐帧拷贝(slice),帧间不共享同一 buffer —— 否则全部指向末帧
-    expect(frames[0]!.pixels).not.toBe(frames[1]!.pixels)
-    const differ = frames[0]!.pixels.some((v, i) => v !== frames[1]!.pixels[i])
-    expect(differ).toBe(true)
-  })
-
+describe('decodeRngFrames', () => {
   it('空 chunk → 空帧数组', () => {
     expect(decodeRngFrames(new Uint8Array(0))).toEqual([])
   })
 })
-
-if (!hasData) {
-  // biome-ignore lint/suspicious/noConsole: skip 提示
-  console.warn('[rng.test skip] data/raw/RNG.MKF 缺失 —— 真实解码集成跳过')
-}
