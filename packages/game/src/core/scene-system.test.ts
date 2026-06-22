@@ -17,7 +17,7 @@ function makeFlatMap(w: number, h: number): Tilemap {
   const cells = Array.from({ length: h }, () =>
     Array.from({ length: w }, () => ({ lower: 0, upper: 0 })),
   )
-  return { width: w, height: h, cells, tilesetImage: 'fake' }
+  return { width: w, height: h, cells, tileset: 'fake' }
 }
 
 /**
@@ -40,7 +40,7 @@ function makeBlockedMap(
   for (const [col, row] of blockedH1) {
     cells[row]![col]!.upper = 0x2000
   }
-  return { width: w, height: h, cells, tilesetImage: 'fake' }
+  return { width: w, height: h, cells, tileset: 'fake' }
 }
 
 function snap(held: AbstractKey[] = [], pressed: AbstractKey[] = [], frameNum = 0): InputSnapshot {
@@ -927,7 +927,7 @@ function makeSceneAssets(
   return {
     sceneId,
     mapNum: sceneId, // 测试用占位:让 getCurrentMapNum 有可断言的非 0 值(真值来自 scene JSON）
-    tilemap: { width: 64, height: 128, cells: [], tilesetImage: 'fake' } as Tilemap,
+    tilemap: { width: 64, height: 128, cells: [], tileset: 'fake' } as Tilemap,
     palette: { colors: [], cycles: [] } as any,
     eventObjects,
     npcSprites: new Map(),

@@ -11,8 +11,14 @@ export interface Tilemap {
   height: number
   /** [row][col] = TileCell;长度 = height × width 行 × width 列 */
   cells: TileCell[][]
-  /** 对应 tileset PNG 的文件名(由 CLI 总装时填)*/
-  tilesetImage: string
+  /**
+   * 对应 tileset 资源的相对路径(由 CLI 总装时填)。
+   *
+   * tileset 资源管线优化(2026-06-22):指向 `tileset/{mapNum}.rle.gz`
+   * (gzip 原始 GOP chunk 字节,runtime 用 DecompressionStream + parseSpriteChunk 解)。
+   * 旧字段 `tilesetImage`(per-tile RGBA PNG glob)已移除。
+   */
+  tileset: string
 }
 
 export interface PaletteCycle {

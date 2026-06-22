@@ -12,7 +12,7 @@ function flatMap(w: number, h: number): Tilemap {
   const cells = Array.from({ length: h }, () =>
     Array.from({ length: w }, () => ({ lower: 0, upper: 0 })),
   )
-  return { width: w, height: h, cells, tilesetImage: 'fake' }
+  return { width: w, height: h, cells, tileset: 'fake' }
 }
 
 function makeSprite(colorIdx: number = 1): SpriteImage {
@@ -1080,7 +1080,7 @@ describe('P0.b Y-sort + cover-tile', () => {
         (r === 5 && c === 5) ? { lower: L1_DWORD, upper: 0 } : { lower: 0, upper: 0 },
       ),
     )
-    const tilemap: Tilemap = { width: 10, height: 10, cells, tilesetImage: 'fake' }
+    const tilemap: Tilemap = { width: 10, height: 10, cells, tileset: 'fake' }
 
     const fb = createFramebuffer()
     // party at x=160, y=80 → camera at same → party at screen center (160, 100)
@@ -1132,7 +1132,7 @@ describe('P0.b Y-sort + cover-tile', () => {
         (r === 3 && c === 2) ? { lower: L1_DWORD, upper: 0 } : { lower: 0, upper: 0 },
       ),
     )
-    const tilemap: Tilemap = { width: 10, height: 10, cells, tilesetImage: 'fake' }
+    const tilemap: Tilemap = { width: 10, height: 10, cells, tileset: 'fake' }
 
     // sdlpal scene.c:480-491 真值:layer 0 + layer 1 全画 → 再 Y-sort sprites + cover tiles
     // 全画位置:h=0 tile 落在 (dx*32 - 16 + offsetX, dy*16 - 8 + offsetY) = (144, 92)
@@ -1188,7 +1188,7 @@ describe('P0.b Y-sort + cover-tile', () => {
         (r === 5 && c === 5) ? { lower: L1_DWORD, upper: 0 } : { lower: 0, upper: 0 },
       ),
     )
-    const tilemap: Tilemap = { width: 10, height: 40, cells, tilesetImage: 'fake' }
+    const tilemap: Tilemap = { width: 10, height: 40, cells, tileset: 'fake' }
 
     const fb = createFramebuffer()
     // party far away at y=500, camera at (160, 500)

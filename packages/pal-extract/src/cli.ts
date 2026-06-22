@@ -26,6 +26,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { gzipSync } from 'node:zlib'
 
 import type { Symbols } from './events/annotate.js'
 import { glyphsToJson, parseBdf } from './font/bdf-to-json.js'
@@ -93,12 +94,19 @@ function imageWorldNpcPath(spriteId: number, frameIdx: number): string {
   return resolve(OUT, 'images', 'world', 'npc', String(spriteId), `frame-${frameIdx.toString().padStart(2, '0')}.png`)
 }
 
-function imageWorldTilesetRelPath(mapNum: number, tileIdx: number): string {
-  return `world/tileset/map-${mapNum}/tile-${tileIdx.toString().padStart(4, '0')}.png`
+/**
+ * tileset 资源管线优化(2026-06-22):每地图存一个 gzip 原始 RLE blob,
+ * 取代旧的 per-tile RGBA PNG。blob = gzipSync(gopChunk 原始字节),
+ * runtime 用 DecompressionStream + parseSpriteChunk 解码。
+ *
+ * 相对路径(进 manifest / tilemap JSON 的 tileset 字段)。
+ */
+function tilesetBlobRelPath(mapNum: number): string {
+  return `tileset/${mapNum}.rle.gz`
 }
 
-function imageWorldTilesetPath(mapNum: number, tileIdx: number): string {
-  return resolve(OUT, 'images', imageWorldTilesetRelPath(mapNum, tileIdx))
+function tilesetBlobPath(mapNum: number): string {
+  return resolve(OUT, 'data', tilesetBlobRelPath(mapNum))
 }
 
 function imageBattleBgPath(bgId: number): string {
@@ -615,15 +623,13 @@ async function main(): Promise<void> {
       const gopBytes = readChunk(gopMkf, mapNum)
       const mapResult = parseMap(mapBytes, gopBytes)
 
-      const tilesetFiles: string[] = []
-      for (const tile of mapResult.tiles) {
-        writeBinary(imageWorldTilesetPath(mapNum, tile.index), tile.pngBytes)
-        tilesetFiles.push(imageWorldTilesetRelPath(mapNum, tile.index))
-      }
+      // tileset 资源管线优化:存 gzip 原始 RLE blob(字节级忠实原版 GOP chunk),
+      // 取代旧的 per-tile RGBA PNG(67k 张 / 265MB)。runtime 用 DecompressionStream +
+      // parseSpriteChunk 解码,不经 canvas/createImageBitmap。
+      writeBinary(tilesetBlobPath(mapNum), gzipSync(gopBytes))
       writeJson(dataSubdirPath('tilemap', String(mapNum)), {
         ...mapResult.tilemap,
-        tilesetFiles,
-        tilesetImage: `world/tileset/map-${mapNum}/tile-*.png`,
+        tileset: tilesetBlobRelPath(mapNum),
       })
       tilesetsWritten++
     }

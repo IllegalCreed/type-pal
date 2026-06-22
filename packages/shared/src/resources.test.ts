@@ -16,7 +16,7 @@ import type {
 
 describe('resources types', () => {
   it('Tilemap 有必要字段', () => {
-    expectTypeOf<Tilemap>().toMatchTypeOf<{ width: number; height: number; cells: TileCell[][]; tilesetImage: string }>()
+    expectTypeOf<Tilemap>().toMatchTypeOf<{ width: number; height: number; cells: TileCell[][]; tileset: string }>()
   })
   it('TileCell 有 lower 和 upper 字段', () => {
     const cell: TileCell = { lower: 0x1234, upper: 0xabcd }

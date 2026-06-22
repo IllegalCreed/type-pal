@@ -28,7 +28,7 @@ export interface MapResult {
  *   - mapBytes:已经过 decompressYj2 的 65536 字节
  *   - gopBytes:readChunk 取出的原始 sprite chunk(GOP.MKF 不做 YJ2 压缩)
  *
- * tilesetImage 字段留空,由 CLI 总装时填写 PNG 文件名。
+ * tileset 字段留空(占位),由 CLI 总装时填 gzip blob 相对路径。
  */
 export function parseMap(mapBytes: Uint8Array, gopBytes: Uint8Array): MapResult {
   const expectedSize = MAP_WIDTH_TILES * MAP_HEIGHT_TILES * 2 * 4
@@ -63,7 +63,7 @@ export function parseMap(mapBytes: Uint8Array, gopBytes: Uint8Array): MapResult 
       width: MAP_WIDTH_TILES,
       height: MAP_HEIGHT_TILES,
       cells,
-      tilesetImage: '', // filled by CLI when it writes PNG
+      tileset: '', // filled by CLI when it writes the gzip blob
     },
     tiles,
   }

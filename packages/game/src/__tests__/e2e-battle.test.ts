@@ -144,7 +144,7 @@ const _ignoreTilemap: Tilemap = {
   width: 1,
   height: 1,
   cells: [[{ lower: 0, upper: 0 }]],
-  tilesetImage: '',
+  tileset: '',
 }
 void _ignoreTilemap // 防 lint:测试不 setSceneContext,直接调 tickBattle
 

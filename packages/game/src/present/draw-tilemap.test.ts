@@ -25,7 +25,7 @@ describe('drawTilemap', () => {
     const map: Tilemap = {
       width: 1, height: 1,
       cells: [[{ lower: 1, upper: 2 }]],
-      tilesetImage: 'fake',
+      tileset: 'fake',
     }
     drawTilemap(fb, map, tiles, { x: -160, y: -112 }, 0)
     // lower (h=0) 落 (144, 104) → 该像素值 1
@@ -49,7 +49,7 @@ describe('drawTilemap', () => {
     const map: Tilemap = {
       width: 1, height: 1,
       cells: [[{ lower: 5, upper: 0 }]],
-      tilesetImage: 'fake',
+      tileset: 'fake',
     }
     drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 0)
     // 中心格 lower id 5 + fence 8 圈每圈 lower+upper 都 fenceFill=5。
@@ -70,7 +70,7 @@ describe('drawTilemap', () => {
     const map: Tilemap = {
       width: 1, height: 1,
       cells: [[{ lower: 0, upper: 0xff0000 }]],
-      tilesetImage: 'fake',
+      tileset: 'fake',
     }
     drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 1)
     // 唯一调用应该是中心格 upper 的 0xfe;另外 lower 在 layer 1 下
@@ -88,7 +88,7 @@ describe('drawTilemap', () => {
     const map: Tilemap = {
       width: 1, height: 1,
       cells: [[{ lower: 0x1010, upper: 0 }]],
-      tilesetImage: 'fake',
+      tileset: 'fake',
     }
     drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 0)
     expect(captured).toContain(0x110)
@@ -106,7 +106,7 @@ describe('drawTilemap', () => {
     const map: Tilemap = {
       width: 2, height: 1,
       cells: [[cellWithTop, cellNoTop]],
-      tilesetImage: 'fake',
+      tileset: 'fake',
     }
     drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 1)
     expect(captured).toContain(0x10f)
@@ -126,7 +126,7 @@ describe('drawTilemap', () => {
     const map: Tilemap = {
       width: 1, height: 1,
       cells: [[{ lower: 1, upper: 0 }]],
-      tilesetImage: 'fake',
+      tileset: 'fake',
     }
     const coverage = new Uint8Array(320 * 200)
     // camera=(-160,-112) → cell(0,0) lower(h=0) 落 (144,104),4×4 不透明 tile 1。
