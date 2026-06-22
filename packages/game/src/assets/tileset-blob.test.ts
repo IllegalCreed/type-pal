@@ -105,6 +105,14 @@ describe('decompressGzip', () => {
     const decompressed = await decompressGzip(blob)
     expect(decompressed.byteLength).toBe(0)
   })
+
+  it('Content-Encoding 已解压(无 gzip 魔数)→ 原样返回,不二次解压', async () => {
+    // 模拟 nginx/CDN 自动解掉 Content-Encoding 后,fetch 拿到的是裸 chunk 字节(非 gzip)。
+    const rawChunk = makeSimpleChunk() // 首字节 0x02(小端 count),非 0x1f
+    const blob = new Blob([rawChunk])
+    const out = await decompressGzip(blob)
+    expect(Array.from(out)).toEqual(Array.from(rawChunk))
+  })
 })
 
 describe('loadTilesetBlob', () => {

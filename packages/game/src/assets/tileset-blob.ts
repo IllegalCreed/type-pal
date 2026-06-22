@@ -53,15 +53,27 @@ export function decodeTilesetBlob(gopBytes: Uint8Array): Map<number, IndexedImag
  *
  * 实现备注:用 `blob.arrayBuffer()` 取完整字节再包 `new Response(buf).body` 走 stream,
  * 而非 `blob.stream()`——后者在某些环境(如 jsdom)缺失,前者更通用。
+ *
+ * **Content-Encoding 双解压防御**:blob 后缀用 `.rle`(非 `.rle.gz`)正是为了避免
+ * 静态服务器把它当 gzip-encoded 文件、自动加 `Content-Encoding: gzip` 让浏览器先解一次。
+ * 但生产 nginx / 阿里云 CDN 仍可能因 mime 嗅探对它再压一层并设 Content-Encoding ——
+ * 那种情况浏览器 fetch 已经把我们的 gzip 层也解掉了,拿到的是裸 chunk 字节。
+ * 这里据 gzip 魔数(1f 8b)判断:没魔数 = 上游已解,直接返回(解压后的 sprite/MKF chunk
+ * 首字节是小端 count/offset,绝不会是 1f 8b,故无误判)。
  */
 export async function decompressGzip(blob: Blob): Promise<Uint8Array> {
+  const buf = await blob.arrayBuffer()
+  const bytes = new Uint8Array(buf)
+  // 上游(Content-Encoding)已解压 → 没有 gzip 魔数 → 直接返回,避免二次解压报 "incorrect header check"
+  if (bytes.length < 2 || bytes[0] !== 0x1f || bytes[1] !== 0x8b) {
+    return bytes
+  }
   if (typeof DecompressionStream === 'undefined') {
     throw new Error(
       'tileset-blob: DecompressionStream unsupported in this environment ' +
         '(需要 Chrome 80+/Safari 16.4+/Firefox 113+)。可后续引入 fflate 兜底。',
     )
   }
-  const buf = await blob.arrayBuffer()
   const ds = new DecompressionStream('gzip')
   const reader = new Response(buf).body!.pipeThrough(ds).getReader()
   const chunks: Uint8Array[] = []

@@ -9,16 +9,17 @@
  *   - [row][col][0] = lower layer u32
  *   - [row][col][1] = upper layer u32
  */
+import { type RleFrame, parseSpriteChunk } from '@type-pal/shared'
 import type { TileCell, Tilemap } from '@type-pal/shared'
-import { framesToOut, parseSpriteChunk, type SpriteFrameOut } from './sprite.js'
 
 const MAP_WIDTH_TILES = 64 // sdlpal map.c: Tiles[128][64][2]
 const MAP_HEIGHT_TILES = 128
 
 export interface MapResult {
   tilemap: Tilemap
-  /** 各 tile 帧(单图集 PNG 在 CLI 总装时拼好;这里只产单帧列表)*/
-  tiles: SpriteFrameOut[]
+  /** 各 tile 帧(已解 RLE 的原始帧;tileset 资源管线优化后 CLI 不再逐 tile 编 PNG,
+   *  而是 gzip 原始 GOP chunk。此处保留帧列表仅供计数 / 测试,不再做 PNG 编码。*/
+  tiles: RleFrame[]
 }
 
 /**
@@ -54,9 +55,9 @@ export function parseMap(mapBytes: Uint8Array, gopBytes: Uint8Array): MapResult 
     cells.push(r)
   }
 
-  // GOP.MKF chunk = raw sprite chunk (frame array), no YJ2 decompression needed
-  const frames = parseSpriteChunk(gopBytes)
-  const tiles = framesToOut(frames)
+  // GOP.MKF chunk = raw sprite chunk (frame array), no YJ2 decompression needed.
+  // 只解帧(便宜),不再 framesToOut 编 PNG —— tileset 改存 gzip 原始 chunk(见 cli.ts)。
+  const tiles = parseSpriteChunk(gopBytes)
 
   return {
     tilemap: {

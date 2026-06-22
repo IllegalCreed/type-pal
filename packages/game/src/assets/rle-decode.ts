@@ -1,8 +1,13 @@
 /**
  * 运行时 RLE 精灵解码(M5 Sync.2)。
  *
- * 同 `packages/pal-extract/src/io/rle.ts` 算法,搬到 game 包供运行时解 raw dump
- * (rgm-raw.json 头像、DATA.MKF chunk 12 dialog icons 等)用。
+ * 搬到 game 包供运行时解「整 chunk = 单帧 RLE」的 raw dump(RGM 头像、DATA.MKF
+ * chunk 12 dialog icons 等)用 —— 这类首部带 `0x02000000` file-header 前缀,本文件
+ * `decodeRle` 会跳过它(见下方注释)。
+ *
+ * ⚠️ **与 `@type-pal/shared` 的 `decodeRle` 是两份、语义不同**:shared 那份**不跳**
+ * 前缀(给 sprite-group chunk 用:tileset / npc / battle / magic 经 parseSpriteChunk
+ * 取真 offset 后才喂)。两者**不可互换**;别图省事合并,否则一边解码错位。
  *
  * 参考 sdlpal `palcommon.c::PAL_RLEBlitToSurfaceWithShadow`。
  */

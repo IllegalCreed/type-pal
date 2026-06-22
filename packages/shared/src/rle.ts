@@ -4,6 +4,12 @@
  *
  * 本模块是纯函数解码器,extractor 与 runtime 共用,保证两端用同一份逻辑解出像素
  * (S1 of tileset 资源管线优化:tileset 从 per-tile PNG 改为每地图 gzip RLE blob)。
+ *
+ * ⚠️ **注意另有一份**:`packages/game/src/assets/rle-decode.ts` 的 `decodeRle` 多了
+ * 一段 `0x02000000` 单帧 file-header 前缀跳过(给 RGM 头像 / 标题屏这类「整 chunk =
+ * 单帧 RLE」用),与本文件**语义不同,不可互换**。sprite-group chunk(tileset / npc /
+ * battle / magic)走本文件(parseSpriteChunk 取真 offset 后喂,首字节即真 width);
+ * 单帧整-chunk 走那一份。别天真合并,否则 RGM 头像解码错位。
  */
 
 export interface RleFrame {
