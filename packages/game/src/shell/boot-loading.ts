@@ -21,7 +21,11 @@
  *   - 预估垫底让前几波不虚高,实际总量超预估后自然切回真实分数,clamp 兜底不回退;
  *   - 预估随项目演化有 ±20% 漂移无妨:不足时 finish 强制满格,超出时条提前到 99% 爬行。
  */
-const EXPECTED_BOOT_REQUESTS = 3236 // 2026-06-15 实测请求总数(此前 3200 是偏小估值,进度条偏快到顶)
+// 2026-06-22:资源管线把 tileset/npc/动画/战斗/magic 从「逐帧 PNG」改成「每单元 gzip blob」,
+// 启动期请求数从 ~3236 暴跌到 ~450(loadAll:~20 数据表 + tileset blob + npc 精灵 blob + 172 战斗精灵
+// blob + 76 战斗背景 + 55 fire blob + ui + 88 立绘 + glyphs + soundfont)。仍是估值(±20% 无妨:
+// markPlayable 到虚线时强制对齐,见 createUnifiedProgressUi);此前残留 3236 会让必要进度卡在 ~3%。
+const EXPECTED_BOOT_REQUESTS = 450
 
 let _origFetch: typeof globalThis.fetch | null = null
 let _started = 0

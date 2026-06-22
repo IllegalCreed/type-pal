@@ -172,14 +172,20 @@ function equalBytes(a: Uint8Array, b: Uint8Array): boolean {
 async function main(): Promise<void> {
   console.log('[pal-extract] start')
 
-  // 清理旧产物:data/extracted 是 gitignore 的可重生成物。清空再写,避免上次 extract 的
-  // 陈旧文件残留 —— 尤其「已迁移成 gzip blob 的旧 PNG」(tileset/npc/animation/battle/magic)
-  // 会被 asset-manifest 扫进 SW 预缓存,白占 ~125MB。OUT 是固定常量,清前再 guard 一道。
+  // 清理 cli 旧产物:data/extracted 是 gitignore 的可重生成物。清掉再写,避免上次 extract 的
+  // 陈旧文件残留(尤其已迁移成 gzip blob 的旧 PNG)被 asset-manifest 扫进 SW 预缓存白占空间。
+  // ⚠️ 但**只清 cli 自己产出的**:`videos/` 由 `extract:videos`(scripts/extract-videos.ts,ffmpeg
+  // avi→mp4)单独生成,pnpm extract 不重建它 —— 一并清掉会让开场视频 404,rsync --delete 还会删到线上。
+  // 故保留 PRESERVE 列表里的非 cli 产物;其余全清。OUT 是固定常量,清前再 guard 一道。
   if (!OUT.endsWith(`${sep}data${sep}extracted`)) {
     throw new Error(`[pal-extract] refuse to clean unexpected OUT: ${OUT}`)
   }
-  rmSync(OUT, { recursive: true, force: true })
   mkdirSync(OUT, { recursive: true })
+  const PRESERVE = new Set(['videos']) // 非 cli 步骤产物,勿删(见 extract:videos)
+  for (const entry of readdirSync(OUT)) {
+    if (PRESERVE.has(entry)) continue
+    rmSync(resolve(OUT, entry), { recursive: true, force: true })
+  }
 
   // ── 共享数据 ────────────────────────────────────────────────────
   const sssBuf = loadFile('SSS.MKF')
