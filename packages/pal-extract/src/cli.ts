@@ -40,7 +40,6 @@ import { parseSss } from './io/sss.js'
 import { parseWordDat } from './io/word.js'
 import { decompressYj2 } from './io/yj2.js'
 import { buildManifest, collectAssetEntries } from './resources/asset-manifest.js'
-import { extractBattleSprites } from './resources/battle-sprite.js'
 import { parseEnemyPos } from './resources/enemy-pos.js'
 import { parseMap } from './resources/map.js'
 import { decodePalette } from './resources/palette.js'
@@ -54,7 +53,6 @@ import {
 import { decodeRngFrames } from '@type-pal/shared'
 import { decodeRgmPortrait } from './resources/parsers/rgm.js'
 import { decodeBallIcon } from './resources/parsers/ball.js'
-import { parseFirSprite } from './resources/parsers/fire.js'
 import { dumpSoundsMetadata } from './resources/parsers/sounds.js'
 import {
   buildEnemyObjectNameMap,
@@ -126,12 +124,19 @@ function imageUiPath(frameIdx: number): string {
   return resolve(OUT, 'images', 'ui', `frame-${frameIdx.toString().padStart(2, '0')}.png`)
 }
 
-function imageMagicPath(frameIdx: number): string {
-  return resolve(OUT, 'images', 'magic', `frame-${frameIdx.toString().padStart(2, '0')}.png`)
+// 资源管线优化(2026-06-22):battle / magic sprite 同 tileset/npc 改 gzip RLE blob,后缀 `.rle`。
+function battleSpriteBlobPath(kind: 'enemy' | 'player', id: number): string {
+  return resolve(OUT, 'data', 'battle-sprite', kind, `${id}.rle`)
 }
 
-function imageBattleSpritePath(kind: 'enemy' | 'player', id: number, frameIdx: number): string {
-  return resolve(OUT, 'images', 'battle', kind, String(id), `frame-${frameIdx.toString().padStart(2, '0')}.png`)
+/** magic 命中特效(DATA chunk 10)单 blob。 */
+function magicEffectBlobPath(): string {
+  return resolve(OUT, 'data', 'magic', 'effect.rle')
+}
+
+/** FIRE.MKF 每 chunk(法术特效)blob。 */
+function magicFireBlobPath(chunkIdx: number): string {
+  return resolve(OUT, 'data', 'magic', `fire-${chunkIdx.toString().padStart(2, '0')}.rle`)
 }
 
 /**
@@ -351,23 +356,13 @@ async function main(): Promise<void> {
   })
   console.log(`[pal-extract] SPRITEUI (chunk 9) written: ${uiFrameOut.length} frames`)
 
-  // M4 P2 T3: DATA.MKF chunk 10 (battle effect sprite) → images/magic/frame-NN.png
-  // sdlpal battle.c:1787: PAL_MKFReadChunk(g_Battle.lpEffectSprite, i, 10, fpDATA)
-  // fight.c: PAL_SpriteGetFrame(g_Battle.lpEffectSprite, index) — 单 sprite group,帧顺序使用。
-  // 实测 imagecount = 86。
+  // DATA.MKF chunk 10 (battle effect sprite) — 资源管线优化:存 gzip RLE blob(去 per-frame
+  // PNG + magic-sprite/effect.json)。sdlpal battle.c:1787 单 sprite group,runtime parseSpriteChunk。
   const effectSpriteBuf = readChunk(dataMkf, 10)
-  const effectFrames = parseSpriteChunk(effectSpriteBuf)
-  const effectFrameOut = framesToOut(effectFrames)
-  for (const f of effectFrameOut) {
-    writeBinary(imageMagicPath(f.index), f.pngBytes)
-  }
-  writeJson(dataSubdirPath('magic-sprite', 'effect'), {
-    chunkIndex: 10,
-    sdlpalName: 'lpEffectSprite',
-    frameCount: effectFrameOut.length,
-    frames: effectFrameOut.map((f) => ({ index: f.index, width: f.width, height: f.height })),
-  })
-  console.log(`[pal-extract] battle effect sprite (chunk 10) written: ${effectFrameOut.length} frames`)
+  writeBinary(magicEffectBlobPath(), gzipSync(effectSpriteBuf))
+  console.log(
+    `[pal-extract] battle effect sprite blob (chunk 10): ${parseSpriteChunk(effectSpriteBuf).length} frames`,
+  )
 
   // M5 Sync.2: DATA.MKF chunk 12 (282B) = bufDialogIcons (sdlpal text.c:891)
   // sprite group: 多帧 icon (key continue / cursor / 等),index 由 g_TextLib.bIcon 选。
@@ -472,7 +467,8 @@ async function main(): Promise<void> {
   }
 
   // FIRE.MKF: 55 chunks, 每 chunk 是 YJ2 sprite group(fight.c PAL_MKFDecompressChunk)
-  // 产出:images/magic/fire-{NN}/frame-{NN}.png + data/fire-sprites.json
+  // 资源管线优化:每 chunk 存 gzip 的 YJ2-解压后 sprite chunk(去 per-frame PNG)。
+  // runtime loadSpriteFramesBlob 解;fire-sprites.json manifest 仍写(frameCount 供 anim-timeline)。
   {
     const fireMkf = openMkf(loadFile('FIRE.MKF'))
     const n = chunkCount(fireMkf)
@@ -480,23 +476,23 @@ async function main(): Promise<void> {
     const fireManifest: Array<{ chunkIndex: number; frameCount: number; frames: Array<{ index: number; width: number; height: number }> }> = []
     for (let i = 0; i < n; i++) {
       const buf = readChunk(fireMkf, i)
-      const result = parseFirSprite(i, buf)
-      const chunkDir = `fire-${i.toString().padStart(2, '0')}`
-      for (const f of result.frames) {
-        writeBinary(
-          resolve(OUT, 'images', 'magic', chunkDir, `frame-${f.index.toString().padStart(2, '0')}.png`),
-          f.pngBytes,
-        )
+      let decompressed: Uint8Array
+      try {
+        decompressed = decompressYj2(buf)
+      } catch {
+        decompressed = buf
       }
+      const frames = decompressed.byteLength < 2 ? [] : parseSpriteChunk(decompressed)
+      if (frames.length > 0) writeBinary(magicFireBlobPath(i), gzipSync(decompressed))
       fireManifest.push({
         chunkIndex: i,
-        frameCount: result.frameCount,
-        frames: result.frames.map((f) => ({ index: f.index, width: f.width, height: f.height })),
+        frameCount: frames.length,
+        frames: frames.map((f, idx) => ({ index: idx, width: f.width, height: f.height })),
       })
-      totalFireFrames += result.frameCount
+      totalFireFrames += frames.length
     }
     writeJson(resolve(OUT, 'data', 'fire-sprites.json'), { chunkCount: n, chunks: fireManifest })
-    console.log(`[pal-extract] FIRE.MKF written (${n} chunks, ${totalFireFrames} frames total)`)
+    console.log(`[pal-extract] FIRE.MKF blobs written (${n} chunks, ${totalFireFrames} frames total)`)
   }
 
   // SOUNDS.MKF 完整提取(2026-05-29 user 要求):每个非空 chunk 本身就是一个完整 RIFF/WAVE 文件
@@ -759,23 +755,18 @@ async function main(): Promise<void> {
   loadBattleMkf('player', fMkf, fChunkCount)
   loadBattleMkf('enemy', abcMkf, abcChunkCount)
 
-  const battleSprites = extractBattleSprites(battleSpriteIds, battleChunks)
-
-  for (const sprite of battleSprites) {
-    const json = {
-      battleSpriteId: sprite.battleSpriteId,
-      kind: sprite.kind,
-      frames: sprite.frames.map((f) => ({ index: f.index, width: f.width, height: f.height })),
-    }
-    writeJson(dataSubdirPath('battle-sprite', `${sprite.kind}/${sprite.battleSpriteId}`), json)
-    for (const f of sprite.frames) {
-      writeBinary(imageBattleSpritePath(sprite.kind, sprite.battleSpriteId, f.index), f.pngBytes)
-    }
+  // 战斗 sprite 资源管线优化:每 sprite 存 gzip 的(YJ2 解压后)sprite chunk,去 per-frame
+  // PNG + battle-sprite-{kind}/{id}.json。runtime loadSpriteFramesBlob 解。battle-sprites.json
+  // manifest(下方写)仍列出 {kind,id} 供 runtime 知道加载哪些。
+  let battleFramesTotal = 0
+  for (const { id, kind } of battleSpriteIds) {
+    const chunk = battleChunks.get(`${kind}:${id}`)!
+    writeBinary(battleSpriteBlobPath(kind, id), gzipSync(chunk))
+    battleFramesTotal += parseSpriteChunk(chunk).length
   }
 
   console.log(
-    `[pal-extract] battle sprites written: ${battleSprites.length} sprites, ` +
-      `${battleSprites.reduce((sum, s) => sum + s.frames.length, 0)} frames total`,
+    `[pal-extract] battle sprite blobs written: ${battleSpriteIds.length} sprites, ${battleFramesTotal} frames total`,
   )
 
   // ── 战斗背景(M3 T25) ──────────────────────────────────────────
@@ -818,9 +809,9 @@ async function main(): Promise<void> {
 
   // ── 战斗精灵 manifest(M3 T25 loader 用) ─────────────────────────
   // 列出 battle sprite 的 (kind, id) — loader 按 manifest 加载,避免 404 / 列目录。
-  const battleSpriteManifest = battleSprites.map((s) => ({
+  const battleSpriteManifest = battleSpriteIds.map((s) => ({
     kind: s.kind,
-    id: s.battleSpriteId,
+    id: s.id,
   }))
   writeJson(
     resolve(OUT, 'data', 'battle-sprites.json'),

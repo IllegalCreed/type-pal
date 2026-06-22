@@ -23,7 +23,12 @@ import type {
 import type { BattleBgAsset } from '../present/battle/draw-battle-bg.js'
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { decodePngToIndices, type IndexedImage } from './png.js'
-import { type CharacterSprite, loadCharacterSpriteBlob, loadTilesetBlob } from './tileset-blob.js'
+import {
+  type CharacterSprite,
+  loadCharacterSpriteBlob,
+  loadSpriteFramesBlob,
+  loadTilesetBlob,
+} from './tileset-blob.js'
 
 const BASE = '/extracted'
 
@@ -119,16 +124,6 @@ interface UiSpriteManifest {
   frames: Array<{ index: number; width: number; height: number }>
 }
 
-interface BattleSpriteManifestEntry {
-  index: number
-  width: number
-  height: number
-}
-interface BattleSpriteMeta {
-  battleSpriteId: number
-  kind: 'player' | 'enemy'
-  frames: BattleSpriteManifestEntry[]
-}
 interface BattleSpritesManifest {
   sprites: Array<{ kind: 'player' | 'enemy'; id: number }>
 }
@@ -245,26 +240,11 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   await Promise.all(
     battleSpritesManifest.sprites.map(async (entry) => {
       try {
-        const meta = await fetchJson<BattleSpriteMeta>(
-          `${BASE}/data/battle-sprite/${entry.kind}/${entry.id}.json`,
+        // 资源管线优化:每 sprite 一个 gzip RLE blob(去 per-frame PNG + battle-sprite json)。
+        const frames = await loadSpriteFramesBlob(
+          `${BASE}/data/battle-sprite/${entry.kind}/${entry.id}.rle`,
         )
-        const frames = await Promise.all(
-          meta.frames.map((f) =>
-            fetchPng(
-              `${BASE}/images/battle/${entry.kind}/${entry.id}/frame-${f.index
-                .toString()
-                .padStart(2, '0')}.png`,
-            ),
-          ),
-        )
-        battleSprites.set(`${entry.kind}-${entry.id}`, {
-          frames: frames.map((f) => ({
-            width: f.width,
-            height: f.height,
-            indices: f.indices,
-            opaque: f.opaque,
-          })),
-        })
+        battleSprites.set(`${entry.kind}-${entry.id}`, { frames })
       } catch (err) {
         console.warn(`assets: battle sprite ${entry.kind}-${entry.id} load failed, skip:`, err)
       }
@@ -288,39 +268,18 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   )
 
   // ── D17a:lpEffectSprite(DATA.MKF chunk 10)加载 —— 物理攻击命中特效 overlay ───
+  // 资源管线优化:存 gzip RLE blob(去 per-frame PNG + magic-sprite/effect.json)。
   let effectSprite: SpriteAsset | undefined
   try {
-    const meta = await fetchJson<{
-      frameCount: number
-      frames: Array<{ index: number; width: number; height: number }>
-    }>(`${BASE}/data/magic-sprite/effect.json`)
-    const frames = await Promise.all(
-      meta.frames.map((f) =>
-        fetchPng(`${BASE}/images/magic/frame-${f.index.toString().padStart(2, '0')}.png`).catch(
-          (err: unknown) => {
-            console.warn(`assets: effect sprite frame ${f.index} load failed:`, err)
-            return undefined
-          },
-        ),
-      ),
-    )
-    effectSprite = {
-      frames: frames.map((f) =>
-        f
-          ? { width: f.width, height: f.height, indices: f.indices, opaque: f.opaque }
-          : // 缺帧占位 1×1 透明(保 frameIdx 与 chunk 对齐)
-            { width: 1, height: 1, indices: new Uint8Array(1), opaque: new Uint8Array(1) },
-      ),
-    }
+    effectSprite = { frames: await loadSpriteFramesBlob(`${BASE}/data/magic/effect.rle`) }
   } catch (err) {
-    console.warn('assets: magic-sprite/effect.json 缺失,战斗命中特效 overlay 将不画:', err)
+    console.warn('assets: magic/effect.rle 缺失,战斗命中特效 overlay 将不画:', err)
   }
 
   // ── D17:FIRE.MKF magic sprite 加载 —— 法术特效 overlay(kind='magic') ─────────
-  //   fire-sprites.json = { chunkCount, chunks:[{chunkIndex, frameCount, frames:[{index,width,height}]}] }
-  //   帧 PNG: images/magic/fire-NN/frame-MM.png(NN/MM 两位补零)。
-  //   只加载被 magics[].effect 引用的 chunk 子集(去重)避免全量 55 chunk fetch 慢;
-  //   每 chunk key = chunkIndex(= magic.effect)。容错:缺帧占位 1×1 透明。
+  //   资源管线优化:每 chunk 一个 gzip RLE blob(data/magic/fire-NN.rle,去 per-frame PNG)。
+  //   fire-sprites.json manifest 仍用于:① 只加载被 magics[].effect 引用的 chunk 子集(去重,
+  //   避免全量 55 chunk);② frameCount(anim-timeline)。每 chunk key = chunkIndex(= magic.effect)。
   const magicSprites = new Map<number, SpriteAsset>()
   try {
     const fireMeta = await fetchJson<{
@@ -340,24 +299,8 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
       chunksToLoad.map(async (chunk) => {
         try {
           const nn = chunk.chunkIndex.toString().padStart(2, '0')
-          const frames = await Promise.all(
-            chunk.frames.map((f) =>
-              fetchPng(
-                `${BASE}/images/magic/fire-${nn}/frame-${f.index.toString().padStart(2, '0')}.png`,
-              ).catch((err: unknown) => {
-                console.warn(`assets: magic sprite fire-${nn} frame ${f.index} load failed:`, err)
-                return undefined
-              }),
-            ),
-          )
-          magicSprites.set(chunk.chunkIndex, {
-            frames: frames.map((f) =>
-              f
-                ? { width: f.width, height: f.height, indices: f.indices, opaque: f.opaque }
-                : // 缺帧占位 1×1 透明(保 frameIdx 与 chunk 对齐)
-                  { width: 1, height: 1, indices: new Uint8Array(1), opaque: new Uint8Array(1) },
-            ),
-          })
+          const frames = await loadSpriteFramesBlob(`${BASE}/data/magic/fire-${nn}.rle`)
+          magicSprites.set(chunk.chunkIndex, { frames })
         } catch (err) {
           console.warn(`assets: magic sprite chunk ${chunk.chunkIndex} load failed, skip:`, err)
         }
