@@ -4,7 +4,7 @@
 > **职责**:本表 owns 每个 MKF / 非 MKF 资源每 chunk 的提取状态。runtime 功能(渲染 / 播放)→ [feature-status](feature-status.md);逐 opcode → [opcode-status](opcode-status.md)。
 > **三表**:[feature-status](feature-status.md)(引擎功能)· [opcode-status](opcode-status.md)(事件 / opcode)· resource-status(资源提取,本表)
 > **图例**:✅ done(已抽,byte-level 确认)· ⚠️ partial · ⬜ todo · N/A · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap)· 🎵 同源冗余(已有其他格式覆盖)
-> **最后更新**:2026-06-16 — 基线 2026-06-07 byte-level 复核(6-07 后仅新增 `asset-manifest.json` 派生清单 + WORD.DAT 剥尾标「1」,提取覆盖率不变);M4 提取实质 100% 完成,零真实数据 gap(全非空 chunk 已落地,skip 的都是引擎从不加载的空槽)。SSS chunk 2 的 **union-view**(`object-magics.json` / `object-poisons.json` / `object-players.json`,非新源数据,见下表 SSS chunk 2)供战斗 opcode 按 object id 解析。runtime 音频 wiring 已归 feature-status H1-H3 接入,soundfont 已随 public 提供,剩 per-track 听验 / 音量音色确认,非提取 gap。
+> **最后更新**:2026-06-22 — tileset 资源管线优化(每地图 gzip RLE blob 取代 per-tile RGBA PNG,见下表 GOP.MKF 行 + 文末「tileset 打包格式变更」);提取覆盖率不变(零真实数据 gap)。基线 2026-06-07 byte-level 复核(6-07 后仅新增 `asset-manifest.json` 派生清单 + WORD.DAT 剥尾标「1」,提取覆盖率不变);M4 提取实质 100% 完成(全非空 chunk 已落地,skip 的都是引擎从不加载的空槽)。SSS chunk 2 的 **union-view**(`object-magics.json` / `object-poisons.json` / `object-players.json`,非新源数据,见下表 SSS chunk 2)供战斗 opcode 按 object id 解析。runtime 音频 wiring 已归 feature-status H1-H3 接入,soundfont 已随 public 提供,剩 per-track 听验 / 音量音色确认,非提取 gap。
 >
 > 数据来源:`reference/sdlpal/global.c::PAL_LoadDefaultGame` + 各 .c grep;状态列由 byte-level 复核(逐 MKF header chunk_count vs `data/extracted/` 实际输出数 + 追 parser 源码确认 dump-all)。提取入口:[packages/pal-extract/src/cli.ts](../packages/pal-extract/src/cli.ts)。
 > MKF 文件存在性:STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(WIN95+ 用 .RPG 存档);`mus.mkf` 存在但与 MIDI 同源(见末段)。
@@ -75,7 +75,7 @@
 
 | Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–225 | `map.c:130 PAL_MKFReadChunk(iMapNum fpGopMKF)`;`res.c:234 "gop.mkf"` | tileset 瓦片位图组(`map->pTileSprite`,PAL_SpriteGetFrame 按 tile 取帧;raw 非 YJ2) | ✅ | `images/world/tileset/map-{n}/tile-XXXX.png`(223 dir,67715 tile PNG;parseMap 内消费) |
+| 0–225 | `map.c:130 PAL_MKFReadChunk(iMapNum fpGopMKF)`;`res.c:234 "gop.mkf"` | tileset 瓦片位图组(`map->pTileSprite`,PAL_SpriteGetFrame 按 tile 取帧;raw 非 YJ2) | ✅ | `data/tileset/{mapNum}.rle.gz` × 223(每地图一个 gzip 原始 GOP chunk blob,runtime `DecompressionStream`+`parseSpriteChunk` 解码;**2026-06-22 改造**,前为 `images/world/tileset/map-{n}/tile-XXXX.png` 67715 张) |
 
 ---
 
@@ -208,7 +208,7 @@
 | SSS | 5 | — | 5 | ✅ 5/5 | events 298 + scene 295 + strings 13513 |
 | MGO | 637 | 0 | 636 | ✅ 636/636 | 636 JSON + 4133 PNG |
 | MAP | 226 | 0,168,171 | 223 | ✅ 223/223 | 223 tilemap JSON |
-| GOP | 226 | 0,168,171 | 223 | ✅ 223/223 | 223 tileset dir + 67715 tile PNG |
+| GOP | 226 | 0,168,171 | 223 | ✅ 223/223 | 223 tileset blob(`.rle.gz`;**2026-06-22 改造**,前为 67715 tile PNG) |
 | F | 19 | — | 19 | ✅ 19/19 | 19 JSON + 149 PNG |
 | ABC | 154 | 0 | 153 | ✅ 153/153 | 153 enemy dir |
 | FBP | 78 | 5,58 | 76 | ✅ 76/76 | 76 bg PNG + 2 splash |
@@ -227,3 +227,25 @@
 | asset-manifest | — | — | 派生 | ✅ | 全产物清单(SW 预缓存) |
 
 > **结论:无真实数据 gap。** STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(DOS/WIN95 以 `.RPG` 存档),不计入。音频运行时接线见 feature-status H1-H3,soundfont 已有,当前剩 per-track 听验 / 音量音色确认(非数据)。(RNG PNG runtime mirror 原备注已订正:软链 + vite fs.allow 已服务全帧,非 gap。)
+
+---
+
+## tileset 打包格式变更(2026-06-22)
+
+**动机**:tileset 占 extracted 的 68%(67,715 张 per-tile RGBA PNG / 265MB),根因是 palette-indexed 位图被包进 4 字节/px 的图片容器(3 通道冗余 + 每文件独立 PNG/zlib 头)。原版 GOP.MKF 全部 RLE 数据仅 16.4MB,重编码 PNG 膨胀到 265MB(~16×)。
+
+**方案**:每地图存一个 `data/tileset/{mapNum}.rle.gz` = `gzipSync(原始 GOP chunk 字节)`。runtime 用浏览器原生 `DecompressionStream('gzip')` 解压 + shared `parseSpriteChunk` 解码,不经 canvas/`createImageBitmap`。字节级忠实原版(blob 就是 GOP chunk)。规格见 [docs/plans/2026-06-22-tileset-atlas-packing.md](../docs/plans/2026-06-22-tileset-atlas-packing.md)。
+
+**实测 before/after**(2026-06-22):
+
+| 指标 | before(per-tile PNG) | after(gzip RLE blob) | 变化 |
+|---|---|---|---|
+| tileset 体积 | 265 MB | **6.7 MB** | **−97.5%** |
+| tileset 文件数 | 67,715 PNG | **223 blob** | −99.7% |
+| 单地图请求数 | 188–452 | **1** | 确定 |
+| 单地图 `createImageBitmap` | 188–452 | **0** | 确定 |
+| manifest 条目 | 77,624 | **10,132** | −87% |
+| extracted 总大小 | ~592 MB | ~319 MB | −46% |
+| 像素输出 | — | **逐像素不变** | S5 snapshot 钉死(6 map / 2149 tile / 103 万 px / 0 diff) |
+
+> 解码器(extractor + runtime 共用)已搬到 `@type-pal/shared`(rle.ts),单一来源。后续同思路可推广到 animation(92MB)/ NPC(17MB)/ battle / magic(同样被 RGBA PNG 包裹),见规格文档 §8。

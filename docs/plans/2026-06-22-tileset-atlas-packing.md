@@ -115,9 +115,12 @@ fetch(blobUrl)
 - broken-sprite 尾帧:`parseSpriteChunk` 的 `SPRITE_DIM_MAX` guard 在运行时同样生效(同一函数),与 extract 期一致,无新风险。
 
 ## 10. 验收标准
-- [ ] `pnpm extract` 产出 223 个 `data/tileset/{N}.rle.gz`,无 `tile-{XXXX}.png`;tilemap JSON 含 `tileset` 字段。
-- [ ] tileset 体积 265MB → **~51MB**(实测记录)。
-- [ ] manifest 条目 77,624 → **~10,000**;单地图请求 188–452 → 1;`createImageBitmap` 调用 → 0。
-- [ ] `pnpm check` 全绿。
-- [ ] 像素一致性:任意 mapNum,新链路 == 旧链路(snapshot)。
-- [ ] 生产 SW 预缓存时间明显下降(数分钟 → 数十秒,实测)。
+
+- [x] `pnpm extract` 产出 223 个 `data/tileset/{N}.rle.gz`,无 `tile-{XXXX}.png`;tilemap JSON 含 `tileset` 字段。
+- [x] tileset 体积 265MB → **6.7MB**(实测,远超预期的 ~51MB —— 原版 GOP.MKF 全部 RLE 仅 16.4MB)。
+- [x] manifest 条目 77,624 → **10,132**;单地图请求 188–452 → 1;`createImageBitmap` 调用 → 0。
+- [x] `pnpm check` 全绿(2219 tests)。
+- [x] 像素一致性:6 个真实 mapNum(1/6/12/50/100/200,2149 tile / 103 万 px)逐字节 0 diff(snapshot 测试)。
+- [ ] 生产 SW 预缓存时间明显下降(数分钟 → 数十秒,实测)—— 待部署后验证。
+
+> 全部步骤 S1-S6 已完成(2026-06-22),commit 链:`refactor` S1 → `feat` S2 → `feat` S3 → `feat` S4 → `test` S5 → `docs` S6。
