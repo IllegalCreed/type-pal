@@ -23,8 +23,8 @@
  *     rng-frames.json                              (RNG.MKF 逐帧 PNG manifest;RGM/BALL 已改 PNG 解码,不再 raw dump)
  *     fire-sprites.json                            (FIRE.MKF sprite manifest, M4 P2 T4)
  */
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { dirname, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
 
@@ -171,6 +171,15 @@ function equalBytes(a: Uint8Array, b: Uint8Array): boolean {
 
 async function main(): Promise<void> {
   console.log('[pal-extract] start')
+
+  // 清理旧产物:data/extracted 是 gitignore 的可重生成物。清空再写,避免上次 extract 的
+  // 陈旧文件残留 —— 尤其「已迁移成 gzip blob 的旧 PNG」(tileset/npc/animation/battle/magic)
+  // 会被 asset-manifest 扫进 SW 预缓存,白占 ~125MB。OUT 是固定常量,清前再 guard 一道。
+  if (!OUT.endsWith(`${sep}data${sep}extracted`)) {
+    throw new Error(`[pal-extract] refuse to clean unexpected OUT: ${OUT}`)
+  }
+  rmSync(OUT, { recursive: true, force: true })
+  mkdirSync(OUT, { recursive: true })
 
   // ── 共享数据 ────────────────────────────────────────────────────
   const sssBuf = loadFile('SSS.MKF')
