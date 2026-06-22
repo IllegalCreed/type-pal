@@ -59,3 +59,9 @@
 | [battle-system-current-audit](2026-06-06-battle-system-current-audit.md) | 战斗系统当前 audit(大修入口) | 🔄 |
 | [sdlpal-diff-audit](2026-06-07-sdlpal-diff-audit.md) | 全子系统差异审计 70 候选 / 64 确认 / 100% 修复 | ✅ |
 | [sdlpal-deep-audit](2026-06-10-sdlpal-deep-audit.md) | 第二轮深挖(执行路径级):81 候选 / 50 条对抗复核 0 refuted;9H+32M+33L 全修(27 commit),5 条有意保留(理由见报告) | ✅ |
+
+### 资源管线优化
+
+| 文件 | 内容 | 状态 |
+|---|---|---|
+| [tileset-atlas-packing](2026-06-22-tileset-atlas-packing.md) | 瓦片图集打包(67k 碎 PNG → 每地图一张图集),第一阶段可落地,为第二阶段全局瓦片去重铺路 | 🔄 |
