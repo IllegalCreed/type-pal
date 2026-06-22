@@ -2,6 +2,8 @@
 
 > 状态：草案（2026-06-18 起草）。第二阶段铁律见 [READ-FIRST.md](READ-FIRST.md)；总纲见 [00-roadmap.md](00-roadmap.md)；议题池见 [design-backlog.md](design-backlog.md)。
 > 本文定义**新引擎（reforge）与编辑器（editor）共用的内容数据模型**，以及从 `data/extracted/` 一次性迁移的方案。是 P1 / P2 的地基。
+>
+> **每条决策的「为什么旧引擎不行」证据**见 [2026-06-22-phase1-engine-debt-audit.md](2026-06-22-phase1-engine-debt-audit.md)（文末有「schema 决策 ↔ finding」反查表）。本文只定「应该长什么样」，那份定「为什么必须这样」。
 
 ## 0. 这份文档定下什么（大白话）
 

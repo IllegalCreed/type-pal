@@ -71,6 +71,11 @@
 - ✅ **受众**：先按**单人本地工具**设计，不做账号 / 协作 / 云同步 / 分发；但内容工程走「文件 + 版本化（git 友好）」，架构**不堵死**将来协作（与 §3 第 5 条的 MMO 留口一脉相承）。
 - ✅ **package 命名**：`@type-pal/content`（内容格式 + 迁移）、`@type-pal/reforge`（新引擎）、`@type-pal/editor`（编辑器）。
 
+**已决（2026-06-22）**
+
+- ✅ **P0 schema 草案**：见 [p0-content-schema.md](p0-content-schema.md)（三层状态 / 稳定 id / 场景包 / 事件演出 / 角色实例化 + 迁移器）。
+- ✅ **第一阶段引擎架构债已审计**：见 [2026-06-22-phase1-engine-debt-audit.md](2026-06-22-phase1-engine-debt-audit.md)（18 条 finding，P0/P1/P2 分级 + 反查表），是 P1 新引擎 spec 的**反面输入**——重写时绕开这些模式，不照搬旧模块结构（铁律第 3 条）。
+
 **下一步（未启动）**
 
-- **P0 · 内容 Schema + 迁移器**：画清「场景层 vs 全局层」边界、内容工程目录结构、迁移器设计 → 届时出 `docs/phase2/p0-content-schema.md`。第二阶段当前停在此节点，待作者择期开工。
+- **P1 · 新引擎 package**：架构全新重写，移植已验证逻辑（战斗 / opcode / 渲染），按 P0 schema 组织、场景懒加载。spec 待写，**输入 = p0-content-schema + engine-debt-audit**（前者定目标，后者定约束）。

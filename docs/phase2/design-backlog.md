@@ -2,6 +2,8 @@
 
 > 陆续收集的第二阶段设计专题，避免散落丢失。每条 = 现状痛点（旧引擎）+ 第二阶段方向 + 归属子项目 + 状态。
 > 这里是**议题池**，不是计划；具体设计在各子项目 spec 里展开。子项目分解见 [00-roadmap.md](00-roadmap.md)，铁律见 [READ-FIRST.md](READ-FIRST.md)。
+>
+> 「现状痛点」列每条都有**代码锚点证据**，见 [2026-06-22-phase1-engine-debt-audit.md](2026-06-22-phase1-engine-debt-audit.md)（文末有「backlog 议题 ↔ finding」反查表）。
 
 ## 议题
 

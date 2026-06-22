@@ -8,11 +8,18 @@
 | 文件 | 内容 | 状态 |
 |---|---|---|
 | [00-roadmap](00-roadmap.md) | 第二阶段总纲：愿景 / 架构判断 / 子项目分解 / 切入策略 | 草案 |
+| [READ-FIRST](READ-FIRST.md) | 六条铁律 + 串台自查（开工前必读） | 定稿 |
+| [p0-content-schema](p0-content-schema.md) | 内容数据模型（三层状态 / 稳定 id / 场景包 / 事件演出 / 角色实例化） + 迁移器 | 草案 |
+| [design-backlog](design-backlog.md) | 设计议题池（每条 = 痛点 + 方向 + 归属 + 状态） | 滚动 |
+| [2026-06-22-phase1-engine-debt-audit](2026-06-22-phase1-engine-debt-audit.md) | 第一阶段引擎架构债审查（18 条 finding + 反查表），P1 新引擎 spec 的反面输入 | 定稿 |
 
-（P0 / P1 / P2 的 spec、`decisions.md`、现状真值表随开工逐步加入）
+（P1 新引擎 spec、P2 编辑器 spec、`decisions.md`、现状真值表随开工逐步加入）
 
 ## 怎么用
 
 - 想知道第二阶段**整体方向** → 读 [00-roadmap](00-roadmap.md)。
+- 想知道**开工铁律** → 读 [READ-FIRST](READ-FIRST.md)。
+- 想知道**内容格式怎么定** → 读 [p0-content-schema](p0-content-schema.md)。
+- 想知道**旧引擎哪些债必须绕开、为什么** → 读 [2026-06-22-phase1-engine-debt-audit](2026-06-22-phase1-engine-debt-audit.md)。
 - 想知道**某子项目细节** → 读对应 spec（P0 起逐步补）。
 - 第二阶段的「现状真值表」将在子项目落地后建立，届时本表更新。
