@@ -4,7 +4,7 @@
 > **职责**:本表 owns 每个 MKF / 非 MKF 资源每 chunk 的提取状态。runtime 功能(渲染 / 播放)→ [feature-status](feature-status.md);逐 opcode → [opcode-status](opcode-status.md)。
 > **三表**:[feature-status](feature-status.md)(引擎功能)· [opcode-status](opcode-status.md)(事件 / opcode)· resource-status(资源提取,本表)
 > **图例**:✅ done(已抽,byte-level 确认)· ⚠️ partial · ⬜ todo · N/A · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap)· 🎵 同源冗余(已有其他格式覆盖)
-> **最后更新**:2026-06-22 — tileset 资源管线优化(每地图 gzip RLE blob 取代 per-tile RGBA PNG,见下表 GOP.MKF 行 + 文末「tileset 打包格式变更」);提取覆盖率不变(零真实数据 gap)。基线 2026-06-07 byte-level 复核(6-07 后仅新增 `asset-manifest.json` 派生清单 + WORD.DAT 剥尾标「1」,提取覆盖率不变);M4 提取实质 100% 完成(全非空 chunk 已落地,skip 的都是引擎从不加载的空槽)。SSS chunk 2 的 **union-view**(`object-magics.json` / `object-poisons.json` / `object-players.json`,非新源数据,见下表 SSS chunk 2)供战斗 opcode 按 object id 解析。runtime 音频 wiring 已归 feature-status H1-H3 接入,soundfont 已随 public 提供,剩 per-track 听验 / 音量音色确认,非提取 gap。
+> **最后更新**:2026-06-22 — 资源管线优化:**所有 RLE sprite 类资源「去图片容器」改 gzip blob**(tileset / NPC / 动画 RNG / 战斗 sprite / magic 特效),整 extracted 392M→184M、文件数 77,624→2,898、图像数据 ~390M→~23M(详见文末「sprite 资源打包格式变更」总表)。extractor 现在开头清空 OUT(防陈旧 PNG 残留进 SW 预缓存)。提取覆盖率不变(零真实数据 gap)。基线 2026-06-07 byte-level 复核(6-07 后仅新增 `asset-manifest.json` 派生清单 + WORD.DAT 剥尾标「1」,提取覆盖率不变);M4 提取实质 100% 完成(全非空 chunk 已落地,skip 的都是引擎从不加载的空槽)。SSS chunk 2 的 **union-view**(`object-magics.json` / `object-poisons.json` / `object-players.json`,非新源数据,见下表 SSS chunk 2)供战斗 opcode 按 object id 解析。runtime 音频 wiring 已归 feature-status H1-H3 接入,soundfont 已随 public 提供,剩 per-track 听验 / 音量音色确认,非提取 gap。
 >
 > 数据来源:`reference/sdlpal/global.c::PAL_LoadDefaultGame` + 各 .c grep;状态列由 byte-level 复核(逐 MKF header chunk_count vs `data/extracted/` 实际输出数 + 追 parser 源码确认 dump-all)。提取入口:[packages/pal-extract/src/cli.ts](../packages/pal-extract/src/cli.ts)。
 > MKF 文件存在性:STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(WIN95+ 用 .RPG 存档);`mus.mkf` 存在但与 MIDI 同源(见末段)。
@@ -27,7 +27,7 @@
 | 7 | 0 | (no sdlpal reference) | 空 chunk | ⬛ | skip |
 | 8 | 0 | (no sdlpal reference) | 空 chunk | ⬛ | skip |
 | 9 | 25532 | `ui.c:75 CHUNKNUM_SPRITEUI=9 fpDATA` | UI sprite sheet(战斗/菜单通用) | ✅ | `images/ui/frame-NN.png` × 71 + `data/ui-sprite/spriteui.json`(原始 imagecount=72,末项 idx71 offset=0 "Bloody-Mouth Bug" pad;导出有效帧 0..70) |
-| 10 | 17478 | `battle.c:1787 chunk 10 fpDATA → g_Battle.lpEffectSprite` | 战斗效果 sprite | ✅ | `images/magic/frame-NN.png` × 85 + `data/magic-sprite/effect.json`(原始 imagecount=86,末项 idx85 offset=0 pad;导出有效帧 0..84) |
+| 10 | 17478 | `battle.c:1787 chunk 10 fpDATA → g_Battle.lpEffectSprite` | 战斗效果 sprite | ✅ | `data/magic/effect.rle`(gzip 原始 chunk;**2026-06-22 改造**,前为 `images/magic/frame-NN.png` × 85 + `magic-sprite/effect.json`;runtime `loadSpriteFramesBlob`,85 帧) |
 | 11 | 40 | `global.c:301 LOAD_DATA … chunk 11 fpDATA → rgwBattleEffectIndex[10][2]` | 角色战斗效果索引(10 套 × 2 WORD) | ✅ | `data/battle-effect-index.json`(parseBattleEffectIndex,20 WORD) |
 | 12 | 282 | `text.c:891 PAL_MKFReadChunk … chunk 12 fpDATA → bufDialogIcons` | 对话框图标 sprite | ✅ | `data/dialog-icons-raw.json`(raw base64,runtime 解 RLE) |
 | 13 | 100 | `global.c:303 PAL_MKFReadChunk … chunk 13 fpDATA → EnemyPos` | 敌人出场位置表(5 队型 × 5 槽 × {x,y}) | ✅ | `data/enemy-pos.json` |
@@ -55,7 +55,7 @@
 
 | Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 1–636 | `res.c:289 PAL_MKFDecompressChunk … fpMGO`;`res.c:327`(player sprite);`ending.c:321 chunk 571,572` | YJ2 压缩 sprite 集:地图 NPC/玩家行走精灵 + 过场动画 | ✅ | `images/world/npc/{id}/frame-NN.png`(636 dir,4133 PNG)+ `data/sprite/{id}.json` × 636(cli.ts:668-686 `for id<mgoChunkCount`) |
+| 1–636 | `res.c:289 PAL_MKFDecompressChunk … fpMGO`;`res.c:327`(player sprite);`ending.c:321 chunk 571,572` | YJ2 压缩 sprite 集:地图 NPC/玩家行走精灵 + 过场动画 | ✅ | `data/sprite/{id}.rle` × 636(gzip 的 YJ2-解压后 sprite chunk;**2026-06-22 改造**,前为 `images/world/npc/{id}/frame-NN.png` 4133 张 + `sprite/{id}.json`;runtime `loadCharacterSpriteBlob`,锚点按首帧派生) |
 
 ---
 
@@ -85,7 +85,7 @@
 
 | Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–18 | `battle.c:888 PAL_MKFGetDecompressedSize(s fpF)` → 玩家战斗精灵;`fight.c:3136 … fpF` → 召唤兽 | YJ2 压缩战斗精灵(chunk index = `rgwSpriteNumInBattle`) | ✅ | `images/battle/player/{id}/frame-NN.png`(19 dir,149 PNG)+ `data/battle-sprite/player/{id}.json` × 19(loadBattleMkf `for id<total`) |
+| 0–18 | `battle.c:888 PAL_MKFGetDecompressedSize(s fpF)` → 玩家战斗精灵;`fight.c:3136 … fpF` → 召唤兽 | YJ2 压缩战斗精灵(chunk index = `rgwSpriteNumInBattle`) | ✅ | `data/battle-sprite/player/{id}.rle` × 19(gzip 解压后 chunk;**2026-06-22 改造**,前为 `images/battle/player/{id}/frame-NN.png` + json;runtime `loadSpriteFramesBlob`) |
 
 ---
 
@@ -95,7 +95,7 @@
 
 | Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 1–153 | `battle.c:879 "abc.mkf"`;`battle.c:930 PAL_MKFDecompressChunk(enemy.wEnemyID fp)` | YJ2 压缩敌人战斗精灵(chunk index = enemy.wEnemyID) | ✅ | `images/battle/enemy/{id}/frame-NN.png` × 153(loadBattleMkf dump-all) |
+| 1–153 | `battle.c:879 "abc.mkf"`;`battle.c:930 PAL_MKFDecompressChunk(enemy.wEnemyID fp)` | YJ2 压缩敌人战斗精灵(chunk index = enemy.wEnemyID) | ✅ | `data/battle-sprite/enemy/{id}.rle`(gzip 解压后 chunk;**2026-06-22 改造**,前为 `images/battle/enemy/{id}/frame-NN.png` × 153;runtime `loadSpriteFramesBlob`) |
 
 ---
 
@@ -134,7 +134,7 @@
 
 | Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–11 | `rngplay.c:74 PAL_MKFGetChunkCount(fpRngMKF)`;`rngplay.c:416 PAL_RNGReadFrame(…)`;`main.c:200 PAL_RNGPlay(6 …)` | RLE 压缩片段动画(sub-MKF + delta 逐帧;片头等) | ✅ | `images/animation/rng-{NN}/frame-{NNN}.png`(12 dir,**1464 帧**)+ `data/rng-frames.json` |
+| 0–11 | `rngplay.c:74 PAL_MKFGetChunkCount(fpRngMKF)`;`rngplay.c:416 PAL_RNGReadFrame(…)`;`main.c:200 PAL_RNGPlay(6 …)` | RLE 压缩片段动画(sub-MKF + delta 逐帧;片头等) | ✅ | `data/animation/rng-{NN}.rle` × 12(gzip 原始 RNG chunk;**2026-06-22 改造**,前为 1464 帧 PNG;runtime shared `decodeRngFrames` 解 sub-MKF+YJ2+delta)+ `data/rng-frames.json`(frameCount manifest) |
 
 > ✅ runtime serve(2026-06-02 对抗复核订正):RNG PNG 经 `packages/game/public/extracted` → `data/extracted` **软链** + vite `fs.allow`(vite.config.ts:26-30)直接服务全 1464 帧(live dev curl `rng-06/frame-000.png` 200 image/png)。**无需 asset-copy**;原"0 份/M6 步骤"备注 FALSE 已订正(项目从不 serve production build,dev/playwright 均 vite dev)。
 
@@ -166,7 +166,7 @@
 
 | Chunk | sdlpal 引用 | 含义 | 状态 | 输出 |
 |---|---|---|---|---|
-| 0–54 | `fight.c:2480,2488 PAL_MKFGetDecompressedSize/PAL_MKFDecompressChunk(iEffectNum fpFIRE)` | 战斗特效 sprite(YJ2;chunk index = iEffectNum) | ✅ | `images/magic/fire-NN/frame-NN.png`(55 dir,**837 帧**)+ `data/fire-sprites.json`(parseFirSprite) |
+| 0–54 | `fight.c:2480,2488 PAL_MKFGetDecompressedSize/PAL_MKFDecompressChunk(iEffectNum fpFIRE)` | 战斗特效 sprite(YJ2;chunk index = iEffectNum) | ✅ | `data/magic/fire-{NN}.rle`(gzip 的 YJ2-解压后 sprite chunk;**2026-06-22 改造**,前为 837 帧 PNG;runtime `loadSpriteFramesBlob`)+ `data/fire-sprites.json`(frameCount manifest) |
 
 ---
 
@@ -204,19 +204,19 @@
 
 | MKF / 资源 | 总 chunk | 空 chunk | 非空 | 已抽 | 输出 |
 |---|---|---|---|---|---|
-| DATA | 15 | 7,8 | 13 | ✅ 13/13 | 13 表 + UI 71 帧 + magic 85 帧 |
+| DATA | 15 | 7,8 | 13 | ✅ 13/13 | 13 表 + UI 71 帧 PNG + magic 85 帧 blob |
 | SSS | 5 | — | 5 | ✅ 5/5 | events 298 + scene 295 + strings 13513 |
-| MGO | 637 | 0 | 636 | ✅ 636/636 | 636 JSON + 4133 PNG |
+| MGO | 637 | 0 | 636 | ✅ 636/636 | 636 sprite blob(`.rle`;前 636 JSON + 4133 PNG) |
 | MAP | 226 | 0,168,171 | 223 | ✅ 223/223 | 223 tilemap JSON |
 | GOP | 226 | 0,168,171 | 223 | ✅ 223/223 | 223 tileset blob(`.rle`;**2026-06-22 改造**,前为 67715 tile PNG) |
-| F | 19 | — | 19 | ✅ 19/19 | 19 JSON + 149 PNG |
-| ABC | 154 | 0 | 153 | ✅ 153/153 | 153 enemy dir |
+| F | 19 | — | 19 | ✅ 19/19 | 19 player blob(`.rle`;前 19 JSON + 149 PNG) |
+| ABC | 154 | 0 | 153 | ✅ 153/153 | 153 enemy blob(`.rle`;前 153 dir PNG) |
 | FBP | 78 | 5,58 | 76 | ✅ 76/76 | 76 bg PNG + 2 splash |
 | PAT | 9 | — | 9 | ✅ 9/9 | 9 palette(#0/#5 含夜间) |
-| RNG | 12 | — | 12 | ✅ 12/12 | 1464 帧 PNG |
+| RNG | 12 | — | 12 | ✅ 12/12 | 12 blob(`.rle`;1464 帧;前逐帧 PNG) |
 | RGM | 92 | 0,20,78,79 | 88 | ✅ 88/88 | 88 头像 PNG |
 | BALL | 252 | 0 | 251 | ✅ 251/251 | 251 图标 PNG |
-| FIRE | 55 | — | 55 | ✅ 55/55 | 837 帧 PNG |
+| FIRE | 55 | — | 55 | ✅ 55/55 | 55 blob(`.rle`;837 帧;前逐帧 PNG) |
 | SOUNDS | 505 | 142 个 | 363 | ✅ 363/363 | 363 WAV |
 | WORD.DAT | — | — | 565 词 | ✅ | words.json |
 | M.MSG | — | — | 13513 条 | ✅ | strings.json |
@@ -230,22 +230,33 @@
 
 ---
 
-## tileset 打包格式变更(2026-06-22)
+## sprite 资源打包格式变更(2026-06-22)
 
-**动机**:tileset 占 extracted 的 68%(67,715 张 per-tile RGBA PNG / 265MB),根因是 palette-indexed 位图被包进 4 字节/px 的图片容器(3 通道冗余 + 每文件独立 PNG/zlib 头)。原版 GOP.MKF 全部 RLE 数据仅 16.4MB,重编码 PNG 膨胀到 265MB(~16×)。
+**动机**:所有 RLE sprite 类资源(tileset / NPC / 动画 / 战斗 sprite / magic 特效)此前被逐帧编成 4 字节/px 的 RGBA PNG(R=G=B=index 三通道冗余 + 每文件独立 PNG/zlib 头),占 extracted 绝大部分体积。运行时只需 palette 下标 + opaque mask,根本不需要图片容器。
 
-**方案**:每地图存一个 `data/tileset/{mapNum}.rle` = `gzipSync(原始 GOP chunk 字节)`。runtime 用浏览器原生 `DecompressionStream('gzip')` 解压 + shared `parseSpriteChunk` 解码,不经 canvas/`createImageBitmap`。字节级忠实原版(blob 就是 GOP chunk)。规格见 [docs/plans/2026-06-22-tileset-atlas-packing.md](../docs/plans/2026-06-22-tileset-atlas-packing.md)。
+**方案**:每逻辑单元存一个 `.rle` blob = `gzipSync(喂给 parseSpriteChunk 的 chunk 字节)`(tileset = 原始 GOP chunk;NPC/battle/magic = YJ2 解压后 sprite chunk;RNG = 原始 RNG chunk)。runtime 用浏览器原生 `DecompressionStream('gzip')` 解压,再走 shared 纯解码器(`parseSpriteChunk` / RNG 用 `decodeRngFrames`),**不经 canvas/`createImageBitmap`**。字节级忠实原版。后缀用 `.rle`(非 `.gz`)避开静态服务器 Content-Encoding 双解压;`decompressGzip` 另据 gzip 魔数防御上游已解压。decoder 集中在 `@type-pal/shared`(`rle.ts` / `mkf.ts` / `yj2.ts` / `rng.ts`)。tileset 规格见 [docs/plans/2026-06-22-tileset-atlas-packing.md](../docs/plans/2026-06-22-tileset-atlas-packing.md)。
 
-**实测 before/after**(2026-06-22):
+**逐类 before/after**(2026-06-22 实测):
 
-| 指标 | before(per-tile PNG) | after(gzip RLE blob) | 变化 |
+| 类别 | before(PNG) | after(gzip blob) |
+|---|---|---|
+| tileset(GOP) | 265 MB / 67,715 张 | 6.7 MB / 223 |
+| NPC(MGO) | 17 MB / 4,133 张 | 2.8 MB / 636 |
+| 动画(RNG) | 92 MB / 1,464 张 | 3.8 MB / 12 |
+| 战斗 sprite(F+ABC) | 11 MB / ~840 张 | 1.2 MB / 172(战斗 bg 5.6 MB 仍 PNG) |
+| magic 特效(DATA10+FIRE) | 5 MB / ~920 张 | 0.76 MB / 56 |
+
+**整体**:
+
+| 指标 | before | after | 变化 |
 |---|---|---|---|
-| tileset 体积 | 265 MB | **6.7 MB** | **−97.5%** |
-| tileset 文件数 | 67,715 PNG | **223 blob** | −99.7% |
-| 单地图请求数 | 188–452 | **1** | 确定 |
-| 单地图 `createImageBitmap` | 188–452 | **0** | 确定 |
-| manifest 条目 | 77,624 | **10,132** | −87% |
-| extracted 总大小 | ~592 MB | ~319 MB | −46% |
-| 像素输出 | — | **逐像素不变** | S5 snapshot 钉死(6 map / 2149 tile / 103 万 px / 0 diff) |
+| 图像数据 | ~390 MB | ~23 MB(8 MB PNG bg/items/ui/portraits/splash + 15 MB blob) | −94% |
+| extracted 总大小 | 392 MB | **184 MB** | −53%(余为音频/视频) |
+| manifest 文件数 | 77,624 | **2,898** | −96% |
+| 单场景 sprite/tile 请求 | 数百 | 每类 1 / 单元 | — |
+| `createImageBitmap` | 数百/场景 | 0(全走 DecompressionStream) | — |
+| 像素输出 | — | **逐像素不变** | tileset S5 snapshot(0 diff)+ 同一 shared 解码器保证;真实 blob 解码抽验(npc/battle/effect/fire/rng 帧数符合预期) |
+
+**未迁移(有意保留 PNG)**:战斗背景(FBP,全屏 raw 位图非 sprite chunk)、items(BALL)、portraits(RGM)、ui(DATA9)、splash —— 占比小或非 RLE-sprite-chunk 结构。
 
 > 解码器(extractor + runtime 共用)已搬到 `@type-pal/shared`(rle.ts),单一来源。后续同思路可推广到 animation(92MB)/ NPC(17MB)/ battle / magic(同样被 RGBA PNG 包裹),见规格文档 §8。
