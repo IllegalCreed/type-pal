@@ -3,46 +3,11 @@
  * 参考 reference/sdlpal/sprite.c::PAL_LoadSprite。
  */
 import { PNG } from 'pngjs'
-import { decodeRle, type RleFrame } from '../io/rle.js'
+import { decodeRle, parseSpriteChunk, type RleFrame } from '@type-pal/shared'
 
-/**
- * 精灵 chunk 头:byte 0..1 = u16 LE imagecount(同时充当 frame[0] 的 word-offset)。
- * 偏移表在 byte 0..2*imagecount-2,每条 u16 word offset(乘 2 得字节偏移)。
- * 参考 sdlpal palcommon.c::PAL_SpriteGetFrame:
- *     imagecount = (lpSprite[0] | (lpSprite[1] << 8));
- *     iFrameNum <<= 1;
- *     offset = ((lpSprite[iFrameNum] | (lpSprite[iFrameNum + 1] << 8)) << 1);
- *   → frame 0 的 offset 同 imagecount * 2(因为 byte 0..1 双重身份)
- *   → frame i 的 offset = u16 at byte 2*i,左移 1
- *
- * offset = 0 表示帧空缺。
- *
- * **dimensions sanity guard**(M3 T24 发现 — ABC.MKF 战斗 sprite chunk 30 / 等):
- * sdlpal `palcommon.c::PAL_SpriteGetFrame` 注释 "Hack for broken sprites like the
- * Bloody-Mouth Bug" —— `imagecount` 字段可能比实际帧数多 1,多出来的尾帧 offset
- * 指向 chunk 内任意位置,被当作 RLE 解读会得到天文数字 width/height,decodeRle
- * 死循环。原版引擎从不显式索引该尾帧,所以无感。我们静态提全部帧,必须 guard:
- * width / height > 400(屏 320×200,sprite 远小于此)即跳过尾帧。
- */
-const SPRITE_DIM_MAX = 400
-
-export function parseSpriteChunk(buf: Uint8Array): RleFrame[] {
-  const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength)
-  const frameCount = view.getUint16(0, true)
-  const frames: RleFrame[] = []
-  for (let i = 0; i < frameCount; i++) {
-    const wordOffset = view.getUint16(i * 2, true)
-    const offset = wordOffset << 1
-    if (offset === 0 || offset >= buf.byteLength) continue
-    // sanity guard:width/height 都必须 ≤ 400(实际 sprite 在屏内 320×200)
-    if (offset + 4 > buf.byteLength) continue
-    const w = view.getUint16(offset, true)
-    const h = view.getUint16(offset + 2, true)
-    if (w === 0 || h === 0 || w > SPRITE_DIM_MAX || h > SPRITE_DIM_MAX) continue
-    frames.push(decodeRle(buf.subarray(offset)))
-  }
-  return frames
-}
+// `parseSpriteChunk` 已搬到 @type-pal/shared(extractor 与 runtime 共用,见
+// tileset 资源管线优化 S1)。本文件 re-export,保持 extractor 内部调用点不变。
+export { parseSpriteChunk }
 
 /**
  * 把索引位图编码为 PNG。M1 用 RGBA 三通道复制法(R=G=B=调色板下标,A=opaque mask)。
