@@ -130,12 +130,13 @@ sdlpal 阻塞式过程(PAL_FadeIn 等)tick 化后变成"状态对象 + 收尾人
 `packages/game/public/sw.js` + `src/shell/precache-{client,ui}.ts` + `boot-loading.ts` + bootstrap onPresent。
 - **两段进度条**:虚线前(0→12%)= 必要资源前台 fetch 计数(`ui.setNecessaryProgress`);虚线后(12→100%)= SW 全量 `bytes/total`(`ui.setFullProgress`)。按钮卡在虚线(=必要资源就绪 `onPlayable`)。
 - **SW 全量预缓存时机**:`onPlayable`(虚线)后 `startPrecache()`,不在页面打开就启动(否则抢必要资源带宽)。**视频/modal 期间暂停**:onPresent 检测 `gs.suspendRaf` → pause/resumePrecache(不抢视频 Range / 输入)。
-- **改 SW 的 4 个验证盲区(都得实测真实条件、不能只靠逻辑)**:
+- **改 SW 的 5 个验证盲区(都得实测真实条件、不能只靠逻辑)**:
   1. fetch handler `cache.put` 必须 **fire-forget + `status === 200`**(排 206):`<video>` Range 请求返 206,Cache.put 不支持 → respondWith reject → AVI 黑屏。**本地 python http.server 不返 206**,须生产 nginx / 支持 Range 的 server 测。
   2. `startPrecache`/`pause`/`resume` 依赖 `_activeWorker`(`swc.ready` 后才设);`onPlayable` 可能**早于** ready → 指令发空、SW 永不启动、进度停虚线。须 `_pendingStart` 缓冲、ready 后补发。
   3. `precacheAll` 长任务 → message handler 必须 `event.waitUntil(precacheAll())` 保活,否则 ~30s idle 被杀(停 76%)。
   4. fetch handler 用 `caches.match(req)` **跨 cache**(不是 `caches.open(CACHE_NAME).match`)——SW 重启后 `CACHE_NAME` 重置回 bootstrap、只在它里找会全 miss → 退化打网络。**真离线(停 server)实测**才暴露。
-- SW 缓存命名 `type-pal-<asset-manifest.json.version>`,version 变触发整缓存失效。
+  5. `activate` 清缓存须**按版本**清(只删 `!== 当前版本`),**别清所有**(含当前版本):清所有的话每次 app 发版都把老用户整份预缓存清空 → 慢网(prod ~440KB/s,~200MB≈8min)重下、进度**停虚线**(2026-06-22 误用「清所有」即此根因——本意是迁移后清老格式 cache 防跨 cache 命中崩,但顺手把当前版本也清了)。正解:activate 调 `setCacheVersion()`(拿 manifest version 归位 `CACHE_NAME` + 删非当前),版本变更仍清老格式(防崩)、版本不变保留当前份 → 续访 precache 全 `cache.match` 命中秒满;离线 manifest 取不到 → `catch` 跳过勿误删。**验证**:`E2E=1 vite preview`(关 basicSsl 走 `http://localhost` 真 SW)造「当前版本+伪旧版本」两 cache 各插 sentinel,升级 SW 重载 → 当前 sentinel 存活、伪旧被删(三向区分:清所有=sentinel 没;没升级=伪旧还在)。
+- SW 缓存命名 `type-pal-<asset-manifest.json.version>`,version 变触发整缓存失效;extractor 按内容哈希定 version,故改了资源格式/路径 version 必变、activate 据此清老格式 cache(无需手动改 sw.js 触发)。
 
 ---
 

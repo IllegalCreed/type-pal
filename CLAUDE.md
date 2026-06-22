@@ -92,7 +92,7 @@ When a behavior question can't be settled from the extracted data — or sdlpal 
 - **战斗动画拍频**(施法慢/卡顿):40ms 逻辑 tick 离散非 40ms 帧(法术 `(speed+5)*10ms`,45/104=50ms 最坏)→ 顿挫。修 = present 每 rAF wall-clock 细分(`stepDeathFadeRender`/`stepSummonLoopRender` 塌缩段 + `stepBattleAnimRender` 平行 renderIdx 通用版);逻辑 idx 独占副作用+完成判定,确定性不变。
 - **立绘残留**:PAL_MakeScene 类 op(0x05/09/7F)须 `clearDialogBoxes` 清整个 box(渲染读 box.portraitIcon)。复现须真实多行翻页序列(单行假阳性)。跟随者朝向 0x15 按 operand[2] 点名转谁;演出期 wFrame/xy 冻结。
 - **瓦片接缝漏黑**:原版不清屏遮住接缝透明像素,我们每帧 fb.clear 露黑 → `repairTilemapSeams`(用 coverage mask 非 `indices===0`)。
-- **SW 预缓存**:两段进度 + 视频期暂停;4 坑(206 Range cache.put / startPrecache 早于 ready 竞态 / waitUntil 保活 / caches.match 跨 cache)须真离线 + 生产 nginx 测。
+- **SW 预缓存**:两段进度 + 视频期暂停;5 坑(206 Range cache.put / startPrecache 早于 ready 竞态 / waitUntil 保活 / caches.match 跨 cache / activate 须**按版本**清缓存别清当前版本——清所有致慢网每次发版重下 200MB 卡虚线)须真离线 + 生产 nginx 测。
 
 **代码库事实**
 - extracted `scene/N.json` 0-based,`loadScene`(0x59)操作数 1-based → 追剧情链 **-1**。
