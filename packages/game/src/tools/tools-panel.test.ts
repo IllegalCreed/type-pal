@@ -1,6 +1,20 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { AudioVolumeController } from '../shell/audio-volume.js'
 import { setupToolsPanel, type ToolsPanelDeps } from './tools-panel.js'
 import { __resetSpeedrunForTest } from './speedrun/index.js'
+
+/** stateful 音量 controller stub:isMuted 跟随 setMuted,供主静音 toggle 测试。 */
+function mkVol(initialMuted = false): AudioVolumeController {
+  let m = initialMuted
+  return {
+    getVolume: () => 0.8,
+    setVolume: vi.fn(),
+    isMuted: () => m,
+    setMuted: vi.fn((v: boolean) => {
+      m = v
+    }),
+  }
+}
 
 function mkDeps(over: Partial<ToolsPanelDeps> = {}): ToolsPanelDeps {
   return {
@@ -16,12 +30,21 @@ function mkDeps(over: Partial<ToolsPanelDeps> = {}): ToolsPanelDeps {
       }) as never,
     getResources: () => ({ playerRoles: { roles: [] }, objectPoisons: [], items: [] }) as never,
     displayScale: { getPercent: () => 100, setPercent: () => {}, toggleFullscreen: () => {} },
-    audioVolume: { getVolume: () => 0.8, setVolume: () => {}, isMuted: () => false, setMuted: () => {} },
-    sfxVolume: { getVolume: () => 0.8, setVolume: () => {}, isMuted: () => false, setMuted: () => {} },
+    audioVolume: mkVol(),
+    sfxVolume: mkVol(),
+    videoVolume: mkVol(),
     saveSlot: async () => {},
     loadSlot: async () => null,
     ...over,
   }
+}
+
+/** 打开面板并切到「系统」tab。 */
+function openSystemTab(): void {
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))
+  ;[...document.querySelectorAll('.tp-tab')]
+    .find((b) => b.textContent === '系统')!
+    .dispatchEvent(new MouseEvent('click', { bubbles: true }))
 }
 
 describe('tools-panel 框架', () => {
@@ -140,6 +163,59 @@ describe('tools-panel 框架', () => {
     search.dispatchEvent(new Event('input'))
     const filtered = [...document.querySelectorAll('.tp-dialog-line')].map((e) => e.textContent)
     expect(filtered).toEqual(['城门见'])
+  })
+
+  it('系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块', () => {
+    setupToolsPanel(mkDeps())
+    openSystemTab()
+    const labels = [...document.querySelectorAll('.tp-ctrl-label')].map((e) => e.textContent)
+    expect(labels).toContain('音乐')
+    expect(labels).toContain('音效')
+    expect(labels).toContain('视频')
+  })
+
+  it('系统 tab:视频滑块 input → videoVolume.setVolume(0..1)', () => {
+    const videoVolume = mkVol()
+    setupToolsPanel(mkDeps({ videoVolume }))
+    openSystemTab()
+    const row = [...document.querySelectorAll('.tp-ctrl-row')].find(
+      (r) => r.querySelector('.tp-ctrl-label')?.textContent === '视频',
+    )!
+    const slider = row.querySelector('input[type=range]') as HTMLInputElement
+    slider.value = '40'
+    slider.dispatchEvent(new Event('input'))
+    expect(videoVolume.setVolume).toHaveBeenCalledWith(0.4)
+  })
+
+  it('主静音按钮:一键 静音/恢复 音乐+音效+视频', () => {
+    const audioVolume = mkVol()
+    const sfxVolume = mkVol()
+    const videoVolume = mkVol()
+    setupToolsPanel(mkDeps({ audioVolume, sfxVolume, videoVolume }))
+    openSystemTab()
+    const muteBtn = [...document.querySelectorAll('.tp-btn')].find((b) =>
+      b.textContent?.includes('静音'),
+    ) as HTMLButtonElement
+    expect(muteBtn).toBeTruthy()
+    // 第一次点 → 三路全静音
+    muteBtn.click()
+    expect(audioVolume.setMuted).toHaveBeenCalledWith(true)
+    expect(sfxVolume.setMuted).toHaveBeenCalledWith(true)
+    expect(videoVolume.setMuted).toHaveBeenCalledWith(true)
+    // 再点 → 三路全恢复
+    muteBtn.click()
+    expect(audioVolume.setMuted).toHaveBeenLastCalledWith(false)
+    expect(sfxVolume.setMuted).toHaveBeenLastCalledWith(false)
+    expect(videoVolume.setMuted).toHaveBeenLastCalledWith(false)
+  })
+
+  it('主静音按钮:初始已静音 → 显示「已静音」态', () => {
+    setupToolsPanel(mkDeps({ audioVolume: mkVol(true) }))
+    openSystemTab()
+    const muteBtn = [...document.querySelectorAll('.tp-btn')].find((b) =>
+      b.textContent?.includes('静音'),
+    ) as HTMLButtonElement
+    expect(muteBtn.textContent).toContain('已静音')
   })
 
   it('计时器 tab:渲染开关 + 21 个节点最佳时间输入', () => {

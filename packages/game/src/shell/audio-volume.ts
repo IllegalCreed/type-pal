@@ -19,8 +19,10 @@ function clamp01(v: number): number {
 }
 
 /**
- * 音量 controller(0..1 + 静音,localStorage 持久)。keyVol/keyMute 可定制 → 多通道(BGM / SFX)各一份。
- * 默认键沿用 'tp-master-volume'/'tp-muted'(BGM,向后兼容);SFX 传 'tp-sfx-volume'/'tp-sfx-muted'。
+ * 音量 controller(0..1 + 静音,localStorage 持久)。keyVol 定制 → 多通道(音乐/音效/视频)各一份**独立音量**;
+ * keyMute 让多通道**共用**同一静音键 → 工具面板「主静音」一键覆盖三路。
+ * 默认键 'tp-master-volume'/'tp-muted'(音乐,向后兼容);音效用 'tp-sfx-volume'、视频用 'tp-video-volume',
+ * 二者 keyMute 都传共享的 'tp-muted'(见 bootstrap)。
  */
 export function createAudioVolumeController(opts: {
   applyVolume: (effective: number) => void

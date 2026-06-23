@@ -37,6 +37,8 @@ export interface ToolsPanelDeps {
   audioVolume: AudioVolumeController
   /** 音效(SFX:sounds/*.wav)音量,独立于 BGM。 */
   sfxVolume: AudioVolumeController
+  /** 视频(过场 mp4)音量,独立通道。三路共用同一静音键 → 主静音一键全覆盖。 */
+  videoVolume: AudioVolumeController
   /** 写存档位(导入用)。 */
   saveSlot: (slot: number, gs: GameState) => Promise<void>
   /** 读存档位(导出用);该位无存档 → null。 */
@@ -518,7 +520,7 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
   fsBtn.style.marginTop = '6px'
   toggleRow(parent, '左上角显示 FPS', isFpsEnabled(), (v) => setFpsEnabled(v))
 
-  // ── 音频(音乐 BGM / 音效 SFX 各自独立) ──
+  // ── 音频(音乐 BGM / 音效 SFX / 视频 mp4 各自独立音量;静音为一键覆盖三路的主开关) ──
   sectionTitle(parent, '音频')
   const addVolRow = (label: string, ctrl: AudioVolumeController): void => {
     const { slider, val } = sliderRow(parent, label, { min: 0, max: 100, value: Math.round(ctrl.getVolume() * 100) })
@@ -533,10 +535,15 @@ function renderSystemTab(parent: HTMLElement, deps: ToolsPanelDeps): void {
   }
   addVolRow('音乐', deps.audioVolume)
   addVolRow('音效', deps.sfxVolume)
-  const vol = deps.audioVolume
-  const muteBtn = button(parent, vol.isMuted() ? '🔇 音乐已静音' : '🔊 音乐静音', () => {
-    vol.setMuted(!vol.isMuted())
-    muteBtn.textContent = vol.isMuted() ? '🔇 音乐已静音' : '🔊 音乐静音'
+  addVolRow('视频', deps.videoVolume)
+  // 主静音:一键静音/恢复 音乐+音效+视频。三路控制器共用同一静音 localStorage 键(见 bootstrap),
+  //   故 audioVolume.isMuted() 即代表当前主静音态;静音只叠加开关、不改各路滑块音量,恢复即回滑块值。
+  const muteChannels = [deps.audioVolume, deps.sfxVolume, deps.videoVolume]
+  const muteLabel = (): string => (deps.audioVolume.isMuted() ? '🔇 已静音' : '🔊 静音')
+  const muteBtn = button(parent, muteLabel(), () => {
+    const next = !deps.audioVolume.isMuted()
+    for (const c of muteChannels) c.setMuted(next)
+    muteBtn.textContent = muteLabel()
   })
   muteBtn.style.marginTop = '6px'
 

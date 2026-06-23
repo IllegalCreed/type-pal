@@ -16,6 +16,20 @@
  *  - 不知 gs / suspendRaf — caller(bootstrap)用 try/finally 控制 raf loop 暂停
  */
 
+/**
+ * 视频(mp4)主音量系数(0..1,默认 1=满音量,保持历史行为)。工具面板「视频」滑块 + 主静音驱动:
+ * bootstrap 注入的 videoVolume controller 的 applyVolume → setVideoVolume(静音时 0)。
+ * `curVideoEl` 跟踪当前播放的 `<video>`(模块级),滑块/静音改动即时刷新正在播的视频(对称 audio.ts
+ * 的 setOggVolumeScale / curOggEl);视频 cleanup 时解除跟踪,避免悬挂引用误改已移除元素。
+ */
+let videoVolume = 1
+let curVideoEl: HTMLVideoElement | undefined
+
+export function setVideoVolume(v: number): void {
+  videoVolume = v < 0 ? 0 : v > 1 ? 1 : v
+  if (curVideoEl) curVideoEl.volume = videoVolume
+}
+
 export interface PlayAviOptions {
   /** mp4 资源 URL,通常 `/extracted/videos/{N}.mp4`。 */
   src: string
@@ -46,6 +60,8 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
     const video = document.createElement('video')
     video.src = options.src
     video.muted = options.muted ?? false
+    video.volume = videoVolume // 套用工具面板「视频」音量 / 主静音(静音时已被压到 0)
+    curVideoEl = video // 模块级跟踪 → 播放中拖滑块/切静音即时刷新
     video.controls = false
     video.autoplay = false
     video.style.position = 'fixed'
@@ -74,6 +90,7 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
       video.removeEventListener('ended', onEnded)
       video.removeEventListener('error', onError)
       try { video.pause() } catch { /* ignore */ }
+      if (curVideoEl === video) curVideoEl = undefined // 解除跟踪,后续 setVideoVolume 不再触及已移除元素
       removeClickOverlay()
       if (video.parentElement) video.parentElement.removeChild(video)
       resolve()

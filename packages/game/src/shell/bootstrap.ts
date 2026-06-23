@@ -95,7 +95,7 @@ import { createDisplayScaleController } from '../tools/display-scale.js'
 import { setupQuickSave } from '../tools/quick-save.js'
 import { setupSpeedrunHotkeys } from '../tools/speedrun/index.js'
 import { setupToolsPanel } from '../tools/tools-panel.js'
-import { playAvi } from './avi-player.js'
+import { playAvi, setVideoVolume } from './avi-player.js'
 import {
   type BattleFixturesData,
   type SceneJumpsData,
@@ -1063,17 +1063,24 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   })
 
   // ── 生产工具面板 + 快存快读 + 音量/分辨率(非 DEV 门,生产保留;玩家便利,只读 + 安全动作)──
+  // 音乐 / 音效 / 视频三路各自独立音量(各有音量键),但**共用同一静音键 tp-muted** —— 工具面板
+  //   的「主静音」一键覆盖三路(setMuted 写同一键、保持一致);音量键独立,静音只叠加不改音量值。
   const audioVolume = createAudioVolumeController({
     applyVolume: (v) => {
       setBgmVolume(v)
       setOggVolumeScale(v)
     },
   })
-  // 音效(SFX)独立音量(sounds/*.wav);自己的 localStorage 键。
   const sfxVolume = createAudioVolumeController({
     applyVolume: setSfxVolume,
     keyVol: 'tp-sfx-volume',
-    keyMute: 'tp-sfx-muted',
+    keyMute: 'tp-muted',
+  })
+  // 视频(过场 mp4)音量:applyVolume → avi-player 模块级 setVideoVolume(静音 → 0)。
+  const videoVolume = createAudioVolumeController({
+    applyVolume: setVideoVolume,
+    keyVol: 'tp-video-volume',
+    keyMute: 'tp-muted',
   })
   const displayScale = createDisplayScaleController(canvas)
   setupToolsPanel({
@@ -1082,6 +1089,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     displayScale,
     audioVolume,
     sfxVolume,
+    videoVolume,
     saveSlot: (slot, g) => Save.saveSlot(slot, g),
     loadSlot: (slot) => Save.loadSlot(slot),
     // 小地图底图:复用 renderSceneThumbnail,出 640px 高清(= minimap BASE_PX;各缩放档皆降采样=清晰)。

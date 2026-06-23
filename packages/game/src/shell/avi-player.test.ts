@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { playAvi } from './avi-player.js'
+import { playAvi, setVideoVolume } from './avi-player.js'
 
 // jsdom 默认无 HTMLMediaElement.prototype.play/pause 实现,做 stub
 function stubVideoElement(): void {
@@ -94,5 +94,53 @@ describe('playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)', () => {
     video.dispatchEvent(new Event('ended')) // 重复
     await p
     expect(document.body.querySelectorAll('video').length).toBe(0)
+  })
+})
+
+describe('playAvi — 视频音量(工具面板「视频」滑块 / 主静音)', () => {
+  beforeEach(() => {
+    stubVideoElement()
+    setVideoVolume(1) // 复位模块级音量,避免测序依赖
+  })
+  afterEach(() => {
+    document.body.querySelectorAll('video').forEach((v) => v.remove())
+  })
+
+  it('playAvi 建 <video> 时套用当前 videoVolume', async () => {
+    setVideoVolume(0.5)
+    const p = playAvi({ src: '/extracted/videos/3.mp4' })
+    const video = document.body.querySelector('video') as HTMLVideoElement
+    expect(video.volume).toBe(0.5)
+    video.dispatchEvent(new Event('ended'))
+    await p
+  })
+
+  it('setVideoVolume 实时刷新正在播放的 video.volume', async () => {
+    const p = playAvi({ src: '/extracted/videos/3.mp4' })
+    const video = document.body.querySelector('video') as HTMLVideoElement
+    setVideoVolume(0.2)
+    expect(video.volume).toBe(0.2)
+    video.dispatchEvent(new Event('ended'))
+    await p
+  })
+
+  it('setVideoVolume 钳制到 0..1', async () => {
+    setVideoVolume(2)
+    const p = playAvi({ src: '/extracted/videos/3.mp4' })
+    const video = document.body.querySelector('video') as HTMLVideoElement
+    expect(video.volume).toBe(1)
+    setVideoVolume(-1)
+    expect(video.volume).toBe(0)
+    video.dispatchEvent(new Event('ended'))
+    await p
+  })
+
+  it('cleanup 后解除 curVideoEl 跟踪:后续 setVideoVolume 不再改已移除元素', async () => {
+    const p = playAvi({ src: '/extracted/videos/3.mp4' })
+    const video = document.body.querySelector('video') as HTMLVideoElement
+    video.dispatchEvent(new Event('ended'))
+    await p
+    setVideoVolume(0.3) // 视频已结束 → 不应触及旧元素
+    expect(video.volume).toBe(1) // 仍是创建时的值(beforeEach 复位 1)
   })
 })
