@@ -2583,6 +2583,18 @@ function tickPerformAction(
         const count = gs.inventory.find((e) => e.itemId === action!.actionId)?.count ?? 0
         if (count === 0) action = { type: 'defend', target: -1 }
       }
+      // sdlpal fight.c:3482-3498:降级链跑完后,若最终落到物理攻击,按武器能力(PAL_PlayerCanAttackAll)
+      //   规整全体↔单体目标 —— 群攻魔法(sTarget=-1)被封魔/MP不足/未学降普攻但武器**不群攻** → 重选
+      //   单个活敌(本 bug 根因:否则 attack.ts 见 target<0 走群攻分支打全体);反向单体动作 + 群攻武器
+      //   → 打全体(-1)。正常普攻 confirmMainAction 已按 attackAll 设对 target,此处恒 no-op。
+      if (action.type === 'attack') {
+        const canAttackAll = (res.playerRoles.roles[vRoleId]?.attackAll ?? 0) !== 0
+        if (action.target === -1 && !canAttackAll) {
+          action = { ...action, target: selectAutoTargetFrom(state.enemies, 0, state.iPrevEnemyTarget ?? -1) }
+        } else if (action.target >= 0 && canAttackAll) {
+          action = { ...action, target: -1 }
+        }
+      }
     }
   }
 

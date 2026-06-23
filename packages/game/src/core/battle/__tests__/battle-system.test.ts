@@ -3331,13 +3331,25 @@ describe('DH3 perform 期降级链', () => {
   function performSetup(opts: {
     mp?: number
     silence?: number
-    spellFlags?: { usableToEnemy: boolean }
+    spellFlags?: { usableToEnemy: boolean; applyToAll?: boolean }
     action: { type: string; actionId?: number; target: number; targetSide?: string }
     inventory?: { itemId: number; count: number }[]
+    enemies?: Enemy[]
+    roleAttackAll?: number
   }) {
+    const enemyTable = opts.enemies ?? [makeEnemy({ id: 100, health: 100, defense: 0 })]
+    // teamSlots = 实际出场敌人(指向 enemyTable 的 id),补 0xFFFF 到 5 槽(EnemyTeam 固定 5-元组)。
+    const teamSlots: [number, number, number, number, number] = [
+      enemyTable[0]?.id ?? 0xFFFF,
+      enemyTable[1]?.id ?? 0xFFFF,
+      enemyTable[2]?.id ?? 0xFFFF,
+      enemyTable[3]?.id ?? 0xFFFF,
+      enemyTable[4]?.id ?? 0xFFFF,
+    ]
     const { gs, bus, emptyInput, resources } = bootstrap({
-      roles: [makeRole({ id: 0, hp: 200, mp: opts.mp ?? 30, maxMP: 30, attackStrength: 50 })],
-      enemies: [makeEnemy({ id: 100, health: 100, defense: 0 })],
+      roles: [makeRole({ id: 0, hp: 200, mp: opts.mp ?? 30, maxMP: 30, attackStrength: 50, attackAll: opts.roleAttackAll ?? 0 })],
+      enemies: enemyTable,
+      teamSlots,
       spells: [mkSpell(296, opts.spellFlags ?? { usableToEnemy: true })],
       magics: [mkMagic(296, { costMP: 5, baseDamage: 50 })],
     })
@@ -3399,6 +3411,34 @@ describe('DH3 perform 期降级链', () => {
     for (let i = 0; i < 400 && u.st.currentActionIndex === 0; i++) tickBattle(u.gs, u.emptyInput, u.bus)
     expect(u.st.players[0]!.defending).toBe(true) // 降 Defend
     expect(u.st.enemies[0]!.e.health).toBe(100)
+  })
+
+  // DH3b:降级链跑完后,物理攻击按武器能力(PAL_PlayerCanAttackAll)规整全体↔单体目标(fight.c:3482-3498)。
+  it('被封魔施群攻魔法(target=-1)+ 非群攻武器 → 降普攻打单体(fight.c:3487-3492;bug:沿用 -1 打全体)', () => {
+    // 根因复现:群攻魔法 sTarget=-1 被封魔降普攻,target 沿用 -1 → attack.ts 见 target<0 走群攻分支打全体。
+    // sdlpal 降级后按 PAL_PlayerCanAttackAll 规整:武器不群攻 → 重选单个活敌(首活敌 idx0)。
+    const { gs, bus, emptyInput, st } = performSetup({
+      silence: 3,
+      spellFlags: { usableToEnemy: true, applyToAll: true },
+      enemies: [makeEnemy({ id: 100, health: 100, defense: 0 }), makeEnemy({ id: 101, health: 100, defense: 0 })],
+      action: { type: 'magic', actionId: 296, target: -1, targetSide: 'enemy' },
+    })
+    for (let i = 0; i < 400 && st.currentActionIndex === 0; i++) tickBattle(gs, emptyInput, bus)
+    expect(st.enemies[0]!.e.health).toBeLessThan(100) // 单体目标(首活敌)掉血
+    expect(st.enemies[1]!.e.health).toBe(100) // 非群攻武器:第二个敌人不掉血
+  })
+
+  it('被封魔施单体魔法(target>=0)+ 群攻武器 → 降普攻打全体(fight.c:3494-3496 反向规整)', () => {
+    const { gs, bus, emptyInput, st } = performSetup({
+      silence: 3,
+      roleAttackAll: 1, // 群攻武器
+      spellFlags: { usableToEnemy: true }, // 单体攻击魔法
+      enemies: [makeEnemy({ id: 100, health: 100, defense: 0 }), makeEnemy({ id: 101, health: 100, defense: 0 })],
+      action: { type: 'magic', actionId: 296, target: 0, targetSide: 'enemy' },
+    })
+    for (let i = 0; i < 400 && st.currentActionIndex === 0; i++) tickBattle(gs, emptyInput, bus)
+    expect(st.enemies[0]!.e.health).toBeLessThan(100)
+    expect(st.enemies[1]!.e.health).toBeLessThan(100) // 群攻武器:两个敌人都掉血
   })
 })
 
