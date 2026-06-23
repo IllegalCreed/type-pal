@@ -73,6 +73,20 @@ describe('tools-panel 框架', () => {
     expect(root.hidden).toBe(true)
   })
 
+  // 点过 tab 后焦点落在面板内的按钮上,从该按钮派发的 ` keydown 会冒泡经 root 的 stopPropagation(防漏给游戏输入)。
+  //   该 stopPropagation 须放行 Backquote,否则切换键到不了 window 监听 → 面板关不掉(user 2026-06-23 报)。
+  it('点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)', () => {
+    setupToolsPanel(mkDeps())
+    const root = document.getElementById('tp-tools-panel')!
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' })) // 开
+    expect(root.hidden).toBe(false)
+    const tab = document.querySelector('.tp-tab') as HTMLButtonElement
+    tab.dispatchEvent(new MouseEvent('click', { bubbles: true })) // 点 tab(焦点落入面板内)
+    // 真实场景:焦点在该 tab 按钮上,` 的 keydown 从面板内冒泡 —— 须仍能关闭
+    tab.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote', bubbles: true }))
+    expect(root.hidden).toBe(true)
+  })
+
   it('× 关闭 + 点 tab 切换 active', () => {
     setupToolsPanel(mkDeps())
     const root = document.getElementById('tp-tools-panel')!

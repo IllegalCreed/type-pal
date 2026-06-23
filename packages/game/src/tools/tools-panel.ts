@@ -98,6 +98,8 @@ export function injectToolsPanelStyles(): void {
 .tp-close { background:transparent; border:none; color:var(--tp-text-dim);
   font-size:20px; line-height:1; cursor:pointer; padding:0 4px; transition:color .12s; }
 .tp-close:hover { color:var(--tp-cream); }
+/* 点击后不留浏览器默认 focus 轮廓(active tab 自带金色态,默认环冗余);对齐 .tp-input 既有惯例。 */
+.tp-tab:focus, .tp-btn:focus, .tp-close:focus { outline:none; }
 .tp-body { flex:1 1 auto; overflow-y:auto; padding:6px 18px 18px; }
 .tp-body::-webkit-scrollbar { width:8px; }
 .tp-body::-webkit-scrollbar-track { background:var(--tp-slot); }
@@ -901,7 +903,11 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
       setOpen(!open)
     }
   })
-  root.addEventListener('keydown', (e) => e.stopPropagation())
+  // 面板内 keydown 不冒泡给游戏 window 监听(防搜索框打字漏成游戏输入);但 **放行 Backquote** ——
+  //   否则点过 tab 后焦点落在面板内按钮上,` 被这里 stopPropagation 拦死,到不了上方 window 切换器 → 关不掉面板。
+  root.addEventListener('keydown', (e) => {
+    if (e.code !== 'Backquote') e.stopPropagation()
+  })
 
   // 战斗 tab 自动刷新:面板常开 + 在战斗 tab 时,战斗态签名变化(进/出战斗、每回合 HP/状态)即重渲染。
   //   场景 tab 有自己的 rAF live 刷新(小地图),系统/对话 静态——故只对战斗 tab 轮询。
