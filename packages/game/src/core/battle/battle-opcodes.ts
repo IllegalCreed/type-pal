@@ -134,6 +134,7 @@ function pushThrowOffMagicAnim(ctx: BattleCtx, magicObjId: number, targetIdx: nu
         effect: mg.effect,
         type: mg.type as 'normal' | 'attackAll' | 'attackWhole' | 'attackField',
         speed: mg.speed,
+        special: mg.special, // DM9:sLayerOffset(z 排序)—— 漏传致投掷魔法物品 OffMagic layerOffset 落 0 被敌人遮挡
         fireDelay: mg.fireDelay,
         effectTimes: mg.effectTimes,
         shake: mg.shake,

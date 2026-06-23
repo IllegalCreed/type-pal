@@ -618,6 +618,7 @@ function buildAndStartSummonAnim(
         casterIdx: -1,
         magic: {
           effect: secondary.effect, type: secondary.type as OffMagicType, speed: secondary.speed,
+          special: secondary.special, // DM9:sLayerOffset(z 排序)—— 漏传致召唤二次法术 layerOffset 落 0
           fireDelay: secondary.fireDelay, effectTimes: secondary.effectTimes, shake: secondary.shake,
           xOffset: secondary.xOffset, yOffset: secondary.yOffset,
           wave: secondary.wave,

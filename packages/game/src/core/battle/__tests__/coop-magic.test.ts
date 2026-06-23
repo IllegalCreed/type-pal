@@ -82,6 +82,31 @@ describe('performCoopMagic(协力合击,fight.c:3856-4043 CLASSIC)', () => {
     expect(roles[0]!.mp).toBe(30)  // MP 不动
   })
 
+  // 召唤型合击:二次法术效果(OffMagic)须带二次 magic 的 sLayerOffset(MAGIC.special),否则 layerOffset 落 0 →
+  //   法术精灵排进敌人堆被遮挡(与火神/投掷魔法物品同根因,user 2026-06-23 报火神)。secondary special=99 恒最上。
+  it('召唤型合击:二次法术效果 overlay 带二次 magic 的 special 作 layerOffset(special=99 不被敌人遮挡)', () => {
+    const roles = [makeRole(0, { attackStrength: 40, magicStrength: 60 }), makeRole(1, { attackStrength: 20, magicStrength: 40 })]
+    const { state, playerRoles } = makeCoopState(roles)
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+
+    // 召唤型合击 magic(special=8 → summonChunk 18;effect → 二次 attackAll magic 17,special=99)。
+    const coopSummon = { ...COOP_MAGIC, id: 50, type: 'summon' as Magic['type'], special: 8, effect: 17 }
+    const secondary = { ...COOP_MAGIC, id: 17, type: 'attackAll' as Magic['type'], effect: 12, special: 99, speed: 1 }
+
+    performCoopMagic({
+      state, casterIdx: 0, coopObjId: TEST_COOP_OBJ_ID, targetIdx: 'all', playerRoles,
+      magics: [coopSummon, secondary], objectMagics: OBJ_MAGICS, bus: createCommandBus(),
+      magicSpriteFrameCounts: new Map([[12, 8]]),
+      summonSpriteFrameCounts: new Map([[18, 4]]),
+    })
+
+    const frames = state.battleAnim?.frames ?? []
+    const magicOverlays = frames.flatMap(f => (f.overlays ?? []).filter(o => o.kind === 'magic'))
+    expect(magicOverlays.length).toBeGreaterThan(0)
+    for (const ov of magicOverlays) expect(ov.layerOffset).toBe(99)
+  })
+
   // M6 合击音:sdlpal kBattleActionCoopMagic(fight.c:3856-3875)—— 非 summon 合击 AUDIO_PlaySound(29 fixed);
   //   summon 经 PAL_BattleShowPlayerPreMagicAnim → CLASSIC 播 rgwMagicSound[caster](fight.c:2377);
   //   无动画资源时效果音即时回落;有动画链时 frame.sound 帧同步(见武神回归)。

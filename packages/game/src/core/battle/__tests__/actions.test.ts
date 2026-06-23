@@ -1468,6 +1468,52 @@ describe('performMagic', () => {
     ])
   })
 
+  // 火神等召唤法术:二次法术效果(OffMagic)须带二次 magic 的 sLayerOffset(MAGIC.special)做 z 排序,
+  //   否则 layerOffset 落 0 → 法术精灵排进敌人堆被遮挡(user 2026-06-23 报"火神法术效果在敌人图层之后")。
+  //   火神二次 magic 17 special=99(≈恒最上,anim-timeline.ts:869);常规攻击魔法路径已透传 special,召唤分支此前漏传。
+  it('召唤法术:二次法术效果 overlay 带二次 magic 的 special 作 layerOffset(火神 special=99 恒最上,不被敌人遮挡)', () => {
+    const { state, playerRoles, bus } = makeState({
+      role: { mp: 120, maxMP: 120, magicStrength: 80 },
+      enemies: [{ health: 9000, defense: 20, level: 5 }],
+      forceFloat: 1,
+    })
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+
+    const huoShen = makeMagic({
+      id: 94, type: 'summon', special: 8, effect: 17, baseDamage: 250, sound: 304,
+    })
+    // 火神二次 magic 17:attackAll,special=99(sLayerOffset 恒最上)。
+    const huoShenSecondary = makeMagic({
+      id: 17, type: 'attackAll', effect: 12, special: 99, speed: 1,
+    })
+
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      spellId: 389,
+      targetIsEnemy: true,
+      targetIdx: 'all',
+      spells: [makeSpell({ id: 389, magicNumber: 94, flags: {
+        usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: true,
+      } })],
+      magics: [huoShen, huoShenSecondary],
+      playerRoles,
+      bus,
+      commands: [{ op: 'end' }],
+      runScript,
+      magicSpriteFrameCounts: new Map([[12, 8]]),
+      summonSpriteFrameCounts: new Map([[18, 4]]),
+    })
+
+    const frames = state.battleAnim?.frames ?? []
+    const magicOverlays = frames.flatMap(f => (f.overlays ?? []).filter(o => o.kind === 'magic'))
+    // 二次法术效果确实喷发(有 magic overlay),且每个都带 special=99(非默认 0)。
+    expect(magicOverlays.length).toBeGreaterThan(0)
+    for (const ov of magicOverlays) expect(ov.layerOffset).toBe(99)
+  })
+
   it('金蝉脱壳 scriptOnUse(0x3A)→ 触发 PlayerEscape 动画,不直接结束战斗', () => {
     const { state, playerRoles, bus, gs } = makeState({ role: { mp: 99, maxMP: 99 } })
     const commands: Command[] = [

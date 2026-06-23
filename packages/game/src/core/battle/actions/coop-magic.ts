@@ -287,6 +287,7 @@ function buildAndStartCoopSummonAnim(input: {
           effect: secondary.effect,
           type: secondary.type,
           speed: secondary.speed,
+          special: secondary.special, // DM9:sLayerOffset(z 排序)—— 漏传致合体二次法术 layerOffset 落 0 被敌人遮挡
           fireDelay: secondary.fireDelay,
           effectTimes: secondary.effectTimes,
           shake: secondary.shake,
