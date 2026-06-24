@@ -4724,6 +4724,61 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     expect(gs.mode).toBe('explore')             // 延时完 → 续跑到 end
   })
 
+  // M1(sdlpal script.c:3285-3288):0x05 REDRAW 的 operand[2]!=0 → PAL_UpdatePartyGestures(FALSE),重绘前把
+  //   全队切站立帧 + 相位复位(scene.c:636)。否则玩家走路(迈步相位)进对话,队伍冻在迈步帧定格对话背景。
+  //   全游戏 4 处 0x05[0,0,0xFFFF](剑圣/女子/火麒麟士兵对话);余 2655+ 处 operand[2]=0 不复位(如张四上船逐步走)。
+  it('0x05[*,*,0xFFFF] 无对话(脚本起手)→ 复位走路姿势(walking=false + 相位复位)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.walkingFrame = { walking: true, stepFrame: 1 } // 走路中触发
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0xFFFF] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.walkingFrame.walking).toBe(false)
+    expect(gs.walkingFrame.stepFrame).toBe(2) // (1 & 2) ^ 2 = 2(scene.c:773-774 相位复位)
+  })
+
+  it('0x05[*,*,0] operand[2]=0 → 不复位走路姿势(张四上船逐步走 0x05 不能停步)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.walkingFrame = { walking: true, stepFrame: 1 }
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.walkingFrame.walking).toBe(true) // operand[2]=0 → gate 跳过,迈步相位不动
+  })
+
+  // 关键:0x05 紧跟 NPC 对话(数据 4 处中 16396/21518 = setDialogStyle+showDialog→0x05→下一段)时,0x05 handler
+  //   在「有 dialog」分支提前 return(waiting='dialog' 等翻页键),翻页解析在 pendingFullClear 分支 ip++ —— 0x05
+  //   handler 主体**不再重入**。故复位必须在 handler 入口(dialog 检查之前),否则此路径漏复位(队伍整段对话冻迈步帧)。
+  it('0x05[*,*,0xFFFF] 紧跟 NPC 对话(段间复位)→ 早返回路径也复位走路姿势', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.walkingFrame = { walking: true, stepFrame: 1 }
+    loadEvent(gs, [
+      { op: 'setDialogStyleTop' },
+      { op: 'showDialog', messageIndex: 0, text: '甲' },
+      { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0xFFFF] }, // 段间 0x05:本脚本唯一可复位源
+      { op: 'setDialogStyleBottom' },
+      { op: 'showDialog', messageIndex: 1, text: '乙' },
+      { op: 'end' },
+    ])
+    let resetWhileDialogShown = false
+    for (let i = 0; i < 80; i++) {
+      tickEventSystem(gs, snap(['Confirm']), bus)
+      if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
+      // 复位发生时对话框仍在(0x05 clear 等键)→ 证明是「有 dialog」早返回路径复位的
+      if (gs.dialogBox && !gs.walkingFrame.walking) resetWhileDialogShown = true
+      if (gs.eventCursor === undefined) break
+    }
+    expect(resetWhileDialogShown).toBe(true) // 本脚本唯一复位源是段间 0x05 → 早返回路径确有复位
+    expect(gs.walkingFrame.walking).toBe(false)
+  })
+
   it('0x51 FadeIn → 黑→base + needToFadeIn=false', () => {
     const bus = createCommandBus()
     const gs = gsWithPalette([0, 0, 0], [180, 120, 60])

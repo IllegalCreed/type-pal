@@ -2393,6 +2393,17 @@ export function tickEventSystem(
         // Sync.2 fix8:翻页后**必须完全清 gs.dialogBox**(对应 sdlpal PAL_ClearDialog(TRUE)),
         //              不只清 shownLines/currentLineText;否则 portrait 残留遮挡后续 NPC 动画。
         if (cmd.opcode === OP_REDRAW_SCREEN) {
+          // M1(sdlpal script.c:3285-3288):operand[2]!=0 → PAL_UpdatePartyGestures(FALSE):重绘前把全队切站立帧
+          //   + 相位复位(scene.c:773-774),否则走路(迈步相位)进对话时队伍冻在迈步帧定格对话背景。
+          //   置于 handler 入口(dialog 检查**之前**):有 dialog 时下方走 waiting='dialog' 提前 return、翻页解析
+          //   在 pendingFullClear 分支 ip++ 不重入本主体(数据 4 处 0x05[0,0,0xFFFF] 中 16396/21518 即此路径),
+          //   故复位须在早返回前做。gate operand[2]:全游戏 2655+ 处 operand[2]=0(张四上船逐步走等)不可停步。
+          //   ⚠ 微偏差:sdlpal 在 PAL_ClearDialog 等键**后**才复位,我们在入口即复位 → 仅"段末等翻页键那一拍"
+          //   队伍由迈步提前切站立,视觉等价且更稳(无残留冻帧)。
+          if ((cmd.operands[2] ?? 0) !== 0) {
+            gs.walkingFrame.walking = false
+            gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame & 2) ^ 2
+          }
           // sdlpal script.c:3271 PAL_ClearDialog(TRUE):仅 nCurrentDialogLine>0 才 PAL_DialogWaitForKey
           //   (text.c:1770)等键 + 画箭头;随后 script.c:3290 PAL_MakeScene 重画覆盖对话区。
           if (gs.dialogBox && gs.dialogBox.dialogLineCount > 0) {
