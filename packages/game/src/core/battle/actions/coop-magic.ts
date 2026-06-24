@@ -220,6 +220,7 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
       originalPositions: state.players.map(p => p.posOriginal),
       magic: {
         effect: magic.effect, type: offType, speed: magic.speed, fireDelay: magic.fireDelay,
+        special: magic.special, // DM9:sLayerOffset(z 排序)—— 漏传致首次施法合击 OffMagic layerOffset 落 0 被敌人遮挡(4cf2258 漏网路径)
         effectTimes: magic.effectTimes, shake: magic.shake, xOffset: magic.xOffset, yOffset: magic.yOffset,
         wave: magic.wave, keepEffect: magic.keepEffect,
         sound: magic.sound, // M9:效果音随 OffMagic 起手帧同步(buildPlayerOffMagicTimeline i===0)

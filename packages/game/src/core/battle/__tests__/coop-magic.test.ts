@@ -107,6 +107,25 @@ describe('performCoopMagic(协力合击,fight.c:3856-4043 CLASSIC)', () => {
     for (const ov of magicOverlays) expect(ov.layerOffset).toBe(99)
   })
 
+  // 非召唤合击(首次施法,buildCoopMagicTimeline → buildPlayerOffMagicTimeline):OffMagic 效果须带 magic 的
+  //   sLayerOffset(MAGIC.special),否则 layerOffset 落 0 → 法术精灵排进敌人堆被遮挡(与召唤二次/投掷同根因 DM9;
+  //   4cf2258 补了召唤二次/投掷/常规法术 3 处,漏了此首次施法合击路径)。6 角色合击 5 个 special=99(仅林月如 0)。
+  it('非召唤合击(首次施法):OffMagic overlay 带 magic 的 special 作 layerOffset(special=99 不被敌人遮挡)', () => {
+    const roles = [makeRole(0, { attackStrength: 40, magicStrength: 60 }), makeRole(1, { attackStrength: 20, magicStrength: 40 })]
+    const { state, playerRoles } = makeCoopState(roles)
+    state.players.forEach((p, i) => { p.posOriginal = { x: 240 - i * 20, y: 170 } })
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+    performCoopMagic({
+      state, casterIdx: 0, coopObjId: TEST_COOP_OBJ_ID, targetIdx: 'all', playerRoles,
+      magics: [{ ...COOP_MAGIC, special: 99 }], objectMagics: OBJ_MAGICS, bus: createCommandBus(),
+      magicSpriteFrameCounts: new Map([[0, 8]]),
+    })
+    const frames = state.battleAnim?.frames ?? []
+    const magicOverlays = frames.flatMap(f => (f.overlays ?? []).filter(o => o.kind === 'magic'))
+    expect(magicOverlays.length).toBeGreaterThan(0)
+    for (const ov of magicOverlays) expect(ov.layerOffset).toBe(99)
+  })
+
   // M6 合击音:sdlpal kBattleActionCoopMagic(fight.c:3856-3875)—— 非 summon 合击 AUDIO_PlaySound(29 fixed);
   //   summon 经 PAL_BattleShowPlayerPreMagicAnim → CLASSIC 播 rgwMagicSound[caster](fight.c:2377);
   //   无动画资源时效果音即时回落;有动画链时 frame.sound 帧同步(见武神回归)。
