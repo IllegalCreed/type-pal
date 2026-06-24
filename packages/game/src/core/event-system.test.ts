@@ -195,6 +195,21 @@ describe('EventSystem', () => {
     expect(bus.drain()[0]?.cmd.op).toBe('showDialogBox')
   })
 
+  // BUG(user 2026-06-24:麒麟洞·麒麟老人对话「蛋．．．这．．(」末尾露出半角 `(`):对话历史面板直接渲染
+  //   原始 cmd.text,泄露了脚本控制符。sdlpal text.c:1564-1570 `(`/`)` 是「等待图标」控制符(bIcon=2/1),
+  //   PAL_ShowDialogText 消费但不绘制 —— 主对话框走 parseDialogText 已剥离,但 pushDialogHistory 仍存原始
+  //   文本。历史应与玩家所见一致 = 可见文本(剥 `( ) ~ $ \ "` 等全部控制符)。
+  it('对话历史存可见文本:剥离「等待图标」控制符 —— 「蛋．．．这．．(」→「蛋．．．这．．」', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'showDialog', messageIndex: 0, text: '蛋．．．这．．(' },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogHistory?.at(-1)?.text).toBe('蛋．．．这．．')
+  })
+
   // C5(gameOverActive 重构):死亡序列 L_41075 是 0x4F 后跟 4 句 showDialog。showDialog 会清 sceneLoading
   //   (event-system.ts:1647),若死亡 hold 复用 sceneLoading,这 4 句对话就会露大世界 —— 这正是当初发明
   //   gameOverActive 的根因。回归保证:showDialog 清 sceneLoading,但**绝不**碰 gameOverActive / deathHoldActive。

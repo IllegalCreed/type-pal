@@ -2085,11 +2085,12 @@ export function tickEventSystem(
         else {
           appendDialogLine(gs.dialogBox, cmd.text)
         }
-        // 历史对话捕获(生产工具面板用,会话态):提交可见对话行时入环形缓冲。
-        // 两条路径(startDialogLine 启首行 / appendDialogLine 续行)都走 cmd.text;空/纯控制符
-        // 由 pushDialogHistory 的 trim 跳过兜底;连续同 map 同 text 去重防多 tick re-commit。
-        // 维度按 mapNum(地图号)而非 wNumScene:同 map 多场景共享地名分组更稳(getCurrentMapNum)。
-        pushDialogHistory(gs.dialogHistory ?? (gs.dialogHistory = []), getCurrentMapNum(), cmd.text)
+        // 历史对话捕获(生产工具面板用,会话态):提交**可见文本**(parseDialogText 剥控制符)入环形缓冲。
+        // 必须剥再存——否则 `( ) ~ $ \ "` 等脚本控制符原样泄露到历史面板(user 2026-06-24:麒麟洞·麒麟老人
+        //   「蛋．．．这．．(」末尾露出半角 `(`,sdlpal text.c:1564 是「等待图标」控制符,主对话框走
+        //   parseDialogText 已剥、历史这条曾直传 cmd.text)。空/纯控制符行 → parsed.text 空 → trim 跳过兜底;
+        //   连续同 map 同 text 去重防多 tick re-commit。维度按 mapNum 而非 wNumScene(同 map 多场景共享地名更稳)。
+        pushDialogHistory(gs.dialogHistory ?? (gs.dialogHistory = []), getCurrentMapNum(), parseDialogText(cmd.text, 0, true).text)
         // DM21:行内 $NN 改速后同步回脚本级(C iDelayTime 是全局,任何 $ 都写它)。
         if (gs.dialogBox.iDelayState !== undefined) gs.dialogIDelayFrames = gs.dialogBox.iDelayState
         cursor.waiting = 'dialog'
