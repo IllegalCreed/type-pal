@@ -39,6 +39,14 @@ export interface DecideEnemyActionInput {
   /** 活着的敌人列表(含自己)—— confused 从中随机选打击目标(fight.c:4593 SelectEnemyTargetIndex)。 */
   aliveEnemies?: Array<{ idx: number }>
   /**
+   * 全敌槽(含死/空槽,idx = state.enemies 索引,hp = 当前血量;空槽 health=0、死敌 health 钳 0)—— confused
+   * 目标选择的 sdlpal RNG 真值:`RandomLong(0, wMaxEnemyIndex) + while(wObjectID==0||wHealth==0) 重摇`
+   * (fight.c:4489-4516 PAL_BattleEnemySelectEnemyTargetIndex)。type-pal 空槽/死敌 health 均 0,故 hp<=0 =
+   * sdlpal 两拒绝条件之并。有死/空槽时多抽,RNG 流逐抽对齐(同玩家目标 party 路径,c10)。省略 → 回退
+   * aliveEnemies 预过滤池单抽(分布相同 RNG 流不同,旧 fixture 向后兼容)。
+   */
+  enemySlots?: Array<{ idx: number, hp: number }>
+  /**
    * 全 party(含死者,idx = state.players 索引)—— D9 RNG 对拍(c10):传入则用 sdlpal 真值选目标
    * `RandomLong(0, maxPartyIdx) + while(HP==0) 重摇`(fight.c:4540-4545),RNG 流逐抽对齐;
    * 省略 → 回退 `range over alivePlayers`(旧路径,分布相同 RNG 流不同)。
@@ -83,6 +91,20 @@ export function decideEnemyAction(input: DecideEnemyActionInput): BattleAction {
 
   // sdlpal fight.c:4591-4655:confused → 随机选一活敌(含自己)打;选中自己 → 什么不做(4594)
   if ((status?.confused ?? 0) > 0) {
+    // sdlpal PAL_BattleEnemySelectEnemyTargetIndex(fight.c:4489):RandomLong(0,wMaxEnemyIndex) +
+    //   while(wObjectID==0||wHealth==0) 重摇 —— 全槽(含死/空)拒绝采样,有死/空槽时多抽。enemySlots 传入 →
+    //   用此真值路径(RNG 流逐抽对齐,同玩家 party 路径 c10);省略 → 回退 aliveEnemies 预过滤池单抽(旧 fixture)。
+    const slots = input.enemySlots
+    if (slots && slots.length > 0) {
+      let ei = rng.rangeInclusive(0, slots.length - 1)
+      let guard = 0
+      // sdlpal 无 guard(靠"confused 敌本身活着⇒至少一非空非死槽"规避死循环);仍加 guard 兜底(同 party 路径)
+      while ((slots[ei]?.hp ?? 0) <= 0 && guard++ < 64) ei = rng.rangeInclusive(0, slots.length - 1)
+      const slot = slots[ei]
+      if (!slot || slot.hp <= 0) return { type: 'pass', target } // 兜底(全死/空,不应发生)
+      if (slot.idx === input.selfIdx) return { type: 'pass', target } // 选中自己 → goto end
+      return { type: 'attack-mate', target: slot.idx }
+    }
     const pool = input.aliveEnemies ?? []
     if (pool.length === 0) return { type: 'pass', target }
     const pick = pool[rng.range(0, pool.length)]!

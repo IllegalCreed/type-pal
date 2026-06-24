@@ -167,6 +167,25 @@ describe('decideEnemyAction', () => {
     expect(action.target).toBe(0)
   })
 
+  // ── OBS-1:confused 目标选择对齐 sdlpal 全槽拒绝采样(fight.c:4489 PAL_BattleEnemySelectEnemyTargetIndex)──
+  it('B2:enemySlots 传入 → confused 全槽 RandomLong + while 重摇(跳过死/空槽,RNG 流逐抽对齐)', () => {
+    // 3 槽:idx0 死(hp0)、idx1 空槽(hp0)、idx2 活;rng 摇 0(死)→1(空)→2(活),共 3 抽。
+    //   旧预过滤池路径只 1 抽 → 有死/空槽时 RNG 流偏移;此真值路径逐抽对齐 sdlpal。
+    const seq = [0, 1, 2]
+    let k = 0
+    const action = decideEnemyAction({
+      enemy: minimalEnemy(),
+      alivePlayers: [{ idx: 0, hp: 100 }],
+      rng: { ...createSeedableRng(1), rangeInclusive: () => seq[k++] ?? 2 },
+      status: { confused: 1 },
+      selfIdx: 9, // 不选中自己
+      enemySlots: [{ idx: 0, hp: 0 }, { idx: 1, hp: 0 }, { idx: 2, hp: 50 }],
+    })
+    expect(action.type).toBe('attack-mate')
+    expect(action.target).toBe(2) // 跳过死 idx0 + 空 idx1,重摇命中活 idx2
+    expect(k).toBe(3) // 消耗 3 抽(拒绝采样;旧预过滤池仅 1 抽)
+  })
+
   it('B2:敌 confused 选中自己 → pass(fight.c:4594 iTarget==self goto end)', () => {
     const action = decideEnemyAction({
       enemy: minimalEnemy(),

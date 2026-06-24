@@ -2499,6 +2499,9 @@ function tickPerformAction(
       const aliveEnemies = state.enemies
         .map((e, i) => ({ idx: i, health: e.e.health, defeated: e.defeated }))
         .filter((e) => !e.defeated && e.health > 0)
+      // OBS-1:全敌槽(含死/空,idx = state.enemies 索引)→ confused 用 sdlpal 全槽拒绝采样(fight.c:4489)
+      //   逐抽对齐 RNG 流(空槽/死敌 health 0 → hp<=0 拒绝,同 sdlpal wObjectID==0||wHealth==0)。
+      const enemySlots = state.enemies.map((e, i) => ({ idx: i, hp: e.e.health }))
       action = decideEnemyAction({
         enemy: enemy.e,
         alivePlayers,
@@ -2507,6 +2510,7 @@ function tickPerformAction(
         status: enemy.status,
         selfIdx: item.idx,
         aliveEnemies,
+        enemySlots,
       })
     }
     // enemy dead → skip(action 保持 undefined)
@@ -2766,8 +2770,13 @@ function performBattleAction(
         enemySpriteFrameHeights: res.enemySpriteFrameHeights, // M8:动态变身/召唤后保 frame0 height
       })
       // E04:施法 → rgMagicExp.wCount += RandomLong(2,3) + rgMagicPowerExp.wCount++(fight.c:4328-4329,序固定)
-      addHiddenExp('rgMagicExp', state.rng.rangeInclusive(2, 3))
-      addHiddenExp('rgMagicPowerExp', 1)
+      // DL4:exp 掷骰仅在**玩家** case(fight.c:4328);敌方走 PAL_BattleEnemyPerformAction(fight.c:4551)不碰经验。
+      //   须 gate !isEnemy —— 实参 rangeInclusive(2,3) 先于 addHiddenExp 内 if(isEnemy)return 求值,敌施法会多耗
+      //   1 抽 RNG → 后续行动/目标/dex 全错位(与 attack case 同坑;那处已 gate,此处曾漏)。
+      if (!actor.isEnemy) {
+        addHiddenExp('rgMagicExp', state.rng.rangeInclusive(2, 3))
+        addHiddenExp('rgMagicPowerExp', 1)
+      }
       break
     }
 

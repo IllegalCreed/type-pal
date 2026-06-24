@@ -543,6 +543,31 @@ describe('#311 敌方乱/定/眠 本回合不跑 wScriptOnReady(镜像 sdlpal#31
   })
 })
 
+describe('BUG-1:敌方施法不消费玩家经验掷骰 RandomLong(2,3)(RNG 确定性)', () => {
+  // sdlpal:经验掷骰仅在 PAL_BattlePlayerPerformAction(fight.c:4328 rgMagicExp += RandomLong(2,3));敌方走
+  //   独立的 PAL_BattleEnemyPerformAction(fight.c:4551)不碰经验、不掷骰。type-pal magic case 的 exp 行实参
+  //   state.rng.rangeInclusive(2,3) 先于 addHiddenExp 内 if(actor.isEnemy)return 求值 → 敌施法多耗 1 抽,
+  //   后续敌/玩家行动与目标选择全错位。attack case 已用 if(!isEnemy) 包住掷骰(DL4),magic case 漏 → 钉死。
+  it('敌方施法 → rangeInclusive(2,3) 经验掷骰 0 次(玩家施法才 1 次)', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, health: 99999, magic: 296, magicRate: 10 })], // magicRate=10 必出魔法
+      roles: [makeRole({ id: 0, hp: 9999, maxHP: 9999 })],
+      spells: [mkSpell(296)],
+      magics: [mkMagic(296, { costMP: 5, baseDamage: 50 })],
+    })
+    const st = gs.battleState!
+    let dice23 = 0 // 经验掷骰唯一签名 rangeInclusive(2,3)(另 2 处:玩家攻击已 gate、偷取 0x6A 本回合无)
+    const real = st.rng.rangeInclusive.bind(st.rng)
+    st.rng.rangeInclusive = (a: number, b: number) => { if (a === 2 && b === 3) dice23++; return real(a, b) }
+    // 单独驱动敌方行动(仿 #311 手法:只放该敌入队)
+    st.phase = 'performAction'
+    st.actionQueue = [{ isEnemy: true, idx: 0, dex: 100, fIsSecond: false }]
+    st.currentActionIndex = 0
+    for (let i = 0; i < 400 && st.currentActionIndex === 0; i++) tickBattle(gs, emptyInput, bus)
+    expect(dice23).toBe(0) // 敌施法不掷经验骰(修前 = 1)
+  })
+})
+
 describe('startBattle', () => {
   it('构 BattleState + 切 mode=battle + phase=preBattle', () => {
     const { gs } = bootstrap()
