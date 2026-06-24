@@ -12,6 +12,7 @@
 | [decisions](decisions.md) | 已拍板的第二阶段架构 / 范围决策（D1–D9，每条 = 决定 + 理由 + 影响） | 滚动 |
 | [p0-content-schema](p0-content-schema.md) | 内容数据模型（三层状态 / 稳定 id / 场景包 / 事件演出 / 角色实例化） + 迁移器 | 草案 |
 | [p1-slice1-indoor-scene](p1-slice1-indoor-scene.md) | P1 第一刀 spec：室内场景跑通（走路 + 撞墙 + NPC 对话），起 content + reforge 两包 | 草案 |
+| [p1-slice1-indoor-scene-plan](p1-slice1-indoor-scene-plan.md) | 切片 1 实现计划（TDD 任务分解：0 接线 / A content / B 引擎逻辑 / C 渲染+dev） | 草案 |
 | [design-backlog](design-backlog.md) | 设计议题池（每条 = 痛点 + 方向 + 归属 + 状态） | 滚动 |
 | [2026-06-22-phase1-engine-debt-audit](2026-06-22-phase1-engine-debt-audit.md) | 第一阶段引擎架构债审查（18 条 finding + 反查表），P1 新引擎 spec 的反面输入 | 定稿 |
 
