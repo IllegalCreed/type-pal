@@ -863,6 +863,17 @@ export interface GameState {
    */
   blackScreenHold: boolean
 
+  /**
+   * 结局 RNG 动画(拜月跳水)演出期间显示对话(setDialogStyle 的 arg2=operand[2]!=0 且有头像)的标记 ——
+   * 对齐 sdlpal `g_TextLib.fPlayingRNG`(text.c:1271-1274)。为真时主循环 present **不重绘大世界**,
+   * 改恢复 rngDialogBackup(= RNG 动画画面)再叠对话框(对齐 sdlpal op5 redraw `VIDEO_RestoreScreen`,
+   * script.c:3273)。否则结局对话间隙会把 scene 281 的拜月/替身 event objects 露出来
+   * (user 报"动画时正常、一旦说话大世界就浮现")。全游戏仅 scene 281 结局对话用 arg2=0xFFFF。
+   */
+  dialogPlayingRNG?: boolean
+  /** dialogPlayingRNG 期间保留的 RNG 动画画面快照(sdlpal `gpScreenBak`,RNG 播完时由壳层备份)。 */
+  rngDialogBackup?: Uint8Array
+
   // ── SAVEDGAME_WIN 倒推: 平铺全局杂项 ───────────────────────────────────────
 
   /**
@@ -1445,6 +1456,8 @@ export function resetSceneRuntimeForNewGame(
   gs.gameOverActive = false
   gs.deathHoldActive = false
   gs.blackScreenHold = false
+  gs.dialogPlayingRNG = false
+  gs.rngDialogBackup = undefined
   gs.paletteFadeState = undefined
   gs.fadeState = undefined
   gs.needToFadeIn = false

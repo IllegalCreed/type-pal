@@ -283,6 +283,32 @@ describe('EventSystem', () => {
     expect(gs.mode).toBe('explore')
   })
 
+  // 结局 RNG 演出对话(scene 281 拜月跳水):setDialogStyle 的 arg2(=operand[2]=fPlayingRNG)+ 头像 → dialogPlayingRNG
+  // (sdlpal text.c:1271 `if (fPlayingRNG && iNumCharFace)`),present 据此保留 RNG 画面不露大世界。
+  it('setDialogStyleBottom 带 arg2(fPlayingRNG)+ 头像 → dialogPlayingRNG=true', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'setDialogStyleBottom', arg0: 88, arg2: 0xFFFF }, // 头像 88 + fPlayingRNG=0xFFFF
+      { op: 'showDialog', messageIndex: 0, text: '终于恢复和平的日子' },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogPlayingRNG).toBe(true)
+  })
+
+  it('普通 setDialogStyleTop(无 arg2)→ dialogPlayingRNG 不置(对峙对话照常重绘大世界)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'setDialogStyleTop', arg0: 81 }, // 有头像但无 arg2(fPlayingRNG=0)
+      { op: 'showDialog', messageIndex: 0, text: '拜月教主:' },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogPlayingRNG).toBeFalsy()
+  })
+
   it('快按 Space:skip-typing 当 tick 整行设满但 cursor **不**推进(留一帧渲染),下一 tick 才 line-done 推进', () => {
     // 2026-05-29 梦境快按 Space 只出 1 行就渐变的根因修复:skip 后整行先渲染一帧,
     // 否则下条 opcode(loadScene/fade 等渲染门)那帧把满行盖掉 → 玩家没看见。

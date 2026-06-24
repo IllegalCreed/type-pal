@@ -233,6 +233,17 @@ export function presentFrame(
     return
   }
 
+  // 结局 RNG 演出对话(sdlpal `g_TextLib.fPlayingRNG`,text.c:1271):拜月跳水动画期间显示对话时,
+  //   op5 redraw / 主循环 present 走 `VIDEO_RestoreScreen` 恢复 RNG 动画画面(script.c:3273)再叠对话框,
+  //   **不重绘大世界** —— 否则对话间隙把 scene 281 的拜月/替身 event objects 露出来
+  //   (user 报"动画时正常、一旦说话大世界就浮现")。rngDialogBackup 由壳层在 RNG 播完时备份;
+  //   缺备份(防御:误触发 / 备份前)→ 不短路,退化为下方正常场景重绘。
+  if (gs.dialogPlayingRNG && gs.rngDialogBackup) {
+    fb.indices.set(gs.rngDialogBackup)
+    drawDialogOverlay(fb, gs, ctx)
+    return
+  }
+
   // P2#7:scene 切换期间跳过 render,fb 保留上一帧(= 旧 scene 完整帧)。覆盖 ① async 资源加载窗口
   // (避免渲染"旧 tilemap+新坐标"花屏)② onEnter 跑 setPartyPos 等定位 opcode 期间(避免新场景在
   // 旧坐标渲染)③ FadeOut 冻屏淡黑(上面色表已 ramp 冻帧)。直到 onEnter 第一个可渲染 yield

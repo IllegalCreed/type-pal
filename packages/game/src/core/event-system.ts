@@ -1174,6 +1174,16 @@ export function buildLabelMap(commands: Command[]): Record<string, number> {
  *
  * @returns true 表示已 wait(caller 应 return);false 表示已 apply(caller 应 break out of switch)
  */
+/**
+ * sdlpal text.c:1271-1274 真值:`if (fPlayingRNG && iNumCharFace) { VIDEO_BackupScreen; g_TextLib.fPlayingRNG = TRUE; }`。
+ *   对话 opcode 的 operand[2](arg2)= fPlayingRNG、operand[0](arg0)= iNumCharFace(头像号)。两者皆非 0 →
+ *   进入"结局 RNG 演出对话"态:present 据 gs.dialogPlayingRNG 恢复 RNG 动画画面而非重绘大世界。
+ *   清除走 reset(场景重载/读档/op160 quit 后)。全游戏仅 scene 281 结局对话带 arg2=0xFFFF。
+ */
+function maybeEnterDialogRNG(gs: GameState, arg2: number | undefined, arg0: number | undefined): void {
+  if ((arg2 ?? 0) !== 0 && (arg0 ?? 0) !== 0) gs.dialogPlayingRNG = true
+}
+
 function applySetDialogStyle(
   gs: GameState,
   cursor: NonNullable<GameState['eventCursor']>,
@@ -2098,7 +2108,8 @@ export function tickEventSystem(
       }
 
       case 'setDialogStyleTop': {
-        // sdlpal script.c:3404 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogUpper, op[1], op[0], ...)
+        // sdlpal script.c:3404 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogUpper, op[1]=fontColor, op[0]=numCharFace, op[2]=fPlayingRNG)
+        maybeEnterDialogRNG(gs, cmd.arg2, cmd.arg0)
         if (applySetDialogStyle(gs, cursor, 'top',
           cmd.arg0 ? cmd.arg0 : undefined,
           cmd.arg1 ? cmd.arg1 : 0x4F)) return
@@ -2106,13 +2117,15 @@ export function tickEventSystem(
       }
       case 'setDialogStyleCenter': {
         // sdlpal script.c:3394 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogCenter, op[0], 0, ...)
+        //   numCharFace 恒 0(无头像)→ sdlpal `fPlayingRNG && iNumCharFace` 永假,不进 RNG 对话态。
         if (applySetDialogStyle(gs, cursor, 'center',
           undefined,
           cmd.arg0 ? cmd.arg0 : 0x4F)) return
         break
       }
       case 'setDialogStyleBottom': {
-        // sdlpal script.c:3414 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogLower, op[1], op[0], ...)
+        // sdlpal script.c:3414 PAL_ClearDialog(TRUE) + PAL_StartDialog(kDialogLower, op[1]=fontColor, op[0]=numCharFace, op[2]=fPlayingRNG)
+        maybeEnterDialogRNG(gs, cmd.arg2, cmd.arg0)
         if (applySetDialogStyle(gs, cursor, 'bottom',
           cmd.arg0 ? cmd.arg0 : undefined,
           cmd.arg1 ? cmd.arg1 : 0x4F)) return
@@ -2735,6 +2748,10 @@ export function tickEventSystem(
           //   资产仍异步(pendingSceneLoad);present 走 presentCtx.tilemap 路由不消费此值。
           gs.wNumScene = cmd.sceneId
           gs.sceneLoading = true
+          // 切场景清结局 RNG 演出对话态(对齐 sdlpal PAL_EndDialog 清 fPlayingRNG):新场景正常重绘大世界、
+          //   释放 rngDialogBackup(64KB)。结局演出 scene 281 自身无 loadScene,不受影响。
+          gs.dialogPlayingRNG = false
+          gs.rngDialogBackup = undefined
           gs.wLayer = 0 // L3:换场景重置队伍层(sdlpal script.c:1883 gpGlobals->wLayer = 0)
           cursor.ip++ // 继续跑调用脚本(setPartyPos 等)
           break

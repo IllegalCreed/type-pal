@@ -218,6 +218,31 @@ describe('presentFrame', () => {
     expect(pixels.includes(173)).toBe(false)
     expect(pixels.some((i) => i === 0x2d)).toBe(true)
   })
+
+  // ── 结局 RNG 演出对话(sdlpal fPlayingRNG / op5 VIDEO_RestoreScreen):保留 RNG 动画画面,不重绘大世界 ──
+  it('dialogPlayingRNG=true + rngDialogBackup → 恢复 RNG 动画画面(不重绘世界)+ 叠对话', () => {
+    const fb = createFramebuffer()
+    fb.indices.fill(99) // 当前帧污染:若走世界重绘会 fb.clear()→0(minimalCtx 无 tile 图)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dialogPlayingRNG = true
+    gs.rngDialogBackup = new Uint8Array(fb.indices.length).fill(173) // 备份的 RNG 画面(哨兵 173)
+    gs.dialogBox = startDialogLine('终于恢复和平的日子', { style: 'bottom', fontColor: 200 })
+    for (let i = 0; i < FRAMES_PER_CHAR * 9; i++) tickDialog(gs.dialogBox)
+    presentFrame(fb, gs, minimalCtx())
+    const pixels = Array.from(fb.indices)
+    expect(fb.indices[0]).toBe(173) // 左上角背景 = 恢复的 RNG 画面(非世界重绘成 0)
+    expect(pixels.includes(99)).toBe(false) // 旧污染被 RNG backup 整幅覆盖
+    expect(pixels.some((i) => i === 200)).toBe(true) // 对话文本叠加上去
+  })
+
+  it('dialogPlayingRNG=true 但无 rngDialogBackup → 退化为正常重绘(防御,不抛错)', () => {
+    const fb = createFramebuffer()
+    fb.indices[0] = 173
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dialogPlayingRNG = true // 无 rngDialogBackup
+    presentFrame(fb, gs, minimalCtx())
+    expect(fb.indices[0]).not.toBe(173) // 无 backup → 正常重绘(哨兵被清),不卡死
+  })
 })
 
 // ── P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)───────────────────

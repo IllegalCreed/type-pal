@@ -1269,6 +1269,11 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       .finally(() => {
         gs.suspendRaf = false
         if (gs.eventCursor?.waiting === 'rng-play') gs.eventCursor.waiting = undefined
+        // 结局 RNG 演出对话(setDialogStyle arg2=op[2]!=0,仅 scene 281)期间 present 要恢复 RNG 动画画面
+        //   而非重绘大世界 → 在此(RNG 播完,fb=最后一帧)备份,对齐 sdlpal PAL_StartDialog 的 fPlayingRNG
+        //   分支 VIDEO_BackupScreen(text.c:1273)。非结局 RNG 也备份(无害:仅 gs.dialogPlayingRNG 时用,
+        //   且 reset 会清);避免依赖"播完→对话"的脆弱帧序。
+        gs.rngDialogBackup = new Uint8Array(fb.indices)
       })
   })
 
