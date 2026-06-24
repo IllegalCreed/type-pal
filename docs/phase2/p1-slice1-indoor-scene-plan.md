@@ -1,5 +1,7 @@
 # 切片 1「室内场景跑通」实现计划（slice 1 plan）
 
+> ⚠ **暂缓 / 勿照此执行（2026-06-25）**：本计划是「重新聚焦」**之前**的版本（WebGL2 渲染、MMO 留口、内容无关的通用房间）。第二阶段已改走 **Canvas 2D 起步 + 真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](decisions.md)）。保留作参考；切片重启时会基于新范围重写——**别把它当成当前的实现任务**。
+
 > **For agentic workers:** REQUIRED SUB-SKILL: 用 superpowers:subagent-driven-development（推荐）或 superpowers:executing-plans 按任务逐个实现。步骤用 `- [ ]` 复选框跟踪。
 >
 > 配套 spec：[p1-slice1-indoor-scene.md](p1-slice1-indoor-scene.md)（范围/红线/决策映射的真值）。本计划只负责"怎么一步步落地"。

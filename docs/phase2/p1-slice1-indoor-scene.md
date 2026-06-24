@@ -1,5 +1,7 @@
 # P1 · 切片 1：室内场景跑通（slice 1 spec）
 
+> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。
+
 > 状态：草案（2026-06-24）。第二阶段铁律见 [READ-FIRST](READ-FIRST.md)；总纲 [00-roadmap](00-roadmap.md)；已拍决策 [decisions](decisions.md)（D1–D9）；内容模型 [p0-content-schema](p0-content-schema.md)；架构债反面输入 [engine-debt-audit](2026-06-22-phase1-engine-debt-audit.md)。
 >
 > 本文是 roadmap §5「骨架先行 + 垂直切片」的**第一刀**。范围与架构红线由 [D2](decisions.md) 定；本文把它落成**可照着实现**的设计。实现步骤拆解见配套 plan（writing-plans 产出）。
