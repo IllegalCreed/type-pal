@@ -15,6 +15,7 @@
 | [p1-slice1-indoor-scene](p1-slice1-indoor-scene.md) | P1 第一刀 spec：室内场景跑通（走路 + 撞墙 + NPC 对话），起 content + reforge 两包 | 草案 |
 | [p1-slice1-indoor-scene-plan](p1-slice1-indoor-scene-plan.md) | 切片 1 实现计划（TDD 任务分解：0 接线 / A content / B 引擎逻辑 / C 渲染+dev） | 草案 |
 | [design-backlog](design-backlog.md) | 设计议题池（每条 = 痛点 + 方向 + 归属 + 状态） | 滚动 |
+| [art-pipeline](art-pipeline.md) | 美术资产生图管线（复用 big-ppt 架构 / 像素风 / 动画现实路径） | 草案 |
 | [2026-06-22-phase1-engine-debt-audit](2026-06-22-phase1-engine-debt-audit.md) | 第一阶段引擎架构债审查（18 条 finding + 反查表），P1 新引擎 spec 的反面输入 | 定稿 |
 
 （更多 P1 切片 / P2 编辑器 spec、现状真值表随开工逐步加入）
