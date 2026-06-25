@@ -64,7 +64,7 @@ async function main(): Promise<void> {
     renderer.renderTilemapLayer(map, 1, camera, room) // 家具上沿 / 门（盖在精灵上 = 遮挡）
   }
   // 移动：键盘 → 意图 → resolveMove(注入碰撞) → 结果。相机固定（整间屋上屏）。
-  const isBlocked = buildIsBlocked(map, room)
+  const isBlocked = buildIsBlocked(map)
   const keyboard = new Keyboard()
   const SPEED = 2
 
