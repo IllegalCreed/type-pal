@@ -1,7 +1,8 @@
-import { guijieMinjuScene } from '@type-pal/content'
+import { type Dialogue, type DialogueLine, type EntityDef, guijieMinjuScene } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import { type LoadedSprite, loadPalette, loadSprite, loadTileset, loadTilemap } from './assets.js'
 import { buildIsBlocked } from './collision.js'
+import { advance, currentLine, type DialogueState, startDialogue } from './dialogue.js'
 import { Keyboard } from './input.js'
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type SpriteDraw } from './render.js'
@@ -48,6 +49,7 @@ async function main(): Promise<void> {
   const [playerSprite, ghostSprite] = await Promise.all([loadSprite(2), loadSprite(16)])
   const ghost = guijieMinjuScene.entities[0]!
   const player = { pos: { ...guijieMinjuScene.entry.pos } }
+  let activeDialogue: DialogueState | null = null
 
   function render(): void {
     renderer.clear()
@@ -62,31 +64,97 @@ async function main(): Promise<void> {
       sprites.push({ frame: pf, worldX: player.pos.x, worldY: player.pos.y, anchorX: playerSprite.anchorX, anchorY: playerSprite.anchorY })
     }
     renderer.renderScene(map, room, camera, sprites)
+    if (activeDialogue) drawDialogueBox(currentLine(activeDialogue))
   }
-  // 移动：键盘 → 意图 → resolveMove(注入碰撞) → 结果。相机固定（整间屋上屏）。
+
+  // 移动 + 交互。相机固定（整间屋上屏）。
   const isBlocked = buildIsBlocked(map)
   const keyboard = new Keyboard()
   const SPEED = 2
+  const INTERACT_RANGE = 48 // 像素：靠近实体即可交互
 
   // 调试 / 验证：暴露活动态
-  ;(window as unknown as { __reforge?: unknown }).__reforge = { player, ghost, room }
+  ;(window as unknown as { __reforge?: unknown }).__reforge = {
+    player,
+    ghost,
+    room,
+    get dialogue() {
+      return activeDialogue
+    },
+  }
+
+  function dialogueById(id: string): Dialogue | undefined {
+    return guijieMinjuScene.dialogues.find((d) => d.id === id)
+  }
+
+  /** 玩家附近、可交互的实体（取首个有 interact 且在范围内的）。 */
+  function nearbyInteractable(): EntityDef | undefined {
+    return guijieMinjuScene.entities.find((e) => {
+      if (!e.interact) return false
+      const ex = e.pos.x - player.pos.x
+      const ey = e.pos.y - player.pos.y
+      return ex * ex + ey * ey <= INTERACT_RANGE * INTERACT_RANGE
+    })
+  }
+
+  function drawDialogueBox(line: DialogueLine | undefined): void {
+    if (!line) return
+    const W = canvas.width
+    const H = canvas.height
+    const boxH = 58
+    const top = H - boxH - 8
+    ctx.save()
+    ctx.globalAlpha = 0.84
+    ctx.fillStyle = '#1a120b'
+    ctx.fillRect(8, top, W - 16, boxH)
+    ctx.globalAlpha = 1
+    ctx.strokeStyle = '#d8b365'
+    ctx.strokeRect(8, top, W - 16, boxH)
+    let ty = top + 22
+    if (line.speaker) {
+      ctx.fillStyle = '#d8b365'
+      ctx.font = '14px "Songti SC","SimSun",serif'
+      ctx.fillText(`${line.speaker}：`, 20, ty)
+      ty += 22
+    }
+    ctx.fillStyle = '#f0e0b0'
+    ctx.font = '14px "Songti SC","SimSun",serif'
+    ctx.fillText(line.text, 20, ty)
+    ctx.fillStyle = '#7a6a4a'
+    ctx.font = '9px monospace'
+    ctx.fillText('[空格 / 回车] 继续', W - 132, H - 14)
+    ctx.restore()
+  }
 
   function tick(): void {
-    let dx = 0
-    let dy = 0
-    if (keyboard.isDown('ArrowRight')) dx += SPEED
-    if (keyboard.isDown('ArrowLeft')) dx -= SPEED
-    if (keyboard.isDown('ArrowDown')) dy += SPEED
-    if (keyboard.isDown('ArrowUp')) dy -= SPEED
-    if (dx !== 0 || dy !== 0) {
-      player.pos = resolveMove(player.pos, { dx, dy }, isBlocked)
+    const pressed = keyboard.consumePressed()
+    const interact = pressed.has(' ') || pressed.has('Enter')
+
+    if (activeDialogue) {
+      if (interact) activeDialogue = advance(activeDialogue) // 翻页；翻完 → null（关闭）
+    } else {
+      if (interact) {
+        const ent = nearbyInteractable()
+        const dlg = ent?.interact ? dialogueById(ent.interact) : undefined
+        if (dlg) activeDialogue = startDialogue(dlg)
+      }
+      if (!activeDialogue) {
+        let dx = 0
+        let dy = 0
+        if (keyboard.isDown('ArrowRight')) dx += SPEED
+        if (keyboard.isDown('ArrowLeft')) dx -= SPEED
+        if (keyboard.isDown('ArrowDown')) dy += SPEED
+        if (keyboard.isDown('ArrowUp')) dy -= SPEED
+        if (dx !== 0 || dy !== 0) player.pos = resolveMove(player.pos, { dx, dy }, isBlocked)
+      }
     }
+
     render()
     requestAnimationFrame(tick)
   }
   requestAnimationFrame(tick)
 
-  console.log('[reforge] room#0 可玩：方向键移动 + 撞墙（资源全复用原版）')
+  console.log('[reforge] room#0 可玩：方向键走 / 撞墙，靠近老者按空格搭话')
 }
 
 /** 调试速查：把 spriteNum 0..47 的第 0 帧排成网格 + 标号，肉眼分辨人 / 物。 */
