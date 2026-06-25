@@ -1,6 +1,9 @@
 import { guijieMinjuScene } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import { type LoadedSprite, loadPalette, loadSprite, loadTileset, loadTilemap } from './assets.js'
+import { buildIsBlocked } from './collision.js'
+import { Keyboard } from './input.js'
+import { resolveMove } from './movement.js'
 import { Canvas2DRenderer } from './render.js'
 
 // 切片 1 · 第一步：把真实 map 56（黑水镇民居）整张渲染出来，看清里头几间民居、挑一间。
@@ -60,11 +63,30 @@ async function main(): Promise<void> {
     }
     renderer.renderTilemapLayer(map, 1, camera, room) // 家具上沿 / 门（盖在精灵上 = 遮挡）
   }
-  render()
+  // 移动：键盘 → 意图 → resolveMove(注入碰撞) → 结果。相机固定（整间屋上屏）。
+  const isBlocked = buildIsBlocked(map, room)
+  const keyboard = new Keyboard()
+  const SPEED = 2
 
-  console.log(
-    `[reforge] room#0 + sprites: 李逍遥@${player.pos.x},${player.pos.y} 鬼@${ghost.pos.x},${ghost.pos.y}`,
-  )
+  // 调试 / 验证：暴露活动态
+  ;(window as unknown as { __reforge?: unknown }).__reforge = { player, ghost, room }
+
+  function tick(): void {
+    let dx = 0
+    let dy = 0
+    if (keyboard.isDown('ArrowRight')) dx += SPEED
+    if (keyboard.isDown('ArrowLeft')) dx -= SPEED
+    if (keyboard.isDown('ArrowDown')) dy += SPEED
+    if (keyboard.isDown('ArrowUp')) dy -= SPEED
+    if (dx !== 0 || dy !== 0) {
+      player.pos = resolveMove(player.pos, { dx, dy }, isBlocked)
+    }
+    render()
+    requestAnimationFrame(tick)
+  }
+  requestAnimationFrame(tick)
+
+  console.log('[reforge] room#0 可玩：方向键移动 + 撞墙（资源全复用原版）')
 }
 
 /** 调试速查：把 spriteNum 0..47 的第 0 帧排成网格 + 标号，肉眼分辨人 / 物。 */
