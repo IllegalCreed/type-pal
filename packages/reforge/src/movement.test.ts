@@ -15,13 +15,18 @@ describe('resolveMove', () => {
     expect(resolveMove({ x: 100, y: 100 }, { dx: 8, dy: 0 }, wallRight)).toEqual({ x: 100, y: 100 })
   })
 
-  test('对角撞墙(x 被挡, y 开阔) → 沿 y 滑行', () => {
-    const wallRight = (x: number) => x >= 108
-    expect(resolveMove({ x: 100, y: 100 }, { dx: 8, dy: 8 }, wallRight)).toEqual({ x: 100, y: 108 })
+  // iso 一步 = (±16,±8)：x/16 与 y/8 各变 1，和的奇偶守恒（站立点不变量）。
+  // 撞墙必须「原地停」——单轴回退 (±16,0)/(0,±8) 会翻转奇偶 → 站到格缝、之后永久半格。
+  test('对角撞墙(整体目标被挡, 单轴本可走) → 原地停, 不滑行', () => {
+    const pos = { x: 1216, y: 832 }
+    const blockDiag = (x: number, y: number) => x === 1232 && y === 840 // 只挡斜向目标
+    expect(resolveMove(pos, { dx: 16, dy: 8 }, blockDiag)).toEqual(pos)
   })
 
-  test('对角撞墙(y 被挡, x 开阔) → 沿 x 滑行', () => {
-    const wallDown = (_x: number, y: number) => y >= 108
-    expect(resolveMove({ x: 100, y: 100 }, { dx: 8, dy: 8 }, wallDown)).toEqual({ x: 108, y: 100 })
+  test('撞墙保持等距格点不变量 (x/16+y/8 偶) — 回归: 单轴滑行致永久半格', () => {
+    const pos = { x: 1216, y: 832 } // 76 + 104 = 180 偶
+    const blockDiag = (x: number, y: number) => x === 1232 && y === 840
+    const r = resolveMove(pos, { dx: 16, dy: 8 }, blockDiag)
+    expect((r.x / 16 + r.y / 8) % 2).toBe(0)
   })
 })

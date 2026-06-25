@@ -17,18 +17,12 @@ export interface MoveIntent {
 export type IsBlocked = (x: number, y: number) => boolean
 
 export function resolveMove(pos: Vec2, intent: MoveIntent, isBlocked: IsBlocked): Vec2 {
-  // 1) 整体目标开阔 → 走满
+  // 目标开阔 → 走满；被挡 → 原地停。
+  // ⚠ 不做单轴滑行：iso 一步 = (±16,±8)，x/16 与 y/8 各变 1 → 和的奇偶守恒（站立点不变量）。
+  // 单轴回退 (±16,0)/(0,±8) 只动一个分量 → 奇偶翻转 → 站到等距格缝，且之后步步守恒在
+  // 错基点 → 永久半格（用户实测：一撞墙就半格、之后一直半格）。撞墙就停也更忠实原版。
   if (!isBlocked(pos.x + intent.dx, pos.y + intent.dy)) {
     return { x: pos.x + intent.dx, y: pos.y + intent.dy }
   }
-  // 2) 滑行：只走 x
-  if (intent.dx !== 0 && !isBlocked(pos.x + intent.dx, pos.y)) {
-    return { x: pos.x + intent.dx, y: pos.y }
-  }
-  // 3) 滑行：只走 y
-  if (intent.dy !== 0 && !isBlocked(pos.x, pos.y + intent.dy)) {
-    return { x: pos.x, y: pos.y + intent.dy }
-  }
-  // 4) 都挡 → 原地
   return pos
 }
