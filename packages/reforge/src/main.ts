@@ -132,28 +132,29 @@ async function main(): Promise<void> {
     if (!line) return
     const W = canvas.width
     const H = canvas.height
-    const boxH = 58
-    const top = H - boxH - 8
+    const boxH = 60
+    const top = H - boxH - 6
     ctx.save()
-    ctx.globalAlpha = 0.84
+    ctx.globalAlpha = 0.86
     ctx.fillStyle = '#1a120b'
-    ctx.fillRect(8, top, W - 16, boxH)
+    ctx.fillRect(6, top, W - 12, boxH)
     ctx.globalAlpha = 1
     ctx.strokeStyle = '#d8b365'
-    ctx.strokeRect(8, top, W - 16, boxH)
-    let ty = top + 22
+    ctx.strokeRect(6, top, W - 12, boxH)
+    // 继续提示：右上角小字，避开正文
+    ctx.fillStyle = '#7a6a4a'
+    ctx.font = '8px monospace'
+    ctx.fillText('[空格] 继续', W - 62, top + 12)
+    let ty = top + 26
     if (line.speaker) {
       ctx.fillStyle = '#d8b365'
-      ctx.font = '14px "Songti SC","SimSun",serif'
-      ctx.fillText(`${line.speaker}：`, 20, ty)
-      ty += 22
+      ctx.font = '13px "Songti SC","SimSun",serif'
+      ctx.fillText(`${line.speaker}：`, 14, ty)
+      ty += 19
     }
     ctx.fillStyle = '#f0e0b0'
-    ctx.font = '14px "Songti SC","SimSun",serif'
-    ctx.fillText(line.text, 20, ty)
-    ctx.fillStyle = '#7a6a4a'
-    ctx.font = '9px monospace'
-    ctx.fillText('[空格 / 回车] 继续', W - 132, H - 14)
+    ctx.font = '13px "Songti SC","SimSun",serif'
+    ctx.fillText(line.text, 14, ty)
     ctx.restore()
   }
 
