@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <title>reforge · 鬼界民居 demo</title>
     <style>
-      body { margin: 0; background: #111; }
-      /* demo 第一步整图渲染：canvas 由 JS 设为真实地图尺寸，按原始像素显示 */
-      canvas { image-rendering: pixelated; display: block; }
+      body { margin: 0; background: #111; display: grid; place-items: center; min-height: 100vh; }
+      /* 视口 320×200（原版分辨率），放大 3× 显示，保持像素硬边 */
+      canvas { image-rendering: pixelated; display: block; width: 960px; height: 600px; }
     </style>
   </head>
   <body>

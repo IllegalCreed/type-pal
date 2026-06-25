@@ -67,8 +67,9 @@ export const guijieMinjuScene: SceneDef = {
     // room#0：右上那间（脚本勘出的内容簇之一）。reforge 只渲染 / 碰撞这个窗口。
     room: { col: 26, row: 34, cols: 22, rows: 25 },
   },
-  // 绝对世界像素坐标（同瓦片坐标系）；room#0 内的可走点，截图校准。
-  entry: { pos: { x: 1216, y: 824 }, facing: 'down' },
+  // 绝对世界像素坐标（同瓦片坐标系）。必须落在等距格点上：x/16 + y/8 为偶
+  // （每步同改 x±16/y±8，该奇偶是不变量 → 起点错位则永远站两格之间）。1216/16=76、832/8=104，偶 ✓。
+  entry: { pos: { x: 1216, y: 832 }, facing: 'down' },
   entities: [
     {
       id: 'wandering-ghost',

@@ -47,16 +47,27 @@ async function main(): Promise<void> {
     return
   }
 
-  // 切片：只取 room#0（黑水镇民居其中一间）。camera 聚焦该房，canvas 仅这一间大小。
+  // 切片：只取 room#0。视口 320×200（原版分辨率）；相机跟随玩家、夹在房间范围内。
   const room = guijieMinjuScene.map.room
-  const TOP_PAD = 56 // 上方多留，容纳画在格子上方的高家具
-  const camX = room.col * TILE_W - TILE_W
-  const camY = room.row * TILE_H - TOP_PAD
-  canvas.width = room.cols * TILE_W + TILE_W * 2
-  canvas.height = room.rows * TILE_H + TOP_PAD + MARGIN
+  const VIEW_W = 320
+  const VIEW_H = 200
+  const PARTY_OX = 160 // 玩家在屏幕上的落点（PARTYOFFSET，原版 160 / 112）
+  const PARTY_OY = 112
+  canvas.width = VIEW_W
+  canvas.height = VIEW_H
+  // 房间世界包围盒（上方多留容高家具）
+  const roomMinX = room.col * TILE_W - TILE_W
+  const roomMinY = room.row * TILE_H - 40
+  const roomMaxX = (room.col + room.cols) * TILE_W + TILE_W
+  const roomMaxY = (room.row + room.rows) * TILE_H + 16
 
   const renderer = new Canvas2DRenderer(ctx, palette, tiles)
-  const camera = { x: camX, y: camY }
+  const camera = { x: 0, y: 0 }
+  const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v)
+  function updateCamera(): void {
+    camera.x = clamp(player.pos.x - PARTY_OX, roomMinX, Math.max(roomMinX, roomMaxX - VIEW_W))
+    camera.y = clamp(player.pos.y - PARTY_OY, roomMinY, Math.max(roomMinY, roomMaxY - VIEW_H))
+  }
 
   // 精灵：李逍遥 = 原版 spriteNum 2；鬼 = 占位 sprite 16（原版一老者，比箱子像样；鬼气化留后续 polish）。
   const [playerSprite, ghostSprite] = await Promise.all([loadSprite(2), loadSprite(16)])
@@ -71,6 +82,7 @@ async function main(): Promise<void> {
 
   function render(): void {
     renderer.clear()
+    updateCamera() // 相机跟随玩家
     // 精灵 + 高物瓦片由 renderScene 按投影 Y 统一深度排序（遮挡）；地板自动铺底。
     const sprites: SpriteDraw[] = []
     const gf = ghostSprite.frames[0]
