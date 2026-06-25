@@ -4,7 +4,7 @@ import { type LoadedSprite, loadPalette, loadSprite, loadTileset, loadTilemap } 
 import { buildIsBlocked } from './collision.js'
 import { Keyboard } from './input.js'
 import { resolveMove } from './movement.js'
-import { Canvas2DRenderer } from './render.js'
+import { Canvas2DRenderer, type SpriteDraw } from './render.js'
 
 // 切片 1 · 第一步：把真实 map 56（黑水镇民居）整张渲染出来，看清里头几间民居、挑一间。
 // 下一步：定裁剪矩形（只取一间）+ 放李逍遥/鬼 + 走路/对话。
@@ -51,17 +51,17 @@ async function main(): Promise<void> {
 
   function render(): void {
     renderer.clear()
-    renderer.renderTilemapLayer(map, 0, camera, room) // 地 / 墙基（精灵之下）
-    // 精灵按脚下 y 排序：远（y 小）的先画
-    const sprites = [
-      { s: ghostSprite, x: ghost.pos.x, y: ghost.pos.y },
-      { s: playerSprite, x: player.pos.x, y: player.pos.y },
-    ].sort((a, b) => a.y - b.y)
-    for (const sp of sprites) {
-      const f = sp.s.frames[0]
-      if (f) renderer.drawSprite(f, sp.x, sp.y, sp.s.anchorX, sp.s.anchorY, camera)
+    // 精灵 + 高物瓦片由 renderScene 按投影 Y 统一深度排序（遮挡）；地板自动铺底。
+    const sprites: SpriteDraw[] = []
+    const gf = ghostSprite.frames[0]
+    if (gf) {
+      sprites.push({ frame: gf, worldX: ghost.pos.x, worldY: ghost.pos.y, anchorX: ghostSprite.anchorX, anchorY: ghostSprite.anchorY })
     }
-    renderer.renderTilemapLayer(map, 1, camera, room) // 家具上沿 / 门（盖在精灵上 = 遮挡）
+    const pf = playerSprite.frames[0]
+    if (pf) {
+      sprites.push({ frame: pf, worldX: player.pos.x, worldY: player.pos.y, anchorX: playerSprite.anchorX, anchorY: playerSprite.anchorY })
+    }
+    renderer.renderScene(map, room, camera, sprites)
   }
   // 移动：键盘 → 意图 → resolveMove(注入碰撞) → 结果。相机固定（整间屋上屏）。
   const isBlocked = buildIsBlocked(map)
