@@ -72,7 +72,7 @@ export const guijieMinjuScene: SceneDef = {
   entities: [
     {
       id: 'wandering-ghost',
-      pos: { x: 1136, y: 800 },
+      pos: { x: 1280, y: 832 }, // col40/row52：脚本核出的开阔地板，四邻无家具、不被遮挡
       sprite: 'ghost', // demo 占位 = 原版 sprite 16（老者）；回头换鬼气精灵 + 半透明化
       collide: true,
       interact: 'ghost-hearsay',
