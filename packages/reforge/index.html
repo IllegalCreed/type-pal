@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>reforge · 鬼界民居 demo</title>
+    <style>
+      body { margin: 0; background: #111; }
+      /* demo 第一步整图渲染：canvas 由 JS 设为真实地图尺寸，按原始像素显示 */
+      canvas { image-rendering: pixelated; display: block; }
+    </style>
+  </head>
+  <body>
+    <canvas id="screen" width="320" height="200"></canvas>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
