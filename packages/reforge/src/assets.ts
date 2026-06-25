@@ -32,6 +32,26 @@ export async function loadTileset(mapNum: number): Promise<Map<number, RleFrame>
   return map
 }
 
+export interface LoadedSprite {
+  frames: RleFrame[]
+  /** 脚下锚点（首帧 floor(w/2) / h），同 game framesToCharacterSprite。 */
+  anchorX: number
+  anchorY: number
+}
+
+/** 复用原版大世界精灵：/extracted/data/sprite/{spriteNum}.rle（gzip RLE 帧组）。 */
+export async function loadSprite(spriteNum: number): Promise<LoadedSprite> {
+  const res = await fetch(`${BASE}/data/sprite/${spriteNum}.rle`)
+  if (!res.ok) throw new Error(`sprite ${spriteNum}: ${res.status}`)
+  const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
+  const first = frames[0]
+  return {
+    frames,
+    anchorX: first ? Math.floor(first.width / 2) : 0,
+    anchorY: first ? first.height : 0,
+  }
+}
+
 /**
  * 浏览器原生 gzip 解压（端口自 game/assets/tileset-blob.ts）。
  * 含 Content-Encoding 双解压防御：无 gzip 魔数(1f 8b) = 上游已解，直接返回。

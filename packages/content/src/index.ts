@@ -64,16 +64,16 @@ export const guijieMinjuScene: SceneDef = {
   id: 'guijie-minju',
   map: {
     reuseOriginalMap: 56, // 56 = 黑水镇民居（原版 scene 62 加载它）；图里有**多间**民居
-    // TODO 勘查 map 56 后填真实矩形：选其中完整一间的格子范围
-    room: { col: 0, row: 0, cols: 0, rows: 0 },
+    // room#0：右上那间（脚本勘出的内容簇之一）。reforge 只渲染 / 碰撞这个窗口。
+    room: { col: 26, row: 34, cols: 22, rows: 25 },
   },
-  // TODO 渲染时校准：李逍遥进场坐标（map 56 里某个可走点）
-  entry: { pos: { x: 0, y: 0 }, facing: 'down' },
+  // 绝对世界像素坐标（同瓦片坐标系）；room#0 内的可走点，截图校准。
+  entry: { pos: { x: 1216, y: 824 }, facing: 'down' },
   entities: [
     {
       id: 'wandering-ghost',
-      pos: { x: 0, y: 0 }, // TODO 渲染时校准
-      sprite: 'ghost', // TODO 解析到原版鬼精灵
+      pos: { x: 1100, y: 836 },
+      sprite: 'ghost', // demo 占位 = 原版 sprite 10（黑水镇村民），回头换鬼气精灵
       collide: true,
       interact: 'ghost-hearsay',
     },
