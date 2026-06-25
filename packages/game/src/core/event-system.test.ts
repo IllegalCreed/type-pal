@@ -324,6 +324,65 @@ describe('EventSystem', () => {
     expect(gs.dialogPlayingRNG).toBeFalsy()
   })
 
+  // BUG(user:灵儿求雨"天地诸神"漏出大世界 + RNG 调色板花屏):求雨(scene 227 L_32038)0x37 PlayRNG(chunk 7)
+  //   播完后屏幕是 RNG 末帧(sdlpal gpScreen 持久),紧接的 setDialogStyleTop"天地诸神"(op2=0=fPlayingRNG=FALSE)
+  //   对话应画在末帧上 —— sdlpal text.c:1729 即使 fPlayingRNG=FALSE,首行对话前仍 VIDEO_BackupScreen(末帧)。
+  //   原 dialogPlayingRNG 仅认对话 op2≠0(结局拜月跳水路径)→ 求雨 op2=0 漏判 → present 重绘大世界 +
+  //   RNG 调色板(setPalette 6)→ 花屏。RNG 末帧保持不应依赖 op2,而是"屏幕刚播完 RNG"(rngFrameActive)。
+  it('RNG 播放(0x37)后的 setDialogStyleTop(无 arg2)→ dialogPlayingRNG=true(求雨:天地诸神叠 RNG 末帧不露大世界)', () => {
+    setRngPlayHandler(null) // 无 modal handler → 0x37 直接 ip++(测纯状态逻辑,不起真实播放)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_PLAY_RNG, operands: [0, 0, 8] }, // 0x37 PlayRNG(求雨 chunk 7)
+      { op: 'setDialogStyleTop' }, // 无 arg2(求雨真实数据 op2=0,fPlayingRNG=FALSE)
+      { op: 'showDialog', messageIndex: 0, text: '天地诸神啊～我以女娲圣灵之名' },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.dialogPlayingRNG).toBe(true)
+  })
+
+  // BUG(user:拜月"不许退！通通不许走！"后一直黑屏没变亮):拜月(scene 245)0x93 SceneFade(-2)设 needToFadeIn
+  //   → loadScene 228 → scene 227"太好了"段 onEnter(0x46 setpos/0x7F camera/setDialogStyleTop/showDialog)
+  //   **无 fade-in opcode**(0x05/0x51/0x93)。onEnter 首句 showDialog 清 sceneLoading(=sdlpal PAL_MakeScene
+  //   解冻渲染),原码不消费 needToFadeIn → waiting='dialog' 不在 tickSceneAutoFadeIn 白名单 → 永久黑屏。
+  //   sdlpal scene.c:503-508 PAL_MakeScene 末尾 if(fNeedToFadeIn)PAL_FadeIn:loadScene 后、对话前淡入。
+  it('loadScene 后 onEnter 直接对话(无 fade-in opcode)+ needToFadeIn → 消费 needToFadeIn 启动淡入(太好了段不卡黑屏)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.needToFadeIn = true // 拜月 0x93 SceneFade(-2)设
+    gs.sceneLoading = true // loadScene 冻屏(onEnter 跑中)
+    gs.basePalette = { colors: Array.from({ length: 256 }, () => [60, 60, 60] as [number, number, number]), cycles: [] }
+    loadEvent(gs, [
+      { op: 'setDialogStyleTop' },
+      { op: 'showDialog', messageIndex: 0, text: '太好了．．．' },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.sceneLoading).toBe(false) // 对话解冻渲染(原有行为)
+    expect(gs.needToFadeIn).toBe(false) // 被消费(修复:对话前淡入)
+    expect(gs.paletteFadeState).toBeTruthy() // fade-in ramp 启动(否则永久黑屏)
+  })
+
+  // 回归:同一 scene 内(非 loadScene 切换,sceneLoading=false)的 showDialog + needToFadeIn 不该自动淡入 ——
+  //   sdlpal 对话(PAL_ShowDialogText)不 PAL_MakeScene、不消费 needToFadeIn(水月宫"一夜过去"字幕等后续 0x51)。
+  //   仅 onEnter 首句对话(sceneLoading 由 true→false 那刻 = PAL_MakeScene 解冻)才淡入。
+  it('同 scene 对话(sceneLoading=false)+ needToFadeIn → 不自动淡入(对话不抢 needToFadeIn,留给后续 0x51)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const bus = createCommandBus()
+    gs.needToFadeIn = true
+    gs.sceneLoading = false // 非切场景(同 scene 内 0x50 FadeOut 后的对话)
+    gs.basePalette = { colors: Array.from({ length: 256 }, () => [60, 60, 60] as [number, number, number]), cycles: [] }
+    loadEvent(gs, [
+      { op: 'showDialog', messageIndex: 0, text: '一夜过去' },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap(), bus)
+    expect(gs.needToFadeIn).toBe(true) // 不消费(同 scene 对话不淡入)
+    expect(gs.paletteFadeState).toBeFalsy()
+  })
+
   it('快按 Space:skip-typing 当 tick 整行设满但 cursor **不**推进(留一帧渲染),下一 tick 才 line-done 推进', () => {
     // 2026-05-29 梦境快按 Space 只出 1 行就渐变的根因修复:skip 后整行先渲染一帧,
     // 否则下条 opcode(loadScene/fade 等渲染门)那帧把满行盖掉 → 玩家没看见。

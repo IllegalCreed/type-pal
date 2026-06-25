@@ -1175,13 +1175,19 @@ export function buildLabelMap(commands: Command[]): Record<string, number> {
  * @returns true 表示已 wait(caller 应 return);false 表示已 apply(caller 应 break out of switch)
  */
 /**
- * sdlpal text.c:1271-1274 真值:`if (fPlayingRNG && iNumCharFace) { VIDEO_BackupScreen; g_TextLib.fPlayingRNG = TRUE; }`。
- *   对话 opcode 的 operand[2](arg2)= fPlayingRNG、operand[0](arg0)= iNumCharFace(头像号)。两者皆非 0 →
- *   进入"结局 RNG 演出对话"态:present 据 gs.dialogPlayingRNG 恢复 RNG 动画画面而非重绘大世界。
- *   清除走 reset(场景重载/读档/op160 quit 后)。全游戏仅 scene 281 结局对话带 arg2=0xFFFF。
+ * 进入"对话保持 RNG 末帧"态(present 据 gs.dialogPlayingRNG 恢复 RNG 动画画面而非重绘大世界)。两条触发,
+ * 对应 sdlpal 两处把 RNG 末帧 backup 给对话叠字的真值:
+ *  1. arg2(=op[2]=fPlayingRNG)≠0 且 arg0(=op[0]=iNumCharFace 头像)≠0 —— sdlpal text.c:1271-1274
+ *     `if (fPlayingRNG && iNumCharFace) { VIDEO_BackupScreen; g_TextLib.fPlayingRNG=TRUE; }`。全游戏仅
+ *     scene 281 结局(拜月跳水)对话带 arg2=0xFFFF。
+ *  2. gs.rngFrameActive —— 刚播完 0x37 PlayRNG、屏幕是 RNG 末帧(sdlpal gpScreen 持久)。sdlpal text.c:1729
+ *     即使 fPlayingRNG(op2)=FALSE,首行对话前仍 `VIDEO_BackupScreen(gpScreen)`(=RNG 末帧)→ 对话画其上。
+ *     即"RNG 末帧叠字"本不依赖对话 op2;求雨"天地诸神"(op2=0)走此路径,原仅认条件 1 → 漏判 → present
+ *     重绘大世界 + RNG 调色板(setPalette 6)花屏(user 报"求雨说话漏出大世界、调色盘还是 RNG 的")。
+ * 清除走 reset(场景重载/读档/op160 quit)/ loadScene。
  */
 function maybeEnterDialogRNG(gs: GameState, arg2: number | undefined, arg0: number | undefined): void {
-  if ((arg2 ?? 0) !== 0 && (arg0 ?? 0) !== 0) gs.dialogPlayingRNG = true
+  if (((arg2 ?? 0) !== 0 && (arg0 ?? 0) !== 0) || gs.rngFrameActive) gs.dialogPlayingRNG = true
 }
 
 function applySetDialogStyle(
@@ -2097,7 +2103,25 @@ export function tickEventSystem(
         // P2#7:content-no-fade onEnter(有对话、无 fadeScreen,如 scene 14)— 对话是第一个可渲染 yield,
         // 此时 setPartyPos 等已跑完(camera 已对)→ 清 sceneLoading 让对话渲染。fade-first onEnter 的
         // fadeScreen 在对话前已清(此处 sceneLoading 已 false,不重复)。
-        if (gs.sceneLoading) gs.sceneLoading = false
+        if (gs.sceneLoading) {
+          gs.sceneLoading = false
+          // sdlpal scene.c:503-508:PAL_MakeScene 末尾 `if (fNeedToFadeIn) PAL_FadeIn(...)` —— loadScene 后、
+          //   enter script 对话前淡入。本句 showDialog 清 sceneLoading = onEnter 首个可渲染 yield(=PAL_MakeScene
+          //   解冻那刻),needToFadeIn 时在此消费淡入(同 0x05 redraw / tickSceneAutoFadeIn 的补救,非阻塞 ramp,
+          //   present 到点自清)。缺它则 onEnter 无 0x05/0x51/0x93 fade-in 的 content-no-fade 段(scene 227
+          //   "太好了":0x46 setpos→0x7F camera→对话)永久黑屏 —— waiting='dialog' 挡 tickSceneAutoFadeIn、
+          //   needToFadeIn 无人消费(user 报"拜月通通不许走后一直黑屏")。blackScreenHold(水月宫 ShowFBP 黑+
+          //   字幕)除外:那是同 scene 内、等后续 0x51 显式淡入,不在此抢(且 sceneLoading 本就已 false)。
+          if (gs.needToFadeIn && !gs.blackScreenHold && !gs.paletteFadeState && !gs.fadeState) {
+            if (!gs.palette) {
+              const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
+              gs.palette = makeWorkingPalette(src)
+            }
+            const baseColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
+            gs.paletteFadeState = buildFadeIn(baseColors, 600, performance.now())
+            gs.needToFadeIn = false
+          }
+        }
         // 通知用解析后可见文本(剥控制符);showDialogBox 仅通知,实际渲染走 gs.dialogBox。
         bus.emit({
           op: 'showDialogBox',
@@ -2191,6 +2215,10 @@ export function tickEventSystem(
         //   chunk 号来自 gs.iCurPlayingRNG(0x36 设),**非** operand。同 shop 模式:_rngPlayHandler
         //   开 modal(suspendRaf + playRng)+ waiting='rng-play' + ip++ + return;播完清 waiting 续跑。
         if (cmd.opcode === OP_PLAY_RNG) {
+          // sdlpal PAL_RNGPlay 播完 gpScreen 留 RNG 末帧(持久至下次 PAL_MakeScene)→ 标记"屏幕是 RNG 末帧",
+          //   紧接的 setDialogStyle 经 maybeEnterDialogRNG 保持末帧叠字(求雨"天地诸神")。纯动画 RNG 无对话
+          //   不消费此标记,loadScene 兜底清(全游戏 RNG 播放点后续皆 fade+loadScene,无裸回大世界)。
+          gs.rngFrameActive = true
           const startFrame = cmd.operands[0] ?? 0
           const op1 = cmd.operands[1] ?? 0
           const op2 = cmd.operands[2] ?? 0
@@ -2764,6 +2792,7 @@ export function tickEventSystem(
           //   释放 rngDialogBackup(64KB)。结局演出 scene 281 自身无 loadScene,不受影响。
           gs.dialogPlayingRNG = false
           gs.rngDialogBackup = undefined
+          gs.rngFrameActive = false // 切场景重绘 = 屏幕不再是 RNG 末帧(求雨 loadScene 231 清;纯动画 RNG 兜底清)
           gs.wLayer = 0 // L3:换场景重置队伍层(sdlpal script.c:1883 gpGlobals->wLayer = 0)
           cursor.ip++ // 继续跑调用脚本(setPartyPos 等)
           break

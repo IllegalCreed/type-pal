@@ -873,6 +873,14 @@ export interface GameState {
   dialogPlayingRNG?: boolean
   /** dialogPlayingRNG 期间保留的 RNG 动画画面快照(sdlpal `gpScreenBak`,RNG 播完时由壳层备份)。 */
   rngDialogBackup?: Uint8Array
+  /**
+   * 0x37 PlayRNG 播完 → 屏幕当前是 RNG 末帧(sdlpal gpScreen 持久,直到下次 PAL_MakeScene)。其后紧接的
+   * setDialogStyle(对话)应保持末帧叠字 —— sdlpal text.c:1729 即使 fPlayingRNG(对话 op2)=FALSE,首行对话前
+   * 仍 VIDEO_BackupScreen(末帧)。即"RNG 末帧叠字"不依赖对话 op2(那是 g_TextLib.fPlayingRNG 的行间-restore
+   * 职责)。求雨"天地诸神"(op2=0)即此路径:rngFrameActive → maybeEnterDialogRNG 置 dialogPlayingRNG。
+   * loadScene / 新游戏重置清(纯动画 RNG 无对话不消费,loadScene 兜底)。
+   */
+  rngFrameActive?: boolean
 
   // ── SAVEDGAME_WIN 倒推: 平铺全局杂项 ───────────────────────────────────────
 
@@ -1458,6 +1466,7 @@ export function resetSceneRuntimeForNewGame(
   gs.blackScreenHold = false
   gs.dialogPlayingRNG = false
   gs.rngDialogBackup = undefined
+  gs.rngFrameActive = false
   gs.paletteFadeState = undefined
   gs.fadeState = undefined
   gs.needToFadeIn = false
