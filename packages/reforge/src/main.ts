@@ -34,6 +34,9 @@ const mapNum = guijieMinjuScene.map.reuseOriginalMap // 56
 // 调色板编号由 scene 进入脚本 setPalette 决定，demo 未跑脚本 → 先试 0；颜色不对再换号。
 const PALETTE_ID = Number(new URLSearchParams(location.search).get('pal') ?? 0)
 
+// 调试：?collision 把障碍格(0x2000)染色盖在画面上，肉眼比对禁入格 vs 视觉墙。
+const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
+
 async function main(): Promise<void> {
   const [map, tiles, palette] = await Promise.all([
     loadTilemap(mapNum),
@@ -96,7 +99,45 @@ async function main(): Promise<void> {
       sprites.push({ frame: pf, worldX: player.pos.x, worldY: player.pos.y, anchorX: playerSprite.anchorX, anchorY: playerSprite.anchorY })
     }
     renderer.renderScene(map, room, camera, sprites)
+    if (DEBUG_COLLISION) drawCollisionOverlay()
     if (activeDialogue) drawDialogueBox(currentLine(activeDialogue))
+  }
+
+  /** 调试层（将来可移入编辑器）：iso 菱形网格 + 每站立点 isBlocked(绿走/红禁) + 玩家脚点。 */
+  function drawCollisionOverlay(): void {
+    ctx.save()
+    // iso 菱形网格（h=0 地格，中心 = col*32,row*16）
+    ctx.strokeStyle = 'rgba(255,255,255,0.22)'
+    ctx.lineWidth = 1
+    for (let r = room.row; r <= room.row + room.rows; r++) {
+      for (let c = room.col; c <= room.col + room.cols; c++) {
+        const cx = c * TILE_W - camera.x
+        const cy = r * TILE_H - camera.y
+        ctx.beginPath()
+        ctx.moveTo(cx, cy - TILE_H / 2) // 上
+        ctx.lineTo(cx + TILE_W / 2, cy) // 右
+        ctx.lineTo(cx, cy + TILE_H / 2) // 下
+        ctx.lineTo(cx - TILE_W / 2, cy) // 左
+        ctx.closePath()
+        ctx.stroke()
+      }
+    }
+    // 站立点：isBlocked 判（绿走/红禁），点也正好落在格中心
+    for (let r = room.row; r < room.row + room.rows; r++) {
+      for (let c = room.col; c < room.col + room.cols; c++) {
+        const pts = [
+          { x: c * TILE_W, y: r * TILE_H },
+          { x: c * TILE_W + TILE_W / 2, y: r * TILE_H + TILE_H / 2 },
+        ]
+        for (const pt of pts) {
+          ctx.fillStyle = isBlocked(pt.x, pt.y) ? 'rgba(255,40,40,0.95)' : 'rgba(50,255,50,0.7)'
+          ctx.fillRect(pt.x - camera.x - 1, pt.y - camera.y - 1, 2, 2)
+        }
+      }
+    }
+    ctx.fillStyle = '#ffff00' // 玩家脚点
+    ctx.fillRect(player.pos.x - camera.x - 2, player.pos.y - camera.y - 2, 4, 4)
+    ctx.restore()
   }
 
   // 移动 + 交互。相机固定（整间屋上屏）。
