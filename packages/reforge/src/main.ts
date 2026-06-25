@@ -1,4 +1,4 @@
-import { type Dialogue, type DialogueLine, type EntityDef, guijieMinjuScene } from '@type-pal/content'
+import { type Dialogue, type DialogueLine, type EntityDef, type Facing, guijieMinjuScene } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import { type LoadedSprite, loadPalette, loadSprite, loadTileset, loadTilemap } from './assets.js'
 import { buildIsBlocked } from './collision.js'
@@ -12,6 +12,19 @@ import { Canvas2DRenderer, type SpriteDraw } from './render.js'
 const TILE_W = 32
 const TILE_H = 16
 const MARGIN = 32
+
+// 大世界精灵帧 + 移动手感（port sdlpal）。4 方向 × 3 帧；4 向移动 = 等距对角世界位移。
+const WALK_FRAMES = 3
+const FACING_TO_DIR: Record<Facing, number> = { down: 0, left: 1, up: 2, right: 3 }
+const STEP_CYCLE = [0, 1, 0, 2] // iStepFrameLeader（scene.c:663）：站 / 迈左 / 站 / 迈右
+const STEP_MS = 100 // 探索步进 ~10fps = 仙剑「卡顿感」（不是 60fps 平滑滑行）
+// 方向 → 世界步进（scene-system X_STEP=16 / Y_STEP=8，等距对角）
+const WALK_STEP: Record<Facing, { dx: number; dy: number }> = {
+  down: { dx: -16, dy: 8 },
+  up: { dx: 16, dy: -8 },
+  left: { dx: -16, dy: -8 },
+  right: { dx: 16, dy: 8 },
+}
 
 const canvas = document.getElementById('screen') as HTMLCanvasElement
 const ctx = canvas.getContext('2d')!
@@ -50,6 +63,11 @@ async function main(): Promise<void> {
   const ghost = guijieMinjuScene.entities[0]!
   const player = { pos: { ...guijieMinjuScene.entry.pos } }
   let activeDialogue: DialogueState | null = null
+  let facing: Facing = guijieMinjuScene.entry.facing
+  let walking = false
+  let stepFrame = 0 // 0..3 走帧相位
+  let stepAcc = 0 // 步进累加器（ms）
+  let lastT = 0
 
   function render(): void {
     renderer.clear()
@@ -59,7 +77,9 @@ async function main(): Promise<void> {
     if (gf) {
       sprites.push({ frame: gf, worldX: ghost.pos.x, worldY: ghost.pos.y, anchorX: ghostSprite.anchorX, anchorY: ghostSprite.anchorY })
     }
-    const pf = playerSprite.frames[0]
+    const dir = FACING_TO_DIR[facing]
+    const fi = walking ? dir * WALK_FRAMES + (STEP_CYCLE[stepFrame] ?? 0) : dir * WALK_FRAMES
+    const pf = playerSprite.frames[fi] ?? playerSprite.frames[0]
     if (pf) {
       sprites.push({ frame: pf, worldX: player.pos.x, worldY: player.pos.y, anchorX: playerSprite.anchorX, anchorY: playerSprite.anchorY })
     }
@@ -70,7 +90,6 @@ async function main(): Promise<void> {
   // 移动 + 交互。相机固定（整间屋上屏）。
   const isBlocked = buildIsBlocked(map)
   const keyboard = new Keyboard()
-  const SPEED = 2
   const INTERACT_RANGE = 48 // 像素：靠近实体即可交互
 
   // 调试 / 验证：暴露活动态
@@ -126,7 +145,18 @@ async function main(): Promise<void> {
     ctx.restore()
   }
 
-  function tick(): void {
+  /** 当前按下的方向键 → 朝向（优先级 上 > 下 > 左 > 右，4 向单选）。 */
+  function heldDir(): Facing | null {
+    if (keyboard.isDown('ArrowUp')) return 'up'
+    if (keyboard.isDown('ArrowDown')) return 'down'
+    if (keyboard.isDown('ArrowLeft')) return 'left'
+    if (keyboard.isDown('ArrowRight')) return 'right'
+    return null
+  }
+
+  function tick(t: number): void {
+    const dt = lastT ? Math.min(t - lastT, 100) : 0 // 钳制 dt 防后台切回爆步
+    lastT = t
     const pressed = keyboard.consumePressed()
     const interact = pressed.has(' ') || pressed.has('Enter')
 
@@ -139,13 +169,25 @@ async function main(): Promise<void> {
         if (dlg) activeDialogue = startDialogue(dlg)
       }
       if (!activeDialogue) {
-        let dx = 0
-        let dy = 0
-        if (keyboard.isDown('ArrowRight')) dx += SPEED
-        if (keyboard.isDown('ArrowLeft')) dx -= SPEED
-        if (keyboard.isDown('ArrowDown')) dy += SPEED
-        if (keyboard.isDown('ArrowUp')) dy -= SPEED
-        if (dx !== 0 || dy !== 0) player.pos = resolveMove(player.pos, { dx, dy }, isBlocked)
+        const dir = heldDir()
+        if (dir) {
+          if (dir !== facing) {
+            facing = dir // 转向：换方向时立刻能起步（stepAcc 拉满）
+            stepAcc = STEP_MS
+          }
+          stepAcc += dt
+          // 每 STEP_MS 走一步（~10fps 步进 = 卡顿感）：意图 → 纯函数碰撞 → 结果 + 走帧推进
+          while (stepAcc >= STEP_MS) {
+            stepAcc -= STEP_MS
+            player.pos = resolveMove(player.pos, WALK_STEP[dir], isBlocked)
+            walking = true
+            stepFrame = (stepFrame + 1) % 4
+          }
+        } else if (walking) {
+          walking = false
+          stepFrame = (stepFrame & 2) ^ 2 // 停步复位迈腿相位（scene.c:773-774）
+          stepAcc = 0
+        }
       }
     }
 
@@ -154,7 +196,7 @@ async function main(): Promise<void> {
   }
   requestAnimationFrame(tick)
 
-  console.log('[reforge] room#0 可玩：方向键走 / 撞墙，靠近老者按空格搭话')
+  console.log('[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话')
 }
 
 /** 调试速查：把 spriteNum 0..47 的第 0 帧排成网格 + 标号，肉眼分辨人 / 物。 */
