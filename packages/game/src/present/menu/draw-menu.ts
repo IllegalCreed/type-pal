@@ -46,7 +46,7 @@ import type { SellMenuState } from '../../core/menu/sell-menu.js'
 const MENUITEM_COLOR = 0x4F            // ui.h:29
 const MENUITEM_COLOR_SELECTED_FIRST = 0xF9 // ui.h:33
 const MENUITEM_COLOR_SELECTED_TOTAL = 6    // ui.h:34
-const FONT_COLOR_YELLOW = 0x2D         // text.c:30 — cash 数字
+const _FONT_COLOR_YELLOW = 0x2D         // text.c:30 — cash 数字
 
 // ── sdlpal uigame.c 真值坐标 ──────────────────────────────────────────────────
 const IN_GAME_MENU_BOX = { x: 3, y: 37, rows: 3 }      // uigame.c:990 PAL_CreateBox(PAL_XY(3, 37), 3, ...)

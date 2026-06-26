@@ -47,7 +47,7 @@ for (const d of [BASELINE_DIR, OUR_DIR, DIFF_DIR]) {
 const sceneDir = resolve(REPO_ROOT, 'data/extracted/data/scene')
 const sceneFiles = readdirSync(sceneDir)
   .filter((f) => f.endsWith('.json'))
-  .sort((a, b) => parseInt(a) - parseInt(b))
+  .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
 
 interface SceneJson {
   sceneId: number

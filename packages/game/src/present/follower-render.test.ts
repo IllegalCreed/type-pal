@@ -42,7 +42,7 @@ describe('computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-7
   })
 
   it('行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])', () => {
-    const mk = (step: number) => trail(
+    const mk = (_step: number) => trail(
       [0, 0, 'down'], [1, 0, 'down'], [2, 0, 'down'],
       [100, 200, 'right'], // dir=3
     )

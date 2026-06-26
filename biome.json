@@ -42,7 +42,9 @@
             "noNonNullAssertion": "off"
           },
           "suspicious": {
-            "noExplicitAny": "off"
+            "noExplicitAny": "off",
+            "noNonNullAssertedOptionalChain": "off",
+            "useIterableCallbackReturn": "off"
           }
         }
       }

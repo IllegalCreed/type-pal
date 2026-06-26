@@ -3694,7 +3694,7 @@ function applyRawOpcode(
       // DL12 结案:停乐淡出秒数(script.c:2219-2221 `op0==0?2.0:op0*3`)。本项目音乐走 MIDI 后端,
       //   C 的 native MIDI 同样丢弃 fade(audio.c MIDI_Play 不收 flFadeTime)→ 忠实不做 ramp,
       //   保留计算供未来 OGG/RIX 后端消费。
-      const fadeSec = (operands[0] ?? 0) === 0 ? 2.0 : (operands[0] ?? 0) * 3
+      const _fadeSec = (operands[0] ?? 0) === 0 ? 2.0 : (operands[0] ?? 0) * 3
       gs.wNumMusic = 0
       break
     }

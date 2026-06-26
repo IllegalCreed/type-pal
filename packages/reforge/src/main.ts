@@ -11,7 +11,7 @@ import { Canvas2DRenderer, type SpriteDraw } from './render.js'
 // 下一步：定裁剪矩形（只取一间）+ 放李逍遥/鬼 + 走路/对话。
 const TILE_W = 32
 const TILE_H = 16
-const MARGIN = 32
+const _MARGIN = 32
 
 // 大世界精灵帧 + 移动手感（port sdlpal）。4 方向 × 3 帧；4 向移动 = 等距对角世界位移。
 const WALK_FRAMES = 3

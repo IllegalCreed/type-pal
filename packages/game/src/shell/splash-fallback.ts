@@ -87,7 +87,7 @@ function scalePalette(base: Palette, factor: number): Palette {
 }
 
 /** 320×200 全屏 indexed bitmap 整面 blit 到 fb(`fb.indices.set`)。 */
-function blitFullScreen(fb: Framebuffer, bitmap: IndexedImage): void {
+function _blitFullScreen(fb: Framebuffer, bitmap: IndexedImage): void {
   // bitmap 期望 320×200;不匹配时只 copy 重叠区域
   if (bitmap.width === SCREEN_W && bitmap.height === SCREEN_H) {
     fb.indices.set(bitmap.indices)

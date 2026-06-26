@@ -33,7 +33,7 @@ function asShort(n: number): number {
   return (n << 16) >> 16
 }
 
-export function performFlee(state: BattleState, gs: GameState, playerIdx: number, playerRoles: PlayerRoles, bus?: CommandBus): void {
+export function performFlee(state: BattleState, gs: GameState, playerIdx: number, _playerRoles: PlayerRoles, bus?: CommandBus): void {
   const roleId = state.players[playerIdx]!.roleId
   // D12(2026-06-01 W1):str = PAL_GetPlayerFleeRate(role)(global.c:1868-1897)= runtime base
   //   + Σ rgEquipmentEffect[i].rgwFleeRate[role]。原 M3 简化用 role.fleeRate raw 漏装备加成。

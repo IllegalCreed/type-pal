@@ -881,7 +881,7 @@ describe('P0.b Y-sort + cover-tile', () => {
    * 用 spy 拦截 drawSprite,每次调用记录 fb + sprite 对象,
    * 返回 id 顺序列表。
    */
-  function trackDrawOrder(cb: () => void): string[] {
+  function _trackDrawOrder(cb: () => void): string[] {
     const order: string[] = []
     const partySprite = makeSprite(5)
     const npc1Sprite = makeSprite(3)

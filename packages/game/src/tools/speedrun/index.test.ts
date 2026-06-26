@@ -44,7 +44,7 @@ describe('tickSpeedrunTimer', () => {
 
 describe('bests 默认播种', () => {
   it('首次读取用 CHECKPOINTS 默认参考线', () => {
-    expect(getSpeedrunBests()['clear']).toBeGreaterThan(0)
+    expect(getSpeedrunBests().clear).toBeGreaterThan(0)
   })
 })
 

@@ -234,7 +234,7 @@ export function drawBattleUI(
   gs: GameState,
   glyphs?: GlyphTable,
   uiSpriteFrames?: IndexedImage[],
-  enemyPos?: EnemyPosTable,
+  _enemyPos?: EnemyPosTable,
   objectPoisons?: Map<number, { level: number; color: number }>,
   itemIcons?: Map<number, IndexedImage>,
 ): void {

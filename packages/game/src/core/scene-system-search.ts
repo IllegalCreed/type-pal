@@ -26,7 +26,7 @@ export type Facing = 'up' | 'down' | 'left' | 'right'
 const FACING_TO_DIR: Record<Facing, number> = { down: 0, left: 1, up: 2, right: 3 }
 
 const DIR_SOUTH = 0
-const DIR_WEST = 1
+const _DIR_WEST = 1
 const DIR_NORTH = 2
 const DIR_EAST = 3
 

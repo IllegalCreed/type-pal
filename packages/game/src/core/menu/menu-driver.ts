@@ -585,7 +585,7 @@ function dispatchInventoryMenu(
   gs: GameState,
   top: ActiveMenuEntry,
   input: InputSnapshot,
-  bus: CommandBus,
+  _bus: CommandBus,
 ): void {
   const s = top.state as InventoryMenuState
   if (input.pressed.has('Menu')) {
@@ -692,7 +692,7 @@ function dispatchEquipMenu(
   gs: GameState,
   top: ActiveMenuEntry,
   input: InputSnapshot,
-  bus: CommandBus,
+  _bus: CommandBus,
 ): void {
   const s = top.state as EquipMenuState
   if (input.pressed.has('Menu')) {
@@ -780,7 +780,7 @@ function dispatchInGameMagicMenu(
   gs: GameState,
   top: ActiveMenuEntry,
   input: InputSnapshot,
-  bus: CommandBus,
+  _bus: CommandBus,
 ): void {
   const s = top.state as InGameMagicMenuState
   if (input.pressed.has('Menu')) {
@@ -896,7 +896,7 @@ function dispatchSaveSlotMenu(
   gs: GameState,
   top: ActiveMenuEntry,
   input: InputSnapshot,
-  bus: CommandBus,
+  _bus: CommandBus,
 ): void {
   const s = top.state as SaveSlotMenuState
   const inGameCtx = gs.menuStack.some((m) => m.kind === 'system')

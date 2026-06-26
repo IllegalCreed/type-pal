@@ -97,7 +97,7 @@ function pickFacing(input: InputSnapshot): Facing | null {
   return null
 }
 
-function npcAt(npcs: NpcState[], x: number, y: number): NpcState | undefined {
+function _npcAt(npcs: NpcState[], x: number, y: number): NpcState | undefined {
   return npcs.find((n) => n.x === x && n.y === y)
 }
 
@@ -122,7 +122,7 @@ function npcAt(npcs: NpcState[], x: number, y: number): NpcState | undefined {
  *
  * M5.6 W1.b 修:按 sdlpal 真值距离公式,每 mode 不同 threshold。
  */
-function findTriggerZoneNpc(
+function _findTriggerZoneNpc(
   npcs: NpcState[],
   x: number,
   y: number,

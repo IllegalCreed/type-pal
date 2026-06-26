@@ -33,6 +33,7 @@ export function atAnySpot(scene: number, cells: ReadonlyArray<readonly [number, 
 
 /** 当前战斗含 boss 且全场敌人血≤0(镜像 PalTimer BossID==X && BattleTotalBlood<=0)。 */
 export function bossWon(enemyId: number): Detector {
+  // biome-ignore lint/complexity/useOptionalChain: `!= null &&` 保返回值是 boolean;`?.` 会变 boolean|undefined,破 Detector 类型
   return (cur) => cur.battle != null && cur.battle.enemyIds.has(enemyId) && cur.battle.totalEnemyHp <= 0
 }
 
@@ -49,6 +50,7 @@ export function bgmIs(musicId: number): Detector {
 /** 过彩依两段:第一段等 boss(71)入场置位,第二段等其消失(含战斗结束)或全场血≤0。 */
 export function caiyiDetector(enemyId = 71): Detector {
   return (cur, _prev, mem) => {
+    // biome-ignore lint/complexity/useOptionalChain: 同 bossWon — `!= null &&` 保 inNow 为 boolean
     const inNow = cur.battle != null && cur.battle.enemyIds.has(enemyId)
     if (!mem.seen) {
       if (inNow) mem.seen = true

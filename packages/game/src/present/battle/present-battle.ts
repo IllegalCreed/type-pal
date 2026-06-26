@@ -110,7 +110,6 @@ export class BattlePresent {
 
   /** D19 入场 fade:入场前大世界帧快照(dither backup)+ 已应用 step。introFade 清时复位。 */
   private introBackup: Uint8Array | undefined
-  private introApplied = 0
   /** 召唤 crossfade 累积态(from 逐步 dither 逼近 to,显示此 buf);+ 已应用到第几步。 */
   private summonFadeBuf: Uint8Array | undefined
   private summonFadeApplied = -1
@@ -157,7 +156,7 @@ export class BattlePresent {
     // D19 入场 fade:首帧(introFade 激活 + 尚无 backup)快照入场前 fb(= 上一帧大世界,fb 跨帧保留)作 dither
     //   backup;无 introFade(已进战斗)→ 清。须在任何 fb 绘制前快照。
     if (state.introFade) {
-      if (!this.introBackup) { this.introBackup = new Uint8Array(fb.indices); this.introApplied = 0 }
+      if (!this.introBackup) { this.introBackup = new Uint8Array(fb.indices) }
     } else {
       this.introBackup = undefined
     }

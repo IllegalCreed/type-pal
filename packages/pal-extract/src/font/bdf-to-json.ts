@@ -26,11 +26,11 @@ export function parseBdf(text: string): BdfGlyph[] {
 
       while (i < lines.length) {
         const l = lines[i]!.trim()
-        if (l.startsWith('ENCODING')) codepoint = parseInt(l.split(/\s+/)[1]!)
+        if (l.startsWith('ENCODING')) codepoint = parseInt(l.split(/\s+/)[1]!, 10)
         else if (l.startsWith('BBX')) {
           const parts = l.split(/\s+/)
-          width = parseInt(parts[1]!)
-          height = parseInt(parts[2]!)
+          width = parseInt(parts[1]!, 10)
+          height = parseInt(parts[2]!, 10)
         }
         else if (l === 'BITMAP') {
           bitmapStart = i + 1

@@ -262,7 +262,7 @@ export function drawBattleSprites(
   battleSprites: Map<string, SpriteAsset>,
   playerRoles: PlayerRoles,
   enemyPos: EnemyPosTable | undefined,
-  currentFrame: number,
+  _currentFrame: number,
   /** 召唤演出期:隐藏全体队员(改画召唤神,battle.c:386-405 lpSummonSprite!=NULL 分支)。 */
   hidePlayers = false,
   /**
