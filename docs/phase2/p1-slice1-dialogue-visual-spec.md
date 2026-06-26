@@ -124,6 +124,31 @@ const charsShown = Math.floor(elapsed / 24)  // 24ms/字
 
 **对切片 1 的指引**：dialogue.ts 加 `lineStartMs` 字段；渲染层用 `performance.now()` 算 charsShown；逻辑层 advance() 不变。验收时打字应是流畅逐字，不再是 4 字一跳。
 
+### ⚠️ 第二个独立 bug："按一下全显"丢失（作者核心痛点）
+
+> 作者补充：原版按一下回车/空格整段字全显；第一阶段"卡卡的，要按很多遍空格"。这是**和打字速度无关的另一个 bug**，根因在状态机的行间推进逻辑。
+
+**sdlpal 真值**（text.c:1616）：打字中按 Confirm → `fUserSkip=TRUE` → 当前行瞬显 + **同段后续行也瞬显**（fUserSkip 跨行持续）→ 玩家按一下整段全过，行间不等键。
+
+**第一阶段的 bug**（event-system.ts:1757-1827，代码实证）：
+```
+按 Confirm 跳字 → skip-typing → return（1763）           // 本 tick 停
+下一 tick → line-done + lineDoneRenderPending=true        // 1820 分支
+        → return（1822）                                   // 又停一 tick！
+再下一 tick → 才 ip++ 推进                                 // 1825
+```
+即每次跳字后，引擎硬塞了一个 `lineDoneRenderPending` 中间态（注释说是为修"梦境快按 Space 只出 1 行"的渲染问题）。副作用：**每个行间转换多耗一个 tick（100ms）**，且连续按键节奏没对上时按键被吞（1828-1830 return）→ "按一下卡一下，要按很多遍"。
+
+**典型"修一个 bug 引入另一个"**：`lineDoneRenderPending` 修渲染问题，却拖慢了所有行间转换。
+
+**reforge 必须避开这个坑**：
+- dialogue.ts 当前是纯状态机、**没有 `lineDoneRenderPending` 这种隐式等待态**——保持这个设计。
+- 接对话进主循环时，**绝不为"修渲染"往状态机塞等待态**。渲染问题在渲染层解（确保满行帧被画出），不在逻辑层堵。
+- fUserFlag 语义要忠实 sdlpal：跳字后**跨行持续瞬显**，直到翻页/段末才复位。这是"按一下全显"的根。
+- 验收：按一下 Confirm → 整段（当前页所有行）瞬显，不再每行卡一下。
+
+**这两个 bug 的关系**：打字卡顿（渲染层 10fps）+ 按键要多次（逻辑层等待态）是**独立**的两个问题，原版都没问题所以"丝滑+按一下全显"，第一阶段两个都中招所以"又卡又要按很多遍"。reforge 要两个都做对。
+
 ### 4. content 数据扩展
 
 `DialogueLine` 可能要扩字段以支持原版能力：
