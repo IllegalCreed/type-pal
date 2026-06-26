@@ -1,6 +1,14 @@
-import { type Dialogue, type DialogueLine, type EntityDef, type Facing, guijieMinjuScene, lookupText, zhLocale } from '@type-pal/content'
+import {
+  type Dialogue,
+  type DialogueLine,
+  type EntityDef,
+  type Facing,
+  guijieMinjuScene,
+  lookupText,
+  zhLocale,
+} from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
-import { type LoadedSprite, loadPalette, loadSprite, loadTileset, loadTilemap } from './assets.js'
+import { type LoadedSprite, loadPalette, loadSprite, loadTilemap, loadTileset } from './assets.js'
 import { buildIsBlocked } from './collision.js'
 import { advancePage, type DialogueState, pageLines, startDialogue } from './dialogue.js'
 import { Keyboard } from './input.js'
@@ -90,13 +98,25 @@ async function main(): Promise<void> {
     const sprites: SpriteDraw[] = []
     const gf = ghostSprite.frames[0]
     if (gf) {
-      sprites.push({ frame: gf, worldX: ghost.pos.x, worldY: ghost.pos.y, anchorX: ghostSprite.anchorX, anchorY: ghostSprite.anchorY })
+      sprites.push({
+        frame: gf,
+        worldX: ghost.pos.x,
+        worldY: ghost.pos.y,
+        anchorX: ghostSprite.anchorX,
+        anchorY: ghostSprite.anchorY,
+      })
     }
     const dir = FACING_TO_DIR[facing]
     const fi = walking ? dir * WALK_FRAMES + (STEP_CYCLE[stepFrame] ?? 0) : dir * WALK_FRAMES
     const pf = playerSprite.frames[fi] ?? playerSprite.frames[0]
     if (pf) {
-      sprites.push({ frame: pf, worldX: player.pos.x, worldY: player.pos.y, anchorX: playerSprite.anchorX, anchorY: playerSprite.anchorY })
+      sprites.push({
+        frame: pf,
+        worldX: player.pos.x,
+        worldY: player.pos.y,
+        anchorX: playerSprite.anchorX,
+        anchorY: playerSprite.anchorY,
+      })
     }
     renderer.renderScene(map, room, camera, sprites)
     if (DEBUG_COLLISION) drawCollisionOverlay()
@@ -254,7 +274,9 @@ async function main(): Promise<void> {
   }
   requestAnimationFrame(tick)
 
-  console.log('[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话')
+  console.log(
+    '[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话',
+  )
 }
 
 /** 调试速查：把 spriteNum 0..47 的第 0 帧排成网格 + 标号，肉眼分辨人 / 物。 */
@@ -279,7 +301,15 @@ async function renderSpriteGallery(palette: Palette): Promise<void> {
     ctx.font = '10px monospace'
     ctx.fillText(String(id), col * CELL + 4, rowI * CELL + 12)
     const f = sp?.frames[0]
-    if (f) renderer.drawSprite(f, col * CELL + CELL / 2, rowI * CELL + CELL - 14, sp!.anchorX, sp!.anchorY, { x: 0, y: 0 })
+    if (f)
+      renderer.drawSprite(
+        f,
+        col * CELL + CELL / 2,
+        rowI * CELL + CELL - 14,
+        sp!.anchorX,
+        sp!.anchorY,
+        { x: 0, y: 0 },
+      )
   }
   console.log('[reforge] sprite gallery 0..47 rendered')
 }
