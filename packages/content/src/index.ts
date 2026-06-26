@@ -28,9 +28,14 @@ export interface Vec2 {
 }
 
 export interface DialogueLine {
-  /** 说话人名；省略 = 旁白 / 心理活动 */
-  speaker?: string
-  text: string
+  /** 说话人名的 textId;省略 = 旁白 / 心理活动。原版「末尾冒号」判定 → 此显式字段。 */
+  speaker?: TextId
+  /** 正文 textId,指向 locale 富文本(单色纯文本 / 多色带 <color> 标记)。 */
+  text: TextId
+  /** 打字速度(ms/字);省略 = 默认。原版 $NN。 */
+  speed?: number
+  /** 尾停顿 + 自动推进(ms);存在 = 打完停 N ms 自动进下一页、不等键。原版 ~NN。 */
+  autoAdvance?: number
 }
 
 export interface Dialogue {

@@ -1,24 +1,41 @@
 /**
- * 对话翻页：纯状态机（不碰 DOM，可独立单测）。
- * start → page 0；advance → 下一页；越过最后一页 → null（结束）。
+ * 对话翻页:纯状态机(不碰 DOM,可独立单测)。
+ * 按容量(linesPerPage)分页;打字 / autoAdvance / 瞬显的「时间驱动」在渲染层(② / 演出),
+ * 本状态机只管「当前页是哪几行」「翻到下一页」——保持纯函数、无隐式等待态(design §6)。
  */
 import type { Dialogue, DialogueLine } from '@type-pal/content'
 
 export interface DialogueState {
   readonly dialogue: Dialogue
-  readonly page: number
+  readonly pageStart: number
+  readonly linesPerPage: number
 }
 
-export function startDialogue(dialogue: Dialogue): DialogueState {
-  return { dialogue, page: 0 }
+/**
+ * linesPerPage 由渲染层按对话框容量定(design §6:不写死原版 4 行/页)。
+ * 默认 1 仅为 ② 外观落地前的临时值;② 落地后渲染层按框容量传入(鬼话框 = 4 行)。
+ */
+export function startDialogue(dialogue: Dialogue, linesPerPage = 1): DialogueState {
+  return { dialogue, pageStart: 0, linesPerPage }
 }
 
+/** 当前页的行(可能不足 linesPerPage,如最后一页)。 */
+export function pageLines(state: DialogueState): DialogueLine[] {
+  return state.dialogue.lines.slice(state.pageStart, state.pageStart + state.linesPerPage)
+}
+
+/** 翻下一页;越过最后一页 → null(对话结束)。 */
+export function advancePage(state: DialogueState): DialogueState | null {
+  const next = state.pageStart + state.linesPerPage
+  return next < state.dialogue.lines.length ? { ...state, pageStart: next } : null
+}
+
+// ── 旧 API thin wrapper:暂留兼容 main.ts,Task 5 切换后删 ──
+/** @deprecated 用 pageLines。 */
 export function currentLine(state: DialogueState): DialogueLine | undefined {
-  return state.dialogue.lines[state.page]
+  return pageLines(state)[0]
 }
-
-/** 翻页：还有下一页 → 新状态；已是最后一页 → null（对话结束）。 */
+/** @deprecated 用 advancePage。 */
 export function advance(state: DialogueState): DialogueState | null {
-  const next = state.page + 1
-  return next < state.dialogue.lines.length ? { dialogue: state.dialogue, page: next } : null
+  return advancePage(state)
 }
