@@ -56,6 +56,7 @@ import {
   normalizePlayerRolesRuntime,
   projectRuntimeToBattleRoles,
   npcFromEventObject,
+  resetPresentationTransients,
   resetSceneRuntimeForNewGame,
   sliceSceneEventObjects,
 } from '../core/game-state.js'
@@ -1703,7 +1704,10 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
 
   /** 回标题(opcode 0xA0 quit / 结局后)— 复用 OpeningMenu 启动路径(同 showTrademarkAndSplash 末尾)。 */
   function returnToTitle(): void {
-    gs.eventCursor = undefined
+    // 清结局/死亡/对话演出残留(eventCursor + dialogPlayingRNG/rngDialogBackup/blackScreenHold/fade 等)。
+    //   结局 0xA0 QUIT 从「拜月投河 RNG 演出对话」期触发,播完片尾 4/5/6.mp4 后若漏清 dialogPlayingRNG,
+    //   present.ts 会短路画结局 RNG 末帧(血池)盖住主菜单 → user 报「看完片尾自动回 RNG 末帧 + 吞键」。
+    resetPresentationTransients(gs)
     gs.menuStack = [{ kind: 'opening', state: createOpeningMenu() }]
     gs.mode = 'menu'
     // DM28:主菜单曲 4(RIX_NUM_OPENINGMENU,uigame.c:114);选项确定后被新游戏/读档路径覆盖

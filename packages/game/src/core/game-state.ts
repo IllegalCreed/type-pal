@@ -1467,11 +1467,17 @@ export function loadDefaultGame(
  *(否则上一局"李大娘走了 / 宝箱开了"等改动残留)。调用方(bootstrap)随后另设 wNumScene / sceneCommands、
  * 重 slice npcs、applySceneAssetsToPresent。
  */
-export function resetSceneRuntimeForNewGame(
-  gs: GameState,
-  initialEventObjects: SceneEventObject[],
-): void {
-  // 新游戏可能从结局、死亡演出或半途事件中进入;清掉只属于上一画面/脚本的瞬态。
+/**
+ * 清「只属于上一画面/脚本」的演出瞬态 —— present 短路相关标志(blackScreenHold / dialogPlayingRNG /
+ * sceneLoading / paletteFadeState 等)+ 对话框 / fade / RNG 帧备份 / 死亡演出残留。
+ *
+ * 回标题(returnToTitle)与新游戏(resetSceneRuntimeForNewGame)共用。**回标题必须清这些**:否则结局
+ * 0xA0 QUIT 是从「拜月投河 RNG(chunk9)演出对话」期间触发的,dialogPlayingRNG+rngDialogBackup 仍残留;
+ * 播完片尾 4/5/6.mp4 后 returnToTitle 只切 mode='menu' 而漏清它们 → present.ts 命中
+ * `if (dialogPlayingRNG && rngDialogBackup)` 短路分支,画 RNG 最后一帧(血池)盖住主菜单 + 短路 return
+ * → user 报「看完片尾 video 自动回到结局 RNG 最后一帧、全部按键无效」的根因(菜单其实在响应,只是被盖住)。
+ */
+export function resetPresentationTransients(gs: GameState): void {
   gs.eventCursor = undefined
   gs.gameOverActive = false
   gs.deathHoldActive = false
@@ -1488,6 +1494,14 @@ export function resetSceneRuntimeForNewGame(
   gs.dialogBoxKept = undefined
   gs.currentDialogPortraitIcon = undefined
   gs.currentDialogPortraitLayout = false
+}
+
+export function resetSceneRuntimeForNewGame(
+  gs: GameState,
+  initialEventObjects: SceneEventObject[],
+): void {
+  // 新游戏可能从结局、死亡演出或半途事件中进入;清掉只属于上一画面/脚本的瞬态。
+  resetPresentationTransients(gs)
   // DM25:C 新游戏 = 进程静态零/FreeGlobals memset(global.c:262),这些字段语义恒 0;
   //   ts 回标题再开新游戏 mutate 同一 gs → 旧局水波(0x71)/战斗音乐域/追逐周期/跟随者残留:
   //   开场画面持续扭曲(静态波 sWaveProgression=0 时 screen-wave 自清条件永不命中)、

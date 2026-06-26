@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, loadDefaultGame, normalizePlayerRolesRuntime, npcFromEventObject, projectRuntimeToBattleRoles, resetSceneRuntimeForNewGame, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode, type NpcState } from './game-state.js'
+import { clearHiddenExpCounts, createInitialGameState, hydrateNpcStaticDefaults, hydratePlayerRolesRuntime, initExpLevelsFromLevels, loadDefaultGame, normalizePlayerRolesRuntime, npcFromEventObject, projectRuntimeToBattleRoles, resetPresentationTransients, resetSceneRuntimeForNewGame, resumePostBattleScript, scriptRunHits0x4F, sliceSceneEventObjects, writeBackBattleRolesToRuntime, type Facing, type GameState, type Mode, type NpcState } from './game-state.js'
 import { startDialogLine } from '../present/dialog-box.js'
 import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'
 
@@ -863,5 +863,52 @@ describe('normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字�
     expect(fixed.rgwAvatar).toHaveLength(6)
     expect(fixed.rgwMagic).toHaveLength(32)
     expect(fixed.rgwElementalResistance).toHaveLength(5)
+  })
+})
+
+// 结局片尾回主菜单 bug:0xA0 QUIT 从「拜月投河 RNG(chunk9)演出对话」期触发,播完片尾 4/5/6.mp4 后
+//   returnToTitle 若漏清 dialogPlayingRNG+rngDialogBackup,present.ts 命中短路分支画结局 RNG 末帧(血池)
+//   盖住主菜单 + return → user 报「看完片尾自动回 RNG 末帧、全部按键无效」(菜单其实在响应,只是被盖住)。
+describe('resetPresentationTransients(回标题/新游戏清演出残留)', () => {
+  it('清结局 RNG 演出残留 + 黑屏/fade/死亡演出/eventCursor', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    // 模拟结局 0xA0 QUIT 触发瞬间的残留(拜月投河 RNG 演出对话期)
+    gs.dialogPlayingRNG = true
+    gs.rngDialogBackup = new Uint8Array(320 * 200).fill(7)
+    gs.rngFrameActive = true
+    gs.blackScreenHold = true
+    gs.gameOverActive = true
+    gs.deathHoldActive = true
+    gs.needToFadeIn = true
+    gs.sceneLoading = true
+    gs.eventCursor = { ip: 35621 }
+
+    resetPresentationTransients(gs)
+
+    // present.ts 短路分支 `if (dialogPlayingRNG && rngDialogBackup)` 依赖的两字段必须清 → 主菜单不再被盖
+    expect(gs.dialogPlayingRNG).toBe(false)
+    expect(gs.rngDialogBackup).toBeUndefined()
+    expect(gs.rngFrameActive).toBe(false)
+    expect(gs.blackScreenHold).toBe(false)
+    expect(gs.gameOverActive).toBe(false)
+    expect(gs.deathHoldActive).toBe(false)
+    expect(gs.needToFadeIn).toBe(false)
+    expect(gs.sceneLoading).toBe(false)
+    expect(gs.eventCursor).toBeUndefined()
+  })
+
+  it('resetSceneRuntimeForNewGame 复用 helper:同样清掉结局 RNG 残留(防重构回归)', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dialogPlayingRNG = true
+    gs.rngDialogBackup = new Uint8Array(10)
+    gs.rngFrameActive = true
+    gs.blackScreenHold = true
+
+    resetSceneRuntimeForNewGame(gs, [])
+
+    expect(gs.dialogPlayingRNG).toBe(false)
+    expect(gs.rngDialogBackup).toBeUndefined()
+    expect(gs.rngFrameActive).toBe(false)
+    expect(gs.blackScreenHold).toBe(false)
   })
 })
