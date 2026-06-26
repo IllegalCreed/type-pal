@@ -88,11 +88,13 @@ async function defaultFetchManifest(): Promise<RngFramesManifest> {
 // 按 chunk 缓存(一个 chunk 只解一次,供逐帧播放取用)。RNG 帧全屏不透明,opaque 恒全 1
 // (且播放只 fb.indices.set(frame.indices) 不读 opaque),故 opaque 复用同一只读数组。
 const RNG_OPAQUE = new Uint8Array(RNG_WIDTH * RNG_HEIGHT).fill(1)
-const rngChunkCache = new Map<number, Map<number, IndexedImage>>()
+// 缓存 **in-flight Promise**(非已解结果):playRng `Promise.all(frames.map(fetchFrame))` 对同一 chunk
+//   并发取帧 N 次,复用同一个加载 Promise → 只 fetch+decompress+decode 一次。旧版缓存结果 Map 且 set 在
+//   await 之后 → N 个并发全 cache-miss,重复解码整个 chunk N 次(O(N²);山神庙酒剑仙 chunk 帧多,5 秒黑屏根因)。
+const rngChunkCache = new Map<number, Promise<Map<number, IndexedImage>>>()
 
-async function loadRngChunk(chunkIdx: number): Promise<Map<number, IndexedImage>> {
-  const cached = rngChunkCache.get(chunkIdx)
-  if (cached) return cached
+/** 实际 fetch + decompress + decode 一个 RNG chunk(无缓存)。提取成命名函数,测试可替换。 */
+async function fetchAndDecodeRngChunk(chunkIdx: number): Promise<Map<number, IndexedImage>> {
   const url = `/extracted/data/animation/rng-${chunkIdx.toString().padStart(2, '0')}.rle`
   const res = await fetch(url)
   if (!res.ok) throw new Error(`rng-player: fetch ${url} failed (${res.status})`)
@@ -101,8 +103,29 @@ async function loadRngChunk(chunkIdx: number): Promise<Map<number, IndexedImage>
   for (const f of decodeRngFrames(bytes)) {
     map.set(f.index, { width: RNG_WIDTH, height: RNG_HEIGHT, indices: f.pixels, opaque: RNG_OPAQUE })
   }
-  rngChunkCache.set(chunkIdx, map)
   return map
+}
+
+let _rngChunkLoader: (chunkIdx: number) => Promise<Map<number, IndexedImage>> = fetchAndDecodeRngChunk
+
+/** 测试 only:替换底层 chunk 加载器(验证并发去重)并清缓存;传 null 复原默认。 */
+export function __setRngChunkLoaderForTest(
+  fn: ((chunkIdx: number) => Promise<Map<number, IndexedImage>>) | null,
+): void {
+  _rngChunkLoader = fn ?? fetchAndDecodeRngChunk
+  rngChunkCache.clear()
+}
+
+function loadRngChunk(chunkIdx: number): Promise<Map<number, IndexedImage>> {
+  const pending = rngChunkCache.get(chunkIdx)
+  if (pending) return pending
+  const p = _rngChunkLoader(chunkIdx)
+  rngChunkCache.set(chunkIdx, p) // 同步缓存 Promise → 并发取帧复用,只加载一次
+  // 加载失败不长期缓存失败 Promise(允许后续重试),否则一次网络抖动永久卡住该 chunk
+  p.catch(() => {
+    if (rngChunkCache.get(chunkIdx) === p) rngChunkCache.delete(chunkIdx)
+  })
+  return p
 }
 
 async function defaultFetchFrame(chunkIdx: number, frameIdx: number): Promise<IndexedImage> {

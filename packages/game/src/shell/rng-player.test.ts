@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { IndexedImage } from '../assets/png.js'
 import { createFramebuffer } from '../present/framebuffer.js'
-import { playRng } from './rng-player.js'
+import { __setRngChunkLoaderForTest, playRng } from './rng-player.js'
 
 const MOCK_MANIFEST = {
   chunks: [
@@ -33,6 +33,7 @@ const mockCanvasCtx = {
 
 afterEach(() => {
   vi.restoreAllMocks()
+  __setRngChunkLoaderForTest(null) // 复原默认 loader + 清 chunk 缓存
 })
 
 describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
@@ -281,5 +282,38 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
     const last = putImageData.mock.calls.at(-1)?.[0] as ImageData
     expect(Array.from(first.data.slice(0, 3))).toEqual([0, 0, 0])
     expect(Array.from(last.data.slice(0, 3))).toEqual([180, 120, 60])
+  })
+
+  // 资源管线优化(2026-06-22)后,playRng 用 `Promise.all(frames.map(fetchFrame))` 并发取帧,默认
+  //   fetchFrame → loadRngChunk(chunkIdx)。loadRngChunk 旧实现 cache.set 在 await 之后 → 同一 chunk 的
+  //   N 个并发取帧全部 cache-miss,重复 fetch+decompressGzip+decodeRngFrames **整个 chunk** N 次 = O(N²)。
+  //   山神庙酒剑仙(chunk 帧多)实测 5 秒黑屏。修复:loadRngChunk 缓存 in-flight Promise,并发复用。
+  it('单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)', async () => {
+    let loadCount = 0
+    __setRngChunkLoaderForTest(async () => {
+      loadCount++
+      await new Promise((r) => setTimeout(r, 5)) // 放大并发窗口,确保 N 帧在首个加载未完成时都进来
+      const map = new Map<number, IndexedImage>()
+      for (let i = 0; i < 3; i++) {
+        map.set(i, {
+          width: 320,
+          height: 200,
+          indices: new Uint8Array(320 * 200).fill(i + 1),
+          opaque: new Uint8Array(320 * 200).fill(1),
+        })
+      }
+      return map
+    })
+    const fb = createFramebuffer()
+    // 不注入 fetchFrame → 走默认 defaultFetchFrame → loadRngChunk → 注入的 loader
+    await playRng({
+      chunkIdx: 6, // MOCK_MANIFEST chunk 6 = 3 帧 → Promise.all 并发 3 次取帧
+      frameDelayMs: 0,
+      fb,
+      canvasCtx: mockCanvasCtx,
+      palette: mockPalette,
+      fetchManifest: mockManifestOk(),
+    })
+    expect(loadCount).toBe(1) // 修复前:3(每帧 cache-miss);修复后:1
   })
 })
