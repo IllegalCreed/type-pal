@@ -44,11 +44,9 @@ const LEVELUP_MAGIC_FIX = [
 const LEVELUP_EXP_FIX = [0, 15, 40, 90, 165, 265, 390, 540, 715, 915, 1140, 1390, 1665, 1965]
 
 function minimalEnemy(id: number, over: Partial<Enemy> = {}): Enemy {
-  // biome-ignore lint/suspicious/noExplicitAny: 测试只填 startBattle/createBattleState 用到的字段
   return { id, _name: `e${id}`, health: 30, exp: 1, level: 1, attackStrength: 0, defense: 0, dexterity: 10, physicalResistance: 1, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }, yPosOffset: 0, ...over } as any as Enemy
 }
 function minimalRole(id: number): PlayerRole {
-  // biome-ignore lint/suspicious/noExplicitAny: 测试 role 占位
   return { id, _name: `r${id}`, level: 1, hp: 100, maxHP: 100, mp: 30, maxMP: 30, attackStrength: 5, magicStrength: 5, defense: 5, dexterity: 5, fleeRate: 5, poisonResistance: 0, name: 0, avatar: 0, spriteNumInBattle: id, spriteNum: 0, attackAll: 0, walkFrames: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } } as any as PlayerRole
 }
 
@@ -56,7 +54,6 @@ function makeDeps(): DevPanelDeps {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
   const enemyObjects: EnemyObject[] = [
     // 林月如一(enemyId 82):scriptOnTurnStart=41368(真值,decode 出"让开！！"等嘲讽)
-    // biome-ignore lint/suspicious/noExplicitAny: 只填 enemyId + scripts
     { objectIndex: 480, enemyId: 82, scriptOnTurnStart: 41368, scriptOnReady: 0, scriptOnBattleEnd: 0, resistanceToSorcery: 0 } as any,
   ]
   const enemyTeams: EnemyTeam[] = [
@@ -66,27 +63,20 @@ function makeDeps(): DevPanelDeps {
   const field: BattleField = { id: 7, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } }
   return {
     gs,
-    // biome-ignore lint/suspicious/noExplicitAny: 非 applyFixture 用到的 dev-panel 字段占位
     fixtures: { fixtures: [] } as any,
-    // biome-ignore lint/suspicious/noExplicitAny: 占位
     sceneJumps: { jumps: [] } as any,
-    // biome-ignore lint/suspicious/noExplicitAny: 占位
     sceneAssetsCache: {} as any,
     resources: {
       enemies: [minimalEnemy(2, { _name: '灯笼', health: 30, exp: 1 }), minimalEnemy(82, { _name: '林月如一', health: 600, exp: 200, level: 5 })],
       enemyObjects,
       enemyTeams,
       battleFields: [field],
-      // biome-ignore lint/suspicious/noExplicitAny: role0 加 base 法术(气疗术)用于菜单可见性验证
       playerRoles: { roles: [{ ...minimalRole(0), magic: R0_BASE_MAGIC } as any] },
       levelUpExp: LEVELUP_EXP_FIX,
-      // biome-ignore lint/suspicious/noExplicitAny: 测试 levelUpMagic / spells / magics 占位真值
       levelUpMagic: LEVELUP_MAGIC_FIX as any,
-      // biome-ignore lint/suspicious/noExplicitAny: 占位
       items: [], spells: SPELLS_FIX as any, magics: MAGICS_FIX as any, objectMagics: [], objectPoisons: [], objectPlayers: [],
       commands: [{ op: 'end' }],
       // enemyPos undefined → createBattleState 走 fallback 位置表(测试不验位置)
-      // biome-ignore lint/suspicious/noExplicitAny: 占位
       enemyPos: undefined as any,
       battleEffectIndex: [],
       magicSpriteFrameCounts: new Map(),
@@ -198,7 +188,6 @@ describe('roleMagicsAtLevel(仙术按等级:起手 + 升级习得 entry.level<=l
 describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具)', () => {
   it('选敌 + 队员 + level=7 + 全道具 → 临时 team 90000 启战 / 仙术按等级 / 道具×99', () => {
     const deps = makeDeps()
-    // biome-ignore lint/suspicious/noExplicitAny: 测全道具用最小 item 占位
     deps.resources.items = [{ id: 10 } as any, { id: 11 } as any]
     applyCustomBattle(deps, { enemyIds: [82, 2], partyMembers: [0], level: 7, allItems: true }, 42)
     // 临时 team(id 90000)推入 enemyTeams,pad 0xFFFF
@@ -256,7 +245,6 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
 
   it('allItems=false → inventory 空', () => {
     const deps = makeDeps()
-    // biome-ignore lint/suspicious/noExplicitAny: 占位
     deps.resources.items = [{ id: 10 } as any]
     applyCustomBattle(deps, { enemyIds: [82], partyMembers: [0], level: 1, allItems: false }, 42)
     expect(deps.gs.inventory).toEqual([])
@@ -288,9 +276,7 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
 //   防未来手改 roster 引入 typo(2026-06-05 byte-level 核过当时全 18 条;此测固化)。extracted 缺 → skip。
 const hasExtracted = existsSync(resolve(DATA_DIR, 'enemy-teams.json')) && existsSync(resolve(DATA_DIR, 'enemies.json'))
 ;(hasExtracted ? describe : describe.skip)('BOSS_ROSTER 数据接地(enemy-teams.json / enemies.json 真值核对)', () => {
-  // biome-ignore lint/suspicious/noExplicitAny: 真 json 结构
   const teams: any[] = JSON.parse(readFileSync(resolve(DATA_DIR, 'enemy-teams.json'), 'utf-8'))
-  // biome-ignore lint/suspicious/noExplicitAny: 真 json 结构
   const enemies: any[] = JSON.parse(readFileSync(resolve(DATA_DIR, 'enemies.json'), 'utf-8'))
 
   it('每条 boss:teamId 存在 / enemyId 有名字 / 代表敌人确在该 team 内', () => {
@@ -314,7 +300,6 @@ describe('applyAutoBattleT37(过场自动战斗 1:1:盖罗娇+苗女 vs 石长�
   it('party=[4,5,4] + fAutoBattle + 真 team37(石长老)+ 战场23,不 god-mode override', () => {
     const deps = makeDeps()
     // 扩展:roles 0-5(盖罗娇=5)+ team 37(石长老 119)+ enemy 119 + 战场 23
-    // biome-ignore lint/suspicious/noExplicitAny: 占位
     deps.resources.playerRoles = { roles: [0, 1, 2, 3, 4, 5].map((id) => minimalRole(id)) } as any
     deps.resources.enemies.push(minimalEnemy(119, { _name: '石长老', health: 9000, level: 36 }))
     deps.resources.enemyTeams.push({ id: 37, enemies: [119, 0xffff, 0xffff, 0xffff, 0xffff] })
@@ -333,7 +318,6 @@ describe('applyAutoBattleT37(过场自动战斗 1:1:盖罗娇+苗女 vs 石长�
 describe('applyBossBattle(剧情 boss 战:真 boss team + god-mode 队伍)', () => {
   it('teamId=21 + members=[0] → 起真 team 21(林月如一)战 / 队伍 god-mode lv99 全仙术 / 全道具', () => {
     const deps = makeDeps()
-    // biome-ignore lint/suspicious/noExplicitAny: 占位
     deps.resources.items = [{ id: 10 } as any]
     applyBossBattle(deps, 21, { members: [0] })
     expect(deps.gs.mode).toBe('battle')
@@ -450,7 +434,6 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     expect(screens[0]).toMatchObject({ kind: 'exp-cash', expGained: 1 })
 
     // 2) Phase B 升级 box(role0 lv1 → lv12,8 属性 old→cur)
-    // biome-ignore lint/suspicious/noExplicitAny: union narrowing
     const lv = screens.find((s) => s.kind === 'level-up') as any
     expect(lv).toBeDefined()
     expect(lv.data.level).toEqual({ old: 1, cur: 12 })
@@ -462,7 +445,6 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     // 3) Phase D 练成屏:天师符法(349)+ 凝神归元(298)各一屏
     const learned = screens
       .filter((s) => s.kind === 'learn-magic')
-      // biome-ignore lint/suspicious/noExplicitAny: union narrowing
       .map((s) => (s as any).data.magicName)
     expect(learned).toContain('天师符法')
     expect(learned).toContain('凝神归元')

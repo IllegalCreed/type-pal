@@ -16,17 +16,14 @@ import type { BattleDialogLine, BattleState } from '../battle-state.js'
 import { tickBattleDialog } from '../battle-system.js'
 
 function makeState(queue?: BattleDialogLine[]): BattleState {
-  // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState(tickBattleDialog 只碰对话字段 + phaseStallTicks)
   return { battleDialogQueue: queue, phaseStallTicks: 5 } as any as BattleState
 }
 
 function makeGs(): GameState {
-  // biome-ignore lint/suspicious/noExplicitAny: 最小 GameState(tickBattleDialog 只碰 gs.dialogBox)
   return { dialogBox: undefined } as any as GameState
 }
 
 function input(keys: string[] = []): InputSnapshot {
-  // biome-ignore lint/suspicious/noExplicitAny: pressed 用 string Set 足够
   return { held: new Set(), pressed: new Set(keys), frameNum: 0 } as any as InputSnapshot
 }
 

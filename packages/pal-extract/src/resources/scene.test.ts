@@ -80,7 +80,6 @@ describe('dumpScene', () => {
 
   it('triggerScript=0 → triggerLabel undefined', () => {
     const eos: EventObject[] = [
-      // biome-ignore lint/style/noNonNullAssertion: fakeEventObjects[0] is defined above
       { ...fakeEventObjects[0]!, triggerScript: 0, autoScript: 0 },
     ]
     const result = dumpScene(1, fakeScenes, eos)

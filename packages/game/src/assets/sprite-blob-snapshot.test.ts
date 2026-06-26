@@ -114,6 +114,5 @@ describe.skipIf(!hasData)('sprite blob 真值对拍(npc / battle / magic)', () =
 })
 
 if (!hasData) {
-  // biome-ignore lint/suspicious/noConsole: skip 提示
   console.warn('[sprite-blob-snapshot skip] data/raw 或 data/extracted 缺失')
 }

@@ -67,7 +67,6 @@ function makeCoopState(
     enemies: [{ e: makeEnemy(), status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 }, prevHp: 9000, scriptOnTurnStart: 0, scriptOnBattleEnd: 0, scriptOnReady: 0 }],
     field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
     isBoss: false, rng,
-    // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
   } as any as BattleState
   return { state, playerRoles }
 }

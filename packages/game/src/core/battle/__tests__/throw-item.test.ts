@@ -19,7 +19,6 @@ import type { BattleState } from '../battle-state.js'
 import { performThrowItem } from '../actions/throw-item.js'
 
 function makeEnemy(opts: Partial<Enemy>): Enemy {
-  // biome-ignore lint/suspicious/noExplicitAny: 只填伤害公式相关字段
   return { id: 100, health: 200, defense: 30, level: 5, poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }, ...opts } as any as Enemy
 }
 
@@ -69,7 +68,6 @@ function objMagic(id: number, magicNumber: number): ObjectMagicView {
   return { id, magicNumber, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }
 }
 function magicStat(id: number, baseDamage: number, elemental: number): Magic {
-  // biome-ignore lint/suspicious/noExplicitAny: 只填伤害字段
   return { id, baseDamage, elemental, type: 'normal' } as any as Magic
 }
 
@@ -110,11 +108,9 @@ describe('performThrowItem (E2)', () => {
       itemId: 66, targetIdx: 0,
       items: [makeItem({ id: 66, scriptOnThrow: 1 })],
       // magic 54:effect 7(FIRE chunk),type normal,baseDamage 140,效果音 170
-      // biome-ignore lint/suspicious/noExplicitAny: OffMagic builder 用字段
       magics: [{ id: 54, effect: 7, type: 'normal', speed: 0, fireDelay: 0, effectTimes: 0, shake: 0, xOffset: 0, yOffset: 0, wave: 0, keepEffect: 0, baseDamage: 140, elemental: 0, sound: 170 } as any],
       objectMagics: [objMagic(349, 54)],
       objectPoisons: [],
-      // biome-ignore lint/suspicious/noExplicitAny: 投掷音 rgwMagicSound[role]
       playerRoles: { roles: [{ id: 0, magicSound: 88 } as any] },
       bus, commands, runScript,
       magicSpriteFrameCounts: new Map([[7, 8]]), // effect 7 有 8 帧 → 建 OffMagic 特效
@@ -159,7 +155,6 @@ describe('performThrowItem (E2)', () => {
       items: [makeItem({ id: 116, scriptOnThrow: 1 })],
       magics: [], objectMagics: [],
       objectPoisons,
-      // biome-ignore lint/suspicious/noExplicitAny: 投掷音占位
       playerRoles: { roles: [{ id: 0, magicSound: 0 } as any] },
       bus, commands, runScript,
       magicSpriteFrameCounts: new Map(),

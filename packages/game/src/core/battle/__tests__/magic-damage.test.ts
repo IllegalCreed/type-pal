@@ -257,7 +257,6 @@ function makeEnemyMagicState(
     level: p.level ?? 0,
     poisonResistance: p.poisonResistance ?? 0,
     elemResistance: { wind: p.windRes ?? 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    // biome-ignore lint/suspicious/noExplicitAny: 只填伤害相关字段
   } as any as PlayerRole))
   return { state, playerRoles: { roles } }
 }

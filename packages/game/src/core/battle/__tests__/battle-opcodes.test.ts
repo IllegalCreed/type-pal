@@ -9,7 +9,6 @@ import { dispatchBattleOpcode } from '../battle-opcodes.js'
 
 function makeEnemy(health: number, magic = 0, magicRate = 0): BattleEnemy {
   return {
-    // biome-ignore lint/suspicious/noExplicitAny: minimal Enemy shape
     e: { id: 1, health, magic, magicRate } as any,
     status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
     prevHp: 100,
@@ -21,7 +20,6 @@ function makeEnemy(health: number, magic = 0, magicRate = 0): BattleEnemy {
 
 function makeCtx(enemy: BattleEnemy): BattleCtx {
   return {
-    // biome-ignore lint/suspicious/noExplicitAny: minimal BattleState
     state: { enemies: [enemy], players: [] } as any as BattleState,
     caster: { type: 'enemy', idx: 0 },
   }
@@ -58,7 +56,6 @@ describe('B-w2.a battle-opcodes dispatch', () => {
   it('0x0064 玩家施法(灵葫咒)→ 用 ctx.target 目标敌查 HP;满血敌 > 25% → jump 失败分支', () => {
     const enemy = makeEnemy(100) // cur100 / max(prevHp)100 = 100% > 25%
     const ctx = {
-      // biome-ignore lint/suspicious/noExplicitAny: 玩家施法 ctx
       state: { enemies: [enemy], players: [{ roleId: 0 }] } as any as BattleState,
       caster: { type: 'player', idx: 0 },
       target: { type: 'enemy', idx: 0 },
@@ -70,7 +67,6 @@ describe('B-w2.a battle-opcodes dispatch', () => {
   it('0x0064 玩家施法 + 目标敌残血(≤25%)→ 不 jump(灵葫咒可秒杀)', () => {
     const enemy = makeEnemy(20) // cur20 / max100 = 20% ≤ 25%
     const ctx = {
-      // biome-ignore lint/suspicious/noExplicitAny: 玩家施法 ctx
       state: { enemies: [enemy], players: [{ roleId: 0 }] } as any as BattleState,
       caster: { type: 'player', idx: 0 },
       target: { type: 'enemy', idx: 0 },
@@ -96,7 +92,6 @@ describe('B-w2.a battle-opcodes dispatch', () => {
   })
 
   it('0x0061 jump if player not poisoned:未中毒 → jump operand[0](2026-05-31 修:此前误用 op[1]+恒跳)', () => {
-    // biome-ignore lint/suspicious/noExplicitAny: 最小 ctx
     const ctx = { state: { enemies: [], players: [{ roleId: 0 }] } as any as BattleState, target: { type: 'player', idx: 0 }, gs: { rgPoisonStatus: {} } as any } as BattleCtx
     const r = dispatchBattleOpcode(0x0061, [300, 0, 0], ctx)
     expect(r.consumed).toBe(true)
@@ -104,7 +99,6 @@ describe('B-w2.a battle-opcodes dispatch', () => {
   })
 
   it('0x0061:已中毒 → 不 jump(ip++)', () => {
-    // biome-ignore lint/suspicious/noExplicitAny: 最小 ctx
     const ctx = { state: { enemies: [], players: [{ roleId: 0 }] } as any as BattleState, target: { type: 'player', idx: 0 }, gs: { rgPoisonStatus: { '0_0': { wPoisonID: 552, wPoisonScript: 0 } } } as any } as BattleCtx
     const r = dispatchBattleOpcode(0x0061, [300, 0, 0], ctx)
     expect(r.newIp).toBeUndefined() // 已中毒不跳
@@ -114,12 +108,9 @@ describe('B-w2.a battle-opcodes dispatch', () => {
     // 死员 currentFrame=2(死帧);复活后 hp>0 但旧实现不刷 currentFrame → 后续动画期仍画倒下帧,
     //   直到该队员轮到行动才被 resetFightersAfterAction 复位 → "起来一帧又倒下,轮到他才起来"。
     const ctx = {
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState(死员 currentFrame=2)
       state: { enemies: [], players: [{ roleId: 0, prevHp: 0, defending: false, currentFrame: 2, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }] } as any as BattleState,
       target: { type: 'player', idx: 0 },
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 roles(hp=0 死员)
       playerRoles: { roles: [{ id: 0, hp: 0, maxHP: 100 } as any] },
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 gs(curePoison 读 rgPoisonStatus)
       gs: { rgPoisonStatus: {} } as any,
     } as BattleCtx
     // operand[0]=0(单体),operand[1]=5 → hp = 100*5/10 = 50
@@ -149,7 +140,6 @@ describe('B-w2.a battle-opcodes dispatch', () => {
   it('0x0060 immediate KO:夺魂/灵葫咒 scriptOnSuccess → KO ctx.target 目标敌人(非 enemy[0])(审计修:operand 恒0)', () => {
     const e0 = makeEnemy(100)
     const e1 = makeEnemy(100)
-    // biome-ignore lint/suspicious/noExplicitAny: 最小 state
     const ctx = { state: { enemies: [e0, e1], players: [{ roleId: 0 }] } as any as BattleState, caster: { type: 'player', idx: 0 }, target: { type: 'enemy', idx: 1 } } as BattleCtx
     dispatchBattleOpcode(0x0060, [0, 0, 0], ctx) // 真实数据 operand 恒 [0,0,0]
     expect(e0.e.health).toBe(100) // 非目标不死(此前 bug:恒 KO enemy[0])
@@ -169,10 +159,8 @@ describe('B-w2.a battle-opcodes dispatch', () => {
 describe('敌逃 0x69 置 terminatedByEnemyEscape 标记(turn-start 循环据此 break,避免退下对白重复)', () => {
   it('回合脚本 [对白×3,0x69,...]:0x69 延后入队 + 置 terminatedByEnemyEscape=true', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    // biome-ignore lint/suspicious/noExplicitAny: 最小 state(只用 battleDialogQueue/enemies)
     const state = { enemies: [makeEnemy(50)], players: [], battleDialogQueue: [] } as any as BattleState
     const bus = createCommandBus()
-    // biome-ignore lint/suspicious/noExplicitAny: 合成回合脚本(对白×3 → 0x69 敌逃 → 对白)
     const script = [
       { op: 'showDialog', text: 'A', messageIndex: 0 },
       { op: 'showDialog', text: 'B', messageIndex: 0 },
@@ -200,7 +188,6 @@ function richEnemy(opts: Partial<Enemy>): BattleEnemy {
       health: 200, defense: 30, level: 5, poisonResistance: 0,
       elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
       ...opts,
-      // biome-ignore lint/suspicious/noExplicitAny: 只填伤害公式相关字段
     } as any as Enemy,
     status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
     prevHp: opts.health ?? 200,
@@ -223,7 +210,6 @@ function simulateCtx(
       field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
       // rngFactor 固定 1.0
       rng: { next: () => 0, range: () => 0, rangeInclusive: () => 0, getState: () => 0 },
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'player', idx: 0 },
     target: targetIdx === undefined ? undefined : { type: 'enemy', idx: targetIdx },
@@ -237,7 +223,6 @@ function objMagic(id: number, magicNumber: number, applyToAll = false): ObjectMa
 }
 
 function magicStat(id: number, baseDamage: number, elemental: number, sound = 0): Magic {
-  // biome-ignore lint/suspicious/noExplicitAny: 只填伤害相关字段
   return { id, baseDamage, elemental, type: 'normal', sound } as any as Magic
 }
 
@@ -348,12 +333,10 @@ function throwWeaponCtx(
       field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
       // next()=0 → rngFactor 1.0;rangeInclusive 固定 = RandomLong(0,3) 项
       rng: { next: () => 0, range: () => 0, rangeInclusive: () => rangeInclusiveVal, getState: () => 0 },
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'player', idx: 0 },
     target: { type: 'enemy', idx: targetIdx },
     magicTables: { magics, objectMagics },
-    // biome-ignore lint/suspicious/noExplicitAny: 只填 attackStrength
     playerRoles: { roles: [{ id: 0, attackStrength } as any] },
   }
 }
@@ -366,10 +349,8 @@ function throwWeaponCtx(
 function kindCtx(kindIds: number[], casterIdx: number): BattleCtx {
   return {
     state: {
-      // biome-ignore lint/suspicious/noExplicitAny: 只填 e.id + health
       enemies: kindIds.map(id => ({ e: { id, health: 100 } as any, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 }, prevHp: 100, scriptOnTurnStart: 0, scriptOnBattleEnd: 0, scriptOnReady: 0 })),
       players: [],
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'enemy', idx: casterIdx },
   }
@@ -379,10 +360,8 @@ function kindCtx(kindIds: number[], casterIdx: number): BattleCtx {
 function kindCtxObj(enemies: Array<{ id: number, objectId: number }>, casterIdx: number): BattleCtx {
   return {
     state: {
-      // biome-ignore lint/suspicious/noExplicitAny: 只填 e.id + objectId + health
       enemies: enemies.map(({ id, objectId }) => ({ e: { id, health: 100 } as any, objectId, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 }, prevHp: 100, scriptOnTurnStart: 0, scriptOnBattleEnd: 0, scriptOnReady: 0 })),
       players: [],
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'enemy', idx: casterIdx },
   }
@@ -397,11 +376,9 @@ function drainCtx(enemyHealth: number, targetIdx: number, roleHp: number, roleMa
     state: {
       enemies: [richEnemy({ health: enemyHealth }), richEnemy({ health: enemyHealth })],
       players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'player', idx: 0 },
     target: { type: 'enemy', idx: targetIdx },
-    // biome-ignore lint/suspicious/noExplicitAny: 只填 hp/maxHP
     playerRoles: { roles: [{ id: 0, hp: roleHp, maxHP: roleMaxHP } as any] },
   }
 }
@@ -412,7 +389,6 @@ function drainCtx(enemyHealth: number, targetIdx: number, roleHp: number, roleMa
 
 function poisonEnemy(resist: number, health = 100): BattleEnemy {
   return {
-    // biome-ignore lint/suspicious/noExplicitAny: 只填伤害/抗性字段
     e: { id: 100, health, defense: 30, level: 5, poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } } as any as Enemy,
     status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
     prevHp: health,
@@ -438,7 +414,6 @@ function poisonCtx(enemies: BattleEnemy[], targetIdx: number, rangeVal: number, 
       enemies,
       players: [],
       rng: { next: () => 0, range: () => 0, rangeInclusive: () => rangeVal, getState: () => 0 },
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'player', idx: 0 },
     target: { type: 'enemy', idx: targetIdx },
@@ -503,7 +478,6 @@ describe('0x28 apply poison (script.c:0028,毒蛇卵/卵/蛊 throw)', () => {
 describe('0x29/0x2B/0x2C player poison 战斗单目标(ctx.target 解析,绕开 eventObjectId — HIGH#1 修)', () => {
   function playerPoisonCtx(gs: GameState, players = [{ roleId: 0 }]): BattleCtx {
     return {
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState(players 带 roleId + rng)
       state: {
         enemies: [],
         players: players.map(p => ({ roleId: p.roleId, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } })),
@@ -555,7 +529,6 @@ describe('0x31 change battle sprite (script.c:0031 — 梦蛇295 临时换战斗
   it('用物品队员(caster)→ spriteNumOverride = op0(present 优先用)', () => {
     const players = [{ roleId: 0, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }]
     const ctx = {
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
       state: { enemies: [], players, rng: { next: () => 0, range: () => 0, rangeInclusive: () => 0, getState: () => 0 } } as any as BattleState,
       caster: { type: 'player', idx: 0 },
     } as BattleCtx
@@ -582,7 +555,6 @@ describe('0x2A cure enemy poison by kind (script.c:1287-1329)', () => {
 })
 
 describe('0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击)', () => {
-  // biome-ignore lint/suspicious/noExplicitAny: 最小 player ctx
   const playerCtx = (hp: number, status: Partial<Record<string, number>> = {}): BattleCtx => ({
     state: { players: [{ roleId: 0, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, ...status } }], enemies: [] } as any as BattleState,
     target: { type: 'player', idx: 0 },
@@ -667,13 +639,10 @@ function setDmgCtx(roleMp: number, cash: number, objectMagics: ObjectMagicView[]
     state: {
       enemies: [],
       players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'player', idx: 0 },
     magicTables: { magics, objectMagics },
-    // biome-ignore lint/suspicious/noExplicitAny: 只填 mp
     playerRoles: { roles: [{ id: 0, mp: roleMp } as any] },
-    // biome-ignore lint/suspicious/noExplicitAny: 只填 dwCash
     gs: { dwCash: cash } as any,
   }
 }
@@ -681,7 +650,6 @@ function setDmgCtx(roleMp: number, cash: number, objectMagics: ObjectMagicView[]
 describe('Batch A 状态/数据 opcode', () => {
   function stateCtx(over: Partial<BattleState> = {}, caster?: BattleCtx['caster'], target?: BattleCtx['target'], gs?: BattleCtx['gs']): BattleCtx {
     return {
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
       state: { enemies: [], players: [], phase: 'performAction', iHidingTime: 0, iBlow: 0, isBoss: false, ...over } as any as BattleState,
       caster,
       target,
@@ -694,7 +662,6 @@ describe('Batch A 状态/数据 opcode', () => {
       { players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }] },
       undefined, { type: 'player', idx: 0 },
     )
-    // biome-ignore lint/suspicious/noExplicitAny: 只填 hp
     ctx.playerRoles = { roles: [{ id: 0, hp: 100 } as any] }
     const r = dispatchBattleOpcode(0x5F, [0, 0, 0], ctx)
     expect(r.consumed).toBe(true)
@@ -720,14 +687,12 @@ describe('Batch A 状态/数据 opcode', () => {
   })
 
   it('0x8A enable auto-battle:gs.fAutoBattle=true', () => {
-    // biome-ignore lint/suspicious/noExplicitAny: 只填 fAutoBattle
     const gs = { fAutoBattle: false } as any
     dispatchBattleOpcode(0x8A, [0, 0, 0], stateCtx({}, undefined, undefined, gs))
     expect(gs.fAutoBattle).toBe(true)
   })
 
   it('0x33 collect:有 collectValue → gs.wCollectValue 累加;无 → jump op0', () => {
-    // biome-ignore lint/suspicious/noExplicitAny: 只填 wCollectValue
     const gs = { wCollectValue: 5 } as any
     const ctx = stateCtx({ enemies: [richEnemy({})] }, undefined, { type: 'enemy', idx: 0 }, gs)
     ctx.state.enemies[0]!.e.collectValue = 10
@@ -758,11 +723,9 @@ describe('0x5A halve player HP (script.c:005A,无影毒 use)', () => {
       state: {
         enemies: [],
         players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
-        // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
       } as any as BattleState,
       caster: { type: 'player', idx: 0 },
       target: { type: 'player', idx: 0 },
-      // biome-ignore lint/suspicious/noExplicitAny: 只填 hp
       playerRoles: { roles: [{ id: 0, hp } as any] },
     }
   }
@@ -884,16 +847,13 @@ function healCtx(
         roleId: i, prevHp: 0, prevMp: 0, defending: false,
         status: { sleep: 2, paralyzed: 2, confused: 2, haste: 1, slow: 1 },
       })),
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'player', idx: 0 },
     target,
     playerRoles: {
-      // biome-ignore lint/suspicious/noExplicitAny: 只填 hp/mp/max
       roles: roles.map((r, i) => ({ id: i, hp: r.hp, mp: r.mp ?? 0, maxHP: r.maxHP ?? 100, maxMP: r.maxMP ?? 50 } as any)),
     },
     bus,
-    // biome-ignore lint/suspicious/noExplicitAny: 只填 fScriptSuccess/rgPoisonStatus
     gs: { fScriptSuccess: true, rgPoisonStatus: {} } as any,
   }
 }
@@ -1076,7 +1036,6 @@ const ENEMY_POS: EnemyPosTable = {
 
 function summonCtx(roster: BattleEnemy[], casterIdx: number, allEnemies: Enemy[], enemyObjects: EnemyObject[], enemyPos: EnemyPosTable | undefined = ENEMY_POS): BattleCtx {
   return {
-    // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     state: { enemies: roster, players: [] } as any as BattleState,
     caster: { type: 'enemy', idx: casterIdx },
     summonTables: { enemies: allEnemies, enemyObjects },
@@ -1086,7 +1045,6 @@ function summonCtx(roster: BattleEnemy[], casterIdx: number, allEnemies: Enemy[]
 }
 
 const ENEMY_OBJ = (objectIndex: number, enemyId: number): EnemyObject => ({ objectIndex, enemyId, resistanceToSorcery: 3, scriptOnTurnStart: 11, scriptOnBattleEnd: 0, scriptOnReady: 22 })
-// biome-ignore lint/suspicious/noExplicitAny: 只填关键字段
 const ENEMY = (id: number, health: number): Enemy => ({ id, health, defense: 0, level: 1 } as any as Enemy)
 
 describe('0x9C enemy division (script.c:009C)', () => {
@@ -1262,7 +1220,6 @@ describe('0x9E enemy summon (script.c:009E)', () => {
   it('我方隐身中(iHidingTime>0)→ 不召唤,jump op2(审计 bug:此前漏 iHidingTime 检查)', () => {
     const roster = [richEnemy({ health: 200 })]
     const ctx = summonCtx(roster, 0, [ENEMY(22, 80)], [ENEMY_OBJ(419, 22)])
-    // biome-ignore lint/suspicious/noExplicitAny: 设 iHidingTime
     ;(ctx.state as any).iHidingTime = 1
     const r = dispatchBattleOpcode(0x9E, [419, 1, 300], ctx)
     expect(roster).toHaveLength(1) // 未召唤(隐身保护)
@@ -1410,16 +1367,13 @@ describe('0x66 throw weapon (E2)', () => {
 // Batch C battle-context:0x30 stat-buff% / 0x31 sprite-swap / 0x92 magic-anim
 // ============================================================================
 
-// biome-ignore lint/suspicious/noExplicitAny: 只填 stat 字段
 function statBuffCtx(roles: any[], casterIdx = 0): BattleCtx {
   return {
     state: {
       enemies: [],
       players: roles.map((r, i) => ({ roleId: r.id ?? i, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } })),
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'player', idx: casterIdx },
-    // biome-ignore lint/suspicious/noExplicitAny: roles 直填
     playerRoles: { roles } as any,
   }
 }
@@ -1456,10 +1410,8 @@ function statBuffCtxReal(
     state: {
       enemies: [],
       players: roles.map((r, i) => ({ roleId: r.id ?? i, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } })),
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'player', idx: casterIdx },
-    // biome-ignore lint/suspicious/noExplicitAny: roles 直填 snapshot
     playerRoles: { roles } as any,
     gs,
   }
@@ -1567,7 +1519,6 @@ describe('0x31 / 0x92 battle presentation opcodes', () => {
 // ============================================================================
 
 // rangeInclusive(0,10)=roll010;rangeInclusive(2,3)=div23。其余 lo。
-// biome-ignore lint/suspicious/noExplicitAny: 只填 rangeInclusive
 function fakeRng(roll010: number, div23 = 2): any {
   return {
     next: () => 0,
@@ -1581,18 +1532,15 @@ function fakeRng(roll010: number, div23 = 2): any {
   }
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: 最小 ctx
 function stealCtx(enemy: BattleEnemy, rng: any, cash = 0, inventory: Array<{ itemId: number, count: number }> = []): BattleCtx {
   return {
     state: {
       enemies: [enemy],
       players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
       rng,
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 BattleState
     } as any as BattleState,
     caster: { type: 'player', idx: 0 },
     target: { type: 'enemy', idx: 0 },
-    // biome-ignore lint/suspicious/noExplicitAny: 只填 dwCash/inventory
     gs: { dwCash: cash, inventory } as any,
   }
 }
@@ -1642,7 +1590,6 @@ describe('0x6A steal from enemy (fight.c:5193)', () => {
 
   it('偷物成功 + items → battleDialogQueue 居中框"获得 物品名"', () => {
     const enemy = richEnemy({ stealItem: 42, stealItemCount: 2 })
-    // biome-ignore lint/suspicious/noExplicitAny: 最小 items
     const ctx = { ...stealCtx(enemy, fakeRng(3)), items: [{ id: 42, _name: '金创药' }] as any }
     dispatchBattleOpcode(0x6A, [5, 0, 0], ctx)
     expect(ctx.state.battleDialogQueue?.[0]).toMatchObject({ text: '获得@金创药@', style: 'narration' })
@@ -1697,7 +1644,6 @@ describe('D17b showDamageNum emit', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 100 })]
     const ctx: BattleCtx = {
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 state
       state: { enemies, players: [] } as any as BattleState,
       target: { type: 'enemy', idx: 0 },
       bus,
@@ -1716,7 +1662,6 @@ describe('D17b showDamageNum emit', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 20 })]
     const ctx: BattleCtx = {
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 state
       state: { enemies, players: [] } as any as BattleState,
       target: { type: 'enemy', idx: 0 },
       bus,
@@ -1731,7 +1676,6 @@ describe('D17b showDamageNum emit', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 100 }), richEnemy({ health: 80 })]
     const ctx: BattleCtx = {
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 state
       state: { enemies, players: [] } as any as BattleState,
       bus,
     }
@@ -1745,7 +1689,6 @@ describe('D17b showDamageNum emit', () => {
   it('0x21 不传 bus → 不 emit 不抛(防御)', () => {
     const enemies = [richEnemy({ health: 100 })]
     const ctx: BattleCtx = {
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 state(无 bus)
       state: { enemies, players: [] } as any as BattleState,
       target: { type: 'enemy', idx: 0 },
     }
@@ -1769,7 +1712,6 @@ describe('D17b showDamageNum emit', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 100 })]
     const ctx: BattleCtx = {
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 state
       state: { enemies, players: [] } as any as BattleState,
       target: { type: 'enemy', idx: 0 },
       bus,
@@ -1799,10 +1741,8 @@ describe('D17b showDamageNum emit', () => {
       state: {
         enemies: [],
         players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
-        // biome-ignore lint/suspicious/noExplicitAny: 最小 state
       } as any as BattleState,
       target: { type: 'player', idx: 0 },
-      // biome-ignore lint/suspicious/noExplicitAny: 只填 hp
       playerRoles: { roles: [{ id: 0, hp: 80 } as any] },
       bus,
     }
@@ -1818,10 +1758,8 @@ describe('D17b showDamageNum emit', () => {
       state: {
         enemies: [],
         players: [{ roleId: 0, prevHp: 0, prevMp: 0, defending: false, status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 } }],
-        // biome-ignore lint/suspicious/noExplicitAny: 最小 state
       } as any as BattleState,
       target: { type: 'player', idx: 0 },
-      // biome-ignore lint/suspicious/noExplicitAny: 只填 hp
       playerRoles: { roles: [{ id: 0, hp: 123 } as any] },
       bus,
     }
@@ -1835,7 +1773,6 @@ describe('D17b showDamageNum emit', () => {
     const bus = createCommandBus()
     const enemies = [richEnemy({ health: 77 })]
     const ctx: BattleCtx = {
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 state
       state: { enemies, players: [] } as any as BattleState,
       caster: { type: 'enemy', idx: 0 },
       bus,
@@ -1854,12 +1791,10 @@ describe('D17b showDamageNum emit', () => {
     const enemies = [richEnemy({ health: 77 })]
     const pendingDamageNums: Array<{ target: { kind: string; idx: number }; value: number; color: string }> = []
     const ctx = {
-      // biome-ignore lint/suspicious/noExplicitAny: 最小 state
       state: { enemies, players: [] } as any as BattleState,
       caster: { type: 'enemy', idx: 0 },
       bus,
       pendingDamageNums,
-      // biome-ignore lint/suspicious/noExplicitAny: 注入 pendingDamageNums
     } as any as BattleCtx
     dispatchBattleOpcode(0x60, [0xFFFF], ctx)
     expect(damageNums(bus)).toHaveLength(0) // 不即时 emit

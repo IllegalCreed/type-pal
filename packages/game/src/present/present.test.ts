@@ -72,7 +72,6 @@ describe('presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=ev
   function menuGs(mode: 'menu' | 'event') {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = mode
-    // biome-ignore lint/suspicious/noExplicitAny: 测试只需 menuStack 非空(drawMenuStack 被 mock,state 内容不参与)
     gs.menuStack = [{ kind: 'inventory', state: {} } as any]
     return gs
   }
@@ -81,7 +80,6 @@ describe('presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=ev
     const fb = createFramebuffer()
     const gs = menuGs('menu')
     const ctx = baseCtx()
-    // biome-ignore lint/suspicious/noExplicitAny: 仅需 truthy 让 menu 分支可达
     ctx.uiSpriteFrames = new Map() as any
     const spy = vi.spyOn(drawMenuModule, 'drawMenuStack').mockImplementation(() => {})
     presentFrame(fb, gs, ctx)
@@ -92,11 +90,9 @@ describe('presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=ev
     const fb = createFramebuffer()
     const gs = menuGs('event')
     // startOverworldItemScript 后:mode=event + eventCursor + scriptOnUse 对话,但 menuStack 仍在(为脚本跑完重显 picker)
-    // biome-ignore lint/suspicious/noExplicitAny: 测试桩 cursor
     gs.eventCursor = { ip: 0 } as any
     gs.dialogBox = startDialogLine('气血恢复．．', { style: 'bottom' })
     const ctx = baseCtx()
-    // biome-ignore lint/suspicious/noExplicitAny: 仅需 truthy
     ctx.uiSpriteFrames = new Map() as any
     const spy = vi.spyOn(drawMenuModule, 'drawMenuStack').mockImplementation(() => {})
     presentFrame(fb, gs, ctx)

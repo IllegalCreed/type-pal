@@ -105,7 +105,6 @@ describe.skipIf(!hasData)('S5 tileset blob 像素一致性(真实 GOP.MKF vs ext
 
       // 报告:tile 数 + 总像素数(便于人工核对规模)
       const totalPixels = truthFrames.reduce((s, f) => s + f.pixels.length, 0)
-      // biome-ignore lint/suspicious/noConsole: 测试诊断输出
       console.log(
         `[S5] mapNum=${mapNum}: ${truthFrames.length} tiles, ${totalPixels} pixels, 0 diff ✓`,
       )
@@ -114,7 +113,6 @@ describe.skipIf(!hasData)('S5 tileset blob 像素一致性(真实 GOP.MKF vs ext
 })
 
 if (!hasData) {
-  // biome-ignore lint/suspicious/noConsole: skip 提示
   console.warn(
     '[S5 skip] data/raw/GOP.MKF 或 data/extracted/data/tileset/ 缺失 —— 跑 `pnpm extract` 后启用',
   )

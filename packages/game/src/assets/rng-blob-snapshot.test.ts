@@ -73,6 +73,5 @@ describe.skipIf(!hasData)('RNG blob 真值对拍(raw RNG.MKF vs extracted .rle)'
 })
 
 if (!hasData) {
-  // biome-ignore lint/suspicious/noConsole: skip 提示
   console.warn('[rng-blob-snapshot skip] data/raw/RNG.MKF 或 data/extracted/data/animation 缺失')
 }

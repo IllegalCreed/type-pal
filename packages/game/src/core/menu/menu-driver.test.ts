@@ -514,7 +514,6 @@ describe('C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)', () => {
   function usableItem(id: number): Item {
     return {
       id, _name: '止血草', bitmap: 0, price: 0, scriptOnUse: 500, scriptOnEquip: 0, scriptOnThrow: 0, scriptDesc: 0,
-      // biome-ignore lint/suspicious/noExplicitAny: 只填本测用 flag
       flags: { usable: true, consuming: true, applyToAll: false, equipable: false, throwable: false, sellable: false, equipableBy: [false, false, false, false, false, false] } as any,
     } as unknown as Item
   }

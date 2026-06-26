@@ -185,7 +185,6 @@ describe('battleWonLevelUp —— D11 战斗胜利升级', () => {
     expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBe(2)
     // 投影到战斗 roles —— 下一场战斗用的是升级后属性(原架构裂缝:战斗永远用 1 级基线)
     const staticRoles = {
-      // biome-ignore lint/suspicious/noExplicitAny: 只需 id + 不可变字段占位
       roles: [{ id: 0, _name: 'r0', level: 1, attackStrength: 20, hp: 100, maxHP: 100, mp: 0, maxMP: 30, magicStrength: 15, defense: 0, dexterity: 0, fleeRate: 0, poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } } as any as PlayerRole],
     }
     const battleRoles = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles)

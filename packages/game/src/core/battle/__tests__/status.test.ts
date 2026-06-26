@@ -12,11 +12,9 @@ function makePlayerStatus(s: Partial<BattleState['players'][number]['status']>):
 function makeBattleState(opts: { sleep?: number; paralyzed?: number; enemyHealth?: number; enemySilence?: number }): BattleState {
   return {
     players: [
-      // biome-ignore lint/suspicious/noExplicitAny: minimal fixture
       { roleId: 0, prevHp: 100, prevMp: 30, defending: false, status: makePlayerStatus({ sleep: opts.sleep ?? 0, paralyzed: opts.paralyzed ?? 0 }) } as any,
     ],
     enemies: [
-      // biome-ignore lint/suspicious/noExplicitAny: minimal fixture
       { e: { health: opts.enemyHealth ?? 50 } as any, status: makePlayerStatus({ silence: opts.enemySilence ?? 0 }), prevHp: 50, scriptOnTurnStart: 0, scriptOnBattleEnd: 0, scriptOnReady: 0 } as any,
     ],
   } as unknown as BattleState
@@ -80,20 +78,15 @@ describe('B-w1.a status tick', () => {
     const owner1 = { status: makePlayerStatus({ sleep: 2 }) }
     const owner2 = { status: makePlayerStatus({ paralyzed: 1 }) }
     const owner3 = { status: makePlayerStatus({}) }
-    // biome-ignore lint/suspicious/noExplicitAny: minimal owner shape
     expect(canAct(owner1 as any)).toBe(false)
-    // biome-ignore lint/suspicious/noExplicitAny: minimal owner shape
     expect(canAct(owner2 as any)).toBe(false)
-    // biome-ignore lint/suspicious/noExplicitAny: minimal owner shape
     expect(canAct(owner3 as any)).toBe(true)
   })
 
   it('canCastMagic:silence>0 → false', () => {
     const owner1 = { status: makePlayerStatus({ silence: 2 }) }
     const owner2 = { status: makePlayerStatus({}) }
-    // biome-ignore lint/suspicious/noExplicitAny: minimal owner shape
     expect(canCastMagic(owner1 as any)).toBe(false)
-    // biome-ignore lint/suspicious/noExplicitAny: minimal owner shape
     expect(canCastMagic(owner2 as any)).toBe(true)
   })
 })

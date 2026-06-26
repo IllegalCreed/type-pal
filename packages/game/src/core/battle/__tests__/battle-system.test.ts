@@ -1934,7 +1934,6 @@ describe('战斗主菜单 4 图标 + 方向选(uibattle.c:1027-1080)', () => {
   it('R 跨战斗:gs.prevBattleActions 按 roleId 持久 + 下一场 startBattle 带入', () => {
     const ctx = bootstrap({ partyMembers: [0], roles: [makeRole({ id: 0 })] })
     // 模拟战斗1最后一回合已在填 actionQueue 前持久到 gs。
-    // biome-ignore lint/suspicious/noExplicitAny: 只填 action 核心字段
     ctx.gs.prevBattleActions = new Map([[0, { type: 'magic', actionId: 296, target: 0 } as any]])
     driveBattleToExplore(ctx.gs, ctx.bus) // 结束战斗1
     expect(ctx.gs.prevBattleActions?.get(0)?.actionId).toBe(296) // 战斗结束不清(持久跨场)
@@ -2876,7 +2875,6 @@ describe('throw-item action 派发(E2)', () => {
       enemies: [makeEnemy({ id: 100, health: 200, defense: 30, level: 5 })],
       roles: [makeRole({ id: 0, hp: 300, level: 5 })],
       items: [throwItem],
-      // biome-ignore lint/suspicious/noExplicitAny: 只填伤害字段
       magics: [{ id: 54, baseDamage: 140, elemental: 0, type: 'normal' } as any as Magic],
       objectMagics: [{ id: 349, magicNumber: 54, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }],
       commands,
@@ -2907,7 +2905,6 @@ describe('throw-item action 派发(E2)', () => {
       enemies: [makeEnemy({ id: 100, health: 300, defense: 30, level: 5 })],
       roles: [makeRole({ id: 0, hp: 300, level: 5, attackStrength: 30 })],
       items: [weapon],
-      // biome-ignore lint/suspicious/noExplicitAny: 只填伤害字段
       magics: [{ id: 53, baseDamage: 198, elemental: 0, type: 'normal' } as any as Magic],
       objectMagics: [{ id: 344, magicNumber: 53, scriptOnSuccess: 0, scriptOnUse: 0, flags: { usableOutsideBattle: false, usableInBattle: true, usableToEnemy: true, applyToAll: false } }],
       commands,
@@ -3090,7 +3087,6 @@ describe('throw-item action 派发(E2)', () => {
 // ============================================================================
 
 describe('selectAutoTargetFrom (fight.c:86-128)', () => {
-  // biome-ignore lint/suspicious/noExplicitAny: 只填 health
   const en = (health: number): BattleEnemy => ({ e: { health } as any } as BattleEnemy)
 
   it('目标敌人已死 → 从 begin 起找下一个活敌(环绕)', () => {

@@ -74,7 +74,6 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
     let ticks = 0
     const ctx = mkCtx(gs, () => {})
     const orig = ctx.input.nextSnapshot.bind(ctx.input)
-    // biome-ignore lint/suspicious/noExplicitAny: 测试 spy
     ;(ctx.input as any).nextSnapshot = (fn: number) => { ticks++; return orig(fn) }
     const state = { lastTickTime: 0, accumulator: 0 }
     advanceRafFrame(state, 1000, ctx) // dt=1000 = 10×interval → clamp 到 100 → 跑 1 tick(非 10)
@@ -110,7 +109,6 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
     expect(r1.ticked).toBe(false)
     expect(p1).not.toHaveBeenCalled()
     const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    // biome-ignore lint/suspicious/noExplicitAny: 只触发非 null 门控
     gs2.paletteFadeState = {} as any
     const p2 = vi.fn()
     advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, mkCtx(gs2, p2))
@@ -120,7 +118,6 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
   it('⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'battle'
-    // biome-ignore lint/suspicious/noExplicitAny: 门控只读 battleState.battleFade,最小 stub
     gs.battleState = { battleFade: { elapsedMs: 0 } } as any
     const present = vi.fn()
     // dt=10 < 40(battle interval)→ 无逻辑 tick;但 battleFade active → 仍须 present(否则淡出顿挫在 25fps)
@@ -134,7 +131,6 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
     let ticks = 0
     const ctx = mkCtx(gs, () => {})
     const orig = ctx.input.nextSnapshot.bind(ctx.input)
-    // biome-ignore lint/suspicious/noExplicitAny: 测试 spy
     ;(ctx.input as any).nextSnapshot = (fn: number) => { ticks++; return orig(fn) }
     const state = { lastTickTime: 0, accumulator: 0 }
     const r = advanceRafFrame(state, 1000, ctx, undefined, true) // dt=1000≥interval,但 frozen

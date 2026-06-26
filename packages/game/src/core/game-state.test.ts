@@ -555,7 +555,6 @@ function staticRole(id: number, over: Partial<PlayerRole> = {}): PlayerRole {
     attackStrength: 5, magicStrength: 5, defense: 5, dexterity: 5, fleeRate: 5,
     poisonResistance: 0, elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
     walkFrames: 0, attackSound: 0, weaponSound: 0, criticalSound: 0, magicSound: 0, deathSound: 0,
-    // biome-ignore lint/suspicious/noExplicitAny: 测试只填 PlayerRole 核心字段
     ...over,
   } as any as PlayerRole
 }
