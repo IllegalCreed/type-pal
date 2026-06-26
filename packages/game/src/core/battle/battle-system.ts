@@ -2374,9 +2374,11 @@ function tickPerformAction(
       for (const dn of a.pendingDamageNums ?? []) {
         bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
       }
-      // 时间线播完 → 复位双方 fighter(PAL_BattleUpdateFighters)+ 清动画。
-      resetFightersAfterAction(state, res.playerRoles)
       state.battleAnim = undefined
+      // UseItem 收尾顺序须对齐 sdlpal fight.c:4385-4406(ShowUseItemAnim → RunTriggerScript 回血/治疗
+      //   → … → PAL_BattleUpdateFighters):**先**跑脚本改 HP,**再**据新 HP 复位帧。旧顺序(先复位再回血)
+      //   下 resetFightersAfterAction 据回血前的濒死 HP 把吃药者 p.currentFrame 钉成濒死帧 1 —— present
+      //   在任何 battleAnim 活跃期(他人行动)读 p.currentFrame,致吃药者持续显示濒死姿直到本人再行动。
       if (afterComplete?.kind === 'perform-item') {
         performItem({
           state,
@@ -2392,8 +2394,10 @@ function tickPerformAction(
           commands: res.commands,
           runScript: getRunScript(gs),
         })
-        if (state.battleAnim) return
+        if (state.battleAnim) return // 道具脚本自身又起了动画 → 交给那条新动画收尾复位
       }
+      // 时间线播完 → 复位双方 fighter(PAL_BattleUpdateFighters);UseItem 时此刻 HP 已回满 → 站立帧。
+      resetFightersAfterAction(state, res.playerRoles)
       // D17:复位后检死敌(fight.c:889-893 fFade 检测在 action 收尾)→ 开淡出 hold。
       //   currentActionIndex **总是**推进(action 已完);淡出由顶层 tickBattleFade 暂停。
       checkEnemyDeaths(state, bus)

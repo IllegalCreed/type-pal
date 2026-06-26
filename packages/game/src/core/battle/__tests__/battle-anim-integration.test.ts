@@ -9,16 +9,18 @@
 
 import type {
   BattleField,
+  Command,
   Enemy,
   EnemyTeam,
   InputSnapshot,
+  Item,
   PlayerRole,
   PlayerRoles,
 } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
-import { startBattle, tickBattle } from '../battle-system.js'
+import { getBattleLiveRoles, startBattle, tickBattle } from '../battle-system.js'
 
 function makeRole(opts: Partial<PlayerRole> = {}): PlayerRole {
   return {
@@ -90,7 +92,9 @@ function makeEnemy(opts: Partial<Enemy> = {}): Enemy {
   }
 }
 
-function bootstrap(opts: { enemies?: Enemy[]; roles?: PlayerRole[] } = {}): {
+function bootstrap(
+  opts: { enemies?: Enemy[]; roles?: PlayerRole[]; items?: Item[]; commands?: Command[] } = {},
+): {
   gs: GameState
   bus: CommandBus
   emptyInput: InputSnapshot
@@ -115,10 +119,10 @@ function bootstrap(opts: { enemies?: Enemy[]; roles?: PlayerRole[] } = {}): {
     enemyTeams,
     battleFields: [field],
     playerRoles,
-    items: [],
+    items: opts.items ?? [],
     spells: [],
     magics: [],
-    commands: [{ op: 'end' }],
+    commands: opts.commands ?? [{ op: 'end' }],
     rngSeed: 42,
   })
   return {
@@ -223,5 +227,65 @@ describe('D17a 向后兼容 — 未建时间线的 action 即时推进', () => {
       bus.drain()
     }
     expect(gs.mode).toBe('explore') // won → finalize,没卡死
+  })
+})
+
+function makeHealItem(opts: Partial<Item> = {}): Item {
+  return {
+    id: 1,
+    _name: '回血药',
+    bitmap: 0,
+    price: 0,
+    scriptOnUse: 1, // commands[1] 起跑
+    scriptOnEquip: 0,
+    scriptOnThrow: 0,
+    scriptDesc: 0,
+    flags: {
+      usable: true,
+      equipable: false,
+      throwable: false,
+      consuming: true,
+      applyToAll: false,
+      sellable: true,
+      equipableBy: [false, false, false, false, false, false],
+    },
+    ...opts,
+  }
+}
+
+describe('濒死队员吃回血道具 — 收尾帧据回血后 HP 复位(对齐 sdlpal fight.c:4385-4406)', () => {
+  it('回满血后动画播完,该队员 currentFrame=站立帧 0(非残留濒死帧 1)', () => {
+    // maxHP=200 → 濒死阈值 min(100,floor(200/5)=40)=40;hp=10<40 濒死。dex 拉满保证先手,
+    // 第一条时间线即玩家吃药(避免敌人先手干扰)。enemy attackStrength=0 不致命。
+    const { gs, bus, emptyInput } = bootstrap({
+      roles: [makeRole({ id: 0, maxHP: 200, hp: 10, dexterity: 9999 })],
+      enemies: [makeEnemy({ id: 100, health: 99999, attackStrength: 0, dexterity: 1 })],
+      items: [makeHealItem()],
+      // ip1:0x1B 单体(op0=0)回血 9999 → clamp 回满 200
+      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x1b, operands: [0, 9999, 0] }, { op: 'end' }],
+    })
+    gs.inventory.push({ itemId: 1, count: 9 })
+    tickBattle(gs, emptyInput, bus) // preBattle → selectAction
+    gs.battleState!.pendingActions.set(0, { type: 'item', actionId: 1, target: 0, targetSide: 'player' })
+    tickBattle(gs, emptyInput, bus) // selectAction → performAction
+
+    // 推进到玩家吃药时间线建立
+    let safety = 50
+    while (safety-- > 0 && gs.battleState?.phase === 'performAction' && !gs.battleState.battleAnim) {
+      tickBattle(gs, emptyInput, bus)
+    }
+    expect(gs.battleState!.battleAnim, '吃药应建治疗时间线').toBeTruthy()
+
+    // 播完吃药时间线(收尾 performItem 回血 + 复位帧)
+    const s = gs.battleState!
+    let guard = 120
+    while (s.battleAnim && guard-- > 0) tickBattle(gs, emptyInput, bus)
+
+    // 回血确已生效(排除"脚本没跑"的假阴性)
+    expect(getBattleLiveRoles(gs)!.roles[0]!.hp).toBe(200)
+    // bug:收尾 resetFightersAfterAction 在 performItem(回血)之前跑 → 据旧 HP=10 把 currentFrame
+    //   钉成濒死帧 1;别人行动(battleAnim 活跃)时 present 读 p.currentFrame 显示濒死姿,直到自己再行动。
+    //   修复后顺序对齐 sdlpal(RunTriggerScript 回血 → UpdateFighters 复位)→ 据 HP=200 复位站立帧 0。
+    expect(gs.battleState!.players[0]!.currentFrame).toBe(0)
   })
 })
