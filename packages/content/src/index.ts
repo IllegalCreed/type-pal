@@ -10,6 +10,18 @@
 
 export type Facing = 'up' | 'down' | 'left' | 'right'
 
+/** 稳定文本 id;运行时按当前 locale 查表(D9)。 */
+export type TextId = string
+
+/** 对话颜色语义名;palette 映射在渲染层,内容层不出现魔法数。 */
+export type DialogColor = 'default' | 'cyan' | 'red' | 'redAlt' | 'yellow'
+
+/** 一段同色文本(parseRichText 产物,渲染中间表示,非内容字段)。 */
+export interface TextSpan {
+  text: string
+  color?: DialogColor
+}
+
 export interface Vec2 {
   x: number
   y: number
@@ -92,3 +104,5 @@ export const guijieMinjuScene: SceneDef = {
     },
   ],
 }
+
+export * from './rich-text.js'
