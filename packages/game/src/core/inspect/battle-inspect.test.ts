@@ -88,6 +88,29 @@ describe('battle-inspect(从 dev-panel 抽出,语义不变)', () => {
     expect(collectEnemyStatusReadouts(mk(551, 0), [], items)[0]!.attackEquivPoison).toBeNull() // rate=0 不触发
     expect(collectEnemyStatusReadouts(mk(0, 7), [], items)[0]!.attackEquivPoison).toBeNull() // 无道具
   })
+  it('collectEnemyStatusReadouts:灵葫值 collectValue(无字段→0;有则原样,供灵葫咒判定)', () => {
+    // 默认 fixture 敌无 collectValue → 0(灵葫咒收不掉)
+    expect(collectEnemyStatusReadouts(battleGs())[0]!.collectValue).toBe(0)
+    // 有灵葫值的敌人 → 原样读出(灵葫咒要求 ≠0 才收得掉,见 game-mechanics 紫金葫芦炼丹)
+    const gs = battleGs({
+      battleState: {
+        isBoss: false,
+        players: [{ roleId: 0, status: {} }],
+        enemies: [
+          {
+            e: {
+              id: 144, _name: '火神龙', health: 100, collectValue: 7,
+              elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+              stealItem: 0, stealItemCount: 0,
+            },
+            defeated: false, maxHealth: 100, prevHp: 100, status: {}, poisons: [], resistanceToSorcery: 0,
+          },
+        ],
+        field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      },
+    })
+    expect(collectEnemyStatusReadouts(gs)[0]!.collectValue).toBe(7)
+  })
   it('collectPartyStatusReadouts:名/来源/HP/抗性 + 结构化状态(纯中文名+类型)', () => {
     const r = collectPartyStatusReadouts(battleGs(), roles)
     expect(r[0]!.roleName).toBe('李逍遥')

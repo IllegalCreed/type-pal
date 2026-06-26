@@ -247,4 +247,43 @@ describe('tools-panel 框架', () => {
     expect(sel).not.toBeNull()
     expect(sel.querySelectorAll('option').length).toBe(21)
   })
+
+  it('战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)', () => {
+    const mkEnemy = (id: number, name: string, collectValue: number) => ({
+      e: {
+        id, _name: name, health: 100, level: 1, attackStrength: 1, magicStrength: 0, defense: 0,
+        dexterity: 1, fleeRate: 0, magic: 0, magicRate: 0, dualMove: 0, exp: 0, cash: 0, collectValue,
+        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        physicalResistance: 0, poisonResistance: 0, stealItem: 0, stealItemCount: 0,
+      },
+      defeated: false, maxHealth: 100, prevHp: 100, status: {}, poisons: [], resistanceToSorcery: 0,
+    })
+    const battleGs = {
+      // 战斗态仍保留 explore 字段(面板打开时默认先渲染「场景」tab,会读 party/camera/wNumScene)
+      mode: 'battle', partyMembers: [0], wCollectValue: 0, rgPlayerStatus: {}, rgPoisonStatus: {},
+      wNumScene: 1, party: { x: 0, y: 0, facing: 'down' }, camera: { x: 0, y: 0 }, menuStack: [], dialogHistory: [],
+      rgEquipmentEffect: [], Exp: { rgPrimaryExp: [{ wExp: 0 }] },
+      PlayerRolesRuntime: {
+        rgwLevel: [1], rgwHP: [10], rgwMaxHP: [10], rgwMP: [0], rgwMaxMP: [0],
+        rgwElementalResistance: [[0], [0], [0], [0], [0]], rgwPoisonResistance: [0],
+        rgwAttackStrength: [1], rgwMagicStrength: [0], rgwDefense: [0], rgwDexterity: [1], rgwFleeRate: [0],
+      },
+      battleState: {
+        isBoss: false, turn: 0, players: [{ roleId: 0, status: {} }],
+        enemies: [mkEnemy(144, '火神龙', 7), mkEnemy(1, '史莱姆', 0)],
+        field: { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      },
+    }
+    setupToolsPanel(
+      mkDeps({
+        getGs: () => battleGs as never,
+        getResources: () => ({ playerRoles: { roles: [{ id: 0, _name: '李逍遥' }] }, objectPoisons: [], items: [], levelUpExp: [] }) as never,
+      }),
+    )
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))
+    ;[...document.querySelectorAll('.tp-tab')].find((b) => b.textContent === '战斗')!.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    // 灵葫 chip(.s-collect):火神龙=7、史莱姆=无
+    const collectChips = [...document.querySelectorAll('.s-collect')].map((e) => e.textContent)
+    expect(collectChips).toEqual(['7', '无'])
+  })
 })

@@ -229,6 +229,11 @@ export interface EnemyStatusReadout {
   canSteal: boolean
   steal: string
   /**
+   * 灵葫值(`Enemy.collectValue`,sdlpal `e.wCollectValue`):灵葫咒收掉此敌时并入全局灵葫值供紫金葫芦炼丹。
+   * **灵葫值 = 0 → 灵葫咒永远收不掉**(残血也不行),所以面板显出来帮玩家判断灵葫咒可不可用。
+   */
+  collectValue: number
+  /**
    * 普攻附带等价道具(sdlpal fight.c:5139 wAttackEquivItem):敌普攻命中我方后按 `rate/10` 概率跑该道具
    * scriptOnUse(PAL 全 29 个为 0x29 单体毒)。`道具名#id（率 N/10）`;attackEquivItem 或 rate 任一为 0 → null(不显示)。
    */
@@ -365,6 +370,7 @@ export function collectEnemyStatusReadouts(
       statusEntries,
       canSteal,
       steal,
+      collectValue: e.collectValue ?? 0,
       attackEquivPoison,
     }
   })

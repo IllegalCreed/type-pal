@@ -142,7 +142,7 @@ export function injectToolsPanelStyles(): void {
 .tp-chip { display:inline-block; margin:0 8px 1px 0; font-family:ui-monospace,Menlo,monospace; font-size:12.5px; }
 .e-wind{color:#6fcf97} .e-thunder{color:#bb8fce} .e-water{color:#5dade2} .e-fire{color:#ec7063}
 .e-earth{color:#d4ac6e} .e-phys{color:#9aa6a8} .e-poison{color:#a3d977} .e-sorcery{color:#e3a3d6}
-.s-debuff{color:#e06c5a} .s-buff{color:#7fc88a} .s-poison{color:#b88fd6} .s-steal{color:#f0c674}
+.s-debuff{color:#e06c5a} .s-buff{color:#7fc88a} .s-poison{color:#b88fd6} .s-steal{color:#f0c674} .s-collect{color:#caa6e8}
 .tp-mm-wrap { display:flex; justify-content:center; margin:4px 0 9px; }
 .tp-minimap-canvas { border:1px solid var(--tp-border); border-radius:5px; background:#0d0b08; max-width:100%; }
 .tp-mm-legend { display:flex; gap:18px; justify-content:center; margin-bottom:12px;
@@ -447,6 +447,8 @@ function renderBattleTab(parent: HTMLElement, gs: GameState, res: PanelResources
     chipLine(u, '抗性', resistChips(e.resistances))
     chipLine(u, '状态', statusChips(e.statuses)) // 含中毒
     chipLine(u, '偷取', [{ text: e.steal, cls: 's-steal' }]) // 始终显示(可偷物/金钱 或「不可偷」)
+    // 灵葫值:>0 = 灵葫咒可收(秒掉时并入全局灵葫值供炼丹);=0 → 灵葫咒永远收不掉,显「无」提示。始终显示。
+    chipLine(u, '灵葫', [{ text: e.collectValue > 0 ? String(e.collectValue) : '无', cls: 's-collect' }])
     // 普攻毒:敌普攻命中按 rate/10 概率附该道具(全 0x29 单体毒)效果;无此机制(equiv 或 rate 为 0)→ null 不显示。
     // label 取 3 字(「普攻附毒」4 字会在 label 列换行)。
     if (e.attackEquivPoison) chipLine(u, '普攻毒', [{ text: e.attackEquivPoison, cls: 's-poison' }])
