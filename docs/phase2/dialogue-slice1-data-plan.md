@@ -518,12 +518,6 @@ git commit -m "feat(content): 鬼话台词迁 textId 引用 + zhLocale 填充(�
 
 先删 `packages/reforge/src/dialogue.ts` 里 Task 3 加的 thin wrapper(`currentLine`/`advance` 两个 `@deprecated` 函数及上方注释行)——下面 main.ts 改用新 API 后它们无人引用。
 
-**核对删净**(删完即跑,确保无残留引用):
-```bash
-grep -nE '\b(currentLine|advance)\b' packages/reforge/src/dialogue.ts packages/reforge/src/main.ts
-```
-Expected: **无输出**——dialogue.ts 的 wrapper 已删;main.ts 改用 `advancePage`,词边界 `\badvance\b` 不匹配 `advancePage` 故不出现。若有输出 = 仍有裸 `currentLine`/`advance` 残留,需清。
-
 `packages/reforge/src/main.ts` 第 1 行的 content import 改为(加 `lookupText`、`zhLocale`):
 
 ```ts
@@ -551,6 +545,14 @@ import { advancePage, type DialogueState, pageLines, startDialogue } from './dia
 ```ts
     if (activeDialogue) drawDialogueBox(pageLines(activeDialogue))
 ```
+
+**核对 wrapper 删净**(Step 1 删了 dialogue.ts 的 wrapper、本步把 main.ts 的调用也换完,此刻核对才准):
+```bash
+grep -nE '\b(currentLine|advance)\b' packages/reforge/src/dialogue.ts packages/reforge/src/main.ts
+```
+Expected: **无输出**——dialogue.ts 的 wrapper 已删(Step 1),main.ts 的调用已换成 `advancePage`/`pageLines`(本步);词边界 `\badvance\b` 不匹配 `advancePage` 故不出现。若有输出 = 仍有裸 `currentLine`/`advance` 残留(可能漏改某处调用),需清。
+
+> 时机:此核对必须放在 Step 2 末尾,不能放 Step 1——Step 1 只改了 import 和 dialogue.ts,main.ts 函数体里的 `advance()`/`currentLine()` 调用要等本步才替换,提前核对必然有输出。
 
 - [ ] **Step 3: 改 drawDialogueBox 成多行 + 查 locale**
 
