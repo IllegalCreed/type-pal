@@ -22,7 +22,7 @@
 | 字模 | 原版字模（FONT.MKF） | ❌ 系统字体 | 高 |
 | 光标图标 | DATA chunk 12，3 形态(0默认/1`)`/2`(`)，画**当前行末尾**非右下角 | ❌ 右上角"继续"文字 | 高 |
 | 光标闪烁 | palette 0xF9-0xFE 每 100ms 轮转（icon 常显） | ❌ 无 | 中 |
-| 逐字符打字 | iDelayTime*8 ms/字，`$NN` 变速 | ❌ 无（整行显） | 中 |
+| 逐字符打字 | iDelayTime*8 ms/字（**默认 iDelayTime=3 → 24ms/字，约 42 字/秒**），`$NN` 变速 | ❌ 无（整行瞬显） | **高（详见下）** |
 | 控制符 | `"`黄/`-`青/`'``@`红/`~NN`尾停顿/`\`转义 | ❌ 无 | 中 |
 | 4 style | top/center/bottom/narration | ❌ 仅一种 | 低（切片1先用bottom） |
 | 自动播放 | `~NN` 收尾 = 自动延时推进，无光标 | ❌ 无 | 低（DLC-01鬼话可不用） |
@@ -86,6 +86,43 @@ reforge 需要从原版 MKF 加载这几类资产（第一阶段 `packages/game/
   末字 0xff1a(：) / 0x2236(∶) / 0x3a(:) → 姓名牌
   仅首行 + 非 center style 才当姓名
 ```
+
+### ⚠️ 打字速度查证（2026-06-26，作者反馈"第一阶段比原版慢"）
+
+**作者感觉是对的。查证结果：**
+
+| 引擎 | 打字表现 | 根因 |
+|---|---|---|
+| **原版 sdlpal** | **24ms/字，流畅逐字**（iDelayTime=3 × 8） | 真值（text.c:885/1600） |
+| 第一阶段 game | 算法 revealAt 24ms/字**数值对**，但 tickDialog 每帧 100ms 才调度一次 → **每 100ms 蹦出 ~4 字，成块卡顿** | 10fps 采样率（`FRAME_MS_EXPLORE=100`）太低，把流畅逐字打成 4 字一跳 |
+| reforge | **整行瞬显，无打字** | dialogue.ts 没有 typing 状态，advance() 直接给整行 |
+
+**关键数字：**
+- 原版打字 = **24ms/字**（不是 spec 之前误写的 100ms/字 —— 那是 tick 间隔，被误当成每字间隔）
+- 流畅逐字需要 **≥40fps 采样**（24ms/字 → 每字一帧需 ~42fps）
+- 游戏逻辑主循环 = **10fps**（探索模式，卡顿感是设计）
+
+**新引擎的正确做法（reforge 必须照此，避免重蹈第一阶段覆辙）：**
+
+> **打字动画的时钟必须和逻辑主循环解耦。**
+
+sdlpal 原版就是独立的 `UTIL_Delay(iDelayTime*8)` 阻塞延时（高频），不挂在 10fps 游戏循环上。新引擎应该：
+
+- **渲染层**（present）跑高频（60fps），独立推进"已显示字符数"的视觉进度
+- **逻辑层**（core 10fps）只管"对话状态机推进"（start/advance/page/end）
+- 打字进度 = `now() - lineStartMs` / `24ms`，**不依赖 tick 帧数**
+
+伪代码：
+```ts
+// 渲染层每帧（60fps）算一次，不进 tick
+const elapsed = performance.now() - state.lineStartMs
+const charsShown = Math.floor(elapsed / 24)  // 24ms/字
+// 渲染 text.slice(0, charsShown)
+```
+
+**这正是 backlog 议题 14 的精神**：对话是状态（core 10fps），打字是演出（present 高频），两者隔离 → 既保留 10fps 的探索卡顿感，又有流畅逐字。第一阶段的 bug 根因就是把打字塞进了 10fps tick。
+
+**对切片 1 的指引**：dialogue.ts 加 `lineStartMs` 字段；渲染层用 `performance.now()` 算 charsShown；逻辑层 advance() 不变。验收时打字应是流畅逐字，不再是 4 字一跳。
 
 ### 4. content 数据扩展
 
