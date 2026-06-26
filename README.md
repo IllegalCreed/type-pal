@@ -8,18 +8,29 @@
 [`reference/sdlpal/`](reference/sdlpal/) 作为行为规格,在 TypeScript 里重建资源提取、
 事件脚本、场景、战斗、菜单、存档、音频和演出系统。
 
-- **忠实移植优先**:第一目标是在网页里尽量还原原版行为、时序和数据语义。
+- **忠实移植优先(第一阶段)**:在网页里尽量还原原版行为、时序和数据语义。
 - **参考而非 fork**:sdlpal C 源只作为真值参考;运行时代码是 TS 原生实现。
 - **个人自用**:项目不提供原版数据,也不面向公开发布。
 
-## 当前状态(2026-06-16)
+## 两个阶段
+
+项目分两套世界观,**严禁混用**(详见根 [`CLAUDE.md`](CLAUDE.md) 顶部的判断流程):
+
+- **第一阶段 · 忠实还原(项目主体,已上线 v1.0.0)** —— 以 sdlpal / 原版为真值,在 TS 里逐系统复刻原版。本 README 下文(状态表、移植原则)讲的都是这一阶段。
+- **第二阶段 · Reforge 重制(早期、活跃)** —— 全新引擎 + 内容编辑器 + 自有内容,**不对齐旧引擎 / 原版行为,架构优先**;第一阶段的「真值锚 / 双引擎对照」方法论在此**整体作废**。当前在第一刀:[`packages/reforge`](packages/reforge/) 的 Canvas 2D「鬼界民居」demo。开工铁律见 [`docs/phase2/READ-FIRST.md`](docs/phase2/READ-FIRST.md),总纲见 [`docs/phase2/00-roadmap.md`](docs/phase2/00-roadmap.md)。
+- **第三阶段 · MMO + 深度玩法** —— 远期设想,暂存 [`docs/phase3/`](docs/phase3/),当前不碰。
+
+> 拿不准当前在做哪一阶段时,先按改动落在 `reforge` / `content` / `docs/phase2` 还是 `game` 判断,或回 `CLAUDE.md` 顶部。
+
+## 第一阶段当前状态(2026-06-27)
 
 核心系统已经整体落地,当前重心是**对照 sdlpal 源码和真实游戏表现做保真收口**。README
 只写导航和快照;具体完成度以 `docs/` 里的真值表为准。
 
-游戏本体之外还有两个玩家向外围系统:**生产工具面板**(左上悬浮、非模态,4 tab——战斗只读
-信息 / 场景小地图 / 系统设置含快存快读、音量、分辨率、5 存档位各自导入导出 / 历史对话),以及
-**离线预缓存**(生产环境注册 Service Worker,两段加载进度 + 可玩门,首次加载后可离线游玩)。
+游戏本体之外还有两个玩家向外围系统:**生产工具面板**(左上悬浮、非模态,6 tab——战斗只读
+信息 / 场景小地图 / 系统设置(快存快读、音量、分辨率、5 存档位各自导入导出) / 历史对话 /
+速通计时器 / 快捷键速查),以及 **离线预缓存**(生产环境注册 Service Worker,两段加载进度 +
+可玩门,首次加载后可离线游玩)。
 
 权威状态表:
 
@@ -76,9 +87,10 @@ pnpm lint           # biome check,不包含在 pnpm check 中
 pnpm format         # biome format --write .
 pnpm extract        # 从 data/raw/ 重新生成 data/extracted/
 
-pnpm --filter @type-pal/game dev
+pnpm --filter @type-pal/game dev      # 第一阶段:浏览器运行时
 pnpm --filter @type-pal/game build
 pnpm --filter @type-pal/game e2e
+pnpm --filter @type-pal/reforge dev   # 第二阶段:Reforge 新引擎 demo
 
 pnpm --filter @type-pal/game exec vitest run src/core/battle/__tests__/battle-system.test.ts
 pnpm --filter @type-pal/game exec vitest run -t "test case name"
@@ -97,17 +109,20 @@ bash scripts/extract-battle-baseline.sh
 
 ## 包结构
 
-| 包 | 作用 |
-|---|---|
-| [`packages/shared`](packages/shared/) | 共享类型和数据结构:资源、事件命令、输入、数据表等。 |
-| [`packages/pal-extract`](packages/pal-extract/) | 资源提取 CLI:把原版 MKF / 文本 / 音频 / 视频转换成 JSON、PNG、WAV/OGG/MP4 等网页资源。 |
-| [`packages/game`](packages/game/) | Vite 浏览器运行时:场景、战斗、事件 VM、菜单、存档、音频、演出、canvas 表现层,以及工具面板和离线预缓存(Service Worker)。 |
+| 包 | 阶段 | 作用 |
+|---|---|---|
+| [`packages/shared`](packages/shared/) | 一 | 共享类型和数据结构:资源、事件命令、输入、数据表等。 |
+| [`packages/pal-extract`](packages/pal-extract/) | 一 | 资源提取 CLI:把原版 MKF / 文本 / 音频 / 视频转换成 JSON、PNG、WAV/OGG/MP4 等网页资源。 |
+| [`packages/game`](packages/game/) | 一 | Vite 浏览器运行时:场景、战斗、事件 VM、菜单、存档、音频、演出、canvas 表现层,以及工具面板和离线预缓存(Service Worker)。 |
+| [`packages/reforge`](packages/reforge/) | 二 | Reforge 新引擎(Canvas 2D,全新重写);当前是切片 1「鬼界民居」demo(移动 / 碰撞 / 对话)。 |
+| [`packages/content`](packages/content/) | 二 | 第二阶段自有内容数据(早期,雏形)。 |
 
 关键目录:
 
 | 路径 | 内容 |
 |---|---|
-| [`docs/`](docs/) | 架构、决策、测试策略、状态表和历史计划。新读者从这里开始。 |
+| [`docs/`](docs/) | 第一阶段架构、决策、测试策略、状态表(和 [`engineering-notes.md`](docs/engineering-notes.md) 踩坑沉淀)。新读者从这里开始。 |
+| [`docs/phase2/`](docs/phase2/) | 第二阶段(Reforge)文档:铁律、路线图、内容 schema、切片 spec。 |
 | [`docs/plans/`](docs/plans/) | 历史里程碑、审计报告和实施计划;现状需回到状态表核实。 |
 | [`reference/sdlpal/`](reference/sdlpal/) | sdlpal 源码副本,作为行为、公式、数据格式和时序的规格来源。 |
 | [`data/raw/`](data/raw/) | 原版数据输入目录,不入库。 |
