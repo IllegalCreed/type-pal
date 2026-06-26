@@ -35,6 +35,16 @@
   },
   "overrides": [
     {
+      "includes": ["packages/reforge/**", "packages/content/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noNonNullAssertion": "error"
+          }
+        }
+      }
+    },
+    {
       "includes": ["**/*.test.ts", "**/*.spec.ts"],
       "linter": {
         "rules": {

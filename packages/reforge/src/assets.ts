@@ -3,7 +3,7 @@
  * 解码逻辑复用 @type-pal/shared（parseSpriteChunk + 类型）；decompressGzip 端口自
  * game/assets/tileset-blob.ts（小而通用，不依赖 game 内部）。
  */
-import { parseSpriteChunk, type Palette, type RleFrame, type Tilemap } from '@type-pal/shared'
+import { type Palette, parseSpriteChunk, type RleFrame, type Tilemap } from '@type-pal/shared'
 
 const BASE = '/extracted'
 
@@ -28,7 +28,9 @@ export async function loadTileset(mapNum: number): Promise<Map<number, RleFrame>
   const bytes = await decompressGzip(await res.blob())
   const frames = parseSpriteChunk(bytes)
   const map = new Map<number, RleFrame>()
-  frames.forEach((f, i) => map.set(i, f))
+  frames.forEach((f, i) => {
+    map.set(i, f)
+  })
   return map
 }
 
@@ -60,9 +62,12 @@ export async function decompressGzip(blob: Blob): Promise<Uint8Array> {
   const buf = await blob.arrayBuffer()
   const bytes = new Uint8Array(buf)
   if (bytes.length < 2 || bytes[0] !== 0x1f || bytes[1] !== 0x8b) return bytes
-  if (typeof DecompressionStream === 'undefined') throw new Error('reforge: DecompressionStream 不可用')
+  if (typeof DecompressionStream === 'undefined')
+    throw new Error('reforge: DecompressionStream 不可用')
   const ds = new DecompressionStream('gzip')
-  const reader = new Response(buf).body!.pipeThrough(ds).getReader()
+  const body = new Response(buf).body
+  if (!body) throw new Error('reforge: response body 为空')
+  const reader = body.pipeThrough(ds).getReader()
   const chunks: Uint8Array[] = []
   let total = 0
   for (;;) {

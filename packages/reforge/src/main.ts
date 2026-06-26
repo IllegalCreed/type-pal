@@ -34,8 +34,21 @@ const WALK_STEP: Record<Facing, { dx: number; dy: number }> = {
   right: { dx: 16, dy: 8 },
 }
 
+function get2dContext(c: HTMLCanvasElement): CanvasRenderingContext2D {
+  const context = c.getContext('2d')
+  if (!context) throw new Error('reforge: 2d context 不可用')
+  return context
+}
+
+/** 取数组首元素,空则抛——让类型非空(闭包内可用,替代 entities[0]! 断言)。 */
+function requireFirst<T>(arr: readonly T[], what: string): T {
+  const v = arr[0]
+  if (!v) throw new Error(`reforge: ${what}`)
+  return v
+}
+
 const canvas = document.getElementById('screen') as HTMLCanvasElement
-const ctx = canvas.getContext('2d')!
+const ctx = get2dContext(canvas)
 
 const mapNum = guijieMinjuScene.map.reuseOriginalMap // 56
 
@@ -82,7 +95,7 @@ async function main(): Promise<void> {
 
   // 精灵：李逍遥 = 原版 spriteNum 2；鬼 = 占位 sprite 16（原版一老者，比箱子像样；鬼气化留后续 polish）。
   const [playerSprite, ghostSprite] = await Promise.all([loadSprite(2), loadSprite(16)])
-  const ghost = guijieMinjuScene.entities[0]!
+  const ghost = requireFirst(guijieMinjuScene.entities, '场景缺少鬼实体')
   const player = { pos: { ...guijieMinjuScene.entry.pos } }
   let activeDialogue: DialogueState | null = null
   let facing: Facing = guijieMinjuScene.entry.facing
@@ -301,13 +314,13 @@ async function renderSpriteGallery(palette: Palette): Promise<void> {
     ctx.font = '10px monospace'
     ctx.fillText(String(id), col * CELL + 4, rowI * CELL + 12)
     const f = sp?.frames[0]
-    if (f)
+    if (sp && f)
       renderer.drawSprite(
         f,
         col * CELL + CELL / 2,
         rowI * CELL + CELL - 14,
-        sp!.anchorX,
-        sp!.anchorY,
+        sp.anchorX,
+        sp.anchorY,
         { x: 0, y: 0 },
       )
   }

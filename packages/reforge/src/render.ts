@@ -27,16 +27,17 @@ function bakeFrame(frame: RleFrame, palette: Palette): HTMLCanvasElement {
   const cvs = document.createElement('canvas')
   cvs.width = width
   cvs.height = height
-  const ctx = cvs.getContext('2d')!
+  const ctx = cvs.getContext('2d')
+  if (!ctx) throw new Error('reforge: 2d context 不可用')
   const img = ctx.createImageData(width, height)
   const colors = palette.colors
   const n = width * height
   for (let i = 0; i < n; i++) {
-    const c = colors[pixels[i]!] ?? [0, 0, 0]
+    const c = colors[pixels[i] ?? 0] ?? [0, 0, 0]
     const o = i * 4
-    img.data[o] = c[0]!
-    img.data[o + 1] = c[1]!
-    img.data[o + 2] = c[2]!
+    img.data[o] = c[0] ?? 0
+    img.data[o + 1] = c[1] ?? 0
+    img.data[o + 2] = c[2] ?? 0
     img.data[o + 3] = opaque[i] ? 255 : 0
   }
   ctx.putImageData(img, 0, 0)
@@ -73,7 +74,14 @@ export interface Renderer {
   clear(): void
   /** 一帧场景：基底两层 + 精灵/cover-tile 按 baseY 深度排序（遮挡）。 */
   renderScene(map: Tilemap, view: CellRect, camera: Camera, sprites: readonly SpriteDraw[]): void
-  drawSprite(frame: RleFrame, worldX: number, worldY: number, anchorX: number, anchorY: number, camera: Camera): void
+  drawSprite(
+    frame: RleFrame,
+    worldX: number,
+    worldY: number,
+    anchorX: number,
+    anchorY: number,
+    camera: Camera,
+  ): void
 }
 
 export class Canvas2DRenderer implements Renderer {
@@ -128,9 +136,11 @@ export class Canvas2DRenderer implements Renderer {
     for (let layer = 0; layer <= 1; layer++) {
       const id = layer === 0 ? tileIdLayer0 : tileIdLayer1
       for (let r = r0; r < r1; r++) {
-        const row = map.cells[r]!
+        const row = map.cells[r]
+        if (!row) continue
         for (let c = c0; c < c1; c++) {
-          const cell = row[c]!
+          const cell = row[c]
+          if (!cell) continue
           const loId = id(cell.lower)
           if (loId >= 0) this.blit(loId, c * TILE_W - HALF_W + ox, r * TILE_H - SUBROW + oy)
           const upId = id(cell.upper)
@@ -238,6 +248,10 @@ export class Canvas2DRenderer implements Renderer {
     camera: Camera,
   ): void {
     const b = this.bake(frame)
-    this.ctx.drawImage(b, Math.round(worldX - anchorX - camera.x), Math.round(worldY - anchorY - camera.y))
+    this.ctx.drawImage(
+      b,
+      Math.round(worldX - anchorX - camera.x),
+      Math.round(worldY - anchorY - camera.y),
+    )
   }
 }
