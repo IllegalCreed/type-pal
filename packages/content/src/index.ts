@@ -106,3 +106,4 @@ export const guijieMinjuScene: SceneDef = {
 }
 
 export * from './rich-text.js'
+export * from './locale.js'
