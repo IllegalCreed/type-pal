@@ -99,12 +99,13 @@ export const guijieMinjuScene: SceneDef = {
   dialogues: [
     {
       id: 'ghost-hearsay',
+      // text/speaker = textId;实际文本在 zhLocale(locale.ts)。原版「末尾冒号」姓名 → speaker 字段。
       lines: [
-        { speaker: '游魂', text: '……活人气味……这地方，可不该有活人啊……' },
-        { speaker: '游魂', text: '南边……来过个使刀的侠客……听说，是个仗义的……' },
-        { speaker: '游魂', text: '咳，名字？谁还记得名字。鬼啊，只记得自己怎么死的。' },
-        { speaker: '游魂', text: '你问那侠客？……我也是听旁的鬼念叨来的……做不得准……' },
-        { text: '（李逍遥心头一动：南边……使刀的侠客……）' },
+        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.0' },
+        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.1' },
+        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.2' },
+        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.3' },
+        { text: 'dlg.ghost-hearsay.4' }, // 旁白,无 speaker
       ],
     },
   ],
