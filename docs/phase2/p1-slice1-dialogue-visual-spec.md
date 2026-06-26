@@ -130,24 +130,64 @@ const charsShown = Math.floor(elapsed / 24)  // 24ms/字
 
 **sdlpal 真值**（text.c:1616）：打字中按 Confirm → `fUserSkip=TRUE` → 当前行瞬显 + **同段后续行也瞬显**（fUserSkip 跨行持续）→ 玩家按一下整段全过，行间不等键。
 
-**第一阶段的 bug**（event-system.ts:1757-1827，代码实证）：
-```
-按 Confirm 跳字 → skip-typing → return（1763）           // 本 tick 停
-下一 tick → line-done + lineDoneRenderPending=true        // 1820 分支
-        → return（1822）                                   // 又停一 tick！
-再下一 tick → 才 ip++ 推进                                 // 1825
-```
-即每次跳字后，引擎硬塞了一个 `lineDoneRenderPending` 中间态（注释说是为修"梦境快按 Space 只出 1 行"的渲染问题）。副作用：**每个行间转换多耗一个 tick（100ms）**，且连续按键节奏没对上时按键被吞（1828-1830 return）→ "按一下卡一下，要按很多遍"。
+**第一阶段的 bug**（2026-06-26 二次实证，逐行核对 event-system.ts:1714-1831 + dialog-box.ts:512-528 + input.ts:95-102）。
 
-**典型"修一个 bug 引入另一个"**：`lineDoneRenderPending` 修渲染问题，却拖慢了所有行间转换。
+> ⚠️ 本节修正了 1db604b 那版的实证偏差：旧版画的 `lineDoneRenderPending=true → return(1822)` 路径**只对 `~` 尾行成立**（`tickDialog:484` 仅 `currentLineEndedWithTilde` 才设该 flag）。普通行根本不经过 1822。真实根因是两个**独立叠加**的机制，下面分述。
 
-**reforge 必须避开这个坑**：
-- dialogue.ts 当前是纯状态机、**没有 `lineDoneRenderPending` 这种隐式等待态**——保持这个设计。
-- 接对话进主循环时，**绝不为"修渲染"往状态机塞等待态**。渲染问题在渲染层解（确保满行帧被画出），不在逻辑层堵。
-- fUserFlag 语义要忠实 sdlpal：跳字后**跨行持续瞬显**，直到翻页/段末才复位。这是"按一下全显"的根。
-- 验收：按一下 Confirm → 整段（当前页所有行）瞬显，不再每行卡一下。
+**根因一句话**：sdlpal 的 fUserSkip 是「**同步阻塞调用栈内的一次性连锁瞬显**」；第一阶段把 `PAL_ShowDialogText` 异步化成 10fps tick 状态机后，「一次按键」被 `pressed.clear()` 切成单 tick 边沿，且每个行间转换被 `skip-typing → return` 强行拆成独立 tick（各 100ms），于是「按一下全显」退化成「按一下过一行，且按键容易对不上 tick 被吞」。
+
+**机制 A — 每个行间转换至少多耗 1 tick（100ms）**（主因）
+
+普通行（非 `~`）跳字路径 —— `confirmDialog`（dialog-box.ts:527）走 `phase='line-done'` 且**不**设 `lineDoneRenderPending`：
+```
+Tick N   按 Confirm → confirmDialog 'skip-typing'(1763) → userSkip=true, phase=line-done, return
+Tick N+1 line-done → 1820 lineDoneRenderPending? 否 → 1824 ip++ → 跑下一条 showDialog
+Tick N+2 下一行 appendDialogLine(userSkip=true → 瞬显 dialog-box.ts:364-368, phase=line-done) → return
+Tick N+3 又 ip++ ...
+```
+每行额外耗 1 tick = 100ms。一段 4 行 ≈ 300ms 卡顿。
+
+**机制 B — 连续按键被「单 tick 边沿」吞掉**（"要按很多遍"的直接原因）
+
+`input.ts:102 nextSnapshot` 取完 snapshot 立刻 `this.pressed.clear()` → `pressed` 是**单 tick 边沿事件**，一个物理 keydown 只在**一个** logic tick 的 snapshot 里出现。配合 event-system.ts:1748-1750 的相位判定：
+```ts
+const dialogKey = ds.phase === 'typing'
+  ? (input.pressed.has('Confirm') || input.pressed.has('Menu'))  // typing 只认 Confirm/Menu
+  : input.pressed.size > 0                                         // line-done/wait 任意键
+```
+玩家在 Tick N（typing）按 Confirm → 跳字 → return；Tick N+1 此时 `phase=line-done`，玩家若**没在精确这一 tick 再按一次**（人手无法卡 100ms 窗口）→ `dialogKey=false` → 走 1824 自动 ip++。**第一次按键已在 Tick N 被 `pressed.clear()` 消费，不会延续到 N+1。** sdlpal 里这整段是一次同步栈，`dwKeyPress` 在栈内持续有效到函数返回 —— 没有 tick、没有 `pressed.clear()`、没有「按键窗口」。
+
+**`~` 尾行特例**（比文档旧版说的还卡）：`tickDialog:484` 对 `currentLineEndedWithTilde` 设 `lineDoneRenderPending=true` → 1820-1822 命中 → **额外再 return 一 tick**。即 `~` 尾行行间转换 = 2 个 tick（200ms）。
+
+**reforge 必须避开这两个坑**：
+- dialogue.ts 当前是纯状态机、**没有 `lineDoneRenderPending` 这种隐式等待态**——保持这个设计。绝不为「修渲染」往状态机塞等待态（渲染问题在渲染层解：确保满行帧被画出，不在逻辑层堵）。
+- **fUserSkip 跨行持续语义要忠实 sdlpal**：跳字后同段后续行全部瞬显，直到翻页 / `~` 段末 / 新对话才复位（text.c:1447/1553/1607/1815 四个复位点）。这是"按一下全显"的根。
+- **关键：一次按键的"连锁瞬显"必须在同一逻辑步内完成**，不能拆成多个 tick 各自等下一次按键。reforge 应让 advance/advanceAll 在**一次 core tick** 内把「当前页所有未显行」一次性设为瞬显 + 全部入页，而不是每行一个 tick。
+- 输入消费要忠实 sdlpal 的 `dwKeyPress`（栈内持续），不要照搬第一阶段的 `pressed.clear()` 单 tick 边沿 + 相位分拆 —— 否则"按一下"必然退化成"按一下过一行"。
+- 验收：按一下 Confirm → 整段（当前页所有行）**同帧**瞬显，不再每行卡一下、不要求多次按键。
 
 **这两个 bug 的关系**：打字卡顿（渲染层 10fps）+ 按键要多次（逻辑层等待态）是**独立**的两个问题，原版都没问题所以"丝滑+按一下全显"，第一阶段两个都中招所以"又卡又要按很多遍"。reforge 要两个都做对。
+
+### Bug3:`~NN` 尾行按 Confirm 卡死 / 无限重播（2026-06-26 修，dialog-box.ts + event-system.ts）
+
+**现象**（用户实测，梦境开场第一句 `$10李～逍～遥，李～逍～遥！~30`）：打字中途按回车/空格跳字后，**不停按就永远卡在这句**，第二句出不来；观感像"台词无限重播"。
+
+**sdlpal 真值**（text.c:1546-1554）：`~NN` 尾停顿是**固定时长同步阻塞** `UTIL_Delay(NN*80/7)` ——
+- fUserSkip 已瞬显的字，到这里 `VIDEO_UpdateScreen` 刷一帧，然后**无条件等 ~NN**；
+- 这个 delay 是同步阻塞，玩家在阻塞期间按的键只是「穿透」进 `dwKeyPress`、delay 照常走完 —— **不可重置、不可加速**；
+- delay 结束后 `nCurrentDialogLine=-1; fUserSkip=FALSE; return`（:1552-1554）。
+
+**根因（两层，都和 Bug1 wall-clock 修复 bdf6878 的副作用相关）**：
+
+1. **跳字后卡到完整 doneAt**（Bug3，dialog-box.ts confirmDialog）：Bug1 把 `tickDialog` 打字推进改成 wall-clock（`elapsed = now - lineStartMs`），但 confirmDialog 的 `~` 跳字快进仍只改 `typingFrames`（tick 驱动）。跳字后 tickDialog 仍按 `lineStartMs`（行起始）算 elapsed → 必须**真实墙钟**走到 doneAt（含已消耗的打字时间）才推进 → 跳字后还要等 1.7s（梦境那句）。
+2. **反复按 Confirm 无限重置尾停顿**（Bug3-2）：Bug3 最初的修法是跳字时 `lineStartMs = now - lastReveal`（假装此刻末字刚打完）。但玩家反复按时，confirmDialog 每 tick 都执行这条 → lineStartMs 跟着 nowMs 涨 → elapsed 永远 ≈ lastReveal → **永远到不了 doneAt** → 尾停顿被无限重置。
+
+**修法**（对齐 sdlpal，dialog-box.ts confirmDialog）：
+- confirmDialog 加 `now?: number` 参数（wall-clock，event-system/battle 传 `gs.nowMs`；缺省回退旧 tick 驱动供 battle）。
+- `~` 尾行**首次**跳字：`lineStartMs = now - lastReveal`（假装此刻末字刚打完）→ 后续 tickDialog 算 `elapsed = (now2 - now) + lastReveal`，当 `now2 - now >= ~NN` 时 line-done。即**跳字后只等尾停顿**，忠实 sdlpal。
+- `~` 尾行字已全显（`charsRevealed >= len`，已进入尾停顿等待）后再按 Confirm → **`return 'noop'`**（不重设 lineStartMs）→ 尾停顿不被无限重置，墙钟自然走到结束。
+
+**验收**：`~30` 台词打字中途反复按 Confirm → 700ms 内推进到下一句（旧 1.7s / 无限卡死），不再"重播"。反复按无效（noop），忠实 sdlpal 同步阻塞语义。
 
 ### 4. content 数据扩展
 

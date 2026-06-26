@@ -1753,14 +1753,18 @@ export function tickEventSystem(
         const keptDialog = pendingStyleToKeep && hasVisibleDialogContent(ds) && isVerticalDialogSwap(ds.style, pendingStyleToKeep)
           ? cloneDialogBoxForKeep(ds)
           : undefined
-        const result = confirmDialog(ds)
+        const result = confirmDialog(ds, gs.nowMs) // Bug3:传 wall-clock,`~` 跳字对齐 sdlpal text.c:1551
         if (result === 'skip-typing') {
-          // sdlpal PAL_ShowDialogText fUserSkip 真值(text.c:1616):Space 跳字后整行**先显示+渲染**
-          // (VIDEO_UpdateScreen)才返回脚本继续。我们 tick 模型:本 tick 把整行设满后 **return**,
-          // 让 presentFrame 渲染满行一帧;**下一 tick** 才走 line-done 自动推进。
-          // 否则若下条 opcode 是 loadScene(渐变)/ fadeScreen 等渲染门,满行那帧没机会画 → 玩家只看到
-          // 上一帧(本行 0 字 / 上一行)就进渐变(2026-05-29 梦境快按 Space 只出 1 行的根因)。
-          return
+          // Bug2 fix(2026-06-26):sdlpal PAL_ShowDialogText 是**同步阻塞**(text.c:1616 + script.c:3463-3464)
+          //   ——按 kKeySearch|kKeyMenu 置 fUserSkip=TRUE(text.c:1607)后剩余字符瞬显、函数同步返回、
+          //   wScriptEntry++ **同帧**到下一行,fUserSkip 跨行持续 → 同段后续行全部瞬显,直到翻页(text.c:1447)/
+          //   `~`(1553)/段末/end(1815)复位。玩家体验:"按一下整段全过",行间不等键。
+          // 旧实现这里 `return`(让满行帧先画一 tick)把同步语义拆成异步:每行各占 100ms + pressed.clear()
+          //   (input.ts:102)把一次按键切成单 tick 边沿 → "按一下卡一下、要按很多遍"。
+          // 修法:不 return,fall-through 到下方 line-done 自动推进(ip++)→ while 循环跑下一条 showDialog;
+          //   appendDialogLine 见 userSkip=true 设满该行,showDialog 末尾据 userSkip 续链 → 同 tick 整段瞬显。
+          //   满行帧渲染由 lineDoneRenderPending + pre-op clear 兜底,不靠此 return。
+          // → fall-through 到「自动推进」段
         }
         else if (result === 'page-advance') {
           // 清屏完成。检查 pendingStyle / pendingFullClear / pendingPreOpClear:
@@ -2101,6 +2105,15 @@ export function tickEventSystem(
         pushDialogHistory(gs.dialogHistory ?? (gs.dialogHistory = []), getCurrentMapNum(), parseDialogText(cmd.text, 0, true).text)
         // DM21:行内 $NN 改速后同步回脚本级(C iDelayTime 是全局,任何 $ 都写它)。
         if (gs.dialogBox.iDelayState !== undefined) gs.dialogIDelayFrames = gs.dialogBox.iDelayState
+        // Bug2 fix(2026-06-26):userSkip = fUserSkip 跨行瞬显中(confirmDialog 跳字置位、appendDialogLine 把
+        //   该行设满 + line-done)。sdlpal 同步瞬显返回、wScriptEntry++ **同帧**到下一行,不逐字 tick。故
+        //   **不设 waiting='dialog'、不 return**,ip++ + break 回 while 顶部连锁跑下一条 showDialog,直到段末
+        //   (end)/翻页(上面 shouldWaitPageKey 已 return)/`~`(appendDialogLine 复位 userSkip)停。
+        //   userSkip=false(正常逐字)走原路径:waiting='dialog' + return,下一 tick 推进打字。
+        if (gs.dialogBox?.userSkip) {
+          cursor.ip++
+          break // break switch → 外层 while 续跑下一条 opcode(sdlpal 同帧 wScriptEntry++)
+        }
         cursor.waiting = 'dialog'
         // P2#7:content-no-fade onEnter(有对话、无 fadeScreen,如 scene 14)— 对话是第一个可渲染 yield,
         // 此时 setPartyPos 等已跑完(camera 已对)→ 清 sceneLoading 让对话渲染。fade-first onEnter 的

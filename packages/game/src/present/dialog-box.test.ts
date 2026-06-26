@@ -1,26 +1,26 @@
-import { describe, it, expect } from 'vitest'
-import { createFramebuffer } from './framebuffer.js'
+import { describe, expect, it } from 'vitest'
 import {
-  startDialogLine,
   appendDialogLine,
-  shouldWaitPageKey,
-  setWaitingPageKey,
-  setWaitingEndKey,
-  tickDialog,
   confirmDialog,
-  getDialogBoxRect,
-  getDialogTextPos,
+  type DialogSprite,
   drawDialogBox,
-  FRAMES_PER_CHAR,
-  FONT_COLOR_DEFAULT,
-  FONT_COLOR_YELLOW,
   FONT_COLOR_CYAN,
+  FONT_COLOR_DEFAULT,
   FONT_COLOR_RED,
   FONT_COLOR_RED_ALT,
+  FONT_COLOR_YELLOW,
+  FRAMES_PER_CHAR,
+  getDialogBoxRect,
+  getDialogTextPos,
   MAX_LINES_PER_PAGE,
   parseDialogText,
-  type DialogSprite,
+  setWaitingEndKey,
+  setWaitingPageKey,
+  shouldWaitPageKey,
+  startDialogLine,
+  tickDialog,
 } from './dialog-box.js'
+import { createFramebuffer } from './framebuffer.js'
 
 function mockSprite(w: number, h: number, colorIdx: number): DialogSprite {
   return {
@@ -35,6 +35,16 @@ function mockSprite(w: number, h: number, colorIdx: number): DialogSprite {
 function completeLine(s: ReturnType<typeof startDialogLine>): void {
   if (s.currentLineText === null) return
   for (let i = 0; i < FRAMES_PER_CHAR * s.currentLineText.length; i++) tickDialog(s)
+}
+
+/** `~NN` 尾停顿时长(ms)= doneAt - 末字 revealAt。Bug3 测试用。 */
+function tailDelayOf(s: ReturnType<typeof startDialogLine>): number {
+  const text = s.currentLineText
+  const revealAt = s.currentLineRevealAt
+  const doneAt = s.currentLineDoneAt
+  if (text === null || revealAt === undefined || doneAt === undefined) return 0
+  const lastReveal = revealAt[text.length - 1] ?? 0
+  return doneAt - lastReveal
 }
 
 describe('parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)', () => {
@@ -52,9 +62,9 @@ describe('parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c
     expect(r.colors.every((c) => c === 0)).toBe(true) // isDialog DEFAULT→0,黄被屏蔽
   })
 
-  it('`-` 青 / `\'` 红 / `@` 红alt toggle(普通对话)', () => {
+  it("`-` 青 / `'` 红 / `@` 红alt toggle(普通对话)", () => {
     expect(parseDialogText('-青-', D, false).colors).toEqual([FONT_COLOR_CYAN]) // 中间 1 字
-    expect(parseDialogText('\'红\'', D, false).colors).toEqual([FONT_COLOR_RED])
+    expect(parseDialogText("'红'", D, false).colors).toEqual([FONT_COLOR_RED])
     expect(parseDialogText('@朱@', D, false).colors).toEqual([FONT_COLOR_RED_ALT])
   })
 
@@ -144,7 +154,7 @@ describe('Sync.2 DialogBox · startDialogLine / appendDialogLine', () => {
   it('defaults:fontColor=FONT_COLOR_DEFAULT(0x4F=79),shadow=false,portraitIcon=undefined', () => {
     const s = startDialogLine('x', { style: 'bottom' })
     expect(s.fontColor).toBe(FONT_COLOR_DEFAULT)
-    expect(s.fontColor).toBe(0x4F)
+    expect(s.fontColor).toBe(0x4f)
     expect(s.shadow).toBe(false)
     expect(s.portraitIcon).toBeUndefined()
   })
@@ -173,9 +183,12 @@ describe('Sync.2 DialogBox · startDialogLine / appendDialogLine', () => {
     const s = startDialogLine('l1', { style: 'bottom' })
     completeLine(s)
     expect(shouldWaitPageKey(s)).toBe(false)
-    appendDialogLine(s, 'l2'); completeLine(s)
-    appendDialogLine(s, 'l3'); completeLine(s)
-    appendDialogLine(s, 'l4'); completeLine(s)
+    appendDialogLine(s, 'l2')
+    completeLine(s)
+    appendDialogLine(s, 'l3')
+    completeLine(s)
+    appendDialogLine(s, 'l4')
+    completeLine(s)
     // shownLines=[l1,l2,l3] currentLineText='l4' phase='line-done' → effective=4
     expect(shouldWaitPageKey(s)).toBe(true)
   })
@@ -266,11 +279,16 @@ describe('Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成�
   it('24ms/字:逐字推进(24ms→2字,48ms→3字,72ms→4字)非成块蹦', () => {
     const NOW0 = 5_000_000
     const s = startDialogLine('一二三四五六', { style: 'bottom', now: NOW0 })
-    tickDialog(s, NOW0 + 24); expect(s.charsRevealed).toBe(2)  // 0,24<=24
-    tickDialog(s, NOW0 + 47); expect(s.charsRevealed).toBe(2)  // 48>47,仍 2 字(逐字精度)
-    tickDialog(s, NOW0 + 48); expect(s.charsRevealed).toBe(3)  // 0,24,48<=48
-    tickDialog(s, NOW0 + 72); expect(s.charsRevealed).toBe(4)  // +72
-    tickDialog(s, NOW0 + 24 * 6); expect(s.charsRevealed).toBe(6)
+    tickDialog(s, NOW0 + 24)
+    expect(s.charsRevealed).toBe(2) // 0,24<=24
+    tickDialog(s, NOW0 + 47)
+    expect(s.charsRevealed).toBe(2) // 48>47,仍 2 字(逐字精度)
+    tickDialog(s, NOW0 + 48)
+    expect(s.charsRevealed).toBe(3) // 0,24,48<=48
+    tickDialog(s, NOW0 + 72)
+    expect(s.charsRevealed).toBe(4) // +72
+    tickDialog(s, NOW0 + 24 * 6)
+    expect(s.charsRevealed).toBe(6)
     expect(s.phase).toBe('line-done')
   })
 
@@ -278,9 +296,12 @@ describe('Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成�
     const NOW0 = 0
     const s = startDialogLine('$10李逍遥赵灵儿', { style: 'bottom', now: NOW0 })
     expect(s.currentLineText).toBe('李逍遥赵灵儿')
-    tickDialog(s, NOW0 + 50); expect(s.charsRevealed).toBe(1)   // 50 < 112
-    tickDialog(s, NOW0 + 200); expect(s.charsRevealed).toBe(2)  // 0,112<=200;224>200
-    tickDialog(s, NOW0 + 224); expect(s.charsRevealed).toBe(3)  // 0,112,224<=224
+    tickDialog(s, NOW0 + 50)
+    expect(s.charsRevealed).toBe(1) // 50 < 112
+    tickDialog(s, NOW0 + 200)
+    expect(s.charsRevealed).toBe(2) // 0,112<=200;224>200
+    tickDialog(s, NOW0 + 224)
+    expect(s.charsRevealed).toBe(3) // 0,112,224<=224
   })
 
   it('~NN 尾暂停语义保留:doneAt 前仍 typing,doneAt 后 line-done + renderPending', () => {
@@ -298,6 +319,62 @@ describe('Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成�
     expect(s.lineDoneRenderPending).toBe(true)
   })
 
+  // Bug3(2026-06-26):`~` 尾行跳字后卡到完整 doneAt 的 bug。
+  // 现象(用户报):梦境开场 "$10李～逍～遥~30" 这类 `~NN` 自动延时台词,打字中途按回车/空格,
+  //   台词"无限重播"——实际是卡住 1.7s 才推进(doneAt),玩家以为没反应反复按。
+  //
+  // sdlpal 真值(text.c:1546-1554):`~NN` 行即使 fUserSkip 跳字,也只 `UTIL_Delay(NN*80/7)`
+  //   (≈ ~NN 尾停顿时长),**不**从行起始重等整个 doneAt。即跳字后「剩余字符瞬显 + 等 ~NN 尾停顿」。
+  //
+  // 根因:bug1 wall-clock 修复(bdf6878)把 tickDialog 打字推进改成 elapsed = now - lineStartMs,
+  //   但 confirmDialog 的 `~` 跳字快进仍只改 typingFrames(tick 驱动),没对齐 wall-clock。
+  //   → 跳字后 tickDialog 仍按 lineStartMs 算 elapsed,必须真实墙钟走到 doneAt(含已消耗的打字时间),
+  //   typingFrames 快进无效 → 玩家被迫从 0 重等整个 doneAt。
+  it('Bug3:`~NN` 尾行打字中途跳字 → 只等 ~NN 尾停顿,不卡到完整 doneAt(对齐 sdlpal text.c:1551)', () => {
+    const NOW0 = 2_000_000
+    // "一夜过去．．"~40 : doneAt = 末字(144) + ~40 尾停(457) = 601ms
+    const s = startDialogLine('"一夜过去．．"~40', { style: 'center', now: NOW0 })
+    tickDialog(s, NOW0 + 100) // 打字中途:100ms,仅显几个字,远未到 doneAt 601
+    expect(s.charsRevealed).toBeLessThan(6)
+    expect(s.phase).toBe('typing')
+    // 此时(墙钟 100ms)按 Confirm 跳字
+    const skipNow = NOW0 + 100
+    expect(confirmDialog(s, skipNow)).toBe('skip-typing')
+    expect(s.charsRevealed).toBe(6) // 整行瞬显
+    // sdlpal 真值:跳字后只等 ~40 尾停顿,从「跳字时刻」起算。
+    //   尾停顿 = doneAt - 末字 revealAt = 601 - 120 = 481ms(~40 ≈ 40*80/7=457 + 打字舍入)。
+    //   即跳字时刻 + 481ms 应已 line-done,而非卡到完整 doneAt(从行起算 601ms)。
+    tickDialog(s, skipNow + tailDelayOf(s)) // 跳字时刻 + ~40 尾停顿
+    expect(s.phase).toBe('line-done') // 应已推进(只等了尾停顿,没卡到完整 doneAt)
+  })
+
+  // Bug3-2(2026-06-26):反复按 Confirm 不能无限重置 `~NN` 尾停顿。
+  // 现象(用户报):`~30` 台词跳字后,不停按空格 → 永远卡在这句,第二句出不来。
+  //
+  // 根因:Bug3 修法(跳字时 lineStartMs = now - lastReveal)在「每个 tick 都按 Confirm」时会反复重设
+  //   lineStartMs(跟着 nowMs 涨)→ elapsed 永远 ≈ lastReveal,永远到不了 doneAt → 尾停顿被无限重置。
+  //
+  // sdlpal 真值(text.c:1551):`~NN` 尾停顿是固定时长同步阻塞 UTIL_Delay(~NN),玩家按键只是「穿透」进
+  //   dwKeyPress、delay 照常走完 —— 不可重置、不可加速。tick 模型对等:跳字进入尾停顿等待后,后续
+  //   Confirm 应 noop(不重置 lineStartMs),让墙钟自然走到尾停顿结束。
+  it('Bug3-2:`~NN` 尾行跳字后再按 Confirm → 不重置尾停顿(noop),墙钟走到尾停顿结束仍推进', () => {
+    const NOW0 = 2_000_000
+    const s = startDialogLine('"一夜过去．．"~40', { style: 'center', now: NOW0 })
+    tickDialog(s, NOW0 + 100) // 打字中途
+    const skipNow = NOW0 + 100
+    expect(confirmDialog(s, skipNow)).toBe('skip-typing')
+    expect(s.charsRevealed).toBe(6)
+    const lineStartMsAfterSkip = s.lineStartMs
+    // 反复按 Confirm —— 应 noop,不再重置 lineStartMs
+    confirmDialog(s, skipNow + 50)
+    confirmDialog(s, skipNow + 100)
+    confirmDialog(s, skipNow + 150)
+    expect(s.lineStartMs).toBe(lineStartMsAfterSkip) // 没被重置
+    // 墙钟走到「跳字时刻 + 尾停顿」仍能推进(没被反复按死)
+    tickDialog(s, skipNow + tailDelayOf(s))
+    expect(s.phase).toBe('line-done')
+  })
+
   it('line-done 后继续 tick → charsRevealed 不再增长', () => {
     const NOW0 = 0
     const s = startDialogLine('AB', { style: 'bottom', now: NOW0 })
@@ -311,12 +388,14 @@ describe('Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成�
   it('appendDialogLine 续行重置 lineStartMs 为新行 now', () => {
     const NOW0 = 0
     const s = startDialogLine('第一行', { style: 'bottom', now: NOW0 })
-    tickDialog(s, NOW0 + 100); completeLine(s) // line-done
+    tickDialog(s, NOW0 + 100)
+    completeLine(s) // line-done
     const NOW1 = 10_000_000
     appendDialogLine(s, '第二行长一点字', NOW1) // 续行传新 now
     expect(s.lineStartMs).toBe(NOW1)
     expect(s.phase).toBe('typing')
-    tickDialog(s, NOW1 + 24); expect(s.charsRevealed).toBe(2) // 续行从 NOW1 起算
+    tickDialog(s, NOW1 + 24)
+    expect(s.charsRevealed).toBe(2) // 续行从 NOW1 起算
   })
 })
 
@@ -325,7 +404,7 @@ describe('Sync.2 DialogBox · tickDialog typing', () => {
     const s = startDialogLine('你好世界朋友们大家好啊', { style: 'bottom' }) // 11 字
     tickDialog(s) // elapsed=100ms,24ms/字 → revealAt 0/24/48/72/96 <=100 → 5 字
     expect(s.charsRevealed).toBeGreaterThanOrEqual(4)
-    expect(s.charsRevealed).toBeLessThan(s.currentLineText!.length) // 长行未全出
+    expect(s.charsRevealed).toBeLessThan(s.currentLineText?.length ?? 0) // 长行未全出
     expect(s.phase).toBe('typing')
   })
 
@@ -492,7 +571,7 @@ describe('Sync.2 DialogBox · drawDialogBox 不画 box bg', () => {
     completeLine(state)
     drawDialogBox(fb, state, undefined, undefined)
     expect(Array.from(fb.indices).some((i) => i === 200)).toBe(true) // 主色
-    expect(Array.from(fb.indices).some((i) => i === 0)).toBe(true)   // 三层阴影 color 0
+    expect(Array.from(fb.indices).some((i) => i === 0)).toBe(true) // 三层阴影 color 0
     expect(Array.from(fb.indices).some((i) => i === 50)).toBe(false) // 不再是旧单层 color 50
   })
 
@@ -514,18 +593,21 @@ describe('Sync.2 DialogBox · drawDialogBox 不画 box bg', () => {
     ui[70] = mockSprite(64, 64, 22)
     const icon = mockSprite(24, 24, 33) // 物品 BALL 图标(bitmap=5)
     const state = {
-      shownLines: [], currentLineText: null, typingFrames: 0, charsRevealed: 0,
-      dialogLineCount: 0, phase: 'line-done' as const, style: 'item-box' as const,
-      fontColor: 0, shadow: true, keyIconBlink: false,
+      shownLines: [],
+      currentLineText: null,
+      typingFrames: 0,
+      charsRevealed: 0,
+      dialogLineCount: 0,
+      phase: 'line-done' as const,
+      style: 'item-box' as const,
+      fontColor: 0,
+      shadow: true,
+      keyIconBlink: false,
       itemBox: { itemId: 100, line1: '炼出', line2: '金创药' },
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     drawDialogBox(fb, state as any, undefined, {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       uiSpriteFrames: ui as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       itemIcons: new Map([[5, icon as any]]),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       items: [{ id: 100, bitmap: 5 } as any],
     })
     // ITEMBOX 屏幕居中:(320-64)/2=128, (200-64)/2=68 → 画了 22
@@ -575,7 +657,10 @@ describe('Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置)
     const fb = createFramebuffer()
     const portrait = mockSprite(32, 32, 77)
     const state = startDialogLine('A', {
-      style: 'top', portraitIcon: undefined, portraitLayout: true, fontColor: 200,
+      style: 'top',
+      portraitIcon: undefined,
+      portraitLayout: true,
+      fontColor: 200,
     })
     completeLine(state)
     drawDialogBox(fb, state, undefined, {

@@ -509,8 +509,15 @@ export function tickDialog(state: DialogBoxState, now?: number): void {
  */
 export type ConfirmResult = 'skip-typing' | 'page-advance' | 'dialog-end' | 'noop'
 
-export function confirmDialog(state: DialogBoxState): ConfirmResult {
+export function confirmDialog(state: DialogBoxState, now?: number): ConfirmResult {
   if (state.phase === 'typing' && state.currentLineText !== null) {
+    // Bug3-2(2026-06-26):`~NN` 尾行字已全显(已进入尾停顿等待)后再按 Confirm → noop。sdlpal 真值
+    //   (text.c:1551):`~NN` 尾停顿是固定时长同步 UTIL_Delay,玩家按键只穿透进 dwKeyPress、delay 照常走完
+    //   —— 不可重置、不可加速。否则每按一次重设 lineStartMs 会无限重置尾停顿(反复按 → 永远卡这句)。
+    //   必须在「跳字设满 charsRevealed」之前判断,用跳字前的原始值。
+    if (state.currentLineEndedWithTilde && state.charsRevealed >= state.currentLineText.length) {
+      return 'noop'
+    }
     state.charsRevealed = state.currentLineText.length
     state.userSkip = true // L2:置 fUserSkip → 同段后续行瞬显(text.c:1607)
     // DL18:`~` 行跳字 —— 尾停顿 ~NN **无条件保留**(text.c:1546-1554 fUserSkip 仍先 UpdateScreen
@@ -520,8 +527,15 @@ export function confirmDialog(state: DialogBoxState): ConfirmResult {
       state.userSkip = false
       const len = state.currentLineText.length
       const lastReveal = state.currentLineRevealAt?.[len - 1] ?? 0
-      const fastForward = Math.ceil((lastReveal + 1) / FRAME_MS_EXPLORE)
-      if (state.typingFrames < fastForward) state.typingFrames = fastForward
+      // Bug3(2026-06-26):wall-clock 对齐 —— 跳字后只等 ~NN 尾停顿,不重等整行打字时间。Bug1 wall-clock 后
+      //   tickDialog 用 elapsed=now-lineStartMs 判 doneAt;把 lineStartMs 调成「此刻末字刚打完」=now-lastReveal,
+      //   则后续 elapsed 走到 ~NN 尾停顿即 line-done,忠实 sdlpal text.c:1546-1554。缺省 now(旧测试)回退快进。
+      if (now !== undefined) {
+        state.lineStartMs = now - lastReveal
+      } else {
+        const fastForward = Math.ceil((lastReveal + 1) / FRAME_MS_EXPLORE)
+        if (state.typingFrames < fastForward) state.typingFrames = fastForward
+      }
       return 'skip-typing'
     }
     state.phase = 'line-done'
