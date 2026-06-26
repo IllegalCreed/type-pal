@@ -29,13 +29,3 @@ export function advancePage(state: DialogueState): DialogueState | null {
   const next = state.pageStart + state.linesPerPage
   return next < state.dialogue.lines.length ? { ...state, pageStart: next } : null
 }
-
-// ── 旧 API thin wrapper:暂留兼容 main.ts,Task 5 切换后删 ──
-/** @deprecated 用 pageLines。 */
-export function currentLine(state: DialogueState): DialogueLine | undefined {
-  return pageLines(state)[0]
-}
-/** @deprecated 用 advancePage。 */
-export function advance(state: DialogueState): DialogueState | null {
-  return advancePage(state)
-}

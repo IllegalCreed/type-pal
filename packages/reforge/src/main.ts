@@ -1,8 +1,8 @@
-import { type Dialogue, type DialogueLine, type EntityDef, type Facing, guijieMinjuScene } from '@type-pal/content'
+import { type Dialogue, type DialogueLine, type EntityDef, type Facing, guijieMinjuScene, lookupText, zhLocale } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import { type LoadedSprite, loadPalette, loadSprite, loadTileset, loadTilemap } from './assets.js'
 import { buildIsBlocked } from './collision.js'
-import { advance, currentLine, type DialogueState, startDialogue } from './dialogue.js'
+import { advancePage, type DialogueState, pageLines, startDialogue } from './dialogue.js'
 import { Keyboard } from './input.js'
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type SpriteDraw } from './render.js'
@@ -100,7 +100,7 @@ async function main(): Promise<void> {
     }
     renderer.renderScene(map, room, camera, sprites)
     if (DEBUG_COLLISION) drawCollisionOverlay()
-    if (activeDialogue) drawDialogueBox(currentLine(activeDialogue))
+    if (activeDialogue) drawDialogueBox(pageLines(activeDialogue))
   }
 
   /** 调试层（将来可移入编辑器）：iso 菱形网格 + 每站立点 isBlocked(绿走/红禁) + 玩家脚点。 */
@@ -169,8 +169,8 @@ async function main(): Promise<void> {
     })
   }
 
-  function drawDialogueBox(line: DialogueLine | undefined): void {
-    if (!line) return
+  function drawDialogueBox(lines: DialogueLine[]): void {
+    if (lines.length === 0) return
     const W = canvas.width
     const H = canvas.height
     const boxH = 60
@@ -182,20 +182,24 @@ async function main(): Promise<void> {
     ctx.globalAlpha = 1
     ctx.strokeStyle = '#d8b365'
     ctx.strokeRect(6, top, W - 12, boxH)
-    // 继续提示：右上角小字，避开正文
+    // 继续提示：右上角小字
     ctx.fillStyle = '#7a6a4a'
     ctx.font = '8px monospace'
     ctx.fillText('[空格] 继续', W - 62, top + 12)
+    // 逐行：speaker(姓名牌简版) + 正文,都经 locale 查表。着色 / 字模 / 打字留 ②。
     let ty = top + 26
-    if (line.speaker) {
-      ctx.fillStyle = '#d8b365'
+    for (const line of lines) {
+      if (line.speaker) {
+        ctx.fillStyle = '#d8b365'
+        ctx.font = '13px "Songti SC","SimSun",serif'
+        ctx.fillText(`${lookupText(line.speaker, zhLocale)}：`, 14, ty)
+        ty += 19
+      }
+      ctx.fillStyle = '#f0e0b0'
       ctx.font = '13px "Songti SC","SimSun",serif'
-      ctx.fillText(`${line.speaker}：`, 14, ty)
+      ctx.fillText(lookupText(line.text, zhLocale), 14, ty)
       ty += 19
     }
-    ctx.fillStyle = '#f0e0b0'
-    ctx.font = '13px "Songti SC","SimSun",serif'
-    ctx.fillText(line.text, 14, ty)
     ctx.restore()
   }
 
@@ -215,7 +219,7 @@ async function main(): Promise<void> {
     const interact = pressed.has(' ') || pressed.has('Enter')
 
     if (activeDialogue) {
-      if (interact) activeDialogue = advance(activeDialogue) // 翻页；翻完 → null（关闭）
+      if (interact) activeDialogue = advancePage(activeDialogue) // 翻页;翻完 → null(关闭)
     } else {
       if (interact) {
         const ent = nearbyInteractable()
