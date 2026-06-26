@@ -46,6 +46,16 @@ function snap(pressed: AbstractKey[] = [], frameNum = 0): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum }
 }
 
+/**
+ * Bug1 fix(2026-06-26):模拟主循环每 tick 推进墙钟,让 wall-clock 打字推进。
+ * 旧测试靠"每 tickEventSystem = 100ms 打字"的隐含语义,改 wall-clock 后必须显式推 gs.nowMs。
+ * now 从 1000 起(避免 lineStartMs 缺省 0 回退路径)。可选 pressed 传按键。
+ */
+function tickWithTime(gs: GameState, pressed: AbstractKey[] = [], ms = 100): void {
+  gs.nowMs += ms
+  tickEventSystem(gs, snap(pressed), createCommandBus())
+}
+
 // 回归(user 2026-06-13:扬州宝物屋开出道具「?0」):宝物屋数据含 giveItem itemId=0 的空槽标记,
 //   我方曾把它 push 进库存 → 渲染层 fallback「?」+id=「?0」。sdlpal `PAL_AddItemToInventory`
 //   开头即 `if (wObjectID == 0) return FALSE`——id 0 绝不入库。
@@ -284,7 +294,9 @@ describe('EventSystem', () => {
     // 全程不按任何键(原版梦境是自动 cutscene)。逐 tick 检查绝不进等键 phase。
     let everWaited = false
     let ticks = 0
+    gs.nowMs = 1000
     for (; ticks < 300; ticks++) {
+      gs.nowMs += 100 // Bug1 fix:wall-clock 打字,每 tick 推进 100ms
       tickEventSystem(gs, snap(), bus)
       // 0x05 redraw 现在按 sdlpal UTIL_Delay(60ms)设 waiting='delay';测试里跳过实时延时(delay 非等键,不影响断言)
       if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
@@ -459,19 +471,19 @@ describe('EventSystem', () => {
       { op: 'end' },
     ])
     // tick 1: setDialogStyleBottom 直接 apply(无 prev dialog) + showDialog 入 dialogBox = 'A' typing
-    tickEventSystem(gs, snap(), bus)
+    tickWithTime(gs)
     expect(gs.currentDialogStyle).toBe('bottom')
     expect(gs.currentDialogPortraitIcon).toBe(5)
     expect(gs.dialogBox?.currentLineText).toBe('A')
     // tick 2 Confirm: skip-typing → line-done → 自动 ip++ → setDialogStyleTop → applySetDialogStyle 检测 prev dialog
     // → setWaitingPageKey + pendingStyle = {top, 55, 12} + waiting='dialog' return
-    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickWithTime(gs, ['Confirm'])
     expect(gs.dialogBox?.phase).toBe('waiting-page-key')
     expect(gs.dialogBox?.pendingStyle).toEqual({ style: 'top', portraitIcon: 55, portraitLayout: true, fontColor: 12 })
     expect(gs.currentDialogStyle).toBe('bottom')  // 还未 apply
     // tick 3 Confirm: page-advance → 读 pendingStyle apply → 旧 bottom 冻结进 dialogBoxKept,
     // active dialogBox 清空 + ip++ → 下条 showDialog 重建 top。
-    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickWithTime(gs, ['Confirm'])
     expect(gs.currentDialogStyle).toBe('top')
     expect(gs.currentDialogPortraitIcon).toBe(55)
     expect(gs.currentDialogFontColor).toBe(12)
@@ -1584,12 +1596,15 @@ describe('opcode 0x000A goto-if-no / ConfirmMenu(sdlpal script.c:3373-3387 / uig
     ])
     // 问句逐字打完 → 自动推进到 0x0A;0x0A 在 isDialogContinuationOp 豁免 →
     //   不走 default 的 Space-wait pre-op clear,直接进 confirm(问句仍在屏)。
+    gs.nowMs = 1000
     for (let i = 0; i < 12 && gs.eventCursor?.waiting !== 'confirm'; i++) {
+      gs.nowMs += 100 // Bug1 fix:wall-clock 打字推进
       tickEventSystem(gs, snap(), bus)
     }
     expect(gs.eventCursor?.waiting).toBe('confirm')        // 不是 'dialog'(Space-wait)
     expect(gs.dialogBox?.currentLineText).toBe('要不要')    // 问句 confirm 期保留
     // 选 否(默认)→ goto L_3(end)→ 清问句 + 结束脚本
+    gs.nowMs += 100
     tickEventSystem(gs, snap(['Confirm']), bus)
     expect(gs.dialogBox).toBeUndefined()
     expect(gs.eventCursor).toBeUndefined()
@@ -2121,8 +2136,8 @@ describe('opcode 0x0005 redrawScreen / PAL_ClearDialog(TRUE)(sdlpal script.c:326
       { op: 'raw', opcode: 5, operands: [0, 0, 0] },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)  // 起 dialog typing
-    tickEventSystem(gs, snap(['Confirm']), bus) // skip-typing + line-done auto ip++ → 0x05 → wait page key
+    tickWithTime(gs)  // 起 dialog typing(nowMs 锚点 + 推进)
+    tickWithTime(gs, ['Confirm']) // skip-typing + line-done auto ip++ → 0x05 → wait page key
     expect(gs.dialogBox?.phase).toBe('waiting-page-key')
     expect(gs.eventCursor?.waiting).toBe('dialog')
   })
@@ -2761,16 +2776,16 @@ describe('setDialogStyleX 真值 reset(每次 opcode 重设 portrait/fontColor,�
       { op: 'end' },
     ])
     // tick 1: setDialogStyleTop + showDialog → dialogBox 含 portraitIcon=55(charsRevealed=0,未 tickDialog)
-    tickEventSystem(gs, snap(), bus)
+    tickWithTime(gs)
     expect(gs.dialogBox?.portraitIcon).toBe(55)
     expect(gs.currentDialogPortraitIcon).toBe(55)
-    // tick 2 Confirm:时间驱动短行('李大娘A' 3 字)1 tick 打完 → line-done 自动推进 → opcode 5 ClearDialog
+    // tick 2 Confirm:wall-clock 短行('李大娘A' 3 字)打完 → line-done 自动推进 → opcode 5 ClearDialog
     //   → 有 currentLineText → waiting-page-key(等键清屏)
-    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickWithTime(gs, ['Confirm'])
     expect(gs.dialogBox?.phase).toBe('waiting-page-key')
     // tick 3 Confirm: page-advance(fullClear)→ clear dialogBox + ip++ → setDialogStyleBottom(无 arg0)
     //   → 无 prev dialog 行 → apply + ip++ → showDialog → startDialogLine portraitIcon=undefined
-    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickWithTime(gs, ['Confirm'])
     expect(gs.currentDialogPortraitIcon).toBeUndefined()
     expect(gs.currentDialogStyle).toBe('bottom')
     expect(gs.dialogBox?.portraitIcon).toBeUndefined()   // 主角对话不显头像 ✓
@@ -2779,7 +2794,6 @@ describe('setDialogStyleX 真值 reset(每次 opcode 重设 portrait/fontColor,�
 
   it('连续 setDialogStyleTop arg0=55 → arg0=63 → portrait 重设为 63(不 inherit)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const bus = createCommandBus()
     loadEvent(gs, [
       { op: 'setDialogStyleTop', arg0: 55 },
       { op: 'showDialog', messageIndex: 0, text: 'A' },
@@ -2788,9 +2802,9 @@ describe('setDialogStyleX 真值 reset(每次 opcode 重设 portrait/fontColor,�
       { op: 'showDialog', messageIndex: 0, text: 'B' },
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), bus)
-    tickEventSystem(gs, snap(['Confirm']), bus)
-    tickEventSystem(gs, snap(['Confirm']), bus)
+    tickWithTime(gs)
+    tickWithTime(gs, ['Confirm'])
+    tickWithTime(gs, ['Confirm'])
     expect(gs.currentDialogPortraitIcon).toBe(63)
     expect(gs.dialogBox?.portraitIcon).toBe(63)
   })

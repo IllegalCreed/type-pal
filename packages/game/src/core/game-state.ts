@@ -377,10 +377,16 @@ export interface DialogBoxState {
   currentLineColors?: number[]
   /**
    * 当前行每字符出现时刻(ms,parseDialogText.revealAt)。时间驱动打字:charsRevealed =
-   * typingFrames*FRAME_MS_EXPLORE 内 revealAt[i]<=elapsed 的字数(sdlpal iDelayTime*8/字 + `$NN` 变速)。
+   * revealAt[i] <= (now - lineStartMs) 的字数(sdlpal iDelayTime*8/字 + `$NN` 变速)。
+   *
+   * Bug1 fix(2026-06-26):旧实现用 `typingFrames*FRAME_MS_EXPLORE`(100ms/tick)算 elapsed,
+   *   把 sdlpal 24ms/字的逐字打成"每 100ms 蹦 ~4 字成块"。改 wall-clock(now - lineStartMs),
+   *   精度由调用频率(rAF 60fps)保证,不受 10fps tick 限制。revealAt/doneAt 数值不变(sdlpal 真值)。
    */
   currentLineRevealAt?: number[]
-  /** 当前行完全打完时刻(ms,含 `~NN` 尾暂停);elapsed>=doneAt → phase='line-done'。 */
+  /** 当前行开始 typing 的墙钟(ms,startDialogLine/appendDialogLine 传入并重置)。Bug1 fix 时间锚点。 */
+  lineStartMs?: number
+  /** 当前行完全打完时刻(ms,含 `~NN` 尾暂停);(now - lineStartMs)>=doneAt → phase='line-done'。 */
   currentLineDoneAt?: number
   /** 当前行是否以 `~NN` 收尾。用于在尾暂停结束后保留完整文字一帧再续脚本。 */
   currentLineEndedWithTilde?: boolean
@@ -724,6 +730,12 @@ export interface GameState {
   /** 战斗状态;T16 给真类型(BattleState),T14 已用 unknown 占位避免污染 explore/event。 */
   battleState?: BattleState
   frameNum: number
+  /**
+   * 当前墙钟(ms)。Bug1 fix(2026-06-26):主循环每帧设为 performance.now(),
+   * 供对话打字等"高频视觉但低频逻辑"子系统用 wall-clock 推进(24ms/字逐字),
+   * 不受 10fps 逻辑 tick 限制。headless 测试可注入固定值断言时序。
+   */
+  nowMs: number
   /**
    * 走动动画状态(P0.c:port sdlpal scene.c:636 PAL_UpdatePartyGestures)。
    *
@@ -1828,6 +1840,7 @@ export function createInitialGameState(
     // sdlpal text.c:29 FONT_COLOR_DEFAULT = 0x4F(palette idx 79,亮黄/浅米)
     currentDialogFontColor: 0x4F,
     frameNum: 0,
+    nowMs: 0,
     walkingFrame: { stepFrame: 0, walking: false },
     trail: [],
     followerFrozenOffset: [],

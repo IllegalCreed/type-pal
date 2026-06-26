@@ -98,6 +98,7 @@ export function advanceRafFrame(
     //   注意:仅 manualPaused 冻结;香蕉树暂停(bananaPaused)不冻结,否则无法走过去捡香蕉解除。
     state.accumulator = 0
   } else if (state.accumulator >= interval) {
+    ctx.gs.nowMs = now // Bug1 fix:对话打字用 wall-clock,主循环每帧注入
     const snap = ctx.input.nextSnapshot(ctx.gs.frameNum)
     tickByMode(ctx.gs, snap, ctx.bus)
     const d = ctx.bus.drain()
@@ -136,6 +137,7 @@ export function advanceRafFrame(
 }
 
 function singleTick(ctx: LoopContext, dump?: ReturnType<typeof initStateDump>): void {
+  ctx.gs.nowMs = performance.now() // Bug1 fix:对话打字用 wall-clock,主循环每帧注入
   const snap = ctx.input.nextSnapshot(ctx.gs.frameNum)
   tickByMode(ctx.gs, snap, ctx.bus)
   const drained = ctx.bus.drain()

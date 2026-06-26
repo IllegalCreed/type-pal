@@ -25,6 +25,16 @@ function snap(): InputSnapshot {
   return { held: new Set(), pressed: new Set(), frameNum: 0 }
 }
 
+/**
+ * Bug1 fix(2026-06-26):模拟主循环每 tick 推进 100ms 墙钟(gs.nowMs),让 wall-clock 打字推进。
+ * 旧测试靠"每 tick=100ms 打字"的隐含语义,改 wall-clock 后必须显式推 gs.nowMs。
+ * now 从 1000 起(避免 lineStartMs=0 的缺省回退路径被误触发)。
+ */
+function tickWithTime(gs: GameState, ms = 100): void {
+  gs.nowMs += ms
+  tickByMode(gs, snap(), createCommandBus())
+}
+
 function palette(c: [number, number, number]): Palette {
   return { colors: Array.from({ length: 256 }, () => [...c] as [number, number, number]), cycles: [] }
 }
@@ -113,7 +123,8 @@ describe('tickByMode auto fade-in gate', () => {
     }
 
     // 模拟 0x76 handler 已把屏幕清黑、ip++、释放 waiting,下一帧进入顶层 mode 调度。
-    tickByMode(gs, snap(), createCommandBus())
+    gs.nowMs = 1000
+    tickByMode(gs, snap(), createCommandBus()) // nowMs=1000 锚点
     expect(gs.paletteFadeState).toBeUndefined()
     expect(gs.needToFadeIn).toBe(true)
     expect(gs.blackScreenHold).toBe(true)
@@ -122,7 +133,8 @@ describe('tickByMode auto fade-in gate', () => {
     expect(gs.eventCursor?.waiting).toBe('dialog')
 
     // 居中字结束后才执行脚本里的 0x51 FadeIn。
-    gs.dialogBox!.typingFrames = 999
+    // Bug1 fix:旧 hack typingFrames=999(旧 tick 语义),改 wall-clock 推进 nowMs 超过 doneAt(601)。
+    gs.nowMs = 1000 + 700 // 相对行起 700ms > 601 doneAt → 尾暂停结束
     tickEventSystem(gs, snap(), createCommandBus())
     expect(gs.eventCursor?.waiting).toBe('dialog')
     expect(gs.dialogBox?.lineDoneRenderPending).toBe(false)
@@ -154,23 +166,26 @@ describe('tickByMode auto fade-in gate', () => {
       ip: 1,
     }
 
-    tickByMode(gs, snap(), createCommandBus()) // set style + show dialog
+    gs.nowMs = 1000
+    tickByMode(gs, snap(), createCommandBus()) // set style + show dialog(nowMs=1000 锚点)
     expect(gs.eventCursor?.waiting).toBe('dialog')
 
-    for (let i = 0; i < 6; i++) tickByMode(gs, snap(), createCommandBus())
+    // Bug1 fix:wall-clock 打字。6 字×24ms=144ms + ~40 尾停 457ms = doneAt 601。
+    //   推进到 1600(=1000+600 < 601 doneAt,相对行起 600ms)→ 整句已出但尾暂停未结束。
+    for (let i = 0; i < 6; i++) tickWithTime(gs) // nowMs: 1100..1600,相对行起 100..600ms
     expect(gs.dialogBox?.currentLineText).toBe('一夜过去．．')
     expect(gs.dialogBox?.charsRevealed).toBe(6)
     expect(gs.dialogBox?.phase).toBe('typing')
     expect(gs.eventCursor?.waiting).toBe('dialog')
     expect(gs.paletteFadeState).toBeUndefined()
 
-    tickByMode(gs, snap(), createCommandBus()) // 尾暂停结束:保留完整文字给 present 渲染一帧
+    tickWithTime(gs) // nowMs=1700,相对行起 700ms > 601 → 尾暂停结束:保留完整文字给 present 渲染一帧
     expect(gs.dialogBox?.phase).toBe('line-done')
     expect(gs.dialogBox?.lineDoneRenderPending).toBe(false)
     expect(gs.eventCursor?.waiting).toBe('dialog')
     expect(gs.paletteFadeState).toBeUndefined()
 
-    tickByMode(gs, snap(), createCommandBus()) // 下一 tick 才续跑到 0x51
+    tickWithTime(gs) // 下一 tick 才续跑到 0x51
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.paletteFadeState?.targetColors[0]).toEqual([180, 120, 60])
   })

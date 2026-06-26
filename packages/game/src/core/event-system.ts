@@ -1738,7 +1738,7 @@ export function tickEventSystem(
       }
     }
     else {
-      tickDialog(gs.dialogBox)
+      tickDialog(gs.dialogBox, gs.nowMs)
       const ds = gs.dialogBox
 
       // DM18:按键集合分相位(C 真值)——等键(翻页 waiting-page-key / 段末)吞**任意键**
@@ -2061,10 +2061,11 @@ export function tickEventSystem(
                 portraitLayout: gs.currentDialogPortraitLayout,
                 fontColor: gs.currentDialogFontColor,
                 iDelayFrames: gs.dialogIDelayFrames,
+                now: gs.nowMs, // Bug1 fix:wall-clock 打字锚点
               })
             }
             else {
-              appendDialogLine(gs.dialogBox, '')
+              appendDialogLine(gs.dialogBox, '', gs.nowMs)
             }
             cursor.ip++
             break
@@ -2080,6 +2081,7 @@ export function tickEventSystem(
             portraitLayout: gs.currentDialogPortraitLayout,
             fontColor: gs.currentDialogFontColor,
             iDelayFrames: gs.dialogIDelayFrames, // DM21:脚本级速度($NN 跨段持续,text.c:1538)
+            now: gs.nowMs, // Bug1 fix:wall-clock 打字锚点
           })
         }
         else if (shouldWaitPageKey(gs.dialogBox)) {
@@ -2089,7 +2091,7 @@ export function tickEventSystem(
           return
         }
         else {
-          appendDialogLine(gs.dialogBox, cmd.text)
+          appendDialogLine(gs.dialogBox, cmd.text, gs.nowMs)
         }
         // 历史对话捕获(生产工具面板用,会话态):提交**可见文本**(parseDialogText 剥控制符)入环形缓冲。
         // 必须剥再存——否则 `( ) ~ $ \ "` 等脚本控制符原样泄露到历史面板(user 2026-06-24:麒麟洞·麒麟老人

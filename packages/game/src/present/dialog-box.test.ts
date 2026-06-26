@@ -248,6 +248,78 @@ describe('Sync.2 DialogBox · startDialogLine / appendDialogLine', () => {
   })
 })
 
+describe('Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块)', () => {
+  // Bug1:旧实现 tickDialog 用 typingFrames*FRAME_MS_EXPLORE(100ms/tick)算 elapsed,
+  //   把 sdlpal 24ms/字的逐字打成"每 100ms 蹦 ~4 字成块"。新实现用 wall-clock:
+  //   charsRevealed = floor((now - lineStartMs) / 24ms) 等价(revealAt[i] <= elapsed)。
+  //   精度由调用频率(rAF 60fps)保证,不再受 10fps tick 限制。
+
+  it('24ms/字:60ms 时应显 3 字(revealAt 0/24/48<=60;旧实现 0-100ms 内 0 字或蹦 4 字,都不对)', () => {
+    const NOW0 = 1_000_000
+    const s = startDialogLine('你好世界朋友们', { style: 'bottom', now: NOW0 }) // 8 字
+    expect(s.lineStartMs).toBe(NOW0)
+    tickDialog(s, NOW0 + 60) // 60ms:revealAt 0/24/48 <=60 → 3 字
+    expect(s.charsRevealed).toBe(3)
+    expect(s.phase).toBe('typing')
+  })
+
+  it('24ms/字:逐字推进(24ms→2字,48ms→3字,72ms→4字)非成块蹦', () => {
+    const NOW0 = 5_000_000
+    const s = startDialogLine('一二三四五六', { style: 'bottom', now: NOW0 })
+    tickDialog(s, NOW0 + 24); expect(s.charsRevealed).toBe(2)  // 0,24<=24
+    tickDialog(s, NOW0 + 47); expect(s.charsRevealed).toBe(2)  // 48>47,仍 2 字(逐字精度)
+    tickDialog(s, NOW0 + 48); expect(s.charsRevealed).toBe(3)  // 0,24,48<=48
+    tickDialog(s, NOW0 + 72); expect(s.charsRevealed).toBe(4)  // +72
+    tickDialog(s, NOW0 + 24 * 6); expect(s.charsRevealed).toBe(6)
+    expect(s.phase).toBe('line-done')
+  })
+
+  it('$NN 变速语义保留:$10(iDelay=14→112ms/字)50ms 仅 1 字,200ms 2 字,224ms 3 字', () => {
+    const NOW0 = 0
+    const s = startDialogLine('$10李逍遥赵灵儿', { style: 'bottom', now: NOW0 })
+    expect(s.currentLineText).toBe('李逍遥赵灵儿')
+    tickDialog(s, NOW0 + 50); expect(s.charsRevealed).toBe(1)   // 50 < 112
+    tickDialog(s, NOW0 + 200); expect(s.charsRevealed).toBe(2)  // 0,112<=200;224>200
+    tickDialog(s, NOW0 + 224); expect(s.charsRevealed).toBe(3)  // 0,112,224<=224
+  })
+
+  it('~NN 尾暂停语义保留:doneAt 前仍 typing,doneAt 后 line-done + renderPending', () => {
+    const NOW0 = 2_000_000
+    // "一夜过去．．"~40 : 6 字 × 24 = 144ms + ~40 尾停 457ms = doneAt 601
+    const s = startDialogLine('"一夜过去．．"~40', { style: 'center', now: NOW0 })
+    tickDialog(s, NOW0 + 500) // 整句已出(6 字),但 500 < 601
+    expect(s.charsRevealed).toBe(6)
+    expect(s.phase).toBe('typing')
+    expect(s.lineDoneRenderPending).toBe(false)
+    tickDialog(s, NOW0 + 600) // < 601
+    expect(s.phase).toBe('typing')
+    tickDialog(s, NOW0 + 700) // 尾暂停结束
+    expect(s.phase).toBe('line-done')
+    expect(s.lineDoneRenderPending).toBe(true)
+  })
+
+  it('line-done 后继续 tick → charsRevealed 不再增长', () => {
+    const NOW0 = 0
+    const s = startDialogLine('AB', { style: 'bottom', now: NOW0 })
+    tickDialog(s, NOW0 + 1000) // 远超 doneAt
+    expect(s.charsRevealed).toBe(2)
+    expect(s.phase).toBe('line-done')
+    tickDialog(s, NOW0 + 2000) // 继续 tick 不增长
+    expect(s.charsRevealed).toBe(2)
+  })
+
+  it('appendDialogLine 续行重置 lineStartMs 为新行 now', () => {
+    const NOW0 = 0
+    const s = startDialogLine('第一行', { style: 'bottom', now: NOW0 })
+    tickDialog(s, NOW0 + 100); completeLine(s) // line-done
+    const NOW1 = 10_000_000
+    appendDialogLine(s, '第二行长一点字', NOW1) // 续行传新 now
+    expect(s.lineStartMs).toBe(NOW1)
+    expect(s.phase).toBe('typing')
+    tickDialog(s, NOW1 + 24); expect(s.charsRevealed).toBe(2) // 续行从 NOW1 起算
+  })
+})
+
 describe('Sync.2 DialogBox · tickDialog typing', () => {
   it('默认速度时间驱动(sdlpal iDelayTime=3 → 24ms/字):100ms/tick 内一次出多字', () => {
     const s = startDialogLine('你好世界朋友们大家好啊', { style: 'bottom' }) // 11 字

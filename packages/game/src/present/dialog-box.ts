@@ -275,6 +275,11 @@ export function startDialogLine(
      * caller(event-system)传 gs.dialogIDelayFrames;缺省 3(旧行为/战斗对话)。
      */
     iDelayFrames?: number
+    /**
+     * Bug1 fix(2026-06-26):当前行开始 typing 的墙钟(ms)。打字进度用 (now - lineStartMs) 驱动,
+     * 不再依赖 tick 帧数(旧实现 100ms/tick 把 24ms/字打成成块蹦字)。缺省 0 兼容旧测试/手搭 state。
+     */
+    now?: number
   },
 ): DialogBoxState {
   const style = opts.style ?? 'bottom'
@@ -291,6 +296,7 @@ export function startDialogLine(
     currentLineText: isTitle ? null : parsed.text,
     currentLineColors: isTitle ? undefined : parsed.colors,
     currentLineRevealAt: isTitle ? undefined : parsed.revealAt,
+    lineStartMs: opts.now ?? 0,
     currentLineDoneAt: isTitle ? 0 : parsed.doneAt,
     currentLineEndedWithTilde: isTitle ? false : parsed.endedWithTilde,
     lineDoneRenderPending: false,
@@ -321,7 +327,7 @@ export function startDialogLine(
  * **必须先在 caller 中检查 shouldWaitPageKey(state)** — 如果会到第 5 行,
  * 不调本函数,而是 setWaitingPageKey(state) 等键后再调。
  */
-export function appendDialogLine(state: DialogBoxState, rawText: string): void {
+export function appendDialogLine(state: DialogBoxState, rawText: string, now?: number): void {
   const isDialog = state.style === 'narration'
   // 续行起始色 = 上一行行末色态(toggle 跨行持续,sdlpal g_TextLib.bCurrentFontColor 同段不重置)
   const startColor = state.fontColorState ?? state.fontColor ?? FONT_COLOR_DEFAULT
@@ -342,6 +348,8 @@ export function appendDialogLine(state: DialogBoxState, rawText: string): void {
   state.currentLineText = parsed.text
   state.currentLineColors = parsed.colors
   state.currentLineRevealAt = parsed.revealAt
+  // Bug1 fix:续行重置 lineStartMs 为新行的 now(缺省 0 兼容旧测试/手搭 state)。
+  state.lineStartMs = now ?? 0
   state.currentLineDoneAt = parsed.doneAt
   state.currentLineEndedWithTilde = parsed.endedWithTilde
   state.lineDoneRenderPending = false
@@ -448,18 +456,24 @@ export function resetDialogBody(state: DialogBoxState): void {
  * 每逻辑帧调一次:
  *  - typing 中 → 推 charsRevealed,完后 phase → 'line-done'
  *  - line-done / wait 状态 → blink key icon
+ *
+ * Bug1 fix(2026-06-26):打字进度改 wall-clock 驱动。
+ *  - 传 `now`(墙钟 ms):elapsed = now - lineStartMs。精度由调用频率(rAF 60fps)保证,
+ *    不受 10fps tick 限制 → 24ms/字 流畅逐字,不再"每 100ms 蹦 4 字成块"。
+ *  - 不传 now(旧测试/手搭 state):回退 elapsed = typingFrames*FRAME_MS_EXPLORE(旧行为,100ms/tick)。
+ *    兼容现有不传 now 的测试;新测试 & event-system 都传 now。
  */
-export function tickDialog(state: DialogBoxState): void {
+export function tickDialog(state: DialogBoxState, now?: number): void {
   state.typingFrames++
 
   if (state.phase === 'typing' && state.currentLineText !== null) {
     const len = state.currentLineText.length
     const revealAt = state.currentLineRevealAt
     if (revealAt) {
-      // 时间驱动打字(sdlpal text.c:1600 iDelayTime*8/字 + `$NN` 变速 text.c:1538 + `~NN` 尾暂停 text.c:1551)。
-      //   elapsed 用 typingFrames*FRAME_MS_EXPLORE 保持 tick 驱动确定性(可测/可回放);10fps→100ms/tick
-      //   内一次显多字(总时长忠实 sdlpal,受 tick 率限制成块显)。
-      const elapsed = state.typingFrames * FRAME_MS_EXPLORE
+      // Bug1 fix:wall-clock 优先;缺省 now 时回退 tick 驱动(旧行为)。
+      const elapsed = now !== undefined && state.lineStartMs !== undefined
+        ? now - state.lineStartMs
+        : state.typingFrames * FRAME_MS_EXPLORE
       let shown = 0
       while (shown < len && (revealAt[shown] ?? 0) <= elapsed) shown++
       state.charsRevealed = shown
