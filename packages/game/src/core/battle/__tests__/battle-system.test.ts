@@ -34,7 +34,7 @@ import type {
 } from '@type-pal/shared'
 import { FPS_BATTLE } from '@type-pal/shared'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { type CommandBus, createCommandBus, type PresentCommand } from '../../command-bus.js'
+import { type CommandBus, createCommandBus, } from '../../command-bus.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
 import { activateHidingEffect, applyHiddenExpGrowth, battleWonLevelUp, decrementHidingEffect, INTRO_FADE_TICKS, pickAutoMagic, selectAutoTargetFrom, startBattle, tickBattle, type BattleResources, type RunScriptFn } from '../battle-system.js'
 import { createSeedableRng } from '../../rng.js'

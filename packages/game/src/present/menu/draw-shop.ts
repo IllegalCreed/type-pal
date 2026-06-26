@@ -179,7 +179,7 @@ export function drawSellOverlay(input: DrawSellOverlayInput): void {
   // 售价框 @(224,150)(uigame.c:1744-1751):框无条件画;sellable 时 SELLMENU_LABEL_PRICE=25 "售价" + price/2
   drawSingleLineBox({ fb, x: SELL_PRICE_BOX.x, y: SELL_PRICE_BOX.y, len: SELL_PRICE_BOX.len, uiSpriteFrames })
   const item = cursorItemId !== undefined ? items.find((it) => it.id === cursorItemId) : undefined
-  if (item && item.flags.sellable) {
+  if (item?.flags.sellable) {
     renderText(fb, '售价', SELL_PRICE_BOX.x + 10, SELL_PRICE_BOX.y + 10, 0, glyphs, false)
     drawNumber(
       fb, Math.floor(item.price / 2), 6,

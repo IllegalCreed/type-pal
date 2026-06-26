@@ -27,7 +27,7 @@
 import { type DialogBoxStyle, FRAME_MS_EXPLORE } from '@type-pal/shared'
 import type { Framebuffer } from './framebuffer.js'
 import { renderText, renderColoredText, measureText, type GlyphTable } from './font.js'
-import type { DialogBoxState, DialogPhase } from '../core/game-state.js'
+import type { DialogBoxState, } from '../core/game-state.js'
 import { drawSingleLineBox } from './menu/draw-box.js'
 import { drawNumber } from './draw-number.js'
 

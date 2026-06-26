@@ -1,5 +1,5 @@
 import type { Tilemap } from '@type-pal/shared'
-import { SCREEN_W, SCREEN_H, type Framebuffer } from './framebuffer.js'
+import { type Framebuffer } from './framebuffer.js'
 
 /** Y-sort エントリ。present.ts の sortedDraw ループに渡す。 */
 export interface DrawEntry {

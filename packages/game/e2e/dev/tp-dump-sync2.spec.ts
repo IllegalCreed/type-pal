@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { writeFileSync } from 'fs'
+import { writeFileSync } from 'node:fs'
 
 /**
  * Sync.2 cutscene dump:跑 ts game 开场 cutscene,记录每 tick state-dump,
@@ -30,6 +30,6 @@ test('tp-dump sync2 cutscene → /tmp/ts-dump.jsonl', async ({ page }) => {
   )
   expect(buffer.length).toBeGreaterThan(50)
 
-  writeFileSync('/tmp/ts-dump.jsonl', buffer.join('\n') + '\n')
+  writeFileSync('/tmp/ts-dump.jsonl', `${buffer.join('\n')}\n`)
   console.log(`[tp-dump] wrote ${buffer.length} frames → /tmp/ts-dump.jsonl`)
 })

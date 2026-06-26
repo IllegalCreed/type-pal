@@ -229,7 +229,7 @@ export function confirmInventoryItem(
   // sdlpal itemmenu.c:287-291 真值:使用菜单 g_wItemFlags == kItemFlagUsable,确认时须
   // `(wFlags & kItemFlagUsable) && nAmount > nAmountInUse`,否则返回 0xFFFF(未确认)留菜单 ——
   // 列表全显示后光标可落在非可用(红色)项上,确认它 no-op(use 动作只对可用物品有意义)。
-  if (!item || !item.flags.usable || sel.count - sel.inUse <= 0) {
+  if (!item?.flags.usable || sel.count - sel.inUse <= 0) {
     return
   }
   state.selectedItemId = sel.itemId

@@ -15,7 +15,7 @@ import {
   SceneAssetsCache,
   type SceneFetcher,
 } from '../assets/loader.js'
-import { decodePngToIndices, type IndexedImage } from '../assets/png.js'
+import { type IndexedImage } from '../assets/png.js'
 import { loadSpriteFramesBlob, loadTilesetBlob } from '../assets/tileset-blob.js'
 import { startBattle, INTRO_FADE_TICKS } from '../core/battle/battle-system.js'
 import { createCommandBus } from '../core/command-bus.js'

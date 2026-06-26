@@ -77,7 +77,7 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
     let settled = false
 
     const removeClickOverlay = (): void => {
-      if (clickOverlay && clickOverlay.parentElement) {
+      if (clickOverlay?.parentElement) {
         clickOverlay.parentElement.removeChild(clickOverlay)
       }
       clickOverlay = null

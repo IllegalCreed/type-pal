@@ -226,7 +226,7 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
   let titleVisibleHeight = 0
   const titleHeight = options.titleFrame.height
   const dwBeginTime = now()
-  let dwTimeOffset = 0 // 跳过时 fast-forward palette 用
+  const dwTimeOffset = 0 // 跳过时 fast-forward palette 用
 
   try {
     while (true) {

@@ -2286,7 +2286,7 @@ export function tickBattleDialog(state: BattleState, gs: GameState, input: Input
       //   bottom),对照 sdlpal upper/lower 同屏共存(PAL_StartDialog 不擦旧框)。把旧框移入 dialogBoxKept
       //   (反位置冻结框);否则普通结束 → 清掉两者。
       // effect 条目(next.style undefined)非上下位置切换 → 不保留旧框。
-      if (next && next.style && !next.clearBefore && isVerticalDialogSwap(gs.dialogBox.style, next.style)) {
+      if (next?.style && !next.clearBefore && isVerticalDialogSwap(gs.dialogBox.style, next.style)) {
         gs.dialogBoxKept = gs.dialogBox
       } else {
         gs.dialogBoxKept = undefined

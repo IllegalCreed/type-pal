@@ -1035,7 +1035,7 @@ function openPicker(deps: DevPanelDeps): void {
       btn.addEventListener('click', () => {
         const st = deps.gs.battleState
         if (!st || deps.gs.mode !== 'battle') {
-          console.warn('[dev] 战斗状态调试:需在战斗中(当前 mode=' + deps.gs.mode + ')')
+          console.warn(`[dev] 战斗状态调试:需在战斗中(当前 mode=${deps.gs.mode})`)
           return
         }
         const p0 = st.players[0]

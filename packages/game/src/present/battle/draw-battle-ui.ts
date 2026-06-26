@@ -27,7 +27,7 @@
 
 import type { Item, EnemyPosTable, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
-import { getEnemyBasePos, getPlayerBasePos } from '../../core/battle/battle-positions.js'
+import { getPlayerBasePos } from '../../core/battle/battle-positions.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
 import type { SelectionMenuState } from '../../core/menu/primitives.js'
 import {

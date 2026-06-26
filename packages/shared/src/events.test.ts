@@ -7,9 +7,6 @@ import type {
   DialogBoxStyle,
   LoadSceneCommand,
   SetDialogStyleTopCommand,
-  SetDialogStyleCenterCommand,
-  SetDialogStyleBottomCommand,
-  SetDialogStyleNarrationCommand,
 } from './events.js'
 
 describe('Command 联合类型', () => {

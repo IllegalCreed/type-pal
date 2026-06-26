@@ -3786,7 +3786,7 @@ function applyRawOpcode(
       //     假(库存不足 且 op[2]!=0)→ jump op[2](失败分支)。
       //   此前 ts 简版只 negative-add 库存,无条件检查 / 装备消耗 / 失败跳转(审计 bug)。
       const itemId = operands[0] ?? 0
-      let x = (operands[1] ?? 0) === 0 ? 1 : (operands[1] ?? 0)
+      const x = (operands[1] ?? 0) === 0 ? 1 : (operands[1] ?? 0)
       const failJump = operands[2] ?? 0
       const have = countInventoryItem(gs, itemId)
       if (x <= have || failJump === 0) {

@@ -1,4 +1,4 @@
-import type { Enemy, PlayerRole, PlayerRoles } from '@type-pal/shared'
+import type { Enemy, PlayerRole, } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import type { BattleEnemy, BattlePlayer, BattleState } from '../../../core/battle/battle-state.js'
 import type { BusEntry } from '../../../core/command-bus.js'

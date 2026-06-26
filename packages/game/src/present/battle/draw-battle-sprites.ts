@@ -312,7 +312,7 @@ export function drawBattleSprites(
     const pos = enemy.pos ?? computeEnemyAnchor(state, i, enemyPos)
     if (!pos) return
     const sprite = battleSprites.get(`enemy-${enemy.e.id}`)
-    if (!sprite || !sprite.frames[0]) return
+    if (!sprite?.frames[0]) return
     // 帧号:render-state currentFrame 优先(攻击 / 受击 / 淡出复位);缺则 per-enemy idle 帧
     // (DM11,fight.c:991-1019:battle-system tickEnemyIdleGestures 推进——演出期间按 C 冻结/
     // 推进,各敌相位独立;睡眠 / 麻痹定格 frame 0)。资源不全兜底 frames[0]。
@@ -355,7 +355,7 @@ export function drawBattleSprites(
     if (!pos) return
     // D17 0x31:spriteNumOverride(梦蛇295 变身)优先于 role.spriteNumInBattle。
     const sprite = battleSprites.get(`player-${p.spriteNumOverride ?? role.spriteNumInBattle}`)
-    if (!sprite || !sprite.frames[0]) return
+    if (!sprite?.frames[0]) return
     // 帧号:动画 / 逃跑期间用 render-state currentFrame(攻击 8,9 / 受击 4 / 逃跑站立 0 / 死帧 2 由 anim-driver 写);
     //   空闲(无 battleAnim/fleeAnim)据 status 算(sdlpal PAL_BattleUpdateFighters fight.c:948-984):
     //   死(hp==0)→ 2/0 傀儡 / sleep 或濒死 → 1 / 防御 → 3 / else → 0(confused 无特殊帧)。

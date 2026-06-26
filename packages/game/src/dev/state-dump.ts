@@ -86,7 +86,7 @@ export function initStateDump(): DumpController {
   const w = window as any
   w.__tpDumpBuffer = buffer
   w.__tpDumpDownload = () => {
-    const blob = new Blob([buffer.join('\n') + '\n'], { type: 'application/x-ndjson' })
+    const blob = new Blob([`${buffer.join('\n')}\n`], { type: 'application/x-ndjson' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url

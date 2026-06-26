@@ -286,6 +286,6 @@ main().catch((e: unknown) => {
   ctx.fillRect(0, 0, canvas.width, canvas.height)
   ctx.fillStyle = '#f55'
   ctx.font = '12px monospace'
-  ctx.fillText('reforge ERR: ' + msg, 10, 24)
+  ctx.fillText(`reforge ERR: ${msg}`, 10, 24)
   console.error('[reforge]', e)
 })

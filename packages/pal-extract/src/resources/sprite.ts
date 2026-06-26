@@ -3,7 +3,7 @@
  * 参考 reference/sdlpal/sprite.c::PAL_LoadSprite。
  */
 import { PNG } from 'pngjs'
-import { decodeRle, parseSpriteChunk, type RleFrame } from '@type-pal/shared'
+import { parseSpriteChunk, type RleFrame } from '@type-pal/shared'
 
 // `parseSpriteChunk` 已搬到 @type-pal/shared(extractor 与 runtime 共用,见
 // tileset 资源管线优化 S1)。本文件 re-export,保持 extractor 内部调用点不变。

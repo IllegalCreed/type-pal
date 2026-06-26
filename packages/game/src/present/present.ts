@@ -625,7 +625,7 @@ export function presentFrame(
   //
   //    **关键**:主角 sprite 在 backup(旧场景)和 current(新场景)都画过,所以 fade 全程主角可见
   //    (palette nibble 渐变,不会突然消失)。
-  if (gs.fadeState && gs.fadeState.backupPixels) {
+  if (gs.fadeState?.backupPixels) {
     const { totalMs, startTimeMs, appliedSteps, backupPixels } = gs.fadeState
     const current = fb.indices as Uint8Array
 

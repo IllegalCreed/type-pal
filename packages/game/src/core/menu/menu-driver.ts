@@ -21,7 +21,6 @@ import type { ActiveMenuEntry, GameState } from '../game-state.js'
 import { projectRuntimeToBattleRoles } from '../game-state.js'
 import { closeTopMenu, openMenu } from './menu-mode.js'
 import {
-  createInGameMenu,
   createSystemMenu,
   inGameMenuChoice,
   inGameMenuDown,
@@ -268,7 +267,7 @@ function dispatchShopMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnaps
     }
     if (input.pressed.has('Confirm')) {
       const r = shopConfirm(s)
-      if (r && r.yes) applyShopTransaction(gs, cat.items, r)
+      if (r?.yes) applyShopTransaction(gs, cat.items, r)
     }
     return
   }
@@ -329,7 +328,7 @@ function dispatchSellMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnaps
     }
     if (input.pressed.has('Confirm')) {
       const r = sellConfirm(s)
-      if (r && r.yes) {
+      if (r?.yes) {
         applyShopTransaction(gs, cat.items, { itemId: r.itemId, mode: 'sell', yes: true })
         refreshSellGrid(s, gs, cat.items) // 卖出后列表变,刷新(sdlpal while 每轮重跑 PAL_ItemSelectMenu)
       }
@@ -635,7 +634,7 @@ function dispatchInventoryMenu(
       // wEventObjectID=0xFFFF + 用完 return 退到 InventoryMenu 上层;else 进 PAL_ItemUseMenu 选 player。
       const sel = s.inventory[s.cursor]
       const item = sel ? catalogs.items.find((it) => it.id === sel.itemId) : undefined
-      if (item && item.flags.usable && item.flags.applyToAll) {
+      if (item?.flags.usable && item.flags.applyToAll) {
         // applyToAll 路径:sdlpal play.c:305-322 真值 — runScript + consume + **return**(退出整个
         // PAL_GameUseItem,不像非 applyToAll 在 ItemUseMenu INNER while 循环反复用)。
         // ts:startOverworldItemScript 标 itemUseApplyToAll → 脚本结束 restoreModeAfterScript 关全

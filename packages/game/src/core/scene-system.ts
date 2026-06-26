@@ -263,8 +263,6 @@ function updateEventObjectsAndTrigger(gs: GameState, ctx: SceneContext): void {
       //(见 game-state GOVERNOR_REWARD_* 注释)。
       if (npc.autoTriggerOnce) npc.triggerMode = 0
     }
-    // 解析失败 no-op(= C wTriggerScript=0 entry 0 照调)→ 继续扫后续对象,不再卡死整轮。
-    continue
   }
 }
 

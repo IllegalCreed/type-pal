@@ -11,7 +11,7 @@
 
 import type { Command, Enemy, Item, Magic, ObjectMagicView } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
-import { type CommandBus, createCommandBus } from '../../command-bus.js'
+import { createCommandBus } from '../../command-bus.js'
 import { runScript } from '../../event-system.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
 import { createSeedableRng } from '../../rng.js'

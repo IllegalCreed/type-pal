@@ -10,7 +10,6 @@ import {
   setSystemQuitHandler, _resetSystemQuitHandlerForTest,
   type StartGameChoice,
 } from './menu-driver.js'
-import type { SystemMenuState } from './in-game-menu.js'
 
 function snap(pressed: AbstractKey[] = []): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
