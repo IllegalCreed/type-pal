@@ -44,6 +44,7 @@
 **决定**：所有面向玩家文本（对话 / 物品名 / 仙术描述 / UI）走**稳定 text id** + locale 查表，第二阶段就做。
 **理由**：稳定 id 铁律（[p0 schema §2](p0-content-schema.md)）天然支持 i18n，零成本留口；仙剑文本量巨大且原版靠 WORD.DAT 字面下标硬编码；晚期做要重构所有文本。
 **影响**：见 [backlog 议题 10](design-backlog.md)；P0 schema 文本字段一律是 text id 引用，运行时查表。**注**：先做中文同人，多语言可永远不补，但「文本走 id」这个零成本习惯现在就立。
+**2026-06-25 → 06-26 强化**（见 [D11](decisions.md)）：对话正文**也**确认走 text id（原一度倾向「留口、内嵌字面」，作者定第二阶段可能主面向英文用户后作废）；i18n **机制**本次就做、locale 先填 zh，实际译文按需补。
 
 ## D10 · 渲染 API：Canvas 2D 起步，Renderer 接口可换（2026-06-25）
 
@@ -56,3 +57,13 @@
 - **唯一纪律**：渲染从第一刀就走 `Renderer` 接口，不让 Canvas 2D 细节泄漏到引擎其它部分——这是日后能局部换 WebGL 的前提。
 - 全屏色彩效果（昼夜 / 天气 / 淡入 / 红屏）用整屏 tint / 合成模式实现；高级光照留 WebGL 升级后。
 - **诚实的代价**：哪天想让整个游戏有便宜的昼夜 / 天气 / 光照，要么用 Canvas 笨办法、要么那时投入换 WebGL。对单机故事 DLC 是划算的赌注。
+
+## D11 · 对话数据结构化 + i18n 一等公民（2026-06-26）
+
+**决定**：对话从「in-band 控制符扁字符串」（`~30`/`$10`/`"`/末尾冒号）改为**结构化 `DialogueLine`**（`speaker`/`text` = 稳定 `TextId`、`speed`/`autoAdvance` = ms）；功能 / 结构控制符**前移到数据生产期**（迁移器 / 编辑器）解析掉，运行时无 `parseDialogText`。对话正文**也走 text id + locale**（强化 [D9](decisions.md)，面向英文用户）；多色强调用 **locale 富文本成对闭合标记**（`<cyan>…</cyan>`），不进结构化字段。**分支**留演出层（choice action，非对话行）、**DSL** 留口不做。详见 [dialogue-structured-model-design.md](dialogue-structured-model-design.md)。
+**理由**：in-band 控制符把「控制信息」和「文本内容」焊死，违铁律 4（架构第一）/ 5（杜绝下标式身份）；解析前移让运行时只消费干净数据，比 GLM spec 的「运行时 port `parseDialogText`」干净一级。i18n 一等公民因第二阶段可能主面向英文用户。DSL（类 Ink/Yarn）与可视化 editor 产出的结构化数据重叠、对个人开发者是过度基础设施；分支本质是演出逻辑、不属对话行（强行塞进对话数据 = 新耦合）。
+**影响**：
+- 实现**分三刀，先地基**：**① 数据模型 + 状态机**（本次，含最小 locale 查表 + 鬼话迁 zh，单测验收）→ **② 外观继承**（承接 [GLM 外观 spec](p1-slice1-dialogue-visual-spec.md)）→ **③ 迁移器**（原版控制符 → 结构化 + locale zh）。
+- 承接并修订 [p1-slice1-dialogue-visual-spec.md](p1-slice1-dialogue-visual-spec.md)：外观真值整体继承，唯把数据源从「控制符字符串」换成「结构化 + locale 查表」（删 `parseDialogText` 移植那步）。
+- 颜色用语义名（`<cyan>` + 渲染层映射 palette），内容 / locale 层不出现魔法数；时长存真实 ms。
+- 多语言**机制**本次做、locale 先只填 zh，**实际译文按需补**。
