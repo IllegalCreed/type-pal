@@ -3,6 +3,8 @@
 > 2026-06-26 立。承接 [backlog 议题 14 对话外观子项](design-backlog.md)。
 > **目标**：reforge 当前对话框是自编样式（粗框 + 右上角"继续"文字），作者不满意。**代码已重构（纯状态机 dialogue.ts，对的），但外观要继承原版。**
 > 本文档把原版外观真值（第一阶段已 1:1 复刻在 `packages/game/src/present/dialog-box.ts`）整理成 reforge 可直接移植的清单。
+>
+> **⚠ 2026-06-27 修正**：原稿误称字模 = 原版 FONT.MKF。实为 **GNU Unifont CN 简体点阵**（第一阶段实现，见 §1）——原版 FONT.MKF 是繁体 BIG5、简体缺字 + 无 Latin，做不了 ② 的 i18n（zh + 将来 en）。② 字体端口 Unifont，**不碰 FONT.MKF**。
 
 ## 原则
 
@@ -19,7 +21,7 @@
 | 姓名牌 | `:` 结尾判定，CYAN_ALT(0x8C) 色，独立位置(top@(80,8)/bottom@(4,108))，不计入行 | ❌ 自绘"游魂："同行 | 高 |
 | 正文位置 | top@(96/44,26) bottom@(20/44,126)，行高 18px，4 行/屏 | ❌ 简陋分行 | 高 |
 | 字体色 | FONT_COLOR_DEFAULT 0x4F + 三层阴影(+1,0)/(0,+1)/(+1,+1) color0 | ❌ 系统宋体 | 高 |
-| 字模 | 原版字模（FONT.MKF） | ❌ 系统字体 | 高 |
+| 字模 | **简体点阵 GNU Unifont CN**（第一阶段实现，**非**原版 FONT.MKF） | ❌ 系统字体 | 高 |
 | 光标图标 | DATA chunk 12，3 形态(0默认/1`)`/2`(`)，画**当前行末尾**非右下角 | ❌ 右上角"继续"文字 | 高 |
 | 光标闪烁 | palette 0xF9-0xFE 每 100ms 轮转（icon 常显） | ❌ 无 | 中 |
 | 逐字符打字 | iDelayTime*8 ms/字（**默认 iDelayTime=3 → 24ms/字，约 42 字/秒**），`$NN` 变速 | ❌ 无（整行瞬显） | **高（详见下）** |
@@ -31,8 +33,8 @@
 
 ### 1. 资产加载（dialog-assets.ts 对应物）
 
-reforge 需要从原版 MKF 加载这几类资产（第一阶段 `packages/game/src/assets/dialog-assets.ts` 已有解析逻辑，可端口）：
-- **字模**：FONT.MKF → GlyphTable（renderText 用）
+reforge 需要这几类对话资产（第一阶段已有解析逻辑，可端口）。**⚠ 字模不走 MKF**（见下），头像 / 光标才是原版 MKF：
+- **字模**：⚠ **不是 FONT.MKF**。第一阶段用 **GNU Unifont CN**（简体点阵 BDF → `data/font/glyphs.json`），端口 `packages/game/src/present/font.ts`（`loadGlyphs` + `renderText` / `renderColoredText`，已含三层阴影 + 逐字上色）。原版 FONT.MKF 是繁体 BIG5、简体缺字 + 无 Latin，做不了 ② 的 i18n，故弃用。
 - **头像**：RGM.MKF RLE chunk → portraitFrames: Map<number, DialogSprite>
 - **光标图标**：DATA.MKF chunk 12 → iconFrames: Map<number, DialogSprite>（frame 0/1/2）
 - **narration box**（可选，切片1可不做）：SPRITEUI frame 44/45/46
@@ -213,7 +215,7 @@ interface DialogueLine {
 - [ ] "游魂"作为姓名牌显示在左上（CYAN_ALT 色），不计入正文行
 - [ ] 正文逐字打出（~100ms/字），带三层阴影
 - [ ] 4 行后右下出现黄色箭头光标（DATA chunk 12），闪烁
-- [ ] 用原版字模，不是系统宋体
+- [ ] 用**简体点阵字模**（端口第一阶段 Unifont CN），不是系统宋体
 - [ ] 翻页/结束的光标位置跟随文字末尾
 
 ## 不在本任务范围（留后续）

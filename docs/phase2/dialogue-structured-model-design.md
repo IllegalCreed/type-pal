@@ -118,7 +118,7 @@ en: {
 
 ## 7. 外观继承(承接 GLM spec)
 
-[p1-slice1-dialogue-visual-spec.md](p1-slice1-dialogue-visual-spec.md) 的外观真值(字模 FONT.MKF、姓名牌位置 / 色、打字 24ms/字、光标 DATA chunk 12、三层阴影、透明框)**整体继承**——这是「语义真值」,第二阶段照搬合理。**唯一改动**:渲染层的数据源从「`parseDialogText` 解析控制符字符串」换成「读结构化 `DialogueLine` + locale 查表」。GLM spec 的移植清单(§1 资产、§2 渲染函数、§3 真值速查)照用,只把 §2 里的 `parseDialogText` 那步换成「locale 查表 + 轻解析颜色标记」。
+[p1-slice1-dialogue-visual-spec.md](p1-slice1-dialogue-visual-spec.md) 的外观真值(字模 = **简体点阵 GNU Unifont CN**,非原版 FONT.MKF——见该 spec §1;姓名牌位置 / 色、打字 24ms/字、光标 DATA chunk 12、三层阴影、透明框)**整体继承**——这些是「语义真值」,第二阶段照搬合理(字模是开源点阵替代,因 i18n 必需)。**唯一改动**:渲染层的数据源从「`parseDialogText` 解析控制符字符串」换成「读结构化 `DialogueLine` + locale 查表」。GLM spec 的移植清单(§1 资产、§2 渲染函数、§3 真值速查)照用,只把 §2 里的 `parseDialogText` 那步换成「locale 查表 + 轻解析颜色标记」。
 
 ## 8. 分支的归属(留口,不实现)
 
