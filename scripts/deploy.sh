@@ -4,7 +4,7 @@
 # 用法: ./scripts/deploy.sh [app|data|all] [--skip-check]
 #
 #   app   - 仅部署应用壳(index.html + assets + soundfont 等,~33MB)
-#   data  - 仅同步 extracted 资源树(~580MB,rsync 增量)
+#   data  - 仅同步 extracted 资源树(~205MB,rsync 增量)
 #   all   - data + app(默认;先数据后应用,新壳不会踩到缺数据)
 #
 #   注:Service Worker(dist/sw.js,register updateViaCache:'none')自更新,无需 nginx 特殊配置;
@@ -14,11 +14,11 @@
 #
 # 部署策略(沿用 quiz-monorepo 的"本地构建 → 原子切换"+ 大资源分离):
 #   - 应用壳:vite build → tar → 远程解压 dist.new → mv 原子切换(旧版留 dist.old)
-#   - extracted(579MB,仅重跑 pnpm extract 后才变):**不进 tar**,rsync 增量同步到
+#   - extracted(~205MB,仅重跑 pnpm extract 后才变):**不进 tar**,rsync 增量同步到
 #     /var/www/type-pal/extracted(dist 的兄弟目录),dist 内放 `extracted -> ../extracted`
 #     符号链接 —— 日常改代码只传 ~33MB,改提取器才走一次大同步(且 rsync 只传差异)。
 #   - 构建优化:public/extracted 是指向 data/extracted 的 symlink,vite build 会跟随
-#     拷贝 579MB 进 dist(实测 16s/658MB)。构建期把 symlink 暂移走、结束后还原(trap
+#     拷贝整棵 extracted(~205MB)进 dist。构建期把 symlink 暂移走、结束后还原(trap
 #     EXIT 兜底),build 降到 ~3s、dist 仅 ~33MB。
 #
 # 首次上线还差两步手工操作(脚本无法代办,见脚本尾部提示):
@@ -69,7 +69,7 @@ check_extracted() {
   fi
 }
 
-# 构建应用壳。public/extracted symlink 暂移走避免 vite 拷 579MB;trap 保证还原。
+# 构建应用壳。public/extracted symlink 暂移走避免 vite 拷 ~205MB;trap 保证还原。
 RESTORE_LINK=""
 restore_public_link() {
   if [ -n "$RESTORE_LINK" ] && [ -e "${PUBLIC_LINK}.deploybak" ]; then
@@ -102,7 +102,7 @@ deploy_app() {
     log_error "dist 未构建(缺 index.html)"; exit 1
   fi
   log_info "部署应用壳到 ${SERVER_HOST}..."
-  # 防御:用户手动 vite build 过的 dist 可能含 579MB 的 extracted 实体目录,一律不进包
+  # 防御:用户手动 vite build 过的 dist 可能含 ~205MB 的 extracted 实体目录,一律不进包
   tar czf /tmp/type-pal-dist.tgz --exclude='.DS_Store' --exclude='./extracted' -C "$local_dist" .
   scp -q /tmp/type-pal-dist.tgz "${SERVER_USER}@${SERVER_HOST}:/tmp/"
   ssh "${SERVER_USER}@${SERVER_HOST}" "RD='${REMOTE_ROOT}' bash -s" <<'REMOTE'
@@ -148,7 +148,7 @@ REMEND
 # 非原子,但 extracted 仅在重跑提取器后才变、且文件级原子(--partial 只影响续传临时文件)。
 # rsync 后自动刷 CDN(见 refresh_cdn):否则边缘缓存 7 天内发旧数据。
 deploy_data() {
-  log_info "rsync 同步 extracted(~580MB,增量;首次全量较久)..."
+  log_info "rsync 同步 extracted(~205MB,增量;首次全量较久)..."
   ssh "${SERVER_USER}@${SERVER_HOST}" "mkdir -p '${REMOTE_ROOT}/extracted'"
   rsync -az --delete --partial --info=progress2 \
     --exclude='.DS_Store' \
