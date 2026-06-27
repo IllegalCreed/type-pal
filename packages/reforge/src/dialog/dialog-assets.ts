@@ -54,3 +54,36 @@ export async function loadCursorFrames(baseUrl = '/extracted'): Promise<RleFrame
   const entry = (await res.json()) as DialogIconsRaw
   return parseSpriteChunk(base64ToBytes(entry.base64))
 }
+
+/**
+ * 加载头像 PNG(`/extracted/images/portraits/XX.png`,78×91 原版角色立绘)。
+ * Canvas2D 直接 drawImage(标准 PNG,无需 indexed 解码)。鬼魂无原版头像,用某 chunk 占位。
+ * 返回 Map<chunkIndex, HTMLImageElement>。失败项跳过(降级无头像)。
+ */
+export async function loadPortraits(
+  chunkIndices: readonly number[],
+  baseUrl = '/extracted',
+): Promise<Map<number, HTMLImageElement>> {
+  const map = new Map<number, HTMLImageElement>()
+  await Promise.all(
+    chunkIndices.map(async (chunk) => {
+      try {
+        const res = await fetch(
+          `${baseUrl}/images/portraits/${chunk.toString().padStart(2, '0')}.png`,
+        )
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        const url = URL.createObjectURL(await res.blob())
+        const img = new Image()
+        await new Promise<void>((resolve, reject) => {
+          img.onload = () => resolve()
+          img.onerror = () => reject(new Error(`portrait ${chunk} decode failed`))
+          img.src = url
+        })
+        map.set(chunk, img)
+      } catch (err) {
+        console.warn(`dialog-assets: portrait ${chunk} 加载失败,跳过:`, err)
+      }
+    }),
+  )
+  return map
+}

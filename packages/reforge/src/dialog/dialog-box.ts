@@ -14,14 +14,26 @@ import { bakeCursorTinted, CURSOR_COLOR_COUNT, CURSOR_COLOR_START } from './dial
 import { type DisplayLine, layoutLines } from './layout.js'
 import { advanceSlots, emptySlots, type SlotId, type SlotState } from './slot.js'
 
-// GLM spec §3 布局真值(320×200 坐标系)
+// GLM spec §3 布局真值(320×200 坐标系)。无头像 / 有头像两种正文+姓名 x(spec §3 hasPortrait 三元)。
 const LINE_HEIGHT = 18
 const LINES_PER_PAGE = 4 // spec §3:MAX_LINES_PER_PAGE
 const POS = {
-  bottom: { text: { x: 44, y: 126 }, title: { x: 12, y: 108 } }, // 无头像
-  top: { text: { x: 44, y: 26 }, title: { x: 12, y: 8 } },
+  bottom: {
+    text: { x: 44, y: 126 },
+    title: { x: 12, y: 108 },
+    textWithPortrait: { x: 20, y: 126 },
+    titleWithPortrait: { x: 4, y: 108 },
+    portrait: { x: 270, y: 144 }, // 实际画 (portrait.x - w/2, portrait.y - h/2)
+  },
+  top: {
+    text: { x: 44, y: 26 },
+    title: { x: 12, y: 8 },
+    textWithPortrait: { x: 96, y: 26 },
+    titleWithPortrait: { x: 80, y: 8 },
+    portrait: { x: 48, y: 55 },
+  },
 } as const
-const MAX_RIGHT = 308 // 正文右边距 → 每行可用 264px
+const MAX_RIGHT = 308 // 正文右边距 → 每行可用 264px(无头像)
 
 /** 单个 slot 的排版渲染态(slot.ts 管 lineIdx,这里管该段的排版)。 */
 interface SlotRender {
@@ -44,24 +56,26 @@ export class DialogBox {
     private readonly glyphs: GlyphTable,
     private readonly palette: Palette,
     private readonly cursorFrames: RleFrame[],
+    private readonly portraits: ReadonlyMap<number, HTMLImageElement> = new Map(),
   ) {}
 
   get active(): boolean {
     return this.state !== null
   }
 
-  /** 把第 idx 段话排版进它的 slot,返回该 slot 的渲染态。 */
+  /** 把第 idx 段话排版进它的 slot,返回该 slot 的渲染态。有头像时正文 x 缩进(spec §3)。 */
   private layoutLineInto(lineIdx: number): { slot: SlotId; render: SlotRender } {
-    const line = this.state!.dialogue.lines[lineIdx]!
+    const line = this.state?.dialogue.lines[lineIdx]
+    if (!line) throw new Error('reforge: layoutLineInto lineIdx 越界')
     const slot: SlotId = line.slot ?? 'bottom'
-    // srcLineIdx 要是【原对话 lines 的真实索引】,但 layoutLines 传单元素数组时
-    // 它内部给的是局部索引(恒 0)。这里重映射为真实 lineIdx(该段所有显示行都属于这一段)。
+    const hasPortrait = line.portrait ? this.portraits.has(line.portrait.icon) : false
+    const startX = hasPortrait ? POS[slot].textWithPortrait.x : POS[slot].text.x
     const displayLines = layoutLines(
       [line],
       this.glyphs,
       (id) => lookupText(id, zhLocale),
       MAX_RIGHT,
-      POS[slot].text.x,
+      startX,
     ).map((dl) => ({ ...dl, srcLineIdx: lineIdx }))
     return { slot, render: { displayLines, pageStart: 0 } }
   }
@@ -71,7 +85,9 @@ export class DialogBox {
     this.slots = emptySlots()
     this.renders = {}
     // 第一段话进它的 slot
-    this.slots = advanceSlots(this.slots, state.dialogue.lines[0]!, 0)
+    const firstLine = state.dialogue.lines[0]
+    if (!firstLine) throw new Error('reforge: 对话无台词')
+    this.slots = advanceSlots(this.slots, firstLine, 0)
     const { slot, render } = this.layoutLineInto(0)
     this.renders[slot] = render
     this.lineStartMs = nowMs
@@ -107,14 +123,17 @@ export class DialogBox {
 
   /** 推进到下一段话(advance 第3段 + autoAdvance 共用)。对话结束 → 清所有 slot。 */
   private advanceToNextLine(nowMs: number): void {
-    const next = advanceLine(this.state!) // dialogue.ts 逐段指针推进
+    const cur = this.state
+    if (!cur) return
+    const next = advanceLine(cur) // dialogue.ts 逐段指针推进
     if (!next) {
       this.close()
       return
     }
     this.state = next
     const nextIdx = next.lineIdx
-    const line = next.dialogue.lines[nextIdx]!
+    const line = next.dialogue.lines[nextIdx]
+    if (!line) throw new Error('reforge: advanceToNextLine lineIdx 越界')
     this.slots = advanceSlots(this.slots, line, nextIdx)
     const { slot, render } = this.layoutLineInto(nextIdx)
     this.renders[slot] = render // 同槽覆盖(替换 render)/异槽新建(旧 render 不动)
@@ -174,16 +193,30 @@ export class DialogBox {
 
   /** 画单个 slot:姓名牌 + 正文(留显全字 / 活跃打字)+ 活跃槽的光标。 */
   private renderSlot(slotId: SlotId, r: SlotRender, isActive: boolean, nowMs: number): void {
+    const state = this.state
+    if (!state) return
     const pos = POS[slotId]
     const page = r.displayLines.slice(r.pageStart, r.pageStart + LINES_PER_PAGE)
     if (page.length === 0) return
 
-    // 姓名牌:该 slot 当前段话首行的 speaker(同段跨页常驻)
+    // 该段话的头像(若有):spec §3 位置,bottom 右 / top 左。
     const firstDl = page[0]
-    const line = this.state!.dialogue.lines[firstDl?.srcLineIdx ?? 0]
+    const line = state.dialogue.lines[firstDl?.srcLineIdx ?? 0]
+    const hasPortrait = line?.portrait ? this.portraits.has(line.portrait.icon) : false
+    const portraitImg = line?.portrait ? this.portraits.get(line.portrait.icon) : undefined
+    if (hasPortrait && portraitImg) {
+      const px = pos.portrait.x - portraitImg.width / 2
+      const py = pos.portrait.y - portraitImg.height / 2
+      this.ctx.drawImage(portraitImg, px, py)
+    }
+    // 正文 / 姓名 x:有头像时缩进(须与 layoutLineInto 的 startX 一致)
+    const titleX = hasPortrait ? pos.titleWithPortrait.x : pos.title.x
+    const textX = hasPortrait ? pos.textWithPortrait.x : pos.text.x
+
+    // 姓名牌:该 slot 当前段话首行的 speaker(同段跨页常驻)
     if (line?.speaker) {
       const nameSpans: TextSpan[] = [{ text: `${lookupText(line.speaker, zhLocale)}：` }]
-      renderSpans(this.ctx, nameSpans, pos.title.x, pos.title.y, {
+      renderSpans(this.ctx, nameSpans, titleX, pos.title.y, {
         glyphs: this.glyphs,
         palette: this.palette,
         shadow: true,
@@ -204,7 +237,7 @@ export class DialogBox {
           ? rowLen // 瞬显全字
           : Math.min(charsShown(Math.max(0, elapsed - charsBefore * speed), speed), rowLen)
       if (limit < rowLen) allDone = false
-      renderSpans(this.ctx, dl.spans, pos.text.x, ty, {
+      renderSpans(this.ctx, dl.spans, textX, ty, {
         glyphs: this.glyphs,
         palette: this.palette,
         shadow: true,
@@ -217,9 +250,15 @@ export class DialogBox {
 
     // 光标:仅活跃槽 + 全显 + 非 autoAdvance,末显示行末尾。形态取该段 cursorFrame(默认 0)。
     const lastDl = page[page.length - 1]
-    const lastLine = this.state!.dialogue.lines[lastDl?.srcLineIdx ?? 0]
+    const lastLine = state.dialogue.lines[lastDl?.srcLineIdx ?? 0]
     if (isActive && this.pageDone && lastLine?.autoAdvance === undefined && lastDl) {
-      this.drawCursor(nowMs, lastDl.spans, page.length - 1, pos, lastLine?.cursorFrame ?? 0)
+      this.drawCursor(
+        nowMs,
+        lastDl.spans,
+        page.length - 1,
+        { text: { x: textX, y: pos.text.y } },
+        lastLine?.cursorFrame ?? 0,
+      )
     }
   }
 
