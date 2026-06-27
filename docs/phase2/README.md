@@ -36,6 +36,7 @@
 | [content-schema](foundation/content-schema.md) | 内容数据模型（三层状态 / 稳定 id / 场景包 / 事件演出 / 角色实例化）+ 迁移器 | 草案 |
 | [art-pipeline](foundation/art-pipeline.md) | 美术资产生图管线（像素风 / 动画现实路径） | 草案 |
 | [engine-debt-audit](foundation/engine-debt-audit.md) | 第一阶段引擎架构债（18 finding + 反查表）—— 重写的反面输入 | 定稿 |
+| [render-foundation-plan](foundation/render-foundation-plan.md) | D16 渲染地基改造计划（格坐标 + 物理 1280 + UI 高清化，8 Task TDD） | 待实现 |
 
 ### slice1-indoor/ · 切片 1：室内场景跑通
 | 文件 | 内容 | 状态 |
