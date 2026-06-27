@@ -1,18 +1,16 @@
 import type { TextSpan } from '@type-pal/content'
-import type { Palette } from '@type-pal/shared'
 import { bakeGlyph, type GlyphTable } from './glyph.js'
-import { indexToRgba, resolveRgba } from './palette-color.js'
+import { colorRgba } from './palette-color.js'
 
 const SHADOW_RGBA: [number, number, number] = [0, 0, 0] // color 0 = 黑(sdlpal text.c:1144)
 
 export interface RenderSpansOpts {
   glyphs: GlyphTable
-  palette: Palette
   shadow?: boolean
   /** 打字:只画前 N 个字符(跨 span 计数);省略 = 全画。 */
   maxChars?: number
-  /** 传则全字用该 palette index 色(覆盖 span.color);姓名牌固定 CYAN_ALT 用。 */
-  forceColorIndex?: number
+  /** 传则全字用该固定 RGBA 色(覆盖 span.color);姓名牌固定色用。 */
+  forceRgba?: readonly [number, number, number]
 }
 
 /**
@@ -30,10 +28,7 @@ export function renderSpans(
   let shown = 0
   const limit = opts.maxChars ?? Number.POSITIVE_INFINITY
   for (const span of spans) {
-    const rgba =
-      opts.forceColorIndex != null
-        ? indexToRgba(opts.forceColorIndex, opts.palette)
-        : resolveRgba(span.color ?? 'default', opts.palette)
+    const rgba = opts.forceRgba ?? colorRgba(span.color ?? 'default')
     for (const ch of span.text) {
       if (shown >= limit) return cursorX - x
       const cp = ch.codePointAt(0) ?? 0

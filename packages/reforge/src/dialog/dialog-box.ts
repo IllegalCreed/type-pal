@@ -7,7 +7,7 @@ import { lookupText, type TextSpan, zhLocale } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
 import { advanceLine, type DialogueState } from '../dialogue.js'
 import type { GlyphTable } from '../text/glyph.js'
-import { indexToRgba, TITLE_COLOR_INDEX } from '../text/palette-color.js'
+import { indexToRgba, TITLE_RGBA } from '../text/palette-color.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
 import { charsShown, countChars, DEFAULT_SPEED_MS } from '../text/typewriter.js'
 import { bakeCursorTinted, CURSOR_COLOR_COUNT, CURSOR_COLOR_START } from './dialog-assets.js'
@@ -227,9 +227,8 @@ export class DialogBox {
       const nameSpans: TextSpan[] = [{ text: `${lookupText(line.speaker, zhLocale)}：` }]
       renderSpans(this.ctx, nameSpans, titleX, pos.title.y, {
         glyphs: this.glyphs,
-        palette: this.palette,
         shadow: true,
-        forceColorIndex: TITLE_COLOR_INDEX,
+        forceRgba: TITLE_RGBA,
       })
     }
 
@@ -248,7 +247,6 @@ export class DialogBox {
       if (limit < rowLen) allDone = false
       renderSpans(this.ctx, dl.spans, textX, ty, {
         glyphs: this.glyphs,
-        palette: this.palette,
         shadow: true,
         maxChars: limit,
       })
