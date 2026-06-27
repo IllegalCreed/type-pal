@@ -8,7 +8,7 @@ import {
   loadTilemap,
   loadTileset,
 } from './assets.js'
-import { buildIsBlocked } from './collision.js'
+import { buildIsBlocked, sameTile } from './collision.js'
 import { loadCursorFrames, loadPortraits } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import { startDialogue } from './dialogue.js'
@@ -185,7 +185,12 @@ async function main(): Promise<void> {
   }
 
   // 移动 + 交互。相机固定（整间屋上屏）。
-  const isBlocked = buildIsBlocked(map)
+  const tileBlocked = buildIsBlocked(map)
+  // 静态实体碰撞:collide 实体占其 pos 所在格,玩家目标落该格 → 挡。
+  // 闭包读 entities 当前 pos(将来移动 NPC 也自然生效;静态阶段 pos 不变)。
+  const isBlocked = (x: number, y: number): boolean =>
+    tileBlocked(x, y) ||
+    guijieMinjuScene.entities.some((e) => e.collide === true && sameTile(x, y, e.pos.x, e.pos.y))
   const keyboard = new Keyboard()
   const INTERACT_RANGE = 48 // 像素：靠近实体即可交互
 
