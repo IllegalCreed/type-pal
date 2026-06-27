@@ -57,7 +57,7 @@ export class DialogBox {
     private readonly glyphs: GlyphTable,
     private readonly palette: Palette,
     private readonly cursorFrames: RleFrame[],
-    private readonly portraits: ReadonlyMap<number, HTMLImageElement> = new Map(),
+    private readonly portraits: ReadonlyMap<number, HTMLCanvasElement> = new Map(),
   ) {}
 
   get active(): boolean {

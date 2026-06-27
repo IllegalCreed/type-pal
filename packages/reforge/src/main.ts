@@ -60,7 +60,7 @@ const PALETTE_ID = Number(new URLSearchParams(location.search).get('pal') ?? 0)
 const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
 
 async function main(): Promise<void> {
-  const [map, tiles, palette, glyphs, cursorFrames, portraits] = await Promise.all([
+  const [map, tiles, palette, glyphs, cursorFrames] = await Promise.all([
     loadTilemap(mapNum),
     loadTileset(mapNum),
     loadPalette(PALETTE_ID),
@@ -69,11 +69,12 @@ async function main(): Promise<void> {
       console.warn('[reforge] cursor icons 加载失败,降级无光标:', err)
       return []
     }),
-    loadPortraits([1, 2]).catch((err: unknown) => {
-      console.warn('[reforge] portraits 加载失败,降级无头像:', err)
-      return new Map()
-    }),
   ])
+  // portraits 需 palette 着色,在 palette 加载后单独取
+  const portraits = await loadPortraits([1, 2], palette).catch((err: unknown) => {
+    console.warn('[reforge] portraits 加载失败,降级无头像:', err)
+    return new Map<number, HTMLCanvasElement>()
+  })
 
   // 调试：?gallery 渲染精灵速查图（确认哪个 spriteNum 是人/物），不进场景。
   if (new URLSearchParams(location.search).has('gallery')) {
