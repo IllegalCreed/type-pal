@@ -36,6 +36,10 @@ export interface DialogueLine {
   speed?: number
   /** 尾停顿 + 自动推进(ms);存在 = 打完停 N ms 自动进下一页、不等键。原版 ~NN。 */
   autoAdvance?: number
+  /** 画到哪个面板;默认 bottom。异 slot 推进 = 共存,同 slot = 覆盖。 */
+  slot?: 'top' | 'bottom'
+  /** 头像 RGM chunk + 左/右;省略 = 无头像。 */
+  portrait?: { icon: number; side: 'left' | 'right' }
 }
 
 export interface Dialogue {
