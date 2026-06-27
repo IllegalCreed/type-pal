@@ -110,15 +110,16 @@ git commit -m "feat(reforge): 对话色 → 固定 RGBA 常量(去场景 palette
 
 ---
 
-## Task 2: text-render renderSpans 去 palette
+## Task 2: renderSpans 签名 + dialog-box 文本/姓名调用(同步去 palette)
 
-**Files:** 改 `text-render.ts`
+**Files:** 改 `text-render.ts`、`dialog-box.ts`(仅文本/姓名 renderSpans 调用)
 
 **Interfaces:**
 - `RenderSpansOpts` 去掉 `palette`,`forceColorIndex?: number` → `forceRgba?: readonly [number,number,number]`。
-- Consumes: `colorRgba`(Task 1)。
+- Consumes: `colorRgba`/`TITLE_RGBA`(Task 1)。
+- ⚠ **签名变与调用方强耦合,必须同 commit**:dialog-box line 228/249 是内联对象字面量传 `palette`/`forceColorIndex`,`RenderSpansOpts` 一改即触发 TS 多余属性报错。故文本/姓名调用并入本 Task;光标(line 292)仍走旧 `indexToRgba`+`this.palette`(Task 1 暂留)不动,`this.palette` 构造参数留 Task 4 删。
 
-- [ ] **Step 1: 改 RenderSpansOpts + renderSpans**
+- [ ] **Step 1: 改 text-render.ts**
 
 `text-render.ts`:
 - import 改:`import { colorRgba } from './palette-color.js'`(去 Palette / resolveRgba / indexToRgba)。
@@ -129,16 +130,20 @@ git commit -m "feat(reforge): 对话色 → 固定 RGBA 常量(去场景 palette
 ```
 (删 `indexToRgba(opts.forceColorIndex, opts.palette)` / `resolveRgba(..., opts.palette)` 分支)。其余(bakeGlyph / 三层阴影 / maxChars)不变。
 
-- [ ] **Step 2: typecheck(text 层)**
+- [ ] **Step 2: 同步改 dialog-box 文本/姓名调用**
 
-Run: `pnpm --filter @type-pal/reforge exec tsc --noEmit 2>&1 | grep -E 'text-render|palette-color' || echo 'text 层 clean'`
-Expected: text-render / palette-color 无错(dialog-box 仍红,Task 4 修)。
+`dialog-box.ts`:
+- import(line 10):加 `TITLE_RGBA`;删 `TITLE_COLOR_INDEX`(姓名改用 TITLE_RGBA);`indexToRgba` **保留**(光标 line 292 还用)。
+- 正文 renderSpans(line ~249):删 `palette: this.palette`,留 `glyphs`/`shadow`/`maxChars`。
+- 姓名 renderSpans(line ~228):删 `palette: this.palette`,`forceColorIndex: TITLE_COLOR_INDEX` → `forceRgba: TITLE_RGBA`。
+- 光标 / 头像 / `this.palette` 构造参数:**不动**(Task 4 收)。
 
-- [ ] **Step 3: Commit**(与 Task 1 连续,可合并提交)
+- [ ] **Step 3: typecheck 绿 + commit**
 
+Run: `pnpm --filter @type-pal/reforge run typecheck` → 0 错(renderSpans 签名 + 全部调用方同步改;光标走旧 API 仍编译)。
 ```bash
-git add packages/reforge/src/text/text-render.ts
-git commit -m "feat(reforge): renderSpans 去 palette,用固定 RGBA / forceRgba"
+git add packages/reforge/src/text/text-render.ts packages/reforge/src/dialog/dialog-box.ts
+git commit -m "feat(reforge): renderSpans + dialog-box 文本/姓名去 palette,用固定 RGBA"
 ```
 
 ---
@@ -196,7 +201,7 @@ Expected: 生成 `packages/reforge/public/portraits/1.png`、`2.png`(RGBA)。人
 - `loadPortraits(chunkIndices, baseUrl='/portraits')` 去 `palette` 参数。
 - 改成 fetch `${baseUrl}/${chunk}.png`(RGBA)→ `createImageBitmap(blob)` → 画到离屏 canvas(或直接存 ImageBitmap,drawImage 接受 ImageBitmap)→ Map。
 - **删** `decodePngToIndices` / `bakeIndexedImage`(indexed+palette 解码,不再需要)。
-- 光标:`CURSOR_COLOR_START` 删;改 `import { CURSOR_RGBA, CURSOR_COLOR_COUNT } from '../text/palette-color.js'`;`bakeCursorTinted` 不变(它吃 rgba)。
+- ⚠ 光标常量(`CURSOR_COLOR_START`/`CURSOR_COLOR_COUNT`)+ `bakeCursorTinted`:**本 Task 不碰**——dialog-box(line 292)仍 import `CURSOR_COLOR_START`,这里删了会让 dialog-box 编译红。光标统一到 Task 4(与 dialog-box 光标改同 commit)。
 
 - [ ] **Step 4: Commit**
 
@@ -211,14 +216,13 @@ git commit -m "feat(reforge): 头像烘 RGBA 迁移脚本 + loadPortraits 吃 RG
 
 **Files:** 改 `dialog-box.ts`、`main.ts`
 
-- [ ] **Step 1: dialog-box.ts 去 palette**
+- [ ] **Step 1: dialog-box.ts 收尾(光标 + 构造参数)** — 文本/姓名已在 Task 2 改完
 
-- import:去 `Palette`、`indexToRgba`/`TITLE_COLOR_INDEX` → `import { TITLE_RGBA, CURSOR_RGBA, CURSOR_COLOR_COUNT } from '../text/palette-color.js'`。
+- 光标 `bakeCursorStep`:`indexToRgba(CURSOR_COLOR_START + step, this.palette)` → `CURSOR_RGBA[step]`(去 palette)。
+- import:删 `indexToRgba`(光标改完不再用)、`Palette` 类型;`CURSOR_RGBA`/`CURSOR_COLOR_COUNT` 改从 `'../text/palette-color.js'` 取(原从 dialog-assets)。改完 dialog-box 不再 import 任何 palette 相关。
 - 构造去 `palette` 参数(`DialogBox(ctx, glyphs, cursorFrames, portraits)`)。
-- 正文 renderSpans:去 `palette`,保留 `glyphs`/`shadow`/`maxChars`。
-- 姓名 renderSpans:`forceColorIndex: TITLE_COLOR_INDEX` → `forceRgba: TITLE_RGBA`(去 palette)。
-- 光标 `bakeCursorStep`:`indexToRgba(CURSOR_COLOR_START + step, palette)` → `CURSOR_RGBA[step]`(去 palette)。
-- **删 palette-color 旧 API**(此时所有调用方已改完):`colorIndex`/`resolveRgba`/`indexToRgba`/`COLOR_INDEX`/`TITLE_COLOR_INDEX`/`CURSOR_COLOR_START`。删完 `palette-color.ts` 只剩 `colorRgba`/`TITLE_RGBA`/`CURSOR_RGBA`/`CURSOR_COLOR_COUNT`。这是 Task 1 暂留的收口,保证无死代码。
+- **dialog-assets.ts**:删 `CURSOR_COLOR_START` / `CURSOR_COLOR_COUNT`(光标色统一到 palette-color;此刻 dialog-box 已不 import 它们)。
+- **删 palette-color 旧 API**(所有调用方已改完):`colorIndex`/`resolveRgba`/`indexToRgba`/`COLOR_INDEX`/`TITLE_COLOR_INDEX`。删完 `palette-color.ts` 只剩 `colorRgba`/`TITLE_RGBA`/`CURSOR_RGBA`/`CURSOR_COLOR_COUNT`,无死代码。
 
 - [ ] **Step 2: main.ts 去对话 palette**
 
@@ -241,8 +245,8 @@ Run: `pnpm --filter @type-pal/reforge run dev`,走到鬼旁。
 - [ ] **Step 5: Commit**
 
 ```bash
-git add packages/reforge/src/dialog/dialog-box.ts packages/reforge/src/main.ts
-git commit -m "feat(reforge): 对话框去 palette — 文本/姓名/光标/头像全固定 RGBA(D15 阶段A 完成)"
+git add packages/reforge/src/dialog/dialog-box.ts packages/reforge/src/dialog/dialog-assets.ts packages/reforge/src/text/palette-color.ts packages/reforge/src/main.ts
+git commit -m "feat(reforge): 对话框光标去 palette + 删 palette 旧 API(D15 阶段A 完成)"
 ```
 
 ---
@@ -265,6 +269,6 @@ git commit -m "feat(reforge): 对话框去 palette — 文本/姓名/光标/头�
 1. **覆盖**(对话去 palette):色常量→T1;renderSpans→T2;头像烘+加载→T3;dialog-box/main→T4。验收含「换 pal 色不变」(D15 核心)。✅
 2. **占位符**:固定 RGBA 值全给(pal0 实测快照);头像烘脚本**已点名 pngjs + 给完整骨架代码**(T3 Step 1),非含糊「参考」。✅
 3. **类型一致**:`colorRgba`/`TITLE_RGBA`/`CURSOR_RGBA`(T1 定义→T2/T4 用)、`RenderSpansOpts.forceRgba`(T2 定义→T4 用)、`loadPortraits` 去 palette(T3 定义→T4 main 用)。链路对齐。✅
-4. **范围**:仅对话系统去 palette;精灵/瓦片(render.ts)+ loadPalette 暂留(阶段 B);palette 动画(阶段 C)。每 Task 末 commit。**每个 commit 可编译**:Task 1 暂留旧 API(纯新增)、Task 4 删旧 API(所有调用方改完后)——git bisect 友好,无编译断点。✅
+4. **范围**:仅对话系统去 palette;精灵/瓦片(render.ts)+ loadPalette 暂留(阶段 B);palette 动画(阶段 C)。每 Task 末 commit。**每个 commit 可编译**(原则:签名/常量的删改与其调用方同 commit,强耦合不拆散):T1 旧 API 纯新增;T2 renderSpans 签名变 **与 dialog-box 文本/姓名调用同 commit**(否则内联字面量报多余属性);T3 不碰光标常量(dialog-box 仍 import);T4 dialog-box 光标改 + 删 dialog-assets/palette-color 旧常量/API 同 commit。git bisect 友好,无编译断点。✅
 
 > 务实偏离:canvas 渲染靠浏览器验收(同 ②);头像烘脚本用 pngjs(pal-extract 同库,已给骨架)。
