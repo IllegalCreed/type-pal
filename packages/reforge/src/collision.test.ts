@@ -1,6 +1,6 @@
 import type { Tilemap } from '@type-pal/shared'
 import { describe, expect, test } from 'vitest'
-import { buildIsBlocked } from './collision.js'
+import { buildIsBlocked, sameTile } from './collision.js'
 
 function emptyMap(w: number, h: number): Tilemap {
   const cells = Array.from({ length: h }, () =>
@@ -27,5 +27,18 @@ describe('buildIsBlocked — 原版障碍位 bit 13 (0x2000) + 菱形映射', ()
     const b = buildIsBlocked(emptyMap(4, 4))
     expect(b(200, 8)).toBe(true) // col 6 > width 4
     expect(b(8, 200)).toBe(true) // row 12 > height 4
+  })
+})
+
+describe('sameTile(实体碰撞:两点是否同站立格)', () => {
+  test('实体 pos 与自身同格', () => {
+    expect(sameTile(1280, 832, 1280, 832)).toBe(true)
+  })
+  test('相邻 iso 站立格判不同格(一步 ±16/±8 必换 col/row/h)', () => {
+    expect(sameTile(1280, 832, 1296, 840)).toBe(false) // → (40,52,h=1)
+    expect(sameTile(1280, 832, 1264, 824)).toBe(false) // → (39,51,h=1)
+  })
+  test('同格内微小偏移仍同格', () => {
+    expect(sameTile(1280, 832, 1281, 832)).toBe(true)
   })
 })

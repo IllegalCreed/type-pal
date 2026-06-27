@@ -42,3 +42,10 @@ export function buildIsBlocked(map: Tilemap): (x: number, y: number) => boolean 
     return (word & 0x2000) !== 0
   }
 }
+
+/** 两个世界像素点是否落在同一站立格(col,row,h)。实体碰撞用:玩家目标格 == 实体格 → 挡。 */
+export function sameTile(ax: number, ay: number, bx: number, by: number): boolean {
+  const a = pixelToTile(ax, ay)
+  const b = pixelToTile(bx, by)
+  return a.col === b.col && a.row === b.row && a.h === b.h
+}
