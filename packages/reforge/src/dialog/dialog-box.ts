@@ -4,13 +4,13 @@
  * 每段话在它的 slot 内自动折行(layoutLines)+ 按 4 显示行/页分页,翻页只翻活跃槽。
  */
 import { lookupText, type TextSpan, zhLocale } from '@type-pal/content'
-import type { Palette, RleFrame } from '@type-pal/shared'
+import type { RleFrame } from '@type-pal/shared'
 import { advanceLine, type DialogueState } from '../dialogue.js'
 import type { GlyphTable } from '../text/glyph.js'
-import { indexToRgba, TITLE_RGBA } from '../text/palette-color.js'
+import { CURSOR_COLOR_COUNT, CURSOR_RGBA, TITLE_RGBA } from '../text/palette-color.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
 import { charsShown, countChars, DEFAULT_SPEED_MS } from '../text/typewriter.js'
-import { bakeCursorTinted, CURSOR_COLOR_COUNT, CURSOR_COLOR_START } from './dialog-assets.js'
+import { bakeCursorTinted } from './dialog-assets.js'
 import { type DisplayLine, layoutLines } from './layout.js'
 import { advanceSlots, emptySlots, type SlotId, type SlotState } from './slot.js'
 
@@ -55,7 +55,6 @@ export class DialogBox {
   constructor(
     private readonly ctx: CanvasRenderingContext2D,
     private readonly glyphs: GlyphTable,
-    private readonly palette: Palette,
     private readonly cursorFrames: RleFrame[],
     private readonly portraits: ReadonlyMap<number, HTMLCanvasElement> = new Map(),
   ) {}
@@ -287,8 +286,10 @@ export class DialogBox {
   }
 
   private bakeCursorStep(frame: RleFrame, cacheKey: number, step: number): HTMLCanvasElement {
-    const rgba = indexToRgba(CURSOR_COLOR_START + step, this.palette)
-    const baked = bakeCursorTinted(frame, rgba)
+    // step 由 drawCursor 用 % CURSOR_COLOR_COUNT 计算得,恒落在 CURSOR_RGBA 范围内;
+    // 此处显式判空(引擎 noNonNullAssertion,no `!`),越界兜底第 0 色。
+    const rgba = CURSOR_RGBA[step] ?? CURSOR_RGBA[0]
+    const baked = bakeCursorTinted(frame, rgba ?? [0, 0, 0])
     this.cursorBaked[cacheKey] = baked
     return baked
   }

@@ -43,10 +43,6 @@ export function bakeCursorTinted(
   return cvs
 }
 
-/** palette 0xF9-0xFE 6 色(spec §3 光标闪烁色轮转起始)。 */
-export const CURSOR_COLOR_START = 0xf9
-export const CURSOR_COLOR_COUNT = 6
-
 /** 解码光标 sprite frames(DATA chunk12),bake 推迟到 DialogBox(按 step bake+缓存)。 */
 export async function loadCursorFrames(baseUrl = '/extracted'): Promise<RleFrame[]> {
   const res = await fetch(`${baseUrl}/data/dialog-icons-raw.json`)

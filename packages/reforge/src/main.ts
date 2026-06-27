@@ -108,7 +108,7 @@ async function main(): Promise<void> {
   const [playerSprite, ghostSprite] = await Promise.all([loadSprite(2), loadSprite(16)])
   const ghost = requireFirst(guijieMinjuScene.entities, '场景缺少鬼实体')
   const player = { pos: { ...guijieMinjuScene.entry.pos } }
-  const dialogBox = new DialogBox(ctx, glyphs, palette, cursorFrames, portraits)
+  const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits)
   let facing: Facing = guijieMinjuScene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位
