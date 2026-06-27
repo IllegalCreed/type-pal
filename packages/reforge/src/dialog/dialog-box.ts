@@ -45,17 +45,19 @@ export class DialogBox {
   render(nowMs: number): void {
     if (!this.state) return
     const lines = pageLines(this.state)
+    // 姓名牌只画该页首行(spec §3:仅首行 + 非 center 当姓名,不计入正文行)
+    const first = lines[0]
+    if (first?.speaker) {
+      const nameSpans: TextSpan[] = [{ text: `${lookupText(first.speaker, zhLocale)}：` }]
+      renderSpans(this.ctx, nameSpans, TITLE_POS_BOTTOM.x, TITLE_POS_BOTTOM.y, {
+        glyphs: this.glyphs,
+        palette: this.palette,
+        shadow: true,
+        forceColorIndex: TITLE_COLOR_INDEX, // 姓名牌固定 CYAN_ALT(0x8C)
+      })
+    }
     let ty = TEXT_POS_BOTTOM.y
     for (const line of lines) {
-      if (line.speaker) {
-        const nameSpans: TextSpan[] = [{ text: `${lookupText(line.speaker, zhLocale)}：` }]
-        renderSpans(this.ctx, nameSpans, TITLE_POS_BOTTOM.x, TITLE_POS_BOTTOM.y, {
-          glyphs: this.glyphs,
-          palette: this.palette,
-          shadow: true,
-          forceColorIndex: TITLE_COLOR_INDEX, // 姓名牌固定 CYAN_ALT(0x8C)
-        })
-      }
       const spans = parseRichText(lookupText(line.text, zhLocale))
       const elapsed = nowMs - this.lineStartMs
       const limit = charsShown(elapsed, DEFAULT_SPEED_MS)
