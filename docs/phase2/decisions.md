@@ -92,3 +92,15 @@
 - ② `DialogueLine` 加 `slot?` / `portrait?`；渲染层管理多 slot 各自状态（留显 / 活跃）。
 - slot 生命周期：同 slot 翻页覆盖、不同 slot 共存、对话结束清所有；**复杂清屏编排**（任意时点清某 slot、黑屏叠字…）留**演出系统**（[P0 §6](foundation/content-schema.md) timeline action），不塞对话数据。
 - 详见 [visual-design.md](dialogue/visual-design.md) §4。
+
+
+## D15 · 运行时全 RGBA；palette 仅迁移期解码（2026-06-27）
+
+**决定**：第二阶段运行时**彻底无 palette**，美术统一 RGBA。两类来源——① AI 生图天生 RGBA；② 原版 indexed 素材由**第二阶段迁移器**（读 `data/extracted`）烘成 RGBA（indexed + palette → RGBA PNG），属 [P0 §8](foundation/content-schema.md) 迁移器的一步。**`pal-extract`（第一阶段提取器）不动**——它产 indexed + palette 给第一阶段 game，改它会耦合两阶段 + 破坏 game。UI / 对话语义色（字体 / 姓名 / 光标）用**固定 RGBA 常量**，不绑场景 palette。
+**理由**：palette 是 1995 VGA 省显存遗产，Canvas2D / AI 彩图无此约束，运行时留着是负担 + 一类坑（UI 色绑场景 palette index → 跨场景不一致；实证:pal1 的 UI index 全成灰、pal2 姓名色 0x8C = 纯黑[0,0,0]）。是 [D4](decisions.md)「palette 降级为解码资产」的彻底化（D4 留的「解码时机 构建期 vs 运行期 P1 再定」→ 此定为**迁移期**）。原版 palette 的运行时变色（昼夜 / 水波 / 受伤红屏）改用后处理 / 整屏合成（D4 已定，不靠换盘）。
+**影响**：
+- 链路:`pal-extract`(不动) → `data/extracted`(indexed + palette) → 迁移器(烘 RGBA) → `content/assets`(RGBA) → reforge 吃。
+- **两块错开**:① UI / 对话语义色 → 固定 RGBA 常量,**现在就能改**(`palette-color.ts` / 头像 / 光标,不依赖迁移器);② 美术资产(sprite / tile / 头像)RGBA 化 → **随迁移器建**(③ / 编辑器附近,不是现在)。
+- demo 现状(reforge fetch `data/extracted` 的 indexed + 运行时 palette 解码)是 [D2](decisions.md)「切片复用原版」权宜,留到迁移器那刀转 RGBA。
+- **两阶段资产管线解耦**:`pal-extract` 不为第二阶段改动;烘 RGBA 是第二阶段迁移器的活。
+- [art-pipeline](foundation/art-pipeline.md) 据此更新(留后)。
