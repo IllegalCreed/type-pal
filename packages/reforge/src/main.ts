@@ -229,7 +229,7 @@ async function main(): Promise<void> {
       if (interact) {
         const ent = nearbyInteractable()
         const dlg = ent?.interact ? dialogueById(ent.interact) : undefined
-        if (dlg) dialogBox.open(startDialogue(dlg, 4), t) // 鬼话框 4 行/页(spec §3)
+        if (dlg) dialogBox.open(startDialogue(dlg), t) // 分页由 DialogBox 按显示行算
       }
       if (!dialogBox.active) {
         const dir = heldDir()
