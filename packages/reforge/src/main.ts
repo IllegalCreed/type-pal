@@ -252,7 +252,15 @@ async function main(): Promise<void> {
           // 每 STEP_MS 走一步（~10fps 步进 = 卡顿感）：意图 → 纯函数碰撞 → 结果 + 走帧推进
           while (stepAcc >= STEP_MS) {
             stepAcc -= STEP_MS
-            player.pos = resolveMove(player.pos, WALK_STEP[dir], isBlocked)
+            const next = resolveMove(player.pos, WALK_STEP[dir], isBlocked)
+            if (next.x === player.pos.x && next.y === player.pos.y) {
+              // 撞禁入(墙/实体):停下、不原地踏步——站立帧 + 复位迈腿相位 + 清累加(同松键停步)
+              walking = false
+              stepFrame = (stepFrame & 2) ^ 2
+              stepAcc = 0
+              break
+            }
+            player.pos = next
             walking = true
             stepFrame = (stepFrame + 1) % 4
           }
