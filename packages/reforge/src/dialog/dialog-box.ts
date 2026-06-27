@@ -19,6 +19,9 @@ const TITLE_POS_BOTTOM = { x: 12, y: 108 } // 无头像;有头像 x=4
 export class DialogBox {
   private state: DialogueState | null = null
   private lineStartMs = 0
+  /** 本页是否已「瞬显」(打字中按 space 触发,或逐字打完自然置位)。
+   *  sdlpal fUserSkip 语义:瞬显后本页全字显示 + 出光标等键,再按 space 才翻页。 */
+  private pageDone = false
 
   constructor(
     private readonly ctx: CanvasRenderingContext2D,
@@ -33,13 +36,25 @@ export class DialogBox {
   open(state: DialogueState, nowMs: number): void {
     this.state = state
     this.lineStartMs = nowMs
+    this.pageDone = false
   }
 
-  /** 翻页;翻完关闭。Task 4 单页 1 行(默认 linesPerPage),Task 5 接分页。 */
+  /**
+   * 按 space 的两段式(sdlpal fUserSkip):
+   * - 打字中(本页未全显)→ 瞬显本页 + 出光标(不翻页);pageDone=true。
+   * - 已全显 → 翻下一页(翻完关闭)。
+   */
   advance(nowMs: number): void {
     if (!this.state) return
+    if (!this.pageDone) {
+      this.pageDone = true
+      return
+    }
     this.state = advancePage(this.state)
-    this.lineStartMs = nowMs
+    if (this.state) {
+      this.lineStartMs = nowMs
+      this.pageDone = false
+    }
   }
 
   render(nowMs: number): void {
@@ -59,13 +74,18 @@ export class DialogBox {
     let ty = TEXT_POS_BOTTOM.y
     const elapsed = nowMs - this.lineStartMs
     let charsBefore = 0 // 该行之前各行已打完的总字符数(逐行打:第 i 行等前 i-1 行打完才开始)
+    let allDone = true // 本页是否所有行都已打完(用于自然置 pageDone + 光标判定)
     for (const line of lines) {
       const spans = parseRichText(lookupText(line.text, zhLocale))
       const rowLen = countChars(spans)
-      // 该行开始打字后经过的时间 = 总 elapsed 减去前面行打字花的时间
-      const rowElapsed = Math.max(0, elapsed - charsBefore * DEFAULT_SPEED_MS)
-      // 该行已显示字数:按 rowElapsed 推进,但打完(rowLen)即停
-      const limit = Math.min(charsShown(rowElapsed, DEFAULT_SPEED_MS), rowLen)
+      // 瞬显(pageDone)→ 全字;否则逐行打字:rowElapsed 减去前面行打字耗时
+      const limit = this.pageDone
+        ? rowLen
+        : Math.min(
+            charsShown(Math.max(0, elapsed - charsBefore * DEFAULT_SPEED_MS), DEFAULT_SPEED_MS),
+            rowLen,
+          )
+      if (limit < rowLen) allDone = false
       renderSpans(this.ctx, spans, TEXT_POS_BOTTOM.x, ty, {
         glyphs: this.glyphs,
         palette: this.palette,
@@ -75,5 +95,7 @@ export class DialogBox {
       charsBefore += rowLen
       ty += LINE_HEIGHT
     }
+    // 逐字自然打完 → 置 pageDone(进入等键态,出光标),无需玩家手动瞬显
+    if (allDone && !this.pageDone) this.pageDone = true
   }
 }
