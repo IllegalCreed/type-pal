@@ -1,4 +1,3 @@
-import type { DialogueLine } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { advanceSlots, emptySlots } from './slot.js'
 
