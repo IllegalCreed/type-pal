@@ -11,11 +11,11 @@
 ## Global Constraints
 
 - **两层纪律(D13)**:`text/` 不知道「对话」存在(物品框 / 旁白 / 菜单将来都复用它);对话特有的(姓名 / 翻页 / 头像 / slot)只在 `dialog/`。
-- **新引擎零 lint/type(已立)**:`noNonNullAssertion` 在 reforge 是 **error**;不写 `!`,用显式判空 / 辅助函数(`get2dContext`/`requireFirst` 已在 main.ts)。颜色用 `palette.colors[index]`,不写魔法数字面。
+- **新引擎零 lint/type(已立)**:`noNonNullAssertion` 在 reforge 是 **error**;不写 `!`,用显式判空(`const ctx = cvs.getContext('2d'); if (!ctx) throw …`,与 `render.ts:30` bakeFrame 一致)。颜色用 `palette.colors[index]`,不写魔法数字面。
 - **打字时钟与逻辑解耦(design §6)**:打字进度走 `performance.now`,不挂 ① 的 10fps 逻辑状态机;① 的 `dialogue.ts`(pageLines/advancePage)**不改**。
 - **slot 运行时只渲染显式数据(D14)**:不在运行时猜「说话人→位置」。
 - **字模 = Unifont**(非 FONT.MKF):端口 `packages/game/src/present/font.ts` 的 glyph 结构 + `glyphs.json`。
-- **测试**:纯逻辑 TDD 单测;canvas 渲染走 `pnpm --filter @type-pal/reforge run check` + 浏览器截图。
+- **测试**:纯逻辑(decodeGlyph / typewriter / palette-color / slot)TDD 单测;**canvas 渲染无法单测**(reforge vitest 是纯 node,happy-dom `getContext` 返 null、node-canvas 未装——见 Task 1 实测注),走 `pnpm --filter @type-pal/reforge run check`(typecheck)+ 浏览器截图验收。
 - **gating**:每 Task 末 `pnpm --filter @type-pal/reforge run check` 绿 + biome 0/0。
 - 端口源:第一阶段 `present/dialog-box.ts`(渲染 / 常量)、`present/font.ts`(glyph)、`assets/dialog-assets.ts`(头像 / 光标);reforge `assets.ts`(fetch+parseSpriteChunk 模式)、`render.ts`(bakeFrame 离屏 canvas 模式)。
 
@@ -25,8 +25,8 @@
 
 | 文件 | 责任 | 动作 |
 |---|---|---|
-| `packages/reforge/src/text/glyph.ts` | `loadGlyphs`(端口)+ `GlyphTable` + `bakeGlyph`(glyph+RGBA→离屏 canvas 缓存) | Create |
-| `packages/reforge/src/text/glyph.test.ts` | bakeGlyph 缓存 / 尺寸单测 | Create |
+| `packages/reforge/src/text/glyph.ts` | `loadGlyphs`(端口)+ `GlyphTable` + `decodeGlyph`(纯函数:glyph→RGBA)+ `bakeGlyph`(RGBA→离屏 canvas 缓存) | Create |
+| `packages/reforge/src/text/glyph.test.ts` | decodeGlyph bit 解析单测(纯逻辑,不碰 canvas) | Create |
 | `packages/reforge/src/text/text-render.ts` | `renderSpans`(spans→ctx,三层阴影 + 逐段着色)+ `measureSpans` | Create |
 | `packages/reforge/src/text/typewriter.ts` | `charsShown(elapsedMs, speedMs)` 纯函数 + 打字进度逻辑 | Create |
 | `packages/reforge/src/text/typewriter.test.ts` | 打字进度单测 | Create |
@@ -54,48 +54,87 @@
   - `interface Glyph { width: number; height: number; bitmap: Uint8Array }`(端口 font.ts,MSB-first 按行)
   - `interface GlyphTable { has(cp: number): boolean; get(cp: number): Glyph | undefined }`
   - `loadGlyphs(baseUrl?: string): Promise<GlyphTable>`(端口 `present/font.ts:loadGlyphs`,fetch `/extracted/data/font/glyphs.json`)
-  - `bakeGlyph(glyph: Glyph, rgba: readonly [number, number, number]): HTMLCanvasElement` — glyph 亮像素染成 rgba 画到离屏 canvas(透明背景),按 `(codepoint,rgba)` 缓存
+  - `decodeGlyph(glyph: Glyph, rgba: readonly [number, number, number]): Uint8Array` — **纯函数**,glyph bitmap(MSB-first 按行)→ RGBA `Uint8Array`(`width*height*4`,亮像素填 rgba+alpha255,暗像素 alpha0)。**核心 bit 解码逻辑可单测**(不碰 DOM/canvas)。
+  - `bakeGlyph(cp: number, glyph: Glyph, rgba: readonly [number, number, number]): HTMLCanvasElement` — 把 `decodeGlyph` 结果涂到离屏 canvas(透明背景),按 `(codepoint,rgba)` 缓存。**canvas 涂绘部分留浏览器验**(测试环境无 canvas,见下注)。
 
-- [ ] **Step 1: 端口 Glyph 类型 + loadGlyphs**
+> **⚠ 测试环境真相(2026-06-27 实测)**:reforge 的 vitest 是**纯 node 环境**(无 happy-dom/jsdom,且实测 happy-dom 的 `getContext('2d')` 返回 null,node-canvas 未装)。**canvas 操作无法单测**。故 Task 1 把 bit 解码抽成纯函数 `decodeGlyph` 单测;`bakeGlyph` 的 canvas 涂绘(putImageData/drawImage)靠浏览器验收。这覆盖了"bit 解析正确性"这一真风险(MSB-first、跨字节、padding),canvas 涂绘只是把算好的 RGBA 贴上去。
+
+- [ ] **Step 1: 端口 Glyph 类型 + loadGlyphs + decodeGlyph**
 
 `glyph.ts`:从 `packages/game/src/present/font.ts` 端口 `Glyph` 接口 + `loadGlyphs`(逻辑相同——fetch glyphs.json、base64→Uint8Array)。`GlyphTable` 同 font.ts。**不端口** `renderText`/`blitGlyph`(那是 framebuffer 版,Canvas2D 版在 Task 2)。
 
-- [ ] **Step 2: 写 bakeGlyph 失败测试**
+同时实现纯函数 `decodeGlyph`(bit 解码,可立即单测):
+```ts
+/** glyph bitmap(MSB-first 按行)→ RGBA Uint8Array;纯函数,不碰 DOM。亮像素=rgba+α255,暗像素=α0。 */
+export function decodeGlyph(glyph: Glyph, rgba: readonly [number, number, number]): Uint8Array {
+  const out = new Uint8Array(glyph.width * glyph.height * 4)
+  const bytesPerRow = Math.ceil(glyph.width / 8)
+  for (let row = 0; row < glyph.height; row++) {
+    for (let col = 0; col < glyph.width; col++) {
+      const byteIdx = row * bytesPerRow + Math.floor(col / 8)
+      const bit = ((glyph.bitmap[byteIdx] ?? 0) >> (7 - (col % 8))) & 1
+      if (bit) {
+        const o = (row * glyph.width + col) * 4
+        out[o] = rgba[0]
+        out[o + 1] = rgba[1]
+        out[o + 2] = rgba[2]
+        out[o + 3] = 255
+      }
+    }
+  }
+  return out
+}
+```
+
+- [ ] **Step 2: 写 decodeGlyph 失败测试(纯逻辑,不依赖 canvas)**
 
 `glyph.test.ts`:
 ```ts
 import { describe, expect, test } from 'vitest'
-import { bakeGlyph, type Glyph } from './glyph.js'
+import { decodeGlyph, type Glyph } from './glyph.js'
 
 // 2×2 glyph:左上 + 右下 亮(MSB-first,每行 1 byte)
 const g: Glyph = { width: 2, height: 2, bitmap: new Uint8Array([0b10000000, 0b01000000]) }
 
-describe('bakeGlyph', () => {
-  test('离屏 canvas 尺寸 = glyph 尺寸', () => {
-    const c = bakeGlyph(g, [255, 0, 0])
-    expect(c.width).toBe(2)
-    expect(c.height).toBe(2)
+describe('decodeGlyph', () => {
+  test('输出尺寸 = width*height*4', () => {
+    expect(decodeGlyph(g, [255, 0, 0]).length).toBe(2 * 2 * 4)
   })
-  test('同 (glyph,色) 第二次返回缓存的同一 canvas', () => {
-    const a = bakeGlyph(g, [255, 0, 0])
-    const b = bakeGlyph(g, [255, 0, 0])
-    expect(b).toBe(a)
+
+  test('亮像素填 rgba + α255,暗像素 α0', () => {
+    const px = decodeGlyph(g, [10, 20, 30])
+    // (0,0)亮 → rgba+255
+    expect(px.slice(0, 4)).toEqual([10, 20, 30, 255])
+    // (1,0)暗 → α0(decodeGlyph 不主动写 RGB,暗像素全 0)
+    expect(px.slice(4, 8)).toEqual([0, 0, 0, 0])
+    // (0,1)暗
+    expect(px.slice(8, 12)).toEqual([0, 0, 0, 0])
+    // (1,1)亮
+    expect(px.slice(12, 16)).toEqual([10, 20, 30, 255])
   })
-  test('不同色 → 不同 canvas', () => {
-    expect(bakeGlyph(g, [255, 0, 0])).not.toBe(bakeGlyph(g, [0, 255, 0]))
+
+  test('跨字节:width=10 → bytesPerRow=2,row1 col9 在第 4 字节(byte[3])', () => {
+    // row1 占 byte[2](col0-7) + byte[3](col8-9);col9 → byteIdx=1*2+floor(9/8)=3,bit=(7-9%8)=6
+    const wide: Glyph = {
+      width: 10,
+      height: 2,
+      bitmap: new Uint8Array([0, 0, 0, 0b01000000]), // byte[3] bit6 = row1 col9
+    }
+    const px = decodeGlyph(wide, [1, 1, 1])
+    const idx = (1 * 10 + 9) * 4 // row1 col9
+    expect(px[idx + 3]).toBe(255) // α255 = 亮
   })
 })
 ```
-> vitest 默认 jsdom?reforge 测试环境需 canvas。若 `document.createElement('canvas').getContext('2d')` 在测试环境返回 null,本 Task 测试改为只验缓存命中(用 mock 或 `happy-dom`)。**先跑 Step 3 看环境**;若 canvas 不可用,bakeGlyph 缓存逻辑抽成可测的纯 `glyphCacheKey(cp,rgba)` 函数单独测,bake 本身留浏览器验。
 
-- [ ] **Step 3: 跑测试确认失败 + 探测 canvas 环境**
+- [ ] **Step 3: 跑测试确认失败**
 
 Run: `pnpm --filter @type-pal/reforge exec vitest run src/text/glyph.test.ts`
-Expected: FAIL(bakeGlyph 未定义);若报 `getContext is not a function` → canvas 测试环境不可用,按 Step 2 注解降级(测 `glyphCacheKey`)。
+Expected: FAIL(`decodeGlyph` 未定义)
 
-- [ ] **Step 4: 实现 bakeGlyph**
+- [ ] **Step 4: 测试通过 + 实现 bakeGlyph(留浏览器验)**
 
-`glyph.ts` 加:
+Step 1 已写 decodeGlyph,跑测试应 PASS(3 passed)。再实现 `bakeGlyph`(canvas 涂绘 + 缓存,复用 `decodeGlyph` 算 RGBA):
 ```ts
 const cache = new Map<string, HTMLCanvasElement>()
 
@@ -103,7 +142,7 @@ function glyphCacheKey(cp: number, rgba: readonly [number, number, number]): str
   return `${cp}:${rgba[0]},${rgba[1]},${rgba[2]}`
 }
 
-/** glyph 亮像素染成 rgba 画到离屏 canvas(透明背景);按 (cp,色) 缓存。cp 用于缓存 key,调用方传当前字符 codepoint。 */
+/** decodeGlyph 结果涂到离屏 canvas;按 (cp,色) 缓存。canvas 部分浏览器验。 */
 export function bakeGlyph(
   cp: number,
   glyph: Glyph,
@@ -118,39 +157,25 @@ export function bakeGlyph(
   const ctx = cvs.getContext('2d')
   if (!ctx) throw new Error('reforge: glyph 2d context 不可用')
   const img = ctx.createImageData(glyph.width, glyph.height)
-  const bytesPerRow = Math.ceil(glyph.width / 8)
-  for (let row = 0; row < glyph.height; row++) {
-    for (let col = 0; col < glyph.width; col++) {
-      const byteIdx = row * bytesPerRow + Math.floor(col / 8)
-      const bit = ((glyph.bitmap[byteIdx] ?? 0) >> (7 - (col % 8))) & 1
-      if (bit) {
-        const o = (row * glyph.width + col) * 4
-        img.data[o] = rgba[0]
-        img.data[o + 1] = rgba[1]
-        img.data[o + 2] = rgba[2]
-        img.data[o + 3] = 255
-      }
-    }
-  }
+  img.data.set(decodeGlyph(glyph, rgba))
   ctx.putImageData(img, 0, 0)
   cache.set(key, cvs)
   return cvs
 }
 ```
-> ⚠ 签名带 `cp`(缓存 key 用)。测试 Step 2 的 `bakeGlyph(g, …)` 改成 `bakeGlyph(0x41, g, …)`。
+> 判空 `if (!ctx) throw` 与 `render.ts:30` 的 `bakeFrame` 现有惯例一致(非 noNonNullAssertion 违例)。
 
 - [ ] **Step 5: 测试通过 + assets loadGlyphs**
 
-修 Step 2 测试调用加 cp 参数,跑通。`assets.ts` 加 `export { loadGlyphs } from './text/glyph.js'`(或直接在 assets 加 fetch,与现有 loadTilemap 风格一致)。
-
-Run: `pnpm --filter @type-pal/reforge exec vitest run src/text/glyph.test.ts` → PASS
+Run: `pnpm --filter @type-pal/reforge exec vitest run src/text/glyph.test.ts` → PASS(3 passed)
 Run: `pnpm --filter @type-pal/reforge run check` → 绿
+`assets.ts` 加 `export { loadGlyphs } from './text/glyph.js'`(或直接在 assets 加 fetch,与现有 loadTilemap 风格一致)。
 
 - [ ] **Step 6: Commit**
 
 ```bash
 git add packages/reforge/src/text/glyph.ts packages/reforge/src/text/glyph.test.ts packages/reforge/src/assets.ts
-git commit -m "feat(reforge): 字模加载 + bakeGlyph(glyph+RGBA→离屏 canvas 缓存)"
+git commit -m "feat(reforge): 字模加载 + decodeGlyph(bit→RGBA 纯函数,单测)+ bakeGlyph(离屏 canvas 缓存)"
 ```
 
 ---
@@ -378,6 +403,8 @@ git commit -m "feat(reforge): 打字进度纯函数 charsShown/isLineDone(perfor
 
 ## Task 4: DialogBox 骨架 — 框 / 姓名牌 / 正文(bottom 单 slot)+ 从 main 拎出
 
+> ⚠ **本 Task 的单 `state` 设计是临时的,Task 6 会重构**:Task 4 用 `private state: DialogueState | null`(单 slot、按页翻),目的是先把"字模/姓名牌/打字"渲染链路跑通。Task 6(slot 共存)会把核心数据结构改成 `Map<slot, SlotState>` + 句指针推进——`open/advance/render` 的大部分会重写。**故本 Task 勿过度打磨单 state 结构**,专注把渲染原语接对。
+
 **Files:**
 - Create: `packages/reforge/src/dialog/dialog-box.ts`
 - Modify: `packages/reforge/src/main.ts`、`packages/content/src/locale.ts`
@@ -522,9 +549,11 @@ git commit -m "feat(reforge): DialogBox 骨架 — Unifont 字模 + 姓名牌 + 
 
 - [ ] **Step 3: 光标(画当前页末行末尾 + 6 色轮转)**
 
-DialogBox 加光标渲染:等键时(当前页全字打完且非 autoAdvance),在**末行文字末尾**(`measureSpans` 算 x)画光标 frame。闪烁:取 `palette.colors[0xF9..0xFE]` 6 色,`step = Math.floor(nowMs / 100) % 6`,用 `indexToRgba(0xF9 + step, palette)` 给光标 tint(或直接画 frame——光标 sprite 本身有色,轮转是改其色;最简:6 色轮换填充光标不透明像素)。
+DialogBox 加光标渲染:等键时(当前页全字打完且非 autoAdvance),在**末行文字末尾**(`measureSpans` 算 x)画光标 frame。
+
+**闪烁实现(定死一种,2026-06-27)**:spec §3 真值是"palette 0xF9-0xFE 轮转改色",所以用 **tint 重 bake + by-step 缓存**——把光标 frame 的不透明像素,每 100ms 用 `palette.colors[0xF9+step]` 重染一次 bake 成新 canvas,6 步循环,6 个 canvas 缓存(缓存的 canvas 直接 drawImage,不每帧重算)。
 ```ts
-// DialogBox 字段:private icons: HTMLCanvasElement[] = []  (构造或 open 时注入)
+// cursorBaked:缓存 6 步的 tinted canvas(by step)。DialogBox 构造/open 时用光标 frame 0 预 bake。
 // render 末尾:
 const lines = pageLines(this.state)
 const lastSpans = parseRichText(lookupText(lines[lines.length - 1]?.text ?? '', zhLocale))
@@ -532,11 +561,12 @@ const elapsed = nowMs - this.lineStartMs
 if (isLineDone(elapsed, DEFAULT_SPEED_MS, /*末行字数*/ countChars(lastSpans))) {
   const cursorX = TEXT_POS_BOTTOM.x + measureSpans(lastSpans, this.glyphs)
   const cursorY = TEXT_POS_BOTTOM.y + (lines.length - 1) * LINE_HEIGHT
-  const icon = this.icons[/*cursorHint*/ 0]
-  if (icon) this.ctx.drawImage(icon, cursorX, cursorY)  // 闪烁色轮转见上(对 icon 重 bake 或 globalAlpha 脉动)
+  const step = Math.floor(nowMs / 100) % 6
+  const icon = this.cursorBaked[step]  // 6 步 tinted canvas 之一(frame0 + palette[0xF9+step] 色)
+  if (icon) this.ctx.drawImage(icon, cursorX, cursorY)
 }
 ```
-> 光标闪烁的「6 色轮转」对 Canvas2D 最简实现:把光标 frame 也走 bakeFrame,每 100ms 用 `0xF9+step` 的 RGBA 重 bake(缓存 by step)。`countChars(spans)` = Σ span.text 的 codepoint 数(加个小工具)。
+> **tint 重 bake 的具体做法**:光标 RleFrame 的不透明像素,用 `palette.colors[0xF9+step]`(6 色)逐像素染色 bake 成 canvas,缓存 key = step(0..5)。6 个 canvas 预 bake 一次,渲染时按 nowMs 选 step 对应的 canvas drawImage。`countChars(spans)` = Σ span.text 的 codepoint 数(加个小工具)。此实现忠实 spec §3"色轮转",不用 globalAlpha 脉动。
 
 - [ ] **Step 4: 自动播放(autoAdvance)**
 
@@ -696,8 +726,9 @@ git commit -m "feat(content): 鬼话对话系统完整仪表盘 — 覆盖全部
 ## Self-Review(计划作者自查,已过)
 
 1. **Spec 覆盖**(对 design §1 技术点):字模→T1/2/4;颜色着色→T2;打字→T2/3;速度→T3/7;自动播放→T5/7;翻页→T5;姓名牌→T4;头像→T6;光标 3 形+轮转→T5;slot 共存→T6;上下布局→T6;仪表盘→T7。两层架构(D13)→ text/ 在 T1-3、dialog/ 在 T4-6。✅
-2. **占位符**:`PLACEHOLDER`(头像 chunk 号)在 T7 标明「看 portraits.json 选」——是创作期选值非代码占位,可接受;光标 frame 数「调研 3 个」实现按实际。其余无 TBD。✅
-3. **类型一致**:`bakeGlyph(cp,glyph,rgba)`(T1 改了签名,T2 调用对齐)、`renderSpans(…opts)` 加 `forceColorIndex`(T2 定义 / T4 用)、`charsShown`/`isLineDone`(T3→T5)、`advanceSlots`/`SlotState`(T6)、`DialogueLine.slot/portrait`(T6 content → T7 用)。链路对齐。✅
+2. **占位符**:`PLACEHOLDER`(头像 chunk 号)在 T7 标明「看 portraits.json 选」——是创作期选值非代码占位,可接受。光标闪烁实现已定死(tint 重 bake + by-step 缓存,T5)。其余无 TBD。✅
+3. **类型一致**:`decodeGlyph(glyph,rgba)`(T1 纯函数)+ `bakeGlyph(cp,glyph,rgba)`(T1 canvas 涂绘,T2 调用对齐)、`renderSpans(…opts)` 加 `forceColorIndex`(T2 定义 / T4 用)、`charsShown`/`isLineDone`(T3→T5)、`advanceSlots`/`SlotState`(T6)、`DialogueLine.slot/portrait`(T6 content → T7 用)。链路对齐。✅
 4. **范围**:单切片(对话外观),text/ 与 dialog/ 虽分层但紧耦合于本切片、一个 plan 合理;每 Task 末 commit + check 绿(canvas 渲染 Task 靠浏览器验收)。✅
+5. **实测决策(2026-06-27)**:(a) canvas 测试环境——happy-dom `getContext` 返 null、node-canvas 未装,故 Task 1 抽 `decodeGlyph` 纯函数单测,bakeGlyph canvas 涂绘留浏览器验;(b) Task 4 单 state 设计标注为"Task 6 会重构",勿过度打磨;(c) Task 5 光标闪烁定 tint 重 bake + by-step 缓存一种(spec §3 色轮转)。✅
 
-> 已知务实偏离:canvas 渲染无法单测,T4/5/6/7 渲染部分靠 typecheck + 浏览器截图验收(Global Constraints 已声明);端口部分(glyph 结构 / 光标加载 / 头像加载 / 位置常量)给「端口自 X + 改动点」而非重抄第一阶段(GLM 可读 codebase)。
+> 已知务实偏离:canvas 渲染无法单测(reforge vitest 纯 node),T4/5/6/7 渲染部分靠 typecheck + 浏览器截图验收(Global Constraints 已声明);T1 的 bit 解码抽纯函数 `decodeGlyph` 可单测;端口部分(glyph 结构 / 光标加载 / 头像加载 / 位置常量)给「端口自 X + 改动点」而非重抄第一阶段(GLM 可读 codebase)。
