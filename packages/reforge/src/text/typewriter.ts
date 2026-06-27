@@ -1,3 +1,5 @@
+import type { TextSpan } from '@type-pal/content'
+
 /** 默认打字速度 24ms/字(GLM spec §3:iDelayTime=3 × 8)。 */
 
 export const DEFAULT_SPEED_MS = 24
@@ -23,4 +25,11 @@ export function isLineDone(
   if (elapsedMs < typeDoneMs) return false
   if (autoAdvanceMs == null) return true
   return elapsedMs >= typeDoneMs + autoAdvanceMs
+}
+
+/** spans 总字符数(Σ span.text 长度)。打字进度 / 行完成判定用。 */
+export function countChars(spans: readonly TextSpan[]): number {
+  let n = 0
+  for (const span of spans) n += span.text.length
+  return n
 }

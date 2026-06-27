@@ -9,7 +9,7 @@ import { advancePage, type DialogueState, pageLines } from '../dialogue.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { TITLE_COLOR_INDEX } from '../text/palette-color.js'
 import { renderSpans } from '../text/text-render.js'
-import { charsShown, DEFAULT_SPEED_MS } from '../text/typewriter.js'
+import { charsShown, countChars, DEFAULT_SPEED_MS } from '../text/typewriter.js'
 
 // GLM spec §3 bottom 布局真值(320×200 坐标系)
 const LINE_HEIGHT = 18
@@ -57,16 +57,22 @@ export class DialogBox {
       })
     }
     let ty = TEXT_POS_BOTTOM.y
+    const elapsed = nowMs - this.lineStartMs
+    let charsBefore = 0 // 该行之前各行已打完的总字符数(逐行打:第 i 行等前 i-1 行打完才开始)
     for (const line of lines) {
       const spans = parseRichText(lookupText(line.text, zhLocale))
-      const elapsed = nowMs - this.lineStartMs
-      const limit = charsShown(elapsed, DEFAULT_SPEED_MS)
+      const rowLen = countChars(spans)
+      // 该行开始打字后经过的时间 = 总 elapsed 减去前面行打字花的时间
+      const rowElapsed = Math.max(0, elapsed - charsBefore * DEFAULT_SPEED_MS)
+      // 该行已显示字数:按 rowElapsed 推进,但打完(rowLen)即停
+      const limit = Math.min(charsShown(rowElapsed, DEFAULT_SPEED_MS), rowLen)
       renderSpans(this.ctx, spans, TEXT_POS_BOTTOM.x, ty, {
         glyphs: this.glyphs,
         palette: this.palette,
         shadow: true,
         maxChars: limit,
       })
+      charsBefore += rowLen
       ty += LINE_HEIGHT
     }
   }
