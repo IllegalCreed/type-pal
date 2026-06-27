@@ -1,16 +1,16 @@
-import {
-  type Dialogue,
-  type DialogueLine,
-  type EntityDef,
-  type Facing,
-  guijieMinjuScene,
-  lookupText,
-  zhLocale,
-} from '@type-pal/content'
+import { type Dialogue, type EntityDef, type Facing, guijieMinjuScene } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
-import { type LoadedSprite, loadPalette, loadSprite, loadTilemap, loadTileset } from './assets.js'
+import {
+  type LoadedSprite,
+  loadGlyphs,
+  loadPalette,
+  loadSprite,
+  loadTilemap,
+  loadTileset,
+} from './assets.js'
 import { buildIsBlocked } from './collision.js'
-import { advancePage, type DialogueState, pageLines, startDialogue } from './dialogue.js'
+import { DialogBox } from './dialog/dialog-box.js'
+import { startDialogue } from './dialogue.js'
 import { Keyboard } from './input.js'
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type SpriteDraw } from './render.js'
@@ -59,10 +59,11 @@ const PALETTE_ID = Number(new URLSearchParams(location.search).get('pal') ?? 0)
 const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
 
 async function main(): Promise<void> {
-  const [map, tiles, palette] = await Promise.all([
+  const [map, tiles, palette, glyphs] = await Promise.all([
     loadTilemap(mapNum),
     loadTileset(mapNum),
     loadPalette(PALETTE_ID),
+    loadGlyphs(),
   ])
 
   // 调试：?gallery 渲染精灵速查图（确认哪个 spriteNum 是人/物），不进场景。
@@ -97,7 +98,7 @@ async function main(): Promise<void> {
   const [playerSprite, ghostSprite] = await Promise.all([loadSprite(2), loadSprite(16)])
   const ghost = requireFirst(guijieMinjuScene.entities, '场景缺少鬼实体')
   const player = { pos: { ...guijieMinjuScene.entry.pos } }
-  let activeDialogue: DialogueState | null = null
+  const dialogBox = new DialogBox(ctx, glyphs, palette)
   let facing: Facing = guijieMinjuScene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位
@@ -133,7 +134,7 @@ async function main(): Promise<void> {
     }
     renderer.renderScene(map, room, camera, sprites)
     if (DEBUG_COLLISION) drawCollisionOverlay()
-    if (activeDialogue) drawDialogueBox(pageLines(activeDialogue))
+    if (dialogBox.active) dialogBox.render(performance.now())
   }
 
   /** 调试层（将来可移入编辑器）：iso 菱形网格 + 每站立点 isBlocked(绿走/红禁) + 玩家脚点。 */
@@ -184,7 +185,7 @@ async function main(): Promise<void> {
     ghost,
     room,
     get dialogue() {
-      return activeDialogue
+      return dialogBox.active
     },
   }
 
@@ -202,40 +203,6 @@ async function main(): Promise<void> {
     })
   }
 
-  function drawDialogueBox(lines: DialogueLine[]): void {
-    if (lines.length === 0) return
-    const W = canvas.width
-    const H = canvas.height
-    const boxH = 60
-    const top = H - boxH - 6
-    ctx.save()
-    ctx.globalAlpha = 0.86
-    ctx.fillStyle = '#1a120b'
-    ctx.fillRect(6, top, W - 12, boxH)
-    ctx.globalAlpha = 1
-    ctx.strokeStyle = '#d8b365'
-    ctx.strokeRect(6, top, W - 12, boxH)
-    // 继续提示：右上角小字
-    ctx.fillStyle = '#7a6a4a'
-    ctx.font = '8px monospace'
-    ctx.fillText('[空格] 继续', W - 62, top + 12)
-    // 逐行：speaker(姓名牌简版) + 正文,都经 locale 查表。着色 / 字模 / 打字留 ②。
-    let ty = top + 26
-    for (const line of lines) {
-      if (line.speaker) {
-        ctx.fillStyle = '#d8b365'
-        ctx.font = '13px "Songti SC","SimSun",serif'
-        ctx.fillText(`${lookupText(line.speaker, zhLocale)}：`, 14, ty)
-        ty += 19
-      }
-      ctx.fillStyle = '#f0e0b0'
-      ctx.font = '13px "Songti SC","SimSun",serif'
-      ctx.fillText(lookupText(line.text, zhLocale), 14, ty)
-      ty += 19
-    }
-    ctx.restore()
-  }
-
   /** 当前按下的方向键 → 朝向（优先级 上 > 下 > 左 > 右，4 向单选）。 */
   function heldDir(): Facing | null {
     if (keyboard.isDown('ArrowUp')) return 'up'
@@ -251,15 +218,15 @@ async function main(): Promise<void> {
     const pressed = keyboard.consumePressed()
     const interact = pressed.has(' ') || pressed.has('Enter')
 
-    if (activeDialogue) {
-      if (interact) activeDialogue = advancePage(activeDialogue) // 翻页;翻完 → null(关闭)
+    if (dialogBox.active) {
+      if (interact) dialogBox.advance(t) // 翻页;翻完 → null(关闭)
     } else {
       if (interact) {
         const ent = nearbyInteractable()
         const dlg = ent?.interact ? dialogueById(ent.interact) : undefined
-        if (dlg) activeDialogue = startDialogue(dlg)
+        if (dlg) dialogBox.open(startDialogue(dlg), t)
       }
-      if (!activeDialogue) {
+      if (!dialogBox.active) {
         const dir = heldDir()
         if (dir) {
           if (dir !== facing) {
