@@ -12,9 +12,9 @@ export function lookupText(id: TextId, locale: Locale): string {
 export const zhLocale: Locale = {
   'name.youhun': '游魂',
   'name.distant-ghost': '远处的鬼',
-  'dlg.ghost-hearsay.0': '……活人气味……这地方，可不该有活人啊……',
-  'dlg.ghost-hearsay.1': '南边……来过个使刀的侠客……听说，是个仗义的……',
-  'dlg.ghost-hearsay.2': '（远处飘来幽幽的声音）那使刀的侠客……我生前也曾与他有一面之缘。他提着刀，从南边那片乱葬岗走来，衣襟上沾着未干的血。我们这些孤魂，远远望着他，竟都忘了恐惧，只觉得……那是一股久违的人间气。后来他走了，往北去了，再没回来过。我们却记住了他刀上的寒光。',
+  'dlg.ghost-hearsay.0': '……<yellow>活人气味</yellow>……这地方，可不该有活人啊……',
+  'dlg.ghost-hearsay.1': '南边……来过个<cyan>使刀的侠客</cyan>……听说，是个仗义的……',
+  'dlg.ghost-hearsay.2': '（远处飘来幽幽的声音）那使刀的侠客……我生前也曾与他有一面之缘。他提着刀，从南边那片乱葬岗走来，衣襟上沾着未干的血。我们这些孤魂，远远望着他，竟都忘了恐惧，只觉得……那是一股久违的人间气。后来他走了，往北去了，再没回来过。我们却记住了他刀上的<red>寒光</red>。',
   'dlg.ghost-hearsay.3': '咳，名字？谁还记得名字。鬼啊，只记得自己怎么死的。',
   'dlg.ghost-hearsay.4': '（李逍遥心头一动：南边……使刀的侠客……）',
 }

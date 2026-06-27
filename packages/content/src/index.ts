@@ -103,13 +103,13 @@ export const guijieMinjuScene: SceneDef = {
   dialogues: [
     {
       id: 'ghost-hearsay',
-      // text/speaker = textId;实际文本在 zhLocale(locale.ts)。slot 验证双框共存(design §5):
+      // 仪表盘(design §5):颜色(黄/青/红)、速度(慢/快/默认)、autoAdvance、slot 共存。
       // 段0/1/3 游魂 bottom,段2 远处鬼 top(与 bottom 留显共存)。
       lines: [
-        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.0', slot: 'bottom' },
-        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.1', slot: 'bottom' },
-        { speaker: 'name.distant-ghost', text: 'dlg.ghost-hearsay.2', slot: 'top' },
-        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.3', slot: 'bottom' },
+        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.0', slot: 'bottom' }, // 默认速 + 黄
+        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.1', slot: 'bottom', speed: 48 }, // 慢 + 青
+        { speaker: 'name.distant-ghost', text: 'dlg.ghost-hearsay.2', slot: 'top' }, // 长独白 + 红 + 共存
+        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.3', slot: 'bottom', speed: 12, autoAdvance: 800 }, // 快 + 自动(800ms 尾停顿)
         { text: 'dlg.ghost-hearsay.4', slot: 'bottom' }, // 旁白,无 speaker
       ],
     },
