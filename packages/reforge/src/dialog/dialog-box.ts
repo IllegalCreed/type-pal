@@ -54,13 +54,15 @@ export class DialogBox {
   private layoutLineInto(lineIdx: number): { slot: SlotId; render: SlotRender } {
     const line = this.state!.dialogue.lines[lineIdx]!
     const slot: SlotId = line.slot ?? 'bottom'
+    // srcLineIdx 要是【原对话 lines 的真实索引】,但 layoutLines 传单元素数组时
+    // 它内部给的是局部索引(恒 0)。这里重映射为真实 lineIdx(该段所有显示行都属于这一段)。
     const displayLines = layoutLines(
       [line],
       this.glyphs,
       (id) => lookupText(id, zhLocale),
       MAX_RIGHT,
       POS[slot].text.x,
-    )
+    ).map((dl) => ({ ...dl, srcLineIdx: lineIdx }))
     return { slot, render: { displayLines, pageStart: 0 } }
   }
 
@@ -200,10 +202,7 @@ export class DialogBox {
         ? rowLen // 留显全字
         : this.pageDone
           ? rowLen // 瞬显全字
-          : Math.min(
-              charsShown(Math.max(0, elapsed - charsBefore * speed), speed),
-              rowLen,
-            )
+          : Math.min(charsShown(Math.max(0, elapsed - charsBefore * speed), speed), rowLen)
       if (limit < rowLen) allDone = false
       renderSpans(this.ctx, dl.spans, pos.text.x, ty, {
         glyphs: this.glyphs,
