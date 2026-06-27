@@ -103,13 +103,14 @@ export const guijieMinjuScene: SceneDef = {
   dialogues: [
     {
       id: 'ghost-hearsay',
-      // text/speaker = textId;实际文本在 zhLocale(locale.ts)。原版「末尾冒号」姓名 → speaker 字段。
+      // text/speaker = textId;实际文本在 zhLocale(locale.ts)。slot 验证双框共存(design §5):
+      // 段0/1/3 游魂 bottom,段2 远处鬼 top(与 bottom 留显共存)。
       lines: [
-        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.0' },
-        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.1' },
-        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.2' },
-        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.3' },
-        { text: 'dlg.ghost-hearsay.4' }, // 旁白,无 speaker
+        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.0', slot: 'bottom' },
+        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.1', slot: 'bottom' },
+        { speaker: 'name.distant-ghost', text: 'dlg.ghost-hearsay.2', slot: 'top' },
+        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.3', slot: 'bottom' },
+        { text: 'dlg.ghost-hearsay.4', slot: 'bottom' }, // 旁白,无 speaker
       ],
     },
   ],
