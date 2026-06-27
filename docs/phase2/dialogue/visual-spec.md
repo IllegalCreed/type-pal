@@ -193,35 +193,40 @@ const dialogKey = ds.phase === 'typing'
 
 ### 4. content 数据扩展
 
-`DialogueLine` 可能要扩字段以支持原版能力：
+> ⚠ **2026-06-27 实现回填**:本节是早期草案(fontColor/style/autoDelay 命名)。② 实际定型的字段见 [design §4](visual-design.md)。下面保留草案作历史对照,**以 design §4 为准**。
+
+`DialogueLine` ② 实际字段(design §4 真值):
 ```ts
 interface DialogueLine {
-  speaker?: string    // 已有；但原版姓名是靠文本末`:`判定，不是字段
-  text: string        // 已有
-  // 新增（可选，切片1鬼话可先用默认）：
-  portraitIcon?: number    // 头像 RGM chunk index
-  fontColor?: number       // 起始色（默认 0x4F）
-  style?: 'top'|'center'|'bottom'|'narration'  // 默认 bottom
-  autoDelay?: number       // ~NN 自动播放（鬼话不用，但留口）
+  speaker?: TextId         // 姓名牌 textId;省略=旁白。原版「末尾冒号」→此显式字段
+  text: TextId             // 正文 textId(指向 locale 富文本)
+  speed?: number           // ms/字,省略=24。原版 $NN 变速
+  autoAdvance?: number     // ms;存在=打完停 N ms 自动推进、不等键、不画光标。原版 ~NN
+  slot?: 'top' | 'bottom'  // 画哪个面板;默认 bottom。同槽覆盖/异槽共存
+  portrait?: { icon: number; side: 'left' | 'right' }  // 头像 chunk + 左右;省略=无
+  cursorFrame?: 0 | 1 | 2  // 等键光标形态;省略=0。原版 `(`/`)` 控制符→此字段
 }
 ```
 
-注意：原版**没有 speaker 字段**，姓名靠文本末尾冒号 + 首行判定。reforge 的 `speaker` 字段是为了编辑器友好，渲染时应转换成"姓名牌"语义（若 speaker 存在，渲染时当 title 处理）。
+**颜色不进字段**——走 locale 富文本标记 `<yellow>`/`<cyan>`/`<red>`(① parseRichText),`text-render` 解析 spans 着色。
+
+**autoAdvance 尾停顿不可加速**(sdlpal §Bug3 真值,② 已实现):打字中按 space=跳字瞬显;打完进入尾停顿后按 space=noop,必须等时间到。
 
 ### 5. 切片 1 验收标准
 
-改完后，鬼话对话应该长这样：
-- [ ] 无粗黑框（透明背景，文字直接叠在画面上）
-- [ ] "游魂"作为姓名牌显示在左上（CYAN_ALT 色），不计入正文行
-- [ ] 正文逐字打出（~100ms/字），带三层阴影
-- [ ] 4 行后右下出现黄色箭头光标（DATA chunk 12），闪烁
-- [ ] 用**简体点阵字模**（端口第一阶段 Unifont CN），不是系统宋体
-- [ ] 翻页/结束的光标位置跟随文字末尾
+改完后，鬼话对话应该长这样（**2026-06-27 实现回填:全部已验 OK**）：
+- [x] 无粗黑框（透明背景，文字直接叠在画面上）
+- [x] "游魂"作为姓名牌显示在上方（CYAN_ALT 色），不计入正文行
+- [x] 正文逐字打出（**24ms/字**，非 100ms —— 后者是笔误，见 §打字速度查证），带三层阴影
+- [x] 每页 4 显示行后出现光标（DATA chunk 12），6 色轮转闪烁，位置跟随文字末尾
+- [x] 用**简体点阵字模**（端口第一阶段 Unifont CN），不是系统宋体
+- [x] 长句自动换行 + 按显示行分页（文案服务剧情,不被分辨率绑架）
+- [x] slot 共存(同槽覆盖/异槽共存双框)、变速(speed)、autoAdvance(不可加速)、颜色标记、头像(占位)、光标 3 形
 
 ## 不在本任务范围（留后续）
 
-- 头像实际加载（切片1鬼魂可暂无头像，或用占位）—— 等生图管线
-- 4 style 全支持 —— 切片1只用 bottom
-- 自动播放（`~NN`）—— DLC-01鬼话是交互式，暂不需要
+- ~~头像实际加载~~ → **已做占位**(PNG);鬼气专属立绘等生图管线
+- 4 style 全支持 —— 切片1用 top/bottom(center/narration 留后)
+- ~~自动播放（`~NN`）~~ → **已做**(autoAdvance 字段)
 - item-box / narration —— 等事件系统（议题14）
-- 控制符的逐字符着色 —— 可后置，先保证字模+位置+光标对
+- 控制符的逐字符着色 —— **已做**(locale 富文本标记 + spans 着色)

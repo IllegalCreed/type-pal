@@ -48,12 +48,12 @@ main.ts             只 new DialogBox + 每帧 dialogBox.render(pageLines, …)
 
 | 适配点 | 原版 | reforge 方案 |
 |---|---|---|
-| **字模 blit** | glyph 亮像素 `fb.writePixel(idx)` | per-(字符,RGBA) **bake 离屏 canvas**(复用现有 `bakeFrame` 模式)+ `drawImage`;缓存 key = 字符+色 |
+| **字模 blit** | glyph 亮像素 `fb.writePixel(idx)` | per-(字符,RGBA) **bake 离屏 canvas**;bit 解码抽纯函数 `decodeGlyph`(可单测),`bakeGlyph` 只做 canvas 涂绘+缓存(测试环境无 canvas,留浏览器验) |
 | **字体色** | palette index `0x4F` | `palette.colors[index]` → `[R,G,B]`(reforge 已加载 palette) |
 | **三层阴影** | 黑(idx 0)画 3 偏移 + 主色 | 同,离屏 canvas 画 4 次(`(+1,0)/(0,+1)/(+1,+1)` 黑 + 主色) |
-| **打字** | tickDialog 算 `charsRevealed` | 渲染层 `performance.now`:`charsShown = (now-lineStartMs)/speedMs`,只画前 N 字(逻辑层①不变,时间态归 DialogBox——design §6) |
-| **光标闪烁** | palette `0xF9–0xFE` 轮转 | 取 `palette.colors[0xF9..0xFE]` 6 色 RGBA,光标按 100ms/步在 6 色间轮转着色(忠实色轮转,2026-06-27 拍板) |
-| **分页 / 位置** | 4 行/页,bottom `(44,126)` 行高18 | `startDialogue(dlg, 4)` + 画整页多行 + 原版坐标(GLM spec §3) |
+| **打字** | tickDialog 算 `charsRevealed` | 渲染层 `performance.now`:`charsShown = (now-lineStartMs)/speedMs`,只画前 N 字(逻辑层①不变,时间态归 DialogBox——design §6)。**逐显示行串行**(第 i 行等前 i-1 行打完才开始) |
+| **光标闪烁** | palette `0xF9–0xFE` 轮转 | 取 `palette.colors[0xF9..0xFE]` 6 色 RGBA,光标按 100ms/步在 6 色间轮转着色;3 形(frame 0/1/2)由 `cursorFrame` 字段选,缓存 key=frame×6+step |
+| **分页 / 位置** | 4 行/页,bottom `(44,126)` 行高18 | **逐段推进 + slot 共存**:每段话独立 `layoutLines` 折行,每页 ≤4 显示行;坐标 spec §3(bottom `(44,126)` / top `(44,26)`,有头像时正文缩进)。分页归渲染层(DialogBox),非 dialogue.ts |
 
 **字体方案取舍**:考虑过「reforge 也搞 indexed framebuffer 给文字」(违 D10 Canvas2D 精神)vs「per-glyph bake」——选后者(贴现有 `bakeFrame`、可缓存、纯函数可测)。
 
@@ -66,12 +66,19 @@ interface DialogueLine {
   speaker?: TextId
   text: TextId
   speed?: number        // ms/字(① 已有)
-  autoAdvance?: number  // ms(① 已有)
-  // ── ② 新增(可选,缺省 = bottom / 无)──
+  autoAdvance?: number  // ms(① 已有);存在 = 打完停 N ms 自动推进、不等键
+  // ── ② 新增(可选,缺省 = bottom / 无 / f0)──
   slot?: 'top' | 'bottom'                    // 画到哪个面板;默认 bottom
   portrait?: { icon: number; side: 'left' | 'right' }  // 头像 chunk + 左/右;省略 = 无头像
+  cursorFrame?: 0 | 1 | 2                    // 等键光标形态(0 默认/1/2);省略=0。原版 `(`/`)` 控制符→此字段
 }
 ```
+
+> **实现回填(2026-06-27)**:slot 共存 + cursorFrame 已落地(reforge `dialog/`)。关键交互规则:
+> - **autoAdvance 尾停顿不可加速**(sdlpal §Bug3 真值):打字中按 space = 跳字瞬显(fUserSkip);**打完进入尾停顿后按 space = noop,必须等时间到**。有 autoAdvance 的段**不画光标**(不等键,不误导)。
+> - **分页按显示行算**(每段独立 layoutLines 折行,每页 ≤4 显示行);一段长独白跨页时**每页都带该段姓名/头像**(同句跨页常驻)。
+> - **头像加载简化**:fetch `/extracted/images/portraits/XX.png` → `Image` → `drawImage`(无需 indexed 解码);位置 spec §3(bottom 右 270 / top 左 48),有头像时正文 x 缩进。
+> - slot 由 `dialog/slot.ts` 纯状态机管(同槽覆盖/异槽共存/activeSlot),每槽渲染态(displayLines/pageStart)在 DialogBox。
 
 **slot 生命周期(demo 够用的最简语义)**:
 - 同 slot 连续句 = **翻页覆盖**(旧句被新句替换)
@@ -101,6 +108,8 @@ interface DialogueLine {
 | 4 | (旁白) | (李逍遥心头一动:……使刀的侠客……) | bottom | **无** | 默认 | 「使刀的侠客」青 | 结束 |
 
 **双框共存的关键**:句2「远处的鬼」画 **top**,此刻 bottom 还留着游魂句1 → **上下同屏共存**;句3 游魂回 bottom(覆盖句1),top 的远处鬼**留显** → 继续共存,直到句4 结束清所有 slot。
+
+> **实现落地(2026-06-27)**:鬼话仪表盘已在 `packages/content/src/index.ts` 配齐(slot/portrait/cursorFrame/speed/autoAdvance)+ `locale.ts` 颜色标记。与上表差异:句2 文案改为**超长独白**(110字,为验证"单段多页翻页 + 翻页只翻活跃槽");句3 `autoAdvance: 800`(800ms 尾停顿,不可加速)。头像用原版 chunk1/2 **占位**(鬼气专属立绘等生图管线)。
 
 **覆盖核对**:颜色 黄/青/红 ✓;速度 默认/慢/快 ✓;自动播放 ✓(句3);光标 f0/f1/f2 ✓;翻页 ✓;姓名牌 游魂/远处的鬼/无(旁白)✓;头像 右/左/无 ✓;slot top/bottom + **双框共存** ✓;打字 全程 ✓。
 
