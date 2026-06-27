@@ -9,6 +9,7 @@ import {
   loadTileset,
 } from './assets.js'
 import { buildIsBlocked } from './collision.js'
+import { loadCursorFrames } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import { startDialogue } from './dialogue.js'
 import { Keyboard } from './input.js'
@@ -59,11 +60,15 @@ const PALETTE_ID = Number(new URLSearchParams(location.search).get('pal') ?? 0)
 const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
 
 async function main(): Promise<void> {
-  const [map, tiles, palette, glyphs] = await Promise.all([
+  const [map, tiles, palette, glyphs, cursorFrames] = await Promise.all([
     loadTilemap(mapNum),
     loadTileset(mapNum),
     loadPalette(PALETTE_ID),
     loadGlyphs(),
+    loadCursorFrames().catch((err: unknown) => {
+      console.warn('[reforge] cursor icons 加载失败,降级无光标:', err)
+      return []
+    }),
   ])
 
   // 调试：?gallery 渲染精灵速查图（确认哪个 spriteNum 是人/物），不进场景。
@@ -98,7 +103,7 @@ async function main(): Promise<void> {
   const [playerSprite, ghostSprite] = await Promise.all([loadSprite(2), loadSprite(16)])
   const ghost = requireFirst(guijieMinjuScene.entities, '场景缺少鬼实体')
   const player = { pos: { ...guijieMinjuScene.entry.pos } }
-  const dialogBox = new DialogBox(ctx, glyphs, palette)
+  const dialogBox = new DialogBox(ctx, glyphs, palette, cursorFrames)
   let facing: Facing = guijieMinjuScene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位
