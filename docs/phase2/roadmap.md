@@ -76,6 +76,8 @@
 - ✅ **P0 schema 草案**：见 [content-schema.md](foundation/content-schema.md)（三层状态 / 稳定 id / 场景包 / 事件演出 / 角色实例化 + 迁移器）。
 - ✅ **第一阶段引擎架构债已审计**：见 [engine-debt-audit.md](foundation/engine-debt-audit.md)（18 条 finding，P0/P1/P2 分级 + 反查表），是 P1 新引擎 spec 的**反面输入**——重写时绕开这些模式，不照搬旧模块结构（铁律第 3 条）。
 
-**下一步（未启动）**
+**进展（2026-06-28 更新）**
 
-- **P1 · 新引擎 package**：架构全新重写，移植已验证逻辑（战斗 / opcode / 渲染），按 P0 schema 组织、场景懒加载。spec 待写，**输入 = p0-content-schema + engine-debt-audit**（前者定目标，后者定约束）。
+- **P1 切片 1 已起**：室内场景跑通（地图 / 移动 / 碰撞含 NPC / 遮挡 / 对话）；对话现代化（结构化 + i18n + 外观 + 去 palette，见 [D11](decisions.md)–[D15](decisions.md)）完成。
+- **当前前置 = [D16](decisions.md) 渲染地基**：逻辑 / 显示分离（格坐标 + 素材像素解耦 + 物理分辨率 1280）。它是菜单及后续所有 UI / 美术 / 编辑器的底座，**先于菜单**（[D17](decisions.md) 菜单设计已定、实现待此地基）。spec 待写。
+- **之后**：菜单 → 多场景 / 事件演出 → 编辑器（P2）。schema 边跑边补（§5 切入策略）；P1 spec 输入 = [content-schema](foundation/content-schema.md) + [engine-debt-audit](foundation/engine-debt-audit.md)。

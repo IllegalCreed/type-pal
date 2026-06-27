@@ -27,7 +27,7 @@
 |---|---|---|
 | [READ-FIRST](READ-FIRST.md) | 六条铁律 + 串台自查（**开工前必读**） | 定稿 |
 | [roadmap](roadmap.md) | 总纲：愿景 / 架构判断 / 子项目分解 / 切入策略 | 草案 |
-| [decisions](decisions.md) | 已拍板决策 **D1–D14**（滚动累积） | 滚动 |
+| [decisions](decisions.md) | 已拍板决策 **D1–D17**（滚动累积） | 滚动 |
 | [design-backlog](design-backlog.md) | 设计议题池（痛点 + 方向 + 归属 + 状态） | 滚动 |
 
 ### foundation/ · 跨切片地基（长期参照）
