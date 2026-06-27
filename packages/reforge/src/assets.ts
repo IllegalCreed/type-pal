@@ -85,6 +85,6 @@ export async function decompressGzip(blob: Blob): Promise<Uint8Array> {
   return out
 }
 
+export type { Glyph, GlyphTable } from './text/glyph.js'
 // 字模加载(② 外观):端口自第一阶段 Unifont glyph。
 export { loadGlyphs } from './text/glyph.js'
-export type { Glyph, GlyphTable } from './text/glyph.js'
