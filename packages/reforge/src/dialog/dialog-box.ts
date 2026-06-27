@@ -122,10 +122,11 @@ export class DialogBox {
     const page = this.pageDisplayLines()
     if (page.length === 0) return
 
-    // 姓名牌:该页首个 isLineStart 显示行所属 DialogueLine 的 speaker(spec §3 仅首行当姓名)
-    const titleLine = page.find((dl) => dl.isLineStart)
-    if (titleLine) {
-      const speaker = this.state.dialogue.lines[titleLine.srcLineIdx]?.speaker
+    // 姓名牌:取该页【首行】所属句的 speaker(同句跨页也画——长独白翻页后名字仍常驻,
+    // 符合 sdlpal:同一个人在说,头像名字不因折页丢失)。
+    const firstDl = page[0]
+    if (firstDl && this.state) {
+      const speaker = this.state.dialogue.lines[firstDl.srcLineIdx]?.speaker
       if (speaker) {
         const nameSpans: TextSpan[] = [{ text: `${lookupText(speaker, zhLocale)}：` }]
         renderSpans(this.ctx, nameSpans, TITLE_POS_BOTTOM.x, TITLE_POS_BOTTOM.y, {
