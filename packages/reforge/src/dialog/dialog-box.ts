@@ -55,6 +55,12 @@ export class DialogBox {
       this.pageDone = true
       return
     }
+    this.nextPage(nowMs)
+  }
+
+  /** 真翻页;翻完关闭。advance(玩家键)与 auto-advance(update)共用。 */
+  private nextPage(nowMs: number): void {
+    if (!this.state) return
     this.state = advancePage(this.state)
     if (this.state) {
       this.lineStartMs = nowMs
@@ -62,7 +68,27 @@ export class DialogBox {
     }
   }
 
+  /**
+   * 时间驱动的自动推进(render 前调):
+   * 本页全显后,若末行有 autoAdvance,且超过「打字耗时 + autoAdvanceMs」→ 自动 nextPage。
+   * 有 autoAdvance 的页不画光标、不等键(spec §3 ~NN:尾停顿自动推进)。
+   */
+  private update(nowMs: number): void {
+    if (!this.state || !this.pageDone) return
+    const lines = pageLines(this.state)
+    const last = lines[lines.length - 1]
+    if (!last?.autoAdvance) return
+    // 整页打字耗时(逐行串行)+ 末行 autoAdvanceMs
+    let totalChars = 0
+    for (const line of lines)
+      totalChars += countChars(parseRichText(lookupText(line.text, zhLocale)))
+    const speed = last.speed ?? DEFAULT_SPEED_MS
+    const doneAt = totalChars * speed + last.autoAdvance
+    if (nowMs - this.lineStartMs >= doneAt) this.nextPage(nowMs)
+  }
+
   render(nowMs: number): void {
+    this.update(nowMs) // 先处理 autoAdvance 自动推进(可能关闭对话)
     if (!this.state) return
     const lines = pageLines(this.state)
     // 姓名牌只画该页首行(spec §3:仅首行 + 非 center 当姓名,不计入正文行)
@@ -105,8 +131,10 @@ export class DialogBox {
     // 逐字自然打完 → 置 pageDone(进入等键态,出光标),无需玩家手动瞬显
     if (allDone && !this.pageDone) this.pageDone = true
 
-    // 本页全显(pageDone)→ 末行末尾画光标,6 色轮转(spec §3 palette 0xF9-0xFE,100ms/步)
-    if (this.pageDone && lines.length > 0) {
+    // 本页全显(pageDone)且非 autoAdvance → 末行末尾画光标,6 色轮转(spec §3 palette 0xF9-0xFE,100ms/步)。
+    // 有 autoAdvance 的页自动推进、不等键,不画光标(spec §3 ~NN)。
+    const last = lines[lines.length - 1]
+    if (this.pageDone && lines.length > 0 && !last?.autoAdvance) {
       this.drawCursor(nowMs, lastSpans, lines.length - 1)
     }
   }
