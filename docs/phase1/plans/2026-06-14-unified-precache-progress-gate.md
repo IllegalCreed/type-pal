@@ -1,6 +1,6 @@
 # 统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec
 
-> 2026-06-14。增强 [2026-06-13-offline-precache-sw.md](./2026-06-13-offline-precache-sw.md)(已实现并上线)。
+> 2026-06-14。增强 [2026-06-13-offline-precache-sw.md](2026-06-13-offline-precache-sw.md)(已实现并上线)。
 > 本文是**设计稿(spec)**,不是实现计划;经用户确认后转 writing-plans 生成 task 级实现计划。
 
 ## 背景 / 动机

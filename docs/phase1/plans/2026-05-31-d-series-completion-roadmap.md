@@ -6,7 +6,7 @@
 > 按 CLAUDE.md TOP 0,每批的逐步 TDD plan(含完整代码)必须**先读完该批 sdlpal 全 callpath 才写得出来**,
 > 故每批进入实施前另起一份 `docs/plans/2026-05-31-d-batchN-<name>.md` 详细 plan(read 清单 → 差异表 → TDD steps)。
 >
-> **权威状态来源**:[docs/feature-status.md](../feature-status.md) D 段 + [docs/opcode-status.md](../opcode-status.md)。
+> **权威状态来源**:[docs/feature-status.md](../status/feature-status.md) D 段 + [docs/opcode-status.md](../status/opcode-status.md)。
 > 本 roadmap 完成后这些表的 D 段全部应从 ⚠️/⬜ 收口到 ✅(claimed,待 user 拍 verified)。
 
 ---

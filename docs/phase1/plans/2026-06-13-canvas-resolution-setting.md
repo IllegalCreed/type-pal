@@ -365,7 +365,7 @@ git commit -m "feat(shell): 左上角分辨率档位控件 + 全屏按钮"
 
 - [ ] **Step 1: index.html 去掉硬编码尺寸**
 
-把 [packages/game/index.html](../../packages/game/index.html) 的:
+把 [packages/game/index.html](../../../packages/game/index.html) 的:
 
 ```css
       canvas { image-rendering: pixelated; width: 960px; height: 600px; }
@@ -382,7 +382,7 @@ git commit -m "feat(shell): 左上角分辨率档位控件 + 全屏按钮"
 
 - [ ] **Step 2: main.ts 接线**
 
-在 [packages/game/src/main.ts](../../packages/game/src/main.ts) 取到 canvas 后、`bootstrap` 之前初始化缩放(让首帧就用对尺寸);控件在 boot 后挂(避免遮加载层):
+在 [packages/game/src/main.ts](../../../packages/game/src/main.ts) 取到 canvas 后、`bootstrap` 之前初始化缩放(让首帧就用对尺寸);控件在 boot 后挂(避免遮加载层):
 
 ```typescript
     installFetchRetry()

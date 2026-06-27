@@ -1709,7 +1709,7 @@ export function resumePostBattleScript(gs: GameState, outcome: BattleOutcome): v
   //   旧逻辑却因 outcome==='lost' 一律红屏 → user 报"石长老必败却出红屏"。
   //   改判据 = lostIp 指向脚本 run 是否真含 0x4F。命中 → 置 deathHoldActive 补 T0→0x4F 过渡帧(present 保持战斗倒地帧)。
   //   0x4F handler 真执行时移交 gameOverActive(C4)。**必胜战**(林月如 team21 lost→对白→goto 41075)遇 goto 停 →
-  //   不预置,结局红屏仍由 0x4F handler 点亮(见上 scriptRunHits0x4F 注)。详 docs/plans/2026-06-01-gameoveractive-refactor.md。
+  //   不预置,结局红屏仍由 0x4F handler 点亮(见上 scriptRunHits0x4F 注)。详 docs/phase1/plans/2026-06-01-gameoveractive-refactor.md。
   if (outcome === 'lost' && r.lostIp !== undefined && scriptRunHits0x4F(r.commands, ip)) {
     gs.deathHoldActive = true
   }

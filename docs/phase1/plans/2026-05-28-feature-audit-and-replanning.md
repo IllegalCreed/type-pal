@@ -103,8 +103,8 @@ README.md                       # 改:删"完成度 ~52%"自吹,改"详 docs/fea
 
 M5/M5.5/M5.6 完工后,user 实测发现自报完成度被夸大。已停"做新功能",
 转入 **Phase A/B feature audit** — 逐功能 sdlpal 源 1:1 核对 + user 拍板。
-详 [`docs/feature-status.md`](docs/feature-status.md) 和
-[`docs/plans/2026-05-28-feature-audit-and-replanning.md`](docs/plans/2026-05-28-feature-audit-and-replanning.md)。
+详 [`docs/feature-status.md`](../status/feature-status.md) 和
+[`docs/plans/2026-05-28-feature-audit-and-replanning.md`](2026-05-28-feature-audit-and-replanning.md)。
 ```
 
 删除"完成度约 52%"等所有百分比 + "基础玩法可闭合"等定性夸大。

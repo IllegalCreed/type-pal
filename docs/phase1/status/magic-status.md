@@ -1,7 +1,7 @@
 # 仙术状态表
 
 > 自动审计落盘:2026-06-07(2026-06-16 复核:0x2E 命中改 `>=` 过巫抗、逃跑抵抗改敌吉运 fleeRate、大世界单体治疗仅活人且无变化不扣 MP——均机制精确化,逐仙术状态不变,详见 `game-mechanics.md`)· 数据来源 `data/extracted/data/spells.json`(= OBJECT_MAGIC 命名段 id 296–397)+ `magic.json`(MAGIC stats,经 `magicNumber` 关联)+ 各 `scriptOnSuccess` 反汇编(`/tmp/dump-magic.mjs`)+ `reference/sdlpal/*.c` 逐 opcode 核对,非臆测。
-> 与 [item-status.md](./item-status.md) 平级:**道具**(id 61–295)看 item 表;**仙术**(id 296–397)看本表。
+> 与 [item-status.md](item-status.md) 平级:**道具**(id 61–295)看 item 表;**仙术**(id 296–397)看本表。
 > 范围说明见下方「收录边界」。元素/类型/状态映射对照 sdlpal `global.h`。
 
 ## 收录边界
@@ -9,7 +9,7 @@
 **真·法术对象段 = object id 296–397,共 102 个**(= `spells.json` 全段)。这一段**已完整覆盖敌我双方所有法术** —— 玩家可学、敌人施放、道具施放(灵符/卵/镖/蛊)三者引用的法术对象全部落在此区间。
 
 - **敌人施放**:`enemies.json.magic` 引用的法术 id 全部 ∈ 303–388(本段子集),无独立敌方法术对象;另有 3 个(大咒蛇395/腥风血雨396/群魔乱舞397)由敌方战斗脚本 `0x67` 直接施放,不走 `magic` 字段。
-- **道具施放**:item 的 `scriptOnThrow/scriptOnUse` 用 `0x42 SimulateMagic` 引用本段(如 风灵符→风灵符法364、蜂巢→御蜂术353、雷火珠→爆炸381)。道具本身的效果在 [item-status.md](./item-status.md);本表「使用者」列标注 `道具:X` 交叉索引。
+- **道具施放**:item 的 `scriptOnThrow/scriptOnUse` 用 `0x42 SimulateMagic` 引用本段(如 风灵符→风灵符法364、蜂巢→御蜂术353、雷火珠→爆炸381)。道具本身的效果在 [item-status.md](item-status.md);本表「使用者」列标注 `道具:X` 交叉索引。
 - **不在本段的**:object id 398–550 是**敌人对象**(史莱姆…拜月教主)、551–564 是**毒对象**(赤毒/尸毒/HP回补…),按 magic-union 解读全是垃圾数据,**不是仙术**,不收。梦蛇(item 295,变身)在 item 表。
 
 ## 摘要
@@ -21,7 +21,7 @@
 - **残留(未引用)**:6(火龙331、心剑合一347、斩魔刀350、御剑伏魔1·362、气吞天下369、投掷391)
 - **状态**:✅可用 96 · 🗑残留 6
 
-> **「状态」列语义**:= 该仙术**效果机制**(伤害公式 / 状态施加 / 治疗 / 召唤等 opcode 级行为)的实现度。所有相关 opcode 在 [opcode-status.md](./opcode-status.md) 已逐条收口并单测,故有引用的法术全 ✅。**逐法术的视觉/动画/音效真档验收(effect 精灵、shake/wave/fireDelay 时序、施法音)不在本列范围** —— 那一轴归 [feature-status.md](./feature-status.md) G 章与 [演出文档](./cutscene-status.md)。
+> **「状态」列语义**:= 该仙术**效果机制**(伤害公式 / 状态施加 / 治疗 / 召唤等 opcode 级行为)的实现度。所有相关 opcode 在 [opcode-status.md](opcode-status.md) 已逐条收口并单测,故有引用的法术全 ✅。**逐法术的视觉/动画/音效真档验收(effect 精灵、shake/wave/fireDelay 时序、施法音)不在本列范围** —— 那一轴归 [feature-status.md](feature-status.md) G 章与 [演出文档](cutscene-status.md)。
 
 ## 图例
 
@@ -220,7 +220,7 @@
 ## 待核 / 特殊处理说明
 
 - **空脚本 + 0 威力但有引用**:金蝉脱壳(392,李逍遥逃跑类)、乾坤一掷(394,林月如)。这类效果**不在 `scriptOnSuccess`**,由 `magic.type` / 投掷等特殊路径驱动 —— 本表标 ✅(对象存在 + 可施放),具体行为待对真档复核施法表现。
-- **召唤系(9 个)** 效果机制(0x9E + 召唤兽 stats + 全体伤害)已接(`battle-system.ts` summonTables);逐召唤兽**逐帧 loop 动画 / 闪色 / 召唤音**的视觉真档验收见 [feature-status.md](./feature-status.md) G 章。
+- **召唤系(9 个)** 效果机制(0x9E + 召唤兽 stats + 全体伤害)已接(`battle-system.ts` summonTables);逐召唤兽**逐帧 loop 动画 / 闪色 / 召唤音**的视觉真档验收见 [feature-status.md](feature-status.md) G 章。
 - **合击系(5 个,386/381/355/339/374)** `performCoopMagic` 已接(整队一回合一次,fight.c:1417);合击触发条件(本人 healthy 且 healthy 人数 > 1)与伤害已对齐,演出真档另验。
 - **元素=毒占位**:辅助/治疗/解状态/增益类 0 威力法术 `elemental` 字段多为 6(毒),不参与计算,本表显示 `—`。
 

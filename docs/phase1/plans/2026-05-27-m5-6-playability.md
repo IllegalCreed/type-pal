@@ -10,7 +10,7 @@
 
 **项目根目录:** `/Users/zhangxu/illegal/type-pal`
 
-**Design 溯源:** [`docs/plans/2026-05-27-m5-6-playability-design.md`](docs/plans/2026-05-27-m5-6-playability-design.md)(commit `c2e4897`)
+**Design 溯源:** [`docs/plans/2026-05-27-m5-6-playability-design.md`](2026-05-27-m5-6-playability-design.md)(commit `c2e4897`)
 
 ---
 
@@ -59,7 +59,7 @@ W2 dev-panel + 收口
 - Modify: `packages/game/src/shell/input.ts:3-16`
 - Test: `packages/game/src/shell/input.test.ts`
 
-**sdlpal 真值:** [reference/sdlpal/input.c:66-72](reference/sdlpal/input.c#L66-L72)
+**sdlpal 真值:** [reference/sdlpal/input.c:66-72](../../../reference/sdlpal/input.c#L66-L72)
 
 ```c
 { SDLK_ESCAPE,    kKeyMenu },
@@ -367,7 +367,7 @@ git commit -m "feat(M5.6 W0.b): menu-driver dispatchMenuInput — InGame/System 
 - Create: `packages/game/src/present/menu/draw-box.ts`
 - Test: `packages/game/src/present/menu/draw-box.test.ts`
 
-**sdlpal 真值:** [reference/sdlpal/ui.c:131-240](reference/sdlpal/ui.c#L131-L240) `PAL_CreateBoxWithShadow` — 3×3 边框 bitmap(SPRITEUI frame `iStyle*9 + i*3 + j`,i=row 0/1/2,j=col 0/1/2),边框 + middle tile;阴影 offset 默认 6;style 0/1 两套(0 = 正常 menu,1 = 战斗 menu)。
+**sdlpal 真值:** [reference/sdlpal/ui.c:131-240](../../../reference/sdlpal/ui.c#L131-L240) `PAL_CreateBoxWithShadow` — 3×3 边框 bitmap(SPRITEUI frame `iStyle*9 + i*3 + j`,i=row 0/1/2,j=col 0/1/2),边框 + middle tile;阴影 offset 默认 6;style 0/1 两套(0 = 正常 menu,1 = 战斗 menu)。
 
 ```c
 // ui.c:131
@@ -464,7 +464,7 @@ git commit -m "feat(M5.6 W0.c): present/menu/draw-box 9-slice 边框 + shadow(sd
 - Create: `packages/game/src/present/menu/draw-menu.ts`
 - Test: `packages/game/src/present/menu/draw-menu.test.ts`
 
-**sdlpal 真值:** [reference/sdlpal/uigame.c:944-1050](reference/sdlpal/uigame.c#L944-L1050) `PAL_InGameMenu`、`uigame.c:516-650` `PAL_SystemMenu`;两菜单都画 box(style 0)+ 列表(每行一项,高亮当前 selection)+ 字。
+**sdlpal 真值:** [reference/sdlpal/uigame.c:944-1050](../../../reference/sdlpal/uigame.c#L944-L1050) `PAL_InGameMenu`、`uigame.c:516-650` `PAL_SystemMenu`;两菜单都画 box(style 0)+ 列表(每行一项,高亮当前 selection)+ 字。
 
 - [ ] **Step 1: 写 draw-menu.test.ts**
 
@@ -551,9 +551,9 @@ git commit -m "feat(M5.6 W0.d): present/menu/draw-menu hub (InGame + System) —
 - Test: 各菜单单元 e2e dev-panel 路径
 
 **sdlpal 真值:**
-- Inventory:[uigame.c:878-921](reference/sdlpal/uigame.c#L878-L921) PAL_InventoryMenu — 物品列表 + 数量 + 使用/扔弃 toggle
-- PlayerStatus:[uigame.c:1051-1288](reference/sdlpal/uigame.c#L1051-L1288) PAL_PlayerStatus — 角色装备 / 法术 / stat 4 项
-- InGameMagic:[uigame.c:654-877](reference/sdlpal/uigame.c#L654-L877) PAL_InGameMagicMenu — 选角色 → 选法术 → 选目标
+- Inventory:[uigame.c:878-921](../../../reference/sdlpal/uigame.c#L878-L921) PAL_InventoryMenu — 物品列表 + 数量 + 使用/扔弃 toggle
+- PlayerStatus:[uigame.c:1051-1288](../../../reference/sdlpal/uigame.c#L1051-L1288) PAL_PlayerStatus — 角色装备 / 法术 / stat 4 项
+- InGameMagic:[uigame.c:654-877](../../../reference/sdlpal/uigame.c#L654-L877) PAL_InGameMagicMenu — 选角色 → 选法术 → 选目标
 
 - [ ] **Step 1: 加 dispatchInventoryMenu / Status / InGameMagic 到 menu-driver**
 
@@ -601,8 +601,8 @@ git commit -m "feat(M5.6 W0.e): Inventory + PlayerStatus + InGameMagic 输入路
 **Files:** 同 W0.e
 
 **sdlpal 真值:**
-- Equip:[uigame.c:1794-2058](reference/sdlpal/uigame.c#L1794-L2058) PAL_EquipItemMenu
-- SaveSlot:[uigame.c:169-242](reference/sdlpal/uigame.c#L169-L242) PAL_SaveSlotMenu
+- Equip:[uigame.c:1794-2058](../../../reference/sdlpal/uigame.c#L1794-L2058) PAL_EquipItemMenu
+- SaveSlot:[uigame.c:169-242](../../../reference/sdlpal/uigame.c#L169-L242) PAL_SaveSlotMenu
 - SystemMenu(已部分 W0.d):save/load/setting/quit
 
 - [ ] **Step 1: 加 dispatch + draw fn 各 menu**
@@ -736,7 +736,7 @@ git commit -m "fix(M5.6 W1.a): NPC triggerLabel 查表 fallback shared.json — 
 - Modify: `packages/game/src/core/scene-system.ts:tickSceneSystem`
 - Test: scene-system.test.ts
 
-**sdlpal 真值:** [reference/sdlpal/play.c:107-165](reference/sdlpal/play.c#L107-L165)
+**sdlpal 真值:** [reference/sdlpal/play.c:107-165](../../../reference/sdlpal/play.c#L107-L165)
 
 ```c
 else if (p->sState > 0 && p->wTriggerMode >= kTriggerTouchNear)  // 4..8
@@ -816,7 +816,7 @@ git commit -m "feat(M5.6 W1.b): scene-system auto trigger zone — sdlpal play.c
 - Create: `packages/game/src/core/scene-system-search.ts`(PAL_GetSearchTriggerRange + PAL_Search)
 - Test: scene-system-search.test.ts
 
-**sdlpal 真值:** [reference/sdlpal/play.c:423-510](reference/sdlpal/play.c#L423-L510) PAL_Search + [reference/sdlpal/play.c:362-422](reference/sdlpal/play.c#L362-L422) PAL_GetSearchTriggerRange。
+**sdlpal 真值:** [reference/sdlpal/play.c:423-510](../../../reference/sdlpal/play.c#L423-L510) PAL_Search + [reference/sdlpal/play.c:362-422](../../../reference/sdlpal/play.c#L362-L422) PAL_GetSearchTriggerRange。
 
 ```c
 // PAL_GetSearchTriggerRange 返回 13 grid cell(party 朝向前方 4 排深度,每排宽度递减)

@@ -9,7 +9,7 @@
  *   if ((SHORT)def < 0) def = 0
  *   success = (str >= RandomLong(0, def)) && !isBoss
  *
- * ⚠️ **有意偏离原版的 bug 修复**(docs/game-mechanics.md「原始 bug:逃跑抵抗错用敌人身法」,
+ * ⚠️ **有意偏离原版的 bug 修复**(docs/phase1/game-mechanics.md「原始 bug:逃跑抵抗错用敌人身法」,
  * user 2026-06-13 选修复版):原作 fight.c:4134 敌方抵抗项误用敌人**身法** wDexterity,而
  * ENEMY 结构里紧挨着的吉运字段 wFleeRate("chance for successful fleeing",global.h:283-284)
  * 全引擎零读取(死字段)——本该是"我方吉运 vs 敌方吉运"。后果:高身法敌人异常难逃,

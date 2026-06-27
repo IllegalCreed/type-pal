@@ -1,5 +1,5 @@
 /**
- * events.json schema(见 docs/05-events-schema.md)。
+ * events.json schema(见 docs/phase1/05-events-schema.md)。
  * M1 提供 ~10 个 M2 切片要用的具名 Command + raw 兜底 + 结构化子集(D17,新内容手写用)。
  */
 

@@ -611,7 +611,7 @@ Expected: 三个包各自跑 typecheck + test,**全部通过**。最后 exit 0�
 
 **M0 完成** —— pnpm monorepo 三包(`pal-extract` / `game` / `shared`)+ TS + Vite + Vitest + Biome 就绪。`pnpm check` 跑通类型检查与测试。设计阶段全部敲定(详见 `docs/`)。原版数据已就位并核对;sdlpal 构建脚本就绪。
 
-下一步:进入 **M1**(`pal-extract` 打通最小链路,见 [`docs/03-development-plan.md`](docs/03-development-plan.md))。
+下一步:进入 **M1**(`pal-extract` 打通最小链路,见 [`docs/03-development-plan.md`](../03-development-plan.md))。
 ```
 
 - [ ] **Step 6.3: README 加一个开发 quick start**

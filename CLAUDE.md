@@ -70,7 +70,7 @@ When a behavior question can't be settled from the extracted data — or sdlpal 
 
 ## 工程经验 / 引擎陷阱速查
 
-> 跨会话沉淀的踩坑与方法论。每条 = 结论 + 锚点;**展开细节(含定位过程、案例、行号)见 [docs/engineering-notes.md](docs/engineering-notes.md)**。仅第一阶段适用。
+> 跨会话沉淀的踩坑与方法论。每条 = 结论 + 锚点;**展开细节(含定位过程、案例、行号)见 [docs/phase1/engineering-notes.md](docs/phase1/engineering-notes.md)**。仅第一阶段适用。
 
 **调试方法论(别从头玩、别只猜)**
 - 复现剧情 bug:`window.__tpgs`(活 GameState)读写 ip/waiting/party.xy;dev 面板 B 键跳场景 + 📍坐标传送;`?tp_dump=1` 逐帧 dump。⚠ dev 跳场景走同步 runEnterScript **跳过对话**,复现 cutscene 须走真实门触发垫。
@@ -107,4 +107,4 @@ When a behavior question can't be settled from the extracted data — or sdlpal 
 
 - `game/src/dev/dev-panel.ts` is a DEV-only debug overlay (battle / scene / party / effect pickers), dead-code-eliminated in production via `import.meta.env.DEV`.
 - The repo is not fully biome-clean (import ordering, non-null assertions are tolerated) since `pnpm check` doesn't run biome.
-- `docs/plans/` is a **historical archive** (per-milestone design/impl plans + audits, dated at time of writing) — it does **not** reflect current state. For "what's true now" read the status tables in `docs/` (`feature-status` / `opcode-status` / `resource-status` / `item-status` / `magic-status` / `cutscene-status` / `game-mechanics`) plus `04-decisions.md`; open `plans/` only to trace original design/plan rationale. Index + per-file status: `docs/plans/README.md`.
+- `docs/phase1/plans/` is a **historical archive** (per-milestone design/impl plans + audits, dated at time of writing) — it does **not** reflect current state. For "what's true now" read the status tables in `docs/` (`feature-status` / `opcode-status` / `resource-status` / `item-status` / `magic-status` / `cutscene-status` / `game-mechanics`) plus `04-decisions.md`; open `plans/` only to trace original design/plan rationale. Index + per-file status: `docs/phase1/plans/README.md`.

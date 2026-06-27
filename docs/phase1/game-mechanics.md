@@ -38,7 +38,7 @@
 
 ### 1. 数据结构
 
-源:[global.h:475-493](../reference/sdlpal/global.h#L475-L493)。
+源:[global.h:475-493](../../reference/sdlpal/global.h#L475-L493)。
 
 ```c
 typedef struct tagEXPERIENCE {
@@ -62,29 +62,29 @@ typedef struct tagALLEXPERIENCE {
 
 - 共 **8 组**:主经验 + 7 个隐藏属性,每组按角色(`MAX_PLAYER_ROLES`)一份。
 - `wExp` / `wLevel` 写进存档、跨战斗保留;`wCount` 是单场临时权重。
-- 隐藏等级 `wLevel` **初始 = 角色起始等级**(新游戏/读档时):[global.c:463](../reference/sdlpal/global.c#L463) 把每组 `wLevel` 初始化为 `rgwLevel[i]`。
+- 隐藏等级 `wLevel` **初始 = 角色起始等级**(新游戏/读档时):[global.c:463](../../reference/sdlpal/global.c#L463) 把每组 `wLevel` 初始化为 `rgwLevel[i]`。
 
 ### 2. 战斗中:按动作累计 `wCount`
 
-源:[fight.c](../reference/sdlpal/fight.c),`PAL_BattlePlayerPerformAction` 各 action case。**全部** 6 个累计点(穷尽,无遗漏):
+源:[fight.c](../../reference/sdlpal/fight.c),`PAL_BattlePlayerPerformAction` 各 action case。**全部** 6 个累计点(穷尽,无遗漏):
 
 | 玩家动作 | sdlpal action | 源行号 | 累计 |
 |---|---|---|---|
-| 普通攻击 | `kBattleActionAttack` | [3756-3757](../reference/sdlpal/fight.c#L3756-L3757) | `rgAttackExp.wCount += 1`<br>`rgHealthExp.wCount += RandomLong(2,3)` |
-| 施法 | `kBattleActionMagic` | [4328-4329](../reference/sdlpal/fight.c#L4328-L4329) | `rgMagicExp.wCount += RandomLong(2,3)`<br>`rgMagicPowerExp.wCount += 1` |
-| 防御 | `kBattleActionDefend` | [4116](../reference/sdlpal/fight.c#L4116) | `rgDefenseExp.wCount += 2` |
-| 逃跑(**失败时**) | `kBattleActionFlee` | [4170](../reference/sdlpal/fight.c#L4170) | `rgFleeExp.wCount += 2` |
+| 普通攻击 | `kBattleActionAttack` | [3756-3757](../../reference/sdlpal/fight.c#L3756-L3757) | `rgAttackExp.wCount += 1`<br>`rgHealthExp.wCount += RandomLong(2,3)` |
+| 施法 | `kBattleActionMagic` | [4328-4329](../../reference/sdlpal/fight.c#L4328-L4329) | `rgMagicExp.wCount += RandomLong(2,3)`<br>`rgMagicPowerExp.wCount += 1` |
+| 防御 | `kBattleActionDefend` | [4116](../../reference/sdlpal/fight.c#L4116) | `rgDefenseExp.wCount += 2` |
+| 逃跑(**失败时**) | `kBattleActionFlee` | [4170](../../reference/sdlpal/fight.c#L4170) | `rgFleeExp.wCount += 2` |
 
 > `RandomLong(2,3)` = 闭区间随机 2 或 3。
 > **没有**为身法(Dexterity)、使用物品、投掷物品、合击、待机等累计任何 `wCount`(见坑①)。
 
 ### 3. 战斗胜利后:×2 经验按比例分配
 
-源:[battle.c `PAL_BattleWon`](../reference/sdlpal/battle.c#L991),宏 `CHECK_HIDDEN_EXP` [battle.c:1238-1284](../reference/sdlpal/battle.c#L1238-L1284)。对每个**存活**队员([1093](../reference/sdlpal/battle.c#L1093) 跳过死亡角色):
+源:[battle.c `PAL_BattleWon`](../../reference/sdlpal/battle.c#L991),宏 `CHECK_HIDDEN_EXP` [battle.c:1238-1284](../../reference/sdlpal/battle.c#L1238-L1284)。对每个**存活**队员([1093](../../reference/sdlpal/battle.c#L1093) 跳过死亡角色):
 
-**Step A — 主经验**([1098-1120](../reference/sdlpal/battle.c#L1098-L1120)):本场 `iExpGained`(= 击败的全部敌人 `wExp` 之和)直接加进 `rgPrimaryExp.wExp`,跨 `rgLevelUpExp` 阈值则升人物等级。
+**Step A — 主经验**([1098-1120](../../reference/sdlpal/battle.c#L1098-L1120)):本场 `iExpGained`(= 击败的全部敌人 `wExp` 之和)直接加进 `rgPrimaryExp.wExp`,跨 `rgLevelUpExp` 阈值则升人物等级。
 
-**Step B — 隐藏属性**([1226-1284](../reference/sdlpal/battle.c#L1226-L1284)):先把 7 个隐藏池的 `wCount` 求和为 `iTotalCount`(**不含主经验**,[1228-1234](../reference/sdlpal/battle.c#L1228-L1234));`iTotalCount > 0` 时,对每个隐藏属性按 `CHECK_HIDDEN_EXP` 结算:
+**Step B — 隐藏属性**([1226-1284](../../reference/sdlpal/battle.c#L1226-L1284)):先把 7 个隐藏池的 `wCount` 求和为 `iTotalCount`(**不含主经验**,[1228-1234](../../reference/sdlpal/battle.c#L1228-L1234));`iTotalCount > 0` 时,对每个隐藏属性按 `CHECK_HIDDEN_EXP` 结算:
 
 ```c
 // 整数运算,注意 /iTotalCount 先于 *2
@@ -101,24 +101,24 @@ wExp = dwExp;                                       // 余数留到下场
 要点:
 
 - **"两倍"是总量**:因为各属性 `wCount/iTotalCount` 之和 = 1,乘 2 后 → 每场胜利向隐藏池**总共**注入约 `2 × iExpGained` 的经验,按动作比例切分。所以本场怪给的主经验越高,分到隐藏属性的越多。
-- **阈值表与主等级共用** `rgLevelUpExp`([1252](../reference/sdlpal/battle.c#L1252))。隐藏等级又初始 = 角色等级,所以练隐藏属性和升主级**成本同量级**,涨得慢。
-- 每升一个隐藏级,属性 **+RandomLong(1,2)**;若有变化,战斗结算画面弹"XXX 属性 升一级"框([1264-1273](../reference/sdlpal/battle.c#L1264-L1273))。
+- **阈值表与主等级共用** `rgLevelUpExp`([1252](../../reference/sdlpal/battle.c#L1252))。隐藏等级又初始 = 角色等级,所以练隐藏属性和升主级**成本同量级**,涨得慢。
+- 每升一个隐藏级,属性 **+RandomLong(1,2)**;若有变化,战斗结算画面弹"XXX 属性 升一级"框([1264-1273](../../reference/sdlpal/battle.c#L1264-L1273))。
 
 ### 4. 重要约束(容易误解的点)
 
 - **坑①:身法(Dexterity)没有任何来源。** 穷尽全部 `.c`,`rgDexterityExp.wCount` 只有**读取 / 清零 / 初始化**,**没有任何 `+=` 累计点**。它有槽位、参与 `iTotalCount` 求和、也会在 `CHECK_HIDDEN_EXP` 里被结算,但因为永远是 0,该机制**永远不会**提升身法。身法只能靠**主等级升级表**(`PAL_PlayerLevelUp`)成长。
-- **坑②:逃跑只在"失败"时给吉运。** `rgFleeExp.wCount += 2` 在 [fight.c:4170](../reference/sdlpal/fight.c#L4170) 的 `else`(逃跑失败)分支里;逃跑**成功**直接离开战斗,不给吉运、也不触发任何结算。
+- **坑②:逃跑只在"失败"时给吉运。** `rgFleeExp.wCount += 2` 在 [fight.c:4170](../../reference/sdlpal/fight.c#L4170) 的 `else`(逃跑失败)分支里;逃跑**成功**直接离开战斗,不给吉运、也不触发任何结算。
 - **坑③:只有"战斗胜利"才结算。** `CHECK_HIDDEN_EXP` 只在 `PAL_BattleWon` 跑。整场积的 `wCount` 只是临时权重 —— 打输 / 逃跑成功 → 本场所有动作权重作废、不结算。
-- **坑④:`wCount` 每场清零。** 战斗结束统一清零([battle.c:1579-1585](../reference/sdlpal/battle.c#L1579-L1585)),不跨场累计。真正跨场持久的是结算后的 `wExp`(余数)和 `wLevel`。
+- **坑④:`wCount` 每场清零。** 战斗结束统一清零([battle.c:1579-1585](../../reference/sdlpal/battle.c#L1579-L1585)),不跨场累计。真正跨场持久的是结算后的 `wExp`(余数)和 `wLevel`。
 - **`wCount` 不是经验值本身**,是"本场动作占比权重";真正进账的隐藏经验来自本场主经验的二倍按权重切分。
 
 ### 5. ts 实现状态
 
 > ⚠️ **整套隐藏经验机制目前未实现** —— 只有数据结构壳子。文档此节是 spec,不是"已做"记录。
 
-- 数据结构:[game-state.ts:391-409](../packages/game/src/core/game-state.ts#L391-L409) 有 `AllExperience`(8 池),但 `ExpEntry` 只保留 `wExp`/`wLevel`,**`wCount` 被注释为"仅供兼容,运行时不需要"而丢弃**([game-state.ts:388-392](../packages/game/src/core/game-state.ts#L388-L392))。
-- 累计 `wCount`:**未实现**。[defend.ts:6](../packages/game/src/core/battle/actions/defend.ts#L6) 明确标注"M3 不实现 exp count";其余动作同理。
-- 胜利结算:[battle-system.ts](../packages/game/src/core/battle/battle-system.ts#L880-L905) 的 `PAL_BattleWon` 只把 `expGained` 加进 `rgPrimaryExp.wExp`,**连主等级 level-up loop 都还是 follow-up**(需注入 `rgLevelUpExp` 表 + 属性加成随机公式);**隐藏属性 `CHECK_HIDDEN_EXP` 分配完全没做**。
+- 数据结构:[game-state.ts:391-409](../../packages/game/src/core/game-state.ts#L391-L409) 有 `AllExperience`(8 池),但 `ExpEntry` 只保留 `wExp`/`wLevel`,**`wCount` 被注释为"仅供兼容,运行时不需要"而丢弃**([game-state.ts:388-392](../../packages/game/src/core/game-state.ts#L388-L392))。
+- 累计 `wCount`:**未实现**。[defend.ts:6](../../packages/game/src/core/battle/actions/defend.ts#L6) 明确标注"M3 不实现 exp count";其余动作同理。
+- 胜利结算:[battle-system.ts](../../packages/game/src/core/battle/battle-system.ts#L880-L905) 的 `PAL_BattleWon` 只把 `expGained` 加进 `rgPrimaryExp.wExp`,**连主等级 level-up loop 都还是 follow-up**(需注入 `rgLevelUpExp` 表 + 属性加成随机公式);**隐藏属性 `CHECK_HIDDEN_EXP` 分配完全没做**。
 
 **要 1:1 还原需补**:① 4 个动作 case 累计 `wCount`(`ExpEntry` 加回 `wCount` 字段);② 注入 `rgLevelUpExp` 阈值表;③ `PAL_BattleWon` 补 Step B 的比例分配 + 隐藏升级 + 升级弹窗;④ 战斗结束清零 `wCount`。
 
@@ -126,17 +126,17 @@ wExp = dwExp;                                       // 余数留到下场
 
 | 内容 | 文件:行 |
 |---|---|
-| `EXPERIENCE` / `ALLEXPERIENCE` 结构 | [global.h:475-493](../reference/sdlpal/global.h#L475-L493) |
-| 隐藏等级初始 = 角色等级 | [global.c:463](../reference/sdlpal/global.c#L463) |
-| 普攻累计(武术+体力) | [fight.c:3756-3757](../reference/sdlpal/fight.c#L3756-L3757) |
-| 施法累计(真气+灵力) | [fight.c:4328-4329](../reference/sdlpal/fight.c#L4328-L4329) |
-| 防御累计 | [fight.c:4116](../reference/sdlpal/fight.c#L4116) |
-| 逃跑失败累计(吉运) | [fight.c:4170](../reference/sdlpal/fight.c#L4170) |
-| 胜利结算入口 `PAL_BattleWon` | [battle.c:991](../reference/sdlpal/battle.c#L991) |
-| 主经验 + 主等级升级 | [battle.c:1098-1120](../reference/sdlpal/battle.c#L1098-L1120) |
-| 隐藏池求和 `iTotalCount` | [battle.c:1226-1234](../reference/sdlpal/battle.c#L1226-L1234) |
-| `CHECK_HIDDEN_EXP` 分配宏 | [battle.c:1238-1284](../reference/sdlpal/battle.c#L1238-L1284) |
-| `wCount` 战后清零 | [battle.c:1579-1585](../reference/sdlpal/battle.c#L1579-L1585) |
+| `EXPERIENCE` / `ALLEXPERIENCE` 结构 | [global.h:475-493](../../reference/sdlpal/global.h#L475-L493) |
+| 隐藏等级初始 = 角色等级 | [global.c:463](../../reference/sdlpal/global.c#L463) |
+| 普攻累计(武术+体力) | [fight.c:3756-3757](../../reference/sdlpal/fight.c#L3756-L3757) |
+| 施法累计(真气+灵力) | [fight.c:4328-4329](../../reference/sdlpal/fight.c#L4328-L4329) |
+| 防御累计 | [fight.c:4116](../../reference/sdlpal/fight.c#L4116) |
+| 逃跑失败累计(吉运) | [fight.c:4170](../../reference/sdlpal/fight.c#L4170) |
+| 胜利结算入口 `PAL_BattleWon` | [battle.c:991](../../reference/sdlpal/battle.c#L991) |
+| 主经验 + 主等级升级 | [battle.c:1098-1120](../../reference/sdlpal/battle.c#L1098-L1120) |
+| 隐藏池求和 `iTotalCount` | [battle.c:1226-1234](../../reference/sdlpal/battle.c#L1226-L1234) |
+| `CHECK_HIDDEN_EXP` 分配宏 | [battle.c:1238-1284](../../reference/sdlpal/battle.c#L1238-L1284) |
+| `wCount` 战后清零 | [battle.c:1579-1585](../../reference/sdlpal/battle.c#L1579-L1585) |
 
 ---
 
@@ -144,7 +144,7 @@ wExp = dwExp;                                       // 余数留到下场
 
 ### 核心:`PAL_CalcBaseDamage(攻, 防)` 三段公式
 
-源:[fight.c:131-171](../reference/sdlpal/fight.c#L131-L171)。一切物理 / 法术伤害的底座(sdlpal 注释:Formula courtesy of palxex and shenyanduxing):
+源:[fight.c:131-171](../../reference/sdlpal/fight.c#L131-L171)。一切物理 / 法术伤害的底座(sdlpal 注释:Formula courtesy of palxex and shenyanduxing):
 
 ```c
 if (攻 > 防)            sDamage = (SHORT)(攻*2 - 防*1.6 + 0.5);   // 高伤段
@@ -160,21 +160,21 @@ else                    sDamage = 0;                              // 完全被�
 
 ### 攻击力 / 防御值由什么构成
 
-- 玩家攻击力 `PAL_GetPlayerAttackStrength` = 角色 `rgwAttackStrength` + 全部装备加成([global.c:1736-1764](../reference/sdlpal/global.c#L1736-L1764));防御 / 灵力 / 身法 / 吉运同理(各 `PAL_GetPlayerXxx` = base + 装备)。
-- **玩家攻击力不含等级项**:玩家打敌人 `str = PAL_GetPlayerAttackStrength(role)` 就这一项([fight.c:3630](../reference/sdlpal/fight.c#L3630))。等级影响已烤进基础属性成长(升级 + 隐藏经验),战斗公式里不再加。
+- 玩家攻击力 `PAL_GetPlayerAttackStrength` = 角色 `rgwAttackStrength` + 全部装备加成([global.c:1736-1764](../../reference/sdlpal/global.c#L1736-L1764));防御 / 灵力 / 身法 / 吉运同理(各 `PAL_GetPlayerXxx` = base + 装备)。
+- **玩家攻击力不含等级项**:玩家打敌人 `str = PAL_GetPlayerAttackStrength(role)` 就这一项([fight.c:3630](../../reference/sdlpal/fight.c#L3630))。等级影响已烤进基础属性成长(升级 + 隐藏经验),战斗公式里不再加。
 - **敌人相反,有效攻 / 防都带等级项**:
-  - 敌人打玩家:`str = 敌人攻击力 + (敌人等级+6)×6`([fight.c:4917-4918](../reference/sdlpal/fight.c#L4917-L4918))
-  - 玩家打敌人:`def = 敌人防御 + (敌人等级+6)×4`([fight.c:3631-3632](../reference/sdlpal/fight.c#L3631-L3632))
+  - 敌人打玩家:`str = 敌人攻击力 + (敌人等级+6)×6`([fight.c:4917-4918](../../reference/sdlpal/fight.c#L4917-L4918))
+  - 玩家打敌人:`def = 敌人防御 + (敌人等级+6)×4`([fight.c:3631-3632](../../reference/sdlpal/fight.c#L3631-L3632))
 
 ### 物抗:为什么"敌人有物抗、我方没有"(你的观察正确)
 
-- **敌人**有物理抗性 `wPhysicalResistance`([global.h:287](../reference/sdlpal/global.h#L287),仅敌人结构有)。玩家打敌人时 `PAL_CalcPhysicalAttackDamage` 内 `base /= res`(res≠0 时,[fight.c:279-285](../reference/sdlpal/fight.c#L279-L285))——敌人物抗是个**除数**,res=2 即受到的物理伤害减半。
-- **玩家没有任何物理抗性属性**(grep 全 `global.c/.h` 无 player physical resistance)。敌人打玩家时 res **硬编码常量 2**([fight.c:5056](../reference/sdlpal/fight.c#L5056))——所有敌人物理一律 `base/2`,这是公式固定项,不是玩家可成长的抗性。
+- **敌人**有物理抗性 `wPhysicalResistance`([global.h:287](../../reference/sdlpal/global.h#L287),仅敌人结构有)。玩家打敌人时 `PAL_CalcPhysicalAttackDamage` 内 `base /= res`(res≠0 时,[fight.c:279-285](../../reference/sdlpal/fight.c#L279-L285))——敌人物抗是个**除数**,res=2 即受到的物理伤害减半。
+- **玩家没有任何物理抗性属性**(grep 全 `global.c/.h` 无 player physical resistance)。敌人打玩家时 res **硬编码常量 2**([fight.c:5056](../../reference/sdlpal/fight.c#L5056))——所有敌人物理一律 `base/2`,这是公式固定项,不是玩家可成长的抗性。
 - 玩家**有**的是元素抗(`PAL_GetPlayerElementalResistance`)+ 毒抗(`PAL_GetPlayerPoisonResistance`),只作用于法术,不挡物理。
 
 ### 物理:玩家普攻打敌人(单体)
 
-完整链 [fight.c:3623-3674](../reference/sdlpal/fight.c#L3623-L3674):
+完整链 [fight.c:3623-3674](../../reference/sdlpal/fight.c#L3623-L3674):
 
 1. `str = PAL_GetPlayerAttackStrength(role)`(攻击力 + 装备)
 2. `def = 敌人防御 + (敌人等级+6)×4`;`res = 敌人 wPhysicalResistance`
@@ -187,20 +187,20 @@ else                    sDamage = 0;                              // 完全被�
 
 ### 物理:敌人打玩家
 
-完整链 [fight.c:4910-5076](../reference/sdlpal/fight.c#L4910-L5076):
+完整链 [fight.c:4910-5076](../../reference/sdlpal/fight.c#L4910-L5076):
 
 1. `str = 敌人攻击力 + (敌人等级+6)×6`(< 0 归 0)
 2. `def = PAL_GetPlayerDefense(role)`;若玩家**主动防御** → `def ×= 2`
 3. **自动防御 / 援护判定**(下节)——若触发,本次 0 伤,跳过下面
 4. `sDamage = CalcBaseDamage(str + RandomLong(0,2), def) / 2`(res 固定 2)
 5. `sDamage += RandomLong(0, 1)`
-6. **护体** `kStatusProtect` → `sDamage /= 2`([fight.c:5059-5062](../reference/sdlpal/fight.c#L5059-L5062))
+6. **护体** `kStatusProtect` → `sDamage /= 2`([fight.c:5059-5062](../../reference/sdlpal/fight.c#L5059-L5062))
 7. clamp 到玩家当前 HP;下限 1
-8. 伤害**永远落在被攻击者本人**([fight.c:5075](../reference/sdlpal/fight.c#L5075))——援护者绝不替挨打
+8. 伤害**永远落在被攻击者本人**([fight.c:5075](../../reference/sdlpal/fight.c#L5075))——援护者绝不替挨打
 
 ### 法术(仙术)伤害:灵力 vs 防御
 
-源 `PAL_CalcMagicDamage` [fight.c:174-249](../reference/sdlpal/fight.c#L174-L249)。施法方"灵力"= `PAL_GetPlayerMagicStrength`(`rgwMagicStrength` + 装备):
+源 `PAL_CalcMagicDamage` [fight.c:174-249](../../reference/sdlpal/fight.c#L174-L249)。施法方"灵力"= `PAL_GetPlayerMagicStrength`(`rgwMagicStrength` + 装备):
 
 ```c
 灵力 ×= RandomFloat(10, 11); 灵力 /= 10;       // 灵力随机浮动 ×1.0~1.1
@@ -220,13 +220,13 @@ if (法术.wElemental != 0) {                      // 带属性的仙术
 - **防御**:目标防御只作用在 `CalcBaseDamage(灵力, 防)` 这一段,且整段 /4 → 防御对仙术的减伤**远弱于**对物理。而且 **`法术.wBaseDamage`(仙术固定威力)完全不吃目标防御** —— 高级仙术主伤害来自固定威力 × 元素系数,所以"防御再高也扛不住强力仙术"。
 - **元素抗 / 毒抗**:只对带属性仙术起作用,按 `(10 - 抗性/倍率)/5` 缩放;玩家被仙术击中用 `PAL_GetPlayerElementalResistance/PoisonResistance`(均 100 基准)。
 - **战场环境**:`lprgBattleField[...].rgsMagicEffect[elem]` 给某元素 ±加成(`×(10+加成)/10`)——不同战斗场地对某系仙术有增减。
-- 玩家被仙术击中减伤:`sDamage /= ((主动防御?2:1) × (护体?2:1)) + (法术自动防御?1:0)`([fight.c:4801-4803](../reference/sdlpal/fight.c#L4801-L4803))。
+- 玩家被仙术击中减伤:`sDamage /= ((主动防御?2:1) × (护体?2:1)) + (法术自动防御?1:0)`([fight.c:4801-4803](../../reference/sdlpal/fight.c#L4801-L4803))。
 
 ### ts 实现状态
 
-- 公式核心 [formulas.ts](../packages/game/src/core/battle/formulas.ts):`calcBaseDamage` / `calcPhysicalAttackDamage` / `calcMagicDamage` 均 **1:1 ported**(PAL_CLASSIC);法术伤害编排 [magic-damage.ts](../packages/game/src/core/battle/magic-damage.ts) 已接。
-- 物理攻击编排 [attack.ts](../packages/game/src/core/battle/actions/attack.ts) 是 **M3 简版**:
-  - ⚠️ **玩家攻击力误加了 `(等级+6)×6`**([attack.ts:60](../packages/game/src/core/battle/actions/attack.ts#L60))——sdlpal 玩家攻击**不含**此等级项(那是敌人公式)。真值 bug,待修。
+- 公式核心 [formulas.ts](../../packages/game/src/core/battle/formulas.ts):`calcBaseDamage` / `calcPhysicalAttackDamage` / `calcMagicDamage` 均 **1:1 ported**(PAL_CLASSIC);法术伤害编排 [magic-damage.ts](../../packages/game/src/core/battle/magic-damage.ts) 已接。
+- 物理攻击编排 [attack.ts](../../packages/game/src/core/battle/actions/attack.ts) 是 **M3 简版**:
+  - ⚠️ **玩家攻击力误加了 `(等级+6)×6`**([attack.ts:60](../../packages/game/src/core/battle/actions/attack.ts#L60))——sdlpal 玩家攻击**不含**此等级项(那是敌人公式)。真值 bug,待修。
   - 未实现:`+RandomLong(1,2)` jitter、`RandomFloat(1,1.125)` 浮动、暴击 ×3、李逍遥 ×2、双重攻击、群体普攻递减。
   - 敌人打玩家:`def×2`(主动防御)✓、res=2 ✓;但**自动防御 / 援护 / 护体 /2 均未实现**。
 
@@ -234,17 +234,17 @@ if (法术.wElemental != 0) {                      // 带属性的仙术
 
 ## 暴击 与 李逍遥会心一击
 
-你的判断对:这是**两套独立机制**,各自掷骰、可叠加。均见玩家单体普攻 [fight.c:3639-3656](../reference/sdlpal/fight.c#L3639-L3656)。
+你的判断对:这是**两套独立机制**,各自掷骰、可叠加。均见玩家单体普攻 [fight.c:3639-3656](../../reference/sdlpal/fight.c#L3639-L3656)。
 
 | | 暴击(Critical) | 会心一击(李逍遥专属 Bonus Hit) |
 |---|---|---|
 | 触发 | `RandomLong(0,5)==0`(1/6)**或** `kStatusBravery`(狂怒)> 0 | `wPlayerRole == 0`(**仅李逍遥**)**且** `RandomLong(0,11)==0`(1/12) |
 | 倍率 | 伤害 **×3** | 伤害 **×2** |
-| 源行 | [fight.c:3639-3647](../reference/sdlpal/fight.c#L3639-L3647) | [fight.c:3649-3656](../reference/sdlpal/fight.c#L3649-L3656) |
+| 源行 | [fight.c:3639-3647](../../reference/sdlpal/fight.c#L3639-L3647) | [fight.c:3649-3656](../../reference/sdlpal/fight.c#L3649-L3656) |
 
 - 两者独立判定、**可叠加**:李逍遥同时触发 → ×3 再 ×2 = **×6**;两者都置 `fCritical=TRUE`(都播暴击动画 / 音效)。
-- **狂怒状态**(`kStatusBravery`,"more power for physical attacks" [global.h:51](../reference/sdlpal/global.h#L51))= 物理攻击**必定暴击**(直接满足暴击条件,×3)。
-- 群体普攻的暴击是**整轮一次性**判定(`RandomLong(0,5)==0` 或狂怒),命中则全体 ×3;**群体普攻没有李逍遥会心 ×2**([fight.c:3687-3717](../reference/sdlpal/fight.c#L3687-L3717))。
+- **狂怒状态**(`kStatusBravery`,"more power for physical attacks" [global.h:51](../../reference/sdlpal/global.h#L51))= 物理攻击**必定暴击**(直接满足暴击条件,×3)。
+- 群体普攻的暴击是**整轮一次性**判定(`RandomLong(0,5)==0` 或狂怒),命中则全体 ×3;**群体普攻没有李逍遥会心 ×2**([fight.c:3687-3717](../../reference/sdlpal/fight.c#L3687-L3717))。
 
 ts 实现状态:**未实现**(attack.ts 无 crit / bravery / 李逍遥分支)。
 
@@ -258,37 +258,37 @@ ts 实现状态:**未实现**(attack.ts 无 crit / bravery / 李逍遥分支)。
 
 | | 主动防御(`fDefending`) | 自动防御(`fAutoDefend`) |
 |---|---|---|
-| 来源 | 玩家选「防御」指令([fight.c:4115](../reference/sdlpal/fight.c#L4115)) | 系统每次被敌人物理攻击时随机判([fight.c:4938](../reference/sdlpal/fight.c#L4938)) |
+| 来源 | 玩家选「防御」指令([fight.c:4115](../../reference/sdlpal/fight.c#L4115)) | 系统每次被敌人物理攻击时随机判([fight.c:4938](../../reference/sdlpal/fight.c#L4938)) |
 | 概率 | 玩家主动,100% 进入 | `RandomLong(0,16) >= 10` = **7/17 ≈ 41%**(掷 0~16 命中 10~16 共 7 个值) |
 | 持续 | 整个回合(到下次轮到自己,回合末清 FALSE) | 仅当次这一下 |
-| 物理效果 | **防御 ×2**([fight.c:4926-4929](../reference/sdlpal/fight.c#L4926-L4929))→ 走 CalcBaseDamage 非线性减伤 | 触发即**该次 0 伤**(完全格挡,跳过整个伤害块) |
-| 法术效果 | 法术伤害 **/2**(除数含 `fDefending?2:1`) | 另有"法术自动防御"`RandomLong(0,2)==0`(1/3),给除数 +1([fight.c:4746-4757](../reference/sdlpal/fight.c#L4746-L4757)) |
-| 隐藏经验 | 累计防御隐藏经验 +2([fight.c:4116](../reference/sdlpal/fight.c#L4116)) | 无 |
-| 姿势 | 保持防御 frame=3([fight.c:977-979](../reference/sdlpal/fight.c#L977-L979)) | — |
+| 物理效果 | **防御 ×2**([fight.c:4926-4929](../../reference/sdlpal/fight.c#L4926-L4929))→ 走 CalcBaseDamage 非线性减伤 | 触发即**该次 0 伤**(完全格挡,跳过整个伤害块) |
+| 法术效果 | 法术伤害 **/2**(除数含 `fDefending?2:1`) | 另有"法术自动防御"`RandomLong(0,2)==0`(1/3),给除数 +1([fight.c:4746-4757](../../reference/sdlpal/fight.c#L4746-L4757)) |
+| 隐藏经验 | 累计防御隐藏经验 +2([fight.c:4116](../../reference/sdlpal/fight.c#L4116)) | 无 |
+| 姿势 | 保持防御 frame=3([fight.c:977-979](../../reference/sdlpal/fight.c#L977-L979)) | — |
 
 一句话:**主动防御 = 玩家选的、整回合、减半伤;自动防御 = 系统随机、单次、完全免伤。**
 
-**自动防御被状态压制**:被攻击者处于**混乱 / 睡眠 / 麻痹**且无人援护 → `fAutoDefend` 强制 FALSE([fight.c:4975-4985](../reference/sdlpal/fight.c#L4975-L4985))——失去行动力的角色不能自己格挡,只能靠援护。
+**自动防御被状态压制**:被攻击者处于**混乱 / 睡眠 / 麻痹**且无人援护 → `fAutoDefend` 强制 FALSE([fight.c:4975-4985](../../reference/sdlpal/fight.c#L4975-L4985))——失去行动力的角色不能自己格挡,只能靠援护。
 
 ### 援护(Cover)
 
-源 [fight.c:4943-4969, 5012-5098](../reference/sdlpal/fight.c#L4943-L4969)。
+源 [fight.c:4943-4969, 5012-5098](../../reference/sdlpal/fight.c#L4943-L4969)。
 
 - **触发条件(全满足)**:① 被攻击者**虚弱**(濒死 `PAL_IsPlayerDying` / 混乱 / 睡眠 / 麻痹);② 当次 `fAutoDefend` 判定成功(~41%);③ 该角色有指定援护者且援护者在队、自己不虚弱。
-- **谁援护谁是数据写死的**:每角色 `rgwCoveredBy` 字段记录"谁来护我"([global.h:323](../reference/sdlpal/global.h#L323) "who will cover me when I am low of HP or not sane")。按原版剧情:**李逍遥可援护其他角色,但只有林月如能援护李逍遥**——即 `rgwCoveredBy[李逍遥] = 林月如`,其余角色援护者多为李逍遥。这是逐角色数据,非硬编码。
-- **效果**:触发即该次攻击**完全免伤**(援护本质成立于 `fAutoDefend=TRUE`)。援护者跳到身前播挡身动画([fight.c:5090-5098](../reference/sdlpal/fight.c#L5090-L5098)),**但伤害并不转移给援护者**——`rgwHP` 减的永远是被攻击者本人,只是因 fAutoDefend 而没真正落伤。
+- **谁援护谁是数据写死的**:每角色 `rgwCoveredBy` 字段记录"谁来护我"([global.h:323](../../reference/sdlpal/global.h#L323) "who will cover me when I am low of HP or not sane")。按原版剧情:**李逍遥可援护其他角色,但只有林月如能援护李逍遥**——即 `rgwCoveredBy[李逍遥] = 林月如`,其余角色援护者多为李逍遥。这是逐角色数据,非硬编码。
+- **效果**:触发即该次攻击**完全免伤**(援护本质成立于 `fAutoDefend=TRUE`)。援护者跳到身前播挡身动画([fight.c:5090-5098](../../reference/sdlpal/fight.c#L5090-L5098)),**但伤害并不转移给援护者**——`rgwHP` 减的永远是被攻击者本人,只是因 fAutoDefend 而没真正落伤。
 - **援护的真正作用**:虚弱(混乱 / 睡眠 / 麻痹)角色本被强制 `fAutoDefend=FALSE`(必吃伤害),有援护者时此强制不生效 → 把"自动免伤"的机会**还给**失去行动力的队友。
 
 ### 护体(`kStatusProtect`,金刚咒)
 
-- 一个**多回合状态**(`rgPlayerStatus[role][kStatusProtect] = 回合数`,[global.h:52](../reference/sdlpal/global.h#L52) "more defense value")。金刚咒等仙术施加它。
+- 一个**多回合状态**(`rgPlayerStatus[role][kStatusProtect] = 回合数`,[global.h:52](../../reference/sdlpal/global.h#L52) "more defense value")。金刚咒等仙术施加它。
 - **效果:受到的物理与法术伤害都减半。**
-  - 物理:`sDamage /= 2`([fight.c:5059-5062](../reference/sdlpal/fight.c#L5059-L5062))
-  - 法术:除数含 `(护体?2:1)`([fight.c:4802, 4837](../reference/sdlpal/fight.c#L4802))
-- 属 "good status":再次施加取**较长持续回合**(不刷成更短),仅活人可得([global.c:2257-2269](../reference/sdlpal/global.c#L2257-L2269))。
+  - 物理:`sDamage /= 2`([fight.c:5059-5062](../../reference/sdlpal/fight.c#L5059-L5062))
+  - 法术:除数含 `(护体?2:1)`([fight.c:4802, 4837](../../reference/sdlpal/fight.c#L4802))
+- 属 "good status":再次施加取**较长持续回合**(不刷成更短),仅活人可得([global.c:2257-2269](../../reference/sdlpal/global.c#L2257-L2269))。
 - **与主动防御叠加**:护体(最终伤害 /2)与主动防御(防御 ×2)对物理**同时生效**;法术则除数 `(主动防御?2:1)×(护体?2:1)` 连乘。
 
-ts 实现状态:`fDefending` 的 def×2 已在 [attack.ts:74-76](../packages/game/src/core/battle/actions/attack.ts#L74-L76) 实现;**自动防御 / 援护 / 护体 / 法术自动防御均未实现**。
+ts 实现状态:`fDefending` 的 def×2 已在 [attack.ts:74-76](../../packages/game/src/core/battle/actions/attack.ts#L74-L76) 实现;**自动防御 / 援护 / 护体 / 法术自动防御均未实现**。
 
 ---
 
@@ -298,7 +298,7 @@ ts 实现状态:`fDefending` 的 def×2 已在 [attack.ts:74-76](../packages/gam
 
 战斗中有队员**当场阵亡**的瞬间,游戏找这名死者的**援护者(`coveredBy`,即[防御机制](#防御机制主动防御--自动防御--援护--护体)里"援护 / 护法"那套关系字段)**:若援护者还活着、且没被睡 / 定身 / 疯魔,就**喊一句台词 + 给自己一个只在本场战斗有效的临时增益**。全队只有 **李逍遥** 和 **林月如** 配了这套脚本(`scriptOnFriendDeath`),所以通常是这俩谁援护、谁开口。
 
-### 触发([fight.c:775-819](../reference/sdlpal/fight.c#L775-L819))
+### 触发([fight.c:775-819](../../reference/sdlpal/fight.c#L775-L819))
 
 ```c
 for (每个队员 i):
@@ -315,7 +315,7 @@ for (每个队员 i):
 
 ### 四种结局(三道概率门顺序掷,opcode `0x06`)
 
-脚本开头三条 `0x06`(掷 `RandomLong(1,100)`,**≥ 阈值就跳到对应结局**,否则继续往下;[script.c:3575-3591](../reference/sdlpal/script.c#L3575-L3591)),把四种结局按 ~26% / ~26% / ~24% / ~24% 切开:
+脚本开头三条 `0x06`(掷 `RandomLong(1,100)`,**≥ 阈值就跳到对应结局**,否则继续往下;[script.c:3575-3591](../../reference/sdlpal/script.c#L3575-L3591)),把四种结局按 ~26% / ~26% / ~24% / ~24% 切开:
 
 | 掷点路径 | 概率 | 李逍遥(obj0 @43445) | 林月如(obj2 @43474) |
 |---|--:|---|---|
@@ -328,8 +328,8 @@ for (每个队员 i):
 
 ### 增益怎么算(`0x30` / `0x1B` / `0x1C`)
 
-- **`0x30` 临时按百分比加属性**([script.c:1406-1428](../reference/sdlpal/script.c#L1406-L1428)):`Extra槽[属性] = 基础值 × operand[1] / 100`,写进 `rgEquipmentEffect[kBodyPartExtra]` 临时装备效果槽——所以 `operand[1]=25` = **当前战斗内 +25%**(战后该临时槽清空、不持久)。属性索引(PLAYERROLES SoA 行号):**17=武术、18=灵力、20=身法、21=吉运**(19=防御没用到)。
-- **`0x1B` 回体力 / `0x1C` 回真气**([script.c:867](../reference/sdlpal/script.c#L867) / [896](../reference/sdlpal/script.c#L896)):operand[1]=9999 → 经 `PAL_IncreaseHPMP` clamp 到上限 = **回满**。
+- **`0x30` 临时按百分比加属性**([script.c:1406-1428](../../reference/sdlpal/script.c#L1406-L1428)):`Extra槽[属性] = 基础值 × operand[1] / 100`,写进 `rgEquipmentEffect[kBodyPartExtra]` 临时装备效果槽——所以 `operand[1]=25` = **当前战斗内 +25%**(战后该临时槽清空、不持久)。属性索引(PLAYERROLES SoA 行号):**17=武术、18=灵力、20=身法、21=吉运**(19=防御没用到)。
+- **`0x1B` 回体力 / `0x1C` 回真气**([script.c:867](../../reference/sdlpal/script.c#L867) / [896](../../reference/sdlpal/script.c#L896)):operand[1]=9999 → 经 `PAL_IncreaseHPMP` clamp 到上限 = **回满**。
 
 ### 相关但不同:`scriptOnDying`(自己濒死的纯对白)
 
@@ -344,13 +344,13 @@ for (每个队员 i):
 
 > 真值出处:角色脚本入口 `data/extracted/data/object-players.json`;脚本体 `all.json` `commands[43445..]`(李逍遥)/ `[43474..]`(林月如)。
 
-ts 实现状态:**已实现**。`runPlayerCasualtyScript` 等([battle-system.ts:972-1019](../packages/game/src/core/battle/battle-system.ts#L972-L1019))在队员死亡时取死者 `coveredBy` 援护者跑 `scriptOnFriendDeath`、濒死跑 `scriptOnDying`;`0x30` 临时百分比 buff([battle-opcodes.ts:304](../packages/game/src/core/battle/battle-opcodes.ts#L304))与 `0x1B/0x1C` 回血回蓝均已对源实现。
+ts 实现状态:**已实现**。`runPlayerCasualtyScript` 等([battle-system.ts:972-1019](../../packages/game/src/core/battle/battle-system.ts#L972-L1019))在队员死亡时取死者 `coveredBy` 援护者跑 `scriptOnFriendDeath`、濒死跑 `scriptOnDying`;`0x30` 临时百分比 buff([battle-opcodes.ts:304](../../packages/game/src/core/battle/battle-opcodes.ts#L304))与 `0x1B/0x1C` 回血回蓝均已对源实现。
 
 ---
 
 ## 群体普攻伤害递减
 
-你的观察对:玩家选普攻但**不指定单一目标**(攻击全体)时,伤害逐个递减。源 [fight.c:3676-3748](../reference/sdlpal/fight.c#L3676-L3748)。
+你的观察对:玩家选普攻但**不指定单一目标**(攻击全体)时,伤害逐个递减。源 [fight.c:3676-3748](../../reference/sdlpal/fight.c#L3676-L3748)。
 
 - 固定**空间命中顺序** `index[] = {2, 1, 0, 4, 3}`(中 → 左中 → 左 → 右 → 右中)。
 - `division` 初值 1;**每打中一个敌人 `division ×= 2`**;每个敌人伤害 `sDamage /= division`。
@@ -371,7 +371,7 @@ ts 实现状态:**未实现**(attack.ts 仅单体 targetIdx)。
 
 ## 战后 HP / MP 恢复
 
-源 `PAL_BattleWon` 尾部 [battle.c:1342-1372](../reference/sdlpal/battle.c#L1342-L1372)。**只在战斗胜利后**对每个队员执行(逃跑成功 / 战败不恢复)。
+源 `PAL_BattleWon` 尾部 [battle.c:1342-1372](../../reference/sdlpal/battle.c#L1342-L1372)。**只在战斗胜利后**对每个队员执行(逃跑成功 / 战败不恢复)。
 
 ```c
 #if 1//def PAL_CLASSIC      // ← #if 1 恒真,永远走 classic 分支(下面 #else 是死代码)
@@ -384,15 +384,15 @@ ts 实现状态:**未实现**(attack.ts 仅单体 targetIdx)。
 
 - **公式 = 回满缺口的一半**(整数除法)。例 maxHP=100、当前 30 → 缺 70 → +35 → 战后 65;再打一场 → 缺 35 → +17 → 82,趋近但不靠这个回满。
 - `#if 1//def PAL_CLASSIC`:`#if 1` 恒真(`//def PAL_CLASSIC` 只是注释),所以**两种 build 都走"回缺口一半"**;非 classic 的经验比例公式是被屏蔽的死代码。
-- 升级另有补满:升级会把 HP/MP 直接补满([battle.c:1115-1116, 1289-1292](../reference/sdlpal/battle.c#L1115-L1116))。
+- 升级另有补满:升级会把 HP/MP 直接补满([battle.c:1115-1116, 1289-1292](../../reference/sdlpal/battle.c#L1115-L1116))。
 
-ts 实现状态:**已实现**(2026-06-26 核实,旧注"未实现"已过时)。`finishBattleWon`([battle-system.ts:3209-3218](../packages/game/src/core/battle/battle-system.ts#L3209-L3218))在结算演出 + Phase E 脚本之后执行 `HP += ⌊(maxHP-HP)/2⌋`、`MP += ⌊(maxMP-MP)/2⌋`(PAL_CLASSIC 分支)。**只在胜利路径调用**——逃跑成功 / 战败走别的收尾,不调 `finishBattleWon` → 不恢复,与原版"逃跑不回血"一致。
+ts 实现状态:**已实现**(2026-06-26 核实,旧注"未实现"已过时)。`finishBattleWon`([battle-system.ts:3209-3218](../../packages/game/src/core/battle/battle-system.ts#L3209-L3218))在结算演出 + Phase E 脚本之后执行 `HP += ⌊(maxHP-HP)/2⌋`、`MP += ⌊(maxMP-MP)/2⌋`(PAL_CLASSIC 分支)。**只在胜利路径调用**——逃跑成功 / 战败走别的收尾,不调 `finishBattleWon` → 不恢复,与原版"逃跑不回血"一致。
 
 ---
 
 ## 五灵 / 毒 抗性与五行机制
 
-仙术分**无属性**和**带属性**两类。带属性的走"五灵"(5 系元素)或"毒",受目标对应抗性影响。回顾法术公式 [fight.c:223-247](../reference/sdlpal/fight.c#L223-L247) 的元素段:
+仙术分**无属性**和**带属性**两类。带属性的走"五灵"(5 系元素)或"毒",受目标对应抗性影响。回顾法术公式 [fight.c:223-247](../../reference/sdlpal/fight.c#L223-L247) 的元素段:
 
 ```c
 if (法术.wElemental != 0) {
@@ -406,8 +406,8 @@ if (法术.wElemental != 0) {
 ### 五灵 5 系 + 毒
 
 - `NUM_MAGIC_ELEMENTAL = 5`。仙术的 `wElemental` 字段:**0 = 无属性**(不吃任何元素抗,只走 `基础/4 + 固定威力`);**1–5 = 五灵**;**> 5 = 毒**。
-- 五灵的数据槽顺序(项目 / sdlpal 约定,见 [formulas.ts:131-152](../packages/game/src/core/battle/formulas.ts#L131-L152)):`index 1=风 / 2=雷 / 3=水 / 4=火 / 5=土`。具体中文显示标签在 `WORD.DAT`,此处只列数据顺序,不当作权威译名。
-- 抗性数据:敌人 `wElemResistance[5]` + `wPoisonResistance`([global.h:286-287](../reference/sdlpal/global.h#L286-L287));玩家 `rgwElementalResistance[5][role]` + `rgwPoisonResistance`([global.h:319](../reference/sdlpal/global.h#L319)),均 base + 装备。
+- 五灵的数据槽顺序(项目 / sdlpal 约定,见 [formulas.ts:131-152](../../packages/game/src/core/battle/formulas.ts#L131-L152)):`index 1=风 / 2=雷 / 3=水 / 4=火 / 5=土`。具体中文显示标签在 `WORD.DAT`,此处只列数据顺序,不当作权威译名。
+- 抗性数据:敌人 `wElemResistance[5]` + `wPoisonResistance`([global.h:286-287](../../reference/sdlpal/global.h#L286-L287));玩家 `rgwElementalResistance[5][role]` + `rgwPoisonResistance`([global.h:319](../../reference/sdlpal/global.h#L319)),均 base + 装备。
 
 ### 关键:玩家与敌人抗性是两套不同刻度
 
@@ -415,20 +415,20 @@ if (法术.wElemental != 0) {
 
 | 路径 | 倍率 | 传入抗性 | 等效 factor | 刻度 |
 |---|---|---|---|---|
-| 玩家施法打敌人 | **1**([fight.c:4016](../reference/sdlpal/fight.c#L4016)) | 敌人 `wElemResistance`(原值) | `10 - 敌抗` | **敌人抗性 0–10 制**:5=半伤、10=免疫、>10=吸收(被下限 1 兜底) |
-| 敌人施法打玩家 | **20**([fight.c:4799](../reference/sdlpal/fight.c#L4799)) | `100 + 玩家抗性` | `5 - 玩家抗/20` | **玩家抗性 0–100 制**:每点 ≈ -1% 元素伤,100=免疫 |
+| 玩家施法打敌人 | **1**([fight.c:4016](../../reference/sdlpal/fight.c#L4016)) | 敌人 `wElemResistance`(原值) | `10 - 敌抗` | **敌人抗性 0–10 制**:5=半伤、10=免疫、>10=吸收(被下限 1 兜底) |
+| 敌人施法打玩家 | **20**([fight.c:4799](../../reference/sdlpal/fight.c#L4799)) | `100 + 玩家抗性` | `5 - 玩家抗/20` | **玩家抗性 0–100 制**:每点 ≈ -1% 元素伤,100=免疫 |
 
-- 玩家元素抗 / 毒抗都**上限 100**([global.c:1928-1931, 1969-1972](../reference/sdlpal/global.c#L1928-L1931)),即玩家最多把某系仙术的元素部分削到 0。
+- 玩家元素抗 / 毒抗都**上限 100**([global.c:1928-1931, 1969-1972](../../reference/sdlpal/global.c#L1928-L1931)),即玩家最多把某系仙术的元素部分削到 0。
 - 抗性只缩放**元素部分**;`法术.wBaseDamage`(固定威力)在元素乘法**之前**已加入,会一起被 `×factor/5` 缩放,但不吃目标普通防御。
-- 毒系仙术(elem > 5)走同一公式,用毒抗替元素抗。另外毒抗还 gate 敌人"附带毒"效果:`PAL_GetPlayerPoisonResistance < RandomLong(1,100)` 才中毒([fight.c:5141](../reference/sdlpal/fight.c#L5141))。**中毒后的持续伤害 / 毒等级 / 七大毒 / 解毒,以及"下毒命中看巫抗不看毒抗"的区分,见 [毒系统](#毒系统等级--每回合伤害--七大毒--相生相克)。**
+- 毒系仙术(elem > 5)走同一公式,用毒抗替元素抗。另外毒抗还 gate 敌人"附带毒"效果:`PAL_GetPlayerPoisonResistance < RandomLong(1,100)` 才中毒([fight.c:5141](../../reference/sdlpal/fight.c#L5141))。**中毒后的持续伤害 / 毒等级 / 七大毒 / 解毒,以及"下毒命中看巫抗不看毒抗"的区分,见 [毒系统](#毒系统等级--每回合伤害--七大毒--相生相克)。**
 
-ts 实现状态:`calcMagicDamage` 的元素 / 毒缩放 + 战场加成已在 [formulas.ts:124-156](../packages/game/src/core/battle/formulas.ts#L124-L156) **1:1 ported**(倍率由调用方传)。玩家被敌人仙术击中的 `100+抗性 / mult=20` 路径取决于敌→玩家施法编排是否接入(当前战斗主走玩家→敌人)。
+ts 实现状态:`calcMagicDamage` 的元素 / 毒缩放 + 战场加成已在 [formulas.ts:124-156](../../packages/game/src/core/battle/formulas.ts#L124-L156) **1:1 ported**(倍率由调用方传)。玩家被敌人仙术击中的 `100+抗性 / mult=20` 路径取决于敌→玩家施法编排是否接入(当前战斗主走玩家→敌人)。
 
 ---
 
 ## 战斗场景对五灵仙术的影响
 
-你的判断对:同一仙术在不同战斗场地伤害不同。源 [fight.c:242-246](../reference/sdlpal/fight.c#L242-L246) + `BATTLEFIELD` 结构 [global.h:377-381](../reference/sdlpal/global.h#L377-L381)。
+你的判断对:同一仙术在不同战斗场地伤害不同。源 [fight.c:242-246](../../reference/sdlpal/fight.c#L242-L246) + `BATTLEFIELD` 结构 [global.h:377-381](../../reference/sdlpal/global.h#L377-L381)。
 
 ```c
 typedef struct tagBATTLEFIELD {
@@ -441,28 +441,28 @@ typedef struct tagBATTLEFIELD {
 - 只对**带元素属性的仙术(elem 1–5)**生效,在元素抗缩放之后再乘:`sDamage = sDamage × (10 + rgsMagicEffect[elem-1]) / 10`。
   - 加成 0 → ×1(中性);+10 → ×2(翻倍);-10 → ×0(归零,下限 1 兜底)。
   - 例:水边场地可能给水系 +、火系 −,即"水克火、场地助水"。**无属性仙术和毒不受场地影响**。
-- 当前场地号 `wNumBattleField`([global.h:536](../reference/sdlpal/global.h#L536)):随场景设定,也可被脚本 opcode 改写(`wNumBattleField = operand[0]`,[script.c:1723](../reference/sdlpal/script.c#L1723)),并存入存档([global.c:609](../reference/sdlpal/global.c#L609))。同一 `wNumBattleField` 还决定画面波动 `wScreenWave`([battle.c:1563](../reference/sdlpal/battle.c#L1563))。
+- 当前场地号 `wNumBattleField`([global.h:536](../../reference/sdlpal/global.h#L536)):随场景设定,也可被脚本 opcode 改写(`wNumBattleField = operand[0]`,[script.c:1723](../../reference/sdlpal/script.c#L1723)),并存入存档([global.c:609](../../reference/sdlpal/global.c#L609))。同一 `wNumBattleField` 还决定画面波动 `wScreenWave`([battle.c:1563](../../reference/sdlpal/battle.c#L1563))。
 
-ts 实现状态:`calcMagicDamage` 已接受 `fieldEffect` 5 系参数并 1:1 应用 `×(10+effect)/10`([formulas.ts:145-155](../packages/game/src/core/battle/formulas.ts#L145-L155));`wNumBattleField` → `rgsMagicEffect` 的数据装填取决于战场数据提取是否接入。
+ts 实现状态:`calcMagicDamage` 已接受 `fieldEffect` 5 系参数并 1:1 应用 `×(10+effect)/10`([formulas.ts:145-155](../../packages/game/src/core/battle/formulas.ts#L145-L155));`wNumBattleField` → `rgsMagicEffect` 的数据装填取决于战场数据提取是否接入。
 
 ---
 
 ## 合击仙术
 
-全队合力放一个大招;威力随**参战成员的攻击力 + 灵力总和**成长。源 `kBattleActionCoopMagic` [fight.c:3856-4045](../reference/sdlpal/fight.c#L3856-L4045)。
+全队合力放一个大招;威力随**参战成员的攻击力 + 灵力总和**成长。源 `kBattleActionCoopMagic` [fight.c:3856-4045](../../reference/sdlpal/fight.c#L3856-L4045)。
 
 ### 触发条件(PAL_CLASSIC)
 
-可用判定 `PAL_BattleUIIsActionValid(kBattleUIActionCoopMagic)` [uibattle.c:308-337](../reference/sdlpal/uibattle.c#L308-L337):
+可用判定 `PAL_BattleUIIsActionValid(kBattleUIActionCoopMagic)` [uibattle.c:308-337](../../reference/sdlpal/uibattle.c#L308-L337):
 
 - 队伍 **≥ 2 人**(`wMaxPartyMemberIndex == 0` → 不可);
 - 发起者本人 **healthy**,且全队 **healthy 成员 > 1**(至少 2 名)。
-- `PAL_IsPlayerHealthy` [fight.c:52-74](../reference/sdlpal/fight.c#L52-L74) = 非濒死 **且** 无 睡眠 / 混乱 / 沉默 / 麻痹 / 傀儡 状态。
-- 执行时再核一次:逐人 `coopContributors[i] = PAL_IsPlayerHealthy`,若健康者 ≤ 1 → **自动降级为普攻**([fight.c:3364-3378](../reference/sdlpal/fight.c#L3364-L3378))。
+- `PAL_IsPlayerHealthy` [fight.c:52-74](../../reference/sdlpal/fight.c#L52-L74) = 非濒死 **且** 无 睡眠 / 混乱 / 沉默 / 麻痹 / 傀儡 状态。
+- 执行时再核一次:逐人 `coopContributors[i] = PAL_IsPlayerHealthy`,若健康者 ≤ 1 → **自动降级为普攻**([fight.c:3364-3378](../../reference/sdlpal/fight.c#L3364-L3378))。
 
 ### 威力公式
 
-[fight.c:3982-3995](../reference/sdlpal/fight.c#L3982-L3995):
+[fight.c:3982-3995](../../reference/sdlpal/fight.c#L3982-L3995):
 
 ```c
 str = 0;
@@ -474,12 +474,12 @@ sDamage = PAL_CalcMagicDamage(str, 敌防, 敌元素抗, 敌毒抗, mult=1, 合�
 ```
 
 - 即**合击威力 = (全部健康参战成员的 攻击力 + 灵力 之和) ÷ 4**,再走标准法术伤害公式(含元素 / 毒抗 / 战场加成)。健康成员越多、攻 / 灵越高 → 合击越强。
-- 放哪个合击仙术:由发起者的 `PAL_GetPlayerCooperativeMagic(role)` 决定 = 角色 `rgwCooperativeMagic[role]`,装备可覆盖([global.c:2013-2045](../reference/sdlpal/global.c#L2013-L2045))。
+- 放哪个合击仙术:由发起者的 `PAL_GetPlayerCooperativeMagic(role)` 决定 = 角色 `rgwCooperativeMagic[role]`,装备可覆盖([global.c:2013-2045](../../reference/sdlpal/global.c#L2013-L2045))。
 - 可单体或 `kMagicFlagApplyToAll` 全体。
 
 ### 回合代价
 
-合击回合 `fThisTurnCoop = TRUE`([fight.c:3858](../reference/sdlpal/fight.c#L3858))→ 该回合所有参与成员的**普攻 / 防御 / 逃跑 / 单独施法全部被跳过**(各 action case 开头 `if(g_Battle.fThisTurnCoop) break;`,见 [fight.c:3620, 4112, 4121, 4176, 4334](../reference/sdlpal/fight.c#L3620))。整队这一回合只做这一次合击。
+合击回合 `fThisTurnCoop = TRUE`([fight.c:3858](../../reference/sdlpal/fight.c#L3858))→ 该回合所有参与成员的**普攻 / 防御 / 逃跑 / 单独施法全部被跳过**(各 action case 开头 `if(g_Battle.fThisTurnCoop) break;`,见 [fight.c:3620, 4112, 4121, 4176, 4334](../../reference/sdlpal/fight.c#L3620))。整队这一回合只做这一次合击。
 
 ts 实现状态:**已实现**。`performCoopMagic` 会筛选 healthy 参与者、扣除 HP 代价、计算伤害并生成聚拢 / 施法 / 法术特效 / 归位动画;回合队列也会跳过同轮其他参与者动作。若执行前只剩一名 healthy 队员,会按原版退化成普通攻击并保留普攻动画。
 
@@ -487,18 +487,18 @@ ts 实现状态:**已实现**。`performCoopMagic` 会筛选 healthy 参与者�
 
 ## 身法与出手顺序
 
-**出手顺序 = 按"有效身法"降序排队,每回合重排**;身法越高越先动。源 `PAL_BattleStartFrame` 的 PAL_CLASSIC 分支 [fight.c:1495-1585](../reference/sdlpal/fight.c#L1495-L1585)。
+**出手顺序 = 按"有效身法"降序排队,每回合重排**;身法越高越先动。源 `PAL_BattleStartFrame` 的 PAL_CLASSIC 分支 [fight.c:1495-1585](../../reference/sdlpal/fight.c#L1495-L1585)。
 
 有效身法分三层算:
 
 ### 1. 基础身法
 
-- 玩家 `PAL_GetPlayerActualDexterity` [fight.c:336-389](../reference/sdlpal/fight.c#L336-L389):身法属性 + 装备(`PAL_GetPlayerDexterity`)→ 若 **加速(haste)×3** → **上限 999**。
-- 敌人 `PAL_GetEnemyDexterity` [fight.c:289-332](../reference/sdlpal/fight.c#L289-L332):`(敌等级+6)×3 + (SHORT)敌身法`。
+- 玩家 `PAL_GetPlayerActualDexterity` [fight.c:336-389](../../reference/sdlpal/fight.c#L336-L389):身法属性 + 装备(`PAL_GetPlayerDexterity`)→ 若 **加速(haste)×3** → **上限 999**。
+- 敌人 `PAL_GetEnemyDexterity` [fight.c:289-332](../../reference/sdlpal/fight.c#L289-L332):`(敌等级+6)×3 + (SHORT)敌身法`。
 
 ### 2. 动作身法修正(玩家本回合所选动作)
 
-源 [fight.c:1529-1556](../reference/sdlpal/fight.c#L1529-L1556) —— **你这回合选什么动作,会放大或缩小本回合的有效身法**:
+源 [fight.c:1529-1556](../../reference/sdlpal/fight.c#L1529-L1556) —— **你这回合选什么动作,会放大或缩小本回合的有效身法**:
 
 | 所选动作 | 身法系数 |
 |---|---|
@@ -512,29 +512,29 @@ ts 实现状态:**已实现**。`performCoopMagic` 会筛选 healthy 参与者�
 
 ### 3. 收尾修正
 
-- **濒死**(`PAL_IsPlayerDying`)→ 再 **÷2**([fight.c:1558-1561](../reference/sdlpal/fight.c#L1558-L1561))。
-- 最后 × `RandomFloat(0.9, 1.1)` 随机抖动([fight.c:1563](../reference/sdlpal/fight.c#L1563);敌人也各摇一次 [fight.c:1474](../reference/sdlpal/fight.c#L1474))。
-- 死亡 / 睡眠 / 麻痹的玩家 → 身法 = 0(排最后,若回合内被救活则自动普攻)([fight.c:1505-1516](../reference/sdlpal/fight.c#L1505-L1516));混乱 → 强制普攻([fight.c:1522-1527](../reference/sdlpal/fight.c#L1522-L1527))。
+- **濒死**(`PAL_IsPlayerDying`)→ 再 **÷2**([fight.c:1558-1561](../../reference/sdlpal/fight.c#L1558-L1561))。
+- 最后 × `RandomFloat(0.9, 1.1)` 随机抖动([fight.c:1563](../../reference/sdlpal/fight.c#L1563);敌人也各摇一次 [fight.c:1474](../../reference/sdlpal/fight.c#L1474))。
+- 死亡 / 睡眠 / 麻痹的玩家 → 身法 = 0(排最后,若回合内被救活则自动普攻)([fight.c:1505-1516](../../reference/sdlpal/fight.c#L1505-L1516));混乱 → 强制普攻([fight.c:1522-1527](../../reference/sdlpal/fight.c#L1522-L1527))。
 
 要点(身法如何影响出手):
 
-- 排序按"基础身法 × 动作系数 × (濒死?÷2) × 随机0.9~1.1"降序([fight.c:1571-1585](../reference/sdlpal/fight.c#L1571-L1585) 选择排序)。
+- 排序按"基础身法 × 动作系数 × (濒死?÷2) × 随机0.9~1.1"降序([fight.c:1571-1585](../../reference/sdlpal/fight.c#L1571-L1585) 选择排序)。
 - **动作选择能逆转先手**:慢角色选防御(×5)或合击(×10)也能抢到先手;逃跑(÷2)必拖后。攻击仙术不加速,辅助 / 治疗仙术(不可对敌的)反而 ×3 先放。
 - 随机 0.9~1.1 给同身法单位加抖动,顺序不完全固定。敌人 dualMove(双动)在队列出现两次(第二条 `fIsSecond`,排后)。
 
-ts 实现状态:`getPlayerActualDexterity`(haste×3 + 999 上限)+ `getEnemyDexterity` 已 1:1 ported([formulas.ts:179-216](../packages/game/src/core/battle/formulas.ts#L179-L216));`buildActionQueue` 降序 + dualMove 双入列已实现([turn-queue.ts:51-79](../packages/game/src/core/battle/turn-queue.ts#L51-L79))。但 **动作身法系数(×10/×5/×3/÷2)、濒死 ÷2、`RandomFloat` 抖动当前未见应用** —— turn-queue 按调用方传入的 dex 排序,这层修正尚需补(否则所有动作同速,失去"选防御抢先手"的策略)。
+ts 实现状态:`getPlayerActualDexterity`(haste×3 + 999 上限)+ `getEnemyDexterity` 已 1:1 ported([formulas.ts:179-216](../../packages/game/src/core/battle/formulas.ts#L179-L216));`buildActionQueue` 降序 + dualMove 双入列已实现([turn-queue.ts:51-79](../../packages/game/src/core/battle/turn-queue.ts#L51-L79))。但 **动作身法系数(×10/×5/×3/÷2)、濒死 ÷2、`RandomFloat` 抖动当前未见应用** —— turn-queue 按调用方传入的 dex 排序,这层修正尚需补(否则所有动作同速,失去"选防御抢先手"的策略)。
 
 ---
 
 ## 吉运(只影响逃跑成功率)
 
-你的判断对:吉运(`rgwFleeRate`,字段注释直译 "chance of successful fleeing" [global.h:317](../reference/sdlpal/global.h#L317))**唯一的战斗作用就是逃跑成功率**——不碰伤害 / 暴击 / 命中 / 防御 / 出手顺序。穷尽 grep `rgwFleeRate` / `PAL_GetPlayerFleeRate` 全部用点,只有:① 逃跑判定([fight.c:4124](../reference/sdlpal/fight.c#L4124));② 升级界面显示([battle.c:1209](../reference/sdlpal/battle.c#L1209));③ 隐藏经验成长([battle.c:1282](../reference/sdlpal/battle.c#L1282));④ getter([global.c:1868-1893](../reference/sdlpal/global.c#L1868-L1893));⑤ 道具 / 状态加成([global.c:2390](../reference/sdlpal/global.c#L2390))。**没有任何其它机制读它。**
+你的判断对:吉运(`rgwFleeRate`,字段注释直译 "chance of successful fleeing" [global.h:317](../../reference/sdlpal/global.h#L317))**唯一的战斗作用就是逃跑成功率**——不碰伤害 / 暴击 / 命中 / 防御 / 出手顺序。穷尽 grep `rgwFleeRate` / `PAL_GetPlayerFleeRate` 全部用点,只有:① 逃跑判定([fight.c:4124](../../reference/sdlpal/fight.c#L4124));② 升级界面显示([battle.c:1209](../../reference/sdlpal/battle.c#L1209));③ 隐藏经验成长([battle.c:1282](../../reference/sdlpal/battle.c#L1282));④ getter([global.c:1868-1893](../../reference/sdlpal/global.c#L1868-L1893));⑤ 道具 / 状态加成([global.c:2390](../../reference/sdlpal/global.c#L2390))。**没有任何其它机制读它。**
 
 > 名字叫"吉运 / 运"带运气色彩,但机制上**不影响掉落 / 暴击 / 命中** —— 只是逃跑率。
 
 ### 逃跑成功公式
 
-源 [fight.c:4119-4148](../reference/sdlpal/fight.c#L4119-L4148):
+源 [fight.c:4119-4148](../../reference/sdlpal/fight.c#L4119-L4148):
 
 ```c
 str = PAL_GetPlayerFleeRate(role);          // 吉运 + 装备
@@ -547,15 +547,15 @@ if (def < 0) def = 0;
 - **吉运越高、敌人身法 / 等级越低 → 越容易逃。**
 - **Boss 战(`fIsBoss`)永远逃不掉**,吉运再高也没用。
 - 合击回合(`fThisTurnCoop`)逃跑被跳过。
-- **逃跑失败 → 吉运隐藏经验 +2**([fight.c:4170](../reference/sdlpal/fight.c#L4170))——呼应 [隐藏属性经验](#隐藏属性经验--等级系统):逃不掉反而练高吉运,下次更易逃。
+- **逃跑失败 → 吉运隐藏经验 +2**([fight.c:4170](../../reference/sdlpal/fight.c#L4170))——呼应 [隐藏属性经验](#隐藏属性经验--等级系统):逃不掉反而练高吉运,下次更易逃。
 
 ### `fIsBoss` 是「逐场战斗标志」,不是「看起来像不像 boss」
 
 逃跑公式末尾那道 `&& !fIsBoss` 才是真正的"能不能逃"总闸。关键:**`fIsBoss` 是每场战斗触发时单独设的布尔,跟敌人是否独一无二 / 血厚 / 剧情强敌无关**。
 
-- 触发战斗的脚本 opcode `0x0007`(start battle)调 `PAL_StartBattle(operand[0], !operand[2])`([script.c:3314-3333](../reference/sdlpal/script.c#L3314-L3333))——即 `fIsBoss = !operand[2]`。
+- 触发战斗的脚本 opcode `0x0007`(start battle)调 `PAL_StartBattle(operand[0], !operand[2])`([script.c:3314-3333](../../reference/sdlpal/script.c#L3314-L3333))——即 `fIsBoss = !operand[2]`。
 - `operand[2]` **身兼二职**:既是"可逃标志",又是"逃跑成功后跳转的脚本地址"。所以 `operand[2] != 0` ⇔ `fIsBoss = FALSE` ⇔ **可逃**(逃了就跳去 operand[2] 那段善后脚本);`operand[2] == 0` ⇔ boss 战、逃不掉。
-- 脚本驱动的逃跑 opcode `0x003A` 走同一道闸([script.c:1588-1603](../reference/sdlpal/script.c#L1588-L1603)):`fIsBoss` 时直接跳"逃不掉",否则才 `PAL_BattlePlayerEscape()`。
+- 脚本驱动的逃跑 opcode `0x003A` 走同一道闸([script.c:1588-1603](../../reference/sdlpal/script.c#L1588-L1603)):`fIsBoss` 时直接跳"逃不掉",否则才 `PAL_BattlePlayerEscape()`。
 
 **实例:锁妖塔「七星磐龙柱」七神龙——长着 boss 的样子,却能逃。** 锁妖塔底层七星磐龙柱召出的七条神龙(毒 / 金 / 土 / 火 / 冰 / 风 / 雷神龙,enemy id 141–147 / 敌队 305–311)在玩家眼里是七场独一无二的 boss,但它们的 `0x0007` 触发操作数全是 `[队号, 41075, 41073]`——`operand[2] = 41073 ≠ 0` → `fIsBoss = FALSE` → **能逃**(逃跑旁白跳 41073)。真值出处:`data/extracted/events/all.json` `commands[24784..24802]`(紧邻前一行旁白 `commands[24781]` = "七星磐龙柱")。
 
@@ -565,9 +565,9 @@ if (def < 0) def = 0;
 
 逃跑公式里敌方那一项 `def += (SHORT)敌.wDexterity` 用的是敌人**身法**,但这几乎可以确定**本该是敌人吉运**。source 层证据:
 
-- 敌人 `ENEMY` 结构**有独立的吉运字段** `wFleeRate`(注释 "chance for successful fleeing"),就紧挨在身法 `wDexterity` 后面([global.h:283-284](../reference/sdlpal/global.h#L283-L284))——和玩家 `rgwFleeRate` 一一对应。
+- 敌人 `ENEMY` 结构**有独立的吉运字段** `wFleeRate`(注释 "chance for successful fleeing"),就紧挨在身法 `wDexterity` 后面([global.h:283-284](../../reference/sdlpal/global.h#L283-L284))——和玩家 `rgwFleeRate` 一一对应。
 - 但 **`e.wFleeRate` 在整个引擎 `.c` 里从未被读过**(穷尽 grep `.wFleeRate` 零命中):敌人吉运从数据加载、存进内存,却**没有任何代码消费它**,是死字段。
-- 而逃跑抵抗公式 [fight.c:4134](../reference/sdlpal/fight.c#L4134) 取的是 `e.wDexterity`(身法)。身法本身另有正经用途(出手顺序 + 被各种敌人特例改写,[battle.c:1624-1666](../reference/sdlpal/battle.c#L1624-L1666))。
+- 而逃跑抵抗公式 [fight.c:4134](../../reference/sdlpal/fight.c#L4134) 取的是 `e.wDexterity`(身法)。身法本身另有正经用途(出手顺序 + 被各种敌人特例改写,[battle.c:1624-1666](../../reference/sdlpal/battle.c#L1624-L1666))。
 
 → 合理推断:玩家逃跑判定本应是"**我方吉运 vs 敌方吉运**",却误写成对敌方**身法**求和,导致敌人吉运字段彻底闲置。**后果**:逃跑难度由敌人身法(而非设计者填的吉运值)决定——高身法敌人异常难逃,而数据里精心设的敌人吉运形同虚设。
 
@@ -610,16 +610,16 @@ ts 实现状态(2026-06-13 更新):`actions/flee.ts` 已实现 —— 公式结�
 
 ### 源出处速查
 
-- 偷取实际判定 `RandomLong(0,10) <= wStealRate`:[fight.c:5254](../reference/sdlpal/fight.c#L5254);触发 opcode `0x6A`:[script.c:2046](../reference/sdlpal/script.c#L2046)
-- 固定概率关 `0x06`(掷 1~100 ≥ N 则失败跳走):[script.c:3575-3591](../reference/sdlpal/script.c#L3575-L3591)
-- 法术抗性关 `0x2E`(掷 0~9 > 敌法抗才上状态,CLASSIC):[script.c:1377-1397](../reference/sdlpal/script.c#L1377-L1397)
-- 血量关 `0x64`(敌血 > 满血 N% 则跳走):[script.c:1983-1995](../reference/sdlpal/script.c#L1983-L1995)
-- 秒杀 `0x60` 敌 / `0x5F` 玩家(本身无条件,靠前面的关卡门着):[script.c:1942-1955](../reference/sdlpal/script.c#L1942-L1955)
-- 灵葫值关 + 收值 `0x33`(敌 `wCollectValue == 0` → 跳走 = **失败**;否则把它并入全局 `wCollectValue`):[script.c:1437-1450](../reference/sdlpal/script.c#L1437-L1450)
+- 偷取实际判定 `RandomLong(0,10) <= wStealRate`:[fight.c:5254](../../reference/sdlpal/fight.c#L5254);触发 opcode `0x6A`:[script.c:2046](../../reference/sdlpal/script.c#L2046)
+- 固定概率关 `0x06`(掷 1~100 ≥ N 则失败跳走):[script.c:3575-3591](../../reference/sdlpal/script.c#L3575-L3591)
+- 法术抗性关 `0x2E`(掷 0~9 > 敌法抗才上状态,CLASSIC):[script.c:1377-1397](../../reference/sdlpal/script.c#L1377-L1397)
+- 血量关 `0x64`(敌血 > 满血 N% 则跳走):[script.c:1983-1995](../../reference/sdlpal/script.c#L1983-L1995)
+- 秒杀 `0x60` 敌 / `0x5F` 玩家(本身无条件,靠前面的关卡门着):[script.c:1942-1955](../../reference/sdlpal/script.c#L1942-L1955)
+- 灵葫值关 + 收值 `0x33`(敌 `wCollectValue == 0` → 跳走 = **失败**;否则把它并入全局 `wCollectValue`):[script.c:1437-1450](../../reference/sdlpal/script.c#L1437-L1450)
 - 灵葫咒成功脚本逐步(`all.json` `commands[43113..43117]`):血量关 `0x64[25]` → 概率关 `0x06[60]` → 灵葫值关 `0x33` → 秒杀 `0x60`。**注意秒杀在灵葫值关之后**——灵葫值=0 时在 `0x33` 就跳走,根本到不了 `0x60`,所以"残血也杀不掉"
 - 技能脚本数据出处:`data/extracted/data/spells.json` / `object-magics.json` 各技能 `scriptOnSuccess`(夺魂 obj304 / 灵葫咒 obj384=43113 / 回梦 obj303 / 鬼降 obj305 / 飞龙探云手 obj377=43144)
 
-ts 实现状态:特殊技能的 `scriptOnSuccess` 走战斗脚本解释器(0x06/0x2E/0x60/0x6A 等 opcode);偷取 `0x6A` + 居中提示已做(见 [feature-status D22](feature-status.md)),秒杀 / 上状态 / 法抗关在战斗 opcode dispatch 内逐条对源实现。
+ts 实现状态:特殊技能的 `scriptOnSuccess` 走战斗脚本解释器(0x06/0x2E/0x60/0x6A 等 opcode);偷取 `0x6A` + 居中提示已做(见 [feature-status D22](status/feature-status.md)),秒杀 / 上状态 / 法抗关在战斗 opcode dispatch 内逐条对源实现。
 
 ---
 
@@ -629,7 +629,7 @@ ts 实现状态:特殊技能的 `scriptOnSuccess` 走战斗脚本解释器(0x06/
 
 [灵葫咒](#特殊技能成功率秒杀--偷取--上状态)秒掉敌人时,把敌人的灵葫值(`wCollectValue`)累加进**全局灵葫值**(`gpGlobals->wCollectValue`,跨战斗持久、存档保存)。大世界用**紫金葫芦**(item 270)就把灵葫值**炼成一颗随机丹药**:灵葫值越高,越可能炼出高级货。
 
-### 炼丹公式(opcode `0x34`,紫金葫芦 scriptOnUse → [script.c:1454-1477](../reference/sdlpal/script.c#L1454-L1477))
+### 炼丹公式(opcode `0x34`,紫金葫芦 scriptOnUse → [script.c:1454-1477](../../reference/sdlpal/script.c#L1454-L1477))
 
 原版(`#ifdef PAL_CLASSIC`,= 1995 DOS 真值)每按一次紫金葫芦:
 
@@ -666,7 +666,7 @@ if (wCollectValue > 0) {
 
 sdlpal 默认(非 CLASSIC)分支是 `i = RandomLong(1, 9); if (i > 灵葫值) i = 灵葫值;`——灵葫值 ≥ 9 后九档**等概率**,没有"越大越高级"的加权。**用户真机观察到的"灵葫值越大越容易出高级药"= PAL_CLASSIC = 原版行为**,与本仓库一致(以 pal.exe 实机为最终真值)。
 
-ts 实现状态:**已实现**,走 PAL_CLASSIC 分支([event-system.ts](../packages/game/src/core/event-system.ts#L3914) 0x34:`i=RandomLong(1, collectValue)` 封顶 9、`collectValue-=i`、给 `Store[0].items[i-1]` + 物品框)。灵葫值并入见 [battle-opcodes.ts](../packages/game/src/core/battle/battle-opcodes.ts#L781) 0x33。
+ts 实现状态:**已实现**,走 PAL_CLASSIC 分支([event-system.ts](../../packages/game/src/core/event-system.ts#L3914) 0x34:`i=RandomLong(1, collectValue)` 封顶 9、`collectValue-=i`、给 `Store[0].items[i-1]` + 物品框)。灵葫值并入见 [battle-opcodes.ts](../../packages/game/src/core/battle/battle-opcodes.ts#L781) 0x33。
 
 ---
 
@@ -686,7 +686,7 @@ ts 实现状态:**已实现**,走 PAL_CLASSIC 分支([event-system.ts](../packag
 | **巫** | **`wResistanceToSorcery`** | **命中关卡**(掷骰 vs 抗性) | 异常状态 / 下毒**能否生效** |
 
 - 前七种(五灵 + 毒 + 物)详见[五灵 / 毒 抗性](#五灵--毒-抗性与五行机制)与[伤害计算](#伤害计算攻击力-vs-防御值)——削的是**伤害数字**。
-- **"巫"是异类**:它不削伤害,而是 gate"这个异常到底上不上得去"。字段 `wResistanceToSorcery`(注释直译 "resistance to sorcery and poison, 0 min, 10 max",[global.h:203](../reference/sdlpal/global.h#L203)),存在 **OBJECT_ENEMY** 表(项目 `enemy-objects.json`),与五灵 / 物抗那套战斗数值(ENEMY 表)**不是同一张表**。
+- **"巫"是异类**:它不削伤害,而是 gate"这个异常到底上不上得去"。字段 `wResistanceToSorcery`(注释直译 "resistance to sorcery and poison, 0 min, 10 max",[global.h:203](../../reference/sdlpal/global.h#L203)),存在 **OBJECT_ENEMY** 表(项目 `enemy-objects.json`),与五灵 / 物抗那套战斗数值(ENEMY 表)**不是同一张表**。
 - 数据实感(项目 `enemy-objects.json` 统计):巫抗要么低、要么拉满——**0**=106 个(史莱姆等)、2=7、3=1、4=7(凤凰)、5=2(赤鬼王)、**10**=30 个(灯笼等)。**没有 6~9 档**,设计上"要么基本能控、要么直接免疫"。
 
 ### 什么走"巫抗"这道关
@@ -702,11 +702,11 @@ ts 实现状态:**已实现**,走 PAL_CLASSIC 分支([event-system.ts](../packag
 | 下毒类仙术 / 道具 | 给敌人挂毒 | `0x28` |
 | **投掷道具**上异常 | 同上各状态 | 道具脚本里的 `0x2E` |
 
-> **投掷也吃同一道关**:投掷物品跑该道具的 `wScriptOnThrow`([fight.c:4361](../reference/sdlpal/fight.c#L4361)),脚本里若是"给敌人上异常"就还是 `0x2E`——**投掷上异常与巫术仙术受完全相同的判定和 bug,上限同样 90%**。投掷若是"下毒"则走 `0x28`(下文,无此 bug)。
+> **投掷也吃同一道关**:投掷物品跑该道具的 `wScriptOnThrow`([fight.c:4361](../../reference/sdlpal/fight.c#L4361)),脚本里若是"给敌人上异常"就还是 `0x2E`——**投掷上异常与巫术仙术受完全相同的判定和 bug,上限同样 90%**。投掷若是"下毒"则走 `0x28`(下文,无此 bug)。
 
 ### 巫术命中判定:`0x2E` 公式 + "上限 90%" bug
 
-给敌人上状态 `0x2E`([script.c:1377-1397](../reference/sdlpal/script.c#L1377-L1397),PAL_CLASSIC):
+给敌人上状态 `0x2E`([script.c:1377-1397](../../reference/sdlpal/script.c#L1377-L1397),PAL_CLASSIC):
 
 ```c
 i = 9;                                              // CLASSIC 固定 9
@@ -724,7 +724,7 @@ else
 
 - 巫抗 0:掷 1~9 成功 = **90%**(本应 100%)。
 - "敌巫抗 0 + 技能 100% 命中,最后却只有 90%"——就是这个 `>` 多吞掉的 10%。
-- **铁证(同引擎对照)**:同一个 `wResistanceToSorcery` 字段,**下毒 `0x28` 用的是"对的"写法** `RandomLong(0,9) >= 巫抗`([script.c:1193](../reference/sdlpal/script.c#L1193) / [1228](../reference/sdlpal/script.c#L1228))——巫抗 0 时 `>= 0` 恒真,**100% 中毒,无 10% 损耗**。两个 opcode 拿同一字段判同一件事,一个 `>=` 一个 `>`,**坐实 `0x2E` 的 `>` 是笔误**而非设计。
+- **铁证(同引擎对照)**:同一个 `wResistanceToSorcery` 字段,**下毒 `0x28` 用的是"对的"写法** `RandomLong(0,9) >= 巫抗`([script.c:1193](../../reference/sdlpal/script.c#L1193) / [1228](../../reference/sdlpal/script.c#L1228))——巫抗 0 时 `>= 0` 恒真,**100% 中毒,无 10% 损耗**。两个 opcode 拿同一字段判同一件事,一个 `>=` 一个 `>`,**坐实 `0x2E` 的 `>` 是笔误**而非设计。
 
 > **⚠️ 归属更正(原版后期已修,sdlpal 未跟进)**:这个 `>` 不是"原版最终设计"——**原版后期版本已把判定改成 `>=`(失败 `<`)**,只有 **sdlpal(及 DOS / 早期版本)仍停在 `>`**。所以这是"跟谁"的选择:
 > - 保留 `>` = 忠实 **sdlpal / DOS-早期**;改 `>=` = 跟进 **原版最新修复**——**改 `>=` 不算偏离原版,反而是向原版最新对齐**。
@@ -763,13 +763,13 @@ else
 
 ### 敌我不对称:巫抗只保护敌人
 
-- **敌人对我方上异常,跳过巫抗这道关**:给玩家上状态走 `0x2D`([script.c:1367-1375](../reference/sdlpal/script.c#L1367-L1375)),直接 `PAL_SetPlayerStatus`,**没有任何抗性掷骰**;玩家根本**没有 `wResistanceToSorcery` 字段**(巫抗是 OBJECT_ENEMY 专属,与"敌人有物抗、我方没有"同款不对称)。
+- **敌人对我方上异常,跳过巫抗这道关**:给玩家上状态走 `0x2D`([script.c:1367-1375](../../reference/sdlpal/script.c#L1367-L1375)),直接 `PAL_SetPlayerStatus`,**没有任何抗性掷骰**;玩家根本**没有 `wResistanceToSorcery` 字段**(巫抗是 OBJECT_ENEMY 专属,与"敌人有物抗、我方没有"同款不对称)。
 - 那玩家为何不会被敌人状态技能轻易秒控?**平衡不在玩家抗性,而在敌方那侧的概率被压低**:敌人状态技能的**固定概率关(`0x06`)阈值通常设得很低**,普攻附带异常还要再过概率 + 玩家毒抗两道关(见下)。即"敌方相关技能成功率本就低很多",以补偿玩家无巫抗兜底。
   - (这是脚本 / 数据层的设计倾向,各技能 `scriptOnSuccess` 的具体阈值未逐一枚举;**引擎层确凿的是 `0x2D` 无抗性关**。)
 
 ### 敌人普攻附带异常(黑狗血 → 封技)
 
-部分敌人普攻命中后,有概率追加一个异常(最典型是**封技**:`kStatusSilence`,注释 "cannot use magic" [global.h:49](../reference/sdlpal/global.h#L49),中招后不能用仙术)。判定 [fight.c:5139-5146](../reference/sdlpal/fight.c#L5139-L5146):
+部分敌人普攻命中后,有概率追加一个异常(最典型是**封技**:`kStatusSilence`,注释 "cannot use magic" [global.h:49](../../reference/sdlpal/global.h#L49),中招后不能用仙术)。判定 [fight.c:5139-5146](../../reference/sdlpal/fight.c#L5139-L5146):
 
 ```c
 if (iCoverIndex == -1 && !fAutoDefend &&                          // 没被援护、玩家没自动防御
@@ -780,52 +780,52 @@ if (iCoverIndex == -1 && !fAutoDefend &&                          // 没被援�
 }
 ```
 
-- **① 附带概率 = `wAttackEquivItemRate / 10`**(字段 [global.h:276-277](../reference/sdlpal/global.h#L276-L277))。数据实感(项目 `enemies.json`):**125 个敌人填 0(根本不附带)**;带附带的集中在 **3(30%)** 与 **5(50%)** ——所以"一般 30%"对应字段 = 3,是带附带敌人里最常见档之一(整体范围约 10%~80%)。
+- **① 附带概率 = `wAttackEquivItemRate / 10`**(字段 [global.h:276-277](../../reference/sdlpal/global.h#L276-L277))。数据实感(项目 `enemies.json`):**125 个敌人填 0(根本不附带)**;带附带的集中在 **3(30%)** 与 **5(50%)** ——所以"一般 30%"对应字段 = 3,是带附带敌人里最常见档之一(整体范围约 10%~80%)。
 - **② 玩家毒抗是第二道关**:`玩家毒抗 < 掷(1~100)` 才追加 → 该关通过率 `(100−毒抗)/100 = 1−毒抗`。**这道关对一切附带都生效**——不管附带的是毒、昏睡还是封技,统统过这道毒抗关。所以**毒抗 100%(如装备五毒珠)= 完全免疫一切普攻附带异常(毒 / 昏睡 / 封技…)**,这是玩家能主动堆的唯一抵抗手段。
   - 合并 ①②:**普攻附带触发概率 = 敌带毒率 ×(1 − 毒抗)**(即 `rate/10 ×(100−毒抗)/100`)。你提到"若第一道没拦住、施加时再过一次 `(1−毒抗)`"——果真如此总概率 ≈ 敌带毒率 ×`(1−毒抗)²`;这**第二道应在 equiv item 的 `wScriptOnUse` 脚本内**,我尚未定位到具体 item 脚本核实(fight.c 主判定只见 5141 这一道毒抗关)。
 - **成功格挡 / 援护 → 整个附带块跳过**(`iCoverIndex == -1 && !fAutoDefend` 是前置):自动格挡(7/17)或被援护时,不仅免那一下伤害,**连普攻附带的毒 / 巫一起免掉**。
 - 全过 → 跑"等价物品"`wAttackEquivItem`(一个 item)的 `wScriptOnUse`(目标 = 被打玩家),脚本用 `0x2D` 挂 `kStatusSilence`(或其它异常)——**到玩家身上同样无巫抗关**。
 
-> **⚠️ 普攻附带能挡、仙术附带挡不住**:敌人**仙术**附带的毒 / 巫走另一条路——施法时状态 / 毒在 `wScriptOnSuccess` 里施加([fight.c:4768-4769](../reference/sdlpal/fight.c#L4768-L4769)),**在伤害块之前、且完全不检查 `fAutoDefend`/`fDefending`/护体**。所以主动防御、自动格挡、援护对**仙术附带的异常一概无效**(只有仙术**伤害本身**才受主动防御 /2、护体 /2、法术自防御减免,[fight.c:4801-4803](../reference/sdlpal/fight.c#L4801-L4803))。这就是"敌方仙术带毒 / 带巫,什么防御都没用"的根因。
+> **⚠️ 普攻附带能挡、仙术附带挡不住**:敌人**仙术**附带的毒 / 巫走另一条路——施法时状态 / 毒在 `wScriptOnSuccess` 里施加([fight.c:4768-4769](../../reference/sdlpal/fight.c#L4768-L4769)),**在伤害块之前、且完全不检查 `fAutoDefend`/`fDefending`/护体**。所以主动防御、自动格挡、援护对**仙术附带的异常一概无效**(只有仙术**伤害本身**才受主动防御 /2、护体 /2、法术自防御减免,[fight.c:4801-4803](../../reference/sdlpal/fight.c#L4801-L4803))。这就是"敌方仙术带毒 / 带巫,什么防御都没用"的根因。
 
 ### ts 实现状态
 
-- `0x28` 下毒:`rangeInclusive(0,9) < 巫抗` 失败(即 `>= 巫抗` 成功),1:1([battle-opcodes.ts:477](../packages/game/src/core/battle/battle-opcodes.ts#L477))。
-- `0x2E` 上状态:**已采用 `>=`**([battle-opcodes.ts:634](../packages/game/src/core/battle/battle-opcodes.ts#L634))——跟进原版后期修复(巫抗 0 也 100% 命中、满值 10 才免疫),**有意偏离 sdlpal**(它仍 `>`);源码注释 + 回归测试(actions.test.ts「夺魂成功:巫抗0、掷0也命中」)钉住,防被按 sdlpal 改回。`0x28` 下毒不动(本就是 `>=`)。`enemy-objects.json` 的 `resistanceToSorcery` 经 battle-system 注入敌人槽([battle-system.ts:326](../packages/game/src/core/battle/battle-system.ts#L326))。
+- `0x28` 下毒:`rangeInclusive(0,9) < 巫抗` 失败(即 `>= 巫抗` 成功),1:1([battle-opcodes.ts:477](../../packages/game/src/core/battle/battle-opcodes.ts#L477))。
+- `0x2E` 上状态:**已采用 `>=`**([battle-opcodes.ts:634](../../packages/game/src/core/battle/battle-opcodes.ts#L634))——跟进原版后期修复(巫抗 0 也 100% 命中、满值 10 才免疫),**有意偏离 sdlpal**(它仍 `>`);源码注释 + 回归测试(actions.test.ts「夺魂成功:巫抗0、掷0也命中」)钉住,防被按 sdlpal 改回。`0x28` 下毒不动(本就是 `>=`)。`enemy-objects.json` 的 `resistanceToSorcery` 经 battle-system 注入敌人槽([battle-system.ts:326](../../packages/game/src/core/battle/battle-system.ts#L326))。
 - 投掷:`throw-item.ts` 跑 `wScriptOnThrow`,`0x28` / `0x2E` 复用同一 opcode dispatch,故投掷上异常自动同享 90% 上限。
-- 敌人普攻附带(`wAttackEquivItem` + 毒抗第二关)、`0x2D` 给玩家上状态:取决于敌→玩家施法编排接入程度(当前战斗主走玩家→敌人;见 [feature-status](feature-status.md))。
+- 敌人普攻附带(`wAttackEquivItem` + 毒抗第二关)、`0x2D` 给玩家上状态:取决于敌→玩家施法编排接入程度(当前战斗主走玩家→敌人;见 [feature-status](status/feature-status.md))。
 
 ### 源出处速查
 
-- 巫抗字段 `wResistanceToSorcery`(0~10):[global.h:203](../reference/sdlpal/global.h#L203)
-- 上敌状态 `0x2E`(掷 0~9 **>** 巫抗,CLASSIC `i=9`):[script.c:1377-1397](../reference/sdlpal/script.c#L1377-L1397)
-- 下敌毒 `0x28`(掷 0~9 **>=** 巫抗,对照组,无 bug):[script.c:1193](../reference/sdlpal/script.c#L1193) / [1228](../reference/sdlpal/script.c#L1228)
-- 上玩家状态 `0x2D`(无抗性关):[script.c:1367-1375](../reference/sdlpal/script.c#L1367-L1375)
-- 普攻附带 equiv item(概率关 + 玩家毒抗关):[fight.c:5139-5146](../reference/sdlpal/fight.c#L5139-L5146);字段 [global.h:276-277](../reference/sdlpal/global.h#L276-L277)
-- 封技 `kStatusSilence`("cannot use magic"):[global.h:49](../reference/sdlpal/global.h#L49)
+- 巫抗字段 `wResistanceToSorcery`(0~10):[global.h:203](../../reference/sdlpal/global.h#L203)
+- 上敌状态 `0x2E`(掷 0~9 **>** 巫抗,CLASSIC `i=9`):[script.c:1377-1397](../../reference/sdlpal/script.c#L1377-L1397)
+- 下敌毒 `0x28`(掷 0~9 **>=** 巫抗,对照组,无 bug):[script.c:1193](../../reference/sdlpal/script.c#L1193) / [1228](../../reference/sdlpal/script.c#L1228)
+- 上玩家状态 `0x2D`(无抗性关):[script.c:1367-1375](../../reference/sdlpal/script.c#L1367-L1375)
+- 普攻附带 equiv item(概率关 + 玩家毒抗关):[fight.c:5139-5146](../../reference/sdlpal/fight.c#L5139-L5146);字段 [global.h:276-277](../../reference/sdlpal/global.h#L276-L277)
+- 封技 `kStatusSilence`("cannot use magic"):[global.h:49](../../reference/sdlpal/global.h#L49)
 
 ---
 
 ## 异常状态效果:眠 / 定身 / 疯魔 / 封技
 
-> 承接[抗性体系总览 与 巫术命中判定](#抗性体系总览-与-巫术命中判定):那节讲异常"能不能上",这节讲**上了之后干什么**。状态枚举 [global.h:40-60](../reference/sdlpal/global.h#L40-L60)。
+> 承接[抗性体系总览 与 巫术命中判定](#抗性体系总览-与-巫术命中判定):那节讲异常"能不能上",这节讲**上了之后干什么**。状态枚举 [global.h:40-60](../../reference/sdlpal/global.h#L40-L60)。
 
 ### 状态全集 与 "睡眠 = 定身"
 
-CLASSIC 下共 9 种:混乱 / 定身 / 睡眠 / 封技 / 傀儡 / 狂暴 / 护体 / 加速 / 连击([global.h:40-56](../reference/sdlpal/global.h#L40-L56))。
+CLASSIC 下共 9 种:混乱 / 定身 / 睡眠 / 封技 / 傀儡 / 狂暴 / 护体 / 加速 / 连击([global.h:40-56](../../reference/sdlpal/global.h#L40-L56))。
 
-- **睡眠(`kStatusSleep`)与定身(`kStatusParalyzed`)在 CLASSIC 下是两个独立枚举值,但游戏效果完全相同**——凡"丧失行动力"的判断都成对写 `Sleep ‖ Paralyzed`(出手排序 [fight.c:1505-1507](../reference/sdlpal/fight.c#L1505-L1507)、自动防御压制 [fight.c:4977-4979](../reference/sdlpal/fight.c#L4977-L4979)、援护虚弱判定 [fight.c:4943-4946](../reference/sdlpal/fight.c#L4943-L4946) 等)。所以你说"本质没区别"对:**同义状态、占两个槽**。
-- 反向佐证:**非 CLASSIC** 才 `#define kStatusParalyzed kStatusSleep` 真正合并两者,并把腾出的槽给"迟缓 `kStatusSlow`"([global.h:43-60](../reference/sdlpal/global.h#L43-L60))。CLASSIC 无迟缓,定身独立但等价睡眠。
-- 状态是**回合计数**(`rgwStatus[x] = 剩余回合`),每回合自减、归 0 解除。设置规则 `PAL_SetPlayerStatus`([global.c:2221-2274](../reference/sdlpal/global.c#L2221-L2274)):眠 / 定身 / 封技 / 混乱属"坏状态"——**已有则不刷新**;护体 / 狂暴 / 加速 / 连击属"好状态"——取较长回合;傀儡只对死人。
+- **睡眠(`kStatusSleep`)与定身(`kStatusParalyzed`)在 CLASSIC 下是两个独立枚举值,但游戏效果完全相同**——凡"丧失行动力"的判断都成对写 `Sleep ‖ Paralyzed`(出手排序 [fight.c:1505-1507](../../reference/sdlpal/fight.c#L1505-L1507)、自动防御压制 [fight.c:4977-4979](../../reference/sdlpal/fight.c#L4977-L4979)、援护虚弱判定 [fight.c:4943-4946](../../reference/sdlpal/fight.c#L4943-L4946) 等)。所以你说"本质没区别"对:**同义状态、占两个槽**。
+- 反向佐证:**非 CLASSIC** 才 `#define kStatusParalyzed kStatusSleep` 真正合并两者,并把腾出的槽给"迟缓 `kStatusSlow`"([global.h:43-60](../../reference/sdlpal/global.h#L43-L60))。CLASSIC 无迟缓,定身独立但等价睡眠。
+- 状态是**回合计数**(`rgwStatus[x] = 剩余回合`),每回合自减、归 0 解除。设置规则 `PAL_SetPlayerStatus`([global.c:2221-2274](../../reference/sdlpal/global.c#L2221-L2274)):眠 / 定身 / 封技 / 混乱属"坏状态"——**已有则不刷新**;护体 / 狂暴 / 加速 / 连击属"好状态"——取较长回合;傀儡只对死人。
 
 ### 眠 / 定身:丧失行动力
 
-- 玩家睡眠 / 定身:身法置 0 排最后、本回合**强制普攻**(若回合内被救活),[fight.c:1505-1517](../reference/sdlpal/fight.c#L1505-L1517);且**自动防御被压制**(无援护时 `fAutoDefend` 强制 FALSE,[fight.c:4975-4985](../reference/sdlpal/fight.c#L4975-L4985))——详见[防御机制](#防御机制主动防御--自动防御--援护--护体)。
-- 敌人睡眠 / 定身:行动直接跳过([fight.c:4582-4589](../reference/sdlpal/fight.c#L4582-L4589) `goto end`)。
+- 玩家睡眠 / 定身:身法置 0 排最后、本回合**强制普攻**(若回合内被救活),[fight.c:1505-1517](../../reference/sdlpal/fight.c#L1505-L1517);且**自动防御被压制**(无援护时 `fAutoDefend` 强制 FALSE,[fight.c:4975-4985](../../reference/sdlpal/fight.c#L4975-L4985))——详见[防御机制](#防御机制主动防御--自动防御--援护--护体)。
+- 敌人睡眠 / 定身:行动直接跳过([fight.c:4582-4589](../../reference/sdlpal/fight.c#L4582-L4589) `goto end`)。
 
 ### 封技(`kStatusSilence`):只封仙术
 
-- 注释 "cannot use magic"([global.h:49](../reference/sdlpal/global.h#L49))。中招后**选仙术被判 invalid**([fight.c:3305-3311](../reference/sdlpal/fight.c#L3305-L3311) `fValid=FALSE`),随后**攻击仙术 → 退化普攻、辅助 / 治疗仙术 → 退化防御**([fight.c:3326-3358](../reference/sdlpal/fight.c#L3326-L3358))。
+- 注释 "cannot use magic"([global.h:49](../../reference/sdlpal/global.h#L49))。中招后**选仙术被判 invalid**([fight.c:3305-3311](../../reference/sdlpal/fight.c#L3305-L3311) `fValid=FALSE`),随后**攻击仙术 → 退化普攻、辅助 / 治疗仙术 → 退化防御**([fight.c:3326-3358](../../reference/sdlpal/fight.c#L3326-L3358))。
 - **只封"仙术(Magic)"**:普攻、投掷道具、用道具、防御、逃跑都照常。来源最典型是敌人普攻附带(黑狗血,见上节"敌人普攻附带异常")。
 
 ### 疯魔(混乱 `kStatusConfused`):攻击队友
@@ -837,11 +837,11 @@ CLASSIC 下共 9 种:混乱 / 定身 / 睡眠 / 封技 / 傀儡 / 狂暴 / 护�
 | 选目标 | `do { t=RandomLong(0,队伍上限) } while(自己 ‖ 死)` —— **重抽到"非自己的活队友",必打中** | 随机活敌人;**`if(==自己) goto end` 不打** |
 | 抽到自己 | do-while 排除,**绝不打自己** | **直接跳过本回合**(这才是你说的"抽到自己就不打") |
 | 全队只剩自己活 | 转 **Pass 不动** | 选不到他人 → 跳过 |
-| 源 | validate [fight.c:3448-3479](../reference/sdlpal/fight.c#L3448-L3479) + perform [fight.c:3760-3854](../reference/sdlpal/fight.c#L3760-L3854) | [fight.c:4591-4654](../reference/sdlpal/fight.c#L4591-L4654) |
+| 源 | validate [fight.c:3448-3479](../../reference/sdlpal/fight.c#L3448-L3479) + perform [fight.c:3760-3854](../../reference/sdlpal/fight.c#L3760-L3854) | [fight.c:4591-4654](../../reference/sdlpal/fight.c#L4591-L4654) |
 
-> 你口述的"我方范围抽签、抽到自己就不打"对应的是**敌人混乱**([fight.c:4594](../reference/sdlpal/fight.c#L4594));**玩家混乱**是 do-while **重抽必中队友**,只有全队仅剩自己时才不动。另:玩家混乱"只剩自己→Pass"是 sdlpal **有意偏离原版**的修改([fight.c:3469-3476](../reference/sdlpal/fight.c#L3469-L3476),注释 "original version behaviour is not same"——原版此时会转去打敌人)。
+> 你口述的"我方范围抽签、抽到自己就不打"对应的是**敌人混乱**([fight.c:4594](../../reference/sdlpal/fight.c#L4594));**玩家混乱**是 do-while **重抽必中队友**,只有全队仅剩自己时才不动。另:玩家混乱"只剩自己→Pass"是 sdlpal **有意偏离原版**的修改([fight.c:3469-3476](../../reference/sdlpal/fight.c#L3469-L3476),注释 "original version behaviour is not same"——原版此时会转去打敌人)。
 
-**混乱打友的伤害 / 减伤**(玩家版 [fight.c:3812-3835](../reference/sdlpal/fight.c#L3812-L3835)):
+**混乱打友的伤害 / 减伤**(玩家版 [fight.c:3812-3835](../../reference/sdlpal/fight.c#L3812-L3835)):
 
 ```c
 str = 攻击者攻击力;
@@ -851,7 +851,7 @@ sDamage = PAL_CalcPhysicalAttackDamage(str, def, 2); // 物抗参数硬编码 = 
 if (队友[kStatusProtect] > 0) sDamage /= 2;          // 护体:再 /2
 ```
 
-`PAL_CalcPhysicalAttackDamage` 里物抗是**除数**:`sDamage = CalcBaseDamage(str,def); if(res!=0) sDamage/=res;`([fight.c:279-285](../reference/sdlpal/fight.c#L279-L285))。res=2 → **基础伤害 /2**。
+`PAL_CalcPhysicalAttackDamage` 里物抗是**除数**:`sDamage = CalcBaseDamage(str,def); if(res!=0) sDamage/=res;`([fight.c:279-285](../../reference/sdlpal/fight.c#L279-L285))。res=2 → **基础伤害 /2**。
 
 逐条对照你的口述(**以源码为准**):
 
@@ -859,26 +859,26 @@ if (队友[kStatusProtect] > 0) sDamage /= 2;          // 护体:再 /2
 |---|---|---|
 | 伤害 = 基础伤害/2 ×(1−物抗) | res 硬编码 **2**,公式 `基础伤害 / res` = **基础伤害/2**;玩家无物抗变量参与 | ✓ 退化结论对(物抗是除数 `/res`,非 `×(1−物抗)`) |
 | 我方无物抗 → 退化成基础伤害/2 | 同上,res=2 写死 | ✓ |
-| 攻击队友无法格挡 | 混乱打友**无 `fAutoDefend` 判定**(不同于敌人打玩家 [4938](../reference/sdlpal/fight.c#L4938)),无自动闪避 | ✓ |
-| 护体 buff 不生效 | [3820-3823](../reference/sdlpal/fight.c#L3820-L3823) `kStatusProtect → /2` **仍生效** | ✗ 护体照常减半 |
-| 主动防御:被队友 ×2、被敌方 ×4 | 混乱打友 [3816](../reference/sdlpal/fight.c#L3816) 与敌人打玩家 [4928](../reference/sdlpal/fight.c#L4928) **都是 `def*=2`**;**无 ×4** | ✗ 无 ×4(疑把"敌人作防御方时 `def+(等级+6)*4` 的等级构成"记串) |
+| 攻击队友无法格挡 | 混乱打友**无 `fAutoDefend` 判定**(不同于敌人打玩家 [4938](../../reference/sdlpal/fight.c#L4938)),无自动闪避 | ✓ |
+| 护体 buff 不生效 | [3820-3823](../../reference/sdlpal/fight.c#L3820-L3823) `kStatusProtect → /2` **仍生效** | ✗ 护体照常减半 |
+| 主动防御:被队友 ×2、被敌方 ×4 | 混乱打友 [3816](../../reference/sdlpal/fight.c#L3816) 与敌人打玩家 [4928](../../reference/sdlpal/fight.c#L4928) **都是 `def*=2`**;**无 ×4** | ✗ 无 ×4(疑把"敌人作防御方时 `def+(等级+6)*4` 的等级构成"记串) |
 
-**敌人混乱打敌人**伤害另算:`PAL_CalcBaseDamage(str,def) * 2 / 目标物抗`([fight.c:4634-4645](../reference/sdlpal/fight.c#L4634-L4645)),走目标敌人的真实物抗。
+**敌人混乱打敌人**伤害另算:`PAL_CalcBaseDamage(str,def) * 2 / 目标物抗`([fight.c:4634-4645](../../reference/sdlpal/fight.c#L4634-L4645)),走目标敌人的真实物抗。
 
 ### 敌人混乱选目标:DOS / Win 原版 bug,sdlpal 已修
 
 - 你说"DOS 只打右侧、Win 几乎不打友方"——那是**原版(DOS / Win95)的选目标 bug**。
-- sdlpal 的 `PAL_BattleEnemySelectEnemyTargetIndex`([fight.c:4506-4517](../reference/sdlpal/fight.c#L4506-L4517))是**纯随机选活敌人**(重抽到存活),**未复刻**右侧偏向 / 不攻击。→ **type-pal 跟 sdlpal,本就没这个 bug**,符合你"希望咱们没有"。
+- sdlpal 的 `PAL_BattleEnemySelectEnemyTargetIndex`([fight.c:4506-4517](../../reference/sdlpal/fight.c#L4506-L4517))是**纯随机选活敌人**(重抽到存活),**未复刻**右侧偏向 / 不攻击。→ **type-pal 跟 sdlpal,本就没这个 bug**,符合你"希望咱们没有"。
 
 ### 解封技:引擎能解,"解不掉"在数据层
 
-- 引擎层 `0x2F`([script.c:1399-1403](../reference/sdlpal/script.c#L1399-L1403))→ `PAL_RemovePlayerStatus(role, 状态)`([global.c:2280](../reference/sdlpal/global.c#L2280))**能解任意状态,含封技**——引擎没拦着。
+- 引擎层 `0x2F`([script.c:1399-1403](../../reference/sdlpal/script.c#L1399-L1403))→ `PAL_RemovePlayerStatus(role, 状态)`([global.c:2280](../../reference/sdlpal/global.c#L2280))**能解任意状态,含封技**——引擎没拦着。
 - DOS 版"很多药 / 技能解不了封技"是**数据 / 脚本层**:那些道具 / 技能脚本里**没写"解 `kStatusSilence`"那条 `0x2F`**(只解了睡眠 / 中毒等)。
 - **归属与取舍**(照本仓"考证真值 → 讲清归属 → 你拍板"惯例,同[逃跑吉运](#吉运只影响逃跑成功率)那节):sdlpal 忠实复刻原版数据,用同一份提取数据时 type-pal **行为会一样**。要"修"得**改具体道具的脚本数据**(补一条解 Silence),偏离 1:1 忠实——**建议先 1:1 照搬;若要让某几件药能解封技,你点名、我改数据并注明偏离**。(当前未改。)
 
 ### ts 实现状态
 
-本节为**原版规则考证**;type-pal 对照实现程度见 [feature-status](feature-status.md) 战斗状态项。若实现 / 校准混乱 / 封技,须照搬上述真值:**混乱打友 res=2 → /2、护体仍 /2、`def*=2`(无 ×4)、玩家 do-while 必打活队友、敌人选目标纯随机、封技只禁仙术**;解封技属数据层,默认随原版(不擅改)。
+本节为**原版规则考证**;type-pal 对照实现程度见 [feature-status](status/feature-status.md) 战斗状态项。若实现 / 校准混乱 / 封技,须照搬上述真值:**混乱打友 res=2 → /2、护体仍 /2、`def*=2`(无 ×4)、玩家 do-while 必打活队友、敌人选目标纯随机、封技只禁仙术**;解封技属数据层,默认随原版(不擅改)。
 
 ---
 
@@ -895,14 +895,14 @@ if (队友[kStatusProtect] > 0) sDamage /= 2;          // 护体:再 /2
 | 谁有 | **仅敌人** | 敌我都有 |
 | 管什么 | **中毒 / 中状态能否成功**(`0x28` 下毒 `掷0~9 >= 巫抗`;`0x2E` 上状态) | **毒系伤害缩放** |
 | 敌方的作用 | gate 敌人是否中毒 / 中状态 | **只降毒系仙术伤害**(不参与中毒判定) |
-| 我方的作用 | 玩家无此字段 | **降伤 + 降中毒概率**(被附带毒时 `玩家毒抗 < 掷1~100` 才中,[fight.c:5141](../reference/sdlpal/fight.c#L5141));装备 / 吃大蒜可加,上限 100 |
+| 我方的作用 | 玩家无此字段 | **降伤 + 降中毒概率**(被附带毒时 `玩家毒抗 < 掷1~100` 才中,[fight.c:5141](../../reference/sdlpal/fight.c#L5141));装备 / 吃大蒜可加,上限 100 |
 
 - **给敌人下毒能不能中,看敌人巫抗,跟毒抗无关**——巫抗满(10)的 boss 根本不中毒(下文"秒杀"用到)。
 - 敌人毒抗高 ≠ 难毒到它,只是"你用毒系仙术砍它伤害低";真正挡中毒的是巫抗。我方则相反:毒抗**既降伤又降中毒率**,所以堆毒抗(装备 / 大蒜)对玩家防毒是实打实有用的。
 
 ### 数据结构 与 毒名
 
-- `OBJECT_POISON`:`wPoisonLevel`(等级)/ `wColor`(头像染色)/ `wPlayerScript`(玩家中毒每回合跑)/ `wEnemyScript`(敌人中毒每回合跑)([global.h](../reference/sdlpal/global.h))。
+- `OBJECT_POISON`:`wPoisonLevel`(等级)/ `wColor`(头像染色)/ `wPlayerScript`(玩家中毒每回合跑)/ `wEnemyScript`(敌人中毒每回合跑)([global.h](../../reference/sdlpal/global.h))。
 - **毒名 = WORD.DAT 里的 object 名**(项目 `words.json` 的 `flat[毒id]`),**状态页直接显示当前所中毒名**。
 - **敌我两套脚本**:同一种毒,玩家中 vs 敌人中**每回合效果不同**(`playerScript ≠ enemyScript`);我方扣血走 `0x1B`(改 HP,操作数补码负数),敌方走 `0x21`(扣敌 HP,正数)。
 
@@ -936,7 +936,7 @@ if (队友[kStatusProtect] > 0) sDamage /= 2;          // 护体:再 /2
 
 **七大毒 = 三尸蛊、鹤顶红、孔雀胆、血海棠、断肠草、金蚕蛊(以上 6 种 = 555–560,level 3)+ 无影毒(137,level 173)。**
 
-- **无影毒 = 爆发毒**:不是逐回合 DoT,挂上后**一次性结算**——对敌走 `0x5B "Halve HP"`:`扣血 = 当前 HP/2 + 1`,**上限 1000**([script.c:1895-1905](../reference/sdlpal/script.c#L1895-L1905) 的 `w=HP/2+1; if(w>operand)w=operand`)。level **173** 远超任何解毒上限 → **谁都解不了**。(与你说的"半血、上限 1000、不能解"一致。)
+- **无影毒 = 爆发毒**:不是逐回合 DoT,挂上后**一次性结算**——对敌走 `0x5B "Halve HP"`:`扣血 = 当前 HP/2 + 1`,**上限 1000**([script.c:1895-1905](../../reference/sdlpal/script.c#L1895-L1905) 的 `w=HP/2+1; if(w>operand)w=operand`)。level **173** 远超任何解毒上限 → **谁都解不了**。(与你说的"半血、上限 1000、不能解"一致。)
 
 ### 相生相克 + 三对致死组合(脚本实证)
 
@@ -962,13 +962,13 @@ if (队友[kStatusProtect] > 0) sDamage /= 2;          // 护体:再 /2
 
 ### 解毒(按等级)
 
-`0x2C` "Cure poisons by level" → `PAL_CurePoisonByLevel(role, wMaxLevel)`:移除**等级 ≤ wMaxLevel** 的毒([script.c:1349-1365](../reference/sdlpal/script.c#L1349-L1365) / [global.c:1604-1613](../reference/sdlpal/global.c#L1604-L1613))。
+`0x2C` "Cure poisons by level" → `PAL_CurePoisonByLevel(role, wMaxLevel)`:移除**等级 ≤ wMaxLevel** 的毒([script.c:1349-1365](../../reference/sdlpal/script.c#L1349-L1365) / [global.c:1604-1613](../../reference/sdlpal/global.c#L1604-L1613))。
 
 | 解毒来源 | wMaxLevel | 能解到 |
 |---|---|---|
 | **灵血咒**(magic 308) | **2**(实测 `0x2C [_,2]`,[scriptOnSuccess L_43082]) | 常规毒(赤 / 尸 / 瘴 / 毒丝,0–2 级) |
 | **九节菖蒲**(item 89) | 2(据你,同灵血咒) | 同上 |
-| **复活**(`0x22`,还魂类) | **3**([script.c:1071/1091](../reference/sdlpal/script.c#L1071)) | 顺带解 ≤3 级 → **连七大毒一起解**,但解不掉无影毒(173) |
+| **复活**(`0x22`,还魂类) | **3**([script.c:1071/1091](../../reference/sdlpal/script.c#L1071)) | 顺带解 ≤3 级 → **连七大毒一起解**,但解不掉无影毒(173) |
 
 - 结论:**专门解毒药(灵血咒 / 九节菖蒲)只解到 2 级,七大毒解不了**;中七大毒只能靠**复活类**(解到 3 级)、相克、或撑过持续回合。**无影毒(173)谁都解不了**。
 - 另有 `0x2A` / `0x2B` 按毒**种类(id)**解(敌 / 我),供脚本精确点名解某毒(相克链、毒末尾自解都用它)。
@@ -978,8 +978,8 @@ if (队友[kStatusProtect] > 0) sDamage /= 2;          // 护体:再 /2
 **毒龙胆**(item 278,`wScriptOnUse`=L_39765)、**九阴散**(item 136) 同款:脚本先 `0x61`"**没中毒就跳去 `0x5F` 秒杀自己**",否则 `0x2C` 解 **≤3 级**毒(含七大毒里的六种 level3,**不含**无影毒 173)并回血(九阴散回满)。
 
 - **没中毒时吃 = 暴毙**(`0x61` → `0x5F`);有毒时吃 = 解毒 + 回血。高风险高回报。
-- **"漏赤毒"归属**:`0x61` 调 `PAL_IsPlayerPoisonedByLevel(role, 0)`,sdlpal 用 `w >= wMinLevel`([global.c:1677](../reference/sdlpal/global.c#L1677)) → 赤毒 level0 满足 `0>=0` **算中毒、不漏**。你说的"毒龙胆漏赤毒被秒"疑是**原版早期**用 `>`(漏 level0)的 bug,**sdlpal 已修为 `>=`**;type-pal ts 更彻底(不看 level,任意毒都算)→ 也不会漏赤毒。
-- **寿葫芦白嫖(原版早期 bug → 后期已修)**:寿葫芦(item 269)挂 **level 99 伪毒**(`HP回补`563 / `MP回补`564,每回合回血 / 回蓝)。这种 level99 毒在 sdlpal 被 `if (w >= 99) continue` **忽略**([global.c:1669](../reference/sdlpal/global.c#L1669),注释"装备效果")。三版行为:
+- **"漏赤毒"归属**:`0x61` 调 `PAL_IsPlayerPoisonedByLevel(role, 0)`,sdlpal 用 `w >= wMinLevel`([global.c:1677](../../reference/sdlpal/global.c#L1677)) → 赤毒 level0 满足 `0>=0` **算中毒、不漏**。你说的"毒龙胆漏赤毒被秒"疑是**原版早期**用 `>`(漏 level0)的 bug,**sdlpal 已修为 `>=`**;type-pal ts 更彻底(不看 level,任意毒都算)→ 也不会漏赤毒。
+- **寿葫芦白嫖(原版早期 bug → 后期已修)**:寿葫芦(item 269)挂 **level 99 伪毒**(`HP回补`563 / `MP回补`564,每回合回血 / 回蓝)。这种 level99 毒在 sdlpal 被 `if (w >= 99) continue` **忽略**([global.c:1669](../../reference/sdlpal/global.c#L1669),注释"装备效果")。三版行为:
 
   | | 寿葫芦 level99 伪毒算不算"中毒" | 装寿葫芦吃毒龙胆 / 九阴散 |
   |---|---|---|
@@ -987,11 +987,11 @@ if (队友[kStatusProtect] > 0) sDamage /= 2;          // 护体:再 /2
   | **原版后期(判 bug 已修)= sdlpal** | 不算(`>=99 continue`) | **照样暴毙** |
   | **type-pal ts(已修)** | **不算**(`isPlayerPoisoned` ByLevel 补了 level≥99 豁免) | **照样暴毙**(对齐 sdlpal / 原版后期) |
 
-  → **已修**:`isPlayerPoisoned`([event-system.ts:3241](../packages/game/src/core/event-system.ts#L3241))的 ByLevel 路径(`poisonKind===undefined`,即 `0x61`)补了 `level >= 99 → 跳过`,寿葫芦等装备伪毒不再算"中毒",装寿葫芦吃毒龙胆 / 九阴散**照样暴毙**(对齐 sdlpal / 原版后期);`0x60` 的 ByKind 路径(查特定毒 id)不动。回归测试见 event-system.test.ts「没中毒则跳:level≥99 伪毒」。与[巫术 `0x2E`](#巫术命中判定0x2e-公式--上限-90-bug)同属"跟进原版后期修复"。
+  → **已修**:`isPlayerPoisoned`([event-system.ts:3241](../../packages/game/src/core/event-system.ts#L3241))的 ByLevel 路径(`poisonKind===undefined`,即 `0x61`)补了 `level >= 99 → 跳过`,寿葫芦等装备伪毒不再算"中毒",装寿葫芦吃毒龙胆 / 九阴散**照样暴毙**(对齐 sdlpal / 原版后期);`0x60` 的 ByKind 路径(查特定毒 id)不动。回归测试见 event-system.test.ts「没中毒则跳:level≥99 伪毒」。与[巫术 `0x2E`](#巫术命中判定0x2e-公式--上限-90-bug)同属"跟进原版后期修复"。
 
 ### ts 实现状态
 
-毒的**伤害缩放 + 中毒概率**(毒抗那套)实现见[五灵 / 毒 抗性](#五灵--毒-抗性与五行机制)节末。本节的**逐回合 DoT(`0x1B`/`0x21` + `end` 推进)、按等级 / 种类解毒(`0x2C`/`0x2A`/`0x2B`)、无影毒半血(`0x5B`)** 走战斗 opcode dispatch(`0x28` 下毒已实现,见 [battle-opcodes.ts](../packages/game/src/core/battle/battle-opcodes.ts));**相生相克 / 三对致死组合**取决于各七大毒 apply 脚本接入程度(`0x5E` 查毒 + `0x60`/`0x5F` 秒杀),实现时须照搬上述规则与数值。
+毒的**伤害缩放 + 中毒概率**(毒抗那套)实现见[五灵 / 毒 抗性](#五灵--毒-抗性与五行机制)节末。本节的**逐回合 DoT(`0x1B`/`0x21` + `end` 推进)、按等级 / 种类解毒(`0x2C`/`0x2A`/`0x2B`)、无影毒半血(`0x5B`)** 走战斗 opcode dispatch(`0x28` 下毒已实现,见 [battle-opcodes.ts](../../packages/game/src/core/battle/battle-opcodes.ts));**相生相克 / 三对致死组合**取决于各七大毒 apply 脚本接入程度(`0x5E` 查毒 + `0x60`/`0x5F` 秒杀),实现时须照搬上述规则与数值。
 
 ---
 
@@ -1005,7 +1005,7 @@ if (队友[kStatusProtect] > 0) sDamage /= 2;          // 护体:再 /2
 
 ### 1. 怪物 = 场景事件对象(EVENTOBJECT)
 
-源:[global.h:74-121](../reference/sdlpal/global.h#L74-L121)。地图上的怪物、NPC、宝箱、机关**同属一种结构** `EVENTOBJECT`,靠字段区分行为:
+源:[global.h:74-121](../../reference/sdlpal/global.h#L74-L121)。地图上的怪物、NPC、宝箱、机关**同属一种结构** `EVENTOBJECT`,靠字段区分行为:
 
 ```c
 typedef struct tagEVENTOBJECT {
@@ -1020,16 +1020,16 @@ typedef struct tagEVENTOBJECT {
 } EVENTOBJECT;
 ```
 
-- **状态 `sState`**([global.h:74-80](../reference/sdlpal/global.h#L74-L80)):`kObjStateHidden=0` / `kObjStateNormal=1` / `kObjStateBlocker=2`。**负值**是"隐藏待复活"标记(复活时取 `abs` 还原)。
-- **触发模式 `wTriggerMode`**([global.h:82-93](../reference/sdlpal/global.h#L82-L93)):`>= kTriggerTouchNear(4)` 的对象**走近即自动触发** —— 地图上的明雷怪就是这一档(4~8 对应触发半径递增)。
-- 各场景的事件对象是全局数组 `lprgEventObject` 的一段,由 `SCENE.wEventObjectIndex`([global.h:120](../reference/sdlpal/global.h#L120))切片;脚本对 `sState`/`sVanishTime` 的修改**写在全局数组里、跨场景持久**(离开再回来,已消失的怪仍在倒计时)。
+- **状态 `sState`**([global.h:74-80](../../reference/sdlpal/global.h#L74-L80)):`kObjStateHidden=0` / `kObjStateNormal=1` / `kObjStateBlocker=2`。**负值**是"隐藏待复活"标记(复活时取 `abs` 还原)。
+- **触发模式 `wTriggerMode`**([global.h:82-93](../../reference/sdlpal/global.h#L82-L93)):`>= kTriggerTouchNear(4)` 的对象**走近即自动触发** —— 地图上的明雷怪就是这一档(4~8 对应触发半径递增)。
+- 各场景的事件对象是全局数组 `lprgEventObject` 的一段,由 `SCENE.wEventObjectIndex`([global.h:120](../../reference/sdlpal/global.h#L120))切片;脚本对 `sState`/`sVanishTime` 的修改**写在全局数组里、跨场景持久**(离开再回来,已消失的怪仍在倒计时)。
 
 ### 2. 时间基准:FPS = 10 → 每 tick 100ms
 
 倒计时按**真实时间**推进,换算基准是逻辑帧率:
 
-- `#define FPS 10`([game.h:27](../reference/sdlpal/game.h#L27)) → `FRAME_TIME = 1000/FPS = 100ms`([game.h:28](../reference/sdlpal/game.h#L28))。
-- 主循环每 100ms 调一次 `PAL_StartFrame`([game.c:80-85](../reference/sdlpal/game.c#L80-L85)),后者每帧跑 `PAL_GameUpdate(TRUE)`([play.c:534](../reference/sdlpal/play.c#L534)) —— 倒计时就在这里推进,**与玩家是否走动无关**(站着不动也照样倒计时)。
+- `#define FPS 10`([game.h:27](../../reference/sdlpal/game.h#L27)) → `FRAME_TIME = 1000/FPS = 100ms`([game.h:28](../../reference/sdlpal/game.h#L28))。
+- 主循环每 100ms 调一次 `PAL_StartFrame`([game.c:80-85](../../reference/sdlpal/game.c#L80-L85)),后者每帧跑 `PAL_GameUpdate(TRUE)`([play.c:534](../../reference/sdlpal/play.c#L534)) —— 倒计时就在这里推进,**与玩家是否走动无关**(站着不动也照样倒计时)。
 
 | opcode | 设定值 | 帧数 | ×100ms | 现象 |
 |---|---|---|---|---|
@@ -1039,7 +1039,7 @@ typedef struct tagEVENTOBJECT {
 
 ### 3. 引擎核心两段:倒计时 + 离屏复活
 
-源 `PAL_GameUpdate`([play.c:87-106](../reference/sdlpal/play.c#L87-L106)),逐事件对象:
+源 `PAL_GameUpdate`([play.c:87-106](../../reference/sdlpal/play.c#L87-L106)),逐事件对象:
 
 ```c
 if (p->sVanishTime != 0) {                       // ① 倒计时中:无条件向 0 推进
@@ -1055,7 +1055,7 @@ if (p->sState < 0) {                             // ② 倒计时归零 + "隐�
 }
 ```
 
-而"消失"由怪物脚本主动设置([script.c:1798-1799](../reference/sdlpal/script.c#L1798-L1799),opcode `0x52`,`pEvtObj` = 脚本宿主自己):
+而"消失"由怪物脚本主动设置([script.c:1798-1799](../../reference/sdlpal/script.c#L1798-L1799),opcode `0x52`,`pEvtObj` = 脚本宿主自己):
 
 ```c
 pEvtObj->sState *= -1;                                  // 1 → -1,标记"隐藏待复活"
@@ -1066,47 +1066,47 @@ pEvtObj->sVanishTime = op0 ? op0 : 800;                 // 倒计时帧数,默�
 
 | 阶段 | 条件 / 触发 | 字段变化 | 时长 | 源 |
 |---|---|---|---|---|
-| ① 活动 | `sVanishTime==0 && sState>0` | 可见、走近自动触发、autoScript 跑 | — | [play.c:107](../reference/sdlpal/play.c#L107) / [172](../reference/sdlpal/play.c#L172) |
-| ② 遭遇开战 | 走进触发区,trigger 脚本里 `0x07` startBattle | 同步进入战斗 | — | [play.c:153](../reference/sdlpal/play.c#L153) |
-| ③ 战后消失 | **胜利后脚本接着跑 `0x52`** | `sState*=-1`;`sVanishTime=800`(或操作数) | — | [script.c:1798](../reference/sdlpal/script.c#L1798) |
-| ④ 倒计时 | 每 tick 无条件 -1,**与玩家动不动无关** | `800 → … → 0` | 默认 **80 秒** | [play.c:87-94](../reference/sdlpal/play.c#L87-L94) |
-| ⑤ 离屏复活 | 倒计时归零后,坐标离开 320×320 视口 | `sState=abs()`、复位帧 | 取决于何时走开 | [play.c:96-106](../reference/sdlpal/play.c#L96-L106) |
+| ① 活动 | `sVanishTime==0 && sState>0` | 可见、走近自动触发、autoScript 跑 | — | [play.c:107](../../reference/sdlpal/play.c#L107) / [172](../../reference/sdlpal/play.c#L172) |
+| ② 遭遇开战 | 走进触发区,trigger 脚本里 `0x07` startBattle | 同步进入战斗 | — | [play.c:153](../../reference/sdlpal/play.c#L153) |
+| ③ 战后消失 | **胜利后脚本接着跑 `0x52`** | `sState*=-1`;`sVanishTime=800`(或操作数) | — | [script.c:1798](../../reference/sdlpal/script.c#L1798) |
+| ④ 倒计时 | 每 tick 无条件 -1,**与玩家动不动无关** | `800 → … → 0` | 默认 **80 秒** | [play.c:87-94](../../reference/sdlpal/play.c#L87-L94) |
+| ⑤ 离屏复活 | 倒计时归零后,坐标离开 320×320 视口 | `sState=abs()`、复位帧 | 取决于何时走开 | [play.c:96-106](../../reference/sdlpal/play.c#L96-L106) |
 | ⑥ 回到 ① | | | | |
 
 ### 5. 重要约束(容易误解的点)
 
-- **坑①:倒计时无条件推进,与可视区域无关。** `sVanishTime != 0` 直接递减并 `continue`([play.c:87-94](../reference/sdlpal/play.c#L87-L94)),排在复活判定**之前**。站着不动、盯着出生点,80 秒照样走完 —— 可视区域**不影响倒计时**。
+- **坑①:倒计时无条件推进,与可视区域无关。** `sVanishTime != 0` 直接递减并 `continue`([play.c:87-94](../../reference/sdlpal/play.c#L87-L94)),排在复活判定**之前**。站着不动、盯着出生点,80 秒照样走完 —— 可视区域**不影响倒计时**。
 - **坑②:"在可视区域外"只卡复活那一步(⑤),不是刷新的全部。** 倒计时归零后怪进入 `sState<0 && sVanishTime==0`,引擎才逐帧判它**当前坐标**是否离屏:在视野内 → **不复活**(死盯出生点永远刷不出);离屏 → 立刻转正重现。所以体感"过一会儿 + 走开"= **先等够 `sVanishTime`、再走出视野**,两条件**依次**满足。
 - **坑③:引擎不自动刷怪 —— 消失是脚本驱动的。** 没有任何"定时重生"逻辑;怪物消失是它**自己的 trigger 脚本在战斗胜利后接着跑 `0x52`**。引擎只提供倒计时 + 离屏复活两个原语,"多久刷、刷不刷"全由脚本写的 `sVanishTime` 操作数决定。
 - **坑④:`sVanishTime` 正负是两套语义。** `>0`(如 800)= 隐身倒计时,present 层**不画**;`<0`(如 -15)= **仍可见**,只是锁触发。别把"短暂消失(`0x4B`)"和"隐藏刷新(`0x52`)"混为一谈。
-- **坑⑤:复活的视口判定 y 也用 320(非屏高 200)。** [play.c:101](../reference/sdlpal/play.c#L101) 的 y 边界写的是 `+ 320` 而非 200,疑为原版 typo;按"忠实复刻 sdlpal / 原版"惯例**照搬**(type-pal 已 1:1 复刻,见下)。
+- **坑⑤:复活的视口判定 y 也用 320(非屏高 200)。** [play.c:101](../../reference/sdlpal/play.c#L101) 的 y 边界写的是 `+ 320` 而非 200,疑为原版 typo;按"忠实复刻 sdlpal / 原版"惯例**照搬**(type-pal 已 1:1 复刻,见下)。
 
 ### 6. ts 实现状态
 
 > ✅ **完整实现且节奏对齐**,非占位。
 
-- **倒计时 + 离屏复活**:[scene-system.ts:199-216](../packages/game/src/core/scene-system.ts#L199-L216) 逐行直译 play.c:87-106(`vx/vy` = `gs.camera`),含 y 用 `SCREEN_W(320)` 的 typo 复刻(注释已标注);触碰触发的 Manhattan 距离公式 [scene-system.ts:218-225](../packages/game/src/core/scene-system.ts#L218-L225)。
-- **消失 opcode**:`0x4B` `sVanishTime=-15`([event-system.ts:3930-3936](../packages/game/src/core/event-system.ts#L3930-L3936))、`0x52` `sState=-sState; sVanishTime=op?op:800`([event-system.ts:3939-3947](../packages/game/src/core/event-system.ts#L3939-L3947)),1:1。
-- **可见性**:`sState<=0 || sVanishTime>0 → 不画`([present.ts:470-476](../packages/game/src/present/present.ts#L470-L476)),与 `sVanishTime<0` 仍可见的语义一致。
-- **autoScript gate**:仅 `sState>0 && sVanishTime==0` 才跑自动脚本([event-system.ts:1186-1189](../packages/game/src/core/event-system.ts#L1186-L1189)),直译 play.c:172-192。
-- **节奏对齐(关键)**:explore 逻辑 tick = **100ms / 10fps**([main-loop.ts:40](../packages/game/src/shell/main-loop.ts#L40),注释对齐 `game.c` 的 `FRAME_TIME`),与 sdlpal `FPS=10` 一致 → 80 秒 / 1.5 秒的刷新时间忠实,**无"60fps 每帧递减导致 1/6 缩水"的坑**。
-- **相关修复**:`0x52` 隐藏怪写在 trigger 脚本里、需**战斗胜利后接回脚本**才会跑;早期因战末未接回导致"打完怪不消失",已由 `savePostBattleResume` / `resumePostBattleScript` 修复([event-system.ts:2077](../packages/game/src/core/event-system.ts#L2077) / [3024](../packages/game/src/core/event-system.ts#L3024))。回归测试见 scene-system.test.ts(倒计时递减不触发 / 离屏复活 / 触发区转向)。
+- **倒计时 + 离屏复活**:[scene-system.ts:199-216](../../packages/game/src/core/scene-system.ts#L199-L216) 逐行直译 play.c:87-106(`vx/vy` = `gs.camera`),含 y 用 `SCREEN_W(320)` 的 typo 复刻(注释已标注);触碰触发的 Manhattan 距离公式 [scene-system.ts:218-225](../../packages/game/src/core/scene-system.ts#L218-L225)。
+- **消失 opcode**:`0x4B` `sVanishTime=-15`([event-system.ts:3930-3936](../../packages/game/src/core/event-system.ts#L3930-L3936))、`0x52` `sState=-sState; sVanishTime=op?op:800`([event-system.ts:3939-3947](../../packages/game/src/core/event-system.ts#L3939-L3947)),1:1。
+- **可见性**:`sState<=0 || sVanishTime>0 → 不画`([present.ts:470-476](../../packages/game/src/present/present.ts#L470-L476)),与 `sVanishTime<0` 仍可见的语义一致。
+- **autoScript gate**:仅 `sState>0 && sVanishTime==0` 才跑自动脚本([event-system.ts:1186-1189](../../packages/game/src/core/event-system.ts#L1186-L1189)),直译 play.c:172-192。
+- **节奏对齐(关键)**:explore 逻辑 tick = **100ms / 10fps**([main-loop.ts:40](../../packages/game/src/shell/main-loop.ts#L40),注释对齐 `game.c` 的 `FRAME_TIME`),与 sdlpal `FPS=10` 一致 → 80 秒 / 1.5 秒的刷新时间忠实,**无"60fps 每帧递减导致 1/6 缩水"的坑**。
+- **相关修复**:`0x52` 隐藏怪写在 trigger 脚本里、需**战斗胜利后接回脚本**才会跑;早期因战末未接回导致"打完怪不消失",已由 `savePostBattleResume` / `resumePostBattleScript` 修复([event-system.ts:2077](../../packages/game/src/core/event-system.ts#L2077) / [3024](../../packages/game/src/core/event-system.ts#L3024))。回归测试见 scene-system.test.ts(倒计时递减不触发 / 离屏复活 / 触发区转向)。
 
 ### 附:源出处速查
 
 | 内容 | 文件:行 |
 |---|---|
-| `EVENTOBJECT` 结构(sVanishTime / sState / wTriggerMode) | [global.h:95-113](../reference/sdlpal/global.h#L95-L113) |
-| 状态枚举 `OBJECTSTATE`(Hidden/Normal/Blocker) | [global.h:74-80](../reference/sdlpal/global.h#L74-L80) |
-| 触发模式 `TRIGGERMODE`(TouchNear=4 起自动触发) | [global.h:82-93](../reference/sdlpal/global.h#L82-L93) |
-| 倒计时无条件递减 | [play.c:87-94](../reference/sdlpal/play.c#L87-L94) |
-| `sState<0` 离屏复活(320×320) | [play.c:96-106](../reference/sdlpal/play.c#L96-L106) |
-| 触碰自动触发距离公式 | [play.c:107-165](../reference/sdlpal/play.c#L107-L165) |
-| autoScript gate(`sState>0 && sVanishTime==0`) | [play.c:172-192](../reference/sdlpal/play.c#L172-L192) |
-| FPS=10 / FRAME_TIME=100ms | [game.h:27-28](../reference/sdlpal/game.h#L27-L28) |
-| 主循环每帧 `PAL_StartFrame → PAL_GameUpdate` | [game.c:80-85](../reference/sdlpal/game.c#L80-L85) / [play.c:534](../reference/sdlpal/play.c#L534) |
-| `0x4B` 短暂消失(`sVanishTime=-15`) | [script.c:1730](../reference/sdlpal/script.c#L1730) |
-| `0x52` 隐藏(`sState*=-1; sVanishTime=op?op:800`) | [script.c:1798-1799](../reference/sdlpal/script.c#L1798-L1799) |
+| `EVENTOBJECT` 结构(sVanishTime / sState / wTriggerMode) | [global.h:95-113](../../reference/sdlpal/global.h#L95-L113) |
+| 状态枚举 `OBJECTSTATE`(Hidden/Normal/Blocker) | [global.h:74-80](../../reference/sdlpal/global.h#L74-L80) |
+| 触发模式 `TRIGGERMODE`(TouchNear=4 起自动触发) | [global.h:82-93](../../reference/sdlpal/global.h#L82-L93) |
+| 倒计时无条件递减 | [play.c:87-94](../../reference/sdlpal/play.c#L87-L94) |
+| `sState<0` 离屏复活(320×320) | [play.c:96-106](../../reference/sdlpal/play.c#L96-L106) |
+| 触碰自动触发距离公式 | [play.c:107-165](../../reference/sdlpal/play.c#L107-L165) |
+| autoScript gate(`sState>0 && sVanishTime==0`) | [play.c:172-192](../../reference/sdlpal/play.c#L172-L192) |
+| FPS=10 / FRAME_TIME=100ms | [game.h:27-28](../../reference/sdlpal/game.h#L27-L28) |
+| 主循环每帧 `PAL_StartFrame → PAL_GameUpdate` | [game.c:80-85](../../reference/sdlpal/game.c#L80-L85) / [play.c:534](../../reference/sdlpal/play.c#L534) |
+| `0x4B` 短暂消失(`sVanishTime=-15`) | [script.c:1730](../../reference/sdlpal/script.c#L1730) |
+| `0x52` 隐藏(`sState*=-1; sVanishTime=op?op:800`) | [script.c:1798-1799](../../reference/sdlpal/script.c#L1798-L1799) |
 
 ---
 
@@ -1122,7 +1122,7 @@ pEvtObj->sVanishTime = op0 ? op0 : 800;                 // 倒计时帧数,默�
 | **毒蛇卵**(117,赤毒)/ 尸腐肉(116,尸毒)等 | `0x29[_,毒id]` | `rgPoisonStatus[毒][role]`(毒槽) | ✅ 带毒、每回合发作 | `PAL_CurePoisonByLevel(w,3)` |
 | **大蒜**(84) | `0x17[17,22,30]` | `rgEquipmentEffect[6].rgwPoisonResistance`(Extra 格,+30) | ✅ 毒抗 +30、降中毒率 + 减毒伤 | `PAL_RemoveEquipmentEffect(w,Extra)` |
 
-三件套同在 [battle.c:1822-1830](../reference/sdlpal/battle.c#L1822-L1830),**胜 / 败 / 逃任意结局无条件执行** → 三类效果**统统只保这一场**。
+三件套同在 [battle.c:1822-1830](../../reference/sdlpal/battle.c#L1822-L1830),**胜 / 败 / 逃任意结局无条件执行** → 三类效果**统统只保这一场**。
 
 > ⚠️ **纠正常见误解**:大蒜毒抗**不是"永久补品"**。它写的是 Extra 装备效果格(slot 6),和战斗内临时 buff(`0x30`)共用同一格,**战斗一结束就随三件套一起清**——和护体 / 中毒一样,只保一场。
 
@@ -1132,9 +1132,9 @@ pEvtObj->sVanishTime = op0 ? op0 : 800;                 // 倒计时帧数,默�
 
 | 数据 | 全局字段 | 战斗如何读 |
 |---|---|---|
-| 回合状态(护体 / 眠 / 狂暴…) | `rgPlayerStatus[role][9]` [global.h:522](../reference/sdlpal/global.h#L522) | fight.c 全程直接读 `gpGlobals->rgPlayerStatus`(如护体减伤 [fight.c:5059](../reference/sdlpal/fight.c#L5059)) |
-| 中毒 | `rgPoisonStatus[毒][role]` [global.h:547](../reference/sdlpal/global.h#L547) | 每回合跑 `gpGlobals->rgPoisonStatus[i][role].wPoisonScript`([fight.c:4454](../reference/sdlpal/fight.c#L4454)) |
-| 装备 / 食用效果(毒抗等) | `rgEquipmentEffect[7]` [global.h:521](../reference/sdlpal/global.h#L521) | `PAL_GetPlayerPoisonResistance` 累加全部格 [global.c:1900](../reference/sdlpal/global.c#L1900) |
+| 回合状态(护体 / 眠 / 狂暴…) | `rgPlayerStatus[role][9]` [global.h:522](../../reference/sdlpal/global.h#L522) | fight.c 全程直接读 `gpGlobals->rgPlayerStatus`(如护体减伤 [fight.c:5059](../../reference/sdlpal/fight.c#L5059)) |
+| 中毒 | `rgPoisonStatus[毒][role]` [global.h:547](../../reference/sdlpal/global.h#L547) | 每回合跑 `gpGlobals->rgPoisonStatus[i][role].wPoisonScript`([fight.c:4454](../../reference/sdlpal/fight.c#L4454)) |
+| 装备 / 食用效果(毒抗等) | `rgEquipmentEffect[7]` [global.h:521](../../reference/sdlpal/global.h#L521) | `PAL_GetPlayerPoisonResistance` 累加全部格 [global.c:1900](../../reference/sdlpal/global.c#L1900) |
 
 - **玩家状态不进战斗副本**:`g_Battle` 只给**敌人**存状态副本(`rgEnemy[].rgwStatus`);玩家自始至终用全局 `rgPlayerStatus`。所以"大世界上的护体" = "战斗里的护体",同一个数。
 - 故**任何大世界施加的效果天然带进下一场战斗**,无需特殊"传递"逻辑——它本就是同一份数据。
@@ -1143,19 +1143,19 @@ pEvtObj->sVanishTime = op0 ? op0 : 800;                 // 倒计时帧数,默�
 
 第一手反汇编(`data/extracted/data/items.json` + `events/all.json`):
 
-- **金刚符(63)** `scriptOnUse` = `0x2D[6,7]` → `PAL_SetPlayerStatus(role, 6, 7)`([script.c:1367](../reference/sdlpal/script.c#L1367) / [global.c:2173](../reference/sdlpal/global.c#L2173)):给**当前角色**上**护体**(`kStatusProtect`,CLASSIC 序 = 6)**7 回合**,写 `rgPlayerStatus`。属"好状态",再用取较长回合([global.c:2257](../reference/sdlpal/global.c#L2257))。
-- **毒蛇卵(117)→赤毒551 / 尸腐肉(116)→尸毒552** 等 `scriptOnUse` = `0x29[_,毒id]` → `PAL_AddPoisonForPlayer(role, 毒id)`([script.c:1257](../reference/sdlpal/script.c#L1257) / [global.c:1459](../reference/sdlpal/global.c#L1459)),写 `rgPoisonStatus`。**但先过毒抗 gate**(下文坑③)。
-- **大蒜(84)** `scriptOnUse` = `0x17[17,22,30]` → `rgEquipmentEffect[17−0xB=6].rgwPoisonResistance[role] = 30`([script.c:752](../reference/sdlpal/script.c#L752)):往 **Extra 格(slot 6)** 写**毒抗 +30**。
+- **金刚符(63)** `scriptOnUse` = `0x2D[6,7]` → `PAL_SetPlayerStatus(role, 6, 7)`([script.c:1367](../../reference/sdlpal/script.c#L1367) / [global.c:2173](../../reference/sdlpal/global.c#L2173)):给**当前角色**上**护体**(`kStatusProtect`,CLASSIC 序 = 6)**7 回合**,写 `rgPlayerStatus`。属"好状态",再用取较长回合([global.c:2257](../../reference/sdlpal/global.c#L2257))。
+- **毒蛇卵(117)→赤毒551 / 尸腐肉(116)→尸毒552** 等 `scriptOnUse` = `0x29[_,毒id]` → `PAL_AddPoisonForPlayer(role, 毒id)`([script.c:1257](../../reference/sdlpal/script.c#L1257) / [global.c:1459](../../reference/sdlpal/global.c#L1459)),写 `rgPoisonStatus`。**但先过毒抗 gate**(下文坑③)。
+- **大蒜(84)** `scriptOnUse` = `0x17[17,22,30]` → `rgEquipmentEffect[17−0xB=6].rgwPoisonResistance[role] = 30`([script.c:752](../../reference/sdlpal/script.c#L752)):往 **Extra 格(slot 6)** 写**毒抗 +30**。
 
 ### 3. 战斗里如何生效
 
-- **护体**:受到的物理 / 法术伤害**减半**(物理 [fight.c:5059-5062](../reference/sdlpal/fight.c#L5059-L5062)、法术除数含护体项 [fight.c:4802](../reference/sdlpal/fight.c#L4802))——详[护体节](#防御机制主动防御--自动防御--援护--护体)。
+- **护体**:受到的物理 / 法术伤害**减半**(物理 [fight.c:5059-5062](../../reference/sdlpal/fight.c#L5059-L5062)、法术除数含护体项 [fight.c:4802](../../reference/sdlpal/fight.c#L4802))——详[护体节](#防御机制主动防御--自动防御--援护--护体)。
 - **中毒**:每回合跑该毒的 `wPoisonScript`(DoT;赤毒 −7 / 回 等)——详[毒系统](#毒系统等级--每回合伤害--七大毒--相生相克)。
-- **毒抗 +30**:`PAL_GetPlayerPoisonResistance(role)` = 角色基础 + Σ全部装备效果格(`i = 0 .. MAX_PLAYER_EQUIPMENTS`,**含 Extra 格**),上限 100。战斗里它**降低中毒概率**(`毒抗 < RandomLong(1,100)` 才中,[fight.c:5141](../reference/sdlpal/fight.c#L5141))并**减免毒系仙术伤害**(`(10−毒抗/20)/5`)——详[五灵 / 毒抗性](#五灵--毒-抗性与五行机制)。所以**临阵嗑一瓣大蒜 = 这一场少中毒、少吃毒伤**。
+- **毒抗 +30**:`PAL_GetPlayerPoisonResistance(role)` = 角色基础 + Σ全部装备效果格(`i = 0 .. MAX_PLAYER_EQUIPMENTS`,**含 Extra 格**),上限 100。战斗里它**降低中毒概率**(`毒抗 < RandomLong(1,100)` 才中,[fight.c:5141](../../reference/sdlpal/fight.c#L5141))并**减免毒系仙术伤害**(`(10−毒抗/20)/5`)——详[五灵 / 毒抗性](#五灵--毒-抗性与五行机制)。所以**临阵嗑一瓣大蒜 = 这一场少中毒、少吃毒伤**。
 
 ### 4. 战斗结束:三件套统一清除(为何"只保一场")
 
-[battle.c:1822-1830](../reference/sdlpal/battle.c#L1822-L1830),注释 "Clear all player status, poisons and temporary effects",**胜 / 败 / 逃任意结局都跑**:
+[battle.c:1822-1830](../../reference/sdlpal/battle.c#L1822-L1830),注释 "Clear all player status, poisons and temporary effects",**胜 / 败 / 逃任意结局都跑**:
 
 ```c
 PAL_ClearAllPlayerStatus();                       // ① 清 rgPlayerStatus(护体在内)
@@ -1167,20 +1167,20 @@ for (w = 0; w < MAX_PLAYER_ROLES; w++) {
 
 三件套**一一对应**第 2 节三套结构 → 大世界嗑的护体 / 毒 / 毒抗**全在战斗结束被清**,所以**都只生效一场**:
 
-- ① `PAL_ClearAllPlayerStatus`([global.c:2311](../reference/sdlpal/global.c#L2311)):清所有 ≤999 回合的状态(>999 留给装备常驻态)。
+- ① `PAL_ClearAllPlayerStatus`([global.c:2311](../../reference/sdlpal/global.c#L2311)):清所有 ≤999 回合的状态(>999 留给装备常驻态)。
 - ② `PAL_CurePoisonByLevel(w,3)`:清 level ≤3 的毒。常规毒(赤 / 尸 / 瘴 / 毒丝,0–2 级)+ 六大三级毒全在内;只有无影毒(173)清不掉(详[毒系统·解毒](#毒系统等级--每回合伤害--七大毒--相生相克))。
-- ③ `PAL_RemoveEquipmentEffect(w, Extra)`([global.c:1372](../reference/sdlpal/global.c#L1372)):把 Extra 格(slot 6)所有属性字段清零——大蒜毒抗、`0x30` 战斗临时 stat buff 一起清。
+- ③ `PAL_RemoveEquipmentEffect(w, Extra)`([global.c:1372](../../reference/sdlpal/global.c#L1372)):把 Extra 格(slot 6)所有属性字段清零——大蒜毒抗、`0x30` 战斗临时 stat buff 一起清。
 
 ### 5. 大蒜的特殊性:Extra 格 + 两条清除路径
 
-大蒜不可装备,却用 `0x17` 写 `rgEquipmentEffect`——因为 slot 6 是 **Extra 格(`kBodyPartExtra` [global.h:71](../reference/sdlpal/global.h#L71) = MAX_PLAYER_EQUIPMENTS)**,一个**不绑定任何可穿戴装备的"杂项效果格"**,专给食用增益(`0x17`)和战斗临时 buff(`0x30`)用。毒抗 getter 遍历 `i = 0 .. MAX_PLAYER_EQUIPMENTS`(**含 slot 6**)累加,所以 Extra 格的 +30 照样计入总毒抗。
+大蒜不可装备,却用 `0x17` 写 `rgEquipmentEffect`——因为 slot 6 是 **Extra 格(`kBodyPartExtra` [global.h:71](../../reference/sdlpal/global.h#L71) = MAX_PLAYER_EQUIPMENTS)**,一个**不绑定任何可穿戴装备的"杂项效果格"**,专给食用增益(`0x17`)和战斗临时 buff(`0x30`)用。毒抗 getter 遍历 `i = 0 .. MAX_PLAYER_EQUIPMENTS`(**含 slot 6**)累加,所以 Extra 格的 +30 照样计入总毒抗。
 
 Extra 格有**两条清除路径**,大蒜毒抗撑到**两者谁先到**:
 
 | 清除路径 | 触发 | 源 |
 |---|---|---|
-| **A. 战斗结束** | 任意战斗结束 `PAL_RemoveEquipmentEffect(w, Extra)` | [battle.c:1829](../reference/sdlpal/battle.c#L1829) |
-| **B. 换 / 卸装备、读档** | `PAL_UpdateEquipments` 开头 `memset` 全清 `rgEquipmentEffect`,再重跑装备 scriptOnEquip(大蒜不可装备 → 无人重新授予) | [global.c:1333](../reference/sdlpal/global.c#L1333) / [1354](../reference/sdlpal/global.c#L1354) |
+| **A. 战斗结束** | 任意战斗结束 `PAL_RemoveEquipmentEffect(w, Extra)` | [battle.c:1829](../../reference/sdlpal/battle.c#L1829) |
+| **B. 换 / 卸装备、读档** | `PAL_UpdateEquipments` 开头 `memset` 全清 `rgEquipmentEffect`,再重跑装备 scriptOnEquip(大蒜不可装备 → 无人重新授予) | [global.c:1333](../../reference/sdlpal/global.c#L1333) / [1354](../../reference/sdlpal/global.c#L1354) |
 
 → **大蒜毒抗的寿命 = "下一场战斗结束" 或 "下一次换装 / 读档",谁先到**,绝非永久。(对照:真·永久补品如增体力丹写的是**角色基础属性** `rgwMaxHP`,不在 Extra 格,不受这两条路径影响。)
 
@@ -1195,9 +1195,9 @@ Extra 格有**两条清除路径**,大蒜毒抗撑到**两者谁先到**:
 
 > ✅ **三条施加链 + 战后三件套清除均已实现且对齐**;唯一实现差异(C 直接用全局 vs ts 拷副本)由 `finalizeBattleCleanup` 抹平。
 
-- **施加**:`0x2D`→[event-system.ts:4295](../packages/game/src/core/event-system.ts#L4295)(写 `rgPlayerStatus`)、`0x29`→[event-system.ts:4259](../packages/game/src/core/event-system.ts#L4259)(`addPoisonForPlayer`,带毒抗 gate)、`0x17`→[event-system.ts:4043](../packages/game/src/core/event-system.ts#L4043)(`writeEquipmentEffectField`,Extra 格)。
-- **带入战斗**:开战 `seedBattleStatus(gs.rgPlayerStatus[role])` 把持久状态 seed 进战斗副本([battle-state.ts:805](../packages/game/src/core/battle/battle-state.ts#L805));毒 / 毒抗读持久 `gs.rgPoisonStatus` / `getPlayerPoisonResistance`([equip-effect.ts:75](../packages/game/src/core/equip-effect.ts#L75),遍历含 Extra 格)。
-- **战后三件套**:`finalizeBattleCleanup`([battle-system.ts:3005](../packages/game/src/core/battle/battle-system.ts#L3005),胜 / 败 / 逃都调)= ① `rgPlayerStatus` 清 ≤999 ② `curePlayerPoisonByLevel(role,3)` ③ `removeEquipmentEffect(role, 6)` 清 Extra 格,1:1 对齐 battle.c:1822-1830。
+- **施加**:`0x2D`→[event-system.ts:4295](../../packages/game/src/core/event-system.ts#L4295)(写 `rgPlayerStatus`)、`0x29`→[event-system.ts:4259](../../packages/game/src/core/event-system.ts#L4259)(`addPoisonForPlayer`,带毒抗 gate)、`0x17`→[event-system.ts:4043](../../packages/game/src/core/event-system.ts#L4043)(`writeEquipmentEffectField`,Extra 格)。
+- **带入战斗**:开战 `seedBattleStatus(gs.rgPlayerStatus[role])` 把持久状态 seed 进战斗副本([battle-state.ts:805](../../packages/game/src/core/battle/battle-state.ts#L805));毒 / 毒抗读持久 `gs.rgPoisonStatus` / `getPlayerPoisonResistance`([equip-effect.ts:75](../../packages/game/src/core/equip-effect.ts#L75),遍历含 Extra 格)。
+- **战后三件套**:`finalizeBattleCleanup`([battle-system.ts:3005](../../packages/game/src/core/battle/battle-system.ts#L3005),胜 / 败 / 逃都调)= ① `rgPlayerStatus` 清 ≤999 ② `curePlayerPoisonByLevel(role,3)` ③ `removeEquipmentEffect(role, 6)` 清 Extra 格,1:1 对齐 battle.c:1822-1830。
 - **关键差异(已抹平)**:C 玩家状态**直接用全局**,战斗结束清全局即生效;ts **把状态 seed 成战斗副本**(`battleState.status`),副本随战斗丢弃、**不回写**持久 `gs.rgPlayerStatus` → 若战后不清,大世界 buff 每场开战重新 seed = **等效永久**(原 **DM2** bug)。`finalizeBattleCleanup` 补清持久数组后对齐原版"只保一场"。
 - **换装 / 读档清 Extra**:`updateAllEquipments` 开头 `gs.rgEquipmentEffect = createInitialEquipmentEffect()` 全清(对齐 global.c:1354)→ 大蒜毒抗路径 B 对 ts 同样成立。
 
@@ -1205,14 +1205,14 @@ Extra 格有**两条清除路径**,大蒜毒抗撑到**两者谁先到**:
 
 | 内容 | 文件:行 |
 |---|---|
-| `rgPlayerStatus` / `rgPoisonStatus` / `rgEquipmentEffect` 字段 | [global.h:522](../reference/sdlpal/global.h#L522) / [547](../reference/sdlpal/global.h#L547) / [521](../reference/sdlpal/global.h#L521) |
-| `kBodyPartExtra`(= MAX_PLAYER_EQUIPMENTS,Extra 格) | [global.h:71](../reference/sdlpal/global.h#L71) |
-| 上玩家状态 `0x2D` / `PAL_SetPlayerStatus` | [script.c:1367](../reference/sdlpal/script.c#L1367) / [global.c:2173](../reference/sdlpal/global.c#L2173) |
-| 给玩家加毒 `0x29` / `PAL_AddPoisonForPlayer` | [script.c:1257](../reference/sdlpal/script.c#L1257) / [global.c:1459](../reference/sdlpal/global.c#L1459) |
-| 设额外属性 `0x17`(写 Extra 格,`i=op0−0xB`) | [script.c:752](../reference/sdlpal/script.c#L752) |
-| 毒抗累加(含 Extra 格)`PAL_GetPlayerPoisonResistance` | [global.c:1900](../reference/sdlpal/global.c#L1900) |
-| 中毒概率 gate `毒抗 < RandomLong(1,100)` | [fight.c:5141](../reference/sdlpal/fight.c#L5141) |
-| **战后三件套** ClearAllStatus + CurePoisonByLevel(3) + RemoveEquip(Extra) | [battle.c:1822-1830](../reference/sdlpal/battle.c#L1822-L1830) |
-| `PAL_ClearAllPlayerStatus` / `PAL_RemoveEquipmentEffect` | [global.c:2311](../reference/sdlpal/global.c#L2311) / [1372](../reference/sdlpal/global.c#L1372) |
-| `PAL_UpdateEquipments`(换装 / 读档 memset 全清) | [global.c:1333](../reference/sdlpal/global.c#L1333) / [1354](../reference/sdlpal/global.c#L1354) |
+| `rgPlayerStatus` / `rgPoisonStatus` / `rgEquipmentEffect` 字段 | [global.h:522](../../reference/sdlpal/global.h#L522) / [547](../../reference/sdlpal/global.h#L547) / [521](../../reference/sdlpal/global.h#L521) |
+| `kBodyPartExtra`(= MAX_PLAYER_EQUIPMENTS,Extra 格) | [global.h:71](../../reference/sdlpal/global.h#L71) |
+| 上玩家状态 `0x2D` / `PAL_SetPlayerStatus` | [script.c:1367](../../reference/sdlpal/script.c#L1367) / [global.c:2173](../../reference/sdlpal/global.c#L2173) |
+| 给玩家加毒 `0x29` / `PAL_AddPoisonForPlayer` | [script.c:1257](../../reference/sdlpal/script.c#L1257) / [global.c:1459](../../reference/sdlpal/global.c#L1459) |
+| 设额外属性 `0x17`(写 Extra 格,`i=op0−0xB`) | [script.c:752](../../reference/sdlpal/script.c#L752) |
+| 毒抗累加(含 Extra 格)`PAL_GetPlayerPoisonResistance` | [global.c:1900](../../reference/sdlpal/global.c#L1900) |
+| 中毒概率 gate `毒抗 < RandomLong(1,100)` | [fight.c:5141](../../reference/sdlpal/fight.c#L5141) |
+| **战后三件套** ClearAllStatus + CurePoisonByLevel(3) + RemoveEquip(Extra) | [battle.c:1822-1830](../../reference/sdlpal/battle.c#L1822-L1830) |
+| `PAL_ClearAllPlayerStatus` / `PAL_RemoveEquipmentEffect` | [global.c:2311](../../reference/sdlpal/global.c#L2311) / [1372](../../reference/sdlpal/global.c#L1372) |
+| `PAL_UpdateEquipments`(换装 / 读档 memset 全清) | [global.c:1333](../../reference/sdlpal/global.c#L1333) / [1354](../../reference/sdlpal/global.c#L1354) |
 | 金刚符63 `0x2D[6,7]` / 毒蛇卵117 `0x29[_,551]` / 大蒜84 `0x17[17,22,30]` | `data/extracted/data/items.json` + `events/all.json` 反汇编 |

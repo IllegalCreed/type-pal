@@ -1,7 +1,7 @@
 # 物品状态表
 
 > 自动审计落盘:2026-06-02 · 数据来源 `data/extracted/data/items.json`(=wObjectID 物品定义)+ `reference/sdlpal/script.c` 各 `case 0xNNNN` opcode 真值。
-> 与 [feature-status.md](./feature-status.md) 平级。所有效果描述据脚本反汇编(`/tmp/dump-item.mjs`)+ sdlpal 源码逐 opcode 核对,非臆测。
+> 与 [feature-status.md](feature-status.md) 平级。所有效果描述据脚本反汇编(`/tmp/dump-item.mjs`)+ sdlpal 源码逐 opcode 核对,非臆测。
 
 ## 摘要
 

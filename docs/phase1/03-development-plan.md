@@ -120,7 +120,7 @@ P2 收口:dev panel 集成 5 个 unit 入口(Battle / Scene Jump / Font Test / D
 - 转场特效、调色板循环动画(水 / 火)。
 - 结局流程。
 
-> **M6 之后(2026-05-31 起)进入逐子系统差异审计期**:不再按里程碑铺新功能,而是逐功能 / 逐 opcode / 逐内容对 sdlpal 源 1:1 核对 + 逐条修复。**当前实现状态不看本计划,以状态表为准** —— [`feature-status.md`](feature-status.md) / [`opcode-status.md`](opcode-status.md) / [`resource-status.md`](resource-status.md) 三表 + [`item-status.md`](item-status.md) / [`magic-status.md`](magic-status.md) / [`cutscene-status.md`](cutscene-status.md) / [`game-mechanics.md`](game-mechanics.md);系统性差异审计见 [`plans/2026-06-07-sdlpal-diff-audit.md`](plans/2026-06-07-sdlpal-diff-audit.md)。下方 **M6.5 / M7 尚未开始**,为未来计划。
+> **M6 之后(2026-05-31 起)进入逐子系统差异审计期**:不再按里程碑铺新功能,而是逐功能 / 逐 opcode / 逐内容对 sdlpal 源 1:1 核对 + 逐条修复。**当前实现状态不看本计划,以状态表为准** —— [`feature-status.md`](status/feature-status.md) / [`opcode-status.md`](status/opcode-status.md) / [`resource-status.md`](status/resource-status.md) 三表 + [`item-status.md`](status/item-status.md) / [`magic-status.md`](status/magic-status.md) / [`cutscene-status.md`](status/cutscene-status.md) / [`game-mechanics.md`](game-mechanics.md);系统性差异审计见 [`plans/2026-06-07-sdlpal-diff-audit.md`](plans/2026-06-07-sdlpal-diff-audit.md)。下方 **M6.5 / M7 尚未开始**,为未来计划。
 
 ### M6.5 · 资源剥离 + 代码保护(部署前置)
 

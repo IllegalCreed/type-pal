@@ -6,7 +6,7 @@
 > **图例**:✅ done(已抽,byte-level 确认)· ⚠️ partial · ⬜ todo · N/A · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap)· 🎵 同源冗余(已有其他格式覆盖)
 > **最后更新**:2026-06-22 — 资源管线优化:**所有 RLE sprite 类资源「去图片容器」改 gzip blob**(tileset / NPC / 动画 RNG / 战斗 sprite / magic 特效),整 extracted 392M→184M、文件数 77,624→2,898、图像数据 ~390M→~23M(详见文末「sprite 资源打包格式变更」总表)。extractor 现在开头清空 OUT(防陈旧 PNG 残留进 SW 预缓存)。提取覆盖率不变(零真实数据 gap)。基线 2026-06-07 byte-level 复核(6-07 后仅新增 `asset-manifest.json` 派生清单 + WORD.DAT 剥尾标「1」,提取覆盖率不变);M4 提取实质 100% 完成(全非空 chunk 已落地,skip 的都是引擎从不加载的空槽)。SSS chunk 2 的 **union-view**(`object-magics.json` / `object-poisons.json` / `object-players.json`,非新源数据,见下表 SSS chunk 2)供战斗 opcode 按 object id 解析。runtime 音频 wiring 已归 feature-status H1-H3 接入,soundfont 已随 public 提供,剩 per-track 听验 / 音量音色确认,非提取 gap。
 >
-> 数据来源:`reference/sdlpal/global.c::PAL_LoadDefaultGame` + 各 .c grep;状态列由 byte-level 复核(逐 MKF header chunk_count vs `data/extracted/` 实际输出数 + 追 parser 源码确认 dump-all)。提取入口:[packages/pal-extract/src/cli.ts](../packages/pal-extract/src/cli.ts)。
+> 数据来源:`reference/sdlpal/global.c::PAL_LoadDefaultGame` + 各 .c grep;状态列由 byte-level 复核(逐 MKF header chunk_count vs `data/extracted/` 实际输出数 + 追 parser 源码确认 dump-all)。提取入口:[packages/pal-extract/src/cli.ts](../../../packages/pal-extract/src/cli.ts)。
 > MKF 文件存在性:STUFF.MKF / SAVE.MKF 在 `data/raw/` 中不存在(WIN95+ 用 .RPG 存档);`mus.mkf` 存在但与 MIDI 同源(见末段)。
 
 ---
@@ -234,7 +234,7 @@
 
 **动机**:所有 RLE sprite 类资源(tileset / NPC / 动画 / 战斗 sprite / magic 特效)此前被逐帧编成 4 字节/px 的 RGBA PNG(R=G=B=index 三通道冗余 + 每文件独立 PNG/zlib 头),占 extracted 绝大部分体积。运行时只需 palette 下标 + opaque mask,根本不需要图片容器。
 
-**方案**:每逻辑单元存一个 `.rle` blob = `gzipSync(喂给 parseSpriteChunk 的 chunk 字节)`(tileset = 原始 GOP chunk;NPC/battle/magic = YJ2 解压后 sprite chunk;RNG = 原始 RNG chunk)。runtime 用浏览器原生 `DecompressionStream('gzip')` 解压,再走 shared 纯解码器(`parseSpriteChunk` / RNG 用 `decodeRngFrames`),**不经 canvas/`createImageBitmap`**。字节级忠实原版。后缀用 `.rle`(非 `.gz`)避开静态服务器 Content-Encoding 双解压;`decompressGzip` 另据 gzip 魔数防御上游已解压。decoder 集中在 `@type-pal/shared`(`rle.ts` / `mkf.ts` / `yj2.ts` / `rng.ts`)。tileset 规格见 [docs/plans/2026-06-22-tileset-atlas-packing.md](../docs/plans/2026-06-22-tileset-atlas-packing.md)。
+**方案**:每逻辑单元存一个 `.rle` blob = `gzipSync(喂给 parseSpriteChunk 的 chunk 字节)`(tileset = 原始 GOP chunk;NPC/battle/magic = YJ2 解压后 sprite chunk;RNG = 原始 RNG chunk)。runtime 用浏览器原生 `DecompressionStream('gzip')` 解压,再走 shared 纯解码器(`parseSpriteChunk` / RNG 用 `decodeRngFrames`),**不经 canvas/`createImageBitmap`**。字节级忠实原版。后缀用 `.rle`(非 `.gz`)避开静态服务器 Content-Encoding 双解压;`decompressGzip` 另据 gzip 魔数防御上游已解压。decoder 集中在 `@type-pal/shared`(`rle.ts` / `mkf.ts` / `yj2.ts` / `rng.ts`)。tileset 规格见 [docs/plans/2026-06-22-tileset-atlas-packing.md](../plans/2026-06-22-tileset-atlas-packing.md)。
 
 **逐类 before/after**(2026-06-22 实测):
 

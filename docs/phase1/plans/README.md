@@ -5,7 +5,7 @@
 
 ## 怎么用这个目录
 
-- **查"现在是什么样"** → 不看本目录,看 [`../feature-status.md`](../feature-status.md) / [`../opcode-status.md`](../opcode-status.md) / [`../resource-status.md`](../resource-status.md) / [`../item-status.md`](../item-status.md) / [`../magic-status.md`](../magic-status.md) / [`../cutscene-status.md`](../cutscene-status.md) / [`../game-mechanics.md`](../game-mechanics.md) 七张真值表,以及决策记录 [`../04-decisions.md`](../04-decisions.md)、架构 [`../02-architecture.md`](../02-architecture.md)。
+- **查"现在是什么样"** → 不看本目录,看 [`../feature-status.md`](../status/feature-status.md) / [`../opcode-status.md`](../status/opcode-status.md) / [`../resource-status.md`](../status/resource-status.md) / [`../item-status.md`](../status/item-status.md) / [`../magic-status.md`](../status/magic-status.md) / [`../cutscene-status.md`](../status/cutscene-status.md) / [`../game-mechanics.md`](../game-mechanics.md) 七张真值表,以及决策记录 [`../04-decisions.md`](../04-decisions.md)、架构 [`../02-architecture.md`](../02-architecture.md)。
 - **查"当初为什么这么设计 / 当初的实施计划 / 某次审计查了什么"** → 才来本目录,按下表定位。
 - 审计类文件的结论一旦修完即并入上述状态表;**本目录文件不随实现进展更新**,只作历史留存。
 

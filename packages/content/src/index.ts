@@ -5,7 +5,7 @@
  * demo 阶段：场景复用原版地图（运行时按 mapNum 从 /extracted 加载 tilemap+tileset+palette），
  * 实体 / 对话手写。坐标与精灵引用待渲染时校准（见 TODO）。
  *
- * 见 docs/phase2/p1-slice1-guijie-minju.md。稳定 id，不用下标。
+ * 见 docs/phase2/slice1-indoor/guijie-minju.md。稳定 id，不用下标。
  */
 
 export type Facing = 'up' | 'down' | 'left' | 'right'

@@ -3249,7 +3249,7 @@ describe('M2 e2e:右 3 步 → Confirm → Confirm', () => {
 - ✅ 事件系统最小集:消费真原版 scene-001.json,走到 NPC 前 Confirm 触发 trigger 段对话
 - ✅ pal-extract 补:角色 / NPC sprite + scene-1.json + 4 个 setDialogStyle opcode 具名
 - ✅ EventSystem 对未具名 raw = no-op skip + console.debug
-- 详细设计见 [`plans/2026-05-23-m2-runtime-slice-design.md`](plans/2026-05-23-m2-runtime-slice-design.md);实施过程发现 / 偏离见 [`plans/2026-05-23-m2-runtime-slice.md`](plans/2026-05-23-m2-runtime-slice.md) 末尾「实施过程发现」。
+- 详细设计见 [`plans/2026-05-23-m2-runtime-slice-design.md`](2026-05-23-m2-runtime-slice-design.md);实施过程发现 / 偏离见 [`plans/2026-05-23-m2-runtime-slice.md`](2026-05-23-m2-runtime-slice.md) 末尾「实施过程发现」。
 - N 个 Vitest 单测全过(M1 旧 ~91 + M2 新 ~?),`pnpm check` 绿。`pnpm extract` 重跑产物完好(全量 events round-trip 仍逐字节通过)。
 ```
 

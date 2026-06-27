@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 >
-> 落地设计稿 [2026-06-14-unified-precache-progress-gate.md](./2026-06-14-unified-precache-progress-gate.md)。重构已上线的 [2026-06-13-offline-precache-sw.md](./2026-06-13-offline-precache-sw.md)(6 个运行时文件,**不动提取器**——`asset-manifest.json` 的 `files/totalBytes/version` 已就绪)。
+> 落地设计稿 [2026-06-14-unified-precache-progress-gate.md](2026-06-14-unified-precache-progress-gate.md)。重构已上线的 [2026-06-13-offline-precache-sw.md](2026-06-13-offline-precache-sw.md)(6 个运行时文件,**不动提取器**——`asset-manifest.json` 的 `files/totalBytes/version` 已就绪)。
 
 **Goal:** 把"boot 必要资源进度(fetch 计数)"与"进游戏后 SW 全量预缓存进度(右上角 widget)"两段割裂进度,合成**一条 SW 字节进度**(分母 `manifest.totalBytes` ~336MB)+ 一个**显式「进入游戏」可玩门**:越过虚线出按钮、常驻可点,用户自行决定何时进(竞速玩家可等 100%);点进入 = 一次手势同时解锁音视频,开场视频直接播,不再二次 click。
 
@@ -243,7 +243,7 @@ git commit -m "feat(shell): 三态统一进度 UI 控制器(加载页大条+虚�
 
 - [ ] **Step 1: `#boot-loading-bar` 内加虚线,box 内加按钮容器**
 
-把 [packages/game/index.html](../../packages/game/index.html) 的 `<div id="boot-loading-bar">…</div>` 与其后 status/hint 段改为:
+把 [packages/game/index.html](../../../packages/game/index.html) 的 `<div id="boot-loading-bar">…</div>` 与其后 status/hint 段改为:
 
 ```html
         <div id="boot-loading-bar">
@@ -600,7 +600,7 @@ git commit -m "feat(shell): bootstrap 可玩门——soundfont 后 await enterGa
 
 - [ ] **Step 1: 重写 main.ts 主体**
 
-把 [packages/game/src/main.ts](../../packages/game/src/main.ts) 的 `if (typeof document !== 'undefined') { … }` 块整体替换为:
+把 [packages/game/src/main.ts](../../../packages/game/src/main.ts) 的 `if (typeof document !== 'undefined') { … }` 块整体替换为:
 
 ```typescript
 import { bootstrap, showError } from './shell/bootstrap.js'

@@ -19,7 +19,7 @@
 - **SW 脚本自更新**:`register('/sw.js', { updateViaCache: 'none' })` 让浏览器不走 HTTP 缓存取 sw.js,绕开 nginx `max-age=604800` 导致 SW 永不更新的坑。
 - **版本失效**:`asset-manifest.json.version`(全文件 path:size 的哈希)变更(重跑 `pnpm extract` 后)→ SW 清旧缓存重新预缓存,避免路径不变但内容变的陈旧资源。
 - **兜底**:SW 不可用 / 未注册 / 预缓存未覆盖到的资源 → 各 loader 的原 `fetch` 照常按需拉(**绝不比现状差**)。
-- **现有 fetch 包装链**([fetch-retry.ts](../../packages/game/src/shell/fetch-retry.ts) + [boot-loading.ts](../../packages/game/src/shell/boot-loading.ts))在 JS 层;SW 在网络层之下,二者天然共存(JS fetch → SW intercept)。
+- **现有 fetch 包装链**([fetch-retry.ts](../../../packages/game/src/shell/fetch-retry.ts) + [boot-loading.ts](../../../packages/game/src/shell/boot-loading.ts))在 JS 层;SW 在网络层之下,二者天然共存(JS fetch → SW intercept)。
 
 ## File Structure
 
@@ -146,7 +146,7 @@ Expected: PASS
 
 - [ ] **Step 5: 接入 cli.ts(main 末尾写清单)**
 
-在 [packages/pal-extract/src/cli.ts](../../packages/pal-extract/src/cli.ts) 顶部 import:
+在 [packages/pal-extract/src/cli.ts](../../../packages/pal-extract/src/cli.ts) 顶部 import:
 
 ```typescript
 import { buildManifest, collectAssetEntries } from './resources/asset-manifest.js'
@@ -541,7 +541,7 @@ git commit -m "feat(shell): 右上角后台预缓存进度小组件"
 
 - [ ] **Step 1: 接线(bootstrap resolve 后启动)**
 
-把 [packages/game/src/main.ts](../../packages/game/src/main.ts) 的 `void bootstrap(...)` 块改为:
+把 [packages/game/src/main.ts](../../../packages/game/src/main.ts) 的 `void bootstrap(...)` 块改为:
 
 ```typescript
     void bootstrap(canvas)
@@ -597,7 +597,7 @@ git commit -m "feat(shell): boot 门后启动后台预缓存 + 进度组件(仅�
 
 - [ ] **Step 2: 在 deploy.sh 顶部注释块补一行说明**
 
-在 [scripts/deploy.sh](../../scripts/deploy.sh) 的用法注释里补:
+在 [scripts/deploy.sh](../../../scripts/deploy.sh) 的用法注释里补:
 
 ```bash
 #   注:Service Worker(dist/sw.js,register updateViaCache:'none')自更新,无需 nginx 特殊配置;

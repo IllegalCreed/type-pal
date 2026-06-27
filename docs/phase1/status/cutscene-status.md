@@ -1,7 +1,7 @@
 # 演出状态表
 
 > 自动审计落盘:2026-06-07(差异台账更新至 2026-06-16;逐场景清单未重跑 dump,仍为 6-07 反汇编结果)· 数据来源 `data/extracted/data/scene/*.json`(场景表:onEnter/onTeleport/eventObjects)+ `events/all.json`(全局脚本)逐入口反汇编(`/tmp/dump-cutscenes.mjs`)+ `reference/sdlpal/script.c` opcode 真值。
-> 配套 [item-status.md](./item-status.md) / [magic-status.md](./magic-status.md) / [opcode-status.md](./opcode-status.md) / [feature-status.md](./feature-status.md)。
+> 配套 [item-status.md](item-status.md) / [magic-status.md](magic-status.md) / [opcode-status.md](opcode-status.md) / [feature-status.md](feature-status.md)。
 
 ## 什么算"演出"
 
@@ -39,7 +39,7 @@
 > 风险按**演出复杂度**算(过场×4 + 战斗/转场×3 + 走位/淡屏×2 + 对白/授物/状态×1),是**复核优先级三角**,不是已测结论。
 
 ### 状态
-本表所有演出的 **opcode 机制**均已实现(见 [opcode-status.md](./opcode-status.md) 164 opcode 全收口),故不单列"机制✅/❌"。**真正的 bug 面是视觉/时序/编排细节**(对白分页节奏、走位停顿、淡屏时长、镜头、精灵帧、音画同步)—— 这些**静态读码无法判定真假**,需对真档逐帧验收,故本表用 **🔴/🟡/⚪ 复核风险**替代"状态"列做 triage。已知差异在末节累计。
+本表所有演出的 **opcode 机制**均已实现(见 [opcode-status.md](opcode-status.md) 164 opcode 全收口),故不单列"机制✅/❌"。**真正的 bug 面是视觉/时序/编排细节**(对白分页节奏、走位停顿、淡屏时长、镜头、精灵帧、音画同步)—— 这些**静态读码无法判定真假**,需对真档逐帧验收,故本表用 **🔴/🟡/⚪ 复核风险**替代"状态"列做 triage。已知差异在末节累计。
 
 ---
 
@@ -664,7 +664,7 @@ Boss 战(`teamId` ∈ dev-panel `BOSS_ROSTER`,已核地点)所在的演出脚本
 > 本节是**人工核验**的演出 bug 台账(区别于上表的自动风险 triage)。结合最近修复(git log)起头,后续逐条补。
 
 - 近期已对齐(git `aa02ae6` 对齐战斗与场景表现细节 / `80e9b5e` 战斗用物前摇):战斗内表现细节已修一批。
-- 战斗演出:升级结算 / 前摇 / 用毕跑脚本(见 [feature-status.md](./feature-status.md) D 章 + [magic-status.md](./magic-status.md) 召唤/合击注)。
+- 战斗演出:升级结算 / 前摇 / 用毕跑脚本(见 [feature-status.md](feature-status.md) D 章 + [magic-status.md](magic-status.md) 召唤/合击注)。
 - ✅ 已修(2026-06-08~16,均带回归测试):
   - 林家堡李逍遥走出场(scene-35 obj596 / ip 8766):相机固定 + 逐帧走步,修瞬移 / 相机跟随 / 出画不消失(001c111);0x65[0,232] 隐身精灵改扫全局脚本预载(9934c07)。
   - 厨房当夜 / 次日黑屏字幕(scene-1 obj30 / ip 2884,当夜 2903·次日 3053):FadeIn 保持黑屏 + 清残留头像(75d281f)。

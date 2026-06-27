@@ -142,7 +142,7 @@ Expected: FAIL（模块不存在）
 
 - [ ] **Step 3: 把 dev-panel.ts 的纯读函数原样剪切到 battle-inspect.ts 并导出**
 
-打开 [dev-panel.ts](../../packages/game/src/dev/dev-panel.ts),把 `readEnemyState`(行 227 附近)、`readField`(行 256)、队伍状态读出(行 320)、敌抗性(行 369)这几个**纯函数连同类型**移到新文件 `src/core/inspect/battle-inspect.ts`,导出。函数体**一字不改**(只换文件 + export)。统一命名:`readPartyStates` / `readEnemyStates` / `readField`(复数,内部聚合)。
+打开 [dev-panel.ts](../../../packages/game/src/dev/dev-panel.ts),把 `readEnemyState`(行 227 附近)、`readField`(行 256)、队伍状态读出(行 320)、敌抗性(行 369)这几个**纯函数连同类型**移到新文件 `src/core/inspect/battle-inspect.ts`,导出。函数体**一字不改**(只换文件 + export)。统一命名:`readPartyStates` / `readEnemyStates` / `readField`(复数,内部聚合)。
 
 ```typescript
 // src/core/inspect/battle-inspect.ts —— 战斗只读快照(dev-panel 与生产工具面板共用,无 DEV 门)
@@ -241,9 +241,9 @@ Expected: PASS
 
 - [ ] **Step 5: gs 加字段 + 对话提交点捕获**
 
-[game-state.ts](../../packages/game/src/core/game-state.ts):接口加 `dialogHistory: string[]`,`createInitialGameState` 里 `dialogHistory: []`(注:历史是会话态,**不需要**入存档;若 deepClone 进存档无害,亦可在 Save 序列化前剔除,本 plan 先留默认)。
+[game-state.ts](../../../packages/game/src/core/game-state.ts):接口加 `dialogHistory: string[]`,`createInitialGameState` 里 `dialogHistory: []`(注:历史是会话态,**不需要**入存档;若 deepClone 进存档无害,亦可在 Save 序列化前剔除,本 plan 先留默认)。
 
-[event-system.ts](../../packages/game/src/core/event-system.ts):在 showDialog 真正提交文本处(`gs.dialogBox = startDialogLine(cmd.text, {...})`,行 1967 附近)前后加:
+[event-system.ts](../../../packages/game/src/core/event-system.ts):在 showDialog 真正提交文本处(`gs.dialogBox = startDialogLine(cmd.text, {...})`,行 1967 附近)前后加:
 ```typescript
 import { pushDialogHistory } from './dialog-history.js'
 // …提交对话行时:
@@ -751,7 +751,7 @@ Expected: PASS
 
 - [ ] **Step 5: audio-midi 插 masterGain + 暴露 setBgmVolume**
 
-[audio-midi.ts](../../packages/game/src/shell/audio-midi.ts):把 `synth.connect(ctx.destination)`(行 83)改为经我们自己的 GainNode,**不依赖 spessasynth 音量 API**:
+[audio-midi.ts](../../../packages/game/src/shell/audio-midi.ts):把 `synth.connect(ctx.destination)`(行 83)改为经我们自己的 GainNode,**不依赖 spessasynth 音量 API**:
 ```typescript
 // 模块级(供 setBgmVolume 改);ctx 建好即可创建
 let masterGain: GainNode | undefined
@@ -772,7 +772,7 @@ export function setBgmVolume(v: number): void {
 
 - [ ] **Step 6: audio.ts OGG 回退乘音量系数**
 
-[audio.ts](../../packages/game/src/shell/audio.ts):模块级 `let oggScale = 1`;`a.volume = 0.6`(行 163)改 `a.volume = 0.6 * oggScale`;暴露:
+[audio.ts](../../../packages/game/src/shell/audio.ts):模块级 `let oggScale = 1`;`a.volume = 0.6`(行 163)改 `a.volume = 0.6 * oggScale`;暴露:
 ```typescript
 export function setOggVolumeScale(s: number): void {
   oggScale = s
@@ -802,7 +802,7 @@ git commit -m "feat(audio): BGM 主音量 controller(GainNode + OGG 系数,静�
 
 - [ ] **Step 1: 接线**
 
-在 [bootstrap.ts](../../packages/game/src/shell/bootstrap.ts) 启动 rAF 主循环后(`gs`、`Save`、display-scale controller 均就绪),**无条件**调:
+在 [bootstrap.ts](../../../packages/game/src/shell/bootstrap.ts) 启动 rAF 主循环后(`gs`、`Save`、display-scale controller 均就绪),**无条件**调:
 
 ```typescript
 import { setupToolsPanel } from '../tools/tools-panel.js'

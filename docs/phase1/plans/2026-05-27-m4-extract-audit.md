@@ -1,7 +1,7 @@
 # M4 pal-extract 实际提取清单 audit
 
 > 触发动机:M5.6 v2 session 2 起 T17,我错说 "FBP 没 extract",被用户怼。
-> 修法:通读 [packages/pal-extract/src/cli.ts](../../packages/pal-extract/src/cli.ts) 1-686 行,把所有 MKF / chunk 实际处理范围 + 输出 path 列清楚,留作后续 task 真做前查表的信源(不再 shallow grep 推断)。
+> 修法:通读 [packages/pal-extract/src/cli.ts](../../../packages/pal-extract/src/cli.ts) 1-686 行,把所有 MKF / chunk 实际处理范围 + 输出 path 列清楚,留作后续 task 真做前查表的信源(不再 shallow grep 推断)。
 >
 > 日期:2026-05-27 · M5.6 v2 session 2
 > 维护要求:每加新 pal-extract 流水线时同步本文件;落项目 T20 真值 audit v2 起点。
@@ -34,9 +34,9 @@ user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(
 
 ## 数据基线
 
-- **数据文件**:[data/raw/](../../data/raw/) 14 个 MKF + 4 个 AVI + EXE/DLL/INI/RPG 等
+- **数据文件**:[data/raw/](../../../data/raw) 14 个 MKF + 4 个 AVI + EXE/DLL/INI/RPG 等
 - **build target**:fIsWIN95 = TRUE(YJ2 压缩,WIN95 data,自动检测 sdlpal `global.c:50-109 PAL_IsWINVersion`);sdlpal 源码编译用 PAL_CLASSIC(关 ATB)— `fIsWIN95` 和 `PAL_CLASSIC` 是两个独立维度
-- **输出根**:[data/extracted/](../../data/extracted/) → 拷到 [packages/game/public/extracted/](../../packages/game/public/extracted/) 给 game runtime fetch
+- **输出根**:[data/extracted/](../../../data/extracted) → 拷到 [packages/game/public/extracted/](../../../packages/game/public/extracted) 给 game runtime fetch
 
 ---
 
@@ -115,12 +115,12 @@ user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(
 
 ### 1. BALL.MKF RLE 解 → 252 物品图标 PNG — ✓ 已修(2026-05-27 T10b)
 - **触发 task**:T10b InventoryMenu / T10e EquipItemMenu
-- **修法**:[`parsers/ball.ts`](../../packages/pal-extract/src/resources/parsers/ball.ts) `decodeBallIcon` — 复用 `io/rle.ts decodeRle`,**skip 头 4 byte `02 00 00 00` file header**(sdlpal palcommon.c:96-100 真值),输出 `images/items/{NNN}.png` × 251(chunk 0 空槽位 skip)+ `data/items-icons.json` manifest。
+- **修法**:[`parsers/ball.ts`](../../../packages/pal-extract/src/resources/parsers/ball.ts) `decodeBallIcon` — 复用 `io/rle.ts decodeRle`,**skip 头 4 byte `02 00 00 00` file header**(sdlpal palcommon.c:96-100 真值),输出 `images/items/{NNN}.png` × 251(chunk 0 空槽位 skip)+ `data/items-icons.json` manifest。
 - **典型尺寸**:48×47 indexed PNG with alpha mask(opaque=0 处 透明)。
 
 ### 2. RGM.MKF RLE 解 → 88 角色头像 PNG — ✓ 已修(2026-05-27 T10d session 3)
 - **触发 task**:T10d PlayerStatus / DialogBox portrait
-- **修法**:[`parsers/rgm.ts`](../../packages/pal-extract/src/resources/parsers/rgm.ts) `decodeRgmPortrait` —
+- **修法**:[`parsers/rgm.ts`](../../../packages/pal-extract/src/resources/parsers/rgm.ts) `decodeRgmPortrait` —
   与 BALL 同模式(`palcommon.c:96-100` 4-byte file header `02 00 00 00` skip + decodeRle + encodeIndexedPng),
   输出 `images/portraits/{NN}.png` × 88(chunk 0 + 3 空 skip)+ `data/portraits.json` manifest。
 - **典型尺寸**:78×91 indexed PNG with alpha mask(chunk 1 真值)。
@@ -129,23 +129,23 @@ user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(
 
 ### 3. 1-6.avi → mp4(ffmpeg 离线)— ✓ T18 Step 1 已修(2026-05-27)
 - **触发 task**:T18 Trademark + Splash / T19 OpeningMenu AVI / 后续 cutscene
-- **状态**:`pnpm -F @type-pal/pal-extract extract:videos` 走 [`scripts/extract-videos.ts`](../../packages/pal-extract/scripts/extract-videos.ts) — ffmpeg H.264 CRF 18 preset slow + AAC 96k,6 个 AVI 全转,输出 `data/extracted/videos/{1-6}.mp4`(总 ~21MB)。增量 build(mtime 比对 skip)。
-- **memory 锚**:[avi-offline-ffmpeg-to-mp4](../../memory/avi-offline-ffmpeg-to-mp4.md)
+- **状态**:`pnpm -F @type-pal/pal-extract extract:videos` 走 [`scripts/extract-videos.ts`](../../../packages/pal-extract/scripts/extract-videos.ts) — ffmpeg H.264 CRF 18 preset slow + AAC 96k,6 个 AVI 全转,输出 `data/extracted/videos/{1-6}.mp4`(总 ~21MB)。增量 build(mtime 比对 skip)。
+- **memory 锚**:`avi-offline-ffmpeg-to-mp4`(个人 memory 笔记,非版本库文件)
 
 ### 4. DATA.MKF chunk 0 STORE 表抽取
 - **触发 task**:BuyMenu / SellMenu 真做(M5.M-w3 已部分做,目前 opcode stub)
 - **工作量**:加 `parsers/store.ts` 解 `WORD rgwItems[MAX_STORE_ITEM] × nStore` → `data/stores.json`
-- **sdlpal 真值锚**:[global.c:292](../../reference/sdlpal/global.c#L292) `LOAD_DATA(lprgStore, nStore * sizeof(STORE), 0, fpDATA)`
-- **STORE 结构**:[global.h:252-255](../../reference/sdlpal/global.h#L252-L255)
+- **sdlpal 真值锚**:[global.c:292](../../../reference/sdlpal/global.c#L292) `LOAD_DATA(lprgStore, nStore * sizeof(STORE), 0, fpDATA)`
+- **STORE 结构**:[global.h:252-255](../../../reference/sdlpal/global.h#L252-L255)
 - **MAX_STORE_ITEM 值**:需 grep `common.h` 取 fixed 值
 
 ### 6. items/spells/enemyObjects scripts 切片丢弃 — ✓ 已修(2026-05-27 T10b 修 / session 3)
 - **触发**:user 反馈"物品都没法使用" — 选完 use-target Confirm 后 console.debug stub。
-- **根因**:[`sliceByScene`](../../packages/pal-extract/src/events/slice.ts) 只用 scene 入口 + eventObject 做 BFS,**漏收 items/spells/enemyObjects.scriptOn\* 作为 entry point**。
+- **根因**:[`sliceByScene`](../../../packages/pal-extract/src/events/slice.ts) 只用 scene 入口 + eventObject 做 BFS,**漏收 items/spells/enemyObjects.scriptOn\* 作为 entry point**。
   验证:items.scriptOnUse 范围 39190..43028,原 shared.json label 范围 2201..42409 → 103 个 item scripts 全 miss。
   整批 script bytecode 被切片**丢弃**(任何 scene reach 不到的 cmd 自动丢)。
 - **修法**:
-  - sliceByScene 加 `globalEntries: number[]` 参数 — items/spells/enemyObjects.scriptOn{Use,Equip,Throw,Desc,Success,TurnStart,BattleEnd,Ready} BFS 单独 reachable 集合,强制归 shared。sdlpal 真值依据 [`script.c:3140 PAL_RunTriggerScript`](../../reference/sdlpal/script.c#L3140) → `gpGlobals->g.lprgScriptEntry[wScriptEntry]` 全局 SCRIPTENTRY 数组。
+  - sliceByScene 加 `globalEntries: number[]` 参数 — items/spells/enemyObjects.scriptOn{Use,Equip,Throw,Desc,Success,TurnStart,BattleEnd,Ready} BFS 单独 reachable 集合,强制归 shared。sdlpal 真值依据 [`script.c:3140 PAL_RunTriggerScript`](../../../reference/sdlpal/script.c#L3140) → `gpGlobals->g.lprgScriptEntry[wScriptEntry]` 全局 SCRIPTENTRY 数组。
   - cli.ts 先 parseItems/parseSpells/parseEnemyObjects 再 sliceByScene,收集 globalScriptEntries 喂 sliceByScene + 加进 disasm entryIps 让命中点也打 L_<ip> 标签
   - 验证:items.scriptOnUse 103/103 hits in shared.json labelMap;shared.json 1999 → 4405 commands(+628 entry × BFS 后展开 2406 cmds)
 - **配套**:event-system.ts `startOverworldItemScript` helper + menu-driver 用物品流程接入 event mode;Phase 3 opcode handler(HP/MP/status 等)按 sdlpal script.c case-by-case port。
@@ -161,7 +161,7 @@ user 质疑"还有没没提取的资源",做了全 raw 文件 byte-level 对账(
 ## 本 audit 没覆盖的事
 
 - DATA.MKF chunk 15+(count=15 注释说 chunk 15 超出范围,但需 double-check `chunkCount(dataMkf)` 实际返回值是 15 还是 16)
-- FBP.MKF chunk 5 + chunk 58 写 PNG 时空 skip 原因(可能是空 chunk / YJ2 fail / size ≠ 64000)— 看 [battle-bgs.json](../../packages/game/public/extracted/data/battle-bgs.json) ids 列表确实缺 5 和 58
+- FBP.MKF chunk 5 + chunk 58 写 PNG 时空 skip 原因(可能是空 chunk / YJ2 fail / size ≠ 64000)— 看 [battle-bgs.json](../../../packages/game/public/extracted/data/battle-bgs.json) ids 列表确实缺 5 和 58
 - 14 个 MKF 是否覆盖 sdlpal 用的全部资产 — 还有 `MAP.MKF / GOP.MKF / FIRE.MKF` 这些 sdlpal 也有更细的 sub-chunk 解码可能未覆盖
 
 这些等 T20(M5.5 真值 audit v2)再深扫。

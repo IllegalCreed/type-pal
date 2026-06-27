@@ -4,13 +4,13 @@
 
 **Goal:** 把 audit 标 ⚠️ 但 runtime 实际不工作的项实修到"基础玩法可闭合可玩":主菜单 / 物品菜单 / 装备菜单 / 法术菜单 / 状态 / 存档 / 调查物品 / 走边缘切场景全可用。**不**做 M6 follow-up(audio / palette cycle / levelup / 装备 effect / poison / magic anim / enemy AI bytecode / AVI / sdlpal bug fix)。
 
-**Architecture:** 沿 02 + M5 既有四层架构,不增新分层。W0 在 shell 层加 input router(Cancel/Menu → menu state machine driver),在 present 层补 menu box / 列表 / 文字渲染 真做(对照 [`reference/sdlpal/ui.c`](reference/sdlpal/ui.c) `PAL_CreateBox` 真值)。W1 在 event-system + scene-system 改:label 查表跨 per-scene + shared 两段;tickSceneSystem 加 sdlpal `PAL_GameUpdate` fTrigger 段的自动 trigger zone 分支(`wTriggerMode >= kTriggerTouchNear`)。W2 dev-panel CSS + section 重排 + 加 menu / trigger 单元 manual 入口。
+**Architecture:** 沿 02 + M5 既有四层架构,不增新分层。W0 在 shell 层加 input router(Cancel/Menu → menu state machine driver),在 present 层补 menu box / 列表 / 文字渲染 真做(对照 [`reference/sdlpal/ui.c`](../../../reference/sdlpal/ui.c) `PAL_CreateBox` 真值)。W1 在 event-system + scene-system 改:label 查表跨 per-scene + shared 两段;tickSceneSystem 加 sdlpal `PAL_GameUpdate` fTrigger 段的自动 trigger zone 分支(`wTriggerMode >= kTriggerTouchNear`)。W2 dev-panel CSS + section 重排 + 加 menu / trigger 单元 manual 入口。
 
 **Tech Stack:** 沿 M5 — TypeScript / Vite / Vitest / Playwright + pixelmatch / pnpm workspace。规格 = `reference/sdlpal/`(PAL_CLASSIC build,D30)。子进程统一 `execFileSync`/`execFile`。dev-panel CSS 用普通 `<style>` 标签注入(不引入 CSS framework / Tailwind,保持零依赖)。
 
 **项目根目录:** `/Users/zhangxu/illegal/type-pal`
 
-**Design 溯源:** M5.5 audit [`docs/plans/2026-05-27-m5-5-sdlpal-audit.md`](docs/plans/2026-05-27-m5-5-sdlpal-audit.md) ⚠️ 反思 + 用户实测 bug 反馈
+**Design 溯源:** M5.5 audit [`docs/plans/2026-05-27-m5-5-sdlpal-audit.md`](2026-05-27-m5-5-sdlpal-audit.md) ⚠️ 反思 + 用户实测 bug 反馈
 
 ---
 

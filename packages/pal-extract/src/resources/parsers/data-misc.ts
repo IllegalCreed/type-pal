@@ -1,7 +1,7 @@
 /**
  * DATA.MKF 余下 chunks 的 parser(M4 P2 T2)。
  * sdlpal 真值:reference/sdlpal/global.c::PAL_LoadDefaultGame。
- * inventory 参考:docs/resource-status.md DATA.MKF section。
+ * inventory 参考:docs/phase1/status/resource-status.md DATA.MKF section。
  *
  * 覆盖 chunk:
  *   6  — lprgLevelUpMagic (LEVELUPMAGIC_ALL 数组)

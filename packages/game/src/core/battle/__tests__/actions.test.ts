@@ -999,7 +999,7 @@ describe('performFlee', () => {
     expect(state.phase).toBe(before) // 不变
   })
 
-  // 修复版(有意偏离原版,docs/game-mechanics.md「原始 bug:逃跑抵抗错用敌人身法」,
+  // 修复版(有意偏离原版,docs/phase1/game-mechanics.md「原始 bug:逃跑抵抗错用敌人身法」,
   // user 2026-06-13 选修复):原作 fight.c:4134 误用敌身法 wDexterity,敌吉运 wFleeRate
   // 全引擎死字段。修复后 def = Σ(敌吉运 + (level+6)*4),身法不再参与逃跑抵抗。
   it('修复版:逃跑抵抗 def 用敌吉运 fleeRate,身法 dexterity 不参与', () => {

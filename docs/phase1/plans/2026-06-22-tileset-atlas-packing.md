@@ -59,11 +59,11 @@ fetch(blobUrl)
 - **下游零改动**:`draw-tilemap.ts` / `present.ts` 拿到的还是 `Map<number, IndexedImage>`。
 
 ### 2.3 改动面(锚点已核实)
-1. **`@type-pal/shared`** 新增 tile 解码模块:把 `decodeRle`([pal-extract/src/io/rle.ts](../../packages/pal-extract/src/io/rle.ts))+ `parseSpriteChunk` + `RleFrame` 类型([pal-extract/src/resources/sprite.ts](../../packages/pal-extract/src/resources/sprite.ts))搬进来(纯函数 + 已有测试一并搬)。pal-extract 改为从 shared re-export(避免改动 extractor 其它调用点)。game 从 shared import(game 已依赖 shared,且不依赖 pal-extract)。
-2. **extractor** [cli.ts:601-630](../../packages/pal-extract/src/cli.ts#L601):写盘循环从「逐 tile `encodeIndexedPng` + `writeBinary`」改成 `writeBinary('data/tileset/{mapNum}.rle', gzipSync(gopChunk))`;删 `imageWorldTilesetPath` / `tile-{XXXX}.png` 输出;tilemap JSON 写 `tileset` 字段。
-3. **runtime** [loader.ts:196-204](../../packages/game/src/assets/loader.ts#L196):删 `tilesetFiles` 分支,改 §2.2 流程。
+1. **`@type-pal/shared`** 新增 tile 解码模块:把 `decodeRle`([pal-extract/src/io/rle.ts](../../../packages/pal-extract/src/io/rle.ts))+ `parseSpriteChunk` + `RleFrame` 类型([pal-extract/src/resources/sprite.ts](../../../packages/pal-extract/src/resources/sprite.ts))搬进来(纯函数 + 已有测试一并搬)。pal-extract 改为从 shared re-export(避免改动 extractor 其它调用点)。game 从 shared import(game 已依赖 shared,且不依赖 pal-extract)。
+2. **extractor** [cli.ts:601-630](../../../packages/pal-extract/src/cli.ts#L601):写盘循环从「逐 tile `encodeIndexedPng` + `writeBinary`」改成 `writeBinary('data/tileset/{mapNum}.rle', gzipSync(gopChunk))`;删 `imageWorldTilesetPath` / `tile-{XXXX}.png` 输出;tilemap JSON 写 `tileset` 字段。
+3. **runtime** [loader.ts:196-204](../../../packages/game/src/assets/loader.ts#L196):删 `tilesetFiles` 分支,改 §2.2 流程。
 4. **manifest / 预缓存**:`asset-manifest.ts` 须把新 `.rle` 纳入、旧 per-tile PNG 移除(SW precache 列表随之 67k→223)。
-5. **`Tilemap` 类型**([shared/src/resources.ts](../../packages/shared/src/resources.ts)):`tilesetImage`→`tileset` 字段调整。
+5. **`Tilemap` 类型**([shared/src/resources.ts](../../../packages/shared/src/resources.ts)):`tilesetImage`→`tileset` 字段调整。
 
 ## 3. 实测数据(真实 GOP.MKF,28 map / 9199 tile,外推到 265MB)
 
