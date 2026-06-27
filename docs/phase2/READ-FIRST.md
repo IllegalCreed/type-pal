@@ -1,7 +1,7 @@
 # 第二阶段（Reforge）· 开工前必读
 
 > **你现在在做第二阶段。第一阶段的「忠实还原」思维全部作废。**
-> 这份是铁律，开任何 Reforge（新引擎 / 编辑器 / 内容 schema）工作前先读。背景与分解见 [00-roadmap.md](00-roadmap.md)。
+> 这份是铁律，开任何 Reforge（新引擎 / 编辑器 / 内容 schema）工作前先读。背景与分解见 [roadmap.md](roadmap.md)。
 
 ## 六条铁律
 

@@ -17,7 +17,7 @@
 项目分两套世界观,**严禁混用**(详见根 [`CLAUDE.md`](CLAUDE.md) 顶部的判断流程):
 
 - **第一阶段 · 忠实还原(项目主体,已上线 v1.0.0)** —— 以 sdlpal / 原版为真值,在 TS 里逐系统复刻原版。本 README 下文(状态表、移植原则)讲的都是这一阶段。
-- **第二阶段 · Reforge 重制(早期、活跃)** —— 全新引擎 + 内容编辑器 + 自有内容,**不对齐旧引擎 / 原版行为,架构优先**;第一阶段的「真值锚 / 双引擎对照」方法论在此**整体作废**。当前在第一刀:[`packages/reforge`](packages/reforge/) 的 Canvas 2D「鬼界民居」demo。开工铁律见 [`docs/phase2/READ-FIRST.md`](docs/phase2/READ-FIRST.md),总纲见 [`docs/phase2/00-roadmap.md`](docs/phase2/00-roadmap.md)。
+- **第二阶段 · Reforge 重制(早期、活跃)** —— 全新引擎 + 内容编辑器 + 自有内容,**不对齐旧引擎 / 原版行为,架构优先**;第一阶段的「真值锚 / 双引擎对照」方法论在此**整体作废**。当前在第一刀:[`packages/reforge`](packages/reforge/) 的 Canvas 2D「鬼界民居」demo。开工铁律见 [`docs/phase2/READ-FIRST.md`](docs/phase2/READ-FIRST.md),总纲见 [`docs/phase2/00-roadmap.md`](docs/phase2/roadmap.md)。
 - **第三阶段 · MMO + 深度玩法** —— 远期设想,暂存 [`docs/phase3/`](docs/phase3/),当前不碰。
 
 > 拿不准当前在做哪一阶段时,先按改动落在 `reforge` / `content` / `docs/phase2` 还是 `game` 判断,或回 `CLAUDE.md` 顶部。

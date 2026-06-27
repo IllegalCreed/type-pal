@@ -4,7 +4,7 @@
 
 **Goal:** 把对话框外观适配到 reforge 的 Canvas2D(字模 / 颜色 / 阴影 / 打字 / 光标 / 头像 / slot 共存),并把鬼话做成「对话系统全部技术点的完成度仪表盘」——跑一遍直观看到完成度。
 
-**Architecture:** 两层([D13](decisions.md)):`text/` 通用文本渲染原语(不绑对话)+ `dialog/` 对话渲染(消费 text-render),从 main.ts 闭包拎出。设计全文见 [dialogue-slice2-visual-design.md](dialogue-slice2-visual-design.md);外观真值(坐标 / 色值)见 [GLM spec §3](p1-slice1-dialogue-visual-spec.md);本计划是「三刀」第②刀(① 数据地基已完成、③ 迁移器留后)。
+**Architecture:** 两层(../decisions.md)):`text/` 通用文本渲染原语(不绑对话)+ `dialog/` 对话渲染(消费 text-render),从 main.ts 闭包拎出。设计全文见 [visual-design.md](visual-design.md);外观真值(坐标 / 色值)见 [GLM spec §3](visual-spec.md);本计划是「三刀」第②刀(① 数据地基已完成、③ 迁移器留后)。
 
 **Tech Stack:** TypeScript(ESM,`.js` 扩展)、Canvas 2D、vitest、pnpm。
 
@@ -390,7 +390,7 @@ git commit -m "feat(reforge): 打字进度纯函数 charsShown/isLineDone(perfor
 
 - [ ] **Step 1: 端口位置常量**
 
-`dialog-box.ts` 顶部,从 [GLM spec §3](p1-slice1-dialogue-visual-spec.md) + `present/dialog-box.ts` 端口 bottom style 常量(本 Task 只需 bottom):
+`dialog-box.ts` 顶部,从 [GLM spec §3](visual-spec.md) + `present/dialog-box.ts` 端口 bottom style 常量(本 Task 只需 bottom):
 ```ts
 const LINE_HEIGHT = 18
 const TEXT_POS_BOTTOM = { x: 44, y: 126 }   // 无头像;有头像 x=20(Task 6)
@@ -657,7 +657,7 @@ git commit -m "feat(reforge): slot 共存 + top 布局 + 头像(占位)+ Dialogu
 
 - [ ] **Step 1: 鬼话仪表盘内容(content + locale)**
 
-按 [design §5 分配表](dialogue-slice2-visual-design.md) 落地:`locale.ts` `zhLocale` 改/加文本(句2 换成「远处的鬼」台词,某些句加 `<yellow>`/`<cyan>`/`<red>` 标记 + 加 `name.distant-ghost`);`index.ts` 鬼话 `lines` 每句配 `slot`/`portrait`/`speed`/`autoAdvance`:
+按 [design §5 分配表](visual-design.md) 落地:`locale.ts` `zhLocale` 改/加文本(句2 换成「远处的鬼」台词,某些句加 `<yellow>`/`<cyan>`/`<red>` 标记 + 加 `name.distant-ghost`);`index.ts` 鬼话 `lines` 每句配 `slot`/`portrait`/`speed`/`autoAdvance`:
 ```ts
 lines: [
   { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.0', slot: 'bottom', portrait: { icon: PLACEHOLDER, side: 'right' } },

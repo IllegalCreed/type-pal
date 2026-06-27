@@ -1,9 +1,9 @@
 # 第二阶段 · 设计议题池（backlog）
 
 > 陆续收集的第二阶段设计专题，避免散落丢失。每条 = 现状痛点（旧引擎）+ 第二阶段方向 + 归属子项目 + 状态。
-> 这里是**议题池**，不是计划；具体设计在各子项目 spec 里展开。子项目分解见 [00-roadmap.md](00-roadmap.md)，铁律见 [READ-FIRST.md](READ-FIRST.md)。
+> 这里是**议题池**，不是计划；具体设计在各子项目 spec 里展开。子项目分解见 [roadmap.md](roadmap.md)，铁律见 [READ-FIRST.md](READ-FIRST.md)。
 >
-> 「现状痛点」列每条都有**代码锚点证据**，见 [2026-06-22-phase1-engine-debt-audit.md](2026-06-22-phase1-engine-debt-audit.md)（文末有「backlog 议题 ↔ finding」反查表）。
+> 「现状痛点」列每条都有**代码锚点证据**，见 [engine-debt-audit.md](foundation/engine-debt-audit.md)（文末有「backlog 议题 ↔ finding」反查表）。
 >
 > **2026-06-25 重新聚焦**：第二阶段 = 现代化引擎 + 编辑器 + 内容创作。MMO 量级的**玩法 / 世界观系统**（种族 / 门派 / 御灵 / 炼化 / 阵法 / 五灵矩阵 / 因果轮回…，原议题 7 / 8 / 9 / 14 / 15–24）与 MMO 整体**移交 [docs/phase3](../phase3/future-gameplay-and-mmo-backlog.md)**，不再占用第二阶段心智。本表只留服务于引擎 / 编辑器 / 内容管线的议题。
 
@@ -25,7 +25,7 @@
 
 | # | 议题 | 现状痛点（旧引擎，仅作参考） | 第二阶段方向 | 归属 | 状态 |
 |---|---|---|---|---|---|
-| 10 | 国际化（i18n）管线 | 原版文本靠 WORD.DAT 字面下标，硬编码 | 所有面向玩家文本（对话 / 物品名 / 仙术描述 / UI）走**稳定 text id**，运行时按 locale 查表；与 [p0 schema §2 稳定身份](p0-content-schema.md) 一脉相承 | P0 schema（text id）+ P1 运行时查表 | 已定（[D9](decisions.md)）；做中文同人为先，多语言可后补，但文本字段一律走 id |
+| 10 | 国际化（i18n）管线 | 原版文本靠 WORD.DAT 字面下标，硬编码 | 所有面向玩家文本（对话 / 物品名 / 仙术描述 / UI）走**稳定 text id**，运行时按 locale 查表；与 [p0 schema §2 稳定身份](foundation/content-schema.md) 一脉相承 | P0 schema（text id）+ P1 运行时查表 | 已定（[D9](decisions.md)）；做中文同人为先，多语言可后补，但文本字段一律走 id |
 | 11 | 可访问性（A11y） | 原版无 | 文字速度 / 自动播放 / 对话回看日志；高对比度 UI 主题；全键盘 / 手柄 / 触屏 / 鼠标输入重映射 | P1 输入 + UI | 方向已定：可选，非阻塞主干 |
 | 12 | 音视频多媒体系统统一 | 四个 player（avi/rng/fbp/ending）各自 `flushToCanvas` 绕过 present、各自 `await sleep()` 两套时钟（audit P0-9）；音频意图边界干净（audit A-1）但缺现代能力 | 统一多媒体管线：音频在 A-1 「意图队列」上加动态音乐过渡 / 分层；视频 / 动画走统一 CutsceneController（呼应议题 5），不再各自为政 | P1 多媒体 + P0 演出建模 | 待设计（A-1 是干净继承起点） |
 | 13 | 开发 / 调试工具 | 无 | 时间旅行调试（effect 溯源回放，受益于 [D2](decisions.md) 的「意图→纯函数判定→结果」+ 注入时钟）；帧步进、碰撞层 / 触发区可视化、cheat console、世界变量检视器；编辑器时代降低内容创作成本 | P1 工具层 | 待设计（D2 红线已为其留地基） |

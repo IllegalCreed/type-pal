@@ -1,6 +1,6 @@
 # 第二阶段 · 决策记录（decisions）
 
-> 已拍板的第二阶段架构 / 范围决策。每条 = 决定 + 理由 + 影响。还在讨论的议题见 [design-backlog.md](design-backlog.md)；总纲见 [00-roadmap.md](00-roadmap.md)；铁律见 [READ-FIRST.md](READ-FIRST.md)。
+> 已拍板的第二阶段架构 / 范围决策。每条 = 决定 + 理由 + 影响。还在讨论的议题见 [design-backlog.md](design-backlog.md)；总纲见 [roadmap.md](roadmap.md)；铁律见 [READ-FIRST.md](READ-FIRST.md)。
 > 这是 roadmap §6 预告的 `decisions.md` 本体，滚动累积。
 >
 > **2026-06-25 重新聚焦**：第二阶段 = **现代化引擎 + 编辑器 + 内容创作**（个人开发者、内容驱动）。MMO 与玩法 / 成长系统设计（原 **D5–D8**）移交 [docs/phase3](../phase3/future-gameplay-and-mmo-backlog.md)，不再占用第二阶段心智。本文只留引擎 / 编辑器 / 内容相关决策。
@@ -24,7 +24,7 @@
 
 **决定**：每张地图自带 width/height，不是全局常量。**层次 A**（每图有限矩形网格、尺寸可变）现在做；**层次 B**（超大无缝 / 分块流式）MMO 级，留口不做。
 **理由**：原版被 `Tiles[128][64][2]` 焊成恒定 64×128，小场景背满空格；渲染 / 碰撞本就按 width/height 跑，层次 A 近乎白送；编辑器必需。
-**影响**：已补进 [p0-content-schema §5](p0-content-schema.md) + [backlog 议题 4](design-backlog.md)；切片手写场景按真实小尺寸写。
+**影响**：已补进 [p0-content-schema §5](foundation/content-schema.md) + [backlog 议题 4](design-backlog.md)；切片手写场景按真实小尺寸写。
 
 ## D4 · 渲染：RGBA + 后处理一等公民；调色板降级为解码资产（2026-06-24；渲染 API 见 D10）
 
@@ -42,7 +42,7 @@
 ## D9 · 国际化为必做（2026-06-24）
 
 **决定**：所有面向玩家文本（对话 / 物品名 / 仙术描述 / UI）走**稳定 text id** + locale 查表，第二阶段就做。
-**理由**：稳定 id 铁律（[p0 schema §2](p0-content-schema.md)）天然支持 i18n，零成本留口；仙剑文本量巨大且原版靠 WORD.DAT 字面下标硬编码；晚期做要重构所有文本。
+**理由**：稳定 id 铁律（[p0 schema §2](foundation/content-schema.md)）天然支持 i18n，零成本留口；仙剑文本量巨大且原版靠 WORD.DAT 字面下标硬编码；晚期做要重构所有文本。
 **影响**：见 [backlog 议题 10](design-backlog.md)；P0 schema 文本字段一律是 text id 引用，运行时查表。**注**：先做中文同人，多语言可永远不补，但「文本走 id」这个零成本习惯现在就立。
 **2026-06-25 → 06-26 强化**（见 [D11](decisions.md)）：对话正文**也**确认走 text id（原一度倾向「留口、内嵌字面」，作者定第二阶段可能主面向英文用户后作废）；i18n **机制**本次就做、locale 先填 zh，实际译文按需补。
 
@@ -60,11 +60,11 @@
 
 ## D11 · 对话数据结构化 + i18n 一等公民（2026-06-26）
 
-**决定**：对话从「in-band 控制符扁字符串」（`~30`/`$10`/`"`/末尾冒号）改为**结构化 `DialogueLine`**（`speaker`/`text` = 稳定 `TextId`、`speed`/`autoAdvance` = ms）；功能 / 结构控制符**前移到数据生产期**（迁移器 / 编辑器）解析掉，运行时无 `parseDialogText`。对话正文**也走 text id + locale**（强化 [D9](decisions.md)，面向英文用户）；多色强调用 **locale 富文本成对闭合标记**（`<cyan>…</cyan>`），不进结构化字段。**分支**留演出层（choice action，非对话行）、**DSL** 留口不做。详见 [dialogue-structured-model-design.md](dialogue-structured-model-design.md)。
+**决定**：对话从「in-band 控制符扁字符串」（`~30`/`$10`/`"`/末尾冒号）改为**结构化 `DialogueLine`**（`speaker`/`text` = 稳定 `TextId`、`speed`/`autoAdvance` = ms）；功能 / 结构控制符**前移到数据生产期**（迁移器 / 编辑器）解析掉，运行时无 `parseDialogText`。对话正文**也走 text id + locale**（强化 [D9](decisions.md)，面向英文用户）；多色强调用 **locale 富文本成对闭合标记**（`<cyan>…</cyan>`），不进结构化字段。**分支**留演出层（choice action，非对话行）、**DSL** 留口不做。详见 [model-design.md](dialogue/model-design.md)。
 **理由**：in-band 控制符把「控制信息」和「文本内容」焊死，违铁律 4（架构第一）/ 5（杜绝下标式身份）；解析前移让运行时只消费干净数据，比 GLM spec 的「运行时 port `parseDialogText`」干净一级。i18n 一等公民因第二阶段可能主面向英文用户。DSL（类 Ink/Yarn）与可视化 editor 产出的结构化数据重叠、对个人开发者是过度基础设施；分支本质是演出逻辑、不属对话行（强行塞进对话数据 = 新耦合）。
 **影响**：
-- 实现**分三刀，先地基**：**① 数据模型 + 状态机**（本次，含最小 locale 查表 + 鬼话迁 zh，单测验收）→ **② 外观继承**（承接 [GLM 外观 spec](p1-slice1-dialogue-visual-spec.md)）→ **③ 迁移器**（原版控制符 → 结构化 + locale zh）。
-- 承接并修订 [p1-slice1-dialogue-visual-spec.md](p1-slice1-dialogue-visual-spec.md)：外观真值整体继承，唯把数据源从「控制符字符串」换成「结构化 + locale 查表」（删 `parseDialogText` 移植那步）。
+- 实现**分三刀，先地基**：**① 数据模型 + 状态机**（本次，含最小 locale 查表 + 鬼话迁 zh，单测验收）→ **② 外观继承**（承接 [GLM 外观 spec](dialogue/visual-spec.md)）→ **③ 迁移器**（原版控制符 → 结构化 + locale zh）。
+- 承接并修订 [visual-spec.md](dialogue/visual-spec.md)：外观真值整体继承，唯把数据源从「控制符字符串」换成「结构化 + locale 查表」（删 `parseDialogText` 移植那步）。
 - 颜色用语义名（`<cyan>` + 渲染层映射 palette），内容 / locale 层不出现魔法数；时长存真实 ms。
 - 多语言**机制**本次做、locale 先只填 zh，**实际译文按需补**。
 
@@ -90,5 +90,5 @@
 **理由**：原版「上下框共存」只是 framebuffer 不清屏的**副作用**，做成显式 slot 更干净。运行时猜位置 = 隐式魔法（难调试 / 编辑器看不出 / 改不动），违 [D13](decisions.md) / 铁律；自动放创作期 → 手动与自动**统一产出显式数据**，灵活 + 可控 + 可视。
 **影响**：
 - ② `DialogueLine` 加 `slot?` / `portrait?`；渲染层管理多 slot 各自状态（留显 / 活跃）。
-- slot 生命周期：同 slot 翻页覆盖、不同 slot 共存、对话结束清所有；**复杂清屏编排**（任意时点清某 slot、黑屏叠字…）留**演出系统**（[P0 §6](p0-content-schema.md) timeline action），不塞对话数据。
-- 详见 [dialogue-slice2-visual-design.md](dialogue-slice2-visual-design.md) §4。
+- slot 生命周期：同 slot 翻页覆盖、不同 slot 共存、对话结束清所有；**复杂清屏编排**（任意时点清某 slot、黑屏叠字…）留**演出系统**（[P0 §6](foundation/content-schema.md) timeline action），不塞对话数据。
+- 详见 [visual-design.md](dialogue/visual-design.md) §4。

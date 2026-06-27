@@ -4,7 +4,7 @@
 
 **Goal:** 把 reforge 对话从「内嵌字面文本」改成「结构化 `DialogueLine`(text/speaker = 稳定 TextId) + i18n locale 查表 + 颜色富文本解析」,状态机升级为按容量分页;鬼话 demo 照常跑、纯逻辑全单测。
 
-**Architecture:** 设计见 [dialogue-structured-model-design.md](dialogue-structured-model-design.md)、决策见 [decisions.md](decisions.md) D11。本计划是「三刀」的**第①刀(数据地基)**:只动数据模型 / 纯函数 / 状态机 + 最小渲染适配;**外观继承(②)、迁移器(③)不在本计划**。`@type-pal/content` 出类型 + locale + 纯函数,`@type-pal/reforge` 消费。
+**Architecture:** 设计见 [model-design.md](model-design.md)、决策见 [decisions.md](../decisions.md) D11。本计划是「三刀」的**第①刀(数据地基)**:只动数据模型 / 纯函数 / 状态机 + 最小渲染适配;**外观继承(②)、迁移器(③)不在本计划**。`@type-pal/content` 出类型 + locale + 纯函数,`@type-pal/reforge` 消费。
 
 **Tech Stack:** TypeScript(ESM,import 带 `.js` 扩展)、vitest、pnpm workspace。
 

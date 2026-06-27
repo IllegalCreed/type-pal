@@ -1,12 +1,12 @@
 # 对话框外观 · ② 实现设计(Canvas2D 适配 + 完整技术点覆盖)
 
-> 状态:草案(2026-06-27 立)。承接 [D11](decisions.md) ②、[GLM 外观真值 spec](p1-slice1-dialogue-visual-spec.md)、[D13](decisions.md) 文本分层、[D12](decisions.md) demo 定位。是「三刀」的**第②刀**(① 数据地基已完成,③ 迁移器留后)。
+> 状态:草案(2026-06-27 立)。承接 [D11](../decisions.md) ②、[GLM 外观真值 spec](visual-spec.md)、[D13](../decisions.md) 文本分层、[D12](../decisions.md) demo 定位。是「三刀」的**第②刀**(① 数据地基已完成,③ 迁移器留后)。
 
 ## 0. 这份文档定什么(大白话)
 
 把对话框外观**适配到 reforge 的 Canvas2D**(原版是 indexed 软件 framebuffer,两套渲染),并把鬼话设计成**对话系统全部技术点的「完成度仪表盘」**——跑一遍 5 句,每个特性亮一遍,一眼看到对话系统做到哪了(D12 的最佳实践)。
 
-外观**真值**(位置 / 色值 / 打字时序)在 [GLM spec](p1-slice1-dialogue-visual-spec.md) §3,本文不重抄;本文定的是 **Canvas2D 适配方案 + 架构分层 + 仪表盘分配**。
+外观**真值**(位置 / 色值 / 打字时序)在 [GLM spec](visual-spec.md) §3,本文不重抄;本文定的是 **Canvas2D 适配方案 + 架构分层 + 仪表盘分配**。
 
 ## 1. 范围:全覆盖(D12)
 
@@ -20,7 +20,7 @@
 | 元素 | 姓名牌、头像(无 / 左 / 右)、光标(3 形轮换) |
 | 布局 | 框位置(slot:上 / 下)、**双框共存**(top + bottom 同屏) |
 
-**留后(按 [D13](decisions.md),不属于对话系统 / 演出层):**
+**留后(按 [D13](../decisions.md),不属于对话系统 / 演出层):**
 - narration / item-box(各归演出 / 物品系统,复用 `text-render`)
 - center 布局(对话用上 / 下够;center 罕用)
 - 选项 / 分支(演出层 choice action)
@@ -124,7 +124,7 @@ interface DialogueLine {
 
 ## 8. 留后(不在 ②)
 
-- narration / item-box / 死亡文本 / 旁白 —— [D13](decisions.md) 各归各系统,复用 `text-render`
+- narration / item-box / 死亡文本 / 旁白 —— [D13](../decisions.md) 各归各系统,复用 `text-render`
 - center 布局、选项分支(演出层)
 - 头像鬼气立绘(先占位)
 - 原版彩色对话的迁移 —— ③ 迁移器

@@ -73,8 +73,8 @@
 
 **已决（2026-06-22）**
 
-- ✅ **P0 schema 草案**：见 [p0-content-schema.md](p0-content-schema.md)（三层状态 / 稳定 id / 场景包 / 事件演出 / 角色实例化 + 迁移器）。
-- ✅ **第一阶段引擎架构债已审计**：见 [2026-06-22-phase1-engine-debt-audit.md](2026-06-22-phase1-engine-debt-audit.md)（18 条 finding，P0/P1/P2 分级 + 反查表），是 P1 新引擎 spec 的**反面输入**——重写时绕开这些模式，不照搬旧模块结构（铁律第 3 条）。
+- ✅ **P0 schema 草案**：见 [content-schema.md](foundation/content-schema.md)（三层状态 / 稳定 id / 场景包 / 事件演出 / 角色实例化 + 迁移器）。
+- ✅ **第一阶段引擎架构债已审计**：见 [engine-debt-audit.md](foundation/engine-debt-audit.md)（18 条 finding，P0/P1/P2 分级 + 反查表），是 P1 新引擎 spec 的**反面输入**——重写时绕开这些模式，不照搬旧模块结构（铁律第 3 条）。
 
 **下一步（未启动）**
 

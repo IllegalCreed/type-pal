@@ -4,15 +4,15 @@
 >
 > 方法:5 个 agent 按 subsystem 并行审计(`game-state` / `event-system` / `battle` / `shell` / `scene+present`),每个 agent 读全文件、给代码锚点(file:line + 片段)与第二阶段痛点判断,主审整合 + 战斗系统补充取证。共扫描 ~25 万行 TS。
 >
-> **定位**:本报告是 [p0-content-schema](p0-content-schema.md)(schema 已定)与 P1(新引擎 spec,待写)之间的桥梁 —— schema 定了「应该长什么样」,本报告钉死「为什么旧那样不行、新那样必须在哪些点切干净」。每条 finding 都标了对应的 schema 决策或 design-backlog 议题。
+> **定位**:本报告是 [p0-content-schema](content-schema.md)(schema 已定)与 P1(新引擎 spec,待写)之间的桥梁 —— schema 定了「应该长什么样」,本报告钉死「为什么旧那样不行、新那样必须在哪些点切干净」。每条 finding 都标了对应的 schema 决策或 design-backlog 议题。
 
 ## 怎么读这份报告
 
-- **它不是要改第一阶段**。第一阶段铁律是「忠实还原」,这些「债」在第一阶段是优点(忠实于 sdlpal),**第二阶段铁律(见 [READ-FIRST.md](READ-FIRST.md))要求全新重写、不照搬旧模块结构**,所以这份清单的用途是「重写时绕开这些模式」。
+- **它不是要改第一阶段**。第一阶段铁律是「忠实还原」,这些「债」在第一阶段是优点(忠实于 sdlpal),**第二阶段铁律(见 [READ-FIRST.md](../READ-FIRST.md))要求全新重写、不照搬旧模块结构**,所以这份清单的用途是「重写时绕开这些模式」。
 - 每条 finding 的字段:
   - **锚点**:第一阶段代码位置(file:line + 片段)——证据。
   - **为什么是债(第二阶段视角)**:不读 sdlpal,只从「现代化 / 解耦 / 可扩展 / 编辑器友好 / MMO 预留」反推。
-  - **对应决策**:本条对应 [p0-content-schema](p0-content-schema.md) 的哪节、或 [design-backlog](design-backlog.md) 的哪条议题。
+  - **对应决策**:本条对应 [p0-content-schema](content-schema.md) 的哪节、或 [design-backlog](../design-backlog.md) 的哪条议题。
 - **类别**:foundation(地基)/ interpreter(解释器)/ boundary(边界)/ render(渲染)/ shell(壳层)
 - **优先级**:P0(新引擎立不起)/ P1(现代化天花板)/ P2(局部可替换)
 
@@ -27,7 +27,7 @@
 
 按类别:foundation 6 / interpreter 4 / boundary 2 / render 3 / shell 3
 
-按对应:命中 [p0-content-schema](p0-content-schema.md) §1–§9 全部 9 节、[design-backlog](design-backlog.md) 议题 1/2/3/4/5/6。
+按对应:命中 [p0-content-schema](content-schema.md) §1–§9 全部 9 节、[design-backlog](../design-backlog.md) 议题 1/2/3/4/5/6。
 
 ---
 
@@ -41,7 +41,7 @@
 
 **为什么是债**:无法对任何子系统做独立测试 / 替换(每个系统都拿整个 `gs` 透传);快照必须序列化整坨含 `Map`、`Uint8Array`、函数回调,JSON 不可逆;新增字段要在 `createInitialGameState`/`loadDefaultGame`/`resetSceneRuntimeForNewGame`/`normalizePlayerRolesRuntime` **四处**同步登记(注释 :1748 自承「四处手写易漏」)。
 
-**对应决策**:[p0-content-schema §1 三层状态模型](p0-content-schema.md)—— L1 世界态 / L2 场景静态 / L3 场景运行态。本 finding 是这条决策的**直接证据**:第一阶段正是因为没有这条边界,才堆出一个 100 字段 God Object。
+**对应决策**:[p0-content-schema §1 三层状态模型](content-schema.md)—— L1 世界态 / L2 场景静态 / L3 场景运行态。本 finding 是这条决策的**直接证据**:第一阶段正是因为没有这条边界,才堆出一个 100 字段 God Object。
 
 ---
 
@@ -55,7 +55,7 @@
 
 **为什么是债**:「加一个角色」「角色可变数量」「同 role 两份独立 HP」全做不到;跨数组一致性靠各 opcode 手工同步,**三套回写路径**(`writeBackBattleRolesToRuntime` 只回写 HP/MP,升级另写,Extra 槽不回写)。MMO 实例化根本无从谈起。
 
-**对应决策**:[p0-content-schema §9 角色/实体状态建模(实例 + 组件 + 外观解耦)](p0-content-schema.md)。本 finding 钉死了为什么要拆「身份 = 实例 id」「状态 = 实例组件」「外观 = 由装备算」—— 原版把这三件事焊死在 roleId 上。
+**对应决策**:[p0-content-schema §9 角色/实体状态建模(实例 + 组件 + 外观解耦)](content-schema.md)。本 finding 钉死了为什么要拆「身份 = 实例 id」「状态 = 实例组件」「外观 = 由装备算」—— 原版把这三件事焊死在 roleId 上。
 
 ---
 
@@ -73,7 +73,7 @@
 
 **为什么是债**:换队 / 离队 / 重新入队时所有按 slot 存的状态要手工清理;调试时 `partyMembers[2]` 是谁必须查表;新增内容(加 NPC、改队伍)会牵动他者 —— 直接违反第二阶段铁律第 5 条「杜绝下标式身份、加删内容不牵动他者」。编辑器做出来加删 NPC 会让别的 NPC 串号。
 
-**对应决策**:[p0-content-schema §2 稳定身份(杜绝下标)](p0-content-schema.md)。本 finding 是这条铁律的**量化证据**(412 处),也是 [design-backlog 议题 1「核心系统重写」](design-backlog.md)的根因之一。
+**对应决策**:[p0-content-schema §2 稳定身份(杜绝下标)](content-schema.md)。本 finding 是这条铁律的**量化证据**(412 处),也是 [design-backlog 议题 1「核心系统重写」](../design-backlog.md)的根因之一。
 
 ---
 
@@ -85,7 +85,7 @@
 
 **为什么是债**:模块级单例 = 全局可变状态,**无法多实例 / 并行战斗 / 编辑器沙箱 / 单元测试隔离**。这条直接堵死 MMO 预留(铁律第 5 条「给 MMO 留状态分层口」)—— 多玩家、多场景实例化全卡死,因为 `setGlobalEvents` 改的是进程级 module 状态。也没有 effect/command 边界,无法做「录制所有副作用 → 回放 / 撤销 / 网络同步」。
 
-**对应决策**:[p0-content-schema §1 三层状态模型](p0-content-schema.md)(L1/L2/L3 必须是实例字段,不是 module 全局)、[design-backlog 议题 1](design-backlog.md)。新引擎的核心运行时对象必须是**可实例化的**,handler 注入收敛为显式 `RuntimeDeps`。
+**对应决策**:[p0-content-schema §1 三层状态模型](content-schema.md)(L1/L2/L3 必须是实例字段,不是 module 全局)、[design-backlog 议题 1](../design-backlog.md)。新引擎的核心运行时对象必须是**可实例化的**,handler 注入收敛为显式 `RuntimeDeps`。
 
 ---
 
@@ -100,7 +100,7 @@
 
 **为什么是债**:新增 / 修改 opcode 要改 3 个 switch + `mode.ts:42` 的 `waiting` 白名单 + `tickSceneAutoFadeIn`;漏一处就是静默 bug。**更关键**:第二阶段 P2 编辑器要做「可视化事件编辑」,opcode 没有 handler 表就无法做「节点 → 行为」的注册式映射 —— 编辑器拖一个「移动精灵」节点,引擎里找不到对应的 handler 注册项。
 
-**对应决策**:[p0-content-schema §6 事件 & 演出建模](p0-content-schema.md)(「原版 opcode 走兼容执行器,新创作走时间线模型」)。两条路径都需要 `Map<Opcode, OpcodeHandler>` 注册表作为骨架 —— 本 finding 钉死了为什么不能照搬旧的 switch 结构。
+**对应决策**:[p0-content-schema §6 事件 & 演出建模](content-schema.md)(「原版 opcode 走兼容执行器,新创作走时间线模型」)。两条路径都需要 `Map<Opcode, OpcodeHandler>` 注册表作为骨架 —— 本 finding 钉死了为什么不能照搬旧的 switch 结构。
 
 ---
 
@@ -112,7 +112,7 @@
 
 **为什么是债**:「哪些 op 在两侧语义不同」这信息只存在于散落注释里,没有 `OpcodeRuntime` 表声明「此 op 在 explore/battle 各是什么行为」。统一解释器前要先考古,迁移成本高。
 
-**对应决策**:[p0-content-schema §6](p0-content-schema.md)。新引擎 OpcodeHandler 接口应显式声明 `explore` / `battle` 两套副作用(或单一解释器 + per-mode 适配层)—— 本 finding 说明「探索侧 / 战斗侧 opcode 语义本来就不同」是真问题,不能假装统一。
+**对应决策**:[p0-content-schema §6](content-schema.md)。新引擎 OpcodeHandler 接口应显式声明 `explore` / `battle` 两套副作用(或单一解释器 + per-mode 适配层)—— 本 finding 说明「探索侧 / 战斗侧 opcode 语义本来就不同」是真问题,不能假装统一。
 
 ---
 
@@ -124,7 +124,7 @@ CLAUDE.md 记录的「`paletteFadeState` 孤儿曾致香兰报信永久吞键」
 
 **为什么是债**:状态转移无单一来源,新增一个 blocking opcode 要改至少 4 处。13 个字符串是隐式状态机,没有 transition 表 —— 漏一个收尾就是孤儿状态。第二阶段想做「时钟虚拟化 / 确定性回放 / SSR / 编辑器单步」全卡死,因为阻塞源是三套不一致机制混用:时间类(`performance.now()` 轮询)、资源类(等 bootstrap 回调)、模态 UI(注入 handler),时间类还**直接依赖 wall-clock** 无法在测试里快进。
 
-**对应决策**:[p0-content-schema §6](p0-content-schema.md) + [design-backlog 议题 5「演出/cutscene 系统」](design-backlog.md)(「黑屏拆正交两维:底层冻结与否 × 遮罩层内容」)。新引擎要显式 `Interpreter` 对象 + continuation 抽象 + 注入时钟。
+**对应决策**:[p0-content-schema §6](content-schema.md) + [design-backlog 议题 5「演出/cutscene 系统」](../design-backlog.md)(「黑屏拆正交两维:底层冻结与否 × 遮罩层内容」)。新引擎要显式 `Interpreter` 对象 + continuation 抽象 + 注入时钟。
 
 ---
 
@@ -136,7 +136,7 @@ CLAUDE.md 记录的「`paletteFadeState` 孤儿曾致香兰报信永久吞键」
 
 **为什么是债**:单一全局可变数组是经典 C `lprgScriptEntry[]` 直译,所有 ip 都是脆弱下标(违反铁律第 5 条)。扁平化丢掉了 `segments` 的结构边界,无法把「场景 X 的事件」作为可装卸单元 —— 这正是第二阶段「场景自包含」目标(p0 schema §4)的反面。编辑器里想只改某场景的事件都做不到隔离。
 
-**对应决策**:[p0-content-schema §4 场景包(自包含) + §8 迁移器](p0-content-schema.md)(「拆 `all.json` 全局脚本 → 各场景 + `shared/`,label 局部化」)。本 finding 是这条迁移步骤的**存在性证据**:迁移器必须干这件事,因为旧引擎就是靠全局数组耦合的。
+**对应决策**:[p0-content-schema §4 场景包(自包含) + §8 迁移器](content-schema.md)(「拆 `all.json` 全局脚本 → 各场景 + `shared/`,label 局部化」)。本 finding 是这条迁移步骤的**存在性证据**:迁移器必须干这件事,因为旧引擎就是靠全局数组耦合的。
 
 ---
 
@@ -150,7 +150,7 @@ CLAUDE.md 记录的「`paletteFadeState` 孤儿曾致香兰报信永久吞键」
 
 **为什么是债**:任何 cutscene 改动都要同时改 core 字段 + shell flag;两套时钟无法确定性回放;core 知道 cutscene 类型 = 强耦合。这条不解决,CutsceneController / ModeController 都立不起来。CLAUDE.md「SW 预缓存 4 坑」「time-based 状态要有兜底收尾人」都是这条债的衍生。
 
-**对应决策**:[p0-content-schema §6](p0-content-schema.md)(「黑屏拆正交两维」)+ [design-backlog 议题 5](design-backlog.md)。新引擎要 `CutsceneController` 统一抽象(独占画面、抢键、时钟虚拟化),core 只产「播 cutscene X」的 effect,不知道 cutscene 怎么播。
+**对应决策**:[p0-content-schema §6](content-schema.md)(「黑屏拆正交两维」)+ [design-backlog 议题 5](../design-backlog.md)。新引擎要 `CutsceneController` 统一抽象(独占画面、抢键、时钟虚拟化),core 只产「播 cutscene X」的 effect,不知道 cutscene 怎么播。
 
 ---
 
@@ -162,7 +162,7 @@ CLAUDE.md 记录的「`paletteFadeState` 孤儿曾致香兰报信永久吞键」
 
 **为什么是债**:无 undo / replay / 时间旅行调试;多系统并发改同一 gs 字段(event-system 32 处 + menu-driver 15 处 + battle-system 27 处)无仲裁,回归靠 `docs/plans/*` 手记;存档体积大且脆(含 Map/Uint8Array)。**这条对 MMO 预留是硬伤** —— 没有 effect/command 边界,将来网络同步、客户端预测、服务端权威都得从零搭。
 
-**对应决策**:[p0-content-schema §1 三层状态模型](p0-content-schema.md)(L1 世界态 = 跟存档走,必须可序列化)+ roadmap §3 第 5 条「给 MMO 预留状态分层」。新引擎 core 应产 effect/command,持久层消费;瞬态不能进存档。
+**对应决策**:[p0-content-schema §1 三层状态模型](content-schema.md)(L1 世界态 = 跟存档走,必须可序列化)+ roadmap §3 第 5 条「给 MMO 预留状态分层」。新引擎 core 应产 effect/command,持久层消费;瞬态不能进存档。
 
 ---
 
@@ -176,7 +176,7 @@ palette 不是色表而是**渲染状态的根**:`present.ts:193 stepPaletteFade
 
 **为什么是债**:**铁律第 4 条「现代化、解耦、可扩展,给时间/天气/地图多层留位置」的天花板就在这**。所有现代效果(时间 / 天气 / 光照 / 多层 blend)都得挤进一个 Uint8Array + 一个 256 色 palette。当前架构「干净但天花板低」—— 想支持时间 / 天气 / 光照,要么保留 indexed fb + 加 post-processing LUT 层(可行但受限),要么整体换 RGBA + GPU。
 
-**对应决策**:[design-backlog 议题 2 动态时间、议题 3 天气、议题 6 遮挡现代化](design-backlog.md)。新引擎保留 indexed fb 作「风格层」(像素风骨),但在其上加 RGBA + GPU 后处理层;palette 从「状态根」降级为「资产」。
+**对应决策**:[design-backlog 议题 2 动态时间、议题 3 天气、议题 6 遮挡现代化](../design-backlog.md)。新引擎保留 indexed fb 作「风格层」(像素风骨),但在其上加 RGBA + GPU 后处理层;palette 从「状态根」降级为「资产」。
 
 ---
 
@@ -188,7 +188,7 @@ party/follower/0x98-follower/NPC 各自 push `entries.push({baseY, draw, id})`(`
 
 **为什么是债**:加 cutscene / weather / lighting layer 没有插入口,只能在 510 行函数中段插分支;没有 RenderGraph / scene-graph 抽象。第二阶段现代化必然的「换皮 / 响应式 / 动画过渡」无插入口。
 
-**对应决策**:[design-backlog 议题 5 演出 cutscene、议题 6 遮挡](design-backlog.md)。新引擎要 RenderGraph / layer 注册表,DrawEntry 用对象池或 sorted index 数组(不每帧 alloc)。
+**对应决策**:[design-backlog 议题 5 演出 cutscene、议题 6 遮挡](../design-backlog.md)。新引擎要 RenderGraph / layer 注册表,DrawEntry 用对象池或 sorted index 数组(不每帧 alloc)。
 
 ---
 
@@ -200,7 +200,7 @@ party/follower/0x98-follower/NPC 各自 push `entries.push({baseY, draw, id})`(`
 
 **为什么是债**:完全是 CPU 光栅化思路。上 WebGL/WebGPU instanced tile draw 时整段弃;模块级单例阻塞并发 / 分块渲染。`repairTilemapSeams` 这段 ~40 行 + 64KB buffer + 16 趟全屏扫描是「我们每帧 clear 露黑」的 workaround —— 换成 GPU + tile padding 自动消失。
 
-**对应决策**:[p0-content-schema §5 地图 Schema(多层 + 碰撞层)](p0-content-schema.md)(「N 视觉层 + 独立碰撞层」)+ [design-backlog 议题 4 地图分层扩展](design-backlog.md)。新引擎用 GPU instancing,tile padding 消接缝;mutable 单例收敛为实例字段。
+**对应决策**:[p0-content-schema §5 地图 Schema(多层 + 碰撞层)](content-schema.md)(「N 视觉层 + 独立碰撞层」)+ [design-backlog 议题 4 地图分层扩展](../design-backlog.md)。新引擎用 GPU instancing,tile padding 消接缝;mutable 单例收敛为实例字段。
 
 ---
 
@@ -210,7 +210,7 @@ party/follower/0x98-follower/NPC 各自 push `entries.push({baseY, draw, id})`(`
 
 **为什么是债**:装配和实现混在一起,无法独立替换任何子系统、无法 mock 任何依赖做单测;新增模块只能在 God 函数里加片段。第二阶段要么整体推翻,要么花大成本拆 DI 容器。
 
-**对应决策**:[design-backlog 议题 1 核心系统重写](design-backlog.md)。新引擎要 DI 容器或显式 `RuntimeDeps` 装配对象;`window.__tpgs` 改为可选的 dev hook 注入。
+**对应决策**:[design-backlog 议题 1 核心系统重写](../design-backlog.md)。新引擎要 DI 容器或显式 `RuntimeDeps` 装配对象;`window.__tpgs` 改为可选的 dev hook 注入。
 
 ---
 
@@ -224,7 +224,7 @@ party/follower/0x98-follower/NPC 各自 push `entries.push({baseY, draw, id})`(`
 
 **为什么是债**:队列扩容 / 宠物 / 召唤兽 / 真 Z 轴(桥下走 / 飞行)= 改 trail 数据结构 + 偏移表 + sort key 公式三处。第二阶段想做的「真立交 / 楼层」(p0 schema §5)无地基。
 
-**对应决策**:[p0-content-schema §5 地图 Schema(真立交/楼层)](p0-content-schema.md)。新引擎 follower 数据驱动(偏移表 + 容量配置);Z 轴进 sort key 且影响 blit 位置。
+**对应决策**:[p0-content-schema §5 地图 Schema(真立交/楼层)](content-schema.md)。新引擎 follower 数据驱动(偏移表 + 容量配置);Z 轴进 sort key 且影响 blit 位置。
 
 ---
 
@@ -238,7 +238,7 @@ party/follower/0x98-follower/NPC 各自 push `entries.push({baseY, draw, id})`(`
 
 **为什么是债**:第二阶段做 InputRouter / IntentBus / ModeController 状态机时,现有「每个消费者乱读 + capture 抢键 + 输入源带领域知识」都要推翻。但单文件不大、可替换,不阻塞主干。
 
-**对应决策**:[design-backlog 议题 5 演出 cutscene](design-backlog.md)。新引擎要 ModeController 状态机 + InputRouter 路由表;输入源不带领域知识。
+**对应决策**:[design-backlog 议题 5 演出 cutscene](../design-backlog.md)。新引擎要 ModeController 状态机 + InputRouter 路由表;输入源不带领域知识。
 
 ---
 
@@ -318,7 +318,7 @@ party/follower/0x98-follower/NPC 各自 push `entries.push({baseY, draw, id})`(`
 
 **三句话总结**:
 
-1. **第一阶段是 sdlpal C 源的高保真直译,正确性极高**(注释密集对齐 C 行号、两轮 audit 145 条差异已清)。本报告列的「债」不是 bug,是「C 思维搬进 TS 后留下的结构性耦合」—— 它们在第一阶段是优点(忠实),在第二阶段是必须绕开的绊脚石。这正是 [READ-FIRST.md](READ-FIRST.md) 铁律第 3 条「逻辑知识可移植,模块结构不照搬」要防的事。
+1. **第一阶段是 sdlpal C 源的高保真直译,正确性极高**(注释密集对齐 C 行号、两轮 audit 145 条差异已清)。本报告列的「债」不是 bug,是「C 思维搬进 TS 后留下的结构性耦合」—— 它们在第一阶段是优点(忠实),在第二阶段是必须绕开的绊脚石。这正是 [READ-FIRST.md](../READ-FIRST.md) 铁律第 3 条「逻辑知识可移植,模块结构不照搬」要防的事。
 
 2. **最危险的一刀是 P0-9(cutscene `suspendRaf` 打穿 core/shell)**,因为 `GameState.eventCursor.waiting` 里塞了 `'rng-play'` 这种纯 shell 概念 —— core 反过来引用了 shell 的播放器类型。第二阶段重写时,这个枚举耦合不清除,CutsceneController / ModeController 都立不起来。
 
@@ -330,7 +330,7 @@ party/follower/0x98-follower/NPC 各自 push `entries.push({baseY, draw, id})`(`
 
 以下子系统本次审计未发现 C 风格结构债,**或**属于第一阶段忠实还原必需、不进第二阶段重写范围:
 
-- **战斗公式 / 魔法伤害**(`formulas.ts` / `magic-damage.ts`):无 roleId/magicId 硬编码特判,数据驱动;这是 [READ-FIRST.md](READ-FIRST.md) 铁律第 3 条说的「可移植的逻辑知识」,新引擎直接重新实现即可。
+- **战斗公式 / 魔法伤害**(`formulas.ts` / `magic-damage.ts`):无 roleId/magicId 硬编码特判,数据驱动;这是 [READ-FIRST.md](../READ-FIRST.md) 铁律第 3 条说的「可移植的逻辑知识」,新引擎直接重新实现即可。
 - **敌方 AI fallback**(`enemy-ai.ts`):纯函数,同 seed 同 input 必同 output,数据驱动 wMagic/wMagicRate;脚本驱动的 wMagic 改写由上层接入。可移植。
 - **RNG / 数学 / 数据结构**(rng.ts / battle-positions.ts / turn-queue.ts / status.ts):纯逻辑,无 C 风格耦合。
 - **场景 LRU 缓存**(`loader.ts SceneAssetsCache`):Map 顺序 = LRU,带 protect/onEvict 回调,有测试。缓存本身写得干净 —— 问题在「场景不自包含」(P0-1/P0-8),不在缓存。

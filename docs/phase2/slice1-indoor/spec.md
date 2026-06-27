@@ -1,19 +1,19 @@
 # P1 · 切片 1：室内场景跑通（slice 1 spec）
 
-> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。
-> **→ 已重写为 [p1-slice1-guijie-minju.md](p1-slice1-guijie-minju.md)（当前 slice-1 spec：鬼界民居 demo）。本文仅存档。**
+> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。
+> **→ 已重写为 [guijie-minju.md](guijie-minju.md)（当前 slice-1 spec：鬼界民居 demo）。本文仅存档。**
 
-> 状态：草案（2026-06-24）。第二阶段铁律见 [READ-FIRST](READ-FIRST.md)；总纲 [00-roadmap](00-roadmap.md)；已拍决策 [decisions](decisions.md)（D1–D9）；内容模型 [p0-content-schema](p0-content-schema.md)；架构债反面输入 [engine-debt-audit](2026-06-22-phase1-engine-debt-audit.md)。
+> 状态：草案（2026-06-24）。第二阶段铁律见 [READ-FIRST](../READ-FIRST.md)；总纲 [00-roadmap](../roadmap.md)；已拍决策 [decisions](../decisions.md)（D1–D9）；内容模型 [p0-content-schema](../foundation/content-schema.md)；架构债反面输入 [engine-debt-audit](../foundation/engine-debt-audit.md)。
 >
-> 本文是 roadmap §5「骨架先行 + 垂直切片」的**第一刀**。范围与架构红线由 [D2](decisions.md) 定；本文把它落成**可照着实现**的设计。实现步骤拆解见配套 plan（writing-plans 产出）。
+> 本文是 roadmap §5「骨架先行 + 垂直切片」的**第一刀**。范围与架构红线由 [D2](../decisions.md) 定；本文把它落成**可照着实现**的设计。实现步骤拆解见配套 plan（writing-plans 产出）。
 >
-> **本刀是技术验证刀**：目标是用一段能跑的真实内容，给「拆掉 sdlpal 真值锚后的新架构」当第一把标尺（[D1](decisions.md)）。不是内容完整度、不是画面还原度。
+> **本刀是技术验证刀**：目标是用一段能跑的真实内容，给「拆掉 sdlpal 真值锚后的新架构」当第一把标尺（[D1](../decisions.md)）。不是内容完整度、不是画面还原度。
 
 ## 0. 目标与范围
 
 **一句话**：手写一个 ~20×15 的室内房，新引擎 `@type-pal/reforge` 跑通**走路 + 撞墙 + NPC 对话翻页**——第一个看得见摸得着的 milestone。
 
-| 做 | 不做（[D2](decisions.md) 排除 + YAGNI） |
+| 做 | 不做（[D2](../decisions.md) 排除 + YAGNI） |
 |---|---|
 | 起 `@type-pal/content` + `@type-pal/reforge` 两个包 | 编辑器、迁移器 |
 | 手写一个室内场景（地图 + 实体 + 一段对话） | 战斗、菜单、存档落盘 |
@@ -163,32 +163,32 @@ interface Scene {
 
 ## 4. 资产与解码（复用原版 / 运行期解码）
 
-- **vendored 清单**（手动放进 `content/assets/`，**不走迁移器**，[D2](decisions.md) 排除）：
+- **vendored 清单**（手动放进 `content/assets/`，**不走迁移器**，[D2](../decisions.md) 排除）：
   - 1 套室内瓦片（能当方格用的，见 §9）+ 调色板
   - 李逍遥行走精灵（四向行走帧）
   - 1 个 NPC 精灵
   - 1–2 件 solid 家具精灵（桌/瓶，用来演示**实体碰撞**区别于**瓦片碰撞**）
-- **运行期解码**：载入时 indexed PNG（像素值 = 调色板索引）+ 调色板 → RGBA 缓冲。解码数学从 phase-1 `assets/png.ts` + present 着色**移植知识**（[铁律3](READ-FIRST.md)，不照搬模块）。构建期烘焙留后续优化。
+- **运行期解码**：载入时 indexed PNG（像素值 = 调色板索引）+ 调色板 → RGBA 缓冲。解码数学从 phase-1 `assets/png.ts` + present 着色**移植知识**（[铁律3](../READ-FIRST.md)，不照搬模块）。构建期烘焙留后续优化。
 - **来源/选择标准**：实现时翻 `data/raw` 提取出的 `data/extracted/` 选定确切资产 id；标准 = 室内观感 + 有行走帧。`assets/index.json` 把稳定资产 id 映射到文件 + 元数据（帧布局、原图尺寸）。
 
-## 5. 三层状态（[P0§1](p0-content-schema.md) / [D2](decisions.md)）
+## 5. 三层状态（[P0§1](../foundation/content-schema.md) / [D2](../decisions.md)）
 
 - **L2 场景定义**（只读、可版本化）= 手写 `scene.json`。
 - **L3 场景运行态** = 进场把 L2 实例化出的活实体 + 空间索引 + 当前演出/对话状态；出场即弃（本刀单场景，不切换，但 scene-runtime 设计成可弃）。
-- **L1 世界态** = **仅内存**的队伍（受控实体 id + 位置）+ 世界变量表（本刀近乎空，但表立着，[P0§3](p0-content-schema.md)）。**不序列化、不落盘**（存档排除）。
+- **L1 世界态** = **仅内存**的队伍（受控实体 id + 位置）+ 世界变量表（本刀近乎空，但表立着，[P0§3](../foundation/content-schema.md)）。**不序列化、不落盘**（存档排除）。
 
 原则：加载只碰这个场景包 + 它引用的资产；跨场景影响走 L1（本刀用不到，但边界立住）。
 
 ## 6. 实体 + 子系统（轻量组件袋，非 ECS 框架）
 
-- 实体 = `{ id, components: {...} }`（§3）。稳定 id（branded），杜绝下标身份（[D2](decisions.md)）。
+- 实体 = `{ id, components: {...} }`（§3）。稳定 id（branded），杜绝下标身份（[D2](../decisions.md)）。
 - **显式子系统**各读所需组件，对**不持有该组件**的实体不动手：
   - `movement`（读 transform + collision）
   - `render`（读 transform + sprite）
   - `interaction`（读 transform + interaction）
-- **明确不做通用 ECS**（无组件存储/查询/archetype/调度框架）——一个房 + 几个对象造框架 = [D1](decisions.md) 警告的「架构空转」。轻量已拿到「数据与行为分离、组件可选」的解耦；将来实体爆量再升级，稳定 id 边界让迁移局部。
+- **明确不做通用 ECS**（无组件存储/查询/archetype/调度框架）——一个房 + 几个对象造框架 = [D1](../decisions.md) 警告的「架构空转」。轻量已拿到「数据与行为分离、组件可选」的解耦；将来实体爆量再升级，稳定 id 边界让迁移局部。
 
-## 7. 移动管线（连续/像素 · [D2](decisions.md)/[D5](decisions.md) 红线本体）
+## 7. 移动管线（连续/像素 · [D2](../decisions.md)/[D5](../decisions.md) 红线本体）
 
 ```
 键盘 → MoveIntent { entityId, dx, dy }            // 本帧像素位移 = 方向 × 速度 × dt（输入产）
@@ -200,32 +200,32 @@ interface Scene {
      → applier 写回 transform                  // 唯一 mutate 处
 ```
 
-- **`resolveMove` 是纯函数**：吃快照、吐结果，不碰全局——这是 [D5](decisions.md) 的 MMO 留口本体（同一套逻辑单机本地跑、将来服务器跑 + 客户端预测/校正）。**本刀头号被测对象。**
-- **碰撞两类分开**（[D5](decisions.md)）：世界几何（CollisionLayer.blocked）/ 实体（CollisionComponent.solid，经 spatial-index）。
+- **`resolveMove` 是纯函数**：吃快照、吐结果，不碰全局——这是 [D5](../decisions.md) 的 MMO 留口本体（同一套逻辑单机本地跑、将来服务器跑 + 客户端预测/校正）。**本刀头号被测对象。**
+- **碰撞两类分开**（[D5](../decisions.md)）：世界几何（CollisionLayer.blocked）/ 实体（CollisionComponent.solid，经 spatial-index）。
 - **空间索引** = uniform grid（格→实体 id 集）；本刀实体除玩家外静止，更新极廉价。
 
-## 8. 事件 / 演出（迷你声明式版 · [P0§6](p0-content-schema.md)）
+## 8. 事件 / 演出（迷你声明式版 · [P0§6](../foundation/content-schema.md)）
 
 - **触发器只管「何时」**：`InteractCondition{ target }` = 玩家面朝该实体且按交互键。
 - **演出 = 一串 action**：本刀只有 `dialog`（显示对话框、逐页、按键翻页/推进、结束）。
-- **action 走 handler 注册表**（`type → handler`），**不是 switch**——这是 [D2](decisions.md)「OpcodeHandler 注册表」红线在本刀的真实形态（本刀无 opcode，但同一反 switch 模式用在 action 派发上；避开 audit 的双解释器 switch 债）。本刀注册一个 `dialog` handler，留好长大形状。
+- **action 走 handler 注册表**（`type → handler`），**不是 switch**——这是 [D2](../decisions.md)「OpcodeHandler 注册表」红线在本刀的真实形态（本刀无 opcode，但同一反 switch 模式用在 action 派发上；避开 audit 的双解释器 switch 债）。本刀注册一个 `dialog` handler，留好长大形状。
 - 演出播放期间挂 mode 标志，**暂停移动输入**；翻页/推进键由 cutscene-runner 消费。
 
-## 9. 渲染（[D4](decisions.md)）
+## 9. 渲染（[D4](../decisions.md)）
 
 - **WebGL2 textured-quad 批渲染**。绘制序：瓦片层(below) → 实体/角色按**遮挡基线**(脚部 y / zOrder)排序 → 瓦片层(occludesActors=true，above)。
 - **后处理 pass 一等公民**：本刀 = 单个 **identity pass**（兑现 D4「第一刀就留插入点」；昼夜/天气/光照后续接这里）。
 - **Canvas2D 文字叠层**：对话框 + 中文画在叠层（本刀不做 WebGL 字形图集，YAGNI）。
 - **相机**：跟随受控角色、夹到地图边界（reforge 干净实现，不背 phase-1 camera 坍缩债）。
 
-**瓦片几何决策（本刀已定：干净方格 + 真精灵）**：已核实原版瓦片为 **32×16 偏移砖缝拼贴**（1995 省显存的 VGA 遗产，phase-1 `draw-tilemap.ts:108-138`）。本刀**不移植**该偏移几何——reforge 用自定**方格** tilemap（`tileSize`），地板/墙选「能当方块用」的原版或简单瓦片；**角色/NPC/家具全用真原版精灵**（无几何问题，最出彩的部分都真）。理由：[铁律2](READ-FIRST.md) reforge 本就不对齐 PAL，把新引擎地图几何绑死到 VGA 遗产违背「架构第一/不照搬旧引擎」，且首刀省一坨几何移植。代价：地板观感非 100% 原版客栈——本刀可接受。
+**瓦片几何决策（本刀已定：干净方格 + 真精灵）**：已核实原版瓦片为 **32×16 偏移砖缝拼贴**（1995 省显存的 VGA 遗产，phase-1 `draw-tilemap.ts:108-138`）。本刀**不移植**该偏移几何——reforge 用自定**方格** tilemap（`tileSize`），地板/墙选「能当方块用」的原版或简单瓦片；**角色/NPC/家具全用真原版精灵**（无几何问题，最出彩的部分都真）。理由：[铁律2](../READ-FIRST.md) reforge 本就不对齐 PAL，把新引擎地图几何绑死到 VGA 遗产违背「架构第一/不照搬旧引擎」，且首刀省一坨几何移植。代价：地板观感非 100% 原版客栈——本刀可接受。
 > ⚠ 此条是「可以」放行时按推荐采纳的假设。若要 100% 原版地板观感，改为移植 32×16 偏移拼贴，其余设计不变。
 
 ## 10. 主循环 / 输入 / 时钟
 
-- **rAF 循环**；**固定步长**更新逻辑（确定性 → 喂 [D5](decisions.md) 预测 + [议题13](design-backlog.md) 时间旅行调试），渲染每 rAF。
+- **rAF 循环**；**固定步长**更新逻辑（确定性 → 喂 [D5](../decisions.md) 预测 + [议题13](../design-backlog.md) 时间旅行调试），渲染每 rAF。
 - **注入时钟**（不直接 `Date.now()`）——可测 + 议题13 地基。
-- 键盘 → 高层意图（移动方向 / 交互 / 翻页）；**映射表**（[议题11](design-backlog.md) 重映射留口，本刀给默认键位）。
+- 键盘 → 高层意图（移动方向 / 交互 / 翻页）；**映射表**（[议题11](../design-backlog.md) 重映射留口，本刀给默认键位）。
 
 ## 11. 错误处理（绕开 phase-1 静默回填债）
 
@@ -248,7 +248,7 @@ interface Scene {
 ## 13. 测试与验收
 
 - **单测（node/vitest）**：
-  - `resolveMove`：自由走 / 撞墙 / 贴墙滑行 / 撞 solid 实体 —— [D2](decisions.md)/[D5](decisions.md) 红线测。
+  - `resolveMove`：自由走 / 撞墙 / 贴墙滑行 / 撞 solid 实体 —— [D2](../decisions.md)/[D5](../decisions.md) 红线测。
   - 碰撞查询（isBlocked / 实体重叠）、spatial-index 增删查。
   - content 加载+校验：合法场景过；坏引用抛错且**带出错 id**；越界瓦片抛错。
   - `decode-indexed`：小 fixture（已知索引+调色板）→ 期望 RGBA。
@@ -271,7 +271,7 @@ interface Scene {
 
 ## 15. 留给后续（不在本刀拍死）
 
-- 完整演出模型（[议题5](design-backlog.md)：冻结×遮罩两维正交、完整 action 词汇表、opcode 兼容层）—— 切片后单独立题。
+- 完整演出模型（[议题5](../design-backlog.md)：冻结×遮罩两维正交、完整 action 词汇表、opcode 兼容层）—— 切片后单独立题。
 - 存档格式 + L1 字段全集（序列化/持久化）—— 单独设计题。
 - 迁移器（extracted→content 批量）、编辑器 —— P0 末 / P2。
 - 多层地图角色跨层行走、构建期资产烘焙、昼夜天气光照（接 identity 后处理口）。

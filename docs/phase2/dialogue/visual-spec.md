@@ -1,6 +1,6 @@
 # 切片 1 子任务：对话框外观继承原版（spec for Claude）
 
-> 2026-06-26 立。承接 [backlog 议题 14 对话外观子项](design-backlog.md)。
+> 2026-06-26 立。承接 [backlog 议题 14 对话外观子项](../design-backlog.md)。
 > **目标**：reforge 当前对话框是自编样式（粗框 + 右上角"继续"文字），作者不满意。**代码已重构（纯状态机 dialogue.ts，对的），但外观要继承原版。**
 > 本文档把原版外观真值（第一阶段已 1:1 复刻在 `packages/game/src/present/dialog-box.ts`）整理成 reforge 可直接移植的清单。
 >
