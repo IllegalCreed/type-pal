@@ -34,6 +34,7 @@ const POS = {
   },
 } as const
 const MAX_RIGHT = 308 // 正文右边距 → 每行可用 264px(无头像)
+const CURSOR_RESERVE = 12 // 末行末尾给光标留位,防顶出屏幕
 
 /** 单个 slot 的排版渲染态(slot.ts 管 lineIdx,这里管该段的排版)。 */
 interface SlotRender {
@@ -63,18 +64,29 @@ export class DialogBox {
     return this.state !== null
   }
 
-  /** 把第 idx 段话排版进它的 slot,返回该 slot 的渲染态。有头像时正文 x 缩进(spec §3)。 */
+  /** 把第 idx 段话排版进它的 slot,返回该 slot 的渲染态。有头像时正文 x 缩进 + 右边界给头像让位(spec §3)。 */
   private layoutLineInto(lineIdx: number): { slot: SlotId; render: SlotRender } {
     const line = this.state?.dialogue.lines[lineIdx]
     if (!line) throw new Error('reforge: layoutLineInto lineIdx 越界')
     const slot: SlotId = line.slot ?? 'bottom'
-    const hasPortrait = line.portrait ? this.portraits.has(line.portrait.icon) : false
+    const portraitImg = line.portrait ? this.portraits.get(line.portrait.icon) : undefined
+    const hasPortrait = Boolean(portraitImg)
     const startX = hasPortrait ? POS[slot].textWithPortrait.x : POS[slot].text.x
+    // maxRight:有头像时缩到头像左/右边界(给头像让位,不重叠);始终留 CURSOR_RESERVE 给光标
+    let maxRight = MAX_RIGHT
+    if (hasPortrait && portraitImg) {
+      const portraitLeft = POS[slot].portrait.x - portraitImg.width / 2
+      const portraitRight = POS[slot].portrait.x + portraitImg.width / 2
+      // bottom 头像在右(231),正文右边收到头像左;top 头像在左(48),startX 已避开,maxRight 不变
+      if (POS[slot].portrait.x > 160) maxRight = portraitLeft - 4
+      else maxRight = Math.min(maxRight, portraitRight > startX ? MAX_RIGHT : portraitRight - 4)
+    }
+    maxRight -= CURSOR_RESERVE // 留光标位(末行末尾画光标不顶出屏幕)
     const displayLines = layoutLines(
       [line],
       this.glyphs,
       (id) => lookupText(id, zhLocale),
-      MAX_RIGHT,
+      maxRight,
       startX,
     ).map((dl) => ({ ...dl, srcLineIdx: lineIdx }))
     return { slot, render: { displayLines, pageStart: 0 } }
