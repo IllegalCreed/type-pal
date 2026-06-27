@@ -150,11 +150,12 @@ git commit -m "feat(reforge): renderSpans + dialog-box 文本/姓名去 palette,
 
 ## Task 3: 头像烘 RGBA(迁移脚本 + reforge 吃 RGBA PNG)
 
-**Files:** Create `scripts/bake-portraits.mts`;改 `dialog-assets.ts`
+**Files:** Create `scripts/bake-portraits.mts`;改 `dialog-assets.ts`、`main.ts`(loadPortraits 调用同步去 palette)
 
 **Interfaces:**
 - 迁移脚本产出:`packages/reforge/public/portraits/<chunk>.png`(RGBA,运行时直接 drawImage)。
 - `loadPortraits(chunkIndices, baseUrl?)`:**去 palette 参数**,fetch RGBA PNG → `createImageBitmap` → drawImage 到 canvas。
+- ⚠ **签名变与调用方强耦合,必须同 commit**:main.ts 第 74 行 `loadPortraits([1, 2], palette)` 传了 palette 参数,删参数后此调用报"多 1 个参数"→ typecheck 红。故 main.ts 调用并入本 Task(同 commit),与 Task 2/4 的原则一致。
 
 - [ ] **Step 1: 写头像烘脚本**
 
@@ -203,11 +204,16 @@ Expected: 生成 `packages/reforge/public/portraits/1.png`、`2.png`(RGBA)。人
 - **删** `decodePngToIndices` / `bakeIndexedImage`(indexed+palette 解码,不再需要)。
 - ⚠ 光标常量(`CURSOR_COLOR_START`/`CURSOR_COLOR_COUNT`)+ `bakeCursorTinted`:**本 Task 不碰**——dialog-box(line 292)仍 import `CURSOR_COLOR_START`,这里删了会让 dialog-box 编译红。光标统一到 Task 4(与 dialog-box 光标改同 commit)。
 
-- [ ] **Step 4: Commit**
+**`main.ts`(同步改,与 loadPortraits 签名变同 commit)**:
+- 第 74 行 `loadPortraits([1, 2], palette)` → `loadPortraits([1, 2])`(去 palette 参数)。
+- `portraits` 仍 await loadPortraits;palette 变量仍留(Canvas2DRenderer/Task 4 才删),只是不再传给 loadPortraits。
 
+- [ ] **Step 4: typecheck 绿 + commit**
+
+Run: `pnpm --filter @type-pal/reforge run typecheck` → 0 错(loadPortraits 签名 + main 调用同步改;dialog-box 构造参数仍带 palette,Task 4 删)。
 ```bash
-git add scripts/bake-portraits.mts package.json packages/reforge/public/portraits packages/reforge/src/dialog/dialog-assets.ts
-git commit -m "feat(reforge): 头像烘 RGBA 迁移脚本 + loadPortraits 吃 RGBA(去 palette);光标色用固定常量"
+git add scripts/bake-portraits.mts package.json packages/reforge/public/portraits packages/reforge/src/dialog/dialog-assets.ts packages/reforge/src/main.ts
+git commit -m "feat(reforge): 头像烘 RGBA 迁移脚本 + loadPortraits 吃 RGBA(去 palette,main 调用同步)"
 ```
 
 ---
@@ -224,11 +230,11 @@ git commit -m "feat(reforge): 头像烘 RGBA 迁移脚本 + loadPortraits 吃 RG
 - **dialog-assets.ts**:删 `CURSOR_COLOR_START` / `CURSOR_COLOR_COUNT`(光标色统一到 palette-color;此刻 dialog-box 已不 import 它们)。
 - **删 palette-color 旧 API**(所有调用方已改完):`colorIndex`/`resolveRgba`/`indexToRgba`/`COLOR_INDEX`/`TITLE_COLOR_INDEX`。删完 `palette-color.ts` 只剩 `colorRgba`/`TITLE_RGBA`/`CURSOR_RGBA`/`CURSOR_COLOR_COUNT`,无死代码。
 
-- [ ] **Step 2: main.ts 去对话 palette**
+- [ ] **Step 2: main.ts 去 DialogBox palette(与 Step 1 同 commit)**
 
-- `new DialogBox(ctx, glyphs, cursorFrames, portraits)`(去 palette)。
-- `loadPortraits([1, 2])`(去 palette 参数)。
-- `loadPalette` / `palette` **暂留**(render.ts 的 Canvas2DRenderer 还用,阶段 B 再去)。
+- `new DialogBox(ctx, glyphs, cursorFrames, portraits)`(去 palette;与 Step 1 构造签名变同 commit)。
+- ~~`loadPortraits([1, 2])`~~ → 已在 Task 3 改完,此处不重复。
+- `loadPalette` / `palette` **暂留**(render.ts 的 Canvas2DRenderer / renderSpriteGallery 还用,阶段 B 再去;本 Task 仅对话不再用)。
 
 - [ ] **Step 3: 全量 check**
 
@@ -268,7 +274,7 @@ git commit -m "feat(reforge): 对话框光标去 palette + 删 palette 旧 API(D
 
 1. **覆盖**(对话去 palette):色常量→T1;renderSpans→T2;头像烘+加载→T3;dialog-box/main→T4。验收含「换 pal 色不变」(D15 核心)。✅
 2. **占位符**:固定 RGBA 值全给(pal0 实测快照);头像烘脚本**已点名 pngjs + 给完整骨架代码**(T3 Step 1),非含糊「参考」。✅
-3. **类型一致**:`colorRgba`/`TITLE_RGBA`/`CURSOR_RGBA`(T1 定义→T2/T4 用)、`RenderSpansOpts.forceRgba`(T2 定义→T4 用)、`loadPortraits` 去 palette(T3 定义→T4 main 用)。链路对齐。✅
-4. **范围**:仅对话系统去 palette;精灵/瓦片(render.ts)+ loadPalette 暂留(阶段 B);palette 动画(阶段 C)。每 Task 末 commit。**每个 commit 可编译**(原则:签名/常量的删改与其调用方同 commit,强耦合不拆散):T1 旧 API 纯新增;T2 renderSpans 签名变 **与 dialog-box 文本/姓名调用同 commit**(否则内联字面量报多余属性);T3 不碰光标常量(dialog-box 仍 import);T4 dialog-box 光标改 + 删 dialog-assets/palette-color 旧常量/API 同 commit。git bisect 友好,无编译断点。✅
+3. **类型一致**:`colorRgba`/`TITLE_RGBA`/`CURSOR_RGBA`(T1 定义→T2/T4 用)、`RenderSpansOpts.forceRgba`(T2 定义→T4 用)、`loadPortraits` 去 palette(T3 定义→**T3 main 调用同步改**,同 commit)。链路对齐。✅
+4. **范围**:仅对话系统去 palette;精灵/瓦片(render.ts)+ loadPalette 暂留(阶段 B);palette 动画(阶段 C)。每 Task 末 commit。**每个 commit 可编译**(原则:签名/常量的删改与其调用方同 commit,强耦合不拆散):T1 旧 API 纯新增;T2 renderSpans 签名变 **与 dialog-box 文本/姓名调用同 commit**(内联字面量);T3 loadPortraits 签名变 **与 main 调用同 commit**,不碰光标常量(dialog-box 仍 import);T4 dialog-box 光标改 + 构造去 palette(与 main DialogBox 调用同 commit)+ 删 dialog-assets/palette-color 旧常量/API。git bisect 友好,无编译断点。✅
 
 > 务实偏离:canvas 渲染靠浏览器验收(同 ②);头像烘脚本用 pngjs(pal-extract 同库,已给骨架)。
