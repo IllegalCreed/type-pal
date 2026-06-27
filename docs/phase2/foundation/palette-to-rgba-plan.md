@@ -97,12 +97,12 @@ export function colorRgba(c: DialogColor): readonly [number, number, number] {
   return DIALOG_RGBA[c]
 }
 ```
-> 移除旧的 `colorIndex`/`resolveRgba`/`indexToRgba`/`COLOR_INDEX`/`TITLE_COLOR_INDEX`(palette 版)。Task 2/3/4 改完调用方后,它们无引用。
+> ⚠ **暂保留**旧的 `colorIndex`/`resolveRgba`/`indexToRgba`/`COLOR_INDEX`/`TITLE_COLOR_INDEX`(palette 版)——dialog-box 仍引用它们。Task 1 纯**新增** colorRgba/TITLE_RGBA/CURSOR_RGBA,删旧 API 推迟到 Task 4(所有调用方改完),保证每个 commit 可编译(git bisect 友好)。
 
-- [ ] **Step 4: 测试通过 + commit**
+- [ ] **Step 4: 测试通过 + typecheck 绿 + commit**
 
 Run: `pnpm --filter @type-pal/reforge exec vitest run src/text/palette-color.test.ts` → PASS
-> reforge typecheck 此刻会红(text-render/dialog-box 还引用旧 API)——Task 2/4 修完再绿,本 Task 只验单测。
+Run: `pnpm --filter @type-pal/reforge run typecheck` → 0 错(旧 API 未删,调用方仍编译通过)
 ```bash
 git add packages/reforge/src/text/palette-color.ts packages/reforge/src/text/palette-color.test.ts
 git commit -m "feat(reforge): 对话色 → 固定 RGBA 常量(去场景 palette 绑定,D15)"
@@ -153,12 +153,36 @@ git commit -m "feat(reforge): renderSpans 去 palette,用固定 RGBA / forceRgba
 
 - [ ] **Step 1: 写头像烘脚本**
 
-`scripts/bake-portraits.mts`(Node,一次性迁移;PNG 读写库**参考 `pal-extract` 怎么写 PNG**——它已有 indexed PNG 输出,复用同库读 + 写 RGBA):
+`scripts/bake-portraits.mts`(Node,一次性迁移)。PNG 库用 **`pngjs`**(`packages/pal-extract` 已用同一库读写 PNG,pnpm-workspace 能直接解析,无需新装;勿用 sharp/UPNG):
+
+```ts
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { PNG } from 'pngjs'
+
+const palette = JSON.parse(readFileSync('data/extracted/data/palette/0.json', 'utf8')).colors as [number, number, number][]
+const CHUNKS = [1, 2] // 鬼话用的;后续可扩到全 88 个
+mkdirSync('packages/reforge/public/portraits', { recursive: true })
+
+for (const chunk of CHUNKS) {
+  const src = PNG.sync.read(readFileSync(`data/extracted/images/portraits/${String(chunk).padStart(2, '0')}.png`))
+  const out = new PNG({ width: src.width, height: src.height })
+  for (let i = 0; i < src.width * src.height; i++) {
+    const r = src.data[i * 4], g = src.data[i * 4 + 1], b = src.data[i * 4 + 2], a = src.data[i * 4 + 3]
+    if (a > 0) { // 不透明像素:index(R=G=B)→ palette 真彩
+      const c = palette[r] ?? [0, 0, 0]
+      out.data[i * 4] = c[0]; out.data[i * 4 + 1] = c[1]; out.data[i * 4 + 2] = c[2]; out.data[i * 4 + 3] = 255
+    }
+    // 透明像素(A=0)保持透明(默认 0)
+  }
+  writeFileSync(`packages/reforge/public/portraits/${chunk}.png`, PNG.sync.write(out))
+  console.log(`baked portrait ${chunk} → RGBA`)
+}
+```
+
 - 读 `data/extracted/data/palette/0.json`(头像用 pal0 烘;人物头像色与场景无关,pal0 即对话/UI 盘)。
-- 对每个头像 chunk:读 `data/extracted/images/portraits/<NN>.png`(indexed,R=G=B=index,A=opaque)→ 每像素 `palette.colors[index]` → RGBA → 写 `packages/reforge/public/portraits/<chunk>.png`。
 - 透明像素(A=0)保持透明。
-- 鬼话用的 chunk 1/2 先烘(可全烘)。
-- package.json 加 `"bake-portraits": "tsx scripts/bake-portraits.mts"`(或 node + 对应 loader)。
+- 鬼话用的 chunk 1/2 先烘(后续可扩到全 88 个)。
+- 根 `package.json` 加 `"bake-portraits": "tsx scripts/bake-portraits.mts"`(`tsx` 已是根 devDep)。
 > 关键:这是**第二阶段迁移脚本**(不在 pal-extract)。它读 pal-extract 的产物 `data/extracted`,烘成 reforge 吃的 RGBA。是迁移器的第一块。
 
 - [ ] **Step 2: 跑脚本生成 RGBA 头像**
@@ -194,6 +218,7 @@ git commit -m "feat(reforge): 头像烘 RGBA 迁移脚本 + loadPortraits 吃 RG
 - 正文 renderSpans:去 `palette`,保留 `glyphs`/`shadow`/`maxChars`。
 - 姓名 renderSpans:`forceColorIndex: TITLE_COLOR_INDEX` → `forceRgba: TITLE_RGBA`(去 palette)。
 - 光标 `bakeCursorStep`:`indexToRgba(CURSOR_COLOR_START + step, palette)` → `CURSOR_RGBA[step]`(去 palette)。
+- **删 palette-color 旧 API**(此时所有调用方已改完):`colorIndex`/`resolveRgba`/`indexToRgba`/`COLOR_INDEX`/`TITLE_COLOR_INDEX`/`CURSOR_COLOR_START`。删完 `palette-color.ts` 只剩 `colorRgba`/`TITLE_RGBA`/`CURSOR_RGBA`/`CURSOR_COLOR_COUNT`。这是 Task 1 暂留的收口,保证无死代码。
 
 - [ ] **Step 2: main.ts 去对话 palette**
 
@@ -238,8 +263,8 @@ git commit -m "feat(reforge): 对话框去 palette — 文本/姓名/光标/头�
 ## Self-Review(计划作者自查,已过)
 
 1. **覆盖**(对话去 palette):色常量→T1;renderSpans→T2;头像烘+加载→T3;dialog-box/main→T4。验收含「换 pal 色不变」(D15 核心)。✅
-2. **占位符**:固定 RGBA 值全给(pal0 实测快照);头像烘脚本的 PNG 库标「参考 pal-extract」(GLM 可读其 PNG 输出代码),非含糊 TODO。✅
+2. **占位符**:固定 RGBA 值全给(pal0 实测快照);头像烘脚本**已点名 pngjs + 给完整骨架代码**(T3 Step 1),非含糊「参考」。✅
 3. **类型一致**:`colorRgba`/`TITLE_RGBA`/`CURSOR_RGBA`(T1 定义→T2/T4 用)、`RenderSpansOpts.forceRgba`(T2 定义→T4 用)、`loadPortraits` 去 palette(T3 定义→T4 main 用)。链路对齐。✅
-4. **范围**:仅对话系统去 palette;精灵/瓦片(render.ts)+ loadPalette 暂留(阶段 B);palette 动画(阶段 C)。每 Task 末 commit。中间 Task 1-3 typecheck 可能红(调用方未改全),Task 4 收口绿——已在 Task 注明。✅
+4. **范围**:仅对话系统去 palette;精灵/瓦片(render.ts)+ loadPalette 暂留(阶段 B);palette 动画(阶段 C)。每 Task 末 commit。**每个 commit 可编译**:Task 1 暂留旧 API(纯新增)、Task 4 删旧 API(所有调用方改完后)——git bisect 友好,无编译断点。✅
 
-> 务实偏离:canvas 渲染靠浏览器验收(同 ②);头像烘脚本的 PNG 读写库交 GLM 按 pal-extract 现状定。
+> 务实偏离:canvas 渲染靠浏览器验收(同 ②);头像烘脚本用 pngjs(pal-extract 同库,已给骨架)。
