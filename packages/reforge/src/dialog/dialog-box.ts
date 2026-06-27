@@ -72,16 +72,13 @@ export class DialogBox {
     const portraitImg = line.portrait ? this.portraits.get(line.portrait.icon) : undefined
     const hasPortrait = Boolean(portraitImg)
     const startX = hasPortrait ? POS[slot].textWithPortrait.x : POS[slot].text.x
-    // maxRight:有头像时缩到头像左/右边界(给头像让位,不重叠);始终留 CURSOR_RESERVE 给光标
-    let maxRight = MAX_RIGHT
-    if (hasPortrait && portraitImg) {
-      const portraitLeft = POS[slot].portrait.x - portraitImg.width / 2
-      const portraitRight = POS[slot].portrait.x + portraitImg.width / 2
-      // bottom 头像在右(231),正文右边收到头像左;top 头像在左(48),startX 已避开,maxRight 不变
-      if (POS[slot].portrait.x > 160) maxRight = portraitLeft - 4
-      else maxRight = Math.min(maxRight, portraitRight > startX ? MAX_RIGHT : portraitRight - 4)
+    // maxRight:头像在右(bottom)→ 正文右边收到头像左;头像在左(top)→ startX 已避开头像,maxRight 不变。
+    // 始终留 CURSOR_RESERVE 给末行光标,防顶出屏幕。
+    let maxRight = MAX_RIGHT - CURSOR_RESERVE
+    if (hasPortrait && portraitImg && POS[slot].portrait.x > 160) {
+      // bottom 头像在右(portrait.x=270),正文右边收到头像左边界
+      maxRight = POS[slot].portrait.x - portraitImg.width / 2 - 4
     }
-    maxRight -= CURSOR_RESERVE // 留光标位(末行末尾画光标不顶出屏幕)
     const displayLines = layoutLines(
       [line],
       this.glyphs,
