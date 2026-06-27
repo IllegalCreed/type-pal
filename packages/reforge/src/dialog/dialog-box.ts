@@ -97,7 +97,9 @@ export class DialogBox {
       this.pageDone = false
       return
     }
-    // 该段话翻完 → 推进下一段话
+    // 该段话翻完 → 推进下一段话。但若该段有 autoAdvance(尾停顿),
+    // sdlpal 真值(spec §Bug3):尾停顿不可加速,玩家按 space = noop,必须等 update 自动推进。
+    if (this.activeAutoAdvance() !== undefined) return
     this.advanceToNextLine(nowMs)
   }
 
@@ -124,14 +126,27 @@ export class DialogBox {
     this.renders = {}
   }
 
+  /** 活跃槽当前段话的 DialogueLine(取 speed/autoAdvance 用)。 */
+  private activeLine() {
+    if (!this.state) return undefined
+    const r = this.renders[this.slots.activeSlot]
+    if (!r) return undefined
+    const lastDl = r.displayLines[r.displayLines.length - 1]
+    return this.state.dialogue.lines[lastDl?.srcLineIdx ?? 0]
+  }
+
+  /** 活跃槽当前段话的 autoAdvance(undefined = 无,等键)。 */
+  private activeAutoAdvance(): number | undefined {
+    return this.activeLine()?.autoAdvance
+  }
+
   /** autoAdvance:活跃槽该段话翻完 + 有 autoAdvance + 过尾停顿 → 自动推进下一段。 */
   private update(nowMs: number): void {
     if (!this.state || !this.pageDone) return
     const active = this.slots.activeSlot
     const r = this.renders[active]
     if (!r) return
-    const lastDl = r.displayLines[r.displayLines.length - 1]
-    const line = this.state.dialogue.lines[lastDl?.srcLineIdx ?? 0]
+    const line = this.activeLine()
     const auto = line?.autoAdvance
     if (auto === undefined) return
     // 活跃段话整页打字耗时 + autoAdvanceMs(此 slot 该段话,逐显示行串行)

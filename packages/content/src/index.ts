@@ -109,7 +109,7 @@ export const guijieMinjuScene: SceneDef = {
         { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.0', slot: 'bottom' }, // 默认速 + 黄
         { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.1', slot: 'bottom', speed: 48 }, // 慢 + 青
         { speaker: 'name.distant-ghost', text: 'dlg.ghost-hearsay.2', slot: 'top' }, // 长独白 + 红 + 共存
-        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.3', slot: 'bottom', speed: 12, autoAdvance: 800 }, // 快 + 自动(800ms 尾停顿)
+        { speaker: 'name.youhun', text: 'dlg.ghost-hearsay.3', slot: 'bottom', speed: 12, autoAdvance: 800 }, // 快 + 自动(800ms 尾停顿,不可加速)
         { text: 'dlg.ghost-hearsay.4', slot: 'bottom' }, // 旁白,无 speaker
       ],
     },
