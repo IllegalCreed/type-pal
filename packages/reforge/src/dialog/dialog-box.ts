@@ -175,6 +175,7 @@ export class DialogBox {
     }
 
     let ty = pos.text.y
+    const speed = line?.speed ?? DEFAULT_SPEED_MS // 该段话打字速度(变速)
     const elapsed = isActive ? nowMs - this.lineStartMs : Number.POSITIVE_INFINITY // 留显槽全字
     let charsBefore = 0
     let allDone = true
@@ -185,7 +186,7 @@ export class DialogBox {
         : this.pageDone
           ? rowLen // 瞬显全字
           : Math.min(
-              charsShown(Math.max(0, elapsed - charsBefore * DEFAULT_SPEED_MS), DEFAULT_SPEED_MS),
+              charsShown(Math.max(0, elapsed - charsBefore * speed), speed),
               rowLen,
             )
       if (limit < rowLen) allDone = false
