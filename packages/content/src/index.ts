@@ -40,6 +40,8 @@ export interface DialogueLine {
   slot?: 'top' | 'bottom'
   /** 头像 RGM chunk + 左/右;省略 = 无头像。 */
   portrait?: { icon: number; side: 'left' | 'right' }
+  /** 等键光标形态(0 默认箭头 / 1 / 2);省略 = 0。原版 `(`/`)` 控制符 → 此显式字段。 */
+  cursorFrame?: 0 | 1 | 2
 }
 
 export interface Dialogue {

@@ -215,11 +215,11 @@ export class DialogBox {
     }
     if (isActive && allDone && !this.pageDone) this.pageDone = true
 
-    // 光标:仅活跃槽 + 全显 + 非 autoAdvance,末显示行末尾
+    // 光标:仅活跃槽 + 全显 + 非 autoAdvance,末显示行末尾。形态取该段 cursorFrame(默认 0)。
     const lastDl = page[page.length - 1]
     const lastLine = this.state!.dialogue.lines[lastDl?.srcLineIdx ?? 0]
     if (isActive && this.pageDone && lastLine?.autoAdvance === undefined && lastDl) {
-      this.drawCursor(nowMs, lastDl.spans, page.length - 1, pos)
+      this.drawCursor(nowMs, lastDl.spans, page.length - 1, pos, lastLine?.cursorFrame ?? 0)
     }
   }
 
@@ -228,20 +228,22 @@ export class DialogBox {
     lastSpans: TextSpan[],
     lastRowIdx: number,
     pos: { text: { x: number; y: number } },
+    frameIdx: 0 | 1 | 2,
   ): void {
-    const frame = this.cursorFrames[0]
+    const frame = this.cursorFrames[frameIdx] ?? this.cursorFrames[0]
     if (!frame) return
     const step = Math.floor(nowMs / 100) % CURSOR_COLOR_COUNT
-    const icon = this.cursorBaked[step] ?? this.bakeCursorStep(frame, step)
+    const cacheKey = frameIdx * CURSOR_COLOR_COUNT + step // frame×6+step 唯一标识(3 frame × 6 色)
+    const icon = this.cursorBaked[cacheKey] ?? this.bakeCursorStep(frame, cacheKey, step)
     const cursorX = pos.text.x + measureSpans(lastSpans, this.glyphs)
     const cursorY = pos.text.y + lastRowIdx * LINE_HEIGHT
     this.ctx.drawImage(icon, cursorX, cursorY)
   }
 
-  private bakeCursorStep(frame: RleFrame, step: number): HTMLCanvasElement {
+  private bakeCursorStep(frame: RleFrame, cacheKey: number, step: number): HTMLCanvasElement {
     const rgba = indexToRgba(CURSOR_COLOR_START + step, this.palette)
     const baked = bakeCursorTinted(frame, rgba)
-    this.cursorBaked[step] = baked
+    this.cursorBaked[cacheKey] = baked
     return baked
   }
 }
