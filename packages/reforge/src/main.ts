@@ -70,8 +70,8 @@ async function main(): Promise<void> {
       return []
     }),
   ])
-  // portraits 需 palette 着色,在 palette 加载后单独取
-  const portraits = await loadPortraits([1, 2], palette).catch((err: unknown) => {
+  // portraits 已是预烘 RGBA PNG(迁移期 bake-portraits.mts),不再需 palette 着色
+  const portraits = await loadPortraits([1, 2]).catch((err: unknown) => {
     console.warn('[reforge] portraits 加载失败,降级无头像:', err)
     return new Map<number, HTMLCanvasElement>()
   })

@@ -10,10 +10,14 @@
     "lint": "biome check .",
     "extract": "pnpm --filter @type-pal/pal-extract run extract",
     "extract-tilemap-baseline": "bash scripts/extract-tilemap-baseline.sh",
-    "extract-battle-baseline": "bash scripts/extract-battle-baseline.sh"
+    "extract-battle-baseline": "bash scripts/extract-battle-baseline.sh",
+    "bake-portraits": "tsx scripts/bake-portraits.mts"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",
+    "@types/pngjs": "^6.0.5",
+    "pngjs": "^7.0.0",
+    "tsx": "^4.22.3",
     "typescript": "^6.0.3",
     "vitest": "^4.1.7"
   },
