@@ -16,22 +16,23 @@
 
 ### iso 移动的几何真相（务必先理解，否则会写错）
 
-iso 步长 `(±16,±8)`、tile 尺寸 `(32,16)` —— **一步正好半个 tile**（宽 16=32/2，高 8=16/2），**两步换一格**。已用 `pixelToTile` 算法验证：从 cell 中心 `(32,16)` 出发走一步 down `(-16,+8)` 落到 `(16,24)` = cell `(0.5, 1.5)`，**不在任何 cell 中心**；再走一步落到 `(0,32)` = cell `(0,2)` 才回中心。
+仙剑是**等距(isometric)菱形**地图:tile 32×16(2:1),走一格屏幕斜移 `(±16,±8)`。**关键认知:菱形网格 = 旋转 45° 的正交网格。** 沿菱形的两条斜边各设一个轴(col / row),则:
 
-这是 iso 的正常几何，不是 bug。由此得出 **`GridPos` 单位 = 半格**：
+- **每个落脚点 = 一个唯一整数 `(col,row)`**;走一格 = **单轴 ±1**(只动 col 或只动 row,**绝不同时变**)。
+- 四方向 ↔ 单轴(已逐一验算):右下 `col+1`、左上 `col−1`、左下 `row+1`、右上 `row−1`。
+- **任意整数 `(col,row)` 都是合法落脚点**——无「一半坐标非法」问题、无需校验。
+- 「撞墙半格」是旧 movement 撞墙单轴回退 bug,已由 `resolveMove` 撞墙停修掉(commit `e7253ad`),与坐标无关。
 
-- **`col`/`row` 以「半步」为单位**（半格），一步 ±1、整数。这样落脚点恒在整数坐标、无小数；两步 = col/row 各 ±1。
-- 世界像素换算：`半格单位` → 像素 = `(col * 16, row * 8)`（半步的像素量 = 16 宽 / 8 高）。
-- 落脚点恒在合法 iso 站位点（每步整数），**不存在「半格 bug」**——之前的「撞墙半格」是 movement 的撞墙处理 bug（单轴回退），已由 `resolveMove`「撞墙就停」修掉（commit `e7253ad`），与坐标单位无关。
+> ⚠ **不要**拿「屏幕像素轴 `(x/16, y/8)`」当坐标——那是把斜网格硬塞进正交屏幕轴,会得两个毛病:① 走一格 col/row **同时** ±1(对角,违背"走一格只动一轴");② `col+row` 必偶、**半数坐标非法**。正解是**用菱形自己的斜边当轴**(下面 `gridToPixel` 的线性组合),逻辑层就是干净的正交网格、走一格单轴 ±1。
 
 ### GridPos 定义
 
 ```ts
 export interface GridPos {
-  col: number   // iso 平面逻辑坐标,半格单位(一步 ±1)
-  row: number   // 同上
-  height: number // 垂直高度轴;地面实体 = 0。飞行/楼层/高台站立 > 0。
-                 // 直接对接渲染遮挡(render.ts baseY 含 iTileHeight 的同类投影)
+  col: number   // iso 菱形轴1(沿"右下"斜边);每个落脚点唯一整数,走一格单轴 ±1
+  row: number   // iso 菱形轴2(沿"左下"斜边)
+  height: number // 垂直离地轴(与平面 col/row 正交);地面 = 0,飞行/楼层/高台 > 0。
+                 // 对接渲染遮挡(render.ts baseY 含 iTileHeight 的同类投影)
 }
 ```
 
@@ -39,8 +40,9 @@ export interface GridPos {
 
 ### 渲染换算
 
+- **格 → 像素（菱形轴）**：`gridToPixel(col,row) = ( 16×(col−row), 8×(col+row) )`；`pixelToGrid` 唯一反解（站位像素必得整数）。`height` 不进平面投影。
+- **height 显示（垂直高度的视觉）**：实体逻辑 / 碰撞 / **影子**都在地面 `(col,row)`；`height` 只把 **sprite 画的位置沿屏幕正上方移** —— 每级 = 16px（= 「正上方相邻站位」的距离，即菱形轴对角格 `(col−h, row−h)` 的屏幕位置）。公式：`sprite 屏幕 y = gridToPixel(col,row).y − height×16`，影子画在 `gridToPixel(col,row)`。**纯显示层、不进逻辑 / 碰撞**（height 仍是正交独立轴；遮挡排序 baseY 另含 height，render Task 处理）。
 - **物理分辨率**：canvas 内部 1280×800（4x）；逻辑仍按 320×200 算，渲染整体 ×4。
-- **世界坐标 → 物理**：`gridToPixel(GridPos) → 320系像素`，渲染时再 ×4。
 - **UI 高清化**：UI（对话/菜单）**不**走「画到 320 离屏再 ×4」低清路线；UI 逻辑坐标（如对话框 POS 常量）×4 落物理像素。**字模不换源**：16px 点阵 ×4 = 64px 锐利点阵字（nearest-neighbor）。
 - **移动显示**：保持 ~10fps 步进卡顿感（[main.ts:29](../../../packages/reforge/src/main.ts) `STEP_MS=100`），不做平滑插帧。
 
@@ -58,24 +60,24 @@ export interface GridPos {
 import { describe, expect, test } from 'vitest'
 import { gridToPixel, pixelToGrid, type GridPos } from './grid.js'
 
-describe('grid 坐标(半格单位)', () => {
-  test('半格 col/row → 像素(半步=16宽/8高)', () => {
-    // 半格单位:col=1 → 16px,col=2 → 32px(一整格);row=1 → 8px,row=2 → 16px(一整格)
-    expect(gridToPixel({ col: 2, row: 2, height: 0 })).toEqual({ x: 32, y: 16 }) // = 整格 cell(1,1) 中心
-    expect(gridToPixel({ col: 1, row: 1, height: 0 })).toEqual({ x: 16, y: 8 })  // 半格偏移
+describe('grid 坐标(菱形轴)', () => {
+  test('格 → 像素 = (16(col−row), 8(col+row))', () => {
+    expect(gridToPixel({ col: 90, row: 14, height: 0 })).toEqual({ x: 1216, y: 832 }) // ●
+    expect(gridToPixel({ col: 91, row: 14, height: 0 })).toEqual({ x: 1232, y: 840 }) // ○(仅 col+1)
   })
-  test('像素 → 半格(整数,一步一个落点)', () => {
-    expect(pixelToGrid(16, 8)).toEqual({ col: 1, row: 1 })
-    expect(pixelToGrid(32, 16)).toEqual({ col: 2, row: 2 })
+  test('像素 → 格(唯一反解,站位必得整数)', () => {
+    expect(pixelToGrid(1216, 832)).toEqual({ col: 90, row: 14 })
+    expect(pixelToGrid(1232, 840)).toEqual({ col: 91, row: 14 })
   })
-  test('height 不影响平面像素投影(独立轴)', () => {
-    expect(gridToPixel({ col: 2, row: 2, height: 5 })).toEqual(gridToPixel({ col: 2, row: 2, height: 0 }))
+  test('height 不影响平面投影(独立轴)', () => {
+    expect(gridToPixel({ col: 90, row: 14, height: 5 })).toEqual(gridToPixel({ col: 90, row: 14, height: 0 }))
   })
-  test('iso 一步对应 ±1 半格(整数,无小数)', () => {
-    // down 一步 = (-16,+8) → col-1, row+1
-    const start: GridPos = { col: 2, row: 2, height: 0 } // cell(1,1)中心(32,16)
-    const afterDown = pixelToGrid(32 - 16, 16 + 8)       // 一步 down 后落点
-    expect(afterDown).toEqual({ col: 1, row: 3 })        // 半格单位,整数
+  test('走一格 = 单轴 ±1(四方向各一个轴,绝不对角)', () => {
+    // ● (1216,832) 四方向各走一步,只动一个轴:
+    expect(pixelToGrid(1216 + 16, 832 + 8)).toEqual({ col: 91, row: 14 }) // 右下 col+1
+    expect(pixelToGrid(1216 - 16, 832 - 8)).toEqual({ col: 89, row: 14 }) // 左上 col−1
+    expect(pixelToGrid(1216 - 16, 832 + 8)).toEqual({ col: 90, row: 15 }) // 左下 row+1
+    expect(pixelToGrid(1216 + 16, 832 - 8)).toEqual({ col: 90, row: 13 }) // 右上 row−1
   })
 })
 ```
@@ -85,13 +87,17 @@ describe('grid 坐标(半格单位)', () => {
 - [ ] **Step 3: 实现 `grid.ts`**
 ```ts
 export interface GridPos { col: number; row: number; height: number }
-export const HALF_W = 16 // 半步像素宽(iso 一步的 x 分量)
-export const HALF_H = 8  // 半步像素高(iso 一步的 y 分量)
+export const HALF_W = 16 // iso 一步 x 分量(半个 tile 宽)
+export const HALF_H = 8  // iso 一步 y 分量(半个 tile 高)
+/** 菱形轴格 → 像素:x = 16(col−row), y = 8(col+row)。height 不投影(独立轴)。 */
 export function gridToPixel(p: GridPos): { x: number; y: number } {
-  return { x: p.col * HALF_W, y: p.row * HALF_H } // height 不投影到平面
+  return { x: HALF_W * (p.col - p.row), y: HALF_H * (p.col + p.row) }
 }
+/** 像素 → 菱形轴格:唯一反解(a=col−row, b=col+row)。站位像素必得整数。 */
 export function pixelToGrid(x: number, y: number): { col: number; row: number } {
-  return { col: Math.round(x / HALF_W), row: Math.round(y / HALF_H) }
+  const a = x / HALF_W // col − row
+  const b = y / HALF_H // col + row
+  return { col: Math.round((b + a) / 2), row: Math.round((b - a) / 2) }
 }
 ```
 
@@ -99,7 +105,7 @@ export function pixelToGrid(x: number, y: number): { col: number; row: number } 
   - `pnpm --filter @type-pal/reforge exec vitest run src/grid.test.ts` → PASS
   - `pnpm --filter @type-pal/reforge run check` → 绿
   - `git add packages/reforge/src/grid.ts packages/reforge/src/grid.test.ts`
-  - `git commit -m "feat(reforge): grid.ts — GridPos={col,row,height}(半格单位)+格↔像素纯函数(D16 地基)"`
+  - `git commit -m "feat(reforge): grid.ts — GridPos 菱形轴(col,row,height)+格↔像素纯函数(D16 地基)"`
 
 ---
 
@@ -110,8 +116,8 @@ export function pixelToGrid(x: number, y: number): { col: number; row: number } 
 **Architecture:** 保持 D2 红线「意图 → 纯函数碰撞判定 → 结果」。`resolveMove` 输入输出从 `Vec2(像素)` 改 `GridPos`；`isBlocked` 注入签名改按格。**撞墙原地停的语义不动**（既有红线，commit `e7253ad` 修的就是这个——撞墙不单轴滑行）。
 
 - [ ] **Step 1: 改 movement.ts 签名为 GridPos**
-  - `MoveIntent` 改半格步进（如 down = `{dcol: -1, drow: 1}`）；`resolveMove(pos: GridPos, intent, isBlocked: (p: GridPos)=>boolean): GridPos`。
-  - 撞墙逻辑不变：目标 `isBlocked` → 返回原 `pos`（不单轴滑行）。注释更新：删掉像素时代「奇偶守恒」解释，换成「半格单位下落点恒整数，撞墙停步保持站位」。
+  - `MoveIntent` 改菱形轴**单轴**步进:`down={dcol:0,drow:+1}` / `up={dcol:0,drow:-1}` / `left={dcol:-1,drow:0}` / `right={dcol:+1,drow:0}`（走一格只动一个轴,与四方向一一对应）；`resolveMove(pos: GridPos, intent, isBlocked: (p: GridPos)=>boolean): GridPos`。
+  - 撞墙逻辑不变：目标 `isBlocked` → 返回原 `pos`（不单轴滑行）。注释更新：删掉像素时代「奇偶守恒」解释，换成「菱形轴下走一格单轴 ±1、落点恒整数，撞墙停步保持站位」。
   - `height` 移动时一般不变（地面行走 height 恒 0；飞行机制留后续），但签名带上以便将来扩展。
 
 - [ ] **Step 2: 改 movement.test.ts**
@@ -123,7 +129,7 @@ export function pixelToGrid(x: number, y: number): { col: number; row: number } 
   - `pnpm --filter @type-pal/reforge run check` → 绿
 
 - [ ] **Step 4: commit**
-  - `git commit -m "refactor(reforge): movement 改 GridPos(半格) — 保持 D2 纯函数红线 + 撞墙停步语义(D16)"`
+  - `git commit -m "refactor(reforge): movement 改 GridPos(菱形轴) — 保持 D2 纯函数红线 + 撞墙停步语义(D16)"`
 
 ---
 
@@ -155,7 +161,7 @@ export function pixelToGrid(x: number, y: number): { col: number; row: number } 
 
 - [ ] **Step 1: content schema —— `Vec2` 像素 pos 改 `GridPos`**
   - `EntityDef.pos: GridPos`、`SceneDef.entry.pos: GridPos`。
-  - `guijieMinjuScene` 数据改：鬼 `{x:1280,y:832}` → `{col:80,row:104,height:0}`（反算：1280/16=80, 832/8=104）；entry `{x:1216,y:832}` → `{col:76,row:104,height:0}`（1216/16=76）。**注意：半格单位，像素值/16 得 col、/8 得 row。**
+  - `guijieMinjuScene` 数据改（**菱形轴**，用 `pixelToGrid` 反算核对）：鬼 `{x:1280,y:832}` → `{col:92,row:12,height:0}`（col−row=1280/16=80、col+row=832/8=104 → col=92,row=12）；entry `{x:1216,y:832}` → `{col:90,row:14,height:0}`（col−row=76、col+row=104 → col=90,row=14）。
   - content 的测试如有断言像素的，改格。
 
 - [ ] **Step 2: main.ts —— 实体存 GridPos、渲染时 gridToPixel**
@@ -163,7 +169,7 @@ export function pixelToGrid(x: number, y: number): { col: number; row: number } 
   - `render()` 构造 `SpriteDraw` 时 `const p = gridToPixel(pos); worldX: p.x`（渲染层才回像素）。
   - 相机 / room 包围盒：现状按像素算（`roomMinX` 等），可保留像素（相机是显示层概念），相机跟随用 `gridToPixel(player.pos)`。
   - `nearbyInteractable` 距离判：改用格距离或 `gridToPixel` 后算像素差。
-  - `WALK_STEP` 从像素 `{dx,dy}` 改半格步进 `{dcol,drow}`（down=`{-1,1}`）。
+  - `WALK_STEP` 从像素 `{dx,dy}` 改菱形轴**单轴**步进 `{dcol,drow}`：down=`{0,+1}` / up=`{0,-1}` / left=`{-1,0}` / right=`{+1,0}`。
 
 - [ ] **Step 3: check 绿 + 浏览器冒烟（移动 + 碰撞 + 对话不回归）**
   - `pnpm --filter @type-pal/reforge run check` → 绿
@@ -171,7 +177,7 @@ export function pixelToGrid(x: number, y: number): { col: number; row: number } 
   - 验收点：撞墙多次后落脚仍正常（commit `e7253ad` 的修复不退化）、对话触发不回归。
 
 - [ ] **Step 4: commit**
-  - `git commit -m "refactor(reforge): content/main 实体坐标改 GridPos(半格) — 实体位置回归格语义(D16)"`
+  - `git commit -m "refactor(reforge): content/main 实体坐标改 GridPos(菱形轴) — 实体位置回归格语义(D16)"`
 
 > 阶段性 milestone：**至此世界坐标格化完成（D16 核心）**。Task 5–6 是物理分辨率 + UI 高清化，可在此 milestone 后单独做。
 
@@ -242,7 +248,7 @@ export function pixelToGrid(x: number, y: number): { col: number; row: number } 
 ## Self-Review（计划作者自查）
 
 1. **覆盖 D16 全部要点**：格坐标（T1–T4）+ 物理 1280 + UI-HD（T5–T6）+ h/旧兼容层不动（T3 注释明确）+ 字模沿用（T6 明确不换源）+ 范围拆两半（T4 milestone 后 T5–6 可单独做）。✅
-2. **iso 几何正确**：T1 明确「半格单位」（一步 ±1、整数），落脚恒整数。**不存在「半格 bug」**——已用 `pixelToTile` 算法验证一步落半格是 iso 正常几何，撞墙处理 bug 已由 movement 现状修掉。✅
+2. **iso 几何正确**：T1 明确「菱形轴」（走一格单轴 ±1、任意整数坐标合法），落脚恒整数。**不存在「半格 bug」**——撞墙处理 bug 已由 movement 现状（撞墙停）修掉，与坐标无关。✅
 3. **范围不蔓延**：菜单（D17）/ 世界 HD 提取器版 / manifest / 移动 NPC / 对话框版面重设计 / 高清字模源，全部明确划出不做。✅
 4. **不破既有**：D2 红线（resolveMove 纯函数 + isBlocked 注入）保持；撞墙停语义不动（commit `e7253ad`）；旧碰撞兼容层（pixelToTile/h）不删只加入口；打字 wall-clock 不动。✅
 5. **可测**：grid/movement/collision 纯函数单测；实体坐标 + 物理分辨率 + UI 高清靠浏览器验收（同 npc-collision / palette 切片的务实偏离）。✅
