@@ -73,4 +73,46 @@ for (const [frame, name] of cashFrames) {
   console.log(`baked cashbox ${name}`)
 }
 
+// 5) 蓝数字(gpSpriteUI frame 29-38 = 0-9;PAL_DrawNumber kNumColorBlue,HP/MP 最大值)
+mkdirSync(resolve(PUBLIC, 'ui/num-blue'), { recursive: true })
+for (let d = 0; d <= 9; d++) {
+  bakeFile(
+    resolve(EXTRACTED, `images/ui/frame-${String(29 + d).padStart(2, '0')}.png`),
+    resolve(PUBLIC, `ui/num-blue/${d}.png`),
+  )
+}
+console.log('baked num-blue 0-9')
+
+// 5b) 青数字(gpSpriteUI frame 56-65 = 0-9;PAL_DrawNumber kNumColorCyan,exp 下一级)
+mkdirSync(resolve(PUBLIC, 'ui/num-cyan'), { recursive: true })
+for (let d = 0; d <= 9; d++) {
+  bakeFile(
+    resolve(EXTRACTED, `images/ui/frame-${String(56 + d).padStart(2, '0')}.png`),
+    resolve(PUBLIC, `ui/num-cyan/${d}.png`),
+  )
+}
+console.log('baked num-cyan 0-9')
+
+// 6) 斜杠(gpSpriteUI frame 39 = SPRITENUM_SLASH;HP/MP 当前/最大分隔)
+bakeFile(resolve(EXTRACTED, 'images/ui/frame-39.png'), resolve(PUBLIC, 'ui/num/slash.png'))
+console.log('baked slash')
+
+// 7) demo 装备图标(李逍遥初始 6 件;item 系统未建前硬编 sprite chunk → status/equip-demo)
+mkdirSync(resolve(PUBLIC, 'ui/status/equip-demo'), { recursive: true })
+const demoEquip: [number, string][] = [
+  [56, 'weapon'], // 木剑
+  [176, 'head'], // 头巾
+  [78, 'body'], // 布袍
+  [97, 'feet'], // 草鞋
+  [224, 'accessory'], // 护腕
+  [95, 'amulet'], // 披风
+]
+for (const [chunk, slot] of demoEquip) {
+  bakeFile(
+    resolve(EXTRACTED, `images/items/${String(chunk).padStart(3, '0')}.png`),
+    resolve(PUBLIC, `ui/status/equip-demo/${slot}.png`),
+  )
+}
+console.log('baked demo equip')
+
 console.log('done.')

@@ -155,23 +155,27 @@ const SELECTED_COLORS = [
 ] as const
 
 // ── 状态面板布局(三栏:左属性 / 中名字+立绘 / 右 6 装备格 2×3 平铺)──
-// 左栏:属性 9 项(label + value 竖排)
-const STAT_X = 8
-const STAT_VAL_X = 64
+// 左栏:属性 9 项(label 字模 + value 数字 sprite)
+const STAT_X = 8 // label x
+const STAT_VAL_RIGHT = 80 // value(当前)数字右对齐 x
+const STAT_SLASH_X = 82 // HP/MP 斜杠 x
+const STAT_MAX_RIGHT = 112 // HP/MP 最大值(蓝)右对齐 x(避开立绘左缘)
 const STAT_Y0 = 16
 const STAT_LINE_H = 18
-// 中栏:名字(上) + 立绘(下),水平居中于中栏中心
+const STAT_NUM_DY = 4 // 数字 sprite 相对 label 顶的 y 微调(与字模对齐)
+// 中栏:名字(上) + 立绘(下),整体垂直居中
 const MID_CX = 158
-const NAME_Y = 14
-const AVATAR_Y = 34
-// 右栏:6 装备格 2 列 × 3 行平铺
-const EQUIP_X0 = 214
-const EQUIP_Y0 = 18
+const NAME_Y = 30
+const AVATAR_Y = 50
+const COLOR_NAME = [255, 203, 113] as const // 名字色 = 原版 MENUITEM_COLOR_CONFIRMED 0x2C 金黄
+// 右栏:6 装备格 2 列 × 3 行平铺(放大到接近原版 50×49)
+const EQUIP_X0 = 204
+const EQUIP_Y0 = 12
 const EQUIP_COLS = 2
-const EQUIP_SLOT_SIZE = 44
-const EQUIP_GAP_X = 8
-const EQUIP_GAP_Y = 16
-const EQUIP_NAME_DY = 46 // 槽名相对格 y(格下)
+const EQUIP_SLOT_SIZE = 54
+const EQUIP_GAP_X = 6
+const EQUIP_GAP_Y = 8
+const EQUIP_NAME_INSET = 15 // 槽名距格底(画格内底部 + 半透明衬,省额外行高,3 行 in 200)
 
 /** 画数字(右对齐:个位右边缘固定在 rightX,往左排)。原版 PAL_DrawNumber 黄色右对齐。 */
 function drawNumber(
@@ -255,30 +259,39 @@ function drawCashBox(
   ctx.drawImage(off, x, y)
 }
 
-/** 状态面板属性显示列表(数据驱动:加属性 = 列表多一条,UI 自动多一行)。
- *  顺序对齐原版:经验/修行/体力/真气/武术/灵力/防御/身法/吉运;体力/真气显当前/最大。 */
-function statList(c: CharacterInstance): [TextId, string][] {
+// demo:李逍遥 1→2 升级所需 exp(原版 rgLevelUpExp[1]);升级系统建后取真值
+const EXP_TO_NEXT = 15
+
+/** 状态面板属性行(数据驱动:加属性 = 列表多一条)。顺序对齐原版。
+ *  带 max 的显「当前 / 最大」:hp/mp 最大值蓝(maxKind blue)、exp 下一级青(cyan)。 */
+interface StatRow {
+  labelId: TextId
+  value: number
+  max?: number
+  maxKind?: 'blue' | 'cyan'
+}
+function statList(c: CharacterInstance): StatRow[] {
   return [
-    ['stat.exp', String(c.exp)],
-    ['stat.level', String(c.level)],
-    ['stat.hp', `${c.hp}/${c.maxHP}`],
-    ['stat.mp', `${c.mp}/${c.maxMP}`],
-    ['stat.attack', String(c.attack)],
-    ['stat.magicAttack', String(c.magicAttack)],
-    ['stat.defense', String(c.defense)],
-    ['stat.speed', String(c.speed)],
-    ['stat.luck', String(c.luck)],
+    { labelId: 'stat.exp', value: c.exp, max: EXP_TO_NEXT, maxKind: 'cyan' },
+    { labelId: 'stat.level', value: c.level },
+    { labelId: 'stat.hp', value: c.hp, max: c.maxHP, maxKind: 'blue' },
+    { labelId: 'stat.mp', value: c.mp, max: c.maxMP, maxKind: 'blue' },
+    { labelId: 'stat.attack', value: c.attack },
+    { labelId: 'stat.magicAttack', value: c.magicAttack },
+    { labelId: 'stat.defense', value: c.defense },
+    { labelId: 'stat.speed', value: c.speed },
+    { labelId: 'stat.luck', value: c.luck },
   ]
 }
 
 /** 装备槽列表(可扩展:加槽位 = 列表多一条)。 */
-const EQUIP_SLOTS: TextId[] = [
-  'equip.weapon',
-  'equip.head',
-  'equip.body',
-  'equip.feet',
-  'equip.accessory',
-  'equip.amulet',
+const EQUIP_SLOTS: { slot: string; label: TextId }[] = [
+  { slot: 'weapon', label: 'equip.weapon' },
+  { slot: 'head', label: 'equip.head' },
+  { slot: 'body', label: 'equip.body' },
+  { slot: 'feet', label: 'equip.feet' },
+  { slot: 'accessory', label: 'equip.accessory' },
+  { slot: 'amulet', label: 'equip.amulet' },
 ]
 
 export interface MenuAssets {
@@ -298,6 +311,14 @@ export interface MenuAssets {
   nums: (ImageBitmap | undefined)[]
   /** 角色立绘(状态面板;李逍遥 = RGM avatar chunk 1 = portraits/1)。 */
   avatar: ImageBitmap | undefined
+  /** 蓝数字 0-9(HP/MP 最大值;PAL_DrawNumber kNumColorBlue)。 */
+  numsBlue: (ImageBitmap | undefined)[]
+  /** 青数字 0-9(exp 下一级;PAL_DrawNumber kNumColorCyan)。 */
+  numsCyan: (ImageBitmap | undefined)[]
+  /** 斜杠 sprite(HP/MP 当前/最大分隔;SPRITENUM_SLASH)。 */
+  slash: ImageBitmap | undefined
+  /** demo 装备图标(slotId → sprite;item 系统未建前的占位 demo)。 */
+  equipDemo: Record<string, ImageBitmap | undefined>
 }
 
 /** 加载 PNG → ImageBitmap;失败返回 undefined(不阻断,渲染容错)。 */
@@ -322,15 +343,27 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     const name = `frame-${String(i).padStart(2, '0')}.png`
     tiles.push(await loadPng(`/ui/box/${name}`))
   }
-  const [statusBg, equipSlot, left, mid, right, nums, avatar] = await Promise.all([
-    loadPng('/ui/status/bg.png'),
-    loadPng('/ui/status/slot.png'),
-    loadPng('/ui/cashbox/left.png'),
-    loadPng('/ui/cashbox/mid.png'),
-    loadPng('/ui/cashbox/right.png'),
-    Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num/${d}.png`))),
-    loadPng('/portraits/1.png'), // 李逍遥状态立绘(RGM avatar chunk 1,复用对话头像)
-  ])
+  const [statusBg, equipSlot, left, mid, right, nums, avatar, numsBlue, numsCyan, slash] =
+    await Promise.all([
+      loadPng('/ui/status/bg.png'),
+      loadPng('/ui/status/slot.png'),
+      loadPng('/ui/cashbox/left.png'),
+      loadPng('/ui/cashbox/mid.png'),
+      loadPng('/ui/cashbox/right.png'),
+      Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num/${d}.png`))),
+      loadPng('/portraits/1.png'), // 李逍遥状态立绘(RGM avatar chunk 1,复用对话头像)
+      Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num-blue/${d}.png`))),
+      Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num-cyan/${d}.png`))),
+      loadPng('/ui/num/slash.png'),
+    ])
+  // demo 装备图标(item 系统未建前;slotId → sprite)
+  const equipDemoArr = await Promise.all(
+    EQUIP_SLOTS.map(({ slot }) => loadPng(`/ui/status/equip-demo/${slot}.png`)),
+  )
+  const equipDemo: Record<string, ImageBitmap | undefined> = {}
+  EQUIP_SLOTS.forEach(({ slot }, i) => {
+    equipDemo[slot] = equipDemoArr[i]
+  })
   return {
     box: { tiles },
     statusBg,
@@ -338,6 +371,10 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     cashBox: { left, mid, right },
     nums,
     avatar,
+    numsBlue,
+    numsCyan,
+    slash,
+    equipDemo,
   }
 }
 
@@ -402,40 +439,63 @@ export class MenuBox {
     const c = world.party[0]
     if (!c) return
 
-    // 左栏:属性 9 项(数据驱动遍历:加属性 = 列表多一条,UI 自动多一行)
+    // 左栏:属性 9 项 —— label 字模(米白)+ value 数字 sprite(黄);HP/MP 当前/最大(max 蓝 + 斜杠)
     let y = STAT_Y0
-    for (const [labelId, val] of statList(c)) {
-      renderSpans(ctx, [{ text: lookupText(labelId, this.locale) }], STAT_X, y, {
+    for (const row of statList(c)) {
+      renderSpans(ctx, [{ text: lookupText(row.labelId, this.locale) }], STAT_X, y, {
         glyphs: this.glyphs,
         shadow: true,
+        forceRgba: COLOR_NORMAL,
       })
-      renderSpans(ctx, [{ text: val }], STAT_VAL_X, y, { glyphs: this.glyphs, shadow: true })
+      const ny = y + STAT_NUM_DY
+      drawNumber(ctx, row.value, STAT_VAL_RIGHT, ny, this.assets.nums)
+      if (row.max !== undefined) {
+        if (this.assets.slash) ctx.drawImage(this.assets.slash, STAT_SLASH_X, ny)
+        const maxNums = row.maxKind === 'cyan' ? this.assets.numsCyan : this.assets.numsBlue
+        drawNumber(ctx, row.max, STAT_MAX_RIGHT, ny, maxNums)
+      }
       y += STAT_LINE_H
     }
 
-    // 中栏:名字(上) + 立绘(下),水平居中于 MID_CX
+    // 中栏:名字(金黄,上) + 立绘(下),水平居中于 MID_CX
     const nameSpans = [{ text: lookupText('name.li-xiaoyao', this.locale) }]
     renderSpans(ctx, nameSpans, MID_CX - measureSpans(nameSpans, this.glyphs) / 2, NAME_Y, {
       glyphs: this.glyphs,
       shadow: true,
+      forceRgba: COLOR_NAME,
     })
     const { avatar } = this.assets
     if (avatar) ctx.drawImage(avatar, Math.round(MID_CX - avatar.width / 2), AVATAR_Y)
 
-    // 右栏:6 装备格 2 列 × 3 行平铺(数据驱动:加槽 = 列表多一条)。装备图标依赖 item 系统,本次只框+槽名
-    EQUIP_SLOTS.forEach((slotLabel, i) => {
+    // 右栏:6 装备格 2 列 × 3 行平铺 —— 格 + 装备图标(demo,格内居中)+ 槽名(格下居中)
+    EQUIP_SLOTS.forEach(({ slot, label }, i) => {
       const gx = EQUIP_X0 + (i % EQUIP_COLS) * (EQUIP_SLOT_SIZE + EQUIP_GAP_X)
       const gy = EQUIP_Y0 + Math.floor(i / EQUIP_COLS) * (EQUIP_SLOT_SIZE + EQUIP_GAP_Y)
       if (this.assets.equipSlot) {
         ctx.drawImage(this.assets.equipSlot, gx, gy, EQUIP_SLOT_SIZE, EQUIP_SLOT_SIZE)
       }
-      const nameSpan = [{ text: lookupText(slotLabel, this.locale) }]
+      const icon = this.assets.equipDemo[slot]
+      if (icon) {
+        ctx.drawImage(
+          icon,
+          Math.round(gx + (EQUIP_SLOT_SIZE - icon.width) / 2),
+          Math.round(gy + (EQUIP_SLOT_SIZE - icon.height) / 2),
+        )
+      }
+      // 槽名:格内底部 + 半透明黑衬底(省额外行高,3 行 in 200)
+      const nameSpan = [{ text: lookupText(label, this.locale) }]
+      const ty = gy + EQUIP_SLOT_SIZE - EQUIP_NAME_INSET
+      ctx.save()
+      ctx.globalAlpha = 0.5
+      ctx.fillStyle = '#000'
+      ctx.fillRect(gx + 1, ty - 1, EQUIP_SLOT_SIZE - 2, 15)
+      ctx.restore()
       renderSpans(
         ctx,
         nameSpan,
         gx + (EQUIP_SLOT_SIZE - measureSpans(nameSpan, this.glyphs)) / 2,
-        gy + EQUIP_NAME_DY,
-        { glyphs: this.glyphs, shadow: true },
+        ty,
+        { glyphs: this.glyphs, shadow: true, forceRgba: COLOR_NORMAL },
       )
     })
   }
