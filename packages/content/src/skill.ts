@@ -71,7 +71,7 @@ export interface SkillData {
  *   oid 296 气疗术  magic#33 type=applyToPlayer costMP=6  effect=27 baseDamage=0
  *   oid 298 凝神归元 magic#34 type=applyToPlayer costMP=18 effect=29 baseDamage=0
  *   oid 299 元灵归心术 magic#51 type=applyToPlayer costMP=40 effect=29 baseDamage=0
- * desc/healHp.amount = 原版 scriptDesc 显示值(docs/phase1/status/magic-status.md);demo 不跑战斗引擎,phase3 验算。
+ * healHp.amount/desc = 原版 scriptOnSuccess 脚本【一手核验】(events/all.json segments[0].commands[43016/43018/43020],三者均 opcode 0x1B 回HP,operands[1]=75/220/500)。
  * 完整 102 技能 migrate 全量 → phase3。
  */
 export const DEMO_SKILLS: Record<string, SkillData> = {
