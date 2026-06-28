@@ -5,12 +5,12 @@
     <title>reforge · 鬼界民居 demo</title>
     <style>
       body { margin: 0; background: #111; display: grid; place-items: center; min-height: 100vh; }
-      /* 视口 320×200（原版分辨率），放大 3× 显示，保持像素硬边 */
-      canvas { image-rendering: pixelated; display: block; width: 960px; height: 600px; }
+      /* 物理 1280×800(逻辑 320×200 的 4x);整数倍放大 + pixelated 保点阵锐利(D16) */
+      canvas { image-rendering: pixelated; display: block; width: 1280px; height: 800px; }
     </style>
   </head>
   <body>
-    <canvas id="screen" width="320" height="200"></canvas>
+    <canvas id="screen" width="1280" height="800"></canvas>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

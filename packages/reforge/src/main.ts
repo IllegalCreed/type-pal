@@ -92,14 +92,13 @@ async function main(): Promise<void> {
     return
   }
 
-  // 切片：只取 room#0。视口 320×200（原版分辨率）；相机跟随玩家、夹在房间范围内。
+  // 切片：只取 room#0。逻辑视口 320×200;物理 canvas 1280×800(4x),世界渲染 ×4 放大(D16)。
   const room = guijieMinjuScene.map.room
+  const WORLD_SCALE = 4 // 逻辑 320×200 → 物理 1280×800;整数倍 + pixelated 保点阵锐利
   const VIEW_W = 320
   const VIEW_H = 200
   const PARTY_OX = 160 // 玩家在屏幕上的落点（PARTYOFFSET，原版 160 / 112）
   const PARTY_OY = 112
-  canvas.width = VIEW_W
-  canvas.height = VIEW_H
   // 房间世界包围盒（上方多留容高家具）
   const roomMinX = room.col * TILE_W - TILE_W
   const roomMinY = room.row * TILE_H - 40
@@ -155,8 +154,14 @@ async function main(): Promise<void> {
         anchorY: playerSprite.anchorY,
       })
     }
+    // 世界 + debug 在 320 逻辑坐标画,整体 ×WORLD_SCALE 放大到物理 canvas(D16)。
+    // clear / dialogBox 在 scale 外(clear 用物理坐标;dialogBox 走 UI_SCALE,T6 处理)。
+    ctx.save()
+    ctx.scale(WORLD_SCALE, WORLD_SCALE)
+    ctx.imageSmoothingEnabled = false // 最近邻,点阵/瓦片整数倍放大不糊
     renderer.renderScene(map, room, camera, sprites)
     if (DEBUG_COLLISION) drawCollisionOverlay()
+    ctx.restore()
     if (dialogBox.active) dialogBox.render(performance.now())
   }
 
