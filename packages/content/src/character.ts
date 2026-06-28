@@ -20,6 +20,7 @@ export interface CharacterInstance {
   defense: number
   magicAttack: number
   speed: number
+  luck: number // 吉运(原版 fleeRate)
   equipment: Record<string, string> // slotId → itemId(可扩展槽)
   magic: string[] // 仙术 id
   tags: string[] // 留口:种族/门派(phase3),现空
@@ -39,6 +40,7 @@ export interface CharacterTemplate {
     defense: number
     magicAttack: number
     speed: number
+    luck: number
   }
   initialEquipment: Record<string, string>
   initialMagic: string[]
@@ -58,6 +60,7 @@ export const LI_XIAOYAO: CharacterTemplate = {
     defense: 32,
     magicAttack: 20,
     speed: 28,
+    luck: 32,
   },
   initialEquipment: {},
   initialMagic: [],

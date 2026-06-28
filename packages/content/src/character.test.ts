@@ -13,6 +13,7 @@ describe('角色 schema', () => {
     expect(inst.defense).toBe(32)
     expect(inst.magicAttack).toBe(20)
     expect(inst.speed).toBe(28)
+    expect(inst.luck).toBe(32)
     expect(inst.exp).toBe(0)
     expect(inst.equipment).toEqual({})
     expect(inst.magic).toEqual([])
