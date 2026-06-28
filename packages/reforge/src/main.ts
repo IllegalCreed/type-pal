@@ -183,7 +183,7 @@ async function main(): Promise<void> {
       ctx.save()
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
       ctx.imageSmoothingEnabled = false
-      menuBox.render(ctx, menu, world)
+      menuBox.render(ctx, menu, world, performance.now())
       ctx.restore()
     }
   }

@@ -11,8 +11,8 @@ export interface MenuState {
 /** 主菜单四项;仅「状态」enabled,其余占位(D17 范围)。 */
 export const MAIN_ITEMS: { id: MenuId; label: TextId; enabled: boolean }[] = [
   { id: 'status', label: 'menu.status', enabled: true },
-  { id: 'item', label: 'menu.item', enabled: false },
   { id: 'magic', label: 'menu.magic', enabled: false },
+  { id: 'item', label: 'menu.item', enabled: false },
   { id: 'system', label: 'menu.system', enabled: false },
 ]
 

@@ -57,9 +57,10 @@ function drawBoxShadow(
   w: number,
   h: number,
 ): void {
+  // 画布留余量:框右侧卷轴头探出(~10px)+ 阴影偏移(6),否则右边阴影被裁
   const off = document.createElement('canvas')
-  off.width = Math.ceil(w)
-  off.height = Math.ceil(h)
+  off.width = Math.ceil(w) + 16
+  off.height = Math.ceil(h) + 16
   const octx = off.getContext('2d')
   if (!octx) return
   octx.imageSmoothingEnabled = false
@@ -128,13 +129,28 @@ export function drawSlicedBox(
   if (br) ctx.drawImage(br, rightColX, botRowY)
 }
 
-// ── 主菜单布局 ───────────────────────────────────────────────
+// ── 主菜单布局(原版 sdlpal uigame.c:974-989)───────────────────
+// 框 PAL_XY(3,37)、项 PAL_XY(16,50) 行距 18;框高 = border 20 + 中段 18×3 + border 20
+const MENU_X = 3
+const MENU_Y = 37
+const MENU_W = 72
+const MENU_H = 94
+const ITEM_X = 16
+const ITEM_Y0 = 50
+const ITEM_H = 18
 
-const MENU_X = 110
-const MENU_Y = 40
-const MENU_W = 100
-const MENU_ITEM_H = 18
-const MENU_TEXT_X = MENU_X + 16
+// 菜单项色(palette 0;ui.h):普通 0x4F / 禁用 0x18 / 禁用选中 0x1C / 选中 0xF9-FE(6 帧闪烁)
+const COLOR_NORMAL = [199, 186, 174] as const
+const COLOR_DISABLED = [166, 40, 32] as const
+const COLOR_DISABLED_SEL = [215, 109, 93] as const
+const SELECTED_COLORS = [
+  [247, 231, 109],
+  [235, 211, 97],
+  [227, 190, 89],
+  [219, 174, 81],
+  [231, 195, 93],
+  [243, 219, 105],
+] as const
 
 // ── 状态面板布局 ─────────────────────────────────────────────
 
@@ -219,47 +235,36 @@ export class MenuBox {
     private readonly assets: MenuAssets,
   ) {}
 
-  render(ctx: CanvasRenderingContext2D, state: MenuState, world: WorldState): void {
+  render(ctx: CanvasRenderingContext2D, state: MenuState, world: WorldState, now: number): void {
     if (state.menu === 'status') {
       this.renderStatus(ctx, world)
       return
     }
-    // main(其余占位菜单也显示 main 框 + 未实现提示)
-    this.renderMain(ctx, state)
+    // main(占位子菜单也显示 main 框)
+    this.renderMain(ctx, state, now)
   }
 
-  private renderMain(ctx: CanvasRenderingContext2D, state: MenuState): void {
-    const h = 16 + MAIN_ITEMS.length * MENU_ITEM_H
-    drawSlicedBox(ctx, this.assets.box, MENU_X, MENU_Y, MENU_W, h)
+  private renderMain(ctx: CanvasRenderingContext2D, state: MenuState, now: number): void {
+    drawSlicedBox(ctx, this.assets.box, MENU_X, MENU_Y, MENU_W, MENU_H)
 
+    // 选中项颜色:6 帧闪烁(原版 ui.h MENUITEM_COLOR_SELECTED,600ms 轮 6 色);非箭头,纯变色高亮
+    const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL
     MAIN_ITEMS.forEach((item, idx) => {
-      const y = MENU_Y + 10 + idx * MENU_ITEM_H
-      const isCursor = idx === state.cursor
-      const txt = lookupText(item.label, this.locale)
-      // 光标(▶)+ 项文本;disabled 暗色
-      const spans = [{ text: `${isCursor ? '▶' : '　'}${txt}` }]
-      renderSpans(ctx, spans, MENU_TEXT_X, y, {
+      const y = ITEM_Y0 + idx * ITEM_H
+      const selected = idx === state.cursor
+      const color = item.enabled
+        ? selected
+          ? blink
+          : COLOR_NORMAL
+        : selected
+          ? COLOR_DISABLED_SEL
+          : COLOR_DISABLED
+      renderSpans(ctx, [{ text: lookupText(item.label, this.locale) }], ITEM_X, y, {
         glyphs: this.glyphs,
         shadow: true,
-        forceRgba: item.enabled ? undefined : ([100, 100, 100] as const),
+        forceRgba: color,
       })
     })
-
-    // 占位项选中显「未实现」
-    const cur = MAIN_ITEMS[state.cursor]
-    if (cur && !cur.enabled) {
-      renderSpans(
-        ctx,
-        [{ text: lookupText('menu.not-implemented', this.locale) }],
-        MENU_TEXT_X,
-        MENU_Y + h + 4,
-        {
-          glyphs: this.glyphs,
-          shadow: true,
-          forceRgba: [200, 200, 80] as const,
-        },
-      )
-    }
   }
 
   private renderStatus(ctx: CanvasRenderingContext2D, world: WorldState): void {

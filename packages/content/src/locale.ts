@@ -22,7 +22,7 @@ export const zhLocale: Locale = {
   'name.li-xiaoyao': '李逍遥',
   'menu.status': '状态',
   'menu.item': '物品',
-  'menu.magic': '武功',
+  'menu.magic': '仙术',
   'menu.system': '系统',
   'menu.not-implemented': '未实现',
   'stat.level': '等级',
