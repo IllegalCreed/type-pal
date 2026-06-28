@@ -56,6 +56,14 @@
 | [visual-design](dialogue/visual-design.md) | ② 外观设计（Canvas2D 适配 + slot 共存 + 完整技术点仪表盘） | 已认可 |
 | [visual-plan](dialogue/visual-plan.md) | ② TDD 实现计划（7 Task） | 待实现 |
 
+### menu/ · 菜单系统（D17）
+> 角色 schema §9 首次代码化 + 数据驱动 UI + 可切片框原语；长在 D16 地基上。
+
+| 文件 | 内容 | 状态 |
+|---|---|---|
+| [design](menu/design.md) | 角色 schema + 数据驱动布局 + 可切片框原语（九宫格/卷轴）+ 范围 | 已认可 |
+| [plan](menu/plan.md) | TDD 实现计划（5 Task：schema→状态机→资产→UI→集成） | 待实现 |
+
 ## 怎么用（阅读路径）
 - **整体方向** → [roadmap](roadmap.md)
 - **开工铁律** → [READ-FIRST](READ-FIRST.md)

@@ -345,8 +345,9 @@ git commit -m "chore(reforge): 菜单资产落位 — 状态背景 + 装备格(�
 
 `menu/menu-box.ts`：
 - 加载九宫格 9-frame（fetch `/extracted/images/ui/frame-0X.png`，decode；Task 3 核对的编号）+ 状态背景（`/ui/status-bg.png`）+ 装备格（`/ui/equip-slot.png`），用 `createImageBitmap` → canvas（同 dialog-assets loadPortraits）。
-- `drawNineBox(ctx, x, y, w, h, frames)`：① 先画**大阴影**（整框 `drawImage` 偏移 +6px + `globalAlpha` 半透明黑，仿原版 `PAL_CreateBoxWithShadow` 的 shadow offset，**阴影代码画、不切进素材**）；② 再 4 角原尺寸 + 4 边拉伸 + 中心拉伸（`drawImage` 带目标宽高）= 任意尺寸框。`frames` = 原版**黄框** 9-frame（`gpSpriteUI` iStyle 0，Task 3 核对的 frame）。
-  > 卷轴类（金钱 / 道具）D17 不做（占位菜单的 UI）；它们尺寸固定、将来整图 ×4 用、不走 drawNineBox（见 [design §4](../menu/design.md)）。
+- `drawSlicedBox(ctx, img, grid, x, y, w, h)` —— **统一可切片框原语**（九宫格 / 卷轴共用，[design §4](../menu/design.md)）：① 先画**大阴影**（整框 `drawImage` 偏移 +6px + `globalAlpha` 半透明黑，仿原版 `PAL_CreateBoxWithShadow` 的 shadow offset，**阴影代码画、不切素材**）；② 按 `grid`（如 `{cols:3,rows:3}`）切 **source rect**：四角固定、边单轴拉、中心双轴拉（`drawImage` 带 source rect + 目标宽高）= 任意尺寸框。
+  - D17 用它画**黄框**：`grid 3×3`，img = 原版 `gpSpriteUI` 黄框 9-frame（Task 3 核对的 frame，可拼成一张或传 9 帧数组）。
+  - 卷轴（金钱 `3×1` / 道具 `1×3`）D17 不做，但**同原语、只换 `grid` 参数**（物品 / 系统菜单时零新代码接入）—— 这就是统一原语的价值。
 - 主菜单：`drawNineBox` 一个小框 + 遍历 `MAIN_ITEMS` 用 `renderSpans` 画项（enabled 用 default 色、disabled 用暗色）；`state.cursor` 项前画光标（复用对话光标 or ▶ 字符）。
 - 320 逻辑坐标（调用方 ctx.scale(4) 放大）。
 
