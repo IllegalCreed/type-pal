@@ -157,12 +157,13 @@ const SELECTED_COLORS = [
 // ── 状态面板布局(三栏:左属性 / 中名字+立绘 / 右 6 装备格 2×3 平铺)──
 // 左栏:属性 9 项(label 字模 + value 数字 sprite)
 const STAT_X = 8 // label x
-const STAT_VAL_RIGHT = 80 // value(当前)数字右对齐 x
-const STAT_SLASH_X = 82 // HP/MP 斜杠 x
-const STAT_MAX_RIGHT = 112 // HP/MP 最大值(蓝)右对齐 x(避开立绘左缘)
-const STAT_Y0 = 16
-const STAT_LINE_H = 18
-const STAT_NUM_DY = 4 // 数字 sprite 相对 label 顶的 y 微调(与字模对齐)
+const STAT_VAL_RIGHT = 70 // value(当前)数字右对齐 x
+const STAT_SLASH_X = 72 // 斜杠紧跟当前值
+const STAT_MAX_RIGHT = 98 // 最大值右对齐(紧跟斜杠 → 当前/斜杠/最大三者紧凑)
+const STAT_MAX_DOWN = 5 // 最大值偏下(原版错落:当前在上、最大错落偏下)
+const STAT_Y0 = 10
+const STAT_LINE_H = 20 // 属性行距(作者:再增加)
+const STAT_NUM_DY = 4 // 数字 sprite 相对 label 顶 y 微调
 // 中栏:名字(上) + 立绘(下),整体垂直居中
 const MID_CX = 158
 const NAME_Y = 30
@@ -453,7 +454,7 @@ export class MenuBox {
       if (row.max !== undefined) {
         if (this.assets.slash) ctx.drawImage(this.assets.slash, STAT_SLASH_X, ny)
         const maxNums = row.maxKind === 'cyan' ? this.assets.numsCyan : this.assets.numsBlue
-        drawNumber(ctx, row.max, STAT_MAX_RIGHT, ny, maxNums)
+        drawNumber(ctx, row.max, STAT_MAX_RIGHT, ny + STAT_MAX_DOWN, maxNums) // 偏下错落
       }
       y += STAT_LINE_H
     }
