@@ -69,8 +69,8 @@ export interface Dialogue {
 
 export interface EntityDef {
   id: string
-  /** 世界像素坐标（脚下锚点） */
-  pos: Vec2
+  /** 世界菱形轴逻辑坐标(D16);height=0 地面站立。 */
+  pos: GridPos
   /** 精灵引用 id；reforge 解析到具体原版精灵 */
   sprite: string
   /** 是否挡路（碰撞） */
@@ -89,11 +89,11 @@ export interface SceneDef {
    */
   map: {
     reuseOriginalMap: number
-    /** 取哪一间：该房间在原图里的格子矩形（左上角 col/row + 宽高格数） */
+    /** 取哪一间：该房间在原图里的格子矩形（左上角 col/row + 宽高格数,旧 cell 坐标,显示层用） */
     room: { col: number; row: number; cols: number; rows: number }
   }
   /** 玩家（李逍遥）进场点 */
-  entry: { pos: Vec2; facing: Facing }
+  entry: { pos: GridPos; facing: Facing }
   /** 场上 NPC / 物件（不含玩家） */
   entities: EntityDef[]
   dialogues: Dialogue[]
@@ -107,13 +107,13 @@ export const guijieMinjuScene: SceneDef = {
     // room#0：右上那间（脚本勘出的内容簇之一）。reforge 只渲染 / 碰撞这个窗口。
     room: { col: 26, row: 34, cols: 22, rows: 25 },
   },
-  // 绝对世界像素坐标（同瓦片坐标系）。必须落在等距格点上：x/16 + y/8 为偶
-  // （每步同改 x±16/y±8，该奇偶是不变量 → 起点错位则永远站两格之间）。1216/16=76、832/8=104，偶 ✓。
-  entry: { pos: { x: 1216, y: 832 }, facing: 'down' },
+  // 菱形轴格坐标(D16):gridToPixel(90,14)=(1216,832)。走一格单轴±1。
+  entry: { pos: { col: 90, row: 14, height: 0 }, facing: 'down' },
   entities: [
     {
       id: 'wandering-ghost',
-      pos: { x: 1280, y: 832 }, // col40/row52：脚本核出的开阔地板，四邻无家具、不被遮挡
+      // gridToPixel(92,12)=(1280,832):脚本核出的开阔地板,四邻无家具、不被遮挡
+      pos: { col: 92, row: 12, height: 0 },
       sprite: 'ghost', // demo 占位 = 原版 sprite 16（老者）；回头换鬼气精灵 + 半透明化
       collide: true,
       interact: 'ghost-hearsay',

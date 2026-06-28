@@ -1,4 +1,10 @@
-import { type Dialogue, type EntityDef, type Facing, guijieMinjuScene } from '@type-pal/content'
+import {
+  type Dialogue,
+  type EntityDef,
+  type Facing,
+  type GridPos,
+  guijieMinjuScene,
+} from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import {
   type LoadedSprite,
@@ -8,10 +14,11 @@ import {
   loadTilemap,
   loadTileset,
 } from './assets.js'
-import { buildIsBlocked, sameTile } from './collision.js'
+import { isBlockedAt, sameGrid } from './collision.js'
 import { loadCursorFrames, loadPortraits } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import { startDialogue } from './dialogue.js'
+import { gridToPixel, pixelToGrid } from './grid.js'
 import { Keyboard } from './input.js'
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type SpriteDraw } from './render.js'
@@ -27,12 +34,13 @@ const WALK_FRAMES = 3
 const FACING_TO_DIR: Record<Facing, number> = { down: 0, left: 1, up: 2, right: 3 }
 const STEP_CYCLE = [0, 1, 0, 2] // iStepFrameLeader（scene.c:663）：站 / 迈左 / 站 / 迈右
 const STEP_MS = 100 // 探索步进 ~10fps = 仙剑「卡顿感」（不是 60fps 平滑滑行）
-// 方向 → 世界步进（scene-system X_STEP=16 / Y_STEP=8，等距对角）
-const WALK_STEP: Record<Facing, { dx: number; dy: number }> = {
-  down: { dx: -16, dy: 8 },
-  up: { dx: 16, dy: -8 },
-  left: { dx: -16, dy: -8 },
-  right: { dx: 16, dy: 8 },
+// 方向 → 菱形轴单轴步进(D16):走一格只动一个轴。down=右下视野=row+1,up=左上=row-1,
+// left=左下=col-1,right=右下=col+1(屏幕位移与原版 WALK_STEP 一致,见 gridToPixel 验证)。
+const WALK_STEP: Record<Facing, { dcol: number; drow: number }> = {
+  down: { dcol: 0, drow: 1 },
+  up: { dcol: 0, drow: -1 },
+  left: { dcol: -1, drow: 0 },
+  right: { dcol: 1, drow: 0 },
 }
 
 function get2dContext(c: HTMLCanvasElement): CanvasRenderingContext2D {
@@ -100,14 +108,15 @@ async function main(): Promise<void> {
   const camera = { x: 0, y: 0 }
   const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v)
   function updateCamera(): void {
-    camera.x = clamp(player.pos.x - PARTY_OX, roomMinX, Math.max(roomMinX, roomMaxX - VIEW_W))
-    camera.y = clamp(player.pos.y - PARTY_OY, roomMinY, Math.max(roomMinY, roomMaxY - VIEW_H))
+    const pp = gridToPixel(player.pos)
+    camera.x = clamp(pp.x - PARTY_OX, roomMinX, Math.max(roomMinX, roomMaxX - VIEW_W))
+    camera.y = clamp(pp.y - PARTY_OY, roomMinY, Math.max(roomMinY, roomMaxY - VIEW_H))
   }
 
   // 精灵：李逍遥 = 原版 spriteNum 2；鬼 = 占位 sprite 16（原版一老者，比箱子像样；鬼气化留后续 polish）。
   const [playerSprite, ghostSprite] = await Promise.all([loadSprite(2), loadSprite(16)])
   const ghost = requireFirst(guijieMinjuScene.entities, '场景缺少鬼实体')
-  const player = { pos: { ...guijieMinjuScene.entry.pos } }
+  const player: { pos: GridPos } = { pos: { ...guijieMinjuScene.entry.pos } }
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits)
   let facing: Facing = guijieMinjuScene.entry.facing
   let walking = false
@@ -122,10 +131,11 @@ async function main(): Promise<void> {
     const sprites: SpriteDraw[] = []
     const gf = ghostSprite.frames[0]
     if (gf) {
+      const gp = gridToPixel(ghost.pos)
       sprites.push({
         frame: gf,
-        worldX: ghost.pos.x,
-        worldY: ghost.pos.y,
+        worldX: gp.x,
+        worldY: gp.y,
         anchorX: ghostSprite.anchorX,
         anchorY: ghostSprite.anchorY,
       })
@@ -134,10 +144,11 @@ async function main(): Promise<void> {
     const fi = walking ? dir * WALK_FRAMES + (STEP_CYCLE[stepFrame] ?? 0) : dir * WALK_FRAMES
     const pf = playerSprite.frames[fi] ?? playerSprite.frames[0]
     if (pf) {
+      const pp = gridToPixel(player.pos)
       sprites.push({
         frame: pf,
-        worldX: player.pos.x,
-        worldY: player.pos.y,
+        worldX: pp.x,
+        worldY: pp.y,
         anchorX: playerSprite.anchorX,
         anchorY: playerSprite.anchorY,
       })
@@ -174,23 +185,26 @@ async function main(): Promise<void> {
           { x: c * TILE_W + TILE_W / 2, y: r * TILE_H + TILE_H / 2 },
         ]
         for (const pt of pts) {
-          ctx.fillStyle = isBlocked(pt.x, pt.y) ? 'rgba(255,40,40,0.95)' : 'rgba(50,255,50,0.7)'
+          const g = pixelToGrid(pt.x, pt.y)
+          ctx.fillStyle = isBlocked({ col: g.col, row: g.row, height: 0 })
+            ? 'rgba(255,40,40,0.95)'
+            : 'rgba(50,255,50,0.7)'
           ctx.fillRect(pt.x - camera.x - 1, pt.y - camera.y - 1, 2, 2)
         }
       }
     }
     ctx.fillStyle = '#ffff00' // 玩家脚点
-    ctx.fillRect(player.pos.x - camera.x - 2, player.pos.y - camera.y - 2, 4, 4)
+    const ppp = gridToPixel(player.pos)
+    ctx.fillRect(ppp.x - camera.x - 2, ppp.y - camera.y - 2, 4, 4)
     ctx.restore()
   }
 
   // 移动 + 交互。相机固定（整间屋上屏）。
-  const tileBlocked = buildIsBlocked(map)
   // 静态实体碰撞:collide 实体占其 pos 所在格,玩家目标落该格 → 挡。
   // 闭包读 entities 当前 pos(将来移动 NPC 也自然生效;静态阶段 pos 不变)。
-  const isBlocked = (x: number, y: number): boolean =>
-    tileBlocked(x, y) ||
-    guijieMinjuScene.entities.some((e) => e.collide === true && sameTile(x, y, e.pos.x, e.pos.y))
+  const isBlocked = (pos: GridPos): boolean =>
+    isBlockedAt(map, pos) ||
+    guijieMinjuScene.entities.some((e) => e.collide === true && sameGrid(pos, e.pos))
   const keyboard = new Keyboard()
   const INTERACT_RANGE = 48 // 像素：靠近实体即可交互
 
@@ -208,12 +222,14 @@ async function main(): Promise<void> {
     return guijieMinjuScene.dialogues.find((d) => d.id === id)
   }
 
-  /** 玩家附近、可交互的实体（取首个有 interact 且在范围内的）。 */
+  /** 玩家附近、可交互的实体（取首个有 interact 且在像素范围内的）。 */
   function nearbyInteractable(): EntityDef | undefined {
+    const pp = gridToPixel(player.pos)
     return guijieMinjuScene.entities.find((e) => {
       if (!e.interact) return false
-      const ex = e.pos.x - player.pos.x
-      const ey = e.pos.y - player.pos.y
+      const ep = gridToPixel(e.pos)
+      const ex = ep.x - pp.x
+      const ey = ep.y - pp.y
       return ex * ex + ey * ey <= INTERACT_RANGE * INTERACT_RANGE
     })
   }
@@ -253,7 +269,7 @@ async function main(): Promise<void> {
           while (stepAcc >= STEP_MS) {
             stepAcc -= STEP_MS
             const next = resolveMove(player.pos, WALK_STEP[dir], isBlocked)
-            if (next.x === player.pos.x && next.y === player.pos.y) {
+            if (next.col === player.pos.col && next.row === player.pos.row) {
               // 撞禁入(墙/实体):停下、不原地踏步——站立帧 + 复位迈腿相位 + 清累加(同松键停步)
               walking = false
               stepFrame = (stepFrame & 2) ^ 2
