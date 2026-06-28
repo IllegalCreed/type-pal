@@ -6,7 +6,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
-    "check": "pnpm typecheck && pnpm test"
+    "check": "pnpm typecheck && pnpm test",
+    "bake": "tsx scripts/bake-assets.mts"
   },
   "dependencies": {
     "@type-pal/content": "workspace:*",
@@ -14,6 +15,8 @@
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
+    "@types/pngjs": "^6.0.5",
+    "pngjs": "^7.0.0",
     "tsx": "^4.22.3"
   }
 }

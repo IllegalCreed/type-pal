@@ -11,12 +11,6 @@ importers:
       '@biomejs/biome':
         specifier: ^2.4.15
         version: 2.4.15
-      '@types/pngjs':
-        specifier: ^6.0.5
-        version: 6.0.5
-      pngjs:
-        specifier: ^7.0.0
-        version: 7.0.0
       tsx:
         specifier: ^4.22.3
         version: 4.22.3
@@ -87,6 +81,12 @@ importers:
       '@types/node':
         specifier: ^25.9.1
         version: 25.9.1
+      '@types/pngjs':
+        specifier: ^6.0.5
+        version: 6.0.5
+      pngjs:
+        specifier: ^7.0.0
+        version: 7.0.0
       tsx:
         specifier: ^4.22.3
         version: 4.22.3

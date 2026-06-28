@@ -7,6 +7,6 @@
  * 依赖边界：依赖 content（目标 schema）+ shared（读原版解码）——
  *   **是唯一合法依赖第一阶段 shared 的第二阶段包**（两阶段桥）；不依赖 reforge / editor。
  * 见 content-schema §8、decisions D18 / D15。
- * 状态：占位。③ 阶段（schema 被切片验证稳定后）正式实现。
+ * 状态：资产迁移已起（asset-pipeline.md，UI box 首切片）；数据迁移（脚本 / 对话 → schema）③ 阶段。
  */
-export const MIGRATE_PLACEHOLDER = true
+export { bakeIndexedRgba } from './bake-indexed-rgba.js'

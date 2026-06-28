@@ -1,7 +1,7 @@
 /**
  * 对话资产加载(② 外观 Task 5 光标 + Task 6 头像)。
  * 端口自 packages/game/src/assets/dialog-assets.ts。
- * Canvas2D 适配:光标 sprite → tint bake(6 步轮转);头像 → 预烘 RGBA PNG(迁移期 bake-portraits.mts),直接 drawImage。
+ * Canvas2D 适配:光标 sprite → tint bake(6 步轮转);头像 → 预烘 RGBA PNG(@type-pal/migrate bake-assets),直接 drawImage。
  */
 import { parseSpriteChunk, type RleFrame } from '@type-pal/shared'
 
@@ -52,7 +52,7 @@ export async function loadCursorFrames(baseUrl = '/extracted'): Promise<RleFrame
 }
 
 /**
- * 加载预烘 RGBA 头像 PNG(`/portraits/<chunk>.png`,迁移期 bake-portraits.mts 产物)。
+ * 加载预烘 RGBA 头像 PNG(`/portraits/<chunk>.png`,@type-pal/migrate bake-assets 产物)。
  * 运行时已脱离场景 palette:PNG 本身就是真彩,直接 createImageBitmap → 画到离屏 canvas,
  * drawImage 即可(D15 阶段A)。返回 Map<chunkIndex, HTMLCanvasElement>。失败项跳过(降级无头像)。
  */
