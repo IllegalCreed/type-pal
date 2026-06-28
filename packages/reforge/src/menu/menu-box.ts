@@ -159,7 +159,7 @@ const SELECTED_COLORS = [
 const STAT_X = 8 // label x
 const STAT_VAL_RIGHT = 70 // value(当前)数字右对齐 x
 const STAT_SLASH_X = 72 // 斜杠紧跟当前值
-const STAT_MAX_RIGHT = 98 // 最大值右对齐(紧跟斜杠 → 当前/斜杠/最大三者紧凑)
+const STAT_MAX_LEFT = 79 // 最大值左对齐起点(紧跟斜杠,不预留位数空间)
 const STAT_MAX_DOWN = 5 // 最大值偏下(原版错落:当前在上、最大错落偏下)
 const STAT_Y0 = 10
 const STAT_LINE_H = 20 // 属性行距(作者:再增加)
@@ -195,6 +195,25 @@ function drawNumber(
     if (img) {
       x -= img.width
       ctx.drawImage(img, x, y)
+    }
+  }
+}
+
+/** 画数字(左对齐:首位左边缘固定在 leftX,往右排)。max 紧跟斜杠用,不预留位数空间。 */
+function drawNumberLeft(
+  ctx: CanvasRenderingContext2D,
+  value: number,
+  leftX: number,
+  y: number,
+  nums: (ImageBitmap | undefined)[],
+): void {
+  const s = String(Math.max(0, Math.floor(value)))
+  let x = leftX
+  for (let i = 0; i < s.length; i++) {
+    const img = nums[s.charCodeAt(i) - 48]
+    if (img) {
+      ctx.drawImage(img, x, y)
+      x += img.width
     }
   }
 }
@@ -454,7 +473,7 @@ export class MenuBox {
       if (row.max !== undefined) {
         if (this.assets.slash) ctx.drawImage(this.assets.slash, STAT_SLASH_X, ny)
         const maxNums = row.maxKind === 'cyan' ? this.assets.numsCyan : this.assets.numsBlue
-        drawNumber(ctx, row.max, STAT_MAX_RIGHT, ny + STAT_MAX_DOWN, maxNums) // 偏下错落
+        drawNumberLeft(ctx, row.max, STAT_MAX_LEFT, ny + STAT_MAX_DOWN, maxNums) // 左对齐紧跟斜杠 + 偏下
       }
       y += STAT_LINE_H
     }
