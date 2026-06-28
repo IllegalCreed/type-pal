@@ -6,6 +6,7 @@ import {
   gridToPixel,
   guijieMinjuScene,
   pixelToGrid,
+  spriteScreenY,
 } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import {
@@ -136,7 +137,7 @@ async function main(): Promise<void> {
       sprites.push({
         frame: gf,
         worldX: gp.x,
-        worldY: gp.y,
+        worldY: spriteScreenY(ghost.pos), // 含 height 上移(D16);地面=0 同 gp.y
         anchorX: ghostSprite.anchorX,
         anchorY: ghostSprite.anchorY,
       })
@@ -149,7 +150,7 @@ async function main(): Promise<void> {
       sprites.push({
         frame: pf,
         worldX: pp.x,
-        worldY: pp.y,
+        worldY: spriteScreenY(player.pos), // 含 height 上移(D16);地面=0 同 pp.y
         anchorX: playerSprite.anchorX,
         anchorY: playerSprite.anchorY,
       })

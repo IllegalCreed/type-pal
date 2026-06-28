@@ -44,3 +44,12 @@ export function pixelToGrid(x: number, y: number): { col: number; row: number } 
   const b = y / HALF_H // col + row
   return { col: Math.round((b + a) / 2), row: Math.round((b - a) / 2) }
 }
+
+/**
+ * sprite 的屏幕 y(含 height 上移)。D16 规格:逻辑/碰撞/影子在地面 (col,row),
+ * height 只把 sprite 画的位置沿屏幕正上方移 —— 每级 16px(= 对角格 (col−h,row−h)
+ * 的屏幕 y)。地面实体 height=0 → 与 gridToPixel().y 相同。
+ */
+export function spriteScreenY(pos: GridPos): number {
+  return gridToPixel(pos).y - pos.height * 16
+}

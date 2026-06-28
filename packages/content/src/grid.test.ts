@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { type GridPos, gridToPixel, pixelToGrid } from './grid.js'
+import { type GridPos, gridToPixel, pixelToGrid, spriteScreenY } from './grid.js'
 
 describe('grid 坐标(菱形轴)', () => {
   test('格 → 像素 = (16(col−row), 8(col+row))', () => {
@@ -37,6 +37,21 @@ describe('grid 坐标(菱形轴)', () => {
       const px = gridToPixel(p)
       const back = pixelToGrid(px.x, px.y)
       expect(back).toEqual({ col: p.col, row: p.row })
+    }
+  })
+})
+
+describe('spriteScreenY(height 显示上移)', () => {
+  test('地面(height=0)→ 与 gridToPixel().y 相同', () => {
+    const ground: GridPos = { col: 90, row: 14, height: 0 }
+    expect(spriteScreenY(ground)).toBe(gridToPixel(ground).y)
+  })
+
+  test('height 每级上移 16px(= 对角格 (col−h,row−h) 的屏幕 y)', () => {
+    for (let h = 1; h <= 3; h++) {
+      const flying: GridPos = { col: 90, row: 14, height: h }
+      const diagCell: GridPos = { col: 90 - h, row: 14 - h, height: 0 }
+      expect(spriteScreenY(flying)).toBe(gridToPixel(diagCell).y)
     }
   })
 })
