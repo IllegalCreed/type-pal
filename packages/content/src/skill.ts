@@ -106,3 +106,25 @@ export const DEMO_SKILLS: Record<string, SkillData> = {
     animation: { effectSprite: 29 },
   },
 }
+
+/** ③ 习得规则:角色模板升到 level 自动习得 skillId(原版 level-up-magic.json)。 */
+export interface LevelUpSkill {
+  level: number
+  skillId: string
+}
+
+/**
+ * 升级习得表(content 静态)。真值 = 原版 level-up-magic.json[roleId]。
+ * 李逍遥 = roleId 0,原始 [{7,349},{7,313},{7,340},{0,0}(空槽),{30,354}] → 跳空槽。
+ *   349 天师符法 / 313 旋风咒 / 340 一阳指 / 354 万蚁蚀象(名 = spells.json._name)。
+ * ⚠ 这些是**战斗技能**(均非 outdoor),其完整 SkillData 待 phase3 migrate 全量;
+ *   demo 不跑升级逻辑,本表只验证 ③ 层 schema 形状 + 钉住真实数据。
+ */
+export const LEVEL_UP_SKILLS: Record<string, LevelUpSkill[]> = {
+  'li-xiaoyao': [
+    { level: 7, skillId: '349' },
+    { level: 7, skillId: '313' },
+    { level: 7, skillId: '340' },
+    { level: 30, skillId: '354' },
+  ],
+}
