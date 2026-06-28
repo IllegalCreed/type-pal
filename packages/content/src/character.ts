@@ -3,6 +3,7 @@ import type { TextId } from './index.js'
 /** L1 世界态(跟存档走;现 demo 内存构造)。 */
 export interface WorldState {
   party: CharacterInstance[]
+  money: number // 金钱(跟存档走;demo 内存构造 = 0)
 }
 
 /** 角色实例(稳定 id;运行态)。绝对值属性,非原版 modifier。 */
@@ -77,5 +78,5 @@ export function instantiate(t: CharacterTemplate): CharacterInstance {
 
 /** demo 世界态:单人李逍遥。 */
 export function initialWorld(): WorldState {
-  return { party: [instantiate(LI_XIAOYAO)] }
+  return { party: [instantiate(LI_XIAOYAO)], money: 0 }
 }

@@ -48,4 +48,29 @@ for (let i = 0; i <= 8; i++) {
   console.log(`baked ui box ${name}`)
 }
 
+// 3) 数字(黄,gpSpriteUI frame 19-28 = 数字 0-9;PAL_DrawNumber kNumColorYellow)
+mkdirSync(resolve(PUBLIC, 'ui/num'), { recursive: true })
+for (let d = 0; d <= 9; d++) {
+  bakeFile(
+    resolve(EXTRACTED, `images/ui/frame-${String(19 + d).padStart(2, '0')}.png`),
+    resolve(PUBLIC, `ui/num/${d}.png`),
+  )
+  console.log(`baked num ${d}`)
+}
+
+// 4) 金钱横卷轴(gpSpriteUI frame 44/45/46 = 左/中/右;PAL_CreateSingleLineBox)
+mkdirSync(resolve(PUBLIC, 'ui/cashbox'), { recursive: true })
+const cashFrames: [number, string][] = [
+  [44, 'left'],
+  [45, 'mid'],
+  [46, 'right'],
+]
+for (const [frame, name] of cashFrames) {
+  bakeFile(
+    resolve(EXTRACTED, `images/ui/frame-${String(frame).padStart(2, '0')}.png`),
+    resolve(PUBLIC, `ui/cashbox/${name}.png`),
+  )
+  console.log(`baked cashbox ${name}`)
+}
+
 console.log('done.')

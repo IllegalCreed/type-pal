@@ -23,6 +23,9 @@ describe('角色 schema', () => {
     expect(w.party).toHaveLength(1)
     expect(w.party[0]?.id).toBe('li-xiaoyao')
   })
+  test('initialWorld 含金钱字段(demo=0)', () => {
+    expect(initialWorld().money).toBe(0)
+  })
   test('instantiate 每次独立(不共享引用)', () => {
     const a = instantiate(LI_XIAOYAO)
     const b = instantiate(LI_XIAOYAO)
