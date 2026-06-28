@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { initialWorld, instantiate, LI_XIAOYAO } from './character.js'
+import { DEMO_ITEMS, effectiveStat } from './item.js'
 import { DEMO_SKILLS } from './skill.js'
 
 describe('角色 schema', () => {
@@ -16,7 +17,14 @@ describe('角色 schema', () => {
     expect(inst.speed).toBe(28)
     expect(inst.luck).toBe(32)
     expect(inst.exp).toBe(0)
-    expect(inst.equipment).toEqual({})
+    expect(inst.equipment).toEqual({
+      weapon: '166',
+      head: '196',
+      body: '208',
+      cloak: '225',
+      feet: '235',
+      accessory: '249',
+    })
     expect(inst.tags).toEqual([])
   })
   test('initialWorld = 单人队伍(李逍遥实例)+ 习得仙术关系表', () => {
@@ -29,6 +37,10 @@ describe('角色 schema', () => {
     for (const id of w.learnedSkills['li-xiaoyao'] ?? []) {
       expect(DEMO_SKILLS[id]?.usableOutsideBattle).toBe(true)
     }
+    expect(w.inventory).toContainEqual({ itemId: '267', count: 1 }) // 土灵珠在背包
+    expect(w.party[0]?.equipment.weapon).toBe('166') // 起手穿木剑
+    // 穿戴生效:有效防御 = base + 9
+    expect(effectiveStat(w.party[0]!, 'defense', DEMO_ITEMS)).toBe(w.party[0]!.defense + 9)
   })
   test('initialWorld 含金钱字段(demo=0)', () => {
     expect(initialWorld().money).toBe(0)

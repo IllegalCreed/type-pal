@@ -6,6 +6,8 @@ export interface WorldState {
   money: number // 金钱(跟存档走;demo 内存构造 = 0)
   /** 习得仙术关系表:charInstanceId → skillId[]。独立表(非内嵌 CharacterInstance),解耦 + MMO 玩家私有留口。 */
   learnedSkills: Record<string, string[]>
+  /** 持有物品(跟存档):itemId → 数量。穿戴中的不在此(在 CharacterInstance.equipment)。 */
+  inventory: { itemId: string; count: number }[]
 }
 
 /** 角色实例(稳定 id;运行态)。绝对值属性,非原版 modifier。 */
@@ -63,7 +65,14 @@ export const LI_XIAOYAO: CharacterTemplate = {
     speed: 28,
     luck: 32,
   },
-  initialEquipment: {},
+  initialEquipment: {
+    weapon: '166',
+    head: '196',
+    body: '208',
+    cloak: '225',
+    feet: '235',
+    accessory: '249',
+  },
   initialMagic: ['296', '298', '299'],
 }
 
@@ -86,5 +95,6 @@ export function initialWorld(): WorldState {
     party: [li],
     money: 0,
     learnedSkills: { [li.id]: [...LI_XIAOYAO.initialMagic] },
+    inventory: [{ itemId: '267', count: 1 }], // 土灵珠(demo:验装备菜单可换装 + 双重身份)
   }
 }

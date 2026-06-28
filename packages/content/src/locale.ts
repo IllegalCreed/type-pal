@@ -38,8 +38,8 @@ export const zhLocale: Locale = {
   'equip.weapon': '武器',
   'equip.head': '头部',
   'equip.body': '护甲',
-  'equip.feet': '足部',
-  'equip.accessory': '饰品',
-  'equip.amulet': '法宝',
+  'equip.cloak': '披风',
+  'equip.feet': '鞋',
+  'equip.accessory': '手饰',
   'equip.empty': '—',
 }
