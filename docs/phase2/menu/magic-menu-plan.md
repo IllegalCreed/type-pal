@@ -120,7 +120,8 @@ export function resolveOutdoorSkills(world: WorldState, casterId: string): Skill
   const ids = world.learnedSkills[casterId] ?? []
   return ids
     .map((id) => DEMO_SKILLS[id])
-    .filter((s): s is SkillData => s !== undefined && s.usableOutsideBattle)
+    .filter((s): s is SkillData => s != null) // 类型谓词单条件收窄(避 biome useOptionalChain 与谓词 boolean 返回冲突)
+    .filter((s) => s.usableOutsideBattle)
 }
 
 export function openMagicMenu(spells: SkillData[]): MagicMenuState {
