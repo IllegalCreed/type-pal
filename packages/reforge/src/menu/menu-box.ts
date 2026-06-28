@@ -17,20 +17,66 @@ import { MAIN_ITEMS } from '../menu-state.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
 
-/** 9 个九宫格块的定位(0..8 = i*3+j,i=row,j=col;黄框 frame-00..08)。 */
+/** 9 个九宫格块(0..8 = i*3+j,i=row,j=col;黄框 frame-00..08)。 */
 interface BoxTiles {
-  /** 9 块,已加载为 ImageBitmap;索引 = i*3+j。 */
+  /** 9 块预烘 RGBA,索引 = i*3+j。frame 尺寸不规则 → drawSlicedBox 按各块实际宽高定位。 */
   tiles: (ImageBitmap | undefined)[]
-  /** 角块在左/上的厚度(用于目标区定位)。frame 尺寸不规则,取左上角块尺寸。 */
-  cornerW: number
-  cornerH: number
+}
+
+/** 平铺填充:在 (dx,dy,dw,dh) 内重复画 img(原版 RLEBlit 平铺,非拉伸),clip 裁出界部分。 */
+function tileFill(
+  ctx: CanvasRenderingContext2D,
+  img: ImageBitmap,
+  dx: number,
+  dy: number,
+  dw: number,
+  dh: number,
+): void {
+  if (dw <= 0 || dh <= 0) return
+  ctx.save()
+  ctx.beginPath()
+  ctx.rect(dx, dy, dw, dh)
+  ctx.clip()
+  for (let yy = dy; yy < dy + dh; yy += img.height) {
+    for (let xx = dx; xx < dx + dw; xx += img.width) {
+      ctx.drawImage(img, xx, yy)
+    }
+  }
+  ctx.restore()
 }
 
 /**
- * 统一可切片框原语(design §4):四角按角块尺寸固定、四边各拉一向、中心双向拉。
- * 9 块直接定位(非拼单图)——原版 frame 尺寸不规则(右列 33/23/31),拼单图反而复杂。
- * edges 语义:某边角块不存在 → 该边/角跳过(将来横卷轴上下=0 自动退化)。
- * 大阴影:整框偏移 +6px 半透明黑(仿 PAL_CreateBoxWithShadow,阴影代码画不切素材)。
+ * 大阴影:框的**镂空形状**(非实心方块)偏移 +6 画半透明黑,仿原版 PAL_CreateBoxWithShadow。
+ * 离屏画一遍框 → source-in 染黑(保 alpha 形状)→ 半透明偏移贴主画布。
+ */
+function drawBoxShadow(
+  ctx: CanvasRenderingContext2D,
+  box: BoxTiles,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+): void {
+  const off = document.createElement('canvas')
+  off.width = Math.ceil(w)
+  off.height = Math.ceil(h)
+  const octx = off.getContext('2d')
+  if (!octx) return
+  octx.imageSmoothingEnabled = false
+  drawSlicedBox(octx, box, 0, 0, w, h, { shadow: false }) // shadow:false 避免递归
+  octx.globalCompositeOperation = 'source-in' // 仅已画像素处填 → 黑剪影,保框形状
+  octx.fillStyle = '#000'
+  octx.fillRect(0, 0, off.width, off.height)
+  ctx.save()
+  ctx.globalAlpha = 0.35
+  ctx.drawImage(off, x + 6, y + 6)
+  ctx.restore()
+}
+
+/**
+ * 统一可切片框原语(design §4)。九宫格 frame 尺寸不规则(右列卷轴头 33/31 > 中段 23)
+ * → 各块按**实际宽高**定位:左列锚左 / 右列锚右 / 上行锚上 / 下行锚下;四边 + 中心
+ * **平铺**(非拉伸);四角原尺寸最后画(盖住重叠端)。大阴影按框镂空形状(见 drawBoxShadow)。
  */
 export function drawSlicedBox(
   ctx: CanvasRenderingContext2D,
@@ -41,48 +87,42 @@ export function drawSlicedBox(
   h: number,
   opts: { shadow?: boolean } = {},
 ): void {
-  const { tiles, cornerW, cornerH } = box
+  const { tiles } = box
   const t = (i: number, j: number): ImageBitmap | undefined => tiles[i * 3 + j]
-
-  // 大阴影:整框偏移 +6px,半透明黑铺一层(代码画,不切素材)。
-  if (opts.shadow !== false) {
-    ctx.save()
-    ctx.globalAlpha = 0.35
-    ctx.fillStyle = '#000'
-    ctx.fillRect(x + 6, y + 6, w, h)
-    ctx.restore()
-  }
-
-  const midW = w - cornerW * 2 // 中段宽(可负则不画)
-  const midH = h - cornerH * 2
-  const rightX = x + w - cornerW
-  const bottomY = y + h - cornerH
-  const midX = x + cornerW
-  const midY = y + cornerH
-
-  // 四角(固定尺寸)
   const tl = t(0, 0)
   const tr = t(0, 2)
   const bl = t(2, 0)
   const br = t(2, 2)
-  if (tl) ctx.drawImage(tl, x, y, cornerW, cornerH)
-  if (tr) ctx.drawImage(tr, rightX, y, cornerW, cornerH)
-  if (bl) ctx.drawImage(bl, x, bottomY, cornerW, cornerH)
-  if (br) ctx.drawImage(br, rightX, bottomY, cornerW, cornerH)
-
-  // 四边(各拉一向):上/下边横拉、左/右边纵拉
   const top = t(0, 1)
   const bottom = t(2, 1)
   const left = t(1, 0)
   const right = t(1, 2)
-  if (top && midW > 0) ctx.drawImage(top, midX, y, midW, cornerH)
-  if (bottom && midW > 0) ctx.drawImage(bottom, midX, bottomY, midW, cornerH)
-  if (left && midH > 0) ctx.drawImage(left, x, midY, cornerW, midH)
-  if (right && midH > 0) ctx.drawImage(right, rightX, midY, cornerW, midH)
-
-  // 中心(双向拉)
   const center = t(1, 1)
-  if (center && midW > 0 && midH > 0) ctx.drawImage(center, midX, midY, midW, midH)
+
+  if (opts.shadow !== false) drawBoxShadow(ctx, box, x, y, w, h)
+
+  // 列宽 / 行高 = 各列/行代表块的实际尺寸(右列各角块锚右、保自身宽 → 卷轴头探出造型)
+  const leftW = left?.width ?? tl?.width ?? 0
+  const rightW = right?.width ?? tr?.width ?? 0
+  const topH = top?.height ?? tl?.height ?? 0
+  const botH = bottom?.height ?? bl?.height ?? 0
+  const innerX = x + leftW
+  const innerY = y + topH
+  const innerW = w - leftW - rightW // 中段宽(中心 + 上下边)
+  const innerH = h - topH - botH // 中段高(中心 + 左右边)
+
+  // 中心 + 四边:平铺(bug:原拉伸 → 纹理变形)
+  if (center) tileFill(ctx, center, innerX, innerY, innerW, innerH)
+  if (top) tileFill(ctx, top, innerX, y, innerW, topH)
+  if (bottom) tileFill(ctx, bottom, innerX, y + h - botH, innerW, botH)
+  if (left) tileFill(ctx, left, x, innerY, leftW, innerH)
+  if (right) tileFill(ctx, right, x + w - rightW, innerY, rightW, innerH)
+
+  // 四角:原尺寸锚角(bug:原用统一 cornerW 把 33 宽的右角挤进 22 → 错位)
+  if (tl) ctx.drawImage(tl, x, y)
+  if (tr) ctx.drawImage(tr, x + w - tr.width, y)
+  if (bl) ctx.drawImage(bl, x, y + h - bl.height)
+  if (br) ctx.drawImage(br, x + w - br.width, y + h - br.height)
 }
 
 // ── 主菜单布局 ───────────────────────────────────────────────
@@ -148,26 +188,22 @@ async function loadPng(url: string): Promise<ImageBitmap | undefined> {
 }
 
 /**
- * 加载菜单资产:黄框九宫格 frame-00..08 + 状态背景 + 装备格。
- * 九宫格从 /extracted(原版),背景/装备格从 /ui(public)。
+ * 加载菜单资产:黄框九宫格 + 状态背景 + 装备格。
+ * 九宫格 = 预烘 RGBA(@type-pal/migrate bake-assets,palette 0),从 /ui/box;背景/装备格从 /ui。
  */
 export async function loadMenuAssets(): Promise<MenuAssets> {
-  // 黄框 9 块(frame-00..08 = i*3+j)
+  // 黄框 9 块预烘 RGBA(frame-00..08 = i*3+j),drawImage 直接用、零运行时烤
   const tiles: (ImageBitmap | undefined)[] = []
   for (let i = 0; i <= 8; i++) {
     const name = `frame-${String(i).padStart(2, '0')}.png`
-    tiles.push(await loadPng(`/extracted/images/ui/${name}`))
+    tiles.push(await loadPng(`/ui/box/${name}`))
   }
-  // 左上角块(frame-00: 22×20)定 cornerW/H
-  const tl = tiles[0]
-  const cornerW = tl?.width ?? 16
-  const cornerH = tl?.height ?? 16
   const [statusBg, equipSlot] = await Promise.all([
     loadPng('/ui/status-bg.png'),
     loadPng('/ui/equip-slot.png'),
   ])
   return {
-    box: { tiles, cornerW, cornerH },
+    box: { tiles },
     statusBg,
     equipSlot,
   }

@@ -5,8 +5,10 @@ import {
   type GridPos,
   gridToPixel,
   guijieMinjuScene,
+  initialWorld,
   pixelToGrid,
   spriteScreenY,
+  zhLocale,
 } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import {
@@ -22,6 +24,8 @@ import { loadCursorFrames, loadPortraits } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import { startDialogue } from './dialogue.js'
 import { Keyboard } from './input.js'
+import { loadMenuAssets, MenuBox } from './menu/menu-box.js'
+import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './menu-state.js'
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type SpriteDraw } from './render.js'
 
@@ -80,7 +84,7 @@ async function main(): Promise<void> {
       return []
     }),
   ])
-  // portraits 已是预烘 RGBA PNG(迁移期 bake-portraits.mts),不再需 palette 着色
+  // portraits 已是预烘 RGBA PNG(@type-pal/migrate bake-assets),不再需 palette 着色
   const portraits = await loadPortraits([1, 2]).catch((err: unknown) => {
     console.warn('[reforge] portraits 加载失败,降级无头像:', err)
     return new Map<number, HTMLCanvasElement>()
@@ -119,6 +123,10 @@ async function main(): Promise<void> {
   const ghost = requireFirst(guijieMinjuScene.entities, '场景缺少鬼实体')
   const player: { pos: GridPos } = { pos: { ...guijieMinjuScene.entry.pos } }
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits)
+  const world = initialWorld()
+  const menuAssets = await loadMenuAssets()
+  const menuBox = new MenuBox(glyphs, zhLocale, menuAssets)
+  let menu: MenuState = CLOSED
   let facing: Facing = guijieMinjuScene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位
@@ -168,6 +176,14 @@ async function main(): Promise<void> {
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
       ctx.imageSmoothingEnabled = false
       dialogBox.render(performance.now())
+      ctx.restore()
+    }
+    // 菜单(UI,最上层)同样 320 逻辑坐标 + ×4 高清(D17)
+    if (menu.active) {
+      ctx.save()
+      ctx.scale(WORLD_SCALE, WORLD_SCALE)
+      ctx.imageSmoothingEnabled = false
+      menuBox.render(ctx, menu, world)
       ctx.restore()
     }
   }
@@ -262,16 +278,25 @@ async function main(): Promise<void> {
     lastT = t
     const pressed = keyboard.consumePressed()
     const interact = pressed.has(' ') || pressed.has('Enter')
+    const esc = pressed.has('Escape')
 
-    if (dialogBox.active) {
+    // 三态优先级:菜单 > 对话 > 探索(用 else if 保证互斥)
+    if (menu.active) {
+      if (pressed.has('ArrowUp')) menu = moveCursor(menu, -1)
+      if (pressed.has('ArrowDown')) menu = moveCursor(menu, 1)
+      if (interact) menu = confirm(menu)
+      if (esc) menu = back(menu)
+    } else if (dialogBox.active) {
       if (interact) dialogBox.advance(t) // 翻页;翻完 → null(关闭)
     } else {
-      if (interact) {
+      if (esc) {
+        menu = openMenu()
+      } else if (interact) {
         const ent = nearbyInteractable()
         const dlg = ent?.interact ? dialogueById(ent.interact) : undefined
         if (dlg) dialogBox.open(startDialogue(dlg), t) // 分页由 DialogBox 按显示行算
       }
-      if (!dialogBox.active) {
+      if (!menu.active && !dialogBox.active) {
         const dir = heldDir()
         if (dir) {
           if (dir !== facing) {
