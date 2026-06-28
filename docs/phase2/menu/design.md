@@ -63,7 +63,12 @@ export interface CharacterTemplate {
 - **复用**：`renderSpans`/`measureSpans`（字模 / 多色 / 阴影）、`Keyboard`（↑↓ 选 / 确认 / 返回）、`ctx.scale(WORLD_SCALE=4)`（同对话框,UI 物理 1280 高清）。
 - **主菜单（弹出小框）**：**九宫格框** + 项列表（状态 / 物品 / 武功 / 系统）+ 光标;物品 / 武功 / 系统选中显「未实现」。
 - **状态子菜单（全屏面板）**：固定背景图（`status-bg-pal0`,原版风）+ **数据驱动动态布局**——遍历角色「属性列表 / 装备槽 / 技能」逐项动态画(不写死坐标);装备格用单素材按槽位数重复画。**加属性 / 抗性 / 装备类型 = 数据多一条、UI 自动多一行,不返工**(作者洞察)。
-- **九宫格框**（弹出框通用,任意尺寸）：**用原版 UI box 的 9-frame** —— sdlpal `PAL_CreateBox` 用 `gpSpriteUI` 的 3×3（`i*3+j` = 4角+4边+中心），`iStyle×9` 切样式（系统菜单黄框 / 列表红框 = 不同 iStyle）；已提取在 `data/extracted/images/ui/`（plan 时核对具体哪 9 个 frame）。走 D16 `ctx.scale(4)` ×4 整数放大，和世界 / 字 / 对话框一套（保原版像素观感）。**零重画、零 GPT** —— GPT 重绘高清属将来全套 AI 美术管线（[D15](../decisions.md)），现在不单独提。
+- **框 UI（原版 4 组，查证 sdlpal `ui.c`/`uigame.c`）**：
+  - **黄框（菜单）/ 红框（列表）** = `PAL_CreateBox`：`gpSpriteUI` 9-frame（3×3，`i*3+j`），`iStyle×9` 切黄/红，**按行列重复拉伸**（`rect.w += width*nColumns`）—— **原版本来就是九宫格 + 拉伸**，直接用（已提取 `data/extracted/images/ui/`，plan 核对哪 9 个 frame）。尺寸随内容变、要拉伸。
+  - **大阴影** = 原版 `PAL_CreateBoxWithShadow` 的 **shadow offset（代码画偏移投影，offset 6）**，**不在图里** —— 我们也**代码画**（drawImage 偏移 + 半透明黑），不切进素材。
+  - **卷轴类（金钱横卷轴 / 道具纵卷轴）** = 单独整图 sprite（如 `SPRITENUM_ITEMBOX=70`），**原版没切九宫格** —— 但装**固定大小内容**（金钱数字 / 单个道具图标），框**尺寸固定、不拉伸** → **整图 ×4 直接用，不必切九宫格**。
+  - 全部走 D16 `ctx.scale(4)` ×4 整数放大，保原版像素观感。**零重画、零 GPT**（GPT 重绘高清属将来全套 AI 美术管线 [D15](../decisions.md)，现在不单独提）。
+  - **⚠ D17 范围只用「黄框（主菜单）」+「状态背景」**；红框列表 / 金钱卷轴 / 道具卷轴是物品 / 武功 / 系统菜单的 UI → 占位、留那些菜单做时再接。
 
 ## 5. 资产
 
