@@ -346,8 +346,10 @@ export interface MenuAssets {
   magicPlayerBox: ImageBitmap | undefined
   /** 仙术菜单:角色头像(face-0 = 李逍遥 roleId 0)。 */
   magicFace: ImageBitmap | undefined
-  /** 仙术菜单:网格选中光标(cursor/grid)。 */
+  /** 仙术菜单:网格选中光标(cursor/grid,frame 69)。 */
   cursorGrid: ImageBitmap | undefined
+  /** 仙术菜单:选人红箭头(cursor/up,frame 67)。 */
+  cursorUp: ImageBitmap | undefined
 }
 
 /** 加载 PNG → ImageBitmap;失败返回 undefined(不阻断,渲染容错)。 */
@@ -399,10 +401,11 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     equipDemo[slot] = equipDemoArr[i]
   })
   // 仙术菜单专用 sprite(角色框 / 头像 / 网格光标)
-  const [magicPlayerBox, magicFace, cursorGrid] = await Promise.all([
+  const [magicPlayerBox, magicFace, cursorGrid, cursorUp] = await Promise.all([
     loadPng('/ui/magic/playerbox.png'),
     loadPng('/ui/magic/face-0.png'),
     loadPng('/ui/cursor/grid.png'),
+    loadPng('/ui/cursor/up.png'),
   ])
   return {
     box: { tiles },
@@ -419,6 +422,7 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     magicPlayerBox,
     magicFace,
     cursorGrid,
+    cursorUp,
   }
 }
 
