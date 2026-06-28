@@ -115,4 +115,21 @@ for (const [chunk, slot] of demoEquip) {
 }
 console.log('baked demo equip')
 
+// 8) 仙术菜单 sprite:红框九宫格(gpSpriteUI 9-17 = iStyle1)+ PlayerInfoBox(18)+ face(48+roleId)+ cursor(67上/68下/69网格)
+mkdirSync(resolve(PUBLIC, 'ui/box-red'), { recursive: true })
+for (let i = 0; i <= 8; i++) {
+  bakeFile(
+    resolve(EXTRACTED, `images/ui/frame-${String(9 + i).padStart(2, '0')}.png`),
+    resolve(PUBLIC, `ui/box-red/frame-${String(i).padStart(2, '0')}.png`),
+  )
+}
+mkdirSync(resolve(PUBLIC, 'ui/magic'), { recursive: true })
+bakeFile(resolve(EXTRACTED, 'images/ui/frame-18.png'), resolve(PUBLIC, 'ui/magic/playerbox.png'))
+bakeFile(resolve(EXTRACTED, 'images/ui/frame-48.png'), resolve(PUBLIC, 'ui/magic/face-0.png')) // 李逍遥 roleId 0
+mkdirSync(resolve(PUBLIC, 'ui/cursor'), { recursive: true })
+bakeFile(resolve(EXTRACTED, 'images/ui/frame-67.png'), resolve(PUBLIC, 'ui/cursor/up.png'))
+bakeFile(resolve(EXTRACTED, 'images/ui/frame-68.png'), resolve(PUBLIC, 'ui/cursor/down.png'))
+bakeFile(resolve(EXTRACTED, 'images/ui/frame-69.png'), resolve(PUBLIC, 'ui/cursor/grid.png'))
+console.log('baked magic-menu sprites (red box / playerbox / face / cursor)')
+
 console.log('done.')
