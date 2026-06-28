@@ -147,6 +147,7 @@ export const guijieMinjuScene: SceneDef = {
   ],
 }
 
+export * from './character.js'
 export * from './grid.js'
 export * from './locale.js'
 export * from './rich-text.js'
