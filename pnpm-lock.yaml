@@ -29,6 +29,12 @@ importers:
 
   packages/content: {}
 
+  packages/editor:
+    dependencies:
+      '@type-pal/content':
+        specifier: workspace:*
+        version: link:../content
+
   packages/game:
     dependencies:
       '@type-pal/shared':
@@ -68,6 +74,22 @@ importers:
       vite:
         specifier: ^8.0.14
         version: 8.0.14(@types/node@25.9.1)(esbuild@0.28.0)(tsx@4.22.3)
+
+  packages/migrate:
+    dependencies:
+      '@type-pal/content':
+        specifier: workspace:*
+        version: link:../content
+      '@type-pal/shared':
+        specifier: workspace:*
+        version: link:../shared
+    devDependencies:
+      '@types/node':
+        specifier: ^25.9.1
+        version: 25.9.1
+      tsx:
+        specifier: ^4.22.3
+        version: 4.22.3
 
   packages/pal-extract:
     dependencies:

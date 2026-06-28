@@ -69,7 +69,7 @@
 - ✅ **首个内容目标**：室内小场景（客栈 / 民居）跑通 + 改对话 + 加 NPC（见 §5）。
 - ✅ **代号：Reforge（重铸）** —— 把忠实还原「重铸」为可创作的现代引擎。
 - ✅ **受众**：先按**单人本地工具**设计，不做账号 / 协作 / 云同步 / 分发；但内容工程走「文件 + 版本化（git 友好）」，架构**不堵死**将来协作（与 §3 第 5 条的 MMO 留口一脉相承）。
-- ✅ **package 命名**：`@type-pal/content`（内容格式 + 迁移）、`@type-pal/reforge`（新引擎）、`@type-pal/editor`（编辑器）。
+- ✅ **package 架构（[D18](decisions.md) 厘清职责 + 阶段隔离）**：`@type-pal/content`（**内容数据模型** = schema + 纯逻辑）、`@type-pal/reforge`（新引擎）、`@type-pal/editor`（编辑器）、`@type-pal/migrate`（**迁移器**，独立成包、不再塞进 content）。内容实例（场景 / 对话数据）= 内容工程数据目录（非 npm 包）。**阶段隔离**：第二阶段代码不碰第一阶段包（shared / game / pal-extract），迁移器是唯一桥。
 
 **已决（2026-06-22）**
 

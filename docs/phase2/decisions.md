@@ -154,3 +154,33 @@
 **影响**：
 - 待 D16 落地后，菜单走 brainstorm → spec → plan → 实现；角色 / 世界态 schema 届时首次代码化（[content-schema §9](foundation/content-schema.md)）。
 - 美术资产：状态背景 + 装备格素材（作者已 AI 生图、选原版风），随 D16 素材管线落位。
+
+## D18 · 第二阶段包架构 + 阶段隔离（2026-06-28）
+
+**决定**：第二阶段各包**各司其职、不当垃圾桶**；第二阶段代码**一律不碰第一阶段包**（迁移器是唯一例外、唯一桥）。
+
+**包职责（第二阶段）**：
+| 包 | 定位 | 装什么 | 依赖 |
+|---|---|---|---|
+| `@type-pal/content` | **内容数据模型（契约层）** | schema 类型（DialogueLine/SceneDef/`GridPos`）+ 纯逻辑（grid 换算 / rich-text parse / validate）。reforge+editor+migrate 共用契约 | — |
+| `@type-pal/reforge` | **新引擎运行时** | 渲染 / 移动 / 碰撞 / 对话…消费 content | → content（现 → shared 是权宜，见下） |
+| `@type-pal/editor` | **可视化编辑器** | 读写 content 数据、产内容工程数据、嵌 reforge 预览 | → content |
+| `@type-pal/migrate` | **迁移器（工具）** | 原版 extracted → content 内容数据 + 烘 RGBA | → content + **shared**（读原版） |
+| 内容工程数据 | **内容实例（非代码包）** | 场景 / 对话 / 数据表 JSON（editor 产、reforge fetch、migrate 灌） | 数据目录，非 npm 包 |
+
+**content 边界（防垃圾桶）**：content = **数据模型（schema + 纯逻辑）**。判据：「是数据模型 / 操作模型的纯逻辑吗？是 → 进 content；是工具（迁移器）或内容实例（场景数据）→ 出去」。
+- ⚠ **迁移器不进 content** —— roadmap §7 原写「content = 格式 + 迁移」是把数据模型和工具混了 → 独立 `@type-pal/migrate`。
+- ⚠ **内容实例不是 content 本体** —— 场景 / 对话数据本质是内容工程数据（JSON 数据目录，editor 产 / reforge fetch）。现 demo 的 `guijieMinjuScene`/`locale` 暂放 content 当 fixture（权宜 TS import），**内容工程化（editor + fetch）后移出数据目录**。
+
+**阶段隔离铁律**：
+- 第一阶段包（`shared` / `game` / `pal-extract`）**冻结**，第二阶段一律**不碰**。
+- **唯一例外 = 迁移器**：依赖 shared 读原版（data/extracted）→ 转 content，是两阶段**唯一**桥。
+- `reforge` 现在 import shared（吃 data/extracted 的原版 RleFrame/Tilemap/Palette）= [D2](decisions.md) 切片**权宜**；[D15](decisions.md) 迁移器把素材转成 content 的 RGBA 后，这条依赖**断掉**（reforge 只依赖 content）。
+
+**理由**：架构优先（第二阶段铁律）。包职责混（工具 / 数据 / 模型缠一起）→ 依赖纠缠、改一处牵全身，正是第一阶段引擎债（见 [engine-debt-audit](foundation/engine-debt-audit.md)）的根。提前拆清、把边界 + 阶段隔离记死，往里加东西时有判据、不返工。editor / migrate 现在建空壳占位（职责钉死），正式实现在各自阶段（P2 / ③）。
+
+**影响**：
+- 新建 `packages/editor`（空壳，→ content）、`packages/migrate`（空壳，→ content + shared）。
+- `grid.ts` 已在 content（[render-foundation-plan](foundation/render-foundation-plan.md) Task 1）。
+- content 内容实例（`guijieMinjuScene`/`locale`）演进：暂留 content fixture → 内容工程化后移数据目录。
+- [roadmap §7](roadmap.md) 据此修正（content 定位 + 迁移器独立 + 阶段隔离）。
