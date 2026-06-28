@@ -25,6 +25,7 @@ export const zhLocale: Locale = {
   'menu.magic': '仙术',
   'menu.system': '系统',
   'menu.not-implemented': '未实现',
+  'menu.cash': '金钱',
   'stat.level': '等级',
   'stat.hp': '生命',
   'stat.mp': '灵力',

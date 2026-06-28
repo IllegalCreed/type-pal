@@ -165,6 +165,88 @@ const EQUIP_Y0 = 50
 const EQUIP_SLOT_SIZE = 32 // 装备格显示尺寸(逻辑)
 const EQUIP_LINE_H = 40
 
+/** 画数字(右对齐:个位右边缘固定在 rightX,往左排)。原版 PAL_DrawNumber 黄色右对齐。 */
+function drawNumber(
+  ctx: CanvasRenderingContext2D,
+  value: number,
+  rightX: number,
+  y: number,
+  nums: (ImageBitmap | undefined)[],
+): void {
+  const s = String(Math.max(0, Math.floor(value)))
+  let x = rightX
+  for (let i = s.length - 1; i >= 0; i--) {
+    const d = s.charCodeAt(i) - 48 // '0'=48
+    const img = nums[d]
+    if (img) {
+      x -= img.width
+      ctx.drawImage(img, x, y)
+    }
+  }
+}
+
+/**
+ * 金钱横卷轴(原版 PAL_CreateSingleLineBox):左头 + 中段×nLen + 右头。frame 44/45/46。
+ * 阴影(原版 PAL_CreateSingleLineBoxWithShadow,+6 偏移):整框画到离屏 → source-in 染黑
+ * 剪影 → alpha 0.35 偏移 +6 画到主 canvas(同 drawBoxShadow 思路,保卷轴镂空形状)。
+ */
+function drawCashBox(
+  ctx: CanvasRenderingContext2D,
+  box: { left?: ImageBitmap; mid?: ImageBitmap; right?: ImageBitmap },
+  x: number,
+  y: number,
+  nLen: number,
+  opts: { shadow?: boolean } = {},
+): void {
+  // 离屏画卷轴本体(供阴影剪影)
+  const leftW = box.left?.width ?? 0
+  const midW = box.mid?.width ?? 0
+  const rightW = box.right?.width ?? 0
+  const h = box.left?.height ?? box.mid?.height ?? box.right?.height ?? 0
+  const w = leftW + midW * nLen + rightW
+  if (w <= 0 || h <= 0) return
+
+  const off = document.createElement('canvas')
+  off.width = w
+  off.height = h
+  const octx = off.getContext('2d')
+  if (!octx) return
+  octx.imageSmoothingEnabled = false
+  let cx = 0
+  if (box.left) {
+    octx.drawImage(box.left, cx, 0)
+    cx += box.left.width
+  }
+  if (box.mid) {
+    for (let i = 0; i < nLen; i++) {
+      octx.drawImage(box.mid, cx, 0)
+      cx += box.mid.width
+    }
+  }
+  if (box.right) octx.drawImage(box.right, cx, 0)
+
+  // 阴影:离屏 source-in 染黑 → 主 canvas alpha 偏移 +6
+  if (opts.shadow !== false) {
+    const shadowOff = document.createElement('canvas')
+    shadowOff.width = w
+    shadowOff.height = h
+    const sctx = shadowOff.getContext('2d')
+    if (sctx) {
+      sctx.drawImage(off, 0, 0)
+      sctx.globalCompositeOperation = 'source-in'
+      sctx.fillStyle = '#000'
+      sctx.fillRect(0, 0, w, h)
+      ctx.save()
+      ctx.globalAlpha = 0.35
+      ctx.drawImage(shadowOff, x + 6, y + 6)
+      ctx.restore()
+    }
+  }
+
+  // 本体
+  ctx.drawImage(off, x, y)
+}
+
 /** 状态面板属性显示列表(数据驱动:加属性 = 列表多一条,UI 自动多一行)。 */
 function statList(c: CharacterInstance): [TextId, number][] {
   return [
@@ -195,6 +277,14 @@ export interface MenuAssets {
   statusBg: ImageBitmap | undefined
   /** 装备格图。 */
   equipSlot: ImageBitmap | undefined
+  /** 金钱横卷轴 3 帧(左/中/右,frame 44/45/46)。 */
+  cashBox: {
+    left: ImageBitmap | undefined
+    mid: ImageBitmap | undefined
+    right: ImageBitmap | undefined
+  }
+  /** 数字 0-9 预烘(索引=数字值)。 */
+  nums: (ImageBitmap | undefined)[]
 }
 
 /** 加载 PNG → ImageBitmap;失败返回 undefined(不阻断,渲染容错)。 */
@@ -209,8 +299,8 @@ async function loadPng(url: string): Promise<ImageBitmap | undefined> {
 }
 
 /**
- * 加载菜单资产:黄框九宫格 + 状态背景 + 装备格。
- * 九宫格 = 预烘 RGBA(@type-pal/migrate bake-assets,palette 0),从 /ui/box;背景/装备格从 /ui。
+ * 加载菜单资产:黄框九宫格 + 状态背景 + 装备格 + 金钱卷轴 + 数字。
+ * 全部 = 预烘 RGBA(@type-pal/migrate bake-assets,palette 0),drawImage 直接用、零运行时烤。
  */
 export async function loadMenuAssets(): Promise<MenuAssets> {
   // 黄框 9 块预烘 RGBA(frame-00..08 = i*3+j),drawImage 直接用、零运行时烤
@@ -219,14 +309,20 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     const name = `frame-${String(i).padStart(2, '0')}.png`
     tiles.push(await loadPng(`/ui/box/${name}`))
   }
-  const [statusBg, equipSlot] = await Promise.all([
+  const [statusBg, equipSlot, left, mid, right, nums] = await Promise.all([
     loadPng('/ui/status-bg.png'),
     loadPng('/ui/equip-slot.png'),
+    loadPng('/ui/cashbox/left.png'),
+    loadPng('/ui/cashbox/mid.png'),
+    loadPng('/ui/cashbox/right.png'),
+    Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num/${d}.png`))),
   ])
   return {
     box: { tiles },
     statusBg,
     equipSlot,
+    cashBox: { left, mid, right },
+    nums,
   }
 }
 
@@ -243,10 +339,24 @@ export class MenuBox {
       return
     }
     // main(占位子菜单也显示 main 框)
-    this.renderMain(ctx, state, now)
+    this.renderMain(ctx, state, world, now)
   }
 
-  private renderMain(ctx: CanvasRenderingContext2D, state: MenuState, now: number): void {
+  private renderMain(
+    ctx: CanvasRenderingContext2D,
+    state: MenuState,
+    world: WorldState,
+    now: number,
+  ): void {
+    // 金钱横卷轴(原版主菜单顶部 PAL_ShowCash):卷轴 (0,0) + 「金钱」label (10,10) + 黄数字 (49,14) 右对齐
+    drawCashBox(ctx, this.assets.cashBox, 0, 0, 5, { shadow: true })
+    renderSpans(ctx, [{ text: lookupText('menu.cash', this.locale) }], 10, 10, {
+      glyphs: this.glyphs,
+      shadow: true,
+      forceRgba: COLOR_NORMAL,
+    })
+    drawNumber(ctx, world.money, 85, 14, this.assets.nums)
+
     drawSlicedBox(ctx, this.assets.box, MENU_X, MENU_Y, MENU_W, MENU_H)
 
     // 选中项颜色:6 帧闪烁(原版 ui.h MENUITEM_COLOR_SELECTED,600ms 轮 6 色);非箭头,纯变色高亮
