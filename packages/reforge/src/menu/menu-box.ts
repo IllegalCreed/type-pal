@@ -169,13 +169,14 @@ const NAME_Y = 30
 const AVATAR_Y = 50
 const COLOR_NAME = [255, 203, 113] as const // 名字色 = 原版 MENUITEM_COLOR_CONFIRMED 0x2C 金黄
 // 右栏:6 装备格 2 列 × 3 行平铺(放大到接近原版 50×49)
-const EQUIP_X0 = 204
-const EQUIP_Y0 = 12
+const EQUIP_X0 = 200
+const EQUIP_Y0 = 8
 const EQUIP_COLS = 2
-const EQUIP_SLOT_SIZE = 54
+const EQUIP_SLOT_SIZE = 56
 const EQUIP_GAP_X = 6
 const EQUIP_GAP_Y = 8
-const EQUIP_NAME_INSET = 15 // 槽名距格底(画格内底部 + 半透明衬,省额外行高,3 行 in 200)
+const EQUIP_BORDER = 7 // slot 占位框边框厚(按比例;图标缩进此内凹区,定位条不压边框)
+const EQUIP_NAME_INSET = 13 // 槽名距格底(格内底,无衬底)
 
 /** 画数字(右对齐:个位右边缘固定在 rightX,往左排)。原版 PAL_DrawNumber 黄色右对齐。 */
 function drawNumber(
@@ -474,27 +475,28 @@ export class MenuBox {
       if (this.assets.equipSlot) {
         ctx.drawImage(this.assets.equipSlot, gx, gy, EQUIP_SLOT_SIZE, EQUIP_SLOT_SIZE)
       }
+      // 装备图标:缩进 slot 内凹区(避开占位框边框,定位条完整在格内),保比例居中
       const icon = this.assets.equipDemo[slot]
       if (icon) {
+        const inner = EQUIP_SLOT_SIZE - EQUIP_BORDER * 2
+        const scale = Math.min(inner / icon.width, inner / icon.height, 1)
+        const iw = icon.width * scale
+        const ih = icon.height * scale
         ctx.drawImage(
           icon,
-          Math.round(gx + (EQUIP_SLOT_SIZE - icon.width) / 2),
-          Math.round(gy + (EQUIP_SLOT_SIZE - icon.height) / 2),
+          Math.round(gx + (EQUIP_SLOT_SIZE - iw) / 2),
+          Math.round(gy + (EQUIP_SLOT_SIZE - ih) / 2),
+          Math.round(iw),
+          Math.round(ih),
         )
       }
-      // 槽名:格内底部 + 半透明黑衬底(省额外行高,3 行 in 200)
+      // 槽名:格内底部,无衬底(shadow 描边即可读)
       const nameSpan = [{ text: lookupText(label, this.locale) }]
-      const ty = gy + EQUIP_SLOT_SIZE - EQUIP_NAME_INSET
-      ctx.save()
-      ctx.globalAlpha = 0.5
-      ctx.fillStyle = '#000'
-      ctx.fillRect(gx + 1, ty - 1, EQUIP_SLOT_SIZE - 2, 15)
-      ctx.restore()
       renderSpans(
         ctx,
         nameSpan,
         gx + (EQUIP_SLOT_SIZE - measureSpans(nameSpan, this.glyphs)) / 2,
-        ty,
+        gy + EQUIP_SLOT_SIZE - EQUIP_NAME_INSET,
         { glyphs: this.glyphs, shadow: true, forceRgba: COLOR_NORMAL },
       )
     })
