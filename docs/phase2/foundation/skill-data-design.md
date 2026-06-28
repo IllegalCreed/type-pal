@@ -18,24 +18,32 @@
 ### ① SkillData(技能定义,content 静态)
 
 ```ts
+interface SkillCost {             // 消耗。原版 MP 在 Magic.costMP;酒/蛊/金钱在 scriptOnUse 脚本硬编 → 第二阶段提到 schema(数据驱动 > 硬编)
+  mp?: number
+  stamina?: number                // 体力(合体技)
+  money?: number                  // 乾坤一掷耗金钱
+  items?: { itemId: string; amount: number }[]  // 酒神耗酒 / 巫术耗蛊(依赖 item 系统)
+}
 interface SkillData {
-  id: string              // demo = 原版 oid 字符串('296');phase3 换规则编号。**当不透明 string,勿 hardcode 语义/算偏移**
+  id: string                      // demo = 原版 oid 字符串('296');phase3 换规则编号。**当不透明 string,勿 hardcode 语义/算偏移**
   name: string
-  costMP: number
+  desc: string                    // 描述。原版 scriptDesc 是脚本 entry(getScriptDescLines 解析成「我方单人HP+75」);第二阶段 clean rewrite 直接存文字
+  cost: SkillCost                 // 消耗(见上)
   usableOutsideBattle: boolean
+  targets: 'one' | 'all'          // 作用人数(原版 Spell.flags.applyToAll)
   // —— 以下议题16 扩展口,现 demo 不填(留形状,phase3 填) ——
-  // category?: string       // 类型:剑法/刀法/仙术/符术…
-  // series?: string         // 体系:御剑术→万剑诀→天剑→剑神 一脉
-  // targets?: 'one'|'all'   // 攻击人数
-  // costStamina?: number    // 体力消耗(合体技)
-  // damage?/heal?/effects?  // 伤害/恢复/特殊效果(挂标签相性=议题7)
-  // animId?: string         // 招式动画
-  // desc?: string           // 描述
+  // category?: string            // 类型:剑法/刀法/仙术/符术…
+  // series?: string              // 体系:御剑术→万剑诀→天剑→剑神 一脉
+  // elemental?/damage?/heal?/effects?  // 五行/伤害/恢复/特殊效果(挂标签相性=议题7)
+  // animId?: string              // 招式动画(原版 Magic.effect 特效精灵)
 }
 ```
 
-- 现在只定 **核心 4 字段**(仙术菜单查看就用);扩展字段以注释留形状,phase3 技能系统按议题 16 填(同 §9 角色 schema「形状留扩展、内容不填」)。
-- **自包含**:存值(name/costMP),不存 `magicNumber`(原版子表下标)。
+- **核心字段**(原版就有、菜单/战斗就用):id / name / **desc** / **cost** / usableOutsideBattle / targets。
+  - `desc`:原版 `Spell.scriptDesc`(脚本 entry,`getScriptDescLines` 解析文字);第二阶段直接存文字,不跑脚本。
+  - `cost`:原版 MP 在 `Magic.costMP`;**酒/蛊/金钱原版是 `scriptOnUse` 脚本硬编、不在数据** → 第二阶段提到 `SkillCost`(显式、数据驱动)。demo 仙术只填 `mp`,`items`(消耗品)依赖 item 系统、留后。
+- **扩展口**(议题16 类型/体系/效果引擎)以注释留形状,phase3 填(同 §9 角色 schema)。
+- **自包含**:存值,不存 `magicNumber`(原版子表下标)。
 
 ### ② learnedSkills(习得关系表,WorldState 跟存档)
 
@@ -71,7 +79,7 @@ LEVEL_UP_SKILLS: Record<string, LevelUpSkill[]>      // characterTemplateId → 
 
 ## 5. 仙术菜单怎么用本架构
 
-`learnedSkills[李逍遥实例 id]` → `skillId[]` → 查 `DEMO_SKILLS` 拿 `SkillData` → 网格显示(name)+ MP box(costMP)。`usableOutsideBattle` 过滤大世界可用。
+`learnedSkills[李逍遥实例 id]` → `skillId[]` → 查 `DEMO_SKILLS` 拿 `SkillData` → 网格显示(name)+ MP box(`cost.mp`)+ 描述区(`desc`)。`usableOutsideBattle` 过滤大世界可用。
 
 ## 6. Self-Review
 
