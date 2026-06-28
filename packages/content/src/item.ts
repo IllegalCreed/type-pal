@@ -1,5 +1,6 @@
 // 物品 / 装备数据 ① 层。见 docs/phase2/foundation/item-data-design.md。
 // 阶段隔离(D18):纯 content 数据 + 类型,无 reforge/引擎依赖。
+import type { CharacterInstance } from './character.js'
 import type { StatusId } from './skill.js'
 
 /** 战斗属性(对齐 CharacterInstance 的 5 项)。 */
@@ -181,4 +182,27 @@ export const DEMO_ITEMS: Record<string, ItemData> = {
       effects: [{ kind: 'triggerScript', scriptId: 'lingzhu-tu' }],
     },
   },
+}
+
+/** 有效属性 = 角色 base + Σ 已穿戴装备的 statBonus(该 stat)。纯函数,镜像 phase-1 equip-effect。
+ *  resist/grant/maxPool/attackAll 的运行时计算 = phase3 引擎,本函数只算 statBonus。 */
+export function effectiveStat(
+  char: CharacterInstance,
+  stat: CombatStat,
+  items: Record<string, ItemData>,
+): number {
+  const base: Record<CombatStat, number> = {
+    attack: char.attack,
+    magicAttack: char.magicAttack,
+    defense: char.defense,
+    speed: char.speed,
+    luck: char.luck,
+  }
+  let v = base[stat]
+  for (const itemId of Object.values(char.equipment)) {
+    for (const eff of items[itemId]?.equip?.effects ?? []) {
+      if (eff.kind === 'statBonus' && eff.stat === stat) v += eff.delta
+    }
+  }
+  return v
 }
