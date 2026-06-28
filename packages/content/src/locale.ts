@@ -28,7 +28,7 @@ export const zhLocale: Locale = {
   'menu.cash': '金钱',
   'stat.level': '等级',
   'stat.hp': '生命',
-  'stat.mp': '灵力',
+  'stat.mp': '真气',
   'stat.attack': '攻击',
   'stat.defense': '防御',
   'stat.magicAttack': '灵力',

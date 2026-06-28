@@ -158,7 +158,7 @@ const SELECTED_COLORS = [
 
 const STAT_X = 30
 const STAT_Y0 = 50
-const STAT_LINE_H = 16
+const STAT_LINE_H = 18
 const STAT_VAL_X = 90 // 属性值 x
 const EQUIP_X = 180
 const EQUIP_Y0 = 50
@@ -310,8 +310,8 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     tiles.push(await loadPng(`/ui/box/${name}`))
   }
   const [statusBg, equipSlot, left, mid, right, nums] = await Promise.all([
-    loadPng('/ui/status-bg.png'),
-    loadPng('/ui/equip-slot.png'),
+    loadPng('/ui/status/bg.png'),
+    loadPng('/ui/status/slot.png'),
     loadPng('/ui/cashbox/left.png'),
     loadPng('/ui/cashbox/mid.png'),
     loadPng('/ui/cashbox/right.png'),
