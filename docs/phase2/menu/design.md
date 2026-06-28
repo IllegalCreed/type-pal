@@ -34,7 +34,7 @@ export interface CharacterInstance {
   tags: string[]               // 留口:种族/门派(phase3 D9/议题16),现空
 }
 
-// 角色模板(L2 内容层;初始数据,数值借原版李逍遥快照)
+// 角色模板(L2 内容层;初始数据,李逍遥原版初始数值)
 export interface CharacterTemplate {
   id: string; name: TextId     // i18n
   baseStats: { level; hp; maxHP; mp; maxMP; attack; defense; magicAttack; speed }
@@ -63,7 +63,7 @@ export interface CharacterTemplate {
 - **复用**：`renderSpans`/`measureSpans`（字模 / 多色 / 阴影）、`Keyboard`（↑↓ 选 / 确认 / 返回）、`ctx.scale(WORLD_SCALE=4)`（同对话框,UI 物理 1280 高清）。
 - **主菜单（弹出小框）**：**九宫格框** + 项列表（状态 / 物品 / 武功 / 系统）+ 光标;物品 / 武功 / 系统选中显「未实现」。
 - **状态子菜单（全屏面板）**：固定背景图（`status-bg-pal0`,原版风）+ **数据驱动动态布局**——遍历角色「属性列表 / 装备槽 / 技能」逐项动态画(不写死坐标);装备格用单素材按槽位数重复画。**加属性 / 抗性 / 装备类型 = 数据多一条、UI 自动多一行,不返工**(作者洞察)。
-- **九宫格框**（弹出框通用,任意尺寸,[D17](../decisions.md)）：素材来源待定 —— 原版 box 边框 RGBA 化 / AI 出一套 / 代码画。plan 时定（可先代码画占位）。
+- **九宫格框**（弹出框通用,任意尺寸）：**用原版 UI box 的 9-frame** —— sdlpal `PAL_CreateBox` 用 `gpSpriteUI` 的 3×3（`i*3+j` = 4角+4边+中心），`iStyle×9` 切样式（系统菜单黄框 / 列表红框 = 不同 iStyle）；已提取在 `data/extracted/images/ui/`（plan 时核对具体哪 9 个 frame）。走 D16 `ctx.scale(4)` ×4 整数放大，和世界 / 字 / 对话框一套（保原版像素观感）。**零重画、零 GPT** —— GPT 重绘高清属将来全套 AI 美术管线（[D15](../decisions.md)），现在不单独提。
 
 ## 5. 资产
 
@@ -71,7 +71,7 @@ export interface CharacterTemplate {
 |---|---|---|
 | 状态背景 | 作者 AI 生图 `status-bg-pal0-clean-320x200.png`（选原版风） | `packages/reforge/public/ui/` |
 | 装备格 | `equipment-slot-pal-filled-64x64.png` | `packages/reforge/public/ui/` |
-| 九宫格框 | 待定（plan 定） | — |
+| 九宫格框 | 原版 UI box 9-frame（`data/extracted/images/ui/`，plan 核对哪 9 个） | reforge fetch（同 extracted），×4 整数放大 |
 
 > 现为 demo 直接放 reforge public（同 portraits 权宜）；将来内容工程化随美术管线归位（[D15](../decisions.md)）。
 
