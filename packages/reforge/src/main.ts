@@ -155,14 +155,21 @@ async function main(): Promise<void> {
       })
     }
     // 世界 + debug 在 320 逻辑坐标画,整体 ×WORLD_SCALE 放大到物理 canvas(D16)。
-    // clear / dialogBox 在 scale 外(clear 用物理坐标;dialogBox 走 UI_SCALE,T6 处理)。
     ctx.save()
     ctx.scale(WORLD_SCALE, WORLD_SCALE)
     ctx.imageSmoothingEnabled = false // 最近邻,点阵/瓦片整数倍放大不糊
     renderer.renderScene(map, room, camera, sprites)
     if (DEBUG_COLLISION) drawCollisionOverlay()
     ctx.restore()
-    if (dialogBox.active) dialogBox.render(performance.now())
+    // 对话框(UI)同样在 320 逻辑坐标画 + ×WORLD_SCALE 放大:POS 常量、字模 drawImage、
+    // 折行 usable 全是 320 系,scale 后统一 ×4 —— 字模点阵整数倍放大锐利、版面比例不变(D16)。
+    if (dialogBox.active) {
+      ctx.save()
+      ctx.scale(WORLD_SCALE, WORLD_SCALE)
+      ctx.imageSmoothingEnabled = false
+      dialogBox.render(performance.now())
+      ctx.restore()
+    }
   }
 
   /** 调试层（将来可移入编辑器）：iso 菱形网格 + 每站立点 isBlocked(绿走/红禁) + 玩家脚点。 */
