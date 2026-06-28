@@ -28,18 +28,18 @@
 **Files:** `packages/content/src/magic.ts`(新)+ test;`character.ts`(李逍遥 initialMagic)
 
 - [ ] **Step 1:** 新建 `magic.ts`:`SpellData { id: string; name: string; costMP: number; usableOutsideBattle: boolean }`。
-  **⚠ 第二阶段铁律(杜绝下标式身份):仙术身份用语义 id(拼音 kebab),不用原版 object 下标(oid 296 那种全局杂糅大数组下标)。`SpellData` 自包含 —— name/costMP 存值,不存 magicNumber/oid 等原版下标。** demo 常量 `DEMO_SPELLS`(值已核实,直接填):
+  **id 用原版 oid 字符串(作者:demo 阶段 oid 反查方便;phase3 技能系统重做时换规则编号)。前提:reforge 把 id 当不透明 string —— 不 hardcode oid 语义、不靠它算数组偏移,phase3 换 id 形式时 reforge 不改。`SpellData` 仍自包含:name/costMP 存值,不存 `magicNumber`(原版子表下标)。** demo 常量 `DEMO_SPELLS`(值已核实,直接填):
 
-  | id(语义) | name | costMP | (溯源,仅注释不入字段) |
-  |---|---|---|---|
-  | `qi-liao-shu` | 气疗术 | 6 | 原 oid296/mn33 |
-  | `guan-yin-zhou` | 观音咒 | 10 | 原 oid297/mn35 |
-  | `ning-shen-gui-yuan` | 凝神归元 | 18 | 原 oid298/mn34 |
-  | `yuan-ling-gui-xin` | 元灵归心术 | 40 | 原 oid299/mn51 |
-  | `wu-qi-chao-yuan` | 五气朝元 | 40 | 原 oid300/mn46 |
+  | id(oid 字符串) | name | costMP |
+  |---|---|---|
+  | `'296'` | 气疗术 | 6 |
+  | `'297'` | 观音咒 | 10 |
+  | `'298'` | 凝神归元 | 18 |
+  | `'299'` | 元灵归心术 | 40 |
+  | `'300'` | 五气朝元 | 40 |
 
-  (五个全 `usableOutsideBattle=true`。原版 `oid → 语义 id` 的映射是 migrate 的活;现 demo 直接写语义 id,不碰原版下标。)
-- [ ] **Step 2:** `character.ts` 李逍遥 `initialMagic: ['qi-liao-shu','guan-yin-zhou','ning-shen-gui-yuan','yuan-ling-gui-xin','wu-qi-chao-yuan']`(语义 id;demo 5 个看网格,原版真实初始仅气疗术)。`magic: string[]` 字段已有。
+  (五个全 `usableOutsideBattle=true`。name = `flat[oid]`,costMP = `magic.json[object-magics[oid].magicNumber].costMP`,上表已填好。)
+- [ ] **Step 2:** `character.ts` 李逍遥 `initialMagic: ['296','297','298','299','300']`(oid 字符串;demo 5 个看网格,原版真实初始仅 296 气疗术)。`magic: string[]` 字段已有。
 - [ ] **Step 3:** test:`DEMO_SPELLS` 含气疗术(296)、costMP>0;`pnpm --filter @type-pal/content run check` 绿。
 - [ ] **Step 4:** commit:`feat(content): 仙术数据 demo(气疗术等)+ 李逍遥初始仙术`
 
