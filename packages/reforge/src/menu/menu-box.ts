@@ -133,8 +133,10 @@ export function drawSlicedBox(
 // 框 PAL_XY(3,37)、项 PAL_XY(16,50) 行距 18;框高 = border 20 + 中段 18×3 + border 20
 const MENU_X = 3
 const MENU_Y = 37
-const MENU_W = 72
-const MENU_H = 94
+// 原版 PAL_MenuTextMaxWidth("状态"=2字)=(32+8)>>4=2 → nColumns=1(中段 1 块 16px)。
+// 框宽 = 左 22 + 中 16 + 右 23 = 61(TR 卷轴头探出到 3+61+10=74,与原版行0=3+22+16+33 一致)
+const MENU_W = 61
+const MENU_H = 94 // 上 20 + 中 18×3(nRows=3) + 下 20
 const ITEM_X = 16
 const ITEM_Y0 = 50
 const ITEM_H = 18
