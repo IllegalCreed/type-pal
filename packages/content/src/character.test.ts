@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { initialWorld, instantiate, LI_XIAOYAO } from './character.js'
+import { DEMO_SKILLS } from './skill.js'
 
 describe('角色 schema', () => {
   test('instantiate 模板 → 实例(初始值拷贝)', () => {
@@ -16,13 +17,18 @@ describe('角色 schema', () => {
     expect(inst.luck).toBe(32)
     expect(inst.exp).toBe(0)
     expect(inst.equipment).toEqual({})
-    expect(inst.magic).toEqual([])
     expect(inst.tags).toEqual([])
   })
-  test('initialWorld = 单人队伍(李逍遥实例)', () => {
+  test('initialWorld = 单人队伍(李逍遥实例)+ 习得仙术关系表', () => {
     const w = initialWorld()
     expect(w.party).toHaveLength(1)
     expect(w.party[0]?.id).toBe('li-xiaoyao')
+    // learnedSkills:独立关系表(charInstanceId → skillId[]),取代内嵌 magic
+    expect(w.learnedSkills['li-xiaoyao']).toEqual(['296', '298', '299'])
+    // demo 习得的都在 DEMO_SKILLS 且 outdoor(大世界菜单可显)
+    for (const id of w.learnedSkills['li-xiaoyao'] ?? []) {
+      expect(DEMO_SKILLS[id]?.usableOutsideBattle).toBe(true)
+    }
   })
   test('initialWorld 含金钱字段(demo=0)', () => {
     expect(initialWorld().money).toBe(0)

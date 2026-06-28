@@ -4,6 +4,8 @@ import type { TextId } from './index.js'
 export interface WorldState {
   party: CharacterInstance[]
   money: number // 金钱(跟存档走;demo 内存构造 = 0)
+  /** 习得仙术关系表:charInstanceId → skillId[]。独立表(非内嵌 CharacterInstance),解耦 + MMO 玩家私有留口。 */
+  learnedSkills: Record<string, string[]>
 }
 
 /** 角色实例(稳定 id;运行态)。绝对值属性,非原版 modifier。 */
@@ -22,7 +24,6 @@ export interface CharacterInstance {
   speed: number
   luck: number // 吉运(原版 fleeRate)
   equipment: Record<string, string> // slotId → itemId(可扩展槽)
-  magic: string[] // 仙术 id
   tags: string[] // 留口:种族/门派(phase3),现空
 }
 
@@ -63,7 +64,7 @@ export const LI_XIAOYAO: CharacterTemplate = {
     luck: 32,
   },
   initialEquipment: {},
-  initialMagic: [],
+  initialMagic: ['296', '298', '299'],
 }
 
 /** 模板 → 实例(深拷贝初始值,exp=0,tags 空)。 */
@@ -74,12 +75,16 @@ export function instantiate(t: CharacterTemplate): CharacterInstance {
     ...t.baseStats,
     exp: 0,
     equipment: { ...t.initialEquipment },
-    magic: [...t.initialMagic],
     tags: [],
   }
 }
 
-/** demo 世界态:单人李逍遥。 */
+/** demo 世界态:单人李逍遥 + 习得仙术关系表(从模板 initialMagic 播种)。 */
 export function initialWorld(): WorldState {
-  return { party: [instantiate(LI_XIAOYAO)], money: 0 }
+  const li = instantiate(LI_XIAOYAO)
+  return {
+    party: [li],
+    money: 0,
+    learnedSkills: { [li.id]: [...LI_XIAOYAO.initialMagic] },
+  }
 }
