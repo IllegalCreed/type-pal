@@ -27,13 +27,19 @@
 
 **Files:** `packages/content/src/magic.ts`(新)+ test;`character.ts`(李逍遥 initialMagic)
 
-- [ ] **Step 1:** 新建 `magic.ts`:`SpellData { id; name: string; magicNumber: number; costMP: number; usableOutsideBattle: boolean }`。从 `data/extracted` 查 5 个仙术(id 296–300)填 demo 常量 `DEMO_SPELLS`:
-  - name = `lookup/words.json` 的 `flat[id]`(296=气疗术…300=五气朝元)
-  - magicNumber = `data/object-magics.json[id].magicNumber`
-  - costMP = `data/magic.json[magicNumber].costMP`
-  - usableOutsideBattle = `object-magics.json[id].flags.usableOutsideBattle`
-  - (GLM 直接读这些 extracted JSON 取真值填进常量,别留 TODO)
-- [ ] **Step 2:** `character.ts` 李逍遥 `initialMagic: ['296']`(或填几个 demo 仙术 id,字符串)。`magic: string[]` 字段已有。
+- [ ] **Step 1:** 新建 `magic.ts`:`SpellData { id: string; name: string; magicNumber: number; costMP: number; usableOutsideBattle: boolean }`。
+  **⚠ 仙术名用 `words.json` 的 `flat[oid]`(全局 word 表,按 object id 索引)—— 不是 `spells[magicNumber]`(那是另一个子表,会取成「炎杀咒」之类错名)。** demo 常量 `DEMO_SPELLS`(已核实真值,直接填,别再去推):
+
+  | oid | name=flat[oid] | magicNumber | costMP |
+  |---|---|---|---|
+  | 296 | 气疗术 | 33 | 6 |
+  | 297 | 观音咒 | 35 | 10 |
+  | 298 | 凝神归元 | 34 | 18 |
+  | 299 | 元灵归心术 | 51 | 40 |
+  | 300 | 五气朝元 | 46 | 40 |
+
+  (五个全 `usableOutsideBattle=true`;costMP = `magic.json[magicNumber].costMP`,上表已填好)
+- [ ] **Step 2:** `character.ts` 李逍遥 `initialMagic: ['296','297','298','299','300']`(demo 填 5 个看网格效果;原版李逍遥真实初始仅 296=气疗术,demo 多填展示)。`magic: string[]` 字段已有。
 - [ ] **Step 3:** test:`DEMO_SPELLS` 含气疗术(296)、costMP>0;`pnpm --filter @type-pal/content run check` 绿。
 - [ ] **Step 4:** commit:`feat(content): 仙术数据 demo(气疗术等)+ 李逍遥初始仙术`
 
