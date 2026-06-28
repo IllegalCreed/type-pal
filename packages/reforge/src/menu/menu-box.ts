@@ -101,7 +101,7 @@ export function drawSlicedBox(
 
   if (opts.shadow !== false) drawBoxShadow(ctx, box, x, y, w, h)
 
-  // 列宽 / 行高 = 各列/行代表块的实际尺寸(右列各角块锚右、保自身宽 → 卷轴头探出造型)
+  // 列宽/行高取边框块实际尺寸。右列宽用「中段右块」R(其余右块 = 卷轴头,更宽 → 往右探出)
   const leftW = left?.width ?? tl?.width ?? 0
   const rightW = right?.width ?? tr?.width ?? 0
   const topH = top?.height ?? tl?.height ?? 0
@@ -110,19 +110,22 @@ export function drawSlicedBox(
   const innerY = y + topH
   const innerW = w - leftW - rightW // 中段宽(中心 + 上下边)
   const innerH = h - topH - botH // 中段高(中心 + 左右边)
+  const rightColX = x + w - rightW // 右列左边缘 = 中段右边界:角块回纹主体对齐 R、卷轴头从此右探(非锚右)
+  const botRowY = y + h - botH
 
-  // 中心 + 四边:平铺(bug:原拉伸 → 纹理变形)
+  // 中心 + 四边:平铺(替拉伸,纹理不变形)
   if (center) tileFill(ctx, center, innerX, innerY, innerW, innerH)
   if (top) tileFill(ctx, top, innerX, y, innerW, topH)
-  if (bottom) tileFill(ctx, bottom, innerX, y + h - botH, innerW, botH)
+  if (bottom) tileFill(ctx, bottom, innerX, botRowY, innerW, botH)
   if (left) tileFill(ctx, left, x, innerY, leftW, innerH)
-  if (right) tileFill(ctx, right, x + w - rightW, innerY, rightW, innerH)
+  if (right) tileFill(ctx, right, rightColX, innerY, rightW, innerH)
 
-  // 四角:原尺寸锚角(bug:原用统一 cornerW 把 33 宽的右角挤进 22 → 错位)
+  // 四角原尺寸:左列锚左 x / 右列锚左 rightColX(回纹主体对齐、卷轴头右探);上行锚上 / 下行锚下。
+  // 仿原版 sdlpal PAL_CreateBox 逐块顺序拼接(右列各行左边缘对齐,非右对齐 → 修错位)。
   if (tl) ctx.drawImage(tl, x, y)
-  if (tr) ctx.drawImage(tr, x + w - tr.width, y)
-  if (bl) ctx.drawImage(bl, x, y + h - bl.height)
-  if (br) ctx.drawImage(br, x + w - br.width, y + h - br.height)
+  if (tr) ctx.drawImage(tr, rightColX, y)
+  if (bl) ctx.drawImage(bl, x, botRowY)
+  if (br) ctx.drawImage(br, rightColX, botRowY)
 }
 
 // ── 主菜单布局 ───────────────────────────────────────────────
