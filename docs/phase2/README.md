@@ -38,7 +38,9 @@
 | [engine-debt-audit](foundation/engine-debt-audit.md) | 第一阶段引擎架构债（18 finding + 反查表）—— 重写的反面输入 | 定稿 |
 | [render-foundation-plan](foundation/render-foundation-plan.md) | D16 渲染地基改造计划（格坐标 + 物理 1280 + UI 高清化，7 Task TDD） | 已落地 |
 | [skill-data-design](foundation/skill-data-design.md) | 技能数据三层架构（SkillData + effects[] 联合 / learnedSkills 关系表 / levelUpSkills 等级表） | 已认可 |
-| [skill-data-plan](foundation/skill-data-plan.md) | 技能数据地基 TDD 实现计划（3 Task：定义+demo / 等级表 / magic→learnedSkills 迁移） | 待 GLM |
+| [skill-data-plan](foundation/skill-data-plan.md) | 技能数据地基 TDD 实现计划（3 Task：定义+demo / 等级表 / magic→learnedSkills 迁移） | 已实现 |
+| [item-data-design](foundation/item-data-design.md) | 物品/装备数据架构（一物多能力块 equip/use/throw + EquipEffect 联合 + 6 槽 + 有效属性） | 已认可 |
+| [equipment-foundation-plan](foundation/equipment-foundation-plan.md) | 装备地基 TDD 计划（item.ts + 6 槽 + inventory + 有效属性，交 GLM） | 待 GLM |
 
 ### slice1-indoor/ · 切片 1：室内场景跑通
 | 文件 | 内容 | 状态 |
