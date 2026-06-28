@@ -215,12 +215,17 @@ git commit -m "feat(content): 技能定义 SkillData + effects[] 联合 + 李逍
 import { LEVEL_UP_SKILLS } from './skill.js' // 与顶部 import 合并
 
 describe('levelUpSkills 习得规则', () => {
-  test('李逍遥等级表 = 原版 level-up-magic.json[0](跳空槽)', () => {
+  test('李逍遥等级表 = 原版 level-up-magic 的 role0 【列】(非某一行)', () => {
     expect(LEVEL_UP_SKILLS['li-xiaoyao']).toEqual([
-      { level: 7, skillId: '349' },
-      { level: 7, skillId: '313' },
-      { level: 7, skillId: '340' },
-      { level: 30, skillId: '354' },
+      { level: 7, skillId: '349' }, // 天师符法
+      { level: 8, skillId: '311' }, // 天罡战气
+      { level: 10, skillId: '298' }, // 凝神归元
+      { level: 12, skillId: '346' }, // 万剑诀
+      { level: 17, skillId: '299' }, // 元灵归心术
+      { level: 20, skillId: '310' }, // 真元护体
+      { level: 22, skillId: '348' }, // 天剑
+      { level: 26, skillId: '392' }, // 金蝉脱壳
+      { level: 34, skillId: '363' }, // 剑神
     ])
   })
   test('不含原版空槽 {level:0}', () => {
@@ -247,18 +252,25 @@ export interface LevelUpSkill {
 }
 
 /**
- * 升级习得表(content 静态)。真值 = 原版 level-up-magic.json[roleId]。
- * 李逍遥 = roleId 0,原始 [{7,349},{7,313},{7,340},{0,0}(空槽),{30,354}] → 跳空槽。
- *   349 天师符法 / 313 旋风咒 / 340 一阳指 / 354 万蚁蚀象(名 = spells.json._name)。
- * ⚠ 这些是**战斗技能**(均非 outdoor),其完整 SkillData 待 phase3 migrate 全量;
- *   demo 不跑升级逻辑,本表只验证 ③ 层 schema 形状 + 钉住真实数据。
+ * 升级习得表(content 静态)。真值 = 原版 level-up-magic.json。
+ * ⚠ 原版结构 = ln[ROW][ROLE](20 行 × 5 角色;sdlpal lprgln[j].m[role])。
+ *   **某角色习得 = 取该角色那一【列】、遍历所有行**(不是取某一行!按行读会把 5 个角色的技能混在一起)。
+ * 李逍遥 = 列 0(role0):lv7 天师符法(349) / lv8 天罡战气(311) / lv10 凝神归元(298) / lv12 万剑诀(346) /
+ *   lv17 元灵归心术(299) / lv20 真元护体(310) / lv22 天剑(348) / lv26 金蝉脱壳(392) / lv34 剑神(363)。
+ *   (名 = spells.json._name;298/299 是 outdoor,正是 demo learnedSkills 那两个。)
+ * 这些技能完整 SkillData 待 phase3 migrate 全量;demo 不跑升级逻辑,本表只验 ③ 层 schema + 钉真值。
  */
 export const LEVEL_UP_SKILLS: Record<string, LevelUpSkill[]> = {
   'li-xiaoyao': [
-    { level: 7, skillId: '349' },
-    { level: 7, skillId: '313' },
-    { level: 7, skillId: '340' },
-    { level: 30, skillId: '354' },
+    { level: 7, skillId: '349' }, // 天师符法
+    { level: 8, skillId: '311' }, // 天罡战气
+    { level: 10, skillId: '298' }, // 凝神归元
+    { level: 12, skillId: '346' }, // 万剑诀
+    { level: 17, skillId: '299' }, // 元灵归心术
+    { level: 20, skillId: '310' }, // 真元护体
+    { level: 22, skillId: '348' }, // 天剑
+    { level: 26, skillId: '392' }, // 金蝉脱壳
+    { level: 34, skillId: '363' }, // 剑神
   ],
 }
 ```
@@ -403,7 +415,7 @@ git commit -m "refactor(content): CharacterInstance.magic → WorldState.learned
 ## Self-Review
 
 1. **三层覆盖:** ① SkillData+DEMO_SKILLS(T1)、③ levelUpSkills(T2)、② learnedSkills(T3)。✅
-2. **真值无占位:** DEMO_SKILLS(spells._name/magic.json 核验)、LEVEL_UP_SKILLS(level-up-magic.json[0] 直读、跳空槽、纠正了二手文档的伪表)。✅
+2. **真值无占位:** DEMO_SKILLS(spells._name/magic.json 一手核验;healHp 量经 scriptOnSuccess 字节码确认)、LEVEL_UP_SKILLS(level-up-magic 的 **role0 列** 直读)。⚠ 复核纠错:初稿把 `ln` 当 `[角色][行]` 误取「行 0」(把 5 个角色的 row0 技能混给李逍遥),实为 `[行][角色]`、应取「列 0」—— 已改正(见 skill.ts 注释)。
 3. **类型一致:** `SkillEffect` 全联合一次定全;`DEMO_SKILLS: Record<string,SkillData>`、`LEVEL_UP_SKILLS: Record<string,LevelUpSkill[]>`、`WorldState.learnedSkills: Record<string,string[]>` 命名贯穿 T1-T3。✅
 4. **迁移安全:** `.magic` 仅 character.ts + 其测试引用(已 grep);T3 Step5 全仓 check 兜底,reforge 报错则停。✅
 5. **阶段隔离/稳定 id:** 数据全在 content;id 不透明 string;learnedSkills 独立表(MMO 留口);无下标式身份。✅

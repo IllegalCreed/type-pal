@@ -114,17 +114,24 @@ export interface LevelUpSkill {
 }
 
 /**
- * 升级习得表(content 静态)。真值 = 原版 level-up-magic.json[roleId]。
- * 李逍遥 = roleId 0,原始 [{7,349},{7,313},{7,340},{0,0}(空槽),{30,354}] → 跳空槽。
- *   349 天师符法 / 313 旋风咒 / 340 一阳指 / 354 万蚁蚀象(名 = spells.json._name)。
- * ⚠ 这些是**战斗技能**(均非 outdoor),其完整 SkillData 待 phase3 migrate 全量;
- *   demo 不跑升级逻辑,本表只验证 ③ 层 schema 形状 + 钉住真实数据。
+ * 升级习得表(content 静态)。真值 = 原版 level-up-magic.json。
+ * ⚠ 原版结构 = ln[ROW][ROLE](20 行 × 5 角色;sdlpal lprgln[j].m[role])。
+ *   **某角色习得 = 取该角色那一【列】、遍历所有行**(不是取某一行!按行读会把 5 个角色的技能混在一起)。
+ * 李逍遥 = 列 0(role0):lv7 天师符法(349) / lv8 天罡战气(311) / lv10 凝神归元(298) / lv12 万剑诀(346) /
+ *   lv17 元灵归心术(299) / lv20 真元护体(310) / lv22 天剑(348) / lv26 金蝉脱壳(392) / lv34 剑神(363)。
+ *   (名 = spells.json._name;298/299 是 outdoor,正是 demo learnedSkills 那两个。)
+ * 这些技能完整 SkillData 待 phase3 migrate 全量;demo 不跑升级逻辑,本表只验 ③ 层 schema + 钉真值。
  */
 export const LEVEL_UP_SKILLS: Record<string, LevelUpSkill[]> = {
   'li-xiaoyao': [
-    { level: 7, skillId: '349' },
-    { level: 7, skillId: '313' },
-    { level: 7, skillId: '340' },
-    { level: 30, skillId: '354' },
+    { level: 7, skillId: '349' }, // 天师符法
+    { level: 8, skillId: '311' }, // 天罡战气
+    { level: 10, skillId: '298' }, // 凝神归元
+    { level: 12, skillId: '346' }, // 万剑诀
+    { level: 17, skillId: '299' }, // 元灵归心术
+    { level: 20, skillId: '310' }, // 真元护体
+    { level: 22, skillId: '348' }, // 天剑
+    { level: 26, skillId: '392' }, // 金蝉脱壳
+    { level: 34, skillId: '363' }, // 剑神
   ],
 }

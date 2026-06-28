@@ -109,7 +109,7 @@ interface LevelUpSkill { level: number; skillId: string }
 LEVEL_UP_SKILLS: Record<string, LevelUpSkill[]>      // characterTemplateId → LevelUpSkill[]
 ```
 
-- 原版 `level-up-magic.json`(list[20],每角色 `[{level, magicOid}]`)。
+- 原版 `level-up-magic.json` = `ln[20 行][5 角色]`(sdlpal `lprgln[j].m[role]`)。**某角色习得 = 取该角色那一【列】、遍历所有行**(⚠ 不是取某一行!按行读会把 5 个角色的技能混在一起)。我们转置成 `charTemplateId → LevelUpSkill[]`。
 - 用途:升级时按表把新 skillId 加进 ② `learnedSkills`(现 demo 不做升级逻辑,只定 schema + 填李逍遥表)。
 - phase3 议题 16(灵活加点/技能树/门派限定)= 在这张**固定习得表之上**加玩家选择,不改本表结构。
 
