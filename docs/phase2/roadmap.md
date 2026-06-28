@@ -79,5 +79,5 @@
 **进展（2026-06-28 更新）**
 
 - **P1 切片 1 已起**：室内场景跑通（地图 / 移动 / 碰撞含 NPC / 遮挡 / 对话）；对话现代化（结构化 + i18n + 外观 + 去 palette，见 [D11](decisions.md)–[D15](decisions.md)）完成。
-- **当前前置 = [D16](decisions.md) 渲染地基**：逻辑 / 显示分离（格坐标 + 素材像素解耦 + 物理分辨率 1280）。它是菜单及后续所有 UI / 美术 / 编辑器的底座，**先于菜单**（[D17](decisions.md) 菜单设计已定、实现待此地基）。spec 待写。
+- **前置 [D16](decisions.md) 渲染地基已落地**（2026-06-28）：逻辑 / 显示分离（菱形轴格坐标 `GridPos={col,row,height}` + 物理 1280 + UI 高清化，[render-foundation-plan](foundation/render-foundation-plan.md)）。它是菜单及后续所有 UI / 美术 / 编辑器的底座。**下一步 = [D17](decisions.md) 菜单**（设计已定、地基就绪可落地）。
 - **之后**：菜单 → 多场景 / 事件演出 → 编辑器（P2）。schema 边跑边补（§5 切入策略）；P1 spec 输入 = [content-schema](foundation/content-schema.md) + [engine-debt-audit](foundation/engine-debt-audit.md)。

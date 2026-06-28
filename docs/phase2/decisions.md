@@ -142,6 +142,12 @@
 - **菜单及后续所有 UI / 美术 / 编辑器长在此地基上**；菜单（[D17](decisions.md)）暂搁待此落地。
 - 实施计划见 [foundation/render-foundation-plan.md](foundation/render-foundation-plan.md)。
 
+> ✅ **已落地（2026-06-28）**：T1–T7 全部完成。实际实现要点（与 plan 的偏差/补充）：
+> - **`GridPos` + 换算函数归属 content**（[content/src/grid.ts](../../packages/content/src/grid.ts)），非 reforge —— 纯数学 + reforge/editor 共用 + 依赖方向一致（作者纠正）。
+> - **物理分辨率 + UI 高清化用同一套 `ctx.scale(WORLD_SCALE)` 机制**：世界和对话框都在 320 逻辑坐标画、渲染时 ×4，POS/字宽/折行不改数值、字模不换源（integer×4 nearest-neighbor 锐利）。
+> - **height 显示补全**：`spriteScreenY(pos) = gridToPixel(pos).y − height×16`（content/grid.ts），sprite 渲染 worldY 用它，飞行/楼层会自动上移（地面 height=0 无影响）。
+> - 旧碰撞兼容层（`pixelToTile`/`h`/lower-upper）维持、加 GridPos 入口（`isBlockedAt`/`sameGrid`），零行为变化。
+
 ## D17 · 菜单系统设计（暂搁，依赖 D16）（2026-06-28）
 
 **决定**：菜单设计定调，但**实现暂搁、待 [D16](decisions.md) 渲染地基落地**（菜单直接长在格坐标 + 高清地基上，不返工）。设计要点：

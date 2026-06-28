@@ -1,5 +1,11 @@
 # D16 渲染地基改造计划（格坐标 + 物理 1280 + UI 高清化）
 
+> ✅ **已落地（2026-06-28，T1–T7 全部完成）**。下方为原始 plan；实际实现有以下关键偏差/补充（以代码为准）：
+> - **grid.ts 归属 content**（`packages/content/src/grid.ts`），非 reforge —— `GridPos` + `gridToPixel`/`pixelToGrid`/`spriteScreenY` 同源，reforge/editor 经 `@type-pal/content` 引（作者纠正依赖方向）。
+> - **T5/T6 物理分辨率 + UI 高清化用同一套 `ctx.scale(WORLD_SCALE=4)` 机制**：世界和对话框都在 320 逻辑坐标画、渲染时整体 ×4。**未**改 dialog-box/text-render/layout 的任何数值（plan 说的"POS ×4"被 scale 方案取代，更干净）。
+> - **height 显示**：加 `spriteScreenY(pos)`（content/grid.ts），sprite worldY 用它，飞行/楼层自动上移（地面 height=0 无影响）。
+> - T1 Step 0 的"iso 步进表达"命门被菱形轴方案消解（走一格单轴 ±1，天然整数）。
+
 > **For agentic workers:** REQUIRED SUB-SKILL `superpowers:subagent-driven-development` 或 `executing-plans` 逐 Task 实现。Steps 用 checkbox（`- [ ]`）跟踪。
 >
 > 决策依据：[D16](../decisions.md)。本计划只**实施**已拍板的内容，不重新议。范围铁律见 [READ-FIRST.md](../READ-FIRST.md)。
