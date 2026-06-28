@@ -171,11 +171,11 @@ const AVATAR_Y = 50
 const COLOR_NAME = [255, 203, 113] as const // 名字色 = 原版 MENUITEM_COLOR_CONFIRMED 0x2C 金黄
 // 右栏:6 装备格 2 列 × 3 行平铺(放大到接近原版 50×49)
 const EQUIP_X0 = 200
-const EQUIP_Y0 = 8
+const EQUIP_Y0 = 6
 const EQUIP_COLS = 2
 const EQUIP_SLOT_SIZE = 56
 const EQUIP_GAP_X = 6
-const EQUIP_GAP_Y = 8
+const EQUIP_GAP_Y = 4 // 压缩:3 行装备(大格)整体对齐左栏 9 属性的上下范围
 const EQUIP_BORDER = 7 // slot 占位框边框厚(按比例;图标缩进此内凹区,定位条不压边框)
 const EQUIP_NAME_INSET = 13 // 槽名距格底(格内底,无衬底)
 
