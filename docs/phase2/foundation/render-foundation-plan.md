@@ -50,9 +50,9 @@ export interface GridPos {
 
 ## Task 1: 定义 GridPos + 格↔像素换算纯函数（TDD）
 
-**Files:** 新建 `packages/reforge/src/grid.ts`、`grid.test.ts`
+**Files:** 新建 `packages/content/src/grid.ts`、`grid.test.ts`（**放 content,不放 reforge**：`EntityDef.pos: GridPos` 在 content、依赖方向 reforge→content，content 引用不到 reforge；且 GridPos + 换算是 reforge / editor 共用、纯数学 GPU 无关，正合 content 定位。`content/src/index.ts` 导出它，reforge 经 `@type-pal/content` 引用）。
 
-**Why first:** 所有下游（movement / collision / render / main / content）都依赖这个原语。先立纯函数 + 单测，下游改动有锚。
+**Why first:** 所有下游（reforge 的 movement / collision / render / main + content 的 `EntityDef`）都依赖这个原语。先立纯函数 + 单测，下游改动有锚。
 
 - [ ] **Step 1: 写失败测试**（`grid.test.ts`）
 
@@ -102,10 +102,10 @@ export function pixelToGrid(x: number, y: number): { col: number; row: number } 
 ```
 
 - [ ] **Step 4: 测试通过 + check 绿 + commit**
-  - `pnpm --filter @type-pal/reforge exec vitest run src/grid.test.ts` → PASS
-  - `pnpm --filter @type-pal/reforge run check` → 绿
-  - `git add packages/reforge/src/grid.ts packages/reforge/src/grid.test.ts`
-  - `git commit -m "feat(reforge): grid.ts — GridPos 菱形轴(col,row,height)+格↔像素纯函数(D16 地基)"`
+  - `pnpm --filter @type-pal/content exec vitest run src/grid.test.ts` → PASS
+  - `pnpm --filter @type-pal/content run check` → 绿
+  - `git add packages/content/src/grid.ts packages/content/src/grid.test.ts packages/content/src/index.ts`
+  - `git commit -m "feat(content): grid.ts — GridPos 菱形轴(col,row,height)+格↔像素纯函数(D16 地基,reforge/editor 共用)"`
 
 ---
 
