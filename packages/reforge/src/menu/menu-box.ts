@@ -15,7 +15,7 @@ import {
 import type { MenuState } from '../menu-state.js'
 import { MAIN_ITEMS } from '../menu-state.js'
 import type { GlyphTable } from '../text/glyph.js'
-import { renderSpans } from '../text/text-render.js'
+import { measureSpans, renderSpans } from '../text/text-render.js'
 
 /** 9 个九宫格块(0..8 = i*3+j,i=row,j=col;黄框 frame-00..08)。 */
 interface BoxTiles {
@@ -154,16 +154,24 @@ const SELECTED_COLORS = [
   [243, 219, 105],
 ] as const
 
-// ── 状态面板布局 ─────────────────────────────────────────────
-
-const STAT_X = 30
-const STAT_Y0 = 50
+// ── 状态面板布局(三栏:左属性 / 中名字+立绘 / 右 6 装备格 2×3 平铺)──
+// 左栏:属性 9 项(label + value 竖排)
+const STAT_X = 8
+const STAT_VAL_X = 64
+const STAT_Y0 = 16
 const STAT_LINE_H = 18
-const STAT_VAL_X = 90 // 属性值 x
-const EQUIP_X = 180
-const EQUIP_Y0 = 50
-const EQUIP_SLOT_SIZE = 32 // 装备格显示尺寸(逻辑)
-const EQUIP_LINE_H = 40
+// 中栏:名字(上) + 立绘(下),水平居中于中栏中心
+const MID_CX = 158
+const NAME_Y = 14
+const AVATAR_Y = 34
+// 右栏:6 装备格 2 列 × 3 行平铺
+const EQUIP_X0 = 214
+const EQUIP_Y0 = 18
+const EQUIP_COLS = 2
+const EQUIP_SLOT_SIZE = 44
+const EQUIP_GAP_X = 8
+const EQUIP_GAP_Y = 16
+const EQUIP_NAME_DY = 46 // 槽名相对格 y(格下)
 
 /** 画数字(右对齐:个位右边缘固定在 rightX,往左排)。原版 PAL_DrawNumber 黄色右对齐。 */
 function drawNumber(
@@ -247,16 +255,19 @@ function drawCashBox(
   ctx.drawImage(off, x, y)
 }
 
-/** 状态面板属性显示列表(数据驱动:加属性 = 列表多一条,UI 自动多一行)。 */
-function statList(c: CharacterInstance): [TextId, number][] {
+/** 状态面板属性显示列表(数据驱动:加属性 = 列表多一条,UI 自动多一行)。
+ *  顺序对齐原版:经验/修行/体力/真气/武术/灵力/防御/身法/吉运;体力/真气显当前/最大。 */
+function statList(c: CharacterInstance): [TextId, string][] {
   return [
-    ['stat.level', c.level],
-    ['stat.hp', c.hp],
-    ['stat.mp', c.mp],
-    ['stat.attack', c.attack],
-    ['stat.defense', c.defense],
-    ['stat.magicAttack', c.magicAttack],
-    ['stat.speed', c.speed],
+    ['stat.exp', String(c.exp)],
+    ['stat.level', String(c.level)],
+    ['stat.hp', `${c.hp}/${c.maxHP}`],
+    ['stat.mp', `${c.mp}/${c.maxMP}`],
+    ['stat.attack', String(c.attack)],
+    ['stat.magicAttack', String(c.magicAttack)],
+    ['stat.defense', String(c.defense)],
+    ['stat.speed', String(c.speed)],
+    ['stat.luck', String(c.luck)],
   ]
 }
 
@@ -285,6 +296,8 @@ export interface MenuAssets {
   }
   /** 数字 0-9 预烘(索引=数字值)。 */
   nums: (ImageBitmap | undefined)[]
+  /** 角色立绘(状态面板;李逍遥 = RGM avatar chunk 1 = portraits/1)。 */
+  avatar: ImageBitmap | undefined
 }
 
 /** 加载 PNG → ImageBitmap;失败返回 undefined(不阻断,渲染容错)。 */
@@ -309,13 +322,14 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     const name = `frame-${String(i).padStart(2, '0')}.png`
     tiles.push(await loadPng(`/ui/box/${name}`))
   }
-  const [statusBg, equipSlot, left, mid, right, nums] = await Promise.all([
+  const [statusBg, equipSlot, left, mid, right, nums, avatar] = await Promise.all([
     loadPng('/ui/status/bg.png'),
     loadPng('/ui/status/slot.png'),
     loadPng('/ui/cashbox/left.png'),
     loadPng('/ui/cashbox/mid.png'),
     loadPng('/ui/cashbox/right.png'),
     Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num/${d}.png`))),
+    loadPng('/portraits/1.png'), // 李逍遥状态立绘(RGM avatar chunk 1,复用对话头像)
   ])
   return {
     box: { tiles },
@@ -323,6 +337,7 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     equipSlot,
     cashBox: { left, mid, right },
     nums,
+    avatar,
   }
 }
 
@@ -380,49 +395,48 @@ export class MenuBox {
   }
 
   private renderStatus(ctx: CanvasRenderingContext2D, world: WorldState): void {
-    // 状态背景(全屏 320×200)
-    if (this.assets.statusBg) {
-      ctx.drawImage(this.assets.statusBg, 0, 0, 320, 200)
-    }
+    // 背景(全屏 320×200)
+    if (this.assets.statusBg) ctx.drawImage(this.assets.statusBg, 0, 0, 320, 200)
 
     // demo 单人:取 party[0]。将来多人菜单选角。
     const c = world.party[0]
     if (!c) return
 
-    // 角色名
-    renderSpans(ctx, [{ text: lookupText('name.li-xiaoyao', this.locale) }], STAT_X, STAT_Y0 - 24, {
-      glyphs: this.glyphs,
-      shadow: true,
-    })
-
-    // 属性列表(数据驱动遍历:加属性 = 列表多一条,UI 自动多一行,不返工)
+    // 左栏:属性 9 项(数据驱动遍历:加属性 = 列表多一条,UI 自动多一行)
     let y = STAT_Y0
     for (const [labelId, val] of statList(c)) {
       renderSpans(ctx, [{ text: lookupText(labelId, this.locale) }], STAT_X, y, {
         glyphs: this.glyphs,
         shadow: true,
       })
-      renderSpans(ctx, [{ text: String(val) }], STAT_VAL_X, y, {
-        glyphs: this.glyphs,
-        shadow: true,
-      })
+      renderSpans(ctx, [{ text: val }], STAT_VAL_X, y, { glyphs: this.glyphs, shadow: true })
       y += STAT_LINE_H
     }
 
-    // 装备槽(数据驱动遍历:加槽位 = 列表多一条,自动适配)
-    let ey = EQUIP_Y0
-    for (const slotLabel of EQUIP_SLOTS) {
-      // 装备格图标(空槽也画)
+    // 中栏:名字(上) + 立绘(下),水平居中于 MID_CX
+    const nameSpans = [{ text: lookupText('name.li-xiaoyao', this.locale) }]
+    renderSpans(ctx, nameSpans, MID_CX - measureSpans(nameSpans, this.glyphs) / 2, NAME_Y, {
+      glyphs: this.glyphs,
+      shadow: true,
+    })
+    const { avatar } = this.assets
+    if (avatar) ctx.drawImage(avatar, Math.round(MID_CX - avatar.width / 2), AVATAR_Y)
+
+    // 右栏:6 装备格 2 列 × 3 行平铺(数据驱动:加槽 = 列表多一条)。装备图标依赖 item 系统,本次只框+槽名
+    EQUIP_SLOTS.forEach((slotLabel, i) => {
+      const gx = EQUIP_X0 + (i % EQUIP_COLS) * (EQUIP_SLOT_SIZE + EQUIP_GAP_X)
+      const gy = EQUIP_Y0 + Math.floor(i / EQUIP_COLS) * (EQUIP_SLOT_SIZE + EQUIP_GAP_Y)
       if (this.assets.equipSlot) {
-        ctx.drawImage(this.assets.equipSlot, EQUIP_X, ey, EQUIP_SLOT_SIZE, EQUIP_SLOT_SIZE)
+        ctx.drawImage(this.assets.equipSlot, gx, gy, EQUIP_SLOT_SIZE, EQUIP_SLOT_SIZE)
       }
-      // 槽位名 + 装备(空则 —)
-      const slotName = lookupText(slotLabel, this.locale)
-      renderSpans(ctx, [{ text: slotName }], EQUIP_X + EQUIP_SLOT_SIZE + 4, ey + 4, {
-        glyphs: this.glyphs,
-        shadow: true,
-      })
-      ey += EQUIP_LINE_H
-    }
+      const nameSpan = [{ text: lookupText(slotLabel, this.locale) }]
+      renderSpans(
+        ctx,
+        nameSpan,
+        gx + (EQUIP_SLOT_SIZE - measureSpans(nameSpan, this.glyphs)) / 2,
+        gy + EQUIP_NAME_DY,
+        { glyphs: this.glyphs, shadow: true },
+      )
+    })
   }
 }
