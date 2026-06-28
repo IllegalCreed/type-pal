@@ -3,7 +3,9 @@ import {
   type EntityDef,
   type Facing,
   type GridPos,
+  gridToPixel,
   guijieMinjuScene,
+  pixelToGrid,
 } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import {
@@ -18,7 +20,6 @@ import { isBlockedAt, sameGrid } from './collision.js'
 import { loadCursorFrames, loadPortraits } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import { startDialogue } from './dialogue.js'
-import { gridToPixel, pixelToGrid } from './grid.js'
 import { Keyboard } from './input.js'
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type SpriteDraw } from './render.js'

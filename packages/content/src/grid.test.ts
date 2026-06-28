@@ -1,6 +1,5 @@
-import type { GridPos } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { gridToPixel, pixelToGrid } from './grid.js'
+import { type GridPos, gridToPixel, pixelToGrid } from './grid.js'
 
 describe('grid 坐标(菱形轴)', () => {
   test('格 → 像素 = (16(col−row), 8(col+row))', () => {

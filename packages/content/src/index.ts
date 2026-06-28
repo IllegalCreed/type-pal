@@ -8,6 +8,8 @@
  * 见 docs/phase2/slice1-indoor/guijie-minju.md。稳定 id，不用下标。
  */
 
+import type { GridPos } from './grid.js'
+
 export type Facing = 'up' | 'down' | 'left' | 'right'
 
 /** 稳定文本 id;运行时按当前 locale 查表(D9)。 */
@@ -25,23 +27,6 @@ export interface TextSpan {
 export interface Vec2 {
   x: number
   y: number
-}
-
-/**
- * 实体的菱形轴逻辑坐标(D16)。
- * - col/row:沿菱形两条斜边设轴(非屏幕像素轴)。菱形网格 = 旋转 45° 的正交网格,
- *   走一格 = 单轴 ±1(只动 col 或只动 row,绝不对角),任意整数 (col,row) 都合法。
- *   屏幕像素换算(渲染层):x = 16(col−row), y = 8(col+row)。
- * - height:垂直离地轴,与平面 col/row 正交。地面 = 0;飞行/楼层/高台 > 0。
- *   逻辑/碰撞/影子都在地面 (col,row);height 只把 sprite 显示位置沿屏幕正上方移
- *   (每级 16px,= 对角格 (col−h,row−h) 的屏幕位置)。纯显示层,不进逻辑/碰撞。
- *
- * GridPos = 实体位置的真值类型(玩家/NPC/entry/编辑器摆点都存它)。
- */
-export interface GridPos {
-  col: number
-  row: number
-  height: number
 }
 
 export interface DialogueLine {
@@ -162,5 +147,6 @@ export const guijieMinjuScene: SceneDef = {
   ],
 }
 
+export * from './grid.js'
 export * from './locale.js'
 export * from './rich-text.js'

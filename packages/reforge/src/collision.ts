@@ -9,9 +9,8 @@
  * 「N层+独立碰撞层」新格式后,整个 pixelToTile 连同 h 退役。新代码用 GridPos 入口
  * (isBlockedAt / sameGrid),不要直接调像素接口。
  */
-import type { GridPos } from '@type-pal/content'
+import { type GridPos, gridToPixel } from '@type-pal/content'
 import type { Tilemap } from '@type-pal/shared'
-import { gridToPixel } from './grid.js'
 
 const TILE_W = 32
 const TILE_H = 16
