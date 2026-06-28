@@ -109,7 +109,8 @@
 
 **决定**：reforge 渲染分**逻辑层 / 显示层**两层、彻底解耦。
 
-- **逻辑层**（存储 / 游戏逻辑 / 碰撞 / 触发 / 寻路 / 存档 / 编辑器）：实体位置 = **格坐标 `GridPos = { col: number; row: number; height: number }`**（非像素）。`col`/`row` = iso 平面逻辑坐标（一格一点，落脚在 cell 中心）；`height` = 垂直高度轴，**必填、地面实体写 0**。GridPos 是实体位置的真值类型——玩家、NPC、entry、编辑器摆点都存它。精灵是三维空间里的东西（平面格子 + 离地高度），`height` 让飞行 / 楼层 / 高台站立的位置可表达，并直接对接渲染遮挡（[render.ts:232](../../packages/reforge/src/render.ts) 瓦片 baseY 已 key 在 `iTileHeight` 上，精灵接入即正确遮挡）。
+- **逻辑层**（存储 / 游戏逻辑 / 碰撞 / 触发 / 寻路 / 存档 / 编辑器）：实体位置 = **格坐标 `GridPos = { col: number; row: number; height: number }`**（非像素）。`col`/`row` = **菱形轴**（沿菱形两条斜边设轴，非屏幕像素轴）：菱形网格是旋转 45° 的正交网格，走一格 = **单轴 ±1**（只动 col 或只动 row，绝不对角），任意整数 `(col,row)` 都是合法落脚点；`height` = 垂直高度轴，**必填、地面实体写 0**，与平面 col/row 正交（逻辑/碰撞/影子都在地面 `(col,row)`，height 只把 sprite 显示位置沿屏幕正上方移）。GridPos 是实体位置的真值类型——玩家、NPC、entry、编辑器摆点都存它。精灵是三维空间里的东西（平面格子 + 离地高度），`height` 让飞行 / 楼层 / 高台站立的位置可表达，并直接对接渲染遮挡（[render.ts:232](../../packages/reforge/src/render.ts) 瓦片 baseY 已 key 在 `iTileHeight` 上，精灵接入即正确遮挡）。
+  - ⚠ **不要**用屏幕像素轴 `(col=x/16, row=y/8)` 当坐标——菱形格是斜的、屏幕 x/y 是正的，硬塞会让走一格变成对角（col/row 同时变）且半数坐标非法。正解 = 菱形自己的斜边当轴：`gridToPixel(col,row) = (16(col−row), 8(col+row))`。详见 [render-foundation-plan.md](foundation/render-foundation-plan.md)。
 - **显示层**（渲染）：格 → 像素（直接定位）；**移动显示 = 格到格步进、保持原版卡顿感（~10fps 步进），不做平滑插帧** —— 作者明确喜欢卡顿感，插帧留后续可选、非必做。文字渲染走 wall-clock（[typewriter.ts](../../packages/reforge/src/text/typewriter.ts) 按 `performance.now` 算），与移动 10fps tick 本就是**两套独立时钟**，互不拉扯。
 
 ### 关于 `h` / lower-upper（旧引擎遗物，**不进坐标、不进新地图模型**）
