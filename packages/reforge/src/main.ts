@@ -24,6 +24,14 @@ import { loadCursorFrames, loadPortraits } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import { startDialogue } from './dialogue.js'
 import { Keyboard } from './input.js'
+import {
+  closeMagicMenu,
+  type MagicMenuState,
+  magicMoveCursor,
+  openMagicMenu,
+  resolveOutdoorSkills,
+} from './magic-menu-state.js'
+import { drawMagicMenu } from './menu/magic-box.js'
 import { loadMenuAssets, MenuBox } from './menu/menu-box.js'
 import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './menu-state.js'
 import { resolveMove } from './movement.js'
@@ -127,6 +135,7 @@ async function main(): Promise<void> {
   const menuAssets = await loadMenuAssets()
   const menuBox = new MenuBox(glyphs, zhLocale, menuAssets)
   let menu: MenuState = CLOSED
+  let magicMenu: MagicMenuState = closeMagicMenu()
   let facing: Facing = guijieMinjuScene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位
@@ -183,7 +192,11 @@ async function main(): Promise<void> {
       ctx.save()
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
       ctx.imageSmoothingEnabled = false
-      menuBox.render(ctx, menu, world, performance.now())
+      if (menu.menu === 'magic') {
+        drawMagicMenu(ctx, magicMenu, world, menuAssets, glyphs, performance.now())
+      } else {
+        menuBox.render(ctx, menu, world, performance.now())
+      }
       ctx.restore()
     }
   }
@@ -282,10 +295,29 @@ async function main(): Promise<void> {
 
     // 三态优先级:菜单 > 对话 > 探索(用 else if 保证互斥)
     if (menu.active) {
-      if (pressed.has('ArrowUp')) menu = moveCursor(menu, -1)
-      if (pressed.has('ArrowDown')) menu = moveCursor(menu, 1)
-      if (interact) menu = confirm(menu)
-      if (esc) menu = back(menu)
+      if (menu.menu === 'magic') {
+        // 仙术子菜单:网格导航(↑↓±列 / ←→±1);Esc 返回主菜单
+        if (pressed.has('ArrowUp')) magicMenu = magicMoveCursor(magicMenu, 'up')
+        if (pressed.has('ArrowDown')) magicMenu = magicMoveCursor(magicMenu, 'down')
+        if (pressed.has('ArrowLeft')) magicMenu = magicMoveCursor(magicMenu, 'left')
+        if (pressed.has('ArrowRight')) magicMenu = magicMoveCursor(magicMenu, 'right')
+        if (esc) {
+          magicMenu = closeMagicMenu()
+          menu = back(menu)
+        }
+      } else {
+        if (pressed.has('ArrowUp')) menu = moveCursor(menu, -1)
+        if (pressed.has('ArrowDown')) menu = moveCursor(menu, 1)
+        if (interact) {
+          menu = confirm(menu)
+          // 进仙术菜单:解析李逍遥可用 outdoor 仙术(learnedSkills → DEMO_SKILLS)
+          if (menu.menu === 'magic') {
+            const caster = world.party[0]
+            magicMenu = openMagicMenu(caster ? resolveOutdoorSkills(world, caster.id) : [])
+          }
+        }
+        if (esc) menu = back(menu)
+      }
     } else if (dialogBox.active) {
       if (interact) dialogBox.advance(t) // 翻页;翻完 → null(关闭)
     } else {

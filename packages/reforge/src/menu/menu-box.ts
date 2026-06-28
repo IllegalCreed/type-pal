@@ -180,7 +180,7 @@ const EQUIP_BORDER = 7 // slot 占位框边框厚(按比例;图标缩进此内�
 const EQUIP_NAME_INSET = 13 // 槽名距格底(格内底,无衬底)
 
 /** 画数字(右对齐:个位右边缘固定在 rightX,往左排)。原版 PAL_DrawNumber 黄色右对齐。 */
-function drawNumber(
+export function drawNumber(
   ctx: CanvasRenderingContext2D,
   value: number,
   rightX: number,
@@ -200,7 +200,7 @@ function drawNumber(
 }
 
 /** 画数字(左对齐:首位左边缘固定在 leftX,往右排)。max 紧跟斜杠用,不预留位数空间。 */
-function drawNumberLeft(
+export function drawNumberLeft(
   ctx: CanvasRenderingContext2D,
   value: number,
   leftX: number,
@@ -223,7 +223,7 @@ function drawNumberLeft(
  * 阴影(原版 PAL_CreateSingleLineBoxWithShadow,+6 偏移):整框画到离屏 → source-in 染黑
  * 剪影 → alpha 0.35 偏移 +6 画到主 canvas(同 drawBoxShadow 思路,保卷轴镂空形状)。
  */
-function drawCashBox(
+export function drawCashBox(
   ctx: CanvasRenderingContext2D,
   box: { left?: ImageBitmap; mid?: ImageBitmap; right?: ImageBitmap },
   x: number,
@@ -340,6 +340,14 @@ export interface MenuAssets {
   slash: ImageBitmap | undefined
   /** demo 装备图标(slotId → sprite;item 系统未建前的占位 demo)。 */
   equipDemo: Record<string, ImageBitmap | undefined>
+  /** 仙术菜单:红框九宫格 9 块(ui/box-red,iStyle1)。 */
+  redBox: BoxTiles
+  /** 仙术菜单:角色框(playerbox)。 */
+  magicPlayerBox: ImageBitmap | undefined
+  /** 仙术菜单:角色头像(face-0 = 李逍遥 roleId 0)。 */
+  magicFace: ImageBitmap | undefined
+  /** 仙术菜单:网格选中光标(cursor/grid)。 */
+  cursorGrid: ImageBitmap | undefined
 }
 
 /** 加载 PNG → ImageBitmap;失败返回 undefined(不阻断,渲染容错)。 */
@@ -364,6 +372,11 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     const name = `frame-${String(i).padStart(2, '0')}.png`
     tiles.push(await loadPng(`/ui/box/${name}`))
   }
+  // 仙术菜单红框 9 块(ui/box-red,iStyle1)
+  const redTiles: (ImageBitmap | undefined)[] = []
+  for (let i = 0; i <= 8; i++) {
+    redTiles.push(await loadPng(`/ui/box-red/frame-${String(i).padStart(2, '0')}.png`))
+  }
   const [statusBg, equipSlot, left, mid, right, nums, avatar, numsBlue, numsCyan, slash] =
     await Promise.all([
       loadPng('/ui/status/bg.png'),
@@ -385,6 +398,12 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
   EQUIP_SLOTS.forEach(({ slot }, i) => {
     equipDemo[slot] = equipDemoArr[i]
   })
+  // 仙术菜单专用 sprite(角色框 / 头像 / 网格光标)
+  const [magicPlayerBox, magicFace, cursorGrid] = await Promise.all([
+    loadPng('/ui/magic/playerbox.png'),
+    loadPng('/ui/magic/face-0.png'),
+    loadPng('/ui/cursor/grid.png'),
+  ])
   return {
     box: { tiles },
     statusBg,
@@ -396,6 +415,10 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     numsCyan,
     slash,
     equipDemo,
+    redBox: { tiles: redTiles },
+    magicPlayerBox,
+    magicFace,
+    cursorGrid,
   }
 }
 
