@@ -1,0 +1,43 @@
+import type { GridPos } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
+import { gridToPixel, pixelToGrid } from './grid.js'
+
+describe('grid 坐标(菱形轴)', () => {
+  test('格 → 像素 = (16(col−row), 8(col+row))', () => {
+    expect(gridToPixel({ col: 90, row: 14, height: 0 })).toEqual({ x: 1216, y: 832 })
+    expect(gridToPixel({ col: 91, row: 14, height: 0 })).toEqual({ x: 1232, y: 840 }) // 仅 col+1
+  })
+
+  test('像素 → 格(唯一反解,站位必得整数)', () => {
+    expect(pixelToGrid(1216, 832)).toEqual({ col: 90, row: 14 })
+    expect(pixelToGrid(1232, 840)).toEqual({ col: 91, row: 14 })
+  })
+
+  test('height 不影响平面投影(独立轴)', () => {
+    expect(gridToPixel({ col: 90, row: 14, height: 5 })).toEqual(
+      gridToPixel({ col: 90, row: 14, height: 0 }),
+    )
+  })
+
+  test('走一格 = 单轴 ±1(四方向各一个轴,绝不对角)', () => {
+    // 从 (1216,832) = 格(90,14) 四方向各走一步,只动一个轴:
+    expect(pixelToGrid(1216 + 16, 832 + 8)).toEqual({ col: 91, row: 14 }) // 右下 col+1
+    expect(pixelToGrid(1216 - 16, 832 - 8)).toEqual({ col: 89, row: 14 }) // 左上 col−1
+    expect(pixelToGrid(1216 - 16, 832 + 8)).toEqual({ col: 90, row: 15 }) // 左下 row+1
+    expect(pixelToGrid(1216 + 16, 832 - 8)).toEqual({ col: 90, row: 13 }) // 右上 row−1
+  })
+
+  test('任意整数 (col,row) 都合法(无 col+row 偶约束)', () => {
+    const cases: GridPos[] = [
+      { col: 90, row: 14, height: 0 },
+      { col: 91, row: 14, height: 0 }, // col+row 奇
+      { col: 90, row: 15, height: 0 }, // col+row 奇
+      { col: 0, row: 1, height: 0 },
+    ]
+    for (const p of cases) {
+      const px = gridToPixel(p)
+      const back = pixelToGrid(px.x, px.y)
+      expect(back).toEqual({ col: p.col, row: p.row })
+    }
+  })
+})
