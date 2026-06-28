@@ -63,7 +63,8 @@
 |---|---|---|
 | [design](menu/design.md) | 角色 schema + 数据驱动布局 + 可切片框原语（九宫格/卷轴）+ 范围 | 已认可 |
 | [plan](menu/plan.md) | TDD 实现计划（5 Task：schema→状态机→资产→UI→集成） | 已实现 |
-| [cash-box-plan](menu/cash-box-plan.md) | 金钱横卷轴（frame 44-46 横卷轴 + 19-28 数字）实现计划 | 待 GLM |
+| [cash-box-plan](menu/cash-box-plan.md) | 金钱横卷轴（frame 44-46 横卷轴 + 19-28 数字）实现计划 | 已实现 |
+| [status-page-plan](menu/status-page-plan.md) | 状态面板完整还原（立绘 + 9 属性 + 装备格围绕布局）实现计划 | 待 GLM |
 
 ## 怎么用（阅读路径）
 - **整体方向** → [roadmap](roadmap.md)
