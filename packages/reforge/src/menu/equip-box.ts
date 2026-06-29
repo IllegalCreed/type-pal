@@ -57,7 +57,7 @@ const PR_ITEM_NAME = { x: 5, y: 73 } // EquipItemName(金,左对齐)
 const PR_ITEM_AMOUNT_RIGHT = 62 // EquipItemAmount(青,右对齐;卷面右下)
 const PR_ITEM_AMOUNT_Y = 52
 const PR_ROLE_BOX = { x: 2, y: 95 } // EquipRoleListBox(主菜单九宫格黄框,draw-equip style 0)
-const PR_ROLE_BOX_W = 92
+const PR_ROLE_BOX_W = 77 // sdlpal cols=2(22 + 2×16 + 23);右端+卷轴头 ~89,让开 x=92 的槽位 label
 const PR_ROLE_BOX_H = 40 // 主菜单 9-slice 单行最小高(MENU_H_BASE 22 + ITEM_H 18)
 const PR_ROLE_NAME = { dx: 13, dy: 13 } // 名 = 框 + (13,13)(sdlpal uigame.c:1952)
 const PR_LABEL_X = 92 // EquipLabels(深色)

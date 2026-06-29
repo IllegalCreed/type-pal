@@ -334,7 +334,7 @@ async function main(): Promise<void> {
             world = r.world
             equipMenu = r.state
           } else if (esc) {
-            equipMenu = equipBackToList(equipMenu)
+            equipMenu = equipBackToList(equipMenu, world)
           }
         } else {
           // list:网格选可装物 + Enter 进确认面板 + Esc 关装备面板

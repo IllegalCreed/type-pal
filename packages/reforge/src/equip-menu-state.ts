@@ -2,7 +2,13 @@
 //   list     选可装物(网格)→ Enter 记下选中、进 pick-role(不立即换)
 //   pick-role 确认面板(显角色当前 6 槽装备 + 5 属性)→ Enter 才真换 / Esc 回 list
 // 换装走 content equipItem(返回新 world)。
-import { equipItem, equippableItems, type ItemData, type WorldState } from '@type-pal/content'
+import {
+  DEMO_ITEMS,
+  equipItem,
+  equippableItems,
+  type ItemData,
+  type WorldState,
+} from '@type-pal/content'
 
 export type EquipPhase = 'list' | 'pick-role'
 
@@ -56,18 +62,26 @@ export function equipConfirmItem(s: EquipMenuState): EquipMenuState {
   return { ...s, phase: 'pick-role', selectedItemId: sel.id }
 }
 
-/** pick-role Esc:回 list(清选中)。 */
-export function equipBackToList(s: EquipMenuState): EquipMenuState {
+/** pick-role Esc:回 list + 重算(swap 后背包可能变了,列表须刷新)。 */
+export function equipBackToList(s: EquipMenuState, world: WorldState): EquipMenuState {
   if (s.phase !== 'pick-role') return s
-  return { ...s, phase: 'list', selectedItemId: undefined }
+  return openEquipMenu(world, s.casterId)
 }
 
-/** pick-role Confirm:换上选中物。返回新 world + 重算后回 list(列表变,cursor 归 0)。 */
+/**
+ * pick-role Confirm(空格):换上选中物。原版 PAL_EquipItemMenu swap loop(uigame.c:2016-2019):
+ * 换下的旧件 != 0 → 留 pick-role、选中变旧件(可一直空格在两件间切换对比);旧件 == 0(空槽)→ 回 list。
+ * Esc 才主动回 list。
+ */
 export function equipApply(
   s: EquipMenuState,
   world: WorldState,
 ): { world: WorldState; state: EquipMenuState } {
   if (s.phase !== 'pick-role' || !s.selectedItemId) return { world, state: s }
+  const slot = DEMO_ITEMS[s.selectedItemId]?.equip?.slot
+  const caster = world.party.find((c) => c.id === s.casterId)
+  const oldItemId = caster && slot ? caster.equipment[slot] : undefined // 换下的旧件(原槽位)
   const next = equipItem(world, s.casterId, s.selectedItemId)
-  return { world: next, state: openEquipMenu(next, s.casterId) }
+  if (oldItemId) return { world: next, state: { ...s, selectedItemId: oldItemId } } // 留面板续换
+  return { world: next, state: openEquipMenu(next, s.casterId) } // 空槽 → 回 list
 }
