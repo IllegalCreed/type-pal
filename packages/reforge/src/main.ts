@@ -26,8 +26,10 @@ import { startDialogue } from './dialogue.js'
 import {
   closeEquipMenu,
   type EquipMenuState,
+  equipApply,
+  equipBackToList,
+  equipConfirmItem,
   equipMoveCursor,
-  equipSelected,
   openEquipMenu,
 } from './equip-menu-state.js'
 import { Keyboard } from './input.js'
@@ -206,7 +208,7 @@ async function main(): Promise<void> {
       if (menu.openPanel === 'magic') {
         drawMagicMenu(ctx, magicMenu, world, menuAssets, glyphs, performance.now())
       } else if (menu.openPanel === 'equip') {
-        drawEquipMenu(ctx, equipMenu, world, menuAssets, glyphs, performance.now())
+        drawEquipMenu(ctx, equipMenu, world, menuAssets, glyphs, performance.now(), zhLocale)
       } else {
         menuBox.render(ctx, menu, world, performance.now())
       }
@@ -325,22 +327,26 @@ async function main(): Promise<void> {
           }
         }
       } else if (menu.openPanel === 'equip') {
-        // 装备面板:网格选可装物 + Enter 换装(equipSelected 回写 world)+ Esc 关
-        if (pressed.has('ArrowUp')) equipMenu = equipMoveCursor(equipMenu, 'up')
-        if (pressed.has('ArrowDown')) equipMenu = equipMoveCursor(equipMenu, 'down')
-        if (pressed.has('ArrowLeft')) equipMenu = equipMoveCursor(equipMenu, 'left')
-        if (pressed.has('ArrowRight')) equipMenu = equipMoveCursor(equipMenu, 'right')
-        if (interact) {
-          const caster = world.party[0]
-          if (caster) {
-            const r = equipSelected(equipMenu, world, caster.id)
+        if (equipMenu.phase === 'pick-role') {
+          // 确认面板:Enter 换上(equipApply 回写 world)/ Esc 回列表
+          if (interact) {
+            const r = equipApply(equipMenu, world)
             world = r.world
             equipMenu = r.state
+          } else if (esc) {
+            equipMenu = equipBackToList(equipMenu)
           }
-        }
-        if (esc) {
-          equipMenu = closeEquipMenu()
-          menu = back(menu)
+        } else {
+          // list:网格选可装物 + Enter 进确认面板 + Esc 关装备面板
+          if (pressed.has('ArrowUp')) equipMenu = equipMoveCursor(equipMenu, 'up')
+          if (pressed.has('ArrowDown')) equipMenu = equipMoveCursor(equipMenu, 'down')
+          if (pressed.has('ArrowLeft')) equipMenu = equipMoveCursor(equipMenu, 'left')
+          if (pressed.has('ArrowRight')) equipMenu = equipMoveCursor(equipMenu, 'right')
+          if (interact) equipMenu = equipConfirmItem(equipMenu)
+          if (esc) {
+            equipMenu = closeEquipMenu()
+            menu = back(menu)
+          }
         }
       } else if (menu.openPanel) {
         // status / use / system 面板:Esc 关面板(使用/系统暂为占位)
