@@ -1,6 +1,6 @@
 // 物品 / 装备数据 ① 层。见 docs/phase2/foundation/item-data-design.md。
 // 阶段隔离(D18):纯 content 数据 + 类型,无 reforge/引擎依赖。
-import type { CharacterInstance } from './character.js'
+import type { CharacterInstance, WorldState } from './character.js'
 import type { StatusId } from './skill.js'
 
 /** 战斗属性(对齐 CharacterInstance 的 5 项)。 */
@@ -205,4 +205,63 @@ export function effectiveStat(
     }
   }
   return v
+}
+
+/** 背包里该角色可装的物品(equip 能力 + equipableBy 含其模板)。 */
+export function equippableItems(
+  world: WorldState,
+  casterId: string,
+  items: Record<string, ItemData> = DEMO_ITEMS,
+): ItemData[] {
+  const member = world.party.find((c) => c.id === casterId)
+  if (!member) return []
+  return world.inventory
+    .filter((e) => e.count > 0)
+    .map((e) => items[e.itemId])
+    .filter((it): it is ItemData => it != null)
+    .filter((it) => it.equip?.equipableBy.includes(member.template))
+}
+
+function addToInventory(
+  inv: { itemId: string; count: number }[],
+  itemId: string,
+  n: number,
+): { itemId: string; count: number }[] {
+  if (inv.some((x) => x.itemId === itemId)) {
+    return inv.map((x) => (x.itemId === itemId ? { ...x, count: x.count + n } : x))
+  }
+  return [...inv, { itemId, count: n }]
+}
+
+function removeFromInventory(
+  inv: { itemId: string; count: number }[],
+  itemId: string,
+  n: number,
+): { itemId: string; count: number }[] {
+  return inv
+    .map((x) => (x.itemId === itemId ? { ...x, count: x.count - n } : x))
+    .filter((x) => x.count > 0)
+}
+
+/** 换装:itemId 入其 slot,旧件回包。返回新 WorldState(不可变);非法操作原样返回。 */
+export function equipItem(
+  world: WorldState,
+  casterId: string,
+  itemId: string,
+  items: Record<string, ItemData> = DEMO_ITEMS,
+): WorldState {
+  const item = items[itemId]
+  const slot = item?.equip?.slot
+  const member = world.party.find((c) => c.id === casterId)
+  if (!item?.equip || !slot || !member) return world
+  if (!item.equip.equipableBy.includes(member.template)) return world
+  if (!world.inventory.some((e) => e.itemId === itemId && e.count > 0)) return world
+
+  const oldItemId = member.equipment[slot]
+  const party = world.party.map((c) =>
+    c.id === casterId ? { ...c, equipment: { ...c.equipment, [slot]: itemId } } : c,
+  )
+  let inventory = removeFromInventory(world.inventory, itemId, 1)
+  if (oldItemId) inventory = addToInventory(inventory, oldItemId, 1)
+  return { ...world, party, inventory }
 }
