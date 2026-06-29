@@ -245,6 +245,16 @@ AI 出图(gpt-image 或 SD+LoRA) → 脚本自动降采样+量化 → 成品
 3. **动画 / 斜 45°**：真难的两块，推迟；到时云端 ControlNet 或接受重抽。
 4. **想去掉猜测**：拿一张原版精灵当 anchor 跑 10 张图小实验，一致性 + 45° 当场见真章。
 
+## 八、资产交付:散文件 vs 雪碧图(atlas)(2026-06-29,scale-up 记录)
+
+> 起因:状态板/装备菜单的物品图标现在是散 PNG(`/ui/items/{bitmap}.png`),作者问散文件会不会开销太大。
+
+- **现状**:`bake-assets` 把每个 UI sprite / 图标烤成独立 PNG(box / num / cursor / items …,`public/ui/` 现 ~70 文件,tracked)。demo 量级**没问题**。
+- **scale 隐患**:满内容(234 件物品 + 全套 UI sprite + tile)= 几百个小文件 → 请求数多、SW 预缓存清单膨胀、缓存碎片。
+- **解法(长期)= atlas**:`bake-assets` 输出**一张大图 + `{key:{x,y,w,h}}` manifest**;加载器 fetch 一次、`drawImage(atlas, sx,sy,sw,sh, …)` blit 子矩形(connect 全套 UI sprite + 图标一起打)。
+- **关键:数据模型 atlas 无关**。`ItemData.icon = bitmap 号`、菜单渲染逻辑都不动;只换 **bake 输出格式 + 加载器**两处 → 局部可换实现,**不是重构**。
+- **何时做**:全量迁移 234 件物品 / 编辑器要批量图标时。**现在 YAGNI**(demo 7 图标;且已有 SW 预缓存一次性下载 + HTTP/2 多路复用兜底,散文件短期不致命)。
+
 ## 参考资源
 
 - [Developing Sprite Sheets with GPT Image 2 — OpenAI Community](https://community.openai.com/t/developing-sprite-sheets-with-gpt-image-2/1379831)
