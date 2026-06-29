@@ -92,7 +92,7 @@ export function instantiate(t: CharacterTemplate): CharacterInstance {
 export function initialWorld(): WorldState {
   const li = instantiate(LI_XIAOYAO)
   li.hp = 100 // demo:低于 maxHP 150,使用面板回血才看得出
-  li.mp = 60 //  demo:低于 maxMP 100
+  li.mp = 30 //  demo:低于 maxMP 100,且 < 元灵归心术(40) → 仙术菜单演示 MP 不足灰显
   return {
     party: [li],
     money: 0,

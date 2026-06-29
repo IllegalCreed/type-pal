@@ -74,10 +74,10 @@ describe('使用世界操作', () => {
     expect(w0.party[0]?.hp).toBe(100) // 原 world 不变(不可变)
   })
   test('useItem:茶叶蛋同时回 HP+MP', () => {
-    const w0 = initialWorld() // hp100 mp60
+    const w0 = initialWorld() // hp100 mp30
     const w1 = useItem(w0, 'li-xiaoyao', '78')
     expect(w1.party[0]?.hp).toBe(115)
-    expect(w1.party[0]?.mp).toBe(75)
+    expect(w1.party[0]?.mp).toBe(45) // 30+15
     expect(w1.inventory.find((e) => e.itemId === '78')).toBeUndefined() // 1→0 出包
   })
   test('useItem:非法(无 use / 不在包 / 未知角色)→ 原样返回', () => {

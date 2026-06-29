@@ -161,6 +161,7 @@ async function main(): Promise<void> {
   let equipMenu: EquipMenuState = closeEquipMenu()
   let useMenu: UseMenuState = closeUseMenu()
   let lastUseCursor = 0 // 使用面板光标记忆(原版 iCurInvMenuItem;跨开关恢复)
+  let statusIdx = 0 // 状态板当前查看的队员索引(原版 iCurrent;方向键切人,越界关菜单)
   let facing: Facing = guijieMinjuScene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位
@@ -224,7 +225,7 @@ async function main(): Promise<void> {
       } else if (menu.openPanel === 'use') {
         drawUseMenu(ctx, useMenu, world, menuAssets, glyphs, performance.now(), zhLocale)
       } else {
-        menuBox.render(ctx, menu, world, performance.now())
+        menuBox.render(ctx, menu, world, performance.now(), statusIdx)
       }
       ctx.restore()
     }
@@ -389,8 +390,19 @@ async function main(): Promise<void> {
             menu = back(menu)
           }
         }
+      } else if (menu.openPanel === 'status') {
+        // 状态板:Up/Left 上一员、Down/Right/Enter 下一员、越界关面板(原版 PAL_PlayerStatus iCurrent)
+        if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) {
+          statusIdx -= 1
+          if (statusIdx < 0) menu = back(menu)
+        } else if (pressed.has('ArrowDown') || pressed.has('ArrowRight') || interact) {
+          statusIdx += 1
+          if (statusIdx >= world.party.length) menu = back(menu)
+        } else if (esc) {
+          menu = back(menu)
+        }
       } else if (menu.openPanel) {
-        // status / system 面板:Esc 关面板(系统暂为占位)
+        // system 面板:Esc 关面板(暂为占位)
         if (esc) menu = back(menu)
       } else {
         // 菜单级联导航(Left=Up / Right=Down,对齐 DL21 kKeyUp|kKeyLeft / kKeyDown|kKeyRight)
@@ -406,6 +418,8 @@ async function main(): Promise<void> {
             equipMenu = openEquipMenu(world, caster.id)
           } else if (menu.openPanel === 'use') {
             useMenu = openUseMenu(world, lastUseCursor) // 恢复上次光标(原版 iCurInvMenuItem)
+          } else if (menu.openPanel === 'status') {
+            statusIdx = 0 // 开状态板从首位队员看起
           }
         }
         if (esc) menu = back(menu)

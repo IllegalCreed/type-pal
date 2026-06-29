@@ -438,9 +438,15 @@ export class MenuBox {
     private readonly assets: MenuAssets,
   ) {}
 
-  render(ctx: CanvasRenderingContext2D, state: MenuState, world: WorldState, now: number): void {
+  render(
+    ctx: CanvasRenderingContext2D,
+    state: MenuState,
+    world: WorldState,
+    now: number,
+    statusMember = 0,
+  ): void {
     if (state.openPanel === 'status') {
-      this.renderStatus(ctx, world)
+      this.renderStatus(ctx, world, statusMember)
       return
     }
     if (state.openPanel === 'system') {
@@ -503,12 +509,12 @@ export class MenuBox {
     })
   }
 
-  private renderStatus(ctx: CanvasRenderingContext2D, world: WorldState): void {
+  private renderStatus(ctx: CanvasRenderingContext2D, world: WorldState, member = 0): void {
     // 背景(全屏 320×200)
     if (this.assets.statusBg) ctx.drawImage(this.assets.statusBg, 0, 0, 320, 200)
 
-    // demo 单人:取 party[0]。将来多人菜单选角。
-    const c = world.party[0]
+    // 当前查看的队员(原版 iCurrent;越界 clamp)。demo 单人恒 0;立绘暂仍李逍遥(多人时按 template 取)。
+    const c = world.party[Math.min(Math.max(0, member), world.party.length - 1)]
     if (!c) return
 
     // 左栏:属性 9 项 —— label 字模(米白)+ value 数字 sprite(黄);HP/MP 当前/最大(max 蓝 + 斜杠)
@@ -530,7 +536,7 @@ export class MenuBox {
     }
 
     // 中栏:名字(金黄,上) + 立绘(下),水平居中于 MID_CX
-    const nameSpans = [{ text: lookupText('name.li-xiaoyao', this.locale) }]
+    const nameSpans = [{ text: lookupText(`name.${c.template}` as TextId, this.locale) }]
     renderSpans(ctx, nameSpans, MID_CX - measureSpans(nameSpans, this.glyphs) / 2, NAME_Y, {
       glyphs: this.glyphs,
       shadow: true,

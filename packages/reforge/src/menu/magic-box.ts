@@ -20,6 +20,8 @@ const CURSOR_DX = 25 // 光标相对 item 偏移(draw-magic)
 const CURSOR_DY = 10
 // 色(palette 0):普通米白 / 选中黄(6 帧闪烁)
 const COLOR_NORMAL = [199, 186, 174] as const
+const COLOR_DISABLED = [166, 40, 32] as const // 0x18 MP 不足(原版 MENUITEM_COLOR_INACTIVE)
+const COLOR_DISABLED_SEL = [215, 109, 93] as const // 0x1C MP 不足 + 选中(SELECTED_INACTIVE)
 const SELECTED_COLORS = [
   [247, 231, 109],
   [235, 211, 97],
@@ -88,11 +90,16 @@ export function drawMagicMenu(
     const x = ITEM_X0 + (i % GRID_COLS) * ITEM_DX
     const y = ITEM_Y0 + Math.floor(i / GRID_COLS) * ITEM_DY
     const selected = i === state.cursor
-    renderSpans(ctx, [{ text: sp.name }], x, y, {
-      glyphs,
-      shadow: true,
-      forceRgba: selected ? blink : COLOR_NORMAL,
-    })
+    // MP 不足 → 灰显禁用(原版 magic-select insufficient → 0x18/选中 0x1C);够 → 米白/选中黄闪
+    const affordable = !caster || caster.mp >= (sp.cost.mp ?? 0)
+    const color = affordable
+      ? selected
+        ? blink
+        : COLOR_NORMAL
+      : selected
+        ? COLOR_DISABLED_SEL
+        : COLOR_DISABLED
+    renderSpans(ctx, [{ text: sp.name }], x, y, { glyphs, shadow: true, forceRgba: color })
     if (selected && assets.cursorGrid)
       ctx.drawImage(assets.cursorGrid, x + CURSOR_DX, y + CURSOR_DY)
   })
