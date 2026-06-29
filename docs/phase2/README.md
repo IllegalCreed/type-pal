@@ -41,6 +41,7 @@
 | [skill-data-plan](foundation/skill-data-plan.md) | 技能数据地基 TDD 实现计划（3 Task：定义+demo / 等级表 / magic→learnedSkills 迁移） | 已实现 |
 | [item-data-design](foundation/item-data-design.md) | 物品/装备数据架构（一物多能力块 equip/use/throw + EquipEffect 联合 + 6 槽 + 有效属性） | 已认可 |
 | [equipment-foundation-plan](foundation/equipment-foundation-plan.md) | 装备地基 TDD 计划（item.ts + 6 槽 + inventory + 有效属性，交 GLM） | 待 GLM |
+| [script-system-design](foundation/script-system-design.md) | 剧情脚本系统数据模型 shape（世界=实体+触发器+脚本 / 命令判别联合 / 结构化分支·并行 / 跨场景=全局 flag / 模板=带参实体） | 草稿·待评审 |
 
 ### slice1-indoor/ · 切片 1：室内场景跑通
 | 文件 | 内容 | 状态 |
