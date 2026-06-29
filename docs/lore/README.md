@@ -42,6 +42,7 @@
 | [versions.md](versions.md) | **版本差异登记**：DOS / 98柔情 / 新仙剑 / 电视剧 等版本的关键设定分歧，以及本项目"以哪个为正典"的决定 | 部分待定正典 |
 | [taboos.md](taboos.md) | 红线清单：明确不能动 / 不能冲突的设定 | 初稿 |
 | [dlc-ideas.md](dlc-ideas.md) | **DLC 创意池**：扩展内容构思登记（鬼界支线/小支线补完/皇甫英暗线等）+ 红线自查 | DLC-01 构思成型 |
+| [narrative-workflow.md](narrative-workflow.md) | **叙事设计工作流**：从灵感到落地的六步流程（概念→节拍表→流程图→关卡→演出→地编）+ 方法论。配套 [D19](../phase2/decisions.md) | 定稿 |
 
 ## 更新规则
 
