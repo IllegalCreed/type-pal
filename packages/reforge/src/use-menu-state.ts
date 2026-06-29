@@ -38,9 +38,9 @@ export function useMoveCursor(
   if (n === 0) return s
   const delta =
     dir === 'up' ? -USE_GRID_COLS : dir === 'down' ? USE_GRID_COLS : dir === 'left' ? -1 : 1
+  // 越界吸附首/尾(对齐一阶段 inventory-menu.ts setCursorClamp,非"不动")
   const next = s.cursor + delta
-  if (next < 0 || next >= n) return s
-  return { ...s, cursor: next }
+  return { ...s, cursor: next < 0 ? 0 : next >= n ? n - 1 : next }
 }
 
 /** pick-item 确认结果:单体回复/buff → 进选目标;脚本/全体类 → 已直接执行(返回新 world)。 */

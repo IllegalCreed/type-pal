@@ -174,6 +174,7 @@ const MID_CX = 158
 const NAME_Y = 30
 const AVATAR_Y = 50
 const COLOR_NAME = [255, 203, 113] as const // 名字色 = 原版 MENUITEM_COLOR_CONFIRMED 0x2C 金黄
+const COLOR_EQUIP_NAME = [231, 223, 195] as const // 0xBE 装备物名(原版 STATUS_COLOR_EQUIPMENT)
 // 右栏:6 装备格 2 列 × 3 行平铺(放大到接近原版 50×49)
 const EQUIP_X0 = 200
 const EQUIP_Y0 = 6
@@ -538,18 +539,19 @@ export class MenuBox {
     const { avatar } = this.assets
     if (avatar) ctx.drawImage(avatar, Math.round(MID_CX - avatar.width / 2), AVATAR_Y)
 
-    // 右栏:6 装备格 2 列 × 3 行平铺 —— 格 + 装备图标(demo,格内居中)+ 槽名(格下居中)
-    EQUIP_SLOTS.forEach(({ slot, label }, i) => {
+    // 右栏:6 装备格 2 列 × 3 行平铺 —— 格 + 装备图标 + 装备物名(格下居中,0xBE)。
+    // 原版 draw-player-status:画穿戴物名(item._name)非槽位名;空槽(无装备)跳过、留空。
+    EQUIP_SLOTS.forEach(({ slot }, i) => {
       const gx = EQUIP_X0 + (i % EQUIP_COLS) * (EQUIP_SLOT_SIZE + EQUIP_GAP_X)
       const gy = EQUIP_Y0 + Math.floor(i / EQUIP_COLS) * (EQUIP_SLOT_SIZE + EQUIP_GAP_Y)
       if (this.assets.equipSlot) {
         ctx.drawImage(this.assets.equipSlot, gx, gy, EQUIP_SLOT_SIZE, EQUIP_SLOT_SIZE)
       }
-      // 装备图标:取该槽穿戴物 → DEMO_ITEMS[itemId].icon → itemIcons;缩进内凹区、保比例居中
       const equippedId = c.equipment[slot]
-      const icon = equippedId
-        ? this.assets.itemIcons[DEMO_ITEMS[equippedId]?.icon ?? -1]
-        : undefined
+      if (!equippedId) return // 空槽:格画了,图标/名都不画(留空)
+      const equipped = DEMO_ITEMS[equippedId]
+      // 装备图标:DEMO_ITEMS[itemId].icon → itemIcons;缩进内凹区、保比例居中
+      const icon = this.assets.itemIcons[equipped?.icon ?? -1]
       if (icon) {
         const inner = EQUIP_SLOT_SIZE - EQUIP_BORDER * 2
         const scale = Math.min(inner / icon.width, inner / icon.height, 1)
@@ -563,14 +565,14 @@ export class MenuBox {
           Math.round(ih),
         )
       }
-      // 槽名:格内底部,无衬底(shadow 描边即可读)
-      const nameSpan = [{ text: lookupText(label, this.locale) }]
+      // 装备物名:格内底部,0xBE(原版 STATUS_COLOR_EQUIPMENT);shadow 描边
+      const nameSpan = [{ text: equipped?.name ?? `?${equippedId}` }]
       renderSpans(
         ctx,
         nameSpan,
         gx + (EQUIP_SLOT_SIZE - measureSpans(nameSpan, this.glyphs)) / 2,
         gy + EQUIP_SLOT_SIZE - EQUIP_NAME_INSET,
-        { glyphs: this.glyphs, shadow: true, forceRgba: COLOR_NORMAL },
+        { glyphs: this.glyphs, shadow: true, forceRgba: COLOR_EQUIP_NAME },
       )
     })
   }

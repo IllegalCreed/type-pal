@@ -51,7 +51,7 @@ export function magicMoveCursor(
   if (n === 0) return s
   const delta =
     dir === 'up' ? -MAGIC_GRID_COLS : dir === 'down' ? MAGIC_GRID_COLS : dir === 'left' ? -1 : 1
+  // 越界吸附首/尾(对齐一阶段 inventory-menu.ts setCursorClamp,非"不动")
   const next = s.cursor + delta
-  if (next < 0 || next >= n) return s // 越界 → 不动
-  return { ...s, cursor: next }
+  return { ...s, cursor: next < 0 ? 0 : next >= n ? n - 1 : next }
 }

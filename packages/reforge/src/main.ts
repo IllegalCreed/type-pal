@@ -393,9 +393,9 @@ async function main(): Promise<void> {
         // status / system 面板:Esc 关面板(系统暂为占位)
         if (esc) menu = back(menu)
       } else {
-        // 菜单级联导航
-        if (pressed.has('ArrowUp')) menu = moveCursor(menu, -1)
-        if (pressed.has('ArrowDown')) menu = moveCursor(menu, 1)
+        // 菜单级联导航(Left=Up / Right=Down,对齐 DL21 kKeyUp|kKeyLeft / kKeyDown|kKeyRight)
+        if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) menu = moveCursor(menu, -1)
+        if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) menu = moveCursor(menu, 1)
         if (interact) {
           menu = confirm(menu)
           const caster = world.party[0]

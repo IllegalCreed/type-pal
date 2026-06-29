@@ -49,9 +49,9 @@ export function equipMoveCursor(
   if (n === 0) return s
   const delta =
     dir === 'up' ? -EQUIP_GRID_COLS : dir === 'down' ? EQUIP_GRID_COLS : dir === 'left' ? -1 : 1
+  // 越界吸附首/尾(对齐一阶段 inventory-menu.ts setCursorClamp,非"不动")
   const next = s.cursor + delta
-  if (next < 0 || next >= n) return s
-  return { ...s, cursor: next }
+  return { ...s, cursor: next < 0 ? 0 : next >= n ? n - 1 : next }
 }
 
 /** list Confirm:记下选中物 → 进 pick-role 确认面板(不立即换)。空列表/越界 no-op。 */

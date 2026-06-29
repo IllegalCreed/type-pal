@@ -133,15 +133,15 @@ function drawEquipPickRole(
       shadow: false,
       forceRgba: COLOR_DARK,
     })
+    // 装备名:穿戴中才画;空槽留空(原版 draw-equip:if eqItemId!==0 才 renderText)
     const equippedId = caster.equipment[slot]
-    const nm = equippedId
-      ? (DEMO_ITEMS[equippedId]?.name ?? '?')
-      : lookupText('equip.empty', locale)
-    renderSpans(ctx, [{ text: nm }], PR_NAME_X, y, {
-      glyphs,
-      shadow: true,
-      forceRgba: COLOR_NORMAL,
-    })
+    if (equippedId) {
+      renderSpans(ctx, [{ text: DEMO_ITEMS[equippedId]?.name ?? `?${equippedId}` }], PR_NAME_X, y, {
+        glyphs,
+        shadow: true,
+        forceRgba: COLOR_NORMAL,
+      })
+    }
   })
 
   // ③ 右:5 属性 label(纯黑无阴影)+ 有效值(青,右对齐)
