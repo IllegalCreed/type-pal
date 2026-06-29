@@ -71,7 +71,8 @@
 | [cash-box-plan](menu/cash-box-plan.md) | 金钱横卷轴（frame 44-46 横卷轴 + 19-28 数字）实现计划 | 已实现 |
 | [status-page-plan](menu/status-page-plan.md) | 状态面板完整还原（立绘 + 9 属性 + 装备格 2×3）实现计划 | 已实现 |
 | [magic-menu-plan](menu/magic-menu-plan.md) | 仙术菜单（接技能地基；状态机=GLM / UI·集成·对齐=Claude） | 已实现 |
-| [equip-menu-plan](menu/equip-menu-plan.md) | 装备面板（世界操作+状态机=GLM / UI·对齐=Claude；多级菜单 openPanel='equip'） | A/B 待 GLM |
+| [equip-menu-plan](menu/equip-menu-plan.md) | 装备面板（世界操作+状态机=GLM / UI·对齐=Claude；多级菜单 openPanel='equip'） | 已实现 |
+| [use-menu-plan](menu/use-menu-plan.md) | 使用面板（useItem+状态机=GLM / UI·集成·bake=Claude；两阶段 pick-item→pick-target，回血/真气+消耗） | A/B 待 GLM |
 
 ## 怎么用（阅读路径）
 - **整体方向** → [roadmap](roadmap.md)
