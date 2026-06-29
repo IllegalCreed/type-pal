@@ -37,11 +37,12 @@ export const zhLocale: Locale = {
   'stat.magicAttack': '灵力',
   'stat.speed': '身法',
   'stat.luck': '吉运',
-  'equip.weapon': '武器',
-  'equip.head': '头部',
-  'equip.body': '护甲',
-  'equip.cloak': '披风',
-  'equip.feet': '鞋',
-  'equip.accessory': '手饰',
+  // 装备槽 label(动词式,唯一真值:换装面板 + 状态面板共用。原版 FBP「頭戴/披掛/身穿/手持/脚穿/配帶」)
+  'equip.weapon': '手持',
+  'equip.head': '头戴',
+  'equip.body': '身穿',
+  'equip.cloak': '披挂',
+  'equip.feet': '脚穿',
+  'equip.accessory': '配带',
   'equip.empty': '—',
 }
