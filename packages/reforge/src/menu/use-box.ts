@@ -42,6 +42,7 @@ const UB_AMOUNT_Y = 133
 const COLOR_STAT_LABEL = [186, 166, 125] as const // 0xBB
 const COLOR_ITEM_NAME = [231, 223, 195] as const // 0xBE
 const COLOR_PARTY = [199, 186, 174] as const // 0x4F
+// 选中闪烁 6 色 = palette 0xF9..0xFE(原版 ui.h MENUITEM_COLOR_SELECTED;已核对,非自填)
 const SELECTED_COLORS = [
   [247, 231, 109],
   [235, 211, 97],

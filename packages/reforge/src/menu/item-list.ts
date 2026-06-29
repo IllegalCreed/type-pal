@@ -28,6 +28,7 @@ const DESC_LINE_H = 16 // 多行说明行距(sdlpal itemmenu.c desc 151+i*16)
 const COLOR_NORMAL = [199, 186, 174] as const // 0x4F 米白(物品名)
 const COLOR_DESC = [243, 239, 93] as const // 0x3C 浅黄(描述)
 const COLOR_EQUIPPED = [81, 93, 44] as const // 0xC8 橄榄绿(穿戴中的物品;原版 MENUITEM_COLOR_EQUIPPEDITEM)
+// 选中闪烁 6 色 = palette 0xF9..0xFE(原版 ui.h MENUITEM_COLOR_SELECTED + tick/100%6;已逐个核对,非自填)
 const SELECTED_COLORS = [
   [247, 231, 109],
   [235, 211, 97],

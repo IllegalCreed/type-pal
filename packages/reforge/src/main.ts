@@ -55,7 +55,7 @@ import {
   type UseMenuState,
   useApply,
   useBackFromTarget,
-  useConfirmItem,
+  useConfirm,
   useMoveCursor,
 } from './use-menu-state.js'
 
@@ -160,6 +160,7 @@ async function main(): Promise<void> {
   let magicMenu: MagicMenuState = closeMagicMenu()
   let equipMenu: EquipMenuState = closeEquipMenu()
   let useMenu: UseMenuState = closeUseMenu()
+  let lastUseCursor = 0 // 使用面板光标记忆(原版 iCurInvMenuItem;跨开关恢复)
   let facing: Facing = guijieMinjuScene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位
@@ -372,13 +373,18 @@ async function main(): Promise<void> {
             useMenu = useBackFromTarget(useMenu)
           }
         } else {
-          // pick-item:网格选可用物 + Enter 进选目标 + Esc 关使用面板
+          // pick-item:网格选可用物 + Enter(单体进选目标 / 脚本类直接执行)+ Esc 关使用面板
           if (pressed.has('ArrowUp')) useMenu = useMoveCursor(useMenu, 'up')
           if (pressed.has('ArrowDown')) useMenu = useMoveCursor(useMenu, 'down')
           if (pressed.has('ArrowLeft')) useMenu = useMoveCursor(useMenu, 'left')
           if (pressed.has('ArrowRight')) useMenu = useMoveCursor(useMenu, 'right')
-          if (interact) useMenu = useConfirmItem(useMenu)
+          if (interact) {
+            const r = useConfirm(useMenu, world)
+            if (r.kind === 'direct') world = r.world // 脚本/全体类:已直接执行,回写 world
+            useMenu = r.state
+          }
           if (esc) {
+            lastUseCursor = useMenu.cursor // 记忆光标,重开恢复(原版 iCurInvMenuItem)
             useMenu = closeUseMenu()
             menu = back(menu)
           }
@@ -399,7 +405,7 @@ async function main(): Promise<void> {
           } else if (menu.openPanel === 'equip' && caster) {
             equipMenu = openEquipMenu(world, caster.id)
           } else if (menu.openPanel === 'use') {
-            useMenu = openUseMenu(world)
+            useMenu = openUseMenu(world, lastUseCursor) // 恢复上次光标(原版 iCurInvMenuItem)
           }
         }
         if (esc) menu = back(menu)
