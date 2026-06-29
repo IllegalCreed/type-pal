@@ -45,9 +45,19 @@ import {
 import { drawEquipMenu } from './menu/equip-box.js'
 import { drawMagicMenu } from './menu/magic-box.js'
 import { loadMenuAssets, MenuBox } from './menu/menu-box.js'
+import { drawUseMenu } from './menu/use-box.js'
 import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './menu-state.js'
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type SpriteDraw } from './render.js'
+import {
+  closeUseMenu,
+  openUseMenu,
+  type UseMenuState,
+  useApply,
+  useBackFromTarget,
+  useConfirmItem,
+  useMoveCursor,
+} from './use-menu-state.js'
 
 // 切片 1 · 第一步：把真实 map 56（黑水镇民居）整张渲染出来，看清里头几间民居、挑一间。
 // 下一步：定裁剪矩形（只取一间）+ 放李逍遥/鬼 + 走路/对话。
@@ -149,6 +159,7 @@ async function main(): Promise<void> {
   let menu: MenuState = CLOSED
   let magicMenu: MagicMenuState = closeMagicMenu()
   let equipMenu: EquipMenuState = closeEquipMenu()
+  let useMenu: UseMenuState = closeUseMenu()
   let facing: Facing = guijieMinjuScene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位
@@ -209,6 +220,8 @@ async function main(): Promise<void> {
         drawMagicMenu(ctx, magicMenu, world, menuAssets, glyphs, performance.now())
       } else if (menu.openPanel === 'equip') {
         drawEquipMenu(ctx, equipMenu, world, menuAssets, glyphs, performance.now(), zhLocale)
+      } else if (menu.openPanel === 'use') {
+        drawUseMenu(ctx, useMenu, world, menuAssets, glyphs, performance.now(), zhLocale)
       } else {
         menuBox.render(ctx, menu, world, performance.now())
       }
@@ -348,8 +361,30 @@ async function main(): Promise<void> {
             menu = back(menu)
           }
         }
+      } else if (menu.openPanel === 'use') {
+        if (useMenu.phase === 'pick-target') {
+          // 选目标:Enter 施用(useApply 回写 world)/ Esc 回列表
+          if (interact) {
+            const r = useApply(useMenu, world, world.party[0]?.id ?? '')
+            world = r.world
+            useMenu = r.state
+          } else if (esc) {
+            useMenu = useBackFromTarget(useMenu)
+          }
+        } else {
+          // pick-item:网格选可用物 + Enter 进选目标 + Esc 关使用面板
+          if (pressed.has('ArrowUp')) useMenu = useMoveCursor(useMenu, 'up')
+          if (pressed.has('ArrowDown')) useMenu = useMoveCursor(useMenu, 'down')
+          if (pressed.has('ArrowLeft')) useMenu = useMoveCursor(useMenu, 'left')
+          if (pressed.has('ArrowRight')) useMenu = useMoveCursor(useMenu, 'right')
+          if (interact) useMenu = useConfirmItem(useMenu)
+          if (esc) {
+            useMenu = closeUseMenu()
+            menu = back(menu)
+          }
+        }
       } else if (menu.openPanel) {
-        // status / use / system 面板:Esc 关面板(使用/系统暂为占位)
+        // status / system 面板:Esc 关面板(系统暂为占位)
         if (esc) menu = back(menu)
       } else {
         // 菜单级联导航
@@ -363,6 +398,8 @@ async function main(): Promise<void> {
             magicMenu = openMagicMenu(caster ? resolveOutdoorSkills(world, caster.id) : [])
           } else if (menu.openPanel === 'equip' && caster) {
             equipMenu = openEquipMenu(world, caster.id)
+          } else if (menu.openPanel === 'use') {
+            useMenu = openUseMenu(world)
           }
         }
         if (esc) menu = back(menu)

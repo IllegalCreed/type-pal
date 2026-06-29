@@ -442,11 +442,11 @@ export class MenuBox {
       this.renderStatus(ctx, world)
       return
     }
-    if (state.openPanel === 'use' || state.openPanel === 'system') {
+    if (state.openPanel === 'system') {
       this.renderPanelPlaceholder(ctx, state.openPanel)
       return
     }
-    // 无面板 → 级联菜单(magic 面板由 main.ts drawMagicMenu 画,不到这)
+    // 无面板 → 级联菜单(magic/equip/use 面板由 main.ts 各自 draw 画,不到这)
     this.renderCascade(ctx, state, world, now)
   }
 

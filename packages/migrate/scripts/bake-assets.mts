@@ -99,7 +99,7 @@ console.log('baked slash')
 
 // 7) 物品图标(按 bitmap chunk → ui/items/{bitmap}.png;状态板/装备菜单按 item.icon 数据驱动渲染)
 mkdirSync(resolve(PUBLIC, 'ui/items'), { recursive: true })
-const itemIconChunks = [56, 176, 78, 95, 97, 224, 6] // 木剑/头巾/布袍/披风/草鞋/护腕/土灵珠 的 bitmap(DEMO_ITEMS.icon)
+const itemIconChunks = [56, 176, 78, 95, 97, 224, 6, 197, 30] // 木剑/头巾/布袍/披风/草鞋/护腕/土灵珠/观音符/茶叶蛋 的 bitmap(DEMO_ITEMS.icon)
 for (const chunk of itemIconChunks) {
   bakeFile(
     resolve(EXTRACTED, `images/items/${String(chunk).padStart(3, '0')}.png`),
