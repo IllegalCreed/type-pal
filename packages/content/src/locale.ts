@@ -23,6 +23,8 @@ export const zhLocale: Locale = {
   'menu.status': '状态',
   'menu.item': '物品',
   'menu.magic': '仙术',
+  'menu.equip': '装备',
+  'menu.use': '使用',
   'menu.system': '系统',
   'menu.not-implemented': '未实现',
   'menu.cash': '金钱',

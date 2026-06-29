@@ -194,7 +194,7 @@ async function main(): Promise<void> {
       ctx.save()
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
       ctx.imageSmoothingEnabled = false
-      if (menu.menu === 'magic') {
+      if (menu.openPanel === 'magic') {
         drawMagicMenu(ctx, magicMenu, world, menuAssets, glyphs, performance.now())
       } else {
         menuBox.render(ctx, menu, world, performance.now())
@@ -297,12 +297,12 @@ async function main(): Promise<void> {
 
     // 三态优先级:菜单 > 对话 > 探索(用 else if 保证互斥)
     if (menu.active) {
-      if (menu.menu === 'magic') {
+      if (menu.openPanel === 'magic') {
         if (magicMenu.phase === 'pick-target') {
-          // 选目标阶段:选人红箭头此时出(单人 demo 目标固定);Enter 施法完成 / Esc 取消 → 都回选技能
+          // 选目标阶段:红箭头出;Enter 施法完成 / Esc 取消 → 都回选技能
           if (interact || esc) magicMenu = magicBackFromTarget(magicMenu)
         } else {
-          // 选技能阶段:网格导航 + Enter 选中 → 进选目标;Esc 退出仙术菜单
+          // 选技能阶段:网格导航 + Enter → 进选目标;Esc 关仙术面板
           if (pressed.has('ArrowUp')) magicMenu = magicMoveCursor(magicMenu, 'up')
           if (pressed.has('ArrowDown')) magicMenu = magicMoveCursor(magicMenu, 'down')
           if (pressed.has('ArrowLeft')) magicMenu = magicMoveCursor(magicMenu, 'left')
@@ -313,13 +313,17 @@ async function main(): Promise<void> {
             menu = back(menu)
           }
         }
+      } else if (menu.openPanel) {
+        // status / equip / use / system 面板:Esc 关面板(装备/使用/系统暂为占位)
+        if (esc) menu = back(menu)
       } else {
+        // 菜单级联导航
         if (pressed.has('ArrowUp')) menu = moveCursor(menu, -1)
         if (pressed.has('ArrowDown')) menu = moveCursor(menu, 1)
         if (interact) {
           menu = confirm(menu)
-          // 进仙术菜单:解析李逍遥可用 outdoor 仙术(learnedSkills → DEMO_SKILLS)
-          if (menu.menu === 'magic') {
+          // 进仙术面板 → 解析李逍遥可用 outdoor 仙术(learnedSkills → DEMO_SKILLS)
+          if (menu.openPanel === 'magic') {
             const caster = world.party[0]
             magicMenu = openMagicMenu(caster ? resolveOutdoorSkills(world, caster.id) : [])
           }

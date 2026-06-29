@@ -15,8 +15,7 @@ import {
   type TextId,
   type WorldState,
 } from '@type-pal/content'
-import type { MenuState } from '../menu-state.js'
-import { MAIN_ITEMS } from '../menu-state.js'
+import type { MenuState, PanelId } from '../menu-state.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
 
@@ -139,10 +138,13 @@ const MENU_Y = 37
 // 原版 PAL_MenuTextMaxWidth("状态"=2字)=(32+8)>>4=2 → nColumns=1(中段 1 块 16px)。
 // 框宽 = 左 22 + 中 16 + 右 23 = 61(TR 卷轴头探出到 3+61+10=74,与原版行0=3+22+16+33 一致)
 const MENU_W = 61
-const MENU_H = 94 // 上 20 + 中 18×3(nRows=3) + 下 20
+const MENU_H_BASE = 22 // 框高 = MENU_H_BASE + ITEM_H × 项数(主菜单 4 项 → 94,对齐原版)
 const ITEM_X = 16
 const ITEM_Y0 = 50
 const ITEM_H = 18
+// 级联:每深一级卷轴偏移(原版 uigame.c 物品子菜单 box(30,60) vs 主菜单(3,37) → +27/+23)
+const CASCADE_DX = 27
+const CASCADE_DY = 23
 
 // 菜单项色(palette 0;ui.h):普通 0x4F / 禁用 0x18 / 禁用选中 0x1C / 选中 0xF9-FE(6 帧闪烁)
 const COLOR_NORMAL = [199, 186, 174] as const
@@ -432,21 +434,26 @@ export class MenuBox {
   ) {}
 
   render(ctx: CanvasRenderingContext2D, state: MenuState, world: WorldState, now: number): void {
-    if (state.menu === 'status') {
+    if (state.openPanel === 'status') {
       this.renderStatus(ctx, world)
       return
     }
-    // main(占位子菜单也显示 main 框)
-    this.renderMain(ctx, state, world, now)
+    if (state.openPanel === 'equip' || state.openPanel === 'use' || state.openPanel === 'system') {
+      this.renderPanelPlaceholder(ctx, state.openPanel)
+      return
+    }
+    // 无面板 → 级联菜单(magic 面板由 main.ts drawMagicMenu 画,不到这)
+    this.renderCascade(ctx, state, world, now)
   }
 
-  private renderMain(
+  /** 级联菜单:金钱框 + 逐层卷轴(每深一级偏移 +CASCADE_DX/DY,对齐原版)。打开面板时不画(由 render 分流)。 */
+  private renderCascade(
     ctx: CanvasRenderingContext2D,
     state: MenuState,
     world: WorldState,
     now: number,
   ): void {
-    // 金钱横卷轴(原版主菜单顶部 PAL_ShowCash):卷轴 (0,0) + 「金钱」label (10,10) + 黄数字 (49,14) 右对齐
+    // 金钱横卷轴(原版主菜单顶部 PAL_ShowCash):卷轴 (0,0) + 「金钱」label (10,10) + 黄数字右对齐
     drawCashBox(ctx, this.assets.cashBox, 0, 0, 5, { shadow: true })
     renderSpans(ctx, [{ text: lookupText('menu.cash', this.locale) }], 10, 10, {
       glyphs: this.glyphs,
@@ -455,25 +462,39 @@ export class MenuBox {
     })
     drawNumber(ctx, world.money, 85, 14, this.assets.nums)
 
-    drawSlicedBox(ctx, this.assets.box, MENU_X, MENU_Y, MENU_W, MENU_H)
-
-    // 选中项颜色:6 帧闪烁(原版 ui.h MENUITEM_COLOR_SELECTED,600ms 轮 6 色);非箭头,纯变色高亮
+    // 选中色:6 帧闪烁(原版 ui.h MENUITEM_COLOR_SELECTED);父层选中项静态高亮指示已展开路径
     const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL
-    MAIN_ITEMS.forEach((item, idx) => {
-      const y = ITEM_Y0 + idx * ITEM_H
-      const selected = idx === state.cursor
-      const color = item.enabled
-        ? selected
-          ? blink
-          : COLOR_NORMAL
-        : selected
-          ? COLOR_DISABLED_SEL
-          : COLOR_DISABLED
-      renderSpans(ctx, [{ text: lookupText(item.label, this.locale) }], ITEM_X, y, {
-        glyphs: this.glyphs,
-        shadow: true,
-        forceRgba: color,
+    state.stack.forEach((level, depth) => {
+      const isDeepest = depth === state.stack.length - 1
+      const bx = MENU_X + CASCADE_DX * depth
+      const by = MENU_Y + CASCADE_DY * depth
+      drawSlicedBox(ctx, this.assets.box, bx, by, MENU_W, MENU_H_BASE + ITEM_H * level.nodes.length)
+      level.nodes.forEach((node, idx) => {
+        const selected = idx === level.cursor
+        const enabled = node.enabled !== false
+        let color: readonly [number, number, number]
+        if (!enabled) color = selected ? COLOR_DISABLED_SEL : COLOR_DISABLED
+        else if (!selected) color = COLOR_NORMAL
+        else color = isDeepest ? blink : (SELECTED_COLORS[3] ?? COLOR_NORMAL)
+        renderSpans(
+          ctx,
+          [{ text: lookupText(node.label, this.locale) }],
+          bx + (ITEM_X - MENU_X),
+          by + (ITEM_Y0 - MENU_Y) + idx * ITEM_H,
+          { glyphs: this.glyphs, shadow: true, forceRgba: color },
+        )
       })
+    })
+  }
+
+  /** 未建面板占位(装备/使用/系统);真面板建好后替换。 */
+  private renderPanelPlaceholder(ctx: CanvasRenderingContext2D, panel: PanelId): void {
+    const name = lookupText(`menu.${panel}`, this.locale)
+    drawSlicedBox(ctx, this.assets.box, 108, 84, 104, 34)
+    renderSpans(ctx, [{ text: `${name}·开发中` }], 124, 96, {
+      glyphs: this.glyphs,
+      shadow: true,
+      forceRgba: COLOR_NORMAL,
     })
   }
 
