@@ -12,7 +12,9 @@ export interface MagicMenuState {
   cursor: number // 选中索引(0-based,flat)
 }
 
-/** 解析角色当前可在大世界用的仙术:learnedSkills[casterId] → DEMO_SKILLS → 过滤 usableOutsideBattle。 */
+/** 解析角色当前可在大世界用的仙术:learnedSkills[casterId] → DEMO_SKILLS → 过滤 usableOutsideBattle。
+ *  注:MP 不足的"禁用"判定目前在渲染层(magic-box 按 caster.mp >= cost.mp 灰显),查看版够用。
+ *  将来支持施法(选 MP 不足的仙术应 no-op)时,disabled 判定应上移到这里/状态机,别让壳层盲选。 */
 export function resolveOutdoorSkills(world: WorldState, casterId: string): SkillData[] {
   const ids = world.learnedSkills[casterId] ?? []
   return ids
@@ -41,7 +43,7 @@ export function magicBackFromTarget(s: MagicMenuState): MagicMenuState {
   return { ...s, phase: 'pick-spell' }
 }
 
-/** 网格导航:↑↓ = ±MAGIC_GRID_COLS,←→ = ±1;越界 clamp(不动、不 wrap)。 */
+/** 网格导航:↑↓ = ±MAGIC_GRID_COLS,←→ = ±1;越界吸附首/尾、不 wrap(对齐 inventory-menu setCursorClamp)。 */
 export function magicMoveCursor(
   s: MagicMenuState,
   dir: 'up' | 'down' | 'left' | 'right',

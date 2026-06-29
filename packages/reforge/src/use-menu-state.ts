@@ -28,7 +28,7 @@ export function closeUseMenu(): UseMenuState {
   return { active: false, phase: 'pick-item', items: [], cursor: 0 }
 }
 
-/** pick-item 网格导航:↑↓ ±3,←→ ±1;越界 clamp。 */
+/** pick-item 网格导航:↑↓ ±3,←→ ±1;越界吸附首/尾(对齐 inventory-menu setCursorClamp)。 */
 export function useMoveCursor(
   s: UseMenuState,
   dir: 'up' | 'down' | 'left' | 'right',

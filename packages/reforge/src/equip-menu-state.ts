@@ -39,7 +39,7 @@ export function closeEquipMenu(): EquipMenuState {
 /** 原版物品列表 3 列网格(itemmenu.c iItemsPerLine)。 */
 export const EQUIP_GRID_COLS = 3
 
-/** list 阶段网格导航:↑↓ = ±列数,←→ = ±1;越界 clamp 不动、不 wrap(对齐原版物品列表)。 */
+/** list 阶段网格导航:↑↓ = ±列数,←→ = ±1;越界吸附首/尾、不 wrap(对齐 inventory-menu setCursorClamp)。 */
 export function equipMoveCursor(
   s: EquipMenuState,
   dir: 'up' | 'down' | 'left' | 'right',
