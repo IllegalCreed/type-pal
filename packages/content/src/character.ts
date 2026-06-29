@@ -91,10 +91,16 @@ export function instantiate(t: CharacterTemplate): CharacterInstance {
 /** demo 世界态:单人李逍遥 + 习得仙术关系表(从模板 initialMagic 播种)。 */
 export function initialWorld(): WorldState {
   const li = instantiate(LI_XIAOYAO)
+  li.hp = 100 // demo:低于 maxHP 150,使用面板回血才看得出
+  li.mp = 60 //  demo:低于 maxMP 100
   return {
     party: [li],
     money: 0,
     learnedSkills: { [li.id]: [...LI_XIAOYAO.initialMagic] },
-    inventory: [{ itemId: '267', count: 1 }], // 土灵珠(demo:验装备菜单可换装 + 双重身份)
+    inventory: [
+      { itemId: '267', count: 1 }, // 土灵珠(装备+使用双重身份)
+      { itemId: '61', count: 2 }, // 观音符 ×2
+      { itemId: '78', count: 1 }, // 茶叶蛋
+    ],
   }
 }

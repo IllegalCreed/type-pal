@@ -186,6 +186,33 @@ export const DEMO_ITEMS: Record<string, ItemData> = {
       effects: [{ kind: 'triggerScript', scriptId: 'lingzhu-tu' }],
     },
   },
+  '61': {
+    id: '61',
+    name: '观音符',
+    desc: ['以观音圣水书写的灵符。', 'HP+150'],
+    icon: 197,
+    buyPrice: 150,
+    sellPrice: 75,
+    sellable: true,
+    use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 150 }] },
+  },
+  '78': {
+    id: '78',
+    name: '茶叶蛋',
+    desc: ['鸡蛋水煮后，以茶叶入味。', '便宜而好吃的食物。', 'HPMP+15'],
+    icon: 30,
+    buyPrice: 40,
+    sellPrice: 20,
+    sellable: true,
+    use: {
+      target: 'oneAlly',
+      consuming: true,
+      effects: [
+        { kind: 'healHp', amount: 15 },
+        { kind: 'healMp', amount: 15 },
+      ],
+    },
+  },
 }
 
 /** 有效属性 = 角色 base + Σ 已穿戴装备的 statBonus(该 stat)。纯函数,镜像 phase-1 equip-effect。
@@ -267,5 +294,63 @@ export function equipItem(
   )
   let inventory = removeFromInventory(world.inventory, itemId, 1)
   if (oldItemId) inventory = addToInventory(inventory, oldItemId, 1)
+  return { ...world, party, inventory }
+}
+
+/** 背包里有 use 能力块的物品(使用菜单列表)。 */
+export function usableItems(
+  world: WorldState,
+  items: Record<string, ItemData> = DEMO_ITEMS,
+): ItemData[] {
+  return world.inventory
+    .filter((e) => e.count > 0)
+    .map((e) => items[e.itemId])
+    .filter((it): it is ItemData => it != null)
+    .filter((it) => it.use != null)
+}
+
+/** 对 targetCharId 施 itemId 的 use.effects;consuming 则 -1。返回新 WorldState;非法原样返回。
+ *  本期实现 healHp/healMp(夹 max);其余 kind 留桩(见 switch default)。 */
+export function useItem(
+  world: WorldState,
+  targetCharId: string,
+  itemId: string,
+  items: Record<string, ItemData> = DEMO_ITEMS,
+): WorldState {
+  const item = items[itemId]
+  const target = world.party.find((c) => c.id === targetCharId)
+  if (!item?.use || !target) return world
+  const useSpec = item.use // 守卫后非空;局部常量收窄,免 non-null 断言(biome)
+  if (!world.inventory.some((e) => e.itemId === itemId && e.count > 0)) return world
+
+  let changed = false
+  const party = world.party.map((c) => {
+    if (c.id !== targetCharId) return c
+    const next = { ...c }
+    for (const eff of useSpec.effects) {
+      switch (eff.kind) {
+        case 'healHp':
+          next.hp = Math.min(next.maxHP, next.hp + eff.amount)
+          changed = true
+          break
+        case 'healMp':
+          next.mp = Math.min(next.maxMP, next.mp + eff.amount)
+          changed = true
+          break
+        // 留桩(归宿见 docs):applyStatus→状态系统;triggerScript→剧情脚本系统;teleport→脚本 loadScene
+        case 'applyStatus':
+        case 'triggerScript':
+        case 'teleport':
+          break
+      }
+    }
+    return next
+  })
+  if (!changed && !useSpec.consuming) return world // 纯桩效果且不消耗 → 无变化
+  const inventory = useSpec.consuming
+    ? world.inventory
+        .map((e) => (e.itemId === itemId ? { ...e, count: e.count - 1 } : e))
+        .filter((e) => e.count > 0)
+    : world.inventory
   return { ...world, party, inventory }
 }

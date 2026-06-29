@@ -1,6 +1,13 @@
 import { describe, expect, test } from 'vitest'
 import { initialWorld } from './character.js'
-import { DEMO_ITEMS, EQUIP_SLOT_IDS, equipItem, equippableItems } from './item.js'
+import {
+  DEMO_ITEMS,
+  EQUIP_SLOT_IDS,
+  equipItem,
+  equippableItems,
+  usableItems,
+  useItem,
+} from './item.js'
 
 describe('ItemData / 装备数据', () => {
   test('6 槽对齐原版 body part', () => {
@@ -50,5 +57,31 @@ describe('装备世界操作', () => {
     const w = initialWorld()
     expect(equipItem(w, 'li-xiaoyao', '999')).toBe(w) // 未知物
     expect(equipItem(w, 'nobody', '267')).toBe(w) // 未知角色
+  })
+})
+
+describe('使用世界操作', () => {
+  test('usableItems:背包里有 use 能力块的(土灵珠/观音符/茶叶蛋)', () => {
+    const ids = usableItems(initialWorld()).map((i) => i.id)
+    expect(ids.sort()).toEqual(['267', '61', '78'].sort())
+  })
+  test('useItem:观音符回 HP 夹上限 + 消耗 -1', () => {
+    const w0 = initialWorld() // 李逍遥 hp 100/150
+    const w1 = useItem(w0, 'li-xiaoyao', '61')
+    expect(w1.party[0]?.hp).toBe(150) // 100+150 夹 maxHP 150
+    expect(w1.inventory.find((e) => e.itemId === '61')?.count).toBe(1) // 2→1
+    expect(w0.party[0]?.hp).toBe(100) // 原 world 不变(不可变)
+  })
+  test('useItem:茶叶蛋同时回 HP+MP', () => {
+    const w0 = initialWorld() // hp100 mp60
+    const w1 = useItem(w0, 'li-xiaoyao', '78')
+    expect(w1.party[0]?.hp).toBe(115)
+    expect(w1.party[0]?.mp).toBe(75)
+    expect(w1.inventory.find((e) => e.itemId === '78')).toBeUndefined() // 1→0 出包
+  })
+  test('useItem:非法(无 use / 不在包 / 未知角色)→ 原样返回', () => {
+    const w = initialWorld()
+    expect(useItem(w, 'li-xiaoyao', '166')).toBe(w) // 木剑无 use
+    expect(useItem(w, 'nobody', '61')).toBe(w)
   })
 })
