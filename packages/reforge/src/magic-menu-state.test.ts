@@ -3,6 +3,8 @@ import { describe, expect, test } from 'vitest'
 import {
   closeMagicMenu,
   type MagicMenuState,
+  magicBackFromTarget,
+  magicConfirmSpell,
   magicMoveCursor,
   openMagicMenu,
   resolveOutdoorSkills,
@@ -43,5 +45,24 @@ describe('仙术网格导航', () => {
   })
   test('closeMagicMenu:active false', () => {
     expect(closeMagicMenu().active).toBe(false)
+  })
+})
+
+describe('仙术阶段(pick-spell ↔ pick-target;红箭头随阶段)', () => {
+  const mk = (n: number): MagicMenuState =>
+    openMagicMenu(Array.from({ length: n }, (_, i) => ({ id: String(i) }) as never))
+
+  test('开菜单默认 pick-spell', () => {
+    expect(openMagicMenu([]).phase).toBe('pick-spell')
+  })
+  test('选中技能 → pick-target;空列表不进', () => {
+    expect(magicConfirmSpell(mk(3)).phase).toBe('pick-target')
+    expect(magicConfirmSpell(mk(0)).phase).toBe('pick-spell')
+  })
+  test('选目标返回 → pick-spell', () => {
+    expect(magicBackFromTarget(magicConfirmSpell(mk(3))).phase).toBe('pick-spell')
+  })
+  test('pick-target 阶段网格不动', () => {
+    expect(magicMoveCursor(magicConfirmSpell(mk(6)), 'down').cursor).toBe(0)
   })
 })

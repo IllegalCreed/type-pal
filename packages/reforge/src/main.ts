@@ -27,6 +27,8 @@ import { Keyboard } from './input.js'
 import {
   closeMagicMenu,
   type MagicMenuState,
+  magicBackFromTarget,
+  magicConfirmSpell,
   magicMoveCursor,
   openMagicMenu,
   resolveOutdoorSkills,
@@ -296,14 +298,20 @@ async function main(): Promise<void> {
     // 三态优先级:菜单 > 对话 > 探索(用 else if 保证互斥)
     if (menu.active) {
       if (menu.menu === 'magic') {
-        // 仙术子菜单:网格导航(↑↓±列 / ←→±1);Esc 返回主菜单
-        if (pressed.has('ArrowUp')) magicMenu = magicMoveCursor(magicMenu, 'up')
-        if (pressed.has('ArrowDown')) magicMenu = magicMoveCursor(magicMenu, 'down')
-        if (pressed.has('ArrowLeft')) magicMenu = magicMoveCursor(magicMenu, 'left')
-        if (pressed.has('ArrowRight')) magicMenu = magicMoveCursor(magicMenu, 'right')
-        if (esc) {
-          magicMenu = closeMagicMenu()
-          menu = back(menu)
+        if (magicMenu.phase === 'pick-target') {
+          // 选目标阶段:选人红箭头此时出(单人 demo 目标固定);Enter 施法完成 / Esc 取消 → 都回选技能
+          if (interact || esc) magicMenu = magicBackFromTarget(magicMenu)
+        } else {
+          // 选技能阶段:网格导航 + Enter 选中 → 进选目标;Esc 退出仙术菜单
+          if (pressed.has('ArrowUp')) magicMenu = magicMoveCursor(magicMenu, 'up')
+          if (pressed.has('ArrowDown')) magicMenu = magicMoveCursor(magicMenu, 'down')
+          if (pressed.has('ArrowLeft')) magicMenu = magicMoveCursor(magicMenu, 'left')
+          if (pressed.has('ArrowRight')) magicMenu = magicMoveCursor(magicMenu, 'right')
+          if (interact) magicMenu = magicConfirmSpell(magicMenu)
+          if (esc) {
+            magicMenu = closeMagicMenu()
+            menu = back(menu)
+          }
         }
       } else {
         if (pressed.has('ArrowUp')) menu = moveCursor(menu, -1)

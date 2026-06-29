@@ -117,8 +117,10 @@ export function drawMagicMenu(
     drawNumRight(ctx, caster.maxMP, PBOX_X + 47, PBOX_Y + 24, assets.numsCyan)
   }
 
-  // 选人红箭头(单人:player 0)
-  if (assets.cursorUp) ctx.drawImage(assets.cursorUp, PICKER_X, PICKER_Y)
+  // 选人红箭头:仅「选目标」阶段画(选完技能才出;draw-magic 真值:pick-target 才画 CURSOR_UP)
+  if (state.phase === 'pick-target' && assets.cursorUp) {
+    ctx.drawImage(assets.cursorUp, PICKER_X, PICKER_Y)
+  }
 
   // ④ 描述(顶部,浅黄 0x3C):选中仙术 desc
   if (sel) {
