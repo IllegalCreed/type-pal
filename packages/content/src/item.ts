@@ -297,16 +297,34 @@ export function equipItem(
   return { ...world, party, inventory }
 }
 
-/** 背包里有 use 能力块的物品(使用菜单列表)。 */
+/** 任意队员任意槽位穿戴中的物品 id 集合(渲染层据此把装备中的物品标绿)。 */
+export function equippedItemIds(world: WorldState): Set<string> {
+  const ids = new Set<string>()
+  for (const c of world.party) {
+    for (const id of Object.values(c.equipment)) {
+      if (id) ids.add(id)
+    }
+  }
+  return ids
+}
+
+/** 使用菜单列表:背包里有 use 能力块的 + 穿戴中但本身可用的(灵珠系)。
+ *  后者照搬原版 itemmenu.c:136-145 —— 灵珠穿着也能用(如土灵珠脱离洞窟),渲染层标绿。 */
 export function usableItems(
   world: WorldState,
   items: Record<string, ItemData> = DEMO_ITEMS,
 ): ItemData[] {
-  return world.inventory
+  const invUsable = world.inventory
     .filter((e) => e.count > 0)
     .map((e) => items[e.itemId])
-    .filter((it): it is ItemData => it != null)
-    .filter((it) => it.use != null)
+    .filter((it): it is ItemData => it?.use != null)
+  const invIds = new Set(invUsable.map((it) => it.id))
+  const equippedUsable: ItemData[] = []
+  for (const id of equippedItemIds(world)) {
+    const it = items[id]
+    if (it?.use != null && !invIds.has(id)) equippedUsable.push(it)
+  }
+  return [...invUsable, ...equippedUsable]
 }
 
 /** 对 targetCharId 施 itemId 的 use.effects;consuming 则 -1。返回新 WorldState;非法原样返回。
@@ -321,7 +339,9 @@ export function useItem(
   const target = world.party.find((c) => c.id === targetCharId)
   if (!item?.use || !target) return world
   const useSpec = item.use // 守卫后非空;局部常量收窄,免 non-null 断言(biome)
-  if (!world.inventory.some((e) => e.itemId === itemId && e.count > 0)) return world
+  const inInventory = world.inventory.some((e) => e.itemId === itemId && e.count > 0)
+  const equipped = equippedItemIds(world).has(itemId)
+  if (!inInventory && !equipped) return world // 背包没有 且 没穿戴 → 不能用
 
   let changed = false
   const party = world.party.map((c) => {
@@ -347,10 +367,12 @@ export function useItem(
     return next
   })
   if (!changed && !useSpec.consuming) return world // 纯桩效果且不消耗 → 无变化
-  const inventory = useSpec.consuming
-    ? world.inventory
-        .map((e) => (e.itemId === itemId ? { ...e, count: e.count - 1 } : e))
-        .filter((e) => e.count > 0)
-    : world.inventory
+  // 消耗只从背包扣;穿戴中的件(灵珠)用了不从背包扣(它在装备槽,不在背包)
+  const inventory =
+    useSpec.consuming && inInventory
+      ? world.inventory
+          .map((e) => (e.itemId === itemId ? { ...e, count: e.count - 1 } : e))
+          .filter((e) => e.count > 0)
+      : world.inventory
   return { ...world, party, inventory }
 }

@@ -1,7 +1,7 @@
 // 物品列表网格(装备/使用/投掷 共享):红框 3 列网格 + 数量 + 选中光标 + 底部 itembox + 图标 + 多行描述。
 // 布局取自一阶段 draw-inventory.ts / sdlpal itemmenu.c PAL_ItemSelectMenu。320 逻辑坐标,调用方已 ctx.scale。
 // items/cursor 由调用方传(装备过 equippableItems、使用过 usableItems,各自过滤)。
-import type { ItemData, WorldState } from '@type-pal/content'
+import { equippedItemIds, type ItemData, type WorldState } from '@type-pal/content'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
 import { drawNumber, drawSlicedBox, type MenuAssets } from './menu-box.js'
@@ -27,6 +27,7 @@ const DESC_Y = 151
 const DESC_LINE_H = 16 // 多行说明行距(sdlpal itemmenu.c desc 151+i*16)
 const COLOR_NORMAL = [199, 186, 174] as const // 0x4F 米白(物品名)
 const COLOR_DESC = [243, 239, 93] as const // 0x3C 浅黄(描述)
+const COLOR_EQUIPPED = [81, 93, 44] as const // 0xC8 橄榄绿(穿戴中的物品;原版 MENUITEM_COLOR_EQUIPPEDITEM)
 const SELECTED_COLORS = [
   [247, 231, 109],
   [235, 211, 97],
@@ -48,18 +49,20 @@ export function drawItemGridList(
 ): void {
   drawSlicedBox(ctx, assets.redBox, LIST_X, LIST_Y, LIST_W, LIST_H)
 
-  // 3 列网格:名(米白/选中黄闪)+ 数量(>1)+ 选中光标(光标画在字之上)
+  // 3 列网格:名(穿戴中绿 / 选中黄闪 / 普通米白)+ 数量(>1)+ 选中光标(光标画在字之上)
   const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL
+  const equipped = equippedItemIds(world) // 穿戴中的物品标绿(原版 itemmenu.c equipped 色,优先于选中闪烁)
   items.forEach((item, i) => {
     const k = i % GRID_COLS
     const j = Math.floor(i / GRID_COLS)
     const x = ITEM_X0 + k * ITEM_DX
     const y = ITEM_Y0 + j * ITEM_DY
     const selected = i === cursor
+    const color = equipped.has(item.id) ? COLOR_EQUIPPED : selected ? blink : COLOR_NORMAL
     renderSpans(ctx, [{ text: item.name }], x, y, {
       glyphs,
       shadow: true,
-      forceRgba: selected ? blink : COLOR_NORMAL,
+      forceRgba: color,
     })
     const count = world.inventory.find((e) => e.itemId === item.id)?.count ?? 0
     if (count > 1) drawNumber(ctx, count, ITEM_X0 + AMOUNT_DX + k * ITEM_DX, y + 5, assets.numsCyan)

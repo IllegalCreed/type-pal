@@ -5,6 +5,7 @@ import {
   EQUIP_SLOT_IDS,
   equipItem,
   equippableItems,
+  equippedItemIds,
   usableItems,
   useItem,
 } from './item.js'
@@ -83,5 +84,13 @@ describe('使用世界操作', () => {
     const w = initialWorld()
     expect(useItem(w, 'li-xiaoyao', '166')).toBe(w) // 木剑无 use
     expect(useItem(w, 'nobody', '61')).toBe(w)
+  })
+  test('穿戴中的灵珠仍可用(原版 itemmenu.c:136-145):土灵珠装上后仍在 usableItems + 可 useItem', () => {
+    const w = equipItem(initialWorld(), 'li-xiaoyao', '267') // 土灵珠 入手饰槽(出背包)
+    expect(equippedItemIds(w).has('267')).toBe(true)
+    expect(w.inventory.some((e) => e.itemId === '267')).toBe(false) // 已不在背包
+    expect(usableItems(w).map((i) => i.id)).toContain('267') // 但使用菜单仍列出(穿着可用)
+    const after = useItem(w, 'li-xiaoyao', '267') // 对穿戴件施用(triggerScript 桩,不消耗)
+    expect(after.party[0]?.equipment.accessory).toBe('267') // 仍穿着,不报错
   })
 })
