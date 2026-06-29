@@ -97,23 +97,16 @@ console.log('baked num-cyan 0-9')
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-39.png'), resolve(PUBLIC, 'ui/num/slash.png'))
 console.log('baked slash')
 
-// 7) demo 装备图标(李逍遥初始 6 件;item 系统未建前硬编 sprite chunk → status/equip-demo)
-mkdirSync(resolve(PUBLIC, 'ui/status/equip-demo'), { recursive: true })
-const demoEquip: [number, string][] = [
-  [56, 'weapon'], // 木剑
-  [176, 'head'], // 头巾
-  [78, 'body'], // 布袍
-  [97, 'feet'], // 草鞋
-  [224, 'accessory'], // 护腕
-  [95, 'amulet'], // 披风
-]
-for (const [chunk, slot] of demoEquip) {
+// 7) 物品图标(按 bitmap chunk → ui/items/{bitmap}.png;状态板/装备菜单按 item.icon 数据驱动渲染)
+mkdirSync(resolve(PUBLIC, 'ui/items'), { recursive: true })
+const itemIconChunks = [56, 176, 78, 95, 97, 224, 6] // 木剑/头巾/布袍/披风/草鞋/护腕/土灵珠 的 bitmap(DEMO_ITEMS.icon)
+for (const chunk of itemIconChunks) {
   bakeFile(
     resolve(EXTRACTED, `images/items/${String(chunk).padStart(3, '0')}.png`),
-    resolve(PUBLIC, `ui/status/equip-demo/${slot}.png`),
+    resolve(PUBLIC, `ui/items/${chunk}.png`),
   )
 }
-console.log('baked demo equip')
+console.log('baked item icons')
 
 // 8) 仙术菜单 sprite:红框九宫格(gpSpriteUI 9-17 = iStyle1)+ PlayerInfoBox(18)+ face(48+roleId)+ cursor(67上/68下/69网格)
 mkdirSync(resolve(PUBLIC, 'ui/box-red'), { recursive: true })

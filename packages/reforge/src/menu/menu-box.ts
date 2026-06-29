@@ -7,6 +7,9 @@
  */
 import {
   type CharacterInstance,
+  DEMO_ITEMS,
+  EQUIP_SLOT_IDS,
+  effectiveStat,
   type Locale,
   lookupText,
   type TextId,
@@ -297,23 +300,19 @@ function statList(c: CharacterInstance): StatRow[] {
     { labelId: 'stat.level', value: c.level },
     { labelId: 'stat.hp', value: c.hp, max: c.maxHP, maxKind: 'blue' },
     { labelId: 'stat.mp', value: c.mp, max: c.maxMP, maxKind: 'blue' },
-    { labelId: 'stat.attack', value: c.attack },
-    { labelId: 'stat.magicAttack', value: c.magicAttack },
-    { labelId: 'stat.defense', value: c.defense },
-    { labelId: 'stat.speed', value: c.speed },
-    { labelId: 'stat.luck', value: c.luck },
+    { labelId: 'stat.attack', value: effectiveStat(c, 'attack', DEMO_ITEMS) },
+    { labelId: 'stat.magicAttack', value: effectiveStat(c, 'magicAttack', DEMO_ITEMS) },
+    { labelId: 'stat.defense', value: effectiveStat(c, 'defense', DEMO_ITEMS) },
+    { labelId: 'stat.speed', value: effectiveStat(c, 'speed', DEMO_ITEMS) },
+    { labelId: 'stat.luck', value: effectiveStat(c, 'luck', DEMO_ITEMS) },
   ]
 }
 
-/** 装备槽列表(可扩展:加槽位 = 列表多一条)。 */
-const EQUIP_SLOTS: { slot: string; label: TextId }[] = [
-  { slot: 'weapon', label: 'equip.weapon' },
-  { slot: 'head', label: 'equip.head' },
-  { slot: 'body', label: 'equip.body' },
-  { slot: 'feet', label: 'equip.feet' },
-  { slot: 'accessory', label: 'equip.accessory' },
-  { slot: 'amulet', label: 'equip.amulet' },
-]
+/** 装备槽列表(来自 content EQUIP_SLOT_IDS 单一真值;label = equip.<slot>)。 */
+const EQUIP_SLOTS: { slot: string; label: TextId }[] = EQUIP_SLOT_IDS.map((slot) => ({
+  slot,
+  label: `equip.${slot}`,
+}))
 
 export interface MenuAssets {
   /** 黄框九宫格 9 块(ImageBitmap,索引 i*3+j)。 */
@@ -338,8 +337,8 @@ export interface MenuAssets {
   numsCyan: (ImageBitmap | undefined)[]
   /** 斜杠 sprite(HP/MP 当前/最大分隔;SPRITENUM_SLASH)。 */
   slash: ImageBitmap | undefined
-  /** demo 装备图标(slotId → sprite;item 系统未建前的占位 demo)。 */
-  equipDemo: Record<string, ImageBitmap | undefined>
+  /** 物品图标(bitmap chunk → sprite;状态板/装备菜单按 item.icon 取)。 */
+  itemIcons: Record<number, ImageBitmap | undefined>
   /** 仙术菜单:红框九宫格 9 块(ui/box-red,iStyle1)。 */
   redBox: BoxTiles
   /** 仙术菜单:角色框(playerbox)。 */
@@ -392,13 +391,12 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
       Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num-cyan/${d}.png`))),
       loadPng('/ui/num/slash.png'),
     ])
-  // demo 装备图标(item 系统未建前;slotId → sprite)
-  const equipDemoArr = await Promise.all(
-    EQUIP_SLOTS.map(({ slot }) => loadPng(`/ui/status/equip-demo/${slot}.png`)),
-  )
-  const equipDemo: Record<string, ImageBitmap | undefined> = {}
-  EQUIP_SLOTS.forEach(({ slot }, i) => {
-    equipDemo[slot] = equipDemoArr[i]
+  // 物品图标(按 item.icon = bitmap chunk;状态板/装备菜单数据驱动渲染)
+  const iconChunks = [...new Set(Object.values(DEMO_ITEMS).map((it) => it.icon))]
+  const iconArr = await Promise.all(iconChunks.map((ch) => loadPng(`/ui/items/${ch}.png`)))
+  const itemIcons: Record<number, ImageBitmap | undefined> = {}
+  iconChunks.forEach((ch, i) => {
+    itemIcons[ch] = iconArr[i]
   })
   // 仙术菜单专用 sprite(角色框 / 头像 / 网格光标)
   const [magicPlayerBox, magicFace, cursorGrid, cursorUp] = await Promise.all([
@@ -417,7 +415,7 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     numsBlue,
     numsCyan,
     slash,
-    equipDemo,
+    itemIcons,
     redBox: { tiles: redTiles },
     magicPlayerBox,
     magicFace,
@@ -522,8 +520,11 @@ export class MenuBox {
       if (this.assets.equipSlot) {
         ctx.drawImage(this.assets.equipSlot, gx, gy, EQUIP_SLOT_SIZE, EQUIP_SLOT_SIZE)
       }
-      // 装备图标:缩进 slot 内凹区(避开占位框边框,定位条完整在格内),保比例居中
-      const icon = this.assets.equipDemo[slot]
+      // 装备图标:取该槽穿戴物 → DEMO_ITEMS[itemId].icon → itemIcons;缩进内凹区、保比例居中
+      const equippedId = c.equipment[slot]
+      const icon = equippedId
+        ? this.assets.itemIcons[DEMO_ITEMS[equippedId]?.icon ?? -1]
+        : undefined
       if (icon) {
         const inner = EQUIP_SLOT_SIZE - EQUIP_BORDER * 2
         const scale = Math.min(inner / icon.width, inner / icon.height, 1)
