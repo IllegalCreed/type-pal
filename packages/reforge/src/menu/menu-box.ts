@@ -351,6 +351,8 @@ export interface MenuAssets {
   cursorGrid: ImageBitmap | undefined
   /** 仙术菜单:选人红箭头(cursor/up,frame 67)。 */
   cursorUp: ImageBitmap | undefined
+  /** 物品/装备列表:选中物详情框(itembox,frame 70)。 */
+  itembox: ImageBitmap | undefined
 }
 
 /** 加载 PNG → ImageBitmap;失败返回 undefined(不阻断,渲染容错)。 */
@@ -401,11 +403,12 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     itemIcons[ch] = iconArr[i]
   })
   // 仙术菜单专用 sprite(角色框 / 头像 / 网格光标)
-  const [magicPlayerBox, magicFace, cursorGrid, cursorUp] = await Promise.all([
+  const [magicPlayerBox, magicFace, cursorGrid, cursorUp, itembox] = await Promise.all([
     loadPng('/ui/magic/playerbox.png'),
     loadPng('/ui/magic/face-0.png'),
     loadPng('/ui/cursor/grid.png'),
     loadPng('/ui/cursor/up.png'),
+    loadPng('/ui/itembox.png'),
   ])
   return {
     box: { tiles },
@@ -423,6 +426,7 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     magicFace,
     cursorGrid,
     cursorUp,
+    itembox,
   }
 }
 
@@ -438,7 +442,7 @@ export class MenuBox {
       this.renderStatus(ctx, world)
       return
     }
-    if (state.openPanel === 'equip' || state.openPanel === 'use' || state.openPanel === 'system') {
+    if (state.openPanel === 'use' || state.openPanel === 'system') {
       this.renderPanelPlaceholder(ctx, state.openPanel)
       return
     }

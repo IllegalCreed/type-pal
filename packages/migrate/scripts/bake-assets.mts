@@ -125,4 +125,8 @@ bakeFile(resolve(EXTRACTED, 'images/ui/frame-68.png'), resolve(PUBLIC, 'ui/curso
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-69.png'), resolve(PUBLIC, 'ui/cursor/grid.png'))
 console.log('baked magic-menu sprites (red box / playerbox / face / cursor)')
 
+// 9) 物品详情框(SPRITENUM_ITEMBOX 70;物品/装备列表底部选中物图标框)
+bakeFile(resolve(EXTRACTED, 'images/ui/frame-70.png'), resolve(PUBLIC, 'ui/itembox.png'))
+console.log('baked itembox')
+
 console.log('done.')

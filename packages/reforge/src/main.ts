@@ -23,6 +23,13 @@ import { isBlockedAt, sameGrid } from './collision.js'
 import { loadCursorFrames, loadPortraits } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import { startDialogue } from './dialogue.js'
+import {
+  closeEquipMenu,
+  type EquipMenuState,
+  equipMoveCursor,
+  equipSelected,
+  openEquipMenu,
+} from './equip-menu-state.js'
 import { Keyboard } from './input.js'
 import {
   closeMagicMenu,
@@ -33,6 +40,7 @@ import {
   openMagicMenu,
   resolveOutdoorSkills,
 } from './magic-menu-state.js'
+import { drawEquipMenu } from './menu/equip-box.js'
 import { drawMagicMenu } from './menu/magic-box.js'
 import { loadMenuAssets, MenuBox } from './menu/menu-box.js'
 import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './menu-state.js'
@@ -133,11 +141,12 @@ async function main(): Promise<void> {
   const ghost = requireFirst(guijieMinjuScene.entities, '场景缺少鬼实体')
   const player: { pos: GridPos } = { pos: { ...guijieMinjuScene.entry.pos } }
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits)
-  const world = initialWorld()
+  let world = initialWorld()
   const menuAssets = await loadMenuAssets()
   const menuBox = new MenuBox(glyphs, zhLocale, menuAssets)
   let menu: MenuState = CLOSED
   let magicMenu: MagicMenuState = closeMagicMenu()
+  let equipMenu: EquipMenuState = closeEquipMenu()
   let facing: Facing = guijieMinjuScene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位
@@ -196,6 +205,8 @@ async function main(): Promise<void> {
       ctx.imageSmoothingEnabled = false
       if (menu.openPanel === 'magic') {
         drawMagicMenu(ctx, magicMenu, world, menuAssets, glyphs, performance.now())
+      } else if (menu.openPanel === 'equip') {
+        drawEquipMenu(ctx, equipMenu, world, menuAssets, glyphs, performance.now())
       } else {
         menuBox.render(ctx, menu, world, performance.now())
       }
@@ -313,8 +324,26 @@ async function main(): Promise<void> {
             menu = back(menu)
           }
         }
+      } else if (menu.openPanel === 'equip') {
+        // 装备面板:网格选可装物 + Enter 换装(equipSelected 回写 world)+ Esc 关
+        if (pressed.has('ArrowUp')) equipMenu = equipMoveCursor(equipMenu, 'up')
+        if (pressed.has('ArrowDown')) equipMenu = equipMoveCursor(equipMenu, 'down')
+        if (pressed.has('ArrowLeft')) equipMenu = equipMoveCursor(equipMenu, 'left')
+        if (pressed.has('ArrowRight')) equipMenu = equipMoveCursor(equipMenu, 'right')
+        if (interact) {
+          const caster = world.party[0]
+          if (caster) {
+            const r = equipSelected(equipMenu, world, caster.id)
+            world = r.world
+            equipMenu = r.state
+          }
+        }
+        if (esc) {
+          equipMenu = closeEquipMenu()
+          menu = back(menu)
+        }
       } else if (menu.openPanel) {
-        // status / equip / use / system 面板:Esc 关面板(装备/使用/系统暂为占位)
+        // status / use / system 面板:Esc 关面板(使用/系统暂为占位)
         if (esc) menu = back(menu)
       } else {
         // 菜单级联导航
@@ -322,10 +351,12 @@ async function main(): Promise<void> {
         if (pressed.has('ArrowDown')) menu = moveCursor(menu, 1)
         if (interact) {
           menu = confirm(menu)
-          // 进仙术面板 → 解析李逍遥可用 outdoor 仙术(learnedSkills → DEMO_SKILLS)
+          const caster = world.party[0]
+          // 进面板初始化子态:仙术解析可用 / 装备解析可装
           if (menu.openPanel === 'magic') {
-            const caster = world.party[0]
             magicMenu = openMagicMenu(caster ? resolveOutdoorSkills(world, caster.id) : [])
+          } else if (menu.openPanel === 'equip' && caster) {
+            equipMenu = openEquipMenu(world, caster.id)
           }
         }
         if (esc) menu = back(menu)

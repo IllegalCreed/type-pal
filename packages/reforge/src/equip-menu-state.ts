@@ -15,11 +15,19 @@ export function closeEquipMenu(): EquipMenuState {
   return { active: false, items: [], cursor: 0 }
 }
 
-/** 列表上下移;越界 clamp 不动、不 wrap。 */
-export function equipMoveCursor(s: EquipMenuState, dir: 'up' | 'down'): EquipMenuState {
+/** 原版物品列表 3 列网格(itemmenu.c iItemsPerLine)。 */
+export const EQUIP_GRID_COLS = 3
+
+/** 网格导航:↑↓ = ±列数,←→ = ±1;越界 clamp 不动、不 wrap(对齐原版物品列表)。 */
+export function equipMoveCursor(
+  s: EquipMenuState,
+  dir: 'up' | 'down' | 'left' | 'right',
+): EquipMenuState {
   const n = s.items.length
   if (n === 0) return s
-  const next = s.cursor + (dir === 'up' ? -1 : 1)
+  const delta =
+    dir === 'up' ? -EQUIP_GRID_COLS : dir === 'down' ? EQUIP_GRID_COLS : dir === 'left' ? -1 : 1
+  const next = s.cursor + delta
   if (next < 0 || next >= n) return s
   return { ...s, cursor: next }
 }
