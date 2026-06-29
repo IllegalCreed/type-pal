@@ -38,6 +38,7 @@ const ICON_DX = 8
 const ICON_DY = 7
 const DESC_X = 71
 const DESC_Y = 151
+const DESC_LINE_H = 16 // 多行说明行距(sdlpal itemmenu.c desc 151+i*16)
 const COLOR_NORMAL = [199, 186, 174] as const // 0x4F 米白(物品名)
 const COLOR_DESC = [243, 239, 93] as const // 0x3C 浅黄(描述)
 const COLOR_GOLD = [255, 203, 113] as const // 选中物名(MENUITEM_COLOR_CONFIRMED 0x2C 金黄)
@@ -124,10 +125,12 @@ function drawEquipList(
   if (sel) {
     const icon = assets.itemIcons[sel.icon]
     if (icon) ctx.drawImage(icon, ITEMBOX_X + ICON_DX, ITEMBOX_Y + ICON_DY)
-    renderSpans(ctx, [{ text: sel.desc }], DESC_X, DESC_Y, {
-      glyphs,
-      shadow: true,
-      forceRgba: COLOR_DESC,
+    sel.desc.forEach((line, i) => {
+      renderSpans(ctx, [{ text: line }], DESC_X, DESC_Y + i * DESC_LINE_H, {
+        glyphs,
+        shadow: true,
+        forceRgba: COLOR_DESC,
+      })
     })
   }
 }

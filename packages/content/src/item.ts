@@ -53,7 +53,7 @@ export interface ThrowSpec {
 export interface ItemData {
   id: string // demo = 原版 oid 字符串;当不透明 string
   name: string
-  desc: string
+  desc: string[] // 物品说明(原版 scriptDesc 多行:风味行 + 效果行),逐行渲染
   icon: number // 图标 bitmap(BALL.MKF chunk)
   buyPrice: number
   sellPrice: number
@@ -75,7 +75,7 @@ export const DEMO_ITEMS: Record<string, ItemData> = {
   '166': {
     id: '166',
     name: '木剑',
-    desc: '攻击+2 身法+3',
+    desc: ['用木材雕刻的剑，小孩玩具。', '武术+2　身法+3'],
     icon: 56,
     buyPrice: 50,
     sellPrice: 25,
@@ -92,7 +92,7 @@ export const DEMO_ITEMS: Record<string, ItemData> = {
   '196': {
     id: '196',
     name: '头巾',
-    desc: '防御+1',
+    desc: ['以剩余布料缝制的头巾。', '防御+1'],
     icon: 176,
     buyPrice: 40,
     sellPrice: 20,
@@ -106,7 +106,7 @@ export const DEMO_ITEMS: Record<string, ItemData> = {
   '208': {
     id: '208',
     name: '布袍',
-    desc: '防御+3',
+    desc: ['粗布缝制的交领长袖白袍。', '防御+3'],
     icon: 78,
     buyPrice: 100,
     sellPrice: 50,
@@ -120,7 +120,7 @@ export const DEMO_ITEMS: Record<string, ItemData> = {
   '225': {
     id: '225',
     name: '披风',
-    desc: '防御+2',
+    desc: ['无领对襟、无袖的披衣，', '俗称「斗篷」。', '防御+2'],
     icon: 95,
     buyPrice: 160,
     sellPrice: 80,
@@ -134,7 +134,7 @@ export const DEMO_ITEMS: Record<string, ItemData> = {
   '235': {
     id: '235',
     name: '草鞋',
-    desc: '防御+1',
+    desc: ['以蔺草编织而成，十分便宜，', '穿起来很轻便，适宜行走。', '防御+1'],
     icon: 97,
     buyPrice: 30,
     sellPrice: 15,
@@ -148,7 +148,7 @@ export const DEMO_ITEMS: Record<string, ItemData> = {
   '249': {
     id: '249',
     name: '护腕',
-    desc: '防御+2',
+    desc: ['粗布缝制之腕部护套。', '防御+2'],
     icon: 224,
     buyPrice: 70,
     sellPrice: 35,
@@ -163,7 +163,11 @@ export const DEMO_ITEMS: Record<string, ItemData> = {
   '267': {
     id: '267',
     name: '土灵珠',
-    desc: '土抗+50 授山神',
+    desc: [
+      '女娲降伏山神后，禁制山神于内',
+      '的宝珠。　合体法术∶泰山压顶',
+      '避土率+50%。可用于脱离洞窟。',
+    ],
     icon: 6,
     buyPrice: 0,
     sellPrice: 0,
