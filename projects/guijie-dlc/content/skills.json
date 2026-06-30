@@ -1,0 +1,101 @@
+{
+  "skills": [
+    {
+      "id": "296",
+      "name": "气疗术",
+      "desc": "我方单人HP+75",
+      "cost": {
+        "mp": 6
+      },
+      "usableOutsideBattle": true,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 75
+        }
+      ],
+      "animation": {
+        "effectSprite": 27
+      }
+    },
+    {
+      "id": "298",
+      "name": "凝神归元",
+      "desc": "我方单人HP+220",
+      "cost": {
+        "mp": 18
+      },
+      "usableOutsideBattle": true,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 220
+        }
+      ],
+      "animation": {
+        "effectSprite": 29
+      }
+    },
+    {
+      "id": "299",
+      "name": "元灵归心术",
+      "desc": "我方单人HP+500",
+      "cost": {
+        "mp": 40
+      },
+      "usableOutsideBattle": true,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 500
+        }
+      ],
+      "animation": {
+        "effectSprite": 29
+      }
+    }
+  ],
+  "levelUp": {
+    "li-xiaoyao": [
+      {
+        "level": 7,
+        "skillId": "349"
+      },
+      {
+        "level": 8,
+        "skillId": "311"
+      },
+      {
+        "level": 10,
+        "skillId": "298"
+      },
+      {
+        "level": 12,
+        "skillId": "346"
+      },
+      {
+        "level": 17,
+        "skillId": "299"
+      },
+      {
+        "level": 20,
+        "skillId": "310"
+      },
+      {
+        "level": 22,
+        "skillId": "348"
+      },
+      {
+        "level": 26,
+        "skillId": "392"
+      },
+      {
+        "level": 34,
+        "skillId": "363"
+      }
+    ]
+  }
+}

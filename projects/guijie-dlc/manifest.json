@@ -1,0 +1,31 @@
+{
+  "id": "guijie-dlc",
+  "name": "鬼界·民居(DLC-01)",
+  "contentVersion": 1,
+  "entryScene": "guijie-minju",
+  "content": {
+    "scenes": "content/scenes.json",
+    "characters": "content/characters.json",
+    "skills": "content/skills.json",
+    "items": "content/items.json",
+    "locale": "content/locale.json"
+  },
+  "assets": {
+    "root": "assets",
+    "maps": "maps",
+    "tilesets": "tilesets",
+    "sprites": "sprites",
+    "palettes": "palettes"
+  },
+  "startWorld": {
+    "party": ["li-xiaoyao"],
+    "money": 0,
+    "learnedSkills": { "li-xiaoyao": ["296", "298", "299"] },
+    "inventory": [
+      { "itemId": "267", "count": 1 },
+      { "itemId": "61", "count": 2 },
+      { "itemId": "78", "count": 1 }
+    ],
+    "seedStats": { "li-xiaoyao": { "hp": 100, "mp": 30 } }
+  }
+}

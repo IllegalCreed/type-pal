@@ -1,17 +1,13 @@
 import {
-  DEMO_ITEMS,
-  DEMO_SKILLS,
+  buildWorld,
   type Dialogue,
   type EntityDef,
   type Facing,
   type GridPos,
   gridToPixel,
-  guijieMinjuScene,
-  initialWorld,
   lookupText,
   pixelToGrid,
   spriteScreenY,
-  zhLocale,
 } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import {
@@ -36,6 +32,7 @@ import {
   openEquipMenu,
 } from './equip-menu-state.js'
 import { Keyboard } from './input.js'
+import { type LoadedProject, loadProject } from './loader.js'
 import {
   closeMagicMenu,
   type MagicMenuState,
@@ -122,8 +119,6 @@ function requireFirst<T>(arr: readonly T[], what: string): T {
 const canvas = document.getElementById('screen') as HTMLCanvasElement
 const ctx = get2dContext(canvas)
 
-const mapNum = guijieMinjuScene.map.reuseOriginalMap // 56
-
 // 调色板编号由 scene 进入脚本 setPalette 决定，demo 未跑脚本 → 先试 0；颜色不对再换号。
 const PALETTE_ID = Number(new URLSearchParams(location.search).get('pal') ?? 0)
 
@@ -131,6 +126,11 @@ const PALETTE_ID = Number(new URLSearchParams(location.search).get('pal') ?? 0)
 const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
 
 async function main(): Promise<void> {
+  // 工程化:运行期加载工程(vite define 注入 VITE_PROJECT_ID;缺省 guijie-dlc)。
+  const PROJECT_ID = import.meta.env.VITE_PROJECT_ID ?? 'guijie-dlc'
+  const project: LoadedProject = await loadProject(PROJECT_ID)
+  const scene = project.entryScene // 入口场景(= 旧 scene)
+  const mapNum = scene.map.reuseOriginalMap
   const [map, tiles, palette, glyphs, cursorFrames] = await Promise.all([
     loadTilemap(mapNum),
     loadTileset(mapNum),
@@ -154,7 +154,7 @@ async function main(): Promise<void> {
   }
 
   // 切片：只取 room#0。逻辑视口 320×200;物理 canvas 1280×800(4x),世界渲染 ×4 放大(D16)。
-  const room = guijieMinjuScene.map.room
+  const room = scene.map.room
   const WORLD_SCALE = 4 // 逻辑 320×200 → 物理 1280×800;整数倍 + pixelated 保点阵锐利
   const VIEW_W = 320
   const VIEW_H = 200
@@ -177,12 +177,12 @@ async function main(): Promise<void> {
 
   // 精灵：李逍遥 = 原版 spriteNum 2；鬼 = 占位 sprite 16（原版一老者，比箱子像样；鬼气化留后续 polish）。
   const [playerSprite, ghostSprite] = await Promise.all([loadSprite(2), loadSprite(16)])
-  const ghost = requireFirst(guijieMinjuScene.entities, '场景缺少鬼实体')
-  const player: { pos: GridPos } = { pos: { ...guijieMinjuScene.entry.pos } }
-  const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits)
-  let world = initialWorld()
-  const menuAssets = await loadMenuAssets(DEMO_ITEMS)
-  const menuBox = new MenuBox(glyphs, zhLocale, menuAssets, DEMO_ITEMS)
+  const ghost = requireFirst(scene.entities, '场景缺少鬼实体')
+  const player: { pos: GridPos } = { pos: { ...scene.entry.pos } }
+  const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
+  let world = buildWorld(project.manifest.startWorld, project.charactersById)
+  const menuAssets = await loadMenuAssets(project.items)
+  const menuBox = new MenuBox(glyphs, project.locale, menuAssets, project.items)
   let menu: MenuState = CLOSED
   let magicMenu: MagicMenuState = closeMagicMenu()
   let equipMenu: EquipMenuState = closeEquipMenu()
@@ -201,9 +201,9 @@ async function main(): Promise<void> {
   let overwriteYes = false // 覆盖确认框高亮(右=是)
   let lastGameThumb: Blob | undefined // 开菜单时抓的干净游戏帧(菜单内存档的缩略图源)
   let toast: { text: string; until: number } | undefined // 快速存读短提示
-  const SCENE_ID = 'guijie-minju'
-  const MAP_NAME = '鬼界·民居'
-  let facing: Facing = guijieMinjuScene.entry.facing
+  const SCENE_ID = project.manifest.entryScene
+  const MAP_NAME = project.manifest.name
+  let facing: Facing = scene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位
   let stepAcc = 0 // 步进累加器（ms）
@@ -228,7 +228,7 @@ async function main(): Promise<void> {
       slotId,
       world,
       MAP_NAME,
-      (c) => lookupText(`name.${c.template}`, zhLocale),
+      (c) => lookupText(`name.${c.template}`, project.locale),
       Date.now(),
     )
     const payload = buildPayload(world, { sceneId: SCENE_ID, pos: player.pos, facing })
@@ -327,7 +327,7 @@ async function main(): Promise<void> {
           menuAssets,
           glyphs,
           performance.now(),
-          zhLocale,
+          project.locale,
           saveThumbs,
           overwriteYes,
         )
@@ -341,8 +341,8 @@ async function main(): Promise<void> {
           menuAssets,
           glyphs,
           performance.now(),
-          zhLocale,
-          DEMO_ITEMS,
+          project.locale,
+          project.items,
         )
       } else if (menu.openPanel === 'use') {
         drawUseMenu(
@@ -352,8 +352,8 @@ async function main(): Promise<void> {
           menuAssets,
           glyphs,
           performance.now(),
-          zhLocale,
-          DEMO_ITEMS,
+          project.locale,
+          project.items,
         )
       } else {
         // 级联(主菜单常驻;status 全屏分流在 render 内)。系统菜单 = 叠在主菜单级联上的子层。
@@ -365,7 +365,7 @@ async function main(): Promise<void> {
             menuAssets,
             glyphs,
             performance.now(),
-            zhLocale,
+            project.locale,
             systemPlaceholder,
           )
         }
@@ -431,8 +431,7 @@ async function main(): Promise<void> {
   // 静态实体碰撞:collide 实体占其 pos 所在格,玩家目标落该格 → 挡。
   // 闭包读 entities 当前 pos(将来移动 NPC 也自然生效;静态阶段 pos 不变)。
   const isBlocked = (pos: GridPos): boolean =>
-    isBlockedAt(map, pos) ||
-    guijieMinjuScene.entities.some((e) => e.collide === true && sameGrid(pos, e.pos))
+    isBlockedAt(map, pos) || scene.entities.some((e) => e.collide === true && sameGrid(pos, e.pos))
   const keyboard = new Keyboard()
   const INTERACT_RANGE = 48 // 像素：靠近实体即可交互
 
@@ -447,13 +446,13 @@ async function main(): Promise<void> {
   }
 
   function dialogueById(id: string): Dialogue | undefined {
-    return guijieMinjuScene.dialogues.find((d) => d.id === id)
+    return scene.dialogues.find((d) => d.id === id)
   }
 
   /** 玩家附近、可交互的实体（取首个有 interact 且在像素范围内的）。 */
   function nearbyInteractable(): EntityDef | undefined {
     const pp = gridToPixel(player.pos)
-    return guijieMinjuScene.entities.find((e) => {
+    return scene.entities.find((e) => {
       if (!e.interact) return false
       const ep = gridToPixel(e.pos)
       const ex = ep.x - pp.x
@@ -535,11 +534,11 @@ async function main(): Promise<void> {
         if (equipMenu.phase === 'pick-role') {
           // 确认面板:Enter 换上(equipApply 回写 world)/ Esc 回列表
           if (interact) {
-            const r = equipApply(equipMenu, world, DEMO_ITEMS)
+            const r = equipApply(equipMenu, world, project.items)
             world = r.world
             equipMenu = r.state
           } else if (esc) {
-            equipMenu = equipBackToList(equipMenu, world, DEMO_ITEMS)
+            equipMenu = equipBackToList(equipMenu, world, project.items)
           }
         } else {
           // list:网格选可装物 + Enter 进确认面板 + Esc 关装备面板
@@ -557,7 +556,7 @@ async function main(): Promise<void> {
         if (useMenu.phase === 'pick-target') {
           // 选目标:Enter 施用(useApply 回写 world)/ Esc 回列表
           if (interact) {
-            const r = useApply(useMenu, world, world.party[0]?.id ?? '', DEMO_ITEMS)
+            const r = useApply(useMenu, world, world.party[0]?.id ?? '', project.items)
             world = r.world
             useMenu = r.state
           } else if (esc) {
@@ -570,7 +569,7 @@ async function main(): Promise<void> {
           if (pressed.has('ArrowLeft')) useMenu = useMoveCursor(useMenu, 'left')
           if (pressed.has('ArrowRight')) useMenu = useMoveCursor(useMenu, 'right')
           if (interact) {
-            const r = useConfirm(useMenu, world, DEMO_ITEMS)
+            const r = useConfirm(useMenu, world, project.items)
             if (r.kind === 'direct') world = r.world // 脚本/全体类:已直接执行,回写 world
             useMenu = r.state
           }
@@ -655,12 +654,12 @@ async function main(): Promise<void> {
           // 进面板初始化子态:仙术解析可用 / 装备解析可装
           if (menu.openPanel === 'magic') {
             magicMenu = openMagicMenu(
-              caster ? resolveOutdoorSkills(world, caster.id, DEMO_SKILLS) : [],
+              caster ? resolveOutdoorSkills(world, caster.id, project.skills) : [],
             )
           } else if (menu.openPanel === 'equip' && caster) {
-            equipMenu = openEquipMenu(world, caster.id, DEMO_ITEMS)
+            equipMenu = openEquipMenu(world, caster.id, project.items)
           } else if (menu.openPanel === 'use') {
-            useMenu = openUseMenu(world, DEMO_ITEMS, lastUseCursor) // 恢复上次光标(原版 iCurInvMenuItem)
+            useMenu = openUseMenu(world, project.items, lastUseCursor) // 恢复上次光标(原版 iCurInvMenuItem)
           } else if (menu.openPanel === 'status') {
             statusIdx = 0 // 开状态板从首位队员看起
           } else if (menu.openPanel === 'system') {

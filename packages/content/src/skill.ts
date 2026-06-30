@@ -67,74 +67,8 @@ export interface SkillData {
 /** 技能数据表(id → SkillData)。去全局化:操作技能的函数收这个类型(显式注入),不再默认吃 DEMO_SKILLS。 */
 export type SkillDataMap = Record<string, SkillData>
 
-/**
- * demo 技能 —— 李逍遥大世界仙术菜单用的 3 个 outdoor 治疗。
- * 真值核验:name = spells.json._name;costMP/effect = magic.json[spells.json[oid].magicNumber];
- *           usableOutsideBattle = spells.json[oid].flags.usableOutsideBattle;target = magic.type(applyToPlayer→oneAlly)。
- *   oid 296 气疗术  magic#33 type=applyToPlayer costMP=6  effect=27 baseDamage=0
- *   oid 298 凝神归元 magic#34 type=applyToPlayer costMP=18 effect=29 baseDamage=0
- *   oid 299 元灵归心术 magic#51 type=applyToPlayer costMP=40 effect=29 baseDamage=0
- * healHp.amount/desc = 原版 scriptOnSuccess 脚本【一手核验】(events/all.json segments[0].commands[43016/43018/43020],三者均 opcode 0x1B 回HP,operands[1]=75/220/500)。
- * 完整 102 技能 migrate 全量 → phase3。
- */
-export const DEMO_SKILLS: Record<string, SkillData> = {
-  '296': {
-    id: '296',
-    name: '气疗术',
-    desc: '我方单人HP+75',
-    cost: { mp: 6 },
-    usableOutsideBattle: true,
-    target: 'oneAlly',
-    effects: [{ kind: 'healHp', amount: 75 }],
-    animation: { effectSprite: 27 },
-  },
-  '298': {
-    id: '298',
-    name: '凝神归元',
-    desc: '我方单人HP+220',
-    cost: { mp: 18 },
-    usableOutsideBattle: true,
-    target: 'oneAlly',
-    effects: [{ kind: 'healHp', amount: 220 }],
-    animation: { effectSprite: 29 },
-  },
-  '299': {
-    id: '299',
-    name: '元灵归心术',
-    desc: '我方单人HP+500',
-    cost: { mp: 40 },
-    usableOutsideBattle: true,
-    target: 'oneAlly',
-    effects: [{ kind: 'healHp', amount: 500 }],
-    animation: { effectSprite: 29 },
-  },
-}
-
 /** ③ 习得规则:角色模板升到 level 自动习得 skillId(原版 level-up-magic.json)。 */
 export interface LevelUpSkill {
   level: number
   skillId: string
-}
-
-/**
- * 升级习得表(content 静态)。真值 = 原版 level-up-magic.json。
- * ⚠ 原版结构 = ln[ROW][ROLE](20 行 × 5 角色;sdlpal lprgln[j].m[role])。
- *   **某角色习得 = 取该角色那一【列】、遍历所有行**(不是取某一行!按行读会把 5 个角色的技能混在一起)。
- * 李逍遥 = 列 0(role0):lv7 天师符法(349) / lv8 天罡战气(311) / lv10 凝神归元(298) / lv12 万剑诀(346) /
- *   lv17 元灵归心术(299) / lv20 真元护体(310) / lv22 天剑(348) / lv26 金蝉脱壳(392) / lv34 剑神(363)。
- *   (名 = spells.json._name;298/299 是 outdoor,正是 demo learnedSkills 那两个。)
- * 这些技能完整 SkillData 待 phase3 migrate 全量;demo 不跑升级逻辑,本表只验 ③ 层 schema + 钉真值。
- */
-export const LEVEL_UP_SKILLS: Record<string, LevelUpSkill[]> = {
-  'li-xiaoyao': [
-    { level: 7, skillId: '349' }, // 天师符法
-    { level: 8, skillId: '311' }, // 天罡战气
-    { level: 10, skillId: '298' }, // 凝神归元
-    { level: 12, skillId: '346' }, // 万剑诀
-    { level: 17, skillId: '299' }, // 元灵归心术
-    { level: 20, skillId: '310' }, // 真元护体
-    { level: 22, skillId: '348' }, // 天剑
-    { level: 26, skillId: '392' }, // 金蝉脱壳
-    { level: 34, skillId: '363' }, // 剑神
-  ],
 }

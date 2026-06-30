@@ -1,5 +1,5 @@
-import { initialWorld } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { makeTestWorld } from '../test-fixtures.js'
 import { MemorySaveStore } from './store.js'
 import { SAVE_VERSION, type SaveMeta, type SavePayload } from './types.js'
 
@@ -15,7 +15,7 @@ function meta(slotId: string): SaveMeta {
 function payload(): SavePayload {
   return {
     version: SAVE_VERSION,
-    world: initialWorld(),
+    world: makeTestWorld(),
     position: { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
   }
 }
@@ -26,7 +26,7 @@ describe('MemorySaveStore', () => {
     expect(await s.listMeta()).toEqual([])
     await s.putSlot(meta('m01'), payload(), new Blob(['png']))
     expect((await s.listMeta()).map((m) => m.slotId)).toEqual(['m01'])
-    expect((await s.getPayload('m01'))?.world).toEqual(initialWorld())
+    expect((await s.getPayload('m01'))?.world).toEqual(makeTestWorld())
     expect(await s.getThumb('m01')).toBeInstanceOf(Blob)
   })
   test('缺失槽 → null', async () => {

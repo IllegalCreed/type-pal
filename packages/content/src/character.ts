@@ -10,6 +10,29 @@ export interface WorldState {
   inventory: { itemId: string; count: number }[]
 }
 
+/** manifest.startWorld —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
+export interface StartWorld {
+  party: string[] // 角色模板 id 列表(顺序 = 入队顺序)
+  money: number
+  /** ⚠ key = 实例 id(character.ts:99 现状:实例 id === 模板 id,demo 单人 1:1)。
+   *    多人工程实例 id 会带实例化区分,届时 key 约定需调整;A 期单人 demo 不受影响。 */
+  learnedSkills: Record<string, string[]>
+  inventory: { itemId: string; count: number }[]
+  /** demo 低 HP/MP 播种(覆盖模板 baseStats.hp/mp);可选,缺省则用模板值。 */
+  seedStats?: Record<string, { hp?: number; mp?: number }>
+}
+
+/** manifest.json 的形状(loader 解析、main.ts 消费)。工程清单 = 一整套游戏的入口描述。 */
+export interface LoadedManifest {
+  id: string // 工程 id(= 文件夹名;稳定身份)
+  name: string // 显示名(选单/标题)
+  contentVersion: number // 工程内容数据版本(与存档 SAVE_VERSION 是两个轴)
+  entryScene: string // 入口场景 id(= scenes.json 里的 scene.id)
+  content: Record<string, string> // content 文件清单(kind → 相对路径)
+  assets: { root: string; maps: string; tilesets: string; sprites: string; palettes: string }
+  startWorld: StartWorld
+}
+
 /** 角色实例(稳定 id;运行态)。绝对值属性,非原版 modifier。 */
 export interface CharacterInstance {
   id: string
@@ -49,33 +72,6 @@ export interface CharacterTemplate {
   initialMagic: string[]
 }
 
-/** 李逍遥(原版 player-roles.json roleId 0 初始值;attack 等用绝对值)。 */
-export const LI_XIAOYAO: CharacterTemplate = {
-  id: 'li-xiaoyao',
-  name: 'name.li-xiaoyao',
-  baseStats: {
-    level: 1,
-    hp: 150,
-    maxHP: 150,
-    mp: 100,
-    maxMP: 100,
-    attack: 33,
-    defense: 32,
-    magicAttack: 20,
-    speed: 28,
-    luck: 32,
-  },
-  initialEquipment: {
-    weapon: '166',
-    head: '196',
-    body: '208',
-    cloak: '225',
-    feet: '235',
-    accessory: '249',
-  },
-  initialMagic: ['296', '298', '299'],
-}
-
 /** 模板 → 实例(深拷贝初始值,exp=0,tags 空)。 */
 export function instantiate(t: CharacterTemplate): CharacterInstance {
   return {
@@ -88,19 +84,28 @@ export function instantiate(t: CharacterTemplate): CharacterInstance {
   }
 }
 
-/** demo 世界态:单人李逍遥 + 习得仙术关系表(从模板 initialMagic 播种)。 */
-export function initialWorld(): WorldState {
-  const li = instantiate(LI_XIAOYAO)
-  li.hp = 100 // demo:低于 maxHP 150,使用面板回血才看得出
-  li.mp = 30 //  demo:低于 maxMP 100,且 < 元灵归心术(40) → 仙术菜单演示 MP 不足灰显
+/**
+ * 从 manifest.startWorld 组装初始世界态(loader 的 content-op)。
+ *  = initialWorld() 的数据化版:对每个 party 模板 id instantiate → 应用 seedStats 覆盖 hp/mp → 组装。
+ *  learnedSkills/inventory 直接取 startWorld(key = 实例 id,demo 单人 = 模板 id)。
+ */
+export function buildWorld(
+  startWorld: StartWorld,
+  templatesById: Record<string, CharacterTemplate>,
+): WorldState {
+  const party = startWorld.party.map((id) => {
+    const t = templatesById[id]
+    if (!t) throw new Error(`buildWorld: 角色模板 "${id}" 不在 characters 表`)
+    const inst = instantiate(t)
+    const seed = startWorld.seedStats?.[id]
+    if (seed?.hp !== undefined) inst.hp = seed.hp
+    if (seed?.mp !== undefined) inst.mp = seed.mp
+    return inst
+  })
   return {
-    party: [li],
-    money: 0,
-    learnedSkills: { [li.id]: [...LI_XIAOYAO.initialMagic] },
-    inventory: [
-      { itemId: '267', count: 1 }, // 土灵珠(装备+使用双重身份)
-      { itemId: '61', count: 2 }, // 观音符 ×2
-      { itemId: '78', count: 1 }, // 茶叶蛋
-    ],
+    party,
+    money: startWorld.money,
+    learnedSkills: startWorld.learnedSkills,
+    inventory: startWorld.inventory,
   }
 }

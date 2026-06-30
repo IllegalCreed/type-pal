@@ -84,72 +84,10 @@ export interface SceneDef {
   dialogues: Dialogue[]
 }
 
-/** 切片 1 demo 场景：鬼界民居（借原版 map 56 = 黑水镇民居）。 */
-export const guijieMinjuScene: SceneDef = {
-  id: 'guijie-minju',
-  map: {
-    reuseOriginalMap: 56, // 56 = 黑水镇民居（原版 scene 62 加载它）；图里有**多间**民居
-    // room#0：右上那间（脚本勘出的内容簇之一）。reforge 只渲染 / 碰撞这个窗口。
-    room: { col: 26, row: 34, cols: 22, rows: 25 },
-  },
-  // 菱形轴格坐标(D16):gridToPixel(90,14)=(1216,832)。走一格单轴±1。
-  entry: { pos: { col: 90, row: 14, height: 0 }, facing: 'down' },
-  entities: [
-    {
-      id: 'wandering-ghost',
-      // gridToPixel(92,12)=(1280,832):脚本核出的开阔地板,四邻无家具、不被遮挡
-      pos: { col: 92, row: 12, height: 0 },
-      sprite: 'ghost', // demo 占位 = 原版 sprite 16（老者）；回头换鬼气精灵 + 半透明化
-      collide: true,
-      interact: 'ghost-hearsay',
-    },
-  ],
-  dialogues: [
-    {
-      id: 'ghost-hearsay',
-      // 仪表盘(design §5):颜色(黄/青/红)、速度(慢/快/默认)、autoAdvance、slot 共存、头像、光标 3 形。
-      // 段0/1/3 游魂 bottom(chunk1 占位头像),段2 远处鬼 top(chunk2 占位,与 bottom 留显共存)。
-      // 光标:段0/1/2 分别 f0/f1/f2 演示 3 形轮转。
-      lines: [
-        {
-          speaker: 'name.youhun',
-          text: 'dlg.ghost-hearsay.0',
-          slot: 'bottom',
-          portrait: { icon: 1, side: 'right' },
-          cursorFrame: 0,
-        }, // 默认速 + 黄 + 光标 f0
-        {
-          speaker: 'name.youhun',
-          text: 'dlg.ghost-hearsay.1',
-          slot: 'bottom',
-          speed: 48,
-          portrait: { icon: 1, side: 'right' },
-          cursorFrame: 1,
-        }, // 慢 + 青 + 光标 f1
-        {
-          speaker: 'name.distant-ghost',
-          text: 'dlg.ghost-hearsay.2',
-          slot: 'top',
-          portrait: { icon: 2, side: 'left' },
-          cursorFrame: 2,
-        }, // 长独白 + 红 + 光标 f2 + 共存
-        {
-          speaker: 'name.youhun',
-          text: 'dlg.ghost-hearsay.3',
-          slot: 'bottom',
-          speed: 12,
-          autoAdvance: 800,
-          portrait: { icon: 1, side: 'right' },
-        }, // 快 + 自动(800ms 尾停顿,不可加速)
-        { text: 'dlg.ghost-hearsay.4', slot: 'bottom' }, // 旁白,无 speaker/头像
-      ],
-    },
-  ],
-}
-
 export * from './character.js'
 export * from './grid.js'
 export * from './item.js'
 export * from './locale.js'
 export * from './rich-text.js'
 export * from './skill.js'
+export * from './validate.js'

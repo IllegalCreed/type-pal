@@ -3,7 +3,7 @@
  * 逐段推进 + top/bottom 多槽:同槽覆盖、异槽共存。位置真值 GLM spec §3。
  * 每段话在它的 slot 内自动折行(layoutLines)+ 按 4 显示行/页分页,翻页只翻活跃槽。
  */
-import { lookupText, type TextSpan, zhLocale } from '@type-pal/content'
+import { type Locale, lookupText, type TextSpan } from '@type-pal/content'
 import type { RleFrame } from '@type-pal/shared'
 import { advanceLine, type DialogueState } from '../dialogue.js'
 import type { GlyphTable } from '../text/glyph.js'
@@ -57,6 +57,7 @@ export class DialogBox {
     private readonly glyphs: GlyphTable,
     private readonly cursorFrames: RleFrame[],
     private readonly portraits: ReadonlyMap<number, HTMLCanvasElement> = new Map(),
+    private readonly locale: Locale = {},
   ) {}
 
   get active(): boolean {
@@ -81,7 +82,7 @@ export class DialogBox {
     const displayLines = layoutLines(
       [line],
       this.glyphs,
-      (id) => lookupText(id, zhLocale),
+      (id) => lookupText(id, this.locale),
       maxRight,
       startX,
     ).map((dl) => ({ ...dl, srcLineIdx: lineIdx }))
@@ -223,7 +224,7 @@ export class DialogBox {
 
     // 姓名牌:该 slot 当前段话首行的 speaker(同段跨页常驻)
     if (line?.speaker) {
-      const nameSpans: TextSpan[] = [{ text: `${lookupText(line.speaker, zhLocale)}：` }]
+      const nameSpans: TextSpan[] = [{ text: `${lookupText(line.speaker, this.locale)}：` }]
       renderSpans(this.ctx, nameSpans, titleX, pos.title.y, {
         glyphs: this.glyphs,
         shadow: true,
