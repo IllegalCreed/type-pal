@@ -26,7 +26,8 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
         const url = req.url ?? ''
         if (!url.startsWith(urlPrefix)) return next()
         // 去掉前缀 + query,拼 fs 路径;防路径穿越(../)。
-        const rel = decodeURIComponent(url.slice(urlPrefix.length).split('?')[0] ?? '')
+        // ⚠ 去前导斜杠:urlPrefix 无尾斜杠 → slice 余 '/demo/…';resolve(fsDir,'/abs') 会当绝对路径丢弃 fsDir
+        const rel = decodeURIComponent(url.slice(urlPrefix.length).split('?')[0] ?? '').replace(/^\/+/, '')
         if (rel.includes('..')) return next()
         const file = resolve(fsDir, rel)
         // 确保解析后仍在 fsDir 内(再防穿越)
