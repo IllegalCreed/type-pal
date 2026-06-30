@@ -17,6 +17,7 @@ import {
   validateScenes,
   validateSkills,
 } from '@type-pal/content'
+import type { AssetBase } from './assets.js'
 
 /** 加载完成的工程对象(main.ts 消费)。 */
 export interface LoadedProject {
@@ -29,6 +30,8 @@ export interface LoadedProject {
   levelUp: Record<string, LevelUpSkill[]>
   items: ItemDataMap
   locale: Locale
+  /** 工程资源根 + 子目录(assets.ts load* 用;来自 manifest.assets)。 */
+  assetBase: AssetBase
 }
 
 /** content JSON 输入(assembleProject 的纯参,便于单测喂 fixture)。 */
@@ -58,6 +61,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
   if (!entryScene)
     throw new Error(`工程 "${manifest.id}": 入口场景 "${manifest.entryScene}" 在 scenes 里找不到`)
 
+  const a = manifest.assets
   return {
     manifest,
     scenes,
@@ -67,6 +71,13 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     levelUp: levelUp as Record<string, LevelUpSkill[]>,
     items: indexById(items),
     locale,
+    assetBase: {
+      root: `projects/${manifest.id}/${a.root}`,
+      maps: a.maps,
+      tilesets: a.tilesets,
+      sprites: a.sprites,
+      palettes: a.palettes,
+    },
   }
 }
 

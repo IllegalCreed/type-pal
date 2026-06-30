@@ -11,6 +11,7 @@ import {
 } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import {
+  type AssetBase,
   type LoadedSprite,
   loadGlyphs,
   loadPalette,
@@ -132,9 +133,9 @@ async function main(): Promise<void> {
   const scene = project.entryScene // 入口场景(= 旧 scene)
   const mapNum = scene.map.reuseOriginalMap
   const [map, tiles, palette, glyphs, cursorFrames] = await Promise.all([
-    loadTilemap(mapNum),
-    loadTileset(mapNum),
-    loadPalette(PALETTE_ID),
+    loadTilemap(project.assetBase, mapNum),
+    loadTileset(project.assetBase, mapNum),
+    loadPalette(project.assetBase, PALETTE_ID),
     loadGlyphs(),
     loadCursorFrames().catch((err: unknown) => {
       console.warn('[reforge] cursor icons 加载失败,降级无光标:', err)
@@ -149,7 +150,7 @@ async function main(): Promise<void> {
 
   // 调试：?gallery 渲染精灵速查图（确认哪个 spriteNum 是人/物），不进场景。
   if (new URLSearchParams(location.search).has('gallery')) {
-    await renderSpriteGallery(palette)
+    await renderSpriteGallery(project.assetBase, palette)
     return
   }
 
@@ -176,7 +177,10 @@ async function main(): Promise<void> {
   }
 
   // 精灵：李逍遥 = 原版 spriteNum 2；鬼 = 占位 sprite 16（原版一老者，比箱子像样；鬼气化留后续 polish）。
-  const [playerSprite, ghostSprite] = await Promise.all([loadSprite(2), loadSprite(16)])
+  const [playerSprite, ghostSprite] = await Promise.all([
+    loadSprite(project.assetBase, 2),
+    loadSprite(project.assetBase, 16),
+  ])
   const ghost = requireFirst(scene.entities, '场景缺少鬼实体')
   const player: { pos: GridPos } = { pos: { ...scene.entry.pos } }
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
@@ -742,7 +746,7 @@ async function main(): Promise<void> {
 }
 
 /** 调试速查：把 spriteNum 0..47 的第 0 帧排成网格 + 标号，肉眼分辨人 / 物。 */
-async function renderSpriteGallery(palette: Palette): Promise<void> {
+async function renderSpriteGallery(assetBase: AssetBase, palette: Palette): Promise<void> {
   const COLS = 8
   const CELL = 80
   const MAX = 47
@@ -753,7 +757,7 @@ async function renderSpriteGallery(palette: Palette): Promise<void> {
   for (let id = 0; id <= MAX; id++) {
     let sp: LoadedSprite | undefined
     try {
-      sp = await loadSprite(id)
+      sp = await loadSprite(assetBase, id)
     } catch {
       sp = undefined
     }

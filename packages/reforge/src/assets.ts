@@ -1,11 +1,19 @@
 /**
- * 复用原版提取资产（demo）：从 /extracted 加载 tilemap / palette / tileset。
- * 解码逻辑复用 @type-pal/shared（parseSpriteChunk + 类型）；decompressGzip 端口自
- * game/assets/tileset-blob.ts（小而通用，不依赖 game 内部）。
+ * 工程资源加载:tilemap / palette / tileset / sprite。
+ * base 由调用方注入(来自 manifest.assets.root,如 `projects/<id>/assets`);
+ * 子目录用 manifest.assets 的 maps/tilesets/sprites/palettes(见 AssetBase)。
+ * 解码逻辑复用 @type-pal/shared(parseSpriteChunk + 类型);decompressGzip 端口自 game。
  */
 import { type Palette, parseSpriteChunk, type RleFrame, type Tilemap } from '@type-pal/shared'
 
-const BASE = '/extracted'
+/** 工程资源根 + 子目录(由 loader 从 manifest.assets 解析,main 注入给 load*)。 */
+export interface AssetBase {
+  root: string // 如 `projects/<id>/assets`
+  maps: string // tilemap 子目录(默认 'maps')
+  tilesets: string
+  sprites: string
+  palettes: string
+}
 
 async function fetchJson<T>(url: string): Promise<T> {
   const r = await fetch(url)
@@ -13,17 +21,17 @@ async function fetchJson<T>(url: string): Promise<T> {
   return (await r.json()) as T
 }
 
-export function loadTilemap(mapNum: number): Promise<Tilemap> {
-  return fetchJson<Tilemap>(`${BASE}/data/tilemap/${mapNum}.json`)
+export function loadTilemap(base: AssetBase, mapNum: number): Promise<Tilemap> {
+  return fetchJson<Tilemap>(`${base.root}/${base.maps}/${mapNum}.json`)
 }
 
-export function loadPalette(palId: number): Promise<Palette> {
-  return fetchJson<Palette>(`${BASE}/data/palette/${palId}.json`)
+export function loadPalette(base: AssetBase, palId: number): Promise<Palette> {
+  return fetchJson<Palette>(`${base.root}/${base.palettes}/${palId}.json`)
 }
 
-/** 复用原版 .rle tileset blob：gzip 解压 → parseSpriteChunk → 按 tile 下标索引的帧。 */
-export async function loadTileset(mapNum: number): Promise<Map<number, RleFrame>> {
-  const res = await fetch(`${BASE}/data/tileset/${mapNum}.rle`)
+/** 原版 .rle tileset blob:gzip 解压 → parseSpriteChunk → 按 tile 下标索引的帧。 */
+export async function loadTileset(base: AssetBase, mapNum: number): Promise<Map<number, RleFrame>> {
+  const res = await fetch(`${base.root}/${base.tilesets}/${mapNum}.rle`)
   if (!res.ok) throw new Error(`tileset ${mapNum}: ${res.status}`)
   const bytes = await decompressGzip(await res.blob())
   const frames = parseSpriteChunk(bytes)
@@ -36,14 +44,14 @@ export async function loadTileset(mapNum: number): Promise<Map<number, RleFrame>
 
 export interface LoadedSprite {
   frames: RleFrame[]
-  /** 脚下锚点（首帧 floor(w/2) / h），同 game framesToCharacterSprite。 */
+  /** 脚下锚点(首帧 floor(w/2) / h),同 game framesToCharacterSprite。 */
   anchorX: number
   anchorY: number
 }
 
-/** 复用原版大世界精灵：/extracted/data/sprite/{spriteNum}.rle（gzip RLE 帧组）。 */
-export async function loadSprite(spriteNum: number): Promise<LoadedSprite> {
-  const res = await fetch(`${BASE}/data/sprite/${spriteNum}.rle`)
+/** 原版大世界精灵:{root}/{sprites}/{spriteNum}.rle(gzip RLE 帧组)。 */
+export async function loadSprite(base: AssetBase, spriteNum: number): Promise<LoadedSprite> {
+  const res = await fetch(`${base.root}/${base.sprites}/${spriteNum}.rle`)
   if (!res.ok) throw new Error(`sprite ${spriteNum}: ${res.status}`)
   const frames = parseSpriteChunk(await decompressGzip(await res.blob()))
   const first = frames[0]
