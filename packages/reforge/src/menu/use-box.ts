@@ -120,7 +120,7 @@ export function drawUseMenu(
   })
 
   // ⑤ 选中物:itembox + 图标 + 名(0xBE)+ 数量(青右对齐)
-  if (assets.itembox) ctx.drawImage(assets.itembox, UB_ITEMBOX.x, UB_ITEMBOX.y)
+  drawSlicedBox(ctx, assets.itembox, UB_ITEMBOX.x, UB_ITEMBOX.y, 64, 64, { shadow: false })
   if (sel) {
     const icon = assets.itemIcons[sel.icon]
     if (icon) ctx.drawImage(icon, UB_ICON.x, UB_ICON.y)

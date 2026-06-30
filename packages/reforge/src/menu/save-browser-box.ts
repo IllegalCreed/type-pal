@@ -1,5 +1,5 @@
 // 存档浏览界面 UI。隐藏整个菜单,卷轴横向铺满全宽(main.ts saveBrowser 打开时不画 menuBox)。
-// 每槽 = 金钱卷轴纹理「重切九宫格」(drawScrollBox):3 横向条各纵向再切 3 段(中段平铺非拉伸)→ 任意高×宽,保金钱卷轴皮。
+// 每槽 = 卷轴 scroll 九宫格(烘焙 9 块,drawSlicedBox 撑任意高×宽,平铺不拉伸),保金钱卷轴皮。
 // 槽内横排:三角光标(选中,竖直居中) + 槽号(auto/quick「自动存档/快速存档」2 行) + 缩略图 + 队伍·等级(上) + 地图名(左)·时间(右)(同一下行)。
 import { type Locale, lookupText } from '@type-pal/content'
 import { pageOf, type SaveBrowserState } from '../save/browser-state.js'
@@ -11,6 +11,7 @@ import {
   COLOR_DISABLED_SEL,
   COLOR_NORMAL,
   drawConfirmBox,
+  drawSlicedBox,
   type MenuAssets,
   SELECTED_COLORS,
 } from './menu-box.js'
@@ -23,45 +24,6 @@ const TITLE_Y = 4 // 标题/页码上移,与首条卷轴留间距
 const ROW_Y0 = 28
 const ROW_DY = 56
 const BOX_H = 50
-// 金钱卷轴源 34px 高(实测):上/下边框各 4px(y0-3 / y30-33),中段 26px(y4-29,纯色 → 平铺无缝)
-const SCROLL_BT = 4
-const SCROLL_BB = 4
-
-/** 金钱卷轴(单行 3 条)重切九宫格:横向 左帽+中段(tile)+右帽,纵向 上边+中段(平铺,非拉伸)+下边。 */
-function drawScrollBox(
-  ctx: CanvasRenderingContext2D,
-  box: { left?: ImageBitmap; mid?: ImageBitmap; right?: ImageBitmap },
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-): void {
-  const { left, mid, right } = box
-  if (!left || !mid || !right) return
-  const srcH = left.height
-  const midSrcH = srcH - SCROLL_BT - SCROLL_BB
-  // 一列:上边(原高) + 中段(纵向平铺,非拉伸,源恒取中段顶部 dh 行) + 下边(原高)
-  const col = (img: ImageBitmap, dx: number, dw: number, sw: number): void => {
-    ctx.drawImage(img, 0, 0, sw, SCROLL_BT, dx, y, dw, SCROLL_BT)
-    let dy = y + SCROLL_BT
-    const midEnd = y + h - SCROLL_BB
-    while (dy < midEnd) {
-      const dh = Math.min(midSrcH, midEnd - dy)
-      ctx.drawImage(img, 0, SCROLL_BT, sw, dh, dx, dy, dw, dh)
-      dy += dh
-    }
-    ctx.drawImage(img, 0, srcH - SCROLL_BB, sw, SCROLL_BB, dx, y + h - SCROLL_BB, dw, SCROLL_BB)
-  }
-  col(left, x, left.width, left.width) // 左帽
-  const endX = x + w - right.width
-  let cx = x + left.width
-  while (cx < endX) {
-    const dw = Math.min(mid.width, endX - cx) // 中段横向 tile(末块裁剪)
-    col(mid, cx, dw, dw)
-    cx += dw
-  }
-  col(right, endX, right.width, right.width) // 右帽
-}
 
 function formatTime(ms: number): string {
   const d = new Date(ms)
@@ -108,7 +70,7 @@ export function drawSaveBrowser(
 ): void {
   if (!state.active) return
   const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL
-  const cb = assets.cashBox
+  const cb = assets.scroll
   const boxW = PANEL_RIGHT - PANEL_X
   const rx = PANEL_X + boxW - 8 // 文本右界(时间右对齐到此)
 
@@ -153,7 +115,7 @@ export function drawSaveBrowser(
         ? blink
         : COLOR_NORMAL
 
-    drawScrollBox(ctx, cb, PANEL_X, cy, boxW, BOX_H)
+    drawSlicedBox(ctx, cb, PANEL_X, cy, boxW, BOX_H, { shadow: false }) // 卷轴 9-slice(scroll tiles)撑满槽
 
     // 选中光标:三角(同翻页风格,带黑阴影;框内,竖直居中=框心);色用 blink → 六色流光炫彩
     if (selected) fillTriangle(ctx, PANEL_X + 10, cy + BOX_H / 2, 4, 'right', labelColor)

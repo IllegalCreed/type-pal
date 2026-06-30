@@ -57,7 +57,7 @@ export function drawSystemMenu(
   if (state.phase === 'confirm') {
     drawConfirmBox(
       ctx,
-      assets.cashBox,
+      assets.scroll,
       {
         leftText: lookupText('menu.system.no', locale),
         rightText: lookupText('menu.system.yes', locale),

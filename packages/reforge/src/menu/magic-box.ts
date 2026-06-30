@@ -4,7 +4,7 @@ import type { WorldState } from '@type-pal/content'
 import type { MagicMenuState } from '../magic-menu-state.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
-import { drawCashBox, drawSlicedBox, type MenuAssets } from './menu-box.js'
+import { drawScroll, drawSlicedBox, type MenuAssets } from './menu-box.js'
 
 // ── 网格(红框)──
 const GRID_X = 10
@@ -105,7 +105,7 @@ export function drawMagicMenu(
   })
 
   // ② MP box:needed(黄)/ slash / current(青)
-  drawCashBox(ctx, assets.cashBox, 0, 0, MP_BOX_LEN)
+  drawScroll(ctx, assets.scroll, 0, 0, MP_BOX_LEN)
   if (sel) drawNumRight(ctx, sel.cost.mp ?? 0, MP_NEEDED_X, MP_NUM_Y, assets.nums)
   if (assets.slash) ctx.drawImage(assets.slash, MP_SLASH_X, MP_NUM_Y)
   if (caster) drawNumRight(ctx, caster.mp, MP_CUR_X, MP_NUM_Y, assets.numsCyan)

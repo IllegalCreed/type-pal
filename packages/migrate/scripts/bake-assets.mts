@@ -30,6 +30,30 @@ function bakeFile(src: string, dst: string): void {
   writeFileSync(dst, PNG.sync.write(out))
 }
 
+/** bake + 裁子区域 (sx,sy,sw,sh) → 写 PNG。用于把单行卷轴 / itembox 切成九宫格 tile。 */
+function bakeSlice(src: string, dst: string, sx: number, sy: number, sw: number, sh: number): void {
+  const png = PNG.sync.read(readFileSync(src))
+  const baked = bakeIndexedRgba(png.data, palette)
+  const out = new PNG({ width: sw, height: sh })
+  for (let y = 0; y < sh; y++) {
+    for (let x = 0; x < sw; x++) {
+      const si = ((sy + y) * png.width + (sx + x)) * 4
+      const di = (y * sw + x) * 4
+      out.data[di] = baked[si] ?? 0
+      out.data[di + 1] = baked[si + 1] ?? 0
+      out.data[di + 2] = baked[si + 2] ?? 0
+      out.data[di + 3] = baked[si + 3] ?? 0
+    }
+  }
+  writeFileSync(dst, PNG.sync.write(out))
+}
+
+/** 读 PNG 尺寸(切片前算 band)。 */
+function pngSize(src: string): { w: number; h: number } {
+  const png = PNG.sync.read(readFileSync(src))
+  return { w: png.width, h: png.height }
+}
+
 // 1) 头像(收编 bake-portraits):chunk 1/2(鬼话用;后续可扩到全 88)
 mkdirSync(resolve(PUBLIC, 'portraits'), { recursive: true })
 for (const chunk of [1, 2]) {
@@ -58,20 +82,34 @@ for (let d = 0; d <= 9; d++) {
   console.log(`baked num ${d}`)
 }
 
-// 4) 金钱横卷轴(gpSpriteUI frame 44/45/46 = 左/中/右;PAL_CreateSingleLineBox)
-mkdirSync(resolve(PUBLIC, 'ui/cashbox'), { recursive: true })
-const cashFrames: [number, string][] = [
-  [44, 'left'],
-  [45, 'mid'],
-  [46, 'right'],
-]
-for (const [frame, name] of cashFrames) {
-  bakeFile(
-    resolve(EXTRACTED, `images/ui/frame-${String(frame).padStart(2, '0')}.png`),
-    resolve(PUBLIC, `ui/cashbox/${name}.png`),
-  )
-  console.log(`baked cashbox ${name}`)
-}
+// 4) 卷轴 scroll(原「金钱框」frame 44/45/46 = 左/中/右单行卷轴;通用:金钱/否是确认/存档槽都用)。
+//    重切九宫格 frame-00..08:每列(左44/中45/右46)纵向切 上边框 / 中段(纯色,平铺) / 下边框。
+//    BoxTiles 索引 i*3+j(i 行 0上/1中/2下,j 列 0左/1中/2右)→ drawSlicedBox 撑任意高宽。
+mkdirSync(resolve(PUBLIC, 'ui/scroll'), { recursive: true })
+const SCROLL_BORDER = 4 // 上下边框各 4px(实测 frame 44/45/46:y0-3 上 / y30-33 下 / y4-29 中段纯色)
+const scrollFrames = [44, 45, 46] // 左/中/右
+scrollFrames.forEach((frame, j) => {
+  const src = resolve(EXTRACTED, `images/ui/frame-${String(frame).padStart(2, '0')}.png`)
+  const { h } = pngSize(src)
+  const bands: [number, number][] = [
+    [0, SCROLL_BORDER], // 上边框
+    [SCROLL_BORDER, h - 2 * SCROLL_BORDER], // 中段(平铺)
+    [h - SCROLL_BORDER, SCROLL_BORDER], // 下边框
+  ]
+  bands.forEach(([sy, sh], i) => {
+    const idx = i * 3 + j
+    const { w } = pngSize(src)
+    bakeSlice(
+      src,
+      resolve(PUBLIC, `ui/scroll/frame-${String(idx).padStart(2, '0')}.png`),
+      0,
+      sy,
+      w,
+      sh,
+    )
+  })
+})
+console.log('baked scroll 9-slice (frame 00-08)')
 
 // 5) 蓝数字(gpSpriteUI frame 29-38 = 0-9;PAL_DrawNumber kNumColorBlue,HP/MP 最大值)
 mkdirSync(resolve(PUBLIC, 'ui/num-blue'), { recursive: true })
@@ -125,8 +163,32 @@ bakeFile(resolve(EXTRACTED, 'images/ui/frame-68.png'), resolve(PUBLIC, 'ui/curso
 bakeFile(resolve(EXTRACTED, 'images/ui/frame-69.png'), resolve(PUBLIC, 'ui/cursor/grid.png'))
 console.log('baked magic-menu sprites (red box / playerbox / face / cursor)')
 
-// 9) 物品详情框(SPRITENUM_ITEMBOX 70;物品/装备列表底部选中物图标框)
-bakeFile(resolve(EXTRACTED, 'images/ui/frame-70.png'), resolve(PUBLIC, 'ui/itembox.png'))
-console.log('baked itembox')
+// 9) 物品详情框 itembox(SPRITENUM_ITEMBOX 70)。重切九宫格 frame-00..08(角 8px)→ drawSlicedBox 任意尺寸;
+//    64×64 处各区恰好 1 tile、无平铺 → 与原图逐像素一致;将来可扩宽高。
+mkdirSync(resolve(PUBLIC, 'ui/itembox'), { recursive: true })
+const ibSrc = resolve(EXTRACTED, 'images/ui/frame-70.png')
+const IB = 8 // itembox 边框(角)
+const ib = pngSize(ibSrc)
+const ibColX = [0, IB, ib.w - IB]
+const ibColW = [IB, ib.w - 2 * IB, IB]
+const ibRowY = [0, IB, ib.h - IB]
+const ibRowH = [IB, ib.h - 2 * IB, IB]
+for (let i = 0; i < 3; i++) {
+  const sy = ibRowY[i] ?? 0
+  const sh = ibRowH[i] ?? 0
+  for (let j = 0; j < 3; j++) {
+    const sx = ibColX[j] ?? 0
+    const sw = ibColW[j] ?? 0
+    bakeSlice(
+      ibSrc,
+      resolve(PUBLIC, `ui/itembox/frame-${String(i * 3 + j).padStart(2, '0')}.png`),
+      sx,
+      sy,
+      sw,
+      sh,
+    )
+  }
+}
+console.log('baked itembox 9-slice (frame 00-08)')
 
 console.log('done.')

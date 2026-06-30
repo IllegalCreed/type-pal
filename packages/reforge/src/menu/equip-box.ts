@@ -97,7 +97,7 @@ function drawEquipPickRole(
   const sel = state.selectedItemId ? DEMO_ITEMS[state.selectedItemId] : undefined
 
   // ① 左:选中物 — 纵向卷轴框(frame-70)+ 图标(卷面居中)+ 数量(青)+ 名(金,左对齐)
-  if (assets.itembox) ctx.drawImage(assets.itembox, PR_IMAGE_BOX.x, PR_IMAGE_BOX.y)
+  drawSlicedBox(ctx, assets.itembox, PR_IMAGE_BOX.x, PR_IMAGE_BOX.y, 64, 64, { shadow: false })
   if (sel) {
     const icon = assets.itemIcons[sel.icon]
     if (icon) {

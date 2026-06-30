@@ -225,65 +225,26 @@ export function drawNumberLeft(
 }
 
 /**
- * 金钱横卷轴(原版 PAL_CreateSingleLineBox):左头 + 中段×nLen + 右头。frame 44/45/46。
- * 阴影(原版 PAL_CreateSingleLineBoxWithShadow,+6 偏移):整框画到离屏 → source-in 染黑
- * 剪影 → alpha 0.35 偏移 +6 画到主 canvas(同 drawBoxShadow 思路,保卷轴镂空形状)。
+ * 单行卷轴(原版 PAL_CreateSingleLineBox):左帽 + 中段×nLen + 右帽,高=自然(上+中+下边)。
+ * 卷轴现为九宫格 9 块(scroll BoxTiles):本函数按 nLen 算宽 + 自然高,转 drawSlicedBox 撑出
+ * (撑成 = 原单行卷轴逐像素一致;阴影/形状由 drawSlicedBox 的 drawBoxShadow 保留)。
  */
-export function drawCashBox(
+export function drawScroll(
   ctx: CanvasRenderingContext2D,
-  box: { left?: ImageBitmap; mid?: ImageBitmap; right?: ImageBitmap },
+  scroll: BoxTiles,
   x: number,
   y: number,
   nLen: number,
   opts: { shadow?: boolean } = {},
 ): void {
-  // 离屏画卷轴本体(供阴影剪影)
-  const leftW = box.left?.width ?? 0
-  const midW = box.mid?.width ?? 0
-  const rightW = box.right?.width ?? 0
-  const h = box.left?.height ?? box.mid?.height ?? box.right?.height ?? 0
+  const t = scroll.tiles
+  const leftW = t[3]?.width ?? 0 // 左列(左-中 tile)宽
+  const midW = t[4]?.width ?? 0 // 中列(中-中 tile)宽
+  const rightW = t[5]?.width ?? 0
+  const h = (t[1]?.height ?? 0) + (t[4]?.height ?? 0) + (t[7]?.height ?? 0) // 上+中+下
   const w = leftW + midW * nLen + rightW
   if (w <= 0 || h <= 0) return
-
-  const off = document.createElement('canvas')
-  off.width = w
-  off.height = h
-  const octx = off.getContext('2d')
-  if (!octx) return
-  octx.imageSmoothingEnabled = false
-  let cx = 0
-  if (box.left) {
-    octx.drawImage(box.left, cx, 0)
-    cx += box.left.width
-  }
-  if (box.mid) {
-    for (let i = 0; i < nLen; i++) {
-      octx.drawImage(box.mid, cx, 0)
-      cx += box.mid.width
-    }
-  }
-  if (box.right) octx.drawImage(box.right, cx, 0)
-
-  // 阴影:离屏 source-in 染黑 → 主 canvas alpha 偏移 +6
-  if (opts.shadow !== false) {
-    const shadowOff = document.createElement('canvas')
-    shadowOff.width = w
-    shadowOff.height = h
-    const sctx = shadowOff.getContext('2d')
-    if (sctx) {
-      sctx.drawImage(off, 0, 0)
-      sctx.globalCompositeOperation = 'source-in'
-      sctx.fillStyle = '#000'
-      sctx.fillRect(0, 0, w, h)
-      ctx.save()
-      ctx.globalAlpha = 0.35
-      ctx.drawImage(shadowOff, x + 6, y + 6)
-      ctx.restore()
-    }
-  }
-
-  // 本体
-  ctx.drawImage(off, x, y)
+  drawSlicedBox(ctx, scroll, x, y, w, h, opts)
 }
 
 /** 确认框(否/是 或 关/开):左框(130,100)len2 + 右框(205,100)len2 + 文字。
@@ -291,14 +252,14 @@ export function drawCashBox(
  *  rightSelected=confirmYes:右=是/开 高亮;左=否/关 高亮 = 非右选中。 */
 export function drawConfirmBox(
   ctx: CanvasRenderingContext2D,
-  cashBox: { left?: ImageBitmap; mid?: ImageBitmap; right?: ImageBitmap },
+  scroll: BoxTiles,
   opts: { leftText: string; rightText: string; rightSelected: boolean },
   glyphs: GlyphTable,
   now: number,
 ): void {
   const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL
-  drawCashBox(ctx, cashBox, 130, 100, 2)
-  drawCashBox(ctx, cashBox, 205, 100, 2)
+  drawScroll(ctx, scroll, 130, 100, 2)
+  drawScroll(ctx, scroll, 205, 100, 2)
   renderSpans(ctx, [{ text: opts.leftText }], 145, 110, {
     glyphs,
     shadow: true,
@@ -349,12 +310,8 @@ export interface MenuAssets {
   statusBg: ImageBitmap | undefined
   /** 装备格图。 */
   equipSlot: ImageBitmap | undefined
-  /** 金钱横卷轴 3 帧(左/中/右,frame 44/45/46)。 */
-  cashBox: {
-    left: ImageBitmap | undefined
-    mid: ImageBitmap | undefined
-    right: ImageBitmap | undefined
-  }
+  /** 卷轴 scroll 九宫格 9 块(原单行卷轴 frame 44/45/46 重切;金钱/否是确认/存档槽通用,撑任意高宽)。 */
+  scroll: BoxTiles
   /** 数字 0-9 预烘(索引=数字值)。 */
   nums: (ImageBitmap | undefined)[]
   /** 角色立绘(状态面板;李逍遥 = RGM avatar chunk 1 = portraits/1)。 */
@@ -377,8 +334,8 @@ export interface MenuAssets {
   cursorGrid: ImageBitmap | undefined
   /** 仙术菜单:选人红箭头(cursor/up,frame 67)。 */
   cursorUp: ImageBitmap | undefined
-  /** 物品/装备列表:选中物详情框(itembox,frame 70)。 */
-  itembox: ImageBitmap | undefined
+  /** 物品/装备列表:选中物详情框 itembox 九宫格 9 块(frame 70 重切;64×64 处与原图一致,可扩尺寸)。 */
+  itembox: BoxTiles
 }
 
 /** 加载 PNG → ImageBitmap;失败返回 undefined(不阻断,渲染容错)。 */
@@ -408,19 +365,25 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
   for (let i = 0; i <= 8; i++) {
     redTiles.push(await loadPng(`/ui/box-red/frame-${String(i).padStart(2, '0')}.png`))
   }
-  const [statusBg, equipSlot, left, mid, right, nums, avatar, numsBlue, numsCyan, slash] =
-    await Promise.all([
-      loadPng('/ui/status/bg.png'),
-      loadPng('/ui/status/slot.png'),
-      loadPng('/ui/cashbox/left.png'),
-      loadPng('/ui/cashbox/mid.png'),
-      loadPng('/ui/cashbox/right.png'),
-      Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num/${d}.png`))),
-      loadPng('/portraits/1.png'), // 李逍遥状态立绘(RGM avatar chunk 1,复用对话头像)
-      Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num-blue/${d}.png`))),
-      Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num-cyan/${d}.png`))),
-      loadPng('/ui/num/slash.png'),
-    ])
+  // 卷轴 scroll 9 块(原单行卷轴重切;金钱/否是/存档槽通用,撑任意高宽)
+  const scrollTiles: (ImageBitmap | undefined)[] = []
+  for (let i = 0; i <= 8; i++) {
+    scrollTiles.push(await loadPng(`/ui/scroll/frame-${String(i).padStart(2, '0')}.png`))
+  }
+  // 物品详情框 itembox 9 块(frame 70 重切)
+  const itemboxTiles: (ImageBitmap | undefined)[] = []
+  for (let i = 0; i <= 8; i++) {
+    itemboxTiles.push(await loadPng(`/ui/itembox/frame-${String(i).padStart(2, '0')}.png`))
+  }
+  const [statusBg, equipSlot, nums, avatar, numsBlue, numsCyan, slash] = await Promise.all([
+    loadPng('/ui/status/bg.png'),
+    loadPng('/ui/status/slot.png'),
+    Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num/${d}.png`))),
+    loadPng('/portraits/1.png'), // 李逍遥状态立绘(RGM avatar chunk 1,复用对话头像)
+    Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num-blue/${d}.png`))),
+    Promise.all(Array.from({ length: 10 }, (_, d) => loadPng(`/ui/num-cyan/${d}.png`))),
+    loadPng('/ui/num/slash.png'),
+  ])
   // 物品图标(按 item.icon = bitmap chunk;状态板/装备菜单数据驱动渲染)
   const iconChunks = [...new Set(Object.values(DEMO_ITEMS).map((it) => it.icon))]
   const iconArr = await Promise.all(iconChunks.map((ch) => loadPng(`/ui/items/${ch}.png`)))
@@ -429,18 +392,17 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     itemIcons[ch] = iconArr[i]
   })
   // 仙术菜单专用 sprite(角色框 / 头像 / 网格光标)
-  const [magicPlayerBox, magicFace, cursorGrid, cursorUp, itembox] = await Promise.all([
+  const [magicPlayerBox, magicFace, cursorGrid, cursorUp] = await Promise.all([
     loadPng('/ui/magic/playerbox.png'),
     loadPng('/ui/magic/face-0.png'),
     loadPng('/ui/cursor/grid.png'),
     loadPng('/ui/cursor/up.png'),
-    loadPng('/ui/itembox.png'),
   ])
   return {
     box: { tiles },
     statusBg,
     equipSlot,
-    cashBox: { left, mid, right },
+    scroll: { tiles: scrollTiles },
     nums,
     avatar,
     numsBlue,
@@ -452,7 +414,7 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     magicFace,
     cursorGrid,
     cursorUp,
-    itembox,
+    itembox: { tiles: itemboxTiles },
   }
 }
 
@@ -487,7 +449,7 @@ export class MenuBox {
     now: number,
   ): void {
     // 金钱横卷轴(原版主菜单顶部 PAL_ShowCash):卷轴 (0,0) + 「金钱」label (10,10) + 黄数字右对齐
-    drawCashBox(ctx, this.assets.cashBox, 0, 0, 5, { shadow: true })
+    drawScroll(ctx, this.assets.scroll, 0, 0, 5, { shadow: true })
     renderSpans(ctx, [{ text: lookupText('menu.cash', this.locale) }], 10, 10, {
       glyphs: this.glyphs,
       shadow: true,

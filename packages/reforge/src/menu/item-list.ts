@@ -72,7 +72,7 @@ export function drawItemGridList(
   })
 
   // 底部:itembox + 选中物图标 + 多行描述(浅黄)
-  if (assets.itembox) ctx.drawImage(assets.itembox, ITEMBOX_X, ITEMBOX_Y)
+  drawSlicedBox(ctx, assets.itembox, ITEMBOX_X, ITEMBOX_Y, 64, 64, { shadow: false }) // 9-slice;64×64 与原图一致
   const sel = items[cursor]
   if (sel) {
     const icon = assets.itemIcons[sel.icon]
