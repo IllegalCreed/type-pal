@@ -45,10 +45,20 @@ import {
 import { drawEquipMenu } from './menu/equip-box.js'
 import { drawMagicMenu } from './menu/magic-box.js'
 import { loadMenuAssets, MenuBox } from './menu/menu-box.js'
+import { drawSystemMenu } from './menu/system-box.js'
 import { drawUseMenu } from './menu/use-box.js'
 import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './menu-state.js'
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type SpriteDraw } from './render.js'
+import {
+  closeSystemMenu,
+  openSystemMenu,
+  type SystemMenuState,
+  systemConfirm,
+  systemConfirmYes,
+  systemMoveCursor,
+  systemToggleConfirm,
+} from './system-menu-state.js'
 import {
   closeUseMenu,
   openUseMenu,
@@ -162,6 +172,9 @@ async function main(): Promise<void> {
   let useMenu: UseMenuState = closeUseMenu()
   let lastUseCursor = 0 // 使用面板光标记忆(原版 iCurInvMenuItem;跨开关恢复)
   let statusIdx = 0 // 状态板当前查看的队员索引(原版 iCurrent;方向键切人,越界关菜单)
+  let systemMenu: SystemMenuState = closeSystemMenu()
+  let lastSystemCursor = 0 // 系统菜单光标记忆(原版 iCurSystemMenuItem;跨开关恢复)
+  let systemPlaceholder: string | undefined // 占位提示文案 id(选占位项后短暂显示)
   let facing: Facing = guijieMinjuScene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位
@@ -224,6 +237,16 @@ async function main(): Promise<void> {
         drawEquipMenu(ctx, equipMenu, world, menuAssets, glyphs, performance.now(), zhLocale)
       } else if (menu.openPanel === 'use') {
         drawUseMenu(ctx, useMenu, world, menuAssets, glyphs, performance.now(), zhLocale)
+      } else if (menu.openPanel === 'system') {
+        drawSystemMenu(
+          ctx,
+          systemMenu,
+          menuAssets,
+          glyphs,
+          performance.now(),
+          zhLocale,
+          systemPlaceholder,
+        )
       } else {
         menuBox.render(ctx, menu, world, performance.now(), statusIdx)
       }
@@ -401,9 +424,53 @@ async function main(): Promise<void> {
         } else if (esc) {
           menu = back(menu)
         }
-      } else if (menu.openPanel) {
-        // system 面板:Esc 关面板(暂为占位)
-        if (esc) menu = back(menu)
+      } else if (menu.openPanel === 'system') {
+        // 系统菜单:menu 阶段网格选 / confirm 阶段确认框;quit-否/Esc → back(menu) 回主菜单 hub
+        // (不复刻原版「弹回大世界」;详见 system-menu-plan.md Task C)
+        if (systemMenu.phase === 'confirm') {
+          // 确认框:四方向 toggle 是/否;Enter 确认;Esc = 否(回 hub)
+          if (
+            pressed.has('ArrowUp') ||
+            pressed.has('ArrowDown') ||
+            pressed.has('ArrowLeft') ||
+            pressed.has('ArrowRight')
+          ) {
+            systemMenu = systemToggleConfirm(systemMenu)
+          } else if (interact || esc) {
+            const wantYes = interact ? systemMenu.confirmYes : false // Esc = 否
+            systemMenu = { ...systemMenu, confirmYes: wantYes }
+            const r = systemConfirmYes(systemMenu)
+            if (r.action?.kind === 'quit') {
+              // 退出(本期占位:无标题屏,只提示)
+              systemPlaceholder = 'menu.not-implemented'
+              systemMenu = closeSystemMenu()
+              menu = back(menu)
+            } else {
+              lastSystemCursor = systemMenu.cursor
+              systemMenu = closeSystemMenu()
+              menu = back(menu) // 否/Esc → 回主菜单 hub(非弹回大世界)
+            }
+          }
+        } else {
+          // menu 阶段:方向键选;Enter 确认(quit→confirm / 占位→提示);Esc 回 hub
+          if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) {
+            systemMenu = systemMoveCursor(systemMenu, 'up')
+            systemPlaceholder = undefined
+          }
+          if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) {
+            systemMenu = systemMoveCursor(systemMenu, 'down')
+            systemPlaceholder = undefined
+          }
+          if (interact) {
+            const r = systemConfirm(systemMenu)
+            systemMenu = r.state
+            if (r.action?.kind === 'placeholder') systemPlaceholder = 'menu.not-implemented' // 占位项 → 提示
+          } else if (esc) {
+            lastSystemCursor = systemMenu.cursor
+            systemMenu = closeSystemMenu()
+            menu = back(menu)
+          }
+        }
       } else {
         // 菜单级联导航(Left=Up / Right=Down,对齐 DL21 kKeyUp|kKeyLeft / kKeyDown|kKeyRight)
         if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) menu = moveCursor(menu, -1)
@@ -420,6 +487,9 @@ async function main(): Promise<void> {
             useMenu = openUseMenu(world, lastUseCursor) // 恢复上次光标(原版 iCurInvMenuItem)
           } else if (menu.openPanel === 'status') {
             statusIdx = 0 // 开状态板从首位队员看起
+          } else if (menu.openPanel === 'system') {
+            systemMenu = openSystemMenu(lastSystemCursor) // 恢复上次光标(原版 iCurSystemMenuItem)
+            systemPlaceholder = undefined
           }
         }
         if (esc) menu = back(menu)

@@ -37,8 +37,8 @@ describe('多级菜单(树 + 级联栈)', () => {
     s = back(s)
     expect(s.active).toBe(false) // 单层 → 关
   })
-  test('disabled 叶子(系统)不开 panel', () => {
-    expect(confirm(moveCursor(openMenu(), 3)).openPanel).toBeUndefined() // idx3 = 系统(disabled)
+  test('enabled 叶子(系统)开 panel', () => {
+    expect(confirm(moveCursor(openMenu(), 3)).openPanel).toBe('system') // idx3 = 系统(已启用)
   })
   test('面板打开时 moveCursor/confirm 不动', () => {
     const open = confirm(openMenu()) // status panel

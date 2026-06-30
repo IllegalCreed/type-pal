@@ -24,7 +24,7 @@ export const MAIN_MENU: MenuNode[] = [
       { id: 'use', label: 'menu.use', panel: 'use' },
     ],
   },
-  { id: 'system', label: 'menu.system', panel: 'system', enabled: false },
+  { id: 'system', label: 'menu.system', panel: 'system' },
 ]
 
 interface MenuLevel {
