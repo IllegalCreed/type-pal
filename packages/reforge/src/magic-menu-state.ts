@@ -1,6 +1,6 @@
-// 仙术菜单状态机(纯逻辑;非视觉)。数据来自地基 learnedSkills → DEMO_SKILLS。
+// 仙术菜单状态机(纯逻辑;非视觉)。数据来自地基 learnedSkills → skills 表(调用方注入)。
 // 参考一阶段 game in-game-magic-menu.ts 的 moveSpellGrid。
-import { DEMO_SKILLS, type SkillData, type WorldState } from '@type-pal/content'
+import type { SkillData, SkillDataMap, WorldState } from '@type-pal/content'
 
 /** 原版仙术网格列数(draw-magic.ts:3 列)。 */
 export const MAGIC_GRID_COLS = 3
@@ -12,13 +12,18 @@ export interface MagicMenuState {
   cursor: number // 选中索引(0-based,flat)
 }
 
-/** 解析角色当前可在大世界用的仙术:learnedSkills[casterId] → DEMO_SKILLS → 过滤 usableOutsideBattle。
+/** 解析角色当前可在大世界用的仙术:learnedSkills[casterId] → skills → 过滤 usableOutsideBattle。
+ *  skills 表由调用方注入(去全局化:不再直接 import DEMO_SKILLS)。
  *  注:MP 不足的"禁用"判定目前在渲染层(magic-box 按 caster.mp >= cost.mp 灰显),查看版够用。
  *  将来支持施法(选 MP 不足的仙术应 no-op)时,disabled 判定应上移到这里/状态机,别让壳层盲选。 */
-export function resolveOutdoorSkills(world: WorldState, casterId: string): SkillData[] {
+export function resolveOutdoorSkills(
+  world: WorldState,
+  casterId: string,
+  skills: SkillDataMap,
+): SkillData[] {
   const ids = world.learnedSkills[casterId] ?? []
   return ids
-    .map((id) => DEMO_SKILLS[id])
+    .map((id) => skills[id])
     .filter((s): s is SkillData => s != null)
     .filter((s) => s.usableOutsideBattle)
 }

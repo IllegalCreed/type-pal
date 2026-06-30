@@ -63,6 +63,9 @@ export interface ItemData {
   throw?: ThrowSpec
 }
 
+/** 物品数据表(id → ItemData)。去全局化:操作物品的函数收这个类型(显式注入),不再默认吃 DEMO_ITEMS。 */
+export type ItemDataMap = Record<string, ItemData>
+
 /**
  * demo 物品 —— 李逍遥的 6 件装备 + 1 颗双重身份灵珠。
  * 真值:slot/effect 解码自 scriptOnEquip 字节码(events/all.json),delta 经 equip-effect.ts row 表确认:
@@ -242,7 +245,7 @@ export function effectiveStat(
 export function equippableItems(
   world: WorldState,
   casterId: string,
-  items: Record<string, ItemData> = DEMO_ITEMS,
+  items: ItemDataMap,
 ): ItemData[] {
   const member = world.party.find((c) => c.id === casterId)
   if (!member) return []
@@ -279,7 +282,7 @@ export function equipItem(
   world: WorldState,
   casterId: string,
   itemId: string,
-  items: Record<string, ItemData> = DEMO_ITEMS,
+  items: ItemDataMap,
 ): WorldState {
   const item = items[itemId]
   const slot = item?.equip?.slot
@@ -310,10 +313,7 @@ export function equippedItemIds(world: WorldState): Set<string> {
 
 /** 使用菜单列表:背包里有 use 能力块的 + 穿戴中但本身可用的(灵珠系)。
  *  后者照搬原版 itemmenu.c:136-145 —— 灵珠穿着也能用(如土灵珠脱离洞窟),渲染层标绿。 */
-export function usableItems(
-  world: WorldState,
-  items: Record<string, ItemData> = DEMO_ITEMS,
-): ItemData[] {
+export function usableItems(world: WorldState, items: ItemDataMap): ItemData[] {
   const invUsable = world.inventory
     .filter((e) => e.count > 0)
     .map((e) => items[e.itemId])
@@ -333,7 +333,7 @@ export function useItem(
   world: WorldState,
   targetCharId: string,
   itemId: string,
-  items: Record<string, ItemData> = DEMO_ITEMS,
+  items: ItemDataMap,
 ): WorldState {
   const item = items[itemId]
   const target = world.party.find((c) => c.id === targetCharId)

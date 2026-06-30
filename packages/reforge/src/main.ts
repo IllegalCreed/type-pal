@@ -1,4 +1,6 @@
 import {
+  DEMO_ITEMS,
+  DEMO_SKILLS,
   type Dialogue,
   type EntityDef,
   type Facing,
@@ -179,8 +181,8 @@ async function main(): Promise<void> {
   const player: { pos: GridPos } = { pos: { ...guijieMinjuScene.entry.pos } }
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits)
   let world = initialWorld()
-  const menuAssets = await loadMenuAssets()
-  const menuBox = new MenuBox(glyphs, zhLocale, menuAssets)
+  const menuAssets = await loadMenuAssets(DEMO_ITEMS)
+  const menuBox = new MenuBox(glyphs, zhLocale, menuAssets, DEMO_ITEMS)
   let menu: MenuState = CLOSED
   let magicMenu: MagicMenuState = closeMagicMenu()
   let equipMenu: EquipMenuState = closeEquipMenu()
@@ -332,9 +334,27 @@ async function main(): Promise<void> {
       } else if (menu.openPanel === 'magic') {
         drawMagicMenu(ctx, magicMenu, world, menuAssets, glyphs, performance.now())
       } else if (menu.openPanel === 'equip') {
-        drawEquipMenu(ctx, equipMenu, world, menuAssets, glyphs, performance.now(), zhLocale)
+        drawEquipMenu(
+          ctx,
+          equipMenu,
+          world,
+          menuAssets,
+          glyphs,
+          performance.now(),
+          zhLocale,
+          DEMO_ITEMS,
+        )
       } else if (menu.openPanel === 'use') {
-        drawUseMenu(ctx, useMenu, world, menuAssets, glyphs, performance.now(), zhLocale)
+        drawUseMenu(
+          ctx,
+          useMenu,
+          world,
+          menuAssets,
+          glyphs,
+          performance.now(),
+          zhLocale,
+          DEMO_ITEMS,
+        )
       } else {
         // 级联(主菜单常驻;status 全屏分流在 render 内)。系统菜单 = 叠在主菜单级联上的子层。
         menuBox.render(ctx, menu, world, performance.now(), statusIdx)
@@ -515,11 +535,11 @@ async function main(): Promise<void> {
         if (equipMenu.phase === 'pick-role') {
           // 确认面板:Enter 换上(equipApply 回写 world)/ Esc 回列表
           if (interact) {
-            const r = equipApply(equipMenu, world)
+            const r = equipApply(equipMenu, world, DEMO_ITEMS)
             world = r.world
             equipMenu = r.state
           } else if (esc) {
-            equipMenu = equipBackToList(equipMenu, world)
+            equipMenu = equipBackToList(equipMenu, world, DEMO_ITEMS)
           }
         } else {
           // list:网格选可装物 + Enter 进确认面板 + Esc 关装备面板
@@ -537,7 +557,7 @@ async function main(): Promise<void> {
         if (useMenu.phase === 'pick-target') {
           // 选目标:Enter 施用(useApply 回写 world)/ Esc 回列表
           if (interact) {
-            const r = useApply(useMenu, world, world.party[0]?.id ?? '')
+            const r = useApply(useMenu, world, world.party[0]?.id ?? '', DEMO_ITEMS)
             world = r.world
             useMenu = r.state
           } else if (esc) {
@@ -550,7 +570,7 @@ async function main(): Promise<void> {
           if (pressed.has('ArrowLeft')) useMenu = useMoveCursor(useMenu, 'left')
           if (pressed.has('ArrowRight')) useMenu = useMoveCursor(useMenu, 'right')
           if (interact) {
-            const r = useConfirm(useMenu, world)
+            const r = useConfirm(useMenu, world, DEMO_ITEMS)
             if (r.kind === 'direct') world = r.world // 脚本/全体类:已直接执行,回写 world
             useMenu = r.state
           }
@@ -634,11 +654,13 @@ async function main(): Promise<void> {
           const caster = world.party[0]
           // 进面板初始化子态:仙术解析可用 / 装备解析可装
           if (menu.openPanel === 'magic') {
-            magicMenu = openMagicMenu(caster ? resolveOutdoorSkills(world, caster.id) : [])
+            magicMenu = openMagicMenu(
+              caster ? resolveOutdoorSkills(world, caster.id, DEMO_SKILLS) : [],
+            )
           } else if (menu.openPanel === 'equip' && caster) {
-            equipMenu = openEquipMenu(world, caster.id)
+            equipMenu = openEquipMenu(world, caster.id, DEMO_ITEMS)
           } else if (menu.openPanel === 'use') {
-            useMenu = openUseMenu(world, lastUseCursor) // 恢复上次光标(原版 iCurInvMenuItem)
+            useMenu = openUseMenu(world, DEMO_ITEMS, lastUseCursor) // 恢复上次光标(原版 iCurInvMenuItem)
           } else if (menu.openPanel === 'status') {
             statusIdx = 0 // 开状态板从首位队员看起
           } else if (menu.openPanel === 'system') {

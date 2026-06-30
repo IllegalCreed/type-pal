@@ -5,7 +5,13 @@
 //  - 脚本/全体类(triggerScript / target≠oneAlly,如土灵珠脱离洞窟、圣灵符全体)→ 不选目标,直接执行
 //    (原版 applyToAll:RunScript; consume; return)。
 //  - 光标跨开关记忆(原版 iCurInvMenuItem)→ openUseMenu 收 initialCursor,记忆由 main.ts 持有。
-import { type ItemData, usableItems, useItem, type WorldState } from '@type-pal/content'
+import {
+  type ItemData,
+  type ItemDataMap,
+  usableItems,
+  useItem,
+  type WorldState,
+} from '@type-pal/content'
 
 export const USE_GRID_COLS = 3
 
@@ -18,10 +24,14 @@ export interface UseMenuState {
 }
 
 /** initialCursor:重开使用面板时恢复上次光标(原版 iCurInvMenuItem;越界 clamp 到末项)。 */
-export function openUseMenu(world: WorldState, initialCursor = 0): UseMenuState {
-  const items = usableItems(world)
-  const cursor = items.length === 0 ? 0 : Math.min(Math.max(0, initialCursor), items.length - 1)
-  return { active: true, phase: 'pick-item', items, cursor }
+export function openUseMenu(
+  world: WorldState,
+  items: ItemDataMap,
+  initialCursor = 0,
+): UseMenuState {
+  const list = usableItems(world, items)
+  const cursor = list.length === 0 ? 0 : Math.min(Math.max(0, initialCursor), list.length - 1)
+  return { active: true, phase: 'pick-item', items: list, cursor }
 }
 
 export function closeUseMenu(): UseMenuState {
@@ -49,7 +59,11 @@ export type UseConfirmResult =
   | { kind: 'direct'; world: WorldState; state: UseMenuState }
 
 /** pick-item Enter:单体(oneAlly)进选目标面板;脚本/全体类直接执行(不选目标)。 */
-export function useConfirm(s: UseMenuState, world: WorldState): UseConfirmResult {
+export function useConfirm(
+  s: UseMenuState,
+  world: WorldState,
+  items: ItemDataMap,
+): UseConfirmResult {
   if (s.phase !== 'pick-item') return { kind: 'pick-target', state: s }
   const sel = s.items[s.cursor]
   if (!sel) return { kind: 'pick-target', state: s }
@@ -58,8 +72,8 @@ export function useConfirm(s: UseMenuState, world: WorldState): UseConfirmResult
   }
   // 脚本/全体类:直接执行(脱离洞窟等脚本 / 全体回复)。demo:triggerScript 为桩 → 无视觉变化;
   // 真脚本系统建好后由 triggerScript 实跑(可能换场景/关菜单)。光标留原处(记忆)。
-  const next = useItem(world, world.party[0]?.id ?? '', sel.id)
-  return { kind: 'direct', world: next, state: openUseMenu(next, s.cursor) }
+  const next = useItem(world, world.party[0]?.id ?? '', sel.id, items)
+  return { kind: 'direct', world: next, state: openUseMenu(next, items, s.cursor) }
 }
 
 /** pick-target Esc → 回 pick-item(光标留在该物上)。 */
@@ -74,11 +88,12 @@ export function useApply(
   s: UseMenuState,
   world: WorldState,
   targetCharId: string,
+  items: ItemDataMap,
 ): { world: WorldState; state: UseMenuState } {
   if (s.phase !== 'pick-target' || !s.selectedItemId) return { world, state: s }
-  const next = useItem(world, targetCharId, s.selectedItemId)
-  const stillUsable = usableItems(next).some((it) => it.id === s.selectedItemId)
+  const next = useItem(world, targetCharId, s.selectedItemId, items)
+  const stillUsable = usableItems(next, items).some((it) => it.id === s.selectedItemId)
   return stillUsable
     ? { world: next, state: s } // 还有 → 留选目标连用(选中/光标不变)
-    : { world: next, state: openUseMenu(next, 0) } // 用光 → 回列表重算
+    : { world: next, state: openUseMenu(next, items, 0) } // 用光 → 回列表重算
 }

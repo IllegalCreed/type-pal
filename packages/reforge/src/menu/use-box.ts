@@ -5,8 +5,8 @@
 // 坐标 = 一阶段 draw-inventory.ts drawItemUseMenu 真值(uigame.c:1289-1473)。320 逻辑坐标,调用方已 ctx.scale。
 import {
   type CombatStat,
-  DEMO_ITEMS,
   effectiveStat,
+  type ItemDataMap,
   type Locale,
   lookupText,
   type TextId,
@@ -72,6 +72,7 @@ export function drawUseMenu(
   glyphs: GlyphTable,
   now: number,
   locale: Locale,
+  items: ItemDataMap,
 ): void {
   // ① 整宽物品列表(两阶段都画;pick-target 时右两列被黄框盖)
   drawItemGridList(ctx, state.items, state.cursor, world, assets, glyphs, now)
@@ -79,7 +80,7 @@ export function drawUseMenu(
 
   const caster = world.party[0] // demo 单人 = 目标
   if (!caster) return
-  const sel = state.selectedItemId ? DEMO_ITEMS[state.selectedItemId] : undefined
+  const sel = state.selectedItemId ? items[state.selectedItemId] : undefined
 
   // ② 右侧黄框(主菜单九宫格 style 0)
   drawSlicedBox(ctx, assets.box, UB_BOX.x, UB_BOX.y, UB_BOX.w, UB_BOX.h)
@@ -102,7 +103,7 @@ export function drawUseMenu(
       if (assets.slash) ctx.drawImage(assets.slash, UB_SLASH_X, vy + 1)
       drawNumber(ctx, max, UB_MAX_RIGHT, vy + UB_MAX_DOWN, assets.numsBlue)
     } else if (row.stat) {
-      drawNumber(ctx, effectiveStat(caster, row.stat, DEMO_ITEMS), UB_VAL_RIGHT, vy, assets.nums)
+      drawNumber(ctx, effectiveStat(caster, row.stat, items), UB_VAL_RIGHT, vy, assets.nums)
     }
   })
 

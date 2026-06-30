@@ -64,6 +64,9 @@ export interface SkillData {
   // 扩展口 phase3(注释留形):category/series(议题16 门派分类/体系,技能树 UI)
 }
 
+/** 技能数据表(id → SkillData)。去全局化:操作技能的函数收这个类型(显式注入),不再默认吃 DEMO_SKILLS。 */
+export type SkillDataMap = Record<string, SkillData>
+
 /**
  * demo 技能 —— 李逍遥大世界仙术菜单用的 3 个 outdoor 治疗。
  * 真值核验:name = spells.json._name;costMP/effect = magic.json[spells.json[oid].magicNumber];

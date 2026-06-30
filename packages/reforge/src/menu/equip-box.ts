@@ -7,8 +7,8 @@
 // 320 逻辑坐标,调用方已 ctx.scale。
 import {
   type CombatStat,
-  DEMO_ITEMS,
   effectiveStat,
+  type ItemDataMap,
   type Locale,
   lookupText,
   type TextId,
@@ -90,11 +90,12 @@ function drawEquipPickRole(
   glyphs: GlyphTable,
   locale: Locale,
   now: number,
+  items: ItemDataMap,
 ): void {
   if (assets.statusBg) ctx.drawImage(assets.statusBg, 0, 0, 320, 200)
   const caster = world.party.find((c) => c.id === state.casterId)
   if (!caster) return
-  const sel = state.selectedItemId ? DEMO_ITEMS[state.selectedItemId] : undefined
+  const sel = state.selectedItemId ? items[state.selectedItemId] : undefined
 
   // ① 左:选中物 — 纵向卷轴框(frame-70)+ 图标(卷面居中)+ 数量(青)+ 名(金,左对齐)
   drawSlicedBox(ctx, assets.itembox, PR_IMAGE_BOX.x, PR_IMAGE_BOX.y, 64, 64, { shadow: false })
@@ -136,7 +137,7 @@ function drawEquipPickRole(
     // 装备名:穿戴中才画;空槽留空(原版 draw-equip:if eqItemId!==0 才 renderText)
     const equippedId = caster.equipment[slot]
     if (equippedId) {
-      renderSpans(ctx, [{ text: DEMO_ITEMS[equippedId]?.name ?? `?${equippedId}` }], PR_NAME_X, y, {
+      renderSpans(ctx, [{ text: items[equippedId]?.name ?? `?${equippedId}` }], PR_NAME_X, y, {
         glyphs,
         shadow: true,
         forceRgba: COLOR_NORMAL,
@@ -159,7 +160,7 @@ function drawEquipPickRole(
     )
     drawNumber(
       ctx,
-      effectiveStat(caster, stat, DEMO_ITEMS),
+      effectiveStat(caster, stat, items),
       PR_STAT_VAL_RIGHT,
       PR_STAT_VAL_Y0 + i * PR_ROW_DY,
       assets.numsCyan,
@@ -176,9 +177,10 @@ export function drawEquipMenu(
   glyphs: GlyphTable,
   now: number,
   locale: Locale,
+  items: ItemDataMap,
 ): void {
   if (state.phase === 'pick-role') {
-    drawEquipPickRole(ctx, state, world, assets, glyphs, locale, now)
+    drawEquipPickRole(ctx, state, world, assets, glyphs, locale, now, items)
     return
   }
   drawEquipList(ctx, state, world, assets, glyphs, now)

@@ -1,4 +1,4 @@
-import { initialWorld } from '@type-pal/content'
+import { DEMO_SKILLS, initialWorld } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   closeMagicMenu,
@@ -13,12 +13,12 @@ import {
 describe('resolveOutdoorSkills', () => {
   test('李逍遥 demo:learnedSkills → DEMO_SKILLS,全 outdoor', () => {
     const world = initialWorld()
-    const spells = resolveOutdoorSkills(world, 'li-xiaoyao')
+    const spells = resolveOutdoorSkills(world, 'li-xiaoyao', DEMO_SKILLS)
     expect(spells.map((s) => s.id)).toEqual(['296', '298', '299'])
     expect(spells.every((s) => s.usableOutsideBattle)).toBe(true)
   })
   test('未知角色 → 空', () => {
-    expect(resolveOutdoorSkills(initialWorld(), 'nobody')).toEqual([])
+    expect(resolveOutdoorSkills(initialWorld(), 'nobody', DEMO_SKILLS)).toEqual([])
   })
 })
 

@@ -3,10 +3,10 @@
 //   pick-role 确认面板(显角色当前 6 槽装备 + 5 属性)→ Enter 才真换 / Esc 回 list
 // 换装走 content equipItem(返回新 world)。
 import {
-  DEMO_ITEMS,
   equipItem,
   equippableItems,
   type ItemData,
+  type ItemDataMap,
   type WorldState,
 } from '@type-pal/content'
 
@@ -22,11 +22,15 @@ export interface EquipMenuState {
   selectedItemId?: string
 }
 
-export function openEquipMenu(world: WorldState, casterId: string): EquipMenuState {
+export function openEquipMenu(
+  world: WorldState,
+  casterId: string,
+  items: ItemDataMap,
+): EquipMenuState {
   return {
     active: true,
     phase: 'list',
-    items: equippableItems(world, casterId),
+    items: equippableItems(world, casterId, items),
     cursor: 0,
     casterId,
   }
@@ -63,9 +67,13 @@ export function equipConfirmItem(s: EquipMenuState): EquipMenuState {
 }
 
 /** pick-role Esc:回 list + 重算(swap 后背包可能变了,列表须刷新)。 */
-export function equipBackToList(s: EquipMenuState, world: WorldState): EquipMenuState {
+export function equipBackToList(
+  s: EquipMenuState,
+  world: WorldState,
+  items: ItemDataMap,
+): EquipMenuState {
   if (s.phase !== 'pick-role') return s
-  return openEquipMenu(world, s.casterId)
+  return openEquipMenu(world, s.casterId, items)
 }
 
 /**
@@ -76,12 +84,13 @@ export function equipBackToList(s: EquipMenuState, world: WorldState): EquipMenu
 export function equipApply(
   s: EquipMenuState,
   world: WorldState,
+  items: ItemDataMap,
 ): { world: WorldState; state: EquipMenuState } {
   if (s.phase !== 'pick-role' || !s.selectedItemId) return { world, state: s }
-  const slot = DEMO_ITEMS[s.selectedItemId]?.equip?.slot
+  const slot = items[s.selectedItemId]?.equip?.slot
   const caster = world.party.find((c) => c.id === s.casterId)
   const oldItemId = caster && slot ? caster.equipment[slot] : undefined // 换下的旧件(原槽位)
-  const next = equipItem(world, s.casterId, s.selectedItemId)
+  const next = equipItem(world, s.casterId, s.selectedItemId, items)
   if (oldItemId) return { world: next, state: { ...s, selectedItemId: oldItemId } } // 留面板续换
-  return { world: next, state: openEquipMenu(next, s.casterId) } // 空槽 → 回 list
+  return { world: next, state: openEquipMenu(next, s.casterId, items) } // 空槽 → 回 list
 }

@@ -7,9 +7,9 @@
  */
 import {
   type CharacterInstance,
-  DEMO_ITEMS,
   EQUIP_SLOT_IDS,
   effectiveStat,
+  type ItemDataMap,
   type Locale,
   lookupText,
   type TextId,
@@ -283,17 +283,17 @@ interface StatRow {
   max?: number
   maxKind?: 'blue' | 'cyan'
 }
-function statList(c: CharacterInstance): StatRow[] {
+function statList(c: CharacterInstance, items: ItemDataMap): StatRow[] {
   return [
     { labelId: 'stat.exp', value: c.exp, max: EXP_TO_NEXT, maxKind: 'cyan' },
     { labelId: 'stat.level', value: c.level },
     { labelId: 'stat.hp', value: c.hp, max: c.maxHP, maxKind: 'blue' },
     { labelId: 'stat.mp', value: c.mp, max: c.maxMP, maxKind: 'blue' },
-    { labelId: 'stat.attack', value: effectiveStat(c, 'attack', DEMO_ITEMS) },
-    { labelId: 'stat.magicAttack', value: effectiveStat(c, 'magicAttack', DEMO_ITEMS) },
-    { labelId: 'stat.defense', value: effectiveStat(c, 'defense', DEMO_ITEMS) },
-    { labelId: 'stat.speed', value: effectiveStat(c, 'speed', DEMO_ITEMS) },
-    { labelId: 'stat.luck', value: effectiveStat(c, 'luck', DEMO_ITEMS) },
+    { labelId: 'stat.attack', value: effectiveStat(c, 'attack', items) },
+    { labelId: 'stat.magicAttack', value: effectiveStat(c, 'magicAttack', items) },
+    { labelId: 'stat.defense', value: effectiveStat(c, 'defense', items) },
+    { labelId: 'stat.speed', value: effectiveStat(c, 'speed', items) },
+    { labelId: 'stat.luck', value: effectiveStat(c, 'luck', items) },
   ]
 }
 
@@ -353,7 +353,7 @@ async function loadPng(url: string): Promise<ImageBitmap | undefined> {
  * 加载菜单资产:黄框九宫格 + 状态背景 + 装备格 + 金钱卷轴 + 数字。
  * 全部 = 预烘 RGBA(@type-pal/migrate bake-assets,palette 0),drawImage 直接用、零运行时烤。
  */
-export async function loadMenuAssets(): Promise<MenuAssets> {
+export async function loadMenuAssets(items: ItemDataMap): Promise<MenuAssets> {
   // 黄框 9 块预烘 RGBA(frame-00..08 = i*3+j),drawImage 直接用、零运行时烤
   const tiles: (ImageBitmap | undefined)[] = []
   for (let i = 0; i <= 8; i++) {
@@ -385,7 +385,7 @@ export async function loadMenuAssets(): Promise<MenuAssets> {
     loadPng('/ui/num/slash.png'),
   ])
   // 物品图标(按 item.icon = bitmap chunk;状态板/装备菜单数据驱动渲染)
-  const iconChunks = [...new Set(Object.values(DEMO_ITEMS).map((it) => it.icon))]
+  const iconChunks = [...new Set(Object.values(items).map((it) => it.icon))]
   const iconArr = await Promise.all(iconChunks.map((ch) => loadPng(`/ui/items/${ch}.png`)))
   const itemIcons: Record<number, ImageBitmap | undefined> = {}
   iconChunks.forEach((ch, i) => {
@@ -423,6 +423,7 @@ export class MenuBox {
     private readonly glyphs: GlyphTable,
     private readonly locale: Locale,
     private readonly assets: MenuAssets,
+    private readonly items: ItemDataMap,
   ) {}
 
   render(
@@ -493,7 +494,7 @@ export class MenuBox {
 
     // 左栏:属性 9 项 —— label 字模(米白)+ value 数字 sprite(黄);HP/MP 当前/最大(max 蓝 + 斜杠)
     let y = STAT_Y0
-    for (const row of statList(c)) {
+    for (const row of statList(c, this.items)) {
       renderSpans(ctx, [{ text: lookupText(row.labelId, this.locale) }], STAT_X, y, {
         glyphs: this.glyphs,
         shadow: true,
@@ -529,8 +530,8 @@ export class MenuBox {
       }
       const equippedId = c.equipment[slot]
       if (!equippedId) return // 空槽:格画了,图标/名都不画(留空)
-      const equipped = DEMO_ITEMS[equippedId]
-      // 装备图标:DEMO_ITEMS[itemId].icon → itemIcons;缩进内凹区、保比例居中
+      const equipped = this.items[equippedId]
+      // 装备图标:items[itemId].icon → itemIcons;缩进内凹区、保比例居中
       const icon = this.assets.itemIcons[equipped?.icon ?? -1]
       if (icon) {
         const inner = EQUIP_SLOT_SIZE - EQUIP_BORDER * 2
