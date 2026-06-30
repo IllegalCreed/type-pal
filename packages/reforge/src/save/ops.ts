@@ -21,8 +21,10 @@ export function buildMeta(
 export function buildPayload(
   world: WorldState,
   position: { sceneId: string; pos: GridPos; facing: Facing },
+  projectId: string,
+  contentVersion: number,
 ): SavePayload {
-  return { version: SAVE_VERSION, world, position }
+  return { version: SAVE_VERSION, projectId, contentVersion, world, position }
 }
 
 /** 截当前画面 → 缩到 w×h → PNG Blob(浏览器;离屏 canvas)。source 应为干净游戏帧(无 UI 层)。 */

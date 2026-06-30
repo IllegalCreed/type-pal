@@ -231,7 +231,12 @@ async function main(): Promise<void> {
       (c) => lookupText(`name.${c.template}`, project.locale),
       Date.now(),
     )
-    const payload = buildPayload(world, { sceneId: SCENE_ID, pos: player.pos, facing })
+    const payload = buildPayload(
+      world,
+      { sceneId: SCENE_ID, pos: player.pos, facing },
+      project.manifest.id,
+      project.manifest.contentVersion,
+    )
     await saveStore.putSlot(meta, payload, thumb)
     await refreshSaveMetas()
   }
@@ -239,6 +244,13 @@ async function main(): Promise<void> {
   async function doLoad(slotId: SlotId): Promise<boolean> {
     const p = await saveStore.getPayload(slotId)
     if (!p) return false
+    // 存档绑工程:projectId 不匹配(把 A 工程存档读进 B 工程)→ 拒绝,防世界态错乱。
+    if (p.projectId !== project.manifest.id) {
+      console.warn(
+        `[save] 槽 ${slotId} 属工程 "${p.projectId}",与当前 "${project.manifest.id}" 不匹配,拒绝读档`,
+      )
+      return false
+    }
     world = p.world
     player.pos = p.position.pos
     facing = p.position.facing

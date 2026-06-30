@@ -29,9 +29,13 @@ export interface SaveMeta {
   savedAt: number // Date.now() epoch ms（调用方注入）
 }
 
-/** 全量还原状态；version 驱动迁移。本期 v1 = world + 坐标(GridPos 含 col/row/height)。 */
+/** 全量还原状态；version 驱动迁移。本期 v1 = world + 坐标(GridPos 含 col/row/height) + 工程绑定。 */
 export interface SavePayload {
   version: number
+  /** 存档所属工程 id(读档校验:防把 A 工程存档读进 B 工程)。 */
+  projectId: string
+  /** 存档时的工程内容版本(与 SAVE_VERSION 分轴:SAVE_VERSION=存档格式,contentVersion=工程内容)。 */
+  contentVersion: number
   world: WorldState
   position: { sceneId: string; pos: GridPos; facing: Facing }
 }
