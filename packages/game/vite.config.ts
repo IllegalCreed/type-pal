@@ -16,24 +16,29 @@ const isE2E = process.env.E2E === '1'
  */
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
 function serveDir(urlPrefix: string, fsDir: string): Plugin {
+  // dev + preview 同款中间件:dev 服务源码、preview 服务 dist(本地验 SW/离线);两者都要把 /extracted 映射到仓库根。
+  const mw = (req: { url?: string }, res: NodeJS.WritableStream, next: () => void): void => {
+    const url = req.url ?? ''
+    if (!url.startsWith(urlPrefix)) return next()
+    // ⚠ 去前导斜杠:urlPrefix 无尾斜杠 → slice 余 '/data/…';resolve(fsDir,'/abs') 会当绝对路径丢弃 fsDir
+    const rel = decodeURIComponent(url.slice(urlPrefix.length).split('?')[0] ?? '').replace(/^\/+/, '')
+    if (rel.includes('..')) return next()
+    const file = resolve(fsDir, rel)
+    if (!file.startsWith(fsDir)) return next() // 防越界
+    try {
+      if (!statSync(file).isFile()) return next()
+    } catch {
+      return next()
+    }
+    createReadStream(file).pipe(res)
+  }
   return {
     name: `serve-${urlPrefix.replace(/\//g, '')}`,
     configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        const url = req.url ?? ''
-        if (!url.startsWith(urlPrefix)) return next()
-        // ⚠ 去前导斜杠:urlPrefix 无尾斜杠 → slice 余 '/data/…';resolve(fsDir,'/abs') 会当绝对路径丢弃 fsDir
-        const rel = decodeURIComponent(url.slice(urlPrefix.length).split('?')[0] ?? '').replace(/^\/+/, '')
-        if (rel.includes('..')) return next()
-        const file = resolve(fsDir, rel)
-        if (!file.startsWith(fsDir)) return next() // 防越界
-        try {
-          if (!statSync(file).isFile()) return next()
-        } catch {
-          return next()
-        }
-        createReadStream(file).pipe(res)
-      })
+      server.middlewares.use(mw)
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(mw)
     },
   }
 }
