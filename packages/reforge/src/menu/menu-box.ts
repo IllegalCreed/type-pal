@@ -147,10 +147,10 @@ const CASCADE_DX = 27
 const CASCADE_DY = 23
 
 // 菜单项色(palette 0;ui.h):普通 0x4F / 禁用 0x18 / 禁用选中 0x1C / 选中 0xF9-FE(6 帧闪烁)
-const COLOR_NORMAL = [199, 186, 174] as const
-const COLOR_DISABLED = [166, 40, 32] as const
-const COLOR_DISABLED_SEL = [215, 109, 93] as const
-const SELECTED_COLORS = [
+export const COLOR_NORMAL = [199, 186, 174] as const
+export const COLOR_DISABLED = [166, 40, 32] as const
+export const COLOR_DISABLED_SEL = [215, 109, 93] as const
+export const SELECTED_COLORS = [
   [247, 231, 109],
   [235, 211, 97],
   [227, 190, 89],
@@ -284,6 +284,31 @@ export function drawCashBox(
 
   // 本体
   ctx.drawImage(off, x, y)
+}
+
+/** 确认框(否/是 或 关/开):左框(130,100)len2 + 右框(205,100)len2 + 文字。
+ *  对齐一阶段 draw-confirm.ts:31-46(sdlpal PAL_SelectionMenu 两框)。320 逻辑坐标,调用方已 ctx.scale。
+ *  rightSelected=confirmYes:右=是/开 高亮;左=否/关 高亮 = 非右选中。 */
+export function drawConfirmBox(
+  ctx: CanvasRenderingContext2D,
+  cashBox: { left?: ImageBitmap; mid?: ImageBitmap; right?: ImageBitmap },
+  opts: { leftText: string; rightText: string; rightSelected: boolean },
+  glyphs: GlyphTable,
+  now: number,
+): void {
+  const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL
+  drawCashBox(ctx, cashBox, 130, 100, 2)
+  drawCashBox(ctx, cashBox, 205, 100, 2)
+  renderSpans(ctx, [{ text: opts.leftText }], 145, 110, {
+    glyphs,
+    shadow: true,
+    forceRgba: opts.rightSelected ? COLOR_NORMAL : blink, // 左高亮 = 非右选中
+  })
+  renderSpans(ctx, [{ text: opts.rightText }], 220, 110, {
+    glyphs,
+    shadow: true,
+    forceRgba: opts.rightSelected ? blink : COLOR_NORMAL,
+  })
 }
 
 // demo:李逍遥 1→2 升级所需 exp(原版 rgLevelUpExp[1]);升级系统建后取真值
