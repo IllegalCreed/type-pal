@@ -237,18 +237,20 @@ async function main(): Promise<void> {
         drawEquipMenu(ctx, equipMenu, world, menuAssets, glyphs, performance.now(), zhLocale)
       } else if (menu.openPanel === 'use') {
         drawUseMenu(ctx, useMenu, world, menuAssets, glyphs, performance.now(), zhLocale)
-      } else if (menu.openPanel === 'system') {
-        drawSystemMenu(
-          ctx,
-          systemMenu,
-          menuAssets,
-          glyphs,
-          performance.now(),
-          zhLocale,
-          systemPlaceholder,
-        )
       } else {
+        // 级联(主菜单常驻;status 全屏分流在 render 内)。系统菜单 = 叠在主菜单级联上的子层。
         menuBox.render(ctx, menu, world, performance.now(), statusIdx)
+        if (menu.openPanel === 'system') {
+          drawSystemMenu(
+            ctx,
+            systemMenu,
+            menuAssets,
+            glyphs,
+            performance.now(),
+            zhLocale,
+            systemPlaceholder,
+          )
+        }
       }
       ctx.restore()
     }
@@ -441,10 +443,9 @@ async function main(): Promise<void> {
             systemMenu = { ...systemMenu, confirmYes: wantYes }
             const r = systemConfirmYes(systemMenu)
             if (r.action?.kind === 'quit') {
-              // 退出(本期占位:无标题屏,只提示)
+              // 退出(本期占位:无标题屏)→ 留菜单层显「未实现」(关面板的话提示就看不到)
               systemPlaceholder = 'menu.not-implemented'
-              systemMenu = closeSystemMenu()
-              menu = back(menu)
+              systemMenu = { ...systemMenu, phase: 'menu', confirmYes: false }
             } else {
               lastSystemCursor = systemMenu.cursor
               systemMenu = closeSystemMenu()

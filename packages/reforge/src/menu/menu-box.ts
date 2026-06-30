@@ -15,7 +15,7 @@ import {
   type TextId,
   type WorldState,
 } from '@type-pal/content'
-import type { MenuState, PanelId } from '../menu-state.js'
+import type { MenuState } from '../menu-state.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
 
@@ -474,11 +474,8 @@ export class MenuBox {
       this.renderStatus(ctx, world, statusMember)
       return
     }
-    if (state.openPanel === 'system') {
-      this.renderPanelPlaceholder(ctx, state.openPanel)
-      return
-    }
-    // 无面板 → 级联菜单(magic/equip/use 面板由 main.ts 各自 draw 画,不到这)
+    // 级联(无面板 = 主菜单/子菜单;openPanel==='system' = 主菜单常驻,系统框由 main.ts 叠在上)。
+    // magic/equip/use 全屏面板由 main.ts 各自 draw 替换,不到这。
     this.renderCascade(ctx, state, world, now)
   }
 
@@ -511,7 +508,8 @@ export class MenuBox {
         let color: readonly [number, number, number]
         if (!enabled) color = selected ? COLOR_DISABLED_SEL : COLOR_DISABLED
         else if (!selected) color = COLOR_NORMAL
-        else color = isDeepest ? blink : (SELECTED_COLORS[3] ?? COLOR_NORMAL)
+        // 子面板(系统)打开时,最深级联层(主菜单)显静态高亮,闪烁让位给子面板自身选择
+        else color = isDeepest && !state.openPanel ? blink : (SELECTED_COLORS[3] ?? COLOR_NORMAL)
         renderSpans(
           ctx,
           [{ text: lookupText(node.label, this.locale) }],
@@ -520,17 +518,6 @@ export class MenuBox {
           { glyphs: this.glyphs, shadow: true, forceRgba: color },
         )
       })
-    })
-  }
-
-  /** 未建面板占位(装备/使用/系统);真面板建好后替换。 */
-  private renderPanelPlaceholder(ctx: CanvasRenderingContext2D, panel: PanelId): void {
-    const name = lookupText(`menu.${panel}`, this.locale)
-    drawSlicedBox(ctx, this.assets.box, 108, 84, 104, 34)
-    renderSpans(ctx, [{ text: `${name}·开发中` }], 124, 96, {
-      glyphs: this.glyphs,
-      shadow: true,
-      forceRgba: COLOR_NORMAL,
     })
   }
 
