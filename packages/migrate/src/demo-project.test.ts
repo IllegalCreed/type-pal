@@ -3,6 +3,7 @@
 // 放 migrate(数据工具包,有 node fs + content 依赖;不耦合引擎 reforge)。
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import type { StartWorld } from '@type-pal/content'
 import {
   buildWorld,
   effectiveStat,
@@ -12,7 +13,6 @@ import {
   validateScenes,
   validateSkills,
 } from '@type-pal/content'
-import type { StartWorld } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 const root = fileURLToPath(new URL('../../../projects/demo/', import.meta.url))
