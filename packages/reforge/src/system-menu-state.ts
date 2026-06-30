@@ -11,10 +11,10 @@ export interface SystemMenuItem {
   disabled?: boolean // 占位项(存档/读档/音乐/音效)=true;quit 正常
 }
 
-/** 5 项(对齐 sdlpal ui.h SYSMENU_LABEL_* 顺序);前 4 占位(依赖未建子系统),quit 正常。 */
+/** 5 项(对齐 sdlpal ui.h SYSMENU_LABEL_* 顺序)。save/load 开存档浏览界面;music/sound 占位;quit 退出确认。 */
 export const SYSTEM_ITEMS: SystemMenuItem[] = [
-  { id: 'save', label: 'menu.system.save', disabled: true }, // 占位:存档系统未建
-  { id: 'load', label: 'menu.system.load', disabled: true }, // 占位:存档系统未建
+  { id: 'save', label: 'menu.system.save' }, // 存档:开浏览界面·存模式
+  { id: 'load', label: 'menu.system.load' }, // 读档:开浏览界面·读模式
   { id: 'music', label: 'menu.system.music', disabled: true }, // 占位:音频系统未建
   { id: 'sound', label: 'menu.system.sound', disabled: true }, // 占位:音频系统未建
   { id: 'quit', label: 'menu.system.quit' }, // 退出(本期"是"=占位提示,无标题屏)
@@ -53,9 +53,13 @@ export function systemMoveCursor(
   return { ...s, cursor: (s.cursor + delta + n) % n }
 }
 
-export type SystemAction = { kind: 'quit' } | { kind: 'placeholder'; id: SystemItemKind }
+export type SystemAction =
+  | { kind: 'quit' }
+  | { kind: 'open-save' } // 开存档浏览界面·存模式
+  | { kind: 'open-load' } // 开存档浏览界面·读模式
+  | { kind: 'placeholder'; id: SystemItemKind }
 
-/** menu 阶段确认:占位项 → 返回 placeholder(留 menu);quit → 进 confirm。 */
+/** menu 阶段确认:按 id 分流 —— save/load → 开浏览界面;quit → 进 confirm;占位(music/sound)→ placeholder。 */
 export function systemConfirm(s: SystemMenuState): {
   state: SystemMenuState
   action?: SystemAction
@@ -63,8 +67,10 @@ export function systemConfirm(s: SystemMenuState): {
   if (s.phase !== 'menu') return { state: s }
   const sel = s.items[s.cursor]
   if (!sel) return { state: s }
-  if (sel.disabled) return { state: s, action: { kind: 'placeholder', id: sel.id } } // 占位 → 不进 confirm
-  return { state: { ...s, phase: 'confirm', confirmYes: false }, action: undefined } // quit → confirm(默认否)
+  if (sel.id === 'save') return { state: s, action: { kind: 'open-save' } }
+  if (sel.id === 'load') return { state: s, action: { kind: 'open-load' } }
+  if (sel.id === 'quit') return { state: { ...s, phase: 'confirm', confirmYes: false } } // → 退出确认
+  return { state: s, action: { kind: 'placeholder', id: sel.id } } // music/sound 占位 → 提示
 }
 
 /** confirm 阶段四方向 toggle 是/否(原版 PAL_SelectionMenu 两框,四方向皆 toggle)。 */

@@ -17,9 +17,10 @@ describe('save ops（纯）', () => {
   })
   test('buildPayload：version=SAVE_VERSION + world + position', () => {
     const w = initialWorld()
-    const p = buildPayload(w, { sceneId: 's', x: 1, y: 2, facing: 'down' })
+    const pos = { col: 1, row: 2, height: 0 }
+    const p = buildPayload(w, { sceneId: 's', pos, facing: 'down' })
     expect(p.version).toBe(SAVE_VERSION)
     expect(p.world).toBe(w)
-    expect(p.position).toEqual({ sceneId: 's', x: 1, y: 2, facing: 'down' })
+    expect(p.position).toEqual({ sceneId: 's', pos, facing: 'down' })
   })
 })

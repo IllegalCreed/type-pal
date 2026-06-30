@@ -12,7 +12,16 @@ export class Keyboard {
     target.addEventListener('keydown', (e) => {
       if (!e.repeat) this.pressed.add(e.key)
       this.held.add(e.key)
-      if (MOVE_KEYS.has(e.key) || e.key === ' ' || e.key === 'Enter') e.preventDefault()
+      // 阻止默认:移动键/空格/Enter 防滚动;F5/F9 防浏览器刷新(用作快速存/读热键)
+      if (
+        MOVE_KEYS.has(e.key) ||
+        e.key === ' ' ||
+        e.key === 'Enter' ||
+        e.key === 'F5' ||
+        e.key === 'F9'
+      ) {
+        e.preventDefault()
+      }
     })
     target.addEventListener('keyup', (e) => {
       this.held.delete(e.key)

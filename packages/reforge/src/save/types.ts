@@ -1,4 +1,4 @@
-import type { Facing, WorldState } from '@type-pal/content'
+import type { Facing, GridPos, WorldState } from '@type-pal/content'
 
 export type SlotKind = 'auto' | 'quick' | 'manual'
 export type SlotId = string // 'auto' | 'quick' | 'm01'..'m28'
@@ -29,9 +29,9 @@ export interface SaveMeta {
   savedAt: number // Date.now() epoch ms（调用方注入）
 }
 
-/** 全量还原状态；version 驱动迁移。本期 v1 = world + 坐标。 */
+/** 全量还原状态；version 驱动迁移。本期 v1 = world + 坐标(GridPos 含 col/row/height)。 */
 export interface SavePayload {
   version: number
   world: WorldState
-  position: { sceneId: string; x: number; y: number; facing: Facing }
+  position: { sceneId: string; pos: GridPos; facing: Facing }
 }

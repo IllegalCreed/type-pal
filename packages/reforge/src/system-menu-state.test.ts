@@ -9,12 +9,13 @@ import {
 } from './system-menu-state.js'
 
 describe('系统菜单状态机', () => {
-  test('openSystemMenu:5 项,4 占位 disabled,quit 正常;cursor 0', () => {
+  test('openSystemMenu:5 项,music/sound 占位 disabled,save/load/quit 正常;cursor 0', () => {
     const s = openSystemMenu()
     expect(s.active).toBe(true)
     expect(s.phase).toBe('menu')
     expect(s.items.map((i) => i.id)).toEqual(['save', 'load', 'music', 'sound', 'quit'])
-    expect(s.items[0]?.disabled).toBe(true) // 占位
+    expect(s.items[0]?.disabled).toBeUndefined() // save 正常(开浏览界面)
+    expect(s.items[2]?.disabled).toBe(true) // music 占位
     expect(s.items[4]?.disabled).toBeUndefined() // quit 正常
     expect(s.cursor).toBe(0)
   })
@@ -25,9 +26,11 @@ describe('系统菜单状态机', () => {
     expect(systemMoveCursor({ ...s, cursor: 4 }, 'down').cursor).toBe(0) // 末项↓环绕→0
     expect(systemMoveCursor(s, 'up').cursor).toBe(4) // 首项↑环绕→4
   })
-  test('systemConfirm:占位项 → placeholder action(不进 confirm);quit → 进 confirm', () => {
+  test('systemConfirm:save/load→open-save/open-load;music(占位)→placeholder;quit→进 confirm', () => {
     const s = openSystemMenu()
-    const ph = systemConfirm(s) // cursor0=save(占位)
+    expect(systemConfirm(s).action?.kind).toBe('open-save') // cursor0=save
+    expect(systemConfirm({ ...s, cursor: 1 }).action?.kind).toBe('open-load') // load
+    const ph = systemConfirm({ ...s, cursor: 2 }) // music(占位)
     expect(ph.action?.kind).toBe('placeholder')
     expect(ph.state.phase).toBe('menu') // 留 menu
     const q = systemConfirm({ ...s, cursor: 4 }) // quit

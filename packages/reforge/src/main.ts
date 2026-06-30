@@ -6,6 +6,7 @@ import {
   gridToPixel,
   guijieMinjuScene,
   initialWorld,
+  lookupText,
   pixelToGrid,
   spriteScreenY,
   zhLocale,
@@ -45,11 +46,24 @@ import {
 import { drawEquipMenu } from './menu/equip-box.js'
 import { drawMagicMenu } from './menu/magic-box.js'
 import { loadMenuAssets, MenuBox } from './menu/menu-box.js'
+import { drawSaveBrowser } from './menu/save-browser-box.js'
 import { drawSystemMenu } from './menu/system-box.js'
 import { drawUseMenu } from './menu/use-box.js'
 import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './menu-state.js'
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type SpriteDraw } from './render.js'
+import {
+  browserConfirm,
+  browserConfirmOverwriteNo,
+  browserConfirmOverwriteYes,
+  browserMoveCursor,
+  closeSaveBrowser,
+  openSaveBrowser,
+  type SaveBrowserState,
+} from './save/browser-state.js'
+import { buildMeta, buildPayload, captureThumbnail } from './save/ops.js'
+import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
+import type { SaveMeta, SlotId } from './save/types.js'
 import {
   closeSystemMenu,
   openSystemMenu,
@@ -59,6 +73,7 @@ import {
   systemMoveCursor,
   systemToggleConfirm,
 } from './system-menu-state.js'
+import { renderSpans } from './text/text-render.js'
 import {
   closeUseMenu,
   openUseMenu,
@@ -175,11 +190,82 @@ async function main(): Promise<void> {
   let systemMenu: SystemMenuState = closeSystemMenu()
   let lastSystemCursor = 0 // 系统菜单光标记忆(原版 iCurSystemMenuItem;跨开关恢复)
   let systemPlaceholder: string | undefined // 占位提示文案 id(选占位项后短暂显示)
+  // 存档系统(D-save)：IndexedDB(无则内存降级)；浏览界面态 + 缩略图缓存 + metas 快照。
+  const saveStore: SaveStore =
+    typeof indexedDB !== 'undefined' ? new IndexedDbSaveStore() : new MemorySaveStore()
+  let saveBrowser: SaveBrowserState = closeSaveBrowser()
+  let saveMetas: SaveMeta[] = []
+  const saveThumbs = new Map<SlotId, ImageBitmap>()
+  let overwriteYes = false // 覆盖确认框高亮(右=是)
+  let lastGameThumb: Blob | undefined // 开菜单时抓的干净游戏帧(菜单内存档的缩略图源)
+  let toast: { text: string; until: number } | undefined // 快速存读短提示
+  const SCENE_ID = 'guijie-minju'
+  const MAP_NAME = '鬼界·民居'
   let facing: Facing = guijieMinjuScene.entry.facing
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位
   let stepAcc = 0 // 步进累加器（ms）
   let lastT = 0
+
+  function showToast(text: string): void {
+    toast = { text, until: performance.now() + 1500 }
+  }
+
+  /** 读 metas + 解码缩略图(开界面/存档后刷新)。 */
+  async function refreshSaveMetas(): Promise<void> {
+    saveMetas = await saveStore.listMeta()
+    saveThumbs.clear()
+    for (const m of saveMetas) {
+      const blob = await saveStore.getThumb(m.slotId)
+      if (blob) saveThumbs.set(m.slotId, await createImageBitmap(blob))
+    }
+  }
+
+  async function doSave(slotId: SlotId, thumb: Blob): Promise<void> {
+    const meta = buildMeta(
+      slotId,
+      world,
+      MAP_NAME,
+      (c) => lookupText(`name.${c.template}`, zhLocale),
+      Date.now(),
+    )
+    const payload = buildPayload(world, { sceneId: SCENE_ID, pos: player.pos, facing })
+    await saveStore.putSlot(meta, payload, thumb)
+    await refreshSaveMetas()
+  }
+
+  async function doLoad(slotId: SlotId): Promise<boolean> {
+    const p = await saveStore.getPayload(slotId)
+    if (!p) return false
+    world = p.world
+    player.pos = p.position.pos
+    facing = p.position.facing
+    return true
+  }
+
+  async function quickSave(): Promise<void> {
+    await doSave('quick', await captureThumbnail(canvas))
+    showToast('已快速存档')
+  }
+  async function quickLoad(): Promise<void> {
+    showToast((await doLoad('quick')) ? '已读取快速存档' : '无快速存档')
+  }
+
+  /** 浏览界面写槽:菜单内 canvas 是菜单画面 → 用开菜单时抓的干净帧;存完刷新浏览显示。 */
+  async function browserWrite(slotId: SlotId): Promise<void> {
+    const mode = saveBrowser.mode
+    const cursor = saveBrowser.cursor
+    const thumb = lastGameThumb ?? (await captureThumbnail(canvas))
+    await doSave(slotId, thumb)
+    if (saveBrowser.active) saveBrowser = openSaveBrowser(mode, saveMetas, cursor)
+  }
+  /** 浏览界面读槽:成功 → 关菜单回大世界。 */
+  async function browserLoad(slotId: SlotId): Promise<void> {
+    if (await doLoad(slotId)) {
+      saveBrowser = closeSaveBrowser()
+      menu = CLOSED
+    }
+  }
 
   function render(): void {
     renderer.clear()
@@ -231,7 +317,19 @@ async function main(): Promise<void> {
       ctx.save()
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
       ctx.imageSmoothingEnabled = false
-      if (menu.openPanel === 'magic') {
+      if (saveBrowser.active) {
+        // 存档浏览界面 = 隐藏整个菜单,卷轴横向铺满全宽
+        drawSaveBrowser(
+          ctx,
+          saveBrowser,
+          menuAssets,
+          glyphs,
+          performance.now(),
+          zhLocale,
+          saveThumbs,
+          overwriteYes,
+        )
+      } else if (menu.openPanel === 'magic') {
         drawMagicMenu(ctx, magicMenu, world, menuAssets, glyphs, performance.now())
       } else if (menu.openPanel === 'equip') {
         drawEquipMenu(ctx, equipMenu, world, menuAssets, glyphs, performance.now(), zhLocale)
@@ -252,6 +350,18 @@ async function main(): Promise<void> {
           )
         }
       }
+      ctx.restore()
+    }
+    // 快速存读短提示(置顶,~1.5s)
+    if (toast && performance.now() < toast.until) {
+      ctx.save()
+      ctx.scale(WORLD_SCALE, WORLD_SCALE)
+      ctx.imageSmoothingEnabled = false
+      renderSpans(ctx, [{ text: toast.text }], 120, 6, {
+        glyphs,
+        shadow: true,
+        forceRgba: [231, 223, 195],
+      })
       ctx.restore()
     }
   }
@@ -350,7 +460,42 @@ async function main(): Promise<void> {
 
     // 三态优先级:菜单 > 对话 > 探索(用 else if 保证互斥)
     if (menu.active) {
-      if (menu.openPanel === 'magic') {
+      if (saveBrowser.active) {
+        // 存档浏览界面(全屏,优先于菜单输入)
+        if (saveBrowser.confirmOverwrite) {
+          // 覆盖确认:四方向 toggle 否/是;Enter 确认;Esc=否
+          if (
+            pressed.has('ArrowUp') ||
+            pressed.has('ArrowDown') ||
+            pressed.has('ArrowLeft') ||
+            pressed.has('ArrowRight')
+          ) {
+            overwriteYes = !overwriteYes
+          } else if (interact) {
+            const r = overwriteYes
+              ? browserConfirmOverwriteYes(saveBrowser)
+              : { state: browserConfirmOverwriteNo(saveBrowser), action: undefined }
+            saveBrowser = r.state
+            if (r.action?.kind === 'write') void browserWrite(r.action.slotId)
+            overwriteYes = false
+          } else if (esc) {
+            saveBrowser = browserConfirmOverwriteNo(saveBrowser)
+            overwriteYes = false
+          }
+        } else {
+          if (pressed.has('ArrowUp')) saveBrowser = browserMoveCursor(saveBrowser, 'up')
+          if (pressed.has('ArrowDown')) saveBrowser = browserMoveCursor(saveBrowser, 'down')
+          if (pressed.has('ArrowLeft')) saveBrowser = browserMoveCursor(saveBrowser, 'left')
+          if (pressed.has('ArrowRight')) saveBrowser = browserMoveCursor(saveBrowser, 'right')
+          if (interact) {
+            const r = browserConfirm(saveBrowser)
+            saveBrowser = r.state
+            if (r.action?.kind === 'write') void browserWrite(r.action.slotId)
+            else if (r.action?.kind === 'load') void browserLoad(r.action.slotId)
+          }
+          if (esc) saveBrowser = closeSaveBrowser() // 回系统菜单(menu 仍 active)
+        }
+      } else if (menu.openPanel === 'magic') {
         if (magicMenu.phase === 'pick-target') {
           // 选目标阶段:红箭头出;Enter 施法完成 / Esc 取消 → 都回选技能
           if (interact || esc) magicMenu = magicBackFromTarget(magicMenu)
@@ -465,7 +610,15 @@ async function main(): Promise<void> {
           if (interact) {
             const r = systemConfirm(systemMenu)
             systemMenu = r.state
-            if (r.action?.kind === 'placeholder') systemPlaceholder = 'menu.not-implemented' // 占位项 → 提示
+            if (r.action?.kind === 'placeholder')
+              systemPlaceholder = 'menu.not-implemented' // 占位项 → 提示
+            else if (r.action?.kind === 'open-save') {
+              saveBrowser = openSaveBrowser('save', saveMetas) // 开浏览界面·存模式
+              overwriteYes = false
+            } else if (r.action?.kind === 'open-load') {
+              saveBrowser = openSaveBrowser('load', saveMetas) // 开浏览界面·读模式
+              overwriteYes = false
+            }
           } else if (esc) {
             lastSystemCursor = systemMenu.cursor
             systemMenu = closeSystemMenu()
@@ -498,8 +651,16 @@ async function main(): Promise<void> {
     } else if (dialogBox.active) {
       if (interact) dialogBox.advance(t) // 翻页;翻完 → null(关闭)
     } else {
-      if (esc) {
+      if (pressed.has('F5')) {
+        void quickSave() // 快速存档(快速槽)
+      } else if (pressed.has('F9')) {
+        void quickLoad() // 快速读档(快速槽)
+      } else if (esc) {
         menu = openMenu()
+        // 抓当前干净游戏帧(此刻菜单尚未画)→ 菜单内存档的缩略图源
+        void captureThumbnail(canvas).then((b) => {
+          lastGameThumb = b
+        })
       } else if (interact) {
         const ent = nearbyInteractable()
         const dlg = ent?.interact ? dialogueById(ent.interact) : undefined
@@ -539,6 +700,7 @@ async function main(): Promise<void> {
     render()
     requestAnimationFrame(tick)
   }
+  void refreshSaveMetas() // 预载已有存档 metas + 缩略图(浏览界面首开即有内容)
   requestAnimationFrame(tick)
 
   console.log(
