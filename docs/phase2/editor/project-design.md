@@ -66,7 +66,7 @@ type-pal/
 │   └── editor/              ← 网页版编辑器(B 期;依赖 content,嵌 reforge 预览)
 │
 ├── projects/                ← 新增:工程根(一个文件夹 = 一个游戏)
-│   └── guijie-dlc/          ← demo 工程(由现有 content 数据迁移而来)
+│   └── demo/          ← demo 工程(由现有 content 数据迁移而来)
 │       ├── manifest.json    ← 工程清单(§3)
 │       ├── content/         ← 纯 JSON 数据(§4)
 │       └── assets/          ← 工程自有资源(map/tileset/sprite/palette;不含引擎 UI 皮)
@@ -75,7 +75,7 @@ type-pal/
 ```
 
 **引擎启动流程**(壳/肉分离):
-1. 选工程:dev `pnpm dev --project=guijie-dlc`(vite define 注入 `VITE_PROJECT_ID`);打包后选单(留后)。
+1. 选工程:dev `pnpm dev --project=demo`(vite define 注入 `VITE_PROJECT_ID`);打包后选单(留后)。
 2. `loader.loadProject(id)` → fetch `projects/<id>/manifest.json`。
 3. 按 manifest 逐个 fetch content JSON → 轻量 guard 校验 → 组装内存对象。
 4. content-ops `buildWorld(manifest.startWorld, characters)` 造初始世界态。
@@ -86,7 +86,7 @@ type-pal/
 
 ```jsonc
 {
-  "id": "guijie-dlc",              // 工程 id(= 文件夹名;稳定身份,非下标)
+  "id": "demo",              // 工程 id(= 文件夹名;稳定身份,非下标)
   "name": "鬼界·民居(DLC-01)",    // 显示名(选单/标题用 → 替代 MAP_NAME 常量)
   "contentVersion": 1,             // ⚠ 工程内容数据版本(迁移用)。与存档 SAVE_VERSION 是**两个轴**,别共用
   "entryScene": "guijie-minju",    // 入口场景 id(= content/scenes.json 里的 scene.id)
@@ -135,7 +135,7 @@ content 里的东西分两类,**必须分开处理**(这是迁移的关键):
 ### A. 纯数据 → 序列化进工程 JSON,然后从 content **删除**
 | 现状(content) | 去向 |
 |---|---|
-| `guijieMinjuScene` (index.ts) | `projects/guijie-dlc/content/scenes.json`(装进 `SceneDef[]`) |
+| `guijieMinjuScene` (index.ts) | `projects/demo/content/scenes.json`(装进 `SceneDef[]`) |
 | `DEMO_SKILLS` (skill.ts) | `content/skills.json` 的 `skills`(取值数组) |
 | `LEVEL_UP_SKILLS` (skill.ts) | 同上的 `levelUp` |
 | `DEMO_ITEMS` (item.ts) | `content/items.json`(取值数组) |
@@ -171,7 +171,7 @@ content 里的东西分两类,**必须分开处理**(这是迁移的关键):
 
 ## 6. 工程选择(A 期:dev 命令行;选单留后)
 
-- **dev**:`pnpm dev --project=<id>` → vite config 读 env → `define` 注入 `VITE_PROJECT_ID`。loader fetch `projects/<id>/`。无参时默认 `guijie-dlc`。
+- **dev**:`pnpm dev --project=<id>` → vite config 读 env → `define` 注入 `VITE_PROJECT_ID`。loader fetch `projects/<id>/`。无参时默认 `demo`。
 - **打包选单(留后)**:浏览器列不了服务端目录 → 需构建期生成 `projects/index.json`(vite 插件 / `import.meta.glob`)→ 选单 UI。A 期不做(§9)。
 
 ## 7. 编辑器(B 期,网页版,场景编辑器起步 —— Claude 做)
@@ -188,7 +188,7 @@ content 里的东西分两类,**必须分开处理**(这是迁移的关键):
 **A 期 = 工程地基 + 迁移(非视觉 → GLM)**,拆两个可独立验收的检查点:
 
 - **A1 · 内容解耦**(架构核心):content 去数据化(§5-A/B)+ `buildWorld` op + `loader.ts`(content JSON)+ `main.ts` 去硬编码 import + 存档加 projectId。**资源仍暂走 `/extracted`**(loader 对二进制资源 root 暂默认 `/extracted`)。
-- **A2 · 资源自包含**:把 demo 引用到的 map/tileset/sprite/palette 拷进 `projects/guijie-dlc/assets/`;`assets.ts` 改吃 manifest.assets root;引擎 UI 皮/字模留引擎。
+- **A2 · 资源自包含**:把 demo 引用到的 map/tileset/sprite/palette 拷进 `projects/demo/assets/`;`assets.ts` 改吃 manifest.assets root;引擎 UI 皮/字模留引擎。
 
 **A 期验收 gate**(必须全过):
 1. `main.ts` **零具体游戏 import / 零 `SCENE_ID`/`MAP_NAME` 字面量常量**(全来自 manifest)。

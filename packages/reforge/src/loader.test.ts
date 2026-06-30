@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest'
 import { assembleProject } from './loader.js'
 
 const manifest: LoadedManifest = {
-  id: 'guijie-dlc',
+  id: 'demo',
   name: '鬼界·民居(DLC-01)',
   contentVersion: 1,
   entryScene: 'guijie-minju',
@@ -89,7 +89,7 @@ describe('assembleProject(纯核)', () => {
       items: itemsJson,
       locale: localeJson,
     })
-    expect(p.manifest.id).toBe('guijie-dlc')
+    expect(p.manifest.id).toBe('demo')
     expect(p.scenes.map((s) => s.id)).toEqual(['guijie-minju'])
     expect(p.entryScene?.id).toBe('guijie-minju') // entryScene 解析 = scenes.find(entryScene)
     expect(p.charactersById['li-xiaoyao']?.baseStats.attack).toBe(33)

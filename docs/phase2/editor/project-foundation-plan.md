@@ -50,9 +50,9 @@
 
 ## 任务 A1b · 数据外置为 JSON + loader(删 const)
 
-**目标**:数据从 content const 搬到 `projects/guijie-dlc/`,reforge 经 loader 运行期 fetch + 校验 + 组装,main.ts 不再 import 任何具体游戏数据。
+**目标**:数据从 content const 搬到 `projects/demo/`,reforge 经 loader 运行期 fetch + 校验 + 组装,main.ts 不再 import 任何具体游戏数据。
 
-1. **建工程目录** `projects/guijie-dlc/`:
+1. **建工程目录** `projects/demo/`:
    - `manifest.json`(照 design §3:id/name/contentVersion/entryScene/content/assets/startWorld)。
    - `content/{scenes,characters,skills,items,locale}.json`(照 design §4 序列化现有 const;§5-A 的去向表)。
    - `startWorld`:把 `initialWorld()` 的种子拆出来 —— `seedStats.li-xiaoyao = {hp:100, mp:30}`(现 [character.ts:94-95](../../../packages/content/src/character.ts#L94));party/money/learnedSkills/inventory 照现值。
@@ -70,12 +70,12 @@
    - IO 壳 `loadProject(projectId): Promise<LoadedProject>` = fetch manifest + 5 个 content JSON → `assembleProject`。
    - `skills`/`items` 组成 `Record<id, T>`(state/render 要按 id 查),`scenes` 留数组 + `charactersById`。
 5. **main.ts 改造**(design §5-C):
-   - `const PROJECT_ID = import.meta.env.VITE_PROJECT_ID ?? 'guijie-dlc'`;`const project = await loadProject(PROJECT_ID)`。
+   - `const PROJECT_ID = import.meta.env.VITE_PROJECT_ID ?? 'demo'`;`const project = await loadProject(PROJECT_ID)`。
    - 删 `import { guijieMinjuScene, initialWorld }`;入口场景 `const scene = project.scenes.find(s => s.id === project.manifest.entryScene)`(取不到 throw)。
    - `SCENE_ID`→`project.manifest.entryScene`;`MAP_NAME`→`project.manifest.name`(删那两个字面量常量)。
    - `world = buildWorld(project.manifest.startWorld, project.charactersById)`。
    - A1a 已让数据可注入 → 这里把 `project.items`/`project.skills` 喂给原来传 `DEMO_*` 的地方。
-   - **vite 配置**:`--project=<id>` / env → `define` 注入 `VITE_PROJECT_ID`(无参默认 guijie-dlc)。
+   - **vite 配置**:`--project=<id>` / env → `define` 注入 `VITE_PROJECT_ID`(无参默认 demo)。
 6. **删 content 数据 const**:`guijieMinjuScene`/`DEMO_SKILLS`/`LEVEL_UP_SKILLS`/`DEMO_ITEMS`/`LI_XIAOYAO`/`zhLocale`/`initialWorld`。保留所有 type/op/常量。
 7. **修测试**(删 const 后必然红):
    - content 的 op 单测(item/skill/character/locale/content.test.ts)改用**最小内联 fixture**(测逻辑不需要真数据),别再 import 已删的 const。
@@ -98,11 +98,11 @@
 
 **目标**:demo 引用的资源进工程文件夹,引擎按 manifest 路径加载,不再 fetch `/extracted`。引擎 UI 皮/字模留引擎。
 
-1. **枚举 demo 实际 fetch 的工程资源**(照 [main.ts:133-177](../../../packages/reforge/src/main.ts#L133)):tilemap 56、tileset 56、palette `PALETTE_ID`(默认 0)、sprite 2(李逍遥)+ sprite 16(鬼)。把这些从 `data/extracted/data/...` 拷进 `projects/guijie-dlc/assets/{maps,tilesets,sprites,palettes}/`。
+1. **枚举 demo 实际 fetch 的工程资源**(照 [main.ts:133-177](../../../packages/reforge/src/main.ts#L133)):tilemap 56、tileset 56、palette `PALETTE_ID`(默认 0)、sprite 2(李逍遥)+ sprite 16(鬼)。把这些从 `data/extracted/data/...` 拷进 `projects/demo/assets/{maps,tilesets,sprites,palettes}/`。
    - **引擎件留引擎**(别拷进工程):glyph 字模、`loadMenuAssets`、`loadCursorFrames`、`loadPortraits`。
 2. **`assets.ts` 改吃工程根**:`loadTilemap/loadTileset/loadSprite/loadPalette` 现写死 `BASE='/extracted'`([:8](../../../packages/reforge/src/assets.ts#L8))→ 接收 root 参(来自 `manifest.assets`,loader 解析)。main.ts 传 `project` 的资源根。
 3. portraits(`dialog-assets`)目前算 demo 内容头像还是引擎件?**本期归引擎**(占位头像),留注释「将来工程可覆盖」,先不动。
-4. **验收**:把 `public/extracted` symlink 改名/指走,`pnpm --filter reforge dev --project=guijie-dlc` demo 仍正常(证明真自包含);`pnpm check` 绿;Claude 浏览器实测画面/精灵/调色板不变。
+4. **验收**:把 `public/extracted` symlink 改名/指走,`pnpm --filter reforge dev --project=demo` demo 仍正常(证明真自包含);`pnpm check` 绿;Claude 浏览器实测画面/精灵/调色板不变。
 
 ---
 

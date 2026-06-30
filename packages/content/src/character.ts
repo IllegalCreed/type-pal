@@ -105,7 +105,10 @@ export function buildWorld(
   return {
     party,
     money: startWorld.money,
-    learnedSkills: startWorld.learnedSkills,
-    inventory: startWorld.inventory,
+    // 拷贝(非引用):还原 initialWorld() 的 fresh-array 语义,防运行期改动回写污染 startWorld 源
+    learnedSkills: Object.fromEntries(
+      Object.entries(startWorld.learnedSkills).map(([id, ids]) => [id, [...ids]]),
+    ),
+    inventory: startWorld.inventory.map((e) => ({ ...e })),
   }
 }

@@ -127,8 +127,8 @@ const PALETTE_ID = Number(new URLSearchParams(location.search).get('pal') ?? 0)
 const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
 
 async function main(): Promise<void> {
-  // 工程化:运行期加载工程(vite define 注入 VITE_PROJECT_ID;缺省 guijie-dlc)。
-  const PROJECT_ID = import.meta.env.VITE_PROJECT_ID ?? 'guijie-dlc'
+  // 工程化:运行期加载工程(vite define 注入 VITE_PROJECT_ID;缺省 demo)。
+  const PROJECT_ID = import.meta.env.VITE_PROJECT_ID ?? 'demo'
   const project: LoadedProject = await loadProject(PROJECT_ID)
   const scene = project.entryScene // 入口场景(= 旧 scene)
   const mapNum = scene.map.reuseOriginalMap

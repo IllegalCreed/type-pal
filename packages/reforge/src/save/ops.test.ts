@@ -18,9 +18,9 @@ describe('save ops（纯）', () => {
   test('buildPayload：version + projectId/contentVersion + world + position', () => {
     const w = makeTestWorld()
     const pos = { col: 1, row: 2, height: 0 }
-    const p = buildPayload(w, { sceneId: 's', pos, facing: 'down' }, 'guijie-dlc', 1)
+    const p = buildPayload(w, { sceneId: 's', pos, facing: 'down' }, 'demo', 1)
     expect(p.version).toBe(SAVE_VERSION)
-    expect(p.projectId).toBe('guijie-dlc')
+    expect(p.projectId).toBe('demo')
     expect(p.contentVersion).toBe(1)
     expect(p.world).toBe(w)
     expect(p.position).toEqual({ sceneId: 's', pos, facing: 'down' })

@@ -15,7 +15,7 @@ function meta(slotId: string): SaveMeta {
 function payload(): SavePayload {
   return {
     version: SAVE_VERSION,
-    projectId: 'guijie-dlc',
+    projectId: 'demo',
     contentVersion: 1,
     world: makeTestWorld(),
     position: { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
