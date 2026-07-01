@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: game_engine/core_engine/menu_system
+title: 游戏内菜单系统 (Menu System)
+scope:
+    - packages/game/src/core/menu/
+source_files: []
+depends_on: []
+related_to:
+    - path: game_engine/core_engine/save_system

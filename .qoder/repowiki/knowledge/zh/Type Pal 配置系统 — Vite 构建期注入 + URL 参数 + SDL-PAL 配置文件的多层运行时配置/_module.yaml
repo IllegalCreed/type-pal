@@ -1,0 +1,13 @@
+schema_version: 1
+module_path: configuration_system
+title: Type Pal 配置系统 — Vite 构建期注入 + URL 参数 + SDL-PAL 配置文件的多层运行时配置
+scope: []
+source_files:
+    - packages/game/vite.config.ts
+    - packages/game/playwright.config.ts
+    - packages/game/src/main.ts
+    - packages/game/src/shell/bootstrap.ts
+    - packages/reforge/src/main.ts
+    - sdlpal.cfg
+depends_on: []
+related_to: []

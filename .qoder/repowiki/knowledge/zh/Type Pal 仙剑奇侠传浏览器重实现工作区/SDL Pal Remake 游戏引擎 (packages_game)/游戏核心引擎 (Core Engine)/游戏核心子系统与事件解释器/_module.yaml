@@ -1,0 +1,16 @@
+schema_version: 1
+module_path: game_engine/core_engine/shared_core
+title: 游戏核心子系统与事件解释器
+scope:
+    - packages/game/src/core/command-bus.ts
+    - packages/game/src/core/event-system.ts
+    - packages/game/src/core/game-state.ts
+    - packages/game/src/core/rng.ts
+    - packages/game/src/core/palette-fade.ts
+    - packages/game/src/core/word-lookup.ts
+    - packages/game/src/core/dialog-history.ts
+    - packages/game/src/core/equip-effect.ts
+    - packages/game/src/core/inspect/
+source_files: []
+depends_on: []
+related_to: []

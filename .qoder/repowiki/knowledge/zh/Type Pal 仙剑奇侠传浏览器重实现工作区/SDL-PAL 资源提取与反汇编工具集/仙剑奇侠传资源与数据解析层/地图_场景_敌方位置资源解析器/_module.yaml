@@ -1,0 +1,11 @@
+schema_version: 1
+module_path: pal_extract/resources/map_scene
+title: 地图/场景/敌方位置资源解析器
+scope:
+    - packages/pal-extract/src/resources/map.ts
+    - packages/pal-extract/src/resources/scene.ts
+    - packages/pal-extract/src/resources/enemy-pos.ts
+source_files: []
+depends_on: []
+related_to:
+    - path: pal_extract/io_layer

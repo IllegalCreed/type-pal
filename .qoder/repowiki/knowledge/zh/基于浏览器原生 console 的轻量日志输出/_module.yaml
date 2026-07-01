@@ -1,0 +1,12 @@
+schema_version: 1
+module_path: logging_system
+title: 基于浏览器原生 console 的轻量日志输出
+scope: []
+source_files:
+    - packages/game/src/main.ts
+    - packages/game/src/dev/dev-panel.ts
+    - packages/game/src/core/event-system.ts
+    - packages/game/src/core/equip-effect.ts
+    - packages/game/src/dev/state-dump.ts
+depends_on: []
+related_to: []

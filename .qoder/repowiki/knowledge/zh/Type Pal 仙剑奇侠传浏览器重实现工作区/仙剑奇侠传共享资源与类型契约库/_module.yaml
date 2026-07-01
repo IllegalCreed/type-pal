@@ -1,0 +1,11 @@
+schema_version: 1
+module_path: shared_lib
+title: 仙剑奇侠传共享资源与类型契约库
+scope:
+    - packages/shared/
+source_files: []
+depends_on: []
+related_to:
+    - path: game_engine
+    - path: migrate
+    - path: reforge

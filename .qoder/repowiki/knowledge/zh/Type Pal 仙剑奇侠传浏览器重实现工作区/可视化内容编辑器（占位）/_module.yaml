@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: editor
+title: 可视化内容编辑器（占位）
+scope:
+    - packages/editor/
+source_files: []
+depends_on: []
+related_to:
+    - path: content_schema

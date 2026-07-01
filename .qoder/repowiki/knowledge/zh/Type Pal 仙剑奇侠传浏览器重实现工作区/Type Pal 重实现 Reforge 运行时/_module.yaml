@@ -1,0 +1,11 @@
+schema_version: 1
+module_path: reforge
+title: Type Pal 重实现 Reforge 运行时
+scope:
+    - packages/reforge/
+source_files: []
+depends_on: []
+related_to:
+    - path: content_schema
+    - path: game_engine
+    - path: shared_lib

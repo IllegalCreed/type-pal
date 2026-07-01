@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: pal_extract/cli_and_scripts
+title: PAL 资源提取 CLI 与辅助脚本
+scope:
+    - packages/pal-extract/src/cli.ts
+    - packages/pal-extract/scripts/
+source_files: []
+depends_on: []
+related_to:
+    - path: pal_extract/resources
