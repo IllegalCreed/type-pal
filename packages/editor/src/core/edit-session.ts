@@ -19,11 +19,13 @@ export interface EditorState extends ContentBundle {
   manifest: LoadedManifest
 }
 
-/** 编辑会话:不可变工作副本 + undo/redo 栈 + 订阅。 */
+/** 编辑会话:不可变工作副本 + undo/redo 栈 + 订阅 + 脏标记。 */
 export class EditSession {
   private state: EditorState
   private past: Command[] = []
   private future: Command[] = []
+  /** 有未保存改动(自上次 markSaved 后 dispatch/undo/redo 过)。保存按钮据此亮 ●。 */
+  private dirty = false
   private readonly listeners = new Set<() => void>()
 
   constructor(initial: EditorState) {
@@ -35,11 +37,23 @@ export class EditSession {
     return this.state
   }
 
-  /** 派发命令:apply → 入 past → 清 future → 通知。 */
+  /** 是否有未保存的改动(保存 UI 据此亮 ●)。 */
+  isDirty(): boolean {
+    return this.dirty
+  }
+
+  /** 标记已保存:清脏标记并通知(保存按钮 ● 要刷新成已保存态)。 */
+  markSaved(): void {
+    this.dirty = false
+    this.notify()
+  }
+
+  /** 派发命令:apply → 入 past → 清 future → 置脏 → 通知。 */
   dispatch(cmd: Command): void {
     this.state = cmd.apply(this.state)
     this.past.push(cmd)
     this.future = []
+    this.dirty = true
     this.notify()
   }
 
@@ -49,6 +63,7 @@ export class EditSession {
     if (!cmd) return
     this.state = cmd.invert(this.state)
     this.future.push(cmd)
+    this.dirty = true
     this.notify()
   }
 
@@ -58,6 +73,7 @@ export class EditSession {
     if (!cmd) return
     this.state = cmd.apply(this.state)
     this.past.push(cmd)
+    this.dirty = true
     this.notify()
   }
 

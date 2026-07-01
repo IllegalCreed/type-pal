@@ -76,3 +76,28 @@ test('subscribe 在每次状态变化时触发,退订后不再触发', () => {
   sess.redo()
   expect(fn).toHaveBeenCalledTimes(2)
 })
+
+// ── 脏标记(L2)──────────────────────────────────────────────
+test('脏标记:初始干净;dispatch 置脏;markSaved 清脏且通知', () => {
+  const sess = new EditSession(mkState())
+  expect(sess.isDirty()).toBe(false)
+  sess.dispatch(new MoveEntityCommand('s', 'e', { col: 5, row: 6, height: 0 }))
+  expect(sess.isDirty()).toBe(true)
+  const fn = vi.fn()
+  sess.subscribe(fn)
+  sess.markSaved()
+  expect(sess.isDirty()).toBe(false)
+  expect(fn).toHaveBeenCalledTimes(1) // markSaved 触发订阅(保存按钮要刷新)
+})
+
+test('脏标记:undo/redo 也置脏(撤销到原点仍视为有未保存改动)', () => {
+  const sess = new EditSession(mkState())
+  sess.dispatch(new MoveEntityCommand('s', 'e', { col: 5, row: 6, height: 0 }))
+  sess.markSaved()
+  expect(sess.isDirty()).toBe(false)
+  sess.undo()
+  expect(sess.isDirty()).toBe(true)
+  sess.markSaved()
+  sess.redo()
+  expect(sess.isDirty()).toBe(true)
+})
