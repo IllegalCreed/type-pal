@@ -1,54 +1,47 @@
 /**
- * @type-pal/editor React 根(D-B0 脚手架占位壳)。
+ * @type-pal/editor 入口(B1.1)。
  *
- * B0 只证「editor → reforge import + /projects serveDir + loadProject」整条复用链通:
- * 载 demo 工程,把入口场景 id 打到 console。不画 canvas(画布视口是 B1)。
- *
- * 见 docs/phase2/editor/editor-b0-plan.md Task 5。
+ * 载 demo 工程 → toEditorState → EditSession → 渲染编辑器外壳(App)。
+ * project(LoadedProject)透传给 App:assetBase/entryScene 是运行期派生物,不进 EditorState,
+ * 画布渲染要用(见 project-io.ts 的说明)。
  */
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { loadProject } from '@type-pal/reforge'
+import type { LoadedProject } from '@type-pal/reforge'
+import { EditSession } from './core/edit-session.js'
+import { toEditorState } from './core/project-io.js'
+import { App } from './ui/App.js'
+import './ui/editor.css'
 
-type Status = 'loading' | { sceneId: string } | { error: string }
+const PROJECT_ID = import.meta.env.VITE_PROJECT_ID ?? 'demo'
 
-function App() {
-  const [status, setStatus] = useState<Status>('loading')
+type Boot = { session: EditSession; project: LoadedProject } | { error: string } | null
 
+function Root() {
+  const [boot, setBoot] = useState<Boot>(null)
   useEffect(() => {
-    let cancelled = false
-    loadProject('demo')
+    let alive = true
+    loadProject(PROJECT_ID)
       .then((project) => {
-        if (cancelled) return
-        const sceneId = project.entryScene.id
-        console.log('[editor] demo 入口场景 id:', sceneId)
-        setStatus({ sceneId })
+        if (!alive) return
+        setBoot({ session: new EditSession(toEditorState(project)), project })
       })
-      .catch((err: unknown) => {
-        if (cancelled) return
-        const msg = err instanceof Error ? err.message : String(err)
-        console.error('[editor] loadProject 失败:', err)
-        if (!cancelled) setStatus({ error: msg })
+      .catch((e: unknown) => {
+        if (alive) setBoot({ error: e instanceof Error ? e.message : String(e) })
       })
     return () => {
-      cancelled = true
+      alive = false
     }
   }, [])
 
-  if (status === 'loading') return <div>正在载入 demo 工程…</div>
-  if ('error' in status) return <div>载入失败:{status.error}</div>
-  return (
-    <div>
-      <h1>编辑器地基就位</h1>
-      <p>
-        已载 demo 工程,入口场景:<code>{status.sceneId}</code>(详见 console)
-      </p>
-    </div>
-  )
+  if (!boot) return <div className="boot">载入 demo 工程…</div>
+  if ('error' in boot) return <div className="boot"><div className="err">载入失败: {boot.error}</div></div>
+  return <App session={boot.session} project={boot.project} />
 }
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <Root />
   </StrictMode>,
 )
