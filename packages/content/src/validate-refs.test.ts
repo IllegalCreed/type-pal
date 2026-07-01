@@ -1,0 +1,116 @@
+import { describe, expect, test } from 'vitest'
+import { validateReferences, type ContentBundle } from './validate-refs.js'
+
+// 深拷贝(content 是纯逻辑包,tsconfig 无 DOM lib → 不用 structuredClone;JSON 法对这些纯数据 fixture 足够)。
+const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x)) as T
+
+const base: ContentBundle = {
+  scenes: [
+    {
+      id: 's',
+      map: { reuseOriginalMap: 1, room: { col: 0, row: 0, cols: 1, rows: 1 } },
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [{ id: 'e', pos: { col: 0, row: 0, height: 0 }, sprite: 'ghost', interact: 'talk' }],
+      dialogues: [{ id: 'talk', lines: [{ text: 'dlg.talk.0' }] }],
+    },
+  ],
+  characters: [
+    {
+      id: 'hero',
+      name: 'name.hero',
+      baseStats: {} as never,
+      initialEquipment: {},
+      initialMagic: [],
+    },
+  ],
+  skills: [{ id: '1' } as never],
+  levelUp: {},
+  items: [{ id: 'i1' } as never],
+  locale: { 'dlg.talk.0': '…', 'name.hero': '主角' },
+  sprites: [{ id: 'ghost', spriteNum: 16, label: 'g' }],
+  startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
+}
+
+test('干净 bundle → 无 issue', () => {
+  expect(validateReferences(base)).toEqual([])
+})
+test('entity.interact 指向不存在对话 → 报 error', () => {
+  const b = clone(base)
+  b.scenes[0]!.entities[0]!.interact = 'nope'
+  const iss = validateReferences(b)
+  expect(iss.some((i) => i.severity === 'error' && /interact.*nope/.test(i.where + i.message))).toBe(
+    true,
+  )
+})
+test('DialogueLine.text 不在 locale → 报 warn', () => {
+  const b = clone(base)
+  b.scenes[0]!.dialogues[0]!.lines[0]!.text = 'dlg.missing'
+  expect(
+    validateReferences(b).some(
+      (i) => /locale/.test(i.message) && /dlg\.missing/.test(i.where + i.message),
+    ),
+  ).toBe(true)
+})
+test('levelUp.skillId 不在 skills → 报 warn(demo 已知未迁全)', () => {
+  const b = clone(base)
+  b.levelUp = { hero: [{ level: 7, skillId: '349' }] }
+  expect(validateReferences(b).some((i) => /349/.test(i.where + i.message))).toBe(true)
+})
+test('entity.sprite 不在 sprites 注册表 → 报 error', () => {
+  const b = clone(base)
+  b.scenes[0]!.entities[0]!.sprite = 'unknown'
+  expect(
+    validateReferences(b).some((i) => i.severity === 'error' && /unknown/.test(i.where + i.message)),
+  ).toBe(true)
+})
+test('CharacterTemplate.initialEquipment 指向不存在物品 → 报 warn(复核补漏)', () => {
+  const b = clone(base)
+  b.characters[0]!.initialEquipment = { weapon: 'no-item' }
+  expect(validateReferences(b).some((i) => /no-item/.test(i.where + i.message))).toBe(true)
+})
+test('startWorld.party 指向不存在角色 → 报 error', () => {
+  const b = clone(base)
+  b.startWorld.party = ['nobody']
+  expect(
+    validateReferences(b).some(
+      (i) => i.severity === 'error' && /nobody/.test(i.where + i.message),
+    ),
+  ).toBe(true)
+})
+test('startWorld.learnedSkills 指向不存在技能 → 报 warn', () => {
+  const b = clone(base)
+  b.startWorld.learnedSkills = { hero: ['999'] }
+  expect(validateReferences(b).some((i) => /999/.test(i.where + i.message))).toBe(true)
+})
+test('EquipSpec.equipableBy 指向不存在角色 → 报 warn', () => {
+  const b = clone(base)
+  ;(b.items[0] as { equip?: unknown }).equip = {
+    slot: 'weapon',
+    equipableBy: ['ghost-man'],
+    effects: [],
+  }
+  expect(validateReferences(b).some((i) => /ghost-man/.test(i.where + i.message))).toBe(true)
+})
+test('EquipEffect.grantSkill.skillId 不在 skills → 报 warn', () => {
+  const b = clone(base)
+  ;(b.items[0] as { equip?: unknown }).equip = {
+    slot: 'accessory',
+    equipableBy: ['hero'],
+    effects: [{ kind: 'grantSkill', skillId: '336' }],
+  }
+  expect(validateReferences(b).some((i) => /336/.test(i.where + i.message))).toBe(true)
+})
+test('SkillCost.items[].itemId 不在 items → 报 warn', () => {
+  const b = clone(base)
+  ;(b.skills[0] as { cost?: unknown }).cost = { items: [{ itemId: 'no-wine', amount: 1 }] }
+  expect(validateReferences(b).some((i) => /no-wine/.test(i.where + i.message))).toBe(true)
+})
+test('DialogueLine.speaker 不在 locale → 报 warn', () => {
+  const b = clone(base)
+  b.scenes[0]!.dialogues[0]!.lines[0]!.speaker = 'name.unknown'
+  expect(
+    validateReferences(b).some(
+      (i) => /locale/.test(i.message) && /name\.unknown/.test(i.where + i.message),
+    ),
+  ).toBe(true)
+})
