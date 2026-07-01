@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<title>编辑器 · 布置模式 mockup v3</title>
+<style>
+  :root {
+    --bg: #1b1d23; --panel: #232732; --panel2: #2b303c; --panel3: #2f3542; --line: #363c4a;
+    --fg: #d7dce5; --dim: #8b93a3; --faint: #666e7e; --accent: #4c9aff;
+    --warn: #e2b340; --err: #e05b5b; --ok: #58b37a;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 13px;
+         display: grid; grid-template-rows: 40px 1fr 26px; height: 100vh; overflow: hidden; }
+
+  /* ── 顶栏(应用级) ── */
+  .topbar { display: flex; align-items: center; gap: 10px; padding: 0 12px;
+            background: var(--panel); border-bottom: 1px solid var(--line); }
+  .topbar .proj { font-weight: 600; }
+  .topbar .proj .kind { color: var(--dim); font-weight: 400; font-size: 12px; margin-left: 6px; }
+  .topbar .spacer { flex: 1; }
+  .tbtn { background: transparent; border: 1px solid transparent; color: var(--dim);
+          padding: 5px 8px; border-radius: 5px; cursor: pointer; font-size: 13px; }
+  .tbtn:hover { background: var(--panel2); color: var(--fg); }
+  .tbtn[disabled] { color: #4a505d; cursor: default; background: transparent; }
+  .save { background: var(--accent); border: 0; color: #06121f; font-weight: 600;
+          padding: 6px 12px; border-radius: 5px; cursor: pointer; }
+  .save .dot { color: #06121f; opacity: .55; margin-left: 4px; }
+
+  /* ── 主体:rail | outliner | 中(toolbar+canvas) | inspector ── */
+  .body { display: grid; grid-template-columns: 52px 194px 1fr 290px; min-height: 0; }
+
+  /* 模式 rail */
+  .rail { background: var(--panel); border-right: 1px solid var(--line);
+          display: flex; flex-direction: column; padding: 6px 0; gap: 2px; }
+  .mode { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 9px 0;
+          color: var(--faint); cursor: pointer; border-left: 2px solid transparent; }
+  .mode .ico { font-size: 18px; } .mode .lbl { font-size: 10px; }
+  .mode.active { color: var(--fg); background: var(--panel2); border-left-color: var(--accent); }
+  .mode.soon { opacity: .5; cursor: default; }
+
+  /* Outliner(场景对象树 + 图层) */
+  .outliner { background: var(--panel); border-right: 1px solid var(--line);
+              display: flex; flex-direction: column; min-height: 0; }
+  .pane-h { display: flex; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  .pane-h .t { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--dim); font-weight: 600; }
+  .pane-h .spacer { flex: 1; }
+  .mini { background: var(--panel2); border: 1px solid var(--line); color: var(--dim);
+          width: 22px; height: 22px; border-radius: 4px; cursor: pointer; font-size: 14px; line-height: 1; }
+  .mini:hover { color: var(--fg); }
+  .tree { padding: 4px 0; overflow-y: auto; }
+  .node { display: flex; align-items: center; gap: 6px; padding: 5px 10px; cursor: pointer; color: var(--dim); }
+  .node:hover { background: var(--panel2); }
+  .node.sel { background: #2d3852; color: var(--fg); box-shadow: inset 2px 0 0 var(--accent); }
+  .node.child { padding-left: 24px; }
+  .node .ico { width: 15px; text-align: center; }
+  .node .k { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--faint); }
+  .layers { border-top: 1px solid var(--line); padding: 8px 10px; }
+  .layers .t { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--dim); font-weight: 600; margin-bottom: 6px; }
+  .lrow { display: flex; align-items: center; gap: 7px; padding: 3px 0; font-size: 12px; cursor: pointer; color: var(--fg); }
+  .lrow.off { color: var(--faint); }
+  .lrow input { accent-color: var(--accent); }
+
+  /* 中:toolbar + canvas */
+  .center { display: grid; grid-template-rows: 40px 1fr; min-width: 0; }
+  .toolbar { display: flex; align-items: center; gap: 4px; padding: 0 10px;
+             background: var(--panel2); border-bottom: 1px solid var(--line); }
+  .tool { display: flex; align-items: center; gap: 5px; background: transparent; border: 1px solid transparent;
+          color: var(--dim); padding: 5px 9px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+  .tool:hover { background: var(--panel3); color: var(--fg); }
+  .tool.active { background: var(--accent); border-color: var(--accent); color: #06121f; font-weight: 600; }
+  .tool.danger:hover { color: #ff8a8a; }
+  .sep { width: 1px; height: 20px; background: var(--line); margin: 0 6px; }
+  .toolbar .spacer { flex: 1; }
+  .vtog { display: flex; align-items: center; gap: 5px; color: var(--dim); border: 1px solid var(--line);
+          background: var(--panel); padding: 4px 8px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+  .vtog.on { color: var(--fg); border-color: #46506a; }
+  .vtog input { accent-color: var(--accent); }
+  .bright { display: flex; align-items: center; gap: 6px; color: var(--dim); font-size: 11px; }
+  .bright input { width: 66px; accent-color: var(--accent); }
+
+  .viewport { position: relative; overflow: hidden;
+      background: repeating-linear-gradient(45deg, #171920 0 12px, #191b22 12px 24px); }
+  .canvas-note { position: absolute; top: 8px; left: 10px; color: var(--faint); font-size: 11px;
+                 background: rgba(0,0,0,.3); padding: 3px 7px; border-radius: 4px; }
+  .zoom { position: absolute; bottom: 10px; right: 10px; display: flex; align-items: center; gap: 4px; }
+  .zoom .z { background: rgba(20,22,28,.85); border: 1px solid var(--line); color: var(--dim);
+             padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; }
+  .scene { position: absolute; inset: 0; }
+  .grid { position: absolute; left: 10%; top: 10%; width: 80%; height: 80%; opacity: .5;
+     background-image: linear-gradient(60deg, transparent 49%, #3a4256 50%, transparent 51%),
+                       linear-gradient(-60deg, transparent 49%, #33384a 50%, transparent 51%);
+     background-size: 34px 20px; }
+  .occluder { position: absolute; left: 57%; top: 38%; width: 92px; height: 76px; z-index: 20;
+              background: linear-gradient(#5a4636, #3d2f24); border: 1px solid #6b543f; border-radius: 3px;
+              display: grid; place-items: center; color: #b79a78; font-size: 10px; }
+  .ent { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .ent .dot { width: 26px; height: 40px; border-radius: 5px 5px 3px 3px;
+              background: linear-gradient(#6b7183, #454b5c); border: 1px solid #7d859c; }
+  .ent .tag { font-size: 10px; color: var(--dim); background: rgba(0,0,0,.4); padding: 1px 5px; border-radius: 3px; }
+  .ent.player .dot { background: linear-gradient(#c9d2e2, #9aa4b8); }
+  .ent.selected { z-index: 30; }
+  .ent.selected .dot { outline: 2px dashed var(--accent); outline-offset: 3px; box-shadow: 0 0 0 4px rgba(76,154,255,.14); }
+  .ent.selected .tag { color: var(--accent); }
+  .handle { position: absolute; width: 7px; height: 7px; background: var(--accent); border: 1px solid #06121f; }
+
+  /* Inspector(只放选中项属性) */
+  .inspector { background: var(--panel); border-left: 1px solid var(--line); overflow-y: auto; }
+  .insp-head { padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .insp-head .what { color: var(--dim); font-size: 11px; }
+  .insp-head .who { font-weight: 600; margin-top: 2px; }
+  .insp-head .who code { font-family: var(--mono); color: var(--dim); font-weight: 400; font-size: 11px; }
+  .section { padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .section h4 { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--dim);
+                margin-bottom: 8px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+  .section h4 .b2 { color: var(--faint); font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .field { display: grid; grid-template-columns: 60px 1fr; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .field label { color: var(--dim); font-size: 12px; }
+  .in { background: var(--panel2); border: 1px solid var(--line); color: var(--fg);
+        border-radius: 4px; padding: 4px 7px; font-size: 12px; width: 100%; }
+  .in.mono { font-family: var(--mono); }
+  .pick { display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+  .pick .meta { color: var(--faint); font-family: var(--mono); font-size: 10px; }
+  .posrow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+  .posrow .cell { display: flex; flex-direction: column; gap: 3px; }
+  .posrow .cell span { color: var(--dim); font-size: 10px; text-align: center; }
+  .posrow .cell input { text-align: center; }
+  .collapsed { color: var(--faint); font-size: 12px; cursor: pointer; }
+
+  /* 底:状态/校验 */
+  .valbar { display: flex; align-items: center; gap: 14px; padding: 0 12px;
+            background: var(--panel); border-top: 1px solid var(--line); font-size: 12px; }
+  .valbar .pill { display: flex; align-items: center; gap: 5px; }
+  .valbar .warn { color: var(--warn); }
+  .valbar .msg { color: var(--dim); font-family: var(--mono); font-size: 11px; }
+  .valbar .spacer { flex: 1; }
+</style>
+</head>
+<body>
+
+  <!-- 顶栏 -->
+  <div class="topbar">
+    <div class="proj">鬼界·民居<span class="kind">验证 demo</span></div>
+    <div class="spacer"></div>
+    <button class="tbtn" title="撤销 (Ctrl+Z)">↶</button>
+    <button class="tbtn" disabled title="重做 (Ctrl+Y)">↷</button>
+    <button class="save">💾 保存<span class="dot">●</span></button>
+  </div>
+
+  <div class="body">
+
+    <!-- 模式 rail -->
+    <div class="rail">
+      <div class="mode active"><span class="ico">📍</span><span class="lbl">布置</span></div>
+      <div class="mode soon"><span class="ico">🗺️</span><span class="lbl">地图</span></div>
+      <div class="mode soon"><span class="ico">💬</span><span class="lbl">事件</span></div>
+      <div class="mode soon"><span class="ico">📊</span><span class="lbl">数据</span></div>
+    </div>
+
+    <!-- Outliner:场景对象树 + 图层显隐 -->
+    <div class="outliner">
+      <div class="pane-h"><span class="t">场景</span><span class="spacer"></span>
+        <button class="mini" title="添加实体">＋</button></div>
+      <div class="tree">
+        <div class="node"><span class="ico">🗺️</span><span>guijie-minju</span></div>
+        <div class="node child"><span class="ico">📍</span><span>进场点</span></div>
+        <div class="node child sel"><span class="ico">👤</span><span>游魂</span><span class="k">wandering-ghost</span></div>
+      </div>
+      <div class="layers">
+        <div class="t">图层 / 显隐</div>
+        <label class="lrow"><input type="checkbox" checked /> 地板</label>
+        <label class="lrow"><input type="checkbox" checked /> 高物(墙·家具)</label>
+        <label class="lrow"><input type="checkbox" checked /> 实体</label>
+      </div>
+    </div>
+
+    <!-- 中:工具栏 + 画布 -->
+    <div class="center">
+      <div class="toolbar">
+        <button class="tool active" title="选择 / 拖动移位 (V)">↖ 选择/移动</button>
+        <button class="tool" title="点画布放新实体 (N)">＋ 添加实体</button>
+        <button class="tool danger" title="删除选中 (Del)">🗑 删除</button>
+        <span class="sep"></span>
+        <label class="vtog on"><input type="checkbox" checked /> 网格</label>
+        <label class="vtog"><input type="checkbox" /> 禁入</label>
+        <label class="vtog on"><input type="checkbox" checked /> 选中置顶</label>
+        <span class="spacer"></span>
+        <span class="bright">🔆 <input type="range" min="0" max="100" value="100" /></span>
+      </div>
+
+      <div class="viewport">
+        <div class="canvas-note">场景画布 · 复用 reforge 渲染(此处为布局占位)</div>
+        <div class="scene">
+          <div class="grid"></div>
+          <div class="occluder">高物·家具</div>
+          <div class="ent player" style="left:38%; top:56%;">
+            <div class="dot"></div><div class="tag">李逍遥(进场点)</div>
+          </div>
+          <div class="ent selected" style="left:60%; top:43%;">
+            <div class="dot"></div><div class="tag">游魂</div>
+            <span class="handle" style="left:-5px; top:-5px;"></span>
+            <span class="handle" style="right:-5px; top:-5px;"></span>
+            <span class="handle" style="left:-5px; bottom:14px;"></span>
+            <span class="handle" style="right:-5px; bottom:14px;"></span>
+          </div>
+        </div>
+        <div class="zoom"><span class="z">－</span><span class="z">100%</span><span class="z">＋</span></div>
+      </div>
+    </div>
+
+    <!-- Inspector:只放选中实体的属性 -->
+    <div class="inspector">
+      <div class="insp-head">
+        <div class="what">选中实体</div>
+        <div class="who">游魂 <code>wandering-ghost</code></div>
+      </div>
+      <div class="section">
+        <h4>外观 / 交互</h4>
+        <div class="field"><label>精灵</label>
+          <div class="in pick"><span>游魂(占位)</span><span class="meta">#16 ▾</span></div></div>
+        <div class="field"><label>碰撞</label><div><input type="checkbox" checked /> 阻挡通行</div></div>
+        <div class="field"><label>交互对话</label>
+          <div class="in pick"><span>ghost-hearsay</span><span class="meta">↗ 编辑</span></div></div>
+      </div>
+      <div class="section">
+        <h4>位置<span class="b2">· 菱形轴</span></h4>
+        <div class="posrow">
+          <div class="cell"><span>col</span><input class="in mono" value="92" /></div>
+          <div class="cell"><span>row</span><input class="in mono" value="12" /></div>
+          <div class="cell"><span>height</span><input class="in mono" value="0" /></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="collapsed">▸ 状态 / 条件 <span style="color:var(--faint)">(多状态·巡逻 — B2)</span></div>
+      </div>
+      <div class="section" style="border-bottom:0; color:var(--faint); font-size:12px;">
+        选中左侧「<span style="color:var(--dim)">guijie-minju</span>」场景节点 → 这里编 地图 / 调色板 / 进场点。
+      </div>
+    </div>
+  </div>
+
+  <!-- 底:状态 / 校验 -->
+  <div class="valbar">
+    <span class="pill warn">⚠ 2 警告</span>
+    <span class="msg">levelUp[li-xiaoyao] 技能 349 悬空 · 土灵珠 grantSkill 336 悬空</span>
+    <span class="spacer"></span>
+    <span class="pill" style="color:var(--ok)">✓ 引用完整性:实体/对话 OK</span>
+  </div>
+
+</body>
+</html>
