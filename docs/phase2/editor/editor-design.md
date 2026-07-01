@@ -20,6 +20,9 @@
 | 交互模型 | **模式化外壳**(中心画布 + 模式切换 + 随模式变的面板) | 成熟做法(RPG Maker/Tiled/Godot);解掉「拖动歧义」——手势归当前模式管。 |
 | 编辑状态 | **command/undo 模型第一天就进** | 最大返工点:后加 undo = 每个模式重写。 |
 | `shared` 依赖 | **接受**(编辑器经 reforge 间接依赖冻结的解码类型) | D18 已登记的债;为它先做资产格式大迁移=过度设计。 |
+| B0 地基分工 | **GLM 做**(非视觉:补出口/schema/校验/command-undo 核);B1 视觉壳 Claude | 同 A 期分工;core 纯 TS 可 TDD。 |
+| 精灵引用 | **语义注册表 `sprites.json`**(id→spriteNum+label);`EntityDef.sprite` 引用其 id | 保持语义 id(非裸数字)+ 给选择器人读标签 + 修引擎写死 2/16。 |
+| MVP 模式数 | **只「布置」一个模式** | 已够压满五根地基;其余模式往壳里加,不返工。 |
 
 ## 2. 包 / 依赖形状
 
@@ -42,7 +45,7 @@ editor  (React vite app,新建)
 
 reforge 的渲染是纯 blitter,零游戏状态耦合。复用需三步(都不重写逻辑):
 
-1. **给 reforge 补包出口**:`reforge/package.json` 现无 `exports`/`main`,加上 + 建 `src/index.ts` barrel,导出:`Canvas2DRenderer` + 类型(`Camera`/`CellRect`/`SpriteDraw`)、`assets.ts` 的 loaders(`loadTilemap/Tileset/Sprite/Palette` + `AssetBase`/`LoadedSprite`)、`loader.ts` 的 `loadProject/assembleProject/LoadedProject`。
+1. **给 reforge 补包出口**:`reforge/package.json` 现无 `exports`/`main`,加上 + 建 `src/index.ts` barrel,导出:`Canvas2DRenderer` + 类型(`Camera`/`CellRect`/`SpriteDraw`)、`assets.ts` 的 loaders(`loadTilemap/Tileset/Sprite/Palette` + `AssetBase`/`LoadedSprite`)、`loader.ts` 的 `loadProject/assembleProject/LoadedProject`、`collision.ts` 的 `isBlockedAt`(编辑器画禁入格复用,见 §8)。
 2. **抽「画一帧场景」函数**:把 `main.ts:288-323`(clear → 定相机 → 组 `SpriteDraw[]` → scale+`renderScene`)抽成 `renderSceneFrame(ctx, renderer, {map, room, camera, sprites})`,reforge 自己的 main 也改调它(去重,单一真源)。
 3. **editor 的 vite.config 复制 `serveDir` 中间件**(`/projects`、`/extracted` → 仓库根目录;和 game/reforge 同款,可抽成共享 vite 插件)。
 
@@ -96,9 +99,11 @@ interface EditorMode {
 
 > 顺带修引擎潜伏坑。另记一个待修:菜单取角色名用 `` `name.${template}` `` 拼键而非读 `CharacterTemplate.name`([main.ts:235](../../../packages/reforge/src/main.ts#L235) 等 4 处)——编辑器数据模式要么钉死 `name === "name."+id` 不变式,要么先把这 4 处改成读 `.name`。
 
-## 8. 坐标系(已知复杂点,非新地基)
+## 8. 坐标系 + 叠加层归属(已知复杂点,非新地基)
 
-同一场景里**两套坐标**:`SceneDef.map.room` = 老矩形瓦片格(32×16);`EntityDef.pos`/`entry.pos` = 菱形轴 `GridPos`(col/row/height,经 `gridToPixel`)。编辑器的画布渲染(复用 reforge)已正确处理两者;**命中测试/点击落点**要:实体放置用 `pixelToGrid`(菱形),房间裁剪框用瓦片格——`render/` 层同时管两套。`grid.ts` 提供菱形数学。
+**两套坐标**:`SceneDef.map.room` = 老矩形瓦片格(32×16);`EntityDef.pos`/`entry.pos` = 菱形轴 `GridPos`(col/row/height,经 `gridToPixel`)。编辑器的画布渲染(复用 reforge)已正确处理两者;**命中测试/点击落点**要:实体放置用 `pixelToGrid`(菱形),房间裁剪框用瓦片格——`render/` 层同时管两套。`grid.ts` 提供菱形数学。
+
+**渲染 vs 逻辑的边界(叠加层归属)**:网格 / 禁入(碰撞)格 / 进场点这些**可视化是编辑器的事,玩家端游戏从不画** → 编辑器 `render/` 画在「复用的场景底图」之上(叠加层)。但**碰撞逻辑留引擎**:`isBlockedAt`/`pixelToGrid`(reforge `collision.ts`)算哪格禁入——编辑器**复用**它(import,不重写)来决定画哪些禁入格,保证「编辑器显示的禁入 = 游戏真正用的判定」,同一套、不漂移。→ 复用面再加一处 `collision.ts`(§3)。引擎现有的 `DEBUG_COLLISION` 叠加层([main.ts:406-444](../../../packages/reforge/src/main.ts#L406))是编辑器前的临时拐杖,以后冗余,可当清理删(或留作无害 dev flag)。
 
 ## 9. 落盘 + 回读闭环
 
