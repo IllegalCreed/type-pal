@@ -52,6 +52,7 @@ import { drawUseMenu } from './menu/use-box.js'
 import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './menu-state.js'
 import { resolveMove } from './movement.js'
 import { Canvas2DRenderer, type SpriteDraw } from './render.js'
+import { renderSceneFrame } from './render-scene.js'
 import {
   browserConfirm,
   browserConfirmOverwriteNo,
@@ -286,7 +287,6 @@ async function main(): Promise<void> {
   }
 
   function render(): void {
-    renderer.clear()
     updateCamera() // 相机跟随玩家
     // 精灵 + 高物瓦片由 renderScene 按投影 Y 统一深度排序（遮挡）；地板自动铺底。
     const sprites: SpriteDraw[] = []
@@ -314,13 +314,16 @@ async function main(): Promise<void> {
         anchorY: playerSprite.anchorY,
       })
     }
-    // 世界 + debug 在 320 逻辑坐标画,整体 ×WORLD_SCALE 放大到物理 canvas(D16)。
-    ctx.save()
-    ctx.scale(WORLD_SCALE, WORLD_SCALE)
-    ctx.imageSmoothingEnabled = false // 最近邻,点阵/瓦片整数倍放大不糊
-    renderer.renderScene(map, room, camera, sprites)
-    if (DEBUG_COLLISION) drawCollisionOverlay()
-    ctx.restore()
+    // 场景底图:clear + scale + renderScene + restore(抽成 renderSceneFrame,editor 复用同一绘制)。
+    renderSceneFrame(ctx, renderer, { map, room, camera, sprites, worldScale: WORLD_SCALE })
+    // debug 碰撞叠加层(reforge 自己的 dev 拐杖;非编辑器叠加层)—— 在底图之上、独立变换块。
+    if (DEBUG_COLLISION) {
+      ctx.save()
+      ctx.scale(WORLD_SCALE, WORLD_SCALE)
+      ctx.imageSmoothingEnabled = false
+      drawCollisionOverlay()
+      ctx.restore()
+    }
     // 对话框(UI)同样在 320 逻辑坐标画 + ×WORLD_SCALE 放大:POS 常量、字模 drawImage、
     // 折行 usable 全是 320 系,scale 后统一 ×4 —— 字模点阵整数倍放大锐利、版面比例不变(D16)。
     if (dialogBox.active) {
