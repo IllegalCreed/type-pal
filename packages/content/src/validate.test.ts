@@ -1,5 +1,26 @@
 import { describe, expect, test } from 'vitest'
-import { validateSprites } from './validate.js'
+import { validateScenes, validateSprites } from './validate.js'
+
+const mkScene = (over: Record<string, unknown> = {}): unknown => ({
+  id: 's',
+  map: { reuseOriginalMap: 1, room: { col: 0, row: 0, cols: 1, rows: 1 } },
+  entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+  entities: [],
+  dialogues: [],
+  ...over,
+})
+
+describe('validateScenes · paletteId', () => {
+  test('无 paletteId → 通过(可选,缺省 0 由调用方兜)', () => {
+    expect(() => validateScenes([mkScene()])).not.toThrow()
+  })
+  test('paletteId 是 number → 通过', () => {
+    expect(() => validateScenes([mkScene({ paletteId: 0 })])).not.toThrow()
+  })
+  test('paletteId 非 number → throw', () => {
+    expect(() => validateScenes([mkScene({ paletteId: '0' })])).toThrow('paletteId 非number')
+  })
+})
 
 describe('validateSprites', () => {
   test('合法数组 → 原样返回', () => {

@@ -121,9 +121,6 @@ function requireFirst<T>(arr: readonly T[], what: string): T {
 const canvas = document.getElementById('screen') as HTMLCanvasElement
 const ctx = get2dContext(canvas)
 
-// 调色板编号由 scene 进入脚本 setPalette 决定，demo 未跑脚本 → 先试 0；颜色不对再换号。
-const PALETTE_ID = Number(new URLSearchParams(location.search).get('pal') ?? 0)
-
 // 调试：?collision 把障碍格(0x2000)染色盖在画面上，肉眼比对禁入格 vs 视觉墙。
 const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
 
@@ -133,10 +130,12 @@ async function main(): Promise<void> {
   const project: LoadedProject = await loadProject(PROJECT_ID)
   const scene = project.entryScene // 入口场景(= 旧 scene)
   const mapNum = scene.map.reuseOriginalMap
+  // 调色板号:场景自带(SceneDef.paletteId,缺省 0);?pal= 作 dev override(本地试色板用,不删)。
+  const paletteId = Number(new URLSearchParams(location.search).get('pal') ?? scene.paletteId ?? 0)
   const [map, tiles, palette, glyphs, cursorFrames] = await Promise.all([
     loadTilemap(project.assetBase, mapNum),
     loadTileset(project.assetBase, mapNum),
-    loadPalette(project.assetBase, PALETTE_ID),
+    loadPalette(project.assetBase, paletteId),
     loadGlyphs(),
     loadCursorFrames().catch((err: unknown) => {
       console.warn('[reforge] cursor icons 加载失败,降级无光标:', err)

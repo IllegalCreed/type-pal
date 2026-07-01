@@ -77,6 +77,11 @@ export interface SceneDef {
     /** 取哪一间：该房间在原图里的格子矩形（左上角 col/row + 宽高格数,旧 cell 坐标,显示层用） */
     room: { col: number; row: number; cols: number; rows: number }
   }
+  /**
+   * 调色板号(原版调色板下标);缺省 0 向后兼容。引擎据此 loadPalette,去 URL `?pal=` 兜底。
+   * (demo 未跑 setPalette 脚本,此前靠 URL 手动指定;现在场景自带。)
+   */
+  paletteId?: number
   /** 玩家（李逍遥）进场点 */
   entry: { pos: GridPos; facing: Facing }
   /** 场上 NPC / 物件（不含玩家） */
