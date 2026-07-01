@@ -1,19 +1,26 @@
 /**
- * 编辑器外壳(B1.1 壳/渲染 + B1.2 选中/编辑)。
+ * 编辑器外壳。B1.1 壳/渲染 · B1.2 选中/编辑 · B1.3 工具(拖动/添加/删除)。
  * 五区布局照 docs/phase2/editor/mockups/place-mode.html 定稿。
  *
- * 状态源:EditSession(useSyncExternalStore)。选中态是 UI 局部 state,画布点选与 Outliner 点选同步。
- * 编辑:Inspector 改字段 → dispatch(Command) → 自动 undo/redo + 置脏 + 重渲染。
+ * 状态源:EditSession(useSyncExternalStore)。选中/工具是 UI 局部 state。
+ * 一切编辑走 dispatch(Command) → 自动 undo/redo + 置脏 + 重渲染。
  */
-import { useMemo, useState, useSyncExternalStore } from 'react'
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 import type { LoadedProject } from '@type-pal/reforge'
 import { validateReferences } from '@type-pal/content'
 import type { EntityDef, GridPos, SceneDef, SpriteDef } from '@type-pal/content'
-import type { EditSession, EditorState } from '../core/edit-session.js'
-import { MoveEntityCommand, UpdateEntityCommand, UpdateSceneCommand } from '../core/commands.js'
-import { SceneCanvas } from './SceneCanvas.js'
+import type { EditSession } from '../core/edit-session.js'
+import { AddEntityCommand, DeleteEntityCommand, MoveEntityCommand, UpdateEntityCommand, UpdateSceneCommand } from '../core/commands.js'
+import { SceneCanvas, type Tool } from './SceneCanvas.js'
 
 const SCENE_NODE = '__scene__'
+
+function newEntityId(existing: EntityDef[]): string {
+  const ids = new Set(existing.map((e) => e.id))
+  let n = 1
+  while (ids.has(`entity-${n}`)) n++
+  return `entity-${n}`
+}
 
 export function App(props: { session: EditSession; project: LoadedProject }) {
   const { session, project } = props
@@ -21,14 +28,48 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
   const getSnapshot = useMemo(() => () => session.getState(), [session])
   const state = useSyncExternalStore(subscribe, getSnapshot)
   const [selected, setSelected] = useState<string>(SCENE_NODE)
+  const [tool, setTool] = useState<Tool>('select')
 
   const scene = state.scenes.find((s) => s.id === state.manifest.entryScene)
   const issues = useMemo(() => validateReferences(state), [state])
 
+  const selEntity = scene?.entities.find((e) => e.id === selected)
+
+  // 删除键:选中实体时删(在输入框里打字不触发)。
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent): void => {
+      const t = e.target as HTMLElement | null
+      const typing = t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')
+      if ((e.key === 'Delete' || e.key === 'Backspace') && selEntity && scene && !typing) {
+        e.preventDefault()
+        session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
+        setSelected(SCENE_NODE)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [session, scene, selEntity])
+
   if (!scene) {
     return <div className="boot"><div className="err">入口场景 "{state.manifest.entryScene}" 不在 scenes</div></div>
   }
-  const selEntity = scene.entities.find((e) => e.id === selected)
+
+  const moveEntity = (id: string, cell: { col: number; row: number }): void => {
+    const ent = scene.entities.find((e) => e.id === id)
+    if (ent) session.dispatch(new MoveEntityCommand(scene.id, id, { col: cell.col, row: cell.row, height: ent.pos.height }))
+  }
+  const addAt = (cell: { col: number; row: number }): void => {
+    const id = newEntityId(scene.entities)
+    const sprite = state.sprites[0]?.id ?? ''
+    session.dispatch(new AddEntityCommand(scene.id, { id, pos: { col: cell.col, row: cell.row, height: 0 }, sprite }))
+    setSelected(id)
+    setTool('select')
+  }
+  const deleteSelected = (): void => {
+    if (!selEntity) return
+    session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
+    setSelected(SCENE_NODE)
+  }
 
   return (
     <div className="editor">
@@ -49,7 +90,9 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
         </div>
 
         <div className="outliner">
-          <div className="pane-h"><span className="t">场景</span><span className="spacer" /><button className="mini" title="添加实体(B1.3)">＋</button></div>
+          <div className="pane-h"><span className="t">场景</span><span className="spacer" />
+            <button className="mini" title="在进场点添加实体" onClick={() => addAt({ col: scene.entry.pos.col, row: scene.entry.pos.row })}>＋</button>
+          </div>
           <div className="tree">
             <button className={`node${selected === SCENE_NODE ? ' sel' : ''}`} onClick={() => setSelected(SCENE_NODE)}>
               <span className="ico">🗺️</span><span>{scene.id}</span>
@@ -71,27 +114,30 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
 
         <div className="center">
           <div className="toolbar">
-            <button className="tool active" title="选择/移动">↖ 选择/移动</button>
-            <button className="tool" title="添加实体(B1.3)">＋ 添加实体</button>
-            <button className="tool" title="删除(B1.3)">🗑 删除</button>
+            <button className={`tool${tool === 'select' ? ' active' : ''}`} onClick={() => setTool('select')} title="选择 / 拖动移位">↖ 选择/移动</button>
+            <button className={`tool${tool === 'add' ? ' active' : ''}`} onClick={() => setTool('add')} title="点画布放新实体">＋ 添加实体</button>
+            <button className="tool" onClick={deleteSelected} disabled={!selEntity} title="删除选中(Del)">🗑 删除</button>
             <span className="sep" />
             <label className="vtog on"><input type="checkbox" defaultChecked /> 网格</label>
             <label className="vtog"><input type="checkbox" /> 禁入</label>
             <span className="spacer" />
-            <span style={{ color: 'var(--faint)', fontSize: 11 }}>B1.2 · 点选 + 编辑</span>
+            <span style={{ color: 'var(--faint)', fontSize: 11 }}>{tool === 'add' ? '点画布放实体' : '拖动移位 · Del 删除'}</span>
           </div>
           <SceneCanvas
             scene={scene}
             sprites={state.sprites}
             assetBase={project.assetBase}
             selectedId={selEntity ? selected : null}
+            tool={tool}
             onSelect={(id) => setSelected(id ?? SCENE_NODE)}
+            onMoveEntity={moveEntity}
+            onAddAt={addAt}
           />
         </div>
 
         <div className="inspector">
           {selEntity
-            ? <EntityInspector entity={selEntity} session={session} sceneId={scene.id} sprites={state.sprites} dialogueIds={scene.dialogues.map((d) => d.id)} />
+            ? <EntityInspector entity={selEntity} session={session} sceneId={scene.id} sprites={state.sprites} dialogueIds={scene.dialogues.map((d) => d.id)} onDelete={deleteSelected} />
             : <SceneInspector scene={scene} session={session} />}
         </div>
       </div>
@@ -104,7 +150,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             </>
           : <span className="pill" style={{ color: 'var(--ok)' }}>✓ 引用完整性 OK</span>}
         <span className="spacer" />
-        <span style={{ color: 'var(--faint)', fontSize: 11 }}>{session.isDirty() ? '未保存改动' : 'B1.2'}</span>
+        <span style={{ color: 'var(--faint)', fontSize: 11 }}>{session.isDirty() ? '未保存改动' : 'B1.3'}</span>
       </div>
     </div>
   )
@@ -116,8 +162,9 @@ function EntityInspector(props: {
   sceneId: string
   sprites: SpriteDef[]
   dialogueIds: string[]
+  onDelete: () => void
 }) {
-  const { entity, session, sceneId, sprites, dialogueIds } = props
+  const { entity, session, sceneId, sprites, dialogueIds, onDelete } = props
   const setPos = (patch: Partial<GridPos>): void => {
     session.dispatch(new MoveEntityCommand(sceneId, entity.id, { ...entity.pos, ...patch }))
   }
@@ -157,6 +204,9 @@ function EntityInspector(props: {
         </div>
       </div>
       <div className="section"><div className="collapsed">▸ 状态 / 条件 <span style={{ color: 'var(--faint)' }}>(多状态·巡逻 — B2)</span></div></div>
+      <div className="section" style={{ borderBottom: 0 }}>
+        <button className="tool" style={{ color: 'var(--err)' }} onClick={onDelete}>🗑 删除此实体</button>
+      </div>
     </>
   )
 }
@@ -181,7 +231,7 @@ function SceneInspector(props: { scene: SceneDef; session: EditSession }) {
           </select>
         </div>
       </div>
-      <div className="insp-empty">点左侧实体 / 画布上的实体,看编它的属性。</div>
+      <div className="insp-empty">点左侧实体 / 画布上的实体,看编它的属性。工具栏「+ 添加实体」→ 点画布放。</div>
     </>
   )
 }

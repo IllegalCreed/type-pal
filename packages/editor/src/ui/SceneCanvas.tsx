@@ -1,11 +1,10 @@
 /**
- * 场景画布(B1.1 渲染 + B1.2 点选/高亮)——复用 reforge 的 renderSceneFrame。
+ * 场景画布 —— 复用 reforge 的 renderSceneFrame。
+ * B1.1 渲染 · B1.2 点选/高亮 · B1.3 拖动移位 + 添加放置。
  *
- * 复用不重写:tilemap/tileset/palette/sprite 加载 + Canvas2DRenderer + renderSceneFrame 全来自
- * @type-pal/reforge;编辑器只负责组 SpriteDraw[]、定相机、点选命中、画选中高亮。
- * 相机/常量复刻自 reforge main.ts(画面与游戏一致)。
- *
- * 点选 = 精灵包围盒命中(点可见精灵即选中,比"点脚下格子"直观);坐标 屏幕→物理→世界→格。
+ * 复用不重写:渲染器/资产加载全来自 @type-pal/reforge;编辑器只组 SpriteDraw[]、定相机、
+ * 命中/拖动、画高亮。命中盒公式与 render.ts 对齐,坐标 屏幕→物理→世界→格(pixelToGrid)。
+ * 拖动带 grabOffset:实体跟随光标而非跳到光标格。
  */
 import { useEffect, useRef, useState } from 'react'
 import {
@@ -17,7 +16,7 @@ import {
   renderSceneFrame,
 } from '@type-pal/reforge'
 import type { AssetBase, LoadedSprite, SpriteDraw } from '@type-pal/reforge'
-import { gridToPixel, spriteScreenY } from '@type-pal/content'
+import { gridToPixel, pixelToGrid, spriteScreenY } from '@type-pal/content'
 import type { Facing, SceneDef, SpriteDef } from '@type-pal/content'
 
 const TILE_W = 32
@@ -29,16 +28,17 @@ const PARTY_OX = 160
 const PARTY_OY = 112
 const WALK_FRAMES = 3
 const FACING_TO_DIR: Record<Facing, number> = { down: 0, left: 1, up: 2, right: 3 }
-const PLAYER_SPRITE_NUM = 2 // 进场点预览(同 main.ts;TODO 待 CharacterTemplate.sprite)
+const PLAYER_SPRITE_NUM = 2
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v)
+
+export type Tool = 'select' | 'add'
 
 interface Loaded {
   renderer: Canvas2DRenderer
   map: Awaited<ReturnType<typeof loadTilemap>>
   spritesByNum: Map<number, LoadedSprite>
 }
-/** 实体在物理 canvas 上的精灵包围盒(点选/高亮用)。 */
 interface HitRect {
   id: string
   x: number
@@ -46,18 +46,31 @@ interface HitRect {
   w: number
   h: number
 }
+/** pointerdown 记录:被抓实体 + 抓取格偏移(实体格 − 光标格),供拖动时保持相对。 */
+interface Down {
+  entityId: string | null
+  grabDcol: number
+  grabDrow: number
+  moved: boolean
+}
 
 export function SceneCanvas(props: {
   scene: SceneDef
   sprites: SpriteDef[]
   assetBase: AssetBase
   selectedId: string | null
+  tool: Tool
   onSelect: (id: string | null) => void
+  onMoveEntity: (id: string, cell: { col: number; row: number }) => void
+  onAddAt: (cell: { col: number; row: number }) => void
 }) {
-  const { scene, sprites, assetBase, selectedId, onSelect } = props
+  const { scene, sprites, assetBase, selectedId, tool, onSelect, onMoveEntity, onAddAt } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const loadedRef = useRef<Loaded | null>(null)
-  const hitsRef = useRef<HitRect[]>([]) // 每次渲染刷新;点选命中读它
+  const hitsRef = useRef<HitRect[]>([])
+  const cameraRef = useRef({ x: 0, y: 0 })
+  const downRef = useRef<Down | null>(null)
+  const [drag, setDrag] = useState<{ id: string; col: number; row: number } | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [err, setErr] = useState('')
 
@@ -72,7 +85,6 @@ export function SceneCanvas(props: {
   ]
   const spriteNumsKey = spriteNums.join(',')
 
-  // 载资产 + 建 renderer(map/palette/精灵集变了才重跑)。
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d')
     if (!ctx) return
@@ -102,7 +114,6 @@ export function SceneCanvas(props: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assetBase, mapNum, paletteId, spriteNumsKey])
 
-  // 渲染 + 刷新命中盒 + 画选中高亮。scene/selectedId 变即重画。
   useEffect(() => {
     if (status !== 'ready') return
     const loaded = loadedRef.current
@@ -110,7 +121,6 @@ export function SceneCanvas(props: {
     if (!loaded || !ctx) return
     const { renderer, map, spritesByNum } = loaded
 
-    // 相机:居中进场点,夹房间包围盒(复刻 main.ts updateCamera)。
     const room = scene.map.room
     const roomMinX = room.col * TILE_W - TILE_W
     const roomMinY = room.row * TILE_H - 40
@@ -121,40 +131,38 @@ export function SceneCanvas(props: {
       x: clamp(ep.x - PARTY_OX, roomMinX, Math.max(roomMinX, roomMaxX - VIEW_W)),
       y: clamp(ep.y - PARTY_OY, roomMinY, Math.max(roomMinY, roomMaxY - VIEW_H)),
     }
+    cameraRef.current = camera
 
-    // 物理屏幕矩形(逻辑 → ×WORLD_SCALE)。
-    const rect = (worldX: number, worldY: number, anchorX: number, anchorY: number, f: { width: number; height: number }): HitRect => ({
-      id: '',
-      x: (worldX - anchorX - camera.x) * WORLD_SCALE,
-      y: (worldY - anchorY - camera.y) * WORLD_SCALE,
-      w: f.width * WORLD_SCALE,
-      h: f.height * WORLD_SCALE,
+    const physRect = (wx: number, wy: number, ax: number, ay: number, fw: number, fh: number): Omit<HitRect, 'id'> => ({
+      x: (wx - ax - camera.x) * WORLD_SCALE,
+      y: (wy - ay - camera.y) * WORLD_SCALE,
+      w: fw * WORLD_SCALE,
+      h: fh * WORLD_SCALE,
     })
 
     const draws: SpriteDraw[] = []
     const hits: HitRect[] = []
-    // 进场点预览(玩家精灵,不可点选)
     const ps = spritesByNum.get(PLAYER_SPRITE_NUM)
     const pf = ps?.frames[FACING_TO_DIR[scene.entry.facing] * WALK_FRAMES] ?? ps?.frames[0]
     if (ps && pf) {
       draws.push({ frame: pf, worldX: ep.x, worldY: spriteScreenY(scene.entry.pos), anchorX: ps.anchorX, anchorY: ps.anchorY })
     }
-    // 各实体(idle 帧 0)+ 记命中盒
     for (const e of scene.entities) {
       const num = spriteById.get(e.sprite)?.spriteNum
       const sp = num != null ? spritesByNum.get(num) : undefined
       const f = sp?.frames[0]
       if (!sp || !f) continue
-      const p = gridToPixel(e.pos)
-      const wy = spriteScreenY(e.pos)
+      // 拖动中的实体用预览格
+      const pos = drag && drag.id === e.id ? { col: drag.col, row: drag.row, height: e.pos.height } : e.pos
+      const p = gridToPixel(pos)
+      const wy = spriteScreenY(pos)
       draws.push({ frame: f, worldX: p.x, worldY: wy, anchorX: sp.anchorX, anchorY: sp.anchorY })
-      hits.push({ ...rect(p.x, wy, sp.anchorX, sp.anchorY, f), id: e.id })
+      hits.push({ id: e.id, ...physRect(p.x, wy, sp.anchorX, sp.anchorY, f.width, f.height) })
     }
     hitsRef.current = hits
 
     renderSceneFrame(ctx, renderer, { map, room, camera, sprites: draws, worldScale: WORLD_SCALE })
 
-    // 选中高亮:renderSceneFrame 已 restore,这里在物理坐标画虚线框(叠在最上)。
     const sel = hits.find((h) => h.id === selectedId)
     if (sel) {
       ctx.save()
@@ -165,27 +173,86 @@ export function SceneCanvas(props: {
       ctx.restore()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, scene, selectedId])
+  }, [status, scene, selectedId, drag])
 
-  // 点选:屏幕坐标 → 物理 canvas 坐标 → 命中盒(取最上/最后一个命中)。
-  const handleClick = (e: React.MouseEvent<HTMLCanvasElement>): void => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+  // —— 坐标 + 命中 ——
+  const screenToCell = (clientX: number, clientY: number): { col: number; row: number } => {
+    const canvas = canvasRef.current!
     const r = canvas.getBoundingClientRect()
-    const cx = ((e.clientX - r.left) / r.width) * canvas.width
-    const cy = ((e.clientY - r.top) / r.height) * canvas.height
-    let hitId: string | null = null
+    const cx = ((clientX - r.left) / r.width) * canvas.width
+    const cy = ((clientY - r.top) / r.height) * canvas.height
+    return pixelToGrid(cx / WORLD_SCALE + cameraRef.current.x, cy / WORLD_SCALE + cameraRef.current.y)
+  }
+  const entityAt = (clientX: number, clientY: number): string | null => {
+    const canvas = canvasRef.current!
+    const r = canvas.getBoundingClientRect()
+    const cx = ((clientX - r.left) / r.width) * canvas.width
+    const cy = ((clientY - r.top) / r.height) * canvas.height
+    let id: string | null = null
     for (const h of hitsRef.current) {
-      if (cx >= h.x && cx <= h.x + h.w && cy >= h.y && cy <= h.y + h.h) hitId = h.id // 后者覆盖前者=取最上
+      if (cx >= h.x && cx <= h.x + h.w && cy >= h.y && cy <= h.y + h.h) id = h.id // 取最上(后者覆盖)
     }
+    return id
+  }
+
+  // —— 指针交互 ——
+  const onPointerDown = (e: React.PointerEvent<HTMLCanvasElement>): void => {
+    if (tool === 'add') {
+      downRef.current = { entityId: null, grabDcol: 0, grabDrow: 0, moved: false }
+      return
+    }
+    // select 工具
+    const hitId = entityAt(e.clientX, e.clientY)
     onSelect(hitId)
+    if (hitId) {
+      const ent = scene.entities.find((x) => x.id === hitId)
+      const cell = screenToCell(e.clientX, e.clientY)
+      downRef.current = {
+        entityId: hitId,
+        grabDcol: (ent?.pos.col ?? cell.col) - cell.col,
+        grabDrow: (ent?.pos.row ?? cell.row) - cell.row,
+        moved: false,
+      }
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId)
+      } catch {
+        /* 合成/边缘指针可能抛 InvalidPointerId,忽略即可(拖动仍在画布内可用) */
+      }
+    } else {
+      downRef.current = null
+    }
+  }
+  const onPointerMove = (e: React.PointerEvent<HTMLCanvasElement>): void => {
+    const d = downRef.current
+    if (!d || !d.entityId) return
+    const cell = screenToCell(e.clientX, e.clientY)
+    d.moved = true
+    setDrag({ id: d.entityId, col: cell.col + d.grabDcol, row: cell.row + d.grabDrow })
+  }
+  const onPointerUp = (e: React.PointerEvent<HTMLCanvasElement>): void => {
+    const d = downRef.current
+    downRef.current = null
+    if (tool === 'add') {
+      onAddAt(screenToCell(e.clientX, e.clientY))
+      return
+    }
+    if (d?.entityId && d.moved && drag) onMoveEntity(d.entityId, { col: drag.col, row: drag.row })
+    setDrag(null)
   }
 
   return (
     <div className="viewport">
       <div className="canvas-note">场景画布 · 复用 reforge 渲染{status === 'loading' ? ' · 载入中…' : ''}</div>
       {status === 'error' && <div className="boot"><div className="err">场景渲染失败: {err}</div></div>}
-      <canvas ref={canvasRef} width={VIEW_W * WORLD_SCALE} height={VIEW_H * WORLD_SCALE} onClick={handleClick} style={{ cursor: 'pointer' }} />
+      <canvas
+        ref={canvasRef}
+        width={VIEW_W * WORLD_SCALE}
+        height={VIEW_H * WORLD_SCALE}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        style={{ cursor: tool === 'add' ? 'crosshair' : 'pointer', touchAction: 'none' }}
+      />
     </div>
   )
 }
