@@ -13,7 +13,7 @@
 | `pnpm-workspace.yaml` | 定义 workspace 包范围 `packages/*` |
 | `package.json` | 根脚本入口、全局 devDependencies（biome、tsx、typescript、vitest）、`pnpm.onlyBuiltDependencies` 限定 canvas/esbuild |
 | `tsconfig.base.json` | 全仓库共享 TS 编译器选项（ES2022、NodeNext、strict、verbatimModuleSyntax 等） |
-| `biome.json` | 格式化与 Lint 规则，对 `packages/reforge/**`、`packages/content/**` 放宽 `noNonNullAssertion`，测试文件额外放开 `noExplicitAny` |
+| `biome.json` | 格式化与 Lint 规则，对 `packages/reforge/**`、`packages/content/**` **加严** `noNonNullAssertion`（设为 `error`，强制守卫替代 `!`），测试文件(`**/*.test.ts`)则放宽 `noNonNullAssertion`/`noExplicitAny`/`noNonNullAssertedOptionalChain` 等 |
 | `scripts/build-sdlpal.sh` | 构建默认 sdlpal（非 classic），输出到 `build/sdlpal/unix/sdlpal` |
 | `scripts/build-sdlpal-classic.sh` | 以 `-DPAL_CLASSIC=1` 构建经典回合制版本，供数值类基准对照 |
 | `scripts/sdlpal-extern-c.patch` | 为 sdlpal `sdl_compat.h` 补 `extern "C"` 守卫，解决 macOS 下 native_midi.cpp 链接失败 |

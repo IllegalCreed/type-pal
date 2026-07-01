@@ -99,13 +99,15 @@ modules:
         depends_on: []
         related_to: []
     editor:
-        dir_name: 可视化内容编辑器（占位）
-        title: 可视化内容编辑器（占位）
+        dir_name: 可视化内容编辑器
+        title: 可视化内容编辑器
         scope:
             - packages/editor/
         source_files: []
         children: []
-        depends_on: []
+        depends_on:
+            - content_schema
+            - reforge_runtime
         related_to:
             - path: content_schema
     error_handling:

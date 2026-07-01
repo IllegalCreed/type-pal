@@ -1,9 +1,11 @@
 schema_version: 1
 module_path: editor
-title: 可视化内容编辑器（占位）
+title: 可视化内容编辑器
 scope:
     - packages/editor/
 source_files: []
-depends_on: []
+depends_on:
+    - content_schema
+    - reforge_runtime
 related_to:
     - path: content_schema
