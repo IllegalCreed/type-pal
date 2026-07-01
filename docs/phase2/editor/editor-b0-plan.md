@@ -17,6 +17,9 @@
 - **稳定 id**:一切引用走稳定 id/语义名,不用下标(READ-FIRST #5)。
 - **最小 diff**:只改本计划列出的;顺手重构要在提交说明讲清。
 - 每个任务结束 `pnpm check` 全绿再进下一个;动引擎的额外过 Claude 浏览器 gate。
+- **TS 严格项**(本仓 `tsconfig.base.json` 开着,直接影响实现写法):
+  - `noUncheckedIndexedAccess: true` → `arr[i]` 是 `T | undefined`;下标取值后用前要守卫或 `!`(只在确信非空时)。
+  - `verbatimModuleSyntax: true` → 纯类型 import 必须 `import { type Foo }` 或 `import type { Foo }`,不能混在值 import 里(否则编译挂)。
 
 ## 文件结构(先看清边界)
 
@@ -68,29 +71,40 @@ packages/editor/                 (从占位壳变成 React vite app)
   - barrel `@type-pal/reforge` 导出:`Canvas2DRenderer`, `type Renderer/Camera/CellRect/SpriteDraw`(render.ts);`loadTilemap/loadPalette/loadTileset/loadSprite/decompressGzip`, `type AssetBase/LoadedSprite`(assets.ts);`loadProject/assembleProject`, `type LoadedProject`(loader.ts);`isBlockedAt`(collision.ts);`renderSceneFrame`(render-scene.ts)。
 
 - [ ] **Step 1**:`render-scene.ts` 写 `renderSceneFrame` —— 把 [main.ts:288-323](../../../packages/reforge/src/main.ts#L288) 的「clear → `ctx.save()`/`scale(worldScale)`/`imageSmoothingEnabled=false` → `renderer.renderScene(map, room, camera, sprites)` → `ctx.restore()`」抽成纯函数。**只搬绘制,不搬相机计算/精灵组装**(那两步是调用方的事:游戏走 walk-cycle,编辑器走 idle 帧)。
-- [ ] **Step 2**:`render-scene.test.ts` 写委托契约测(canvas 难像素测,测「正确委托」即可):
+  - ⚠ **`drawCollisionOverlay()` 不进 `renderSceneFrame`**:它现在夹在 `renderScene` 与 `ctx.restore()` 之间(main.ts:322),但是 reforge 自己的 debug 调试层(非编辑器叠加层),且依赖闭包变量(camera/player/map/room)。`renderSceneFrame` 保持**纯绘制**(clear+scale+renderScene+restore),不含 debug 副作用 → editor 复用时不会被 debug 层污染。`drawCollisionOverlay` 留 main.ts(见 Step 5 怎么挪)。
+- [ ] **Step 2**:`render-scene.test.ts` 写委托契约测(canvas 难像素测,测「正确委托」即可)。钉三件事:① 调用顺序 `clear → save → scale(worldScale) → renderScene → restore`;② `renderScene` 收到的参数与传入一致;③ `imageSmoothingEnabled` 被设为 false。
 
 ```ts
 import { describe, expect, test, vi } from 'vitest'
 import { renderSceneFrame } from './render-scene.js'
 
-test('renderSceneFrame:clear 后按 worldScale 缩放并把参数原样交给 renderScene', () => {
+test('renderSceneFrame:clear → save → scale(worldScale) → renderScene(args) → restore,且关平滑', () => {
   const calls: string[] = []
-  const ctx = { save: () => calls.push('save'), restore: () => calls.push('restore'),
-    scale: (x: number) => calls.push(`scale${x}`), set imageSmoothingEnabled(v: boolean) {} } as unknown as CanvasRenderingContext2D
-  const renderScene = vi.fn()
-  const renderer = { clear: () => calls.push('clear'), renderScene } as any
-  const map = {} as any, room = { col: 0, row: 0, cols: 1, rows: 1 }, camera = { x: 0, y: 0 }, sprites: any[] = []
+  let smoothing: boolean | undefined
+  const ctx = {
+    save: () => calls.push('save'),
+    restore: () => calls.push('restore'),
+    scale: (x: number, y: number) => calls.push(`scale:${x},${y}`),
+    set imageSmoothingEnabled(v: boolean) { smoothing = v },
+  } as unknown as CanvasRenderingContext2D
+  const renderScene = vi.fn(() => calls.push('renderScene'))
+  const renderer = { clear: () => calls.push('clear'), renderScene } as unknown as Parameters<typeof renderSceneFrame>[1]
+  const map = {} as never, room = { col: 0, row: 0, cols: 1, rows: 1 }
+  const camera = { x: 0, y: 0 }, sprites: never[] = []
   renderSceneFrame(ctx, renderer, { map, room, camera, sprites, worldScale: 4 })
-  expect(calls).toEqual(['clear', 'save', 'scale4', 'renderScene-marker', 'restore'].filter(c => c !== 'renderScene-marker'))
+  expect(calls).toEqual(['clear', 'save', 'scale:4,4', 'renderScene', 'restore'])
   expect(renderScene).toHaveBeenCalledWith(map, room, camera, sprites)
+  expect(smoothing).toBe(false)
 })
 ```
-> (若 `calls` 里想核 renderScene 的相对顺序,可在 `renderScene` mock 里 `calls.push('renderScene')`;上面用 `toHaveBeenCalledWith` 已够钉契约。)
 
 - [ ] **Step 3**:跑 `pnpm --filter @type-pal/reforge exec vitest run src/render-scene.test.ts` → 失败(函数未定义)。
 - [ ] **Step 4**:实现 `renderSceneFrame` 使测过。
-- [ ] **Step 5**:`main.ts` 把 288-323 内联绘制替换成 `renderSceneFrame(ctx, renderer, { map, room, camera, sprites, worldScale: WORLD_SCALE })`(相机计算 `updateCamera()` 与精灵组装仍留 main.ts,只把绘制那截换掉)。
+- [ ] **Step 5**:`main.ts` 的 `render()` 改造(行为零变化):
+  - 把原来的 `renderer.clear()` + `ctx.save()/scale/smoothing/renderScene/restore` 这段替换成单行 `renderSceneFrame(ctx, renderer, { map, room, camera, sprites, worldScale: WORLD_SCALE })`。
+  - 相机计算 `updateCamera()` 与精灵组装 `sprites[]` 仍留 main.ts(render() 里 `renderSceneFrame` 调用之前)。
+  - **`drawCollisionOverlay()` 挪到 `renderSceneFrame` 调用之后**,用**自己独立的** `ctx.save()/scale(WORLD_SCALE)/imageSmoothingEnabled=false … ctx.restore()` 包裹(它本来就在 scale 坐标系里画 iso 网格,需要同样的 ×4 缩放)。逻辑/视觉与原来逐一致,只是不再夹在 renderSceneFrame 内部。
+  - 对话框 / 菜单 / toast 那几段 UI 绘制(main.ts 原 324 行之后)**不动**(它们本就是独立的 save/scale/restore 块)。
 - [ ] **Step 6**:`package.json` 加:
 ```jsonc
 "main": "./src/index.ts", "types": "./src/index.ts",
@@ -100,7 +114,7 @@ test('renderSceneFrame:clear 后按 worldScale 缩放并把参数原样交给 re
 - [ ] **Step 8**:`pnpm --filter @type-pal/reforge check` 全绿。
 - [ ] **Step 9**:提交 `refactor(reforge): 抽 renderSceneFrame + 补包出口(barrel/exports),editor 可复用`。
 
-**Gate**:`pnpm check` 绿;**Claude 浏览器实测 reforge demo 渲染逐一致**(main.ts 改绘制路径,须证零变化)。
+**Gate**:`pnpm check` 绿;**Claude 浏览器实测**:① reforge demo 渲染逐一致(主路径);② 带 `?collision` 时 debug 叠加层(iso 网格 + 红绿禁入点 + 玩家脚点)仍正常画出、位置/颜色不变(drawCollisionOverlay 挪位后须证零变化)。
 
 ---
 
@@ -113,7 +127,11 @@ test('renderSceneFrame:clear 后按 worldScale 缩放并把参数原样交给 re
 - Modify: `packages/content/src/validate.ts`, `packages/content/src/index.ts`, `packages/reforge/src/loader.ts`, `packages/reforge/src/main.ts`, `projects/demo/manifest.json`
 
 **Interfaces**
-- Produces:`interface SpriteDef { id: string; spriteNum: number; label: string }`;`validateSprites(json: unknown): SpriteDef[]`;`LoadedProject.spritesById: Record<string, SpriteDef>`。
+- Produces:`interface SpriteDef { id: string; spriteNum: number; label: string }`;`validateSprites(json: unknown): SpriteDef[]`;`LoadedProject.spritesById: Record<string, SpriteDef>`(空对象 `{}` 当无 sprites)。
+- ⚠ **向后兼容(不破坏现有测)**:`sprites` 在三处都设**可选** ——
+  - `manifest.content.sprites?`(缺 → loader 不 fetch、spritesById={})。demo 会显式加,但别的工程/测不强制。
+  - `ContentJsons.sprites?`(loader.test.ts 现有 3 个测只传 5 字段,加必填会编译挂 → 设可选)。
+  - `assembleProject`:`const sprites = jsons.sprites ? validateSprites(jsons.sprites) : []` → `spritesById = indexById(sprites)`。
 
 - [ ] **Step 1**:`sprite.ts` 定义 `SpriteDef`;`index.ts` re-export。
 - [ ] **Step 2**:`validate.ts` 加 `validateSprites`(形状:数组 + 每项 `id:string`/`spriteNum:number`/`label:string`),仿现有 `validateItems` 写法 + 一条测。
@@ -121,9 +139,15 @@ test('renderSceneFrame:clear 后按 worldScale 缩放并把参数原样交给 re
 ```json
 [{ "id": "ghost", "spriteNum": 16, "label": "游魂(占位)" }]
 ```
-- [ ] **Step 4**:`manifest.json` 的 `content` 加 `"sprites": "content/sprites.json"`。
-- [ ] **Step 5**:`loader.ts` 的 `loadProject` fetch sprites.json;`assembleProject` 过 `validateSprites` → `spritesById`(按 id),挂到 `LoadedProject`。补 loader 单测(fixture sprites → spritesById['ghost'].spriteNum===16)。
-- [ ] **Step 6**:`main.ts` 载鬼精灵改成:`const ghostSprite = await loadSprite(project.assetBase, project.spritesById[ghost.sprite]?.spriteNum ?? …)` —— 用 `ghost.sprite`("ghost")查注册表得 16。取不到就 throw(别静默回落)。玩家精灵 2 暂留(加注释「TODO: 玩家精灵待 CharacterTemplate.sprite」)。
+- [ ] **Step 4**:`manifest.json` 的 `content` 加 `"sprites": "content/sprites.json"`(demo 显式加;类型上仍可选)。
+- [ ] **Step 5**:`loader.ts` 的 `loadProject` 在 `Promise.all` 里条件 fetch sprites(`manifest.content.sprites` 有才取);`assembleProject` 过 `validateSprites`(见 Interfaces 可选规则)→ `spritesById`(按 id),挂到 `LoadedProject`。补 loader 单测:新测传 `sprites: [{id:'ghost',spriteNum:16,label:'g'}]` → `spritesById['ghost']?.spriteNum === 16`;**现有 3 个测不用改**(不传 sprites → spritesById 为 `{}`,仍过)。
+- [ ] **Step 6**:`main.ts` 载鬼精灵改成走注册表:用 `ghost.sprite`("ghost")查 `project.spritesById`,**取不到就 throw**(明确报「精灵 id 'ghost' 不在 sprites 注册表」,**别用 `??` 静默回落**)。示例:
+  ```ts
+  const ghostSpriteDef = project.spritesById[ghost.sprite]
+  if (!ghostSpriteDef) throw new Error(`reforge: 精灵 "${ghost.sprite}" 不在 sprites 注册表`)
+  const ghostSprite = await loadSprite(project.assetBase, ghostSpriteDef.spriteNum)
+  ```
+  玩家精灵号 `2` **暂留原样**,加注释「TODO: 玩家精灵待 CharacterTemplate.sprite(非 B0)」。
 - [ ] **Step 7**:`pnpm check` 绿。
 - [ ] **Step 8**:提交 `feat(content+reforge): 精灵注册表 sprites.json — EntityDef.sprite 走注册表,去实体精灵硬编码`。
 
@@ -204,6 +228,10 @@ test('entity.sprite 不在 sprites 注册表 → 报 error', () => {
   const b = structuredClone(base); b.scenes[0]!.entities[0]!.sprite = 'unknown'
   expect(validateReferences(b).some((i) => i.severity === 'error' && /unknown/.test(i.where + i.message))).toBe(true)
 })
+test('CharacterTemplate.initialEquipment 指向不存在物品 → 报 warn(复核补漏)', () => {
+  const b = structuredClone(base); b.characters[0]!.initialEquipment = { weapon: 'no-item' }
+  expect(validateReferences(b).some((i) => /no-item/.test(i.where + i.message))).toBe(true)
+})
 ```
 
 - [ ] **Step 2**:跑 → 失败。
@@ -212,7 +240,9 @@ test('entity.sprite 不在 sprites 注册表 → 报 error', () => {
   - 每条 DialogueLine.text/.speaker(若有)→ locale 有键(缺=warn,因 lookupText 会回落显 id 不崩)。
   - startWorld.party → characters 有(缺=error);learnedSkills 值 / inventory.itemId → skills/items 有(缺=warn);
   - EquipSpec.equipableBy → characters;EquipEffect.grantSkill.skillId / LevelUpSkill.skillId / SkillCost.items[].itemId → skills/items(缺=warn)。
+  - **CharacterTemplate(复核补漏,别漏)**:`initialEquipment` 每个值 → items(缺=warn)、`initialMagic` 每项 → skills(缺=warn)、`name` → locale 键(缺=warn)。
   - **跳过**系统未落地字段(`applyPoison/curePoison.poisonId`、`triggerScript.scriptId`、`teleport.target`)——不报(注释说明:待对应系统落地)。
+  - **不在本校验范围**:资产号是否有对应文件(`reuseOriginalMap`/`paletteId`/`icon`/`spriteNum` 等)——那是 loader/资产层的事,不是内容表引用完整性。
 - [ ] **Step 4**:跑 → 过。
 - [ ] **Step 5**:`index.ts` re-export;`pnpm --filter @type-pal/content check` 绿。
 - [ ] **Step 6**:提交 `feat(content): validateReferences 跨引用完整性校验(编辑器/loader 共用)`。
@@ -328,6 +358,31 @@ test('subscribe 在每次状态变化时触发,退订后不再触发', () => {
 - **GLM**:Task 1–6 全部(纯 TS/schema/脚手架)。**Claude**:逐任务审 + 动引擎/启动的 gate 浏览器实测。
 - **不在 B0**(留 B1+):任何编辑 UI 交互、画布视口(平移缩放/网格/禁入叠加/选中手柄)、布置模式、Inspector 面板、File System Access 保存、校验面板 UI、玩家角色精灵字段、嵌 reforge 实跑预览。
 
+## 计划复核记录(GLM 开工前批判性复核,2026-07-01)
+
+> 把计划关键断言核到真代码(grep 定位,不信行号)。结论:**行号无漂移、类型对得上,可开工**;发现 3 处必须修正(已改进上面相应任务)。
+
+**已核实无误**(带证据):
+- 精灵硬编码 `loadSprite(...,16)` / `loadSprite(...,2)` → 确在 main.ts:181-183 ✅
+- 调色板 `?pal=` 兜底 → 确在 main.ts:124 ✅
+- render() 要抽的绘制段(clear+save/scale/renderScene/restore)→ 确在 main.ts:289-323 ✅
+- `isBlockedAt` 导出 → 确在 collision.ts:62 ✅
+- `Canvas2DRenderer`/`Renderer`/`Camera`/`CellRect`/`SpriteDraw` → 确在 render.ts:47-85 ✅
+- `loadTilemap/loadPalette/loadTileset/loadSprite/decompressGzip` + `AssetBase`/`LoadedSprite` → 确在 assets.ts ✅
+- `loadProject`/`assembleProject`/`LoadedProject` → 确在 loader.ts ✅
+- `StartWorld`(party/learnedSkills/inventory)→ T4 `ContentBundle.startWorld` 类型对得上(character.ts:14)✅
+- `pnpm check` 基线全绿(120 文件 / 2294 测)✅
+
+**本轮修订**(已并入上文,待 Claude 复核):
+1. **T1 测试重写**:原 Step2 测试用 `'renderScene-marker'.filter(…)` 自相矛盾(构造再过滤),重写为直接断言 `['clear','save','scale:4,4','renderScene','restore']` 顺序 + `toHaveBeenCalledWith` + `imageSmoothingEnabled===false`,三件事钉清。
+2. **T1 drawCollisionOverlay 边界**:原计划未提它(夹在 renderScene 与 restore 之间,main.ts:322)。明确:`renderSceneFrame` 保持纯绘制不含 debug 层;`drawCollisionOverlay` 留 main.ts,挪到 `renderSceneFrame` 之后用独立 save/scale/restore 包裹,行为零变化。Gate 加 `?collision` 叠加层检查项。
+3. **T2 向后兼容**:`manifest.content.sprites` / `ContentJsons.sprites` / `assembleProject` 的 sprites 三处全设**可选**——否则 loader.test.ts 现有 3 个测(只传 5 字段)会编译挂。demo 显式加,别的工程/测不强制。
+4. **T2 throw 写法**:原 Step6 写 `?? …` 易读成静默回落;改成显式 `if (!def) throw`,附示例代码。
+5. **全局约束补 TS strict**:`noUncheckedIndexedAccess`(下标取值要守卫)+ `verbatimModuleSyntax`(类型 import 要 `import type`),这俩直接影响实现写法。
+
+**存疑点(实现时若遇到再标给 Claude,不阻塞开工)**:
+- T4 `validateReferences` 遍历 item.equip.use.effects 时,demo items.json 各 item 的 equip/use 块深度不一;按计划 Step3 清单逐层查、遇系统未落地字段(triggerScript.scriptId / teleport.target / applyPoison.poisonId)跳过。
+
 ## Self-Review
 
 1. **spec 覆盖**:design §3(补出口+renderSceneFrame)→T1;§7 精灵/调色板→T2/T3;§6 校验→T4;§2 脚手架→T5;§4 command/undo→T6。✅
@@ -335,3 +390,4 @@ test('subscribe 在每次状态变化时触发,退订后不再触发', () => {
 3. **类型一致**:`SpriteDef`/`Issue`/`ContentBundle`/`Command`/`EditSession` 签名跨任务一致;`renderSceneFrame` 参数与 render.ts 的 `renderScene(map,room,camera,sprites)` 对齐。✅
 4. **边界**:动引擎的 T1/2/3 都挂 Claude 浏览器 gate 钉零变化;editor 不碰 game/pal-extract。✅
 5. **防返工**:T6 命令/undo 核第一天就立,B1 只往上加命令与 UI。✅
+6. **复核落地**(本轮):T1 测试重写去歧义、drawCollisionOverlay 边界钉死、T2 sprites 三处可选保向后兼容、TS strict 写法提醒、throw 不静默回落——均并入上文 + 「计划复核记录」段存证。✅
