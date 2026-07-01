@@ -123,4 +123,26 @@ describe('assembleProject(纯核)', () => {
       }),
     ).toThrow('id')
   })
+  test('sprites 可选:不传 → spritesById 为空 {}(向后兼容)', () => {
+    const p = assembleProject(manifest, {
+      characters: charactersJson,
+      scenes: scenesJson,
+      skills: skillsJson,
+      items: itemsJson,
+      locale: localeJson,
+    })
+    expect(p.spritesById).toEqual({})
+  })
+  test('sprites 传入 → 按 id 索引到 spritesById', () => {
+    const p = assembleProject(manifest, {
+      characters: charactersJson,
+      scenes: scenesJson,
+      skills: skillsJson,
+      items: itemsJson,
+      locale: localeJson,
+      sprites: [{ id: 'ghost', spriteNum: 16, label: '游魂' }],
+    })
+    expect(p.spritesById['ghost']?.spriteNum).toBe(16)
+    expect(p.spritesById['ghost']?.label).toBe('游魂')
+  })
 })

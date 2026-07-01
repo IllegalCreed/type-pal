@@ -177,12 +177,16 @@ async function main(): Promise<void> {
     camera.y = clamp(pp.y - PARTY_OY, roomMinY, Math.max(roomMinY, roomMaxY - VIEW_H))
   }
 
-  // 精灵：李逍遥 = 原版 spriteNum 2；鬼 = 占位 sprite 16（原版一老者，比箱子像样；鬼气化留后续 polish）。
-  const [playerSprite, ghostSprite] = await Promise.all([
-    loadSprite(project.assetBase, 2),
-    loadSprite(project.assetBase, 16),
-  ])
+  // 实体精灵:走 sprites 注册表(EntityDef.sprite 语义 id → SpriteDef.spriteNum),去硬编码。
+  // 玩家(队长)精灵是角色概念,暂留原号 2 —— TODO: 待 CharacterTemplate.sprite(非 B0)。
   const ghost = requireFirst(scene.entities, '场景缺少鬼实体')
+  const ghostSpriteDef = project.spritesById[ghost.sprite]
+  if (!ghostSpriteDef)
+    throw new Error(`reforge: 精灵 "${ghost.sprite}" 不在 sprites 注册表`)
+  const [playerSprite, ghostSprite] = await Promise.all([
+    loadSprite(project.assetBase, 2), // TODO: 玩家精灵待 CharacterTemplate.sprite(非 B0)
+    loadSprite(project.assetBase, ghostSpriteDef.spriteNum),
+  ])
   const player: { pos: GridPos } = { pos: { ...scene.entry.pos } }
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
   let world = buildWorld(project.manifest.startWorld, project.charactersById)

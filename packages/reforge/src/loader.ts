@@ -9,6 +9,7 @@ import type {
   Locale,
   SceneDef,
   SkillDataMap,
+  SpriteDef,
 } from '@type-pal/content'
 import {
   validateCharacters,
@@ -16,6 +17,7 @@ import {
   validateLocale,
   validateScenes,
   validateSkills,
+  validateSprites,
 } from '@type-pal/content'
 import type { AssetBase } from './assets.js'
 
@@ -30,6 +32,8 @@ export interface LoadedProject {
   levelUp: Record<string, LevelUpSkill[]>
   items: ItemDataMap
   locale: Locale
+  /** 精灵注册表(EntityDef.sprite 语义 id → SpriteDef);无 sprites.json 时为空 {}。 */
+  spritesById: Record<string, SpriteDef>
   /** 工程资源根 + 子目录(assets.ts load* 用;来自 manifest.assets)。 */
   assetBase: AssetBase
 }
@@ -41,6 +45,8 @@ export interface ContentJsons {
   skills: unknown
   items: unknown
   locale: unknown
+  /** 精灵注册表(可选:缺 → spritesById 为空 {};向后兼容不传 sprites 的旧测)。 */
+  sprites?: unknown
 }
 
 function indexById<T extends { id: string }>(arr: T[]): Record<string, T> {
@@ -49,13 +55,14 @@ function indexById<T extends { id: string }>(arr: T[]): Record<string, T> {
   return m
 }
 
-/** 纯组装核:manifest + 5 个 content JSON → guard → LoadedProject。无 IO,可单测。 */
+/** 纯组装核:manifest + content JSON(5 必 + sprites 可选) → guard → LoadedProject。无 IO,可单测。 */
 export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): LoadedProject {
   const scenes = validateScenes(jsons.scenes)
   const characters = validateCharacters(jsons.characters)
   const { skills, levelUp } = validateSkills(jsons.skills)
   const items = validateItems(jsons.items)
   const locale = validateLocale(jsons.locale)
+  const sprites = jsons.sprites ? validateSprites(jsons.sprites) : []
 
   const entryScene = scenes.find((s) => s.id === manifest.entryScene)
   if (!entryScene)
@@ -71,6 +78,7 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     levelUp: levelUp as Record<string, LevelUpSkill[]>,
     items: indexById(items),
     locale,
+    spritesById: indexById(sprites),
     assetBase: {
       root: `projects/${manifest.id}/${a.root}`,
       maps: a.maps,
@@ -81,19 +89,20 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
   }
 }
 
-/** IO 壳:fetch manifest + 5 个 content JSON → assembleProject。projectId = 工程文件夹名。 */
+/** IO 壳:fetch manifest + content JSON(5 必 + sprites 若 manifest 有则取) → assembleProject。projectId = 工程文件夹名。 */
 export async function loadProject(projectId: string): Promise<LoadedProject> {
   const root = `projects/${projectId}`
   const manifest = (await fetchJson(`${root}/manifest.json`)) as LoadedManifest
   const content = manifest.content
-  const [characters, scenes, skills, items, locale] = await Promise.all([
+  const [characters, scenes, skills, items, locale, sprites] = await Promise.all([
     fetchJson(`${root}/${content.characters}`),
     fetchJson(`${root}/${content.scenes}`),
     fetchJson(`${root}/${content.skills}`),
     fetchJson(`${root}/${content.items}`),
     fetchJson(`${root}/${content.locale}`),
+    content.sprites ? fetchJson(`${root}/${content.sprites}`) : Promise.resolve(undefined),
   ])
-  return assembleProject(manifest, { characters, scenes, skills, items, locale })
+  return assembleProject(manifest, { characters, scenes, skills, items, locale, sprites })
 }
 
 async function fetchJson(url: string): Promise<unknown> {

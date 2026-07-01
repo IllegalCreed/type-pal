@@ -1,7 +1,7 @@
 // 轻量 guard(zod 接缝):校验 loader 加载的工程 JSON 形状。
 // 只查「数组/对象 + 必需键在 + id 是 string」,不齐就 throw 具体错误。
 // 编辑器产大量手改 JSON 时再上 zod(局部替换这些函数,签名不变)。
-import type { CharacterTemplate, ItemData, SceneDef, SkillData } from './index.js'
+import type { CharacterTemplate, ItemData, SceneDef, SkillData, SpriteDef } from './index.js'
 
 /** 显式要求的对象键;缺任一 throw。 */
 function requireKeys(obj: object, keys: readonly string[], ctx: string): void {
@@ -62,6 +62,22 @@ export function validateItems(json: unknown): ItemData[] {
     const o = assertObject(it, `items[${i}]`)
     requireKeys(o, ['id', 'name', 'icon', 'buyPrice', 'sellPrice', 'sellable'], `items[${i}]`)
     if (typeof (it as { id: unknown }).id !== 'string') throw new Error(`items[${i}]: id 非string`)
+  })
+  return arr
+}
+
+/** 精灵注册表形状校验:数组 + 每项 id:string / spriteNum:number / label:string。 */
+export function validateSprites(json: unknown): SpriteDef[] {
+  const arr = assertArray<SpriteDef>(json, 'sprites')
+  arr.forEach((sp, i) => {
+    const o = assertObject(sp, `sprites[${i}]`)
+    requireKeys(o, ['id', 'spriteNum', 'label'], `sprites[${i}]`)
+    const id = (sp as { id: unknown }).id
+    if (typeof id !== 'string') throw new Error(`sprites[${i}]: id 非string`)
+    const spriteNum = (sp as { spriteNum: unknown }).spriteNum
+    if (typeof spriteNum !== 'number') throw new Error(`sprites[${i}]: spriteNum 非number`)
+    if (typeof (sp as { label: unknown }).label !== 'string')
+      throw new Error(`sprites[${i}]: label 非string`)
   })
   return arr
 }
