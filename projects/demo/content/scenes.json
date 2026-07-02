@@ -27,7 +27,8 @@
           "row": 12,
           "height": 0
         },
-        "sprite": "ghost",
+        "actor": "youhun",
+        "facing": "down",
         "collide": true,
         "interact": "ghost-hearsay"
       }

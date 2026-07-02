@@ -1,3 +1,14 @@
 [
-  { "id": "ghost", "spriteNum": 16, "label": "游魂(占位)" }
+  {
+    "id": "ghost",
+    "spriteNum": 16,
+    "label": "游魂(占位)",
+    "layout": { "kind": "directional", "framesPerDir": 3 }
+  },
+  {
+    "id": "li-xiaoyao",
+    "spriteNum": 2,
+    "label": "李逍遥(大世界)",
+    "layout": { "kind": "directional", "framesPerDir": 3 }
+  }
 ]

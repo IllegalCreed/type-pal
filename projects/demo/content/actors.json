@@ -1,0 +1,39 @@
+[
+  {
+    "id": "li-xiaoyao",
+    "name": "name.li-xiaoyao",
+    "spriteId": "li-xiaoyao",
+    "battler": {
+      "baseStats": {
+        "level": 1,
+        "hp": 150,
+        "maxHP": 150,
+        "mp": 100,
+        "maxMP": 100,
+        "attack": 33,
+        "defense": 32,
+        "magicAttack": 20,
+        "speed": 28,
+        "luck": 32
+      },
+      "initialEquipment": {
+        "weapon": "166",
+        "head": "196",
+        "body": "208",
+        "cloak": "225",
+        "feet": "235",
+        "accessory": "249"
+      },
+      "initialMagic": [
+        "296",
+        "298",
+        "299"
+      ]
+    }
+  },
+  {
+    "id": "youhun",
+    "name": "name.youhun",
+    "spriteId": "ghost"
+  }
+]
