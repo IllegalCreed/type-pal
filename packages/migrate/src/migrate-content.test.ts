@@ -108,6 +108,50 @@ describe('M1a · 物品表字段', () => {
   })
 })
 
+describe('M1b · 装备效果(scriptOnEquip → EquipSpec)', () => {
+  const byId = new Map(out.items.map((i) => [i.id, i]))
+  test('demo 7 件手作装备的 slot + effects 逐件深等(equipableBy 以原版多人为真,仅断言含 li-xiaoyao)', () => {
+    for (const d of demoItems) {
+      const de = (d as { equip?: { slot: string; equipableBy: string[]; effects: unknown[] } }).equip
+      if (!de) continue
+      const m = byId.get(d.id)!
+      expect(m.equip, d.id).toBeDefined()
+      expect(m.equip!.slot, d.id).toBe(de.slot)
+      expect(m.equip!.effects, d.id).toEqual(de.effects)
+      expect(m.equip!.equipableBy, d.id).toContain('li-xiaoyao')
+    }
+  })
+  test('106 件全有 equip 块;仙女剑系连击 ×5;长鞭系 attackAll ×4;授技(合击/召唤)×7', () => {
+    const equipped = out.items.filter((i) => i.equip)
+    expect(equipped).toHaveLength(106)
+    const effs = equipped.flatMap((i) => i.equip!.effects)
+    expect(effs.filter((e) => e.kind === 'grantStatus' && e.status === 'dualAttack')).toHaveLength(5)
+    expect(effs.filter((e) => e.kind === 'attackAll')).toHaveLength(4)
+    expect(effs.filter((e) => e.kind === 'grantSkill')).toHaveLength(7)
+  })
+  test('pending 恰为已知系统缺口:战斗精灵切换 ×7 + 装备授毒 ×2', () => {
+    const ops = out.report.pendingEquip.flatMap((p) => p.ops)
+    expect(ops.filter((o) => o.reason.includes('战斗精灵'))).toHaveLength(7)
+    expect(ops.filter((o) => o.reason.includes('毒'))).toHaveLength(2)
+    expect(ops).toHaveLength(9)
+  })
+  test('土灵珠(267)= 避土 50 + 授技 336(demo 已核真值)', () => {
+    expect(byId.get('267')!.equip!.effects).toEqual([
+      { kind: 'resistance', element: 'earth', percent: 50 },
+      { kind: 'grantSkill', skillId: '336' },
+    ])
+  })
+  test('端到端:迁移物品 × buildWorld × effectiveStat = 防御 41 / 武术 35(状态板真值)', async () => {
+    const { effectiveStat } = await import('@type-pal/content')
+    const actorsById = Object.fromEntries(out.actors.map((a) => [a.id, a]))
+    const demoManifest = readJson<{ startWorld: Parameters<typeof buildWorld>[0] }>('projects/demo/manifest.json')
+    const li = buildWorld(demoManifest.startWorld, actorsById).party[0]!
+    const itemsById = Object.fromEntries(out.items.map((i) => [i.id, i]))
+    expect(effectiveStat(li, 'defense', itemsById)).toBe(41) // 32 + 六件装备Σ9(全来自翻译的 scriptOnEquip)
+    expect(effectiveStat(li, 'attack', itemsById)).toBe(35) // 33 + 木剑 2
+  })
+})
+
 describe('M1a · 技能', () => {
   test('纯伤害自动批 = 57(64 纯 − 7 summon 型)+ curated 3 = 60;pending 含 summon/脚本类', () => {
     expect(out.skills.skills).toHaveLength(60)

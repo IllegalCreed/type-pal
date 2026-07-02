@@ -291,7 +291,109 @@ export const CURATED_SKILLS: SkillData[] = [
   },
 ]
 
-// ── 物品(M1a:表字段;equip/use/throw 留 M1b/M1d)──────────
+// ── 装备效果翻译(M1b:scriptOnEquip → EquipSpec)────────────
+// 语义移植自一阶段 packages/game/src/core/equip-effect.ts(已对 sdlpal script.c 三遍核过的运行时解释器);
+// 本处是它的"静态表亲":链入 → EquipSpec 出,不碰运行态。
+// 2026-07-02 全量扫 106 条链:opcode 封闭集 {0x17×212, 0x18×106, 0x1A×18, 0x2D×5, 0x29×2},零 goto 零意外。
+
+/** 0x17/0x1A 的 row → 属性(PLAYERROLES_ROW,equip-effect.ts:122 真值)。 */
+const STAT_BY_ROW: Record<number, 'attack' | 'magicAttack' | 'defense' | 'speed' | 'luck'> = {
+  17: 'attack',
+  18: 'magicAttack',
+  19: 'defense',
+  20: 'speed',
+  21: 'luck',
+}
+const ELEMENT_BY_ROW: Record<number, 'poison' | 'wind' | 'thunder' | 'water' | 'fire' | 'earth'> = {
+  22: 'poison',
+  23: 'wind',
+  24: 'thunder',
+  25: 'water',
+  26: 'fire',
+  27: 'earth',
+}
+const MAXPOOL_BY_ROW: Record<number, 'hp' | 'mp'> = { 7: 'hp', 8: 'mp' }
+/** 原版状态 id → StatusId(按需扩;8=连击 实测唯一出现,仙女剑系 ×5)。 */
+const STATUS_BY_ID: Record<number, 'dualAttack'> = { 8: 'dualAttack' }
+
+/** WORD → 有符号 16 位(0x17 的 delta 可负,如铁锁衣防御-10)。 */
+export function signExtendI16(v: number): number {
+  return v >= 0x8000 ? v - 0x10000 : v
+}
+
+export interface EquipTranslation {
+  slot?: string
+  effects: NonNullable<ItemData['equip']>['effects']
+  /** 翻不动的 op(战斗精灵切换 0x1A[1] / 毒疗 0x29 等系统未落地)→ 报告。 */
+  pending: { opcode: number; operands: number[]; reason: string }[]
+}
+
+/** 静态翻译一条 scriptOnEquip 链。slot 来自 0x18 的 operand0-0x0B(= EQUIP_INDEX_TO_SLOT 同源行序)。 */
+export function translateEquipScript(
+  commands: readonly SourceCmd[],
+  labelIndex: Map<string, number>,
+  ip: number,
+): EquipTranslation {
+  const out: EquipTranslation = { effects: [], pending: [] }
+  const start = labelIndex.get(`L_${ip}`)
+  if (ip === 0 || start === undefined) return out
+  for (let i = start; i < commands.length; i++) {
+    const c = commands[i]!
+    if (c.op === 'end') return out
+    if (c.op !== 'raw') {
+      if (c.label !== undefined && c.op === undefined) continue // 纯标签行
+      out.pending.push({ opcode: -1, operands: [], reason: `非 raw op "${c.op}"` })
+      return out
+    }
+    const [a = 0, b = 0, cc = 0] = c.operands ?? []
+    switch (c.opcode) {
+      case 0x18: // 装到哪个部位(每链恰一次;槽位真值来源)
+        out.slot = EQUIP_INDEX_TO_SLOT[a - 0x0b]
+        break
+      case 0x17: {
+        // 装备效果层写入:row=b, value=SHORT(cc)
+        const stat = STAT_BY_ROW[b]
+        const elem = ELEMENT_BY_ROW[b]
+        const pool = MAXPOOL_BY_ROW[b]
+        if (stat) out.effects.push({ kind: 'statBonus', stat, delta: signExtendI16(cc) })
+        else if (elem) out.effects.push({ kind: 'resistance', element: elem, percent: signExtendI16(cc) })
+        else if (pool) out.effects.push({ kind: 'maxPool', pool, delta: signExtendI16(cc) })
+        else out.pending.push({ opcode: 0x17, operands: [a, b, cc], reason: `未知 row ${b}` })
+        break
+      }
+      case 0x1a: {
+        // set player stat:row=a, value=SHORT(b)
+        if (a === 65) out.effects.push({ kind: 'grantSkill', skillId: String(b) }) // COOPERATIVE_MAGIC → 授合击/召唤(土灵珠 336)
+        else if (a === 4) out.effects.push({ kind: 'attackAll' }) // ATTACK_ALL(长鞭系)
+        else if (a === 1) out.pending.push({ opcode: 0x1a, operands: [a, b, cc], reason: '战斗精灵切换(battleSpriteNum 覆盖)—— 战斗系统期' })
+        else out.pending.push({ opcode: 0x1a, operands: [a, b, cc], reason: `未知 row ${a}` })
+        break
+      }
+      case 0x2d: {
+        // 永久授状态(仙女剑系连击;rounds=32760 佩戴期恒在)
+        const status = STATUS_BY_ID[a]
+        if (status) out.effects.push({ kind: 'grantStatus', status })
+        else out.pending.push({ opcode: 0x2d, operands: [a, b, cc], reason: `未知状态 id ${a}` })
+        break
+      }
+      case 0x29: // 寿葫芦毒疗(正面"毒" 563/564)—— 毒系统未落地
+        out.pending.push({ opcode: 0x29, operands: [a, b, cc], reason: '装备授毒(毒系统未落地)' })
+        break
+      case 167: // 块头标记(同 desc)
+        break
+      default:
+        out.pending.push({ opcode: c.opcode ?? -1, operands: [a, b, cc], reason: '封闭集外 opcode' })
+    }
+  }
+  return out
+}
+
+/** flags.equipableBy[6] → 角色 slug 列表。 */
+export function mapEquipableBy(flags: readonly boolean[]): string[] {
+  return ROLE_SLUGS.filter((_, i) => flags[i])
+}
+
+// ── 物品(M1a:表字段;M1b:equip;use/throw 留 M1d)──────────
 export function mapItemsTable(items: readonly SourceItem[], descOf: (ip: number) => string[]): ItemData[] {
   return items.map((it) => ({
     id: String(it.id),
@@ -321,7 +423,12 @@ export interface MigrateOutput {
   items: ItemData[]
   /** name.<slug> → 显示名(并入工程 locale)。 */
   localeNames: Record<string, string>
-  report: { pendingSkills: SkillMigrationResult['pending']; blockedDescs: { kind: string; id: number; at: DescResult['blockedAt'] }[] }
+  report: {
+    pendingSkills: SkillMigrationResult['pending']
+    blockedDescs: { kind: string; id: number; at: DescResult['blockedAt'] }[]
+    /** M1b:装备链里翻不动的 op(战斗精灵切换/毒疗等)。 */
+    pendingEquip: { itemId: number; name: string; ops: EquipTranslation['pending'] }[]
+  }
 }
 
 export function migrateAll(src: MigrateSources): MigrateOutput {
@@ -341,7 +448,24 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
   const skillById = new Map<string, SkillData>()
   for (const s of pure.skills) skillById.set(s.id, s)
   for (const s of CURATED_SKILLS) skillById.set(s.id, s)
-  const items = mapItemsTable(src.items, descOf('item'))
+  // 物品:表字段(M1a)+ 装备效果(M1b:flags.equipable → translateEquipScript)
+  const pendingEquip: MigrateOutput['report']['pendingEquip'] = []
+  const itemsTable = mapItemsTable(src.items, descOf('item'))
+  const items = itemsTable.map((base, i) => {
+    const srcItem = src.items[i]!
+    if (!srcItem.flags.equipable) return base
+    const t = translateEquipScript(src.commands, labelIndex, srcItem.scriptOnEquip)
+    if (t.pending.length) pendingEquip.push({ itemId: srcItem.id, name: srcItem._name, ops: t.pending })
+    if (!t.slot) return base // 无 0x18 槽位(理论不会;进 pending 已记)
+    return {
+      ...base,
+      equip: {
+        slot: t.slot as NonNullable<ItemData['equip']>['slot'],
+        equipableBy: mapEquipableBy(srcItem.flags.equipableBy),
+        effects: t.effects,
+      },
+    }
+  })
   const localeNames: Record<string, string> = {}
   src.roles.forEach((r) => {
     const slug = ROLE_SLUGS[r.id]
@@ -353,7 +477,7 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     skills: { skills: [...skillById.values()], levelUp: mapLevelUp(src.levelUpMagic) },
     items,
     localeNames,
-    report: { pendingSkills: pure.pending, blockedDescs },
+    report: { pendingSkills: pure.pending, blockedDescs, pendingEquip },
   }
 }
 

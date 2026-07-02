@@ -1258,7 +1258,28 @@
     "icon": 16,
     "buyPrice": 1700,
     "sellPrice": 850,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 20
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 20
+        },
+        {
+          "kind": "attackAll"
+        }
+      ]
+    }
   },
   {
     "id": "164",
@@ -1270,7 +1291,28 @@
     "icon": 18,
     "buyPrice": 4400,
     "sellPrice": 2200,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 66
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 33
+        },
+        {
+          "kind": "attackAll"
+        }
+      ]
+    }
   },
   {
     "id": "165",
@@ -1282,7 +1324,28 @@
     "icon": 20,
     "buyPrice": 10100,
     "sellPrice": 5050,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 99
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 60
+        },
+        {
+          "kind": "attackAll"
+        }
+      ]
+    }
   },
   {
     "id": "166",
@@ -1294,7 +1357,26 @@
     "icon": 56,
     "buyPrice": 50,
     "sellPrice": 25,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 2
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 3
+        }
+      ]
+    }
   },
   {
     "id": "167",
@@ -1307,7 +1389,26 @@
     "icon": 48,
     "buyPrice": 200,
     "sellPrice": 100,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 6
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": -5
+        }
+      ]
+    }
   },
   {
     "id": "168",
@@ -1320,7 +1421,26 @@
     "icon": 49,
     "buyPrice": 850,
     "sellPrice": 425,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 10
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 3
+        }
+      ]
+    }
   },
   {
     "id": "169",
@@ -1333,7 +1453,25 @@
     "icon": 76,
     "buyPrice": 900,
     "sellPrice": 450,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 16
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 1
+        }
+      ]
+    }
   },
   {
     "id": "170",
@@ -1346,7 +1484,29 @@
     "icon": 63,
     "buyPrice": 2000,
     "sellPrice": 1000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "zhao-linger"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 8
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 5
+        },
+        {
+          "kind": "grantStatus",
+          "status": "dualAttack"
+        }
+      ]
+    }
   },
   {
     "id": "171",
@@ -1359,7 +1519,21 @@
     "icon": 59,
     "buyPrice": 1500,
     "sellPrice": 750,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 25
+        }
+      ]
+    }
   },
   {
     "id": "172",
@@ -1372,7 +1546,21 @@
     "icon": 52,
     "buyPrice": 1950,
     "sellPrice": 975,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 38
+        }
+      ]
+    }
   },
   {
     "id": "173",
@@ -1384,7 +1572,26 @@
     "icon": 184,
     "buyPrice": 1000,
     "sellPrice": 500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 22
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 8
+        }
+      ]
+    }
   },
   {
     "id": "174",
@@ -1397,7 +1604,30 @@
     "icon": 60,
     "buyPrice": 2500,
     "sellPrice": 1250,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 55
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 5
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 10
+        }
+      ]
+    }
   },
   {
     "id": "175",
@@ -1411,7 +1641,35 @@
     "icon": 88,
     "buyPrice": 4800,
     "sellPrice": 2400,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 70
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": -20
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": -15
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 9
+        }
+      ]
+    }
   },
   {
     "id": "176",
@@ -1424,7 +1682,29 @@
     "icon": 64,
     "buyPrice": 1300,
     "sellPrice": 650,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "zhao-linger"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 16
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 8
+        },
+        {
+          "kind": "grantStatus",
+          "status": "dualAttack"
+        }
+      ]
+    }
   },
   {
     "id": "177",
@@ -1437,7 +1717,34 @@
     "icon": 77,
     "buyPrice": 2600,
     "sellPrice": 1300,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "zhao-linger"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 28
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 12
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 3
+        },
+        {
+          "kind": "grantStatus",
+          "status": "dualAttack"
+        }
+      ]
+    }
   },
   {
     "id": "178",
@@ -1449,7 +1756,26 @@
     "icon": 58,
     "buyPrice": 5100,
     "sellPrice": 2550,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 75
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 15
+        }
+      ]
+    }
   },
   {
     "id": "179",
@@ -1461,7 +1787,25 @@
     "icon": 51,
     "buyPrice": 5000,
     "sellPrice": 2500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 70
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 32
+        }
+      ]
+    }
   },
   {
     "id": "180",
@@ -1474,7 +1818,35 @@
     "icon": 66,
     "buyPrice": 14000,
     "sellPrice": 7000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 124
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 9
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 32
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 16
+        }
+      ]
+    }
   },
   {
     "id": "181",
@@ -1487,7 +1859,34 @@
     "icon": 61,
     "buyPrice": 7200,
     "sellPrice": 3600,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "zhao-linger"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 62
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 9
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 9
+        },
+        {
+          "kind": "grantStatus",
+          "status": "dualAttack"
+        }
+      ]
+    }
   },
   {
     "id": "182",
@@ -1500,7 +1899,36 @@
     "icon": 62,
     "buyPrice": 12000,
     "sellPrice": 6000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 100
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 15
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 20
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 30
+        }
+      ]
+    }
   },
   {
     "id": "183",
@@ -1513,7 +1941,40 @@
     "icon": 54,
     "buyPrice": 12000,
     "sellPrice": 6000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 100
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 30
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 20
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 15
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 3
+        }
+      ]
+    }
   },
   {
     "id": "184",
@@ -1526,7 +1987,31 @@
     "icon": 50,
     "buyPrice": 9000,
     "sellPrice": 4500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 88
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 20
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 22
+        }
+      ]
+    }
   },
   {
     "id": "185",
@@ -1539,7 +2024,30 @@
     "icon": 65,
     "buyPrice": 13000,
     "sellPrice": 6500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 90
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 26
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": -9
+        }
+      ]
+    }
   },
   {
     "id": "186",
@@ -1552,7 +2060,40 @@
     "icon": 57,
     "buyPrice": 16000,
     "sellPrice": 8000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 120
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 50
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 32
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 33
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 7
+        }
+      ]
+    }
   },
   {
     "id": "187",
@@ -1565,7 +2106,37 @@
     "icon": 67,
     "buyPrice": 20000,
     "sellPrice": 10000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 98
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 98
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 98
+        },
+        {
+          "kind": "attackAll"
+        },
+        {
+          "kind": "grantStatus",
+          "status": "dualAttack"
+        }
+      ]
+    }
   },
   {
     "id": "188",
@@ -1578,7 +2149,40 @@
     "icon": 53,
     "buyPrice": 28000,
     "sellPrice": 14000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 132
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 55
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 29
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 45
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 36
+        }
+      ]
+    }
   },
   {
     "id": "189",
@@ -1591,7 +2195,40 @@
     "icon": 55,
     "buyPrice": 24000,
     "sellPrice": 12000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 134
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 37
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 8
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 40
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 32
+        }
+      ]
+    }
   },
   {
     "id": "190",
@@ -1604,7 +2241,40 @@
     "icon": 185,
     "buyPrice": 30000,
     "sellPrice": 15000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 158
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 90
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 35
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 50
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 33
+        }
+      ]
+    }
   },
   {
     "id": "191",
@@ -1617,7 +2287,35 @@
     "icon": 186,
     "buyPrice": 32000,
     "sellPrice": 16000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 200
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 20
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 77
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 33
+        }
+      ]
+    }
   },
   {
     "id": "192",
@@ -1629,7 +2327,31 @@
     "icon": 71,
     "buyPrice": 6500,
     "sellPrice": 3250,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "zhao-linger",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 50
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 62
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 6
+        }
+      ]
+    }
   },
   {
     "id": "193",
@@ -1642,7 +2364,31 @@
     "icon": 69,
     "buyPrice": 14000,
     "sellPrice": 7000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "zhao-linger",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 70
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 88
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 11
+        }
+      ]
+    }
   },
   {
     "id": "194",
@@ -1655,7 +2401,31 @@
     "icon": 70,
     "buyPrice": 27000,
     "sellPrice": 13500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "zhao-linger",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 88
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 120
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 22
+        }
+      ]
+    }
   },
   {
     "id": "195",
@@ -1668,7 +2438,36 @@
     "icon": 68,
     "buyPrice": 31000,
     "sellPrice": 15500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "weapon",
+      "equipableBy": [
+        "zhao-linger",
+        "wu-hou"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 100
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 150
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 33
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 36
+        }
+      ]
+    }
   },
   {
     "id": "196",
@@ -1680,7 +2479,23 @@
     "icon": 176,
     "buyPrice": 40,
     "sellPrice": 20,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "head",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 1
+        }
+      ]
+    }
   },
   {
     "id": "197",
@@ -1692,7 +2507,22 @@
     "icon": 169,
     "buyPrice": 100,
     "sellPrice": 50,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "head",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 2
+        }
+      ]
+    }
   },
   {
     "id": "198",
@@ -1704,7 +2534,22 @@
     "icon": 177,
     "buyPrice": 60,
     "sellPrice": 30,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "head",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 3
+        }
+      ]
+    }
   },
   {
     "id": "199",
@@ -1716,7 +2561,22 @@
     "icon": 145,
     "buyPrice": 420,
     "sellPrice": 210,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "head",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 5
+        }
+      ]
+    }
   },
   {
     "id": "200",
@@ -1728,7 +2588,22 @@
     "icon": 178,
     "buyPrice": 1800,
     "sellPrice": 900,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "head",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 9
+        }
+      ]
+    }
   },
   {
     "id": "201",
@@ -1740,7 +2615,20 @@
     "icon": 85,
     "buyPrice": 390,
     "sellPrice": 195,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "head",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 4
+        }
+      ]
+    }
   },
   {
     "id": "202",
@@ -1752,7 +2640,21 @@
     "icon": 182,
     "buyPrice": 2700,
     "sellPrice": 1350,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "head",
+      "equipableBy": [
+        "wu-hou",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 13
+        }
+      ]
+    }
   },
   {
     "id": "203",
@@ -1764,7 +2666,25 @@
     "icon": 180,
     "buyPrice": 3300,
     "sellPrice": 1650,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "head",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 11
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 3
+        }
+      ]
+    }
   },
   {
     "id": "204",
@@ -1777,7 +2697,20 @@
     "icon": 181,
     "buyPrice": 5600,
     "sellPrice": 2800,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "head",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 18
+        }
+      ]
+    }
   },
   {
     "id": "205",
@@ -1790,7 +2723,28 @@
     "icon": 168,
     "buyPrice": 11000,
     "sellPrice": 5500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "head",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 25
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 8
+        }
+      ]
+    }
   },
   {
     "id": "206",
@@ -1802,7 +2756,32 @@
     "icon": 206,
     "buyPrice": 5000,
     "sellPrice": 2500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "head",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 7
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 24
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 9
+        }
+      ]
+    }
   },
   {
     "id": "207",
@@ -1815,7 +2794,35 @@
     "icon": 183,
     "buyPrice": 19800,
     "sellPrice": 9900,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "head",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 28
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 5
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 3
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 3
+        }
+      ]
+    }
   },
   {
     "id": "208",
@@ -1827,7 +2834,23 @@
     "icon": 78,
     "buyPrice": 100,
     "sellPrice": 50,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 3
+        }
+      ]
+    }
   },
   {
     "id": "209",
@@ -1839,7 +2862,23 @@
     "icon": 74,
     "buyPrice": 400,
     "sellPrice": 200,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 7
+        }
+      ]
+    }
   },
   {
     "id": "210",
@@ -1851,7 +2890,28 @@
     "icon": 198,
     "buyPrice": 750,
     "sellPrice": 375,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru",
+        "wu-hou",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 3
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 4
+        }
+      ]
+    }
   },
   {
     "id": "211",
@@ -1863,7 +2923,25 @@
     "icon": 213,
     "buyPrice": 1230,
     "sellPrice": 615,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 13
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": -10
+        }
+      ]
+    }
   },
   {
     "id": "212",
@@ -1876,7 +2954,33 @@
     "icon": 82,
     "buyPrice": 2000,
     "sellPrice": 1000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 18
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 12
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 12
+        }
+      ]
+    }
   },
   {
     "id": "213",
@@ -1888,7 +2992,25 @@
     "icon": 225,
     "buyPrice": 3200,
     "sellPrice": 1600,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 22
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": -13
+        }
+      ]
+    }
   },
   {
     "id": "214",
@@ -1900,7 +3022,30 @@
     "icon": 187,
     "buyPrice": 4000,
     "sellPrice": 2000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 10
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 10
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 10
+        }
+      ]
+    }
   },
   {
     "id": "215",
@@ -1912,7 +3057,28 @@
     "icon": 79,
     "buyPrice": 6500,
     "sellPrice": 3250,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 28
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": -4
+        }
+      ]
+    }
   },
   {
     "id": "216",
@@ -1924,7 +3090,26 @@
     "icon": 75,
     "buyPrice": 8000,
     "sellPrice": 4000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 33
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 28
+        }
+      ]
+    }
   },
   {
     "id": "217",
@@ -1937,7 +3122,28 @@
     "icon": 83,
     "buyPrice": 9900,
     "sellPrice": 4950,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 40
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": -7
+        }
+      ]
+    }
   },
   {
     "id": "218",
@@ -1950,7 +3156,28 @@
     "icon": 208,
     "buyPrice": 12000,
     "sellPrice": 6000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 47
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": -10
+        }
+      ]
+    }
   },
   {
     "id": "219",
@@ -1962,7 +3189,28 @@
     "icon": 93,
     "buyPrice": 14800,
     "sellPrice": 7400,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 55
+        },
+        {
+          "kind": "statBonus",
+          "stat": "attack",
+          "delta": 9
+        }
+      ]
+    }
   },
   {
     "id": "220",
@@ -1975,7 +3223,23 @@
     "icon": 230,
     "buyPrice": 18000,
     "sellPrice": 9000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 66
+        }
+      ]
+    }
   },
   {
     "id": "221",
@@ -1987,7 +3251,20 @@
     "icon": 209,
     "buyPrice": 29500,
     "sellPrice": 14750,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "zhao-linger"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 90
+        }
+      ]
+    }
   },
   {
     "id": "222",
@@ -1999,7 +3276,21 @@
     "icon": 210,
     "buyPrice": 22000,
     "sellPrice": 11000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 80
+        }
+      ]
+    }
   },
   {
     "id": "223",
@@ -2012,7 +3303,20 @@
     "icon": 89,
     "buyPrice": 25000,
     "sellPrice": 12500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 80
+        }
+      ]
+    }
   },
   {
     "id": "224",
@@ -2024,7 +3328,20 @@
     "icon": 228,
     "buyPrice": 24000,
     "sellPrice": 12000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "body",
+      "equipableBy": [
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 80
+        }
+      ]
+    }
   },
   {
     "id": "225",
@@ -2037,7 +3354,21 @@
     "icon": 95,
     "buyPrice": 160,
     "sellPrice": 80,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "cloak",
+      "equipableBy": [
+        "li-xiaoyao",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 2
+        }
+      ]
+    }
   },
   {
     "id": "226",
@@ -2050,7 +3381,23 @@
     "icon": 84,
     "buyPrice": 400,
     "sellPrice": 200,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "cloak",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 6
+        }
+      ]
+    }
   },
   {
     "id": "227",
@@ -2062,7 +3409,21 @@
     "icon": 91,
     "buyPrice": 900,
     "sellPrice": 450,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "cloak",
+      "equipableBy": [
+        "li-xiaoyao",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 12
+        }
+      ]
+    }
   },
   {
     "id": "228",
@@ -2074,7 +3435,23 @@
     "icon": 94,
     "buyPrice": 2000,
     "sellPrice": 1000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "cloak",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 20
+        }
+      ]
+    }
   },
   {
     "id": "229",
@@ -2086,7 +3463,32 @@
     "icon": 229,
     "buyPrice": 3900,
     "sellPrice": 1950,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "cloak",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 18
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 18
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 18
+        }
+      ]
+    }
   },
   {
     "id": "230",
@@ -2099,7 +3501,25 @@
     "icon": 205,
     "buyPrice": 4100,
     "sellPrice": 2050,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "cloak",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 31
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 16
+        }
+      ]
+    }
   },
   {
     "id": "231",
@@ -2112,7 +3532,23 @@
     "icon": 90,
     "buyPrice": 9000,
     "sellPrice": 4500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "cloak",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 40
+        }
+      ]
+    }
   },
   {
     "id": "232",
@@ -2125,7 +3561,22 @@
     "icon": 87,
     "buyPrice": 15000,
     "sellPrice": 7500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "cloak",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 52
+        }
+      ]
+    }
   },
   {
     "id": "233",
@@ -2138,7 +3589,21 @@
     "icon": 86,
     "buyPrice": 16000,
     "sellPrice": 8000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "cloak",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 60
+        }
+      ]
+    }
   },
   {
     "id": "234",
@@ -2150,7 +3615,26 @@
     "icon": 226,
     "buyPrice": 30000,
     "sellPrice": 15000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "cloak",
+      "equipableBy": [
+        "zhao-linger",
+        "wu-hou"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 66
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 30
+        }
+      ]
+    }
   },
   {
     "id": "235",
@@ -2163,7 +3647,22 @@
     "icon": 97,
     "buyPrice": 30,
     "sellPrice": 15,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 1
+        }
+      ]
+    }
   },
   {
     "id": "236",
@@ -2176,7 +3675,22 @@
     "icon": 98,
     "buyPrice": 80,
     "sellPrice": 40,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 2
+        }
+      ]
+    }
   },
   {
     "id": "237",
@@ -2188,7 +3702,27 @@
     "icon": 212,
     "buyPrice": 120,
     "sellPrice": 60,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 3
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 2
+        }
+      ]
+    }
   },
   {
     "id": "238",
@@ -2201,7 +3735,21 @@
     "icon": 107,
     "buyPrice": 450,
     "sellPrice": 225,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 4
+        }
+      ]
+    }
   },
   {
     "id": "239",
@@ -2213,7 +3761,22 @@
     "icon": 96,
     "buyPrice": 1100,
     "sellPrice": 550,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 6
+        }
+      ]
+    }
   },
   {
     "id": "240",
@@ -2225,7 +3788,25 @@
     "icon": 102,
     "buyPrice": 2000,
     "sellPrice": 1000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "li-xiaoyao"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 8
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 6
+        }
+      ]
+    }
   },
   {
     "id": "241",
@@ -2238,7 +3819,27 @@
     "icon": 105,
     "buyPrice": 3900,
     "sellPrice": 1950,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 11
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 9
+        }
+      ]
+    }
   },
   {
     "id": "242",
@@ -2251,7 +3852,27 @@
     "icon": 100,
     "buyPrice": 5700,
     "sellPrice": 2850,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 14
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 17
+        }
+      ]
+    }
   },
   {
     "id": "243",
@@ -2263,7 +3884,27 @@
     "icon": 101,
     "buyPrice": 6000,
     "sellPrice": 3000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru",
+        "wu-hou"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 18
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 5
+        }
+      ]
+    }
   },
   {
     "id": "244",
@@ -2275,7 +3916,27 @@
     "icon": 106,
     "buyPrice": 9000,
     "sellPrice": 4500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 21
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 16
+        }
+      ]
+    }
   },
   {
     "id": "245",
@@ -2287,7 +3948,27 @@
     "icon": 103,
     "buyPrice": 10000,
     "sellPrice": 5000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 25
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 12
+        }
+      ]
+    }
   },
   {
     "id": "246",
@@ -2300,7 +3981,27 @@
     "icon": 104,
     "buyPrice": 18000,
     "sellPrice": 9000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 28
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 20
+        }
+      ]
+    }
   },
   {
     "id": "247",
@@ -2312,7 +4013,27 @@
     "icon": 99,
     "buyPrice": 27000,
     "sellPrice": 13500,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "feet",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 32
+        },
+        {
+          "kind": "statBonus",
+          "stat": "speed",
+          "delta": 26
+        }
+      ]
+    }
   },
   {
     "id": "248",
@@ -2325,7 +4046,33 @@
     "icon": 227,
     "buyPrice": 10,
     "sellPrice": 5,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 8
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 9
+        },
+        {
+          "kind": "resistance",
+          "element": "poison",
+          "percent": 20
+        }
+      ]
+    }
   },
   {
     "id": "249",
@@ -2337,7 +4084,23 @@
     "icon": 224,
     "buyPrice": 70,
     "sellPrice": 35,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 2
+        }
+      ]
+    }
   },
   {
     "id": "250",
@@ -2349,7 +4112,23 @@
     "icon": 10,
     "buyPrice": 360,
     "sellPrice": 180,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 5
+        }
+      ]
+    }
   },
   {
     "id": "251",
@@ -2361,7 +4140,23 @@
     "icon": 128,
     "buyPrice": 100,
     "sellPrice": 50,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 18
+        }
+      ]
+    }
   },
   {
     "id": "252",
@@ -2374,7 +4169,22 @@
     "icon": 140,
     "buyPrice": 400,
     "sellPrice": 200,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 20
+        }
+      ]
+    }
   },
   {
     "id": "253",
@@ -2386,7 +4196,27 @@
     "icon": 29,
     "buyPrice": 950,
     "sellPrice": 475,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 5
+        },
+        {
+          "kind": "statBonus",
+          "stat": "luck",
+          "delta": 9
+        }
+      ]
+    }
   },
   {
     "id": "254",
@@ -2399,7 +4229,28 @@
     "icon": 117,
     "buyPrice": 70,
     "sellPrice": 35,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 5
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 5
+        }
+      ]
+    }
   },
   {
     "id": "255",
@@ -2424,7 +4275,22 @@
     "icon": 24,
     "buyPrice": 800,
     "sellPrice": 400,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 6
+        }
+      ]
+    }
   },
   {
     "id": "257",
@@ -2437,7 +4303,28 @@
     "icon": 38,
     "buyPrice": 3100,
     "sellPrice": 1550,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 8
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 8
+        }
+      ]
+    }
   },
   {
     "id": "258",
@@ -2450,7 +4337,28 @@
     "icon": 39,
     "buyPrice": 4900,
     "sellPrice": 2450,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 14
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 14
+        }
+      ]
+    }
   },
   {
     "id": "259",
@@ -2462,7 +4370,24 @@
     "icon": 25,
     "buyPrice": 4400,
     "sellPrice": 2200,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "wu-hou",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 9
+        }
+      ]
+    }
   },
   {
     "id": "260",
@@ -2475,7 +4400,35 @@
     "icon": 2,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "zhao-linger",
+        "wu-hou"
+      ],
+      "effects": [
+        {
+          "kind": "grantSkill",
+          "skillId": "351"
+        },
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 128
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 15
+        },
+        {
+          "kind": "resistance",
+          "element": "poison",
+          "percent": 35
+        }
+      ]
+    }
   },
   {
     "id": "261",
@@ -2487,7 +4440,23 @@
     "icon": 13,
     "buyPrice": 10000,
     "sellPrice": 5000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 90
+        }
+      ]
+    }
   },
   {
     "id": "262",
@@ -2499,7 +4468,23 @@
     "icon": 3,
     "buyPrice": 10000,
     "sellPrice": 5000,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "resistance",
+          "element": "poison",
+          "percent": 100
+        }
+      ]
+    }
   },
   {
     "id": "263",
@@ -2512,7 +4497,27 @@
     "icon": 7,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "resistance",
+          "element": "wind",
+          "percent": 50
+        },
+        {
+          "kind": "grantSkill",
+          "skillId": "315"
+        }
+      ]
+    }
   },
   {
     "id": "264",
@@ -2525,7 +4530,27 @@
     "icon": 5,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "resistance",
+          "element": "thunder",
+          "percent": 50
+        },
+        {
+          "kind": "grantSkill",
+          "skillId": "320"
+        }
+      ]
+    }
   },
   {
     "id": "265",
@@ -2538,7 +4563,27 @@
     "icon": 1,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "resistance",
+          "element": "water",
+          "percent": 50
+        },
+        {
+          "kind": "grantSkill",
+          "skillId": "325"
+        }
+      ]
+    }
   },
   {
     "id": "266",
@@ -2551,7 +4596,27 @@
     "icon": 4,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "resistance",
+          "element": "fire",
+          "percent": 50
+        },
+        {
+          "kind": "grantSkill",
+          "skillId": "389"
+        }
+      ]
+    }
   },
   {
     "id": "267",
@@ -2564,7 +4629,27 @@
     "icon": 6,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": [
+        {
+          "kind": "resistance",
+          "element": "earth",
+          "percent": 50
+        },
+        {
+          "kind": "grantSkill",
+          "skillId": "336"
+        }
+      ]
+    }
   },
   {
     "id": "268",
@@ -2589,7 +4674,17 @@
     "icon": 8,
     "buyPrice": 8600,
     "sellPrice": 4300,
-    "sellable": true
+    "sellable": true,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "li-xiaoyao",
+        "zhao-linger",
+        "lin-yueru",
+        "anu"
+      ],
+      "effects": []
+    }
   },
   {
     "id": "270",
@@ -2646,7 +4741,34 @@
     "icon": 11,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "equip": {
+      "slot": "accessory",
+      "equipableBy": [
+        "zhao-linger"
+      ],
+      "effects": [
+        {
+          "kind": "statBonus",
+          "stat": "magicAttack",
+          "delta": 88
+        },
+        {
+          "kind": "statBonus",
+          "stat": "defense",
+          "delta": 18
+        },
+        {
+          "kind": "resistance",
+          "element": "poison",
+          "percent": 30
+        },
+        {
+          "kind": "grantSkill",
+          "skillId": "383"
+        }
+      ]
+    }
   },
   {
     "id": "275",
