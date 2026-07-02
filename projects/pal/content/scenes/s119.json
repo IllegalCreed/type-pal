@@ -3,10 +3,19 @@
   "map": {
     "reuseOriginalMap": 111
   },
+  "entries": {
+    "from-shared": {
+      "pos": {
+        "col": 50,
+        "row": 28,
+        "height": 0
+      }
+    }
+  },
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
+      "col": 50,
+      "row": 28,
       "height": 0
     },
     "facing": "down"

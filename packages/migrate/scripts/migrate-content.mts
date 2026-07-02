@@ -51,6 +51,11 @@ for (let n = 0; existsSync(resolve(repo, `data/extracted/data/scene/${n}.json`))
     eventsByScene.set(n, ev.segments.flatMap((sg) => sg.commands))
   }
 }
+// 共享段(跨场景 label,如 autoScript 公共巡逻/朝向链)以 key -1 挂入 label 全局索引
+if (existsSync(resolve(repo, 'data/extracted/events/shared.json'))) {
+  const ev = readJson<{ segments: { commands: SourceCmd[] }[] }>('data/extracted/events/shared.json')
+  eventsByScene.set(-1, ev.segments.flatMap((sg) => sg.commands))
+}
 const scenesOut = mapScenesStatic(srcScenes, eventsByScene)
 
 // ── 与 demo 手作合并(youhun/ghost 等 demo 独有条目保留;工程底座种自 demo)──

@@ -594,13 +594,17 @@ async function main(): Promise<void> {
     })
   }
 
-  /** 当前按下的方向键 → 朝向（优先级 上 > 下 > 左 > 右，4 向单选）。 */
+  /** 当前按下的方向键 → 朝向(后按优先:按住一个再按另一个,新方向立即生效;一阶段同语义)。 */
+  const ARROW_TO_FACING: Record<string, Facing> = {
+    ArrowUp: 'up',
+    ArrowDown: 'down',
+    ArrowLeft: 'left',
+    ArrowRight: 'right',
+  }
+  const ARROW_KEYS = Object.keys(ARROW_TO_FACING)
   function heldDir(): Facing | null {
-    if (keyboard.isDown('ArrowUp')) return 'up'
-    if (keyboard.isDown('ArrowDown')) return 'down'
-    if (keyboard.isDown('ArrowLeft')) return 'left'
-    if (keyboard.isDown('ArrowRight')) return 'right'
-    return null
+    const k = keyboard.lastDownOf(ARROW_KEYS)
+    return k ? (ARROW_TO_FACING[k] ?? null) : null
   }
 
   function tick(t: number): void {

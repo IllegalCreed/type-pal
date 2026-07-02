@@ -294,11 +294,16 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
   const readEvents = (n: number) =>
     readJson<{ segments: { commands: SourceCmd[] }[] }>(`data/extracted/events/scene-${String(n).padStart(3, '0')}.json`)
       .segments.flatMap((s) => s.commands)
+  const readShared = () =>
+    readJson<{ segments: { commands: SourceCmd[] }[] }>('data/extracted/events/shared.json')
+      .segments.flatMap((s) => s.commands)
   const out2 = mapScenesStatic(
-    [readScene(1), readScene(4)],
+    [readScene(1), readScene(4), readScene(5)],
     new Map([
       [1, readEvents(1)],
       [4, readEvents(4)],
+      [5, readEvents(5)],
+      [-1, readShared()], // 共享段:s005 的 autoLabel(L_35636/L_35639)在此
     ]),
   )
   const byId = new Map(out2.scenes.map((s) => [s.id, s]))
@@ -327,9 +332,26 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
       const e = s1.entities.find((x) => x.id === `e${eo.id}`)!
       expect(e.hidden ?? false, `e${eo.id} hidden`).toBe((eo.sState ?? 1) === 0)
       expect(e.collide ?? false, `e${eo.id} collide`).toBe((eo.sState ?? 0) >= 2)
-      if (eo.direction) expect(e.facing).toBe(['down', 'left', 'up', 'right'][eo.direction])
+      // 朝向:无 autoScript 时 = direction 表(有 autoScript 时链首可覆盖,另测)
+      if (eo.direction && !eo.autoLabel) expect(e.facing).toBe(['down', 'left', 'up', 'right'][eo.direction])
       if (eo.sLayer) expect(e.zBias).toBe(eo.sLayer)
     }
+  })
+  test('朝向折叠:autoScript 链首 0x0F 覆盖数据 direction(s005 盛渔村市集,用户实测回归)', () => {
+    const s5 = byId.get('s005')!
+    const facing = (id: number) => s5.entities.find((x) => x.id === `e${id}`)?.facing
+    // 数据 dir=0 但 autoScript 首拍 0x0F 改写:e127→West(0x0F[1])、e128/129/130→East(0x0F[3])
+    expect(facing(127)).toBe('left')
+    expect(facing(128)).toBe('right')
+    expect(facing(129)).toBe('right')
+    expect(facing(130)).toBe('right')
+    // 无 autoScript → 数据字段直译:e124/125 dir=3 → right
+    expect(facing(124)).toBe('right')
+    expect(facing(125)).toBe('right')
+    // 0x14 链首(设帧强制朝南)/ 0x87 纯动画:朝向落 South → facing 省略(默认 down)
+    expect(facing(116)).toBeUndefined()
+    expect(facing(118)).toBeUndefined()
+    expect(out2.report.facingFromAuto).toBeGreaterThanOrEqual(4)
   })
   test('精灵批量登记:npc-<num>,布局 directional×n(n>0)/ static(n=0)', () => {
     const src1 = readScene(1)

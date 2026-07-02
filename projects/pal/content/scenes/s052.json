@@ -84,6 +84,7 @@
         "height": 0
       },
       "sprite": "npc-163",
+      "facing": "up",
       "collide": true
     },
     {
@@ -94,6 +95,7 @@
         "height": 0
       },
       "sprite": "npc-125",
+      "facing": "right",
       "collide": true
     },
     {
@@ -104,6 +106,7 @@
         "height": 0
       },
       "sprite": "npc-117",
+      "facing": "left",
       "collide": true
     },
     {
@@ -114,6 +117,7 @@
         "height": 0
       },
       "sprite": "npc-51",
+      "facing": "left",
       "collide": true
     },
     {
@@ -144,6 +148,7 @@
         "height": 0
       },
       "sprite": "npc-121",
+      "facing": "right",
       "collide": true
     },
     {
@@ -154,6 +159,7 @@
         "height": 0
       },
       "sprite": "npc-106",
+      "facing": "right",
       "collide": true
     },
     {

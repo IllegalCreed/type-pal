@@ -53,6 +53,13 @@
         "row": 7,
         "height": 0
       }
+    },
+    "from-shared": {
+      "pos": {
+        "col": 55,
+        "row": 10,
+        "height": 0
+      }
     }
   },
   "entry": {
@@ -125,7 +132,7 @@
         "height": 0
       },
       "sprite": "npc-408",
-      "facing": "left",
+      "facing": "up",
       "collide": true
     },
     {

@@ -790,6 +790,7 @@ export interface SourceEventObject {
   nSpriteFrames?: number
   nSpriteFramesAuto?: number
   direction?: number
+  autoLabel?: string
 }
 export interface SourceScene {
   sceneId: number
@@ -830,6 +831,8 @@ export interface SceneMigrationResult {
     layoutConflicts: string[]
     /** nSpriteFramesAuto>0 的环境自循环候选(布局先保守,C1 标注工具人工修)。 */
     autoLoopCandidates: number
+    /** 朝向被 autoScript 链首覆盖(≠数据字段)的实体数。 */
+    facingFromAuto: number
   }
 }
 
@@ -855,6 +858,7 @@ export function mapScenesStatic(
     entryFallback: [],
     layoutConflicts: [],
     autoLoopCandidates: 0,
+    facingFromAuto: 0,
   }
 
   // ── 入口扫描:setPartyPos(raw70)在 loadScene 前 ≤4 步内。
@@ -912,6 +916,43 @@ export function mapScenesStatic(
     return out
   }
 
+  // ── autoScript 链首朝向折叠 ──
+  // 原版 NPC 的**可见**朝向常由 autoScript 第一拍改写,数据字段 direction 不是真相
+  // (2026-07-02 用户实测"全员朝向错";全库 527 对象链首改朝向,67 个与数据字段不同)。
+  // sdlpal script.c 语义:0x0F[d,f] d≠0xFFFF→dir=d;0x14[f] 设帧且强制 dir=South(0)。
+  // 中性略过 0x09 waitFrames / 0x87 animateObject(不动朝向);其余 op(走位/分支/goto)
+  // = 动态行为,静态层不猜 → 停。上限 16 步防长链空转。
+  // label → 指令数组+下标的全局索引:autoLabel 可指向共享段(events/shared.json,IO 壳以
+  // key -1 挂入)或他场景段,勿只查本场景;地址型 label 全局唯一,重复出现内容相同,首见即用。
+  const labelAt = new Map<string, { cmds: readonly SourceCmd[]; idx: number }>()
+  for (const cmds of eventsByScene.values())
+    cmds.forEach((c, i) => {
+      if (c.label && !labelAt.has(c.label)) labelAt.set(c.label, { cmds, idx: i })
+    })
+  const autoHeadFacing = (label: string | undefined): number | undefined => {
+    if (!label) return undefined
+    const at = labelAt.get(label)
+    if (!at) return undefined
+    const { cmds, idx: startIdx } = at
+    let dir: number | undefined
+    for (let i = startIdx, steps = 0; i < cmds.length && steps < 16; i++, steps++) {
+      const c = cmds[i]!
+      if (c.op !== 'raw') break // end 各变体/对话等具名 op → 停
+      const [a = 0] = c.operands ?? []
+      if (c.opcode === 0x09 || c.opcode === 0x87) continue
+      if (c.opcode === 0x0f) {
+        if (a !== 0xffff) dir = a
+        continue
+      }
+      if (c.opcode === 0x14) {
+        dir = 0
+        continue
+      }
+      break
+    }
+    return dir
+  }
+
   // ── 精灵登记(去重 + 布局冲突拆分)──
   const spriteDefs = new Map<string, SpriteDef>() // key = defId
   const primaryLayout = new Map<number, number>() // spriteNum → 首见 nSpriteFrames
@@ -948,11 +989,15 @@ export function mapScenesStatic(
       const hidden = (eo.sState ?? 1) === 0
       if (hidden) report.hidden++
       report.entities++
+      // 朝向:autoScript 链首覆盖 > 数据字段(?? 保 0:0x14 强制朝南须能盖掉数据 dir)
+      const autoDir = autoHeadFacing(eo.autoLabel)
+      if (autoDir !== undefined && autoDir !== (eo.direction ?? 0)) report.facingFromAuto++
+      const dir = autoDir ?? eo.direction ?? 0
       entities.push({
         id: `e${eo.id}`,
         pos: { ...pixelToGrid(eo.x, eo.y), height: 0 },
         sprite: spriteRef(eo),
-        ...(eo.direction ? { facing: FACING_BY_DIR[eo.direction] ?? 'down' } : {}),
+        ...(dir ? { facing: FACING_BY_DIR[dir] ?? 'down' } : {}),
         ...(hidden ? { hidden: true } : {}),
         ...((eo.sState ?? 0) >= 2 ? { collide: true } : {}),
         ...(eo.sLayer ? { zBias: eo.sLayer } : {}),
@@ -967,7 +1012,9 @@ export function mapScenesStatic(
     for (const a of arrivals.get(sc.sceneId) ?? []) {
       const k = (seen.get(a.src) ?? 0) + 1
       seen.set(a.src, k)
-      entries[`from-${sceneSlug(a.src)}${k > 1 ? `-${k}` : ''}`] = { pos: a.pos }
+      // src<0 = 共享段(events/shared.json,key -1)里的传送 —— 真实入口但无来源场景
+      const srcName = a.src >= 0 ? sceneSlug(a.src) : 'shared'
+      entries[`from-${srcName}${k > 1 ? `-${k}` : ''}`] = { pos: a.pos }
     }
     const firstEntry = start ?? Object.values(entries)[0]?.pos
     if (!firstEntry) report.entryFallback.push(slug)

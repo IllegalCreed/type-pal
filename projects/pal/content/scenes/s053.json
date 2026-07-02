@@ -38,6 +38,7 @@
         "height": 0
       },
       "sprite": "npc-91",
+      "facing": "up",
       "collide": true
     },
     {
@@ -68,6 +69,7 @@
         "height": 0
       },
       "sprite": "npc-138",
+      "facing": "up",
       "collide": true
     },
     {
@@ -78,6 +80,7 @@
         "height": 0
       },
       "sprite": "npc-15",
+      "facing": "right",
       "hidden": true
     },
     {
