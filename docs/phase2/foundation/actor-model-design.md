@@ -27,7 +27,7 @@
 | 决策点 | 选择 | 理由 |
 |---|---|---|
 | 角色统一性 | **一个 `ActorDef`**,可战斗的多带 `battler` 块(**用户拍板**) | 灵儿=NPC 又=队员;拆两种=身份分裂重复维护 |
-| **帧布局挂哪** | **挂精灵表(`SpriteDef.layout`)**,不挂角色 | 布局是那张图的结构;原版放 per-object 是「没有精灵元数据概念」的历史包袱。角色/静物共用同一张图时布局天然共享 |
+| **帧布局挂哪** | **挂精灵表(`SpriteDef.layout`)**,不挂角色 | 布局是那张图的结构;原版放 per-object 是「没有精灵元数据概念」的历史包袱。角色/静物共用同一张图时布局天然共享。**逃生口**(迁移器用):`SpriteDef.id` 是语义 id、`spriteNum` 可重复——原版若有同 chunk 不同 nSpriteFrames 的极端例,建两条 SpriteDef 指同 spriteNum 即可,schema 不用改 |
 | 布局模型 | **开放联合** `SpriteLayout`(directional / static / loop,后加 battle-kind) | 覆盖投查全部大世界词汇;战斗留形不实现(reforge 无战斗系统,现建=过度设计) |
 | 每向帧数 | `framesPerDir: number`(数据字段,通常 3) | sdlpal 有活的 4 帧分支;硬编码 3 已被投查证伪为「约定非真值」 |
 | 步序 | 引擎按 framesPerDir **推导**(3→`[0,1,0,2]`,4→`[0,1,2,3]`),暂不进数据 | 别过度设计;要自定义步序时再加字段(加法) |
@@ -55,6 +55,10 @@ export interface SpriteDef {
   label: string
   layout: SpriteLayout                    // 新:帧结构(编辑器标注的产物)
   poses?: Record<string, number>          // 新:命名姿势帧(坐/卧/演出…→ 帧下标)
+                                          // ⚠ provisional(Fable5 复审):原版姿势帧常是**朝向内偏移**
+                                          // (0x15: wFrame=dir*3+n),绝对帧号表达不了"坐·朝左/坐·朝右"。
+                                          // C0 先留字段不消费;B2 事件+迁移器落地时定稿(或改
+                                          // { frame; perDirection? })。别提前消费此字段。
 }
 
 // ── actor.ts(新;吸收 character.ts 的模板部分)────
@@ -93,6 +97,7 @@ export type EntityDef = {
 
 - `WorldState`/`CharacterInstance` **不变**(运行态);`instantiate`/`buildWorld` 改吃 `ActorDef`(读 `actor.battler`,无 battler 的 actor 不可入队 → buildWorld throw)。
 - 文件/manifest:`content.characters` → `content.actors`(`actors.json` = `ActorDef[]`);`sprites.json` 条目加 `layout`(既有条目迁移时补)。
+- **与 [content-schema §9](content-schema.md)「外观解耦」的对齐**(Fable5 复审注):§9 的终态是「外观 = 基础造型 + 装备覆盖算出来」。本设计的 `spriteId`/`battleSpriteNum` = **基础造型**(复刻原版只需这层——原版外观本就不随装备变);装备驱动的外观覆盖层 = 将来在 ActorDef 上**加字段**(如 `appearanceRules`),纯加法,不冲突。身份=实例 id ✓、状态=实例组件 ✓ 两条 §9 原则本设计已满足。
 
 ## 4. 引擎(reforge)去硬编码
 

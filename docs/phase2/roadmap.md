@@ -81,3 +81,34 @@
 - **P1 切片 1 已起**：室内场景跑通（地图 / 移动 / 碰撞含 NPC / 遮挡 / 对话）；对话现代化（结构化 + i18n + 外观 + 去 palette，见 [D11](decisions.md)–[D15](decisions.md)）完成。
 - **前置 [D16](decisions.md) 渲染地基已落地**（2026-06-28）：逻辑 / 显示分离（菱形轴格坐标 `GridPos={col,row,height}` + 物理 1280 + UI 高清化，[render-foundation-plan](foundation/render-foundation-plan.md)）。它是菜单及后续所有 UI / 美术 / 编辑器的底座。**下一步 = [D17](decisions.md) 菜单**（设计已定、地基就绪可落地）。
 - **之后**：菜单 → 多场景 / 事件演出 → 编辑器（P2）。schema 边跑边补（§5 切入策略）；P1 spec 输入 = [content-schema](foundation/content-schema.md) + [engine-debt-audit](foundation/engine-debt-audit.md)。
+
+**进展（2026-07-02 更新）**
+
+- **A 期工程化落地**：壳/肉分离（`projects/<id>/` 工程 = manifest + content JSON + assets 自包含），reforge 零具体游戏 import（[project-design](editor/project-design.md)）。
+- **编辑器 B1 布置模式 MVP 落地**：模式壳 + 画布复用 reforge 渲染 + command/undo + 选/拖/增删/FSA 保存（[editor-design](editor/editor-design.md)）。
+- **角色/精灵动画模型设计定稿**：统一 ActorDef + SpriteLayout（[actor-model-design](foundation/actor-model-design.md)），C0/C1 待实施。
+- **脚本兼容决策拍死（原 content-schema §6 待定项）**：迁移器把原版脚本**翻译**成结构化脚本（[script-system-design](foundation/script-system-design.md) 的 AST），**不建永久 opcode 兼容执行器** —— 双解释器 = [engine-debt-audit](foundation/engine-debt-audit.md) P0-5/P0-6 的债重生。翻不净的意大利面脚本（有限集）迁移器标注 + 编辑器手修。
+
+## 8. 硬验收：完整复刻原版（2026-07-02 用户钉死）
+
+> 用户原话级标准：**原版引擎和数据经迁移器 → 新数据结构，编辑器 + 新引擎完全能复刻一个原版仙剑**；在此之上现代化、可扩展、修掉原版所有不合理的引擎架构与数据编排（不合理账本 = [engine-debt-audit](foundation/engine-debt-audit.md) 18 条 + 反查表）。
+> 垂直切片（demo）已验证地基，此后每步都要往这张矩阵收敛。**迁移器是验收主轴，不再是"留后"。**
+
+### 复刻覆盖矩阵（域 × 四层现状 → 归属里程碑）
+
+| 域 | schema | 引擎(reforge) | 编辑器 | 迁移器 | 里程碑 |
+|---|---|---|---|---|---|
+| 数据表（角色/技能/物品/升级曲线/文本） | ✅（ActorDef C0 补齐） | 菜单✅ 战斗❌ | 数据模式（待） | ❌ | **M1** |
+| 精灵/动画（636 布局标注） | ✅ C0 | 部分 | 角色模式 C1 | ❌（半自动：行走图批量 directional×3，特殊图人工） | M1–M2 |
+| 场景/实体/传送/多入口/音乐（~300 场景） | ⚠ 缺：musicId 槽、room→全图泛化、多入口 | 单场景 | 布置✅ | ❌ | **M2** |
+| 事件/脚本/变量/实体页（~4 万命令） | v0 草案（B2 定稿） | ❌ | 事件模式（待） | ❌（bytecode→AST 翻译 = 最难件） | **M3** |
+| 战斗（敌人/敌队/战场/战斗动画/AI） | ❌（动画词汇已录案） | ❌ | 后 | ❌ | **M4** |
+| 音频（BGM/SFX 引用）· 过场（RNG/FBP）· 昼夜/天气 | 部分（脚本命令 v0 有 playRng/playSound；scene 缺 musicId） | 一阶段有,reforge ❌ | — | — | M2 留槽 / M3–M4 |
+| 商店/掉落 | ❌ | ❌ | 数据模式 | ❌ | M3–M4 |
+
+### 里程碑阶梯（每级 = 迁移器批量迁入 + 引擎跑通 + 编辑器可编）
+
+- **M1 · 数据表全量**：迁移器首战——102 技能 / 256 物品 / 6 角色（含升级曲线表）/ 文本表 → 工程 JSON；编辑器数据模式可编。验 schema 容量。
+- **M2 · 全场景静态**：~300 场景（地图引用/实体摆放/精灵布局/传送/入口/音乐槽）；需引擎多场景 + 全图相机；**content 文件布局先演进为 per-scene 目录**（content-schema §7 本来就这么设计，manifest 路径间接层已留好口）。
+- **M3 · 脚本翻译**：原版 bytecode → 结构化 AST（B2 事件系统 + 迁移器翻译 + 翻不净清单）。最难件，单列。
+- **M4 · 战斗 + 全流程**：敌人表/战斗引擎/战斗动画 schema → **原版全流程通关 = 验收达成**。
