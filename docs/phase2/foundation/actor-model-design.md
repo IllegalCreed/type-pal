@@ -35,7 +35,8 @@
 | 实体引用 | `EntityDef` = 基础字段 & (`{actor}` ⊕ `{sprite}`) 二选一 | 角色(NPC/队员)引 actor;纯静物(花瓶/装饰)直接引 sprite,不逼着建假角色 |
 | 实体朝向 | `facing?: Facing`(缺省 down),实例级 | 表层缺口;directional 布局才有意义 |
 | 升级曲线 | `battler.leveling`(**用户点名的真缺口**):`expTable` 先落,成长表迁移一阶段时定形 | 表驱动(原版即表);槽位现在留对,内容后填 |
-| 头像立绘 | `ActorDef.portrait?: number`,MVP 沿用引擎现有预烘 PNG 路径 | 立绘搬进工程资产=后续迁移,不阻塞本期 |
+| 头像立绘 | **立绘组**(用户拍板,2026-07-02):`portraits?: { default: number; expressions?: Record<string, number> }`——主立绘 + 命名表情/形态。C0 的 `portrait?: number` 在 C1 开工时升级(无消费者,零成本) | 与精灵同原理:**素材库(散图)+ 角色身上的命名引用**——原版只有编号,命名(sad/angry)是编辑器加的可读层;B2 对话编辑选「游魂·愤怒」而非记 #47。迁移不冲突:DialogueLine.portrait.icon 裸编号照跑,命名是往上盖的层。全套 RGM 立绘库需补烘焙管线(排 C1 计划) |
+| **总原则:库 + 命名引用** | 素材库存"原样的图"(精灵表/立绘),**语义命名一律标在角色/内容侧**(帧布局、姿势名、表情名) | 用户两次点出的同一原理;原版素材无语义元数据,命名是编辑器的核心价值;B2 姿势标注同归此原则 |
 | characters.json | **改名 actors.json**,`CharacterTemplate` → `ActorDef`(battler 包住 baseStats/装备/技能) | 趁只有 1 个工程,词汇一次改对;fidelity 测钉零行为 |
 | 精灵清单 | MVP 编辑器**懒加载探测**(1..636,404 跳过);提取期清单(带 frameCount,照 fire-sprites.json)列为优化 | 不为选择器先动 pal-extract;要快再加 |
 
