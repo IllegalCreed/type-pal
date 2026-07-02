@@ -52,17 +52,27 @@ export interface Dialogue {
   lines: DialogueLine[]
 }
 
-export interface EntityDef {
+/**
+ * 实体引用(C0):角色实例(actor → actors 表)⊕ 纯静物 prop(sprite → sprites 表),二选一。
+ * 花瓶/装饰直接引精灵,不逼着建假角色;NPC/角色经 ActorDef 共享 名字/精灵/battler 定义。
+ */
+export type EntityRef = { actor: string } | { sprite: string }
+
+/** 实体公共字段(实例级:位置/朝向/碰撞/交互)。 */
+export interface EntityBase {
   id: string
   /** 世界菱形轴逻辑坐标(D16);height=0 地面站立。 */
   pos: GridPos
-  /** 精灵引用 id；reforge 解析到具体原版精灵 */
-  sprite: string
+  /** 实例朝向(缺省 down;directional 布局才有视觉差)。 */
+  facing?: Facing
   /** 是否挡路（碰撞） */
   collide?: boolean
   /** 交互触发的对话 id */
   interact?: string
 }
+
+/** 场景实体 = 公共字段 & (actor ⊕ sprite)。判别用 isActorEntity / resolveEntitySpriteId(actor.ts)。 */
+export type EntityDef = EntityBase & EntityRef
 
 export interface SceneDef {
   id: string
@@ -89,6 +99,7 @@ export interface SceneDef {
   dialogues: Dialogue[]
 }
 
+export * from './actor.js'
 export * from './character.js'
 export * from './grid.js'
 export * from './item.js'

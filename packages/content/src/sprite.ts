@@ -1,21 +1,37 @@
 /**
- * 精灵注册表(D-B0 schema 缺口之一)。
+ * 精灵注册表(B0 起) + 帧布局模型(C0,见 docs/phase2/foundation/actor-model-design.md §3)。
  *
- * 背景:`EntityDef.sprite`("ghost")是**语义 id**,reforge 需据此解析到具体原版精灵号。
- * 之前没有这张表 → 引擎写死 `loadSprite(...,16)`(main.ts 硬编码)。此注册表去掉实体精灵硬编码,
- * 给编辑器精灵选择器人读 label,并保住语义 id(非裸数字)。
- *
- * 范围:只管**实体精灵**;玩家(队长)精灵是角色概念(待 CharacterTemplate.sprite,非 B0)。
- *
- * 见 docs/phase2/editor/editor-design.md §7。
+ * `SpriteDef` = 一张原版精灵图(sheet)的登记:语义 id → 精灵号 + 人读标签 + **帧布局**。
+ * 布局挂在精灵表(描述"那张图的结构"),不挂角色——原版把 nSpriteFrames 放 per-object
+ * 是「没有精灵元数据概念」的历史包袱(设计 §2)。
+ * 逃生口:id 是语义 id、spriteNum 可重复——同 chunk 需两种布局时建两条 SpriteDef 即可。
  */
 
-/** 精灵注册表项:语义 id → 原版精灵号 + 人读标签。 */
+/**
+ * 帧布局 = 这张精灵图的结构(开放联合;战斗类 kind 留待战斗系统落地时加)。
+ * - directional:4 向固定序 down/left/up/right;站立 = dir*framesPerDir(原版通式 dir*nSpriteFrames+frame)。
+ * - static:单帧静物(恒画 frame 0)。
+ * - loop:无方向环境自循环(血池/火盆;nSpriteFramesAuto 语义)。C0 只定义,自循环播放留后。
+ */
+export type SpriteLayout =
+  | { kind: 'directional'; framesPerDir: number }
+  | { kind: 'static' }
+  | { kind: 'loop'; frameCount: number; ticksPerFrame?: number }
+
+/** 精灵注册表项:语义 id → 原版精灵号 + 人读标签 + 帧布局。 */
 export interface SpriteDef {
-  /** 语义 id;EntityDef.sprite 引用它(如 "ghost")。稳定身份,非裸数字。 */
+  /** 语义 id;实体(prop)与 ActorDef.spriteId 引用它。稳定身份,非裸数字。 */
   id: string
-  /** 原版大世界精灵号(对应 {root}/sprites/{spriteNum}.rle)。 */
+  /** 原版大世界精灵号(对应 {root}/sprites/{spriteNum}.rle)。可与他条重复(布局逃生口)。 */
   spriteNum: number
   /** 人读标签(编辑器精灵选择器显示用)。 */
   label: string
+  /** 帧布局(编辑器帧标注的产物;引擎据此算帧下标,去 WALK_FRAMES 硬编码)。 */
+  layout: SpriteLayout
+  /**
+   * 命名姿势帧(坐/卧/演出… → 帧下标)。
+   * ⚠ provisional(设计 §3 注):原版姿势常是**朝向内偏移**(0x15: wFrame=dir*3+n),
+   * 绝对帧号表达不了"坐·朝左/坐·朝右"。C0 只定义**不消费**;B2 事件+迁移器落地时定稿。
+   */
+  poses?: Record<string, number>
 }

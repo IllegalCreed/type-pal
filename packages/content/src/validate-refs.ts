@@ -10,8 +10,9 @@
  *
  * 见 docs/phase2/editor/editor-design.md §6。
  */
+import { isActorEntity } from './actor.js'
 import type {
-  CharacterTemplate,
+  ActorDef,
   ItemData,
   LevelUpSkill,
   LoadedManifest,
@@ -33,7 +34,7 @@ export interface Issue {
 /** 被校验的内容包(编辑器/loader 各自从工程组装出来的内容切片)。 */
 export interface ContentBundle {
   scenes: SceneDef[]
-  characters: CharacterTemplate[]
+  actors: ActorDef[]
   skills: SkillData[]
   levelUp: Record<string, LevelUpSkill[]>
   items: ItemData[]
@@ -52,7 +53,8 @@ export function validateReferences(b: ContentBundle): Issue[] {
   // id 集合(O(1) 查表)
   const skillIds = new Set(b.skills.map((s) => s.id))
   const itemIds = new Set(b.items.map((i) => i.id))
-  const charIds = new Set(b.characters.map((c) => c.id))
+  const actorIds = new Set(b.actors.map((a) => a.id))
+  const actorsById = Object.fromEntries(b.actors.map((a) => [a.id, a]))
   const spriteIds = new Set(b.sprites.map((s) => s.id))
   const localeKeys = new Set(Object.keys(b.locale))
 
@@ -61,9 +63,14 @@ export function validateReferences(b: ContentBundle): Issue[] {
     const dialogueIds = new Set(scene.dialogues.map((d) => d.id))
     scene.entities.forEach((e, ei) => {
       const where = `scenes[${si}].entities[${ei}]`
-      // sprite → sprites 注册表(缺 = error:引擎 loadSprite 会 throw)
-      if (!spriteIds.has(e.sprite))
+      if (isActorEntity(e)) {
+        // actor → actors 表(缺 = error:引擎解析精灵会 throw)
+        if (!actorIds.has(e.actor))
+          issues.push({ severity: 'error', where: `${where}.actor`, message: `角色 "${e.actor}" 不在 actors 表` })
+      } else if (!spriteIds.has(e.sprite)) {
+        // prop 的 sprite → sprites 注册表(缺 = error:引擎 loadSprite 会 throw)
         issues.push({ severity: 'error', where: `${where}.sprite`, message: `精灵 "${e.sprite}" 不在 sprites 注册表` })
+      }
       // interact → 同场景 dialogues(缺 = error:startDialogue 会拿不到)
       if (e.interact && !dialogueIds.has(e.interact))
         issues.push({ severity: 'error', where: `${where}.interact`, message: `interact "${e.interact}" 不在场景 "${scene.id}" 的 dialogues` })
@@ -80,28 +87,38 @@ export function validateReferences(b: ContentBundle): Issue[] {
     })
   })
 
-  // ── characters ──────────────────────────────────────────
-  b.characters.forEach((c, ci) => {
-    const where = `characters[${ci}]`
-    // name → locale(缺 = warn:菜单显 id)
-    if (!localeKeys.has(c.name))
-      issues.push({ severity: 'warn', where: `${where}.name`, message: `角色名 id "${c.name}" 不在 locale` })
-    // initialEquipment 值 → items(缺 = warn)
-    for (const [slot, itemId] of Object.entries(c.initialEquipment)) {
-      if (!itemIds.has(itemId))
-        issues.push({ severity: 'warn', where: `${where}.initialEquipment[${slot}]`, message: `初始装备 "${itemId}" 不在 items` })
+  // ── actors ──────────────────────────────────────────────
+  b.actors.forEach((a, ai) => {
+    const where = `actors[${ai}](${a.id})`
+    // name → locale(缺 = warn:菜单/对话显 id)
+    if (!localeKeys.has(a.name))
+      issues.push({ severity: 'warn', where: `${where}.name`, message: `角色名 id "${a.name}" 不在 locale` })
+    // spriteId → sprites 注册表(缺 = error:引擎解析会 throw)
+    if (!spriteIds.has(a.spriteId))
+      issues.push({ severity: 'error', where: `${where}.spriteId`, message: `精灵 "${a.spriteId}" 不在 sprites 注册表` })
+    const battler = a.battler
+    if (battler) {
+      // battler.initialEquipment 值 → items(缺 = warn)
+      for (const [slot, itemId] of Object.entries(battler.initialEquipment)) {
+        if (!itemIds.has(itemId))
+          issues.push({ severity: 'warn', where: `${where}.battler.initialEquipment[${slot}]`, message: `初始装备 "${itemId}" 不在 items` })
+      }
+      // battler.initialMagic → skills(缺 = warn)
+      battler.initialMagic.forEach((skillId, mi) => {
+        if (!skillIds.has(skillId))
+          issues.push({ severity: 'warn', where: `${where}.battler.initialMagic[${mi}]`, message: `初始仙术 "${skillId}" 不在 skills` })
+      })
     }
-    // initialMagic → skills(缺 = warn)
-    c.initialMagic.forEach((skillId, mi) => {
-      if (!skillIds.has(skillId))
-        issues.push({ severity: 'warn', where: `${where}.initialMagic[${mi}]`, message: `初始仙术 "${skillId}" 不在 skills` })
-    })
   })
 
   // ── startWorld ──────────────────────────────────────────
-  b.startWorld.party.forEach((charId, pi) => {
-    if (!charIds.has(charId))
-      issues.push({ severity: 'error', where: `startWorld.party[${pi}]`, message: `队员模板 "${charId}" 不在 characters` })
+  b.startWorld.party.forEach((actorId, pi) => {
+    if (!actorIds.has(actorId)) {
+      issues.push({ severity: 'error', where: `startWorld.party[${pi}]`, message: `队员 "${actorId}" 不在 actors 表` })
+    } else if (!actorsById[actorId]?.battler) {
+      // 入队必须可战斗(buildWorld/instantiate 会 throw)
+      issues.push({ severity: 'error', where: `startWorld.party[${pi}]`, message: `队员 "${actorId}" 无 battler(不可入队)` })
+    }
   })
   for (const [cid, skillIds2] of Object.entries(b.startWorld.learnedSkills)) {
     skillIds2.forEach((skillId, si) => {
@@ -119,10 +136,10 @@ export function validateReferences(b: ContentBundle): Issue[] {
     const where = `items[${ii}](${item.id})`
     const equip = item.equip
     if (equip) {
-      // equipableBy → characters(缺 = warn:装备菜单不显示该角色)
+      // equipableBy → actors(缺 = warn:装备菜单不显示该角色)
       equip.equipableBy.forEach((cid, ei) => {
-        if (!charIds.has(cid))
-          issues.push({ severity: 'warn', where: `${where}.equip.equipableBy[${ei}]`, message: `可装备角色 "${cid}" 不在 characters` })
+        if (!actorIds.has(cid))
+          issues.push({ severity: 'warn', where: `${where}.equip.equipableBy[${ei}]`, message: `可装备角色 "${cid}" 不在 actors` })
       })
       // effects.grantSkill.skillId → skills(缺 = warn)
       equip.effects.forEach((eff, ei) => {

@@ -1,4 +1,4 @@
-import type { TextId } from './index.js'
+import type { ActorDef } from './actor.js'
 
 /** L1 世界态(跟存档走;现 demo 内存构造)。 */
 export interface WorldState {
@@ -36,6 +36,7 @@ export interface LoadedManifest {
 /** 角色实例(稳定 id;运行态)。绝对值属性,非原版 modifier。 */
 export interface CharacterInstance {
   id: string
+  /** = ActorDef.id(角色定义引用)。⚠ 字段名保留 "template" 勿改:存档兼容 + 菜单 `name.${template}` 4 处。 */
   template: string
   level: number
   exp: number
@@ -52,51 +53,35 @@ export interface CharacterInstance {
   tags: string[] // 留口:种族/门派(phase3),现空
 }
 
-/** 角色模板(L2 内容层;初始数据)。 */
-export interface CharacterTemplate {
-  id: string
-  name: TextId
-  baseStats: {
-    level: number
-    hp: number
-    maxHP: number
-    mp: number
-    maxMP: number
-    attack: number
-    defense: number
-    magicAttack: number
-    speed: number
-    luck: number
-  }
-  initialEquipment: Record<string, string>
-  initialMagic: string[]
-}
+// (C0)CharacterTemplate 已被统一 ActorDef 取代(actor.ts;battler 块包住 baseStats/装备/技能)。
 
-/** 模板 → 实例(深拷贝初始值,exp=0,tags 空)。 */
-export function instantiate(t: CharacterTemplate): CharacterInstance {
+/** 角色定义 → 实例(读 battler;深拷贝初始值,exp=0,tags 空)。无 battler 的 actor 不可入队/参战。 */
+export function instantiate(actor: ActorDef): CharacterInstance {
+  const b = actor.battler
+  if (!b) throw new Error(`instantiate: 角色 "${actor.id}" 无 battler(不可入队/参战)`)
   return {
-    id: t.id,
-    template: t.id,
-    ...t.baseStats,
+    id: actor.id,
+    template: actor.id,
+    ...b.baseStats,
     exp: 0,
-    equipment: { ...t.initialEquipment },
+    equipment: { ...b.initialEquipment },
     tags: [],
   }
 }
 
 /**
  * 从 manifest.startWorld 组装初始世界态(loader 的 content-op)。
- *  = initialWorld() 的数据化版:对每个 party 模板 id instantiate → 应用 seedStats 覆盖 hp/mp → 组装。
- *  learnedSkills/inventory 直接取 startWorld(key = 实例 id,demo 单人 = 模板 id)。
+ *  = initialWorld() 的数据化版:对每个 party 角色 id instantiate → 应用 seedStats 覆盖 hp/mp → 组装。
+ *  learnedSkills/inventory 直接取 startWorld(key = 实例 id,demo 单人 = 角色 id)。
  */
 export function buildWorld(
   startWorld: StartWorld,
-  templatesById: Record<string, CharacterTemplate>,
+  actorsById: Record<string, ActorDef>,
 ): WorldState {
   const party = startWorld.party.map((id) => {
-    const t = templatesById[id]
-    if (!t) throw new Error(`buildWorld: 角色模板 "${id}" 不在 characters 表`)
-    const inst = instantiate(t)
+    const a = actorsById[id]
+    if (!a) throw new Error(`buildWorld: 角色 "${id}" 不在 actors 表`)
+    const inst = instantiate(a)
     const seed = startWorld.seedStats?.[id]
     if (seed?.hp !== undefined) inst.hp = seed.hp
     if (seed?.mp !== undefined) inst.mp = seed.mp
