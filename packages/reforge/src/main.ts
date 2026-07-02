@@ -8,10 +8,11 @@ import {
   lookupText,
   pixelToGrid,
   resolveEntitySpriteId,
+  type SceneDef,
   type SpriteDef,
   spriteScreenY,
 } from '@type-pal/content'
-import type { Palette } from '@type-pal/shared'
+import type { Palette, RleFrame, Tilemap } from '@type-pal/shared'
 import {
   type AssetBase,
   type LoadedSprite,
@@ -35,7 +36,7 @@ import {
   openEquipMenu,
 } from './equip-menu-state.js'
 import { Keyboard } from './input.js'
-import { type LoadedProject, loadProject } from './loader.js'
+import { type LoadedProject, loadProject, loadSceneDef } from './loader.js'
 import {
   closeMagicMenu,
   type MagicMenuState,
@@ -53,7 +54,7 @@ import { drawSystemMenu } from './menu/system-box.js'
 import { drawUseMenu } from './menu/use-box.js'
 import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './menu-state.js'
 import { resolveMove } from './movement.js'
-import { Canvas2DRenderer, type SpriteDraw } from './render.js'
+import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
 import { idleFrameIndex, walkFrameIndex } from './sprite-anim.js'
 import {
@@ -121,14 +122,10 @@ async function main(): Promise<void> {
   // 工程化:运行期加载工程(vite define 注入 VITE_PROJECT_ID;缺省 demo)。
   const PROJECT_ID = import.meta.env.VITE_PROJECT_ID ?? 'demo'
   const project: LoadedProject = await loadProject(PROJECT_ID)
-  const scene = project.entryScene // 入口场景(= 旧 scene)
-  const mapNum = scene.map.reuseOriginalMap
-  // 调色板号:场景自带(SceneDef.paletteId,缺省 0);?pal= 作 dev override(本地试色板用,不删)。
-  const paletteId = Number(new URLSearchParams(location.search).get('pal') ?? scene.paletteId ?? 0)
-  const [map, tiles, palette, glyphs, cursorFrames] = await Promise.all([
-    loadTilemap(project.assetBase, mapNum),
-    loadTileset(project.assetBase, mapNum),
-    loadPalette(project.assetBase, paletteId),
+  const params = new URLSearchParams(location.search)
+
+  // ── 引擎 chrome(跨场景不变)──
+  const [glyphs, cursorFrames] = await Promise.all([
     loadGlyphs(),
     loadCursorFrames().catch((err: unknown) => {
       console.warn('[reforge] cursor icons 加载失败,降级无光标:', err)
@@ -141,36 +138,88 @@ async function main(): Promise<void> {
     return new Map<number, HTMLCanvasElement>()
   })
 
+  // ── 场景资产缓存(M2c,设计 §3):map/tileset 按 mapNum LRU(cap16 + protect 当前,
+  // 修一阶段按 sceneId 双取坑);palette/sceneDef 小缓存;精灵跨场景累积。──
+  const MAP_CACHE_CAP = 16
+  const mapCache = new Map<number, { map: Tilemap; tiles: Map<number, RleFrame> }>()
+  async function getMapAssets(mapNum: number): Promise<{ map: Tilemap; tiles: Map<number, RleFrame> }> {
+    const hit = mapCache.get(mapNum)
+    if (hit) {
+      mapCache.delete(mapNum) // LRU touch(Map 插入序 = LRU 序)
+      mapCache.set(mapNum, hit)
+      return hit
+    }
+    const [m, t] = await Promise.all([
+      loadTilemap(project.assetBase, mapNum),
+      loadTileset(project.assetBase, mapNum),
+    ])
+    const entry = { map: m, tiles: t }
+    mapCache.set(mapNum, entry)
+    while (mapCache.size > MAP_CACHE_CAP) {
+      const oldest = mapCache.keys().next().value
+      if (oldest === undefined || oldest === mapNum) break // protect 当前
+      mapCache.delete(oldest)
+    }
+    return entry
+  }
+  const paletteCache = new Map<number, Palette>()
+  async function getPalette(id: number): Promise<Palette> {
+    const hit = paletteCache.get(id)
+    if (hit) return hit
+    const p = await loadPalette(project.assetBase, id)
+    paletteCache.set(id, p)
+    return p
+  }
+  const sceneDefCache = new Map<string, SceneDef>()
+  sceneDefCache.set(project.entryScene.id, project.entryScene)
+  async function getSceneDef(id: string): Promise<SceneDef> {
+    const hit = sceneDefCache.get(id)
+    if (hit) return hit
+    const def = await loadSceneDef(project, id)
+    sceneDefCache.set(id, def)
+    return def
+  }
+  const spriteByNum = new Map<number, LoadedSprite>()
+
   // 调试：?gallery 渲染精灵速查图（确认哪个 spriteNum 是人/物），不进场景。
-  if (new URLSearchParams(location.search).has('gallery')) {
-    await renderSpriteGallery(project.assetBase, palette)
+  if (params.has('gallery')) {
+    await renderSpriteGallery(project.assetBase, await getPalette(0))
     return
   }
 
-  // 切片：只取 room#0。逻辑视口 320×200;物理 canvas 1280×800(4x),世界渲染 ×4 放大(D16)。
-  // M2a:视窗可选 —— 缺省整张图(原版无房间概念;demo 保留单间裁剪)
-  const room = scene.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
   const WORLD_SCALE = 4 // 逻辑 320×200 → 物理 1280×800;整数倍 + pixelated 保点阵锐利
   const VIEW_W = 320
   const VIEW_H = 200
   const PARTY_OX = 160 // 玩家在屏幕上的落点（PARTYOFFSET，原版 160 / 112）
   const PARTY_OY = 112
-  // 房间世界包围盒（上方多留容高家具）
-  const roomMinX = room.col * TILE_W - TILE_W
-  const roomMinY = room.row * TILE_H - 40
-  const roomMaxX = (room.col + room.cols) * TILE_W + TILE_W
-  const roomMaxY = (room.row + room.rows) * TILE_H + 16
 
-  const renderer = new Canvas2DRenderer(ctx, palette, tiles)
+  // ── 活动场景态(M2c:boot = switchScene 第一跳,单一代码路)──
+  let scene: SceneDef = project.entryScene
+  let map!: Tilemap
+  let tiles!: Map<number, RleFrame>
+  let palette!: Palette
+  let renderer!: Canvas2DRenderer
+  let room!: CellRect
+  let viewMinX = 0
+  let viewMinY = 0
+  let viewMaxX = 0
+  let viewMaxY = 0
+  let entitySpriteDefs = new Map<string, SpriteDef>()
+  const player: { pos: GridPos } = { pos: { ...project.entryScene.entry.pos } }
+  let facing: Facing = project.entryScene.entry.facing
+  let walking = false
+  let stepFrame = 0 // 0..3 走帧相位
+  let stepAcc = 0 // 步进累加器（ms）
+
   const camera = { x: 0, y: 0 }
   const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v)
   function updateCamera(): void {
     const pp = gridToPixel(player.pos)
-    camera.x = clamp(pp.x - PARTY_OX, roomMinX, Math.max(roomMinX, roomMaxX - VIEW_W))
-    camera.y = clamp(pp.y - PARTY_OY, roomMinY, Math.max(roomMinY, roomMaxY - VIEW_H))
+    camera.x = clamp(pp.x - PARTY_OX, viewMinX, Math.max(viewMinX, viewMaxX - VIEW_W))
+    camera.y = clamp(pp.y - PARTY_OY, viewMinY, Math.max(viewMinY, viewMaxY - VIEW_H))
   }
 
-  // 精灵解析(C0):实体 → actor/prop → sprites 注册表;玩家 = party[0] 的 ActorDef.spriteId(硬编码 2 已去)。
+  // 精灵解析(C0):实体 → actor/prop → sprites 注册表;玩家 = party[0] 的 ActorDef.spriteId。
   const requireSpriteDef = (spriteId: string | undefined, what: string): SpriteDef => {
     const def = spriteId ? project.spritesById[spriteId] : undefined
     if (!def) throw new Error(`reforge: ${what} 的精灵 "${spriteId ?? '(未解析)'}" 不在 sprites 注册表`)
@@ -180,20 +229,59 @@ async function main(): Promise<void> {
   const leaderActor = leaderId ? project.actorsById[leaderId] : undefined
   if (!leaderActor) throw new Error(`reforge: 队长 "${leaderId ?? '(空)'}" 不在 actors 表`)
   const leaderSpriteDef = requireSpriteDef(leaderActor.spriteId, `队长 ${leaderActor.id}`)
-  // 实体精灵批量解析(M2a N 实体泛化,去单鬼硬编码):entityId → SpriteDef;按 spriteNum 去重加载
-  const entitySpriteDefs = new Map<string, SpriteDef>()
-  for (const e of scene.entities) {
-    if (e.hidden) continue
-    entitySpriteDefs.set(e.id, requireSpriteDef(resolveEntitySpriteId(e, project.actorsById), `实体 ${e.id}`))
+
+  /**
+   * 切场景(M2c):取场景定义 → 换图/调色板 → 重建渲染器(烤图缓存随 palette 走)→
+   * 补载缺失精灵(spriteByNum 跨场景累积)→ 落位(spawn.pos > 命名入口 > 场景缺省)→ 相机重夹。
+   * 全部资产就绪后才原子提交,避免半态渲染。boot 也走此函数(单一代码路)。
+   */
+  async function switchScene(
+    sceneId: string,
+    spawn?: { entry?: string; pos?: GridPos; facing?: Facing },
+  ): Promise<void> {
+    const def = await getSceneDef(sceneId)
+    const assets = await getMapAssets(def.map.reuseOriginalMap)
+    const pal = await getPalette(Number(params.get('pal') ?? def.paletteId ?? 0))
+    const defs = new Map<string, SpriteDef>()
+    for (const e of def.entities) {
+      if (e.hidden) continue
+      defs.set(e.id, requireSpriteDef(resolveEntitySpriteId(e, project.actorsById), `实体 ${e.id}`))
+    }
+    const missing = [
+      ...new Set([leaderSpriteDef.spriteNum, ...[...defs.values()].map((d) => d.spriteNum)]),
+    ].filter((n) => !spriteByNum.has(n))
+    await Promise.all(
+      missing.map(async (n) => {
+        spriteByNum.set(n, await loadSprite(project.assetBase, n))
+      }),
+    )
+    // 原子提交
+    scene = def
+    map = assets.map
+    tiles = assets.tiles
+    palette = pal
+    renderer = new Canvas2DRenderer(ctx, palette, tiles)
+    entitySpriteDefs = defs
+    room = def.map.room ?? { col: 0, row: 0, cols: map.width, rows: map.height }
+    viewMinX = room.col * TILE_W - TILE_W
+    viewMinY = room.row * TILE_H - 40
+    viewMaxX = (room.col + room.cols) * TILE_W + TILE_W
+    viewMaxY = (room.row + room.rows) * TILE_H + 16
+    const entryDef = spawn?.entry ? def.entries?.[spawn.entry] : undefined
+    player.pos = { ...(spawn?.pos ?? entryDef?.pos ?? def.entry.pos) }
+    facing = spawn?.facing ?? entryDef?.facing ?? def.entry.facing
+    walking = false
+    stepFrame = 0
+    stepAcc = 0
+    updateCamera()
   }
-  const neededNums = [
-    ...new Set([leaderSpriteDef.spriteNum, ...[...entitySpriteDefs.values()].map((d) => d.spriteNum)]),
-  ]
-  const spriteByNum = new Map(
-    await Promise.all(neededNums.map(async (n) => [n, await loadSprite(project.assetBase, n)] as const)),
-  )
+
+  // 初始场景:?scene=<id> dev 直达(须在 index),否则 manifest 入口
+  const sceneParam = params.get('scene')
+  const initialSceneId =
+    sceneParam && project.sceneIds.includes(sceneParam) ? sceneParam : project.entryScene.id
+  await switchScene(initialSceneId)
   const playerSprite = spriteByNum.get(leaderSpriteDef.spriteNum)!
-  const player: { pos: GridPos } = { pos: { ...scene.entry.pos } }
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
   let world = buildWorld(project.manifest.startWorld, project.actorsById)
   const menuAssets = await loadMenuAssets(project.items)
@@ -216,12 +304,7 @@ async function main(): Promise<void> {
   let overwriteYes = false // 覆盖确认框高亮(右=是)
   let lastGameThumb: Blob | undefined // 开菜单时抓的干净游戏帧(菜单内存档的缩略图源)
   let toast: { text: string; until: number } | undefined // 快速存读短提示
-  const SCENE_ID = project.manifest.entryScene
   const MAP_NAME = project.manifest.name
-  let facing: Facing = scene.entry.facing
-  let walking = false
-  let stepFrame = 0 // 0..3 走帧相位
-  let stepAcc = 0 // 步进累加器（ms）
   let lastT = 0
 
   function showToast(text: string): void {
@@ -248,7 +331,7 @@ async function main(): Promise<void> {
     )
     const payload = buildPayload(
       world,
-      { sceneId: SCENE_ID, pos: player.pos, facing },
+      { sceneId: scene.id, pos: player.pos, facing },
       project.manifest.id,
       project.manifest.contentVersion,
     )
@@ -267,8 +350,13 @@ async function main(): Promise<void> {
       return false
     }
     world = p.world
-    player.pos = p.position.pos
-    facing = p.position.facing
+    if (p.position.sceneId !== scene.id) {
+      // M2c:跨场景读档 = 真 switchScene(带存档坐标落位)
+      await switchScene(p.position.sceneId, { pos: p.position.pos, facing: p.position.facing })
+    } else {
+      player.pos = p.position.pos
+      facing = p.position.facing
+    }
     return true
   }
 
@@ -475,8 +563,16 @@ async function main(): Promise<void> {
   // 调试 / 验证：暴露活动态
   ;(window as unknown as { __reforge?: unknown }).__reforge = {
     player,
-    entities: scene.entities,
-    room,
+    // M2c:切场景后 scene/room 会整体重赋 → 必须 getter 活引用(值捕获曾致 dev 传送用错场景坐标)
+    get sceneId() {
+      return scene.id
+    },
+    get entities() {
+      return scene.entities
+    },
+    get room() {
+      return room
+    },
     get dialogue() {
       return dialogBox.active
     },
@@ -490,7 +586,7 @@ async function main(): Promise<void> {
   function nearbyInteractable(): EntityDef | undefined {
     const pp = gridToPixel(player.pos)
     return scene.entities.find((e) => {
-      if (!e.interact) return false
+      if (!e.interact || e.hidden) return false
       const ep = gridToPixel(e.pos)
       const ex = ep.x - pp.x
       const ey = ep.y - pp.y
@@ -725,6 +821,15 @@ async function main(): Promise<void> {
         if (dlg) dialogBox.open(startDialogue(dlg), t) // 分页由 DialogBox 按显示行算
       }
       if (!menu.active && !dialogBox.active) {
+        // dev:[ / ] 循环切场景(M2c 验收拐杖;定位原版场景)
+        if (pressed.has('[') || pressed.has(']')) {
+          const ids = project.sceneIds
+          const cur = ids.indexOf(scene.id)
+          const nextId = ids[(cur + (pressed.has(']') ? 1 : ids.length - 1)) % ids.length]!
+          void switchScene(nextId)
+            .then(() => showToast(`${nextId}(${ids.indexOf(nextId) + 1}/${ids.length})`))
+            .catch((err: unknown) => showToast(`切场景失败: ${String(err).slice(0, 40)}`))
+        }
         const dir = heldDir()
         if (dir) {
           if (dir !== facing) {
