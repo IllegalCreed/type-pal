@@ -64,9 +64,9 @@ cpSync(resolve(repo, 'projects/demo/assets'), resolve(repo, 'projects/pal/assets
 // ── 报告 ──
 console.log(`[migrate:content] projects/pal 已生成:`)
 console.log(`  actors ${actors.length}(迁移 ${out.actors.length} + demo 独有 ${actors.length - out.actors.length})`)
-console.log(`  sprites ${sprites.length} · items ${out.items.length} · skills ${out.skills.skills.length}(纯伤害 57 + curated 3)`)
+console.log(`  sprites ${sprites.length} · items ${out.items.length} · skills ${out.skills.skills.length}(纯伤害 57 + 线性脚本翻译 18)`)
 console.log(`  levelUp 角色数 ${Object.keys(out.skills.levelUp).length} · locale 键 ${Object.keys(locale).length}`)
 console.log(`  装备效果(M1b):${out.items.filter((i) => i.equip).length} 件已翻;pending op ${out.report.pendingEquip.flatMap((p) => p.ops).length}(战斗精灵切换/毒疗)`)
-console.log(`  待 M1c:技能 ${out.report.pendingSkills.length} 个(summon ${out.report.pendingSkills.filter((p) => p.reason.includes('summon')).length} / 脚本 ${out.report.pendingSkills.filter((p) => p.reason.includes('脚本')).length})`)
+console.log(`  技能 pending ${out.report.pendingSkills.length}(summon ${out.report.pendingSkills.filter((p) => p.reason.includes('summon')).length} / 动态公式 ${out.report.pendingSkills.filter((p) => p.reason.includes('scriptOnUse')).length} / 门类 M1c-2 ${out.report.pendingSkills.filter((p) => p.reason.includes('超出线性集')).length});有损注 ${out.report.lossySkills.length}`)
 console.log(`  待 M1d:使用效果 ${src.items.filter((i) => i.flags.usable).length} 件`)
 if (out.report.blockedDescs.length) console.log(`  ⚠ desc 护栏命中 ${out.report.blockedDescs.length}(待手修):`, out.report.blockedDescs.slice(0, 5))

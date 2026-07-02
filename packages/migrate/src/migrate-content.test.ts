@@ -152,19 +152,52 @@ describe('M1b · 装备效果(scriptOnEquip → EquipSpec)', () => {
   })
 })
 
-describe('M1a · 技能', () => {
-  test('纯伤害自动批 = 57(64 纯 − 7 summon 型)+ curated 3 = 60;pending 含 summon/脚本类', () => {
-    expect(out.skills.skills).toHaveLength(60)
-    const damage = out.skills.skills.filter((s) => s.effects[0]?.kind === 'damage')
-    expect(damage).toHaveLength(57)
-    expect(out.report.pendingSkills.filter((p) => p.reason.includes('summon'))).toHaveLength(7)
-    expect(out.report.pendingSkills).toHaveLength(103 - 57) // 46 待 M1c
+describe('M1a+M1c · 技能(纯表 57 + 线性脚本翻译 18)', () => {
+  const byId = new Map(out.skills.skills.map((s) => [s.id, s]))
+  test('总量与去向:75 迁 / 28 pending(7 summon + 动态公式 + 5 门类),笔笔有名目', () => {
+    expect(out.skills.skills).toHaveLength(75)
+    expect(out.skills.skills.filter((s) => s.effects[0]?.kind === 'damage')).toHaveLength(57)
+    expect(out.report.pendingSkills).toHaveLength(28)
+    expect(out.report.pendingSkills.filter((p) => p.reason.includes('summon'))).toHaveLength(9) // 7 纯表 + 风神等带脚本的 summon 型
+    // 门类 5 个点名:概率门(回梦/鬼降)/阈值+概率(夺魂/灵葫咒)/goto 循环(灵血咒)→ M1c-2
+    const gateIds = out.report.pendingSkills.filter((p) => /超出线性集/.test(p.reason)).map((p) => p.id).sort()
+    expect(gateIds).toEqual([303, 304, 305, 308, 384])
   })
-  test('curated 三技能在场(demo 已核真值)', () => {
-    const byId = new Map(out.skills.skills.map((s) => [s.id, s]))
+  test('demo curated 三技能被解析器取代且值逐一致(diff 验证)', () => {
     expect(byId.get('296')?.effects).toEqual([{ kind: 'healHp', amount: 75 }])
+    expect(byId.get('296')?.desc).toBe('我方单人HP+75')
+    expect(byId.get('298')?.effects).toEqual([{ kind: 'healHp', amount: 220 }])
     expect(byId.get('298')?.cost.mp).toBe(18)
+    expect(byId.get('299')?.effects).toEqual([{ kind: 'healHp', amount: 500 }])
     expect(byId.get('299')?.name).toBe('元灵归心术')
+  })
+  test('M1c 翻译批 spot(语义真值:还魂10%/赎魂30%/护体/狂勇/催眠系解/蛇毒/偷/变身)', () => {
+    expect(byId.get('301')?.effects).toEqual([{ kind: 'revive', hpPercent: 10 }]) // 还魂咒 maxHP×1/10
+    expect(byId.get('302')?.effects).toEqual([{ kind: 'revive', hpPercent: 30 }]) // 赎魂 ×3/10
+    expect(byId.get('309')?.effects).toEqual([{ kind: 'applyStatus', status: 'protect', turns: 7 }]) // 金刚咒
+    expect(byId.get('311')?.effects).toEqual([{ kind: 'applyStatus', status: 'bravery', turns: 7 }]) // 天罡战气
+    expect(byId.get('307')?.effects).toEqual([
+      { kind: 'removeStatus', statuses: ['confused', 'paralyzed', 'sleep'] }, // 冰心诀(去重)
+    ])
+    expect(byId.get('306')?.effects).toEqual([
+      { kind: 'curePoison', poisonId: '551' },
+      { kind: 'curePoison', poisonId: '553' },
+      { kind: 'curePoison', poisonId: '552' },
+    ]) // 净衣咒
+    expect(byId.get('376')?.effects).toEqual([{ kind: 'applyPoison', poisonId: '553' }]) // 咒蛇
+    expect(byId.get('377')?.effects).toEqual([{ kind: 'steal', rate: 6 }]) // 飞龙探云手(0x47 音效有损注)
+    expect(byId.get('295')?.effects).toEqual([
+      { kind: 'trance', sprite: 5 },
+      { kind: 'buffStat', stat: 'attack', percent: 100, duration: 'battle' },
+      { kind: 'buffStat', stat: 'dexterity', percent: 100, duration: 'battle' },
+    ]) // 梦蛇
+    expect(byId.get('295')?.target).toBe('self')
+  })
+  test('有损点登记:飞龙 0x47 音效;0x68 三连(三尸/万蛊/毒吞)实为双脚本 → 正确落 pending', () => {
+    expect(out.report.lossySkills.map((l) => l.id)).toEqual([377])
+    const dual = out.report.pendingSkills.filter((p) => [352, 372, 373].includes(p.id))
+    expect(dual).toHaveLength(3)
+    for (const d of dual) expect(d.reason).toContain('scriptOnUse') // onUse 带毒伤动态公式,非线性可译
   })
 })
 

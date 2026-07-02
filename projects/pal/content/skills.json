@@ -1,6 +1,249 @@
 {
   "skills": [
     {
+      "id": "296",
+      "name": "气疗术",
+      "desc": "我方单人HP+75",
+      "cost": {
+        "mp": 6
+      },
+      "usableOutsideBattle": true,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 75
+        }
+      ],
+      "animation": {
+        "effectSprite": 27
+      }
+    },
+    {
+      "id": "297",
+      "name": "观音咒",
+      "desc": "我方单人HP+150",
+      "cost": {
+        "mp": 10
+      },
+      "usableOutsideBattle": true,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 150
+        }
+      ],
+      "animation": {
+        "effectSprite": 28
+      }
+    },
+    {
+      "id": "298",
+      "name": "凝神归元",
+      "desc": "我方单人HP+220",
+      "cost": {
+        "mp": 18
+      },
+      "usableOutsideBattle": true,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 220
+        }
+      ],
+      "animation": {
+        "effectSprite": 29
+      }
+    },
+    {
+      "id": "299",
+      "name": "元灵归心术",
+      "desc": "我方单人HP+500",
+      "cost": {
+        "mp": 40
+      },
+      "usableOutsideBattle": true,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 500
+        }
+      ],
+      "animation": {
+        "effectSprite": 29
+      }
+    },
+    {
+      "id": "300",
+      "name": "五气朝元",
+      "desc": "我方全体HP+300",
+      "cost": {
+        "mp": 40
+      },
+      "usableOutsideBattle": true,
+      "target": "allAllies",
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 300
+        }
+      ],
+      "animation": {
+        "effectSprite": 28
+      }
+    },
+    {
+      "id": "301",
+      "name": "还魂咒",
+      "desc": "我方单人复活\nHP恢复10%",
+      "cost": {
+        "mp": 16
+      },
+      "usableOutsideBattle": true,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "revive",
+          "hpPercent": 10
+        }
+      ],
+      "animation": {
+        "effectSprite": 28
+      }
+    },
+    {
+      "id": "302",
+      "name": "赎魂",
+      "desc": "我方单人复活\nHP恢复30%",
+      "cost": {
+        "mp": 30
+      },
+      "usableOutsideBattle": true,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "revive",
+          "hpPercent": 30
+        }
+      ],
+      "animation": {
+        "effectSprite": 30
+      }
+    },
+    {
+      "id": "306",
+      "name": "净衣咒",
+      "desc": "解赤毒、尸毒、瘴毒。",
+      "cost": {
+        "mp": 7
+      },
+      "usableOutsideBattle": false,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "curePoison",
+          "poisonId": "551"
+        },
+        {
+          "kind": "curePoison",
+          "poisonId": "553"
+        },
+        {
+          "kind": "curePoison",
+          "poisonId": "552"
+        }
+      ],
+      "animation": {
+        "effectSprite": 28
+      }
+    },
+    {
+      "id": "307",
+      "name": "冰心诀",
+      "desc": "解麻痹、催眠、疯魔、咒封",
+      "cost": {
+        "mp": 7
+      },
+      "usableOutsideBattle": false,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "removeStatus",
+          "statuses": [
+            "confused",
+            "paralyzed",
+            "sleep"
+          ]
+        }
+      ],
+      "animation": {
+        "effectSprite": 28
+      }
+    },
+    {
+      "id": "309",
+      "name": "金刚咒",
+      "desc": "使用后如有金钟铁罩护身。\n增加防御七回合。",
+      "cost": {
+        "mp": 11
+      },
+      "usableOutsideBattle": false,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "protect",
+          "turns": 7
+        }
+      ],
+      "animation": {
+        "effectSprite": 28
+      }
+    },
+    {
+      "id": "310",
+      "name": "真元护体",
+      "desc": "使用后如有铁铠金甲护体。\n增加防御九回合。",
+      "cost": {
+        "mp": 18
+      },
+      "usableOutsideBattle": false,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "protect",
+          "turns": 9
+        }
+      ],
+      "animation": {
+        "effectSprite": 29
+      }
+    },
+    {
+      "id": "311",
+      "name": "天罡战气",
+      "desc": "七回合内，使用武器攻击，\n威力加倍。",
+      "cost": {
+        "mp": 13
+      },
+      "usableOutsideBattle": false,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "bravery",
+          "turns": 7
+        }
+      ],
+      "animation": {
+        "effectSprite": 29
+      }
+    },
+    {
       "id": "312",
       "name": "风咒",
       "desc": "风系初级法术，\n攻击敌方单人。",
@@ -941,6 +1184,44 @@
       }
     },
     {
+      "id": "376",
+      "name": "咒蛇",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "553"
+        }
+      ],
+      "animation": {
+        "effectSprite": 42
+      }
+    },
+    {
+      "id": "377",
+      "name": "飞龙探云手",
+      "desc": "偷取敌人的物品或金钱。",
+      "cost": {
+        "mp": 9
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "steal",
+          "rate": 6
+        }
+      ],
+      "animation": {
+        "effectSprite": 65535
+      }
+    },
+    {
       "id": "379",
       "name": "灭绝一击",
       "desc": "",
@@ -1081,6 +1362,26 @@
       }
     },
     {
+      "id": "390",
+      "name": "醉仙望月步",
+      "desc": "五回合内，使用武器攻击，\n可连续出手两次。",
+      "cost": {
+        "mp": 22
+      },
+      "usableOutsideBattle": false,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "dualAttack",
+          "turns": 5
+        }
+      ],
+      "animation": {
+        "effectSprite": 28
+      }
+    },
+    {
       "id": "391",
       "name": "投掷",
       "desc": "",
@@ -1098,6 +1399,45 @@
       ],
       "animation": {
         "effectSprite": 0
+      }
+    },
+    {
+      "id": "393",
+      "name": "仙风云体术",
+      "desc": "身法暂时加倍九回合。",
+      "cost": {
+        "mp": 8
+      },
+      "usableOutsideBattle": false,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "haste",
+          "turns": 9
+        }
+      ],
+      "animation": {
+        "effectSprite": 29
+      }
+    },
+    {
+      "id": "395",
+      "name": "大咒蛇",
+      "desc": "",
+      "cost": {
+        "mp": 0
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "553"
+        }
+      ],
+      "animation": {
+        "effectSprite": 42
       }
     },
     {
@@ -1141,60 +1481,34 @@
       }
     },
     {
-      "id": "296",
-      "name": "气疗术",
-      "desc": "我方单人HP+75",
+      "id": "295",
+      "name": "梦蛇",
+      "desc": "女娲族的变身魔法，\n能力大幅提升。",
       "cost": {
-        "mp": 6
+        "mp": 99
       },
-      "usableOutsideBattle": true,
-      "target": "oneAlly",
+      "usableOutsideBattle": false,
+      "target": "self",
       "effects": [
         {
-          "kind": "healHp",
-          "amount": 75
+          "kind": "trance",
+          "sprite": 5
+        },
+        {
+          "kind": "buffStat",
+          "stat": "attack",
+          "percent": 100,
+          "duration": "battle"
+        },
+        {
+          "kind": "buffStat",
+          "stat": "dexterity",
+          "percent": 100,
+          "duration": "battle"
         }
       ],
       "animation": {
-        "effectSprite": 27
-      }
-    },
-    {
-      "id": "298",
-      "name": "凝神归元",
-      "desc": "我方单人HP+220",
-      "cost": {
-        "mp": 18
-      },
-      "usableOutsideBattle": true,
-      "target": "oneAlly",
-      "effects": [
-        {
-          "kind": "healHp",
-          "amount": 220
-        }
-      ],
-      "animation": {
-        "effectSprite": 29
-      }
-    },
-    {
-      "id": "299",
-      "name": "元灵归心术",
-      "desc": "我方单人HP+500",
-      "cost": {
-        "mp": 40
-      },
-      "usableOutsideBattle": true,
-      "target": "oneAlly",
-      "effects": [
-        {
-          "kind": "healHp",
-          "amount": 500
-        }
-      ],
-      "animation": {
-        "effectSprite": 29
+        "effectSprite": 65535
       }
     }
   ],

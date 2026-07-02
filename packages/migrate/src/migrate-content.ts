@@ -203,41 +203,181 @@ export function mapLevelUp(rows: readonly (readonly LevelUpMagicCell[])[]): Reco
   return out
 }
 
-// ── 技能(M1a:纯表驱动伤害技)─────────────────────────────
-const DAMAGE_TARGET: Record<string, SkillData['target']> = {
+// ── 技能(M1a 纯表伤害 + M1c 线性脚本翻译)────────────────────
+const TYPE_TARGET: Record<string, SkillData['target']> = {
   normal: 'oneEnemy',
   attackAll: 'allEnemies',
   attackField: 'allEnemies',
   attackWhole: 'allEnemies',
+  applyToPlayer: 'oneAlly',
+  applyToParty: 'allAllies',
+}
+
+/**
+ * 原版状态数字 id → StatusId。四路交叉验证(2026-07-02):装备 0x2D[8]=仙女剑连击、
+ * 金刚咒/真元护体 0x2D[6]=护体、天罡战气 0x2D[5]=狂勇、回梦 0x2E[2]=催眠 ——
+ * 恰为 content StatusId 联合的声明顺序(skill.ts:16-25)。
+ */
+const STATUS_BY_NUM = [
+  'confused', 'paralyzed', 'sleep', 'silence', 'puppet',
+  'bravery', 'protect', 'haste', 'dualAttack',
+] as const
+
+/** 0x30 buffStat 的 row → stat(PLAYERROLES_ROW 17/18/19/20)。 */
+const BUFF_STAT_BY_ROW: Record<number, 'attack' | 'magic' | 'defense' | 'dexterity'> = {
+  17: 'attack',
+  18: 'magic',
+  19: 'defense',
+  20: 'dexterity',
+}
+
+export interface SkillScriptTranslation {
+  effects: SkillData['effects']
+  /** 有损点(如 0x68 敌方施法分支未表达)——按仓规:注释 + 报告钉住。 */
+  lossyNotes: string[]
+  /** 整技翻不动的原因(命中未支持 op → 保守整技 pending,不出半吊子)。 */
+  pendingReason?: string
+}
+
+/**
+ * M1c:静态翻译一条 scriptOnSuccess 链(线性数据 op → SkillEffect[])。
+ * 语义源:magic-script.ts(0x1B/0x1C/0x22 场外实测)+ battle-opcodes.ts + skill-data-design。
+ * 支持:0x1B healHp / 0x1C healMp / 0x22 revive(maxHP×op1/10)/ 0x2D applyStatus /
+ *      0x2F removeStatus / 0x2B curePoison / 0x28·0x29 applyPoison / 0x6A steal /
+ *      0x31 trance / 0x30 buffStat / 0x47 音效(表现层,忽略+注)/ 0x68 敌方分支头(跳过+有损注)。
+ * 命中其它 op(0x6 概率门 / 0x64 HP 阈值门 / 0x60 即死 / 0x35·0x6b·0x88 战斗公式等)→ 整技 pending。
+ */
+export function translateSkillScript(
+  commands: readonly SourceCmd[],
+  labelIndex: Map<string, number>,
+  ip: number,
+): SkillScriptTranslation {
+  const out: SkillScriptTranslation = { effects: [], lossyNotes: [] }
+  const start = ip === 0 ? undefined : labelIndex.get(`L_${ip}`)
+  if (start === undefined) return { ...out, pendingReason: `L_${ip} 不存在` }
+  for (let i = start; i < commands.length; i++) {
+    const c = commands[i]!
+    if (c.op === 'end') return out
+    if (c.op !== 'raw') {
+      if (c.label !== undefined && c.op === undefined) continue
+      return { ...out, pendingReason: `非线性(${c.op})` }
+    }
+    const [a = 0, b = 0] = c.operands ?? []
+    switch (c.opcode) {
+      case 0x1b:
+        out.effects.push({ kind: 'healHp', amount: signExtendI16(b) })
+        break
+      case 0x1c:
+        out.effects.push({ kind: 'healMp', amount: signExtendI16(b) })
+        break
+      case 0x22:
+        out.effects.push({ kind: 'revive', hpPercent: b * 10 }) // sdlpal script.c:1052 maxHP*op1/10
+        break
+      case 0x2d: {
+        const status = STATUS_BY_NUM[a]
+        if (!status) return { ...out, pendingReason: `0x2D 未知状态 id ${a}` }
+        out.effects.push({ kind: 'applyStatus', status, turns: b })
+        break
+      }
+      case 0x2f: {
+        const status = STATUS_BY_NUM[a]
+        if (!status) return { ...out, pendingReason: `0x2F 未知状态 id ${a}` }
+        const prev = out.effects.find((e) => e.kind === 'removeStatus')
+        if (prev && prev.kind === 'removeStatus') {
+          if (!prev.statuses.includes(status)) prev.statuses.push(status)
+        } else out.effects.push({ kind: 'removeStatus', statuses: [status] })
+        break
+      }
+      case 0x2b:
+        out.effects.push({ kind: 'curePoison', poisonId: String(b) })
+        break
+      case 0x28:
+      case 0x29:
+        out.effects.push({ kind: 'applyPoison', poisonId: String(b) })
+        break
+      case 0x6a:
+        out.effects.push({ kind: 'steal', rate: a })
+        break
+      case 0x31:
+        out.effects.push({ kind: 'trance', sprite: a })
+        break
+      case 0x30: {
+        const stat = BUFF_STAT_BY_ROW[a]
+        if (!stat) return { ...out, pendingReason: `0x30 未知 row ${a}` }
+        out.effects.push({ kind: 'buffStat', stat, percent: b, duration: 'battle' })
+        break
+      }
+      case 0x47: // 播放音效:表现层,SkillAnimation 暂无 sound 槽 → 忽略(将来加字段再回填)
+        out.lossyNotes.push(`0x47 音效 ${a} 未表达(animation 无 sound 槽)`)
+        break
+      case 0x68: // 敌方施法分派头:敌用同技走 alt 脚本 —— 玩家侧效果照译,敌方变体待战斗期
+        out.lossyNotes.push(`0x68 敌方施法分支(alt L_${a})未表达 —— 战斗期`)
+        break
+      case 167:
+        break // 块头标记
+      default:
+        return { ...out, pendingReason: `op 0x${(c.opcode ?? 0).toString(16)} 超出线性集(概率门/阈值门/战斗公式 → M1c-2/战斗期)` }
+    }
+  }
+  return out
 }
 
 export interface SkillMigrationResult {
   skills: SkillData[]
-  /** 未自动迁移的技能(scriptOnSuccess/scriptOnUse ≠0,或 summon 型)→ M1c。 */
+  /** 未自动迁移的技能(概率/阈值门 → M1c-2;战斗公式/summon → 战斗期)。 */
   pending: { id: number; name: string; reason: string }[]
+  /** 有损点(0x68 敌方分支/音效未表达)——skillId → notes。 */
+  lossy: { id: number; name: string; notes: string[] }[]
 }
 
-export function mapPureSkills(
+/**
+ * 技能全量迁移:纯表伤害(M1a)+ 线性脚本翻译(M1c)。
+ * 原 demo curated 三技能(296/298/299)已被解析器取代 —— golden 测钉 diff 一致(75/220/500)。
+ */
+export function mapSkills(
   spells: readonly SourceSpell[],
   magicById: ReadonlyMap<number, SourceMagic>,
   descOf: (ip: number) => string[],
+  commands: readonly SourceCmd[],
+  labelIndex: Map<string, number>,
 ): SkillMigrationResult {
   const skills: SkillData[] = []
   const pending: SkillMigrationResult['pending'] = []
+  const lossy: SkillMigrationResult['lossy'] = []
   for (const s of spells) {
     const m = magicById.get(s.magicNumber)
     if (!m) {
       pending.push({ id: s.id, name: s._name, reason: `magicNumber ${s.magicNumber} 不在 magic.json` })
       continue
     }
-    if (s.scriptOnSuccess !== 0 || s.scriptOnUse !== 0) {
-      pending.push({ id: s.id, name: s._name, reason: `脚本效果(onSuccess=${s.scriptOnSuccess} onUse=${s.scriptOnUse})→ M1c` })
+    if (m.type === 'summon') {
+      pending.push({ id: s.id, name: s._name, reason: 'summon(godId 推导+整精灵替换)→ 战斗期' })
       continue
     }
-    const target = DAMAGE_TARGET[m.type]
-    if (!target) {
-      pending.push({ id: s.id, name: s._name, reason: `type=${m.type} 非纯伤害(summon/trance 等)→ M1c` })
+    if (s.scriptOnUse !== 0) {
+      pending.push({ id: s.id, name: s._name, reason: `scriptOnUse=${s.scriptOnUse}(动态公式 0x35/0x88 系)→ 战斗期` })
       continue
+    }
+    const target = m.type === 'trance' ? ('self' as const) : TYPE_TARGET[m.type]
+    if (!target) {
+      pending.push({ id: s.id, name: s._name, reason: `type=${m.type} 无 target 映射` })
+      continue
+    }
+    let effects: SkillData['effects']
+    if (s.scriptOnSuccess !== 0) {
+      const t = translateSkillScript(commands, labelIndex, s.scriptOnSuccess)
+      if (t.pendingReason) {
+        pending.push({ id: s.id, name: s._name, reason: t.pendingReason })
+        continue
+      }
+      if (t.effects.length === 0) {
+        pending.push({ id: s.id, name: s._name, reason: 'scriptOnSuccess 空链(无效果 op)' })
+        continue
+      }
+      if (t.lossyNotes.length) lossy.push({ id: s.id, name: s._name, notes: t.lossyNotes })
+      effects = t.effects
+    } else {
+      effects = [{ kind: 'damage', power: m.baseDamage, elemental: m.elemental }]
     }
     skills.push({
       id: String(s.id),
@@ -246,50 +386,12 @@ export function mapPureSkills(
       cost: { mp: m.costMP },
       usableOutsideBattle: s.flags.usableOutsideBattle,
       target,
-      effects: [{ kind: 'damage', power: m.baseDamage, elemental: m.elemental }],
+      effects,
       animation: { effectSprite: m.effect },
     })
   }
-  return { skills, pending }
+  return { skills, pending, lossy }
 }
-
-/**
- * curated 已核技能(demo 手作,一手核验出处见 projects/demo 历史与 skill-data-design):
- * 296/298/299 outdoor 治疗 —— healHp 量来自原版 scriptOnSuccess 0x1B 实测(75/220/500)。
- * M1c 落地脚本解析后可移除此表(以解析结果取代,并 diff 验证一致)。
- */
-export const CURATED_SKILLS: SkillData[] = [
-  {
-    id: '296',
-    name: '气疗术',
-    desc: '我方单人HP+75',
-    cost: { mp: 6 },
-    usableOutsideBattle: true,
-    target: 'oneAlly',
-    effects: [{ kind: 'healHp', amount: 75 }],
-    animation: { effectSprite: 27 },
-  },
-  {
-    id: '298',
-    name: '凝神归元',
-    desc: '我方单人HP+220',
-    cost: { mp: 18 },
-    usableOutsideBattle: true,
-    target: 'oneAlly',
-    effects: [{ kind: 'healHp', amount: 220 }],
-    animation: { effectSprite: 29 },
-  },
-  {
-    id: '299',
-    name: '元灵归心术',
-    desc: '我方单人HP+500',
-    cost: { mp: 40 },
-    usableOutsideBattle: true,
-    target: 'oneAlly',
-    effects: [{ kind: 'healHp', amount: 500 }],
-    animation: { effectSprite: 29 },
-  },
-]
 
 // ── 装备效果翻译(M1b:scriptOnEquip → EquipSpec)────────────
 // 语义移植自一阶段 packages/game/src/core/equip-effect.ts(已对 sdlpal script.c 三遍核过的运行时解释器);
@@ -425,6 +527,7 @@ export interface MigrateOutput {
   localeNames: Record<string, string>
   report: {
     pendingSkills: SkillMigrationResult['pending']
+    lossySkills: SkillMigrationResult['lossy']
     blockedDescs: { kind: string; id: number; at: DescResult['blockedAt'] }[]
     /** M1b:装备链里翻不动的 op(战斗精灵切换/毒疗等)。 */
     pendingEquip: { itemId: number; name: string; ops: EquipTranslation['pending'] }[]
@@ -443,11 +546,7 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
   const magicById = new Map(src.magic.map((m) => [m.id, m]))
   const actors = src.roles.map((r) => mapActor(r, src.levelUpExp))
   const sprites = mapSprites(src.roles)
-  const pure = mapPureSkills(src.spells, magicById, descOf('spell'))
-  // curated 优先(已核真值);纯表批与 curated 无 id 交集(curated 三个都 scriptOnSuccess≠0),set 覆盖只是保险。
-  const skillById = new Map<string, SkillData>()
-  for (const s of pure.skills) skillById.set(s.id, s)
-  for (const s of CURATED_SKILLS) skillById.set(s.id, s)
+  const skillsRes = mapSkills(src.spells, magicById, descOf('spell'), src.commands, labelIndex)
   // 物品:表字段(M1a)+ 装备效果(M1b:flags.equipable → translateEquipScript)
   const pendingEquip: MigrateOutput['report']['pendingEquip'] = []
   const itemsTable = mapItemsTable(src.items, descOf('item'))
@@ -474,10 +573,10 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
   return {
     actors,
     sprites,
-    skills: { skills: [...skillById.values()], levelUp: mapLevelUp(src.levelUpMagic) },
+    skills: { skills: skillsRes.skills, levelUp: mapLevelUp(src.levelUpMagic) },
     items,
     localeNames,
-    report: { pendingSkills: pure.pending, blockedDescs, pendingEquip },
+    report: { pendingSkills: skillsRes.pending, lossySkills: skillsRes.lossy, blockedDescs, pendingEquip },
   }
 }
 
