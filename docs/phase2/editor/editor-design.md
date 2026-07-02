@@ -113,7 +113,7 @@ interface EditorMode {
 
 ## 10. 模式集 & 分期
 
-**模式全集**:布置(实体/进场点/地图·调色板引用)· 事件对话(对话 + locale 双写)· 数据表(角色/技能/物品)· 地图(刷瓦片,最重)。
+**模式全集**:布置(实体/进场点/地图·调色板引用)· **角色**(统一 ActorDef:名字/头像/精灵帧标注/battler —— 见 [actor-model-design](../foundation/actor-model-design.md),C1)· 事件对话(对话 + locale 双写)· 数据表(技能/物品)· 地图(刷瓦片,最重)。
 
 **分期**(每期一份 writing-plans 实现计划):
 
