@@ -5,12 +5,13 @@
  * 状态源:EditSession(useSyncExternalStore)。选中/工具是 UI 局部 state。
  * 一切编辑走 dispatch(Command) → 自动 undo/redo + 置脏 + 重渲染。
  */
-import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import type { LoadedProject } from '@type-pal/reforge'
 import { validateReferences } from '@type-pal/content'
 import type { EntityDef, GridPos, SceneDef, SpriteDef } from '@type-pal/content'
 import type { EditSession } from '../core/edit-session.js'
 import { AddEntityCommand, DeleteEntityCommand, MoveEntityCommand, UpdateEntityCommand, UpdateSceneCommand } from '../core/commands.js'
+import { serializeProject, writeProject } from '../core/project-io.js'
 import { SceneCanvas, type Tool } from './SceneCanvas.js'
 
 const SCENE_NODE = '__scene__'
@@ -25,10 +26,13 @@ function newEntityId(existing: EntityDef[]): string {
 export function App(props: { session: EditSession; project: LoadedProject }) {
   const { session, project } = props
   const subscribe = useMemo(() => (cb: () => void) => session.subscribe(cb), [session])
-  const getSnapshot = useMemo(() => () => session.getState(), [session])
-  const state = useSyncExternalStore(subscribe, getSnapshot)
+  const getVersion = useMemo(() => () => session.getVersion(), [session])
+  useSyncExternalStore(subscribe, getVersion) // 任一变化(含 markSaved / undo)都重渲染
+  const state = session.getState()
   const [selected, setSelected] = useState<string>(SCENE_NODE)
   const [tool, setTool] = useState<Tool>('select')
+  const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(null)
+  const [saveErr, setSaveErr] = useState('')
 
   const scene = state.scenes.find((s) => s.id === state.manifest.entryScene)
   const issues = useMemo(() => validateReferences(state), [state])
@@ -70,6 +74,22 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
     session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
     setSelected(SCENE_NODE)
   }
+  // 保存:File System Access。首次弹选文件夹(选工程根 projects/<id>/),之后复用句柄。
+  const save = async (): Promise<void> => {
+    try {
+      let dir = dirHandleRef.current
+      if (!dir) {
+        dir = await window.showDirectoryPicker({ mode: 'readwrite' })
+        dirHandleRef.current = dir
+      }
+      await writeProject(dir, serializeProject(session.getState()))
+      session.markSaved()
+      setSaveErr('')
+    } catch (e) {
+      if (e instanceof DOMException && e.name === 'AbortError') return // 用户取消选择器
+      setSaveErr(e instanceof Error ? e.message : String(e))
+    }
+  }
 
   return (
     <div className="editor">
@@ -78,7 +98,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
         <div className="spacer" />
         <button className="tbtn" disabled={!session.canUndo()} onClick={() => session.undo()} title="撤销">↶</button>
         <button className="tbtn" disabled={!session.canRedo()} onClick={() => session.redo()} title="重做">↷</button>
-        <button className="save" disabled={!session.isDirty()} title="保存(B1.4)">💾 保存{session.isDirty() ? <span className="dot">●</span> : null}</button>
+        <button className="save" disabled={!session.isDirty()} onClick={() => void save()} title="保存到 projects/<id>/(首次选工程文件夹)">💾 保存{session.isDirty() ? <span className="dot">●</span> : null}</button>
       </div>
 
       <div className="body">
@@ -150,7 +170,9 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             </>
           : <span className="pill" style={{ color: 'var(--ok)' }}>✓ 引用完整性 OK</span>}
         <span className="spacer" />
-        <span style={{ color: 'var(--faint)', fontSize: 11 }}>{session.isDirty() ? '未保存改动' : 'B1.3'}</span>
+        <span style={{ color: saveErr ? 'var(--err)' : 'var(--faint)', fontSize: 11 }}>
+          {saveErr ? `保存失败: ${saveErr}` : session.isDirty() ? '未保存改动' : '已保存'}
+        </span>
       </div>
     </div>
   )

@@ -26,6 +26,9 @@ export class EditSession {
   private future: Command[] = []
   /** 有未保存改动(自上次 markSaved 后 dispatch/undo/redo 过)。保存按钮据此亮 ●。 */
   private dirty = false
+  /** 每次 notify 自增。useSyncExternalStore 的 snapshot 用它 —— 因为 markSaved/undo 等
+   *  「非内容态」变化不改 state 引用,单靠 getState 当 snapshot 会漏掉这些变化不重渲染。 */
+  private version = 0
   private readonly listeners = new Set<() => void>()
 
   constructor(initial: EditorState) {
@@ -77,6 +80,11 @@ export class EditSession {
     this.notify()
   }
 
+  /** 变更版本号(每次 notify 自增);useSyncExternalStore 的 getSnapshot 用它。 */
+  getVersion(): number {
+    return this.version
+  }
+
   canUndo(): boolean {
     return this.past.length > 0
   }
@@ -94,6 +102,7 @@ export class EditSession {
   }
 
   private notify(): void {
+    this.version++
     for (const fn of this.listeners) fn()
   }
 }
