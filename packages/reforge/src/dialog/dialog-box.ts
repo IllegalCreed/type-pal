@@ -72,6 +72,7 @@ export class DialogBox {
     return this.state !== null
   }
 
+
   /** 把第 idx 段话排版进它的 slot,返回该 slot 的渲染态。有头像时正文 x 缩进 + 右边界给头像让位(spec §3)。 */
   private layoutLineInto(lineIdx: number): { slot: SlotId; render: SlotRender } {
     const line = this.state?.dialogue.lines[lineIdx]
@@ -158,7 +159,8 @@ export class DialogBox {
     this.pageDone = false
   }
 
-  private close(): void {
+  /** 关闭并清空 slot(正常收尾 + 脚本 abort/切场景清理共用)。 */
+  close(): void {
     this.state = null
     this.slots = emptySlots()
     this.renders = {}

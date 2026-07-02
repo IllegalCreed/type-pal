@@ -258,11 +258,20 @@ function walkBody(
         flush()
         if (cmd) body.push(cmd)
       }
+      // 对象引用:操作数 0xFFFF = 脚本属主"自己"(sdlpal script.c wEventObjectID 解析约定)
+      const entRef = (v: number): string | undefined => (v === 0xffff ? owner : `e${v}`)
       if (oc === 0x09) push({ kind: 'wait', ms: Math.max(1, o[0] ?? 1) * FRAME_MS })
       else if (oc === 0x46) {
         push({ kind: 'teleportParty', pos: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0) })
       } else if (oc === 0x15) push({ kind: 'setPartyFacing', facing: FACING_BY_DIR[o[0] ?? 0] ?? 'down' })
-      else if (oc === 0x49) push({ kind: 'setEntityState', entity: `e${o[0]}`, state: signExtendI16(o[1] ?? 0) })
+      else if (oc === 0x49) {
+        const ent = entRef(o[0] ?? 0)
+        if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })
+        else {
+          push({ kind: 'unmigrated', opcode: oc, operands: [...o], note: '0xFFFF 自指但无属主(onEnter)' })
+          note(ctx, 'setState 自指无属主')
+        }
+      }
       else if (oc === 0x0f && owner) {
         flush()
         if ((o[0] ?? 0xffff) !== 0xffff) body.push({ kind: 'setEntityFacing', entity: owner, facing: FACING_BY_DIR[o[0]!] ?? 'down' })
@@ -273,9 +282,10 @@ function walkBody(
         body.push({ kind: 'setEntityFrame', entity: owner, frame: o[0] ?? 0 })
       } else if (oc === 0x16) {
         flush()
-        if ((o[0] ?? 0) !== 0) {
-          body.push({ kind: 'setEntityFacing', entity: `e${o[0]}`, facing: FACING_BY_DIR[o[1] ?? 0] ?? 'down' })
-          body.push({ kind: 'setEntityFrame', entity: `e${o[0]}`, frame: o[2] ?? 0 })
+        const ent16 = (o[0] ?? 0) !== 0 ? entRef(o[0]!) : undefined
+        if (ent16) {
+          body.push({ kind: 'setEntityFacing', entity: ent16, facing: FACING_BY_DIR[o[1] ?? 0] ?? 'down' })
+          body.push({ kind: 'setEntityFrame', entity: ent16, frame: o[2] ?? 0 })
         }
       } else if (oc === 0x47) push({ kind: 'playSound', soundId: o[0] ?? 0 })
       else if (oc === 0x43) push({ kind: 'playMusic', musicId: o[0] ?? 0 })

@@ -395,6 +395,18 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(out2.scriptReport.chains).toBeGreaterThan(30)
     expect(out2.scriptReport.commands).toBeGreaterThan(300)
   })
+  test('M3a 0xFFFF 自指:setEntityState(0xFFFF) → 属主实体(拾取消失例)', () => {
+    // 全场景搜:某实体的触发脚本里 setEntityState 指向自己(原版拾取 = 0x49[0xFFFF,0] 自灭)
+    const selfVanish = out2.scenes.flatMap((s) => s.entities).some((e) =>
+      e.pages?.[0]?.trigger?.stages.some((st) =>
+        st.body.some((c) => c.kind === 'setEntityState' && c.entity === e.id && c.state <= 0)))
+    expect(selfVanish).toBe(true)
+    // 字面 e65535 不应存在
+    const literal = out2.scenes.flatMap((s) => s.entities).some((e) =>
+      e.pages?.[0]?.trigger?.stages.some((st) =>
+        st.body.some((c) => 'entity' in c && c.entity === 'e65535')))
+    expect(literal).toBe(false)
+  })
   test('精灵批量登记:npc-<num>,布局 directional×n(n>0)/ static(n=0)', () => {
     const src1 = readScene(1)
     const visible = src1.eventObjects.filter((o) => o.spriteNum > 0)

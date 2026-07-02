@@ -753,12 +753,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e65535",
+                    "entity": "e56",
                     "facing": "up"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e65535",
+                    "entity": "e56",
                     "frame": 0
                   },
                   {
@@ -800,12 +800,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e65535",
+                    "entity": "e56",
                     "facing": "left"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e65535",
+                    "entity": "e56",
                     "frame": 0
                   },
                   {
@@ -824,12 +824,12 @@
                   },
                   {
                     "kind": "setEntityFacing",
-                    "entity": "e65535",
+                    "entity": "e56",
                     "facing": "right"
                   },
                   {
                     "kind": "setEntityFrame",
-                    "entity": "e65535",
+                    "entity": "e56",
                     "frame": 0
                   },
                   {
@@ -1198,7 +1198,7 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e65535",
+                    "entity": "e65",
                     "state": 0
                   }
                 ]
@@ -1241,7 +1241,7 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e65535",
+                    "entity": "e66",
                     "state": 0
                   }
                 ]
@@ -1284,7 +1284,7 @@
                   },
                   {
                     "kind": "setEntityState",
-                    "entity": "e65535",
+                    "entity": "e67",
                     "state": 0
                   }
                 ]

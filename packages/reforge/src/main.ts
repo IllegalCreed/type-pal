@@ -1,6 +1,8 @@
 import {
   buildWorld,
   type Dialogue,
+  type DialogueLine,
+  emptyWorldScriptState,
   type EntityDef,
   type Facing,
   type GridPos,
@@ -9,6 +11,7 @@ import {
   pixelToGrid,
   resolveEntitySpriteId,
   type SceneDef,
+  type ScriptStage,
   type SpriteDef,
   spriteScreenY,
 } from '@type-pal/content'
@@ -36,6 +39,7 @@ import {
   openEquipMenu,
 } from './equip-menu-state.js'
 import { Keyboard } from './input.js'
+import { ScriptRunner, type ScriptHost } from './script-runner.js'
 import { type LoadedProject, loadProject, loadSceneDef } from './loader.js'
 import {
   closeMagicMenu,
@@ -244,8 +248,10 @@ async function main(): Promise<void> {
     const pal = await getPalette(Number(params.get('pal') ?? def.paletteId ?? 0))
     const defs = new Map<string, SpriteDef>()
     for (const e of def.entities) {
-      if (e.hidden) continue
-      defs.set(e.id, requireSpriteDef(resolveEntitySpriteId(e, project.actorsById), `实体 ${e.id}`))
+      // 隐藏实体也登记(M3a:脚本 setEntityState 可显形);zone 无视觉跳过
+      const sid = resolveEntitySpriteId(e, project.actorsById)
+      if (!sid) continue
+      defs.set(e.id, requireSpriteDef(sid, `实体 ${e.id}`))
     }
     const missing = [
       ...new Set([leaderSpriteDef.spriteNum, ...[...defs.values()].map((d) => d.spriteNum)]),
@@ -284,6 +290,170 @@ async function main(): Promise<void> {
   const playerSprite = spriteByNum.get(leaderSpriteDef.spriteNum)!
   const dialogBox = new DialogBox(ctx, glyphs, cursorFrames, portraits, project.locale)
   let world = buildWorld(project.manifest.startWorld, project.actorsById)
+  world.script ??= emptyWorldScriptState()
+
+  // ══ M3a 脚本运行时(设计 §4:driver Promise + AbortSignal;tick 驱动计时/淡入淡出)══
+  let runner: ScriptRunner | null = null
+  let scriptAbort: AbortController | null = null
+  let pendingOnEnter: string | null = null // loadScene 后待跑的新场景 onEnter(当前脚本收尾后)
+  let nowMs = 0 // tick 注入的时间源(driver 计时用)
+  const timers: { deadline: number; resolve: () => void }[] = []
+  let fadeFx: { dir: 'in' | 'out'; start: number; ms: number; resolve: () => void } | null = null
+  let fadeBlack = 0 // 0 透明 → 1 全黑(fade out 后保持,fade in 释放)
+  let scriptDialogResolve: (() => void) | null = null
+  const entityFrameOverride = new Map<string, number>() // setEntityFrame 演出帧覆盖(切场景清)
+
+  /** 世界脚本状态 → 场景实体(entityState:≤0 隐,≥2 挡路;进场/读档/设态后重放)。 */
+  function applyWorldToScene(): void {
+    for (const e of scene.entities) {
+      const st = world.script?.entityState[e.id]
+      if (st === undefined) continue
+      e.hidden = st <= 0
+      e.collide = st >= 2
+    }
+  }
+
+  function hostFade(dir: 'in' | 'out', ms: number): Promise<void> {
+    return new Promise((resolve) => {
+      fadeFx = { dir, start: nowMs, ms, resolve }
+    })
+  }
+
+  const host: ScriptHost = {
+    dialog: (line: DialogueLine) =>
+      new Promise((resolve) => {
+        dialogBox.open(startDialogue({ id: '__script', lines: [line] }), nowMs)
+        scriptDialogResolve = resolve // tick 检测 dialogBox 关闭时兑现
+      }),
+    clearDialog: () => dialogBox.close(),
+    fade: (dir, ms) => hostFade(dir, ms),
+    wait: (ms) =>
+      new Promise((resolve) => {
+        timers.push({ deadline: nowMs + ms, resolve })
+      }),
+    teleportParty: (pos, fc) => {
+      player.pos = { ...pos }
+      if (fc) facing = fc
+      walking = false
+      updateCamera()
+    },
+    loadScene: async (sceneId, pos, fc) => {
+      await hostFade('out', 260)
+      await switchScene(sceneId, { pos, facing: fc })
+      applyWorldToScene()
+      entityFrameOverride.clear()
+      pendingOnEnter = sceneId // 新场景 onEnter 排队(当前脚本收尾后跑,不嵌套)
+      await hostFade('in', 260)
+    },
+    setPartyFacing: (fc) => {
+      facing = fc
+    },
+    setEntityState: () => applyWorldToScene(), // runner 已写 world.script,这里只重放视觉
+    setEntityFacing: (id, fc) => {
+      const e = scene.entities.find((x) => x.id === id)
+      if (e) e.facing = fc
+    },
+    setEntityFrame: (id, frame) => entityFrameOverride.set(id, frame),
+    giveItem: (itemId, count) => {
+      const entry = world.inventory.find((x) => x.itemId === itemId)
+      if (entry) entry.count += count
+      else world.inventory.push({ itemId, count })
+    },
+    loseItem: (itemId, count) => {
+      const entry = world.inventory.find((x) => x.itemId === itemId)
+      if (!entry) return
+      entry.count -= count
+      if (entry.count <= 0) world.inventory.splice(world.inventory.indexOf(entry), 1)
+    },
+    giveMoney: (delta) => {
+      world.money = Math.max(0, world.money + delta)
+    },
+    playSound: () => {}, // 音频系统未落地(音频期);静默
+    playMusic: (id) => {
+      world.script!.vars['sys:music'] = id // 槽位记账;播放归音频期
+    },
+    setBattleMusic: (id) => {
+      world.script!.vars['sys:battleMusic'] = id
+    },
+    setBattleField: (id) => {
+      world.script!.vars['sys:battleField'] = id
+    },
+    report: (msg) => {
+      if (import.meta.env.DEV) console.warn('[script]', msg)
+    },
+  }
+
+  /** 起一段触发/进场脚本(单脚本槽;收尾后接排队的 onEnter)。 */
+  function startScript(key: string, stages: readonly ScriptStage[]): void {
+    if (runner) return
+    scriptAbort = new AbortController()
+    const r = new ScriptRunner(host, world.script!, scriptAbort.signal)
+    runner = r
+    void r
+      .runStages(key, stages)
+      .catch((err: unknown) => {
+        if (!(err instanceof DOMException && err.name === 'AbortError')) {
+          console.error('[script]', key, err)
+          showToast(`脚本错误: ${String(err).slice(0, 40)}`)
+        }
+      })
+      .finally(() => {
+        if (runner !== r) return
+        runner = null
+        scriptAbort = null
+        if (pendingOnEnter) {
+          const sid = pendingOnEnter
+          pendingOnEnter = null
+          if (scene.id === sid && scene.onEnter) startScript(`s:${sid}`, scene.onEnter)
+        }
+      })
+  }
+
+  /** 强停脚本(读档/dev 切场景):abort 全树 + 兑现悬挂 driver + 清演出态。 */
+  function abortScript(): void {
+    scriptAbort?.abort()
+    runner = null
+    scriptAbort = null
+    pendingOnEnter = null
+    if (dialogBox.active) dialogBox.close()
+    const r = scriptDialogResolve
+    scriptDialogResolve = null
+    r?.()
+    for (const t of timers.splice(0)) t.resolve()
+    fadeFx?.resolve()
+    fadeFx = null
+    fadeBlack = 0
+    entityFrameOverride.clear()
+  }
+
+  /** 格距(切比雪夫)。 */
+  function gridDist(a: GridPos, b: GridPos): number {
+    return Math.max(Math.abs(a.col - b.col), Math.abs(a.row - b.row))
+  }
+
+  /** 找最近的触发实体(M3a 单页;hidden 跳过)。 */
+  function findTrigger(on: 'interact' | 'touch'): EntityDef | undefined {
+    let best: EntityDef | undefined
+    let bestD = Number.POSITIVE_INFINITY
+    for (const e of scene.entities) {
+      if (e.hidden) continue
+      const t = e.pages?.[0]?.trigger
+      if (!t || t.on !== on) continue
+      const range = Math.max(t.range ?? 0, on === 'interact' ? 1 : 0)
+      const d = gridDist(player.pos, e.pos)
+      if (d <= range && d < bestD) {
+        best = e
+        bestD = d
+      }
+    }
+    return best
+  }
+
+  function fireTrigger(e: EntityDef): void {
+    const t = e.pages?.[0]?.trigger
+    if (t) startScript(e.id, t.stages)
+  }
+
   const menuAssets = await loadMenuAssets(project.items)
   const menuBox = new MenuBox(glyphs, project.locale, menuAssets, project.items)
   let menu: MenuState = CLOSED
@@ -342,6 +512,7 @@ async function main(): Promise<void> {
   async function doLoad(slotId: SlotId): Promise<boolean> {
     const p = await saveStore.getPayload(slotId)
     if (!p) return false
+    abortScript() // 演出中读档:全树取消 + 清演出态
     // 存档绑工程:projectId 不匹配(把 A 工程存档读进 B 工程)→ 拒绝,防世界态错乱。
     if (p.projectId !== project.manifest.id) {
       console.warn(
@@ -350,6 +521,7 @@ async function main(): Promise<void> {
       return false
     }
     world = p.world
+    world.script ??= emptyWorldScriptState() // 旧档缺省 → 空态
     if (p.position.sceneId !== scene.id) {
       // M2c:跨场景读档 = 真 switchScene(带存档坐标落位)
       await switchScene(p.position.sceneId, { pos: p.position.pos, facing: p.position.facing })
@@ -357,6 +529,7 @@ async function main(): Promise<void> {
       player.pos = p.position.pos
       facing = p.position.facing
     }
+    applyWorldToScene() // 实体隐现/挡路按存档世界态重放(读档不重跑 onEnter,对齐原版)
     return true
   }
 
@@ -393,7 +566,11 @@ async function main(): Promise<void> {
       if (e.hidden) continue
       const def = entitySpriteDefs.get(e.id)
       const sp = def ? spriteByNum.get(def.spriteNum) : undefined
-      const f = def ? (sp?.frames[idleFrameIndex(def.layout, e.facing ?? 'down')] ?? sp?.frames[0]) : undefined
+      // 帧下标 = 布局站立帧 + 脚本演出帧覆盖(0x14/0x0F 的 within-direction 帧号)
+      const fo = entityFrameOverride.get(e.id) ?? 0
+      const f = def
+        ? (sp?.frames[idleFrameIndex(def.layout, e.facing ?? 'down') + fo] ?? sp?.frames[0])
+        : undefined
       if (!sp || !f) continue
       const p = gridToPixel(e.pos)
       sprites.push({
@@ -428,6 +605,13 @@ async function main(): Promise<void> {
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
       ctx.imageSmoothingEnabled = false
       drawCollisionOverlay()
+      ctx.restore()
+    }
+    // M3a fade 遮罩(脚本淡入淡出;盖世界层,对话/菜单在其上)
+    if (fadeBlack > 0.001) {
+      ctx.save()
+      ctx.fillStyle = `rgba(0,0,0,${fadeBlack.toFixed(3)})`
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.restore()
     }
     // 对话框(UI)同样在 320 逻辑坐标画 + ×WORLD_SCALE 放大:POS 常量、字模 drawImage、
@@ -576,6 +760,9 @@ async function main(): Promise<void> {
     get dialogue() {
       return dialogBox.active
     },
+    get script() {
+      return { running: !!runner, world: world.script }
+    },
   }
 
   function dialogueById(id: string): Dialogue | undefined {
@@ -610,6 +797,25 @@ async function main(): Promise<void> {
   function tick(t: number): void {
     const dt = lastT ? Math.min(t - lastT, 100) : 0 // 钳制 dt 防后台切回爆步
     lastT = t
+    nowMs = t
+    // ── M3a 脚本 driver 推进(tick 时间源):计时器 → 兑现;淡入淡出 → 进度;对话关 → 兑现 ──
+    for (let i = timers.length - 1; i >= 0; i--) {
+      if (t >= timers[i]!.deadline) timers.splice(i, 1)[0]!.resolve()
+    }
+    if (fadeFx) {
+      const pr = fadeFx.ms <= 0 ? 1 : Math.min(1, (t - fadeFx.start) / fadeFx.ms)
+      fadeBlack = fadeFx.dir === 'out' ? pr : 1 - pr
+      if (pr >= 1) {
+        const f = fadeFx
+        fadeFx = null
+        f.resolve()
+      }
+    }
+    if (!dialogBox.active && scriptDialogResolve) {
+      const r = scriptDialogResolve
+      scriptDialogResolve = null
+      r()
+    }
     const pressed = keyboard.consumePressed()
     const interact = pressed.has(' ') || pressed.has('Enter')
     const esc = pressed.has('Escape')
@@ -808,6 +1014,8 @@ async function main(): Promise<void> {
       }
     } else if (dialogBox.active) {
       if (interact) dialogBox.advance(t) // 翻页;翻完 → null(关闭)
+    } else if (runner) {
+      // 脚本演出中(非对话等待段):吞输入,防移动/开菜单打断演出
     } else {
       if (pressed.has('F5')) {
         void quickSave() // 快速存档(快速槽)
@@ -820,9 +1028,14 @@ async function main(): Promise<void> {
           lastGameThumb = b
         })
       } else if (interact) {
-        const ent = nearbyInteractable()
-        const dlg = ent?.interact ? dialogueById(ent.interact) : undefined
-        if (dlg) dialogBox.open(startDialogue(dlg), t) // 分页由 DialogBox 按显示行算
+        const trig = findTrigger('interact')
+        if (trig) {
+          fireTrigger(trig) // M3a:迁移触发脚本优先
+        } else {
+          const ent = nearbyInteractable()
+          const dlg = ent?.interact ? dialogueById(ent.interact) : undefined
+          if (dlg) dialogBox.open(startDialogue(dlg), t) // demo 旧路:对话 id
+        }
       }
       if (!menu.active && !dialogBox.active) {
         // dev:[ / ] 循环切场景(M2c 验收拐杖;定位原版场景)
@@ -830,8 +1043,13 @@ async function main(): Promise<void> {
           const ids = project.sceneIds
           const cur = ids.indexOf(scene.id)
           const nextId = ids[(cur + (pressed.has(']') ? 1 : ids.length - 1)) % ids.length]!
+          abortScript()
           void switchScene(nextId)
-            .then(() => showToast(`${nextId}(${ids.indexOf(nextId) + 1}/${ids.length})`))
+            .then(() => {
+              applyWorldToScene()
+              showToast(`${nextId}(${ids.indexOf(nextId) + 1}/${ids.length})`)
+              if (scene.onEnter) startScript(`s:${scene.id}`, scene.onEnter)
+            })
             .catch((err: unknown) => showToast(`切场景失败: ${String(err).slice(0, 40)}`))
         }
         const dir = heldDir()
@@ -855,6 +1073,12 @@ async function main(): Promise<void> {
             player.pos = next
             walking = true
             stepFrame = (stepFrame + 1) % 4
+            // M3a touch 触发:边沿语义(落步才查),站着不重触发(一阶段 TouchFar 死锁的架构性规避)
+            const touched = findTrigger('touch')
+            if (touched) {
+              fireTrigger(touched)
+              break
+            }
           }
         } else if (walking) {
           walking = false
@@ -868,6 +1092,9 @@ async function main(): Promise<void> {
     requestAnimationFrame(tick)
   }
   void refreshSaveMetas() // 预载已有存档 metas + 缩略图(浏览界面首开即有内容)
+  // M3a boot:应用世界脚本态 + 跑入口场景 onEnter(演出/音乐/战场配置)
+  applyWorldToScene()
+  if (scene.onEnter) startScript(`s:${scene.id}`, scene.onEnter)
   requestAnimationFrame(tick)
 
   console.log(

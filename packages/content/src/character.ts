@@ -1,7 +1,10 @@
 import type { ActorDef } from './actor.js'
+import type { WorldScriptState } from './script.js'
 
 /** L1 世界态(跟存档走;现 demo 内存构造)。 */
 export interface WorldState {
+  /** 剧情脚本世界状态(M3a:flags/vars/entityState/entityStage;跟存档)。旧档缺省 → 空态。 */
+  script?: WorldScriptState
   party: CharacterInstance[]
   money: number // 金钱(跟存档走;demo 内存构造 = 0)
   /** 习得仙术关系表:charInstanceId → skillId[]。独立表(非内嵌 CharacterInstance),解耦 + MMO 玩家私有留口。 */
