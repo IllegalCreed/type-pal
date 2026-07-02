@@ -152,16 +152,39 @@ describe('M1b · 装备效果(scriptOnEquip → EquipSpec)', () => {
   })
 })
 
-describe('M1a+M1c · 技能(纯表 57 + 线性脚本翻译 18)', () => {
+describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
   const byId = new Map(out.skills.skills.map((s) => [s.id, s]))
-  test('总量与去向:75 迁 / 28 pending(7 summon + 动态公式 + 5 门类),笔笔有名目', () => {
-    expect(out.skills.skills).toHaveLength(75)
+  test('总量与去向:80 迁 / 23 pending(9 summon 型 + 14 动态公式),笔笔有名目', () => {
+    expect(out.skills.skills).toHaveLength(80)
     expect(out.skills.skills.filter((s) => s.effects[0]?.kind === 'damage')).toHaveLength(57)
-    expect(out.report.pendingSkills).toHaveLength(28)
+    expect(out.report.pendingSkills).toHaveLength(23)
     expect(out.report.pendingSkills.filter((p) => p.reason.includes('summon'))).toHaveLength(9) // 7 纯表 + 风神等带脚本的 summon 型
-    // 门类 5 个点名:概率门(回梦/鬼降)/阈值+概率(夺魂/灵葫咒)/goto 循环(灵血咒)→ M1c-2
-    const gateIds = out.report.pendingSkills.filter((p) => /超出线性集/.test(p.reason)).map((p) => p.id).sort()
-    expect(gateIds).toEqual([303, 304, 305, 308, 384])
+    expect(out.report.pendingSkills.filter((p) => p.reason.includes('scriptOnUse'))).toHaveLength(14)
+  })
+  test('M1c-2 门类 5 技:门语义与原版脚本同构(概率/HP阈值/抗性掷,顺序截断)', () => {
+    expect(byId.get('303')?.effects).toEqual([
+      { kind: 'gate', chance: 60 },
+      { kind: 'applyStatus', status: 'sleep', turns: 4 },
+    ]) // 回梦:60% → 催眠(0x68 敌方分支有损注)
+    expect(byId.get('305')?.effects).toEqual([
+      { kind: 'gate', chance: 44 },
+      { kind: 'applyStatus', status: 'confused', turns: 4 },
+    ]) // 鬼降
+    expect(byId.get('304')?.effects).toEqual([
+      { kind: 'gate', magicResist: true },
+      { kind: 'gate', chance: 33 },
+      { kind: 'instantKill' },
+    ]) // 夺魂:抗性掷 + 33% + 即死
+    expect(byId.get('384')?.effects).toEqual([
+      { kind: 'gate', hpAtMostPercent: 25 },
+      { kind: 'gate', chance: 60 },
+      { kind: 'collectTreasure' },
+      { kind: 'instantKill' },
+    ]) // 灵葫咒:HP≤25% 处决条件 + 60% + 收宝 + 即死(修正设计文档早期例的静默丢门)
+    expect(byId.get('308')?.effects).toEqual([
+      { kind: 'curePoison', maxLevel: 2 },
+      { kind: 'removeStatus', statuses: ['confused', 'paralyzed', 'sleep'] },
+    ]) // 灵血咒:goto 尾调用跟进共享清状态子程序(L_39349)
   })
   test('demo curated 三技能被解析器取代且值逐一致(diff 验证)', () => {
     expect(byId.get('296')?.effects).toEqual([{ kind: 'healHp', amount: 75 }])
@@ -193,8 +216,8 @@ describe('M1a+M1c · 技能(纯表 57 + 线性脚本翻译 18)', () => {
     ]) // 梦蛇
     expect(byId.get('295')?.target).toBe('self')
   })
-  test('有损点登记:飞龙 0x47 音效;0x68 三连(三尸/万蛊/毒吞)实为双脚本 → 正确落 pending', () => {
-    expect(out.report.lossySkills.map((l) => l.id)).toEqual([377])
+  test('有损点登记:0x68 敌方分支(回梦/夺魂/鬼降)+ 飞龙 0x47 音效;三尸三连双脚本 → 正确 pending', () => {
+    expect(out.report.lossySkills.map((l) => l.id).sort((a, b) => a - b)).toEqual([303, 304, 305, 377])
     const dual = out.report.pendingSkills.filter((p) => [352, 372, 373].includes(p.id))
     expect(dual).toHaveLength(3)
     for (const d of dual) expect(d.reason).toContain('scriptOnUse') // onUse 带毒伤动态公式,非线性可译
@@ -214,5 +237,51 @@ describe('M1a · 输出过 content 契约 + 可 buildWorld', () => {
     const demoManifest = readJson<{ startWorld: Parameters<typeof buildWorld>[0] }>('projects/demo/manifest.json')
     const w = buildWorld(demoManifest.startWorld, actorsById)
     expect(w.party[0]?.hp).toBe(100) // seedStats 仍生效(pal 工程沿用 demo startWorld)
+  })
+})
+
+describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
+  const byId = new Map(out.items.map((i) => [i.id, i]))
+  test('demo 手作使用件 oracle:观音符(61)/茶叶蛋(78)deep-equal;土灵珠(267)灵珠剧情 → pending', () => {
+    expect(byId.get('61')!.use).toEqual({
+      target: 'oneAlly',
+      consuming: true,
+      effects: [{ kind: 'healHp', amount: 150 }],
+    })
+    expect(byId.get('78')!.use).toEqual({
+      target: 'oneAlly',
+      consuming: true,
+      effects: [
+        { kind: 'healHp', amount: 15 },
+        { kind: 'healMp', amount: 15 },
+      ],
+    })
+    expect(byId.get('267')!.use).toBeUndefined()
+    expect(out.report.pendingUse.some((p) => p.itemId === 267)).toBe(true)
+  })
+  test('新 kind spot:舍利子 maxMP+3 / 雪蛤蟆三永久成长 / 盐巴概率门 / 尸腐肉下毒 / 还魂香复活10%', () => {
+    expect(byId.get('72')!.use!.effects).toEqual([{ kind: 'permanentStatBoost', stat: 'maxMP', delta: 3 }])
+    expect(byId.get('132')!.use!.effects).toEqual([
+      { kind: 'permanentStatBoost', stat: 'attack', delta: 2 },
+      { kind: 'permanentStatBoost', stat: 'defense', delta: 2 },
+      { kind: 'permanentStatBoost', stat: 'magicAttack', delta: 2 },
+    ])
+    expect(byId.get('77')!.use!.effects).toEqual([
+      { kind: 'gate', chance: 50 },
+      { kind: 'curePoison', poisonId: '551' },
+    ])
+    expect(byId.get('116')!.use!.effects).toEqual([{ kind: 'applyPoison', poisonId: '552' }])
+    expect(byId.get('95')!.use!.effects).toEqual([{ kind: 'revive', hpPercent: 10 }])
+  })
+  test('战斗分支头有损注(九阴散/毒龙胆):场外效果照译', () => {
+    expect(byId.get('136')!.use!.effects).toEqual([{ kind: 'healHp', amount: 999 }])
+    expect(byId.get('278')!.use!.effects).toEqual([{ kind: 'curePoison', maxLevel: 3 }])
+    expect(out.report.lossyUse.map((l) => l.itemId).sort((a, b) => a - b)).toEqual([136, 278])
+  })
+  test('总账:100 usable 全有下落(use 块 + pendingUse = 100),pending 原因均指向未落地系统', () => {
+    const withUse = out.items.filter((i) => i.use).length
+    expect(withUse + out.report.pendingUse.length).toBe(100)
+    expect(withUse).toBeGreaterThanOrEqual(60)
+    for (const p of out.report.pendingUse) expect(p.reason).toMatch(/系统|B2|剧情|空链/)
   })
 })

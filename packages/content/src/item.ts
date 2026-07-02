@@ -33,10 +33,16 @@ export interface EquipSpec {
 export type ItemUseEffect =
   | { kind: 'healHp'; amount: number }
   | { kind: 'healMp'; amount: number }
+  | { kind: 'revive'; hpPercent: number } // 0x22(还魂香/赎魂灯;同技能 revive)
   | { kind: 'applyStatus'; status: StatusId; turns: number }
+  | { kind: 'removeStatus'; statuses: StatusId[] } // 0x2F(灵心符/银针)
+  | { kind: 'applyPoison'; poisonId: string } // 0x29(尸腐肉/毒蛇卵——下毒食物)
+  | { kind: 'curePoison'; maxLevel?: number; poisonId?: string } // 0x2B/0x2C(糯米/雄黄/九节菖蒲)
+  | { kind: 'permanentStatBoost'; stat: CombatStat | 'maxHP' | 'maxMP'; delta: number } // 0x19(舍利子/雪蛤蟆——永久成长)
+  | { kind: 'gate'; chance?: number } // 0x6 概率门(盐巴 50% 解毒);失败截断其后
   | { kind: 'triggerScript'; scriptId: string } // 桂花酒/玉佩剧情;风灵珠场景互动
   | { kind: 'teleport'; target: string } // 引路蜂回迷宫口
-// 待扩充:giveItems / giveMoney / learnSkill / scenePlace / transform / permanentStatBoost …(使用菜单时)
+// 待扩充(B2 剧情脚本落地后):giveItems / giveMoney / learnSkill / scenePlace / transform …
 
 export interface UseSpec {
   target?: 'oneAlly' | 'allAllies' | 'self' | 'scene'

@@ -40,6 +40,15 @@ export type SkillEffect =
       percent: number
       duration: 'battle' | number // 0x30 临时%增益;寿命=整场战斗 → 'battle'
     }
+  | {
+      kind: 'gate'
+      /** 概率门(1-100;原版 0x6):掷骰失败 → 终止其余效果(原版 fail 分支显「无任何效果」)。 */
+      chance?: number
+      /** HP 阈值门(原版 0x64):目标当前 HP% > 此值 → 终止(灵葫咒"处决"条件)。 */
+      hpAtMostPercent?: number
+      /** 抗性掷门(原版 0x2E turns=0 的空状态掷,夺魂):按目标灵抗判定,失败 → 终止。 */
+      magicResist?: boolean
+    } // 顺序门:effects 有序,门失败截断其后 —— 与原版脚本 jump-on-fail 同构(M1c-2)
   | { kind: 'instantKill' } // 0x60 即死(灵葫咒)
   | { kind: 'steal'; rate: number } // 0x6A 偷金钱/道具(飞龙探云手)
   | { kind: 'collectTreasure' } // 0x33 收集敌方宝物(灵葫咒二次)

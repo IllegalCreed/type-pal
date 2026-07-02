@@ -242,10 +242,12 @@ export interface SkillScriptTranslation {
 /**
  * M1c:静态翻译一条 scriptOnSuccess 链(线性数据 op → SkillEffect[])。
  * 语义源:magic-script.ts(0x1B/0x1C/0x22 场外实测)+ battle-opcodes.ts + skill-data-design。
- * 支持:0x1B healHp / 0x1C healMp / 0x22 revive(maxHP×op1/10)/ 0x2D applyStatus /
- *      0x2F removeStatus / 0x2B curePoison / 0x28·0x29 applyPoison / 0x6A steal /
- *      0x31 trance / 0x30 buffStat / 0x47 音效(表现层,忽略+注)/ 0x68 敌方分支头(跳过+有损注)。
- * 命中其它 op(0x6 概率门 / 0x64 HP 阈值门 / 0x60 即死 / 0x35·0x6b·0x88 战斗公式等)→ 整技 pending。
+ * 支持:0x1B healHp / 0x1C healMp / 0x22 revive(maxHP×op1/10)/ 0x2D·0x2E applyStatus /
+ *      0x2F removeStatus / 0x2B·0x2C curePoison / 0x28·0x29 applyPoison / 0x6A steal /
+ *      0x31 trance / 0x30 buffStat / 0x47 音效(表现层,忽略+注)/ 0x68 敌方分支头(跳过+有损注)/
+ *      M1c-2 门:0x6 概率门 / 0x64 HP 阈值门 / 0x2E(turns=0)抗性掷门 / 0x60 即死 / 0x33 收宝 /
+ *      goto 尾调用(共享子程序如 L_39349 清状态)跟进(访问集防环)。
+ * 命中其它 op(0x35·0x6b·0x88 战斗公式等)→ 整技 pending。
  */
 export function translateSkillScript(
   commands: readonly SourceCmd[],
@@ -255,9 +257,20 @@ export function translateSkillScript(
   const out: SkillScriptTranslation = { effects: [], lossyNotes: [] }
   const start = ip === 0 ? undefined : labelIndex.get(`L_${ip}`)
   if (start === undefined) return { ...out, pendingReason: `L_${ip} 不存在` }
+  const visited = new Set<number>()
   for (let i = start; i < commands.length; i++) {
     const c = commands[i]!
     if (c.op === 'end') return out
+    if (c.op === 'goto') {
+      // 尾调用跟进(灵血咒 → L_39349 共享清状态子程序);回访 = 真循环 → pending
+      const to = c as unknown as { to?: string }
+      const target = to.to ? labelIndex.get(to.to) : undefined
+      if (target === undefined || visited.has(target))
+        return { ...out, pendingReason: `goto ${to.to ?? '?'} 不可跟进(缺标签/回环)` }
+      visited.add(target)
+      i = target - 1
+      continue
+    }
     if (c.op !== 'raw') {
       if (c.label !== undefined && c.op === undefined) continue
       return { ...out, pendingReason: `非线性(${c.op})` }
@@ -290,6 +303,32 @@ export function translateSkillScript(
       }
       case 0x2b:
         out.effects.push({ kind: 'curePoison', poisonId: String(b) })
+        break
+      case 0x2c:
+        out.effects.push({ kind: 'curePoison', maxLevel: b }) // 灵血咒(解 ≤level 毒)
+        break
+      case 0x2e: {
+        // 敌方上状态(自带抗性掷);turns=0 = 纯抗性掷门(夺魂 0x2E[0,0])
+        if (b === 0) {
+          out.effects.push({ kind: 'gate', magicResist: true })
+          break
+        }
+        const status = STATUS_BY_NUM[a]
+        if (!status) return { ...out, pendingReason: `0x2E 未知状态 id ${a}` }
+        out.effects.push({ kind: 'applyStatus', status, turns: b })
+        break
+      }
+      case 0x06:
+        out.effects.push({ kind: 'gate', chance: a }) // 概率门(fail → 原版跳「无任何效果」)
+        break
+      case 0x64:
+        out.effects.push({ kind: 'gate', hpAtMostPercent: a }) // HP%>a → 终止(灵葫咒处决条件)
+        break
+      case 0x60:
+        out.effects.push({ kind: 'instantKill' })
+        break
+      case 0x33:
+        out.effects.push({ kind: 'collectTreasure' })
         break
       case 0x28:
       case 0x29:
@@ -495,6 +534,123 @@ export function mapEquipableBy(flags: readonly boolean[]): string[] {
   return ROLE_SLUGS.filter((_, i) => flags[i])
 }
 
+// ── 使用效果翻译(M1d:scriptOnUse → UseSpec.effects)────────
+// 2026-07-02 全量扫 100 条链分桶:~60 件纯数据 op 可自动;灵珠/剧情/蛊毒/遇敌香等系统未落地 → pending。
+
+/** 0x19 永久成长的 row → stat(7/8 池上限 + 17-21 战斗属性)。 */
+const PERM_STAT_BY_ROW: Record<number, 'maxHP' | 'maxMP' | 'attack' | 'magicAttack' | 'defense' | 'speed' | 'luck'> = {
+  7: 'maxHP',
+  8: 'maxMP',
+  17: 'attack',
+  18: 'magicAttack',
+  19: 'defense',
+  20: 'speed',
+  21: 'luck',
+}
+
+export interface UseScriptTranslation {
+  effects: NonNullable<ItemData['use']>['effects']
+  lossyNotes: string[]
+  pendingReason?: string
+}
+
+/**
+ * 静态翻译一条 scriptOnUse 链(线性数据 op → ItemUseEffect[])。
+ * 支持:0x1B/0x1C 回血蓝、0x1D 双回(茶叶蛋)、0x22 复活、0x2D applyStatus、0x2F removeStatus、
+ *      0x2B/0x2C curePoison、0x29 applyPoison(毒食)、0x19 permanentStatBoost(舍利子/雪蛤蟆)、
+ *      0x6 概率门(盐巴)、0x61/0x68 战斗分支头(跳过+有损注)、0x5 重绘/0x47 音效(表现层忽略)、
+ *      goto 尾调用跟进。
+ * 其余(灵珠 0x81/0x25 剧情、0x5D 毒杀、0x62/0x63 遇敌香、蛊系、引路蜂 0x38 等)→ 整件 pending。
+ */
+export function translateUseScript(
+  commands: readonly SourceCmd[],
+  labelIndex: Map<string, number>,
+  ip: number,
+): UseScriptTranslation {
+  const out: UseScriptTranslation = { effects: [], lossyNotes: [] }
+  const start = ip === 0 ? undefined : labelIndex.get(`L_${ip}`)
+  if (start === undefined) return { ...out, pendingReason: `L_${ip} 不存在` }
+  const visited = new Set<number>()
+  for (let i = start; i < commands.length; i++) {
+    const c = commands[i]!
+    if (c.op === 'end') return out
+    if (c.op === 'goto') {
+      const to = c as unknown as { to?: string }
+      const target = to.to ? labelIndex.get(to.to) : undefined
+      if (target === undefined || visited.has(target))
+        return { ...out, pendingReason: `goto ${to.to ?? '?'} 不可跟进` }
+      visited.add(target)
+      i = target - 1
+      continue
+    }
+    if (c.op !== 'raw') {
+      if (c.label !== undefined && c.op === undefined) continue
+      return { ...out, pendingReason: `剧情类(${c.op})→ B2 脚本` }
+    }
+    const [a = 0, b = 0] = c.operands ?? []
+    switch (c.opcode) {
+      case 0x1b:
+        out.effects.push({ kind: 'healHp', amount: signExtendI16(b) })
+        break
+      case 0x1c:
+        out.effects.push({ kind: 'healMp', amount: signExtendI16(b) })
+        break
+      case 0x1d: // 同额双回(茶叶蛋 15/15)
+        out.effects.push({ kind: 'healHp', amount: signExtendI16(b) })
+        out.effects.push({ kind: 'healMp', amount: signExtendI16(b) })
+        break
+      case 0x22:
+        out.effects.push({ kind: 'revive', hpPercent: b * 10 })
+        break
+      case 0x2d: {
+        const status = STATUS_BY_NUM[a]
+        if (!status) return { ...out, pendingReason: `0x2D 未知状态 id ${a}` }
+        out.effects.push({ kind: 'applyStatus', status, turns: b })
+        break
+      }
+      case 0x2f: {
+        const status = STATUS_BY_NUM[a]
+        if (!status) return { ...out, pendingReason: `0x2F 未知状态 id ${a}` }
+        const prev = out.effects.find((e) => e.kind === 'removeStatus')
+        if (prev && prev.kind === 'removeStatus') {
+          if (!prev.statuses.includes(status)) prev.statuses.push(status)
+        } else out.effects.push({ kind: 'removeStatus', statuses: [status] })
+        break
+      }
+      case 0x2b:
+        out.effects.push({ kind: 'curePoison', poisonId: String(b) })
+        break
+      case 0x2c:
+        out.effects.push({ kind: 'curePoison', maxLevel: b })
+        break
+      case 0x29:
+        out.effects.push({ kind: 'applyPoison', poisonId: String(b) })
+        break
+      case 0x19: {
+        const stat = PERM_STAT_BY_ROW[a]
+        if (!stat) return { ...out, pendingReason: `0x19 未知 row ${a}` }
+        out.effects.push({ kind: 'permanentStatBoost', stat, delta: signExtendI16(b) })
+        break
+      }
+      case 0x06:
+        out.effects.push({ kind: 'gate', chance: a })
+        break
+      case 0x61: // 战斗内分支头(九阴散/毒龙胆):场外效果照译,战斗变体待战斗期
+      case 0x68:
+        out.lossyNotes.push(`0x${(c.opcode ?? 0).toString(16)} 战斗分支(L_${a})未表达 —— 战斗期`)
+        break
+      case 0x05: // 重绘画面(表现层)
+      case 0x47: // 音效(表现层)
+        break
+      case 167:
+        break
+      default:
+        return { ...out, pendingReason: `op 0x${(c.opcode ?? 0).toString(16)}(灵珠剧情/毒杀/遇敌香/蛊系等)→ 对应系统落地后` }
+    }
+  }
+  return out
+}
+
 // ── 物品(M1a:表字段;M1b:equip;use/throw 留 M1d)──────────
 export function mapItemsTable(items: readonly SourceItem[], descOf: (ip: number) => string[]): ItemData[] {
   return items.map((it) => ({
@@ -531,6 +687,10 @@ export interface MigrateOutput {
     blockedDescs: { kind: string; id: number; at: DescResult['blockedAt'] }[]
     /** M1b:装备链里翻不动的 op(战斗精灵切换/毒疗等)。 */
     pendingEquip: { itemId: number; name: string; ops: EquipTranslation['pending'] }[]
+    /** M1d:使用链整件翻不动的(灵珠剧情/毒杀/遇敌香/蛊系等)。 */
+    pendingUse: { itemId: number; name: string; reason: string }[]
+    /** M1d:使用链有损点(战斗分支头)。 */
+    lossyUse: { itemId: number; name: string; notes: string[] }[]
   }
 }
 
@@ -547,23 +707,47 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
   const actors = src.roles.map((r) => mapActor(r, src.levelUpExp))
   const sprites = mapSprites(src.roles)
   const skillsRes = mapSkills(src.spells, magicById, descOf('spell'), src.commands, labelIndex)
-  // 物品:表字段(M1a)+ 装备效果(M1b:flags.equipable → translateEquipScript)
+  // 物品:表字段(M1a)+ 装备效果(M1b)+ 使用效果(M1d)
   const pendingEquip: MigrateOutput['report']['pendingEquip'] = []
+  const pendingUse: MigrateOutput['report']['pendingUse'] = []
+  const lossyUse: MigrateOutput['report']['lossyUse'] = []
   const itemsTable = mapItemsTable(src.items, descOf('item'))
   const items = itemsTable.map((base, i) => {
     const srcItem = src.items[i]!
-    if (!srcItem.flags.equipable) return base
-    const t = translateEquipScript(src.commands, labelIndex, srcItem.scriptOnEquip)
-    if (t.pending.length) pendingEquip.push({ itemId: srcItem.id, name: srcItem._name, ops: t.pending })
-    if (!t.slot) return base // 无 0x18 槽位(理论不会;进 pending 已记)
-    return {
-      ...base,
-      equip: {
-        slot: t.slot as NonNullable<ItemData['equip']>['slot'],
-        equipableBy: mapEquipableBy(srcItem.flags.equipableBy),
-        effects: t.effects,
-      },
+    let out: ItemData = base
+    if (srcItem.flags.equipable) {
+      const t = translateEquipScript(src.commands, labelIndex, srcItem.scriptOnEquip)
+      if (t.pending.length) pendingEquip.push({ itemId: srcItem.id, name: srcItem._name, ops: t.pending })
+      if (t.slot) {
+        out = {
+          ...out,
+          equip: {
+            slot: t.slot as NonNullable<ItemData['equip']>['slot'],
+            equipableBy: mapEquipableBy(srcItem.flags.equipableBy),
+            effects: t.effects,
+          },
+        }
+      }
     }
+    if (srcItem.flags.usable) {
+      const u = translateUseScript(src.commands, labelIndex, srcItem.scriptOnUse)
+      if (u.pendingReason) {
+        pendingUse.push({ itemId: srcItem.id, name: srcItem._name, reason: u.pendingReason })
+      } else if (u.effects.length) {
+        if (u.lossyNotes.length) lossyUse.push({ itemId: srcItem.id, name: srcItem._name, notes: u.lossyNotes })
+        out = {
+          ...out,
+          use: {
+            target: srcItem.flags.applyToAll ? ('allAllies' as const) : ('oneAlly' as const),
+            consuming: srcItem.flags.consuming,
+            effects: u.effects,
+          },
+        }
+      } else {
+        pendingUse.push({ itemId: srcItem.id, name: srcItem._name, reason: 'scriptOnUse 空链' })
+      }
+    }
+    return out
   })
   const localeNames: Record<string, string> = {}
   src.roles.forEach((r) => {
@@ -576,7 +760,7 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     skills: { skills: skillsRes.skills, levelUp: mapLevelUp(src.levelUpMagic) },
     items,
     localeNames,
-    report: { pendingSkills: skillsRes.pending, lossySkills: skillsRes.lossy, blockedDescs, pendingEquip },
+    report: { pendingSkills: skillsRes.pending, lossySkills: skillsRes.lossy, blockedDescs, pendingEquip, pendingUse, lossyUse },
   }
 }
 

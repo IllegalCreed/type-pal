@@ -9,7 +9,17 @@
     "icon": 197,
     "buyPrice": 150,
     "sellPrice": 75,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 150
+        }
+      ]
+    }
   },
   {
     "id": "62",
@@ -21,7 +31,17 @@
     "icon": 221,
     "buyPrice": 2000,
     "sellPrice": 1000,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "allAllies",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 300
+        }
+      ]
+    }
   },
   {
     "id": "63",
@@ -33,7 +53,18 @@
     "icon": 216,
     "buyPrice": 1300,
     "sellPrice": 650,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "protect",
+          "turns": 7
+        }
+      ]
+    }
   },
   {
     "id": "64",
@@ -45,7 +76,25 @@
     "icon": 217,
     "buyPrice": 120,
     "sellPrice": 60,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "curePoison",
+          "poisonId": "551"
+        },
+        {
+          "kind": "curePoison",
+          "poisonId": "553"
+        },
+        {
+          "kind": "curePoison",
+          "poisonId": "552"
+        }
+      ]
+    }
   },
   {
     "id": "65",
@@ -57,7 +106,21 @@
     "icon": 218,
     "buyPrice": 120,
     "sellPrice": 60,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "removeStatus",
+          "statuses": [
+            "confused",
+            "paralyzed",
+            "sleep"
+          ]
+        }
+      ]
+    }
   },
   {
     "id": "66",
@@ -136,7 +199,18 @@
     "icon": 214,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "permanentStatBoost",
+          "stat": "maxMP",
+          "delta": 3
+        }
+      ]
+    }
   },
   {
     "id": "73",
@@ -148,7 +222,18 @@
     "icon": 149,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "permanentStatBoost",
+          "stat": "maxMP",
+          "delta": 5
+        }
+      ]
+    }
   },
   {
     "id": "74",
@@ -160,7 +245,18 @@
     "icon": 40,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "permanentStatBoost",
+          "stat": "maxHP",
+          "delta": 3
+        }
+      ]
+    }
   },
   {
     "id": "75",
@@ -171,7 +267,17 @@
     "icon": 15,
     "buyPrice": 60,
     "sellPrice": 30,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "curePoison",
+          "poisonId": "552"
+        }
+      ]
+    }
   },
   {
     "id": "76",
@@ -184,7 +290,21 @@
     "icon": 35,
     "buyPrice": 100,
     "sellPrice": 50,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 25
+        },
+        {
+          "kind": "curePoison",
+          "poisonId": "552"
+        }
+      ]
+    }
   },
   {
     "id": "77",
@@ -196,7 +316,21 @@
     "icon": 34,
     "buyPrice": 10,
     "sellPrice": 5,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "allAllies",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "gate",
+          "chance": 50
+        },
+        {
+          "kind": "curePoison",
+          "poisonId": "551"
+        }
+      ]
+    }
   },
   {
     "id": "78",
@@ -209,7 +343,21 @@
     "icon": 30,
     "buyPrice": 40,
     "sellPrice": 20,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 15
+        },
+        {
+          "kind": "healMp",
+          "amount": 15
+        }
+      ]
+    }
   },
   {
     "id": "79",
@@ -221,7 +369,21 @@
     "icon": 111,
     "buyPrice": 30,
     "sellPrice": 15,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 10
+        },
+        {
+          "kind": "healMp",
+          "amount": 10
+        }
+      ]
+    }
   },
   {
     "id": "80",
@@ -234,7 +396,21 @@
     "icon": 17,
     "buyPrice": 20,
     "sellPrice": 10,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 22
+        },
+        {
+          "kind": "healMp",
+          "amount": 22
+        }
+      ]
+    }
   },
   {
     "id": "81",
@@ -293,7 +469,18 @@
     "icon": 14,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "silence",
+          "turns": 3
+        }
+      ]
+    }
   },
   {
     "id": "86",
@@ -306,7 +493,25 @@
     "icon": 36,
     "buyPrice": 80,
     "sellPrice": 40,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 15
+        },
+        {
+          "kind": "healMp",
+          "amount": 15
+        },
+        {
+          "kind": "curePoison",
+          "poisonId": "551"
+        }
+      ]
+    }
   },
   {
     "id": "87",
@@ -318,7 +523,17 @@
     "icon": 148,
     "buyPrice": 50,
     "sellPrice": 25,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "curePoison",
+          "poisonId": "551"
+        }
+      ]
+    }
   },
   {
     "id": "88",
@@ -331,7 +546,21 @@
     "icon": 222,
     "buyPrice": 150,
     "sellPrice": 75,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "curePoison",
+          "poisonId": "551"
+        },
+        {
+          "kind": "curePoison",
+          "poisonId": "553"
+        }
+      ]
+    }
   },
   {
     "id": "89",
@@ -343,7 +572,17 @@
     "icon": 165,
     "buyPrice": 330,
     "sellPrice": 165,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "curePoison",
+          "maxLevel": 2
+        }
+      ]
+    }
   },
   {
     "id": "90",
@@ -380,7 +619,21 @@
     "icon": 37,
     "buyPrice": 25,
     "sellPrice": 12,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 20
+        },
+        {
+          "kind": "healMp",
+          "amount": 20
+        }
+      ]
+    }
   },
   {
     "id": "93",
@@ -392,7 +645,21 @@
     "icon": 151,
     "buyPrice": 40,
     "sellPrice": 20,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 30
+        },
+        {
+          "kind": "healMp",
+          "amount": 30
+        }
+      ]
+    }
   },
   {
     "id": "94",
@@ -404,7 +671,17 @@
     "icon": 155,
     "buyPrice": 170,
     "sellPrice": 85,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 85
+        }
+      ]
+    }
   },
   {
     "id": "95",
@@ -417,7 +694,17 @@
     "icon": 154,
     "buyPrice": 550,
     "sellPrice": 275,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "revive",
+          "hpPercent": 10
+        }
+      ]
+    }
   },
   {
     "id": "96",
@@ -430,7 +717,17 @@
     "icon": 153,
     "buyPrice": 1500,
     "sellPrice": 750,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "revive",
+          "hpPercent": 30
+        }
+      ]
+    }
   },
   {
     "id": "97",
@@ -442,7 +739,17 @@
     "icon": 42,
     "buyPrice": 2800,
     "sellPrice": 1400,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "revive",
+          "hpPercent": 50
+        }
+      ]
+    }
   },
   {
     "id": "98",
@@ -455,7 +762,17 @@
     "icon": 166,
     "buyPrice": 5000,
     "sellPrice": 2500,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "revive",
+          "hpPercent": 100
+        }
+      ]
+    }
   },
   {
     "id": "99",
@@ -467,7 +784,17 @@
     "icon": 136,
     "buyPrice": 50,
     "sellPrice": 25,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 50
+        }
+      ]
+    }
   },
   {
     "id": "100",
@@ -479,7 +806,17 @@
     "icon": 137,
     "buyPrice": 120,
     "sellPrice": 60,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 100
+        }
+      ]
+    }
   },
   {
     "id": "101",
@@ -491,7 +828,17 @@
     "icon": 138,
     "buyPrice": 280,
     "sellPrice": 140,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 200
+        }
+      ]
+    }
   },
   {
     "id": "102",
@@ -504,7 +851,17 @@
     "icon": 46,
     "buyPrice": 600,
     "sellPrice": 300,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 450
+        }
+      ]
+    }
   },
   {
     "id": "103",
@@ -517,7 +874,17 @@
     "icon": 179,
     "buyPrice": 1700,
     "sellPrice": 850,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 1000
+        }
+      ]
+    }
   },
   {
     "id": "104",
@@ -530,7 +897,17 @@
     "icon": 142,
     "buyPrice": 80,
     "sellPrice": 40,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healMp",
+          "amount": 36
+        }
+      ]
+    }
   },
   {
     "id": "105",
@@ -542,7 +919,17 @@
     "icon": 195,
     "buyPrice": 200,
     "sellPrice": 100,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healMp",
+          "amount": 50
+        }
+      ]
+    }
   },
   {
     "id": "106",
@@ -555,7 +942,17 @@
     "icon": 139,
     "buyPrice": 440,
     "sellPrice": 220,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healMp",
+          "amount": 110
+        }
+      ]
+    }
   },
   {
     "id": "107",
@@ -568,7 +965,17 @@
     "icon": 45,
     "buyPrice": 900,
     "sellPrice": 450,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healMp",
+          "amount": 260
+        }
+      ]
+    }
   },
   {
     "id": "108",
@@ -581,7 +988,17 @@
     "icon": 143,
     "buyPrice": 2000,
     "sellPrice": 1000,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healMp",
+          "amount": 400
+        }
+      ]
+    }
   },
   {
     "id": "109",
@@ -594,7 +1011,17 @@
     "icon": 163,
     "buyPrice": 4000,
     "sellPrice": 2000,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healMp",
+          "amount": 700
+        }
+      ]
+    }
   },
   {
     "id": "110",
@@ -606,7 +1033,21 @@
     "icon": 41,
     "buyPrice": 5500,
     "sellPrice": 2750,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 440
+        },
+        {
+          "kind": "healMp",
+          "amount": 440
+        }
+      ]
+    }
   },
   {
     "id": "111",
@@ -618,7 +1059,21 @@
     "icon": 109,
     "buyPrice": 2500,
     "sellPrice": 1250,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 250
+        },
+        {
+          "kind": "healMp",
+          "amount": 250
+        }
+      ]
+    }
   },
   {
     "id": "112",
@@ -631,7 +1086,18 @@
     "icon": 147,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "permanentStatBoost",
+          "stat": "magicAttack",
+          "delta": 3
+        }
+      ]
+    }
   },
   {
     "id": "113",
@@ -644,7 +1110,18 @@
     "icon": 135,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "permanentStatBoost",
+          "stat": "defense",
+          "delta": 3
+        }
+      ]
+    }
   },
   {
     "id": "114",
@@ -656,7 +1133,18 @@
     "icon": 108,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "permanentStatBoost",
+          "stat": "defense",
+          "delta": 2
+        }
+      ]
+    }
   },
   {
     "id": "115",
@@ -679,7 +1167,17 @@
     "icon": 115,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "552"
+        }
+      ]
+    }
   },
   {
     "id": "117",
@@ -691,7 +1189,17 @@
     "icon": 189,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "551"
+        }
+      ]
+    }
   },
   {
     "id": "118",
@@ -703,7 +1211,17 @@
     "icon": 200,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "551"
+        }
+      ]
+    }
   },
   {
     "id": "119",
@@ -715,7 +1233,17 @@
     "icon": 190,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "551"
+        }
+      ]
+    }
   },
   {
     "id": "120",
@@ -727,7 +1255,17 @@
     "icon": 199,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "551"
+        }
+      ]
+    }
   },
   {
     "id": "121",
@@ -739,7 +1277,17 @@
     "icon": 203,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "551"
+        }
+      ]
+    }
   },
   {
     "id": "122",
@@ -804,7 +1352,22 @@
     "icon": 160,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "paralyzed",
+          "turns": 4
+        },
+        {
+          "kind": "healHp",
+          "amount": -1
+        }
+      ]
+    }
   },
   {
     "id": "127",
@@ -817,7 +1380,22 @@
     "icon": 171,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "sleep",
+          "turns": 3
+        },
+        {
+          "kind": "healHp",
+          "amount": -1
+        }
+      ]
+    }
   },
   {
     "id": "128",
@@ -829,7 +1407,22 @@
     "icon": 170,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "confused",
+          "turns": 3
+        },
+        {
+          "kind": "healHp",
+          "amount": -1
+        }
+      ]
+    }
   },
   {
     "id": "129",
@@ -842,7 +1435,21 @@
     "icon": 161,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "curePoison",
+          "maxLevel": 2
+        },
+        {
+          "kind": "healHp",
+          "amount": -30
+        }
+      ]
+    }
   },
   {
     "id": "130",
@@ -854,7 +1461,17 @@
     "icon": 159,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "553"
+        }
+      ]
+    }
   },
   {
     "id": "131",
@@ -866,7 +1483,21 @@
     "icon": 157,
     "buyPrice": 1200,
     "sellPrice": 600,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 150
+        },
+        {
+          "kind": "healMp",
+          "amount": 150
+        }
+      ]
+    }
   },
   {
     "id": "132",
@@ -880,7 +1511,28 @@
     "icon": 164,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "permanentStatBoost",
+          "stat": "attack",
+          "delta": 2
+        },
+        {
+          "kind": "permanentStatBoost",
+          "stat": "defense",
+          "delta": 2
+        },
+        {
+          "kind": "permanentStatBoost",
+          "stat": "magicAttack",
+          "delta": 2
+        }
+      ]
+    }
   },
   {
     "id": "133",
@@ -929,7 +1581,17 @@
     "icon": 174,
     "buyPrice": 1100,
     "sellPrice": 550,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 999
+        }
+      ]
+    }
   },
   {
     "id": "137",
@@ -979,7 +1641,22 @@
     "icon": 127,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "confused",
+          "turns": 5
+        },
+        {
+          "kind": "healHp",
+          "amount": -1
+        }
+      ]
+    }
   },
   {
     "id": "141",
@@ -1040,7 +1717,17 @@
     "icon": 130,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "allAllies",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healMp",
+          "amount": 250
+        }
+      ]
+    }
   },
   {
     "id": "146",
@@ -1087,7 +1774,17 @@
     "icon": 126,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": 1000
+        }
+      ]
+    }
   },
   {
     "id": "150",
@@ -1123,7 +1820,18 @@
     "icon": 123,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "puppet",
+          "turns": 9
+        }
+      ]
+    }
   },
   {
     "id": "153",
@@ -1210,7 +1918,17 @@
     "icon": 72,
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "554"
+        }
+      ]
+    }
   },
   {
     "id": "160",
@@ -4263,7 +4981,25 @@
     "icon": 19,
     "buyPrice": 500,
     "sellPrice": 250,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "healHp",
+          "amount": -9
+        },
+        {
+          "kind": "removeStatus",
+          "statuses": [
+            "paralyzed",
+            "sleep",
+            "confused"
+          ]
+        }
+      ]
+    }
   },
   {
     "id": "256",
@@ -4812,7 +5548,17 @@
     "icon": 215,
     "buyPrice": 2000,
     "sellPrice": 1000,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "curePoison",
+          "maxLevel": 3
+        }
+      ]
+    }
   },
   {
     "id": "279",

@@ -134,6 +134,80 @@
       }
     },
     {
+      "id": "303",
+      "name": "回梦",
+      "desc": "敌方单人昏睡四回合。",
+      "cost": {
+        "mp": 20
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "gate",
+          "chance": 60
+        },
+        {
+          "kind": "applyStatus",
+          "status": "sleep",
+          "turns": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 40
+      }
+    },
+    {
+      "id": "304",
+      "name": "夺魂",
+      "desc": "吸取敌人魂魄，中者立毙。",
+      "cost": {
+        "mp": 83
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "gate",
+          "magicResist": true
+        },
+        {
+          "kind": "gate",
+          "chance": 33
+        },
+        {
+          "kind": "instantKill"
+        }
+      ],
+      "animation": {
+        "effectSprite": 39
+      }
+    },
+    {
+      "id": "305",
+      "name": "鬼降",
+      "desc": "敌方单人疯魔四回合。",
+      "cost": {
+        "mp": 25
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "gate",
+          "chance": 44
+        },
+        {
+          "kind": "applyStatus",
+          "status": "confused",
+          "turns": 4
+        }
+      ],
+      "animation": {
+        "effectSprite": 41
+      }
+    },
+    {
       "id": "306",
       "name": "净衣咒",
       "desc": "解赤毒、尸毒、瘴毒。",
@@ -170,6 +244,33 @@
       "usableOutsideBattle": false,
       "target": "oneAlly",
       "effects": [
+        {
+          "kind": "removeStatus",
+          "statuses": [
+            "confused",
+            "paralyzed",
+            "sleep"
+          ]
+        }
+      ],
+      "animation": {
+        "effectSprite": 28
+      }
+    },
+    {
+      "id": "308",
+      "name": "灵血咒",
+      "desc": "解赤毒、尸毒、瘴毒、毒丝\n、麻痹、催眠、疯魔、咒封",
+      "cost": {
+        "mp": 10
+      },
+      "usableOutsideBattle": false,
+      "target": "oneAlly",
+      "effects": [
+        {
+          "kind": "curePoison",
+          "maxLevel": 2
+        },
         {
           "kind": "removeStatus",
           "statuses": [
@@ -1299,6 +1400,35 @@
       ],
       "animation": {
         "effectSprite": 49
+      }
+    },
+    {
+      "id": "384",
+      "name": "灵葫咒",
+      "desc": "当妖物体力低于四分之一时，\n可将其收入紫金葫芦中炼药。",
+      "cost": {
+        "mp": 24
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "gate",
+          "hpAtMostPercent": 25
+        },
+        {
+          "kind": "gate",
+          "chance": 60
+        },
+        {
+          "kind": "collectTreasure"
+        },
+        {
+          "kind": "instantKill"
+        }
+      ],
+      "animation": {
+        "effectSprite": 39
       }
     },
     {
