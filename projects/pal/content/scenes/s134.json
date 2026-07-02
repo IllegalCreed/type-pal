@@ -13,13 +13,66 @@
   },
   "entities": [
     {
+      "id": "e2317",
+      "pos": {
+        "col": 43,
+        "row": 9,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s132",
+                    "pos": {
+                      "col": 58,
+                      "row": 40,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e2318",
       "pos": {
         "col": 32,
         "row": 2,
         "height": 0
       },
-      "sprite": "npc-415"
+      "sprite": "npc-415",
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.5433",
+                      "speaker": "spk.妓　女"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2319",
@@ -30,7 +83,63 @@
       },
       "sprite": "npc-106",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.5441",
+                      "speaker": "spk.嫖　客"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2319",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2319",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.6249"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.6250"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2320",
@@ -40,7 +149,41 @@
         "height": 0
       },
       "sprite": "npc-323",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.6252",
+                      "speaker": "spk.莺莺夫人",
+                      "slot": "top"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.6256",
+                      "speaker": "spk.莺莺夫人"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2321",
@@ -51,7 +194,51 @@
       },
       "sprite": "npc-147",
       "facing": "right",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2321",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2321",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.6249"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.6250"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": []

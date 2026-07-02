@@ -55,6 +55,199 @@
     },
     "facing": "down"
   },
-  "entities": [],
+  "entities": [
+    {
+      "id": "e4707",
+      "pos": {
+        "col": 102,
+        "row": 59,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s271",
+                    "pos": {
+                      "col": 125,
+                      "row": 61,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4708",
+      "pos": {
+        "col": 66,
+        "row": 34,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s271",
+                    "pos": {
+                      "col": 142,
+                      "row": 51,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4709",
+      "pos": {
+        "col": 38,
+        "row": 12,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s271",
+                    "pos": {
+                      "col": 123,
+                      "row": 45,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4710",
+      "pos": {
+        "col": 60,
+        "row": -12,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s271",
+                    "pos": {
+                      "col": 143,
+                      "row": 45,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4711",
+      "pos": {
+        "col": 86,
+        "row": 12,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s271",
+                    "pos": {
+                      "col": 131,
+                      "row": 51,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e4712",
+      "pos": {
+        "col": 108,
+        "row": 33,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s271",
+                    "pos": {
+                      "col": 133,
+                      "row": 45,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
   "dialogues": []
 }

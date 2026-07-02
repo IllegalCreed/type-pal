@@ -61,5 +61,143 @@
       "hidden": true
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 92,
+            "row": 36,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            4,
+            72,
+            0
+          ]
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10190",
+            "speaker": "spk.李逍遥",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 280
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e3342",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e3342",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10192",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 40
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e3342",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e3342",
+          "frame": 1
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e3344",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e3345",
+          "state": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 120
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e3342",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e3342",
+          "frame": 2
+        },
+        {
+          "kind": "wait",
+          "ms": 120
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e3343",
+          "state": 0
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e3345",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e3345",
+          "frame": 2
+        },
+        {
+          "kind": "wait",
+          "ms": 320
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e3345",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e3345",
+          "frame": 3
+        },
+        {
+          "kind": "wait",
+          "ms": 400
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s198"
+        }
+      ]
+    }
+  ]
 }

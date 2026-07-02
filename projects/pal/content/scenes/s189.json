@@ -22,6 +22,70 @@
   },
   "entities": [
     {
+      "id": "e3160",
+      "pos": {
+        "col": 139,
+        "row": 104,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s181",
+                    "pos": {
+                      "col": 94,
+                      "row": -16,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3161",
+      "pos": {
+        "col": 100,
+        "row": -14,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s181",
+                    "pos": {
+                      "col": 87,
+                      "row": 73,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e3162",
       "pos": {
         "col": 145,
@@ -29,7 +93,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      205,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3163",
@@ -39,7 +127,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      207,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3164",
@@ -49,7 +161,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      209,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3165",
@@ -59,7 +195,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      211,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3166",
@@ -69,7 +229,31 @@
         "height": 0
       },
       "sprite": "npc-462",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      213,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3167",
@@ -79,7 +263,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      204,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3168",
@@ -89,7 +297,31 @@
         "height": 0
       },
       "sprite": "npc-462",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      213,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3169",
@@ -100,7 +332,31 @@
       },
       "sprite": "npc-11",
       "collide": true,
-      "zBias": 10
+      "zBias": 10,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      374,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3170",
@@ -111,7 +367,31 @@
       },
       "sprite": "npc-11",
       "collide": true,
-      "zBias": 10
+      "zBias": 10,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      217,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3171",
@@ -121,7 +401,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      210,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3172",
@@ -131,7 +435,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      214,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3173",
@@ -142,7 +470,31 @@
       },
       "sprite": "npc-11",
       "collide": true,
-      "zBias": 10
+      "zBias": 10,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      217,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3174",
@@ -152,7 +504,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      210,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3175",
@@ -162,7 +538,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      208,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3176",
@@ -172,7 +572,31 @@
         "height": 0
       },
       "sprite": "npc-462",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      216,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3177",
@@ -182,7 +606,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      211,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3178",
@@ -193,7 +641,31 @@
       },
       "sprite": "npc-11",
       "collide": true,
-      "zBias": 10
+      "zBias": 10,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      215,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3179",
@@ -203,7 +675,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      207,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3180",
@@ -213,7 +709,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      204,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3181",
@@ -224,7 +744,31 @@
       },
       "sprite": "npc-11",
       "collide": true,
-      "zBias": 10
+      "zBias": 10,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      217,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3182",
@@ -234,7 +778,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      208,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3183",
@@ -244,7 +812,31 @@
         "height": 0
       },
       "sprite": "npc-462",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      213,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3184",
@@ -255,7 +847,31 @@
       },
       "sprite": "npc-11",
       "collide": true,
-      "zBias": 10
+      "zBias": 10,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      374,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3185",
@@ -265,7 +881,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      205,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3186",
@@ -275,7 +915,31 @@
         "height": 0
       },
       "sprite": "npc-60",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      208,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3187",
@@ -285,7 +949,53 @@
         "height": 0
       },
       "sprite": "npc-10",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 4,
+                    "operands": [
+                      36505,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12433",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "142"
+                  }
+                ],
+                "next": 1
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12222",
+                      "slot": "narration"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3188",
@@ -295,7 +1005,53 @@
         "height": 0
       },
       "sprite": "npc-10",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 4,
+                    "operands": [
+                      36505,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12378",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "151"
+                  }
+                ],
+                "next": 1
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12222",
+                      "slot": "narration"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3189",
@@ -305,7 +1061,53 @@
         "height": 0
       },
       "sprite": "npc-10",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 4,
+                    "operands": [
+                      36505,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12372",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "113"
+                  }
+                ],
+                "next": 1
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12222",
+                      "slot": "narration"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3190",
@@ -315,7 +1117,53 @@
         "height": 0
       },
       "sprite": "npc-10",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 4,
+                    "operands": [
+                      36505,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12434",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "143"
+                  }
+                ],
+                "next": 1
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12222",
+                      "slot": "narration"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3191",
@@ -325,7 +1173,53 @@
         "height": 0
       },
       "sprite": "npc-10",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 4,
+                    "operands": [
+                      36505,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12363",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "96"
+                  }
+                ],
+                "next": 1
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12222",
+                      "slot": "narration"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3192",
@@ -335,7 +1229,53 @@
         "height": 0
       },
       "sprite": "npc-10",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 4,
+                    "operands": [
+                      36505,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12435",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "146"
+                  }
+                ],
+                "next": 1
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12222",
+                      "slot": "narration"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3193",
@@ -345,7 +1285,53 @@
         "height": 0
       },
       "sprite": "npc-10",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 4,
+                    "operands": [
+                      36505,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12379",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "152"
+                  }
+                ],
+                "next": 1
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12222",
+                      "slot": "narration"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3194",
@@ -355,7 +1341,53 @@
         "height": 0
       },
       "sprite": "npc-10",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 4,
+                    "operands": [
+                      36505,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12443",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "255"
+                  }
+                ],
+                "next": 1
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12222",
+                      "slot": "narration"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": []

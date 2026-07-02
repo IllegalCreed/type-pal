@@ -29,6 +29,70 @@
   },
   "entities": [
     {
+      "id": "e1762",
+      "pos": {
+        "col": 61,
+        "row": 30,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s083",
+                    "pos": {
+                      "col": 64,
+                      "row": 12,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1763",
+      "pos": {
+        "col": 53,
+        "row": 15,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s094",
+                    "pos": {
+                      "col": 91,
+                      "row": 15,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e1764",
       "pos": {
         "col": 65,
@@ -37,7 +101,114 @@
       },
       "sprite": "npc-319",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.5198",
+                      "speaker": "spk.煮饭婆"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1765",
+      "pos": {
+        "col": 57,
+        "row": 24,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12471",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "76"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1766",
+      "pos": {
+        "col": 66,
+        "row": 21,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12482",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "94"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": []

@@ -11,6 +11,1113 @@
     },
     "facing": "down"
   },
-  "entities": [],
+  "entities": [
+    {
+      "id": "e3217",
+      "pos": {
+        "col": 126,
+        "row": 43,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s176",
+                    "pos": {
+                      "col": 110,
+                      "row": 77,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3218",
+      "pos": {
+        "col": 93,
+        "row": 31,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s176",
+                    "pos": {
+                      "col": 108,
+                      "row": 46,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3219",
+      "pos": {
+        "col": 81,
+        "row": -15,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s176",
+                    "pos": {
+                      "col": 132,
+                      "row": 64,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3220",
+      "pos": {
+        "col": 44,
+        "row": 3,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s176",
+                    "pos": {
+                      "col": 92,
+                      "row": 42,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3221",
+      "pos": {
+        "col": 112,
+        "row": 76,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s176",
+                    "pos": {
+                      "col": 132,
+                      "row": 46,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3222",
+      "pos": {
+        "col": 64,
+        "row": -13,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12494",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "109"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3223",
+      "pos": {
+        "col": 64,
+        "row": -14,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12487",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "101"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3224",
+      "pos": {
+        "col": 65,
+        "row": -17,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12483",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "95"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3225",
+      "pos": {
+        "col": 69,
+        "row": -22,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12527",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "256"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3226",
+      "pos": {
+        "col": 99,
+        "row": 71,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12477",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "86"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3227",
+      "pos": {
+        "col": 99,
+        "row": 69,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12477",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "86"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3228",
+      "pos": {
+        "col": 99,
+        "row": 72,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12477",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "86"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3229",
+      "pos": {
+        "col": 101,
+        "row": 65,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12501",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "128"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3230",
+      "pos": {
+        "col": 76,
+        "row": 30,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12495",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "131"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3231",
+      "pos": {
+        "col": 75,
+        "row": 25,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12474",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "78"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3232",
+      "pos": {
+        "col": 75,
+        "row": 26,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12496",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "111"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3233",
+      "pos": {
+        "col": 75,
+        "row": 33,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12479",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "88"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3234",
+      "pos": {
+        "col": 75,
+        "row": 35,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12479",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "88"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3235",
+      "pos": {
+        "col": 28,
+        "row": -5,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12484",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "96"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3236",
+      "pos": {
+        "col": 28,
+        "row": 4,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12493",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "108"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3237",
+      "pos": {
+        "col": 30,
+        "row": 6,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12477",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "86"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3238",
+      "pos": {
+        "col": 31,
+        "row": 8,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12477",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "86"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3239",
+      "pos": {
+        "col": 37,
+        "row": -9,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12491",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "106"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3240",
+      "pos": {
+        "col": 35,
+        "row": -9,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12525",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "253"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3241",
+      "pos": {
+        "col": 39,
+        "row": -9,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12487",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "101"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3242",
+      "pos": {
+        "col": 129,
+        "row": 26,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12497",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "110"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3243",
+      "pos": {
+        "col": 131,
+        "row": 26,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12499",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "126"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
   "dialogues": []
 }

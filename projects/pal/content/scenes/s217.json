@@ -43,13 +43,229 @@
   },
   "entities": [
     {
+      "id": "e3687",
+      "pos": {
+        "col": 88,
+        "row": 33,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s217",
+                    "pos": {
+                      "col": 60,
+                      "row": 26,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3688",
+      "pos": {
+        "col": 127,
+        "row": 29,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s217",
+                    "pos": {
+                      "col": 87,
+                      "row": -14,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3689",
+      "pos": {
+        "col": 48,
+        "row": -19,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s219",
+                    "pos": {
+                      "col": 46,
+                      "row": -12,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3690",
+      "pos": {
+        "col": 106,
+        "row": 52,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s219",
+                    "pos": {
+                      "col": 65,
+                      "row": 26,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3691",
+      "pos": {
+        "col": 112,
+        "row": 86,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s219",
+                    "pos": {
+                      "col": 89,
+                      "row": 47,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3692",
+      "pos": {
+        "col": 141,
+        "row": 82,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s219",
+                    "pos": {
+                      "col": 125,
+                      "row": 27,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e3693",
       "pos": {
         "col": 85,
         "row": 34,
         "height": 0
       },
-      "sprite": "npc-488"
+      "sprite": "npc-488",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      146,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3694",
@@ -58,7 +274,31 @@
         "row": 30,
         "height": 0
       },
-      "sprite": "npc-488"
+      "sprite": "npc-488",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      330,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3695",
@@ -67,7 +307,31 @@
         "row": 32,
         "height": 0
       },
-      "sprite": "npc-472"
+      "sprite": "npc-472",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      349,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3696",
@@ -76,7 +340,31 @@
         "row": 42,
         "height": 0
       },
-      "sprite": "npc-488"
+      "sprite": "npc-488",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      148,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3697",
@@ -85,7 +373,31 @@
         "row": 56,
         "height": 0
       },
-      "sprite": "npc-488"
+      "sprite": "npc-488",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      43,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3698",
@@ -94,7 +406,31 @@
         "row": 67,
         "height": 0
       },
-      "sprite": "npc-472"
+      "sprite": "npc-472",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      340,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3699",
@@ -103,7 +439,31 @@
         "row": 83,
         "height": 0
       },
-      "sprite": "npc-472"
+      "sprite": "npc-472",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      56,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3700",
@@ -112,7 +472,31 @@
         "row": 86,
         "height": 0
       },
-      "sprite": "npc-488"
+      "sprite": "npc-488",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      335,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3701",
@@ -121,7 +505,31 @@
         "row": 83,
         "height": 0
       },
-      "sprite": "npc-488"
+      "sprite": "npc-488",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      148,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3702",
@@ -130,7 +538,31 @@
         "row": 87,
         "height": 0
       },
-      "sprite": "npc-11"
+      "sprite": "npc-11",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      46,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3703",
@@ -139,7 +571,31 @@
         "row": 67,
         "height": 0
       },
-      "sprite": "npc-488"
+      "sprite": "npc-488",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      43,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3704",
@@ -148,7 +604,31 @@
         "row": 56,
         "height": 0
       },
-      "sprite": "npc-472"
+      "sprite": "npc-472",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      57,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3705",
@@ -157,7 +637,31 @@
         "row": 51,
         "height": 0
       },
-      "sprite": "npc-488"
+      "sprite": "npc-488",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      334,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3706",
@@ -166,7 +670,31 @@
         "row": 32,
         "height": 0
       },
-      "sprite": "npc-11"
+      "sprite": "npc-11",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      215,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3707",
@@ -175,7 +703,31 @@
         "row": 27,
         "height": 0
       },
-      "sprite": "npc-488"
+      "sprite": "npc-488",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      353,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3708",
@@ -184,7 +736,31 @@
         "row": 84,
         "height": 0
       },
-      "sprite": "npc-472"
+      "sprite": "npc-472",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      57,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3709",
@@ -193,7 +769,31 @@
         "row": 80,
         "height": 0
       },
-      "sprite": "npc-488"
+      "sprite": "npc-488",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      43,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3710",
@@ -202,7 +802,31 @@
         "row": 50,
         "height": 0
       },
-      "sprite": "npc-472"
+      "sprite": "npc-472",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      56,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3711",
@@ -211,7 +835,31 @@
         "row": 56,
         "height": 0
       },
-      "sprite": "npc-472"
+      "sprite": "npc-472",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      349,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": []

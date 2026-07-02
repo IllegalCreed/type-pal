@@ -121,5 +121,99 @@
       "facing": "left"
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 33,
+            "row": 3,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            232,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 117,
+          "operands": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 53,
+          "operands": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 54,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 26
+        },
+        {
+          "kind": "wait",
+          "ms": 1000
+        },
+        {
+          "kind": "playSound",
+          "soundId": 117
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 55,
+          "operands": [
+            0,
+            0,
+            14
+          ]
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e1338",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e1337",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e1339",
+          "state": 0
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s060"
+        }
+      ]
+    }
+  ]
 }

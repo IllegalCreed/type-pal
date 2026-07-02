@@ -29,6 +29,38 @@
   },
   "entities": [
     {
+      "id": "e1486",
+      "pos": {
+        "col": 92,
+        "row": 18,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s079",
+                    "pos": {
+                      "col": 79,
+                      "row": 53,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e1487",
       "pos": {
         "col": 101,
@@ -114,5 +146,379 @@
       "zBias": 6
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            193,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 117,
+          "operands": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 99,
+            "row": 23,
+            "height": 0
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 640
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e1488",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e1488",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 800
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4469",
+            "speaker": "spk.韩医仙"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4471",
+            "speaker": "spk.韩梦慈",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e1489",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e1489",
+          "frame": 0
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e1488",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e1488",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 36,
+          "operands": [
+            1489,
+            12913,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 400
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4474",
+            "speaker": "spk.林月如",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4476",
+            "speaker": "spk.韩医仙"
+          }
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e1493",
+          "state": 0
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 117,
+          "operands": [
+            1,
+            3,
+            0
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 125,
+          "operands": [
+            1489,
+            32,
+            16
+          ]
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e1489",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e1489",
+          "frame": 0
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 34,
+          "operands": [
+            1,
+            10,
+            0
+          ]
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4478",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4480",
+            "speaker": "spk.韩医仙"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4482"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4484",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4487",
+            "speaker": "spk.韩医仙"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4490"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4493",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4495",
+            "speaker": "spk.韩医仙"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4496"
+          }
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e1488",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e1489",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e1490",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e1491",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e1492",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e908",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e910",
+          "state": 2
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e909",
+          "state": 2
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 36,
+          "operands": [
+            909,
+            35636,
+            0
+          ]
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e906",
+          "state": 2
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e923",
+          "state": 1
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e898",
+          "state": 2
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 37,
+          "operands": [
+            909,
+            10903,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 37,
+          "operands": [
+            906,
+            10906,
+            0
+          ]
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4498",
+            "slot": "narration"
+          }
+        }
+      ]
+    }
+  ]
 }

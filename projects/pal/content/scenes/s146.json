@@ -13,6 +13,262 @@
   },
   "entities": [
     {
+      "id": "e2403",
+      "pos": {
+        "col": 72,
+        "row": -25,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s166",
+                    "pos": {
+                      "col": 63,
+                      "row": -27,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2404",
+      "pos": {
+        "col": 72,
+        "row": -9,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e2406",
+                    "state": 1
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 115,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 110,
+                    "operands": [
+                      65520,
+                      8,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8742",
+                      "speaker": "spk.镇狱明王"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8744",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8746",
+                      "speaker": "spk.镇狱明王",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8749",
+                      "speaker": "spk.林月如"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8751",
+                      "speaker": "spk.镇狱明王",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8754",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8757",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8760",
+                      "speaker": "spk.镇狱明王",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8761",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8765",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8769",
+                      "speaker": "spk.镇狱明王",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8771",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8773",
+                      "speaker": "spk.镇狱明王",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8775",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8778",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e2406",
+                    "state": 0
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 115,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e2405",
       "pos": {
         "col": 71,
@@ -23,5 +279,40 @@
       "hidden": true
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 117,
+          "operands": [
+            1,
+            3,
+            0
+          ]
+        },
+        {
+          "kind": "setBattleField",
+          "fieldId": 40
+        },
+        {
+          "kind": "setBattleMusic",
+          "musicId": 43
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 72,
+            "row": -2,
+            "height": 0
+          }
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 80
+        }
+      ]
+    }
+  ]
 }

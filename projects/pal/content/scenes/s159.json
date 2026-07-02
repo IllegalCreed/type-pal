@@ -37,7 +37,82 @@
       },
       "sprite": "npc-358",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8352",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8353"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8357",
+                      "speaker": "spk.剑圣",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8359",
+                      "speaker": "spk.李逍遥"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8361",
+                      "speaker": "spk.剑圣",
+                      "slot": "top"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8363",
+                      "speaker": "spk.剑圣",
+                      "slot": "top"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2651",
@@ -48,7 +123,156 @@
       },
       "sprite": "npc-16",
       "facing": "right",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.8366",
+                      "speaker": "spk.酒剑仙"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2652",
+      "pos": {
+        "col": 112,
+        "row": 80,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 4,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s158",
+                    "pos": {
+                      "col": 119,
+                      "row": 45,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2653",
+      "pos": {
+        "col": 110,
+        "row": 30,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s159",
+                    "pos": {
+                      "col": 117,
+                      "row": 76,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2654",
+      "pos": {
+        "col": 102,
+        "row": 39,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s161",
+                    "pos": {
+                      "col": 116,
+                      "row": 75,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2655",
+      "pos": {
+        "col": 97,
+        "row": 44,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s161",
+                    "pos": {
+                      "col": 68,
+                      "row": 30,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2656",
@@ -231,5 +455,450 @@
       "zBias": 4
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 123,
+          "operands": [
+            22,
+            89,
+            1
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 123,
+          "operands": [
+            23,
+            90,
+            1
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 123,
+          "operands": [
+            33,
+            80,
+            1
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 123,
+          "operands": [
+            32,
+            79,
+            1
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 40
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8278",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2651",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2651",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2651",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2651",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 40
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8280",
+            "speaker": "spk.剑圣",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8282",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2651",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2651",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8285",
+            "speaker": "spk.剑圣",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8288",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8290",
+            "speaker": "spk.剑圣",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2651",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2651",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8294",
+            "speaker": "spk.剑圣",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8298",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8302",
+            "speaker": "spk.剑圣",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8304",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8307",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8309",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8311",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8314",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "wait",
+          "ms": 400
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8316",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8319",
+            "speaker": "spk.剑圣",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8324",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2651",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2651",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8326",
+            "speaker": "spk.剑圣",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2651",
+          "facing": "up"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2651",
+          "frame": 0
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8329",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8331",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8335",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8339",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8343",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8346",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8348",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
+    }
+  ]
 }

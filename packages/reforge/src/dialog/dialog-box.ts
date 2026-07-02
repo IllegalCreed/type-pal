@@ -32,6 +32,14 @@ const POS = {
     titleWithPortrait: { x: 80, y: 8 },
     portrait: { x: 48, y: 55 },
   },
+  // 中央叙述窗(原版 0x3E:宝箱拾取/旁白)。M3a 复用正文排版居中放;专用窗框绘制 M3b 细化。
+  narration: {
+    text: { x: 60, y: 88 },
+    title: { x: 60, y: 72 },
+    textWithPortrait: { x: 60, y: 88 },
+    titleWithPortrait: { x: 60, y: 72 },
+    portrait: { x: -100, y: -100 }, // 叙述窗无头像
+  },
 } as const
 const MAX_RIGHT = 308 // 正文右边距 → 每行可用 264px(无头像)
 const CURSOR_RESERVE = 12 // 末行末尾给光标留位,防顶出屏幕

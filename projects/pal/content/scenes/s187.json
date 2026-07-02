@@ -36,6 +36,70 @@
   },
   "entities": [
     {
+      "id": "e3150",
+      "pos": {
+        "col": 111,
+        "row": 14,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s187",
+                    "pos": {
+                      "col": 95,
+                      "row": 81,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3151",
+      "pos": {
+        "col": 90,
+        "row": 68,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s185",
+                    "pos": {
+                      "col": 98,
+                      "row": 79,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e3152",
       "pos": {
         "col": 105,
@@ -53,8 +117,74 @@
         "height": 0
       },
       "sprite": "npc-271",
-      "zBias": -2
+      "zBias": -2,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 64,
+                    "operands": [
+                      65535,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e3154",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e3154",
+                    "frame": 1
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 36,
+                    "operands": [
+                      3153,
+                      36518,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e3153",
+                    "state": 1
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e3154",
+                    "state": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "setBattleField",
+          "fieldId": 14
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 36
+        }
+      ]
+    }
+  ]
 }

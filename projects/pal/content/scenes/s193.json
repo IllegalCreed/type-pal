@@ -175,5 +175,73 @@
       "facing": "right"
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            232,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 117,
+          "operands": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 81,
+            "row": 10,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 147,
+          "operands": [
+            2,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 360
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10162",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10164",
+            "speaker": "spk.林月如",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s195"
+        }
+      ]
+    }
+  ]
 }

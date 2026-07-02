@@ -22,6 +22,38 @@
   },
   "entities": [
     {
+      "id": "e2246",
+      "pos": {
+        "col": 75,
+        "row": 18,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s101",
+                    "pos": {
+                      "col": 128,
+                      "row": 53,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e2247",
       "pos": {
         "col": 49,
@@ -29,7 +61,28 @@
         "height": 0
       },
       "sprite": "npc-330",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 3,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7793",
+                      "speaker": "spk.女客"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2248",
@@ -38,7 +91,28 @@
         "row": 8,
         "height": 0
       },
-      "sprite": "npc-331"
+      "sprite": "npc-331",
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 3,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7797",
+                      "speaker": "spk.女客"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2249",
@@ -47,7 +121,28 @@
         "row": 8,
         "height": 0
       },
-      "sprite": "npc-334"
+      "sprite": "npc-334",
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 3,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7800",
+                      "speaker": "spk.女客"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2250",
@@ -57,7 +152,28 @@
         "height": 0
       },
       "sprite": "npc-333",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 3,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7803",
+                      "speaker": "spk.女客"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2251",
@@ -66,7 +182,28 @@
         "row": 7,
         "height": 0
       },
-      "sprite": "npc-332"
+      "sprite": "npc-332",
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 3,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7808",
+                      "speaker": "spk.女客"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2252",
@@ -76,7 +213,28 @@
         "height": 0
       },
       "sprite": "npc-335",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 3,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7800",
+                      "speaker": "spk.女客"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2253",
@@ -85,7 +243,28 @@
         "row": 10,
         "height": 0
       },
-      "sprite": "npc-336"
+      "sprite": "npc-336",
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 3,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7797",
+                      "speaker": "spk.女客"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2254",
@@ -95,7 +274,28 @@
         "height": 0
       },
       "sprite": "npc-337",
-      "zBias": 3
+      "zBias": 3,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 3,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7808",
+                      "speaker": "spk.女客"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2255",
@@ -105,7 +305,90 @@
         "height": 0
       },
       "sprite": "npc-51",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 3,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.5640",
+                      "speaker": "spk.澡堂老板"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2256",
+      "pos": {
+        "col": 71,
+        "row": 7,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e2256",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e2256",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.5648",
+                      "speaker": "spk.澡堂老板"
+                    }
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e2258",
+                    "state": 2
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 117,
+                    "operands": [
+                      3,
+                      0,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2257",
@@ -116,7 +399,52 @@
       },
       "sprite": "npc-397",
       "facing": "right",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 117,
+                    "operands": [
+                      3,
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 72,
+                      "row": 9,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e2257",
+                    "state": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2258",
@@ -126,7 +454,40 @@
         "height": 0
       },
       "sprite": "npc-140",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7400",
+                      "speaker": "spk.澡堂女客甲"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7402",
+                      "speaker": "spk.澡堂女客甲"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2259",
@@ -137,7 +498,89 @@
       },
       "sprite": "npc-307",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7405",
+                      "speaker": "spk.澡堂女客乙"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7408",
+                      "speaker": "spk.澡堂女客甲"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7410",
+                      "speaker": "spk.澡堂女客乙"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7412",
+                      "speaker": "spk.澡堂女客甲"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7414",
+                      "speaker": "spk.澡堂女客乙"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7417"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7422",
+                      "speaker": "spk.澡堂女客乙"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": []

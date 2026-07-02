@@ -14,6 +14,38 @@
   },
   "entities": [
     {
+      "id": "e1497",
+      "pos": {
+        "col": 104,
+        "row": 82,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s084",
+                    "pos": {
+                      "col": 100,
+                      "row": -6,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e1498",
       "pos": {
         "col": 95,
@@ -39,7 +71,294 @@
         "height": 0
       },
       "sprite": "npc-97",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 64,
+                    "operands": [
+                      65535,
+                      2,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.4507",
+                      "speaker": "spk.巡捕"
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 108,
+                    "operands": [
+                      65535,
+                      65528,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 108,
+                    "operands": [
+                      65535,
+                      65528,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 108,
+                    "operands": [
+                      65535,
+                      65528,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 108,
+                    "operands": [
+                      65535,
+                      65528,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e1500",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1500",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 112,
+                    "operands": [
+                      13,
+                      75,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 110,
+                    "operands": [
+                      8,
+                      65532,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 110,
+                    "operands": [
+                      8,
+                      65532,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 110,
+                    "operands": [
+                      8,
+                      65532,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 110,
+                    "operands": [
+                      8,
+                      65532,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 110,
+                    "operands": [
+                      8,
+                      65532,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e1502",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1502",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "entity": "e1503",
+                    "facing": "left"
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "entity": "e1503",
+                    "frame": 0
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 108,
+                    "operands": [
+                      65535,
+                      8,
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 108,
+                    "operands": [
+                      1502,
+                      8,
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 108,
+                    "operands": [
+                      1503,
+                      65528,
+                      65532
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 110,
+                    "operands": [
+                      8,
+                      65532,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 108,
+                    "operands": [
+                      0,
+                      8,
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 108,
+                    "operands": [
+                      1502,
+                      8,
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 108,
+                    "operands": [
+                      1503,
+                      65528,
+                      65532
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 110,
+                    "operands": [
+                      8,
+                      65532,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 110,
+                    "operands": [
+                      8,
+                      65532,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s083"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1501",
@@ -50,7 +369,28 @@
       },
       "sprite": "npc-414",
       "facing": "right",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.4502",
+                      "speaker": "spk.官差"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1502",
@@ -61,7 +401,58 @@
       },
       "sprite": "npc-414",
       "facing": "left",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.4505",
+                      "speaker": "spk.官差"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1503",
+      "pos": {
+        "col": 99,
+        "row": 58,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.4742",
+                      "speaker": "spk.告示上写着"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e1504",
@@ -72,8 +463,43 @@
       },
       "sprite": "npc-342",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.5163",
+                      "speaker": "spk.路人"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "playMusic",
+          "musicId": 54
+        },
+        {
+          "kind": "setBattleMusic",
+          "musicId": 38
+        }
+      ]
+    }
+  ]
 }

@@ -67,10 +67,10 @@ export function validateReferences(b: ContentBundle): Issue[] {
         // actor → actors 表(缺 = error:引擎解析精灵会 throw)
         if (!actorIds.has(e.actor))
           issues.push({ severity: 'error', where: `${where}.actor`, message: `角色 "${e.actor}" 不在 actors 表` })
-      } else if (!spriteIds.has(e.sprite)) {
+      } else if ('sprite' in e && !spriteIds.has(e.sprite)) {
         // prop 的 sprite → sprites 注册表(缺 = error:引擎 loadSprite 会 throw)
         issues.push({ severity: 'error', where: `${where}.sprite`, message: `精灵 "${e.sprite}" 不在 sprites 注册表` })
-      }
+      } // zone:true 无视觉引用,无需校验
       // interact → 同场景 dialogues(缺 = error:startDialogue 会拿不到)
       if (e.interact && !dialogueIds.has(e.interact))
         issues.push({ severity: 'error', where: `${where}.interact`, message: `interact "${e.interact}" 不在场景 "${scene.id}" 的 dialogues` })

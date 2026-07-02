@@ -207,5 +207,160 @@
       "zBias": 10
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 70,
+            "row": -26,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            232,
+            65535
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 147,
+          "operands": [
+            2,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "playSound",
+          "soundId": 255
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4145",
+          "state": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 1000
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 153,
+          "operands": [
+            65535,
+            164,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 155,
+          "operands": [
+            2,
+            65535,
+            0
+          ]
+        },
+        {
+          "kind": "playSound",
+          "soundId": 256
+        },
+        {
+          "kind": "wait",
+          "ms": 640
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4137",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4138",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4143",
+          "state": 1
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4144",
+          "state": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4135",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4136",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4141",
+          "state": 1
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4142",
+          "state": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4133",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4134",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4139",
+          "state": 1
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4140",
+          "state": 1
+        },
+        {
+          "kind": "playSound",
+          "soundId": 256
+        },
+        {
+          "kind": "wait",
+          "ms": 1200
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s244"
+        }
+      ]
+    }
+  ]
 }

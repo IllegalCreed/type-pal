@@ -35,5 +35,183 @@
       "zBias": 20
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 119,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 108,
+            "row": 75,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            193,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 117,
+          "operands": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 140,
+          "operands": [
+            127,
+            0,
+            65535
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4438",
+          "state": 1
+        },
+        {
+          "kind": "playSound",
+          "soundId": 175
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e4438",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e4438",
+          "frame": 1
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            2,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            2,
+            65535
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "wait",
+          "ms": 320
+        },
+        {
+          "kind": "playSound",
+          "soundId": 192
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e4438",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e4438",
+          "frame": 2
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            4,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.11661",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4439",
+          "state": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 560
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        }
+      ]
+    }
+  ]
 }

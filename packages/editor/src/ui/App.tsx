@@ -126,8 +126,8 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             <div className="node child"><span className="ico">📍</span><span>进场点</span></div>
             {scene.entities.map((e) => (
               <button key={e.id} className={`node child${selected === e.id ? ' sel' : ''}`} onClick={() => setSelected(e.id)}>
-                <span className="ico">{isActorEntity(e) ? '👤' : '📦'}</span><span>{e.id}</span>
-                <span className="k">{isActorEntity(e) ? e.actor : e.sprite}</span>
+                <span className="ico">{isActorEntity(e) ? '👤' : 'sprite' in e ? '📦' : '⬚'}</span><span>{e.id}</span>
+                <span className="k">{isActorEntity(e) ? e.actor : 'sprite' in e ? e.sprite : 'zone'}</span>
               </button>
             ))}
           </div>
@@ -210,9 +210,13 @@ function EntityInspector(props: {
           ? <div className="field"><label>角色</label>
               <div className="in pick"><span>{entity.actor}</span><span className="meta">→ {spriteId ?? '(未解析)'}</span></div>
             </div>
-          : <div className="field"><label>精灵</label>
-              <div className="in pick"><span>{entity.sprite}</span><span className="meta">prop</span></div>
-            </div>}
+          : 'sprite' in entity
+            ? <div className="field"><label>精灵</label>
+                <div className="in pick"><span>{entity.sprite}</span><span className="meta">prop</span></div>
+              </div>
+            : <div className="field"><label>触发区</label>
+                <div className="in pick"><span>zone</span><span className="meta">隐形(门/脚本锚)</span></div>
+              </div>}
         <div className="field"><label>朝向</label>
           <div className="in pick"><span>{entity.facing ?? 'down'}</span><span className="meta">C1 可编</span></div>
         </div>

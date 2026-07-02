@@ -312,7 +312,10 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     const s1 = byId.get('s001')!
     expect(s1.map.reuseOriginalMap).toBe(12)
     expect(s1.map.room).toBeUndefined() // 原版无房间概念 → 整图
-    expect(s1.entities).toHaveLength(13) // 32 对象 − 19 个 spriteNum=0 触发区
+    // 32 对象 = 13 可见实体 + 19 隐形触发区(M3a 起 zone 实体随触发脚本全迁)
+    expect(s1.entities).toHaveLength(32)
+    expect(s1.entities.filter((e) => 'zone' in e)).toHaveLength(19)
+    expect(s1.entities.filter((e) => 'sprite' in e)).toHaveLength(13)
     const src1 = readScene(1)
     const firstVisible = src1.eventObjects.find((o) => o.spriteNum > 0)!
     const e = s1.entities.find((x) => x.id === `e${firstVisible.id}`)!
@@ -352,6 +355,45 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(facing(116)).toBeUndefined()
     expect(facing(118)).toBeUndefined()
     expect(out2.report.facingFromAuto).toBeGreaterThanOrEqual(4)
+  })
+  test('M3a 门模式折叠:门触发 = 单条 loadScene{scene,pos}(setPartyPos/fadeOut 被吸收)', () => {
+    const doors = out2.scenes.flatMap((s) =>
+      s.entities.flatMap((e) => e.pages?.flatMap((p) => p.trigger?.stages ?? []) ?? []),
+    ).filter((st) => st.body.some((c) => c.kind === 'loadScene'))
+    expect(doors.length).toBeGreaterThan(5)
+    const folded = doors.filter((st) => {
+      const i = st.body.findIndex((c) => c.kind === 'loadScene')
+      const ls = st.body[i]! as { kind: 'loadScene'; pos?: unknown }
+      const rest = st.body.slice(i + 1)
+      return ls.pos !== undefined && !rest.some((c) => c.kind === 'teleportParty' || c.kind === 'fade')
+    })
+    // 主流门链(loadScene setPartyPos fadeOut end)全部折叠成单命令
+    expect(folded.length).toBeGreaterThan(doors.length * 0.6)
+  })
+  test('M3a 对话成组:渔翁(s005)= speaker 行折 speaker 字段,正文行拼一页进 locale', () => {
+    const s5 = byId.get('s005')!
+    const dialogs = s5.entities.flatMap((e) =>
+      e.pages?.flatMap((p) => p.trigger?.stages.flatMap((st) => st.body) ?? []) ?? [],
+    ).filter((c): c is Extract<typeof c, { kind: 'dialog' }> => c.kind === 'dialog')
+    const yuwong = dialogs.find((d) => d.line.speaker === 'spk.渔翁')
+    expect(yuwong).toBeDefined()
+    expect(out2.scriptLocale['spk.渔翁']).toBe('渔翁')
+    const text = out2.scriptLocale[yuwong!.line.text]!
+    expect(text.startsWith('传说～当年观音菩萨')).toBe(true)
+    expect(text.length).toBeGreaterThan(20) // 多行拼接成页,不是单行
+  })
+  test('M3a stages:存在 advance 多段触发与 reset 回跳;onEnter 翻译含 playMusic', () => {
+    const allStages = out2.scenes.flatMap((s) =>
+      s.entities.flatMap((e) => e.pages?.flatMap((p) => p.trigger?.stages ?? []) ?? []),
+    )
+    expect(allStages.some((st) => st.next === 'advance')).toBe(true)
+    expect(allStages.some((st) => typeof st.next === 'number')).toBe(true)
+    const s4 = byId.get('s004')!
+    expect(s4.onEnter?.length).toBeGreaterThan(0)
+    expect(s4.onEnter![0]!.body.some((c) => c.kind === 'playMusic' && c.musicId === 49)).toBe(true)
+    // 覆盖统计存在;跳转族截断如实上报
+    expect(out2.scriptReport.chains).toBeGreaterThan(30)
+    expect(out2.scriptReport.commands).toBeGreaterThan(300)
   })
   test('精灵批量登记:npc-<num>,布局 directional×n(n>0)/ static(n=0)', () => {
     const src1 = readScene(1)

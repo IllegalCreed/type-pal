@@ -22,6 +22,346 @@
   },
   "entities": [
     {
+      "id": "e2949",
+      "pos": {
+        "col": 84,
+        "row": 4,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      40,
+                      44,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65532,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 80,
+                      "row": 0,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      38,
+                      41,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2950",
+      "pos": {
+        "col": 80,
+        "row": 0,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      40,
+                      40,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      4,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 84,
+                      "row": 4,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      41,
+                      45,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2951",
+      "pos": {
+        "col": 67,
+        "row": 12,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      27,
+                      39,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      8,
+                      48
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 91,
+                      "row": 36,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      29,
+                      65,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2952",
+      "pos": {
+        "col": 91,
+        "row": 36,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      27,
+                      63,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65528,
+                      48
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 67,
+                      "row": 12,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      28,
+                      40,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2953",
+      "pos": {
+        "col": 142,
+        "row": 36,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s187",
+                    "pos": {
+                      "col": 122,
+                      "row": 7,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "fade",
+                    "dir": "out"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2954",
+      "pos": {
+        "col": 124,
+        "row": 10,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s203",
+                    "pos": {
+                      "col": 38,
+                      "row": 25,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e2955",
       "pos": {
         "col": 94,
@@ -39,7 +379,44 @@
         "height": 0
       },
       "sprite": "npc-68",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12456",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "112"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2958",
@@ -49,7 +426,44 @@
         "height": 0
       },
       "sprite": "npc-68",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 78
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12459",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "125"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": []

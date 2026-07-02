@@ -29,6 +29,4423 @@
   },
   "entities": [
     {
+      "id": "e3043",
+      "pos": {
+        "col": 116,
+        "row": 56,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s193",
+                    "pos": {
+                      "col": 24,
+                      "row": 12,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3044",
+      "pos": {
+        "col": 107,
+        "row": 58,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      24,
+                      82,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65528,
+                      34
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 90,
+                      "row": 41,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      26,
+                      67,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3045",
+      "pos": {
+        "col": 90,
+        "row": 41,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      24,
+                      65,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      8,
+                      34
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 107,
+                      "row": 58,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      26,
+                      84,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3046",
+      "pos": {
+        "col": 99,
+        "row": 38,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      30,
+                      68,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65528,
+                      18
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 90,
+                      "row": 29,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      29,
+                      60,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3047",
+      "pos": {
+        "col": 90,
+        "row": 28,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      31,
+                      59,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      10,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 100,
+                      "row": 38,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 123,
+                    "operands": [
+                      28,
+                      66,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3048",
+      "pos": {
+        "col": 83,
+        "row": 34,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      24,
+                      58,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      6,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 88,
+                      "row": 40,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      22,
+                      62,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3049",
+      "pos": {
+        "col": 87,
+        "row": 40,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      24,
+                      64,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65530,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 82,
+                      "row": 34,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      26,
+                      60,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3050",
+      "pos": {
+        "col": 66,
+        "row": 41,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      12,
+                      53,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65532,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 64,
+                      "row": 39,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      14,
+                      49,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3051",
+      "pos": {
+        "col": 64,
+        "row": 38,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      13,
+                      51,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 67,
+                      "row": 41,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      14,
+                      55,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3052",
+      "pos": {
+        "col": 64,
+        "row": 15,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      24,
+                      39,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65529,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 57,
+                      "row": 8,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      26,
+                      34,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3053",
+      "pos": {
+        "col": 57,
+        "row": 8,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      24,
+                      32,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      14,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 64,
+                      "row": 15,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      23,
+                      41,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3054",
+      "pos": {
+        "col": 75,
+        "row": 12,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 77,
+                      "row": 14,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      29,
+                      47,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3055",
+      "pos": {
+        "col": 77,
+        "row": 15,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      31,
+                      46,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65532,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 75,
+                      "row": 13,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      33,
+                      42,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3056",
+      "pos": {
+        "col": 81,
+        "row": 19,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      31,
+                      50,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      7,
+                      32
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 95,
+                      "row": 33,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      32,
+                      65,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3057",
+      "pos": {
+        "col": 95,
+        "row": 33,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      31,
+                      64,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65529,
+                      32
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 81,
+                      "row": 19,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      32,
+                      51,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3058",
+      "pos": {
+        "col": 91,
+        "row": 9,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      41,
+                      50,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      65532,
+                      2,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      16,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      65532,
+                      2,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 99,
+                      "row": 25,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      36,
+                      63,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      35,
+                      62,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3059",
+      "pos": {
+        "col": 100,
+        "row": 26,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      37,
+                      63,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      4,
+                      65534,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65527,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      4,
+                      65534,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 91,
+                      "row": 9,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      42,
+                      51,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3060",
+      "pos": {
+        "col": 101,
+        "row": 8,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      46,
+                      54,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      47,
+                      54,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65528,
+                      42
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 80,
+                      "row": -14,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      46,
+                      34,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3061",
+      "pos": {
+        "col": 80,
+        "row": -15,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      47,
+                      32,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      16,
+                      23
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 103,
+                      "row": 8,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      45,
+                      53,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3062",
+      "pos": {
+        "col": 76,
+        "row": -6,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      41,
+                      35,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65528,
+                      18
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 67,
+                      "row": -15,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      42,
+                      27,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3063",
+      "pos": {
+        "col": 67,
+        "row": -15,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      41,
+                      26,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      9,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 76,
+                      "row": -6,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      42,
+                      36,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3064",
+      "pos": {
+        "col": 77,
+        "row": -16,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      46,
+                      30,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65528,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      4,
+                      65534,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 73,
+                      "row": -22,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      48,
+                      25,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      49,
+                      26,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3065",
+      "pos": {
+        "col": 72,
+        "row": -23,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      47,
+                      24,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      10,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      65532,
+                      2,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 77,
+                      "row": -16,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      45,
+                      29,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3066",
+      "pos": {
+        "col": 80,
+        "row": -32,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      56,
+                      24,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      9,
+                      32
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 98,
+                      "row": -14,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      54,
+                      43,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3067",
+      "pos": {
+        "col": 98,
+        "row": -14,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      56,
+                      42,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65527,
+                      32
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 80,
+                      "row": -32,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      54,
+                      25,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3068",
+      "pos": {
+        "col": 90,
+        "row": -5,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      47,
+                      42,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      11,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 101,
+                      "row": 6,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      49,
+                      55,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3069",
+      "pos": {
+        "col": 101,
+        "row": 6,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      47,
+                      53,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65528,
+                      22
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 90,
+                      "row": -5,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      49,
+                      44,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3070",
+      "pos": {
+        "col": 109,
+        "row": -1,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      55,
+                      54,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      32,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 116,
+                      "row": 5,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      54,
+                      61,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3071",
+      "pos": {
+        "col": 116,
+        "row": 4,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      56,
+                      60,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65531,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 111,
+                      "row": -1,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      53,
+                      52,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3072",
+      "pos": {
+        "col": 121,
+        "row": 41,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      40,
+                      81,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65528,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 114,
+                      "row": 33,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      42,
+                      75,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3073",
+      "pos": {
+        "col": 115,
+        "row": 33,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      40,
+                      73,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      16,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 122,
+                      "row": 41,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      38,
+                      79,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3074",
+      "pos": {
+        "col": 125,
+        "row": 30,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      47,
+                      77,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65532,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 121,
+                      "row": 26,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      49,
+                      71,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3075",
+      "pos": {
+        "col": 121,
+        "row": 25,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      47,
+                      73,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      16,
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 125,
+                      "row": 30,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      46,
+                      79,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3076",
+      "pos": {
+        "col": 102,
+        "row": 64,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      19,
+                      83,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      16,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 104,
+                      "row": 66,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      17,
+                      87,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3077",
+      "pos": {
+        "col": 104,
+        "row": 67,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      18,
+                      85,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65532,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 102,
+                      "row": 65,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      20,
+                      81,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3078",
+      "pos": {
+        "col": 96,
+        "row": 71,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      12,
+                      83,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65532,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 94,
+                      "row": 69,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      12,
+                      81,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      11,
+                      82,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3079",
+      "pos": {
+        "col": 93,
+        "row": 69,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      12,
+                      81,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 96,
+                      "row": 71,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      14,
+                      85,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3080",
+      "pos": {
+        "col": 86,
+        "row": 76,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      5,
+                      81,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65532,
+                      12
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 83,
+                      "row": 73,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      7,
+                      76,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3081",
+      "pos": {
+        "col": 84,
+        "row": 73,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      5,
+                      78,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 87,
+                      "row": 76,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      6,
+                      82,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3082",
+      "pos": {
+        "col": 84,
+        "row": 47,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      18,
+                      65,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      10,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 94,
+                      "row": 57,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      17,
+                      77,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3083",
+      "pos": {
+        "col": 94,
+        "row": 57,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      18,
+                      75,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65528,
+                      20
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 84,
+                      "row": 47,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      17,
+                      67,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3084",
+      "pos": {
+        "col": 90,
+        "row": 65,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      12,
+                      77,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65530,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      65532,
+                      65534,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 81,
+                      "row": 59,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      10,
+                      70,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3085",
+      "pos": {
+        "col": 82,
+        "row": 59,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      11,
+                      70,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      12,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      4,
+                      2,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 90,
+                      "row": 65,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      14,
+                      79,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3086",
+      "pos": {
+        "col": 69,
+        "row": 59,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      5,
+                      64,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65529,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 62,
+                      "row": 52,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      7,
+                      55,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3087",
+      "pos": {
+        "col": 63,
+        "row": 52,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      5,
+                      57,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      16,
+                      7
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 70,
+                      "row": 59,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      6,
+                      65,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3088",
+      "pos": {
+        "col": 61,
+        "row": 36,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      12,
+                      48,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65529,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      65532,
+                      65534,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 52,
+                      "row": 29,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      10,
+                      39,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3089",
+      "pos": {
+        "col": 53,
+        "row": 30,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      11,
+                      41,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      4,
+                      2,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      16,
+                      6
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 61,
+                      "row": 36,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      11,
+                      50,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3090",
+      "pos": {
+        "col": 44,
+        "row": 34,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      5,
+                      39,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65530,
+                      32
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 32,
+                      "row": 22,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      6,
+                      28,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3091",
+      "pos": {
+        "col": 32,
+        "row": 22,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      5,
+                      27,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      12,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 44,
+                      "row": 34,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      6,
+                      40,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3092",
+      "pos": {
+        "col": 35,
+        "row": 10,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      12,
+                      22,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65532,
+                      12
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      65532,
+                      65534,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 30,
+                      "row": 7,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      10,
+                      17,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3093",
+      "pos": {
+        "col": 31,
+        "row": 8,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      12,
+                      20,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 35,
+                      "row": 11,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      11,
+                      24,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3094",
+      "pos": {
+        "col": 77,
+        "row": 27,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      24,
+                      50,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      23,
+                      51,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3095",
+      "pos": {
+        "col": 74,
+        "row": 25,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      25,
+                      51,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      26,
+                      50,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3096",
+      "pos": {
+        "col": 86,
+        "row": 10,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      38,
+                      48,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      4,
+                      65534,
+                      28
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65528,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 78,
+                      "row": -4,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      39,
+                      38,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3097",
+      "pos": {
+        "col": 78,
+        "row": -4,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      41,
+                      37,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      16,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      65532,
+                      2,
+                      24
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 86,
+                      "row": 10,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      36,
+                      49,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3098",
+      "pos": {
+        "col": 67,
+        "row": -15,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      41,
+                      26,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      9,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 76,
+                      "row": -6,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      42,
+                      36,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3099",
+      "pos": {
+        "col": 76,
+        "row": -6,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      41,
+                      35,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65527,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 67,
+                      "row": -15,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      42,
+                      27,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3100",
+      "pos": {
+        "col": 55,
+        "row": -21,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      38,
+                      17,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      11,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      65532,
+                      2,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 66,
+                      "row": -8,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      35,
+                      27,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3101",
+      "pos": {
+        "col": 66,
+        "row": -8,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      37,
+                      29,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      4,
+                      65534,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65525,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 55,
+                      "row": -21,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      36,
+                      18,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3102",
+      "pos": {
+        "col": 60,
+        "row": 13,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      23,
+                      35,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      4,
+                      65534,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65520,
+                      23
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 36,
+                      "row": -13,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      23,
+                      13,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3103",
+      "pos": {
+        "col": 36,
+        "row": -13,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      24,
+                      11,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      16,
+                      23
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      65532,
+                      2,
+                      8
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 59,
+                      "row": 12,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      22,
+                      34,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3104",
+      "pos": {
+        "col": 38,
+        "row": 1,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      18,
+                      19,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      65525,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 27,
+                      "row": -10,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      20,
+                      10,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3105",
+      "pos": {
+        "col": 27,
+        "row": -10,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      18,
+                      8,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      16,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 38,
+                      "row": 1,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 127,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      20,
+                      21,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3106",
+      "pos": {
+        "col": 65,
+        "row": 3,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      32,
+                      36,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 110,
+                    "operands": [
+                      0,
+                      16,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      32,
+                      37,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3107",
+      "pos": {
+        "col": 67,
+        "row": 5,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      30,
+                      35,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      29,
+                      35,
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3108",
+      "pos": {
+        "col": 107,
+        "row": 12,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      47,
+                      59,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 109,
+                      "row": 14,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      49,
+                      63,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3109",
+      "pos": {
+        "col": 109,
+        "row": 14,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      46,
+                      60,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      46,
+                      61,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e3111",
       "pos": {
         "col": 26,
@@ -57,6 +4474,91 @@
       },
       "sprite": "npc-448",
       "hidden": true
+    },
+    {
+      "id": "e3115",
+      "pos": {
+        "col": 23,
+        "row": 7,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 3,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e65535",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e3117",
+                    "state": 1
+                  },
+                  {
+                    "kind": "playSound",
+                    "soundId": 71
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 280
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 110,
+                    "operands": [
+                      8,
+                      4,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 110,
+                    "operands": [
+                      8,
+                      4,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "setBattleField",
+                    "fieldId": 17
+                  },
+                  {
+                    "kind": "setBattleMusic",
+                    "musicId": 42
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      203,
+                      41075,
+                      0
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3116",
@@ -128,7 +4630,31 @@
         "height": 0
       },
       "sprite": "npc-488",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      145,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3123",
@@ -138,7 +4664,31 @@
         "height": 0
       },
       "sprite": "npc-61",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      197,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3124",
@@ -148,7 +4698,31 @@
         "height": 0
       },
       "sprite": "npc-514",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      196,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3125",
@@ -158,7 +4732,31 @@
         "height": 0
       },
       "sprite": "npc-61",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      201,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3126",
@@ -168,7 +4766,31 @@
         "height": 0
       },
       "sprite": "npc-488",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      145,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3127",
@@ -178,7 +4800,31 @@
         "height": 0
       },
       "sprite": "npc-514",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      195,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3128",
@@ -188,7 +4834,31 @@
         "height": 0
       },
       "sprite": "npc-61",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      199,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e3129",
@@ -198,7 +4868,31 @@
         "height": 0
       },
       "sprite": "npc-61",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 7,
+                    "operands": [
+                      201,
+                      41075,
+                      41073
+                    ],
+                    "note": "jump-family 0x7"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": []

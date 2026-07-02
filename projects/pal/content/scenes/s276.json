@@ -22,6 +22,38 @@
   },
   "entities": [
     {
+      "id": "e4733",
+      "pos": {
+        "col": 76,
+        "row": 37,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s274",
+                    "pos": {
+                      "col": 96,
+                      "row": 72,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e4734",
       "pos": {
         "col": 76,
@@ -30,7 +62,56 @@
       },
       "sprite": "npc-163",
       "facing": "right",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11987",
+                      "speaker": "spk.木匠"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 8,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.11990",
+                      "speaker": "spk.木匠"
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 38,
+                    "operands": [
+                      3,
+                      0,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "dialogues": []

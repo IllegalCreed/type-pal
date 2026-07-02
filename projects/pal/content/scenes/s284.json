@@ -20,6 +20,39 @@
     },
     "facing": "down"
   },
-  "entities": [],
+  "entities": [
+    {
+      "id": "e4806",
+      "pos": {
+        "col": 59,
+        "row": 34,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 3,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s279",
+                    "pos": {
+                      "col": 145,
+                      "row": 34,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
   "dialogues": []
 }

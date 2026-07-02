@@ -30,7 +30,95 @@
       },
       "sprite": "npc-13",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 3,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.1592",
+                      "speaker": "spk.张四哥"
+                    }
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.1594",
+                      "speaker": "spk.张四哥"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "100"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.1597",
+                      "speaker": "spk.张四哥"
+                    }
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.1601",
+                      "speaker": "spk.李逍遥"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e202",
+      "pos": {
+        "col": 74,
+        "row": -18,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s016",
+                    "pos": {
+                      "col": 117,
+                      "row": 91,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e203",
@@ -43,5 +131,53 @@
       "zBias": -9
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "setBattleMusic",
+          "musicId": 37
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 70
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 74,
+            "row": 27,
+            "height": 0
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.1886",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.1888",
+            "speaker": "spk.张四哥",
+            "slot": "top"
+          }
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
+    }
+  ]
 }

@@ -11,6 +11,226 @@
     },
     "facing": "down"
   },
-  "entities": [],
-  "dialogues": []
+  "entities": [
+    {
+      "id": "e2199",
+      "pos": {
+        "col": 69,
+        "row": 16,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s109",
+                    "pos": {
+                      "col": 96,
+                      "row": 42,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2200",
+      "pos": {
+        "col": 58,
+        "row": 6,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s123",
+                    "pos": {
+                      "col": 78,
+                      "row": -12,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2201",
+      "pos": {
+        "col": 78,
+        "row": -9,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s123",
+                    "pos": {
+                      "col": 57,
+                      "row": 9,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e2202",
+      "pos": {
+        "col": 54,
+        "row": 13,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 54,
+                      "row": 14,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 4,
+                    "operands": [
+                      36365,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s124"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6546",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6550",
+            "speaker": "spk.林月如",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6552",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6555",
+            "speaker": "spk.林月如",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6560",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6564",
+            "speaker": "spk.林月如",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
+    }
+  ]
 }

@@ -184,5 +184,167 @@
       "zBias": 10
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "playSound",
+          "soundId": 256
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 85,
+            "row": 7,
+            "height": 0
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.11117",
+            "speaker": "spk.白苗族长"
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 54,
+          "operands": [
+            8,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "playSound",
+          "soundId": 256
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 55,
+          "operands": [
+            0,
+            0,
+            8
+          ]
+        },
+        {
+          "kind": "playSound",
+          "soundId": 256
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4334",
+          "state": 1
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4335",
+          "state": 1
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 154,
+          "operands": [
+            4338,
+            4346,
+            1
+          ]
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 87,
+            "row": 35,
+            "height": 0
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.11119",
+            "speaker": "spk.士兵"
+          }
+        },
+        {
+          "kind": "playSound",
+          "soundId": 256
+        },
+        {
+          "kind": "wait",
+          "ms": 1200
+        },
+        {
+          "kind": "playSound",
+          "soundId": 256
+        },
+        {
+          "kind": "wait",
+          "ms": 400
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e4338",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e4338",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 40
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.11122",
+            "speaker": "spk.拜月教主"
+          }
+        },
+        {
+          "kind": "playSound",
+          "soundId": 256
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 147,
+          "operands": [
+            65534,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            232,
+            65535
+          ]
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s228"
+        }
+      ]
+    }
+  ]
 }

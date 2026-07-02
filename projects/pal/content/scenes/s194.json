@@ -61,5 +61,135 @@
       "facing": "right"
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 73,
+            "row": -17,
+            "height": 0
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e3334",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e3334",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 120
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10166",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10168",
+            "speaker": "spk.李逍遥",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e3334",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e3334",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10170",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10173",
+            "speaker": "spk.李逍遥",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e3334",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e3334",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10176",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10178",
+            "speaker": "spk.李逍遥",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10180",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s196"
+        }
+      ]
+    }
+  ]
 }

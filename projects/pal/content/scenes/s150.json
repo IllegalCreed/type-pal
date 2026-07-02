@@ -43,5 +43,213 @@
       "hidden": true
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 53,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 68,
+            "row": -2,
+            "height": 0
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 600
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 36,
+          "operands": [
+            2466,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2466",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2466",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9208",
+            "speaker": "spk.剑圣"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2465",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2465",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9209",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9212",
+            "speaker": "spk.剑圣"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2466",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2466",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2466",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2467",
+          "state": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 320
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2465",
+          "facing": "up"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2465",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 480
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9213"
+          }
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 53,
+          "operands": [
+            99,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 54,
+          "operands": [
+            4,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 55,
+          "operands": [
+            0,
+            21,
+            6
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 53,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 55,
+          "operands": [
+            22,
+            0,
+            9
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 119,
+          "operands": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s152"
+        }
+      ]
+    }
+  ]
 }

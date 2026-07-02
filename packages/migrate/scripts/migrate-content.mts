@@ -68,7 +68,7 @@ const demoManifest = readJson<Record<string, unknown>>('projects/demo/manifest.j
 
 const actors = mergeExtras(out.actors, demoActors)
 const sprites = mergeExtras([...out.sprites, ...scenesOut.sprites], demoSprites)
-const locale = { ...demoLocale, ...out.localeNames }
+const locale = { ...demoLocale, ...out.localeNames, ...scenesOut.scriptLocale }
 
 // ── 写 projects/pal ──
 writeJson('projects/pal/manifest.json', {
@@ -95,6 +95,11 @@ console.log(`[migrate:content] projects/pal 已生成:`)
 console.log(`  actors ${actors.length}(迁移 ${out.actors.length} + demo 独有 ${actors.length - out.actors.length})`)
 console.log(`  sprites ${sprites.length} · items ${out.items.length} · skills ${out.skills.skills.length}(纯伤害 57 + 线性脚本 18 + 门类 5)`)
 console.log(`  levelUp 角色数 ${Object.keys(out.skills.levelUp).length} · locale 键 ${Object.keys(locale).length}`)
+const sr = scenesOut.scriptReport
+const unmigTotal = Object.values(sr.unmigrated).reduce((a, b) => a + b, 0)
+console.log(`  脚本翻译(M3a):链 ${sr.chains} · 段 ${sr.stages} · 命令 ${sr.commands} · unmigrated ${unmigTotal}(流截断 ${sr.flowCuts})`)
+const top = Object.entries(sr.unmigrated).sort((a, b) => b[1] - a[1]).slice(0, 10)
+console.log(`    缺口 Top:${top.map(([k, v]) => `${k}×${v}`).join(' / ')}`)
 console.log(`  装备效果(M1b):${out.items.filter((i) => i.equip).length} 件已翻;pending op ${out.report.pendingEquip.flatMap((p) => p.ops).length}(战斗精灵切换/毒疗)`)
 console.log(`  技能 pending ${out.report.pendingSkills.length}(summon ${out.report.pendingSkills.filter((p) => p.reason.includes('summon')).length} / 动态公式 ${out.report.pendingSkills.filter((p) => p.reason.includes('scriptOnUse')).length});有损注 ${out.report.lossySkills.length}`)
 console.log(`  场景(M2b):${scenesOut.report.scenes} 静态迁(实体 ${scenesOut.report.entities}/触发区跳 ${scenesOut.report.triggerZonesSkipped}/隐藏 ${scenesOut.report.hidden});入口对 ${scenesOut.report.entriesFound}(start ${scenesOut.report.scenesWithStart}/兜底 ${scenesOut.report.entryFallback.length});音乐 ${scenesOut.report.scenesWithMusic};精灵登记 ${scenesOut.sprites.length}(布局冲突 ${scenesOut.report.layoutConflicts.length}/自循环候选 ${scenesOut.report.autoLoopCandidates})`)

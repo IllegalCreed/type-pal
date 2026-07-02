@@ -32,5 +32,68 @@
       "zBias": 5
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 46,
+            "row": 14,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            4,
+            72,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 320
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e3346",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e3346",
+          "frame": 2
+        },
+        {
+          "kind": "wait",
+          "ms": 400
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10194",
+            "speaker": "spk.林月如",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10195",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s199"
+        }
+      ]
+    }
+  ]
 }

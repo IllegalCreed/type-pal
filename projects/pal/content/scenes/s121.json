@@ -13,6 +13,38 @@
   },
   "entities": [
     {
+      "id": "e2195",
+      "pos": {
+        "col": 62,
+        "row": 25,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s119",
+                    "pos": {
+                      "col": 55,
+                      "row": 2,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e2196",
       "pos": {
         "col": 50,
@@ -20,7 +52,28 @@
         "height": 0
       },
       "sprite": "npc-81",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.6488",
+                      "speaker": "spk.刘夫人"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2197",
@@ -31,7 +84,32 @@
       },
       "sprite": "npc-446",
       "facing": "left",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.6491",
+                      "speaker": "spk.婢　女"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e2198",
@@ -41,8 +119,110 @@
         "height": 0
       },
       "sprite": "npc-455",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.7266",
+                      "slot": "narration"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 29,
+          "operands": [
+            1,
+            9999,
+            9999
+          ]
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 50,
+            "row": 15,
+            "height": 0
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 117,
+          "operands": [
+            3,
+            1,
+            0
+          ]
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6481",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.6485",
+            "speaker": "spk.刘夫人",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e1825",
+          "state": 2
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e1826",
+          "state": 2
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2001",
+          "state": 2
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2208",
+          "state": 0
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
+    }
+  ]
 }

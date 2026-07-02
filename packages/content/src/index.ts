@@ -9,6 +9,7 @@
  */
 
 import type { GridPos } from './grid.js'
+import type { EntityPage, ScriptStage } from './script.js'
 
 export type Facing = 'up' | 'down' | 'left' | 'right'
 
@@ -38,8 +39,8 @@ export interface DialogueLine {
   speed?: number
   /** 尾停顿 + 自动推进(ms);存在 = 打完停 N ms 自动进下一页、不等键。原版 ~NN。 */
   autoAdvance?: number
-  /** 画到哪个面板;默认 bottom。异 slot 推进 = 共存,同 slot = 覆盖。 */
-  slot?: 'top' | 'bottom'
+  /** 画到哪个面板;默认 bottom。异 slot 推进 = 共存,同 slot = 覆盖。narration = 中央叙述窗(原版 0x3E)。 */
+  slot?: 'top' | 'bottom' | 'narration'
   /** 头像 RGM chunk + 左/右;省略 = 无头像。 */
   portrait?: { icon: number; side: 'left' | 'right' }
   /** 等键光标形态(0 默认箭头 / 1 / 2);省略 = 0。原版 `(`/`)` 控制符 → 此显式字段。 */
@@ -53,10 +54,11 @@ export interface Dialogue {
 }
 
 /**
- * 实体引用(C0):角色实例(actor → actors 表)⊕ 纯静物 prop(sprite → sprites 表),二选一。
+ * 实体引用(C0/M3a):角色实例(actor → actors 表)⊕ 纯静物 prop(sprite → sprites 表)
+ * ⊕ 隐形触发区(zone:true,门/脚本锚 —— 有位置有触发无视觉),三选一。
  * 花瓶/装饰直接引精灵,不逼着建假角色;NPC/角色经 ActorDef 共享 名字/精灵/battler 定义。
  */
-export type EntityRef = { actor: string } | { sprite: string }
+export type EntityRef = { actor: string } | { sprite: string } | { zone: true }
 
 /** 实体公共字段(实例级:位置/朝向/碰撞/交互)。 */
 export interface EntityBase {
@@ -73,6 +75,8 @@ export interface EntityBase {
   hidden?: boolean
   /** 画序偏置(原版 sLayer 人工覆盖;叠加进 Y-sort 基线,防遮挡漂移)。 */
   zBias?: number
+  /** 行为页(M3:触发脚本/自动脚本;扁平字段是默认外观,页只加行为)。见 script.ts。 */
+  pages?: EntityPage[]
 }
 
 /** 场景实体 = 公共字段 & (actor ⊕ sprite)。判别用 isActorEntity / resolveEntitySpriteId(actor.ts)。 */
@@ -106,10 +110,13 @@ export interface SceneDef {
   /** 场上 NPC / 物件（不含玩家） */
   entities: EntityDef[]
   dialogues: Dialogue[]
+  /** 进场脚本(M3;stages:原版首访 cutscene 演完 advance,之后只跑纯 setup 段)。 */
+  onEnter?: ScriptStage[]
 }
 
 export * from './actor.js'
 export * from './character.js'
+export * from './script.js'
 export * from './grid.js'
 export * from './item.js'
 export * from './locale.js'

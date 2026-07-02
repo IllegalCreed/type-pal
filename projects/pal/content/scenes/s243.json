@@ -185,5 +185,131 @@
       "zBias": 10
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "playSound",
+          "soundId": 255
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 152,
+            "row": 64,
+            "height": 0
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 480
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 153,
+          "operands": [
+            65535,
+            165,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 155,
+          "operands": [
+            2,
+            65535,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 1000
+        },
+        {
+          "kind": "playSound",
+          "soundId": 256
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4296",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4307",
+          "state": 1
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4297",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4308",
+          "state": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 200
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4298",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4309",
+          "state": 1
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4299",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4310",
+          "state": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4300",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e4311",
+          "state": 1
+        },
+        {
+          "kind": "playSound",
+          "soundId": 256
+        },
+        {
+          "kind": "wait",
+          "ms": 1200
+        },
+        {
+          "kind": "playSound",
+          "soundId": 256
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s245"
+        }
+      ]
+    }
+  ]
 }

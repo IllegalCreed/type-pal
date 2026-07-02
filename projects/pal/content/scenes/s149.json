@@ -100,5 +100,129 @@
       "sprite": "npc-495"
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 91,
+            "row": 39,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            232,
+            0
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 117,
+          "operands": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 53,
+          "operands": [
+            999,
+            4,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 54,
+          "operands": [
+            5,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 55,
+          "operands": [
+            0,
+            0,
+            7
+          ]
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 147,
+          "operands": [
+            8,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 1200
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 147,
+          "operands": [
+            65534,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 53,
+          "operands": [
+            999,
+            1,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 54,
+          "operands": [
+            2,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 55,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s151"
+        }
+      ]
+    }
+  ]
 }

@@ -54,5 +54,6 @@ export function resolveEntitySpriteId(
   e: EntityDef,
   actorsById: Record<string, ActorDef>,
 ): string | undefined {
-  return isActorEntity(e) ? actorsById[e.actor]?.spriteId : e.sprite
+  if (isActorEntity(e)) return actorsById[e.actor]?.spriteId
+  return 'sprite' in e ? e.sprite : undefined // zone:无视觉
 }

@@ -2,6 +2,7 @@
 // 只查「数组/对象 + 必需键在 + id 是 string」,不齐就 throw 具体错误。
 // 编辑器产大量手改 JSON 时再上 zod(局部替换这些函数,签名不变)。
 import type { ActorDef, ItemData, SceneDef, SkillData, SpriteDef } from './index.js'
+import { checkEntityPages, checkStages } from './script.js'
 
 /** 显式要求的对象键;缺任一 throw。 */
 function requireKeys(obj: object, keys: readonly string[], ctx: string): void {
@@ -36,13 +37,16 @@ export function validateScenes(json: unknown): SceneDef[] {
     ents.forEach((e, j) => {
       const eo = assertObject(e, `scenes[${i}].entities[${j}]`)
       requireKeys(eo, ['id', 'pos'], `scenes[${i}].entities[${j}]`)
-      const hasActor = 'actor' in eo
-      const hasSprite = 'sprite' in eo
-      if (hasActor === hasSprite)
-        throw new Error(
-          `scenes[${i}].entities[${j}]: 须恰有 actor 或 sprite 之一(现${hasActor ? '两者都有' : '两者都无'})`,
-        )
+      const refs = ['actor', 'sprite', 'zone'].filter((k) => k in eo).length
+      if (refs !== 1)
+        throw new Error(`scenes[${i}].entities[${j}]: 须恰有 actor/sprite/zone 之一(现 ${refs} 个)`)
+      // M3:行为页(可选)形状检查
+      if ('pages' in eo && (eo as { pages?: unknown }).pages !== undefined)
+        checkEntityPages((eo as { pages: unknown }).pages, `scenes[${i}].entities[${j}].pages`)
     })
+    // M3:进场脚本(可选)
+    if ('onEnter' in o && (o as { onEnter?: unknown }).onEnter !== undefined)
+      checkStages((o as { onEnter: unknown }).onEnter, `scenes[${i}].onEnter`)
   })
   return arr
 }

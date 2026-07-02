@@ -22,6 +22,101 @@
   },
   "entities": [
     {
+      "id": "e264",
+      "pos": {
+        "col": 90,
+        "row": 58,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s016",
+                    "pos": {
+                      "col": 116,
+                      "row": 4,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e265",
+      "pos": {
+        "col": 89,
+        "row": -28,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "right"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.1897",
+                      "speaker": "spk.李逍遥",
+                      "slot": "top"
+                    }
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 8,
+                    "operands": [
+                      0,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s017",
+                    "pos": {
+                      "col": 61,
+                      "row": 42,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e266",
       "pos": {
         "col": 98,
@@ -31,5 +126,46 @@
       "sprite": "npc-88"
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 37,
+          "operands": [
+            205,
+            4211,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 37,
+          "operands": [
+            0,
+            4215,
+            0
+          ]
+        },
+        {
+          "kind": "playSound",
+          "soundId": 260
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            2,
+            0,
+            0
+          ]
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
+    }
+  ]
 }

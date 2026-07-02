@@ -11,6 +11,54 @@
     },
     "facing": "down"
   },
-  "entities": [],
-  "dialogues": []
+  "entities": [
+    {
+      "id": "e569",
+      "pos": {
+        "col": 53,
+        "row": 11,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s035",
+                    "pos": {
+                      "col": 131,
+                      "row": 42,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 84,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
 }

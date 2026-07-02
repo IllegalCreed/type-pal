@@ -22,6 +22,70 @@
   },
   "entities": [
     {
+      "id": "e611",
+      "pos": {
+        "col": 65,
+        "row": -6,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s036",
+                    "pos": {
+                      "col": 69,
+                      "row": 36,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e612",
+      "pos": {
+        "col": 76,
+        "row": 16,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s040",
+                    "pos": {
+                      "col": 112,
+                      "row": 9,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e613",
       "pos": {
         "col": 78,
@@ -92,5 +156,20 @@
       "hidden": true
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 83,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
 }

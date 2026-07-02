@@ -45,5 +45,233 @@
       "zBias": 10
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 127,
+          "operands": [
+            42,
+            24,
+            65535
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 1440
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2380",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2380",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8207",
+            "speaker": "spk.刘晋元"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 36,
+          "operands": [
+            2380,
+            22191,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 320
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8210",
+            "speaker": "spk.刘晋元"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8211"
+          }
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2381",
+          "state": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 200
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 108,
+          "operands": [
+            2382,
+            8,
+            4
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 120
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 108,
+          "operands": [
+            2382,
+            65532,
+            65534
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 40
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 125,
+          "operands": [
+            2380,
+            8,
+            4
+          ]
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2380",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2380",
+          "frame": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 40
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 125,
+          "operands": [
+            2380,
+            8,
+            4
+          ]
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2380",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2380",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 40
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8213",
+            "speaker": "spk.刘晋元"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 320
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2380",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2380",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 40
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2380",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2380",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2381",
+          "state": 1
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 125,
+          "operands": [
+            2381,
+            48,
+            8
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 36,
+          "operands": [
+            2381,
+            22200,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 1440
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s141"
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
+    }
+  ]
 }

@@ -66,13 +66,12 @@ export interface SourceItem {
   flags: { usable: boolean; equipable: boolean; throwable: boolean; consuming: boolean; applyToAll: boolean; sellable: boolean; equipableBy: boolean[] }
 }
 /** all.json 命令(disasm 只具名 end/goto/showDialog/giveItem,其余 raw)。 */
-export interface SourceCmd {
-  label?: string
-  op?: string
-  text?: string
-  opcode?: number
-  operands?: number[]
-}
+export { FACING_BY_DIR, partyPosToGrid, sceneSlug, signExtendI16 } from './source-facts.js'
+export type { SourceCmd } from './source-facts.js'
+import type { SourceCmd } from './source-facts.js'
+import { FACING_BY_DIR, partyPosToGrid, sceneSlug, signExtendI16 } from './source-facts.js'
+import type { TranslateReport } from './translate-events.js'
+import { emptyTranslateReport, foldStages, translateStages } from './translate-events.js'
 export interface LevelUpMagicCell {
   level: number
   magic: number
@@ -458,9 +457,6 @@ const MAXPOOL_BY_ROW: Record<number, 'hp' | 'mp'> = { 7: 'hp', 8: 'mp' }
 const STATUS_BY_ID: Record<number, 'dualAttack'> = { 8: 'dualAttack' }
 
 /** WORD → 有符号 16 位(0x17 的 delta 可负,如铁锁衣防御-10)。 */
-export function signExtendI16(v: number): number {
-  return v >= 0x8000 ? v - 0x10000 : v
-}
 
 export interface EquipTranslation {
   slot?: string
@@ -791,6 +787,7 @@ export interface SourceEventObject {
   nSpriteFramesAuto?: number
   direction?: number
   autoLabel?: string
+  triggerLabel?: string
 }
 export interface SourceScene {
   sceneId: number
@@ -800,22 +797,17 @@ export interface SourceScene {
   eventObjects: SourceEventObject[]
 }
 
-const FACING_BY_DIR = ['down', 'left', 'up', 'right'] as const
 
-/** 原版场景号 → 稳定 id(s001;0-based 原版号,当不透明串)。 */
-export function sceneSlug(n: number): string {
-  return `s${String(n).padStart(3, '0')}`
-}
 
-/** setPartyPos(col,row,h) → 世界像素 → 菱形格(px=col*32+h*16, py=row*16+h*8;sdlpal 0x46 真值)。 */
-function partyPosToGrid(col: number, row: number, h: number): { col: number; row: number; height: number } {
-  return { ...pixelToGrid(col * 32 + h * 16, row * 16 + h * 8), height: 0 }
-}
 
 export interface SceneMigrationResult {
   scenes: SceneDef[]
   /** 实体引用到的原版精灵批量登记(npc-<num>;布局按 nSpriteFrames)。 */
   sprites: SpriteDef[]
+  /** M3a 脚本翻译产出的文本(dlg./spk.;IO 壳并入工程 locale)。 */
+  scriptLocale: Record<string, string>
+  /** M3a 脚本翻译统计(覆盖缺口 → M3b/c 收敛清单)。 */
+  scriptReport: TranslateReport
   report: {
     scenes: number
     entities: number
@@ -833,6 +825,8 @@ export interface SceneMigrationResult {
     autoLoopCandidates: number
     /** 朝向被 autoScript 链首覆盖(≠数据字段)的实体数。 */
     facingFromAuto: number
+    /** spriteNum=0 且有触发脚本 → 迁成 zone 实体的数量(M3a)。 */
+    zonesMigrated: number
   }
 }
 
@@ -859,6 +853,7 @@ export function mapScenesStatic(
     layoutConflicts: [],
     autoLoopCandidates: 0,
     facingFromAuto: 0,
+    zonesMigrated: 0,
   }
 
   // ── 入口扫描:setPartyPos(raw70)在 loadScene 前 ≤4 步内。
@@ -977,12 +972,36 @@ export function mapScenesStatic(
     return defId
   }
 
+  // ── M3a 脚本翻译上下文(触发链/onEnter → 结构化 stages;文本进 locale)──
+  const tctx = { labelAt, locale: {} as Record<string, string>, report: emptyTranslateReport() }
+  /** 原版 triggerMode → 触发口:1-3 = 按键交互(range=mode),4-8 = 走近自动(range=mode-4)。 */
+  const triggerOf = (eo: SourceEventObject) => {
+    const mode = eo.triggerMode ?? 0
+    if (!eo.triggerLabel || mode <= 0 || mode > 8) return undefined
+    const stages = translateStages(eo.triggerLabel, `e${eo.id}`, tctx)
+    if (!stages?.length) return undefined
+    return mode <= 3
+      ? { on: 'interact' as const, range: mode, stages: foldStages(stages) }
+      : { on: 'touch' as const, range: mode - 4, stages: foldStages(stages) }
+  }
+
   const scenes: SceneDef[] = srcScenes.map((sc) => {
     const slug = sceneSlug(sc.sceneId)
     const entities = []
     for (const eo of sc.eventObjects) {
       if (eo.spriteNum <= 0) {
-        report.triggerZonesSkipped++
+        // 隐形触发区(门/脚本锚):有触发脚本的迁成 zone 实体;没有的(纯占位)跳过
+        const trigger = triggerOf(eo)
+        if (trigger) {
+          entities.push({
+            id: `e${eo.id}`,
+            pos: { ...pixelToGrid(eo.x, eo.y), height: 0 },
+            zone: true as const,
+            ...((eo.sState ?? 1) === 0 ? { hidden: true } : {}),
+            pages: [{ trigger }],
+          })
+          report.zonesMigrated++
+        } else report.triggerZonesSkipped++
         continue
       }
       if ((eo.nSpriteFramesAuto ?? 0) > 0) report.autoLoopCandidates++
@@ -993,6 +1012,7 @@ export function mapScenesStatic(
       const autoDir = autoHeadFacing(eo.autoLabel)
       if (autoDir !== undefined && autoDir !== (eo.direction ?? 0)) report.facingFromAuto++
       const dir = autoDir ?? eo.direction ?? 0
+      const trigger = triggerOf(eo)
       entities.push({
         id: `e${eo.id}`,
         pos: { ...pixelToGrid(eo.x, eo.y), height: 0 },
@@ -1001,6 +1021,7 @@ export function mapScenesStatic(
         ...(hidden ? { hidden: true } : {}),
         ...((eo.sState ?? 0) >= 2 ? { collide: true } : {}),
         ...(eo.sLayer ? { zBias: eo.sLayer } : {}),
+        ...(trigger ? { pages: [{ trigger }] } : {}),
       })
     }
     const { start, musicId } = headScan(sc.sceneId, sc.onEnterLabel)
@@ -1019,6 +1040,8 @@ export function mapScenesStatic(
     const firstEntry = start ?? Object.values(entries)[0]?.pos
     if (!firstEntry) report.entryFallback.push(slug)
     report.scenes++
+    // onEnter 脚本(进场剧情/音乐/战场配置;musicId/entries 窄扫描保留 —— loader/编辑器元数据)
+    const onEnter = sc.onEnterLabel ? translateStages(sc.onEnterLabel, undefined, tctx) : undefined
     return {
       id: slug,
       map: { reuseOriginalMap: sc.mapNum },
@@ -1027,8 +1050,9 @@ export function mapScenesStatic(
       entry: { pos: firstEntry ?? { ...pixelToGrid(1024, 1024), height: 0 }, facing: 'down' },
       entities,
       dialogues: [],
+      ...(onEnter?.length ? { onEnter: foldStages(onEnter) } : {}),
     }
   })
 
-  return { scenes, sprites: [...spriteDefs.values()], report }
+  return { scenes, sprites: [...spriteDefs.values()], scriptLocale: tctx.locale, scriptReport: tctx.report, report }
 }

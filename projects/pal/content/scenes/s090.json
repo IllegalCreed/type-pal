@@ -22,6 +22,70 @@
   },
   "entities": [
     {
+      "id": "e1662",
+      "pos": {
+        "col": 102,
+        "row": 54,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s085",
+                    "pos": {
+                      "col": 63,
+                      "row": -5,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1663",
+      "pos": {
+        "col": 93,
+        "row": 33,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s093",
+                    "pos": {
+                      "col": 101,
+                      "row": 69,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e1664",
       "pos": {
         "col": 90,
@@ -32,5 +96,50 @@
       "zBias": 10
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "playSound",
+          "soundId": 134
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.4949"
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 154,
+          "operands": [
+            1708,
+            1711,
+            2
+          ]
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
+    }
+  ]
 }

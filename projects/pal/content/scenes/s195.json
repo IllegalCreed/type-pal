@@ -52,5 +52,90 @@
       "zBias": 4
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 84,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 76,
+            "row": 10,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 147,
+          "operands": [
+            4,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e3339",
+          "state": 1
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 128,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10183",
+            "speaker": "spk.丫鬟",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e3338",
+          "facing": "up"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e3338",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.10186",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s197"
+        }
+      ]
+    }
+  ]
 }

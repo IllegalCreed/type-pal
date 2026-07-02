@@ -22,6 +22,70 @@
   },
   "entities": [
     {
+      "id": "e570",
+      "pos": {
+        "col": 134,
+        "row": 42,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s034",
+                    "pos": {
+                      "col": 57,
+                      "row": 12,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e571",
+      "pos": {
+        "col": 92,
+        "row": 49,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s036",
+                    "pos": {
+                      "col": 96,
+                      "row": 1,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e572",
       "pos": {
         "col": 114,
@@ -41,7 +105,28 @@
       },
       "sprite": "npc-247",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3012",
+                      "speaker": "spk.林天南"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e574",
@@ -63,7 +148,28 @@
       },
       "sprite": "npc-124",
       "facing": "up",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3098",
+                      "speaker": "spk.管家林忠"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e576",
@@ -85,7 +191,28 @@
       },
       "sprite": "npc-147",
       "facing": "right",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3101",
+                      "speaker": "spk.仆人"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e578",
@@ -96,7 +223,28 @@
       },
       "sprite": "npc-144",
       "facing": "right",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3101",
+                      "speaker": "spk.仆人"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e579",
@@ -125,8 +273,676 @@
       },
       "sprite": "npc-148",
       "facing": "right",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.3228"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 116,
+            "row": 39,
+            "height": 0
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 74
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2876",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2881",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2883",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2886",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2888",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2893",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2896",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2898",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2902",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2911",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e577",
+          "state": 2
+        },
+        {
+          "kind": "wait",
+          "ms": 800
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 36,
+          "operands": [
+            577,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2913",
+            "speaker": "spk.刘晋元"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e574",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e574",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2915",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2917",
+            "speaker": "spk.刘晋元"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2920",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2923",
+            "speaker": "spk.刘晋元"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2926",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e574",
+          "facing": "up"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e574",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e574",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e574",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2928",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2931",
+            "speaker": "spk.刘晋元"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2934",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2938",
+            "speaker": "spk.刘晋元"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2940",
+            "speaker": "spk.刘晋元"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e577",
+          "facing": "up"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e577",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2942",
+            "speaker": "spk.刘晋元"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e577",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e577",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2944",
+            "speaker": "spk.刘晋元"
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 36,
+          "operands": [
+            577,
+            8456,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2947",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 800
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e577",
+          "state": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 80
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e574",
+          "facing": "up"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e574",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2949",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2952",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2956",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2958",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2963",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e573",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e573",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 200
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e573",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e573",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2965",
+            "speaker": "spk.赵灵儿",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2969",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2972",
+            "speaker": "spk.赵灵儿",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2974",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2977",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2980",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2987",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e573",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e573",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2990",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e573",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e573",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2995",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e574",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e574",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.2999",
+            "speaker": "spk.林天南",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.3003",
+            "speaker": "spk.春兰",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e578",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e579",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e573",
+          "state": 0
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s039"
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 83,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
 }

@@ -288,5 +288,213 @@
       "collide": true
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 163,
+          "operands": [
+            4,
+            67,
+            0
+          ]
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 101,
+            "row": 29,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            232,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 117,
+          "operands": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 127,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 320
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.11123",
+            "slot": "narration"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e4012",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e4012",
+          "frame": 6
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e4013",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e4013",
+          "frame": 6
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e4014",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e4014",
+          "frame": 6
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e4015",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e4015",
+          "frame": 6
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e4016",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e4016",
+          "frame": 6
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            5,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 54,
+          "operands": [
+            7,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 55,
+          "operands": [
+            0,
+            0,
+            8
+          ]
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.11124",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 119,
+          "operands": [
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s231"
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 101,
+            "row": 29,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 127,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.11127",
+            "speaker": "spk.赵灵儿",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s232"
+        }
+      ]
+    }
+  ]
 }

@@ -49,5 +49,121 @@
       "sprite": "npc-364"
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            193,
+            65535
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 111,
+            "row": 75,
+            "height": 0
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9187"
+          }
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s171"
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 108,
+            "row": 36,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            2,
+            65535
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            6,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2852",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2852",
+          "frame": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 400
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9189"
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 109,
+          "operands": [
+            146,
+            23975,
+            0
+          ]
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s146"
+        }
+      ]
+    }
+  ]
 }

@@ -28,5 +28,105 @@
     "facing": "down"
   },
   "entities": [],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 152,
+            "row": 86,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 127,
+          "operands": [
+            0,
+            65520,
+            100
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 127,
+          "operands": [
+            0,
+            65528,
+            20
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 127,
+          "operands": [
+            0,
+            4,
+            40
+          ]
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 52,
+            "row": -14,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 127,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 117,
+          "operands": [
+            1,
+            3,
+            0
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "up"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s147"
+        }
+      ]
+    }
+  ]
 }

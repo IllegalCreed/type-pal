@@ -32,5 +32,129 @@
       "sprite": "npc-539"
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "playMusic",
+          "musicId": 28
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 35,
+          "operands": [
+            1,
+            6,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 35,
+          "operands": [
+            2,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 38,
+            "row": 8,
+            "height": 0
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 101,
+          "operands": [
+            0,
+            232,
+            65535
+          ]
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9827"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9829"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9831",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.9832",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 36,
+          "operands": [
+            2867,
+            27737,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 1480
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2867",
+          "state": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 120
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s175"
+        }
+      ]
+    }
+  ]
 }

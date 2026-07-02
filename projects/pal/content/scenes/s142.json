@@ -43,5 +43,133 @@
       "hidden": true
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "unmigrated",
+          "opcode": 127,
+          "operands": [
+            15,
+            56,
+            65535
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 1200
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 36,
+          "operands": [
+            2383,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 320
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2383",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2384",
+          "state": 1
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            3,
+            70,
+            0
+          ]
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2384",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2384",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2384",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2384",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2384",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2384",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 36,
+          "operands": [
+            2384,
+            22270,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2384",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2385",
+          "state": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 400
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s144"
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": []
+    }
+  ]
 }

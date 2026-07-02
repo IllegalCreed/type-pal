@@ -107,5 +107,738 @@
       "hidden": true
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "teleportParty",
+          "pos": {
+            "col": 125,
+            "row": 41,
+            "height": 0
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 7
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8111",
+            "speaker": "spk.李逍遥",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8116",
+            "speaker": "spk.彩　依"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8118"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8121",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8125",
+            "speaker": "spk.彩　依"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8127"
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 36,
+          "operands": [
+            2373,
+            22341,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 1680
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8129",
+            "speaker": "spk.酒剑仙"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 480
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8132",
+            "speaker": "spk.彩　依"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8135",
+            "speaker": "spk.酒剑仙"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8138",
+            "speaker": "spk.彩　依"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 160
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2373",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2373",
+          "frame": 8
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2372",
+          "state": 1
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8141",
+            "speaker": "spk.彩　依"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8144",
+            "speaker": "spk.林月如",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8147",
+            "speaker": "spk.彩　依"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8149"
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 119,
+          "operands": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 133,
+          "operands": [
+            10,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 13
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            5,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 126,
+          "operands": [
+            2372,
+            33,
+            0
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 36,
+          "operands": [
+            2372,
+            22118,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 1920
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2372",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2377",
+          "state": 1
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 115,
+          "operands": [
+            7,
+            54,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 2400
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s142"
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": [
+        {
+          "kind": "setEntityState",
+          "entity": "e2378",
+          "state": 1
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2379",
+          "state": 1
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 127,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 2000
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s143"
+        }
+      ],
+      "next": "advance"
+    },
+    {
+      "body": [
+        {
+          "kind": "setEntityState",
+          "entity": "e2373",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2374",
+          "state": 1
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 127,
+          "operands": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "wait",
+          "ms": 1600
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2376",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2376",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 320
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "down"
+        },
+        {
+          "kind": "wait",
+          "ms": 1280
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 119,
+          "operands": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2377",
+          "state": 0
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2375",
+          "facing": "down"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2375",
+          "frame": 0
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 125,
+          "operands": [
+            2376,
+            4,
+            32
+          ]
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2374",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2378",
+          "state": 0
+        },
+        {
+          "kind": "setEntityState",
+          "entity": "e2379",
+          "state": 0
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 15
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8152",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8154",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8156",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8159",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "wait",
+          "ms": 200
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2376",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2376",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8163",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "right"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8167",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8169",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8178",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8181",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8183",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8185",
+            "speaker": "spk.林月如"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2376",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2376",
+          "frame": 0
+        },
+        {
+          "kind": "wait",
+          "ms": 240
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2375",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2375",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8187",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setPartyFacing",
+          "facing": "left"
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8189",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8191",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 122,
+          "operands": [
+            41,
+            82,
+            1
+          ]
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2376",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2376",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8193",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2375",
+          "facing": "right"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2375",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8196",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8198",
+            "speaker": "spk.李逍遥"
+          }
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8202",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "setEntityFacing",
+          "entity": "e2375",
+          "facing": "left"
+        },
+        {
+          "kind": "setEntityFrame",
+          "entity": "e2375",
+          "frame": 0
+        },
+        {
+          "kind": "clearDialog"
+        },
+        {
+          "kind": "dialog",
+          "line": {
+            "text": "dlg.8205",
+            "speaker": "spk.酒剑仙",
+            "slot": "top"
+          }
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 54,
+          "operands": [
+            3,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "playMusic",
+          "musicId": 72
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 55,
+          "operands": [
+            0,
+            0,
+            8
+          ]
+        },
+        {
+          "kind": "unmigrated",
+          "opcode": 119,
+          "operands": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "fade",
+          "dir": "out"
+        },
+        {
+          "kind": "loadScene",
+          "scene": "s156"
+        }
+      ]
+    }
+  ]
 }

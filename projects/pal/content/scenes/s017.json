@@ -14,6 +14,114 @@
   },
   "entities": [
     {
+      "id": "e234",
+      "pos": {
+        "col": 90,
+        "row": 58,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s016",
+                    "pos": {
+                      "col": 116,
+                      "row": 4,
+                      "height": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e235",
+      "pos": {
+        "col": 99,
+        "row": -15,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.1574",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "108"
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.1575",
+                      "slot": "narration"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e236",
+      "pos": {
+        "col": 38,
+        "row": -11,
+        "height": 0
+      },
+      "zone": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 2,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.1786",
+                      "speaker": "spk.观音像上刻着一行字"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "e237",
       "pos": {
         "col": 44,
@@ -80,7 +188,63 @@
         "row": 26,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      27,
+                      53,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      26,
+                      52,
+                      1
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      29,
+                      55,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      30,
+                      56,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e244",
@@ -89,7 +253,81 @@
         "row": 25,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      33,
+                      45,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      22,
+                      34,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      21,
+                      33,
+                      1
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      33,
+                      45,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      27,
+                      52,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      26,
+                      52,
+                      1
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e245",
@@ -98,7 +336,81 @@
         "row": 26,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      37,
+                      63,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      48,
+                      51,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      49,
+                      51,
+                      0
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      37,
+                      63,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      34,
+                      60,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      33,
+                      59,
+                      1
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e246",
@@ -107,7 +419,63 @@
         "row": 1,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      40,
+                      41,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      40,
+                      41,
+                      0
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      48,
+                      49,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      48,
+                      49,
+                      1
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e247",
@@ -116,7 +484,63 @@
         "row": -1,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      56,
+                      45,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      56,
+                      44,
+                      1
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      51,
+                      50,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      50,
+                      50,
+                      1
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e248",
@@ -125,7 +549,63 @@
         "row": 20,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      39,
+                      51,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      39,
+                      50,
+                      1
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      35,
+                      55,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      34,
+                      55,
+                      1
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e249",
@@ -134,7 +614,81 @@
         "row": 13,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      13,
+                      42,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      16,
+                      45,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      16,
+                      45,
+                      1
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      13,
+                      42,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      21,
+                      34,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      21,
+                      33,
+                      1
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e250",
@@ -143,7 +697,99 @@
         "row": 11,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      46,
+                      57,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      38,
+                      64,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      45,
+                      71,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      46,
+                      72,
+                      0
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      38,
+                      64,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      46,
+                      57,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      40,
+                      51,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      40,
+                      51,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e251",
@@ -152,7 +798,63 @@
         "row": 21,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      33,
+                      78,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      32,
+                      78,
+                      1
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      45,
+                      66,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      45,
+                      65,
+                      1
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e252",
@@ -161,7 +863,63 @@
         "row": 18,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      38,
+                      56,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      38,
+                      56,
+                      0
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      44,
+                      62,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      45,
+                      63,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e253",
@@ -170,7 +928,63 @@
         "row": 18,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      34,
+                      52,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      34,
+                      52,
+                      0
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      37,
+                      55,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      37,
+                      55,
+                      1
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e254",
@@ -179,7 +993,81 @@
         "row": 16,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      48,
+                      45,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      29,
+                      26,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      28,
+                      25,
+                      1
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      48,
+                      45,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      39,
+                      55,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      38,
+                      55,
+                      1
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e255",
@@ -188,7 +1076,81 @@
         "row": 10,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      46,
+                      40,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      42,
+                      36,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      41,
+                      35,
+                      1
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      46,
+                      40,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      38,
+                      48,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      38,
+                      49,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e256",
@@ -197,7 +1159,63 @@
         "row": -7,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      44,
+                      33,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      44,
+                      32,
+                      1
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      42,
+                      35,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      41,
+                      35,
+                      1
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e257",
@@ -206,7 +1224,81 @@
         "row": 12,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      31,
+                      48,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      17,
+                      34,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      17,
+                      34,
+                      0
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      31,
+                      48,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      34,
+                      46,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      34,
+                      45,
+                      1
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e258",
@@ -215,7 +1307,63 @@
         "row": 2,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      26,
+                      28,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      26,
+                      28,
+                      0
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      35,
+                      37,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      36,
+                      38,
+                      0
+                    ]
+                  }
+                ],
+                "next": 0
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e259",
@@ -224,7 +1372,166 @@
         "row": -4,
         "height": 0
       },
-      "sprite": "npc-84"
+      "sprite": "npc-84",
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      41,
+                      37,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      43,
+                      35,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      41,
+                      33,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      40,
+                      35,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e261",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e261",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e262",
+                    "state": 2
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      40,
+                      35,
+                      1
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      34,
+                      29,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      34,
+                      29,
+                      0
+                    ]
+                  }
+                ],
+                "next": 2
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      40,
+                      35,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e261",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e261",
+                    "state": 0
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "entity": "e262",
+                    "state": 2
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      40,
+                      35,
+                      1
+                    ]
+                  }
+                ],
+                "next": "advance"
+              },
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 68,
+                    "operands": [
+                      34,
+                      29,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 122,
+                    "operands": [
+                      34,
+                      29,
+                      0
+                    ]
+                  }
+                ],
+                "next": 2
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e262",
@@ -235,7 +1542,25 @@
       },
       "sprite": "npc-233",
       "hidden": true,
-      "zBias": -3
+      "zBias": -3,
+      "pages": [
+        {
+          "trigger": {
+            "on": "touch",
+            "range": 0,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "loadScene",
+                    "scene": "s019"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "e263",
@@ -245,8 +1570,83 @@
         "height": 0
       },
       "sprite": "npc-10",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "trigger": {
+            "on": "interact",
+            "range": 1,
+            "stages": [
+              {
+                "body": [
+                  {
+                    "kind": "unmigrated",
+                    "opcode": 4,
+                    "operands": [
+                      36505,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.1895",
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "67"
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "68"
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "69"
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "70"
+                  },
+                  {
+                    "kind": "giveItem",
+                    "itemId": "71"
+                  }
+                ],
+                "next": 1
+              },
+              {
+                "body": [
+                  {
+                    "kind": "dialog",
+                    "line": {
+                      "text": "dlg.12222",
+                      "slot": "narration"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
-  "dialogues": []
+  "dialogues": [],
+  "onEnter": [
+    {
+      "body": [
+        {
+          "kind": "playMusic",
+          "musicId": 77
+        }
+      ]
+    }
+  ]
 }

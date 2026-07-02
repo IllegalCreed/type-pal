@@ -36,13 +36,16 @@ describe('validateScenes · 实体 actor ⊕ sprite(C0)', () => {
       validateScenes([mkScene({ entities: [mkEnt({ sprite: 'vase' })] })]),
     ).not.toThrow()
   })
-  test('两者都有 → throw', () => {
+  test('两者都有 → throw(M3a:恰一 actor/sprite/zone)', () => {
     expect(() =>
       validateScenes([mkScene({ entities: [mkEnt({ actor: 'a', sprite: 's' })] })]),
-    ).toThrow('两者都有')
+    ).toThrow('现 2 个')
   })
   test('两者都无 → throw', () => {
-    expect(() => validateScenes([mkScene({ entities: [mkEnt({})] })])).toThrow('两者都无')
+    expect(() => validateScenes([mkScene({ entities: [mkEnt({})] })])).toThrow('现 0 个')
+  })
+  test('zone 触发区:zone:true 单独合法', () => {
+    expect(() => validateScenes([mkScene({ entities: [mkEnt({ zone: true })] })])).not.toThrow()
   })
 })
 
