@@ -14,7 +14,7 @@ const manifest: LoadedManifest = {
   contentVersion: 1,
   entryScene: 'guijie-minju',
   content: {
-    scenes: 'content/scenes.json',
+    scenes: 'content/scenes/',
     actors: 'content/actors.json',
     skills: 'content/skills.json',
     items: 'content/items.json',
@@ -96,15 +96,17 @@ const spritesJson = [
   { id: 'li-xiaoyao', spriteNum: 2, label: '李逍遥(大世界)', layout: { kind: 'directional', framesPerDir: 3 } },
 ]
 
-const JSONS = { actors: actorsJson, scenes: scenesJson, skills: skillsJson, items: itemsJson, locale: localeJson, sprites: spritesJson }
+const JSONS = { actors: actorsJson, sceneIds: scenesJson.map((s) => s.id), entryScene: scenesJson[0], skills: skillsJson, items: itemsJson, locale: localeJson, sprites: spritesJson }
+const SCENES = scenesJson as never[]
 
 test('round-trip:toEditorState → serializeProject 还原各 content JSON', () => {
   const project = assembleProject(manifest, JSONS)
-  const state = toEditorState(project)
+  const state = toEditorState(project, SCENES)
   const out = serializeProject(state)
 
-  // 各 content 文件还原成原 JSON(by-id Record 经 Object.values 还原数组,保序)
-  expect(out['content/scenes.json']).toEqual(scenesJson)
+  // M2a-2:scenes 走 per-scene 目录(index + 单场景文件)
+  expect(out['content/scenes/index.json']).toEqual(['guijie-minju'])
+  expect(out['content/scenes/guijie-minju.json']).toEqual(scenesJson[0])
   expect(out['content/actors.json']).toEqual(actorsJson)
   expect(out['content/items.json']).toEqual(itemsJson)
   expect(out['content/locale.json']).toEqual(localeJson)
@@ -118,15 +120,15 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
 
 test('toEditorState:by-id Record → 数组(Object.values 保序)', () => {
   const project = assembleProject(manifest, JSONS)
-  const state = toEditorState(project)
+  const state = toEditorState(project, SCENES)
 
   // actors/skills/items/sprites 都是 by-id Record,还原成数组;顺序 = 原数组序
   expect(state.actors.map((a) => a.id)).toEqual(['li-xiaoyao', 'youhun'])
   expect(state.skills.map((s) => s.id)).toEqual(['296'])
   expect(state.items.map((i) => i.id)).toEqual(['166'])
   expect(state.sprites.map((s) => s.id)).toEqual(['ghost', 'li-xiaoyao'])
-  // scenes/locale 直传
-  expect(state.scenes).toBe(project.scenes)
+  // scenes(编辑器全量注入)/locale 直传
+  expect(state.scenes).toBe(SCENES)
   expect(state.locale).toBe(project.locale)
   // manifest 透传(含 startWorld)
   expect(state.manifest).toBe(project.manifest)
@@ -134,7 +136,7 @@ test('toEditorState:by-id Record → 数组(Object.values 保序)', () => {
 
 test('toEditorState:丢弃运行期派生物(entryScene/assetBase)', () => {
   const project = assembleProject(manifest, JSONS)
-  const state = toEditorState(project)
+  const state = toEditorState(project, SCENES)
   // EditorState 是 ContentBundle + manifest;不含 entryScene/assetBase 字段
   expect((state as unknown as Record<string, unknown>).entryScene).toBeUndefined()
   expect((state as unknown as Record<string, unknown>).assetBase).toBeUndefined()
@@ -145,23 +147,23 @@ test('serializeProject:manifest.content 缺 sprites → 不产出 sprites 文件
   delete noSprites.content.sprites
   const project = assembleProject(manifest, { ...JSONS, sprites: undefined })
   // 用「无 sprites 的 manifest」替换 state.manifest(模拟工程本身没 sprites 键)
-  const state = { ...toEditorState(project), manifest: noSprites }
+  const state = { ...toEditorState(project, SCENES), manifest: noSprites }
   const out = serializeProject(state)
 
   expect(out['content/sprites.json']).toBeUndefined()
   // 其余文件照常产出
-  expect(out['content/scenes.json']).toEqual(scenesJson)
+  expect(out['content/scenes/guijie-minju.json']).toEqual(scenesJson[0])
   expect(out['manifest.json']).toEqual(noSprites)
 })
 
 test('serializeProject:返回值为纯 JSON 值(可 JSON.stringify,无 undefined/函数)', () => {
   const project = assembleProject(manifest, JSONS)
-  const state = toEditorState(project)
+  const state = toEditorState(project, SCENES)
   const out = serializeProject(state)
   // 整体可 stringify(落盘前提)
   expect(() => JSON.stringify(out)).not.toThrow()
-  // 路径键都是 manifest.content 里声明的 + manifest.json
+  // 路径键 = 表域文件 + per-scene(index + 每场景) + manifest.json
   expect(Object.keys(out).sort()).toEqual(
-    ['content/actors.json', 'content/items.json', 'content/locale.json', 'content/scenes.json', 'content/skills.json', 'content/sprites.json', 'manifest.json'].sort(),
+    ['content/actors.json', 'content/items.json', 'content/locale.json', 'content/scenes/index.json', 'content/scenes/guijie-minju.json', 'content/skills.json', 'content/sprites.json', 'manifest.json'].sort(),
   )
 })

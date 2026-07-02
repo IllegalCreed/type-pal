@@ -4,7 +4,7 @@
   "contentVersion": 1,
   "entryScene": "guijie-minju",
   "content": {
-    "scenes": "content/scenes.json",
+    "scenes": "content/scenes/",
     "actors": "content/actors.json",
     "skills": "content/skills.json",
     "items": "content/items.json",

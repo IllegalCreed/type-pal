@@ -26,9 +26,9 @@ export { decompressGzip, loadPalette, loadSprite, loadTilemap, loadTileset }
 export type { AssetBase, LoadedSprite }
 
 // 工程 loader(manifest + content JSON → LoadedProject)
-import { assembleProject, loadProject } from './loader.js'
+import { assembleProject, loadAllScenes, loadProject, loadSceneDef } from './loader.js'
 import type { ContentJsons, LoadedProject } from './loader.js'
-export { assembleProject, loadProject }
+export { assembleProject, loadAllScenes, loadProject, loadSceneDef }
 export type { ContentJsons, LoadedProject }
 
 // 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移)

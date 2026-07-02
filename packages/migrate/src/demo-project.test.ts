@@ -20,7 +20,8 @@ const root = fileURLToPath(new URL('../../../projects/demo/', import.meta.url))
 const read = (rel: string): unknown => JSON.parse(readFileSync(root + rel, 'utf8'))
 
 const manifest = read('manifest.json') as { id: string; entryScene: string; startWorld: StartWorld }
-const scenes = validateScenes(read('content/scenes.json'))
+const sceneIds = read('content/scenes/index.json') as string[]
+const scenes = validateScenes(sceneIds.map((id) => read(`content/scenes/${id}.json`)))
 const actors = validateActors(read('content/actors.json'))
 const sprites = validateSprites(read('content/sprites.json'))
 const { skills } = validateSkills(read('content/skills.json'))

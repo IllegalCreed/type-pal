@@ -7,7 +7,7 @@
  */
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { loadProject } from '@type-pal/reforge'
+import { loadAllScenes, loadProject } from '@type-pal/reforge'
 import type { LoadedProject } from '@type-pal/reforge'
 import { EditSession } from './core/edit-session.js'
 import { toEditorState } from './core/project-io.js'
@@ -23,9 +23,10 @@ function Root() {
   useEffect(() => {
     let alive = true
     loadProject(PROJECT_ID)
-      .then((project) => {
+      .then(async (project) => {
+        const scenes = await loadAllScenes(project) // 编辑器全量路径(引擎懒加载,M2a-2)
         if (!alive) return
-        setBoot({ session: new EditSession(toEditorState(project)), project })
+        setBoot({ session: new EditSession(toEditorState(project, scenes)), project })
       })
       .catch((e: unknown) => {
         if (alive) setBoot({ error: e instanceof Error ? e.message : String(e) })

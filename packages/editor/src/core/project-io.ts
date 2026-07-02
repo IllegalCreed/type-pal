@@ -13,16 +13,17 @@
  * 见 docs/phase2/editor/editor-b1-logic-plan.md(契约 + L3)。
  */
 import type { LoadedProject } from '@type-pal/reforge'
+import type { SceneDef } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 
 /**
  * 只读工程 → 可变工作副本。by-id Record 翻成数组(Object.values,保原数组序);
  * 数组/Record 直传;运行期派生物(entryScene/assetBase)丢弃。
  */
-export function toEditorState(project: LoadedProject): EditorState {
+export function toEditorState(project: LoadedProject, scenes: SceneDef[]): EditorState {
   return {
-    // 数组:直传(scenes 已是数组)
-    scenes: project.scenes,
+    // M2a-2:场景懒加载后 LoadedProject 不再带全量 → 编辑器 loadAllScenes 拉齐后传入
+    scenes,
     // by-id Record → 数组(Object.values 保序:indexById 按原数组序插入)
     actors: Object.values(project.actorsById),
     skills: Object.values(project.skills),
@@ -39,7 +40,7 @@ export function toEditorState(project: LoadedProject): EditorState {
 }
 
 /** manifest.content 的键 → 序列化时该文件存什么值。 */
-type ContentKey = 'scenes' | 'actors' | 'skills' | 'items' | 'locale' | 'sprites'
+type ContentKey = 'actors' | 'skills' | 'items' | 'locale' | 'sprites'
 
 /**
  * 工作副本 → {相对路径: JSON 值} 文件集。按 manifest.content 的路径键映射;
@@ -49,10 +50,12 @@ export function serializeProject(state: EditorState): Record<string, unknown> {
   const files: Record<string, unknown> = {}
   const content = state.manifest.content
 
+  // M2a-2:scenes 走 per-scene 目录(index.json + <id>.json);其余表域单文件。
+  const dir = (content.scenes ?? 'content/scenes/').replace(/\/?$/, '/')
+  files[`${dir}index.json`] = state.scenes.map((s) => s.id)
+  for (const s of state.scenes) files[`${dir}${s.id}.json`] = s
   // 各 content 文件:按 manifest 声明的路径键映射到对应值。
-  // scenes/actors/items/locale/sprites 是数组/对象直接存;skills 包一层 {skills, levelUp}。
   const byKey: Record<ContentKey, unknown> = {
-    scenes: state.scenes,
     actors: state.actors,
     skills: { skills: state.skills, levelUp: state.levelUp },
     items: state.items,

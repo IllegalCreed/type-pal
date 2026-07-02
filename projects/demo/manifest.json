@@ -4,7 +4,7 @@
   "contentVersion": 1,
   "entryScene": "guijie-minju",
   "content": {
-    "scenes": "content/scenes.json",
+    "scenes": "content/scenes/",
     "actors": "content/actors.json",
     "skills": "content/skills.json",
     "items": "content/items.json",
@@ -19,14 +19,36 @@
     "palettes": "palettes"
   },
   "startWorld": {
-    "party": ["li-xiaoyao"],
-    "money": 0,
-    "learnedSkills": { "li-xiaoyao": ["296", "298", "299"] },
-    "inventory": [
-      { "itemId": "267", "count": 1 },
-      { "itemId": "61", "count": 2 },
-      { "itemId": "78", "count": 1 }
+    "party": [
+      "li-xiaoyao"
     ],
-    "seedStats": { "li-xiaoyao": { "hp": 100, "mp": 30 } }
+    "money": 0,
+    "learnedSkills": {
+      "li-xiaoyao": [
+        "296",
+        "298",
+        "299"
+      ]
+    },
+    "inventory": [
+      {
+        "itemId": "267",
+        "count": 1
+      },
+      {
+        "itemId": "61",
+        "count": 2
+      },
+      {
+        "itemId": "78",
+        "count": 1
+      }
+    ],
+    "seedStats": {
+      "li-xiaoyao": {
+        "hp": 100,
+        "mp": 30
+      }
+    }
   }
 }

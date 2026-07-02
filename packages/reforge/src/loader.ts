@@ -1,6 +1,11 @@
 // 工程 loader:运行期 fetch manifest + content JSON → guard 校验 → 组装内存对象。
 // assembleProject 是纯核(可单测,喂 fixture JSON);loadProject 是 IO 壳(fetch)。
 // main.ts 不再 import 任何具体游戏数据,全靠 loader 注入。
+//
+// M2a-2 · per-scene 布局:manifest.content.scenes 指向**目录**(如 "content/scenes/"),
+// 内含 index.json(场景 id 清单)+ <id>.json(单场景)。
+// **双路径**:引擎 loadProject 只取 index + 入口场景(懒加载,后续 loadSceneDef 按需);
+// 编辑器 loadAllScenes 一次拉全量。见 scene-model-m2-design §2。
 import type {
   ActorDef,
   ItemDataMap,
@@ -21,11 +26,14 @@ import {
 } from '@type-pal/content'
 import type { AssetBase } from './assets.js'
 
-/** 加载完成的工程对象(main.ts 消费)。 */
+/** 加载完成的工程对象(main.ts 消费)。场景为懒加载:仅 sceneIds 清单 + 已载入的入口场景。 */
 export interface LoadedProject {
   manifest: LoadedManifest
-  scenes: SceneDef[]
-  /** 入口场景(entryScene 解析;取不到 assembleProject 已 throw)。 */
+  /** 工程根相对路径(fetch 场景/资源用),如 "projects/demo"。 */
+  projectRoot: string
+  /** 场景 id 清单(content/scenes/index.json)。 */
+  sceneIds: string[]
+  /** 入口场景(已载入;其余场景 loadSceneDef 按需)。 */
   entryScene: SceneDef
   actorsById: Record<string, ActorDef>
   skills: SkillDataMap
@@ -41,7 +49,10 @@ export interface LoadedProject {
 /** content JSON 输入(assembleProject 的纯参,便于单测喂 fixture)。 */
 export interface ContentJsons {
   actors: unknown
-  scenes: unknown
+  /** 场景 id 清单(content/scenes/index.json 的内容)。 */
+  sceneIds: unknown
+  /** 入口场景 JSON(content/scenes/<manifest.entryScene>.json 的内容)。 */
+  entryScene: unknown
   skills: unknown
   items: unknown
   locale: unknown
@@ -55,23 +66,35 @@ function indexById<T extends { id: string }>(arr: T[]): Record<string, T> {
   return m
 }
 
-/** 纯组装核:manifest + content JSON(5 必 + sprites 可选) → guard → LoadedProject。无 IO,可单测。 */
+/** index.json 形状校验:string[]。 */
+function validateSceneIds(json: unknown): string[] {
+  if (!Array.isArray(json) || json.some((x) => typeof x !== 'string'))
+    throw new Error('scenes/index.json: 期望 string[]')
+  return json as string[]
+}
+
+/** 纯组装核:manifest + content JSON → guard → LoadedProject。无 IO,可单测。 */
 export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): LoadedProject {
-  const scenes = validateScenes(jsons.scenes)
+  const sceneIds = validateSceneIds(jsons.sceneIds)
+  const [entryScene] = validateScenes([jsons.entryScene])
   const actors = validateActors(jsons.actors)
   const { skills, levelUp } = validateSkills(jsons.skills)
   const items = validateItems(jsons.items)
   const locale = validateLocale(jsons.locale)
   const sprites = jsons.sprites ? validateSprites(jsons.sprites) : []
 
-  const entryScene = scenes.find((s) => s.id === manifest.entryScene)
-  if (!entryScene)
-    throw new Error(`工程 "${manifest.id}": 入口场景 "${manifest.entryScene}" 在 scenes 里找不到`)
+  if (!entryScene || entryScene.id !== manifest.entryScene)
+    throw new Error(
+      `工程 "${manifest.id}": 入口场景不符(期望 "${manifest.entryScene}",得 "${entryScene?.id ?? '(空)'}")`,
+    )
+  if (!sceneIds.includes(manifest.entryScene))
+    throw new Error(`工程 "${manifest.id}": 入口场景 "${manifest.entryScene}" 不在 scenes/index.json`)
 
   const a = manifest.assets
   return {
     manifest,
-    scenes,
+    projectRoot: `projects/${manifest.id}`,
+    sceneIds,
     entryScene,
     actorsById: indexById(actors),
     skills: indexById(skills),
@@ -89,20 +112,42 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
   }
 }
 
-/** IO 壳:fetch manifest + content JSON(5 必 + sprites 若 manifest 有则取) → assembleProject。projectId = 工程文件夹名。 */
+/** 场景目录相对路径(manifest.content.scenes;规整为以 / 结尾)。 */
+function scenesDir(manifest: LoadedManifest): string {
+  const dir = manifest.content.scenes ?? 'content/scenes/'
+  return dir.endsWith('/') ? dir : `${dir}/`
+}
+
+/** IO 壳:fetch manifest + 表域 + 场景 index + 入口场景 → assembleProject。projectId = 工程文件夹名。 */
 export async function loadProject(projectId: string): Promise<LoadedProject> {
   const root = `projects/${projectId}`
   const manifest = (await fetchJson(`${root}/manifest.json`)) as LoadedManifest
   const content = manifest.content
-  const [actors, scenes, skills, items, locale, sprites] = await Promise.all([
+  const dir = scenesDir(manifest)
+  const [actors, sceneIds, entryScene, skills, items, locale, sprites] = await Promise.all([
     fetchJson(`${root}/${content.actors}`),
-    fetchJson(`${root}/${content.scenes}`),
+    fetchJson(`${root}/${dir}index.json`),
+    fetchJson(`${root}/${dir}${manifest.entryScene}.json`),
     fetchJson(`${root}/${content.skills}`),
     fetchJson(`${root}/${content.items}`),
     fetchJson(`${root}/${content.locale}`),
     content.sprites ? fetchJson(`${root}/${content.sprites}`) : Promise.resolve(undefined),
   ])
-  return assembleProject(manifest, { actors, scenes, skills, items, locale, sprites })
+  return assembleProject(manifest, { actors, sceneIds, entryScene, skills, items, locale, sprites })
+}
+
+/** 按需载单场景(引擎 switchScene / 编辑器切场景用)。 */
+export async function loadSceneDef(project: LoadedProject, sceneId: string): Promise<SceneDef> {
+  const json = await fetchJson(`${project.projectRoot}/${scenesDir(project.manifest)}${sceneId}.json`)
+  const [scene] = validateScenes([json])
+  if (!scene || scene.id !== sceneId)
+    throw new Error(`loadSceneDef: 场景文件 id 不符(期望 "${sceneId}",得 "${scene?.id ?? '(空)'}")`)
+  return scene
+}
+
+/** 编辑器全量路径:按 index 顺序拉全部场景。 */
+export async function loadAllScenes(project: LoadedProject): Promise<SceneDef[]> {
+  return Promise.all(project.sceneIds.map((id) => loadSceneDef(project, id)))
 }
 
 async function fetchJson(url: string): Promise<unknown> {

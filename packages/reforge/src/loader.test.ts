@@ -90,18 +90,20 @@ const spritesJson = [
 ]
 const baseJsons = {
   actors: actorsJson,
-  scenes: scenesJson,
+  sceneIds: ['guijie-minju'],
+  entryScene: scenesJson[0],
   skills: skillsJson,
   items: itemsJson,
   locale: localeJson,
 }
 
 describe('assembleProject(纯核)', () => {
-  test('组装:scenes 数组 + actorsById/skills/items Record + locale + manifest', () => {
+  test('组装:sceneIds 清单 + 入口场景 + actorsById/skills/items Record + locale + manifest', () => {
     const p = assembleProject(manifest, baseJsons)
     expect(p.manifest.id).toBe('demo')
-    expect(p.scenes.map((s) => s.id)).toEqual(['guijie-minju'])
-    expect(p.entryScene?.id).toBe('guijie-minju') // entryScene 解析 = scenes.find(entryScene)
+    expect(p.sceneIds).toEqual(['guijie-minju'])
+    expect(p.projectRoot).toBe('projects/demo')
+    expect(p.entryScene?.id).toBe('guijie-minju') // 入口场景已载入(其余懒加载)
     expect(p.actorsById['li-xiaoyao']?.battler?.baseStats.attack).toBe(33)
     expect(p.actorsById['youhun']?.spriteId).toBe('ghost') // 无 battler 的 NPC 也在表
     expect(p.skills['296']?.name).toBe('气疗术')
@@ -109,8 +111,14 @@ describe('assembleProject(纯核)', () => {
     expect(p.items['166']?.name).toBe('木剑')
     expect(p.locale['menu.status']).toBe('状态')
   })
-  test('entryScene 在 scenes 里找不到 → throw', () => {
+  test('入口场景 id 与 manifest 不符 → throw;不在 index → throw', () => {
     expect(() => assembleProject({ ...manifest, entryScene: 'nope' }, baseJsons)).toThrow('入口场景')
+    expect(() =>
+      assembleProject(manifest, { ...baseJsons, sceneIds: ['other'] }),
+    ).toThrow('不在 scenes/index.json')
+  })
+  test('sceneIds 非 string[] → throw', () => {
+    expect(() => assembleProject(manifest, { ...baseJsons, sceneIds: [1] })).toThrow('string[]')
   })
   test('guard 拦截:items 缺 id → throw', () => {
     expect(() => assembleProject(manifest, { ...baseJsons, items: [{ name: 'x' }] })).toThrow('id')
