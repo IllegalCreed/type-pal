@@ -1,0 +1,121 @@
+{
+  "id": "s278",
+  "map": {
+    "reuseOriginalMap": 183
+  },
+  "entries": {
+    "from-s281": {
+      "pos": {
+        "col": 100,
+        "row": 82,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 100,
+      "row": 82,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4740",
+      "pos": {
+        "col": 112,
+        "row": 18,
+        "height": 0
+      },
+      "sprite": "npc-565"
+    },
+    {
+      "id": "e4741",
+      "pos": {
+        "col": 112,
+        "row": 19,
+        "height": 0
+      },
+      "sprite": "npc-564",
+      "hidden": true
+    },
+    {
+      "id": "e4743",
+      "pos": {
+        "col": 113,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-562",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e4744",
+      "pos": {
+        "col": 111,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-544",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e4745",
+      "pos": {
+        "col": 115,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-544",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e4746",
+      "pos": {
+        "col": 115,
+        "row": 27,
+        "height": 0
+      },
+      "sprite": "npc-397",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e4747",
+      "pos": {
+        "col": 113,
+        "row": 27,
+        "height": 0
+      },
+      "sprite": "npc-5",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e4748",
+      "pos": {
+        "col": 113,
+        "row": 25,
+        "height": 0
+      },
+      "sprite": "npc-38",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e4749",
+      "pos": {
+        "col": 114,
+        "row": 27,
+        "height": 0
+      },
+      "sprite": "npc-629",
+      "hidden": true
+    }
+  ],
+  "dialogues": []
+}

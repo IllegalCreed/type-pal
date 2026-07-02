@@ -1,0 +1,32 @@
+{
+  "id": "s294",
+  "map": {
+    "reuseOriginalMap": 0
+  },
+  "entries": {
+    "from-s279": {
+      "pos": {
+        "col": 104,
+        "row": 34,
+        "height": 0
+      }
+    },
+    "from-s292": {
+      "pos": {
+        "col": 91,
+        "row": -23,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 104,
+      "row": 34,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [],
+  "dialogues": []
+}

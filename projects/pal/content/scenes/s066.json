@@ -1,0 +1,126 @@
+{
+  "id": "s066",
+  "map": {
+    "reuseOriginalMap": 57
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 33,
+        "row": 3,
+        "height": 0
+      }
+    },
+    "from-s060": {
+      "pos": {
+        "col": 111,
+        "row": 34,
+        "height": 0
+      }
+    },
+    "from-s060-2": {
+      "pos": {
+        "col": 100,
+        "row": 13,
+        "height": 0
+      }
+    },
+    "from-s060-3": {
+      "pos": {
+        "col": 101,
+        "row": -1,
+        "height": 0
+      }
+    },
+    "from-s060-4": {
+      "pos": {
+        "col": 79,
+        "row": -13,
+        "height": 0
+      }
+    },
+    "from-s060-5": {
+      "pos": {
+        "col": 63,
+        "row": -10,
+        "height": 0
+      }
+    },
+    "from-s060-6": {
+      "pos": {
+        "col": 65,
+        "row": 40,
+        "height": 0
+      }
+    },
+    "from-s060-7": {
+      "pos": {
+        "col": 79,
+        "row": 61,
+        "height": 0
+      }
+    },
+    "from-s060-8": {
+      "pos": {
+        "col": 132,
+        "row": 101,
+        "height": 0
+      }
+    },
+    "from-s060-9": {
+      "pos": {
+        "col": 127,
+        "row": 78,
+        "height": 0
+      }
+    },
+    "from-s060-10": {
+      "pos": {
+        "col": 107,
+        "row": 67,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 33,
+      "row": 3,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e1336",
+      "pos": {
+        "col": 34,
+        "row": 3,
+        "height": 0
+      },
+      "sprite": "npc-398",
+      "facing": "up"
+    },
+    {
+      "id": "e1337",
+      "pos": {
+        "col": 31,
+        "row": 3,
+        "height": 0
+      },
+      "sprite": "npc-397",
+      "facing": "right"
+    },
+    {
+      "id": "e1338",
+      "pos": {
+        "col": 32,
+        "row": 4,
+        "height": 0
+      },
+      "sprite": "npc-400",
+      "facing": "up"
+    }
+  ],
+  "dialogues": []
+}

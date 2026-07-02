@@ -1,0 +1,36 @@
+{
+  "id": "s152",
+  "map": {
+    "reuseOriginalMap": 74
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 78,
+        "row": -27,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 78,
+      "row": -27,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2475",
+      "pos": {
+        "col": 99,
+        "row": 38,
+        "height": 0
+      },
+      "sprite": "npc-372",
+      "zBias": -9
+    }
+  ],
+  "dialogues": []
+}

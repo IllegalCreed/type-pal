@@ -1,0 +1,147 @@
+{
+  "id": "s285",
+  "map": {
+    "reuseOriginalMap": 203
+  },
+  "entries": {
+    "from-s278": {
+      "pos": {
+        "col": 96,
+        "row": 39,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 39,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4809",
+      "pos": {
+        "col": 77,
+        "row": 12,
+        "height": 0
+      },
+      "sprite": "npc-614",
+      "zBias": -9
+    },
+    {
+      "id": "e4815",
+      "pos": {
+        "col": 61,
+        "row": -4,
+        "height": 0
+      },
+      "sprite": "npc-549",
+      "collide": true
+    },
+    {
+      "id": "e4816",
+      "pos": {
+        "col": 104,
+        "row": 1,
+        "height": 0
+      },
+      "sprite": "npc-548",
+      "collide": true
+    },
+    {
+      "id": "e4817",
+      "pos": {
+        "col": 73,
+        "row": 15,
+        "height": 0
+      },
+      "sprite": "npc-548",
+      "collide": true
+    },
+    {
+      "id": "e4818",
+      "pos": {
+        "col": 79,
+        "row": 8,
+        "height": 0
+      },
+      "sprite": "npc-549",
+      "collide": true
+    },
+    {
+      "id": "e4819",
+      "pos": {
+        "col": 100,
+        "row": 12,
+        "height": 0
+      },
+      "sprite": "npc-11",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4820",
+      "pos": {
+        "col": 50,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6
+    },
+    {
+      "id": "e4821",
+      "pos": {
+        "col": 57,
+        "row": 20,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6
+    },
+    {
+      "id": "e4822",
+      "pos": {
+        "col": 57,
+        "row": 8,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6
+    },
+    {
+      "id": "e4823",
+      "pos": {
+        "col": 62,
+        "row": -7,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6
+    },
+    {
+      "id": "e4824",
+      "pos": {
+        "col": 76,
+        "row": -7,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6
+    },
+    {
+      "id": "e4825",
+      "pos": {
+        "col": 90,
+        "row": -7,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6
+    }
+  ],
+  "dialogues": []
+}

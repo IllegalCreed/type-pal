@@ -1,0 +1,35 @@
+{
+  "id": "s171",
+  "map": {
+    "reuseOriginalMap": 18
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 91,
+        "row": 36,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 91,
+      "row": 36,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2853",
+      "pos": {
+        "col": 93,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-230"
+    }
+  ],
+  "dialogues": []
+}

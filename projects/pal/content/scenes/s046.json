@@ -1,0 +1,50 @@
+{
+  "id": "s046",
+  "map": {
+    "reuseOriginalMap": 70
+  },
+  "entries": {
+    "from-s046": {
+      "pos": {
+        "col": 110,
+        "row": 50,
+        "height": 0
+      }
+    },
+    "from-s046-2": {
+      "pos": {
+        "col": 80,
+        "row": 0,
+        "height": 0
+      }
+    },
+    "from-s046-3": {
+      "pos": {
+        "col": 113,
+        "row": 71,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 110,
+      "row": 50,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e756",
+      "pos": {
+        "col": 111,
+        "row": 13,
+        "height": 0
+      },
+      "sprite": "npc-389",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

@@ -1,0 +1,38 @@
+{
+  "id": "s013",
+  "map": {
+    "reuseOriginalMap": 22
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e199",
+      "pos": {
+        "col": 76,
+        "row": 21,
+        "height": 0
+      },
+      "sprite": "npc-163-f0",
+      "hidden": true
+    },
+    {
+      "id": "e200",
+      "pos": {
+        "col": 70,
+        "row": 17,
+        "height": 0
+      },
+      "sprite": "npc-158",
+      "facing": "right",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

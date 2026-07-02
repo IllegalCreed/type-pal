@@ -1,0 +1,47 @@
+{
+  "id": "s142",
+  "map": {
+    "reuseOriginalMap": 106
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2382",
+      "pos": {
+        "col": 64,
+        "row": 32,
+        "height": 0
+      },
+      "sprite": "npc-166",
+      "zBias": 10
+    },
+    {
+      "id": "e2383",
+      "pos": {
+        "col": 71,
+        "row": 41,
+        "height": 0
+      },
+      "sprite": "npc-445-f1",
+      "hidden": true
+    },
+    {
+      "id": "e2384",
+      "pos": {
+        "col": 71,
+        "row": 41,
+        "height": 0
+      },
+      "sprite": "npc-23",
+      "hidden": true
+    }
+  ],
+  "dialogues": []
+}

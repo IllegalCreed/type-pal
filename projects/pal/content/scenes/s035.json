@@ -1,0 +1,149 @@
+{
+  "id": "s035",
+  "map": {
+    "reuseOriginalMap": 15
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e583",
+      "pos": {
+        "col": 84,
+        "row": 2,
+        "height": 0
+      },
+      "sprite": "npc-1"
+    },
+    {
+      "id": "e584",
+      "pos": {
+        "col": 85,
+        "row": 0,
+        "height": 0
+      },
+      "sprite": "npc-52"
+    },
+    {
+      "id": "e585",
+      "pos": {
+        "col": 82,
+        "row": 1,
+        "height": 0
+      },
+      "sprite": "npc-52"
+    },
+    {
+      "id": "e590",
+      "pos": {
+        "col": 74,
+        "row": -16,
+        "height": 0
+      },
+      "sprite": "npc-438",
+      "hidden": true
+    },
+    {
+      "id": "e591",
+      "pos": {
+        "col": 42,
+        "row": -27,
+        "height": 0
+      },
+      "sprite": "npc-248",
+      "collide": true
+    },
+    {
+      "id": "e592",
+      "pos": {
+        "col": 77,
+        "row": -17,
+        "height": 0
+      },
+      "sprite": "npc-146",
+      "facing": "left",
+      "hidden": true
+    },
+    {
+      "id": "e593",
+      "pos": {
+        "col": 77,
+        "row": -15,
+        "height": 0
+      },
+      "sprite": "npc-147",
+      "facing": "left",
+      "hidden": true
+    },
+    {
+      "id": "e594",
+      "pos": {
+        "col": 95,
+        "row": 2,
+        "height": 0
+      },
+      "sprite": "npc-141",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e595",
+      "pos": {
+        "col": 68,
+        "row": 37,
+        "height": 0
+      },
+      "sprite": "npc-148",
+      "facing": "right",
+      "hidden": true
+    },
+    {
+      "id": "e596",
+      "pos": {
+        "col": 69,
+        "row": 25,
+        "height": 0
+      },
+      "sprite": "npc-245",
+      "hidden": true
+    },
+    {
+      "id": "e597",
+      "pos": {
+        "col": 89,
+        "row": 9,
+        "height": 0
+      },
+      "sprite": "npc-141",
+      "hidden": true
+    },
+    {
+      "id": "e598",
+      "pos": {
+        "col": 93,
+        "row": 3,
+        "height": 0
+      },
+      "sprite": "npc-148",
+      "facing": "right",
+      "hidden": true
+    },
+    {
+      "id": "e599",
+      "pos": {
+        "col": 92,
+        "row": -4,
+        "height": 0
+      },
+      "sprite": "npc-146",
+      "hidden": true
+    }
+  ],
+  "dialogues": []
+}

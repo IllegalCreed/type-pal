@@ -1,0 +1,57 @@
+{
+  "id": "s211",
+  "map": {
+    "reuseOriginalMap": 173
+  },
+  "musicId": 55,
+  "entries": {
+    "from-s205": {
+      "pos": {
+        "col": 34,
+        "row": 3,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 34,
+      "row": 3,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e3582",
+      "pos": {
+        "col": 86,
+        "row": 9,
+        "height": 0
+      },
+      "sprite": "npc-443",
+      "collide": true
+    },
+    {
+      "id": "e3583",
+      "pos": {
+        "col": 91,
+        "row": 9,
+        "height": 0
+      },
+      "sprite": "npc-443",
+      "collide": true
+    },
+    {
+      "id": "e3584",
+      "pos": {
+        "col": 89,
+        "row": 8,
+        "height": 0
+      },
+      "sprite": "npc-423",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

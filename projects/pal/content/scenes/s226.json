@@ -1,0 +1,376 @@
+{
+  "id": "s226",
+  "map": {
+    "reuseOriginalMap": 224
+  },
+  "entries": {
+    "from-s221": {
+      "pos": {
+        "col": 107,
+        "row": 92,
+        "height": 0
+      }
+    },
+    "from-s225": {
+      "pos": {
+        "col": 93,
+        "row": 57,
+        "height": 0
+      }
+    },
+    "from-s225-2": {
+      "pos": {
+        "col": 64,
+        "row": 18,
+        "height": 0
+      }
+    },
+    "from-s225-3": {
+      "pos": {
+        "col": 143,
+        "row": 52,
+        "height": 0
+      }
+    },
+    "from-s225-4": {
+      "pos": {
+        "col": 64,
+        "row": -7,
+        "height": 0
+      }
+    },
+    "from-s225-5": {
+      "pos": {
+        "col": 143,
+        "row": 44,
+        "height": 0
+      }
+    },
+    "from-s225-6": {
+      "pos": {
+        "col": 65,
+        "row": -36,
+        "height": 0
+      }
+    },
+    "from-s225-7": {
+      "pos": {
+        "col": 78,
+        "row": 47,
+        "height": 0
+      }
+    },
+    "from-s225-8": {
+      "pos": {
+        "col": 105,
+        "row": 2,
+        "height": 0
+      }
+    },
+    "from-s225-9": {
+      "pos": {
+        "col": 128,
+        "row": 85,
+        "height": 0
+      }
+    },
+    "from-s225-10": {
+      "pos": {
+        "col": 113,
+        "row": 87,
+        "height": 0
+      }
+    },
+    "from-s225-11": {
+      "pos": {
+        "col": 111,
+        "row": 43,
+        "height": 0
+      }
+    },
+    "from-s225-12": {
+      "pos": {
+        "col": 57,
+        "row": -2,
+        "height": 0
+      }
+    },
+    "from-s225-13": {
+      "pos": {
+        "col": 84,
+        "row": 60,
+        "height": 0
+      }
+    },
+    "from-s225-14": {
+      "pos": {
+        "col": 61,
+        "row": -21,
+        "height": 0
+      }
+    },
+    "from-s225-15": {
+      "pos": {
+        "col": 103,
+        "row": 63,
+        "height": 0
+      }
+    },
+    "from-s225-16": {
+      "pos": {
+        "col": 88,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "from-s225-17": {
+      "pos": {
+        "col": 99,
+        "row": 63,
+        "height": 0
+      }
+    },
+    "from-s225-18": {
+      "pos": {
+        "col": 84,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "from-s225-19": {
+      "pos": {
+        "col": 107,
+        "row": 63,
+        "height": 0
+      }
+    },
+    "from-s226": {
+      "pos": {
+        "col": 128,
+        "row": 44,
+        "height": 0
+      }
+    },
+    "from-s226-2": {
+      "pos": {
+        "col": 40,
+        "row": 13,
+        "height": 0
+      }
+    },
+    "from-s226-3": {
+      "pos": {
+        "col": 93,
+        "row": -4,
+        "height": 0
+      }
+    },
+    "from-s226-4": {
+      "pos": {
+        "col": 119,
+        "row": 32,
+        "height": 0
+      }
+    },
+    "from-s226-5": {
+      "pos": {
+        "col": 62,
+        "row": -24,
+        "height": 0
+      }
+    },
+    "from-s226-6": {
+      "pos": {
+        "col": 71,
+        "row": -21,
+        "height": 0
+      }
+    },
+    "from-s226-7": {
+      "pos": {
+        "col": 119,
+        "row": 62,
+        "height": 0
+      }
+    },
+    "from-s226-8": {
+      "pos": {
+        "col": 93,
+        "row": 20,
+        "height": 0
+      }
+    },
+    "from-s226-9": {
+      "pos": {
+        "col": 119,
+        "row": 32,
+        "height": 0
+      }
+    },
+    "from-s226-10": {
+      "pos": {
+        "col": 66,
+        "row": -20,
+        "height": 0
+      }
+    },
+    "from-s226-11": {
+      "pos": {
+        "col": 78,
+        "row": 41,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 107,
+      "row": 92,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e3994",
+      "pos": {
+        "col": 70,
+        "row": 34,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e3995",
+      "pos": {
+        "col": 83,
+        "row": 47,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e3996",
+      "pos": {
+        "col": 108,
+        "row": 63,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e3997",
+      "pos": {
+        "col": 130,
+        "row": 43,
+        "height": 0
+      },
+      "sprite": "npc-389",
+      "collide": true
+    },
+    {
+      "id": "e3998",
+      "pos": {
+        "col": 57,
+        "row": 24,
+        "height": 0
+      },
+      "sprite": "npc-389",
+      "collide": true
+    },
+    {
+      "id": "e3999",
+      "pos": {
+        "col": 123,
+        "row": 58,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4000",
+      "pos": {
+        "col": 102,
+        "row": 39,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4001",
+      "pos": {
+        "col": 48,
+        "row": -20,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4002",
+      "pos": {
+        "col": 82,
+        "row": -16,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4003",
+      "pos": {
+        "col": 56,
+        "row": -16,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4004",
+      "pos": {
+        "col": 151,
+        "row": 51,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4005",
+      "pos": {
+        "col": 139,
+        "row": 51,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4006",
+      "pos": {
+        "col": 122,
+        "row": 84,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4007",
+      "pos": {
+        "col": 122,
+        "row": 75,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

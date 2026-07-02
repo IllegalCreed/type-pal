@@ -1,0 +1,129 @@
+{
+  "id": "s024",
+  "map": {
+    "reuseOriginalMap": 38
+  },
+  "entries": {
+    "from-s024": {
+      "pos": {
+        "col": 63,
+        "row": -25,
+        "height": 0
+      }
+    },
+    "from-s032": {
+      "pos": {
+        "col": 97,
+        "row": 11,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 63,
+      "row": -25,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e465",
+      "pos": {
+        "col": 33,
+        "row": -1,
+        "height": 0
+      },
+      "sprite": "npc-51",
+      "facing": "up",
+      "collide": true
+    },
+    {
+      "id": "e466",
+      "pos": {
+        "col": 42,
+        "row": 6,
+        "height": 0
+      },
+      "sprite": "npc-159",
+      "collide": true
+    },
+    {
+      "id": "e467",
+      "pos": {
+        "col": 42,
+        "row": 10,
+        "height": 0
+      },
+      "sprite": "npc-373",
+      "facing": "right",
+      "collide": true,
+      "zBias": -1
+    },
+    {
+      "id": "e468",
+      "pos": {
+        "col": 62,
+        "row": -15,
+        "height": 0
+      },
+      "sprite": "npc-90",
+      "facing": "left",
+      "collide": true
+    },
+    {
+      "id": "e469",
+      "pos": {
+        "col": 68,
+        "row": -27,
+        "height": 0
+      },
+      "sprite": "npc-313",
+      "facing": "up",
+      "collide": true
+    },
+    {
+      "id": "e470",
+      "pos": {
+        "col": 71,
+        "row": 49,
+        "height": 0
+      },
+      "sprite": "npc-279",
+      "zBias": 4
+    },
+    {
+      "id": "e471",
+      "pos": {
+        "col": 72,
+        "row": 48,
+        "height": 0
+      },
+      "sprite": "npc-292",
+      "zBias": 4
+    },
+    {
+      "id": "e472",
+      "pos": {
+        "col": 105,
+        "row": 25,
+        "height": 0
+      },
+      "sprite": "npc-294",
+      "zBias": 4
+    },
+    {
+      "id": "e473",
+      "pos": {
+        "col": 101,
+        "row": 13,
+        "height": 0
+      },
+      "sprite": "npc-307",
+      "facing": "up",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

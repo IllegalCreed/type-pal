@@ -1,0 +1,133 @@
+{
+  "id": "s114",
+  "map": {
+    "reuseOriginalMap": 106
+  },
+  "musicId": 73,
+  "entries": {
+    "from-s105": {
+      "pos": {
+        "col": 131,
+        "row": 101,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 131,
+      "row": 101,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2124",
+      "pos": {
+        "col": 131,
+        "row": 26,
+        "height": 0
+      },
+      "sprite": "npc-134",
+      "collide": true
+    },
+    {
+      "id": "e2125",
+      "pos": {
+        "col": 131,
+        "row": 29,
+        "height": 0
+      },
+      "sprite": "npc-134",
+      "facing": "up",
+      "collide": true
+    },
+    {
+      "id": "e2126",
+      "pos": {
+        "col": 132,
+        "row": 34,
+        "height": 0
+      },
+      "sprite": "npc-134",
+      "facing": "right",
+      "collide": true
+    },
+    {
+      "id": "e2127",
+      "pos": {
+        "col": 132,
+        "row": 32,
+        "height": 0
+      },
+      "sprite": "npc-134",
+      "facing": "right",
+      "collide": true
+    },
+    {
+      "id": "e2128",
+      "pos": {
+        "col": 132,
+        "row": 23,
+        "height": 0
+      },
+      "sprite": "npc-134",
+      "facing": "right",
+      "collide": true
+    },
+    {
+      "id": "e2129",
+      "pos": {
+        "col": 132,
+        "row": 21,
+        "height": 0
+      },
+      "sprite": "npc-134",
+      "facing": "right",
+      "collide": true
+    },
+    {
+      "id": "e2130",
+      "pos": {
+        "col": 107,
+        "row": 25,
+        "height": 0
+      },
+      "sprite": "npc-267",
+      "collide": true
+    },
+    {
+      "id": "e2131",
+      "pos": {
+        "col": 107,
+        "row": 29,
+        "height": 0
+      },
+      "sprite": "npc-267",
+      "facing": "up",
+      "collide": true
+    },
+    {
+      "id": "e2132",
+      "pos": {
+        "col": 106,
+        "row": 24,
+        "height": 0
+      },
+      "sprite": "npc-456",
+      "hidden": true
+    },
+    {
+      "id": "e2133",
+      "pos": {
+        "col": 106,
+        "row": 29,
+        "height": 0
+      },
+      "sprite": "npc-456",
+      "hidden": true
+    }
+  ],
+  "dialogues": []
+}

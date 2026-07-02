@@ -103,7 +103,9 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     locale,
     spritesById: indexById(sprites),
     assetBase: {
-      root: `projects/${manifest.id}/${a.root}`,
+      // root 以 "/" 开头 = 应用绝对路径(如 "/extracted/data",pal 共享提取源,免拷 221 张图进仓);
+      // 否则 = 工程自包含相对路径(demo)。
+      root: a.root.startsWith('/') ? a.root : `projects/${manifest.id}/${a.root}`,
       maps: a.maps,
       tilesets: a.tilesets,
       sprites: a.sprites,

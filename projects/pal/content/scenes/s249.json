@@ -1,0 +1,88 @@
+{
+  "id": "s249",
+  "map": {
+    "reuseOriginalMap": 203
+  },
+  "musicId": 60,
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4396",
+      "pos": {
+        "col": 77,
+        "row": 12,
+        "height": 0
+      },
+      "sprite": "npc-613",
+      "zBias": -9
+    },
+    {
+      "id": "e4402",
+      "pos": {
+        "col": 50,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6
+    },
+    {
+      "id": "e4403",
+      "pos": {
+        "col": 57,
+        "row": 20,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6
+    },
+    {
+      "id": "e4404",
+      "pos": {
+        "col": 57,
+        "row": 8,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6
+    },
+    {
+      "id": "e4405",
+      "pos": {
+        "col": 62,
+        "row": -7,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6
+    },
+    {
+      "id": "e4406",
+      "pos": {
+        "col": 76,
+        "row": -7,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6
+    },
+    {
+      "id": "e4407",
+      "pos": {
+        "col": 90,
+        "row": -7,
+        "height": 0
+      },
+      "sprite": "npc-619",
+      "zBias": 6
+    }
+  ],
+  "dialogues": []
+}

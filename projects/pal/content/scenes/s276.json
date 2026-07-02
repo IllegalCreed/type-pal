@@ -1,0 +1,36 @@
+{
+  "id": "s276",
+  "map": {
+    "reuseOriginalMap": 22
+  },
+  "entries": {
+    "from-s273": {
+      "pos": {
+        "col": 94,
+        "row": 56,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 94,
+      "row": 56,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4734",
+      "pos": {
+        "col": 76,
+        "row": 21,
+        "height": 0
+      },
+      "sprite": "npc-163",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

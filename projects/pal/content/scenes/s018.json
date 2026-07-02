@@ -1,0 +1,35 @@
+{
+  "id": "s018",
+  "map": {
+    "reuseOriginalMap": 25
+  },
+  "entries": {
+    "from-s015": {
+      "pos": {
+        "col": 90,
+        "row": 54,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 90,
+      "row": 54,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e266",
+      "pos": {
+        "col": 98,
+        "row": -23,
+        "height": 0
+      },
+      "sprite": "npc-88"
+    }
+  ],
+  "dialogues": []
+}

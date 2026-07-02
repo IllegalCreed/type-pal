@@ -1,0 +1,128 @@
+{
+  "id": "s174",
+  "map": {
+    "reuseOriginalMap": 202
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 60,
+        "row": 3,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 60,
+      "row": 3,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2869",
+      "pos": {
+        "col": 48,
+        "row": 16,
+        "height": 0
+      },
+      "sprite": "npc-515",
+      "zBias": 2
+    },
+    {
+      "id": "e2870",
+      "pos": {
+        "col": 60,
+        "row": 1,
+        "height": 0
+      },
+      "sprite": "npc-515",
+      "hidden": true
+    },
+    {
+      "id": "e2871",
+      "pos": {
+        "col": 59,
+        "row": 1,
+        "height": 0
+      },
+      "sprite": "npc-539"
+    },
+    {
+      "id": "e2872",
+      "pos": {
+        "col": 48,
+        "row": 9,
+        "height": 0
+      },
+      "sprite": "npc-364"
+    },
+    {
+      "id": "e2873",
+      "pos": {
+        "col": 58,
+        "row": 3,
+        "height": 0
+      },
+      "sprite": "npc-609",
+      "facing": "up",
+      "collide": true
+    },
+    {
+      "id": "e2874",
+      "pos": {
+        "col": 57,
+        "row": 12,
+        "height": 0
+      },
+      "sprite": "npc-609",
+      "facing": "left",
+      "hidden": true
+    },
+    {
+      "id": "e2875",
+      "pos": {
+        "col": 61,
+        "row": 12,
+        "height": 0
+      },
+      "sprite": "npc-609",
+      "hidden": true
+    },
+    {
+      "id": "e2876",
+      "pos": {
+        "col": 61,
+        "row": 17,
+        "height": 0
+      },
+      "sprite": "npc-397",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e2877",
+      "pos": {
+        "col": 62,
+        "row": 16,
+        "height": 0
+      },
+      "sprite": "npc-399",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e2878",
+      "pos": {
+        "col": 46,
+        "row": 8,
+        "height": 0
+      },
+      "sprite": "npc-551",
+      "hidden": true
+    }
+  ],
+  "dialogues": []
+}

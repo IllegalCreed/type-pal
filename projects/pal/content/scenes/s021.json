@@ -1,0 +1,151 @@
+{
+  "id": "s021",
+  "map": {
+    "reuseOriginalMap": 18
+  },
+  "musicId": 71,
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 121,
+        "row": 52,
+        "height": 0
+      }
+    },
+    "from-s019": {
+      "pos": {
+        "col": 111,
+        "row": 79,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 121,
+      "row": 52,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e395",
+      "pos": {
+        "col": 93,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-194",
+      "collide": true
+    },
+    {
+      "id": "e396",
+      "pos": {
+        "col": 93,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-229",
+      "hidden": true
+    },
+    {
+      "id": "e397",
+      "pos": {
+        "col": 93,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-7",
+      "facing": "left",
+      "hidden": true
+    },
+    {
+      "id": "e398",
+      "pos": {
+        "col": 93,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-230",
+      "hidden": true
+    },
+    {
+      "id": "e399",
+      "pos": {
+        "col": 89,
+        "row": 35,
+        "height": 0
+      },
+      "sprite": "npc-3",
+      "facing": "right",
+      "hidden": true
+    },
+    {
+      "id": "e400",
+      "pos": {
+        "col": 94,
+        "row": 33,
+        "height": 0
+      },
+      "sprite": "npc-195",
+      "collide": true,
+      "zBias": 1
+    },
+    {
+      "id": "e401",
+      "pos": {
+        "col": 96,
+        "row": 36,
+        "height": 0
+      },
+      "sprite": "npc-110",
+      "facing": "left",
+      "hidden": true
+    },
+    {
+      "id": "e402",
+      "pos": {
+        "col": 96,
+        "row": 37,
+        "height": 0
+      },
+      "sprite": "npc-148",
+      "facing": "left",
+      "hidden": true
+    },
+    {
+      "id": "e403",
+      "pos": {
+        "col": 93,
+        "row": 33,
+        "height": 0
+      },
+      "sprite": "npc-229",
+      "hidden": true,
+      "zBias": 1
+    },
+    {
+      "id": "e405",
+      "pos": {
+        "col": 130,
+        "row": 54,
+        "height": 0
+      },
+      "sprite": "npc-231"
+    },
+    {
+      "id": "e406",
+      "pos": {
+        "col": 124,
+        "row": 52,
+        "height": 0
+      },
+      "sprite": "npc-40",
+      "facing": "left",
+      "collide": true,
+      "zBias": 9
+    }
+  ],
+  "dialogues": []
+}

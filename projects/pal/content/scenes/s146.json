@@ -1,0 +1,27 @@
+{
+  "id": "s146",
+  "map": {
+    "reuseOriginalMap": 141
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2405",
+      "pos": {
+        "col": 71,
+        "row": -10,
+        "height": 0
+      },
+      "sprite": "npc-484",
+      "hidden": true
+    }
+  ],
+  "dialogues": []
+}

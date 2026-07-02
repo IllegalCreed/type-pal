@@ -1,0 +1,36 @@
+{
+  "id": "s204",
+  "map": {
+    "reuseOriginalMap": 176
+  },
+  "entries": {
+    "from-s211": {
+      "pos": {
+        "col": 73,
+        "row": 45,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 73,
+      "row": 45,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e3438",
+      "pos": {
+        "col": 104,
+        "row": 59,
+        "height": 0
+      },
+      "sprite": "npc-224",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

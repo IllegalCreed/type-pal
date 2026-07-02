@@ -1,0 +1,32 @@
+{
+  "id": "s257",
+  "map": {
+    "reuseOriginalMap": 182
+  },
+  "entries": {
+    "from-s255": {
+      "pos": {
+        "col": 64,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "from-s255-2": {
+      "pos": {
+        "col": 128,
+        "row": 84,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 64,
+      "row": 45,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [],
+  "dialogues": []
+}

@@ -1,0 +1,36 @@
+{
+  "id": "s116",
+  "map": {
+    "reuseOriginalMap": 107
+  },
+  "entries": {
+    "from-s116": {
+      "pos": {
+        "col": 135,
+        "row": 97,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 135,
+      "row": 97,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2150",
+      "pos": {
+        "col": 153,
+        "row": 56,
+        "height": 0
+      },
+      "sprite": "npc-224",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

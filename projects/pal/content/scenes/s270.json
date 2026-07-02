@@ -1,0 +1,37 @@
+{
+  "id": "s270",
+  "map": {
+    "reuseOriginalMap": 197
+  },
+  "entries": {
+    "from-s266": {
+      "pos": {
+        "col": 18,
+        "row": 5,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 18,
+      "row": 5,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4706",
+      "pos": {
+        "col": 134,
+        "row": 69,
+        "height": 0
+      },
+      "sprite": "npc-536",
+      "facing": "left",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

@@ -1,0 +1,132 @@
+{
+  "id": "s086",
+  "map": {
+    "reuseOriginalMap": 93
+  },
+  "entries": {
+    "from-s093": {
+      "pos": {
+        "col": 56,
+        "row": 12,
+        "height": 0
+      }
+    },
+    "from-s098": {
+      "pos": {
+        "col": 154,
+        "row": 67,
+        "height": 0
+      }
+    },
+    "from-s098-2": {
+      "pos": {
+        "col": 24,
+        "row": -5,
+        "height": 0
+      }
+    },
+    "from-s098-3": {
+      "pos": {
+        "col": 55,
+        "row": -26,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 56,
+      "row": 12,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e1626",
+      "pos": {
+        "col": 81,
+        "row": 0,
+        "height": 0
+      },
+      "sprite": "npc-97",
+      "collide": true
+    },
+    {
+      "id": "e1627",
+      "pos": {
+        "col": 80,
+        "row": 0,
+        "height": 0
+      },
+      "sprite": "npc-137",
+      "facing": "right",
+      "collide": true
+    },
+    {
+      "id": "e1628",
+      "pos": {
+        "col": 82,
+        "row": 0,
+        "height": 0
+      },
+      "sprite": "npc-137",
+      "facing": "left",
+      "collide": true
+    },
+    {
+      "id": "e1629",
+      "pos": {
+        "col": 58,
+        "row": -23,
+        "height": 0
+      },
+      "sprite": "npc-350",
+      "hidden": true
+    },
+    {
+      "id": "e1630",
+      "pos": {
+        "col": 58,
+        "row": -24,
+        "height": 0
+      },
+      "sprite": "npc-380",
+      "hidden": true
+    },
+    {
+      "id": "e1631",
+      "pos": {
+        "col": 24,
+        "row": -2,
+        "height": 0
+      },
+      "sprite": "npc-7",
+      "facing": "left",
+      "hidden": true
+    },
+    {
+      "id": "e1632",
+      "pos": {
+        "col": 39,
+        "row": 5,
+        "height": 0
+      },
+      "sprite": "npc-348",
+      "facing": "left",
+      "hidden": true
+    },
+    {
+      "id": "e1633",
+      "pos": {
+        "col": 34,
+        "row": 2,
+        "height": 0
+      },
+      "sprite": "npc-349",
+      "facing": "up",
+      "hidden": true
+    }
+  ],
+  "dialogues": []
+}

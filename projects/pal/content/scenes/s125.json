@@ -1,0 +1,36 @@
+{
+  "id": "s125",
+  "map": {
+    "reuseOriginalMap": 114
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 63,
+        "row": 9,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 63,
+      "row": 9,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2214",
+      "pos": {
+        "col": 63,
+        "row": 7,
+        "height": 0
+      },
+      "sprite": "npc-405",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

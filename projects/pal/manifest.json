@@ -1,6 +1,6 @@
 {
   "id": "pal",
-  "name": "仙剑奇侠传·复刻(M1 迁移中)",
+  "name": "仙剑奇侠传·复刻(M2 迁移中)",
   "contentVersion": 1,
   "entryScene": "guijie-minju",
   "content": {
@@ -12,11 +12,11 @@
     "sprites": "content/sprites.json"
   },
   "assets": {
-    "root": "assets",
-    "maps": "maps",
-    "tilesets": "tilesets",
-    "sprites": "sprites",
-    "palettes": "palettes"
+    "root": "/extracted/data",
+    "maps": "tilemap",
+    "tilesets": "tileset",
+    "sprites": "sprite",
+    "palettes": "palette"
   },
   "startWorld": {
     "party": [

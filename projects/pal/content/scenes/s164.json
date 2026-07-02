@@ -1,0 +1,32 @@
+{
+  "id": "s164",
+  "map": {
+    "reuseOriginalMap": 140
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 152,
+        "row": 86,
+        "height": 0
+      }
+    },
+    "from-s162": {
+      "pos": {
+        "col": 111,
+        "row": 2,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 152,
+      "row": 86,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [],
+  "dialogues": []
+}

@@ -1,0 +1,95 @@
+{
+  "id": "s224",
+  "map": {
+    "reuseOriginalMap": 222
+  },
+  "entries": {
+    "from-s222": {
+      "pos": {
+        "col": 117,
+        "row": 22,
+        "height": 0
+      }
+    },
+    "from-s222-2": {
+      "pos": {
+        "col": 119,
+        "row": 74,
+        "height": 0
+      }
+    },
+    "from-s222-3": {
+      "pos": {
+        "col": 95,
+        "row": 38,
+        "height": 0
+      }
+    },
+    "from-s223": {
+      "pos": {
+        "col": 65,
+        "row": 1,
+        "height": 0
+      }
+    },
+    "from-s223-2": {
+      "pos": {
+        "col": 151,
+        "row": 46,
+        "height": 0
+      }
+    },
+    "from-s223-3": {
+      "pos": {
+        "col": 59,
+        "row": 43,
+        "height": 0
+      }
+    },
+    "from-s223-4": {
+      "pos": {
+        "col": 118,
+        "row": 8,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 117,
+      "row": 22,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e3922",
+      "pos": {
+        "col": 136,
+        "row": 62,
+        "height": 0
+      },
+      "sprite": "npc-626"
+    },
+    {
+      "id": "e3923",
+      "pos": {
+        "col": 107,
+        "row": 61,
+        "height": 0
+      },
+      "sprite": "npc-626"
+    },
+    {
+      "id": "e3924",
+      "pos": {
+        "col": 75,
+        "row": 54,
+        "height": 0
+      },
+      "sprite": "npc-626"
+    }
+  ],
+  "dialogues": []
+}

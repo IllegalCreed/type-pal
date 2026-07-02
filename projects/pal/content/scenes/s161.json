@@ -1,0 +1,132 @@
+{
+  "id": "s161",
+  "map": {
+    "reuseOriginalMap": 137
+  },
+  "entries": {
+    "from-s159": {
+      "pos": {
+        "col": 117,
+        "row": 76,
+        "height": 0
+      }
+    },
+    "from-s159-2": {
+      "pos": {
+        "col": 116,
+        "row": 75,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 117,
+      "row": 76,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2688",
+      "pos": {
+        "col": 126,
+        "row": 71,
+        "height": 0
+      },
+      "sprite": "npc-623",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e2689",
+      "pos": {
+        "col": 146,
+        "row": 72,
+        "height": 0
+      },
+      "sprite": "npc-624",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e2690",
+      "pos": {
+        "col": 86,
+        "row": 69,
+        "height": 0
+      },
+      "sprite": "npc-624",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e2691",
+      "pos": {
+        "col": 128,
+        "row": 49,
+        "height": 0
+      },
+      "sprite": "npc-623",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e2692",
+      "pos": {
+        "col": 107,
+        "row": 39,
+        "height": 0
+      },
+      "sprite": "npc-623",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e2693",
+      "pos": {
+        "col": 86,
+        "row": 44,
+        "height": 0
+      },
+      "sprite": "npc-623",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e2694",
+      "pos": {
+        "col": 93,
+        "row": 32,
+        "height": 0
+      },
+      "sprite": "npc-623",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e2695",
+      "pos": {
+        "col": 71,
+        "row": 18,
+        "height": 0
+      },
+      "sprite": "npc-623",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e2696",
+      "pos": {
+        "col": 100,
+        "row": -2,
+        "height": 0
+      },
+      "sprite": "npc-623",
+      "collide": true,
+      "zBias": 10
+    }
+  ],
+  "dialogues": []
+}

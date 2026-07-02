@@ -1,0 +1,122 @@
+{
+  "id": "s234",
+  "map": {
+    "reuseOriginalMap": 175
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4212",
+      "pos": {
+        "col": 89,
+        "row": 31,
+        "height": 0
+      },
+      "sprite": "npc-24",
+      "facing": "up",
+      "collide": true
+    },
+    {
+      "id": "e4213",
+      "pos": {
+        "col": 91,
+        "row": 30,
+        "height": 0
+      },
+      "sprite": "npc-443",
+      "collide": true
+    },
+    {
+      "id": "e4214",
+      "pos": {
+        "col": 85,
+        "row": 30,
+        "height": 0
+      },
+      "sprite": "npc-443",
+      "collide": true
+    },
+    {
+      "id": "e4215",
+      "pos": {
+        "col": 106,
+        "row": 49,
+        "height": 0
+      },
+      "sprite": "npc-443",
+      "facing": "right",
+      "collide": true
+    },
+    {
+      "id": "e4216",
+      "pos": {
+        "col": 86,
+        "row": 33,
+        "height": 0
+      },
+      "sprite": "npc-412",
+      "facing": "right",
+      "collide": true
+    },
+    {
+      "id": "e4217",
+      "pos": {
+        "col": 82,
+        "row": 31,
+        "height": 0
+      },
+      "sprite": "npc-117",
+      "facing": "right",
+      "collide": true
+    },
+    {
+      "id": "e4218",
+      "pos": {
+        "col": 83,
+        "row": 31,
+        "height": 0
+      },
+      "sprite": "npc-140",
+      "collide": true
+    },
+    {
+      "id": "e4219",
+      "pos": {
+        "col": 83,
+        "row": 32,
+        "height": 0
+      },
+      "sprite": "npc-149",
+      "facing": "right",
+      "collide": true
+    },
+    {
+      "id": "e4220",
+      "pos": {
+        "col": 93,
+        "row": 30,
+        "height": 0
+      },
+      "sprite": "npc-513-f1",
+      "collide": true
+    },
+    {
+      "id": "e4221",
+      "pos": {
+        "col": 93,
+        "row": 31,
+        "height": 0
+      },
+      "sprite": "npc-217",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

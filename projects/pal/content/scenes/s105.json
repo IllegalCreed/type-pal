@@ -1,0 +1,33 @@
+{
+  "id": "s105",
+  "map": {
+    "reuseOriginalMap": 95
+  },
+  "musicId": 8,
+  "entries": {
+    "from-s103": {
+      "pos": {
+        "col": 84,
+        "row": 28,
+        "height": 0
+      }
+    },
+    "from-s103-2": {
+      "pos": {
+        "col": 152,
+        "row": 68,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 84,
+      "row": 28,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [],
+  "dialogues": []
+}

@@ -1,0 +1,39 @@
+{
+  "id": "s251",
+  "map": {
+    "reuseOriginalMap": 177
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4437",
+      "pos": {
+        "col": 105,
+        "row": 78,
+        "height": 0
+      },
+      "sprite": "npc-586",
+      "hidden": true,
+      "zBias": -9
+    },
+    {
+      "id": "e4438",
+      "pos": {
+        "col": 98,
+        "row": 72,
+        "height": 0
+      },
+      "sprite": "npc-522",
+      "hidden": true,
+      "zBias": 20
+    }
+  ],
+  "dialogues": []
+}

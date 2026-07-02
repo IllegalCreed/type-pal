@@ -1,0 +1,155 @@
+{
+  "id": "s001",
+  "map": {
+    "reuseOriginalMap": 12
+  },
+  "musicId": 31,
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e8",
+      "pos": {
+        "col": 61,
+        "row": -25,
+        "height": 0
+      },
+      "sprite": "npc-55",
+      "zBias": -4
+    },
+    {
+      "id": "e10",
+      "pos": {
+        "col": 60,
+        "row": -23,
+        "height": 0
+      },
+      "sprite": "npc-21",
+      "facing": "left",
+      "hidden": true
+    },
+    {
+      "id": "e11",
+      "pos": {
+        "col": 60,
+        "row": -23,
+        "height": 0
+      },
+      "sprite": "npc-628"
+    },
+    {
+      "id": "e16",
+      "pos": {
+        "col": 109,
+        "row": 26,
+        "height": 0
+      },
+      "sprite": "npc-57",
+      "hidden": true,
+      "zBias": 4
+    },
+    {
+      "id": "e19",
+      "pos": {
+        "col": 89,
+        "row": 45,
+        "height": 0
+      },
+      "sprite": "npc-21",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e20",
+      "pos": {
+        "col": 92,
+        "row": 51,
+        "height": 0
+      },
+      "sprite": "npc-57",
+      "hidden": true,
+      "zBias": 4
+    },
+    {
+      "id": "e24",
+      "pos": {
+        "col": 35,
+        "row": 1,
+        "height": 0
+      },
+      "sprite": "npc-207",
+      "facing": "left",
+      "hidden": true
+    },
+    {
+      "id": "e25",
+      "pos": {
+        "col": 112,
+        "row": 27,
+        "height": 0
+      },
+      "sprite": "npc-29",
+      "facing": "left",
+      "hidden": true
+    },
+    {
+      "id": "e26",
+      "pos": {
+        "col": 106,
+        "row": 24,
+        "height": 0
+      },
+      "sprite": "npc-30",
+      "hidden": true
+    },
+    {
+      "id": "e27",
+      "pos": {
+        "col": 56,
+        "row": -24,
+        "height": 0
+      },
+      "sprite": "npc-210",
+      "hidden": true
+    },
+    {
+      "id": "e28",
+      "pos": {
+        "col": 56,
+        "row": -24,
+        "height": 0
+      },
+      "sprite": "npc-398",
+      "facing": "right",
+      "hidden": true
+    },
+    {
+      "id": "e29",
+      "pos": {
+        "col": 56,
+        "row": -24,
+        "height": 0
+      },
+      "sprite": "npc-211",
+      "hidden": true,
+      "zBias": -2
+    },
+    {
+      "id": "e30",
+      "pos": {
+        "col": 43,
+        "row": -4,
+        "height": 0
+      },
+      "sprite": "npc-239",
+      "hidden": true
+    }
+  ],
+  "dialogues": []
+}

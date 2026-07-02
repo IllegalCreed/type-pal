@@ -1,0 +1,333 @@
+{
+  "id": "s250",
+  "map": {
+    "reuseOriginalMap": 188
+  },
+  "entries": {
+    "from-s260": {
+      "pos": {
+        "col": 59,
+        "row": 5,
+        "height": 0
+      }
+    },
+    "from-s260-2": {
+      "pos": {
+        "col": 59,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "from-s260-3": {
+      "pos": {
+        "col": 68,
+        "row": -5,
+        "height": 0
+      }
+    },
+    "from-s260-4": {
+      "pos": {
+        "col": 102,
+        "row": 29,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 59,
+      "row": 5,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4409",
+      "pos": {
+        "col": 32,
+        "row": 22,
+        "height": 0
+      },
+      "sprite": "npc-582",
+      "zBias": 10
+    },
+    {
+      "id": "e4410",
+      "pos": {
+        "col": 101,
+        "row": 67,
+        "height": 0
+      },
+      "sprite": "npc-582",
+      "hidden": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4412",
+      "pos": {
+        "col": 101,
+        "row": 77,
+        "height": 0
+      },
+      "sprite": "npc-584",
+      "hidden": true
+    },
+    {
+      "id": "e4413",
+      "pos": {
+        "col": 101,
+        "row": 77,
+        "height": 0
+      },
+      "sprite": "npc-585",
+      "hidden": true
+    },
+    {
+      "id": "e4414",
+      "pos": {
+        "col": 59,
+        "row": -8,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4415",
+      "pos": {
+        "col": 101,
+        "row": -8,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4416",
+      "pos": {
+        "col": 113,
+        "row": 15,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4417",
+      "pos": {
+        "col": 109,
+        "row": 90,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4418",
+      "pos": {
+        "col": 102,
+        "row": 35,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4419",
+      "pos": {
+        "col": 72,
+        "row": 8,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4420",
+      "pos": {
+        "col": 47,
+        "row": 24,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4421",
+      "pos": {
+        "col": 76,
+        "row": 42,
+        "height": 0
+      },
+      "sprite": "npc-10",
+      "collide": true
+    },
+    {
+      "id": "e4422",
+      "pos": {
+        "col": 48,
+        "row": -3,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4423",
+      "pos": {
+        "col": 46,
+        "row": -6,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4424",
+      "pos": {
+        "col": 52,
+        "row": -36,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4425",
+      "pos": {
+        "col": 71,
+        "row": -27,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4426",
+      "pos": {
+        "col": 71,
+        "row": -14,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4427",
+      "pos": {
+        "col": 88,
+        "row": -28,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4428",
+      "pos": {
+        "col": 90,
+        "row": -23,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4429",
+      "pos": {
+        "col": 96,
+        "row": -14,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4430",
+      "pos": {
+        "col": 111,
+        "row": 15,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4431",
+      "pos": {
+        "col": 113,
+        "row": 25,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4432",
+      "pos": {
+        "col": 124,
+        "row": 58,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4433",
+      "pos": {
+        "col": 114,
+        "row": 90,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4434",
+      "pos": {
+        "col": 98,
+        "row": 42,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4435",
+      "pos": {
+        "col": 54,
+        "row": 35,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e4436",
+      "pos": {
+        "col": 58,
+        "row": 32,
+        "height": 0
+      },
+      "sprite": "npc-256",
+      "collide": true,
+      "zBias": 10
+    }
+  ],
+  "dialogues": []
+}

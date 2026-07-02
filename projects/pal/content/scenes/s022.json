@@ -1,0 +1,152 @@
+{
+  "id": "s022",
+  "map": {
+    "reuseOriginalMap": 23
+  },
+  "musicId": 50,
+  "entries": {
+    "from-s005": {
+      "pos": {
+        "col": 148,
+        "row": 63,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 148,
+      "row": 63,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e407",
+      "pos": {
+        "col": 104,
+        "row": 55,
+        "height": 0
+      },
+      "sprite": "npc-76",
+      "collide": true
+    },
+    {
+      "id": "e408",
+      "pos": {
+        "col": 99,
+        "row": 56,
+        "height": 0
+      },
+      "sprite": "npc-79",
+      "facing": "right",
+      "collide": true
+    },
+    {
+      "id": "e409",
+      "pos": {
+        "col": 105,
+        "row": 58,
+        "height": 0
+      },
+      "sprite": "npc-156",
+      "collide": true
+    },
+    {
+      "id": "e410",
+      "pos": {
+        "col": 141,
+        "row": 57,
+        "height": 0
+      },
+      "sprite": "npc-105",
+      "collide": true
+    },
+    {
+      "id": "e411",
+      "pos": {
+        "col": 110,
+        "row": 56,
+        "height": 0
+      },
+      "sprite": "npc-313",
+      "collide": true
+    },
+    {
+      "id": "e416",
+      "pos": {
+        "col": 79,
+        "row": 53,
+        "height": 0
+      },
+      "sprite": "npc-602",
+      "collide": true
+    },
+    {
+      "id": "e417",
+      "pos": {
+        "col": 79,
+        "row": 57,
+        "height": 0
+      },
+      "sprite": "npc-601",
+      "collide": true
+    },
+    {
+      "id": "e418",
+      "pos": {
+        "col": 83,
+        "row": 54,
+        "height": 0
+      },
+      "sprite": "npc-446",
+      "facing": "left",
+      "collide": true
+    },
+    {
+      "id": "e419",
+      "pos": {
+        "col": 82,
+        "row": 55,
+        "height": 0
+      },
+      "sprite": "npc-151",
+      "facing": "left",
+      "collide": true
+    },
+    {
+      "id": "e420",
+      "pos": {
+        "col": 83,
+        "row": 57,
+        "height": 0
+      },
+      "sprite": "npc-121",
+      "facing": "left",
+      "collide": true
+    },
+    {
+      "id": "e421",
+      "pos": {
+        "col": 81,
+        "row": 60,
+        "height": 0
+      },
+      "sprite": "npc-407",
+      "facing": "up",
+      "collide": true
+    },
+    {
+      "id": "e422",
+      "pos": {
+        "col": 81,
+        "row": 50,
+        "height": 0
+      },
+      "sprite": "npc-153",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

@@ -1,0 +1,144 @@
+{
+  "id": "s129",
+  "map": {
+    "reuseOriginalMap": 116
+  },
+  "entries": {
+    "from-s127": {
+      "pos": {
+        "col": 67,
+        "row": 8,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 67,
+      "row": 8,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2247",
+      "pos": {
+        "col": 49,
+        "row": 9,
+        "height": 0
+      },
+      "sprite": "npc-330",
+      "zBias": 3
+    },
+    {
+      "id": "e2248",
+      "pos": {
+        "col": 43,
+        "row": 8,
+        "height": 0
+      },
+      "sprite": "npc-331"
+    },
+    {
+      "id": "e2249",
+      "pos": {
+        "col": 46,
+        "row": 8,
+        "height": 0
+      },
+      "sprite": "npc-334"
+    },
+    {
+      "id": "e2250",
+      "pos": {
+        "col": 47,
+        "row": 5,
+        "height": 0
+      },
+      "sprite": "npc-333",
+      "zBias": 3
+    },
+    {
+      "id": "e2251",
+      "pos": {
+        "col": 57,
+        "row": 7,
+        "height": 0
+      },
+      "sprite": "npc-332"
+    },
+    {
+      "id": "e2252",
+      "pos": {
+        "col": 59,
+        "row": 7,
+        "height": 0
+      },
+      "sprite": "npc-335",
+      "zBias": 3
+    },
+    {
+      "id": "e2253",
+      "pos": {
+        "col": 59,
+        "row": 10,
+        "height": 0
+      },
+      "sprite": "npc-336"
+    },
+    {
+      "id": "e2254",
+      "pos": {
+        "col": 63,
+        "row": 7,
+        "height": 0
+      },
+      "sprite": "npc-337",
+      "zBias": 3
+    },
+    {
+      "id": "e2255",
+      "pos": {
+        "col": 75,
+        "row": 7,
+        "height": 0
+      },
+      "sprite": "npc-51",
+      "collide": true
+    },
+    {
+      "id": "e2257",
+      "pos": {
+        "col": 72,
+        "row": 9,
+        "height": 0
+      },
+      "sprite": "npc-397",
+      "facing": "right",
+      "hidden": true
+    },
+    {
+      "id": "e2258",
+      "pos": {
+        "col": 71,
+        "row": 10,
+        "height": 0
+      },
+      "sprite": "npc-140",
+      "collide": true
+    },
+    {
+      "id": "e2259",
+      "pos": {
+        "col": 71,
+        "row": 12,
+        "height": 0
+      },
+      "sprite": "npc-307",
+      "facing": "up",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

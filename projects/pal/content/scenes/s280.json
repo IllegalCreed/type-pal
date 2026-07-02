@@ -1,0 +1,39 @@
+{
+  "id": "s280",
+  "map": {
+    "reuseOriginalMap": 211
+  },
+  "entries": {
+    "from-s288": {
+      "pos": {
+        "col": 88,
+        "row": 31,
+        "height": 0
+      }
+    },
+    "from-s290": {
+      "pos": {
+        "col": 63,
+        "row": 18,
+        "height": 0
+      }
+    },
+    "from-s293": {
+      "pos": {
+        "col": 92,
+        "row": -21,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 88,
+      "row": 31,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [],
+  "dialogues": []
+}

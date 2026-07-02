@@ -1,0 +1,46 @@
+{
+  "id": "s123",
+  "map": {
+    "reuseOriginalMap": 113
+  },
+  "entries": {
+    "from-s108": {
+      "pos": {
+        "col": 125,
+        "row": 109,
+        "height": 0
+      }
+    },
+    "from-s122": {
+      "pos": {
+        "col": 96,
+        "row": 42,
+        "height": 0
+      }
+    },
+    "from-s122-2": {
+      "pos": {
+        "col": 78,
+        "row": -12,
+        "height": 0
+      }
+    },
+    "from-s123": {
+      "pos": {
+        "col": 51,
+        "row": 6,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 125,
+      "row": 109,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [],
+  "dialogues": []
+}

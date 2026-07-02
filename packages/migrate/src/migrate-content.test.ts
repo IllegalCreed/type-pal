@@ -2,16 +2,19 @@
 // 读真实 data/extracted(同 demo-project.test 惯例;migrate 有 node fs)。
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { buildWorld, validateActors, validateItems, validateLocale, validateSkills, validateSprites } from '@type-pal/content'
+import { buildWorld, pixelToGrid, validateActors, validateItems, validateLocale, validateSkills, validateSprites } from '@type-pal/content'
 import type { ActorDef, SpriteDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   buildLabelIndex,
+  mapScenesStatic,
   mergeExtras,
   migrateAll,
+  sceneSlug,
   walkDesc,
   type MigrateSources,
   type SourceCmd,
+  type SourceScene,
 } from './migrate-content.js'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
@@ -283,5 +286,60 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
     expect(withUse + out.report.pendingUse.length).toBe(100)
     expect(withUse).toBeGreaterThanOrEqual(60)
     for (const p of out.report.pendingUse) expect(p.reason).toMatch(/系统|B2|剧情|空链/)
+  })
+})
+
+describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切片 golden)', () => {
+  const readScene = (n: number) => readJson<SourceScene>(`data/extracted/data/scene/${n}.json`)
+  const readEvents = (n: number) =>
+    readJson<{ segments: { commands: SourceCmd[] }[] }>(`data/extracted/events/scene-${String(n).padStart(3, '0')}.json`)
+      .segments.flatMap((s) => s.commands)
+  const out2 = mapScenesStatic(
+    [readScene(1), readScene(4)],
+    new Map([
+      [1, readEvents(1)],
+      [4, readEvents(4)],
+    ]),
+  )
+  const byId = new Map(out2.scenes.map((s) => [s.id, s]))
+
+  test('s001:mapNum/实体数/坐标零换算/触发区跳过', () => {
+    const s1 = byId.get('s001')!
+    expect(s1.map.reuseOriginalMap).toBe(12)
+    expect(s1.map.room).toBeUndefined() // 原版无房间概念 → 整图
+    expect(s1.entities).toHaveLength(13) // 32 对象 − 19 个 spriteNum=0 触发区
+    const src1 = readScene(1)
+    const firstVisible = src1.eventObjects.find((o) => o.spriteNum > 0)!
+    const e = s1.entities.find((x) => x.id === `e${firstVisible.id}`)!
+    expect(e.pos).toEqual({ ...pixelToGrid(firstVisible.x, firstVisible.y), height: 0 }) // 像素↔菱形格精确往返
+  })
+  test('s004:from-s001 入口 = setPartyPos(49,94) 精确落格;musicId=49(链头 playMusic)', () => {
+    const s4 = byId.get('s004')!
+    expect(s4.musicId).toBe(49)
+    expect(s4.entries?.['from-s001']?.pos).toEqual({ ...pixelToGrid(49 * 32, 94 * 16), height: 0 })
+    expect(s4.entry.pos).toEqual(Object.values(s4.entries!)[0]!.pos) // entry 兜底 = 首个已知入口
+  })
+  test('实体语义映射:hidden=sState0 / collide=sState≥2 / facing=direction 表 / zBias=sLayer', () => {
+    const src1 = readScene(1)
+    const s1 = byId.get('s001')!
+    for (const eo of src1.eventObjects) {
+      if (eo.spriteNum <= 0) continue
+      const e = s1.entities.find((x) => x.id === `e${eo.id}`)!
+      expect(e.hidden ?? false, `e${eo.id} hidden`).toBe((eo.sState ?? 1) === 0)
+      expect(e.collide ?? false, `e${eo.id} collide`).toBe((eo.sState ?? 0) >= 2)
+      if (eo.direction) expect(e.facing).toBe(['down', 'left', 'up', 'right'][eo.direction])
+      if (eo.sLayer) expect(e.zBias).toBe(eo.sLayer)
+    }
+  })
+  test('精灵批量登记:npc-<num>,布局 directional×n(n>0)/ static(n=0)', () => {
+    const src1 = readScene(1)
+    const visible = src1.eventObjects.filter((o) => o.spriteNum > 0)
+    for (const eo of visible) {
+      const def = out2.sprites.find((d) => d.spriteNum === eo.spriteNum && d.id.startsWith(`npc-${eo.spriteNum}`))!
+      expect(def, `npc-${eo.spriteNum}`).toBeDefined()
+      if ((eo.nSpriteFrames ?? 0) > 0)
+        expect(def.layout.kind === 'directional' || def.id.includes('-f'), def.id).toBe(true)
+    }
+    expect(sceneSlug(4)).toBe('s004')
   })
 })

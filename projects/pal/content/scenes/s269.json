@@ -1,0 +1,161 @@
+{
+  "id": "s269",
+  "map": {
+    "reuseOriginalMap": 4
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e4681",
+      "pos": {
+        "col": 152,
+        "row": 49,
+        "height": 0
+      },
+      "sprite": "npc-11"
+    },
+    {
+      "id": "e4682",
+      "pos": {
+        "col": 140,
+        "row": 38,
+        "height": 0
+      },
+      "sprite": "npc-11"
+    },
+    {
+      "id": "e4683",
+      "pos": {
+        "col": 132,
+        "row": 84,
+        "height": 0
+      },
+      "sprite": "npc-60"
+    },
+    {
+      "id": "e4684",
+      "pos": {
+        "col": 109,
+        "row": 73,
+        "height": 0
+      },
+      "sprite": "npc-462"
+    },
+    {
+      "id": "e4685",
+      "pos": {
+        "col": 102,
+        "row": 45,
+        "height": 0
+      },
+      "sprite": "npc-473"
+    },
+    {
+      "id": "e4686",
+      "pos": {
+        "col": 111,
+        "row": 5,
+        "height": 0
+      },
+      "sprite": "npc-473"
+    },
+    {
+      "id": "e4687",
+      "pos": {
+        "col": 112,
+        "row": 23,
+        "height": 0
+      },
+      "sprite": "npc-473"
+    },
+    {
+      "id": "e4688",
+      "pos": {
+        "col": 96,
+        "row": 9,
+        "height": 0
+      },
+      "sprite": "npc-466"
+    },
+    {
+      "id": "e4689",
+      "pos": {
+        "col": 81,
+        "row": 7,
+        "height": 0
+      },
+      "sprite": "npc-60"
+    },
+    {
+      "id": "e4690",
+      "pos": {
+        "col": 75,
+        "row": 31,
+        "height": 0
+      },
+      "sprite": "npc-11"
+    },
+    {
+      "id": "e4691",
+      "pos": {
+        "col": 52,
+        "row": 17,
+        "height": 0
+      },
+      "sprite": "npc-11"
+    },
+    {
+      "id": "e4692",
+      "pos": {
+        "col": 32,
+        "row": 8,
+        "height": 0
+      },
+      "sprite": "npc-11"
+    },
+    {
+      "id": "e4693",
+      "pos": {
+        "col": 58,
+        "row": -23,
+        "height": 0
+      },
+      "sprite": "npc-462"
+    },
+    {
+      "id": "e4694",
+      "pos": {
+        "col": 93,
+        "row": -22,
+        "height": 0
+      },
+      "sprite": "npc-60"
+    },
+    {
+      "id": "e4695",
+      "pos": {
+        "col": 93,
+        "row": -10,
+        "height": 0
+      },
+      "sprite": "npc-473"
+    },
+    {
+      "id": "e4696",
+      "pos": {
+        "col": 18,
+        "row": 1,
+        "height": 0
+      },
+      "sprite": "npc-473"
+    }
+  ],
+  "dialogues": []
+}

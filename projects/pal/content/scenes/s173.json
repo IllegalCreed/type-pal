@@ -1,0 +1,36 @@
+{
+  "id": "s173",
+  "map": {
+    "reuseOriginalMap": 20
+  },
+  "musicId": 28,
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2866",
+      "pos": {
+        "col": 36,
+        "row": 11,
+        "height": 0
+      },
+      "sprite": "npc-516"
+    },
+    {
+      "id": "e2867",
+      "pos": {
+        "col": 41,
+        "row": 9,
+        "height": 0
+      },
+      "sprite": "npc-539"
+    }
+  ],
+  "dialogues": []
+}

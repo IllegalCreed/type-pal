@@ -769,3 +769,219 @@ export function mergeExtras<T extends { id: string }>(migrated: T[], extras: T[]
   const ids = new Set(migrated.map((x) => x.id))
   return [...migrated, ...extras.filter((x) => !ids.has(x.id))]
 }
+
+// ════════════════════════════════════════════════════════════════════
+// M2b · 场景静态迁移 + 窄扫描(见 scene-model-m2-design §4)
+// 源:data/extracted/data/scene/<n>.json(295)+ events/scene-<nnn>.json(入口/音乐扫描)。
+// 事实锚(2026-07-02 实测):实体 id 全局唯一;direction 0-3 = 下/左/上/右;
+// loadScene 是具名 op 且 sceneId 已解析为 0-based;setPartyPos=raw 70;playMusic=raw 67。
+// ════════════════════════════════════════════════════════════════════
+import { pixelToGrid } from '@type-pal/content'
+import type { SceneDef } from '@type-pal/content'
+
+export interface SourceEventObject {
+  id: number
+  x: number
+  y: number
+  spriteNum: number
+  triggerMode?: number
+  sState?: number
+  sLayer?: number
+  nSpriteFrames?: number
+  nSpriteFramesAuto?: number
+  direction?: number
+}
+export interface SourceScene {
+  sceneId: number
+  mapNum: number
+  onEnterLabel?: string
+  onTeleportLabel?: string
+  eventObjects: SourceEventObject[]
+}
+
+const FACING_BY_DIR = ['down', 'left', 'up', 'right'] as const
+
+/** 原版场景号 → 稳定 id(s001;0-based 原版号,当不透明串)。 */
+export function sceneSlug(n: number): string {
+  return `s${String(n).padStart(3, '0')}`
+}
+
+/** setPartyPos(col,row,h) → 世界像素 → 菱形格(px=col*32+h*16, py=row*16+h*8;sdlpal 0x46 真值)。 */
+function partyPosToGrid(col: number, row: number, h: number): { col: number; row: number; height: number } {
+  return { ...pixelToGrid(col * 32 + h * 16, row * 16 + h * 8), height: 0 }
+}
+
+export interface SceneMigrationResult {
+  scenes: SceneDef[]
+  /** 实体引用到的原版精灵批量登记(npc-<num>;布局按 nSpriteFrames)。 */
+  sprites: SpriteDef[]
+  report: {
+    scenes: number
+    entities: number
+    /** spriteNum=0 纯触发区(脚本锚,M3 随脚本迁)。 */
+    triggerZonesSkipped: number
+    hidden: number
+    entriesFound: number
+    scenesWithStart: number
+    scenesWithMusic: number
+    /** entry 落图中心兜底的场景(无 start 无扫描入口)。 */
+    entryFallback: string[]
+    /** 同 spriteNum 不同 nSpriteFrames 的布局冲突(拆成 npc-<num>-f<n>)。 */
+    layoutConflicts: string[]
+    /** nSpriteFramesAuto>0 的环境自循环候选(布局先保守,C1 标注工具人工修)。 */
+    autoLoopCandidates: number
+  }
+}
+
+/**
+ * 静态层 + 窄扫层一体:
+ * - 实体:spriteNum>0 → EntityDef(pixelToGrid 坐标/朝向/hidden/collide/zBias/prop 精灵引用)。
+ * - 入口:各源场景 events 里 setPartyPos(raw70)紧邻 loadScene(具名)→ 目标场景 entries[from-sNNN];
+ *         自身 onEnter 链头 setPartyPos → entries.start。
+ * - 音乐:onEnter 链头首个 playMusic(raw67)→ musicId。
+ */
+export function mapScenesStatic(
+  srcScenes: readonly SourceScene[],
+  eventsByScene: ReadonlyMap<number, readonly SourceCmd[]>,
+): SceneMigrationResult {
+  const report: SceneMigrationResult['report'] = {
+    scenes: 0,
+    entities: 0,
+    triggerZonesSkipped: 0,
+    hidden: 0,
+    entriesFound: 0,
+    scenesWithStart: 0,
+    scenesWithMusic: 0,
+    entryFallback: [],
+    layoutConflicts: [],
+    autoLoopCandidates: 0,
+  }
+
+  // ── 入口扫描:setPartyPos(raw70)在 loadScene 前 ≤4 步内。
+  // ⚠ 实测(2026-07-02 gap 分布:806 个 loadScene,gap≤4 共 488):主流模式是
+  // `setPartyPos → end → 0x50渐隐 → loadScene`——设位在前一链**末尾**,'end' 不隔断
+  // 真实控制流,勿以 end 重置(初版此误杀 414 对)。gap>4(10 个)与无前置(231,
+  // 沿用当前坐标的传送)不配对 → 归 M3。──
+  const arrivals = new Map<number, { src: number; pos: ReturnType<typeof partyPosToGrid> }[]>()
+  for (const [srcId, cmds] of eventsByScene) {
+    let last: { pos: ReturnType<typeof partyPosToGrid>; at: number } | null = null
+    cmds.forEach((c, i) => {
+      if (c.op === 'raw' && c.opcode === 70) {
+        const [a = 0, b = 0, h = 0] = c.operands ?? []
+        last = { pos: partyPosToGrid(a, b, h), at: i }
+        return
+      }
+      const target = (c as { op?: string; sceneId?: number }).op === 'loadScene'
+        ? (c as { sceneId?: number }).sceneId
+        : undefined
+      if (typeof target === 'number') {
+        if (last && i - last.at <= 4) {
+          const list = arrivals.get(target) ?? []
+          list.push({ src: srcId, pos: last.pos })
+          arrivals.set(target, list)
+          report.entriesFound++
+        }
+        last = null
+      }
+    })
+  }
+
+  // ── 每场景:onEnter 链头(自 events 文件的 label 索引)→ start 入口 + musicId ──
+  const headScan = (sceneId: number, label: string | undefined) => {
+    const out: { start?: ReturnType<typeof partyPosToGrid>; musicId?: number } = {}
+    if (!label) return out
+    const cmds = eventsByScene.get(sceneId)
+    if (!cmds) return out
+    const startIdx = cmds.findIndex((c) => c.label === label)
+    if (startIdx < 0) return out
+    for (let i = startIdx, steps = 0; i < cmds.length && steps < 8; i++, steps++) {
+      const c = cmds[i]!
+      if (c.op === 'end') break
+      if (c.op === 'raw' && c.opcode === 167) continue
+      if (c.op === 'raw' && c.opcode === 67) {
+        out.musicId ??= c.operands?.[0]
+        continue
+      }
+      if (c.op === 'raw' && c.opcode === 70) {
+        const [a = 0, b = 0, h = 0] = c.operands ?? []
+        out.start ??= partyPosToGrid(a, b, h)
+        continue
+      }
+      break // 链头遇到其它 op(对话/演出)→ 停止窄扫,不猜控制流
+    }
+    return out
+  }
+
+  // ── 精灵登记(去重 + 布局冲突拆分)──
+  const spriteDefs = new Map<string, SpriteDef>() // key = defId
+  const primaryLayout = new Map<number, number>() // spriteNum → 首见 nSpriteFrames
+  const spriteRef = (eo: SourceEventObject): string => {
+    const n = eo.nSpriteFrames ?? 0
+    const first = primaryLayout.get(eo.spriteNum)
+    let defId = `npc-${eo.spriteNum}`
+    if (first === undefined) {
+      primaryLayout.set(eo.spriteNum, n)
+    } else if (first !== n) {
+      defId = `npc-${eo.spriteNum}-f${n}` // 同图不同布局:逃生口(设计 §2)
+      if (!spriteDefs.has(defId)) report.layoutConflicts.push(defId)
+    }
+    if (!spriteDefs.has(defId)) {
+      spriteDefs.set(defId, {
+        id: defId,
+        spriteNum: eo.spriteNum,
+        label: `原精灵 ${eo.spriteNum}`,
+        layout: n > 0 ? { kind: 'directional', framesPerDir: n } : { kind: 'static' },
+      })
+    }
+    return defId
+  }
+
+  const scenes: SceneDef[] = srcScenes.map((sc) => {
+    const slug = sceneSlug(sc.sceneId)
+    const entities = []
+    for (const eo of sc.eventObjects) {
+      if (eo.spriteNum <= 0) {
+        report.triggerZonesSkipped++
+        continue
+      }
+      if ((eo.nSpriteFramesAuto ?? 0) > 0) report.autoLoopCandidates++
+      const hidden = (eo.sState ?? 1) === 0
+      if (hidden) report.hidden++
+      report.entities++
+      entities.push({
+        id: `e${eo.id}`,
+        pos: { ...pixelToGrid(eo.x, eo.y), height: 0 },
+        sprite: spriteRef(eo),
+        ...(eo.direction ? { facing: FACING_BY_DIR[eo.direction] ?? 'down' } : {}),
+        ...(hidden ? { hidden: true } : {}),
+        ...((eo.sState ?? 0) >= 2 ? { collide: true } : {}),
+        ...(eo.sLayer ? { zBias: eo.sLayer } : {}),
+      })
+    }
+    const { start, musicId } = headScan(sc.sceneId, sc.onEnterLabel)
+    if (start) report.scenesWithStart++
+    if (musicId !== undefined) report.scenesWithMusic++
+    const entries: NonNullable<SceneDef['entries']> = {}
+    if (start) entries.start = { pos: start }
+    const seen = new Map<number, number>()
+    for (const a of arrivals.get(sc.sceneId) ?? []) {
+      const k = (seen.get(a.src) ?? 0) + 1
+      seen.set(a.src, k)
+      entries[`from-${sceneSlug(a.src)}${k > 1 ? `-${k}` : ''}`] = { pos: a.pos }
+    }
+    const firstEntry = start ?? Object.values(entries)[0]?.pos
+    if (!firstEntry) report.entryFallback.push(slug)
+    report.scenes++
+    return {
+      id: slug,
+      map: { reuseOriginalMap: sc.mapNum },
+      ...(musicId !== undefined ? { musicId } : {}),
+      ...(Object.keys(entries).length ? { entries } : {}),
+      entry: { pos: firstEntry ?? { ...pixelToGrid(1024, 1024), height: 0 }, facing: 'down' },
+      entities,
+      dialogues: [],
+    }
+  })
+
+  return { scenes, sprites: [...spriteDefs.values()], report }
+}

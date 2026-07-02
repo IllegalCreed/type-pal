@@ -1,0 +1,83 @@
+{
+  "id": "s151",
+  "map": {
+    "reuseOriginalMap": 102
+  },
+  "musicId": 15,
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2467",
+      "pos": {
+        "col": 155,
+        "row": 53,
+        "height": 0
+      },
+      "sprite": "npc-12",
+      "hidden": true
+    },
+    {
+      "id": "e2468",
+      "pos": {
+        "col": 150,
+        "row": 53,
+        "height": 0
+      },
+      "sprite": "npc-620",
+      "facing": "right",
+      "hidden": true
+    },
+    {
+      "id": "e2469",
+      "pos": {
+        "col": 152,
+        "row": 56,
+        "height": 0
+      },
+      "sprite": "npc-620",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e2470",
+      "pos": {
+        "col": 148,
+        "row": 55,
+        "height": 0
+      },
+      "sprite": "npc-492",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e2471",
+      "pos": {
+        "col": 159,
+        "row": 52,
+        "height": 0
+      },
+      "sprite": "npc-621",
+      "facing": "up",
+      "hidden": true
+    },
+    {
+      "id": "e2472",
+      "pos": {
+        "col": 159,
+        "row": 55,
+        "height": 0
+      },
+      "sprite": "npc-492",
+      "facing": "right",
+      "hidden": true
+    }
+  ],
+  "dialogues": []
+}

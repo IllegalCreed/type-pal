@@ -1,0 +1,29 @@
+{
+  "id": "s107",
+  "map": {
+    "reuseOriginalMap": 102
+  },
+  "musicId": 12,
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e1994",
+      "pos": {
+        "col": 127,
+        "row": 50,
+        "height": 0
+      },
+      "sprite": "npc-388",
+      "collide": true,
+      "zBias": -6
+    }
+  ],
+  "dialogues": []
+}

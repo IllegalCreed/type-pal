@@ -1,0 +1,72 @@
+{
+  "id": "s162",
+  "map": {
+    "reuseOriginalMap": 138
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e2699",
+      "pos": {
+        "col": 104,
+        "row": 46,
+        "height": 0
+      },
+      "sprite": "npc-623",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e2700",
+      "pos": {
+        "col": 72,
+        "row": 26,
+        "height": 0
+      },
+      "sprite": "npc-624",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e2701",
+      "pos": {
+        "col": 89,
+        "row": -9,
+        "height": 0
+      },
+      "sprite": "npc-624",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e2702",
+      "pos": {
+        "col": 89,
+        "row": -25,
+        "height": 0
+      },
+      "sprite": "npc-623",
+      "collide": true,
+      "zBias": 10
+    },
+    {
+      "id": "e2703",
+      "pos": {
+        "col": 38,
+        "row": 0,
+        "height": 0
+      },
+      "sprite": "npc-623",
+      "collide": true,
+      "zBias": 10
+    }
+  ],
+  "dialogues": []
+}

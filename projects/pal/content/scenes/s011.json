@@ -1,0 +1,28 @@
+{
+  "id": "s011",
+  "map": {
+    "reuseOriginalMap": 19
+  },
+  "entry": {
+    "pos": {
+      "col": 96,
+      "row": 32,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e195",
+      "pos": {
+        "col": 46,
+        "row": 0,
+        "height": 0
+      },
+      "sprite": "npc-16",
+      "facing": "up",
+      "collide": true
+    }
+  ],
+  "dialogues": []
+}

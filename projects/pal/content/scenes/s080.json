@@ -1,0 +1,124 @@
+{
+  "id": "s080",
+  "map": {
+    "reuseOriginalMap": 77
+  },
+  "entries": {
+    "from-s083": {
+      "pos": {
+        "col": 125,
+        "row": 25,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 125,
+      "row": 25,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e1507",
+      "pos": {
+        "col": 126,
+        "row": 41,
+        "height": 0
+      },
+      "sprite": "npc-472",
+      "collide": true
+    },
+    {
+      "id": "e1508",
+      "pos": {
+        "col": 117,
+        "row": 92,
+        "height": 0
+      },
+      "sprite": "npc-472",
+      "collide": true
+    },
+    {
+      "id": "e1509",
+      "pos": {
+        "col": 118,
+        "row": 78,
+        "height": 0
+      },
+      "sprite": "npc-472",
+      "collide": true
+    },
+    {
+      "id": "e1510",
+      "pos": {
+        "col": 113,
+        "row": 60,
+        "height": 0
+      },
+      "sprite": "npc-472",
+      "collide": true
+    },
+    {
+      "id": "e1511",
+      "pos": {
+        "col": 100,
+        "row": 63,
+        "height": 0
+      },
+      "sprite": "npc-472",
+      "collide": true
+    },
+    {
+      "id": "e1512",
+      "pos": {
+        "col": 95,
+        "row": 28,
+        "height": 0
+      },
+      "sprite": "npc-59",
+      "collide": true
+    },
+    {
+      "id": "e1513",
+      "pos": {
+        "col": 53,
+        "row": 15,
+        "height": 0
+      },
+      "sprite": "npc-472",
+      "collide": true
+    },
+    {
+      "id": "e1514",
+      "pos": {
+        "col": 41,
+        "row": 22,
+        "height": 0
+      },
+      "sprite": "npc-472",
+      "collide": true
+    },
+    {
+      "id": "e1515",
+      "pos": {
+        "col": 41,
+        "row": 17,
+        "height": 0
+      },
+      "sprite": "npc-68"
+    },
+    {
+      "id": "e1516",
+      "pos": {
+        "col": 96,
+        "row": 26,
+        "height": 0
+      },
+      "sprite": "npc-68"
+    }
+  ],
+  "dialogues": []
+}

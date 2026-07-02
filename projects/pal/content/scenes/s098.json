@@ -1,0 +1,39 @@
+{
+  "id": "s098",
+  "map": {
+    "reuseOriginalMap": 91
+  },
+  "entries": {
+    "from-s093": {
+      "pos": {
+        "col": 56,
+        "row": 15,
+        "height": 0
+      }
+    },
+    "from-s093-2": {
+      "pos": {
+        "col": 44,
+        "row": 19,
+        "height": 0
+      }
+    },
+    "from-s093-3": {
+      "pos": {
+        "col": 69,
+        "row": -15,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 56,
+      "row": 15,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [],
+  "dialogues": []
+}

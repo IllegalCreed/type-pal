@@ -1,0 +1,54 @@
+{
+  "id": "s198",
+  "map": {
+    "reuseOriginalMap": 109
+  },
+  "entries": {
+    "start": {
+      "pos": {
+        "col": 121,
+        "row": 97,
+        "height": 0
+      }
+    }
+  },
+  "entry": {
+    "pos": {
+      "col": 121,
+      "row": 97,
+      "height": 0
+    },
+    "facing": "down"
+  },
+  "entities": [
+    {
+      "id": "e3346",
+      "pos": {
+        "col": 121,
+        "row": 97,
+        "height": 0
+      },
+      "sprite": "npc-2"
+    },
+    {
+      "id": "e3347",
+      "pos": {
+        "col": 121,
+        "row": 99,
+        "height": 0
+      },
+      "sprite": "npc-7"
+    },
+    {
+      "id": "e3348",
+      "pos": {
+        "col": 117,
+        "row": 87,
+        "height": 0
+      },
+      "sprite": "npc-23",
+      "hidden": true
+    }
+  ],
+  "dialogues": []
+}
