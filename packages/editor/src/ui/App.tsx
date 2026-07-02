@@ -7,8 +7,8 @@
  */
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import type { LoadedProject } from '@type-pal/reforge'
-import { validateReferences } from '@type-pal/content'
-import type { EntityDef, GridPos, SceneDef, SpriteDef } from '@type-pal/content'
+import { isActorEntity, resolveEntitySpriteId, validateReferences } from '@type-pal/content'
+import type { ActorDef, EntityDef, GridPos, SceneDef } from '@type-pal/content'
 import type { EditSession } from '../core/edit-session.js'
 import { AddEntityCommand, DeleteEntityCommand, MoveEntityCommand, UpdateEntityCommand, UpdateSceneCommand } from '../core/commands.js'
 import { serializeProject, writeProject } from '../core/project-io.js'
@@ -36,6 +36,12 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
 
   const scene = state.scenes.find((s) => s.id === state.manifest.entryScene)
   const issues = useMemo(() => validateReferences(state), [state])
+  // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
+  const actorsById = useMemo(
+    () => Object.fromEntries(state.actors.map((a) => [a.id, a])) as Record<string, ActorDef>,
+    [state.actors],
+  )
+  const leaderSpriteId = actorsById[state.manifest.startWorld.party[0] ?? '']?.spriteId
 
   const selEntity = scene?.entities.find((e) => e.id === selected)
 
@@ -120,7 +126,8 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
             <div className="node child"><span className="ico">📍</span><span>进场点</span></div>
             {scene.entities.map((e) => (
               <button key={e.id} className={`node child${selected === e.id ? ' sel' : ''}`} onClick={() => setSelected(e.id)}>
-                <span className="ico">👤</span><span>{e.id}</span><span className="k">{e.sprite}</span>
+                <span className="ico">{isActorEntity(e) ? '👤' : '📦'}</span><span>{e.id}</span>
+                <span className="k">{isActorEntity(e) ? e.actor : e.sprite}</span>
               </button>
             ))}
           </div>
@@ -146,6 +153,8 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
           <SceneCanvas
             scene={scene}
             sprites={state.sprites}
+            actorsById={actorsById}
+            leaderSpriteId={leaderSpriteId}
             assetBase={project.assetBase}
             selectedId={selEntity ? selected : null}
             tool={tool}
@@ -157,7 +166,7 @@ export function App(props: { session: EditSession; project: LoadedProject }) {
 
         <div className="inspector">
           {selEntity
-            ? <EntityInspector entity={selEntity} session={session} sceneId={scene.id} sprites={state.sprites} dialogueIds={scene.dialogues.map((d) => d.id)} onDelete={deleteSelected} />
+            ? <EntityInspector entity={selEntity} session={session} sceneId={scene.id} actorsById={actorsById} dialogueIds={scene.dialogues.map((d) => d.id)} onDelete={deleteSelected} />
             : <SceneInspector scene={scene} session={session} />}
         </div>
       </div>
@@ -182,25 +191,30 @@ function EntityInspector(props: {
   entity: EntityDef
   session: EditSession
   sceneId: string
-  sprites: SpriteDef[]
+  actorsById: Record<string, ActorDef>
   dialogueIds: string[]
   onDelete: () => void
 }) {
-  const { entity, session, sceneId, sprites, dialogueIds, onDelete } = props
+  const { entity, session, sceneId, actorsById, dialogueIds, onDelete } = props
   const setPos = (patch: Partial<GridPos>): void => {
     session.dispatch(new MoveEntityCommand(sceneId, entity.id, { ...entity.pos, ...patch }))
   }
+  const spriteId = resolveEntitySpriteId(entity, actorsById)
   return (
     <>
       <div className="insp-head"><div className="what">选中实体</div><div className="who">{entity.id}</div></div>
       <div className="section">
         <h4>外观 / 交互</h4>
-        <div className="field"><label>精灵</label>
-          <select className="in" value={entity.sprite}
-            onChange={(e) => session.dispatch(new UpdateEntityCommand(sceneId, entity.id, { sprite: e.target.value }))}>
-            {sprites.some((s) => s.id === entity.sprite) ? null : <option value={entity.sprite}>{entity.sprite}(缺)</option>}
-            {sprites.map((s) => <option key={s.id} value={s.id}>{s.label}(#{s.spriteNum})</option>)}
-          </select>
+        {/* C0:实体引用只读展示(actor⊕sprite);切换引用/朝向编辑 = C1 角色模式一并做 */}
+        {isActorEntity(entity)
+          ? <div className="field"><label>角色</label>
+              <div className="in pick"><span>{entity.actor}</span><span className="meta">→ {spriteId ?? '(未解析)'}</span></div>
+            </div>
+          : <div className="field"><label>精灵</label>
+              <div className="in pick"><span>{entity.sprite}</span><span className="meta">prop</span></div>
+            </div>}
+        <div className="field"><label>朝向</label>
+          <div className="in pick"><span>{entity.facing ?? 'down'}</span><span className="meta">C1 可编</span></div>
         </div>
         <div className="field"><label>碰撞</label>
           <div><input type="checkbox" checked={entity.collide === true}

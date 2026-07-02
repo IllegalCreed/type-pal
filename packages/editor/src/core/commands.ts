@@ -195,11 +195,12 @@ export class DeleteEntityCommand implements Command {
   }
 }
 
-/** UpdateEntity 的 patch 范围(sprite / collide / interact)。 */
-export type EntityPatch = Partial<Pick<EntityDef, 'sprite' | 'collide' | 'interact'>>
+/** UpdateEntity 的 patch 范围(collide / interact / facing)。
+ *  C0:'sprite' 移出——实体引用(actor⊕sprite)切换是 C1 的专门命令/UI,patch 不表达联合切换。 */
+export type EntityPatch = Partial<Pick<EntityDef, 'collide' | 'interact' | 'facing'>>
 
 /**
- * 改实体字段(sprite/collide/interact)。apply 记下**被 patch 覆盖的旧值**,
+ * 改实体字段(collide/interact/facing)。apply 记下**被 patch 覆盖的旧值**,
  * invert 把那些字段还原成旧值(patch 里没出现的字段不动)。
  * 旧值在首次 apply 时捕获(整条 patch 的旧值快照一次记全)。
  */
@@ -233,9 +234,9 @@ export class UpdateEntityCommand implements Command {
   /** 按 this.patch 出现的键,从 entity 上摘旧值(EntityPatch 形状)。 */
   private captureOld(entity: EntityDef): EntityPatch {
     const old: EntityPatch = {}
-    if ('sprite' in this.patch) old.sprite = entity.sprite
     if ('collide' in this.patch) old.collide = entity.collide
     if ('interact' in this.patch) old.interact = entity.interact
+    if ('facing' in this.patch) old.facing = entity.facing
     return old
   }
 

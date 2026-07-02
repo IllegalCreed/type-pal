@@ -5,9 +5,7 @@ import { serializeProject, toEditorState } from './project-io.js'
 
 /**
  * L3 round-trip 钉真值:toEditorState(读入)→ serializeProject(落盘)应还原各 content JSON。
- *
- * fixture 形状对齐 loader.test.ts + demo manifest(content 键填完整路径,
- * serialize 据此映射到文件路径)。
+ * fixture 形状对齐 loader.test.ts + demo manifest(C0:characters → actors)。
  */
 
 const manifest: LoadedManifest = {
@@ -17,7 +15,7 @@ const manifest: LoadedManifest = {
   entryScene: 'guijie-minju',
   content: {
     scenes: 'content/scenes.json',
-    characters: 'content/characters.json',
+    actors: 'content/actors.json',
     skills: 'content/skills.json',
     items: 'content/items.json',
     locale: 'content/locale.json',
@@ -33,25 +31,29 @@ const manifest: LoadedManifest = {
   },
 }
 
-const charactersJson = [
+const actorsJson = [
   {
     id: 'li-xiaoyao',
     name: 'name.li-xiaoyao',
-    baseStats: {
-      level: 1,
-      hp: 150,
-      maxHP: 150,
-      mp: 100,
-      maxMP: 100,
-      attack: 33,
-      defense: 32,
-      magicAttack: 20,
-      speed: 28,
-      luck: 32,
+    spriteId: 'li-xiaoyao',
+    battler: {
+      baseStats: {
+        level: 1,
+        hp: 150,
+        maxHP: 150,
+        mp: 100,
+        maxMP: 100,
+        attack: 33,
+        defense: 32,
+        magicAttack: 20,
+        speed: 28,
+        luck: 32,
+      },
+      initialEquipment: { weapon: '166' },
+      initialMagic: ['296'],
     },
-    initialEquipment: { weapon: '166' },
-    initialMagic: ['296'],
   },
+  { id: 'youhun', name: 'name.youhun', spriteId: 'ghost' },
 ]
 const scenesJson = [
   {
@@ -63,7 +65,8 @@ const scenesJson = [
       {
         id: 'wandering-ghost',
         pos: { col: 92, row: 12, height: 0 },
-        sprite: 'ghost',
+        actor: 'youhun',
+        facing: 'down',
         collide: true,
         interact: 'ghost-hearsay',
       },
@@ -88,9 +91,12 @@ const skillsJson = {
 }
 const itemsJson = [{ id: '166', name: '木剑', desc: 'x', icon: 56, buyPrice: 50, sellPrice: 25, sellable: true }]
 const localeJson = { 'menu.status': '状态', 'name.li-xiaoyao': '李逍遥', 'dlg.ghost.0': '...' }
-const spritesJson = [{ id: 'ghost', spriteNum: 16, label: '游魂(占位)' }]
+const spritesJson = [
+  { id: 'ghost', spriteNum: 16, label: '游魂(占位)', layout: { kind: 'directional', framesPerDir: 3 } },
+  { id: 'li-xiaoyao', spriteNum: 2, label: '李逍遥(大世界)', layout: { kind: 'directional', framesPerDir: 3 } },
+]
 
-const JSONS = { characters: charactersJson, scenes: scenesJson, skills: skillsJson, items: itemsJson, locale: localeJson, sprites: spritesJson }
+const JSONS = { actors: actorsJson, scenes: scenesJson, skills: skillsJson, items: itemsJson, locale: localeJson, sprites: spritesJson }
 
 test('round-trip:toEditorState → serializeProject 还原各 content JSON', () => {
   const project = assembleProject(manifest, JSONS)
@@ -99,7 +105,7 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
 
   // 各 content 文件还原成原 JSON(by-id Record 经 Object.values 还原数组,保序)
   expect(out['content/scenes.json']).toEqual(scenesJson)
-  expect(out['content/characters.json']).toEqual(charactersJson)
+  expect(out['content/actors.json']).toEqual(actorsJson)
   expect(out['content/items.json']).toEqual(itemsJson)
   expect(out['content/locale.json']).toEqual(localeJson)
   expect(out['content/sprites.json']).toEqual(spritesJson)
@@ -114,11 +120,11 @@ test('toEditorState:by-id Record → 数组(Object.values 保序)', () => {
   const project = assembleProject(manifest, JSONS)
   const state = toEditorState(project)
 
-  // characters/skills/items/sprites 都是 by-id Record,还原成数组;顺序 = 原数组序
-  expect(state.characters.map((c) => c.id)).toEqual(['li-xiaoyao'])
+  // actors/skills/items/sprites 都是 by-id Record,还原成数组;顺序 = 原数组序
+  expect(state.actors.map((a) => a.id)).toEqual(['li-xiaoyao', 'youhun'])
   expect(state.skills.map((s) => s.id)).toEqual(['296'])
   expect(state.items.map((i) => i.id)).toEqual(['166'])
-  expect(state.sprites.map((s) => s.id)).toEqual(['ghost'])
+  expect(state.sprites.map((s) => s.id)).toEqual(['ghost', 'li-xiaoyao'])
   // scenes/locale 直传
   expect(state.scenes).toBe(project.scenes)
   expect(state.locale).toBe(project.locale)
@@ -156,6 +162,6 @@ test('serializeProject:返回值为纯 JSON 值(可 JSON.stringify,无 undefined
   expect(() => JSON.stringify(out)).not.toThrow()
   // 路径键都是 manifest.content 里声明的 + manifest.json
   expect(Object.keys(out).sort()).toEqual(
-    ['content/characters.json', 'content/items.json', 'content/locale.json', 'content/scenes.json', 'content/skills.json', 'content/sprites.json', 'manifest.json'].sort(),
+    ['content/actors.json', 'content/items.json', 'content/locale.json', 'content/scenes.json', 'content/skills.json', 'content/sprites.json', 'manifest.json'].sort(),
   )
 })

@@ -14,7 +14,7 @@ function mkState() {
         dialogues: [],
       },
     ],
-    characters: [],
+    actors: [],
     skills: [],
     levelUp: {},
     items: [],

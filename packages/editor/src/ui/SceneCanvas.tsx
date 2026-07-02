@@ -1,14 +1,15 @@
 /**
  * 场景画布 —— 复用 reforge 的 renderSceneFrame。
- * B1.1 渲染 · B1.2 点选/高亮 · B1.3 拖动移位 + 添加放置。
+ * B1.1 渲染 · B1.2 点选/高亮 · B1.3 拖动移位 + 添加放置 · C0 actor/布局数据化。
  *
- * 复用不重写:渲染器/资产加载全来自 @type-pal/reforge;编辑器只组 SpriteDraw[]、定相机、
- * 命中/拖动、画高亮。命中盒公式与 render.ts 对齐,坐标 屏幕→物理→世界→格(pixelToGrid)。
- * 拖动带 grabOffset:实体跟随光标而非跳到光标格。
+ * 复用不重写:渲染器/资产加载/帧下标(sprite-anim)全来自 @type-pal/reforge;编辑器只组
+ * SpriteDraw[]、定相机、命中/拖动、画高亮。实体精灵经 resolveEntitySpriteId(actor⊕sprite),
+ * 帧 = idleFrameIndex(SpriteDef.layout, facing)——与引擎同一套数据与公式,零漂移。
  */
 import { useEffect, useRef, useState } from 'react'
 import {
   Canvas2DRenderer,
+  idleFrameIndex,
   loadPalette,
   loadSprite,
   loadTileset,
@@ -16,8 +17,8 @@ import {
   renderSceneFrame,
 } from '@type-pal/reforge'
 import type { AssetBase, LoadedSprite, SpriteDraw } from '@type-pal/reforge'
-import { gridToPixel, pixelToGrid, spriteScreenY } from '@type-pal/content'
-import type { Facing, SceneDef, SpriteDef } from '@type-pal/content'
+import { gridToPixel, pixelToGrid, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
+import type { ActorDef, SceneDef, SpriteDef } from '@type-pal/content'
 
 const TILE_W = 32
 const TILE_H = 16
@@ -26,9 +27,6 @@ const VIEW_W = 320
 const VIEW_H = 200
 const PARTY_OX = 160
 const PARTY_OY = 112
-const WALK_FRAMES = 3
-const FACING_TO_DIR: Record<Facing, number> = { down: 0, left: 1, up: 2, right: 3 }
-const PLAYER_SPRITE_NUM = 2
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v)
 
@@ -57,6 +55,9 @@ interface Down {
 export function SceneCanvas(props: {
   scene: SceneDef
   sprites: SpriteDef[]
+  actorsById: Record<string, ActorDef>
+  /** 进场点预览用的玩家精灵(party[0] → ActorDef.spriteId;App 解析)。 */
+  leaderSpriteId: string | undefined
   assetBase: AssetBase
   selectedId: string | null
   tool: Tool
@@ -64,7 +65,18 @@ export function SceneCanvas(props: {
   onMoveEntity: (id: string, cell: { col: number; row: number }) => void
   onAddAt: (cell: { col: number; row: number }) => void
 }) {
-  const { scene, sprites, assetBase, selectedId, tool, onSelect, onMoveEntity, onAddAt } = props
+  const {
+    scene,
+    sprites,
+    actorsById,
+    leaderSpriteId,
+    assetBase,
+    selectedId,
+    tool,
+    onSelect,
+    onMoveEntity,
+    onAddAt,
+  } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const loadedRef = useRef<Loaded | null>(null)
   const hitsRef = useRef<HitRect[]>([])
@@ -77,11 +89,18 @@ export function SceneCanvas(props: {
   const mapNum = scene.map.reuseOriginalMap
   const paletteId = scene.paletteId ?? 0
   const spriteById = new Map(sprites.map((s) => [s.id, s]))
+  /** 实体 → SpriteDef(actor⊕sprite 统一解析;解析不到 undefined,画布跳过该实体)。 */
+  const entitySpriteDef = (e: SceneDef['entities'][number]): SpriteDef | undefined => {
+    const sid = resolveEntitySpriteId(e, actorsById)
+    return sid ? spriteById.get(sid) : undefined
+  }
+  const leaderDef = leaderSpriteId ? spriteById.get(leaderSpriteId) : undefined
   const spriteNums = [
-    ...new Set([
-      PLAYER_SPRITE_NUM,
-      ...scene.entities.map((e) => spriteById.get(e.sprite)?.spriteNum).filter((n): n is number => n != null),
-    ]),
+    ...new Set(
+      [leaderDef?.spriteNum, ...scene.entities.map((e) => entitySpriteDef(e)?.spriteNum)].filter(
+        (n): n is number => n != null,
+      ),
+    ),
   ]
   const spriteNumsKey = spriteNums.join(',')
 
@@ -142,15 +161,19 @@ export function SceneCanvas(props: {
 
     const draws: SpriteDraw[] = []
     const hits: HitRect[] = []
-    const ps = spritesByNum.get(PLAYER_SPRITE_NUM)
-    const pf = ps?.frames[FACING_TO_DIR[scene.entry.facing] * WALK_FRAMES] ?? ps?.frames[0]
+    // 进场点预览(玩家精灵,按 entry.facing 取站立帧;帧下标 = 引擎同款 idleFrameIndex)
+    const ps = leaderDef ? spritesByNum.get(leaderDef.spriteNum) : undefined
+    const pf = leaderDef
+      ? (ps?.frames[idleFrameIndex(leaderDef.layout, scene.entry.facing)] ?? ps?.frames[0])
+      : undefined
     if (ps && pf) {
       draws.push({ frame: pf, worldX: ep.x, worldY: spriteScreenY(scene.entry.pos), anchorX: ps.anchorX, anchorY: ps.anchorY })
     }
+    // 各实体(站立帧 = layout × facing)+ 记命中盒
     for (const e of scene.entities) {
-      const num = spriteById.get(e.sprite)?.spriteNum
-      const sp = num != null ? spritesByNum.get(num) : undefined
-      const f = sp?.frames[0]
+      const def = entitySpriteDef(e)
+      const sp = def ? spritesByNum.get(def.spriteNum) : undefined
+      const f = def ? (sp?.frames[idleFrameIndex(def.layout, e.facing ?? 'down')] ?? sp?.frames[0]) : undefined
       if (!sp || !f) continue
       // 拖动中的实体用预览格
       const pos = drag && drag.id === e.id ? { col: drag.col, row: drag.row, height: e.pos.height } : e.pos
@@ -173,7 +196,7 @@ export function SceneCanvas(props: {
       ctx.restore()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, scene, selectedId, drag])
+  }, [status, scene, selectedId, drag, actorsById, leaderSpriteId])
 
   // —— 坐标 + 命中 ——
   const screenToCell = (clientX: number, clientY: number): { col: number; row: number } => {

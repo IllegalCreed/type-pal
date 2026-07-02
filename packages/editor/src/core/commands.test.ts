@@ -28,7 +28,7 @@ function st(): EditorState {
         dialogues: [],
       },
     ],
-    characters: [],
+    actors: [],
     skills: [],
     levelUp: {},
     items: [],
@@ -103,16 +103,16 @@ describe('布置命令集 · 不可变 + invert', () => {
     expect(cmd.invert(s1).scenes[0]!.entities[0]!.collide).toBe(true)
   })
 
-  test('UpdateEntity:改 interact + sprite 多字段,invert 还原各自旧值', () => {
+  test('UpdateEntity:改 interact + facing 多字段,invert 还原各自旧值(C0:sprite 已移出 patch)', () => {
     const s0 = st()
     s0.scenes[0]!.entities[0]!.interact = 'old-talk'
-    const cmd = new UpdateEntityCommand('s', 'a', { sprite: 'demon', interact: 'new-talk' })
+    const cmd = new UpdateEntityCommand('s', 'a', { facing: 'left', interact: 'new-talk' })
     const s1 = cmd.apply(s0)
 
-    expect(ent0(s1).sprite).toBe('demon')
+    expect(ent0(s1).facing).toBe('left')
     expect(ent0(s1).interact).toBe('new-talk')
     const back = cmd.invert(s1).scenes[0]!.entities[0]!
-    expect(back.sprite).toBe('ghost') // 旧 sprite
+    expect(back.facing).toBeUndefined() // 旧 facing(未设 = undefined)
     expect(back.interact).toBe('old-talk') // 旧 interact
   })
 

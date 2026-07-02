@@ -24,7 +24,7 @@ export function toEditorState(project: LoadedProject): EditorState {
     // 数组:直传(scenes 已是数组)
     scenes: project.scenes,
     // by-id Record → 数组(Object.values 保序:indexById 按原数组序插入)
-    characters: Object.values(project.charactersById),
+    actors: Object.values(project.actorsById),
     skills: Object.values(project.skills),
     items: Object.values(project.items),
     sprites: Object.values(project.spritesById),
@@ -39,7 +39,7 @@ export function toEditorState(project: LoadedProject): EditorState {
 }
 
 /** manifest.content 的键 → 序列化时该文件存什么值。 */
-type ContentKey = 'scenes' | 'characters' | 'skills' | 'items' | 'locale' | 'sprites'
+type ContentKey = 'scenes' | 'actors' | 'skills' | 'items' | 'locale' | 'sprites'
 
 /**
  * 工作副本 → {相对路径: JSON 值} 文件集。按 manifest.content 的路径键映射;
@@ -50,10 +50,10 @@ export function serializeProject(state: EditorState): Record<string, unknown> {
   const content = state.manifest.content
 
   // 各 content 文件:按 manifest 声明的路径键映射到对应值。
-  // scenes/characters/items/locale/sprites 是数组/对象直接存;skills 包一层 {skills, levelUp}。
+  // scenes/actors/items/locale/sprites 是数组/对象直接存;skills 包一层 {skills, levelUp}。
   const byKey: Record<ContentKey, unknown> = {
     scenes: state.scenes,
-    characters: state.characters,
+    actors: state.actors,
     skills: { skills: state.skills, levelUp: state.levelUp },
     items: state.items,
     locale: state.locale,
